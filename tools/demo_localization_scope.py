@@ -269,6 +269,46 @@ def collect_json_suffix_pairs(value: Any, path: str = "$") -> tuple[list[Pair], 
     return pairs, errors
 
 
+def collect_json_inline_pairs(
+    value: Any, path: str = "$",
+) -> tuple[list[Pair], list[str]]:
+    """Collect runtime dictionaries authored as sibling ``ko``/``en`` values.
+
+    The demo contract mostly uses ``*_ko``/``*_en`` siblings, but the first-bill
+    finale keeps its state-indexed copy in ``{\"ko\": ..., \"en\": ...}``
+    dictionaries.  Both shapes reach the same localized runtime lookup and must
+    therefore belong to the same exact demo surface.
+    """
+    pairs: list[Pair] = []
+    errors: list[str] = []
+    if isinstance(value, dict):
+        has_ko = "ko" in value
+        has_en = "en" in value
+        if has_ko or has_en:
+            korean = value.get("ko")
+            english = value.get("en")
+            if not isinstance(korean, str) or not korean.strip():
+                errors.append(f"{path}: missing/non-string Korean inline pair value")
+            elif not isinstance(english, str) or not english.strip():
+                errors.append(f"{path}: missing/non-string English inline pair value")
+            else:
+                pairs.append(Pair(path, korean, english))
+        for key, child in value.items():
+            child_pairs, child_errors = collect_json_inline_pairs(
+                child, f"{path}.{key}"
+            )
+            pairs.extend(child_pairs)
+            errors.extend(child_errors)
+    elif isinstance(value, list):
+        for index, child in enumerate(value):
+            child_pairs, child_errors = collect_json_inline_pairs(
+                child, f"{path}[{index}]"
+            )
+            pairs.extend(child_pairs)
+            errors.extend(child_errors)
+    return pairs, errors
+
+
 def collect_opening_pairs() -> tuple[list[Pair], list[str]]:
     text = OPENING_PATH.read_text(encoding="utf-8")
     values: dict[tuple[str, str], list[str]] = {}
@@ -478,7 +518,9 @@ def build_scope() -> tuple[dict[str, Any], dict[str, Any], list[str]]:
     event_ids = sorted(week | prologue | chapter)
     leaves = event_text_leaves(event_ids, events, owners)
 
-    demo_pairs, pair_errors = collect_json_suffix_pairs(read_json(DEMO_CONTRACT_PATH))
+    demo_contract = read_json(DEMO_CONTRACT_PATH)
+    demo_pairs, pair_errors = collect_json_suffix_pairs(demo_contract)
+    demo_inline_pairs, inline_pair_errors = collect_json_inline_pairs(demo_contract)
     opening_pairs, opening_errors = collect_opening_pairs()
     event_pairs = collect_event_runtime_pairs(event_ids, events)
     person_pairs, person_errors = collect_person_pairs(event_ids, events)
@@ -486,12 +528,14 @@ def build_scope() -> tuple[dict[str, Any], dict[str, Any], list[str]]:
         collect_demo_gd_pairs()
     )
     all_pairs = sorted(
-        demo_pairs + opening_pairs + event_pairs + person_pairs + activity_pairs,
+        demo_pairs + demo_inline_pairs + opening_pairs + event_pairs
+        + person_pairs + activity_pairs,
         key=lambda row: row.source_id,
     )
     merged_pairs, merge_errors = merge_pairs(all_pairs)
     errors.extend(
-        pair_errors + opening_errors + person_errors + activity_errors
+        pair_errors + inline_pair_errors + opening_errors + person_errors
+        + activity_errors
         + merge_errors
     )
 
@@ -532,6 +576,11 @@ def build_scope() -> tuple[dict[str, Any], dict[str, Any], list[str]]:
         "demo_json_pairs_sha256": sha_rows(
             f"{pair.source_id}\0{pair.korean}\0{pair.english}"
             for pair in sorted(demo_pairs, key=lambda row: row.source_id)
+        ),
+        "demo_inline_pair_occurrences": len(demo_inline_pairs),
+        "demo_inline_pairs_sha256": sha_rows(
+            f"{pair.source_id}\0{pair.korean}\0{pair.english}"
+            for pair in sorted(demo_inline_pairs, key=lambda row: row.source_id)
         ),
         "opening_pair_occurrences": len(opening_pairs),
         "opening_pairs_sha256": sha_rows(
@@ -1001,6 +1050,20 @@ def run_self_test(
     cases += 1
     if not compare_contract(manifest["source_contract"], changed):
         failures.append("dynamic-key mutation was not rejected")
+
+    inline_pairs, inline_errors = collect_json_inline_pairs({
+        "first_bill": {"ko": "첫 청구서", "en": "The First Bill"}
+    })
+    cases += 1
+    if inline_errors or len(inline_pairs) != 1:
+        failures.append("inline ko/en pair was not collected exactly once")
+
+    _broken_inline, broken_inline_errors = collect_json_inline_pairs({
+        "first_bill": {"ko": "첫 청구서"}
+    })
+    cases += 1
+    if not broken_inline_errors:
+        failures.append("incomplete inline ko/en pair was not rejected")
 
     changed_ids = list(runtime["event_ids"]) + ["callback_escaped_dirty_trace"]
     cases += 1

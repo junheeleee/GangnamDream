@@ -2,18 +2,18 @@
   {
     "id": "v2_mirae_result_message",
     "title": "Mirae Industrial Tech Result",
-    "description": "At 10:17 a.m., a text titled “Mirae Industrial Tech Hiring Result” arrives.\n\n“After review, we regret that we will not be moving forward with your application.”\n\n{name} sent the application and went to the interview. This time, that was as far as it went.",
+    "description": "In the morning, a text titled “Mirae Industrial Tech Hiring Result” arrives.\n\n“After review, we regret that we will not be moving forward with your application.”\n\n{name} sent the application and made it to the interview. This time, the application goes no farther.",
     "choices": [
       {
         "text": "Close the message and record the result",
-        "result_text": "{name} writes “No offer” in the application record. The submitted resume and the interview answers do not disappear. They remain as something to reopen before the next posting."
+        "result_text": "In the application record, {name} writes “No offer” beside Mirae Industrial Tech, then copies the interview question beneath it."
       }
     ]
   },
   {
     "id": "v2_seorin_result_message",
     "title": "Seorin Trading Result",
-    "description": "A two-line email arrives from Seorin Trading's recruiting team.\n\n“Thank you for applying. After review, we regret that we will not be moving forward with your application.”\n\nIt was the application {name} sent without hiding the employment gap. The answer is too short to hide anything at all.",
+    "description": "A two-line email arrives from Seorin Trading's recruiting team.\n\n“Thank you for applying. After review, we regret that we will not be moving forward with your application.”\n\nThis is the application {name} sent without hiding the employment gap. The answer is too short to hide anything at all.",
     "choices": [
       {
         "text": "File the email in the hiring folder",
@@ -24,30 +24,30 @@
   {
     "id": "v2_hyunsu_player_reachout",
     "title": "Reaching Out First",
-    "description": "Eleven twelve at night. In the goshiwon's shared KakaoTalk chat, {name} found the name of the man next door again. Kang Hyunsu. They had not messaged privately once since meeting.\n\n{name}: \"Want to study together in the kitchen for an hour tomorrow night? I'll work on my resume.\"\n\n{name} was the one who pressed Send. The read receipt appeared, and three minutes later a reply arrived.\n\nHyunsu: \"Sounds good, hyung. I'll bring coffee.\"",
+    "description": "Around 11 p.m. In the goshiwon's shared KakaoTalk chat, {name} finds the name of the man next door again. Kang Hyunsu. They have not messaged privately once since meeting.\n\n{name}: \"Want to study together in the kitchen for an hour tomorrow night? I'll work on my resume.\"\n\n{name} presses Send. The read receipt appears, and three minutes later a reply arrives.\n\nHyunsu: \"Sounds good, hyung. I'll bring coffee.\"",
     "description_memory_if_known": {
-      "relationship_memory:hyunsu:hyunsu_honest_uncertainty": "On the night they met, {name} had answered, “I don't know yet.” This time, instead of an answer, he made an hour they could share.",
-      "relationship_memory:hyunsu:hyunsu_declared_dream": "{name} had said he would make it to Gangnam within five years. Instead of keeping that claim to himself, he messaged Hyunsu first and asked to study together."
+      "relationship_memory:hyunsu:hyunsu_honest_uncertainty": "On the night they met, {name} answered, “I don't know yet.” This time, instead of another answer, he sets aside an hour they can share.",
+      "relationship_memory:hyunsu:hyunsu_declared_dream": "{name} said he would make it to Gangnam within five years. Instead of keeping that claim to himself, he messages Hyunsu first and asks to study together."
     },
     "choices": [
       {
         "text": "Set the time for tomorrow evening",
-        "result_text": "{name} checks when the shared kitchen will be free and sends a reply.\n\n{name}: \"Eight tomorrow. See you in the kitchen.\"\nHyunsu: \"Okay. I'll be there.\"\n\nThe appointment stays on the screen. {name} is still the one who reached out first."
+        "result_text": "{name} checks when the shared kitchen will be free and sends a reply.\n\n{name}: \"Tomorrow at 8 p.m. See you in the kitchen.\"\nHyunsu: \"Okay. I'll be there.\"\n\nAt the bottom of the chat, “Tomorrow at 8 p.m.” remains on the screen."
       }
     ]
   },
   {
     "id": "v2_hyunsu_first_study",
     "title": "Their First Hour Together",
-    "description": "The next evening at eight, in the shared kitchen. {name} carries in his resume. Hyunsu is already there.\n\nTwo paper cups and a worn administrative-law workbook sit on the small table. {name} opens the half-revised resume across from him.\n\nNeither leaves the table while the electric kettle boils.",
+    "description": "At 8 p.m. the next day, in the shared kitchen. {name} carries in his resume. Hyunsu is already there.\n\nTwo paper cups and a worn administrative-law workbook sit on the small table. {name} opens the half-revised resume across from him.\n\nNeither leaves the table while the electric kettle boils.",
     "choices": [
       {
         "text": "Open the resume first",
-        "result_text": "{name} read aloud the sentence explaining his employment gap. Hyunsu stopped his finger on the workbook and listened to the end.\n\n\"Hyung, that last line works. It doesn't sound like an excuse.\"\n\n{name} drew a line under it. Hyunsu opened his administrative-law pages again. For an hour, they traded only the words they needed. Work each had done alone became something held on the same table."
+        "result_text": "{name} reads aloud the sentence explaining his employment gap. Hyunsu stops his finger on the workbook and listens to the end.\n\n\"Hyung, that last line works. It doesn't sound like an excuse.\"\n\n{name} draws a line under it. Hyunsu opens his administrative-law pages again."
       },
       {
         "text": "Ask about Hyunsu's workbook first",
-        "result_text": "\"How far do you need to get tonight?\"\n\nHyunsu opened to a folded page. \"Up to here. I'll finish by the time you finish your resume.\"\n\nThey set a one-hour timer between them. When it rang, the workbook held new marks and the resume held a rewritten sentence. They cleared the paper cups and returned to their rooms."
+        "result_text": "\"How far do you need to get tonight?\"\n\nHyunsu opens to a folded page. \"Up to here. I'll finish by the time you finish your resume.\"\n\nThey set a one-hour timer between them. When it rings, the workbook holds new marks and the resume holds a rewritten sentence. They clear the paper cups and return to their rooms."
       }
     ]
   },
@@ -73,7 +73,7 @@
   {
     "id": "v2_hanbit_interview",
     "title": "Hanbit Distribution First Interview",
-    "description": "Two o'clock Thursday afternoon, in a second-floor meeting room at Hanbit Distribution's logistics center. The operations-support application {name} sent in March lies in front of the interviewer.\n\nThe interviewer places two inventory sheets side by side. One lists a system count of 184; the other lists a physical count of 179.\n\n\"The system says one hundred eighty-four, but the warehouse has only one hundred seventy-nine. What do you do first?\"\n\nThere is no stock answer to recite. First he has to find out whether five units vanished, a record was late, or the first count was wrong.",
+    "description": "At 2 p.m. Thursday, in a second-floor meeting room at Hanbit Distribution's logistics center. The operations-support application {name} sent in March lies in front of the interviewer.\n\nThe interviewer places two inventory sheets side by side. One lists a system count of 184; the other lists a physical count of 179.\n\n\"The system says one hundred eighty-four, but the warehouse has only one hundred seventy-nine. What do you do first?\"\n\nThere is no stock answer to recite. First he has to find out whether five units vanished, a record was late, or the first count was wrong.",
     "choices": [
       {
         "text": "\"I would reconcile the receiving and shipping records in chronological order.\"",
@@ -92,11 +92,11 @@
     "choices": [
       {
         "text": "\"Daeun. Another night shift?\"",
-        "result_text": "\"You remembered my name. Yes, I'm here until dawn again.\"\n\nDaeun sets down the price tags in her hand. {name} asks whether working this late is hard, and she says it is manageable once the busiest hour passes.\n\nIt is not a long conversation. Still, this time {name} is the one who says her name and starts it."
+        "result_text": "\"You remembered my name. Yes, I'm here until dawn again.\"\n\nDaeun sets down the price tags in her hand. {name} asks whether working this late is hard, and she says it is manageable once the busiest hour passes."
       },
       {
         "text": "\"I ate well, thanks to that two-for-one deal last time.\"",
-        "result_text": "\"I only told you because it was on promotion.\"\n\nDaeun smiles. \"Still, I'm glad you enjoyed it.\"\n\n{name} thanks her once more and finishes paying. As he opens the door to leave, Daeun says, \"Check the sale tags first next time, {name}.\"\n\n{name} laughs. \"I will, Daeun.\" Their second conversation lasts one line longer than the first."
+        "result_text": "\"I only told you because it was on promotion.\"\n\nDaeun smiles. \"Still, I'm glad you enjoyed it.\"\n\n{name} thanks her once more and finishes paying. As he opens the door to leave, Daeun says, \"Check the sale tags first next time, {name}.\"\n\n{name} laughs. \"I will, Daeun.\""
       }
     ]
   },
@@ -107,11 +107,11 @@
     "choices": [
       {
         "text": "\"I left after barely saying hello last time. I'm {name}.\"",
-        "result_text": "The clerk looks briefly surprised, then bows in greeting.\n\n\"I'm Kim Daeun. I work nights.\"\n\n{name} repeats her name once, and Daeun says his again. By the time he finishes paying and leaves, they can finally call each other by name."
+        "result_text": "The clerk looks briefly surprised, then bows in greeting.\n\n\"I'm Kim Daeun. I work nights.\"\n\n\"Kim Daeun.\"\n\"Yes, {name}.\""
       },
       {
         "text": "\"Thank you for telling me about the two-for-one deal that day.\"",
-        "result_text": "\"You remembered. It really wasn't much.\"\n\nThe clerk asks as she hands him the receipt, \"What is your name, by the way?\"\n\n{name} introduces himself first, and she answers, \"I'm Kim Daeun.\" They finally exchange the introductions they skipped last time. They do not make plans or exchange contact information."
+        "result_text": "\"You remembered. It really wasn't much.\"\n\nThe clerk asks as she hands him the receipt, \"What is your name, by the way?\"\n\n{name} introduces himself first, and she answers, \"I'm Kim Daeun.\""
       }
     ]
   },
@@ -133,7 +133,7 @@
   {
     "id": "v2_jaehyuk_message",
     "title": "A Message After Ten Years",
-    "description": "Nine forty at night. A familiar name appears in KakaoTalk: Choi Jaehyuk.\n\n\"Hey, {name}. It's Jaehyuk—Choi Jaehyuk from the army. You remember me, right? It's been a long time. How are you?\"\n\nThey were twenty-two and in the same barracks. After discharge they checked in a few times, then a changed number ended the contact.\n\n{name} opens the reply field. It is his turn to cross ten years in one sentence.",
+    "description": "Late at night. A familiar name appears in KakaoTalk: Choi Jaehyuk.\n\n\"Hey, {name}. It's Jaehyuk—Choi Jaehyuk from the army. You remember me, right? It's been a long time. How are you?\"\n\nThey were twenty-two and in the same barracks. After discharge they checked in a few times, then a changed number ended the contact.\n\n{name} opens the reply field. It is his turn to cross ten years in one sentence.",
     "choices": [
       {
         "text": "\"Of course I remember. It really has been a long time.\"",
@@ -148,7 +148,7 @@
   {
     "id": "v2_hanbit_offer_message",
     "title": "An Offer from Hanbit Distribution",
-    "description": "At 11:08 Tuesday morning, a text arrives from Hanbit Distribution's recruiting team.\n\n“Following your first interview, we would like to offer you a contract position in logistics-center operations support. Please let us know by six this evening whether you can start Monday.”\n\n{name} remembers the application he sent in March and the inventory sheets on the conference-room table in April. The interview result has returned as a single question: Will he show up for work?",
+    "description": "On Tuesday morning, a text arrives from Hanbit Distribution's recruiting team.\n\n“Following your first interview, we would like to offer you a contract position in logistics-center operations support. Please let us know by 6:00 p.m. today whether you can start Monday.”\n\n{name} remembers the application he sent in March and the inventory sheets on the conference-room table in April. The interview result has returned as a single question: Will he show up for work?",
     "choices": [
       {
         "text": "\"I can start Monday.\"",
@@ -167,11 +167,11 @@
     "choices": [
       {
         "text": "\"Then I'll come back at this time next Tuesday.\"",
-        "result_text": "Daeun checks the clock on the wall and smiles.\n\n\"I'll be here at this time Tuesday. Even if we can't talk long, let's at least ask how the other's day went.\"\n\nThey agree to check in at the same time next Tuesday. It is not a grand promise. That makes it feel like one they can keep."
+        "result_text": "Daeun checks the clock on the wall and smiles.\n\n\"I'll be here at this time Tuesday. Even if we can't talk long, let's at least ask how the other's day went.\"\n\nWhen {name} nods, Daeun looks up at the clock once more."
       },
       {
         "text": "\"All right. But you can't skip your late meal either.\"",
-        "result_text": "Daeun laughs and holds up one finger.\n\n\"Then the first thing we do next time is check whether the other person ate. Neither of us gets to do all the nagging.\"\n\n{name} raises a finger and agrees. They now have one thing to talk about the next time they meet. For now, that is enough."
+        "result_text": "Daeun laughs and holds up one finger.\n\n\"Then the first thing we do next time is check whether the other person ate. Neither of us gets to do all the nagging.\"\n\n{name} holds up one finger too."
       }
     ]
   },
@@ -182,30 +182,30 @@
     "choices": [
       {
         "text": "\"Daeun, was it any less busy tonight?\"",
-        "result_text": "Daeun sets down the bundle of price tags.\n\n\"It was hectic until a few minutes ago, but I can breathe now. What about you?\"\n\n{name} answers with two sentences about his day. A customer comes in and ends the conversation there, but both of them know where to pick it up the next time they meet."
+        "result_text": "Daeun sets down the bundle of price tags.\n\n\"It was hectic until a few minutes ago, but I can breathe now. What about you?\"\n\n{name} answers with two sentences about his day. When a customer comes in, Daeun picks up the bundle of price tags and returns to the register."
       },
       {
         "text": "\"Last time I only told you my name. Most days, I don't get done until around this time.\"",
-        "result_text": "Daeun listens without leaning across the counter.\n\n\"So that's why you always come in around this time. By the time my shift ends, the whole day is gone too.\"\n\n{name} says that next time, he will ask about her day. He does not ask for her number or make plans elsewhere, but their conversation across the counter lasts one line longer."
+        "result_text": "Daeun listens without leaning across the counter.\n\n\"So that's why you always come in around this time. By the time my shift ends, the whole day is gone too.\"\n\n{name} says that next time, he will ask about her day."
       }
     ]
   },
   {
     "id": "v2_jiyeon_second_crossing",
     "title": "The Main Road Again",
-    "description": "A few weeks later, after the rain, {name} walks the same neighborhood road he took home from the bus stop. Han Jiyeon stands beside her black sedan at the wet curb.\n\n\"We never really introduced ourselves last time.\"\n\nJiyeon points to a cafe across the street.\n\n\"If you have time, have one cup of coffee with me. I won't bring up compensation. I came because I wanted to actually talk to you.\"\n\nThe light changes, and people pass between them. They have no contact information and made no plans. This is an invitation {name} has to answer here.",
+    "description": "A few weeks later, after the rain, {name} walks the same neighborhood road he took home from the bus stop. Han Jiyeon stands beside her black sedan at the wet curb.\n\n\"We never really introduced ourselves last time.\"\n\nJiyeon points to a cafe across the street.\n\n\"If you have time, let's grab a coffee. I won't bring up compensation. I came because I wanted to actually talk to you.\"\n\nThe light changes, and people pass between them.",
     "choices": [
       {
-        "text": "\"One cup somewhere nearby, then.\"",
-        "result_text": "They enter a small cafe across the street. Jiyeon does not return to the accident.\n\nInstead, she asks which roads {name} takes most often in this neighborhood and which place in Seoul he learned first. {name} asks whether she comes to this area often.\n\nBy the time their coffee cups are half empty, the conversation is no longer about handling the accident. They make no plans for next time, but each leaves with another question to ask."
+        "text": "\"Sure—somewhere nearby.\"",
+        "result_text": "They enter a small cafe across the street. Jiyeon does not return to the accident.\n\nInstead, she asks which roads {name} takes most often in this neighborhood and which place in Seoul he learned first. {name} asks whether she comes to this area often.\n\nWith half the coffee still left, Jiyeon asks her next question."
       },
       {
         "text": "\"If this isn't about paying me back, we can talk while we walk.\"",
-        "result_text": "Jiyeon glances at the cafe, then nods. They walk one block along the main road.\n\n{name} asks why she came back to this neighborhood. She says their last conversation was so short that it stayed on her mind. Then she asks what he has been doing lately.\n\nIt is no longer a meeting where one person owes the other. They each offer one honest question instead."
+        "result_text": "Jiyeon glances at the cafe, then nods. They walk one block along the main road.\n\n{name} asks why she came back to this neighborhood. She says their last conversation was so short that it stayed on her mind. Then she asks what he has been doing lately."
       },
       {
         "text": "\"I'm going to leave it here today.\"",
-        "result_text": "{name} bows his head in farewell and walks toward the crosswalk.\n\nJiyeon does not follow or call after him. A car door closes behind him.\n\nThey still have no way to contact each other, and no next meeting takes shape. The main road in the neighborhood falls quiet again."
+        "result_text": "{name} bows his head in farewell and walks toward the crosswalk.\n\nJiyeon does not follow or call after him. A car door closes behind him."
       }
     ]
   },
@@ -216,11 +216,11 @@
     "choices": [
       {
         "text": "\"I want to learn at my own pace instead of rushing.\"",
-        "result_text": "Sangchul takes a sip from his paper cup and nods.\n\n\"That doesn't mean you're moving slowly. It means you aren't running in someone else's order.\"\n\nHe does not write down an answer for {name}. {name} folds the blank sheet and slips it into his pocket. He will decide for himself what belongs on it."
+        "result_text": "Sangchul takes a sip from his paper cup and nods.\n\n\"That doesn't mean you're moving slowly. It means you aren't running in someone else's order.\"\n\n{name} folds the blank sheet and slips it into his pocket."
       },
       {
         "text": "\"I'll start by recording where my own money goes.\"",
-        "result_text": "{name} writes rent, food, and transportation at the top of the page. Sangchul does not supply any numbers. He only asks whether anything is missing.\n\nWhen {name} leaves the office, the page holds several expenses to check before the month ends.\n\nThe value of the second cup is not advice. It is the empty space {name} still has to fill."
+        "result_text": "{name} writes rent, food, and transportation at the top of the page. Sangchul does not supply any numbers. He only asks whether anything is missing.\n\nWhen {name} leaves the office, the page holds several expenses to check before the month ends."
       }
     ]
   },
@@ -235,33 +235,33 @@
       },
       {
         "text": "Keep the night to old stories and leave first",
-        "result_text": "{name} checks the time of the last train and sets down his glass.\n\n\"Let's call it here tonight. It was good to see you again.\"\n\nJaehyuk does not press him to stay. He smiles and offers his hand. They shared plenty about the army, but only what they needed to about their present lives.\n\nThe warmth of seeing him remains. The distance between them can close more slowly."
+        "result_text": "{name} checks the time of the last train and sets down his glass.\n\n\"Let's call it here tonight. It was good to see you again.\"\n\nJaehyuk does not press him to stay. He smiles and offers his hand. They talk at length about the army, but only as much as they need to about their present lives.\n\nThe warmth of seeing him remains. The distance between them can close more slowly."
       }
     ]
   },
   {
     "id": "v2_father_health_signal",
     "title": "The Pharmacy Bag",
-    "description": "At 8:19 on Monday morning, June 1, a message arrives from Mr. Choi, Father's neighbor in Changwon.\n\n“Minjun, your father has come home carrying pharmacy bags a few times lately. I think he has been going to a hospital, but I could not ask what was wrong. You should check in with him.”\n\n{name} calls Father immediately. The phone rings for a long time, but he does not answer. Eleven minutes later, a short text arrives from Father.\n\n“I'm fine, so don't worry about it.”\n\nThere is no way to tell whether Father has actually been visiting a hospital or what was inside the pharmacy bags.",
+    "description": "On Monday morning, June 1, a message arrives from Mr. Choi, Father's neighbor in Changwon.\n\n“Minjun, your father has come home carrying pharmacy bags a few times lately. I think he has been going to a hospital, but I could not ask what was wrong. You should check in with him.”\n\n{name} calls Father immediately. The phone rings for a long time, but he does not answer. Eleven minutes later, a short text arrives from Father.\n\n“I'm fine, so don't worry about it.”",
     "choices": [
       {
         "text": "Ask Mr. Choi which hospital it was",
-        "result_text": "{name}: “Do you know which hospital it might have been?”\n\nMr. Choi replies that he does not know the name. Over the past ten days, he twice saw Father return from the nearby bus stop carrying a pharmacy bag.\n\n{name} learns no diagnosis or hospital name—only that the pharmacy bag was not a one-time sight."
+        "result_text": "{name}: “Do you know which hospital it might have been?”\n\nMr. Choi replies that he does not know the name. Over the past ten days, he twice saw Father return from the nearby bus stop carrying a pharmacy bag. {name} writes two dates and “pharmacy bag” in his notebook."
       },
       {
         "text": "Try calling again tonight",
-        "result_text": "At 8:40 that evening, {name} calls Father again. He waits until the ringing stops, but Father still does not answer. He writes down the morning text and the time of this second attempt.\n\nThere is still no promise to visit a hospital or travel to Changwon. What remains is the fact that he tried again."
+        "result_text": "That evening, {name} calls Father again. He waits until the ringing stops, but Father still does not answer. He writes down the morning text and the time of this second attempt."
       },
       {
         "text": "Close the message and check this month's calendar",
-        "result_text": "{name} closes the message and opens the calendar. Empty spaces and existing commitments share the same screen.\n\nFather's “I'm fine” is not an answer. Father's condition and the time of the next call both remain unknown."
+        "result_text": "{name} closes the message and opens the calendar. Empty spaces and existing commitments share the same screen. The space for another call to Father is still blank."
       }
     ]
   },
   {
     "id": "v2_dodam_result_message",
     "title": "Dodam Customer Center Result",
-    "description": "At 10:41 one morning in the second week of June, a text arrives from Dodam Customer Center's recruiting team.\n\n“Thank you for applying. After review, we will not be moving forward with your customer-operations application.”\n\nThe receipt number from the April application remains at the bottom of the message. No interview was scheduled.",
+    "description": "One morning in the second week of June, a text arrives from Dodam Customer Center's recruiting team.\n\n“Thank you for applying. After review, we will not be moving forward with your customer-operations application.”\n\nThe receipt number from the April application remains at the bottom of the message. The message contains no interview date.",
     "choices": [
       {
         "text": "Check the receipt number and result",
@@ -272,11 +272,11 @@
   {
     "id": "v2_city_service_work_sample_message",
     "title": "City Facilities Work-Sample Request",
-    "description": "At 4:26 on Wednesday afternoon, June 17, a text arrives from City Facilities Operations.\n\n“To support our application review, please submit a sample facilities-inspection worksheet. The deadline is 6:00 p.m. on Friday, June 26.”\n\nThe attachment includes a fictional inspection scenario and a blank form: “Civic gym, basement level one; two emergency lights not working; site recheck required.” The task is to organize it by date, facility, issue status, and action. It is neither an interview notice nor an offer.",
+    "description": "On Wednesday afternoon, June 17, a text arrives from City Facilities Operations.\n\n“To support our application review, please submit a sample facilities-inspection worksheet. The deadline is 6:00 p.m. on Friday, June 26.”\n\nThe attachment includes a fictional inspection scenario and a blank form: “Civic gym, basement level one; two emergency lights not working; site recheck required.” The task is to organize it by date, facility, issue status, and action. It is neither an interview notice nor an offer.",
     "choices": [
       {
         "text": "Confirm the deadline and attachment",
-        "result_text": "{name} checks “6:00 p.m. on Friday, June 26” and the attachment's filename again in the text.\n\nThe worksheet is still blank. Filling it in and sending it back before the deadline remains work not yet done."
+        "result_text": "{name} checks “6:00 p.m. on Friday, June 26” and the attachment's filename again in the text.\n\nThe cursor blinks in the worksheet's first row."
       }
     ]
   },
@@ -294,22 +294,22 @@
   {
     "id": "v2_daeun_tuesday_followthrough",
     "title": "The Tuesday They Promised",
-    "description": "At 1:12 on Tuesday morning, June 2, at the time they had agreed on while looking at the wall clock, {name} opens the convenience-store door.\n\nDaeun looks up from the stock she is sorting behind the counter.\n\n“You really came. We said we'd each ask how yesterday went, right?”\n\nThey did not confirm by phone. {name} had said he would come back at the same time, remembered it, and came.",
+    "description": "Around 1 a.m. on Tuesday, June 2, at the time they agreed on while looking at the wall clock, {name} opens the convenience-store door.\n\nDaeun looks up from the stock she is sorting behind the counter.\n\n“You really came. We said we'd each ask how yesterday went, right?”",
     "choices": [
       {
         "text": "\"How was yesterday, Daeun?\"",
-        "result_text": "Daeun thinks for a moment, then says yesterday's delivery was larger than usual. {name} answers honestly with one task he finished yesterday and one he put off.\n\nWhen a customer enters, they return to what they were doing. They make no new plan today."
+        "result_text": "Daeun thinks for a moment, then says yesterday's delivery was larger than usual. {name} answers honestly with one task he finished yesterday and one he put off.\n\nWhen a customer enters, Daeun returns to the register and {name} steps aside toward the shelves."
       },
       {
         "text": "\"I'll start with yesterday—one thing I finished and one I put off.\"",
-        "result_text": "{name} names one thing he finished yesterday and one he put off. Daeun answers with the busiest part of yesterday's shift and the moment she finally caught her breath.\n\nThey ask about the previous day as promised. The fact that {name} came at the agreed time remains between them."
+        "result_text": "{name} names one thing he finished yesterday and one he put off. Daeun answers with the busiest part of yesterday's shift and the moment she finally caught her breath."
       }
     ]
   },
   {
     "id": "v2_hyunsu_exam_eve",
     "title": "One Last Problem Before the Exam",
-    "description": "At 10:04 on Sunday night, June 21, a Kakao message arrives from Hyunsu.\n\nHyunsu: “Hyung, the exam starts at nine next Saturday morning, and there is one problem I still mix up. Do you have a minute?”\n\nA photo of one administrative-law question follows. Hyunsu waits for an answer after sending it. {name} enlarges the image.",
+    "description": "Around 10 p.m. on Sunday, June 21, a Kakao message arrives from Hyunsu.\n\nHyunsu: “Hyung, the exam starts at nine next Saturday morning, and there is one problem I still mix up. Do you have a minute?”\n\nA photo of an administrative-law question follows. Hyunsu waits for an answer after sending it. {name} enlarges the image.",
     "choices": [
       {
         "text": "Review only this one problem together",
@@ -324,11 +324,11 @@
   {
     "id": "v2_hyunsu_exam_morning_echo",
     "title": "The Morning the Exam Began",
-    "description": "At 9:12 on Saturday morning, June 27, the exam Hyunsu mentioned has been under way since nine.\n\n{name} opens Kakao, but there is no new message beneath their last conversation. There is nothing to do but wait until the exam ends.",
+    "description": "A little after 9 a.m. on Saturday, June 27, the exam Hyunsu mentioned is already under way.\n\n{name} opens Kakao, but there is no new message beneath their last conversation. There is nothing to do but wait until the exam ends.",
     "choices": [
       {
         "text": "Send nothing until the exam is over",
-        "result_text": "{name} closes Kakao and locks the screen. The hours they studied together cannot reveal today's result in advance.\n\n{v2_hyunsu_exam_eve_memory}\n\nThe only fact available now is that the exam has begun."
+        "result_text": "{name} closes Kakao and locks the screen.\n\n{v2_hyunsu_exam_eve_memory}\n\nNo new notification appears on the locked screen."
       }
     ]
   },
@@ -369,11 +369,11 @@
     "choices": [
       {
         "text": "Buy the 9,000-won coffee and keep the receipt",
-        "result_text": "{name} pays for one Americano. The paper receipt shows 9,000 won and the time of payment.\n\nHe sits by the window for ten minutes, then leaves. The evening in Gangnam cost actual money, exactly one receipt's worth."
+        "result_text": "{name} pays 9,000 won for an Americano. The paper receipt shows the amount and time of payment.\n\nHe sits by the window for ten minutes, then leaves. The evening in Gangnam now has a price: 9,000 won, printed on a single receipt."
       },
       {
         "text": "Check the price and leave without ordering",
-        "result_text": "{name} looks once more at the 9,000-won price and turns away from the counter.\n\nNo transaction appears. He checked the price and chose not to buy it tonight."
+        "result_text": "{name} looks once more at the 9,000-won price and turns away from the counter.\n\nNo new charge appears in the banking app, and the 9,000-won price remains behind him at the counter."
       },
       {
         "text": "Check this month's fixed costs before buying coffee",
@@ -384,55 +384,55 @@
   {
     "id": "v2_convenience_trial_shift",
     "title": "The First Dawn Behind the Counter",
-    "description": "After four in the morning, the customers stopped coming. {name} restacked the parcel boxes by size and ran a mop over the sticky floor. Only the hum of the refrigerators and buzz of the fluorescent lights remained behind the counter.\n\nWhen he first stood behind the counter, he knew neither where the cigarettes were kept nor the order of the parcel terminal screens. Now he knew what to restock before the next customer came in.",
+    "description": "After 4 a.m., the customers stop coming. {name} restacks the parcel boxes by size and runs a mop over the sticky floor. Only the hum of the refrigerators and buzz of the fluorescent lights remain behind the counter.\n\nHis hand stops at an empty slot on the shelf beneath the cigarette chart. {name} finds the same brand in the stockroom and fills the gap.",
     "choices": [
       {
         "text": "Write the finishing time on the shift sheet",
-        "result_text": "{name} took a pen from the apron pocket and filled in the final box on the shift sheet. Cardboard dust and detergent lingered together on his fingertips.\n\nAs he left, the morning delivery truck stopped outside. The one-day cover shift was over, and the pay for the hours worked was in his account."
+        "result_text": "{name} takes a pen from the apron pocket and fills in the final box on the shift sheet. Cardboard dust and detergent linger together on his fingertips.\n\nAs he leaves, the morning delivery truck stops outside. The one-day cover shift is over, and the pay for the hours worked is in his account."
       }
     ]
   },
   {
     "id": "v2_inventory_count_nights",
     "title": "The Fourth Night of Barcodes",
-    "description": "After closing on the fourth night, {name} crouched in front of the last row of warehouse shelves. Each time the scanner read another box along the same shelf, his wrist moved toward the next slot before he thought about it.\n\nThe system sheet said twelve. The shelf held eleven. Instead of rewriting the number to make it match, {name} marked a one-unit discrepancy and counted again.",
+    "description": "After closing on the fourth night, {name} crouches in front of the last row of warehouse shelves. Each time the scanner reads another box along the same shelf, his wrist moves toward the next slot before he thinks about it.\n\nThe system sheet says twelve. The shelf holds eleven. Instead of rewriting the number to make it match, {name} marks a one-unit discrepancy and counts again.",
     "choices": [
       {
         "text": "Check the last slot one more time",
-        "result_text": "The second count was still eleven. {name} wrote the time and shelf number beside the discrepancy mark.\n\nAs he returned the cart, the lights of the first bus passed through the gap beneath the warehouse shutter. When four nights of scanner beeps finally stopped, the fatigue in his wrists and eyes arrived all at once."
+        "result_text": "The second count is still eleven. {name} writes the time and shelf number beside the discrepancy mark.\n\nAs he returns the cart, the lights of the first bus pass through the gap beneath the warehouse shutter. When four nights of scanner beeps finally stop, the fatigue in his wrists and eyes arrives all at once."
       }
     ]
   },
   {
     "id": "v2_logistics_class_session",
     "title": "The Blank in the Stock-Movement Sheet",
-    "description": "From a seat at the back of the youth-center classroom, {name} watched the instructor project a sheet of receipts, shipments, and returns and ask the class to find the row that did not balance.\n\n{name} copied the inventory-turnover formula into his notebook three times. The first two used the wrong denominator. Only the third matched the sample sheet.",
+    "description": "From a seat at the back of the youth-center classroom, {name} watches the instructor project a sheet of receipts, shipments, and returns and ask the class to find the row that does not balance.\n\n{name} copies the inventory-turnover formula into his notebook three times. The first two use the wrong denominator. Only the third matches the sample sheet.",
     "choices": [
       {
         "text": "Leave the two wrong lines on the page",
-        "result_text": "{name} struck through each wrong formula and wrote one sentence beside it explaining the mistake. Taking one class earned neither a certificate nor an offer.\n\nHe had written down where to begin the next time he faced a stock sheet."
+        "result_text": "{name} strikes through each wrong formula and writes one sentence beside it explaining the mistake. Taking one class earns neither a certificate nor an offer.\n\nHe has written down where to begin the next time he faces a stock sheet."
       }
     ]
   },
   {
     "id": "v2_moving_crew_days",
     "title": "Outside the Fourth Home",
-    "description": "On the fourth evening, outside the last home, six boxes and a stack of folded moving blankets still stood between the entrance and the truck. {name} wrapped the tape around his palm again and pushed the empty dolly toward the door.\n\nWhile he straightened his back, another worker silently rolled one wrist. No one called for a break. They simply took opposite sides of the next box.",
+    "description": "On the fourth evening, outside the last home, six boxes and a stack of folded moving blankets still stand between the entrance and the truck. {name} wraps the tape around his palm again and pushes the empty dolly toward the door.\n\nWhile he straightens his back, another worker silently rolls one wrist. No one calls for a break. They simply take opposite sides of the next box.",
     "choices": [
       {
         "text": "Check the bottom of the box before lifting",
-        "result_text": "After feeling for damp cardboard underneath, they lifted the first box on the same beat. They moved the remaining five the same way, then secured the last box between the moving blankets.\n\nWhen the cargo door shut, the metal noise that had followed them for four days stopped. The job was over, but his palms and lower back still felt heavy."
+        "result_text": "After feeling for damp cardboard underneath, they lift the first box on the same beat. They move the remaining five the same way, then secure the last box between the moving blankets.\n\nWhen the cargo door shuts, the metal noise that has followed them for four days stops. The job is over, but his palms and lower back still feel heavy."
       }
     ]
   },
   {
     "id": "v2_empty_sunday",
     "title": "The Sunday Left Empty",
-    "description": "The room was already bright when {name} opened his eyes. He reached for the phone to check the time, then pulled his hand away from where it lay face down. Doors opened and closed a few times in the hall before the building went quiet again.\n\nHe filled a washed cup with water and reheated a meal. He did not read any job postings, and the waiting messages went unanswered.",
+    "description": "The room is already bright when {name} opens his eyes. He reaches for the phone to check the time, then pulls his hand away from where it lies face down. Doors open and close a few times in the hall before the building goes quiet again.\n\nHe fills a washed cup with water and reheats a meal. He does not read any job postings, and the waiting messages go unanswered.",
     "choices": [
       {
         "text": "Make no plans until the light fades",
-        "result_text": "{name} slept once more and woke near evening. Relief at having rested arrived alongside the emptiness of letting a day pass.\n\nHe picked up the phone and lit the screen but made no new plans. Sunday faded that way, and Monday was still coming."
+        "result_text": "{name} sleeps once more and wakes near evening. Relief at having rested arrives alongside the emptiness of letting a day pass.\n\nHe picks up the phone and lights the screen but makes no new plans. Sunday fades that way, and Monday is still coming."
       }
     ]
   },
@@ -462,35 +462,35 @@
     "choices": [
       {
         "text": "Call Father again",
-        "result_text": "{name} calls Father. After several rings, he answers.\n\n“What.”\n“I just wanted to hear your voice. Did you eat?”\n“I ate. Take care of yourself.”\n\nWhen {name} brings up the hospital, Father asks whether the room is cold. Neither answers the question the other one asked. Long silences pass between talk of dinner, the weather, and buses to Changwon.\n\nThere is still no diagnosis and no date for the trip. But when {name} says he will call again Monday evening, Father answers, “Do what you want.” It is past seven when {name} hangs up and writes down the time."
+        "result_text": "{name} calls Father. After several rings, his father answers.\n\n“What.”\n“I just wanted to hear your voice. Did you eat?”\n“I ate. Take care of yourself.”\n\nWhen {name} brings up the hospital, Father asks whether the room is cold. Neither answers the question the other one asked. Long silences pass between talk of dinner, the weather, and buses to Changwon.\n\n{name}: “I'll call again Monday evening.”\nFather: “Do what you want.”\n\nAfter the call, {name} writes “Father” in Monday's space in the notebook."
       },
       {
         "text": "Finish Hanbit Distribution's month-end discrepancy sheet",
-        "result_text": "{name} reopens the month-end discrepancy sheet from the logistics center. Of the two rows where system and physical counts disagree, he corrects only the one he can trace. Beside the other, he writes “site recheck” instead of inventing a quantity.\n\nAt 5:59, he sends the first month-end sheet assigned to him since joining Hanbit. Fifteen minutes later, the person in charge asks why one field is blank. {name} separates what the records prove from what still needs checking. He does not write that making up a number would have been faster.\n\nAfter seven, a reply comes back: update it Monday after the site count. He still does not know how long the contract will last, but the sheet he sent contains no claim to know what he did not."
+        "result_text": "{name} reopens the month-end discrepancy sheet from the logistics center. Of the two rows where system and physical counts disagree, he corrects only the one he can trace. Beside the other, he writes “site recheck” instead of inventing a quantity.\n\nAt 5:59 p.m., he sends the first month-end sheet assigned to him since joining Hanbit. Fifteen minutes later, the person in charge asks why one field is blank. {name} separates what the records prove from what still needs checking.\n\nAfter seven, a reply comes back: update it Monday after the site count. The other row on the sheet still reads “site recheck.”"
       },
       {
         "text": "Submit the City Facilities worksheet",
-        "result_text": "{name} reopens the worksheet he drafted. His hand stops over whether to mark the broken emergency lights “resolved” or “site recheck required.” He does not invent a completion time absent from the scenario. He records only the date, facility, issue, and next action.\n\nAt 5:59, he sends the file. The automated reply contains only “Work sample received” and an application number. {name} opens the submitted copy once more, checks every blank against its source, and transfers the number to his notebook.\n\nHe submitted on time. It remains equally true that this promises neither an interview nor a job."
+        "result_text": "{name} reopens the worksheet he drafted. His hand stops over whether to mark the broken emergency lights “resolved” or “site recheck required.” He does not invent a completion time absent from the scenario. He records only the date, facility, issue, and next action.\n\nAt 5:59 p.m., he sends the file. The automated reply contains only “Work sample received” and an application number. {name} opens the submitted copy once more, checks every blank against its source, and transfers the number to his notebook."
       },
       {
         "text": "Go to Daeun's store and ask whether she ate",
-        "result_text": "At 5:53, {name} leaves his room. After changing subway lines, he reaches the store during the night shift he learned about before.\n\n{name}: “My turn to ask first. Did you eat, Daeun?”\nDaeun: “I had a gimbap before my shift. What about you?”\n\nBefore {name} can say not yet, a customer walks in. Once the sale and a parcel drop-off are done, Daeun nods toward the triangle-gimbap shelf.\n\nDaeun: “If you came to look after someone else, get one for yourself too.”\n{name}: “Then I will start by believing you ate.”\nDaeun: “Believe half of it. I only ate half.”\n\n{name} buys one and eats at the window where he can still see the counter. Their conversation stops whenever another customer enters, then starts again. By the time he checks the last-train schedule home, the question he asked first has become more than a single sentence."
+        "result_text": "{name} leaves his room at once. After changing subway lines, he reaches the store during the night shift he learned about before.\n\n{name}: “My turn to ask first. Did you eat, Daeun?”\nDaeun: “I had a gimbap before my shift. What about you?”\n\nBefore {name} can say not yet, a customer walks in. Once the sale and a parcel drop-off are done, Daeun nods toward the triangle-gimbap shelf.\n\nDaeun: “If you came to look after someone else, get one for yourself too.”\n{name}: “Then I will start by believing you ate.”\nDaeun: “Believe half of it. I only ate half.”\n\n{name} buys one and eats at the window where he can still see the counter. Their conversation stops whenever another customer enters, then starts again. When he checks the last-train schedule and stands to leave, Daeun waves from behind the register."
       },
       {
         "text": "Message Jaehyuk first and ask about his week",
-        "result_text": "{name}: “I just finished wrapping up today. How was your week?”\n\nJaehyuk says he is still out. At first, all he sends is, “Same as always.” When {name} goes first with one thing he finished and one thing he postponed, Jaehyuk writes a long message about something he got wrong on the way home.\n\nThe replies stop and start between subway transfers and dinner. {name} types an easy joke, deletes it, and names what he postponed without dressing it up. Investment and money never come up.\n\nAfter ten, Jaehyuk writes, “Next time, let's each say one thing we did right too.” The conversation that crossed ten missing years now continues in the concrete words of one week."
+        "result_text": "{name}: “I just finished wrapping up today. How was your week?”\n\nJaehyuk says he is still out. At first, all he sends is, “Same as always.” When {name} goes first with one thing he finished and one thing he postponed, Jaehyuk writes a long message about something he got wrong on the way home.\n\nThe replies stop and start between subway transfers and dinner. {name} types an easy joke, deletes it, and names what he postponed without dressing it up. Investment and money never come up.\n\nAfter ten, Jaehyuk writes.\n\n“Next time, let's each say one thing we did right too.”"
       },
       {
         "text": "Reconcile this month's expense ledger at home",
-        "result_text": "{name} spreads receipts across the desk where he lives now. He lists rent, food, transit, and phone payments by date. The first total does not match the card history, so he works down every line again.\n\nThe missing entries are two meals paid in cash and a transit-card top-up. Instead of filling the amounts from memory, he finds the receipts and the reload record and places each beside its date. Only on the third calculation does the notebook match the amount that left the account.\n\nIt is past nine when the first page balances. Sangchul's business card stays in the drawer. For this one night, {name} records the flow of his own money without borrowing anyone else's answer."
+        "result_text": "{name} spreads receipts across the desk where he lives now. He lists rent, food, transit, and phone payments by date. The first total does not match the card history, so he works down every line again.\n\nThe missing entries are two meals paid in cash and a transit-card top-up. Instead of filling the amounts from memory, he finds the receipts and the reload record and places each beside its date. Only on the third calculation does the notebook match the amount that left the account.\n\nAfter nine, he draws two lines beneath the total on the first page. Sangchul's business card stays in the drawer."
       },
       {
         "text": "Take urgent paid work tonight",
-        "result_text": "{name} leaves the room at once to reach the 6:30 p.m. assembly. The foreman of the overnight loading crew checks his gloves and work zone before asking his name. His palms start rubbing raw inside the gloves before the first pallet is empty.\n\nAfter midnight, straightening his back takes one extra beat as he unloads the last box. The foreman checks the account number on {name}'s phone. A moment later, the 280,000-won day rate arrives.\n\nThe deposit settles immediately. The pain in his palms and back does not."
+        "result_text": "{name} leaves the room at once to reach the 6:30 p.m. assembly. The foreman of the overnight loading crew checks his gloves and work zone before asking his name. His palms start rubbing raw inside the gloves before the first pallet is empty.\n\nAfter midnight, straightening his back takes one extra beat as he unloads the last box. The foreman checks the account number on {name}'s phone. A moment later, the 280,000-won day rate arrives.\n\nThe deposit alert glows beneath the reflection of his raw, reddened palm."
       },
       {
         "text": "Set one alarm and lie down first",
-        "result_text": "Before six, {name} sets one alarm and puts the phone face down. He showers in lukewarm water, slowly finishes a glass, and leaves only the notebook and pen beside the bed.\n\nEven after lying down, the order of everything he should do rearranges itself in his head. Each time his hand moves to check, it stops at the face-down phone. He starts nothing new while doors and footsteps in the hall grow distant.\n\nWhat he finishes tonight is the act of not pushing any further."
+        "result_text": "Before 6:00 p.m., {name} sets one alarm and puts the phone face down. He showers in lukewarm water, slowly drinks a glass of water, and leaves only the notebook and pen beside the bed.\n\nEven after lying down, the order of everything he should do rearranges itself in his head. Each time his hand moves to check, it stops at the face-down phone. He starts nothing new while doors and footsteps in the hall grow distant."
       }
     ]
   },
@@ -516,11 +516,11 @@
     "choices": [
       {
         "text": "Add a reason beside each entry",
-        "result_text": "{name} keeps the notes short: “Finished late.” “Skipped a meal.” “Needed to make it through the next day.” Once the reasons are there, similar amounts divide into money he can cut and money whose absence would make the day collapse first.\n\nBy the time he returns with the laundry, the ink is dry. The reasons take up more room than the total. For the first time, he can see not just where the month's money had gone, but which days it had helped him get through."
+        "result_text": "{name} keeps the notes short: “Finished late.” “Skipped a meal.” “Needed to make it through the next day.” Once the reasons are there, similar amounts divide into money he can cut and money whose absence would make the day collapse first.\n\nBy the time he returns with the laundry, the ink is dry. The reasons take up more room on the page than the total."
       },
       {
         "text": "Reconcile the totals first",
-        "result_text": "{name} checks every amount once more and draws a double line beneath the total. What he needs tonight is not an interpretation, but a figure that is not wrong. He leaves the reason column blank.\n\nAfter folding the laundry away, he closes the notebook. The page is orderly now. Once the cover is shut, he can no longer tell which line came from the late night."
+        "result_text": "{name} checks every amount once more and draws a double line beneath the total. What he needs tonight is not an interpretation, but a figure that is not wrong. He leaves the reason column blank.\n\nAfter folding the laundry away, he closes the notebook. The page is orderly, and the reason column stays blank to the end."
       }
     ]
   },

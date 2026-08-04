@@ -2,19 +2,19 @@
   {
     "id": "arc_intro_01_meal",
     "title": "First Interview",
-    "description": "The company from the application replied.\n\nA small office in Mapo-gu. Third floor. No elevator.\nThe sign reads 'Mirae Industrial Tech' — nothing comes up when you search for them.\n\nThe interviewer was a woman in her early forties. She picked up the résumé, adjusted her glasses, and read slowly.\nThe AC hummed loudly. A motorcycle passed outside.\n\n'There's a six-year gap here.'\n\nShe set the résumé down and looked at {name}.\n'What were you doing?'\n\nCan't say 'paying off debt.' Six years, from twenty-seven to thirty-three, covering for a father who co-signed the wrong loan.\nHow do you put six years into one sentence.\n\n{name}'s palms were sweating.",
+    "description": "A company {name} applied to gets back to him. Mapo-gu. Third floor. No elevator.\n\nThe sign reads 'Mirae Industrial Tech.' Its website has no information. He searches. Two blogs. Both stopped updating two years ago.\n\nThe interviewer is in her early forties. She picks up the résumé, adjusts her glasses, and reads it slowly.\nThe air conditioner hums. A motorcycle passes outside. Silence, waiting for something.\n\n\"There's a six-year gap here.\"\n\nThose six years. His father's loan guarantee. The other party disappeared. {name} paid what remained.\nHe cannot turn those six years into one sentence.",
     "choices": [
       {
         "text": "Tell the truth — 'There were family circumstances.'",
-        "result_text": "The interviewer looked at {name} for a moment and did not probe further.\nSomething in her eyes — understanding, or resignation.\n'...I see. You seem like someone who works hard.'\n\nWalking down the stairs, {name} could not tell whether it had been praise or pity. Either way, this time the truth had not been hidden."
+        "result_text": "The interviewer looks at {name} for a moment and does not probe further.\nSomething in her eyes — understanding, or resignation.\n'...I see. You seem like someone who works hard.'\n\nOn the second-floor landing, his face catches in the window. The words 'family debt' remain on his tongue all the way down."
       },
       {
         "text": "Gloss over it — 'I was preparing to start a business.'",
-        "result_text": "Packaged it plausibly. The interviewer nodded, but wrote something long in her notes.\n\nEvery step down echoed through the empty building. In the second-floor window, his reflected mouth seemed to repeat the answer he had just given.\n{name} looked away and took the last flight."
+        "result_text": "He makes it sound plausible. The interviewer nods, but writes something long in her notes.\n\nEvery step down echoes through the empty building. In the second-floor window, his reflected mouth seems to repeat the answer he has just given.\n{name} looks away and takes the last flight."
       }
     ],
-    "description_orthodox": "The company from the application replied. Mapo-gu. Third floor. No elevator.\n\nAt the third landing, {name} stopped for breath. Flaking paint from the handrail dusted his palm.\n\nThe interviewer picked up the résumé. The tip of her pen stopped at the six-year gap.\n\n{name} placed the rehearsed answer on his tongue. His mouth was so dry it tasted like paper.",
-    "description_unorthodox": "The company from the application replied. Mapo-gu. Third floor. No elevator.\n\n'Mirae Industrial Tech.' Funny. If this is the future, the future's pretty narrow.\nDoesn't matter. He needs money now, and this whole thing is temporary anyway.\n\nThe interviewer flagged the six-year gap. {name} knew that look — 'an odd one.'\nFine. So what if I'm odd."
+    "description_orthodox": "A company {name} applied to gets back to him. Mapo-gu. Third floor. No elevator.\n\nAt the third landing, {name} stops for breath. Flaking paint from the handrail dusts his palm.\n\nThe interviewer picks up the résumé. The tip of her pen stops at the six-year gap.\n\n{name} places the rehearsed answer on his tongue. His mouth is so dry it tastes like paper.",
+    "description_unorthodox": "A company {name} applied to gets back to him. Mapo-gu. Third floor. No elevator.\n\n'Mirae Industrial Tech.' Funny. If this is the future, the future's pretty narrow.\nDoesn't matter. He needs money now, and this whole thing is temporary anyway.\n\nThe interviewer flags the six-year gap. {name} knows that look — 'an odd one.'\nFine. So what if I'm odd."
   },
   {
     "id": "arc_intro_02_dad_call",
@@ -41,45 +41,45 @@
   {
     "id": "arc_intro_03_sns",
     "title": "2 AM",
-    "description": "2 AM. The goshiwon room. Can't sleep.\n\nStaring at the ceiling, {name} opened Instagram out of habit. Fingers scrolling the feed.\n\nHigh school friend Park Minho — 'Finally my own home 🏠 Housing lottery win T_T Waited 10 years #allIn #30sHomeowner'\nUniversity classmate Lee Suhyeon — Honeymoon photos. Maldives. Turquoise water. A wedding dress.\nDepartment senior Kim Junghoon — Foreign car key flex. BMW 3 Series. 'First day in the company lot 🔑'\n\nEveryone had arrived somewhere.\nOnly {name} was still at the starting line. No, behind the starting line.\n\n650,000 won rent. Bank balance. The stain on the goshiwon wall.\n\nThe hand holding the phone grew heavy.",
+    "description": "2 AM. The goshiwon room.\n\nStaring at the ceiling, {name}'s hand reaches for the phone. Instagram.\n\nPark Minho — 'Finally, my own place 🏠 Won an LH housing lottery T_T Waited 10 years'\nLee Suhyeon — Maldives honeymoon. Pale blue sea. A wedding dress.\nKim Junghoon — BMW 3 Series key.\n\nEveryone has arrived somewhere.\n\n{name} looks at the stain on the goshiwon wall. A mark left by damp. He does not know how long it has been there.\nRent: 650,000 won. Another calendar page is turning in this room.",
     "choices": [
       {
         "text": "Delete the app — comparison is poison.",
-        "result_text": "Held the icon down. The small X trembled, then vanished.\n\nThe black screen held only the fluorescent light and {name}'s face.\nHis finger tapped the empty space once more out of habit."
+        "result_text": "He holds the icon down. The small X trembles, then vanishes.\n\nThe black screen holds only the fluorescent light and {name}'s face.\nHis finger taps the empty space once more out of habit."
       },
       {
         "text": "Use that feeling as fuel — just you wait.",
-        "result_text": "Envy caught hot at the back of {name}'s throat.\n\nHe opened Notes and wrote three things to do tomorrow. The battery reached nine percent as he typed the last period.\nWhen he turned the phone facedown, the pipe behind the wall sounded louder."
+        "result_text": "Envy burns at the back of {name}'s throat.\n\nHe opens Notes and writes three things to do tomorrow. The battery reaches nine percent as he types the last period.\nWhen he turns the phone facedown, the pipe behind the wall sounds louder."
       },
       {
         "text": "Just look. Jealous is jealous.",
-        "result_text": "Scrolled to the end. Even hit Like.\n\nDecided not to pretend not to be jealous. That's honest too.\nBut the honesty of that night — ached a little long."
+        "result_text": "He scrolls to the end and even taps Like. After the count rises by one, {name} still cannot turn off the screen."
       }
     ],
-    "description_orthodox": "2 AM. The goshiwon room.\n\n{name} opened Instagram and stopped mid-scroll.\n\nThe corner of Minho's housing contract. Maldives sand on Suhyeon's ankle. A BMW key resting in Junghoon's palm.\n\nThe clock in the corner changed from 2:17 to 2:18. His thumb could not move to the next photo.\n\n{name} looked between the damp wallpaper and the new living room on the screen.",
-    "description_unorthodox": "2 AM. The goshiwon room.\n\n{name} opened Instagram. Other people's lives slid past like ads.\n\nA bank-loan envelope had been cropped from the edge of the housing contract. The slide after the Maldives beach showed an airport baggage line. Black grease remained under the thumbnail holding the BMW key.\n\n{name} pinched the photos twice, trying to see beyond their frames.\n\nSomeone snored next door. Only the Like counts moved, one at a time.",
-    "description_long_gosiwon": "2 AM.\n\nOpened Instagram again. Seventh month in this room.\n\nPark Minho, housing-lottery win. Lee Suhyeon, newlywed. Kim Junghoon, foreign car.\n\n{name} set the phone down. Not envy, not anger — just distant.\nSome days your own life doesn't feel like your own.\nToday was one of those days.",
+    "description_orthodox": "2 AM. The goshiwon room.\n\n{name} opens Instagram and stops mid-scroll.\n\nThe corner of Minho's housing contract. Maldives sand on Suhyeon's ankle. A BMW key resting in Junghoon's palm.\n\nThe minute display in the corner changes once. His thumb cannot move to the next photo.\n\n{name} looks between the damp wallpaper and the new living room on the screen.",
+    "description_unorthodox": "2 AM. The goshiwon room.\n\n{name} opens Instagram. Other people's lives slide past like ads.\n\nA bank-loan envelope is cropped out at the edge of the housing contract. The slide after the Maldives beach shows an airport baggage line. Black grease remains under the thumbnail holding the BMW key.\n\n{name} pinches the photos twice, trying to see beyond their frames.\n\nSomeone snores next door. Only the Like counts move, one at a time.",
+    "description_long_gosiwon": "2 AM.\n\n{name} opens Instagram again. Seventh month in this room.\n\nPark Minho, housing-lottery win. Lee Suhyeon, newlywed. Kim Junghoon, foreign car.\n\n{name} sets the phone down. In place of the screen, only the damp wallpaper remains in view.",
     "description_if_known": {
-      "lent_account": "2 AM. The goshiwon room.\n\nStaring at the ceiling, {name}'s fingers found the phone. Instagram.\n\nPark Minho — 'Finally my own home 🏠 Housing lottery win T_T Waited 10 years'\nLee Suhyeon — Maldives honeymoon. Turquoise water. A wedding dress.\nKim Junghoon — BMW 3 Series key flex.\n\n{name} scrolled, then stopped. Did that money have an origin too? The lottery deposit, the wedding budget, the car installments — all of it came from somewhere and flowed somewhere.\n\nThe thought circled back to the envelope of cash from the locker. The two million won in hand had never touched the account history, but there was no telling whose money would now pass through the bankbook he had handed over.\n\n650,000 won rent. Another calendar page was turning in this room. Between the people on the screen and {name}, there was now one more line, and it could not be seen.",
-      "kept_clean_hands": "2 AM. The goshiwon room.\n\nStaring at the ceiling, {name}'s fingers found the phone. Instagram.\n\nPark Minho — 'Finally my own home 🏠 Housing lottery win T_T Waited 10 years'\nLee Suhyeon — Maldives honeymoon. Turquoise water. A wedding dress.\nKim Junghoon — BMW 3 Series key flex.\n\nThe feed was the same. Everyone had arrived somewhere.\n\n{name} thought back to the offer. If he had not blocked the number, he would have pulled two million won in cash from a locker. Instead, his bankbook and debit card were still in his own drawer.\n\nRent was 650,000 won. Another calendar page turned, and the number remained on the block list."
+      "lent_account": "2 AM. The goshiwon room.\n\nStaring at the ceiling, {name}'s fingers find the phone. Instagram.\n\nPark Minho — 'Finally my own home 🏠 Housing lottery win T_T Waited 10 years'\nLee Suhyeon — Maldives honeymoon. Turquoise water. A wedding dress.\nKim Junghoon — BMW 3 Series key flex.\n\n{name} scrolls, then stops. Does that money have an origin too? The lottery deposit, the wedding budget, the car installments — all of it comes from somewhere and flows somewhere.\n\nThe thought circles back to the envelope of cash from the locker. The two million won in hand never touched the account history, but there is no telling whose money will now pass through the bankbook he handed over.\n\n650,000 won rent. Another calendar page is turning in this room. Between the people on the screen and {name}, there is now one more line, and it cannot be seen.",
+      "kept_clean_hands": "2 AM. The goshiwon room.\n\nStaring at the ceiling, {name}'s fingers find the phone. Instagram.\n\nPark Minho — 'Finally my own home 🏠 Housing lottery win T_T Waited 10 years'\nLee Suhyeon — Maldives honeymoon. Turquoise water. A wedding dress.\nKim Junghoon — BMW 3 Series key flex.\n\nThe feed is the same. Everyone has arrived somewhere.\n\n{name} thinks back to the offer. If he had not blocked the number, he would have pulled two million won in cash from a locker. Instead, his bankbook and debit card are still in his own drawer.\n\nRent is 650,000 won. Another calendar page turns, and the number remains on the block list."
     }
   },
   {
     "id": "arc_intro_04_hyunsu",
     "title": "Next Door",
-    "description": "Hallway outside the goshiwon shared kitchen. 1 AM.\n\nA narrow corridor with only one fluorescent tube working. {name} was carrying cup ramyeon back to the room when the door next to his opened.\n\nThe neighbor from next door. They had crossed paths before, but this was their first greeting.\n\"...Ramyeon for you too, hyung.\"\n\nThere were dark hollows under his eyes. A worn Grade 9 civil-service exam book was tucked under his arm.\n\nThe man brushed a palm over its cover. \"I'm Kang Hyunsu. Next door. Took us long enough to say hello. Fourth year studying for the civil-service exam.\"\n{name} gave his name too. Hyunsu asked, \"What do you do, hyung?\"",
+    "description": "Hallway outside the goshiwon shared kitchen. 1 AM.\n\nA narrow corridor with only one fluorescent tube working. {name} is carrying cup ramyeon back to the room when the door next to his opens.\n\nThe neighbor from next door. They have crossed paths before, but this is their first greeting.\n\"...Ramyeon for you too, hyung.\"\n\nThere are dark hollows under his eyes. A worn Grade 9 civil-service exam book is tucked under his arm.\n\nThe man brushes a palm over its cover. \"I'm Kang Hyunsu. Next door. Took us long enough to say hello. Fourth year studying for the civil-service exam.\"\n{name} gives his name too. Hyunsu asks, \"What do you do, hyung?\"",
     "choices": [
       {
         "text": "'I don't really know yet. Still figuring it out.'",
-        "result_text": "Hyunsu nodded.\n'That's the most honest answer.'\n\nThe two of them ate ramyeon in silence in the narrow hallway.\nJust knowing there's someone on the other side of this thin wall in the same situation —\ntonight was a little less cold."
+        "result_text": "Hyunsu nods.\n'That's the most honest answer.'\n\nThe two of them eat ramyeon in silence in the narrow hallway."
       },
       {
         "text": "'I'm going to Gangnam. Within five years.'",
-        "result_text": "Hyunsu stopped mid-ramyeon and looked at {name}.\nExpected a laugh. Didn't get one.\n'...You mean it, don't you, hyung.'\n\nA short silence. Then, quietly:\n'Somehow I feel like you'll actually go.'\nThat line stayed. Coming from someone who'd been looking at the same wall for four years."
+        "result_text": "Hyunsu stops mid-ramyeon and looks at {name}.\n{name} expects a laugh. None comes.\n'...You mean it, don't you, hyung.'\n\nAfter a short silence, Hyunsu speaks quietly.\n'Somehow I feel like you'll actually go.'"
       }
     ],
-    "description_orthodox": "Hallway outside the goshiwon shared kitchen. 1 AM.\n\nAs {name} turned to head back with his cup ramyeon, the man next door came out.\n\n\"Ramyeon for you too, hyung.\"\n\nA Grade 9 civil-service exam book. Worn cover. A book held for a long time.\n\n\"I'm Kang Hyunsu. Next door. Took us long enough to say hello. Fourth year studying for the civil-service exam.\" {name} gave his name too. Hyunsu asked, \"What do you do, hyung?\"\n\nThis path was a path too. The sure, slow one.\n{name} briefly measured the road he had chosen against Hyunsu's.",
-    "description_unorthodox": "Hallway outside the goshiwon shared kitchen. 1 AM.\n\nThe man next door came out.\n\n\"Ramyeon for you too, hyung.\"\n\nA worn Grade 9 civil-service exam book was tucked under his arm.\n\n\"I'm Kang Hyunsu. Next door. Took us long enough to say hello. Fourth year studying for the civil-service exam.\" {name} gave his name too. Hyunsu asked, \"What do you do, hyung?\"\n\n{name} thought — what did Hyunsu see, studying that every single day?\nIf he passed, where would he go? On 2.2 million won a month, could he even get out of this goshiwon?\nHe did not ask. Everyone had their own math."
+    "description_orthodox": "Hallway outside the goshiwon shared kitchen. 1 AM.\n\nAs {name} turns to head back with his cup ramyeon, the man next door comes out.\n\n\"Ramyeon for you too, hyung.\"\n\nA Grade 9 civil-service exam book. Worn cover. A book held for a long time.\n\n\"I'm Kang Hyunsu. Next door. Took us long enough to say hello. Fourth year studying for the civil-service exam.\" {name} gives his name too. Hyunsu asks, \"What do you do, hyung?\"\n\nThis path is a path too. The sure, slow one.\n{name} briefly measures the road he has chosen against Hyunsu's.",
+    "description_unorthodox": "Hallway outside the goshiwon shared kitchen. 1 AM.\n\nThe man next door comes out.\n\n\"Ramyeon for you too, hyung.\"\n\nA worn Grade 9 civil-service exam book is tucked under his arm.\n\n\"I'm Kang Hyunsu. Next door. Took us long enough to say hello. Fourth year studying for the civil-service exam.\" {name} gives his name too. Hyunsu asks, \"What do you do, hyung?\"\n\n{name} wonders what Hyunsu sees, studying that every single day.\nIf he passes, where does he go? On 2.2 million won a month, can he even get out of this goshiwon?\nHe does not ask. Everyone has their own math."
   },
   {
     "id": "arc_chapter1_close",
@@ -116,69 +116,69 @@
   {
     "id": "arc_sangchul_01_measure",
     "title": "The Measure of a Person",
-    "description": "The man turned the calculator toward {name}. The nameplate on the desk read Im Sangchul.\n\n\"You asked about the deposit first. You checked the utilities twice. You looked at the rent before the windows.\"\n\n\"And that tells you everything?\"\n\n\"People with money ask which way to go. People trying to survive ask where the exits are.\"\nSangchul tapped the cold numbers once with his fingertip.\n\n{name} drew the worn toes of the sneakers beneath the chair.\n\"Do you measure everyone like that?\"\n\n\"No. That's why I offered coffee.\"\n\nIt was an odd amount of certainty from a stranger. Sangchul did not press for an answer. He waited until the steam above the paper cup had nearly disappeared.",
+    "description": "The man turns the calculator toward {name}. The nameplate on the desk reads Im Sangchul.\n\n\"You asked about the deposit first. You checked the utilities twice. You looked at the rent before the windows.\"\n\n\"And that tells you everything?\"\n\n\"People with money ask which way to go. People trying to survive ask where the exits are.\"\nSangchul taps the cold numbers once with his fingertip.\n\n{name} draws the worn toes of his sneakers back beneath the chair.\n\"Do you measure everyone like that?\"\n\n\"No. That's why I offered coffee.\"\n\nIt is an odd amount of certainty from a stranger. Sangchul does not press for an answer. He waits until the steam above the paper cup has nearly disappeared.",
     "choices": [
       {
         "text": "\"Then how far do you think I can go?\"",
-        "result_text": "Sangchul's faint smile vanished.\n\n\"That isn't mine to decide.\"\n\nHe slid a blank memo sheet to the center. This time his eyes were not measuring. They were waiting."
+        "result_text": "Sangchul's faint smile vanishes.\n\n\"That isn't mine to decide.\"\n\nHe slides a blank memo sheet to the center. This time his eyes are not measuring. They are waiting."
       }
     ]
   },
   {
     "id": "arc_sangchul_01_coffee",
     "title": "One Paper Cup",
-    "description": "Sangchul moved the stack of contracts aside. Somehow the desk looked wider when he served coffee than when he showed rooms.\n\n\"Everyone who comes to Seoul looking for a room starts with numbers. How much to move in. How much to earn to survive.\"\n\n\"Those aren't the wrong questions.\"\n\n\"No. But people who enter with nothing but numbers are usually the first to leave because of them.\"\n\nA car split the wet road beyond the glass. Sangchul waited until the sound passed before continuing.\n\n\"You ask everyone looking for a room why they want to endure Seoul?\"\n\n\"I do. If all I do is unlock doors, I'm just the man with the keys.\"\n\nIt was impossible to tell whether this was kindness or a sales pitch. But Sangchul had not brought out a single listing. He was waiting for {name}'s answer instead.",
+    "description": "Sangchul moves the stack of contracts aside. Somehow the desk looks wider when he serves coffee than when he shows rooms.\n\n\"Everyone who comes to Seoul looking for a room starts with numbers. How much to move in. How much to earn to survive.\"\n\n\"Those aren't the wrong questions.\"\n\n\"No. But people who enter with nothing but numbers are usually the first to leave because of them.\"\n\nA car splits the wet road beyond the glass. Sangchul waits until the sound passes before continuing.\n\n\"You ask everyone looking for a room why they want to endure Seoul?\"\n\n\"I do. If all I do is unlock doors, I'm just the man with the keys.\"\n\nIt is impossible to tell whether this is kindness or a sales pitch. But Sangchul has not brought out a single listing. He is waiting for {name}'s answer instead.",
     "choices": [
       {
         "text": "\"That question, I can answer.\"",
-        "result_text": "Sangchul slid a blank memo sheet to the center. No price. No address.\n\n\"Good. Then we can talk about rooms afterward.\"\n\nFor the first time, the broker's cadence left his voice."
+        "result_text": "Sangchul slides a blank memo sheet to the center. No price. No address.\n\n\"Good. Then we can talk about rooms afterward.\"\n\nFor the first time, the broker's cadence leaves his voice."
       }
     ]
   },
   {
     "id": "arc_sangchul_01_answer",
     "title": "The Question",
-    "description": "Sangchul balanced a pen on the blank memo sheet.\n\n\"Where do you want to live?\"\n\n\"...Gangnam.\"\n\nNo laugh. No admiration. Only the long hiss of tires over wet pavement beyond the glass.\n\n\"Gangnam isn't one neighborhood. An apartment? An address? Something to show people?\"\n\n{name} opened his mouth, then closed it. Every answer that came to mind sounded borrowed from someone else.\n\nSangchul set down the pen.\n\"That's why I'm asking. Why?\"",
+    "description": "Sangchul balances a pen on the blank memo sheet.\n\n\"Where do you want to live?\"\n\n\"...Gangnam.\"\n\nNo laugh. No admiration. Only the long hiss of tires over wet pavement beyond the glass.\n\n\"Gangnam isn't one neighborhood. An apartment? An address? Something to show people?\"\n\n{name} opens his mouth, then closes it. Every answer that comes to mind sounds borrowed from someone else.\n\nSangchul sets down the pen.\n\"That's why I'm asking. Why?\"",
     "choices": [
       {
         "text": "'I... want to show my father. Just once.'",
-        "result_text": "The first time that reason had been spoken out loud.\n\"Where are you from?\" Sangchul asked.\n\"Changwon.\"\nThe hand stirring his coffee stopped — just for half a beat.\nThen he looked at {name} for a long moment, and nodded.\n\"That 'why' is solid. Then that's enough.\"\n\"When you're shaken, it'll hold you. Here's my card — stop by sometime.\"\nFor the first time in an unfamiliar city — {name} had someone to know."
+        "result_text": "For the first time, that reason is spoken out loud.\n\"Where are you from?\" Sangchul asks.\n\"Changwon.\"\nThe hand stirring his coffee stops — just for half a beat.\nThen he looks at {name} for a long moment and nods.\n\"That 'why' is solid. Then that's enough.\"\n\"When you're shaken, it'll hold you.\" Sangchul sets his business card on the memo sheet."
       },
       {
         "text": "'Doesn't everyone want Gangnam if they have the money?'",
-        "result_text": "Im Sangchul chuckled.\n'Never seen someone who answered that way actually make it.'\n'If Gangnam is the goal, you won't get there. Only people who use Gangnam as a means do.'\nDidn't know what that meant then. Left with just the business card."
+        "result_text": "Im Sangchul chuckles.\n'Never seen someone who answered that way actually make it.'\n'If Gangnam is the goal, you won't get there. Only people who use Gangnam as a means do.'\n{name} does not know yet what that means. He leaves with just the business card."
       },
       {
         "text": "Honest — 'Because I refuse to lose. To this city.'",
-        "result_text": "Im Sangchul set down his coffee.\n'...I said the same thing thirty years ago. Coming up from South Chungcheong Province.'\n'That stubbornness got me this far. Two buildings. But I also lost a lot.'\n'You — don't lose anything. If you're going, go without losing.'\nThere was a weight in that."
+        "result_text": "Im Sangchul sets down his coffee.\n'...I said the same thing thirty years ago. Coming up from South Chungcheong Province.'\n'That stubbornness got me this far. Two buildings. But I also lost a lot.'\n'You — don't lose anything. If you're going, go without losing.'"
       }
     ]
   },
   {
     "id": "arc_jiyeon_01_crash",
     "title": "Contact",
-    "description": "At dusk in spring rain, on a back road in Sinchon. {name} was riding a secondhand bicycle to save on transit fares.\n\nA black sedan swung around the corner and clipped the front wheel. {name} fell onto the rain-slick road.\n\nA woman who looked to be in her early thirties stepped out. Her long black hair and tailored suit were getting soaked.\n\n\"Oh no—are you okay? I'm so sorry. You should see a doctor—\"\n\n{name} checked the bicycle. The front wheel was bent, and his knee was bleeding a little.\nThere were still things to finish before the day was over. He could not afford to spend much longer in the road.",
+    "description": "At dusk in spring rain, on a back road in Sinchon. {name} is riding a secondhand bicycle to save on transit fares.\n\nA black sedan swings around the corner and clips the front wheel. {name} falls onto the rain-slick road.\n\nA woman who looks to be in her early thirties steps out. Her long black hair and tailored suit are getting soaked.\n\n\"Oh no—are you okay? I'm so sorry. You should see a doctor—\"\n\n{name} checks the bicycle. The front wheel is bent, and his knee is bleeding a little.\nThere are still things to finish before the day is over. He cannot afford to spend much longer in the road.",
     "choices": [
       {
         "text": "'I'm fine.' — Just leave.",
-        "result_text": "Without compensation or contact information, {name} wheeled the bent bicycle away.\nHe did not look back.\n\nThe woman remained where she was and watched him disappear down the road."
+        "result_text": "Without compensation or contact information, {name} wheels the bent bicycle away.\nHe does not look back.\n\nThe woman remains where she is and watches him disappear down the road."
       },
       {
         "text": "Show the bent wheel — 'Just the repair cost, please.'",
-        "result_text": "She took one 50,000 won note and three 10,000 won notes from her wallet without hesitation.\n'Is that enough? If not—'\n'It's fine.'\n\n{name} pocketed the 80,000 won and wheeled the bent bicycle away. The crumpled bills and bent wheel were what remained."
+        "result_text": "She takes one 50,000 won note and three 10,000 won notes from her wallet without hesitation.\n'Is that enough? If not—'\n'It's fine.'\n\n{name} pockets the 80,000 won and wheels the bent bicycle away. The crumpled bills and bent wheel are what remain."
       },
       {
         "text": "Get angry — 'You need to watch where you're driving.'",
-        "result_text": "The words he had been holding back came out. She bowed her head.\n'...I'm really sorry.'\n\nIt seemed genuine. That made it impossible to keep shouting.\n{name} sighed and wheeled the bent bicycle away.\nThe weight of her gaze lingered."
+        "result_text": "The words he has been holding back come out. She bows her head.\n'...I'm really sorry.'\n\nIt seems genuine. That makes it impossible to keep shouting.\n{name} sighs and wheels the bent bicycle away.\nThe weight of her gaze lingers."
       }
     ],
-    "description_orthodox": "At dusk in spring rain, on a back road in Sinchon. {name} was riding a secondhand bicycle to save on transit fares.\n\nA black sedan came around the corner and clipped the front wheel. {name} fell onto the rain-slick road. His knee bled, and the front wheel bent.\n\nThe car door opened. A woman who looked to be in her early thirties stepped out into the rain, visibly shaken.\n\"You should really see a doctor—\"\n\n{name} tallied the wheel repair, the time a hospital visit would take, and the work still left today. He could not afford to spend much longer in the road.",
-    "description_unorthodox": "One rainy spring evening, on a back road in Sinchon. {name} was riding a secondhand bicycle to save on transit fares.\n\nA black sedan came around the corner and clipped the front wheel. The impact sent {name} down onto the rain-slick road.\n\nGetting up, {name} caught the plate. A foreign car. A woman who looked to be in her early thirties stepped out and looked between his knee and the bicycle.\n\n\"You should really see a doctor—\"\n\n{name} checked the hours left in the day and the bent front wheel. She had caused the collision; now he had to decide what to ask for."
+    "description_orthodox": "At dusk in spring rain, on a back road in Sinchon. {name} is riding a secondhand bicycle to save on transit fares.\n\nA black sedan comes around the corner and clips the front wheel. {name} falls onto the rain-slick road. His knee bleeds, and the front wheel bends.\n\nThe car door opens. A woman who looks to be in her early thirties steps out into the rain, visibly shaken.\n\"You should really see a doctor—\"\n\n{name} tallies the wheel repair, the time a hospital visit would take, and the work still left today. He cannot afford to spend much longer in the road.",
+    "description_unorthodox": "One rainy spring evening, on a back road in Sinchon. {name} is riding a secondhand bicycle to save on transit fares.\n\nA black sedan comes around the corner and clips the front wheel. The impact sends {name} down onto the rain-slick road.\n\nGetting up, {name} catches the plate. A foreign car. A woman who looks to be in her early thirties steps out and looks between his knee and the bicycle.\n\n\"You should really see a doctor—\"\n\n{name} checks the hours left in the day and the bent front wheel. She has caused the collision; now he has to decide what to ask for."
   },
   {
     "id": "arc_jiyeon_02_store",
     "title": "You Again",
-    "description": "Late at night, at a bus stop near Sinchon Station. The rain had just let up.\n\nA black sedan eased to the edge of the wet road. The driver's door opened and a woman stepped out.\n\nIt was the driver who had hit the bicycle.\n\nShe recognized {name} too. Her eyes widened.\n\"...Wait. You're the one from that day, aren't you?\"\n\nThe arrival time changed on the bus display. This time there was no counter, and no one else between them.",
+    "description": "Late at night, at a bus stop near Sinchon Station. The rain has just let up.\n\nA black sedan eases to the edge of the wet road. The driver's door opens and a woman steps out.\n\nIt is the driver who hit the bicycle.\n\nShe recognizes {name} too. Her eyes widen.\n\"...Wait. You're the one from that day, aren't you?\"\n\nThe arrival time changes on the bus display. This time there is no counter, and no one else between them.",
     "description_memory_if_known": {
       "bicycle_repaired_with_jiyeon_cash": "The day after the crash, {name} spent all 80,000 won on the repair. The new front wheel no longer pulled to one side.",
       "bicycle_repaired_after_delay": "{name} put off the repair for a while, but eventually used the 80,000 won from the crash to replace the front wheel.",
@@ -188,11 +188,11 @@
     "choices": [
       {
         "text": "Pretend not to recognize her and watch the bus display",
-        "result_text": "{name} kept his eyes on the display.\n\nThe woman took one step closer first.\n\"Excuse me. Has the bicycle been okay since that day? It kept bothering me.\"\n\nOnly then did {name} turn. An awkward silence passed.\n\"I'm Han Jiyeon. I thought I should at least tell you my name.\"\n\nBus headlights spread across the wet road in the distance."
+        "result_text": "{name} keeps his eyes on the display.\n\nThe woman takes one step closer first.\n\"Excuse me. Has the bicycle been okay since that day? It kept bothering me.\"\n\nOnly then does {name} turn. An awkward silence passes.\n\"I'm Han Jiyeon. I thought I should at least tell you my name.\"\n\nBus headlights spread across the wet road in the distance."
       },
       {
         "text": "\"You were driving that day, right?\" Speak first",
-        "result_text": "The tension left her face.\n\"You remember. What happened that day kept bothering me.\"\n\"There was no need to go looking for me.\"\n\"Still, if we met again, I wanted to introduce myself properly.\"\n\nShe hesitated, then held out a hand.\n\"I'm Han Jiyeon. I wanted to at least give you my name this time.\"\n\nFor the first time, there was a name between them."
+        "result_text": "The tension leaves her face.\n\"You remember. What happened that day kept bothering me.\"\n\"There was no need to go looking for me.\"\n\"Still, if we met again, I wanted to introduce myself properly.\"\n\nShe hesitates, then holds out a hand.\n\"I'm Han Jiyeon. I wanted to at least give you my name this time.\"\n\nFor the first time, there is a name between them."
       }
     ]
   },
@@ -450,11 +450,11 @@
     "choices": [
       {
         "text": "Block the number and put the phone face down",
-      "result_text": "{name} blocked the number and flipped the phone face-down.\nThe two million won never arrived, and rent day kept approaching.\n\nHe remembered the six years he had spent repaying debt caused by his father's bad loan guarantee. {name} picked up the phone again and looked for work he could take the next day."
+      "result_text": "{name} blocks the number and flips the phone face-down.\nThe two million won never arrives, and rent day keeps approaching.\n\nHe remembers the six years he spent repaying debt caused by his father's bad loan guarantee. {name} picks up the phone again and looks for work he can take the next day."
       },
       {
         "text": "Hand over the bankbook, card, and PIN for 2,000,000 won cash",
-        "result_text": "His reply brought a subway-locker number. {name} sealed the bankbook and debit card in an envelope, left it in the locker, and sent the requested PIN by text.\n\nAn hour later, an envelope holding two million won in cash waited in the same locker. Back in his room, {name} counted the bills.\nHe did not ask who would send money into the account."
+        "result_text": "His reply brings a subway-locker number. {name} seals the bankbook and debit card in an envelope, leaves it in the locker, and sends the requested PIN by text.\n\nAn hour later, an envelope holding two million won in cash waits in the same locker. Back in his room, {name} counts the bills instead of checking the account history."
       }
     ]
   },
@@ -464,15 +464,15 @@
     "choices": [
       {
         "text": "Let out a long breath. I go my own way",
-      "result_text": "{name} let out a long breath.\n\nHis name was not in the news chyron. He checked the block list and set the phone down.\n\nRent day had not moved, but there was no reason to restore that number."
+        "result_text": "{name} lets out a long breath.\n\nHis name is not in the news chyron. He checks the block list and sets the phone down."
       }
     ],
-  "description": "A month later, at night, he was watching the news in the room where he currently lived when a chyron scrolled past.\n\n'Burner-account recruitment ring arrested — dozens of account holders charged. Up to five years in prison or a fine of 30 million won.'\n\nThat night, the number he'd blocked came back to him.\nSo did the two million won he'd turned down.\n\nHe lay there a long while with the screen gone dark. If he had handed over his bankbook and debit card, he might now be waiting for a call from the police.\n\n{name} opened the block list, then closed it."
+  "description": "A month later, at night, he is watching the news in the room where he currently lives when a chyron scrolls past.\n\n'Burner-account recruitment ring arrested — dozens of account holders charged. Up to five years in prison or a fine of 30 million won.'\n\nThat night, the number he blocked comes back to him.\nSo does the offer of two million won he turned down.\n\nHe lies there a long while with the screen gone dark. If he had handed over his bankbook and debit card, he might now be waiting for a call from the police.\n\n{name} opens the block list, then closes it."
   },
   {
     "id": "arc_temptation_fallout",
     "title": "A Return Request on the Account He Lent Out",
-    "description": "A month later, out in the rain, the bank's fraud-response team called.\n\"A request has been filed to return thirty million won in fraud proceeds transferred into an account under your name. The police may contact you as well.\"\n\nIt was the account {name} had lent out.\nSomeone's entire savings had passed through it.\n\nThe next day, the recruiter texted from another number.\n\"Hyungnim, you ran that clean. Get me a few more accounts and\nI'll throw in another million per. You've already got your foot in anyway.\"",
+    "description": "A month later, out in the rain, the bank's fraud-response team calls.\n\"A request has been filed to return thirty million won in fraud proceeds transferred into an account under your name. The police may contact you as well.\"\n\nIt is the account {name} lent out.\nSomeone's entire savings passed through it.\n\nThe next day, the recruiter texts from another number.\n\"Hyungnim, you ran that clean. Get me a few more accounts and\nI'll throw in another million per. You've already got your foot in anyway.\"",
     "choices": [
       {
       "text": "Block every recruiter number and agree to return 1.5 million won of what he received",
@@ -803,24 +803,24 @@
   {
     "id": "arc_father_01_call",
     "title": "The Call",
-    "description": "The phone rang. Dad.\n\n\"You doing all right.\" \"Yeah.\" \"You eating.\" \"I am.\" \"Good.\"\n\nDad is in Changwon. He has worked at the factory his whole life.\nHe signed a bad loan guarantee and the other party vanished. {name} spent six years paying the debt that remained. Neither of them brings it up.\n\nNormally the call would end here, but neither of them hangs up. Only the faint television on Dad's end fills the silence.",
+    "description": "The phone rings. Dad.\n\n\"You doing all right.\" \"Yeah.\" \"You eating.\" \"I am.\" \"Good.\"\n\nDad spent his working life in a factory in Changwon. After he signed a bad loan guarantee, the other party vanished, and {name} spent six years paying the debt that remained. Neither of them brings it up.\n\nNormally the call would end here, but neither of them hangs up. Only the faint television on Dad's end fills the silence.",
     "choices": [
       {
         "text": "\"Yeah. You too?\"",
-        "result_text": "\"Ate.\"\n\nA long silence. {name} hung up first.\nSpent thirty seconds after the call trying to think of what to say.\n\nWhy nothing ever comes out during the call.\nMaybe because just hearing the voice already says everything."
+        "result_text": "\"Ate.\"\n\nAfter a long silence, {name} hangs up first. He sets the phone down and stares at the ceiling for thirty seconds."
       },
       {
         "text": "\"Yeah. Dad, I think things are going to work out.\"",
-        "result_text": "\"...Yeah?\"\nDad's voice shifted slightly. In that one short word.\n\nAfter hanging up, {name} thought:\nThere's still so much left to show him. And time isn't endless."
+        "result_text": "\"...Yeah?\"\nDad's voice shifts slightly.\n\nEven after the call ends, {name} keeps looking down at the dark screen."
       },
       {
       "text": "Fail to ask anything more and hang up quickly",
-        "result_text": "Call duration: 23 seconds.\n\"How are you.\" \"Fine.\" \"Okay, hang up then.\"\n\n{name} put the phone down and stared at the ceiling.\nToo many things that couldn't fit into 23 seconds."
+        "result_text": "Call duration: 23 seconds.\n\"How are you.\" \"Fine.\" \"Okay, hang up then.\"\n\n{name} puts the phone down and stares at the ceiling for a while."
       }
     ],
-    "description_orthodox": "The phone rang. Dad.\n\"You doing all right.\" \"Yeah.\" \"You eating.\" \"I am.\" \"Good.\"\n\nDad does not hang up after the short answers. {name} searches for something he can ask now, rather than saving it for next time.",
-    "description_unorthodox": "The phone rang. Dad.\n\"You doing all right.\" \"Yeah.\" \"You eating.\" \"I am.\" \"Good.\"\n\nFor six years, their calls have sounded much the same. Today Dad still does not hang up first. {name} keeps the phone to his ear and chooses what to say next.",
-    "description_low_mental": "The phone rang. Dad.\n\"You doing all right.\" \"Yeah.\" \"You eating.\" \"I am.\" \"Good.\"\n\nDad sounds a little different today. Or maybe he does not. The call is still connected, and {name} cannot decide what to ask."
+    "description_orthodox": "The phone rings. Dad.\n\"You doing all right.\" \"Yeah.\" \"You eating.\" \"I am.\" \"Good.\"\n\nDad does not hang up after the short answers. {name} searches for something he can ask now, rather than saving it for next time.",
+    "description_unorthodox": "The phone rings. Dad.\n\"You doing all right.\" \"Yeah.\" \"You eating.\" \"I am.\" \"Good.\"\n\nFor six years, their calls have sounded much the same. Today Dad still does not hang up first. {name} keeps the phone to his ear and chooses what to say next.",
+    "description_low_mental": "The phone rings. Dad.\n\"You doing all right.\" \"Yeah.\" \"You eating.\" \"I am.\" \"Good.\"\n\nDad sounds a little different today. Or maybe he does not. The call is still connected, and {name} cannot decide what to ask."
   },
   {
     "id": "arc_father_02_signal",

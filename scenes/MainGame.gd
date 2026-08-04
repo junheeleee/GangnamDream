@@ -14455,7 +14455,7 @@ const JOB_HUNT_VIGNETTES := [
 ]
 
 const SIDE_JOB_VIGNETTES_CONVENIENCE := [
-	{"t":"추가 야간 시프트. 새벽 세 시, 손님이 없었다. 그 시간이 가장 길었다.", "et":"An extra night shift. No customers at 3 AM. That hour felt the longest."},
+	{"t":"추가 야간 시프트. 새벽 3시, 손님이 없었다. 그 시간이 가장 길었다.", "et":"An extra night shift. No customers at 3 AM. That hour felt the longest."},
 	{"t":"새벽 물류 상자를 한 번 더 날랐다. 손목이 먼저 오늘을 기억했다.", "et":"Hauled another dawn delivery of boxes. My wrists remembered the day first."},
 	{"t":"교대자가 오자 카운터를 넘겼다. 이번 주 통장에 찍힐 하루가 하나 늘었다.", "et":"Handed the counter to the next shift. One more day's pay would land this week."},
 ]

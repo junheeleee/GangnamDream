@@ -2,19 +2,19 @@
   {
     "id": "cafe_00",
     "title": "Gangnam Café",
-    "description": "{name} ordered a 6,500 won americano.\nJust once, {name} wanted to sit in a Gangnam café\nwhere people talked about sums far beyond the price of coffee.\n\nNext table. A man in a suit, on a call.\n\"This is the last entry pass in the zone. If you don't lock it in today, it's gone.\nRedevelopment's confirmed. ...Yes, 50 million won cash is enough.\"\n\n{name}'s ear drifted over on its own.",
+    "description": "{name} orders a 6,500 won americano.\nJust once, {name} wants to sit in a Gangnam café\nwhere people talk about sums far beyond the price of coffee.\n\nNext table. A man in a suit, on a call.\n\"This is the last entry pass in the zone. If you don't lock it in today, it's gone.\nRedevelopment's confirmed. ...Yes, 50 million won cash is enough.\"\n\n{name}'s ear drifts over on its own.",
     "choices": [
       {
         "text": "Keep listening. Quietly.",
-        "result_text": "He didn't notice. The numbers lodged themselves one by one in {name}'s head."
+        "result_text": "He does not notice. The numbers lodge themselves one by one in {name}'s head."
       },
       {
         "text": "Tune it out. Focus on the resume.",
-        "result_text": "{name} filled in the blanks on his résumé, but the voices at the next table kept catching his ear."
+        "result_text": "{name} fills in the blanks on his résumé, but the voices at the next table keep catching his ear."
       },
       {
         "text": "The seat is uncomfortable. Just leave.",
-        "result_text": "{name} got up and left the cold coffee behind.\nThere was no way to know what the man had been discussing or what the papers might have led to.\nThat day ended with {name} walking out of the café."
+        "result_text": "{name} gets up and leaves the cold coffee behind.\nWhen the café door closes, the voice at the next table cuts off."
       }
     ]
   },
@@ -25,67 +25,67 @@
     "choices": [
       {
         "text": "Flip the folder open. Just a peek.",
-        "result_text": "Sale prices, floor areas, contact numbers. Figures stamped in red caught his eye."
+        "result_text": "Sale prices, floor areas, contact numbers. Figures stamped in red catch his eye."
       },
       {
         "text": "Wait for him to come back. Say something.",
-        "result_text": "{name} sat and waited for the man to come back. His heart beat a little faster."
+        "result_text": "{name} sits and waits for the man to come back. His heart beats a little faster."
       },
       {
         "text": "Pretend not to notice. Drink the coffee.",
-      "result_text": "Heard it — but that's as far as it goes.\n{name} left the folder closed and drank the coffee.\nOnly a name and a few words stayed lodged in the back of the mind."
+      "result_text": "He hears it — but that's as far as it goes.\n{name} leaves the folder closed and drinks the coffee.\nOnly a name and a few words stay lodged in the back of the mind."
       }
     ]
   },
   {
     "id": "cafe_peek_01",
     "title": "What Was Stolen",
-    "description": "The folder opens. Pricing, unit sizes, and a contact —\n\"Manager Kim 010-XXXX-XXXX.\" A red stamp: CONFIRMED.\n{name} memorized the number.\n\nThen a shadow falls.\nThe man returns — and looks back and forth between {name} and the open folder.\n\"...What exactly are you doing?\"",
+    "description": "The folder opens. Pricing, unit sizes, and a contact —\n\"Manager Kim 010-XXXX-XXXX.\" A red stamp: CONFIRMED.\n{name} memorizes the number.\n\nThen a shadow falls.\nThe man returns — and looks back and forth between {name} and the open folder.\n\"...What exactly are you doing?\"",
     "choices": [
       {
         "text": "Be honest. Apologize. \"Sorry — I was just very interested.\"",
-        "result_text": "{name} lowered his head. The man was quiet for a moment. An unexpected expression crossed his face."
+        "result_text": "{name} lowers his head. The man is quiet for a moment. An unexpected expression crosses his face."
       },
       {
         "text": "Look away. Act like nothing happened.",
-        "result_text": "\"Oh, sorry — I thought this was my table.\"\n{name} smiled awkwardly and looked away.\nThe man gathered the folder with a suspicious look and left.\n\nBut the number — stayed in {name}'s head.\nWhether to use it or not, that was a problem for later."
+        "result_text": "\"Oh, sorry — I thought this was my table.\"\n{name} smiles awkwardly and looks away.\nThe man gathers the folder with a suspicious look and leaves.\n\nEven after the folder disappears, the number remains in {name}'s head."
       }
     ]
   },
   {
     "id": "cafe_caught_honest",
     "title": "Caught Honest",
-  "description": "{name} bowed their head.\n\"I'm unemployed. I don't have much to my name.\nBut I want to be here someday — that's why I looked.\nI'm sorry.\"\n\nThe man stared for a long moment. Then let out a short laugh.\n\"You're insane. But that look in your eyes — it's the same as mine, back then.\"",
+  "description": "{name} bows their head.\n\"I'm unemployed. I don't have much to my name.\nBut I want to be here someday — that's why I looked.\nI'm sorry.\"\n\nThe man stares for a long moment. Then he lets out a short laugh.\n\"You're insane. But that look in your eyes — it's the same as mine, back then.\"",
     "choices": [
       {
         "text": "\"May I ask you just one thing?\"",
-      "result_text": "The man set a business card on the table.\n\"Get educated first. Giving opportunities to unprepared people is how accidents happen.\nWhen you're actually ready, call. Otherwise delete the number.\"\n\n{name} received the card with both hands, checked the name and number, and slipped it into the notebook. The man had handed over this contact himself."
+      "result_text": "The man sets a business card on the table.\n\"Get educated first. Giving opportunities to unprepared people is how accidents happen.\nWhen you're actually ready, call. Otherwise delete the number.\"\n\n{name} receives the card with both hands, checks the name and number, and slips it into the notebook. The contact comes directly from the man."
       }
     ]
   },
   {
     "id": "cafe_talk_01",
     "title": "Speaking Up",
-    "description": "The man returns. {name} gathers the nerve.\n\"Excuse me — what you were talking about just now... I'd like to hear more.\"\n\nThe man sizes {name} up with guarded eyes.\nOld puffer jacket. Worn sneakers. A cold americano, one cup.\n\"...What do you do?\"",
+    "description": "The man returns. {name} gathers the nerve.\n\"Excuse me — what you were talking about just now... I'd like to hear more.\"\n\nThe man sizes {name} up with guarded eyes.\nOld puffer jacket. Worn sneakers. An americano gone cold.\n\"...What do you do?\"",
     "choices": [
       {
         "text": "Honest. \"I'm unemployed. I want to learn.\"",
-        "result_text": "When {name} finished, the man's gaze changed. He looked him up and down again."
+        "result_text": "When {name} finishes, the man's gaze changes. He looks him up and down again."
       },
       {
         "text": "Play it up. \"I do a bit of this kind of work myself.\"",
-        "result_text": "The man nodded, then looked over {name} again as if he had already caught the lie."
+        "result_text": "The man nods, then looks over {name} again as if he has already caught the lie."
       }
     ]
   },
   {
     "id": "cafe_humble",
     "title": "Lowering the Bar",
-  "description": "\"Unemployed. But I can't keep living like this —\nso I came all the way to Gangnam, ordered one coffee, and sat down trying to learn something.\"\n\nThe man laughed incredulously. Then turned his chair around.\n\"Someone in a worn padded jacket is trying to get in on a 50 million won deal.\nBut fine — you've got time on your hands. Ten minutes. I'll talk for ten minutes.\"",
+  "description": "\"Unemployed. But I can't keep living like this —\nso I came all the way to Gangnam, bought a coffee, and sat down trying to learn something.\"\n\nThe man laughs incredulously. Then he turns his chair around.\n\"Someone in a worn padded jacket is trying to get in on a 50 million won deal.\nBut fine — you've got time on your hands. Ten minutes. I'll talk for ten minutes.\"",
     "choices": [
       {
         "text": "Listen. Every word.",
-      "result_text": "Ten minutes became thirty.\nGap investments, leverage, entry rights, premiums —\n{name} copied the unfamiliar real-estate terms into the notebook.\n\nThe man gave no business card and no name. Even so, the numbers and terms remained on the page."
+      "result_text": "Ten minutes becomes thirty.\nGap investments, leverage, entry rights, premiums —\n{name} copies the unfamiliar real-estate terms into the notebook.\n\nThe man gives no business card and no name. Even so, the numbers and terms remain on the page."
       }
     ]
   },
@@ -96,48 +96,48 @@
     "choices": [
       {
         "text": "Bluff through it. Throw out a number.",
-        "result_text": "\"About 200 million or so...\" {name}'s words tangled. The man seemed to catch it at once."
+        "result_text": "\"About 200 million or so...\" {name}'s words tangle. The man seems to catch it at once."
       },
       {
         "text": "Cave. \"...I don't actually know. I'm sorry.\"",
-        "result_text": "{name} couldn't lift his head. But strangely, after a moment, the man smiled."
+        "result_text": "{name} cannot lift his head. But strangely, after a moment, the man smiles."
       }
     ]
   },
   {
     "id": "cafe_bluff_caught",
     "title": "Caught",
-    "description": "\"Around... 200 million won?\" {name} tossed out a random number.\nThe man scoffed.\n\"Five hundred minus the 350 million deposit and 100 million loan is 50 million. Kid, do the math before you pretend you know this.\"\n\nPeople at nearby tables glance over.\n{name}'s face burns. One number was enough to expose the bluff.",
+    "description": "\"Around... 200 million won?\" {name} tosses out a random number.\nThe man scoffs.\n\"Five hundred minus the 350 million deposit and 100 million loan is 50 million. Kid, do the math before you pretend you know this.\"\n\nPeople at nearby tables glance over.\n{name}'s face burns. One number is enough to expose the bluff.",
     "choices": [
       {
         "text": "Escape the café.",
-        "result_text": "{name} walked out with the coffee barely touched.\nThe winter air hit the burning cheeks.\nThe failed calculation stayed in {name}'s head all the way home. The notebook came out, and {name} subtracted each figure from 500 million again."
+        "result_text": "{name} walks out with the coffee barely touched.\nThe winter air hits the burning cheeks.\nThe failed calculation stays in {name}'s head all the way home. The notebook comes out, and {name} subtracts each figure from 500 million again."
       }
     ]
   },
   {
     "id": "cafe_bluff_recover",
     "title": "After Falling",
-    "description": "{name}'s head dropped.\n\"...I'm sorry. I don't know any of it.\nI was just so desperate — I pretended to know.\"\n\nThe man was quiet for a moment, then let out a short breath.\n\"First time I've seen someone admit it that quickly after a bluff.\nThat's better. Remember one thing.\nIf you don't know, say so. At least you won't lose money for saying that.\"",
+    "description": "{name}'s head drops.\n\"...I'm sorry. I don't know any of it.\nI was just so desperate — I pretended to know.\"\n\nThe man is quiet for a moment, then lets out a short breath.\n\"First time I've seen someone admit it that quickly after a bluff.\nThat's better. Remember one thing.\nIf you don't know, say so. At least you won't lose money for saying that.\"",
     "choices": [
       {
-        "text": "Take those words to heart.",
-        "result_text": "The man left without another word.\nNo business card. No name.\n{name} wrote one line in the notebook.\n'Don't pretend to know a number you don't understand.'"
+        "text": "Write those words in the notebook.",
+        "result_text": "The man leaves without another word.\nNo business card. No name.\n{name} writes one line in the notebook.\n'Don't pretend to know a number you don't understand.'"
       }
     ]
   },
   {
     "id": "cafe_mind_01",
     "title": "The Time of an Americano",
-    "description": "{name} ignored the next table and stared at the resume.\nSix years of blank. How to fill that gap in words — no idea.\n\nTwo hours in. The coffee had long since gone.\nThen a part-timer quietly approached and refilled the cup.\n\"...You've been here a while. On the house. It's cold, so — warm one.\"\nA stranger's small kindness left {name} briefly stunned.",
+    "description": "{name} ignores the next table and stares at the resume.\nSix years of blank. How to fill that gap in words — no idea.\n\nTwo hours in. The coffee is long gone.\nThen a part-timer quietly approaches and refills the cup.\n\"...You've been here a while. On the house. It's cold, so — warm one.\"\nA stranger's small kindness leaves {name} briefly stunned.",
     "choices": [
       {
         "text": "Thank them. Sincerely.",
-        "result_text": "\"...Thank you. Really.\"\n{name}'s eyes stung while holding the warm paper cup.\n\n{name} drank the coffee and filled in the last blank on the résumé. That was enough for the day."
+        "result_text": "\"...Thank you. Really.\"\nThe warmth of the paper cup makes {name}'s eyes sting.\n\n{name} drinks the coffee and fills in the last blank on the résumé. That is enough for the day."
       },
       {
         "text": "Get flustered. Leave without saying much.",
-        "result_text": "{name} murmured a thank-you and got up.\nThe warmth of the paper cup lingered in the hand all the way home."
+        "result_text": "{name} murmurs a thank-you and gets up.\nThe warmth of the paper cup lingers in the hand all the way home."
       }
     ]
   }

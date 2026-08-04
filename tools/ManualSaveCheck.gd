@@ -841,7 +841,7 @@ func _check_first_bill_rest_clamp_snapshot_and_replay() -> void:
 	var ledger_text := _current_story_text()
 	_expect(ledger_text.contains("끝낸 일 — 아버지") \
 			and ledger_text.contains("미룬 일 — 알람을 맞추고 누워 쉬지 못했다") \
-			and ledger_text.contains("마감을 놓친 일 — 오후 6시 30분") \
+			and ledger_text.contains("마감을 놓친 일 — 18:30") \
 			and GameState.serialize() == replay_state_before \
 			and MetaProgression.data == replay_meta_before,
 		"Read-only ledger did not render the alternate local done/deferred partition")

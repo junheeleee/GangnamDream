@@ -1080,7 +1080,7 @@ def validate_demo_speech_contract(
     city_ko_text = json.dumps(city_ko, ensure_ascii=False)
     city_en_text = json.dumps(city_en, ensure_ascii=False)
     if (
-        city_ko_text.count("6월 26일 금요일 오후 6시") != 2
+        city_ko_text.count("6월 26일 금요일 18:00") != 2
         or "24주차 금요일 오후 6시" in city_ko_text
     ):
         fail("City work-sample copy must expose the June 26 calendar deadline", errors)
@@ -8272,7 +8272,7 @@ def main() -> int:
     ).lower()
     if not any(
         proof in english_father_description
-        for proof in ("called his father", "tapped his father's number")
+        for proof in ("called his father", "taps his father's number")
     ):
         fail(
             "English Father quiet-call scene no longer proves Minjun placed the call",
@@ -8576,7 +8576,7 @@ def main() -> int:
         or english_temptation_reject.get("text")
         != "Block the number and put the phone face down"
         or not str(english_temptation_reject.get("result_text", "")).startswith(
-            "{name} blocked the number and flipped the phone face-down."
+            "{name} blocks the number and flips the phone face-down."
         )
     ):
         fail(
