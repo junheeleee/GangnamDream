@@ -12,8 +12,8 @@
 `content/meta/demo_core_loop_v2.json`, 파생 계약
 `content/meta/demo_localization_scope.json`,
 `content/meta/release_content_inventory.json`, `docs/CONTENT_RATING_INVENTORY.md`,
-영어 첫 청구서 문구를 실제 화면에서 대조하는 `tools/CoreLoopV2ECheck.gd`,
-`tools/ScreenshotQA.gd`,
+영어 문구를 실제 흐름에서 대조하는 `tools/CoreLoopV2CCheck.gd`,
+`tools/CoreLoopV2ECheck.gd`, `tools/ScreenshotQA.gd`,
 검토·사람 판정 `docs/QA_CHECKLIST.md`, `docs/human_gates.json`, 완료 기록
 `CLAUDE.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/STATUS.md`,
 `docs/RELEASE_NOTES.md`, `docs/DEMO_FIXLOG.md`, 이 사양의 활성·아카이브 경로.
@@ -33,6 +33,12 @@
 검사도 첫 청구서 아버지 답장을 옛 영어 리터럴과 비교해 중단됐다. 렌더·선택·
 결과 검증은 그대로 두고 `tools/ScreenshotQA.gd`의 해당 영어 표지만 새 정본과
 동기화하기 위해, 구현보다 먼저 선언 범위에 추가한다.
+
+**착수 후 범위 확장 3 (2026-08-04):** 13~16주 런타임 검사가 한빛 면접
+불참 문장의 옛 수동태에 든 `attended`를 정확히 요구해, 의미가 같은 자연스러운
+`misses the scheduled interview`를 거부했다. 일정·지원 상태·불참 결과 검증은
+그대로 두고 `tools/CoreLoopV2CCheck.gd`의 영어 표지만 새 정본과 동기화하기
+위해 구현보다 먼저 선언 범위에 추가한다.
 
 **사용자 승인 (2026-08-04):** `docs/DECISIONS.md`의 P-10을 권고대로 실행한다.
 일본어 화자표를 번역하지 않고 영어만의 수단인 문장 길이·완결성, 요청의 직접성,
