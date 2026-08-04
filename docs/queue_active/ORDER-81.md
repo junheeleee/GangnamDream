@@ -14,6 +14,7 @@
 > `content/meta/demo_localization_scope.json`,
 > `content/meta/release_content_inventory.json`,
 > `content/events_ja/story_events.json`,
+> `locale/ui_ja.json`,
 > `autoloads/LocaleManager.gd`, `autoloads/GameState.gd`,
 > `autoloads/ImageRegistry.gd`,
 > `scenes/MainGame.gd`, `scenes/StoryMode.gd`,
