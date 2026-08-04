@@ -46,6 +46,8 @@ const OWNED_STORY_ROOTS := [
 	"v2_dirty_recruiter_week24",
 	"v2_demo_first_bill_opening",
 	"v2_demo_first_bill",
+	"v2_m3_room_ledger_anchor",
+	"v2_m4_housing_consultation_anchor",
 ]
 const ENABLE_ARGS := [
 	"--core-loop-v2",
@@ -1099,6 +1101,23 @@ static func action_receipt(bundle_id: String) -> Dictionary:
 	var raw_receipt: Variant = state["action_receipts"].get(bundle_id, {})
 	return (raw_receipt as Dictionary).duplicate(true) \
 		if raw_receipt is Dictionary else {}
+
+## Most action+story bundles keep the atomic result card before their authored
+## beat. Only an explicit data contract lets the story own that presentation.
+## This query is intentionally side-effect free so routing and save recovery
+## can ask the same question without acknowledging or completing anything.
+static func story_owns_action_result(bundle_id: String = "") -> bool:
+	var target_id := bundle_id.strip_edges()
+	if target_id.is_empty():
+		target_id = active_bundle_id().strip_edges()
+	if target_id.is_empty():
+		return false
+	var scene_bundle := bundle(target_id)
+	var roots: Variant = scene_bundle.get("existing_roots", [])
+	return str(scene_bundle.get(
+		"action_result_presentation", "")).strip_edges() == "story_owned" \
+		and not str(scene_bundle.get("action_id", "")).strip_edges().is_empty() \
+		and roots is Array and not (roots as Array).is_empty()
 
 ## A dual-surface schedule keeps the existing atomic action as its gameplay
 ## owner, then opens an authored story beat after the action result is

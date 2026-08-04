@@ -521,6 +521,8 @@ func _core_loop_v2_route_week() -> void:
 		_core_loop_v2_advance_completed_week()
 		return
 	if DEMO_CORE_LOOP_V2.action_result_ready():
+		if _core_loop_v2_handoff_story_owned_action_result():
+			return
 		if not _core_loop_v2_restore_action_result():
 			push_error(
 				"Core Loop V2 could not restore its finalized action result")
@@ -965,6 +967,8 @@ func _core_loop_v2_submit_application(
 		push_error("Core Loop V2 application transaction failed: %s (%s)" % [
 			bundle_id, str(transaction.get("error", "unknown"))])
 		return
+	if _core_loop_v2_handoff_story_owned_action_result(bundle_id):
+		return
 	var title := _core_loop_v2_localized(action_config, "result_title")
 	if title.is_empty():
 		title = _core_loop_v2_localized(scene_bundle, "offer")
@@ -1010,6 +1014,8 @@ func _core_loop_v2_apply_instant_effect(
 		_core_loop_v2_rollback_action_bundle()
 		push_error("Core Loop V2 instant-effect transaction failed: %s (%s)" % [
 			bundle_id, str(transaction.get("error", "unknown"))])
+		return
+	if _core_loop_v2_handoff_story_owned_action_result(bundle_id):
 		return
 	var title := _core_loop_v2_localized(action_config, "result_title")
 	if title.is_empty():
@@ -1072,6 +1078,8 @@ func _core_loop_v2_take_recovery(
 			str(scene_bundle.get("action_id", "rest")),
 			str(transaction.get("error", "unknown")),
 		])
+		return
+	if _core_loop_v2_handoff_story_owned_action_result():
 		return
 	var title := _core_loop_v2_localized(action_config, "result_title")
 	if title.is_empty():
@@ -1833,6 +1841,31 @@ func _core_loop_v2_finish_action_week() -> void:
 		push_error("Core Loop V2 action bundle has no completion receipt")
 		return
 	_core_loop_v2_advance_completed_week()
+
+## The atomic action already owns AP, effects, axis, and its durable receipt.
+## These two opt-in scenes own only how that result is experienced, so they
+## acknowledge the presentation flag and enter StoryMode without a duplicate
+## result card, log line, sound, or vignette.
+func _core_loop_v2_handoff_story_owned_action_result(
+		bundle_id: String = "") -> bool:
+	var target_id := bundle_id.strip_edges()
+	if target_id.is_empty():
+		target_id = DEMO_CORE_LOOP_V2.active_bundle_id().strip_edges()
+	if not DEMO_CORE_LOOP_V2.story_owns_action_result(target_id):
+		return false
+	if not DEMO_CORE_LOOP_V2.action_result_ready() \
+			or DEMO_CORE_LOOP_V2.action_story_stage(target_id) != "story":
+		push_error(
+			"Core Loop V2 story-owned result lost its finalized bridge: %s"
+			% target_id)
+		return true
+	if not DEMO_CORE_LOOP_V2.acknowledge_action_story_result(target_id):
+		push_error(
+			"Core Loop V2 story-owned result could not be acknowledged: %s"
+			% target_id)
+		return true
+	_core_loop_v2_begin_story_bundle(target_id, "schedule")
+	return true
 
 func _core_loop_v2_restore_action_result() -> bool:
 	var receipt := DEMO_CORE_LOOP_V2.recover_action_result()
@@ -4188,6 +4221,8 @@ func _begin_month():
 	if DEMO_CORE_LOOP_V2.is_active() \
 			and DEMO_CORE_LOOP_V2.action_result_ready():
 		turn_action_log.clear()
+		if _core_loop_v2_handoff_story_owned_action_result():
+			return
 		if not _core_loop_v2_restore_action_result():
 			# Never route a finalized result back through its executor. A bad
 			# receipt is safer as an explicit load error than duplicated money,

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-08-03",
+  "updated": "2026-08-04",
   "scope": "Factual release-content evidence for the current source and uploaded package; not a rating or legal opinion.",
   "decision_boundary": {
     "final_age_rating": "user_required",
@@ -102,16 +102,16 @@
   "corpus_contract": {
     "ko_event_files": 127,
     "en_event_files": 127,
-    "ko_events": 1599,
-    "en_events": 1599,
-    "event_ids_sha256": "ca632183f503c9cd841a597a4c147feea0bcab9acb1c93e0a5d730bccc42ba9c",
+    "ko_events": 1601,
+    "en_events": 1601,
+    "event_ids_sha256": "1b242036daa73f5ff0b37c16114214bbeb8d5e82e8da554f69f04a3dbd81933d",
     "ko_endings": 35,
     "en_endings": 35,
     "ending_ids_sha256": "3c26984721dc1ee6a18d472b854b30578982f43632d05a3d004ad99cb247c118",
     "ending_content_sha256": "32ea94755971c459f74f5a3bae80151a077c9eb781277fee7fda58879b1045f1",
-    "active_art_assets": 248,
-    "source_raster_assets": 294,
-    "packaged_raster_assets": 286,
+    "active_art_assets": 249,
+    "source_raster_assets": 295,
+    "packaged_raster_assets": 287,
     "registry_external_source_raster_assets": 46,
     "registry_external_packaged_raster_assets": 38,
     "source_only_gdignored_raster_assets": 8,
@@ -219,14 +219,14 @@
     "runtime_dynamic_roots": ["v2_dirty_recruiter_week24", "v2_dirty_trace_initial_call", "v2_hyunsu_exam_morning_echo"],
     "fresh_start_prologue_root": "story_flashforward",
     "fresh_start_chapter_root": "chapter_card_33",
-    "week_1_24_event_count": 57,
-    "week_1_24_event_ids_sha256": "3074eef14540f0b3e7d4afa519a35ef45bbb7ef983d1b80a128fff68fd2d63f2",
+    "week_1_24_event_count": 59,
+    "week_1_24_event_ids_sha256": "cf940c0250fd45b713b9d17a1fa5d6cc2fe5b388868a170c6f1e548f66c00ce6",
     "prologue_event_count": 12,
     "prologue_event_ids_sha256": "729252866015f61b915170eb8da2813b621dde73ca936c63fb3a161ebc5b5363",
     "chapter_event_count": 1,
     "chapter_event_ids_sha256": "d0d8c63ac3d70ac9db0fba6d550fa61f86d906f660c322b87593a639eb18a9a8",
-    "fresh_start_event_count": 70,
-    "fresh_start_event_ids_sha256": "6fc0201327e2510e68ea5bad60693a38e6a21fefcc071455b5fb455314dbd1ce"
+    "fresh_start_event_count": 72,
+    "fresh_start_event_ids_sha256": "4a962697dfc59c531d4a111d2717609e1f318cfd86f49f87bb5f4a20b3510c49"
   },
   "network_contract": {
     "runtime_roots": ["autoloads", "scenes", "systems", "ui_components"],
@@ -358,7 +358,7 @@
         "tokens_ko": ["키스", "입을 맞", "첫날밤", "첫밤", "침대 위", "밤의 나머지", "불을 껐", "서로를 원"],
         "tokens_en": ["kiss", "first night", "on the bed", "rest of the night", "turned off the light", "wanted each other"],
         "reviewed_search_noise_ids": [],
-        "expected_event_count": 118, "expected_file_count": 25, "expected_ids_sha256": "cf4f957a1974afe110f23454250738e058bee25ed0b7ab93617196deae2a2919", "expected_content_sha256": "4c1b18be995d039afa0611fcaa853487e654593290098977346689f684420d5b"
+        "expected_event_count": 118, "expected_file_count": 25, "expected_ids_sha256": "cf4f957a1974afe110f23454250738e058bee25ed0b7ab93617196deae2a2919", "expected_content_sha256": "6ca8e1128da233cf18b7a17505b34dea6d484445b4baf4da857986543b169b00"
       },
       "facts": [
         {

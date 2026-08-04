@@ -782,6 +782,8 @@ func _check_c_action_contracts_and_roundtrips() -> void:
 	for raw_bundle_id in C_ACTIONS:
 		var bundle_id := str(raw_bundle_id)
 		var scene_bundle := CORE_LOOP.bundle(bundle_id)
+		var expected_story_owned := (
+			bundle_id == "m4_housing_welfare_consultation")
 		var config: Dictionary = (
 			(scene_bundle.get("action_config", {}) as Dictionary)
 				.duplicate(true)
@@ -791,6 +793,13 @@ func _check_c_action_contracts_and_roundtrips() -> void:
 		_expect(str(scene_bundle.get("action_id", "")) \
 				== str(C_ACTIONS[raw_bundle_id]),
 			"%s has the wrong C action id" % bundle_id)
+		_expect(CORE_LOOP.story_owns_action_result(bundle_id) \
+				== expected_story_owned \
+				and str(scene_bundle.get(
+					"action_result_presentation", "")) \
+					== ("story_owned" if expected_story_owned else ""),
+			"%s escaped the exact Month-Four story-owned result opt-in"
+				% bundle_id)
 		_expect(raw_allowed is Array \
 				and not (raw_allowed as Array).is_empty(),
 			"%s has no machine-readable C deadline" % bundle_id)
@@ -849,6 +858,8 @@ func _check_atomic_action_roundtrip(
 	GameState.intelligence = 50
 	var scene_bundle := CORE_LOOP.bundle(bundle_id)
 	var action_id := str(scene_bundle.get("action_id", ""))
+	var expected_story_owned := (
+		bundle_id == "m4_housing_welfare_consultation")
 	var config: Dictionary = (
 		(scene_bundle.get("action_config", {}) as Dictionary).duplicate(true)
 		if scene_bundle.get("action_config", {}) is Dictionary else {}
@@ -877,6 +888,8 @@ func _check_atomic_action_roundtrip(
 
 	var before_values := _effect_values(effects)
 	_expect(CORE_LOOP.begin_bundle(bundle_id, "schedule") \
+			and CORE_LOOP.story_owns_action_result() \
+				== expected_story_owned \
 			and GameState.arm_weekly_commitment({
 				"turn": action_turn,
 				"pressure_id": bundle_id,

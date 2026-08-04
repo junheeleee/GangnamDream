@@ -3,7 +3,7 @@
 > 이 문서는 `content/meta/release_content_inventory.json`과 현재 소스에서 자동 생성한다.
 > 최종 연령 등급·법률 의견·콘텐츠 삭제 결정이 아니며 수동 편집하지 않는다.
 
-갱신 기준: 2026-08-03
+갱신 기준: 2026-08-04
 
 ## 가장 중요한 범위 판정
 
@@ -20,12 +20,12 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 
 ## 현재 코퍼스
 
-- KO/EN 사건: 각각 127파일 · 1599건, ID 일치
+- KO/EN 사건: 각각 127파일 · 1601건, ID 일치
 - KO/EN 엔딩: 각각 35건
-- 활성 스토리 이미지: 248장 · source raster: 294장
-- 게임 pack 대상 raster: 286장 · ImageRegistry 외부 pack 대상: 38장
+- 활성 스토리 이미지: 249장 · source raster: 295장
+- 게임 pack 대상 raster: 287장 · ImageRegistry 외부 pack 대상: 38장
 - `.gdignore` source-only 상점 스크린샷: 8장 · 출처 원장 오디오: 139개
-- 사건 ID SHA-256: `ca632183f503c9cd841a597a4c147feea0bcab9acb1c93e0a5d730bccc42ba9c`
+- 사건 ID SHA-256: `1b242036daa73f5ff0b37c16114214bbeb8d5e82e8da554f69f04a3dbd81933d`
 - KO/EN 엔딩 본문 SHA-256: `32ea94755971c459f74f5a3bae80151a077c9eb781277fee7fda58879b1045f1`
 
 후보 fingerprint는 표현의 최종 등급이 아니라 검토 코퍼스가 조용히 바뀌는 것을
@@ -35,7 +35,7 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 | 축 | 후보 사건/파일 | ID SHA-256 | KO/EN 본문 SHA-256 | 최고 사실 강도 |
 |---|---:|---|---|---|
 | 사행성·도박 | 137 / 44 | `a45013427ccac88331771025ce95d725c46ab35a4cecce2e0aa56c21571f581e` | `2b0ca94a9170cc6c69dfc652dcd18869e7345a520facf7192f56e6de7a10fdf5` | strong, moderate |
-| 선정성·성적 내용 | 118 / 25 | `cf4f957a1974afe110f23454250738e058bee25ed0b7ab93617196deae2a2919` | `4c1b18be995d039afa0611fcaa853487e654593290098977346689f684420d5b` | moderate, mild |
+| 선정성·성적 내용 | 118 / 25 | `cf4f957a1974afe110f23454250738e058bee25ed0b7ab93617196deae2a2919` | `6ca8e1128da233cf18b7a17505b34dea6d484445b4baf4da857986543b169b00` | moderate, mild |
 | 폭력성 | 15 / 14 | `987dc15a9f106cf5b203bc8e3cce30efb6376339399a8727ca327bdfe53c0686` | `0b2038aae4c95e7b5bed65b7f353593d57dfc0759f7d108432673fa6d13b30b9` | mild |
 | 공포 | 134 / 49 | `f7b72c4ea39f178218442263fff2f99b432b7eb45206f8f284bc1601ae9cdf79` | `c62f601ec62e60b5e4f687747cd498e543123e9bd890a9c88299c6d6919a2474` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `6d12d628b20a7654ec443e3594c2bad905b778804d62ee81a4773453287f8f58` | mild |

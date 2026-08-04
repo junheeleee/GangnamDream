@@ -98,6 +98,10 @@
     "id": "arc_34_money_attracts_money",
     "title": "That Saying About Money",
     "description": "Even after closing the notebook that held one year of figures, {name} could not sleep. A structure he had not understood a year ago was beginning to show itself across the ledger.\n\nThat saying — money attracts money. At first it sounded like a comfort the rich made up. But putting it to work himself, it was real. With 1 million won versus 10 million won, the same rate of return came back at a completely different weight.\n\nAnd he saw the reverse too. Those with nothing just pay interest until it is over. When the starting lines differ, running at the same speed only widens the gap.\n\nThat night, {name} learned that hope and anger could begin with the same number.",
+    "description_memory_if_known": {
+      "m3_ledger_reasons_named": "In the ledger from that first March, similar amounts belonged to a late finish on one line and the meal that got him through the next day on another. Writing down the reasons had made the structure visible first.",
+      "m3_ledger_totals_only": "That first March, he had reconciled the total and stopped there. The figures were exact; only a full year of entries revealed why equal amounts could carry different weight."
+    },
     "choices": [
       {
         "text": "Understand the system and ride it",

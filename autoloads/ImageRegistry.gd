@@ -114,6 +114,7 @@ const PORTRAITS = {
 	# 조연
 	"boss":               "res://assets/characters/npc_team_lead.png",
 	"goshiwon_owner":     "res://assets/characters/npc_goshiwon_owner.png",
+	"housing_counselor":  "res://assets/characters/npc_housing_counselor.png",
 	"mother":             "res://assets/characters/npc_mother.png",
 	"father_normal":      "res://assets/characters/npc_father.png",
 	"father_proud":       "res://assets/characters/npc_father.png",
@@ -165,6 +166,7 @@ const PERSON_INFO = {
 	"cafe_investor": {"name": "카페의 남자", "color": "#78929a"},
 	"cafe_broker_kim": {"name": "김 부장",   "color": "#9a7a72"},
 	"goshiwon_owner": {"name": "고시원 원장", "color": "#a0907a"},
+	"housing_counselor": {"name": "주거복지 상담사", "color": "#71899a"},
 	"hyunsu":   {"name": "현수",          "color": "#7a8a9a"},
 	"seongjun": {"name": "박성준",        "color": "#6a9ab0"},
 	"mother":   {"name": "어머니",        "color": "#b09a9a"},
@@ -183,6 +185,7 @@ const PERSON_NAMES_EN = {
 	"cafe_investor": "Man at the Cafe",
 	"cafe_broker_kim": "Manager Kim",
 	"goshiwon_owner": "Goshiwon Manager",
+	"housing_counselor": "Housing Counselor",
 	"hyunsu": "Kang Hyunsu",
 	"seongjun": "Park Seongjun",
 	"mother": "Mother",

@@ -432,6 +432,11 @@
     "id": "arc_final_week",
     "title": "The Last Week",
     "description": "Seven days until the 38th birthday.\n\nFive years ending.\n\nWhether the goal was reached or not — five years passed anyway.\nThe person with 500,000 won in the bank made it here.\n\n{name} looked at who they'd become and thought:\n\nIf the person from five years ago saw who this is now — what would they say?",
+    "description_memory_if_known": {
+      "m4_housing_priority_runway": "At the housing consultation in the first year, {name} decided that any room he chose had to leave him usable cash after the move. Five years later, his room and his balance together showed how well he had kept that answer.",
+      "m4_housing_priority_privacy": "In the first year, he had made “Can I close the door and be alone?” his first question when looking at a room. In the final week, he saw that having solitude and ending up alone were not the same thing.",
+      "m4_housing_priority_time": "In the first year, he had decided to cut the time spent in transit when choosing a room. As the final week began, the fact that time could not be bought back became as exact as any number."
+    },
     "choices": [
       {
         "text": "\"You did well.\" Even if it wasn't enough.",

@@ -60,6 +60,15 @@
       "sangchul_forgiven",
       "sangchul_leveraged",
       "cleared_father_debt_from_sangchul"
+    ],
+    "m3_ledger_method": [
+      "m3_ledger_reasons_named",
+      "m3_ledger_totals_only"
+    ],
+    "m4_housing_priority": [
+      "m4_housing_priority_runway",
+      "m4_housing_priority_privacy",
+      "m4_housing_priority_time"
     ]
   },
   "coverage_targets": {
@@ -547,7 +556,7 @@
       "from_location": "goshiwon_hallway",
       "to_location": "current_housing",
       "arrival_cue_ko": "마지막 상자를 열었다",
-      "arrival_cue_en": "The last box came open"
+      "arrival_cue_en": "{name} opened the last box"
     },
     "amb_hoesik_00->amb_hoesik_drink": {
       "mode": "time_cut",
@@ -3789,6 +3798,87 @@
         "expected_background": "v2_first_bill_desk_closeup",
         "expected_portrait": "player_first_bill_decision",
         "expected_ambience": "current_housing"
+      }
+    },
+    "v2_m3_room_ledger_anchor": {
+      "logic": {
+        "legacy": {
+          "produces_any": [
+            "m3_ledger_reasons_named",
+            "m3_ledger_totals_only"
+          ]
+        }
+      },
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": [
+          "player"
+        ],
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_offduty_neutral",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "v2_m4_housing_consultation_anchor": {
+      "logic": {
+        "legacy": {
+          "produces_any": [
+            "m4_housing_priority_runway",
+            "m4_housing_priority_privacy",
+            "m4_housing_priority_time"
+          ]
+        }
+      },
+      "speech": {
+        "speakers": {
+          "player": {
+            "register_basis": "Minjun uses formal polite speech with an unfamiliar public-service housing counselor.",
+            "references": [
+              {
+                "fact": "minjun.housing_priority",
+                "source": {
+                  "kind": "self",
+                  "detail": "Minjun states the housing standard he chooses for himself in the current consultation."
+                }
+              }
+            ]
+          },
+          "housing_counselor": {
+            "register_basis": "The counselor uses neutral institutional polite speech and turns Minjun's answer into one practical viewing criterion without promising eligibility or a room.",
+            "references": [
+              {
+                "fact": "housing_consultation.cost_categories",
+                "source": {
+                  "kind": "self",
+                  "detail": "The counselor owns the worksheet that separates deposit, monthly costs, fees, moving cost, and post-move available cash."
+                }
+              },
+              {
+                "fact": "minjun.housing_priority",
+                "source": {
+                  "kind": "scene_observation",
+                  "detail": "The counselor hears Minjun state the priority he chooses in the current scene."
+                }
+              }
+            ]
+          }
+        }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "community_center",
+        "participants": [
+          "player",
+          "housing_counselor"
+        ],
+        "portrait_role": "present",
+        "nameplate_role": "auto",
+        "expected_background": "community_center",
+        "expected_portrait": "housing_counselor",
+        "expected_ambience": "public_office"
       }
     },
     "v2_demo_first_bill_ledger": {

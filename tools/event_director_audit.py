@@ -22,7 +22,7 @@ EXPECTED_FOREGROUND_RANDOM = 64
 EXPECTED_BRIDGE_RANDOM = 19
 # Core V2's authored hidden beats now include the First Bill opening and ledger
 # fragments. They are reached by bundle/story links, never by the random director.
-EXPECTED_REGISTERED_EVENTS = 1599
+EXPECTED_REGISTERED_EVENTS = 1601
 EXPECTED_DIRECT_ONLY_EVENTS = {
     "v2_hyunsu_player_reachout",
     "v2_hyunsu_study_followup",

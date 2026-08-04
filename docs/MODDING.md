@@ -464,6 +464,7 @@ python3 tools/generate_mod_manifest.py --check
 | portrait | `father_past` | `characters/npc_father_past.png` | 512x768 |
 | portrait | `father_weak` | `characters/npc_father_weak.png` | 512x768 |
 | portrait | `goshiwon_owner` | `characters/npc_goshiwon_owner.png` | 512x768 |
+| portrait | `housing_counselor` | `characters/npc_housing_counselor.png` | 1023x1537 |
 | portrait | `hyunsu_accounting` | `characters/npc_hyunsu_accounting.png` | 512x768 |
 | portrait | `hyunsu_civil_service` | `characters/npc_hyunsu_civil_service.png` | 512x768 |
 | portrait | `hyunsu_normal_y3` | `characters/npc_hyunsu_normal_y3.png` | 1024x1536 |

@@ -243,7 +243,7 @@
     },
     {
       "tool": "tools/demo_localization_scope.py --self-test",
-      "why": "실제 24주 도달 70장면·동적 문구·준비 언어 영어 우회·데모 전용 엄격 범위",
+      "why": "실제 24주 도달 72장면·동적 문구·준비 언어 영어 우회·데모 전용 엄격 범위",
       "paths": [
         "content/meta/demo_localization_scope.json",
         "content/meta/demo_core_loop_v2.json",
@@ -276,7 +276,7 @@
     },
     {
       "tool": "tools/ja_translation_pipeline.py --scope demo --inventory",
-      "why": "일본어 생성기가 24주 70사건·479동적키·4자산만 수집하고 전체판 본문을 열지 않는지 검사",
+      "why": "일본어 생성기가 24주 72사건·480동적키·4자산만 수집하고 전체판 본문을 열지 않는지 검사",
       "paths": [
         "content/meta/demo_localization_scope.json",
         "content/meta/release_content_inventory.json",
@@ -294,7 +294,7 @@
     },
     {
       "tool": "tools/ja_translation_pipeline.py --self-test",
-      "why": "데모 승인과 전체판 승인 분리·70사건 병합의 데모 밖 행 보존을 변이 검사",
+      "why": "본문 확정과 전체판 승인 분리·72사건 병합의 데모 밖 행 보존을 변이 검사",
       "paths": [
         "content/meta/demo_localization_scope.json",
         "content/meta/release_content_inventory.json",
@@ -390,7 +390,7 @@
     },
     {
       "tool": "tools/ja_translation_audit.py --scope ui",
-      "why": "일본어 UI 키. 본문 scope(events/endings/catalog)는 ja_translation_pipeline 이 데모 GO 전까지 잠가 둔 미완이므로 게이트하지 않는다",
+      "why": "일본어 UI 키. 본문 scope(events/endings/catalog)는 ja_translation_pipeline 이 24주 본문 확정 전까지 잠가 둔 미완이므로 게이트하지 않는다",
       "paths": [
         "locale/ui_ja.json",
         "locale/**"

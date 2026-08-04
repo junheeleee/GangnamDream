@@ -13,7 +13,7 @@
 
 ## 감사 결과
 
-- 활성 인벤토리: **248장** (`CG 74 / Portrait 91 / Background 83`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
+- 활성 인벤토리: **249장** (`CG 74 / Portrait 92 / Background 83`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
 - 전수 방법: 종류별 콘택트시트 24장으로 얼굴·실루엣·그레이딩·공간을 1차 비교하고, 손·반사·차량·카운터·정류장처럼 오독 위험이 있는 컷과 키 비주얼 10장은 원본 해상도로 다시 열었다.
 - 런타임 수리: 배경이 구워진 `main_character_50s.png`를 본편의 `player_hollow` 슬롯에서 제외하고 같은 민준의 투명 피로 초상으로 통합했다. 현재 이벤트가 없는 박재원의 죽은 초상 등록도 제거했다.
 - 이미지 수리: `ending_crypto_ghost.png`의 비현실적인 6면 모니터 벽을 정본 고시원 안의 휴대폰 1대·낡은 노트북 1대로 교체했다. 방 크기, 작은 불투명창, 침대/책상 방향, 민준 신원, 다섯 손가락, 무문자 차트를 원본에서 재검수했다.
@@ -98,6 +98,23 @@
   결과의 금액 배지도 `+KRW 280K`로 줄여 최종 재렌더에서 잘림 없이 통과했다.
   이 전용 렌더는 전체 24주 `demo-experience` 완주가 아니다. 해당 입력 자동화는
   Week 1 V2 planner에서 멈추므로 별도 열린 게이트로 기록한다.
+
+### 4월 주거복지 상담사 초상
+
+- 모드: OpenAI 내장 ImageGen 신규 생성. 전체 프롬프트와 금지 조건은
+  `assets/IMAGE_PROMPTS.md`에 보관한다.
+- 생성 원본: `/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-3d90daf2-2cf3-459f-a420-80f06add1f73.png`.
+- 출시 경로/해시: `assets/characters/npc_housing_counselor.png`
+  `47fa4926baa149933ddf824fc908976f5405dfafcaeed118a76ebe398c65779d`
+  (1023x1537 RGBA). 단색 녹색 크로마를 소프트 매트·디스필·1px 가장자리
+  수축으로 제거했고, 인물 내부의 종이·펜·명찰은 불투명하게 보존했다.
+- 원본 검수: 49세 한국인 여성, 짙은 남색 카디건과 무지 목걸이 명찰, 종이와
+  펜을 든 두 손, 상담 상대를 향한 차분한 시선, 무문자·무상표·투명 가장자리를
+  원본 해상도로 확인했다.
+- 실행 검수: Godot 4.6.2 전용 `core-loop-v2` ScreenshotQA로 한국어 960x600과
+  영어 1280x800의 선택·결과 프레임을 출력했다. 주민센터 배경과의 크기·광원,
+  이름표, 의도적 우측 bleed, 선택지 안전영역, 영어 최장 선택지 줄바꿈에서
+  잘림·녹색 테두리·종이/손 겹침이 없음을 확인했다.
 
 ## 키 비주얼 상위 10컷
 
@@ -231,6 +248,7 @@
 | Portrait | `assets/characters/npc_father_hospitalized.png` | `father_hospitalized` | 512x768 | yes | `558cfd71b022` | PASS-B | 정본 얼굴·청회색 환자복·병동 전용 의상·투명 분리 확인. |
 | Portrait | `assets/characters/npc_father_weak.png` | `father_weak` | 512x768 | yes | `a90451dde6bc` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
 | Portrait | `assets/characters/npc_goshiwon_owner.png` | `goshiwon_owner` | 512x768 | yes | `0c8657261a92` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
+| Portrait | `assets/characters/npc_housing_counselor.png` | `housing_counselor` | 1023x1537 | yes | `47fa4926baa1` | PASS-B | 49세 주민센터 주거복지 상담사, 남색 카디건·무지 명찰·종이·펜·두 손·차분한 시선·투명 가장자리와 KO 960x600/EN 1280x800 게임 크롭 확인. |
 | Portrait | `assets/characters/npc_hyunsu_accounting.png` | `hyunsu_accounting` | 512x768 | yes | `f7e8db534c04` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
 | Portrait | `assets/characters/npc_hyunsu_civil_service.png` | `hyunsu_civil_service` | 512x768 | yes | `f065573d0092` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
 | Portrait | `assets/characters/npc_jaehyuk.png` | `jaehyuk_charisma`, `jaehyuk_cornered`, `jaehyuk_friendly` | 512x768 | yes | `94ba32553013` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
@@ -370,4 +388,4 @@
 | Background | `assets/backgrounds/year3_hangang_winter_night.png` | `year3_hangang_winter_night` | 1280x800 | no | `b8387ccb4707` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/year4_winter_rooftop.png` | `year4_winter_rooftop` | 1280x800 | no | `46803837d191` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 
-Inventory: 74 CG / 91 portraits / 83 backgrounds / 248 total.
+Inventory: 74 CG / 92 portraits / 83 backgrounds / 249 total.

@@ -170,6 +170,12 @@
       "policy": "fixed_first_appearance",
       "fixed_portraits": ["goshiwon_owner"]
     },
+    "housing_counselor": {
+      "tier": "B_scene_actor",
+      "start_age": 49,
+      "policy": "fixed_first_appearance",
+      "fixed_portraits": ["housing_counselor"]
+    },
     "team_lead": {
       "tier": "B_scene_actor",
       "start_age": 47,

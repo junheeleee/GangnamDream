@@ -2279,6 +2279,8 @@
       "v2_jaehyuk_plain_reunion_echo",
       "v2_jiyeon_second_crossing",
       "v2_logistics_class_session",
+      "v2_m3_room_ledger_anchor",
+      "v2_m4_housing_consultation_anchor",
       "v2_moving_crew_days",
       "v2_sangchul_demo_echo",
       "v2_sangchul_housing_lead",
@@ -2795,7 +2797,7 @@
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
       "arrival_cue_ko": "마지막 상자를 열었다",
-      "arrival_cue_en": "The last box came open"
+      "arrival_cue_en": "{name} opened the last box"
     },
     "arc_intro_01_meal->arc_intro_02_dad_call": {
       "mode": "time_cut",

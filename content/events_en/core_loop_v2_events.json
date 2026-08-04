@@ -498,10 +498,48 @@
     "id": "v2_demo_first_bill_ledger",
     "title": "The First Bill",
     "description": "After finishing the task he chose, {name} returns to the notebook.\n\n{v2_first_bill_return}\n\nOn the decision page, every line outside the one he circled is still written down.\n\n{v2_first_bill_done}\n\n{v2_first_bill_not_done}\n\n{v2_first_bill_deadline_missed}\n\n{name} reads what he finished and what he did not on the same page.",
+    "description_memory_if_known": {
+      "m3_ledger_reasons_named": "The March ledger had reasons beside its entries. The line he circled tonight could not be reduced to one figure either.",
+      "m3_ledger_totals_only": "In March, he had stopped at the total. Tonight, what he finished and what he put off could not be folded into one number."
+    },
     "choices": [
       {
         "text": "Read the page once and close the notebook",
         "result_text": "{name} checks the next actions written on the previous page once more. On a new page, he writes only “Monday, June 29” and leaves the rest blank.\n\nHe closes the notebook and sets the pen on top."
+      }
+    ]
+  },
+  {
+    "id": "v2_m3_room_ledger_anchor",
+    "title": "The Ledger in the Room",
+    "description": "One evening in March, {name} starts the laundry and returns to his room. He lays the receipts out by date on the floor between the bed and the desk.\n\nRent, meals, transit. He checks each receipt against the payment history on his phone. Two convenience-store receipts show nearly the same amount, but one is from early morning and the other from late at night. The figures look alike; the parts of his life that required them do not.\n\nAfter two passes, the total balances. The sum is right, but nothing on the page says which line belonged to which kind of day.\n\nThe laundry alarm sounds. Before going to empty the machine, {name} rests the tip of his pen in the first blank space beside an entry. He has to decide whether this month will keep only the figures, or why he spent the money behind them.",
+    "choices": [
+      {
+        "text": "Add a reason beside each entry",
+        "result_text": "{name} keeps the notes short: “Finished late.” “Skipped a meal.” “Needed to make it through the next day.” Once the reasons are there, similar amounts divide into money he can cut and money whose absence would make the day collapse first.\n\nBy the time he returns with the laundry, the ink is dry. The reasons take up more room than the total. For the first time, he can see not just where the month's money had gone, but which days it had helped him get through."
+      },
+      {
+        "text": "Reconcile the totals first",
+        "result_text": "{name} checks every amount once more and draws a double line beneath the total. What he needs tonight is not an interpretation, but a figure that is not wrong. He leaves the reason column blank.\n\nAfter folding the laundry away, he closes the notebook. The page is orderly now. Once the cover is shut, he can no longer tell which line came from the late night."
+      }
+    ]
+  },
+  {
+    "id": "v2_m4_housing_consultation_anchor",
+    "title": "What Matters in a Room",
+    "description": "One afternoon in April, the queue display at the housing-welfare desk in a community center flashes a new number. Carrying an envelope of receipts and his notebook, {name} sits down across from the counselor.\n\nShe turns an A4 sheet sideways and, across the top, writes down the deposit, monthly rent, maintenance fee, brokerage fee, and moving cost. At the end she adds, “Cash available after the move.”\n\n“If we start with listings, rent and deposit will take over the page. Let us start with what you will still need after the move.”\n\nBelow those figures, she divides the page into three boxes: “Cash available after the move.” “A space where I can close the door and be alone.” “Round-trip time to the places I go often.” He does not yet know whether one room can meet all three standards. Today is not about choosing a room. It is about choosing the first standard he will not discard while looking.\n\nHer pen stops above the page. She points to each box in turn. “If you protect one of these first, which one will it be?”",
+    "choices": [
+      {
+        "text": "Keep enough cash to last after the move",
+        "result_text": "“I want enough left to last for a while after I move.”\n\nThe counselor underlines the final column in the calculation across the top. “Then, for every listing, calculate how much cash you could still use after setting aside the deposit and paying the moving costs. Being able to move in is not the same as being able to stay.”\n\nWhen the consultation ends, {name} folds the sheet so that “Cash available after the move” faces outward. His number disappears from the display, but those words remain on the first line of his notebook."
+      },
+      {
+        "text": "Find a room where I can close the door and have the space to myself",
+        "result_text": "“A room where I can come back, close the door, and have the space to myself.”\n\nThe counselor circles “A space where I can close the door and be alone.” “Then look at the door and the walls before the floor area. Check which spaces you would still have to share.”\n\nBeside it, {name} writes, “Where does the noise stop?” He now has one question to ask before he asks how large a room is."
+      },
+      {
+        "text": "Spend less of the day in transit",
+        "result_text": "“I want to spend less time traveling to the places I go often.”\n\nThe counselor places the rent column beside the round-trip column. “Then write a month of travel time next to the difference in rent. A room that looks cheaper can still take more of each day.”\n\nOutside, while waiting through a single crosswalk signal, the word “round trip” in his notebook already looks like a line of figures."
       }
     ]
   }

@@ -101,9 +101,15 @@ EXPECTED_AXIS_LEGAL_UNION = [80, 72, 268, 364, 532, 105]
 ACTION_STORY_ROOTS = {
     "m1_convenience_trial_shift": "v2_convenience_trial_shift",
     "m3_inventory_shift": "v2_inventory_count_nights",
+    "m3_room_ledger": "v2_m3_room_ledger_anchor",
     "m4_certificate_session": "v2_logistics_class_session",
+    "m4_housing_welfare_consultation": "v2_m4_housing_consultation_anchor",
     "m5_weekend_move_shift": "v2_moving_crew_days",
     "m5_last_empty_sunday": "v2_empty_sunday",
+}
+STORY_OWNED_ACTION_ROOTS = {
+    "m3_room_ledger": "v2_m3_room_ledger_anchor",
+    "m4_housing_welfare_consultation": "v2_m4_housing_consultation_anchor",
 }
 STORY_GAMEPLAY_KEYS = {
     "effects",
@@ -1013,9 +1019,9 @@ def validate_demo_speech_contract(
     extra = (required | exempt) - core_ids
     if extra:
         fail(f"speech contract references non-Core-V2 events {sorted(extra)}", errors)
-    if len(required) != 28 or len(exempt) != 6 or len(core_ids) != 34:
+    if len(required) != 29 or len(exempt) != 7 or len(core_ids) != 36:
         fail(
-            "Core V2 speech partition must remain 28 required + 6 exempt = 34; "
+            "Core V2 speech partition must remain 29 required + 7 exempt = 36; "
             f"got {len(required)} + {len(exempt)} = {len(core_ids)}",
             errors,
         )
@@ -1804,6 +1810,11 @@ def validate_density_time_hybrid_contracts(
                     )
                     continue
                 duplicated_keys = STORY_GAMEPLAY_KEYS.intersection(choice)
+                if bundle_id in STORY_OWNED_ACTION_ROOTS:
+                    # These scenes own a memory choice, not the action's AP,
+                    # stats, axis, or relationship outcome. Their exact flags
+                    # are producer/reader-audited by the story contracts.
+                    duplicated_keys.discard("flags")
                 if duplicated_keys:
                     fail(
                         f"{bundle_id} hybrid story {event_id} choice "
@@ -1811,6 +1822,47 @@ def validate_density_time_hybrid_contracts(
                         f"{sorted(duplicated_keys)}",
                         errors,
                     )
+
+    story_owned_actions = {
+        bundle_id: raw_bundle
+        for bundle_id, raw_bundle in bundles.items()
+        if isinstance(raw_bundle, dict)
+        and str(raw_bundle.get(
+            "action_result_presentation", ""
+        )).strip() == "story_owned"
+    }
+    if set(story_owned_actions) != set(STORY_OWNED_ACTION_ROOTS):
+        fail(
+            "story-owned action-result inventory drifted: "
+            f"{sorted(story_owned_actions)}",
+            errors,
+        )
+    for bundle_id, root_id in STORY_OWNED_ACTION_ROOTS.items():
+        bundle = story_owned_actions.get(bundle_id, {})
+        if (
+            not str(bundle.get("action_id", "")).strip()
+            or bundle.get("existing_roots") != [root_id]
+        ):
+            fail(
+                f"{bundle_id} story-owned result lost action/root {root_id}",
+                errors,
+            )
+    invalid_result_presentations = {
+        bundle_id: str(raw_bundle.get(
+            "action_result_presentation", ""
+        )).strip()
+        for bundle_id, raw_bundle in bundles.items()
+        if isinstance(raw_bundle, dict)
+        and str(raw_bundle.get(
+            "action_result_presentation", ""
+        )).strip() not in {"", "story_owned"}
+    }
+    if invalid_result_presentations:
+        fail(
+            "unknown action-result presentation values: "
+            f"{invalid_result_presentations}",
+            errors,
+        )
 
     return {
         "authored_vector": authored_vector,
@@ -5071,6 +5123,89 @@ def measure_long_tail_readers(
             "reclassify Week-24 dirty receipts",
             errors,
         )
+    story_owned_query_function = gdscript_function(
+        demo_core_loop_source, "story_owns_action_result"
+    )
+    story_owned_handoff_function = gdscript_function(
+        main_game_source,
+        "_core_loop_v2_handoff_story_owned_action_result",
+    )
+    story_owned_query_is_pure = (
+        bool(story_owned_query_function)
+        and '"action_result_presentation", ""' in story_owned_query_function
+        and '== "story_owned"' in story_owned_query_function
+        and 'scene_bundle.get("action_id", "")' in story_owned_query_function
+        and 'scene_bundle.get("existing_roots", [])' in story_owned_query_function
+        and "GameState.core_loop_v2_state =" not in story_owned_query_function
+        and "acknowledge_action_story_result" not in story_owned_query_function
+        and "complete_active_bundle" not in story_owned_query_function
+    )
+    if not story_owned_query_is_pure:
+        fail(
+            "story-owned result query must remain an action/root-gated "
+            "side-effect-free data query",
+            errors,
+        )
+    handoff_ack_index = story_owned_handoff_function.find(
+        "acknowledge_action_story_result"
+    )
+    handoff_story_index = story_owned_handoff_function.find(
+        "_core_loop_v2_begin_story_bundle"
+    )
+    if not (
+        "story_owns_action_result" in story_owned_handoff_function
+        and "action_result_ready" in story_owned_handoff_function
+        and "action_story_stage" in story_owned_handoff_function
+        and 0 <= handoff_ack_index < handoff_story_index
+        and "complete_active_bundle" not in story_owned_handoff_function
+    ):
+        fail(
+            "story-owned result handoff stopped acknowledging before its "
+            "same-owner story without completing the week",
+            errors,
+        )
+
+    for route_function_name in ("_core_loop_v2_route_week", "_begin_month"):
+        route_function = gdscript_function(
+            main_game_source, route_function_name
+        )
+        handoff_index = route_function.find(
+            "_core_loop_v2_handoff_story_owned_action_result"
+        )
+        restore_index = route_function.find(
+            "_core_loop_v2_restore_action_result"
+        )
+        if not (0 <= handoff_index < restore_index):
+            fail(
+                f"{route_function_name} must hand off story-owned saved "
+                "results before rendering a generic result card",
+                errors,
+            )
+
+    direct_result_functions = {
+        "_core_loop_v2_submit_application": "GameState.add_log",
+        "_core_loop_v2_apply_instant_effect": "GameState.add_log",
+        "_core_loop_v2_take_recovery": "GameState.add_log",
+    }
+    for function_name, generic_result_token in direct_result_functions.items():
+        direct_function = gdscript_function(main_game_source, function_name)
+        finalize_index = direct_function.find(
+            "GameState.finalize_weekly_effect_action"
+        )
+        handoff_index = direct_function.find(
+            "_core_loop_v2_handoff_story_owned_action_result"
+        )
+        generic_index = direct_function.find(generic_result_token)
+        vignette_index = direct_function.find("_show_vignette")
+        if not (
+            0 <= finalize_index < handoff_index < generic_index
+            and handoff_index < vignette_index
+        ):
+            fail(
+                f"{function_name} must finalize once, hand off its "
+                "story-owned result, then retain generic copy as fallback",
+                errors,
+            )
     demo_collision_completion = re.search(
         r'\n\t\tif bundle_id == "demo_collision":([\s\S]*?)'
         r'(?=\n\t\tif int\(contract\(\)\.get\("schema_version")',

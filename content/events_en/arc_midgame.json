@@ -317,7 +317,12 @@
   {
     "id": "arc_housing_new_life",
     "title": "First Night",
-    "description": "The last box came open. Once clothes, books, and the laptop found their places, the unfamiliar room began to resemble a life.\n\nClosing the door no longer brought footsteps to a stop inches away. No shared refrigerator. No sound of Hyunsu's lectures. A better home and being alone occupied the same silence.\n\n{name} looked up at a ceiling that was not familiar yet. Starting tonight, this was home.",
+    "description": "{name} opened the last box. Once clothes, books, and the laptop found their places, the unfamiliar room began to resemble a life.\n\nClosing the door no longer brought footsteps to a stop inches away. No shared refrigerator. No sound of Hyunsu's lectures. A better home and being alone occupied the same silence.\n\n{name} looked up at a ceiling that was not familiar yet. Starting tonight, this was home.",
+    "description_memory_if_known": {
+      "m4_housing_priority_runway": "After emptying the last box, {name} opened the worksheet from April. The first standard he had chosen was cash he could still use after the move. The first thing he checked in the unfamiliar room was his balance.",
+      "m4_housing_priority_privacy": "The circled box on the April worksheet read, “A space where I can close the door and be alone.” Under the unfamiliar ceiling, he finally understood what that standard was worth.",
+      "m4_housing_priority_time": "On the April worksheet, he had chosen to protect the time he spent in transit. Starting tomorrow, his body would tell him whether this address met that standard."
+    },
     "choices": [
       {
       "text": "Open the window — listen to this neighborhood.",
@@ -746,6 +751,11 @@
     "id": "arc_year_one_mark",
     "title": "One Year",
     "description": "Exactly one year since the plan was set.\n\n{name} sat beside the window of his current room and looked back over twelve months. People still hurried past, and Seoul moved as if nothing had happened. The only thing that seemed to have changed was the number in the account.\n\nBut if that number had changed, then the person who spent a year chasing it had changed a little too.",
+    "description_memory_if_known": {
+      "m4_housing_priority_runway": "The April worksheet still had “Cash available after the move” underlined. Now that the first year was over, {name} put housing costs and his balance on the same screen.",
+      "m4_housing_priority_privacy": "Beside the April worksheet he had written, “Where does the noise stop?” Looking back over the year, he saw that quiet hours belonged beside housing costs even though they never appeared in his account.",
+      "m4_housing_priority_time": "The April worksheet still had a box for “Round-trip time.” Across a full year of figures, even the travel hours missing from the bank statement looked like a cost."
+    },
     "choices": [
       {
         "text": "Compile a year's worth of records. Verify in numbers how far I've come.",

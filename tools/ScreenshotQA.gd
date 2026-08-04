@@ -1817,6 +1817,18 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	await _shot_story_event(
 		"v2_hyunsu_study_followup", prefix + "14_hyunsu_calendar_exam",
 		lang, 0.45, true, true, 0, 0, false, 1)
+	await _shot_story_event(
+		"v2_m3_room_ledger_anchor", prefix + "15a_m3_room_ledger_choices",
+		lang, 0.45, true, true)
+	await _shot_story_event(
+		"v2_m3_room_ledger_anchor", prefix + "15b_m3_room_ledger_result",
+		lang, 0.45, true, true, 0, 0, false, 1)
+	await _shot_story_event(
+		"v2_m4_housing_consultation_anchor", prefix + "15c_m4_housing_choices",
+		lang, 0.45, true, true)
+	await _shot_story_event(
+		"v2_m4_housing_consultation_anchor", prefix + "15d_m4_housing_privacy_result",
+		lang, 0.45, true, true, 1, 0, false, 1)
 	await _shot_first_bill_finale_surfaces(lang, prefix)
 
 func _shot_first_bill_finale_surfaces(_lang: String, prefix: String) -> void:
@@ -3826,6 +3838,8 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 		"arc_sangchul_01_measure": "office",
 		"arc_sangchul_01_coffee": "office",
 		"arc_sangchul_01_answer": "office",
+		"v2_m3_room_ledger_anchor": "room",
+		"v2_m4_housing_consultation_anchor": "public_office",
 	}
 	if expected_event_ambience.has(event_id):
 		var expected_ambience := str(expected_event_ambience[event_id])
@@ -3837,6 +3851,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	_assert_resolved_visual_debt_state(story, event_id)
 	_assert_jaehyuk_visual_state(story, event_id)
 	_assert_order53_payoff_visual_state(story, event_id)
+	_assert_order83_anchor_visual_state(story, event_id)
 	_assert_commitment_visual_state(story, event_id, select_choice)
 	_assert_breakup_visual_state(story, event_id, select_choice)
 	_assert_transport_visual_state(story, event_id)
@@ -3933,6 +3948,122 @@ func _assert_order53_payoff_visual_state(story: Node, event_id: String) -> void:
 		var communication_badge := story.get("_communication_badge") as Control
 		if not is_instance_valid(communication_badge) or not communication_badge.visible:
 			_fail("%s did not render its phone-call badge." % event_id)
+
+func _assert_order83_anchor_visual_state(story: Node, event_id: String) -> void:
+	var contracts := {
+		"v2_m3_room_ledger_anchor": {
+			"background": "goshiwon_room",
+			"portrait": "player_offduty_neutral",
+			"ambience": "room",
+			"channel": "internal",
+			"choice_count": 2,
+		},
+		"v2_m4_housing_consultation_anchor": {
+			"background": "community_center",
+			"portrait": "housing_counselor",
+			"ambience": "public_office",
+			"channel": "in_person",
+			"choice_count": 3,
+		},
+	}
+	if not contracts.has(event_id):
+		return
+	var contract: Dictionary = contracts[event_id]
+	var expected_background_id := str(contract["background"])
+	var actual_background_id := str(story.get("_event_background_id"))
+	var background := story.get("_bg_img") as TextureRect
+	var expected_background_path := ImageRegistry.get_background(expected_background_id)
+	var actual_background_path := (
+		background.texture.resource_path
+		if is_instance_valid(background) and background.texture != null else "")
+	if actual_background_id != expected_background_id \
+			or expected_background_path.is_empty() \
+			or actual_background_path != expected_background_path:
+		_fail("%s background mismatch: id=%s path=%s expected=%s/%s." % [
+			event_id, actual_background_id, actual_background_path,
+			expected_background_id, expected_background_path])
+		return
+	var presentation: Dictionary = story.get("_current_presentation")
+	if str(presentation.get("channel", "")) != str(contract["channel"]):
+		_fail("%s channel expected %s, got %s." % [
+			event_id, contract["channel"], presentation.get("channel", "")])
+		return
+	if bool(story.get("_portrait_remote_inset")):
+		_fail("%s rendered a local participant as a remote inset." % event_id)
+		return
+	var actual_ambience := str(BGMPlayer.get("_current_ambience_key"))
+	if actual_ambience != str(contract["ambience"]):
+		_fail("%s ambience expected %s, got %s." % [
+			event_id, contract["ambience"], actual_ambience])
+		return
+
+	var portrait_frame := story.get("_portrait_frame") as Control
+	var portrait := story.get("_portrait") as TextureRect
+	var expected_portrait_path := ImageRegistry.get_portrait_for_turn(
+		str(contract["portrait"]), GameState.turn)
+	var actual_portrait_path := (
+		portrait.texture.resource_path
+		if is_instance_valid(portrait) and portrait.texture != null else "")
+	if not is_instance_valid(portrait_frame) or not portrait_frame.visible \
+			or expected_portrait_path.is_empty() \
+			or actual_portrait_path != expected_portrait_path:
+		_fail("%s portrait mismatch: actual=%s expected=%s." % [
+			event_id, actual_portrait_path, expected_portrait_path])
+		return
+	var viewport_rect := get_viewport().get_visible_rect()
+	var visible_portrait := portrait.get_global_rect().intersection(viewport_rect)
+	if visible_portrait.size.x < viewport_rect.size.x * 0.25 \
+			or visible_portrait.size.y < viewport_rect.size.y * 0.70:
+		_fail("%s portrait is too small or clipped: %s in %s." % [
+			event_id, visible_portrait, viewport_rect])
+		return
+	var living_profile: Dictionary = story.get("_living_profile")
+	if str(living_profile.get("event_intent", "")) != "explicit_move" \
+			or not is_equal_approx(float(living_profile.get("portrait_safe", -1.0)), 1.0):
+		_fail("%s living profile lost explicit-move portrait safety: %s." % [
+			event_id, living_profile])
+		return
+
+	if LocaleManager.is_english() and _contains_hangul(_collect_control_text(story)):
+		_fail("%s leaked Hangul on its English story surface." % event_id)
+		return
+	var viewport_safe := viewport_rect.grow(1.0)
+	for raw_control in [
+		story.get("_hud_panel"), story.get("_text_panel"),
+		story.get("_choice_box"), story.get("_result_record_card"),
+	]:
+		if raw_control is Control:
+			var control := raw_control as Control
+			if control.is_visible_in_tree() \
+					and not viewport_safe.encloses(control.get_global_rect()):
+				_fail("%s control %s escaped the viewport: %s / %s." % [
+					event_id, control.name, control.get_global_rect(), viewport_safe])
+				return
+	if bool(story.get("_showing_choices")):
+		var choice_box := story.get("_choice_box") as VBoxContainer
+		var choice_buttons: Array[Button] = []
+		if is_instance_valid(choice_box):
+			for raw_button in choice_box.find_children("*", "Button", true, false):
+				if raw_button is Button and (raw_button as Button).is_visible_in_tree():
+					choice_buttons.append(raw_button as Button)
+		if choice_buttons.size() != int(contract["choice_count"]):
+			_fail("%s expected %d visible choices, got %d." % [
+				event_id, int(contract["choice_count"]),
+				choice_buttons.size()])
+			return
+		_assert_story_display_contract(story, event_id)
+		if _qa_failed:
+			return
+		for button in choice_buttons:
+			var font := button.get_theme_font("font")
+			var font_size := button.get_theme_font_size("font_size")
+			var measured := font.get_multiline_string_size(
+				button.text, HORIZONTAL_ALIGNMENT_LEFT,
+				maxf(80.0, button.size.x - 32.0), font_size)
+			if measured.y > button.size.y - 4.0:
+				_fail("%s choice button clips vertically: text=%s measured=%.1f actual=%.1f." % [
+					event_id, button.text, measured.y, button.size.y])
+				return
 
 func _shot_living_scene_surfaces(lang: String, prefix: String) -> void:
 	await _shot_story_event("kx_monsoon", prefix + "01_rain", lang, 1.5, true)

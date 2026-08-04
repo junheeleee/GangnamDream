@@ -37,7 +37,7 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 248,
+  "inventory_count": 249,
   "counts": {
     "1080p": {
       "CG": {
@@ -48,7 +48,7 @@
         "severe": 0
       },
       "Portrait": {
-        "native": 91,
+        "native": 92,
         "light": 0,
         "medium": 0,
         "heavy": 0,
@@ -72,7 +72,7 @@
       },
       "Portrait": {
         "native": 32,
-        "light": 0,
+        "light": 1,
         "medium": 59,
         "heavy": 0,
         "severe": 0
@@ -3659,6 +3659,23 @@
       "band": {
         "1080p": "native",
         "4k": "medium"
+      }
+    },
+    "assets/characters/npc_housing_counselor.png": {
+      "kind": "Portrait",
+      "ids": [
+        "housing_counselor"
+      ],
+      "width": 1023,
+      "height": 1537,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5005,
+        "4k": 1.001
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "light"
       }
     },
     "assets/characters/npc_hyunsu_accounting.png": {

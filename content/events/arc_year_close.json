@@ -30,6 +30,8 @@
       "hit_rock_bottom": "12월이었다.\n\n바닥을 봤다. 진짜 바닥이 어디인지 알게 된 해였다.\n\n수첩 첫 줄의 '{notebook_motive}'에는 지우개 가루가 묻어 있었다. 문장은 지우지 않았다.\n\n거기서 올라왔다. 완전히는 아니지만 — 올라왔다.\n\n고시원 방 천장을 봤다. 금이 하나 있었다. 여전히 같은 자리에."
     },
     "description_memory_if_known": {
+      "m3_ledger_reasons_named": "3월 장부에 적어 둔 짧은 이유를 따라가자, 열두 달치 숫자 사이에서 각 금액 뒤의 하루와 시간이 다시 보였다.",
+      "m3_ledger_totals_only": "3월 장부의 합계는 정확했다. 하지만 그 합계로 셀 수 없는 일들은 따로 적어야 했다.",
       "obligation_receipt:demo_collision:selected:father_call": "24주차 금요일, {name}은 아버지에게 먼저 전화를 걸었다. 병명도 창원에 내려갈 날짜도 정하지 못했지만, 다음에 연락할 시간은 종이에 남겼다.",
       "obligation_receipt:demo_collision:selected:hanbit_month_close": "24주차 금요일, {name}은 한빛유통에서 처음 맡은 월말 오류표를 오후 5시 59분에 보냈다. 확인하지 못한 숫자를 억지로 채우지 않고 월요일 재확인 항목으로 남겼다.",
       "obligation_receipt:demo_collision:selected:city_work_sample&v2_city_service_result_seen": "24주차 금요일, {name}은 도시시설운영단 작업표를 제출했다. 28주차에는 같은 지원번호로 면접을 진행하지 않는다는 문자가 왔다. 제출과 결과가 한 줄로 이어진 지원이었다.",

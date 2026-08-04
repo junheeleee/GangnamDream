@@ -14,6 +14,36 @@ GPT(DALL-E / GPT-4o)에 아래 프롬프트를 순서대로 전달해서 이미�
 
 ---
 
+## 2026-08-04 ORDER-83 — 주거복지 상담사 초상
+
+- **최종 경로**: `assets/characters/npc_housing_counselor.png`
+- **생성 방식**: Codex 내장 ImageGen
+- **생성 원본**: `/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-3d90daf2-2cf3-459f-a420-80f06add1f73.png`
+- **원본/최종**: 1023x1537 RGB chroma-key 원본 → 1023x1537 RGBA 초상
+- **최종 SHA-256**: `47fa4926baa149933ddf824fc908976f5405dfafcaeed118a76ebe398c65779d`
+
+최종 프롬프트:
+
+```text
+Use case: stylized-concept
+Asset type: visual-novel game character portrait cutout for Gangnam Dream
+Primary request: create one original Korean public housing welfare counselor for a grounded contemporary Seoul drama, an unnamed woman in her late 40s whose practical attentiveness feels credible rather than glamorous
+Subject: Korean woman, late 40s, calm observant face with ordinary skin texture and faint age lines, neat short-to-medium dark hair, understated navy-gray cardigan over a pale blouse, simple municipal-style lanyard with a completely blank card, holding a pen and two unmarked housing consultation sheets at waist level; no readable text or logos
+Style/medium: high-quality semi-realistic Korean webtoon/manhwa character render with restrained ink lines, natural anatomy, realistic fabric folds, subtle painterly shading, everyday human imperfections; serious literary film tone, not anime-cute and not a stock-photo look
+Composition/framing: single person, three-quarter body portrait from head to below hips, near-front three-quarter pose, gaze slightly toward screen-left as if listening to Minjun across a desk, hands fully visible, generous padding, centered silhouette suitable for a visual novel portrait
+Lighting/mood: soft neutral fluorescent public-office light, compassionate but professionally reserved expression, muted cool palette
+Scene/backdrop: perfectly flat solid #00ff00 chroma-key background for local background removal; one uniform color only, no floor plane
+Constraints: crisp complete silhouette, no crop at hair or hands, no cast shadow, no contact shadow, no reflection, no background objects, no words, no logos, no watermark; the background must have no gradients, texture, shadows, or lighting variation; do not use #00ff00 anywhere in the person, clothing, papers, pen, or lanyard
+Avoid: glamorous fashion styling, youthful idol face, hospital uniform, corporate executive suit, police uniform, exaggerated smile, melodramatic pose, fantasy elements, extra people, readable badge text
+```
+
+내장 도구의 chroma-key 원본을 설치된 `remove_chroma_key.py`로 변환했다.
+`--soft-matte --despill --edge-contract 1`을 적용해 머리카락과 옷 가장자리의
+녹색 번짐을 줄였고, 최종본은 투명 모서리·완전한 손·빈 명찰·무문자 서류를
+원본 해상도에서 확인했다.
+
+---
+
 ## 2026-08-04 ORDER-75 — 24주 첫 결산 전용 연출
 
 > 주의: 이 두 문장은 원 ImageGen 호출 기록이 유실된 뒤 결과물·정본·참조

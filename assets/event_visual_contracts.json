@@ -1,5 +1,5 @@
 {
-  "version": 35,
+  "version": 36,
   "tag_coverage": [
     "climate",
     "season",
@@ -222,6 +222,8 @@
     {"id": "v2_convenience_trial_shift", "background": "convenience_night", "portrait": null},
     {"id": "v2_inventory_count_nights", "background": "warehouse_inventory_night", "portrait": null},
     {"id": "v2_logistics_class_session", "background": "community_center", "portrait": null},
+    {"id": "v2_m3_room_ledger_anchor", "background": "current_housing", "portrait": "player_offduty_neutral"},
+    {"id": "v2_m4_housing_consultation_anchor", "background": "community_center", "portrait": "housing_counselor"},
     {"id": "v2_moving_crew_days", "background": "moving_truck_loading_dusk", "portrait": null},
     {"id": "v2_empty_sunday", "background": "goshiwon_room", "portrait": null},
     {"id": "v2_demo_first_bill_opening", "background": "v2_first_bill_desk_closeup", "portrait": "player_first_bill_decision"},

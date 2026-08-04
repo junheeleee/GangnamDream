@@ -865,7 +865,7 @@ def body_authorization_error(
     scope: str, allow_demo_body: bool, allow_full_body: bool,
 ) -> str:
     if scope == "demo" and not allow_demo_body:
-        return "demo_GO_required"
+        return "demo_text_freeze_required"
     if scope == "all" or scope in {"events", "endings", "catalog"}:
         if not allow_full_body:
             return "full_game_GO_required"
@@ -925,12 +925,12 @@ def main() -> int:
     parser.add_argument(
         "--allow-body",
         action="store_true",
-        help="Unlock only the 24-week demo body after the explicit demo GO decision.",
+        help="Unlock only the 24-week demo body after its approved source text is final.",
     )
     parser.add_argument(
         "--allow-full-body",
         action="store_true",
-        help="Unlock full 1,599-event/35-ending/catalog generation only after a separate full-game GO.",
+        help="Unlock full 1,601-event/35-ending/catalog generation only after a separate full-game GO.",
     )
     parser.add_argument(
         "--inventory",
@@ -966,14 +966,14 @@ def main() -> int:
             {"id": "added", "title": "new"},
         ]:
             failures.append("demo event merge deleted, duplicated, or reordered rows")
-        if body_authorization_error("demo", False, False) != "demo_GO_required":
-            failures.append("demo body opened without demo approval")
+        if body_authorization_error("demo", False, False) != "demo_text_freeze_required":
+            failures.append("demo body opened before the source-text freeze")
         if body_authorization_error("events", True, False) != "full_game_GO_required":
-            failures.append("demo approval opened full event generation")
+            failures.append("demo text freeze opened full event generation")
         if body_authorization_error("all", True, False) != "full_game_GO_required":
-            failures.append("demo approval opened the full all-scope generation")
+            failures.append("demo text freeze opened the full all-scope generation")
         if body_authorization_error("demo", True, False):
-            failures.append("approved demo scope remained locked")
+            failures.append("text-frozen demo scope remained locked")
         cases += 1
         short_entry = Entry("self-test-short", "돈", "pipeline self-test")
         if not any(
@@ -1011,10 +1011,11 @@ def main() -> int:
     authorization_error = body_authorization_error(
         args.scope, args.allow_body, args.allow_full_body
     )
-    if authorization_error == "demo_GO_required" and not args.inventory:
+    if authorization_error == "demo_text_freeze_required" and not args.inventory:
         print(
             "BODY_TRANSLATION_HELD scope="
-            f"{args.scope} reason=demo_GO_required hint=use_--allow-body_only_after_approval",
+            f"{args.scope} reason=demo_text_freeze_required "
+            "hint=use_--allow-body_only_after_the_approved_24-week_source_text_is_final",
             file=sys.stderr,
         )
         return 2

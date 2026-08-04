@@ -1053,6 +1053,7 @@ func _check_atomic_action_roundtrips() -> void:
 	_check_atomic_action_roundtrip("m3_hanbit_application", 9)
 	_check_atomic_action_roundtrip("m3_inventory_shift", 10)
 	_check_atomic_action_roundtrip("m3_empty_saturday", 11)
+	_check_atomic_action_roundtrip("m3_room_ledger", 12)
 	_check_atomic_action_roundtrip("m3_library_job_board", 12)
 
 func _check_atomic_action_roundtrip(
@@ -1061,6 +1062,11 @@ func _check_atomic_action_roundtrip(
 	GameState.turn = action_turn
 	var scene_bundle := CORE_LOOP.bundle(bundle_id)
 	var action_id := str(scene_bundle.get("action_id", ""))
+	var expected_story_owned := bundle_id == "m3_room_ledger"
+	_expect(CORE_LOOP.story_owns_action_result(bundle_id) \
+			== expected_story_owned,
+		"%s did not preserve the exact Month-Three story-owned opt-in"
+			% bundle_id)
 	var config: Dictionary = (
 		(scene_bundle.get("action_config", {}) as Dictionary).duplicate(true)
 		if scene_bundle.get("action_config", {}) is Dictionary else {}
@@ -1087,6 +1093,8 @@ func _check_atomic_action_roundtrip(
 	var health_before := int(GameState.health)
 	var mental_before := int(GameState.mental)
 	_expect(CORE_LOOP.begin_bundle(bundle_id, "schedule") \
+			and CORE_LOOP.story_owns_action_result() \
+				== expected_story_owned \
 			and GameState.arm_weekly_commitment({
 				"turn": action_turn,
 				"pressure_id": bundle_id,

@@ -1699,6 +1699,14 @@
     {
       "kind": "portrait",
       "ids": [
+        "housing_counselor"
+      ],
+      "relative_path": "characters/npc_housing_counselor.png",
+      "resolution": "1023x1537"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
         "hyunsu_accounting"
       ],
       "relative_path": "characters/npc_hyunsu_accounting.png",

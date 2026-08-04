@@ -49,9 +49,19 @@ const ACTION_STORY_FIXTURES := [
 		"root": "v2_inventory_count_nights",
 	},
 	{
+		"bundle_id": "m3_room_ledger",
+		"turn": 12,
+		"root": "v2_m3_room_ledger_anchor",
+	},
+	{
 		"bundle_id": "m4_certificate_session",
 		"turn": 14,
 		"root": "v2_logistics_class_session",
+	},
+	{
+		"bundle_id": "m4_housing_welfare_consultation",
+		"turn": 16,
+		"root": "v2_m4_housing_consultation_anchor",
 	},
 	{
 		"bundle_id": "m5_weekend_move_shift",
@@ -62,6 +72,26 @@ const ACTION_STORY_FIXTURES := [
 		"bundle_id": "m5_last_empty_sunday",
 		"turn": 19,
 		"root": "v2_empty_sunday",
+	},
+]
+
+const STORY_OWNED_OLD_SAVE_FIXTURES := [
+	{
+		"bundle_id": "m3_room_ledger",
+		"turn": 12,
+		"memory_flags": [
+			"m3_ledger_reasons_named",
+			"m3_ledger_totals_only",
+		],
+	},
+	{
+		"bundle_id": "m4_housing_welfare_consultation",
+		"turn": 16,
+		"memory_flags": [
+			"m4_housing_priority_runway",
+			"m4_housing_priority_privacy",
+			"m4_housing_priority_time",
+		],
 	},
 ]
 
@@ -843,6 +873,7 @@ func _ready() -> void:
 	_check_cash_position_copy()
 	_check_first_bill_loan_copy()
 	_check_action_story_roundtrips()
+	_check_story_owned_completed_save_neutral()
 	_check_father_prelude_roundtrip()
 	_check_application_response_roundtrips()
 	_check_hyunsu_future_bridge()
@@ -875,7 +906,7 @@ func _ready() -> void:
 	if _failures.is_empty():
 		print(
 			"CORE_LOOP_V2_E_CHECK_OK schema=3 cap=24 prototype=1_24 "
-			+ "action_story=5/once/save "
+			+ "action_story=7/once/save/story_owned_result_bypass "
 			+ "offers=base5/hyunsu6/daeun6/rich7 "
 			+ "father=week21/pre_plan/three_exact_receipts/save "
 			+ "applications=dodam_no_offer/city_submitted/inbox/save "
@@ -1129,6 +1160,8 @@ func _check_action_story_roundtrips() -> void:
 			if scene_bundle.get("action_config", {}) is Dictionary else {}
 		)
 		var action_id := str(scene_bundle.get("action_id", ""))
+		var story_owned := str(scene_bundle.get(
+			"action_result_presentation", "")) == "story_owned"
 		var effects: Dictionary = (
 			(fixture.get("effects", {}) as Dictionary).duplicate(true)
 			if fixture.get("effects", {}) is Dictionary \
@@ -1159,7 +1192,10 @@ func _check_action_story_roundtrips() -> void:
 
 		_expect(scene_bundle.get("existing_roots", []) == [root] \
 				and not action_id.is_empty() \
+				and CORE_LOOP.story_owns_action_result(bundle_id) \
+					== story_owned \
 				and CORE_LOOP.begin_bundle(bundle_id, "schedule") \
+				and CORE_LOOP.story_owns_action_result() == story_owned \
 				and CORE_LOOP.action_story_stage(bundle_id) == "action" \
 				and CORE_LOOP.complete_active_bundle().is_empty(),
 			"%s did not begin as an action-first dual surface" % bundle_id)
@@ -1171,6 +1207,20 @@ func _check_action_story_roundtrips() -> void:
 			"choice_id": action_id,
 			"forgone_ids": [],
 		})
+		if story_owned and armed:
+			var in_progress_stats := _action_story_stat_snapshot()
+			var in_progress_save: Dictionary = (
+				GameState.serialize().duplicate(true))
+			GameState.start_new_game()
+			GameState.load_from_dict(in_progress_save)
+			CORE_LOOP.initialize_for_run()
+			_expect(CORE_LOOP.action_story_stage(bundle_id) == "action" \
+					and not CORE_LOOP.action_result_ready() \
+					and CORE_LOOP.action_receipt(bundle_id).is_empty() \
+					and GameState.has_pending_weekly_commitment(target_turn) \
+					and _action_story_stat_snapshot() == in_progress_stats,
+				"%s in-progress save invented a result or replayed effects"
+					% bundle_id)
 		var transaction := GameState.finalize_weekly_effect_action(
 			action_id, effects, axis, place_id, "", details) \
 			if armed else {"ok": false}
@@ -1182,6 +1232,20 @@ func _check_action_story_roundtrips() -> void:
 				and CORE_LOOP.complete_active_bundle().is_empty(),
 			"%s skipped, duplicated, or prematurely completed its action"
 				% bundle_id)
+		if story_owned:
+			var result_ready_save: Dictionary = (
+				GameState.serialize().duplicate(true))
+			GameState.start_new_game()
+			GameState.load_from_dict(result_ready_save)
+			CORE_LOOP.initialize_for_run()
+			_expect(CORE_LOOP.action_result_ready() \
+					and CORE_LOOP.story_owns_action_result() \
+					and CORE_LOOP.action_story_stage(bundle_id) == "story" \
+					and CORE_LOOP.recover_action_result().get(
+						"bundle_id", "") == bundle_id \
+					and _action_story_stat_snapshot() == after_action,
+				"%s old result-ready save did not route to its story bridge"
+					% bundle_id)
 		_expect(CORE_LOOP.acknowledge_action_story_result(bundle_id) \
 				and not CORE_LOOP.action_result_ready() \
 				and CORE_LOOP.action_story_stage(bundle_id) == "story",
@@ -1217,6 +1281,7 @@ func _check_action_story_roundtrips() -> void:
 		CORE_LOOP.initialize_for_run()
 		_expect(CORE_LOOP.has_completed_bundle(bundle_id) \
 				and CORE_LOOP.action_story_stage(bundle_id).is_empty() \
+				and not CORE_LOOP.action_result_ready() \
 				and _action_story_stat_snapshot() == after_action,
 			"%s lost completion or reapplied effects after completion load"
 				% bundle_id)
@@ -1240,6 +1305,40 @@ func _action_story_stat_snapshot() -> Dictionary:
 		"intelligence": int(GameState.intelligence),
 		"action_points": int(GameState.action_points),
 	}
+
+func _check_story_owned_completed_save_neutral() -> void:
+	for raw_fixture in STORY_OWNED_OLD_SAVE_FIXTURES:
+		var fixture: Dictionary = raw_fixture
+		var bundle_id := str(fixture.get("bundle_id", ""))
+		var target_turn := int(fixture.get("turn", 0))
+		_fresh_at(target_turn)
+		var state: Dictionary = GameState.core_loop_v2_state
+		state["completed_turns"] = [target_turn]
+		state["completed_bundles"] = [bundle_id]
+		state["completed_bundle_turns"] = {bundle_id: target_turn}
+		state["active_bundle"] = ""
+		state["active_kind"] = ""
+		state["active_turn"] = 0
+		state["action_result_ready"] = false
+		GameState.core_loop_v2_state = state
+		var old_completed_save: Dictionary = (
+			GameState.serialize().duplicate(true))
+		GameState.start_new_game()
+		GameState.load_from_dict(old_completed_save)
+		CORE_LOOP.initialize_for_run()
+		var invented_memory := false
+		for raw_flag in fixture.get("memory_flags", []):
+			invented_memory = invented_memory \
+				or bool(GameState.flags.get(str(raw_flag), false))
+		_expect(CORE_LOOP.turn_completed(target_turn) \
+				and CORE_LOOP.has_completed_bundle(bundle_id) \
+				and CORE_LOOP.active_bundle_id().is_empty() \
+				and CORE_LOOP.action_story_stage(bundle_id).is_empty() \
+				and not CORE_LOOP.action_result_ready() \
+				and not CORE_LOOP.story_owns_action_result() \
+				and not invented_memory,
+			"%s completed old save invented a retroactive scene or memory"
+				% bundle_id)
 
 func _check_father_prelude_roundtrip() -> void:
 	_fresh_at(21)

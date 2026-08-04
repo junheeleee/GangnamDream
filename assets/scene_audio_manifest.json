@@ -1,5 +1,5 @@
 {
-  "version": 18,
+  "version": 19,
   "updated": "2026-08-04",
   "policy": {
     "diegetic_spoken_language": "ko",
@@ -174,7 +174,7 @@
           "v2_empty_sunday", "v2_father_health_signal", "v2_gangnam_receipt_walk", "v2_hanbit_interview",
           "v2_hanbit_offer_message", "v2_hyunsu_exam_eve", "v2_hyunsu_exam_morning_echo", "v2_hyunsu_first_study",
           "v2_hyunsu_player_reachout", "v2_hyunsu_study_followup", "v2_inventory_count_nights", "v2_jaehyuk_message",
-          "v2_jaehyuk_plain_reunion_echo", "v2_jiyeon_second_crossing", "v2_logistics_class_session", "v2_mirae_result_message",
+          "v2_jaehyuk_plain_reunion_echo", "v2_jiyeon_second_crossing", "v2_logistics_class_session", "v2_m3_room_ledger_anchor", "v2_m4_housing_consultation_anchor", "v2_mirae_result_message",
           "v2_moving_crew_days", "v2_sangchul_demo_echo", "v2_sangchul_housing_lead", "v2_seorin_result_message",
           "yolo_morning_after"
         ],
@@ -1069,6 +1069,44 @@
     "v2_logistics_class_session": {
       "ambience": "public_office",
       "suppress_music": true
+    },
+    "v2_m3_room_ledger_anchor": {
+      "ambience": "current_housing",
+      "suppress_music": true,
+      "paragraph_cues": {
+        "0": [
+          {"sfx": "paper_handle", "volume_db": -6.0}
+        ]
+      },
+      "result_paragraph_cues": {
+        "0": {
+          "0": [{"sfx": "pen_write", "volume_db": -5.0}]
+        },
+        "1": {
+          "0": [{"sfx": "pen_write", "volume_db": -5.0}]
+        }
+      }
+    },
+    "v2_m4_housing_consultation_anchor": {
+      "ambience": "public_office",
+      "suppress_music": true,
+      "paragraph_cues": {
+        "1": [
+          {"sfx": "paper_handle", "volume_db": -6.0},
+          {"sfx": "pen_write", "delay": 0.38, "volume_db": -5.0}
+        ]
+      },
+      "result_paragraph_cues": {
+        "0": {
+          "1": [{"sfx": "pen_write", "volume_db": -5.0}]
+        },
+        "1": {
+          "1": [{"sfx": "pen_write", "volume_db": -5.0}]
+        },
+        "2": {
+          "1": [{"sfx": "pen_write", "volume_db": -5.0}]
+        }
+      }
     },
     "v2_moving_crew_days": {
       "ambience": "street",

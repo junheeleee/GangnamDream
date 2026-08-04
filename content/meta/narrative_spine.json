@@ -288,6 +288,42 @@
           "event": "arc_pre_ending_summit"
         }
       ]
+    },
+    {
+      "id": "ledger_reasons",
+      "meaning": "3월 장부에 합계만 남겼는지, 숫자 옆에 그날의 이유도 남겼는지가 이후 장부에서 사람과 시간을 읽는 방식을 바꾼다.",
+      "plant": {
+        "chapter": 1,
+        "event": "v2_m3_room_ledger_anchor"
+      },
+      "readers": [
+        {
+          "chapter": 2,
+          "event": "arc_34_money_attracts_money"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_final_countdown"
+        }
+      ]
+    },
+    {
+      "id": "room_priority",
+      "meaning": "방을 고를 때 먼저 지킨 기준이 잔액·혼자 있을 공간·이동시간의 값을 바꾼다.",
+      "plant": {
+        "chapter": 1,
+        "event": "v2_m4_housing_consultation_anchor"
+      },
+      "readers": [
+        {
+          "chapter": 2,
+          "event": "arc_year_one_mark"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_final_week"
+        }
+      ]
     }
   ],
   "chapters": [

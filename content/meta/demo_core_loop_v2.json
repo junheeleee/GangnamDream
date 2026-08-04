@@ -42,11 +42,13 @@
       "v2_dirty_recruiter_week24",
       "v2_gangnam_receipt_walk",
       "v2_demo_first_bill_opening",
-      "v2_demo_first_bill"
+      "v2_demo_first_bill",
+      "v2_m4_housing_consultation_anchor"
     ],
     "exempt_events": {
       "v2_convenience_trial_shift": "solo action bridge without authored speaker exchange or message payload",
       "v2_inventory_count_nights": "solo action bridge without authored speaker exchange or message payload",
+      "v2_m3_room_ledger_anchor": "solo room action and interior reflection without quoted speaker exchange or message payload",
       "v2_logistics_class_session": "solo action bridge without authored speaker exchange or message payload",
       "v2_moving_crew_days": "solo action bridge without authored speaker exchange or message payload",
       "v2_empty_sunday": "solo recovery bridge without authored speaker exchange or message payload",
@@ -510,8 +512,8 @@
       "producer_bundle": "m4_housing_welfare_consultation",
       "consumer_kind": "next_month_message",
       "visible_month": 5,
-      "message_ko": "주거복지센터의 이번 달 상담 시간이 끝났다. 보증금과 월세 계산은 다음 접수 때 다시 물어봐야 한다.",
-      "message_en": "This month's housing-welfare consultation hours ended; the deposit and rent calculation must wait for the next intake."
+      "message_ko": "주민센터의 이번 달 주거복지 상담 시간이 끝났다. 보증금과 월세 계산은 다음 접수 때 다시 물어봐야 한다.",
+      "message_en": "This month's community-center housing consultation hours ended; the deposit and rent calculation must wait for the next intake."
     },
     "daeun_named_return_passes": {
       "producer_bundle": "daeun_player_return",
@@ -1052,6 +1054,8 @@
       "estimated_minutes": 3,
       "allowed_weeks": [9, 10, 11, 12],
       "action_id": "rest",
+      "action_result_presentation": "story_owned",
+      "existing_roots": ["v2_m3_room_ledger_anchor"],
       "action_config": {
         "execution": "rest",
         "effects": {
@@ -1295,6 +1299,8 @@
       "estimated_minutes": 4,
       "allowed_weeks": [13, 14, 15, 16],
       "action_id": "study",
+      "action_result_presentation": "story_owned",
+      "existing_roots": ["v2_m4_housing_consultation_anchor"],
       "action_config": {
         "execution": "instant_effect",
         "axis": "human",
@@ -1305,17 +1311,17 @@
         },
         "result_title_ko": "주거 상담에서 숫자를 다시 적었다",
         "result_title_en": "The Housing Costs Were Recalculated",
-        "result_body_ko": "주거복지센터 상담원과 보증금, 월세, 관리비를 차례로 적었다. 당장 옮길 수 있는 방은 없었지만, 이사비까지 함께 계산해야 한다는 사실은 분명해졌다.",
-        "result_body_en": "With a housing-welfare counselor, he listed the deposit, rent, and maintenance fee. There was nowhere he could move yet, but the moving cost now had a place in the calculation."
+        "result_body_ko": "주민센터 주거복지 상담 창구에서 보증금, 월세, 관리비, 중개비, 이사비를 차례로 적었다. 방을 보기 전에 무엇을 먼저 지킬지 정해야 한다는 사실이 분명해졌다.",
+        "result_body_en": "At the community center's housing-welfare desk, he listed the deposit, rent, maintenance fee, brokerage fee, and moving cost. Before looking at rooms, he first had to decide what mattered most."
       },
       "characters": [],
       "initiated_by": "player",
       "phone_surface": "self_note",
       "consumes_slot": true,
-      "offer_ko": "주거복지센터에서 방값 계산하기",
-      "offer_en": "Calculate Housing Costs with a Counselor",
-      "detail_ko": "주거복지센터에서 보증금과 월세, 관리비를 합친 실제 이사 비용을 묻는다.",
-      "detail_en": "Ask a housing-welfare counselor for the real moving cost including deposit, rent, and maintenance fees.",
+      "offer_ko": "주민센터에서 이사 비용 상담받기",
+      "offer_en": "Review Moving Costs with a Housing Counselor",
+      "detail_ko": "주민센터 주거복지 상담 창구에서 보증금·월세·관리비·이사비를 함께 계산한다.",
+      "detail_en": "At the community center's housing-welfare desk, review the deposit, rent, maintenance fees, and moving costs together.",
       "deadline_ko": "네 번째 달 상담 접수가 끝나기 전",
       "deadline_en": "Before Month Four consultation intake closes",
       "decline_ko": "이번 달 상담 시간이 끝나면 다음 접수 때까지 기다려야 한다.",

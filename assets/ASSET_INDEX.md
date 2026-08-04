@@ -27,6 +27,7 @@ Updated on 2026-07-16 for Father wardrobe separation and the Father-passing Seou
 Updated on 2026-07-17 for Hyunsu's dedicated old-goshiwon-alley gukbap reunion background.
 Updated on 2026-07-24 for the seven-person `y1`/`y3`/`y5` cast-time axis and the dedicated Stable Success ending CG.
 Updated on 2026-08-04 for the 24-week first-bill desk close-up and Minjun's fixed year-one decision portrait.
+Updated on 2026-08-04 for the Month-4 housing-welfare counselor's transparent B-scene portrait.
 
 ## Use These Assets
 
@@ -290,6 +291,10 @@ weather, romance, and historical portraits remain fixed.
 
 - `assets/characters/npc_goshiwon_owner.png`
   - Goshiwon owner/manager transparent portrait, 58-year-old practical Sinchon boarding-house operator.
+
+- `assets/characters/npc_housing_counselor.png`
+  - Housing Counselor transparent portrait for the Month-4 community-center consultation, fixed at age 49 on first appearance.
+  - B-scene readability lock: short dark hair, navy cardigan, blank public-service lanyard, paper and pen; no readable agency name or generic stock-photo smile.
 
 - `assets/characters/npc_seongjun.png`
   - Park Seongjun transparent portrait, 34-year-old high-school friend and third-year 9th-grade civil servant.

@@ -79,9 +79,15 @@ const PERSON_KINDS := ["pursuit", "encounter", "care"]
 const ACTION_STORY_ROOTS := {
 	"m1_convenience_trial_shift": "v2_convenience_trial_shift",
 	"m3_inventory_shift": "v2_inventory_count_nights",
+	"m3_room_ledger": "v2_m3_room_ledger_anchor",
 	"m4_certificate_session": "v2_logistics_class_session",
+	"m4_housing_welfare_consultation": "v2_m4_housing_consultation_anchor",
 	"m5_weekend_move_shift": "v2_moving_crew_days",
 	"m5_last_empty_sunday": "v2_empty_sunday",
+}
+const STORY_OWNED_ACTION_ROOTS := {
+	"m3_room_ledger": "v2_m3_room_ledger_anchor",
+	"m4_housing_welfare_consultation": "v2_m4_housing_consultation_anchor",
 }
 const STORY_GAMEPLAY_KEYS := [
 	"effects",
@@ -561,6 +567,14 @@ func _check_action_story_surface_contracts() -> void:
 				and _bundle_has_registered_authored_surface(bundle_id),
 			"%s is not one registered action+story hybrid rooted at %s" % [
 				bundle_id, root_id])
+		var expected_story_owned := STORY_OWNED_ACTION_ROOTS.has(bundle_id)
+		_expect(CORE_LOOP.story_owns_action_result(bundle_id) \
+				== expected_story_owned \
+				and str(scene_bundle.get(
+					"action_result_presentation", "")) \
+					== ("story_owned" if expected_story_owned else ""),
+			"%s action-result presentation escaped its exact opt-in" \
+				% bundle_id)
 		var pending: Array[String] = [root_id]
 		var visited: Array[String] = []
 		while not pending.is_empty():
@@ -585,6 +599,9 @@ func _check_action_story_surface_contracts() -> void:
 					continue
 				var choice: Dictionary = raw_choice
 				for gameplay_key in STORY_GAMEPLAY_KEYS:
+					if gameplay_key == "flags" \
+							and STORY_OWNED_ACTION_ROOTS.has(bundle_id):
+						continue
 					_expect(not choice.has(gameplay_key),
 						"%s hybrid story %s duplicates action gameplay key %s"
 							% [bundle_id, event_id, gameplay_key])
@@ -592,6 +609,10 @@ func _check_action_story_surface_contracts() -> void:
 					choice.get("follow_up_event", "")).strip_edges()
 				if not follow_up.is_empty() and not visited.has(follow_up):
 					pending.append(follow_up)
+	_expect(not CORE_LOOP.story_owns_action_result(
+			"m3_library_job_board") \
+			and not CORE_LOOP.story_owns_action_result("missing_bundle"),
+		"story-owned result query accepted a fallback-only or missing action")
 
 func _check_month_five_offer_matrix() -> void:
 	_fresh_at(17)
