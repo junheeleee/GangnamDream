@@ -16,9 +16,11 @@
 `content/meta/release_content_inventory.json`, `content/meta/demo_localization_scope.json`,
 `docs/STORY_BIBLE.md`, `docs/CORE_LOOP_V2.md`, `docs/BALANCE.md`,
 `docs/QA_CHECKLIST.md`, `docs/CONTENT_RATING_INVENTORY.md`, `docs/WORK_LOG.md`,
-`docs/STATUS.md`, `docs/MASTER_RELEASE_AUDIT.md`,
+`docs/STATUS.md`, `docs/MASTER_RELEASE_AUDIT.md`, `docs/AUDIO_QA.md`,
+`docs/I18N_INFRASTRUCTURE.md`, `docs/I18N_GLOSSARY_ZH.md`,
 `docs/RELEASE_NOTES.md`, `docs/DEMO_FIXLOG.md`, `docs/human_gates.json`,
 `docs/CODEX_QUEUE.md`, 이 사양의 활성·아카이브 경로, `scenes/MainGame.gd`,
+`scenes/StoryMode.gd`,
 `systems/DemoCoreLoopV2.gd`, `tools/demo_core_loop_v2_audit.py`,
 `tools/CoreLoopV2Check.gd`, `tools/CoreLoopV2BCheck.gd`, `tools/CoreLoopV2ECheck.gd`,
 `tools/CoreLoopV2FirstEntryCheck.gd`, `tools/CoreLoopV2HandoffCheck.gd`,
@@ -28,7 +30,7 @@
 `tools/arc_flow_sim.py`, `tools/exposed_state_consistency_audit.py`,
 `tools/scene_audio_contract_check.py`, `tools/event_director_audit.py`,
 `tools/first_session_pacing_audit.py`, `tools/release_content_inventory.py`,
-`tools/audit_scope.json`.
+`tools/ja_translation_pipeline.py`, `tools/audit_scope.json`.
 
 **사용자 승인 (2026-08-04):** `docs/DECISIONS.md`의 P-7을 권고대로 실행한다.
 현재 V2의 `opening_interview_math`는 실제로 첫 면접만 재생하고, 월 200만원으로
