@@ -18,6 +18,7 @@
 > `autoloads/LocaleManager.gd`, `autoloads/GameState.gd`,
 > `autoloads/ImageRegistry.gd`,
 > `scenes/MainGame.gd`, `scenes/StoryMode.gd`,
+> `scenes/ArubaGame.gd`, `scenes/JobHuntMiniGame.gd`,
 > `scenes/CoreLoopPlanner.gd`, `scenes/CommunicationPhone.gd`,
 > `scenes/OpeningCinematic.gd`, `scenes/StartMenu.gd`,
 > `systems/DemoCoreLoopV2.gd`,
@@ -39,7 +40,7 @@
 
 ## 깊이 3문
 
-1. 지우면 정적 UI 2,545키 통과를 실제 24주 일본어 완성으로 오인하고 계획판과
+1. 지우면 정적 UI 2,546키 통과를 실제 24주 일본어 완성으로 오인하고 계획판과
    연락폰에 수백 개 영어 문장을 남긴다.
 2. 모든 합법 선택의 도달 합집합과 동적 한영 쌍을 먼저 고정하면 한 자동 경로에
    안 나온 장면을 번역에서 누락하지 않고, 본편 25~240주를 잘못 번역하지 않는다.
@@ -56,6 +57,8 @@
   `finish_run` 엔딩이 아니므로 데모 번역 범위의 ending은 0이다.
 - 70사건의 번역 가능한 텍스트 경로와 `demo_core_loop_v2.json`의 모든
   `*_ko/*_en` 쌍, 오프닝 시네마의 6개 쌍을 원본 경로·해시와 함께 잠근다.
+  합법 행동 경로에서 무작위로 고를 수 있는 편의점 손님 52쌍, 배달 주문
+  12쌍, 자소서 40쌍, 모의면접 40쌍, 편의점 종료 장면 3쌍도 동일하게 잠근다.
   같은 한국어 키의 반복과 영어 불일치는 별도로 검사한다.
 - 준비 언어가 `LocaleManager.is_english()`로 곧바로 영어 값을 고르는 데모 경로를
   `LocaleManager.ui(ko, en)` 단일 폴백으로 모은다. 번역 키가 없으면 지금처럼
@@ -63,14 +66,16 @@
 - 번역 파이프라인은 `description_memory_if_known`와 선택 `bridge_summary`를
   포함한 허용 텍스트 필드를 모두 추출한다. 조건·효과·flags·후속 라우팅·수치
   필드는 번역 오버레이에 복사하지 않는다.
-- 번역 실행 도구도 같은 범위를 소유한다. 데모 모드는 70사건·333개 동적 키·
+- 번역 실행 도구도 같은 범위를 소유한다. 데모 모드는 70사건·479개 동적 키·
   시장 자산명 4개만 수집하고 기존 정적 UI·데모 밖 번역 행을 보존하며 병합한다.
   데모 승인만으로 전체 1,599사건·35엔딩·전체 카탈로그 생성 모드를 열지 않는다.
   정적 UI 감사는 동적 데모 키를 허용하되 미번역 상태를 정적 UI 누락과 섞지 않는다.
 - 기본 준비 감사는 구조·source drift·숨김 상태·기존 번역 행의 정합을 실패시키고,
-  미번역 수는 명시적으로 보고하되 현재 KO/EN CI를 막지 않는다. 언어별
+  미번역 수는 명시적으로 보고하되 현재 KO/EN CI를 막지 않는다. 일본어
   `--strict`는 70사건·동적 표면 완전성·영어 우회 0을 요구해 번역 전에는 의도대로
-  실패한다. 자체 변이 검사가 누락 사건·동적 쌍·잘못된 선택 구조를 각각 잡는다.
+  실패한다. 중국어 strict는 지역별 감사가 생기는 ORDER-82 전까지 인증을 거부한다.
+  자체 변이 검사가 누락 사건·동적 쌍·잘못된 선택 구조·미니게임 영어 직행을
+  각각 잡는다.
 
 ## 배치 B — 작품 번역 게이트
 
@@ -91,6 +96,9 @@
 - `python3 tools/demo_localization_scope.py --lang all`
 - `python3 tools/release_content_inventory.py --self-test`
 - `python3 tools/ja_translation_audit.py --scope ui`
+- `python3 tools/ja_translation_pipeline.py --scope demo --inventory`
+- `python3 tools/ja_translation_pipeline.py --self-test`
+- `python3 tools/ja_translation_audit.py --scope demo`
 - `python3 tools/i18n_coverage_check.py --lang ja`
 - `python3 tools/context_manifest_check.py`
 - `python3 tools/queue_consistency_check.py`
