@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-86
+# Archived Queue Spec: ORDER-86
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-86 [P0·현지화] 영어 인물 목소리와 관계 거리를 24주 데모 전체에서 바로잡는다
+#### [x] ORDER-86 [P0·현지화] 영어 인물 목소리와 관계 거리를 24주 데모 전체에서 바로잡는다
 
 **착수 선언 (2026-08-04 Codex) — 만지는 파일:**
 영어 정본 `docs/I18N_GLOSSARY.md`, 정확한 데모 영어 오버레이
@@ -182,3 +182,19 @@ PASS·EDIT와 before→after / 한국어 의미·숫자·토큰 불변 / 독립 
   `CoreLoopV2C/ECheck`, `StoryDialogueHistoryCheck`, Godot 60스크립트 컴파일과
   `tools/audit.sh` 전체가 통과했다. `demo_en_voice_random_three`는 자동 통과시키지
   않고 열린 사람 판정으로 유지한다.
+
+## 완료·규범 판정 (2026-08-04)
+
+- 구현 커밋 `556e929`를 `main`에 반영했고 원격 CI
+  [30905074570](https://github.com/junheeleee/GangnamDream/actions/runs/30905074570)이
+  정적 감사, 전체 Godot 감사, KO PlayStation·EN 키보드 24주 실제 입력, 경제·
+  경마 스모크를 모두 통과했다.
+- **승격:** 계속 유효한 영어 관계 거리 규칙은
+  `docs/I18N_GLOSSARY.md`의 `영어 인물 목소리 — 화자→청자`가 소유한다.
+- **자동 지속:** 기존 현지화 범위·커버리지·한글 누출·말투·서사·Core Loop·
+  출시 인벤토리와 정확한 Godot 화면·입력 검사가 의미·구조 회귀를 막는다.
+- **일회성:** 22단위 before→after 원장, 두 독립 재독과 이번 화면·실행 표본은
+  이 교정 배치의 완료 증거다. 문장 길이·축약형·완곡어·호칭 비율을 새 자동
+  합격선으로 만들지 않는다.
+- **사람 판정:** `demo_en_voice_random_three`는 같은 `demo_rc`에서 원어민 또는
+  준원어민이 임의 3단위를 판정할 때까지 열린 채로 남는다.
