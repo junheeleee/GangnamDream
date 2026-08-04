@@ -2,7 +2,25 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-84 [P0·수치 정합] 모든 현금을 1원 단위로 정산하고 0원 기회를 막는다
+#### [~] ORDER-84 [P0·수치 정합] 모든 현금을 1원 단위로 정산하고 0원 기회를 막는다
+
+**착수 선언 (2026-08-04 Codex) — 만지는 파일:**
+`autoloads/GameState.gd`, `autoloads/EventManager.gd`, `autoloads/DataRegistry.gd`,
+`systems/InvestmentSystem.gd`, `scenes/MainGame.gd`, `scenes/StoryMode.gd`,
+`content/events/amb_scenarios2.json`, `content/events/arc_events.json`,
+`content/events/callback_events_3.json`, `content/events/callback_events_4.json`,
+`content/events/callback_events_5.json`, `content/events/investment_events.json`,
+`content/events/scenario_cafe_callback.json`과 대응하는 `content/events_en/` 오버레이,
+`tools/SimRun.gd`, `tools/balance_sim.py`, `tools/convergence_sim.py`,
+`tools/CoreLoopV2HandoffCheck.gd`, `tools/ScreenshotQA.gd`, `tools/audit.py`,
+`tools/audit.sh`, `tools/audit_scope.json`, `tools/mod_pack_validator.py`,
+신규 `tools/MoneyIntegrityCheck.gd/.tscn`, 신규 기회 현금 감사,
+`docs/BALANCE.md`, `docs/QA_CHECKLIST.md`, `docs/CORE_LOOP_V2.md`,
+`docs/CONVERGENCE_REPORT.md`, `docs/MODDING.md`, `docs/WORK_LOG.md`,
+`docs/STATUS.md`, `docs/RELEASE_NOTES.md`, `docs/DEMO_FIXLOG.md`, `CLAUDE.md`,
+`docs/CODEX_QUEUE.md`, 이 사양의 활성·아카이브 경로, 그리고 감사가 요구하는
+`content/meta/release_content_inventory.json`, `docs/CONTENT_RATING_INVENTORY.md`.
+현금 외 수량·수익률·확률과 엔딩·출시 진입은 소유하지 않는다.
 
 **사용자 승인 (2026-08-04):** `docs/DECISIONS.md`의 P-6을 권고대로 실행한다.
 현금의 정본 단위는 1원이며, 비율 거래를 포함한 한 거래가 끝날 때 한 번만
