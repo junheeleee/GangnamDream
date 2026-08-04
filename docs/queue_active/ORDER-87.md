@@ -18,7 +18,8 @@
 `docs/CODEX_QUEUE.md`, 이 사양의 활성·아카이브 경로, `scenes/MainGame.gd`,
 `systems/DemoCoreLoopV2.gd`, `tools/demo_core_loop_v2_audit.py`,
 `tools/CoreLoopV2Check.gd`, `tools/CoreLoopV2BCheck.gd`, `tools/CoreLoopV2ECheck.gd`,
-`tools/CoreLoopV2HandoffCheck.gd`, `tools/ScreenshotQA.gd`,
+`tools/CoreLoopV2FirstEntryCheck.gd`, `tools/CoreLoopV2HandoffCheck.gd`,
+`tools/ScreenshotQA.gd`,
 `tools/StoryPlaybackCheck.gd`, `tools/StoryTutorialPlacementCheck.gd`,
 `tools/DemoBuildCheck.gd`, `tools/core_loop_v2_balance_sim.py`,
 `tools/arc_flow_sim.py`, `tools/exposed_state_consistency_audit.py`.
