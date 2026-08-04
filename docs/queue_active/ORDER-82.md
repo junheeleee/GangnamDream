@@ -19,7 +19,8 @@
 > 배치 B — 글꼴·사람 판정·완료 기록:
 > `autoloads/FontKit.gd`, `tools/I18nInfrastructureCheck.gd`,
 > `assets/fonts/FONT_LICENSE_LEDGER.md`, `docs/I18N_INFRASTRUCTURE.md`,
-> `docs/QA_CHECKLIST.md`, `docs/human_gates.json`,
+> `docs/QA_CHECKLIST.md`, `docs/human_gates.json`, `docs/CONTEXT_INDEX.md`,
+> `docs/context_manifest.json`,
 > `CLAUDE.md`, `docs/CODEX_QUEUE.md`, `docs/DEMO_FIXLOG.md`,
 > `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `docs/STATUS.md`,
 > `docs/queue_active/ORDER-82.md`, `docs/queue_archive/ORDER-82.md`.
