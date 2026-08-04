@@ -19,7 +19,7 @@
 > `autoloads/ImageRegistry.gd`,
 > `scenes/MainGame.gd`, `scenes/StoryMode.gd`,
 > `scenes/CoreLoopPlanner.gd`, `scenes/CommunicationPhone.gd`,
-> `scenes/OpeningCinematic.gd`,
+> `scenes/OpeningCinematic.gd`, `scenes/StartMenu.gd`,
 > `systems/DemoCoreLoopV2.gd`,
 > `tools/demo_localization_scope.py`, `tools/release_content_inventory.py`,
 > `tools/ja_translation_pipeline.py`, `tools/ja_translation_audit.py`,
