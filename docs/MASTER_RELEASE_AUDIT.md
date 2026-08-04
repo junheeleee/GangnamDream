@@ -68,7 +68,12 @@ contain all ten notice/ledger files byte-for-byte, verified by
 `third_party_notice_audit.py --pack-zip` alongside the release-content pack
 inventory. KO/EN ScreenshotQA at
 960x600 and 1280x800 must keep all three tabs, full license text, scrolling,
-safe-area bounds, and focus restoration usable. Automated hashes and renders
+safe-area bounds, an inset between legal copy and the focus frame, and focus
+restoration usable. The global V2 badge stays clear of StoryMode's dialogue-log
+and settings commands; narrow Story HUD text is clipped/ellipsized inside its
+reserved slot. Notice and monthly-planner surfaces hide the redundant floating
+badge while the title/notice identity remains available, so it cannot cover a
+header command. Automated hashes and renders
 prove ledger/package/surface alignment; they do not replace human readability
 or legal review.
 

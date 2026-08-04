@@ -16,6 +16,9 @@ func _ready() -> void:
 	_parent.add_child(_underlying)
 	_underlying.grab_focus()
 
+	# The input that opened a tutorial can still be held when the overlay enters.
+	# It must be released before the first slide accepts a fresh confirmation.
+	_send_keyboard_accept_press()
 	TutorialOverlay.force_show("main_game", _parent)
 	await get_tree().process_frame
 	await get_tree().process_frame
@@ -26,6 +29,22 @@ func _ready() -> void:
 	var focus_owner := get_viewport().gui_get_focus_owner()
 	if focus_owner == null or not overlay.is_ancestor_of(focus_owner):
 		_fail("tutorial did not trap focus")
+		return
+	if int(overlay.get("_slide_idx")) != 0:
+		_fail("held entry accept skipped the opening tutorial slide")
+		return
+
+	_send_keyboard_accept_press(true)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if int(overlay.get("_slide_idx")) != 0:
+		_fail("keyboard echo skipped the opening tutorial slide")
+		return
+	_send_keyboard_accept_release()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if int(overlay.get("_slide_idx")) != 0:
+		_fail("releasing the held entry accept advanced the tutorial")
 		return
 
 	_send_keyboard_accept()
@@ -38,11 +57,23 @@ func _ready() -> void:
 		_fail("physical Enter did not advance exactly one tutorial slide")
 		return
 
-	_send_pad_accept()
+	_send_pad_accept_press()
 	await get_tree().process_frame
 	await get_tree().process_frame
 	if int(overlay.get("_slide_idx")) != 2:
-		_fail("pad South did not advance exactly one tutorial slide")
+		_fail("pad South press did not advance exactly one tutorial slide")
+		return
+	_send_pad_accept_press()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if int(overlay.get("_slide_idx")) != 2:
+		_fail("held pad South skipped a tutorial slide")
+		return
+	_send_pad_accept_release()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if int(overlay.get("_slide_idx")) != 2:
+		_fail("releasing held pad South advanced the tutorial")
 		return
 
 	var next_button := overlay.get("_next_btn") as Button
@@ -76,23 +107,35 @@ func _find_overlay() -> TutorialOverlay:
 	return null
 
 func _send_keyboard_accept() -> void:
+	_send_keyboard_accept_press()
+	_send_keyboard_accept_release()
+
+func _send_keyboard_accept_press(echo: bool = false) -> void:
 	var press := InputEventKey.new()
 	press.keycode = KEY_ENTER
 	press.physical_keycode = KEY_ENTER
 	press.pressed = true
+	press.echo = echo
 	Input.parse_input_event(press)
-	var release := press.duplicate() as InputEventKey
+
+func _send_keyboard_accept_release() -> void:
+	var release := InputEventKey.new()
+	release.keycode = KEY_ENTER
+	release.physical_keycode = KEY_ENTER
 	release.pressed = false
 	Input.parse_input_event(release)
 
-func _send_pad_accept() -> void:
+func _send_pad_accept_press() -> void:
 	# Headless CI has no physical joypad device, so feed the mapped South action.
 	# Raw brand/button mapping is covered by InputMatrixCheck.
 	var press := InputEventAction.new()
 	press.action = "ui_accept"
 	press.pressed = true
 	Input.parse_input_event(press)
-	var release := press.duplicate() as InputEventAction
+
+func _send_pad_accept_release() -> void:
+	var release := InputEventAction.new()
+	release.action = "ui_accept"
 	release.pressed = false
 	Input.parse_input_event(release)
 

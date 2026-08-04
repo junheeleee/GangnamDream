@@ -3048,9 +3048,13 @@ func _assert_core_loop_v2_debug_entry(lang: String) -> void:
 	if not is_instance_valid(test_button) or not test_button.visible:
 		_fail("DEBUG title menu does not expose the Core Loop V2 test entry.")
 		return
+	var build_flavor = load("res://systems/BuildFlavor.gd")
 	var expected_test_label := LocaleManager.ui(
-		"Core Loop V2  ·  24주 테스트",
-		"Core Loop V2  ·  24-Week Test")
+		"24주 데모 시작", "Start 24-Week Demo") \
+		if build_flavor.is_core_loop_v2_playtest_build() else \
+		LocaleManager.ui(
+			"Core Loop V2  ·  24주 테스트",
+			"Core Loop V2  ·  24-Week Test")
 	if test_button.text != expected_test_label:
 		_fail("DEBUG Core Loop V2 entry does not name the twenty-four-week slice: %s." % [
 			test_button.text])
@@ -3071,7 +3075,11 @@ func _assert_core_loop_v2_debug_entry(lang: String) -> void:
 	if bool(GameState.core_loop_v2_state.get("enabled", false)):
 		_fail("Normal New Story incorrectly enables Core Loop V2.")
 		return
-	if build_info.CORE_LOOP_V2_CHANNEL in get_window().title:
+	if build_flavor.is_core_loop_v2_playtest_build():
+		if build_info.CORE_LOOP_V2_CHANNEL not in get_window().title:
+			_fail("Playtest title lost the Core Loop V2 channel label.")
+			return
+	elif build_info.CORE_LOOP_V2_CHANNEL in get_window().title:
 		_fail("Normal New Story incorrectly labels the window as Core Loop V2.")
 		return
 	menu._initialize_new_run_state(true)
@@ -3689,6 +3697,36 @@ func _check_third_party_notice_chrome(
 					viewport,
 				]
 			)
+	var scroll := overlay.find_child(
+		"ThirdPartyNoticesScroll", true, false) as ScrollContainer
+	var content := overlay.find_child(
+		"ThirdPartyNoticesContent", true, false) as VBoxContainer
+	if not is_instance_valid(scroll) or not is_instance_valid(content):
+		_fail("Third-party notice tab %d has no padded scroll content." % section_index)
+		return
+	var scroll_rect := scroll.get_global_rect()
+	var content_rect := content.get_global_rect()
+	if content_rect.position.x < scroll_rect.position.x + 12.0 \
+			or content_rect.end.x > scroll_rect.end.x - 12.0:
+		_fail(
+			"Third-party notice tab %d copy is flush with its scroll frame: "
+			+ "content=%s scroll=%s." % [
+				section_index, content_rect, scroll_rect])
+	if section_index < 3 \
+			and content_rect.position.y < scroll_rect.position.y + 8.0:
+		_fail(
+			"Third-party notice tab %d has no top content inset: "
+			+ "content=%s scroll=%s." % [
+				section_index, content_rect, scroll_rect])
+	for raw_body in overlay.find_children("*", "Label", true, false):
+		if not bool(raw_body.get_meta(
+				"third_party_notice_legal_body", false)):
+			continue
+		var legal_body := raw_body as Label
+		if legal_body.get_theme_font_size("font_size") < 14:
+			_fail(
+				"Third-party notice tab %d legal copy is below 14px."
+				% section_index)
 
 func _remove_start_menu_nodes() -> void:
 	var targets: Array[Node] = []
@@ -6751,8 +6789,20 @@ func _run_core_loop_v2_input_route(
 				if tutorial_inputs != 3:
 					_fail("Core Loop V2 onboarding dismissed after %d inputs instead of three." % tutorial_inputs)
 					return false
-				if GameState.serialize() != tutorial_state_before:
-					_fail("Core Loop V2 onboarding input mutated gameplay state.")
+				var tutorial_state_after: Dictionary = GameState.serialize().duplicate(true)
+				var tutorial_flags_before: Dictionary = tutorial_state_before.get(
+					"flags", {}).duplicate(true)
+				var tutorial_flags_after: Dictionary = tutorial_state_after.get(
+					"flags", {}).duplicate(true)
+				var tutorial_completed := bool(tutorial_flags_after.get(
+					"tutorial_shown", false))
+				tutorial_flags_before.erase("tutorial_shown")
+				tutorial_flags_after.erase("tutorial_shown")
+				tutorial_state_before["flags"] = tutorial_flags_before
+				tutorial_state_after["flags"] = tutorial_flags_after
+				if not tutorial_completed \
+						or tutorial_state_after != tutorial_state_before:
+					_fail("Core Loop V2 onboarding changed state beyond its completed flag.")
 					return false
 				var tutorial_planner := _find_visible_core_loop_v2_planner(scene)
 				var tutorial_planner_after := {
@@ -6905,8 +6955,19 @@ func _run_core_loop_v2_input_route(
 							or calendar_surface.is_visible_in_tree() \
 							or not is_instance_valid(review_surface) \
 							or review_surface.get_child_count() == 0 \
-							or not confirm.is_visible_in_tree() or confirm.disabled:
-						_fail("Core Loop V2 Month %d review flag opened without a visible record surface." % month_index)
+							or not confirm.is_visible_in_tree() or not confirm.disabled:
+						_fail("Core Loop V2 Month %d review flag opened without a gated final-review surface." % month_index)
+						return false
+					var review_edit := _find_visible_meta_button(
+						planner, "core_loop_v2_review_edit")
+					if review_edit == null \
+							or get_viewport().gui_get_focus_owner() != review_edit:
+						_fail("Core Loop V2 Month %d review did not park focus on its safe Edit action." % month_index)
+						return false
+					await get_tree().create_timer(0.40).timeout
+					await get_tree().process_frame
+					if confirm.disabled:
+						_fail("Core Loop V2 Month %d final confirm did not unlock after a fresh release gate." % month_index)
 						return false
 				else:
 					await get_tree().process_frame
@@ -7172,7 +7233,7 @@ func _core_loop_v2_armed_surface_visible(
 		return false
 	if not is_instance_valid(hint_label) \
 			or _tr("주에 넣기", "Place in Week") not in hint_label.text \
-			or _tr("다시 누르면 취소", "Again to Cancel") not in hint_label.text:
+			or _tr("선택 취소", "Cancel") not in hint_label.text:
 		_fail("Core Loop V2 %s armed offer has no independent placement/cancel hint." % context)
 		return false
 	var viewport_rect := get_viewport().get_visible_rect().grow(1.0)

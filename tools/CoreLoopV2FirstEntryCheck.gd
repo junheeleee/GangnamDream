@@ -141,8 +141,8 @@ func _check_fresh_and_reentry_flow() -> void:
 		"first-month planning board did not open after Chapter 1")
 	_expect(tutorial != null and int(tutorial.get("_slides").size()) == 3,
 		"V2 onboarding did not open as a three-slide overlay over the planner")
-	_expect(bool(GameState.flags.get("tutorial_shown", false)),
-		"V2 onboarding did not persist its one-time run flag")
+	_expect(not bool(GameState.flags.get("tutorial_shown", false)),
+		"V2 onboarding persisted its one-time flag before actual completion")
 	if not is_instance_valid(planner) or tutorial == null:
 		_dispose(main_game)
 		return
@@ -179,6 +179,19 @@ func _check_fresh_and_reentry_flow() -> void:
 			and tutorial.is_ancestor_of(tutorial_focus),
 		"North opened the phone or stole focus while the V2 tutorial was active")
 
+	_send_tab_key(KEY_E)
+	await _expect_tutorial_owns_planner_tab(
+		planner, tutorial, tab_before, "E")
+	_send_tab_key(KEY_Q)
+	await _expect_tutorial_owns_planner_tab(
+		planner, tutorial, tab_before, "Q")
+	_send_tab_shoulder(JOY_BUTTON_RIGHT_SHOULDER)
+	await _expect_tutorial_owns_planner_tab(
+		planner, tutorial, tab_before, "right shoulder")
+	_send_tab_shoulder(JOY_BUTTON_LEFT_SHOULDER)
+	await _expect_tutorial_owns_planner_tab(
+		planner, tutorial, tab_before, "left shoulder")
+
 	_send_keyboard_accept()
 	await get_tree().process_frame
 	await get_tree().process_frame
@@ -201,6 +214,8 @@ func _check_fresh_and_reentry_flow() -> void:
 	await get_tree().process_frame
 	_expect(_find_tutorial(main_game) == null,
 		"V2 tutorial did not dismiss after its third slide")
+	_expect(bool(GameState.flags.get("tutorial_shown", false)),
+		"completed V2 onboarding did not persist its one-time run flag")
 	_expect(_underlying_presses == 0 \
 			and planner.schedule_snapshot() == schedule_before \
 			and planner.routine_snapshot() == routines_before \
@@ -316,6 +331,40 @@ func _send_phone_shortcut_north() -> void:
 	var release := press.duplicate() as InputEventJoypadButton
 	release.pressed = false
 	Input.parse_input_event(release)
+
+
+func _send_tab_key(keycode: Key) -> void:
+	var press := InputEventKey.new()
+	press.keycode = keycode
+	press.physical_keycode = keycode
+	press.pressed = true
+	Input.parse_input_event(press)
+	var release := press.duplicate() as InputEventKey
+	release.pressed = false
+	Input.parse_input_event(release)
+
+
+func _send_tab_shoulder(button_index: JoyButton) -> void:
+	var press := InputEventJoypadButton.new()
+	press.button_index = button_index
+	press.pressed = true
+	Input.parse_input_event(press)
+	var release := press.duplicate() as InputEventJoypadButton
+	release.pressed = false
+	Input.parse_input_event(release)
+
+
+func _expect_tutorial_owns_planner_tab(
+		planner: Control, tutorial: TutorialOverlay,
+		expected_tab: int, input_name: String) -> void:
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var tutorial_focus := get_viewport().gui_get_focus_owner()
+	_expect(int(planner.get("_active_tab")) == expected_tab \
+			and tutorial_focus != null \
+			and tutorial.is_ancestor_of(tutorial_focus),
+		"%s switched the planner or stole focus behind V2 onboarding" \
+				% input_name)
 
 
 func _on_underlying_planner_pressed() -> void:

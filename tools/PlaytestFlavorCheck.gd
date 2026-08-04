@@ -35,6 +35,8 @@ func _run() -> void:
 	_check_build_identity()
 	_check_runtime_default_boundary()
 	await _check_start_surface()
+	await _check_planner_marker_context()
+	await _check_story_marker_clearance()
 	_stop_test_audio()
 	# StartMenu asks the persistent SceneTransition autoload for a 0.35-second
 	# fade. Let that tween release its bound resources before the strict gate
@@ -260,7 +262,90 @@ func _check_start_surface() -> void:
 	_expect(is_instance_valid(identity)
 			and identity.text == BuildInfoScript.identity_label(false),
 		"StartMenu identity does not show the active playtest flavor.")
+	menu.call("_open_third_party_notices")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var notices := menu.find_child(
+		"ThirdPartyNoticesOverlay", true, false) as Control
+	_expect(is_instance_valid(notices),
+		"Playtest StartMenu could not open Third-Party Notices.")
+	if is_instance_valid(notices) and is_instance_valid(marker):
+		_expect(str(marker.get_meta("marker_context", "")) == "notice",
+			"The playtest marker did not enter its notice-safe slot.")
+		_expect(get_viewport().get_visible_rect().encloses(
+				marker.get_global_rect()),
+			"The notice-safe playtest marker escaped the viewport.")
+		for raw_button in notices.find_children("*", "Button", true, false):
+			var button := raw_button as Button
+			if button.is_visible_in_tree():
+				_expect(not marker.get_global_rect().intersects(
+						button.get_global_rect()),
+					"The notice-safe playtest marker covers %s." % button.name)
+	menu.call("_close_third_party_notices")
+	await get_tree().process_frame
+	if is_instance_valid(marker):
+		_expect(str(marker.get_meta("marker_context", "")) == "default",
+			"Closing Third-Party Notices did not restore the default marker slot.")
 	_dispose(menu)
+
+
+func _check_story_marker_clearance() -> void:
+	GameState.story_replay_mode = true
+	GameState.pending_story_queue = ["story_prologue_dad"]
+	GameState.story_return_scene = "res://scenes/MainGame.tscn"
+	var story := load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(story)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var marker := SceneTransition.find_child(
+		"CoreLoopV2PlaytestMarker", true, false) as Control
+	var log_button := story.get("_dialogue_log_button") as Button
+	var settings_button := story.get("_audio_settings_button") as Button
+	var hud_label := story.get("_hud_label") as Label
+	_expect(is_instance_valid(marker)
+			and str(marker.get_meta("marker_context", "")) == "story",
+		"StoryMode did not dock the persistent marker in its story-safe slot.")
+	for control in [log_button, settings_button, hud_label]:
+		_expect(is_instance_valid(control),
+			"StoryMode marker fixture is missing a HUD control.")
+		if is_instance_valid(marker) and is_instance_valid(control):
+			_expect(not marker.get_global_rect().intersects(
+					control.get_global_rect()),
+				"The story playtest marker covers %s." % control.name)
+	_expect(is_instance_valid(hud_label) and hud_label.clip_text
+			and hud_label.text_overrun_behavior == TextServer.OVERRUN_TRIM_ELLIPSIS,
+		"StoryMode HUD can draw through the Dialogue History controls at narrow widths.")
+	_dispose(story)
+	GameState.pending_story_queue.clear()
+	GameState.story_replay_mode = false
+	await get_tree().process_frame
+	if is_instance_valid(marker):
+		_expect(str(marker.get_meta("marker_context", "")) == "default",
+			"Leaving StoryMode did not restore the default marker slot.")
+
+
+func _check_planner_marker_context() -> void:
+	var marker := SceneTransition.find_child(
+		"CoreLoopV2PlaytestMarker", true, false) as Control
+	GameState.start_new_game()
+	DemoCoreLoopV2Script.initialize_for_run(true)
+	var planner := load("res://scenes/CoreLoopPlanner.gd").new() as Control
+	add_child(planner)
+	await get_tree().process_frame
+	_expect(bool(planner.open(1, false)),
+		"The editable month-one planner fixture could not open.")
+	await get_tree().process_frame
+	_expect(is_instance_valid(marker)
+			and str(marker.get_meta("marker_context", "")) == "planner",
+		"The planner did not receive a dedicated playtest-marker context.")
+	_expect(is_instance_valid(marker) and not marker.visible,
+		"The floating playtest marker can still cover planner header controls.")
+	planner.close()
+	await get_tree().process_frame
+	_expect(is_instance_valid(marker) and marker.visible
+			and str(marker.get_meta("marker_context", "")) == "default",
+		"Closing the planner did not restore the persistent playtest marker.")
+	_dispose(planner)
 
 
 func _unique_count(values: Array) -> int:

@@ -185,10 +185,36 @@ func _check_third_party_notices(menu: Control) -> void:
 		"Required audio attribution is not reachable in-game.")
 	_expect(not _contains_hangul(audio_text),
 		"English third-party audio notices contain Hangul.")
+	# Font notices contain the bundled full OFL bodies; return to that section
+	# before enforcing the tagged long-form readability floor.
+	menu.call("_set_third_party_notice_section", 1)
+	await get_tree().process_frame
 	var scroll := overlay.find_child("ThirdPartyNoticesScroll", true, false) as ScrollContainer
 	_expect(is_instance_valid(scroll) and scroll.size.x > 400.0
 			and scroll.size.y > 160.0,
 		"Notice reference area does not fit the current viewport.")
+	var content_margin := overlay.find_child(
+		"ThirdPartyNoticesContentMargin", true, false) as MarginContainer
+	var content := overlay.find_child(
+		"ThirdPartyNoticesContent", true, false) as VBoxContainer
+	_expect(is_instance_valid(content_margin) and is_instance_valid(content),
+		"Notice reference area has no padded content host.")
+	if is_instance_valid(scroll) and is_instance_valid(content):
+		var scroll_rect := scroll.get_global_rect()
+		var content_rect := content.get_global_rect()
+		_expect(content_rect.position.x >= scroll_rect.position.x + 12.0
+				and content_rect.end.x <= scroll_rect.end.x - 12.0
+				and content_rect.position.y >= scroll_rect.position.y + 8.0,
+			"Notice copy is flush with its scroll focus frame.")
+	var legal_bodies := overlay.find_children("*", "Label", true, false).filter(
+		func(node: Node) -> bool:
+			return bool(node.get_meta("third_party_notice_legal_body", false)))
+	_expect(not legal_bodies.is_empty(),
+		"Notice surface exposes no tagged full-license body.")
+	for raw_body in legal_bodies:
+		var legal_body := raw_body as Label
+		_expect(legal_body.get_theme_font_size("font_size") >= 14,
+			"Notice full-license copy fell below the 14px readability floor.")
 	var focus_frame := overlay.find_child(
 		"ThirdPartyNoticesScrollFrame", true, false) as Panel
 	_expect(is_instance_valid(scroll)

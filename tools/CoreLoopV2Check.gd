@@ -37,8 +37,9 @@ func _ready() -> void:
 			+ "boundary=week12_continues/week24_cap "
 			+ "planner=wide4tabs/4weeks/status+people+record/two_step/read_only "
 			+ "planner_intent=focus_safe/offer_then_week/toggle/move/invalid_safe "
-			+ "planner_focus=explicit_neighbors "
-			+ "planner_input=west_remove/east_safe/shoulders/p-north "
+			+ "planner_focus=explicit_neighbors/raw_dpad_route/all_tabs_scroll "
+			+ "planner_input=east_cancel/west_focus_only/fresh_confirm/double_click_safe/shoulders/p-north "
+			+ "planner_job=primary_fixed/duplicate_disabled "
 			+ "planner_layout=1280x800/960x600 communication=separate_signal "
 			+ "en_hangul=0 hidden_scores=0")
 		get_tree().quit(0)
@@ -655,11 +656,15 @@ func _check_planner_surface() -> void:
 			and planner._tab_buttons[0].text == "OVERVIEW" \
 			and planner._tab_buttons[1].text == "CALENDAR" \
 			and planner._tab_buttons[2].text == "PEOPLE" \
-			and planner._tab_buttons[3].text == "RECORD",
+			and planner._tab_buttons[3].text == "ROUTINE",
 		"wide planner did not expose the four canonical tabs")
 	_expect(planner._slot_buttons.size() == 4 \
 			and planner._offer_buttons.size() == 6,
 		"wide planner did not expose four weeks and six month-one options")
+	_expect(str(planner._routine_summary_label.text).find(
+			"RECOMMENDED DEFAULTS APPLIED") >= 0 \
+			and planner._routine_edit_button.text == "CHANGE",
+		"first month did not disclose its applied routine defaults and Change action")
 	_expect(planner._offer_scroll.follow_focus \
 			and planner._calendar_scroll.follow_focus \
 			and planner._offer_scroll.horizontal_scroll_mode \
@@ -668,7 +673,7 @@ func _check_planner_surface() -> void:
 				== ScrollContainer.SCROLL_MODE_DISABLED,
 		"wide planner lost controller focus-following vertical scroll")
 	_expect(planner._page_margin.get_theme_constant("margin_left") == 42 \
-			and planner._calendar_scroll.custom_minimum_size.x >= 419.0,
+			and planner._calendar_right_column.custom_minimum_size.x >= 419.0,
 		"1280x800 planner did not preserve its wide margins or four-week column")
 	var wide_offer_rect: Rect2 = planner._offer_scroll.get_global_rect()
 	var wide_week_rect: Rect2 = planner._calendar_scroll.get_global_rect()
@@ -686,6 +691,20 @@ func _check_planner_surface() -> void:
 	await get_tree().process_frame
 	var status_text := _collect_surface_text(planner)
 	surface_samples.append(status_text)
+	_expect(not planner._read_only_focus_controls.is_empty() \
+			and _focus_neighbor(planner._tab_buttons[0], "focus_neighbor_bottom") \
+				== planner._read_only_focus_controls[0] \
+			and _focus_neighbor(
+				planner._read_only_focus_controls[-1], "focus_neighbor_bottom") \
+				== planner._tab_buttons[0],
+		"incomplete Overview did not loop around its inspectable D-pad path")
+	_expect(planner._hint_label.text.find("Continue in Calendar") >= 0 \
+			and planner._hint_label.text.find("Remove on Week") < 0,
+		"incomplete Overview advertised a Calendar-only action")
+	planner._read_only_focus_controls[-1].grab_focus()
+	await _press_planner_pad(JOY_BUTTON_DPAD_DOWN)
+	_expect(_focused_planner_control(planner) == planner._tab_buttons[0],
+		"incomplete Overview D-pad path entered the disabled Review button")
 	_expect(status_text.find("CURRENT DATE") >= 0 \
 			and status_text.find("ACCOUNT BALANCE") >= 0 \
 			and status_text.find("NEXT FIXED COST") >= 0 \
@@ -703,11 +722,40 @@ func _check_planner_surface() -> void:
 	await get_tree().process_frame
 	var initial_people := _collect_surface_text(planner)
 	surface_samples.append(initial_people)
+	_expect(not planner._read_only_focus_controls.is_empty() \
+			and _focus_neighbor(planner._tab_buttons[2], "focus_neighbor_bottom") \
+				== planner._read_only_focus_controls[0] \
+			and _focus_neighbor(
+				planner._read_only_focus_controls[-1], "focus_neighbor_bottom") \
+				== planner._tab_buttons[2],
+		"incomplete People did not loop around its inspectable D-pad path")
+	_expect(planner._hint_label.text.find("Continue in Calendar") >= 0 \
+			and planner._hint_label.text.find("Remove on Week") < 0,
+		"incomplete People advertised a Calendar-only action")
+	planner._read_only_focus_controls[-1].grab_focus()
+	await _press_planner_pad(JOY_BUTTON_DPAD_DOWN)
+	_expect(_focused_planner_control(planner) == planner._tab_buttons[2],
+		"incomplete People D-pad path entered the disabled Review button")
 	_expect(initial_people.find("Father") >= 0,
 		"People did not show Father's already-saved number")
 	for hidden_name in ["Hyunsu", "Kim Daeun", "Han Jiyeon"]:
 		_expect(initial_people.find(hidden_name) < 0,
 			"People revealed an unmet or unnamed person: %s" % hidden_name)
+
+	planner._switch_tab(3)
+	await get_tree().process_frame
+	surface_samples.append(_collect_surface_text(planner))
+	_expect(planner._hint_label.text.find("D-pad Routines") >= 0 \
+			and planner._hint_label.text.find("Remove on Week") < 0,
+		"incomplete Routine advertised a Calendar-only action")
+	var last_incomplete_routine_control: Control = (
+		planner._read_only_focus_controls[-1]
+		if not planner._read_only_focus_controls.is_empty()
+		else planner._routine_focus_rows[-1][0] as Control)
+	_expect(_focus_neighbor(
+			last_incomplete_routine_control, "focus_neighbor_bottom") \
+			== planner._tab_buttons[3],
+		"incomplete Routine path entered the disabled Review button")
 
 	var planning_state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
 	var state: Dictionary = planning_state.duplicate(true)
@@ -749,6 +797,7 @@ func _check_planner_surface() -> void:
 	GameState.core_loop_v2_state = planning_state
 	planner._switch_tab(1)
 	await _check_planner_offer_then_week(planner)
+	await _check_planner_controller_regressions(planner, commits)
 	_expect(planner.assign_offer_to_week("m1_mirae_application", 1),
 		"planner could not schedule the application")
 	_expect(planner.assign_offer_to_week("father_first_call", 2),
@@ -766,19 +815,12 @@ func _check_planner_surface() -> void:
 			and planner.schedule_snapshot() == schedule_before_east,
 		"East changed or closed the required editable monthly plan")
 
-	planner._select_week(2)
-	var west_event := InputEventAction.new()
-	west_event.action = "gd_secondary"
-	west_event.pressed = true
-	planner._unhandled_input(west_event)
-	_expect(not planner.schedule_snapshot().has("2") \
-			and planner.visible and planner._active_tab == 1,
-		"West did not remove only the selected non-fixed week")
-	_expect(planner.assign_offer_to_week("father_first_call", 2),
-		"planner could not restore the week removed with West")
 	_expect(planner.select_routine("primary", "growth") \
 			and planner.select_routine("secondary", "livelihood"),
 		"planner could not choose two distinct weekly routines")
+	_expect(str(planner._routine_summary_label.text).find(
+			"RECOMMENDED DEFAULTS APPLIED") < 0,
+		"an intentional routine choice remained mislabeled as an automatic default")
 	var schedule: Dictionary = planner.schedule_snapshot()
 	_expect(schedule.size() == 4 \
 			and str(schedule.get("4", "")) == "first_temptation_boss",
@@ -792,6 +834,22 @@ func _check_planner_surface() -> void:
 			and record_text.find("TWO THINGS TO KEEP UP EACH WEEK") >= 0 \
 			and record_text.find("OPTIONS LEFT OUT") >= 0,
 		"Record did not explain routines, scheduled work, and options left out")
+	_expect(planner._hint_label.text.find("UP/DOWN Review") >= 0 \
+			and planner._hint_label.text.find("Remove on Week") < 0,
+		"Record advertised a Calendar-only remove command instead of scroll/review")
+	var first_routine_control: Control = planner._routine_focus_rows[0][0]
+	var last_routine_row: Array = planner._routine_focus_rows[-1]
+	var last_record_control: Control = planner._read_only_focus_controls[-1]
+	_expect(_focus_neighbor(planner._tab_buttons[3], "focus_neighbor_bottom") \
+			== first_routine_control \
+			and _focus_neighbor(
+				last_routine_row[0] as Control, "focus_neighbor_bottom") \
+				== planner._read_only_focus_controls[0] \
+			and _focus_neighbor(last_record_control, "focus_neighbor_bottom") \
+				== planner._confirm_button \
+			and _focus_neighbor(planner._confirm_button, "focus_neighbor_top") \
+				== last_record_control,
+		"Routine grid, inspectable record, and footer were not one D-pad path")
 	planner._switch_tab(1)
 	planner._communication_button.pressed.emit()
 	_expect(communication_requests.size() == 1 \
@@ -827,9 +885,12 @@ func _check_planner_surface() -> void:
 	_expect(review_text.find("REVIEW PLAN") >= 0 \
 			and review_text.find("OPTIONS LEFT OUT") >= 0,
 		"review step did not disclose the plan and forgone options")
+	var last_review_control: Control = planner._read_only_focus_controls[-1]
 	_expect(_focus_neighbor(planner._confirm_button, "focus_neighbor_top") \
-			== planner._tab_buttons[3],
-		"review confirmation kept a hidden Calendar focus chain above it")
+			== last_review_control \
+			and _focus_neighbor(planner._edit_button, "focus_neighbor_top") \
+				== last_review_control,
+		"review footer did not follow the last inspectable review section")
 	var schedule_before_phone_focus: Dictionary = planner.schedule_snapshot()
 	_expect(planner.focus_offer("father_first_call") \
 			and not planner.review_pending() \
@@ -839,19 +900,28 @@ func _check_planner_surface() -> void:
 		"Phone VIEW PLAN preserved a stale final-confirm state on Calendar")
 	planner._commit_plan()
 	await get_tree().process_frame
+	last_review_control = planner._read_only_focus_controls[-1]
 	_expect(planner.review_pending() and planner._active_tab == 3 \
 			and _focus_neighbor(planner._confirm_button, "focus_neighbor_top") \
-				== planner._tab_buttons[3],
+				== last_review_control,
 		"review could not be re-entered safely after Phone VIEW PLAN: pending=%s tab=%s neighbor=%s path=%s expected=%s" % [
 			planner.review_pending(), planner._active_tab,
 			_focus_neighbor(planner._confirm_button, "focus_neighbor_top"),
 			planner._confirm_button.focus_neighbor_top,
-			planner._confirm_button.get_path_to(planner._tab_buttons[3]),
+			planner._confirm_button.get_path_to(last_review_control),
 		])
 	planner._commit_plan()
+	_expect(commits.is_empty(),
+		"review accepted the same confirmation input before a fresh release")
+	await get_tree().create_timer(0.42).timeout
+	await get_tree().process_frame
+	await _click_planner_control(planner._confirm_button, true)
+	_expect(commits.is_empty() and planner._review_mouse_double_click_blocked,
+		"a 420ms mouse double-click bypassed the review confirmation gate")
+	await _click_planner_control(planner._confirm_button)
 	_expect(commits.size() == 1 \
 			and int(commits[0].get("month", 0)) == 1,
-		"second confirmation did not emit exactly one immutable plan payload")
+		"a fresh single click after the blocked double-click did not emit one plan")
 	if commits.is_empty():
 		planner.queue_free()
 		await get_tree().process_frame
@@ -871,8 +941,8 @@ func _check_planner_surface() -> void:
 		CORE_LOOP.plan_for_month(1).get("routines", {}) as Dictionary
 	).duplicate(true)
 	planner._cancel_commit_review()
-	planner._assign_offer("m1_phone_off_sunday")
-	_expect(_planner_armed_offer_id(planner) == "m1_phone_off_sunday",
+	planner._assign_offer("father_first_call")
+	_expect(_planner_armed_offer_id(planner) == "father_first_call",
 		"editable planner could not arm an offer before read-only reopen")
 	_expect(planner.open(1, true) and planner.read_only_plan() \
 			and planner.schedule_snapshot() == committed_schedule \
@@ -897,8 +967,8 @@ func _check_planner_surface() -> void:
 	await get_tree().process_frame
 	_expect(planner._compact_layout \
 			and planner._page_margin.get_theme_constant("margin_left") == 24 \
-			and planner._calendar_scroll.custom_minimum_size.x >= 339.0 \
-			and planner._calendar_scroll.custom_minimum_size.x <= 341.0,
+			and planner._calendar_right_column.custom_minimum_size.x >= 339.0 \
+			and planner._calendar_right_column.custom_minimum_size.x <= 341.0,
 		"960x600 planner did not enter its compact layout")
 	var compact_week_rect: Rect2 = planner._calendar_scroll.get_global_rect()
 	var compact_planner_rect: Rect2 = planner.get_global_rect()
@@ -918,12 +988,41 @@ func _check_planner_surface() -> void:
 	planner._switch_tab(0)
 	await get_tree().process_frame
 	surface_samples.append(_collect_surface_text(planner))
+	planner._tab_buttons[0].grab_focus()
+	for _index in range(planner._read_only_focus_controls.size()):
+		await _press_planner_pad(JOY_BUTTON_DPAD_DOWN)
+	_expect(_focused_planner_control(planner) \
+			== planner._read_only_focus_controls[-1] \
+			and _focus_neighbor(
+				planner._read_only_focus_controls[-1], "focus_neighbor_bottom") \
+				== planner._confirm_button,
+		"960x600 Overview rows were not traversable by D-pad to the footer")
 	planner._switch_tab(2)
 	await get_tree().process_frame
 	surface_samples.append(_collect_surface_text(planner))
+	planner._tab_buttons[2].grab_focus()
+	for _index in range(planner._read_only_focus_controls.size()):
+		await _press_planner_pad(JOY_BUTTON_DPAD_DOWN)
+	_expect(_focused_planner_control(planner) \
+			== planner._read_only_focus_controls[-1] \
+			and _focus_neighbor(
+				planner._read_only_focus_controls[-1], "focus_neighbor_bottom") \
+				== planner._confirm_button,
+		"960x600 People rows were not traversable by D-pad to the footer")
 	planner._switch_tab(3)
 	await get_tree().process_frame
 	surface_samples.append(_collect_surface_text(planner))
+	planner._tab_buttons[3].grab_focus()
+	planner._read_only_scroll.scroll_vertical = 0
+	for _index in range(planner._read_only_focus_controls.size()):
+		await _press_planner_pad(JOY_BUTTON_DPAD_DOWN)
+	var compact_scroll_bar: VScrollBar = planner._read_only_scroll.get_v_scroll_bar()
+	_expect(not planner._read_only_focus_controls.is_empty() \
+			and _focused_planner_control(planner) \
+				== planner._read_only_focus_controls[-1] \
+			and compact_scroll_bar.max_value > compact_scroll_bar.page \
+			and planner._read_only_scroll.scroll_vertical > 0,
+		"960x600 record could not reach and reveal its final section by D-pad")
 	var surface_text := "\n".join(surface_samples)
 	_expect(not _contains_hangul(surface_text),
 		"English planner surface leaked Hangul: %s" % surface_text)
@@ -939,6 +1038,295 @@ func _check_planner_surface() -> void:
 	planner.queue_free()
 	await get_tree().process_frame
 	await get_tree().process_frame
+	await _check_employed_planner_routines()
+
+func _check_employed_planner_routines() -> void:
+	GameState.start_new_game()
+	CORE_LOOP.initialize_for_run(true)
+	LocaleManager.set_language("en")
+	GameState.current_job = {"id": "qa_employed"}
+	var planner = PLANNER.new()
+	add_child(planner)
+	planner.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	planner.position = Vector2.ZERO
+	planner.size = Vector2(960, 600)
+	_expect(planner.open(1),
+		"employed planner fixture did not open month one")
+	await get_tree().process_frame
+	planner._switch_tab(3)
+	await get_tree().process_frame
+	var primary_income: Button = planner._routine_buttons.get(
+		"primary:livelihood") as Button
+	var secondary_income: Button = planner._routine_buttons.get(
+		"secondary:livelihood") as Button
+	var primary_growth: Button = planner._routine_buttons.get(
+		"primary:growth") as Button
+	var focusable_routines: Array = []
+	for row in planner._routine_focus_rows:
+		focusable_routines.append_array(row)
+	var routine_snapshot: Dictionary = planner.routine_snapshot()
+	_expect(is_instance_valid(primary_income) and not primary_income.disabled \
+			and is_instance_valid(primary_growth) and primary_growth.disabled \
+			and is_instance_valid(secondary_income) and secondary_income.disabled \
+			and not focusable_routines.has(secondary_income),
+		"employed planner exposed an invalid primary job or duplicate secondary income choice")
+	_expect(_collect_surface_text(planner).find("PRIMARY JOB FIXED") >= 0 \
+			and secondary_income.tooltip_text.find("cannot be selected twice") >= 0,
+		"employed Routine did not explain its fixed job and disabled duplicate")
+	_expect(not planner.select_routine("secondary", "livelihood") \
+			and planner.routine_snapshot() == routine_snapshot,
+		"employed planner accepted duplicate livelihood after disabling its button")
+	planner.queue_free()
+	await get_tree().process_frame
+	GameState.current_job = {}
+
+func _check_planner_controller_regressions(
+		planner, commits: Array[Dictionary]) -> void:
+	commits.clear()
+	_expect(planner.open(2),
+		"controller fixture could not leave month one before a clean reopen")
+	await get_tree().process_frame
+	_expect(planner.open(1),
+		"controller fixture could not reopen a clean month-one plan")
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	var first_offer := "m1_mirae_application"
+	_expect(_focused_planner_offer(planner) == first_offer,
+		"fresh planner did not focus the first offer for D-pad play")
+	await _press_planner_pad(JOY_BUTTON_RIGHT_SHOULDER)
+	await _press_planner_pad(JOY_BUTTON_RIGHT_SHOULDER)
+	_expect(planner._active_tab == 3 \
+			and _focused_planner_control(planner) == planner._tab_buttons[3],
+		"shoulder navigation did not land on the Routine tab")
+	await _press_planner_pad(JOY_BUTTON_DPAD_DOWN)
+	_expect(planner._routine_buttons.values().has(
+			_focused_planner_control(planner)),
+		"Routine tab Down did not enter its first enabled routine choice")
+	await _press_planner_pad(JOY_BUTTON_LEFT_SHOULDER)
+	await _press_planner_pad(JOY_BUTTON_LEFT_SHOULDER)
+	_expect(planner._active_tab == 1 \
+			and _focused_planner_control(planner) == planner._tab_buttons[1],
+		"shoulder navigation did not return from Routine to Calendar")
+	await _press_planner_pad(JOY_BUTTON_DPAD_DOWN)
+	_expect(_focused_planner_offer(planner) == first_offer,
+		"Calendar Down did not restore the first offer after Routine inspection")
+	await _place_focused_offer_with_pad(planner, first_offer, 1)
+
+	await _navigate_to_planner_offer(planner, "father_first_call")
+	var before_cancel: Dictionary = planner.schedule_snapshot()
+	await _press_planner_pad(JOY_BUTTON_A)
+	_expect(_planner_armed_offer_id(planner) == "father_first_call" \
+			and _focused_planner_week(planner) == 2,
+		"South did not arm Father and move focus to the first legal empty week")
+	await _press_planner_pad(JOY_BUTTON_B)
+	_expect(_planner_armed_offer_id(planner).is_empty() \
+			and planner.schedule_snapshot() == before_cancel \
+			and planner.visible and planner._active_tab == 1,
+		"East did not cancel the armed placement without mutating the plan")
+
+	await _navigate_to_planner_offer(planner, "father_first_call")
+	await _place_focused_offer_with_pad(planner, "father_first_call", 2)
+	await _navigate_to_planner_offer(planner, "hyunsu_first_meet")
+	await _place_focused_offer_with_pad(planner, "hyunsu_first_meet", 3)
+	_expect(planner.schedule_snapshot() == _month_one_schedule(),
+		"raw D-pad/South route did not build the canonical month-one plan")
+
+	await _navigate_to_planner_offer(planner, "m1_phone_off_sunday")
+	var before_offer_west: Dictionary = planner.schedule_snapshot()
+	await _press_planner_pad(JOY_BUTTON_X)
+	_expect(planner.schedule_snapshot() == before_offer_west \
+			and _focused_planner_offer(planner) == "m1_phone_off_sunday",
+		"West removed a remembered week while an offer card actually held focus")
+
+	await _navigate_to_planner_week(planner, 2)
+	var before_week_west: Dictionary = planner.schedule_snapshot()
+	await _press_planner_pad(JOY_BUTTON_X)
+	var after_week_west: Dictionary = planner.schedule_snapshot()
+	_expect(_dictionary_delta_count(before_week_west, after_week_west) == 1 \
+			and not after_week_west.has("2") \
+			and str(after_week_west.get("1", "")) \
+				== "m1_mirae_application" \
+			and str(after_week_west.get("3", "")) == "hyunsu_first_meet" \
+			and str(after_week_west.get("4", "")) == "first_temptation_boss",
+		"West on an actual week card did not remove exactly that editable week")
+	await _navigate_to_planner_offer(planner, "father_first_call")
+	await _place_focused_offer_with_pad(planner, "father_first_call", 2)
+	_expect(_focused_planner_control(planner) == planner._confirm_button,
+		"completing four weeks did not move controller focus to plan review")
+	var ready_hint := str(planner._hint_label.text).to_upper()
+	_expect(ready_hint.find("NEXT") >= 0 \
+			and ready_hint.find("REVIEW PLAN") >= 0 \
+			and ready_hint.find("STEP 1/2") < 0,
+		"completed plan still advertised Choose instead of the Review action")
+
+	var commits_before_review := commits.size()
+	await _press_planner_pad(JOY_BUTTON_A)
+	_expect(planner.review_pending() and planner._active_tab == 3 \
+			and commits.size() == commits_before_review,
+		"first South confirmation skipped review or committed immediately")
+	_expect(_focused_planner_control(planner) == planner._edit_button,
+		"review did not move focus to the safe Edit action")
+	await _planner_pad_release(JOY_BUTTON_A)
+	_expect(commits.size() == commits_before_review,
+		"a repeated release committed the plan without a fresh press")
+	await get_tree().create_timer(0.42).timeout
+	await get_tree().process_frame
+	_expect(planner.review_pending() \
+			and commits.size() == commits_before_review,
+		"review committed while waiting for a fresh confirmation input")
+	var last_review_control: Control = planner._read_only_focus_controls[-1]
+	await _press_planner_pad(JOY_BUTTON_DPAD_UP)
+	_expect(_focused_planner_control(planner) == last_review_control,
+		"review Edit-Up did not enter the final inspectable review section")
+	await _press_planner_pad(JOY_BUTTON_DPAD_DOWN)
+	_expect(_focused_planner_control(planner) == planner._edit_button,
+		"review section Down did not return to the safe Edit action")
+	await _press_planner_pad(JOY_BUTTON_DPAD_RIGHT)
+	_expect(_focused_planner_control(planner) == planner._confirm_button,
+		"review D-pad could not move from safe Edit focus to final confirmation")
+	await _press_planner_pad(JOY_BUTTON_A)
+	_expect(commits.size() == commits_before_review + 1,
+		"a fresh South press after release did not commit exactly once")
+
+	commits.clear()
+	_expect(planner.open(2),
+		"controller fixture could not reset after its review regression")
+	await get_tree().process_frame
+	_expect(planner.open(1),
+		"controller fixture could not restore month one after review regression")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_expect(planner.schedule_snapshot().size() == 1 \
+			and str(planner.schedule_snapshot().get("4", "")) \
+				== "first_temptation_boss" \
+			and _planner_armed_offer_id(planner).is_empty(),
+		"controller regression did not leave a clean planner fixture")
+
+
+func _place_focused_offer_with_pad(
+		planner, offer_id: String, expected_week: int) -> void:
+	_expect(_focused_planner_offer(planner) == offer_id,
+		"D-pad route reached the wrong offer before placement: %s" % offer_id)
+	await _press_planner_pad(JOY_BUTTON_A)
+	_expect(_planner_armed_offer_id(planner) == offer_id \
+			and _focused_planner_week(planner) == expected_week,
+		"offer %s did not move focus to legal empty week %d" % [
+			offer_id, expected_week,
+		])
+	await _press_planner_pad(JOY_BUTTON_A)
+	_expect(str(planner.schedule_snapshot().get(str(expected_week), "")) \
+			== offer_id \
+			and _planner_armed_offer_id(planner).is_empty(),
+		"South did not place %s in week %d" % [offer_id, expected_week])
+
+
+func _navigate_to_planner_offer(planner, target_offer_id: String) -> void:
+	var owner := _focused_planner_control(planner)
+	if owner == planner._confirm_button:
+		await _press_planner_pad(JOY_BUTTON_DPAD_UP)
+	owner = _focused_planner_control(planner)
+	if owner == planner._routine_edit_button:
+		await _press_planner_pad(JOY_BUTTON_DPAD_UP)
+	if _focused_planner_week(planner) > 0:
+		await _press_planner_pad(JOY_BUTTON_DPAD_LEFT)
+	var current_offer_id := _focused_planner_offer(planner)
+	var available: Array[String] = CORE_LOOP.available_offer_ids(1)
+	var current_index := available.find(current_offer_id)
+	var target_index := available.find(target_offer_id)
+	_expect(current_index >= 0 and target_index >= 0,
+		"D-pad offer navigation began or ended outside the authored offer list")
+	if current_index < 0 or target_index < 0:
+		return
+	var button := JOY_BUTTON_DPAD_DOWN \
+		if target_index > current_index else JOY_BUTTON_DPAD_UP
+	for _step in range(absi(target_index - current_index)):
+		await _press_planner_pad(button)
+	_expect(_focused_planner_offer(planner) == target_offer_id,
+		"D-pad could not reach offer %s without direct focus" % target_offer_id)
+
+
+func _navigate_to_planner_week(planner, target_week: int) -> void:
+	if not _focused_planner_offer(planner).is_empty():
+		await _press_planner_pad(JOY_BUTTON_DPAD_RIGHT)
+	var current_week := _focused_planner_week(planner)
+	_expect(current_week > 0,
+		"D-pad could not enter the week column from an offer")
+	if current_week <= 0:
+		return
+	var button := JOY_BUTTON_DPAD_DOWN \
+		if target_week > current_week else JOY_BUTTON_DPAD_UP
+	for _step in range(absi(target_week - current_week)):
+		await _press_planner_pad(button)
+	_expect(_focused_planner_week(planner) == target_week,
+		"D-pad could not reach week %d without direct focus" % target_week)
+
+
+func _focused_planner_control(planner) -> Control:
+	var owner := get_viewport().gui_get_focus_owner()
+	if owner is Control and planner.is_ancestor_of(owner):
+		return owner as Control
+	return null
+
+
+func _focused_planner_offer(planner) -> String:
+	var owner := _focused_planner_control(planner)
+	if is_instance_valid(owner) and owner.has_meta("core_loop_v2_offer_id"):
+		return str(owner.get_meta("core_loop_v2_offer_id", ""))
+	return ""
+
+
+func _focused_planner_week(planner) -> int:
+	var owner := _focused_planner_control(planner)
+	if is_instance_valid(owner) and owner.has_meta("core_loop_v2_week"):
+		return int(owner.get_meta("core_loop_v2_week", -1))
+	return -1
+
+
+func _press_planner_pad(button_index: JoyButton) -> void:
+	await _planner_pad_press(button_index)
+	await _planner_pad_release(button_index)
+	await get_tree().process_frame
+
+
+func _planner_pad_press(button_index: JoyButton) -> void:
+	var event := InputEventJoypadButton.new()
+	event.button_index = button_index
+	event.pressed = true
+	Input.parse_input_event(event)
+	await get_tree().process_frame
+
+
+func _planner_pad_release(button_index: JoyButton) -> void:
+	var event := InputEventJoypadButton.new()
+	event.button_index = button_index
+	event.pressed = false
+	Input.parse_input_event(event)
+	await get_tree().process_frame
+
+
+func _click_planner_control(control: Control, double_click: bool = false) -> void:
+	var position := control.get_global_rect().get_center()
+	var motion := InputEventMouseMotion.new()
+	motion.position = position
+	motion.global_position = position
+	get_viewport().push_input(motion, true)
+	await get_tree().process_frame
+	var pressed := InputEventMouseButton.new()
+	pressed.button_index = MOUSE_BUTTON_LEFT
+	pressed.position = position
+	pressed.global_position = position
+	pressed.pressed = true
+	pressed.button_mask = MOUSE_BUTTON_MASK_LEFT
+	pressed.double_click = double_click
+	get_viewport().push_input(pressed, true)
+	await get_tree().process_frame
+	var released := pressed.duplicate() as InputEventMouseButton
+	released.pressed = false
+	released.button_mask = 0
+	get_viewport().push_input(released, true)
+	await get_tree().process_frame
+
 
 func _check_planner_offer_then_week(planner) -> void:
 	var baseline: Dictionary = planner.schedule_snapshot()
@@ -985,9 +1373,11 @@ func _check_planner_offer_then_week(planner) -> void:
 			and str(planner._status_label.text).to_upper().find(
 				"WHICH WEEK SHOULD THIS GO IN?") >= 0 \
 			and str(planner._hint_label.text).to_upper().find(
-				"PLACE IN WEEK") >= 0 \
+				"STEP 2/2") >= 0 \
 			and str(planner._hint_label.text).to_upper().find(
-				"AGAIN TO CANCEL") >= 0,
+				"PLACE") >= 0 \
+			and str(planner._hint_label.text).to_upper().find(
+				"CANCEL") >= 0,
 		"offer press did not arm a zero-mutation intent with the English card/footer cue")
 	planner._assign_offer("father_first_call")
 	_expect(planner.schedule_snapshot() == baseline \
@@ -1029,16 +1419,13 @@ func _check_planner_offer_then_week(planner) -> void:
 	planner._assign_offer("father_first_call")
 	planner._assign_offer("m1_mirae_application")
 	var deadline_before: Dictionary = planner.schedule_snapshot()
-	planner._select_week(3)
 	var deadline_error := str(planner._status_label.text).to_upper()
 	_expect(planner.schedule_snapshot() == deadline_before \
-			and _planner_armed_offer_id(planner) == "m1_mirae_application" \
-			and planner.placement_error() == "deadline" \
-			and (deadline_error.find("DEADLINE") >= 0 \
-				or deadline_error.find("EARLIER") >= 0),
-		"deadline rejection mutated the plan, hid its error, or cleared intent")
+			and _planner_armed_offer_id(planner).is_empty() \
+			and planner.placement_error() == "no_open_week" \
+			and deadline_error.find("NO VALID WEEK") >= 0,
+		"offer with no legal empty week mutated the plan, armed, or hid its guidance")
 
-	planner._assign_offer("m1_mirae_application")
 	planner._assign_offer("father_first_call")
 	var same_week_before: Dictionary = planner.schedule_snapshot()
 	planner._select_week(2)
@@ -1050,21 +1437,7 @@ func _check_planner_offer_then_week(planner) -> void:
 	_expect(is_instance_valid(fixed_button) and fixed_button.disabled,
 		"fixed week-four commitment was not visibly disabled")
 
-	planner._week_focused(2)
 	planner._assign_offer("m1_phone_off_sunday")
-	var west_before: Dictionary = planner.schedule_snapshot()
-	var west_event := InputEventAction.new()
-	west_event.action = "gd_secondary"
-	west_event.pressed = true
-	planner._unhandled_input(west_event)
-	var west_after: Dictionary = planner.schedule_snapshot()
-	_expect(_dictionary_delta_count(west_before, west_after) == 1 \
-			and not west_after.has("2") \
-			and str(west_after.get("1", "")) == "hyunsu_first_meet" \
-			and str(west_after.get("4", "")) == "first_temptation_boss" \
-			and _planner_armed_offer_id(planner) == "m1_phone_off_sunday",
-		"West did not remove only the selected schedule while retaining armed intent")
-
 	var tab_before: Dictionary = planner.schedule_snapshot()
 	planner._switch_tab(0)
 	_expect(planner.schedule_snapshot() == tab_before \
@@ -1149,7 +1522,7 @@ func _check_planner_focus_neighbors(planner) -> void:
 			if index > 0 else planner._tab_buttons[1])
 		var expected_bottom: Control = (
 			week_controls[index + 1] as Control
-			if index + 1 < week_controls.size() else planner._confirm_button)
+			if index + 1 < week_controls.size() else planner._routine_edit_button)
 		_expect(is_instance_valid(week) \
 				and _focus_neighbor(week, "focus_neighbor_top") == expected_top \
 				and _focus_neighbor(week, "focus_neighbor_bottom") \
@@ -1157,6 +1530,14 @@ func _check_planner_focus_neighbors(planner) -> void:
 				and _focus_neighbor(week, "focus_neighbor_left") \
 					== expected_left,
 			"week column did not expose explicit adjacent up/down and offer-left neighbors")
+	_expect(_focus_neighbor(planner._routine_edit_button, "focus_neighbor_top") \
+			== week_controls[week_controls.size() - 1] \
+			and _focus_neighbor(
+				planner._routine_edit_button, "focus_neighbor_bottom") \
+				== planner._confirm_button \
+			and _focus_neighbor(planner._confirm_button, "focus_neighbor_top") \
+				== planner._routine_edit_button,
+		"calendar footer did not connect weeks, routine editing, and review")
 
 func _focus_neighbor(control: Control, property_name: StringName) -> Control:
 	if not is_instance_valid(control):

@@ -632,8 +632,13 @@ func _maybe_show_core_loop_v2_tutorial(month_index: int) -> void:
 			or not bool(GameState.flags.get("chapter_33_seen", false)) \
 			or bool(GameState.flags.get("tutorial_shown", false)):
 		return
+	var tutorial := TutorialOverlay.maybe_show("core_loop_v2", self)
+	if is_instance_valid(tutorial):
+		tutorial.completed.connect(
+			_mark_core_loop_v2_tutorial_completed, CONNECT_ONE_SHOT)
+
+func _mark_core_loop_v2_tutorial_completed() -> void:
 	GameState.flags["tutorial_shown"] = true
-	TutorialOverlay.maybe_show("core_loop_v2", self)
 
 func _opening_chapter_event_id() -> String:
 	if GameState.turn == 1 \

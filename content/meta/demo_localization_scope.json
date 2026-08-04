@@ -31,8 +31,8 @@
     "automatic_script_conversion": false,
     "body_translation": "held_until_explicit_demo_GO",
     "shipping": false,
-    "static_ui_source_count": 2546,
-    "static_ui_source_keys_sha256": "42f194f991c0dd83aaf1476b9708df2e26f7565906ed7c00f23951f77e2be224",
+    "static_ui_source_count": 2570,
+    "static_ui_source_keys_sha256": "d9a52c02312b587bd0cbe934b5fb3e603239b8691d429991d1cd60fb073e3b5c",
     "regions": {
       "zh-CN": {
         "source_language": "ko",

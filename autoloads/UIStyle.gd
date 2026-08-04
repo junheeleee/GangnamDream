@@ -115,6 +115,14 @@ func apply_notice_margin(container: MarginContainer) -> void:
 	container.add_theme_constant_override("margin_top", 22)
 	container.add_theme_constant_override("margin_bottom", 22)
 
+func apply_notice_content_margin(container: MarginContainer) -> void:
+	# ScrollContainer does not inherit the outer panel's content margins. Keep
+	# section headings, rules, cards, and long legal copy clear of its focus frame.
+	container.add_theme_constant_override("margin_left", 16)
+	container.add_theme_constant_override("margin_right", 16)
+	container.add_theme_constant_override("margin_top", 10)
+	container.add_theme_constant_override("margin_bottom", 14)
+
 func apply_notice_spacing(container: Control, separation: int) -> void:
 	container.add_theme_constant_override("separation", separation)
 

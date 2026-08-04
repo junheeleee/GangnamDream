@@ -5,6 +5,7 @@ class_name TutorialOverlay
 ## 세션당 1회만 표시 (static _seen 딕셔너리로 추적).
 
 signal dismissed
+signal completed
 
 const CARD_BACK_TEX := preload("res://assets/ui/card_back.png")
 const CHIP_TEX := preload("res://assets/ui/chips/chip_10k.svg")
@@ -20,23 +21,24 @@ const UI_ICON_PATHS := {
 # ── 세션 추적 (정적 — 앱 실행 중 유지) ──────────────────────────
 static var _seen: Dictionary = {}
 
-static func maybe_show(game_id: String, parent: Control) -> void:
+static func maybe_show(game_id: String, parent: Control) -> TutorialOverlay:
 	if _seen.get(game_id, false):
-		return
-	_show(game_id, parent)
+		return null
+	return _show(game_id, parent)
 
-static func force_show(game_id: String, parent: Control) -> void:
-	_show(game_id, parent)
+static func force_show(game_id: String, parent: Control) -> TutorialOverlay:
+	return _show(game_id, parent)
 
-static func _show(game_id: String, parent: Control) -> void:
+static func _show(game_id: String, parent: Control) -> TutorialOverlay:
 	var slides: Array = _get_slides(game_id)
 	if slides.is_empty():
-		return
+		return null
 	_seen[game_id] = true
 	var overlay := TutorialOverlay.new()
 	overlay._slides = slides
 	overlay._game_id = game_id
 	parent.add_child(overlay)
+	return overlay
 
 # ── 슬라이드 콘텐츠 ─────────────────────────────────────────────
 # 각 항목: {icon, title, body}
@@ -598,6 +600,10 @@ var _title_lbl: Label
 var _ui_icon_cache: Dictionary = {}
 var _previous_focus: Control = null
 var _last_advance_frame: int = -1
+var _fresh_input_required := true
+var _fresh_input_ready_frame := 0
+var _completed_run := false
+var _closing := false
 
 func _ready() -> void:
 	_font      = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
@@ -606,6 +612,7 @@ func _ready() -> void:
 	z_index = 200
 	_build_ui()
 	_show_slide(0)
+	_arm_fresh_input_gate()
 	var owner := get_viewport().gui_get_focus_owner()
 	if owner is Control and not is_ancestor_of(owner):
 		_previous_focus = owner as Control
@@ -615,6 +622,11 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if not is_instance_valid(_next_btn):
 		return
+	if _fresh_input_required \
+			and Engine.get_process_frames() >= _fresh_input_ready_frame \
+			and not _advance_input_is_held():
+		_fresh_input_required = false
+		_next_btn.disabled = false
 	var owner := get_viewport().gui_get_focus_owner()
 	if owner == _next_btn or (owner != null and is_ancestor_of(owner)):
 		return
@@ -622,13 +634,64 @@ func _process(_delta: float) -> void:
 		_previous_focus = owner as Control
 	_next_btn.grab_focus()
 
+func _input(event: InputEvent) -> void:
+	# The tutorial owns the whole first-entry surface, not only its focused Next
+	# button. Consume tab navigation in the early input phase so the planner
+	# behind this overlay cannot switch tabs before _unhandled_input reaches us.
+	if event.is_action("gd_tab_prev") or event.is_action("gd_tab_next"):
+		get_viewport().set_input_as_handled()
+		return
+	if event is InputEventJoypadButton \
+			and int((event as InputEventJoypadButton).button_index) in [
+				JOY_BUTTON_LEFT_SHOULDER,
+				JOY_BUTTON_RIGHT_SHOULDER,
+			]:
+		get_viewport().set_input_as_handled()
+		return
+	# Focused buttons consume GUI input before _unhandled_input. Reject keyboard
+	# repeats and the second edge of a pointer double-click here so neither path
+	# can advance a newly displayed slide.
+	if event is InputEventKey and (event as InputEventKey).echo:
+		if event.is_action("ui_accept") or event.is_action("ui_cancel"):
+			get_viewport().set_input_as_handled()
+	elif event is InputEventMouseButton:
+		var mouse_event := event as InputEventMouseButton
+		if mouse_event.button_index == MOUSE_BUTTON_LEFT \
+				and mouse_event.pressed and mouse_event.double_click:
+			get_viewport().set_input_as_handled()
+
 func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and (event as InputEventKey).echo:
+		if event.is_action("ui_accept") or event.is_action("ui_cancel"):
+			get_viewport().set_input_as_handled()
+		return
+	if _fresh_input_required:
+		if event.is_action("ui_accept") or event.is_action("ui_cancel"):
+			get_viewport().set_input_as_handled()
+		return
 	if event.is_action_pressed("ui_accept"):
 		_on_next()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("ui_cancel"):
-		_dismiss()
+		_dismiss(false)
 		get_viewport().set_input_as_handled()
+
+func _advance_input_is_held() -> bool:
+	return Input.is_action_pressed("ui_accept") \
+		or Input.is_action_pressed("ui_cancel") \
+		or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+
+func _arm_fresh_input_gate() -> void:
+	_fresh_input_required = true
+	_fresh_input_ready_frame = Engine.get_process_frames() + 1
+	if is_instance_valid(_next_btn):
+		_next_btn.disabled = true
+
+func _exit_tree() -> void:
+	# The session guard is provisional until the first-entry explanation is
+	# actually completed. Parent teardown or a scene change must not lose it.
+	if _game_id == "core_loop_v2" and not _completed_run:
+		_seen.erase(_game_id)
 
 func _f(n: Object, bold: bool = false) -> void:
 	var ft: FontFile = _font_bold if bold else _font
@@ -822,21 +885,34 @@ func _ui_icon_texture(icon_id: String) -> Texture2D:
 	return tex
 
 func _on_next() -> void:
+	if _fresh_input_required:
+		return
 	var frame := Engine.get_process_frames()
 	if frame == _last_advance_frame:
 		return
 	_last_advance_frame = frame
 	_slide_idx += 1
 	if _slide_idx >= _slides.size():
-		_dismiss()
+		_dismiss(true)
 	else:
 		_show_slide(_slide_idx)
+		_arm_fresh_input_gate()
 
-func _dismiss() -> void:
+func _dismiss(finished: bool = false) -> void:
+	if _closing:
+		return
+	_closing = true
+	_completed_run = finished
 	var restore_focus := _previous_focus
 	if is_instance_valid(restore_focus):
 		tree_exited.connect(func():
 			if is_instance_valid(restore_focus):
 				restore_focus.call_deferred("grab_focus"), CONNECT_ONE_SHOT)
+	if finished:
+		emit_signal("completed")
+	elif _game_id == "core_loop_v2":
+		# An interrupted first-entry explanation must be available next time the
+		# planner opens instead of becoming a permanently lost one-frame flash.
+		_seen.erase(_game_id)
 	emit_signal("dismissed")
 	queue_free()

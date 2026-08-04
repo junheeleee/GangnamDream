@@ -70,12 +70,23 @@ human GO.
 - D-pad moves within offers or week slots; South assigns or confirms. West
   removes the selected non-fixed assignment. It never removes a locked week or
   commits the month.
-- LB/RB switches Status / Calendar / People / Record. Mouse hover grabs the same
-  GUI focus used by keyboard and controller.
+- LB/RB switches Status / Calendar / People / Routine; Routine becomes Review
+  during final confirmation and Record after commitment. Down enters every
+  focusable reading card, routine choice, and footer in one continuous path;
+  focus-follow scrolling exposes content below 960×600. Mouse hover grabs the
+  same GUI focus used by keyboard and controller.
 - The People tab shows lived relationship history without revealing an unmet
   character's name, affinity, route stage, or future requirement.
+- The planner names its prefilled routines as recommended defaults and exposes
+  Change without making the player discover a hidden setup step.
+- Before all four weeks are valid, non-Calendar reading paths loop back to their
+  visible tab instead of entering the disabled Review button, and their footer
+  copy never advertises Calendar-only place/remove actions. When employed,
+  primary Income is visibly fixed and duplicate secondary Income is disabled
+  and omitted from the controller focus path.
 - The final confirmation stays disabled until all four weeks are filled. The
-  first confirm opens the chosen/unchosen review; the second commits.
+  first confirm opens the chosen/unchosen review; held/repeated input and an OS
+  double-click edge are discarded, so only a fresh second confirm commits.
 - The top Plan button reopens only the immutable confirmed month. East closes it
   and restores the prior gameplay focus.
 - P or North opens a separate portrait communication drawer. Its LB/RB tabs are
@@ -342,9 +353,12 @@ All on controller only.
 The title-to-demo route has completed all 24 weeks with actual keyboard events and zero mouse events, then with actual mouse events and zero keyboard events. Sixteen Korean/English display-matrix renders cover eight release resolutions, and each language has Xbox, PlayStation, and Nintendo title-glyph evidence at 1080p. The exact contract and remaining physical-device gates are recorded in `docs/INPUT_MATRIX.md`.
 
 `CoreLoopV2Check.tscn` verifies explicit activation, four-slot scheduling, the
-fixed fourth week, West-safe removal, save/load, delayed consequences across a
-month boundary, one consequence per week, player-initiated relationship state,
-and zero hidden-score or Korean leakage on the English planner.
+fixed fourth week, first-legal-empty-week focus, raw D-pad-only placement,
+East cancellation, West removal only on the week card that owns focus, and a
+release-gated final review that starts on the safe Edit action. It also covers
+save/load, delayed consequences across a month boundary, one consequence per
+week, player-initiated relationship state, and zero hidden-score or Korean
+leakage on the English planner.
 `CommunicationPhoneCheck.tscn` separately verifies portrait bounds, message and
 contact filtering, thread navigation, offer routing, and focus isolation.
 `ScreenshotQA --qa=core-loop-v2 --lang=ko/en` boots the real `MainGame`, opens

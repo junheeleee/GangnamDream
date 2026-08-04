@@ -11,9 +11,14 @@ var _overlay: ColorRect
 var _texture_layer: Control
 var _playtest_marker: PanelContainer
 var _playtest_marker_text: Label
+var _playtest_marker_context := "default"
 var _tween: Tween
 var _transition_alpha: float = 0.0
 const FADE_TIME := 0.35
+const PLAYTEST_MARKER_CONTEXT_DEFAULT := "default"
+const PLAYTEST_MARKER_CONTEXT_STORY := "story"
+const PLAYTEST_MARKER_CONTEXT_NOTICE := "notice"
+const PLAYTEST_MARKER_CONTEXT_PLANNER := "planner"
 
 func _ready():
 	layer = 128  # 최상단 (모달 등 위)
@@ -36,11 +41,6 @@ func _build_playtest_marker() -> void:
 	_playtest_marker = UIStyle.make_panel(
 		UIStyle.C_BG_PANEL, UIStyle.C_ACCENT_GOLD)
 	_playtest_marker.name = "CoreLoopV2PlaytestMarker"
-	_playtest_marker.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	_playtest_marker.offset_left = -316.0
-	_playtest_marker.offset_top = 18.0
-	_playtest_marker.offset_right = -18.0
-	_playtest_marker.offset_bottom = 52.0
 	_playtest_marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_playtest_marker.z_index = 1000
 	_playtest_marker.set_meta(
@@ -56,6 +56,7 @@ func _build_playtest_marker() -> void:
 	_playtest_marker_text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_playtest_marker_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_playtest_marker.add_child(_playtest_marker_text)
+	_apply_playtest_marker_context()
 	_refresh_playtest_marker()
 
 	var language_callback := Callable(self, "_on_playtest_marker_language_changed")
@@ -65,14 +66,78 @@ func _build_playtest_marker() -> void:
 func _on_playtest_marker_language_changed(_lang: String) -> void:
 	_refresh_playtest_marker()
 
+func set_playtest_marker_context(context: String) -> void:
+	if context not in [
+		PLAYTEST_MARKER_CONTEXT_DEFAULT,
+		PLAYTEST_MARKER_CONTEXT_STORY,
+		PLAYTEST_MARKER_CONTEXT_NOTICE,
+		PLAYTEST_MARKER_CONTEXT_PLANNER,
+	]:
+		context = PLAYTEST_MARKER_CONTEXT_DEFAULT
+	_playtest_marker_context = context
+	_apply_playtest_marker_context()
+	_refresh_playtest_marker()
+
+func _apply_playtest_marker_context() -> void:
+	if not is_instance_valid(_playtest_marker):
+		return
+	_playtest_marker.set_meta("marker_context", _playtest_marker_context)
+	# The legal notice already prints the canonical build identity in its header.
+	# The planner fills its header and footer with navigation controls. Hiding the
+	# floating badge on those two self-contained surfaces prevents it from
+	# covering player input without weakening the title-screen build disclosure.
+	_playtest_marker.visible = _playtest_marker_context not in [
+		PLAYTEST_MARKER_CONTEXT_NOTICE,
+		PLAYTEST_MARKER_CONTEXT_PLANNER,
+	]
+	match _playtest_marker_context:
+		PLAYTEST_MARKER_CONTEXT_STORY:
+			# StoryMode already owns the right side of its 48px HUD with two
+			# commands. Dock a compact badge in a reserved left slot instead.
+			_playtest_marker.set_anchors_preset(Control.PRESET_TOP_LEFT)
+			_playtest_marker.offset_left = 18.0
+			_playtest_marker.offset_top = 10.0
+			_playtest_marker.offset_right = 118.0
+			_playtest_marker.offset_bottom = 38.0
+		PLAYTEST_MARKER_CONTEXT_NOTICE:
+			# The notice header's top-right corner contains its Close command.
+			# Its footer keeps a dedicated empty right edge for this compact badge.
+			_playtest_marker.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+			_playtest_marker.offset_left = -132.0
+			_playtest_marker.offset_top = -42.0
+			_playtest_marker.offset_right = -18.0
+			_playtest_marker.offset_bottom = -12.0
+		PLAYTEST_MARKER_CONTEXT_PLANNER:
+			# Hidden above; keep deterministic geometry for metadata/QA inspection.
+			_playtest_marker.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+			_playtest_marker.offset_left = -132.0
+			_playtest_marker.offset_top = 12.0
+			_playtest_marker.offset_right = -18.0
+			_playtest_marker.offset_bottom = 40.0
+		_:
+			_playtest_marker.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+			_playtest_marker.offset_left = -316.0
+			_playtest_marker.offset_top = 18.0
+			_playtest_marker.offset_right = -18.0
+			_playtest_marker.offset_bottom = 52.0
+
 func _refresh_playtest_marker() -> void:
 	if not is_instance_valid(_playtest_marker_text):
 		return
-	_playtest_marker_text.text = (
-		"V2 TEST BUILD · SEPARATE SAVE"
-		if LocaleManager.is_english()
-		else "V2 테스트 빌드 · 별도 저장"
-	)
+	var compact := _playtest_marker_context in [
+		PLAYTEST_MARKER_CONTEXT_STORY,
+		PLAYTEST_MARKER_CONTEXT_NOTICE,
+		PLAYTEST_MARKER_CONTEXT_PLANNER,
+	]
+	if compact:
+		_playtest_marker_text.text = (
+			"V2 TEST" if LocaleManager.is_english() else "V2 테스트")
+	else:
+		_playtest_marker_text.text = (
+			"V2 TEST BUILD · SEPARATE SAVE"
+			if LocaleManager.is_english()
+			else "V2 테스트 빌드 · 별도 저장"
+		)
 
 # 씬 전환: 페이드아웃 → 씬 변경
 func go(scene_path: String):

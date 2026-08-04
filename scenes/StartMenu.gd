@@ -19,6 +19,7 @@ var _notices_overlay: ColorRect
 var _notices_origin_focus: Control = null
 var _third_party_notices_control: Control = null
 var _notices_tabs: Array[Button] = []
+var _notices_content_margin: MarginContainer = null
 var _notices_content: VBoxContainer = null
 var _notices_scroll: ScrollContainer = null
 var _notices_scroll_frame: Panel = null
@@ -183,6 +184,8 @@ static func release_v2_entry_count(playtest_build: bool) -> int:
 	return 1 if playtest_build else 0
 
 func _ready():
+	SceneTransition.set_playtest_marker_context(
+		SceneTransition.PLAYTEST_MARKER_CONTEXT_DEFAULT)
 	var playtest_build := BuildFlavorScript.is_core_loop_v2_playtest_build()
 	var artifact_identity := BuildInfoScript.artifact_identity()
 	set_meta("launch_required_input_gates", LAUNCH_REQUIRED_INPUT_GATES)
@@ -2240,6 +2243,12 @@ func _close_settings_popup() -> void:
 	_notices_overlay = null
 	_notices_origin_focus = null
 	_third_party_notices_control = null
+	_notices_content_margin = null
+	_notices_content = null
+	_notices_scroll = null
+	_notices_scroll_frame = null
+	SceneTransition.set_playtest_marker_context(
+		SceneTransition.PLAYTEST_MARKER_CONTEXT_DEFAULT)
 	if is_instance_valid(_settings_overlay):
 		_settings_overlay.queue_free()
 	_settings_overlay = null
@@ -2283,6 +2292,8 @@ func _open_third_party_notices() -> void:
 		if is_instance_valid(_third_party_notices_control) \
 		else get_viewport().gui_get_focus_owner()
 	_notices_tabs.clear()
+	SceneTransition.set_playtest_marker_context(
+		SceneTransition.PLAYTEST_MARKER_CONTEXT_NOTICE)
 
 	_notices_overlay = ColorRect.new()
 	_notices_overlay.name = "ThirdPartyNoticesOverlay"
@@ -2398,10 +2409,16 @@ func _open_third_party_notices() -> void:
 	_notices_scroll.gui_input.connect(
 		_on_third_party_notice_scroll_input.bind(_notices_scroll))
 	scroll_host.add_child(_notices_scroll)
+	_notices_content_margin = MarginContainer.new()
+	_notices_content_margin.name = "ThirdPartyNoticesContentMargin"
+	_notices_content_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	UIStyle.apply_notice_content_margin(_notices_content_margin)
+	_notices_scroll.add_child(_notices_content_margin)
 	_notices_content = VBoxContainer.new()
+	_notices_content.name = "ThirdPartyNoticesContent"
 	_notices_content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	UIStyle.apply_notice_spacing(_notices_content, 10)
-	_notices_scroll.add_child(_notices_content)
+	_notices_content_margin.add_child(_notices_content)
 
 	_notices_scroll_frame = Panel.new()
 	_notices_scroll_frame.name = "ThirdPartyNoticesScrollFrame"
@@ -2449,6 +2466,7 @@ func _set_third_party_notice_section(index: int) -> void:
 	# VBox publish a transient oversized transform to the renderer, which shifts
 	# the fixed title/tabs for one rendered frame on macOS OpenGL.
 	var next_content := VBoxContainer.new()
+	next_content.name = "ThirdPartyNoticesContent"
 	next_content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	UIStyle.apply_notice_spacing(next_content, 10)
 	var section: Dictionary = sections[index]
@@ -2487,7 +2505,10 @@ func _set_third_party_notice_section(index: int) -> void:
 		# both layout generations during the same OpenGL frame.
 		old_content.free()
 	_notices_content = next_content
-	_notices_scroll.add_child(_notices_content)
+	if is_instance_valid(_notices_content_margin):
+		_notices_content_margin.add_child(_notices_content)
+	else:
+		_notices_scroll.add_child(_notices_content)
 	_notices_scroll.scroll_vertical = 0
 	if index < _notices_tabs.size():
 		_notices_scroll.focus_neighbor_top = _notices_scroll.get_path_to(
@@ -2503,9 +2524,13 @@ func _third_party_notice_entry(entry: Dictionary) -> Control:
 	panel.add_child(column)
 	var name := str(entry.get("name", ""))
 	var version := str(entry.get("version", ""))
-	if not version.is_empty():
-		name += "  ·  " + version
 	column.add_child(_label(name, 16, "#edf1f5", HORIZONTAL_ALIGNMENT_LEFT))
+	if not version.is_empty():
+		var version_label := _label(
+			"%s  ·  %s" % [_tr("버전", "Version"), version],
+			14, "#98a6b5", HORIZONTAL_ALIGNMENT_LEFT)
+		version_label.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
+		column.add_child(version_label)
 	var surface: Dictionary = _notices_data.get("surface", {})
 	var labels: Dictionary = surface.get("labels", {})
 	for field in ["provider", "copyright", "license"]:
@@ -2521,12 +2546,12 @@ func _third_party_notice_entry(entry: Dictionary) -> Control:
 	if not status.is_empty():
 		var status_label: String = _notice_localized(labels.get(status, {}), status)
 		column.add_child(_label(
-			status_label, 13, "#98a6b5", HORIZONTAL_ALIGNMENT_LEFT))
+			status_label, 14, "#98a6b5", HORIZONTAL_ALIGNMENT_LEFT))
 	var source_url := str(entry.get("source_url", ""))
 	if not source_url.is_empty():
 		var source_label: String = _notice_localized(labels.get("source", {}), "Source")
 		var source := _label(
-			"%s  ·  %s" % [source_label, source_url], 13, "#8190a0",
+			"%s  ·  %s" % [source_label, source_url], 14, "#8190a0",
 			HORIZONTAL_ALIGNMENT_LEFT)
 		source.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
 		column.add_child(source)
@@ -2538,7 +2563,7 @@ func _third_party_notice_entry(entry: Dictionary) -> Control:
 					labels.get("license_terms", {}), _tr("라이선스 원문", "License terms")),
 				license_url,
 			],
-			13, "#8190a0", HORIZONTAL_ALIGNMENT_LEFT)
+			14, "#8190a0", HORIZONTAL_ALIGNMENT_LEFT)
 		license_terms.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
 		column.add_child(license_terms)
 	var copyright_path := str(entry.get("copyright_text_path", ""))
@@ -2546,7 +2571,7 @@ func _third_party_notice_entry(entry: Dictionary) -> Control:
 		column.add_child(_label(
 			_tr("엔진 내장 구성요소 고지 동봉", "Bundled engine component notices included")
 				+ "  ·  " + copyright_path.get_file(),
-			13, "#98a6b5", HORIZONTAL_ALIGNMENT_LEFT))
+			14, "#98a6b5", HORIZONTAL_ALIGNMENT_LEFT))
 	if entry.has("shipping_asset_count"):
 		column.add_child(_label(
 			_tr(
@@ -2554,7 +2579,7 @@ func _third_party_notice_entry(entry: Dictionary) -> Control:
 					entry.get("shipping_asset_count", 0)),
 				"Game files using this source · %d" % int(
 					entry.get("shipping_asset_count", 0))),
-			12, "#73808d", HORIZONTAL_ALIGNMENT_LEFT))
+			13, "#73808d", HORIZONTAL_ALIGNMENT_LEFT))
 	return panel
 
 func _third_party_license_text(path: String) -> Control:
@@ -2569,7 +2594,8 @@ func _third_party_license_text(path: String) -> Control:
 	if FileAccess.file_exists(path):
 		text = FileAccess.get_file_as_string(path)
 	var license_body := _label(
-		text, 13, "#8f99a5", HORIZONTAL_ALIGNMENT_LEFT)
+		text, 14, "#8f99a5", HORIZONTAL_ALIGNMENT_LEFT)
+	license_body.set_meta("third_party_notice_legal_body", true)
 	license_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(license_body)
 	return column
@@ -2630,9 +2656,12 @@ func _close_third_party_notices() -> void:
 		_notices_overlay.queue_free()
 	_notices_overlay = null
 	_notices_tabs.clear()
+	_notices_content_margin = null
 	_notices_content = null
 	_notices_scroll = null
 	_notices_scroll_frame = null
+	SceneTransition.set_playtest_marker_context(
+		SceneTransition.PLAYTEST_MARKER_CONTEXT_DEFAULT)
 	var focus_target := _notices_origin_focus
 	_notices_origin_focus = null
 	if is_instance_valid(focus_target):

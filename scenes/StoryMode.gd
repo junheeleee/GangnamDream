@@ -13,6 +13,7 @@ extends Control
 
 # ── 노출 색상 ─────────────────────────────────────────────────
 const DEMO_CORE_LOOP_V2 := preload("res://systems/DemoCoreLoopV2.gd")
+const BUILD_FLAVOR := preload("res://systems/BuildFlavor.gd")
 const C_NARRATION := "#d8dce8"
 const C_DIM       := "#8892a4"
 const C_CHOICE    := "#c8d0e0"
@@ -209,6 +210,8 @@ const RESULT_OTHER_KEYS: Array[String] = ["intelligence", "appearance", "luck"]
 static var _auto_enabled_session: bool = false
 
 func _ready():
+	SceneTransition.set_playtest_marker_context(
+		SceneTransition.PLAYTEST_MARKER_CONTEXT_STORY)
 	_read_only_replay = GameState.story_replay_mode
 	_story_text_size = _normalized_story_text_size(str(
 		SaveManager.get_setting("story_text_size", STORY_TEXT_SIZE_DEFAULT)))
@@ -890,8 +893,12 @@ func _build_ui():
 	add_child(hud_panel)
 	_hud_label = Label.new()
 	_hud_label.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_hud_label.offset_left = 24
+	# The playtest-only badge docks at x18..118. Retail keeps the full HUD width.
+	_hud_label.offset_left = 128 \
+		if BUILD_FLAVOR.is_core_loop_v2_playtest_build() else 24
 	_hud_label.offset_right = -292
+	_hud_label.clip_text = true
+	_hud_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_hud_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_register_story_font(_hud_label, "font_size", 14)
 	_hud_label.add_theme_color_override("font_color", Color("#aeb6c8"))
@@ -2574,18 +2581,49 @@ func _refresh_hud():
 		assets = maxf(0.0, assets)
 	var pct: int = clampi(int(assets / 3_000_000_000.0 * 100.0), 0, 100)
 	var months_left: int = max(0, (38 - GameState.age) * 12 - GameState.month + 1)
+	# Some runtime audits keep a constructed StoryMode alive briefly after it is
+	# detached. Querying CanvasItem viewport geometry in that state emits an
+	# engine error, so the detached fixture uses the wide copy until reattached.
+	var compact_hud := is_inside_tree() \
+		and get_viewport_rect().size.x < 1100.0
 	if core_loop_v2_active:
-		_hud_label.text = _tr(
-			"자산 %s / 30억 (%d%%)      %s      건강 %d  정신 %d      남은 %d개월",
-			"Assets %s / 3 billion won (%d%%)      %s      Health %d  Mental %d      %d mo left"
-		) % [
-			_story_money(assets), pct, GameState.cash_position_label(),
-			GameState.health, GameState.mental, months_left]
+		if compact_hud:
+			_hud_label.text = _tr(
+				"자산 %s (%d%%) · %s · 건 %d 정 %d · %d개월",
+				"ASSET %s (%d%%) · %s · HP %d M %d · %d MO"
+			) % [
+				GameState.format_money_compact(assets), pct,
+				_compact_cash_position_label(), GameState.health,
+				GameState.mental, months_left]
+		else:
+			_hud_label.text = _tr(
+				"자산 %s / 30억 (%d%%)      %s      건강 %d  정신 %d      남은 %d개월",
+				"Assets %s / 3 billion won (%d%%)      %s      Health %d  Mental %d      %d mo left"
+			) % [
+				_story_money(assets), pct, GameState.cash_position_label(),
+				GameState.health, GameState.mental, months_left]
 	else:
-		_hud_label.text = _tr("자산 %s / 30억 (%d%%)      현금 %s      건강 %d  정신 %d      남은 %d개월", "Assets %s / 3 billion won (%d%%)      Cash %s      Health %d  Mental %d      %d mo left") % [
-			_story_money(assets), pct,
-			_story_money(GameState.money),
-			GameState.health, GameState.mental, months_left]
+		if compact_hud:
+			_hud_label.text = _tr(
+				"자산 %s (%d%%) · 현금 %s · 건 %d 정 %d · %d개월",
+				"ASSET %s (%d%%) · CASH %s · HP %d M %d · %d MO"
+			) % [
+				GameState.format_money_compact(assets), pct,
+				GameState.format_money_compact(GameState.money),
+				GameState.health, GameState.mental, months_left]
+		else:
+			_hud_label.text = _tr("자산 %s / 30억 (%d%%)      현금 %s      건강 %d  정신 %d      남은 %d개월", "Assets %s / 3 billion won (%d%%)      Cash %s      Health %d  Mental %d      %d mo left") % [
+				_story_money(assets), pct,
+				_story_money(GameState.money),
+				GameState.health, GameState.mental, months_left]
+
+func _compact_cash_position_label() -> String:
+	var arrears := GameState.get_arrears()
+	if arrears > 0.0:
+		return _tr("체납 %s", "ARREARS %s") \
+			% GameState.format_money_compact(arrears)
+	return _tr("잔액 %s", "BAL %s") \
+		% GameState.format_money_compact(GameState.get_available_cash())
 
 func _story_money(amount: float) -> String:
 	if not LocaleManager.is_exact_english():
@@ -5683,6 +5721,8 @@ func _exit_tree() -> void:
 	_stop_story_choice_countdown()
 	GameState.story_replay_mode = false
 	BGMPlayer.restore_ambience()
+	SceneTransition.set_playtest_marker_context(
+		SceneTransition.PLAYTEST_MARKER_CONTEXT_DEFAULT)
 
 func _fmt(s: String) -> String:
 	return DEMO_CORE_LOOP_V2.format_first_bill_story_text(
