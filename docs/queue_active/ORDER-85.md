@@ -10,9 +10,11 @@
 `arc_events.json`, `arc_midgame.json`, `chapter_cards.json`,
 `core_loop_v2_events.json`, `scenario_cafe.json`, `story_events.json`과 대응하는
 `content/events_en/` 오버레이, `content/meta/demo_core_loop_v2.json`,
+`content/meta/story_rules.json`, `content/events/arc_year_close.json`,
 `scenes/OpeningCinematic.gd`, `scenes/MainGame.gd`, 신규
 `tools/demo_prose_style_audit.py`, `tools/demo_localization_scope.py`,
-`tools/audit.sh`, `tools/audit_scope.json`,
+`tools/ManualSaveCheck.gd`, `tools/CoreLoopV2ECheck.gd`, `tools/audit.sh`,
+`tools/audit_scope.json`,
 `content/meta/demo_localization_scope.json`, `content/meta/release_content_inventory.json`,
 `docs/I18N_INFRASTRUCTURE.md`, `docs/I18N_GLOSSARY_ZH.md`,
 `docs/CONTENT_RATING_INVENTORY.md`, `docs/human_gates.json`, `CLAUDE.md`,
