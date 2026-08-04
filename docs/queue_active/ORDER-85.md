@@ -11,8 +11,10 @@
 `core_loop_v2_events.json`, `scenario_cafe.json`, `story_events.json`과 대응하는
 `content/events_en/` 오버레이, `content/meta/demo_core_loop_v2.json`,
 `scenes/OpeningCinematic.gd`, `scenes/MainGame.gd`, 신규
-`tools/demo_prose_style_audit.py`, `tools/audit.sh`, `tools/audit_scope.json`,
+`tools/demo_prose_style_audit.py`, `tools/demo_localization_scope.py`,
+`tools/audit.sh`, `tools/audit_scope.json`,
 `content/meta/demo_localization_scope.json`, `content/meta/release_content_inventory.json`,
+`docs/I18N_INFRASTRUCTURE.md`, `docs/I18N_GLOSSARY_ZH.md`,
 `docs/CONTENT_RATING_INVENTORY.md`, `docs/human_gates.json`, `CLAUDE.md`,
 `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/STATUS.md`,
 `docs/RELEASE_NOTES.md`, `docs/DEMO_FIXLOG.md`, 이 사양의 활성·아카이브 경로.
@@ -28,6 +30,11 @@
 487회/480고유다. 최초 결함 측정은 핵심 36본문·232문장에서 설명형 끝맺음
 6건, `-었다` 계열 111문장, 시각 표기 혼용을 찾았다. 이 수치는 작성 목표나
 자동 합격 점수가 아니라 전수 판정의 출발점이다.
+
+**착수 직후 범위 정정:** 위 487회/480고유는 `first_bill_finale` 안의 인라인
+`{ko,en}` 56쌍을 세지 않은 보고값이다. 실제 첫 청구서에 표시되는 문장을 빼고
+전수라 부를 수 없으므로, 같은 데모 계약을 일반 재귀로 수집해 실제 총수·해시·
+JA/ZH 준비 행과 문서의 기준선을 함께 바로잡는다. 24주 밖 표면은 더하지 않는다.
 
 ## 깊이 3문
 
