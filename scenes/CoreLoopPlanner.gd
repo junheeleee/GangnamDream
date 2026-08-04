@@ -454,8 +454,10 @@ func _request_communication() -> void:
 func _rebuild() -> void:
 	set_meta("core_loop_v2_review_pending", _review_pending)
 	_title_label.text = LocaleManager.ui(
-		"%d월 · %s" % [_month_index, str(_month_data.get("title_ko", ""))],
-		"MONTH %d · %s" % [_month_index, str(_month_data.get("title_en", ""))])
+		"%d월 · %s", "MONTH %d · %s") % [
+			_month_index,
+			_localized(_month_data, "title"),
+		]
 	if _read_only_plan:
 		_month_label.text = LocaleManager.ui(
 			"확정한 일정과 매주 할 일을 확인한다. 이달 계획은 바꿀 수 없다.",
@@ -921,8 +923,9 @@ func _build_record_surface() -> void:
 			var producer := CORE_LOOP.bundle(
 				str(record.get("producer_bundle", "")))
 			var record_title := _localized(producer, "offer")
-			var record_body := str(record.get(
-				"message_en" if LocaleManager.is_english() else "message_ko", ""))
+			var record_body := LocaleManager.ui(
+				str(record.get("message_ko", "")),
+				str(record.get("message_en", "")))
 			if record_body.is_empty():
 				record_body = _localized(producer, "decline")
 			decline_lines.append("• %s — %s" % [record_title, record_body])

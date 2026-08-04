@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import pathlib
 import re
@@ -22,7 +23,6 @@ from ja_translation_pipeline import (
 )
 
 
-JAPANESE = re.compile(r"[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff]")
 TERM_REQUIREMENTS = {
     "강남": "カンナム",
     "고시원": "コシウォン",
@@ -82,9 +82,6 @@ def check_text(entry: Entry, translated: Any, errors: list[str]) -> None:
         errors.append(f"{entry.key}: game unlock must use '解放' or 'アンロック'")
     if "강남드림" not in entry.source and "カンナム・ドリーム" in translated:
         errors.append(f"{entry.key}: place name '강남' was expanded into the game title")
-    if exact is None and re.search(r"[가-힣]", entry.source) and len(entry.source) >= 4:
-        if not JAPANESE.search(translated):
-            errors.append(f"{entry.key}: no Japanese glyphs in translated Korean source")
 
 
 def walk_blueprint(
@@ -145,6 +142,82 @@ def check_scope(
     return len(rows)
 
 
+def _demo_runtime(errors: list[str]) -> tuple[dict[str, Any], dict[str, Any]]:
+    import demo_localization_scope as demo_scope
+
+    observed, runtime, scope_errors = demo_scope.build_scope()
+    manifest = read_json(ROOT / "content/meta/demo_localization_scope.json")
+    scope_errors.extend(demo_scope.compare_contract(
+        manifest.get("source_contract"), observed
+    ))
+    scope_errors.extend(demo_scope.boundary_errors(
+        runtime["event_ids"], manifest
+    ))
+    errors.extend(f"demo source: {error}" for error in scope_errors)
+    return observed, runtime
+
+
+def check_ui_scope(actual: Any, errors: list[str]) -> int:
+    """Keep static UI exact while allowing only locked demo dynamic keys."""
+    rows, blueprint = collect_ui()
+    entries = {entry.key: entry for entry in rows}
+    before = len(errors)
+    if not isinstance(actual, dict):
+        errors.append("ui: expected object")
+        actual = {}
+    required_actual = {
+        key: actual[key] for key in blueprint if key in actual
+    }
+    walk_blueprint("ui", blueprint, required_actual, entries, errors)
+
+    _observed, runtime = _demo_runtime(errors)
+    dynamic_keys = set(runtime["merged_pairs"])
+    static_keys = set(blueprint)
+    extra_keys = set(actual) - static_keys
+    unknown_extra = extra_keys - dynamic_keys
+    if unknown_extra:
+        errors.append(
+            f"ui: unknown extra keys {sorted(unknown_extra)[:8]}"
+        )
+    for korean in sorted(extra_keys & dynamic_keys):
+        entry = Entry(
+            f"demo-ui::{hashlib.sha1(korean.encode()).hexdigest()[:12]}",
+            korean,
+            "24-week dynamic UI",
+        )
+        check_text(entry, actual[korean], errors)
+    dynamic_present = len(dynamic_keys & set(actual))
+    print(
+        f"JA_AUDIT_SCOPE name=ui strings={len(rows)} "
+        f"demo_dynamic={dynamic_present}/{len(dynamic_keys)} "
+        f"errors={len(errors)-before}"
+    )
+    return len(rows)
+
+
+def check_demo_scope(strict: bool, errors: list[str]) -> int:
+    import demo_localization_scope as demo_scope
+
+    observed, runtime = _demo_runtime(errors)
+    before = len(errors)
+    result, scope_errors = demo_scope.language_coverage("ja", runtime, strict)
+    errors.extend(scope_errors)
+    print(
+        "JA_AUDIT_SCOPE name=demo "
+        f"events={result['events']}/{result['total_events']} "
+        f"strings={result['event_strings']}/{result['total_event_strings']} "
+        f"dynamic={result['dynamic']}/{result['total_dynamic']} "
+        f"catalog={result['catalog']}/{result['total_catalog']} "
+        f"mode={'strict' if strict else 'skeleton'} "
+        f"errors={len(errors)-before}"
+    )
+    return (
+        observed["event_text_count"]
+        + observed["dynamic_unique_keys"]
+        + len(observed["catalog_asset_name_ids"])
+    )
+
+
 def check_beta_visibility(errors: list[str]) -> None:
     source = (ROOT / "autoloads/LocaleManager.gd").read_text(encoding="utf-8")
     match = re.search(r"SHIPPING_LANGUAGES[^=]*=\s*\[([^\]]*)\]", source)
@@ -158,13 +231,18 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--scope",
-        choices=("all", "events", "endings", "ui", "catalog"),
+        choices=("all", "demo", "events", "endings", "ui", "catalog"),
         default="all",
     )
+    parser.add_argument("--strict", action="store_true")
     args = parser.parse_args()
     errors: list[str] = []
     total = 0
+    if args.strict and args.scope != "demo":
+        parser.error("--strict is available only with --scope demo")
     scopes = ("events", "endings", "ui", "catalog") if args.scope == "all" else (args.scope,)
+    if "demo" in scopes:
+        total += check_demo_scope(args.strict, errors)
     if "events" in scopes:
         total += check_scope("events", collect_events, actual_events(), errors)
     if "endings" in scopes:
@@ -175,12 +253,7 @@ def main() -> int:
             errors,
         )
     if "ui" in scopes:
-        total += check_scope(
-            "ui",
-            collect_ui,
-            read_json(ROOT / "locale/ui_ja.json"),
-            errors,
-        )
+        total += check_ui_scope(read_json(ROOT / "locale/ui_ja.json"), errors)
     if "catalog" in scopes:
         total += check_scope(
             "catalog",

@@ -24,13 +24,27 @@ from typing import Any, Iterable, Optional
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-CACHE_PATH = ROOT / ".git" / "codex-ja-translation-cache.json"
+
+
+def git_private_path(filename: str) -> pathlib.Path:
+    marker = ROOT / ".git"
+    if marker.is_dir():
+        return marker / filename
+    if marker.is_file():
+        line = marker.read_text(encoding="utf-8").strip()
+        if line.startswith("gitdir:"):
+            git_dir = pathlib.Path(line.split(":", 1)[1].strip())
+            if not git_dir.is_absolute():
+                git_dir = (ROOT / git_dir).resolve()
+            return git_dir / filename
+    return marker / filename
+
+
+CACHE_PATH = git_private_path("codex-ja-translation-cache.json")
 OLLAMA_URL = "http://127.0.0.1:11434/api/chat"
 DEFAULT_MODEL = "qwen3.6:35b-a3b-mxfp8"
-PROMPT_VERSION = "ja-beta-2026-07-13.2"
-REVIEW_VERSION = "ja-source-proof-2026-07-13.2"
-BODY_SCOPES = {"events", "endings", "catalog"}
-
+PROMPT_VERSION = "ja-demo-scope-2026-08-04.1"
+REVIEW_VERSION = "ja-source-proof-2026-08-04.1"
 EVENT_TEXT_FIELDS = (
     "title",
     "description",
@@ -39,8 +53,12 @@ EVENT_TEXT_FIELDS = (
     "description_low_mental",
     "description_long_gosiwon",
 )
-EVENT_DICT_FIELDS = ("description_if_known", "description_if_moral")
-CHOICE_TEXT_FIELDS = ("text", "result_text")
+EVENT_DICT_FIELDS = (
+    "description_if_known",
+    "description_memory_if_known",
+    "description_if_moral",
+)
+CHOICE_TEXT_FIELDS = ("text", "result_text", "bridge_summary")
 CHOICE_DICT_FIELDS = ("text_if_moral",)
 ENDING_TEXT_FIELDS = (
     "title",
@@ -76,6 +94,7 @@ UI_PAIR = re.compile(
     re.DOTALL,
 )
 HANGUL = re.compile(r"[\u1100-\u11ff\u3130-\u318f\uac00-\ud7a3]")
+JAPANESE = re.compile(r"[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff]")
 PLACEHOLDER = re.compile(
     r"\{[^{}]+\}|%(?:\d+\$)?[-+#0 .\d]*[a-zA-Z]|"
     r"\[/?(?:b|i|u|s|center|right|fill|color(?:=[^\]]+)?|font(?:=[^\]]+)?|"
@@ -84,6 +103,7 @@ PLACEHOLDER = re.compile(
 YEN_AMOUNT = re.compile(r"(?:\d|万|億)\s*円|[¥￥]")
 BAD_TERMS = ("ダエン", "ジヨンヌ", "お兄さん", "ヴィラ", "カンナムド")
 EXACT_TRANSLATIONS = {
+    "GANGNAM DREAM": "GANGNAM DREAM",
     "강남드림": "カンナム・ドリーム",
     "강남": "カンナム",
     "김민준": "キム・ミンジュン",
@@ -96,7 +116,7 @@ EXACT_TRANSLATIONS = {
     "상철": "サンチョル",
     "최재혁": "チェ・ジェヒョク",
     "재혁": "ジェヒョク",
-    "이현수": "イ・ヒョンス",
+    "강현수": "カン・ヒョンス",
     "현수": "ヒョンス",
     "박성준": "パク・ソンジュン",
     "성준": "ソンジュン",
@@ -104,6 +124,7 @@ EXACT_TRANSLATIONS = {
     "다온": "ダオン",
     "대현차": "テヒョン自動車",
     "코스피200 ETF": "KOSPI 200 ETF",
+    "유튜버": "YouTuber",
     "엔코어": "エンコア",
     "코어코인": "コアコイン",
     "노바코인": "ノヴァコイン",
@@ -178,7 +199,7 @@ CANON:
 - 강남드림=カンナム・ドリーム, 강남=カンナム, 김민준/민준=キム・ミンジュン/ミンジュン,
   김다은/다은=キム・ダウン/ダウン, 한지연/지연=ハン・ジヨン/ジヨン,
   임상철/상철=イム・サンチョル/サンチョル, 최재혁/재혁=チェ・ジェヒョク/ジェヒョク,
-  이현수/현수=イ・ヒョンス/ヒョンス, 박성준/성준=パク・ソンジュン/ソンジュン.
+  강현수/현수=カン・ヒョンス/ヒョンス, 박성준/성준=パク・ソンジュン/ソンジュン.
 - Daeun always addresses Minjun as ミンジュンさん and keeps polite, warm です・ます speech.
 - Jiyeon uses オッパ; before romance she is polite, after confirmed romance she may use natural
   plain speech. Never translate 오빠 as お兄さん.
@@ -246,7 +267,9 @@ def string_entry(key: str, value: Any, context: str, entries: list[Entry]) -> No
         entries.append(Entry(key, value, context))
 
 
-def collect_events() -> tuple[list[Entry], dict[str, Any]]:
+def collect_events(
+    event_ids: Optional[set[str]] = None,
+) -> tuple[list[Entry], dict[str, Any]]:
     entries: list[Entry] = []
     blueprint: dict[str, Any] = {}
     for path in sorted((ROOT / "content/events").glob("*.json")):
@@ -254,11 +277,13 @@ def collect_events() -> tuple[list[Entry], dict[str, Any]]:
         output_rows: list[dict[str, Any]] = []
         for row in rows:
             event_id = str(row.get("id", ""))
+            if event_ids is not None and event_id not in event_ids:
+                continue
             overlay: dict[str, Any] = {"id": event_id}
             title = str(row.get("title", event_id))
             context = f"event {event_id} / {title}"
             for field in EVENT_TEXT_FIELDS:
-                if isinstance(row.get(field), str):
+                if isinstance(row.get(field), str) and row[field].strip():
                     key = f"event::{path.name}::{event_id}::{field}"
                     string_entry(key, row[field], f"{context} / {field}", entries)
                     overlay[field] = {"$entry": key}
@@ -267,16 +292,19 @@ def collect_events() -> tuple[list[Entry], dict[str, Any]]:
                 if isinstance(value, dict):
                     translated: dict[str, Any] = {}
                     for variant_key, text in value.items():
+                        if not isinstance(text, str) or not text.strip():
+                            continue
                         key = f"event::{path.name}::{event_id}::{field}::{variant_key}"
                         string_entry(key, text, f"{context} / {field} / {variant_key}", entries)
                         translated[str(variant_key)] = {"$entry": key}
-                    overlay[field] = translated
+                    if translated:
+                        overlay[field] = translated
             choices: list[dict[str, Any]] = []
             for index, choice in enumerate(row.get("choices", [])):
                 translated_choice: dict[str, Any] = {}
                 if isinstance(choice, dict):
                     for field in CHOICE_TEXT_FIELDS:
-                        if isinstance(choice.get(field), str):
+                        if isinstance(choice.get(field), str) and choice[field].strip():
                             key = f"event::{path.name}::{event_id}::choice::{index}::{field}"
                             string_entry(
                                 key,
@@ -290,6 +318,8 @@ def collect_events() -> tuple[list[Entry], dict[str, Any]]:
                         if isinstance(value, dict):
                             translated: dict[str, Any] = {}
                             for variant_key, text in value.items():
+                                if not isinstance(text, str) or not text.strip():
+                                    continue
                                 key = (
                                     f"event::{path.name}::{event_id}::choice::{index}::"
                                     f"{field}::{variant_key}"
@@ -301,13 +331,75 @@ def collect_events() -> tuple[list[Entry], dict[str, Any]]:
                                     entries,
                                 )
                                 translated[str(variant_key)] = {"$entry": key}
-                            translated_choice[field] = translated
+                            if translated:
+                                translated_choice[field] = translated
                 choices.append(translated_choice)
             if choices:
                 overlay["choices"] = choices
             output_rows.append(overlay)
-        blueprint[path.name] = output_rows
+        if output_rows or event_ids is None:
+            blueprint[path.name] = output_rows
     return entries, blueprint
+
+
+def collect_demo() -> tuple[list[Entry], dict[str, Any]]:
+    """Collect only the locked 24-week body and mergeable dynamic surfaces."""
+    import demo_localization_scope as demo_scope
+
+    observed, runtime, errors = demo_scope.build_scope()
+    manifest = read_json(ROOT / "content/meta/demo_localization_scope.json")
+    errors.extend(demo_scope.compare_contract(
+        manifest.get("source_contract"), observed
+    ))
+    errors.extend(demo_scope.boundary_errors(runtime["event_ids"], manifest))
+    if errors:
+        raise ValueError(
+            "demo localization source contract is not clean: "
+            + "; ".join(errors[:20])
+        )
+
+    entries, event_blueprint = collect_events(set(runtime["event_ids"]))
+    if len(entries) != observed["event_text_count"]:
+        raise ValueError(
+            "demo event collector drift: "
+            f"{len(entries)} != {observed['event_text_count']}"
+        )
+
+    pair_contexts: dict[str, list[str]] = {}
+    for pair in runtime["pairs"]:
+        pair_contexts.setdefault(pair.korean, []).append(pair.source_id)
+    ui_blueprint: dict[str, Any] = {}
+    for korean in sorted(runtime["merged_pairs"]):
+        key = f"demo-ui::{hashlib.sha1(korean.encode()).hexdigest()[:12]}"
+        context = "24-week dynamic UI / " + ", ".join(
+            sorted(pair_contexts.get(korean, []))[:4]
+        )
+        entries.append(Entry(key, korean, context))
+        ui_blueprint[korean] = {"$entry": key}
+
+    catalog_blueprint: dict[str, Any] = {"assets": {}}
+    for asset_id in runtime["catalog_asset_ids"]:
+        source = runtime["catalog_asset_names"].get(asset_id, "")
+        key = f"demo-catalog::assets::{asset_id}::name"
+        entries.append(Entry(
+            key, source, f"24-week market asset / {asset_id} / name"
+        ))
+        catalog_blueprint["assets"][asset_id] = {
+            "name": {"$entry": key}
+        }
+
+    expected = (
+        observed["event_text_count"]
+        + observed["dynamic_unique_keys"]
+        + len(observed["catalog_asset_name_ids"])
+    )
+    if len(entries) != expected:
+        raise ValueError(f"demo collector total drift: {len(entries)} != {expected}")
+    return entries, {
+        "events": event_blueprint,
+        "ui": ui_blueprint,
+        "catalog": catalog_blueprint,
+    }
 
 
 def collect_endings() -> tuple[list[Entry], list[dict[str, Any]]]:
@@ -444,6 +536,12 @@ def validate_translation(entry: Entry, translated: Any) -> list[str]:
     if HANGUL.search(translated):
         remains = sorted(set(re.findall(r"[가-힣]+", translated)))
         errors.append(f"Hangul remains {remains[:8]}")
+    if (
+        EXACT_TRANSLATIONS.get(entry.source) is None
+        and HANGUL.search(entry.source)
+        and not JAPANESE.search(translated)
+    ):
+        errors.append("no Japanese glyphs in translated Korean source")
     if tokens(entry.source) != tokens(translated):
         errors.append(f"placeholder mismatch {tokens(entry.source)} != {tokens(translated)}")
     if entry.key.startswith("ui::"):
@@ -741,9 +839,69 @@ def resolve_blueprint(value: Any, translated: dict[str, str]) -> Any:
     return value
 
 
+def merge_event_rows(
+    existing_rows: list[dict[str, Any]],
+    translated_rows: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Replace selected IDs without deleting rows outside the demo wave."""
+    replacements = {
+        str(row.get("id", "")): row for row in translated_rows
+    }
+    merged_rows: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for row in existing_rows:
+        event_id = str(row.get("id", ""))
+        merged_rows.append(replacements.get(event_id, row))
+        seen.add(event_id)
+    for row in translated_rows:
+        event_id = str(row.get("id", ""))
+        if event_id not in seen:
+            merged_rows.append(row)
+            seen.add(event_id)
+    return merged_rows
+
+
+def body_authorization_error(
+    scope: str, allow_demo_body: bool, allow_full_body: bool,
+) -> str:
+    if scope == "demo" and not allow_demo_body:
+        return "demo_GO_required"
+    if scope == "all" or scope in {"events", "endings", "catalog"}:
+        if not allow_full_body:
+            return "full_game_GO_required"
+    return ""
+
+
 def write_scope(scope: str, blueprint: Any, translated: dict[str, str]) -> None:
     resolved = resolve_blueprint(blueprint, translated)
-    if scope == "events":
+    if scope == "demo":
+        output_dir = ROOT / "content/events_ja"
+        for filename, translated_rows in resolved["events"].items():
+            path = output_dir / filename
+            existing_rows = read_json(path) if path.is_file() else []
+            write_json(path, merge_event_rows(existing_rows, translated_rows))
+
+        ui_path = ROOT / "locale/ui_ja.json"
+        current_ui = read_json(ui_path)
+        current_ui.update(resolved["ui"])
+        write_json(ui_path, {
+            key: current_ui[key] for key in sorted(current_ui)
+        })
+
+        catalog_path = ROOT / "locale/catalog_ja.json"
+        current_catalog = read_json(catalog_path)
+        if not isinstance(current_catalog, dict):
+            current_catalog = {}
+        assets = current_catalog.setdefault("assets", {})
+        if not isinstance(assets, dict):
+            raise ValueError("locale/catalog_ja.json assets must be an object")
+        for asset_id, fields in resolved["catalog"]["assets"].items():
+            row = assets.setdefault(asset_id, {})
+            if not isinstance(row, dict):
+                raise ValueError(f"catalog assets.{asset_id} must be an object")
+            row.update(fields)
+        write_json(catalog_path, current_catalog)
+    elif scope == "events":
         output_dir = ROOT / "content/events_ja"
         for stale in output_dir.glob("*.json"):
             stale.unlink()
@@ -761,35 +919,147 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--scope",
-        choices=("all", "events", "endings", "ui", "catalog"),
+        choices=("all", "demo", "events", "endings", "ui", "catalog"),
         default="ui",
     )
     parser.add_argument(
         "--allow-body",
         action="store_true",
-        help="Unlock event/ending/catalog generation only after the explicit demo GO decision.",
+        help="Unlock only the 24-week demo body after the explicit demo GO decision.",
     )
+    parser.add_argument(
+        "--allow-full-body",
+        action="store_true",
+        help="Unlock full 1,599-event/35-ending/catalog generation only after a separate full-game GO.",
+    )
+    parser.add_argument(
+        "--inventory",
+        action="store_true",
+        help="Print the selected collector scope without translating or writing.",
+    )
+    parser.add_argument("--self-test", action="store_true")
     parser.add_argument("--model", default=DEFAULT_MODEL)
     parser.add_argument("--batch-chars", type=int, default=9000)
     parser.add_argument("--limit-batches", type=int, default=0)
     args = parser.parse_args()
 
-    requested_body = args.scope == "all" or args.scope in BODY_SCOPES
-    if requested_body and not args.allow_body:
+    if args.self_test:
+        entries, _blueprint = collect_demo()
+        failures: list[str] = []
+        cases = 6
+        manifest = read_json(ROOT / "content/meta/demo_localization_scope.json")
+        contract = manifest.get("source_contract", {})
+        expected_entries = (
+            int(contract.get("event_text_count", -1))
+            + int(contract.get("dynamic_unique_keys", -1))
+            + len(contract.get("catalog_asset_name_ids", []))
+        )
+        if len(entries) != expected_entries:
+            failures.append(f"demo collector returned {len(entries)} entries")
+        merged = merge_event_rows(
+            [{"id": "outside", "title": "keep"}, {"id": "inside", "title": "old"}],
+            [{"id": "inside", "title": "new"}, {"id": "added", "title": "new"}],
+        )
+        if merged != [
+            {"id": "outside", "title": "keep"},
+            {"id": "inside", "title": "new"},
+            {"id": "added", "title": "new"},
+        ]:
+            failures.append("demo event merge deleted, duplicated, or reordered rows")
+        if body_authorization_error("demo", False, False) != "demo_GO_required":
+            failures.append("demo body opened without demo approval")
+        if body_authorization_error("events", True, False) != "full_game_GO_required":
+            failures.append("demo approval opened full event generation")
+        if body_authorization_error("all", True, False) != "full_game_GO_required":
+            failures.append("demo approval opened the full all-scope generation")
+        if body_authorization_error("demo", True, False):
+            failures.append("approved demo scope remained locked")
+        cases += 1
+        short_entry = Entry("self-test-short", "돈", "pipeline self-test")
+        if not any(
+            "no Japanese glyphs" in error
+            for error in validate_translation(short_entry, "Money")
+        ):
+            failures.append("generator accepted English-only short Korean text")
+        cases += 1
+        exact_latin = {
+            "유튜버": "YouTuber",
+            "코스피200 ETF": "KOSPI 200 ETF",
+            "리츠 ETF": "REIT ETF",
+            "포스코": "POSCO",
+            "코파일럿": "Copilot",
+        }
+        for source, target in exact_latin.items():
+            entry = Entry(f"self-test-exact::{source}", source, "pipeline self-test")
+            if EXACT_TRANSLATIONS.get(source) != target \
+                    or validate_translation(entry, target):
+                failures.append(f"canonical Latin exact mapping failed: {source}")
+        if failures:
+            print(
+                f"JA_TRANSLATE_SELF_TEST_FAIL cases={cases} "
+                f"errors={len(failures)}"
+            )
+            for failure in failures:
+                print(f"  {failure}")
+            return 1
+        print(
+            "JA_TRANSLATE_SELF_TEST_OK "
+            f"cases={cases} entries={expected_entries} merge=non_destructive"
+        )
+        return 0
+
+    authorization_error = body_authorization_error(
+        args.scope, args.allow_body, args.allow_full_body
+    )
+    if authorization_error == "demo_GO_required" and not args.inventory:
         print(
             "BODY_TRANSLATION_HELD scope="
             f"{args.scope} reason=demo_GO_required hint=use_--allow-body_only_after_approval",
             file=sys.stderr,
         )
         return 2
+    if authorization_error == "full_game_GO_required" and not args.inventory:
+        print(
+            "BODY_TRANSLATION_HELD scope="
+            f"{args.scope} reason=full_game_GO_required "
+            "hint=demo_GO_only_allows_--scope_demo",
+            file=sys.stderr,
+        )
+        return 2
 
     collectors = {
+        "demo": collect_demo,
         "events": collect_events,
         "endings": collect_endings,
         "ui": collect_ui,
         "catalog": collect_catalog,
     }
-    scopes = tuple(collectors) if args.scope == "all" else (args.scope,)
+    scopes = ("events", "endings", "ui", "catalog") \
+        if args.scope == "all" else (args.scope,)
+    if args.inventory:
+        for scope in scopes:
+            entries, _blueprint = collectors[scope]()
+            if scope == "demo":
+                event_count = sum(
+                    1 for entry in entries if entry.key.startswith("event::")
+                )
+                dynamic_count = sum(
+                    1 for entry in entries if entry.key.startswith("demo-ui::")
+                )
+                catalog_count = sum(
+                    1 for entry in entries
+                    if entry.key.startswith("demo-catalog::")
+                )
+                print(
+                    "JA_TRANSLATE_INVENTORY scope=demo "
+                    f"entries={len(entries)} events={event_count} "
+                    f"dynamic={dynamic_count} catalog={catalog_count} endings=0"
+                )
+            else:
+                print(
+                    f"JA_TRANSLATE_INVENTORY scope={scope} entries={len(entries)}"
+                )
+        return 0
     cache = load_cache()
     for scope in scopes:
         entries, blueprint = collectors[scope]()

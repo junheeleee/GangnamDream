@@ -1323,9 +1323,9 @@ func _fmt(v: int) -> String:
 
 func _loc(data: Dictionary, key: String, fallback := "") -> String:
 	var en_key := "%s_en" % key
-	if LocaleManager.is_english() and data.has(en_key):
-		return str(data.get(en_key, fallback))
-	return str(data.get(key, fallback))
+	var korean := str(data.get(key, fallback))
+	var english := str(data.get(en_key, fallback))
+	return LocaleManager.ui(korean, english)
 
 func _delivery_label(order: Dictionary) -> String:
 	return LocaleManager.ui("%s  [%s]  팁 +%s", "%s  [%s]  Tip +%s") % [

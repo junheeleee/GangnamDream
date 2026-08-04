@@ -218,12 +218,15 @@
   "v2_reachability_contract": {
     "runtime_dynamic_roots": ["v2_dirty_recruiter_week24", "v2_dirty_trace_initial_call", "v2_hyunsu_exam_morning_echo"],
     "fresh_start_prologue_root": "story_flashforward",
+    "fresh_start_chapter_root": "chapter_card_33",
     "week_1_24_event_count": 57,
     "week_1_24_event_ids_sha256": "3074eef14540f0b3e7d4afa519a35ef45bbb7ef983d1b80a128fff68fd2d63f2",
     "prologue_event_count": 12,
     "prologue_event_ids_sha256": "729252866015f61b915170eb8da2813b621dde73ca936c63fb3a161ebc5b5363",
-    "fresh_start_event_count": 69,
-    "fresh_start_event_ids_sha256": "1782fb5891a77833637fb2c48693b38cc9f533701e804c3379c0a1349084a52a"
+    "chapter_event_count": 1,
+    "chapter_event_ids_sha256": "d0d8c63ac3d70ac9db0fba6d550fa61f86d906f660c322b87593a639eb18a9a8",
+    "fresh_start_event_count": 70,
+    "fresh_start_event_ids_sha256": "6fc0201327e2510e68ea5bad60693a38e6a21fefcc071455b5fb455314dbd1ce"
   },
   "network_contract": {
     "runtime_roots": ["autoloads", "scenes", "systems", "ui_components"],

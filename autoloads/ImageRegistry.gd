@@ -179,7 +179,7 @@ const PERSON_NAMES_EN = {
 	"daeun": "Kim Daeun",
 	"jaehyuk": "Choi Jaehyuk",
 	"father": "Father",
-	"sangchul": "Lim Sangchul",
+	"sangchul": "Im Sangchul",
 	"cafe_investor": "Man at the Cafe",
 	"cafe_broker_kim": "Manager Kim",
 	"goshiwon_owner": "Goshiwon Manager",
@@ -866,13 +866,14 @@ func get_person_info(portrait_id: String) -> Dictionary:
 	for key in PERSON_INFO:
 		if portrait_id == key or portrait_id.begins_with(key + "_"):
 			var info = PERSON_INFO[key].duplicate()
-			if LocaleManager.is_english() and PERSON_NAMES_EN.has(key):
-				info["name"] = PERSON_NAMES_EN[key]
-			# {name} 치환
-			if info.get("name", "") == "{name}":
-				var pname := str(GameState.player_name)
-				if LocaleManager.is_english() and pname == LocaleManager.DEFAULT_NAME_KO:
-					pname = LocaleManager.DEFAULT_NAME_EN
-				info["name"] = pname
+			var name_ko := str(info.get("name", ""))
+			var name_en := str(PERSON_NAMES_EN.get(key, name_ko))
+			# 플레이어 placeholder는 번역 사전의 실제 키가 아니다. 먼저 치환해
+			# 준비 언어의 miss 원장에 가짜 `{name}` 누락을 남기지 않는다.
+			if name_ko == "{name}" and name_en == "{name}":
+				info["name"] = LocaleManager.localize_player_name(
+					str(GameState.player_name))
+			else:
+				info["name"] = LocaleManager.ui(name_ko, name_en)
 			return info
 	return {}

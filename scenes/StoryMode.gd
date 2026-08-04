@@ -2588,7 +2588,7 @@ func _refresh_hud():
 			GameState.health, GameState.mental, months_left]
 
 func _story_money(amount: float) -> String:
-	if not LocaleManager.is_english():
+	if not LocaleManager.is_exact_english():
 		return GameState.format_money(amount)
 	var sign := "-" if amount < 0.0 else ""
 	var value := absf(amount)
@@ -4839,7 +4839,7 @@ func _story_result_effect_color(key: String, val: int) -> Color:
 
 func _story_result_value_text(key: String, val: int) -> String:
 	if key == "money" or key == "monthly_income":
-		if LocaleManager.is_english():
+		if LocaleManager.is_exact_english():
 			return _story_result_money_compact(float(val))
 		if val >= 0:
 			return "+%s" % _story_money(float(val))
@@ -5573,9 +5573,8 @@ const CAST_NAME_EN = {
 
 ## 스탯 표시 이름 — 현재 언어에 맞게
 func _stat_display_name(key: String, ko_name: String) -> String:
-	if LocaleManager.language == "en":
-		return str(STAT_INFO.get(key, {}).get("name_en", key))
-	return ko_name
+	return LocaleManager.ui(
+		ko_name, str(STAT_INFO.get(key, {}).get("name_en", key)))
 
 ## 인물 표시 이름 — 현재 언어에 맞게
 func _cast_display_name(pid: String) -> String:

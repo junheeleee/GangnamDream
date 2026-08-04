@@ -252,7 +252,9 @@ func _show_beat(index: int, animate: bool = true) -> void:
 		old_image.queue_free()
 
 func _localized(beat: Dictionary, field: String) -> String:
-	return str(beat["%s_en" % field] if LocaleManager.is_english() else beat["%s_ko" % field])
+	return LocaleManager.ui(
+		str(beat["%s_ko" % field]),
+		str(beat["%s_en" % field]))
 
 func _grade_material(desaturation: float, brightness: float, seed: float) -> ShaderMaterial:
 	var material := ShaderMaterial.new()

@@ -191,7 +191,7 @@ func _ready():
 		set_meta(str(key), artifact_identity[key])
 	set_meta(
 		"release_v2_entry_count", release_v2_entry_count(playtest_build))
-	BuildInfoScript.apply_window_title(get_window(), false, LocaleManager.is_english())
+	BuildInfoScript.apply_window_title(get_window(), false, not LocaleManager.is_korean())
 	_build_ui()
 	_build_splash()
 	BGMPlayer.start_menu()
@@ -201,14 +201,15 @@ func _tr(ko_text: String, en_text: String) -> String:
 	return LocaleManager.ui(ko_text, en_text)
 
 func _theme_text(theme: Dictionary, key: String) -> String:
-	if LocaleManager.is_english():
-		return str(RUN_THEME_TEXT_EN.get(str(theme.get("id", "")), {}).get(key, theme.get(key, "")))
-	return str(theme.get(key, ""))
+	return LocaleManager.ui(
+		str(theme.get(key, "")),
+		str(RUN_THEME_TEXT_EN.get(
+			str(theme.get("id", "")), {}).get(key, theme.get(key, ""))))
 
 func _difficulty_text(did: String, data: Dictionary, key: String) -> String:
-	if LocaleManager.is_english():
-		return str(DIFFICULTY_TEXT_EN.get(did, {}).get(key, data.get(key, "")))
-	return str(data.get(key, ""))
+	return LocaleManager.ui(
+		str(data.get(key, "")),
+		str(DIFFICULTY_TEXT_EN.get(did, {}).get(key, data.get(key, ""))))
 
 func _slot_title(slot: int) -> String:
 	if slot == 0:
@@ -216,7 +217,7 @@ func _slot_title(slot: int) -> String:
 	return _tr("슬롯 %d" % slot, "Slot %d" % slot)
 
 func _format_start_money(amount: float) -> String:
-	if LocaleManager.is_english():
+	if LocaleManager.is_exact_english():
 		if abs(amount) >= 1_000_000_000.0:
 			return "KRW %.1fB" % (amount / 1_000_000_000.0)
 		if abs(amount) >= 1_000_000.0:
@@ -245,7 +246,7 @@ func _rebuild_language_ui(show_splash: bool = false) -> void:
 	_build_ui()
 	BuildInfoScript.apply_window_title(
 		get_window(), DemoCoreLoopV2Script.requested(),
-		LocaleManager.is_english())
+		not LocaleManager.is_korean())
 	if show_splash:
 		_build_splash()
 	else:
@@ -396,7 +397,8 @@ func _horizontal_scrim_texture() -> GradientTexture2D:
 	return texture
 
 func _title_wordmark(font_size: int = 66) -> VBoxContainer:
-	var subtitle := "GANGNAM DREAM" if not LocaleManager.is_english() else "A KOREAN SOCIAL-REALITY DRAMA"
+	var subtitle := LocaleManager.ui(
+		"GANGNAM DREAM", "A KOREAN SOCIAL-REALITY DRAMA")
 	return GangnamWordmarkScript.new(font_size, subtitle)
 
 func _input(event):
@@ -2001,12 +2003,13 @@ func _initialize_new_run_state(core_loop_v2_test: bool) -> void:
 	if core_loop_v2_test:
 		DemoCoreLoopV2Script.initialize_for_run(true)
 	BuildInfoScript.apply_window_title(
-		get_window(), core_loop_v2_test, LocaleManager.is_english())
+		get_window(), core_loop_v2_test, not LocaleManager.is_korean())
 
 func _load_slot(slot):
 	if SaveManager.load_game(slot):
 		BuildInfoScript.apply_window_title(
-			get_window(), DemoCoreLoopV2Script.requested(), LocaleManager.is_english())
+			get_window(), DemoCoreLoopV2Script.requested(),
+			not LocaleManager.is_korean())
 		SceneTransition.go(SaveManager.loaded_scene_path())
 
 # ── UI 헬퍼 ────────────────────────────────────────────────────
@@ -2230,8 +2233,9 @@ func _close_settings_popup() -> void:
 
 func _notice_localized(value: Variant, fallback: String = "") -> String:
 	if value is Dictionary:
-		var language_key := "en" if LocaleManager.is_english() else "ko"
-		return str((value as Dictionary).get(language_key, fallback))
+		return LocaleManager.ui(
+			str((value as Dictionary).get("ko", fallback)),
+			str((value as Dictionary).get("en", fallback)))
 	return str(value) if value != null else fallback
 
 func _load_third_party_notice_data() -> Dictionary:

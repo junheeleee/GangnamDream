@@ -583,11 +583,12 @@ func get_job_display_name(job: Dictionary = {}) -> String:
 	var source: Dictionary = current_job if job.is_empty() else job
 	if source.is_empty():
 		return LocaleManager.ui("무직", "Unemployed")
-	var authored_name_key := "display_name_ko" \
-			if LocaleManager.language == "ko" else "display_name_en"
-	var authored_name := str(source.get(authored_name_key, "")).strip_edges()
-	if not authored_name.is_empty():
-		return authored_name
+	var authored_name_ko := str(source.get("display_name_ko", "")).strip_edges()
+	var authored_name_en := str(source.get("display_name_en", "")).strip_edges()
+	if not authored_name_ko.is_empty() or not authored_name_en.is_empty():
+		return LocaleManager.ui(
+			authored_name_ko if not authored_name_ko.is_empty() else authored_name_en,
+			authored_name_en if not authored_name_en.is_empty() else authored_name_ko)
 	var job_id := str(source.get("id", ""))
 	if not job_id.is_empty():
 		var localized: Dictionary = DataRegistry.get_job(job_id)
@@ -2408,9 +2409,9 @@ func add_log(message, log_type):
 	log_added.emit(entry)
 
 func get_date_string():
-	if LocaleManager.is_english():
-		return "%04d-%02d W%d" % [year, month, week_of_month]
-	return "%d년 %d월 %d주차" % [year, month, week_of_month]
+	return LocaleManager.ui(
+		"%d년 %d월 %d주차", "%04d-%02d W%d") % [
+			year, month, week_of_month]
 
 func format_money(amount):
 	return LocaleManager.format_money(float(amount))

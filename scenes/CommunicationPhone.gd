@@ -849,8 +849,9 @@ func _on_language_changed(_language: String) -> void:
 
 
 func _optional_phone_copy(offer: Dictionary, stem: String) -> String:
-	var suffix := "en" if LocaleManager.is_english() else "ko"
-	return str(offer.get("%s_%s" % [stem, suffix], "")).strip_edges()
+	return LocaleManager.ui(
+		str(offer.get("%s_ko" % stem, "")),
+		str(offer.get("%s_en" % stem, ""))).strip_edges()
 
 
 func _phone_message_sender(offer: Dictionary) -> String:

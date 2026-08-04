@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-82 [P1·현지화 준비] 중국어 간체와 번체를 별도 작품·글꼴·검수 계약으로 준비한다
+#### [~] ORDER-82 [P1·현지화 준비] 중국어 간체와 번체를 별도 작품·글꼴·검수 계약으로 준비한다
 
 **사용자 근거 (2026-08-04):** 24주 데모까지 일본어·중국어 준비를 시작하되,
 한 편의 소설·영화라는 기준과 한국어 정본을 잃지 않는다. 중국어는 일본어의
@@ -78,4 +78,3 @@ SC/TC 폰트 바이너리·OFL·제3자 고지는 공식 파일과 해시를 확
 - `ZH_DEMO_PREP lang=<zh-CN|zh-TW> events=<n>/<all> dynamic=<n>/<all> font=<blocked|ready> shipping=0`
 - `ZH_FONT_ROUTE lang=<code> primary=<path> shared_han_jp_first=0 glyphs=<covered>/<required>`
 - L3: 지역별 원어민이 한국어 원문과 같은 revision의 정상 속도 24주·분기 replay를 판정한 기록.
-

@@ -242,6 +242,87 @@
       ]
     },
     {
+      "tool": "tools/demo_localization_scope.py --self-test",
+      "why": "실제 24주 도달 70장면·동적 문구·준비 언어 영어 우회·데모 전용 엄격 범위",
+      "paths": [
+        "content/meta/demo_localization_scope.json",
+        "content/meta/demo_core_loop_v2.json",
+        "content/meta/narrative_spine.json",
+        "content/meta/release_content_inventory.json",
+        "content/events/**",
+        "content/events_ja/**",
+        "content/events_zh-CN/**",
+        "content/events_zh-TW/**",
+        "content/assets.json",
+        "locale/**",
+        "autoloads/LocaleManager.gd",
+        "autoloads/GameState.gd",
+        "autoloads/ImageRegistry.gd",
+        "scenes/MainGame.gd",
+        "scenes/ArubaGame.gd",
+        "scenes/JobHuntMiniGame.gd",
+        "scenes/CoreLoopPlanner.gd",
+        "scenes/CommunicationPhone.gd",
+        "scenes/OpeningCinematic.gd",
+        "scenes/StartMenu.gd",
+        "scenes/StoryMode.gd",
+        "systems/DemoCoreLoopV2.gd",
+        "tools/demo_localization_scope.py",
+        "tools/release_content_inventory.py",
+        "tools/ja_translation_pipeline.py",
+        "tools/ja_translation_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/ja_translation_pipeline.py --scope demo --inventory",
+      "why": "일본어 생성기가 24주 70사건·479동적키·4자산만 수집하고 전체판 본문을 열지 않는지 검사",
+      "paths": [
+        "content/meta/demo_localization_scope.json",
+        "content/meta/release_content_inventory.json",
+        "content/meta/demo_core_loop_v2.json",
+        "content/events/**",
+        "content/assets.json",
+        "scenes/ArubaGame.gd",
+        "scenes/JobHuntMiniGame.gd",
+        "scenes/MainGame.gd",
+        "locale/ui_ja.json",
+        "locale/catalog_ja.json",
+        "tools/demo_localization_scope.py",
+        "tools/ja_translation_pipeline.py"
+      ]
+    },
+    {
+      "tool": "tools/ja_translation_pipeline.py --self-test",
+      "why": "데모 승인과 전체판 승인 분리·70사건 병합의 데모 밖 행 보존을 변이 검사",
+      "paths": [
+        "content/meta/demo_localization_scope.json",
+        "content/meta/release_content_inventory.json",
+        "content/meta/demo_core_loop_v2.json",
+        "content/events/**",
+        "content/events_ja/**",
+        "content/assets.json",
+        "locale/ui_ja.json",
+        "locale/catalog_ja.json",
+        "tools/demo_localization_scope.py",
+        "tools/ja_translation_pipeline.py"
+      ]
+    },
+    {
+      "tool": "tools/ja_translation_audit.py --scope demo",
+      "why": "현재 존재하는 일본어 데모 행의 정확한 텍스트 구조·용어·동적 키를 skeleton 상태에서도 검사",
+      "paths": [
+        "content/meta/demo_localization_scope.json",
+        "content/events/**",
+        "content/events_ja/**",
+        "content/assets.json",
+        "locale/ui_ja.json",
+        "locale/catalog_ja.json",
+        "tools/demo_localization_scope.py",
+        "tools/ja_translation_pipeline.py",
+        "tools/ja_translation_audit.py"
+      ]
+    },
+    {
       "tool": "tools/multilingual_surface_audit.py",
       "why": "다국어 표면",
       "paths": [

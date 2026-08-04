@@ -389,14 +389,18 @@ func _on_language_changed(_lang: String) -> void:
 func _tr(ko: String, en: String) -> String:
 	return LocaleManager.ui(ko, en)
 
+func _localized_pair(
+		data: Dictionary, korean_key: String = "t", english_key: String = "et",
+		fallback: String = "") -> String:
+	var korean := str(data.get(korean_key, fallback))
+	var english := str(data.get(english_key, fallback))
+	return LocaleManager.ui(korean, english)
+
 func _quote_ui(text: String) -> String:
 	return "\"%s\"" % text if LocaleManager.is_english() else "「%s」" % text
 
 func _loc_dict(data: Dictionary, key: String, fallback := "") -> String:
-	var en_key := "%s_en" % key
-	if LocaleManager.is_english() and data.has(en_key):
-		return str(data.get(en_key, fallback))
-	return str(data.get(key, fallback))
+	return _localized_pair(data, key, "%s_en" % key, str(fallback))
 
 func _run_theme_display(theme_id: String) -> String:
 	match theme_id:
@@ -1088,9 +1092,8 @@ func _core_loop_v2_present_pre_bundle_declines(records: Array) -> void:
 		if not raw_record is Dictionary:
 			continue
 		var record: Dictionary = raw_record
-		var message_key := (
-			"message_en" if LocaleManager.is_english() else "message_ko")
-		var message := str(record.get(message_key, "")).strip_edges()
+		var message := _core_loop_v2_localized(
+			record, "message").strip_edges()
 		if message.is_empty():
 			continue
 		GameState.add_log(_tr(
@@ -1116,8 +1119,9 @@ func _core_loop_v2_log_routine_receipt(receipt: Dictionary) -> void:
 		"Kept up each week — %s") % " + ".join(names), "system")
 
 func _core_loop_v2_localized(data: Dictionary, stem: String) -> String:
-	var key := "%s_%s" % [stem, "en" if LocaleManager.is_english() else "ko"]
-	return str(data.get(key, ""))
+	return LocaleManager.ui(
+		str(data.get("%s_ko" % stem, "")),
+		str(data.get("%s_en" % stem, "")))
 
 func _core_loop_v2_recap_names(records: Array, include_week: bool) -> Array[String]:
 	var names: Array[String] = []
@@ -1217,16 +1221,14 @@ func _core_loop_v2_initiative_recap(
 func _core_loop_v2_final_decline_messages(
 		snapshot: Dictionary, final_month: int) -> Array[String]:
 	var messages: Array[String] = []
-	var message_key := "message_en" if LocaleManager.is_english() \
-		else "message_ko"
 	for raw_receipt in snapshot.get("decline_receipts", []):
 		if not raw_receipt is Dictionary:
 			continue
 		var receipt: Dictionary = raw_receipt
 		if int(receipt.get("visible_month", 0)) != final_month:
 			continue
-		var message := GameState.format_event_text(str(
-			receipt.get(message_key, ""))).strip_edges()
+		var message := GameState.format_event_text(
+			_core_loop_v2_localized(receipt, "message")).strip_edges()
 		if not message.is_empty() and not messages.has(message):
 			messages.append(message)
 	return messages
@@ -13029,8 +13031,7 @@ func _ap_study_commit(study_type: int) -> void:
 	GameState.register_action_axis(
 		study_axis, "river" if study_type == 1 else "home", study_action_id)
 	GameState.finalize_weekly_commitment(study_action_id, "", {"study_type": study_type})
-	var _st_key := "et" if LocaleManager.is_english() else "t"
-	var flavor: String = str(v.get(_st_key, v.get("t", "")))
+	var flavor: String = _localized_pair(v)
 	var special: String = _study_threshold_special(study_type, n)
 	if special != "":
 		flavor = special
@@ -13169,9 +13170,7 @@ func _on_aruba_closed(earned: int, stress_delta: int, health_delta: int) -> void
 	else:
 		var vignette_pool := _side_shift_vignettes(side_shift_job_id)
 		var _sj_v: Dictionary = vignette_pool[randi() % vignette_pool.size()]
-		mood = str(_sj_v.get(
-			"et" if LocaleManager.is_english() else "t",
-			_sj_v.get("t", "")))
+		mood = _localized_pair(_sj_v)
 	turn_action_log.append("✓ 💼 %s — %s" % [shift_title, mood.substr(0, 22)])
 	AudioManager.play("money_gain")
 	_show_effects_float(display_effects)
@@ -13194,7 +13193,7 @@ func _ap_save_money():
 	GameState.modify_hidden_stat("stress", 2)
 	GameState.add_tendency("career", 1)
 	var _sv: Dictionary = _SAVE_SCENES[randi() % _SAVE_SCENES.size()]
-	var scene: String = str(_sv.get("et" if LocaleManager.is_english() else "t", _sv.get("t", "")))
+	var scene: String = _localized_pair(_sv)
 	GameState.add_log(_tr("💰 절약 — %s", "💰 Saving — %s") % scene, "event")
 	GameState.register_action_axis("money", "store", "save")
 	GameState.finalize_weekly_commitment("save", "", {"saved": saved})
@@ -13221,8 +13220,7 @@ func _ap_network():
 			GameState.modify_hidden_stat(k, val)
 		else:
 			GameState.modify_stat(k, val)
-	var _nt_key := "et" if LocaleManager.is_english() else "t"
-	var flavor: String = str(v.get(_nt_key, v.get("t", "")))
+	var flavor: String = _localized_pair(v)
 	GameState.add_log(_tr("🤝 인맥 — ", "🤝 Network — ") + flavor, "relationship")
 	turn_action_log.append(_tr("✓ 🤝 인맥 넓히기 — ", "✓ 🤝 Networking — ") + flavor.substr(0, 20))
 	GameState.stats_changed.emit()
@@ -13298,8 +13296,7 @@ func _ap_date():
 		else:
 			GameState.modify_stat(k, val)
 	GameState.apply_cast_effect(pid, {"affinity": 3})
-	var t_key := "et" if LocaleManager.is_english() else "t"
-	var flavor: String = str(v.get(t_key, v.get("t", "")))
+	var flavor: String = _localized_pair(v)
 	var title := _tr("부부의 시간", "Time Together") if married else _tr("데이트", "Date")
 	GameState.add_log(title + " — " + flavor, "relationship")
 	turn_action_log.append("✓ " + title + " — " + flavor.substr(0, 22))
@@ -14787,8 +14784,7 @@ func _ap_vignette(title: String, pool: Array, color: String, place_id: String = 
 			GameState.modify_hidden_stat(k, val)
 		else:
 			GameState.modify_stat(k, val)
-	var t_key := "et" if LocaleManager.is_english() else "t"
-	var flavor: String = str(v.get(t_key, v.get("t", "")))
+	var flavor: String = _localized_pair(v)
 	turn_action_log.append("✓ " + title + " — " + flavor.substr(0, 22))
 	GameState.add_log(title + " — " + flavor, "event")
 	GameState.register_action_axis("human", place_id, action_id)   # 자기계발·휴식 = 자기 돌봄
@@ -15156,8 +15152,7 @@ func _ap_startup_work():
 		else:
 			GameState.modify_stat(k, val)
 	GameState.add_tendency("found", 1)
-	var _su_key := "et" if LocaleManager.is_english() else "t"
-	var flavor: String = str(v.get(_su_key, v.get("t", "")))
+	var flavor: String = _localized_pair(v)
 	turn_action_log.append("✓ " + _tr("🚀 창업 업무", "🚀 Startup Work") + " — " + flavor.substr(0, 22))
 	GameState.add_log(_tr("🚀 창업 업무", "🚀 Startup Work") + " — " + flavor, "event")
 	GameState.stats_changed.emit()
@@ -15182,8 +15177,7 @@ func _ap_create_content():
 		var content_income = float(randi_range(50_000, 200_000))
 		GameState.add_money(content_income)
 		extra_eff["money"] = int(content_income)
-	var _cc_key := "et" if LocaleManager.is_english() else "t"
-	var flavor: String = str(v.get(_cc_key, v.get("t", "")))
+	var flavor: String = _localized_pair(v)
 	turn_action_log.append("✓ " + _tr("🎬 콘텐츠 제작", "🎬 Create Content") + " — " + flavor.substr(0, 22))
 	GameState.add_log(_tr("🎬 콘텐츠 제작", "🎬 Create Content") + " — " + flavor, "event")
 	GameState.stats_changed.emit()

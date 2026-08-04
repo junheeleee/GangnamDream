@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "updated": "2026-08-04",
+  "scope": "Player-visible fresh-start Core Loop V2 surfaces through the 24-week CTA; preparation evidence, not translation or shipping approval.",
+  "derivation": {
+    "events": "release inventory V2 bundle/spine/runtime closure plus the fresh-start Chapter 1 card; suppressed follow-ups remain suppressed",
+    "dynamic": "all demo_core_loop_v2 sibling *_ko/*_en values, six OpeningCinematic beat pairs, reachable event {ko,en} runtime display pairs, reachable portrait display names, and the legal V2 convenience/delivery/resume/interview activity pools",
+    "catalog": "the four asset names shown by the first unlocked Week-21 planner market preview",
+    "endings": "the 24-week recap and CTA do not call finish_run, so no retail ending is in this scope"
+  },
+  "source_files": [
+    "content/meta/release_content_inventory.json",
+    "content/meta/demo_core_loop_v2.json",
+    "content/meta/narrative_spine.json",
+    "content/events/*.json",
+    "content/assets.json",
+    "scenes/MainGame.gd",
+    "scenes/ArubaGame.gd",
+    "scenes/JobHuntMiniGame.gd",
+    "scenes/OpeningCinematic.gd",
+    "scenes/StartMenu.gd",
+    "systems/DemoCoreLoopV2.gd",
+    "autoloads/ImageRegistry.gd"
+  ],
+  "shipping_languages": ["ko", "en"],
+  "prepared_languages": ["ja", "zh-CN", "zh-TW"],
+  "body_translation": "held_until_explicit_demo_GO",
+  "full_body_translation": "held_until_separate_full_game_GO",
+  "receipt_only_event_ids": ["callback_escaped_dirty_trace"],
+  "source_contract": {
+    "week_1_24_event_count": 57,
+    "week_1_24_event_ids_sha256": "3074eef14540f0b3e7d4afa519a35ef45bbb7ef983d1b80a128fff68fd2d63f2",
+    "prologue_event_count": 12,
+    "prologue_event_ids_sha256": "729252866015f61b915170eb8da2813b621dde73ca936c63fb3a161ebc5b5363",
+    "chapter_event_count": 1,
+    "chapter_event_ids_sha256": "d0d8c63ac3d70ac9db0fba6d550fa61f86d906f660c322b87593a639eb18a9a8",
+    "visible_event_count": 70,
+    "visible_event_ids_sha256": "6fc0201327e2510e68ea5bad60693a38e6a21fefcc071455b5fb455314dbd1ce",
+    "event_text_count": 431,
+    "event_text_ko_chars": 37519,
+    "event_text_sha256": "ad5163491e408dfc5a8aa7ccf62afe1a6cedac36b2124cefa043be76d6a3d432",
+    "event_owner_counts": {
+      "content/events/arc_daeun.json": 1,
+      "content/events/arc_events.json": 12,
+      "content/events/arc_midgame.json": 1,
+      "content/events/chapter_cards.json": 1,
+      "content/events/core_loop_v2_events.json": 33,
+      "content/events/scenario_cafe.json": 10,
+      "content/events/story_events.json": 12
+    },
+    "demo_json_pair_occurrences": 325,
+    "demo_json_unique_keys": 321,
+    "demo_json_pairs_sha256": "06a2af15bf7ac01b1179f4bd10f6785b4da4f92fd40da45c16d3ca21fb69dbce",
+    "opening_pair_occurrences": 6,
+    "opening_pairs_sha256": "4d21780f79e706c8506b9789e4a33d72eb2784bf74002baaae8264b95be05e53",
+    "event_runtime_pair_occurrences": 1,
+    "person_pair_occurrences": 7,
+    "activity_gd_pair_occurrences": 147,
+    "activity_gd_pair_owner_counts": {
+      "scenes/ArubaGame.gd::CUSTOMER_TYPES": 52,
+      "scenes/ArubaGame.gd::DEL_ORDERS_DATA": 12,
+      "scenes/JobHuntMiniGame.gd::INTERVIEW_QUESTION_POOL": 40,
+      "scenes/JobHuntMiniGame.gd::RESUME_QUESTION_POOL": 40,
+      "scenes/MainGame.gd::SIDE_JOB_VIGNETTES_CONVENIENCE": 3
+    },
+    "activity_gd_pairs_sha256": "83bbe723839a1a2d6c164fcce74cbb2a87bb72e29bd50114f79049f4e2921055",
+    "dynamic_pair_occurrences": 486,
+    "dynamic_unique_keys": 479,
+    "dynamic_pairs_sha256": "ee8371e64a9c60b05ef6fb716e06623a4d5e3c266947137dec680511e04c1921",
+    "dynamic_unique_sha256": "930e0340765c8b3ae9241eb56240a4997cbe784a920398581bd6cffef7f76e5a",
+    "demo_ending_count": 0,
+    "catalog_asset_name_ids": ["samsung", "kakao", "hyundai", "kospi_etf"],
+    "catalog_asset_names_sha256": "187802b46719245170031f912663ad8bc7308bbe187bba0a819d9f3f2ad4cab4",
+    "receipt_only_event_ids": ["callback_escaped_dirty_trace"]
+  },
+  "strict_gate": {
+    "automated_requires": [
+      "70 exact event overlays and 431 translated text leaves",
+      "479 dynamic lookup keys and four visible market asset names",
+      "exact choice count/order and text-only overlay fields",
+      "placeholder, paragraph, terminology, and Korean-won preservation",
+      "zero prepared-locale direct-English bypasses"
+    ],
+    "separate_claim_gates": [
+      "language-specific bundled font",
+      "same-revision native context review"
+    ],
+    "does_not_require": [
+      "weeks 25-240",
+      "35 retail endings",
+      "shipping-language exposure"
+    ]
+  }
+}

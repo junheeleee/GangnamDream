@@ -241,13 +241,13 @@ def v2_reachable_event_surfaces(
     ledger: dict[str, Any],
     events: dict[str, dict[str, Any]],
     errors: list[str],
-) -> tuple[set[str], set[str]]:
-    """Build the possible week 1-24 surface and the required pre-week prologue."""
+) -> tuple[set[str], set[str], set[str]]:
+    """Build every authored surface shown before and during the 24-week demo."""
     contract = load_json(DEMO_V2_PATH)
     bundles = contract.get("scene_bundles", {})
     if not isinstance(bundles, dict):
         errors.append("demo_core_loop_v2.scene_bundles must be an object")
-        return set(), set()
+        return set(), set(), set()
 
     suppressions_by_root: dict[str, set[str]] = {}
     reachable: set[str] = set()
@@ -357,7 +357,23 @@ def v2_reachable_event_surfaces(
     prologue = reachable_registered_event_ids(
         {expected_prologue}, events, errors, "V2 fresh-start prologue"
     )
-    return reachable, prologue
+
+    chapter_block = gd_function_block(
+        ROOT / "scenes/MainGame.gd", "_opening_chapter_event_id"
+    )
+    chapter_markers = re.findall(r'return\s+"([^"]+)"', chapter_block)
+    expected_chapter = str(
+        ledger["v2_reachability_contract"]["fresh_start_chapter_root"]
+    ).strip()
+    if chapter_markers != [expected_chapter]:
+        errors.append(
+            "V2 fresh-start chapter runtime marker differs from ledger: "
+            f"runtime={chapter_markers} ledger={expected_chapter!r}"
+        )
+    chapter = reachable_registered_event_ids(
+        {expected_chapter}, events, errors, "V2 fresh-start chapter card"
+    )
+    return reachable, prologue, chapter
 
 
 def validate_structure(ledger: dict[str, Any]) -> list[str]:
@@ -440,6 +456,8 @@ def validate_structure(ledger: dict[str, Any]) -> list[str]:
         errors.append("v2 runtime_dynamic_roots must be a non-empty sorted unique list")
     if not str(v2_contract.get("fresh_start_prologue_root", "")).strip():
         errors.append("v2 fresh_start_prologue_root must be non-empty")
+    if not str(v2_contract.get("fresh_start_chapter_root", "")).strip():
+        errors.append("v2 fresh_start_chapter_root must be non-empty")
 
     legacy_contract = ledger.get("legacy_reachability_contract", {})
     if legacy_contract.get("owner") != "content/meta/event_director.json":
@@ -877,16 +895,18 @@ def validate_v2_reachability(
     ko_events: dict[str, dict[str, Any]],
     errors: list[str],
 ) -> set[str]:
-    week_reachable, prologue_reachable = v2_reachable_event_surfaces(
+    week_reachable, prologue_reachable, chapter_reachable = v2_reachable_event_surfaces(
         ledger, ko_events, errors
     )
-    reachable = week_reachable | prologue_reachable
+    reachable = week_reachable | prologue_reachable | chapter_reachable
     contract = ledger.get("v2_reachability_contract", {})
     observed = {
         "week_1_24_event_count": len(week_reachable),
         "week_1_24_event_ids_sha256": sha_lines(sorted(week_reachable)),
         "prologue_event_count": len(prologue_reachable),
         "prologue_event_ids_sha256": sha_lines(sorted(prologue_reachable)),
+        "chapter_event_count": len(chapter_reachable),
+        "chapter_event_ids_sha256": sha_lines(sorted(chapter_reachable)),
         "fresh_start_event_count": len(reachable),
         "fresh_start_event_ids_sha256": sha_lines(sorted(reachable)),
     }
@@ -1400,6 +1420,16 @@ def self_test(ledger: dict[str, Any]) -> list[str]:
     if not any("prologue runtime marker differs" in message for message in reachability_errors):
         failures.append(
             "self-test v2_prologue_contract: mutation was not rejected: "
+            f"{reachability_errors}"
+        )
+
+    changed = copy.deepcopy(ledger)
+    changed["v2_reachability_contract"]["fresh_start_chapter_root"] = "chapter_card_34"
+    reachability_errors = []
+    validate_v2_reachability(changed, ko_events, reachability_errors)
+    if not any("chapter runtime marker differs" in message for message in reachability_errors):
+        failures.append(
+            "self-test v2_chapter_contract: mutation was not rejected: "
             f"{reachability_errors}"
         )
     return failures

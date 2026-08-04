@@ -831,6 +831,6 @@ func _add_surface_rect(parent: Control, start_anchor: Vector2, end_anchor: Vecto
 
 func _loc(data: Dictionary, key: String) -> String:
 	var en_key := "%s_en" % key
-	if LocaleManager.is_english() and data.has(en_key):
-		return str(data.get(en_key, ""))
-	return str(data.get(key, ""))
+	var korean := str(data.get(key, ""))
+	var english := str(data.get(en_key, ""))
+	return LocaleManager.ui(korean, english)

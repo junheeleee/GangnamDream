@@ -2513,10 +2513,7 @@ static func first_bill_replay_player_name(
 
 static func _first_bill_localized_player_name(raw_name: String) -> String:
 	var player_name := raw_name.strip_edges()
-	if player_name in [LocaleManager.DEFAULT_NAME_KO, LocaleManager.DEFAULT_NAME_EN]:
-		return LocaleManager.DEFAULT_NAME_EN \
-			if LocaleManager.is_english() else LocaleManager.DEFAULT_NAME_KO
-	return player_name
+	return LocaleManager.localize_player_name(player_name)
 
 static func _validated_demo_collision_context(
 		state: Dictionary, require_current_turn: bool = true) -> Dictionary:

@@ -31,7 +31,7 @@ func _load_saved_language() -> void:
 		lang = "en"
 	var changed := lang != language
 	language = lang
-	_sync_player_name(lang)
+	_sync_player_name()
 	if changed:
 		language_changed.emit(lang)
 		DataRegistry.reload()
@@ -43,7 +43,7 @@ func set_language(lang: String) -> void:
 	var changed := normalized != language
 	language = normalized
 	SaveManager.set_setting("language", normalized)
-	_sync_player_name(normalized)
+	_sync_player_name()
 	if changed:
 		language_changed.emit(normalized)
 		DataRegistry.reload()
@@ -96,21 +96,37 @@ func get_language_display_name(lang: String) -> String:
 	return normalized
 
 ## 주인공 이름이 기본값이면 새 언어 기본값으로 교체 (유저가 직접 지은 이름은 건드리지 않음)
-func _sync_player_name(lang: String) -> void:
+func _sync_player_name() -> void:
 	var gs = get_node_or_null("/root/GameState")
 	if gs == null:
 		return
 	var cur := str(gs.player_name)
-	if cur == DEFAULT_NAME_KO or cur == DEFAULT_NAME_EN:
-		gs.player_name = DEFAULT_NAME_KO if normalize_language(lang) == "ko" else DEFAULT_NAME_EN
+	if _is_default_player_name(cur):
+		gs.player_name = ui(DEFAULT_NAME_KO, DEFAULT_NAME_EN)
 
 func sync_player_name_for_current_language() -> void:
-	_sync_player_name(language)
+	_sync_player_name()
 
 func localize_player_name(raw_name: String) -> String:
-	if raw_name in [DEFAULT_NAME_KO, DEFAULT_NAME_EN]:
-		return DEFAULT_NAME_KO if is_korean() else DEFAULT_NAME_EN
+	if _is_default_player_name(raw_name):
+		return ui(DEFAULT_NAME_KO, DEFAULT_NAME_EN)
 	return raw_name
+
+func _is_default_player_name(raw_name: String) -> bool:
+	if raw_name in [DEFAULT_NAME_KO, DEFAULT_NAME_EN]:
+		return true
+	var known_languages: Array[String] = SUPPORTED_LANGUAGES.duplicate()
+	for discovered in ModLoader.discover_language_codes():
+		if discovered not in known_languages:
+			known_languages.append(discovered)
+	for lang in known_languages:
+		if lang in ["ko", "en"]:
+			continue
+		var table := _get_ui_table(lang)
+		var localized_name := str(table.get(DEFAULT_NAME_KO, ""))
+		if not localized_name.is_empty() and raw_name == localized_name:
+			return true
+	return false
 
 ## 레거시 KO/EN 분기를 위한 이름이다. 준비 언어는 번역이 비어 있는 동안
 ## 반드시 영어 표면을 사용해야 하므로 non-KO 전체를 true로 취급한다.

@@ -338,6 +338,34 @@
       ]
     },
     {
+      "id": "ja_demo_native_review",
+      "domain": "localization",
+      "gate": "일본어 24주 데모 원어민 문맥 검수",
+      "why": "완전성 검사는 누락과 영어 우회를 잡는다. 한국어 정본의 인물 목소리·관계 거리·함축·돈의 체감·선택 인과가 자연스러운 일본어 장면으로 남았는지는 원어민의 직접 대조가 필요하다.",
+      "owner": "ORDER-81",
+      "state": "open",
+      "scope": {
+        "blocks": [
+          "claim:ja-demo"
+        ],
+        "content": "같은 demo_rc의 실제 24주 일본어 장면·선택·계획판·연락폰·오프닝·CTA"
+      },
+      "revision": "demo_rc",
+      "sample": {
+        "cohort": "ja_demo_native_context_review",
+        "requirements": [
+          "게임 문맥과 한국어를 함께 이해하는 일본어 원어민 검수자",
+          "같은 demo_rc를 새 세이브로 시작해 24주와 CTA까지 정상 속도로 독해",
+          "한 경로에 나오지 않은 합법 도달 70개 사건과 모든 선택·결과를 한국어 정본과 직접 대조"
+        ]
+      },
+      "acceptance": [
+        "오역·누락·한글 누출·불필요한 영어 혼용·번역투가 없음",
+        "인물별 말투와 관계 거리, 대화의 함축과 여운, 원화 금액의 체감, 선택과 결과의 인과가 한국어 정본과 같은 장면으로 읽힘",
+        "원어민이 일본어 24주 데모 주장에 GO"
+      ]
+    },
+    {
       "id": "ja_native_review",
       "domain": "localization",
       "gate": "일본어 원어민 검수",
