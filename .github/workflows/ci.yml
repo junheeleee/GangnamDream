@@ -81,10 +81,13 @@ jobs:
             core-loop-v2-*.log
             qa-artifacts/**/*.png
           if-no-files-found: warn
-      - name: SimRun 경제 시뮬 (60턴 완주 검증)
+      - name: SimRun 경제 시뮬 (240주 완주·정수 원장 검증)
         run: |
-          godot --headless res://tools/SimRun.tscn 2>&1 | tee simrun.log
+          mkdir -p "$RUNNER_TEMP/gangnam-simrun-home"
+          HOME="$RUNNER_TEMP/gangnam-simrun-home" GANGNAM_SIMRUN_ISOLATED=1 \
+            godot --headless res://tools/SimRun.tscn 2>&1 | tee simrun.log
           # 데드락/크래시가 있으면 로그에 잡힌다 — 0이 아니면 실패
           ! grep -E "데드락의심: [1-9]|크래시\(가드\): [1-9]" simrun.log
+          grep -q '^SIMRUN_CASH_INTEGRITY_OK ' simrun.log
       - name: SmokeRace 경마 스모크
         run: godot --headless res://tools/SmokeRace.tscn

@@ -656,7 +656,8 @@ CHOICE_KEYS = {"text", "text_if_moral", "effects", "flags", "follow_up_event",
                "conditions_note", "deferred_follow_up", "deferred_delay",
                "foreshadow", "bridge_summary", "clues", "give_items", "requires_item", "housing_keepsake",
                "year_scene", "choice_kind", "v2_obligation_id",
-               "v2_player_initiated_character"}
+               "v2_player_initiated_character",
+               "opportunity_unavailable_fallback"}
 CHOICE_KINDS = {"expression", "memory", "decision"}
 EXPRESSION_CHOICE_KEYS = {
     "text", "choice_kind", "follow_up_event", "result_text",
@@ -825,7 +826,25 @@ def check_event_keys():
                     if k not in cond_keys:
                         err('%s  [%s] 조건 키 "%s" 를 EventManager가 처리하지 않음 — 조건이 조용히 무시돼 이벤트가 잘못 뜸'
                             % (rel(p), eid, k))
-            for ci, ch in enumerate(e.get("choices", [])):
+            event_choices = e.get("choices", [])
+            fallback_choices = [
+                ch for ch in event_choices
+                if isinstance(ch, dict)
+                and ch.get("opportunity_unavailable_fallback") is True
+            ]
+            opportunity_choices = [
+                ch for ch in event_choices
+                if isinstance(ch, dict)
+                and isinstance(ch.get("opportunity"), dict)
+                and ch.get("opportunity")
+            ]
+            if len(fallback_choices) > 1:
+                err('%s  [%s] opportunity_unavailable_fallback 선택은 최대 1개여야 함'
+                    % (rel(p), eid))
+            if fallback_choices and not opportunity_choices:
+                err('%s  [%s] opportunity fallback에 기회 선택 형제가 없음'
+                    % (rel(p), eid))
+            for ci, ch in enumerate(event_choices):
                 if not isinstance(ch, dict):
                     continue
                 for k in ch.keys():
@@ -844,6 +863,17 @@ def check_event_keys():
                         if not isinstance(ch.get("result_text"), str) or not ch.get("result_text", "").strip():
                             err('%s  [%s] 선택지%d expression 선택에는 고유한 비어 있지 않은 result_text가 필요함'
                                 % (rel(p), eid, ci))
+                if "opportunity_unavailable_fallback" in ch:
+                    if ch.get("opportunity_unavailable_fallback") is not True:
+                        err('%s  [%s] 선택지%d opportunity_unavailable_fallback은 bool true여야 함'
+                            % (rel(p), eid, ci))
+                    fallback_keys = {
+                        "text", "result_text", "opportunity_unavailable_fallback",
+                    }
+                    stateful_keys = sorted(set(ch) - fallback_keys)
+                    if stateful_keys:
+                        err('%s  [%s] 선택지%d 현금 부족 fallback은 무상태여야 함: %s'
+                            % (rel(p), eid, ci, stateful_keys))
                 if "follow_up_requires_flags" in ch:
                     required_flags = ch.get("follow_up_requires_flags")
                     if (

@@ -90,16 +90,16 @@ const ACTUAL_CARRYOVER_EXPECTED := {
 		],
 	},
 	"clean_hired_recovery_high": {
-		"final": [12_006_537.5, 30, 56],
+		"final": [12_006_537.0, 30, 56],
 		"floor": [30, 47],
 		"recovery_turns": [],
 		"months": [
-			[4_086_537.5, 40, 76, true],
-			[5_676_537.5, 38, 71, true],
-			[7_236_537.5, 36, 64, true],
-			[8_826_537.5, 34, 58, true],
-			[10_416_537.5, 32, 49, true],
-			[12_006_537.5, 30, 56, true],
+			[4_086_537.0, 40, 76, true],
+			[5_676_537.0, 38, 71, true],
+			[7_236_537.0, 36, 64, true],
+			[8_826_537.0, 34, 58, true],
+			[10_416_537.0, 32, 49, true],
+			[12_006_537.0, 30, 56, true],
 		],
 	},
 	"dirty_return_recovery_low": {
@@ -116,16 +116,16 @@ const ACTUAL_CARRYOVER_EXPECTED := {
 		],
 	},
 	"dirty_deeper_growth": {
-		"final": [5_840_787.5, 26, 61],
+		"final": [5_840_787.0, 26, 61],
 		"floor": [23, 41],
 		"recovery_turns": [25, 33, 41, 45],
 		"months": [
-			[2_520_787.5, 27, 43, false],
-			[3_190_787.5, 25, 43, true],
-			[3_860_787.5, 26, 54, true],
-			[4_500_787.5, 24, 46, true],
-			[5_170_787.5, 25, 59, true],
-			[5_840_787.5, 26, 61, true],
+			[2_520_787.0, 27, 43, false],
+			[3_190_787.0, 25, 43, true],
+			[3_860_787.0, 26, 54, true],
+			[4_500_787.0, 24, 46, true],
+			[5_170_787.0, 25, 59, true],
+			[5_840_787.0, 26, 61, true],
 		],
 	},
 }
@@ -178,7 +178,7 @@ func _ready() -> void:
 			+ "cafe_affordability_policy_nonpositive_cash/"
 			+ "calendar_advances24/no_date_teleport/"
 			+ "post_cap_routine_attempts24_per_route_blocked/"
-			+ "choice0_safety_net_W30_32_unemployed3/fractional_cash_exposed/"
+			+ "choice0_safety_net_W30_32_unemployed3/whole_won_cash/"
 			+ "year1_close/natural_chapter34 evidence=%s "
 				% ",".join(_carryover_evidence)
 			+ "routes=%s " % ",".join(_carryover_route_evidence)

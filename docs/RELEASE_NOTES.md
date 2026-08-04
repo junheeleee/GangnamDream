@@ -1,5 +1,13 @@
 # Gangnam Dream Release Notes
 
+- Unified every runtime cash settlement on whole won without rounding asset quantities,
+  rates, or probabilities. Exact half-won transactions now round away from zero once at
+  the final cash boundary; old fractional saves normalize after the retired-phone refund
+  and remain stable on reload. All 19 authored opportunity choices now require a funded
+  stake before consuming RNG or writing results, while the two formerly single-choice cafe
+  scenes expose bilingual state-free exits. MainGame, StoryMode, EventManager, investments,
+  loans, mods, 24→48-week ledgers, and the 240-week convergence model share the same gate.
+
 ## Unreleased
 - Established a speaker-to-listener English voice contract and reread the entire reachable 24-week English surface: 72 events, 447 authored leaves, 543 dynamic occurrences / 536 unique keys, and 147 activity lines. Daeun, Jiyeon, Hyunsu, Father, Sangchul, Jaehyuk, institutions, and incidental speakers now retain distinct sentence shape, directness, hesitation, contractions, and contextual address without importing Korean honorifics. The pass also corrected meaning drift in family debt, accident compensation, fraud recovery, recruitment, and official notices while preserving every choice, effect, flag, date, amount, and route. Demo `oppa` and `-ssi` remain zero and `hyung` remains contextual; native or near-native random-three review remains open.
 - Revised the complete reachable 24-week Korean/English prose surface without adding scenes, choices, routes, or effects. All 72 events and 447 authored leaves now favor concrete objects and actions over explanatory closing lines; Korean clocks use digits, with minute precision retained only where the minute itself pressures the First Bill decision, and current English scenes use present tense while true recollections remain past tense. The localization collector now recursively includes 56 inline First Bill pairs that its suffix-only scan missed, locking 543 dynamic occurrences / 536 unique keys and 987 unique demo translation sources across events, dynamic copy, and catalog names. A source-specific prose/time audit, EN/KO structural parity, narrative consistency, release inventory, actual Godot 24-week progression, and manual-save regression protect the revision. The final judgment remains a same-build human read of three randomly selected units from the 20-unit review ledger; one failure reopens all twenty.

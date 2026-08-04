@@ -29,6 +29,16 @@ FAIL_ENDINGS = {"burnout", "mental_break", "bankruptcy", "debt_spiral", "crypto_
 CAST_IDS = ("father", "daeun", "jiyeon", "jaehyuk", "sangchul")
 
 
+def settle_cash(value: float) -> float:
+    """Match GameState.settle_cash: nearest won, exact .5 away from zero."""
+    value = float(value)
+    if not math.isfinite(value):
+        raise ValueError("cash transaction must be finite")
+    if value >= 0.0:
+        return float(math.floor(value + 0.5))
+    return float(math.ceil(value - 0.5))
+
+
 def _load_json(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -182,6 +192,26 @@ class SimState:
     def assets(self) -> float:
         return self.money + self.portfolio - self.loans
 
+    def assert_whole_cash(self, label: str) -> None:
+        if not math.isfinite(self.money) or self.money != math.floor(self.money):
+            raise AssertionError(f"fractional/non-finite cash at {label}: {self.money!r}")
+
+    def add_cash(self, raw_delta: float) -> float:
+        self.assert_whole_cash("before raw transaction")
+        settled = settle_cash(raw_delta)
+        self.money += settled
+        self.assert_whole_cash("after raw transaction")
+        return settled
+
+    def add_settled_cash(self, settled_delta: float) -> float:
+        self.assert_whole_cash("before settled transaction")
+        settled_delta = float(settled_delta)
+        if not math.isfinite(settled_delta) or settled_delta != math.floor(settled_delta):
+            raise ValueError("settled cash delta must be a whole won amount")
+        self.money += settled_delta
+        self.assert_whole_cash("after settled transaction")
+        return settled_delta
+
     def clamp(self) -> None:
         for name in (
             "health", "mental", "intelligence", "social", "appearance", "investment_skill",
@@ -254,7 +284,7 @@ def _career_action(state: SimState, rng: random.Random) -> None:
 
 
 def _save_action(state: SimState, rng: random.Random) -> None:
-    state.money += rng.uniform(30_000.0, 99_000.0)
+    state.add_cash(rng.uniform(30_000.0, 99_000.0))
     state.mental -= 2.0
     state.route_orthodox += 1
     _add_tendency(state, "career")
@@ -276,7 +306,7 @@ def _network(state: SimState, rng: random.Random) -> None:
 
 
 def _side_shift(state: SimState, rng: random.Random) -> None:
-    state.money += rng.uniform(78_000.0, 104_000.0)
+    state.add_cash(rng.uniform(78_000.0, 104_000.0))
     state.health -= rng.uniform(2.0, 5.0)
     state.mental -= rng.uniform(2.0, 5.0)
     _add_tendency(state, "found")
@@ -291,18 +321,18 @@ def _startup_work(state: SimState, rng: random.Random) -> None:
 
 
 def _casino_bet(state: SimState, rng: random.Random) -> None:
-    available = max(0.0, state.money)
-    stake = min(max(50_000.0, available * rng.uniform(0.06, 0.18)), 2_000_000.0)
-    stake = min(stake, available)
-    if stake <= 0.0:
+    available = max(0.0, settle_cash(state.money))
+    raw_stake = min(max(50_000.0, available * rng.uniform(0.06, 0.18)), 2_000_000.0)
+    stake = settle_cash(min(raw_stake, available))
+    if stake < 1.0:
         state.mental -= 2.0
         return
-    state.money -= stake
+    state.add_settled_cash(-stake)
     if rng.random() < 0.455:
-        state.money += stake * 2.0
+        state.add_cash(stake * 2.0)
         state.mental += 2.0
     elif rng.random() < 0.006:
-        state.money += stake * 18.0
+        state.add_cash(stake * 18.0)
         state.mental += 5.0
     else:
         state.mental -= 4.0
@@ -312,10 +342,11 @@ def _casino_bet(state: SimState, rng: random.Random) -> None:
 
 
 def _market_action(state: SimState, rng: random.Random) -> None:
-    available = max(0.0, state.money)
-    amount = min(max(200_000.0, available * 0.10), 2_500_000.0)
-    amount = min(amount, available)
-    state.money -= amount
+    available = max(0.0, settle_cash(state.money))
+    amount = settle_cash(min(min(max(200_000.0, available * 0.10), 2_500_000.0), available))
+    if amount < 1.0:
+        return
+    state.add_settled_cash(-amount)
     state.portfolio += amount
     state.route_unorthodox += 1
     state.mental -= rng.uniform(0.2, 1.2)
@@ -495,12 +526,47 @@ def _choice_utility(state: SimState, choice: dict, policy: Policy) -> float:
     return utility
 
 
-def _resolve_opportunity(state: SimState, opp: dict, rng: random.Random) -> None:
+def _opportunity_stake_for_cash(opp: dict, cash: float) -> float:
+    available = max(0.0, settle_cash(cash))
+    raw_stake = float(opp.get("cost", 0.0))
     if "stake_ratio" in opp:
-        stake = max(0.0, state.money) * float(opp["stake_ratio"])
-    else:
-        stake = float(opp.get("cost", 0.0))
-    stake = min(max(0.0, state.money), stake)
+        raw_stake = available * float(opp["stake_ratio"])
+    stake = settle_cash(raw_stake)
+    if stake < 1.0 or stake > available:
+        return 0.0
+    return stake
+
+
+def _choice_available(state: SimState, event: dict, choice: dict) -> bool:
+    if str(choice.get("requires_item", "")).strip():
+        return False
+    projected_cash = settle_cash(state.money) + settle_cash(
+        float(choice.get("effects", {}).get("money", 0.0))
+    )
+    opp = choice.get("opportunity")
+    if isinstance(opp, dict) and opp:
+        return _opportunity_stake_for_cash(opp, projected_cash) >= 1.0
+    if choice.get("opportunity_unavailable_fallback") is True:
+        found_opportunity = False
+        for sibling in event.get("choices", []):
+            if str(sibling.get("requires_item", "")).strip():
+                continue
+            sibling_opp = sibling.get("opportunity") if isinstance(sibling, dict) else None
+            if isinstance(sibling_opp, dict) and sibling_opp:
+                found_opportunity = True
+                sibling_cash = settle_cash(state.money) + settle_cash(
+                    float(sibling.get("effects", {}).get("money", 0.0))
+                )
+                if _opportunity_stake_for_cash(sibling_opp, sibling_cash) >= 1.0:
+                    return False
+        return found_opportunity
+    return True
+
+
+def _resolve_opportunity(state: SimState, opp: dict, rng: random.Random) -> bool:
+    stake = _opportunity_stake_for_cash(opp, state.money)
+    if stake < 1.0:
+        return False
     rate = float(opp.get("success_rate", 0.5)) + state.luck * float(opp.get("luck_factor", 0.002))
     if state.cast.get("sangchul", 0.0) >= 35.0:
         rate += 0.15
@@ -509,21 +575,22 @@ def _resolve_opportunity(state: SimState, opp: dict, rng: random.Random) -> None
     elif state.cast.get("sangchul", 0.0) >= 15.0:
         rate += 0.05
     rate = min(0.98, max(0.02, rate))
-    state.money -= stake
     state.investment_skill += float(opp.get("skill_gain", 0.0))
     if rng.random() < rate:
-        state.money += stake * (1.0 + float(opp.get("win_multiplier", 2.0)))
+        state.add_settled_cash(settle_cash(stake * float(opp.get("win_multiplier", 2.0))))
         state.mental += 2.0
         if opp.get("win_flag"): state.flags.add(str(opp["win_flag"]))
     else:
-        state.money += stake * (1.0 - float(opp.get("loss_ratio", 1.0)))
+        loss_ratio = max(0.0, min(1.0, float(opp.get("loss_ratio", 1.0))))
+        state.add_settled_cash(-settle_cash(stake * loss_ratio))
         state.mental -= 9.0
         if opp.get("lose_flag"): state.flags.add(str(opp["lose_flag"]))
+    return True
 
 
 def _apply_effects(state: SimState, effects: dict) -> None:
     for key, raw in effects.items():
-        if key == "money": state.money += float(raw)
+        if key == "money": state.add_cash(float(raw))
         elif key == "monthly_income": state.income += float(raw)
         elif key == "health": state.health += float(raw)
         elif key == "mental": state.mental += float(raw)
@@ -544,7 +611,9 @@ def _apply_effects(state: SimState, effects: dict) -> None:
         elif key == "unflag": state.flags.discard(str(raw))
 
 
-def _apply_choice(state: SimState, event: dict, choice: dict, week: int, rng: random.Random) -> None:
+def _apply_choice(state: SimState, event: dict, choice: dict, week: int, rng: random.Random) -> bool:
+    if not _choice_available(state, event, choice):
+        return False
     _apply_effects(state, choice.get("effects", {}))
     for flag in choice.get("flags", []):
         state.flags.add(str(flag))
@@ -559,7 +628,8 @@ def _apply_choice(state: SimState, event: dict, choice: dict, week: int, rng: ra
     if job_id in JOBS and (not state.job_id or bool(choice.get("replace_current_job", False))):
         _set_job(state, job_id)
     if choice.get("opportunity"):
-        _resolve_opportunity(state, choice["opportunity"], rng)
+        if not _resolve_opportunity(state, choice["opportunity"], rng):
+            raise AssertionError("available opportunity became unfunded during atomic choice")
     follow = str(choice.get("follow_up_event", ""))
     if follow in EVENTS_BY_ID:
         state.deferred.append((week + 1, follow))
@@ -568,6 +638,7 @@ def _apply_choice(state: SimState, event: dict, choice: dict, week: int, rng: ra
             state.deferred.append((week + delay, deferred))
     state.events_seen += 1
     state.clamp()
+    return True
 
 
 def _event_weight(event: dict, policy: Policy) -> float:
@@ -609,7 +680,10 @@ def _resolve_monthly_event(state: SimState, policy: Policy, week: int, rng: rand
     event = _draw_event(state, policy, week, rng)
     if not event:
         return
-    choices = event.get("choices", [])
+    choices = [
+        choice for choice in event.get("choices", [])
+        if isinstance(choice, dict) and _choice_available(state, event, choice)
+    ]
     if not choices:
         return
     scored = [(_choice_utility(state, choice, policy) + rng.uniform(-0.35, 0.35), choice) for choice in choices]
@@ -641,7 +715,7 @@ def _promote_if_ready(state: SimState, policy: Policy, week: int) -> None:
 
 
 def _monthly_pressure(state: SimState, policy: Policy, rng: random.Random) -> None:
-    state.money += state.income - 650_000.0
+    state.add_cash(state.income - 650_000.0)
     if state.portfolio > 0.0:
         skill_edge = max(0.0, state.investment_skill - 15.0) * 0.00004
         monthly_return = rng.gauss(0.003 + skill_edge, 0.055 if policy.key == "aggressive_investor" else 0.035)
@@ -741,6 +815,8 @@ def _simulate(policy: Policy, run_index: int) -> SimState:
         if week % 4 == 0:
             _resolve_monthly_event(state, policy, week, rng)
             _monthly_pressure(state, policy, rng)
+        if week in (24, 48, 240):
+            state.assert_whole_cash("convergence week %d" % week)
     state.ending = _ending_for(state)
     return state
 
@@ -853,7 +929,7 @@ def render_markdown(result: dict) -> str:
         "",
         "## Scope and fidelity",
         "",
-        "The model runs five stable policies through 240 internal weeks and 60 monthly pressure cycles. It reads live job salaries and all authored ambient event choices, applies the current AP-axis grind wear, contact affinity, moral effects, opportunity math, route points, ending-priority shape, and the baseline one-month/three-month cash-reserve pressure bands. It compresses low-signal weekly filler to one representative authored choice per month and does not model manual minigame skill, portfolio asset-by-asset prices, variable housing, loan interest, every guaranteed story arc, metaprogression, or player mistakes. Its purpose is to expose convergence, not certify exact economy odds.",
+        "The model runs five stable policies through 240 internal weeks and 60 monthly pressure cycles. It reads live job salaries and all authored ambient event choices, applies the current AP-axis grind wear, contact affinity, moral effects, whole-won cash settlement, funded-opportunity availability, route points, ending-priority shape, and the baseline one-month/three-month cash-reserve pressure bands. Item-gated choices remain unavailable because this comparative model carries no inventory. It compresses low-signal weekly filler to one representative authored choice per month and does not model manual minigame skill, portfolio asset-by-asset prices, variable housing, loan interest, every guaranteed story arc, metaprogression, or player mistakes. Its purpose is to expose convergence, not certify exact economy odds.",
         "",
         "## Results",
         "",

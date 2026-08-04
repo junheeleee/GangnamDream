@@ -167,6 +167,10 @@ user://mods/
 
 - 신규 ID는 비어 있지 않은 `title/description`, 양수 `weight`, `story`가 아닌 `category/rarity`, 하나 이상의 선택지를 갖춰야 한다. 로더가 이를 랜덤 풀로만 보내므로 정본 `_next_arc_id` 스케줄에 개입할 수 없다.
 - 새로 쓰는 `flags`, `opportunity.win_flag/lose_flag`, `cast_effects.*.flags`는 모두 `mod_`로 시작한다.
+- `opportunity`가 하나라도 있으면 현금·아이템과 무관하게 항상 보이는 일반 선택지나
+  정확히 하나의 `opportunity_unavailable_fallback: true` 선택지를 함께 둔다. fallback은
+  `text`, `result_text`, 이 표식만 가진 무상태 선택이어야 한다. 새 사건과 내장 사건
+  override 모두 이 출구가 없으면 통째로 거부된다.
 - 후속 사건은 같은 파일의 이벤트 ID만 가리킨다. 다른 팩이나 내장 아크로 새는 우회를 막는다.
 - 내장 ID와 충돌하면 내장 사건이 이긴다.
 

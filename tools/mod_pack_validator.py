@@ -38,6 +38,7 @@ CHOICE_KEYS = {
     "first_paycheck_ratio", "replace_current_job", "conditions_note", "deferred_follow_up",
     "deferred_delay", "foreshadow", "bridge_summary", "clues", "give_items",
     "requires_item", "housing_keepsake", "year_scene",
+    "opportunity_unavailable_fallback",
 }
 THEME_KEYS = {
     "main": {
@@ -120,6 +121,7 @@ def validate_choice(
     report: Report,
     allowed_core_flags: set[str],
     pack_ids: set[str],
+    inherited_opportunity_fallback: bool = False,
 ) -> None:
     if not isinstance(choice, dict):
         report.error(f"{label}: choice must be an object")
@@ -131,6 +133,21 @@ def validate_choice(
         report.error(f"{label}: choice text is empty")
     if not str(choice.get("result_text", "")).strip():
         report.error(f"{label}: result_text is empty")
+    fallback_value = choice.get("opportunity_unavailable_fallback", False)
+    if "opportunity_unavailable_fallback" in choice and fallback_value is not True:
+        report.error(
+            f"{label}: opportunity_unavailable_fallback must be boolean true"
+        )
+    if inherited_opportunity_fallback or fallback_value is True:
+        fallback_keys = {
+            "text", "result_text", "opportunity_unavailable_fallback",
+        }
+        stateful = set(choice) - fallback_keys
+        if stateful:
+            report.error(
+                f"{label}: opportunity fallback must be state-free; "
+                f"unsupported keys {sorted(stateful)}"
+            )
     for flag in produced_flags(choice):
         if not flag.startswith("mod_") and flag not in allowed_core_flags:
             report.error(f"{label}: produced flag '{flag}' must use the mod_ prefix")
@@ -147,6 +164,34 @@ def validate_choice(
             report.error(
                 f"{label}: deferred_follow_up target '{target}' is outside this pack"
             )
+
+
+def validate_opportunity_topology(
+    choices: list[Any], label: str, report: Report
+) -> None:
+    fallback_count = 0
+    opportunity_count = 0
+    unconditional_exit_count = 0
+    for choice in choices:
+        if not isinstance(choice, dict):
+            continue
+        is_fallback = choice.get("opportunity_unavailable_fallback", False) is True
+        opportunity = choice.get("opportunity")
+        has_opportunity = isinstance(opportunity, dict) and bool(opportunity)
+        fallback_count += int(is_fallback)
+        opportunity_count += int(has_opportunity)
+        if not has_opportunity and not is_fallback \
+                and not str(choice.get("requires_item", "")).strip():
+            unconditional_exit_count += 1
+    if fallback_count > 1:
+        report.error(f"{label}: at most one opportunity fallback is allowed")
+    if fallback_count and not opportunity_count:
+        report.error(f"{label}: opportunity fallback requires an opportunity sibling")
+    if opportunity_count and not fallback_count and not unconditional_exit_count:
+        report.error(
+            f"{label}: opportunity events require an unconditional non-opportunity "
+            "exit or one state-free fallback"
+        )
 
 
 def validate_catalog_value(base: Any, patch: Any, label: str, report: Report) -> None:
@@ -220,9 +265,34 @@ def validate_event_file(path: Path, builtins: dict[str, dict[str, Any]], report:
             base_choices = base.get("choices", [])
             if len(choices) != len(base_choices):
                 report.error(f"{label}: override must preserve the built-in choice count")
+            projected_choices: list[Any] = []
             for choice_index, choice in enumerate(choices):
                 allowed = produced_flags(base_choices[choice_index]) if choice_index < len(base_choices) else set()
-                validate_choice(choice, f"{label}.choices[{choice_index}]", report, allowed, set())
+                inherited_fallback = bool(
+                    choice_index < len(base_choices)
+                    and isinstance(base_choices[choice_index], dict)
+                    and base_choices[choice_index].get(
+                        "opportunity_unavailable_fallback", False
+                    ) is True
+                )
+                validate_choice(
+                    choice,
+                    f"{label}.choices[{choice_index}]",
+                    report,
+                    allowed,
+                    set(),
+                    inherited_fallback,
+                )
+                if isinstance(choice, dict):
+                    projected = dict(choice)
+                    if inherited_fallback:
+                        projected["opportunity_unavailable_fallback"] = True
+                    else:
+                        projected.pop("opportunity_unavailable_fallback", None)
+                    projected_choices.append(projected)
+                else:
+                    projected_choices.append(choice)
+            validate_opportunity_topology(projected_choices, label, report)
         else:
             if not str(event.get("title", "")).strip() or not str(event.get("description", "")).strip():
                 report.error(f"{label}: new events require non-empty title and description")
@@ -237,6 +307,7 @@ def validate_event_file(path: Path, builtins: dict[str, dict[str, Any]], report:
                 report.warn(f"{label}: cooldown will be clamped to 3 at runtime")
             for choice_index, choice in enumerate(choices):
                 validate_choice(choice, f"{label}.choices[{choice_index}]", report, set(), pack_ids)
+            validate_opportunity_topology(choices, label, report)
         report.events += 1
 
 
@@ -358,6 +429,90 @@ def run_self_test(report: Report) -> None:
         valid_preset = {"id": "validator", "jobs": [{"id": "job_01", "base_salary": 1320001}]}
         (root / "presets" / "valid.json").write_text(json.dumps(valid_preset), encoding="utf-8")
         validate_target(root, report)
+
+        opportunity_only = [{
+            **valid_event[0],
+            "id": "mod_validator_opportunity_dead_end",
+            "choices": [{
+                "text": "Risk it",
+                "opportunity": {
+                    "stake_ratio": 0.5,
+                    "success_rate": 0.5,
+                    "win_multiplier": 2.0,
+                    "loss_ratio": 1.0,
+                },
+                "result_text": "Resolved.",
+            }],
+        }]
+        dead_end_path = root / "events" / "opportunity_only.json"
+        dead_end_path.write_text(json.dumps(opportunity_only), encoding="utf-8")
+        dead_end_report = Report()
+        validate_event_file(dead_end_path, load_builtin_events(), dead_end_report)
+        if not any(
+            "unconditional non-opportunity exit" in error
+            for error in dead_end_report.errors
+        ):
+            report.error("self-test: opportunity-only event dead end was accepted")
+
+        item_exit = [{
+            **valid_event[0],
+            "id": "mod_validator_item_gated_dead_end",
+            "choices": [
+                opportunity_only[0]["choices"][0],
+                {
+                    "text": "Use a pass",
+                    "requires_item": "ticket",
+                    "result_text": "Left.",
+                },
+            ],
+        }]
+        item_exit_path = root / "events" / "item_exit.json"
+        item_exit_path.write_text(json.dumps(item_exit), encoding="utf-8")
+        item_exit_report = Report()
+        validate_event_file(item_exit_path, load_builtin_events(), item_exit_report)
+        if not any(
+            "unconditional non-opportunity exit" in error
+            for error in item_exit_report.errors
+        ):
+            report.error("self-test: item-gated opportunity dead end was accepted")
+
+        builtins = load_builtin_events()
+        override_id, override_base = next(
+            (event_id, event)
+            for event_id, event in builtins.items()
+            if event.get("choices") and all(
+                isinstance(choice, dict)
+                and choice.get("opportunity_unavailable_fallback") is not True
+                and str(choice.get("choice_kind", "")).strip().lower() != "expression"
+                for choice in event["choices"]
+            )
+        )
+        override_dead_end = [{
+            "id": override_id,
+            "override": True,
+            "choices": [
+                {
+                    "text": f"Risk {index}",
+                    "opportunity": {
+                        "stake_ratio": 0.5,
+                        "success_rate": 0.5,
+                        "win_multiplier": 2.0,
+                        "loss_ratio": 1.0,
+                    },
+                    "result_text": "Resolved.",
+                }
+                for index, _choice in enumerate(override_base["choices"])
+            ],
+        }]
+        override_path = root / "events" / "override_dead_end.json"
+        override_path.write_text(json.dumps(override_dead_end), encoding="utf-8")
+        override_report = Report()
+        validate_event_file(override_path, builtins, override_report)
+        if not any(
+            "unconditional non-opportunity exit" in error
+            for error in override_report.errors
+        ):
+            report.error("self-test: opportunity-only override dead end was accepted")
 
 
 def main() -> int:

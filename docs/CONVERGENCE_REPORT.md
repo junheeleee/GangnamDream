@@ -5,22 +5,22 @@
 
 ## Scope and fidelity
 
-The model runs five stable policies through 240 internal weeks and 60 monthly pressure cycles. It reads live job salaries and all authored ambient event choices, applies the current AP-axis grind wear, contact affinity, moral effects, opportunity math, route points, ending-priority shape, and the baseline one-month/three-month cash-reserve pressure bands. It compresses low-signal weekly filler to one representative authored choice per month and does not model manual minigame skill, portfolio asset-by-asset prices, variable housing, loan interest, every guaranteed story arc, metaprogression, or player mistakes. Its purpose is to expose convergence, not certify exact economy odds.
+The model runs five stable policies through 240 internal weeks and 60 monthly pressure cycles. It reads live job salaries and all authored ambient event choices, applies the current AP-axis grind wear, contact affinity, moral effects, whole-won cash settlement, funded-opportunity availability, route points, ending-priority shape, and the baseline one-month/three-month cash-reserve pressure bands. Item-gated choices remain unavailable because this comparative model carries no inventory. It compresses low-signal weekly filler to one representative authored choice per month and does not model manual minigame skill, portfolio asset-by-asset prices, variable housing, loan interest, every guaranteed story arc, metaprogression, or player mistakes. Its purpose is to expose convergence, not certify exact economy odds.
 
 ## Results
 
 | Archetype | Assets p10 / median / p90 | 3B | Fail | Health / mental | Tint | Money / human weeks | Close relation | Addiction / invest skill | Dominant projected endings |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| Safe career | KRW 242.8M / **KRW 244.0M** / KRW 246.2M | 0.0% | 0.0% | 61 / 34 | 49 | 240 / 95 | 100.0% | 0 / 23 | `career_climber` 99.5%, `reputation_legend` 0.5% |
-| Aggressive investor | KRW 137.6M / **KRW 188.6M** / KRW 252.5M | 0.0% | 6.4% | 64 / 28 | 7 | 238 / 46 | 14.9% | 0 / 100 | `investment_master` 93.5%, `mental_break` 6.4%, `ordinary_life` 0.1% |
-| People first | KRW 82.1M / **KRW 87.0M** / KRW 88.1M | 0.0% | 0.0% | 95 / 97 | 54 | 40 / 240 | 100.0% | 0 / 30 | `with_daeun` 100.0% |
-| Gambler | KRW 4.1M / **KRW 7.1M** / KRW 14.0M | 0.0% | 100.0% | 35 / 65 | 2 | 36 / 20 | 0.0% | 90 / 15 | `crypto_ghost` 99.1%, `mental_break` 0.9% |
-| Skill / founder | KRW 232.1M / **KRW 236.0M** / KRW 249.0M | 1.1% | 3.8% | 98 / 24 | 36 | 232 / 136 | 17.9% | 0 / 51 | `reputation_legend` 95.0%, `mental_break` 3.8%, `startup_exit` 1.0% |
+| Safe career | KRW 242.6M / **KRW 243.8M** / KRW 245.9M | 0.0% | 0.0% | 62 / 34 | 49 | 239 / 95 | 100.0% | 0 / 23 | `career_climber` 99.7%, `reputation_legend` 0.3% |
+| Aggressive investor | KRW 135.2M / **KRW 186.5M** / KRW 247.8M | 0.0% | 7.0% | 64 / 28 | 7 | 238 / 46 | 15.3% | 0 / 100 | `investment_master` 93.0%, `mental_break` 7.0%, `ordinary_life` 0.0% |
+| People first | KRW 81.7M / **KRW 86.7M** / KRW 87.8M | 0.0% | 0.0% | 95 / 97 | 54 | 40 / 240 | 100.0% | 0 / 29 | `with_daeun` 100.0% |
+| Gambler | KRW 4.1M / **KRW 7.0M** / KRW 13.5M | 0.0% | 100.0% | 35 / 65 | 2 | 36 / 20 | 0.0% | 90 / 15 | `crypto_ghost` 99.1%, `mental_break` 0.9% |
+| Skill / founder | KRW 231.9M / **KRW 235.8M** / KRW 252.0M | 1.0% | 3.8% | 98 / 24 | 36 | 232 / 136 | 18.1% | 0 / 50 | `reputation_legend` 95.2%, `mental_break` 3.8%, `startup_exit` 0.8% |
 
 ## Divergence gates
 
 - Distinct dominant ending families: **5 / 5**.
-- Mean pairwise ending Jensen-Shannon divergence: **0.989** (0=same, 1=fully separate).
+- Mean pairwise ending Jensen-Shannon divergence: **0.990** (0=same, 1=fully separate).
 - Median human-week spread: **220 weeks**.
 - Median Moral Tint spread: **52 points**.
 

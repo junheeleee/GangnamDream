@@ -707,14 +707,17 @@ func get_next_event():
 	event_started.emit(current_event)
 	return current_event
 
-func resolve_current_event(choice_index):
+func resolve_current_event(choice_index) -> bool:
 	if current_event.is_empty():
-		return
+		return false
 	var choices: Array = current_event.get("choices", [])
 	if choice_index < 0 or choice_index >= choices.size():
-		return
+		return false
 	var choice: Dictionary = choices[choice_index]
-	GameState.apply_choice(current_event, choice)
+	if not GameState.choice_available(current_event, choice):
+		return false
+	if not GameState.apply_choice(current_event, choice):
+		return false
 
 	var event_id := str(current_event.get("id", ""))
 	var cooldown := cooldown_for_event(current_event)
@@ -730,6 +733,7 @@ func resolve_current_event(choice_index):
 
 	event_resolved.emit(current_event, choice)
 	current_event = {}
+	return true
 
 func trigger_event_by_id(event_id):
 	var event = DataRegistry.find_event(event_id)
@@ -765,7 +769,10 @@ func resolve_narrative_bridge(event_id: String, choice_index: int) -> bool:
 		push_error("Narrative bridge choice out of range: %s[%d]" % [event_id, choice_index])
 		return false
 	var choice: Dictionary = choices[choice_index]
-	GameState.apply_choice(event, choice)
+	if not GameState.choice_available(event, choice):
+		return false
+	if not GameState.apply_choice(event, choice):
+		return false
 	var cooldown := cooldown_for_event(event)
 	if cooldown > 0:
 		event_cooldowns[event_id] = maxi(int(event_cooldowns.get(event_id, 0)), cooldown)

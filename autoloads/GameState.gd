@@ -413,7 +413,7 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 
 	housing = "gosiwon"
 	var diff_data: Dictionary = get_difficulty_data()
-	money = float(diff_data.get("start_money", 500_000.0))
+	money = settle_cash(float(diff_data.get("start_money", 500_000.0)))
 	monthly_income = 0.0
 	fixed_expense = 650_000.0
 	health = 65
@@ -530,7 +530,7 @@ func _apply_title_perks():
 		if amount == 0:
 			continue
 		match str(stat):
-			"money":            money += float(amount)
+			"money":            _add_money_silent(float(amount))
 			"investment_skill": investment_skill += amount
 			"intelligence":     intelligence += amount
 			"social_skill":     social_skill += amount
@@ -610,7 +610,7 @@ func _apply_route_bonus(route: String):
 			investment_skill += 18
 			intelligence     += 5
 			mental           = clampi(mental - 10, 0, 100)
-			money            -= 100_000.0  # 공부에 돈 씀
+			_add_money_silent(-100_000.0)  # 공부에 돈 씀
 			flags["route_invest"] = true
 			flags["has_received_paycheck"] = true  # 투자 즉시 가능
 		"창업형":
@@ -619,7 +619,7 @@ func _apply_route_bonus(route: String):
 			social_skill  += 10
 			appearance    += 5
 			mental        = clampi(mental - 8, 0, 100)
-			money         -= 150_000.0  # 사업 준비에 씀
+			_add_money_silent(-150_000.0)  # 사업 준비에 씀
 			flags["route_startup"] = true
 			flags["startup_intent"] = true  # 창업 이벤트 해금
 
@@ -627,7 +627,7 @@ func _apply_starting_profile(profile: String):
 	match profile:
 		"알바":
 			# 편의점 알바생 — 수입은 있지만 몸이 먼저 닳는다
-			money          += 300_000.0    # 몇 달치 절약
+			_add_money_silent(300_000.0)  # 몇 달치 절약
 			health         -= 8
 			mental         = clampi(mental - 8, 0, 100)
 			social_skill   += 5
@@ -642,7 +642,7 @@ func _apply_starting_profile(profile: String):
 				flags["job_started_turn"] = 0
 		"직장인":
 			# 대기업 회사원 — 월급은 두둑하지만 삶이 없다
-			money          += 2_000_000.0  # 2년치 저축
+			_add_money_silent(2_000_000.0)  # 2년치 저축
 			intelligence   += 8
 			social_skill   += 5
 			appearance     += 3
@@ -659,7 +659,7 @@ func _apply_starting_profile(profile: String):
 				flags["job_started_turn"] = 0
 		"유튜버":
 			# 유튜버 지망생 — 구독자 3천명, 가능성과 불안정성 공존
-			money          += 200_000.0
+			_add_money_silent(200_000.0)
 			social_skill   += 15
 			appearance     += 8
 			luck           += 8
@@ -670,7 +670,7 @@ func _apply_starting_profile(profile: String):
 			flags["has_received_paycheck"] = true
 		"코인폐인":
 			# 코인 폐인 (히든) — 500만 시작, 중독 이미 진행 중
-			money          += 4_500_000.0  # 코인으로 4배 갔다가 원금 회복
+			_add_money_silent(4_500_000.0)  # 코인으로 4배 갔다가 원금 회복
 			mental         -= 15
 			mental         = clampi(mental - 20, 0, 100)
 			luck           -= 5
@@ -763,7 +763,7 @@ func get_monthly_loan_interest() -> float:
 	var total := 0.0
 	for product in loans:
 		total += float(loans[product]) * get_loan_rate(str(product))
-	return maxf(0.0, total)
+	return maxf(0.0, settle_cash(total))
 
 func get_monthly_required_cash() -> float:
 	return get_housing_expense() + get_monthly_loan_interest()
@@ -952,7 +952,7 @@ func apply_monthly_pressure():
 
 	# ── 대출 이자 — 빚은 숨만 쉬어도 매달 나간다 (변동금리: 현재 등급 기준) ──
 	if loan_interest > 0.0:
-		add_money(-loan_interest)
+		add_settled_cash(-loan_interest)
 		modify_stat("mental", -1)
 		add_log(LocaleManager.ui(
 			"🏦 대출 이자 %s 납부 (원금 %s, 신용 %d등급).",
@@ -1063,12 +1063,114 @@ func is_expression_choice(choice: Variant) -> bool:
 		and str((choice as Dictionary).get(
 			"choice_kind", "")).strip_edges().to_lower() == "expression"
 
-func apply_choice(event, choice):
+## Cash is persisted and displayed in whole won. The ledger owns one explicit
+## nearest-won rule independent of the caller: exact half-won values move away
+## from zero.
+func settle_cash(value: float) -> float:
+	if not is_finite(value):
+		push_error("Cannot settle non-finite cash: %s" % str(value))
+		return 0.0
+	return floor(value + 0.5) if value >= 0.0 else ceil(value - 0.5)
+
+
+## Returns the exact whole-won stake an authored opportunity can commit from a
+## supplied balance. A fixed-cost opportunity must also be affordable; ratio
+## opportunities are bounded by the non-negative projected cash.
+func opportunity_stake_for_cash(opp: Dictionary, cash: float) -> float:
+	var available_cash := maxf(0.0, settle_cash(cash))
+	var raw_stake := float(opp.get("cost", 0.0))
+	if opp.has("stake_ratio"):
+		raw_stake = available_cash * float(opp.get("stake_ratio", 0.0))
+	var stake := settle_cash(raw_stake)
+	if stake < 1.0 or stake > available_cash:
+		return 0.0
+	return stake
+
+
+func opportunity_stake(opp: Dictionary) -> float:
+	return opportunity_stake_for_cash(opp, float(money))
+
+
+func opportunity_available(opp: Dictionary) -> bool:
+	return opportunity_stake(opp) >= 1.0
+
+
+func _projected_choice_cash(choice: Dictionary) -> float:
+	var effects: Variant = choice.get("effects", {})
+	var cash_delta := 0.0
+	if effects is Dictionary:
+		cash_delta = float((effects as Dictionary).get("money", 0.0))
+	return settle_cash(float(money)) + settle_cash(cash_delta)
+
+
+func _opportunity_choice_available(choice: Dictionary) -> bool:
+	var raw_opportunity: Variant = choice.get("opportunity", {})
+	if not raw_opportunity is Dictionary \
+			or (raw_opportunity as Dictionary).is_empty():
+		return false
+	return opportunity_stake_for_cash(
+		raw_opportunity as Dictionary, _projected_choice_cash(choice)) >= 1.0
+
+
+## Single pure availability contract for authored choice exposure and commit.
+## The fallback marker belongs to a separate, state-free choice and appears
+## only when every opportunity sibling is unfunded. This preserves original
+## choice indices and lets legacy one-choice saves exit without a free roll.
+func choice_available(event: Variant, choice: Variant) -> bool:
+	if not event is Dictionary or not choice is Dictionary:
+		return false
+	var authored: Dictionary = choice
+	var required_item := str(authored.get("requires_item", ""))
+	if not required_item.is_empty() and not has_item(required_item):
+		return false
+	if authored.has("opportunity_unavailable_fallback"):
+		var fallback_marker: Variant = authored.get(
+			"opportunity_unavailable_fallback", false)
+		if not fallback_marker is bool or not bool(fallback_marker):
+			return false
+		var fallback_keys := [
+			"text", "result_text", "opportunity_unavailable_fallback",
+		]
+		if authored.keys().any(func(key):
+			return str(key) not in fallback_keys):
+			return false
+		var event_choices: Variant = (event as Dictionary).get("choices", [])
+		if not event_choices is Array:
+			return false
+		var found_opportunity := false
+		for sibling_value in event_choices as Array:
+			if not sibling_value is Dictionary:
+				continue
+			var sibling: Dictionary = sibling_value
+			var sibling_opportunity: Variant = sibling.get("opportunity", {})
+			if not sibling_opportunity is Dictionary \
+					or (sibling_opportunity as Dictionary).is_empty():
+				continue
+			found_opportunity = true
+			var sibling_required_item := str(
+				sibling.get("requires_item", ""))
+			if not sibling_required_item.is_empty() \
+					and not has_item(sibling_required_item):
+				continue
+			if _opportunity_choice_available(sibling):
+				return false
+		return found_opportunity
+	var raw_opportunity: Variant = authored.get("opportunity", {})
+	if raw_opportunity is Dictionary \
+			and not (raw_opportunity as Dictionary).is_empty():
+		return _opportunity_choice_available(authored)
+	return true
+
+
+func apply_choice(event, authored_choice) -> bool:
+	if not choice_available(event, authored_choice):
+		return false
+	var choice: Dictionary = authored_choice
 	# Expression choices only shape the current conversation. They must leave
 	# the complete serialized run state untouched, including event counters,
 	# logs, deferred callbacks, flags, and every stat/relationship surface.
 	if is_expression_choice(choice):
-		return
+		return true
 	if not event.is_empty() and event.has("id"):
 		events_seen += 1
 		EventManager.register_directed_event(event)
@@ -1189,6 +1291,7 @@ func apply_choice(event, choice):
 		format_event_text(str(event.get("title", LocaleManager.ui("이벤트", "Event")))),
 		format_event_text(str(choice.get("result_text", choice.get("text", "")))),
 	], "event")
+	return true
 
 # ── 스토리 인물 관계 조작 ─────────────────────────────────────────
 func _ensure_cast(person_id: String):
@@ -1247,13 +1350,9 @@ func has_any_close_relationship() -> bool:
 ## }
 ## 결과를 flags["_last_opportunity_result"]에 "win"/"lose"로 남겨 UI/후속이 참조.
 func _resolve_opportunity(opp: Dictionary) -> String:
-	var stake: float = 0.0
-	if opp.has("stake_ratio"):
-		stake = max(0.0, money) * float(opp["stake_ratio"])
-	else:
-		stake = float(opp.get("cost", 0.0))
-	# 돈이 부족하면 가진 만큼만 (마이너스 베팅 방지)
-	stake = min(stake, max(0.0, money)) if opp.has("stake_ratio") else stake
+	var stake := opportunity_stake(opp)
+	if stake < 1.0:
+		return ""
 
 	# 성공 확률 = 기본 + luck 보정 + 난이도 보정 + 멘토(임상철) affinity 보정
 	var rate: float = float(opp.get("success_rate", 0.5))
@@ -1269,33 +1368,32 @@ func _resolve_opportunity(opp: Dictionary) -> String:
 		rate += 0.05
 	rate = clampf(rate, 0.02, 0.98)
 
-	# 베팅금 차감
-	add_money(-stake)
-
 	# 투자감각 상승 (결과 무관 — 배움)
 	if opp.has("skill_gain"):
 		modify_stat("investment_skill", int(opp["skill_gain"]))
 
 	var result := ""
 	if randf() < rate:
-		# 성공 — 베팅금 + 베팅금 x 배수
-		var win = stake * float(opp.get("win_multiplier", 2.0))
-		add_money(stake + win)
+		# 성공 — 원금 이동을 왕복시키지 않고 순이익을 한 번만 정산한다.
+		var win := settle_cash(
+			stake * float(opp.get("win_multiplier", 2.0)))
+		add_settled_cash(win)
 		modify_stat("mental", 2)
 		result = "win"
 		if opp.has("win_flag"):
 			flags[str(opp["win_flag"])] = true
 		add_log(LocaleManager.ui("📈 베팅 성공! %s 벌었다.", "📈 Bet won! You earned %s.") % format_money(win), "money")
 	else:
-		# 실패 — 베팅금 x 손실비율 만큼 날림 (이미 차감됐으니 나머지 환급)
-		var loss_ratio = clampf(float(opp.get("loss_ratio", 1.0)), 0.0, 1.0)
-		var refund = stake * (1.0 - loss_ratio)
-		add_money(refund)
+		# 실패 — 실제 손실만 한 번 정산한다.
+		var loss_ratio := clampf(
+			float(opp.get("loss_ratio", 1.0)), 0.0, 1.0)
+		var loss := settle_cash(stake * loss_ratio)
+		add_settled_cash(-loss)
 		modify_stat("mental", -9)
 		result = "lose"
 		if opp.has("lose_flag"):
 			flags[str(opp["lose_flag"])] = true
-		add_log(LocaleManager.ui("📉 베팅 실패. %s 잃었다.", "📉 Bet lost. You lost %s.") % format_money(stake - refund), "money")
+		add_log(LocaleManager.ui("📉 베팅 실패. %s 잃었다.", "📉 Bet lost. You lost %s.") % format_money(loss), "money")
 	flags["_last_opportunity_result"] = result
 	return result
 
@@ -1399,10 +1497,43 @@ func apply_investment_effect(effect):
 			bubble_assets.append(asset_id)
 		market_context["bubble_assets"] = bubble_assets
 
-func add_money(amount):
-	money += amount
+func _apply_whole_cash_delta_silent(amount: float) -> float:
+	if not is_finite(amount) or amount != floor(amount):
+		push_error("Rejected non-whole settled cash delta: %s" % str(amount))
+		return 0.0
+	var previous_money := float(money)
+	if not is_finite(previous_money):
+		push_error("Rejected cash transaction on non-finite live balance: %s" % str(money))
+		return 0.0
+	if previous_money != floor(previous_money):
+		push_error("Normalized fractional live cash before transaction: %s" % str(money))
+		previous_money = settle_cash(previous_money)
+	money = previous_money + amount
+	return amount
+
+
+func _add_money_silent(amount: float) -> float:
+	if not is_finite(amount):
+		push_error("Rejected non-finite cash delta: %s" % str(amount))
+		return 0.0
+	return _apply_whole_cash_delta_silent(settle_cash(amount))
+
+
+## Apply an amount already settled by the transaction owner. This path does no
+## second rounding; it rejects malformed callers instead.
+func add_settled_cash(amount: float) -> float:
+	var applied := _apply_whole_cash_delta_silent(amount)
 	money_changed.emit(money)
 	stats_changed.emit()
+	return applied
+
+
+func add_money(amount) -> float:
+	var cash_delta := float(amount)
+	if not is_finite(cash_delta):
+		push_error("Rejected non-finite cash delta: %s" % str(amount))
+		return 0.0
+	return add_settled_cash(settle_cash(cash_delta))
 
 func modify_stat(stat_name, amount):
 	var old_val: int = int(get(stat_name)) if get(stat_name) != null else 0
@@ -1634,7 +1765,7 @@ func _weekly_commitment_public_snapshot(person_id: String = "") -> Dictionary:
 		var person: Dictionary = cast[person_id]
 		affinity = int(person.get("affinity", 0))
 	return {
-		"money": money,
+		"money": settle_cash(float(money)),
 		"portfolio": _weekly_commitment_portfolio_value(),
 		"total_assets": get_total_asset_value(),
 		"monthly_income": monthly_income,
@@ -2632,33 +2763,33 @@ func get_loan_limit(product: String) -> float:
 	return 0.0
 
 func borrow(product: String, amount: float) -> bool:
-	if amount <= 0 or not LOAN_PRODUCTS.has(product):
+	var settled_amount := settle_cash(amount)
+	if settled_amount < 1.0 or not LOAN_PRODUCTS.has(product):
 		return false
-	var owed := float(loans.get(product, 0.0))
-	if owed + amount > get_loan_limit(product) + 1.0:
+	var owed: float = settle_cash(float(loans.get(product, 0.0)))
+	if owed + settled_amount > get_loan_limit(product):
 		return false
-	loans[product] = owed + amount
-	add_money(amount)
+	loans[product] = owed + settled_amount
+	add_settled_cash(settled_amount)
 	var info: Dictionary = LOAN_PRODUCTS[product]
 	add_log(LocaleManager.ui("%s %s %s 대출 실행 — 매달 이자가 먼저 나간다.", "%s %s borrowed: %s — interest comes first every month.") % [
-		info["emoji"], get_loan_name(product), format_money(amount)
+		info["emoji"], get_loan_name(product), format_money(settled_amount)
 	], "money")
 	stats_changed.emit()
 	return true
 
 func repay(product: String, amount: float) -> bool:
-	var owed := float(loans.get(product, 0.0))
-	if owed <= 0.0 or amount <= 0.0:
+	var requested := settle_cash(amount)
+	var owed: float = settle_cash(float(loans.get(product, 0.0)))
+	var available_cash := maxf(0.0, settle_cash(float(money)))
+	if owed < 1.0 or requested < 1.0 or available_cash < 1.0:
 		return false
-	amount = minf(amount, owed)
-	amount = minf(amount, maxf(0.0, money))
-	if amount <= 0.0:
-		return false
-	loans[product] = owed - amount
-	add_money(-amount)
+	var paid := minf(requested, minf(owed, available_cash))
+	loans[product] = owed - paid
+	add_settled_cash(-paid)
 	var info: Dictionary = LOAN_PRODUCTS[product]
 	add_log(LocaleManager.ui("%s %s %s 상환 — 남은 원금 %s.", "%s %s repaid: %s — remaining principal %s.") % [
-		info["emoji"], get_loan_name(product), format_money(amount), format_money(loans[product])
+		info["emoji"], get_loan_name(product), format_money(paid), format_money(loans[product])
 	], "money")
 	stats_changed.emit()
 	return true
@@ -2909,7 +3040,7 @@ func serialize():
 		"turn": turn,
 		"is_game_over": is_game_over,
 		"housing": housing,
-		"money": money,
+		"money": settle_cash(float(money)),
 		"monthly_income": monthly_income,
 		"fixed_expense": fixed_expense,
 		"health": health,
@@ -3139,6 +3270,19 @@ func load_from_dict(data):
 	# 구버전 세이브 호환 — loans 없으면 무대출 상태
 	if typeof(loans) != TYPE_DICTIONARY or loans.is_empty():
 		loans = {"bank": 0.0, "second": 0.0}
+	else:
+		var normalized_loans: Dictionary = {}
+		for raw_product in loans:
+			var raw_principal: Variant = loans.get(raw_product, 0.0)
+			if not (raw_principal is int or raw_principal is float) \
+					or not is_finite(float(raw_principal)):
+				continue
+			normalized_loans[str(raw_product)] = maxf(
+				0.0, settle_cash(float(raw_principal)))
+		for product in ["bank", "second"]:
+			if not normalized_loans.has(product):
+				normalized_loans[product] = 0.0
+		loans = normalized_loans
 	# 구버전 세이브 호환 — difficulty 없거나 미지 값이면 현실 모드
 	if not DIFFICULTY_DATA.has(difficulty):
 		difficulty = "현실"
@@ -3152,6 +3296,10 @@ func load_from_dict(data):
 		thoughts_done = []
 	if typeof(active_thought) != TYPE_DICTIONARY:
 		active_thought = {}
+	# All legacy migrations, including the retired-phone refund above, must
+	# finish before cash is normalized. Saving and loading the result again is
+	# therefore idempotent without a save-schema bump.
+	money = settle_cash(float(money))
 	stats_changed.emit()
 
 ## 그림자 이벤트 — N턴 후 자동 발동 예약

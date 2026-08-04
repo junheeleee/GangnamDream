@@ -27,19 +27,22 @@ func buy_asset(asset_id, amount_krw):
 	var asset = DataRegistry.get_asset(asset_id)
 	if asset.is_empty():
 		return {"success": false, "message": LocaleManager.ui("존재하지 않는 자산입니다.", "Asset does not exist.")}
+	var cash_committed := GameState.settle_cash(float(amount_krw))
+	if cash_committed < 1.0:
+		return {"success": false, "message": LocaleManager.ui("매수할 수 없습니다", "Cannot buy")}
 	var current_price = float(GameState.market_prices.get(asset_id, asset.get("initial_price", asset.get("base_price", 10_000.0))))
 	if current_price <= 0.0:
 		return {"success": false, "message": LocaleManager.ui("자산 가격 정보가 없습니다.", "Asset price data is unavailable.")}
 	var min_invest = float(asset.get("min_invest", current_price))
-	if amount_krw < min_invest:
+	if cash_committed < min_invest:
 		return {"success": false, "message": LocaleManager.ui("최소 투자 금액은 %s입니다.", "Minimum investment is %s.") % GameState.format_money(min_invest)}
-	if amount_krw > GameState.money:
+	if cash_committed > GameState.money:
 		return {"success": false, "message": LocaleManager.ui("잔액이 부족합니다.", "Insufficient balance.")}
 
 	var decision_penalty = clamp(float(70 - GameState.mental) / 250.0, 0.0, 0.2)
 	var base_fee_rate = 0.003
-	var fee = amount_krw * (base_fee_rate + decision_penalty)
-	var quantity = max(0.0, amount_krw - fee) / current_price
+	var fee = cash_committed * (base_fee_rate + decision_penalty)
+	var quantity = max(0.0, cash_committed - fee) / current_price
 	if GameState.portfolio.has(asset_id):
 		var holding: Dictionary = GameState.portfolio[asset_id]
 		var total_quantity = float(holding.get("quantity", 0.0)) + quantity
@@ -48,11 +51,11 @@ func buy_asset(asset_id, amount_krw):
 		holding["avg_price"] = total_cost / max(total_quantity, 0.0001)
 	else:
 		GameState.portfolio[asset_id] = {"quantity": quantity, "avg_price": current_price}
-	GameState.add_money(-amount_krw)
+	GameState.add_settled_cash(-cash_committed)
 	if randf() < 0.35:
 		GameState.modify_stat("investment_skill", 1)
 	GameState.flags["had_first_investment"] = true
-	GameState.add_log(LocaleManager.ui("%s 매수: %s", "Bought %s: %s") % [asset.get("name", asset_id), GameState.format_money(amount_krw)], "trade")
+	GameState.add_log(LocaleManager.ui("%s 매수: %s", "Bought %s: %s") % [asset.get("name", asset_id), GameState.format_money(cash_committed)], "trade")
 	trade_executed.emit(asset_id, "buy", quantity, current_price)
 	portfolio_updated.emit()
 	return {
@@ -61,28 +64,36 @@ func buy_asset(asset_id, amount_krw):
 		"quantity": quantity,
 		"price": current_price,
 		"fee": fee,
-		"cash_committed": float(amount_krw),
-		"net_invested": maxf(0.0, float(amount_krw) - fee),
+		"cash_committed": cash_committed,
+		"net_invested": maxf(0.0, cash_committed - fee),
 	}
 
 func sell_asset(asset_id, sell_ratio):
 	if not GameState.portfolio.has(asset_id):
 		return {"success": false, "message": LocaleManager.ui("보유하지 않은 자산입니다.", "You do not own this asset.")}
+	var resolved_ratio := clampf(float(sell_ratio), 0.0, 1.0)
+	if resolved_ratio <= 0.0:
+		return {"success": false, "message": LocaleManager.ui("매도할 수 없습니다", "Cannot sell")}
 	var asset = DataRegistry.get_asset(asset_id)
 	var holding: Dictionary = GameState.portfolio[asset_id]
 	var current_price = float(GameState.market_prices.get(asset_id, holding.get("avg_price", 10_000.0)))
 	if current_price <= 0.0:
 		current_price = float(holding.get("avg_price", 10_000.0))
-	var sell_quantity = float(holding.get("quantity", 0.0)) * clamp(sell_ratio, 0.0, 1.0)
+	var sell_quantity = float(holding.get("quantity", 0.0)) * resolved_ratio
+	if sell_quantity <= 0.0:
+		return {"success": false, "message": LocaleManager.ui("매도할 수 없습니다", "Cannot sell")}
 	var gross = sell_quantity * current_price
-	var net = gross * 0.995
+	var raw_net = gross * 0.995
+	var proceeds := GameState.settle_cash(raw_net)
+	if proceeds < 1.0:
+		return {"success": false, "message": LocaleManager.ui("매도할 수 없습니다", "Cannot sell")}
 	var cost = sell_quantity * float(holding.get("avg_price", current_price))
-	var profit = net - cost
+	var profit = proceeds - cost
 	holding["quantity"] = float(holding.get("quantity", 0.0)) - sell_quantity
 	if float(holding["quantity"]) <= 0.0001:
 		GameState.portfolio.erase(asset_id)
-	GameState.add_money(net)
-	GameState.add_log(LocaleManager.ui("%s 매도: %s / 손익 %s", "Sold %s: %s / P/L %s") % [asset.get("name", asset_id), GameState.format_money(net), GameState.format_money(profit)], "trade")
+	GameState.add_settled_cash(proceeds)
+	GameState.add_log(LocaleManager.ui("%s 매도: %s / 손익 %s", "Sold %s: %s / P/L %s") % [asset.get("name", asset_id), GameState.format_money(proceeds), GameState.format_money(profit)], "trade")
 	trade_executed.emit(asset_id, "sell", sell_quantity, current_price)
 	portfolio_updated.emit()
 	return {
@@ -91,9 +102,9 @@ func sell_asset(asset_id, sell_ratio):
 		"quantity": sell_quantity,
 		"price": current_price,
 		"gross": gross,
-		"proceeds": net,
+		"proceeds": proceeds,
 		"profit": profit,
-		"ratio": clampf(float(sell_ratio), 0.0, 1.0),
+		"ratio": resolved_ratio,
 	}
 
 func get_asset_rows():
@@ -178,22 +189,26 @@ func _apply_dividends():
 		var asset = DataRegistry.get_asset(asset_id)
 		if asset.get("category", "") in ["korean_stock", "real_estate"]:
 			var holding: Dictionary = GameState.portfolio[asset_id]
-			var dividend = float(holding.get("quantity", 0.0)) * float(GameState.market_prices.get(asset_id, 0.0)) * 0.002
-			if dividend > 0:
-				GameState.add_money(dividend)
+			var raw_dividend = float(holding.get("quantity", 0.0)) * float(GameState.market_prices.get(asset_id, 0.0)) * 0.002
+			var dividend_won := GameState.settle_cash(raw_dividend)
+			if dividend_won >= 1.0:
+				GameState.add_settled_cash(dividend_won)
 
 func buy_asset_leveraged(asset_id: String, amount_krw: float) -> Dictionary:
 	var asset = DataRegistry.get_asset(asset_id)
 	if asset.is_empty():
 		return {"success": false, "message": LocaleManager.ui("존재하지 않는 자산", "Asset does not exist")}
+	var cash_committed := GameState.settle_cash(amount_krw)
+	if cash_committed < 1.0:
+		return {"success": false, "message": LocaleManager.ui("매수할 수 없습니다", "Cannot buy")}
 	var current_price = float(GameState.market_prices.get(asset_id, 0.0))
 	if current_price <= 0:
 		return {"success": false, "message": LocaleManager.ui("가격 정보 없음", "No price data")}
-	if amount_krw > GameState.money:
+	if cash_committed > GameState.money:
 		return {"success": false, "message": LocaleManager.ui("잔액 부족", "Insufficient balance")}
-	var fee = amount_krw * 0.015
+	var fee = cash_committed * 0.015
 	# 2배 수량으로 매수 (레버리지 효과)
-	var quantity = (amount_krw * 2.0 - fee) / current_price
+	var quantity = (cash_committed * 2.0 - fee) / current_price
 	if GameState.portfolio.has(asset_id):
 		var holding: Dictionary = GameState.portfolio[asset_id]
 		var prev_q = float(holding.get("quantity", 0.0))
@@ -201,16 +216,16 @@ func buy_asset_leveraged(asset_id: String, amount_krw: float) -> Dictionary:
 		var new_total_q = prev_q + quantity
 		holding["quantity"] = new_total_q
 		holding["avg_price"] = (prev_cost + quantity * current_price) / max(new_total_q, 0.0001)
-		holding["leveraged_amount"] = float(holding.get("leveraged_amount", 0.0)) + amount_krw
+		holding["leveraged_amount"] = float(holding.get("leveraged_amount", 0.0)) + cash_committed
 	else:
 		GameState.portfolio[asset_id] = {
 			"quantity": quantity,
 			"avg_price": current_price,
-			"leveraged_amount": amount_krw,
+			"leveraged_amount": cash_committed,
 		}
-	GameState.add_money(-amount_krw)
+	GameState.add_settled_cash(-cash_committed)
 	GameState.modify_stat("investment_skill", 1)
-	GameState.add_log(LocaleManager.ui("⚡ 레버리지 매수: %s ×2배 포지션 (%s)", "⚡ Leveraged buy: %s x2 position (%s)") % [asset.get("name", asset_id), GameState.format_money(amount_krw * 2.0)], "trade")
+	GameState.add_log(LocaleManager.ui("⚡ 레버리지 매수: %s ×2배 포지션 (%s)", "⚡ Leveraged buy: %s x2 position (%s)") % [asset.get("name", asset_id), GameState.format_money(cash_committed * 2.0)], "trade")
 	trade_executed.emit(asset_id, "leverage_buy", quantity, current_price)
 	portfolio_updated.emit()
 	return {
@@ -218,8 +233,8 @@ func buy_asset_leveraged(asset_id: String, amount_krw: float) -> Dictionary:
 		"quantity": quantity,
 		"price": current_price,
 		"fee": fee,
-		"cash_committed": amount_krw,
-		"exposure": amount_krw * 2.0,
+		"cash_committed": cash_committed,
+		"exposure": cash_committed * 2.0,
 	}
 
 func _check_margin_calls():
@@ -234,8 +249,9 @@ func _check_margin_calls():
 		var total_exposure = leveraged_amount * 2.0
 		# 마진콜: 포지션 가치가 원금 35% 이하로 하락 시 강제 청산
 		if position_value < total_exposure * 0.35:
-			var liquidation_value = position_value * 0.85
-			GameState.add_money(liquidation_value)
+			var liquidation_value := GameState.settle_cash(position_value * 0.85)
+			if liquidation_value >= 1.0:
+				GameState.add_settled_cash(liquidation_value)
 			to_erase.append(asset_id)
 			var asset = DataRegistry.get_asset(asset_id)
 			var loss = leveraged_amount - liquidation_value

@@ -5037,6 +5037,14 @@ func _choice_visible(ch: Dictionary) -> bool:
 	var need_item := str(ch.get("requires_item", ""))
 	if need_item != "" and not GameState.has_item(need_item):
 		return false
+	# A replay reconstructs the choices that existed in the remembered scene;
+	# live cash must not rewrite history. The zero-cash escape choice is a live
+	# compatibility path and therefore never appears in read-only recollection.
+	if _read_only_replay:
+		if bool(ch.get("opportunity_unavailable_fallback", false)):
+			return false
+	elif not GameState.choice_available(_current, ch):
+		return false
 	var obligation_id := str(
 		ch.get("v2_obligation_id", "")).strip_edges()
 	if not obligation_id.is_empty():
@@ -5247,7 +5255,9 @@ func _on_choice(idx: int):
 		for pid in choice.get("cast_effects", {}):
 			cast_before[str(pid)] = GameState.get_cast_affinity(str(pid))
 	if not _read_only_replay:
-		GameState.apply_choice(_current, choice)
+		if not GameState.choice_available(_current, choice) \
+				or not GameState.apply_choice(_current, choice):
+			return
 		if not expression_choice and DEMO_CORE_LOOP_V2.is_active():
 			DEMO_CORE_LOOP_V2.note_story_choice(current_event_id, idx)
 		if not expression_choice:
@@ -5324,7 +5334,8 @@ func _chapter_card_advance():
 	AudioManager.play("choice_made")
 	var choices: Array = _current.get("choices", [])
 	if choices.size() > 0 and not _read_only_replay:
-		GameState.apply_choice(_current, choices[0])
+		if not GameState.apply_choice(_current, choices[0]):
+			return
 	_load_next_event()
 
 func _add_chapter_ink_frame(ov: Control, palette: Dictionary) -> void:

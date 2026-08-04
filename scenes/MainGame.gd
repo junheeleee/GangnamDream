@@ -6195,20 +6195,22 @@ func _on_next_month():
 		_begin_month()
 
 func _choose(index):
-	# 타이머가 돌고 있으면 취소 (수동 선택)
+	var choices: Array = current_event.get("choices", [])
+	if index < 0 or index >= choices.size():
+		return
+	var selected_choice: Dictionary = choices[index]
+	if not GameState.choice_available(current_event, selected_choice):
+		return
+	var result_text := str(selected_choice.get("result_text", "")).strip_edges()
+	var effects: Dictionary = selected_choice.get("effects", {})
+	if not EventManager.resolve_current_event(index):
+		return
+	# State committed successfully; the choice timer can no longer resolve a
+	# second slot while the result surface is being built.
 	if _choice_countdown_timer and is_instance_valid(_choice_countdown_timer):
 		_choice_countdown_timer.queue_free()
 		_choice_countdown_timer = null
-	var choices: Array = current_event.get("choices", [])
-	var selected_choice: Dictionary = {}
-	var result_text = ""
-	var effects: Dictionary = {}
-	if index >= 0 and index < choices.size():
-		selected_choice = choices[index]
-		_last_chosen_foreshadow = str(selected_choice.get("foreshadow", ""))
-		result_text = str(selected_choice.get("result_text", "")).strip_edges()
-		effects = selected_choice.get("effects", {})
-	EventManager.resolve_current_event(index)
+	_last_chosen_foreshadow = str(selected_choice.get("foreshadow", ""))
 	current_event = EventManager.get_next_event()
 	_play_choice_feedback(effects, selected_choice)
 
@@ -6507,11 +6509,22 @@ func _render_event():
 	if _typing_tween:
 		_typing_tween.tween_callback(_reveal_choices)
 
+
+func _available_event_choice_indices(event: Dictionary) -> Array[int]:
+	var available: Array[int] = []
+	var choices: Array = event.get("choices", [])
+	for choice_index in range(choices.size()):
+		if GameState.choice_available(event, choices[choice_index]):
+			available.append(choice_index)
+	return available
+
+
 func _reveal_choices():
 	if not _choice_reveal_pending:
 		return
 	_choice_reveal_pending = false
 	var choices: Array = current_event.get("choices", [])
+	var available_indices := _available_event_choice_indices(current_event)
 	# ── 텍스트 / 선택지 구분선 ───────────────────────────
 	var sep_row = HBoxContainer.new()
 	sep_row.add_theme_constant_override("separation", 8)
@@ -6539,9 +6552,11 @@ func _reveal_choices():
 	var btn_accents = ["#3a6ea8", "#4a7a5a", "#6a4a7a"]
 	var _first_choice_btn: Button = null
 	var stagger_delay := 0.0
-	for i in range(choices.size()):
+	var display_number := 0
+	for i in available_indices:
 		var choice: Dictionary = choices[i]
-		var acc = btn_accents[i % btn_accents.size()]
+		display_number += 1
+		var acc = btn_accents[(display_number - 1) % btn_accents.size()]
 		# 버튼+미리보기를 한 그룹 컨테이너에 묶어 시각적 연관 명확화
 		var group := VBoxContainer.new()
 		group.add_theme_constant_override("separation", 3)
@@ -6549,11 +6564,11 @@ func _reveal_choices():
 		group.modulate.a = 0.0
 		group.scale = Vector2(0.986, 0.986)
 		choice_box.add_child(group)
-		var button = _action_button("  %d.  %s" % [i + 1, _fmt(choice.get("text", _tr("선택", "Choice")))], acc)
+		var button = _action_button("  %d.  %s" % [display_number, _fmt(choice.get("text", _tr("선택", "Choice")))], acc)
 		button.custom_minimum_size = Vector2(0, 44)
 		button.pressed.connect((func(idx): _choose(idx)).bind(i))
 		group.add_child(button)
-		if i == 0:
+		if _first_choice_btn == null:
 			_first_choice_btn = button
 		# 효과 미리보기 (Disco Elysium 스타일 — 선택 전 결과 힌트)
 		var preview_str := _choice_effects_preview(choice)
@@ -6562,7 +6577,7 @@ func _reveal_choices():
 			preview_lbl.set_meta("moral_role", "hint_text")
 			group.add_child(preview_lbl)
 		# 그룹 전체 페이드인 (구분선은 첫 그룹 직전)
-		if i == 0:
+		if display_number == 1:
 			var tw0 := create_tween()
 			tw0.tween_property(sep_row, "modulate:a", 1.0, 0.18)
 		var tw := create_tween()
@@ -6584,10 +6599,13 @@ func _reveal_choices():
 		_first_choice_btn.call_deferred("grab_focus")
 	_apply_moral_tree_styles(choice_box, _moral_ui_palette())
 	# ── 중요 분기 타이머 ──────────────────────────────────────
-	if current_event.get("timed", false):
+	if current_event.get("timed", false) and not available_indices.is_empty():
+		var default_index := int(current_event.get("timer_default_choice", 0))
+		if not available_indices.has(default_index):
+			default_index = available_indices[0]
 		_start_choice_countdown(
 			int(current_event.get("timer_seconds", 12)),
-			int(current_event.get("timer_default_choice", 0)))
+			default_index)
 
 func _start_choice_countdown(secs: int, default_index: int = 0):
 	_choice_countdown_remaining = secs
@@ -15440,28 +15458,30 @@ func _on_leverage_buy(asset_id: String, amount: float):
 	var was_weekly := GameState.has_pending_weekly_commitment(GameState.turn)
 	var result: Dictionary = investment_system.buy_asset_leveraged(asset_id, amount)
 	if result.get("success", false):
+		var cash_committed := float(result.get("cash_committed", 0.0))
+		var exposure := float(result.get("exposure", cash_committed * 2.0))
 		AudioManager.play("money_gain")
 		var asset_name = asset_id
 		for data in DataRegistry.assets:
 			if data.get("id", "") == asset_id:
 				asset_name = data.get("name", asset_id)
 				break
-		turn_action_log.append(_tr("✓ 레버리지 → %s ×2배  %s", "✓ Leverage → %s ×2  %s") % [asset_name, GameState.format_money(amount)])
+		turn_action_log.append(_tr("✓ 레버리지 → %s ×2배  %s", "✓ Leverage → %s ×2  %s") % [asset_name, GameState.format_money(cash_committed)])
 		GameState.register_action_axis("money", "", "invest_leverage")
 		GameState.finalize_weekly_commitment("invest_leverage", "", {
 			"asset_id": asset_id,
 			"trade": "leverage_buy",
-			"amount": amount,
+			"amount": cash_committed,
 			"price": float(result.get("price", 0.0)),
 			"quantity": float(result.get("quantity", 0.0)),
 			"fee": float(result.get("fee", 0.0)),
-			"exposure": float(result.get("exposure", amount * 2.0)),
+			"exposure": exposure,
 		})
 		_close_modal()
 		if not was_weekly:
 			_show_ap_action_commit(_tr("레버리지 매수", "Leverage Buy"), "leverage", "#ef4444", false, _action_thumb_texture("_ap_invest", "invest"))
 		_refresh_all()
-		_show_toast(_tr("레버리지 매수 — %s ×2배 포지션 확보", "Leverage buy — secured %s ×2 position") % GameState.format_money(amount * 2.0), Color("#ef4444"))
+		_show_toast(_tr("레버리지 매수 — %s ×2배 포지션 확보", "Leverage buy — secured %s ×2 position") % GameState.format_money(exposure), Color("#ef4444"))
 	else:
 		GameState.action_points += 1
 		GameState.stats_changed.emit()
@@ -16901,27 +16921,28 @@ func _on_buy_asset(asset_id, amount):
 		return
 	AudioManager.play("money_gain")
 	GameState.add_tendency("invest", 1)   # 자산 매수 = 투자형
+	var cash_committed := float(result.get("cash_committed", 0.0))
 	var asset_name = asset_id
 	for data in DataRegistry.assets:
 		if data.get("id", "") == asset_id:
 			asset_name = data.get("name", asset_id)
 			break
-	turn_action_log.append(_tr("✓ 투자 → %s 매수 %s", "✓ Invest → bought %s %s") % [asset_name, GameState.format_money(amount)])
+	turn_action_log.append(_tr("✓ 투자 → %s 매수 %s", "✓ Invest → bought %s %s") % [asset_name, GameState.format_money(cash_committed)])
 	GameState.register_action_axis("money", "", "invest_buy")
 	GameState.finalize_weekly_commitment("invest_buy", "", {
 		"asset_id": str(asset_id),
 		"trade": "buy",
-		"amount": float(amount),
+		"amount": cash_committed,
 		"price": float(result.get("price", 0.0)),
 		"quantity": float(result.get("quantity", 0.0)),
 		"fee": float(result.get("fee", 0.0)),
-		"net_invested": float(result.get("net_invested", amount)),
+		"net_invested": float(result.get("net_invested", cash_committed)),
 	})
 	_close_modal()
 	if not was_weekly:
 		_show_ap_action_commit(_tr("투자 매수", "Buy Asset"), "invest", "#3a8a5a", false, _action_thumb_texture("_ap_invest", "invest"))
 	_refresh_all()
-	_show_toast(_tr("매수 완료 %s", "Bought %s") % GameState.format_money(amount), Color("#00c896"))
+	_show_toast(_tr("매수 완료 %s", "Bought %s") % GameState.format_money(cash_committed), Color("#00c896"))
 
 func _on_sell_asset(asset_id, ratio):
 	if not GameState.spend_ap():

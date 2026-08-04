@@ -9,6 +9,7 @@ SimRun.gd(헤드리스 60턴 시뮬)와 동일한 정책 봇 구조를 따르되
 포트폴리오 시장 가격 변동. 급여 고정, 휴식은 대표값.
 """
 import json
+import math
 import random
 from collections import Counter
 from pathlib import Path
@@ -32,6 +33,16 @@ RARITY_WEIGHT = {"common": 1.0, "uncommon": 0.7, "rare": 0.28, "legendary": 0.08
 # weeks 40/100/160/200. The snapshots ranged from 327 to 356, so 340 is used
 # as a fixed conservative denominator for deterministic route comparisons.
 ROUTE_EVENT_POOL_WEIGHT = 340.0
+
+
+def settle_cash(value):
+    """Match GameState.settle_cash: nearest won, exact .5 away from zero."""
+    value = float(value)
+    if not math.isfinite(value):
+        raise ValueError("cash transaction must be finite")
+    if value >= 0.0:
+        return float(math.floor(value + 0.5))
+    return float(math.ceil(value - 0.5))
 
 
 def _load_route_events():
@@ -89,17 +100,44 @@ class Run:
         self.stress = max(0, min(100, self.stress))
         self.inv_skill = max(0, min(100, self.inv_skill))
 
+    def assert_whole_cash(self, label):
+        if not math.isfinite(self.money) or self.money != math.floor(self.money):
+            raise AssertionError("fractional/non-finite cash at %s: %r" % (label, self.money))
+
+    def add_cash(self, raw_delta):
+        """Settle one transaction exactly once before touching cash."""
+        self.assert_whole_cash("before raw transaction")
+        settled = settle_cash(raw_delta)
+        self.money += settled
+        self.assert_whole_cash("after raw transaction")
+        return settled
+
+    def add_settled_cash(self, settled_delta):
+        self.assert_whole_cash("before settled transaction")
+        settled_delta = float(settled_delta)
+        if not math.isfinite(settled_delta) or settled_delta != math.floor(settled_delta):
+            raise ValueError("settled cash delta must be a whole won amount")
+        self.money += settled_delta
+        self.assert_whole_cash("after settled transaction")
+        return settled_delta
+
     def resolve_opportunity(self, opp):
-        stake = max(0.0, self.money) * opp["stake_ratio"]
+        available = max(0.0, settle_cash(self.money))
+        raw_stake = float(opp.get("cost", 0.0))
+        if "stake_ratio" in opp:
+            raw_stake = available * float(opp["stake_ratio"])
+        stake = settle_cash(raw_stake)
+        if stake < 1.0 or stake > available:
+            return False
         rate = opp["success_rate"] + self.luck * LUCK_FACTOR + self.diff["opp"]
         rate = max(0.02, min(0.98, rate))
-        self.money -= stake
         if random.random() < rate:
-            self.money += stake + stake * opp["win_multiplier"]
+            self.add_settled_cash(settle_cash(stake * opp["win_multiplier"]))
             self.stress -= 3
             won = True
         else:
-            self.money += stake * (1.0 - opp["loss_ratio"])
+            loss = settle_cash(stake * max(0.0, min(1.0, opp["loss_ratio"])))
+            self.add_settled_cash(-loss)
             self.stress += 12
             self.mental -= 6
             won = False
@@ -137,16 +175,16 @@ class Run:
     def loan_rate(self, product, tenure=0):
         g = self.credit_grade(tenure)
         if product == "bank":
-            return 0.004 + (g - 1) * 0.0008
-        return 0.012 + g * 0.0008
+            return min(0.004 + (g - 1) * 0.0008, 0.0153)
+        return min(0.011 + (g - 1) * 0.0005, 0.0153)
 
     def monthly_pressure(self, cast_passives=False, lover=False, father=False, sangchul=False):
         expense = 650_000.0  # 고시원 고정 (SimRun 동일)
-        self.money += self.income - expense
+        self.add_cash(self.income - expense)
         # 대출 이자 (2026-06-11 신규, 변동금리 — 신용등급 기준)
         interest = sum(self.loans[p] * self.loan_rate(p, self.tenure) for p in self.loans)
         if interest > 0:
-            self.money -= interest
+            self.add_settled_cash(-settle_cash(interest))
             self.stress += 2
         self.health += self.diff["ph"]
         self.mental += self.diff["pm"]
@@ -249,12 +287,14 @@ def run_policy(name, mode, runs=3000, cast_passives=False, sangchul_tips=False, 
                     for prod in ("bank", "second"):
                         limit = s.loan_limit(prod, s.tenure)
                         if s.loans[prod] < limit and (prod == "bank" or s.money < 20_000_000):
-                            amt = limit - s.loans[prod]
+                            amt = settle_cash(limit - s.loans[prod])
+                            if amt < 1.0:
+                                continue
                             s.loans[prod] += amt
-                            s.money += amt
+                            s.add_settled_cash(amt)
                     # 자산이 빚의 5배를 넘으면 전액 상환 (이자 절감)
                     if s.loan_total() > 0 and s.money > s.loan_total() * 5:
-                        s.money -= s.loan_total()
+                        s.add_settled_cash(-settle_cash(s.loan_total()))
                         s.loans = {"bank": 0.0, "second": 0.0}
                 # 상철 팁 — 신뢰 단계 + 쿨다운 12 + 자금 1천만 이상
                 if sangchul_tips and tip_cd == 0 and t >= 10 and s.money > 10_000_000 and random.random() < 0.5:
@@ -270,9 +310,11 @@ def run_policy(name, mode, runs=3000, cast_passives=False, sangchul_tips=False, 
             if employed:
                 s.tenure += 1
             if s.turn <= 3:
-                s.money += 300_000
+                s.add_cash(300_000)
             s.monthly_pressure(cast_passives=cast_passives, lover=cast_passives,
                                father=cast_passives, sangchul=cast_passives)
+            if t in (24, 48):
+                s.assert_whole_cash("baseline turn %d" % t)
             if s.over:
                 break
             s.advance()
@@ -326,7 +368,7 @@ def _event_choice(event_id, choice_index=0):
 
 def _apply_fixed_money_choice(state, event_id, choice_index=0):
     choice = _event_choice(event_id, choice_index)
-    state.money += float(choice.get("effects", {}).get("money", 0.0))
+    state.add_cash(float(choice.get("effects", {}).get("money", 0.0)))
     return choice
 
 
@@ -434,10 +476,12 @@ def run_route_policy(name, route, runs=3000, diff="현실"):
                     state.clamp()
                 state.tenure += 1
                 if week == 4:
-                    state.money += 300_000.0
+                    state.add_cash(300_000.0)
                 state.monthly_pressure()
                 if not state.over:
                     state.advance()
+            if week in (24, 48, 240):
+                state.assert_whole_cash("route week %d" % week)
         if state.net_worth() < 3_000_000_000.0:
             if not state.over:
                 state.age = 38

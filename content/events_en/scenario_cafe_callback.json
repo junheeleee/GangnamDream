@@ -51,22 +51,30 @@
   {
     "id": "cafe_cb_stole_allin",
     "title": "All In",
-    "description": "{name} emptied the account. No verification. No hesitation.\nThe number stolen in that café, the desire stolen in that café —\nthey finally pulled {name} all the way here.\n\nThe die is cast. If the redevelopment is real, life changes.\nIf not — back to zero.",
+    "description": "{name} checked the balance in the banking app, ready to put in everything without verification or hesitation.\nThe number stolen in that café, the desire stolen in that café —\nthey finally pulled {name} all the way here.\n\nOnly the confirm button remained. If the redevelopment is real, life changes.\nIf not — back to zero.",
     "choices": [
       {
         "text": "Accept whatever comes.",
-        "result_text": "The account balance swung wildly. {name} stared at it for a long time."
+      "result_text": "The account balance swung wildly. {name} stared at it for a long time."
+    },
+    {
+      "text": "Admit there is nothing left to bet.",
+      "result_text": "The balance was already at rock bottom. {name} stopped at the confirm button and closed the trade screen."
       }
     ]
   },
   {
     "id": "cafe_cb_stole_smart",
     "title": "Cutting the Foam",
-    "description": "{name} put the registry in front of Manager Kim.\n\"20 million won is foam. Let's do 50 million won. Otherwise I report it.\"\nManager Kim's face twisted. Then, reluctantly, a nod.\n\"...You can read a deal. Fine. 50 million won.\"\n\nOnly those who verify can negotiate. {name} got in at the right price.",
+    "description": "{name} put the registry in front of Manager Kim.\n\"20 million won is foam. Let's do 50 million won. Otherwise I report it.\"\nManager Kim's face twisted. Then, reluctantly, a nod.\n\"...You can read a deal. Fine. 50 million won.\"\n\nOnly those who verify can negotiate. {name} had reached the threshold of getting in at the right price.",
     "choices": [
       {
         "text": "Sign the contract.",
-        "result_text": "Risk still exists. But this time, it's a risk entered knowingly."
+      "result_text": "Risk still exists. But this time, it's a risk entered knowingly."
+    },
+    {
+      "text": "Say there is no deposit money.",
+      "result_text": "The negotiation was over, but there was no money to sign. {name} took back the registry and left."
       }
     ]
   },

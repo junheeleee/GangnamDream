@@ -25,6 +25,20 @@
       ]
     },
     {
+      "tool": "tools/opportunity_money_audit.py",
+      "why": "기회 선택 19개·15사건·7파일과 두 현금 부족 무상태 대체 선택의 정적 원장",
+      "paths": [
+        "content/events/**",
+        "content/events_en/**",
+        "autoloads/GameState.gd",
+        "autoloads/EventManager.gd",
+        "autoloads/DataRegistry.gd",
+        "scenes/MainGame.gd",
+        "scenes/StoryMode.gd",
+        "tools/opportunity_money_audit.py"
+      ]
+    },
+    {
       "tool": "tools/release_content_inventory.py",
       "why": "출시 preset·패키지 포함 범위·심의 축·AI/온라인 공시의 재현 가능한 사실 원장",
       "paths": [
@@ -780,6 +794,29 @@
         "tools/PhoneSystemCheck.gd",
         "tools/PhoneSystemCheck.gd.uid",
         "tools/PhoneSystemCheck.tscn"
+      ]
+    },
+    {
+      "tool": "tools/MoneyIntegrityCheck.tscn",
+      "godot": true,
+      "why": "현금 1원 정산·0원 기회·거래 영수증·구 저장·롤백 런타임",
+      "paths": [
+        "autoloads/GameState.gd",
+        "autoloads/EventManager.gd",
+        "autoloads/DataRegistry.gd",
+        "systems/InvestmentSystem.gd",
+        "scenes/MainGame.gd",
+        "scenes/StoryMode.gd",
+        "content/events/amb_scenarios2.json",
+        "content/events/arc_events.json",
+        "content/events/callback_events_3.json",
+        "content/events/callback_events_4.json",
+        "content/events/callback_events_5.json",
+        "content/events/investment_events.json",
+        "content/events/scenario_cafe_callback.json",
+        "content/events_en/scenario_cafe_callback.json",
+        "tools/MoneyIntegrityCheck.gd",
+        "tools/MoneyIntegrityCheck.tscn"
       ]
     },
     {

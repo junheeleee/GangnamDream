@@ -144,7 +144,7 @@
       "cafe_callback"
     ],
     "cooldown": 9999,
-    "description": "{name}은 통장을 털었다. 검증도, 망설임도 없이.\n그날 훔쳐본 번호가, 그날 훔쳐본 욕망이\n결국 여기까지 끌고 왔다.\n\n주사위는 던져졌다. 재개발이 진짜라면 인생이 바뀐다.\n아니라면 — 다시 바닥이다.",
+    "description": "{name}은 은행 앱에서 잔고를 확인했다. 검증도, 망설임도 없이 전부 넣을 생각이었다.\n그날 훔쳐본 번호가, 그날 훔쳐본 욕망이\n결국 여기까지 끌고 왔다.\n\n이제 확인 버튼만 남았다. 재개발이 진짜라면 인생이 바뀐다.\n아니라면 — 다시 바닥이다.",
     "choices": [
       {
         "text": "결과를 받아들인다",
@@ -164,8 +164,13 @@
           "skill_gain": 4,
           "win_flag": "cafe_jackpot",
           "lose_flag": "cafe_burned"
-        }
       }
+    },
+    {
+      "text": "걸 돈이 없다는 사실을 인정한다",
+      "result_text": "잔고는 이미 바닥이었다. {name}은 확인 버튼 앞에서 멈춰 섰고, 거래 화면을 닫았다.",
+      "opportunity_unavailable_fallback": true
+    }
     ]
   },
   {
@@ -186,7 +191,7 @@
       "cafe_callback"
     ],
     "cooldown": 9999,
-    "description": "{name}은 김 부장에게 등기를 들이밀었다.\n\"2천은 거품이잖아요. 5천에 합시다. 아니면 신고하든가.\"\n김 부장의 표정이 일그러졌다. 그러더니, 마지못해 끄덕였다.\n\"...물건은 볼 줄 아네. 좋아, 5천.\"\n\n검증한 자만이 깎을 수 있다. {name}은 제값에 들어갔다.",
+    "description": "{name}은 김 부장에게 등기를 들이밀었다.\n\"2천은 거품이잖아요. 5천에 합시다. 아니면 신고하든가.\"\n김 부장의 표정이 일그러졌다. 그러더니, 마지못해 끄덕였다.\n\"...물건은 볼 줄 아네. 좋아, 5천.\"\n\n검증한 자만이 깎을 수 있다. {name}은 제값에 들어갈 문턱까지 왔다.",
     "choices": [
       {
         "text": "계약한다",
@@ -206,8 +211,13 @@
           "skill_gain": 6,
           "win_flag": "cafe_smart_win",
           "lose_flag": "cafe_smart_loss"
-        }
       }
+    },
+    {
+      "text": "계약금이 없다고 말한다",
+      "result_text": "흥정은 끝났지만 계약할 돈이 없었다. {name}은 등기를 돌려받고 자리를 나왔다.",
+      "opportunity_unavailable_fallback": true
+    }
     ]
   },
   {

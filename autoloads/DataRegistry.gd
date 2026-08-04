@@ -178,6 +178,7 @@ const MOD_CHOICE_KEYS := [
 	"first_paycheck_ratio", "replace_current_job", "conditions_note", "deferred_follow_up",
 	"deferred_delay", "foreshadow", "bridge_summary", "clues", "give_items",
 	"requires_item", "housing_keepsake", "year_scene",
+	"opportunity_unavailable_fallback",
 ]
 const MOD_EVENT_SCHEDULE_KEYS := [
 	"id", "category", "rarity", "weight", "hidden", "conditions", "tags",
@@ -187,6 +188,7 @@ const MOD_EVENT_SCHEDULE_KEYS := [
 const MOD_CHOICE_SCHEDULE_KEYS := [
 	"follow_up_event", "deferred_follow_up", "deferred_delay", "choice_kind",
 	"v2_obligation_id", "v2_player_initiated_character",
+	"opportunity_unavailable_fallback",
 ]
 const MOD_EXPRESSION_STATEFUL_KEYS := [
 	"effects", "flags", "cast_effects", "relationship_effects",
@@ -194,6 +196,7 @@ const MOD_EXPRESSION_STATEFUL_KEYS := [
 	"grant_job_display", "first_paycheck_ratio", "replace_current_job",
 	"deferred_follow_up", "deferred_delay", "clues", "give_items",
 	"housing_keepsake", "year_scene", "opportunity",
+	"opportunity_unavailable_fallback",
 ]
 
 const JOB_TEXT_EN := {
@@ -661,6 +664,9 @@ func _sanitize_new_mod_event(source: Dictionary, pack_ids: Dictionary, path: Str
 		if not _mod_choice_valid(choice, {}, pack_ids, path):
 			return {}
 		clean_choices.append(choice)
+	if not _mod_opportunity_topology_valid(clean_choices):
+		push_warning("Skipping event mod with invalid opportunity exit topology: %s" % path)
+		return {}
 	var clean := source.duplicate(true)
 	clean.erase("override")
 	clean["hidden"] = false
@@ -673,6 +679,32 @@ func _sanitize_new_mod_event(source: Dictionary, pack_ids: Dictionary, path: Str
 	clean["tags"] = tags
 	clean["choices"] = clean_choices
 	return clean
+
+
+func _mod_opportunity_topology_valid(choices: Array) -> bool:
+	var fallback_count := 0
+	var opportunity_count := 0
+	var unconditional_exit_count := 0
+	for choice_value in choices:
+		if not choice_value is Dictionary:
+			return false
+		var clean_choice: Dictionary = choice_value
+		if bool(clean_choice.get("opportunity_unavailable_fallback", false)):
+			fallback_count += 1
+		var opportunity: Variant = clean_choice.get("opportunity", {})
+		if opportunity is Dictionary \
+				and not (opportunity as Dictionary).is_empty():
+			opportunity_count += 1
+		elif not bool(clean_choice.get(
+				"opportunity_unavailable_fallback", false)) \
+				and str(clean_choice.get("requires_item", "")).strip_edges().is_empty():
+			unconditional_exit_count += 1
+	if fallback_count > 1 or (fallback_count > 0 and opportunity_count == 0):
+		return false
+	if opportunity_count > 0 \
+			and fallback_count == 0 and unconditional_exit_count == 0:
+		return false
+	return true
 
 func _merge_mod_event_override(
 		base: Dictionary,
@@ -708,16 +740,25 @@ func _merge_mod_event_override(
 						% [str(raw_key), path])
 					return {}
 		var allowed_core := _choice_produced_flags(base_choice)
-		if not _mod_choice_valid(choice, allowed_core, {}, path):
+		if not _mod_choice_valid(
+				choice, allowed_core, {}, path,
+				bool(base_choice.get(
+					"opportunity_unavailable_fallback", false))):
 			return {}
 		for schedule_key in MOD_CHOICE_SCHEDULE_KEYS:
 			if base_choice.has(schedule_key):
 				choice[schedule_key] = base_choice[schedule_key]
 			else:
 				choice.erase(schedule_key)
-		choice["flags"] = _merged_choice_flags(base_choice, choice)
-		_preserve_nested_choice_flags(base_choice, choice)
+		if not bool(base_choice.get(
+				"opportunity_unavailable_fallback", false)):
+			choice["flags"] = _merged_choice_flags(base_choice, choice)
+			_preserve_nested_choice_flags(base_choice, choice)
 		merged_choices.append(choice)
+	if not _mod_opportunity_topology_valid(merged_choices):
+		push_warning(
+			"Skipping event override with invalid opportunity exit topology: %s" % path)
+		return {}
 	merged["choices"] = merged_choices
 	return merged
 
@@ -732,7 +773,8 @@ func _mod_choice_valid(
 		choice: Dictionary,
 		allowed_core_flags: Dictionary,
 		pack_ids: Dictionary,
-		path: String) -> bool:
+		path: String,
+		inherited_opportunity_fallback: bool = false) -> bool:
 	for key in choice.keys():
 		if not str(key) in MOD_CHOICE_KEYS:
 			push_warning("Skipping event mod with unsupported choice key '%s': %s" % [key, path])
@@ -741,6 +783,23 @@ func _mod_choice_valid(
 			or str(choice.get("result_text", "")).strip_edges().is_empty():
 		push_warning("Skipping event mod with empty choice text/result: %s" % path)
 		return false
+	var fallback_marker: Variant = choice.get(
+		"opportunity_unavailable_fallback", false)
+	if choice.has("opportunity_unavailable_fallback") \
+			and (not fallback_marker is bool or not bool(fallback_marker)):
+		push_warning(
+			"Skipping event mod with malformed opportunity fallback: %s" % path)
+		return false
+	if inherited_opportunity_fallback or bool(fallback_marker):
+		var fallback_keys := [
+			"text", "result_text", "opportunity_unavailable_fallback",
+		]
+		for key in choice.keys():
+			if str(key) not in fallback_keys:
+				push_warning(
+					"Skipping stateful opportunity fallback key '%s': %s"
+						% [str(key), path])
+				return false
 	for flag in _choice_produced_flags(choice).keys():
 		if not str(flag).begins_with("mod_") and not allowed_core_flags.has(flag):
 			push_warning("Skipping event mod with unnamespaced flag '%s': %s" % [flag, path])
