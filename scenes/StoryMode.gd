@@ -5121,6 +5121,8 @@ func _choice_follow_up_id(
 		if flag_id.is_empty() \
 				or not bool(GameState.flags.get(flag_id, false)):
 			return ""
+	follow_up_id = DEMO_CORE_LOOP_V2.opening_follow_up_event(
+		event_id, follow_up_id, _queue)
 	if DEMO_CORE_LOOP_V2.is_active() \
 			and DEMO_CORE_LOOP_V2.story_follow_up_is_suppressed(
 				event_id, choice_index, follow_up_id):

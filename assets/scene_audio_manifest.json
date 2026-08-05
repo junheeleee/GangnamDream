@@ -1,6 +1,6 @@
 {
   "version": 19,
-  "updated": "2026-08-04",
+  "updated": "2026-08-05",
   "policy": {
     "diegetic_spoken_language": "ko",
     "localize_diegetic_speech": false,
@@ -174,8 +174,9 @@
           "v2_empty_sunday", "v2_father_health_signal", "v2_gangnam_receipt_walk", "v2_hanbit_interview",
           "v2_hanbit_offer_message", "v2_hyunsu_exam_eve", "v2_hyunsu_exam_morning_echo", "v2_hyunsu_first_study",
           "v2_hyunsu_player_reachout", "v2_hyunsu_study_followup", "v2_inventory_count_nights", "v2_jaehyuk_message",
-          "v2_jaehyuk_plain_reunion_echo", "v2_jiyeon_second_crossing", "v2_logistics_class_session", "v2_m3_room_ledger_anchor", "v2_m4_housing_consultation_anchor", "v2_mirae_result_message",
-          "v2_moving_crew_days", "v2_sangchul_demo_echo", "v2_sangchul_housing_lead", "v2_seorin_result_message",
+          "v2_jaehyuk_plain_reunion_echo", "v2_jiyeon_second_crossing", "v2_logistics_class_session", "v2_m3_room_ledger_anchor",
+          "v2_m4_housing_consultation_anchor", "v2_mirae_result_message", "v2_moving_crew_days", "v2_opening_application_send",
+          "v2_opening_return_math", "v2_sangchul_demo_echo", "v2_sangchul_housing_lead", "v2_seorin_result_message",
           "yolo_morning_after"
         ],
     "cg_contract": [
@@ -691,6 +692,14 @@
       "music": {"key": "survival", "start_paragraph": 1},
       "paragraph_cues": {"2": [{"sfx": "phone_notification", "volume_db": -6.0}]}
     },
+    "v2_opening_application_send": {
+      "ambience": "room",
+      "music": {"key": "survival", "start_paragraph": 1},
+      "paragraph_cues": {
+        "2": [{"sfx": "phone_notification", "volume_db": -6.0}],
+        "4": [{"sfx": "keyboard_short", "volume_db": -7.0}]
+      }
+    },
     "arc_intro_01_meal": {
       "ambience": "office",
       "music": {"key": "survival", "start_paragraph": 1},
@@ -702,6 +711,14 @@
       "paragraph_cues": {
         "1": [{"sfx": "keyboard_short", "volume_db": -7.0}],
         "4": [{"sfx": "phone_vibrate", "volume_db": -5.0}]
+      }
+    },
+    "v2_opening_return_math": {
+      "ambience": "room",
+      "music": {"key": "survival", "start_paragraph": 1},
+      "paragraph_cues": {
+        "2": [{"sfx": "keyboard_short", "volume_db": -7.0}],
+        "5": [{"sfx": "phone_vibrate", "volume_db": -5.0}]
       }
     },
     "arc_first_job_week_convenience": {
@@ -784,7 +801,7 @@
     "arc_father_01_call": {
       "ambience": "current_housing",
       "music": {"key": "family", "start_paragraph": 1},
-      "paragraph_cues": {"0": [{"sfx": "phone_vibrate", "volume_db": -4.0}]}
+      "paragraph_cues": {}
     },
     "arc_invest_first_loss": {
       "ambience": "room",

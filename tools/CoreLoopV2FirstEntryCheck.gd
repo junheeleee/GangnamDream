@@ -1,10 +1,17 @@
 extends Node
-## Fresh V2 entry preserves the authored handoff and teaches the real monthly
-## planning board exactly once: prologue -> Chapter 1 -> planner -> tutorial.
+## Fresh V2 entry preserves one causal opening and teaches the real monthly
+## planning board exactly once: prologue -> application Send -> interview ->
+## 125 years -> Chapter 1 -> planner -> tutorial.
 
 const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
 const MAIN_GAME_SCENE := preload("res://scenes/MainGame.tscn")
 const CHAPTER_EVENT_ID := "chapter_card_33"
+const PRESSURE_EVENT_ID := "story_pressure"
+const APPLICATION_EVENT_ID := "v2_opening_application_send"
+const INTERVIEW_EVENT_ID := "arc_intro_01_meal"
+const MATH_EVENT_ID := "v2_opening_return_math"
+const OPENING_BUNDLE_ID := "opening_interview_math"
+const OPENING_ROOTS := [INTERVIEW_EVENT_ID, MATH_EVENT_ID]
 const TUTORIAL_ID := "core_loop_v2"
 
 var _failures: Array[String] = []
@@ -26,6 +33,7 @@ func _run() -> void:
 	TutorialOverlay._seen.erase(TUTORIAL_ID)
 
 	_check_localized_tutorial_copy()
+	await _check_opening_contracts()
 	await _check_fresh_and_reentry_flow()
 	await _stop_test_audio()
 
@@ -35,7 +43,11 @@ func _run() -> void:
 	AudioManager.sfx_enabled = _original_sfx_enabled
 	if _failures.is_empty():
 		print(
-			"CORE_LOOP_V2_FIRST_ENTRY_CHECK_OK order=prologue>chapter_33>planner>tutorial "
+			"CORE_LOOP_V2_FIRST_ENTRY_CHECK_OK "
+			+ "order=prologue>application_send>interview>125_years>"
+			+ "chapter_33>planner>tutorial "
+			+ "trigger=v2_application_send receipts=presented/consumed/no_replay "
+			+ "expression=2/state_free roots=adjacent "
 			+ "slides=3 locale=ko/en fresh=1 reentry=1 focus_restore=1 "
 			+ "input_leak=0 save_reshow=0 legacy_untouched=1")
 		get_tree().quit(0)
@@ -74,11 +86,334 @@ func _check_localized_tutorial_copy() -> void:
 		"English V2 onboarding contains Hangul: %s" % en_text)
 
 
+func _check_opening_contracts() -> void:
+	await _check_fresh_opening_queue()
+	_check_truthful_opening_trigger_and_expression()
+	await _check_saved_preplan_recovery()
+	await _check_legacy_preplan_untouched()
+
+
+func _check_fresh_opening_queue() -> void:
+	LocaleManager.set_language("ko")
+	GameState.start_new_game()
+	CORE_LOOP.initialize_for_run(true)
+	var main_game = MAIN_GAME_SCENE.instantiate()
+	main_game.set_meta("_screenshot_qa_static_surface", true)
+	main_game.set_meta("_qa_suppress_opening_chapter_transition", true)
+	add_child(main_game)
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	main_game._begin_month_story_and_render()
+	var expected_queue := [
+		"story_flashforward", INTERVIEW_EVENT_ID, MATH_EVENT_ID,
+		CHAPTER_EVENT_ID,
+	]
+	_expect(GameState.pending_story_queue == expected_queue,
+		"fresh V2 entry did not reserve only prologue -> interview -> "
+		+ "calculation -> Chapter 1 in one adjacent StoryMode queue")
+	_expect(CORE_LOOP.opening_follow_up_event(
+			"story_prologue_meal", PRESSURE_EVENT_ID, expected_queue) \
+			== APPLICATION_EVENT_ID,
+		"fresh V2 did not replace the prologue's legacy app-open follow-up "
+		+ "with the actual application Send scene")
+	_expect(bool(GameState.flags.get("prologue_done", false)) \
+			and CORE_LOOP.active_bundle_id().is_empty() \
+			and not (
+				GameState.core_loop_v2_state.get(
+					"consequence_receipts", {}) as Dictionary
+			).has(OPENING_BUNDLE_ID),
+		"fresh queue reservation fabricated the application or consequence "
+		+ "before the player pressed Send")
+	_cancel_scene_transition()
+	_dispose(main_game)
+	GameState.pending_story_queue.clear()
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+
+func _check_truthful_opening_trigger_and_expression() -> void:
+	GameState.start_new_game()
+	CORE_LOOP.initialize_for_run(true)
+	GameState.flags["prologue_done"] = true
+	var roots := CORE_LOOP.fresh_preplan_opening_roots()
+	_expect(roots == OPENING_ROOTS,
+		"fresh opening roots are not the adjacent interview and calculation")
+	var before_send: Dictionary = GameState.serialize().duplicate(true)
+	_expect(not CORE_LOOP.claim_preplan_opening_from_trigger(
+			APPLICATION_EVENT_ID, 0) \
+			and CORE_LOOP.active_bundle_id().is_empty() \
+			and GameState.serialize() == before_send,
+		"pre-plan opening claimed ownership before the V2 application scene "
+		+ "actually sent the application")
+
+	var application_event: Dictionary = DataRegistry.find_event(
+		APPLICATION_EVENT_ID)
+	var application_choices: Array = application_event.get("choices", [])
+	_expect(application_choices.size() == 1,
+		"V2 application scene lost its single Send action")
+	if application_choices.size() != 1:
+		return
+	_expect(GameState.apply_choice(
+			application_event, application_choices[0] as Dictionary) \
+			and bool(GameState.flags.get("story_job_unlocked", false)) \
+			and bool(GameState.flags.get(
+				"opening_interview_application_sent", false)) \
+			and bool(GameState.flags.get(
+				"opening_preplan_application_sent", false)),
+		"V2 Send did not create its truthful application flags")
+	_expect(CORE_LOOP.note_story_choice(APPLICATION_EVENT_ID, 0) \
+			and CORE_LOOP.active_bundle_id() == OPENING_BUNDLE_ID \
+			and CORE_LOOP.active_kind() == "consequence" \
+			and CORE_LOOP.application_status(
+				"mirae_industrial_tech") == "submitted",
+		"the real V2 Send did not claim the opening consequence")
+	var presented_receipt: Dictionary = (
+		GameState.core_loop_v2_state.get(
+			"consequence_receipts", {}) as Dictionary
+	).get(OPENING_BUNDLE_ID, {})
+	_expect(str(presented_receipt.get("status", "")) == "presented" \
+			and str(presented_receipt.get("surface_kind", "")) \
+				== "preplan_continuous" \
+			and presented_receipt.get("roots", []) == OPENING_ROOTS \
+			and (
+				GameState.core_loop_v2_state.get(
+					"shown_consequences", []) as Array
+			).count(OPENING_BUNDLE_ID) == 1,
+		"pre-plan opening did not persist one presented receipt with both roots")
+
+	CORE_LOOP.prepare_story_bundle(OPENING_BUNDLE_ID)
+	var interview_event: Dictionary = DataRegistry.find_event(
+		INTERVIEW_EVENT_ID)
+	var interview_choices: Array = interview_event.get("choices", [])
+	_expect(interview_choices.size() == 2,
+		"opening interview lost its two authored answers")
+	if interview_choices.size() != 2:
+		return
+	_expect(GameState.apply_choice(
+			interview_event, interview_choices[0] as Dictionary) \
+			and CORE_LOOP.note_story_choice(INTERVIEW_EVENT_ID, 0) \
+			and CORE_LOOP.application_status(
+				"mirae_industrial_tech") == "interviewed",
+		"opening interview did not advance the submitted application")
+
+	var math_event: Dictionary = DataRegistry.find_event(MATH_EVENT_ID)
+	var math_choices: Array = math_event.get("choices", [])
+	_expect(math_choices.size() == 2,
+		"125-year calculation does not have exactly two responses")
+	if math_choices.size() != 2:
+		return
+	for choice_index in range(math_choices.size()):
+		var math_choice: Dictionary = math_choices[choice_index]
+		var serialized_before: Dictionary = GameState.serialize().duplicate(true)
+		var story_receipts_before: Dictionary = (
+			GameState.core_loop_v2_state as Dictionary).duplicate(true)
+		var mindset_flags_before := {
+			"saver": bool(GameState.flags.get("mindset_saver", false)),
+			"investor": bool(GameState.flags.get("mindset_investor", false)),
+			"founder": bool(GameState.flags.get("mindset_founder", false)),
+		}
+		var tendency_before := GameState.tendency.duplicate(true)
+		_expect(GameState.is_expression_choice(math_choice) \
+				and GameState.apply_choice(math_event, math_choice) \
+				and CORE_LOOP.note_story_choice(MATH_EVENT_ID, choice_index),
+			"125-year response %d was not a valid expression choice" \
+				% choice_index)
+		_expect(GameState.serialize() == serialized_before \
+				and GameState.core_loop_v2_state == story_receipts_before \
+				and GameState.tendency == tendency_before \
+				and bool(GameState.flags.get("mindset_saver", false)) \
+					== bool(mindset_flags_before["saver"]) \
+				and bool(GameState.flags.get("mindset_investor", false)) \
+					== bool(mindset_flags_before["investor"]) \
+				and bool(GameState.flags.get("mindset_founder", false)) \
+					== bool(mindset_flags_before["founder"]),
+			(
+				"125-year expression %d changed serialized state, story receipts, "
+				+ "mindset flags, or tendencies"
+			) % choice_index)
+
+	CORE_LOOP.restore_story_bundle_followups()
+	_expect(CORE_LOOP.complete_active_bundle() == OPENING_BUNDLE_ID,
+		"pre-plan opening consequence could not consume its presented owner")
+	var consumed_receipt: Dictionary = (
+		GameState.core_loop_v2_state.get(
+			"consequence_receipts", {}) as Dictionary
+	).get(OPENING_BUNDLE_ID, {})
+	_expect(str(consumed_receipt.get("status", "")) == "consumed" \
+			and consumed_receipt.get("roots", []) == OPENING_ROOTS \
+			and CORE_LOOP.active_bundle_id().is_empty() \
+			and not CORE_LOOP.needs_preplan_opening() \
+			and not CORE_LOOP.claim_saved_preplan_opening(),
+		"consumed opening receipt replayed or lost its two-root history")
+	var consumed_save: Dictionary = GameState.serialize().duplicate(true)
+	GameState.start_new_game()
+	GameState.load_from_dict(consumed_save)
+	CORE_LOOP.initialize_for_run()
+	var reloaded_receipt: Dictionary = (
+		GameState.core_loop_v2_state.get(
+			"consequence_receipts", {}) as Dictionary
+	).get(OPENING_BUNDLE_ID, {})
+	_expect(str(reloaded_receipt.get("status", "")) == "consumed" \
+			and reloaded_receipt.get("roots", []) == OPENING_ROOTS \
+			and not CORE_LOOP.needs_preplan_opening() \
+			and not CORE_LOOP.claim_saved_preplan_opening(),
+		"save/load resurrected an already consumed opening")
+
+
+func _check_saved_preplan_recovery() -> void:
+	GameState.start_new_game()
+	CORE_LOOP.initialize_for_run(true)
+	GameState.flags["prologue_done"] = true
+	var application_event: Dictionary = DataRegistry.find_event(
+		APPLICATION_EVENT_ID)
+	var application_choices: Array = application_event.get("choices", [])
+	if application_choices.size() != 1:
+		_expect(false, "saved opening fixture could not find the V2 Send")
+		return
+	GameState.apply_choice(
+		application_event, application_choices[0] as Dictionary)
+	var post_prologue_save: Dictionary = GameState.serialize().duplicate(true)
+	GameState.start_new_game()
+	GameState.load_from_dict(post_prologue_save)
+	CORE_LOOP.initialize_for_run()
+
+	var main_game = MAIN_GAME_SCENE.instantiate()
+	main_game.set_meta("_screenshot_qa_static_surface", true)
+	main_game.set_meta("_qa_suppress_opening_chapter_transition", true)
+	add_child(main_game)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	main_game._begin_month_story_and_render()
+	var receipt: Dictionary = (
+		GameState.core_loop_v2_state.get(
+			"consequence_receipts", {}) as Dictionary
+	).get(OPENING_BUNDLE_ID, {})
+	_expect(GameState.pending_story_queue == OPENING_ROOTS \
+			and CORE_LOOP.active_bundle_id() == OPENING_BUNDLE_ID \
+			and str(receipt.get("status", "")) == "presented" \
+			and str(receipt.get("claim_source", "")) \
+				== "saved_preplan_recovery" \
+			and str(main_game.get_meta(
+				"_qa_opening_chapter_event", "")).is_empty() \
+			and not _planner_is_visible(main_game) \
+			and _find_tutorial(main_game) == null,
+		"post-prologue save routed Chapter 1, planner, or tutorial before the "
+		+ "interview and 125-year calculation")
+	_cancel_scene_transition()
+	_dispose(main_game)
+	GameState.pending_story_queue.clear()
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+
+func _check_legacy_preplan_untouched() -> void:
+	# An older V2 save could have opened the job app and stopped with a finger
+	# above Apply. Loading it must not fabricate the later Send, same-day
+	# interview, calculation, or returned-call history.
+	GameState.start_new_game()
+	CORE_LOOP.initialize_for_run(true)
+	GameState.flags["prologue_done"] = true
+	GameState.flags["story_job_unlocked"] = true
+	var legacy_save: Dictionary = GameState.serialize().duplicate(true)
+	GameState.start_new_game()
+	GameState.load_from_dict(legacy_save)
+	CORE_LOOP.initialize_for_run()
+	var before_route: Dictionary = GameState.serialize().duplicate(true)
+	_expect(not CORE_LOOP.needs_preplan_opening() \
+			and not CORE_LOOP.claim_saved_preplan_opening() \
+			and not bool(GameState.flags.get(
+				"opening_preplan_application_sent", false)) \
+			and GameState.serialize() == before_route,
+		"legacy app-open-only save was rewritten as a submitted application")
+	_expect(CORE_LOOP.opening_follow_up_event(
+			"story_prologue_meal", PRESSURE_EVENT_ID, OPENING_ROOTS) \
+			== PRESSURE_EVENT_ID,
+		"legacy app-open history was replaced by the new Send scene")
+	_expect(CORE_LOOP.application_status(
+			"mirae_industrial_tech").is_empty() \
+			and CORE_LOOP.available_offer_ids(1).has(
+				"m1_mirae_application"),
+		"legacy app-open-only save lost its still-unsubmitted Month-One offer")
+
+	var main_game = MAIN_GAME_SCENE.instantiate()
+	main_game.set_meta("_screenshot_qa_static_surface", true)
+	main_game.set_meta("_qa_suppress_opening_chapter_transition", true)
+	add_child(main_game)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	main_game._begin_month_story_and_render()
+	var receipts_before_chapter: Dictionary = (
+		GameState.core_loop_v2_state.get(
+			"consequence_receipts", {}) as Dictionary
+	)
+	_expect(GameState.pending_story_queue == [CHAPTER_EVENT_ID] \
+			and not receipts_before_chapter.has(OPENING_BUNDLE_ID) \
+			and str(main_game.get_meta(
+				"_qa_opening_chapter_event", "")) == CHAPTER_EVENT_ID,
+		"legacy app-open-only save did not route straight to Chapter 1")
+
+	var chapter_event: Dictionary = DataRegistry.find_event(CHAPTER_EVENT_ID)
+	var chapter_choices: Array = chapter_event.get("choices", [])
+	if chapter_choices.size() != 1:
+		_expect(false, "legacy pre-plan fixture could not finish Chapter 1")
+		_dispose(main_game)
+		return
+	GameState.apply_choice(chapter_event, chapter_choices[0] as Dictionary)
+	GameState.pending_story_queue.clear()
+	main_game._continue_after_story()
+	for _frame in range(6):
+		await get_tree().process_frame
+	_expect(_planner_is_visible(main_game) \
+			and CORE_LOOP.available_offer_ids(1).has(
+				"m1_mirae_application") \
+			and not (
+				GameState.core_loop_v2_state.get(
+					"consequence_receipts", {}) as Dictionary
+			).has(OPENING_BUNDLE_ID),
+		"legacy app-open-only save did not keep its Month-One planner and "
+		+ "unsubmitted application after Chapter 1")
+	_dispose(main_game)
+	GameState.pending_story_queue.clear()
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+
+func _complete_preplan_opening_fixture() -> bool:
+	GameState.flags["prologue_done"] = true
+	var application_event: Dictionary = DataRegistry.find_event(
+		APPLICATION_EVENT_ID)
+	var application_choices: Array = application_event.get("choices", [])
+	var interview_event: Dictionary = DataRegistry.find_event(
+		INTERVIEW_EVENT_ID)
+	var interview_choices: Array = interview_event.get("choices", [])
+	var math_event: Dictionary = DataRegistry.find_event(MATH_EVENT_ID)
+	var math_choices: Array = math_event.get("choices", [])
+	if application_choices.size() != 1 or interview_choices.is_empty() \
+			or math_choices.is_empty():
+		return false
+	if not GameState.apply_choice(
+			application_event, application_choices[0] as Dictionary) \
+			or not CORE_LOOP.note_story_choice(APPLICATION_EVENT_ID, 0):
+		return false
+	CORE_LOOP.prepare_story_bundle(OPENING_BUNDLE_ID)
+	if not GameState.apply_choice(
+			interview_event, interview_choices[0] as Dictionary) \
+			or not CORE_LOOP.note_story_choice(INTERVIEW_EVENT_ID, 0):
+		return false
+	if not GameState.apply_choice(math_event, math_choices[0] as Dictionary) \
+			or not CORE_LOOP.note_story_choice(MATH_EVENT_ID, 0):
+		return false
+	CORE_LOOP.restore_story_bundle_followups()
+	return CORE_LOOP.complete_active_bundle() == OPENING_BUNDLE_ID
+
+
 func _check_fresh_and_reentry_flow() -> void:
 	LocaleManager.set_language("ko")
 	GameState.start_new_game()
 	CORE_LOOP.initialize_for_run(true)
-	GameState.flags["prologue_done"] = true
+	_expect(_complete_preplan_opening_fixture(),
+		"first-entry UI fixture could not finish the interview and calculation")
 	var main_game = MAIN_GAME_SCENE.instantiate()
 	main_game.set_meta("_screenshot_qa_static_surface", true)
 	main_game.set_meta("_qa_suppress_opening_chapter_transition", true)
@@ -369,6 +704,17 @@ func _expect_tutorial_owns_planner_tab(
 
 func _on_underlying_planner_pressed() -> void:
 	_underlying_presses += 1
+
+
+func _cancel_scene_transition() -> void:
+	var active_tween := SceneTransition.get("_tween") as Tween
+	if is_instance_valid(active_tween):
+		active_tween.kill()
+	SceneTransition.set("_tween", null)
+	SceneTransition._set_transition_alpha(0.0)
+	var overlay := SceneTransition.get("_overlay") as Control
+	if is_instance_valid(overlay):
+		overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
 func _dispose(node: Node) -> void:

@@ -1325,6 +1325,10 @@ def _gather_game_flags():
     return game_sets, reads
 
 def _choice_is_inert(ch):
+    # Expression choices deliberately branch only the immediate response and
+    # then rejoin. They are authored dialogue, not inert gameplay promises.
+    if ch.get("choice_kind") == "expression":
+        return False
     if isinstance(ch.get("effects"), dict) and ch["effects"]:
         return False
     if ch.get("flags"):

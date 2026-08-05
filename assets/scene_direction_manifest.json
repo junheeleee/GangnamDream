@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-08-04",
+  "updated": "2026-08-05",
   "policy": {
     "unknown_transition": "none",
     "same_location_restarts": false,
@@ -2282,6 +2282,7 @@
       "v2_m3_room_ledger_anchor",
       "v2_m4_housing_consultation_anchor",
       "v2_moving_crew_days",
+      "v2_opening_application_send",
       "v2_sangchul_demo_echo",
       "v2_sangchul_housing_lead",
       "wedding_invitation_flood",
@@ -2359,6 +2360,7 @@
       "v2_hyunsu_player_reachout",
       "v2_jaehyuk_message",
       "v2_mirae_result_message",
+      "v2_opening_return_math",
       "v2_seorin_result_message"
     ],
     "activity_enter_return": [],
@@ -2807,6 +2809,15 @@
       "reduced_motion": "static_fade",
       "arrival_cue_ko": "고시원. 새벽 세 시.",
       "arrival_cue_en": "Goshiwon room. 3 AM."
+    },
+    "arc_intro_01_meal->v2_opening_return_math": {
+      "mode": "time_cut",
+      "from_surface": "office_interview_day",
+      "to_surface": "goshiwon_room",
+      "audio_policy": "crossfade",
+      "reduced_motion": "static_fade",
+      "arrival_cue_ko": "그날 밤, 고시원.",
+      "arrival_cue_en": "That night, back at the goshiwon."
     },
     "arc_intro_04_hyunsu->arc_chapter1_close": {
       "mode": "explicit_move",
@@ -3577,6 +3588,15 @@
       "arrival_cue_ko": "보름이 지났다",
       "arrival_cue_en": "Two weeks in"
     },
+    "story_prologue_meal->v2_opening_application_send": {
+      "mode": "time_cut",
+      "from_surface": "convenience_night",
+      "to_surface": "goshiwon_room",
+      "audio_policy": "crossfade",
+      "reduced_motion": "static_fade",
+      "arrival_cue_ko": "다음 날 아침",
+      "arrival_cue_en": "The next morning"
+    },
     "v2_demo_first_bill->v2_demo_first_bill_ledger": {
       "mode": "time_cut",
       "from_surface": "v2_first_bill_desk_closeup",
@@ -3628,6 +3648,15 @@
       "reduced_motion": "static_fade",
       "arrival_cue_ko": "다음 날 저녁 8시, 공용 주방",
       "arrival_cue_en": "At 8 p.m. the next day, in the shared kitchen"
+    },
+    "v2_opening_application_send->arc_intro_01_meal": {
+      "mode": "explicit_move",
+      "from_surface": "goshiwon_room",
+      "to_surface": "office_interview_day",
+      "audio_policy": "crossfade",
+      "reduced_motion": "static_fade",
+      "arrival_cue_ko": "마포구. 3층. 엘리베이터 없음.",
+      "arrival_cue_en": "Mapo-gu. Third floor. No elevator."
     },
     "v2_sangchul_housing_lead->arc_sangchul_01_coffee": {
       "mode": "same_location",

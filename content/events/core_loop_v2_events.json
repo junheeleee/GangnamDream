@@ -1,5 +1,86 @@
 [
   {
+    "id": "v2_opening_application_send",
+    "direction": {
+      "pace": "beat",
+      "camera": "drift",
+      "amb": "duck",
+      "hold": 0.5
+    },
+    "title": "더는 못 미룬다",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "core_loop_v2",
+      "intro"
+    ],
+    "cooldown": 9999,
+    "one_time": true,
+    "portrait": "player_tired",
+    "background": "goshiwon_room",
+    "description": "다음 날 아침, {name}은 고시원 책상 앞에 앉았다.\n\n들어올 돈은 없었다. 다음 달 고시원비부터 지금 가진 돈보다 컸다.\n\n고등학교 단톡방에 또 결혼 소식이 올라왔다. {name}은 ‘축하해’를 치고 폰을 뒤집었다. 잠시 뒤, 폰을 다시 들고 구인 앱을 켰다.\n\n편의점, 배달, 카페, 중소기업 사무직. 공고 목록을 내리던 손가락이 한 곳에서 멈췄다. ‘(주)미래산업기술 사무보조.’ 주 4일 계약직. 경력 무관. 엑셀 가능자. 마포구.\n\n{name}은 육 년 공백이 적힌 이력서 파일을 불러왔다. 가족 빚이라는 말까지 쓰지는 않았다. 화면 아래에는 지원 버튼이 남아 있었다.",
+    "choices": [
+      {
+        "text": "미래산업기술에 지원서를 보낸다",
+        "effects": {
+          "intelligence": 2
+        },
+        "flags": [
+          "story_job_unlocked",
+          "opening_interview_application_sent",
+          "opening_preplan_application_sent"
+        ],
+        "result_text": "{name}은 지원 버튼을 눌렀다. 화면에 ‘접수 완료 · 오전 9:14’가 떴다."
+      }
+    ]
+  },
+  {
+    "id": "v2_opening_return_math",
+    "direction": {
+      "pace": "slow",
+      "camera": "drift",
+      "amb": "duck",
+      "hold": 0.8
+    },
+    "title": "125년",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "core_loop_v2",
+      "intro",
+      "expression"
+    ],
+    "cooldown": 9999,
+    "one_time": true,
+    "portrait": "player_tired",
+    "background": "goshiwon_room",
+    "description": "그날 밤, 고시원.\n\n{name}은 넥타이를 의자에 걸고 수첩을 폈다. 첫 줄 아래에는 ‘5년, 30억’이 남아 있었다.\n\n폰 계산기에 면접에서 들은 숫자를 넣었다.\n\n30억 원 ÷ 세전 월 200만 원 = 1,500개월\n1,500개월 ÷ 12 = 125년\n\n월급을 한 푼도 쓰지 않고 모은다고 해도 같은 숫자였다. 월세와 밥값, 세금, 투자수익은 넣지도 않은 단순한 나눗셈이었다. 미래를 맞히는 계산은 아니었다. 다만 방금 들은 월급과 5년 사이의 거리는 분명했다.\n\n화면 위로 알림 하나가 내려왔다.\n[부재중 전화 · 아버지 · 오후 9:12]\n\n{name}은 125년과 아버지 이름을 번갈아 봤다.",
+    "choices": [
+      {
+        "text": "“125년.” 숫자를 소리 내어 읽는다",
+        "choice_kind": "expression",
+        "result_text": "“백이십오 년.”\n\n말이 얇은 벽에 닿아 금세 작아졌다. 옆방에서 의자 끄는 소리가 났다.\n\n{name}은 수첩의 ‘5년, 30억’ 아래에 ‘방법’이라고 적었다. 그 뒤는 비워 두었다. 아직 적을 수 있는 것은 다음 네 주뿐이었다.\n\n부재중 전화 알림은 지우지 않은 채, 수첩 옆에 다음 네 주 달력을 펼쳤다."
+      },
+      {
+        "text": "말없이 계산을 한 번 더 확인한다",
+        "choice_kind": "expression",
+        "result_text": "0을 하나씩 세고 나눗셈을 다시 눌렀다. 화면에는 같은 숫자가 남았다.\n\n{name}은 수첩의 ‘5년, 30억’ 아래에 ‘방법’이라고 적었다. 그 뒤는 비워 두었다. 아직 적을 수 있는 것은 다음 네 주뿐이었다.\n\n부재중 전화 알림은 지우지 않은 채, 수첩 옆에 다음 네 주 달력을 펼쳤다."
+      }
+    ]
+  },
+  {
     "id": "v2_mirae_result_message",
     "direction": {"pace": "beat"},
     "title": "미래산업기술 채용 결과",

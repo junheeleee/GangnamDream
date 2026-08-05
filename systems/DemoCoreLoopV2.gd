@@ -24,6 +24,7 @@ const RELATIONSHIP_STAGE_ORDER := [
 # literal IDs here also lets the dead-arc audit prove that these events have a
 # runtime consumer even though their schedule lives in JSON.
 const OWNED_STORY_ROOTS := [
+	"v2_opening_application_send",
 	"v2_mirae_result_message",
 	"v2_seorin_result_message",
 	"v2_hyunsu_player_reachout",
@@ -48,6 +49,7 @@ const OWNED_STORY_ROOTS := [
 	"v2_demo_first_bill",
 	"v2_m3_room_ledger_anchor",
 	"v2_m4_housing_consultation_anchor",
+	"v2_opening_return_math",
 ]
 const ENABLE_ARGS := [
 	"--core-loop-v2",
@@ -57,6 +59,9 @@ const ENABLE_ARGS := [
 ]
 const HYUNSU_EXAM_OUTCOME_RECEIPT_ID := "hyunsu_exam_2026"
 const CITY_RESULT_RECEIPT_ID := "city_facility_ops_2026h1_result"
+const OPENING_INTERVIEW_BUNDLE_ID := "opening_interview_math"
+const OPENING_APPLICATION_EVENT_ID := "v2_opening_application_send"
+const LEGACY_OPENING_INTERVIEW_ROOT := "arc_intro_01_meal"
 const FIRST_BILL_OPENING_ID := "v2_demo_first_bill_opening"
 const FIRST_BILL_DECISION_ID := "v2_demo_first_bill"
 const FIRST_BILL_LEDGER_ID := "v2_demo_first_bill_ledger"
@@ -200,8 +205,44 @@ static func initialize_for_run(force: bool = false) -> bool:
 	migrate_legacy_first_bill_state()
 	var state := _normalized_state(GameState.core_loop_v2_state)
 	state["enabled"] = true
+	_apply_legacy_callback_retirements(state)
 	GameState.core_loop_v2_state = state
 	return true
+
+## V2 does not infer a permanent saver/investor/founder identity from the old
+## pre-action declaration. Keep every legacy flag and tendency intact for save
+## compatibility, but persist the contract-owned callback retirement so the
+## 25+ week fallback cannot narrate an action that never happened in this run.
+static func _apply_legacy_callback_retirements(state: Dictionary) -> void:
+	var raw_retirements: Variant = contract().get(
+		"legacy_callback_retirements", {})
+	if not raw_retirements is Dictionary:
+		return
+	for raw_callback_id in raw_retirements:
+		var callback_id := str(raw_callback_id).strip_edges()
+		var raw_policy: Variant = (raw_retirements as Dictionary).get(
+			raw_callback_id, {})
+		if callback_id.is_empty() or not raw_policy is Dictionary:
+			continue
+		var policy: Dictionary = raw_policy
+		if str(policy.get("policy", "")) != "superseded" \
+				or str(policy.get("scope", "")) != "core_loop_v2" \
+				or not bool(policy.get("preserve_legacy", false)):
+			continue
+		var raw_existing: Variant = state[
+			"legacy_callback_resolutions"].get(callback_id, {})
+		if raw_existing is Dictionary \
+				and not (raw_existing as Dictionary).is_empty():
+			continue
+		state["legacy_callback_resolutions"][callback_id] = {
+			"policy": "superseded",
+			"source": "core_loop_v2_contract",
+			"scope": "core_loop_v2",
+			"preserve_legacy": true,
+			"reason_ko": str(policy.get("reason_ko", "")),
+			"reason_en": str(policy.get("reason_en", "")),
+			"turn": int(GameState.turn),
+		}
 
 static func disable_for_run() -> void:
 	var state := _normalized_state(GameState.core_loop_v2_state)
@@ -424,6 +465,174 @@ static func plan_for_month(month_index: int = -1) -> Dictionary:
 
 static func needs_plan(month_index: int = -1) -> bool:
 	return plan_for_month(month_index).is_empty()
+
+## A fresh run may queue the entire prologue -> interview -> calculation ->
+## chapter sequence at once, but it must not claim the interview before the
+## player presses Send in the V2 application scene. These roots are therefore
+## only a presentation reservation; note_story_choice() creates the owner.
+static func fresh_preplan_opening_roots() -> Array:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	if not _preplan_opening_base_available(state) \
+			or not bool(GameState.flags.get("prologue_done", false)) \
+			or not str(state.get("active_bundle", "")).is_empty():
+		return []
+	var roots: Array = []
+	for raw_root in resolved_event_roots(OPENING_INTERVIEW_BUNDLE_ID):
+		var root_id := str(raw_root).strip_edges()
+		if not root_id.is_empty() and not roots.has(root_id):
+			roots.append(root_id)
+	return roots
+
+## Fresh V2 replaces the legacy app-open card with one deeper scene that ends
+## in an actual Send. The replacement is allowed only while StoryMode still
+## holds both reserved opening roots, so an old save paused in the legacy
+## prologue cannot be silently rewritten into a submitted application.
+static func opening_follow_up_event(
+		event_id: String, follow_up_id: String,
+		reserved_queue: Array) -> String:
+	if event_id != "story_prologue_meal" \
+			or follow_up_id != "story_pressure":
+		return follow_up_id
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	if not _preplan_opening_base_available(state) \
+			or not bool(GameState.flags.get("prologue_done", false)) \
+			or bool(GameState.flags.get("story_job_unlocked", false)) \
+			or bool(GameState.flags.get(
+				"opening_interview_application_sent", false)):
+		return follow_up_id
+	for raw_root in resolved_event_roots(OPENING_INTERVIEW_BUNDLE_ID):
+		if not reserved_queue.has(str(raw_root)):
+			return follow_up_id
+	var trigger_event_id := str(_preplan_opening_trigger().get(
+		"event_id", "")).strip_edges()
+	return OPENING_APPLICATION_EVENT_ID \
+		if trigger_event_id == OPENING_APPLICATION_EVENT_ID else follow_up_id
+
+## Recovery entry for V2 saves made after the old prologue but before Month 1
+## was planned. A consumed/shown interview receipt or an already-interviewed
+## application is authoritative and is never replayed or rewritten.
+static func needs_preplan_opening() -> bool:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	if not _preplan_opening_base_available(state) \
+			or not str(state.get("active_bundle", "")).is_empty() \
+			or not bool(GameState.flags.get("prologue_done", false)) \
+			or not bool(GameState.flags.get("story_job_unlocked", false)):
+		return false
+	var application_id := _preplan_opening_application_id()
+	if application_id.is_empty():
+		return false
+	var status := application_status(application_id)
+	if not bool(GameState.flags.get(
+			"opening_interview_application_sent", false)) \
+			and status != "submitted":
+		return false
+	return status.is_empty() or status == "submitted"
+
+static func claim_saved_preplan_opening() -> bool:
+	if not needs_preplan_opening():
+		return false
+	return _claim_preplan_opening("saved_preplan_recovery")
+
+static func _preplan_opening_base_available(state: Dictionary) -> bool:
+	if not bool(state.get("enabled", false)) or int(GameState.turn) != 1:
+		return false
+	var raw_plan: Variant = state["plans"].get("1", {})
+	if raw_plan is Dictionary and not (raw_plan as Dictionary).is_empty():
+		return false
+	if state["shown_consequences"].has(OPENING_INTERVIEW_BUNDLE_ID) \
+			or state["consequence_receipts"].has(
+				OPENING_INTERVIEW_BUNDLE_ID) \
+			or bool(GameState.flags.get("arc_intro_meal_seen", false)):
+		return false
+	var opening := bundle(OPENING_INTERVIEW_BUNDLE_ID)
+	return not opening.is_empty() \
+		and str(opening.get("kind", "")) == "consequence" \
+		and bundle_allowed_in_week(
+			OPENING_INTERVIEW_BUNDLE_ID, int(GameState.turn)) \
+		and not resolved_event_roots(
+			OPENING_INTERVIEW_BUNDLE_ID).is_empty()
+
+static func _preplan_opening_trigger() -> Dictionary:
+	var raw_trigger: Variant = bundle(
+		OPENING_INTERVIEW_BUNDLE_ID).get("preplan_trigger", {})
+	return (raw_trigger as Dictionary).duplicate(true) \
+		if raw_trigger is Dictionary else {}
+
+static func _preplan_opening_application_id() -> String:
+	return str(_preplan_opening_trigger().get(
+		"application_id", "")).strip_edges()
+
+static func claim_preplan_opening_from_trigger(
+		event_id: String, choice_index: int) -> bool:
+	var trigger := _preplan_opening_trigger()
+	var raw_choices: Variant = trigger.get("choices", [])
+	if trigger.is_empty() or event_id != str(trigger.get("event_id", "")) \
+			or not raw_choices is Array:
+		return false
+	var choice_matches := false
+	for raw_choice in raw_choices:
+		if int(raw_choice) == choice_index:
+			choice_matches = true
+			break
+	if not choice_matches \
+			or not bool(GameState.flags.get("prologue_done", false)) \
+			or not bool(GameState.flags.get("story_job_unlocked", false)) \
+			or not bool(GameState.flags.get(
+				"opening_interview_application_sent", false)):
+		return false
+	return _claim_preplan_opening("story_choice")
+
+static func _claim_preplan_opening(source: String) -> bool:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	if not _preplan_opening_base_available(state) \
+			or not str(state.get("active_bundle", "")).is_empty():
+		return false
+	var trigger := _preplan_opening_trigger()
+	var application_id := str(trigger.get(
+		"application_id", "")).strip_edges()
+	var submitted_status := str(trigger.get("status", "")).strip_edges()
+	if application_id.is_empty() or submitted_status != "submitted":
+		return false
+	var current_status := application_status(application_id)
+	if (not bool(GameState.flags.get(
+			"opening_interview_application_sent", false)) \
+			and current_status != submitted_status) \
+			or (not current_status.is_empty() \
+			and current_status != submitted_status):
+		return false
+	# Recovery is allowed only after a durable, actually submitted application.
+	# Old saves that merely opened the job app keep their Month-One planner and
+	# may submit the legacy application there; never invent a click on load.
+	if not GameState.flags.has("opening_interview_application_turn"):
+		GameState.flags["opening_interview_application_turn"] = int(GameState.turn)
+	state["application_statuses"][application_id] = submitted_status
+	state["active_bundle"] = OPENING_INTERVIEW_BUNDLE_ID
+	state["active_kind"] = "consequence"
+	state["active_turn"] = int(GameState.turn)
+	state["action_result_ready"] = false
+	var roots := resolved_event_roots(OPENING_INTERVIEW_BUNDLE_ID)
+	var receipt := {
+		"consequence_id": OPENING_INTERVIEW_BUNDLE_ID,
+		"scheduled_bundle": "",
+		"turn": int(GameState.turn),
+		"status": "presented",
+		"surface_kind": (
+			"preplan_continuous" if source == "story_choice" \
+			else "preplan_recovery"),
+		"roots": roots.duplicate(),
+		"presented_turn": int(GameState.turn),
+		"consumed_turn": 0,
+		"legacy_separate_owner": false,
+		"claim_source": source,
+	}
+	state["consequence_receipts"][OPENING_INTERVIEW_BUNDLE_ID] = receipt
+	if not state["shown_consequences"].has(OPENING_INTERVIEW_BUNDLE_ID):
+		state["shown_consequences"].append(OPENING_INTERVIEW_BUNDLE_ID)
+	state["shown_consequence_turns"][OPENING_INTERVIEW_BUNDLE_ID] = int(
+		GameState.turn)
+	GameState.core_loop_v2_state = state
+	prepare_story_bundle(OPENING_INTERVIEW_BUNDLE_ID)
+	return true
 
 ## 월간 계획을 열기 전에 반드시 도착해야 하는 비슬롯 장면을 반환한다.
 ## 표시 여부는 조건식이 아니라 영구 consequence receipt가 소유하므로,
@@ -1640,18 +1849,27 @@ static func complete_active_bundle() -> String:
 		if not state["shown_consequences"].has(bundle_id):
 			state["shown_consequences"].append(bundle_id)
 		state["shown_consequence_turns"][bundle_id] = GameState.turn
-		var legacy_receipt: Dictionary = {
-			"consequence_id": bundle_id,
-			"scheduled_bundle": "",
-			"turn": int(GameState.turn),
-			"status": "consumed",
-			"surface_kind": "legacy_separate",
-			"roots": resolved_event_roots(bundle_id),
-			"presented_turn": int(GameState.turn),
-			"consumed_turn": int(GameState.turn),
-			"legacy_separate_owner": true,
-		}
-		state["consequence_receipts"][bundle_id] = legacy_receipt
+		var raw_existing_receipt: Variant = state[
+			"consequence_receipts"].get(bundle_id, {})
+		var completion_receipt: Dictionary = {}
+		if raw_existing_receipt is Dictionary \
+				and str((raw_existing_receipt as Dictionary).get(
+					"status", "")) == "presented":
+			completion_receipt = (
+				raw_existing_receipt as Dictionary).duplicate(true)
+		else:
+			completion_receipt = {
+				"consequence_id": bundle_id,
+				"scheduled_bundle": "",
+				"turn": int(GameState.turn),
+				"surface_kind": "legacy_separate",
+				"roots": resolved_event_roots(bundle_id),
+				"presented_turn": int(GameState.turn),
+				"legacy_separate_owner": true,
+			}
+		completion_receipt["status"] = "consumed"
+		completion_receipt["consumed_turn"] = int(GameState.turn)
+		state["consequence_receipts"][bundle_id] = completion_receipt
 	else:
 		if not state["completed_bundles"].has(bundle_id):
 			state["completed_bundles"].append(bundle_id)
@@ -1958,6 +2176,15 @@ static func pending_consequence_id(month_index: int = -1) -> String:
 			continue
 		var consequence := bundle(consequence_id)
 		if not bundle_allowed_in_week(consequence_id, int(GameState.turn)):
+			continue
+		# Compatibility: an old V2 Month-One plan can still submit Mirae as its
+		# Week-One foreground action.  The fresh route owns this interview before
+		# planning, but the old action must keep its established Week-Two prelude;
+		# never attach the result to the producer's own week.
+		if consequence_id == OPENING_INTERVIEW_BUNDLE_ID \
+				and int(GameState.flags.get(
+					"opening_interview_application_turn", 0)) \
+					>= int(GameState.turn):
 			continue
 		# Typed completed_bundle predicates are evaluated against the strictly
 		# earlier turns here. A scheduled action can never summon its own
@@ -3370,6 +3597,25 @@ static func _consequence_was_presented(
 		and str((raw_receipt as Dictionary).get(
 			"status", "")) in ["presented", "consumed"]
 
+static func consequence_receipt_has_root(
+		consequence_id: String, root_id: String) -> bool:
+	var normalized_consequence := consequence_id.strip_edges()
+	var normalized_root := root_id.strip_edges()
+	if normalized_consequence.is_empty() or normalized_root.is_empty():
+		return false
+	var raw_receipts: Variant = GameState.core_loop_v2_state.get(
+		"consequence_receipts", {})
+	if not raw_receipts is Dictionary:
+		return false
+	var raw_receipt: Variant = (raw_receipts as Dictionary).get(
+		normalized_consequence, {})
+	if not raw_receipt is Dictionary \
+			or str((raw_receipt as Dictionary).get(
+				"status", "")) not in ["presented", "consumed"]:
+		return false
+	var raw_roots: Variant = (raw_receipt as Dictionary).get("roots", [])
+	return raw_roots is Array and (raw_roots as Array).has(normalized_root)
+
 static func prepare_story_bundle(bundle_id: String) -> void:
 	var scene_bundle := bundle(bundle_id)
 	var suppressed: Array = scene_bundle.get("suppress_follow_up_events", [])
@@ -3420,6 +3666,11 @@ static func was_player_initiated(character_id: String) -> bool:
 	return initiated is Array and (initiated as Array).has(character_id)
 
 static func note_story_choice(event_id: String, choice_index: int) -> bool:
+	# The fresh opening is queued before the application is sent so StoryMode
+	# can keep one continuous scene. Claim its V2 owner only after GameState has
+	# applied the exact data-declared Send choice.
+	if claim_preplan_opening_from_trigger(event_id, choice_index):
+		return true
 	var state := _normalized_state(GameState.core_loop_v2_state)
 	# Expression choices are dialogue-local branches. Validate that the exact
 	# authored choice belongs to the active story owner, then acknowledge it
@@ -4055,6 +4306,14 @@ static func _note_relationship_story_choice(
 				break
 		if not choice_matches:
 			continue
+		# Resolve compatibility-sensitive initiative from the same helper used by
+		# save migration. Old planned runs received Father's incoming call; only
+		# the new pre-plan missed-call route records a player callback.
+		var resolved_outcome := _relationship_outcome_for_choice(
+			bundle_id, event_id, choice_index)
+		if resolved_outcome.is_empty():
+			return false
+		outcome = resolved_outcome
 		var receipt_key := "%s:%s:%d:%d" % [
 			bundle_id, event_id, choice_index, int(GameState.turn)]
 		if state["relationship_choice_receipts"].has(receipt_key):
@@ -4487,6 +4746,12 @@ static func _normalized_state(raw_state: Dictionary) -> Dictionary:
 		if consequence_id.is_empty() \
 				or state["consequence_receipts"].has(consequence_id):
 			continue
+		var historical_roots := resolved_event_roots(consequence_id)
+		# Before this order, every persisted opening_interview_math entry owned
+		# only the interview. The new path writes shown+receipt atomically, so a
+		# shown entry with no receipt is always legacy regardless of save schema.
+		if consequence_id == OPENING_INTERVIEW_BUNDLE_ID:
+			historical_roots = [LEGACY_OPENING_INTERVIEW_ROOT]
 		state["consequence_receipts"][consequence_id] = {
 			"consequence_id": consequence_id,
 			"scheduled_bundle": "",
@@ -4494,7 +4759,7 @@ static func _normalized_state(raw_state: Dictionary) -> Dictionary:
 				consequence_id, 0)),
 			"status": "consumed",
 			"surface_kind": "legacy_separate",
-			"roots": resolved_event_roots(consequence_id),
+			"roots": historical_roots,
 			"presented_turn": int(state["shown_consequence_turns"].get(
 				consequence_id, 0)),
 			"consumed_turn": int(state["shown_consequence_turns"].get(
@@ -4652,6 +4917,12 @@ static func _migrate_schema_two_relationship_state(state: Dictionary) -> void:
 				or str(receipt.get("memory", "")).is_empty():
 			continue
 		migrated_receipts[key] = receipt
+		var migrated_character := str(receipt.get(
+			"character", "")).strip_edges()
+		if str(receipt.get("initiative", "")) == "player" \
+				and GameState.cast.has(migrated_character) \
+				and not state["player_initiated"].has(migrated_character):
+			state["player_initiated"].append(migrated_character)
 		if not memory_keys.has(key):
 			memories.append(receipt.duplicate(true))
 			memory_keys.append(key)
@@ -4710,5 +4981,14 @@ static func _relationship_outcome_for_choice(
 			continue
 		for raw_choice in raw_choices:
 			if int(raw_choice) == choice_index:
-				return outcome.duplicate(true)
+				var resolved: Dictionary = outcome.duplicate(true)
+				# Before the 125-year return scene existed, Father initiated the
+				# first call. Preserve that actual schema-2/schema-3 history and
+				# in-progress plan; only the new missed-call route is player-led.
+				if bundle_id == "father_first_call" \
+						and event_id == "arc_father_01_call" \
+						and not bool(GameState.flags.get(
+							"opening_preplan_application_sent", false)):
+					resolved["initiative"] = "reciprocal"
+				return resolved
 	return {}

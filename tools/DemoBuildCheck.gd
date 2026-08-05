@@ -1,5 +1,6 @@
 extends Node
 
+const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
 const EXPECTED_ROOTS := [
 	{"week": 1, "event": "chapter_card_33"},
 	{"week": 2, "event": "arc_intro_01_meal"},
@@ -24,6 +25,7 @@ func _run() -> void:
 	_check_build_flavor()
 	_check_export_presets()
 	_check_opening_interview_causality()
+	_check_v2_preplan_opening_contract()
 	_check_opening_sequences()
 	_check_narrative_bridge_contract()
 	_check_chapter_one_temporal_contract()
@@ -38,7 +40,7 @@ func _run() -> void:
 			push_error("DEMO_BUILD_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("DEMO_BUILD_CHECK_OK feature=%s cutoff=%d chain=%d presets=%d" % [
+	print("DEMO_BUILD_CHECK_OK feature=%s cutoff=%d chain=%d presets=%d v2_send=1 v2_roots=2 offers=6/5" % [
 		GameState.DEMO_FEATURE,
 		GameState.DEMO_TURN_LIMIT,
 		EXPECTED_ROOTS.size(),
@@ -131,6 +133,112 @@ func _check_opening_interview_causality() -> void:
 	_expect(str(main_game.call("_next_arc_id", 3, true, false)) != "arc_intro_01_meal",
 		"The Mapo interview fired for an already-employed save.")
 	main_game.free()
+
+func _check_v2_preplan_opening_contract() -> void:
+	GameState.start_new_game(
+		"김민준", "지방_상경", "직장형", "백수", "자유런", "현실")
+	CORE_LOOP.initialize_for_run(true)
+	GameState.turn = 1
+	GameState.flags["prologue_done"] = true
+	var opening_roots := ["arc_intro_01_meal", "v2_opening_return_math"]
+	var offers_before: Array = CORE_LOOP.available_offer_ids(1)
+	_expect(offers_before == [
+		"m1_mirae_application", "m1_convenience_trial_shift",
+		"m1_youth_center_resume_clinic", "m1_phone_off_sunday",
+		"father_first_call", "hyunsu_first_meet",
+	], "Fresh Month One no longer preserves all six pre-interview offers.")
+	_expect(CORE_LOOP.fresh_preplan_opening_roots() == opening_roots,
+		"Fresh V2 entry did not reserve the interview and calculation roots.")
+	_expect(not CORE_LOOP.fresh_preplan_opening_roots().has(
+			CORE_LOOP.OPENING_APPLICATION_EVENT_ID),
+		"Fresh V2 entry directly reserved Send instead of letting StoryMode replace the legacy follow-up.")
+
+	var send_event: Dictionary = DataRegistry.find_event(
+		CORE_LOOP.OPENING_APPLICATION_EVENT_ID)
+	var send_choices: Array = send_event.get("choices", [])
+	if send_choices.size() != 1:
+		_failures.append("The V2 opening Send action is missing.")
+		return
+	_expect(GameState.apply_choice(
+			send_event, send_choices[0] as Dictionary) \
+			and CORE_LOOP.note_story_choice(
+				CORE_LOOP.OPENING_APPLICATION_EVENT_ID, 0),
+		"The real Send action did not claim the V2 opening consequence.")
+	var presented_receipt: Dictionary = (
+		GameState.core_loop_v2_state.get(
+			"consequence_receipts", {}) as Dictionary
+	).get(CORE_LOOP.OPENING_INTERVIEW_BUNDLE_ID, {})
+	_expect(str(presented_receipt.get("status", "")) == "presented" \
+			and presented_receipt.get("roots", []) == opening_roots \
+			and CORE_LOOP.application_status(
+				"mirae_industrial_tech") == "submitted",
+		"V2 Send did not persist one submitted application and presented receipt.")
+
+	CORE_LOOP.prepare_story_bundle(CORE_LOOP.OPENING_INTERVIEW_BUNDLE_ID)
+	var interview_event: Dictionary = DataRegistry.find_event(
+		"arc_intro_01_meal")
+	var interview_choices: Array = interview_event.get("choices", [])
+	if interview_choices.size() != 2:
+		_failures.append("The V2 opening interview lost its two answers.")
+		return
+	_expect(GameState.apply_choice(
+			interview_event, interview_choices[0] as Dictionary) \
+			and CORE_LOOP.note_story_choice("arc_intro_01_meal", 0) \
+			and CORE_LOOP.application_status(
+				"mirae_industrial_tech") == "interviewed",
+		"The V2 interview did not advance the submitted application exactly once.")
+
+	var math_event: Dictionary = DataRegistry.find_event(
+		"v2_opening_return_math")
+	var math_choices: Array = math_event.get("choices", [])
+	if math_choices.size() != 2:
+		_failures.append("The 125-year calculation lost its two expressions.")
+		return
+	var before_math: Dictionary = GameState.serialize().duplicate(true)
+	_expect(GameState.is_expression_choice(math_choices[0] as Dictionary) \
+			and GameState.apply_choice(
+				math_event, math_choices[0] as Dictionary) \
+			and CORE_LOOP.note_story_choice("v2_opening_return_math", 0) \
+			and GameState.serialize() == before_math,
+		"The 125-year expression mutated persistent game state.")
+	CORE_LOOP.restore_story_bundle_followups()
+	_expect(CORE_LOOP.complete_active_bundle() \
+			== CORE_LOOP.OPENING_INTERVIEW_BUNDLE_ID,
+		"The interview/calculation consequence did not consume its owner.")
+	var consumed_receipt: Dictionary = (
+		GameState.core_loop_v2_state.get(
+			"consequence_receipts", {}) as Dictionary
+	).get(CORE_LOOP.OPENING_INTERVIEW_BUNDLE_ID, {})
+	_expect(str(consumed_receipt.get("status", "")) == "consumed" \
+			and consumed_receipt.get("roots", []) == opening_roots,
+		"The consumed opening receipt lost its exact two-root history.")
+
+	var offers_after: Array = CORE_LOOP.available_offer_ids(1)
+	_expect(offers_after == [
+		"m1_convenience_trial_shift", "m1_youth_center_resume_clinic",
+		"m1_phone_off_sunday", "father_first_call", "hyunsu_first_meet",
+	], "Interviewed Month One must expose exactly five non-duplicate offers.")
+	var opening_counts := {
+		"story_pressure": 0,
+		"v2_opening_application_send": 0,
+		"arc_intro_01_meal": 0,
+		"v2_opening_return_math": 0,
+	}
+	for raw_entry in GameState.event_log:
+		if raw_entry is Dictionary:
+			var event_id := str((raw_entry as Dictionary).get("event_id", ""))
+			if opening_counts.has(event_id):
+				opening_counts[event_id] = int(opening_counts[event_id]) + 1
+	_expect(opening_counts == {
+		"story_pressure": 0,
+		"v2_opening_application_send": 1,
+		"arc_intro_01_meal": 1,
+		"v2_opening_return_math": 0,
+	}, "The V2 opening replayed the legacy app-open card, duplicated a committed scene, or logged its expression.")
+	_expect(not bool(GameState.flags.get("mindset_saver", false)) \
+			and not bool(GameState.flags.get("mindset_investor", false)) \
+			and not bool(GameState.flags.get("mindset_founder", false)),
+		"The expression-only calculation fabricated a legacy mindset.")
 
 func _check_narrative_bridge_contract() -> void:
 	GameState.start_new_game("김민준", "지방_상경", "직장형", "백수", "자유런", "현실")

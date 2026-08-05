@@ -60,62 +60,200 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="section-title">prologue</div><div class="arc-section" id="arc-story_arrival" style="border-color:#e8a000;background:#1a1200">
   <div class="arc-header" style="color:#e8a000" onclick="toggle(this)">
     <span class="arc-type">[prologue]</span> 프롤로그 1: 눈을 뜬다 
-    <span class="arc-count">5단계</span>
+    <span class="arc-count">11단계</span>
   </div>
   <div class="arc-body">
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">story_arrival</div>
   <div class="event-title">2026년 1월, 서울</div>
-  <div class="event-desc">어둠 속에서 눈을 뜬다.<br><br>천장까지 손이 닿는 방. 1평 반.<br>창문을 열면 옆 건물 벽이 닿을 듯 가깝다.<br>여기는 신촌의 한 고시원. {name}의 방이다.<br><br>{name}. 서른셋.<br>반년 전까지만 해도, 빚을 갚고 있었다.<br><br>아버지가 보증을 잘못 섰다. 상대는 잠적했고, 빚은 아버지에게, 그리고 {name}에게 왔다.<br>스물일곱부터 서른셋까지. 6년.<br><br>다 갚았다. 그리고 남은 건 — 통장의 50만원과, 이 방.</div>
+  <div class="event-desc">어둠 속에서 눈을 뜬다.<br><br>천장까지 손이 닿는 방. 1평 반. 창문 밖은 옆 건물 벽으로 막혀 있다. 신촌의 고시원. {name}의 방.<br><br>{name}. 서른셋.<br>어제, 여섯 해의 마지막 빚을 갚았다.<br><br>얇은 책상 위에 상환 완료 문자가 켜진 채로 남아 있다. 화면의 날짜를 보자, 오래 덮어 두었던 한 장면이 먼저 올라왔다.</div>
   <div class="event-meta">배경: goshiwon_room | 인물: player_normal</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 천천히 몸을 일으킨다
-      <span class="follow-up">→ story_prologue_dad</span>
+      <span class="choice-num">선택 1</span> 눈을 감는다. 여섯 해 전으로 돌아간다
+      <span class="follow-up">→ story_knee_door</span>
     </div>
-    <div class="result-text">이불을 걷고 일어난다.<br>작은 창으로 겨울 아침 빛이 스며든다.<br>오늘도 하루가 시작됐다. 살아야 하는 하루가.</div>
+    <div class="result-text">겨울 아침 빛이 눈꺼풀 안에서 사라졌다.<br>대신 창원 집의 차가운 현관 바닥이 발밑에 다시 생겼다.</div>
   </div>
 </div>
 <div class="event-card" style="margin-left:32px">
+  <div class="event-id">story_knee_door</div>
+  <div class="event-title">문틈</div>
+  <div class="event-desc">스물일곱의 겨울. 창원 집 현관.<br><br>낯선 구두 세 켤레가 아버지의 작업화 옆을 차지하고 있었다. 거실문은 손바닥 폭만큼 덜 닫혀 있었다.<br><br>양말 밑으로 장판의 냉기가 올라왔다. 문 안에서 남자의 낮은 목소리가 들렸다.<br><br>"이러셔도 없는 돈이 생기는 건 아니잖아요."</div>
+  <div class="event-meta">배경: dad_house</div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 1</span> 문틈에 손을 댄다
+      <span class="follow-up">→ story_knee_witness</span>
+    </div>
+    <div class="result-text">{name}은 문을 열지 못한 채, 틈을 한 뼘 더 벌렸다.<br>거실 바닥과 탁자 끝, 그리고 아버지의 뒷모습이 시야 안으로 들어왔다.</div>
+  </div>
+</div>
+<div class="event-card" style="margin-left:64px">
+  <div class="event-id">story_knee_witness</div>
+  <div class="event-title">무릎</div>
+  <div class="event-desc">탁자 위에 보증 서류가 펼쳐져 있었다. 도장 자리만 유난히 붉었다.<br><br>아버지는 장판 위에 무릎을 꿇고 있었다. 검은 머리 사이로 희끗함이 번지기 시작한 뒤통수가 낮게 숙여졌다. 두 손은 허벅지 위에 엉거주춤 올라가 있었다.<br><br>"미안합니다. 갚겠습니다."<br><br>건너편 남자는 화내지 않았다. 휴대폰 시계를 보고, 한숨을 쉬었다.<br><br>"그 말, 아까도 들었습니다."</div>
+  <div class="event-meta">배경: dad_house | 인물: father_past</div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 1</span> 아버지가 다시 입을 여는 걸 본다
+      <span class="effects">[mental: -2]</span>
+      <span class="follow-up">→ story_knee_choice</span>
+    </div>
+    <div class="result-text">아버지의 손바닥이 장판에 닿았다.<br><br>"미안합니다. 꼭 갚겠습니다."<br><br>같은 문장이 한 번 더 방 안에 놓였다. 채권자는 종이를 넘겼다.<br>문 뒤의 {name}은 손톱이 손바닥을 파고들 때까지 주먹을 쥐었다.</div>
+  </div>
+</div>
+<div class="event-card" style="margin-left:96px">
+  <div class="event-id">story_knee_choice</div>
+  <div class="event-title">그날의 나</div>
+  <div class="event-desc">아무도 {name}이 문 뒤에 있는 걸 모른다.<br><br>아버지의 무릎과 보증 서류 사이에 한 걸음을 놓을 자리가 있다. 하지만 스물일곱의 {name}에겐 그 자리에 놓을 돈이 없었다.<br><br>문고리는 바로 앞에 있었다.</div>
+  <div class="event-meta">배경: dad_house | 인물: father_past</div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 1</span> 뛰쳐나가 아버지를 일으킨다
+      <span class="effects">[mental: -2, tint: +2, route_orthodox: +1]</span>
+      <span class="flags">🚩 knee_day_faced</span>
+      <span class="follow-up">→ story_last_payment_wait</span>
+    </div>
+    <div class="result-text">{name}은 문을 열고 들어갔다. 아버지의 팔꿈치를 붙잡았다.<br><br>"일어나세요."<br><br>아버지가 고개를 들었다. 그날 {name}은 그 눈을 정면으로 봤다. 갚아줄 돈은 없었지만, 없는 사람처럼 숨지는 않았다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 2</span> 문 뒤에서 주먹만 쥔다. 나설 돈이 없다
+      <span class="effects">[mental: -4]</span>
+      <span class="flags">🚩 knee_day_froze</span>
+      <span class="follow-up">→ story_last_payment_wait</span>
+    </div>
+    <div class="result-text">{name}은 문 뒤에 남았다.<br><br>주먹을 폈을 때 손바닥에 반달 모양 자국이 여럿 남아 있었다. 거실에 나가도 자기가 할 수 있는 일은 없었다.<br><br>그날 {name}이 제일 미워한 사람은, 문 안의 누구도 아니었다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 3</span> 등을 돌린다. 차마 볼 수 없다
+      <span class="effects">[mental: -2, tint: -2, route_unorthodox: +1]</span>
+      <span class="flags">🚩 knee_day_turned</span>
+      <span class="follow-up">→ story_last_payment_wait</span>
+    </div>
+    <div class="result-text">{name}은 소리 나지 않게 현관문을 열고 나왔다.<br><br>계단을 두 칸씩 내려갔다. 뒤에서 아버지의 사과가 또 들렸지만, 이번엔 돌아보지 않았다.<br><br>그날은 기억에서 지우려 할수록 더 선명해졌다.</div>
+  </div>
+</div>
+<div class="event-card" style="margin-left:128px">
+  <div class="event-id">story_last_payment_wait</div>
+  <div class="event-title">번호표 147</div>
+  <div class="event-desc">어제. 여섯 해 뒤.<br><br>전광판에 146이 떠 있었다. {name}의 손에는 147번 번호표와 마지막 상환 서류가 있었다. 형광등은 정확히 같은 높이에서 줄지어 울렸다.<br><br>은행 앱의 이체 완료 화면을 또 열어 봤다. 이것으로 끝. 여섯 해의 마지막 돈.<br><br>잔고는 500,000원이었다.</div>
+  <div class="event-meta">배경: community_center</div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 1</span> 번호가 불릴 때까지 서류 모서리를 누른다
+      <span class="follow-up">→ story_last_payment_word</span>
+    </div>
+    <div class="result-text">전광판이 짧게 울렸다.<br><br>[147번 고객님, 4번 창구로 오십시오.]<br><br>{name}은 종이 모서리에 접힌 자국을 펴지 못한 채 자리에서 일어났다.</div>
+  </div>
+</div>
+<div class="event-card" style="margin-left:160px">
+  <div class="event-id">story_last_payment_word</div>
+  <div class="event-title">마지막 상환</div>
+  <div class="event-desc">창구의 남자는 이체 내역과 서류를 두 번 대조했다. 도장을 찍고, 상환 완료 확인서를 {name} 쪽으로 밀었다.<br><br>"입금 확인됐습니다. 이걸로 끝입니다."<br><br>남자는 벌써 다음 번호표를 보고 있었다. 반듯하게 서류를 정리하며, 지나가듯 말했다.<br><br>"아버님께 전하세요. 보증은 아무나 서는 게 아니라고."<br><br>고개는 들지 않았다. 조언조차 아니었다. 오래 반복해 입에 붙은 문장이었다.</div>
+  <div class="event-meta">배경: community_center</div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 1</span> 고개를 숙이고 서류를 받는다
+      <span class="effects">[mental: -2]</span>
+      <span class="flags">🚩 last_payment_endured</span>
+      <span class="follow-up">→ story_last_payment_exit</span>
+    </div>
+    <div class="result-text">"네."<br><br>여섯 해 동안 배운 방법이었다. 해야 할 말을 삼키고, 종이를 받고, 다음 문까지 걸어가는 것.<br><br>{name}은 확인서를 두 번 접어 안주머니에 넣었다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 2</span> &quot;말씀이 지나치시네요.&quot;
+      <span class="effects">[tint: +2, route_orthodox: +1]</span>
+      <span class="flags">🚩 last_payment_spoke</span>
+      <span class="follow-up">→ story_last_payment_exit</span>
+    </div>
+    <div class="result-text">남자가 그제야 고개를 들었다.<br><br>"상환은 끝났습니다. 다음 분 기다립니다."<br><br>사과도 없었고, 무엇도 달라지지 않았다. 그래도 {name}은 자기 목소리로 한 문장을 남겨 두고 돌아섰다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 3</span> 웃어 보인다. 두고 보자는 듯이
+      <span class="effects">[mental: +1, tint: -2, route_unorthodox: +1]</span>
+      <span class="flags">🚩 last_payment_smiled</span>
+      <span class="follow-up">→ story_last_payment_exit</span>
+    </div>
+    <div class="result-text">{name}은 입꼬리를 올렸다.<br><br>"네. 잘 전하죠."<br><br>유리에 비친 얼굴은 웃고 있지 않았다. 여섯 해를 다 갚은 사람이 어떤 얼굴이 되는지, 이 남자는 나중에 보게 될 것이라 생각했다.</div>
+  </div>
+</div>
+<div class="event-card" style="margin-left:192px">
+  <div class="event-id">story_last_payment_exit</div>
+  <div class="event-title">밖으로</div>
+  <div class="event-desc">밖에는 겨울비가 내리고 있었다. 정류장 유리에 물줄기가 길게 흐르고, 차도의 헤드라이트가 그 위를 지나갔다.<br><br>정류장 광고판이 바뀌었다. 조명 밝은 거실 뒤로 강남의 야경이 펼쳐져 있었다. [당신의 자리가 되는 도시.]<br><br>{name}은 은행 앱을 열었다.<br><br>잔고 500,000원.<br><br>그때 전화가 울렸다. 화면에는 '아버지'.</div>
+  <div class="event-meta">배경: street_rainy_bus_stop_wallet</div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 1</span> 전화를 받는다
+      <span class="follow-up">→ story_prologue_dad</span>
+    </div>
+    <div class="result-text">여섯 해 전의 거실과 방금의 창구가 겹쳐 보였다.<br>{name}은 한 번 숨을 고르고 통화 버튼을 눌렀다.</div>
+  </div>
+</div>
+<div class="event-card" style="margin-left:224px">
   <div class="event-id">story_prologue_dad</div>
   <div class="event-title">전화</div>
-  <div class="event-desc">폰이 울린다. 화면에 '아버지'.<br><br>받을까 말까 잠깐 망설이다, 받는다.<br><br>"어, 아들. 일어났나."<br>"네."<br><br>잠깐의 침묵. 아버지는 늘 할 말을 미리 정해두지 않는다.<br><br>"...밥은 먹었고?"<br><br>그 한 마디에 6년이 들어있다.<br>미안함, 부끄러움, 그리고 차마 못 하는 말들.</div>
-  <div class="event-meta">배경: goshiwon_room | 인물: father_normal</div>
+  <div class="event-desc">정류장 지붕을 겨울비가 두드렸다. {name}은 젖은 손바닥으로 통화 버튼을 눌렀다. 화면에는 '아버지'.<br><br>"어, 아들. 어디냐."<br>"정류장이요."<br><br>수화기 너머로 텔레비전 소리가 작게 새어 왔다. 아버지는 늘 본론보다 침묵을 먼저 보냈다.<br><br>"...밥은 먹었고?"<br><br>취직도, 돈도, 서울 생활도 묻지 않았다. 그런데 그 한마디 안에 여섯 해가 전부 들어 있었다. 미안함과 부끄러움, 서로 먼저 꺼내지 못한 말들. 대답하기도 전에 빈속이 들킨 것 같았다.</div>
+  <div class="event-meta">배경: street_rainy_bus_stop_wallet | 인물: father_home</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> &quot;먹었어요. 아버지도 끼니 거르지 마세요.&quot;
-      <span class="effects">[mental: +5]</span>
+      <span class="effects">[mental: +5, tint: +2]</span>
       <span class="follow-up">→ story_prologue_goal</span>
     </div>
-    <div class="result-text">거짓말이었다. 아직 아무것도 못 먹었다.<br>근데 아버지가 그 거짓말에 안심하는 게 느껴졌다.<br>"그래... 아빠가 미안하다."<br>"미안하긴요."<br>전화를 끊고, {name}은 한참 천장만 봤다.<br><br>[아버지와 가까워졌다 — 인연은 이 게임의 한 축이다.]</div>
+    <div class="result-text">거짓말이었다. 오늘 저녁이라고 부를 만한 건 아직 없었다.<br><br>"먹었어요. 아버지도 끼니 거르지 마세요."<br>수화기 너머 숨이 조금 놓이는 게 들렸다.<br>"그래... 아빠가 미안하다."<br>"미안하긴요."<br><br>전화를 끊자 버스가 들어왔다. {name}은 젖은 화면을 소매로 닦고 올라탔다. 서로를 안심시키려고 한 거짓말 두 개가 집까지 따라왔다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> &quot;바빠요. 나중에 통화해요.&quot; 짧게 끊는다
-      <span class="effects">[stress: +3, mental: -2]</span>
+      <span class="effects">[mental: -5, tint: -2]</span>
       <span class="follow-up">→ story_prologue_goal</span>
     </div>
-    <div class="result-text">빨리 끊었다. 길어지면 서로 할 말이 없어 더 아프니까.<br>폰을 내려놓고, {name}은 못 한 말을 삼켰다.<br>아버지의 목소리가 잠깐 머뭇거리던 게, 자꾸 마음에 걸렸다.<br><br>[아버지와 조금 멀어졌다 — 선택은 관계를 바꾼다.]</div>
+    <div class="result-text">"바빠요. 나중에 통화해요."<br><br>말을 겹쳐 전화를 끊었다. 길어지면 침묵이 생기고, 침묵 뒤에는 묻지 못한 것들이 나온다. 그게 싫었다.<br><br>꺼진 화면 위로 정류장 불빛과 자기 얼굴이 겹쳤다. 아버지가 마지막에 "그래"라고 하기 전, 아주 잠깐 숨을 멈춘 게 자꾸 들렸다. 버스가 도착하자 {name}은 대답 대신 올라탔다.</div>
   </div>
 </div>
-<div class="event-card" style="margin-left:64px">
+<div class="event-card" style="margin-left:256px">
   <div class="event-id">story_prologue_goal</div>
-  <div class="event-title">강남</div>
-  <div class="event-desc">전화를 끊고, {name}은 낡은 수첩을 편다.<br><br>맨 앞장에 한 줄이 적혀 있다.<br>아버지가 평생 모은 돈으로 사려던 집. 사기로 날아간 그 집.<br>— 강남 아파트.<br><br>아버지는 다시는 그 얘기를 꺼내지 않는다.<br>{name}도 묻지 않는다.<br>하지만 둘 다 안다. 그게 무엇을 의미하는지.<br><br>의사가 아버지에게 말했다. 무리하지 마시라고.<br>시간이 얼마나 남았는지는, 아무도 모른다.<br><br>{name}은 수첩에 숫자 하나를 적는다.<br>30억. 5년 안에.<br>불가능하다는 걸 안다. 그래서 — 시작한다.</div>
-  <div class="event-meta">배경: gangnam_day | 인물: player_normal</div>
+  <div class="event-title">수첩</div>
+  <div class="event-desc">고시원에 돌아온 뒤, {name}은 젖은 외투를 걸고 낡은 수첩을 편다.<br><br>아버지가 평생 모은 돈으로 사려던 집. 사기로 날아간 강남 아파트. 아버지는 다시는 그 얘기를 꺼내지 않았다.<br><br>의사는 무리하지 말라고 했지만, 남은 시간은 말해주지 않았다. 그래서 {name}이 스스로 기한을 정했다.<br><br>5년. 30억.<br><br>펜을 든 손이 숫자 앞에서 멈췄다. 무엇을 위한 돈인지, 그 문장은 직접 써야 했다.</div>
+  <div class="event-meta">배경: goshiwon_room | 인물: player_normal</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 수첩을 덮고, 일어선다
-      <span class="effects">[mental: +6, stress: -3]</span>
+      <span class="choice-num">선택 1</span> 아버지에게 다시 집을 마련해 드린다
+      <span class="effects">[mental: +5]</span>
+      <span class="flags">🚩 notebook_motive_family</span>
       <span class="follow-up">→ story_prologue_meal</span>
     </div>
-    <div class="result-text">목표는 정해졌다.<br>방법은 아직 없다. 돈도, 빽도, 시간도 부족하다.<br>그래도 — 멈추면 끝이다. {name}은 신발을 신었다.</div>
+    <div class="result-text">{name}은 첫 줄에 적었다.<br><br>아버지에게 다시 집을 마련해 드린다.<br><br>그 아래에 30억, 그리고 5년. 방법은 아직 없었다. 다만 그 돈을 벌려는 이유만큼은 분명해졌다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 2</span> 우리를 무너뜨린 세계에 내 이름으로 선다
+      <span class="effects">[mental: +3]</span>
+      <span class="flags">🚩 notebook_motive_proof</span>
+      <span class="follow-up">→ story_prologue_meal</span>
+    </div>
+    <div class="result-text">{name}은 첫 줄에 적었다.<br><br>우리를 무너뜨린 세계에 내 이름으로 선다.<br><br>그 아래에 30억, 그리고 5년. 서류 끝에 쓰이던 이름이 아니라, 문 앞에 선 자기 이름을 남기고 싶었다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 3</span> 다시는 돈 앞에 무릎 꿇지 않는다
+      <span class="effects">[mental: +4]</span>
+      <span class="flags">🚩 notebook_motive_survival</span>
+      <span class="follow-up">→ story_prologue_meal</span>
+    </div>
+    <div class="result-text">{name}은 첫 줄에 적었다.<br><br>다시는 돈 앞에 무릎 꿇지 않는다.<br><br>그 아래에 30억, 그리고 5년. 문틈으로 본 장판의 냉기가 아직 발밑에 남아 있었다.</div>
   </div>
 </div>
-<div class="event-card" style="margin-left:96px">
+<div class="event-card" style="margin-left:288px">
   <div class="event-id">story_prologue_meal</div>
   <div class="event-title">첫 끼니</div>
-  <div class="event-desc">고시원을 나와 편의점에 들른다.<br><br>통장 잔고를 떠올린다. 50만원.<br>다음 달 고시원비가 65만원. 이미 적자다.<br><br>진열대 앞에서 {name}은 계산한다.<br>삼각김밥 하나 1,200원. 이것도 아껴야 하나.<br><br>하루에 쓸 수 있는 돈이 만원이 안 된다.<br>매 끼니가, 매 선택이 — 통장에 그대로 찍힌다.<br><br>그게 지금 {name}의 현실이다.</div>
+  <div class="event-desc">고시원을 나와 편의점에 들른다.<br><br>통장 잔고를 떠올린다. 50만원.<br>다음 달 고시원비가 65만원. 이미 적자다.<br><br>진열대 앞에서 {name}은 계산한다.<br>삼각김밥 하나 1,200원. 이것도 아껴야 하나.<br><br>하루에 쓸 수 있는 돈은 1만원도 안 됐다. {name}은 삼각김밥을 든 채 계산대와 출입문을 번갈아 봤다.</div>
   <div class="event-meta">배경: convenience_night | 인물: player_normal</div>
   <div class="choice">
     <div class="choice-header">
@@ -123,21 +261,21 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
       <span class="effects">[money: -1200, health: +3]</span>
       <span class="follow-up">→ story_pressure</span>
     </div>
-    <div class="result-text">참치마요 하나를 집어 계산한다.<br>천 원 조금 넘는 돈이 통장에서 빠져나간다.<br><br>[선택이 자원을 바꾼다 — 돈, 체력, 정신력. 모든 선택에 대가가 있다.]</div>
+    <div class="result-text">참치마요 하나를 집어 계산한다.<br>영수증 아래 잔액이 1,200원 줄었다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 오늘은 굶는다. 한 푼이라도 아낀다
-      <span class="effects">[health: -5, stress: +4, mental: -2]</span>
+      <span class="effects">[health: -5, mental: -6]</span>
       <span class="follow-up">→ story_pressure</span>
     </div>
-    <div class="result-text">빈손으로 편의점을 나선다.<br>배에서 소리가 났지만, 통장은 지켰다.<br><br>[선택이 자원을 바꾼다 — 아끼면 돈이 남고, 몸이 상한다. 균형이 관건이다.]</div>
+    <div class="result-text">빈손으로 편의점을 나선다.<br>배에서 소리가 났다. 편의점 불빛이 등 뒤로 멀어졌다.</div>
   </div>
 </div>
-<div class="event-card" style="margin-left:128px">
+<div class="event-card" style="margin-left:320px">
   <div class="event-id">story_pressure</div>
   <div class="event-title">더는 못 미룬다</div>
-  <div class="event-desc">보름이 지났다.<br><br>통장은 이미 줄고 있다. 수입은 0원.<br>이대로면 한 달도 못 버틴다.<br><br>고등학교 단톡방에 또 결혼 소식이 올라온다.<br>{name}은 '축하해'를 치고 폰을 뒤집는다.<br><br>분명한 건 하나다.<br>뭐라도 — 당장 시작해야 한다.<br>구직이든, 알바든, 무엇이든.<br><br>이제, {name}이 움직일 차례다.</div>
+  <div class="event-desc">보름이 지났다.<br><br>통장은 이미 줄고 있다. 수입은 0원.<br>이대로면 한 달도 못 버틴다.<br><br>고등학교 단톡방에 또 결혼 소식이 올라온다.<br>{name}은 '축하해'를 치고 폰을 뒤집는다.<br><br>잠시 뒤 폰을 다시 들었다. 홈 화면의 구인 앱 아이콘 위에서 손가락이 멈췄다.</div>
   <div class="event-meta">배경: goshiwon_room | 인물: player_tired</div>
   <div class="choice">
     <div class="choice-header">
@@ -145,7 +283,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
       <span class="effects">[intelligence: +2]</span>
       <span class="flags">🚩 story_job_unlocked</span>
     </div>
-    <div class="result-text">편의점, 배달, 카페, 중소기업 사무직...<br>처음으로 '일'이 현실적인 선택지로 느껴졌다.<br>{name}은 지원 버튼에 손을 올린다.<br><br>[이제 매달, 직접 행동을 골라야 한다.<br>다음 화면에서 — 첫 행동을 시작하라.]</div>
+    <div class="result-text">편의점, 배달, 카페, 중소기업 사무직...<br>{name}은 첫 공고의 지원 버튼 위에 손을 올렸다.</div>
   </div>
 </div>
   </div>
@@ -158,43 +296,62 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">story_prologue_dad</div>
   <div class="event-title">전화</div>
-  <div class="event-desc">폰이 울린다. 화면에 '아버지'.<br><br>받을까 말까 잠깐 망설이다, 받는다.<br><br>"어, 아들. 일어났나."<br>"네."<br><br>잠깐의 침묵. 아버지는 늘 할 말을 미리 정해두지 않는다.<br><br>"...밥은 먹었고?"<br><br>그 한 마디에 6년이 들어있다.<br>미안함, 부끄러움, 그리고 차마 못 하는 말들.</div>
-  <div class="event-meta">배경: goshiwon_room | 인물: father_normal</div>
+  <div class="event-desc">정류장 지붕을 겨울비가 두드렸다. {name}은 젖은 손바닥으로 통화 버튼을 눌렀다. 화면에는 '아버지'.<br><br>"어, 아들. 어디냐."<br>"정류장이요."<br><br>수화기 너머로 텔레비전 소리가 작게 새어 왔다. 아버지는 늘 본론보다 침묵을 먼저 보냈다.<br><br>"...밥은 먹었고?"<br><br>취직도, 돈도, 서울 생활도 묻지 않았다. 그런데 그 한마디 안에 여섯 해가 전부 들어 있었다. 미안함과 부끄러움, 서로 먼저 꺼내지 못한 말들. 대답하기도 전에 빈속이 들킨 것 같았다.</div>
+  <div class="event-meta">배경: street_rainy_bus_stop_wallet | 인물: father_home</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> &quot;먹었어요. 아버지도 끼니 거르지 마세요.&quot;
-      <span class="effects">[mental: +5]</span>
+      <span class="effects">[mental: +5, tint: +2]</span>
       <span class="follow-up">→ story_prologue_goal</span>
     </div>
-    <div class="result-text">거짓말이었다. 아직 아무것도 못 먹었다.<br>근데 아버지가 그 거짓말에 안심하는 게 느껴졌다.<br>"그래... 아빠가 미안하다."<br>"미안하긴요."<br>전화를 끊고, {name}은 한참 천장만 봤다.<br><br>[아버지와 가까워졌다 — 인연은 이 게임의 한 축이다.]</div>
+    <div class="result-text">거짓말이었다. 오늘 저녁이라고 부를 만한 건 아직 없었다.<br><br>"먹었어요. 아버지도 끼니 거르지 마세요."<br>수화기 너머 숨이 조금 놓이는 게 들렸다.<br>"그래... 아빠가 미안하다."<br>"미안하긴요."<br><br>전화를 끊자 버스가 들어왔다. {name}은 젖은 화면을 소매로 닦고 올라탔다. 서로를 안심시키려고 한 거짓말 두 개가 집까지 따라왔다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> &quot;바빠요. 나중에 통화해요.&quot; 짧게 끊는다
-      <span class="effects">[stress: +3, mental: -2]</span>
+      <span class="effects">[mental: -5, tint: -2]</span>
       <span class="follow-up">→ story_prologue_goal</span>
     </div>
-    <div class="result-text">빨리 끊었다. 길어지면 서로 할 말이 없어 더 아프니까.<br>폰을 내려놓고, {name}은 못 한 말을 삼켰다.<br>아버지의 목소리가 잠깐 머뭇거리던 게, 자꾸 마음에 걸렸다.<br><br>[아버지와 조금 멀어졌다 — 선택은 관계를 바꾼다.]</div>
+    <div class="result-text">"바빠요. 나중에 통화해요."<br><br>말을 겹쳐 전화를 끊었다. 길어지면 침묵이 생기고, 침묵 뒤에는 묻지 못한 것들이 나온다. 그게 싫었다.<br><br>꺼진 화면 위로 정류장 불빛과 자기 얼굴이 겹쳤다. 아버지가 마지막에 "그래"라고 하기 전, 아주 잠깐 숨을 멈춘 게 자꾸 들렸다. 버스가 도착하자 {name}은 대답 대신 올라탔다.</div>
   </div>
 </div>
 <div class="event-card" style="margin-left:32px">
   <div class="event-id">story_prologue_goal</div>
-  <div class="event-title">강남</div>
-  <div class="event-desc">전화를 끊고, {name}은 낡은 수첩을 편다.<br><br>맨 앞장에 한 줄이 적혀 있다.<br>아버지가 평생 모은 돈으로 사려던 집. 사기로 날아간 그 집.<br>— 강남 아파트.<br><br>아버지는 다시는 그 얘기를 꺼내지 않는다.<br>{name}도 묻지 않는다.<br>하지만 둘 다 안다. 그게 무엇을 의미하는지.<br><br>의사가 아버지에게 말했다. 무리하지 마시라고.<br>시간이 얼마나 남았는지는, 아무도 모른다.<br><br>{name}은 수첩에 숫자 하나를 적는다.<br>30억. 5년 안에.<br>불가능하다는 걸 안다. 그래서 — 시작한다.</div>
-  <div class="event-meta">배경: gangnam_day | 인물: player_normal</div>
+  <div class="event-title">수첩</div>
+  <div class="event-desc">고시원에 돌아온 뒤, {name}은 젖은 외투를 걸고 낡은 수첩을 편다.<br><br>아버지가 평생 모은 돈으로 사려던 집. 사기로 날아간 강남 아파트. 아버지는 다시는 그 얘기를 꺼내지 않았다.<br><br>의사는 무리하지 말라고 했지만, 남은 시간은 말해주지 않았다. 그래서 {name}이 스스로 기한을 정했다.<br><br>5년. 30억.<br><br>펜을 든 손이 숫자 앞에서 멈췄다. 무엇을 위한 돈인지, 그 문장은 직접 써야 했다.</div>
+  <div class="event-meta">배경: goshiwon_room | 인물: player_normal</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 수첩을 덮고, 일어선다
-      <span class="effects">[mental: +6, stress: -3]</span>
+      <span class="choice-num">선택 1</span> 아버지에게 다시 집을 마련해 드린다
+      <span class="effects">[mental: +5]</span>
+      <span class="flags">🚩 notebook_motive_family</span>
       <span class="follow-up">→ story_prologue_meal</span>
     </div>
-    <div class="result-text">목표는 정해졌다.<br>방법은 아직 없다. 돈도, 빽도, 시간도 부족하다.<br>그래도 — 멈추면 끝이다. {name}은 신발을 신었다.</div>
+    <div class="result-text">{name}은 첫 줄에 적었다.<br><br>아버지에게 다시 집을 마련해 드린다.<br><br>그 아래에 30억, 그리고 5년. 방법은 아직 없었다. 다만 그 돈을 벌려는 이유만큼은 분명해졌다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 2</span> 우리를 무너뜨린 세계에 내 이름으로 선다
+      <span class="effects">[mental: +3]</span>
+      <span class="flags">🚩 notebook_motive_proof</span>
+      <span class="follow-up">→ story_prologue_meal</span>
+    </div>
+    <div class="result-text">{name}은 첫 줄에 적었다.<br><br>우리를 무너뜨린 세계에 내 이름으로 선다.<br><br>그 아래에 30억, 그리고 5년. 서류 끝에 쓰이던 이름이 아니라, 문 앞에 선 자기 이름을 남기고 싶었다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 3</span> 다시는 돈 앞에 무릎 꿇지 않는다
+      <span class="effects">[mental: +4]</span>
+      <span class="flags">🚩 notebook_motive_survival</span>
+      <span class="follow-up">→ story_prologue_meal</span>
+    </div>
+    <div class="result-text">{name}은 첫 줄에 적었다.<br><br>다시는 돈 앞에 무릎 꿇지 않는다.<br><br>그 아래에 30억, 그리고 5년. 문틈으로 본 장판의 냉기가 아직 발밑에 남아 있었다.</div>
   </div>
 </div>
 <div class="event-card" style="margin-left:64px">
   <div class="event-id">story_prologue_meal</div>
   <div class="event-title">첫 끼니</div>
-  <div class="event-desc">고시원을 나와 편의점에 들른다.<br><br>통장 잔고를 떠올린다. 50만원.<br>다음 달 고시원비가 65만원. 이미 적자다.<br><br>진열대 앞에서 {name}은 계산한다.<br>삼각김밥 하나 1,200원. 이것도 아껴야 하나.<br><br>하루에 쓸 수 있는 돈이 만원이 안 된다.<br>매 끼니가, 매 선택이 — 통장에 그대로 찍힌다.<br><br>그게 지금 {name}의 현실이다.</div>
+  <div class="event-desc">고시원을 나와 편의점에 들른다.<br><br>통장 잔고를 떠올린다. 50만원.<br>다음 달 고시원비가 65만원. 이미 적자다.<br><br>진열대 앞에서 {name}은 계산한다.<br>삼각김밥 하나 1,200원. 이것도 아껴야 하나.<br><br>하루에 쓸 수 있는 돈은 1만원도 안 됐다. {name}은 삼각김밥을 든 채 계산대와 출입문을 번갈아 봤다.</div>
   <div class="event-meta">배경: convenience_night | 인물: player_normal</div>
   <div class="choice">
     <div class="choice-header">
@@ -202,21 +359,21 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
       <span class="effects">[money: -1200, health: +3]</span>
       <span class="follow-up">→ story_pressure</span>
     </div>
-    <div class="result-text">참치마요 하나를 집어 계산한다.<br>천 원 조금 넘는 돈이 통장에서 빠져나간다.<br><br>[선택이 자원을 바꾼다 — 돈, 체력, 정신력. 모든 선택에 대가가 있다.]</div>
+    <div class="result-text">참치마요 하나를 집어 계산한다.<br>영수증 아래 잔액이 1,200원 줄었다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 오늘은 굶는다. 한 푼이라도 아낀다
-      <span class="effects">[health: -5, stress: +4, mental: -2]</span>
+      <span class="effects">[health: -5, mental: -6]</span>
       <span class="follow-up">→ story_pressure</span>
     </div>
-    <div class="result-text">빈손으로 편의점을 나선다.<br>배에서 소리가 났지만, 통장은 지켰다.<br><br>[선택이 자원을 바꾼다 — 아끼면 돈이 남고, 몸이 상한다. 균형이 관건이다.]</div>
+    <div class="result-text">빈손으로 편의점을 나선다.<br>배에서 소리가 났다. 편의점 불빛이 등 뒤로 멀어졌다.</div>
   </div>
 </div>
 <div class="event-card" style="margin-left:96px">
   <div class="event-id">story_pressure</div>
   <div class="event-title">더는 못 미룬다</div>
-  <div class="event-desc">보름이 지났다.<br><br>통장은 이미 줄고 있다. 수입은 0원.<br>이대로면 한 달도 못 버틴다.<br><br>고등학교 단톡방에 또 결혼 소식이 올라온다.<br>{name}은 '축하해'를 치고 폰을 뒤집는다.<br><br>분명한 건 하나다.<br>뭐라도 — 당장 시작해야 한다.<br>구직이든, 알바든, 무엇이든.<br><br>이제, {name}이 움직일 차례다.</div>
+  <div class="event-desc">보름이 지났다.<br><br>통장은 이미 줄고 있다. 수입은 0원.<br>이대로면 한 달도 못 버틴다.<br><br>고등학교 단톡방에 또 결혼 소식이 올라온다.<br>{name}은 '축하해'를 치고 폰을 뒤집는다.<br><br>잠시 뒤 폰을 다시 들었다. 홈 화면의 구인 앱 아이콘 위에서 손가락이 멈췄다.</div>
   <div class="event-meta">배경: goshiwon_room | 인물: player_tired</div>
   <div class="choice">
     <div class="choice-header">
@@ -224,7 +381,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
       <span class="effects">[intelligence: +2]</span>
       <span class="flags">🚩 story_job_unlocked</span>
     </div>
-    <div class="result-text">편의점, 배달, 카페, 중소기업 사무직...<br>처음으로 '일'이 현실적인 선택지로 느껴졌다.<br>{name}은 지원 버튼에 손을 올린다.<br><br>[이제 매달, 직접 행동을 골라야 한다.<br>다음 화면에서 — 첫 행동을 시작하라.]</div>
+    <div class="result-text">편의점, 배달, 카페, 중소기업 사무직...<br>{name}은 첫 공고의 지원 버튼 위에 손을 올렸다.</div>
   </div>
 </div>
   </div>
@@ -236,22 +393,41 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="arc-body">
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">story_prologue_goal</div>
-  <div class="event-title">강남</div>
-  <div class="event-desc">전화를 끊고, {name}은 낡은 수첩을 편다.<br><br>맨 앞장에 한 줄이 적혀 있다.<br>아버지가 평생 모은 돈으로 사려던 집. 사기로 날아간 그 집.<br>— 강남 아파트.<br><br>아버지는 다시는 그 얘기를 꺼내지 않는다.<br>{name}도 묻지 않는다.<br>하지만 둘 다 안다. 그게 무엇을 의미하는지.<br><br>의사가 아버지에게 말했다. 무리하지 마시라고.<br>시간이 얼마나 남았는지는, 아무도 모른다.<br><br>{name}은 수첩에 숫자 하나를 적는다.<br>30억. 5년 안에.<br>불가능하다는 걸 안다. 그래서 — 시작한다.</div>
-  <div class="event-meta">배경: gangnam_day | 인물: player_normal</div>
+  <div class="event-title">수첩</div>
+  <div class="event-desc">고시원에 돌아온 뒤, {name}은 젖은 외투를 걸고 낡은 수첩을 편다.<br><br>아버지가 평생 모은 돈으로 사려던 집. 사기로 날아간 강남 아파트. 아버지는 다시는 그 얘기를 꺼내지 않았다.<br><br>의사는 무리하지 말라고 했지만, 남은 시간은 말해주지 않았다. 그래서 {name}이 스스로 기한을 정했다.<br><br>5년. 30억.<br><br>펜을 든 손이 숫자 앞에서 멈췄다. 무엇을 위한 돈인지, 그 문장은 직접 써야 했다.</div>
+  <div class="event-meta">배경: goshiwon_room | 인물: player_normal</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 수첩을 덮고, 일어선다
-      <span class="effects">[mental: +6, stress: -3]</span>
+      <span class="choice-num">선택 1</span> 아버지에게 다시 집을 마련해 드린다
+      <span class="effects">[mental: +5]</span>
+      <span class="flags">🚩 notebook_motive_family</span>
       <span class="follow-up">→ story_prologue_meal</span>
     </div>
-    <div class="result-text">목표는 정해졌다.<br>방법은 아직 없다. 돈도, 빽도, 시간도 부족하다.<br>그래도 — 멈추면 끝이다. {name}은 신발을 신었다.</div>
+    <div class="result-text">{name}은 첫 줄에 적었다.<br><br>아버지에게 다시 집을 마련해 드린다.<br><br>그 아래에 30억, 그리고 5년. 방법은 아직 없었다. 다만 그 돈을 벌려는 이유만큼은 분명해졌다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 2</span> 우리를 무너뜨린 세계에 내 이름으로 선다
+      <span class="effects">[mental: +3]</span>
+      <span class="flags">🚩 notebook_motive_proof</span>
+      <span class="follow-up">→ story_prologue_meal</span>
+    </div>
+    <div class="result-text">{name}은 첫 줄에 적었다.<br><br>우리를 무너뜨린 세계에 내 이름으로 선다.<br><br>그 아래에 30억, 그리고 5년. 서류 끝에 쓰이던 이름이 아니라, 문 앞에 선 자기 이름을 남기고 싶었다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 3</span> 다시는 돈 앞에 무릎 꿇지 않는다
+      <span class="effects">[mental: +4]</span>
+      <span class="flags">🚩 notebook_motive_survival</span>
+      <span class="follow-up">→ story_prologue_meal</span>
+    </div>
+    <div class="result-text">{name}은 첫 줄에 적었다.<br><br>다시는 돈 앞에 무릎 꿇지 않는다.<br><br>그 아래에 30억, 그리고 5년. 문틈으로 본 장판의 냉기가 아직 발밑에 남아 있었다.</div>
   </div>
 </div>
 <div class="event-card" style="margin-left:32px">
   <div class="event-id">story_prologue_meal</div>
   <div class="event-title">첫 끼니</div>
-  <div class="event-desc">고시원을 나와 편의점에 들른다.<br><br>통장 잔고를 떠올린다. 50만원.<br>다음 달 고시원비가 65만원. 이미 적자다.<br><br>진열대 앞에서 {name}은 계산한다.<br>삼각김밥 하나 1,200원. 이것도 아껴야 하나.<br><br>하루에 쓸 수 있는 돈이 만원이 안 된다.<br>매 끼니가, 매 선택이 — 통장에 그대로 찍힌다.<br><br>그게 지금 {name}의 현실이다.</div>
+  <div class="event-desc">고시원을 나와 편의점에 들른다.<br><br>통장 잔고를 떠올린다. 50만원.<br>다음 달 고시원비가 65만원. 이미 적자다.<br><br>진열대 앞에서 {name}은 계산한다.<br>삼각김밥 하나 1,200원. 이것도 아껴야 하나.<br><br>하루에 쓸 수 있는 돈은 1만원도 안 됐다. {name}은 삼각김밥을 든 채 계산대와 출입문을 번갈아 봤다.</div>
   <div class="event-meta">배경: convenience_night | 인물: player_normal</div>
   <div class="choice">
     <div class="choice-header">
@@ -259,21 +435,21 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
       <span class="effects">[money: -1200, health: +3]</span>
       <span class="follow-up">→ story_pressure</span>
     </div>
-    <div class="result-text">참치마요 하나를 집어 계산한다.<br>천 원 조금 넘는 돈이 통장에서 빠져나간다.<br><br>[선택이 자원을 바꾼다 — 돈, 체력, 정신력. 모든 선택에 대가가 있다.]</div>
+    <div class="result-text">참치마요 하나를 집어 계산한다.<br>영수증 아래 잔액이 1,200원 줄었다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 오늘은 굶는다. 한 푼이라도 아낀다
-      <span class="effects">[health: -5, stress: +4, mental: -2]</span>
+      <span class="effects">[health: -5, mental: -6]</span>
       <span class="follow-up">→ story_pressure</span>
     </div>
-    <div class="result-text">빈손으로 편의점을 나선다.<br>배에서 소리가 났지만, 통장은 지켰다.<br><br>[선택이 자원을 바꾼다 — 아끼면 돈이 남고, 몸이 상한다. 균형이 관건이다.]</div>
+    <div class="result-text">빈손으로 편의점을 나선다.<br>배에서 소리가 났다. 편의점 불빛이 등 뒤로 멀어졌다.</div>
   </div>
 </div>
 <div class="event-card" style="margin-left:64px">
   <div class="event-id">story_pressure</div>
   <div class="event-title">더는 못 미룬다</div>
-  <div class="event-desc">보름이 지났다.<br><br>통장은 이미 줄고 있다. 수입은 0원.<br>이대로면 한 달도 못 버틴다.<br><br>고등학교 단톡방에 또 결혼 소식이 올라온다.<br>{name}은 '축하해'를 치고 폰을 뒤집는다.<br><br>분명한 건 하나다.<br>뭐라도 — 당장 시작해야 한다.<br>구직이든, 알바든, 무엇이든.<br><br>이제, {name}이 움직일 차례다.</div>
+  <div class="event-desc">보름이 지났다.<br><br>통장은 이미 줄고 있다. 수입은 0원.<br>이대로면 한 달도 못 버틴다.<br><br>고등학교 단톡방에 또 결혼 소식이 올라온다.<br>{name}은 '축하해'를 치고 폰을 뒤집는다.<br><br>잠시 뒤 폰을 다시 들었다. 홈 화면의 구인 앱 아이콘 위에서 손가락이 멈췄다.</div>
   <div class="event-meta">배경: goshiwon_room | 인물: player_tired</div>
   <div class="choice">
     <div class="choice-header">
@@ -281,7 +457,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
       <span class="effects">[intelligence: +2]</span>
       <span class="flags">🚩 story_job_unlocked</span>
     </div>
-    <div class="result-text">편의점, 배달, 카페, 중소기업 사무직...<br>처음으로 '일'이 현실적인 선택지로 느껴졌다.<br>{name}은 지원 버튼에 손을 올린다.<br><br>[이제 매달, 직접 행동을 골라야 한다.<br>다음 화면에서 — 첫 행동을 시작하라.]</div>
+    <div class="result-text">편의점, 배달, 카페, 중소기업 사무직...<br>{name}은 첫 공고의 지원 버튼 위에 손을 올렸다.</div>
   </div>
 </div>
   </div>
@@ -294,7 +470,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">story_prologue_meal</div>
   <div class="event-title">첫 끼니</div>
-  <div class="event-desc">고시원을 나와 편의점에 들른다.<br><br>통장 잔고를 떠올린다. 50만원.<br>다음 달 고시원비가 65만원. 이미 적자다.<br><br>진열대 앞에서 {name}은 계산한다.<br>삼각김밥 하나 1,200원. 이것도 아껴야 하나.<br><br>하루에 쓸 수 있는 돈이 만원이 안 된다.<br>매 끼니가, 매 선택이 — 통장에 그대로 찍힌다.<br><br>그게 지금 {name}의 현실이다.</div>
+  <div class="event-desc">고시원을 나와 편의점에 들른다.<br><br>통장 잔고를 떠올린다. 50만원.<br>다음 달 고시원비가 65만원. 이미 적자다.<br><br>진열대 앞에서 {name}은 계산한다.<br>삼각김밥 하나 1,200원. 이것도 아껴야 하나.<br><br>하루에 쓸 수 있는 돈은 1만원도 안 됐다. {name}은 삼각김밥을 든 채 계산대와 출입문을 번갈아 봤다.</div>
   <div class="event-meta">배경: convenience_night | 인물: player_normal</div>
   <div class="choice">
     <div class="choice-header">
@@ -302,21 +478,21 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
       <span class="effects">[money: -1200, health: +3]</span>
       <span class="follow-up">→ story_pressure</span>
     </div>
-    <div class="result-text">참치마요 하나를 집어 계산한다.<br>천 원 조금 넘는 돈이 통장에서 빠져나간다.<br><br>[선택이 자원을 바꾼다 — 돈, 체력, 정신력. 모든 선택에 대가가 있다.]</div>
+    <div class="result-text">참치마요 하나를 집어 계산한다.<br>영수증 아래 잔액이 1,200원 줄었다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 오늘은 굶는다. 한 푼이라도 아낀다
-      <span class="effects">[health: -5, stress: +4, mental: -2]</span>
+      <span class="effects">[health: -5, mental: -6]</span>
       <span class="follow-up">→ story_pressure</span>
     </div>
-    <div class="result-text">빈손으로 편의점을 나선다.<br>배에서 소리가 났지만, 통장은 지켰다.<br><br>[선택이 자원을 바꾼다 — 아끼면 돈이 남고, 몸이 상한다. 균형이 관건이다.]</div>
+    <div class="result-text">빈손으로 편의점을 나선다.<br>배에서 소리가 났다. 편의점 불빛이 등 뒤로 멀어졌다.</div>
   </div>
 </div>
 <div class="event-card" style="margin-left:32px">
   <div class="event-id">story_pressure</div>
   <div class="event-title">더는 못 미룬다</div>
-  <div class="event-desc">보름이 지났다.<br><br>통장은 이미 줄고 있다. 수입은 0원.<br>이대로면 한 달도 못 버틴다.<br><br>고등학교 단톡방에 또 결혼 소식이 올라온다.<br>{name}은 '축하해'를 치고 폰을 뒤집는다.<br><br>분명한 건 하나다.<br>뭐라도 — 당장 시작해야 한다.<br>구직이든, 알바든, 무엇이든.<br><br>이제, {name}이 움직일 차례다.</div>
+  <div class="event-desc">보름이 지났다.<br><br>통장은 이미 줄고 있다. 수입은 0원.<br>이대로면 한 달도 못 버틴다.<br><br>고등학교 단톡방에 또 결혼 소식이 올라온다.<br>{name}은 '축하해'를 치고 폰을 뒤집는다.<br><br>잠시 뒤 폰을 다시 들었다. 홈 화면의 구인 앱 아이콘 위에서 손가락이 멈췄다.</div>
   <div class="event-meta">배경: goshiwon_room | 인물: player_tired</div>
   <div class="choice">
     <div class="choice-header">
@@ -324,7 +500,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
       <span class="effects">[intelligence: +2]</span>
       <span class="flags">🚩 story_job_unlocked</span>
     </div>
-    <div class="result-text">편의점, 배달, 카페, 중소기업 사무직...<br>처음으로 '일'이 현실적인 선택지로 느껴졌다.<br>{name}은 지원 버튼에 손을 올린다.<br><br>[이제 매달, 직접 행동을 골라야 한다.<br>다음 화면에서 — 첫 행동을 시작하라.]</div>
+    <div class="result-text">편의점, 배달, 카페, 중소기업 사무직...<br>{name}은 첫 공고의 지원 버튼 위에 손을 올렸다.</div>
   </div>
 </div>
   </div>
@@ -337,7 +513,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">story_pressure</div>
   <div class="event-title">더는 못 미룬다</div>
-  <div class="event-desc">보름이 지났다.<br><br>통장은 이미 줄고 있다. 수입은 0원.<br>이대로면 한 달도 못 버틴다.<br><br>고등학교 단톡방에 또 결혼 소식이 올라온다.<br>{name}은 '축하해'를 치고 폰을 뒤집는다.<br><br>분명한 건 하나다.<br>뭐라도 — 당장 시작해야 한다.<br>구직이든, 알바든, 무엇이든.<br><br>이제, {name}이 움직일 차례다.</div>
+  <div class="event-desc">보름이 지났다.<br><br>통장은 이미 줄고 있다. 수입은 0원.<br>이대로면 한 달도 못 버틴다.<br><br>고등학교 단톡방에 또 결혼 소식이 올라온다.<br>{name}은 '축하해'를 치고 폰을 뒤집는다.<br><br>잠시 뒤 폰을 다시 들었다. 홈 화면의 구인 앱 아이콘 위에서 손가락이 멈췄다.</div>
   <div class="event-meta">배경: goshiwon_room | 인물: player_tired</div>
   <div class="choice">
     <div class="choice-header">
@@ -345,36 +521,89 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
       <span class="effects">[intelligence: +2]</span>
       <span class="flags">🚩 story_job_unlocked</span>
     </div>
-    <div class="result-text">편의점, 배달, 카페, 중소기업 사무직...<br>처음으로 '일'이 현실적인 선택지로 느껴졌다.<br>{name}은 지원 버튼에 손을 올린다.<br><br>[이제 매달, 직접 행동을 골라야 한다.<br>다음 화면에서 — 첫 행동을 시작하라.]</div>
+    <div class="result-text">편의점, 배달, 카페, 중소기업 사무직...<br>{name}은 첫 공고의 지원 버튼 위에 손을 올렸다.</div>
+  </div>
+</div>
+  </div>
+</div><div class="arc-section" id="arc-v2_opening_application_send" style="border-color:#e8a000;background:#1a1200">
+  <div class="arc-header" style="color:#e8a000" onclick="toggle(this)">
+    <span class="arc-type">[prologue]</span> V2 새 진입: 실제 지원 <span class="condition">조건: 첫 계획 전</span>
+    <span class="arc-count">1단계</span>
+  </div>
+  <div class="arc-body">
+<div class="event-card" style="margin-left:0px">
+  <div class="event-id">v2_opening_application_send</div>
+  <div class="event-title">더는 못 미룬다</div>
+  <div class="event-desc">보름이 지났다.<br><br>통장 잔고는 계속 줄고 있었다. 들어오는 돈은 없었다. 이대로면 한 달도 못 버틴다.<br><br>고등학교 단톡방에 또 결혼 소식이 올라왔다. {name}은 ‘축하해’를 치고 폰을 뒤집었다. 잠시 뒤, 폰을 다시 들고 구인 앱을 켰다.<br><br>편의점, 배달, 카페, 중소기업 사무직. 공고 목록을 내리던 손가락이 한 곳에서 멈췄다. ‘(주)미래산업기술 사무보조.’ 주 4일 계약직. 경력 무관. 엑셀 가능자. 마포구.<br><br>{name}은 육 년 공백이 적힌 이력서 파일을 불러왔다. 가족 빚이라는 말까지 쓰지는 않았다. 화면 아래에는 지원 버튼이 남아 있었다.</div>
+  <div class="event-meta">배경: goshiwon_room | 인물: player_tired</div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 1</span> 미래산업기술에 지원서를 보낸다
+      <span class="effects">[intelligence: +2]</span>
+      <span class="flags">🚩 story_job_unlocked, opening_interview_application_sent, opening_preplan_application_sent</span>
+    </div>
+    <div class="result-text">{name}은 지원 버튼을 눌렀다. 화면에 ‘접수 완료 · 오전 9:14’가 떴다.</div>
   </div>
 </div>
   </div>
 </div><div class="section-title">intro</div><div class="arc-section" id="arc-arc_intro_01_meal" style="border-color:#c678dd;background:#1a0a1a">
   <div class="arc-header" style="color:#c678dd" onclick="toggle(this)">
     <span class="arc-type">[intro]</span> 인트로: 첫 끼니 <span class="condition">조건: t≥2</span>
-    <span class="arc-count">1단계</span>
+    <span class="arc-count">2단계</span>
   </div>
   <div class="arc-body">
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_intro_01_meal</div>
   <div class="event-title">첫 면접</div>
-  <div class="event-desc">구인 앱으로 지원한 곳에서 연락이 왔다.<br><br>마포구 작은 사무실. 3층. 엘리베이터 없음.<br>간판은 '(주)미래산업기술' — 무슨 회사인지 사이트에도 안 나온다.<br><br>면접관은 40대 초반 여자였다. 이력서를 들고 안경을 고쳐 쓰더니 천천히 훑었다.<br>에어컨 소리가 크게 울렸다. 밖에서 오토바이 소리가 한 번 지나갔다.<br><br>"여기 6년 공백이 있네요."<br><br>그녀가 이력서를 내려놓고 {name}을 봤다.<br>"뭐 하셨어요?"<br><br>빚을 갚았다고는 차마 말 못 한다.<br>보증 잘못 선 아버지 대신, 6년을.<br>그 6년을 어떻게 한 문장으로 만드나.<br><br>{name}의 손바닥에 땀이 났다.</div>
-  <div class="event-meta">배경: office | 인물: player_normal</div>
+  <div class="event-desc">지원서를 보낸 곳에서 연락이 왔다. 마포구. 3층. 엘리베이터 없음.<br><br>간판: '(주)미래산업기술'. 사이트엔 정보가 없었다. 검색해봤다. 블로그 두 개. 둘 다 2년 전에 멈춰 있었다.<br><br>면접관은 40대 초반. 이력서를 들고 안경을 고쳐 쓰더니 천천히 훑었다.<br>에어컨 소리. 오토바이 소리. 무언가를 기다리는 침묵.<br><br>"여기, 6년 공백이 있네요."<br><br>그 6년. 아버지 보증. 상대방 잠적. 나머지는 {name}이 갚았다.<br>그 6년을 한 문장으로 만들 수가 없었다.</div>
+  <div class="event-meta">배경: office_interview_day | 인물: player_suit</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 솔직하게 말한다 — &quot;집안 사정이 있었습니다&quot;
-      <span class="effects">[mental: +4, stress: +3, social_skill: +2]</span>
-      <span class="flags">🚩 arc_intro_meal_seen</span>
+      <span class="choice-num">선택 1</span> &quot;가족 빚을 갚고 있었습니다&quot; — 담담하게 말했다
+      <span class="effects">[mental: +2, social_skill: +2, reputation: +1, tint: +4]</span>
+      <span class="flags">🚩 arc_intro_meal_seen, told_truth_interview</span>
+      <span class="follow-up">→ arc_intro_02_dad_call</span>
     </div>
-    <div class="result-text">면접관이 잠깐 {name}을 봤다. 더 캐묻지 않았다.<br>그 눈빛에 약간의 이해가 있었다. 아니면 체념이거나.<br>"...그래요. 성실하게 일하실 분 같네요."<br><br>계단을 내려오면서 {name}은 생각했다.<br>합격일지 아닐지는 모른다. 하지만 거짓말은 안 했다.<br>그게 지금은 유일하게 가진 자존심이었다.</div>
+    <div class="result-text">면접관이 잠깐 {name}을 봤다. 뭔가를 읽으려는 눈빛이었다.<br><br>더 캐묻지 않았다. "...성실하신 분 같네요." 이력서를 덮으며 덧붙였다. "주 4일 계약직이고, 세전 월 200만 원 정도입니다. 괜찮으시죠?" {name}은 고개를 끄덕였다.<br><br>2층 층계참에서 창문에 비친 자기 얼굴이 잠깐 걸렸다. ‘가족 빚’이라는 말과 ‘월 200만 원’이 마지막 계단을 내려갈 때까지 입안에 남아 있었다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> 둘러댄다 — &quot;개인 사업을 준비했었습니다&quot;
-      <span class="effects">[intelligence: +2, stress: +5]</span>
+      <span class="choice-num">선택 2</span> &quot;개인 사업을 준비했습니다&quot; — 그럴듯하게 포장했다
+      <span class="effects">[intelligence: +1, mental: -5, tint: -2]</span>
       <span class="flags">🚩 arc_intro_meal_seen, lied_interview</span>
+      <span class="follow-up">→ arc_intro_02_dad_call</span>
     </div>
-    <div class="result-text">그럴듯하게 포장했다. 면접관은 고개를 끄덕였지만, 메모를 길게 했다.<br>뭔가를 더 적는 사람처럼 — '확인 필요' 같은 거.<br><br>계단을 내려오며 {name}은 생각했다.<br>거짓말은, 또 다른 거짓말을 부른다.<br>그리고 그 무게는 생각보다 일찍 올 수 있다.</div>
+    <div class="result-text">그럴듯했다. 면접관은 고개를 끄덕였지만 메모를 길게 했다.<br><br>이력서를 덮기 전 면접관이 말했다. "주 4일 계약직이고, 세전 월 200만 원 정도입니다. 괜찮으시죠?" {name}은 고개를 끄덕였다.<br><br>계단을 내려갈 때마다 구두 밑창이 빈 건물에 울렸다. 2층 창문에 비친 자기 입이 방금 한 말과 ‘월 200만 원’을 되풀이하는 것 같았다.<br>{name}은 시선을 떼고 마지막 계단을 내려갔다.</div>
+  </div>
+</div>
+<div class="event-card" style="margin-left:32px">
+  <div class="event-id">arc_intro_02_dad_call</div>
+  <div class="event-title">통장에 찍힌 숫자</div>
+  <div class="event-desc">고시원. 새벽 세 시.<br><br>잠이 안 왔다. 폰 계산기를 열었다.<br><br>시급 1만 원. 월 200도 안 나온다.<br>강남 아파트 30억 ÷ 200만 = 1,500개월 = 125년.<br><br>125년.<br><br>{name}은 화면을 봤다. 웃음이 났다. 어이가 없어서.<br>월급만으로는 수학적으로 불가능하다. 처음부터.<br><br>그 때 폰이 울렸다. 아버지. 새벽 세 시에.<br><br>받지 못했다. 이 숫자를 본 채로는, 아무렇지 않은 목소리를 낼 자신이 없었다.</div>
+  <div class="event-meta">배경: goshiwon_room | 인물: player_tired</div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 1</span> 알바 끝나고도 구인 앱을 뒤졌다. 종잣돈부터
+      <span class="effects">[investment_skill: +2, mental: -4]</span>
+      <span class="flags">🚩 arc_intro_dad_seen, mindset_saver</span>
+    </div>
+    <div class="result-text">큰 돈은 작은 돈에서 시작한다.<br>{name}은 알바를 마치고도 구인 앱을 뒤졌다. 부업, 임시직, 투잡.<br><br>종잣돈. 그게 첫 관문이다.<br>125년이라는 숫자가 계속 눈앞에 어른거렸다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 2</span> 알바가 끝나면 도서관으로 갔다. 투자 공부를 시작했다
+      <span class="effects">[intelligence: +3, investment_skill: +4, mental: -2]</span>
+      <span class="flags">🚩 arc_intro_dad_seen, mindset_investor</span>
+    </div>
+    <div class="result-text">유튜브, 책, 네이버 카페 글.<br>새벽 알바가 끝나면 도서관으로 갔다.<br><br>월급으로 안 되면, 돈이 돈을 벌게 해야 한다.<br>복리. 레버리지. 자산. {name}은 그 단어들을 처음으로 진지하게 들여다봤다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 3</span> 편의점 카운터 뒤에서 수첩에 아이디어를 적었다
+      <span class="effects">[intelligence: +2, luck: +3, mental: -3]</span>
+      <span class="flags">🚩 arc_intro_dad_seen, mindset_founder</span>
+    </div>
+    <div class="result-text">편의점 카운터 뒤에서, {name}은 수첩에 뭔가를 적었다.<br>틈새. 수요. 공급. 남들이 안 하는 것.<br><br>아이디어만으로는 아직 아무것도 아니다.<br>하지만 아무것도 안 적는 사람은, 영원히 시작을 못 한다.</div>
   </div>
 </div>
   </div>
@@ -387,28 +616,28 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_intro_02_dad_call</div>
   <div class="event-title">통장에 찍힌 숫자</div>
-  <div class="event-desc">편의점 야간 알바. 새벽 3시.<br><br>진상 손님, 택배 정리, 바닥 청소. 유통기한 임박 스티커 붙이기.<br>형광등이 왱왱 거렸다. 밖에는 아무도 없었다.<br><br>계산기를 꺼냈다.<br>시급 만원 남짓. 한 달 꼬박 일해야 200만원이 안 된다.<br>강남 아파트 30억 ÷ 200만원 = 1,250개월 = 104년.<br><br>104년.<br><br>{name}은 계산기 화면을 바라봤다. 웃음이 났다. 어이가 없어서.<br>월급만으로는, 수학적으로 불가능하다.<br><br>택배 박스를 접으면서 생각했다.<br>다른 길이 있어야 한다. 반드시.</div>
-  <div class="event-meta">배경: convenience_night | 인물: player_tired</div>
+  <div class="event-desc">고시원. 새벽 세 시.<br><br>잠이 안 왔다. 폰 계산기를 열었다.<br><br>시급 1만 원. 월 200도 안 나온다.<br>강남 아파트 30억 ÷ 200만 = 1,500개월 = 125년.<br><br>125년.<br><br>{name}은 화면을 봤다. 웃음이 났다. 어이가 없어서.<br>월급만으로는 수학적으로 불가능하다. 처음부터.<br><br>그 때 폰이 울렸다. 아버지. 새벽 세 시에.<br><br>받지 못했다. 이 숫자를 본 채로는, 아무렇지 않은 목소리를 낼 자신이 없었다.</div>
+  <div class="event-meta">배경: goshiwon_room | 인물: player_tired</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 일단 종잣돈부터. 악착같이 모은다
-      <span class="effects">[stress: +4, investment_skill: +2]</span>
+      <span class="choice-num">선택 1</span> 알바 끝나고도 구인 앱을 뒤졌다. 종잣돈부터
+      <span class="effects">[investment_skill: +2, mental: -4]</span>
       <span class="flags">🚩 arc_intro_dad_seen, mindset_saver</span>
     </div>
-    <div class="result-text">큰 돈은 작은 돈에서 시작한다.<br>{name}은 알바를 마치고도 구인 앱을 뒤졌다. 부업, 임시직, 투잡.<br><br>종잣돈. 그게 첫 관문이다.<br>104년이라는 숫자가 계속 눈앞에 어른거렸다.</div>
+    <div class="result-text">큰 돈은 작은 돈에서 시작한다.<br>{name}은 알바를 마치고도 구인 앱을 뒤졌다. 부업, 임시직, 투잡.<br><br>종잣돈. 그게 첫 관문이다.<br>125년이라는 숫자가 계속 눈앞에 어른거렸다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> 투자를 공부하기 시작한다
-      <span class="effects">[intelligence: +3, investment_skill: +4, stress: +2]</span>
+      <span class="choice-num">선택 2</span> 알바가 끝나면 도서관으로 갔다. 투자 공부를 시작했다
+      <span class="effects">[intelligence: +3, investment_skill: +4, mental: -2]</span>
       <span class="flags">🚩 arc_intro_dad_seen, mindset_investor</span>
     </div>
     <div class="result-text">유튜브, 책, 네이버 카페 글.<br>새벽 알바가 끝나면 도서관으로 갔다.<br><br>월급으로 안 되면, 돈이 돈을 벌게 해야 한다.<br>복리. 레버리지. 자산. {name}은 그 단어들을 처음으로 진지하게 들여다봤다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 3</span> 언젠가 내 사업을. 아이디어를 메모한다
-      <span class="effects">[intelligence: +2, luck: +3, stress: +3]</span>
+      <span class="choice-num">선택 3</span> 편의점 카운터 뒤에서 수첩에 아이디어를 적었다
+      <span class="effects">[intelligence: +2, luck: +3, mental: -3]</span>
       <span class="flags">🚩 arc_intro_dad_seen, mindset_founder</span>
     </div>
     <div class="result-text">편의점 카운터 뒤에서, {name}은 수첩에 뭔가를 적었다.<br>틈새. 수요. 공급. 남들이 안 하는 것.<br><br>아이디어만으로는 아직 아무것도 아니다.<br>하지만 아무것도 안 적는 사람은, 영원히 시작을 못 한다.</div>
@@ -424,23 +653,23 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_temptation_01</div>
   <div class="event-title">쉬운 돈</div>
-  <div class="event-desc">고시원, 새벽 2시. 다음 주가 월세 이체일이다. 통장 잔고를 보면 한숨부터 나온다.<br><br>모르는 번호로 문자가 왔다.<br>"통장이랑 체크카드만 빌려주면 즉시 200. 아무것도 안 하셔도 됩니다.<br>딱 한 달. 리스크 0. 급한 분들만 연락 주세요."<br><br>{name}은 그게 뭔지 안다. 대포통장.<br>보이스피싱에 쓰일 돈이 이 통장을 거쳐 간다.<br><br>200만원. 넉 달은 버틴다.<br>손가락이 답장 위에서 멈춘다.</div>
+  <div class="event-desc">고시원, 새벽 2시. 다음 주가 월세 이체일이다. 통장 잔고를 보면 한숨부터 나온다.<br><br>모르는 번호로 문자가 왔다.<br>"통장이랑 체크카드만 빌려주면 즉시 200. 아무것도 안 하셔도 됩니다.<br>딱 한 달. 리스크 0. 급한 분들만 연락 주세요."<br><br>{name}은 그게 뭔지 안다. 대포통장.<br>보이스피싱에 쓰일 돈이 이 통장을 거쳐 간다.<br><br>200만원. 월세만 따지면 석 달은 버틴다.<br>손가락이 답장 위에서 멈춘다.</div>
   <div class="event-meta">배경: goshiwon_room | 인물: player_tired</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 지운다 — 그렇게까지 살진 않는다
-      <span class="effects">[mental: -2, stress: +6]</span>
+      <span class="choice-num">선택 1</span> 번호를 차단하고 휴대폰을 엎어놨다
+      <span class="effects">[mental: -8, tint: +5]</span>
       <span class="flags">🚩 arc_temptation_seen, kept_clean_hands</span>
     </div>
-    <div class="result-text">{name}은 번호를 차단하고 휴대폰을 엎어놨다.<br>200만원이 눈앞에서 사라졌다. 월세는 그대로 남았다.<br><br>한심한 자존심이라고, 누군가는 비웃겠지.<br>그래도 — 아버지가 6년을 갚은 그 빚처럼 살고 싶진 않았다.<br>깨끗한 손으로, 천천히 가기로 한다.</div>
+    <div class="result-text">{name}은 번호를 차단하고 휴대폰을 엎어놨다.<br>200만원은 들어오지 않았고, 월세 낼 날은 그대로 다가왔다.<br><br>아버지가 남의 빚보증을 잘못 선 탓에 {name}이 빚을 갚으며 보낸 6년이 떠올랐다. {name}은 휴대폰을 다시 들고 다음 날 받을 일을 찾았다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> 딱 한 번만. 통장을 빌려준다  (+200만원)
-      <span class="effects">[money: +2000000, stress: +10, mental: -6]</span>
-      <span class="flags">🚩 arc_temptation_seen, lent_account, crossed_line_early</span>
+      <span class="choice-num">선택 2</span> 통장·체크카드와 비밀번호를 넘기고 현금 200만원을 받는다
+      <span class="effects">[money: +2000000, mental: -16, tint: -10]</span>
+      <span class="flags">🚩 arc_temptation_seen, lent_account, crossed_line_early, gambling_tempted</span>
     </div>
-    <div class="result-text">통장 번호를 보냈다. 한 시간 뒤, 200만원이 찍혔다.<br>이렇게 쉬운 돈이 세상에 있었다.<br><br>{name}은 그 숫자를 한참 봤다. 안도와 함께,<br>뱃속 어딘가가 서늘해지는 걸 느꼈다.<br>이 돈이 누구의 눈물에서 왔는지는 — 생각하지 않기로 했다.</div>
+    <div class="result-text">답장을 보내자 지하철 보관함 번호가 왔다. {name}은 통장과 체크카드를 봉투에 넣고, 요구받은 비밀번호를 메시지로 보냈다.<br><br>한 시간 뒤 같은 보관함에 현금 200만원 봉투가 놓였다. 방으로 돌아온 {name}은 계좌 내역 대신 지폐만 세었다.</div>
   </div>
 </div>
   </div>
@@ -452,32 +681,32 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="arc-body">
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_intro_03_sns</div>
-  <div class="event-title">새벽 두 시</div>
-  <div class="event-desc">새벽 두 시. 고시원 방. 잠이 안 온다.<br><br>천장을 보다가, 습관처럼 인스타를 열었다. 손가락이 피드를 넘겼다.<br><br>고등학교 동창 박민호 — '드디어 내 집 🏠 LH 청약 당첨 ㅠㅠ 10년 기다렸다 #영끌 #30대내집마련'<br>대학 동기 이수현 — 신혼여행 사진. 몰디브. 하늘색 바다. 드레스.<br>과 동기 김정훈 — 외제차 키 인증. BMW 3시리즈. '회사 주차장 첫날 🔑'<br><br>다들 어딘가 도착해 있었다.<br>{name}만 아직 출발선이었다. 아니, 출발선보다 뒤였다.<br><br>월세 65만원. 통장 잔고. 고시원 벽의 얼룩.<br><br>폰을 든 손이 무거워졌다.</div>
+  <div class="event-title">새벽 2시</div>
+  <div class="event-desc">새벽 2시. 고시원 방.<br><br>천장을 보다가 손가락이 폰을 집었다. 인스타그램.<br><br>박민호 — '드디어 내 집 🏠 LH 청약 당첨 ㅠㅠ 10년 기다렸다'<br>이수현 — 몰디브 신혼여행. 하늘색 바다. 드레스.<br>김정훈 — BMW 3시리즈 키 인증.<br><br>다들 어딘가 도착해 있었다.<br><br>{name}은 고시원 벽 얼룩을 봤다. 습기가 만든 자국. 언제부터 있었는지 모른다.<br>월세 65만 원. 이 방에서 달력 한 장이 더 넘어가고 있었다.</div>
   <div class="event-meta">배경: goshiwon_room | 인물: player_tired</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 앱을 지운다 — 비교는 독이다
-      <span class="effects">[mental: +7, stress: -6]</span>
+      <span class="choice-num">선택 1</span> 꾹 눌러서 앱을 삭제했다
+      <span class="effects">[mental: +13]</span>
       <span class="flags">🚩 arc_intro_sns_seen, deleted_sns</span>
     </div>
-    <div class="result-text">꾹 눌러서 앱을 삭제했다.<br>남의 결승선을 보면서 내 출발을 미루면 안 된다.<br><br>화면이 조금 비워졌다. 마음도 아주 조금.<br>그래도 그 빈 자리에 뭔가를 채울 수 있을 것 같았다.</div>
+    <div class="result-text">앱 아이콘을 꾹 눌렀다. 작은 엑스가 떨리다가 사라졌다.<br><br>검게 식은 화면에 고시원 형광등과 자기 얼굴만 남았다.<br>손가락은 습관처럼 빈자리를 한 번 더 눌렀다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> 그 감정을 연료로 쓴다 — 두고 보자
-      <span class="effects">[intelligence: +4, stress: +5, mental: +2]</span>
+      <span class="choice-num">선택 2</span> 피드를 닫고 메모 앱을 열었다. 이 감정을 연료로 쓴다
+      <span class="effects">[intelligence: +4, mental: -3]</span>
       <span class="flags">🚩 arc_intro_sns_seen, envy_fuel</span>
     </div>
-    <div class="result-text">부러움이 분노가 됐다.<br>두고 보자는 생각은 위험하다 — 자칫 자기를 태운다.<br><br>그래도 지금은 이거라도 써야 한다.<br>{name}은 폰을 끄고 눈을 감았다. 서울의 밤은 아직 끝나지 않았다.</div>
+    <div class="result-text">부러움이 목 안쪽에서 뜨겁게 걸렸다.<br><br>{name}은 메모 앱을 열어 내일 할 일 세 개를 적었다. 마지막 마침표를 찍을 때 배터리가 9%가 됐다.<br>폰을 뒤집자 벽 너머 수도관 소리가 더 크게 들렸다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 3</span> 그냥 본다 — 부러우면 부러운 거다
-      <span class="effects">[mental: -3, stress: +4]</span>
+      <span class="choice-num">선택 3</span> 끝까지 봤다. 좋아요도 눌렀다
+      <span class="effects">[mental: -7]</span>
       <span class="flags">🚩 arc_intro_sns_seen</span>
     </div>
-    <div class="result-text">끝까지 봤다. 좋아요도 눌렀다.<br><br>부러움을 부정하지 않기로 했다. 그것도 솔직한 거니까.<br>다만 그 솔직함이 오늘 밤은, 조금 길게 아팠다.</div>
+    <div class="result-text">끝까지 보고 좋아요도 눌렀다. 숫자가 하나 늘어난 뒤에도 {name}은 화면을 끄지 못했다.</div>
   </div>
 </div>
   </div>
@@ -490,30 +719,33 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">cafe_00</div>
   <div class="event-title">강남 카페</div>
-  <div class="event-desc">{name}은 6,500원짜리 아메리카노를 시켰다.<br>그래도 한 번은,<br>자기가 가고 싶은 그 세계에 앉아보고 싶었다.<br><br>옆 테이블. 정장 입은 남자가 통화 중이다.<br>"그 입주권 마지막 한 자리예요. 오늘 안 잡으면 끝나요.<br>재개발 확정 났다니까. ...네, 현금 5천이면 됩니다."<br><br>{name}의 귀가 저절로 그쪽으로 기운다.</div>
-  <div class="event-meta">배경: cafe | 인물: player_tired</div>
+  <div class="event-desc">{name}은 6,500원짜리 아메리카노를 시켰다.<br>그래도 한 번은,<br>강남에서 큰돈 이야기가 오가는 자리에 앉아 보고 싶었다.<br><br>옆 테이블. 정장 입은 남자가 통화 중이다.<br>"그 입주권 마지막 한 자리예요. 오늘 안 잡으면 끝나요.<br>재개발 확정 났다니까. ...네, 현금 5천이면 됩니다."<br><br>{name}의 귀가 저절로 그쪽으로 기운다.</div>
+  <div class="event-meta">배경: cafe | 인물: cafe_investor</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 조용히, 계속 엿듣는다
-      <span class="effects">[stress: +2]</span>
+      <span class="effects">[money: -6500, mental: -2]</span>
       <span class="flags">🚩 cafe_scenario_seen</span>
       <span class="follow-up">→ cafe_listen_01</span>
     </div>
+    <div class="result-text">그는 눈치채지 못했다. 숫자들이 {name}의 머릿속에 하나씩 박혔다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 신경 끄고 이력서나 본다
+      <span class="effects">[money: -6500]</span>
       <span class="flags">🚩 cafe_scenario_seen</span>
       <span class="follow-up">→ cafe_mind_01</span>
     </div>
+    <div class="result-text">이력서 빈칸을 채웠다. 그런데 옆 테이블 소리가 자꾸 귀에 걸렸다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 3</span> 자리가 불편하다. 그냥 나간다
-      <span class="effects">[stress: -3, mental: +1]</span>
+      <span class="effects">[money: -6500, mental: +4]</span>
       <span class="flags">🚩 cafe_scenario_seen, cafe_left_early</span>
     </div>
-    <div class="result-text">{name}은 식은 커피를 두고 일어섰다.<br>그 남자가 무슨 얘길 했는지, 무슨 기회였는지 —<br>영영 모른 채로. 가끔은 모르는 게 약이다.<br>적어도, 아무 일도 일어나지 않았다.</div>
+    <div class="result-text">{name}은 식은 커피를 두고 일어섰다.<br>카페 문이 닫히자 옆 테이블의 목소리도 끊겼다.</div>
   </div>
 </div>
 <div class="event-card" style="margin-left:32px">
@@ -524,15 +756,17 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 폴더를 슬쩍 펼쳐본다
-      <span class="effects">[stress: +6]</span>
+      <span class="effects">[mental: -6]</span>
       <span class="follow-up">→ cafe_peek_01</span>
     </div>
+    <div class="result-text">분양가, 평형, 연락처. 빨간 도장이 찍힌 숫자들이 눈에 들어왔다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 그가 돌아오면 말을 걸어본다
       <span class="follow-up">→ cafe_talk_01</span>
     </div>
+    <div class="result-text">자리에 앉아 상대가 돌아오기를 기다렸다. 심장이 조금씩 빨라졌다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
@@ -540,119 +774,128 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
       <span class="effects">[intelligence: +1]</span>
       <span class="flags">🚩 cafe_overheard_only</span>
     </div>
-    <div class="result-text">들은 건 있지만 — 거기까지다.<br>{name}은 남의 기회에 손대지 않았다.<br>이름 하나, 단어 몇 개만 머릿속에 남았다.</div>
+    <div class="result-text">들은 건 있지만 — 거기까지다.<br>{name}은 서류를 펼치지 않고 커피를 마셨다.<br>이름 하나, 단어 몇 개만 머릿속에 남았다.</div>
   </div>
 </div>
 <div class="event-card" style="margin-left:64px">
   <div class="event-id">cafe_peek_01</div>
   <div class="event-title">훔쳐본 것</div>
   <div class="event-desc">폴더가 열린다. 분양가, 평형, 그리고 연락처 —<br>「김 부장 010-XXXX-XXXX」. '확정'이라는 빨간 도장.<br>{name}은 그 번호를 외워버렸다.<br><br>그 순간, 그림자가 드리운다.<br>남자가 돌아와 — {name}의 눈과 펼쳐진 폴더를 번갈아 본다.<br>"...뭐 하세요, 지금?"</div>
-  <div class="event-meta">배경: cafe | 인물: player_shocked</div>
+  <div class="event-meta">배경: cafe | 인물: cafe_investor</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 솔직히 사과한다 — &quot;죄송합니다, 관심이 많아서&quot;
       <span class="follow-up">→ cafe_caught_honest</span>
     </div>
+    <div class="result-text">고개를 숙였다. 그는 잠시 말이 없었다. 예상 밖의 표정이 스쳤다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 시선을 돌리고 모른 척한다
-      <span class="effects">[stress: +8, mental: -3]</span>
+      <span class="effects">[mental: -11]</span>
       <span class="flags">🚩 cafe_stole_lead</span>
     </div>
-    <div class="result-text">"아, 죄송합니다. 제 자리인 줄."<br>{name}은 어색하게 웃으며 고개를 돌렸다.<br>남자는 미심쩍게 폴더를 챙겨 떠났다.<br><br>하지만 그 번호는 — {name}의 머릿속에 남았다.<br>쓸지 말지는, 나중의 문제다.</div>
+    <div class="result-text">"아, 죄송합니다. 제 자리인 줄."<br>{name}은 어색하게 웃으며 고개를 돌렸다.<br>남자는 미심쩍게 폴더를 챙겨 떠났다.<br><br>폴더가 사라진 뒤에도 그 번호는 {name}의 머릿속에 남았다.</div>
   </div>
 </div>
 <div class="event-card" style="margin-left:96px">
   <div class="event-id">cafe_caught_honest</div>
   <div class="event-title">들킨 솔직함</div>
-  <div class="event-desc">{name}은 고개를 숙였다.<br>"무직입니다. 통장에 50만원 있고요.<br>근데 저도... 언젠가 여기 오고 싶어서, 그래서 봤습니다.<br>죄송합니다."<br><br>남자가 한참 {name}을 봤다. 그러더니, 피식 웃었다.<br>"미친놈이네. 근데 — 그 눈빛, 옛날 내 거랑 똑같다."</div>
-  <div class="event-meta">배경: cafe | 인물: boss</div>
+  <div class="event-desc">{name}은 고개를 숙였다.<br>"무직입니다. 가진 돈은 많지 않고요.<br>근데 저도... 언젠가 여기 오고 싶어서, 그래서 봤습니다.<br>죄송합니다."<br><br>남자가 한참 {name}을 봤다. 그러더니, 피식 웃었다.<br>"미친놈이네. 근데 — 그 눈빛, 옛날 내 거랑 똑같다."</div>
+  <div class="event-meta">배경: cafe | 인물: cafe_investor</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> &quot;한 가지만 여쭤도 될까요&quot;
       <span class="effects">[mental: +6, reputation: +3, intelligence: +2]</span>
       <span class="flags">🚩 cafe_got_card_honest</span>
     </div>
-    <div class="result-text">남자는 명함을 테이블에 툭 놓았다.<br>"공부부터 해. 준비 안 된 놈한테 기회 주면 그게 사고야.<br>진짜 준비되면, 그때 전화해. 안 그럼 번호 지우고."<br><br>{name}은 명함을 두 손으로 받았다.<br>도둑질이 아니라, 받은 것이었다. 그게 달랐다.</div>
+    <div class="result-text">남자는 명함을 테이블에 툭 놓았다.<br>"공부부터 해. 준비 안 된 놈한테 기회 주면 그게 사고야.<br>진짜 준비되면, 그때 전화해. 안 그럼 번호 지우고."<br><br>{name}은 명함을 두 손으로 받았다. 명함에 적힌 이름과 번호를 확인하고 수첩 사이에 넣었다. 이 연락처는 남자가 직접 건넨 것이었다.</div>
   </div>
 </div>
 <div class="event-card" style="margin-left:128px">
   <div class="event-id">cafe_talk_01</div>
   <div class="event-title">말을 걸다</div>
   <div class="event-desc">남자가 돌아온다. {name}은 용기를 냈다.<br>"실례지만, 아까 말씀하신 거... 저도 좀 듣고 싶어서요."<br><br>남자는 경계하듯 {name}을 위아래로 훑는다.<br>낡은 패딩, 닳은 운동화, 식은 아메리카노 한 잔.<br>"...뭐 하시는 분인데?"</div>
-  <div class="event-meta">배경: cafe | 인물: boss</div>
+  <div class="event-meta">배경: cafe | 인물: cafe_investor</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 솔직하게 — &quot;무직입니다. 배우고 싶습니다&quot;
+      <span class="effects">[tint: +4]</span>
       <span class="follow-up">→ cafe_humble</span>
     </div>
+    <div class="result-text">말이 끝나자 그의 시선이 달라졌다. 위아래로 다시 훑었다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 있는 척한다 — &quot;저도 이쪽 일 좀 합니다&quot;
+      <span class="effects">[tint: -3]</span>
       <span class="follow-up">→ cafe_bluff_01</span>
     </div>
+    <div class="result-text">그는 고개를 끄덕였지만, 거짓말을 이미 알아챈 듯 {name}을 다시 봤다.</div>
   </div>
 </div>
 <div class="event-card" style="margin-left:160px">
   <div class="event-id">cafe_humble</div>
   <div class="event-title">낮은 자세</div>
-  <div class="event-desc">"무직이요. 근데 이대로는 못 살겠어서,<br>뭐라도 배우려고 강남까지 와서 커피 한 잔 시켜놓고 앉아있었습니다."<br><br>남자는 어이없다는 듯 웃었다. 그러더니 의자를 돌려 앉았다.<br>"5천만원짜리 얘기에 5만원도 없는 놈이 끼어드네.<br>근데 뭐 — 시간은 많아 보이니까. 딱 십 분만 얘기해줄게."</div>
-  <div class="event-meta">배경: cafe | 인물: boss</div>
+  <div class="event-desc">"무직이요. 근데 이대로는 못 살겠어서,<br>뭐라도 배우려고 강남까지 와서 커피 한 잔 시켜놓고 앉아있었습니다."<br><br>남자는 어이없다는 듯 웃었다. 그러더니 의자를 돌려 앉았다.<br>"5천만원짜리 얘기에 낡은 패딩 입은 사람이 끼어드네.<br>근데 뭐 — 시간은 많아 보이니까. 딱 십 분만 얘기해줄게."</div>
+  <div class="event-meta">배경: cafe | 인물: cafe_investor</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 귀를 쫑긋 세우고 듣는다
+      <span class="choice-num">선택 1</span> 남자의 말을 놓치지 않고 듣는다
       <span class="effects">[intelligence: +3, investment_skill: +3, mental: +4]</span>
       <span class="flags">🚩 cafe_humble_lesson</span>
     </div>
-    <div class="result-text">십 분이 삼십 분이 됐다.<br>갭투자, 레버리지, 입주권, 프리미엄 —<br>{name}은 처음 듣는 세계의 언어를 머리에 욱여넣었다.<br><br>남자는 명함도 안 줬다. 이름도 안 알려줬다.<br>그래도 {name}은, 오늘 강남의 문틈을 처음 들여다봤다.</div>
+    <div class="result-text">십 분이 삼십 분이 됐다.<br>갭투자, 레버리지, 입주권, 프리미엄 —<br>{name}은 처음 듣는 부동산 용어를 수첩에 적었다.<br><br>남자는 명함도 주지 않았고 이름도 알려 주지 않았다. 그래도 오늘 들은 숫자와 용어는 수첩에 남았다.</div>
   </div>
 </div>
 <div class="event-card" style="margin-left:192px">
   <div class="event-id">cafe_bluff_01</div>
   <div class="event-title">허세</div>
-  <div class="event-desc">"이쪽 일을 하신다. 그래요?"<br>남자의 눈이 가늘어진다. 시험하듯 묻는다.<br>"그럼 LTV 70 나오는 물건에 갭 5천이면,<br>실투자금 얼마 잡으세요?"<br><br>{name}은 — 그 단어들이 무슨 뜻인지 하나도 모른다.<br>등에서 식은땀이 흐른다.</div>
-  <div class="event-meta">배경: cafe | 인물: player_shocked</div>
+  <div class="event-desc">"이쪽 일을 하신다. 그래요?"<br>남자의 눈이 가늘어진다. 시험하듯 묻는다.<br>"매매가 5억, 전세 3억 5천, 대출 1억이면<br>취득비 빼고 실투자금 얼마 잡아요?"<br><br>{name}은 계산하지 못했다.<br>등에서 식은땀이 흐른다.</div>
+  <div class="event-meta">배경: cafe | 인물: cafe_investor</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 아는 척 우긴다 — 대충 숫자를 던진다
+      <span class="effects">[tint: -4]</span>
       <span class="follow-up">→ cafe_bluff_caught</span>
     </div>
+    <div class="result-text">"한 2억쯤..." 말끝이 엉켰다. 남자는 바로 눈치챈 듯했다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 무너진다 — &quot;...사실 모릅니다. 죄송합니다&quot;
+      <span class="effects">[tint: +5]</span>
       <span class="follow-up">→ cafe_bluff_recover</span>
     </div>
+    <div class="result-text">고개를 들 수가 없었다. 그런데 이상하게, 그가 잠시 뒤 웃었다.</div>
   </div>
 </div>
 <div class="event-card" style="margin-left:224px">
   <div class="event-id">cafe_bluff_caught</div>
   <div class="event-title">들통</div>
-  <div class="event-desc">"한 2억쯤...?" {name}이 아무 숫자나 던졌다.<br>남자가 코웃음을 쳤다.<br>"갭이 5천인데 실투가 2억? 학생, 사기 치려면 공부부터 하고 와."<br><br>옆 테이블 사람들이 힐끔거린다.<br>{name}의 얼굴이 화끈거렸다. 강남은 — 허세를 가장 먼저 알아본다.</div>
-  <div class="event-meta">배경: cafe | 인물: player_shocked</div>
+  <div class="event-desc">"한 2억쯤...?" {name}이 아무 숫자나 던졌다.<br>남자가 코웃음을 쳤다.<br>"5억에서 전세 3억 5천, 대출 1억을 빼면 5천이잖아. 학생, 아는 척하려면 계산부터 하고 와."<br><br>옆 테이블 사람들이 힐끔거렸다.<br>{name}의 얼굴이 화끈거렸다. 숫자 하나만으로도 허세는 바로 들켰다.</div>
+  <div class="event-meta">배경: cafe | 인물: cafe_investor</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 도망치듯 카페를 나선다
-      <span class="effects">[stress: +12, mental: -6, intelligence: +2]</span>
+      <span class="effects">[mental: -18, intelligence: +2]</span>
       <span class="flags">🚩 cafe_humiliated</span>
     </div>
-    <div class="result-text">{name}은 커피를 반도 못 비우고 나왔다.<br>겨울 바람이 뜨거운 뺨에 닿았다.<br>부끄러움이 오래 남았다. 하지만 — 그 부끄러움이,<br>'제대로 알아야겠다'는 독기로 바뀌는 데는 오래 걸리지 않았다.</div>
+    <div class="result-text">{name}은 커피를 반도 못 비우고 나왔다.<br>겨울 바람이 뜨거운 뺨에 닿았다.<br>집으로 가는 동안에도 방금 틀린 계산이 머릿속에 남았다. {name}은 수첩을 펴고 5억에서 숫자를 하나씩 다시 뺐다.</div>
   </div>
 </div>
 <div class="event-card" style="margin-left:256px">
   <div class="event-id">cafe_bluff_recover</div>
   <div class="event-title">무너진 뒤</div>
-  <div class="event-desc">{name}은 고개를 떨궜다.<br>"...죄송합니다. 하나도 모릅니다.<br>그냥, 너무 절박해서 아는 척했습니다."<br><br>남자가 잠시 말이 없었다. 그러더니 짧게 한숨.<br>"허세 부리던 놈이 바로 꼬리 내리는 건 처음 보네.<br>그 솔직함이 차라리 낫다. 한 가지만 알려줄게 —<br>모르면 모른다고 해. 이 바닥에서 그거 하나는 안 죽어."</div>
-  <div class="event-meta">배경: cafe | 인물: boss</div>
+  <div class="event-desc">{name}은 고개를 떨궜다.<br>"...죄송합니다. 하나도 모릅니다.<br>그냥, 너무 절박해서 아는 척했습니다."<br><br>남자가 잠시 말이 없었다. 그러더니 짧게 한숨을 쉬었다.<br>"허세 부리던 사람이 바로 인정하는 건 처음 보네.<br>그게 차라리 낫다. 한 가지만 알려줄게.<br>모르면 모른다고 해. 적어도 그 말 때문에 돈을 잃지는 않아."</div>
+  <div class="event-meta">배경: cafe | 인물: cafe_investor</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 그 말을 가슴에 새긴다
+      <span class="choice-num">선택 1</span> 그 말을 수첩에 적는다
       <span class="effects">[mental: +3, social_skill: +2]</span>
       <span class="flags">🚩 cafe_learned_humility</span>
     </div>
-    <div class="result-text">남자는 더 말하지 않고 자리를 떴다.<br>명함도, 이름도 없었다.<br>하지만 {name}은 오늘 값진 걸 배웠다.<br>허세는 강남에서 가장 빨리 죽는 길이라는 걸.</div>
+    <div class="result-text">남자는 더 말하지 않고 자리를 떴다.<br>명함도, 이름도 없었다.<br>{name}은 수첩에 한 줄을 적었다.<br>'모르는 숫자는 아는 척하지 말 것.'</div>
   </div>
 </div>
 <div class="event-card" style="margin-left:288px">
@@ -663,10 +906,10 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 진심으로 고맙다고 인사한다
-      <span class="effects">[mental: +8, stress: -5]</span>
+      <span class="effects">[mental: +13, tint: +3]</span>
       <span class="flags">🚩 cafe_kindness</span>
     </div>
-    <div class="result-text">"...감사합니다. 진짜로."<br>별것 아닌 한 잔에 코끝이 시큰했다.<br>서울은 차갑기만 한 줄 알았는데, 가끔 이런 온기가 있다.<br><br>{name}은 그날, 조금 더 버틸 힘을 얻었다.<br>거창한 기회는 아니어도 — 이런 게 사람 사는 거였다.</div>
+    <div class="result-text">"...감사합니다. 진짜로."<br>따뜻한 종이컵을 쥐자 코끝이 시큰했다.<br><br>{name}은 커피를 마시며 이력서의 마지막 빈칸을 채웠다. 그날은 거기까지 해냈다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
@@ -674,36 +917,60 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
       <span class="effects">[mental: +2]</span>
       <span class="flags">🚩 cafe_awkward</span>
     </div>
-    <div class="result-text">{name}은 고맙다는 말도 제대로 못 하고 일어섰다.<br>호의가 익숙하지 않은 사람은, 호의 앞에서 도망친다.<br>돌아오는 길 내내, 그 따뜻한 커피가 생각났다.</div>
+    <div class="result-text">{name}은 고맙다는 말을 작게 하고 자리에서 일어섰다.<br>돌아오는 길 내내 따뜻했던 종이컵의 온도가 손에 남아 있었다.</div>
   </div>
 </div>
   </div>
 </div><div class="section-title">intro</div><div class="arc-section" id="arc-arc_intro_04_hyunsu" style="border-color:#c678dd;background:#1a0a1a">
   <div class="arc-header" style="color:#c678dd" onclick="toggle(this)">
     <span class="arc-type">[intro]</span> 인트로: 현수 <span class="condition">조건: t≥7</span>
-    <span class="arc-count">1단계</span>
+    <span class="arc-count">2단계</span>
   </div>
   <div class="arc-body">
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_intro_04_hyunsu</div>
   <div class="event-title">옆방</div>
-  <div class="event-desc">고시원 공용 주방. 새벽 한 시.<br><br>형광등이 한쪽만 켜진 좁은 공간.<br>{name}이 컵라면에 물을 붓고 있을 때, 뒤에서 문이 열렸다.<br><br>옆방 남자였다. 몇 번 마주쳤지만 인사는 처음이었다.<br>"...형도 라면이네요."<br><br>그가 먼저 말을 걸었다. 눈 밑이 시퍼렇게 꺼져 있었다. 오래 앉아있는 사람의 얼굴.<br>나이는 스물여섯 정도. 책상 위에 노트가 항상 쌓여 있던 사람.<br><br>"공무원 준비 4년째예요. 올해가 마지막이라고, 매년 말하는데."<br>그가 피식 웃었다. 웃는데 안 웃는 것 같은 표정이었다.<br><br>"형은 뭐 하는 사람이에요?"</div>
+  <div class="event-desc">고시원 공용 주방 앞 복도. 새벽 1시.<br><br>형광등 하나만 켜진 좁은 복도. {name}이 컵라면을 들고 방으로 돌아가려던 때, 옆문이 열렸다.<br><br>옆방 남자. 몇 번 마주쳤지만 인사는 처음이었다.<br>"...형도 라면이네요."<br><br>눈 밑이 거뭇했다. 품에는 표지가 닳은 9급 행정직 기출문제집이 끼워져 있었다.<br><br>남자가 문제집 표지를 손바닥으로 쓸었다. "강현수예요. 옆방인데 인사가 늦었네요. 공시 공부한 지 4년째예요."<br>{name}도 자기 이름을 말했다. 현수가 물었다. "형은 뭐 하세요?"</div>
   <div class="event-meta">배경: goshiwon_hallway | 인물: hyunsu</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> &quot;저도 아직 모르겠어요. 찾는 중이에요.&quot;
-      <span class="effects">[mental: +5, social_skill: +3, stress: -3]</span>
+      <span class="effects">[mental: +8, social_skill: +3]</span>
       <span class="flags">🚩 arc_intro_hyunsu_seen</span>
+      <span class="follow-up">→ arc_chapter1_close</span>
     </div>
-    <div class="result-text">현수가 고개를 끄덕였다.<br>"그게 제일 정직한 답이네요."<br><br>좁은 주방에서 둘이 말없이 라면을 먹었다.<br>같은 처지의 사람이 이 얇은 벽 너머에 있다는 것만으로,<br>오늘 밤은 조금 덜 추웠다.</div>
+    <div class="result-text">현수가 고개를 끄덕였다.<br>"그게 제일 정직한 답이네요."<br><br>좁은 복도에서 둘이 말없이 라면을 먹었다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> &quot;강남 갈 거예요. 5년 안에.&quot;
-      <span class="effects">[mental: +6, stress: +2]</span>
+      <span class="effects">[mental: +4]</span>
       <span class="flags">🚩 arc_intro_hyunsu_seen, declared_dream</span>
+      <span class="follow-up">→ arc_chapter1_close</span>
     </div>
-    <div class="result-text">현수가 라면을 먹다 말고 {name}을 봤다.<br>비웃을 줄 알았는데 그러지 않았다.<br>"...진심이네요, 형."<br><br>잠깐 침묵. 그리고 낮게 말했다.<br>"왠지 형은 갈 것 같다."<br>그 말이 이상하게 오래 남았다. 4년째 같은 곳을 보는 사람의 입에서 나온 말이라서.</div>
+    <div class="result-text">현수가 라면을 먹다 말고 {name}을 봤다.<br>비웃을 줄 알았는데 그러지 않았다.<br>"...진심이네요, 형."<br><br>잠깐 침묵한 현수가 낮게 말했다.<br>"왠지 형은 갈 것 같다."</div>
+  </div>
+</div>
+<div class="event-card" style="margin-left:32px">
+  <div class="event-id">arc_chapter1_close</div>
+  <div class="event-title">서울에서의 첫 두 달</div>
+  <div class="event-desc">새벽 두 시.<br><br>라면 국물이 식어 있었다.<br>현수가 들어간 뒤 한동안 복도에 혼자 서 있었다.<br><br>서울에서 보낸 첫 두 달 — 대포통장 문자, 아버지 전화, 처음 들어가 본 강남의 어느 카페, 현수의 라면.<br><br>{name}은 지금 사는 방으로 돌아와 수첩을 폈다. 첫 줄:<br>'{notebook_motive}'<br><br>그 아래에는 '30억. 5년.'이라고 적혀 있었다. 그 뒤의 페이지는 아직 비어 있었다.<br><br>형광등 불빛 아래 작은 방. 책상 하나, 이불 하나.<br>여기서 30억이 나올 수 있는가?<br><br>{name}은 그 질문에 아직 답을 못 했다.<br>그래도 — 오늘 처음으로 그 질문을 진짜로 했다.</div>
+  <div class="event-meta">배경: current_housing | 인물: player_tired</div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 1</span> 수첩을 덮는다. 오늘은 이것으로 충분하다
+      <span class="effects">[mental: +5, tint: +2]</span>
+      <span class="flags">🚩 chapter1_closed</span>
+    </div>
+    <div class="result-text">불을 껐다.<br><br>어두운 방에서 30억이라는 숫자가 남았다.<br>그 숫자와 지금 이 방 사이의 거리가 — 정확히 앞으로 해야 할 일의 거리다.<br><br>{name}은 눈을 감았다. 아직 방법은 없다. 그래도 오늘은 잠들 수 있을 것 같았다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 2</span> 수첩에 한 줄을 더 쓴다. &#x27;내일 아침 7시에 일어난다.&#x27;
+      <span class="effects">[mental: +8, intelligence: +1, tint: +3]</span>
+      <span class="flags">🚩 chapter1_closed, set_morning_routine</span>
+    </div>
+    <div class="result-text">두 문장 아래에 '내일 아침 7시'라고 썼다.<br><br>30억은 멀다. 7시는 가깝다.<br>지금 할 수 있는 일 중에서 가장 작은 것을 먼저 하기로 했다.<br><br>불을 껐다. {name}은 오늘보다 내일이 조금 더 다를 것이라고 생각했다.</div>
   </div>
 </div>
   </div>
@@ -715,24 +982,24 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="arc-body">
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_temptation_fallout</div>
-  <div class="event-title">통장의 대가</div>
-  <div class="event-desc">한 통의 전화. 모르는 여자가 울고 있었다.<br>"제 통장으로 입금했는데... 사기였대요. 그쪽 계좌로 갔다고...<br>삼천만원이에요. 제발, 제발 돌려주세요..."<br><br>{name}이 빌려준 그 통장이었다.<br>누군가의 전 재산이 거길 지나갔다.<br><br>그리고 다음 날, 또 다른 번호.<br>"형님, 일 깔끔하게 하셨네. 통장 몇 개 더 구해주면<br>건당 백씩 더 드릴게. 어차피 이미 발 담그셨잖아."</div>
+  <div class="event-title">빌려준 계좌의 반환 요청</div>
+  <div class="event-desc">한 달 뒤, 빗속에서 은행 이상거래 담당자에게 전화가 왔다.<br>"고객님 명의 계좌로 사기 피해금 삼천만원이 이체됐다는 반환 요청이 접수됐습니다. 경찰에서도 연락이 갈 수 있습니다."<br><br>{name}이 빌려준 그 계좌였다.<br>누군가의 전 재산이 거길 지나갔다.<br><br>그리고 다음 날, 모집책이 다른 번호로 문자를 보냈다.<br>"형님, 일 깔끔하게 하셨네. 통장 몇 개 더 구해주면<br>건당 백씩 더 드릴게. 어차피 이미 발 담그셨잖아."</div>
   <div class="event-meta">배경: street_rainy | 인물: player_shocked</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 여기서 손 뗀다 — 무슨 수를 써서라도
-      <span class="effects">[money: -1500000, stress: +14, mental: -5, health: -4]</span>
+      <span class="choice-num">선택 1</span> 모집책 번호를 모두 차단하고, 받은 돈 중 150만원의 반환에 동의했다
+      <span class="effects">[money: -1500000, mental: -19, health: -4]</span>
       <span class="flags">🚩 arc_temptation_fallout_seen, escaped_dirty_money, was_compromised</span>
     </div>
-    <div class="result-text">{name}은 번호를 다 차단하고, 받은 200만원에 사비를 더해<br>그 여자에게 할 수 있는 만큼 돌려보냈다. 통장도 해지했다.<br><br>잔고는 다시 바닥. 며칠 잠도 못 잤다.<br>하지만 더 깊은 곳으로 끌려가기 전에, 발을 뺐다.<br>한 번의 실수로 끝낼 기회는 — 아직 있었다.</div>
+    <div class="result-text">{name}은 받은 200만원 가운데 150만원을 마련해 은행의 피해금 반환 절차에 동의했다. 빌려준 계좌를 해지하고 모집책 번호도 모두 차단했다.<br><br>받은 대가 가운데 돌려주지 못한 돈은 50만원이었다. 잔액은 다시 바닥에 가까워졌고, 며칠 잠도 못 잤다.<br>은행의 추가 확인이 올지, 경찰에서 먼저 연락할지는 알 수 없었다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> 이왕 이렇게 된 거, 더 깊이 들어간다  (+300만원)
-      <span class="effects">[money: +3000000, stress: +6, luck: +2, mental: -8]</span>
+      <span class="choice-num">선택 2</span> 반환 요청을 거절하고, 통장·체크카드 세 세트를 넘겨 현금 300만원을 받는다
+      <span class="effects">[money: +3000000, luck: +2, mental: -14]</span>
       <span class="flags">🚩 arc_temptation_fallout_seen, fell_to_darkness</span>
     </div>
-    <div class="result-text">{name}은 그 여자의 번호를 차단했다. 울음소리도 함께.<br>"몇 개 더 구할 수 있어요."<br><br>이미 건넌 선이었다. 돌아가도 깨끗해지지 않는다면,<br>차라리 끝까지 가는 게 낫다고 — 그렇게 자신을 설득했다.<br>돈이 들어올수록, 거울 보기가 힘들어졌다.<br>강남이 가까워지고 있었다. 다른 누군가의 지옥을 밟고서.</div>
+    <div class="result-text">{name}은 은행의 반환 요청에 동의하지 않고 모집책에게 답했다.<br>"세 개 구할 수 있어요."<br><br>사흘 동안 다른 사람 세 명에게서 통장과 체크카드를 받아 모았다. {name}은 세 세트를 모집책이 알려 준 지하철 보관함에 넣고, 비밀번호 세 개를 문자로 보냈다.<br><br>한 시간 뒤 같은 보관함에 현금 300만원이 든 봉투가 놓였다. {name}은 봉투를 가져왔다.<br>그 뒤에도 모집책은 또 다른 사람의 이름과 계좌번호를 같은 형식의 문자로 보냈다. 은행의 반환 요청은 처리 기록에, 모집책의 다음 요구는 받은편지함에 남았다.</div>
   </div>
 </div>
   </div>
@@ -745,15 +1012,15 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_temptation_clean</div>
   <div class="event-title">지나간 자리</div>
-  <div class="event-desc">뉴스를 보다가 자막이 지나갔다.<br><br>'대포통장 모집책 일당 검거 — 명의자 수십 명 입건. 최대 징역 3년.'<br><br>그날 밤, 200만원이 입금된다는 문자를 지웠다.<br>그 번호를 차단했다.<br><br>화면이 꺼진 채로 한참 누워있었다.<br>만약 그때 보냈다면 — 지금쯤 저 뉴스 자막 안에 있었을 거다.<br><br>전과자가 된 채로 강남을 꿈꿨겠지.</div>
-  <div class="event-meta">배경: convenience_night | 인물: player_normal</div>
+  <div class="event-desc">한 달 뒤, 밤. 지금 사는 방에서 뉴스를 보다가 자막이 지나갔다.<br><br>'대포통장 모집책 일당 검거 — 명의자 수십 명 입건. 최대 징역 5년 또는 벌금 3천만원.'<br><br>그날 밤, 차단해 둔 번호가 문득 떠올랐다.<br>받지 않은 200만원도 함께.<br><br>화면이 꺼진 채로 한참 누워 있었다. 만약 그때 통장과 체크카드를 넘겼다면, 지금쯤 경찰 연락을 기다리고 있었을지도 모른다.<br><br>{name}은 차단 목록을 열었다가 닫았다.</div>
+  <div class="event-meta">배경: current_housing | 인물: player_normal</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 다행이다. 내 방식대로 간다
-      <span class="effects">[mental: +7, reputation: +2, stress: -3]</span>
+      <span class="choice-num">선택 1</span> 숨을 길게 뱉었다. 내 방식대로 간다
+      <span class="effects">[mental: +10]</span>
       <span class="flags">🚩 arc_temptation_clean_seen, stayed_clean</span>
     </div>
-    <div class="result-text">{name}은 길게 숨을 뱉었다.<br><br>느려도, 떳떳한 길이 결국 멀리 간다.<br>당장 힘들더라도 — 그렇게 믿기로 했다.<br><br>월세는 아직 남아있었다. 하지만 손은 깨끗했다.</div>
+    <div class="result-text">{name}은 길게 숨을 뱉었다.<br><br>뉴스 자막에 자기 이름은 없었다. 차단 목록을 확인하고 휴대폰을 내려놓았다.</div>
   </div>
 </div>
   </div>
@@ -770,16 +1037,16 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="event-meta">배경: goshiwon_hallway | 인물: goshiwon_owner</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 감사합니다. 바로 시작할게요 — 편의점 야간 알바
-      <span class="effects">[stress: -4, mental: +5, social_skill: +1]</span>
+      <span class="choice-num">선택 1</span> &quot;감사합니다. 바로 시작할게요.&quot; (야간 알바를 받았다)
+      <span class="effects">[mental: +9, social_skill: +1]</span>
       <span class="flags">🚩 arc_rescue_job_seen</span>
     </div>
     <div class="result-text">다음 날부터 출근했다.<br>시급은 짜지만 매달 들어오는 돈이 생겼다.<br>0과 1의 차이는 생각보다 컸다.<br>아주머니에게는 음료수 한 박스를 사다 드렸다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> 마음만 받겠습니다. 더 나은 자리를 찾는 중이에요
-      <span class="effects">[stress: +3, mental: +2]</span>
+      <span class="choice-num">선택 2</span> &quot;마음만 받겠습니다. 더 좋은 자리를 찾는 중이에요.&quot;
+      <span class="effects">[mental: -1]</span>
       <span class="flags">🚩 arc_rescue_job_seen, rejected_rescue_job</span>
     </div>
     <div class="result-text">아주머니는 '그래, 젊을 때 눈을 높이 둬야지'라며 웃었다.<br>방에 돌아와 채용 공고를 다시 열었다.<br>선택에는 책임이 따른다. 통장이 그 책임을 보여줄 것이다.</div>
@@ -795,15 +1062,15 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_spec_career</div>
   <div class="event-title">어떤 직장인이 될 것인가</div>
-  <div class="event-desc">1년쯤 직장을 다니면서 — 하나씩 보이기 시작했다.<br><br>이 회사에서 올라가는 방법은 두 가지였다.<br>성과를 숫자로 만들어 보이거나,<br>사람을 통해 위로 올라가거나.<br><br>두 길 모두 아는 사람이 있었다.<br>{name}은 오늘, 어느 쪽을 택할지 생각했다.</div>
-  <div class="event-meta">배경: cafe | 인물: player_determined</div>
+  <div class="event-desc">직장 생활이 1년을 넘기자 사무실의 보이지 않던 길이 보이기 시작했다. 야근해 만든 보고서는 숫자가 좋으면 임원 회의에 올라갔고, 회식 자리에서 이름이 오간 사람은 다음 프로젝트에 먼저 불렸다.<br><br>{name}의 책상에는 성과표와 팀장에게서 온 저녁 약속이 나란히 놓여 있었다. 둘 다 회사에서 올라가는 방법이었다. 하나는 결과를 반박할 수 없게 만들고, 다른 하나는 결과를 말해줄 사람을 자기 편으로 만든다.<br><br>모든 시간을 두 곳에 쓸 수는 없었다. 형광등 아래에서 어느 능력을 먼저 자기 이름으로 만들지 정해야 했다.</div>
+  <div class="event-meta">배경: office | 인물: player_suit</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 성과로 증명한다 — 숫자가 거짓말을 안 하기 때문에  [엘리트 코스]
       <span class="effects">[work_performance: +15, investment_skill: +3, intelligence: +5]</span>
       <span class="flags">🚩 spec_elite, pending_spec_career_done</span>
     </div>
-    <div class="result-text">{name}은 보고서를 다시 열었다.<br>남들이 퇴근한 자리에서 숫자를 다듬었다.<br>이 방식은 외롭다. 하지만 결과는 반박하기 어렵다.<br>{name}은 그 사실에 의지하기로 했다.</div>
+    <div class="result-text">{name}은 저녁 약속을 정중히 미루고 보고서를 다시 열었다. 빈 사무실에서 표의 기준을 통일하고, 자기 주장과 맞지 않는 숫자도 지우지 않았다.<br><br>새벽이 가까워질수록 화면은 단순해졌다. 누가 발표하더라도 결론이 같은 자료를 만들고 싶었다.<br><br>메일을 보내자 사무실이 다시 조용해졌다. 이 길은 혼자 증명해야 하는 시간이 길었다. 대신 숫자가 자기 대신 말할 수 있었다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
@@ -811,7 +1078,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
       <span class="effects">[social_skill: +10, reputation: +8, appearance: +3]</span>
       <span class="flags">🚩 spec_social_climber, pending_spec_career_done</span>
     </div>
-    <div class="result-text">{name}은 팀장에게 먼저 밥을 샀다.<br>계산기보다 먼저 전화를 받는 사람이 됐다.<br>숫자만으로는 부족한 것들이 있다는 걸,<br>이제 몸으로 알기 시작했다.</div>
+    <div class="result-text">{name}은 보고서를 저장하고 저녁 약속에 나갔다. 팀장이 좋아하는 메뉴를 기억했고, 말이 적은 동료에게 먼저 질문을 건넸다. 다음 주에는 다른 부서 사람이 직접 전화를 걸어왔다.<br><br>성과가 사라진 것은 아니었다. 다만 누가 그 성과를 보고, 어느 자리에서 이름을 꺼내는지가 함께 움직였다.<br><br>연락처가 늘어날수록 전화는 빨리 왔다. 사람을 읽는 일에도 숫자만큼 정교한 노동이 필요했다.</div>
   </div>
 </div>
   </div>
@@ -824,23 +1091,23 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_spec_invest</div>
   <div class="event-title">어떻게 돈이 돈을 벌게 할 것인가</div>
-  <div class="event-desc">몇 번 이기고 몇 번 지면서 — 자신만의 방식이 생겼다.<br><br>어떤 투자자는 엑셀을 믿는다.<br>기대값, 표준편차, 상관관계.<br>숫자에 감정이 없다는 걸 무기로 삼는 사람들.<br><br>어떤 투자자는 감각을 믿는다.<br>시장이 틀렸을 때를 찾아 크게 베팅하는 사람들.<br><br>{name}에게 맞는 방식은 — 어느 쪽인가.</div>
+  <div class="event-desc">몇 번의 수익과 손실이 거래 내역에 번갈아 쌓였다. {name}은 같은 종목에서도 들어간 이유와 나온 이유가 매번 달랐다는 걸 발견했다. 운이 좋았던 날까지 실력으로 기억하면 다음 손실이 더 커질 것이다.<br><br>노트 한쪽에는 기대값과 변동성, 상관관계를 적은 표가 있었다. 다른 쪽에는 숫자로 설명하기 전에 먼저 이상하다고 느꼈던 순간들이 적혀 있었다. 시장의 감정을 제거할 것인가, 시장이 틀린 순간에 자기 확신을 크게 걸 것인가.<br><br>두 방식 모두 수익과 대가가 있었다. 이제는 우연한 선택이 아니라 자기 규칙을 정해야 했다.</div>
   <div class="event-meta">배경: meeting | 인물: player_determined</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 데이터와 확률로 싸운다 — 감정을 빼는 게 무기다  [퀀트형]
-      <span class="effects">[investment_skill: +10, intelligence: +6, stress: -5]</span>
+      <span class="effects">[investment_skill: +10, intelligence: +6, mental: +5]</span>
       <span class="flags">🚩 spec_quant, pending_spec_invest_done</span>
     </div>
-    <div class="result-text">{name}은 그날부터 스프레드시트를 짜기 시작했다.<br>어떤 포지션이든 숫자로 정리했다.<br>틀릴 때도 있었다. 하지만 흔들리지 않을 수 있었다.<br>그게 이 방식의 힘이었다.</div>
+    <div class="result-text">{name}은 모든 포지션에 진입 조건과 손절 기준을 먼저 적는 시트를 만들었다. 마음에 드는 종목도 수치가 기준을 넘지 않으면 매수 칸이 열리지 않았다.<br><br>예측이 틀리는 날은 여전히 있었다. 차이는 손실 뒤에 이유를 새로 꾸며내지 않아도 된다는 것이었다.<br><br>마지막 수식을 저장하자 셀들이 반듯하게 정렬됐다. 감정을 없앨 수는 없어도, 감정이 주문 버튼을 누르는 순서는 바꿀 수 있었다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 확신이 오면 크게 건다 — 소심하면 복리가 안 된다  [투기형]
-      <span class="effects">[luck: +8, investment_skill: +5, stress: +8]</span>
+      <span class="effects">[luck: +8, investment_skill: +5, mental: -8]</span>
       <span class="flags">🚩 spec_speculator, pending_spec_invest_done</span>
     </div>
-    <div class="result-text">{name}은 한 포지션에 평소보다 두 배를 넣었다.<br>틀렸으면 끝이었다.<br>맞았다.<br>{name}은 그 날 이후 — 이 감각을 믿기로 했다.</div>
+    <div class="result-text">{name}은 확신이 오는 조건을 세 줄로 적었다. 남들이 두려워한다는 이유만으로는 부족했다. 정보가 다르게 읽히고, 틀렸을 때 감당할 선이 보일 때만 평소보다 크게 들어가기로 했다.<br><br>다음 기회가 왔을 때 주문 금액을 두 배로 올렸다가 확인 창에서 오래 멈췄다. 감각을 믿는다는 말은 충동에 맡긴다는 뜻이 아니었다.<br><br>확신의 크기만큼 틀렸을 때의 책임도 자기 것이었다. 그 무게까지 함께 걸기로 했다.</div>
   </div>
 </div>
   </div>
@@ -853,7 +1120,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_spec_found</div>
   <div class="event-title">무엇을 만들 것인가</div>
-  <div class="event-desc">창업을 꿈꾸는 사람들은 두 종류다.<br><br>아이디어를 제품으로 만들고 싶은 사람.<br>'이게 왜 없지?'라는 질문에서 출발하는 사람들.<br><br>사람을 모으고 싶은 사람.<br>'이 사람들이 모이면 뭔가 된다'에서 출발하는 사람들.<br><br>{name}은 어느 쪽인가.</div>
+  <div class="event-desc">창업 노트에는 서로 다른 두 페이지가 있었다. 한쪽에는 사람들이 반복해서 겪는 불편과 그것을 해결할 기능이 빼곡했다. 다른 쪽에는 만나게 하면 서로 필요한 것을 채울 사람들의 이름과 화살표가 이어졌다.<br><br>제품에서 시작하면 아무도 만들지 않은 것을 끝까지 구현해야 했다. 사람에서 시작하면 아직 형태 없는 가능성을 믿게 하고 같은 자리에 모아야 했다. 둘 다 사업이지만, 첫날에 하는 일부터 달랐다.<br><br>{name}은 빈 표지에 회사 이름을 쓰기 전, 자신이 만들고 싶은 것이 물건인지 관계인지 정해야 했다.</div>
   <div class="event-meta">배경: cafe | 인물: player_determined</div>
   <div class="choice">
     <div class="choice-header">
@@ -861,7 +1128,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
       <span class="effects">[investment_skill: +5, intelligence: +8, luck: +5]</span>
       <span class="flags">🚩 spec_tech_founder, pending_spec_found_done</span>
     </div>
-    <div class="result-text">{name}은 노트에 첫 기획서를 썼다.<br>만들 수 있는지보다 만들어야 하는지를 먼저 따졌다.<br>기술은 도구다. 문제가 진짜이면 도구는 따라온다.<br>그게 {name}이 믿는 방식이었다.</div>
+    <div class="result-text">{name}은 이름 목록을 덮고 첫 제품 기획서를 썼다. 기능을 적기 전에 누가 언제 어떤 불편을 겪는지 한 문장으로 고쳤다. 만들 수 있다는 이유만으로 넣은 기능은 지웠다.<br><br>새벽이 되자 화면에는 화려한 소개 대신 작은 문제 하나만 남았다. 그 문제가 진짜라면 기술은 도구가 될 수 있었다.<br><br>{name}은 첫 번째 사용자에게 보여줄 수 있는 크기까지 줄여보기로 했다. 회사의 시작은 완성품이 아니라 검증할 질문이었다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
@@ -869,7 +1136,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
       <span class="effects">[social_skill: +10, reputation: +10, luck: +3]</span>
       <span class="flags">🚩 spec_social_entrepreneur, pending_spec_found_done</span>
     </div>
-    <div class="result-text">{name}은 명함을 다시 만들었다.<br>직함보다 연락처가 더 중요한 시대.<br>한 사람이 두 사람을 데려오고, 두 사람이 넷을 데려온다.<br>{name}은 그 시작점이 되기로 했다.</div>
+    <div class="result-text">{name}은 기능 목록을 덮고 사람들의 이름을 다시 배치했다. 서로 모르는 두 사람이 만나면 무엇을 줄 수 있는지 화살표 옆에 적었다. 첫 모임은 여섯 명이면 충분했다.<br><br>명함에는 거창한 직함 대신 연락할 이유가 되는 한 줄을 넣었다. 한 사람이 다음 사람을 데려오는 구조가 제품의 첫 형태였다.<br><br>초대 메시지를 보내자 읽음 표시가 하나씩 켜졌다. 이 사업의 첫 자산은 코드가 아니라, 같은 자리에 와줄 사람들의 신뢰였다.</div>
   </div>
 </div>
   </div>
@@ -882,60 +1149,106 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_daeun_01_meet</div>
   <div class="event-title">1+1</div>
-  <div class="event-desc">매일 가는 편의점. 야간.<br><br>오늘도 삼각김밥 하나를 들고 계산대에 섰다. 카드를 내밀려는데 그녀가 말을 건다.<br><br>"그거 유통기한 임박이라 1+1이에요. 하나 더 가져가세요."<br><br>계산대 뒤 여자. 처음 보는 것도 아니었는데, 처음 들어보는 말이었다.<br><br>서울 와서 이런 호의를 받은 게 얼마 만인지.<br>좁은 편의점 안에, 잠깐 다른 온도가 생겼다.</div>
+  <div class="event-desc">생활비 때문에 단기 일을 이어오던 때였다. 잠이 오지 않은 새벽, 불이 켜진 24시간 편의점에 들어갔다.<br><br>삼각김밥 하나를 들고 계산대에 섰다. 카드를 내밀려는데 직원이 진열대의 작은 빨간 표시를 가리켰다.<br><br>"그거 오늘 1+1 행사예요. 하나 더 가져가세요."<br><br>{name}은 표시를 보지 못했다. 직원은 계산만 해도 됐지만, 놓친 행사를 먼저 알려줬다.<br>계산대 너머의 낯선 얼굴. 아직 이름도 모른다.</div>
   <div class="event-meta">배경: convenience_night | 인물: daeun_smile</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 고맙다고, 이름을 묻는다  (인연 시작 / 용기·약간의 거리)
-      <span class="effects">[mental: +6, stress: +2]</span>
-      <span class="flags">🚩 arc_daeun_met, met_daeun, arc_daeun_01_seen</span>
+      <span class="choice-num">선택 1</span> 고맙다고 말하고, 이름을 묻는다
+      <span class="effects">[mental: +4, tint: +3]</span>
+      <span class="flags">🚩 arc_daeun_met, met_daeun, arc_daeun_01_seen, daeun_met, daeun_first_kind</span>
     </div>
-    <div class="result-text">"...감사합니다. 자주 오는데 매번 챙겨주시네요."<br>그녀가 처음으로 웃었다. "김다은이에요. 자주 보니까."<br><br>작은 이름 하나가 오갔다.<br>서울의 새벽이, 조금 덜 차가워졌다.</div>
+    <div class="result-text">"...행사인 줄 몰랐어요. 감사합니다."<br>직원이 웃었다. "김다은이에요. 야간에 일해요."<br><br>{name}도 자기 이름을 말했다. 둘은 처음으로 서로의 이름을 불렀다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> 고맙다는 인사만 하고 나온다  (집중 유지 / 따뜻함 놓침)
+      <span class="choice-num">선택 2</span> 고맙다는 인사만 하고 나온다
       <span class="effects">[mental: +1]</span>
-      <span class="flags">🚩 arc_daeun_met, met_daeun, arc_daeun_01_seen, daeun_kept_distance</span>
+      <span class="flags">🚩 arc_daeun_met, met_daeun, arc_daeun_01_seen, daeun_kept_distance, daeun_met</span>
     </div>
-    <div class="result-text">{name}은 고개만 꾸벅하고 나섰다.<br>지금은 30억만 보고 가야 한다.<br><br>그래도 봉지 속 삼각김밥 두 개가, 이상하게 마음에 남았다.</div>
+    <div class="result-text">{name}은 고개만 꾸벅하고 나섰다.<br>낯선 사람에게 더 말을 붙일 여유가 없는 밤이었다.<br><br>봉지에는 하나 값으로 받은 삼각김밥 두 개가 들어 있었다. 직원 이름은 묻지 못했다.</div>
   </div>
 </div>
   </div>
 </div><div class="section-title">sangchul</div><div class="arc-section" id="arc-arc_sangchul_01_meet" style="border-color:#56b6c2;background:#081214">
   <div class="arc-header" style="color:#56b6c2" onclick="toggle(this)">
     <span class="arc-type">[sangchul]</span> 상철 1: 첫 만남 <span class="condition">조건: t≥10</span>
-    <span class="arc-count">1단계</span>
+    <span class="arc-count">4단계</span>
   </div>
   <div class="arc-body">
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_sangchul_01_meet</div>
   <div class="event-title">왜 강남인가</div>
-  <div class="event-desc">신촌 골목, 작은 부동산.<br>원룸 시세나 알아보려고 들어갔다.<br><br>50대 남자가 안경 너머로 김민준을 본다.<br>"원룸? 지금 사정으론 보증금이 빠듯하겠는데."<br><br>맞는 말이라 할 말이 없었다. 나가려는데 그가 부른다.<br>"커피나 한 잔 하고 가. 어차피 손님도 없어."<br><br>믹스커피를 타주며, 그가 묻는다.<br>"어디 살고 싶어서 왔어?"<br>"...강남이요."<br>그가 웃지도 비웃지도 않고, 그냥 본다.<br>"왜?"</div>
+  <div class="event-desc">3월 끝, 비가 막 그친 신촌 골목. 유리문 안쪽으로 원룸 평면도가 줄지어 걸린 부동산이 있었다.<br><br>고시원을 벗어날 수 있을지 보려고 들어왔다.<br>"보증금 천에 월 오십오. 관리비는 별도고요."<br>계산기 숫자는 지금 통장보다 한참 앞에 있었다.<br><br>책상 건너 남자가 {name}의 빈손과 낡은 운동화를 차례로 봤다. 오십 대 초반, 눌러 말하는 충청도 억양.<br>"지금 사정으로는 좀 힘들겠는데요."<br><br>{name}이 의자를 밀고 일어났다. 남자는 서류에서 눈을 떼지 않은 채 말했다.<br>"잠깐. 방 못 구했다고 사람까지 쫓아낼 건 없잖아."<br><br>그가 종이컵 두 개를 꺼냈다.<br>"따뜻한 커피는 돼요. 비도 막 그쳤고."<br><br>사무실에는 벽시계와 빗물이 타이어에 밀리는 소리만 남았다.</div>
   <div class="event-meta">배경: realestate_office | 인물: sangchul_normal</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> &quot;아버지한테... 한 번은 보여드리고 싶어서요.&quot;
-      <span class="effects">[mental: +6, intelligence: +3]</span>
-      <span class="flags">🚩 arc_sangchul_met_seen</span>
+      <span class="choice-num">선택 1</span> &quot;제 사정을 어떻게 아셨어요?&quot;
+      <span class="follow-up">→ arc_sangchul_01_measure</span>
     </div>
-    <div class="result-text">처음으로 입 밖에 낸 이유였다.<br>임상철은 한참 김민준을 보더니 고개를 끄덕였다.<br>"그 '왜'가 확실하네. 그럼 됐어."<br>"흔들릴 때마다 그게 버텨줄 거야. 명함 줄 테니까, 가끔 들러."<br>낯선 동네에 처음으로 아는 사람이 생겼다.</div>
+    <div class="result-text">남자가 그제야 서류에서 눈을 들었다.<br><br>"틀렸습니까?"<br><br>{name}은 대답하지 않았다. 남자는 빈 의자를 턱으로 가리켰다. 이번에는 호의보다 확인에 가까운 눈이었다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 2</span> &quot;커피만 마시고 가겠습니다.&quot;
+      <span class="follow-up">→ arc_sangchul_01_coffee</span>
+    </div>
+    <div class="result-text">종이컵은 손을 데울 만큼 뜨거웠고, 믹스커피는 지나치게 달았다.<br><br>{name}이 다시 앉자 남자도 맞은편 의자를 당겼다. 방을 못 구한 손님에게 시간을 쓰는 이유는 아직 알 수 없었다.</div>
+  </div>
+</div>
+<div class="event-card" style="margin-left:32px">
+  <div class="event-id">arc_sangchul_01_measure</div>
+  <div class="event-title">사람을 읽는 법</div>
+  <div class="event-desc">남자는 계산기를 {name} 쪽으로 돌려놓았다. 이름표에는 임상철이라고 적혀 있었다.<br><br>"보증금부터 물었고, 관리비를 두 번 확인했고, 창문보다 월세부터 봤잖아요."<br><br>"그걸로 다 압니까?"<br><br>"돈 있는 사람은 방향을 물어요. 버텨야 하는 사람은 빠져나갈 구멍부터 묻고."<br>상철은 식은 숫자를 손끝으로 한 번 두드렸다.<br><br>{name}은 낡은 운동화 끝을 의자 밑으로 당겼다.<br>"사람을 다 그렇게 재세요?"<br><br>"아니. 그래서 커피를 권한 거지."<br><br>처음 보는 사람의 목소리치고는 이상하게 확신이 있었다. 상철은 대답을 재촉하지 않고 종이컵의 김이 잦아들 때까지 기다렸다.</div>
+  <div class="event-meta">배경: realestate_office | 인물: sangchul_serious</div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 1</span> &quot;그럼 저는 어디까지 갈 사람으로 보입니까?&quot;
+      <span class="follow-up">→ arc_sangchul_01_answer</span>
+    </div>
+    <div class="result-text">상철의 옅은 웃음이 사라졌다.<br><br>"그건 내가 정하는 게 아니지."<br><br>그는 가격을 적지 않은 메모지를 가운데로 밀었다. 이번에는 사람을 재는 눈이 아니라, 답을 기다리는 눈이었다.</div>
+  </div>
+</div>
+<div class="event-card" style="margin-left:64px">
+  <div class="event-id">arc_sangchul_01_answer</div>
+  <div class="event-title">그 질문</div>
+  <div class="event-desc">상철은 빈 메모지 위에 펜을 세워 놓았다.<br><br>"어디 살고 싶어요?"<br><br>"...강남이요."<br><br>비웃음도 감탄도 없었다. 유리 밖에서 젖은 도로를 밟는 타이어 소리만 길게 지나갔다.<br><br>"강남이 어디 한두 동네인가. 아파트? 주소? 남들 보여주려고?"<br><br>{name}은 입을 열었다가 닫았다. 떠오르는 답은 전부 남에게서 빌린 말처럼 들렸다.<br><br>상철이 펜을 내려놓았다.<br>"그러니까 묻는 겁니다. 왜요?"</div>
+  <div class="event-meta">배경: realestate_office | 인물: sangchul_serious</div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 1</span> &quot;아버지한테... 한 번은 보여드리고 싶어서요.&quot;
+      <span class="effects">[mental: +6, intelligence: +3, tint: +5]</span>
+      <span class="flags">🚩 arc_sangchul_met_seen, sangchul_met</span>
+    </div>
+    <div class="result-text">처음으로 입 밖에 낸 이유였다.<br>"고향이 어디예요?" 임상철이 물었다.<br>"창원요."<br>커피잔을 젓던 그의 손이 아주 잠깐, 반 박자 멈췄다.<br>그리고 한참 김민준을 보더니 고개를 끄덕였다.<br>"그 '왜'가 확실하네. 그럼 됐어."<br>"흔들릴 때마다 그게 버텨줄 거야." 상철이 명함을 메모지 위에 놓았다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> &quot;돈 있으면 다 강남 가고 싶지 않나요?&quot;
-      <span class="effects">[intelligence: +4, stress: +2]</span>
-      <span class="flags">🚩 arc_sangchul_met_seen</span>
+      <span class="effects">[intelligence: +4, mental: -2]</span>
+      <span class="flags">🚩 arc_sangchul_met_seen, sangchul_met</span>
     </div>
     <div class="result-text">임상철이 피식 웃는다.<br>"그렇게 답하는 사람치고 진짜 가는 사람 못 봤어."<br>"강남이 목적이면 못 가. 강남이 수단인 사람만 가더라고."<br>무슨 뜻인지 그때는 몰랐다. 명함만 받아 나왔다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 3</span> 솔직히 말한다 — &quot;지는 게 싫어서요. 이 도시한테.&quot;
-      <span class="effects">[mental: +5, stress: -2, intelligence: +2]</span>
-      <span class="flags">🚩 arc_sangchul_met_seen, pride_motive</span>
+      <span class="choice-num">선택 3</span> &quot;지는 게 싫어서요. 이 도시한테.&quot; (솔직하게 꺼냈다)
+      <span class="effects">[mental: +7, intelligence: +2, tint: +3]</span>
+      <span class="flags">🚩 arc_sangchul_met_seen, sangchul_met, pride_motive</span>
     </div>
-    <div class="result-text">임상철이 커피잔을 내려놨다.<br>"...나도 30년 전에 똑같이 말했어. 충청도서 올라와서."<br>"그 오기로 여기까지 왔지. 건물 두 채. 근데 잃은 것도 많아."<br>"너는 잃지 마. 갈 거면, 잃지 말고 가."<br>그 말에는 어떤 무게가 있었다.</div>
+    <div class="result-text">임상철이 커피잔을 내려놨다.<br>"...나도 30년 전에 똑같이 말했어. 충청도서 올라와서."<br>"그 오기로 여기까지 왔지. 건물 두 채. 근데 잃은 것도 많아."<br>"너는 잃지 마. 갈 거면, 잃지 말고 가."</div>
+  </div>
+</div>
+<div class="event-card" style="margin-left:96px">
+  <div class="event-id">arc_sangchul_01_coffee</div>
+  <div class="event-title">종이컵 하나</div>
+  <div class="event-desc">상철은 계약서 더미를 한쪽으로 치웠다. 방을 보여줄 때보다 커피를 내놓을 때 책상이 더 넓어졌다.<br><br>"서울 와서 방 보러 다니면 다들 숫자부터 물어봐요. 얼마 있어야 들어가느냐, 얼마를 벌어야 버티느냐."<br><br>"틀린 질문은 아니잖아요."<br><br>"틀리진 않지. 그런데 숫자만 보고 들어온 사람은 숫자 때문에 제일 먼저 나가더라고."<br><br>유리 밖에서 차 한 대가 젖은 도로를 갈랐다. 상철은 그 소리가 지나간 뒤에야 말을 이었다.<br><br>"방을 구하려는 사람한테 왜 버티려는지까지 묻습니까?"<br><br>"나는 물어요. 문만 열어주는 건 중개가 아니라 문지기니까."<br><br>호의인지 영업인지 구분되지 않았다. 다만 상철은 아무 매물도 꺼내지 않은 채 {name}의 대답을 기다리고 있었다.</div>
+  <div class="event-meta">배경: realestate_office | 인물: sangchul_normal</div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 1</span> &quot;그 질문에는 답할 수 있습니다.&quot;
+      <span class="follow-up">→ arc_sangchul_01_answer</span>
+    </div>
+    <div class="result-text">상철이 빈 메모지를 가운데로 밀었다. 가격도 주소도 적혀 있지 않았다.<br><br>"좋아요. 그럼 방 얘기는 그다음에 합시다."<br><br>그의 목소리에서 처음으로 중개사의 말투가 사라졌다.</div>
   </div>
 </div>
   </div>
@@ -952,24 +1265,24 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="event-meta">배경: convenience_night | 인물: daeun_normal</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 진심으로 응원하고, 가끔 손을 보탠다  (관계 / 돈·시간)
-      <span class="effects">[mental: +7, money: -30000, stress: -4]</span>
+      <span class="choice-num">선택 1</span> 진심으로 응원하고, 가끔 손을 보탠다
+      <span class="effects">[mental: +11, money: -30000, tint: +6]</span>
       <span class="flags">🚩 daeun_supportive, arc_daeun_regular_seen</span>
     </div>
-    <div class="result-text">{name}은 가끔 그녀의 짐을 들어주고, 따뜻한 음료를 건넸다.<br>큰 건 아니어도, 서로의 고단함을 아는 사이가 됐다.<br>내 코가 석 자인데 — 그래도 이 온기는, 포기하고 싶지 않았다.</div>
+    <div class="result-text">{name}은 가끔 그녀의 짐을 들어주고, 따뜻한 음료를 건넸다.<br>큰 건 아니어도, 서로의 고단함을 아는 사이가 됐다.<br>내 코가 석 자인데 — 그래도 이 온기는, 포기하고 싶지 않았다.<br>그날 밤, 고시원 천장을 보다가 문득 그녀의 웃음이 떠올랐다. 왜인지는, 굳이 묻지 않았다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> 선을 지킨다 — 나도 여유가 없다  (집중 / 멀어짐)
-      <span class="effects">[mental: -2, stress: -1]</span>
+      <span class="choice-num">선택 2</span> 선을 지킨다 — 나도 여유가 없다
+      <span class="effects">[mental: -1, tint: -3]</span>
       <span class="flags">🚩 daeun_guarded, arc_daeun_regular_seen</span>
     </div>
     <div class="result-text">{name}은 따뜻하게 대하되, 깊이 들어가진 않았다.<br>그녀도 그 거리를 눈치챈 듯, 한 발 물러섰다.<br>정 주는 데도 비용이 든다 — {name}은 지금 그걸 치를 형편이 아니었다.<br>현명한 절제였는지, 외로운 회피였는지는 모른 채.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 3</span> 내 &#x27;강남 꿈&#x27;을 솔직히 털어놓는다  (진심 / 평가받음)
-      <span class="effects">[stress: +3]</span>
+      <span class="choice-num">선택 3</span> 내 &#x27;강남 꿈&#x27;을 솔직히 털어놓는다
+      <span class="effects">[mental: -3, tint: +4]</span>
       <span class="follow-up">→ arc_daeun_02b_dream</span>
     </div>
     <div class="result-text">그 말이 입 밖으로 나왔다. 처음으로, 이 사람 앞에서.</div>
@@ -978,23 +1291,23 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:32px">
   <div class="event-id">arc_daeun_02b_dream</div>
   <div class="event-title">꿈 이야기</div>
-  <div class="event-desc">"저는요, 5년 안에 강남에 입성할 거예요. 자산 30억."<br>{name}의 말에 다은이 잠깐 멍해지더니, 피식 웃었다.<br>"...크다. 근데 왜 하필 강남이에요?"<br>그 질문에, {name}은 쉽게 답하지 못했다.<br>그녀의 눈엔 비웃음이 아니라 — 진짜 궁금함이 있었다.</div>
+  <div class="event-desc">심야 편의점에 손님이 끊기자 냉장고 모터 소리만 남았다. {name}은 컵라면 뚜껑을 접다가 말했다. "저는 5년 안에 강남에 들어갈 거예요. 자산 30억으로요."<br><br>다은의 바코드 스캐너를 정리하던 손이 멈췄다. 놀라서 짧게 웃었지만 곧 표정이 진지해졌다. "...정말 큰 꿈이네요. 그런데 왜 하필 강남이에요, {name}씨?"<br><br>{name}은 김이 오르는 컵만 내려다봤다. 성공의 상징이라는 대답은 준비돼 있었다. 다은의 눈에는 비웃음이 아니라, 그 문장 뒤에 숨은 이유를 기다리는 조용한 궁금함이 있었다.</div>
   <div class="event-meta">배경: convenience_night | 인물: daeun_normal</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> &quot;무시당하지 않으려고요&quot; 솔직히 말한다  (이해받음 / 약점 노출)
-      <span class="effects">[mental: +9, stress: -3]</span>
+      <span class="choice-num">선택 1</span> &quot;다시는 무시당하고 싶지 않아서요.&quot; — 숨겨둔 이유를 말한다
+      <span class="effects">[mental: +12, tint: +5]</span>
       <span class="flags">🚩 daeun_understood, arc_daeun_regular_seen</span>
     </div>
-    <div class="result-text">{name}은 처음으로 속을 털어놨다. 가난이 부끄러웠던 순간들을.<br>다은은 한참 듣더니 조용히 말했다.<br>"...그 마음 알아요. 근데, 강남 못 가도 당신은 무시당할 사람 아니에요."<br>누군가 그렇게 말해준 건, 처음이었다.</div>
+    <div class="result-text">{name}은 가난이 들킬까 먼저 작아졌던 순간과, 아버지의 빚을 갚는 동안 사람들의 눈부터 피했던 일을 처음 꺼냈다. 말할수록 컵라면 김이 눈앞을 흐렸다.<br><br>다은은 계산대에 손을 얹고 끝까지 들었다. "그 마음은 알아요. 그래도 {name}씨가 어디 사는지가, {name}씨를 무시해도 된다는 허락은 아니잖아요."<br><br>누군가 목표보다 먼저 자기 편을 들어준 것은 처음이었다. 식은 국물 위로 그 문장이 오래 남았다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> &quot;그냥, 성공의 상징이니까&quot; 가볍게 넘긴다  (거리 유지 / 깊어질 기회 놓침)
-      <span class="effects">[mental: +1]</span>
+      <span class="choice-num">선택 2</span> &quot;그냥 성공의 상징이잖아요.&quot; — 준비해둔 답으로 넘긴다
+      <span class="effects">[mental: +1, tint: -2]</span>
       <span class="flags">🚩 daeun_deflected, arc_daeun_regular_seen</span>
     </div>
-    <div class="result-text">{name}은 진심을 숨기고 웃어넘겼다.<br>다은도 더 묻지 않았다. 대화는 가벼웠고, 안전했다.<br>속을 안 보인 만큼, 가까워질 기회도 한 뼘 멀어졌다.</div>
+    <div class="result-text">{name}은 준비해둔 문장으로 웃어넘겼다. 다은은 잠깐 더 바라보다가 "그렇구나" 하고 계산대 정리를 다시 시작했다. 바코드 스캐너 불빛이 두 사람 사이를 가로질렀다.<br><br>대화는 곧 월세와 야간 근무 이야기로 돌아갔다. 가볍고 안전해서 어디에도 걸리지 않았다.<br><br>컵라면을 들고 나설 때, {name}은 묻지 않은 다음 질문 하나가 카운터 안에 그대로 남은 것 같았다.</div>
   </div>
 </div>
   </div>
@@ -1007,31 +1320,31 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_jiyeon_01_crash</div>
   <div class="event-title">접촉</div>
-  <div class="event-desc">봄 오후. 알바 가는 길.<br>자전거 페달을 밟던 그 순간, 골목을 돌아 나온 검은 메르세데스 벤츠 S클래스급 세단이 앞바퀴를 스쳤다.<br><br>{name}은 아스팔트에 넘어졌다. 무릎이 까졌고 자전거 앞바퀴가 휘었다.<br><br>운전석에서 한 여자가 내린다. 서른 초반쯤. 젖은 긴 검은 머리, 크림색 수트, 비싼 차보다 더 비싼 침착함. 하지만 지금은 분명히 당황한 얼굴이다.<br><br>"어, 어떡해... 괜찮으세요? 제가 보험 처리—"<br><br>{name}은 자전거를 일으켜 세운다. 바퀴를 살핀다. 시계를 본다.<br>알바 시간까지 12분.</div>
+  <div class="event-desc">봄비가 내리는 해 질 무렵, 신촌 이면도로. {name}은 교통비를 아끼려고 중고 자전거를 타고 빗길을 지나고 있었다.<br><br>검은 세단이 코너를 돌다 자전거 앞바퀴를 쳤다. {name}이 젖은 도로 위로 넘어졌다.<br><br>차 문이 열렸다. 30대 초반으로 보이는 여자. 검은 머리와 고급 정장도 비에 젖어 갔다.<br><br>"괜찮으세요? 정말 죄송해요. 병원 가셔야 할 것 같은데—"<br><br>{name}은 자전거 바퀴를 봤다. 휘어 있었다. 무릎에 피가 조금 났다.<br>오늘 안에 끝내야 할 일들이 아직 남아 있었다. 길에서 시간을 더 쓸 여유도 없었다.</div>
   <div class="event-meta">배경: street_rainy | 인물: jiyeon_normal</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> &quot;괜찮습니다.&quot; — 그냥 자리를 뜬다
-      <span class="effects">[stress: +3]</span>
-      <span class="flags">🚩 arc_jiyeon_crash_seen, jiyeon_walked_away</span>
+      <span class="choice-num">선택 1</span> &quot;괜찮습니다.&quot; (그냥 자리를 떴다)
+      <span class="effects">[mental: -3]</span>
+      <span class="flags">🚩 arc_jiyeon_crash_seen, jiyeon_walked_away, bicycle_wheel_bent</span>
     </div>
-    <div class="result-text">보상도, 연락처도 받지 않고 {name}은 걸어간다.<br>뒤도 돌아보지 않는다.<br><br>여자는 그 자리에 멈춰 선 채로 멀어지는 뒷모습을 바라본다.<br>— 처음 본다. 저런 사람.</div>
+    <div class="result-text">보상도 연락처도 받지 않고 {name}은 휘어진 자전거를 끌고 자리를 떴다.<br>뒤돌아보지 않았다.<br><br>여자는 그 자리에 선 채 멀어지는 뒷모습을 한동안 바라봤다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 휘어진 자전거를 보여주며 &quot;수리비만 주세요&quot;
       <span class="effects">[money: +80000]</span>
-      <span class="flags">🚩 arc_jiyeon_crash_seen, jiyeon_took_money</span>
+      <span class="flags">🚩 arc_jiyeon_crash_seen, jiyeon_repair_cash_received, bicycle_wheel_bent</span>
     </div>
-    <div class="result-text">여자가 지갑에서 5만원짜리 두 장을 꺼낸다. 망설임이 없다.<br>"이거면 될까요? 모자라면—"<br>"됐습니다."<br><br>{name}은 돈을 받아 주머니에 넣고 걸어간다.<br>그 여자에게 이건 그냥 점심값 정도였을 것이다.</div>
+    <div class="result-text">여자가 지갑에서 5만원짜리 한 장과 만원짜리 세 장을 꺼냈다. 망설임은 없었다.<br>"이거면 될까요? 모자라면—"<br>"됐습니다."<br><br>{name}은 8만원을 받아 주머니에 넣고 휘어진 자전거를 끌고 자리를 떴다. 구겨진 지폐와 휘어진 바퀴가 그대로 남았다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 3</span> 화를 낸다 — &quot;앞을 보고 운전해야죠&quot;
-      <span class="effects">[stress: -2, mental: +2]</span>
-      <span class="flags">🚩 arc_jiyeon_crash_seen, jiyeon_got_angry</span>
+      <span class="choice-num">선택 3</span> &quot;앞을 보고 운전해야죠.&quot; (화가 났다)
+      <span class="effects">[mental: +4]</span>
+      <span class="flags">🚩 arc_jiyeon_crash_seen, jiyeon_got_angry, bicycle_wheel_bent</span>
     </div>
-    <div class="result-text">참았던 말이 튀어나왔다. 여자는 고개를 숙인다.<br>"...죄송합니다. 정말로."<br><br>진심인 것 같았다. 그래서 더 화를 낼 수가 없었다.<br>{name}은 한숨을 쉬고 자전거를 끌고 간다.<br>여자의 시선이 등 뒤에 오래 남았다.</div>
+    <div class="result-text">참았던 말이 튀어나왔다. 여자는 고개를 숙였다.<br>"...죄송합니다. 정말로."<br><br>진심인 것 같았다. 그래서 더 화를 내지 못했다.<br>{name}은 한숨을 쉬고 자전거를 끌고 자리를 떴다.<br>여자의 시선이 등 뒤에 오래 남았다.</div>
   </div>
 </div>
   </div>
@@ -1044,23 +1357,23 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_jiyeon_02_store</div>
   <div class="event-title">또, 너</div>
-  <div class="event-desc">편의점 야간 카운터.<br>자정이 넘은 시각, 문에 달린 종이 울린다.<br><br>들어온 사람을 보고 {name}은 멈칫한다.<br>그 여자다. 자전거를 친 그 외제차의 주인.<br><br>그녀도 {name}을 알아본다. 눈이 커진다.<br>"...어? 그때 그?"<br><br>손에는 와인 한 병. 이 동네에 어울리지 않는 옷차림.<br>왜 이 시간에, 이 동네 편의점에 있는 걸까.</div>
-  <div class="event-meta">배경: convenience_night | 인물: jiyeon_normal</div>
+  <div class="event-desc">늦은 밤. 신촌역 근처 버스정류장. 비가 막 그친 뒤였다.<br><br>검은 세단 한 대가 젖은 도로 가장자리에 천천히 멈췄다. 운전석 문이 열리고 여자가 내렸다.<br><br>자전거를 친 그 운전자였다.<br><br>그녀도 {name}을 알아봤다. 눈이 커졌다.<br>"...어? 그때 그분 맞죠?"<br><br>버스 도착 안내판의 숫자가 바뀌었다. 둘 사이에는 이제 카운터도, 다른 사람도 없었다.</div>
+  <div class="event-meta">배경: street_rainy | 인물: jiyeon_normal</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 모른 척 계산만 한다
-      <span class="effects">[stress: +2]</span>
+      <span class="choice-num">선택 1</span> 모른 척하고 버스 도착 안내판을 본다
+      <span class="effects">[mental: -2]</span>
       <span class="flags">🚩 arc_jiyeon_store_seen</span>
     </div>
-    <div class="result-text">"15,000원입니다."<br>{name}은 사무적으로 바코드를 찍는다.<br><br>그녀는 뭔가 말하려다 만다. 카드를 내밀고, 받고, 봉투를 든다.<br>나가기 직전 한 번 더 돌아본다.<br>"...여기서 일하시는구나."<br>문이 닫힌다. 종이 울린다.</div>
+    <div class="result-text">{name}은 안내판에서 눈을 떼지 않았다.<br><br>여자가 먼저 한 걸음 다가왔다.<br>"저기요. 그날 이후 자전거는 괜찮아요? 계속 마음에 걸렸어요."<br><br>그제야 {name}이 돌아봤다. 잠깐 어색한 침묵이 흘렀다.<br>"한지연이에요. 이름이라도 말씀드려야 할 것 같아서요."<br><br>멀리서 버스 전조등이 젖은 도로 위로 번졌다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> &quot;자전거 주인이네요.&quot; 먼저 아는 척한다
+      <span class="choice-num">선택 2</span> &quot;그때 운전하신 분이죠?&quot; 먼저 말을 건다
       <span class="effects">[social_skill: +2]</span>
       <span class="flags">🚩 arc_jiyeon_store_seen, jiyeon_acknowledged</span>
     </div>
-    <div class="result-text">그녀의 얼굴이 환해진다. 안도하는 표정.<br>"기억하시네요! 그때 그냥 가셔서... 미안해서 한참 찾았어요."<br>"찾을 게 뭐 있다고요."<br>"보통은 그렇게 안 가잖아요."<br>그녀는 잠깐 망설이다 말한다.<br>"저... 한지연이에요."<br>그날 처음으로, 이름을 알았다.</div>
+    <div class="result-text">그녀의 얼굴에서 긴장이 풀렸다.<br>"기억하시네요. 그날 일이 계속 마음에 걸렸어요."<br>"일부러 찾을 일까지는 아니었는데요."<br>"그래도 다시 만나면 제대로 인사하고 싶었어요."<br><br>그녀는 잠깐 망설이다 손을 내밀었다.<br>"한지연이에요. 이번에는 이름이라도 알려드리려고요."<br><br>그날 처음으로, 두 사람 사이에 이름이 생겼다.</div>
   </div>
 </div>
   </div>
@@ -1073,19 +1386,19 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_jiyeon_03_offer</div>
   <div class="event-title">갚고 싶어요</div>
-  <div class="event-desc">며칠 뒤. 알바 끝나고 나오는데 편의점 앞에 그 차가 서 있다.<br><br>한지연이 차에서 내린다. 이번엔 작정하고 온 것 같다.<br><br>"커피 한 잔만 사게 해주세요. 그게 안 되면 밥이라도.<br>계속 마음에 걸려서요. 그날 제가 잘못한 건데 그쪽은 아무것도 안 받고 가셨잖아요."<br><br>진심인 것 같다. 근데 {name}은 안다.<br>이 사람과 자기는 사는 세계가 다르다.<br>커피 한 잔이 시작이 되면, 그 다음은 감당할 수 없는 거리가 보일 것이다.</div>
-  <div class="event-meta">배경: cafe | 인물: jiyeon_warm</div>
+  <div class="event-desc">며칠 뒤, 같은 동네의 큰길. 비가 다시 내리고 있었다.<br><br>검은 세단이 버스정류장 앞에 멈췄다. 한지연이 우산을 들고 내렸다. 이번에는 우연히 마주친 얼굴이 아니었다.<br><br>"커피 한 잔만 사게 해주세요. 그게 안 되면 밥이라도. 계속 마음에 걸려서요. 그날 제가 잘못한 건데 그쪽은 아무것도 안 받고 가셨잖아요."<br><br>며칠 동안 아버지의 약 문자와 구직 알림이 같은 휴대폰 화면에 쌓였다. 이제 한지연은 빚진 마음을 갚고 싶다고 했다.<br><br>진심인 것 같았다. 하지만 커피 한 잔이 시작이 되면, 두 사람이 사는 세계의 거리가 더 정확히 보일 것이다.</div>
+  <div class="event-meta">배경: street_rainy | 인물: jiyeon_warm</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 거절한다 — &quot;신경 쓰지 마세요. 정말 괜찮으니까&quot;
-      <span class="effects">[mental: +3, stress: -2]</span>
+      <span class="choice-num">선택 1</span> &quot;신경 쓰지 마세요. 정말 괜찮으니까.&quot; (고개를 젓고 걸었다)
+      <span class="effects">[mental: +5]</span>
       <span class="flags">🚩 arc_jiyeon_offer_seen, jiyeon_refused_coffee</span>
     </div>
     <div class="result-text">{name}은 고개를 젓고 지하철역 쪽으로 걷는다.<br><br>한지연은 따라오지 않는다. 대신 등 뒤로 말한다.<br>"왜 자꾸 도망가요?"<br><br>{name}은 멈추지 않는다. 근데 그 말이 계속 따라온다.<br>— 도망? 이게 도망인가.<br>한지연은 그날, {name}이라는 사람이 더 궁금해졌다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> 커피만 받는다 — 딱 한 번
+      <span class="choice-num">선택 2</span> 카페 문을 열었다. 딱 한 잔만
       <span class="effects">[social_skill: +3, mental: +2]</span>
       <span class="flags">🚩 arc_jiyeon_offer_seen, jiyeon_had_coffee</span>
     </div>
@@ -1093,8 +1406,8 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 3</span> 솔직하게 말한다 — &quot;우리 사는 세계가 너무 달라요&quot;
-      <span class="effects">[mental: +5, stress: -3]</span>
+      <span class="choice-num">선택 3</span> &quot;우리 사는 세계가 너무 달라요.&quot; (솔직하게 말했다)
+      <span class="effects">[mental: +8]</span>
       <span class="flags">🚩 arc_jiyeon_offer_seen, jiyeon_honest</span>
     </div>
     <div class="result-text">{name}은 처음으로 솔직하게 말했다.<br>"그쪽 차가 제 한 달 월세의 몇 배인지 아세요? 커피 한 잔 사주는 게 그쪽한텐 아무것도 아니겠지만, 저한텐 그게 아니에요."<br><br>한지연은 한동안 말이 없었다.<br>"...그래서 그날 그냥 가신 거예요?"<br>"네."<br>"근데요." 그녀가 {name}을 똑바로 봤다.<br>"전 그런 사람 처음 봤어요. 그래서 더 알고 싶은데."<br>그 눈빛이, {name}을 흔들었다.</div>
@@ -1110,20 +1423,20 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_jiyeon_03b_lunch</div>
   <div class="event-title">그녀의 세계</div>
-  <div class="event-desc">한지연이 점심을 사겠다고 했다. 약속한 거라며.<br><br>그녀가 데리고 간 곳은 청담 한식당. 점심 코스가 4만원이다.<br><br>{name}은 메뉴를 덮었다가, 폈다가, 다시 덮었다.<br><br>그녀는 눈치채지 못하는 척했다. 아니면 정말로 몰랐거나.<br>주문을 마치고 나서 그녀가 말했다.<br><br>"저 사실 투자에 관심 있어요. 아버지 회사일로 공부하고 있는데,<br>이쪽 공부하는 사람이 주변에 없어서 답답했거든요."<br><br>{name}은 잠시 생각했다.<br>이 사람이 원하는 게 뭔지, 정확히 알 수 없었다.</div>
-  <div class="event-meta">배경: cafe | 인물: jiyeon_warm</div>
+  <div class="event-desc">며칠 뒤, 한지연에게서 다시 연락이 왔다. 이번에는 점심을 같이 먹자는 제안이었다.<br><br>그녀가 데리고 간 곳은 청담 한식당. 점심 코스가 4만원이다.<br><br>{name}은 메뉴를 덮었다가, 폈다가, 다시 덮었다.<br><br>그녀는 눈치채지 못하는 척했다. 아니면 정말로 몰랐거나.<br>주문을 마치고 나서 그녀가 말했다.<br><br>"저 사실 투자에 관심 있어요. 아버지 회사일로 공부하고 있는데,<br>이쪽 공부하는 사람이 주변에 없어서 답답했거든요."<br><br>{name}은 잠시 생각했다.<br>이 사람이 원하는 게 뭔지, 정확히 알 수 없었다.</div>
+  <div class="event-meta">배경: restaurant | 인물: jiyeon_warm</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> &quot;저도 공부하고 있어요. 같이 얘기해봐요&quot; — 투자 파트너로 접근
-      <span class="effects">[investment_skill: +3, social_skill: +2, stress: +2]</span>
-      <span class="flags">🚩 arc_jiyeon_03b_seen, jiyeon_investment_talk</span>
+      <span class="choice-num">선택 1</span> &quot;저도 공부하고 있어요. 같이 얘기해봐요.&quot; (투자 얘기를 꺼냈다)
+      <span class="effects">[investment_skill: +3, social_skill: +2, mental: -2]</span>
+      <span class="flags">🚩 arc_jiyeon_03b_seen, jiyeon_investment_talk, scalping_introduced</span>
     </div>
-    <div class="result-text">두 시간 동안 부동산, 분양, 투자 이야기를 나눴다.<br>한지연은 아는 게 많았다. 공부를 많이 했다.<br>{name}이 알고 있던 것과 그녀가 알고 있는 것이 달랐다. 보이는 곳이 달라서.<br>점심값은 {name}이 계산하려 했다. 어렵게 어렵게 — 그녀가 먼저 카드를 꺼냈다.</div>
+    <div class="result-text">두 시간 동안 부동산, 분양, 투자 이야기를 나눴다.<br>한지연은 아는 게 많았다. 공부를 많이 했다.<br>{name}이 알고 있던 것과 그녀가 알고 있는 것이 달랐다. 보이는 곳이 달라서.<br>점심값은 {name}이 계산하려 했다. 어렵게 어렵게 — 그녀가 먼저 카드를 꺼냈다.<br>그녀가 헤어질 때 한마디 더 했다. "단기 매매도 공부해봤어요? 요즘 그쪽도 재미있더라고요."</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> &quot;그냥 오늘은 밥이나 맛있게 먹어요&quot; — 관계의 성격을 지금 정하지 않는다
-      <span class="effects">[mental: +5, stress: -3]</span>
+      <span class="choice-num">선택 2</span> &quot;그냥 오늘은 밥이나 맛있게 먹어요.&quot; (화제를 돌렸다)
+      <span class="effects">[mental: +8]</span>
       <span class="flags">🚩 arc_jiyeon_03b_seen, jiyeon_deflected_business</span>
     </div>
     <div class="result-text">점심은 맛있었다. 대화는 가벼웠다.<br>돌아오는 길에 그녀가 말했다. '다음엔 어딜 가고 싶어요?'<br>'다음'이 생겼다. 어떤 다음인지는 아직 몰랐다.</div>
@@ -1140,19 +1453,20 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="event-id">cafe_cb_stole_00</div>
   <div class="event-title">그날 외운 번호</div>
   <div class="event-desc">몇 달이 지났다. {name}은 악착같이 종잣돈을 모았다.<br>그리고 — 그날 카페에서 훔쳐본 번호 하나가,<br>여전히 머릿속에서 지워지지 않는다. 김 부장. 010-XXXX.<br><br>새벽 3시. {name}은 휴대폰을 들었다 놨다.<br>그 입주권 — 아직 살아있을까. 전화 한 통이면 알 수 있다.</div>
-  <div class="event-meta">배경: street_rainy | 인물: player_tired</div>
+  <div class="event-meta">배경: current_housing | 인물: player_tired</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 전화를 건다
-      <span class="effects">[stress: +5]</span>
+      <span class="effects">[mental: -5]</span>
       <span class="flags">🚩 cafe_callback_seen</span>
       <span class="follow-up">→ cafe_cb_stole_call</span>
     </div>
+    <div class="result-text">신호음이 세 번 울렸다. 심장이 따라 뛰었다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 번호를 지운다 — 훔친 걸로 시작하긴 싫다
-      <span class="effects">[mental: +7, stress: -4]</span>
+      <span class="effects">[mental: +11, tint: +4]</span>
       <span class="flags">🚩 cafe_stole_redeemed, cafe_callback_seen</span>
     </div>
     <div class="result-text">{name}은 번호를 지웠다. 손끝이 조금 떨렸다.<br>쉬운 길 하나를 또 버렸다. 하지만 — 그날 카페에서<br>자기도 모르게 더러워진 마음 한 구석이, 비로소 깨끗해졌다.<br>시작은 내 발로 하고 싶었다.</div>
@@ -1162,23 +1476,25 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="event-id">cafe_cb_stole_call</div>
   <div class="event-title">통화</div>
   <div class="event-desc">신호음 세 번. "여보세요."<br>김 부장은 {name}을 기억 못 했다. {name}은 둘러댔다.<br>"그때 카페에서... 입주권 건 소개받았던 사람입니다."<br><br>잠깐의 침묵. 그러더니 목소리가 부드러워진다.<br>"아아, 그거. 아직 한 자리 있어요. 근데 프리미엄 올랐어.<br>지금 7천. 오늘내일 안에 결정해야 돼. 어떻게, 들어와요?"</div>
-  <div class="event-meta">배경: street_rainy | 인물: boss</div>
+  <div class="event-meta">배경: current_housing | 인물: cafe_broker_kim</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 먼저 알아본다 — 등기·시세부터 확인
       <span class="follow-up">→ cafe_cb_stole_verify</span>
     </div>
+    <div class="result-text">공인중개사 두 곳에 전화했다. 숫자를 교차 확인했다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 직감을 믿고 지른다 — 있는 돈 전부
       <span class="follow-up">→ cafe_cb_stole_allin</span>
     </div>
+    <div class="result-text">통화 중에 이체를 눌렀다. 직감은 때로 유일한 증거가 된다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 3</span> ...역시 아니다. 끊는다
-      <span class="effects">[intelligence: +2, stress: -2]</span>
+      <span class="effects">[intelligence: +2, mental: +2]</span>
       <span class="flags">🚩 cafe_stole_walked</span>
     </div>
     <div class="result-text">{name}은 조용히 전화를 끊었다.<br>너무 빨랐다. '오늘내일'이라는 말이 자꾸 걸렸다.<br>급하게 미는 건 늘 이유가 있다. 직감이 그렇게 말했다.<br>기회를 놓쳤을 수도, 함정을 피했을 수도. 알 수 없다.</div>
@@ -1188,12 +1504,13 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="event-id">cafe_cb_stole_verify</div>
   <div class="event-title">파헤치기</div>
   <div class="event-desc">{name}은 사흘을 매달렸다. 등기부등본, 부동산 카페, 뉴스.<br>진실은 절반이었다 — 재개발은 진짜다. 확정도 맞다.<br>근데 김 부장은 조합원도 뭣도 아닌 그냥 브로커였고,<br>7천 중 2천은 그의 '수고비'로 부풀려진 거품이었다.<br><br>진짜 기회 위에, 가짜 가격표가 붙어 있었다.</div>
-  <div class="event-meta">배경: street_rainy | 인물: player_determined</div>
+  <div class="event-meta">배경: investment_phone | 인물: player_determined</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 거품을 빼고, 신중하게 들어간다
       <span class="follow-up">→ cafe_cb_stole_smart</span>
     </div>
+    <div class="result-text">김 부장에게 등기를 내밀었다. "2천은 거품이잖아요." 그가 눈을 피했다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
@@ -1207,8 +1524,8 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:96px">
   <div class="event-id">cafe_cb_stole_smart</div>
   <div class="event-title">거품을 걷고</div>
-  <div class="event-desc">{name}은 김 부장에게 등기를 들이밀었다.<br>"2천은 거품이잖아요. 5천에 합시다. 아니면 신고하든가."<br>김 부장의 표정이 일그러졌다. 그러더니, 마지못해 끄덕였다.<br>"...물건은 볼 줄 아네. 좋아, 5천."<br><br>검증한 자만이 깎을 수 있다. {name}은 제값에 들어갔다.</div>
-  <div class="event-meta">배경: street_rainy | 인물: player_determined</div>
+  <div class="event-desc">{name}은 김 부장에게 등기를 들이밀었다.<br>"2천은 거품이잖아요. 5천에 합시다. 아니면 신고하든가."<br>김 부장의 표정이 일그러졌다. 그러더니, 마지못해 끄덕였다.<br>"...물건은 볼 줄 아네. 좋아, 5천."<br><br>검증한 자만이 깎을 수 있다. {name}은 제값에 들어갈 문턱까지 왔다.</div>
+  <div class="event-meta">배경: cafe | 인물: cafe_broker_kim</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 계약한다
@@ -1217,18 +1534,30 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
     </div>
     <div class="result-text">위험은 여전히 있다. 하지만 이번엔, 알고 들어가는 위험이다.</div>
   </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 2</span> 계약금이 없다고 말한다
+    </div>
+    <div class="result-text">흥정은 끝났지만 계약할 돈이 없었다. {name}은 등기를 돌려받고 자리를 나왔다.</div>
+  </div>
 </div>
 <div class="event-card" style="margin-left:128px">
   <div class="event-id">cafe_cb_stole_allin</div>
   <div class="event-title">지른다</div>
-  <div class="event-desc">{name}은 통장을 털었다. 검증도, 망설임도 없이.<br>그날 훔쳐본 번호가, 그날 훔쳐본 욕망이<br>결국 여기까지 끌고 왔다.<br><br>주사위는 던져졌다. 재개발이 진짜라면 인생이 바뀐다.<br>아니라면 — 다시 바닥이다.</div>
-  <div class="event-meta">배경: street_rainy | 인물: player_shocked</div>
+  <div class="event-desc">{name}은 은행 앱에서 잔고를 확인했다. 검증도, 망설임도 없이 전부 넣을 생각이었다.<br>그날 훔쳐본 번호가, 그날 훔쳐본 욕망이<br>결국 여기까지 끌고 왔다.<br><br>이제 확인 버튼만 남았다. 재개발이 진짜라면 인생이 바뀐다.<br>아니라면 — 다시 바닥이다.</div>
+  <div class="event-meta">배경: investment_phone | 인물: player_shocked</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 결과를 받아들인다
       <span class="flags">🚩 cafe_stole_gambled, crossed_line_early</span>
     </div>
     <div class="result-text">통장 잔고가 요동쳤다. {name}은 한참을 멍하니 봤다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 2</span> 걸 돈이 없다는 사실을 인정한다
+    </div>
+    <div class="result-text">잔고는 이미 바닥이었다. {name}은 확인 버튼 앞에서 멈춰 섰고, 거래 화면을 닫았다.</div>
   </div>
 </div>
   </div>
@@ -1241,19 +1570,20 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">cafe_cb_honest_00</div>
   <div class="event-title">걸려온 전화</div>
-  <div class="event-desc">모르는 번호. 받으니, 익숙한 목소리.<br>"그 카페 친구. 나 기억해? 폴더 훔쳐보다 들킨 그 친구."<br>그날의 그 남자였다. {name}이 명함을 두 손으로 받았던.<br><br>"공부 좀 했나 해서. 작은 거 하나 도는데,<br>진짜 준비된 놈한테만 주는 거야. 어때, 들어볼래?"</div>
-  <div class="event-meta">배경: street_rainy | 인물: boss</div>
+  <div class="event-desc">모르는 번호. 받으니, 익숙한 목소리.<br>"그 카페에서 내 폴더 보다가 들킨 친구. 나 기억해?"<br>그날의 그 남자였다. {name}이 명함을 두 손으로 받았던.<br><br>"공부 좀 했나 해서. 작은 거 하나 도는데,<br>진짜 준비된 놈한테만 주는 거야. 어때, 들어볼래?"</div>
+  <div class="event-meta">배경: current_housing | 인물: player_tired</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> &quot;준비됐습니다. 듣고 싶습니다&quot;
       <span class="flags">🚩 cafe_callback_seen</span>
       <span class="follow-up">→ cafe_cb_honest_in</span>
     </div>
+    <div class="result-text">그쪽에서 날짜와 장소를 불렀다. {name}은 바로 메모했다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> &quot;아직입니다. 더 배우고 연락드리겠습니다&quot;
-      <span class="effects">[intelligence: +2, reputation: +3, mental: +3]</span>
+      <span class="effects">[intelligence: +2, reputation: +3, mental: +3, tint: +3]</span>
       <span class="flags">🚩 cafe_honest_trust, cafe_callback_seen</span>
     </div>
     <div class="result-text">남자는 잠시 말이 없더니, 웃었다.<br>"...그 말 할 줄 아는 놈은 결국 와. 됐어, 천천히 와."<br>그는 끊었다. 기회를 미뤘지만, 문은 닫히지 않았다.<br>오히려 — '아직'이라고 말할 줄 아는 {name}을, 그는 더 신뢰했다.</div>
@@ -1262,13 +1592,13 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:32px">
   <div class="event-id">cafe_cb_honest_in</div>
   <div class="event-title">검증된 기회</div>
-  <div class="event-desc">남자가 내민 건 깨끗했다. 거품도, 급한 척도 없었다.<br>"내가 직접 보는 물건이야. 대박은 아니어도, 안 깨져.<br>네 형편에 맞게만 들어와. 무리하지 말고."<br><br>훔친 정보가 아니라, 사람이 보증한 기회.<br>그게 얼마나 다른지 — {name}은 이제 안다.</div>
-  <div class="event-meta">배경: street_rainy | 인물: boss</div>
+  <div class="event-desc">약속한 날, 다시 그 카페. 남자가 내민 건 깨끗했다. 거품도, 급한 척도 없었다.<br>"내가 직접 보는 물건이야. 대박은 아니어도, 안 깨져.<br>네 형편에 맞게만 들어와. 무리하지 말고."<br><br>훔친 정보가 아니라, 사람이 보증한 기회.<br>그게 얼마나 다른지 — {name}은 이제 안다.</div>
+  <div class="event-meta">배경: cafe | 인물: cafe_investor</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 형편에 맞게, 들어간다
       <span class="effects">[reputation: +2]</span>
-      <span class="flags">🚩 cafe_honest_invested, kept_clean_hands</span>
+      <span class="flags">🚩 cafe_honest_invested</span>
     </div>
     <div class="result-text">큰 베팅은 아니다. 하지만 단단한 첫 걸음이다.</div>
   </div>
@@ -1292,7 +1622,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="event-id">cafe_cb_humiliated_00</div>
   <div class="event-title">다시, 그 카페</div>
   <div class="event-desc">{name}은 그날의 굴욕을 잊지 못했다.<br>'사기 치려면 공부부터 하고 와.' 그 말에 이를 갈며,<br>몇 달간 부동산을 미친 듯이 팠다. LTV도, 갭도, 이젠 안다.<br><br>그리고 우연히 — 같은 카페, 같은 남자.<br>그가 {name}을 알아본다. "어? 그때 그 허세남?"</div>
-  <div class="event-meta">배경: street_rainy | 인물: boss</div>
+  <div class="event-meta">배경: cafe | 인물: cafe_investor</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 이번엔 제대로 묻는다 — 배운 걸로
@@ -1304,7 +1634,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 아직도 민망하다. 고개 숙이고 피한다
-      <span class="effects">[stress: +4, mental: -2]</span>
+      <span class="effects">[mental: -6]</span>
       <span class="flags">🚩 cafe_still_ashamed, cafe_callback_seen</span>
     </div>
     <div class="result-text">{name}은 눈을 피하고 카페를 나섰다.<br>공부는 했지만, 그날의 부끄러움은 아직 마음에 남아 있었다.<br>언젠가는 — 떳떳하게 마주 볼 날이 오겠지.</div>
@@ -1314,29 +1644,94 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 </div><div class="section-title">daeun</div><div class="arc-section" id="arc-arc_daeun_03_fork" style="border-color:#98c379;background:#0a1a0a">
   <div class="arc-header" style="color:#98c379" onclick="toggle(this)">
     <span class="arc-type">[daeun]</span> 다은 3: 분기 <span class="condition">조건: t≥23, 호감도≥12</span>
-    <span class="arc-count">1단계</span>
+    <span class="arc-count">3단계</span>
   </div>
   <div class="arc-body">
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_daeun_03_fork</div>
   <div class="event-title">갈림길</div>
-  <div class="event-desc">다은에게 고향에서 연락이 왔다. 엄마가 편찮으시고, 고향 마트에 안정된 자리가 났다고.<br>"...서울 정리하고 내려갈까 봐요. 여긴 너무 버거워요."<br>그녀가 {name}을 본다. 묻지 않은 질문이 눈에 담겨 있다.<br><br>같이 평범하게 살자고 하면, 그녀는 남을지도 모른다.<br>하지만 그건 — 30억의 길에서 한 발 비켜서는 일이었다.<br>사랑과 야망이, 같은 저울 위에 올랐다.</div>
+  <div class="event-desc">새벽 편의점. 다은에게 고향에서 연락이 왔다. 어머니가 편찮으시고, 고향 마트에 안정된 자리가 났다고 했다.<br><br>"...서울 정리하고 내려갈까 봐요. 여긴 너무 버거워요."<br><br>그녀가 {name}을 봤다. 서울에 남을 이유가 되어 달라는 말도, 보내 달라는 말도 하지 않았다. 묻지 않은 질문만 눈에 남았다.<br><br>{name}은 이번 주에 답해야 할 이름이 다은 하나뿐이라고 생각했다. 아직은.</div>
   <div class="event-meta">배경: convenience_night | 인물: daeun_sad</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> &quot;가지 마요. 같이 잘 살아봐요&quot; 붙잡는다  (사랑·안정 / 야망 흔들림)
-      <span class="effects">[mental: +10, stress: -5]</span>
+      <span class="choice-num">선택 1</span> &quot;가지 마요. 같이 버텨봐요. 여기서&quot; — 붙잡는다
+      <span class="effects">[mental: +15, tint: +9]</span>
       <span class="flags">🚩 daeun_chose_her, arc_daeun_fork_seen</span>
+      <span class="follow-up">→ arc_father_medication</span>
     </div>
-    <div class="result-text">{name}은 처음으로, 30억보다 중요한 걸 입에 담았다.<br>다은의 눈이 붉어졌다. 그녀는 서울에 남기로 했다.<br>강남은 조금 멀어졌을지 모른다. 대신 {name}은,<br>혼자가 아닌 길을 걷게 됐다. 그게 약함인지 행복인지는, 끝에 가서야 알 일이다.</div>
+    <div class="result-text">그녀가 잠시 아무 말이 없었다. 그러다 조용히 웃었다.<br>"...알겠어요. 조금만 더 있어볼게요."<br>이유를 묻지 않았다. {name}도 설명하지 않았다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> 아무 말도 못 하고, 그녀를 보낸다  (목표 집중 / 후회·상실)
-      <span class="effects">[mental: -8, stress: +4]</span>
+      <span class="choice-num">선택 2</span> 아무 말도 못 하고, 그녀를 보낸다
+      <span class="effects">[mental: -12, tint: -7]</span>
       <span class="flags">🚩 daeun_let_her_go, arc_daeun_fork_seen</span>
+      <span class="follow-up">→ arc_father_medication</span>
     </div>
     <div class="result-text">{name}은 입을 열지 못했다. 지금 발목 잡힐 순 없다고, 그렇게 자신을 다잡았다.<br>다은은 옅게 웃으며 "잘 지내요" 하고 돌아섰다.<br>그날 이후 새벽 편의점은, 다시 혼자만의 세계가 됐다.<br>목표는 또렷해졌고 — 마음 한 구석은, 영영 비었다.</div>
+  </div>
+</div>
+<div class="event-card" style="margin-left:32px">
+  <div class="event-id">arc_father_medication</div>
+  <div class="event-title">약 이름</div>
+  <div class="event-desc">저녁 일곱 시의 지하철 환승 통로에서 휴대폰이 짧게 울렸다. 어머니였다.<br><br>'아버지 요즘 약 드시기 시작했어. 대수롭지 않대. 걱정하지 마라.'<br><br>{name}은 문장을 두 번 읽었다. 무슨 약인지, 언제부터인지, 병원에서는 뭐라고 했는지 아무것도 없었다. 아버지는 걱정하지 말라고 할 때 늘 중요한 설명부터 줄였다. 어머니도 그 말투를 그대로 옮겨 적은 것 같았다.<br><br>화면 속 창원에서는 아무도 {name}에게 무언가를 요구하지 않았다. 걱정하지 말라는 문장만 있었고 답장 칸의 커서가 깜빡였다. 대수롭지 않다는 말을 가족이 먼저 꺼낼 때는, 대개 누군가 이미 걱정하고 있다는 뜻이었다.</div>
+  <div class="event-meta">배경: subway | 인물: player_tired</div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 1</span> 아버지한테 직접 전화했다
+      <span class="effects">[mental: -5, tint: +5]</span>
+      <span class="flags">🚩 arc_father_medication_seen, called_about_medication</span>
+      <span class="follow-up">→ arc_jiyeon_03_offer</span>
+    </div>
+    <div class="result-text">통로 가장자리로 비켜서 바로 전화했다.<br><br>"괜찮아. 그냥 혈압약이야." 아버지는 묻기도 전에 약 이름과 복용 횟수를 빠르게 말했다. 목소리는 평소와 같았지만 숨을 고르는 틈이 짧았다.<br><br>{name}이 병원 이야기를 더 묻자 "별거 아니라니까" 하고 웃었다. 그 웃음이 너무 정확해서 더 마음에 걸렸다.<br><br>통화를 끊고 약 이름을 메모했다. 다음 열차가 지나갈 때까지 화면의 낯선 글자를 지우지 못했다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 2</span> 어머니한테 &quot;알겠어요&quot; 하고 넘겼다
+      <span class="effects">[mental: -5]</span>
+      <span class="flags">🚩 arc_father_medication_seen, ignored_medication_signal</span>
+      <span class="follow-up">→ arc_jiyeon_03_offer</span>
+    </div>
+    <div class="result-text">'알겠어요. 잘 챙겨드세요.'라고 답하고 대화창을 닫았다. 오늘 처리할 일도, 밀린 계산도 남아 있었다. 아버지 약까지 붙들 여유는 없다고 생각했다.<br><br>열차가 들어오자 사람들 사이에 밀려 탔다. 두 정거장을 지나는 동안, 무슨 약인지 한 번도 묻지 않았다는 생각이 들었다.<br><br>주머니 속 폰은 더 울리지 않았다. 어머니에게 보낸 짧은 답장이 집에 도착할 때까지 자꾸 떠올랐다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 3</span> 주말에 내려가겠다고 했다
+      <span class="effects">[mental: +5, money: -50000, tint: +3]</span>
+      <span class="flags">🚩 arc_father_medication_seen, visited_for_medication</span>
+      <span class="follow-up">→ arc_jiyeon_03_offer</span>
+    </div>
+    <div class="result-text">주말에 내려가겠다고 하자 아버지는 "멀리서 뭘 오냐"고 했다. 역에 도착했을 때는 먼저 나와 있었다. 평소보다 천천히 걷는 것 같았지만, {name}의 가방부터 빼앗아 들었다.<br><br>집 식탁에는 세 사람이 먹기엔 많은 반찬이 놓였다. 약통은 물컵 옆에 있었고, 그 옆에는 오래된 가족사진이 기대어 있었다.<br><br>아버지는 끝까지 별일 아니라고 했다. {name}은 밥을 한 그릇 더 먹었다. 내려오길 잘했다는 말은 하지 않았다.</div>
+  </div>
+</div>
+<div class="event-card" style="margin-left:64px">
+  <div class="event-id">arc_jiyeon_03_offer</div>
+  <div class="event-title">갚고 싶어요</div>
+  <div class="event-desc">며칠 뒤, 같은 동네의 큰길. 비가 다시 내리고 있었다.<br><br>검은 세단이 버스정류장 앞에 멈췄다. 한지연이 우산을 들고 내렸다. 이번에는 우연히 마주친 얼굴이 아니었다.<br><br>"커피 한 잔만 사게 해주세요. 그게 안 되면 밥이라도. 계속 마음에 걸려서요. 그날 제가 잘못한 건데 그쪽은 아무것도 안 받고 가셨잖아요."<br><br>며칠 동안 아버지의 약 문자와 구직 알림이 같은 휴대폰 화면에 쌓였다. 이제 한지연은 빚진 마음을 갚고 싶다고 했다.<br><br>진심인 것 같았다. 하지만 커피 한 잔이 시작이 되면, 두 사람이 사는 세계의 거리가 더 정확히 보일 것이다.</div>
+  <div class="event-meta">배경: street_rainy | 인물: jiyeon_warm</div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 1</span> &quot;신경 쓰지 마세요. 정말 괜찮으니까.&quot; (고개를 젓고 걸었다)
+      <span class="effects">[mental: +5]</span>
+      <span class="flags">🚩 arc_jiyeon_offer_seen, jiyeon_refused_coffee</span>
+    </div>
+    <div class="result-text">{name}은 고개를 젓고 지하철역 쪽으로 걷는다.<br><br>한지연은 따라오지 않는다. 대신 등 뒤로 말한다.<br>"왜 자꾸 도망가요?"<br><br>{name}은 멈추지 않는다. 근데 그 말이 계속 따라온다.<br>— 도망? 이게 도망인가.<br>한지연은 그날, {name}이라는 사람이 더 궁금해졌다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 2</span> 카페 문을 열었다. 딱 한 잔만
+      <span class="effects">[social_skill: +3, mental: +2]</span>
+      <span class="flags">🚩 arc_jiyeon_offer_seen, jiyeon_had_coffee</span>
+    </div>
+    <div class="result-text">카페에 마주 앉았다. 그녀는 6,500원짜리 라떼를, {name}은 가장 싼 아메리카노를.<br><br>한지연은 말이 많았다. 유학 얘기, 아버지 회사 얘기, 답답한 집안 얘기.<br>{name}은 거의 듣기만 했다.<br><br>"그쪽은요? 무슨 일 하세요?"<br>"...이것저것이요."<br>그녀는 더 묻지 않았다. 대신 웃었다.<br>"다음에 또 봐요. 이번엔 제가 아니라 그쪽이 사는 걸로."<br>다음이 있다는 듯이.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 3</span> &quot;우리 사는 세계가 너무 달라요.&quot; (솔직하게 말했다)
+      <span class="effects">[mental: +8]</span>
+      <span class="flags">🚩 arc_jiyeon_offer_seen, jiyeon_honest</span>
+    </div>
+    <div class="result-text">{name}은 처음으로 솔직하게 말했다.<br>"그쪽 차가 제 한 달 월세의 몇 배인지 아세요? 커피 한 잔 사주는 게 그쪽한텐 아무것도 아니겠지만, 저한텐 그게 아니에요."<br><br>한지연은 한동안 말이 없었다.<br>"...그래서 그날 그냥 가신 거예요?"<br>"네."<br>"근데요." 그녀가 {name}을 똑바로 봤다.<br>"전 그런 사람 처음 봤어요. 그래서 더 알고 싶은데."<br>그 눈빛이, {name}을 흔들었다.</div>
   </div>
 </div>
   </div>
@@ -1349,31 +1744,31 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_father_01_call</div>
   <div class="event-title">전화</div>
-  <div class="event-desc">매주 일요일 저녁. 아버지에게 전화를 한다.<br>고등학교 때부터 이어온 습관이다.<br><br>신호가 울렸다. 한 번. 두 번. 세 번. 네 번.<br>아버지가 받는다.<br>"...어."<br><br>그게 시작이다. {name}도 할 말이 없다.<br>6년 전 — 보증을 잘못 서서 빚이 생겼다는 전화 이후로,<br>아버지는 먼저 연락을 안 했다.<br>부끄러워서인지, 미안해서인지, 둘 다인지.<br><br>창원 공장 퇴직. 아파트 날아간 것.<br>그 얘기는 둘 다 꺼내지 않는다. 근데 둘 다 안다.<br><br>"밥은... 먹었냐."<br>아버지의 첫 말이었다.</div>
-  <div class="event-meta">배경: goshiwon_room | 인물: player_tired</div>
+  <div class="event-desc">전화가 왔다. 아버지.<br><br>"잘 지내냐." "예." "밥은 먹냐." "먹어요." "그래."<br><br>아버지는 창원 공장에서 평생을 보냈다. 보증을 잘못 선 뒤 상대가 잠적했고, 남은 빚은 {name}이 6년에 걸쳐 갚았다. 둘 다 그 얘기를 꺼내지 않는다.<br><br>평소라면 여기서 끊었을 텐데, 오늘은 둘 다 말이 없었다. 수화기 너머로 텔레비전 소리만 작게 들렸다.</div>
+  <div class="event-meta">배경: current_housing | 인물: player_tired</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> &quot;네. 아버지도요?&quot;
-      <span class="effects">[mental: +3, stress: +2]</span>
+      <span class="effects">[mental: +1, tint: +3]</span>
       <span class="flags">🚩 arc_father_01_seen</span>
     </div>
-    <div class="result-text">"먹었지."<br><br>긴 침묵. {name}이 먼저 끊었다.<br>전화를 놓고 30초 동안 할 말을 떠올렸다.<br><br>왜 통화 중엔 아무것도 안 나오는지.<br>목소리만 들어도 이미 전할 게 다 전해지는 것 같아서 그런 것인지.</div>
+    <div class="result-text">"먹었지."<br><br>긴 침묵 끝에 {name}이 먼저 끊었다. 폰을 내려놓은 채 30초 동안 천장만 봤다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> &quot;네. 아버지, 저 잘 될 것 같아요.&quot;
-      <span class="effects">[mental: +6, stress: +1]</span>
+      <span class="effects">[mental: +5]</span>
       <span class="flags">🚩 arc_father_01_seen, told_dad_okay</span>
     </div>
-    <div class="result-text">"...그래?"<br>아버지 목소리가 조금 달라졌다. 그 짧은 한 마디에.<br><br>전화를 끊고 나서 {name}은 생각했다.<br>못 보여드린 것들이 아직 너무 많다는 걸. 그리고 시간이 무한하지 않다는 것도.</div>
+    <div class="result-text">"...그래?"<br>아버지 목소리가 조금 달라졌다.<br><br>전화를 끊고도 {name}은 꺼진 화면을 한동안 내려다봤다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 3</span> 그냥 안부만 묻고 짧게 끊는다
-      <span class="effects">[mental: -2, stress: +4]</span>
+      <span class="choice-num">선택 3</span> 더 묻지 못하고 짧게 끊었다. 통화시간 23초
+      <span class="effects">[mental: -6, tint: -2]</span>
       <span class="flags">🚩 arc_father_01_seen</span>
     </div>
-    <div class="result-text">통화시간 23초.<br>"잘 있냐." "네." "그래, 끊어라."<br><br>{name}은 폰을 내려놓고 한동안 천장을 봤다.<br>23초 안에 담을 수 없는 것들이 너무 많았다.</div>
+    <div class="result-text">통화시간 23초.<br>"잘 있냐." "네." "그래, 끊어라."<br><br>{name}은 폰을 내려놓고 한동안 천장을 봤다.</div>
   </div>
 </div>
   </div>
@@ -1387,27 +1782,27 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="event-id">arc_father_02_signal</div>
   <div class="event-title">카톡 하나</div>
   <div class="event-desc">모르는 번호로 카톡이 왔다.<br><br>"민준씨? 창원 살던 이웃 최씨 아줌마인데.<br>민준 아버지한테 연락처 받았어요.<br>어르신이 요즘 병원을 좀 다니시는 것 같더라고요.<br>많이 아픈 건 아닌 것 같은데, 아들한테는 알려드려야 할 것 같아서."<br><br>{name}은 화면을 두 번 읽었다.<br>아버지에게 전화했다. 신호가 울린다. 안 받는다.<br>5분 뒤 문자가 왔다.<br>"괜찮으니까 신경 쓰지 마라."</div>
-  <div class="event-meta">배경: goshiwon_room | 인물: player_normal</div>
+  <div class="event-meta">배경: current_housing | 인물: player_normal</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 다음 주에 창원 내려가겠다고 답한다
-      <span class="effects">[mental: +4, stress: +6, money: -50000]</span>
+      <span class="effects">[mental: -2, money: -50000, tint: +5]</span>
       <span class="flags">🚩 arc_father_02_done, father_going_soon</span>
     </div>
     <div class="result-text">아버지가 답장을 안 했다.<br>그게 거절이 아니라는 걸, {name}은 알았다.<br>기차표를 검색했다. KTX 창원중앙 2시간 반.<br>돈보다 먼저인 것도 있다는 걸 — 이번엔 알았다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> 전화로 확인한다 — 많이 아픈 건 아니겠지
-      <span class="effects">[mental: +1, stress: +5]</span>
+      <span class="choice-num">선택 2</span> 전화를 다시 걸었다. 많이 아픈 건 아니겠지
+      <span class="effects">[mental: -4, tint: +4]</span>
       <span class="flags">🚩 arc_father_02_done</span>
     </div>
     <div class="result-text">다시 전화했다. 이번엔 받았다.<br>"괜찮다. 정기검진이야. 별거 아니야."<br>단호했다. {name}은 더 캐묻지 않았다.<br>괜찮다는 말을 믿고 싶었다.<br>믿는 것과 믿고 싶은 것의 차이를, 아직은 구별하지 못했다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 3</span> 지금 당장 내려갈 형편이 아니다 — 좀 더 안정되면
-      <span class="effects">[mental: -5, stress: +8]</span>
+      <span class="choice-num">선택 3</span> 기차표를 검색했다가 닫았다. 조금만 더 모이면
+      <span class="effects">[mental: -13, tint: -4]</span>
       <span class="flags">🚩 arc_father_02_done, delayed_visiting_dad</span>
     </div>
     <div class="result-text">기차표를 검색했다가 닫았다.<br>아직 아니다. 조금만 더 모이면 내려가겠다.<br>조금만 더.<br><br>그 '조금'이 얼마인지는, {name}도 잘 몰랐다.</div>
@@ -1423,31 +1818,39 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_father_03_hospital</div>
   <div class="event-title">어머니의 전화</div>
-  <div class="event-desc">오랫동안 연락 없던 어머니에게서 전화가 왔다.<br><br>"민준아."<br><br>목소리만 들어도 알았다.<br><br>아버지가 쓰러졌다. 뇌혈관 경고 증상. 창원 성심병원 응급실.<br>지금은 안정됐다고. 의식 있고, 말도 한다고.<br><br>"입원은 며칠만 하면 될 것 같대. 수술은 아니야.<br>근데 앞으로는 조심해야 한다고 했어.<br>의사가... 관리 잘 안 하면 언제 또 올지 모른다고."<br><br>{name}의 손이 잠깐 떨렸다.</div>
-  <div class="event-meta">배경: hospital | 인물: player_shocked</div>
+  <div class="event-desc">부모님이 서울에서 내려간 지 나흘째, 어머니에게서 전화가 왔다.<br><br>"민준아."<br><br>며칠 전 방 안과 식당에서 듣지 못했던 말이 목소리에 들어 있었다.<br><br>아버지가 쓰러졌다. 뇌혈관 경고 증상. 창원 성심병원 응급실. 지금은 안정됐다고 했다. 의식도 있고, 말도 한다고 했다.<br><br>"입원은 며칠만 하면 될 것 같대. 수술은 아니야. 근데 앞으로는 조심해야 한다고 했어. 의사가... 관리 잘 안 하면 언제 또 올지 모른다고."<br><br>{name}은 마지막으로 본 아버지의 얼굴을 떠올렸다. 서울까지 올라와서도 괜찮다는 말만 남긴 얼굴. 손이 잠깐 떨렸다.</div>
+  <div class="event-meta">배경: current_housing | 인물: player_shocked</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 지금 당장 내려간다
-      <span class="effects">[mental: -5, stress: +10, money: -80000]</span>
+      <span class="choice-num">선택 1</span> 창원행 KTX 첫 차를 예매했다
+      <span class="effects">[mental: -15, money: -80000, tint: +8]</span>
       <span class="flags">🚩 arc_father_03_seen, rushed_to_father</span>
     </div>
     <div class="result-text">창원행 KTX 첫 차를 예매했다. 새벽 다섯 시 서울역.<br>기차 안에서 아버지 얼굴을 떠올렸다.<br>마지막으로 봤던 게 언제인지 — 계산하다가 멈췄다.<br>너무 오래됐다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> 이번 주 안에 내려가겠다고 한다
-      <span class="effects">[mental: -3, stress: +8]</span>
+      <span class="choice-num">선택 2</span> &quot;주말에 갈게요.&quot; (전화를 끊었다)
+      <span class="effects">[mental: -11, tint: -2]</span>
       <span class="flags">🚩 arc_father_03_seen</span>
     </div>
     <div class="result-text">"주말에 갈게요."<br>어머니가 잠깐 침묵했다.<br>"응. 아버지가 많이 걱정할 것 같아서 연락했어."<br>말 뒤에 묻힌 게 있었다.<br>{name}은 전화를 끊고, 주말이 얼마나 먼지를 생각했다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 3</span> 돈을 보내겠다고 한다 — 일이 바빠서
-      <span class="effects">[mental: -10, stress: +5, money: -300000]</span>
+      <span class="choice-num">선택 3</span> 입금했다. 병원비에 보태라고
+      <span class="effects">[mental: -15, money: -300000, tint: +2]</span>
       <span class="flags">🚩 arc_father_03_seen, sent_money_instead</span>
     </div>
     <div class="result-text">입금했다. 병원비에 보태라고.<br>어머니는 "고마워"라고 했다.<br>아버지가 그 돈이 누구 것인지 물어볼 것이다.<br>어머니가 뭐라고 답할지 — {name}은 생각하지 않기로 했다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 4</span> 상철에게 연락했다 — 그가 아는 사람이 있을 것이다
+      <span class="effects">[mental: -8, tint: -4]</span>
+      <span class="flags">🚩 arc_father_03_seen, sangchul_helped_with_father</span>
+    </div>
+    <div class="result-text">임상철은 전화를 받자마자 창원 쪽 아는 의사를 연결해줬다.<br>빠르게, 군말 없이.<br>"이런 건 알아서 챙겨야죠." 그게 전부였다.<br><br>아버지는 좋은 병실로 옮겨졌다.<br>어머니는 어떻게 된 일인지 물었다.<br>{name}은 "아는 사람이 도와줬어"라고만 했다.</div>
   </div>
 </div>
   </div>
@@ -1460,31 +1863,39 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_father_04_visit</div>
   <div class="event-title">창원</div>
-  <div class="event-desc">창원 성심병원 병실.<br><br>복도에서 소독약 냄새가 났다. 서울이랑 다른 공기였다.<br>아버지 병실 번호를 간호사에게 물었다. 301호.<br><br>문을 열었다.<br>아버지는 침대에 앉아 창밖을 보고 있었다.<br>창원 하늘. 낮은 건물들. 공장 굴뚝.<br><br>야윈 손. 그 손으로 평생 공장 바닥을 잡았던 사람.<br>어깨가 더 굽었다. 머리가 더 세었다.<br><br>{name}은 문가에서 잠깐 멈췄다.<br>아버지가 소리 없이 돌아봤다. 눈이 마주쳤다.<br><br>오랫동안 침묵이 흘렀다.<br><br>아버지가 말했다. "...민준아."<br>그리고 또 잠깐.<br>"미안하다."</div>
-  <div class="event-meta">배경: hospital | 인물: father_weak</div>
+  <div class="event-desc">월급의 천장을 계산한 밤, 휴대폰에는 두 개의 화면이 나란히 떠 있었다. 서울에서 기다리는 계약과, 어머니가 보내온 창원 성심병원 301호.<br><br>첫 KTX를 타고 내려간 병원 3층 복도에는 소독약 냄새가 났다. 문 옆의 좁은 유리창 너머로 아버지가 보였다. 침대에 앉아 창밖의 낮은 건물과 공장 굴뚝을 보고 있었다.<br><br>야윈 손. 평생 공장 바닥을 잡았던 손. 어깨는 더 굽었고 머리는 더 세었다.<br><br>{name}이 문손잡이에 손을 올리자 주머니 속 휴대폰이 다시 울렸다. 상철의 거울, 월급의 천장, 오늘 안에 답해야 하는 숫자들이 한 화면에 겹쳤다.<br><br>서울에서 여기까지 오는 데 두 시간이 걸렸다. 문 하나를 여는 데는 일 초면 됐다.<br><br>아직 아버지는 돌아보지 않았다.</div>
+  <div class="event-meta">배경: hospital | 인물: player_shocked</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> &quot;아버지 잘못 아니에요.&quot; — 처음으로 그 말을 꺼낸다
-      <span class="effects">[mental: +15, stress: -8]</span>
+      <span class="effects">[mental: +23, tint: +9]</span>
       <span class="flags">🚩 visited_father, father_reconciled_started</span>
     </div>
-    <div class="result-text">6년 동안 못 했던 말이었다.<br><br>아버지의 눈가가 붉어졌다. {name}의 손을 잡았다.<br>공장에서 굳은 손. 그 손이 떨렸다.<br><br>한동안 둘 다 아무 말을 안 했다.<br>그래도 됐다. 그 침묵이 처음으로 편했다.<br><br>서울로 오는 KTX 안에서, {name}은 창밖을 한참 봤다.</div>
+    <div class="result-text">방 안이 조용했다.<br><br>{name}은 침대 옆 의자에 앉았다.<br>아버지는 창 쪽을 봤다. 창원 하늘. 낮은 건물들.<br><br>말이 없었다.<br>"밥은 먹었어요?" 라고 물었다. "먹었다" 라고 했다.<br>"언제 퇴원해요?" "다음 주쯤." "그렇구나."<br><br>이게 부자지간의 대화다.<br>6년 동안 서울에서 빚을 갚으면서도 한 번도 묻지 않았다.<br>왜 그 보증을 섰는지, 후회하는지, 고맙다는 말은 하고 싶었는지.<br><br>나중에 물어보면 된다고 생각했는데.<br>'나중'이 얼마나 있는지는 아무도 모른다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> &quot;강남 가면 제일 먼저 아버지 모실게요.&quot;
-      <span class="effects">[mental: +10, stress: -5]</span>
+      <span class="effects">[mental: +15, tint: +2]</span>
       <span class="flags">🚩 visited_father, promised_father_gangnam</span>
     </div>
-    <div class="result-text">아버지가 작게 웃었다.<br>"...그래, 믿는다."<br><br>창 밖으로 공장 굴뚝이 보였다. 평생 아버지가 다녔던 방향.<br>{name}은 다짐했다. 반드시.</div>
+    <div class="result-text">아버지가 "미안하다" 고 했다.<br><br>{name}은 뭐라고 해야 할지 몰랐다.<br>'괜찮아요'는 거짓말이다. 6년을 갚았으니까.<br>'저도 미안해요'도 이상하다. 잘못한 게 없으니까.<br><br>그냥 있었다.<br><br>아버지의 야윈 손. 굽은 어깨.<br>평생 공장 바닥을 잡았던 그 손이 지금 이불 위에 놓여 있었다.<br><br>{name}은 그 손 위에 자기 손을 올려놓았다.<br>말없이.<br><br>창밖으로 창원 해가 기울기 시작했다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 3</span> 아무 말도 못 한다 — 그냥 옆에 앉는다
-      <span class="effects">[mental: +5, stress: +2]</span>
+      <span class="choice-num">선택 3</span> (아무 말도 못 했다. 그냥 옆에 앉았다)
+      <span class="effects">[mental: +3, tint: +4]</span>
       <span class="flags">🚩 visited_father</span>
     </div>
     <div class="result-text">할 말이 많은데, 아무것도 나오지 않았다.<br>그냥 옆에 앉았다. 아버지도 말하지 않았다.<br><br>두 시간을 그렇게 있었다.<br>나중에, 그게 가장 좋은 방법이었다는 걸 알게 될 것이다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 4</span> 휴대폰을 쥐고 돌아섰다 — 이번에도 문을 열지 못했다
+      <span class="effects">[mental: -18, tint: -12]</span>
+      <span class="flags">🚩 father_visit_deferred</span>
+    </div>
+    <div class="result-text">문손잡이에서 손을 뗐다.<br><br>엘리베이터 문이 닫히기 직전, 어머니에게서 문자가 왔다. '도착했니?'<br>{name}은 '일이 생겼어요'라고 썼다가 지웠다. 답장은 보내지 않았다.<br><br>서울행 표를 다시 끊었다. 아버지는 아들이 병실 문밖까지 왔었다는 걸 몰랐다.<br>{name}만 알았다. 그래서 더 오래 남았다.</div>
   </div>
 </div>
   </div>
@@ -1498,11 +1909,11 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="event-id">arc_father_05_after_visit</div>
   <div class="event-title">그 뒤로</div>
   <div class="event-desc">창원에서 돌아온 뒤로, 아버지와의 통화가 달라졌다.<br><br>여전히 말이 많진 않다.<br>그래도 "밥 먹었냐" 다음에 뭔가가 더 생겼다.<br><br>오늘은 아버지가 먼저 전화를 했다.<br>일요일 저녁도 아니었다. 수요일 낮이었다.<br><br>"민준아. 서울 날씨는?"</div>
-  <div class="event-meta">배경: goshiwon_room | 인물: player_normal</div>
+  <div class="event-meta">배경: current_housing | 인물: player_normal</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> &quot;춥네요. 아버지 거기도 춥죠?&quot; — 시시콜콜 이야기를 한다
-      <span class="effects">[mental: +12, stress: -6, health: +3]</span>
+      <span class="effects">[mental: +18, health: +3, tint: +5]</span>
       <span class="flags">🚩 arc_father_05_seen, father_reconciled</span>
     </div>
     <div class="result-text">15분 동안 날씨 얘기, 동네 얘기, 아무것도 아닌 얘기를 했다.<br><br>전화를 끊고 나서 {name}은 웃고 있었다.<br><br>강남 얘기는 한 마디도 안 했다.<br>그래도 그게 오늘은 더 좋았다. 아버지가 먼저 전화를 했으니까.</div>
@@ -1510,7 +1921,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> &quot;저 요즘 잘 하고 있어요. 걱정하지 마세요.&quot;
-      <span class="effects">[mental: +8, stress: -3]</span>
+      <span class="effects">[mental: +11, tint: +2]</span>
       <span class="flags">🚩 arc_father_05_seen, father_reconciled</span>
     </div>
     <div class="result-text">아버지 목소리가 기분 좋게 들렸다.<br><br>"아버지도 잘 지내고 계세요. 걱정 마요."<br>잠깐 침묵.<br>"...그래, 나도. 너도."<br><br>그게 다였다. 그래도 오늘은 통화 후에 기분이 달랐다.</div>
@@ -1526,20 +1937,20 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_jaehyuk_01_reunion</div>
   <div class="event-title">10년 만에</div>
-  <div class="event-desc">카카오톡 메시지 하나.<br>"야 {name}아! 나 재혁이. 군대 최재혁. 기억나지? 서울 올라왔는데 오랜만에 얼굴이나 보자."<br><br>프로필 사진엔 외제차 앞에서 찍은 그가 있다.<br>22살, 같은 내무반. 3년 친했다가 제대하고 끊긴 사이.<br><br>포장마차에서 만난 재혁은 달라져 있었다.<br>좋은 옷, 비싼 시계, 자신감 넘치는 얼굴.<br>"야 너 하나도 안 변했다! 술 한잔 받아."<br>그가 계산을 한다. 카드 긁는 손에 망설임이 없다.</div>
+  <div class="event-desc">카카오톡 메시지 하나.<br>"야 {name}아! 나 재혁이. 군대 최재혁. 기억나지? 서울 올라왔는데 오랜만에 얼굴이나 보자."<br><br>프로필 사진엔 외제차 앞에서 찍은 그가 있다.<br>22살, 같은 내무반. 군 생활 내내 붙어다니다가 제대하고 끊긴 사이.<br><br>포장마차에서 만난 재혁은 달라져 있었다.<br>좋은 옷, 비싼 시계, 자신감 넘치는 얼굴.<br><br>"야 너 하나도 안 변했다! 술 한잔 하자."</div>
   <div class="event-meta">배경: pojangmacha | 인물: jaehyuk_friendly</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 반갑게 응한다 — 오랜만의 옛 친구
-      <span class="effects">[mental: +6, social_skill: +2, stress: -3]</span>
+      <span class="choice-num">선택 1</span> 술잔을 부딪쳤다. 오랜만에 소리 내 웃었다
+      <span class="effects">[mental: +9, social_skill: +2]</span>
       <span class="flags">🚩 arc_jaehyuk_reunion_seen</span>
     </div>
     <div class="result-text">옛날 군대 얘기로 밤이 깊었다.<br>오랜만에 소리 내 웃었다. 힘든 시기에 반가운 얼굴.<br>"자주 보자, {name}아. 내가 연락할게."<br>재혁은 진심인 것 같았다. 적어도 그날은.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> 반갑지만 어딘가 거리를 둔다
-      <span class="effects">[intelligence: +3, stress: +2]</span>
+      <span class="choice-num">선택 2</span> 웃으며 응했다. 속으론 한 발 물러섰다
+      <span class="effects">[intelligence: +3, mental: -2]</span>
       <span class="flags">🚩 arc_jaehyuk_reunion_seen</span>
     </div>
     <div class="result-text">웃으며 술잔을 부딪쳤지만, 어딘가 마음이 놓이지 않았다.<br>10년 만에 연락한 사람이 이렇게 잘 나간다.<br>왜 하필 지금, 나한테.<br>{name}은 그 생각을 애써 밀어냈다. 오랜만의 친구인데.</div>
@@ -1559,7 +1970,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="event-meta">배경: pojangmacha | 인물: jaehyuk_shadow</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> &quot;그래서 어떻게 됐어?&quot; — 편하게 들어준다
+      <span class="choice-num">선택 1</span> &quot;그래서 어떻게 됐어?&quot; (편하게 들어줬다)
       <span class="effects">[mental: +4, social_skill: +1]</span>
       <span class="flags">🚩 arc_jaehyuk_01b_seen, jaehyuk_heard_his_story</span>
     </div>
@@ -1567,8 +1978,8 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> &quot;운영하는 사람이 됐다는 게... 지금도 하고 있어?&quot; — 직접 물어본다
-      <span class="effects">[intelligence: +5, stress: +3]</span>
+      <span class="choice-num">선택 2</span> &quot;운영하는 사람이 됐다는 게... 지금도 하고 있어?&quot; (직접 물었다)
+      <span class="effects">[intelligence: +5, mental: -3]</span>
       <span class="flags">🚩 arc_jaehyuk_01b_seen, jaehyuk_01b_pressed</span>
     </div>
     <div class="result-text">재혁의 눈빛이 잠깐 굳었다.<br>'...야, 무슨 소리야. 그 얘기는 이제 다 지난 얘기야.'<br>그가 웃으며 술을 권했다.<br>{name}은 술잔을 받으면서, 그 굳었던 눈빛을 잊지 않았다.</div>
@@ -1588,15 +1999,15 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="event-meta">배경: cafe | 인물: jaehyuk_friendly</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 관심을 보인다 — &quot;어떻게 하는 건데?&quot;
-      <span class="effects">[investment_skill: +2, stress: +2]</span>
+      <span class="choice-num">선택 1</span> &quot;어떻게 하는 건데?&quot; (눈을 반짝였다)
+      <span class="effects">[investment_skill: +2, mental: -2]</span>
       <span class="flags">🚩 arc_jaehyuk_bond_seen</span>
     </div>
     <div class="result-text">재혁의 눈이 반짝였다.<br>"역시 너는 감이 있어. 천천히 알려줄게."<br>그가 보여준 수익률은 비현실적으로 좋았다.<br>좋은 게 너무 좋으면 의심해야 한다는 걸, 그때는 잊고 있었다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> 고맙지만 선을 긋는다 — &quot;난 투자는 잘 몰라서&quot;
+      <span class="choice-num">선택 2</span> &quot;난 투자는 잘 몰라서.&quot; (선을 그었다)
       <span class="effects">[intelligence: +3, mental: +2]</span>
       <span class="flags">🚩 arc_jaehyuk_bond_seen</span>
     </div>
@@ -1604,8 +2015,8 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 3</span> 수익률이 너무 좋다 — 슬쩍 의심한다
-      <span class="effects">[intelligence: +5, stress: +3]</span>
+      <span class="choice-num">선택 3</span> &quot;이거 너무 좋은데? 이런 게 진짜 있어?&quot; (0.5초를 놓치지 않았다)
+      <span class="effects">[intelligence: +5, mental: -3]</span>
       <span class="flags">🚩 arc_jaehyuk_bond_seen</span>
     </div>
     <div class="result-text">"재혁아, 이거 너무 좋은데? 이런 게 진짜 있어?"<br>재혁의 표정이 0.5초 굳었다가 풀린다.<br>"하하, 그래서 다들 못 믿고 안 하는 거야. 너도 안 하면 그만이고."<br>그 0.5초를, {name}은 놓치지 않았다.</div>
@@ -1625,7 +2036,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="event-meta">배경: cafe | 인물: jaehyuk_friendly</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> &quot;고마워. 진짜 친구네 너는.&quot; — 호의를 받아들인다
+      <span class="choice-num">선택 1</span> &quot;고마워. 진짜 친구네 너는.&quot; (명함을 받았다)
       <span class="effects">[mental: +8, social_skill: +2]</span>
       <span class="flags">🚩 arc_jaehyuk_02b_seen, felt_jaehyuk_kindness</span>
     </div>
@@ -1633,8 +2044,8 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> &quot;재혁아, 솔직히 묻는데. 너 나한테 왜 이렇게 잘해줘?&quot; — 진심을 확인한다
-      <span class="effects">[intelligence: +4, mental: -2, stress: +2]</span>
+      <span class="choice-num">선택 2</span> &quot;솔직히 묻는데. 너 나한테 왜 이렇게 잘해줘?&quot;
+      <span class="effects">[intelligence: +4, mental: -4]</span>
       <span class="flags">🚩 arc_jaehyuk_02b_seen, jaehyuk_02b_questioned</span>
     </div>
     <div class="result-text">재혁의 얼굴에 상처받은 표정이 지나갔다.<br>'...야, 내가 뭘 원해서 이런 거라고 생각해? 서운하다.'<br>{name}은 미안함과 의심 사이 어딘가에 있었다.<br>명함은 받았다. 연락은 하지 않았다.</div>
@@ -1650,28 +2061,28 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_jaehyuk_03_pitch</div>
   <div class="event-title">마지막 기회</div>
-  <div class="event-desc">재혁이 정색하고 불렀다. 호텔 라운지.<br><br>"{name}아, 이건 진짜 너한테만 말하는 거야.<br>이번에 큰 게 하나 들어와. 원금의 세 배. 근데 이번 주까지만 자리가 있어."<br><br>그가 몸을 기울인다.<br>"너 강남 가고 싶다며. 월급 모아서 언제 가? 이게 지름길이야.<br>나 믿지? 우리가 남이야? 같이 죽고 같이 산 사이잖아."<br><br>통장의 돈이 떠오른다. 그리고 강남이 떠오른다.<br>그리고 아버지가 떠오른다.<br><br>결정해야 한다. 지금.</div>
+  <div class="event-desc">재혁이 정색하고 불렀다. 호텔 라운지.<br><br>"솔직하게 말할게. {name}아, 이건 네한테만 하는 얘기야.<br>이번에 진짜 큰 게 들어왔어. 원금의 세 배. 근데 이번 주까지만 자리가 있어."<br><br>그가 몸을 기울인다. 목소리를 낮춘다.<br><br>"강남 가고 싶다며. 월급 모아서 언제 가? 우리 나이에 월급으론 답 없잖아.<br>나 믿지? 같이 죽고 같이 산 사이잖아."<br><br>원금의 세 배. 이번 주까지.<br>그 두 문장이 동시에 들렸다.</div>
   <div class="event-meta">배경: meeting | 인물: jaehyuk_charisma</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 전 재산을 투자한다 — 믿는다, 재혁이를
-      <span class="effects">[money: -3000000, stress: +8]</span>
+      <span class="choice-num">선택 1</span> 재혁이 요구한 몫 300만원을 보낸다
+      <span class="effects">[money: -3000000, mental: -8, tint: -5]</span>
       <span class="flags">🚩 arc_jaehyuk_pitch_seen, jaehyuk_trusted_fully</span>
     </div>
-    <div class="result-text">통장을 털어 보냈다. 가진 거의 전부.<br>재혁이 어깨를 두드린다. "잘 생각했어. 곧 웃게 될 거야."<br><br>그날 밤, {name}은 잠을 설쳤다.<br>기대 때문인지, 불안 때문인지 알 수 없었다.</div>
+    <div class="result-text">재혁이 요구한 몫 300만원을 보냈다.<br>재혁이 어깨를 두드린다. "잘 생각했어. 곧 웃게 될 거야."<br><br>그날 밤, {name}은 잠을 설쳤다.<br>통장에 남은 숫자보다, 방금 보낸 숫자만 자꾸 크게 보였다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> 일부만 넣는다 — 욕심내되 다 걸진 않는다
-      <span class="effects">[money: -1000000, stress: +5, intelligence: +2]</span>
+      <span class="choice-num">선택 2</span> &quot;재혁아, 난 이만큼만. 더는 무리야.&quot; (일부만 넣었다)
+      <span class="effects">[money: -1000000, intelligence: +2, mental: -5, tint: +2]</span>
       <span class="flags">🚩 arc_jaehyuk_pitch_seen, jaehyuk_partial</span>
     </div>
     <div class="result-text">"재혁아, 난 이만큼만. 더는 무리야."<br>재혁이 살짝 아쉬운 표정을 짓는다. "뭐... 그래도 어디야. 고맙다."<br>전부를 걸지 않은 건, 본능적인 방어였다.<br>그 본능이 나중에 {name}을 살릴지도 몰랐다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 3</span> 거절하고, 조용히 알아보기 시작한다
-      <span class="effects">[intelligence: +6, stress: +6]</span>
+      <span class="choice-num">선택 3</span> &quot;생각 좀 해볼게.&quot; (자리를 떠나 검색을 시작했다)
+      <span class="effects">[intelligence: +6, mental: -6]</span>
       <span class="flags">🚩 arc_jaehyuk_pitch_seen, jaehyuk_refused</span>
     </div>
     <div class="result-text">"생각 좀 해볼게." {name}은 자리를 떴다.<br>그리고 집에 와서 검색을 시작했다.<br>재혁이 말한 투자 상품, 그 회사 이름, 비슷한 피해 사례.<br><br>검색 결과가 하나둘 뜨기 시작했다.<br>등골이 서늘해졌다.</div>
@@ -1688,11 +2099,11 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="event-id">arc_jaehyuk_hyunsu_warning</div>
   <div class="event-title">너무 늦은 연락</div>
   <div class="event-desc">현수에게서 카카오톡이 왔다.<br><br>"형, 혹시 최재혁 알아요?"<br><br>{name}은 폰을 내려놓았다가 다시 들었다.<br>"군대 동기인데 왜?"<br>"...형 그 사람한테 돈 넣었어요?"<br><br>잠깐의 침묵.<br><br>"저 투자 카페 들어가는데요. 거기서 이름 봤어요.<br>최재혁. 피해 주의 경고. 폰지 구조 의심. 몇 달 전부터 글이 있었어요.<br>저는 직접 엮이진 않았는데... 형은요?"</div>
-  <div class="event-meta">배경: convenience_night | 인물: hyunsu</div>
+  <div class="event-meta">배경: current_housing | 인물: hyunsu</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 당장 돌려달라고 재혁에게 연락한다 — 지금 빼낼 수 있을지 모른다
-      <span class="effects">[money: +500000, stress: +15, mental: -5]</span>
+      <span class="choice-num">선택 1</span> 재혁에게 전화를 걸었다. &quot;나 돈 좀 빼야 할 것 같아.&quot;
+      <span class="effects">[money: +500000, mental: -20]</span>
       <span class="flags">🚩 arc_jaehyuk_hyunsu_warning_seen, tried_to_withdraw, hyunsu_warned</span>
     </div>
     <div class="result-text">전화를 걸었다. 재혁이 받았다 — 아직은 연락이 됐다.<br>"야, 나 돈 좀 빼야 할 것 같아. 급한 일이 생겼어."<br>재혁이 잠깐 말이 없더니, 웃으며 말했다.<br>"야 무슨 소리야. 지금 빼면 손해야. 조금만 더 있으면..."<br><br>어렵게 어렵게, 일부만 겨우 건져냈다.<br>나머지는 이미 어디에 있는지 알 수 없었다.<br><br>현수가 말했다. "형, 제가 더 일찍 말했어야 했는데. 죄송해요."<br>그 말이 더 아팠다. 현수 잘못이 아니니까.</div>
@@ -1700,7 +2111,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> &quot;...재혁이는 아닐 거야&quot; — 군대 친구를 믿기로 한다
-      <span class="effects">[stress: +10, mental: -3]</span>
+      <span class="effects">[mental: -13]</span>
       <span class="flags">🚩 arc_jaehyuk_hyunsu_warning_seen, ignored_hyunsu_warning</span>
     </div>
     <div class="result-text">"현수야, 그 카페 글이 다 사실은 아닐 수 있어.<br>재혁이 진짜 내 친구야. 군대에서 같이 죽고 살았어."<br>현수가 잠시 말이 없더니, "...네, 제가 괜히 걱정했나봐요" 라고 했다.<br><br>{name}은 폰을 내려놓았다.<br>심장이 조금 빨리 뛰었다.<br>믿고 싶어서였는지, 이미 알고 있어서였는지 — 구분이 안 됐다.</div>
@@ -1708,7 +2119,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 3</span> &quot;나도 이상하다 싶었어. 같이 알아보자&quot;
-      <span class="effects">[intelligence: +5, stress: +8]</span>
+      <span class="effects">[intelligence: +5, mental: -8]</span>
       <span class="flags">🚩 arc_jaehyuk_hyunsu_warning_seen, hyunsu_warned, started_investigating</span>
     </div>
     <div class="result-text">"현수야, 그 카페 링크 좀 보내줘.<br>나도 좀 찾아보고 있었거든."<br>"형도 의심했어요?" "응. 근데 확신이 없었어."<br><br>두 사람이 정보를 모으기 시작했다.<br>재혁이 만든 인간관계의 패턴, 자금의 흐름.<br>점점 그림이 선명해졌다.<br>그리고 선명해질수록, 구역질이 났다.</div>
@@ -1718,29 +2129,106 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 </div><div class="arc-section" id="arc-arc_jaehyuk_04a_ghost" style="border-color:#d19a66;background:#1a1008">
   <div class="arc-header" style="color:#d19a66" onclick="toggle(this)">
     <span class="arc-type">[jaehyuk]</span> 재혁 4a: 연락 두절 <span class="condition">조건: t≥42, invested</span>
-    <span class="arc-count">1단계</span>
+    <span class="arc-count">5단계</span>
   </div>
   <div class="arc-body">
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_jaehyuk_04a_ghost</div>
   <div class="event-title">연락 두절</div>
-  <div class="event-desc">수익 정산일. 재혁에게 연락했다.<br><br>[ 읽음 ] 표시가 안 뜬다.<br>전화는 신호만 가다 끊긴다.<br>카톡 프로필 사진이 사라졌다.<br><br>불안이 확신으로 바뀌는 데 사흘이 걸렸다.<br><br>재혁이 말했던 회사를 검색한다.<br>'투자 사기 피해자 모임' 카페가 뜬다.<br>게시판에 수십 개의 글. 같은 이름. 최재혁.<br><br>{name}만이 아니었다.<br>같이 죽고 같이 산 사이라던 그 말이,<br>가장 비싼 거짓말이었다.</div>
-  <div class="event-meta">배경: goshiwon_room | 인물: player_shocked</div>
+  <div class="event-desc">수익 정산일. 재혁에게 연락했다.<br><br>[ 읽음 ] 표시가 안 떴다. 전화는 신호만 가다 끊겼고, 카카오톡 프로필 사진도 사라졌다.<br><br>사흘째 밤, 재혁이 말했던 회사를 검색했다. 첫 화면에 '투자 사기 피해자 모임' 카페가 떴다. 게시판 맨 위에 같은 이름이 있었다. 최재혁.<br><br>입금 전 호텔 라운지가 떠올랐다. 서류와 술잔 사이에서 그가 했던 말. "우리, 같이 죽고 같이 산 사이잖아." 화면 속 이름과 기억 속 목소리가 같은 사람을 가리켰다.</div>
+  <div class="event-meta">배경: current_housing | 인물: player_shocked</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 무너진다 — 한동안 아무것도 못 한다
-      <span class="effects">[mental: -15, stress: +20, health: -8]</span>
-      <span class="flags">🚩 arc_jaehyuk_ghost_seen, jaehyuk_scammed, hit_rock_bottom</span>
+      <span class="choice-num">선택 1</span> 피해자들의 글을 처음부터 읽는다
+      <span class="follow-up">→ arc_jaehyuk_ghost_read</span>
     </div>
-    <div class="result-text">며칠을 고시원 방에 누워만 있었다.<br>천장만 봤다. 통장은 비었고, 강남은 멀어졌다.<br><br>근데 이상하게, 바닥까지 떨어지니 더 떨어질 데가 없었다.<br>다시 일어서는 것 말곤 할 게 없었다.<br>언젠가, 반드시, 이 돈을 되찾는다.</div>
+    <div class="result-text">첫 글을 눌렀다. 가입일도, 투자액도, 재혁을 알게 된 경로도 달랐다. 그런데 첫 문장은 이상할 만큼 비슷했다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> 피해자 모임에 들어간다 — 혼자가 아니다
-      <span class="effects">[mental: -8, stress: +12, intelligence: +4]</span>
+      <span class="choice-num">선택 2</span> 재혁에게 마지막 음성메시지를 남긴다
+      <span class="follow-up">→ arc_jaehyuk_ghost_message</span>
+    </div>
+    <div class="result-text">통화 버튼을 다시 눌렀다. 신호가 끝난 뒤 녹음 안내음이 났다. {name}은 이번에는 끊지 않았다.</div>
+  </div>
+</div>
+<div class="event-card" style="margin-left:32px">
+  <div class="event-id">arc_jaehyuk_ghost_read</div>
+  <div class="event-title">같은 문장</div>
+  <div class="event-desc">첫 번째 글에는 이렇게 적혀 있었다. "고등학교 동창이라 믿었습니다."<br><br>두 번째 글은 군대 사진으로 시작했다. "같이 죽고 같이 산 사이라고 했어요."<br><br>세 번째 사람은 수익 캡처를 올렸다. "처음엔 자기 돈부터 넣었다고 했습니다." 숫자와 날짜만 달랐고, 재혁이 건넨 화면과 구조는 같았다.<br><br>동창, 선후임, 친척의 친구. 관계만 달랐다. 그는 가까움을 증거처럼 내밀었고, 사람들은 자기 기억을 담보로 돈을 보냈다.</div>
+  <div class="event-meta">배경: current_housing | 인물: player_shocked</div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 1</span> 다른 피해자들이 남긴 시간을 끝까지 확인한다
+      <span class="follow-up">→ arc_jaehyuk_ghost_decision</span>
+    </div>
+    <div class="result-text">마지막 페이지에 도착했을 때 창밖이 밝아지고 있었다. {name}은 피해 금액보다 먼저, 자신과 같은 문장을 믿은 사람들의 수를 셌다.</div>
+  </div>
+</div>
+<div class="event-card" style="margin-left:64px">
+  <div class="event-id">arc_jaehyuk_ghost_decision</div>
+  <div class="event-title">사라진 자리</div>
+  <div class="event-desc">새벽 두 시. 답장은 오지 않았다.<br><br>화면에는 재혁 대신 그가 지나간 사람들의 글만 늘어났다. {name}도 이제 그 목록 안에 있었다.<br><br>사진 속 웃음과 입금 내역이 같은 폰 안에 남아 있었다. 돈을 잃었다는 사실은 이미 확정됐다. 이제 남은 건, 그 다음의 자기를 고르는 일이었다.</div>
+  <div class="event-meta">배경: current_housing | 인물: player_shocked</div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 1</span> 며칠을 방에 누워만 있었다
+      <span class="effects">[mental: -35, health: -8]</span>
+      <span class="flags">🚩 arc_jaehyuk_ghost_seen, jaehyuk_scammed, hit_rock_bottom</span>
+    </div>
+    <div class="result-text">며칠을 방에 누워만 있었다.<br>천장만 봤다. 통장은 비었고, 강남은 멀어졌다.<br><br>근데 이상하게, 바닥까지 떨어지니 더 떨어질 데가 없었다.<br>다시 일어서는 것 말곤 할 게 없었다.<br>언젠가, 반드시, 이 돈을 되찾는다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 2</span> 카페에 가입하고 글을 남겼다. &#x27;저도 당했습니다.&#x27;
+      <span class="effects">[mental: -20, intelligence: +4, tint: +5]</span>
       <span class="flags">🚩 arc_jaehyuk_ghost_seen, jaehyuk_scammed, joined_victims</span>
     </div>
     <div class="result-text">카페에 가입하고 글을 남겼다.<br>'저도 당했습니다. 군대 동기였어요.'<br><br>댓글이 달렸다. '저도요.' '저도 동창이었어요.'<br>그는 늘 가까운 사람을 노렸다. 신뢰를 무기로.<br><br>피해자들이 모이기 시작했다. {name}은 그 중심에 섰다.<br>잃은 걸 되찾는 방법이 아예 없는 건 아니었다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 3</span> (주머니 속… 그날의 사진이 생각났다)
+      <span class="effects">[mental: -18, tint: +3]</span>
+      <span class="flags">🚩 arc_jaehyuk_ghost_seen, jaehyuk_scammed, presented_artifact_correct</span>
+      <span class="follow-up">→ arc_jaehyuk_photo_in_dark</span>
+    </div>
+    <div class="result-text">{name}은 폰 갤러리를 열었다. 포장마차 앞에서 둘이 찍은 사진 한 장이, 아직 거기 있었다.<br>지우지 않고 남겨둔 그 한 장을, {name}은 한참 들여다봤다.</div>
+  </div>
+</div>
+<div class="event-card" style="margin-left:96px">
+  <div class="event-id">arc_jaehyuk_photo_in_dark</div>
+  <div class="event-title">그날 밤의 사진</div>
+  <div class="event-desc">밤.<br><br>{name}은 폰을 꺼내 갤러리를 열었다.<br><br>사진 하나.<br>포장마차 앞. 둘이서 찍은 것.<br>재혁이 팔을 어깨에 올리고 웃고 있었다.<br><br>그날 밤엔 진짜였다.<br>사기꾼이어도, 그날 밤 그 웃음만큼은 — 진짜였을 것이다.<br><br>아니면 그것도 연습된 것이었을까.</div>
+  <div class="event-meta">배경: current_housing</div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 1</span> 진짜였다고 믿기로 했다
+      <span class="effects">[mental: +8, tint: +4]</span>
+      <span class="flags">🚩 arc_jaehyuk_photo_in_dark_seen, jaehyuk_night_was_real</span>
+    </div>
+    <div class="result-text">삭제하지 않았다.<br>증거 자료 폴더 밖에, 그냥 뒀다.<br>그날 밤은 그날 밤이었다.</div>
+  </div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 2</span> 사진을 삭제했다
+      <span class="effects">[mental: -5, tint: -2]</span>
+      <span class="flags">🚩 arc_jaehyuk_photo_in_dark_seen, deleted_jaehyuk_photo</span>
+    </div>
+    <div class="result-text">영구 삭제.<br>{name}은 폰을 뒤집어 엎어놨다.</div>
+  </div>
+</div>
+<div class="event-card" style="margin-left:128px">
+  <div class="event-id">arc_jaehyuk_ghost_message</div>
+  <div class="event-title">발신음 뒤</div>
+  <div class="event-desc">자동 음성이 흘렀다. "고객님이 전화를 받을 수 없어 음성사서함으로 연결됩니다."<br><br>삐 소리 뒤에도 한동안 아무 말이 나오지 않았다. {name}은 숨을 한 번 삼키고 말했다. "재혁아. 돈 얘기 말고, 네가 직접 말해. 그날 라운지에서 한 말까지 다 거짓말이었는지."<br><br>전송 버튼을 누르자 피해자 카페 알림이 떴다. 모르는 사람이 보낸 쪽지였다. "군대 동기였다고요? 저도 그 사람과 같은 부대였습니다."<br><br>재혁의 답은 없었다. 대신 재혁을 안다고 말하는 사람만 한 명 더 생겼다.</div>
+  <div class="event-meta">배경: current_housing | 인물: player_shocked</div>
+  <div class="choice">
+    <div class="choice-header">
+      <span class="choice-num">선택 1</span> 답 없는 대화창을 닫고 피해 기록을 정리한다
+      <span class="follow-up">→ arc_jaehyuk_ghost_decision</span>
+    </div>
+    <div class="result-text">음성메시지는 전송됨으로 남았다. 읽음 표시는 끝내 붙지 않았다. {name}은 통화기록 옆에 입금 내역과 피해 글을 나란히 놓았다.</div>
   </div>
 </div>
   </div>
@@ -1757,24 +2245,24 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="event-meta">배경: meeting | 인물: jaehyuk_cornered</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 경찰에 넘긴다 — 옳은 일을 한다
-      <span class="effects">[mental: +10, stress: -5, reputation: +8]</span>
+      <span class="choice-num">선택 1</span> 증거를 챙겨 경찰서로 걸음을 옮겼다
+      <span class="effects">[mental: +15, reputation: +8, tint: +6]</span>
       <span class="flags">🚩 arc_jaehyuk_counter_seen, jaehyuk_reported, took_high_road</span>
     </div>
     <div class="result-text">증거를 경찰에 넘겼다. 피해자들의 진술과 함께.<br>재혁은 구속됐다. {name}은 돈을 돌려받진 못했지만<br>적어도 더 이상의 피해자는 막았다.<br><br>임상철이 말했다. "잘했어. 돈보다 중요한 걸 지켰네."<br>{name}은 빈손이었지만, 거울 보기가 부끄럽지 않았다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> 약점을 쥐고 거래한다 — 내 돈, 아니 그 이상을 받아낸다
-      <span class="effects">[money: +8000000, mental: -6, stress: +10]</span>
+      <span class="choice-num">선택 2</span> &quot;신고 안 할게. 대신 내 돈 세 배로 돌려줘.&quot;
+      <span class="effects">[money: +8000000, mental: -16, tint: -5]</span>
       <span class="flags">🚩 arc_jaehyuk_counter_seen, jaehyuk_exploited, crossed_line</span>
     </div>
     <div class="result-text">"신고 안 할게. 대신 내 돈 세 배로 돌려줘. 일주일 안에."<br>재혁은 떨면서 고개를 끄덕였다. 돈이 들어왔다.<br><br>강남에 한 발 가까워졌다. 근데 {name}은 그날 밤,<br>자기가 재혁과 뭐가 다른지 한참을 생각했다.<br>답을 찾지 못했다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 3</span> 그를 끌어들여 더 큰 판을 짠다 — 사기를 사업으로
-      <span class="effects">[money: +5000000, mental: -12, stress: +14, investment_skill: +6]</span>
+      <span class="choice-num">선택 3</span> &quot;신고 대신, 같이 하자. 이번엔 제대로.&quot;
+      <span class="effects">[money: +5000000, mental: -26, investment_skill: +6, tint: -8]</span>
       <span class="flags">🚩 arc_jaehyuk_counter_seen, jaehyuk_partnered, fell_to_darkness</span>
     </div>
     <div class="result-text">"신고 대신, 같이 하자. 대신 이번엔 제대로."<br>재혁의 눈에 안도와 두려움이 섞였다.<br><br>{name}은 선을 넘었다. 강남은 가까워질 것이다.<br>빠르게. 더럽게.<br>아버지한테 보여줄 그 집이, 이런 돈으로 사는 집이어도 되는 걸까.<br>그 질문을, {name}은 묻지 않기로 했다. 지금은.</div>
@@ -1794,16 +2282,16 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="event-meta">배경: late_night | 인물: player_determined</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 잃은 것보다 배운 것을 쓴다 — 이걸 돈으로 바꿀 것이다
-      <span class="effects">[intelligence: +8, investment_skill: +4, stress: -5, mental: +6]</span>
+      <span class="choice-num">선택 1</span> 재혁이 했던 말들을 노트에 받아 적었다
+      <span class="effects">[intelligence: +8, investment_skill: +4, mental: +11, tint: +3]</span>
       <span class="flags">🚩 arc_jaehyuk_standup_seen, jaehyuk_stood_up</span>
     </div>
     <div class="result-text">노트에 재혁이 했던 말들을 받아 적었다.<br>어떻게 감정을 자극했는지, 어떤 말에 마음이 흔들렸는지.<br>이건 비싼 수업료였다. 근데 수업료를 냈으면 뭔가는 배워야 했다.<br>{name}은 노트를 덮고 다시 컴퓨터를 켰다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> 내일 아침 일찍 일어나는 것부터 — 기본부터 다시
-      <span class="effects">[health: +5, stress: -8, mental: +4, reputation: +2]</span>
+      <span class="choice-num">선택 2</span> 알람을 새벽 6시에 맞췄다. 거기서부터 다시
+      <span class="effects">[health: +5, mental: +12, reputation: +2, tint: +4]</span>
       <span class="flags">🚩 arc_jaehyuk_standup_seen, jaehyuk_stood_up</span>
     </div>
     <div class="result-text">알람을 새벽 6시에 맞췄다.<br>거창한 계획은 없었다. 아침에 일어나고, 밥을 먹고, 뭔가를 하는 것.<br>그게 다였다. 그것부터였다.<br>재혁을 생각했다가, 노트를 펼쳤다.</div>
@@ -1824,7 +2312,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> &quot;네. 무슨 문제가 있는 건가요?&quot;
-      <span class="effects">[intelligence: +5, stress: +8]</span>
+      <span class="effects">[intelligence: +5, mental: -8]</span>
       <span class="flags">🚩 arc_sangchul_jiyeon_reveal_seen, sangchul_knows_jiyeon, warned_about_jiyeon</span>
     </div>
     <div class="result-text">임상철이 말을 고르더니 천천히 꺼냈다.<br>"업계에서 말이 좀 있어. 확실한 건 아니야, 아직은.<br>근데 그 분양 — 내가 좀 알아볼게."<br>"그 애가 나쁜 사람이라는 게 아니야.<br>근데 거기 연결된 돈의 흐름을 — 네가 알아야 해."<br><br>{name}은 사무소를 나오면서 생각했다.<br>두 세계가 생각보다 훨씬 가까이 붙어 있다는 걸.</div>
@@ -1832,7 +2320,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> &quot;임상철 씨도 같은 업계잖아요. 경쟁이니까 그럴 수도...&quot;
-      <span class="effects">[stress: +3, intelligence: +2]</span>
+      <span class="effects">[intelligence: +2, mental: -3]</span>
       <span class="flags">🚩 arc_sangchul_jiyeon_reveal_seen, sangchul_knows_jiyeon, dismissed_sangchul_warning</span>
     </div>
     <div class="result-text">임상철은 상처받은 표정을 잠깐 보였다가, 이내 고개를 끄덕였다.<br>"...그럴 수 있지. 내 말이 틀릴 수도 있어."<br>"근데 민준아. 내가 왜 너한테 거짓말을 하겠어."<br><br>그 말이 집으로 오는 길 내내 따라왔다.<br>{name}은 눌러두기로 했다. 지금은.</div>
@@ -1848,23 +2336,23 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_opp_jiyeon_bunyang</div>
   <div class="event-title">분양권</div>
-  <div class="event-desc">한지연이 조용히 불렀다.<br><br>"우리 아빠 회사에서 강남에 분양 하나 올려. 아직 공개 안 됐어.<br>계약금만 넣어두면, 프리미엄이 어마어마할 거야. 너한테만 말하는 거야."<br><br>{name}은 망설였다. 이건 한지연의 세계가 주는 기회다.<br>잡으면 강남에 성큼 다가선다. 근데 그 순간, 그녀에게 빚을 지는 거다.<br>그녀의 세계에, 한 발 들여놓는 거다.<br><br>"왜 나한테 이걸 줘?"<br>"...몰라서 물어?" 그녀가 웃었다.<br><br>돈도, 마음도 걸린 선택이다.</div>
+  <div class="event-desc">한지연이 조용히 불렀다.<br><br>"우리 아빠 회사에서 강남에 분양 하나 올려요. 아직 공개 안 됐어요.<br>계약금만 넣어두면, 프리미엄이 어마어마할 거예요. 오빠한테만 말하는 거예요."<br><br>{name}은 망설였다. 이건 한지연의 세계가 주는 기회다.<br>잡으면 강남에 성큼 다가선다. 근데 그 순간, 그녀에게 빚을 지는 거다.<br>그녀의 세계에, 한 발 들여놓는 거다.<br><br>"왜 저한테 이걸 주는 거예요?"<br>"...몰라서 물어요?" 그녀가 웃었다.<br><br>돈도, 마음도 걸린 선택이다.</div>
   <div class="event-meta">배경: gangnam_day | 인물: jiyeon_warm</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 기회를 잡는다 — 강남에 다가서기 위해
-      <span class="effects">[stress: +8]</span>
+      <span class="choice-num">선택 1</span> 계약금을 준비했다. 그녀의 세계에 한 발을 들였다
+      <span class="effects">[mental: -8]</span>
       <span class="flags">🚩 arc_opp_jiyeon_seen, took_jiyeon_deal</span>
     </div>
-    <div class="result-text">계약금을 넣었다. 한지연의 세계에 한 발을 들였다.<br><br>그녀가 만족스러운 듯 웃는다. "잘 생각했어."<br>근데 {name}은 알고 있었다. 이건 공짜가 아니라는 걸.<br>강남이 가까워진 만큼, 그녀도 가까워졌다. 빚처럼.</div>
+    <div class="result-text">계약금을 넣었다. 한지연의 세계에 한 발을 들였다.<br><br>그녀가 만족스러운 듯 웃는다. "잘 생각했어요."<br>근데 {name}은 알고 있었다. 이건 공짜가 아니라는 걸.<br>강남이 가까워진 만큼, 그녀도 가까워졌다. 빚처럼.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> 거절한다 — 내 힘으로 가고 싶다
-      <span class="effects">[mental: +6, stress: -3]</span>
+      <span class="choice-num">선택 2</span> &quot;고마워요. 근데 이건 제 힘으로 하고 싶어요.&quot;
+      <span class="effects">[mental: +9]</span>
       <span class="flags">🚩 arc_opp_jiyeon_seen, refused_jiyeon_deal</span>
     </div>
-    <div class="result-text">"고마워. 근데 이건 내 힘으로 하고 싶어."<br>한지연의 표정이 미묘하게 굳었다.<br>"...넌 진짜 이상한 사람이야. 이걸 거절해?"<br><br>그녀는 이해 못 했다. 근데 {name}은,<br>그녀에게 빚지지 않은 자기 자신이 마음에 들었다.<br>강남은 멀어졌지만, 떳떳했다.</div>
+    <div class="result-text">"고마워요. 근데 이건 제 힘으로 하고 싶어요."<br>한지연의 표정이 미묘하게 굳었다.<br>"...오빠는 진짜 이상한 사람이에요. 이걸 거절해요?"<br><br>그녀는 이해 못 했다. 근데 {name}은,<br>그녀에게 빚지지 않은 자기 자신이 마음에 들었다.<br>강남은 멀어졌지만, 떳떳했다.</div>
   </div>
 </div>
   </div>
@@ -1877,23 +2365,23 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_opp_jiyeon_win</div>
   <div class="event-title">프리미엄</div>
-  <div class="event-desc">한지연에게서 문자가 왔다.<br><br>이모티콘 하나. 그리고 숫자.<br><br>{name}은 잠시 화면을 바라봤다.<br>현실인지 확인하려는 것처럼.<br><br>그녀의 세계에 발을 들였고,<br>이번엔 이쪽이 이겼다.<br><br>근데 이상하게도, 그녀에게 빚을 갚은 느낌이 들었다.</div>
+  <div class="event-desc">한지연에게서 메시지가 왔다. 축하 이모티콘 하나와 확정된 프리미엄 숫자. {name}은 알림창을 닫지 못하고 자릿수를 다시 셌다.<br><br>그녀가 건넨 정보는 이제 통장에 찍힐 금액이 됐다. 말투와 옷차림, 익숙한 강남의 카페까지 멀게만 보이던 지연의 세계에 잠시 같은 이름으로 올라선 기분이었다.<br><br>기뻐야 하는데 감사와 안도 사이에 빚진 마음이 섞였다. 수익을 얻었는데도, 오래 미뤄둔 값을 이제야 그녀에게 돌려준 것 같았다.</div>
   <div class="event-meta">배경: gangnam_day | 인물: jiyeon_warm</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 한지연에게 감사를 전한다
-      <span class="effects">[stress: -5, mental: +6, social_skill: +2]</span>
+      <span class="choice-num">선택 1</span> &quot;덕분이에요. 진심으로.&quot; 문자를 보냈다
+      <span class="effects">[mental: +11, social_skill: +2]</span>
       <span class="flags">🚩 arc_opp_jiyeon_result_seen</span>
     </div>
-    <div class="result-text">"덕분이야. 진심으로."<br>한지연이 잠시 침묵하다 답했다.<br>"...그 말 듣고 싶었어."<br>강남에 한 발 더 가까워졌다. 그녀와 함께.</div>
+    <div class="result-text">"덕분이에요. 진심으로."<br><br>읽음 표시 뒤로 한동안 답이 없었다. 곧 지연이 보낸 문장이 나타났다. "그 말, 듣고 싶었어요. 오빠가 잘돼서 저도 좋아요."<br><br>{name}은 축하 이모티콘을 다시 바라봤다. 강남에 가까워진 숫자보다, 자신이 먼저 떠올랐다는 사실이 오래 남았다. 화면의 작은 불빛이 꺼질 때까지 답장을 쓰고 지웠다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> 이제 나는 그녀의 세계와 동등하다
-      <span class="effects">[investment_skill: +4, intelligence: +3, stress: -3]</span>
+      <span class="choice-num">선택 2</span> 감사 문자를 짧게 보냈다. 다음 계획이 먼저였다
+      <span class="effects">[investment_skill: +4, intelligence: +3, mental: +3]</span>
       <span class="flags">🚩 arc_opp_jiyeon_result_seen</span>
     </div>
-    <div class="result-text">감사는 잠깐이면 충분하다.<br>{name}은 이번 수익을 이미 다음 계획으로 연결하고 있었다.<br>한지연의 세계가 아니라 자신의 세계.<br>그게 진짜 강남 입성이라고 생각했다.</div>
+    <div class="result-text">{name}은 짧게 감사하다고 보낸 뒤 곧바로 투자 앱을 열었다. 이번 수익을 원금과 다음 기회로 나누는 동안 지연의 답장은 알림창 아래로 밀려났다.<br><br>그녀가 열어준 문을 통과했지만, 계속 그 세계의 손님으로 남고 싶지는 않았다. 숫자가 불어날수록 자기 이름으로 된 출입구를 만들 수 있을 것 같았다. 다음 계획표에는 지연의 이름 대신 금액만 남았다.</div>
   </div>
 </div>
   </div>
@@ -1906,23 +2394,23 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_opp_jiyeon_lose</div>
   <div class="event-title">분양권 취소</div>
-  <div class="event-desc">분양이 취소됐다는 문자가 왔다.<br><br>한지연이 직접 전화를 걸어왔다.<br>"미안해. 나도 몰랐어."<br><br>그녀의 목소리에는 진심이 있었다. 아마도.<br><br>계약금은 날아갔다.<br>한지연의 세계가 항상 이긴다는 보장은 없었다.<br><br>{name}은 천장을 바라봤다. 한참 동안.</div>
+  <div class="event-desc">분양 취소 안내가 먼저 도착했다. 회색 문장 아래 환불 불가라는 네 글자가 선명했다. 잠시 뒤 한지연이 직접 전화를 걸어왔다.<br><br>"미안해요. 저도 몰랐어요. 확인하고 또 확인했는데…."<br><br>평소 흔들리지 않던 목소리가 문장 끝마다 낮아졌다. 진심인지 아닌지 판단하려 했지만, 사라진 계약금의 액수가 다른 생각을 밀어냈다.<br><br>{name}은 고시원 천장의 얼룩을 바라봤다. 지연이 익숙하게 걷던 세계에도 막힌 문이 있다는 걸 알게 된 밤이었다.</div>
   <div class="event-meta">배경: gangnam_night | 인물: jiyeon_cold</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 괜찮아 — 네 잘못이 아니다
-      <span class="effects">[mental: -8, stress: +10]</span>
+      <span class="choice-num">선택 1</span> &quot;괜찮아요.&quot; (그 말이 어렵지 않게 나왔다)
+      <span class="effects">[mental: -18]</span>
       <span class="flags">🚩 arc_opp_jiyeon_result_seen</span>
     </div>
-    <div class="result-text">"괜찮아." 그 말이 어렵지 않게 나왔다.<br>솔직히 말하면 괜찮지 않았다.<br>근데 그녀 앞에서 무너지고 싶지 않았다.<br>강남은 멀어졌지만, 체면은 지켰다.</div>
+    <div class="result-text">"괜찮아요. 지연 씨 잘못은 아니잖아요."<br><br>말은 어렵지 않게 나왔지만 손은 이불 끝을 세게 쥐고 있었다. 괜찮지 않다는 것을 들키고 싶지 않았고, 그녀의 떨리는 목소리까지 탓으로 바꾸고 싶지도 않았다.<br><br>통화를 마치자 방이 더 좁아 보였다. 강남은 멀어졌고 계약금도 돌아오지 않았다. 그래도 마지막 문장만큼은 자신이 고른 것이었다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> 한지연을 믿은 게 실수였다
-      <span class="effects">[mental: -12, stress: +15, intelligence: +3]</span>
+      <span class="choice-num">선택 2</span> &quot;믿는 게 아니었어요.&quot; (전화를 끊었다)
+      <span class="effects">[mental: -27, intelligence: +3]</span>
       <span class="flags">🚩 arc_opp_jiyeon_result_seen</span>
     </div>
-    <div class="result-text">"믿는 게 아니었어."<br>말하고 나서 전화를 끊었다.<br>한지연의 세계가 화려해 보였던 건 진짜가 아니었을 수도 있다.<br>{name}은 처음으로 그녀를 다르게 봤다.</div>
+    <div class="result-text">"믿는 게 아니었어요. 지연 씨도, 그쪽 사람들도."<br><br>지연이 대답하기 전에 전화를 끊었다. 곧 다시 걸려온 전화도 받지 않았다. 화려해 보였던 그녀의 세계가 얇은 무대 장치처럼 느껴졌다.<br><br>{name}은 손실 내역을 캡처해 두었다. 화면 위 지연의 이름이 더는 입구처럼 보이지 않았다. 그날부터는 경고문처럼 읽혔다.</div>
   </div>
 </div>
   </div>
@@ -1935,20 +2423,20 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_jiyeon_truth_moment</div>
   <div class="event-title">그때 말 못 한 것들</div>
-  <div class="event-desc">한지연에게서 먼저 연락이 왔다.<br>"민준 씨, 시간 되면 잠깐 만날 수 있어요?"<br><br>카페에 마주 앉은 그녀의 얼굴이 평소와 달랐다.<br>무언가를 오래 준비한 사람의 얼굴.<br><br>"민준 씨한테 솔직하게 말씀드려야 할 것 같아요."<br><br>아버지 회사가 어렵다고 했다.<br>이번 분양이 잘 되어야 한다고.<br>그래서 투자자가 필요했고, 민준에게 권한 거라고.<br>그것도 맞다고.<br><br>"근데 그게 다는 아니에요.<br>민준 씨가 잘 됐으면 하는 마음도 진짜였어요.<br>그리고... 민준 씨가 궁금했고, 곁에 있고 싶었어요."<br><br>"세 가지가 다 섞여있어서, 제가 어떤 사람인지 모르겠어요.<br>나쁜 사람인가요?"</div>
+  <div class="event-desc">한지연에게서 먼저 연락이 왔다.<br>"오빠, 시간 되면 잠깐 만날 수 있어요?"<br><br>카페에 마주 앉은 그녀의 얼굴이 평소와 달랐다.<br>무언가를 오래 준비한 사람의 얼굴.<br><br>"오빠한테 솔직하게 말씀드려야 할 것 같아요."<br><br>아버지 회사가 어렵다고 했다.<br>이번 분양이 잘 되어야 한다고.<br>그래서 투자자가 필요했고, 민준에게 권한 거라고.<br>그것도 맞다고.<br><br>"근데 그게 다는 아니에요.<br>오빠가 잘 됐으면 하는 마음도 진짜였어요.<br>그리고... 오빠가 궁금했고, 곁에 있고 싶었어요."<br><br>"세 가지가 다 섞여있어서, 제가 어떤 사람인지 모르겠어요.<br>나쁜 사람인가요?"</div>
   <div class="event-meta">배경: cafe | 인물: jiyeon_warm</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> &quot;솔직하게 말해줘서 고마워요. 같이 방법을 찾아봐요.&quot;
-      <span class="effects">[mental: +8, stress: +5]</span>
+      <span class="effects">[mental: +3, tint: +6]</span>
       <span class="flags">🚩 arc_jiyeon_truth_seen, jiyeon_came_clean, jiyeon_together</span>
     </div>
     <div class="result-text">한지연의 눈에 눈물이 맺혔다.<br>"...고마워요. 그 말 들을 자격이 있는지 모르겠는데."<br><br>둘은 오래 얘기했다.<br>분양의 실제 구조, 빠져나올 방법, 최악의 경우.<br>이번엔 계산도, 숨김도 없이.<br><br>이상하게도 — 이게 더 강남에 가까워지는 길처럼 느껴졌다.<br>돈이 아니라, 사람으로.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> &quot;이용당한 거잖아요.&quot; — 배신감을 솔직하게 꺼낸다
-      <span class="effects">[mental: -5, stress: +8]</span>
+      <span class="choice-num">선택 2</span> &quot;이용당한 거잖아요.&quot; (배신감을 꺼냈다)
+      <span class="effects">[mental: -13, tint: -2]</span>
       <span class="flags">🚩 arc_jiyeon_truth_seen, jiyeon_came_clean, confronted_jiyeon</span>
     </div>
     <div class="result-text">한지연은 고개를 숙였다.<br>"맞아요. 그렇게 느낄 수 있어요."<br>반박하지 않았다.<br><br>{name}은 카페를 나오면서 속이 후련하지 않다는 걸 알았다.<br>그녀가 나쁜 사람이 아니라는 것도 알았다.<br>그래서 더 복잡했다.</div>
@@ -1956,7 +2444,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 3</span> &quot;당신은 당신 세계에서 살았고, 저는 제 선택을 한 거예요.&quot;
-      <span class="effects">[mental: +10, intelligence: +3, stress: -3]</span>
+      <span class="effects">[mental: +13, intelligence: +3, tint: +4]</span>
       <span class="flags">🚩 arc_jiyeon_truth_seen, jiyeon_came_clean, forgave_jiyeon</span>
     </div>
     <div class="result-text">한지연이 오랫동안 {name}을 바라봤다.<br>"...그렇게 말해줄 수 있는 사람이 많지 않아요."<br><br>{name}은 진심이었다.<br>자기 선택은 자기 것이다.<br>탓할 사람을 찾는 건 — 강남과 더 멀어지는 길이다.<br><br>그녀가 작게 웃었다.<br>처음으로, 꾸미지 않은 웃음이었다.</div>
@@ -1977,7 +2465,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> &quot;알고 있었어요. 그래도 직접 말해줘서 고마워요.&quot;
-      <span class="effects">[mental: +7, stress: +4]</span>
+      <span class="effects">[mental: +3, tint: +4]</span>
       <span class="flags">🚩 arc_jiyeon_truth_seen, jiyeon_came_clean, jiyeon_together</span>
     </div>
     <div class="result-text">"...알고 계셨어요?"<br>한지연이 잠시 말을 잃었다.<br>"그럼 왜 아직도 여기 계세요?"<br>{name}은 대답하는 대신 커피를 한 모금 마셨다.<br>그 침묵이 오히려 답이었다.</div>
@@ -1985,7 +2473,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> &quot;말해줘서 고마워요. 근데 — 처음부터 솔직했으면 어땠을까.&quot;
-      <span class="effects">[mental: +2, stress: +7, intelligence: +2]</span>
+      <span class="effects">[mental: -5, intelligence: +2, tint: +2]</span>
       <span class="flags">🚩 arc_jiyeon_truth_seen, jiyeon_came_clean, confronted_jiyeon</span>
     </div>
     <div class="result-text">한지연이 고개를 숙였다.<br>"...맞아요. 처음부터 말했어야 했는데."<br>뒤늦은 솔직함. 뒤늦은 용기.<br>{name}은 이미 알고 있었지만, 직접 듣는 건 또 달랐다.</div>
@@ -1993,7 +2481,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 3</span> &quot;사람 일이 다 그렇죠. 당신 세계의 방식이 있었던 거니까.&quot;
-      <span class="effects">[mental: +10, stress: -3, intelligence: +3]</span>
+      <span class="effects">[mental: +13, intelligence: +3, tint: +3]</span>
       <span class="flags">🚩 arc_jiyeon_truth_seen, jiyeon_came_clean, forgave_jiyeon</span>
     </div>
     <div class="result-text">"민준 씨는... 미리 알고 있었군요."<br>한지연이 처음으로 방어를 내려놓은 얼굴이었다.<br>"근데도 이렇게 말해줄 수 있어요?"<br>예고된 배신은 덜 아플 줄 알았는데 — 꼭 그렇지도 않았다.<br>그래도, 용서는 자기를 위한 것이기도 했다.</div>
@@ -2009,28 +2497,28 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">arc_jiyeon_05_epilogue</div>
   <div class="event-title">이후</div>
-  <div class="event-desc">모든 걸 솔직하게 털어놓은 다음 날,<br>한지연에게서 먼저 문자가 왔다.<br><br>'아직 민준 씨가 화났을까봐 무서워서요.<br>어제 말 많이 했는데... 저 좀 이상한 사람이죠?'<br><br>{name}은 폰을 보며 생각했다.<br><br>세 가지 이유가 섞인 여자.<br>아버지 회사 때문에, 투자자가 필요해서, 그리고 곁에 있고 싶어서.<br><br>이 관계는 무엇이 될 수 있을까.</div>
+  <div class="event-desc">모든 걸 솔직하게 털어놓은 다음 날,<br>한지연에게서 먼저 문자가 왔다.<br><br>'아직 오빠가 화났을까봐 무서워서요.<br>어제 말 많이 했는데... 저 좀 이상한 사람이죠?'<br><br>{name}은 폰을 보며 생각했다.<br><br>세 가지 이유가 섞인 여자.<br>아버지 회사 때문에, 투자자가 필요해서, 그리고 곁에 있고 싶어서.<br><br>이 관계는 무엇이 될 수 있을까.</div>
   <div class="event-meta">배경: cafe | 인물: jiyeon_warm</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> &quot;이상하지 않아요. 그냥 인간적인 거죠.&quot; — 받아들인다
-      <span class="effects">[mental: +8, stress: -5]</span>
+      <span class="choice-num">선택 1</span> &quot;이상하지 않아요. 그냥 인간적인 거죠.&quot; (받아들였다)
+      <span class="effects">[mental: +13, tint: +5]</span>
       <span class="flags">🚩 arc_jiyeon_epilogue_seen, jiyeon_accepted</span>
     </div>
-    <div class="result-text">답장을 보냈다.<br>잠시 후 그녀의 답장: '민준 씨도 이상한 사람이에요. 그래서 좋아요.'<br>{name}은 피식 웃었다. 강남을 가는 이유가 하나 더 생긴 기분이었다.</div>
+    <div class="result-text">답장을 보냈다.<br>잠시 후 그녀의 답장: '오빠도 이상한 사람이에요. 그래서 좋아요.'<br>{name}은 피식 웃었다. 강남을 가는 이유가 하나 더 생긴 기분이었다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 2</span> &quot;지연씨, 나는 아직 강남이 먼저예요.&quot; — 솔직하게 선을 긋는다
-      <span class="effects">[intelligence: +3, stress: +3]</span>
+      <span class="choice-num">선택 2</span> &quot;지연씨, 나는 아직 강남이 먼저예요.&quot; (선을 그었다)
+      <span class="effects">[intelligence: +3, mental: -3, tint: -3]</span>
       <span class="flags">🚩 arc_jiyeon_epilogue_seen, jiyeon_prioritized_goal</span>
     </div>
     <div class="result-text">한지연은 잠시 말이 없더니 '...알겠어요. 그게 더 솔직한 거네요'라고 했다.<br>다음 날, 그녀에게서 분양권 관련 자료가 왔다.<br>'도움이 필요하면 연락해요. 그 부분은 진심이니까.'<br>감정 빼고 사업 파트너로.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 3</span> &quot;그 세 가지 이유, 전부 이해해요.&quot; — 판단하지 않는다
-      <span class="effects">[mental: +6, stress: -2]</span>
+      <span class="choice-num">선택 3</span> &quot;그 세 가지 이유, 전부 이해해요.&quot; (판단하지 않았다)
+      <span class="effects">[mental: +8, tint: +4]</span>
       <span class="flags">🚩 arc_jiyeon_epilogue_seen, jiyeon_forgave_complexity</span>
     </div>
     <div class="result-text">한지연이 잠깐 조용하더니 말했다. '...그 말이 제일 무섭네요. 왜냐면 감사해서요.'<br>강남과 감정과 계산이 섞인 이 관계.<br>단순하지 않아서 포기하지 않기로 했다.</div>
@@ -2047,11 +2535,11 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="event-id">arc_jaehyuk_aftermath</div>
   <div class="event-title">그 뒤의 이야기</div>
   <div class="event-desc">뉴스에서 이름을 봤다.<br>최재혁.<br><br>기사 제목: "다단계 투자 사기 일당 검거, 피해액 23억."<br><br>{name}은 기사를 열지 않았다.<br>열어봤자 알 것 같아서.<br><br>그때의 선택이 떠올랐다.<br>경찰에 넘겼든, 약점을 쥐었든, 함께 판을 짰든 —<br>그 선택이 지금 이 뉴스와 함께 돌아왔다.<br><br>{name}은 오래 창밖을 봤다.</div>
-  <div class="event-meta">배경: goshiwon_room | 인물: player_normal</div>
+  <div class="event-meta">배경: current_housing | 인물: player_normal</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 경찰에 넘긴 게 맞았다 — 지금 이 뉴스가 증명한다  [take_high_road 경로]
-      <span class="effects">[mental: +12, reputation: +5, stress: -8]</span>
+      <span class="effects">[mental: +20, reputation: +5]</span>
       <span class="flags">🚩 arc_jaehyuk_aftermath_seen</span>
     </div>
     <div class="result-text">{name}이 제출한 증거가 이 결과에 기여했다.<br>돈을 못 돌려받은 건 여전했다.<br>하지만 23억의 추가 피해는 막혔다.<br>강남은 아직 멀다. 그래도 거울 보기가 부끄럽지 않았다.</div>
@@ -2059,7 +2547,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 그때 나는 나만 살았다 — 그게 강남으로 가는 방식이었는지 모른다  [crossed_line 경로]
-      <span class="effects">[mental: -6, intelligence: +5, stress: +4]</span>
+      <span class="effects">[mental: -10, intelligence: +5]</span>
       <span class="flags">🚩 arc_jaehyuk_aftermath_seen</span>
     </div>
     <div class="result-text">기사를 닫았다.<br>{name}이 한 일이 그 23억 중 일부를 막았는지, 늘렸는지 알 수 없었다.<br>강남으로 가는 길에서 내가 어떤 사람이 됐는지 —<br>그 질문을 더 이상 피할 수 없는 날이 오고 있었다.</div>
@@ -2067,7 +2555,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 3</span> 피해자로서 읽는다 — 그래도 결국 잡혔구나  [jaehyuk_scammed 경로]
-      <span class="effects">[mental: +8, stress: -5, reputation: +3]</span>
+      <span class="effects">[mental: +13, reputation: +3]</span>
       <span class="flags">🚩 arc_jaehyuk_aftermath_seen</span>
     </div>
     <div class="result-text">23억. {name}의 돈도 그 안에 있을 것이다.<br>전부 돌려받진 못하겠지. 재판이 끝나봐야 알겠지.<br>근데 이상하게, 기사를 닫고 나니 숨이 좀 쉬어졌다.<br>그 새끼 결국 잡혔다. 그거면 됐다. 일단은.</div>
@@ -2083,30 +2571,30 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">story_six_months</div>
   <div class="event-title">반년이 지났다</div>
-  <div class="event-desc">6개월째.<br><br>처음 이 방에 들어왔을 때의 그 막막함이 아직 기억난다.<br>캐리어 하나, 50만원.<br><br>{name}은 지금 어디에 서 있을까.<br>그때보다 나아졌을까? 아니면 그냥 버틴 걸까?<br><br>창밖의 서울은 여전히 빠르게 돌아간다.</div>
+  <div class="event-desc">달력 여섯 장이 넘어갔다. 처음 이 방에 들어오던 날, 캐리어 바퀴가 문턱에 걸렸고 통장에는 50만원뿐이었다. 그때 맡았던 눅눅한 벽지 냄새가 아직도 비 오는 날이면 올라왔다.<br><br>{name}은 책상 위 영수증과 메모를 한쪽으로 밀었다. 바뀐 숫자는 있었고, 그대로인 것들도 있었다. 이만하면 나아진 걸까. 아니면 버티는 법만 조금 익힌 걸까.<br><br>작은 창 너머 서울의 불빛은 처음처럼 빠르게 움직였다. 반년을 보낸 사람에게도 도시는 속도를 늦춰주지 않았다.</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 잘 버텼다. 계속 가보자.
-      <span class="effects">[mental: +8, stress: -5]</span>
+      <span class="effects">[mental: +13]</span>
       <span class="flags">🚩 story_six_months_seen</span>
     </div>
-    <div class="result-text">반년.<br>작은 것들이 쌓여 여기까지 왔다.<br>{name}은 아직 여기 있다. 그게 전부이고, 그게 충분하다.</div>
+    <div class="result-text">"잘 버텼다." 소리 내어 말하니 조금 쑥스러웠다.<br><br>통장 숫자보다 먼저 떠오른 건 놓치지 않은 아침들과 다시 일어난 밤들이었다. {name}은 달력의 지난 장을 접어 서랍에 넣었다.<br><br>아직 여기 있다는 사실이, 오늘만큼은 초라하지 않았다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 아직 부족하다. 더 빠르게 움직여야 한다.
-      <span class="effects">[stress: +5, intelligence: +4, mental: +2]</span>
+      <span class="effects">[intelligence: +4, mental: -3]</span>
       <span class="flags">🚩 story_six_months_seen</span>
     </div>
-    <div class="result-text">조급함이 생겼다. 나쁜 건 아니다.<br>다만 무너지지 않을 만큼만 조여야 한다.<br>{name}은 그 경계를 알고 있다.</div>
+    <div class="result-text">플래너를 다시 펴고 빈칸마다 할 일을 적었다. 펜 끝이 종이를 누르는 힘이 점점 세졌다.<br><br>속도를 올리면 풍경은 먼저 흐려진다. {name}은 그 사실을 알면서도 알람을 한 시간 앞당겼다.<br><br>불을 끈 뒤에도 새 일정표의 네모들이 눈꺼풀 안에 남았다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 3</span> 그냥 쉰다. 오늘만큼은 생각하지 않는다.
-      <span class="effects">[mental: +10, stress: -8]</span>
+      <span class="effects">[mental: +18]</span>
       <span class="flags">🚩 story_six_months_seen</span>
     </div>
-    <div class="result-text">아무것도 하지 않는 반나절.<br>죄책감이 올라왔다가 사라졌다.<br>버티는 것도 체력이다. {name}은 오늘 그 체력을 충전했다.</div>
+    <div class="result-text">폰을 뒤집어 놓고 반나절을 잤다. 깨어났을 때 방 안 빛의 각도가 달라져 있었다.<br><br>처음엔 시간을 버린 것 같아 가슴이 조급했지만, 따뜻한 물로 씻고 나니 어깨가 조금 내려갔다.<br><br>그날 밤에는 알람을 미루지 않았다. 쉰 시간도 어딘가로 사라진 것은 아니었다.</div>
   </div>
 </div>
   </div>
@@ -2123,7 +2611,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 여기까지 온 것만으로도 의미 있다
-      <span class="effects">[mental: +10, stress: -8]</span>
+      <span class="effects">[mental: +18]</span>
       <span class="flags">🚩 story_one_year_seen</span>
     </div>
     <div class="result-text">비교하지 않기로 했다.<br>{name}은 {name}의 속도로 가고 있다.<br>그 속도가 느려 보여도, 멈춘 건 아니다.</div>
@@ -2131,7 +2619,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 1년이 지났는데 아직 이 자리? 불태우자.
-      <span class="effects">[stress: +6, intelligence: +5, mental: +3]</span>
+      <span class="effects">[intelligence: +5, mental: -3]</span>
       <span class="flags">🚩 story_one_year_seen</span>
     </div>
     <div class="result-text">불꽃을 당겼다.<br>이 에너지가 오래 가야 할 텐데.<br>{name}은 이미 알고 있다 — 조급함과 의지는 다르다는 걸.</div>
@@ -2151,7 +2639,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 지금이 때다. 이직을 준비한다.
-      <span class="effects">[intelligence: +4, stress: +6, mental: +2]</span>
+      <span class="effects">[intelligence: +4, mental: -4]</span>
       <span class="flags">🚩 story_one_half_year_seen</span>
     </div>
     <div class="result-text">이력서를 다시 꺼냈다.<br>현재 직장에서 배운 걸 정리했다.<br>아직 준비가 덜 됐다고 느껴도 — 움직이는 사람이 기회를 잡는다.</div>
@@ -2159,7 +2647,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 조금 더 버틴다. 지금 자리에서 더 쌓는다.
-      <span class="effects">[reputation: +4, mental: +4, stress: -3]</span>
+      <span class="effects">[reputation: +4, mental: +7]</span>
       <span class="flags">🚩 story_one_half_year_seen</span>
     </div>
     <div class="result-text">이직은 나중에. 지금은 여기서 더 배우기로 했다.<br>조급함보다 깊이가 필요한 시간이다.<br>{name}은 오늘도 자리를 지켰다.</div>
@@ -2167,7 +2655,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 3</span> 지금은 생각하지 않기로 한다. 오늘 하루만 살자.
-      <span class="effects">[mental: +6, stress: -5, health: +3]</span>
+      <span class="effects">[mental: +11, health: +3]</span>
       <span class="flags">🚩 story_one_half_year_seen</span>
     </div>
     <div class="result-text">창을 닫고 밥을 먹었다.<br>지금 당장 답이 안 나오는 것들이 있다.<br>{name}은 그걸 받아들이는 법을 조금씩 배우고 있다.</div>
@@ -2187,7 +2675,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 서울에서 더 깊이 뿌리내리겠다고 다짐한다
-      <span class="effects">[mental: +8, reputation: +3, stress: -4]</span>
+      <span class="effects">[mental: +12, reputation: +3]</span>
       <span class="flags">🚩 story_two_year_seen</span>
     </div>
     <div class="result-text">여기가 {name}의 도시가 됐다.<br>언젠가 이 도시에서 뭔가를 만들 것이다.<br>그 확신이 조금 생겼다.</div>
@@ -2195,7 +2683,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 변해가는 내가 낯설다. 잠깐 고향에 다녀온다.
-      <span class="effects">[mental: +10, stress: -7, money: -80000]</span>
+      <span class="effects">[mental: +17, money: -80000, tint: +1]</span>
       <span class="flags">🚩 story_two_year_seen</span>
     </div>
     <div class="result-text">기차를 타고 내려갔다.<br>엄마가 차려준 밥을 먹으며 잠깐 어린 시절로 돌아갔다.<br>{name}은 다시 서울로 올라오면서 조금 더 단단해진 기분이 들었다.</div>
@@ -2215,7 +2703,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 지금이 인생에서 가장 중요한 분기점이다. 올인한다.
-      <span class="effects">[investment_skill: +6, intelligence: +5, stress: +8, mental: +3]</span>
+      <span class="effects">[investment_skill: +6, intelligence: +5, mental: -5, tint: -2]</span>
       <span class="flags">🚩 age_35_reflected</span>
     </div>
     <div class="result-text">이제 실력이 쌓였다. 타이밍도 있다.<br>{name}은 35살을 '아직'이 아니라 '지금'으로 읽었다.<br>도전은 나이 제한이 없다.</div>
@@ -2223,7 +2711,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 흔들리지 않는다. 내 기반을 지킨다.
-      <span class="effects">[health: +6, mental: +8, stress: -6, reputation: +3]</span>
+      <span class="effects">[health: +6, mental: +14, reputation: +3, tint: +2]</span>
       <span class="flags">🚩 age_35_reflected</span>
     </div>
     <div class="result-text">남들이 뭐라 하든 {name}만의 속도가 있다.<br>무너지지 않는 것이 먼저다.<br>단단한 기반 위에서 강남을 노린다.</div>
@@ -2239,30 +2727,30 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">story_three_year</div>
   <div class="event-title">3년</div>
-  <div class="event-desc">3년.<br><br>스물셋.<br><br>주변이 달라지기 시작했다.<br>누군가는 결혼을 했고, 누군가는 집을 샀고,<br>누군가는 유학을 갔고, 누군가는 창업을 했다.<br><br>{name}은 지금 어디에 있나.<br>강남은 아직 멀다.<br>그런데 이상하게 — 포기하고 싶지 않다.<br><br>그게 아직 {name}이 여기 있는 이유다.</div>
+  <div class="event-desc">서울에 온 지 3년. 서른여섯이 됐다.<br><br>채팅방에는 청첩장 링크와 집들이 사진, 공항에서 찍은 출국 인증이 번갈아 올라왔다. 같은 교복을 입던 사람들이 이제는 서로 다른 주소와 직함으로 불렸다. 축하를 누를 때마다 {name}의 지난 3년도 옆에 나란히 놓였다.<br><br>강남은 아직 멀었다. 처음보다 가까워졌다는 숫자와, 3년이나 썼다는 시간이 서로 다른 말을 했다. 그런데 목표를 접는 장면을 상상하면 이상하게 숨이 더 막혔다.<br><br>{name}은 꺼진 채팅창을 바라봤다. 아직 여기 있는 이유는 확신보다, 포기하지 못하는 마음에 가까웠다.</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 내 길이 맞다. 속도가 달라도 괜찮다.
-      <span class="effects">[mental: +10, stress: -6, intelligence: +2]</span>
+      <span class="effects">[mental: +16, intelligence: +2]</span>
       <span class="flags">🚩 story_three_year_seen</span>
     </div>
-    <div class="result-text">남의 이정표로 나를 재지 않기로 했다.<br>{name}의 출발선은 처음부터 달랐다.<br>비교는 의미 없다. 지금 {name}이 가는 방향이 맞다.</div>
+    <div class="result-text">청첩장과 집들이 사진을 하나씩 다시 보고 축하를 남겼다. 그런 다음 자기 장부를 펼쳤다. 남의 이정표를 지운다고 자기 길이 생기는 것은 아니었다.<br><br>{name}은 3년 전의 잔액과 오늘의 잔액을 같은 줄에 적었다. 출발선도 속도도 달랐지만, 움직인 흔적은 있었다.<br><br>방향이 맞는지는 아직 모른다. 다만 남의 시계가 아니라 자기 기록으로 다음 걸음을 정하기로 했다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 더 빠르게 움직여야 한다. 3년은 충분히 걸렸다.
-      <span class="effects">[stress: +7, intelligence: +5, investment_skill: +3]</span>
+      <span class="effects">[intelligence: +5, investment_skill: +3, mental: -7, tint: -2]</span>
       <span class="flags">🚩 story_three_year_seen</span>
     </div>
-    <div class="result-text">조급함이 다시 올라왔다. 이번엔 방향이 있다.<br>허비할 시간이 없다.<br>{name}은 기어를 올렸다.</div>
+    <div class="result-text">달력에 남은 2년을 표시하고 계획을 다시 잘랐다. 한 달 목표는 한 주 목표가 되고, 한 주 목표는 오늘 밤의 할 일이 됐다.<br><br>조급함은 이번에는 방향을 가진 것처럼 보였다. {name}은 약속 몇 개를 미루고 알람을 앞당겼다.<br><br>책상 위 시간이 촘촘해질수록 다른 것들이 밀려났다. 기어는 올라갔고, 창밖 풍경은 조금씩 흐려지기 시작했다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 3</span> 지금 이 자리에서 할 수 있는 걸 다 한다
-      <span class="effects">[reputation: +4, mental: +5, stress: -2]</span>
+      <span class="effects">[reputation: +4, mental: +7, tint: +1]</span>
       <span class="flags">🚩 story_three_year_seen</span>
     </div>
-    <div class="result-text">거창한 전략보다 오늘 하루를 제대로 사는 것.<br>{name}은 손에 있는 패에 집중하기로 했다.<br>기회는 준비된 사람 앞에 온다.</div>
+    <div class="result-text">거창한 새 계획 대신 오늘 할 일 세 개만 적었다. 출근, 운동, 한 시간 공부. 다 끝낸 뒤 줄을 그었다.<br><br>목표는 여전히 30억이었지만, 손에 잡히는 것은 오늘의 세 칸뿐이었다. {name}은 그 사실이 초라하기보다 편안하다고 느꼈다.<br><br>잠들기 전 목록을 덮었다. 내일도 같은 크기의 하루가 올 것이다. 그걸 제대로 사는 쪽을 택했다.</div>
   </div>
 </div>
   </div>
@@ -2275,22 +2763,22 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">story_four_year</div>
   <div class="event-title">4년</div>
-  <div class="event-desc">4년째.<br><br>서른일곱.<br><br>이제 서울이 집처럼 느껴진다.<br>고시원을 벗어났든 아직 있든 — 이 도시가 {name}의 터전이 됐다.<br><br>요즘은 '이 길이 맞나'보다<br>'이 속도로 충분한가'가 더 많이 든다.<br><br>강남은 여전히 멀다.<br>근데 2년 전보다는 가깝다.<br>그게 사실이다.</div>
+  <div class="event-desc">4년째, 서른일곱. 이제 환승역의 어느 계단이 빠른지, 비 오는 날 어느 골목이 덜 미끄러운지 몸이 먼저 알았다. 고시원을 벗어났든 아직 그 방에 있든, 서울은 더 이상 낯선 도시가 아니라 생활의 버릇이 됐다.<br><br>요즘은 이 길이 맞는가보다 이 속도로 충분한가를 더 자주 물었다. 자산은 2년 전보다 늘었고 강남은 분명 가까워졌다. 동시에 남은 시간은 숫자보다 빠르게 줄었다.<br><br>{name}은 늦은 지하철 창에 비친 얼굴을 봤다. 도시에 익숙해진 만큼, 처음 품었던 조급함도 얼굴 안에 자리를 잡고 있었다.</div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 1</span> 속도를 높인다. 더 공격적으로 움직인다.
-      <span class="effects">[investment_skill: +4, intelligence: +3, stress: +6]</span>
+      <span class="effects">[investment_skill: +4, intelligence: +3, mental: -6, tint: -2]</span>
       <span class="flags">🚩 story_four_year_seen</span>
     </div>
-    <div class="result-text">편한 선택을 내려놨다.<br>불편하지만 성장하는 쪽을 선택했다.<br>{name}의 4년이 5년으로 이어진다.</div>
+    <div class="result-text">계획표에서 여유라고 적힌 칸을 지우고 수익과 성장으로 바꿨다. 미뤄둔 기회에 연락했고, 익숙한 방식보다 큰 변동을 택했다.<br><br>결정하고 나니 속은 시원했지만 턱에 힘이 들어갔다. 앞으로 가는 감각과 쫓기는 감각은 놀랄 만큼 비슷했다.<br><br>{name}은 그 차이를 확인할 시간을 남겨두지 않았다. 4년째의 마지막 밤이 5년째 첫 일정으로 바로 이어졌다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 지금 상태를 안정시키는 게 먼저다
-      <span class="effects">[health: +5, mental: +6, stress: -5]</span>
+      <span class="effects">[health: +5, mental: +11, tint: +2]</span>
       <span class="flags">🚩 story_four_year_seen</span>
     </div>
-    <div class="result-text">달리기 전에 체력을 챙겼다.<br>무너지면 모든 게 처음부터다.<br>{name}은 기반을 다지는 것도 전략임을 안다.</div>
+    <div class="result-text">먼저 흔들리는 것들을 적었다. 잠, 식사, 빚, 오래 미룬 연락. 숫자를 더 밀어 올리기 전에 바닥부터 고치기로 했다.<br><br>며칠 일찍 자고, 자동이체를 정리하고, 한 사람에게 안부를 보냈다. 눈에 띄는 수익은 없었다. 대신 아침에 일어날 때 가슴을 누르던 무게가 조금 줄었다.<br><br>기반은 자랑할 장면이 없었다. 무너지지 않은 날들로만 나중에 증명될 것이다.</div>
   </div>
 </div>
   </div>
@@ -2303,30 +2791,30 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 <div class="event-card" style="margin-left:0px">
   <div class="event-id">age_39_final</div>
   <div class="event-title">마지막 반년</div>
-  <div class="event-desc">서른여덟이 코앞이다.<br><br>딱 6개월 남았다.<br><br>통장 잔고, 포트폴리오, 월급명세서.<br>{name}은 숫자들을 다시 들여다봤다.<br><br>강남 아파트까지 얼마나 남았나.<br>이 반년 안에 가능한가.<br><br>이 달 하는 선택 하나가 지금까지의 어느 달보다 무겁다.</div>
+  <div class="event-desc">서른여덟 생일이 반년 앞으로 왔다. 달력의 남은 칸은 스물네 개였다.<br><br>책상 위에는 월급명세서, 휴대폰에는 통장 잔고와 포트폴리오. {name}은 세 화면을 번갈아 보며 강남까지 남은 거리를 다시 계산했다. 숫자는 익숙한데 손끝은 전보다 차가웠다.<br><br>처음엔 5년이 길다고 생각했다. 이제 한 번의 선택이 남은 몇 주의 모양을 바꾼다. 창밖 새벽빛이 건물 유리를 훑고 지나갔다.<br><br>가능한가보다 더 무거운 질문이 남았다. 이 반년을 어떤 사람으로 지나갈 것인가.</div>
   <div class="choice">
     <div class="choice-header">
-      <span class="choice-num">선택 1</span> 마지막 1년, 모든 걸 쏟아붓는다
-      <span class="effects">[investment_skill: +6, intelligence: +4, stress: +12, mental: +5]</span>
+      <span class="choice-num">선택 1</span> 남은 반년, 모든 걸 쏟아붓는다
+      <span class="effects">[investment_skill: +6, intelligence: +4, mental: -7, tint: -2]</span>
       <span class="flags">🚩 age_39_seen</span>
     </div>
-    <div class="result-text">후회는 나중에 해도 된다.<br>지금은 그냥 간다.<br>{name}은 남은 패를 전부 꺼냈다.</div>
+    <div class="result-text">책상 위의 다른 물건을 치우고 계획표만 남겼다. 후회는 끝난 뒤에 하기로 했다. 지금은 남은 패를 전부 꺼낼 때였다.<br><br>주문 금액을 입력하는 손이 떨렸지만 확인을 눌렀다. 심장은 빠르게 뛰었고 방은 이상하리만큼 조용했다.<br><br>{name}은 달력의 마지막 날짜에 동그라미를 쳤다. 그 사이의 빈칸들이 이제 전부 같은 방향을 보게 됐다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 2</span> 무리하지 않는다. 지금까지 한 것만으로도 충분하다
-      <span class="effects">[health: +8, mental: +10, stress: -10]</span>
+      <span class="effects">[health: +8, mental: +20, tint: +3]</span>
       <span class="flags">🚩 age_39_seen</span>
     </div>
-    <div class="result-text">강남이 전부가 아닐 수도 있다.<br>{name}은 처음으로 그 생각을 진심으로 받아들였다.</div>
+    <div class="result-text">앱을 닫고 계산기를 서랍에 넣었다. 강남이 전부가 아닐 수도 있다는 문장을 이번에는 변명처럼 밀어내지 않았다.<br><br>그동안 남은 것들을 천천히 세어봤다. 몸, 사람, 배운 일, 아직 돌아갈 수 있는 곳. 숫자 밖에도 잃지 않은 것이 있었다.<br><br>창문을 열자 찬 공기가 들어왔다. 목표는 사라지지 않았지만, 처음으로 자기보다 작게 보였다.</div>
   </div>
   <div class="choice">
     <div class="choice-header">
       <span class="choice-num">선택 3</span> 아직 방법이 있다. 계산을 다시 한다
-      <span class="effects">[intelligence: +6, investment_skill: +4, stress: +5]</span>
+      <span class="effects">[intelligence: +6, investment_skill: +4, mental: -5, tint: -1]</span>
       <span class="flags">🚩 age_39_seen</span>
     </div>
-    <div class="result-text">숫자는 거짓말을 안 한다.<br>{name}은 남은 12달의 시뮬레이션을 돌렸다.<br>가능성이 보였다.</div>
+    <div class="result-text">새 시트를 열고 남은 24주를 한 칸씩 나눴다. 수입, 고정비, 감당할 수 있는 손실. 숫자는 희망도 절망도 대신 말해주지 않았다. 가능한 범위만 차갑게 남겼다.<br><br>{name}은 세 번 계산하고도 같은 결과가 나오는 구간에 표시했다. 길은 좁았지만 완전히 닫히지는 않았다.<br><br>새벽이 밝을 무렵, 화면에는 가능성보다 지켜야 할 한계선이 더 선명하게 보였다.</div>
   </div>
 </div>
   </div>

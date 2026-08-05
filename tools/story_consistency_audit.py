@@ -43,10 +43,12 @@ LOGIC_KEYS = {
     "forbids",
     "produces",
     "choice_produces",
+    "core_loop_v2",
     "legacy",
     "prerequisites",
 }
 LEGACY_KEYS = {"requires_flags", "forbids_flags", "produces_all", "produces_any"}
+CORE_LOOP_V2_KEYS = {"requires_flags", "forbids_flags", "produces_all", "produces_any"}
 PREREQUISITE_GROUP_KEYS = {"all", "any"}
 PREREQUISITE_CLAUSE_KEYS = {"path", "op", "value"}
 PREREQUISITE_OPERATORS = {
@@ -784,6 +786,64 @@ def main() -> int:
                         for flag in legacy_lists["produces_any"]:
                             if flag not in all_flags:
                                 errors.append(f"{owner}: flag {flag} is not produced by any choice")
+
+                core_loop_v2 = logic.get("core_loop_v2")
+                if core_loop_v2 is not None:
+                    if not isinstance(core_loop_v2, dict):
+                        errors.append(f"{owner}.logic.core_loop_v2: must be an object")
+                    else:
+                        unknown_core_loop_v2 = set(core_loop_v2) - CORE_LOOP_V2_KEYS
+                        if unknown_core_loop_v2:
+                            errors.append(
+                                f"{owner}.logic.core_loop_v2: unknown keys "
+                                f"{sorted(unknown_core_loop_v2)}"
+                            )
+                        core_loop_v2_lists: dict[str, list[str]] = {}
+                        for key in CORE_LOOP_V2_KEYS:
+                            if key in core_loop_v2:
+                                core_loop_v2_lists[key] = validate_string_list(
+                                    core_loop_v2[key],
+                                    f"{owner}.logic.core_loop_v2.{key}",
+                                    errors,
+                                    allow_empty=False,
+                                )
+                        required_flags = set(
+                            core_loop_v2_lists.get("requires_flags", [])
+                        )
+                        forbidden_flags = set(
+                            core_loop_v2_lists.get("forbids_flags", [])
+                        )
+                        if required_flags & forbidden_flags:
+                            errors.append(
+                                f"{owner}.logic.core_loop_v2: required and forbidden "
+                                "flags overlap"
+                            )
+                        if "produces_all" in core_loop_v2_lists:
+                            if not choices:
+                                errors.append(
+                                    f"{owner}.logic.core_loop_v2.produces_all: "
+                                    "event has no choices"
+                                )
+                            for flag in core_loop_v2_lists["produces_all"]:
+                                missing = [
+                                    str(index)
+                                    for index, choice in enumerate(choices)
+                                    if flag not in choice_flags(choice)
+                                ]
+                                if missing:
+                                    errors.append(
+                                        f"{owner}: flag {flag} is not produced by "
+                                        f"choices {', '.join(missing)}"
+                                    )
+                        if "produces_any" in core_loop_v2_lists:
+                            all_flags = set().union(
+                                *(choice_flags(choice) for choice in choices)
+                            ) if choices else set()
+                            for flag in core_loop_v2_lists["produces_any"]:
+                                if flag not in all_flags:
+                                    errors.append(
+                                        f"{owner}: flag {flag} is not produced by any choice"
+                                    )
 
         presentation = rule.get("presentation")
         if presentation is not None:

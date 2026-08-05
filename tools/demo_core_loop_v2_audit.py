@@ -60,6 +60,7 @@ EXPECTED_CONTRACT_ROOT_KEYS = {
     "fallback",
     "scope",
     "speech_contract",
+    "legacy_callback_retirements",
     "long_arc_contract",
     "future_application_contracts",
     "future_story_contracts",
@@ -121,6 +122,11 @@ STORY_GAMEPLAY_KEYS = {
     "future_story_outcome",
     "moral_tint",
     "route",
+}
+EXPECTED_OPENING_SEND_FLAGS = {
+    "story_job_unlocked",
+    "opening_interview_application_sent",
+    "opening_preplan_application_sent",
 }
 ALLOWED_PREREQUISITE_GROUPS = {"all", "any"}
 ALLOWED_PREREQUISITE_KINDS = {
@@ -316,6 +322,11 @@ EXPECTED_DEFERRED_CALLBACK_CONTRACTS = {
         "consume_phase": "before_owner_scene",
         "activation_cap_week": 24,
     }
+}
+EXPECTED_LEGACY_CALLBACK_RETIREMENTS = {
+    "callback_mindset_saver_echo",
+    "callback_mindset_investor_echo",
+    "callback_mindset_founder_echo",
 }
 EXPECTED_B_PREREQUISITES = {
     "father_quiet_call": {
@@ -595,9 +606,9 @@ EXPECTED_CHOICE_RECEIPTS = {
         ),
     },
     "father_first_call": {
-        0: ("unmet", "opening", "reciprocal", "father_wellbeing_returned"),
-        1: ("unmet", "opening", "reciprocal", "father_future_reassured"),
-        2: ("unmet", "opening", "reciprocal", "father_call_ended_quickly"),
+        0: ("unmet", "opening", "player", "father_wellbeing_returned"),
+        1: ("unmet", "opening", "player", "father_future_reassured"),
+        2: ("unmet", "opening", "player", "father_call_ended_quickly"),
     },
     "hyunsu_first_meet": {
         0: ("unmet", "opening", "world", "hyunsu_honest_uncertainty"),
@@ -1019,9 +1030,9 @@ def validate_demo_speech_contract(
     extra = (required | exempt) - core_ids
     if extra:
         fail(f"speech contract references non-Core-V2 events {sorted(extra)}", errors)
-    if len(required) != 29 or len(exempt) != 7 or len(core_ids) != 36:
+    if len(required) != 29 or len(exempt) != 9 or len(core_ids) != 38:
         fail(
-            "Core V2 speech partition must remain 29 required + 7 exempt = 36; "
+            "Core V2 speech partition must remain 29 required + 9 exempt = 38; "
             f"got {len(required)} + {len(exempt)} = {len(core_ids)}",
             errors,
         )
@@ -1141,6 +1152,263 @@ def reachable_event_ids(
             if follow_up and follow_up not in reachable:
                 pending.append(follow_up)
     return reachable
+
+
+def validate_opening_motivation_contract(
+    contract: dict[str, Any],
+    registered_events: dict[str, dict[str, Any]],
+    errors: list[str],
+) -> None:
+    """Lock the pre-plan opening and retire declaration-only V2 identities."""
+    retirements = require_dict(
+        contract.get("legacy_callback_retirements"),
+        "legacy_callback_retirements",
+        errors,
+    )
+    if set(retirements) != EXPECTED_LEGACY_CALLBACK_RETIREMENTS:
+        fail(
+            "legacy mindset callback retirements must be exactly "
+            f"{sorted(EXPECTED_LEGACY_CALLBACK_RETIREMENTS)}",
+            errors,
+        )
+    for callback_id in EXPECTED_LEGACY_CALLBACK_RETIREMENTS:
+        row = require_dict(
+            retirements.get(callback_id),
+            f"legacy_callback_retirements.{callback_id}",
+            errors,
+        )
+        if (
+            row.get("policy") != "superseded"
+            or row.get("scope") != "core_loop_v2"
+            or row.get("preserve_legacy") is not True
+            or not str(row.get("reason_ko", "")).strip()
+            or not str(row.get("reason_en", "")).strip()
+        ):
+            fail(
+                f"{callback_id} must be a written V2-only retirement that "
+                "preserves legacy state",
+                errors,
+            )
+
+    bundles = require_dict(contract.get("scene_bundles"), "scene_bundles", errors)
+    opening = require_dict(
+        bundles.get("opening_interview_math"),
+        "scene_bundles.opening_interview_math",
+        errors,
+    )
+    expected_trigger = {
+        "event_id": "v2_opening_application_send",
+        "choices": [0],
+        "application_id": "mirae_industrial_tech",
+        "status": "submitted",
+    }
+    expected_prerequisites = {
+        "all": [{
+            "kind": "application_status",
+            "application_id": "mirae_industrial_tech",
+            "status": "submitted",
+        }]
+    }
+    if (
+        opening.get("allowed_weeks") != [1, 2, 3, 4]
+        or opening.get("existing_roots")
+        != ["arc_intro_01_meal", "v2_opening_return_math"]
+        or opening.get("suppress_follow_up_events")
+        != ["arc_intro_02_dad_call"]
+        or opening.get("preplan_trigger") != expected_trigger
+        or opening.get("prerequisites") != expected_prerequisites
+    ):
+        fail(
+            "opening_interview_math must own interview + 125-year return, "
+            "trigger from the sent application, and suppress only the legacy math",
+            errors,
+        )
+
+    legacy_application = require_dict(
+        bundles.get("m1_mirae_application"),
+        "scene_bundles.m1_mirae_application",
+        errors,
+    )
+    expected_application_guard = {
+        "all": [{
+            "kind": "application_status_not_in",
+            "application_id": "mirae_industrial_tech",
+            "statuses": ["submitted", "interviewed", "no_offer", "resolved"],
+        }]
+    }
+    if legacy_application.get("prerequisites") != expected_application_guard:
+        fail("fresh plans must hide the already-sent Mirae application", errors)
+
+    legacy_pressure = require_dict(
+        registered_events.get("story_pressure"),
+        "registered event story_pressure",
+        errors,
+    )
+    legacy_pressure_choices = require_list(
+        legacy_pressure.get("choices"),
+        "registered event story_pressure.choices",
+        errors,
+    )
+    legacy_pressure_flags = (
+        set(legacy_pressure_choices[0].get("flags", []))
+        if len(legacy_pressure_choices) == 1
+        and isinstance(legacy_pressure_choices[0], dict)
+        and isinstance(legacy_pressure_choices[0].get("flags", []), list)
+        else set()
+    )
+    if (
+        len(legacy_pressure_choices) != 1
+        or "story_job_unlocked" not in legacy_pressure_flags
+        or (EXPECTED_OPENING_SEND_FLAGS - {"story_job_unlocked"}).intersection(
+            legacy_pressure_flags
+        )
+    ):
+        fail(
+            "legacy story_pressure must only open the job app and must not "
+            "fabricate a submitted V2 application",
+            errors,
+        )
+
+    application_event = require_dict(
+        registered_events.get("v2_opening_application_send"),
+        "registered event v2_opening_application_send",
+        errors,
+    )
+    application_choices = require_list(
+        application_event.get("choices"),
+        "registered event v2_opening_application_send.choices",
+        errors,
+    )
+    application_flags = (
+        set(application_choices[0].get("flags", []))
+        if len(application_choices) == 1
+        and isinstance(application_choices[0], dict)
+        and isinstance(application_choices[0].get("flags", []), list)
+        else set()
+    )
+    if (
+        len(application_choices) != 1
+        or not isinstance(application_choices[0], dict)
+        or not EXPECTED_OPENING_SEND_FLAGS.issubset(application_flags)
+    ):
+        fail(
+            "v2_opening_application_send must own one actual Send choice and "
+            f"produce {sorted(EXPECTED_OPENING_SEND_FLAGS)}",
+            errors,
+        )
+
+    try:
+        english_opening_rows = json.loads(
+            CORE_V2_EVENTS_EN_PATH.read_text(encoding="utf-8")
+        )
+    except (OSError, json.JSONDecodeError) as exc:
+        fail(f"cannot load English opening timeline companion: {exc}", errors)
+        english_opening_rows = []
+    english_opening_events = {
+        str(row.get("id", "")): row
+        for row in english_opening_rows
+        if isinstance(row, dict) and str(row.get("id", ""))
+    } if isinstance(english_opening_rows, list) else {}
+    english_application = require_dict(
+        english_opening_events.get("v2_opening_application_send"),
+        "English v2_opening_application_send",
+        errors,
+    )
+    english_application_choices = require_list(
+        english_application.get("choices"),
+        "English v2_opening_application_send.choices",
+        errors,
+    )
+    application_result = str(application_choices[0].get("result_text", "")) \
+        if application_choices and isinstance(application_choices[0], dict) else ""
+    english_application_result = str(
+        english_application_choices[0].get("result_text", "")
+    ) if english_application_choices \
+        and isinstance(english_application_choices[0], dict) else ""
+    if (
+        not str(application_event.get("description", "")).startswith("다음 날 아침")
+        or "오전 9:14" not in application_result
+        or not str(english_application.get("description", "")).startswith(
+            "The next morning"
+        )
+        or "9:14 a.m." not in english_application_result
+    ):
+        fail(
+            "the fresh application must move from the evening meal to a "
+            "next-morning 9:14 Send in both languages",
+            errors,
+        )
+
+    try:
+        story_rules = json.loads(STORY_RULES_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        fail(f"cannot load opening story-rule contract: {exc}", errors)
+        story_rules = {}
+    send_rule = require_dict(
+        require_dict(story_rules.get("events"), "story_rules.events", errors).get(
+            "v2_opening_application_send"
+        ),
+        "story_rules.events.v2_opening_application_send",
+        errors,
+    )
+    send_logic = require_dict(
+        require_dict(send_rule.get("logic"), "opening Send logic", errors).get(
+            "core_loop_v2"
+        ),
+        "opening Send core_loop_v2 logic",
+        errors,
+    )
+    produces_all = send_logic.get("produces_all", [])
+    if not isinstance(produces_all, list) \
+            or not EXPECTED_OPENING_SEND_FLAGS.issubset(set(produces_all)):
+        fail(
+            "opening Send story rule must declare every durable application flag",
+            errors,
+        )
+    opening_transition = require_dict(
+        require_dict(
+            story_rules.get("transition_contracts"),
+            "story_rules.transition_contracts",
+            errors,
+        ).get("story_prologue_meal->v2_opening_application_send"),
+        "opening meal-to-Send transition",
+        errors,
+    )
+    if (
+        opening_transition.get("mode") != "time_cut"
+        or opening_transition.get("arrival_cue_ko") != "다음 날 아침"
+        or opening_transition.get("arrival_cue_en") != "The next morning"
+    ):
+        fail(
+            "the evening meal-to-Send transition must own the next-morning cut",
+            errors,
+        )
+
+    math_event = require_dict(
+        registered_events.get("v2_opening_return_math"),
+        "registered event v2_opening_return_math",
+        errors,
+    )
+    math_choices = require_list(
+        math_event.get("choices"),
+        "registered event v2_opening_return_math.choices",
+        errors,
+    )
+    math_text = json.dumps(math_event, ensure_ascii=False)
+    if not all(token in math_text for token in ("30억", "200만", "1,500개월", "125년")):
+        fail("the opening calculation must show 30억/200만/1,500개월/125년", errors)
+    if len(math_choices) != 2:
+        fail("the opening calculation must expose exactly two expression choices", errors)
+    for index, raw_choice in enumerate(math_choices):
+        choice = require_dict(
+            raw_choice, f"v2_opening_return_math.choices[{index}]", errors
+        )
+        if choice.get("choice_kind") != "expression" \
+                or STORY_GAMEPLAY_KEYS.intersection(choice):
+            fail(
+                "v2_opening_return_math choices must be expression-only and state-free",
+                errors,
+            )
 
 
 def fixture_predicate_met(predicate: dict[str, Any], fixture: dict[str, Any]) -> bool:
@@ -5820,6 +6088,7 @@ def main() -> int:
         fail("future route preview must stay hidden", errors)
 
     registered_events = load_registered_events(errors)
+    validate_opening_motivation_contract(contract, registered_events, errors)
     temptation_bundle = require_dict(
         bundles.get("temptation_consequence"),
         "scene_bundles.temptation_consequence",

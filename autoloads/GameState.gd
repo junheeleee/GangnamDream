@@ -2368,7 +2368,24 @@ func get_current_title() -> String:
 	if route_orthodox >= 10 and route_unorthodox >= 10: return LocaleManager.ui("내 방식대로", "My Own Way")
 	if get_total_asset_value() >= 3_000_000_000: return LocaleManager.ui("강남 입성자", "Gangnam Resident")
 	if housing == "apartment" and job_tenure >= 12: return LocaleManager.ui("안정적인 직장인", "Stable Worker")
-	if current_job.is_empty() and turn >= 8 and (flags.get("resume_polished", false) or flags.get("mindset_investor", false) or flags.get("mindset_saver", false)): return LocaleManager.ui("취업 준비생", "Job Seeker")
+	var job_search_evidence := bool(flags.get("resume_polished", false))
+	var v2_run := bool(core_loop_v2_state.get("enabled", false))
+	if v2_run:
+		job_search_evidence = job_search_evidence \
+			or bool(flags.get("opening_interview_application_sent", false))
+		var raw_application_statuses: Variant = core_loop_v2_state.get(
+			"application_statuses", {})
+		if not job_search_evidence and raw_application_statuses is Dictionary:
+			for raw_status in (raw_application_statuses as Dictionary).values():
+				if not str(raw_status).strip_edges().is_empty():
+					job_search_evidence = true
+					break
+	else:
+		job_search_evidence = job_search_evidence \
+			or bool(flags.get("mindset_investor", false)) \
+			or bool(flags.get("mindset_saver", false))
+	if current_job.is_empty() and turn >= 8 and job_search_evidence:
+		return LocaleManager.ui("취업 준비생", "Job Seeker")
 	if housing == "gosiwon" and turn >= 18: return LocaleManager.ui("고시원 장기거주자", "Long-Term Goshiwon Tenant")
 	if turn <= 4: return LocaleManager.ui("서울 상경 초보", "Seoul Newcomer")
 	return LocaleManager.ui("서울 생존자", "Seoul Survivor")

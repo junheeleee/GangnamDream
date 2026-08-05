@@ -16,9 +16,9 @@ but their dictionaries and body overlays remain empty.
 |---|---|---|---|---|
 | `ko` | Shipping, source | Inline source | `content/events/` | `content/endings.json` |
 | `en` | Shipping, strict | Inline fallback | `content/events_en/` | `content/endings_en.json` |
-| `ja` | Prepared beta, hidden | 2,546/2,546 keys | 1/1,601 full; 1/72 demo | 0/35 full; 0 required by demo |
-| `zh-CN` | Prepared, hidden; font blocked | 0/2,546 keys | 0/1,601 full; 0/72 demo | 0/35 full; 0 required by demo |
-| `zh-TW` | Prepared, hidden; font blocked | 0/2,546 keys | 0/1,601 full; 0/72 demo | 0/35 full; 0 required by demo |
+| `ja` | Prepared beta, hidden | 2,570/2,570 keys | 1/1,603 full; 1/73 demo | 0/35 full; 0 required by demo |
+| `zh-CN` | Prepared, hidden; font blocked | 0/2,570 keys | 0/1,603 full; 0/73 demo | 0/35 full; 0 required by demo |
+| `zh-TW` | Prepared, hidden; font blocked | 0/2,570 keys | 0/1,603 full; 0/73 demo | 0/35 full; 0 required by demo |
 
 `LocaleManager.SHIPPING_LANGUAGES` is the player-facing allowlist. Adding a
 language to `SUPPORTED_LANGUAGES` is not permission to expose it in the first-run
@@ -69,15 +69,15 @@ representative playthrough. `tools/demo_localization_scope.py` follows every
 legal Week 1-24 bundle, foreground root, immediate follow-up, the complete
 prologue closure, and the required Chapter 1 card. The current locked scope is:
 
-- 72 visible events: 12 prologue, one Chapter 1 card, and 59 Week 1-24 events.
-- 447 translatable event text leaves and zero endings. The Week-24 CTA is not a
+- 73 visible events: 12 prologue, one Chapter 1 card, and 60 Week 1-24 events.
+- 455 translatable event text leaves and zero endings. The Week-24 CTA is not a
   `finish_run` ending.
-- 536 unique Korean lookup keys across 543 dynamic KO/EN pair occurrences,
+- 539 unique Korean lookup keys across 546 dynamic KO/EN pair occurrences,
   including the monthly planner, opening cinematic, runtime event/name surfaces,
   portrait labels, and every legal randomized convenience, delivery, resume, and
   interview surface. The activity portion is 147 occurrences / 146 unique keys.
 - Four asset names visible in the Week-21 market route.
-- The 447 event leaves, 536 unique dynamic keys, and four asset names form 987
+- The 455 event leaves, 539 unique dynamic keys, and four asset names form 998
   unique demo translation sources in total. Repeated dynamic occurrences do not
   increase that source total.
 
@@ -88,26 +88,26 @@ the complete event-ID hash so a content change cannot silently leave the
 translation plan stale.
 
 Current prepared coverage is deliberately incomplete. Static UI is a separate
-claim surface: a Chinese demo cannot ship with its 2,546 current UI keys falling
+claim surface: a Chinese demo cannot ship with its 2,570 current UI keys falling
 back to English even after the event body is complete.
 
 | Locale | Static UI | Events | Event text leaves | Dynamic keys | Demo catalog |
 |---|---:|---:|---:|---:|---:|
-| `ja` | 2,546/2,546 | 1/72 | 8/447 | 8/536 | 0/4 |
-| `zh-CN` | 0/2,546 | 0/72 | 0/447 | 0/536 | 0/4 |
-| `zh-TW` | 0/2,546 | 0/72 | 0/447 | 0/536 | 0/4 |
+| `ja` | 2,570/2,570 | 1/73 | 8/455 | 9/539 | 0/4 |
+| `zh-CN` | 0/2,570 | 0/73 | 0/455 | 0/539 | 0/4 |
+| `zh-TW` | 0/2,570 | 0/73 | 0/455 | 0/539 | 0/4 |
 
 Skeleton mode verifies this scope, existing rows, fallback paths, and the hidden
 shipping state without pretending missing prose is complete. Per-language
-`--strict` additionally requires 72/72 events, 447/447 leaves, 536/536 dynamic
+`--strict` additionally requires 73/73 events, 455/455 leaves, 539/539 dynamic
 keys, 4/4 catalog names, and zero direct English bypasses. It is expected to fail
 until an approved body-translation wave is finished. Japanese has the required
 terminology and source-shape validator now. `zh_translation_audit.py --strict`
-adds 2,546/2,546 static UI keys, separate Simplified/Traditional script and
+adds 2,570/2,570 static UI keys, separate Simplified/Traditional script and
 terminology, Korean-won semantics, romanized-name locks, and a project-owned
 regional font route. It cannot certify one region from the other region's text.
 The narrow manifest-locked dynamic lookup routes currently report zero direct
-English bypasses. A broader production-runtime scan separately reports 13
+English bypasses. A broader production-runtime scan separately reports 14
 legacy `is_english()` branches and an AUTO reading-rate route that omits both
 Chinese locales; Chinese strict mode intentionally fails on those blockers.
 
@@ -190,15 +190,15 @@ godot --rendering-driver opengl3 --resolution 1280x800 \
 ```
 
 The default full-game coverage command keeps English strict and prepared locales
-in skeleton mode. `ja_translation_audit.py --scope ui` requires all 2,546 current
+in skeleton mode. `ja_translation_audit.py --scope ui` requires all 2,570 current
 UI keys, exact placeholder/newline parity, zero Hangul or yen conversion,
 canonical names and casino terms, and no lock/unlock polarity reversal. The
 runtime check proves alias normalization, UI miss logging, English
 event/ending/catalog fallback, locale money labels, and bundled glyph coverage.
 
 `ja_translation_pipeline.py` defaults to UI-only generation. Its read-only
-`--scope demo --inventory` proves that the future wave contains exactly 447 event
-leaves, 536 dynamic keys, four catalog names, and no ending: 987 unique demo
+`--scope demo --inventory` proves that the future wave contains exactly 455 event
+leaves, 539 dynamic keys, four catalog names, and no ending: 998 unique demo
 translation sources in total. Demo generation exits
 with `BODY_TRANSLATION_HELD` unless `--allow-body` is passed after the approved
 24-week source text is declared final; it merges those rows without deleting
@@ -210,8 +210,8 @@ assets.
 
 `zh_translation_audit.py` reads both regions from the Korean source independently.
 Its normal mode reports the empty skeleton and both blocked font routes without
-claiming completion. Its region-specific strict mode requires 2,546/2,546 static
-UI keys, the exact 72/447/536/4 demo body (987 unique demo translation sources),
+claiming completion. Its region-specific strict mode requires 2,570/2,570 static
+UI keys, the exact 73/455/539/4 demo body (998 unique demo translation sources),
 zero direct English bypasses, every
 context-unambiguous wrong-region character in the pinned OpenCC 1.3.1 classifier
 set (4,093 for `zh-CN`, 3,804 for `zh-TW`), project-locked regional terms,
@@ -246,7 +246,7 @@ UI dictionary remains a hidden beta and is not a shipping-language promise.
 Once the approved 24-week source text is declared final, the remaining wave requires:
 
 1. A terminology and character-address sheet before bulk translation.
-2. Strict parity for all 72 demo events, choices, variants, dynamic strings, and
+2. Strict parity for all 73 demo events, choices, variants, dynamic strings, and
    the four visible catalog names; no demo ending is fabricated.
 3. Zero Korean in target values.
 4. Bundled deterministic fonts and 1280x800 layout captures.
@@ -256,7 +256,7 @@ Once the approved 24-week source text is declared final, the remaining wave requ
    translationese, and causal meaning are human gates rather than key counts.
 
 The Japanese demo claim and the eventual full-game Japanese release claim are
-separate. Passing the demo gate does not satisfy 1,601-event/35-ending full-game
+separate. Passing the demo gate does not satisfy 1,603-event/35-ending full-game
 coverage. Passing the current UI/font gates alone must never add `ja` to
 `SHIPPING_LANGUAGES` or Steam metadata. The Japanese demo gate also blocks the
 combined four-language public demo, while Korean/English development candidates
@@ -273,8 +273,8 @@ and validator together.
 
 Before either Chinese demo claim, that region requires:
 
-1. 2,546/2,546 static UI keys and strict parity for all 72 demo events, 447 event
-   leaves, 536 dynamic keys, and four catalog names: 987 unique demo translation
+1. 2,570/2,570 static UI keys and strict parity for all 73 demo events, 455 event
+   leaves, 539 dynamic keys, and four catalog names: 998 unique demo translation
    sources in total; no ending is fabricated.
 2. Zero Hangul, kana, untranslated English prose, direct English bypass, wrong-
    region script, currency conversion, or placeholder/paragraph drift.
@@ -292,6 +292,6 @@ layout. Each gate blocks its regional claim and the combined four-language demo
 release. Korean/English development candidates may still be tested before
 translation is complete, but the public demo cannot ship until Japanese,
 Simplified Chinese, and Traditional Chinese claims all pass. A demo approval
-never authorizes the 1,601-event/35-ending full-game Chinese release or adds a
+never authorizes the 1,603-event/35-ending full-game Chinese release or adds a
 language to `SHIPPING_LANGUAGES` or Steam metadata before the prepared release
 wiring is complete.

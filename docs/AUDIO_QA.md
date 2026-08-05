@@ -106,8 +106,8 @@ The seven base tracks cover title, routine, crisis, and endings. Five authored p
 
 ### Full-Run Audio Coverage
 
-- `assets/scene_audio_manifest.json` version 19 locks all 1,601 Korean/English
-  events into exactly one intent: 291 event contracts, six inherited CG
+- `assets/scene_audio_manifest.json` version 19 locks all 1,603 Korean/English
+  events into exactly one intent: 293 event contracts, six inherited CG
   contracts, 1,304 reviewed rendered-background profiles, or intentional
   silence. The current catalog has zero unclassified or stale IDs.
 - All 94 registered backgrounds own an explicit ambience profile. Runtime

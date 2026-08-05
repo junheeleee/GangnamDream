@@ -52,7 +52,32 @@
       "v2_logistics_class_session": "solo action bridge without authored speaker exchange or message payload",
       "v2_moving_crew_days": "solo action bridge without authored speaker exchange or message payload",
       "v2_empty_sunday": "solo recovery bridge without authored speaker exchange or message payload",
-      "v2_demo_first_bill_ledger": "continuous solo reflection fragment whose only choice closes the notebook"
+      "v2_demo_first_bill_ledger": "continuous solo reflection fragment whose only choice closes the notebook",
+      "v2_opening_application_send": "solo job-app action without an authored speaker exchange",
+      "v2_opening_return_math": "solo calculation and a missed-call notification without a live speaker exchange"
+    }
+  },
+  "legacy_callback_retirements": {
+    "callback_mindset_saver_echo": {
+      "policy": "superseded",
+      "scope": "core_loop_v2",
+      "preserve_legacy": true,
+      "reason_ko": "V2에서는 실제 저축 행동 없이 성향을 선언하지 않는다.",
+      "reason_en": "Core Loop V2 does not declare a saver identity without an actual saving action."
+    },
+    "callback_mindset_investor_echo": {
+      "policy": "superseded",
+      "scope": "core_loop_v2",
+      "preserve_legacy": true,
+      "reason_ko": "V2에서는 실제 투자 거래 없이 성향을 선언하지 않는다.",
+      "reason_en": "Core Loop V2 does not declare an investor identity without an actual investment."
+    },
+    "callback_mindset_founder_echo": {
+      "policy": "superseded",
+      "scope": "core_loop_v2",
+      "preserve_legacy": true,
+      "reason_ko": "V2에서는 실제 창업 행동 없이 성향을 선언하지 않는다.",
+      "reason_en": "Core Loop V2 does not declare a founder identity without an actual founding action."
     }
   },
   "long_arc_contract": {
@@ -677,17 +702,19 @@
   "scene_bundles": {
     "opening_interview_math": {
       "kind": "consequence",
-      "allowed_weeks": [2, 3, 4],
-      "existing_roots": ["arc_intro_01_meal"],
+      "allowed_weeks": [1, 2, 3, 4],
+      "existing_roots": ["arc_intro_01_meal", "v2_opening_return_math"],
       "suppress_follow_up_events": ["arc_intro_02_dad_call"],
+      "preplan_trigger": {
+        "event_id": "v2_opening_application_send",
+        "choices": [0],
+        "application_id": "mirae_industrial_tech",
+        "status": "submitted"
+      },
       "characters": [],
       "initiated_by": "system",
       "prerequisites": {
         "all": [
-          {
-            "kind": "completed_bundle",
-            "bundle_id": "m1_mirae_application"
-          },
           {
             "kind": "application_status",
             "application_id": "mirae_industrial_tech",
@@ -808,6 +835,15 @@
       "action_id": "apply",
       "characters": [],
       "initiated_by": "player",
+      "prerequisites": {
+        "all": [
+          {
+            "kind": "application_status_not_in",
+            "application_id": "mirae_industrial_tech",
+            "statuses": ["submitted", "interviewed", "no_offer", "resolved"]
+          }
+        ]
+      },
       "consumes_slot": true,
       "offer_ko": "미래산업기술 채용 공고",
       "offer_en": "Mirae Industrial Tech Opening",
@@ -1655,7 +1691,7 @@
           "character": "father",
           "from": "unmet",
           "to": "opening",
-          "initiative": "reciprocal",
+          "initiative": "player",
           "memory": "father_wellbeing_returned"
         },
         {
@@ -1664,7 +1700,7 @@
           "character": "father",
           "from": "unmet",
           "to": "opening",
-          "initiative": "reciprocal",
+          "initiative": "player",
           "memory": "father_future_reassured",
           "supersedes_callbacks": ["callback_told_dad_okay_echo"],
           "replacement_bundle": "father_quiet_call"
@@ -1675,21 +1711,21 @@
           "character": "father",
           "from": "unmet",
           "to": "opening",
-          "initiative": "reciprocal",
+          "initiative": "player",
           "memory": "father_call_ended_quickly"
         }
       ],
-      "initiated_by": "reciprocal",
+      "initiated_by": "player",
       "consumes_slot": true,
       "phone_surface": "call_log",
       "message_sender_ko": "아버지",
       "message_sender_en": "Father",
-      "message_body_ko": "오늘 저녁 · 수신 통화",
-      "message_body_en": "Tonight · Incoming call",
-      "offer_ko": "아버지의 짧은 전화",
-      "offer_en": "A Short Call from Father",
-      "detail_ko": "전화가 왔을 때 바로 끊지 않고, 짧은 안부 뒤에 남은 침묵까지 듣는다.",
-      "detail_en": "When Father calls, stay on the line through the silence after the brief greetings.",
+      "message_body_ko": "오늘 저녁 · 통화",
+      "message_body_en": "Tonight · Call",
+      "offer_ko": "아버지와 통화하기",
+      "offer_en": "Talk with Father",
+      "detail_ko": "아버지와 짧은 안부를 나누고, 그 뒤에 남은 침묵까지 듣는다.",
+      "detail_en": "Exchange a few words with Father and stay on the line through the silence that follows.",
       "deadline_ko": "이번 달 저녁 한 번",
       "deadline_en": "One evening this month",
       "decline_ko": "아버지는 이번 달에는 다시 묻지 않는다.",

@@ -69,10 +69,22 @@ func _prepare_directories() -> void:
 func _events_with_choices(count: int) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	for raw_event in DataRegistry.events:
-		if raw_event is Dictionary and not (raw_event as Dictionary).get("choices", []).is_empty():
-			result.append((raw_event as Dictionary).duplicate(true))
-			if result.size() >= count:
-				return result
+		if not raw_event is Dictionary:
+			continue
+		var choices: Array = (raw_event as Dictionary).get("choices", [])
+		if choices.is_empty():
+			continue
+		var has_expression_choice := false
+		for raw_choice in choices:
+			if raw_choice is Dictionary \
+					and str((raw_choice as Dictionary).get("choice_kind", "")) == "expression":
+				has_expression_choice = true
+				break
+		if has_expression_choice:
+			continue
+		result.append((raw_event as Dictionary).duplicate(true))
+		if result.size() >= count:
+			return result
 	_fail("not enough events with choices were available")
 	return result
 

@@ -1,5 +1,31 @@
 [
   {
+    "id": "v2_opening_application_send",
+    "title": "Can't Wait Any Longer",
+    "description": "The next morning, {name} sits down at the goshiwon desk.\n\nNo money is coming in. Next month's rent alone is more than he has.\n\nAnother wedding announcement appears in the old high school group chat. {name} types “Congrats,” flips the phone face-down, then picks it up again and opens a job app.\n\nConvenience store. Delivery. Café. Office temp. His thumb stops on one listing: “Mirae Industrial Tech — Office Assistant.” Four-day-a-week contract. No experience required. Excel skills preferred. Mapo-gu.\n\n{name} opens the résumé with the six-year gap. He does not write about the family debt. The Apply button waits at the bottom of the screen.",
+    "choices": [
+      {
+        "text": "Send an application to Mirae Industrial Tech",
+        "result_text": "{name} taps Apply. The screen reads, “Application received · 9:14 a.m.”"
+      }
+    ]
+  },
+  {
+    "id": "v2_opening_return_math",
+    "title": "125 Years",
+    "description": "That night, back at the goshiwon.\n\n{name} hangs his tie over the chair and opens the notebook. Beneath the first line, “five years, three billion won” is still there.\n\nHe enters the number from the interview into the phone calculator.\n\n3 billion won ÷ 2 million won gross per month = 1,500 months\n1,500 months ÷ 12 = 125 years\n\nThe number assumes he never spends a won of that pay. It is a simple division with no rent, food, taxes, or investment return built in. It is not a forecast. But the distance between the pay he has just heard and five years is clear.\n\nA notification drops over the calculator.\n[Missed Call · Father · 9:12 p.m.]\n\n{name} looks from 125 years to Father's name and back again.",
+    "choices": [
+      {
+        "text": "Say it aloud: “One hundred twenty-five years.”",
+        "result_text": "“One hundred twenty-five years.”\n\nThe words touch the thin wall and quickly shrink. A chair scrapes in the next room.\n\nBeneath “five years, three billion won,” {name} writes “How.” He leaves the rest of the line blank. For now, the next four weeks are all he can fill in.\n\nHe leaves the missed-call notification where it is and opens a four-week calendar beside the notebook."
+      },
+      {
+        "text": "Check the calculation once more in silence",
+        "result_text": "He counts the zeroes one by one and enters the division again. The same number remains on the screen.\n\nBeneath “five years, three billion won,” {name} writes “How.” He leaves the rest of the line blank. For now, the next four weeks are all he can fill in.\n\nHe leaves the missed-call notification where it is and opens a four-week calendar beside the notebook."
+      }
+    ]
+  },
+  {
     "id": "v2_mirae_result_message",
     "title": "Mirae Industrial Tech Result",
     "description": "In the morning, a text titled “Mirae Industrial Tech Hiring Result” arrives.\n\n“After review, we regret that we will not be moving forward with your application.”\n\n{name} sent the application and made it to the interview. This time, the application goes no farther.",

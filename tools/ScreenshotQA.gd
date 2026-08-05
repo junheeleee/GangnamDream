@@ -214,7 +214,7 @@ var _core_loop_v2_save_events: Array[Dictionary] = []
 
 const CORE_LOOP_V2_INPUT_PLANS := {
 	1: [
-		"m1_mirae_application", "father_first_call", "hyunsu_first_meet",
+		"m1_convenience_trial_shift", "father_first_call", "hyunsu_first_meet",
 	],
 	2: [
 		"m2_seorin_application", "hyunsu_player_reachout",
@@ -1462,7 +1462,6 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		_fail("MainGame did not create the wide monthly planner.")
 		return
 	var prefix := "core_loop_v2_%s_" % lang.replace("-", "_").to_lower()
-
 	_assert_core_loop_v2_planner_surface(
 		planner, "empty calendar", 1, false, false)
 	if _qa_failed:
@@ -1802,6 +1801,27 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	await _save(prefix + "10_planner_read_only", 0.05)
 	await _dispose_main_game()
 
+	# The legacy planner fixture above remains for migrated Month-One saves. These
+	# frames separately own the fresh Send, interview, and 125-year surface.
+	await _shot_story_event(
+		"v2_opening_application_send", prefix + "10a_opening_send_result",
+		lang, 0.45, true, true, 0)
+	await _shot_story_event(
+		"arc_intro_01_meal", prefix + "10b_opening_interview_choices",
+		lang, 0.45, true, true)
+	await _shot_story_event(
+		"v2_opening_return_math", prefix + "10c_opening_math_choices",
+		lang, 0.45, true, true)
+	await _shot_story_event(
+		"v2_opening_return_math", prefix + "10d_opening_math_result",
+		lang, 0.45, true, true, 0)
+	await _shot_story_event(
+		"chapter_card_33", prefix + "10e_opening_chapter_card",
+		lang, 4.2)
+	await _shot_core_loop_v2_fresh_month_one_planner(lang, prefix)
+	if _qa_failed:
+		return
+
 	# Render the story copy governed by the V2 speech contract, not only the
 	# planner shell. These frames expose long KO/EN dates, remote speakers, and
 	# the choice-result dialogue at the smallest supported viewport.
@@ -1830,6 +1850,78 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		"v2_m4_housing_consultation_anchor", prefix + "15d_m4_housing_privacy_result",
 		lang, 0.45, true, true, 1, 0, false, 1)
 	await _shot_first_bill_finale_surfaces(lang, prefix)
+
+func _shot_core_loop_v2_fresh_month_one_planner(
+		lang: String, prefix: String) -> void:
+	_set_qa_language(lang)
+	GameState.start_new_game()
+	GameState.turn = 1
+	GameState.money = 498_800.0
+	GameState.health = 68
+	GameState.mental = 64
+	GameState.flags["prologue_done"] = true
+	GameState.flags["chapter_33_seen"] = true
+	GameState.flags["tutorial_shown"] = true
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	if not bool(core_loop.initialize_for_run(true)):
+		_fail("Core Loop V2 fresh planner fixture could not initialize.")
+		return
+	var send_event: Dictionary = DataRegistry.find_event(
+		core_loop.OPENING_APPLICATION_EVENT_ID)
+	var send_choices: Array = send_event.get("choices", [])
+	var interview: Dictionary = DataRegistry.find_event("arc_intro_01_meal")
+	var interview_choices: Array = interview.get("choices", [])
+	var calculation: Dictionary = DataRegistry.find_event(
+		"v2_opening_return_math")
+	var calculation_choices: Array = calculation.get("choices", [])
+	if send_choices.size() != 1 or interview_choices.size() != 2 \
+			or calculation_choices.size() != 2 \
+			or not GameState.apply_choice(
+				send_event, send_choices[0] as Dictionary) \
+			or not core_loop.note_story_choice(
+				core_loop.OPENING_APPLICATION_EVENT_ID, 0):
+		_fail("Core Loop V2 fresh planner fixture could not commit Send.")
+		return
+	core_loop.prepare_story_bundle(core_loop.OPENING_INTERVIEW_BUNDLE_ID)
+	if not GameState.apply_choice(
+			interview, interview_choices[0] as Dictionary) \
+			or not core_loop.note_story_choice("arc_intro_01_meal", 0) \
+			or not GameState.apply_choice(
+				calculation, calculation_choices[0] as Dictionary) \
+			or not core_loop.note_story_choice(
+				"v2_opening_return_math", 0):
+		_fail("Core Loop V2 fresh planner fixture could not finish its opening.")
+		return
+	core_loop.restore_story_bundle_followups()
+	if core_loop.complete_active_bundle() \
+			!= core_loop.OPENING_INTERVIEW_BUNDLE_ID:
+		_fail("Core Loop V2 fresh planner fixture could not consume its opening.")
+		return
+
+	await _boot_main_game()
+	if not bool(_mg._core_loop_v2_open_planner(1, false)):
+		_fail("Core Loop V2 did not open the post-interview Month-One planner.")
+		return
+	await _settle(0.28)
+	var planner := _mg._core_loop_planner as Control
+	_assert_core_loop_v2_planner_surface(
+		planner, "fresh post-interview Month One", 1, false, false)
+	if _qa_failed:
+		return
+	var offer_buttons: Dictionary = planner._offer_buttons
+	if offer_buttons.size() != 5 \
+			or offer_buttons.has("m1_mirae_application") \
+			or not offer_buttons.has("m1_convenience_trial_shift"):
+		_fail("Core Loop V2 fresh planner did not replace the sent application with exactly five usable offers: %s." % [
+			str(offer_buttons.keys())])
+		return
+	var schedule: Dictionary = planner.schedule_snapshot()
+	if schedule != {"4": "first_temptation_boss"}:
+		_fail("Core Loop V2 fresh planner did not keep three open weeks and one fixed boss: %s." % [
+			str(schedule)])
+		return
+	await _save(prefix + "10e_opening_first_planner", 0.05)
+	await _dispose_main_game()
 
 func _shot_first_bill_finale_surfaces(_lang: String, prefix: String) -> void:
 	# The finale never has eight simultaneous candidates. Render three valid
@@ -3359,6 +3451,21 @@ func _assert_core_loop_v2_record_names(
 
 func _prepare_story_event_fixture(event_id: String) -> void:
 	match event_id:
+		"v2_opening_application_send":
+			GameState.turn = 1
+			GameState.money = 498_800.0
+			GameState.health = 68
+			GameState.mental = 64
+		"arc_intro_01_meal":
+			GameState.turn = 1
+			GameState.money = 498_800.0
+			GameState.health = 68
+			GameState.mental = 64
+		"v2_opening_return_math", "chapter_card_33":
+			GameState.turn = 1
+			GameState.money = 498_800.0
+			GameState.health = 68
+			GameState.mental = 66
 		"arc_first_job_week_convenience":
 			GameState.current_job = {
 				"id": "job_01", "name": "Convenience Store Night Shift",
@@ -3903,6 +4010,10 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	_assert_chapter3_spine_state(story, event_id)
 	_assert_late_chapter_spine_state(story, event_id, select_choice)
 	if _qa_scope() == QA_SCOPE_CORE_LOOP_V2:
+		_assert_core_loop_v2_opening_story_surface(
+			story, event_id, select_choice)
+		if _qa_failed:
+			return
 		_assert_first_bill_story_surface(story, event_id, select_choice)
 		if _qa_failed:
 			return
@@ -4403,6 +4514,80 @@ func _assert_control_in_tv_safe_area(control: Control, context: String) -> void:
 	var rect := control.get_global_rect()
 	if not safe.encloses(rect):
 		_fail("%s exceeds TV safe area: control=%s safe=%s." % [context, rect, safe])
+
+func _assert_core_loop_v2_opening_story_surface(
+		story: Node, event_id: String, selected_choice: int) -> void:
+	if event_id not in [
+		"v2_opening_application_send", "arc_intro_01_meal",
+		"v2_opening_return_math", "chapter_card_33"]:
+		return
+	var viewport_rect := get_viewport().get_visible_rect().grow(1.0)
+	if event_id == "chapter_card_33":
+		var chapter_overlay := story.get("_chapter_overlay") as Control
+		if not is_instance_valid(chapter_overlay) \
+				or not chapter_overlay.is_visible_in_tree() \
+				or not viewport_rect.encloses(
+					chapter_overlay.get_global_rect()):
+			_fail("Core Loop V2 opening chapter card escaped the viewport at %s." % [
+				str(get_window().size)])
+			return
+		for node_name in [
+			"ChapterTitle", "ChapterSubtitle", "ChapterDescription", "ChapterHint"]:
+			var control := chapter_overlay.find_child(
+				node_name, true, false) as Control
+			if not is_instance_valid(control) \
+					or not viewport_rect.encloses(control.get_global_rect()) \
+					or control.get_combined_minimum_size().y > control.size.y + 1.0:
+				_fail("Core Loop V2 opening chapter control clips at %s: %s." % [
+					str(get_window().size), node_name])
+				return
+	else:
+		for raw_control in [
+			story.get("_hud_panel"), story.get("_text_panel"),
+			story.get("_choice_box"), story.get("_result_record_card"),
+		]:
+			if raw_control is Control:
+				var control := raw_control as Control
+				if control.is_visible_in_tree() \
+						and (not viewport_rect.encloses(control.get_global_rect()) \
+						or not _control_inside_clipping_ancestors(control)):
+					_fail("Core Loop V2 opening control escaped or clipped at %s: %s." % [
+						str(get_window().size), control.name])
+					return
+		var body := story.get("_body_lbl") as RichTextLabel
+		if is_instance_valid(body) and body.is_visible_in_tree() \
+				and body.get_content_height() > body.size.y + 1.0:
+			_fail("Core Loop V2 opening prose clipped at %s: %s." % [
+				str(get_window().size), event_id])
+			return
+		if selected_choice < 0:
+			_assert_story_display_contract(story, event_id)
+			if _qa_failed:
+				return
+			var choice_box := story.get("_choice_box") as VBoxContainer
+			var choice_buttons: Array[Button] = []
+			for raw_button in choice_box.find_children(
+					"*", "Button", true, false):
+				if raw_button is Button \
+						and (raw_button as Button).is_visible_in_tree():
+					choice_buttons.append(raw_button as Button)
+			if choice_buttons.size() != 2:
+				_fail("Core Loop V2 opening expected two visible responses for %s, got %d." % [
+					event_id, choice_buttons.size()])
+				return
+			for button in choice_buttons:
+				var font := button.get_theme_font("font")
+				var font_size := button.get_theme_font_size("font_size")
+				var measured := font.get_multiline_string_size(
+					button.text, HORIZONTAL_ALIGNMENT_LEFT,
+					maxf(80.0, button.size.x - 32.0), font_size)
+				if measured.y > button.size.y - 4.0:
+					_fail("Core Loop V2 opening response clips at %s: %s." % [
+						str(get_window().size), button.text])
+					return
+	if LocaleManager.is_english() \
+			and _contains_hangul(_collect_control_text(story)):
+		_fail("Core Loop V2 opening leaked Hangul in English: %s." % event_id)
 
 func _assert_story_display_contract(story: Node, event_id: String) -> void:
 	var choice_box := story.get("_choice_box") as Control
@@ -6673,6 +6858,7 @@ func _run_core_loop_v2_input_route(
 	var stagnant_steps := 0
 	var offer_intents := 0
 	var week_commits := 0
+	var side_shift_inputs := 0
 
 	for _step in range(50000):
 		await get_tree().create_timer(0.012).timeout
@@ -6694,11 +6880,31 @@ func _run_core_loop_v2_input_route(
 			var story_key := "%d:%s" % [scene.get_instance_id(), event_id]
 			if not event_id.is_empty() and story_key != last_story_key:
 				last_story_key = story_key
-				story_sequence.append({
+				var story_record := {
 					"id": event_id,
 					"turn": int(GameState.turn),
 					"instance": int(scene.get_instance_id()),
-				})
+				}
+				if event_id == "chapter_card_33":
+					var dialogue_titles: Array[String] = []
+					for raw_entry in scene.call("_dialogue_log_display_entries"):
+						if raw_entry is Dictionary:
+							dialogue_titles.append(str(
+								(raw_entry as Dictionary).get("title", "")))
+					story_record["dialogue_log_titles"] = dialogue_titles
+					var opening_state: Dictionary = GameState.core_loop_v2_state
+					story_record["opening_receipt"] = (
+						opening_state.get("consequence_receipts", {}) as Dictionary
+					).get("opening_interview_math", {}).duplicate(true)
+					story_record["opening_application_status"] = str((
+						opening_state.get("application_statuses", {}) as Dictionary
+					).get("mirae_industrial_tech", ""))
+					story_record["opening_mindset_flags"] = [
+						bool(GameState.flags.get("mindset_saver", false)),
+						bool(GameState.flags.get("mindset_investor", false)),
+						bool(GameState.flags.get("mindset_founder", false)),
+					]
+				story_sequence.append(story_record)
 				print("CORE_LOOP_V2_INPUT_STORY device=%s week=%d id=%s" % [
 					input_mode, int(GameState.turn), event_id])
 			signature += ":%s:%d:%s:%s:%s:%s:%s:%s" % [
@@ -6742,9 +6948,34 @@ func _run_core_loop_v2_input_route(
 				last_reported_turn = int(GameState.turn)
 				print("CORE_LOOP_V2_INPUT_PROGRESS device=%s week=%d month=%d cash=%d health=%d mental=%d" % [
 					input_mode, int(GameState.turn),
-					int(core_loop.month_for_turn(GameState.turn)),
-					roundi(float(GameState.money)), int(GameState.health),
-					int(GameState.mental)])
+						int(core_loop.month_for_turn(GameState.turn)),
+						roundi(float(GameState.money)), int(GameState.health),
+						int(GameState.mental)])
+
+			# The fresh Month-One route replaces the already-sent application with a
+			# real convenience-store cover shift. Drive every customer response and
+			# Clock Out through the selected raw input device.
+			if bool(scene.get("_minigame_overlay_active")):
+				var shift_game := scene.get("aruba_game") as Control
+				if not is_instance_valid(shift_game) \
+						or not shift_game.is_visible_in_tree():
+					_fail("Core Loop V2 side-shift overlay has no visible input surface.")
+					return false
+				signature += ":side_shift:%d:%d:%.2f" % [
+					int(shift_game.get("_conv_served")),
+					int(shift_game.get("_conv_selected")),
+					float(shift_game.get("_conv_action_cooldown")),
+				]
+				if float(shift_game.get("_conv_action_cooldown")) <= 0.0:
+					var shift_focus := get_viewport().gui_get_focus_owner()
+					if shift_focus is Button \
+							and shift_game.is_ancestor_of(shift_focus) \
+							and shift_focus.is_visible_in_tree() \
+							and not (shift_focus as Button).disabled:
+						await _activate_route_control(
+							shift_focus as Control, input_mode)
+						side_shift_inputs += 1
+				continue
 
 			var tutorial := _find_core_loop_v2_tutorial(scene)
 			if is_instance_valid(tutorial):
@@ -6752,7 +6983,7 @@ func _run_core_loop_v2_input_route(
 				if tutorial_instance_id == 0:
 					if not is_equal_approx(float(GameState.money), 498_800.0) \
 							or int(GameState.health) != 68 \
-							or int(GameState.mental) != 64:
+							or int(GameState.mental) != 66:
 						_fail("Core Loop V2 playable prologue did not reach the planner with its exact choice-0 state: cash=%s health=%d mental=%d." % [
 							str(GameState.money), int(GameState.health),
 							int(GameState.mental)])
@@ -6847,7 +7078,7 @@ func _run_core_loop_v2_input_route(
 							target_week = int(raw_week)
 							break
 					var raw_first_placement := month_index == 1 \
-						and next_offer == "m1_mirae_application" \
+						and next_offer == "m1_convenience_trial_shift" \
 						and offer_intents == 0 and schedule.size() == 1
 					var offer_button: Button = null
 					if raw_first_placement:
@@ -7012,7 +7243,7 @@ func _run_core_loop_v2_input_route(
 							committed_months, month_summaries_seen,
 							tutorial_inputs, tutorial_state_verified,
 							action_result_confirms, offer_intents,
-							week_commits):
+							week_commits, side_shift_inputs):
 						return false
 					await _save("core_loop_v2_%s_%s_week_24_completion" % [
 						lang, input_mode], 0.0)
@@ -7130,8 +7361,9 @@ func _run_core_loop_v2_input_route(
 				return false
 			if not _assert_core_loop_v2_input_purity(input_mode):
 				return false
-			print("CORE_LOOP_V2_INPUT_OK device=%s lang=%s weeks=24 plans=6 offer_intents=%d week_commits=%d tutorial=3 first_bill=1/1/1 hyunsu=1 autosave=1 title_return=1 mixed=0 story_events=%d keyboard_events=%d mouse_events=%d gamepad_events=%d semantic_events=%d unknown_events=%d saves=%d" % [
+			print("CORE_LOOP_V2_INPUT_OK device=%s lang=%s weeks=24 plans=6 offer_intents=%d week_commits=%d side_shift_inputs=%d tutorial=3 first_bill=1/1/1 hyunsu=1 autosave=1 title_return=1 mixed=0 story_events=%d keyboard_events=%d mouse_events=%d gamepad_events=%d semantic_events=%d unknown_events=%d saves=%d" % [
 				input_mode, lang, offer_intents, week_commits,
+				side_shift_inputs,
 				story_sequence.size(), _route_keyboard_events,
 				_route_mouse_events, _route_gamepad_events,
 				_route_semantic_events, _route_unknown_events,
@@ -7363,7 +7595,7 @@ func _assert_core_loop_v2_input_completion(
 		month_summaries_seen: Dictionary, tutorial_inputs: int,
 		tutorial_state_verified: bool,
 		action_result_confirms: Dictionary, offer_intents: int,
-		week_commits: int) -> bool:
+		week_commits: int, side_shift_inputs: int) -> bool:
 	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
 	var state: Dictionary = GameState.core_loop_v2_state
 	if planner_months_seen.size() != 6 or committed_months.size() != 6:
@@ -7380,6 +7612,9 @@ func _assert_core_loop_v2_input_completion(
 	if offer_intents != 22 or week_commits != 22:
 		_fail("Core Loop V2 completed with offer/week input counts %d/%d instead of 22/22." % [
 			offer_intents, week_commits])
+		return false
+	if side_shift_inputs != 21:
+		_fail("Core Loop V2 fresh cover shift used %d raw inputs instead of ten customer/response pairs plus Clock Out." % side_shift_inputs)
 		return false
 	var plans: Dictionary = state.get("plans", {})
 	if plans.size() != 6:
@@ -7407,7 +7642,7 @@ func _assert_core_loop_v2_input_completion(
 		_fail("Core Loop V2 completion stored %d month summaries instead of six." % month_summaries.size())
 		return false
 	var expected_action_results := [
-		"m1_mirae_application", "m2_seorin_application",
+		"m1_convenience_trial_shift", "m2_seorin_application",
 		"m3_hanbit_application", "m3_inventory_shift",
 		"m4_certificate_session", "m4_logistics_shift",
 		"m4_health_check_day", "m5_city_service_application",
@@ -7459,7 +7694,9 @@ func _assert_core_loop_v2_input_completion(
 		"story_knee_witness", "story_knee_choice",
 		"story_last_payment_wait", "story_last_payment_word",
 		"story_last_payment_exit", "story_prologue_dad",
-		"story_prologue_goal", "story_prologue_meal", "story_pressure",
+		"story_prologue_goal", "story_prologue_meal",
+		"v2_opening_application_send",
+		"arc_intro_01_meal", "v2_opening_return_math",
 		"chapter_card_33",
 	]
 	if story_sequence.size() < required_opening.size():
@@ -7471,6 +7708,76 @@ func _assert_core_loop_v2_input_completion(
 				index, required_opening[index],
 				str(story_sequence[index].get("id", ""))])
 			return false
+	var opening_instances: Array[int] = []
+	for opening_id in [
+			"v2_opening_application_send", "arc_intro_01_meal",
+			"v2_opening_return_math", "chapter_card_33"]:
+		var positions := _core_loop_v2_story_positions(
+			story_sequence, opening_id)
+		if positions.size() != 1:
+			_fail("Core Loop V2 opening event %s appeared %d times." % [
+				opening_id, positions.size()])
+			return false
+		opening_instances.append(int(story_sequence[positions[0]].get(
+			"instance", 0)))
+	if opening_instances.any(func(instance_id):
+			return instance_id != opening_instances[0]):
+		_fail("Core Loop V2 Send, interview, calculation, and Chapter 1 did not remain in one StoryMode queue: %s." % opening_instances)
+		return false
+	var chapter_positions := _core_loop_v2_story_positions(
+		story_sequence, "chapter_card_33")
+	var dialogue_titles: Array = story_sequence[chapter_positions[0]].get(
+		"dialogue_log_titles", [])
+	for logged_opening_id in [
+			"v2_opening_application_send", "arc_intro_01_meal",
+			"v2_opening_return_math"]:
+		var expected_title := str(DataRegistry.find_event(
+			logged_opening_id).get("title", ""))
+		if expected_title.is_empty() or not dialogue_titles.has(expected_title):
+			_fail("Core Loop V2 dialogue history lost %s before the Chapter 1 card." % logged_opening_id)
+			return false
+	if not _core_loop_v2_story_positions(
+			story_sequence, "arc_intro_02_dad_call").is_empty():
+		_fail("Core Loop V2 fresh route replayed the retired separate 125-year card.")
+		return false
+	var chapter_record: Dictionary = story_sequence[chapter_positions[0]]
+	var chapter_opening_receipt: Dictionary = chapter_record.get(
+		"opening_receipt", {})
+	var final_opening_receipt: Dictionary = (
+		state.get("consequence_receipts", {}) as Dictionary
+	).get("opening_interview_math", {})
+	if str(chapter_opening_receipt.get("status", "")) != "presented" \
+			or chapter_opening_receipt.get("roots", []) != [
+				"arc_intro_01_meal", "v2_opening_return_math"] \
+			or str(final_opening_receipt.get("status", "")) != "consumed" \
+			or final_opening_receipt.get("roots", []) != [
+				"arc_intro_01_meal", "v2_opening_return_math"] \
+			or str(chapter_record.get(
+				"opening_application_status", "")) != "interviewed" \
+			or chapter_record.get("opening_mindset_flags", []) != [
+				false, false, false]:
+		_fail("Core Loop V2 opening lost its consumed interview/calculation receipt or fabricated a mindset.")
+		return false
+	var opening_log_counts := {
+		"story_pressure": 0,
+		"v2_opening_application_send": 0,
+		"arc_intro_01_meal": 0,
+		"v2_opening_return_math": 0,
+	}
+	for raw_entry in GameState.event_log:
+		if raw_entry is Dictionary:
+			var logged_id := str((raw_entry as Dictionary).get("event_id", ""))
+			if opening_log_counts.has(logged_id):
+				opening_log_counts[logged_id] = int(
+					opening_log_counts[logged_id]) + 1
+	if opening_log_counts != {
+			"story_pressure": 0,
+			"v2_opening_application_send": 1,
+			"arc_intro_01_meal": 1,
+			"v2_opening_return_math": 0,
+		}:
+		_fail("Core Loop V2 opening replayed the legacy app-open card, duplicated a scene, or persisted the expression-only calculation: %s." % opening_log_counts)
+		return false
 
 	var finale_ids := [
 		"v2_demo_first_bill_opening", "v2_demo_first_bill",

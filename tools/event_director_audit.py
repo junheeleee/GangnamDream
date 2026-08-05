@@ -20,12 +20,15 @@ EXPECTED_CATALOG_RANDOM = 1176
 EXPECTED_DIRECTED_RANDOM = 1003
 EXPECTED_FOREGROUND_RANDOM = 64
 EXPECTED_BRIDGE_RANDOM = 19
-# Core V2's authored hidden beats now include the First Bill opening and ledger
-# fragments. They are reached by bundle/story links, never by the random director.
-EXPECTED_REGISTERED_EVENTS = 1601
+# Core V2's authored hidden beats include the First Bill fragments plus the
+# fresh-only application Send and pre-plan calculation. They are reached by
+# runtime substitution or bundle/story links, never by the random director.
+EXPECTED_REGISTERED_EVENTS = 1603
 EXPECTED_DIRECT_ONLY_EVENTS = {
     "v2_hyunsu_player_reachout",
     "v2_hyunsu_study_followup",
+    "v2_opening_application_send",
+    "v2_opening_return_math",
 }
 EXPECTED_CALLBACK_TOTAL = 620
 EXPECTED_CHAIN_TOTAL = 12

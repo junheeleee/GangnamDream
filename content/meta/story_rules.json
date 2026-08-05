@@ -75,6 +75,8 @@
     "minimum_ledger_events": 160,
     "max_unclassified_communication_suspects": 0,
     "demo_logic": [
+      "story_pressure",
+      "v2_opening_application_send",
       "arc_intro_02_dad_call",
       "arc_father_01_call",
       "arc_father_quiet_call",
@@ -83,6 +85,7 @@
     "communication": [
       "story_prologue_dad",
       "arc_intro_02_dad_call",
+      "v2_opening_return_math",
       "arc_father_01_call",
       "arc_father_quiet_call",
       "arc_father_02_signal",
@@ -138,7 +141,9 @@
       "story_last_payment_exit->story_prologue_dad",
       "story_prologue_dad->story_prologue_goal",
       "story_prologue_goal->story_prologue_meal",
-      "story_prologue_meal->story_pressure",
+      "story_prologue_meal->v2_opening_application_send",
+      "v2_opening_application_send->arc_intro_01_meal",
+      "arc_intro_01_meal->v2_opening_return_math",
       "v2_hyunsu_player_reachout->v2_hyunsu_first_study",
       "v2_sangchul_housing_lead->arc_sangchul_01_measure",
       "v2_sangchul_housing_lead->arc_sangchul_01_coffee",
@@ -218,6 +223,30 @@
       "to_location": "goshiwon_room",
       "arrival_cue_ko": "보름이 지났다",
       "arrival_cue_en": "Two weeks in"
+    },
+    "story_prologue_meal->v2_opening_application_send": {
+      "mode": "time_cut",
+      "from_location": "convenience_night",
+      "to_location": "goshiwon_room",
+      "arrival_cue_ko": "다음 날 아침",
+      "arrival_cue_en": "The next morning",
+      "queue_only": true
+    },
+    "v2_opening_application_send->arc_intro_01_meal": {
+      "mode": "explicit_move",
+      "from_location": "goshiwon_room",
+      "to_location": "office_interview_day",
+      "arrival_cue_ko": "마포구. 3층. 엘리베이터 없음.",
+      "arrival_cue_en": "Mapo-gu. Third floor. No elevator.",
+      "queue_only": true
+    },
+    "arc_intro_01_meal->v2_opening_return_math": {
+      "mode": "time_cut",
+      "from_location": "office_interview_day",
+      "to_location": "goshiwon_room",
+      "arrival_cue_ko": "그날 밤, 고시원.",
+      "arrival_cue_en": "That night, back at the goshiwon.",
+      "queue_only": true
     },
     "v2_hyunsu_player_reachout->v2_hyunsu_first_study": {
       "mode": "time_cut",
@@ -1631,6 +1660,44 @@
         "expected_portrait": "father_home"
       }
     },
+    "story_pressure": {
+      "logic": {
+        "legacy": {
+          "produces_all": [
+            "story_job_unlocked"
+          ]
+        }
+      },
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "goshiwon_room",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "goshiwon_room",
+        "expected_portrait": "player_tired",
+        "expected_ambience": "room"
+      }
+    },
+    "v2_opening_application_send": {
+      "logic": {
+        "core_loop_v2": {
+          "produces_all": [
+            "story_job_unlocked",
+            "opening_interview_application_sent",
+            "opening_preplan_application_sent"
+          ]
+        }
+      },
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "goshiwon_room",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "goshiwon_room",
+        "expected_portrait": "player_tired",
+        "expected_ambience": "room"
+      }
+    },
     "arc_intro_02_dad_call": {
       "logic": {
         "legacy": {
@@ -1647,6 +1714,20 @@
         "portrait_role": "local"
       }
     },
+    "v2_opening_return_math": {
+      "presentation": {
+        "channel": "phone",
+        "state": "missed",
+        "scene_location": "goshiwon_room",
+        "remote_location": "changwon_home",
+        "remote_actor": "father",
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "goshiwon_room",
+        "expected_portrait": "player_tired",
+        "expected_ambience": "room"
+      }
+    },
     "arc_father_01_call": {
       "logic": {
         "requires": [{"fact": "father.life", "is": "alive"}],
@@ -1659,7 +1740,7 @@
         "channel": "phone",
         "state": "connected",
         "scene_location": "current_housing",
-        "remote_location": "changwon_factory",
+        "remote_location": "changwon_home",
         "remote_actor": "father",
         "portrait_role": "local"
       }

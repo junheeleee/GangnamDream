@@ -97,7 +97,7 @@ const STORY_OWNED_OLD_SAVE_FIXTURES := [
 
 const PRIOR_SCHEDULES := {
 	"1": {
-		"1": "m1_mirae_application",
+		"1": "m1_convenience_trial_shift",
 		"2": "m1_convenience_trial_shift",
 		"3": "m1_youth_center_resume_clinic",
 		"4": "first_temptation_boss",
@@ -199,7 +199,7 @@ const FULL_ROUTE_PATHS := {
 
 const FULL_ROUTE_COMMON_SCHEDULES := {
 	1: {
-		"1": "m1_mirae_application",
+		"1": "m1_convenience_trial_shift",
 		"2": "father_first_call",
 		"3": "hyunsu_first_meet",
 		"4": "first_temptation_boss",
@@ -285,44 +285,44 @@ const FULL_ROUTE_OVERWORK_SCHEDULES := {
 # belong to the deterministic balance contract.
 const FULL_ROUTE_EXPECTED_CHECKPOINTS := {
 	"clean_unemployed_low": [
-		[430_000, 57, 60, false],
-		[53_500, 49, 77, false],
-		[-316_500, 47, 85, false],
-		[-166_500, 35, 82, false],
-		[-536_500, 34, 85, false],
-		[-906_500, 28, 68, false],
+		[567_000, 55, 56, false],
+		[190_500, 47, 73, false],
+		[-179_500, 45, 81, false],
+		[-29_500, 33, 78, false],
+		[-399_500, 32, 81, false],
+		[-769_500, 26, 64, false],
 	],
 	"clean_hired_recovery_high": [
-		[430_000, 61, 68, false],
-		[53_500, 57, 89, false],
-		[43_500, 49, 91, false],
-		[193_500, 41, 91, false],
-		[1_853_500, 36, 92, true],
-		[3_443_500, 42, 93, true],
+		[567_000, 59, 64, false],
+		[190_500, 55, 89, false],
+		[180_500, 47, 91, false],
+		[330_500, 39, 91, false],
+		[1_990_500, 34, 93, true],
+		[3_580_500, 40, 93, true],
 	],
 	"dirty_return_recovery_low": [
-		[2_150_000, 65, 62, false],
-		[-6_500, 61, 56, false],
-		[-656_500, 65, 69, false],
-		[-786_500, 61, 74, false],
-		[-1_436_500, 65, 81, false],
-		[-2_086_500, 69, 73, false],
+		[2_287_000, 63, 58, false],
+		[130_500, 59, 54, false],
+		[-519_500, 63, 67, false],
+		[-649_500, 59, 72, false],
+		[-1_299_500, 63, 79, false],
+		[-1_949_500, 67, 71, false],
 	],
 	"dirty_deeper_growth": [
-		[2_430_000, 57, 54, false],
-		[5_053_500, 49, 49, false],
-		[4_683_500, 47, 61, false],
-		[4_833_500, 35, 62, false],
-		[4_463_500, 34, 69, false],
-		[4_373_500, 23, 52, false],
+		[2_567_000, 55, 50, false],
+		[5_190_500, 47, 45, false],
+		[4_820_500, 45, 57, false],
+		[4_970_500, 33, 58, false],
+		[4_600_500, 32, 65, false],
+		[4_510_500, 21, 48, false],
 	],
 }
 
 const FULL_ROUTE_EXPECTED_FLOORS := {
-	"clean_unemployed_low": [28, 60],
-	"clean_hired_recovery_high": [34, 60],
-	"dirty_return_recovery_low": [61, 56],
-	"dirty_deeper_growth": [23, 49],
+	"clean_unemployed_low": [26, 56],
+	"clean_hired_recovery_high": [32, 60],
+	"dirty_return_recovery_low": [59, 54],
+	"dirty_deeper_growth": [21, 45],
 }
 
 const FULL_ROUTE_EVIDENCE_NAMES := {
@@ -387,9 +387,11 @@ static func _build_full_route_snapshot_isolated(path_id: String) -> Dictionary:
 		errors.append("Week-One baseline drifted from 500k/65/60: %s" % str(initial))
 
 	var floors := {
-		"mental": int(GameState.mental),
-		"health": int(GameState.health),
+		"mental": int(initial["mental"]),
+		"health": int(initial["health"]),
 	}
+	_full_route_play_preplan_opening(errors)
+	_full_route_capture_floors(floors)
 	var foreground_openings: Dictionary = {}
 	var week_24_opening_snapshot: Dictionary = {}
 	var checkpoints: Array[Dictionary] = []
@@ -573,6 +575,15 @@ static func _build_full_route_snapshot_isolated(path_id: String) -> Dictionary:
 static func _full_route_schedule(
 		month_index: int, hired: bool,
 		overwork_schedule: bool = false) -> Dictionary:
+	# The fatal-choice fixture must arrive at the Week-24 collision alive.  Its
+	# old Week-One application had no body cost, while the fresh player route's
+	# cover shift does.  Keep the same neutral opening baseline by exercising the
+	# other authored growth offer instead of silently granting test-only health.
+	if overwork_schedule and month_index == 1:
+		var opening_schedule := (
+			FULL_ROUTE_COMMON_SCHEDULES[month_index] as Dictionary).duplicate(true)
+		opening_schedule["1"] = "m1_youth_center_resume_clinic"
+		return opening_schedule
 	if FULL_ROUTE_COMMON_SCHEDULES.has(month_index):
 		return (FULL_ROUTE_COMMON_SCHEDULES[month_index] as Dictionary).duplicate(true)
 	if overwork_schedule:
@@ -595,6 +606,64 @@ static func _full_route_play_month_prelude(
 		return
 	if CORE_LOOP.complete_active_bundle() != bundle_id:
 		errors.append("month prelude %s did not complete" % bundle_id)
+
+
+static func _full_route_play_preplan_opening(
+		errors: Array[String]) -> void:
+	GameState.flags["prologue_done"] = true
+	var trigger_event: Dictionary = DataRegistry.find_event(
+		CORE_LOOP.OPENING_APPLICATION_EVENT_ID)
+	var trigger_choices: Array = trigger_event.get("choices", [])
+	if trigger_event.is_empty() or trigger_choices.size() != 1:
+		errors.append("pre-plan opening lost its single application trigger")
+		return
+	if not GameState.apply_choice(
+			trigger_event, trigger_choices[0] as Dictionary) \
+			or not CORE_LOOP.note_story_choice(
+				CORE_LOOP.OPENING_APPLICATION_EVENT_ID, 0):
+		errors.append("pre-plan opening could not claim the sent application")
+		return
+	if CORE_LOOP.active_bundle_id() != CORE_LOOP.OPENING_INTERVIEW_BUNDLE_ID \
+			or CORE_LOOP.active_kind() != "consequence":
+		errors.append("pre-plan opening did not become the sole Turn-One owner")
+		return
+	if not _full_route_play_story_roots(
+			CORE_LOOP.OPENING_INTERVIEW_BUNDLE_ID, {
+				"arc_intro_01_meal": 0,
+				"v2_opening_return_math": 0,
+			}, errors):
+		return
+	if CORE_LOOP.complete_active_bundle() \
+			!= CORE_LOOP.OPENING_INTERVIEW_BUNDLE_ID:
+		errors.append("pre-plan interview and calculation did not complete")
+		return
+	# The production queue continues directly into Chapter 1 before the planner.
+	# Carry that authored one-time receipt into the Week-24 snapshot so post-demo
+	# routing cannot replay the chapter card and delay every Year-One callback.
+	var chapter_event: Dictionary = DataRegistry.find_event("chapter_card_33")
+	var chapter_choices: Array = chapter_event.get("choices", [])
+	if chapter_event.is_empty() or chapter_choices.size() != 1 \
+			or not GameState.apply_choice(
+				chapter_event, chapter_choices[0] as Dictionary) \
+			or not bool(GameState.flags.get("chapter_33_seen", false)):
+		errors.append("pre-plan opening did not continue into Chapter 1")
+		return
+	var state: Dictionary = GameState.core_loop_v2_state
+	var opening_receipt: Dictionary = (
+		state.get("consequence_receipts", {}) as Dictionary
+	).get(CORE_LOOP.OPENING_INTERVIEW_BUNDLE_ID, {})
+	if CORE_LOOP.application_status("mirae_industrial_tech") != "interviewed" \
+			or str(opening_receipt.get("status", "")) != "consumed" \
+			or opening_receipt.get("roots", []) != [
+				"arc_intro_01_meal", "v2_opening_return_math"]:
+		errors.append("pre-plan opening lost its application/receipt ledger: %s" \
+			% str(opening_receipt))
+		return
+	for mindset_flag in [
+			"mindset_saver", "mindset_investor", "mindset_founder"]:
+		if bool(GameState.flags.get(mindset_flag, false)):
+			errors.append("pre-plan expression choice produced %s" % mindset_flag)
+			return
 
 
 static func _full_route_execute_bundle(
@@ -663,6 +732,11 @@ static func _full_route_execute_action(
 		"axis", "human" if execution == "rest" or action_id == "rest" else "money"))
 	var place_id := str(config.get(
 		"place_id", "home" if execution == "rest" or action_id == "rest" else "work"))
+	if bundle_id == "m1_convenience_trial_shift" and execution.is_empty():
+		execution = "instant_effect"
+		effects = {"money": 137_000, "health": -2, "mental": -4}
+		axis = "money"
+		place_id = "work"
 	if bundle_id == "m1_mirae_application" and execution.is_empty():
 		execution = "application"
 		config = {

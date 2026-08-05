@@ -49,8 +49,8 @@ func _ready() -> void:
 			+ "relationship=from_to/current_turn_receipt/no_regression "
 			+ "memory=reader_variants "
 			+ "application=submitted/interviewed/no_offer "
-			+ "callback=receipt_superseded/long_preserved "
-			+ "prelude=scheduled_owner/story_action/save_once "
+			+ "callback=receipt_superseded/mindset3/v1_truthful/long_preserved "
+			+ "prelude=scheduled_owner/interview+math/story_action/save_once "
 			+ "action=atomic/save_result_once/story_bridge/all_schema_lazy/rollback "
 			+ "boundary_save=single/month3_nonterminal "
 			+ "month_delta=opening_to_close/save_roundtrip "
@@ -91,6 +91,8 @@ func _check_contract_and_legacy_boundary() -> void:
 			"choice_index": 2,
 			"turn": 2,
 		}],
+		"shown_consequences": ["opening_interview_math"],
+		"shown_consequence_turns": {"opening_interview_math": 2},
 		"player_initiated": [],
 	}
 	_expect(CORE_LOOP.initialize_for_run(),
@@ -103,6 +105,9 @@ func _check_contract_and_legacy_boundary() -> void:
 	var migrated_relationship_receipt: Variant = (
 		migrated.get("relationship_choice_receipts", {}) as Dictionary
 	).get("father_first_call:arc_father_01_call:2:2", {})
+	var migrated_opening_receipt: Variant = (
+		migrated.get("consequence_receipts", {}) as Dictionary
+	).get("opening_interview_math", {})
 	_expect(str((migrated.get(
 			"relationship_stages", {}) as Dictionary).get(
 				"father", "")) == "opening" \
@@ -115,9 +120,17 @@ func _check_contract_and_legacy_boundary() -> void:
 			and str(((migrated.get(
 				"relationship_history", []) as Array)[0] as Dictionary).get(
 					"memory", "")) == "father_call_ended_quickly" \
-			and (migrated.get("player_initiated", []) as Array).is_empty(),
-		"schema-2 father choice did not backfill its B receipt without "
-		+ "inventing player initiative")
+			and str(((migrated.get(
+				"relationship_history", []) as Array)[0] as Dictionary).get(
+					"initiative", "")) == "reciprocal" \
+			and (migrated.get("player_initiated", []) as Array).is_empty() \
+			and migrated_opening_receipt is Dictionary \
+			and str((migrated_opening_receipt as Dictionary).get(
+				"status", "")) == "consumed" \
+			and (migrated_opening_receipt as Dictionary).get(
+				"roots", []) == ["arc_intro_01_meal"],
+		"schema-2 migration invented the new calculation/returned-call history "
+		+ "instead of preserving its interview-only incoming Father call")
 	_expect(CORE_LOOP.is_active(),
 		"migrated A1 save did not continue into week 9")
 	_expect(not CORE_LOOP.is_prototype_complete(),
@@ -617,10 +630,131 @@ func _check_relationship_choice_receipts() -> void:
 		"hyunsu_study_followup", "v2_hyunsu_study_followup", 1,
 		"hyunsu", "player_reached_out", "shared_commitment", "reciprocal",
 		"hyunsu_one_problem_each_agreed", true)
+	_check_fresh_father_return_mapping()
+
+
+func _check_fresh_father_return_mapping() -> void:
+	# An old planned V2 run can own the newly extended interview+math receipt
+	# without having gone through the new pre-plan Send scene. Receipt roots
+	# alone therefore must not rewrite its incoming call as player-led.
+	_fresh()
+	GameState.turn = 2
+	var state: Dictionary = GameState.core_loop_v2_state
+	state["shown_consequences"] = ["opening_interview_math"]
+	state["shown_consequence_turns"] = {"opening_interview_math": 1}
+	state["consequence_receipts"] = {
+		"opening_interview_math": {
+			"consequence_id": "opening_interview_math",
+			"status": "consumed",
+			"roots": ["arc_intro_01_meal", "v2_opening_return_math"],
+			"presented_turn": 1,
+			"consumed_turn": 1,
+		},
+	}
+	GameState.core_loop_v2_state = state
+	_expect(not bool(GameState.flags.get(
+			"opening_preplan_application_sent", false)) \
+			and CORE_LOOP.consequence_receipt_has_root(
+				"opening_interview_math", "v2_opening_return_math") \
+			and CORE_LOOP.begin_bundle("father_first_call", "schedule") \
+			and CORE_LOOP.note_story_choice("arc_father_01_call", 0),
+		"old planned V2 Father call fixture could not produce its receipt")
+	var old_planned_receipt: Dictionary = (
+		GameState.core_loop_v2_state.get(
+			"relationship_choice_receipts", {}) as Dictionary
+	).get("father_first_call:arc_father_01_call:0:2", {})
+	_expect(str(old_planned_receipt.get("initiative", "")) == "reciprocal" \
+			and not CORE_LOOP.was_player_initiated("father"),
+		"old planned V2 receipt roots rewrote Father's incoming call as a "
+		+ "player callback")
+	CORE_LOOP.cancel_active_bundle()
+
+	_fresh()
+	GameState.turn = 2
+	state = GameState.core_loop_v2_state
+	state["shown_consequences"] = ["opening_interview_math"]
+	state["shown_consequence_turns"] = {"opening_interview_math": 1}
+	state["consequence_receipts"] = {
+		"opening_interview_math": {
+			"consequence_id": "opening_interview_math",
+			"status": "consumed",
+			"roots": ["arc_intro_01_meal", "v2_opening_return_math"],
+			"presented_turn": 1,
+			"consumed_turn": 1,
+		},
+	}
+	GameState.core_loop_v2_state = state
+	GameState.flags["opening_preplan_application_sent"] = true
+	_expect(CORE_LOOP.begin_bundle("father_first_call", "schedule") \
+			and CORE_LOOP.note_story_choice("arc_father_01_call", 0),
+		"fresh post-calculation Father callback did not produce a receipt")
+	var receipt: Dictionary = (
+		GameState.core_loop_v2_state.get(
+			"relationship_choice_receipts", {}) as Dictionary
+	).get("father_first_call:arc_father_01_call:0:2", {})
+	_expect(str(receipt.get("initiative", "")) == "player" \
+			and str(receipt.get("memory", "")) \
+				== "father_wellbeing_returned" \
+			and CORE_LOOP.consequence_receipt_has_root(
+				"opening_interview_math", "v2_opening_return_math") \
+			and CORE_LOOP.was_player_initiated("father"),
+		"fresh pre-plan Send flag did not make Father's scene a truthful "
+		+ "player callback")
+	CORE_LOOP.cancel_active_bundle()
 
 func _check_relationship_memory_description_variants() -> void:
 	_fresh()
 	var story = STORY_MODE.new()
+	var old_planned_state: Dictionary = GameState.core_loop_v2_state
+	old_planned_state["consequence_receipts"] = {
+		"opening_interview_math": {
+			"consequence_id": "opening_interview_math",
+			"status": "consumed",
+			"roots": ["arc_intro_01_meal", "v2_opening_return_math"],
+		},
+	}
+	GameState.core_loop_v2_state = old_planned_state
+	var actual_father_event: Dictionary = DataRegistry.find_event(
+		"arc_father_01_call")
+	var base_father_description := str(actual_father_event.get(
+		"description", ""))
+	var callback_descriptions: Dictionary = actual_father_event.get(
+		"description_if_known", {})
+	var callback_father_description := str(callback_descriptions.get(
+		"opening_preplan_application_sent", ""))
+	var base_father_resolved := story._resolved_story_description(
+		actual_father_event)
+	_expect(not base_father_description.is_empty() \
+			and not callback_father_description.is_empty() \
+			and CORE_LOOP.consequence_receipt_has_root(
+				"opening_interview_math", "v2_opening_return_math") \
+			and not bool(GameState.flags.get(
+				"opening_preplan_application_sent", false)) \
+			and base_father_resolved.contains(
+				story._fmt(base_father_description)) \
+			and not base_father_resolved.contains(
+				story._fmt(callback_father_description)),
+		"Father's legacy incoming call was rewritten without the dedicated "
+		+ "pre-plan Send flag")
+	var opening_state: Dictionary = GameState.core_loop_v2_state
+	opening_state["consequence_receipts"] = {
+		"opening_interview_math": {
+			"consequence_id": "opening_interview_math",
+			"status": "consumed",
+			"roots": ["arc_intro_01_meal", "v2_opening_return_math"],
+		},
+	}
+	GameState.core_loop_v2_state = opening_state
+	GameState.flags["opening_preplan_application_sent"] = true
+	var callback_father_resolved := story._resolved_story_description(
+		actual_father_event)
+	_expect(callback_father_resolved.contains(
+			story._fmt(callback_father_description)) \
+			and not callback_father_resolved.contains(
+				story._fmt(base_father_description)),
+		"fresh pre-plan Send flag did not select Father's returned-call prose")
+
+	_fresh()
 	var father_event := {
 		"description": "FATHER_BASE",
 		"description_memory_if_known": {
@@ -687,6 +821,100 @@ func _check_relationship_memory_description_variants() -> void:
 	story.free()
 
 func _check_legacy_callback_resolution() -> void:
+	var mindset_callbacks := [
+		"callback_mindset_saver_echo",
+		"callback_mindset_investor_echo",
+		"callback_mindset_founder_echo",
+	]
+	var expected_callback_keys: Array = mindset_callbacks.duplicate()
+	expected_callback_keys.sort()
+
+	# Every fresh V2 run receives exactly the three contract-owned retirements.
+	# They block invented saver/investor/founder memories before any legacy flag
+	# can leak in from a hybrid save.
+	_fresh()
+	var fresh_resolutions: Dictionary = GameState.core_loop_v2_state.get(
+		"legacy_callback_resolutions", {})
+	var fresh_keys: Array = fresh_resolutions.keys()
+	fresh_keys.sort()
+	_expect(fresh_keys == expected_callback_keys,
+		"fresh V2 initialization did not write exactly the three mindset "
+		+ "callback retirements")
+	for callback_id in mindset_callbacks:
+		var fresh_receipt: Variant = fresh_resolutions.get(callback_id, {})
+		_expect(fresh_receipt is Dictionary \
+				and str((fresh_receipt as Dictionary).get("policy", "")) \
+					== "superseded" \
+				and str((fresh_receipt as Dictionary).get("scope", "")) \
+					== "core_loop_v2" \
+				and bool((fresh_receipt as Dictionary).get(
+					"preserve_legacy", false)),
+			"fresh V2 retirement receipt is incomplete for %s" % callback_id)
+
+	# A hybrid save may still carry the old declarations and tendency seeds.
+	# Initialization must retain them byte-for-byte while adding only the
+	# supersession receipts that stop false callbacks.
+	GameState.start_new_game()
+	GameState.turn = 20
+	GameState.flags["mindset_saver"] = true
+	GameState.flags["mindset_investor"] = true
+	GameState.flags["mindset_founder"] = true
+	GameState.flags["had_first_investment"] = true
+	GameState.tendency = {"career": 6, "invest": 7, "found": 8}
+	GameState.tendency_realized = "invest"
+	GameState.core_loop_v2_state = {
+		"schema": 3,
+		"enabled": true,
+		"legacy_callback_resolutions": {},
+	}
+	var legacy_flags_before := GameState.flags.duplicate(true)
+	var legacy_tendency_before := GameState.tendency.duplicate(true)
+	_expect(CORE_LOOP.initialize_for_run(),
+		"old enabled V2 state did not initialize its callback retirements")
+	var old_v2_resolutions: Dictionary = GameState.core_loop_v2_state.get(
+		"legacy_callback_resolutions", {})
+	var old_v2_keys: Array = old_v2_resolutions.keys()
+	old_v2_keys.sort()
+	_expect(old_v2_keys == expected_callback_keys \
+			and GameState.flags == legacy_flags_before \
+			and GameState.tendency == legacy_tendency_before \
+			and GameState.tendency_realized == "invest",
+		"old V2 migration erased or rewrote its legacy mindset history")
+	EventManager.event_cooldowns.clear()
+	EventManager.recent_event_ids.clear()
+	for callback_id in mindset_callbacks:
+		_expect(not EventManager._is_event_eligible(
+				DataRegistry.find_event(callback_id), true),
+			"V2 retirement did not block %s despite its legacy flags" \
+				% callback_id)
+	var hybrid_save: Dictionary = GameState.serialize().duplicate(true)
+	GameState.start_new_game()
+	GameState.load_from_dict(hybrid_save)
+	_expect(CORE_LOOP.initialize_for_run() \
+			and GameState.flags == legacy_flags_before \
+			and GameState.tendency == legacy_tendency_before \
+			and GameState.tendency_realized == "invest",
+		"save/load rewrote preserved mindset flags or tendencies")
+
+	# V1 keeps all three historical flag-only callbacks exactly as authored.
+	# Tightening those old semantics here would rewrite saves outside this V2
+	# retirement order.
+	GameState.start_new_game()
+	GameState.turn = 20
+	GameState.flags["mindset_saver"] = true
+	GameState.flags["mindset_investor"] = true
+	GameState.flags["mindset_founder"] = true
+	EventManager.event_cooldowns.clear()
+	EventManager.recent_event_ids.clear()
+	_expect(not bool(GameState.core_loop_v2_state.get("enabled", false)) \
+			and EventManager._is_event_eligible(DataRegistry.find_event(
+				"callback_mindset_saver_echo"), true) \
+			and EventManager._is_event_eligible(DataRegistry.find_event(
+				"callback_mindset_investor_echo"), true) \
+			and EventManager._is_event_eligible(DataRegistry.find_event(
+				"callback_mindset_founder_echo"), true),
+		"V1 flag-only mindset callbacks lost legacy eligibility")
+
 	_fresh()
 	GameState.turn = 4
 	_expect(CORE_LOOP.begin_bundle("father_first_call", "schedule") \
@@ -752,7 +980,9 @@ func _check_story_scheduled_prelude() -> void:
 				== "opening_interview_math" \
 			and str(receipt.get("scheduled_bundle", "")) == owner_id \
 			and str(receipt.get("surface_kind", "")) == "story" \
-			and str(receipt.get("status", "")) == "presented",
+			and str(receipt.get("status", "")) == "presented" \
+			and receipt.get("roots", []) == [
+				"arc_intro_01_meal", "v2_opening_return_math"],
 		"story consequence was not attached as the schedule's prelude")
 	_expect(CORE_LOOP.active_bundle_id() == owner_id \
 			and CORE_LOOP.active_kind() == "schedule" \
@@ -777,13 +1007,22 @@ func _check_story_scheduled_prelude() -> void:
 		"arc_intro_01_meal")
 	var prelude_choices: Array = prelude_event.get("choices", [])
 	CORE_LOOP.prepare_story_bundle("opening_interview_math")
-	_expect(not prelude_choices.is_empty() \
-			and str((prelude_choices[0] as Dictionary).get(
+	_expect(prelude_choices.size() == 2 \
+			and CORE_LOOP.resolved_event_roots("opening_interview_math") \
+				== ["arc_intro_01_meal", "v2_opening_return_math"] \
+			and CORE_LOOP.bundle("opening_interview_math").get(
+				"suppress_follow_up_events", []) \
+				== ["arc_intro_02_dad_call"],
+		"scheduled prelude lost its adjacent interview/calculation roots or "
+		+ "retired legacy-only suppression")
+	for choice_index in range(prelude_choices.size()):
+		_expect(str((prelude_choices[choice_index] as Dictionary).get(
 				"follow_up_event", "")) == "arc_intro_02_dad_call" \
-			and CORE_LOOP.story_follow_up_is_suppressed(
-				"arc_intro_01_meal", 0, "arc_intro_02_dad_call"),
-		"story prelude did not suppress its legacy auto-follow-up "
-		+ "without mutating registry data")
+				and CORE_LOOP.story_follow_up_is_suppressed(
+					"arc_intro_01_meal", choice_index,
+					"arc_intro_02_dad_call"),
+			"scheduled opening choice %d lost legacy follow-up suppression" \
+				% choice_index)
 	_expect(CORE_LOOP.note_story_choice("arc_intro_01_meal", 0) \
 			and CORE_LOOP.application_status(
 				"mirae_industrial_tech") == "interviewed" \

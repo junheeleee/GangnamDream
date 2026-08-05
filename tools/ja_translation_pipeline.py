@@ -930,7 +930,7 @@ def main() -> int:
     parser.add_argument(
         "--allow-full-body",
         action="store_true",
-        help="Unlock full 1,601-event/35-ending/catalog generation only after a separate full-game GO.",
+        help="Unlock full 1,603-event/35-ending/catalog generation only after a separate full-game GO.",
     )
     parser.add_argument(
         "--inventory",

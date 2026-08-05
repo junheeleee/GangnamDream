@@ -33,6 +33,7 @@ func _ready() -> void:
 			+ "routines=16_units/once/job_transition "
 			+ "forgone=producer_consumer/once delayed=cross_month/one_per_week "
 			+ "relationship=choice_only/monotonic summary=ack/save "
+			+ "opening=interview+math/legacy_followup_only/old_plan_week2 "
 			+ "followup=restored save=roundtrip "
 			+ "boundary=week12_continues/week24_cap "
 			+ "planner=wide4tabs/4weeks/status+people+record/two_step/read_only "
@@ -128,6 +129,30 @@ func _check_month_one_plan() -> void:
 		"month one does not expose its six authored opportunities")
 	_expect(available.has("m1_mirae_application"),
 		"month one lost the causal job application")
+	var expected_post_interview: Array = available.duplicate()
+	expected_post_interview.erase("m1_mirae_application")
+	var interviewed_state: Dictionary = GameState.core_loop_v2_state
+	interviewed_state["application_statuses"][
+		"mirae_industrial_tech"] = "interviewed"
+	GameState.core_loop_v2_state = interviewed_state
+	var post_interview := CORE_LOOP.available_offer_ids(1)
+	expected_post_interview.sort()
+	post_interview.sort()
+	_expect(post_interview == expected_post_interview \
+			and post_interview.size() == 5 \
+			and not post_interview.has("m1_mirae_application"),
+		"fresh pre-plan interview did not hide only the now-finished "
+		+ "application while preserving the other five Month-1 offers")
+
+	# Old V2 plans and saves may still own the original Week-1 application.
+	# Reset to that untouched state before exercising its scheduled-prelude path.
+	GameState.start_new_game()
+	CORE_LOOP.initialize_for_run(true)
+	available = CORE_LOOP.available_offer_ids(1)
+	_expect(available.size() == 6 \
+			and available.has("m1_mirae_application"),
+		"legacy Month-1 application compatibility disappeared after filtering "
+		+ "the fresh pre-plan interview")
 	_expect(not CORE_LOOP.available_offer_ids(2).has("hyunsu_player_reachout"),
 		"Hyunsu follow-up opened before the first meeting")
 
@@ -485,6 +510,40 @@ func _check_month_summary_durability() -> void:
 func _check_story_followup_suppression() -> void:
 	GameState.start_new_game()
 	CORE_LOOP.initialize_for_run(true)
+	var opening_roots := CORE_LOOP.resolved_event_roots(
+		"opening_interview_math")
+	var opening_bundle := CORE_LOOP.bundle("opening_interview_math")
+	_expect(opening_roots == [
+			"arc_intro_01_meal", "v2_opening_return_math"],
+		"opening_interview_math no longer owns adjacent interview and "
+		+ "calculation roots")
+	_expect(opening_bundle.get("suppress_follow_up_events", []) \
+			== ["arc_intro_02_dad_call"],
+		"opening bundle suppressed something other than the legacy separate "
+		+ "125-year card")
+	var interview_event: Dictionary = DataRegistry.find_event(
+		"arc_intro_01_meal")
+	var interview_choices: Array = interview_event.get("choices", [])
+	_expect(interview_choices.size() == 2,
+		"opening interview lost its two authored responses")
+	CORE_LOOP.prepare_story_bundle("opening_interview_math")
+	for choice_index in range(interview_choices.size()):
+		var interview_choice: Dictionary = interview_choices[choice_index]
+		_expect(str(interview_choice.get("follow_up_event", "")) \
+				== "arc_intro_02_dad_call" \
+				and CORE_LOOP.story_follow_up_is_suppressed(
+					"arc_intro_01_meal", choice_index,
+					"arc_intro_02_dad_call"),
+			"opening choice %d did not suppress only its legacy auto-follow-up" \
+				% choice_index)
+	CORE_LOOP.restore_story_bundle_followups()
+	for choice_index in range(interview_choices.size()):
+		_expect(not CORE_LOOP.story_follow_up_is_suppressed(
+				"arc_intro_01_meal", choice_index,
+				"arc_intro_02_dad_call"),
+			"opening suppression receipt %d survived story return" \
+				% choice_index)
+
 	var event: Dictionary = DataRegistry.find_event("arc_intro_04_hyunsu")
 	var choices: Array = event.get("choices", [])
 	_expect(not choices.is_empty(), "Hyunsu first meeting has no choices")

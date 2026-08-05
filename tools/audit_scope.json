@@ -44,6 +44,7 @@
       "paths": [
         "export_presets.cfg",
         "content/events/**",
+        "content/events_en/**",
         "content/endings*.json",
         "content/meta/demo_core_loop_v2.json",
         "content/meta/event_director.json",
@@ -170,10 +171,19 @@
       "paths": [
         "content/meta/demo_core_loop_v2.json",
         "content/meta/story_rules.json",
-        "content/events/core_loop_v2_events.json",
-        "content/events_en/core_loop_v2_events.json",
+        "content/meta/narrative_spine.json",
+        "content/meta/event_director.json",
+        "content/events/**",
+        "content/events_en/**",
+        "content/endings.json",
+        "autoloads/DataRegistry.gd",
+        "autoloads/GameState.gd",
+        "autoloads/EventManager.gd",
         "systems/DemoCoreLoopV2.gd",
-        "scenes/CoreLoopPlanner.gd"
+        "scenes/CoreLoopPlanner.gd",
+        "scenes/MainGame.gd",
+        "scenes/StoryMode.gd",
+        "tools/demo_core_loop_v2_audit.py"
       ]
     },
     {
@@ -199,10 +209,15 @@
     },
     {
       "tool": "tools/first_session_pacing_audit.py",
-      "why": "첫 세션 입력 밀도·프롤로그 체인",
+      "why": "첫 세션 입력 밀도·프롤로그→면접→125년 계산 체인",
       "paths": [
+        "content/meta/demo_core_loop_v2.json",
         "content/events/story_events.json",
-        "content/events/arc_intro*.json",
+        "content/events_en/story_events.json",
+        "content/events/arc_events.json",
+        "content/events_en/arc_events.json",
+        "content/events/core_loop_v2_events.json",
+        "content/events_en/core_loop_v2_events.json",
         "scenes/StoryMode.gd"
       ]
     },
@@ -257,7 +272,7 @@
     },
     {
       "tool": "tools/demo_localization_scope.py --self-test",
-      "why": "실제 24주 도달 72장면·동적 문구·준비 언어 영어 우회·데모 전용 엄격 범위",
+      "why": "실제 24주 도달 73장면·동적 문구·준비 언어 영어 우회·데모 전용 엄격 범위",
       "paths": [
         "content/meta/demo_localization_scope.json",
         "content/meta/demo_core_loop_v2.json",
@@ -280,6 +295,7 @@
         "scenes/OpeningCinematic.gd",
         "scenes/StartMenu.gd",
         "scenes/StoryMode.gd",
+        "scenes/MainGame.gd",
         "systems/DemoCoreLoopV2.gd",
         "tools/demo_localization_scope.py",
         "tools/release_content_inventory.py",
@@ -310,7 +326,7 @@
     },
     {
       "tool": "tools/ja_translation_pipeline.py --scope demo --inventory",
-      "why": "일본어 생성기가 24주 72사건·536동적키·4자산만 수집하고 전체판 본문을 열지 않는지 검사",
+      "why": "일본어 생성기가 24주 73사건·539동적키·4자산만 수집하고 전체판 본문을 열지 않는지 검사",
       "paths": [
         "content/meta/demo_localization_scope.json",
         "content/meta/release_content_inventory.json",
@@ -328,7 +344,7 @@
     },
     {
       "tool": "tools/ja_translation_pipeline.py --self-test",
-      "why": "본문 확정과 전체판 승인 분리·72사건 병합의 데모 밖 행 보존을 변이 검사",
+      "why": "본문 확정과 전체판 승인 분리·73사건 병합의 데모 밖 행 보존을 변이 검사",
       "paths": [
         "content/meta/demo_localization_scope.json",
         "content/meta/release_content_inventory.json",
@@ -499,8 +515,15 @@
       "why": "장면 전환 원장",
       "paths": [
         "assets/scene_direction_manifest.json",
+        "assets/event_visual_contracts.json",
+        "assets/scene_audio_manifest.json",
         "content/events/**",
-        "docs/SCENE_DIRECTION.md"
+        "content/events_en/**",
+        "content/endings.json",
+        "content/meta/story_rules.json",
+        "autoloads/ImageRegistry.gd",
+        "docs/SCENE_DIRECTION.md",
+        "tools/scene_direction_catalog.py"
       ]
     },
     {
@@ -653,7 +676,16 @@
       "why": "스토리 자동 재생·선택 안전",
       "paths": [
         "scenes/StoryMode.gd",
-        "content/events/**"
+        "scenes/MainGame.gd",
+        "systems/DemoCoreLoopV2.gd",
+        "autoloads/DataRegistry.gd",
+        "autoloads/GameState.gd",
+        "content/events/**",
+        "content/events_en/**",
+        "content/meta/demo_core_loop_v2.json",
+        "content/meta/story_rules.json",
+        "tools/StoryPlaybackCheck.gd",
+        "tools/StoryPlaybackCheck.tscn"
       ]
     },
     {
@@ -1019,8 +1051,11 @@
       "godot": true,
       "why": "모드 계층 런타임",
       "paths": [
-        "autoloads/ModLoader.gd",
-        "assets/mod_asset_manifest.json"
+        "autoloads/**",
+        "assets/mod_asset_manifest.json",
+        "content/**",
+        "tools/ModLayerCheck.gd",
+        "tools/ModLayerCheck.tscn"
       ]
     },
     {

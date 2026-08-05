@@ -50,7 +50,7 @@ DEMO_SCORE_ANCHORS = {
     "story_knee_door": "family",
     "story_last_payment_wait": "grief",
     "story_last_payment_word": "grief",
-    "story_pressure": "survival",
+    "v2_opening_application_send": "survival",
     "arc_temptation_01": "crisis",
     "arc_intro_03_sns": "ambition",
     "arc_chapter1_close": "reckoning",

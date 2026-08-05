@@ -69,63 +69,63 @@ const ACTUAL_RESCUE_JOB_WEEKS := {
 }
 
 const ACTUAL_WEEK_24_SNAPSHOTS := {
-	"clean_unemployed_low": [-906_500, 28, 68, false],
-	"clean_hired_recovery_high": [3_443_500, 42, 93, true],
-	"dirty_return_recovery_low": [-2_086_500, 69, 73, false],
-	"dirty_deeper_growth": [4_373_500, 23, 52, false],
+	"clean_unemployed_low": [-769_500, 26, 64, false],
+	"clean_hired_recovery_high": [3_580_500, 40, 93, true],
+	"dirty_return_recovery_low": [-1_949_500, 67, 71, false],
+	"dirty_deeper_growth": [4_510_500, 21, 48, false],
 }
 
 const ACTUAL_CARRYOVER_EXPECTED := {
 	"clean_unemployed_low": {
-		"final": [1_763_500.0, 25, 41],
-		"floor": [24, 34],
-		"recovery_turns": [33, 37, 45],
+		"final": [1_900_500.0, 26, 51],
+		"floor": [24, 38],
+		"recovery_turns": [29, 33, 41, 45],
 		"months": [
-			[-1_556_500.0, 26, 45, false],
-			[-886_500.0, 24, 34, true],
-			[-216_500.0, 25, 38, true],
-			[423_500.0, 26, 41, true],
-			[1_093_500.0, 24, 41, true],
-			[1_763_500.0, 25, 41, true],
+			[-1_419_500.0, 24, 41, false],
+			[-749_500.0, 25, 43, true],
+			[-79_500.0, 26, 48, true],
+			[560_500.0, 24, 38, true],
+			[1_230_500.0, 25, 50, true],
+			[1_900_500.0, 26, 51, true],
 		],
 	},
 	"clean_hired_recovery_high": {
-		"final": [12_006_537.0, 30, 56],
-		"floor": [30, 47],
+		"final": [12_105_862.0, 28, 56],
+		"floor": [28, 47],
 		"recovery_turns": [],
 		"months": [
-			[4_086_537.0, 40, 76, true],
-			[5_676_537.0, 38, 71, true],
-			[7_236_537.0, 36, 64, true],
-			[8_826_537.0, 34, 58, true],
-			[10_416_537.0, 32, 49, true],
-			[12_006_537.0, 30, 56, true],
+			[4_185_862.0, 38, 76, true],
+			[5_775_862.0, 36, 71, true],
+			[7_335_862.0, 34, 64, true],
+			[8_925_862.0, 32, 58, true],
+			[10_515_862.0, 30, 49, true],
+			[12_105_862.0, 28, 56, true],
 		],
 	},
 	"dirty_return_recovery_low": {
-		"final": [583_500.0, 65, 47],
-		"floor": [61, 22],
-		"recovery_turns": [44, 46],
+		"final": [720_500.0, 61, 47],
+		"floor": [59, 20],
+		"recovery_turns": [41, 46],
 		"months": [
-			[-2_736_500.0, 67, 50, false],
-			[-2_066_500.0, 65, 46, true],
-			[-1_426_500.0, 63, 45, true],
-			[-756_500.0, 61, 22, true],
-			[-86_500.0, 62, 32, true],
-			[583_500.0, 65, 47, true],
+			[-2_599_500.0, 65, 48, false],
+			[-1_929_500.0, 63, 44, true],
+			[-1_289_500.0, 61, 43, true],
+			[-619_500.0, 59, 20, true],
+			[50_500.0, 60, 31, true],
+			[720_500.0, 61, 47, true],
 		],
 	},
 	"dirty_deeper_growth": {
-		"final": [5_840_787.0, 26, 61],
-		"floor": [23, 41],
-		"recovery_turns": [25, 33, 41, 45],
+		"final": [5_940_112.0, 24, 58],
+		"floor": [21, 39],
+		"recovery_turns": [25, 29, 37, 41],
 		"months": [
-			[2_520_787.0, 27, 43, false],
-			[3_190_787.0, 25, 43, true],
-			[3_860_787.0, 26, 54, true],
-			[4_500_787.0, 24, 46, true],
-			[5_170_787.0, 25, 59, true],
-			[5_840_787.0, 26, 61, true],
+			[2_620_112.0, 25, 39, false],
+			[3_290_112.0, 26, 52, true],
+			[3_960_112.0, 24, 51, true],
+			[4_600_112.0, 25, 55, true],
+			[5_270_112.0, 26, 69, true],
+			[5_940_112.0, 24, 58, true],
 		],
 	},
 }
@@ -147,8 +147,10 @@ func _ready() -> void:
 	_check_lent_account_flag_migration()
 	_check_phone_purchase_retirement_migration()
 	_check_durable_legacy_replacements()
+	_check_identity_retirement_boundaries()
 	_check_actual_snapshot_carryover()
 	_check_v2_week_24_handoff()
+	await _check_side_shift_identity_boundaries()
 
 	if is_instance_valid(_main_game):
 		_main_game.free()
@@ -171,6 +173,8 @@ func _ready() -> void:
 			+ "migration=clean_preserved/dirty_preserved/legacy_pollution_removed "
 			+ "phone_retirement=valid_refund_once/forged_zero "
 			+ "legacy_replacements=durable_receipts/suppression_cleared "
+			+ "identity_retirement=week24_48_240/save_load/legacy_values_preserved "
+			+ "side_shift_identity=v2_week25_48_240_zero/v1_founder_preserved "
 			+ "carryover=component_runtime/e_component_snapshots4/"
 			+ "autosave_roundtrip4/week25_48/weekly_actions24/"
 			+ "deterministic_authored_vignette_index1/monthly_pressure6/"
@@ -853,6 +857,97 @@ func _check_durable_legacy_replacements() -> void:
 			and (GameState.core_loop_v2_state.get(
 				"suppressed_followups", {}) as Dictionary).is_empty(),
 		"completed Hyunsu V2 bundle did not replace close after suppression clear")
+
+
+func _check_identity_retirement_boundaries() -> void:
+	# The V2 opening no longer asks the player to declare an economic identity.
+	# Hybrid saves may still contain those old facts, so prove both halves of the
+	# contract at the demo cap, Year-One close, and the five-year run cap: values
+	# roundtrip unchanged, while their invented callback scenes remain retired.
+	var callback_ids := [
+		"callback_mindset_saver_echo",
+		"callback_mindset_investor_echo",
+		"callback_mindset_founder_echo",
+	]
+	GameState.start_new_game()
+	GameState.flags["mindset_saver"] = true
+	GameState.flags["mindset_investor"] = true
+	GameState.flags["mindset_founder"] = true
+	GameState.flags["had_first_investment"] = true
+	GameState.tendency = {"career": 6, "invest": 7, "found": 8}
+	GameState.tendency_realized = "invest"
+	var expected_flags: Dictionary = GameState.flags.duplicate(true)
+	var expected_tendency: Dictionary = GameState.tendency.duplicate(true)
+	_expect(CORE_LOOP.initialize_for_run(true),
+		"identity-retirement fixture could not initialize V2")
+
+	for boundary in [24, 48, 240]:
+		_set_turn_date(boundary)
+		EventManager.event_cooldowns.clear()
+		EventManager.recent_event_ids.clear()
+		var blocked := true
+		for callback_id in callback_ids:
+			blocked = blocked \
+				and CORE_LOOP.legacy_callback_is_superseded(callback_id) \
+				and not EventManager._is_event_eligible(
+					DataRegistry.find_event(callback_id), true)
+		_expect(blocked,
+			"V2 identity callback retirement leaked at Week %d" % boundary)
+		var snapshot: Dictionary = GameState.serialize().duplicate(true)
+		GameState.start_new_game()
+		GameState.load_from_dict(snapshot)
+		_expect(CORE_LOOP.initialize_for_run() \
+				and GameState.flags == expected_flags \
+				and GameState.tendency == expected_tendency \
+				and GameState.tendency_realized == "invest" \
+				and int(GameState.turn) == boundary,
+			"Week-%d identity history changed across save/load" % boundary)
+
+
+func _check_side_shift_identity_boundaries() -> void:
+	# The monthly V2 scheduler stops after Week 24, but the run's semantic origin
+	# does not. A survival shift at any later boundary must remain work rather
+	# than silently turning into a founder declaration. V1 keeps its historical
+	# tendency behavior for save compatibility.
+	GameState.start_new_game()
+	GameState.add_log("side-shift identity fixture", "system")
+	_expect(CORE_LOOP.initialize_for_run(true),
+		"side-shift identity fixture could not initialize V2")
+	_recreate_main_game()
+	if not is_instance_valid(_main_game):
+		return
+	_main_game.set_meta("_screenshot_qa_static_surface", true)
+	add_child(_main_game)
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	GameState.start_new_game()
+	CORE_LOOP.initialize_for_run(true)
+	GameState.tendency["found"] = 7
+	for boundary in [25, 48, 240]:
+		_set_turn_date(boundary)
+		GameState.action_points = 2
+		var found_before := int(GameState.tendency.get("found", 0))
+		_main_game.call("_on_aruba_closed", 0, 0, 0)
+		_expect(not CORE_LOOP.is_active() \
+				and bool(GameState.core_loop_v2_state.get("enabled", false)) \
+				and int(GameState.tendency.get("found", 0)) == found_before,
+			"V2-origin side shift invented founder tendency at Week %d" \
+				% boundary)
+
+	GameState.start_new_game()
+	_set_turn_date(25)
+	GameState.action_points = 2
+	var legacy_found_before := int(GameState.tendency.get("found", 0))
+	_main_game.call("_on_aruba_closed", 0, 0, 0)
+	_expect(not bool(GameState.core_loop_v2_state.get("enabled", false)) \
+			and int(GameState.tendency.get("found", 0)) \
+				== legacy_found_before + 1,
+		"V1 side shift lost its historical founder-tendency behavior")
+
+	remove_child(_main_game)
+	_main_game.free()
+	_main_game = null
 
 
 func _roundtrip_actual_week_24_snapshot(

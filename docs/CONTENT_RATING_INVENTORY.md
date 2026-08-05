@@ -3,7 +3,7 @@
 > 이 문서는 `content/meta/release_content_inventory.json`과 현재 소스에서 자동 생성한다.
 > 최종 연령 등급·법률 의견·콘텐츠 삭제 결정이 아니며 수동 편집하지 않는다.
 
-갱신 기준: 2026-08-04
+갱신 기준: 2026-08-05
 
 ## 가장 중요한 범위 판정
 
@@ -20,12 +20,12 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 
 ## 현재 코퍼스
 
-- KO/EN 사건: 각각 127파일 · 1601건, ID 일치
+- KO/EN 사건: 각각 127파일 · 1603건, ID 일치
 - KO/EN 엔딩: 각각 35건
 - 활성 스토리 이미지: 249장 · source raster: 295장
 - 게임 pack 대상 raster: 287장 · ImageRegistry 외부 pack 대상: 38장
 - `.gdignore` source-only 상점 스크린샷: 8장 · 출처 원장 오디오: 139개
-- 사건 ID SHA-256: `1b242036daa73f5ff0b37c16114214bbeb8d5e82e8da554f69f04a3dbd81933d`
+- 사건 ID SHA-256: `e1d39c574a37d24deda7ed3c7849a362bc37d0d0e09487fda66d75c57d7da1eb`
 - KO/EN 엔딩 본문 SHA-256: `32ea94755971c459f74f5a3bae80151a077c9eb781277fee7fda58879b1045f1`
 
 후보 fingerprint는 표현의 최종 등급이 아니라 검토 코퍼스가 조용히 바뀌는 것을
@@ -40,7 +40,7 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 | 공포 | 134 / 49 | `f7b72c4ea39f178218442263fff2f99b432b7eb45206f8f284bc1601ae9cdf79` | `c62f601ec62e60b5e4f687747cd498e543123e9bd890a9c88299c6d6919a2474` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `fc1a0465f31a6a2df2deb4559825e67c7f762fa2ebfdbaa45ae63e2fb75131c3` | mild |
 | 범죄 | 65 / 39 | `1a3d735204cc987995fad412784cfbec1a6b19abb0815ff3a757a7c71880126d` | `6362109489a6d6c139153593ffb187dea4ea99a32e967664031b6b5976dbc3f5` | moderate, strong |
-| 음주·흡연·약물 | 74 / 37 | `06dd74856e8789110acfefdfe18d49994a305a17f10bb67824b001ecc4a30ea1` | `777d3631969edaec3c3498fff0801b6fbdf1b9db892e55f647a05d86114a5c75` | moderate, mild |
+| 음주·흡연·약물 | 74 / 37 | `06dd74856e8789110acfefdfe18d49994a305a17f10bb67824b001ecc4a30ea1` | `fa7f246058c79df8e623294f52220acbf11f6708df4ce085553fbb2b9a7e8a39` | moderate, mild |
 | 생성형 AI | 기술 축 | — | — | disclosure_required, none |
 | 온라인 기능 | 기술 축 | — | — | none, external_link_only |
 

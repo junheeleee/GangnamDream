@@ -554,18 +554,28 @@ def resolve_fresh_prologue_policies(
         re.DOTALL,
     )
     route_block = route_match.group(0) if route_match else ""
-    if not re.search(
-        r'GameState\.turn\s*==\s*1.*?'
-        r'not\s+GameState\.flags\.get\("prologue_done",\s*false\).*?'
-        r'GameState\.flags\["prologue_done"\]\s*=\s*true.*?'
-        r'not\s+GameState\.flags\.get\('
-        r'"story_flashforward_seen",\s*false\s*\).*?'
-        r'_go_story_mode\(\["story_flashforward"\]\).*?'
-        r'_go_story_mode\(\["story_arrival"\]\)',
-        route_block,
-        re.DOTALL,
-    ):
-        fail("fresh MainGame route no longer owns flashforward -> arrival", errors)
+    opening_route_tokens = (
+        'GameState.flags["prologue_done"] = true',
+        'var prologue_root := "story_arrival"',
+        'not GameState.flags.get("story_flashforward_seen", false)',
+        'prologue_root = "story_flashforward"',
+        'var opening_queue: Array = [prologue_root]',
+        'DEMO_CORE_LOOP_V2.fresh_preplan_opening_roots()',
+        'opening_queue.append(str(raw_root))',
+        'opening_queue.append("chapter_card_33")',
+        '_go_story_mode(opening_queue)',
+    )
+    opening_route_positions = tuple(
+        route_block.find(token) for token in opening_route_tokens
+    )
+    if any(position < 0 for position in opening_route_positions) \
+            or tuple(sorted(opening_route_positions)) \
+            != opening_route_positions:
+        fail(
+            "fresh MainGame route no longer owns flashforward -> arrival -> "
+            "interview/math -> chapter queue",
+            errors,
+        )
 
     variable_counts = {
         event_id: count for event_id, count, _label in PROLOGUE_POLICY_EVENTS

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-08-04",
+  "updated": "2026-08-05",
   "scope": "Player-visible fresh-start Core Loop V2 surfaces through the 24-week CTA; preparation evidence, not translation or shipping approval.",
   "derivation": {
     "events": "release inventory V2 bundle/spine/runtime closure plus the fresh-start Chapter 1 card; suppressed follow-ups remain suppressed",
@@ -101,6 +101,20 @@
         "canonical": "18:30",
         "count": 1,
         "reason": "장부가 집결 시각을 놓쳐 대타가 넘어간 사실을 회수한다."
+      },
+      {
+        "source_id": "event::content/events/core_loop_v2_events.json::v2_opening_application_send::choices::[0]::result_text",
+        "literal": "오전 9:14",
+        "canonical": "09:14",
+        "count": 1,
+        "reason": "지원서가 실제로 전송된 시점을 면접 예약과 분리해 증명한다."
+      },
+      {
+        "source_id": "event::content/events/core_loop_v2_events.json::v2_opening_return_math::description",
+        "literal": "오후 9:12",
+        "canonical": "21:12",
+        "count": 1,
+        "reason": "계산기 위 부재중 알림이 실시간 통화가 아닌 지난 연락임을 보여 준다."
       }
     ],
     "required_anchors": [
@@ -170,29 +184,29 @@
     ]
   },
   "source_contract": {
-    "week_1_24_event_count": 59,
-    "week_1_24_event_ids_sha256": "cf940c0250fd45b713b9d17a1fa5d6cc2fe5b388868a170c6f1e548f66c00ce6",
+    "week_1_24_event_count": 60,
+    "week_1_24_event_ids_sha256": "d18b1f6e142583bde96fa9068fd0e03d7a14132a09dce89551872258593d1a22",
     "prologue_event_count": 12,
-    "prologue_event_ids_sha256": "729252866015f61b915170eb8da2813b621dde73ca936c63fb3a161ebc5b5363",
+    "prologue_event_ids_sha256": "7b783dd4c8f8abdbb7f34219b35d50e9ea00ff221f704301c03dc9b40904dd7f",
     "chapter_event_count": 1,
     "chapter_event_ids_sha256": "d0d8c63ac3d70ac9db0fba6d550fa61f86d906f660c322b87593a639eb18a9a8",
-    "visible_event_count": 72,
-    "visible_event_ids_sha256": "4a962697dfc59c531d4a111d2717609e1f318cfd86f49f87bb5f4a20b3510c49",
-    "event_text_count": 447,
-    "event_text_ko_chars": 37360,
-    "event_text_sha256": "2dba4a3fd645c41c8062dc0fbbf24360d88d7291487324a8270fb859718d11cc",
+    "visible_event_count": 73,
+    "visible_event_ids_sha256": "340ea03ac1c6416d53b0ba97c7a74619da81cad81bb069ac3d33d732fcefcdb8",
+    "event_text_count": 455,
+    "event_text_ko_chars": 38993,
+    "event_text_sha256": "aac0273aaed36a6f8a8598655f26497a9ecf23a2f06e50fa14ca6fdb2ddb1643",
     "event_owner_counts": {
       "content/events/arc_daeun.json": 1,
       "content/events/arc_events.json": 12,
       "content/events/arc_midgame.json": 1,
       "content/events/chapter_cards.json": 1,
-      "content/events/core_loop_v2_events.json": 35,
+      "content/events/core_loop_v2_events.json": 37,
       "content/events/scenario_cafe.json": 10,
-      "content/events/story_events.json": 12
+      "content/events/story_events.json": 11
     },
-    "demo_json_pair_occurrences": 325,
-    "demo_json_unique_keys": 321,
-    "demo_json_pairs_sha256": "fcd53dd47d3dff20004c07f68fed4a26b40042ea18858803d4173421e4cf336c",
+    "demo_json_pair_occurrences": 328,
+    "demo_json_unique_keys": 324,
+    "demo_json_pairs_sha256": "ec67359053bb8d62894f8eb6b86c3013bffb65a65156fed9032cf4f4d839426f",
     "demo_inline_pair_occurrences": 56,
     "demo_inline_pairs_sha256": "04a2b4b8e81cc82596086eb00c752b8631371f8253d5ab233a3300e82374aa42",
     "opening_pair_occurrences": 6,
@@ -208,10 +222,10 @@
       "scenes/MainGame.gd::SIDE_JOB_VIGNETTES_CONVENIENCE": 3
     },
     "activity_gd_pairs_sha256": "4b77f1dab98c5ec7dcd6e602bca2e95196c7cd68fcbd6b6dc367fbd3db14c961",
-    "dynamic_pair_occurrences": 543,
-    "dynamic_unique_keys": 536,
-    "dynamic_pairs_sha256": "bec8cb03190ffacd4b7238b85e343a53fef0beeca56ca46e81d91eb0d6bd51c6",
-    "dynamic_unique_sha256": "122587a065e81b372502d7d0de6fe05b69bfbdf7dee799628ef07776dac0ab60",
+    "dynamic_pair_occurrences": 546,
+    "dynamic_unique_keys": 539,
+    "dynamic_pairs_sha256": "c80da11153967a2fe14befa55306688c12ff3fa24828a64a71e667b4ff322784",
+    "dynamic_unique_sha256": "70ef66b37972b592855ee5b7ee9c7c182599f7cd1b81053b8833805e4dc1ea6e",
     "demo_ending_count": 0,
     "catalog_asset_name_ids": ["samsung", "kakao", "hyundai", "kospi_etf"],
     "catalog_asset_names_sha256": "187802b46719245170031f912663ad8bc7308bbe187bba0a819d9f3f2ad4cab4",
@@ -219,8 +233,8 @@
   },
   "strict_gate": {
     "automated_requires": [
-      "72 exact event overlays and 447 translated text leaves",
-      "536 dynamic lookup keys and four visible market asset names",
+      "73 exact event overlays and 455 translated text leaves",
+      "539 dynamic lookup keys and four visible market asset names",
       "exact choice count/order and text-only overlay fields",
       "placeholder, paragraph, terminology, and Korean-won preservation",
       "separate Korean-source Simplified and Traditional script validation without automatic conversion",

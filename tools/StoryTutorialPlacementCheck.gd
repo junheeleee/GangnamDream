@@ -2,6 +2,7 @@ extends Node
 ## The prologue must remain a continuous dramatic scene. System teaching belongs to the AP hub.
 
 const STORY_MODE_PATH := "res://scenes/StoryMode.tscn"
+const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
 
 var _failures: Array[String] = []
 
@@ -97,6 +98,7 @@ func _run() -> void:
 
 	story.free()
 	await get_tree().process_frame
+	_check_v2_preplan_tutorial_gate()
 	for player_value in AudioManager.get("_pool"):
 		var player := player_value as AudioStreamPlayer
 		if player != null:
@@ -105,7 +107,7 @@ func _run() -> void:
 	BGMPlayer.stop()
 	await get_tree().process_frame
 	if _failures.is_empty():
-		print("STORY_TUTORIAL_PLACEMENT_CHECK_OK direct_action=1 rail=0 result_visible=1 popup=0 follow_up=1 ap_tutorial=1")
+		print("STORY_TUTORIAL_PLACEMENT_CHECK_OK direct_action=1 rail=0 result_visible=1 popup=0 follow_up=1 ap_tutorial=1 v2_preplan_gate=1")
 		call_deferred("_quit", 0)
 		return
 	for failure in _failures:
@@ -160,6 +162,56 @@ func _tree_contains_text(root: Node, needle: String) -> bool:
 		if str(node.get("text")).contains(needle):
 			return true
 	return false
+
+func _check_v2_preplan_tutorial_gate() -> void:
+	var main_source := FileAccess.get_file_as_string(
+		"res://scenes/MainGame.gd")
+	var preplan_index := main_source.find(
+		"if _core_loop_v2_route_preplan_opening_if_pending():")
+	var chapter_index := main_source.find(
+		"if _route_opening_chapter_if_pending():", preplan_index)
+	var planner_index := main_source.find(
+		"if DEMO_CORE_LOOP_V2.needs_plan(month_index):", chapter_index)
+	_expect(preplan_index >= 0 and chapter_index > preplan_index \
+			and planner_index > chapter_index,
+		"V2 route no longer places interview/calculation before Chapter 1 and planner")
+	_expect(main_source.count(
+		"_maybe_show_core_loop_v2_tutorial(") == 2,
+		"V2 tutorial is no longer owned solely by the planner opener")
+
+	var seen_before: Dictionary = TutorialOverlay._seen.duplicate(true)
+	TutorialOverlay._seen.erase("core_loop_v2")
+	GameState.start_new_game()
+	CORE_LOOP.initialize_for_run(true)
+	GameState.turn = 1
+	GameState.flags["prologue_done"] = true
+	_expect(CORE_LOOP.fresh_preplan_opening_roots() == [
+		"arc_intro_01_meal", "v2_opening_return_math"],
+		"fresh V2 opening did not reserve interview and calculation before planning")
+	_expect(not CORE_LOOP.fresh_preplan_opening_roots().has(
+			CORE_LOOP.OPENING_APPLICATION_EVENT_ID),
+		"fresh V2 opening directly reserved Send instead of replacing the legacy follow-up")
+	var send_event: Dictionary = DataRegistry.find_event(
+		CORE_LOOP.OPENING_APPLICATION_EVENT_ID)
+	var choices: Array = send_event.get("choices", [])
+	var sent := choices.size() == 1 and GameState.apply_choice(
+		send_event, choices[0] as Dictionary)
+	_expect(sent and CORE_LOOP.needs_preplan_opening(),
+		"the real Send action did not establish the pre-plan opening gate")
+	_expect(not TutorialOverlay._seen.has("core_loop_v2"),
+		"V2 tutorial appeared during the prologue Send action")
+	var claimed := CORE_LOOP.claim_saved_preplan_opening()
+	var receipt: Dictionary = (
+		GameState.core_loop_v2_state.get(
+			"consequence_receipts", {}) as Dictionary
+	).get(CORE_LOOP.OPENING_INTERVIEW_BUNDLE_ID, {})
+	_expect(claimed and str(receipt.get("status", "")) == "presented" \
+			and CORE_LOOP.plan_for_month(1).is_empty(),
+		"V2 pre-plan gate did not claim the opening before a Month-One plan existed")
+	_expect(not TutorialOverlay._seen.has("core_loop_v2"),
+		"V2 tutorial interrupted the interview/calculation consequence")
+	TutorialOverlay._seen.clear()
+	TutorialOverlay._seen.merge(seen_before, true)
 
 func _story_state(story: Control) -> String:
 	return "id=%s typing=%s para=%s/%s hold=%s rem=%.2f transitioning=%s" % [

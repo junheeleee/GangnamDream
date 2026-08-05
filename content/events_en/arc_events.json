@@ -3,14 +3,17 @@
     "id": "arc_intro_01_meal",
     "title": "First Interview",
     "description": "A company {name} applied to gets back to him. Mapo-gu. Third floor. No elevator.\n\nThe sign reads 'Mirae Industrial Tech.' Its website has no information. He searches. Two blogs. Both stopped updating two years ago.\n\nThe interviewer is in her early forties. She picks up the résumé, adjusts her glasses, and reads it slowly.\nThe air conditioner hums. A motorcycle passes outside. Silence, waiting for something.\n\n\"There's a six-year gap here.\"\n\nThose six years. His father's loan guarantee. The other party disappeared. {name} paid what remained.\nHe cannot turn those six years into one sentence.",
+    "description_if_known": {
+      "opening_preplan_application_sent": "The interview was that afternoon. The call came less than two hours after {name} sent the application. Mapo-gu. Third floor. No elevator.\n\nThe sign reads 'Mirae Industrial Tech.' Its website has no information. He searches. Two blogs. Both stopped updating two years ago.\n\nThe interviewer is in her early forties. She picks up the résumé, adjusts her glasses, and reads it slowly.\nThe air conditioner hums. A motorcycle passes outside. Silence, waiting for something.\n\n\"There's a six-year gap here.\"\n\nThose six years. His father's loan guarantee. The other party disappeared. {name} paid what remained.\nHe cannot turn those six years into one sentence."
+    },
     "choices": [
       {
         "text": "Tell the truth — 'I was paying off a family debt.'",
-        "result_text": "The interviewer looks at {name} for a moment and does not probe further.\nSomething in her eyes — understanding, or resignation.\n'...I see. You seem like someone who works hard.'\n\nOn the second-floor landing, his face catches in the window. The words 'family debt' remain on his tongue all the way down."
+        "result_text": "The interviewer looks at {name} for a moment and does not probe further.\nSomething in her eyes — understanding, or resignation.\n\n'...I see. You seem like someone who works hard.' As she closes the résumé, she adds, 'It's a four-day-a-week contract, with gross pay of about two million won a month. Is that all right?' {name} nods.\n\nOn the second-floor landing, his face catches in the window. The words 'family debt' and 'two million won a month' remain on his tongue all the way down."
       },
       {
         "text": "Gloss over it — 'I was preparing to start a business.'",
-        "result_text": "He makes it sound plausible. The interviewer nods, but writes something long in her notes.\n\nEvery step down echoes through the empty building. In the second-floor window, his reflected mouth seems to repeat the answer he has just given.\n{name} looks away and takes the last flight."
+        "result_text": "He makes it sound plausible. The interviewer nods, but writes something long in her notes.\n\nBefore closing the résumé, she says, 'It's a four-day-a-week contract, with gross pay of about two million won a month. Is that all right?' {name} nods.\n\nEvery step down echoes through the empty building. In the second-floor window, his reflected mouth seems to repeat the answer he has just given, followed by 'two million won a month.'\n{name} looks away and takes the last flight."
       }
     ],
     "description_orthodox": "A company {name} applied to gets back to him. Mapo-gu. Third floor. No elevator.\n\nAt the third landing, {name} stops for breath. Flaking paint from the handrail dusts his palm.\n\nThe interviewer picks up the résumé. The tip of her pen stops at the six-year gap.\n\n{name} places the rehearsed answer on his tongue. His mouth is so dry it tastes like paper.",
@@ -804,6 +807,9 @@
     "id": "arc_father_01_call",
     "title": "The Call",
     "description": "The phone rings. Dad.\n\n\"Doing all right?\" \"Yeah.\" \"Eating okay?\" \"I am.\" \"Good.\"\n\nDad spent his working life in a factory in Changwon. After he signed a bad loan guarantee, the other party vanished, and {name} spent six years paying the debt that remained. Neither of them brings it up.\n\nNormally the call would end here, but neither of them hangs up. Only the faint television on Dad's end fills the silence.",
+    "description_if_known": {
+      "opening_preplan_application_sent": "Dad's name is still in the missed-call list. {name} calls back.\n\nDad answers on the third ring. {name} asks, \"Why'd you call?\" Dad says, \"No reason. You doing all right?\" \"Yeah.\" \"Eating okay?\" \"I am.\" \"Good.\"\n\nDad spent his working life in a factory in Changwon. After he signed a bad loan guarantee, the other party vanished, and {name} spent six years paying the debt that remained. Neither of them brings it up.\n\nNormally the call would end here, but neither of them hangs up. Only the faint television on Dad's end fills the silence."
+    },
     "choices": [
       {
         "text": "\"Yeah. Did you eat?\"",

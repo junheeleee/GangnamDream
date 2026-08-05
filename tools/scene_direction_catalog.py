@@ -605,7 +605,7 @@ def build_manifest() -> dict[str, Any]:
     edges = build_edge_contracts(events, surfaces, presentations)
     return {
         "version": 1,
-        "updated": "2026-08-04",
+        "updated": "2026-08-05",
         "policy": {
             "unknown_transition": "none",
             "same_location_restarts": False,

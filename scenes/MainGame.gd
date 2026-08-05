@@ -419,14 +419,13 @@ func _continue_after_story():
 	if DEMO_CORE_LOOP_V2.is_prototype_complete():
 		_core_loop_v2_show_completion()
 		return
-	# V2 owns the first month's playable schedule, but the chapter card still
-	# owns the handoff from the complete prologue into Chapter 1. Route that
-	# single shared boundary before V2 takes over; otherwise the active V2 branch
-	# skips _next_arc_id() and opens the planner with no chapter identity.
-	if _route_opening_chapter_if_pending():
-		return
+	# The continuous V2 opening owns interview/application receipts before the
+	# chapter card. Let it consume that durable owner first; the V2 week router
+	# then places the chapter immediately before the first planner.
 	if DEMO_CORE_LOOP_V2.is_active():
 		_core_loop_v2_continue_after_story()
+		return
+	if _route_opening_chapter_if_pending():
 		return
 	var followup_activity := _take_story_followup_activity()
 	if followup_activity == "racetrack":
@@ -531,6 +530,10 @@ func _core_loop_v2_route_week() -> void:
 		_core_loop_v2_begin_story_bundle(
 			DEMO_CORE_LOOP_V2.active_bundle_id(), "schedule")
 		return
+	if _core_loop_v2_route_preplan_opening_if_pending():
+		return
+	if _route_opening_chapter_if_pending():
+		return
 	var pending_summary := DEMO_CORE_LOOP_V2.pending_month_summary()
 	if not pending_summary.is_empty():
 		_core_loop_v2_show_month_summary(pending_summary)
@@ -600,6 +603,17 @@ func _core_loop_v2_route_week() -> void:
 	push_error("Core Loop V2 bundle has no playable surface: %s" % bundle_id)
 	DEMO_CORE_LOOP_V2.disable_for_run()
 	_render_ap_actions()
+
+func _core_loop_v2_route_preplan_opening_if_pending() -> bool:
+	if not DEMO_CORE_LOOP_V2.needs_preplan_opening():
+		return false
+	if not DEMO_CORE_LOOP_V2.claim_saved_preplan_opening():
+		push_error(
+			"Core Loop V2 could not recover its pre-plan opening consequence")
+		return true
+	_core_loop_v2_begin_story_bundle(
+		DEMO_CORE_LOOP_V2.OPENING_INTERVIEW_BUNDLE_ID, "consequence")
+	return true
 
 func _core_loop_v2_open_planner(
 		month_index: int, read_only: bool = false) -> bool:
@@ -4254,17 +4268,28 @@ func _begin_month_story_and_render():
 		GameState.flags["prologue_done"] = true
 		# 플래시포워드 콜드오픈(5년 뒤 '가능한' 민준) → follow_up으로 프롤로그(story_arrival)에 이어짐.
 		# story_flashforward_seen: 1회 가드(위 prologue_done가 실질 가드, 이 플래그는 재생 이력 판독).
+		var prologue_root := "story_arrival"
 		if not GameState.flags.get("story_flashforward_seen", false):
-			_go_story_mode(["story_flashforward"])
-		else:
-			_go_story_mode(["story_arrival"])
+			prologue_root = "story_flashforward"
+		var opening_queue: Array = [prologue_root]
+		# Reserve the interview and calculation behind the prologue's real Send
+		# choice. DemoCore claims their consequence owner only when that choice is
+		# applied, so a save before Send still owns no fabricated application.
+		if DEMO_CORE_LOOP_V2.is_active():
+			for raw_root in DEMO_CORE_LOOP_V2.fresh_preplan_opening_roots():
+				opening_queue.append(str(raw_root))
+			if opening_queue.size() > 1 \
+					and not bool(GameState.flags.get(
+						"chapter_33_seen", false)):
+				opening_queue.append("chapter_card_33")
+		_go_story_mode(opening_queue)
 		return
 	# A fresh scene return and a saved MainGame re-entry must agree on the same
-	# prologue -> Chapter 1 -> wide planner order.
-	if _route_opening_chapter_if_pending():
-		return
+	# prologue -> interview/calculation -> Chapter 1 -> wide planner order.
 	if DEMO_CORE_LOOP_V2.is_active():
 		_core_loop_v2_route_week()
+		return
+	if _route_opening_chapter_if_pending():
 		return
 	# 아크 이벤트 (인물 스토리) — 마일스톤보다 우선. 정식 구간에서는
 	# 한 주에 서로 다른 루트 장면을 하나만 열어 시간 인과를 보존한다.
@@ -4423,12 +4448,21 @@ func _story_event_prerequisites_met(event_id: String, at_turn: int,
 
 func _demo_narrative_bridge_choice(event_id: String) -> int:
 	var f := GameState.flags
+	# V2 lets completed work, plans and trades describe the run. Old mindset
+	# flags may remain in a migrated save, but they are legacy history rather
+	# than permission to fabricate a fresh saver/investor/founder identity.
+	var v2_action_owned_identity := bool(
+		GameState.core_loop_v2_state.get("enabled", false))
 	match event_id:
 		"arc_money_check_low":
+			if v2_action_owned_identity:
+				return 1
 			if f.get("mindset_founder", false):
 				return 2
 			return 0 if f.get("mindset_saver", false) or f.get("mindset_investor", false) else 1
 		"arc_money_check_mid":
+			if v2_action_owned_identity:
+				return 2
 			if f.get("mindset_investor", false):
 				return 0
 			if f.get("mindset_saver", false) or f.get("mindset_founder", false):
@@ -4443,24 +4477,37 @@ func _demo_narrative_bridge_choice(event_id: String) -> int:
 				return 0
 			return 1 if f.get("kept_clean_hands", false) else 2
 		"arc_invest_guidance":
+			if v2_action_owned_identity:
+				return 2
 			if f.get("mindset_investor", false):
 				return 0
 			if f.get("mindset_saver", false):
 				return 1
 			return 2
 		"arc_paycheck_reality":
+			if v2_action_owned_identity:
+				return 0
 			if f.get("mindset_investor", false):
 				return 1
 			if f.get("mindset_founder", false):
 				return 2
 			return 0
 		"arc_office_routine":
+			if v2_action_owned_identity:
+				return 2 if f.get("route_career", false) else 0
 			if f.get("mindset_founder", false):
 				return 1
 			if f.get("route_career", false) or f.get("mindset_saver", false):
 				return 2
 			return 0
 		"arc_night_routine":
+			if v2_action_owned_identity:
+				if f.get("route_invest", false):
+					return 0
+				if f.get("hyunsu_encouraged", false) \
+						or GameState.get_cast_affinity("hyunsu") >= 3:
+					return 1
+				return 2
 			if f.get("mindset_investor", false) or f.get("route_invest", false):
 				return 0
 			if f.get("hyunsu_encouraged", false) \
@@ -13208,7 +13255,11 @@ func _on_aruba_closed(earned: int, stress_delta: int, health_delta: int) -> void
 			return
 		GameState.apply_effects(effects)
 		GameState.register_action_axis("money", "work", "side_shift")
-	GameState.add_tendency("found", 1)   # 알바·부업 = 창업형 기질
+	# A survival shift is evidence of work, not a founder declaration. Preserve
+	# the legacy V1 tendency only for runs that never opted into V2; the V2 run
+	# keeps this meaning after its 24-week demo schedule ends as well.
+	if not bool(GameState.core_loop_v2_state.get("enabled", false)):
+		GameState.add_tendency("found", 1)
 	var shift_title := _side_shift_title(side_shift_job_id)
 	GameState.add_log(_tr("💼 %s 수입 %s (건강 %d→%d, 정신력 %+d)", "💼 %s income %s (Health %d→%d, Mental %+d)") % [
 		shift_title, GameState.format_money(float(earned)), health_before, GameState.health, -stress_delta], "job")

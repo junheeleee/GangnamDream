@@ -19,7 +19,8 @@ DEMO_EVENT_IDS = set("""
 story_flashforward story_arrival story_knee_door story_knee_witness
 story_knee_choice story_last_payment_wait story_last_payment_word
 story_last_payment_exit story_prologue_dad story_prologue_goal
-story_prologue_meal story_pressure arc_intro_01_meal arc_intro_02_dad_call
+story_prologue_meal v2_opening_application_send arc_intro_01_meal
+v2_opening_return_math
 arc_first_job_week_convenience arc_temptation_01 arc_intro_03_sns cafe_00
 cafe_listen_01 cafe_peek_01 cafe_caught_honest story_first_paycheck_feel
 arc_temptation_clean arc_intro_04_hyunsu arc_chapter1_close
@@ -35,7 +36,7 @@ DEMO_MOTIF_KEYS = {"family", "survival", "hyunsu", "ambition", "daeun", "jiyeon"
 DEMO_SCORE_ANCHORS = {
     "story_knee_door": "family",
     "story_last_payment_wait": "grief",
-    "story_pressure": "survival",
+    "v2_opening_application_send": "survival",
     "arc_temptation_01": "crisis",
     "arc_intro_03_sns": "ambition",
     "arc_intro_04_hyunsu": "hyunsu",
@@ -56,6 +57,11 @@ FIRST_BILL_CHAIN = (
     "v2_demo_first_bill_opening",
     "v2_demo_first_bill",
     "v2_demo_first_bill_ledger",
+)
+FRESH_OPENING_CHAIN = (
+    "v2_opening_application_send",
+    "arc_intro_01_meal",
+    "v2_opening_return_math",
 )
 
 
@@ -317,6 +323,28 @@ def main() -> int:
         if actual_key != expected_key:
             errors.append(
                 f"{event_id}: expected demo score {expected_key!r}, got {actual_key!r}"
+            )
+
+    # Fresh V2 swaps out the legacy app-open card, then carries one survival
+    # score through the actual Send, same-day interview, and room calculation.
+    opening_ambiences = ("room", "office", "room")
+    for event_id, expected_ambience in zip(
+        FRESH_OPENING_CHAIN, opening_ambiences
+    ):
+        contract = demo_contracts.get(event_id, {})
+        if not isinstance(contract, dict):
+            errors.append(f"{event_id}: fresh-opening audio contract is missing")
+            continue
+        if contract.get("ambience") != expected_ambience:
+            errors.append(
+                f"{event_id}: fresh opening must use {expected_ambience} ambience"
+            )
+        music = contract.get("music", {})
+        if not isinstance(music, dict) or music.get("key") != "survival":
+            errors.append(f"{event_id}: fresh opening must preserve survival score")
+        elif music.get("start_paragraph") != 1:
+            errors.append(
+                f"{event_id}: fresh-opening survival score must enter at paragraph 1"
             )
     foley_events = sum(
         bool(contract.get("paragraph_cues"))

@@ -9,6 +9,23 @@
   loans, mods, 24→48-week ledgers, and the 240-week convergence model share the same gate.
 
 ## Unreleased
+- Rebuilt the V2 opening so its monthly plan has a reason before it becomes a
+  menu. The prologue now sends a real Mirae Industrial Tech application, moves
+  directly through the same-day interview and its gross two-million-won offer,
+  then returns to the goshiwon for the exact `3 billion ÷ 2 million = 1,500
+  months = 125 years` comparison before Chapter One and the first planner. The
+  calculation has two expression-only choices and declares no saver, investor,
+  founder, forecast, or correct route; Father's missed call becomes a player-
+  chosen call-back plan. Typed presented/consumed receipts protect pre-Send,
+  mid-scene, reload, and old Week-One application saves. Three old mindset
+  callbacks are retired only in V2 while their legacy flags and tendencies
+  round-trip unchanged through Weeks 24, 48, and 240. Four real 1→24 component
+  routes and their 25→48 continuations now own new exact cash/health/mental
+  ledgers; the five-year event cadence remains unchanged. The current demo
+  localization scope is 73 events, 455 authored leaves, and 546 dynamic pair
+  occurrences / 539 unique keys inside a 1,603-event bilingual catalog. Automated continuity,
+  input, bilingual, save, balance, direction, audio, and inventory checks do not
+  replace the open same-build human verdict on the first five minutes.
 - Established a speaker-to-listener English voice contract and reread the entire reachable 24-week English surface: 72 events, 447 authored leaves, 543 dynamic occurrences / 536 unique keys, and 147 activity lines. Daeun, Jiyeon, Hyunsu, Father, Sangchul, Jaehyuk, institutions, and incidental speakers now retain distinct sentence shape, directness, hesitation, contractions, and contextual address without importing Korean honorifics. The pass also corrected meaning drift in family debt, accident compensation, fraud recovery, recruitment, and official notices while preserving every choice, effect, flag, date, amount, and route. Demo `oppa` and `-ssi` remain zero and `hyung` remains contextual; native or near-native random-three review remains open.
 - Revised the complete reachable 24-week Korean/English prose surface without adding scenes, choices, routes, or effects. All 72 events and 447 authored leaves now favor concrete objects and actions over explanatory closing lines; Korean clocks use digits, with minute precision retained only where the minute itself pressures the First Bill decision, and current English scenes use present tense while true recollections remain past tense. The localization collector now recursively includes 56 inline First Bill pairs that its suffix-only scan missed, locking 543 dynamic occurrences / 536 unique keys and 987 unique demo translation sources across events, dynamic copy, and catalog names. A source-specific prose/time audit, EN/KO structural parity, narrative consistency, release inventory, actual Godot 24-week progression, and manual-save regression protect the revision. The final judgment remains a same-build human read of three randomly selected units from the 20-unit review ledger; one failure reopens all twenty.
 - Replaced the shallow Month 3 and Month 4 action-result cards with two story-owned everyday scenes. In `The Ledger in the Room`, Minjun either records why each amount exists or reconciles only the totals; at the community-center housing-welfare desk, he protects post-move cash, private space, or time in transit. These memory-only choices change no stats, money, relationships, moral tint, routes, or existing action effects, but later scenes reinterpret them at the First Bill, first move, Year One, Chapter Two, and the final countdown. Only these two actions bypass the generic result surface; legacy pending-result saves enter the scene without replaying gameplay effects, while already completed saves receive no invented memory. A dedicated housing counselor portrait, public-office ambience, paper/pen cues, Korean 960×600 and English 1280×800 renders, and save-boundary regressions cover the feature. The exact 24-week localization baseline is 72 events, 447 authored leaves, and 543 dynamic occurrences / 536 unique keys across the 1,601-event catalog; the corrected dynamic scope includes 56 player-visible inline First Bill pairs that the earlier suffix-only count missed. Dramatic impact and long-term resonance remain an explicit same-revision human gate.

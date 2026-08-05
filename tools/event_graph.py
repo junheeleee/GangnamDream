@@ -15,6 +15,7 @@ ARC_SEQUENCE = [
     ("story_prologue_goal",    "프롤로그 3: 강남",                "prologue",   None),
     ("story_prologue_meal",    "프롤로그 4: 첫 끼니",             "prologue",   None),
     ("story_pressure",         "프롤로그 5: 더는 못 미룬다",      "prologue",   None),
+    ("v2_opening_application_send", "V2 새 진입: 실제 지원",       "prologue",   "첫 계획 전"),
     ("arc_intro_01_meal",      "인트로: 첫 끼니",                 "intro",      "t≥2"),
     ("arc_intro_02_dad_call",  "인트로: 아버지 전화 2",           "intro",      "t≥3"),
     ("arc_temptation_01",      "★ 첫 유혹 — 정석 vs 지름길",     "temptation", "t≥4"),
