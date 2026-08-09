@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-89
+# Active Queue Spec: ORDER-92
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-89 [P0·행동감] 재고조사 한 장면으로 공용 약속 수행층을 검증한다
+#### [~] ORDER-92 [P0·행동감] 재고조사 한 장면으로 공용 약속 수행층을 검증한다
 
 **사용자 승인 (2026-08-10):** 행동하는 부분이 여전히 약하므로 검증된 다른 게임의
 핵심 시스템을 모방하는 방식으로 개선한다. 강남드림은 이미 네 약속과 주차 배치로
