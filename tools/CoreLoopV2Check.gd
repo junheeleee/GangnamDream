@@ -1637,13 +1637,20 @@ func _record_fixture_action(bundle_id: String) -> bool:
 		(scene_bundle.get("action_config", {}) as Dictionary).duplicate(true)
 		if scene_bundle.get("action_config", {}) is Dictionary else {}
 	)
-	var details := {
-		"execution": str(config.get("execution", "fixture")),
-	}
+	var execution := str(config.get("execution", "fixture"))
+	var details: Dictionary = {"execution": execution}
 	if action_id == "apply":
 		details["application_id"] = str(config.get(
 			"application_id", bundle_id.trim_suffix("_application")))
 		details["status"] = str(config.get("status", "submitted"))
+	elif execution == "activity_task":
+		var activity_resolution: Dictionary = (
+			_default_fixture_activity_task_resolution(bundle_id)
+		)
+		if not bool(activity_resolution.get("ok", false)):
+			return false
+		details = activity_resolution.duplicate(true)
+		details.erase("ok")
 	if not CORE_LOOP.note_action_commitment(
 			_finalized_action_record(action_id, details)):
 		return false
@@ -1662,6 +1669,42 @@ func _record_fixture_action(bundle_id: String) -> bool:
 		return false
 	GameState.apply_choice(event, choices[0])
 	return CORE_LOOP.note_story_choice(root, 0)
+
+func _default_fixture_activity_task_resolution(
+		bundle_id: String) -> Dictionary:
+	var begun: Dictionary = CORE_LOOP.begin_or_resume_activity_task(bundle_id)
+	if not bool(begun.get("ok", false)):
+		return begun
+	var config: Dictionary = begun.get("config", {})
+	if config.is_empty():
+		config = CORE_LOOP.activity_task_config(bundle_id)
+	var requirement_ids: Array = (
+		(config.get("requirement_ids", []) as Array).duplicate()
+		if config.get("requirement_ids", []) is Array else []
+	)
+	var normal_steps := int(config.get("normal_steps", 0))
+	if normal_steps < 1 or requirement_ids.size() <= normal_steps:
+		return {"ok": false, "error": "invalid_activity_task_fixture"}
+	var selected_requirements: Array = requirement_ids.slice(0, normal_steps)
+	var baseline_effects: Variant = config.get("effects", {})
+	var raw_outcomes: Variant = config.get("outcomes", {})
+	if baseline_effects is Dictionary and raw_outcomes is Dictionary:
+		for raw_outcome in (raw_outcomes as Dictionary).values():
+			if raw_outcome is Dictionary \
+					and (raw_outcome as Dictionary).get("effects", {}) \
+						== baseline_effects \
+					and (raw_outcome as Dictionary).get(
+						"requirements", []) is Array:
+				selected_requirements = (
+					(raw_outcome as Dictionary).get(
+						"requirements", []) as Array
+				).duplicate()
+				break
+	var updated: Dictionary = CORE_LOOP.update_activity_task_requirements(
+		selected_requirements)
+	if not bool(updated.get("ok", false)):
+		return updated
+	return CORE_LOOP.resolve_activity_task(false)
 
 func _finalized_action_record(
 		action_id: String, details: Dictionary = {}) -> Dictionary:

@@ -500,6 +500,11 @@ def _walk_event_flags(ev, game_sets, game_reads_json, cast_sets, cast_reads_json
                     "relationship_memory:",
                     "future_story_source:",
                     "obligation_receipt:",
+                    # Typed receipt reader. It is resolved by StoryMode from
+                    # the finalized activity-task receipt, not a GameState
+                    # boolean flag. demo_core_loop_v2_audit validates the
+                    # bundle/outcome vocabulary and every reader separately.
+                    "activity_task_outcome:",
                 )):
                     continue
                 game_reads_json.setdefault(fl, []).append(where)

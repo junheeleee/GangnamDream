@@ -3,6 +3,7 @@ extends RefCounted
 ## 기존 240주 편성기는 사람 GO 전까지 그대로 두고 명시적 테스트 런만 활성화한다.
 
 const SCHEMA := 3
+const ACTIVITY_TASK_SESSION_SCHEMA := 1
 const DEFAULT_DEVELOPMENT_CAP_WEEK := 12
 # Compatibility only. New callers must use development_cap_week(), because the
 # internal gate advances 8 → 12 → 16 → 20 → 24 without rewriting this script.
@@ -251,6 +252,7 @@ static func disable_for_run() -> void:
 	state["active_kind"] = ""
 	state["active_turn"] = 0
 	state["action_result_ready"] = false
+	state["activity_task_session"] = {}
 	GameState.core_loop_v2_state = state
 
 static func is_active() -> bool:
@@ -285,6 +287,7 @@ static func mark_development_complete() -> bool:
 	state["active_kind"] = ""
 	state["active_turn"] = 0
 	state["action_result_ready"] = false
+	state["activity_task_session"] = {}
 	GameState.core_loop_v2_state = state
 	return true
 
@@ -1278,6 +1281,9 @@ static func begin_bundle(bundle_id: String, active_kind: String = "schedule") ->
 			and int(state.get("active_turn", 0)) == int(GameState.turn)
 	if active_kind == "schedule" and turn_completed():
 		return false
+	# A new foreground owner can never inherit another task's unfinished local
+	# choices. Same-owner re-entry returned above and preserves its session.
+	state["activity_task_session"] = {}
 	state["active_bundle"] = bundle_id
 	state["active_kind"] = active_kind
 	state["active_turn"] = GameState.turn
@@ -1310,6 +1316,615 @@ static func action_receipt(bundle_id: String) -> Dictionary:
 	var raw_receipt: Variant = state["action_receipts"].get(bundle_id, {})
 	return (raw_receipt as Dictionary).duplicate(true) \
 		if raw_receipt is Dictionary else {}
+
+## ORDER-92 keeps the monthly promise as the sole calendar decision, then
+## gives eligible practical promises one small, resumable task. This query
+## validates the generic N-of-(N+1) contract without retaining localized copy
+## or scene controls in the save.
+static func activity_task_config(bundle_id: String = "") -> Dictionary:
+	var target_id := bundle_id.strip_edges()
+	if target_id.is_empty():
+		target_id = active_bundle_id().strip_edges()
+	if target_id.is_empty():
+		return {}
+	var scene_bundle := bundle(target_id)
+	var raw_config: Variant = scene_bundle.get("action_config", {})
+	if not raw_config is Dictionary:
+		return {}
+	var config := _normalized_activity_task_config(raw_config as Dictionary)
+	if config.is_empty():
+		return {}
+	config["bundle_id"] = target_id
+	config["action_id"] = str(
+		scene_bundle.get("action_id", "")).strip_edges().to_lower()
+	return config
+
+## Begin a fresh task only for the current schedule owner. Calling this again
+## for the same bundle and turn returns the durable session instead of
+## resetting its chosen order. No effects or weekly commitment are finalized
+## here.
+static func begin_or_resume_activity_task(
+		bundle_id: String = "") -> Dictionary:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var target_id := bundle_id.strip_edges()
+	if target_id.is_empty():
+		target_id = str(state.get("active_bundle", "")).strip_edges()
+	if target_id.is_empty() \
+			or str(state.get("active_bundle", "")) != target_id \
+			or str(state.get("active_kind", "")) != "schedule" \
+			or int(state.get("active_turn", 0)) != int(GameState.turn):
+		return {"ok": false, "error": "activity_task_owner_mismatch"}
+	var config: Dictionary = activity_task_config(target_id)
+	if config.is_empty():
+		return {"ok": false, "error": "invalid_activity_task_config"}
+	var raw_receipt: Variant = state["action_receipts"].get(target_id, {})
+	if raw_receipt is Dictionary \
+			and int((raw_receipt as Dictionary).get(
+				"turn", -1)) == int(GameState.turn):
+		state["activity_task_session"] = {}
+		GameState.core_loop_v2_state = state
+		return {"ok": false, "error": "activity_task_already_finalized"}
+	var raw_session: Variant = state.get("activity_task_session", {})
+	if raw_session is Dictionary and not (raw_session as Dictionary).is_empty():
+		var session: Dictionary = raw_session
+		if str(session.get("bundle_id", "")) != target_id \
+				or int(session.get("turn", -1)) != int(GameState.turn) \
+				or str(session.get("task_id", "")) \
+					!= str(config.get("task_id", "")):
+			return {"ok": false, "error": "activity_task_session_mismatch"}
+		GameState.core_loop_v2_state = state
+		return {
+			"ok": true,
+			"resumed": true,
+			"session": session.duplicate(true),
+			"config": config.duplicate(true),
+		}
+	var session := {
+		"schema": ACTIVITY_TASK_SESSION_SCHEMA,
+		"bundle_id": target_id,
+		"turn": int(GameState.turn),
+		"task_id": str(config.get("task_id", "")),
+		"phase": "selecting",
+		"normal_steps": int(config.get("normal_steps", 0)),
+		"selected_requirements": [],
+		"remaining_steps": int(config.get("normal_steps", 0)),
+	}
+	state["activity_task_session"] = session
+	GameState.core_loop_v2_state = state
+	return {
+		"ok": true,
+		"resumed": false,
+		"session": session.duplicate(true),
+		"config": config.duplicate(true),
+	}
+
+static func activity_task_session() -> Dictionary:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	GameState.core_loop_v2_state = state
+	var raw_session: Variant = state.get("activity_task_session", {})
+	return (raw_session as Dictionary).duplicate(true) \
+		if raw_session is Dictionary else {}
+
+## Replace the current ordered selection. This gives controller Back a safe
+## way to undo or reorder before resolution while rejecting duplicates and
+## unknown requirements. The remaining-count UI derives from normal_steps
+## minus this array size; it is not another persistent resource.
+static func update_activity_task_requirements(
+		selected_requirements: Array) -> Dictionary:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var raw_session: Variant = state.get("activity_task_session", {})
+	if not raw_session is Dictionary or (raw_session as Dictionary).is_empty():
+		return {"ok": false, "error": "missing_activity_task_session"}
+	var session: Dictionary = raw_session
+	if str(session.get("phase", "")) != "selecting":
+		return {"ok": false, "error": "activity_task_already_resolved"}
+	var config: Dictionary = activity_task_config(
+		str(session.get("bundle_id", "")))
+	if config.is_empty():
+		return {"ok": false, "error": "invalid_activity_task_config"}
+	var normal_steps := int(config.get("normal_steps", 0))
+	if selected_requirements.size() > normal_steps:
+		return {"ok": false, "error": "activity_task_normal_steps_exceeded"}
+	var requirement_ids: Array = config.get("requirement_ids", [])
+	var normalized := _activity_task_requirement_ids(
+		selected_requirements, requirement_ids)
+	if normalized.size() != selected_requirements.size():
+		return {"ok": false, "error": "invalid_activity_task_requirements"}
+	session["selected_requirements"] = normalized
+	session["remaining_steps"] = normal_steps - normalized.size()
+	state["activity_task_session"] = session
+	GameState.core_loop_v2_state = state
+	return {
+		"ok": true,
+		"remaining_steps": normal_steps - normalized.size(),
+		"session": session.duplicate(true),
+	}
+
+static func select_activity_task_requirement(
+		requirement_id: String) -> Dictionary:
+	var session := activity_task_session()
+	if session.is_empty():
+		return {"ok": false, "error": "missing_activity_task_session"}
+	var normalized_id := requirement_id.strip_edges()
+	var selected: Array = (
+		(session.get("selected_requirements", []) as Array).duplicate()
+		if session.get("selected_requirements", []) is Array else []
+	)
+	if normalized_id.is_empty() or selected.has(normalized_id):
+		return {"ok": false, "error": "duplicate_activity_task_requirement"}
+	selected.append(normalized_id)
+	return update_activity_task_requirements(selected)
+
+## Resolve the chosen two requirements, or append the one remaining
+## requirement through the explicitly priced overreach. Resolution remains
+## effect-free and durable until GameState finalizes the weekly transaction.
+static func resolve_activity_task(overreach: bool = false) -> Dictionary:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var raw_session: Variant = state.get("activity_task_session", {})
+	if not raw_session is Dictionary or (raw_session as Dictionary).is_empty():
+		return {"ok": false, "error": "missing_activity_task_session"}
+	var session: Dictionary = raw_session
+	if str(session.get("phase", "")) == "resolved":
+		var raw_resolution: Variant = session.get("resolution", {})
+		if raw_resolution is Dictionary \
+				and bool((raw_resolution as Dictionary).get(
+					"overreached", false)) == overreach:
+			return (raw_resolution as Dictionary).duplicate(true)
+		return {"ok": false, "error": "activity_task_already_resolved"}
+	if str(session.get("phase", "")) != "selecting":
+		return {"ok": false, "error": "invalid_activity_task_phase"}
+	var config: Dictionary = activity_task_config(
+		str(session.get("bundle_id", "")))
+	if config.is_empty():
+		return {"ok": false, "error": "invalid_activity_task_config"}
+	var selected: Array = (
+		(session.get("selected_requirements", []) as Array).duplicate()
+		if session.get("selected_requirements", []) is Array else []
+	)
+	var resolution := _activity_task_resolution(config, selected, overreach)
+	if not bool(resolution.get("ok", false)):
+		return resolution
+	session["phase"] = "resolved"
+	session["selected_requirements"] = (
+		resolution.get("selected_requirements", []) as Array
+	).duplicate()
+	session["outcome_id"] = str(resolution.get("outcome_id", ""))
+	session["overreached"] = bool(resolution.get("overreached", false))
+	session["remaining_steps"] = 0
+	session["resolution"] = resolution.duplicate(true)
+	state["activity_task_session"] = session
+	GameState.core_loop_v2_state = state
+	return resolution
+
+## Public cancellation is intentionally narrower than cancel_active_bundle:
+## the caller may discard a task session before the weekly transaction, while
+## the calendar owner and its armed commitment remain under MainGame control.
+static func clear_activity_task_session() -> bool:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var raw_session: Variant = state.get("activity_task_session", {})
+	if not raw_session is Dictionary or (raw_session as Dictionary).is_empty():
+		return false
+	state["activity_task_session"] = {}
+	GameState.core_loop_v2_state = state
+	return true
+
+## StoryMode readers receive only the single finalized outcome receipt, never
+## the transient clicks that led to it.
+static func activity_task_receipt(bundle_id: String) -> Dictionary:
+	var target_id := bundle_id.strip_edges()
+	if target_id.is_empty():
+		return {}
+	var receipt := action_receipt(target_id)
+	if receipt.is_empty():
+		return {}
+	var raw_details: Variant = receipt.get("result_details", {})
+	if not raw_details is Dictionary:
+		return {}
+	var details: Dictionary = raw_details as Dictionary
+	# Before ORDER-92 this promise finalized the same -4/-3 baseline as a
+	# one-click `instant_effect`. Preserve that historical receipt byte-for-byte,
+	# but project it onto the explicitly declared equivalent outcome when new
+	# story copy asks what work was done.
+	if str(details.get("execution", "")) == "instant_effect":
+		return _legacy_instant_activity_task_receipt(
+			target_id, receipt, details)
+	# Read against the config snapshot finalized with the receipt. A later
+	# content rebalance must not rewrite which requirements an old save handled.
+	var raw_config: Variant = receipt.get("config", {})
+	if not raw_config is Dictionary:
+		return {}
+	var config := _normalized_activity_task_config(raw_config as Dictionary)
+	if config.is_empty():
+		return {}
+	var result := _validated_activity_task_result(
+		config, details)
+	if result.is_empty():
+		return {}
+	result["bundle_id"] = target_id
+	result["action_id"] = str(receipt.get("action_id", ""))
+	result["turn"] = int(receipt.get("turn", 0))
+	return result
+
+static func _legacy_instant_activity_task_receipt(
+		bundle_id: String, receipt: Dictionary,
+		details: Dictionary) -> Dictionary:
+	var config: Dictionary = activity_task_config(bundle_id)
+	if config.is_empty():
+		return {}
+	var raw_legacy: Variant = config.get("legacy_instant_effect", {})
+	if not raw_legacy is Dictionary:
+		return {}
+	var legacy: Dictionary = raw_legacy as Dictionary
+	var outcome_id := str(legacy.get("outcome_id", "")).strip_edges()
+	var selected: Array = (
+		(legacy.get("requirements", []) as Array).duplicate()
+		if legacy.get("requirements", []) is Array else []
+	)
+	var expected_effects: Dictionary = (
+		(legacy.get("effects", {}) as Dictionary).duplicate(true)
+		if legacy.get("effects", {}) is Dictionary else {}
+	)
+	if outcome_id.is_empty() or expected_effects.is_empty():
+		return {}
+	var raw_snapshot: Variant = receipt.get("config", {})
+	if not raw_snapshot is Dictionary:
+		return {}
+	var snapshot: Dictionary = raw_snapshot as Dictionary
+	var snapshot_effects: Dictionary = (
+		(snapshot.get("effects", {}) as Dictionary).duplicate(true)
+		if snapshot.get("effects", {}) is Dictionary else {}
+	)
+	if str(snapshot.get("execution", "")) != "instant_effect" \
+			or snapshot_effects.is_empty() \
+			or snapshot_effects != expected_effects:
+		return {}
+	var legacy_effects: Dictionary = details.get("effects", {}) \
+		if details.get("effects", {}) is Dictionary else {}
+	if legacy_effects.is_empty() and receipt.get("outcome", {}) is Dictionary:
+		var public_outcome: Dictionary = receipt.get("outcome", {})
+		for effect_key in expected_effects:
+			if public_outcome.has(effect_key):
+				legacy_effects[effect_key] = public_outcome[effect_key]
+	if legacy_effects != snapshot_effects:
+		return {}
+	var skipped: Array = []
+	for requirement_id in config.get("requirement_ids", []) as Array:
+		if not selected.has(requirement_id):
+			skipped.append(requirement_id)
+	var resolution := {
+		"ok": true,
+		"execution": "activity_task",
+		"task_id": str(config.get("task_id", "")),
+		"outcome_id": outcome_id,
+		"selected_requirements": selected,
+		"skipped_requirements": skipped,
+		"overreached": false,
+		"effects": snapshot_effects,
+		"axis": str(details.get(
+			"axis", snapshot.get("axis", config.get("axis", "")))),
+		"place_id": str(details.get(
+			"place_id", snapshot.get("place_id", config.get("place_id", "")))),
+	}
+	resolution["bundle_id"] = bundle_id
+	resolution["action_id"] = str(receipt.get("action_id", ""))
+	resolution["turn"] = int(receipt.get("turn", 0))
+	resolution["legacy_execution"] = "instant_effect"
+	return resolution
+
+static func activity_task_receipt_has_requirement(
+		bundle_id: String, requirement_id: String) -> bool:
+	var result := activity_task_receipt(bundle_id)
+	var normalized_id := requirement_id.strip_edges()
+	return not normalized_id.is_empty() \
+		and result.get("selected_requirements", []) is Array \
+		and (result.get("selected_requirements", []) as Array).has(
+			normalized_id)
+
+static func activity_task_receipt_outcome_id(bundle_id: String) -> String:
+	return str(activity_task_receipt(bundle_id).get("outcome_id", ""))
+
+static func _normalized_activity_task_config(
+		raw_config: Dictionary) -> Dictionary:
+	var config := raw_config.duplicate(true)
+	if str(config.get("execution", "")).strip_edges() != "activity_task":
+		return {}
+	var task_id := str(config.get("task_id", "")).strip_edges()
+	var axis := str(config.get("axis", "")).strip_edges().to_lower()
+	var place_id := str(config.get("place_id", "")).strip_edges()
+	var raw_requirements: Variant = config.get("requirements", [])
+	if task_id.is_empty() or axis not in ["money", "human"] \
+			or place_id.is_empty() or not raw_requirements is Array:
+		return {}
+	var requirement_ids := _activity_task_requirement_ids(raw_requirements)
+	if requirement_ids.size() != (raw_requirements as Array).size():
+		return {}
+	var normal_steps := int(config.get("normal_steps", 0))
+	if normal_steps < 1 or requirement_ids.size() != normal_steps + 1:
+		return {}
+
+	var raw_outcomes: Variant = config.get("outcomes", {})
+	if not raw_outcomes is Dictionary:
+		return {}
+	var normalized_outcomes: Dictionary = {}
+	var seen_signatures: Dictionary = {}
+	for raw_outcome_id in raw_outcomes as Dictionary:
+		var outcome_id := str(raw_outcome_id).strip_edges()
+		var raw_outcome: Variant = (raw_outcomes as Dictionary).get(
+			raw_outcome_id, {})
+		if outcome_id.is_empty() or not raw_outcome is Dictionary:
+			return {}
+		var outcome: Dictionary = (raw_outcome as Dictionary).duplicate(true)
+		var declared_id := str(
+			outcome.get("outcome_id", outcome_id)).strip_edges()
+		var outcome_requirements := _activity_task_requirement_ids(
+			outcome.get("requirements", []), requirement_ids, normal_steps)
+		var raw_effects: Variant = outcome.get("effects", {})
+		if declared_id != outcome_id \
+				or outcome_requirements.size() != normal_steps \
+				or not raw_effects is Dictionary:
+			return {}
+		var signature := _activity_task_requirement_signature(
+			outcome_requirements)
+		if seen_signatures.has(signature):
+			return {}
+		seen_signatures[signature] = true
+		outcome["outcome_id"] = outcome_id
+		outcome["requirements"] = outcome_requirements
+		outcome["effects"] = (raw_effects as Dictionary).duplicate(true)
+		normalized_outcomes[outcome_id] = outcome
+	if normalized_outcomes.size() != requirement_ids.size():
+		return {}
+	for skipped_id in requirement_ids:
+		var expected_pair := requirement_ids.duplicate()
+		expected_pair.erase(skipped_id)
+		if not seen_signatures.has(
+				_activity_task_requirement_signature(expected_pair)):
+			return {}
+
+	var raw_overreach: Variant = config.get("overreach", {})
+	if not raw_overreach is Dictionary:
+		return {}
+	var overreach: Dictionary = (raw_overreach as Dictionary).duplicate(true)
+	var overreach_id := str(overreach.get("outcome_id", "")).strip_edges()
+	var overreach_requirements := _activity_task_requirement_ids(
+		overreach.get("requirements", []), requirement_ids,
+		requirement_ids.size())
+	var raw_overreach_effects: Variant = overreach.get("effects", {})
+	if overreach_id.is_empty() or normalized_outcomes.has(overreach_id) \
+			or overreach_requirements.size() != requirement_ids.size() \
+			or _activity_task_requirement_signature(overreach_requirements) \
+				!= _activity_task_requirement_signature(requirement_ids) \
+			or not raw_overreach_effects is Dictionary:
+		return {}
+	overreach["outcome_id"] = overreach_id
+	overreach["requirements"] = overreach_requirements
+	overreach["effects"] = (
+		raw_overreach_effects as Dictionary).duplicate(true)
+
+	# Old saves finalized this promise before the task surface existed. Their
+	# prose proved only one recount and a discrepancy mark, so keep that
+	# evidence in a separate reader outcome instead of inventing a modern pair.
+	var legacy: Dictionary = {}
+	if config.has("legacy_instant_effect"):
+		var raw_legacy: Variant = config.get("legacy_instant_effect", {})
+		if not raw_legacy is Dictionary:
+			return {}
+		legacy = (raw_legacy as Dictionary).duplicate(true)
+		var legacy_id := str(legacy.get("outcome_id", "")).strip_edges()
+		var raw_legacy_requirements: Variant = legacy.get("requirements", [])
+		if not raw_legacy_requirements is Array:
+			return {}
+		var legacy_requirements := _activity_task_requirement_ids(
+			raw_legacy_requirements, requirement_ids)
+		var raw_legacy_effects: Variant = legacy.get("effects", {})
+		if legacy_id.is_empty() or normalized_outcomes.has(legacy_id) \
+				or legacy_id == overreach_id \
+				or legacy_requirements.size() \
+					!= (raw_legacy_requirements as Array).size() \
+				or legacy_requirements.size() > normal_steps \
+				or not raw_legacy_effects is Dictionary \
+				or (raw_legacy_effects as Dictionary).is_empty():
+			return {}
+		legacy["outcome_id"] = legacy_id
+		legacy["requirements"] = legacy_requirements
+		legacy["effects"] = (raw_legacy_effects as Dictionary).duplicate(true)
+
+	config["task_id"] = task_id
+	config["axis"] = axis
+	config["place_id"] = place_id
+	config["normal_steps"] = normal_steps
+	config["requirement_ids"] = requirement_ids
+	config["outcomes"] = normalized_outcomes
+	config["overreach"] = overreach
+	if legacy.is_empty():
+		config.erase("legacy_instant_effect")
+	else:
+		config["legacy_instant_effect"] = legacy
+	return config
+
+static func _activity_task_requirement_ids(
+		raw_requirements: Variant, allowed_ids: Array = [],
+		expected_count: int = -1) -> Array:
+	if not raw_requirements is Array:
+		return []
+	var result: Array = []
+	for raw_requirement in raw_requirements as Array:
+		var requirement_id := ""
+		if raw_requirement is Dictionary:
+			requirement_id = str((raw_requirement as Dictionary).get(
+				"id", "")).strip_edges()
+		else:
+			requirement_id = str(raw_requirement).strip_edges()
+		if requirement_id.is_empty() or result.has(requirement_id) \
+				or (not allowed_ids.is_empty() \
+					and not allowed_ids.has(requirement_id)):
+			return []
+		result.append(requirement_id)
+	if expected_count >= 0 and result.size() != expected_count:
+		return []
+	return result
+
+static func _activity_task_requirement_signature(
+		requirement_ids: Array) -> String:
+	var ordered: Array[String] = []
+	for raw_id in requirement_ids:
+		ordered.append(str(raw_id))
+	ordered.sort()
+	return "|".join(ordered)
+
+static func _activity_task_resolution(
+		config: Dictionary, selected_requirements: Array,
+		overreach: bool) -> Dictionary:
+	var normal_steps := int(config.get("normal_steps", 0))
+	var requirement_ids: Array = config.get("requirement_ids", [])
+	var selected := _activity_task_requirement_ids(
+		selected_requirements, requirement_ids, normal_steps)
+	if selected.size() != normal_steps:
+		return {"ok": false, "error": "activity_task_requires_normal_steps"}
+	var outcome: Dictionary = {}
+	var final_selected := selected.duplicate()
+	if overreach:
+		var raw_overreach: Variant = config.get("overreach", {})
+		if not raw_overreach is Dictionary:
+			return {"ok": false, "error": "missing_activity_task_overreach"}
+		outcome = (raw_overreach as Dictionary).duplicate(true)
+		for raw_id in outcome.get("requirements", []):
+			var requirement_id := str(raw_id)
+			if not final_selected.has(requirement_id):
+				final_selected.append(requirement_id)
+	else:
+		var signature := _activity_task_requirement_signature(selected)
+		for raw_outcome in (config.get("outcomes", {}) as Dictionary).values():
+			if not raw_outcome is Dictionary:
+				continue
+			if _activity_task_requirement_signature(
+					(raw_outcome as Dictionary).get(
+						"requirements", []) as Array) == signature:
+				outcome = (raw_outcome as Dictionary).duplicate(true)
+				break
+	if outcome.is_empty():
+		return {"ok": false, "error": "missing_activity_task_outcome"}
+	var skipped: Array = []
+	for requirement_id in requirement_ids:
+		if not final_selected.has(requirement_id):
+			skipped.append(requirement_id)
+	return {
+		"ok": true,
+		"execution": "activity_task",
+		"task_id": str(config.get("task_id", "")),
+		"outcome_id": str(outcome.get("outcome_id", "")),
+		"selected_requirements": final_selected,
+		"skipped_requirements": skipped,
+		"overreached": overreach,
+		"effects": (
+			(outcome.get("effects", {}) as Dictionary).duplicate(true)
+			if outcome.get("effects", {}) is Dictionary else {}
+		),
+		"axis": str(config.get("axis", "")),
+		"place_id": str(config.get("place_id", "")),
+	}
+
+static func _validated_activity_task_result(
+		config: Dictionary, raw_result: Dictionary) -> Dictionary:
+	if str(raw_result.get("execution", "")) != "activity_task" \
+			or str(raw_result.get("task_id", "")) \
+				!= str(config.get("task_id", "")):
+		return {}
+	var overreached := bool(raw_result.get("overreached", false))
+	var raw_selected: Variant = raw_result.get("selected_requirements", [])
+	if not raw_selected is Array:
+		return {}
+	var selected: Array = (raw_selected as Array).duplicate()
+	var normal_steps := int(config.get("normal_steps", 0))
+	var base_selection: Array = selected.slice(0, normal_steps) \
+		if overreached else selected
+	var expected := _activity_task_resolution(
+		config, base_selection, overreached)
+	if not bool(expected.get("ok", false)) \
+			or selected != expected.get("selected_requirements", []) \
+			or str(raw_result.get("outcome_id", "")) \
+				!= str(expected.get("outcome_id", "")) \
+			or raw_result.get("skipped_requirements", []) \
+				!= expected.get("skipped_requirements", []) \
+			or raw_result.get("effects", {}) != expected.get("effects", {}) \
+			or str(raw_result.get("axis", "")) \
+				!= str(expected.get("axis", "")) \
+			or str(raw_result.get("place_id", "")) \
+				!= str(expected.get("place_id", "")):
+		return {}
+	return expected
+
+static func _normalized_activity_task_session(
+		raw_session: Variant, state: Dictionary) -> Dictionary:
+	if not raw_session is Dictionary or (raw_session as Dictionary).is_empty():
+		return {}
+	var session: Dictionary = raw_session
+	var bundle_id := str(session.get("bundle_id", "")).strip_edges()
+	var session_turn := int(session.get("turn", 0))
+	if int(session.get("schema", 0)) != ACTIVITY_TASK_SESSION_SCHEMA \
+			or bundle_id.is_empty() \
+			or str(state.get("active_bundle", "")) != bundle_id \
+			or str(state.get("active_kind", "")) != "schedule" \
+			or int(state.get("active_turn", 0)) != session_turn \
+			or session_turn != int(GameState.turn):
+		return {}
+	var config: Dictionary = activity_task_config(bundle_id)
+	if config.is_empty() or str(session.get("task_id", "")) \
+			!= str(config.get("task_id", "")):
+		return {}
+	var phase := str(session.get("phase", ""))
+	var raw_selected: Variant = session.get("selected_requirements", [])
+	if not raw_selected is Array:
+		return {}
+	var selected := _activity_task_requirement_ids(
+		raw_selected, config.get("requirement_ids", []) as Array)
+	if selected.size() != (raw_selected as Array).size():
+		return {}
+	var normalized := {
+		"schema": ACTIVITY_TASK_SESSION_SCHEMA,
+		"bundle_id": bundle_id,
+		"turn": session_turn,
+		"task_id": str(config.get("task_id", "")),
+		"phase": phase,
+		"normal_steps": int(config.get("normal_steps", 0)),
+		"selected_requirements": selected,
+		"remaining_steps": maxi(
+			0, int(config.get("normal_steps", 0)) - selected.size()),
+	}
+	if phase == "selecting":
+		if selected.size() > int(config.get("normal_steps", 0)):
+			return {}
+		return normalized
+	if phase != "resolved":
+		return {}
+	var overreached := bool(session.get("overreached", false))
+	var normal_steps := int(config.get("normal_steps", 0))
+	var base_selection: Array = selected.slice(0, normal_steps) \
+		if overreached else selected
+	var resolution := _activity_task_resolution(
+		config, base_selection, overreached)
+	if not bool(resolution.get("ok", false)) \
+			or selected != resolution.get("selected_requirements", []) \
+			or str(session.get("outcome_id", "")) \
+				!= str(resolution.get("outcome_id", "")):
+		return {}
+	normalized["outcome_id"] = str(resolution.get("outcome_id", ""))
+	normalized["overreached"] = overreached
+	normalized["remaining_steps"] = 0
+	normalized["resolution"] = resolution
+	return normalized
+
+static func _clear_activity_task_session_for_owner(
+		state: Dictionary, bundle_id: String, turn: int) -> void:
+	var raw_session: Variant = state.get("activity_task_session", {})
+	if not raw_session is Dictionary:
+		state["activity_task_session"] = {}
+		return
+	var session: Dictionary = raw_session
+	if session.is_empty() \
+			or (str(session.get("bundle_id", "")) == bundle_id \
+				and int(session.get("turn", -1)) == turn):
+		state["activity_task_session"] = {}
 
 ## Most action+story bundles keep the atomic result card before their authored
 ## beat. Only an explicit data contract lets the story own that presentation.
@@ -1705,6 +2320,51 @@ static func _action_receipt_from_record(
 				execution = "rest"
 	if not execution.is_empty():
 		details["execution"] = execution
+	# A schema-two record can outlive the content conversion from instant effect
+	# to activity task. Rebuild the receipt with the historical execution and
+	# effects that the record actually proves; keeping today's activity config as
+	# its snapshot would make later readers mistake it for a modern task result.
+	if execution == "instant_effect" \
+			and str(config.get("execution", "")) == "activity_task":
+		var raw_legacy: Variant = config.get("legacy_instant_effect", {})
+		if not raw_legacy is Dictionary:
+			return {}
+		var legacy: Dictionary = raw_legacy as Dictionary
+		var expected_legacy_effects: Dictionary = (
+			(legacy.get("effects", {}) as Dictionary).duplicate(true)
+			if legacy.get("effects", {}) is Dictionary else {}
+		)
+		var recorded_effects: Dictionary = (
+			(details.get("effects", {}) as Dictionary).duplicate(true)
+			if details.get("effects", {}) is Dictionary else {}
+		)
+		if recorded_effects.is_empty() and record.get("outcome", {}) is Dictionary:
+			var recorded_outcome: Dictionary = record.get("outcome", {})
+			for effect_key in expected_legacy_effects:
+				if recorded_outcome.has(effect_key):
+					recorded_effects[effect_key] = recorded_outcome[effect_key]
+		if expected_legacy_effects.is_empty() \
+				or recorded_effects != expected_legacy_effects:
+			return {}
+		config = {
+			"execution": "instant_effect",
+			"effects": recorded_effects,
+			"axis": str(details.get("axis", config.get("axis", ""))),
+			"place_id": str(details.get(
+				"place_id", config.get("place_id", ""))),
+		}
+	if execution == "activity_task":
+		var activity_config := _normalized_activity_task_config(config)
+		if activity_config.is_empty():
+			return {}
+		var activity_result := _validated_activity_task_result(
+			activity_config, details)
+		if activity_result.is_empty():
+			return {}
+		for result_key in activity_result:
+			if str(result_key) != "ok":
+				details[result_key] = activity_result[result_key]
+		details.erase("ok")
 	var application_id := str(details.get(
 		"application_id", config.get("application_id", ""))).strip_edges()
 	var status := str(details.get(
@@ -1751,6 +2411,8 @@ static func note_action_commitment(record: Dictionary) -> bool:
 		if int(existing.get("turn", -1)) != int(GameState.turn) \
 				or str(existing.get("action_id", "")) != expected_action:
 			return false
+		_clear_activity_task_session_for_owner(
+			state, active_id, int(GameState.turn))
 		state["action_result_ready"] = not (
 			_is_action_story_bundle(active_bundle)
 			and _has_current_action_story_acknowledgement(
@@ -1765,6 +2427,8 @@ static func note_action_commitment(record: Dictionary) -> bool:
 	var application_id := str(receipt.get("application_id", ""))
 	var status := str(receipt.get("application_status", ""))
 	state["action_receipts"][active_id] = receipt
+	_clear_activity_task_session_for_owner(
+		state, active_id, int(GameState.turn))
 	if not application_id.is_empty() and not status.is_empty():
 		state["application_statuses"][application_id] = status
 	state["action_result_ready"] = true
@@ -1880,6 +2544,7 @@ static func complete_active_bundle() -> String:
 	state["active_kind"] = ""
 	state["active_turn"] = 0
 	state["action_result_ready"] = false
+	state["activity_task_session"] = {}
 	GameState.core_loop_v2_state = state
 	return bundle_id
 
@@ -2024,6 +2689,7 @@ static func cancel_active_bundle() -> void:
 	state["active_kind"] = ""
 	state["active_turn"] = 0
 	state["action_result_ready"] = false
+	state["activity_task_session"] = {}
 	GameState.core_loop_v2_state = state
 
 ## Attach at most one eligible conditional consequence to this week's
@@ -4706,6 +5372,7 @@ static func _normalized_state(raw_state: Dictionary) -> Dictionary:
 		"story_choice_receipts", "obligation_receipts",
 		"deferred_callback_receipts", "demo_collision_context",
 		"future_story_receipts", "future_application_receipts",
+		"activity_task_session",
 	]:
 		if not state.has(key) or not state[key] is Dictionary:
 			state[key] = {}
@@ -4772,6 +5439,11 @@ static func _normalized_state(raw_state: Dictionary) -> Dictionary:
 	state["active_kind"] = str(state.get("active_kind", ""))
 	state["active_turn"] = int(state.get("active_turn", 0))
 	state["action_result_ready"] = bool(state.get("action_result_ready", false))
+	# This backward-compatible optional field keeps the outer V2 schema at 3;
+	# old saves normalize to an empty session, while malformed or stale owners
+	# are discarded before any action can use them.
+	state["activity_task_session"] = _normalized_activity_task_session(
+		state.get("activity_task_session", {}), state)
 	_recover_finalized_action_state(state, source_schema)
 	var completed_through := maxi(0, int(
 		state.get("completed_through_week", 0)))
@@ -4841,6 +5513,7 @@ static func _recover_finalized_action_state(
 		_is_action_story_bundle(scene_bundle)
 		and _has_current_action_story_acknowledgement(state, bundle_id)
 	)
+	_clear_activity_task_session_for_owner(state, bundle_id, active_turn)
 
 static func _migrate_schema_two_relationship_state(state: Dictionary) -> void:
 	var completed: Array = state.get("completed_bundles", [])

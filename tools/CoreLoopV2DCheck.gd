@@ -86,6 +86,7 @@ const ACTION_STORY_ROOTS := {
 	"m5_last_empty_sunday": "v2_empty_sunday",
 }
 const STORY_OWNED_ACTION_ROOTS := {
+	"m3_inventory_shift": "v2_inventory_count_nights",
 	"m3_room_ledger": "v2_m3_room_ledger_anchor",
 	"m4_housing_welfare_consultation": "v2_m4_housing_consultation_anchor",
 }

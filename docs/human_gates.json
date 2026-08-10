@@ -51,6 +51,33 @@
       ]
     },
     {
+      "id": "demo_inventory_task_hand_feel",
+      "domain": "gameplay",
+      "gate": "재고조사 약속 수행 장면의 행동감",
+      "why": "자동 검사는 조합·수치·저장·입력을 증명한다. 두 번의 선택이 실제 일을 처리한 감각인지, 웹 버튼 퀴즈인지 판단하지 못한다.",
+      "owner": "ORDER-92",
+      "state": "open",
+      "scope": {
+        "blocks": [
+          "activity_task_expansion"
+        ],
+        "content": "3개월 나흘 야간 재고조사의 세 작업 대상, 보통 완료, 무리하기, 결과 장면과 다음 달 기억"
+      },
+      "revision": "demo_rc",
+      "sample": {
+        "cohort": "inventory_task_first_play",
+        "requirements": [
+          "같은 demo_rc에서 키보드 또는 패드로 재고조사 수행 장면을 처음부터 결과 장면까지 진행",
+          "보통 완료 한 번과 무리하기 한 번을 서로 다른 저장에서 비교"
+        ]
+      },
+      "acceptance": [
+        "플레이어가 자신이 처리한 일, 남긴 일, 그 대가를 자기 말로 설명할 수 있음",
+        "선택이 숨은 정답 찾기나 웹 버튼 퀴즈가 아니라 실제 주간 약속을 수행하는 감각으로 읽힘",
+        "수행 화면과 결과 산문이 한 장면처럼 이어지며 다른 행동으로 확산할 근거가 생김"
+      ]
+    },
+    {
       "id": "chapter_audio_continuous_listen",
       "domain": "audio",
       "gate": "장별 헤드폰·노트북·TV 연속 청취",
@@ -431,7 +458,7 @@
         "blocks": [
           "demo-release"
         ],
-        "content": "P-10의 공통 영어 수단 1단위·주요 화자→청자 12단위·기능 화자와 단역 8단위·73사건/546동적 전수 교차 검토 1단위로 구성된 22단위 원장"
+        "content": "P-10의 공통 영어 수단 1단위·주요 화자→청자 12단위·기능 화자와 단역 8단위·73사건/578동적 전수 교차 검토 1단위로 구성된 22단위 원장"
       },
       "revision": "demo_rc",
       "sample": {
@@ -498,7 +525,7 @@
         "cohort": "zh_cn_demo_native_context_review",
         "requirements": [
           "한국어와 게임 문맥을 함께 이해하는 중국 본토 원어민 검수자",
-          "해당 demo_rc에서 zh_translation_audit.py --lang zh-CN --strict PASS: 정적 UI 2,570/2,570·73사건·455본문·539동적·4자산과 프로젝트 소유 SC 글꼴 준비 완료",
+          "해당 demo_rc에서 zh_translation_audit.py --lang zh-CN --strict PASS: 정적 UI 2,590/2,590·73사건·465본문·571동적·4자산과 프로젝트 소유 SC 글꼴 준비 완료",
           "같은 demo_rc를 새 세이브로 시작해 24주와 CTA까지 정상 속도로 독해",
           "한 경로에 나오지 않은 합법 도달 73개 사건과 모든 선택·결과를 한국어 정본과 직접 대조",
           "SC 글꼴이 JP 공유 한자보다 먼저 선택되는 실제 화면을 Windows·macOS·Linux/Steam Deck에서 확인"
@@ -530,7 +557,7 @@
         "cohort": "zh_tw_demo_native_context_review",
         "requirements": [
           "한국어와 게임 문맥을 함께 이해하는 대만 원어민 검수자",
-          "해당 demo_rc에서 zh_translation_audit.py --lang zh-TW --strict PASS: 정적 UI 2,570/2,570·73사건·455본문·539동적·4자산과 프로젝트 소유 TC 글꼴 준비 완료",
+          "해당 demo_rc에서 zh_translation_audit.py --lang zh-TW --strict PASS: 정적 UI 2,590/2,590·73사건·465본문·571동적·4자산과 프로젝트 소유 TC 글꼴 준비 완료",
           "같은 demo_rc를 새 세이브로 시작해 24주와 CTA까지 정상 속도로 독해",
           "한 경로에 나오지 않은 합법 도달 73개 사건과 모든 선택·결과를 한국어 정본과 직접 대조",
           "TC 글꼴이 JP 공유 한자보다 먼저 선택되는 실제 화면을 Windows·macOS·Linux/Steam Deck에서 확인"

@@ -9,6 +9,7 @@ const SEOUL_MAP_STRIP_SCRIPT = preload("res://ui_components/SeoulMapStrip.gd")
 const DEMO_CORE_LOOP_V2 = preload("res://systems/DemoCoreLoopV2.gd")
 const CORE_LOOP_PLANNER_SCRIPT = preload("res://scenes/CoreLoopPlanner.gd")
 const COMMUNICATION_PHONE_SCRIPT = preload("res://scenes/CommunicationPhone.gd")
+const COMMITMENT_TASK_SCRIPT = preload("res://scenes/CommitmentTask.gd")
 
 var investment_system: Node
 var job_system: Node
@@ -138,6 +139,7 @@ var _ending_new_titles: Array = []
 var _presentation_rng := RandomNumberGenerator.new()
 var _core_loop_planner: Control = null
 var _communication_phone: Control = null
+var _commitment_task: Control = null
 var _planner_button: Button = null
 var _phone_button: Button = null
 var _phone_focus_restore: Control = null
@@ -690,6 +692,13 @@ func _core_loop_v2_ensure_surfaces() -> void:
 		_communication_phone.closed.connect(_on_core_loop_v2_phone_closed)
 		_communication_phone.offer_requested.connect(
 			_on_core_loop_v2_phone_offer_requested)
+	if not is_instance_valid(_commitment_task):
+		_commitment_task = COMMITMENT_TASK_SCRIPT.new()
+		add_child(_commitment_task)
+		_commitment_task.selection_changed.connect(
+			_on_core_loop_v2_activity_task_selection_changed)
+		_commitment_task.resolution_confirmed.connect(
+			_on_core_loop_v2_activity_task_resolution_confirmed)
 
 func _core_loop_v2_can_open_planner() -> bool:
 	if not DEMO_CORE_LOOP_V2.is_active() or _minigame_overlay_active:
@@ -909,9 +918,9 @@ func _core_loop_v2_begin_action_bundle(bundle_id: String, scene_bundle: Dictiona
 				"Core Loop V2 found another pending action while resuming %s"
 				% bundle_id)
 			return
-		# Mini-game progress is intentionally not serialized. A save made after
-		# arming but before effects restarts the same authored action from its
-		# beginning, with no AP/effect applied yet.
+		# Most mini-games restart after load. `activity_task` is the exception:
+		# its ordered, effect-free selection lives in the V2 state and resumes
+		# after this commitment is safely re-armed from the same public baseline.
 		GameState.cancel_pending_weekly_commitment(GameState.turn)
 	if not GameState.arm_weekly_commitment(commitment):
 		DEMO_CORE_LOOP_V2.cancel_active_bundle()
@@ -927,6 +936,9 @@ func _core_loop_v2_begin_action_bundle(bundle_id: String, scene_bundle: Dictiona
 		match execution:
 			"application":
 				_core_loop_v2_submit_application(
+					bundle_id, scene_bundle, action_config)
+			"activity_task":
+				_core_loop_v2_open_activity_task(
 					bundle_id, scene_bundle, action_config)
 			"instant_effect":
 				_core_loop_v2_apply_instant_effect(
@@ -959,6 +971,154 @@ func _core_loop_v2_begin_action_bundle(bundle_id: String, scene_bundle: Dictiona
 func _core_loop_v2_rollback_action_bundle() -> void:
 	GameState.cancel_pending_weekly_commitment(GameState.turn)
 	DEMO_CORE_LOOP_V2.cancel_active_bundle()
+
+func _core_loop_v2_open_activity_task(
+		bundle_id: String, _scene_bundle: Dictionary,
+		_action_config: Dictionary) -> void:
+	var start := DEMO_CORE_LOOP_V2.begin_or_resume_activity_task(bundle_id)
+	if not bool(start.get("ok", false)):
+		_core_loop_v2_rollback_action_bundle()
+		push_error("Core Loop V2 activity task could not start: %s (%s)" % [
+			bundle_id, str(start.get("error", "unknown"))])
+		return
+	var resumed_session: Dictionary = (
+		(start.get("session", {}) as Dictionary).duplicate(true)
+		if start.get("session", {}) is Dictionary else {}
+	)
+	# Resolution and weekly finalization normally happen in one synchronous
+	# input stack. If a diagnostic or future save boundary captures the durable
+	# resolved phase between them, finish its validated canonical outcome instead
+	# of reopening a two-choice surface that can no longer update the session.
+	if str(resumed_session.get("phase", "")) == "resolved":
+		var raw_resolution: Variant = resumed_session.get("resolution", {})
+		if raw_resolution is Dictionary \
+				and bool((raw_resolution as Dictionary).get("ok", false)):
+			_core_loop_v2_finalize_activity_task_resolution(
+				bundle_id, (raw_resolution as Dictionary).duplicate(true))
+			return
+		_core_loop_v2_rollback_action_bundle()
+		push_error("Core Loop V2 activity task resumed without a valid resolution: %s" % bundle_id)
+		return
+	_core_loop_v2_ensure_surfaces()
+	if not is_instance_valid(_commitment_task):
+		_core_loop_v2_rollback_action_bundle()
+		push_error("Core Loop V2 activity task surface is unavailable: %s" % bundle_id)
+		return
+	_enter_minigame_overlay(_commitment_task)
+	var opened := bool(_commitment_task.open(
+		bundle_id,
+		(start.get("config", {}) as Dictionary).duplicate(true),
+		(start.get("session", {}) as Dictionary).duplicate(true)))
+	if opened:
+		return
+	_exit_minigame_overlay()
+	_core_loop_v2_rollback_action_bundle()
+	push_error("Core Loop V2 activity task rejected its surface contract: %s" % bundle_id)
+
+func _on_core_loop_v2_activity_task_selection_changed(
+		bundle_id: String, selected_ids: Array) -> void:
+	if bundle_id != DEMO_CORE_LOOP_V2.active_bundle_id() \
+			or not GameState.has_pending_weekly_commitment(GameState.turn):
+		push_error("Core Loop V2 ignored a stale activity-task selection: %s" % bundle_id)
+		return
+	var update := DEMO_CORE_LOOP_V2.update_activity_task_requirements(
+		selected_ids)
+	if not bool(update.get("ok", false)):
+		push_error("Core Loop V2 activity-task selection was rejected: %s (%s)" % [
+			bundle_id, str(update.get("error", "unknown"))])
+
+func _on_core_loop_v2_activity_task_resolution_confirmed(
+		bundle_id: String, selected_ids: Array,
+		overreached: bool) -> void:
+	if bundle_id != DEMO_CORE_LOOP_V2.active_bundle_id() \
+			or not GameState.has_pending_weekly_commitment(GameState.turn):
+		push_error("Core Loop V2 ignored a stale activity-task resolution: %s" % bundle_id)
+		return
+	var update := DEMO_CORE_LOOP_V2.update_activity_task_requirements(
+		selected_ids)
+	if not bool(update.get("ok", false)):
+		push_error("Core Loop V2 could not persist the final task selection: %s (%s)" % [
+			bundle_id, str(update.get("error", "unknown"))])
+		return
+	var resolution := DEMO_CORE_LOOP_V2.resolve_activity_task(overreached)
+	if not bool(resolution.get("ok", false)):
+		push_error("Core Loop V2 activity task could not resolve: %s (%s)" % [
+			bundle_id, str(resolution.get("error", "unknown"))])
+		return
+	_core_loop_v2_finalize_activity_task_resolution(bundle_id, resolution)
+
+func _core_loop_v2_finalize_activity_task_resolution(
+		bundle_id: String, resolution: Dictionary) -> void:
+	var scene_bundle := DEMO_CORE_LOOP_V2.bundle(bundle_id)
+	var action_id := str(scene_bundle.get("action_id", "")).strip_edges()
+	var effects: Dictionary = (
+		(resolution.get("effects", {}) as Dictionary).duplicate(true)
+		if resolution.get("effects", {}) is Dictionary else {}
+	)
+	var details := resolution.duplicate(true)
+	details.erase("ok")
+	var transaction := GameState.finalize_weekly_effect_action(
+		action_id,
+		effects,
+		str(resolution.get("axis", "")),
+		str(resolution.get("place_id", "")),
+		"",
+		details)
+	if not bool(transaction.get("ok", false)):
+		if is_instance_valid(_commitment_task):
+			_commitment_task.close_committed()
+		_exit_minigame_overlay()
+		_core_loop_v2_rollback_action_bundle()
+		push_error("Core Loop V2 activity-task transaction failed: %s (%s)" % [
+			bundle_id, str(transaction.get("error", "unknown"))])
+		return
+	# The signal bridge normally stores this receipt synchronously. Replaying
+	# the same record is idempotent and protects tests or hosts that connected
+	# their listener after the transaction signal.
+	if DEMO_CORE_LOOP_V2.activity_task_receipt(bundle_id).is_empty():
+		var raw_record: Variant = transaction.get("record", {})
+		if raw_record is Dictionary:
+			DEMO_CORE_LOOP_V2.note_action_commitment(raw_record as Dictionary)
+	if is_instance_valid(_commitment_task):
+		_commitment_task.close_committed()
+	_exit_minigame_overlay()
+	_refresh_all()
+	if DEMO_CORE_LOOP_V2.activity_task_receipt(bundle_id).is_empty():
+		push_error("Core Loop V2 finalized an activity task without a durable receipt: %s" % bundle_id)
+		return
+	if _core_loop_v2_handoff_story_owned_action_result(bundle_id):
+		return
+	_core_loop_v2_present_activity_task_result(
+		bundle_id, scene_bundle, details, effects)
+
+func _core_loop_v2_present_activity_task_result(
+		bundle_id: String, scene_bundle: Dictionary,
+		details: Dictionary, effects: Dictionary) -> void:
+	var config: Dictionary = (
+		(scene_bundle.get("action_config", {}) as Dictionary).duplicate(true)
+		if scene_bundle.get("action_config", {}) is Dictionary else {}
+	)
+	var outcome: Dictionary = {}
+	if bool(details.get("overreached", false)):
+		outcome = (config.get("overreach", {}) as Dictionary).duplicate(true) \
+			if config.get("overreach", {}) is Dictionary else {}
+	else:
+		var raw_outcome: Variant = (config.get("outcomes", {}) as Dictionary).get(
+			str(details.get("outcome_id", "")), {}) \
+			if config.get("outcomes", {}) is Dictionary else {}
+		outcome = (raw_outcome as Dictionary).duplicate(true) \
+			if raw_outcome is Dictionary else {}
+	var title := _core_loop_v2_localized(config, "result_title")
+	if title.is_empty():
+		title = _core_loop_v2_localized(scene_bundle, "offer")
+	var body := _core_loop_v2_localized(outcome, "finish")
+	var payment_line := _core_loop_v2_localized(config, "result_body")
+	if not payment_line.is_empty():
+		body += ("\n\n" if not body.is_empty() else "") + payment_line
+	GameState.add_log(title + " — " + body.replace("\n", " "), "job")
+	turn_action_log.append(title)
+	_show_vignette(title, body, effects, "#69717c")
+	_refresh_all()
 
 func _core_loop_v2_submit_application(
 		bundle_id: String, scene_bundle: Dictionary,
@@ -1164,9 +1324,35 @@ func _core_loop_v2_recap_names(records: Array, include_week: bool) -> Array[Stri
 		if include_week:
 			title = _tr("%d주 · %s", "W%d · %s") % [
 				int(record.get("week", 0)), title]
+		var task_recap := _core_loop_v2_activity_task_recap(bundle_id)
+		if not task_recap.is_empty():
+			title += " — " + task_recap
 		if not names.has(title):
 			names.append(title)
 	return names
+
+func _core_loop_v2_activity_task_recap(bundle_id: String) -> String:
+	var receipt := DEMO_CORE_LOOP_V2.activity_task_receipt(bundle_id)
+	if receipt.is_empty():
+		return ""
+	var config := DEMO_CORE_LOOP_V2.activity_task_config(bundle_id)
+	if config.is_empty():
+		return ""
+	var outcome: Dictionary = {}
+	if str(receipt.get("legacy_execution", "")) == "instant_effect":
+		outcome = (config.get("legacy_instant_effect", {}) as Dictionary).duplicate(true) \
+			if config.get("legacy_instant_effect", {}) is Dictionary else {}
+	elif bool(receipt.get("overreached", false)):
+		outcome = (config.get("overreach", {}) as Dictionary).duplicate(true) \
+			if config.get("overreach", {}) is Dictionary else {}
+	else:
+		var raw_outcomes: Variant = config.get("outcomes", {})
+		if raw_outcomes is Dictionary:
+			var raw_outcome: Variant = (raw_outcomes as Dictionary).get(
+				str(receipt.get("outcome_id", "")), {})
+			if raw_outcome is Dictionary:
+				outcome = (raw_outcome as Dictionary).duplicate(true)
+	return _core_loop_v2_localized(outcome, "recap").strip_edges()
 
 func _core_loop_v2_recap_list_card(
 		title: String, names: Array[String], empty_text: String, accent: String) -> Control:
@@ -4361,7 +4547,7 @@ func _go_story_mode(event_ids: Array, keep_cover: bool = false):
 			var curation_id := _year_scene_curation_id(year_index)
 			if not curation_id.is_empty():
 				story_queue.append(curation_id)
-	var opening_prologue := GameState.turn == 1 \
+	var opening_prologue: bool = GameState.turn == 1 \
 			and first_event_id in ["story_flashforward", "story_arrival"]
 	if not first_event_id.is_empty() and not opening_prologue:
 		GameState.flags["foreground_story_turn"] = GameState.turn
@@ -14854,6 +15040,8 @@ func _exit_minigame_overlay() -> void:
 	_update_vignette()
 
 func _activity_direction_id(overlay: Node) -> String:
+	if overlay == _commitment_task:
+		return "commitment_task"
 	if overlay == racetrack:
 		return "racetrack"
 	if overlay == holdem_club:

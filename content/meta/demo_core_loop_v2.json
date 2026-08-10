@@ -1024,11 +1024,144 @@
       "estimated_minutes": 4,
       "allowed_weeks": [9, 10, 11],
       "action_id": "side_shift",
+      "action_result_presentation": "story_owned",
       "existing_roots": ["v2_inventory_count_nights"],
       "action_config": {
-        "execution": "instant_effect",
+        "execution": "activity_task",
+        "task_id": "inventory_discrepancy",
+        "task_title_ko": "전산 12개, 선반 11개",
+        "task_title_en": "System 12, Shelf 11",
+        "legacy_instant_effect": {
+          "outcome_id": "inventory_legacy_count_marked",
+          "requirements": ["confirm_actual_count"],
+          "effects": {
+            "money": 360000,
+            "health": -4,
+            "mental": -3
+          },
+          "recap_ko": "선반을 다시 세고 차이에 시각·선반 번호를 표시함",
+          "recap_en": "Recounted the shelf and marked the time and shelf number",
+          "finish_ko": "선반은 두 번 세어도 열한 개였다. 차이 표시 옆에는 확인 시각과 선반 번호를 적었다.",
+          "finish_en": "The shelf still held eleven after a second count. The check time and shelf number were marked beside the discrepancy."
+        },
+        "normal_steps": 2,
         "axis": "money",
         "place_id": "work",
+        "background_path": "res://assets/backgrounds/warehouse_inventory_night.png",
+        "ambience": "public_office",
+        "intro_ko": "재고조사 나흘째, 폐점 뒤. 마지막 선반은 전산에 12개, 눈앞에는 11개다. 교대까지 남은 시간에는 세 가지를 전부 끝내기 어렵다.",
+        "intro_en": "After closing on the fourth night of the inventory count, the system says twelve while the final shelf holds eleven. There is not enough time before handoff to finish all three tasks at a normal pace.",
+        "instruction_ko": "교대 전에는 두 가지까지 처리할 수 있다. 고른 순서대로 끝낸 뒤, 그대로 나갈지 남은 하나까지 붙들지 정한다.",
+        "instruction_en": "You can finish two before handoff. Work through them in the order chosen, then decide whether to leave or stay with the one that remains.",
+        "requirements": [
+          {
+            "id": "confirm_actual_count",
+            "label_ko": "선반을 처음부터 다시 센다",
+            "label_en": "Recount the Shelf",
+            "station_ko": "선반·스캐너",
+            "station_en": "Shelf · Scanner",
+            "short_ko": "실물 재확인",
+            "short_en": "Recount Stock",
+            "sfx": "register_scan",
+            "detail_ko": "선반의 열한 개를 처음부터 다시 세어 실제 수량을 확인한다.",
+            "detail_en": "Count the eleven items on the shelf again from the beginning to confirm the physical total.",
+            "feedback_ko": "스캐너를 처음 칸으로 돌렸다. 두 번째로 세어도 선반에는 열한 개가 있었다.",
+            "feedback_en": "He returns the scanner to the first slot. The second count still comes to eleven.",
+            "scene_slot": "left"
+          },
+          {
+            "id": "trace_discrepancy",
+            "label_ko": "입고·반품 기록을 대조한다",
+            "label_en": "Compare Receiving and Returns",
+            "station_ko": "기록 작업대",
+            "station_en": "Record Desk",
+            "short_ko": "기록 대조",
+            "short_en": "Trace Records",
+            "sfx": "paper_handle",
+            "detail_ko": "입고·반품 기록을 대조해 한 개가 어긋난 지점을 찾는다.",
+            "detail_en": "Compare the receiving and returns logs to find where the one-item discrepancy began.",
+            "feedback_ko": "입고표와 반품 기록의 시각을 맞춰 보니, 전날 반품 보관함으로 옮긴 한 개가 전산표에는 아직 남아 있었다.",
+            "feedback_en": "Matching the timestamps on the receiving and returns logs reveals that one item moved to the returns holding area the previous night is still included in the system count.",
+            "scene_slot": "center"
+          },
+          {
+            "id": "write_handoff_note",
+            "label_ko": "인계표에 차이를 적는다",
+            "label_en": "Write the Handoff Note",
+            "station_ko": "인계표",
+            "station_en": "Handoff Sheet",
+            "short_ko": "인계표 작성",
+            "short_en": "Write Handoff Note",
+            "sfx": "pen_write",
+            "detail_ko": "전산 12개와 선반 11개, 확인 시각을 적고 찾아낸 근거가 있으면 함께 남긴다.",
+            "detail_en": "Record the system count of twelve, shelf count of eleven, and check time, along with any cause you confirm.",
+            "feedback_ko": "인계표에 전산 12개, 선반 11개, 확인 시각과 지금까지 찾은 내용을 남겼다.",
+            "feedback_en": "He leaves the system count, shelf count, check time, and everything found so far on the handoff note.",
+            "scene_slot": "right"
+          }
+        ],
+        "outcomes": {
+          "inventory_trace_before_handoff": {
+            "outcome_id": "inventory_trace_before_handoff",
+            "requirements": ["confirm_actual_count", "trace_discrepancy"],
+            "effects": {
+              "money": 360000,
+              "health": -6,
+              "mental": -2
+            },
+            "recap_ko": "선반을 다시 세고 원인을 찾음 · 인계표는 남기지 못함",
+            "recap_en": "Recounted and traced the cause · No handoff note left",
+            "preview_ko": "이대로 끝내면 인계표는 비어 있다.",
+            "preview_en": "Finish now, and the handoff note stays blank.",
+            "finish_ko": "선반은 두 번 세어도 열한 개였다. 전날 한 개를 반품 보관함으로 옮겼지만 전산에는 아직 남아 있다는 기록도 찾았다. 인계표에는 아무것도 적지 못했다.",
+            "finish_en": "The shelf still holds eleven after a second count. The records also show that one item moved to the returns holding area the previous night remains in the system count. He leaves no handoff note."
+          },
+          "inventory_untraced_handoff": {
+            "outcome_id": "inventory_untraced_handoff",
+            "requirements": ["confirm_actual_count", "write_handoff_note"],
+            "effects": {
+              "money": 360000,
+              "health": -4,
+              "mental": -3
+            },
+            "recap_ko": "선반을 다시 세고 차이를 기록함 · 원인은 찾지 못함",
+            "recap_en": "Recounted and logged the difference · Cause not traced",
+            "preview_ko": "이대로 넘기면 숫자가 어긋난 지점은 찾지 못한다.",
+            "preview_en": "Finish now, and the point where the numbers diverged remains untraced.",
+            "finish_ko": "선반은 두 번 세어도 열한 개였다. 인계표에는 전산 12개와 선반 11개, 확인 시각을 적었다. 어느 입고·반품 기록에서 어긋났는지는 찾지 못했다.",
+            "finish_en": "The shelf still holds eleven after a second count. The handoff note records the system count of twelve, shelf count of eleven, and check time. He does not find which receiving or returns record caused the mismatch."
+          },
+          "inventory_unconfirmed_handoff": {
+            "outcome_id": "inventory_unconfirmed_handoff",
+            "requirements": ["trace_discrepancy", "write_handoff_note"],
+            "effects": {
+              "money": 360000,
+              "health": -2,
+              "mental": -4
+            },
+            "recap_ko": "원인을 찾아 인계표에 남김 · 선반은 다시 세지 못함",
+            "recap_en": "Traced and logged the cause · Shelf not recounted",
+            "preview_ko": "이대로 넘기면 선반의 열한 개는 다시 확인하지 못한다.",
+            "preview_en": "Finish now, and the eleven items on the shelf remain unrecounted.",
+            "finish_ko": "전날 한 개를 반품 보관함으로 옮겼다는 기록을 찾았다. 인계표에는 그 기록과 전산 12개, 선반 11개의 차이를 적었다. 선반을 처음부터 다시 세지는 못했다.",
+            "finish_en": "The records show that one item moved to the returns holding area the previous night. The handoff note includes that entry and the difference between the system's twelve and the shelf's eleven. He does not recount the shelf from the beginning."
+          }
+        },
+        "overreach": {
+          "outcome_id": "inventory_all_finished",
+          "requirements": ["confirm_actual_count", "trace_discrepancy", "write_handoff_note"],
+          "effects": {
+            "money": 360000,
+            "health": -6,
+            "mental": -3
+          },
+          "recap_ko": "재확인·원인 추적·인계 기록을 모두 마침 · 교대 시각을 넘김",
+          "recap_en": "Recounted, traced, and left a note · Worked past handoff",
+          "prompt_ko": "남은 한 가지까지 마저 처리한다",
+          "prompt_en": "Push Through the Final Task",
+          "finish_ko": "선반은 다시 세어도 열한 개였다. 전날 반품 보관함으로 옮긴 한 개가 전산에 남은 기록도 찾았다. 인계표에는 차이와 확인 시각, 원인을 모두 적었다. 세 가지를 마쳤을 때는 교대 시각을 훌쩍 넘긴 뒤였다.",
+          "finish_en": "The shelf still holds eleven after a recount. The records show that one item moved to the returns holding area the previous night remains in the system count. The handoff note includes the difference, check time, and cause. By the time all three tasks are done, handoff time is long past."
+        },
         "effects": {
           "money": 360000,
           "health": -4,

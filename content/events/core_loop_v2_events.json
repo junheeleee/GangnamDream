@@ -1167,17 +1167,24 @@
     "direction": {
       "pace": "beat"
     },
-    "description": "폐점 뒤 나흘째 밤. {name}은 창고 선반의 마지막 줄 앞에 쪼그려 앉았다. 스캐너가 같은 단에 놓인 상자를 하나씩 읽을 때마다 손목이 먼저 다음 칸으로 움직였다.\n\n전산표에는 열두 개라고 적혀 있었고, 선반에는 열한 개가 있었다. {name}은 숫자를 맞춰 쓰지 않고 차이 한 개를 표시한 뒤 다시 셌다.",
+    "description": "벽시계는 이미 교대 시각을 지나 있었다. {name}은 마지막 선반 앞에서 스캐너를 내려놓고, 굳은 손목을 한 번 폈다.\n\n나흘 동안 같은 통로를 오간 카트가 발끝에 비스듬히 멈춰 있었다.",
+    "description_memory_if_known": {
+      "activity_task_outcome:m3_inventory_shift:inventory_trace_before_handoff": "선반은 두 번 세어도 열한 개였다. 입고표와 반품 기록에는 전날 한 개를 반품 보관함으로 옮겼지만 전산에는 아직 남아 있다는 흔적이 있었다. 원인을 찾은 대신 손목은 저렸고, 인계표는 형광등 아래 빈 채로 남았다.",
+      "activity_task_outcome:m3_inventory_shift:inventory_untraced_handoff": "선반은 두 번 세어도 열한 개였다. 인계표에는 전산 12개와 선반 11개, 확인 시각을 적었다. 인계표를 내려놓고도 비어 있는 원인 칸이 {name}의 눈에 남았다.",
+      "activity_task_outcome:m3_inventory_shift:inventory_unconfirmed_handoff": "입고표와 반품 기록에는 전날 한 개를 반품 보관함으로 옮겼다는 내용이 남아 있었다. 인계표에는 그 기록과 전산 12개, 선반 11개의 차이를 적었다. 선반을 다시 세지 않은 탓에, 열한 개라는 숫자가 맞는지는 끝내 마음에 걸렸다.",
+      "activity_task_outcome:m3_inventory_shift:inventory_all_finished": "선반은 다시 세어도 열한 개였다. 전날 반품 보관함으로 옮긴 한 개가 전산에 남은 기록도 찾았다. 인계표에는 차이와 확인 시각, 원인을 모두 적었다. 세 가지를 마쳤을 때는 교대 시각을 훌쩍 넘긴 뒤였다. 그제야 {name}은 손목과 허리가 한꺼번에 굳은 걸 느꼈다.",
+      "activity_task_outcome:m3_inventory_shift:inventory_legacy_count_marked": "선반은 두 번 세어도 열한 개였다. {name}은 차이 표시 옆에 확인 시각과 선반 번호를 적었다."
+    },
     "choices": [
       {
-        "text": "마지막 칸까지 다시 확인한다",
-        "result_text": "두 번째로 세어도 열한 개였다. {name}은 차이 표시 옆에 확인 시각과 선반 번호를 적었다.\n\n카트를 제자리로 밀었을 때 창고 셔터 틈으로 첫 버스 불빛이 지나갔다. 나흘치 스캔 소리가 멈추자 손목과 눈의 피로가 한꺼번에 느껴졌다."
+        "text": "수당 입금을 확인하고 창고를 나선다",
+        "result_text": "{name}은 카트를 제자리에 밀고 휴대폰 화면을 켰다. 재고조사 수당 36만원이 들어와 있었다.\n\n창고 셔터 틈으로 첫 버스 불빛이 지나갔다. 나흘치 스캔 소리는 멈췄고, 창고에는 새벽 형광등의 웅웅거림만 남았다."
       }
     ]
   },
   {
     "id": "v2_logistics_class_session",
-    "title": "입출고표의 빈칸",
+    "title": "어긋난 한 줄",
     "category": "self_development",
     "rarity": "story",
     "weight": 0,
@@ -1198,10 +1205,17 @@
       "pace": "beat"
     },
     "description": "청년센터 강의실 뒤쪽 자리. 강사는 입고, 출고, 반품이 적힌 표를 화면에 띄우고 숫자가 어긋난 행을 찾으라고 했다.\n\n{name}은 재고 회전율 공식을 수첩 위에 세 번 다시 썼다. 앞의 두 번은 분모를 잘못 적었고, 세 번째에야 예시 표의 숫자와 맞았다.",
+    "description_memory_if_known": {
+      "activity_task_outcome:m3_inventory_shift:inventory_trace_before_handoff": "화면의 어긋난 행 옆에 답을 적으려다, 원인을 찾고도 비워 둔 지난달 인계표가 떠올랐다.",
+      "activity_task_outcome:m3_inventory_shift:inventory_untraced_handoff": "수첩에서 눈을 들어 화면의 어긋난 행을 다시 보니, 지난달 선반의 열한 개를 재확인해 차이는 적어 두었지만 원인이 된 기록을 찾지 못한 밤이 떠올랐다. {name}은 어긋난 행의 앞뒤를 하나씩 다시 따라갔다.",
+      "activity_task_outcome:m3_inventory_shift:inventory_unconfirmed_handoff": "표의 숫자를 따라가던 손이 잠시 멈췄다. 지난달 다시 세지 못한 선반의 열한 개가 떠올랐다.",
+      "activity_task_outcome:m3_inventory_shift:inventory_all_finished": "강사가 확인할 곳을 하나씩 짚자, 지난달 세 가지를 모두 붙들다 교대 시각을 넘긴 밤이 떠올랐다.",
+      "activity_task_outcome:m3_inventory_shift:inventory_legacy_count_marked": "화면의 어긋난 행을 따라가던 {name}은, 지난달 차이 표시 옆에 적었던 확인 시각과 선반 번호를 떠올렸다."
+    },
     "choices": [
       {
         "text": "틀린 두 줄도 지우지 않고 남긴다",
-        "result_text": "{name}은 틀린 식에 가로줄을 긋고, 옆에 왜 틀렸는지 한 문장으로 적었다. 수업을 들었다고 자격증을 딴 것도, 어디에 합격한 것도 아니었다.\n\n대신 다음 표를 볼 때 어디부터 확인할지는 수첩 한쪽에 적어 두었다."
+        "result_text": "{name}은 틀린 식 두 줄에 가로줄을 긋고, 옆에 왜 틀렸는지 한 문장씩 적었다. 수업이 끝나자 강사는 출석부를 덮었다.\n\n수첩 한쪽에는 다음 표를 볼 때 어디부터 확인할지가 남았다."
       }
     ]
   },

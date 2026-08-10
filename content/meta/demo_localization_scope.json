@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-08-05",
+  "updated": "2026-08-10",
   "scope": "Player-visible fresh-start Core Loop V2 surfaces through the 24-week CTA; preparation evidence, not translation or shipping approval.",
   "derivation": {
     "events": "release inventory V2 bundle/spine/runtime closure plus the fresh-start Chapter 1 card; suppressed follow-ups remain suppressed",
@@ -15,6 +15,7 @@
     "content/events/*.json",
     "content/assets.json",
     "scenes/MainGame.gd",
+    "scenes/CommitmentTask.gd",
     "scenes/ArubaGame.gd",
     "scenes/JobHuntMiniGame.gd",
     "scenes/OpeningCinematic.gd",
@@ -31,8 +32,8 @@
     "automatic_script_conversion": false,
     "body_translation": "held_until_explicit_demo_GO",
     "shipping": false,
-    "static_ui_source_count": 2570,
-    "static_ui_source_keys_sha256": "d9a52c02312b587bd0cbe934b5fb3e603239b8691d429991d1cd60fb073e3b5c",
+    "static_ui_source_count": 2590,
+    "static_ui_source_keys_sha256": "7b3c4a9ef2369f9e01c1c980651c5a7bf48ae0bd1c59da261df5c4bd86b49517",
     "regions": {
       "zh-CN": {
         "source_language": "ko",
@@ -192,9 +193,9 @@
     "chapter_event_ids_sha256": "d0d8c63ac3d70ac9db0fba6d550fa61f86d906f660c322b87593a639eb18a9a8",
     "visible_event_count": 73,
     "visible_event_ids_sha256": "340ea03ac1c6416d53b0ba97c7a74619da81cad81bb069ac3d33d732fcefcdb8",
-    "event_text_count": 455,
-    "event_text_ko_chars": 38993,
-    "event_text_sha256": "aac0273aaed36a6f8a8598655f26497a9ecf23a2f06e50fa14ca6fdb2ddb1643",
+    "event_text_count": 465,
+    "event_text_ko_chars": 39774,
+    "event_text_sha256": "971f971e2111523182aa0ad34219e53b719925c5f560842f953267b6f40a6fb1",
     "event_owner_counts": {
       "content/events/arc_daeun.json": 1,
       "content/events/arc_events.json": 12,
@@ -204,9 +205,9 @@
       "content/events/scenario_cafe.json": 10,
       "content/events/story_events.json": 11
     },
-    "demo_json_pair_occurrences": 328,
-    "demo_json_unique_keys": 324,
-    "demo_json_pairs_sha256": "ec67359053bb8d62894f8eb6b86c3013bffb65a65156fed9032cf4f4d839426f",
+    "demo_json_pair_occurrences": 360,
+    "demo_json_unique_keys": 356,
+    "demo_json_pairs_sha256": "a60f1fc50ca584d0cdb165dee4442d27fed834360a862ea99f03bcfd83aa7122",
     "demo_inline_pair_occurrences": 56,
     "demo_inline_pairs_sha256": "04a2b4b8e81cc82596086eb00c752b8631371f8253d5ab233a3300e82374aa42",
     "opening_pair_occurrences": 6,
@@ -222,10 +223,10 @@
       "scenes/MainGame.gd::SIDE_JOB_VIGNETTES_CONVENIENCE": 3
     },
     "activity_gd_pairs_sha256": "4b77f1dab98c5ec7dcd6e602bca2e95196c7cd68fcbd6b6dc367fbd3db14c961",
-    "dynamic_pair_occurrences": 546,
-    "dynamic_unique_keys": 539,
-    "dynamic_pairs_sha256": "c80da11153967a2fe14befa55306688c12ff3fa24828a64a71e667b4ff322784",
-    "dynamic_unique_sha256": "70ef66b37972b592855ee5b7ee9c7c182599f7cd1b81053b8833805e4dc1ea6e",
+    "dynamic_pair_occurrences": 578,
+    "dynamic_unique_keys": 571,
+    "dynamic_pairs_sha256": "dfbc2d439ee360727baa85c6cb991a88d4313c10f4cbc9e12567f1096702129b",
+    "dynamic_unique_sha256": "eb88d2dea1a1de798ccf75b36916b921b21f2c761b262ceb9e42d59d6f181aa9",
     "demo_ending_count": 0,
     "catalog_asset_name_ids": ["samsung", "kakao", "hyundai", "kospi_etf"],
     "catalog_asset_names_sha256": "187802b46719245170031f912663ad8bc7308bbe187bba0a819d9f3f2ad4cab4",
@@ -233,8 +234,8 @@
   },
   "strict_gate": {
     "automated_requires": [
-      "73 exact event overlays and 455 translated text leaves",
-      "539 dynamic lookup keys and four visible market asset names",
+      "73 exact event overlays and 465 translated text leaves",
+      "571 dynamic lookup keys and four visible market asset names",
       "exact choice count/order and text-only overlay fields",
       "placeholder, paragraph, terminology, and Korean-won preservation",
       "separate Korean-source Simplified and Traditional script validation without automatic conversion",

@@ -79,6 +79,8 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=full-gamepad --lang=ko --pad=playstation --write-chapter-saves
 ##       godot --rendering-driver opengl3 --resolution 960x600 res://tools/ScreenshotQA.tscn -- --qa=core-loop-v2 --lang=ko
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=core-loop-v2 --lang=en
+##       godot --rendering-driver opengl3 --resolution 960x600 res://tools/ScreenshotQA.tscn -- --qa=commitment-task --lang=ko
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=commitment-task --lang=en
 ## V2 타이틀→24주 실제 입력 완주(격리 홈·로그·완료 화면 자동 보존):
 ##       GODOT=/path/to/godot ./tools/run_core_loop_v2_input_qa.sh ko-gamepad
 ##       GODOT=/path/to/godot ./tools/run_core_loop_v2_input_qa.sh en-keyboard
@@ -106,6 +108,7 @@ const QA_SCOPE_FULL_GAMEPAD := "full_gamepad"
 const QA_SCOPE_CORE_LOOP_V2 := "core_loop_v2"
 const QA_SCOPE_CORE_LOOP_V2_GAMEPAD := "core_loop_v2_gamepad"
 const QA_SCOPE_CORE_LOOP_V2_KEYBOARD := "core_loop_v2_keyboard"
+const QA_SCOPE_COMMITMENT_TASK := "commitment_task"
 const QA_SCOPE_START_EN := "start_en"
 const QA_SCOPE_THIRD_PARTY_NOTICES := "third_party_notices"
 const QA_SCOPE_FIRST_30 := "first_30"
@@ -340,6 +343,18 @@ func _ready() -> void:
 			return
 		if SaveManager.save_completed.is_connected(save_listener):
 			SaveManager.save_completed.disconnect(save_listener)
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_COMMITMENT_TASK:
+		var lang := _qa_language("en")
+		if lang not in ["ko", "en"]:
+			_fail("Commitment Task QA supports only lang=ko/en, got %s." % lang)
+			return
+		await _shot_commitment_task_surfaces(lang)
+		if _qa_failed:
+			return
+		print("SCREENSHOT_QA_DONE scope=commitment-task lang=%s dir=%s" % [
+			lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_CORE_LOOP_V2:
@@ -964,6 +979,12 @@ func _qa_scope() -> String:
 		args.append(str(raw))
 	for raw in args:
 		var arg := raw.strip_edges().to_lower()
+		if arg in ["commitment-task", "commitment_task",
+				"--commitment-task", "--commitment_task",
+				"qa=commitment-task", "--qa=commitment-task",
+				"qa=commitment_task", "--qa=commitment_task",
+				"scope=commitment-task", "--scope=commitment-task"]:
+			return QA_SCOPE_COMMITMENT_TASK
 		if arg in ["story-dialogue-history", "story_dialogue_history",
 				"--story-dialogue-history", "--story_dialogue_history",
 				"qa=story-dialogue-history", "--qa=story-dialogue-history",
@@ -1432,6 +1453,351 @@ func _prepare_main_game_state() -> void:
 	GameState.flags.erase("route_startup")
 	_seed_cast_state()
 	_suppress_tutorial_overlays()
+
+func _shot_commitment_task_surfaces(lang: String) -> void:
+	_set_qa_language(lang)
+	var viewport_size := get_window().size
+	if viewport_size not in [Vector2i(960, 600), Vector2i(1280, 800)]:
+		_fail("Commitment Task QA requires 960x600 or 1280x800, got %s." % [
+			str(viewport_size)])
+		return
+	var raw_bundles: Variant = DataRegistry.demo_core_loop_v2.get(
+		"scene_bundles", {})
+	if not raw_bundles is Dictionary:
+		_fail("Commitment Task QA cannot read the DataRegistry scene bundles.")
+		return
+	var raw_bundle: Variant = (raw_bundles as Dictionary).get(
+		"m3_inventory_shift", {})
+	if not raw_bundle is Dictionary:
+		_fail("Commitment Task QA cannot read m3_inventory_shift.")
+		return
+	var raw_spec: Variant = (raw_bundle as Dictionary).get(
+		"action_config", {})
+	if not raw_spec is Dictionary:
+		_fail("Commitment Task QA cannot read the activity_task config.")
+		return
+	var spec: Dictionary = (raw_spec as Dictionary).duplicate(true)
+	if str(spec.get("execution", "")) != "activity_task" \
+			or str(spec.get("task_id", "")) != "inventory_discrepancy":
+		_fail("Commitment Task QA received the wrong activity contract: %s." % [
+			str(spec)])
+		return
+
+	var host := Control.new()
+	host.name = "CommitmentTaskQAHost"
+	host.position = Vector2.ZERO
+	# The externally requested window may be scaled from the 1280x800 project
+	# canvas (notably 960x600). Size in logical viewport coordinates so the
+	# captured scene still fills every output pixel instead of leaving alpha.
+	host.size = get_viewport().get_visible_rect().size
+	host.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(host)
+	var task_script = load("res://scenes/CommitmentTask.gd")
+	if task_script == null:
+		_fail("Commitment Task QA cannot load CommitmentTask.gd.")
+		return
+	var surface := task_script.new() as Control
+	host.add_child(surface)
+	await get_tree().process_frame
+	# Keep hover from replacing the deferred controller-default focus.
+	Input.warp_mouse(Vector2(4.0, 4.0))
+	if not bool(surface.call("open", "m3_inventory_shift", spec, {})):
+		_fail("Commitment Task rejected its canonical DataRegistry contract.")
+		return
+	await _settle(0.32)
+	_assert_commitment_task_surface(surface, lang, "initial", 3)
+	if _qa_failed:
+		return
+	var focus_owner := get_viewport().gui_get_focus_owner()
+	if not is_instance_valid(focus_owner) \
+			or not surface.is_ancestor_of(focus_owner) \
+			or str(focus_owner.get_meta(
+				"commitment_task_facet_id", "")) != "confirm_actual_count":
+		_fail("Commitment Task initial focus is not the first physical target: %s." % [
+			str(focus_owner)])
+		return
+	var normal_button := surface.find_child(
+		"CommitmentTaskNormalConfirm", true, false) as Button
+	var overreach_button := surface.find_child(
+		"CommitmentTaskOverreachConfirm", true, false) as Button
+	if not is_instance_valid(normal_button) \
+			or not is_instance_valid(overreach_button) \
+			or not normal_button.disabled or not overreach_button.disabled:
+		_fail("Commitment Task exposes completion before two requirements are chosen.")
+		return
+	var prefix := "commitment_task_%s_%dx%d_" % [
+		lang, viewport_size.x, viewport_size.y]
+	await _save(prefix + "01_initial", 0.05)
+
+	for requirement_id in ["confirm_actual_count", "write_handoff_note"]:
+		var target := surface.find_child(
+			"WorkTarget_%s" % requirement_id, true, false) as Button
+		if not is_instance_valid(target) or target.disabled \
+				or not target.is_visible_in_tree():
+			_fail("Commitment Task cannot select %s." % requirement_id)
+			return
+		target.pressed.emit()
+		await get_tree().process_frame
+	await _settle(0.12)
+	_assert_commitment_task_surface(surface, lang, "comparison", 5)
+	if _qa_failed:
+		return
+	if surface.get_meta("commitment_task_selected_ids", []) \
+			!= ["confirm_actual_count", "write_handoff_note"] \
+			or int(surface.get_meta(
+				"commitment_task_remaining_count", -1)) != 0:
+		_fail("Commitment Task comparison lost its selected order or remaining count.")
+		return
+	if normal_button.disabled or overreach_button.disabled \
+			or not normal_button.is_visible_in_tree() \
+			or not overreach_button.is_visible_in_tree():
+		_fail("Commitment Task does not expose both completion choices after two tasks.")
+		return
+	_assert_commitment_task_effect_comparison(
+		surface, spec, normal_button, overreach_button, lang)
+	if _qa_failed:
+		return
+	await _save(prefix + "02_result_comparison", 0.05)
+	surface.call("close_committed")
+	if not bool(surface.call("open", "m3_inventory_shift", spec, {
+		"selected_requirements": ["confirm_actual_count"],
+	})):
+		_fail("Commitment Task rejected its one-selection resume fixture.")
+		return
+	await _settle(0.12)
+	var one_selection_focus := get_viewport().gui_get_focus_owner()
+	if not one_selection_focus is Button \
+			or str(one_selection_focus.get_meta(
+				"commitment_task_facet_id", "")) != "trace_discrepancy":
+		_fail("Commitment Task did not resume one selection at the next unfinished target.")
+		return
+	surface.call("close_committed")
+	if not bool(surface.call("open", "m3_inventory_shift", spec, {
+		"selected_requirements": [
+			"confirm_actual_count", "write_handoff_note"],
+	})):
+		_fail("Commitment Task rejected its ready-to-finish resume fixture.")
+		return
+	await _settle(0.12)
+	if get_viewport().gui_get_focus_owner() != normal_button:
+		_fail("Commitment Task did not resume two selections at normal completion.")
+		return
+	surface.call("close_committed")
+	await _settle(0.72)
+	host.queue_free()
+	await get_tree().process_frame
+
+func _assert_commitment_task_surface(
+		surface: Control, lang: String, context: String,
+		expected_focus_targets: int) -> void:
+	if not is_instance_valid(surface) or not surface.is_visible_in_tree() \
+			or not bool(surface.get_meta(
+				"core_loop_v2_commitment_task", false)):
+		_fail("Commitment Task %s surface is absent or hidden." % context)
+		return
+	var viewport_rect := get_viewport().get_visible_rect()
+	var surface_rect := surface.get_global_rect()
+	if not viewport_rect.grow(1.0).encloses(surface_rect) \
+			or surface_rect.position.distance_to(viewport_rect.position) > 1.0 \
+			or surface_rect.size.distance_to(viewport_rect.size) > 1.0:
+		_fail("Commitment Task %s root escapes the viewport: %s / %s." % [
+			context, str(surface_rect), str(viewport_rect)])
+		return
+	var output_scale := float(surface.get_meta(
+		"commitment_task_output_scale", 0.0))
+	var expected_output_scale := minf(
+		float(get_window().size.x) / maxf(1.0, viewport_rect.size.x),
+		float(get_window().size.y) / maxf(1.0, viewport_rect.size.y))
+	var effective_body_px := float(surface.get_meta(
+		"commitment_task_effective_body_px", 0.0))
+	if not is_equal_approx(output_scale, expected_output_scale) \
+			or effective_body_px < 14.0:
+		_fail("Commitment Task %s effective output text is too small: scale=%.3f expected=%.3f body=%.2fpx." % [
+			context, output_scale, expected_output_scale, effective_body_px])
+		return
+	if not surface.find_children(
+			"*", "ScrollContainer", true, false).is_empty():
+		_fail("Commitment Task %s added a nested scroll surface." % context)
+		return
+	var core_controls := [
+		"CommitmentTaskHeader",
+		"CommitmentTaskIntro",
+		"CommitmentTaskInstruction",
+		"WarehousePhysicalTargets",
+		"CommitmentTaskWorkFeedback",
+		"CommitmentTaskResolutionBench",
+		"WorkTarget_confirm_actual_count",
+		"WorkTarget_trace_discrepancy",
+		"WorkTarget_write_handoff_note",
+		"CommitmentTaskNormalConfirm",
+		"CommitmentTaskOverreachConfirm",
+	]
+	for node_name in core_controls:
+		var control := surface.find_child(node_name, true, false) as Control
+		if not is_instance_valid(control) or not control.is_visible_in_tree() \
+				or control.size.x < 1.0 or control.size.y < 1.0 \
+				or not viewport_rect.grow(1.0).encloses(control.get_global_rect()):
+			_fail("Commitment Task %s control clips or is missing: %s %s." % [
+				context, node_name,
+				str(control.get_global_rect()) \
+					if is_instance_valid(control) else "<missing>"])
+			return
+		if control is Button:
+			var button := control as Button
+			var effective_button_height := button.size.y * output_scale
+			var effective_button_font := float(button.get_theme_font_size(
+				"font_size")) * output_scale
+			if effective_button_height < 46.0 \
+					or effective_button_font < 15.0:
+				_fail("Commitment Task %s button misses the effective 46px/15px floor: %s height=%.2f font=%.2f." % [
+						context, node_name, effective_button_height,
+						effective_button_font])
+				return
+		elif control is Label and control.get_combined_minimum_size().y \
+				> control.size.y + 1.0:
+			_fail("Commitment Task %s text is vertically clipped: %s minimum=%.2f height=%.2f." % [
+				context, node_name, control.get_combined_minimum_size().y,
+				control.size.y])
+			return
+	var intro_label := surface.find_child(
+		"CommitmentTaskIntro", true, false) as Label
+	var instruction_label := surface.find_child(
+		"CommitmentTaskInstruction", true, false) as Label
+	if not is_instance_valid(intro_label) \
+			or not is_instance_valid(instruction_label) \
+			or intro_label.get_global_rect().end.y \
+				> instruction_label.get_global_rect().position.y + 1.0:
+		_fail("Commitment Task %s intro and instruction bounds overlap." % context)
+		return
+	var target_layer := surface.find_child(
+		"WarehousePhysicalTargets", true, false) as Control
+	if not is_instance_valid(target_layer):
+		_fail("Commitment Task %s lost its physical target layer." % context)
+		return
+	for target_name in [
+		"WorkTarget_confirm_actual_count",
+		"WorkTarget_trace_discrepancy",
+		"WorkTarget_write_handoff_note",
+	]:
+		var target := surface.find_child(target_name, true, false) as Button
+		var normal_style: StyleBox = target.get_theme_stylebox("normal") \
+			if is_instance_valid(target) else null
+		if not is_instance_valid(target) \
+				or target.size.x > target_layer.size.x * 0.32 \
+				or target.size.y > target_layer.size.y * 0.45 \
+				or not normal_style is StyleBoxFlat \
+				or (normal_style as StyleBoxFlat).bg_color.a > 0.20 \
+				or not is_instance_valid(target.get_node_or_null(
+					"PhysicalTargetMarker")):
+			_fail("Commitment Task %s target regressed from a physical hotspot into a large card: %s." % [
+				context, target_name])
+			return
+	var focus_targets := _commitment_task_focus_targets(surface)
+	if focus_targets.size() != expected_focus_targets \
+			or focus_targets.size() > 5:
+		_fail("Commitment Task %s has %d enabled focus targets, expected %d/max 5: %s." % [
+			context, focus_targets.size(), expected_focus_targets,
+			str(focus_targets.map(func(button: Button): return button.name))])
+		return
+	var surface_text := _collect_control_text(surface)
+	var raw_task_id := str(surface.get_meta(
+		"commitment_task_bundle_id", ""))
+	if "inventory_discrepancy" in surface_text \
+			or raw_task_id != "m3_inventory_shift":
+		_fail("Commitment Task %s leaks a raw task ID or lost its bundle owner." % context)
+		return
+	if lang == "en" and _contains_hangul(surface_text):
+		_fail("Commitment Task %s English surface contains Hangul: %s." % [
+			context, surface_text])
+
+func _commitment_task_focus_targets(surface: Control) -> Array[Button]:
+	var result: Array[Button] = []
+	var stack: Array[Node] = [surface]
+	while not stack.is_empty():
+		var node: Node = stack.pop_back()
+		if node is Control and not (node as Control).is_visible_in_tree():
+			continue
+		if node is Button:
+			var button := node as Button
+			if not button.disabled and button.focus_mode != Control.FOCUS_NONE:
+				result.append(button)
+		for child in node.get_children():
+			stack.append(child)
+	return result
+
+func _assert_commitment_task_effect_comparison(
+		surface: Control, spec: Dictionary, normal_button: Button,
+		overreach_button: Button, lang: String) -> void:
+	var raw_outcomes: Variant = spec.get("outcomes", {})
+	var raw_overreach: Variant = spec.get("overreach", {})
+	if not raw_outcomes is Dictionary or not raw_overreach is Dictionary:
+		_fail("Commitment Task comparison has no declared outcomes.")
+		return
+	var raw_normal: Variant = (raw_outcomes as Dictionary).get(
+		"inventory_untraced_handoff", {})
+	if not raw_normal is Dictionary:
+		_fail("Commitment Task comparison cannot find its selected normal outcome.")
+		return
+	var normal: Dictionary = raw_normal
+	var overreach: Dictionary = raw_overreach
+	var expected_normal := {"money": 360000.0, "health": -4.0, "mental": -3.0}
+	var expected_overreach := {"money": 360000.0, "health": -6.0, "mental": -3.0}
+	if normal.get("effects", {}) != expected_normal \
+			or overreach.get("effects", {}) != expected_overreach:
+		_fail("Commitment Task exact effects drifted: normal=%s overreach=%s." % [
+			str(normal.get("effects", {})), str(overreach.get("effects", {}))])
+		return
+	var normal_effect_line := _commitment_task_effect_line(
+		expected_normal, lang)
+	var overreach_effect_line := _commitment_task_effect_line(
+		expected_overreach, lang)
+	var normal_text := "%s\n%s · %s" % [
+		"이대로 마친다" if lang == "ko" else "FINISH NORMALLY",
+		"최종 결과" if lang == "ko" else "FINAL",
+		normal_effect_line,
+	]
+	var prompt := str(overreach.get(
+		"prompt_ko" if lang == "ko" else "prompt_en", ""))
+	var overreach_text := "%s\n%s · %s" % [
+		prompt,
+		"무리하기 최종 결과" if lang == "ko" else "OVERREACH FINAL",
+		overreach_effect_line,
+	]
+	var localized_preview := str(normal.get(
+		"preview_ko" if lang == "ko" else "preview_en", ""))
+	var localized_finish := str(normal.get(
+		"finish_ko" if lang == "ko" else "finish_en", ""))
+	var visible_text := _collect_control_text(surface)
+	if normal_button.text != normal_text \
+			or overreach_button.text != overreach_text \
+			or localized_preview.is_empty() \
+			or localized_preview not in visible_text \
+			or localized_finish.is_empty() \
+			or localized_finish in visible_text:
+		_fail("Commitment Task comparison copy/effects are not exact: normal=%s overreach=%s." % [
+			normal_button.text, overreach_button.text])
+
+func _commitment_task_effect_line(effects: Dictionary, lang: String) -> String:
+	var money := int(effects.get("money", 0))
+	var digits := str(absi(money))
+	var insert_at := digits.length() - 3
+	while insert_at > 0:
+		digits = digits.insert(insert_at, ",")
+		insert_at -= 3
+	var sign_text := "+" if money > 0 else ("-" if money < 0 else "")
+	var money_text := "%s%s원" % [sign_text, digits] if lang == "ko" \
+		else "%sKRW %s" % [sign_text, digits]
+	return "%s %s  ·  %s %s  ·  %s %s" % [
+		"수당" if lang == "ko" else "PAY",
+		money_text,
+		"건강" if lang == "ko" else "HEALTH",
+		_commitment_task_signed_number(int(effects.get("health", 0))),
+		"마음" if lang == "ko" else "MENTAL",
+		_commitment_task_signed_number(int(effects.get("mental", 0))),
+	]
+
+func _commitment_task_signed_number(value: int) -> String:
+	return "+%d" % value if value > 0 else str(value)
 
 func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	_set_qa_language(lang)
@@ -6859,6 +7225,8 @@ func _run_core_loop_v2_input_route(
 	var offer_intents := 0
 	var week_commits := 0
 	var side_shift_inputs := 0
+	var commitment_task_inputs := 0
+	var commitment_task_completions := 0
 
 	for _step in range(50000):
 		await get_tree().create_timer(0.012).timeout
@@ -6951,6 +7319,106 @@ func _run_core_loop_v2_input_route(
 						int(core_loop.month_for_turn(GameState.turn)),
 						roundi(float(GameState.money)), int(GameState.health),
 						int(GameState.mental)])
+
+			# ORDER-92: the inventory promise now opens one scene-positioned
+			# commitment task. Follow its stable QA metadata with the selected raw
+			# device so the 24-week route proves the overlay is playable, while
+			# preserving the old -4/-3 baseline through count + submit.
+			var commitment_task := _find_visible_meta_control(
+				scene, "core_loop_v2_commitment_task", true)
+			if is_instance_valid(commitment_task):
+				var task_bundle_id := str(commitment_task.get_meta(
+					"commitment_task_bundle_id", ""))
+				var raw_selected: Variant = commitment_task.get_meta(
+					"commitment_task_selected_ids", [])
+				if task_bundle_id != "m3_inventory_shift" \
+						or not raw_selected is Array \
+						or commitment_task_completions != 0:
+					_fail("Core Loop V2 reached an unexpected or repeated commitment task: bundle=%s selected=%s completions=%d." % [
+						task_bundle_id, str(raw_selected),
+						commitment_task_completions])
+					return false
+				var selected: Array = (raw_selected as Array).duplicate()
+				signature += ":commitment_task:%s:%s:%d" % [
+					task_bundle_id, str(selected), commitment_task_inputs]
+				if selected.is_empty():
+					var initial_focus := get_viewport().gui_get_focus_owner()
+					if not initial_focus is Button \
+							or not commitment_task.is_ancestor_of(initial_focus) \
+							or str(initial_focus.get_meta(
+								"core_loop_v2_commitment_task_facet_id", "")) \
+								!= "confirm_actual_count":
+						_fail("Core Loop V2 commitment task did not default-focus actual count: %s." % [
+							initial_focus.name \
+								if is_instance_valid(initial_focus) else "none"])
+						return false
+					await _send_route_input(input_mode)
+					commitment_task_inputs += 1
+					continue
+				if selected == ["confirm_actual_count"]:
+					for _right_step in range(2):
+						if input_mode == "gamepad":
+							await _send_route_raw_gamepad_button(
+								JOY_BUTTON_DPAD_RIGHT)
+						else:
+							await _send_route_key(KEY_RIGHT)
+						commitment_task_inputs += 1
+					var submit_focus := get_viewport().gui_get_focus_owner()
+					if not submit_focus is Button \
+							or not commitment_task.is_ancestor_of(submit_focus) \
+							or str(submit_focus.get_meta(
+								"core_loop_v2_commitment_task_facet_id", "")) \
+								!= "write_handoff_note":
+						_fail("Core Loop V2 raw Right traversal did not reach inventory handoff: %s." % [
+							submit_focus.name \
+								if is_instance_valid(submit_focus) else "none"])
+						return false
+					await _send_route_input(input_mode)
+					commitment_task_inputs += 1
+					continue
+				if selected == [
+						"confirm_actual_count", "write_handoff_note"]:
+					var normal_button := _find_visible_meta_button(
+						commitment_task,
+						"core_loop_v2_commitment_task_normal_confirm")
+					var overreach_button := _find_visible_meta_button(
+						commitment_task,
+						"core_loop_v2_commitment_task_overreach_confirm")
+					if normal_button == null or overreach_button == null \
+							or _commitment_task_focus_targets(
+								commitment_task).size() != 5:
+						_fail("Core Loop V2 commitment task did not unlock both exact completion choices after two tasks.")
+						return false
+					if input_mode == "gamepad":
+						await _send_route_raw_gamepad_button(
+							JOY_BUTTON_DPAD_LEFT)
+						await _send_route_raw_gamepad_button(
+							JOY_BUTTON_DPAD_DOWN)
+					else:
+						await _send_route_key(KEY_LEFT)
+						await _send_route_key(KEY_DOWN)
+					commitment_task_inputs += 2
+					if get_viewport().gui_get_focus_owner() != normal_button:
+						_fail("Core Loop V2 raw direction traversal did not reach normal completion.")
+						return false
+					await _send_route_input(input_mode)
+					commitment_task_inputs += 1
+					commitment_task_completions += 1
+					await get_tree().process_frame
+					var task_receipt: Dictionary = core_loop.activity_task_receipt(
+						"m3_inventory_shift")
+					if task_receipt.is_empty() \
+							or str(core_loop.activity_task_receipt_outcome_id(
+								"m3_inventory_shift")) \
+								!= "inventory_untraced_handoff" \
+							or bool(task_receipt.get("overreached", true)):
+						_fail("Core Loop V2 raw commitment-task completion did not persist the baseline normal outcome: %s." % [
+							str(task_receipt)])
+						return false
+					continue
+				_fail("Core Loop V2 commitment task reached an unsupported selection state: %s." % [
+					str(selected)])
+				return false
 
 			# The fresh Month-One route replaces the already-sent application with a
 			# real convenience-store cover shift. Drive every customer response and
@@ -7243,7 +7711,9 @@ func _run_core_loop_v2_input_route(
 							committed_months, month_summaries_seen,
 							tutorial_inputs, tutorial_state_verified,
 							action_result_confirms, offer_intents,
-							week_commits, side_shift_inputs):
+							week_commits, side_shift_inputs,
+							commitment_task_inputs,
+							commitment_task_completions):
 						return false
 					await _save("core_loop_v2_%s_%s_week_24_completion" % [
 						lang, input_mode], 0.0)
@@ -7361,9 +7831,10 @@ func _run_core_loop_v2_input_route(
 				return false
 			if not _assert_core_loop_v2_input_purity(input_mode):
 				return false
-			print("CORE_LOOP_V2_INPUT_OK device=%s lang=%s weeks=24 plans=6 offer_intents=%d week_commits=%d side_shift_inputs=%d tutorial=3 first_bill=1/1/1 hyunsu=1 autosave=1 title_return=1 mixed=0 story_events=%d keyboard_events=%d mouse_events=%d gamepad_events=%d semantic_events=%d unknown_events=%d saves=%d" % [
+			print("CORE_LOOP_V2_INPUT_OK device=%s lang=%s weeks=24 plans=6 offer_intents=%d week_commits=%d side_shift_inputs=%d commitment_task_inputs=%d commitment_task_completions=%d tutorial=3 first_bill=1/1/1 hyunsu=1 autosave=1 title_return=1 mixed=0 story_events=%d keyboard_events=%d mouse_events=%d gamepad_events=%d semantic_events=%d unknown_events=%d saves=%d" % [
 				input_mode, lang, offer_intents, week_commits,
-				side_shift_inputs,
+				side_shift_inputs, commitment_task_inputs,
+				commitment_task_completions,
 				story_sequence.size(), _route_keyboard_events,
 				_route_mouse_events, _route_gamepad_events,
 				_route_semantic_events, _route_unknown_events,
@@ -7595,7 +8066,9 @@ func _assert_core_loop_v2_input_completion(
 		month_summaries_seen: Dictionary, tutorial_inputs: int,
 		tutorial_state_verified: bool,
 		action_result_confirms: Dictionary, offer_intents: int,
-		week_commits: int, side_shift_inputs: int) -> bool:
+		week_commits: int, side_shift_inputs: int,
+		commitment_task_inputs: int,
+		commitment_task_completions: int) -> bool:
 	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
 	var state: Dictionary = GameState.core_loop_v2_state
 	if planner_months_seen.size() != 6 or committed_months.size() != 6:
@@ -7615,6 +8088,33 @@ func _assert_core_loop_v2_input_completion(
 		return false
 	if side_shift_inputs != 21:
 		_fail("Core Loop V2 fresh cover shift used %d raw inputs instead of ten customer/response pairs plus Clock Out." % side_shift_inputs)
+		return false
+	if commitment_task_inputs != 7 or commitment_task_completions != 1:
+		_fail("Core Loop V2 inventory commitment task used %d raw inputs and %d completions instead of 7/1." % [
+			commitment_task_inputs, commitment_task_completions])
+		return false
+	var task_receipt: Dictionary = core_loop.activity_task_receipt(
+		"m3_inventory_shift")
+	if task_receipt.is_empty() \
+			or str(core_loop.activity_task_receipt_outcome_id(
+				"m3_inventory_shift")) != "inventory_untraced_handoff" \
+			or task_receipt.get("selected_requirements", []) != [
+				"confirm_actual_count", "write_handoff_note"] \
+			or task_receipt.get("skipped_requirements", []) \
+				!= ["trace_discrepancy"] \
+			or bool(task_receipt.get("overreached", true)) \
+			or not _core_loop_v2_numeric_effects_match(
+				task_receipt.get("effects", {}),
+				{"money": 360_000, "health": -4, "mental": -3}) \
+			or not bool(core_loop.activity_task_receipt_has_requirement(
+				"m3_inventory_shift", "confirm_actual_count")) \
+			or not bool(core_loop.activity_task_receipt_has_requirement(
+				"m3_inventory_shift", "write_handoff_note")) \
+			or bool(core_loop.activity_task_receipt_has_requirement(
+				"m3_inventory_shift", "trace_discrepancy")) \
+			or not core_loop.activity_task_session().is_empty():
+		_fail("Core Loop V2 inventory commitment task lost its exact durable normal receipt: %s." % [
+			str(task_receipt)])
 		return false
 	var plans: Dictionary = state.get("plans", {})
 	if plans.size() != 6:
@@ -7641,9 +8141,12 @@ func _assert_core_loop_v2_input_completion(
 	if month_summaries.size() != 6:
 		_fail("Core Loop V2 completion stored %d month summaries instead of six." % month_summaries.size())
 		return false
+	# The inventory task owns its final comparison on the physical overlay and
+	# hands straight to its authored story, so it must not create a second AP
+	# result confirmation card here.
 	var expected_action_results := [
 		"m1_convenience_trial_shift", "m2_seorin_application",
-		"m3_hanbit_application", "m3_inventory_shift",
+		"m3_hanbit_application",
 		"m4_certificate_session", "m4_logistics_shift",
 		"m4_health_check_day", "m5_city_service_application",
 		"m5_weekend_move_shift", "m5_employment_contract_clinic",

@@ -6,6 +6,7 @@ from __future__ import annotations
 import json
 import re
 import sys
+from itertools import combinations
 from pathlib import Path
 from typing import Any
 
@@ -109,6 +110,7 @@ ACTION_STORY_ROOTS = {
     "m5_last_empty_sunday": "v2_empty_sunday",
 }
 STORY_OWNED_ACTION_ROOTS = {
+    "m3_inventory_shift": "v2_inventory_count_nights",
     "m3_room_ledger": "v2_m3_room_ledger_anchor",
     "m4_housing_welfare_consultation": "v2_m4_housing_consultation_anchor",
 }
@@ -161,7 +163,9 @@ EXPECTED_M3_ACTION_CORE = {
         "status": "submitted",
     },
     "m3_inventory_shift": {
-        "execution": "instant_effect",
+        "execution": "activity_task",
+        "task_id": "inventory_discrepancy",
+        "normal_steps": 2,
         "axis": "money",
         "place_id": "work",
         "effects": {"money": 360_000, "health": -4, "mental": -3},
@@ -3139,6 +3143,339 @@ def validate_phone_contract(
         )
 
 
+def activity_task_has_material_outcomes(config: dict[str, Any]) -> bool:
+    outcomes = config.get("outcomes", {})
+    overreach = config.get("overreach", {})
+    if not isinstance(outcomes, dict) or not outcomes \
+            or not isinstance(overreach, dict):
+        return False
+    rows = list(outcomes.values()) + [overreach]
+    return all(
+        isinstance(row, dict)
+        and isinstance(row.get("effects"), dict)
+        and any(
+            isinstance(value, (int, float))
+            and not isinstance(value, bool)
+            and float(value) != 0.0
+            for value in row["effects"].values()
+        )
+        for row in rows
+    )
+
+
+def validate_activity_task_contracts(
+    bundles: dict[str, Any],
+    registered_events: dict[str, dict[str, Any]],
+    demo_core_loop_source: str,
+    errors: list[str],
+) -> set[str]:
+    """Lock the first N-of-(N+1) task and its receipt-owned readers."""
+    activity_ids = {
+        str(bundle_id)
+        for bundle_id, raw_bundle in bundles.items()
+        if isinstance(raw_bundle, dict)
+        and isinstance(raw_bundle.get("action_config"), dict)
+        and raw_bundle["action_config"].get("execution") == "activity_task"
+    }
+    if activity_ids != {"m3_inventory_shift"}:
+        fail(
+            "the first activity-task slice must remain isolated to "
+            f"m3_inventory_shift, got {sorted(activity_ids)}",
+            errors,
+        )
+    bundle = require_dict(
+        bundles.get("m3_inventory_shift"),
+        "bundle m3_inventory_shift",
+        errors,
+    )
+    config = require_dict(
+        bundle.get("action_config"),
+        "m3_inventory_shift.action_config",
+        errors,
+    )
+    for field in (
+        "task_title_ko", "task_title_en", "intro_ko", "intro_en",
+        "instruction_ko", "instruction_en",
+    ):
+        value = str(config.get(field, "")).strip()
+        if not value:
+            fail(f"inventory activity task is missing {field}", errors)
+        elif field.endswith("_en") and HANGUL_RE.search(value):
+            fail(f"inventory activity task {field} leaks Hangul", errors)
+    requirements = require_list(
+        config.get("requirements"),
+        "m3_inventory_shift.action_config.requirements",
+        errors,
+    )
+    requirement_ids: list[str] = []
+    scene_slots: list[str] = []
+    requirement_sfx: list[str] = []
+    for index, raw_requirement in enumerate(requirements):
+        row = require_dict(
+            raw_requirement,
+            f"m3_inventory_shift.action_config.requirements[{index}]",
+            errors,
+        )
+        requirement_ids.append(str(row.get("id", "")).strip())
+        scene_slots.append(str(row.get("scene_slot", "")).strip())
+        for field in (
+            "label_ko", "label_en", "detail_ko", "detail_en",
+            "feedback_ko", "feedback_en", "station_ko", "station_en",
+            "short_ko", "short_en",
+        ):
+            value = str(row.get(field, "")).strip()
+            if not value:
+                fail(f"inventory requirement {index} is missing {field}", errors)
+            elif field.endswith("_en") and HANGUL_RE.search(value):
+                fail(
+                    f"inventory requirement {index}.{field} leaks Hangul",
+                    errors,
+                )
+        requirement_sfx.append(str(row.get("sfx", "")).strip())
+    expected_requirement_ids = [
+        "confirm_actual_count",
+        "trace_discrepancy",
+        "write_handoff_note",
+    ]
+    if (
+        int(config.get("normal_steps", 0)) != 2
+        or requirement_ids != expected_requirement_ids
+        or len(set(requirement_ids)) != 3
+        or scene_slots != ["left", "center", "right"]
+        or requirement_sfx
+            != ["register_scan", "paper_handle", "pen_write"]
+    ):
+        fail(
+            "inventory activity task must expose three unique physical "
+            "targets and two normal processing chances",
+            errors,
+        )
+
+    outcomes = require_dict(
+        config.get("outcomes"),
+        "m3_inventory_shift.action_config.outcomes",
+        errors,
+    )
+    expected_effects = {
+        "inventory_trace_before_handoff": {
+            "money": 360_000, "health": -6, "mental": -2,
+        },
+        "inventory_untraced_handoff": {
+            "money": 360_000, "health": -4, "mental": -3,
+        },
+        "inventory_unconfirmed_handoff": {
+            "money": 360_000, "health": -2, "mental": -4,
+        },
+    }
+    expected_pairs = {
+        tuple(sorted(pair))
+        for pair in combinations(expected_requirement_ids, 2)
+    }
+    observed_pairs: set[tuple[str, ...]] = set()
+    normal_effects: list[dict[str, Any]] = []
+    for outcome_id, raw_outcome in outcomes.items():
+        outcome = require_dict(
+            raw_outcome,
+            f"m3_inventory_shift.action_config.outcomes.{outcome_id}",
+            errors,
+        )
+        selected = outcome.get("requirements", [])
+        if not isinstance(selected, list):
+            selected = []
+        signature = tuple(sorted(str(value) for value in selected))
+        observed_pairs.add(signature)
+        effects = outcome.get("effects", {})
+        if not isinstance(effects, dict):
+            effects = {}
+        normal_effects.append(effects)
+        if (
+            str(outcome.get("outcome_id", "")) != str(outcome_id)
+            or effects != expected_effects.get(str(outcome_id))
+        ):
+            fail(
+                f"inventory outcome {outcome_id} lost its exact id/effects",
+                errors,
+            )
+        for field in (
+            "preview_ko", "preview_en", "finish_ko", "finish_en",
+            "recap_ko", "recap_en",
+        ):
+            value = str(outcome.get(field, "")).strip()
+            if not value:
+                fail(f"inventory outcome {outcome_id} is missing {field}", errors)
+            elif field.endswith("_en") and HANGUL_RE.search(value):
+                fail(f"inventory outcome {outcome_id}.{field} leaks Hangul", errors)
+    if set(outcomes) != set(expected_effects) or observed_pairs != expected_pairs:
+        fail(
+            "inventory activity task must own every one of the three "
+            "two-requirement combinations exactly once",
+            errors,
+        )
+    if len(normal_effects) != 3 or any(
+        int(row.get("money", 0)) != 360_000 for row in normal_effects
+    ):
+        fail("inventory outcomes must all pay exactly KRW 360,000", errors)
+    average = {
+        stat: sum(int(row.get(stat, 0)) for row in normal_effects) / 3
+        for stat in ("money", "health", "mental")
+    } if len(normal_effects) == 3 else {}
+    if average != {"money": 360_000, "health": -4, "mental": -3}:
+        fail(
+            "inventory normal outcomes must average to the legacy "
+            f"360000/-4/-3 baseline, got {average}",
+            errors,
+        )
+
+    overreach = require_dict(
+        config.get("overreach"),
+        "m3_inventory_shift.action_config.overreach",
+        errors,
+    )
+    if (
+        overreach.get("outcome_id") != "inventory_all_finished"
+        or overreach.get("requirements") != expected_requirement_ids
+        or overreach.get("effects")
+            != {"money": 360_000, "health": -6, "mental": -3}
+        or config.get("effects")
+            != {"money": 360_000, "health": -4, "mental": -3}
+        or bundle.get("action_result_presentation") != "story_owned"
+    ):
+        fail(
+            "inventory overreach, story owner, or "
+            "compatibility baseline drifted",
+            errors,
+        )
+    legacy = require_dict(
+        config.get("legacy_instant_effect"),
+        "m3_inventory_shift.action_config.legacy_instant_effect",
+        errors,
+    )
+    if (
+        legacy.get("outcome_id") != "inventory_legacy_count_marked"
+        or legacy.get("requirements") != ["confirm_actual_count"]
+        or legacy.get("effects")
+            != {"money": 360_000, "health": -4, "mental": -3}
+    ):
+        fail(
+            "inventory legacy reader must preserve only the old recount mark",
+            errors,
+        )
+    for field in ("finish_ko", "finish_en", "recap_ko", "recap_en"):
+        value = str(legacy.get(field, "")).strip()
+        if not value:
+            fail(f"inventory legacy reader is missing {field}", errors)
+        elif field.endswith("_en") and HANGUL_RE.search(value):
+            fail(f"inventory legacy reader {field} leaks Hangul", errors)
+    for field in (
+        "prompt_ko", "prompt_en", "finish_ko", "finish_en", "recap_ko",
+        "recap_en",
+    ):
+        value = str(overreach.get(field, "")).strip()
+        if not value:
+            fail(f"inventory overreach is missing {field}", errors)
+        elif field.endswith("_en") and HANGUL_RE.search(value):
+            fail(f"inventory overreach {field} leaks Hangul", errors)
+    if not activity_task_has_material_outcomes(config):
+        fail("inventory activity task has no material finalized outcomes", errors)
+
+    reader_keys = {
+        f"activity_task_outcome:m3_inventory_shift:{outcome_id}"
+        for outcome_id in (
+            *expected_effects,
+            "inventory_all_finished",
+            "inventory_legacy_count_marked",
+        )
+    }
+    try:
+        english_rows = json.loads(
+            CORE_V2_EVENTS_EN_PATH.read_text(encoding="utf-8")
+        )
+    except (OSError, json.JSONDecodeError) as exc:
+        fail(f"cannot load English activity-task readers: {exc}", errors)
+        english_rows = []
+    english_events = {
+        str(row.get("id", "")): row
+        for row in english_rows
+        if isinstance(row, dict) and str(row.get("id", ""))
+    } if isinstance(english_rows, list) else {}
+    for event_id in (
+        "v2_inventory_count_nights", "v2_logistics_class_session"
+    ):
+        for language, catalog in (
+            ("Korean", registered_events), ("English", english_events)
+        ):
+            event = require_dict(
+                catalog.get(event_id), f"{language} {event_id}", errors
+            )
+            readers = require_dict(
+                event.get("description_memory_if_known"),
+                f"{language} {event_id}.description_memory_if_known",
+                errors,
+            )
+            if set(readers) != reader_keys or any(
+                not str(readers.get(key, "")).strip() for key in reader_keys
+            ):
+                fail(
+                    f"{language} {event_id} must read all modern and legacy exact "
+                    "inventory outcomes",
+                    errors,
+                )
+            if language == "English" and any(
+                HANGUL_RE.search(str(value)) for value in readers.values()
+            ):
+                fail(f"English {event_id} outcome reader leaks Hangul", errors)
+        if event_id == "v2_inventory_count_nights":
+            choices = require_list(
+                registered_events.get(event_id, {}).get("choices"),
+                f"{event_id}.choices",
+                errors,
+            )
+            if (
+                len(choices) != 1
+                or not isinstance(choices[0], dict)
+                or STORY_GAMEPLAY_KEYS.intersection(choices[0])
+            ):
+                fail(
+                    "inventory result story must close through one neutral "
+                    "choice without duplicating gameplay effects",
+                    errors,
+                )
+
+    required_runtime_tokens = (
+        "static func activity_task_config(",
+        "static func begin_or_resume_activity_task(",
+        "static func update_activity_task_requirements(",
+        "static func resolve_activity_task(",
+        "static func activity_task_receipt(",
+        "legacy_execution\"] = \"instant_effect\"",
+    )
+    for token in required_runtime_tokens:
+        if token not in demo_core_loop_source:
+            fail(f"activity-task runtime contract lost {token}", errors)
+    try:
+        story_mode_source = (ROOT / "scenes" / "StoryMode.gd").read_text(
+            encoding="utf-8"
+        )
+    except OSError as exc:
+        fail(f"cannot load StoryMode activity-task reader: {exc}", errors)
+        story_mode_source = ""
+    story_reader_match = re.search(
+        r"^(?:static )?func _story_memory_condition_matches\b[\s\S]*?"
+        r"(?=^(?:static )?func |\Z)",
+        story_mode_source,
+        re.MULTILINE,
+    )
+    story_reader = (
+        story_reader_match.group(0) if story_reader_match is not None else ""
+    )
+    if (
+        'condition.begins_with("activity_task_outcome:")' not in story_reader
+        or "activity_task_receipt_outcome_id" not in story_reader
+    ):
+        fail("StoryMode lost its exact activity-task outcome reader", errors)
+    return activity_ids
+
+
 def validate_prerequisites(
     bundle_id: str,
     raw_prerequisites: Any,
@@ -4892,6 +5229,10 @@ def measure_long_tail_readers(
         if execution in {"instant_effect", "rest"} and has_nonzero_effect:
             static_material_actions.add(bundle_id)
             continue
+        if execution == "activity_task" \
+                and activity_task_has_material_outcomes(config):
+            static_material_actions.add(bundle_id)
+            continue
         action_id = str(raw_bundle.get("action_id", "")).strip()
         route_token = legacy_action_routes.get(action_id, "")
         if not execution and route_token and route_token in main_game_source:
@@ -6126,6 +6467,12 @@ def main() -> int:
             errors,
         )
     demo_core_loop_source = DEMO_CORE_LOOP_PATH.read_text(encoding="utf-8")
+    validate_activity_task_contracts(
+        bundles,
+        registered_events,
+        demo_core_loop_source,
+        errors,
+    )
     clean_branch_pattern = re.compile(
         r'if bundle_id == "temptation_consequence":\s*'
         r'if bool\(GameState\.flags\.get\("lent_account", false\)\):\s*'

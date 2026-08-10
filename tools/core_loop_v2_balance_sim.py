@@ -413,6 +413,49 @@ def simulate_legal(
     return ledger
 
 
+def simulate_inventory_long_horizon_envelope(
+    start_cash: int,
+    start_health: int,
+    start_mental: int,
+) -> dict[str, int]:
+    """Carry the Year-One low-water marks through a cautious five-year policy.
+
+    This intentionally adds no foreground income or passive stat growth. The
+    employed route receives only its existing Hanbit salary at month close and
+    uses the same +5 health/+10 mental rescue unit as the five-year policy
+    probe whenever either public survival stat reaches its conservative guard.
+    Starting from the prior route's *floor*, rather than its healthier Week-48
+    final value, makes the result a lower envelope instead of a forecast.
+    """
+
+    cash = start_cash
+    health = start_health
+    mental = start_mental
+    health_floor = health
+    mental_floor = mental
+    for week in range(49, 241):
+        if health <= 12 or mental <= 35:
+            health = min(100, health + 5)
+            mental = min(100, mental + 10)
+        if week % 4 == 0:
+            cash += 2_240_000 - MONTHLY_FIXED_COST
+            health = max(0, health + REALITY_HEALTH_PRESSURE)
+            mental = max(
+                0,
+                mental + REALITY_MENTAL_PRESSURE
+                + GOSIWON_MENTAL_PRESSURE,
+            )
+        health_floor = min(health_floor, health)
+        mental_floor = min(mental_floor, mental)
+    return {
+        "cash": cash,
+        "health": health,
+        "mental": mental,
+        "health_floor": health_floor,
+        "mental_floor": mental_floor,
+    }
+
+
 def simulate_hired_month_five(
     name: str,
     routine_pair: tuple[str, str],
@@ -3153,14 +3196,226 @@ def main() -> int:
         )
 
     inventory_config = action_config(contract, "m3_inventory_shift")
-    if str(inventory_config.get("execution", "")) != "instant_effect":
-        fail("month-three inventory work is not an instant authored effect", errors)
+    if str(inventory_config.get("execution", "")) != "activity_task":
+        fail("month-three inventory work is not an activity task", errors)
     inventory_effects = inventory_config.get("effects", {})
     if not isinstance(inventory_effects, dict):
         inventory_effects = {}
     if inventory_effects != {"money": 360_000, "health": -4, "mental": -3}:
         fail(
-            f"inventory shift effects drifted: {inventory_effects}",
+            f"inventory shift legacy/average baseline drifted: {inventory_effects}",
+            errors,
+        )
+    inventory_requirements = inventory_config.get("requirements", [])
+    if not isinstance(inventory_requirements, list):
+        inventory_requirements = []
+    inventory_requirement_ids = [
+        str(row.get("id", ""))
+        for row in inventory_requirements
+        if isinstance(row, dict)
+    ]
+    expected_inventory_requirements = [
+        "confirm_actual_count",
+        "trace_discrepancy",
+        "write_handoff_note",
+    ]
+    if (
+        int(inventory_config.get("normal_steps", 0)) != 2
+        or inventory_requirement_ids != expected_inventory_requirements
+    ):
+        fail(
+            "inventory activity task must preserve three requirements and "
+            "two normal processing chances",
+            errors,
+        )
+    expected_inventory_outcomes = {
+        "inventory_trace_before_handoff": {
+            "requirements": [
+                "confirm_actual_count", "trace_discrepancy",
+            ],
+            "effects": {"money": 360_000, "health": -6, "mental": -2},
+        },
+        "inventory_untraced_handoff": {
+            "requirements": [
+                "confirm_actual_count", "write_handoff_note",
+            ],
+            "effects": {"money": 360_000, "health": -4, "mental": -3},
+        },
+        "inventory_unconfirmed_handoff": {
+            "requirements": [
+                "trace_discrepancy", "write_handoff_note",
+            ],
+            "effects": {"money": 360_000, "health": -2, "mental": -4},
+        },
+    }
+    inventory_outcomes = inventory_config.get("outcomes", {})
+    if not isinstance(inventory_outcomes, dict):
+        inventory_outcomes = {}
+    observed_inventory_outcomes = {
+        str(outcome_id): {
+            "requirements": row.get("requirements", []),
+            "effects": row.get("effects", {}),
+        }
+        for outcome_id, row in inventory_outcomes.items()
+        if isinstance(row, dict)
+    }
+    if observed_inventory_outcomes != expected_inventory_outcomes:
+        fail(
+            "inventory normal outcome matrix drifted: "
+            f"{observed_inventory_outcomes}",
+            errors,
+        )
+    normal_effects = [
+        row.get("effects", {})
+        for row in inventory_outcomes.values()
+        if isinstance(row, dict) and isinstance(row.get("effects"), dict)
+    ]
+    average_inventory_effects = {
+        stat: sum(int(row.get(stat, 0)) for row in normal_effects) / 3
+        for stat in ("money", "health", "mental")
+    } if len(normal_effects) == 3 else {}
+    if average_inventory_effects != {
+        "money": 360_000,
+        "health": -4,
+        "mental": -3,
+    }:
+        fail(
+            "inventory normal outcomes no longer average to the legacy "
+            f"-4/-3 baseline: {average_inventory_effects}",
+            errors,
+        )
+    if any(int(row.get("money", 0)) != 360_000 for row in normal_effects):
+        fail("inventory work started paying different wages by outcome", errors)
+    overreach = inventory_config.get("overreach", {})
+    if not isinstance(overreach, dict):
+        overreach = {}
+    if (
+        overreach.get("outcome_id") != "inventory_all_finished"
+        or overreach.get("requirements") != expected_inventory_requirements
+        or overreach.get("effects")
+            != {"money": 360_000, "health": -6, "mental": -3}
+    ):
+        fail(
+            "inventory overreach or legacy baseline projection drifted: "
+            f"{overreach}",
+            errors,
+        )
+    legacy_inventory = inventory_config.get("legacy_instant_effect", {})
+    if (
+        not isinstance(legacy_inventory, dict)
+        or legacy_inventory.get("outcome_id")
+            != "inventory_legacy_count_marked"
+        or legacy_inventory.get("requirements") != ["confirm_actual_count"]
+        or legacy_inventory.get("effects")
+            != {"money": 360_000, "health": -4, "mental": -3}
+    ):
+        fail(
+            "inventory legacy reader no longer preserves the old recount mark",
+            errors,
+        )
+    all_inventory_effects = {
+        str(outcome_id): row.get("effects", {})
+        for outcome_id, row in inventory_outcomes.items()
+        if isinstance(row, dict) and isinstance(row.get("effects"), dict)
+    }
+    all_inventory_effects[str(overreach.get("outcome_id", ""))] = (
+        overreach.get("effects", {})
+        if isinstance(overreach.get("effects"), dict) else {}
+    )
+    expected_inventory_deltas = {
+        "inventory_trace_before_handoff": {
+            "money": 0, "health": -2, "mental": 1,
+        },
+        "inventory_untraced_handoff": {
+            "money": 0, "health": 0, "mental": 0,
+        },
+        "inventory_unconfirmed_handoff": {
+            "money": 0, "health": 2, "mental": -1,
+        },
+        "inventory_all_finished": {
+            "money": 0, "health": -2, "mental": 0,
+        },
+    }
+    observed_inventory_deltas = {
+        outcome_id: {
+            stat: int(effects.get(stat, 0))
+            - int(inventory_effects.get(stat, 0))
+            for stat in ("money", "health", "mental")
+        }
+        for outcome_id, effects in all_inventory_effects.items()
+    }
+    if observed_inventory_deltas != expected_inventory_deltas:
+        fail(
+            "inventory outcome deltas no longer match the legacy baseline: "
+            f"{observed_inventory_deltas}",
+            errors,
+        )
+
+    # The shipped runtime fixtures independently lock the inventory-carrying
+    # hired route to W24 floor H32/M60 and its actual W25→48 continuation to
+    # floor H28/M47. Projecting the full outcome deltas against those *floors*
+    # is deliberately more pessimistic than applying them to the final stats.
+    horizon_floor_baselines = {
+        24: {"health": 32, "mental": 60},
+        48: {"health": 28, "mental": 47},
+    }
+    projected_horizon_floors: dict[str, dict[int, dict[str, int]]] = {}
+    five_year_envelopes: dict[str, dict[str, int]] = {}
+    for outcome_id, delta in observed_inventory_deltas.items():
+        projected_horizon_floors[outcome_id] = {
+            week: {
+                stat: int(baseline[stat]) + int(delta[stat])
+                for stat in ("health", "mental")
+            }
+            for week, baseline in horizon_floor_baselines.items()
+        }
+        if any(
+            value <= 0
+            for horizon in projected_horizon_floors[outcome_id].values()
+            for value in horizon.values()
+        ):
+            fail(
+                f"inventory outcome {outcome_id} crosses a W24/W48 fatal "
+                f"floor: {projected_horizon_floors[outcome_id]}",
+                errors,
+            )
+        projected_w48 = projected_horizon_floors[outcome_id][48]
+        envelope = simulate_inventory_long_horizon_envelope(
+            12_105_862,
+            projected_w48["health"],
+            projected_w48["mental"],
+        )
+        five_year_envelopes[outcome_id] = envelope
+        if (
+            envelope["health_floor"] <= 0
+            or envelope["mental_floor"] <= 0
+            or envelope["cash"] != 88_425_862
+        ):
+            fail(
+                f"inventory outcome {outcome_id} breaks the conservative "
+                f"W240 survival/cash envelope: {envelope}",
+                errors,
+            )
+    if {
+        envelope["cash"] for envelope in five_year_envelopes.values()
+    } != {88_425_862}:
+        fail("inventory outcomes changed five-year cash despite equal pay", errors)
+    normal_ledgers: list[Ledger] = []
+    for outcome_id, row in sorted(inventory_outcomes.items()):
+        if not isinstance(row, dict) or not isinstance(row.get("effects"), dict):
+            continue
+        ledger = simulate_legal(
+            f"legal_livelihood_inventory_{outcome_id}",
+            ("livelihood", "recovery"),
+            options,
+            B_WEEKS,
+        )
+        ledger.apply_effects(row["effects"])
+        normal_ledgers.append(ledger)
+    if len(normal_ledgers) != 3 or {row.cash for row in normal_ledgers} != {50_000}:
+        fail(
+            "all three inventory outcomes must preserve the KRW 50,000 "
+            "month-three legal cash ledger",
             errors,
         )
     legal_inventory = simulate_legal(
@@ -3765,6 +4020,20 @@ def main() -> int:
         f"e_routine_units={e_no_shifts.routine_units} "
         f"recovery_diminished={diminished_recovery} "
         f"e_recovery_diminished={e_recovery_diminished} "
+        "inventory_normal_outcomes=3 "
+        "inventory_average=360000/-4/-3 "
+        "inventory_overreach=360000/-6/-3 "
+        "inventory_delta_cash=0 "
+        f"inventory_w24_floor="
+        f"H{min((row[24]['health'] for row in projected_horizon_floors.values()), default=0)}"
+        f"/M{min((row[24]['mental'] for row in projected_horizon_floors.values()), default=0)} "
+        f"inventory_w48_floor="
+        f"H{min((row[48]['health'] for row in projected_horizon_floors.values()), default=0)}"
+        f"/M{min((row[48]['mental'] for row in projected_horizon_floors.values()), default=0)} "
+        f"inventory_w240_floor="
+        f"H{min((row['health_floor'] for row in five_year_envelopes.values()), default=0)}"
+        f"/M{min((row['mental_floor'] for row in five_year_envelopes.values()), default=0)} "
+        "inventory_w240_cash=88425862 "
         f"survival_kernels={len(survival_kernels)} "
         f"kernel_mental={min(kernel_final_mental)}-{max(kernel_final_mental)} "
         f"kernel_health={min(kernel_final_health)}-{max(kernel_final_health)} "

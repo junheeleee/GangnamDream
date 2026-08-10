@@ -421,22 +421,36 @@
   {
     "id": "v2_inventory_count_nights",
     "title": "The Fourth Night of Barcodes",
-    "description": "After closing on the fourth night, {name} crouches in front of the last row of warehouse shelves. Each time the scanner reads another box along the same shelf, his wrist moves toward the next slot before he thinks about it.\n\nThe system sheet says twelve. The shelf holds eleven. Instead of rewriting the number to make it match, {name} marks a one-unit discrepancy and counts again.",
+    "description": "The wall clock is already past handoff time. In front of the last shelf, {name} lowers the scanner and flexes his stiff wrist once.\n\nThe cart he pushed along the same aisle for four nights rests at an angle by his feet.",
+    "description_memory_if_known": {
+      "activity_task_outcome:m3_inventory_shift:inventory_trace_before_handoff": "A second count still finds eleven items on the shelf. The receiving and returns logs also show that an item moved to the returns holding area the previous night remains in the system count. He found the cause, but his wrist aches and the handoff note lies blank beneath the fluorescent light.",
+      "activity_task_outcome:m3_inventory_shift:inventory_untraced_handoff": "A second count still finds eleven items on the shelf. The handoff note records the system's twelve, the shelf's eleven, and the check time. Even after setting the handoff sheet down, the blank line for the cause remains in {name}'s mind.",
+      "activity_task_outcome:m3_inventory_shift:inventory_unconfirmed_handoff": "The receiving and returns logs show that one item moved to the returns holding area the previous night. The handoff note records that entry and the difference between the system's twelve and the shelf's eleven. Because he never recounts the shelf, {name} cannot shake the thought that eleven itself might be wrong.",
+      "activity_task_outcome:m3_inventory_shift:inventory_all_finished": "A second count still finds eleven items on the shelf. The records show that one item moved to the returns holding area the previous night remains in the system count. The handoff note includes the difference, check time, and cause. By the time all three tasks are done, handoff time is long past. Only then does {name} feel his wrist and lower back stiffen at once.",
+      "activity_task_outcome:m3_inventory_shift:inventory_legacy_count_marked": "A second count still finds eleven items on the shelf. {name} marks the check time and shelf number beside the discrepancy."
+    },
     "choices": [
       {
-        "text": "Check the last slot one more time",
-        "result_text": "The second count is still eleven. {name} writes the time and shelf number beside the discrepancy mark.\n\nAs he returns the cart, the lights of the first bus pass through the gap beneath the warehouse shutter. When four nights of scanner beeps finally stop, the fatigue in his wrists and eyes arrives all at once."
+        "text": "Check the payment and leave the warehouse",
+        "result_text": "{name} returns the cart and lights up his phone. The 360,000-won inventory-count payment is in his account.\n\nThe lights of the first bus pass through the gap beneath the warehouse shutter. Four nights of scanner beeps have stopped. Only the fluorescent hum remains in the warehouse before dawn."
       }
     ]
   },
   {
     "id": "v2_logistics_class_session",
-    "title": "The Blank in the Stock-Movement Sheet",
-    "description": "From a seat at the back of the youth-center classroom, {name} watches the instructor project a sheet of receipts, shipments, and returns and ask the class to find the row that does not balance.\n\n{name} copies the inventory-turnover formula into his notebook three times. The first two use the wrong denominator. Only the third matches the sample sheet.",
+    "title": "The Row That Doesn't Balance",
+    "description": "From a seat at the back of the youth-center classroom, {name} watches the instructor project a sheet of receiving, shipping, and returns and ask the class to find the row that does not balance.\n\n{name} copies the inventory-turnover formula into his notebook three times. The first two use the wrong denominator. Only the third matches the sample sheet.",
+    "description_memory_if_known": {
+      "activity_task_outcome:m3_inventory_shift:inventory_trace_before_handoff": "As {name} starts to write beside the mismatched row, he remembers the handoff note he left blank last month even after finding the cause.",
+      "activity_task_outcome:m3_inventory_shift:inventory_untraced_handoff": "When he looks back up at the mismatched row, {name} remembers the night he confirmed eleven items and wrote down the difference but never found the entry that caused it. He works through the rows before and after the mismatch one by one.",
+      "activity_task_outcome:m3_inventory_shift:inventory_unconfirmed_handoff": "His hand pauses over the figures. He remembers the eleven items on the shelf he never went back to recount last month.",
+      "activity_task_outcome:m3_inventory_shift:inventory_all_finished": "As the instructor works through each check, {name} remembers the night he stayed with all three tasks past handoff time.",
+      "activity_task_outcome:m3_inventory_shift:inventory_legacy_count_marked": "As {name} follows the mismatched row, he remembers the check time and shelf number he wrote beside the discrepancy last month."
+    },
     "choices": [
       {
         "text": "Leave the two wrong lines on the page",
-        "result_text": "{name} strikes through each wrong formula and writes one sentence beside it explaining the mistake. Taking one class earns neither a certificate nor an offer.\n\nHe has written down where to begin the next time he faces a stock sheet."
+        "result_text": "{name} strikes through the two wrong formulas and writes one sentence beside each explaining the mistake. When class ends, the instructor closes the attendance sheet.\n\nHis notebook holds one place to start the next time he faces a stock sheet."
       }
     ]
   },

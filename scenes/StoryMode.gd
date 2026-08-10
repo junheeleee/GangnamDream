@@ -3141,6 +3141,18 @@ func _story_memory_condition_matches(condition_key: String) -> bool:
 					or not DEMO_CORE_LOOP_V2.obligation_receipt_matches(
 						bundle_id, obligation_id, disposition):
 				return false
+		elif condition.begins_with("activity_task_outcome:"):
+			var outcome_key := condition.trim_prefix(
+				"activity_task_outcome:")
+			var parts := outcome_key.split(":", false)
+			if parts.size() != 2:
+				return false
+			var bundle_id := str(parts[0]).strip_edges()
+			var outcome_id := str(parts[1]).strip_edges()
+			if bundle_id.is_empty() or outcome_id.is_empty() \
+					or DEMO_CORE_LOOP_V2.activity_task_receipt_outcome_id(
+						bundle_id) != outcome_id:
+				return false
 		elif condition.is_empty() \
 				or not GameState.flags.get(condition, false):
 			return false

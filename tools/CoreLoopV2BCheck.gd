@@ -3,6 +3,7 @@ extends Node
 
 const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
 const STORY_MODE := preload("res://scenes/StoryMode.gd")
+const FULL_ROUTE_CHECK := preload("res://tools/CoreLoopV2ECheck.gd")
 
 var _failures: Array[String] = []
 var _inject_late_commitment := false
@@ -27,6 +28,8 @@ func _ready() -> void:
 	_check_scheduled_prelude_ownership()
 	_check_application_transition_chain()
 	_check_action_receipt_once()
+	_check_activity_task_contract()
+	_check_activity_task_long_horizon_envelope()
 	_check_atomic_action_roundtrips()
 	_check_schema_two_action_result_migration()
 	_check_missing_action_receipt_lazy_recovery()
@@ -52,6 +55,8 @@ func _ready() -> void:
 			+ "callback=receipt_superseded/mindset3/v1_truthful/long_preserved "
 			+ "prelude=scheduled_owner/interview+math/story_action/save_once "
 			+ "action=atomic/save_result_once/story_bridge/all_schema_lazy/rollback "
+			+ "activity_task=3_requirements/3_pairs/overreach/save/once/readers/"
+			+ "W24_48_240_survival_cash "
 			+ "boundary_save=single/month3_nonterminal "
 			+ "month_delta=opening_to_close/save_roundtrip "
 			+ "overlay=result_resume pending=minigame_restart "
@@ -1288,6 +1293,420 @@ func _check_action_receipt_once() -> void:
 				"m3_hanbit_application").is_empty(),
 		"action receipt did not survive save/load")
 
+func _check_activity_task_contract() -> void:
+	var bundle_id := "m3_inventory_shift"
+	var config := CORE_LOOP.activity_task_config(bundle_id)
+	var requirements: Array = config.get("requirements", []) \
+		if config.get("requirements", []) is Array else []
+	var requirement_ids: Array = config.get("requirement_ids", []) \
+		if config.get("requirement_ids", []) is Array else []
+	var outcomes: Dictionary = config.get("outcomes", {}) \
+		if config.get("outcomes", {}) is Dictionary else {}
+	var overreach: Dictionary = config.get("overreach", {}) \
+		if config.get("overreach", {}) is Dictionary else {}
+	var legacy: Dictionary = config.get("legacy_instant_effect", {}) \
+		if config.get("legacy_instant_effect", {}) is Dictionary else {}
+	var expected_requirements := [
+		"confirm_actual_count",
+		"trace_discrepancy",
+		"write_handoff_note",
+	]
+	var expected_outcomes := {
+		"confirm_actual_count|trace_discrepancy": {
+			"outcome_id": "inventory_trace_before_handoff",
+			"effects": {"money": 360_000.0, "health": -6.0, "mental": -2.0},
+		},
+		"confirm_actual_count|write_handoff_note": {
+			"outcome_id": "inventory_untraced_handoff",
+			"effects": {"money": 360_000.0, "health": -4.0, "mental": -3.0},
+		},
+		"trace_discrepancy|write_handoff_note": {
+			"outcome_id": "inventory_unconfirmed_handoff",
+			"effects": {"money": 360_000.0, "health": -2.0, "mental": -4.0},
+		},
+	}
+	_expect(str(config.get("execution", "")) == "activity_task" \
+			and str(config.get("task_id", "")) == "inventory_discrepancy" \
+			and not str(config.get("task_title_ko", "")).is_empty() \
+			and not str(config.get("task_title_en", "")).is_empty() \
+			and int(config.get("normal_steps", 0)) == 2 \
+			and str(config.get("axis", "")) == "money" \
+			and str(config.get("place_id", "")) == "work" \
+			and requirement_ids == expected_requirements \
+			and requirements.size() == 3 \
+			and outcomes.size() == 3 \
+			and config.get("effects", {}) \
+				== {"money": 360_000.0, "health": -4.0, "mental": -3.0},
+		"inventory activity task lost its 3-requirement, 2-step, or legacy baseline contract")
+	_expect(str(legacy.get("outcome_id", "")) \
+			== "inventory_legacy_count_marked" \
+			and legacy.get("requirements", []) == ["confirm_actual_count"] \
+			and legacy.get("effects", {}) \
+				== {"money": 360_000.0, "health": -4.0, "mental": -3.0},
+		"inventory activity task invented a modern pair for a legacy recount")
+	var no_legacy_config := config.duplicate(true)
+	no_legacy_config.erase("legacy_instant_effect")
+	var normalized_no_legacy := CORE_LOOP._normalized_activity_task_config(
+		no_legacy_config)
+	_expect(not normalized_no_legacy.is_empty() \
+			and not normalized_no_legacy.has("legacy_instant_effect"),
+		"generic activity-task configs were coupled to an unrelated old save")
+	var localized_requirement_count := 0
+	var scene_slots: Array = []
+	for raw_requirement in requirements:
+		if not raw_requirement is Dictionary:
+			continue
+		var requirement: Dictionary = raw_requirement
+		if not str(requirement.get("label_ko", "")).is_empty() \
+				and not str(requirement.get("label_en", "")).is_empty() \
+				and not str(requirement.get("detail_ko", "")).is_empty() \
+				and not str(requirement.get("detail_en", "")).is_empty() \
+				and not str(requirement.get("feedback_ko", "")).is_empty() \
+				and not str(requirement.get("feedback_en", "")).is_empty():
+			localized_requirement_count += 1
+		scene_slots.append(str(requirement.get("scene_slot", "")))
+	_expect(localized_requirement_count == 3 \
+			and scene_slots == ["left", "center", "right"],
+		"inventory activity task lost localized copy or its three physical scene slots")
+	var observed_outcomes: Dictionary = {}
+	for raw_outcome in outcomes.values():
+		if not raw_outcome is Dictionary:
+			continue
+		var outcome: Dictionary = raw_outcome
+		var pair: Array = (outcome.get("requirements", []) as Array).duplicate()
+		pair.sort()
+		observed_outcomes["|".join(pair)] = {
+			"outcome_id": str(outcome.get("outcome_id", "")),
+			"effects": (outcome.get("effects", {}) as Dictionary).duplicate(true),
+		}
+	_expect(observed_outcomes == expected_outcomes \
+			and str(overreach.get("outcome_id", "")) \
+				== "inventory_all_finished" \
+			and overreach.get("requirements", []) == expected_requirements \
+			and overreach.get("effects", {}) \
+				== {"money": 360_000.0, "health": -6.0, "mental": -3.0},
+		"inventory activity task lost one of its three pairs or exact overreach result")
+
+	# Invalid counts and duplicate/unknown inputs never touch public stats, AP,
+	# or the finalized weekly ledger.
+	_expect(_begin_inventory_activity_task(),
+		"activity-task invalid-input fixture could not begin")
+	var untouched := _activity_task_public_snapshot()
+	_expect(not bool(CORE_LOOP.resolve_activity_task(false).get("ok", true)),
+		"activity task accepted zero requirements as a normal result")
+	_expect(bool(CORE_LOOP.update_activity_task_requirements(
+		[expected_requirements[0]]).get("ok", false)) \
+			and not bool(CORE_LOOP.resolve_activity_task(false).get("ok", true)),
+		"activity task accepted one requirement as a normal result")
+	_expect(not bool(CORE_LOOP.select_activity_task_requirement(
+		expected_requirements[0]).get("ok", true)),
+		"activity task accepted a duplicate requirement")
+	_expect(not bool(CORE_LOOP.update_activity_task_requirements(
+		expected_requirements).get("ok", true)),
+		"activity task accepted all three requirements as a normal selection")
+	_expect(not bool(CORE_LOOP.select_activity_task_requirement(
+		"qa_unknown_requirement").get("ok", true)) \
+			and _activity_task_public_snapshot() == untouched,
+		"invalid activity-task input changed public stats, AP, or the weekly ledger")
+	CORE_LOOP.cancel_active_bundle()
+
+	# Every order of every legal pair must reach the matching outcome while
+	# retaining the order in the single receipt. No click or resolution applies
+	# effects before the weekly transaction.
+	var selection_orders := [
+		[expected_requirements[0], expected_requirements[1]],
+		[expected_requirements[1], expected_requirements[0]],
+		[expected_requirements[0], expected_requirements[2]],
+		[expected_requirements[2], expected_requirements[0]],
+		[expected_requirements[1], expected_requirements[2]],
+		[expected_requirements[2], expected_requirements[1]],
+	]
+	for raw_selection in selection_orders:
+		var selection: Array = raw_selection
+		_expect(_begin_inventory_activity_task(),
+			"activity-task pair fixture could not begin")
+		var before_selection := _activity_task_public_snapshot()
+		var update := CORE_LOOP.update_activity_task_requirements(selection)
+		var resolution := CORE_LOOP.resolve_activity_task(false)
+		var signature: Array = selection.duplicate()
+		signature.sort()
+		var expected: Dictionary = expected_outcomes.get(
+			"|".join(signature), {})
+		_expect(bool(update.get("ok", false)) \
+				and int(update.get("remaining_steps", -1)) == 0 \
+				and bool(resolution.get("ok", false)) \
+				and str(resolution.get("outcome_id", "")) \
+					== str(expected.get("outcome_id", "")) \
+				and resolution.get("selected_requirements", []) == selection \
+				and resolution.get("effects", {}) == expected.get("effects", {}) \
+				and not bool(resolution.get("overreached", true)) \
+				and _activity_task_public_snapshot() == before_selection,
+			"activity-task pair/order resolution drifted for %s" % str(selection))
+		var transaction := _finalize_inventory_activity_task(resolution)
+		var receipt := CORE_LOOP.activity_task_receipt(bundle_id)
+		var skipped: Array = resolution.get("skipped_requirements", [])
+		var skipped_id := str(skipped[0]) if skipped.size() == 1 else ""
+		_expect(bool(transaction.get("ok", false)) \
+				and receipt.get("selected_requirements", []) == selection \
+				and receipt.get("skipped_requirements", []) == skipped \
+				and CORE_LOOP.activity_task_receipt_outcome_id(bundle_id) \
+					== str(expected.get("outcome_id", "")) \
+				and CORE_LOOP.activity_task_receipt_has_requirement(
+					bundle_id, str(selection[0])) \
+				and CORE_LOOP.activity_task_receipt_has_requirement(
+					bundle_id, str(selection[1])) \
+				and not CORE_LOOP.activity_task_receipt_has_requirement(
+					bundle_id, skipped_id) \
+				and CORE_LOOP.activity_task_session().is_empty(),
+			"activity-task final receipt lost its order, skipped work, or one-time session boundary")
+		_check_activity_task_story_reader(
+			str(expected.get("outcome_id", "")))
+
+	# The explicit overreach starts from two normal selections, appends the one
+	# remaining task, and shows/applies its own exact final effects.
+	_expect(_begin_inventory_activity_task(),
+		"activity-task overreach fixture could not begin")
+	var overreach_before := _activity_task_public_snapshot()
+	CORE_LOOP.update_activity_task_requirements([
+		expected_requirements[1], expected_requirements[2]])
+	var overreach_resolution := CORE_LOOP.resolve_activity_task(true)
+	_expect(bool(overreach_resolution.get("ok", false)) \
+			and bool(overreach_resolution.get("overreached", false)) \
+			and str(overreach_resolution.get("outcome_id", "")) \
+				== "inventory_all_finished" \
+			and overreach_resolution.get("selected_requirements", []) == [
+				expected_requirements[1], expected_requirements[2],
+				expected_requirements[0]] \
+			and (overreach_resolution.get(
+				"skipped_requirements", []) as Array).is_empty() \
+			and overreach_resolution.get("effects", {}) \
+				== {"money": 360_000.0, "health": -6.0, "mental": -3.0} \
+			and _activity_task_public_snapshot() == overreach_before,
+		"activity-task overreach lost its all-three order, exact effects, or no-effect boundary")
+	var overreach_transaction := _finalize_inventory_activity_task(
+		overreach_resolution)
+	var overreach_after := _activity_task_public_snapshot()
+	var repeated_transaction := _finalize_inventory_activity_task(
+		overreach_resolution)
+	_expect(bool(overreach_transaction.get("ok", false)) \
+			and not bool(repeated_transaction.get("ok", true)) \
+			and _activity_task_public_snapshot() == overreach_after \
+			and GameState.weekly_commitments.size() == 1 \
+			and CORE_LOOP.activity_task_receipt_outcome_id(bundle_id) \
+				== "inventory_all_finished",
+		"activity-task confirmation applied effects or the weekly commitment more than once")
+	_check_activity_task_story_reader("inventory_all_finished")
+
+	# A selecting and a resolved session must both survive normalization. Only
+	# finalization clears the transient session and creates the durable receipt.
+	_expect(_begin_inventory_activity_task(),
+		"activity-task save fixture could not begin")
+	var save_before := _activity_task_public_snapshot()
+	CORE_LOOP.select_activity_task_requirement(expected_requirements[0])
+	var selecting_save: Dictionary = GameState.serialize()
+	GameState.start_new_game()
+	GameState.load_from_dict(selecting_save)
+	CORE_LOOP.initialize_for_run()
+	var resumed := CORE_LOOP.begin_or_resume_activity_task(bundle_id)
+	var selecting_session: Dictionary = resumed.get("session", {})
+	_expect(bool(resumed.get("ok", false)) \
+			and bool(resumed.get("resumed", false)) \
+			and selecting_session.get("selected_requirements", []) \
+				== [expected_requirements[0]] \
+			and int(selecting_session.get("remaining_steps", -1)) == 1 \
+			and _activity_task_public_snapshot() == save_before,
+		"activity-task selecting session did not survive save/load exactly")
+	CORE_LOOP.select_activity_task_requirement(expected_requirements[2])
+	var saved_resolution := CORE_LOOP.resolve_activity_task(false)
+	var resolved_save: Dictionary = GameState.serialize()
+	GameState.start_new_game()
+	GameState.load_from_dict(resolved_save)
+	CORE_LOOP.initialize_for_run()
+	var resolved_session := CORE_LOOP.activity_task_session()
+	var resumed_resolution := CORE_LOOP.begin_or_resume_activity_task(bundle_id)
+	_expect(str(resolved_session.get("phase", "")) == "resolved" \
+			and str(resolved_session.get("outcome_id", "")) \
+				== "inventory_untraced_handoff" \
+			and resolved_session.get("resolution", {}) == saved_resolution \
+			and bool(resumed_resolution.get("ok", false)) \
+			and bool(resumed_resolution.get("resumed", false)) \
+			and (resumed_resolution.get("session", {}) as Dictionary).get(
+				"resolution", {}) == saved_resolution \
+			and CORE_LOOP.action_receipt(bundle_id).is_empty() \
+			and _activity_task_public_snapshot() == save_before,
+		"activity-task resolved session invented effects/receipt or changed across save/load")
+	var saved_transaction := _finalize_inventory_activity_task(
+		resolved_session.get("resolution", {}) as Dictionary)
+	var finalized_save: Dictionary = GameState.serialize()
+	GameState.start_new_game()
+	GameState.load_from_dict(finalized_save)
+	CORE_LOOP.initialize_for_run()
+	_expect(bool(saved_transaction.get("ok", false)) \
+			and CORE_LOOP.activity_task_session().is_empty() \
+			and CORE_LOOP.activity_task_receipt_outcome_id(bundle_id) \
+				== "inventory_untraced_handoff" \
+			and GameState.weekly_commitments.size() == 1,
+		"finalized activity-task save lost its single durable outcome receipt")
+
+func _check_activity_task_long_horizon_envelope() -> void:
+	# Only the hired release route actually schedules this optional Month-Three
+	# shift. Build that real 1→24 route once per outcome, then carry its exact
+	# snapshot through the production monthly-pressure transaction. The later
+	# policy deliberately spends a stat-only recovery week at a low threshold:
+	# this is a conservative survival envelope, not invented Year 2–5 content.
+	var outcome_ids := [
+		"inventory_trace_before_handoff",
+		"inventory_untraced_handoff",
+		"inventory_unconfirmed_handoff",
+		"inventory_all_finished",
+	]
+	var expected_cash_by_horizon: Dictionary = {}
+	for outcome_id in outcome_ids:
+		var route := FULL_ROUTE_CHECK.build_full_route_snapshot(
+			"clean_hired_recovery_high", outcome_id)
+		_expect(bool(route.get("ok", false)),
+			"activity-task %s failed its real Week-1→24 route: %s" % [
+				outcome_id, str(route.get("errors", []))])
+		if not bool(route.get("ok", false)):
+			continue
+		var snapshot: Dictionary = route.get("snapshot", {})
+		GameState.load_from_dict(snapshot)
+		CORE_LOOP.initialize_for_run()
+		var checkpoints := {
+			"24": {
+				"money": float(GameState.money),
+				"health": int(GameState.health),
+				"mental": int(GameState.mental),
+			},
+		}
+		_expect(int(GameState.turn) == 25 \
+				and is_equal_approx(float(GameState.money), 3_580_500.0) \
+				and int(GameState.health) > 0 \
+				and int(GameState.mental) > 0 \
+				and CORE_LOOP.activity_task_receipt_outcome_id(
+					"m3_inventory_shift") == outcome_id,
+			"activity-task %s broke its exact Week-24 cash/survival/receipt boundary"
+				% outcome_id)
+		var continuation := _continue_activity_task_horizon(
+			snapshot, checkpoints)
+		_expect(bool(continuation.get("ok", false)),
+			"activity-task %s failed its conservative Week-25→240 envelope: %s"
+				% [outcome_id, str(continuation)])
+		if not bool(continuation.get("ok", false)):
+			continue
+		checkpoints = continuation.get("checkpoints", {})
+		var cash_by_horizon := {
+			"24": float((checkpoints.get("24", {}) as Dictionary).get(
+				"money", NAN)),
+			"48": float((checkpoints.get("48", {}) as Dictionary).get(
+				"money", NAN)),
+			"240": float((checkpoints.get("240", {}) as Dictionary).get(
+				"money", NAN)),
+		}
+		if expected_cash_by_horizon.is_empty():
+			expected_cash_by_horizon = cash_by_horizon.duplicate(true)
+		_expect(cash_by_horizon == expected_cash_by_horizon \
+				and float(cash_by_horizon["24"]) == 3_580_500.0 \
+				and float(cash_by_horizon["48"]) > 0.0 \
+				and float(cash_by_horizon["240"]) > 0.0,
+			"activity-task %s changed W24/W48/W240 cash against its equal-pay baseline: %s"
+				% [outcome_id, str(cash_by_horizon)])
+
+func _continue_activity_task_horizon(
+		snapshot: Dictionary,
+		initial_checkpoints: Dictionary) -> Dictionary:
+	GameState.load_from_dict(snapshot)
+	CORE_LOOP.initialize_for_run()
+	var checkpoints: Dictionary = initial_checkpoints.duplicate(true)
+	var floors := {
+		"health": int(GameState.health),
+		"mental": int(GameState.mental),
+	}
+	for expected_week in range(25, 241):
+		if int(GameState.turn) != expected_week:
+			return {"ok": false, "error": "calendar_drift",
+				"expected_week": expected_week, "turn": int(GameState.turn)}
+		# Same recovery unit used by the five-year policy probe. Acting before a
+		# fatal threshold makes this stricter than relying on a later story rescue.
+		if int(GameState.health) <= 12 or int(GameState.mental) <= 35:
+			GameState.modify_stat("health", 5)
+			GameState.modify_stat("mental", 10)
+		if expected_week % 4 == 0:
+			GameState.apply_monthly_pressure()
+		floors["health"] = mini(
+			int(floors["health"]), int(GameState.health))
+		floors["mental"] = mini(
+			int(floors["mental"]), int(GameState.mental))
+		if int(GameState.health) <= 0 or int(GameState.mental) <= 0:
+			return {"ok": false, "error": "fatal_stat",
+				"week": expected_week, "floors": floors}
+		if expected_week in [48, 240]:
+			checkpoints[str(expected_week)] = {
+				"money": float(GameState.money),
+				"health": int(GameState.health),
+				"mental": int(GameState.mental),
+			}
+		if expected_week < 240:
+			GameState.advance_calendar()
+	return {"ok": true, "checkpoints": checkpoints, "floors": floors}
+
+func _begin_inventory_activity_task() -> bool:
+	_fresh()
+	GameState.turn = 10
+	var bundle_id := "m3_inventory_shift"
+	var scene_bundle := CORE_LOOP.bundle(bundle_id)
+	var action_id := str(scene_bundle.get("action_id", ""))
+	if not CORE_LOOP.begin_bundle(bundle_id, "schedule") \
+			or not GameState.arm_weekly_commitment({
+				"turn": 10,
+				"pressure_id": bundle_id,
+				"pressure_family": "livelihood",
+				"choice_id": action_id,
+				"forgone_ids": [],
+			}):
+		return false
+	return bool(CORE_LOOP.begin_or_resume_activity_task(
+		bundle_id).get("ok", false))
+
+func _finalize_inventory_activity_task(resolution: Dictionary) -> Dictionary:
+	var details := resolution.duplicate(true)
+	details.erase("ok")
+	var effects: Dictionary = (
+		(details.get("effects", {}) as Dictionary).duplicate(true)
+		if details.get("effects", {}) is Dictionary else {}
+	)
+	return GameState.finalize_weekly_effect_action(
+		"side_shift", effects,
+		str(details.get("axis", "money")),
+		str(details.get("place_id", "work")), "", details)
+
+func _activity_task_public_snapshot() -> Dictionary:
+	return {
+		"money": float(GameState.money),
+		"health": int(GameState.health),
+		"mental": int(GameState.mental),
+		"action_points": int(GameState.action_points),
+		"weekly_commitments": GameState.weekly_commitments.duplicate(true),
+		"axis": GameState.action_axis_this_week.duplicate(true),
+	}
+
+func _check_activity_task_story_reader(outcome_id: String) -> void:
+	var story = STORY_MODE.new()
+	var condition_key := "activity_task_outcome:m3_inventory_shift:%s" \
+		% outcome_id
+	for event_id in [
+		"v2_inventory_count_nights", "v2_logistics_class_session"]:
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		var variants: Dictionary = event.get(
+			"description_memory_if_known", {})
+		var expected_copy := str(variants.get(condition_key, ""))
+		var resolved_copy := story._resolved_story_description(event)
+		_expect(not expected_copy.is_empty() \
+				and resolved_copy.contains(story._fmt(expected_copy)),
+			"%s did not read activity-task outcome %s" % [
+				event_id, outcome_id])
+	story.free()
+
 func _check_atomic_action_roundtrips() -> void:
 	_check_atomic_action_roundtrip("m3_hanbit_application", 9)
 	_check_atomic_action_roundtrip("m3_inventory_shift", 10)
@@ -1301,7 +1720,8 @@ func _check_atomic_action_roundtrip(
 	GameState.turn = action_turn
 	var scene_bundle := CORE_LOOP.bundle(bundle_id)
 	var action_id := str(scene_bundle.get("action_id", ""))
-	var expected_story_owned := bundle_id == "m3_room_ledger"
+	var expected_story_owned := bundle_id in [
+		"m3_inventory_shift", "m3_room_ledger"]
 	_expect(CORE_LOOP.story_owns_action_result(bundle_id) \
 			== expected_story_owned,
 		"%s did not preserve the exact Month-Three story-owned opt-in"
@@ -1341,6 +1761,26 @@ func _check_atomic_action_roundtrip(
 				"choice_id": action_id,
 				"forgone_ids": [],
 			}), "%s atomic fixture could not arm" % bundle_id)
+	if execution == "activity_task":
+		var activity_begin := CORE_LOOP.begin_or_resume_activity_task(bundle_id)
+		var requirement_ids: Array = config.get("requirement_ids", []) \
+			if config.get("requirement_ids", []) is Array else []
+		if requirement_ids.is_empty():
+			requirement_ids = CORE_LOOP.activity_task_config(
+				bundle_id).get("requirement_ids", [])
+		var activity_update := CORE_LOOP.update_activity_task_requirements(
+			requirement_ids.slice(0, int(config.get("normal_steps", 2))))
+		var activity_resolution := CORE_LOOP.resolve_activity_task(false)
+		_expect(bool(activity_begin.get("ok", false)) \
+				and bool(activity_update.get("ok", false)) \
+				and bool(activity_resolution.get("ok", false)),
+			"%s activity task could not resolve before its atomic transaction"
+				% bundle_id)
+		details = activity_resolution.duplicate(true)
+		details.erase("ok")
+		effects = (details.get("effects", {}) as Dictionary).duplicate(true)
+		axis = str(details.get("axis", axis))
+		place_id = str(details.get("place_id", place_id))
 	var transaction := GameState.finalize_weekly_effect_action(
 		action_id, effects, axis, place_id, "", details)
 	_expect(bool(transaction.get("ok", false)),
@@ -1353,7 +1793,7 @@ func _check_atomic_action_roundtrip(
 			and not CORE_LOOP.action_receipt(bundle_id).is_empty(),
 		"%s did not atomically finalize AP, axis, commitment, and receipt" \
 			% bundle_id)
-	if execution == "instant_effect":
+	if execution in ["instant_effect", "activity_task"]:
 		var finalized_record := GameState.get_weekly_commitment_for_turn(
 			action_turn)
 		var finalized_details: Dictionary = finalized_record.get("details", {})
@@ -1456,10 +1896,27 @@ func _check_schema_two_action_result_migration() -> void:
 	GameState.load_from_dict(old_save)
 	CORE_LOOP.initialize_for_run()
 	var recovered := CORE_LOOP.recover_action_result()
+	var legacy_receipt := CORE_LOOP.action_receipt(bundle_id)
+	var legacy_activity := CORE_LOOP.activity_task_receipt(bundle_id)
 	_expect(not recovered.is_empty() \
-			and not CORE_LOOP.action_receipt(bundle_id).is_empty() \
+			and not legacy_receipt.is_empty() \
 			and str(recovered.get("action_id", "")) == "side_shift",
 		"schema-2 finalized result did not backfill its action receipt")
+	_expect(str((legacy_receipt.get(
+			"result_details", {}) as Dictionary).get(
+				"execution", "")) == "instant_effect" \
+			and str(legacy_activity.get("legacy_execution", "")) \
+				== "instant_effect" \
+			and str(legacy_activity.get("outcome_id", "")) \
+				== "inventory_legacy_count_marked" \
+			and legacy_activity.get("selected_requirements", []) == [
+				"confirm_actual_count"] \
+			and legacy_activity.get("skipped_requirements", []) \
+				== ["trace_discrepancy", "write_handoff_note"] \
+			and CORE_LOOP.activity_task_receipt_outcome_id(bundle_id) \
+				== "inventory_legacy_count_marked",
+		"schema-2 instant receipt changed in place or invented a modern task pair")
+	_check_activity_task_story_reader("inventory_legacy_count_marked")
 	_expect(is_equal_approx(float(GameState.money), money_after) \
 			and int(GameState.health) == health_after \
 			and int(GameState.mental) == mental_after \
@@ -1605,27 +2062,30 @@ func _check_invalid_action_result_recovery() -> void:
 
 func _check_action_result_system_overlay() -> void:
 	_fresh()
-	GameState.turn = 10
-	var bundle_id := "m3_inventory_shift"
+	GameState.turn = 14
+	var bundle_id := "m4_certificate_session"
 	var scene_bundle := CORE_LOOP.bundle(bundle_id)
 	var config: Dictionary = scene_bundle.get("action_config", {})
+	var action_id := str(scene_bundle.get("action_id", ""))
+	var axis := str(config.get("axis", "human"))
+	var place_id := str(config.get("place_id", "city"))
 	var effects: Dictionary = (
 		(config.get("effects", {}) as Dictionary).duplicate(true)
 		if config.get("effects", {}) is Dictionary else {}
 	)
 	_expect(CORE_LOOP.begin_bundle(bundle_id, "schedule") \
 			and GameState.arm_weekly_commitment({
-				"turn": 10,
+				"turn": 14,
 				"pressure_id": bundle_id,
-				"pressure_family": "livelihood",
-				"choice_id": "side_shift",
+				"pressure_family": "growth",
+				"choice_id": action_id,
 				"forgone_ids": [],
 			}), "system-overlay result fixture could not arm")
 	var transaction := GameState.finalize_weekly_effect_action(
-		"side_shift", effects, "money", "work", "", {
+		action_id, effects, axis, place_id, "", {
 			"execution": "instant_effect",
-			"axis": "money",
-			"place_id": "work",
+			"axis": axis,
+			"place_id": place_id,
 			"effects": effects.duplicate(true),
 		})
 	_expect(bool(transaction.get("ok", false)) \

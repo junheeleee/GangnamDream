@@ -340,7 +340,9 @@ var _captured_game_over_ids: Array[String] = []
 var _full_route_evidence: Array[String] = []
 
 
-static func build_full_route_snapshot(path_id: String) -> Dictionary:
+static func build_full_route_snapshot(
+		path_id: String,
+		activity_task_outcome_id: String = "") -> Dictionary:
 	# start_new_game() reads title perks. Isolate only the in-memory progression
 	# so the QA baseline is exactly 500k/65/60. Successful survival routes never
 	# call finish_run(), therefore this helper must not open or write the user's
@@ -354,19 +356,24 @@ static func build_full_route_snapshot(path_id: String) -> Dictionary:
 	MetaProgression.data = DataRegistry.default_meta.duplicate(true)
 	MetaProgression.set("_new_this_run", {"achievements": []})
 
-	var result := _build_full_route_snapshot_isolated(path_id)
+	var result := _build_full_route_snapshot_isolated(
+		path_id, activity_task_outcome_id)
 
 	MetaProgression.data = meta_data_backup
 	MetaProgression.set("_new_this_run", new_this_run_backup)
 	return result
 
 
-static func _build_full_route_snapshot_isolated(path_id: String) -> Dictionary:
+static func _build_full_route_snapshot_isolated(
+		path_id: String,
+		activity_task_outcome_id: String = "") -> Dictionary:
 	var errors: Array[String] = []
 	if not FULL_ROUTE_PATHS.has(path_id):
 		return {"ok": false, "path_id": path_id,
 			"errors": ["unknown full-route path: %s" % path_id]}
 	var path: Dictionary = (FULL_ROUTE_PATHS[path_id] as Dictionary).duplicate(true)
+	if not activity_task_outcome_id.is_empty():
+		path["activity_task_outcome_id"] = activity_task_outcome_id
 	GameState.start_new_game(
 		"김민준", "지방_상경", "none", "백수", "자유런", "현실")
 	CORE_LOOP.initialize_for_run(true)
@@ -780,6 +787,18 @@ static func _full_route_execute_action(
 	}):
 		errors.append("action %s could not arm its weekly commitment" % bundle_id)
 		return
+	if execution == "activity_task":
+		var activity_resolution := _default_activity_task_resolution(
+			bundle_id, str(path.get("activity_task_outcome_id", "")))
+		if not bool(activity_resolution.get("ok", false)):
+			errors.append("activity task %s could not resolve: %s" % [
+				bundle_id, str(activity_resolution)])
+			return
+		details = activity_resolution.duplicate(true)
+		details.erase("ok")
+		effects = (details.get("effects", {}) as Dictionary).duplicate(true)
+		axis = str(details.get("axis", axis))
+		place_id = str(details.get("place_id", place_id))
 	var transaction := GameState.finalize_weekly_effect_action(
 		action_id, effects, axis, place_id, "", details, flag_updates)
 	# MainGame receives this exact record through weekly_commitment_finalized.
@@ -1281,6 +1300,17 @@ func _check_action_story_roundtrips() -> void:
 			"choice_id": action_id,
 			"forgone_ids": [],
 		})
+		if execution == "activity_task" and armed:
+			var activity_resolution := _default_activity_task_resolution(
+				bundle_id)
+			_expect(bool(activity_resolution.get("ok", false)),
+				"%s activity task could not resolve in its story roundtrip"
+					% bundle_id)
+			details = activity_resolution.duplicate(true)
+			details.erase("ok")
+			effects = (details.get("effects", {}) as Dictionary).duplicate(true)
+			axis = str(details.get("axis", axis))
+			place_id = str(details.get("place_id", place_id))
 		if story_owned and armed:
 			var in_progress_stats := _action_story_stat_snapshot()
 			var in_progress_save: Dictionary = (
@@ -3508,6 +3538,16 @@ func _finish_begun_action(bundle_id: String) -> bool:
 			"forgone_ids": [],
 		}):
 		return false
+	if execution == "activity_task":
+		var activity_resolution := _default_activity_task_resolution(
+			bundle_id)
+		if not bool(activity_resolution.get("ok", false)):
+			return false
+		details = activity_resolution.duplicate(true)
+		details.erase("ok")
+		effects = (details.get("effects", {}) as Dictionary).duplicate(true)
+		axis = str(details.get("axis", axis))
+		place_id = str(details.get("place_id", place_id))
 	var transaction := GameState.finalize_weekly_effect_action(
 		action_id, effects, axis, place_id, "", details)
 	if not bool(transaction.get("ok", false)) \
@@ -3515,6 +3555,57 @@ func _finish_begun_action(bundle_id: String) -> bool:
 			or CORE_LOOP.action_receipt(bundle_id).is_empty():
 		return false
 	return CORE_LOOP.complete_active_bundle() == bundle_id
+
+static func _default_activity_task_resolution(
+		bundle_id: String,
+		requested_outcome_id: String = "") -> Dictionary:
+	var begun := CORE_LOOP.begin_or_resume_activity_task(bundle_id)
+	if not bool(begun.get("ok", false)):
+		return begun
+	var config: Dictionary = begun.get("config", {})
+	if config.is_empty():
+		config = CORE_LOOP.activity_task_config(bundle_id)
+	var requirement_ids: Array = config.get("requirement_ids", []) \
+		if config.get("requirement_ids", []) is Array else []
+	var normal_steps := int(config.get("normal_steps", 0))
+	if normal_steps < 1 or requirement_ids.size() <= normal_steps:
+		return {"ok": false, "error": "invalid_activity_task_fixture"}
+	var selected_requirements: Array = requirement_ids.slice(0, normal_steps)
+	var resolve_overreach := false
+	var baseline_effects: Variant = config.get("effects", {})
+	var raw_outcomes: Variant = config.get("outcomes", {})
+	var raw_overreach: Variant = config.get("overreach", {})
+	if not requested_outcome_id.is_empty() \
+			and raw_overreach is Dictionary \
+			and str((raw_overreach as Dictionary).get(
+				"outcome_id", "")) == requested_outcome_id:
+		selected_requirements = requirement_ids.slice(0, normal_steps)
+		resolve_overreach = true
+	elif not requested_outcome_id.is_empty() and raw_outcomes is Dictionary:
+		var requested: Variant = (raw_outcomes as Dictionary).get(
+			requested_outcome_id, {})
+		if not requested is Dictionary \
+				or not (requested as Dictionary).get(
+					"requirements", []) is Array:
+			return {"ok": false, "error": "unknown_activity_task_outcome"}
+		selected_requirements = ((requested as Dictionary).get(
+			"requirements", []) as Array).duplicate()
+	elif baseline_effects is Dictionary and raw_outcomes is Dictionary:
+		for raw_outcome in (raw_outcomes as Dictionary).values():
+			if raw_outcome is Dictionary \
+					and (raw_outcome as Dictionary).get("effects", {}) \
+						== baseline_effects \
+					and (raw_outcome as Dictionary).get(
+						"requirements", []) is Array:
+				selected_requirements = (
+					(raw_outcome as Dictionary).get(
+						"requirements", []) as Array).duplicate()
+				break
+	var updated := CORE_LOOP.update_activity_task_requirements(
+		selected_requirements)
+	if not bool(updated.get("ok", false)):
+		return updated
+	return CORE_LOOP.resolve_activity_task(resolve_overreach)
 
 func _apply_and_note_story_choice(
 		event_id: String, choice_index: int) -> bool:

@@ -148,6 +148,12 @@ INDOOR_BACKGROUNDS = {
 }
 
 ACTIVITY_CONTRACTS = {
+    "commitment_task": {
+        "mode": "activity_enter_return",
+        "ambience": "public_office",
+        "entry": "covered_cut",
+        "return": "static_fade",
+    },
     "investment": {
         "mode": "activity_enter_return",
         "ambience": "office",
