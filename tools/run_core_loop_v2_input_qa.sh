@@ -119,6 +119,7 @@ fi
 
 runner=("${godot_bin}")
 display_args=(--rendering-driver opengl3)
+audio_args=()
 if [[ "${GANGNAM_QA_XVFB:-0}" == "1" ]]; then
   if ! command -v xvfb-run >/dev/null 2>&1; then
     echo "GANGNAM_QA_XVFB=1 requires xvfb-run." >&2
@@ -126,6 +127,10 @@ if [[ "${GANGNAM_QA_XVFB:-0}" == "1" ]]; then
   fi
   runner=(xvfb-run -a "${godot_bin}")
   display_args=(--display-driver x11 --rendering-driver opengl3)
+  # CI's virtual display has no PulseAudio/ALSA device. The input and surface
+  # routes do not judge sound, so use Godot's deterministic silent driver and
+  # keep real local A/V runs on their platform driver.
+  audio_args=(--audio-driver Dummy)
 fi
 
 cd "${project_root}"
@@ -135,6 +140,7 @@ XDG_CACHE_HOME="${qa_root}/cache" \
 GANGNAM_QA_OUT="${output_dir}" \
 GANGNAM_QA_USER_DIR="${isolated_user_dir}" \
   run_qa_limited "${runner[@]}" "${display_args[@]}" \
+    "${audio_args[@]}" \
     --log-file "${qa_root}/godot.log" \
     --resolution "${resolution}" res://tools/ScreenshotQA.tscn -- \
     "${qa_args[@]}" \
