@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import datetime
 import hashlib
 import re
 import subprocess
@@ -38,6 +39,9 @@ PRESET_FEATURES = {
     "Linux / Steam Deck V2 Playtest": "gangnam_demo,core_loop_v2_playtest",
 }
 CHECKSUM_RE = re.compile(r"^([0-9a-f]{64})\s+(.+?)\s*$")
+BUILD_ID_RE = re.compile(
+    r"^(?P<date>\d{4}\.\d{2}\.\d{2})\.(?P<sequence>[1-9]\d*)$"
+)
 EXPECTED_GODOT_VERSION = "4.6.2.stable.official.71f334935"
 
 
@@ -230,6 +234,33 @@ def git_value(*args: str) -> str:
     ).strip()
 
 
+def package_build_id_errors(build_id: str, commit_date: str) -> list[str]:
+    """Reject a package label that does not identify the clean HEAD date."""
+    match = BUILD_ID_RE.fullmatch(build_id)
+    if match is None:
+        return [
+            f"build_id={build_id!r} must use YYYY.MM.DD.N with N >= 1"
+        ]
+    build_date = match.group("date")
+    try:
+        datetime.date.fromisoformat(build_date.replace(".", "-"))
+    except ValueError:
+        return [f"build_id={build_id!r} contains an invalid calendar date"]
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", commit_date):
+        return [f"HEAD commit date={commit_date!r} is not canonical YYYY-MM-DD"]
+    try:
+        datetime.date.fromisoformat(commit_date)
+    except ValueError:
+        return [f"HEAD commit date={commit_date!r} is not a valid calendar date"]
+    expected_date = commit_date.replace("-", ".")
+    if build_date != expected_date:
+        return [
+            f"build_id={build_id!r} is stale for HEAD commit date "
+            f"{commit_date}; issue {expected_date}.N before packaging"
+        ]
+    return []
+
+
 def manifest_source_errors(profile: str, values: dict[str, str]) -> list[str]:
     errors: list[str] = []
     try:
@@ -322,6 +353,30 @@ def build_script_errors(build_script: str) -> list[str]:
     for label, marker in web_markers.items():
         if marker not in build_script:
             errors.append(f"build.sh malformed or missing {label}")
+    date_guard = re.search(
+        r'^require_current_package_build_id\(\) \{\n'
+        r'(?P<body>.*?)^\}\s*$',
+        build_script,
+        flags=re.MULTILINE | re.DOTALL,
+    )
+    if date_guard is None or not re.search(
+        r'python3\s+"\$PROJECT_DIR/tools/build_identity_audit\.py"\s+'
+        r'--require-head-date',
+        date_guard.group("body") if date_guard else "",
+    ):
+        errors.append("build.sh malformed or missing package build-id date guard")
+    for aggregate in ("build_demo", "build_playtest"):
+        function = re.search(
+            rf'^{aggregate}\(\) \{{\n(?P<body>.*?)^\}}\s*$',
+            build_script,
+            flags=re.MULTILINE | re.DOTALL,
+        )
+        if function is None or not re.search(
+            r'^\s+require_current_package_build_id\s*$',
+            function.group("body") if function else "",
+            flags=re.MULTILINE,
+        ):
+            errors.append(f"build.sh {aggregate} omitted package build-id date guard")
     return errors
 
 
@@ -406,6 +461,22 @@ def run_self_test() -> list[str]:
             failures.append("manifest parser lost build_id")
         if parse_checksum_rows(fixture) != rows:
             failures.append("manifest parser lost artifact checksum rows")
+    build_id_date_cases = (
+        ("2026.08.10.1", "2026-08-10", False),
+        ("2026.08.10.27", "2026-08-10", False),
+        ("2026.08.03.2", "2026-08-10", True),
+        ("2026.02.30.1", "2026-02-28", True),
+        ("2026.08.10.0", "2026-08-10", True),
+        ("2026-08-10.1", "2026-08-10", True),
+        ("2026.08.10.1", "not-a-date", True),
+    )
+    for build_id, commit_date, should_fail in build_id_date_cases:
+        failed = bool(package_build_id_errors(build_id, commit_date))
+        if failed != should_fail:
+            failures.append(
+                "package build-id date fixture returned the wrong result: "
+                f"build_id={build_id!r} commit_date={commit_date!r}"
+            )
     build_script = BUILD_SCRIPT.read_text(encoding="utf-8")
     script_mutations = {
         "full manifest invocation": '--manifest "full=$manifest"',
@@ -415,6 +486,15 @@ def run_self_test() -> list[str]:
         "recursive web artifact scan": 'find "$PROJECT_DIR/build/web" -type f',
         "web manifest exclusion and stable order": (
             "! -name 'MANIFEST.sha256' -print0 | sort -z"
+        ),
+        "package build-id date audit": "--require-head-date",
+        "demo package build-id date guard": (
+            "build_demo() {\n  require_clean_playtest_source\n"
+            "  require_current_package_build_id"
+        ),
+        "playtest package build-id date guard": (
+            "build_playtest() {\n  require_clean_playtest_source\n"
+            "  require_current_package_build_id"
         ),
     }
     for label, marker in script_mutations.items():
@@ -452,6 +532,11 @@ def main() -> int:
         help="verify a full, demo, or playtest MANIFEST.sha256",
     )
     parser.add_argument("--self-test", action="store_true")
+    parser.add_argument(
+        "--require-head-date",
+        action="store_true",
+        help="require BUILD_ID's date to equal the current HEAD commit date",
+    )
     args = parser.parse_args()
 
     errors = static_errors()
@@ -479,7 +564,17 @@ def main() -> int:
     self_tests = 0
     if args.self_test:
         errors.extend(run_self_test())
-        self_tests = 3 * 14 + 2 + 6 + 1
+        self_tests = 3 * 14 + 2 + 7 + 9 + 1
+    if args.require_head_date:
+        try:
+            errors.extend(
+                package_build_id_errors(
+                    string_const(BUILD_INFO, "BUILD_ID"),
+                    git_value("show", "-s", "--format=%cs", "HEAD"),
+                )
+            )
+        except (OSError, subprocess.CalledProcessError, ValueError) as exc:
+            errors.append(f"cannot verify package build-id date: {exc}")
     if errors:
         for error in errors:
             print(f"BUILD_IDENTITY_AUDIT_FAIL {error}", file=sys.stderr)
