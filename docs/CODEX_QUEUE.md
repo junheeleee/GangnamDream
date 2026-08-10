@@ -59,7 +59,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-89 · 계획판 진행 표시를 확정 조건에 맞춘다 | [89](queue_active/ORDER-89.md) | 착수 — 만지는 파일: `scenes/CoreLoopPlanner.gd`, `tools/CoreLoopV2Check.gd`, `tools/ScreenshotQA.gd`, `docs/CORE_LOOP_V2.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, 큐 활성·아카이브·현재 상태 문서 |
+| 1 | [~] | ORDER-89 · 계획판 진행 표시를 확정 조건에 맞춘다 | [89](queue_active/ORDER-89.md) | 착수 — 계획판 코드·회귀, `demo_core_loop_v2` 표면 계약·감사, 코어 루프·QA·작업 기록과 큐 문서 |
 | 2 | [ ] | ORDER-90 · 판정을 주는 `유혹` 라벨을 표면에서 제거 | [90](queue_active/ORDER-90.md) | 표면만 `회복`으로, 내부 kind 불변 |
 | 3 | [ ] | ORDER-91 · 계획판 카드를 출처가 있는 물건으로 | [91](queue_active/ORDER-91.md) | ORDER-89 뒤 착수. 첫 달 4개 출처·물성 |
 | 4 | [ ] | ORDER-88 · 독자 없는 아버지 기억과 24주 중복 영수증 정리 | [88](queue_active/ORDER-88.md) | 새 카드를 늘리지 않고 기존 장면 안에서 여섯 기억과 네 중복 기록을 닫기 |

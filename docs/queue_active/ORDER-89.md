@@ -6,8 +6,10 @@
 
 **착수 (2026-08-10 Codex):** 만지는 파일은 `scenes/CoreLoopPlanner.gd`,
 `tools/CoreLoopV2Check.gd`, `tools/ScreenshotQA.gd`, `docs/CORE_LOOP_V2.md`,
+`content/meta/demo_core_loop_v2.json`, `tools/demo_core_loop_v2_audit.py`,
 `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `CLAUDE.md`, 이 활성 사양과 완료
-아카이브·큐 인덱스다. 콘텐츠·효과·저장·확정 조건은 바꾸지 않는다.
+아카이브·큐 인덱스다. 표면 계약만 정렬하며 콘텐츠·효과·저장·확정 조건은
+바꾸지 않는다.
 
 **사용자 승인 (2026-08-05):** `docs/PROPOSALS.md`의 `P-12`를 권고대로 실행한다.
 사용자 플레이 판정은 *"이 화면은 제일 중요한 화면이자 제일 많이 하는 화면이고
