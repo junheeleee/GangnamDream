@@ -2,7 +2,20 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-90 [P0·정본 정합] 선택 전에 판정을 주는 `유혹` 라벨을 표면에서 없앤다
+#### [~] ORDER-90 [P0·정본 정합] 선택 전에 판정을 주는 `유혹` 라벨을 표면에서 없앤다
+
+**착수 (2026-08-10 Codex):** 만지는 파일은 `scenes/CoreLoopPlanner.gd`,
+`scenes/TutorialOverlay.gd`, `tools/CoreLoopV2Check.gd`,
+`tools/ScreenshotQA.gd`, `tools/demo_core_loop_v2_audit.py`,
+`docs/MORAL_TINT.md`, `docs/QA_CHECKLIST.md`,
+`docs/I18N_INFRASTRUCTURE.md`, `locale/ui_ja.json`,
+`content/meta/demo_localization_scope.json`, `docs/WORK_LOG.md`,
+`docs/STATUS.md`, `CLAUDE.md`, 이 활성 사양과 완료 아카이브·큐 인덱스다.
+내부 `kind: temptation`, 사건·선택·효과·플래그·후속·MORAL·저장은 바꾸지
+않는다. 라벨만 `회복`으로 바꾸고 관계색·관계 아이콘을 남기는 새 모순을 피하기
+위해, 내부 kind를 여섯 중립 표면 분류로 바꾸는 한 매핑이 라벨·색·아이콘을 함께
+소유한다. 범례는 상시 화면을 좁히지 않고 기존 첫 계획 튜토리얼 안에서 설명하며,
+Month 2 카페 카드가 실제 회복 카드와 같은 표면인지 KO/EN 두 해상도로 잠근다.
 
 **사용자 승인 (2026-08-05):** `docs/PROPOSALS.md`의 `P-16`을 권고대로 실행한다.
 
