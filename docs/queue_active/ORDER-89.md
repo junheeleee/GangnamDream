@@ -5,7 +5,9 @@
 #### [~] ORDER-89 [P0·코어 표면] 계획판 진행 표시가 실제 확정 조건을 그대로 세게 한다
 
 **착수 (2026-08-10 Codex):** 만지는 파일은 `scenes/CoreLoopPlanner.gd`,
-`tools/CoreLoopV2Check.gd`, `tools/ScreenshotQA.gd`, `docs/CORE_LOOP_V2.md`,
+`tools/CoreLoopV2Check.gd`, `tools/CoreLoopV2FirstEntryCheck.gd`,
+`tools/ScreenshotQA.gd`, `docs/CORE_LOOP_V2.md`,
+`docs/CONTROLLER_UX_STRATEGY.md`,
 `content/meta/demo_core_loop_v2.json`, `tools/demo_core_loop_v2_audit.py`,
 `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `CLAUDE.md`, 이 활성 사양과 완료
 아카이브·큐 인덱스다. 표면 계약만 정렬하며 콘텐츠·효과·저장·확정 조건은
