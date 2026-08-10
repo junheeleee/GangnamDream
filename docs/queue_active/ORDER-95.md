@@ -7,7 +7,7 @@
 **착수 (2026-08-11) — 만지는 파일:** `docs/CODEX_QUEUE.md`,
 `docs/queue_active/ORDER-95.md`(완료 시 `docs/queue_archive/ORDER-95.md`로 이동),
 `docs/REFERENCE_SYSTEM_VERDICTS.md`, `docs/DECISIONS.md`,
-`docs/context_manifest.json`, `docs/WORK_LOG.md`,
+`docs/CONTEXT_INDEX.md`, `docs/context_manifest.json`, `docs/WORK_LOG.md`,
 `docs/queue_archive/CODEX_QUEUE_2026-08.md`, `CLAUDE.md`, `docs/STATUS.md`.
 코드·데이터·자산은 만지지 않는다.
 
