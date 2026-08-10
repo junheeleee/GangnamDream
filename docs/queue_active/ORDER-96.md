@@ -2,10 +2,11 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-96 [P0·현지화 기반] LOC-0 — 다의 한국어 UI 키를 안정 문맥 ID로 분리한다
+#### [~] ORDER-96 [P0·현지화 기반] LOC-0 — 다의 한국어 UI 키를 안정 문맥 ID로 분리한다
 
-**선행 조건:** `ORDER-88`이 `[x]`로 닫히고 아카이브되기 전에는 착수하지 않는다.
-그 뒤 이 사양과 실행 표를 `[~]`로 함께 바꾸는 별도 선언 커밋을 먼저 만든다.
+**선행 조건 완료 (2026-08-11):** `ORDER-88`은 `[x]`로 닫히고
+`docs/queue_archive/ORDER-88.md`로 내렸다. 이 `[~]` 전환은 구현과 분리한
+착수 선언이며, 아래 정확한 파일 소유권 밖으로 범위를 늘리지 않는다.
 
 `docs/I18N_INFRASTRUCTURE.md`와
 `content/meta/demo_localization_scope.json`이 잠근 현재 실측은 UI source pair

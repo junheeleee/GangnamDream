@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-88
+# Archived Queue Spec: ORDER-88
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-88 [P0·선택 인과] 독자 없는 아버지 기억과 24주 중복 영수증을 기존 장면 안에서 닫는다
+#### [x] ORDER-88 [P0·선택 인과] 독자 없는 아버지 기억과 24주 중복 영수증을 기존 장면 안에서 닫는다
 
 **사용자 승인 (2026-08-04):** `docs/DECISIONS.md`의 판정 ③, “독자 없는 기억을
 작은 완결로 닫는다”를 실행한다. 3·4개월차 0장면 경로는 `ORDER-83`이 이미 깊은
@@ -112,3 +112,55 @@
   저장 모두 중복 적용·재생·소실이 없다.
 - 신규 사건·슬롯·callback 0, KO/EN 실제 입력·화면·24/48/240주·전체 감사·CI가
   초록이고 규범 승격·일회성 판정을 기록한 뒤 아카이브한다.
+
+## 완료 기록 (2026-08-11)
+
+- 3개월 조용한 통화의 `father_gangnam_words_held_back`,
+  `father_quiet_call_ended`, `father_asked_more`는 새 사건 없이 21주
+  아버지 건강 신호의 KO/EN 한 문단을 각각 바꾸도록 연결했다.
+  21주의 `father_neighbor_detail_checked`,
+  `father_called_again_that_evening`, `father_health_warning_postponed`는
+  24주 첫 청구서 도입부에서 각각 한 문단으로 돌아온다. 선택·수치·
+  관계 단계·route는 바꾸지 않았다.
+- 정확한 typed 기억이 없는 저장, 연락하지 않은 경로, V1·legacy
+  플래그만 남은 경로는 통화·약국 봉투·재연락을 소급 추론하지 않고
+  기본 산문을 쓴다. First Bill 갤러리는 완료 당시의 21주 기억 하나
+  또는 기억 없음을 스냅숏에 고정해 다음 런이 과거 회상을 바꾸지 못한다.
+  필드가 없던 schema-1 회상은 현재 관계를 읽지 않고 기본 산문을 쓴다.
+- `v2_dirty_trace_initial_call[0/1]`과
+  `v2_dirty_recruiter_week24[0/1]`은 선택 전에 `demo_collision`의
+  정확한 source key·claimed 영수증을 확인한다. 선택 뒤에도 그 key만
+  resolved로 바꾸고 기존 효과는 한 번만 적용한다. 영수증이 없거나
+  손상됐거나 같은 root의 다른 key면 효과·결과 화면 전에서 멈춘다.
+  새 런은 `story_choice_receipts`에 중복 사본을 쓰지 않으며, 옛 중복 값과
+  같은 root의 타 영수증은 삭제·재해석하지 않고 호환 자료로 보존한다.
+- 전수 감사는
+  `relationship_readerless=0 father_memory_readers=6 existing_reader_events=2 new_events=0`과
+  `w24_dirty_choices=4 w24_generic_story_receipts=0 w24_exact_deferred_receipts=2 w24_choice_effects=4`를 남겼다.
+  `CoreLoopV2BCheck`, `CoreLoopV2ECheck`, `CoreLoopV2HandoffCheck`,
+  `ManualSaveCheck`는 옛/V1/V2 저장, 고정 회상 3종, schema-1 기본 산문,
+  정확 source의 한 번 해결과 위조·누락 fail-closed를 통과했다.
+- KO/EN × 키보드/가상 패드 네 24주 제품 경로는
+  `CORE_LOOP_V2_FULL_MATRIX_OK languages=ko+en devices=keyboard+gamepad weeks=24 cases=4`,
+  KO/EN × 1280×800/960×600 네 화면은
+  `CORE_LOOP_V2_SURFACE_MATRIX_OK languages=ko+en resolutions=1280x800+960x600 cases=4`로 닫혔다.
+  전체 감사와 commit `e4239d3`의
+  [GitHub Actions 31441743970](https://github.com/junheeleee/GangnamDream/actions/runs/31441743970)도
+  전체 GREEN이다.
+- 현지화 원장은 정적 UI 2,730, 73사건·471본문·동적 686회/657고유·
+  자산 4, 총 번역 소스 1,132로 다시 잠갔다. JA는
+  `1/73·8/471·9/657·0/4`, zh-CN·zh-TW는 전부 0이며, 이를 번역·출시
+  완료로 부르지 않는다.
+- 아버지 생사·약국 봉투 시점·전화 공간·경찰 미해결 상태와 KO/EN
+  관계 거리를 교차 재독해 P0/P1 0을 확인했다. 사용자가 두 경로의 작은
+  차이를 자연스럽게 기억하는지는
+  `demo_father_memory_small_completion` 사람 게이트로 **OPEN**이다.
+- **승격:** 여섯 기억의 기존 장면 회수·기억 없음·갤러리 동결 규칙과
+  Week-24 정확 deferred 소유·fail-closed·옛 중복 호환은
+  `docs/CORE_LOOP_V2.md` `§13 현재 구현 경계`가 소유한다. 기계 계약은
+  `docs/QA_CHECKLIST.md`, 현지화 실측은
+  `content/meta/demo_localization_scope.json`·`docs/I18N_INFRASTRUCTURE.md`·
+  `docs/I18N_GLOSSARY_ZH.md`, 사람 판정은 `docs/human_gates.json`이 소유한다.
+- **일회성:** 착수 파일 목록·제외 목록, 배치 A/B 구현 순서, 현 리비전의
+  명령·임시 실행 디렉터리·로그·CI run ID는 이 아카이브에만 남긴다.
+  자동 PASS를 아버지 관계의 감정적 완결·재미·출시 GO로 바꾸지 않는다.
