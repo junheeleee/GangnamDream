@@ -2354,9 +2354,15 @@ func _check_cash_shortfall_receipts() -> void:
 			float(arrears_summary.get("cash_shortfall", 0.0)), 310000.0),
 		"negative month close did not record KRW 310,000 arrears")
 	var completion := CORE_LOOP.completion_snapshot()
-	_expect(is_equal_approx(
-			float(completion.get("cash_shortfall", 0.0)), 310000.0),
-		"completion receipt did not carry the final month's arrears")
+	var diagnostic_summaries: Dictionary = completion.get(
+		"month_summaries", {})
+	var diagnostic_month_three: Dictionary = diagnostic_summaries.get(
+		"3", {})
+	_expect(is_zero_approx(float(completion.get(
+			"cash_shortfall", -1.0))) \
+			and is_equal_approx(float(diagnostic_month_three.get(
+				"cash_shortfall", 0.0)), 310000.0),
+		"mid-run completion diagnostic relabeled Month-Three arrears as the final month")
 	var saved: Dictionary = GameState.serialize()
 	GameState.start_new_game()
 	GameState.load_from_dict(saved)

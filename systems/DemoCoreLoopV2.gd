@@ -1,6 +1,6 @@
 extends RefCounted
-## ORDER-57: 단계별 데모의 월간 계획·약속·놓친 길 저장 계약.
-## 기존 240주 편성기는 사람 GO 전까지 그대로 두고 명시적 테스트 런만 활성화한다.
+## 단계별 데모의 월간 계획·약속·놓친 길 저장 계약.
+## fresh 실행은 24주 서울 사이클을 쓰고, 구 저장과 25~240주 편성은 호환 폴백한다.
 
 const SCHEMA := 3
 const ACTIVITY_TASK_SESSION_SCHEMA := 1
@@ -68,6 +68,9 @@ const FIRST_BILL_DECISION_ID := "v2_demo_first_bill"
 const FIRST_BILL_LEDGER_ID := "v2_demo_first_bill_ledger"
 const FIRST_BILL_REPLAY_SCHEMA := 1
 const MONTH_ONE_EPISODE_MODE := "month_one_episode_v1"
+const SEOUL_CYCLE_SCHEMA := 1
+const SEOUL_CYCLE_MODE := "seoul_cycle_v1"
+const SEOUL_CYCLE_STATE_KEY := "seoul_cycle"
 const MONTH_ONE_EPISODE_TOKEN := "{v2_month_one_episode_echo}"
 const FIRST_BILL_STORY_TOKENS := [
 	MONTH_ONE_EPISODE_TOKEN,
@@ -278,8 +281,14 @@ static func mark_development_complete() -> bool:
 	var cap := development_cap_week()
 	if not bool(state.get("enabled", false)) \
 			or GameState.turn != cap + 1 \
-			or not (state.get("completed_turns", []) as Array).has(cap):
+		or not (state.get("completed_turns", []) as Array).has(cap):
 		return false
+	var boundary_was_already_complete := (
+		bool(state.get("prototype_complete", false))
+		or int(state.get("completed_through_week", 0)) >= cap
+		or int(state.get("completed_at_turn", 0)) == cap + 1
+		or int(state.get("prototype_completed_at_turn", 0)) == cap + 1
+	)
 	state["completed_through_week"] = maxi(
 		int(state.get("completed_through_week", 0)), cap)
 	state["development_cap_week"] = cap
@@ -292,19 +301,57 @@ static func mark_development_complete() -> bool:
 	state["action_result_ready"] = false
 	state["activity_task_session"] = {}
 	GameState.core_loop_v2_state = state
+	# Freeze the completed boundary after every receipt and the final month
+	# summary exist. Later chapters may extend relationships, applications, and
+	# callbacks; reopening this recap must still show the exact Week-24 record.
+	var frozen_snapshot := completion_snapshot(not boundary_was_already_complete)
+	state = _normalized_state(GameState.core_loop_v2_state)
+	state["completion_snapshots"][str(cap)] = frozen_snapshot.duplicate(true)
+	GameState.core_loop_v2_state = state
 	return true
 
 static func mark_prototype_complete() -> bool:
 	return mark_development_complete()
 
-static func completion_snapshot() -> Dictionary:
+static func completion_snapshot(trusted_fresh_boundary: bool = false) -> Dictionary:
 	var state := _normalized_state(GameState.core_loop_v2_state)
 	var cap := development_cap_week()
+	var raw_frozen: Variant = (
+		state.get("completion_snapshots", {}) as Dictionary
+	).get(str(cap), {})
+	if raw_frozen is Dictionary \
+			and _completion_snapshot_is_valid(raw_frozen as Dictionary, cap):
+		return (raw_frozen as Dictionary).duplicate(true)
 	var final_month := month_for_turn(cap)
+	var completed_through := int(state.get("completed_through_week", 0))
+	# Only mark_development_complete() may identify the exact transaction that
+	# just produced the final month summary. A loaded pre-snapshot completion at
+	# turn 25 looks identical numerically but must remain explicitly incomplete.
+	var late_unfrozen_boundary := completed_through >= cap \
+		and not trusted_fresh_boundary
 	var completed_turns: Array = state.get("completed_turns", [])
 	var kept: Array = []
 	for month_index in range(1, final_month + 1):
 		var plan := plan_for_month(month_index)
+		if plan_uses_seoul_cycle(plan):
+			var raw_cycle_summary: Variant = (
+				state.get("month_summaries", {}) as Dictionary
+			).get(str(month_index), {})
+			if raw_cycle_summary is Dictionary:
+				for raw_kept in (raw_cycle_summary as Dictionary).get("kept", []):
+					if not raw_kept is Dictionary:
+						continue
+					var cycle_record: Dictionary = (
+						raw_kept as Dictionary).duplicate(true)
+					var cycle_week := int(cycle_record.get("week", 0))
+					var cycle_bundle := str(cycle_record.get(
+						"bundle_id", "")).strip_edges()
+					if cycle_week >= 1 and cycle_week <= cap \
+							and completed_turns.has(cycle_week) \
+							and not cycle_bundle.is_empty():
+						cycle_record["month"] = month_index
+						kept.append(cycle_record)
+			continue
 		var raw_schedule: Variant = plan.get("schedule", {})
 		if not raw_schedule is Dictionary:
 			continue
@@ -335,19 +382,52 @@ static func completion_snapshot() -> Dictionary:
 				or int(record.get("month", 0)) > final_month:
 			continue
 		forgone.append(record.duplicate(true))
+	# Cycle plans do not own a pre-authored `forgone` card list. Their missed
+	# opportunities are the deadline receipts produced by the player's actual
+	# allocations, so the terminal notebook must read those receipts directly.
+	for month_index in range(1, final_month + 1):
+		var raw_cycle_summary: Variant = (
+			state.get("month_summaries", {}) as Dictionary
+		).get(str(month_index), {})
+		if not raw_cycle_summary is Dictionary \
+				or str((raw_cycle_summary as Dictionary).get(
+					"planning_mode", "")) != SEOUL_CYCLE_MODE:
+			continue
+		var node_states: Dictionary = (
+			raw_cycle_summary as Dictionary).get("node_states", {}) \
+			if (raw_cycle_summary as Dictionary).get(
+				"node_states", {}) is Dictionary else {}
+		var expiry_receipts: Dictionary = (
+			raw_cycle_summary as Dictionary).get("expiry_receipts", {}) \
+			if (raw_cycle_summary as Dictionary).get(
+				"expiry_receipts", {}) is Dictionary else {}
+		var expiry_keys: Array[String] = []
+		for raw_expiry_key in expiry_receipts:
+			expiry_keys.append(str(raw_expiry_key))
+		expiry_keys.sort()
+		for expiry_key in expiry_keys:
+			var raw_receipt: Variant = expiry_receipts.get(expiry_key, {})
+			if not raw_receipt is Dictionary:
+				continue
+			var receipt: Dictionary = raw_receipt
+			var bundle_id := str(receipt.get(
+				"trigger_bundle", "")).strip_edges()
+			if bundle_id.is_empty():
+				var node_id := str(receipt.get("node_id", ""))
+				var raw_node: Variant = node_states.get(node_id, {})
+				if raw_node is Dictionary:
+					bundle_id = str((raw_node as Dictionary).get(
+						"summary_bundle", "")).strip_edges()
+			if bundle_id.is_empty():
+				continue
+			forgone.append({
+				"month": month_index,
+				"week": int(receipt.get("turn", month_index * 4)),
+				"bundle_id": bundle_id,
+				"reason": str(receipt.get("consequence_id", "")),
+			})
 
-	var temptation_branch := "unresolved"
-	if bool(GameState.flags.get("lent_account", false)):
-		if bool(GameState.flags.get("escaped_dirty_money", false)):
-			temptation_branch = "returned_money"
-		elif bool(GameState.flags.get("fell_to_darkness", false)):
-			temptation_branch = "accepted_more"
-		else:
-			temptation_branch = "lent_account"
-	elif bool(GameState.flags.get("kept_clean_hands", false)):
-		temptation_branch = "refused_offer"
-
-	var closing_money := float(GameState.money)
+	var closing_state: Dictionary = {}
 	var final_summary_raw: Variant = (
 		state.get("month_summaries", {}) as Dictionary
 	).get(str(final_month), {})
@@ -356,59 +436,268 @@ static func completion_snapshot() -> Dictionary:
 			final_summary_raw as Dictionary
 		).get("after", {})
 		if final_after_raw is Dictionary:
-			closing_money = float(
-				(final_after_raw as Dictionary).get("money", closing_money))
+			closing_state = (final_after_raw as Dictionary).duplicate(true)
+
+	# The recap must remain an immutable Week-24 record when later chapters are
+	# added. Read the four branch facts captured in the final month receipt,
+	# never today's global HUD/flags. Older receipts without that evidence stay
+	# explicitly unresolved instead of receiving a plausible but invented past.
+	var closing_temptation_flags: Dictionary = (
+		closing_state.get("temptation_flags", {}) as Dictionary
+		if closing_state.get("temptation_flags", {}) is Dictionary else {}
+	)
+	var temptation_branch := "unresolved"
+	if bool(closing_temptation_flags.get("lent_account", false)):
+		if bool(closing_temptation_flags.get("escaped_dirty_money", false)):
+			temptation_branch = "returned_money"
+		elif bool(closing_temptation_flags.get("fell_to_darkness", false)):
+			temptation_branch = "accepted_more"
+		else:
+			temptation_branch = "lent_account"
+	elif bool(closing_temptation_flags.get("kept_clean_hands", false)):
+		temptation_branch = "refused_offer"
+	elif not late_unfrozen_boundary:
+		# A pre-completion diagnostic or an old save still parked exactly on the
+		# cap+1 boundary can safely read the live flags. Once later weeks exist,
+		# the absence of a frozen receipt must remain visibly unresolved.
+		if bool(GameState.flags.get("lent_account", false)):
+			if bool(GameState.flags.get("escaped_dirty_money", false)):
+				temptation_branch = "returned_money"
+			elif bool(GameState.flags.get("fell_to_darkness", false)):
+				temptation_branch = "accepted_more"
+			else:
+				temptation_branch = "lent_account"
+		elif bool(GameState.flags.get("kept_clean_hands", false)):
+			temptation_branch = "refused_offer"
+
+	var cycle_allocations: Array = []
+	for month_index in range(1, final_month + 1):
+		var raw_cycle_summary: Variant = (
+			state.get("month_summaries", {}) as Dictionary
+		).get(str(month_index), {})
+		if not raw_cycle_summary is Dictionary \
+				or str((raw_cycle_summary as Dictionary).get(
+					"planning_mode", "")) != SEOUL_CYCLE_MODE:
+			continue
+		var node_states: Dictionary = (
+			raw_cycle_summary as Dictionary).get("node_states", {}) \
+			if (raw_cycle_summary as Dictionary).get(
+				"node_states", {}) is Dictionary else {}
+		for raw_receipt in (raw_cycle_summary as Dictionary).get(
+				"allocation_receipts", []):
+			if not raw_receipt is Dictionary:
+				continue
+			var allocation: Dictionary = (
+				raw_receipt as Dictionary).duplicate(true)
+			var node_id := str(allocation.get("node_id", ""))
+			var raw_node: Variant = node_states.get(node_id, {})
+			allocation["month"] = month_index
+			if raw_node is Dictionary:
+				allocation["label_ko"] = str((raw_node as Dictionary).get(
+					"label_ko", node_id))
+				allocation["label_en"] = str((raw_node as Dictionary).get(
+					"label_en", node_id))
+			cycle_allocations.append(allocation)
+	cycle_allocations.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
+		var left_key := "%04d|%s|%s" % [
+			int(left.get("turn", 0)), str(left.get("node_id", "")),
+			str(left.get("capacity_id", ""))]
+		var right_key := "%04d|%s|%s" % [
+			int(right.get("turn", 0)), str(right.get("node_id", "")),
+			str(right.get("capacity_id", ""))]
+		return left_key < right_key)
+	forgone.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
+		var left_key := "%03d|%04d|%s|%s" % [
+			int(left.get("month", 0)), int(left.get("week", 0)),
+			str(left.get("bundle_id", "")), str(left.get("reason", ""))]
+		var right_key := "%03d|%04d|%s|%s" % [
+			int(right.get("month", 0)), int(right.get("week", 0)),
+			str(right.get("bundle_id", "")), str(right.get("reason", ""))]
+		return left_key < right_key)
+
+	var closing_money := float(closing_state.get("money", 0.0))
+	var closing_shortfall := cash_shortfall_for_money(closing_money)
+	if final_summary_raw is Dictionary:
+		closing_shortfall = maxf(closing_shortfall, float(
+			(final_summary_raw as Dictionary).get(
+				"cash_shortfall", closing_shortfall)))
+	var boundary_month_summaries: Dictionary = {}
+	var boundary_opening_snapshots: Dictionary = {}
+	for month_index in range(1, final_month + 1):
+		var month_key := str(month_index)
+		var raw_summary: Variant = (
+			state.get("month_summaries", {}) as Dictionary
+		).get(month_key, {})
+		if raw_summary is Dictionary:
+			boundary_month_summaries[month_key] = (
+				raw_summary as Dictionary).duplicate(true)
+		var raw_opening: Variant = (
+			state.get("month_opening_snapshots", {}) as Dictionary
+		).get(month_key, {})
+		if raw_opening is Dictionary:
+			boundary_opening_snapshots[month_key] = (
+				raw_opening as Dictionary).duplicate(true)
+	var boundary_routine_receipts: Dictionary = {}
+	for raw_turn_key in (state.get("routine_receipts", {}) as Dictionary):
+		var turn := int(str(raw_turn_key))
+		if turn < 1 or turn > cap:
+			continue
+		var raw_routine: Variant = (
+			state.get("routine_receipts", {}) as Dictionary
+		).get(raw_turn_key, {})
+		if raw_routine is Dictionary:
+			boundary_routine_receipts[str(turn)] = (
+				raw_routine as Dictionary).duplicate(true)
+	var boundary_decline_receipts: Array = []
+	for raw_decline in state.get("decline_receipts", []):
+		if not raw_decline is Dictionary:
+			continue
+		var decline: Dictionary = raw_decline
+		var visible_month := int(decline.get(
+			"visible_month", decline.get("month", 0)))
+		var consumed_turn := int(decline.get(
+			"consumed_turn", decline.get("turn", 0)))
+		if visible_month in range(1, final_month + 1) \
+				and (consumed_turn <= 0 or consumed_turn <= cap + 1):
+			# Month-end advances the calendar before it consumes that month's
+			# declines, so Month 6 correctly owns a turn-25 rollover receipt.
+			# Anything consumed after that exact boundary belongs to later play.
+			boundary_decline_receipts.append(decline.duplicate(true))
+	boundary_decline_receipts.sort_custom(
+		func(left: Dictionary, right: Dictionary) -> bool:
+			var left_key := "%03d|%04d|%s" % [
+				int(left.get("visible_month", left.get("month", 0))),
+				int(left.get("consumed_turn", left.get("turn", 0))),
+				str(left.get("id", ""))]
+			var right_key := "%03d|%04d|%s" % [
+				int(right.get("visible_month", right.get("month", 0))),
+				int(right.get("consumed_turn", right.get("turn", 0))),
+				str(right.get("id", ""))]
+			return left_key < right_key)
+	var empty_dictionary := {}
+	var empty_array: Array = []
 
 	return {
+		"snapshot_schema": 1,
+		"frozen_at_turn": int(GameState.turn),
 		"kept": kept,
+		"cycle_allocations": cycle_allocations,
 		"forgone": forgone,
-		"decline_receipts":
-			(state.get("decline_receipts", []) as Array).duplicate(true),
-		"routine_receipts":
-			(state.get("routine_receipts", {}) as Dictionary).duplicate(true),
-		"month_summaries":
-			(state.get("month_summaries", {}) as Dictionary).duplicate(true),
-		"month_opening_snapshots":
-			(state.get("month_opening_snapshots", {}) as Dictionary).duplicate(true),
-		"player_initiated": (state.get("player_initiated", []) as Array).duplicate(),
+		"decline_receipts": boundary_decline_receipts,
+		"routine_receipts": boundary_routine_receipts,
+		"month_summaries": boundary_month_summaries,
+		"month_opening_snapshots": boundary_opening_snapshots,
+		"player_initiated": (
+			empty_array.duplicate()
+			if late_unfrozen_boundary else
+			(state.get("player_initiated", []) as Array).duplicate()),
 		"relationship_stages":
-			(state.get("relationship_stages", {}) as Dictionary).duplicate(true),
+			(empty_dictionary.duplicate()
+			if late_unfrozen_boundary else
+			(state.get("relationship_stages", {}) as Dictionary).duplicate(true)),
 		"relationship_memories":
-			(state.get("relationship_memories", []) as Array).duplicate(true),
+			(empty_array.duplicate()
+			if late_unfrozen_boundary else
+			(state.get("relationship_memories", []) as Array).duplicate(true)),
 		"application_statuses":
-			(state.get("application_statuses", {}) as Dictionary).duplicate(true),
+			(empty_dictionary.duplicate()
+			if late_unfrozen_boundary else
+			(state.get("application_statuses", {}) as Dictionary).duplicate(true)),
 		"application_transition_receipts":
-			(state.get("application_transition_receipts", {}) as Dictionary).duplicate(true),
+			(empty_dictionary.duplicate()
+			if late_unfrozen_boundary else
+			(state.get("application_transition_receipts", {}) as Dictionary).duplicate(true)),
 		"legacy_callback_resolutions":
-			(state.get("legacy_callback_resolutions", {}) as Dictionary).duplicate(true),
+			(empty_dictionary.duplicate()
+			if late_unfrozen_boundary else
+			(state.get("legacy_callback_resolutions", {}) as Dictionary).duplicate(true)),
 		"future_story_receipts":
-			(state.get("future_story_receipts", {}) as Dictionary).duplicate(true),
+			(empty_dictionary.duplicate()
+			if late_unfrozen_boundary else
+			(state.get("future_story_receipts", {}) as Dictionary).duplicate(true)),
 		"future_application_receipts":
-			(state.get("future_application_receipts", {}) as Dictionary).duplicate(true),
+			(empty_dictionary.duplicate()
+			if late_unfrozen_boundary else
+			(state.get("future_application_receipts", {}) as Dictionary).duplicate(true)),
 		"action_receipts":
-			(state.get("action_receipts", {}) as Dictionary).duplicate(true),
+			(empty_dictionary.duplicate()
+			if late_unfrozen_boundary else
+			(state.get("action_receipts", {}) as Dictionary).duplicate(true)),
 		"action_story_acknowledgements":
+			(empty_dictionary.duplicate()
+			if late_unfrozen_boundary else
 			(state.get(
 				"action_story_acknowledgements", {}) as Dictionary
-			).duplicate(true),
+			).duplicate(true)),
 		"consequence_receipts":
-			(state.get("consequence_receipts", {}) as Dictionary).duplicate(true),
+			(empty_dictionary.duplicate()
+			if late_unfrozen_boundary else
+			(state.get("consequence_receipts", {}) as Dictionary).duplicate(true)),
 		"story_choice_receipts":
-			(state.get("story_choice_receipts", {}) as Dictionary).duplicate(true),
+			(empty_dictionary.duplicate()
+			if late_unfrozen_boundary else
+			(state.get("story_choice_receipts", {}) as Dictionary).duplicate(true)),
 		"obligation_receipts":
-			(state.get("obligation_receipts", {}) as Dictionary).duplicate(true),
+			(empty_dictionary.duplicate()
+			if late_unfrozen_boundary else
+			(state.get("obligation_receipts", {}) as Dictionary).duplicate(true)),
 		"deferred_callback_receipts":
-			(state.get("deferred_callback_receipts", {}) as Dictionary).duplicate(true),
+			(empty_dictionary.duplicate()
+			if late_unfrozen_boundary else
+			(state.get("deferred_callback_receipts", {}) as Dictionary).duplicate(true)),
 		"demo_collision_context":
-			(state.get("demo_collision_context", {}) as Dictionary).duplicate(true),
+			(empty_dictionary.duplicate()
+			if late_unfrozen_boundary else
+			(state.get("demo_collision_context", {}) as Dictionary).duplicate(true)),
+		"legacy_boundary_incomplete": late_unfrozen_boundary,
 		"temptation_branch": temptation_branch,
-		"cash_shortfall": cash_shortfall_for_money(closing_money),
-		"completed_through_week": int(
-			state.get("completed_through_week", 0)),
+		"closing_state": closing_state,
+		"cash_shortfall": closing_shortfall,
+		"completed_through_week": completed_through,
 		"development_cap_week": cap,
 		"completed_at_turn": int(state.get("completed_at_turn",
 			state.get("prototype_completed_at_turn", 0))),
 	}
+
+static func _completion_snapshot_is_valid(
+		snapshot: Dictionary, cap: int) -> bool:
+	if int(snapshot.get("snapshot_schema", 0)) != 1 \
+			or int(snapshot.get("development_cap_week", 0)) != cap \
+			or int(snapshot.get("completed_through_week", 0)) < cap \
+			or int(snapshot.get("completed_at_turn", 0)) != cap + 1 \
+			or int(snapshot.get("frozen_at_turn", 0)) != cap + 1:
+		return false
+	for key in [
+		"kept", "cycle_allocations", "forgone", "decline_receipts",
+		"player_initiated", "relationship_memories",
+	]:
+		if not snapshot.get(key) is Array:
+			return false
+	for key in [
+		"closing_state", "routine_receipts", "month_summaries",
+		"relationship_stages", "application_statuses",
+		"application_transition_receipts", "consequence_receipts",
+		"legacy_callback_resolutions", "action_receipts",
+		"action_story_acknowledgements",
+		"story_choice_receipts", "obligation_receipts",
+		"future_story_receipts", "future_application_receipts",
+		"deferred_callback_receipts", "demo_collision_context",
+	]:
+		if not snapshot.get(key) is Dictionary:
+			return false
+	if not snapshot.get("legacy_boundary_incomplete", false) is bool:
+		return false
+	var closing_state: Dictionary = snapshot.get("closing_state", {})
+	for key in ["money", "fixed_expense", "health", "mental"]:
+		if not closing_state.has(key):
+			if bool(snapshot.get("legacy_boundary_incomplete", false)):
+				continue
+			return false
+		var value: Variant = closing_state.get(key)
+		if not (value is int or value is float):
+			return false
+	return (snapshot.get("month_summaries", {}) as Dictionary).size() \
+		>= month_for_turn(cap)
 
 static func month_for_turn(turn: int) -> int:
 	return maxi(1, int(floor(float(maxi(turn, 1) - 1) / 4.0)) + 1)
@@ -478,6 +767,1230 @@ static func episode_plan_spec() -> Dictionary:
 	return (raw_spec as Dictionary).duplicate(true) \
 		if raw_spec is Dictionary else {}
 
+## One reusable state machine owns Months One through Six after a fresh
+## Month-One enrollment. Existing episode and legacy plans remain valid save
+## identities and never opt in at a later month boundary.
+static func seoul_cycle_spec() -> Dictionary:
+	var raw_spec: Variant = contract().get("seoul_cycle", {})
+	return (raw_spec as Dictionary).duplicate(true) \
+		if raw_spec is Dictionary else {}
+
+## Shared capacity/routine rules live at the Seoul-cycle root, while every
+## month owns its four playable nodes and world clock. The legacy top-level
+## Month-One shape remains readable so an in-progress test save cannot be
+## invalidated by the 24-week rollout.
+static func seoul_cycle_month_spec(month_index: int = -1) -> Dictionary:
+	var target_month := month_index \
+		if month_index > 0 else month_for_turn(GameState.turn)
+	var root := seoul_cycle_spec()
+	var raw_months: Variant = root.get("months", {})
+	if raw_months is Dictionary:
+		var raw_month: Variant = (raw_months as Dictionary).get(
+			str(target_month), {})
+		if raw_month is Dictionary and not (raw_month as Dictionary).is_empty():
+			var month_spec: Dictionary = (raw_month as Dictionary).duplicate(true)
+			month_spec["month"] = target_month
+			return month_spec
+	if target_month == int(root.get("prototype_month", 1)) \
+			and root.get("nodes", {}) is Dictionary:
+		return {
+			"month": target_month,
+			"nodes": (root.get("nodes", {}) as Dictionary).duplicate(true),
+			"world_clock": (root.get("world_clock", {}) as Dictionary).duplicate(true) \
+				if root.get("world_clock", {}) is Dictionary else {},
+		}
+	return {}
+
+static func _seoul_cycle_month_start_turn(month_index: int) -> int:
+	return ((month_index - 1) * 4) + 1
+
+static func _seoul_cycle_month_end_turn(month_index: int) -> int:
+	return month_index * 4
+
+static func plan_uses_seoul_cycle(raw_plan: Dictionary) -> bool:
+	if str(raw_plan.get("planning_mode", "")) != SEOUL_CYCLE_MODE:
+		return false
+	var month_index := int(raw_plan.get("month", 0))
+	var spec := seoul_cycle_month_spec(month_index)
+	if spec.is_empty() \
+			or int(raw_plan.get("cycle_schema", 0)) != SEOUL_CYCLE_SCHEMA:
+		return false
+	var raw_nodes: Variant = raw_plan.get("node_ids", [])
+	var raw_spec_nodes: Variant = spec.get("nodes", {})
+	if not raw_nodes is Array or not raw_spec_nodes is Dictionary:
+		return false
+	var expected: Array[String] = []
+	for raw_node_id in (raw_spec_nodes as Dictionary):
+		expected.append(str(raw_node_id))
+	expected.sort()
+	var actual: Array[String] = []
+	for raw_node_id in (raw_nodes as Array):
+		var node_id := str(raw_node_id).strip_edges()
+		if node_id.is_empty() or actual.has(node_id):
+			return false
+		actual.append(node_id)
+	actual.sort()
+	return actual == expected
+
+static func _fresh_seoul_cycle_gate(
+		state: Dictionary, month_index: int) -> bool:
+	var spec := seoul_cycle_month_spec(month_index)
+	if spec.is_empty() \
+			or int(GameState.turn) \
+				!= _seoul_cycle_month_start_turn(month_index) \
+			or not bool(state.get("enabled", false)) \
+			or not bool(GameState.flags.get("prologue_done", false)):
+		return false
+	var existing: Variant = state["plans"].get(str(month_index), {})
+	if existing is Dictionary and not (existing as Dictionary).is_empty():
+		return false
+	# The 24-week board is one explicit save identity. A run that planned the
+	# previous month with the episode prototype or legacy calendar must keep
+	# that mode instead of being silently converted at the next month boundary.
+	if month_index > 1:
+		var previous_plan: Variant = state["plans"].get(
+			str(month_index - 1), {})
+		if not previous_plan is Dictionary \
+				or not plan_uses_seoul_cycle(previous_plan as Dictionary):
+			return false
+	# The opening application is available only on the old pre-interview state.
+	# Once the real Send/interview path has changed its application status, a
+	# fresh run is eligible. This is the same discriminator that protected the
+	# prior episode prototype from relabelling legacy Month-One saves.
+	if month_index == 1:
+		if str(state.get("run_generation", "")) \
+				!= GameState.CORE_LOOP_V2_ELIGIBLE_RUN_GENERATION:
+			return false
+		for raw_id in episode_plan_spec().get("incompatible_if_available", []):
+			if available_offer_ids(month_index).has(str(raw_id).strip_edges()):
+				return false
+	return true
+
+static func seoul_cycle_available(month_index: int = -1) -> bool:
+	var target_month := month_index \
+		if month_index > 0 else month_for_turn(GameState.turn)
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var existing: Variant = state["plans"].get(str(target_month), {})
+	if existing is Dictionary and not (existing as Dictionary).is_empty():
+		var active_cycle: Dictionary = state.get(SEOUL_CYCLE_STATE_KEY, {})
+		return int(GameState.turn) \
+				>= _seoul_cycle_month_start_turn(target_month) \
+			and int(GameState.turn) \
+				<= _seoul_cycle_month_end_turn(target_month) \
+			and month_for_turn(GameState.turn) == target_month \
+			and plan_uses_seoul_cycle(existing as Dictionary) \
+			and not active_cycle.is_empty() \
+			and int(active_cycle.get("month", 0)) == target_month
+	return _fresh_seoul_cycle_gate(state, target_month)
+
+static func initialize_seoul_cycle(month_index: int = 1) -> Dictionary:
+	var target_month := month_index \
+		if month_index > 0 else month_for_turn(GameState.turn)
+	var spec := seoul_cycle_month_spec(target_month)
+	if spec.is_empty():
+		return {"ok": false, "error": "seoul_cycle_unavailable"}
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var existing_plan_raw: Variant = state["plans"].get(
+		str(target_month), {})
+	if existing_plan_raw is Dictionary \
+			and not (existing_plan_raw as Dictionary).is_empty():
+		if not plan_uses_seoul_cycle(existing_plan_raw as Dictionary):
+			return {"ok": false, "error": "plan_mode_already_committed"}
+		if int(GameState.turn) \
+				< _seoul_cycle_month_start_turn(target_month) \
+				or int(GameState.turn) \
+				> _seoul_cycle_month_end_turn(target_month) \
+				or month_for_turn(GameState.turn) != target_month:
+			return {"ok": false, "error": "seoul_cycle_inactive"}
+		var existing_cycle: Dictionary = state.get(
+			SEOUL_CYCLE_STATE_KEY, {})
+		if existing_cycle.is_empty():
+			return {"ok": false, "error": "seoul_cycle_state_missing"}
+		return {
+			"ok": true,
+			"error": "",
+			"planning_mode": SEOUL_CYCLE_MODE,
+			"state": seoul_cycle_snapshot(target_month),
+			"resumed": true,
+		}
+	if not _fresh_seoul_cycle_gate(state, target_month):
+		return {"ok": false, "error": "seoul_cycle_unavailable"}
+	var cycle := _new_seoul_cycle_state(target_month)
+	if cycle.is_empty():
+		return {"ok": false, "error": "invalid_seoul_cycle_contract"}
+	var raw_nodes: Dictionary = spec.get("nodes", {})
+	var node_ids: Array[String] = []
+	for raw_node_id in raw_nodes:
+		node_ids.append(str(raw_node_id))
+	node_ids.sort()
+	state["plans"][str(target_month)] = {
+		"planning_mode": SEOUL_CYCLE_MODE,
+		"cycle_schema": SEOUL_CYCLE_SCHEMA,
+		"month": target_month,
+		"node_ids": node_ids,
+		"schedule": {},
+		"selected": [],
+		"routines": {},
+		"forgone": [],
+		"planned_turn": int(GameState.turn),
+	}
+	var month_key := str(target_month)
+	if not state["month_opening_snapshots"].has(month_key):
+		state["month_opening_snapshots"][month_key] = {
+			"turn": int(GameState.turn),
+			"date": GameState.get_date_string(),
+			"money": float(GameState.money),
+			"cash_shortfall": cash_shortfall_for_money(float(GameState.money)),
+			"monthly_income": float(GameState.monthly_income),
+			"fixed_expense": float(GameState.get_monthly_required_cash()),
+			"health": int(GameState.health),
+			"mental": int(GameState.mental),
+		}
+	state[SEOUL_CYCLE_STATE_KEY] = cycle
+	GameState.core_loop_v2_state = state
+	return {
+		"ok": true,
+		"error": "",
+		"planning_mode": SEOUL_CYCLE_MODE,
+		"state": seoul_cycle_snapshot(target_month),
+		"resumed": false,
+	}
+
+static func _new_seoul_cycle_state(month_index: int) -> Dictionary:
+	var root_spec := seoul_cycle_spec()
+	var spec := seoul_cycle_month_spec(month_index)
+	var capacities := _generated_seoul_cycle_capacities(
+		month_index, int(GameState.health), int(GameState.mental),
+		str(GameState.player_name))
+	var capacity_spec: Variant = root_spec.get("capacity", {})
+	if not capacity_spec is Dictionary \
+			or capacities.size() != int(
+				(capacity_spec as Dictionary).get("count", 4)):
+		return {}
+	var raw_nodes: Variant = spec.get("nodes", {})
+	if not raw_nodes is Dictionary or (raw_nodes as Dictionary).is_empty():
+		return {}
+	var nodes: Dictionary = {}
+	for raw_node_id in (raw_nodes as Dictionary):
+		var node_id := str(raw_node_id).strip_edges()
+		var raw_node: Variant = (raw_nodes as Dictionary).get(raw_node_id, {})
+		if node_id.is_empty() or not raw_node is Dictionary:
+			return {}
+		var node := _resolved_seoul_cycle_node(
+			(raw_node as Dictionary).duplicate(true), month_index)
+		if node.is_empty():
+			return {}
+		var threshold: int = maxi(1, int(node.get("threshold", 1)))
+		node["id"] = node_id
+		node["threshold"] = threshold
+		node["deadline_week"] = clampi(
+			int(node.get("deadline_week", 4)), 1, 4)
+		node["progress"] = 0
+		node["status"] = (
+			"locked"
+			if bool(node.get("disable_without_trigger", false)) \
+				and str(node.get("trigger_bundle", "")).is_empty()
+			else "open"
+		)
+		if not str(node.get("trigger_bundle", "")).is_empty():
+			node["featured_status"] = "open"
+		node["completed_turn"] = 0
+		node["last_allocation_turn"] = 0
+		nodes[node_id] = node
+	return {
+		"schema": SEOUL_CYCLE_SCHEMA,
+		"planning_mode": SEOUL_CYCLE_MODE,
+		"month": month_index,
+		"initialized_turn": int(GameState.turn),
+		"seed_signature": _seoul_cycle_seed_signature(
+			month_index, int(GameState.health), int(GameState.mental),
+			str(GameState.player_name)),
+		"source_health": clampi(int(GameState.health), 0, 100),
+		"source_mental": clampi(int(GameState.mental), 0, 100),
+		"condition_band": _seoul_cycle_condition_band(
+			int(GameState.health), int(GameState.mental)),
+		"capacities": capacities,
+		"nodes": nodes,
+		"world_clock": 0,
+		"allocation_receipts": {},
+		"trigger_receipts": {},
+		"world_receipts": {},
+		"expiry_receipts": {},
+		"pending_trigger": {},
+		"pending_world": {},
+		"completed_turns": [],
+		"expired_nodes": [],
+	}
+
+static func _resolved_seoul_cycle_node(
+		node_spec: Dictionary, month_index: int) -> Dictionary:
+	var node := node_spec.duplicate(true)
+	var candidates := _seoul_cycle_node_trigger_candidates(node)
+	var available := available_offer_ids(month_index)
+	var resolved_trigger := ""
+	for bundle_id in candidates:
+		var scene_bundle := bundle(bundle_id)
+		if scene_bundle.is_empty() or not _bundle_requirement_met(scene_bundle):
+			continue
+		if available.has(bundle_id) or candidates.size() == 1:
+			resolved_trigger = bundle_id
+			break
+	if resolved_trigger.is_empty():
+		var fallback_trigger := str(node.get(
+			"fallback_trigger_bundle", "")).strip_edges()
+		var fallback_bundle := bundle(fallback_trigger)
+		if not fallback_trigger.is_empty() \
+				and not fallback_bundle.is_empty() \
+			and _bundle_requirement_met(fallback_bundle):
+			resolved_trigger = fallback_trigger
+	return _seoul_cycle_node_with_resolved_trigger(
+		node, resolved_trigger, month_index)
+
+## Rebuild every value derived from a trigger without re-evaluating its
+## prerequisites. New months choose the trigger dynamically once; subsequent
+## normalization must reproduce its threshold/window/owner from that saved ID
+## or a reload would silently change the branch.
+static func _seoul_cycle_node_with_resolved_trigger(
+		node_spec: Dictionary, resolved_trigger: String,
+		month_index: int) -> Dictionary:
+	var node := node_spec.duplicate(true)
+	node["trigger_bundle"] = resolved_trigger
+	if resolved_trigger.is_empty():
+		return node
+	var chosen_bundle := bundle(resolved_trigger)
+	if chosen_bundle.is_empty():
+		return node
+	node["summary_bundle"] = resolved_trigger
+	if bool(node.get("label_from_bundle", false)):
+		node["label_ko"] = str(chosen_bundle.get(
+			"offer_ko", node.get("label_ko", "")))
+		node["label_en"] = str(chosen_bundle.get(
+			"offer_en", node.get("label_en", "")))
+	var raw_thresholds: Variant = node.get("threshold_by_trigger", {})
+	if raw_thresholds is Dictionary \
+			and (raw_thresholds as Dictionary).has(resolved_trigger):
+		node["threshold"] = maxi(1, int(
+			(raw_thresholds as Dictionary).get(resolved_trigger, 1)))
+	var month_start := _seoul_cycle_month_start_turn(month_index)
+	var month_end := _seoul_cycle_month_end_turn(month_index)
+	var relative_weeks: Array[int] = []
+	for raw_week in chosen_bundle.get("allowed_weeks", []):
+		var absolute_week := int(raw_week)
+		if absolute_week >= month_start and absolute_week <= month_end:
+			relative_weeks.append(absolute_week - month_start + 1)
+	if not relative_weeks.is_empty():
+		relative_weeks.sort()
+		node["trigger_min_week"] = relative_weeks.front()
+		node["trigger_deadline_week"] = relative_weeks.back()
+		if bool(node.get("deadline_follows_trigger", false)):
+			node["deadline_week"] = relative_weeks.back()
+	if str(node.get("owner", "")).strip_edges().to_lower() == "people":
+		node["commitment_action_id"] = "contact"
+		node["axis"] = "human"
+		var characters: Variant = chosen_bundle.get("characters", [])
+		if characters is Array and not (characters as Array).is_empty():
+			var person_id := str((characters as Array).front()).strip_edges()
+			# The authored trigger is the durable identity owner. Some supporting
+			# characters (notably Hyunsu) are added to GameState.cast only when an
+			# earlier scene applies its first cast effect, so checking the transient
+			# cast dictionary here would erase the owner during normalization or an
+			# isolated save recovery.
+			if not person_id.is_empty():
+				node["owner"] = person_id
+	return node
+
+static func _seoul_cycle_node_trigger_candidates(
+		node_spec: Dictionary) -> Array[String]:
+	var candidates: Array[String] = []
+	var raw_options: Variant = node_spec.get("trigger_options", [])
+	if raw_options is Array:
+		for raw_id in raw_options:
+			var bundle_id := str(raw_id).strip_edges()
+			if not bundle_id.is_empty() and not candidates.has(bundle_id):
+				candidates.append(bundle_id)
+	var authored_trigger := str(
+		node_spec.get("trigger_bundle", "")).strip_edges()
+	if not authored_trigger.is_empty() and not candidates.has(authored_trigger):
+		candidates.append(authored_trigger)
+	var fallback_trigger := str(
+		node_spec.get("fallback_trigger_bundle", "")).strip_edges()
+	if not fallback_trigger.is_empty() and not candidates.has(fallback_trigger):
+		candidates.append(fallback_trigger)
+	return candidates
+
+static func _generated_seoul_cycle_capacities(
+		month_index: int, health: int, mental: int,
+		player_name: String) -> Array:
+	var capacity_spec: Variant = seoul_cycle_spec().get("capacity", {})
+	if not capacity_spec is Dictionary:
+		return []
+	var values: Array[int] = []
+	var total := clampi(health, 0, 100) + clampi(mental, 0, 100)
+	for raw_band in (capacity_spec as Dictionary).get(
+			"condition_bands", []):
+		if not raw_band is Dictionary:
+			continue
+		if total > int((raw_band as Dictionary).get(
+				"maximum_total", 200)):
+			continue
+		for raw_value in (raw_band as Dictionary).get("values", []):
+			values.append(clampi(
+				int(raw_value),
+				int((capacity_spec as Dictionary).get("minimum", 1)),
+				int((capacity_spec as Dictionary).get("maximum", 6))))
+		break
+	var count := int((capacity_spec as Dictionary).get("count", 4))
+	if values.size() != count:
+		return []
+	var seed := _stable_seoul_cycle_seed(_seoul_cycle_seed_signature(
+		month_index, health, mental, player_name))
+	for index in range(values.size() - 1, 0, -1):
+		seed = int((seed * 1103515245 + 12345) % 2147483647)
+		var swap_index := int(seed % (index + 1))
+		var held := values[index]
+		values[index] = values[swap_index]
+		values[swap_index] = held
+	var result: Array = []
+	for index in range(values.size()):
+		var value := int(values[index])
+		result.append({
+			"id": "m%d_capacity_%d" % [month_index, index + 1],
+			"value": value,
+			"quality": _seoul_cycle_capacity_quality(value),
+			"consumed": false,
+			"consumed_turn": 0,
+			"node_id": "",
+		})
+	return result
+
+static func _seoul_cycle_seed_signature(
+		month_index: int, health: int, mental: int,
+		player_name: String) -> String:
+	return "%s|%d|%d|%d" % [
+		player_name.strip_edges(), month_index,
+		clampi(health, 0, 100), clampi(mental, 0, 100),
+	]
+
+static func _stable_seoul_cycle_seed(signature: String) -> int:
+	var seed: int = 2166136261
+	for index in range(signature.length()):
+		seed = int((seed * 16777619 + signature.unicode_at(index)) \
+			% 2147483647)
+	return maxi(1, seed)
+
+static func _seoul_cycle_condition_band(health: int, mental: int) -> String:
+	var raw_capacity: Variant = seoul_cycle_spec().get("capacity", {})
+	if not raw_capacity is Dictionary:
+		return ""
+	var total := clampi(health, 0, 100) + clampi(mental, 0, 100)
+	for raw_band in (raw_capacity as Dictionary).get(
+			"condition_bands", []):
+		if raw_band is Dictionary and total <= int(
+				(raw_band as Dictionary).get("maximum_total", 200)):
+			return str((raw_band as Dictionary).get("id", ""))
+	return ""
+
+static func _seoul_cycle_capacity_quality(value: int) -> String:
+	var raw_capacity: Variant = seoul_cycle_spec().get("capacity", {})
+	if not raw_capacity is Dictionary:
+		return ""
+	for raw_band in (raw_capacity as Dictionary).get("progress_bands", []):
+		if raw_band is Dictionary \
+				and value >= int((raw_band as Dictionary).get("minimum", 1)) \
+				and value <= int((raw_band as Dictionary).get("maximum", 6)):
+			return str((raw_band as Dictionary).get("quality", ""))
+	return ""
+
+static func _seoul_cycle_progress_for_capacity(value: int) -> int:
+	var raw_capacity: Variant = seoul_cycle_spec().get("capacity", {})
+	if not raw_capacity is Dictionary:
+		return 0
+	for raw_band in (raw_capacity as Dictionary).get("progress_bands", []):
+		if raw_band is Dictionary \
+				and value >= int((raw_band as Dictionary).get("minimum", 1)) \
+				and value <= int((raw_band as Dictionary).get("maximum", 6)):
+			return maxi(1, int((raw_band as Dictionary).get("progress", 1)))
+	return 0
+
+static func seoul_cycle_snapshot(month_index: int = -1) -> Dictionary:
+	var target_month := month_index \
+		if month_index > 0 else month_for_turn(GameState.turn)
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var raw_plan: Variant = state["plans"].get(str(target_month), {})
+	var cycle: Dictionary = state.get(SEOUL_CYCLE_STATE_KEY, {})
+	if not raw_plan is Dictionary \
+			or not plan_uses_seoul_cycle(raw_plan as Dictionary) \
+			or cycle.is_empty() \
+			or int(cycle.get("month", 0)) != target_month:
+		return {
+			"active": false,
+			"planning_mode": "",
+			"month": target_month,
+			"turn": int(GameState.turn),
+			"week_index": 0,
+			"capacities": [],
+			"nodes": {},
+			"world_clock": 0,
+			"allocation_receipts": {},
+			"expiry_receipts": {},
+			"pending_trigger": {},
+			"pending_world": {},
+			"turn_ready": false,
+		}
+	var snapshot := cycle.duplicate(true)
+	snapshot["active"] = int(GameState.turn) \
+			>= _seoul_cycle_month_start_turn(target_month) \
+		and int(GameState.turn) <= _seoul_cycle_month_end_turn(target_month) \
+		and month_for_turn(GameState.turn) == target_month
+	snapshot["turn"] = int(GameState.turn)
+	snapshot["week_index"] = int(GameState.turn) \
+		- ((target_month - 1) * 4)
+	snapshot["turn_ready"] = _seoul_cycle_turn_ready(
+		cycle, int(GameState.turn))
+	return snapshot
+
+static func preview_seoul_cycle_allocation(
+		capacity_id: String, node_id: String,
+		month_index: int = -1) -> Dictionary:
+	var snapshot := seoul_cycle_snapshot(month_index)
+	if not bool(snapshot.get("active", false)):
+		return {"ok": false, "error": "seoul_cycle_inactive"}
+	var turn := int(snapshot.get("turn", 0))
+	var week_index := int(snapshot.get("week_index", 0))
+	if (snapshot.get("completed_turns", []) as Array).has(turn):
+		return {"ok": false, "error": "cycle_turn_already_completed"}
+	if (snapshot.get("allocation_receipts", {}) as Dictionary).has(str(turn)):
+		return {"ok": false, "error": "allocation_already_committed"}
+	if not (snapshot.get("pending_trigger", {}) as Dictionary).is_empty() \
+			or not (snapshot.get("pending_world", {}) as Dictionary).is_empty() \
+			or not active_bundle_id().is_empty():
+		return {"ok": false, "error": "cycle_entry_unresolved"}
+	var selected_capacity: Dictionary = {}
+	for raw_capacity in snapshot.get("capacities", []):
+		if raw_capacity is Dictionary \
+				and str((raw_capacity as Dictionary).get("id", "")) \
+					== capacity_id:
+			selected_capacity = (raw_capacity as Dictionary).duplicate(true)
+			break
+	if selected_capacity.is_empty():
+		return {"ok": false, "error": "unknown_capacity"}
+	if bool(selected_capacity.get("consumed", false)):
+		return {"ok": false, "error": "capacity_already_consumed"}
+	var raw_node: Variant = (snapshot.get("nodes", {}) as Dictionary).get(
+		node_id, {})
+	if not raw_node is Dictionary or (raw_node as Dictionary).is_empty():
+		return {"ok": false, "error": "unknown_node"}
+	var node: Dictionary = (raw_node as Dictionary).duplicate(true)
+	var node_status := str(node.get("status", "open"))
+	var repeatable := bool(node.get("repeatable_after_completion", false))
+	if node_status in ["expired", "awaiting_trigger", "locked"] \
+			or (node_status == "completed" and not repeatable):
+		return {"ok": false, "error": "node_closed"}
+	var deadline := int(node.get("deadline_week", 4))
+	if week_index > deadline:
+		return {"ok": false, "error": "node_deadline_passed"}
+	var capacity_value := int(selected_capacity.get("value", 0))
+	var gain := _seoul_cycle_progress_for_capacity(capacity_value)
+	if gain <= 0:
+		return {"ok": false, "error": "invalid_capacity_value"}
+	var threshold: int = maxi(1, int(node.get("threshold", 1)))
+	var progress_before: int = clampi(int(node.get("progress", 0)), 0, threshold)
+	var authored_trigger := str(node.get("trigger_bundle", "")).strip_edges()
+	var fallback_allocation := bool(node.get("fallback_mode", false)) \
+		and repeatable \
+		and node_status in ["open", "in_progress"]
+	var trigger_min_week := clampi(
+		int(node.get("trigger_min_week", 1)), 1, 4)
+	var progress_ceiling := threshold
+	if not authored_trigger.is_empty() and week_index < trigger_min_week:
+		# Preparation can advance early, but its authored appointment/shift may
+		# not be cashed in before the scene actually exists on the calendar.
+		progress_ceiling = maxi(0, threshold - 1)
+	var progress_after := progress_before if fallback_allocation else mini(
+		progress_ceiling, progress_before + gain)
+	var applied_progress := progress_after - progress_before
+	var completed_now := not fallback_allocation \
+		and progress_before < threshold \
+		and progress_after >= threshold
+	var repeat_allocation := node_status == "completed" and repeatable
+	if applied_progress <= 0 and not repeat_allocation \
+			and not fallback_allocation:
+		return {
+			"ok": false,
+			"error": "no_progress_this_week",
+			"month": int(snapshot.get("month", 0)),
+			"turn": turn,
+			"week_index": week_index,
+			"capacity_id": capacity_id,
+			"node_id": node_id,
+		}
+	var trigger_bundle := authored_trigger \
+		if completed_now \
+			and week_index <= clampi(int(node.get(
+				"trigger_deadline_week", deadline)), 1, 4) \
+			and bundle_allowed_in_week(authored_trigger, turn) \
+		else ""
+	var allocation_effects: Variant = node.get("allocation_effects", {})
+	var raw_tier_effects: Variant = node.get(
+		"allocation_effects_by_progress", {})
+	if raw_tier_effects is Dictionary \
+			and (raw_tier_effects as Dictionary).get(str(gain), {}) is Dictionary:
+		allocation_effects = _merged_seoul_cycle_effects(
+			allocation_effects,
+			(raw_tier_effects as Dictionary).get(str(gain), {}))
+	# A milestone action can be the work represented by this week's
+	# allocation, rather than a second job stacked on top of it. In that case
+	# its authored action surface is the sole owner of the milestone week's
+	# effects; earlier and later repeatable allocations still use the ordinary
+	# weekly effects.
+	if not trigger_bundle.is_empty() and bool(node.get(
+			"completion_replaces_allocation_effects", false)):
+		allocation_effects = {}
+	var immediate_effects := _merged_seoul_cycle_effects(
+		allocation_effects,
+		node.get("completion_effects", {}) if completed_now else {})
+	return {
+		"ok": true,
+		"error": "",
+		"month": int(snapshot.get("month", 0)),
+		"turn": turn,
+		"week_index": week_index,
+		"capacity_id": capacity_id,
+		"capacity_value": capacity_value,
+		"capacity_quality": str(selected_capacity.get("quality", "")),
+		"node_id": node_id,
+		"node_status_before": node_status,
+		"progress_before": progress_before,
+		"base_progress": gain,
+		"progress_gain": applied_progress,
+		"progress_after": progress_after,
+		"threshold": threshold,
+		"completed_now": completed_now,
+		"repeat_allocation": repeat_allocation,
+		"fallback_allocation": fallback_allocation,
+		"deadline_week": deadline,
+		"expires_after_turn": ((int(snapshot.get("month", 1)) - 1) * 4) \
+			+ deadline,
+		"will_expire": week_index >= deadline \
+			and progress_after < threshold,
+		"immediate_effects": immediate_effects,
+		"trigger_bundle": trigger_bundle,
+	}
+
+static func commit_seoul_cycle_allocation(
+		capacity_id: String, node_id: String,
+		month_index: int = -1) -> Dictionary:
+	var preview := preview_seoul_cycle_allocation(
+		capacity_id, node_id, month_index)
+	if not bool(preview.get("ok", false)):
+		return preview
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var cycle: Dictionary = state.get(SEOUL_CYCLE_STATE_KEY, {})
+	var turn := int(preview.get("turn", 0))
+	var week_index := int(preview.get("week_index", 0))
+	var capacity_index := -1
+	for index in range((cycle.get("capacities", []) as Array).size()):
+		var raw_capacity: Variant = cycle["capacities"][index]
+		if raw_capacity is Dictionary \
+				and str((raw_capacity as Dictionary).get("id", "")) \
+					== capacity_id:
+			capacity_index = index
+			break
+	if capacity_index < 0:
+		return {"ok": false, "error": "unknown_capacity"}
+	var capacity: Dictionary = cycle["capacities"][capacity_index]
+	capacity["consumed"] = true
+	capacity["consumed_turn"] = turn
+	capacity["node_id"] = node_id
+	cycle["capacities"][capacity_index] = capacity
+	var node: Dictionary = cycle["nodes"].get(node_id, {})
+	node["progress"] = int(preview.get("progress_after", 0))
+	node["last_allocation_turn"] = turn
+	var trigger_bundle := str(preview.get("trigger_bundle", ""))
+	if bool(preview.get("completed_now", false)):
+		node["completed_turn"] = turn
+		node["status"] = "awaiting_trigger" \
+			if not trigger_bundle.is_empty() else "completed"
+	elif not bool(preview.get("fallback_allocation", false)) \
+			and str(node.get("status", "")) != "completed":
+		node["status"] = "in_progress"
+	cycle["nodes"][node_id] = node
+	var effects: Dictionary = preview.get("immediate_effects", {})
+	var before_effects := {
+		"health": int(GameState.health),
+		"mental": int(GameState.mental),
+		"money": float(GameState.money),
+	}
+	var commitment := _seoul_cycle_commitment_payload(
+		cycle, node_id, capacity_id, preview)
+	if commitment.is_empty():
+		return {"ok": false, "error": "weekly_commitment_conflict"}
+	var commitment_axis := str(
+		commitment.get("axis", "")).strip_edges()
+	var transaction := GameState.finalize_seoul_cycle_weekly_commitment(
+		commitment,
+		effects,
+		commitment_axis,
+		str(node.get("place", "")))
+	if not bool(transaction.get("ok", false)):
+		return {"ok": false, "error": str(transaction.get(
+			"error", "weekly_commitment_failed"))}
+	var receipt := {
+		"id": "seoul_cycle_m%d_w%d" % [
+			int(preview.get("month", 1)), week_index],
+		"status": "allocated",
+		"planning_mode": SEOUL_CYCLE_MODE,
+		"month": int(preview.get("month", 1)),
+		"turn": turn,
+		"week_index": week_index,
+		"capacity_id": capacity_id,
+		"capacity_value": int(preview.get("capacity_value", 0)),
+		"node_id": node_id,
+		"progress_before": int(preview.get("progress_before", 0)),
+		"progress_gain": int(preview.get("progress_gain", 0)),
+		"progress_after": int(preview.get("progress_after", 0)),
+		"threshold": int(preview.get("threshold", 1)),
+		"completed_now": bool(preview.get("completed_now", false)),
+		"repeat_allocation": bool(preview.get("repeat_allocation", false)),
+		"fallback_allocation": bool(preview.get(
+			"fallback_allocation", false)),
+		"effects": effects.duplicate(true),
+		"weekly_commitment": (
+			transaction.get("record", {}) as Dictionary).duplicate(true),
+		"before": before_effects,
+		"after": {
+			"health": int(GameState.health),
+			"mental": int(GameState.mental),
+			"money": float(GameState.money),
+		},
+	}
+	cycle["allocation_receipts"][str(turn)] = receipt
+	var raw_world_clock: Variant = seoul_cycle_month_spec(
+		int(preview.get("month", 1))).get("world_clock", {})
+	var world_maximum := 4
+	if raw_world_clock is Dictionary:
+		world_maximum = maxi(1, int(
+			(raw_world_clock as Dictionary).get("maximum", 4)))
+	cycle["world_clock"] = mini(
+		world_maximum, int(cycle.get("world_clock", 0)) + 1)
+	if not trigger_bundle.is_empty():
+		cycle["pending_trigger"] = {
+			"kind": "node_trigger",
+			"node_id": node_id,
+			"bundle_id": trigger_bundle,
+			"turn": turn,
+			"status": "pending",
+		}
+	var world_event := _seoul_cycle_world_event_for_week(
+		int(preview.get("month", 1)), week_index)
+	if not world_event.is_empty() \
+			and not cycle["world_receipts"].has(str(week_index)):
+		cycle["pending_world"] = {
+			"kind": str(world_event.get("kind", "world")),
+			"node_id": "",
+			"bundle_id": str(world_event.get("bundle_id", "")),
+			"turn": turn,
+			"week_index": week_index,
+			"status": "pending",
+		}
+	state[SEOUL_CYCLE_STATE_KEY] = cycle
+	GameState.core_loop_v2_state = state
+	var result := preview.duplicate(true)
+	result["receipt"] = receipt.duplicate(true)
+	result["pending_trigger"] = (
+		cycle["pending_trigger"] as Dictionary).duplicate(true)
+	result["pending_world"] = (
+		cycle["pending_world"] as Dictionary).duplicate(true)
+	result["turn_ready"] = _seoul_cycle_turn_ready(cycle, turn)
+	return result
+
+static func _seoul_cycle_commitment_payload(
+		cycle: Dictionary, node_id: String, capacity_id: String,
+		preview: Dictionary) -> Dictionary:
+	var node: Dictionary = (cycle.get("nodes", {}) as Dictionary).get(
+		node_id, {})
+	if node.is_empty():
+		return {}
+	var action_id := str(node.get(
+		"commitment_action_id",
+		_seoul_cycle_default_action_id(str(node.get("owner", "")))
+	)).strip_edges().to_lower()
+	var axis := str(node.get(
+		"axis", "money" if action_id == "side_shift" else "human"
+	)).strip_edges().to_lower()
+	if action_id.is_empty() or axis not in ["money", "human"]:
+		return {}
+	var owner := str(node.get("owner", "")).strip_edges().to_lower()
+	# A contact commitment keeps the authored person even before that person's
+	# first cast-effect record exists. Generic/unresolved people nodes are locked
+	# at initialization and must never manufacture a person_id.
+	var person_id := owner \
+		if action_id == "contact" and owner != "people" else ""
+	var forgone_ids: Array[String] = []
+	var forgone_nodes: Array = []
+	for raw_other_id in (cycle.get("nodes", {}) as Dictionary):
+		var other_id := str(raw_other_id)
+		if other_id == node_id:
+			continue
+		var other: Dictionary = cycle["nodes"].get(other_id, {})
+		var other_status := str(other.get("status", "open"))
+		if other_status in ["expired", "locked"] \
+				or (other_status == "completed" and not bool(other.get(
+					"repeatable_after_completion", false))):
+			continue
+		var other_action := str(other.get(
+			"commitment_action_id",
+			_seoul_cycle_default_action_id(str(other.get("owner", "")))
+		)).strip_edges().to_lower()
+		if not other_action.is_empty() and not forgone_ids.has(other_action):
+			forgone_ids.append(other_action)
+		forgone_nodes.append({
+			"node_id": other_id,
+			"label_ko": str(other.get("label_ko", "")),
+			"label_en": str(other.get("label_en", "")),
+		})
+	return {
+		"turn": int(preview.get("turn", GameState.turn)),
+		"pressure_id": "seoul_cycle:m%d:w%d" % [
+			int(preview.get("month", 1)), int(preview.get("week_index", 1))],
+		"pressure_family": "seoul_cycle",
+		"choice_id": action_id,
+		"person_id": person_id,
+		"forgone_ids": forgone_ids,
+		"axis": axis,
+		"details": {
+			"execution": "seoul_cycle",
+			"month": int(preview.get("month", 1)),
+			"week_index": int(preview.get("week_index", 1)),
+			"node_id": node_id,
+			"capacity_id": capacity_id,
+			"capacity_value": int(preview.get("capacity_value", 0)),
+			"progress_gain": int(preview.get("progress_gain", 0)),
+			"progress_after": int(preview.get("progress_after", 0)),
+			"threshold": int(preview.get("threshold", 1)),
+			"completed_now": bool(preview.get("completed_now", false)),
+			"repeat_allocation": bool(preview.get(
+				"repeat_allocation", false)),
+			"fallback_allocation": bool(preview.get(
+				"fallback_allocation", false)),
+			"label_ko": str(node.get("label_ko", "")),
+			"label_en": str(node.get("label_en", "")),
+			"place": str(node.get("place", "")),
+			"forgone_nodes": forgone_nodes,
+			"followups": [],
+		},
+	}
+
+static func _seoul_cycle_default_action_id(owner: String) -> String:
+	match owner.strip_edges().to_lower():
+		"livelihood":
+			return "side_shift"
+		"career":
+			return "resume"
+		"father", "mother", "hyunsu", "daeun", "jiyeon", "sangchul", "jaehyuk":
+			return "contact"
+		"self", "recovery":
+			return "rest"
+		"growth":
+			return "study"
+	return "study"
+
+static func _merged_seoul_cycle_effects(
+		first_raw: Variant, second_raw: Variant) -> Dictionary:
+	var merged: Dictionary = {}
+	for raw_effects in [first_raw, second_raw]:
+		if not raw_effects is Dictionary:
+			continue
+		for raw_key in (raw_effects as Dictionary):
+			var key := str(raw_key).strip_edges()
+			if key not in ["health", "mental", "money"]:
+				continue
+			merged[key] = float(merged.get(key, 0.0)) \
+				+ float((raw_effects as Dictionary).get(raw_key, 0.0))
+			if key != "money":
+				merged[key] = int(merged[key])
+	return merged
+
+static func _apply_seoul_cycle_effects(effects: Dictionary) -> void:
+	for key in ["health", "mental", "money"]:
+		if not effects.has(key):
+			continue
+		if key == "money":
+			GameState.add_money(float(effects[key]))
+		else:
+			GameState.modify_stat(key, int(effects[key]))
+
+static func _seoul_cycle_world_event_for_week(
+		month_index: int, week_index: int) -> Dictionary:
+	var raw_world: Variant = seoul_cycle_month_spec(
+		month_index).get("world_clock", {})
+	if not raw_world is Dictionary:
+		return {}
+	for raw_event in (raw_world as Dictionary).get("events", []):
+		if not raw_event is Dictionary \
+				or int((raw_event as Dictionary).get("week_index", 0)) \
+					!= week_index:
+			continue
+		var event: Dictionary = (raw_event as Dictionary).duplicate(true)
+		var candidates: Array[String] = []
+		for raw_bundle_id in event.get("bundle_options", []):
+			var candidate := str(raw_bundle_id).strip_edges()
+			if not candidate.is_empty() and not candidates.has(candidate):
+				candidates.append(candidate)
+		var fixed_bundle := str(event.get("bundle_id", "")).strip_edges()
+		if not fixed_bundle.is_empty() and not candidates.has(fixed_bundle):
+			candidates.append(fixed_bundle)
+		var absolute_turn := _seoul_cycle_month_start_turn(month_index) \
+			+ week_index - 1
+		for bundle_id in candidates:
+			var scene_bundle := bundle(bundle_id)
+			if scene_bundle.is_empty() \
+					or not _bundle_requirement_met(scene_bundle) \
+					or not bundle_allowed_in_week(bundle_id, absolute_turn):
+				continue
+			event["bundle_id"] = bundle_id
+			return event
+		return {}
+	return {}
+
+static func pending_seoul_cycle_trigger() -> Dictionary:
+	var snapshot := seoul_cycle_snapshot()
+	return (snapshot.get("pending_trigger", {}) as Dictionary).duplicate(true)
+
+static func pending_seoul_cycle_world() -> Dictionary:
+	var snapshot := seoul_cycle_snapshot()
+	return (snapshot.get("pending_world", {}) as Dictionary).duplicate(true)
+
+static func claim_seoul_cycle_trigger() -> Dictionary:
+	return _claim_seoul_cycle_entry("pending_trigger")
+
+static func claim_seoul_cycle_world() -> Dictionary:
+	return _claim_seoul_cycle_entry("pending_world")
+
+static func _claim_seoul_cycle_entry(pending_key: String) -> Dictionary:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var cycle: Dictionary = state.get(SEOUL_CYCLE_STATE_KEY, {})
+	var raw_entry: Variant = cycle.get(pending_key, {})
+	if not raw_entry is Dictionary or (raw_entry as Dictionary).is_empty():
+		return {"ok": false, "error": "no_pending_cycle_entry", "entry": {}}
+	var entry: Dictionary = (raw_entry as Dictionary).duplicate(true)
+	if int(entry.get("turn", 0)) != int(GameState.turn):
+		return {"ok": false, "error": "cycle_entry_turn_mismatch", "entry": {}}
+	var status := str(entry.get("status", ""))
+	if status == "claimed":
+		return {
+			"ok": true,
+			"error": "",
+			"entry": entry,
+			"resumed": true,
+		}
+	if status != "pending":
+		return {"ok": false, "error": "cycle_entry_not_pending", "entry": {}}
+	entry["status"] = "claimed"
+	entry["claimed_turn"] = int(GameState.turn)
+	cycle[pending_key] = entry
+	state[SEOUL_CYCLE_STATE_KEY] = cycle
+	GameState.core_loop_v2_state = state
+	return {
+		"ok": true,
+		"error": "",
+		"entry": entry.duplicate(true),
+		"resumed": false,
+	}
+
+static func begin_seoul_cycle_trigger(bundle_id: String) -> bool:
+	return _begin_seoul_cycle_entry("pending_trigger", bundle_id)
+
+static func begin_seoul_cycle_world(bundle_id: String) -> bool:
+	return _begin_seoul_cycle_entry("pending_world", bundle_id)
+
+static func _begin_seoul_cycle_entry(
+		pending_key: String, bundle_id: String) -> bool:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var cycle: Dictionary = state.get(SEOUL_CYCLE_STATE_KEY, {})
+	var raw_entry: Variant = cycle.get(pending_key, {})
+	if not raw_entry is Dictionary:
+		return false
+	var entry: Dictionary = raw_entry
+	if str(entry.get("status", "")) != "claimed" \
+			or str(entry.get("bundle_id", "")) != bundle_id \
+			or int(entry.get("turn", 0)) != int(GameState.turn):
+		return false
+	return begin_bundle(bundle_id, "schedule")
+
+static func active_bundle_is_seoul_cycle_trigger() -> bool:
+	return _active_bundle_matches_cycle_entry("pending_trigger")
+
+static func active_bundle_is_seoul_cycle_world() -> bool:
+	return _active_bundle_matches_cycle_entry("pending_world")
+
+static func _active_bundle_matches_cycle_entry(pending_key: String) -> bool:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	if str(state.get("active_kind", "")) != "schedule" \
+			or int(state.get("active_turn", 0)) != int(GameState.turn):
+		return false
+	var cycle: Dictionary = state.get(SEOUL_CYCLE_STATE_KEY, {})
+	var raw_entry: Variant = cycle.get(pending_key, {})
+	return raw_entry is Dictionary \
+		and str((raw_entry as Dictionary).get("status", "")) == "claimed" \
+		and str((raw_entry as Dictionary).get("bundle_id", "")) \
+			== str(state.get("active_bundle", "")) \
+		and int((raw_entry as Dictionary).get("turn", 0)) \
+			== int(GameState.turn)
+
+static func resolve_seoul_cycle_trigger(bundle_id: String) -> bool:
+	return _resolve_seoul_cycle_entry_public(
+		"pending_trigger", "trigger_receipts", bundle_id)
+
+static func resolve_seoul_cycle_world(bundle_id: String) -> bool:
+	return _resolve_seoul_cycle_entry_public(
+		"pending_world", "world_receipts", bundle_id)
+
+static func _resolve_seoul_cycle_entry_public(
+		pending_key: String, receipt_key: String,
+		bundle_id: String) -> bool:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var cycle: Dictionary = state.get(SEOUL_CYCLE_STATE_KEY, {})
+	var receipt_id := _seoul_cycle_entry_receipt_id(
+		cycle, pending_key, bundle_id)
+	var raw_existing: Variant = cycle.get(receipt_key, {}).get(
+		receipt_id, {}) if cycle.get(receipt_key, {}) is Dictionary else {}
+	if raw_existing is Dictionary \
+			and str((raw_existing as Dictionary).get("status", "")) == "resolved":
+		return true
+	if not active_bundle_id().is_empty() \
+			or int(state["completed_bundle_turns"].get(bundle_id, 0)) \
+				!= int(GameState.turn):
+		return false
+	if not _resolve_seoul_cycle_entry_in_state(
+			state, pending_key, receipt_key, bundle_id,
+			int(GameState.turn)):
+		return false
+	GameState.core_loop_v2_state = state
+	return true
+
+static func _seoul_cycle_entry_receipt_id(
+		cycle: Dictionary, pending_key: String,
+		bundle_id: String) -> String:
+	var raw_entry: Variant = cycle.get(pending_key, {})
+	if raw_entry is Dictionary and not (raw_entry as Dictionary).is_empty():
+		if pending_key == "pending_trigger":
+			return str((raw_entry as Dictionary).get("node_id", ""))
+		return str((raw_entry as Dictionary).get("week_index", ""))
+	if pending_key == "pending_trigger":
+		for raw_node_id in cycle.get("nodes", {}):
+			var raw_node: Variant = cycle["nodes"].get(raw_node_id, {})
+			if raw_node is Dictionary \
+					and str((raw_node as Dictionary).get(
+						"trigger_bundle", "")) == bundle_id:
+				return str(raw_node_id)
+	return str(int(GameState.turn))
+
+static func _resolve_seoul_cycle_entry_in_state(
+		state: Dictionary, pending_key: String,
+		receipt_key: String, bundle_id: String,
+		turn: int) -> bool:
+	var cycle: Dictionary = state.get(SEOUL_CYCLE_STATE_KEY, {})
+	var raw_entry: Variant = cycle.get(pending_key, {})
+	if not raw_entry is Dictionary or (raw_entry as Dictionary).is_empty():
+		return false
+	var entry: Dictionary = (raw_entry as Dictionary).duplicate(true)
+	if str(entry.get("status", "")) != "claimed" \
+			or str(entry.get("bundle_id", "")) != bundle_id \
+			or int(entry.get("turn", 0)) != turn:
+		return false
+	var receipt_id := str(entry.get("node_id", "")) \
+		if pending_key == "pending_trigger" \
+		else str(entry.get("week_index", ""))
+	if receipt_id.is_empty():
+		return false
+	if pending_key == "pending_trigger":
+		var node_id := str(entry.get("node_id", ""))
+		var node: Dictionary = cycle["nodes"].get(node_id, {})
+		if node.is_empty():
+			return false
+	if not GameState.append_weekly_commitment_followup(turn, {
+		"kind": "node_trigger" if pending_key == "pending_trigger" else "world",
+		"source_kind": str(entry.get("kind", "")),
+		"bundle_id": bundle_id,
+		"node_id": str(entry.get("node_id", "")),
+		"week_index": int(entry.get("week_index", 0)),
+	}):
+		return false
+	entry["status"] = "resolved"
+	entry["resolved_turn"] = turn
+	cycle[receipt_key][receipt_id] = entry.duplicate(true)
+	if pending_key == "pending_trigger":
+		var node_id := str(entry.get("node_id", ""))
+		var node: Dictionary = cycle["nodes"].get(node_id, {})
+		node["status"] = "completed"
+		node["completed_turn"] = turn
+		cycle["nodes"][node_id] = node
+	cycle[pending_key] = {}
+	state[SEOUL_CYCLE_STATE_KEY] = cycle
+	return true
+
+static func complete_seoul_cycle_turn(
+		month_index: int = -1) -> Dictionary:
+	var snapshot := seoul_cycle_snapshot(month_index)
+	if not bool(snapshot.get("active", false)):
+		return {"ok": false, "error": "seoul_cycle_inactive"}
+	var turn := int(snapshot.get("turn", 0))
+	var week_index := int(snapshot.get("week_index", 0))
+	if (snapshot.get("completed_turns", []) as Array).has(turn) \
+			or turn_completed(turn):
+		return {"ok": false, "error": "cycle_turn_already_completed"}
+	if not active_bundle_id().is_empty():
+		return {"ok": false, "error": "cycle_entry_active"}
+	if not _seoul_cycle_turn_ready(snapshot, turn):
+		return {"ok": false, "error": "cycle_turn_not_ready"}
+	var weekly_commitment := GameState.get_weekly_commitment_for_turn(turn)
+	var weekly_details: Dictionary = weekly_commitment.get("details", {}) \
+		if weekly_commitment.get("details", {}) is Dictionary else {}
+	if str(weekly_details.get("execution", "")) != "seoul_cycle" \
+			or str(weekly_details.get("node_id", "")) \
+				!= str((snapshot.get("allocation_receipts", {}) as Dictionary).get(
+					str(turn), {}).get("node_id", "")):
+		return {"ok": false, "error": "cycle_weekly_commitment_missing"}
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var cycle: Dictionary = state.get(SEOUL_CYCLE_STATE_KEY, {})
+	var expired_this_turn: Array[String] = []
+	var expiry_receipts_this_turn: Array = []
+	for raw_node_id in cycle.get("nodes", {}):
+		var node_id := str(raw_node_id)
+		var node: Dictionary = cycle["nodes"].get(node_id, {})
+		var trigger_deadline: int = clampi(int(node.get(
+			"trigger_deadline_week", node.get("deadline_week", 4))), 1, 4)
+		var trigger_receipt_id := "%s:trigger" % node_id
+		if bool(node.get("fallback_after_trigger_expiry", false)) \
+				and str(node.get("featured_status", "open")) == "open" \
+				and not str(node.get("trigger_bundle", "")).is_empty() \
+				and str(node.get("status", "")) in ["open", "in_progress"] \
+				and week_index >= trigger_deadline \
+				and not cycle["expiry_receipts"].has(trigger_receipt_id):
+			var trigger_expiry_effects: Dictionary = node.get(
+				"trigger_expiry_effects", {}) \
+				if node.get("trigger_expiry_effects", {}) is Dictionary else {}
+			var trigger_before := {
+				"money": float(GameState.money),
+				"health": int(GameState.health),
+				"mental": int(GameState.mental),
+			}
+			_apply_seoul_cycle_effects(trigger_expiry_effects)
+			var missed_trigger := str(node.get("trigger_bundle", ""))
+			var trigger_expiry_receipt := {
+				"scope": "trigger",
+				"node_id": node_id,
+				"trigger_bundle": missed_trigger,
+				"turn": turn,
+				"week_index": week_index,
+				"status": "consumed",
+				"consequence_id": str(node.get(
+					"trigger_expiry_consequence",
+					"%s_opportunity_missed" % node_id)),
+				"effects": trigger_expiry_effects.duplicate(true),
+				"before": trigger_before,
+				"after": {
+					"money": float(GameState.money),
+					"health": int(GameState.health),
+					"mental": int(GameState.mental),
+				},
+			}
+			cycle["expiry_receipts"][trigger_receipt_id] = (
+				trigger_expiry_receipt)
+			expiry_receipts_this_turn.append(
+				trigger_expiry_receipt.duplicate(true))
+			node["featured_status"] = "expired"
+			node["missed_trigger_bundle"] = missed_trigger
+			node["trigger_bundle"] = ""
+			# Closing the featured opportunity is not the same as completing work
+			# the player never did. Keep the real clock/status, and let a declared
+			# fallback produce a separate zero-progress weekly receipt.
+			node["fallback_mode"] = true
+			cycle["nodes"][node_id] = node
+		if str(node.get("status", "")) in ["open", "in_progress"] \
+				and int(node.get("deadline_week", 4)) <= week_index:
+			node["status"] = "expired"
+			node["expired_turn"] = turn
+			cycle["nodes"][node_id] = node
+			expired_this_turn.append(node_id)
+			if not cycle["expired_nodes"].has(node_id):
+				cycle["expired_nodes"].append(node_id)
+			if not cycle["expiry_receipts"].has(node_id):
+				var expiry_effects: Dictionary = node.get("expiry_effects", {}) \
+					if node.get("expiry_effects", {}) is Dictionary else {}
+				var expiry_before := {
+					"money": float(GameState.money),
+					"health": int(GameState.health),
+					"mental": int(GameState.mental),
+				}
+				_apply_seoul_cycle_effects(expiry_effects)
+				var expiry_receipt := {
+					"node_id": node_id,
+					"turn": turn,
+					"week_index": week_index,
+					"status": "consumed",
+					"consequence_id": str(node.get(
+						"expiry_consequence", "%s_expired" % node_id)),
+					"effects": expiry_effects.duplicate(true),
+					"before": expiry_before,
+					"after": {
+						"money": float(GameState.money),
+						"health": int(GameState.health),
+						"mental": int(GameState.mental),
+					},
+				}
+				cycle["expiry_receipts"][node_id] = expiry_receipt
+				expiry_receipts_this_turn.append(expiry_receipt.duplicate(true))
+	var receipt: Dictionary = cycle["allocation_receipts"].get(str(turn), {})
+	receipt["status"] = "turn_completed"
+	receipt["completed_turn"] = turn
+	receipt["expired_nodes"] = expired_this_turn.duplicate()
+	cycle["allocation_receipts"][str(turn)] = receipt
+	cycle["completed_turns"].append(turn)
+	if not state["completed_turns"].has(turn):
+		state["completed_turns"].append(turn)
+	state[SEOUL_CYCLE_STATE_KEY] = cycle
+	GameState.core_loop_v2_state = state
+	if not GameState.refresh_seoul_cycle_weekly_commitment(turn):
+		push_error("Seoul cycle could not refresh its weekly commitment")
+	return {
+		"ok": true,
+		"error": "",
+		"turn": turn,
+		"receipt": receipt.duplicate(true),
+		"expired_nodes": expired_this_turn,
+		"expiry_receipts": expiry_receipts_this_turn,
+		"next_turn": turn + 1,
+	}
+
+static func _seoul_cycle_turn_ready(
+		cycle: Dictionary, turn: int) -> bool:
+	if cycle.is_empty() \
+			or (cycle.get("completed_turns", []) as Array).has(turn) \
+			or not (cycle.get("allocation_receipts", {}) as Dictionary).has(
+				str(turn)) \
+			or not (cycle.get("pending_trigger", {}) as Dictionary).is_empty() \
+			or not (cycle.get("pending_world", {}) as Dictionary).is_empty():
+		return false
+	var month := int(cycle.get("month", 1))
+	var week_index := turn - ((month - 1) * 4)
+	var world_event := _seoul_cycle_world_event_for_week(month, week_index)
+	if not world_event.is_empty():
+		var raw_receipt: Variant = (
+			cycle.get("world_receipts", {}) as Dictionary).get(
+				str(week_index), {})
+		if not raw_receipt is Dictionary \
+				or str((raw_receipt as Dictionary).get("status", "")) \
+					!= "resolved":
+			return false
+	for raw_node in (cycle.get("nodes", {}) as Dictionary).values():
+		if raw_node is Dictionary \
+				and str((raw_node as Dictionary).get("status", "")) \
+					== "awaiting_trigger":
+			return false
+	return true
+
 static func episode_selection_enabled(month_index: int = -1) -> bool:
 	var target_month := (
 		month_index if month_index > 0 else month_for_turn(GameState.turn))
@@ -491,6 +2004,9 @@ static func episode_selection_enabled(month_index: int = -1) -> bool:
 		# surface. A legacy Month-One plan can change application eligibility
 		# after Week One, but that must never relabel its W1/W2 slots as promises.
 		return plan_uses_episode_selection(existing)
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	if _fresh_seoul_cycle_gate(state, target_month):
+		return false
 	var available := available_offer_ids(target_month)
 	for raw_id in spec.get("incompatible_if_available", []):
 		if available.has(str(raw_id).strip_edges()):
@@ -651,6 +2167,8 @@ static func month_one_episode_echo(replay_snapshot: Dictionary = {}) -> String:
 			or int(GameState.turn) != 4:
 		return ""
 	var plan := plan_for_month(1)
+	if plan_uses_seoul_cycle(plan):
+		return _seoul_cycle_month_one_echo(state)
 	var commitments := episode_commitments_from_plan(plan)
 	if commitments.is_empty():
 		return ""
@@ -667,6 +2185,29 @@ static func month_one_episode_echo(replay_snapshot: Dictionary = {}) -> String:
 	var copy := LocaleManager.ui(
 		str((raw_copy as Dictionary).get("copy_ko", "")),
 		str((raw_copy as Dictionary).get("copy_en", "")))
+	return "\n\n%s" % copy if not copy.is_empty() else ""
+
+static func _seoul_cycle_month_one_echo(state: Dictionary) -> String:
+	var cycle: Dictionary = state.get(SEOUL_CYCLE_STATE_KEY, {})
+	if cycle.is_empty() or int(cycle.get("month", 0)) != 1:
+		return ""
+	var nodes: Dictionary = cycle.get("nodes", {})
+	var receipts: Dictionary = cycle.get("allocation_receipts", {})
+	# The crisis reads the material trace from the week that just happened,
+	# never the month's numerically strongest clock. This keeps the room detail
+	# aligned with the player's actual W4 allocation.
+	var raw_receipt: Variant = receipts.get("4", {})
+	if not raw_receipt is Dictionary:
+		return ""
+	var node_id := str((raw_receipt as Dictionary).get("node_id", ""))
+	var raw_node: Variant = nodes.get(node_id, {})
+	if not raw_node is Dictionary \
+			or int((raw_receipt as Dictionary).get("turn", 0)) != 4:
+		return ""
+	var chosen_node: Dictionary = raw_node
+	var copy := LocaleManager.ui(
+		str(chosen_node.get("echo_ko", "")),
+		str(chosen_node.get("echo_en", "")))
 	return "\n\n%s" % copy if not copy.is_empty() else ""
 
 static func needs_plan(month_index: int = -1) -> bool:
@@ -1127,6 +2668,11 @@ static func commit_plan(
 
 static func routine_selection_for_month(month_index: int = -1) -> Dictionary:
 	var plan := plan_for_month(month_index)
+	if plan_uses_seoul_cycle(plan):
+		# The board nodes own livelihood, growth, care, and recovery directly.
+		# Returning legacy defaults here would make the invisible +KRW 280K/+16
+		# mental Month-One baseline survive beneath the player's four allocations.
+		return {}
 	var raw_routines: Variant = plan.get("routines", {})
 	if raw_routines is Dictionary and not (raw_routines as Dictionary).is_empty():
 		return (raw_routines as Dictionary).duplicate(true)
@@ -1141,12 +2687,47 @@ static func apply_background_routines_for_turn(turn: int = -1) -> Dictionary:
 		return {
 			"ok": true,
 			"applied": false,
+			"suppressed": bool(prior.get("suppressed", false)),
 			"receipt": prior.duplicate(true),
 		}
 	var month_index := month_for_turn(target_turn)
 	var plan := plan_for_month(month_index)
 	if plan.is_empty():
 		return {"ok": false, "error": "missing_plan"}
+	if plan_uses_seoul_cycle(plan):
+		var raw_cycle_routines: Variant = seoul_cycle_spec().get(
+			"background_routines", {})
+		if not raw_cycle_routines is Dictionary \
+				or str((raw_cycle_routines as Dictionary).get(
+					"policy", "")) != "absorbed_by_nodes" \
+				or bool((raw_cycle_routines as Dictionary).get(
+					"automatic_effects", true)) \
+				or not bool((raw_cycle_routines as Dictionary).get(
+					"durable_suppressed_receipt", false)):
+			return {"ok": false, "error": "invalid_cycle_routine_contract"}
+		var suppressed_receipt := {
+			"turn": target_turn,
+			"month": month_index,
+			"planning_mode": SEOUL_CYCLE_MODE,
+			"status": "suppressed",
+			"suppressed": true,
+			"suppression_policy": "absorbed_by_nodes",
+			"primary": "",
+			"secondary": "",
+			"planned_primary": "",
+			"planned_secondary": "",
+			"employment_forced": false,
+			"units": [],
+			"effects": {},
+		}
+		state["routine_receipts"][turn_key] = suppressed_receipt.duplicate(true)
+		GameState.core_loop_v2_state = state
+		return {
+			"ok": true,
+			"applied": false,
+			"suppressed": true,
+			"receipt": suppressed_receipt,
+		}
 	var raw_planned: Variant = plan.get("routines", {})
 	var planned: Dictionary = (raw_planned as Dictionary).duplicate(true) \
 		if raw_planned is Dictionary else {}
@@ -1393,15 +2974,22 @@ static func record_month_summary(
 	var kept: Array = []
 	var schedule: Dictionary = plan.get("schedule", {}) as Dictionary \
 		if plan.get("schedule", {}) is Dictionary else {}
-	for raw_week in schedule:
-		var week := int(raw_week)
-		if completed_turns.has(week):
-			kept.append({
-				"week": week,
-				"bundle_id": str(schedule[raw_week]),
-			})
+	var cycle_summary: Dictionary = {}
+	if plan_uses_seoul_cycle(plan):
+		cycle_summary = _seoul_cycle_month_summary_payload(
+			state, month_index)
+		kept = (cycle_summary.get("kept", []) as Array).duplicate(true)
+	else:
+		for raw_week in schedule:
+			var week := int(raw_week)
+			if completed_turns.has(week):
+				kept.append({
+					"week": week,
+					"bundle_id": str(schedule[raw_week]),
+				})
 	var summary := {
 		"month": month_index,
+		"planning_mode": str(plan.get("planning_mode", "legacy_monthly_plan")),
 		"before": before.duplicate(true),
 		"after": after.duplicate(true),
 		"fixed_expense": float(before.get("fixed_expense", 0.0)),
@@ -1415,6 +3003,17 @@ static func record_month_summary(
 		"acknowledged": false,
 		"recorded_turn": int(GameState.turn),
 	}
+	if not cycle_summary.is_empty():
+		for cycle_key in [
+			"allocation_receipts", "node_states", "expired_nodes",
+			"expiry_receipts",
+			"cycle_completed_turns", "world_clock",
+			"trigger_receipts", "world_receipts",
+		]:
+			summary[cycle_key] = cycle_summary.get(cycle_key).duplicate(true) \
+				if cycle_summary.get(cycle_key) is Dictionary \
+					or cycle_summary.get(cycle_key) is Array \
+				else cycle_summary.get(cycle_key)
 	for raw_key in extra:
 		summary[str(raw_key)] = extra[raw_key]
 	# The closing balance remains untouched. This receipt gives the notebook a
@@ -1424,6 +3023,88 @@ static func record_month_summary(
 	state["month_summaries"][month_key] = summary
 	GameState.core_loop_v2_state = state
 	return summary.duplicate(true)
+
+static func _seoul_cycle_month_summary_payload(
+		state: Dictionary, month_index: int) -> Dictionary:
+	var cycle: Dictionary = state.get(SEOUL_CYCLE_STATE_KEY, {})
+	if cycle.is_empty() or int(cycle.get("month", 0)) != month_index:
+		return {}
+	var first_turn := ((month_index - 1) * 4) + 1
+	var last_turn := first_turn + 3
+	var allocation_receipts: Array = []
+	var kept: Array = []
+	var nodes: Dictionary = cycle.get("nodes", {})
+	for turn in range(first_turn, last_turn + 1):
+		var raw_receipt: Variant = (
+			cycle.get("allocation_receipts", {}) as Dictionary).get(
+				str(turn), {})
+		if not raw_receipt is Dictionary \
+				or (raw_receipt as Dictionary).is_empty():
+			continue
+		var receipt: Dictionary = (raw_receipt as Dictionary).duplicate(true)
+		allocation_receipts.append(receipt)
+		var node_id := str(receipt.get("node_id", ""))
+		var raw_node: Variant = nodes.get(node_id, {})
+		var summary_bundle := ""
+		if raw_node is Dictionary:
+			summary_bundle = str((raw_node as Dictionary).get(
+				"summary_bundle", (raw_node as Dictionary).get(
+					"trigger_bundle", ""))).strip_edges()
+		kept.append({
+			"week": turn,
+			"bundle_id": summary_bundle,
+			"node_id": node_id,
+			"capacity_id": str(receipt.get("capacity_id", "")),
+			"capacity_value": int(receipt.get("capacity_value", 0)),
+			"progress_gain": int(receipt.get("progress_gain", 0)),
+			"completed_now": bool(receipt.get("completed_now", false)),
+			"repeat_allocation": bool(receipt.get(
+				"repeat_allocation", false)),
+			"fallback_allocation": bool(receipt.get(
+				"fallback_allocation", false)),
+		})
+	var node_states: Dictionary = {}
+	for raw_node_id in nodes:
+		var node_id := str(raw_node_id)
+		var raw_node: Variant = nodes.get(raw_node_id, {})
+		if not raw_node is Dictionary:
+			continue
+		var node: Dictionary = raw_node
+		var node_state := {
+			"id": node_id,
+			"owner": str(node.get("owner", "")),
+			"place": str(node.get("place", "")),
+			"summary_bundle": str(node.get("summary_bundle", "")),
+			"label_ko": str(node.get("label_ko", "")),
+			"label_en": str(node.get("label_en", "")),
+			"progress": int(node.get("progress", 0)),
+			"threshold": int(node.get("threshold", 1)),
+			"status": str(node.get("status", "open")),
+			"deadline_week": int(node.get("deadline_week", 4)),
+			"completed_turn": int(node.get("completed_turn", 0)),
+			"last_allocation_turn": int(node.get("last_allocation_turn", 0)),
+			"expired_turn": int(node.get("expired_turn", 0)),
+			"featured_status": str(node.get("featured_status", "")),
+			"missed_trigger_bundle": str(node.get(
+				"missed_trigger_bundle", "")),
+			"fallback_mode": bool(node.get("fallback_mode", false)),
+		}
+		node_states[node_id] = node_state
+	return {
+		"kept": kept,
+		"allocation_receipts": allocation_receipts,
+		"node_states": node_states,
+		"expired_nodes": (cycle.get("expired_nodes", []) as Array).duplicate(),
+		"expiry_receipts": (
+			cycle.get("expiry_receipts", {}) as Dictionary).duplicate(true),
+		"cycle_completed_turns": (
+			cycle.get("completed_turns", []) as Array).duplicate(),
+		"world_clock": int(cycle.get("world_clock", 0)),
+		"trigger_receipts": (
+			cycle.get("trigger_receipts", {}) as Dictionary).duplicate(true),
+		"world_receipts": (
+			cycle.get("world_receipts", {}) as Dictionary).duplicate(true),
+	}
 
 static func month_summary(month_index: int) -> Dictionary:
 	var state := _normalized_state(GameState.core_loop_v2_state)
@@ -2644,6 +4325,8 @@ static func complete_active_bundle() -> String:
 	var kind := str(state.get("active_kind", ""))
 	if bundle_id.is_empty():
 		return ""
+	var cycle_pending_key := _seoul_cycle_pending_key_for_active(
+		state, bundle_id, int(GameState.turn))
 	var active_spec := bundle(bundle_id)
 	if kind == "schedule":
 		var prelude_receipt := _scheduled_prelude_receipt_from_state(
@@ -2741,8 +4424,17 @@ static func complete_active_bundle() -> String:
 		if not state["completed_bundles"].has(bundle_id):
 			state["completed_bundles"].append(bundle_id)
 			state["completed_bundle_turns"][bundle_id] = GameState.turn
-		if not state["completed_turns"].has(GameState.turn):
+		if cycle_pending_key.is_empty() \
+				and not state["completed_turns"].has(GameState.turn):
 			state["completed_turns"].append(GameState.turn)
+		if not cycle_pending_key.is_empty():
+			var cycle_receipt_key := "trigger_receipts" \
+				if cycle_pending_key == "pending_trigger" \
+				else "world_receipts"
+			if not _resolve_seoul_cycle_entry_in_state(
+					state, cycle_pending_key, cycle_receipt_key,
+					bundle_id, int(GameState.turn)):
+				return ""
 	state["active_bundle"] = ""
 	state["active_kind"] = ""
 	state["active_turn"] = 0
@@ -2750,6 +4442,25 @@ static func complete_active_bundle() -> String:
 	state["activity_task_session"] = {}
 	GameState.core_loop_v2_state = state
 	return bundle_id
+
+static func _seoul_cycle_pending_key_for_active(
+		state: Dictionary, bundle_id: String, turn: int) -> String:
+	if str(state.get("active_kind", "")) != "schedule" \
+			or int(state.get("active_turn", 0)) != turn:
+		return ""
+	var cycle: Dictionary = state.get(SEOUL_CYCLE_STATE_KEY, {})
+	if cycle.is_empty():
+		return ""
+	for pending_key in ["pending_trigger", "pending_world"]:
+		var raw_entry: Variant = cycle.get(pending_key, {})
+		if raw_entry is Dictionary \
+				and str((raw_entry as Dictionary).get("status", "")) \
+					== "claimed" \
+				and str((raw_entry as Dictionary).get("bundle_id", "")) \
+					== bundle_id \
+				and int((raw_entry as Dictionary).get("turn", 0)) == turn:
+			return pending_key
+	return ""
 
 static func _has_current_relationship_receipt(
 		state: Dictionary, bundle_id: String) -> bool:
@@ -4462,11 +6173,49 @@ static func _consequence_was_presented(
 		state: Dictionary, consequence_id: String) -> bool:
 	var raw_receipt: Variant = state["consequence_receipts"].get(
 		consequence_id, {})
-	return raw_receipt is Dictionary \
+	if raw_receipt is Dictionary \
 		and str((raw_receipt as Dictionary).get(
 			"consequence_id", "")) == consequence_id \
 		and str((raw_receipt as Dictionary).get(
-			"status", "")) in ["presented", "consumed"]
+			"status", "")) in ["presented", "consumed"]:
+		return true
+
+	# Seoul Cycle world beats intentionally complete through the schedule
+	# transaction so the player's allocation and its world response share one
+	# weekly ledger.  They therefore own a cycle world receipt rather than a
+	# legacy consequence receipt.  Accept only a resolved receipt whose saved
+	# calendar position is internally consistent and whose bundle was authored
+	# for that exact month/week; do not infer presentation from completed bundle
+	# ids alone.
+	var raw_cycle: Variant = state.get(SEOUL_CYCLE_STATE_KEY, {})
+	if not raw_cycle is Dictionary:
+		return false
+	var cycle: Dictionary = raw_cycle
+	var month := int(cycle.get("month", 0))
+	if month < 1:
+		return false
+	var raw_world_receipts: Variant = cycle.get("world_receipts", {})
+	if not raw_world_receipts is Dictionary:
+		return false
+	for raw_receipt_key in (raw_world_receipts as Dictionary):
+		var raw_world_receipt: Variant = (
+			raw_world_receipts as Dictionary).get(raw_receipt_key, {})
+		if not raw_world_receipt is Dictionary:
+			continue
+		var world_receipt: Dictionary = raw_world_receipt
+		var turn := int(world_receipt.get("turn", 0))
+		var week_index := int(world_receipt.get("week_index", 0))
+		if str(world_receipt.get("bundle_id", "")) == consequence_id \
+				and str(world_receipt.get("status", "")) == "resolved" \
+				and str(raw_receipt_key) == str(week_index) \
+				and int(world_receipt.get("claimed_turn", 0)) == turn \
+				and int(world_receipt.get("resolved_turn", 0)) == turn \
+				and turn == _seoul_cycle_month_start_turn(month) \
+					+ week_index - 1 \
+				and _seoul_cycle_world_bundle_authored_for_week(
+					month, week_index, consequence_id):
+			return true
+	return false
 
 static func consequence_receipt_has_root(
 		consequence_id: String, root_id: String) -> bool:
@@ -5483,6 +7232,24 @@ static func _predicate_met(
 						or str((raw_routines as Dictionary).get(
 							"secondary", "")) == track:
 					return true
+			# Seoul Cycle absorbs legacy routines into actual node allocations.
+			# Preserve authored prerequisites such as Daeun's livelihood encounter
+			# by reading what the player really spent weeks on, not an empty hidden
+			# routine dictionary.
+			var active_cycle: Dictionary = state.get(SEOUL_CYCLE_STATE_KEY, {})
+			if _seoul_cycle_receipts_include_track(
+				active_cycle.get("allocation_receipts", {}),
+				active_cycle.get("nodes", {}), track):
+				return true
+			for raw_summary in state["month_summaries"].values():
+				if not raw_summary is Dictionary:
+					continue
+				if _seoul_cycle_receipts_include_track(
+						(raw_summary as Dictionary).get(
+							"allocation_receipts", []),
+						(raw_summary as Dictionary).get("node_states", {}),
+						track):
+					return true
 			return false
 		"relationship_at_least":
 			var character := str(predicate.get("character", "")).strip_edges()
@@ -5547,6 +7314,30 @@ static func _predicate_met(
 			return true
 	return false
 
+static func _seoul_cycle_receipts_include_track(
+		raw_receipts: Variant, raw_nodes: Variant,
+		track: String) -> bool:
+	if not raw_nodes is Dictionary:
+		return false
+	var receipts: Array = []
+	if raw_receipts is Dictionary:
+		receipts.assign((raw_receipts as Dictionary).values())
+	elif raw_receipts is Array:
+		receipts = (raw_receipts as Array).duplicate()
+	else:
+		return false
+	for raw_receipt in receipts:
+		if not raw_receipt is Dictionary:
+			continue
+		var node_id := str((raw_receipt as Dictionary).get("node_id", ""))
+		var raw_node: Variant = (raw_nodes as Dictionary).get(node_id, {})
+		if not raw_node is Dictionary:
+			continue
+		var node: Dictionary = raw_node
+		if str(node.get("routine_track", node.get("owner", ""))) == track:
+			return true
+	return false
+
 static func _normalized_schedule(raw_schedule: Dictionary) -> Dictionary:
 	var schedule: Dictionary = {}
 	for raw_week in raw_schedule:
@@ -5557,6 +7348,243 @@ static func _normalized_schedule(raw_schedule: Dictionary) -> Dictionary:
 		if not bundle_id.is_empty():
 			schedule[str(week)] = bundle_id
 	return schedule
+
+## Public for save migration tests and recovery callers. It never creates new
+## capacities: an old/malformed save cannot gain a reroll by normalization.
+static func normalize_seoul_cycle_state(raw_state: Dictionary) -> Dictionary:
+	if raw_state.is_empty():
+		return {}
+	var root_spec := seoul_cycle_spec()
+	var month := int(raw_state.get("month", 0))
+	var month_spec := seoul_cycle_month_spec(month)
+	var raw_capacity_spec: Variant = root_spec.get("capacity", {})
+	var raw_node_specs: Variant = month_spec.get("nodes", {})
+	if root_spec.is_empty() or month_spec.is_empty() \
+			or not raw_capacity_spec is Dictionary \
+			or not raw_node_specs is Dictionary \
+			or int(raw_state.get("schema", 0)) != SEOUL_CYCLE_SCHEMA \
+			or str(raw_state.get("planning_mode", "")) != SEOUL_CYCLE_MODE:
+		return {}
+	var month_start_turn := _seoul_cycle_month_start_turn(month)
+	var month_end_turn := _seoul_cycle_month_end_turn(month)
+	var raw_capacities: Variant = raw_state.get("capacities", [])
+	var capacity_count := int(
+		(raw_capacity_spec as Dictionary).get("count", 4))
+	if not raw_capacities is Array \
+			or (raw_capacities as Array).size() != capacity_count:
+		return {}
+	var capacities: Array = []
+	var capacity_ids: Array[String] = []
+	for index in range((raw_capacities as Array).size()):
+		var raw_capacity: Variant = (raw_capacities as Array)[index]
+		if not raw_capacity is Dictionary:
+			return {}
+		var capacity: Dictionary = (raw_capacity as Dictionary).duplicate(true)
+		var capacity_id := str(capacity.get("id", "")).strip_edges()
+		var expected_id := "m%d_capacity_%d" % [month, index + 1]
+		var value := int(capacity.get("value", 0))
+		if capacity_id != expected_id or capacity_ids.has(capacity_id) \
+				or value < int((raw_capacity_spec as Dictionary).get(
+					"minimum", 1)) \
+				or value > int((raw_capacity_spec as Dictionary).get(
+					"maximum", 6)):
+			return {}
+		capacity_ids.append(capacity_id)
+		capacity["id"] = capacity_id
+		capacity["value"] = value
+		capacity["quality"] = _seoul_cycle_capacity_quality(value)
+		capacity["consumed"] = bool(capacity.get("consumed", false))
+		capacity["consumed_turn"] = clampi(
+			int(capacity.get("consumed_turn", 0)),
+			month_start_turn, month_end_turn) \
+			if bool(capacity["consumed"]) else 0
+		capacity["node_id"] = str(capacity.get("node_id", "")) \
+			if bool(capacity["consumed"]) else ""
+		capacities.append(capacity)
+	var raw_nodes: Variant = raw_state.get("nodes", {})
+	if not raw_nodes is Dictionary:
+		return {}
+	var nodes: Dictionary = {}
+	for raw_node_id in (raw_node_specs as Dictionary):
+		var node_id := str(raw_node_id).strip_edges()
+		var raw_node_spec: Variant = (
+			raw_node_specs as Dictionary).get(raw_node_id, {})
+		if node_id.is_empty() or not raw_node_spec is Dictionary:
+			return {}
+		# Normalization must be a pure save-shape operation. Re-running dynamic
+		# prerequisite resolution here would recurse through available_offer_ids
+		# back into _normalized_state and could also rewrite an old save's chosen
+		# relationship branch.
+		var node: Dictionary = (raw_node_spec as Dictionary).duplicate(true)
+		var raw_runtime_node: Variant = (raw_nodes as Dictionary).get(
+			node_id, {})
+		if raw_runtime_node is Dictionary:
+			var persisted_trigger := str(
+				(raw_runtime_node as Dictionary).get(
+					"trigger_bundle", "")).strip_edges()
+			if persisted_trigger.is_empty() \
+					or _seoul_cycle_node_trigger_candidates(
+						raw_node_spec as Dictionary).has(persisted_trigger):
+				node = _seoul_cycle_node_with_resolved_trigger(
+					node, persisted_trigger, month)
+			for key in [
+				"progress", "status", "completed_turn",
+				"last_allocation_turn", "expired_turn", "featured_status",
+				"missed_trigger_bundle", "fallback_mode",
+			]:
+				if (raw_runtime_node as Dictionary).has(key):
+					node[key] = (raw_runtime_node as Dictionary)[key]
+		var threshold: int = maxi(1, int(node.get("threshold", 1)))
+		node["id"] = node_id
+		node["threshold"] = threshold
+		node["deadline_week"] = clampi(
+			int(node.get("deadline_week", 4)), 1, 4)
+		node["progress"] = clampi(int(node.get("progress", 0)), 0, threshold)
+		var status := str(node.get("status", "open"))
+		if status not in [
+			"open", "in_progress", "awaiting_trigger", "completed", "expired",
+			"locked",
+		]:
+			status = "open" if int(node["progress"]) == 0 else "in_progress"
+		if status in ["awaiting_trigger", "completed"] \
+				and int(node["progress"]) < threshold:
+			status = "in_progress"
+		node["status"] = status
+		node["completed_turn"] = clampi(
+			int(node.get("completed_turn", 0)),
+			0, month_end_turn)
+		node["last_allocation_turn"] = clampi(
+			int(node.get("last_allocation_turn", 0)),
+			0, month_end_turn)
+		if node.has("expired_turn"):
+			node["expired_turn"] = clampi(
+				int(node.get("expired_turn", 0)),
+				0, month_end_turn)
+		nodes[node_id] = node
+	for capacity in capacities:
+		if bool(capacity.get("consumed", false)) \
+				and not nodes.has(str(capacity.get("node_id", ""))):
+			return {}
+	var state := {
+		"schema": SEOUL_CYCLE_SCHEMA,
+		"planning_mode": SEOUL_CYCLE_MODE,
+		"month": month,
+		"initialized_turn": clampi(
+			int(raw_state.get("initialized_turn", month_start_turn)),
+			month_start_turn, month_end_turn),
+		"seed_signature": str(raw_state.get("seed_signature", "")),
+		"source_health": clampi(int(raw_state.get("source_health", 0)), 0, 100),
+		"source_mental": clampi(int(raw_state.get("source_mental", 0)), 0, 100),
+		"condition_band": str(raw_state.get("condition_band", "")),
+		"capacities": capacities,
+		"nodes": nodes,
+		"world_clock": clampi(
+			int(raw_state.get("world_clock", 0)), 0,
+			maxi(1, int((month_spec.get("world_clock", {}) as Dictionary).get(
+				"maximum", 4))) if month_spec.get("world_clock", {}) is Dictionary \
+				else 4),
+		"allocation_receipts": _seoul_cycle_receipt_dictionary(
+			raw_state.get("allocation_receipts", {})),
+		"trigger_receipts": _seoul_cycle_receipt_dictionary(
+			raw_state.get("trigger_receipts", {})),
+		"world_receipts": _seoul_cycle_receipt_dictionary(
+			raw_state.get("world_receipts", {})),
+		"expiry_receipts": _seoul_cycle_receipt_dictionary(
+			raw_state.get("expiry_receipts", {})),
+		"pending_trigger": _normalized_seoul_cycle_pending(
+			raw_state.get("pending_trigger", {}), "node_trigger", month),
+		"pending_world": _normalized_seoul_cycle_pending(
+			raw_state.get("pending_world", {}), "world", month),
+		"completed_turns": [],
+		"expired_nodes": [],
+	}
+	for raw_turn in raw_state.get("completed_turns", []):
+		var completed_turn := int(raw_turn)
+		if completed_turn >= month_start_turn \
+				and completed_turn <= month_end_turn \
+				and not state["completed_turns"].has(completed_turn):
+			state["completed_turns"].append(completed_turn)
+	state["completed_turns"].sort()
+	for raw_node_id in raw_state.get("expired_nodes", []):
+		var node_id := str(raw_node_id).strip_edges()
+		if nodes.has(node_id) and not state["expired_nodes"].has(node_id):
+			state["expired_nodes"].append(node_id)
+	return state
+
+static func _seoul_cycle_receipt_dictionary(raw_receipts: Variant) -> Dictionary:
+	var receipts: Dictionary = {}
+	if not raw_receipts is Dictionary:
+		return receipts
+	for raw_key in (raw_receipts as Dictionary):
+		var raw_receipt: Variant = (raw_receipts as Dictionary).get(raw_key, {})
+		if raw_receipt is Dictionary and not (raw_receipt as Dictionary).is_empty():
+			receipts[str(raw_key)] = (raw_receipt as Dictionary).duplicate(true)
+	return receipts
+
+static func _normalized_seoul_cycle_pending(
+		raw_pending: Variant, expected_kind: String,
+		month_index: int) -> Dictionary:
+	if not raw_pending is Dictionary or (raw_pending as Dictionary).is_empty():
+		return {}
+	var pending: Dictionary = (raw_pending as Dictionary).duplicate(true)
+	var kind := str(pending.get("kind", ""))
+	var bundle_id := str(pending.get("bundle_id", "")).strip_edges()
+	var turn := int(pending.get("turn", 0))
+	var status := str(pending.get("status", ""))
+	if bundle_id.is_empty() or bundle(bundle_id).is_empty() \
+			or turn < _seoul_cycle_month_start_turn(month_index) \
+			or turn > _seoul_cycle_month_end_turn(month_index) \
+			or status not in ["pending", "claimed"]:
+		return {}
+	if expected_kind == "node_trigger":
+		if kind != expected_kind \
+				or str(pending.get("node_id", "")).is_empty():
+			return {}
+	else:
+		# World receipts preserve their authored kind (`encounter`,
+		# `fixed_crisis`, ...); `expected_kind` describes the pending slot,
+		# not that source label.
+		if not _seoul_cycle_world_bundle_authored_for_week(
+					month_index,
+					int(pending.get("week_index", 0)),
+					bundle_id):
+			return {}
+	return pending
+
+## Save normalization must be a pure shape check. Calling the dynamic world
+## resolver here would evaluate bundle predicates, which read application
+## state through `_normalized_state()` and recurse back into this function.
+## Eligibility was already decided when the pending receipt was created; on
+## load we only prove that the saved bundle is an authored option for that
+## exact calendar week.
+static func _seoul_cycle_world_bundle_authored_for_week(
+		month_index: int, week_index: int, bundle_id: String) -> bool:
+	if week_index < 1 or week_index > 4 or bundle_id.is_empty():
+		return false
+	var raw_world: Variant = seoul_cycle_month_spec(
+		month_index).get("world_clock", {})
+	if not raw_world is Dictionary:
+		return false
+	var absolute_turn := _seoul_cycle_month_start_turn(month_index) \
+		+ week_index - 1
+	for raw_event in (raw_world as Dictionary).get("events", []):
+		if not raw_event is Dictionary \
+				or int((raw_event as Dictionary).get("week_index", 0)) \
+					!= week_index:
+			continue
+		var authored: Array[String] = []
+		var fixed_bundle := str((raw_event as Dictionary).get(
+			"bundle_id", "")).strip_edges()
+		if not fixed_bundle.is_empty():
+			authored.append(fixed_bundle)
+		for raw_option in (raw_event as Dictionary).get(
+			"bundle_options", []):
+			var option_id := str(raw_option).strip_edges()
+			if not option_id.is_empty() and not authored.has(option_id):
+				authored.append(option_id)
+		return authored.has(bundle_id) \
+			and bundle_allowed_in_week(bundle_id, absolute_turn)
+	return false
 
 static func _normalized_state(raw_state: Dictionary) -> Dictionary:
 	var state := raw_state.duplicate(true)
@@ -5569,6 +7597,7 @@ static func _normalized_state(raw_state: Dictionary) -> Dictionary:
 		"plans", "completed_bundle_turns", "shown_consequence_turns",
 		"relationship_stages", "relationship_choice_receipts",
 		"suppressed_followups", "routine_receipts", "month_summaries",
+		"completion_snapshots",
 		"month_opening_snapshots",
 		"action_receipts", "action_story_acknowledgements",
 		"application_statuses", "consequence_receipts",
@@ -5577,10 +7606,12 @@ static func _normalized_state(raw_state: Dictionary) -> Dictionary:
 		"story_choice_receipts", "obligation_receipts",
 		"deferred_callback_receipts", "demo_collision_context",
 		"future_story_receipts", "future_application_receipts",
-		"activity_task_session",
+		"activity_task_session", SEOUL_CYCLE_STATE_KEY,
 	]:
 		if not state.has(key) or not state[key] is Dictionary:
 			state[key] = {}
+	state[SEOUL_CYCLE_STATE_KEY] = normalize_seoul_cycle_state(
+		state.get(SEOUL_CYCLE_STATE_KEY, {}))
 	for key in [
 		"forgone", "completed_turns", "completed_bundles",
 		"shown_consequences", "player_initiated", "pending_declines",

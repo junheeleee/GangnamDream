@@ -2,6 +2,7 @@ extends Node
 ## ManualSaveCheck — 10슬롯과 StoryMode 중간 재개 계약을 실제 런타임으로 검증한다.
 
 const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
+const MAIN_GAME_SCENE := preload("res://scenes/MainGame.tscn")
 const TEST_SLOT := 1
 const LEGACY_SLOT := 9
 const CONTRACT_SLOT := 10
@@ -23,6 +24,10 @@ func _run() -> void:
 	_backup_test_slots()
 	GameState.start_new_game()
 	_check_slot_and_legacy_contract()
+	if not _failures.is_empty():
+		await _finish()
+		return
+	await _check_main_game_save_failure_feedback()
 	if not _failures.is_empty():
 		await _finish()
 		return
@@ -66,6 +71,7 @@ func _check_slot_and_legacy_contract() -> void:
 	_expect(str(SaveManager.peek_loaded_resume_context().get("phase", "")) == "chapter",
 		"StoryMode resume payload was not retained")
 	SaveManager.clear_loaded_resume_context()
+	_check_durable_save_failure_and_retry()
 
 	var legacy_payload := {
 		"version": 3,
@@ -144,6 +150,81 @@ func _check_build_identity_compatibility(legacy_payload: Dictionary) -> void:
 	_expect(not bool(v2_past_demo.get("compatible", true))
 			and str(v2_past_demo.get("reason", "")) == "demo_turn_limit",
 		"V2 playtest accepted its own save beyond Week 24")
+	var v2_completion_state := {
+		"turn": GameState.DEMO_TURN_LIMIT + 1,
+		"core_loop_v2_state": {
+			"enabled": true,
+			"prototype_complete": true,
+			"development_cap_week": GameState.DEMO_TURN_LIMIT,
+			"completed_through_week": GameState.DEMO_TURN_LIMIT,
+			"completed_at_turn": GameState.DEMO_TURN_LIMIT + 1,
+			"prototype_completed_at_turn": GameState.DEMO_TURN_LIMIT + 1,
+			"completed_turns": range(1, GameState.DEMO_TURN_LIMIT + 1),
+		},
+	}
+	_expect(bool(SaveManager.inspect_payload_compatibility(
+			v2_payload, v2_completion_state,
+			playtest_identity).get("compatible", false)),
+		"V2 playtest rejected its sealed Week-24 completion save at turn 25")
+	var persisted_completion_state: Variant = JSON.parse_string(
+		JSON.stringify(v2_completion_state))
+	_expect(persisted_completion_state is Dictionary \
+			and bool(SaveManager.inspect_payload_compatibility(
+				v2_payload, persisted_completion_state as Dictionary,
+				playtest_identity).get("compatible", false)),
+		"V2 completion cutoff did not survive JSON numeric round-trip")
+	_expect(not bool(SaveManager.inspect_payload_compatibility(
+			demo_payload, v2_completion_state,
+			demo_identity).get("compatible", true)),
+		"retail demo flavor accepted the playtest-only turn-25 completion exception")
+	_expect(not bool(SaveManager.inspect_payload_compatibility(
+			legacy_payload, v2_completion_state,
+			demo_identity).get("compatible", true)),
+		"identity-less legacy payload accepted the playtest-only completion exception")
+	for missing_receipt in [
+		"prototype_complete", "development_cap_week",
+		"completed_through_week", "completed_at_turn",
+		"prototype_completed_at_turn", "completed_turns",
+	]:
+		var malformed_completion := v2_completion_state.duplicate(true)
+		(malformed_completion["core_loop_v2_state"] as Dictionary).erase(
+			missing_receipt)
+		_expect(not bool(SaveManager.inspect_payload_compatibility(
+				v2_payload, malformed_completion,
+				playtest_identity).get("compatible", true)),
+			"V2 turn-25 save bypassed the cutoff without %s" % missing_receipt)
+	var malformed_completion_values := [
+		["turn", 25.5, false],
+		["turn", "25", false],
+		["enabled", "true", true],
+		["prototype_complete", 1, true],
+		["development_cap_week", 24.5, true],
+		["completed_through_week", "24", true],
+		["completed_at_turn", 25.5, true],
+		["prototype_completed_at_turn", "25", true],
+		["completed_turns", range(1, GameState.DEMO_TURN_LIMIT), true],
+	]
+	for malformed_spec in malformed_completion_values:
+		var malformed_completion := v2_completion_state.duplicate(true)
+		var key := str(malformed_spec[0])
+		if bool(malformed_spec[2]):
+			(malformed_completion["core_loop_v2_state"] as Dictionary)[key] = \
+				malformed_spec[1]
+		else:
+			malformed_completion[key] = malformed_spec[1]
+		_expect(not bool(SaveManager.inspect_payload_compatibility(
+				v2_payload, malformed_completion,
+				playtest_identity).get("compatible", true)),
+			"V2 turn-25 exception coerced malformed %s" % key)
+	var malformed_completed_turns := v2_completion_state.duplicate(true)
+	var fractional_turns: Array = range(1, GameState.DEMO_TURN_LIMIT + 1)
+	fractional_turns[-1] = float(GameState.DEMO_TURN_LIMIT) + 0.5
+	(malformed_completed_turns["core_loop_v2_state"] as Dictionary)[
+		"completed_turns"] = fractional_turns
+	_expect(not bool(SaveManager.inspect_payload_compatibility(
+			v2_payload, malformed_completed_turns,
+			playtest_identity).get("compatible", true)),
+		"V2 turn-25 exception coerced a fractional completed week")
 	_expect(not bool(SaveManager.inspect_payload_compatibility(
 		v2_payload, week_24_state, full_identity).get("compatible", true)),
 		"retail/full accepted a V2 playtest save")
@@ -194,6 +275,375 @@ func _check_build_identity_compatibility(legacy_payload: Dictionary) -> void:
 		"future save schema was loaded instead of rejected")
 	_expect(is_equal_approx(GameState.money, 123456.0),
 		"future save rejection mutated GameState before compatibility checks")
+
+func _check_durable_save_failure_and_retry() -> void:
+	var path := SaveManager.slot_path(CONTRACT_SLOT)
+	var temporary_path := "%s.tmp" % path
+	var backup_path := "%s.bak" % path
+	var backup_temporary_path := "%s.tmp" % backup_path
+	var temporary_absolute := ProjectSettings.globalize_path(temporary_path)
+	_expect(not FileAccess.file_exists(temporary_path) \
+			and not DirAccess.dir_exists_absolute(temporary_absolute),
+		"save QA started with a stale slot-10 temporary path")
+	if FileAccess.file_exists(temporary_path) \
+			or DirAccess.dir_exists_absolute(temporary_absolute):
+		return
+	var before := FileAccess.get_file_as_bytes(path)
+	var make_error := DirAccess.make_dir_absolute(temporary_absolute)
+	_expect(make_error == OK,
+		"save QA could not create its temporary-write blocker")
+	if make_error != OK:
+		return
+	var original_money := float(GameState.money)
+	GameState.money = original_money + 123_456.0
+	var failure_signals: Array[bool] = []
+	var failure_callback := func(success: bool, emitted_slot: int) -> void:
+		if emitted_slot == CONTRACT_SLOT:
+			failure_signals.append(success)
+	SaveManager.save_completed.connect(failure_callback)
+	var blocked_result := SaveManager.save_game(CONTRACT_SLOT)
+	SaveManager.save_completed.disconnect(failure_callback)
+	_expect(not blocked_result and failure_signals == [false],
+		"blocked save did not return and signal one failure")
+	_expect(FileAccess.get_file_as_bytes(path) == before,
+		"failed save damaged the previous slot bytes")
+	_expect(DirAccess.remove_absolute(temporary_absolute) == OK,
+		"save QA could not remove its temporary-write blocker")
+
+	var retry_signals: Array[bool] = []
+	var retry_callback := func(success: bool, emitted_slot: int) -> void:
+		if emitted_slot == CONTRACT_SLOT:
+			retry_signals.append(success)
+	SaveManager.save_completed.connect(retry_callback)
+	var retry_result := SaveManager.save_game(CONTRACT_SLOT)
+	SaveManager.save_completed.disconnect(retry_callback)
+	var after := FileAccess.get_file_as_bytes(path)
+	var retry_payload: Variant = JSON.parse_string(after.get_string_from_utf8())
+	_expect(retry_result and retry_signals == [true],
+		"save retry did not return and signal one success")
+	_expect(after != before and not FileAccess.file_exists(temporary_path),
+		"save retry did not replace the slot or left its temporary file")
+	_expect(FileAccess.get_file_as_bytes(backup_path) == before,
+		"save retry did not preserve the prior valid primary as a backup")
+	_expect(retry_payload is Dictionary \
+			and (retry_payload as Dictionary).get("state", null) is Dictionary \
+			and is_equal_approx(float(((retry_payload as Dictionary)["state"] \
+				as Dictionary).get("money", 0.0)), GameState.money),
+		"save retry did not leave a readable current-state payload")
+
+	# A backup-stage failure must stop before the primary replacement. This is
+	# the deterministic counterpart of a Windows/cloud lock on the sidecar.
+	var backup_temporary_absolute := ProjectSettings.globalize_path(
+		backup_temporary_path)
+	_expect(not FileAccess.file_exists(backup_temporary_path) \
+			and not DirAccess.dir_exists_absolute(backup_temporary_absolute),
+		"save QA started with a stale backup temporary path")
+	if not FileAccess.file_exists(backup_temporary_path) \
+			and not DirAccess.dir_exists_absolute(backup_temporary_absolute):
+		var backup_block_error := DirAccess.make_dir_absolute(
+			backup_temporary_absolute)
+		_expect(backup_block_error == OK,
+			"save QA could not create its backup-write blocker")
+		if backup_block_error == OK:
+			var preserved_primary := FileAccess.get_file_as_bytes(path)
+			var preserved_backup := FileAccess.get_file_as_bytes(backup_path)
+			GameState.money += 111_111.0
+			var backup_failure_signals: Array[bool] = []
+			var backup_failure_callback := func(
+					success: bool, emitted_slot: int) -> void:
+				if emitted_slot == CONTRACT_SLOT:
+					backup_failure_signals.append(success)
+			SaveManager.save_completed.connect(backup_failure_callback)
+			var backup_blocked_result := SaveManager.save_game(CONTRACT_SLOT)
+			SaveManager.save_completed.disconnect(backup_failure_callback)
+			_expect(not backup_blocked_result \
+					and backup_failure_signals == [false],
+				"blocked backup stage did not return and signal one failure")
+			_expect(FileAccess.get_file_as_bytes(path) == preserved_primary \
+					and FileAccess.get_file_as_bytes(backup_path) == preserved_backup,
+				"backup-stage failure changed the primary or last verified backup")
+			_expect(DirAccess.remove_absolute(backup_temporary_absolute) == OK,
+				"save QA could not remove its backup-write blocker")
+
+	# Produce one newer primary so its sidecar is the exact state recovery must
+	# load after the primary vanishes between DeleteFileW and MoveFileW.
+	GameState.money = original_money + 234_567.0
+	_expect(SaveManager.save_game(CONTRACT_SLOT),
+		"recovery fixture could not advance the primary save")
+	var recovery_backup := FileAccess.get_file_as_bytes(backup_path)
+	var recovery_payload: Variant = JSON.parse_string(
+		recovery_backup.get_string_from_utf8())
+	_expect(recovery_payload is Dictionary \
+			and (recovery_payload as Dictionary).get("state", null) is Dictionary,
+		"recovery fixture backup is not a readable save payload")
+	var recovery_money := float(
+		((recovery_payload as Dictionary).get("state", {}) as Dictionary).get(
+			"money", 0.0)) if recovery_payload is Dictionary else 0.0
+	_expect(DirAccess.remove_absolute(ProjectSettings.globalize_path(path)) == OK,
+		"save QA could not simulate a missing primary after replacement failure")
+	_expect(SaveManager.has_save(CONTRACT_SLOT),
+		"a verified backup alone did not keep the slot discoverable")
+	var recovery_info := SaveManager.get_save_info(CONTRACT_SLOT)
+	_expect(bool(recovery_info.get("recovered_from_backup", false)),
+		"slot info did not disclose that only the backup was readable")
+	GameState.money = -987_654.0
+	var recovery_signals: Array[bool] = []
+	var recovery_callback := func(success: bool, emitted_slot: int) -> void:
+		if emitted_slot == CONTRACT_SLOT:
+			recovery_signals.append(success)
+	SaveManager.load_completed.connect(recovery_callback)
+	var recovered := SaveManager.load_game(CONTRACT_SLOT)
+	SaveManager.load_completed.disconnect(recovery_callback)
+	_expect(recovered and recovery_signals == [true],
+		"missing-primary recovery did not return and signal one successful load")
+	_expect(is_equal_approx(GameState.money, recovery_money),
+		"missing-primary recovery loaded a state other than the verified backup")
+	_expect(FileAccess.get_file_as_bytes(path) == recovery_backup,
+		"missing-primary recovery did not restore the canonical primary bytes")
+	_expect(bool(SaveManager.last_load_diagnostic().get(
+		"recovered_from_backup", false)),
+		"missing-primary recovery omitted its diagnostic")
+
+	# A parse-corrupt primary follows the same recovery path. A well-formed but
+	# incompatible future save remains a deliberate rejection in the next test.
+	var corrupt_file := FileAccess.open(path, FileAccess.WRITE)
+	_expect(corrupt_file != null,
+		"save QA could not create its corrupt-primary recovery fixture")
+	if corrupt_file != null:
+		corrupt_file.store_string("{truncated")
+		corrupt_file.close()
+		GameState.money = -123_456.0
+		_expect(SaveManager.load_game(CONTRACT_SLOT),
+			"parse-corrupt primary did not recover from the verified backup")
+		_expect(is_equal_approx(GameState.money, recovery_money) \
+				and FileAccess.get_file_as_bytes(path) == recovery_backup,
+			"parse-corrupt primary recovery did not restore the backup exactly")
+
+	# Slot discovery and loading must select the same compatible candidate. A
+	# JSON-valid primary with an unsupported identity must not disable a slot
+	# whose verified backup is still compatible.
+	var incompatible_payload_value: Variant = JSON.parse_string(
+		recovery_backup.get_string_from_utf8())
+	var incompatible_payload: Dictionary = (
+		(incompatible_payload_value as Dictionary).duplicate(true)
+		if incompatible_payload_value is Dictionary else {})
+	incompatible_payload["build_flavor"] = "unsupported-fixture"
+	var incompatible_file := FileAccess.open(path, FileAccess.WRITE)
+	_expect(incompatible_file != null,
+		"save QA could not create its compatibility-failing primary")
+	if incompatible_file != null:
+		incompatible_file.store_string(JSON.stringify(incompatible_payload))
+		incompatible_file.close()
+		var before_info_state: Dictionary = GameState.serialize().duplicate(true)
+		var compatible_backup_info := SaveManager.get_save_info(CONTRACT_SLOT)
+		_expect(bool(compatible_backup_info.get("compatible", false)) \
+				and bool(compatible_backup_info.get(
+					"recovered_from_backup", false)) \
+				and str(compatible_backup_info.get("recovery_reason", "")) \
+					== "unknown_build_flavor" \
+				and is_equal_approx(float(compatible_backup_info.get(
+					"money", 0.0)), recovery_money),
+			"slot info hid a compatible backup behind an incompatible primary")
+		_expect(GameState.serialize() == before_info_state,
+			"slot info compatibility recovery mutated live GameState")
+		GameState.money = -222_222.0
+		_expect(SaveManager.load_game(CONTRACT_SLOT) \
+				and is_equal_approx(GameState.money, recovery_money) \
+				and FileAccess.get_file_as_bytes(path) == recovery_backup,
+			"load and slot info disagreed on compatibility backup recovery")
+		# A later save must never replace the compatible backup with the rejected
+		# primary generation before the new primary is installed and verified. Force
+		# the replacement boundary to fail after candidate selection, then retry.
+		var incompatible_rewrite := FileAccess.open(path, FileAccess.WRITE)
+		_expect(incompatible_rewrite != null,
+			"save QA could not recreate its incompatible-primary fixture")
+		if incompatible_rewrite != null:
+			incompatible_rewrite.store_string(JSON.stringify(incompatible_payload))
+			incompatible_rewrite.close()
+			GameState.money = original_money + 345_678.0
+			SaveManager.set_meta("_qa_fail_next_primary_replacement", true)
+			var replacement_failed := SaveManager.save_game(CONTRACT_SLOT)
+			_expect(not replacement_failed \
+					and not SaveManager.has_meta(
+						"_qa_fail_next_primary_replacement") \
+					and FileAccess.get_file_as_bytes(backup_path) == recovery_backup \
+					and FileAccess.get_file_as_bytes(path) == recovery_backup,
+				"failed replacement destroyed the compatible backup generation")
+			var incompatible_retry := FileAccess.open(path, FileAccess.WRITE)
+			_expect(incompatible_retry != null,
+				"save QA could not recreate its incompatible retry primary")
+			if incompatible_retry != null:
+				incompatible_retry.store_string(JSON.stringify(incompatible_payload))
+				incompatible_retry.close()
+				var retry_info := SaveManager.get_save_info(CONTRACT_SLOT)
+				_expect(bool(retry_info.get("compatible", false)) \
+						and bool(retry_info.get(
+							"recovered_from_backup", false)) \
+						and str(retry_info.get("recovery_reason", "")) \
+							== "unknown_build_flavor",
+					"failed replacement no longer exposed its compatible backup")
+				GameState.money = original_money + 345_678.0
+				_expect(SaveManager.save_game(CONTRACT_SLOT) \
+						and FileAccess.get_file_as_bytes(backup_path) \
+							== recovery_backup,
+					"save retry overwrote the last compatible backup")
+			# Restore the canonical recovery generation for the wrong-shape fixtures
+			# below so each candidate check starts from the same verified backup.
+			var recovery_restore := FileAccess.open(path, FileAccess.WRITE)
+			_expect(recovery_restore != null,
+				"save QA could not restore its canonical recovery primary")
+			if recovery_restore != null:
+				recovery_restore.store_buffer(recovery_backup)
+				recovery_restore.close()
+
+	# A structurally valid JSON object may still carry an impossible typed state.
+	# Reject it before GameState.load_from_dict can assign Array into Dictionary,
+	# while keeping the compatible backup visible and loadable.
+	var wrong_shape_payload_value: Variant = JSON.parse_string(
+		recovery_backup.get_string_from_utf8())
+	var wrong_shape_payload: Dictionary = (
+		(wrong_shape_payload_value as Dictionary).duplicate(true)
+		if wrong_shape_payload_value is Dictionary else {})
+	var wrong_shape_state: Dictionary = (
+		(wrong_shape_payload.get("state", {}) as Dictionary).duplicate(true)
+		if wrong_shape_payload.get("state", {}) is Dictionary else {})
+	wrong_shape_state["core_loop_v2_state"] = []
+	wrong_shape_payload["state"] = wrong_shape_state
+	var wrong_shape_file := FileAccess.open(path, FileAccess.WRITE)
+	_expect(wrong_shape_file != null,
+		"save QA could not create its wrong-typed primary")
+	if wrong_shape_file != null:
+		wrong_shape_file.store_string(JSON.stringify(wrong_shape_payload))
+		wrong_shape_file.close()
+		GameState.money = -333_333.0
+		var before_shape_info: Dictionary = GameState.serialize().duplicate(true)
+		var wrong_shape_info := SaveManager.get_save_info(CONTRACT_SLOT)
+		_expect(bool(wrong_shape_info.get("compatible", false)) \
+				and bool(wrong_shape_info.get("recovered_from_backup", false)) \
+				and str(wrong_shape_info.get("recovery_reason", "")) \
+					== "invalid_state_field" \
+				and str(wrong_shape_info.get("diagnostic", "")) \
+					== "core_loop_v2_state:expected_dictionary" \
+				and is_equal_approx(float(wrong_shape_info.get(
+					"money", 0.0)), recovery_money),
+			"slot info selected a JSON-valid primary with a wrong typed state")
+		_expect(GameState.serialize() == before_shape_info,
+			"wrong-shape slot inspection mutated live GameState")
+		_expect(SaveManager.load_game(CONTRACT_SLOT) \
+				and is_equal_approx(GameState.money, recovery_money) \
+				and FileAccess.get_file_as_bytes(path) == recovery_backup,
+			"wrong-shape primary did not recover through the verified backup")
+
+	# `turn` also gates compatibility and direct assignment. Give its malformed
+	# present value the same invalid_state_field recovery contract rather than
+	# allowing invalid_turn to hide an otherwise compatible verified backup.
+	var wrong_turn_payload_value: Variant = JSON.parse_string(
+		recovery_backup.get_string_from_utf8())
+	var wrong_turn_payload: Dictionary = (
+		(wrong_turn_payload_value as Dictionary).duplicate(true)
+		if wrong_turn_payload_value is Dictionary else {})
+	var wrong_turn_state: Dictionary = (
+		(wrong_turn_payload.get("state", {}) as Dictionary).duplicate(true)
+		if wrong_turn_payload.get("state", {}) is Dictionary else {})
+	wrong_turn_state["turn"] = "1"
+	wrong_turn_payload["state"] = wrong_turn_state
+	var wrong_turn_file := FileAccess.open(path, FileAccess.WRITE)
+	_expect(wrong_turn_file != null,
+		"save QA could not create its wrong-typed turn primary")
+	if wrong_turn_file != null:
+		wrong_turn_file.store_string(JSON.stringify(wrong_turn_payload))
+		wrong_turn_file.close()
+		GameState.money = -444_444.0
+		var before_turn_info: Dictionary = GameState.serialize().duplicate(true)
+		var wrong_turn_info := SaveManager.get_save_info(CONTRACT_SLOT)
+		_expect(bool(wrong_turn_info.get("compatible", false)) \
+				and bool(wrong_turn_info.get("recovered_from_backup", false)) \
+				and str(wrong_turn_info.get("recovery_reason", "")) \
+					== "invalid_state_field" \
+				and str(wrong_turn_info.get("diagnostic", "")) \
+					== "turn:expected_finite_integer",
+			"wrong-typed turn hid its compatible verified backup")
+		_expect(GameState.serialize() == before_turn_info,
+			"wrong-turn slot inspection mutated live GameState")
+		_expect(SaveManager.load_game(CONTRACT_SLOT) \
+				and is_equal_approx(GameState.money, recovery_money) \
+				and FileAccess.get_file_as_bytes(path) == recovery_backup,
+			"wrong-typed turn did not recover through the verified backup")
+
+	# Missing top-level fields remain a supported legacy shape; validation only
+	# rejects a present field whose broad serialized type is impossible.
+	var minimal_legacy_payload := {
+		"version": SaveManager.SAVE_VERSION,
+		"slot": CONTRACT_SLOT,
+		"saved_at": "2026-08-11T00:00:00",
+		"state": {"turn": 1},
+	}
+	minimal_legacy_payload.merge(SaveManager.save_identity_fields(), true)
+	var minimal_legacy_file := FileAccess.open(path, FileAccess.WRITE)
+	_expect(minimal_legacy_file != null,
+		"save QA could not create its missing-key legacy primary")
+	if minimal_legacy_file != null:
+		minimal_legacy_file.store_string(JSON.stringify(minimal_legacy_payload))
+		minimal_legacy_file.close()
+		var minimal_legacy_info := SaveManager.get_save_info(CONTRACT_SLOT)
+		_expect(bool(minimal_legacy_info.get("compatible", false)) \
+				and not bool(minimal_legacy_info.get(
+					"recovered_from_backup", true)) \
+				and str(minimal_legacy_info.get("recovery_reason", "")).is_empty(),
+			"missing-key legacy primary was rejected by typed-field validation")
+	GameState.money = original_money
+
+func _check_main_game_save_failure_feedback() -> void:
+	var previous_language := LocaleManager.language
+	LocaleManager.set_language("en")
+	GameState.start_new_game()
+	_expect(SaveManager.save_game(TEST_SLOT),
+		"MainGame save feedback fixture could not create its durable slot")
+	var main_game: Control = MAIN_GAME_SCENE.instantiate()
+	main_game.set_meta("_screenshot_qa_static_surface", true)
+	add_child(main_game)
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	var log_size_before := GameState.action_log.size()
+	SaveManager.set_meta("_qa_fail_next_primary_replacement", true)
+	main_game.call("_on_save_pressed")
+	await get_tree().process_frame
+	_expect(GameState.action_log.size() == log_size_before \
+			and _latest_main_game_toast(main_game) \
+				== "Save failed. Please try again.",
+		"quick-save failure reported success or wrote its success log")
+
+	main_game.call("_open_modal", "Save fixture", false, "manual_save_fixture")
+	SaveManager.set_meta("_qa_fail_next_primary_replacement", true)
+	main_game.call("_save_to_slot", TEST_SLOT)
+	await get_tree().process_frame
+	var modal_layer := main_game.get("modal_layer") as Control
+	_expect(is_instance_valid(modal_layer) and modal_layer.visible \
+			and str(main_game.get("_modal_kind")) == "manual_save_fixture" \
+			and _latest_main_game_toast(main_game) \
+				== "Save failed. Please try again.",
+		"slot-save failure closed its modal or reported success")
+
+	main_game.call("_save_to_slot", TEST_SLOT)
+	await get_tree().process_frame
+	_expect(is_instance_valid(modal_layer) and not modal_layer.visible \
+			and _latest_main_game_toast(main_game) == "Saved to slot 1",
+		"successful slot save did not close the modal and report success")
+	if main_game.get_parent() != null:
+		main_game.get_parent().remove_child(main_game)
+	main_game.free()
+	BGMPlayer.stop()
+	LocaleManager.set_language(previous_language)
+	await get_tree().process_frame
+
+func _latest_main_game_toast(main_game: Control) -> String:
+	var container := main_game.get("_toast_container") as Control
+	if not is_instance_valid(container) or container.get_child_count() == 0:
+		return ""
+	var toast := container.get_child(container.get_child_count() - 1)
+	var label := toast.get("label") as Label if is_instance_valid(toast) else null
+	return label.text if is_instance_valid(label) else ""
 
 func _check_prose_resume() -> void:
 	GameState.start_new_game()
@@ -1470,6 +1920,33 @@ func _free_story() -> void:
 		await get_tree().process_frame
 	_story = null
 
+func _stop_test_audio() -> void:
+	# StoryMode exit restores ambience and delayed paragraph cues may still own
+	# playback objects for a frame. Invalidate those cues and release every test
+	# player before the headless process exits so leak diagnostics stay actionable.
+	AudioManager.begin_story_audio_event("manual_save_check_cleanup")
+	AudioManager.stop_gamepad_vibration()
+	var pool_value: Variant = AudioManager.get("_pool")
+	if pool_value is Array:
+		for raw_player in pool_value as Array:
+			if raw_player is AudioStreamPlayer:
+				var player := raw_player as AudioStreamPlayer
+				player.stop()
+				player.stream = null
+	var sounds_value: Variant = AudioManager.get("_sounds")
+	if sounds_value is Dictionary:
+		(sounds_value as Dictionary).clear()
+	BGMPlayer.stop()
+	for property_name in [
+		"_player_a", "_player_b", "_ambience_player", "_season_player",
+		"_human_ambience_player",
+	]:
+		var value: Variant = BGMPlayer.get(property_name)
+		if value is AudioStreamPlayer:
+			var player := value as AudioStreamPlayer
+			player.stop()
+			player.stream = null
+
 func _find_meta_buttons(root: Control, key: String) -> Array[Button]:
 	var buttons: Array[Button] = []
 	for node in root.find_children("*", "Button", true, false):
@@ -1516,11 +1993,19 @@ func _fail(message: String) -> void:
 func _backup_test_slots() -> void:
 	for slot in [TEST_SLOT, LEGACY_SLOT, CONTRACT_SLOT]:
 		var path := SaveManager.slot_path(slot)
-		_backups[slot] = {
-			"existed": FileAccess.file_exists(path),
-			"bytes": FileAccess.get_file_as_bytes(path) if FileAccess.file_exists(path) \
+		var owned_paths := [
+			path, "%s.bak" % path, "%s.tmp" % path,
+			"%s.bak.tmp" % path, "%s.recovery.tmp" % path,
+		]
+		var slot_backup: Dictionary = {}
+		for owned_path in owned_paths:
+			slot_backup[str(owned_path)] = {
+				"existed": FileAccess.file_exists(str(owned_path)),
+				"bytes": FileAccess.get_file_as_bytes(str(owned_path)) \
+					if FileAccess.file_exists(str(owned_path)) \
 					else PackedByteArray(),
-		}
+			}
+		_backups[slot] = slot_backup
 
 func _backup_settings_file() -> void:
 	var path := SaveManager.SETTINGS_PATH
@@ -1576,27 +2061,40 @@ func _restore_settings_file() -> void:
 
 func _restore_test_slots() -> void:
 	for slot in _backups:
-		var path := SaveManager.slot_path(int(slot))
-		var backup: Dictionary = _backups[slot]
-		if bool(backup.get("existed", false)):
-			var file := FileAccess.open(path, FileAccess.WRITE)
-			if file != null:
-				file.store_buffer(backup.get("bytes", PackedByteArray()))
-				file.close()
-		elif FileAccess.file_exists(path):
-			DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+		var slot_backup: Dictionary = _backups[slot]
+		for raw_path in slot_backup:
+			var path := str(raw_path)
+			var backup: Dictionary = slot_backup[raw_path]
+			if bool(backup.get("existed", false)):
+				var file := FileAccess.open(path, FileAccess.WRITE)
+				if file != null:
+					file.store_buffer(backup.get("bytes", PackedByteArray()))
+					file.close()
+			elif FileAccess.file_exists(path):
+				DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+			elif DirAccess.dir_exists_absolute(
+					ProjectSettings.globalize_path(path)):
+				DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
 	_backups.clear()
 
 func _finish() -> void:
 	await _free_story()
+	_stop_test_audio()
 	_restore_test_slots()
 	_restore_settings_file()
 	_restore_meta_progression()
 	SaveManager.clear_loaded_resume_context()
 	await get_tree().process_frame
 	await get_tree().process_frame
+	_stop_test_audio()
+	# The dummy/headless audio driver releases playback references on its own
+	# mix tick rather than on a rendered frame, so give it one short real-time
+	# interval after stop/stream detachment before asserting a clean shutdown.
+	await get_tree().create_timer(0.25).timeout
+	_stop_test_audio()
+	await get_tree().create_timer(0.10).timeout
 	if _failures.is_empty():
-		print("MANUAL_SAVE_CHECK_OK slots=10 legacy=v3/v4 identity=current/partial/unknown build_mismatch=warning flavor=full-demo/v2-isolated/cutoff future=reject-before-state prose=source_progress locale_mismatch=rewind choices=1 result_once=1 timer=1 pages=2 dialogue_history=prose/choice/result/legacy_notice first_bill=expression/decision/ledger+preclamp_H3_H99+fatal_short_circuit+frozen_replay+local_ledger+hyunsu+legacy_atomic+nonstory_root_only/no_synthetic_archive archive=opening1/decision0 meta=restored")
+		print("MANUAL_SAVE_CHECK_OK slots=10 durability=temp-readback/verified-backup/primary-preserved/retry/recovery/compatible-backup-preserved/wrong-type/missing-key manual_feedback=failure-stays/success-close identity=current/partial/unknown/full-demo/v2-isolated/completion-turn25-exact/cutoff future=reject-before-state prose=source_progress locale_mismatch=rewind choices=1 result_once=1 timer=1 pages=2 dialogue_history=prose/choice/result/legacy_notice first_bill=expression/decision/ledger+preclamp_H3_H99+fatal_short_circuit+frozen_replay+local_ledger+hyunsu+legacy_atomic+nonstory_root_only/no_synthetic_archive archive=opening1/decision0 meta=restored")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -1604,6 +2102,7 @@ func _finish() -> void:
 	get_tree().quit(1)
 
 func _exit_tree() -> void:
+	_stop_test_audio()
 	_restore_test_slots()
 	_restore_settings_file()
 	_restore_meta_progression()

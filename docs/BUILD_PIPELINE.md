@@ -48,14 +48,36 @@ Retail은 기존 `gangnam_dream_{autosave,slot_N,settings,display,meta}.json`을
 Godot 버전, 생성 시각, 산출물 SHA-256을 기록한다. 생성 직후
 `tools/build_identity_audit.py`가 profile과 소스 상수를 대조한다.
 묶음 `demo`·`playtest` 패키지는 발급 전 `BUILD_ID`의 `YYYY.MM.DD`가 clean
-HEAD 커밋 날짜와 같은지도 검사한다. 날짜가 다르면 export 전에 중단되므로,
-새 테스트 패키지를 발급할 때는 `BUILD_ID`를 `YYYY.MM.DD.N` 형식으로 먼저 올린다.
+HEAD 커밋 날짜와 같은지, 첫 부모가 쓴 ID를 그대로 재사용하지 않았는지 함께
+검사한다. 날짜가 다르거나 같은 리비전 번호를 물려받았으면 export 전에
+중단되므로, 새 테스트 패키지를 발급할 때는 `BUILD_ID`를 `YYYY.MM.DD.N`
+형식의 새 값으로 먼저 올린다. 같은 clean HEAD의 재빌드는 그 HEAD가 이미
+첫 부모와 다른 ID를 소유하므로 허용된다.
 
 `build_id`와 `game_version` 차이는 호환 키가 아니라 진단 경고다. 미래
 `save_version`, 빈 식별자, 부적합한 flavor/namespace는 `GameState` 적용 전에
-거부한다. 데모 저장은 정식판으로 이어갈 수 있지만 정식판 저장은 데모에서 열 수
-없고, 데모와 V2 playtest는 24주를 넘은 저장을 거부한다. V2 playtest는
-namespace도 양방향 격리한다.
+거부한다. 정식판 저장은 데모에서 열 수 없고, 일반적인 데모·V2 playtest
+저장은 24주를 넘으면 거부한다. 단, **소스와 대상이 모두**
+`core_loop_v2_playtest/core_loop_v2_playtest_v1`이고 `turn=25`, 완료 주차가
+정확히 `1..24`, 완료 플래그·캡·경계 턴이 엄격한 타입과 값으로 일치하는
+저장만 V2 playtest에서 다시 열 수 있다. 이는 24주 확정 후 남은 결산·CTA
+영수증이지 **25주 플레이 허용이 아니다.** 임의로 조립한 turn 25, turn 26 이상,
+주차 누락·중복 저장은 상태를 바꾸기 전에 거부한다. V2 playtest namespace는
+이 완료 저장까지 포함해 양방향 격리한다.
+
+저장 교체는 기존 정상 파일을 제자리에서 잘라 쓰지 않는다. 새 payload를
+같은 폴더의 임시 파일에 쓴 뒤 바이트·JSON·슬롯·빌드 식별자를 다시 읽어
+검증하고, 이전 primary의 바이트가 같은 verified `.bak`을 먼저 준비한 뒤에만
+교체한다. 임시 쓰기·백업 준비·primary 교체·최종 검증 중 어느 단계든
+실패하면 직전 정상 primary와 마지막 verified backup을 보존하고 실패를 한 번만
+알린다. 재시도는 성공 신호를 한 번만 남겨야 하며, primary가 없거나 파싱
+불능이면 호환되는 verified backup만 읽어 primary를 같은 바이트로 복구한다.
+이 계약은 프로세스 내 교체·복구 증거이며 OS 전원 상실 시나리오까지 승인하지는 않는다.
+
+기존 demo flavor 저장을 full loader가 인식할 수 있다는 호환 방향과, 공개 데모의
+24주 결산에서 full MainGame 25주로 이어지는 제품 경로는 다른 판정이다.
+현재 V2 playtest 저장은 정식판과 격리되며, 공개 데모→정식판 Week 25
+MainGame 이월은 아래 실기기·사람 게이트가 열려 있는 출시 블로커다.
 
 ## 2. 준비
 
@@ -72,10 +94,23 @@ GODOT=/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot \
 
 GODOT=/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot \
   ./tools/build.sh playtest-check
+
+GODOT=/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot \
+  ./tools/run_core_loop_v2_input_qa.sh full-matrix
+
+GODOT=/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot \
+  ./tools/run_core_loop_v2_input_qa.sh surface-matrix
 ```
 
-세 명령은 각각 마지막에 `✅ 감사 통과`, `DEMO_BUILD_CHECK_OK`,
-`PLAYTEST_FLAVOR_CHECK_OK`를 출력해야 한다. Godot 공식 문서상 custom feature는
+다섯 명령은 각각 마지막에 `✅ 감사 통과`, `DEMO_BUILD_CHECK_OK`,
+`PLAYTEST_FLAVOR_CHECK_OK`,
+`CORE_LOOP_V2_FULL_MATRIX_OK languages=ko+en devices=keyboard+gamepad weeks=24 cases=4`,
+`CORE_LOOP_V2_SURFACE_MATRIX_OK languages=ko+en resolutions=1280x800+960x600 cases=4`를
+정확히 출력해야 한다. `audit.sh`의 서울 사이클 밸런스 블록은 프로세스
+종료 0, `CORE_LOOP_V2_CYCLE_BALANCE_OK` 정확 마커, 엔진·스크립트·파싱 오류 0을
+모두 요구하는 strict gate다. 이 세 가지 24주 증거는 **동일한 clean
+revision**에서 나와야 하며 하나라도 없으면 출고 후보가 아니다. Godot 공식
+문서상 custom feature는
 에디터 실행에는 적용되지 않고 실제 export에서만 적용되므로, 에디터 게이트의
 두 build 인자는 생략하면 안 된다.
 
@@ -102,6 +137,10 @@ GODOT=/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot \
 7. macOS V2 playtest export
 8. Linux/Steam Deck V2 playtest export
 9. 소스 재확인 후 `build/playtest/MANIFEST.sha256` 생성
+
+`playtest` export 자체가 §2의 full/surface matrix를 대신하지는 않는다. 배포자는
+위 세 strict 증거를 같은 clean revision의 세션 원장에 남긴 뒤에만 export
+해시를 후보로 등록한다.
 
 개별 V2 빌드는 `windows-playtest`, `macos-playtest`, `linux-playtest` 타깃을
 사용한다. 기존 Demo는 `demo`, `windows-demo`, `macos-demo`, `linux-demo`로
@@ -135,6 +174,30 @@ autoload·StartMenu 코드에서 다음을 검사한다.
 - retail과 playtest의 설정·화면·메타·자동저장·수동 슬롯 1~10 경로 교집합이 0인지
 - 창 제목·시작 화면 build identity·전 장면 corner marker 중 flavor 누락이 없는지
 - `runtime_default=false`와 24주 cutoff가 유지되고 feature만으로 런을 몰래 켜지 않는지
+
+### 24주 서울 사이클·결산·저장 스모크
+
+- `CoreLoopV2CycleBalanceCheck.tscn`은 fresh 실제 배치로 생계·성장·사람·회복
+  24주 경로와 고비용 사망 경로를 돌린다. `audit.sh`는 위의 exact marker·종료
+  상태·오류 0을 함께 판정하며, 예전 48 루틴 커널은 이 게이트를 대체하지
+  못한다.
+- `full-matrix`는 KO/EN×키보드/게임패드 네 경로로 24개 실제 배치와
+  완료 CTA까지 도달하고, `surface-matrix`는 KO/EN×1280×800/960×600에서
+  보드와 결산을 렌더한다. 하위 케이스의 PASS가 있어도 매트릭스 자체의 exact
+  marker가 없으면 실패다.
+- 새 24주 경계는 종료 순간의 돈·고정지출·몸·마음·주거·배경·재정 사다리·
+  유혹 영수증을 동결한 snapshot을 소유한다. 실행 중 HUD를 바꾸어도 첫 요약,
+  1~6개월 상세, 미결 페이지가 경계 값을 그대로 읽어야 한다. 패드로 상세·페이지·
+  행을 이동하고 960×600과 1280×800에서 첫 요약과 CTA가 스크롤 없이 보여야 한다.
+- 결산 자동저장이 실패하면 South는 제목으로 나가지 않고 같은 결산에서
+  재시도한다. 성공 후에만 종료 CTA가 열린다. 사전 snapshot이 없는 지원 대상
+  구 완료 저장은 복원할 수 있는 영수증만 보여 주고 나머지를 `기록 없음 /
+  NOT RECORDED`으로 남긴다. 현재 HUD로 빈칸을 발명하거나 예전 결산 모달로
+  폴백하면 실패다.
+- `ManualSaveCheck.tscn`은 임시 파일 재독·verified backup·실패 보존·재시도·
+  유효한 backup 복구와 봉인된 V2 turn-25 예외를 실제 슬롯 IO로 검사한다.
+  `audit.sh`에서는 `MANUAL_SAVE_CHECK_OK`와 종료 0, 엔진·스크립트·파싱 오류 0을
+  모두 요구하는 strict gate다.
 
 ### 제3자 고지 스모크
 
@@ -203,8 +266,11 @@ done
 4. 언어 선택이 먼저 뜨고 KO/EN 선택이 즉시 전 표면에 적용되는지 확인한다.
 5. JUNPAC 스플래시 → 시작 메뉴까지 막힘 없이 가고 기본 포커스가
    `24주 데모 시작 / Start 24-Week Demo`인지 확인한다. legacy 새 이야기는 보이면 안 된다.
-6. 전용 진입을 누르고 콘텐츠 경고 뒤 V2 월간 네 약속 화면까지 확인한다.
-7. 24주까지 실제 입력으로 완주해 완료 회고·CTA와 t=25 차단을 확인한다.
+6. 전용 진입을 누르고 콘텐츠 경고 뒤 V2 서울 사이클의 네 주간 여력·네 노드
+   보드까지 확인한다.
+7. 24주까지 실제 입력으로 완주해 동결 결산 요약, 1~6개월 상세와 미결 페이지,
+   자동저장 성공 후 CTA, 실제 Week 25 진입 차단을 확인한다. 자동저장 실패
+   표본은 같은 화면에서 재시도해 성공 전에 제목으로 나갈 수 없어야 한다.
 8. 크래시, 무한 전환, 입력 포커스 소실, 배경/BGM 재시작, 한글 누출을 기록한다.
 9. 테스트 빌드 파일의 SHA-256을 `MANIFEST.sha256`과 대조한다.
 
@@ -229,7 +295,7 @@ Windows와 Linux/Deck의 `run` 칸은 아직 미검증이다. macOS 실주행 �
 | Windows V2 export | PASS · 생성만 | PE32+ x86-64 산출물과 manifest 해시 생성. Windows native run은 OPEN |
 | macOS V2 no-argument entry smoke | PASS · 진입까지만 | 일반 앱 실행으로 최초 언어 선택→JUNPAC→KO/EN 시작 메뉴, build identity·전역 표식, fresh playtest 데이터의 24주 단일 기본 진입, 콘텐츠 안내→V2 도입 장면 확인 |
 | Linux/Deck V2 export | PASS · 생성만 | ELF64 x86-64 산출물과 manifest 해시 생성. Linux/Deck native run은 OPEN |
-| §5 전체 package smoke | OPEN | 월간 네 약속 화면, 실제 1→24주·CTA·t=25 차단, 연속 A/V·입력은 아직 판정하지 않음 |
+| §5 전체 package smoke | OPEN | 서울 사이클 보드, 실제 1→24주·동결 결산·재시도·CTA·실제 Week 25 차단, 연속 A/V·입력은 아직 판정하지 않음 |
 | External/human evidence | OPEN | `human_gates.json`의 `demo_rc`는 재빌드 대기이며 외부 표본 0/10. flavor-proof 산출물을 외부 후보로 등록하지 않음 |
 
 flavor-proof는 `BUILD 2026.08.03.1`, revision
@@ -273,6 +339,16 @@ Linux·Steam Deck `6858217e11fc6820d00f5be4cacb13e16e7f859ad534aefbfa572449bd95a
 
 자동 게이트는 표본이 `READY_FOR_HUMAN_VERDICT`인지만 판정하며 재미·출시 GO를 선언하지 않는다. Windows와 Linux/Deck의 물리 기기 실행 스모크도 계속 OPEN이다.
 
+### 공개 데모→정식판 Week 25 이월 `[OPEN 사람/출시 블로커]`
+
+봉인된 V2 turn-25 저장을 **같은 playtest namespace에서** 다시 열어 결산을
+보는 것은 이월 증거가 아니다. V2가 공개 demo flavor로 승격된 뒤에는 같은
+산출물의 실제 프롤로그→24주→결산 경로가 만든 데모 저장을 별도 full-build
+프로세스에서 열고, 결산 CTA를 떠나 정상 정식판 경제·조작을 복구한 뒤
+Week 25를 정확히 한 번 시작해 Week 28까지 주행해야 한다. 미래 영수증·프롤로그
+이력이 보존되는지도 같은 실기기·사람 판정으로 확인한다. 이 게이트가 닫히기
+전에는 공개 데모 저장의 Week 25 제품 이월을 지원한다고 표시하지 않는다.
+
 ## 6. 스모크 기록
 
 | 항목 | 기록 |
@@ -286,12 +362,17 @@ Linux·Steam Deck `6858217e11fc6820d00f5be4cacb13e16e7f859ad534aefbfa572449bd95a
 | 무인자 부팅→언어 선택→시작 메뉴 | PASS / FAIL |
 | build identity·전역 표식 | PASS / FAIL |
 | fresh 데이터의 24주 단일 진입 | PASS / FAIL |
-| 전용 진입→V2 월간 네 약속 | PASS / FAIL |
-| 실제 1→24주→회고·CTA | PASS / FAIL |
-| t=25 진입 전 차단 | PASS / FAIL |
+| CycleBalance strict exact marker·오류 0 | PASS / FAIL |
+| full-matrix exact marker | PASS / FAIL |
+| surface-matrix exact marker | PASS / FAIL |
+| 전용 진입→V2 서울 사이클 보드 | PASS / FAIL |
+| 실제 1→24주→동결 요약·6개월·미결→CTA | PASS / FAIL |
+| 자동저장 재시도·구저장 unknown 표면 | PASS / FAIL |
+| 실제 Week 25 진입 전 차단 | PASS / FAIL |
+| 공개 데모→full Week 25 이월 | OPEN / PASS / FAIL |
 | 중단/오류 |  |
 | 증적 경로 |  |
 
 무인자 진입 스모크 `PASS`와 24주 완주 `PASS`는 별도 판정이다. §5.1~6을
-닫으려면 월간 네 약속 화면까지 실제 입력으로 가야 하고, §5.7은 같은 산출물로
-24주 회고·CTA와 t=25 차단까지 정상 속도로 완주해야 한다.
+닫으려면 서울 사이클 보드까지 실제 입력으로 가야 하고, §5.7은 같은 산출물로
+24주 동결 결산·상세·미결·CTA와 실제 Week 25 차단까지 정상 속도로 완주해야 한다.

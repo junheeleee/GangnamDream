@@ -23,6 +23,10 @@ const DEMO_FEATURE := "gangnam_demo"
 const DEMO_TEST_ARG := "--demo-build"
 const DEMO_TURN_LIMIT: int = 24   # 6개월 × 4주
 const RUN_TURN_LIMIT: int = 240   # 5년 × 12개월 × 4주
+# Durable origin marker for runs created after the Seoul Cycle enrollment
+# boundary. Old saves omit this key and must never be inferred as fresh merely
+# because their Month-One plan happens to be empty.
+const CORE_LOOP_V2_ELIGIBLE_RUN_GENERATION := "seoul_cycle_eligible_v1"
 
 func is_demo_build() -> bool:
 	# Export preset feature가 정본이다. 명시적 인자는 에디터/CI 게이트에서만 사용한다.
@@ -476,7 +480,9 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	pending_weekly_commitment = {}
 	weekly_commitments = []
 	forgone_path_debts = {}
-	core_loop_v2_state = {}
+	core_loop_v2_state = {
+		"run_generation": CORE_LOOP_V2_ELIGIBLE_RUN_GENERATION,
+	}
 	phone_state = PHONE_SYSTEM.default_state()
 	contact_counts = {}
 	last_contact_turn = {}
@@ -1807,10 +1813,17 @@ func _weekly_commitment_outcome(before: Dictionary, after: Dictionary) -> Dictio
 
 func arm_weekly_commitment(commitment: Dictionary) -> bool:
 	var choice_id := str(commitment.get("choice_id", "")).strip_edges().to_lower()
-	if choice_id.is_empty() or action_points <= 0 or has_weekly_commitment_for_turn(turn):
+	if choice_id.is_empty() or not pending_weekly_commitment.is_empty():
 		return false
 	var commitment_turn := int(commitment.get("turn", turn))
 	if commitment_turn != turn:
+		return false
+	var existing := get_weekly_commitment_for_turn(turn)
+	var supplemental_to_cycle := bool(commitment.get(
+		"supplemental_to_seoul_cycle", false)) \
+		and str(existing.get("source", "")) == "seoul_cycle"
+	if (not existing.is_empty() and not supplemental_to_cycle) \
+			or (existing.is_empty() and action_points <= 0):
 		return false
 	var alternatives: Array = []
 	for raw_id in commitment.get("forgone_ids", []):
@@ -1828,6 +1841,8 @@ func arm_weekly_commitment(commitment: Dictionary) -> bool:
 		"forgone_ids": alternatives,
 		"baseline": _weekly_commitment_public_snapshot(person_id),
 	}
+	if supplemental_to_cycle:
+		armed_commitment["supplemental_to_seoul_cycle"] = true
 	var scene_background_id := str(commitment.get("scene_background_id", "")).strip_edges()
 	if not scene_background_id.is_empty():
 		armed_commitment["scene_background_id"] = scene_background_id
@@ -1887,17 +1902,28 @@ func finalize_weekly_effect_action(
 		pending_weekly_commitment.get("choice_id", "")).strip_edges().to_lower()
 	if not weekly_commitment_action_matches(choice_id, normalized_action):
 		return {"ok": false, "error": "action_mismatch"}
-	if has_weekly_commitment_for_turn(turn):
-		return {"ok": false, "error": "turn_already_finalized"}
-	if action_points <= 0:
-		return {"ok": false, "error": "insufficient_ap"}
+	var supplemental_to_cycle := bool(pending_weekly_commitment.get(
+		"supplemental_to_seoul_cycle", false))
+	var existing_cycle_record := get_weekly_commitment_for_turn(turn)
+	if supplemental_to_cycle:
+		var existing_details: Dictionary = existing_cycle_record.get(
+			"details", {}) if existing_cycle_record.get(
+				"details", {}) is Dictionary else {}
+		if str(existing_cycle_record.get("source", "")) != "seoul_cycle" \
+				or str(existing_details.get("execution", "")) != "seoul_cycle":
+			return {"ok": false, "error": "missing_seoul_cycle_owner"}
+	else:
+		if not existing_cycle_record.is_empty():
+			return {"ok": false, "error": "turn_already_finalized"}
+		if action_points <= 0:
+			return {"ok": false, "error": "insufficient_ap"}
 
 	var snapshot: Dictionary = serialize().duplicate(true)
 	var transient_snapshot := {
 		"pending_tint_vignette": pending_tint_vignette.duplicate(true),
 		"pending_scar_vignette": pending_scar_vignette,
 	}
-	if not spend_ap():
+	if not supplemental_to_cycle and not spend_ap():
 		return {"ok": false, "error": "insufficient_ap"}
 	if not effects.is_empty():
 		apply_effects(effects)
@@ -1910,6 +1936,46 @@ func finalize_weekly_effect_action(
 			flags.erase(flag_id)
 		else:
 			flags[flag_id] = flag_value
+	if supplemental_to_cycle:
+		var synthetic_record := pending_weekly_commitment.duplicate(true)
+		synthetic_record["source"] = "seoul_cycle_followup"
+		synthetic_record["actual_action_id"] = normalized_action
+		if str(synthetic_record.get("person_id", "")).is_empty():
+			synthetic_record["person_id"] = subject_id.strip_edges().to_lower()
+		var baseline: Dictionary = synthetic_record.get("baseline", {}) \
+			if synthetic_record.get("baseline", {}) is Dictionary else {}
+		synthetic_record.erase("baseline")
+		synthetic_record.erase("supplemental_to_seoul_cycle")
+		synthetic_record["outcome"] = _weekly_commitment_outcome(
+			baseline, _weekly_commitment_public_snapshot(
+				str(synthetic_record.get("person_id", ""))))
+		if not details.is_empty():
+			synthetic_record["details"] = details.duplicate(true)
+		if not _append_seoul_cycle_action_followup(
+				turn, synthetic_record, details):
+			_restore_serialized_snapshot_exact(snapshot)
+			pending_tint_vignette = (
+				transient_snapshot["pending_tint_vignette"] as Dictionary
+			).duplicate(true)
+			pending_scar_vignette = str(
+				transient_snapshot["pending_scar_vignette"])
+			money_changed.emit(money)
+			moral_tint_changed.emit(moral_tint_norm(), moral_stage())
+			return {
+				"ok": false,
+				"error": "seoul_cycle_followup_failed",
+				"rolled_back": true,
+			}
+		pending_weekly_commitment = {}
+		action_points = 0
+		stats_changed.emit()
+		weekly_commitment_finalized.emit(synthetic_record.duplicate(true))
+		return {
+			"ok": true,
+			"supplemental": true,
+			"record": synthetic_record.duplicate(true),
+		}
+
 	register_action_axis(
 		normalized_axis, place_id, normalized_action, subject_id)
 	if not finalize_weekly_commitment(
@@ -1928,6 +1994,55 @@ func finalize_weekly_effect_action(
 		"record": get_weekly_commitment_for_turn(turn),
 	}
 
+func _append_seoul_cycle_action_followup(
+		commitment_turn: int, action_record: Dictionary,
+		action_details: Dictionary) -> bool:
+	var bundle_id := str(action_record.get("pressure_id", "")).strip_edges()
+	var action_id := str(action_record.get(
+		"actual_action_id", "")).strip_edges().to_lower()
+	if bundle_id.is_empty() or action_id.is_empty():
+		return false
+	for index in range(weekly_commitments.size() - 1, -1, -1):
+		var raw_record: Variant = weekly_commitments[index]
+		if not raw_record is Dictionary \
+				or int((raw_record as Dictionary).get("turn", -1)) \
+					!= commitment_turn:
+			continue
+		var record: Dictionary = (raw_record as Dictionary).duplicate(true)
+		var details: Dictionary = record.get("details", {}) \
+			if record.get("details", {}) is Dictionary else {}
+		var week_baseline: Variant = details.get("week_baseline", {})
+		if str(record.get("source", "")) != "seoul_cycle" \
+				or str(details.get("execution", "")) != "seoul_cycle" \
+				or not week_baseline is Dictionary \
+				or (week_baseline as Dictionary).is_empty():
+			return false
+		var followups: Array = details.get("action_followups", []) \
+			if details.get("action_followups", []) is Array else []
+		for raw_followup in followups:
+			if raw_followup is Dictionary \
+					and str((raw_followup as Dictionary).get(
+						"bundle_id", "")) == bundle_id:
+				return false
+		followups.append({
+			"bundle_id": bundle_id,
+			"action_id": action_id,
+			"turn": commitment_turn,
+			"outcome": (
+				(action_record.get("outcome", {}) as Dictionary).duplicate(true)
+				if action_record.get("outcome", {}) is Dictionary else {}
+			),
+			"details": action_details.duplicate(true),
+		})
+		details["action_followups"] = followups
+		record["details"] = details
+		record["outcome"] = _weekly_commitment_outcome(
+			week_baseline as Dictionary,
+			_weekly_commitment_public_snapshot(str(record.get("person_id", ""))))
+		weekly_commitments[index] = record
+		return true
+	return false
+
 func _restore_serialized_snapshot_exact(snapshot: Dictionary) -> void:
 	# The general save loader performs compatibility normalization. Transaction
 	# rollback must then restore every serialized value byte-for-byte so a
@@ -1940,7 +2055,6 @@ func _restore_serialized_snapshot_exact(snapshot: Dictionary) -> void:
 			value = value.duplicate(true)
 		set(str(raw_key), value)
 	stats_changed.emit()
-
 func finalize_weekly_commitment(action_id: String, subject_id: String = "",
 		details: Dictionary = {}) -> bool:
 	if pending_weekly_commitment.is_empty():
@@ -2036,6 +2150,56 @@ func record_story_weekly_commitment(event_id: String, choice_index: int,
 	weekly_commitment_finalized.emit(record.duplicate(true))
 	return true
 
+## Seoul Cycle replaces the ordinary AP picker for its week. Its saved
+## capacity is already the scarce input, so this transaction must not depend
+## on a leftover AP counter while still producing the same public weekly
+## ledger used by echoes, monthly axis history, and long-run review.
+func finalize_seoul_cycle_weekly_commitment(
+		commitment: Dictionary, effects: Dictionary,
+		axis: String, place_id: String = "") -> Dictionary:
+	var commitment_turn := int(commitment.get("turn", turn))
+	var choice_id := str(commitment.get(
+		"choice_id", "")).strip_edges().to_lower()
+	var normalized_axis := axis.strip_edges().to_lower()
+	var details: Dictionary = commitment.get("details", {}) \
+		if commitment.get("details", {}) is Dictionary else {}
+	if commitment_turn != turn or choice_id.is_empty() \
+			or normalized_axis not in ["money", "human"] \
+			or str(details.get("execution", "")) != "seoul_cycle" \
+			or has_weekly_commitment_for_turn(turn) \
+			or has_pending_weekly_commitment(turn):
+		return {"ok": false, "error": "invalid_seoul_cycle_commitment"}
+	var person_id := str(commitment.get("person_id", "")).strip_edges()
+	var baseline := _weekly_commitment_public_snapshot(person_id)
+	if not effects.is_empty():
+		apply_effects(effects)
+	register_action_axis(
+		normalized_axis, place_id, choice_id, person_id)
+	details["week_baseline"] = baseline.duplicate(true)
+	var record := {
+		"turn": turn,
+		"source": "seoul_cycle",
+		"pressure_id": str(commitment.get("pressure_id", "")),
+		"pressure_family": "seoul_cycle",
+		"choice_id": choice_id,
+		"actual_action_id": choice_id,
+		"person_id": person_id,
+		"forgone_ids": (commitment.get("forgone_ids", []) as Array).duplicate() \
+			if commitment.get("forgone_ids", []) is Array else [],
+		"outcome": _weekly_commitment_outcome(
+			baseline, _weekly_commitment_public_snapshot(person_id)),
+		"details": details.duplicate(true),
+		"echoed_turn": -1,
+	}
+	weekly_commitments.append(record)
+	while weekly_commitments.size() > 16:
+		weekly_commitments.pop_front()
+	pending_weekly_commitment = {}
+	action_points = 0
+	stats_changed.emit()
+	weekly_commitment_finalized.emit(record.duplicate(true))
+	return {"ok": true, "record": record.duplicate(true)}
+
 ## Compatibility for pre-ORDER-37 callers and old checks.
 func record_story_boss_commitment(event_id: String, choice_index: int,
 		baseline: Dictionary, forgone_choice_indexes: Array[int]) -> bool:
@@ -2070,6 +2234,66 @@ func get_weekly_commitment_for_turn(commitment_turn: int) -> Dictionary:
 		if value is Dictionary and int(value.get("turn", -1)) == commitment_turn:
 			return (value as Dictionary).duplicate(true)
 	return {}
+
+## A Seoul-cycle week has one player commitment, followed by zero or more
+## threshold/world scenes that are consequences of that same allocation.
+## Attach those scene receipts to the existing record instead of inventing a
+## second weekly choice that would overwrite what the player actually did.
+func append_weekly_commitment_followup(
+		commitment_turn: int, followup: Dictionary) -> bool:
+	var kind := str(followup.get("kind", "")).strip_edges()
+	var bundle_id := str(followup.get("bundle_id", "")).strip_edges()
+	if kind not in ["node_trigger", "world"] or bundle_id.is_empty():
+		return false
+	for index in range(weekly_commitments.size() - 1, -1, -1):
+		var raw_record: Variant = weekly_commitments[index]
+		if not raw_record is Dictionary \
+				or int((raw_record as Dictionary).get("turn", -1)) \
+					!= commitment_turn:
+			continue
+		var record: Dictionary = (raw_record as Dictionary).duplicate(true)
+		var details: Dictionary = record.get("details", {}) \
+			if record.get("details", {}) is Dictionary else {}
+		if str(details.get("execution", "")) != "seoul_cycle":
+			return false
+		var followups: Array = details.get("followups", []) \
+			if details.get("followups", []) is Array else []
+		for raw_existing in followups:
+			if raw_existing is Dictionary \
+					and str((raw_existing as Dictionary).get("kind", "")) == kind \
+					and str((raw_existing as Dictionary).get(
+						"bundle_id", "")) == bundle_id:
+				return true
+		var durable := followup.duplicate(true)
+		durable["turn"] = commitment_turn
+		followups.append(durable)
+		details["followups"] = followups
+		record["details"] = details
+		weekly_commitments[index] = record
+		return true
+	return false
+
+func refresh_seoul_cycle_weekly_commitment(commitment_turn: int) -> bool:
+	for index in range(weekly_commitments.size() - 1, -1, -1):
+		var raw_record: Variant = weekly_commitments[index]
+		if not raw_record is Dictionary \
+				or int((raw_record as Dictionary).get("turn", -1)) \
+					!= commitment_turn:
+			continue
+		var record: Dictionary = (raw_record as Dictionary).duplicate(true)
+		var details: Dictionary = record.get("details", {}) \
+			if record.get("details", {}) is Dictionary else {}
+		var baseline: Variant = details.get("week_baseline", {})
+		if str(details.get("execution", "")) != "seoul_cycle" \
+				or not baseline is Dictionary \
+				or (baseline as Dictionary).is_empty():
+			return false
+		record["outcome"] = _weekly_commitment_outcome(
+			baseline as Dictionary,
+			_weekly_commitment_public_snapshot(str(record.get("person_id", ""))))
+		weekly_commitments[index] = record
+		return true
+	return false
 
 func get_unresolved_weekly_commitments(max_count: int = 2) -> Array:
 	var unresolved: Array = []

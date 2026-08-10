@@ -175,6 +175,18 @@ def is_paired_localized_data_line(lines: list[str], index: int) -> bool:
     line = strip_comment(lines[index])
     if not HANGUL_RE.search(line):
         return False
+    explicit_pair = re.search(
+        r'["\'](?P<key>[A-Za-z0-9_]+)_ko["\']\s*:', line
+    )
+    if explicit_pair is not None:
+        start = max(0, index - 1)
+        end = min(len(lines), index + 4)
+        window = "\n".join(strip_comment(item) for item in lines[start:end])
+        if re.search(
+            rf'["\']{re.escape(explicit_pair.group("key"))}_en["\']\s*:',
+            window,
+        ):
+            return True
     for key in PAIRED_DATA_KEYS:
         if not re.search(rf'["\']{re.escape(key)}["\']\s*:', line):
             continue

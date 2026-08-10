@@ -1127,8 +1127,8 @@ def activity_contract_errors(contract: dict[str, Any]) -> list[str]:
         return errors + [str(exc)]
     for fragment in (
         '"side_shift":\n\t\t\t_core_loop_v2_open_side_shift(bundle_id)',
-        '"resume":\n\t\t\t_ap_write_resume()',
-        '"interview":\n\t\t\t_ap_interview_prep()',
+        '"resume":\n\t\t\t_ap_write_resume(true)',
+        '"interview":\n\t\t\t_ap_interview_prep(true)',
     ):
         if fragment not in dispatch:
             errors.append(f"MainGame V2 activity dispatch missing: {fragment!r}")

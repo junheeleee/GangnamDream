@@ -234,8 +234,12 @@ def git_value(*args: str) -> str:
     ).strip()
 
 
-def package_build_id_errors(build_id: str, commit_date: str) -> list[str]:
-    """Reject a package label that does not identify the clean HEAD date."""
+def package_build_id_errors(
+    build_id: str,
+    commit_date: str,
+    first_parent_build_id: str | None = None,
+) -> list[str]:
+    """Reject a package label that does not uniquely identify clean HEAD."""
     match = BUILD_ID_RE.fullmatch(build_id)
     if match is None:
         return [
@@ -258,7 +262,30 @@ def package_build_id_errors(build_id: str, commit_date: str) -> list[str]:
             f"build_id={build_id!r} is stale for HEAD commit date "
             f"{commit_date}; issue {expected_date}.N before packaging"
         ]
+    if first_parent_build_id == build_id:
+        return [
+            f"build_id={build_id!r} was already used by HEAD's first parent; "
+            f"increment {expected_date}.N before packaging this revision"
+        ]
     return []
+
+
+def git_first_parent_build_id() -> str | None:
+    """Return the first parent's BUILD_ID, or None for the root commit."""
+    lineage = git_value("rev-list", "--parents", "-n", "1", "HEAD").split()
+    if len(lineage) < 2:
+        return None
+    parent_text = git_value(
+        "show", f"{lineage[1]}:systems/BuildInfo.gd"
+    )
+    match = re.search(
+        r'^const\s+BUILD_ID\s*:?=\s*"([^"]+)"\s*$',
+        parent_text,
+        flags=re.MULTILINE,
+    )
+    if match is None:
+        raise ValueError("HEAD's first parent is missing BuildInfo.BUILD_ID")
+    return match.group(1)
 
 
 def manifest_source_errors(profile: str, values: dict[str, str]) -> list[str]:
@@ -462,20 +489,26 @@ def run_self_test() -> list[str]:
         if parse_checksum_rows(fixture) != rows:
             failures.append("manifest parser lost artifact checksum rows")
     build_id_date_cases = (
-        ("2026.08.10.1", "2026-08-10", False),
-        ("2026.08.10.27", "2026-08-10", False),
-        ("2026.08.03.2", "2026-08-10", True),
-        ("2026.02.30.1", "2026-02-28", True),
-        ("2026.08.10.0", "2026-08-10", True),
-        ("2026-08-10.1", "2026-08-10", True),
-        ("2026.08.10.1", "not-a-date", True),
+        ("2026.08.10.1", "2026-08-10", "2026.08.09.9", False),
+        ("2026.08.10.27", "2026-08-10", "2026.08.10.26", False),
+        ("2026.08.10.27", "2026-08-10", "2026.08.10.27", True),
+        ("2026.08.03.2", "2026-08-10", None, True),
+        ("2026.02.30.1", "2026-02-28", None, True),
+        ("2026.08.10.0", "2026-08-10", None, True),
+        ("2026-08-10.1", "2026-08-10", None, True),
+        ("2026.08.10.1", "not-a-date", None, True),
     )
-    for build_id, commit_date, should_fail in build_id_date_cases:
-        failed = bool(package_build_id_errors(build_id, commit_date))
+    for (
+        build_id, commit_date, first_parent_build_id, should_fail
+    ) in build_id_date_cases:
+        failed = bool(package_build_id_errors(
+            build_id, commit_date, first_parent_build_id
+        ))
         if failed != should_fail:
             failures.append(
                 "package build-id date fixture returned the wrong result: "
-                f"build_id={build_id!r} commit_date={commit_date!r}"
+                f"build_id={build_id!r} commit_date={commit_date!r} "
+                f"first_parent_build_id={first_parent_build_id!r}"
             )
     build_script = BUILD_SCRIPT.read_text(encoding="utf-8")
     script_mutations = {
@@ -564,13 +597,14 @@ def main() -> int:
     self_tests = 0
     if args.self_test:
         errors.extend(run_self_test())
-        self_tests = 3 * 14 + 2 + 7 + 9 + 1
+        self_tests = 3 * 14 + 2 + 8 + 9 + 1
     if args.require_head_date:
         try:
             errors.extend(
                 package_build_id_errors(
                     string_const(BUILD_INFO, "BUILD_ID"),
                     git_value("show", "-s", "--format=%cs", "HEAD"),
+                    git_first_parent_build_id(),
                 )
             )
         except (OSError, subprocess.CalledProcessError, ValueError) as exc:

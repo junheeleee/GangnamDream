@@ -8,6 +8,9 @@ const STEAM_FALLBACK_URL := "https://store.steampowered.com/search/?term=Gangnam
 const SEOUL_MAP_STRIP_SCRIPT = preload("res://ui_components/SeoulMapStrip.gd")
 const DEMO_CORE_LOOP_V2 = preload("res://systems/DemoCoreLoopV2.gd")
 const CORE_LOOP_PLANNER_SCRIPT = preload("res://scenes/CoreLoopPlanner.gd")
+const SEOUL_CYCLE_BOARD_SCRIPT = preload("res://scenes/SeoulCycleBoard.gd")
+const CORE_LOOP_V2_COMPLETION_SCRIPT = preload(
+	"res://scenes/CoreLoopV2Completion.gd")
 const COMMUNICATION_PHONE_SCRIPT = preload("res://scenes/CommunicationPhone.gd")
 const COMMITMENT_TASK_SCRIPT = preload("res://scenes/CommitmentTask.gd")
 
@@ -138,15 +141,22 @@ var _ending_new_achievements: Array = []
 var _ending_new_titles: Array = []
 var _presentation_rng := RandomNumberGenerator.new()
 var _core_loop_planner: Control = null
+var _seoul_cycle_board: Control = null
+var _core_loop_v2_completion: Control = null
 var _communication_phone: Control = null
 var _commitment_task: Control = null
 var _planner_button: Button = null
 var _phone_button: Button = null
 var _phone_focus_restore: Control = null
 var _planner_focus_restore: Control = null
+var _seoul_cycle_focus_restore: Control = null
+var _seoul_cycle_allocation_in_flight := false
+var _seoul_cycle_save_retry_phase: String = ""
+var _seoul_cycle_save_retry_month: int = 0
 var _title_collection_button: Button = null
 var _core_loop_v2_side_shift_job_id := ""
 var _core_loop_v2_completion_autosave_succeeded := false
+var _core_loop_v2_completion_model: Dictionary = {}
 const ENDING_PAGE_COUNT := 6
 
 # ── MORAL MONOCHROME 팔레트 ─────────────────────────────────────
@@ -494,10 +504,18 @@ func _core_loop_v2_continue_after_story() -> void:
 			_refresh_all()
 			call_deferred("_core_loop_v2_route_week")
 			return
+		var was_seoul_cycle_owner := (
+			DEMO_CORE_LOOP_V2.active_bundle_is_seoul_cycle_trigger()
+			or DEMO_CORE_LOOP_V2.active_bundle_is_seoul_cycle_world()
+		)
 		if DEMO_CORE_LOOP_V2.complete_active_bundle().is_empty():
 			push_error("Core Loop V2 story bundle returned without its required choice receipt")
 			return
-		call_deferred("_core_loop_v2_advance_completed_week")
+		if was_seoul_cycle_owner:
+			_refresh_all()
+			call_deferred("_core_loop_v2_route_week")
+		else:
+			call_deferred("_core_loop_v2_advance_completed_week")
 		return
 	# 프롤로그는 월간 슬롯이 아니다. 복귀 직후 플레이어가 첫 달을 직접 짠다.
 	_refresh_all()
@@ -515,11 +533,18 @@ func _core_loop_v2_route_week() -> void:
 		return
 	var action_story_stage := DEMO_CORE_LOOP_V2.action_story_stage()
 	if action_story_stage == "complete":
+		var was_seoul_cycle_owner := (
+			DEMO_CORE_LOOP_V2.active_bundle_is_seoul_cycle_trigger()
+			or DEMO_CORE_LOOP_V2.active_bundle_is_seoul_cycle_world()
+		)
 		if DEMO_CORE_LOOP_V2.complete_active_bundle().is_empty():
 			push_error(
 				"Core Loop V2 action-story bundle lost its completion receipt")
 			return
-		_core_loop_v2_advance_completed_week()
+		if was_seoul_cycle_owner:
+			call_deferred("_core_loop_v2_route_week")
+		else:
+			_core_loop_v2_advance_completed_week()
 		return
 	if DEMO_CORE_LOOP_V2.action_result_ready():
 		if _core_loop_v2_handoff_story_owned_action_result():
@@ -538,7 +563,9 @@ func _core_loop_v2_route_week() -> void:
 		return
 	var pending_summary := DEMO_CORE_LOOP_V2.pending_month_summary()
 	if not pending_summary.is_empty():
-		_core_loop_v2_show_month_summary(pending_summary)
+		# A loaded pending notebook already crossed its durable month boundary.
+		# Reopening it must not create a second required write.
+		_core_loop_v2_show_month_summary(pending_summary, false)
 		return
 	var month_index := DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn)
 	var month_prelude := DEMO_CORE_LOOP_V2.pending_month_prelude(
@@ -546,6 +573,9 @@ func _core_loop_v2_route_week() -> void:
 	if not month_prelude.is_empty():
 		_core_loop_v2_begin_story_bundle(
 			month_prelude, "consequence")
+		return
+	if DEMO_CORE_LOOP_V2.seoul_cycle_available(month_index):
+		_core_loop_v2_route_seoul_cycle_week(month_index)
 		return
 	if DEMO_CORE_LOOP_V2.needs_plan(month_index):
 		_core_loop_v2_open_planner(month_index)
@@ -606,6 +636,101 @@ func _core_loop_v2_route_week() -> void:
 	DEMO_CORE_LOOP_V2.disable_for_run()
 	_render_ap_actions()
 
+func _core_loop_v2_route_seoul_cycle_week(month_index: int) -> void:
+	var snapshot := DEMO_CORE_LOOP_V2.seoul_cycle_snapshot(month_index)
+	if not bool(snapshot.get("active", false)):
+		var initialized := _core_loop_v2_initialize_seoul_cycle_durably(
+			month_index)
+		if not bool(initialized.get("ok", false)):
+			if str(initialized.get("error", "")) == "autosave_failed" \
+					and bool(initialized.get("state_committed", false)):
+				_core_loop_v2_open_seoul_cycle_save_retry_gate(
+					"initialization", month_index)
+				return
+			push_error("Seoul cycle could not initialize: %s" % str(
+				initialized.get("error", "unknown")))
+			DEMO_CORE_LOOP_V2.disable_for_run()
+			_render_ap_actions()
+			return
+		snapshot = DEMO_CORE_LOOP_V2.seoul_cycle_snapshot(month_index)
+	_core_loop_v2_continue_seoul_cycle_week(month_index, snapshot)
+
+func _core_loop_v2_continue_seoul_cycle_week(
+		month_index: int, snapshot: Dictionary) -> void:
+	# This continuation begins strictly after the generated month is committed.
+	# Autosave recovery can therefore resume normal trigger/routine routing without
+	# ever calling initialize_seoul_cycle() a second time.
+
+	var pending_trigger := DEMO_CORE_LOOP_V2.pending_seoul_cycle_trigger()
+	if not pending_trigger.is_empty():
+		var trigger_claim := DEMO_CORE_LOOP_V2.claim_seoul_cycle_trigger()
+		if not bool(trigger_claim.get("ok", false)):
+			push_error("Seoul cycle trigger could not be claimed: %s" % str(
+				trigger_claim.get("error", "unknown")))
+			return
+		var trigger_entry: Dictionary = trigger_claim.get("entry", {})
+		_core_loop_v2_begin_seoul_cycle_owner(trigger_entry, false)
+		return
+
+	var pending_world := DEMO_CORE_LOOP_V2.pending_seoul_cycle_world()
+	if not pending_world.is_empty():
+		var world_claim := DEMO_CORE_LOOP_V2.claim_seoul_cycle_world()
+		if not bool(world_claim.get("ok", false)):
+			push_error("Seoul cycle world beat could not be claimed: %s" % str(
+				world_claim.get("error", "unknown")))
+			return
+		var world_entry: Dictionary = world_claim.get("entry", {})
+		_core_loop_v2_begin_seoul_cycle_owner(world_entry, true)
+		return
+
+	snapshot = DEMO_CORE_LOOP_V2.seoul_cycle_snapshot(month_index)
+	if bool(snapshot.get("turn_ready", false)):
+		var completion := DEMO_CORE_LOOP_V2.complete_seoul_cycle_turn(
+			month_index)
+		if not bool(completion.get("ok", false)):
+			push_error("Seoul cycle week could not close: %s" % str(
+				completion.get("error", "unknown")))
+			return
+		_core_loop_v2_advance_completed_week()
+		return
+
+	var routine_result := DEMO_CORE_LOOP_V2.apply_background_routines_for_turn()
+	if not bool(routine_result.get("ok", false)):
+		push_error("Seoul cycle routine failed: %s" % str(
+			routine_result.get("error", "unknown")))
+		DEMO_CORE_LOOP_V2.disable_for_run()
+		_render_ap_actions()
+		return
+	if bool(routine_result.get("applied", false)):
+		_core_loop_v2_log_routine_receipt(
+			routine_result.get("receipt", {}) as Dictionary)
+	if not _core_loop_v2_open_seoul_cycle_board(false):
+		push_error("Seoul cycle board could not open")
+
+func _core_loop_v2_begin_seoul_cycle_owner(
+		entry: Dictionary, world_owner: bool) -> void:
+	var bundle_id := str(entry.get("bundle_id", "")).strip_edges()
+	var scene_bundle := DEMO_CORE_LOOP_V2.bundle(bundle_id)
+	if bundle_id.is_empty() or scene_bundle.is_empty():
+		push_error("Seoul cycle owner has no playable bundle: %s" % bundle_id)
+		return
+	var begun := (
+		DEMO_CORE_LOOP_V2.begin_seoul_cycle_world(bundle_id)
+		if world_owner else
+		DEMO_CORE_LOOP_V2.begin_seoul_cycle_trigger(bundle_id)
+	)
+	if not begun:
+		push_error("Seoul cycle owner conflict: %s" % bundle_id)
+		return
+	if not str(scene_bundle.get("action_id", "")).strip_edges().is_empty():
+		_core_loop_v2_begin_action_bundle(bundle_id, scene_bundle)
+		return
+	var roots: Variant = scene_bundle.get("existing_roots", [])
+	if roots is Array and not (roots as Array).is_empty():
+		_core_loop_v2_begin_story_bundle(bundle_id, "schedule")
+		return
+	push_error("Seoul cycle owner has no action or story roots: %s" % bundle_id)
+
 func _core_loop_v2_route_preplan_opening_if_pending() -> bool:
 	if not DEMO_CORE_LOOP_V2.needs_preplan_opening():
 		return false
@@ -638,6 +763,99 @@ func _core_loop_v2_open_planner(
 		return false
 	if not read_only:
 		_maybe_show_core_loop_v2_tutorial(month_index)
+	return true
+
+func _core_loop_v2_cycle_surface_snapshot(
+		snapshot: Dictionary = {}) -> Dictionary:
+	var surface := snapshot.duplicate(true)
+	if surface.is_empty():
+		surface = DEMO_CORE_LOOP_V2.seoul_cycle_snapshot()
+	# The system names the durable resource `capacities`; the presentation also
+	# accepts the shorter `dice` alias so its visual vocabulary stays local.
+	if not surface.has("dice") and surface.get("capacities", []) is Array:
+		var visual_dice: Array = []
+		for raw_capacity in surface.get("capacities", []):
+			if not raw_capacity is Dictionary:
+				continue
+			var capacity: Dictionary = (raw_capacity as Dictionary).duplicate(true)
+			capacity["spent"] = bool(capacity.get("consumed", false))
+			visual_dice.append(capacity)
+		surface["dice"] = visual_dice
+	var visual_nodes: Dictionary = {}
+	var raw_nodes: Variant = surface.get("nodes", {})
+	if raw_nodes is Dictionary:
+		for raw_node_id in raw_nodes:
+			var raw_node: Variant = (raw_nodes as Dictionary).get(raw_node_id, {})
+			if not raw_node is Dictionary:
+				continue
+			var node: Dictionary = (raw_node as Dictionary).duplicate(true)
+			node["target"] = int(node.get("threshold", node.get("target", 1)))
+			var status := str(node.get("status", "open"))
+			node["completed"] = status == "completed"
+			node["expired"] = status == "expired"
+			node["locked"] = status == "locked"
+			node["repeatable"] = bool(node.get(
+				"repeatable_after_completion", node.get("repeatable", false)))
+			visual_nodes[str(raw_node_id)] = node
+	if not visual_nodes.is_empty():
+		surface["nodes"] = visual_nodes
+	var previews: Dictionary = {}
+	var raw_capacities: Variant = surface.get("capacities", [])
+	if raw_capacities is Array:
+		for raw_capacity in raw_capacities:
+			if not raw_capacity is Dictionary \
+					or bool((raw_capacity as Dictionary).get("consumed", false)):
+				continue
+			var capacity_id := str(
+				(raw_capacity as Dictionary).get("id", "")).strip_edges()
+			if capacity_id.is_empty():
+				continue
+			var node_previews: Dictionary = {}
+			for node_id in visual_nodes:
+				var node: Dictionary = visual_nodes[node_id]
+				if bool(node.get("expired", false)) \
+						or bool(node.get("locked", false)) \
+						or (bool(node.get("completed", false)) \
+							and not bool(node.get("repeatable", false))):
+					continue
+				var preview := DEMO_CORE_LOOP_V2.preview_seoul_cycle_allocation(
+					capacity_id, str(node_id))
+				node_previews[str(node_id)] = preview
+			previews[capacity_id] = node_previews
+	surface["previews"] = previews
+	surface["money"] = float(GameState.money)
+	surface["health"] = int(GameState.health)
+	surface["mental"] = int(GameState.mental)
+	surface["year"] = int(GameState.year)
+	surface["calendar_month"] = int(GameState.month)
+	surface["turn"] = int(GameState.turn)
+	surface["week_of_month"] = int(GameState.week_of_month)
+	return surface
+
+func _core_loop_v2_open_seoul_cycle_board(
+		read_only: bool = false) -> bool:
+	_core_loop_v2_ensure_surfaces()
+	if not is_instance_valid(_seoul_cycle_board):
+		return false
+	var focus_owner := get_viewport().gui_get_focus_owner()
+	_seoul_cycle_focus_restore = focus_owner as Control \
+		if focus_owner is Control \
+			and not _seoul_cycle_board.is_ancestor_of(focus_owner) else null
+	if is_instance_valid(_main_ui_root):
+		_main_ui_root.visible = false
+	if is_instance_valid(info_panel):
+		info_panel.visible = false
+	_seoul_cycle_board.move_to_front()
+	var opened := bool(_seoul_cycle_board.open(
+		_core_loop_v2_cycle_surface_snapshot(), read_only))
+	if not opened:
+		if is_instance_valid(_main_ui_root):
+			_main_ui_root.visible = true
+		_seoul_cycle_focus_restore = null
+		return false
+	if not read_only:
+		_maybe_show_core_loop_v2_tutorial(
+			DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn))
 	return true
 
 func _maybe_show_core_loop_v2_tutorial(month_index: int) -> void:
@@ -688,6 +906,20 @@ func _core_loop_v2_ensure_surfaces() -> void:
 			_on_core_loop_v2_planner_closed)
 		_core_loop_planner.communication_requested.connect(
 			_on_core_loop_v2_communication_requested)
+	if not is_instance_valid(_seoul_cycle_board):
+		_seoul_cycle_board = SEOUL_CYCLE_BOARD_SCRIPT.new()
+		add_child(_seoul_cycle_board)
+		_seoul_cycle_board.allocation_requested.connect(
+			_on_seoul_cycle_allocation_requested)
+		_seoul_cycle_board.board_closed.connect(
+			_on_seoul_cycle_board_closed)
+	if not is_instance_valid(_core_loop_v2_completion):
+		_core_loop_v2_completion = CORE_LOOP_V2_COMPLETION_SCRIPT.new()
+		add_child(_core_loop_v2_completion)
+		_core_loop_v2_completion.finish_requested.connect(
+			_core_loop_v2_return_to_title)
+		_core_loop_v2_completion.retry_requested.connect(
+			_core_loop_v2_retry_completion_autosave)
 	if not is_instance_valid(_communication_phone):
 		_communication_phone = COMMUNICATION_PHONE_SCRIPT.new()
 		add_child(_communication_phone)
@@ -711,11 +943,44 @@ func _core_loop_v2_can_open_planner() -> bool:
 func _core_loop_v2_open_saved_plan() -> bool:
 	if not _core_loop_v2_can_open_planner():
 		return false
-	return _core_loop_v2_open_planner(
-		DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn), true)
+	var month_index := DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn)
+	var plan := DEMO_CORE_LOOP_V2.plan_for_month(month_index)
+	if DEMO_CORE_LOOP_V2.plan_uses_seoul_cycle(plan):
+		var snapshot := DEMO_CORE_LOOP_V2.seoul_cycle_snapshot(month_index)
+		return _core_loop_v2_open_seoul_cycle_board(
+			not _core_loop_v2_seoul_cycle_can_edit_current_week(snapshot))
+	return _core_loop_v2_open_planner(month_index, true)
+
+func _core_loop_v2_seoul_cycle_can_edit_current_week(
+		snapshot: Dictionary = {}) -> bool:
+	var cycle := snapshot
+	if cycle.is_empty():
+		cycle = DEMO_CORE_LOOP_V2.seoul_cycle_snapshot()
+	if not bool(cycle.get("active", false)) \
+			or DEMO_CORE_LOOP_V2.turn_completed() \
+			or not DEMO_CORE_LOOP_V2.active_bundle_id().is_empty():
+		return false
+	var receipts: Variant = cycle.get("allocation_receipts", {})
+	if not receipts is Dictionary \
+			or (receipts as Dictionary).has(str(GameState.turn)):
+		return false
+	return (cycle.get("pending_trigger", {}) as Dictionary).is_empty() \
+		and (cycle.get("pending_world", {}) as Dictionary).is_empty()
+
+func _core_loop_v2_seoul_cycle_blocks_manual_advance() -> bool:
+	if not DEMO_CORE_LOOP_V2.is_active() \
+			or DEMO_CORE_LOOP_V2.turn_completed():
+		return false
+	var month_index := DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn)
+	var plan := DEMO_CORE_LOOP_V2.plan_for_month(month_index)
+	return DEMO_CORE_LOOP_V2.plan_uses_seoul_cycle(plan) \
+		and bool(DEMO_CORE_LOOP_V2.seoul_cycle_snapshot(
+			month_index).get("active", false))
 
 func _core_loop_v2_can_open_phone() -> bool:
 	if not DEMO_CORE_LOOP_V2.is_active() or _minigame_overlay_active:
+		return false
+	if is_instance_valid(_seoul_cycle_board) and _seoul_cycle_board.visible:
 		return false
 	# First-entry onboarding owns the whole input surface. Opening the lower-z
 	# phone behind it would hide the drawer while stealing planner focus.
@@ -768,6 +1033,22 @@ func _on_core_loop_v2_planner_closed() -> void:
 		_main_ui_root.visible = true
 	call_deferred("_core_loop_v2_restore_planner_focus")
 
+func _on_seoul_cycle_board_closed() -> void:
+	if not _seoul_cycle_save_retry_phase.is_empty():
+		if is_instance_valid(_main_ui_root):
+			_main_ui_root.visible = false
+		return
+	if is_instance_valid(_main_ui_root):
+		_main_ui_root.visible = true
+	if _seoul_cycle_allocation_in_flight:
+		return
+	if _core_loop_v2_seoul_cycle_blocks_manual_advance():
+		if is_instance_valid(_main_ui_root):
+			_main_ui_root.visible = false
+		call_deferred("_core_loop_v2_route_week")
+		return
+	call_deferred("_core_loop_v2_restore_seoul_cycle_focus")
+
 func _on_core_loop_v2_communication_requested(_bundle_id: String = "") -> void:
 	_core_loop_v2_open_phone()
 
@@ -804,6 +1085,17 @@ func _core_loop_v2_restore_phone_focus() -> void:
 func _core_loop_v2_restore_planner_focus() -> void:
 	var target := _planner_focus_restore
 	_planner_focus_restore = null
+	if _core_loop_v2_focus_target_available(target):
+		target.grab_focus()
+		return
+	for fallback in [_planner_button, _phone_button, _result_focus_button, next_button]:
+		if _core_loop_v2_focus_target_available(fallback):
+			(fallback as Control).grab_focus()
+			return
+
+func _core_loop_v2_restore_seoul_cycle_focus() -> void:
+	var target := _seoul_cycle_focus_restore
+	_seoul_cycle_focus_restore = null
 	if _core_loop_v2_focus_target_available(target):
 		target.grab_focus()
 		return
@@ -853,6 +1145,190 @@ func _on_core_loop_v2_episode_committed(
 			_core_loop_planner.episode_commit_rejected(error)
 		return
 	_core_loop_v2_finish_plan_commit()
+
+func _on_seoul_cycle_allocation_requested(
+		capacity_id: String, node_id: String) -> void:
+	if _seoul_cycle_allocation_in_flight \
+			or not is_instance_valid(_seoul_cycle_board) \
+			or not _seoul_cycle_board.visible:
+		return
+	_seoul_cycle_allocation_in_flight = true
+	var result := _core_loop_v2_commit_seoul_cycle_allocation_durably(
+		capacity_id, node_id)
+	if not bool(result.get("ok", false)):
+		if str(result.get("error", "")) == "autosave_failed" \
+				and bool(result.get("state_committed", false)):
+			_seoul_cycle_board.refresh(
+				_core_loop_v2_cycle_surface_snapshot())
+			_seoul_cycle_board.show_error(_tr(
+				"자동 저장에 실패했습니다. 배치는 고정했지만 다음 장면으로 넘어가지 않습니다.",
+				"Autosave failed. The allocation is locked, but the game will not proceed."))
+			_core_loop_v2_open_seoul_cycle_save_retry_gate(
+				"allocation",
+				DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn))
+			return
+		_seoul_cycle_allocation_in_flight = false
+		_seoul_cycle_board.show_error(_tr(
+			"이번 주 배치를 확정하지 못했습니다. 다시 선택해 주세요.",
+			"This week's allocation could not be committed. Choose again."))
+		push_error("Seoul cycle rejected allocation: %s" % str(
+			result.get("error", "unknown")))
+		return
+	_seoul_cycle_board.refresh(_core_loop_v2_cycle_surface_snapshot())
+	await _core_loop_v2_continue_after_durable_allocation(false)
+
+func _core_loop_v2_initialize_seoul_cycle_durably(
+		month_index: int) -> Dictionary:
+	var result: Dictionary = DEMO_CORE_LOOP_V2.initialize_seoul_cycle(month_index)
+	if not bool(result.get("ok", false)):
+		return result
+	# The generated values remain fixed in memory if persistence fails. The
+	# blocking retry gate below may only retry this write; it never regenerates
+	# the month or exposes an editable board first.
+	if _core_loop_v2_autosave_durable_state():
+		result["durable"] = true
+		return result
+	return {
+		"ok": false,
+		"error": "autosave_failed",
+		"state_committed": true,
+		"state": result.get("state", {}) as Dictionary,
+	}
+
+func _core_loop_v2_commit_seoul_cycle_allocation_durably(
+		capacity_id: String, node_id: String) -> Dictionary:
+	var result: Dictionary = DEMO_CORE_LOOP_V2.commit_seoul_cycle_allocation(
+		capacity_id, node_id)
+	if not bool(result.get("ok", false)):
+		return result
+	# Effects, the spent capacity, the weekly ledger, and pending scene owners
+	# stay as the single successful in-memory transaction. A failed write freezes
+	# this exact state behind the retry gate instead of attempting a partial undo.
+	if _core_loop_v2_autosave_durable_state():
+		result["durable"] = true
+		return result
+	return {
+		"ok": false,
+		"error": "autosave_failed",
+		"state_committed": true,
+		"receipt": (
+			(result.get("receipt", {}) as Dictionary).duplicate(true)
+			if result.get("receipt", {}) is Dictionary else {}
+		),
+	}
+
+func _core_loop_v2_open_seoul_cycle_save_retry_gate(
+		phase: String, month_index: int, retry_failed: bool = false) -> void:
+	if phase not in [
+		"initialization", "allocation", "week_advance",
+		"month_summary", "month_acknowledged",
+	]:
+		return
+	_seoul_cycle_save_retry_phase = phase
+	_seoul_cycle_save_retry_month = month_index
+	_core_loop_v2_ensure_surfaces()
+	if phase in ["initialization", "allocation"] \
+			and is_instance_valid(_seoul_cycle_board):
+		_seoul_cycle_board.refresh(_core_loop_v2_cycle_surface_snapshot())
+		_seoul_cycle_board.show_error(_tr(
+			"자동 저장을 마칠 때까지 이 주를 떠날 수 없습니다.",
+			"You cannot leave this week until autosave succeeds."))
+		# The existing board retains the locked allocation/capacity state, while
+		# the non-cancelable full-screen modal owns all input during retry.
+		_seoul_cycle_board.visible = false
+	if is_instance_valid(_main_ui_root):
+		_main_ui_root.visible = false
+	_open_modal(_tr("저장 확인", "SAVE REQUIRED"), false,
+		"seoul_cycle_save_retry")
+	if is_instance_valid(modal_close_button):
+		modal_close_button.visible = false
+	modal_layer.set_meta("seoul_cycle_save_retry", true)
+	modal_layer.set_meta("seoul_cycle_save_retry_phase", phase)
+	var locked_copy := _tr(
+		"이번 달 여력은 이미 고정했습니다. 저장이 끝나기 전에는 보드를 조작할 수 없습니다.",
+		"This month's capacities are already locked. The board stays blocked until the save completes.")
+	if phase == "allocation":
+		locked_copy = _tr(
+			"이번 주 배치와 수치·영수증은 이미 한 번 적용했습니다. 저장이 끝나기 전에는 장면·세계 사건·다음 주로 진행하지 않습니다.",
+			"This week's allocation, effects, and receipt were applied once. Scenes, world events, and the next week stay blocked until the save completes.")
+	elif phase == "week_advance":
+		locked_copy = _tr(
+			"끝낸 주의 달력 상태는 이미 고정했습니다. 저장이 끝나기 전에는 다음 주 화면을 열지 않습니다.",
+			"The completed week's calendar state is already locked. The next week stays closed until the save completes.")
+	elif phase == "month_summary":
+		locked_copy = _tr(
+			"월말 정산과 수첩은 이미 고정했습니다. 저장이 끝나기 전에는 수첩 확인이나 다음 달로 진행하지 않습니다.",
+			"The month-end settlement and notebook are already locked. The notebook and next month stay blocked until the save completes.")
+	elif phase == "month_acknowledged":
+		locked_copy = _tr(
+			"확인한 월말 수첩 상태는 이미 고정했습니다. 저장이 끝나기 전에는 다음 달을 열지 않습니다.",
+			"The acknowledged month notebook is already locked. The next month stays closed until the save completes.")
+	var explanation := _wrap_label(
+		_tr(
+			"자동 저장에 다시 실패했습니다. 저장 공간을 확인한 뒤 같은 상태를 저장해 주세요.",
+			"Autosave failed again. Check available storage, then save this same state.")
+		if retry_failed else locked_copy,
+		15, "#d9dee5")
+	explanation.set_meta("seoul_cycle_save_retry_copy", true)
+	modal_body.add_child(explanation)
+	var retry_button := _primary_cta_button(_tr(
+		"자동 저장 다시 시도  ›", "Retry Autosave  ›"))
+	retry_button.set_meta("seoul_cycle_save_retry_button", true)
+	retry_button.pressed.connect(_core_loop_v2_retry_seoul_cycle_autosave)
+	modal_body.add_child(retry_button)
+	retry_button.call_deferred("grab_focus")
+
+func _core_loop_v2_retry_seoul_cycle_autosave() -> void:
+	if _seoul_cycle_save_retry_phase.is_empty():
+		return
+	var phase := _seoul_cycle_save_retry_phase
+	var month_index := _seoul_cycle_save_retry_month
+	# This retry action has exactly one stateful call. It must never re-run the
+	# initialization, allocation, calendar advance, trigger, or world owner.
+	if not _core_loop_v2_autosave_durable_state():
+		_core_loop_v2_open_seoul_cycle_save_retry_gate(
+			phase, month_index, true)
+		return
+	_seoul_cycle_save_retry_phase = ""
+	_seoul_cycle_save_retry_month = 0
+	modal_layer.remove_meta("seoul_cycle_save_retry")
+	modal_layer.remove_meta("seoul_cycle_save_retry_phase")
+	_close_modal(false)
+	call_deferred(
+		"_core_loop_v2_resume_after_seoul_cycle_save_retry",
+		phase, month_index)
+
+func _core_loop_v2_resume_after_seoul_cycle_save_retry(
+		phase: String, month_index: int) -> void:
+	if phase == "initialization":
+		_core_loop_v2_continue_seoul_cycle_week(
+			month_index,
+			DEMO_CORE_LOOP_V2.seoul_cycle_snapshot(month_index))
+		return
+	if phase != "allocation":
+		if phase == "week_advance" or phase == "month_acknowledged":
+			_begin_month()
+		elif phase == "month_summary":
+			_core_loop_v2_show_month_summary(
+				DEMO_CORE_LOOP_V2.month_summary(month_index), false)
+		return
+	await _core_loop_v2_continue_after_durable_allocation(true)
+
+func _core_loop_v2_continue_after_durable_allocation(
+		reopen_board: bool) -> void:
+	if reopen_board and is_instance_valid(_seoul_cycle_board):
+		_seoul_cycle_board.open(
+			_core_loop_v2_cycle_surface_snapshot(), true)
+	# Leave the spent ticket and moved clock on screen long enough to register
+	# before a threshold scene or the next week takes ownership.
+	await get_tree().create_timer(0.62).timeout
+	if is_instance_valid(_seoul_cycle_board):
+		_seoul_cycle_board.close()
+	if is_instance_valid(_main_ui_root):
+		_main_ui_root.visible = true
+	_seoul_cycle_allocation_in_flight = false
+	_seoul_cycle_focus_restore = null
+	call_deferred("_core_loop_v2_route_week")
 
 func _core_loop_v2_finish_plan_commit() -> void:
 	if is_instance_valid(_core_loop_planner):
@@ -923,6 +1399,13 @@ func _core_loop_v2_begin_action_bundle(bundle_id: String, scene_bundle: Dictiona
 		"choice_id": action_id,
 		"forgone_ids": [],
 	}
+	# A Seoul-cycle allocation already owns this week's scarce choice and
+	# weekly ledger. Threshold/world actions are consequences of that choice,
+	# so they append their result to the same record instead of spending a
+	# second AP or trying to create a second weekly commitment.
+	if DEMO_CORE_LOOP_V2.active_bundle_is_seoul_cycle_trigger() \
+			or DEMO_CORE_LOOP_V2.active_bundle_is_seoul_cycle_world():
+		commitment["supplemental_to_seoul_cycle"] = true
 	if GameState.has_pending_weekly_commitment(GameState.turn):
 		var pending := GameState.pending_weekly_commitment
 		var same_unfinalized_owner := (
@@ -977,9 +1460,9 @@ func _core_loop_v2_begin_action_bundle(bundle_id: String, scene_bundle: Dictiona
 		"side_shift":
 			_core_loop_v2_open_side_shift(bundle_id)
 		"resume":
-			_ap_write_resume()
+			_ap_write_resume(true)
 		"interview":
-			_ap_interview_prep()
+			_ap_interview_prep(true)
 		"rest":
 			_core_loop_v2_take_recovery(scene_bundle)
 		_:
@@ -1328,6 +1811,41 @@ func _core_loop_v2_localized(data: Dictionary, stem: String) -> String:
 		str(data.get("%s_ko" % stem, "")),
 		str(data.get("%s_en" % stem, "")))
 
+func _core_loop_v2_completion_cycle_allocation_names(
+		records: Array) -> Array[String]:
+	var names: Array[String] = []
+	for raw_record in records:
+		if not raw_record is Dictionary:
+			continue
+		var record: Dictionary = raw_record
+		var label := _tr(
+			str(record.get("label_ko", record.get("node_id", ""))),
+			str(record.get("label_en", record.get("node_id", ""))))
+		var absolute_week := int(record.get("turn", 0))
+		if absolute_week <= 0:
+			absolute_week = ((maxi(1, int(record.get("month", 1))) - 1) * 4) \
+				+ maxi(1, int(record.get("week_index", 1)))
+		var line := ""
+		if bool(record.get("fallback_allocation", false)):
+			line = _tr(
+				"%d주 · %s — 여력 %d, 특별 기회를 놓친 뒤 일반 실행",
+				"W%d · %s — capacity %d, regular action after missed chance") % [
+				absolute_week, label, int(record.get("capacity_value", 0))]
+		elif bool(record.get("repeat_allocation", false)):
+			line = _tr(
+				"%d주 · %s — 여력 %d, 완료 뒤 추가 실행",
+				"W%d · %s — capacity %d, additional run after completion") % [
+				absolute_week, label, int(record.get("capacity_value", 0))]
+		else:
+			line = _tr(
+				"%d주 · %s — 여력 %d, 진행 +%d칸",
+				"W%d · %s — capacity %d, +%d progress") % [
+				absolute_week, label, int(record.get("capacity_value", 0)),
+				int(record.get("progress_gain", 0))]
+		if not line.is_empty():
+			names.append(line)
+	return names
+
 func _core_loop_v2_recap_names(records: Array, include_week: bool) -> Array[String]:
 	var names: Array[String] = []
 	for raw_record in records:
@@ -1347,6 +1865,162 @@ func _core_loop_v2_recap_names(records: Array, include_week: bool) -> Array[Stri
 			title += " — " + task_recap
 		if not names.has(title):
 			names.append(title)
+	return names
+
+func _core_loop_v2_completion_legacy_week_names(
+		snapshot: Dictionary, month_index: int) -> Array[String]:
+	# Old episode/monthly-plan saves predate cycle allocation receipts. Keep the
+	# new terminal surface available without borrowing today's HUD or inventing
+	# past actions: recover an authored weekly bundle when present and mark every
+	# missing week explicitly unknown.
+	var rows: Array[String] = []
+	var first_week := ((maxi(month_index, 1) - 1) * 4) + 1
+	var kept: Array = snapshot.get("kept", []) \
+		if snapshot.get("kept", []) is Array else []
+	for absolute_week in range(first_week, first_week + 4):
+		var recovered := ""
+		for raw_record in kept:
+			if not raw_record is Dictionary:
+				continue
+			var record: Dictionary = (raw_record as Dictionary).duplicate(true)
+			var record_month := int(record.get("month", 0))
+			var record_week := int(record.get("week", 0))
+			if record_month > 0 and record_month != month_index:
+				continue
+			if record_month == month_index and month_index > 1 \
+					and record_week in range(1, 5):
+				record_week = first_week + record_week - 1
+			if record_week != absolute_week:
+				continue
+			record["week"] = absolute_week
+			var recovered_names := _core_loop_v2_recap_names([record], true)
+			if not recovered_names.is_empty():
+				recovered = str(recovered_names.front())
+			break
+		if recovered.is_empty():
+			recovered = _tr(
+				"%d주 · 옛 저장에 주간 기록이 남아 있지 않다.",
+				"W%d · Weekly record not available in this older save.") \
+				% absolute_week
+		rows.append(recovered)
+	return rows
+
+func _core_loop_v2_cycle_node_label(
+		summary: Dictionary, node_id: String) -> String:
+	var raw_states: Variant = summary.get("node_states", {})
+	if raw_states is Dictionary:
+		var raw_node: Variant = (raw_states as Dictionary).get(node_id, {})
+		if raw_node is Dictionary:
+			var authored := _core_loop_v2_localized(
+				raw_node as Dictionary, "label").strip_edges()
+			if not authored.is_empty():
+				return authored
+	for raw_record in summary.get("kept", []):
+		if not raw_record is Dictionary \
+				or str((raw_record as Dictionary).get("node_id", "")) != node_id:
+			continue
+		var bundle_id := str((raw_record as Dictionary).get("bundle_id", ""))
+		var offer := _core_loop_v2_localized(
+			DEMO_CORE_LOOP_V2.bundle(bundle_id), "offer").strip_edges()
+		if not offer.is_empty():
+			return offer
+	return node_id
+
+func _core_loop_v2_cycle_allocation_names(summary: Dictionary) -> Array[String]:
+	var names: Array[String] = []
+	var allocation_receipts: Array = []
+	for raw_receipt in summary.get("allocation_receipts", []):
+		if raw_receipt is Dictionary:
+			allocation_receipts.append(
+				(raw_receipt as Dictionary).duplicate(true))
+	allocation_receipts.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
+		var left_key := "%04d|%s|%s" % [
+			int(left.get("turn", 0)), str(left.get("node_id", "")),
+			str(left.get("capacity_id", ""))]
+		var right_key := "%04d|%s|%s" % [
+			int(right.get("turn", 0)), str(right.get("node_id", "")),
+			str(right.get("capacity_id", ""))]
+		return left_key < right_key)
+	for raw_receipt in allocation_receipts:
+		if not raw_receipt is Dictionary:
+			continue
+		var receipt: Dictionary = raw_receipt
+		var absolute_week := int(receipt.get("turn", 0))
+		if absolute_week <= 0:
+			absolute_week = (
+				(maxi(1, int(summary.get("month", 1))) - 1) * 4
+				+ maxi(1, int(receipt.get("week_index", 1))))
+		var node_label := _core_loop_v2_cycle_node_label(
+			summary, str(receipt.get("node_id", "")))
+		if bool(receipt.get("fallback_allocation", false)):
+			names.append(_tr(
+				"%d주 · %s — 여력 %d, 특별 기회를 놓친 뒤 일반 실행",
+				"W%d · %s — capacity %d, regular action after missed chance") % [
+				absolute_week, node_label,
+				int(receipt.get("capacity_value", 0)),
+			])
+		elif bool(receipt.get("repeat_allocation", false)):
+			names.append(_tr(
+				"%d주 · %s — 여력 %d, 완료 뒤 추가 실행",
+				"W%d · %s — capacity %d, additional run after completion") % [
+				absolute_week, node_label,
+				int(receipt.get("capacity_value", 0)),
+			])
+		else:
+			names.append(_tr(
+				"%d주 · %s — 여력 %d, 진행 +%d칸",
+				"W%d · %s — capacity %d, +%d progress") % [
+				absolute_week, node_label,
+				int(receipt.get("capacity_value", 0)),
+				int(receipt.get("progress_gain", 0)),
+			])
+	return names
+
+func _core_loop_v2_cycle_outcome_names(summary: Dictionary) -> Array[String]:
+	var names: Array[String] = []
+	var raw_states: Variant = summary.get("node_states", {})
+	if not raw_states is Dictionary:
+		return names
+	var node_ids: Array[String] = []
+	for raw_node_id in raw_states:
+		node_ids.append(str(raw_node_id))
+	node_ids.sort()
+	for raw_node_id in node_ids:
+		var raw_node: Variant = (raw_states as Dictionary).get(raw_node_id, {})
+		if not raw_node is Dictionary:
+			continue
+		var node: Dictionary = raw_node
+		var label := _core_loop_v2_cycle_node_label(
+			summary, str(raw_node_id))
+		var progress := int(node.get("progress", 0))
+		var threshold: int = maxi(1, int(node.get("threshold", 1)))
+		var status := str(node.get("status", "open"))
+		var status_label := _tr("진행 중", "In progress")
+		if str(node.get("featured_status", "")) == "expired":
+			var fallback_done := false
+			for raw_receipt in summary.get("allocation_receipts", []):
+				if raw_receipt is Dictionary \
+						and str((raw_receipt as Dictionary).get(
+							"node_id", "")) == str(raw_node_id) \
+						and bool((raw_receipt as Dictionary).get(
+							"fallback_allocation", false)):
+					fallback_done = true
+					break
+			status_label = (
+				_tr("특별 기회는 놓침 · 일반 행동 실행",
+					"Featured chance missed · regular action completed")
+				if fallback_done else
+				_tr("특별 기회는 놓침", "Featured chance missed")
+			)
+		elif status == "completed":
+			status_label = _tr("완료", "Completed")
+		elif status == "expired":
+			status_label = _tr("기한 종료", "Deadline passed")
+		names.append(_tr(
+			"%s — %s · %d/%d칸",
+			"%s — %s · %d/%d") % [
+			label, status_label, mini(progress, threshold), threshold,
+		])
 	return names
 
 func _core_loop_v2_activity_task_recap(bundle_id: String) -> String:
@@ -1718,11 +2392,597 @@ func _core_loop_v2_city_work_sample_expired(
 	return false
 
 func _core_loop_v2_autosave_completion() -> bool:
+	return _core_loop_v2_autosave_durable_state()
+
+func _core_loop_v2_autosave_durable_state() -> bool:
+	if has_meta("_qa_core_loop_v2_autosave_call_count"):
+		set_meta(
+			"_qa_core_loop_v2_autosave_call_count",
+			int(get_meta("_qa_core_loop_v2_autosave_call_count", 0)) + 1)
 	if has_meta("_qa_core_loop_v2_autosave_result"):
 		return bool(get_meta("_qa_core_loop_v2_autosave_result"))
 	if bool(get_meta("_screenshot_qa_static_surface", false)):
 		return true
 	return SaveManager.autosave()
+
+func _core_loop_v2_completion_obligation_rows(
+		snapshot: Dictionary) -> Dictionary:
+	var result := {
+		"selected_ids": [],
+		"selected_labels": [],
+		"deferred_ids": [],
+		"deferred_labels": [],
+		"expired_ids": [],
+		"expired_labels": [],
+	}
+	var raw_receipts: Variant = snapshot.get("obligation_receipts", {})
+	if not raw_receipts is Dictionary:
+		return result
+	var raw_obligation: Variant = (raw_receipts as Dictionary).get(
+		"demo_collision", {})
+	if not raw_obligation is Dictionary \
+			or (raw_obligation as Dictionary).is_empty():
+		return result
+	var obligation: Dictionary = raw_obligation
+	var selected_id := str(obligation.get(
+		"selected_obligation_id", "")).strip_edges()
+	if not selected_id.is_empty():
+		var selected_label := _core_loop_v2_obligation_label(selected_id)
+		if not selected_label.is_empty():
+			(result["selected_ids"] as Array).append(selected_id)
+			(result["selected_labels"] as Array).append(selected_label)
+	var city_work_sample_expired := _core_loop_v2_city_work_sample_expired(
+		snapshot, obligation)
+	for raw_id in obligation.get("deferred_obligation_ids", []):
+		var obligation_id := str(raw_id).strip_edges()
+		var obligation_label := _core_loop_v2_obligation_label(obligation_id)
+		if obligation_id.is_empty() or obligation_label.is_empty():
+			continue
+		if obligation_id == "city_work_sample" \
+				and city_work_sample_expired:
+			if not (result["expired_ids"] as Array).has(obligation_id):
+				(result["expired_ids"] as Array).append(obligation_id)
+				(result["expired_labels"] as Array).append(obligation_label)
+		elif not (result["deferred_ids"] as Array).has(obligation_id):
+			(result["deferred_ids"] as Array).append(obligation_id)
+			(result["deferred_labels"] as Array).append(obligation_label)
+	return result
+
+func _core_loop_v2_completion_hero_copy(
+		obligation: Dictionary) -> Dictionary:
+	var selected_ids: Array = obligation.get("selected_ids", [])
+	var selected_id := str(selected_ids.front()) \
+		if not selected_ids.is_empty() else ""
+	var copy_by_id := {
+		"father_call": {
+			"title_ko": "아버지의 목소리를 먼저 골랐다.",
+			"title_en": "He chose Father's voice first.",
+			"body_ko": "통화는 끝났지만 어디가 아픈지, 언제 다시 연락할지는 듣지 못했다.",
+			"body_en": "The call ended, but he still did not know what was wrong or when they would speak again.",
+		},
+		"hanbit_month_close": {
+			"title_ko": "첫 월말 오류표를 끝냈다.",
+			"title_en": "He finished his first month-end error sheet.",
+			"body_ko": "오류표를 제출했다. 그동안 다른 약속의 기한은 흘러갔다.",
+			"body_en": "He submitted the error sheet. Meanwhile, the deadlines on his other promises kept moving.",
+		},
+		"city_work_sample": {
+			"title_ko": "오후 6시 전에 작업표를 보냈다.",
+			"title_en": "He sent the work sample before 6 p.m.",
+			"body_ko": "접수는 끝났다. 면접과 채용 결과는 아직 오지 않았다.",
+			"body_en": "The submission is in. No interview or hiring decision has arrived.",
+		},
+		"daeun_checkin": {
+			"title_ko": "이번에는 민준이 먼저 안부를 물었다.",
+			"title_en": "This time, Minjun asked first.",
+			"body_ko": "편의점까지 간 한 걸음은 끝냈다. 다은의 대답은 다음 장에 남았다.",
+			"body_en": "He made it to the store. Daeun's answer remains for the next page.",
+		},
+		"jaehyuk_reply": {
+			"title_ko": "십 년의 침묵에 먼저 답장을 보냈다.",
+			"title_en": "He answered ten years of silence first.",
+			"body_ko": "한 문장을 보냈다. 대화는 다시 시작됐고 아직 끝나지 않았다.",
+			"body_en": "He sent one line. The conversation restarted and has not ended.",
+		},
+		"sangchul_ledger": {
+			"title_ko": "흩어진 영수증을 한 장부에 맞췄다.",
+			"title_en": "He reconciled the scattered receipts.",
+			"body_ko": "숫자는 맞았다. 그 숫자가 모든 선택의 이유까지 설명해 주지는 않았다.",
+			"body_en": "The numbers matched. They did not explain every reason behind them.",
+		},
+		"urgent_paid_shift": {
+			"title_ko": "오늘 밤의 돈을 벌었다.",
+			"title_en": "He earned tonight's pay.",
+			"body_ko": "입금은 남았다. 몸과 다른 약속이 치른 값도 함께 남았다.",
+			"body_en": "The deposit remains. So does the cost paid by his body and other promises.",
+		},
+		"body_rest": {
+			"title_ko": "몸을 눕히고 오늘을 멈췄다.",
+			"title_en": "He lay down and stopped the day.",
+			"body_ko": "잠은 조금 돌려받았다. 미룬 연락과 서류는 아침까지 사라지지 않았다.",
+			"body_en": "He recovered some sleep. The calls and papers he deferred survived the night.",
+		},
+	}
+	var raw_copy: Variant = copy_by_id.get(selected_id, {})
+	if raw_copy is Dictionary and not (raw_copy as Dictionary).is_empty():
+		return {
+			"title": _core_loop_v2_localized(
+				raw_copy as Dictionary, "title"),
+			"body": _core_loop_v2_localized(
+				raw_copy as Dictionary, "body"),
+		}
+	var selected_labels: Array = obligation.get("selected_labels", [])
+	return {
+		"title": _tr(
+			"오늘 끝낸 한 가지", "THE ONE THING FINISHED TODAY"),
+		"body": (
+			str(selected_labels.front())
+			if not selected_labels.is_empty() else
+			_tr("끝낸 한 가지가 기록되지 않았다.",
+				"No finished obligation was recorded.")),
+	}
+
+func _core_loop_v2_completion_month_missed(
+		snapshot: Dictionary, month_index: int) -> Array[String]:
+	var missed: Array[String] = []
+	var month_records: Array = []
+	for raw_record in snapshot.get("forgone", []):
+		if raw_record is Dictionary \
+				and int((raw_record as Dictionary).get("month", 0)) \
+					== month_index:
+			month_records.append((raw_record as Dictionary).duplicate(true))
+	month_records.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
+		var left_key := "%04d|%s|%s" % [
+			int(left.get("week", 0)), str(left.get("bundle_id", "")),
+			str(left.get("reason", ""))]
+		var right_key := "%04d|%s|%s" % [
+			int(right.get("week", 0)), str(right.get("bundle_id", "")),
+			str(right.get("reason", ""))]
+		return left_key < right_key)
+	for label in _core_loop_v2_recap_names(month_records, false):
+		if not missed.has(label):
+			missed.append(label)
+	var decline_records: Array = []
+	for raw_receipt in snapshot.get("decline_receipts", []):
+		if not raw_receipt is Dictionary:
+			continue
+		var receipt: Dictionary = raw_receipt
+		if int(receipt.get("visible_month", 0)) != month_index:
+			continue
+		decline_records.append(receipt.duplicate(true))
+	decline_records.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
+		var left_key := "%04d|%s|%s" % [
+			int(left.get("consumed_turn", left.get("turn", 0))),
+			str(left.get("id", "")), str(left.get("producer_bundle", ""))]
+		var right_key := "%04d|%s|%s" % [
+			int(right.get("consumed_turn", right.get("turn", 0))),
+			str(right.get("id", "")), str(right.get("producer_bundle", ""))]
+		return left_key < right_key)
+	for receipt in decline_records:
+		var message := GameState.format_event_text(
+			_core_loop_v2_localized(receipt, "message")).strip_edges()
+		if not message.is_empty() and not missed.has(message):
+			missed.append(message)
+	return missed
+
+func _core_loop_v2_completion_month_event_names(
+		summary: Dictionary) -> Array[String]:
+	var records: Array = []
+	for receipt_key in ["trigger_receipts", "world_receipts"]:
+		var raw_receipts: Variant = summary.get(receipt_key, {})
+		if not raw_receipts is Dictionary:
+			continue
+		for raw_key in (raw_receipts as Dictionary):
+			var raw_receipt: Variant = (raw_receipts as Dictionary).get(
+				raw_key, {})
+			if not raw_receipt is Dictionary:
+				continue
+			var receipt: Dictionary = raw_receipt
+			var bundle_id := str(receipt.get("bundle_id", "")).strip_edges()
+			if str(receipt.get("status", "")) != "resolved" \
+					or bundle_id.is_empty():
+				continue
+			records.append({
+				"turn": int(receipt.get(
+					"resolved_turn", receipt.get("turn", 0))),
+				"bundle_id": bundle_id,
+				"source": receipt_key,
+			})
+	records.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
+		var left_key := "%04d|%s|%s" % [
+			int(left.get("turn", 0)), str(left.get("source", "")),
+			str(left.get("bundle_id", ""))]
+		var right_key := "%04d|%s|%s" % [
+			int(right.get("turn", 0)), str(right.get("source", "")),
+			str(right.get("bundle_id", ""))]
+		return left_key < right_key)
+	var names: Array[String] = []
+	var seen_bundles: Array[String] = []
+	for record in records:
+		var bundle_id := str(record.get("bundle_id", ""))
+		if seen_bundles.has(bundle_id):
+			continue
+		var title := _core_loop_v2_localized(
+			DEMO_CORE_LOOP_V2.bundle(bundle_id), "offer").strip_edges()
+		if title.is_empty():
+			continue
+		seen_bundles.append(bundle_id)
+		names.append(_tr("%d주 · %s", "W%d · %s") % [
+			int(record.get("turn", 0)), title])
+	return names
+
+func _core_loop_v2_completion_financial_rung_label(
+		rung: Dictionary) -> String:
+	var kind := str(rung.get("kind", ""))
+	match kind:
+		"bills":
+			return _tr("이번 달 고정비", "This month's bills")
+		"reserve":
+			return _tr("3개월 비상금", "Three-month reserve")
+		"achieved":
+			return _tr(
+				"자산 30억 = 강남드림!",
+				"KRW 3B assets = Gangnam Dream!")
+		"wealth":
+			var target: int = roundi(float(rung.get("target", 0.0)))
+			var labels := {
+				3000000: _tr("첫 저축 300만", "First KRW 3M saved"),
+				8000000: _tr("원룸 이사 구간", "One-room move range"),
+				20000000: _tr("종잣돈 2천만", "KRW 20M seed money"),
+				40000000: _tr("빌라 전세 구간", "Villa jeonse range"),
+				100000000: _tr("자산 1억", "KRW 100M assets"),
+				130000000: _tr("아파트 전세 구간", "Apartment jeonse range"),
+				500000000: _tr("자산 5억", "KRW 500M assets"),
+				1000000000: _tr("자산 10억", "KRW 1B assets"),
+				2000000000: _tr("자산 20억", "KRW 2B assets"),
+				3000000000: _tr(
+					"자산 30억 = 강남드림!",
+					"KRW 3B assets = Gangnam Dream!"),
+			}
+			return str(labels.get(target, _tr(
+				"다음 자산 구간", "Next asset milestone")))
+	return _tr("기록되지 않음", "Not recorded")
+
+func _core_loop_v2_completion_boundary_copy(
+		cap_week: int, persist_new_boundary: bool,
+		autosave_succeeded: bool) -> String:
+	if not autosave_succeeded:
+		return _tr(
+			"자동 저장에 실패했다. 시작 화면으로 나가기 전에 다시 시도해 주세요.",
+			"Autosave failed. Please retry before returning to the title screen.")
+	if cap_week == 24 and persist_new_boundary:
+		return _tr(
+			"여섯 달의 기록을 자동 저장했다. 첫해는 아직 끝나지 않았다.",
+			"Your six-month record was saved automatically. The first year is not over yet.")
+	if cap_week == 24:
+		return _tr(
+			"저장된 여섯 달의 기록을 열었다. 첫해는 아직 끝나지 않았다.",
+			"Your saved six-month record is open. The first year is not over yet.")
+	return _tr(
+		"%d주 동안의 기록을 자동 저장했다. 이어지는 시간은 아직 열리지 않았다.",
+		"Your first %d weeks were saved automatically. What comes next is not open yet."
+	) % cap_week
+
+func _core_loop_v2_completion_view_model(
+		snapshot: Dictionary, cap_week: int,
+		persist_new_boundary: bool) -> Dictionary:
+	var completed_months := DEMO_CORE_LOOP_V2.month_for_turn(cap_week)
+	var closing_state: Dictionary = (
+		(snapshot.get("closing_state", {}) as Dictionary).duplicate(true)
+		if snapshot.get("closing_state", {}) is Dictionary else {}
+	)
+	var legacy_boundary_incomplete := bool(snapshot.get(
+		"legacy_boundary_incomplete", false))
+	var obligation := _core_loop_v2_completion_obligation_rows(snapshot)
+	var selected_labels: Array = obligation.get("selected_labels", [])
+	var deferred_labels: Array = obligation.get("deferred_labels", [])
+	var expired_labels: Array = obligation.get("expired_labels", [])
+	var hero_copy := _core_loop_v2_completion_hero_copy(obligation)
+	if legacy_boundary_incomplete:
+		hero_copy = {
+			"title": _tr(
+				"24주차의 마지막 선택은 기록에 남아 있지 않다.",
+				"The final Week-24 choice is not in this record."),
+			"body": _tr(
+				"결과를 짐작해 채우지 않았다. 남아 있는 월별 기록만 확인할 수 있다.",
+				"The recap does not guess. Only the surviving month-by-month record is shown."),
+		}
+	var raw_summaries: Variant = snapshot.get("month_summaries", {})
+	var rung: Dictionary = (
+		closing_state.get("financial_rung", {}) as Dictionary
+		if closing_state.get("financial_rung", {}) is Dictionary else {}
+	)
+	var missing_boundary_note := _tr(
+		"옛 저장", "OLDER SAVE")
+	var money_raw: Variant = closing_state.get("money")
+	var money_is_known := money_raw is int or money_raw is float
+	var fixed_raw: Variant = closing_state.get("fixed_expense")
+	var fixed_is_known := fixed_raw is int or fixed_raw is float
+	var health_raw: Variant = closing_state.get("health")
+	var health_is_known := health_raw is int or health_raw is float
+	var mental_raw: Variant = closing_state.get("mental")
+	var mental_is_known := mental_raw is int or mental_raw is float
+	var cash_metric: Dictionary = (
+		_core_loop_v2_cash_metric(
+			float(money_raw),
+			float(snapshot.get("cash_shortfall",
+				DEMO_CORE_LOOP_V2.cash_shortfall_for_money(float(money_raw)))),
+			_tr("월말 정산 후", "After month-end"))
+		if money_is_known else
+		{
+			"label": _tr("종결 현금", "CLOSING CASH"),
+			"value": _tr("기록 없음", "NOT RECORDED"),
+			"note": missing_boundary_note,
+			"accent": "#a5adb9",
+		}
+	)
+	var branch := str(snapshot.get("temptation_branch", "unresolved"))
+	var temptation_trace := (
+		_tr(
+			"첫 달 제안의 결론은 당시 기록에서 복원할 수 없다.",
+			"The outcome of the first month's offer cannot be recovered from this save.")
+		if legacy_boundary_incomplete else
+		_core_loop_v2_temptation_recap(branch))
+	var initiative_trace := (
+		_tr(
+			"누가 먼저 연락했는지는 당시 기록에서 복원할 수 없다.",
+			"This save cannot show who reached out first at the time.")
+		if legacy_boundary_incomplete else
+		_core_loop_v2_initiative_recap(snapshot, completed_months))
+	var unresolved_recap := (
+		[_tr(
+			"24주차에 남아 있던 일은 옛 저장에서 복원할 수 없다.",
+			"Open threads at Week 24 cannot be recovered from this older save.")]
+		if legacy_boundary_incomplete else
+		_core_loop_v2_unresolved_recap(snapshot))
+	var completion_background_path := str(closing_state.get(
+		"background_path", "")).strip_edges()
+	if completion_background_path.is_empty():
+		var frozen_housing_id := str(closing_state.get(
+			"housing_id", "")).strip_edges()
+		if not frozen_housing_id.is_empty():
+			completion_background_path = str(BG_PATHS.get(
+				frozen_housing_id, ""))
+	var months: Array = []
+	for month_index in range(1, completed_months + 1):
+		var summary: Dictionary = {}
+		if raw_summaries is Dictionary:
+			var raw_summary: Variant = (raw_summaries as Dictionary).get(
+				str(month_index), {})
+			if raw_summary is Dictionary:
+				summary = (raw_summary as Dictionary).duplicate(true)
+		var first_week := ((month_index - 1) * 4) + 1
+		var last_week := mini(cap_week, first_week + 3)
+		var month_allocations := _core_loop_v2_cycle_allocation_names(summary)
+		# Static visual fixtures and older boundary saves can carry the durable
+		# flat allocation ledger without the newer per-month notebook payload.
+		# Rebuild that month's four rows from the same receipts instead of falling
+		# back to the obsolete long modal.
+		if month_allocations.size() != 4:
+			var flat_month_records: Array = []
+			for raw_allocation in snapshot.get("cycle_allocations", []):
+				if raw_allocation is Dictionary \
+						and int((raw_allocation as Dictionary).get(
+							"month", 0)) == month_index:
+					flat_month_records.append(
+						(raw_allocation as Dictionary).duplicate(true))
+			month_allocations = (
+				_core_loop_v2_completion_cycle_allocation_names(
+					flat_month_records)
+			)
+		if month_allocations.size() != 4:
+			month_allocations = _core_loop_v2_completion_legacy_week_names(
+				snapshot, month_index)
+		var month_missed := _core_loop_v2_completion_month_missed(
+			snapshot, month_index)
+		if legacy_boundary_incomplete:
+			month_missed.append(_tr(
+				"이 달의 누락 기록은 옛 저장에서 완전히 복원할 수 없다.",
+				"This older save cannot fully recover what was missed this month."))
+		months.append({
+			"month": month_index,
+			"title": _tr(
+				"%d개월차 · %d–%d주",
+				"MONTH %d · WEEKS %d–%d") % [
+				month_index, first_week, last_week],
+			"allocations": month_allocations,
+			"outcomes": _core_loop_v2_cycle_outcome_names(summary),
+			"events": _core_loop_v2_completion_month_event_names(summary),
+			"missed": month_missed,
+		})
+	return {
+		"title": (
+			_tr("서울에서 보낸 스물네 주", "Twenty-Four Weeks in Seoul")
+			if cap_week == 24 else
+			_tr("%d주차 결산", "WEEK %d RECKONING") % cap_week),
+		"intro": (
+			_tr(
+				"여섯 달은 민준의 삶을 해결하지 않았다. 다만 끝낸 일과 남겨 둔 일의 값을 한 페이지에 올려놓았다.",
+				"Six months did not solve Minjun's life. They put the cost of what he finished—and what he left behind—on one page.")
+			if cap_week == 24 else
+			_tr(
+				"%d주차에 결국 한 가지를 끝냈다. 그 선택 때문에 남은 일과, 지난 %d개월 동안 여기까지 온 기록을 함께 확인한다.",
+				"Week %d ended with one thing finished. See what that choice left behind and how the previous %d months led here."
+			) % [cap_week, completed_months]),
+		"hero_title": str(hero_copy.get("title", "")),
+		"hero_body": str(hero_copy.get("body", "")),
+		"background_path": completion_background_path,
+		"outcome_rows": [
+			{
+				"kind": "finished",
+				"label": _tr("끝낸 일", "FINISHED"),
+				"values": selected_labels,
+			},
+			{
+				"kind": "deferred",
+				"label": _tr("대신 남긴 일", "LEFT UNDONE"),
+				"values": deferred_labels,
+			},
+			{
+				"kind": "expired",
+				"label": _tr("기한이 끝난 일", "EXPIRED"),
+				"values": expired_labels,
+			},
+		],
+		"metrics": [
+			{
+				"label": str(cash_metric.get("label", "")),
+				"value": str(cash_metric.get("value", "")),
+				"note": str(cash_metric.get("note", "")),
+				"accent": str(cash_metric.get("accent", "#c7ced8")),
+			},
+			{
+				"label": _tr("고정비", "FIXED COST"),
+				"value": (
+					GameState.format_money(float(fixed_raw))
+					if fixed_is_known else
+					_tr("기록 없음", "NOT RECORDED")),
+				"note": (
+					_tr("%d개월차", "MONTH %d") % completed_months
+					if fixed_is_known else missing_boundary_note),
+				"accent": "#a98b88",
+			},
+			{
+				"label": _tr("건강", "HEALTH"),
+				"value": (
+					"%d / 100" % int(health_raw)
+					if health_is_known else
+					_tr("기록 없음", "NOT RECORDED")),
+				"note": (
+					_tr("%d개월 종료", "AT MONTH %d CLOSE") % completed_months
+					if health_is_known else missing_boundary_note),
+				"accent": "#91a6a2",
+			},
+			{
+				"label": _tr("정신력", "MENTAL"),
+				"value": (
+					"%d / 100" % int(mental_raw)
+					if mental_is_known else
+					_tr("기록 없음", "NOT RECORDED")),
+				"note": (
+					_tr("%d개월 종료", "AT MONTH %d CLOSE") % completed_months
+					if mental_is_known else missing_boundary_note),
+				"accent": "#9aa1b3",
+			},
+			{
+				"label": _tr("다음 재정 목표", "NEXT MONEY GOAL"),
+				"value": _core_loop_v2_completion_financial_rung_label(rung),
+				"note": (
+					_tr("달성까지 %s", "%s TO GO") % GameState.format_money(
+						float(rung.get("remaining", 0.0)))
+					if not str(rung.get("kind", "")).is_empty() else
+					_tr("종결 시점 기록 없음", "NOT CAPTURED AT THE BOUNDARY")),
+				"accent": "#a5adb9",
+			},
+		],
+		"traces": [
+			{
+				"label": _tr("첫 달에 내린 결정", "THE FIRST MONTH'S DECISION"),
+				"text": temptation_trace,
+			},
+			{
+				"label": _tr("내가 먼저 건넨 연락", "CONTACT I INITIATED"),
+				"text": initiative_trace,
+			},
+		],
+		"initiative": "",
+		"boundary": _core_loop_v2_completion_boundary_copy(
+			cap_week, persist_new_boundary,
+			_core_loop_v2_completion_autosave_succeeded),
+		"autosave_ok": _core_loop_v2_completion_autosave_succeeded,
+		"months": months,
+		"unresolved": unresolved_recap,
+		"_cap_week": cap_week,
+		"_persist_new_boundary": persist_new_boundary,
+	}
+
+func _core_loop_v2_clear_terminal_visual_layers() -> void:
+	_hide_ap_action_commit()
+	_clear_feedback_flash()
+	_transient_bg_active = false
+	_clear_category_tint(true)
+	if _ink_transition_tween and _ink_transition_tween.is_running():
+		_ink_transition_tween.kill()
+	_ink_transition_tween = null
+	_ink_transition_progress = 0.0
+	if is_instance_valid(_ink_transition_layer):
+		_ink_transition_layer.visible = false
+		_ink_transition_layer.queue_redraw()
+	if is_instance_valid(_vignette_rect):
+		_vignette_rect.visible = false
+	if is_instance_valid(_toast_container):
+		_toast_container.visible = false
+		for toast in _toast_container.get_children().duplicate():
+			(toast as Node).free()
+	_update_event_bg()
+
+func _core_loop_v2_open_completion_surface(
+		snapshot: Dictionary, cap_week: int,
+		persist_new_boundary: bool) -> bool:
+	_core_loop_v2_ensure_surfaces()
+	if not is_instance_valid(_core_loop_v2_completion):
+		return false
+	var final_month := DEMO_CORE_LOOP_V2.month_for_turn(cap_week)
+	DEMO_CORE_LOOP_V2.acknowledge_month_summary(final_month)
+	_core_loop_v2_completion_autosave_succeeded = (
+		_core_loop_v2_autosave_completion()
+		if persist_new_boundary else true
+	)
+	_core_loop_v2_completion_model = _core_loop_v2_completion_view_model(
+		snapshot, cap_week, persist_new_boundary)
+	if is_instance_valid(modal_layer):
+		modal_layer.visible = false
+		modal_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_modal_cancelable = false
+		_modal_kind = ""
+	if is_instance_valid(_main_ui_root):
+		_main_ui_root.visible = false
+	if is_instance_valid(info_panel):
+		info_panel.visible = false
+	_core_loop_v2_clear_terminal_visual_layers()
+	_core_loop_v2_completion.move_to_front()
+	if _core_loop_v2_completion.open(_core_loop_v2_completion_model):
+		return true
+	# A supported old save can be missing every pre-cycle weekly ledger. Never
+	# drop into the obsolete recap that reads today's HUD: keep the terminal
+	# surface, mark every unrecoverable field, and preserve the autosave result.
+	var recovery_snapshot := {
+		"legacy_boundary_incomplete": true,
+		"closing_state": {},
+		"month_summaries": {},
+		"kept": [],
+		"cycle_allocations": [],
+		"forgone": [],
+		"decline_receipts": [],
+		"obligation_receipts": {},
+		"temptation_branch": "unresolved",
+		"cash_shortfall": 0.0,
+	}
+	_core_loop_v2_completion_model = _core_loop_v2_completion_view_model(
+		recovery_snapshot, cap_week, persist_new_boundary)
+	return bool(_core_loop_v2_completion.open(
+		_core_loop_v2_completion_model))
+
+func _core_loop_v2_retry_completion_autosave() -> void:
+	if _core_loop_v2_completion_autosave_succeeded:
+		return
+	if not _core_loop_v2_autosave_completion():
+		_core_loop_v2_completion_model["boundary"] = _tr(
+			"자동 저장에 다시 실패했다. 저장 공간을 확인한 뒤 다시 시도해 주세요.",
+			"Autosave failed again. Check available storage, then retry.")
+		if is_instance_valid(_core_loop_v2_completion):
+			_core_loop_v2_completion.open(_core_loop_v2_completion_model)
+		return
+	_core_loop_v2_completion_autosave_succeeded = true
+	_core_loop_v2_completion_model["autosave_ok"] = true
+	_core_loop_v2_completion_model["boundary"] = (
+		_core_loop_v2_completion_boundary_copy(
+			int(_core_loop_v2_completion_model.get("_cap_week", 24)),
+			bool(_core_loop_v2_completion_model.get(
+				"_persist_new_boundary", true)), true)
+	)
+	if is_instance_valid(_core_loop_v2_completion):
+		_core_loop_v2_completion.open(_core_loop_v2_completion_model)
 
 func _core_loop_v2_show_completion(
 		persist_new_boundary: bool = false) -> void:
@@ -1732,6 +2992,9 @@ func _core_loop_v2_show_completion(
 	# completed Week 24 owns a new write; reopening an already durable completed
 	# save must never overwrite it or become blocked by a redundant save failure.
 	DEMO_CORE_LOOP_V2.mark_prototype_complete()
+	if is_instance_valid(_core_loop_v2_completion) \
+			and _core_loop_v2_completion.is_open():
+		return
 	if is_instance_valid(modal_layer) and modal_layer.visible \
 			and _modal_kind == "core_loop_v2_complete":
 		return
@@ -1754,10 +3017,20 @@ func _core_loop_v2_show_completion(
 			"_qa_core_loop_v2_completion_snapshot", {})
 		if qa_snapshot is Dictionary and not (qa_snapshot as Dictionary).is_empty():
 			snapshot = (qa_snapshot as Dictionary).duplicate(true)
-		cap_week = maxi(1, int(get_meta(
-			"_qa_core_loop_v2_completion_cap_week", cap_week)))
+			cap_week = maxi(1, int(get_meta(
+				"_qa_core_loop_v2_completion_cap_week", cap_week)))
+	if _core_loop_v2_open_completion_surface(
+			snapshot, cap_week, persist_new_boundary):
+		return
 	var kept: Array[String] = _core_loop_v2_recap_names(
 		snapshot.get("kept", []), true)
+	var raw_cycle_allocations: Variant = snapshot.get(
+		"cycle_allocations", [])
+	var using_cycle_recap := raw_cycle_allocations is Array \
+		and not (raw_cycle_allocations as Array).is_empty()
+	if using_cycle_recap:
+		kept = _core_loop_v2_completion_cycle_allocation_names(
+			raw_cycle_allocations as Array)
 	# The full decline copy belongs in the month notebooks and message receipts.
 	# The terminal record names every forgone opportunity compactly so both
 	# languages remain readable without scrolling at the 720p demo target.
@@ -1858,11 +3131,22 @@ func _core_loop_v2_show_completion(
 	path_grid.set_meta("core_loop_v2_recap_paths", true)
 	modal_body.add_child(path_grid)
 	path_grid.add_child(_core_loop_v2_recap_list_card(
-		_tr("완료한 일정", "Completed"), kept,
-		_tr("완료한 일정이 없다.", "No activities were completed."), "#8695a8"))
+		_tr("24주에 쓴 시간", "How the 24 Weeks Were Spent") \
+			if using_cycle_recap else _tr("완료한 일정", "Completed"),
+		kept,
+		_tr("배치한 시간이 없다.", "No weekly time was allocated.") \
+			if using_cycle_recap else _tr(
+				"완료한 일정이 없다.", "No activities were completed."),
+		"#8695a8"))
 	path_grid.add_child(_core_loop_v2_recap_list_card(
-		_tr("고르지 않은 일", "Not Chosen"), forgone,
-		_tr("고르지 않은 제안이 없다.", "No options were left unchosen."), "#8e7f84"))
+		_tr("놓친 기회", "Missed Opportunities") \
+			if using_cycle_recap else _tr("고르지 않은 일", "Not Chosen"),
+		forgone,
+		_tr("놓친 기회가 없다.", "No opportunities were missed.") \
+			if using_cycle_recap else _tr(
+				"고르지 않은 제안이 없다.",
+				"No options were left unchosen."),
+		"#8e7f84"))
 
 	var final_declines := _core_loop_v2_final_decline_messages(
 		snapshot, completed_months)
@@ -2044,6 +3328,8 @@ func _core_loop_v2_return_to_title() -> void:
 				Color(UIStyle.C_ACCENT_RED))
 			return
 		_core_loop_v2_completion_autosave_succeeded = true
+	if is_instance_valid(_core_loop_v2_completion):
+		_core_loop_v2_completion.close()
 	if bool(get_meta("_screenshot_qa_static_surface", false)):
 		return
 	SceneTransition.go("res://scenes/StartMenu.tscn")
@@ -2060,10 +3346,17 @@ func _core_loop_v2_finish_action_week() -> void:
 			return
 		_core_loop_v2_begin_story_bundle(bundle_id, "schedule")
 		return
+	var was_seoul_cycle_owner := (
+		DEMO_CORE_LOOP_V2.active_bundle_is_seoul_cycle_trigger()
+		or DEMO_CORE_LOOP_V2.active_bundle_is_seoul_cycle_world()
+	)
 	if DEMO_CORE_LOOP_V2.complete_active_bundle().is_empty():
 		push_error("Core Loop V2 action bundle has no completion receipt")
 		return
-	_core_loop_v2_advance_completed_week()
+	if was_seoul_cycle_owner:
+		call_deferred("_core_loop_v2_route_week")
+	else:
+		_core_loop_v2_advance_completed_week()
 
 ## The atomic action already owns AP, effects, axis, and its durable receipt.
 ## These two opt-in scenes own only how that result is experienced, so they
@@ -2133,6 +3426,16 @@ func _core_loop_v2_restore_action_result() -> bool:
 	return true
 
 func _core_loop_v2_economy_snapshot() -> Dictionary:
+	var rung: Dictionary = GameState.get_financial_rung()
+	var frozen_rung := {
+		"kind": str(rung.get("kind", "")),
+		"current": float(rung.get("current", 0.0)),
+		"origin": float(rung.get("origin", 0.0)),
+		"target": float(rung.get("target", 0.0)),
+		"remaining": float(rung.get("remaining", 0.0)),
+		"progress": float(rung.get("progress", 0.0)),
+		"ultimate_progress": float(rung.get("ultimate_progress", 0.0)),
+	}
 	return {
 		"turn": int(GameState.turn),
 		"date": GameState.get_date_string(),
@@ -2143,6 +3446,19 @@ func _core_loop_v2_economy_snapshot() -> Dictionary:
 		"fixed_expense": float(GameState.get_monthly_required_cash()),
 		"health": int(GameState.health),
 		"mental": int(GameState.mental),
+		"housing_id": str(GameState.housing),
+		"background_path": _event_bg_path,
+		"financial_rung": frozen_rung,
+		"temptation_flags": {
+			"lent_account": bool(GameState.flags.get(
+				"lent_account", false)),
+			"escaped_dirty_money": bool(GameState.flags.get(
+				"escaped_dirty_money", false)),
+			"fell_to_darkness": bool(GameState.flags.get(
+				"fell_to_darkness", false)),
+			"kept_clean_hands": bool(GameState.flags.get(
+				"kept_clean_hands", false)),
+		},
 	}
 
 func _core_loop_v2_cash_metric(
@@ -2167,7 +3483,8 @@ func _core_loop_v2_cash_metric(
 		"cash_shortfall": 0.0,
 	}
 
-func _core_loop_v2_show_month_summary(summary: Dictionary) -> void:
+func _core_loop_v2_show_month_summary(
+		summary: Dictionary, persist_new_boundary: bool = true) -> void:
 	if summary.is_empty():
 		return
 	var month_index := int(summary.get("month", 0))
@@ -2196,11 +3513,17 @@ func _core_loop_v2_show_month_summary(summary: Dictionary) -> void:
 
 	var before: Dictionary = summary.get("before", {})
 	var after: Dictionary = summary.get("after", {})
+	var is_seoul_cycle := str(summary.get(
+		"planning_mode", "")) == "seoul_cycle_v1"
 	var cash_delta := float(after.get("money", 0.0)) - float(before.get("money", 0.0))
 	var delta_prefix := "+" if cash_delta >= 0.0 else ""
-	var intro := _wrap_label(_tr(
-		"이번 달에 한 일과 고르지 않은 일, 생활비와 몸 상태를 함께 정리했다.",
-		"Here is what you did and did not choose this month, along with living costs and your condition."),
+	var intro_text := _tr(
+		"네 주의 여력을 어디에 썼는지와, 끝낸 약속·기한을 넘긴 약속을 같은 장부에 남겼다.",
+		"The notebook now holds where your four weeks went, which obligations you finished, and which deadlines passed.") \
+		if is_seoul_cycle else _tr(
+			"이번 달에 한 일과 고르지 않은 일, 생활비와 몸 상태를 함께 정리했다.",
+			"Here is what you did and did not choose this month, along with living costs and your condition.")
+	var intro := _wrap_label(intro_text,
 		13, "#aeb8c6")
 	intro.set_meta("core_loop_v2_month_intro", true)
 	modal_body.add_child(intro)
@@ -2245,25 +3568,41 @@ func _core_loop_v2_show_month_summary(summary: Dictionary) -> void:
 	path_grid.add_theme_constant_override("h_separation", 8)
 	path_grid.add_theme_constant_override("v_separation", 8)
 	modal_body.add_child(path_grid)
-	var kept: Array[String] = _core_loop_v2_recap_names(
-		summary.get("kept", []), true)
-	path_grid.add_child(_core_loop_v2_recap_list_card(
-		_tr("이번 달에 한 일", "Completed This Month"), kept,
-		_tr("이번 달에 끝낸 일이 없다.", "Nothing was completed this month."), "#8695a8"))
-	var closed: Array[String] = []
-	for raw_record in summary.get("decline_receipts", []):
-		if not raw_record is Dictionary:
-			continue
-		var record: Dictionary = raw_record
-		var producer := DEMO_CORE_LOOP_V2.bundle(
-			str(record.get("producer_bundle", "")))
-		var offer_name := _core_loop_v2_localized(
-			producer, "offer").strip_edges()
-		if not offer_name.is_empty() and not closed.has(offer_name):
-			closed.append(offer_name)
-	path_grid.add_child(_core_loop_v2_recap_list_card(
-		_tr("이번 달에 잡지 않은 일정", "Not Scheduled This Month"), closed,
-		_tr("이번 달에는 놓친 일정이 없다.", "No plans were left unscheduled this month."), "#8e7f84"))
+	if is_seoul_cycle:
+		var allocations := _core_loop_v2_cycle_allocation_names(summary)
+		var allocation_card := _core_loop_v2_recap_list_card(
+			_tr("이번 달에 쓴 네 주", "Four Weeks Spent"), allocations,
+			_tr("저장된 주간 배치가 없다.", "No weekly allocations were recorded."),
+			"#8695a8")
+		allocation_card.set_meta("core_loop_v2_cycle_allocations", true)
+		path_grid.add_child(allocation_card)
+		var outcomes := _core_loop_v2_cycle_outcome_names(summary)
+		var outcome_card := _core_loop_v2_recap_list_card(
+			_tr("약속의 결과", "Obligation Outcomes"), outcomes,
+			_tr("확인할 약속 결과가 없다.", "No obligation outcomes were recorded."),
+			"#8e7f84")
+		outcome_card.set_meta("core_loop_v2_cycle_outcomes", true)
+		path_grid.add_child(outcome_card)
+	else:
+		var kept: Array[String] = _core_loop_v2_recap_names(
+			summary.get("kept", []), true)
+		path_grid.add_child(_core_loop_v2_recap_list_card(
+			_tr("이번 달에 한 일", "Completed This Month"), kept,
+			_tr("이번 달에 끝낸 일이 없다.", "Nothing was completed this month."), "#8695a8"))
+		var closed: Array[String] = []
+		for raw_record in summary.get("decline_receipts", []):
+			if not raw_record is Dictionary:
+				continue
+			var record: Dictionary = raw_record
+			var producer := DEMO_CORE_LOOP_V2.bundle(
+				str(record.get("producer_bundle", "")))
+			var offer_name := _core_loop_v2_localized(
+				producer, "offer").strip_edges()
+			if not offer_name.is_empty() and not closed.has(offer_name):
+				closed.append(offer_name)
+		path_grid.add_child(_core_loop_v2_recap_list_card(
+			_tr("이번 달에 잡지 않은 일정", "Not Scheduled This Month"), closed,
+			_tr("이번 달에는 놓친 일정이 없다.", "No plans were left unscheduled this month."), "#8e7f84"))
 
 	var routine_names: Array[String] = []
 	var routines: Dictionary = summary.get("routines", {})
@@ -2295,15 +3634,18 @@ func _core_loop_v2_show_month_summary(summary: Dictionary) -> void:
 		_core_loop_v2_acknowledge_month_summary.bind(month_index))
 	confirm.call_deferred("grab_focus")
 	modal_body.add_child(confirm)
-	if not bool(get_meta("_screenshot_qa_static_surface", false)):
-		SaveManager.autosave()
+	if persist_new_boundary and not _core_loop_v2_autosave_durable_state():
+		_core_loop_v2_open_seoul_cycle_save_retry_gate(
+			"month_summary", month_index)
 
 func _core_loop_v2_acknowledge_month_summary(month_index: int) -> void:
 	if not DEMO_CORE_LOOP_V2.acknowledge_month_summary(month_index):
 		return
+	if not _core_loop_v2_autosave_durable_state():
+		_core_loop_v2_open_seoul_cycle_save_retry_gate(
+			"month_acknowledged", month_index)
+		return
 	_close_modal(false)
-	if not bool(get_meta("_screenshot_qa_static_surface", false)):
-		SaveManager.autosave()
 	_begin_month()
 
 func _core_loop_v2_advance_completed_week() -> void:
@@ -2364,7 +3706,11 @@ func _core_loop_v2_advance_completed_week() -> void:
 	_refresh_all()
 	if GameState.is_game_over:
 		return
-	SaveManager.autosave()
+	if not _core_loop_v2_autosave_durable_state():
+		_core_loop_v2_open_seoul_cycle_save_retry_gate(
+			"week_advance",
+			DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn))
+		return
 	_begin_month()
 
 func _take_story_followup_activity() -> String:
@@ -4436,6 +5782,10 @@ func _run_week_start_economy() -> void:
 			_screen_flash(Color("#d73a49"), 0.35, 0.55)
 
 func _begin_month():
+	if has_meta("_qa_core_loop_v2_begin_month_call_count"):
+		set_meta(
+			"_qa_core_loop_v2_begin_month_call_count",
+			int(get_meta("_qa_core_loop_v2_begin_month_call_count", 0)) + 1)
 	if DEMO_CORE_LOOP_V2.is_prototype_complete():
 		_core_loop_v2_show_completion()
 		return
@@ -6430,6 +7780,12 @@ func _on_next_month():
 	if not pending_result_text.is_empty():
 		pending_result_text = ""
 		return
+	# The Seoul cycle owns this calendar week until its allocation and any
+	# threshold/world scenes have produced one completed-turn receipt. The
+	# generic HUD command must never become an alternate advance path.
+	if _core_loop_v2_seoul_cycle_blocks_manual_advance():
+		_core_loop_v2_route_week()
+		return
 	if GameState.tutorial_step > 0:
 		GameState.tutorial_step -= 1
 	_demo_director_capture_routine()
@@ -6589,6 +7945,13 @@ func _on_result_confirmed():
 	if DEMO_CORE_LOOP_V2.is_active() and DEMO_CORE_LOOP_V2.action_result_ready():
 		_core_loop_v2_finish_action_week()
 		return
+	# A result control can remain alive for one deferred frame after its V2 owner
+	# has been acknowledged. Rejoin the durable trigger/world router; falling
+	# through to the legacy event renderer can auto-advance beneath a pending
+	# same-week cycle receipt.
+	if DEMO_CORE_LOOP_V2.is_active():
+		call_deferred("_core_loop_v2_route_week")
+		return
 	if current_event.is_empty() and _demo_pressure_enabled() \
 			and _demo_director_requires_player_input() \
 			and GameState.has_weekly_commitment_for_turn(GameState.turn):
@@ -6613,7 +7976,14 @@ func _show_moral_beat(from_band: int, to_band: int):
 	event_title.text = ""
 	_type_text(_fmt(body), 42.0)
 	var btn: Button = _button(_tr("…", "…"), "#3a3f4a")
-	btn.pressed.connect(func(): _finish_typing(); _on_result_confirmed())
+	btn.pressed.connect(func():
+		if btn.disabled:
+			return
+		btn.disabled = true
+		btn.focus_mode = Control.FOCUS_NONE
+		_finish_typing()
+		_on_result_confirmed()
+	)
 	choice_box.add_child(btn)
 	next_button.disabled = true
 
@@ -9381,6 +10751,14 @@ func _demo_director_route_week() -> void:
 	if bool(get_meta("_screenshot_qa_static_surface", false)):
 		_render_ap_actions()
 		return
+	# V2 can become active while a deferred legacy auto-week callback is still in
+	# the queue (for example after a threshold action returns through a modal).
+	# The cycle owns the calendar in that state; never let the fallback director
+	# advance the turn underneath a pending trigger/world receipt.
+	if DEMO_CORE_LOOP_V2.is_active():
+		_demo_director_advancing = false
+		call_deferred("_core_loop_v2_route_week")
+		return
 	if not _demo_pressure_enabled() or _demo_director_requires_player_input():
 		_render_ap_actions()
 		return
@@ -9831,6 +11209,10 @@ func _confirm_demo_director_beat(expected_turn: int, confirm_btn: Button) -> voi
 func _demo_director_continue_after_beat(expected_turn: int) -> void:
 	if not is_inside_tree() or GameState.turn != expected_turn:
 		return
+	if DEMO_CORE_LOOP_V2.is_active():
+		_demo_director_advancing = false
+		call_deferred("_core_loop_v2_route_week")
+		return
 	if not _pending_tendency_kind.is_empty():
 		var tendency_kind := _pending_tendency_kind
 		_demo_director_advancing = false
@@ -9840,6 +11222,10 @@ func _demo_director_continue_after_beat(expected_turn: int) -> void:
 	_demo_director_finish_auto_week()
 
 func _demo_director_auto_week(kind: String) -> void:
+	if DEMO_CORE_LOOP_V2.is_active():
+		_demo_director_advancing = false
+		call_deferred("_core_loop_v2_route_week")
+		return
 	if _demo_director_advancing or _demo_director_requires_player_input():
 		return
 	_demo_director_advancing = true
@@ -9883,6 +11269,10 @@ func _maybe_resolve_random_narrative_bridge(kind: String) -> void:
 	EventManager.resolve_narrative_bridge(str(bridge.get("id", "")), 0)
 
 func _demo_director_finish_auto_week() -> void:
+	if DEMO_CORE_LOOP_V2.is_active():
+		_demo_director_advancing = false
+		call_deferred("_core_loop_v2_route_week")
+		return
 	_demo_director_advancing = true
 	if GameState.week_of_month == 4:
 		var show_summary := _demo_director_should_show_full_summary()
@@ -11217,6 +12607,12 @@ func _weekly_commitment_action_label(action_id: String, person_id: String = "") 
 	})
 
 func _weekly_commitment_chosen_label(record: Dictionary) -> String:
+	var cycle_details: Dictionary = record.get("details", {}) \
+		if record.get("details", {}) is Dictionary else {}
+	if str(cycle_details.get("execution", "")) == "seoul_cycle":
+		return _tr(
+			str(cycle_details.get("label_ko", "")),
+			str(cycle_details.get("label_en", "")))
 	if GameState.is_story_weekly_commitment_record(record):
 		var event: Dictionary = DataRegistry.find_event(str(record.get("story_event_id", "")))
 		var choices: Array = event.get("choices", [])
@@ -11266,6 +12662,18 @@ func _weekly_commitment_later_text(record: Dictionary) -> String:
 
 func _weekly_commitment_forgone_labels(record: Dictionary) -> String:
 	var labels: Array[String] = []
+	var cycle_details: Dictionary = record.get("details", {}) \
+		if record.get("details", {}) is Dictionary else {}
+	if str(cycle_details.get("execution", "")) == "seoul_cycle":
+		for raw_node in cycle_details.get("forgone_nodes", []):
+			if not raw_node is Dictionary:
+				continue
+			var label := _tr(
+				str((raw_node as Dictionary).get("label_ko", "")),
+				str((raw_node as Dictionary).get("label_en", "")))
+			if not label.is_empty() and not labels.has(label):
+				labels.append(label)
+		return " / ".join(labels)
 	if GameState.is_story_weekly_commitment_record(record):
 		var event: Dictionary = DataRegistry.find_event(str(record.get("story_event_id", "")))
 		var choices: Array = event.get("choices", [])
@@ -11285,6 +12693,12 @@ func _weekly_commitment_forgone_labels(record: Dictionary) -> String:
 
 func _on_weekly_commitment_finalized(record: Dictionary) -> void:
 	if DEMO_CORE_LOOP_V2.is_active() and DEMO_CORE_LOOP_V2.note_action_commitment(record):
+		return
+	var details: Dictionary = record.get("details", {}) \
+		if record.get("details", {}) is Dictionary else {}
+	if str(details.get("execution", "")) == "seoul_cycle":
+		# The board itself presents the spent capacity, moved clock, and exact
+		# effects; a second AP toast would cover that feedback.
 		return
 	var action_id := str(record.get("choice_id", ""))
 	var person_id := str(record.get("person_id", ""))
@@ -15157,7 +16571,14 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 	btn.set_meta("ap_result_confirm", true)
 	btn.custom_minimum_size = Vector2(220, 46)
 	btn.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	btn.pressed.connect(func(): _finish_typing(); _on_result_confirmed())
+	btn.pressed.connect(func():
+		if btn.disabled:
+			return
+		btn.disabled = true
+		btn.focus_mode = Control.FOCUS_NONE
+		_finish_typing()
+		_on_result_confirmed()
+	)
 	btn_row.add_child(btn)
 	btn.call_deferred("grab_focus")
 	next_button.disabled = true
@@ -15501,8 +16922,8 @@ func _ap_create_content():
 	_show_vignette(_tr("콘텐츠 제작", "Create Content"), flavor, display_eff, "#3fb950")
 	_refresh_all()
 
-func _ap_write_resume():
-	if GameState.action_points <= 0:
+func _ap_write_resume(allow_committed_week: bool = false):
+	if GameState.action_points <= 0 and not allow_committed_week:
 		return
 	turn_action_log.append(_tr(
 		"자기소개서 작성 — 평가 시작",
@@ -15510,8 +16931,8 @@ func _ap_write_resume():
 	_enter_minigame_overlay(job_hunt_game)
 	job_hunt_game.open(0)  # Mode.RESUME = 0
 
-func _ap_interview_prep():
-	if GameState.action_points <= 0:
+func _ap_interview_prep(allow_committed_week: bool = false):
+	if GameState.action_points <= 0 and not allow_committed_week:
 		return
 	turn_action_log.append(_tr("모의면접 — 평가 시작", "Mock Interview — assessment started"))
 	_enter_minigame_overlay(job_hunt_game)
@@ -17126,7 +18547,11 @@ func _build_investment_asset_card(row: Dictionary) -> Control:
 	return panel
 
 func _on_save_pressed():
-	SaveManager.save_game(1)
+	if not SaveManager.save_game(1):
+		_show_toast(_tr(
+			"저장에 실패했습니다. 다시 시도해 주세요.",
+			"Save failed. Please try again."), Color("#ff7070"))
+		return
 	GameState.add_log(_tr("게임 저장 완료", "Game saved"), "system")
 	_show_toast(_tr("저장 완료", "Saved"), Color("#00c896"))
 
@@ -17506,7 +18931,11 @@ func _populate_save_load_page(
 		row.add_child(load_btn)
 
 func _save_to_slot(slot: int):
-	SaveManager.save_game(slot)
+	if not SaveManager.save_game(slot):
+		_show_toast(_tr(
+			"저장에 실패했습니다. 다시 시도해 주세요.",
+			"Save failed. Please try again."), Color("#ff7070"))
+		return
 	_close_modal()
 	_show_toast(_tr("슬롯 %d에 저장했습니다", "Saved to slot %d") % slot, Color("#c9a227"))
 
@@ -17515,11 +18944,33 @@ func _load_from_slot(slot: int):
 		SceneTransition.go(SaveManager.loaded_scene_path())
 
 func _unhandled_input(event):
+	# The 24-week reckoning is a full-screen terminal surface with its own
+	# summary/detail input grammar. Never let its North/LB/RB/East events fall
+	# through into the system menu or the hidden MainGame controls below it.
+	if is_instance_valid(_core_loop_v2_completion) \
+			and _core_loop_v2_completion.is_open():
+		return
 	# The monthly planner and communication phone each own their full semantic
 	# input stack while visible. Their East/Back action must never fall through
 	# into MainGame's system menu.
 	if (is_instance_valid(_communication_phone) and _communication_phone.visible) \
 			or (is_instance_valid(_core_loop_planner) and _core_loop_planner.visible):
+		return
+	# The Seoul board and its first-entry tutorial sit above MainGame and own the
+	# whole input surface. In particular, Start must not open an invisible modal
+	# behind them and RB must not re-enter week routing during the post-commit
+	# receipt hold.
+	var seoul_surface_open := is_instance_valid(_seoul_cycle_board) \
+			and _seoul_cycle_board.visible
+	var tutorial_surface_open := false
+	for child in get_children():
+		if child is TutorialOverlay \
+				and not child.is_queued_for_deletion() \
+				and (child as TutorialOverlay).visible:
+			tutorial_surface_open = true
+			break
+	if seoul_surface_open or tutorial_surface_open:
+		get_viewport().set_input_as_handled()
 		return
 	if GameState.is_game_over:
 		return

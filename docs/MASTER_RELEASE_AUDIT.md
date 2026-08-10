@@ -52,9 +52,14 @@ gates field drift and mutated profile fixtures.
 Build ID and game-version differences are warnings, not compatibility keys.
 Future save schemas and incompatible flavor/namespaces fail before player
 state changes. Demo saves may enter the full build; full saves may not enter a
-demo; both demo flavors reject saves beyond Week 24, and V2 stays isolated in
-both directions. An incompatible slot remains
-visible with its source and reason instead of becoming a silent load failure.
+demo. Both demo flavors reject general states beyond Week 24 and arbitrary
+turn-25 states before applying player data. The sole exception requires both
+source and target to be `core_loop_v2_playtest/core_loop_v2_playtest_v1`, an
+exact sealed turn-25 completion receipt, and completed Weeks `1..24` with no
+gap or duplicate. It reloads the Week-24 recap and CTA; it never enables
+Week-25 play. V2 remains isolated in both directions. An incompatible slot
+remains visible with its source and reason instead of becoming a silent load
+failure.
 
 Settings reads third-party notices from the generated source-ledger view, not
 hand-copied UI facts. The current surface contains one Godot Engine 4.6.2 entry,

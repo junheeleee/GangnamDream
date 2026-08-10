@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-08-10",
+  "updated": "2026-08-11",
   "scope": "Player-visible fresh-start Core Loop V2 surfaces through the 24-week CTA; preparation evidence, not translation or shipping approval.",
   "derivation": {
     "events": "release inventory V2 bundle/spine/runtime closure plus the fresh-start Chapter 1 card; suppressed follow-ups remain suppressed",
@@ -21,6 +21,8 @@
     "scenes/OpeningCinematic.gd",
     "scenes/TutorialOverlay.gd",
     "scenes/StartMenu.gd",
+    "scenes/SeoulCycleBoard.gd",
+    "scenes/CoreLoopV2Completion.gd",
     "systems/DemoCoreLoopV2.gd",
     "autoloads/ImageRegistry.gd"
   ],
@@ -33,8 +35,8 @@
     "automatic_script_conversion": false,
     "body_translation": "held_until_explicit_demo_GO",
     "shipping": false,
-    "static_ui_source_count": 2615,
-    "static_ui_source_keys_sha256": "cf1930ca7a4a4342385f8f8123afc2f6ab49477393e1584d0b228cda3dd5bd8b",
+    "static_ui_source_count": 2730,
+    "static_ui_source_keys_sha256": "b67df90ba814deeac78db1b1bc4836d16596b6b93521e97a34427ae3b2bcb222",
     "regions": {
       "zh-CN": {
         "source_language": "ko",
@@ -49,6 +51,19 @@
         "catalog_dictionary": "locale/catalog_zh-TW.json"
       }
     }
+  },
+  "ui_semantic_context_blocker": {
+    "status": "blocked_until_LOC-0",
+    "implemented": false,
+    "legacy_pair_call_occurrences": 3254,
+    "legacy_korean_source_keys": 2730,
+    "multi_english_korean_keys": 107,
+    "format_equivalent_keys": 34,
+    "shared_translation_keys": 45,
+    "context_split_korean_keys": 28,
+    "planned_context_ids": 30,
+    "planned_context_callsite_migrations": 37,
+    "note": "Do not start JA/ZH body translation until LOC-0 assigns stable context IDs without renaming or deleting the 2,730 legacy Korean UI keys."
   },
   "receipt_only_event_ids": ["callback_escaped_dirty_trace"],
   "korean_clock_contract": {
@@ -206,15 +221,15 @@
       "content/events/scenario_cafe.json": 10,
       "content/events/story_events.json": 11
     },
-    "demo_json_pair_occurrences": 368,
-    "demo_json_unique_keys": 364,
-    "demo_json_pairs_sha256": "e4ac67db6f17d5a05f7b8c015be096a5acd80bd0da8917c9873ed7563ac46a61",
+    "demo_json_pair_occurrences": 462,
+    "demo_json_unique_keys": 436,
+    "demo_json_pairs_sha256": "79455540467dc56b0e9207b9cd4baca19acacfb449af26502c3fa7bb3db1438f",
     "demo_inline_pair_occurrences": 56,
     "demo_inline_pairs_sha256": "04a2b4b8e81cc82596086eb00c752b8631371f8253d5ab233a3300e82374aa42",
     "opening_pair_occurrences": 6,
     "opening_pairs_sha256": "4d21780f79e706c8506b9789e4a33d72eb2784bf74002baaae8264b95be05e53",
     "tutorial_pair_occurrences": 6,
-    "tutorial_pairs_sha256": "dc83f70cb6605108f4a43a6ff1951c61e014452e5975557c825ff564e828c067",
+    "tutorial_pairs_sha256": "c52350017bda1686d7be8ca0b194ee62ed24da7873bb5f4223060f92812d96ce",
     "event_runtime_pair_occurrences": 1,
     "person_pair_occurrences": 8,
     "activity_gd_pair_occurrences": 147,
@@ -226,10 +241,10 @@
       "scenes/MainGame.gd::SIDE_JOB_VIGNETTES_CONVENIENCE": 3
     },
     "activity_gd_pairs_sha256": "4b77f1dab98c5ec7dcd6e602bca2e95196c7cd68fcbd6b6dc367fbd3db14c961",
-    "dynamic_pair_occurrences": 592,
-    "dynamic_unique_keys": 585,
-    "dynamic_pairs_sha256": "b8d731e5880809e876597eb06239bac9f8d2dc495f20ffaf7155fe7db7969492",
-    "dynamic_unique_sha256": "87bdd56377d388b78faca796d9656888cb4e8fd74de07751e01bd0b6345d50e0",
+    "dynamic_pair_occurrences": 686,
+    "dynamic_unique_keys": 657,
+    "dynamic_pairs_sha256": "653b1969ab008c49bf7207cee7c0b5eb2083cc0c5472efb228a81e3e427a39d5",
+    "dynamic_unique_sha256": "0b483dc3ba79aae2c034d2fb6ec881e0827fba009228298abd2aa99c706dd98b",
     "demo_ending_count": 0,
     "catalog_asset_name_ids": ["samsung", "kakao", "hyundai", "kospi_etf"],
     "catalog_asset_names_sha256": "187802b46719245170031f912663ad8bc7308bbe187bba0a819d9f3f2ad4cab4",
@@ -238,7 +253,7 @@
   "strict_gate": {
     "automated_requires": [
       "73 exact event overlays and 465 translated text leaves",
-      "577 dynamic lookup keys and four visible market asset names",
+      "657 dynamic lookup keys and four visible market asset names",
       "exact choice count/order and text-only overlay fields",
       "placeholder, paragraph, terminology, and Korean-won preservation",
       "separate Korean-source Simplified and Traditional script validation without automatic conversion",

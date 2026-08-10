@@ -44,7 +44,7 @@ cleanup_isolated_home() {
     return 1
   fi
   case "$target" in
-	  "$temp_root"/gangnam-achievements.*|"$temp_root"/gangnam-communication-phone.*|"$temp_root"/gangnam-core-loop-v2.*|"$temp_root"/gangnam-core-loop-v2-b.*|"$temp_root"/gangnam-core-loop-v2-c.*|"$temp_root"/gangnam-core-loop-v2-d.*|"$temp_root"/gangnam-core-loop-v2-e.*|"$temp_root"/gangnam-core-loop-v2-first-entry.*|"$temp_root"/gangnam-core-loop-v2-handoff.*|"$temp_root"/gangnam-ending-route.*|"$temp_root"/gangnam-first30.*|"$temp_root"/gangnam-hidden.*|"$temp_root"/gangnam-housing-keepsake.*|"$temp_root"/gangnam-immersion-loop.*|"$temp_root"/gangnam-input-matrix.*|"$temp_root"/gangnam-manual-save.*|"$temp_root"/gangnam-mod-layer.*|"$temp_root"/gangnam-money-integrity.*|"$temp_root"/gangnam-phone-system.*|"$temp_root"/gangnam-story-audio.*|"$temp_root"/gangnam-story-dialogue-history.*|"$temp_root"/gangnam-story-tutorial.*)
+	  "$temp_root"/gangnam-achievements.*|"$temp_root"/gangnam-communication-phone.*|"$temp_root"/gangnam-core-loop-v2.*|"$temp_root"/gangnam-core-loop-v2-b.*|"$temp_root"/gangnam-core-loop-v2-c.*|"$temp_root"/gangnam-core-loop-v2-cycle-balance.*|"$temp_root"/gangnam-core-loop-v2-d.*|"$temp_root"/gangnam-core-loop-v2-e.*|"$temp_root"/gangnam-core-loop-v2-first-entry.*|"$temp_root"/gangnam-core-loop-v2-handoff.*|"$temp_root"/gangnam-ending-route.*|"$temp_root"/gangnam-first30.*|"$temp_root"/gangnam-hidden.*|"$temp_root"/gangnam-housing-keepsake.*|"$temp_root"/gangnam-immersion-loop.*|"$temp_root"/gangnam-input-matrix.*|"$temp_root"/gangnam-manual-save.*|"$temp_root"/gangnam-mod-layer.*|"$temp_root"/gangnam-money-integrity.*|"$temp_root"/gangnam-phone-system.*|"$temp_root"/gangnam-story-audio.*|"$temp_root"/gangnam-story-dialogue-history.*|"$temp_root"/gangnam-story-tutorial.*)
       rm -rf -- "$target"
       ;;
     *)
@@ -358,7 +358,7 @@ python3 tools/exposed_state_consistency_audit.py
 EXPOSED_STATE_EXIT=$?
 
 echo "──────────────────────────────────────────"
-echo "● Core Loop V2 6개월·월간 약속·관계 주도권 설계 계약"
+echo "● Core Loop V2 6개월 서울 사이클·월간 약속·관계 주도권 설계 계약"
 python3 tools/demo_core_loop_v2_audit.py
 CORE_LOOP_V2_EXIT=$?
 python3 tools/core_loop_v2_balance_sim.py
@@ -460,7 +460,45 @@ else
 fi
 
 echo "──────────────────────────────────────────"
-echo "● Core Loop V2 첫 진입 프롤로그·챕터·넓은 계획판·튜토리얼 순서와 저장·입력 경계"
+echo "● Core Loop V2 1~6개월 서울 사이클·4여력·4노드·세계시계·영수증·구 저장 런타임"
+if [ -x "$GODOT" ]; then
+  CORE_LOOP_V2_CYCLE_RAW=$(run_limited "$GODOT" --headless --quit-after 1200 res://tools/CoreLoopV2CycleCheck.tscn 2>&1)
+  CORE_LOOP_V2_CYCLE_STATUS=$?
+  echo "$CORE_LOOP_V2_CYCLE_RAW" | grep -E "CORE_LOOP_V2_CYCLE_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
+  if godot_check_passed "$CORE_LOOP_V2_CYCLE_RAW" \
+      "$CORE_LOOP_V2_CYCLE_STATUS" \
+      "CORE_LOOP_V2_CYCLE_CHECK_OK" strict; then
+    CORE_LOOP_V2_CYCLE_EXIT=0
+  else
+    CORE_LOOP_V2_CYCLE_EXIT=1
+  fi
+else
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 서울 사이클 계약 체크 건너뜀."
+  CORE_LOOP_V2_CYCLE_EXIT=0
+fi
+
+echo "──────────────────────────────────────────"
+echo "● Core Loop V2 서울 사이클 실제 24주 5경로 수치·사망 경계"
+if [ -x "$GODOT" ]; then
+  CORE_LOOP_V2_CYCLE_BALANCE_HOME=$(make_isolated_home "gangnam-core-loop-v2-cycle-balance")
+  CORE_LOOP_V2_CYCLE_BALANCE_RAW=$(run_limited env HOME="$CORE_LOOP_V2_CYCLE_BALANCE_HOME" "$GODOT" --headless --quit-after 1200 res://tools/CoreLoopV2CycleBalanceCheck.tscn -- --core-loop-v2-playtest-build --qa-isolated-user-data 2>&1)
+  CORE_LOOP_V2_CYCLE_BALANCE_STATUS=$?
+  cleanup_isolated_home "$CORE_LOOP_V2_CYCLE_BALANCE_HOME"
+  echo "$CORE_LOOP_V2_CYCLE_BALANCE_RAW" | grep -E "CORE_LOOP_V2_CYCLE_BALANCE_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error|Failed to load script" | sed 's/^/  /'
+  if godot_check_passed "$CORE_LOOP_V2_CYCLE_BALANCE_RAW" \
+      "$CORE_LOOP_V2_CYCLE_BALANCE_STATUS" \
+      "CORE_LOOP_V2_CYCLE_BALANCE_OK" strict; then
+    CORE_LOOP_V2_CYCLE_BALANCE_EXIT=0
+  else
+    CORE_LOOP_V2_CYCLE_BALANCE_EXIT=1
+  fi
+else
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 서울 사이클 수치 체크 건너뜀."
+  CORE_LOOP_V2_CYCLE_BALANCE_EXIT=0
+fi
+
+echo "──────────────────────────────────────────"
+echo "● Core Loop V2 첫 진입 프롤로그·챕터·서울의 네 주·튜토리얼 순서와 저장·입력 경계"
 if [ -x "$GODOT" ]; then
   CORE_LOOP_V2_FIRST_ENTRY_HOME=$(make_isolated_home "gangnam-core-loop-v2-first-entry")
   CORE_LOOP_V2_FIRST_ENTRY_RAW=$(run_limited env HOME="$CORE_LOOP_V2_FIRST_ENTRY_HOME" "$GODOT" --headless --quit-after 1200 res://tools/CoreLoopV2FirstEntryCheck.tscn 2>&1)
@@ -816,7 +854,7 @@ if [ -x "$GODOT" ]; then
   cleanup_isolated_home "$MANUAL_SAVE_HOME"
   echo "$MANUAL_SAVE_RAW" | grep -E "MANUAL_SAVE_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
   if godot_check_passed "$MANUAL_SAVE_RAW" "$MANUAL_SAVE_STATUS" \
-      "MANUAL_SAVE_CHECK_OK"; then
+      "MANUAL_SAVE_CHECK_OK" strict; then
     MANUAL_SAVE_EXIT=0
   else
     MANUAL_SAVE_EXIT=1
@@ -1110,7 +1148,7 @@ AUDIT_EXIT_FLAGS="
   CG_RUNTIME_EXIT CAST_DETAIL_EXIT EVENT_VISUAL_EXIT EN_HANGUL_EXIT EN_COVERAGE_EXIT I18N_COVERAGE_EXIT I18N_SURFACE_EXIT JA_UI_EXIT JA_DEMO_INVENTORY_EXIT JA_DEMO_PIPELINE_SELF_TEST_EXIT JA_DEMO_AUDIT_EXIT ZH_DEMO_AUDIT_EXIT ZH_DEMO_SELF_TEST_EXIT DEMO_I18N_SCOPE_EXIT DEMO_I18N_SELF_TEST_EXIT DEMO_PROSE_STYLE_EXIT I18N_RUNTIME_EXIT
   MOD_LAYER_AUDIT_EXIT MOD_LAYER_RUNTIME_EXIT BAL_EXIT EVENT_DIRECTOR_EXIT EXPOSED_STATE_EXIT PHONE_SYSTEM_EXIT MONEY_INTEGRITY_EXIT COMMUNICATION_PHONE_EXIT
   CORE_LOOP_V2_EXIT CORE_LOOP_V2_BALANCE_EXIT CORE_LOOP_V2_RUNTIME_EXIT CORE_LOOP_V2_B_RUNTIME_EXIT CORE_LOOP_V2_C_RUNTIME_EXIT
-  CORE_LOOP_V2_D_RUNTIME_EXIT CORE_LOOP_V2_E_RUNTIME_EXIT CORE_LOOP_V2_FIRST_ENTRY_EXIT CORE_LOOP_V2_HANDOFF_EXIT
+  CORE_LOOP_V2_D_RUNTIME_EXIT CORE_LOOP_V2_E_RUNTIME_EXIT CORE_LOOP_V2_CYCLE_EXIT CORE_LOOP_V2_CYCLE_BALANCE_EXIT CORE_LOOP_V2_FIRST_ENTRY_EXIT CORE_LOOP_V2_HANDOFF_EXIT
   EVENT_DIRECTOR_RUNTIME_EXIT CORE_CHOICE_EXIT ENDING_DISTINCTNESS_EXIT ENDING_ROUTE_EXIT AUDIO_SOURCE_EXIT SCENE_AUDIO_EXIT
   SCENE_AUDIO_CATALOG_EXIT FULL_RUN_AUDIO_EXIT SCENE_DIRECTION_CATALOG_EXIT FULL_RUN_DIRECTION_EXIT GAME_AUDIO_CONTRACT_EXIT UI_SFX_EXIT
   LAUNCH_AUDIO_EXIT AUDIO_EXIT GAME_AUDIO_RUNTIME_EXIT BGM_EXIT MORAL_AMBIENCE_EXIT IMMERSION_EXIT

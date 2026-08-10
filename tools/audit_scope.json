@@ -326,7 +326,7 @@
     },
     {
       "tool": "tools/ja_translation_pipeline.py --scope demo --inventory",
-      "why": "일본어 생성기가 24주 73사건·539동적키·4자산만 수집하고 전체판 본문을 열지 않는지 검사",
+      "why": "일본어 생성기가 24주 73사건·657동적키·4자산만 수집하고 전체판 본문을 열지 않는지 검사",
       "paths": [
         "content/meta/demo_localization_scope.json",
         "content/meta/release_content_inventory.json",
@@ -443,7 +443,11 @@
       "why": "일본어 UI 키. 본문 scope(events/endings/catalog)는 ja_translation_pipeline 이 24주 본문 확정 전까지 잠가 둔 미완이므로 게이트하지 않는다",
       "paths": [
         "locale/ui_ja.json",
-        "locale/**"
+        "locale/**",
+        "autoloads/**",
+        "scenes/**",
+        "systems/**",
+        "ui_components/**"
       ]
     },
     {
@@ -617,6 +621,43 @@
       ]
     },
     {
+      "tool": "tools/CoreLoopV2CycleCheck.tscn",
+      "godot": true,
+      "why": "fresh 서울 사이클 1~24주 결정론·진전·세계 사건·기한·원자 영수증·완료 snapshot·구 저장 호환",
+      "paths": [
+        "autoloads/GameState.gd",
+        "systems/DemoCoreLoopV2.gd",
+        "scenes/MainGame.gd",
+        "scenes/SeoulCycleBoard.gd",
+        "scenes/SeoulCycleBoard.gd.uid",
+        "content/meta/demo_core_loop_v2.json",
+        "tools/CoreLoopV2CycleCheck.gd",
+        "tools/CoreLoopV2CycleCheck.gd.uid",
+        "tools/CoreLoopV2CycleCheck.tscn"
+      ]
+    },
+    {
+      "tool": "tools/CoreLoopV2CycleBalanceCheck.tscn",
+      "godot": true,
+      "why": "서울 사이클 실제 24회 배치·임계 장면·월말을 지난 네 생존 전략과 한 사망 전략의 수치 원장",
+      "paths": [
+        "autoloads/GameState.gd",
+        "systems/DemoCoreLoopV2.gd",
+        "systems/JobSystem.gd",
+        "systems/RelationshipSystem.gd",
+        "systems/InventorySystem.gd",
+        "scenes/MainGame.gd",
+        "scenes/ArubaGame.gd",
+        "scenes/JobHuntMiniGame.gd",
+        "content/meta/demo_core_loop_v2.json",
+        "content/jobs.json",
+        "docs/BALANCE.md",
+        "tools/CoreLoopV2CycleBalanceCheck.gd",
+        "tools/CoreLoopV2CycleBalanceCheck.gd.uid",
+        "tools/CoreLoopV2CycleBalanceCheck.tscn"
+      ]
+    },
+    {
       "tool": "tools/CoreLoopV2FirstEntryCheck.tscn",
       "godot": true,
       "why": "V2 첫 진입 프롤로그→챕터→넓은 계획판→튜토리얼 순서·저장·입력 경계",
@@ -637,7 +678,14 @@
       "paths": [
         "project.godot",
         "systems/BuildFlavor.gd",
+        "systems/DemoCoreLoopV2.gd",
+        "autoloads/GameState.gd",
+        "autoloads/SaveManager.gd",
         "scenes/CoreLoopPlanner.gd",
+        "scenes/SeoulCycleBoard.gd",
+        "scenes/CoreLoopV2Completion.gd",
+        "scenes/MainGame.gd",
+        "content/meta/demo_core_loop_v2.json",
         "tools/ScreenshotQA.gd",
         "tools/run_core_loop_v2_input_qa.sh",
         ".github/workflows/ci.yml"
@@ -650,10 +698,36 @@
       "paths": [
         "project.godot",
         "systems/BuildFlavor.gd",
+        "systems/DemoCoreLoopV2.gd",
+        "autoloads/GameState.gd",
+        "autoloads/SaveManager.gd",
         "scenes/CoreLoopPlanner.gd",
+        "scenes/SeoulCycleBoard.gd",
+        "scenes/CoreLoopV2Completion.gd",
+        "scenes/MainGame.gd",
+        "content/meta/demo_core_loop_v2.json",
         "tools/ScreenshotQA.gd",
         "tools/run_core_loop_v2_input_qa.sh",
         ".github/workflows/ci.yml"
+      ]
+    },
+    {
+      "tool": "tools/run_core_loop_v2_input_qa.sh surface-matrix",
+      "godot": true,
+      "why": "서울 보드·24주 결산·구 저장 복구를 KO/EN 960×600·1280×800에서 실제 렌더·패드 입력으로 검증",
+      "paths": [
+        "assets/shaders/vignette.gdshader",
+        "autoloads/GameState.gd",
+        "autoloads/SaveManager.gd",
+        "systems/DemoCoreLoopV2.gd",
+        "scenes/CoreLoopV2Completion.gd",
+        "scenes/CoreLoopV2Completion.gd.uid",
+        "scenes/SeoulCycleBoard.gd",
+        "scenes/SeoulCycleBoard.gd.uid",
+        "scenes/MainGame.gd",
+        "content/meta/demo_core_loop_v2.json",
+        "tools/ScreenshotQA.gd",
+        "tools/run_core_loop_v2_input_qa.sh"
       ]
     },
     {
@@ -713,7 +787,10 @@
       "paths": [
         "autoloads/SaveManager.gd",
         "autoloads/GameState.gd",
-        "scenes/StoryMode.gd"
+        "scenes/StoryMode.gd",
+        "tools/ManualSaveCheck.gd",
+        "tools/ManualSaveCheck.gd.uid",
+        "tools/ManualSaveCheck.tscn"
       ]
     },
     {

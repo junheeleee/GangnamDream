@@ -2670,6 +2670,7 @@ func _check_fatal_decline_short_circuit() -> void:
 			main_game.modal_layer, "core_loop_v2_recap_done")
 		var month_cta := _find_meta_node(
 			main_game.modal_layer, "core_loop_v2_month_confirm")
+		var completion_surface := _completion_surface(main_game)
 		# Seed M6. Reality/gosiwon monthly pressure is exactly -5, so the
 		# production transition reaches M1 before this receipt applies -2 and the
 		# stat clamp lands on zero. The receipt plus exact final state locks both
@@ -2688,8 +2689,7 @@ func _check_fatal_decline_short_circuit() -> void:
 				and not CORE_LOOP.is_prototype_complete() \
 				and not is_instance_valid(recap_done) \
 				and not is_instance_valid(month_cta) \
-				and not bool(main_game.modal_layer.get_meta(
-					"core_loop_v2_completion", false)),
+				and not _completion_surface_is_open(completion_surface),
 			"Week %d fatal decline exposed a recap/CTA or missed mental_break"
 				% target_week)
 		main_game.free()
@@ -2882,10 +2882,12 @@ func _check_intentional_overwork_death() -> void:
 			main_game.modal_layer, "core_loop_v2_recap_done")
 		var month_cta := _find_meta_node(
 			main_game.modal_layer, "core_loop_v2_month_confirm")
+		var completion_surface := _completion_surface(main_game)
 		_expect(GameState.is_game_over \
 				and _captured_game_over_ids == ["burnout"] \
 				and not is_instance_valid(recap_done) \
 				and not is_instance_valid(month_cta) \
+				and not _completion_surface_is_open(completion_surface) \
 				and not CORE_LOOP.is_prototype_complete(),
 			"urgent_paid_shift overwork did not end as burnout without recap/CTA")
 		main_game.free()
@@ -3090,36 +3092,50 @@ func _check_actual_weeks_and_terminal_recap() -> void:
 					"month_summaries", {}) as Dictionary).size() == 6,
 			"terminal autosave is not the full six-month completion snapshot")
 
+	var completion_surface := _completion_surface(main_game)
 	var done := _find_meta_node(
-		main_game.modal_layer, "core_loop_v2_recap_done")
-	var decline_panel := _find_meta_node(
-		main_game.modal_layer, "core_loop_v2_recap_final_declines")
-	var first_bill_panel := _find_meta_node(
-		main_game.modal_layer, "core_loop_v2_recap_first_bill")
-	var selected_panel := _find_meta_node(
-		main_game.modal_layer,
-		"core_loop_v2_recap_selected_obligations")
-	var deferred_panel := _find_meta_node(
-		main_game.modal_layer,
-		"core_loop_v2_recap_deferred_obligations")
-	var expired_panel := _find_meta_node(
-		main_game.modal_layer, "core_loop_v2_recap_expired")
-	var unresolved_panel := _find_meta_node(
-		main_game.modal_layer, "core_loop_v2_recap_unresolved")
-	var terminal_text := _node_text(main_game.modal_layer)
+		completion_surface, "core_loop_v2_recap_done")
+	var summary_footer := _find_meta_node(
+		completion_surface, "core_loop_v2_summary_footer")
+	var outcome_receipt := _find_meta_node(
+		completion_surface, "core_loop_v2_outcome_receipt")
+	var selected_panel := _find_meta_node_with_value(
+		completion_surface, "core_loop_v2_outcome_kind", "finished")
+	var deferred_panel := _find_meta_node_with_value(
+		completion_surface, "core_loop_v2_outcome_kind", "deferred")
+	var expired_panel := _find_meta_node_with_value(
+		completion_surface, "core_loop_v2_outcome_kind", "expired")
+	var selected_values := _find_meta_node(
+		selected_panel, "core_loop_v2_outcome_values")
+	var deferred_values := _find_meta_node(
+		deferred_panel, "core_loop_v2_outcome_values")
+	var expired_values := _find_meta_node(
+		expired_panel, "core_loop_v2_outcome_values")
+	var terminal_text := _node_text(completion_surface)
+	var completion_snapshot := CORE_LOOP.completion_snapshot()
+	var obligation_rows: Dictionary = (
+		main_game._core_loop_v2_completion_obligation_rows(
+			completion_snapshot))
+	var completion_model_raw: Variant = (
+		completion_surface.get("_model")
+		if is_instance_valid(completion_surface) else {})
+	var completion_model: Dictionary = (
+		completion_model_raw as Dictionary
+		if completion_model_raw is Dictionary else {})
 	var final_declines := CORE_LOOP.decline_receipts_for_month(6)
-	_expect(str(main_game._modal_kind) == "core_loop_v2_complete" \
-			and bool(main_game.modal_layer.get_meta(
-				"core_loop_v2_completion", false)) \
+	_expect(str(main_game._modal_kind).is_empty() \
+			and not main_game.modal_layer.visible \
+			and _completion_surface_is_open(completion_surface) \
+			and bool(completion_surface.call("summary_visible")) \
 			and is_instance_valid(done) \
-			and done.get_parent() == main_game.modal_footer \
-			and main_game.modal_footer.visible \
-			and is_instance_valid(decline_panel) \
-			and is_instance_valid(first_bill_panel) \
+			and is_instance_valid(summary_footer) \
+			and summary_footer.is_ancestor_of(done) \
+			and summary_footer.is_visible_in_tree() \
+			and is_instance_valid(outcome_receipt) \
 			and is_instance_valid(selected_panel) \
 			and is_instance_valid(deferred_panel) \
 			and is_instance_valid(expired_panel) \
-			and is_instance_valid(unresolved_panel) \
+			and (completion_model.get("months", []) as Array).size() == 6 \
 			and final_declines.size() == 3,
 		"turn-25 recap lost its sticky CTA or a priority/decline/expired/unresolved record")
 	var hanbit_month_close := LocaleManager.ui(
@@ -3137,23 +3153,25 @@ func _check_actual_weeks_and_terminal_recap() -> void:
 	var selected_text := _node_text(selected_panel)
 	var deferred_text := _node_text(deferred_panel)
 	var expired_text := _node_text(expired_panel)
-	_expect(_string_array(selected_panel.get_meta(
-				"core_loop_v2_recap_selected_obligations", [])) \
-				== ["hanbit_month_close"] \
-			and _string_array(deferred_panel.get_meta(
-				"core_loop_v2_recap_deferred_obligations", [])) \
-				== ["father_call", "body_rest"] \
-			and _string_array(expired_panel.get_meta(
-				"core_loop_v2_recap_expired_obligations", [])) \
-				== ["city_work_sample"],
+	_expect(_string_array(obligation_rows.get(
+				"selected_ids", []) as Array) == ["hanbit_month_close"] \
+			and _string_array(obligation_rows.get(
+				"deferred_ids", []) as Array) == ["father_call", "body_rest"] \
+			and _string_array(obligation_rows.get(
+				"expired_ids", []) as Array) == ["city_work_sample"] \
+			and _meta_string_array(selected_values,
+				"core_loop_v2_outcome_values") == [hanbit_month_close] \
+			and _meta_string_array(deferred_values,
+				"core_loop_v2_outcome_values") == [father_call, body_rest] \
+			and _meta_string_array(expired_values,
+				"core_loop_v2_outcome_values") == [city_work_sample],
 		"actual terminal recap metadata did not preserve the exact selected/deferred/expired partition")
 	_expect(LocaleManager.ui(
-				"이번 주에 끝낸 일",
-				"What I Finished This Week").to_upper() in selected_text \
+				"끝낸 일", "FINISHED") in selected_text \
 			and LocaleManager.ui(
-				"이번 주에 하지 못한 일",
-				"What I Couldn't Do This Week").to_upper() \
-				in deferred_text,
+				"대신 남긴 일", "LEFT UNDONE") in deferred_text \
+			and LocaleManager.ui(
+				"기한이 끝난 일", "EXPIRED") in expired_text,
 		"actual terminal recap lost its direct weekly headings")
 	_expect(selected_text.count(hanbit_month_close) == 1 \
 			and selected_text.count(father_call) == 0 \
@@ -3187,7 +3205,6 @@ func _check_actual_weeks_and_terminal_recap() -> void:
 			and int(city_expiration.get("choice_index", -1)) == 1 \
 			and int(city_expiration.get("turn", 0)) == 24,
 		"expired City work sample was not backed by its exact Week-24 transition receipt")
-	var completion_snapshot := CORE_LOOP.completion_snapshot()
 	var completion_obligation: Dictionary = (
 		(completion_snapshot.get(
 			"obligation_receipts", {}) as Dictionary
@@ -3233,8 +3250,12 @@ func _check_actual_weeks_and_terminal_recap() -> void:
 	_expect(main_game._core_loop_v2_unresolved_recap(
 			completion_snapshot) == expected_actual_unresolved,
 		"actual terminal unresolved recap was not the exact Father/Hyunsu/Hanbit set")
+	var completion_unresolved: Array = completion_model.get("unresolved", [])
+	_expect(_string_array(completion_unresolved) \
+			== _string_array(expected_actual_unresolved),
+		"terminal surface model did not preserve the exact unresolved ledger")
 	for expected_unresolved in expected_actual_unresolved:
-		_expect(expected_unresolved in _node_text(unresolved_panel),
+		_expect(expected_unresolved in completion_unresolved,
 			"terminal recap omitted unresolved state: %s" % expected_unresolved)
 	var malformed_unresolved_snapshot := {
 		"consequence_receipts": {
@@ -3331,6 +3352,12 @@ func _check_actual_weeks_and_terminal_recap() -> void:
 			"Your six-month record was saved automatically. The first year is not over yet."
 		) in terminal_text,
 		"terminal recap did not confirm its durable save without closing Year One")
+	var completion_months: Array = completion_model.get("months", [])
+	var final_month_model: Dictionary = (
+		completion_months[5] as Dictionary
+		if completion_months.size() == 6 \
+			and completion_months[5] is Dictionary else {})
+	var final_month_missed: Array = final_month_model.get("missed", [])
 	for raw_decline in final_declines:
 		if not raw_decline is Dictionary:
 			continue
@@ -3340,13 +3367,15 @@ func _check_actual_weeks_and_terminal_recap() -> void:
 		_expect(not ko.is_empty() and not en.is_empty(),
 			"terminal decline lost full bilingual copy")
 		var visible := en if LocaleManager.is_english() else ko
-		_expect(terminal_text.contains(
+		_expect(final_month_missed.has(
 				GameState.format_event_text(visible)),
 			"terminal recap did not render a full Month-Six decline")
 
 	main_game.set_meta("_screenshot_qa_static_surface", true)
 	main_game._core_loop_v2_return_to_title()
 	main_game.remove_meta("_screenshot_qa_static_surface")
+	for _frame in range(3):
+		await get_tree().process_frame
 	_expect(_captured_terminal_saves.size() == 1,
 		"successful completion CTA wrote a duplicate autosave")
 	if SaveManager.save_completed.is_connected(save_callback):
@@ -3367,30 +3396,51 @@ func _check_actual_weeks_and_terminal_recap() -> void:
 	await get_tree().process_frame
 	failure_main._core_loop_v2_show_completion(true)
 	await get_tree().process_frame
+	var failure_surface := _completion_surface(failure_main)
 	var failure_done := _find_meta_node(
-		failure_main.modal_layer, "core_loop_v2_recap_done")
-	var failure_text := _node_text(failure_main.modal_layer)
-	_expect(str(failure_main._modal_kind) == "core_loop_v2_complete" \
-			and failure_main.modal_layer.visible \
+		failure_surface, "core_loop_v2_recap_done")
+	var failure_text := _node_text(failure_surface)
+	_expect(str(failure_main._modal_kind).is_empty() \
+			and not failure_main.modal_layer.visible \
+			and _completion_surface_is_open(failure_surface) \
 			and is_instance_valid(failure_done) \
 			and bool(failure_done.get_meta(
-				"core_loop_v2_recap_requires_autosave_retry", false)) \
-			and not bool(failure_main.modal_layer.get_meta(
-				"core_loop_v2_completion_autosave_succeeded", true)) \
+				"core_loop_v2_requires_retry", false)) \
+			and not bool(failure_main.get(
+				"_core_loop_v2_completion_autosave_succeeded")) \
 			and LocaleManager.ui(
 				"자동 저장에 실패했다. 시작 화면으로 나가기 전에 다시 시도해 주세요.",
-				"Autosave failed. Please try again before returning to the title screen."
+				"Autosave failed. Please retry before returning to the title screen."
 			) in failure_text \
 			and LocaleManager.ui(
-				"자동 저장 다시 시도  ›",
-				"Retry Autosave  ›") in failure_text,
-		"completion autosave failure did not expose its blocking retry state")
-	failure_main._core_loop_v2_return_to_title()
-	_expect(str(failure_main._modal_kind) == "core_loop_v2_complete" \
-			and failure_main.modal_layer.visible \
-			and not bool(failure_main.get(
+				"자동 저장 다시 시도",
+				"Retry Autosave") in failure_text,
+		("completion autosave failure did not expose its blocking retry state: "
+			+ "modal=%s surface=%s done=%s retry=%s autosave=%s text=%s") % [
+			str(failure_main._modal_kind),
+			str(_completion_surface_is_open(failure_surface)),
+			str(is_instance_valid(failure_done)),
+			str(failure_done.get_meta(
+				"core_loop_v2_requires_retry", "missing") \
+				if is_instance_valid(failure_done) else "missing"),
+			str(failure_main.get(
 				"_core_loop_v2_completion_autosave_succeeded")),
+			failure_text,
+		])
+	failure_main._core_loop_v2_retry_completion_autosave()
+	await get_tree().process_frame
+	_expect(str(failure_main._modal_kind).is_empty() \
+			and not failure_main.modal_layer.visible \
+			and _completion_surface_is_open(failure_surface) \
+			and not bool(failure_main.get(
+				"_core_loop_v2_completion_autosave_succeeded")) \
+			and LocaleManager.ui(
+				"자동 저장에 다시 실패했다. 저장 공간을 확인한 뒤 다시 시도해 주세요.",
+				"Autosave failed again. Check available storage, then retry."
+			) in _node_text(failure_surface),
 		"failed completion retry allowed the run to leave its recap")
+	for _frame in range(3):
+		await get_tree().process_frame
 	failure_main.free()
 	failure_packed = null
 	await get_tree().process_frame
@@ -3413,23 +3463,27 @@ func _check_actual_weeks_and_terminal_recap() -> void:
 	add_child(reloaded_main)
 	await get_tree().process_frame
 	await get_tree().process_frame
+	var reloaded_surface := _completion_surface(reloaded_main)
 	var reloaded_done := _find_meta_node(
-		reloaded_main.modal_layer, "core_loop_v2_recap_done")
+		reloaded_surface, "core_loop_v2_recap_done")
 	_expect(GameState.turn == 25 \
-			and str(reloaded_main._modal_kind) \
-				== "core_loop_v2_complete" \
+			and str(reloaded_main._modal_kind).is_empty() \
+			and not reloaded_main.modal_layer.visible \
+			and _completion_surface_is_open(reloaded_surface) \
 			and is_instance_valid(reloaded_done) \
 			and not bool(reloaded_done.get_meta(
-				"core_loop_v2_recap_requires_autosave_retry", true)) \
-			and bool(reloaded_main.modal_layer.get_meta(
-				"core_loop_v2_completion_autosave_succeeded", false)) \
+				"core_loop_v2_requires_retry", true)) \
+			and bool(reloaded_main.get(
+				"_core_loop_v2_completion_autosave_succeeded")) \
 			and LocaleManager.ui(
 				"저장된 여섯 달의 기록을 열었다. 첫해는 아직 끝나지 않았다.",
 				"Your saved six-month record is open. The first year is not over yet."
-			) in _node_text(reloaded_main.modal_layer) \
+			) in _node_text(reloaded_surface) \
 			and not GameState.is_game_over \
 			and _game_over_signals == 0,
 		"completed save did not reopen without a redundant blocking autosave")
+	for _frame in range(3):
+		await get_tree().process_frame
 	reloaded_main.free()
 	reloaded_packed = null
 	await get_tree().process_frame
@@ -3809,6 +3863,17 @@ func _unlock_daeun() -> void:
 		"daeun_shared_dream", 20)
 	_set_player_initiated("daeun")
 
+func _completion_surface(main_game: Node) -> Control:
+	if not is_instance_valid(main_game):
+		return null
+	var raw_surface: Variant = main_game.get("_core_loop_v2_completion")
+	return raw_surface as Control if raw_surface is Control else null
+
+func _completion_surface_is_open(surface: Control) -> bool:
+	return is_instance_valid(surface) \
+		and surface.has_method("is_open") \
+		and bool(surface.call("is_open"))
+
 func _find_meta_node(root: Node, meta_key: String) -> Node:
 	if not is_instance_valid(root):
 		return null
@@ -3819,6 +3884,26 @@ func _find_meta_node(root: Node, meta_key: String) -> Node:
 		if is_instance_valid(found):
 			return found
 	return null
+
+func _find_meta_node_with_value(
+		root: Node, meta_key: String, meta_value: Variant) -> Node:
+	if not is_instance_valid(root):
+		return null
+	if root.has_meta(meta_key) and root.get_meta(meta_key) == meta_value:
+		return root
+	for child in root.get_children():
+		var found := _find_meta_node_with_value(
+			child, meta_key, meta_value)
+		if is_instance_valid(found):
+			return found
+	return null
+
+func _meta_string_array(node: Node, meta_key: String) -> Array[String]:
+	if not is_instance_valid(node):
+		return []
+	var raw_values: Variant = node.get_meta(meta_key, [])
+	return _string_array(raw_values as Array) \
+		if raw_values is Array else []
 
 func _node_text(root: Node) -> String:
 	if not is_instance_valid(root):

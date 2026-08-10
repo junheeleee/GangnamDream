@@ -1,7 +1,8 @@
 extends Node
-## Fresh V2 entry preserves one causal opening and teaches the real monthly
-## planning board exactly once: prologue -> application Send -> interview ->
-## 125 years -> Chapter 1 -> planner -> tutorial.
+## Fresh V2 entry preserves one causal opening and teaches the real Seoul
+## Cycle board exactly once: prologue -> application Send -> interview ->
+## 125 years -> Chapter 1 -> Seoul board -> tutorial. Migrated saves still use
+## their original Month-One planner identity.
 
 const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
 const MAIN_GAME_SCENE := preload("res://scenes/MainGame.tscn")
@@ -45,11 +46,13 @@ func _run() -> void:
 		print(
 			"CORE_LOOP_V2_FIRST_ENTRY_CHECK_OK "
 			+ "order=prologue>application_send>interview>125_years>"
-			+ "chapter_33>planner>tutorial "
+			+ "chapter_33>seoul_board>tutorial "
 			+ "trigger=v2_application_send receipts=presented/consumed/no_replay "
 			+ "expression=2/state_free roots=adjacent "
 			+ "slides=3 locale=ko/en fresh=1 reentry=1 focus_restore=1 "
-			+ "episode_promises=2 input_leak=0 save_reshow=0 "
+			+ "cycle=capacity4/nodes4 input_leak=0 save_reshow=0 "
+			+ "save_editable=1 root_east_guard=1 turn_skip_guard=1 "
+			+ "surface_action_guard=tutorial+board "
 			+ "legacy_untouched=1")
 		get_tree().quit(0)
 		return
@@ -65,12 +68,16 @@ func _check_localized_tutorial_copy() -> void:
 	_expect(ko_slides.size() == 3,
 		"Korean V2 onboarding does not contain exactly three slides")
 	for required in [
-		"첫 달", "네 가지 약속", "두 가지", "중심 약속", "자동으로 편성",
-		"예기치 않은", "장면", "이달 시작",
+		"주간 여력 네 개", "숫자가 높을수록", "다시 굴리거나",
+		"사람·직업·생계·회복", "진전과 대가", "세계의 시간",
+		"실제 수행 장면", "대화의 성공", "취소 버튼",
 	]:
 		_expect(required in ko_text,
 			"Korean V2 onboarding lost required concept: %s" % required)
-	for retired in ["제안을 네 주에 놓기", "주로 할 일", "보조로 할 일", "최종 확인"]:
+	for retired in [
+		"네 가지 약속", "중심 약속", "이달 시작", "제안을 네 주에 놓기",
+		"주로 할 일", "보조로 할 일", "최종 확인",
+	]:
 		_expect(retired not in ko_text,
 			"Korean V2 onboarding still teaches retired Month-One work: %s" % retired)
 
@@ -80,12 +87,17 @@ func _check_localized_tutorial_copy() -> void:
 	_expect(en_slides.size() == 3,
 		"English V2 onboarding does not contain exactly three slides")
 	for required in [
-		"first month", "four promises", "two", "central promise",
-		"scheduled automatically", "unexpected", "scene", "Start Month",
+		"four weekly capacity pieces", "higher number", "cannot be rerolled",
+		"person, career", "livelihood, or recovery", "exact progress and cost",
+		"city's time", "actual performance scene", "relationship succeeds",
+		"cancel before commitment",
 	]:
 		_expect(required.to_lower() in en_text.to_lower(),
 			"English V2 onboarding lost required concept: %s" % required)
-	for retired in ["Place Offers Across Four Weeks", "Primary routines", "final review"]:
+	for retired in [
+		"four promises", "central promise", "Start Month",
+		"Place Offers Across Four Weeks", "Primary routines", "final review",
+	]:
 		_expect(retired.to_lower() not in en_text.to_lower(),
 			"English V2 onboarding still teaches retired Month-One work: %s" % retired)
 	_expect(not _contains_hangul(en_text),
@@ -471,59 +483,80 @@ func _check_fresh_and_reentry_flow() -> void:
 	_expect(bool(GameState.flags.get("chapter_33_seen", false)),
 		"Chapter 1 action did not set its canonical seen flag")
 
-	# Once the chapter action is complete, the same return path opens the wide
-	# monthly planner and layers the V2-specific tutorial over that real surface.
+	# Once the chapter action is complete, the same return path initializes the
+	# fresh-only Seoul Cycle and layers onboarding over that real full-screen
+	# board. It must not create the retired two-promise episode plan.
 	main_game._continue_after_story()
 	for _frame in range(6):
 		await get_tree().process_frame
-	var planner = main_game.get("_core_loop_planner")
+	var board = main_game.get("_seoul_cycle_board")
 	var tutorial := _find_tutorial(main_game)
-	_expect(is_instance_valid(planner) and planner.visible,
-		"first-month planning board did not open after Chapter 1")
+	_expect(is_instance_valid(board) and board.visible,
+		"fresh Month One did not enter the Seoul Cycle board after Chapter 1")
 	_expect(tutorial != null and int(tutorial.get("_slides").size()) == 3,
-		"V2 onboarding did not open as a three-slide overlay over the planner")
+		"V2 onboarding did not open as a three-slide overlay over the Seoul board")
 	_expect(not bool(GameState.flags.get("tutorial_shown", false)),
 		"V2 onboarding persisted its one-time flag before actual completion")
-	if not is_instance_valid(planner) or tutorial == null:
+	if not is_instance_valid(board) or tutorial == null:
 		_dispose(main_game)
 		return
 
 	var focus_owner := get_viewport().gui_get_focus_owner()
 	_expect(focus_owner != null and tutorial.is_ancestor_of(focus_owner),
-		"V2 onboarding did not trap focus above the planner")
+		"V2 onboarding did not trap focus above the Seoul board")
 	var restore_target := tutorial.get("_previous_focus") as Control
-	_expect(is_instance_valid(restore_target) and planner.is_ancestor_of(restore_target),
-		"V2 onboarding did not remember a planner control for focus restoration")
+	_expect(is_instance_valid(restore_target) and board.is_ancestor_of(restore_target),
+		"V2 onboarding did not remember a Seoul-board control for focus restoration")
 
 	_underlying_presses = 0
-	var offer_buttons: Dictionary = planner.get("_offer_buttons")
-	var expected_episode_offers := [
-		"m1_convenience_trial_shift",
-		"m1_youth_center_resume_clinic",
-		"father_first_call",
-		"m1_phone_off_sunday",
-	]
-	_expect(bool(CORE_LOOP.episode_selection_enabled(1)) \
-			and offer_buttons.size() == expected_episode_offers.size(),
-		"fresh Month-One planner did not open the four-promise episode surface")
-	for offer_id in expected_episode_offers:
-		_expect(offer_buttons.has(offer_id),
-			"fresh Month-One episode surface lost promise %s" % offer_id)
-	for hidden_id in [
-		"m1_mirae_application", "hyunsu_first_meet", "first_temptation_boss",
-	]:
-		_expect(not offer_buttons.has(hidden_id),
-			"fresh Month-One episode surface leaked hidden item %s" % hidden_id)
-	for raw_button in offer_buttons.values():
+	var node_buttons: Dictionary = board.get("_node_buttons")
+	var capacity_buttons: Dictionary = board.get("_die_buttons")
+	var snapshot := CORE_LOOP.seoul_cycle_snapshot(1)
+	var plan := CORE_LOOP.plan_for_month(1)
+	_expect(CORE_LOOP.plan_uses_seoul_cycle(plan) \
+			and not CORE_LOOP.plan_uses_episode_selection(plan) \
+			and node_buttons.size() == 4 and capacity_buttons.size() == 4 \
+			and (snapshot.get("allocation_receipts", {}) as Dictionary).is_empty(),
+		"fresh Month One did not initialize one untouched 4-capacity/4-node cycle")
+	for node_id in ["convenience", "resume", "father", "recovery"]:
+		_expect(node_buttons.has(node_id),
+			"fresh Seoul board lost node %s" % node_id)
+	for raw_button in node_buttons.values() + capacity_buttons.values():
 		var offer_button := raw_button as Button
 		if is_instance_valid(offer_button):
 			offer_button.pressed.connect(_on_underlying_planner_pressed)
-	var schedule_before: Dictionary = planner.schedule_snapshot()
-	var routines_before: Dictionary = planner.routine_snapshot()
+	var cycle_before: Dictionary = GameState.core_loop_v2_state.get(
+		"seoul_cycle", {}).duplicate(true)
 	var navigation_before := {
-		"active_surface": int(planner.get("_active_tab")),
-		"workflow_step": int(planner.get("_workflow_step")),
+		"focus_group": str(board.get_meta("seoul_cycle_focus_group", "")),
+		"focus_id": str(board.get_meta("seoul_cycle_focus_id", "")),
+		"selected_capacity": str(board.get_meta(
+			"seoul_cycle_selected_die_id", "")),
+		"selected_node": str(board.get_meta(
+			"seoul_cycle_selected_node_id", "")),
 	}
+	var tutorial_guard_turn := int(GameState.turn)
+	var tutorial_guard_modal_visible := bool(main_game.modal_layer.visible)
+	var tutorial_guard_modal_kind := str(main_game._modal_kind)
+	var tutorial_guard_focus := get_viewport().gui_get_focus_owner()
+	var tutorial_guard_ap := int(GameState.action_points)
+	GameState.action_points = 0
+	_send_semantic_action("gd_menu")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_send_semantic_action("gd_next_month")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	GameState.action_points = tutorial_guard_ap
+	_expect(GameState.turn == tutorial_guard_turn \
+			and bool(main_game.modal_layer.visible) \
+				== tutorial_guard_modal_visible \
+			and str(main_game._modal_kind) == tutorial_guard_modal_kind \
+			and GameState.core_loop_v2_state.get("seoul_cycle", {}) \
+				== cycle_before \
+			and _find_tutorial(main_game) == tutorial \
+			and get_viewport().gui_get_focus_owner() == tutorial_guard_focus,
+		"gd_menu or gd_next_month changed modal, turn, cycle, or focus behind V2 onboarding")
 	_send_phone_shortcut_key()
 	await get_tree().process_frame
 	await get_tree().process_frame
@@ -541,17 +574,17 @@ func _check_fresh_and_reentry_flow() -> void:
 		"North opened the phone or stole focus while the V2 tutorial was active")
 
 	_send_tab_key(KEY_E)
-	await _expect_tutorial_owns_planner_navigation(
-		planner, tutorial, navigation_before, "E")
+	await _expect_tutorial_owns_cycle_navigation(
+		board, tutorial, navigation_before, "E")
 	_send_tab_key(KEY_Q)
-	await _expect_tutorial_owns_planner_navigation(
-		planner, tutorial, navigation_before, "Q")
+	await _expect_tutorial_owns_cycle_navigation(
+		board, tutorial, navigation_before, "Q")
 	_send_tab_shoulder(JOY_BUTTON_RIGHT_SHOULDER)
-	await _expect_tutorial_owns_planner_navigation(
-		planner, tutorial, navigation_before, "right shoulder")
+	await _expect_tutorial_owns_cycle_navigation(
+		board, tutorial, navigation_before, "right shoulder")
 	_send_tab_shoulder(JOY_BUTTON_LEFT_SHOULDER)
-	await _expect_tutorial_owns_planner_navigation(
-		planner, tutorial, navigation_before, "left shoulder")
+	await _expect_tutorial_owns_cycle_navigation(
+		board, tutorial, navigation_before, "left shoulder")
 
 	_send_keyboard_accept()
 	await get_tree().process_frame
@@ -578,16 +611,16 @@ func _check_fresh_and_reentry_flow() -> void:
 	_expect(bool(GameState.flags.get("tutorial_shown", false)),
 		"completed V2 onboarding did not persist its one-time run flag")
 	_expect(_underlying_presses == 0 \
-			and planner.schedule_snapshot() == schedule_before \
-			and planner.routine_snapshot() == routines_before \
-			and int(planner.get("_active_tab")) \
-				== int(navigation_before["active_surface"]) \
-			and int(planner.get("_workflow_step")) \
-				== int(navigation_before["workflow_step"]),
-		"tutorial input changed the monthly plan or its underlying navigation")
+			and GameState.core_loop_v2_state.get("seoul_cycle", {}) \
+				== cycle_before \
+			and str(board.get_meta("seoul_cycle_selected_die_id", "")) \
+				== str(navigation_before["selected_capacity"]) \
+			and str(board.get_meta("seoul_cycle_selected_node_id", "")) \
+				== str(navigation_before["selected_node"]),
+		"tutorial input changed the Seoul Cycle allocation or selection")
 	var restored_focus := get_viewport().gui_get_focus_owner()
-	_expect(restored_focus != null and planner.is_ancestor_of(restored_focus),
-		"closing V2 onboarding did not restore focus to the planner")
+	_expect(restored_focus != null and board.is_ancestor_of(restored_focus),
+		"closing V2 onboarding did not restore focus to the Seoul board")
 
 	GameState.add_log("V2 first-entry QA", "system")
 	var post_tutorial_save: Dictionary = GameState.serialize().duplicate(true)
@@ -609,11 +642,79 @@ func _check_fresh_and_reentry_flow() -> void:
 	add_child(reloaded_main)
 	await get_tree().process_frame
 	await get_tree().process_frame
-	reloaded_main._core_loop_v2_open_planner(1)
+	var reopened_saved_plan := bool(
+		reloaded_main._core_loop_v2_open_saved_plan())
 	for _frame in range(4):
 		await get_tree().process_frame
-	_expect(_planner_is_visible(reloaded_main),
-		"saved first-month planner could not reopen")
+	var reloaded_board = reloaded_main.get("_seoul_cycle_board")
+	_expect(reopened_saved_plan \
+			and _board_is_visible(reloaded_main) \
+			and not bool(reloaded_board.get_meta(
+				"seoul_cycle_read_only", true)) \
+			and CORE_LOOP.plan_uses_seoul_cycle(CORE_LOOP.plan_for_month(1)),
+		"saved current-week Seoul board did not reopen editable")
+	var reloaded_close_button = reloaded_board.get("_close_button")
+	_expect(is_instance_valid(reloaded_close_button) \
+			and not bool(reloaded_close_button.visible),
+		"editable Seoul board exposed a close button before allocation")
+	_expect(str(reloaded_board.get_meta(
+			"seoul_cycle_selected_die_id", "")).is_empty() \
+			and str(reloaded_board.get_meta(
+				"seoul_cycle_selected_node_id", "")).is_empty(),
+		"saved unallocated Seoul board did not reopen at its root")
+
+	var east_guard_turn: int = int(GameState.turn)
+	var east_guard_week: int = int(GameState.week_of_month)
+	var east_guard_cycle: Dictionary = GameState.core_loop_v2_state.get(
+		"seoul_cycle", {}).duplicate(true)
+	_send_gamepad_east()
+	for _frame in range(3):
+		await get_tree().process_frame
+	_expect(_board_is_visible(reloaded_main) \
+			and not bool(reloaded_board.get_meta(
+				"seoul_cycle_read_only", true)) \
+			and GameState.turn == east_guard_turn \
+			and GameState.week_of_month == east_guard_week \
+			and GameState.core_loop_v2_state.get("seoul_cycle", {}) \
+				== east_guard_cycle \
+			and str(reloaded_board.get_meta(
+				"seoul_cycle_selected_die_id", "")).is_empty() \
+			and str(reloaded_board.get_meta(
+				"seoul_cycle_selected_node_id", "")).is_empty(),
+			"root East closed or changed an unallocated Seoul cycle week")
+	var board_guard_modal_visible := bool(reloaded_main.modal_layer.visible)
+	var board_guard_modal_kind := str(reloaded_main._modal_kind)
+	var board_guard_focus := get_viewport().gui_get_focus_owner()
+	var board_guard_ap := int(GameState.action_points)
+	GameState.action_points = 0
+	_send_semantic_action("gd_menu")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_send_semantic_action("gd_next_month")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	GameState.action_points = board_guard_ap
+	_expect(GameState.turn == east_guard_turn \
+			and GameState.week_of_month == east_guard_week \
+			and bool(reloaded_main.modal_layer.visible) \
+				== board_guard_modal_visible \
+			and str(reloaded_main._modal_kind) == board_guard_modal_kind \
+			and GameState.core_loop_v2_state.get("seoul_cycle", {}) \
+				== east_guard_cycle \
+			and get_viewport().gui_get_focus_owner() == board_guard_focus,
+		"gd_menu or gd_next_month changed modal, turn, cycle, or focus behind the Seoul board")
+
+	var advance_guard_state: Dictionary = GameState.serialize().duplicate(true)
+	reloaded_main._on_next_month()
+	for _frame in range(4):
+		await get_tree().process_frame
+	_expect(GameState.turn == east_guard_turn \
+			and GameState.week_of_month == east_guard_week \
+			and GameState.serialize() == advance_guard_state \
+			and _board_is_visible(reloaded_main) \
+			and not bool(reloaded_board.get_meta(
+				"seoul_cycle_read_only", true)),
+		"generic Next Week advanced or changed an unallocated Seoul cycle week")
 	_expect(_find_tutorial(reloaded_main) == null \
 			and not TutorialOverlay._seen.has(TUTORIAL_ID),
 		"saved V2 onboarding appeared a second time after reload")
@@ -625,6 +726,11 @@ func _check_fresh_and_reentry_flow() -> void:
 func _planner_is_visible(main_game: Node) -> bool:
 	var planner = main_game.get("_core_loop_planner")
 	return is_instance_valid(planner) and bool(planner.visible)
+
+
+func _board_is_visible(main_game: Node) -> bool:
+	var board = main_game.get("_seoul_cycle_board")
+	return is_instance_valid(board) and bool(board.visible)
 
 
 func _find_tutorial(parent: Node) -> TutorialOverlay:
@@ -697,6 +803,29 @@ func _send_phone_shortcut_north() -> void:
 	Input.parse_input_event(release)
 
 
+func _send_gamepad_east() -> void:
+	var press := InputEventJoypadButton.new()
+	press.device = 0
+	press.button_index = JOY_BUTTON_B
+	press.pressed = true
+	press.pressure = 1.0
+	Input.parse_input_event(press)
+	var release := press.duplicate() as InputEventJoypadButton
+	release.pressed = false
+	release.pressure = 0.0
+	Input.parse_input_event(release)
+
+
+func _send_semantic_action(action: String) -> void:
+	var press := InputEventAction.new()
+	press.action = action
+	press.pressed = true
+	Input.parse_input_event(press)
+	var release := press.duplicate() as InputEventAction
+	release.pressed = false
+	Input.parse_input_event(release)
+
+
 func _send_tab_key(keycode: Key) -> void:
 	var press := InputEventKey.new()
 	press.keycode = keycode
@@ -718,19 +847,19 @@ func _send_tab_shoulder(button_index: JoyButton) -> void:
 	Input.parse_input_event(release)
 
 
-func _expect_tutorial_owns_planner_navigation(
-		planner: Control, tutorial: TutorialOverlay,
+func _expect_tutorial_owns_cycle_navigation(
+		board: Control, tutorial: TutorialOverlay,
 		expected_navigation: Dictionary, input_name: String) -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 	var tutorial_focus := get_viewport().gui_get_focus_owner()
-	_expect(int(planner.get("_active_tab")) \
-			== int(expected_navigation.get("active_surface", -1)) \
-			and int(planner.get("_workflow_step")) \
-				== int(expected_navigation.get("workflow_step", -1)) \
+	_expect(str(board.get_meta("seoul_cycle_selected_die_id", "")) \
+			== str(expected_navigation.get("selected_capacity", "")) \
+			and str(board.get_meta("seoul_cycle_selected_node_id", "")) \
+				== str(expected_navigation.get("selected_node", "")) \
 			and tutorial_focus != null \
 			and tutorial.is_ancestor_of(tutorial_focus),
-		"%s switched the planner or stole focus behind V2 onboarding" \
+		"%s changed the Seoul board or stole focus behind V2 onboarding" \
 				% input_name)
 
 

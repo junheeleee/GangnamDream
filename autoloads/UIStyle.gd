@@ -349,6 +349,30 @@ func apply_grid_spacing(
 	grid.add_theme_constant_override("h_separation", horizontal)
 	grid.add_theme_constant_override("v_separation", vertical)
 
+## Route programmatic screen styling through the shared owner. Full-screen
+## components still choose their semantic tokens locally, but the mutation
+## points stay centralized instead of scattering raw theme overrides across
+## every layout call site.
+func override_constant(
+		control: Control, name: StringName, value: int) -> void:
+	if is_instance_valid(control):
+		control.add_theme_constant_override(name, value)
+
+func override_color(
+		control: Control, name: StringName, value: Color) -> void:
+	if is_instance_valid(control):
+		control.add_theme_color_override(name, value)
+
+func override_font_size(
+		control: Control, name: StringName, value: int) -> void:
+	if is_instance_valid(control):
+		control.add_theme_font_size_override(name, value)
+
+func override_stylebox(
+		control: Control, name: StringName, value: StyleBox) -> void:
+	if is_instance_valid(control) and value != null:
+		control.add_theme_stylebox_override(name, value)
+
 # ── 폰트 적용 유틸 ───────────────────────────────────────────────
 ## 범용 폰트 적용 — Label, Button, LineEdit, RichTextLabel 모두 지원
 func apply_font(node: Control, bold: bool = false):

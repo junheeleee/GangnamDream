@@ -418,57 +418,53 @@ static func _get_slides(game_id: String) -> Array:
 			return [
 				_localized_slide(
 					"goal",
-					"첫 달에 지킬 두 약속",
-					"Two Promises for the First Month",
+					"한 달에 네 번 쓸 수 있는 여력",
+					"Four Weeks of Capacity",
 					(
-						"첫 달에는 눈앞에 놓인 네 가지 약속 중 [b]두 가지[/b]를 고릅니다.\n\n"
-						+ "먼저 고른 것은 이번 달의 [b]중심 약속[/b],\n"
-						+ "두 번째는 함께 챙길 약속이 됩니다.\n\n"
-						+ "선택한 약속을 한 번 더 누르면 취소할 수 있습니다.\n"
-						+ "무엇을 챙겼는지뿐 아니라 무엇을 미뤘는지도 뒤에 남습니다."
+						"민준에게는 이번 달을 버틸 [b]주간 여력 네 개[/b]가 있습니다.\n"
+							+ "숫자가 높을수록 한 주에 더 많은 일을 밀어붙일 수 있습니다.\n\n"
+							+ "좋은 여력을 지금 써도 되고, 더 급한 주를 위해 남겨도 됩니다.\n"
+							+ "한 번 쓴 여력은 다시 굴리거나 되돌릴 수 없습니다."
 					),
 					(
-						"In the first month, choose [b]two[/b] of the four promises in front of Minjun.\n\n"
-						+ "The first becomes the month's [b]central promise[/b].\n"
-						+ "The second is the promise he will also keep.\n\n"
-						+ "Press a selected promise again to remove it.\n"
-						+ "What you postpone can leave a mark, too."
+						"Minjun has [b]four weekly capacity pieces[/b] for the month.\n"
+							+ "A higher number can push an obligation further in one week.\n\n"
+							+ "Spend a strong week now, or save it for something more urgent.\n"
+							+ "Once spent, a capacity piece cannot be rerolled or taken back."
 					)
 				),
 				_localized_slide(
 					"ap",
-					"계획 밖의 일도 찾아온다",
-					"Life Does Not Follow the Plan",
+					"같은 한 주를 두 곳에 쓸 수 없다",
+					"One Week Cannot Serve Two Places",
 					(
-						"첫 달에는 고른 두 약속이 이야기의 흐름에 맞춰 [b]자동으로 편성[/b]됩니다.\n"
-						+ "생계와 회복도 별도 표를 만들지 않아도 배경에서 이어집니다.\n\n"
-						+ "하지만 민준이 아직 모르는 사람과 사건은 일정표에 미리 적히지 않습니다.\n"
-						+ "예기치 않은 만남과 압박은 그 주가 왔을 때 찾아옵니다."
+						"아래에서 여력 하나를 고른 뒤, 서울 보드의 [b]사람·직업·생계·회복[/b] 중\n"
+							+ "한 곳에 놓습니다. 확정하기 전에는 늘어날 진전과 대가를 정확히 볼 수 있습니다.\n\n"
+							+ "다른 곳에 시간을 쓰는 동안에도 마감과 세계의 시간은 흐릅니다.\n"
+							+ "낮은 숫자도 실패로 되감기지 않고, 한 주의 흔적으로 남습니다."
 					),
 					(
-						"In the first month, the two promises are [b]scheduled automatically[/b]\n"
-						+ "to fit the story. Livelihood and recovery continue in the background.\n\n"
-						+ "People and dangers Minjun does not know about are never written into his plan.\n"
-						+ "Unexpected encounters and pressure arrive when their week comes."
+						"Choose one capacity piece below, then place it on one [b]person, career,\n"
+							+ "livelihood, or recovery[/b] node. Before confirming, you see the exact progress and cost.\n\n"
+							+ "Deadlines and the city's time keep moving while you work elsewhere.\n"
+							+ "Even a weak week moves forward and leaves a trace instead of resetting."
 					)
 				),
 				_localized_slide(
 					"health",
-					"장면에서 어떻게 할지 고른다",
-					"Choose How to Face Each Scene",
+					"클록이 차면 장면이 열린다",
+					"Progress Opens the Scene",
 					(
-						"월초에는 [b]무엇을 책임질지[/b] 고릅니다.\n"
-						+ "실제 장면에서는 어떻게 말하고, 일하고, 위기에 답할지 고릅니다.\n\n"
-						+ "가벼운 대답은 그 자리의 반응만 바꿀 수 있고,\n"
-						+ "중요한 선택은 뒤의 장면과 관계에 오래 남습니다.\n\n"
-						+ "두 약속을 고른 뒤 [b]이달 시작[/b]을 누르세요."
+						"한 일의 진행이 끝까지 차면 편의점 근무, 문서 작성, 통화 같은\n"
+							+ "[b]실제 수행 장면[/b]이 열립니다. 대화의 성공을 숫자로 판정하지는 않습니다.\n\n"
+							+ "방향키로 이동하고, 확인 버튼으로 고르며, 확정 전에는 취소 버튼으로 돌아갑니다.\n"
+							+ "민준이 모르는 만남과 위기는 그 주가 왔을 때 따로 찾아옵니다."
 					),
 					(
-						"At the start of the month, choose [b]what Minjun will take responsibility for[/b].\n"
-						+ "Inside each scene, choose how he speaks, works, and answers pressure.\n\n"
-						+ "A light reply may change only the immediate response.\n"
-						+ "A major decision can follow him into later scenes and relationships.\n\n"
-						+ "Choose two promises, then press [b]Start Month[/b]."
+						"Fill an obligation's progress to open its [b]actual performance scene[/b]:\n"
+							+ "a shift, a document, or a phone call. A number never decides whether a relationship succeeds.\n\n"
+							+ "Move with the directional controls, confirm to choose, and cancel before commitment.\n"
+							+ "Meetings and pressure Minjun cannot predict arrive when their week comes."
 					)
 				)
 			]

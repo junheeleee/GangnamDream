@@ -304,11 +304,11 @@ func _ready() -> void:
 			isolated_root, isolated_paths.size()])
 		var input_mode := "gamepad" \
 				if scope == QA_SCOPE_CORE_LOOP_V2_GAMEPAD else "keyboard"
-		var expected_lang := "ko" if input_mode == "gamepad" else "en"
-		var lang := _qa_language(expected_lang)
-		if lang != expected_lang:
-			_fail("Core Loop V2 %s route requires lang=%s, got %s." % [
-				input_mode, expected_lang, lang])
+		var month_one_only := _core_loop_v2_month_one_only()
+		var lang := _qa_language("ko")
+		if lang not in ["ko", "en"]:
+			_fail("Core Loop V2 %s route supports only lang=ko/en, got %s." % [
+				input_mode, lang])
 			return
 		# Capture every persistent surface before command-line QA options can write
 		# reduce-motion or locale settings.  This route may be launched from a
@@ -334,6 +334,10 @@ func _ready() -> void:
 		_route_semantic_events = 0
 		_route_unknown_events = 0
 		_core_loop_v2_save_events.clear()
+		var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+		if not await _assert_seoul_cycle_unmet_people_lock(core_loop):
+			return
+		GameState.start_new_game()
 		var save_listener := Callable(self, "_record_core_loop_v2_save")
 		if not SaveManager.save_completed.is_connected(save_listener):
 			SaveManager.save_completed.connect(save_listener)
@@ -1347,6 +1351,32 @@ func _qa_language(default_lang: String = "ko") -> String:
 			return "zh-TW"
 	return default_lang
 
+func _core_loop_v2_month_one_only() -> bool:
+	var args: Array[String] = []
+	for raw in OS.get_cmdline_user_args():
+		args.append(str(raw).strip_edges().to_lower())
+	for raw in OS.get_cmdline_args():
+		args.append(str(raw).strip_edges().to_lower())
+	for arg in args:
+		if arg in [
+				"--month-one-only", "month-one-only",
+				"--month_one_only", "month_one_only",
+			]:
+			return true
+	return false
+
+func _core_loop_v2_cycle_path() -> String:
+	var args: Array[String] = []
+	for raw in OS.get_cmdline_user_args():
+		args.append(str(raw).strip_edges().to_lower())
+	for raw in OS.get_cmdline_args():
+		args.append(str(raw).strip_edges().to_lower())
+	for arg in args:
+		for prefix in ["--cycle-path=", "cycle-path=", "--cycle_path=", "cycle_path="]:
+			if arg.begins_with(prefix):
+				return arg.trim_prefix(prefix).strip_edges()
+	return "integrated"
+
 func _write_chapter_saves_requested() -> bool:
 	var args: Array[String] = []
 	for raw in OS.get_cmdline_user_args():
@@ -1819,6 +1849,8 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		return
 
 	await _boot_main_game()
+	if not _assert_core_loop_v2_vignette_contract():
+		return
 	if not bool(_mg._core_loop_v2_open_planner(1, false)):
 		_fail("MainGame did not open the editable wide monthly planner.")
 		return
@@ -2222,7 +2254,10 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	await _shot_story_event(
 		"chapter_card_33", prefix + "10e_opening_chapter_card",
 		lang, 4.2)
-	await _shot_core_loop_v2_fresh_month_one_planner(lang, prefix)
+	await _shot_core_loop_v2_fresh_month_one_cycle(lang, prefix)
+	if _qa_failed:
+		return
+	await _shot_core_loop_v2_completion_recap_surface(lang, prefix)
 	if _qa_failed:
 		return
 
@@ -2256,6 +2291,208 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	await _shot_first_bill_finale_surfaces(lang, prefix)
 
 
+func _shot_core_loop_v2_completion_recap_surface(
+		lang: String, prefix: String) -> void:
+	_set_qa_language(lang)
+	GameState.start_new_game()
+	GameState.flags["prologue_done"] = true
+	GameState.turn = 25
+	GameState.month = 7
+	GameState.week_of_month = 1
+	GameState.money = 780_000.0
+	GameState.health = 61
+	GameState.mental = 47
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	core_loop.initialize_for_run(true)
+	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	state["completed_through_week"] = 24
+	state["prototype_complete"] = true
+	state["prototype_completed_at_turn"] = 25
+	state["completed_at_turn"] = 25
+	GameState.core_loop_v2_state = state
+	var allocations: Array = []
+	var month_summaries: Dictionary = {}
+	var decline_receipts: Array = []
+	var month_event_bundles := [
+		"m1_convenience_trial_shift", "m2_seorin_application",
+		"m3_hanbit_application", "m4_certificate_session",
+		"m5_city_service_application", "m6_last_study_group",
+	]
+	for turn_index in range(1, 25):
+		var week_index := posmod(turn_index - 1, 4) + 1
+		var month_index := int((turn_index - 1) / 4) + 1
+		var allocation := {
+			"turn": turn_index,
+			"month": month_index,
+			"week_index": week_index,
+			"node_id": "qa_recap_node_%d" % turn_index,
+			"label_ko": "앞날 준비 %d" % turn_index,
+			"label_en": "Future Step %d" % turn_index,
+			"capacity_value": posmod(turn_index, 6) + 1,
+			"progress_gain": 1,
+			"progress_after": 1,
+			"threshold": 3,
+			"completed_now": false,
+			"repeat_allocation": turn_index == 8,
+			"fallback_allocation": turn_index == 4,
+		}
+		allocations.append(allocation)
+		var month_key := str(month_index)
+		if not month_summaries.has(month_key):
+			month_summaries[month_key] = {
+				"month": month_index,
+				"fixed_expense": GameState.get_monthly_required_cash(),
+				"allocation_receipts": [],
+				"node_states": {},
+				"world_receipts": {
+					"qa_month_event": {
+						"status": "resolved",
+						"bundle_id": str(month_event_bundles[month_index - 1]),
+						"turn": month_index * 4 - 1,
+						"resolved_turn": month_index * 4 - 1,
+					},
+				},
+			}
+		var summary: Dictionary = month_summaries[month_key]
+		(summary["allocation_receipts"] as Array).append(
+			allocation.duplicate(true))
+		var node_states: Dictionary = summary["node_states"]
+		node_states[str(allocation["node_id"])] = {
+			"label_ko": str(allocation["label_ko"]),
+			"label_en": str(allocation["label_en"]),
+			"progress": 3 if week_index == 4 else week_index,
+			"threshold": 3,
+			"status": "completed" if week_index == 4 else "open",
+			"featured_status": "expired" \
+				if bool(allocation["fallback_allocation"]) else "open",
+		}
+		month_summaries[month_key] = summary
+		if week_index == 2:
+			decline_receipts.append({
+				"visible_month": month_index,
+				"message_ko": "%d개월차에 놓친 한 가지 약속" % month_index,
+				"message_en": "One missed commitment in Month %d" % month_index,
+			})
+	var completion_snapshot := {
+		"cycle_allocations": allocations,
+		"kept": [],
+		"forgone": [],
+		"decline_receipts": decline_receipts,
+		"temptation_branch": "refused_offer",
+		"cash_shortfall": 0.0,
+		"closing_state": {
+			"money": 1_234_567.0,
+			"fixed_expense": 312_345.0,
+			"health": 64,
+			"mental": 53,
+			"housing_id": "gosiwon",
+			"background_path": "",
+			"financial_rung": {
+				"kind": "wealth",
+				"current": 1_234_567.0,
+				"target": 3_000_000.0,
+				"remaining": 1_765_433.0,
+			},
+			"temptation_flags": {
+				"lent_account": false,
+				"escaped_dirty_money": false,
+				"fell_to_darkness": false,
+				"kept_clean_hands": true,
+			},
+		},
+		"month_summaries": month_summaries,
+		"obligation_receipts": {
+			"demo_collision": {
+				"selected_obligation_id": "body_rest",
+				"choice_index": 7,
+				"candidate_ids": [
+					"father_call", "city_work_sample", "body_rest"],
+				"deferred_obligation_ids": [
+					"father_call", "city_work_sample"],
+				"bundle_id": "demo_collision",
+				"event_id": "v2_demo_first_bill",
+				"turn": 24,
+			},
+		},
+		"application_statuses": {
+			"city_facility_ops_2026h1": "submitted",
+			"hanbit_ops_2026q1": "interviewed",
+		},
+		"relationship_stages": {},
+		"relationship_memories": [],
+	}
+	await _boot_main_game()
+	_mg.set_meta("_screenshot_qa_static_surface", true)
+	_mg.set_meta("_qa_core_loop_v2_autosave_result", false)
+	_mg.set_meta("_qa_core_loop_v2_completion_cap_week", 24)
+	_mg.set_meta(
+		"_qa_core_loop_v2_completion_snapshot",
+		completion_snapshot.duplicate(true))
+	ControllerHints.force_brand_for_qa(ControllerHints.Brand.PLAYSTATION)
+	_mg.call("_core_loop_v2_show_completion", true)
+	await _settle(0.30)
+	var completion := _find_visible_meta_control(
+		_mg, "core_loop_v2_completion_surface", true)
+	if not is_instance_valid(completion):
+		_fail("Core Loop V2 static 24-week completion recap did not open.")
+		return
+	# The component must remain an immutable Week-24 receipt even if a future
+	# chapter mutates the live HUD immediately after the recap is opened.
+	GameState.money = 9_876_543.0
+	GameState.health = 9
+	GameState.mental = 8
+	GameState.flags["lent_account"] = true
+	if not _assert_core_loop_v2_completion_snapshot_purity(
+			_mg, completion, completion_snapshot, lang, true):
+		return
+	if not _assert_core_loop_v2_completion_autosave_state(
+			_mg, completion, lang, false):
+		return
+	await _save(prefix + "10j_completion_autosave_retry", 0.05)
+	var completion_instance_id := int(completion.get_instance_id())
+	await _send_core_loop_v2_completion_raw("gamepad", "south")
+	await _settle(0.08)
+	completion = _find_visible_meta_control(
+		_mg, "core_loop_v2_completion_surface", true)
+	if not is_instance_valid(completion) \
+			or int(completion.get_instance_id()) != completion_instance_id \
+			or not _assert_core_loop_v2_completion_autosave_state(
+				_mg, completion, lang, false):
+		if not _qa_failed:
+			_fail("Core Loop V2 failed-autosave South input escaped its retry gate.")
+		return
+	_mg.set_meta("_qa_core_loop_v2_autosave_result", true)
+	await _send_core_loop_v2_completion_raw("gamepad", "south")
+	await _settle(0.12)
+	completion = _find_visible_meta_control(
+		_mg, "core_loop_v2_completion_surface", true)
+	if not is_instance_valid(completion) \
+			or int(completion.get_instance_id()) != completion_instance_id \
+			or not _assert_core_loop_v2_completion_autosave_state(
+				_mg, completion, lang, true):
+		if not _qa_failed:
+			_fail("Core Loop V2 autosave retry did not unlock the terminal summary.")
+		return
+	await _save(prefix + "10k_completion_summary", 0.05)
+	if not await _assert_core_loop_v2_completion_surface(
+			_mg, completion, lang, "gamepad", prefix):
+		return
+	if not await _assert_core_loop_v2_legacy_completion_missing_metrics(
+			_mg, completion, completion_snapshot, lang, prefix):
+		return
+	if not await _assert_core_loop_v2_old_completion_component_fallbacks(
+			_mg, completion, completion_snapshot, lang, prefix):
+		return
+	await _send_core_loop_v2_completion_raw("gamepad", "south")
+	await _settle(0.10)
+	if is_instance_valid(_find_visible_meta_control(
+			_mg, "core_loop_v2_completion_surface", true)):
+		_fail("Core Loop V2 successful static South input did not finish the recap.")
+		return
+	ControllerHints.clear_qa_override()
+	await _dispose_main_game()
+
+
 func _capture_core_loop_v2_activity_category_tutorial(
 		planner: Control, prefix: String) -> void:
 	var schedule_before: Dictionary = planner.schedule_snapshot()
@@ -2273,12 +2510,12 @@ func _capture_core_loop_v2_activity_category_tutorial(
 	await _settle(0.20)
 	var tutorial_text := _collect_control_text(overlay)
 	var expected_copy := [
-		LocaleManager.ui("계획 밖의 일도 찾아온다", "Life Does Not Follow the Plan"),
-		LocaleManager.ui("고른 두 약속", "the two promises"),
-		LocaleManager.ui("자동으로 편성", "scheduled automatically"),
-		LocaleManager.ui("생계와 회복", "Livelihood and recovery"),
-		LocaleManager.ui("민준이 아직 모르는", "Minjun does not know"),
-		LocaleManager.ui("예기치 않은 만남과 압박", "Unexpected encounters and pressure"),
+		LocaleManager.ui("같은 한 주를 두 곳에 쓸 수 없다", "One Week Cannot Serve Two Places"),
+		LocaleManager.ui("여력 하나", "one capacity piece"),
+		LocaleManager.ui("사람·직업·생계·회복", "person, career"),
+		LocaleManager.ui("진전과 대가", "exact progress and cost"),
+		LocaleManager.ui("세계의 시간", "city's time"),
+		LocaleManager.ui("실패로 되감기지 않고", "instead of resetting"),
 	]
 	for expected in expected_copy:
 		if str(expected) not in tutorial_text:
@@ -2292,7 +2529,7 @@ func _capture_core_loop_v2_activity_category_tutorial(
 		_fail("Core Loop V2 activity-category tutorial is clipped at %s." % [
 			get_viewport().get_visible_rect().size])
 		return
-	await _save(prefix + "00_month_one_episode_tutorial", 0.05)
+	await _save(prefix + "00_seoul_cycle_tutorial", 0.05)
 	_remove_nodes_by_script("res://scenes/TutorialOverlay.gd")
 	await _settle(0.10)
 	if planner.schedule_snapshot() != schedule_before \
@@ -2368,7 +2605,7 @@ func _capture_core_loop_v2_cafe_recovery_offer(
 		_fail("The Month Two café capture changed the original monthly plan or run state.")
 
 
-func _shot_core_loop_v2_fresh_month_one_planner(
+func _shot_core_loop_v2_fresh_month_one_cycle(
 		lang: String, prefix: String) -> void:
 	_set_qa_language(lang)
 	GameState.start_new_game()
@@ -2381,7 +2618,7 @@ func _shot_core_loop_v2_fresh_month_one_planner(
 	GameState.flags["tutorial_shown"] = true
 	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
 	if not bool(core_loop.initialize_for_run(true)):
-		_fail("Core Loop V2 fresh planner fixture could not initialize.")
+		_fail("Core Loop V2 fresh Seoul Cycle fixture could not initialize.")
 		return
 	var send_event: Dictionary = DataRegistry.find_event(
 		core_loop.OPENING_APPLICATION_EVENT_ID)
@@ -2397,7 +2634,7 @@ func _shot_core_loop_v2_fresh_month_one_planner(
 				send_event, send_choices[0] as Dictionary) \
 			or not core_loop.note_story_choice(
 				core_loop.OPENING_APPLICATION_EVENT_ID, 0):
-		_fail("Core Loop V2 fresh planner fixture could not commit Send.")
+		_fail("Core Loop V2 fresh Seoul Cycle fixture could not commit Send.")
 		return
 	core_loop.prepare_story_bundle(core_loop.OPENING_INTERVIEW_BUNDLE_ID)
 	if not GameState.apply_choice(
@@ -2407,82 +2644,266 @@ func _shot_core_loop_v2_fresh_month_one_planner(
 				calculation, calculation_choices[0] as Dictionary) \
 			or not core_loop.note_story_choice(
 				"v2_opening_return_math", 0):
-		_fail("Core Loop V2 fresh planner fixture could not finish its opening.")
+		_fail("Core Loop V2 fresh Seoul Cycle fixture could not finish its opening.")
 		return
 	core_loop.restore_story_bundle_followups()
 	if core_loop.complete_active_bundle() \
 			!= core_loop.OPENING_INTERVIEW_BUNDLE_ID:
-		_fail("Core Loop V2 fresh planner fixture could not consume its opening.")
+		_fail("Core Loop V2 fresh Seoul Cycle fixture could not consume its opening.")
 		return
 
+	var initialized: Dictionary = core_loop.initialize_seoul_cycle(1)
+	if not bool(initialized.get("ok", false)) \
+			or not core_loop.plan_uses_seoul_cycle(core_loop.plan_for_month(1)):
+		_fail("Core Loop V2 fresh Month One did not initialize Seoul Cycle: %s." % [
+			str(initialized)])
+		return
 	await _boot_main_game()
-	if not bool(_mg._core_loop_v2_open_planner(1, false)):
-		_fail("Core Loop V2 did not open the post-interview Month-One planner.")
+	if not bool(_mg._core_loop_v2_open_seoul_cycle_board(false)):
+		_fail("Core Loop V2 did not open the post-interview Seoul board.")
 		return
 	await _settle(0.28)
-	var planner := _mg._core_loop_planner as Control
-	if not bool(planner.call("episode_selection_mode")):
-		_fail("Core Loop V2 fresh Month One did not open the episode selection surface.")
+	var board := _mg._seoul_cycle_board as Control
+	if not _assert_seoul_cycle_board_surface(board, "fresh empty cycle", lang, false):
 		return
-	var offer_buttons: Dictionary = planner._offer_buttons
-	var expected_offer_ids := [
-		"m1_convenience_trial_shift",
-		"m1_youth_center_resume_clinic",
-		"father_first_call",
-		"m1_phone_off_sunday",
-	]
-	if offer_buttons.size() != 4 \
-			or offer_buttons.has("m1_mirae_application") \
-			or offer_buttons.has("hyunsu_first_meet") \
-			or offer_buttons.has("first_temptation_boss"):
-		_fail("Core Loop V2 fresh planner did not expose exactly four known promises: %s." % [
-			str(offer_buttons.keys())])
+	if not _assert_seoul_cycle_marker_context(
+			"fresh empty cycle", false,
+			SceneTransition.PLAYTEST_MARKER_CONTEXT_PLANNER):
 		return
-	for offer_id in expected_offer_ids:
-		if not offer_buttons.has(offer_id):
-			_fail("Core Loop V2 fresh planner lost known promise %s." % offer_id)
-			return
-	if not planner.schedule_snapshot().is_empty():
-		_fail("Core Loop V2 fresh planner exposed an automatic future before two choices.")
+	await _save(prefix + "10e_opening_seoul_cycle", 0.05)
+
+	var capacity_buttons: Dictionary = board.get("_die_buttons")
+	var node_buttons: Dictionary = board.get("_node_buttons")
+	var capacities: Array = core_loop.seoul_cycle_snapshot(1).get("capacities", [])
+	if capacities.size() != 4:
+		_fail("Fresh Seoul Cycle did not expose four saved capacities.")
 		return
-	await _save(prefix + "10e_opening_first_planner", 0.05)
-	(offer_buttons[expected_offer_ids[0]] as Button).pressed.emit()
-	(offer_buttons[expected_offer_ids[1]] as Button).pressed.emit()
-	await _settle(0.12)
-	var expected_schedule := {
-		"1": expected_offer_ids[0],
-		"2": expected_offer_ids[1],
-		"3": "hyunsu_first_meet",
-		"4": "first_temptation_boss",
-	}
-	if planner.episode_commitment_snapshot() != expected_offer_ids.slice(0, 2) \
-			or planner.schedule_snapshot() != expected_schedule:
-		_fail("Core Loop V2 did not turn two ordered promises into the deterministic month: %s / %s." % [
-			str(planner.episode_commitment_snapshot()),
-			str(planner.schedule_snapshot()),
-		])
+	var capacity_id := str((capacities[0] as Dictionary).get("id", ""))
+	var capacity_button := capacity_buttons.get(capacity_id) as Button
+	var recovery_button := node_buttons.get("recovery") as Button
+	if not is_instance_valid(capacity_button) or not is_instance_valid(recovery_button):
+		_fail("Fresh Seoul Cycle cannot reach its first capacity and recovery node.")
 		return
-	await _save(prefix + "10f_opening_two_promises", 0.05)
-	var commit_result: Dictionary = core_loop.commit_episode_selection(
-		1, planner.episode_commitment_snapshot())
+	capacity_button.pressed.emit()
+	await _settle(0.08)
+	recovery_button.grab_focus()
+	await get_tree().process_frame
+	if not _assert_seoul_cycle_preview_full_label(
+			board, "recovery", lang):
+		return
+	var expected_preview: Dictionary = core_loop.preview_seoul_cycle_allocation(
+		capacity_id, "recovery", 1)
+	if str(board.get_meta("seoul_cycle_selected_die_id", "")) != capacity_id \
+			or not str(board.get_meta("seoul_cycle_selected_node_id", "")).is_empty() \
+			or str(board.get_meta("seoul_cycle_focus_id", "")) != "recovery" \
+			or int(board.get_meta("seoul_cycle_preview_progress_delta", 0)) \
+				!= int(expected_preview.get("progress_gain", -1)):
+		_fail("Seoul Cycle focus changed selection or previewed a different gain.")
+		return
+	await _save(prefix + "10f_seoul_cycle_capacity_preview", 0.05)
+	recovery_button.pressed.emit()
+	await _settle(0.10)
+	var commit_button := board.get("_commit_button") as Button
+	if not is_instance_valid(commit_button) or commit_button.disabled \
+			or str(board.get_meta("seoul_cycle_selected_node_id", "")) != "recovery":
+		_fail("Seoul Cycle exact preview did not unlock one explicit commit action.")
+		return
+	await _save(prefix + "10g_seoul_cycle_ready", 0.05)
+
+	var commit_result: Dictionary = core_loop.commit_seoul_cycle_allocation(
+		capacity_id, "recovery", 1)
 	if not bool(commit_result.get("ok", false)):
-		_fail("Core Loop V2 fresh episode plan could not commit for read-only capture.")
+		_fail("Seoul Cycle recovery allocation could not commit for after-state capture.")
 		return
-	planner.close()
-	if not bool(_mg._core_loop_v2_open_planner(1, true)):
-		_fail("Core Loop V2 committed episode plan could not reopen read-only.")
+	board.refresh(_mg._core_loop_v2_cycle_surface_snapshot())
+	await _settle(0.16)
+	if int(board.get_meta("seoul_cycle_remaining_effort_count", -1)) != 3 \
+			or int(board.get_meta("seoul_cycle_world_clock", -1)) != 1:
+		_fail("Seoul Cycle after-state did not show one spent capacity and one city tick.")
+		return
+	await _save(prefix + "10h_seoul_cycle_after_allocation", 0.05)
+	# Reuse the real Plan action while the mandatory current-week board remains
+	# open. Closing it would correctly resume the week; reopening the same saved
+	# plan in place must instead switch to its receipt-only view.
+	if not bool(_mg._core_loop_v2_open_saved_plan()):
+		_fail("Committed Seoul Cycle could not reopen through the real Plan action.")
 		return
 	await _settle(0.16)
-	var read_only_text := _collect_control_text(planner)
+	board = _mg._seoul_cycle_board as Control
+	if not _assert_seoul_cycle_board_surface(board, "read-only cycle", lang, true):
+		return
+	if not _assert_seoul_cycle_marker_context(
+			"read-only cycle", false,
+			SceneTransition.PLAYTEST_MARKER_CONTEXT_PLANNER):
+		return
+	var read_only_text := _collect_control_text(board)
 	for hidden_future in [
 		"현수", "공용 주방", "모르는 번호", "HYUNSU", "SHARED KITCHEN",
 		"UNKNOWN NUMBER",
 	]:
 		if hidden_future.to_lower() in read_only_text.to_lower():
-			_fail("Month-One read-only plan revealed a future event before its week: %s." % hidden_future)
+			_fail("Month-One Seoul board revealed a future event before its week: %s." % hidden_future)
 			return
-	await _save(prefix + "10g_opening_plan_read_only", 0.05)
+	await _save(prefix + "10i_seoul_cycle_read_only", 0.05)
+	board.close()
+	# close() restores the persistent badge synchronously. MainGame may then
+	# defer the still-mandatory current-week board and hide it again on the next
+	# frame, so inspect the close boundary before yielding to that valid reopen.
+	if not _assert_seoul_cycle_marker_context(
+			"closed cycle", true,
+			SceneTransition.PLAYTEST_MARKER_CONTEXT_DEFAULT):
+		return
 	await _dispose_main_game()
+
+
+func _assert_seoul_cycle_marker_context(
+		context: String, expected_visible: bool,
+		expected_context: String) -> bool:
+	var marker := SceneTransition.get("_playtest_marker") as Control
+	var actual_context := str(SceneTransition.get(
+		"_playtest_marker_context"))
+	if not is_instance_valid(marker) \
+			or marker.visible != expected_visible \
+			or actual_context != expected_context:
+		_fail("Core Loop V2 %s playtest marker context is unsafe: visible=%s context=%s expected=%s/%s." % [
+			context,
+			str(marker.visible) if is_instance_valid(marker) else "missing",
+			actual_context, str(expected_visible), expected_context])
+		return false
+	return true
+
+
+func _assert_seoul_cycle_board_surface(
+		board: Control, context: String, lang: String, expected_read_only: bool) -> bool:
+	if not is_instance_valid(board) or not board.is_visible_in_tree() \
+			or not bool(board.get_meta("seoul_cycle_board", false)) \
+			or bool(board.get_meta("seoul_cycle_read_only", false)) \
+				!= expected_read_only:
+		_fail("Core Loop V2 %s Seoul board is absent or has wrong mode." % context)
+		return false
+	var viewport_rect := get_viewport().get_visible_rect().grow(1.0)
+	var controls: Array[Control] = [
+		board,
+		board.get("_header_panel") as Control,
+		board.get("_map_panel") as Control,
+		board.get("_preview_panel") as Control,
+		board.get("_effort_panel") as Control,
+		board.get("_commit_button") as Control,
+	]
+	for control in controls:
+		if not is_instance_valid(control) or not control.is_visible_in_tree() \
+				or not viewport_rect.encloses(control.get_global_rect()) \
+				or not _control_inside_clipping_ancestors(control):
+			_fail("Core Loop V2 %s escaped or clipped the viewport: %s." % [
+				context, control.name if is_instance_valid(control) else "missing"])
+			return false
+	var node_buttons: Dictionary = board.get("_node_buttons")
+	var capacity_buttons: Dictionary = board.get("_die_buttons")
+	if node_buttons.size() != 4 or capacity_buttons.size() != 4 \
+			or int(board.get_meta("seoul_cycle_week_of_month", 0)) not in range(1, 5):
+		_fail("Core Loop V2 %s lost four nodes/capacities or a valid week." % context)
+		return false
+	for raw_button in node_buttons.values() + capacity_buttons.values():
+		var button := raw_button as Button
+		if not is_instance_valid(button) or not button.is_visible_in_tree() \
+				or not viewport_rect.encloses(button.get_global_rect()):
+			_fail("Core Loop V2 %s has an off-screen board target." % context)
+			return false
+	var snapshot_raw: Variant = board.get("_snapshot")
+	var node_parts_raw: Variant = board.get("_node_parts")
+	if not snapshot_raw is Dictionary or not node_parts_raw is Dictionary:
+		_fail("Core Loop V2 %s cannot expose its card-label receipt." % context)
+		return false
+	var snapshot: Dictionary = snapshot_raw
+	var node_parts: Dictionary = node_parts_raw
+	var snapshot_nodes: Dictionary = snapshot.get("nodes", {})
+	for raw_node_id in node_buttons:
+		var node_id := str(raw_node_id)
+		var raw_node: Variant = snapshot_nodes.get(node_id, {})
+		var raw_parts: Variant = node_parts.get(node_id, {})
+		if not raw_node is Dictionary or not raw_parts is Dictionary:
+			_fail("Core Loop V2 %s lost authored card data for %s." % [
+				context, node_id])
+			return false
+		var node: Dictionary = raw_node
+		var parts: Dictionary = raw_parts
+		var title := parts.get("title") as Label
+		var expected_card_label := str(node.get(
+			"board_label_ko" if lang == "ko" else "board_label_en", ""
+		)).strip_edges()
+		if not is_instance_valid(title) or expected_card_label.is_empty() \
+				or title.text != expected_card_label \
+				or "…" in title.text or title.text.ends_with("..."):
+			_fail("Core Loop V2 %s card %s did not render its exact short label: expected=%s actual=%s." % [
+				context, node_id, expected_card_label,
+				title.text if is_instance_valid(title) else "missing"])
+			return false
+		var title_font := title.get_theme_font("font")
+		var title_font_size := title.get_theme_font_size("font_size")
+		var title_width := title_font.get_string_size(
+			title.text, HORIZONTAL_ALIGNMENT_LEFT, -1.0,
+			title_font_size).x
+		if title_width > title.size.x + 0.5:
+			_fail("Core Loop V2 %s card %s still ellipsizes its short label: text=%.1fpx slot=%.1fpx." % [
+				context, node_id, title_width, title.size.x])
+			return false
+	if not board.find_children("*", "ScrollContainer", true, false).is_empty():
+		_fail("Core Loop V2 %s introduced a scroll surface on the decision board." % context)
+		return false
+	var surface_text := _collect_control_text(board)
+	var remaining_capacity := int(board.get_meta(
+		"seoul_cycle_remaining_effort_count", -1))
+	for required in (
+		[
+			"서울의 네 주", "2026년 1월 · 1주차", "도시 시간",
+			"배치 미리보기", "이번 달 남은 여력 · %d/4" % remaining_capacity,
+		]
+		if lang == "ko" else
+		[
+			"FOUR WEEKS IN SEOUL", "2026.01 · WEEK 1", "CITY CLOCK",
+			"ALLOCATION PREVIEW",
+			"MONTHLY CAPACITY LEFT · %d/4" % remaining_capacity,
+		]
+	):
+		if str(required).to_lower() not in surface_text.to_lower():
+			_fail("Core Loop V2 %s omitted visible board copy %s." % [context, required])
+			return false
+	var exact_cash := "498,800원" if lang == "ko" else "498,800 won"
+	if exact_cash not in surface_text:
+		_fail("Core Loop V2 %s abbreviated its exact won balance instead of showing %s." % [
+			context, exact_cash])
+		return false
+	if lang == "en" and _contains_hangul(surface_text):
+		_fail("Core Loop V2 %s leaked Hangul on the English Seoul board." % context)
+		return false
+	return true
+
+
+func _assert_seoul_cycle_preview_full_label(
+		board: Control, node_id: String, lang: String) -> bool:
+	var snapshot_raw: Variant = board.get("_snapshot")
+	if not snapshot_raw is Dictionary:
+		_fail("Seoul Cycle full-label preview has no snapshot.")
+		return false
+	var raw_node: Variant = (snapshot_raw as Dictionary).get(
+		"nodes", {}).get(node_id, {})
+	if not raw_node is Dictionary:
+		_fail("Seoul Cycle full-label preview cannot find %s." % node_id)
+		return false
+	var node: Dictionary = raw_node
+	var full_label := str(node.get(
+		"label_ko" if lang == "ko" else "label_en", "")).strip_edges()
+	var short_label := str(node.get(
+		"board_label_ko" if lang == "ko" else "board_label_en", ""
+	)).strip_edges()
+	var preview := board.get("_preview_choice_label") as Label
+	if not is_instance_valid(preview) or full_label.is_empty() \
+			or short_label.is_empty() or full_label not in preview.text:
+		_fail("Seoul Cycle %s preview did not preserve the full authored label: short=%s full=%s actual=%s." % [
+			node_id, short_label, full_label,
+			preview.text if is_instance_valid(preview) else "missing"])
+		return false
+	return true
 
 func _shot_first_bill_finale_surfaces(_lang: String, prefix: String) -> void:
 	# The finale never has eight simultaneous candidates. Render three valid
@@ -7406,6 +7827,8 @@ func _max_consecutive_strings(values: Array[String]) -> Dictionary:
 	return {"value": best_value, "count": best_count}
 
 func _record_core_loop_v2_save(success: bool, slot: int) -> void:
+	var cycle: Dictionary = GameState.core_loop_v2_state.get(
+		"seoul_cycle", {})
 	_core_loop_v2_save_events.append({
 		"success": success,
 		"slot": slot,
@@ -7414,11 +7837,24 @@ func _record_core_loop_v2_save(success: bool, slot: int) -> void:
 			"completed_through_week", 0)),
 		"prototype_complete": bool(GameState.core_loop_v2_state.get(
 			"prototype_complete", false)),
+		"cycle_allocation_count": (
+			cycle.get("allocation_receipts", {}) as Dictionary).size(),
+		"cycle_completed_turns": (
+			cycle.get("completed_turns", []) as Array).duplicate(),
+		"cycle_pending_trigger": str((cycle.get(
+			"pending_trigger", {}) as Dictionary).get("bundle_id", "")),
+		"cycle_pending_world": str((cycle.get(
+			"pending_world", {}) as Dictionary).get("bundle_id", "")),
 	})
 
 func _run_core_loop_v2_input_route(
 		lang: String, input_mode: String) -> bool:
 	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	var month_one_only := _core_loop_v2_month_one_only()
+	var cycle_path := _core_loop_v2_cycle_path()
+	if cycle_path not in ["integrated", "livelihood", "people", "recovery"]:
+		_fail("Unknown Seoul Cycle input path: %s." % cycle_path)
+		return false
 	var planner_months_seen: Dictionary = {}
 	var committed_months: Dictionary = {}
 	var month_summaries_seen: Dictionary = {}
@@ -7428,6 +7864,7 @@ func _run_core_loop_v2_input_route(
 	var tutorial_planner_before: Dictionary = {}
 	var tutorial_state_verified := false
 	var action_result_confirms: Dictionary = {}
+	var result_confirm_instances: Dictionary = {}
 	var transient_confirms_seen: Dictionary = {}
 	var story_sequence: Array[Dictionary] = []
 	var last_story_key := ""
@@ -7447,9 +7884,21 @@ func _run_core_loop_v2_input_route(
 	var commitment_task_inputs := 0
 	var commitment_task_completions := 0
 	var review_edit_wiring_checked := false
+	var cycle_allocations := 0
+	var cycle_navigation_checked := false
+	var cycle_cancel_checked := false
+	var w22_world_guard_started := false
+	var w22_world_receipt_seen := false
 
 	for _step in range(50000):
 		await get_tree().create_timer(0.012).timeout
+		if w22_world_guard_started:
+			w22_world_receipt_seen = w22_world_receipt_seen \
+				or _seoul_cycle_has_resolved_world_receipt(
+					core_loop, 22, "m6_gangnam_receipt_walk")
+			if int(GameState.turn) > 22 and not w22_world_receipt_seen:
+				_fail("Core Loop V2 advanced past Week 22 before its claimed Gangnam world receipt resolved.")
+				return false
 		var scene := get_tree().current_scene
 		if not is_instance_valid(scene):
 			continue
@@ -7492,6 +7941,9 @@ func _run_core_loop_v2_input_route(
 						bool(GameState.flags.get("mindset_investor", false)),
 						bool(GameState.flags.get("mindset_founder", false)),
 					]
+				if event_id == "arc_temptation_01" and int(GameState.turn) == 4:
+					story_record["seoul_cycle_echo"] = str(
+						core_loop.month_one_episode_echo())
 				story_sequence.append(story_record)
 				print("CORE_LOOP_V2_INPUT_STORY device=%s week=%d id=%s" % [
 					input_mode, int(GameState.turn), event_id])
@@ -7678,16 +8130,17 @@ func _run_core_loop_v2_input_route(
 						return false
 					tutorial_instance_id = current_tutorial_instance
 					tutorial_state_before = GameState.serialize().duplicate(true)
-					var tutorial_planner := _find_visible_core_loop_v2_planner(scene)
-					if not is_instance_valid(tutorial_planner):
-						_fail("Core Loop V2 onboarding did not sit above the real Month-One planner.")
+					var tutorial_board := _find_visible_seoul_cycle_board(scene)
+					if not is_instance_valid(tutorial_board):
+						_fail("Core Loop V2 onboarding did not sit above the real Seoul Cycle board.")
 						return false
 					tutorial_planner_before = {
-						"schedule": tutorial_planner.call("schedule_snapshot"),
-						"routines": tutorial_planner.call("routine_snapshot"),
-						"active_tab": int(tutorial_planner.get("_active_tab")),
-						"workflow_step": int(tutorial_planner.get("_workflow_step")),
-						"review_pending": bool(tutorial_planner.call("review_pending")),
+						"cycle": GameState.core_loop_v2_state.get(
+							"seoul_cycle", {}).duplicate(true),
+						"selected_capacity": str(tutorial_board.get_meta(
+							"seoul_cycle_selected_die_id", "")),
+						"selected_node": str(tutorial_board.get_meta(
+							"seoul_cycle_selected_node_id", "")),
 					}
 				elif tutorial_instance_id != current_tutorial_instance:
 					_fail("Core Loop V2 onboarding opened more than once.")
@@ -7724,23 +8177,127 @@ func _run_core_loop_v2_input_route(
 						or tutorial_state_after != tutorial_state_before:
 					_fail("Core Loop V2 onboarding changed state beyond its completed flag.")
 					return false
-				var tutorial_planner := _find_visible_core_loop_v2_planner(scene)
+				var tutorial_board := _find_visible_seoul_cycle_board(scene)
 				var tutorial_planner_after := {
-					"schedule": tutorial_planner.call("schedule_snapshot") \
-						if is_instance_valid(tutorial_planner) else {},
-						"routines": tutorial_planner.call("routine_snapshot") \
-							if is_instance_valid(tutorial_planner) else {},
-						"active_tab": int(tutorial_planner.get("_active_tab")) \
-							if is_instance_valid(tutorial_planner) else -1,
-						"workflow_step": int(tutorial_planner.get("_workflow_step")) \
-							if is_instance_valid(tutorial_planner) else -1,
-						"review_pending": bool(tutorial_planner.call("review_pending")) \
-						if is_instance_valid(tutorial_planner) else true,
+					"cycle": GameState.core_loop_v2_state.get(
+						"seoul_cycle", {}).duplicate(true),
+					"selected_capacity": str(tutorial_board.get_meta(
+						"seoul_cycle_selected_die_id", "")) \
+						if is_instance_valid(tutorial_board) else "missing",
+					"selected_node": str(tutorial_board.get_meta(
+						"seoul_cycle_selected_node_id", "")) \
+						if is_instance_valid(tutorial_board) else "missing",
 				}
 				if tutorial_planner_after != tutorial_planner_before:
-					_fail("Core Loop V2 onboarding changed the underlying plan, workflow step, or review state.")
+					_fail("Core Loop V2 onboarding changed the underlying Seoul Cycle state or selection.")
 					return false
 				tutorial_state_verified = true
+
+			var cycle_board := _find_visible_seoul_cycle_board(scene)
+			if is_instance_valid(cycle_board):
+				var cycle_month := int(core_loop.month_for_turn(GameState.turn))
+				var month_start_turn := ((cycle_month - 1) * 4) + 1
+				var month_end_turn := cycle_month * 4
+				planner_months_seen[cycle_month] = true
+				committed_months[cycle_month] = true
+				if not core_loop.plan_uses_seoul_cycle(
+						core_loop.plan_for_month(cycle_month)):
+					_fail("Fresh Month %d board does not own a seoul_cycle_v1 plan." % cycle_month)
+					return false
+				if int(GameState.turn) < month_start_turn \
+						or int(GameState.turn) > month_end_turn:
+					_fail("Seoul Cycle board for Month %d leaked to Week %d." % [
+						cycle_month, GameState.turn])
+					return false
+				var cycle_snapshot: Dictionary = core_loop.seoul_cycle_snapshot(
+					cycle_month)
+				var allocation_receipts: Dictionary = cycle_snapshot.get(
+					"allocation_receipts", {})
+				if allocation_receipts.has(str(GameState.turn)):
+					if bool(scene.get("_seoul_cycle_allocation_in_flight")) \
+							or bool(cycle_board.get_meta(
+								"seoul_cycle_allocation_in_flight", false)):
+						continue
+					_fail("Seoul Cycle remained interactive after Week %d was already allocated." % GameState.turn)
+					return false
+				if not cycle_navigation_checked:
+					if not await _assert_seoul_cycle_raw_navigation(
+							cycle_board, input_mode):
+						return false
+					cycle_navigation_checked = true
+				var node_id := _seoul_cycle_input_node_for_turn(
+					core_loop, cycle_snapshot, int(GameState.turn), cycle_path)
+				var capacity_id := _seoul_cycle_input_capacity_for_turn(
+					cycle_snapshot, int(GameState.turn), cycle_path, node_id)
+				var capacity_button := _find_visible_meta_value_button(
+					cycle_board, "seoul_cycle_die_id", capacity_id)
+				var node_button := _find_visible_meta_value_button(
+					cycle_board, "seoul_cycle_node_id", node_id)
+				if capacity_button == null or node_button == null:
+					_fail("Week %d cannot reach Seoul Cycle %s with capacity %s." % [
+						GameState.turn, node_id, capacity_id])
+					return false
+				await _activate_route_control(capacity_button, input_mode)
+				if str(cycle_board.get_meta(
+						"seoul_cycle_selected_die_id", "")) != capacity_id:
+					_fail("Week %d South did not select exactly one capacity." % GameState.turn)
+					return false
+				if not cycle_cancel_checked:
+					await _send_seoul_cycle_cancel(input_mode)
+					if not str(cycle_board.get_meta(
+							"seoul_cycle_selected_die_id", "")).is_empty() \
+							or not cycle_board.is_visible_in_tree():
+						_fail("East did not cancel the pending capacity without closing the board.")
+						return false
+					await _activate_route_control(capacity_button, input_mode)
+				await _activate_route_control(node_button, input_mode)
+				var commit_button := _find_visible_meta_button(
+					cycle_board, "allocation_commit_button")
+				if commit_button == null \
+						or str(cycle_board.get_meta(
+							"seoul_cycle_selected_node_id", "")) != node_id:
+					_fail("Week %d node selection did not expose one commit target." % GameState.turn)
+					return false
+				if not cycle_cancel_checked:
+					await _send_seoul_cycle_cancel(input_mode)
+					if str(cycle_board.get_meta(
+							"seoul_cycle_selected_die_id", "")) != capacity_id \
+							or not str(cycle_board.get_meta(
+								"seoul_cycle_selected_node_id", "")).is_empty():
+						_fail("East did not step back from node confirmation to capacity selection.")
+						return false
+					await _activate_route_control(node_button, input_mode)
+					commit_button = _find_visible_meta_button(
+						cycle_board, "allocation_commit_button")
+					cycle_cancel_checked = true
+				var turn_before_commit := int(GameState.turn)
+				if turn_before_commit == 22:
+					if w22_world_guard_started:
+						_fail("Core Loop V2 reached the Week-22 allocation guard more than once.")
+						return false
+					w22_world_guard_started = true
+					if not await _activate_cycle_commit_with_world_guard(
+							commit_button, input_mode, core_loop, 22,
+							"m6_gangnam_receipt_walk"):
+						return false
+				else:
+					await _activate_route_control(commit_button, input_mode)
+				cycle_allocations += 1
+				await get_tree().process_frame
+				var after_allocation: Dictionary = core_loop.seoul_cycle_snapshot(
+					cycle_month)
+				var receipt: Dictionary = (after_allocation.get(
+					"allocation_receipts", {}) as Dictionary).get(
+					str(turn_before_commit), {})
+				if str(receipt.get("capacity_id", "")) != capacity_id \
+						or str(receipt.get("node_id", "")) != node_id \
+						or int(receipt.get("turn", 0)) != turn_before_commit:
+					_fail("Week %d board commit did not persist its exact allocation receipt." % turn_before_commit)
+					return false
+				print("CORE_LOOP_V2_CYCLE_INPUT device=%s lang=%s month=%d week=%d node=%s capacity=%s value=%d" % [
+					input_mode, lang, cycle_month, turn_before_commit, node_id, capacity_id,
+					int(receipt.get("capacity_value", 0))])
+				continue
 
 			var planner := _find_visible_core_loop_v2_planner(scene)
 			if is_instance_valid(planner):
@@ -8034,7 +8591,7 @@ func _run_core_loop_v2_input_route(
 				continue
 
 			var completion := _find_visible_meta_control(
-				scene, "core_loop_v2_completion", true)
+				scene, "core_loop_v2_completion_surface", true)
 			if is_instance_valid(completion):
 				var visible_completion_id := int(completion.get_instance_id())
 				signature += ":completion:%d:%s" % [
@@ -8046,6 +8603,13 @@ func _run_core_loop_v2_input_route(
 					_fail("Core Loop V2 completion recap opened a second surface instance.")
 					return false
 				if not completion_checked:
+					if not w22_world_guard_started \
+							or not w22_world_receipt_seen:
+						_fail("Core Loop V2 completion did not prove the Week-22 allocation→world receipt turn barrier.")
+						return false
+					if not await _assert_core_loop_v2_completion_surface(
+							scene, completion, lang, input_mode):
+						return false
 					if not _assert_core_loop_v2_input_completion(
 							scene, story_sequence, planner_months_seen,
 							committed_months, month_summaries_seen,
@@ -8053,7 +8617,8 @@ func _run_core_loop_v2_input_route(
 							action_result_confirms, offer_intents,
 							week_commits, side_shift_inputs,
 							commitment_task_inputs,
-							commitment_task_completions):
+							commitment_task_completions,
+							cycle_allocations):
 						return false
 					await _save("core_loop_v2_%s_%s_week_24_completion" % [
 						lang, input_mode], 0.0)
@@ -8088,6 +8653,18 @@ func _run_core_loop_v2_input_route(
 				var modal := scene.get("modal_layer") as Control
 				var summary_month := int(modal.get_meta(
 					"core_loop_v2_month", 0)) if is_instance_valid(modal) else 0
+				if month_one_only:
+					if summary_month != 1 \
+							or not _assert_seoul_cycle_month_one_path(
+								core_loop, cycle_path, story_sequence,
+								cycle_allocations) \
+							or not _assert_core_loop_v2_input_purity(input_mode):
+						return false
+					await _save("seoul_cycle_%s_%s_%s_month_end" % [
+						lang, input_mode, cycle_path], 0.0)
+					print("CORE_LOOP_V2_MONTH_ONE_PATH_OK device=%s lang=%s path=%s weeks=4 allocations=4 world=w3+w4 trigger_expiry=verified routines=suppressed input=raw" % [
+						input_mode, lang, cycle_path])
+					return true
 				if summary_month < 1 or summary_month > 5 \
 						or month_summaries_seen.has(summary_month):
 					_fail("Core Loop V2 month notebook repeated or mislabeled: %d." % summary_month)
@@ -8099,14 +8676,49 @@ func _run_core_loop_v2_input_route(
 			var result_confirm := _find_visible_meta_button(
 				scene, "ap_result_confirm")
 			if result_confirm != null:
-				var result_owner := str(GameState.core_loop_v2_state.get(
-					"active_bundle", ""))
-				if result_owner.is_empty() \
-						or int(action_result_confirms.get(result_owner, 0)) != 0:
-					_fail("Core Loop V2 action result has an empty or duplicate owner at Week %d: %s." % [
-						int(GameState.turn), result_owner])
+				var result_instance_id := int(
+					result_confirm.get_instance_id())
+				if result_confirm_instances.has(result_instance_id):
+					_fail("Core Loop V2 exposed the same result-confirm instance twice instead of replacing its stale button: %s." % [
+						str(result_confirm_instances[result_instance_id])])
 					return false
-				action_result_confirms[result_owner] = 1
+				var result_owner := str(GameState.core_loop_v2_state.get(
+					"active_bundle", "")).strip_edges()
+				result_confirm_instances[result_instance_id] = {
+					"turn": int(GameState.turn),
+					"owner": result_owner,
+				}
+				if result_owner.is_empty():
+					# A cycle action also writes the ordinary weekly commitment.
+					# Once its owned V2 result has been acknowledged, MainGame may
+					# show that already-completed commitment's scene recap. It uses
+					# the same button metadata but intentionally has no active bundle.
+					# Permit only that durable receipt-backed recap; an ownerless live
+					# V2 action result is still a hard failure.
+					var weekly_record := GameState.get_weekly_commitment_for_turn(
+						int(GameState.turn))
+					var weekly_details: Dictionary = weekly_record.get(
+						"details", {}) if weekly_record.get(
+							"details", {}) is Dictionary else {}
+					if bool(core_loop.action_result_ready()) \
+							or str(weekly_details.get("execution", "")) \
+								!= "seoul_cycle" \
+							or str(weekly_details.get("node_id", "")).is_empty():
+						_fail("Core Loop V2 action result lost its receipt owner at Week %d: %s." % [
+							int(GameState.turn), str(weekly_record)])
+						return false
+				else:
+					var action_receipt: Dictionary = core_loop.action_receipt(
+						result_owner)
+					if action_receipt.is_empty() \
+							or int(action_receipt.get("turn", 0)) \
+								!= int(GameState.turn) \
+							or int(action_result_confirms.get(
+								result_owner, 0)) != 0:
+						_fail("Core Loop V2 action result has no unique same-week receipt at Week %d: %s / %s." % [
+							int(GameState.turn), result_owner, str(action_receipt)])
+						return false
+					action_result_confirms[result_owner] = 1
 				await _activate_route_control(result_confirm, input_mode)
 				continue
 
@@ -8171,8 +8783,8 @@ func _run_core_loop_v2_input_route(
 				return false
 			if not _assert_core_loop_v2_input_purity(input_mode):
 				return false
-			print("CORE_LOOP_V2_INPUT_OK device=%s lang=%s weeks=24 plans=6 offer_intents=%d week_commits=%d side_shift_inputs=%d commitment_task_inputs=%d commitment_task_completions=%d tutorial=3 first_bill=1/1/1 hyunsu=1 autosave=1 title_return=1 mixed=0 story_events=%d keyboard_events=%d mouse_events=%d gamepad_events=%d semantic_events=%d unknown_events=%d saves=%d" % [
-				input_mode, lang, offer_intents, week_commits,
+			print("CORE_LOOP_V2_INPUT_OK device=%s lang=%s weeks=24 plans=6 cycle_allocations=%d offer_intents=%d week_commits=%d side_shift_inputs=%d commitment_task_inputs=%d commitment_task_completions=%d tutorial=3 locked_node=1 trigger_expiry=audited w22_world_barrier=1 first_bill=1/1/1 hyunsu=1 autosave=1 title_return=1 mixed=0 story_events=%d keyboard_events=%d mouse_events=%d gamepad_events=%d semantic_events=%d unknown_events=%d saves=%d" % [
+				input_mode, lang, cycle_allocations, offer_intents, week_commits,
 				side_shift_inputs, commitment_task_inputs,
 				commitment_task_completions,
 				story_sequence.size(), _route_keyboard_events,
@@ -8213,6 +8825,539 @@ func _find_core_loop_v2_tutorial(root: Node) -> Control:
 func _find_visible_core_loop_v2_planner(root: Node) -> Control:
 	var control := _find_visible_meta_control(root, "core_loop_v2_planner", true)
 	return control if is_instance_valid(control) and control.is_visible_in_tree() else null
+
+
+func _find_visible_seoul_cycle_board(root: Node) -> Control:
+	var control := _find_visible_meta_control(root, "seoul_cycle_board", true)
+	return control if is_instance_valid(control) and control.is_visible_in_tree() else null
+
+
+func _assert_seoul_cycle_unmet_people_lock(core_loop: Variant) -> bool:
+	var target_month := 0
+	var target_node_id := ""
+	for month_index in range(2, 7):
+		GameState.start_new_game()
+		GameState.flags["prologue_done"] = true
+		if not bool(core_loop.initialize_for_run(true)):
+			continue
+		var seeded_state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+		seeded_state["application_statuses"][
+			"mirae_industrial_tech"] = "interviewed"
+		GameState.core_loop_v2_state = seeded_state
+		var enrolled := true
+		# A later Seoul Cycle is available only to the same run that actually
+		# enrolled in the prior month. Seed that durable chain through the public
+		# initializer instead of bypassing the production gate with a turn jump.
+		for enrolled_month in range(1, month_index + 1):
+			GameState.turn = ((enrolled_month - 1) * 4) + 1
+			GameState.month = enrolled_month
+			GameState.week_of_month = 1
+			var enrollment: Dictionary = core_loop.initialize_seoul_cycle(
+				enrolled_month)
+			if not bool(enrollment.get("ok", false)):
+				enrolled = false
+				break
+		if not enrolled:
+			continue
+		var available: Array = core_loop.available_offer_ids(month_index)
+		var month_spec: Dictionary = core_loop.seoul_cycle_month_spec(month_index)
+		for raw_node_id in (month_spec.get("nodes", {}) as Dictionary):
+			var node_id := str(raw_node_id)
+			var node: Dictionary = (month_spec.get(
+				"nodes", {}) as Dictionary).get(node_id, {})
+			var raw_options: Variant = node.get("trigger_options", [])
+			if not bool(node.get("disable_without_trigger", false)) \
+					or not raw_options is Array \
+					or (raw_options as Array).is_empty():
+				continue
+			var any_option_available := false
+			for raw_bundle_id in raw_options:
+				if available.has(str(raw_bundle_id)):
+					any_option_available = true
+					break
+			if not any_option_available:
+				target_month = month_index
+				target_node_id = node_id
+				break
+		if target_month > 0:
+			break
+	if target_month == 0 or target_node_id.is_empty():
+		_fail("Seoul Cycle has no conditional people-node fixture whose trigger options are all unmet.")
+		return false
+
+	var snapshot: Dictionary = core_loop.seoul_cycle_snapshot(target_month)
+	var locked_node: Dictionary = (snapshot.get(
+		"nodes", {}) as Dictionary).get(target_node_id, {})
+	if str(locked_node.get("trigger_bundle", "")) != "" \
+			or str(locked_node.get("status", "")) != "locked" \
+			or not bool(locked_node.get("disable_without_trigger", false)):
+		_fail("All-unmet conditional people node did not initialize locked: %s." % [
+			str(locked_node)])
+		return false
+
+	var saved_state: Dictionary = GameState.serialize().duplicate(true)
+	var saved_capacities: Array = snapshot.get("capacities", []).duplicate(true)
+	GameState.start_new_game()
+	GameState.load_from_dict(saved_state)
+	core_loop.initialize_for_run()
+	var reloaded_snapshot: Dictionary = core_loop.seoul_cycle_snapshot(
+		target_month)
+	var reloaded_locked: Dictionary = (reloaded_snapshot.get(
+		"nodes", {}) as Dictionary).get(target_node_id, {})
+	if reloaded_snapshot.get("capacities", []) != saved_capacities \
+			or str(reloaded_locked.get("status", "")) != "locked" \
+			or not str(reloaded_locked.get("trigger_bundle", "")).is_empty():
+		_fail("Save roundtrip rerolled or unlocked an all-unmet people node.")
+		return false
+
+	var board_script = load("res://scenes/SeoulCycleBoard.gd")
+	var board := board_script.new() as Control
+	add_child(board)
+	var board_opened := bool(board.call("open", reloaded_snapshot, false))
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var node_buttons: Dictionary = board.get("_node_buttons")
+	var locked_button := node_buttons.get(target_node_id) as Button
+	if not board_opened or not is_instance_valid(locked_button) \
+			or not locked_button.disabled \
+			or locked_button.focus_mode != Control.FOCUS_NONE:
+		_fail("All-unmet people node remained selectable on the Seoul board.")
+		if is_instance_valid(board):
+			board.call("close")
+			remove_child(board)
+			board.free()
+		return false
+	board.call("close")
+	remove_child(board)
+	board.free()
+	await get_tree().process_frame
+
+	var capacities: Array = reloaded_snapshot.get("capacities", [])
+	if capacities.is_empty() or not capacities[0] is Dictionary:
+		_fail("Unmet people-node fixture has no capacity to protect.")
+		return false
+	var capacity_id := str((capacities[0] as Dictionary).get("id", ""))
+	var rejection_state: Dictionary = GameState.serialize().duplicate(true)
+	var rejected_preview: Dictionary = core_loop.preview_seoul_cycle_allocation(
+		capacity_id, target_node_id, target_month)
+	var rejected_commit: Dictionary = core_loop.commit_seoul_cycle_allocation(
+		capacity_id, target_node_id, target_month)
+	if bool(rejected_preview.get("ok", false)) \
+			or bool(rejected_commit.get("ok", false)) \
+			or GameState.serialize() != rejection_state:
+		_fail("Selecting an all-unmet people node consumed capacity or changed state.")
+		return false
+
+	var fallback_node_id := ""
+	for raw_node_id in (reloaded_snapshot.get("nodes", {}) as Dictionary):
+		var node_id := str(raw_node_id)
+		if node_id == target_node_id:
+			continue
+		var preview: Dictionary = core_loop.preview_seoul_cycle_allocation(
+			capacity_id, node_id, target_month)
+		if bool(preview.get("ok", false)):
+			fallback_node_id = node_id
+			break
+	if fallback_node_id.is_empty():
+		_fail("Unmet people-node fixture has no valid alternative allocation.")
+		return false
+	var fallback_commit: Dictionary = core_loop.commit_seoul_cycle_allocation(
+		capacity_id, fallback_node_id, target_month)
+	var fallback_receipt: Dictionary = fallback_commit.get("receipt", {})
+	var weekly_commitment: Dictionary = fallback_receipt.get(
+		"weekly_commitment", {})
+	var commitment_details: Dictionary = weekly_commitment.get("details", {})
+	for raw_forgone in commitment_details.get("forgone_nodes", []):
+		if raw_forgone is Dictionary \
+				and str((raw_forgone as Dictionary).get("node_id", "")) \
+					== target_node_id:
+			_fail("Locked all-unmet people node leaked into forgone opportunity copy.")
+			return false
+	if not bool(fallback_commit.get("ok", false)):
+		_fail("Unmet people-node fixture could not commit its valid alternative.")
+		return false
+	print("CORE_LOOP_V2_LOCKED_NODE_OK month=%d node=%s save=roundtrip capacity_loss=0 forgone=excluded" % [
+		target_month, target_node_id])
+	return true
+
+
+func _seoul_cycle_input_node_for_turn(
+		core_loop: Variant, snapshot: Dictionary,
+		turn: int, cycle_path: String) -> String:
+	var month_index := int(snapshot.get("month", 1))
+	var nodes: Dictionary = snapshot.get("nodes", {})
+	var candidates: Array[String] = []
+	if month_index == 1:
+		var preferred_node_id := ""
+		match cycle_path:
+			"livelihood":
+				preferred_node_id = "convenience"
+			"people":
+				preferred_node_id = "father" if turn <= 2 else (
+					"recovery" if turn == 3 else "convenience")
+			"recovery":
+				preferred_node_id = "recovery"
+			_:
+				match turn:
+					1:
+						preferred_node_id = "convenience"
+					2:
+						preferred_node_id = "recovery"
+					3:
+						preferred_node_id = "father"
+					_:
+						preferred_node_id = "recovery"
+		if not preferred_node_id.is_empty():
+			candidates.append(preferred_node_id)
+	else:
+		var wanted: Array = CORE_LOOP_V2_INPUT_PLANS.get(month_index, [])
+		# Later months present the same four-node board, but each authored node may
+		# resolve one of several causal offers. Preserve the release route's ordered
+		# priorities, then accept only a capacity/node pair the production preview
+		# says can make progress in this exact week. This matters for W2-only nodes:
+		# choosing their label during W1 would otherwise strand the raw-input route.
+		for raw_bundle_id in wanted:
+			var bundle_id := str(raw_bundle_id)
+			for raw_node_id in nodes:
+				var node_id := str(raw_node_id)
+				var node: Dictionary = nodes.get(node_id, {})
+				if str(node.get("trigger_bundle", "")) == bundle_id \
+						and str(node.get("status", "open")) \
+							not in ["completed", "expired", "locked"] \
+						and not candidates.has(node_id):
+					candidates.append(node_id)
+		# A no-trigger recovery node is the deterministic fallback after the chosen
+		# authored obligations have closed. This keeps every fourth-week receipt
+		# explicit instead of inventing a calendar offer.
+		for raw_node_id in nodes:
+			var node_id := str(raw_node_id)
+			var node: Dictionary = nodes.get(node_id, {})
+			if str(node.get("owner", "")) == "self" \
+					and str(node.get("status", "open")) \
+						not in ["completed", "expired", "locked"] \
+					and not candidates.has(node_id):
+				candidates.append(node_id)
+		var fallback_ids: Array[String] = []
+		for raw_node_id in nodes:
+			var node_id := str(raw_node_id)
+			var status := str((nodes.get(node_id, {}) as Dictionary).get(
+				"status", "open"))
+			if status not in ["expired", "awaiting_trigger", "locked"]:
+				fallback_ids.append(node_id)
+		fallback_ids.sort()
+		for node_id in fallback_ids:
+			if not candidates.has(node_id):
+				candidates.append(node_id)
+	for node_id in candidates:
+		var capacity_id := _seoul_cycle_input_capacity_for_turn(
+			snapshot, turn, cycle_path, node_id)
+		if capacity_id.is_empty():
+			continue
+		var preview: Dictionary = core_loop.preview_seoul_cycle_allocation(
+			capacity_id, node_id, month_index)
+		if bool(preview.get("ok", false)):
+			return node_id
+	return ""
+
+
+func _seoul_cycle_input_capacity_for_turn(
+		snapshot: Dictionary, turn: int, cycle_path: String,
+		node_id: String = "") -> String:
+	var available: Array[Dictionary] = []
+	for raw_capacity in snapshot.get("capacities", []):
+		if raw_capacity is Dictionary \
+				and not bool((raw_capacity as Dictionary).get("consumed", false)):
+			available.append((raw_capacity as Dictionary).duplicate(true))
+	if available.is_empty():
+		return ""
+	# Week One spends the strongest piece on livelihood. Week Three keeps enough
+	# capacity to complete Father on the same week Hyunsu arrives. The other two
+	# weeks spend the weakest remaining piece on recovery.
+	var prefer_high := turn in [1, 3]
+	if int(snapshot.get("month", 1)) > 1:
+		var node: Dictionary = (snapshot.get("nodes", {}) as Dictionary).get(
+			node_id, {})
+		prefer_high = not str(node.get("trigger_bundle", "")).is_empty()
+	elif cycle_path in ["livelihood", "people"]:
+		prefer_high = turn == 2
+	elif cycle_path == "recovery":
+		prefer_high = false
+	available.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		return int(a.get("value", 0)) > int(b.get("value", 0)) \
+			if prefer_high else int(a.get("value", 0)) < int(b.get("value", 0)))
+	return str(available[0].get("id", ""))
+
+
+func _assert_seoul_cycle_month_one_path(
+		core_loop: Variant, cycle_path: String,
+		story_sequence: Array[Dictionary], cycle_allocations: int) -> bool:
+	var state: Dictionary = GameState.core_loop_v2_state
+	var cycle: Dictionary = state.get("seoul_cycle", {})
+	var allocations: Dictionary = cycle.get("allocation_receipts", {})
+	var expected_nodes: Array[String] = []
+	match cycle_path:
+		"livelihood":
+			expected_nodes = [
+				"convenience", "convenience", "convenience", "convenience"]
+		"people":
+			expected_nodes = [
+				"father", "father", "recovery", "convenience"]
+		"recovery":
+			expected_nodes = ["recovery", "recovery", "recovery", "recovery"]
+		_:
+			_fail("Month-One contrast QA cannot audit path %s." % cycle_path)
+			return false
+	if int(GameState.turn) != 5 or int(GameState.month) != 2 \
+			or int(GameState.week_of_month) != 1:
+		_fail("Seoul Cycle Month One did not close at the live Week-Five boundary: turn=%d month=%d week=%d." % [
+			int(GameState.turn), int(GameState.month), int(GameState.week_of_month)])
+		return false
+	if cycle_allocations != 4 or allocations.size() != 4 \
+			or cycle.get("completed_turns", []) != [1, 2, 3, 4] \
+			or state.get("completed_turns", []) != [1, 2, 3, 4] \
+			or int(cycle.get("world_clock", 0)) != 4 \
+			or not (cycle.get("pending_trigger", {}) as Dictionary).is_empty() \
+			or not (cycle.get("pending_world", {}) as Dictionary).is_empty() \
+			or not str(state.get("active_bundle", "")).is_empty():
+		_fail("Seoul Cycle Month One did not settle four allocations and both fixed world beats exactly once: %s." % [
+			str(cycle)])
+		return false
+	var consumed_capacities := 0
+	for raw_capacity in cycle.get("capacities", []):
+		if raw_capacity is Dictionary \
+				and bool((raw_capacity as Dictionary).get("consumed", false)):
+			consumed_capacities += 1
+	if (cycle.get("capacities", []) as Array).size() != 4 \
+			or consumed_capacities != 4:
+		_fail("Seoul Cycle Month One did not consume exactly four visible capacity pieces.")
+		return false
+	for turn in range(1, 5):
+		var raw_receipt: Variant = allocations.get(str(turn), {})
+		if not raw_receipt is Dictionary:
+			_fail("Seoul Cycle path %s has no allocation receipt for Week %d." % [
+				cycle_path, turn])
+			return false
+		var receipt: Dictionary = raw_receipt
+		var before: Dictionary = receipt.get("before", {})
+		var after: Dictionary = receipt.get("after", {})
+		var effects: Dictionary = receipt.get("effects", {})
+		if str(receipt.get("status", "")) != "turn_completed" \
+				or str(receipt.get("planning_mode", "")) \
+					!= core_loop.SEOUL_CYCLE_MODE \
+				or int(receipt.get("turn", 0)) != turn \
+				or str(receipt.get("node_id", "")) != expected_nodes[turn - 1] \
+				or str(receipt.get("capacity_id", "")).is_empty() \
+				or int(receipt.get("capacity_value", 0)) <= 0:
+			_fail("Seoul Cycle path %s Week %d allocation drifted: %s." % [
+				cycle_path, turn, str(receipt)])
+			return false
+		for key in ["money", "health", "mental"]:
+			var expected_delta := float(effects.get(key, 0.0))
+			var actual_delta := float(after.get(key, 0.0)) \
+				- float(before.get(key, 0.0))
+			if not is_equal_approx(actual_delta, expected_delta):
+				_fail("Seoul Cycle path %s Week %d hid %s outside its allocation receipt: before=%s after=%s effects=%s." % [
+					cycle_path, turn, key, str(before), str(after), str(effects)])
+				return false
+
+	var routines_raw: Variant = state.get("routine_receipts", {})
+	if not routines_raw is Dictionary or (routines_raw as Dictionary).size() != 4:
+		_fail("Fresh Seoul Cycle did not write four explicit suppressed routine receipts.")
+		return false
+	for turn in range(1, 5):
+		var routine_raw: Variant = (routines_raw as Dictionary).get(str(turn), {})
+		if not routine_raw is Dictionary:
+			_fail("Fresh Seoul Cycle is missing its Week %d suppressed routine receipt." % turn)
+			return false
+		var routine: Dictionary = routine_raw
+		if str(routine.get("status", "")) != "suppressed" \
+				or str(routine.get("planning_mode", "")) \
+					!= core_loop.SEOUL_CYCLE_MODE \
+				or routine.get("effects", {}) != {} \
+				or routine.get("units", []) != []:
+			_fail("Fresh Seoul Cycle Week %d retained hidden background changes: %s." % [
+				turn, str(routine)])
+			return false
+
+	var plan: Dictionary = core_loop.plan_for_month(1)
+	if not core_loop.plan_uses_seoul_cycle(plan) \
+			or plan.get("schedule", {}) != {}:
+		_fail("Fresh Month One was reinterpreted as a legacy weekly schedule.")
+		return false
+	var trigger_receipts: Dictionary = cycle.get("trigger_receipts", {})
+	var expiry_receipts: Dictionary = cycle.get("expiry_receipts", {})
+	var expected_trigger_node := "convenience" \
+		if cycle_path == "livelihood" else (
+			"father" if cycle_path == "people" else "")
+	if trigger_receipts.size() != (0 if expected_trigger_node.is_empty() else 1):
+		_fail("Seoul Cycle path %s resolved unexpected node triggers: %s." % [
+			cycle_path, str(trigger_receipts)])
+		return false
+	if not expected_trigger_node.is_empty():
+		var trigger: Dictionary = trigger_receipts.get(expected_trigger_node, {})
+		var expected_bundle := "m1_convenience_trial_shift" \
+			if expected_trigger_node == "convenience" else "father_first_call"
+		if str(trigger.get("status", "")) != "resolved" \
+				or str(trigger.get("bundle_id", "")) != expected_bundle \
+				or int(trigger.get("turn", 0)) != 2:
+			_fail("Seoul Cycle path %s did not resolve its focused node exactly once in Week Two: %s." % [
+				cycle_path, str(trigger)])
+			return false
+	var trigger_expiry: Dictionary = expiry_receipts.get(
+		"convenience:trigger", {})
+	var expects_livelihood_trigger_expiry := cycle_path in ["people", "recovery"]
+	if expects_livelihood_trigger_expiry:
+		var convenience_node: Dictionary = (cycle.get(
+			"nodes", {}) as Dictionary).get("convenience", {})
+		var expiry_before: Dictionary = trigger_expiry.get("before", {})
+		var expiry_after: Dictionary = trigger_expiry.get("after", {})
+		var expiry_effects: Dictionary = trigger_expiry.get("effects", {})
+		if str(trigger_expiry.get("scope", "")) != "trigger" \
+				or str(trigger_expiry.get("status", "")) != "consumed" \
+				or str(trigger_expiry.get("node_id", "")) != "convenience" \
+				or str(trigger_expiry.get("trigger_bundle", "")) \
+					!= "m1_convenience_trial_shift" \
+				or str(trigger_expiry.get("consequence_id", "")).is_empty() \
+				or int(trigger_expiry.get("turn", 0)) != 3 \
+				or int(trigger_expiry.get("week_index", 0)) != 3 \
+				or int(convenience_node.get("progress", -1)) != 0 \
+				or not bool(convenience_node.get("fallback_mode", false)) \
+				or str(convenience_node.get("featured_status", "")) \
+					!= "expired" \
+				or str(convenience_node.get("missed_trigger_bundle", "")) \
+					!= "m1_convenience_trial_shift":
+			_fail("Seoul Cycle path %s lost its once-only livelihood trigger-expiry receipt: %s." % [
+				cycle_path, str(trigger_expiry)])
+			return false
+		if cycle_path == "people":
+			var fallback_receipt: Dictionary = allocations.get("4", {})
+			if not bool(fallback_receipt.get("fallback_allocation", false)) \
+					or bool(fallback_receipt.get("completed_now", true)) \
+					or bool(fallback_receipt.get("repeat_allocation", true)) \
+					or int(fallback_receipt.get("progress_gain", -1)) != 0:
+				_fail("Seoul Cycle people path forged progress for its W4 generic livelihood fallback: %s." % [
+					str(fallback_receipt)])
+				return false
+		for key in ["money", "health", "mental"]:
+			if not is_equal_approx(
+					float(expiry_after.get(key, 0.0)) \
+						- float(expiry_before.get(key, 0.0)),
+					float(expiry_effects.get(key, 0.0))):
+				_fail("Seoul Cycle path %s trigger expiry hid %s outside its receipt." % [
+					cycle_path, key])
+				return false
+	elif not trigger_expiry.is_empty():
+		_fail("Seoul Cycle livelihood path expired a trigger it had already resolved.")
+		return false
+
+	var world_receipts: Dictionary = cycle.get("world_receipts", {})
+	if world_receipts.size() != 2:
+		_fail("Seoul Cycle Month One resolved %d world beats instead of W3 and W4." % world_receipts.size())
+		return false
+	for world_key in ["3", "4"]:
+		var world: Dictionary = world_receipts.get(world_key, {})
+		var expected_world_bundle := "hyunsu_first_meet" \
+			if world_key == "3" else "first_temptation_boss"
+		if str(world.get("status", "")) != "resolved" \
+				or str(world.get("bundle_id", "")) != expected_world_bundle \
+				or int(world.get("turn", 0)) != int(world_key):
+			_fail("Seoul Cycle world beat W%s was missing or repeated: %s." % [
+				world_key, str(world)])
+			return false
+
+	var hyunsu_positions := _core_loop_v2_story_positions(
+		story_sequence, "arc_intro_04_hyunsu")
+	var temptation_positions := _core_loop_v2_story_positions(
+		story_sequence, "arc_temptation_01")
+	if hyunsu_positions.size() != 1 \
+			or int(story_sequence[hyunsu_positions[0]].get("turn", 0)) != 3 \
+			or temptation_positions.size() != 1 \
+			or int(story_sequence[temptation_positions[0]].get("turn", 0)) != 4:
+		_fail("Seoul Cycle fixed W3 Hyunsu and W4 temptation beats were not each received exactly once.")
+		return false
+	var focused_event := "v2_convenience_trial_shift" \
+		if cycle_path == "livelihood" else (
+			"arc_father_01_call" if cycle_path == "people" else "")
+	for event_id in ["v2_convenience_trial_shift", "arc_father_01_call"]:
+		var positions := _core_loop_v2_story_positions(story_sequence, event_id)
+		var expected_count := 1 if event_id == focused_event else 0
+		if positions.size() != expected_count \
+				or (expected_count == 1 \
+					and int(story_sequence[positions[0]].get("turn", 0)) != 2):
+			_fail("Seoul Cycle path %s story trigger %s appeared at the wrong count/week: %s." % [
+				cycle_path, event_id, str(positions)])
+			return false
+	var temptation_echo := str(story_sequence[temptation_positions[0]].get(
+		"seoul_cycle_echo", ""))
+	var expected_echo_token := (
+		"receipt" if LocaleManager.is_english() else "영수증"
+	) if cycle_path in ["livelihood", "people"] else (
+		"blanket" if LocaleManager.is_english() else "이불")
+	if expected_echo_token.to_lower() not in temptation_echo.to_lower() \
+			or (LocaleManager.is_english() and _contains_hangul(temptation_echo)):
+		_fail("W4 temptation did not echo the actual latest recovery allocation: %s." % temptation_echo)
+		return false
+
+	var summary: Dictionary = core_loop.month_summary(1)
+	if str(summary.get("planning_mode", "")) != core_loop.SEOUL_CYCLE_MODE \
+			or (summary.get("allocation_receipts", []) as Array).size() != 4 \
+			or summary.get("cycle_completed_turns", []) != [1, 2, 3, 4] \
+			or int(summary.get("world_clock", 0)) != 4 \
+			or not summary.get("node_states", {}) is Dictionary \
+			or (summary.get("node_states", {}) as Dictionary).size() != 4 \
+			or summary.get("trigger_receipts", {}) != trigger_receipts \
+			or summary.get("world_receipts", {}) != world_receipts:
+		_fail("Seoul Cycle Month-One notebook lost its four allocations or resolved entry receipts: %s." % [
+			str(summary)])
+		return false
+	return true
+
+
+func _assert_seoul_cycle_raw_navigation(
+		board: Control, input_mode: String) -> bool:
+	var original := get_viewport().gui_get_focus_owner() as Button
+	if not is_instance_valid(original) or not board.is_ancestor_of(original) \
+			or not bool(original.get_meta("seoul_cycle_effort_tile", false)):
+		_fail("Seoul Cycle did not open with a visible capacity focus.")
+		return false
+	var original_id := str(original.get_meta("seoul_cycle_die_id", ""))
+	if input_mode == "gamepad":
+		await _send_route_raw_gamepad_button(JOY_BUTTON_DPAD_RIGHT)
+	else:
+		await _send_route_key(KEY_RIGHT)
+	var moved := get_viewport().gui_get_focus_owner() as Button
+	if not is_instance_valid(moved) or moved == original \
+			or not bool(moved.get_meta("seoul_cycle_effort_tile", false)):
+		_fail("Seoul Cycle D-pad/arrow Right did not move between capacity pieces.")
+		return false
+	if input_mode == "gamepad":
+		await _send_route_raw_gamepad_button(JOY_BUTTON_DPAD_LEFT)
+		if get_viewport().gui_get_focus_owner() != original:
+			_fail("Seoul Cycle D-pad Left did not return to the original capacity.")
+			return false
+		await _send_route_gamepad_axis(JOY_AXIS_LEFT_X, 1.0)
+		var stick_moved := get_viewport().gui_get_focus_owner() as Button
+		if not is_instance_valid(stick_moved) or stick_moved == original \
+				or not bool(stick_moved.get_meta(
+					"seoul_cycle_effort_tile", false)):
+			_fail("Seoul Cycle left stick did not move between capacity pieces.")
+			return false
+	else:
+		await _send_route_key(KEY_LEFT)
+		if get_viewport().gui_get_focus_owner() != original:
+			_fail("Seoul Cycle keyboard Left did not return to capacity %s." % original_id)
+			return false
+	original.grab_focus()
+	await get_tree().process_frame
+	return true
+
+
+func _send_seoul_cycle_cancel(input_mode: String) -> void:
+	if input_mode == "gamepad":
+		await _send_route_raw_gamepad_button(JOY_BUTTON_B)
+	else:
+		await _send_route_key(KEY_ESCAPE)
+
 
 func _core_loop_v2_expected_schedule(month_index: int) -> Dictionary:
 	if month_index == 1:
@@ -8449,6 +9594,7 @@ func _core_loop_v2_numeric_effects_match(
 	return true
 
 func _assert_core_loop_v2_routine_receipts(state: Dictionary) -> bool:
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
 	var raw_receipts: Variant = state.get("routine_receipts", {})
 	if not raw_receipts is Dictionary:
 		_fail("Core Loop V2 routine ledger is not a dictionary.")
@@ -8466,40 +9612,1190 @@ func _assert_core_loop_v2_routine_receipts(state: Dictionary) -> bool:
 		var expected_month := int((week - 1) / 4) + 1
 		if int(receipt.get("turn", 0)) != week \
 				or int(receipt.get("month", 0)) != expected_month \
-				or str(receipt.get("primary", "")) != "livelihood" \
-				or str(receipt.get("secondary", "")) != "recovery" \
-				or str(receipt.get("planned_primary", "")) != "livelihood" \
-				or str(receipt.get("planned_secondary", "")) != "recovery" \
-				or bool(receipt.get("employment_forced", true)):
-			_fail("Core Loop V2 Week %d routine identity or month drifted: %s." % [
+				or str(receipt.get("status", "")) != "suppressed" \
+				or str(receipt.get("planning_mode", "")) \
+					!= core_loop.SEOUL_CYCLE_MODE \
+				or receipt.get("effects", {}) != {} \
+				or receipt.get("units", []) != []:
+			_fail("Fresh Seoul Cycle Week %d applied a hidden background routine instead of an empty durable receipt: %s." % [
 				week, receipt])
 			return false
-		var raw_units: Variant = receipt.get("units", [])
-		if not raw_units is Array or (raw_units as Array).size() != 2:
-			_fail("Core Loop V2 Week %d did not apply exactly two ordered routines." % week)
+	return true
+
+
+func _assert_core_loop_v2_completion_surface(
+		scene: Node, completion: Control, lang: String,
+		input_mode: String = "gamepad", capture_prefix: String = "") -> bool:
+	if input_mode not in ["keyboard", "gamepad"]:
+		_fail("Core Loop V2 completion received unsupported input mode %s." % input_mode)
+		return false
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	var snapshot: Dictionary = core_loop.completion_snapshot()
+	if bool(scene.get_meta("_screenshot_qa_static_surface", false)):
+		var qa_snapshot: Variant = scene.get_meta(
+			"_qa_core_loop_v2_completion_snapshot", {})
+		if qa_snapshot is Dictionary \
+				and not (qa_snapshot as Dictionary).is_empty():
+			snapshot = (qa_snapshot as Dictionary).duplicate(true)
+	var raw_allocations: Variant = snapshot.get("cycle_allocations", [])
+	if not raw_allocations is Array \
+			or (raw_allocations as Array).size() != 24:
+		_fail("Core Loop V2 completion UI received %d Seoul Cycle allocations instead of 24." % [
+			(raw_allocations as Array).size() if raw_allocations is Array else -1])
+		return false
+	var allocations: Array = raw_allocations
+	var model_raw: Variant = completion.get("_model")
+	if not model_raw is Dictionary:
+		_fail("Core Loop V2 completion component exposed no presentation model.")
+		return false
+	var model: Dictionary = (model_raw as Dictionary).duplicate(true)
+	var expected_title := "서울에서 보낸 스물네 주" if lang == "ko" \
+		else "Twenty-Four Weeks in Seoul"
+	if str(model.get("title", "")) != expected_title:
+		_fail("Core Loop V2 completion title drifted: expected=%s actual=%s." % [
+			expected_title, str(model.get("title", "missing"))])
+		return false
+	if not _assert_core_loop_v2_completion_autosave_state(
+			scene, completion, lang, true):
+		return false
+	if not _assert_core_loop_v2_completion_summary_layout(
+			completion, lang):
+		return false
+	if not _assert_core_loop_v2_completion_snapshot_purity(
+			scene, completion, snapshot, lang, false):
+		return false
+
+	var raw_months: Variant = model.get("months", [])
+	if not raw_months is Array or (raw_months as Array).size() != 6:
+		_fail("Core Loop V2 completion model has %d month pages instead of six." % [
+			(raw_months as Array).size() if raw_months is Array else -1])
+		return false
+	var months: Array = raw_months
+	var model_allocation_lines: Array[String] = []
+	var expected_entry_total := 0
+	for month_index in range(6):
+		var raw_month: Variant = months[month_index]
+		if not raw_month is Dictionary:
+			_fail("Core Loop V2 completion Month %d model is unreadable." % [
+				month_index + 1])
 			return false
-		var units: Array = raw_units
-		if not units[0] is Dictionary or not units[1] is Dictionary:
-			_fail("Core Loop V2 Week %d routine units are not readable receipts." % week)
+		var month: Dictionary = raw_month
+		var month_allocations: Variant = month.get("allocations", [])
+		var month_outcomes: Variant = month.get("outcomes", [])
+		var month_events: Variant = month.get("events", [])
+		var month_missed: Variant = month.get("missed", [])
+		if int(month.get("month", 0)) != month_index + 1 \
+				or not month_allocations is Array \
+				or (month_allocations as Array).size() != 4 \
+				or not month_outcomes is Array \
+				or (month_outcomes as Array).size() > 4 \
+				or not month_events is Array \
+				or (month_events as Array).size() > 8 \
+				or not month_missed is Array:
+			_fail("Core Loop V2 completion Month %d lost its 4-allocation/outcome/event/missed shape: %s." % [
+				month_index + 1, str(month)])
 			return false
-		var primary: Dictionary = units[0]
-		var secondary: Dictionary = units[1]
-		var primary_effects := {"money": 70_000, "health": -1, "mental": 1} \
-			if week <= 17 else {"work_performance": 1, "mental": 1}
-		var aggregate_effects := {"money": 70_000, "health": 0, "mental": 4} \
-			if week <= 17 else {"work_performance": 1, "health": 1, "mental": 4}
-		if str(primary.get("slot", "")) != "primary" \
-				or str(primary.get("routine_id", "")) != "livelihood" \
-				or not _core_loop_v2_numeric_effects_match(
-					primary.get("effects", {}), primary_effects) \
-				or str(secondary.get("slot", "")) != "secondary" \
-				or str(secondary.get("routine_id", "")) != "recovery" \
-				or not _core_loop_v2_numeric_effects_match(
-					secondary.get("effects", {}), {"health": 1, "mental": 3}) \
-				or not _core_loop_v2_numeric_effects_match(
-					receipt.get("effects", {}), aggregate_effects):
-			_fail("Core Loop V2 Week %d routine effects lost their unemployed/employed provenance." % week)
+		for line in month_allocations as Array:
+			var allocation_line := str(line).strip_edges()
+			if allocation_line.is_empty():
+				_fail("Core Loop V2 completion Month %d contains an empty allocation row." % [
+					month_index + 1])
+				return false
+			model_allocation_lines.append(allocation_line)
+		for allocation_index in range((month_allocations as Array).size()):
+			var global_week := month_index * 4 + allocation_index + 1
+			var expected_week_prefix := "%d주 ·" % global_week \
+				if lang == "ko" else "W%d ·" % global_week
+			var allocation_line := str(
+				(month_allocations as Array)[allocation_index]).strip_edges()
+			if not allocation_line.begins_with(expected_week_prefix):
+				_fail("Core Loop V2 completion Month %d allocation %d used a local week instead of global Week %d: %s." % [
+					month_index + 1, allocation_index + 1, global_week,
+					allocation_line])
+				return false
+		expected_entry_total += 4 + (month_outcomes as Array).size() \
+			+ (1 if not (month_events as Array).is_empty() else 0) + 1
+	var unresolved_raw: Variant = model.get("unresolved", [])
+	if not unresolved_raw is Array:
+		_fail("Core Loop V2 completion unresolved page is not an array.")
+		return false
+	expected_entry_total += maxi(1, (unresolved_raw as Array).size())
+	if model_allocation_lines.size() != 24:
+		_fail("Core Loop V2 completion month model contains %d allocations instead of 24." % [
+			model_allocation_lines.size()])
+		return false
+
+	var fallback_copy := (
+		"특별 기회를 놓친 뒤 일반 실행"
+		if lang == "ko" else "regular action after missed chance")
+	var repeat_copy := (
+		"완료 뒤 추가 실행"
+		if lang == "ko" else "additional run after completion")
+	var progress_copy := "진행 +" if lang == "ko" else "progress"
+	var expected_fallback := 0
+	var expected_repeat := 0
+	for raw_allocation in allocations:
+		if not raw_allocation is Dictionary:
+			_fail("Core Loop V2 completion allocation ledger contains a non-object receipt.")
 			return false
+		if bool((raw_allocation as Dictionary).get("fallback_allocation", false)):
+			expected_fallback += 1
+		elif bool((raw_allocation as Dictionary).get("repeat_allocation", false)):
+			expected_repeat += 1
+	var fallback_lines := model_allocation_lines.filter(
+		func(line: String): return fallback_copy in line).size()
+	var repeat_lines := model_allocation_lines.filter(
+		func(line: String): return repeat_copy in line).size()
+	var progress_lines := model_allocation_lines.filter(
+		func(line: String): return progress_copy in line).size()
+	if expected_fallback < 1 \
+			or fallback_lines != expected_fallback \
+			or repeat_lines != expected_repeat \
+			or progress_lines != 24 - expected_fallback - expected_repeat:
+		_fail("Core Loop V2 completion allocation wording drifted: fallback=%d/%d repeat=%d/%d progress=%d/%d." % [
+			fallback_lines, expected_fallback, repeat_lines, expected_repeat,
+			progress_lines, 24 - expected_fallback - expected_repeat])
+		return false
+
+	await _send_core_loop_v2_completion_raw(input_mode, "north")
+	await get_tree().process_frame
+	if not bool(completion.call("details_visible")) \
+			or int(completion.call("current_page")) != 1:
+		_fail("Core Loop V2 raw North input did not open Month One details.")
+		return false
+	var seen_entries: Dictionary = {}
+	for page_index in range(1, 8):
+		if int(completion.call("current_page")) != page_index:
+			_fail("Core Loop V2 completion detail navigation skipped page %d." % page_index)
+			return false
+		if not await _assert_core_loop_v2_completion_detail_page(
+				completion, model, page_index, lang, input_mode, seen_entries):
+			return false
+		if not capture_prefix.is_empty() and page_index in [1, 6, 7]:
+			var capture_suffix := (
+				"10l_completion_month_1" if page_index == 1 else
+				"10m_completion_month_6" if page_index == 6 else
+				"10n_completion_open_threads")
+			await _save(capture_prefix + capture_suffix, 0.02)
+		if page_index < 7:
+			await _send_core_loop_v2_completion_raw(input_mode, "page_next")
+			await get_tree().process_frame
+	if seen_entries.size() != expected_entry_total:
+		_fail("Core Loop V2 completion visited %d detail receipts instead of %d." % [
+			seen_entries.size(), expected_entry_total])
+		return false
+
+	# RB wraps the seven-page ledger, and LB reverses the same boundary.
+	await _send_core_loop_v2_completion_raw(input_mode, "page_next")
+	await get_tree().process_frame
+	if int(completion.call("current_page")) != 1:
+		_fail("Core Loop V2 raw RB did not wrap Open Threads to Month One.")
+		return false
+	await _send_core_loop_v2_completion_raw(input_mode, "page_prev")
+	await get_tree().process_frame
+	if int(completion.call("current_page")) != 7:
+		_fail("Core Loop V2 raw LB did not wrap Month One to Open Threads.")
+		return false
+	await _send_core_loop_v2_completion_raw(input_mode, "east")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if not _assert_core_loop_v2_completion_summary_layout(completion, lang):
+		_fail("Core Loop V2 raw East did not return details to the summary.")
+		return false
+	return true
+
+
+func _assert_core_loop_v2_completion_autosave_state(
+		scene: Node, completion: Control, lang: String,
+		expected_ok: bool) -> bool:
+	if not is_instance_valid(completion) or not bool(completion.call("summary_visible")):
+		_fail("Core Loop V2 autosave state is not shown on the terminal summary.")
+		return false
+	var model_raw: Variant = completion.get("_model")
+	var model: Dictionary = model_raw if model_raw is Dictionary else {}
+	var finish := _find_visible_meta_control(
+		completion, "core_loop_v2_finish_button", true) as Button
+	var boundary := _find_visible_meta_control(
+		completion, "core_loop_v2_boundary", true) as Label
+	var actual_scene_ok := bool(scene.get(
+		"_core_loop_v2_completion_autosave_succeeded"))
+	if not is_instance_valid(finish) or not is_instance_valid(boundary) \
+			or actual_scene_ok != expected_ok \
+			or bool(model.get("autosave_ok", not expected_ok)) != expected_ok \
+			or bool(finish.get_meta(
+				"core_loop_v2_requires_retry", expected_ok)) == expected_ok:
+		_fail("Core Loop V2 completion autosave state drifted: expected=%s scene=%s model=%s retry=%s." % [
+			str(expected_ok), str(actual_scene_ok),
+			str(model.get("autosave_ok", "missing")),
+			str(finish.get_meta("core_loop_v2_requires_retry", "missing"))
+				if is_instance_valid(finish) else "missing"])
+		return false
+	var required_cta := (
+		"데모를 마치고" if lang == "ko" else "Finish Demo"
+	) if expected_ok else (
+		"자동 저장 다시 시도" if lang == "ko" else "Retry Autosave")
+	var required_boundary := (
+		"자동 저장" if lang == "ko" else
+		"saved automatically" if expected_ok else "Autosave")
+	if required_cta.to_lower() not in finish.text.to_lower() \
+			or required_boundary.to_lower() not in boundary.text.to_lower():
+		_fail("Core Loop V2 completion autosave copy drifted: cta=%s boundary=%s." % [
+			finish.text, boundary.text])
+		return false
+	return _assert_core_loop_v2_completion_summary_layout(completion, lang)
+
+
+func _assert_core_loop_v2_completion_snapshot_purity(
+		scene: Node, completion: Control, snapshot: Dictionary,
+		lang: String, require_month_events: bool) -> bool:
+	var model_raw: Variant = completion.get("_model")
+	var closing_raw: Variant = snapshot.get("closing_state", {})
+	if not model_raw is Dictionary or not closing_raw is Dictionary:
+		_fail("Core Loop V2 completion lost its immutable closing snapshot.")
+		return false
+	var model: Dictionary = model_raw
+	var closing: Dictionary = closing_raw
+	var financial_raw: Variant = closing.get("financial_rung", {})
+	var temptation_raw: Variant = closing.get("temptation_flags", {})
+	for exact_key in ["money", "fixed_expense", "health", "mental"]:
+		var exact_value: Variant = closing.get(exact_key)
+		if not closing.has(exact_key) \
+				or not (exact_value is int or exact_value is float):
+			_fail("Core Loop V2 valid frozen completion lost exact closing key %s: %s." % [
+				exact_key, str(closing)])
+			return false
+	if closing.is_empty() or not financial_raw is Dictionary \
+			or (financial_raw as Dictionary).is_empty() \
+			or not temptation_raw is Dictionary \
+			or (temptation_raw as Dictionary).is_empty():
+		_fail("Core Loop V2 completion closing_state lacks financial/temptation provenance: %s." % [
+			str(closing)])
+		return false
+	var metrics_raw: Variant = model.get("metrics", [])
+	var traces_raw: Variant = model.get("traces", [])
+	if not metrics_raw is Array or (metrics_raw as Array).size() < 5 \
+			or not traces_raw is Array or (traces_raw as Array).is_empty():
+		_fail("Core Loop V2 completion snapshot did not produce metrics/traces.")
+		return false
+	var metrics: Array = metrics_raw
+	var metric_values: Array[String] = []
+	for raw_metric in metrics:
+		if raw_metric is Dictionary:
+			metric_values.append(str((raw_metric as Dictionary).get("value", "")))
+	var closing_money := float(closing.get("money", 0.0))
+	var closing_shortfall := maxf(
+		float(snapshot.get("cash_shortfall", 0.0)), maxf(0.0, -closing_money))
+	var expected_cash: String = GameState.format_money(
+		closing_shortfall if closing_shortfall > 0.0 else closing_money)
+	var expected_fixed: String = GameState.format_money(float(closing.get(
+		"fixed_expense", 0.0)))
+	var expected_health := "%d / 100" % int(closing.get("health", 0))
+	var expected_mental := "%d / 100" % int(closing.get("mental", 0))
+	var expected_rung := str(scene.call(
+		"_core_loop_v2_completion_financial_rung_label",
+		financial_raw as Dictionary)) \
+		if scene.has_method("_core_loop_v2_completion_financial_rung_label") else ""
+	for expected_value in [
+		expected_cash, expected_fixed, expected_health, expected_mental,
+		expected_rung,
+	]:
+		if str(expected_value).is_empty() or not metric_values.has(str(expected_value)):
+			_fail("Core Loop V2 completion read live HUD state instead of closing_state value %s; metrics=%s." % [
+				str(expected_value), str(metric_values)])
+			return false
+	var branch := str(snapshot.get("temptation_branch", "unresolved"))
+	var expected_trace := str(scene.call(
+		"_core_loop_v2_temptation_recap", branch)) \
+		if scene.has_method("_core_loop_v2_temptation_recap") else ""
+	var first_trace: Dictionary = (traces_raw as Array)[0] \
+		if (traces_raw as Array)[0] is Dictionary else {}
+	if expected_trace.is_empty() \
+			or str(first_trace.get("text", "")) != expected_trace:
+		_fail("Core Loop V2 completion temptation trace drifted from its closing receipt: expected=%s actual=%s." % [
+			expected_trace, str(first_trace.get("text", "missing"))])
+		return false
+	var months_raw: Variant = model.get("months", [])
+	if not months_raw is Array or (months_raw as Array).size() != 6:
+		_fail("Core Loop V2 completion snapshot purity cannot inspect six months.")
+		return false
+	for month_index in range((months_raw as Array).size()):
+		var raw_month: Variant = (months_raw as Array)[month_index]
+		if not raw_month is Dictionary \
+				or not (raw_month as Dictionary).get("events", []) is Array \
+				or (require_month_events \
+					and ((raw_month as Dictionary).get("events", []) as Array).is_empty()):
+			_fail("Core Loop V2 completion Month %d lost its snapshot-owned event ledger." % [
+				month_index + 1])
+			return false
+	if lang == "en" and _contains_hangul(str(model)):
+		_fail("Core Loop V2 English immutable completion model leaked Hangul.")
+		return false
+	if not _assert_core_loop_v2_completion_hero(
+			scene, completion, snapshot):
+		return false
+	return true
+
+
+func _assert_core_loop_v2_legacy_completion_missing_metrics(
+		scene: Node, completion: Control, base_snapshot: Dictionary,
+		lang: String, capture_prefix: String) -> bool:
+	var missing_copy := "기록 없음" if lang == "ko" else "NOT RECORDED"
+	var cases: Array[Dictionary] = [
+		{
+			"id": "missing_final_after",
+			"closing": {},
+			"expected": [
+				missing_copy, missing_copy, missing_copy, missing_copy],
+		},
+		{
+			"id": "partial_closing_keys",
+			"closing": {
+				"money": 432_100.0,
+				"health": 72,
+			},
+			"expected": [
+				GameState.format_money(432_100.0), missing_copy,
+				"72 / 100", missing_copy],
+		},
+	]
+	completion.call("close")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	for case_index in range(cases.size()):
+		var fixture: Dictionary = base_snapshot.duplicate(true)
+		fixture["legacy_boundary_incomplete"] = true
+		fixture["closing_state"] = (
+			cases[case_index].get("closing", {}) as Dictionary).duplicate(true)
+		fixture["obligation_receipts"] = {}
+		fixture["deferred_callback_receipts"] = {}
+		fixture["future_story_receipts"] = {}
+		fixture["future_application_receipts"] = {}
+		fixture["consequence_receipts"] = {}
+		fixture["story_choice_receipts"] = {}
+		fixture["forgone"] = []
+		fixture["decline_receipts"] = []
+		if not bool(scene.call(
+				"_core_loop_v2_open_completion_surface", fixture, 24, false)):
+			_fail("Core Loop V2 could not open legacy completion fixture %s." % [
+				str(cases[case_index].get("id", "missing"))])
+			return false
+		await _settle(0.10)
+		var visible := _find_visible_meta_control(
+			scene, "core_loop_v2_completion_surface", true)
+		var model_raw: Variant = visible.get("_model") \
+			if is_instance_valid(visible) else {}
+		var model: Dictionary = model_raw if model_raw is Dictionary else {}
+		var metrics_raw: Variant = model.get("metrics", [])
+		var months_raw: Variant = model.get("months", [])
+		var expected_values: Array = cases[case_index].get("expected", [])
+		if not is_instance_valid(visible) \
+				or not bool(visible.call("summary_visible")) \
+				or not metrics_raw is Array \
+				or (metrics_raw as Array).size() < 5 \
+				or not months_raw is Array \
+				or (months_raw as Array).size() != 6 \
+				or expected_values.size() != 4:
+			_fail("Core Loop V2 legacy completion fixture %s lost its metric surface." % [
+				str(cases[case_index].get("id", "missing"))])
+			return false
+		for metric_index in range(4):
+			var raw_metric: Variant = (metrics_raw as Array)[metric_index]
+			var expected_value := str(expected_values[metric_index])
+			if not raw_metric is Dictionary:
+				_fail("Core Loop V2 legacy completion metric %d is unreadable." % metric_index)
+				return false
+			var metric: Dictionary = raw_metric
+			var metric_cell := _find_visible_meta_control(
+				visible, "core_loop_v2_metric", str(metric.get("label", "")))
+			if str(metric.get("value", "")) != expected_value \
+					or not is_instance_valid(metric_cell) \
+					or expected_value not in _collect_control_text(metric_cell):
+				_fail("Core Loop V2 legacy fixture %s invented closing metric %d: expected=%s actual=%s." % [
+					str(cases[case_index].get("id", "missing")), metric_index,
+					expected_value, str(metric.get("value", "missing"))])
+				return false
+		var missed_unknown := (
+			"이 달의 누락 기록은 옛 저장에서 완전히 복원할 수 없다."
+			if lang == "ko" else
+			"This older save cannot fully recover what was missed this month.")
+		for month_index in range(6):
+			var raw_month: Variant = (months_raw as Array)[month_index]
+			if not raw_month is Dictionary \
+					or (raw_month as Dictionary).get(
+						"missed", []) != [missed_unknown]:
+				_fail("Core Loop V2 legacy fixture %s invented an empty/known missed ledger for Month %d: %s." % [
+					str(cases[case_index].get("id", "missing")), month_index + 1,
+					str(raw_month)])
+				return false
+		if not _assert_core_loop_v2_completion_summary_layout(visible, lang):
+			return false
+		if not capture_prefix.is_empty():
+			await _save(capture_prefix + (
+				"10o_completion_legacy_missing" if case_index == 0 else
+				"10p_completion_legacy_partial"), 0.02)
+		if case_index == 0:
+			await _send_core_loop_v2_completion_raw("gamepad", "north")
+			await get_tree().process_frame
+			for month_index in range(6):
+				var detail_entries_raw: Variant = visible.get("_detail_entries")
+				var expected_missed_readout := "— %s" % missed_unknown
+				if not detail_entries_raw is Array \
+						or (detail_entries_raw as Array).is_empty() \
+						or not (detail_entries_raw as Array).back() is Dictionary \
+						or str(((detail_entries_raw as Array).back() as Dictionary).get(
+							"kind", "")) != "missed" \
+						or str(((detail_entries_raw as Array).back() as Dictionary).get(
+							"text", "")) != expected_missed_readout:
+					_fail("Core Loop V2 legacy Month %d did not visibly mark its missed ledger unknown." % [
+						month_index + 1])
+					return false
+				if month_index < 5:
+					await _send_core_loop_v2_completion_raw(
+						"gamepad", "page_next")
+					await get_tree().process_frame
+			await _send_core_loop_v2_completion_raw("gamepad", "east")
+			await get_tree().process_frame
+			await get_tree().process_frame
+		completion = visible
+		if case_index < cases.size() - 1:
+			completion.call("close")
+			await get_tree().process_frame
+			await get_tree().process_frame
+	print("CORE_LOOP_V2_LEGACY_COMPLETION_OK lang=%s missing=4 partial_missing=2 zero_fabricated=0" % lang)
+	return true
+
+
+func _assert_core_loop_v2_old_completion_component_fallbacks(
+		scene: Node, completion: Control, base_snapshot: Dictionary,
+		lang: String, capture_prefix: String) -> bool:
+	var unknown_week_copy := (
+		"옛 저장에 주간 기록이 남아 있지 않다."
+		if lang == "ko" else
+		"Weekly record not available in this older save.")
+	var old_snapshot: Dictionary = base_snapshot.duplicate(true)
+	old_snapshot["legacy_boundary_incomplete"] = true
+	old_snapshot["closing_state"] = {}
+	old_snapshot["cycle_allocations"] = []
+	old_snapshot["month_summaries"] = {}
+	old_snapshot["forgone"] = []
+	old_snapshot["decline_receipts"] = []
+	old_snapshot["obligation_receipts"] = {}
+	old_snapshot["kept"] = [
+		{"month": 1, "week": 1, "bundle_id": "m1_convenience_trial_shift"},
+		{"month": 2, "week": 2, "bundle_id": "m2_seorin_application"},
+	]
+	GameState.money = 8_765_432.0
+	GameState.health = 99
+	GameState.mental = 98
+	completion.call("close")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if not bool(scene.call(
+			"_core_loop_v2_open_completion_surface", old_snapshot, 24, false)):
+		_fail("Core Loop V2 old episode snapshot did not open the new component.")
+		return false
+	await _settle(0.10)
+	var visible := _find_visible_meta_control(
+		scene, "core_loop_v2_completion_surface", true)
+	if not _assert_core_loop_v2_component_replaces_old_modal(
+			scene, visible, lang, "old episode primary"):
+		return false
+	var primary_model: Dictionary = (
+		(visible.get("_model") as Dictionary).duplicate(true)
+		if visible.get("_model") is Dictionary else {})
+	var primary_months: Array = primary_model.get("months", [])
+	var primary_unknown := 0
+	var primary_recovered := 0
+	for month_index in range(primary_months.size()):
+		var month: Dictionary = primary_months[month_index] \
+			if primary_months[month_index] is Dictionary else {}
+		var rows: Array = month.get("allocations", [])
+		if rows.size() != 4:
+			_fail("Core Loop V2 old episode Month %d did not restore four weekly rows." % [
+				month_index + 1])
+			return false
+		for row_index in range(rows.size()):
+			var absolute_week := month_index * 4 + row_index + 1
+			var line := str(rows[row_index])
+			var prefix := "%d주 ·" % absolute_week \
+				if lang == "ko" else "W%d ·" % absolute_week
+			if not line.begins_with(prefix):
+				_fail("Core Loop V2 old episode weekly row lost global Week %d: %s." % [
+					absolute_week, line])
+				return false
+			if unknown_week_copy in line:
+				primary_unknown += 1
+			else:
+				primary_recovered += 1
+	if primary_months.size() != 6 \
+			or primary_unknown != 22 or primary_recovered != 2:
+		_fail("Core Loop V2 old episode primary component recovered %d/unknown %d instead of 2/22." % [
+			primary_recovered, primary_unknown])
+		return false
+	if not capture_prefix.is_empty():
+		await _save(capture_prefix + "10q_completion_old_episode_primary", 0.02)
+
+	# Five authored receipts are an ordinary legal month and must retain their
+	# deterministic order. Eight trigger/world receipts are a legal dense month.
+	# They must
+	# survive the primary model and remain fully readable in the 960-wide right
+	# ledger. A ninth distinct receipt crosses the component cap and must retry
+	# an all-unknown component, never the obsolete live-HUD modal.
+	completion = visible
+	completion.call("close")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var event_bundles := [
+		"m1_convenience_trial_shift", "hyunsu_first_meet",
+		"first_temptation_boss", "m2_seorin_application",
+		"m3_hanbit_application", "m4_certificate_session",
+		"m5_city_service_application", "m6_no_plans_day",
+		"m6_last_study_group",
+	]
+	var five_trigger_receipts: Dictionary = {}
+	for event_index in [4, 2, 0]:
+		var event_turn := int(event_index / 2) + 1
+		five_trigger_receipts["qa_five_trigger_%d" % event_index] = {
+			"status": "resolved",
+			"bundle_id": str(event_bundles[event_index]),
+			"turn": event_turn,
+			"resolved_turn": event_turn,
+		}
+	var five_world_receipts: Dictionary = {}
+	for event_index in [3, 1]:
+		var event_turn := int(event_index / 2) + 1
+		five_world_receipts["qa_five_world_%d" % event_index] = {
+			"status": "resolved",
+			"bundle_id": str(event_bundles[event_index]),
+			"turn": event_turn,
+			"resolved_turn": event_turn,
+		}
+	var five_snapshot: Dictionary = old_snapshot.duplicate(true)
+	five_snapshot["month_summaries"] = {
+		"1": {
+			"month": 1,
+			"trigger_receipts": five_trigger_receipts,
+			"world_receipts": five_world_receipts,
+		},
+	}
+	if not bool(scene.call(
+			"_core_loop_v2_open_completion_surface",
+			five_snapshot, 24, false)):
+		_fail("Core Loop V2 legal five-event month did not open the primary component.")
+		return false
+	await _settle(0.10)
+	visible = _find_visible_meta_control(
+		scene, "core_loop_v2_completion_surface", true)
+	if not _assert_core_loop_v2_component_replaces_old_modal(
+			scene, visible, lang, "legal five-event primary"):
+		return false
+	var five_model_raw: Variant = visible.get("_model")
+	var five_months: Array = (
+		(five_model_raw as Dictionary).get("months", [])
+		if five_model_raw is Dictionary else [])
+	var five_events: Array = (
+		(five_months[0] as Dictionary).get("events", [])
+		if not five_months.is_empty() \
+			and five_months[0] is Dictionary else [])
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	var expected_five_events: Array[String] = []
+	for event_index in range(5):
+		var bundle: Dictionary = core_loop.bundle(
+			str(event_bundles[event_index]))
+		var event_turn := int(event_index / 2) + 1
+		var offer := str(bundle.get(
+			"offer_ko" if lang == "ko" else "offer_en", ""))
+		expected_five_events.append(
+			("%d주 · %s" if lang == "ko" else "W%d · %s") % [
+				event_turn, offer])
+	if five_events != expected_five_events:
+		_fail("Core Loop V2 legal five-event month was rejected, deduplicated, or unsorted: %s." % [
+			str({"expected": expected_five_events, "actual": five_events})])
+		return false
+	visible.call("close")
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	var dense_snapshot: Dictionary = old_snapshot.duplicate(true)
+	var dense_trigger_receipts: Dictionary = {}
+	for event_index in [6, 4, 2, 0]:
+		var event_turn := int(event_index / 2) + 1
+		dense_trigger_receipts["qa_dense_trigger_%d" % event_index] = {
+			"status": "resolved",
+			"bundle_id": str(event_bundles[event_index]),
+			"turn": event_turn,
+			"resolved_turn": event_turn,
+		}
+	var dense_world_receipts: Dictionary = {}
+	for event_index in [7, 5, 3, 1]:
+		var event_turn := int(event_index / 2) + 1
+		dense_world_receipts["qa_dense_world_%d" % event_index] = {
+			"status": "resolved",
+			"bundle_id": str(event_bundles[event_index]),
+			"turn": event_turn,
+			"resolved_turn": event_turn,
+		}
+	dense_snapshot["month_summaries"] = {
+		"1": {
+			"month": 1,
+			"trigger_receipts": dense_trigger_receipts,
+			"world_receipts": dense_world_receipts,
+		},
+	}
+	if not bool(scene.call(
+			"_core_loop_v2_open_completion_surface",
+			dense_snapshot, 24, false)):
+		_fail("Core Loop V2 legal eight-event month did not open the primary component.")
+		return false
+	await _settle(0.10)
+	visible = _find_visible_meta_control(
+		scene, "core_loop_v2_completion_surface", true)
+	if not _assert_core_loop_v2_component_replaces_old_modal(
+			scene, visible, lang, "legal eight-event primary"):
+		return false
+	var dense_model_raw: Variant = visible.get("_model")
+	var dense_model: Dictionary = (
+		(dense_model_raw as Dictionary).duplicate(true)
+		if dense_model_raw is Dictionary else {})
+	var dense_months: Array = dense_model.get("months", [])
+	var dense_events: Array = (
+		(dense_months[0] as Dictionary).get("events", [])
+		if not dense_months.is_empty() \
+			and dense_months[0] is Dictionary else [])
+	var dense_unique: Dictionary = {}
+	for event_text in dense_events:
+		var normalized_event := str(event_text).strip_edges()
+		if not normalized_event.is_empty():
+			dense_unique[normalized_event] = true
+	var expected_dense_events: Array[String] = []
+	for event_index in range(8):
+		var bundle: Dictionary = core_loop.bundle(
+			str(event_bundles[event_index]))
+		var event_turn := int(event_index / 2) + 1
+		var offer := str(bundle.get(
+			"offer_ko" if lang == "ko" else "offer_en", ""))
+		expected_dense_events.append(
+			("%d주 · %s" if lang == "ko" else "W%d · %s") % [
+				event_turn, offer])
+	if dense_events != expected_dense_events \
+			or dense_events.size() != 8 or dense_unique.size() != 8:
+		_fail("Core Loop V2 legal dense month retained %d events/%d unique instead of 8/8: %s." % [
+			dense_events.size(), dense_unique.size(),
+			str({"expected": expected_dense_events, "actual": dense_events})])
+		return false
+	await _send_core_loop_v2_completion_raw("gamepad", "north")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if not bool(visible.call("details_visible")) \
+			or int(visible.call("current_page")) != 1:
+		_fail("Core Loop V2 legal dense month did not open Month One details.")
+		return false
+	# Month One has four allocation rows, then its single combined event row.
+	for _row_index in range(4):
+		await _send_core_loop_v2_completion_raw("gamepad", "row_down")
+		await get_tree().process_frame
+	var dense_readout := _find_visible_meta_control(
+		visible, "core_loop_v2_detail_entry_index", 4) as Label
+	var dense_readout_panel := _find_visible_meta_control(
+		visible, "core_loop_v2_detail_readout", true)
+	var dense_completion_panel := _find_visible_meta_control(
+		visible, "core_loop_v2_completion_panel", true)
+	var expected_dense_lines: Array[String] = []
+	for event_text in dense_events:
+		expected_dense_lines.append("— %s" % str(event_text).strip_edges())
+	var expected_dense_readout := "\n".join(expected_dense_lines)
+	var dense_rect := dense_readout.get_global_rect() \
+		if is_instance_valid(dense_readout) else Rect2()
+	var dense_viewport := get_viewport().get_visible_rect().grow(1.0)
+	if int(visible.get("_selected_row")) != 4 \
+			or not is_instance_valid(dense_readout) \
+			or dense_readout.text != expected_dense_readout \
+			or not is_instance_valid(dense_readout_panel) \
+			or not is_instance_valid(dense_completion_panel) \
+			or not dense_viewport.encloses(dense_rect) \
+			or not dense_readout_panel.get_global_rect().grow(1.0).encloses(
+				dense_rect) \
+			or not dense_completion_panel.get_global_rect().grow(1.0).encloses(
+				dense_rect) \
+			or not _control_inside_clipping_ancestors(dense_readout):
+		_fail("Core Loop V2 eight-event right readout clipped or drifted at %s in viewport %s: expected=%s actual=%s." % [
+			dense_rect, dense_viewport, expected_dense_readout,
+			dense_readout.text if is_instance_valid(dense_readout) else "missing"])
+		return false
+	if not capture_prefix.is_empty():
+		await _save(capture_prefix + "10r_completion_dense_8_events", 0.02)
+	await _send_core_loop_v2_completion_raw("gamepad", "east")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	visible.call("close")
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	var rejected_snapshot: Dictionary = dense_snapshot.duplicate(true)
+	var overloaded_trigger_receipts: Dictionary = (
+		dense_trigger_receipts.duplicate(true))
+	overloaded_trigger_receipts["qa_overload_trigger_8"] = {
+		"status": "resolved",
+		"bundle_id": str(event_bundles[8]),
+		"turn": 4,
+		"resolved_turn": 4,
+	}
+	rejected_snapshot["month_summaries"] = {
+		"1": {
+			"month": 1,
+			"trigger_receipts": overloaded_trigger_receipts,
+			"world_receipts": dense_world_receipts,
+		},
+	}
+	if not bool(scene.call(
+			"_core_loop_v2_open_completion_surface",
+			rejected_snapshot, 24, false)):
+		_fail("Core Loop V2 nine-event rejected-model recovery did not open the new component.")
+		return false
+	await _settle(0.10)
+	visible = _find_visible_meta_control(
+		scene, "core_loop_v2_completion_surface", true)
+	if not _assert_core_loop_v2_component_replaces_old_modal(
+			scene, visible, lang, "nine-event rejected-model recovery"):
+		return false
+	var recovery_model: Dictionary = (
+		(visible.get("_model") as Dictionary).duplicate(true)
+		if visible.get("_model") is Dictionary else {})
+	var recovery_months: Array = recovery_model.get("months", [])
+	var recovery_unknown := 0
+	for raw_month in recovery_months:
+		if not raw_month is Dictionary \
+				or not (raw_month as Dictionary).get("events", []) is Array \
+				or not ((raw_month as Dictionary).get("events", []) as Array).is_empty():
+			_fail("Core Loop V2 rejected-model recovery leaked the invalid primary ledger.")
+			return false
+		for line in (raw_month as Dictionary).get("allocations", []):
+			if unknown_week_copy in str(line):
+				recovery_unknown += 1
+	if recovery_months.size() != 6 or recovery_unknown != 24:
+		_fail("Core Loop V2 rejected-model recovery invented weekly history: unknown=%d." % [
+			recovery_unknown])
+		return false
+	if not capture_prefix.is_empty():
+		await _save(capture_prefix + "10s_completion_recovery_component", 0.02)
+	print("CORE_LOOP_V2_OLD_COMPLETION_OK lang=%s primary=component recovered=2 unknown=22 dense_events=8/readout_safe recovery=component events=9/rejected unknown=24 old_modal=0 live_hud=0" % lang)
+	return true
+
+
+func _assert_core_loop_v2_component_replaces_old_modal(
+		scene: Node, completion: Control, lang: String,
+		context: String) -> bool:
+	var modal := scene.get("modal_layer") as Control
+	var main_root := scene.get("_main_ui_root") as Control
+	var info := scene.get("info_panel") as Control
+	if not is_instance_valid(completion) \
+			or not bool(completion.call("summary_visible")) \
+			or (is_instance_valid(modal) and modal.visible) \
+			or str(scene.get("_modal_kind")) == "core_loop_v2_complete" \
+			or (is_instance_valid(main_root) and main_root.visible) \
+			or (is_instance_valid(info) and info.visible):
+		_fail("Core Loop V2 %s fell back to the obsolete completion modal/HUD." % context)
+		return false
+	var model_raw: Variant = completion.get("_model")
+	var model: Dictionary = model_raw if model_raw is Dictionary else {}
+	var metrics_raw: Variant = model.get("metrics", [])
+	var missing_copy := "기록 없음" if lang == "ko" else "NOT RECORDED"
+	if not metrics_raw is Array or (metrics_raw as Array).size() < 4:
+		_fail("Core Loop V2 %s component has no closing metrics." % context)
+		return false
+	for metric_index in range(4):
+		var raw_metric: Variant = (metrics_raw as Array)[metric_index]
+		if not raw_metric is Dictionary \
+				or str((raw_metric as Dictionary).get("value", "")) \
+					!= missing_copy:
+			_fail("Core Loop V2 %s borrowed a live closing metric at index %d: %s." % [
+				context, metric_index, str(raw_metric)])
+			return false
+	var surface_text := _collect_control_text(completion)
+	for forbidden_live_value in [
+		GameState.format_money(8_765_432.0), "99 / 100", "98 / 100"]:
+		if str(forbidden_live_value) in surface_text:
+			_fail("Core Loop V2 %s leaked live HUD value %s." % [
+				context, str(forbidden_live_value)])
+			return false
+	return _assert_core_loop_v2_completion_summary_layout(completion, lang)
+
+
+func _assert_core_loop_v2_completion_hero(
+		scene: Node, completion: Control, snapshot: Dictionary) -> bool:
+	var obligations_raw: Variant = snapshot.get("obligation_receipts", {})
+	var obligation_receipt: Dictionary = {}
+	if obligations_raw is Dictionary:
+		var raw_receipt: Variant = (obligations_raw as Dictionary).get(
+			"demo_collision", {})
+		if raw_receipt is Dictionary:
+			obligation_receipt = raw_receipt
+	var selected_id := str(obligation_receipt.get(
+		"selected_obligation_id", "")).strip_edges()
+	var allowed_ids := [
+		"father_call", "hanbit_month_close", "city_work_sample",
+		"daeun_checkin", "jaehyuk_reply", "sangchul_ledger",
+		"urgent_paid_shift", "body_rest",
+	]
+	if selected_id not in allowed_ids \
+			or not scene.has_method("_core_loop_v2_completion_obligation_rows") \
+			or not scene.has_method("_core_loop_v2_completion_hero_copy"):
+		_fail("Core Loop V2 completion hero has no exact selected obligation: %s." % [
+			selected_id])
+		return false
+	var resolved_raw: Variant = scene.call(
+		"_core_loop_v2_completion_obligation_rows", snapshot)
+	if not resolved_raw is Dictionary:
+		_fail("Core Loop V2 completion could not resolve selected obligation %s." % selected_id)
+		return false
+	var hero_raw: Variant = scene.call(
+		"_core_loop_v2_completion_hero_copy", resolved_raw as Dictionary)
+	var model_raw: Variant = completion.get("_model")
+	if not hero_raw is Dictionary or not model_raw is Dictionary:
+		_fail("Core Loop V2 completion hero copy is unreadable for %s." % selected_id)
+		return false
+	var hero: Dictionary = hero_raw
+	var model: Dictionary = model_raw
+	var hero_title := _find_visible_meta_control(
+		completion, "core_loop_v2_hero_title", true) as Label
+	var hero_body := _find_visible_meta_control(
+		completion, "core_loop_v2_hero_body", true) as Label
+	if str(hero.get("title", "")).is_empty() \
+			or str(hero.get("body", "")).is_empty() \
+			or str(model.get("hero_title", "")) != str(hero.get("title", "")) \
+			or str(model.get("hero_body", "")) != str(hero.get("body", "")) \
+			or not is_instance_valid(hero_title) or not is_instance_valid(hero_body) \
+			or hero_title.text != str(hero.get("title", "")) \
+			or hero_body.text != str(hero.get("body", "")):
+		_fail("Core Loop V2 completion hero drifted from selected %s: expected=%s actual=%s/%s." % [
+			selected_id, str(hero),
+			hero_title.text if is_instance_valid(hero_title) else "missing",
+			hero_body.text if is_instance_valid(hero_body) else "missing"])
+		return false
+	return true
+
+
+func _assert_core_loop_v2_completion_summary_layout(
+		completion: Control, lang: String) -> bool:
+	if not is_instance_valid(completion) \
+			or not bool(completion.call("summary_visible")) \
+			or bool(completion.call("details_visible")) \
+			or int(completion.call("current_page")) != 0:
+		return false
+	var summary := _find_visible_meta_control(
+		completion, "core_loop_v2_summary", true)
+	var panel := _find_visible_meta_control(
+		completion, "core_loop_v2_completion_panel", true)
+	var footer := _find_visible_meta_control(
+		completion, "core_loop_v2_summary_footer", true)
+	var boundary := _find_visible_meta_control(
+		completion, "core_loop_v2_boundary", true)
+	var details := _find_visible_meta_control(
+		completion, "core_loop_v2_details_button", true)
+	var finish := _find_visible_meta_control(
+		completion, "core_loop_v2_finish_button", true)
+	var title := _find_visible_meta_control(
+		completion, "core_loop_v2_summary_title", true) as Label
+	if not is_instance_valid(summary) or not is_instance_valid(panel) \
+			or not is_instance_valid(footer) or not is_instance_valid(boundary) \
+			or not is_instance_valid(details) or not is_instance_valid(finish) \
+			or not is_instance_valid(title):
+		_fail("Core Loop V2 completion summary lost a required presentation component.")
+		return false
+	var expected_title := "서울에서 보낸 스물네 주" if lang == "ko" \
+		else "Twenty-Four Weeks in Seoul"
+	if title.text != expected_title:
+		_fail("Core Loop V2 completion summary title is %s, expected %s." % [
+			title.text, expected_title])
+		return false
+	if not completion.find_children(
+			"*", "ScrollContainer", true, false).is_empty():
+		_fail("Core Loop V2 first completion summary reintroduced vertical scrolling.")
+		return false
+	var viewport_rect := get_viewport().get_visible_rect().grow(1.0)
+	var panel_rect := panel.get_global_rect().grow(1.0)
+	for control in [panel, footer, boundary, details, finish]:
+		if not is_instance_valid(control) or not control.is_visible_in_tree() \
+				or not viewport_rect.encloses(control.get_global_rect()) \
+				or (control != panel \
+					and not panel_rect.encloses(control.get_global_rect())) \
+				or not _control_inside_clipping_ancestors(control):
+			var summary_shapes: Array[String] = []
+			for raw_child in summary.get_children():
+				if raw_child is Control:
+					var child := raw_child as Control
+					summary_shapes.append("%s<%s> rect=%s min=%s" % [
+						child.name, child.get_class(), child.get_global_rect(),
+						child.get_combined_minimum_size()])
+			_fail("Core Loop V2 completion summary CTA/hint escaped its safe area: %s rect=%s viewport=%s summary_children=%s." % [
+				control.name if is_instance_valid(control) else "missing",
+				control.get_global_rect() if is_instance_valid(control) else Rect2(),
+				viewport_rect, str(summary_shapes)])
+			return false
+	var text_controls: Array[Control] = []
+	for node in summary.find_children("*", "Label", true, false) \
+			+ summary.find_children("*", "Button", true, false):
+		if node is Control and (node as Control).is_visible_in_tree():
+			text_controls.append(node as Control)
+	for control in text_controls:
+		if control.get_theme_font_size("font_size") < 14:
+			_fail("Core Loop V2 first summary dropped player copy below 14px: %s=%d." % [
+				control.name, control.get_theme_font_size("font_size")])
+			return false
+	if lang == "en" and _contains_hangul(_collect_control_text(summary)):
+		_fail("Core Loop V2 English completion summary leaked Hangul.")
+		return false
+	var focus_owner := get_viewport().gui_get_focus_owner()
+	if not is_instance_valid(focus_owner) or focus_owner != finish:
+		_fail("Core Loop V2 completion summary did not park focus on its safe South CTA.")
+		return false
+	var marker := SceneTransition.get("_playtest_marker") as Control
+	if is_instance_valid(marker) and marker.visible:
+		_fail("Core Loop V2 completion summary did not hide the global playtest badge.")
+		return false
+	return true
+
+
+func _core_loop_v2_completion_expected_entries(
+		model: Dictionary, page_index: int, lang: String) -> Array[Dictionary]:
+	var entries: Array[Dictionary] = []
+	var months: Array = model.get("months", [])
+	if page_index <= months.size():
+		var month: Dictionary = months[page_index - 1]
+		var allocations: Array = month.get("allocations", [])
+		for index in range(allocations.size()):
+			entries.append({
+				"kind": "allocation", "source_index": index,
+				"text": str(allocations[index]),
+			})
+		var outcomes: Array = month.get("outcomes", [])
+		for index in range(outcomes.size()):
+			entries.append({
+				"kind": "outcome", "source_index": index,
+				"text": str(outcomes[index]),
+			})
+		var events: Array = month.get("events", [])
+		if not events.is_empty():
+			var event_lines: Array[String] = []
+			for value in events:
+				var text := str(value).strip_edges()
+				if not text.is_empty():
+					event_lines.append("— %s" % text)
+			entries.append({
+				"kind": "events", "source_index": 0,
+				"text": "\n".join(event_lines),
+			})
+		var missed: Array = month.get("missed", [])
+		var missed_lines: Array[String] = []
+		for value in missed:
+			var text := str(value).strip_edges()
+			if not text.is_empty():
+				missed_lines.append("— %s" % text)
+		entries.append({
+			"kind": "missed", "source_index": 0,
+			"text": "\n".join(missed_lines) if not missed_lines.is_empty() \
+				else ("놓친 일이 없다." if lang == "ko" else "Nothing was missed."),
+		})
+	else:
+		var unresolved: Array = model.get("unresolved", [])
+		if unresolved.is_empty():
+			entries.append({
+				"kind": "unresolved", "source_index": 0,
+				"text": "남아 있는 미결 항목이 없다." if lang == "ko" \
+					else "No open threads remain.",
+			})
+		else:
+			for index in range(unresolved.size()):
+				entries.append({
+					"kind": "unresolved", "source_index": index,
+					"text": str(unresolved[index]),
+				})
+	return entries
+
+
+func _assert_core_loop_v2_completion_detail_page(
+		completion: Control, model: Dictionary, page_index: int,
+		lang: String, input_mode: String, seen_entries: Dictionary) -> bool:
+	var expected := _core_loop_v2_completion_expected_entries(
+		model, page_index, lang)
+	var rows_raw: Variant = completion.get("_detail_rows")
+	if not rows_raw is Array or (rows_raw as Array).size() != expected.size():
+		_fail("Core Loop V2 completion page %d rendered %d rows instead of %d." % [
+			page_index, (rows_raw as Array).size() if rows_raw is Array else -1,
+			expected.size()])
+		return false
+	var rows: Array = rows_raw
+	var counter := _find_visible_meta_control(
+		completion, "core_loop_v2_page_counter", true) as Label
+	var page_host := _find_visible_meta_control(
+		completion, "core_loop_v2_detail_page", true)
+	var detail_hint := _find_visible_meta_control(
+		completion, "core_loop_v2_detail_hint", true)
+	var panel := _find_visible_meta_control(
+		completion, "core_loop_v2_completion_panel", true)
+	if not is_instance_valid(counter) or counter.text != "%d / 7" % page_index \
+			or not is_instance_valid(page_host) \
+			or not is_instance_valid(detail_hint) or not is_instance_valid(panel):
+		_fail("Core Loop V2 completion page %d lost its page counter/host/hint." % page_index)
+		return false
+	var expected_page_hint := "페이지 이동" if lang == "ko" else "Change Page"
+	if expected_page_hint not in _collect_control_text(detail_hint):
+		_fail("Core Loop V2 completion page %d retained obsolete page-navigation copy: %s." % [
+			page_index, _collect_control_text(detail_hint)])
+		return false
+	var viewport_rect := get_viewport().get_visible_rect().grow(1.0)
+	var panel_rect := panel.get_global_rect().grow(1.0)
+	for control in [page_host, detail_hint]:
+		if not viewport_rect.encloses(control.get_global_rect()) \
+				or not panel_rect.encloses(control.get_global_rect()) \
+				or not _control_inside_clipping_ancestors(control):
+			_fail("Core Loop V2 completion page %d escaped its 960-safe ledger area: %s." % [
+				page_index, control.get_global_rect()])
+			return false
+	for index in range(expected.size()):
+		if index > 0:
+			await _send_core_loop_v2_completion_raw(input_mode, "row_down")
+			await get_tree().process_frame
+		var row := rows[index] as Button
+		var entry: Dictionary = expected[index]
+		if str(entry.get("kind", "")) == "allocation" and page_index <= 6:
+			var global_week := (page_index - 1) * 4 \
+				+ int(entry.get("source_index", -1)) + 1
+			var expected_row_label := "%d주차 배치" % global_week \
+				if lang == "ko" else "WEEK %d ALLOCATION" % global_week
+			var expected_readout_prefix := "%d주 ·" % global_week \
+				if lang == "ko" else "W%d ·" % global_week
+			if not is_instance_valid(row) or row.text != expected_row_label \
+					or not str(entry.get("text", "")).begins_with(
+						expected_readout_prefix):
+				_fail("Core Loop V2 completion page %d allocation row/readout disagreed on global Week %d: row=%s readout=%s." % [
+					page_index, global_week,
+					row.text if is_instance_valid(row) else "missing",
+					str(entry.get("text", "missing"))])
+				return false
+		var entry_key := "%d:%s:%d" % [
+			page_index, str(entry.get("kind", "")),
+			int(entry.get("source_index", -1))]
+		if seen_entries.has(entry_key):
+			_fail("Core Loop V2 completion duplicated detail receipt %s." % entry_key)
+			return false
+		seen_entries[entry_key] = true
+		var readout := _find_visible_meta_control(
+			completion, "core_loop_v2_detail_entry_index", index) as Label
+		if not is_instance_valid(row) or not row.is_visible_in_tree() \
+				or int(completion.get("_selected_row")) != index \
+				or int(row.get_meta("core_loop_v2_detail_row_index", -1)) != index \
+				or str(row.get_meta("core_loop_v2_detail_entry_kind", "")) \
+					!= str(entry.get("kind", "")) \
+				or int(row.get_meta("core_loop_v2_detail_source_index", -1)) \
+					!= int(entry.get("source_index", -1)) \
+				or not bool(row.get_meta("core_loop_v2_detail_selected", false)) \
+				or get_viewport().gui_get_focus_owner() != row \
+				or not is_instance_valid(readout) \
+				or readout.text != str(entry.get("text", "")) \
+				or str(readout.get_meta("core_loop_v2_detail_entry_text", "")) \
+					!= str(entry.get("text", "")):
+			_fail("Core Loop V2 completion page %d row %d did not echo its exact receipt: expected=%s actual=%s." % [
+				page_index, index, str(entry),
+				readout.text if is_instance_valid(readout) else "missing"])
+			return false
+		if not viewport_rect.encloses(row.get_global_rect()) \
+				or not panel_rect.encloses(row.get_global_rect()) \
+				or not _control_inside_clipping_ancestors(row):
+			_fail("Core Loop V2 completion page %d row %d clipped at %s." % [
+				page_index, index, row.get_global_rect()])
+			return false
+	if expected.size() > 1:
+		await _send_core_loop_v2_completion_raw(input_mode, "row_up")
+		await get_tree().process_frame
+		if int(completion.get("_selected_row")) != expected.size() - 2:
+			_fail("Core Loop V2 raw D-pad Up did not move one completion row.")
+			return false
+		await _send_core_loop_v2_completion_raw(input_mode, "row_down")
+		await get_tree().process_frame
+		if int(completion.get("_selected_row")) != expected.size() - 1:
+			_fail("Core Loop V2 raw D-pad Down did not restore the final completion row.")
+			return false
+	if lang == "en":
+		var details_root := _find_visible_meta_control(
+			completion, "core_loop_v2_details", true)
+		if is_instance_valid(details_root) \
+				and _contains_hangul(_collect_control_text(details_root)):
+			_fail("Core Loop V2 English completion page %d leaked Hangul." % page_index)
+			return false
+	return true
+
+
+func _send_core_loop_v2_completion_raw(
+		input_mode: String, action: String) -> void:
+	var keycode: Key = KEY_NONE
+	var joy_button: JoyButton = JOY_BUTTON_A
+	match action:
+		"north":
+			keycode = KEY_Y
+			joy_button = JOY_BUTTON_Y
+		"page_prev":
+			keycode = KEY_Q
+			joy_button = JOY_BUTTON_LEFT_SHOULDER
+		"page_next":
+			keycode = KEY_E
+			joy_button = JOY_BUTTON_RIGHT_SHOULDER
+		"row_up":
+			keycode = KEY_UP
+			joy_button = JOY_BUTTON_DPAD_UP
+		"row_down":
+			keycode = KEY_DOWN
+			joy_button = JOY_BUTTON_DPAD_DOWN
+		"east":
+			keycode = KEY_ESCAPE
+			joy_button = JOY_BUTTON_B
+		"south":
+			keycode = KEY_ENTER
+			joy_button = JOY_BUTTON_A
+		_:
+			_fail("Core Loop V2 completion raw-input helper received %s." % action)
+			return
+	if input_mode == "gamepad":
+		await _send_route_raw_gamepad_button(joy_button)
+	else:
+		await _send_route_key(keycode)
+
+
+func _assert_core_loop_v2_vignette_contract() -> bool:
+	if not is_instance_valid(_mg) or not _mg.has_method("_update_vignette"):
+		_fail("Core Loop V2 vignette fixture cannot reach MainGame's shader layer.")
+		return false
+	var rect := _mg.get("_vignette_rect") as ColorRect
+	if not is_instance_valid(rect) or not rect.material is ShaderMaterial:
+		_fail("Core Loop V2 vignette fixture has no ShaderMaterial.")
+		return false
+	var material := rect.material as ShaderMaterial
+	var original_health := int(GameState.health)
+	var original_mental := int(GameState.mental)
+	GameState.health = 48
+	GameState.mental = 25
+	_mg.call("_update_vignette")
+	var calm_stress := float(material.get_shader_parameter("stress_norm"))
+	var calm_mental := float(material.get_shader_parameter("mental_norm"))
+	GameState.mental = 14
+	_mg.call("_update_vignette")
+	var crisis_stress := float(material.get_shader_parameter("stress_norm"))
+	var crisis_mental := float(material.get_shader_parameter("mental_norm"))
+	var shader := material.shader as Shader
+	var shader_code := shader.code if is_instance_valid(shader) else ""
+	GameState.health = original_health
+	GameState.mental = original_mental
+	_mg.call("_update_vignette")
+	if not is_zero_approx(calm_stress) \
+			or not is_equal_approx(calm_mental, 25.0 / 70.0) \
+			or crisis_stress <= 0.0 \
+			or crisis_mental >= calm_mental \
+			or "* stress_alpha" not in shader_code \
+			or "vec3(0.75, 0.02, 0.02) * stress_alpha" not in shader_code:
+		_fail("Core Loop V2 vignette crisis weighting drifted: calm stress/mental=%.4f/%.4f crisis=%.4f/%.4f." % [
+			calm_stress, calm_mental, crisis_stress, crisis_mental])
+		return false
+	print("CORE_LOOP_V2_VIGNETTE_OK calm_health=48 calm_mental=25 stress=0 crisis_mental=14 stress=%.4f" % crisis_stress)
 	return true
 
 func _assert_core_loop_v2_input_completion(
@@ -8510,7 +10806,8 @@ func _assert_core_loop_v2_input_completion(
 		action_result_confirms: Dictionary, offer_intents: int,
 		week_commits: int, side_shift_inputs: int,
 		commitment_task_inputs: int,
-		commitment_task_completions: int) -> bool:
+		commitment_task_completions: int,
+		cycle_allocations: int) -> bool:
 	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
 	var state: Dictionary = GameState.core_loop_v2_state
 	if planner_months_seen.size() != 6 or committed_months.size() != 6:
@@ -8524,8 +10821,9 @@ func _assert_core_loop_v2_input_completion(
 			or not bool(TutorialOverlay._seen.get("core_loop_v2", false)):
 		_fail("Core Loop V2 onboarding was not one state-free three-slide sequence.")
 		return false
-	if offer_intents != 21 or week_commits != 19:
-		_fail("Core Loop V2 completed with promise-or-offer/week input counts %d/%d instead of 21/19." % [
+	if cycle_allocations != 24 or offer_intents != 0 or week_commits != 0:
+		_fail("Core Loop V2 completed with cycle/offer/week input counts %d/%d/%d instead of 24/0/0." % [
+			cycle_allocations,
 			offer_intents, week_commits])
 		return false
 	if side_shift_inputs != 21:
@@ -8564,10 +10862,13 @@ func _assert_core_loop_v2_input_completion(
 		return false
 	for month_index in range(1, 7):
 		var raw_plan: Variant = plans.get(str(month_index), {})
-		if not raw_plan is Dictionary \
-				or (raw_plan as Dictionary).get("schedule", {}) \
-					!= _core_loop_v2_expected_schedule(month_index):
-			_fail("Core Loop V2 stored Month %d differently from the input-selected plan." % month_index)
+		if not raw_plan is Dictionary:
+			_fail("Core Loop V2 stored no readable Month %d plan." % month_index)
+			return false
+		if not core_loop.plan_uses_seoul_cycle(raw_plan as Dictionary) \
+				or (raw_plan as Dictionary).get("schedule", {}) != {} \
+				or not (raw_plan as Dictionary).get("routines", {}).is_empty():
+			_fail("Core Loop V2 stored Month %d as a legacy calendar instead of one Seoul Cycle." % month_index)
 			return false
 	var completed_turns: Array = state.get("completed_turns", [])
 	if completed_turns.size() != 24:
@@ -8583,18 +10884,271 @@ func _assert_core_loop_v2_input_completion(
 	if month_summaries.size() != 6:
 		_fail("Core Loop V2 completion stored %d month summaries instead of six." % month_summaries.size())
 		return false
-	# The inventory task owns its final comparison on the physical overlay and
-	# hands straight to its authored story, so it must not create a second AP
-	# result confirmation card here.
-	var expected_action_results := [
-		"m1_convenience_trial_shift", "m2_seorin_application",
-		"m3_hanbit_application",
-		"m4_certificate_session", "m4_logistics_shift",
-		"m4_health_check_day", "m5_city_service_application",
-		"m5_weekend_move_shift", "m5_employment_contract_clinic",
-		"m5_last_empty_sunday", "m6_no_plans_day",
-		"m6_last_study_group",
-	]
+	var audited_allocations := 0
+	var cycle_owner_turns: Dictionary = {}
+	for month_index in range(1, 7):
+		var summary: Dictionary = month_summaries.get(str(month_index), {})
+		var month_spec: Dictionary = core_loop.seoul_cycle_month_spec(month_index)
+		var summary_allocations: Array = summary.get("allocation_receipts", [])
+		var node_states: Dictionary = summary.get("node_states", {})
+		var trigger_receipts: Dictionary = summary.get("trigger_receipts", {})
+		var world_receipts: Dictionary = summary.get("world_receipts", {})
+		var expiry_receipts: Dictionary = summary.get("expiry_receipts", {})
+		var expired_nodes: Array = summary.get("expired_nodes", [])
+		var first_turn := ((month_index - 1) * 4) + 1
+		var expected_completed_turns := [
+			first_turn, first_turn + 1, first_turn + 2, first_turn + 3]
+		if str(summary.get("planning_mode", "")) \
+				!= core_loop.SEOUL_CYCLE_MODE \
+				or summary_allocations.size() != 4 \
+				or node_states.size() != 4 \
+				or summary.get("cycle_completed_turns", []) \
+					!= expected_completed_turns \
+				or int(summary.get("world_clock", 0)) != 4:
+			_fail("Month %d notebook lost its four Seoul Cycle allocations/nodes/turns: %s." % [
+				month_index, str(summary)])
+			return false
+		for offset in range(4):
+			var raw_allocation: Variant = summary_allocations[offset]
+			if not raw_allocation is Dictionary:
+				_fail("Month %d Week %d has no readable Seoul Cycle receipt." % [
+					month_index, offset + 1])
+				return false
+			var allocation: Dictionary = raw_allocation
+			var expected_turn := first_turn + offset
+			var before: Dictionary = allocation.get("before", {})
+			var after: Dictionary = allocation.get("after", {})
+			var effects: Dictionary = allocation.get("effects", {})
+			if int(allocation.get("turn", 0)) != expected_turn \
+					or str(allocation.get("status", "")) \
+						!= "turn_completed" \
+					or str(allocation.get("planning_mode", "")) \
+						!= core_loop.SEOUL_CYCLE_MODE \
+					or str(allocation.get("node_id", "")).is_empty() \
+					or int(allocation.get("capacity_value", 0)) <= 0:
+				_fail("Month %d Week %d Seoul Cycle allocation was missing or reinterpreted: %s." % [
+					month_index, offset + 1, str(allocation)])
+				return false
+			for stat_key in ["money", "health", "mental"]:
+				var actual_delta := float(after.get(stat_key, 0.0)) \
+					- float(before.get(stat_key, 0.0))
+				if not is_equal_approx(
+						actual_delta, float(effects.get(stat_key, 0.0))):
+					_fail("Month %d Week %d hid %s outside its allocation receipt." % [
+						month_index, offset + 1, stat_key])
+					return false
+			audited_allocations += 1
+		var node_expiry_count := 0
+		for raw_expiry_key in expiry_receipts:
+			var expiry_key := str(raw_expiry_key)
+			var raw_expiry: Variant = expiry_receipts.get(expiry_key, {})
+			if not raw_expiry is Dictionary:
+				_fail("Month %d expiry ledger entry %s is unreadable." % [
+					month_index, expiry_key])
+				return false
+			var expiry: Dictionary = raw_expiry
+			var expiry_scope := str(expiry.get("scope", "node"))
+			if expiry_scope == "node":
+				node_expiry_count += 1
+				continue
+			if expiry_scope != "trigger":
+				_fail("Month %d expiry ledger entry %s has unknown scope %s." % [
+					month_index, expiry_key, expiry_scope])
+				return false
+			var trigger_node_id := str(expiry.get("node_id", ""))
+			var trigger_node: Dictionary = (month_spec.get(
+				"nodes", {}) as Dictionary).get(trigger_node_id, {})
+			var trigger_node_state: Dictionary = node_states.get(
+				trigger_node_id, {})
+			var trigger_before: Dictionary = expiry.get("before", {})
+			var trigger_after: Dictionary = expiry.get("after", {})
+			var trigger_effects: Dictionary = expiry.get("effects", {})
+			var trigger_deadline := int(trigger_node.get(
+				"trigger_deadline_week", 0))
+			if expiry_key != "%s:trigger" % trigger_node_id \
+					or str(expiry.get("status", "")) != "consumed" \
+					or str(expiry.get("trigger_bundle", "")).is_empty() \
+					or str(expiry.get("consequence_id", "")).is_empty() \
+					or not bool(trigger_node.get(
+						"fallback_after_trigger_expiry", false)) \
+					or not bool(trigger_node_state.get(
+						"fallback_mode", false)) \
+					or str(trigger_node_state.get("featured_status", "")) \
+						!= "expired" \
+					or str(trigger_node_state.get(
+						"missed_trigger_bundle", "")) \
+						!= str(expiry.get("trigger_bundle", "")) \
+					or trigger_deadline not in range(1, 5) \
+					or int(expiry.get("week_index", 0)) != trigger_deadline \
+					or int(expiry.get("turn", 0)) \
+						!= first_turn + trigger_deadline - 1:
+				_fail("Month %d trigger-expiry receipt %s was missing, repeated, or detached from its fallback node: %s." % [
+					month_index, expiry_key, str(expiry)])
+				return false
+			for stat_key in ["money", "health", "mental"]:
+				var trigger_delta := float(trigger_after.get(stat_key, 0.0)) \
+					- float(trigger_before.get(stat_key, 0.0))
+				if not is_equal_approx(
+						trigger_delta, float(trigger_effects.get(
+							stat_key, 0.0))):
+					_fail("Month %d trigger expiry %s hid %s outside its receipt." % [
+						month_index, expiry_key, stat_key])
+					return false
+		if node_expiry_count != expired_nodes.size():
+			_fail("Month %d node-expiry ledger does not match its visible expired-node list." % month_index)
+			return false
+		for raw_expired_node_id in expired_nodes:
+			var expired_node_id := str(raw_expired_node_id)
+			var expiry: Dictionary = expiry_receipts.get(expired_node_id, {})
+			var expired_node: Dictionary = node_states.get(expired_node_id, {})
+			var expiry_before: Dictionary = expiry.get("before", {})
+			var expiry_after: Dictionary = expiry.get("after", {})
+			var expiry_effects: Dictionary = expiry.get("effects", {})
+			if str(expiry.get("scope", "node")) != "node" \
+					or str(expiry.get("status", "")) != "consumed" \
+					or str(expiry.get("node_id", "")) != expired_node_id \
+					or str(expiry.get("consequence_id", "")).is_empty() \
+					or int(expiry.get("week_index", 0)) not in range(1, 5) \
+					or int(expiry.get("turn", 0)) \
+						not in range(first_turn, first_turn + 4) \
+					or str(expired_node.get("status", "")) != "expired" \
+					or int(expired_node.get("expired_turn", 0)) \
+						!= int(expiry.get("turn", 0)):
+				_fail("Month %d expiry receipt %s was missing, repeated, or detached from its node: %s." % [
+					month_index, expired_node_id, str(expiry)])
+				return false
+			for stat_key in ["money", "health", "mental"]:
+				var expiry_delta := float(expiry_after.get(stat_key, 0.0)) \
+					- float(expiry_before.get(stat_key, 0.0))
+				if not is_equal_approx(
+						expiry_delta, float(expiry_effects.get(stat_key, 0.0))):
+					_fail("Month %d expiry %s hid %s outside its receipt." % [
+						month_index, expired_node_id, stat_key])
+					return false
+		for raw_trigger in trigger_receipts.values():
+			if not raw_trigger is Dictionary \
+					or str((raw_trigger as Dictionary).get(
+						"status", "")) != "resolved" \
+					or int((raw_trigger as Dictionary).get("turn", 0)) \
+						not in range(first_turn, first_turn + 4):
+				_fail("Month %d retained an unresolved or out-of-month node trigger: %s." % [
+					month_index, str(raw_trigger)])
+				return false
+			var trigger_bundle := str((raw_trigger as Dictionary).get(
+				"bundle_id", ""))
+			if trigger_bundle.is_empty() or cycle_owner_turns.has(trigger_bundle):
+				_fail("Month %d stored an empty or repeated node-trigger owner: %s." % [
+					month_index, trigger_bundle])
+				return false
+			cycle_owner_turns[trigger_bundle] = int(
+				(raw_trigger as Dictionary).get("turn", 0))
+		var world_spec: Dictionary = month_spec.get("world_clock", {})
+		var authored_world_events: Array = world_spec.get("events", [])
+		var authored_world_by_week: Dictionary = {}
+		for raw_world_event in authored_world_events:
+			if not raw_world_event is Dictionary:
+				_fail("Month %d has an unreadable world-clock contract." % month_index)
+				return false
+			var week_index := int((raw_world_event as Dictionary).get(
+				"week_index", 0))
+			if week_index not in range(1, 5) \
+					or authored_world_by_week.has(str(week_index)):
+				_fail("Month %d has a duplicate or out-of-range authored world slot: %s." % [
+					month_index, str(raw_world_event)])
+				return false
+			authored_world_by_week[str(week_index)] = (
+				raw_world_event as Dictionary).duplicate(true)
+		# Conditional bundle_options must be judged at the historical week. By
+		# completion, later choices can make the same candidate ineligible. The
+		# durable receipt is therefore the source of truth: validate that every
+		# resolved entry belongs to that authored fixed/option slot and turn,
+		# without demanding a receipt for a conditional slot that had no eligible
+		# candidate at the time.
+		for raw_world_key in world_receipts:
+			var receipt_week := int(str(raw_world_key))
+			var raw_world_receipt: Variant = world_receipts.get(
+				raw_world_key, {})
+			if not raw_world_receipt is Dictionary:
+				_fail("Month %d world-clock receipt W%d is unreadable." % [
+					month_index, receipt_week])
+				return false
+			var world_receipt: Dictionary = raw_world_receipt
+			var authored_world: Dictionary = authored_world_by_week.get(
+				str(receipt_week), {})
+			var allowed_bundles: Array[String] = []
+			var fixed_bundle := str(authored_world.get(
+				"bundle_id", "")).strip_edges()
+			if not fixed_bundle.is_empty():
+				allowed_bundles.append(fixed_bundle)
+			var raw_options: Variant = authored_world.get("bundle_options", [])
+			if raw_options is Array:
+				for raw_option in raw_options:
+					var option_id := str(raw_option).strip_edges()
+					if not option_id.is_empty() \
+							and not allowed_bundles.has(option_id):
+						allowed_bundles.append(option_id)
+			var world_bundle := str(world_receipt.get(
+				"bundle_id", "")).strip_edges()
+			if authored_world.is_empty() \
+					or str(world_receipt.get("status", "")) != "resolved" \
+					or not allowed_bundles.has(world_bundle) \
+					or int(world_receipt.get("week_index", receipt_week)) \
+						!= receipt_week \
+					or int(world_receipt.get("turn", 0)) \
+						!= first_turn + receipt_week - 1:
+					_fail("Month %d historical world receipt W%d is not owned by its authored fixed/option slot: authored=%s receipt=%s." % [
+						month_index, receipt_week, str(authored_world),
+						str(world_receipt)])
+					return false
+			if world_bundle.is_empty() or cycle_owner_turns.has(world_bundle):
+				_fail("Month %d stored an empty or repeated world owner: %s." % [
+					month_index, world_bundle])
+				return false
+			cycle_owner_turns[world_bundle] = int(world_receipt.get("turn", 0))
+		if month_index == 6:
+			var raw_city_world: Variant = world_receipts.get("3", {})
+			if not raw_city_world is Dictionary:
+				_fail("Month Six lost the Week-23 City work-sample world receipt.")
+				return false
+			var city_world: Dictionary = raw_city_world
+			if str(city_world.get("bundle_id", "")) \
+					!= "m6_city_service_response" \
+					or str(city_world.get("status", "")) != "resolved" \
+					or int(city_world.get("week_index", 0)) != 3 \
+					or int(city_world.get("turn", 0)) != 23 \
+					or int(city_world.get("claimed_turn", 0)) != 23 \
+					or int(city_world.get("resolved_turn", 0)) != 23:
+				_fail("Month Six City work-sample world receipt was not frozen exactly at Week 23: %s." % [
+					str(city_world)])
+				return false
+	if audited_allocations != 24:
+		_fail("Core Loop V2 audited %d Seoul Cycle allocation receipts instead of 24." % audited_allocations)
+		return false
+	var w3_mid_saves: Array[Dictionary] = []
+	for save_record in _core_loop_v2_save_events:
+		if bool(save_record.get("success", false)) \
+				and int(save_record.get("turn", 0)) == 3 \
+				and int(save_record.get("cycle_allocation_count", 0)) == 3 \
+				and save_record.get("cycle_completed_turns", []) == [1, 2] \
+				and str(save_record.get("cycle_pending_trigger", "")) \
+					== "father_first_call" \
+				and str(save_record.get("cycle_pending_world", "")) \
+					== "hyunsu_first_meet":
+			w3_mid_saves.append(save_record)
+	if w3_mid_saves.size() != 1:
+		_fail("Seoul Cycle did not write exactly one resumable W3 trigger+world mid-save.")
+		return false
+	# Only action-owning nodes/world beats expose the ordinary result card.
+	# Story-owned physical tasks (the inventory handoff) intentionally bridge
+	# straight into their authored scene and therefore stay out of this set.
+	var expected_action_results: Array[String] = []
+	for raw_bundle_id in cycle_owner_turns:
+		var bundle_id := str(raw_bundle_id)
+		var owner_bundle: Dictionary = core_loop.bundle(bundle_id)
+		if not str(owner_bundle.get("action_id", "")).strip_edges().is_empty() \
+				and not bool(core_loop.story_owns_action_result(bundle_id)):
+			expected_action_results.append(bundle_id)
+	expected_action_results.sort()
 	if action_result_confirms.size() != expected_action_results.size():
 		_fail("Core Loop V2 confirmed %d action results instead of %d." % [
 			action_result_confirms.size(), expected_action_results.size()])
@@ -8603,21 +11157,19 @@ func _assert_core_loop_v2_input_completion(
 		if int(action_result_confirms.get(bundle_id, 0)) != 1:
 			_fail("Core Loop V2 did not confirm action result %s exactly once." % bundle_id)
 			return false
-	var action_story_roots := {
-		"v2_inventory_count_nights": 10,
-		"v2_logistics_class_session": 13,
-		"v2_moving_crew_days": 18,
-		"v2_empty_sunday": 20,
-	}
-	for root_id in action_story_roots:
-		var positions := _core_loop_v2_story_positions(
-			story_sequence, str(root_id))
-		if positions.size() != 1 \
-				or int(story_sequence[positions[0]].get("turn", 0)) \
-					!= int(action_story_roots[root_id]):
-			_fail("Core Loop V2 action-story bridge %s did not follow its one confirmed result in Week %d." % [
-				root_id, int(action_story_roots[root_id])])
-			return false
+	for raw_bundle_id in cycle_owner_turns:
+		var bundle_id := str(raw_bundle_id)
+		var owner_turn := int(cycle_owner_turns[bundle_id])
+		for raw_root_id in core_loop.resolved_event_roots(bundle_id):
+			var root_id := str(raw_root_id)
+			var positions := _core_loop_v2_story_positions(
+				story_sequence, root_id)
+			if positions.size() != 1 \
+					or int(story_sequence[positions[0]].get("turn", 0)) \
+						!= owner_turn:
+				_fail("Seoul Cycle owner %s did not play authored root %s exactly once in Week %d." % [
+					bundle_id, root_id, owner_turn])
+				return false
 	if int(GameState.turn) != 25 or int(GameState.month) != 7 \
 			or int(GameState.week_of_month) != 1 or GameState.is_game_over:
 		_fail("Core Loop V2 boundary is not the live Week-25/Month-7 continuation: turn=%d month=%d week=%d game_over=%s." % [
@@ -8723,11 +11275,39 @@ func _assert_core_loop_v2_input_completion(
 		}:
 		_fail("Core Loop V2 opening replayed the legacy app-open card, duplicated a scene, or persisted the expression-only calculation: %s." % opening_log_counts)
 		return false
+	var father_cycle_positions := _core_loop_v2_story_positions(
+		story_sequence, "arc_father_01_call")
+	var hyunsu_cycle_positions := _core_loop_v2_story_positions(
+		story_sequence, "arc_intro_04_hyunsu")
+	var temptation_positions := _core_loop_v2_story_positions(
+		story_sequence, "arc_temptation_01")
+	if father_cycle_positions.size() != 1 \
+			or hyunsu_cycle_positions.size() != 1 \
+			or temptation_positions.size() != 1 \
+			or int(story_sequence[father_cycle_positions[0]].get("turn", 0)) != 3 \
+			or int(story_sequence[hyunsu_cycle_positions[0]].get("turn", 0)) != 3 \
+			or father_cycle_positions[0] >= hyunsu_cycle_positions[0] \
+			or int(story_sequence[temptation_positions[0]].get("turn", 0)) != 4:
+		_fail("Seoul Cycle did not resolve W3 Father then Hyunsu and W4 temptation exactly once.")
+		return false
+	var temptation_echo := str(story_sequence[temptation_positions[0]].get(
+		"seoul_cycle_echo", ""))
+	var expected_echo_token := "blanket" if LocaleManager.is_english() else "이불"
+	if expected_echo_token.to_lower() not in temptation_echo.to_lower() \
+			or (LocaleManager.is_english() and _contains_hangul(temptation_echo)):
+		_fail("W4 temptation did not read the actual latest recovery receipt: %s." % temptation_echo)
+		return false
 
+	var collision_context: Dictionary = state.get("demo_collision_context", {})
+	var collision_roots: Array = collision_context.get("roots", [])
+	var has_hyunsu_morning := collision_roots.has(
+		"v2_hyunsu_exam_morning_echo")
 	var finale_ids := [
 		"v2_demo_first_bill_opening", "v2_demo_first_bill",
-		"v2_demo_first_bill_ledger", "v2_hyunsu_exam_morning_echo",
+		"v2_demo_first_bill_ledger",
 	]
+	if has_hyunsu_morning:
+		finale_ids.append("v2_hyunsu_exam_morning_echo")
 	var finale_positions: Array[int] = []
 	var finale_instances: Array[int] = []
 	for event_id in finale_ids:
@@ -8741,13 +11321,16 @@ func _assert_core_loop_v2_input_completion(
 			"instance", 0)))
 	if finale_positions[1] != finale_positions[0] + 1 \
 			or finale_positions[2] != finale_positions[1] + 1 \
-			or finale_positions[3] != finale_positions[2] + 1:
-		_fail("Core Loop V2 finale did not remain opening → decision → ledger → Hyunsu morning: %s." % finale_positions)
+			or (has_hyunsu_morning \
+				and finale_positions[3] != finale_positions[2] + 1):
+		_fail("Core Loop V2 finale did not preserve its historically resolved root order: %s / %s." % [
+			str(collision_roots), str(finale_positions)])
 		return false
 	if finale_instances[0] != finale_instances[1] \
 			or finale_instances[1] != finale_instances[2] \
-			or finale_instances[2] != finale_instances[3]:
-		_fail("Core Loop V2 First Bill and Hyunsu morning did not remain in one StoryMode instance.")
+			or (has_hyunsu_morning \
+				and finale_instances[2] != finale_instances[3]):
+		_fail("Core Loop V2 First Bill roots did not remain in one StoryMode instance.")
 		return false
 	var story_receipts: Dictionary = state.get("story_choice_receipts", {})
 	var bill_choice_key := "demo_collision:v2_demo_first_bill:7:24"
@@ -8760,11 +11343,15 @@ func _assert_core_loop_v2_input_completion(
 		return false
 	var morning_key := "demo_collision:v2_hyunsu_exam_morning_echo:0:24"
 	var raw_morning: Variant = story_receipts.get(morning_key, {})
-	if not raw_morning is Dictionary \
-			or not _core_loop_v2_story_receipt_matches(
-				raw_morning as Dictionary, morning_key,
-				"demo_collision", "v2_hyunsu_exam_morning_echo", 0, 24):
-		_fail("Core Loop V2 Hyunsu morning did not write its exact once-only receipt.")
+	if has_hyunsu_morning:
+		if not raw_morning is Dictionary \
+				or not _core_loop_v2_story_receipt_matches(
+					raw_morning as Dictionary, morning_key,
+					"demo_collision", "v2_hyunsu_exam_morning_echo", 0, 24):
+			_fail("Core Loop V2 Hyunsu morning did not write its exact once-only receipt.")
+			return false
+	elif raw_morning is Dictionary and not (raw_morning as Dictionary).is_empty():
+		_fail("Core Loop V2 fabricated a Hyunsu morning receipt outside the collision's historical roots.")
 		return false
 	for raw_receipt in story_receipts.values():
 		if raw_receipt is Dictionary \
@@ -8777,16 +11364,19 @@ func _assert_core_loop_v2_input_completion(
 	var expected_candidates := [
 		"father_call", "hanbit_month_close", "city_work_sample", "body_rest",
 	]
-	var collision_context: Dictionary = state.get("demo_collision_context", {})
+	var expected_collision_roots := ["v2_demo_first_bill_opening"]
+	if has_hyunsu_morning:
+		expected_collision_roots.append("v2_hyunsu_exam_morning_echo")
 	if str(collision_context.get("bundle_id", "")) != "demo_collision" \
 			or int(collision_context.get("turn", -1)) != 24 \
-			or collision_context.get("roots", []) != [
-				"v2_demo_first_bill_opening", "v2_hyunsu_exam_morning_echo"] \
+			or collision_roots != expected_collision_roots \
 			or collision_context.get("candidate_ids", []) != expected_candidates \
 			or not str(collision_context.get("dirty_source", "")).is_empty() \
 			or not str(collision_context.get("dirty_root", "")).is_empty() \
 			or not bool(collision_context.get("prepared", false)):
-		_fail("Core Loop V2 First Bill candidate context drifted from the clean hired route.")
+		_fail("Core Loop V2 First Bill candidate context drifted from the clean hired route: expected_roots=%s expected_candidates=%s actual=%s." % [
+			str(expected_collision_roots), str(expected_candidates),
+			str(collision_context)])
 		return false
 	var obligations: Dictionary = state.get("obligation_receipts", {})
 	var raw_obligation: Variant = obligations.get("demo_collision", {})
@@ -8838,29 +11428,34 @@ func _assert_core_loop_v2_input_completion(
 		return false
 	var future_story: Dictionary = state.get("future_story_receipts", {})
 	var raw_hyunsu: Variant = future_story.get("hyunsu_exam_2026", {})
-	if not raw_hyunsu is Dictionary:
-		_fail("Core Loop V2 Hyunsu exam eve has no future outcome receipt.")
-		return false
-	var hyunsu: Dictionary = raw_hyunsu
-	var expected_hyunsu := {
-		"receipt_id": "hyunsu_exam_2026",
-		"character": "hyunsu",
-		"producer_bundle": "hyunsu_exam_eve",
-		"source_memory": "hyunsu_exam_eve_rest_protected",
-		"source_kind": "relationship_memory",
-		"outcome": "fail",
-		"recorded_turn": 23,
-		"exam_turn": 24,
-		"available_turn": 27,
-		"result_event": "hyunsu_result_fail",
-	}
-	for key in expected_hyunsu:
-		if hyunsu.get(key) != expected_hyunsu[key]:
-			_fail("Core Loop V2 Hyunsu future receipt drifted at %s: %s." % [
-				key, str(hyunsu.get(key))])
+	if has_hyunsu_morning:
+		if not raw_hyunsu is Dictionary:
+			_fail("Core Loop V2 Hyunsu exam eve has no future outcome receipt.")
 			return false
-	if not bool(core_loop.has_hyunsu_exam_outcome_receipt()) \
-			or not bool(GameState.flags.get("hyunsu_exam_day_seen", false)) \
+		var hyunsu: Dictionary = raw_hyunsu
+		var expected_hyunsu := {
+			"receipt_id": "hyunsu_exam_2026",
+			"character": "hyunsu",
+			"producer_bundle": "hyunsu_exam_eve",
+			"source_memory": "hyunsu_exam_eve_rest_protected",
+			"source_kind": "relationship_memory",
+			"outcome": "fail",
+			"recorded_turn": 23,
+			"exam_turn": 24,
+			"available_turn": 27,
+			"result_event": "hyunsu_result_fail",
+		}
+		for key in expected_hyunsu:
+			if hyunsu.get(key) != expected_hyunsu[key]:
+				_fail("Core Loop V2 Hyunsu future receipt drifted at %s: %s." % [
+					key, str(hyunsu.get(key))])
+				return false
+	elif raw_hyunsu is Dictionary and not (raw_hyunsu as Dictionary).is_empty():
+		_fail("Core Loop V2 fabricated a Hyunsu future receipt without its historical finale root.")
+		return false
+	if bool(core_loop.has_hyunsu_exam_outcome_receipt()) != has_hyunsu_morning \
+			or bool(GameState.flags.get("hyunsu_exam_day_seen", false)) \
+				!= has_hyunsu_morning \
 			or bool(GameState.flags.get("hyunsu_passed", false)) \
 			or bool(GameState.flags.get("hyunsu_failed", false)) \
 			or not str(core_loop.hyunsu_exam_result_event_id(25, false)).is_empty() \
@@ -8872,10 +11467,12 @@ func _assert_core_loop_v2_input_completion(
 		return false
 
 	var completion := _find_visible_meta_control(
-		scene, "core_loop_v2_completion", true)
+		scene, "core_loop_v2_completion_surface", true)
 	if not is_instance_valid(completion) \
-			or not bool(completion.get_meta(
-				"core_loop_v2_completion_autosave_succeeded", false)):
+			or not bool(scene.get(
+				"_core_loop_v2_completion_autosave_succeeded")) \
+			or not bool((completion.get("_model") as Dictionary).get(
+				"autosave_ok", false)):
 		_fail("Core Loop V2 completion did not expose a successful terminal autosave.")
 		return false
 	var terminal_saves: Array[Dictionary] = []
@@ -8934,6 +11531,122 @@ func _assert_core_loop_v2_input_completion(
 				"id", "")) != "job_03":
 		_fail("Core Loop V2 terminal autosave does not contain the live completion boundary.")
 		return false
+	var saved_v2: Dictionary = saved_v2_raw
+	var saved_frozen_map_raw: Variant = saved_v2.get(
+		"completion_snapshots", {})
+	var saved_frozen_raw: Variant = (
+		(saved_frozen_map_raw as Dictionary).get("24", {})
+		if saved_frozen_map_raw is Dictionary else {})
+	var live_frozen: Dictionary = core_loop.completion_snapshot()
+	var saved_frozen: Dictionary = (
+		saved_frozen_raw as Dictionary
+		if saved_frozen_raw is Dictionary else {})
+	var persisted_live_raw: Variant = JSON.parse_string(
+		JSON.stringify(live_frozen))
+	var persisted_live: Dictionary = (
+		persisted_live_raw as Dictionary
+		if persisted_live_raw is Dictionary else {})
+	var frozen_difference := _core_loop_v2_first_variant_difference(
+		saved_frozen, persisted_live)
+	if not saved_frozen_raw is Dictionary \
+			or (saved_frozen_raw as Dictionary).is_empty() \
+			or int((saved_frozen_raw as Dictionary).get(
+				"snapshot_schema", 0)) != 1 \
+			or int((saved_frozen_raw as Dictionary).get(
+				"frozen_at_turn", 0)) != 25 \
+			or (saved_frozen_raw as Dictionary).get(
+				"cycle_allocations", []).size() != 24 \
+			or frozen_difference != "none":
+		_fail("Core Loop V2 terminal autosave did not preserve the exact frozen Week-24 snapshot: saved_schema=%d saved_turn=%d saved_allocations=%d live_schema=%d live_turn=%d live_allocations=%d first_difference=%s." % [
+			int(saved_frozen.get("snapshot_schema", 0)),
+			int(saved_frozen.get("frozen_at_turn", 0)),
+			(saved_frozen.get("cycle_allocations", []) as Array).size() \
+				if saved_frozen.get("cycle_allocations", []) is Array else -1,
+			int(live_frozen.get("snapshot_schema", 0)),
+			int(live_frozen.get("frozen_at_turn", 0)),
+			(live_frozen.get("cycle_allocations", []) as Array).size() \
+				if live_frozen.get("cycle_allocations", []) is Array else -1,
+			frozen_difference])
+		return false
+	var boundary_declines_raw: Variant = live_frozen.get("decline_receipts", [])
+	var month_six_boundary_declines := 0
+	if not boundary_declines_raw is Array:
+		_fail("Core Loop V2 frozen completion decline ledger is unreadable.")
+		return false
+	for raw_decline in boundary_declines_raw as Array:
+		if not raw_decline is Dictionary:
+			_fail("Core Loop V2 frozen completion decline ledger contains a non-receipt.")
+			return false
+		var decline: Dictionary = raw_decline
+		var visible_month := int(decline.get(
+			"visible_month", decline.get("month", 0)))
+		var consumed_turn := int(decline.get(
+			"consumed_turn", decline.get("turn", 0)))
+		if visible_month > 6 or consumed_turn > 25:
+			_fail("Core Loop V2 frozen completion leaked a post-boundary decline: %s." % [
+				str(decline)])
+			return false
+		if visible_month == 6 and consumed_turn == 25:
+			month_six_boundary_declines += 1
+	# Fresh Seoul Cycle owns misses through node/featured expiry receipts, not
+	# the legacy planner decline ledger. Zero declines is therefore valid here;
+	# any legacy receipt that does coexist must remain inside the frozen cap.
+	var frozen_before_mutation := live_frozen.duplicate(true)
+	var completion_model_before: Dictionary = (
+		(completion.get("_model") as Dictionary).duplicate(true)
+		if completion.get("_model") is Dictionary else {})
+	var mutated_state := GameState.core_loop_v2_state.duplicate(true)
+	var mutated_summaries: Dictionary = (
+		(mutated_state.get("month_summaries", {}) as Dictionary).duplicate(true)
+		if mutated_state.get("month_summaries", {}) is Dictionary else {})
+	var mutated_month_six: Dictionary = (
+		(mutated_summaries.get("6", {}) as Dictionary).duplicate(true)
+		if mutated_summaries.get("6", {}) is Dictionary else {})
+	var mutated_after: Dictionary = (
+		(mutated_month_six.get("after", {}) as Dictionary).duplicate(true)
+		if mutated_month_six.get("after", {}) is Dictionary else {})
+	mutated_after["money"] = -9_999_999.0
+	mutated_after["health"] = 1
+	mutated_after["mental"] = 1
+	mutated_month_six["after"] = mutated_after
+	mutated_summaries["6"] = mutated_month_six
+	mutated_state["month_summaries"] = mutated_summaries
+	GameState.core_loop_v2_state = mutated_state
+	GameState.money = -9_999_999.0
+	GameState.health = 1
+	GameState.mental = 1
+	var mutation_difference := _core_loop_v2_first_variant_difference(
+		core_loop.completion_snapshot(), frozen_before_mutation)
+	if mutation_difference != "none" \
+			or completion.get("_model") != completion_model_before:
+		_fail("Core Loop V2 completion changed after post-boundary live state mutation: %s." % mutation_difference)
+		return false
+	if not SaveManager.load_game(SaveManager.AUTOSAVE_SLOT):
+		_fail("Core Loop V2 terminal autosave could not reload its frozen Week-24 snapshot.")
+		return false
+	var reloaded_frozen: Dictionary = core_loop.completion_snapshot()
+	var reloaded_frozen_map: Dictionary = (
+		(GameState.core_loop_v2_state.get(
+			"completion_snapshots", {}) as Dictionary).duplicate(true)
+		if GameState.core_loop_v2_state.get(
+			"completion_snapshots", {}) is Dictionary else {})
+	var persisted_before_raw: Variant = JSON.parse_string(
+		JSON.stringify(frozen_before_mutation))
+	var persisted_reloaded_raw: Variant = JSON.parse_string(
+		JSON.stringify(reloaded_frozen))
+	var persisted_reloaded_map_raw: Variant = JSON.parse_string(
+		JSON.stringify(reloaded_frozen_map.get("24", {})))
+	var reloaded_difference := _core_loop_v2_first_variant_difference(
+		persisted_reloaded_raw, persisted_before_raw)
+	var reloaded_map_difference := _core_loop_v2_first_variant_difference(
+		persisted_reloaded_map_raw, persisted_before_raw)
+	if reloaded_difference != "none" \
+			or reloaded_map_difference != "none" \
+			or completion.get("_model") != completion_model_before:
+		_fail("Core Loop V2 save/load roundtrip changed the frozen Week-24 snapshot or visible recap: snapshot=%s map=%s." % [
+			reloaded_difference, reloaded_map_difference])
+		return false
+	print("CORE_LOOP_V2_FROZEN_SNAPSHOT_OK week=24 allocations=24 save_load=persisted_exact live_mutation=ignored m6_turn25_declines=%d post_boundary=0 cycle_expiry=separate_owner" % month_six_boundary_declines)
 	return true
 
 func _assert_core_loop_v2_input_purity(input_mode: String) -> bool:
@@ -9097,9 +11810,123 @@ func _activate_route_control(control: Control, input_mode: String) -> void:
 	# A visible desktop cursor can move hover focus during the settling frame.
 	# Reassert the intended pad target immediately before the South-button event.
 	if input_mode == "gamepad" and is_instance_valid(control) \
-			and control.is_inside_tree() and not control.has_focus():
+		and control.is_inside_tree() and not control.has_focus():
 		control.grab_focus()
 	await _send_route_input(input_mode)
+
+
+func _activate_cycle_commit_with_world_guard(
+		control: Control, input_mode: String, core_loop: Variant,
+		expected_turn: int, expected_bundle: String) -> bool:
+	if not is_instance_valid(control) or input_mode not in [
+			"keyboard", "gamepad"]:
+		_fail("Week-%d world guard received an invalid allocation control/device: %s." % [
+			expected_turn, input_mode])
+		return false
+	control.grab_focus()
+	await get_tree().process_frame
+	if int(GameState.turn) != expected_turn:
+		_fail("Core Loop V2 changed Week %d before the guarded allocation input." % expected_turn)
+		return false
+
+	var pressed: InputEvent
+	if input_mode == "gamepad":
+		var pad_pressed := InputEventJoypadButton.new()
+		pad_pressed.device = 0
+		pad_pressed.button_index = JOY_BUTTON_A
+		pad_pressed.pressed = true
+		pad_pressed.pressure = 1.0
+		pressed = pad_pressed
+	else:
+		var key_pressed := InputEventKey.new()
+		key_pressed.keycode = KEY_ENTER
+		key_pressed.physical_keycode = KEY_ENTER
+		key_pressed.pressed = true
+		pressed = key_pressed
+	_record_route_injected_event(pressed)
+	Input.parse_input_event(pressed)
+	await get_tree().process_frame
+	if int(GameState.turn) != expected_turn:
+		_fail("Core Loop V2 changed Week %d on allocation press before button release." % expected_turn)
+		return false
+
+	var released := pressed.duplicate() as InputEvent
+	if released is InputEventJoypadButton:
+		(released as InputEventJoypadButton).pressed = false
+		(released as InputEventJoypadButton).pressure = 0.0
+	else:
+		(released as InputEventKey).pressed = false
+	_record_route_injected_event(released)
+	Input.parse_input_event(released)
+	await get_tree().process_frame
+	if not _assert_no_stale_result_confirm(
+			expected_turn, "after allocation release"):
+		return false
+	if not _assert_pending_cycle_world_turn(
+			core_loop, expected_turn, expected_bundle, "after allocation release"):
+		return false
+	for frame_label in ["deferred frame 1", "deferred frame 2"]:
+		await get_tree().process_frame
+		if not _assert_no_stale_result_confirm(
+				expected_turn, str(frame_label)):
+			return false
+		if not _assert_pending_cycle_world_turn(
+				core_loop, expected_turn, expected_bundle, str(frame_label)):
+			return false
+	return true
+
+
+func _assert_no_stale_result_confirm(
+		expected_turn: int, phase: String) -> bool:
+	var current := get_tree().current_scene
+	if not is_instance_valid(current):
+		return true
+	var stale := _find_visible_meta_button(current, "ap_result_confirm")
+	if stale == null:
+		return true
+	_fail("Core Loop V2 %s exposed a stale result confirm after the Week-%d allocation: instance=%d owner=%s." % [
+		phase, expected_turn, int(stale.get_instance_id()),
+		str(GameState.core_loop_v2_state.get("active_bundle", ""))])
+	return false
+
+
+func _assert_pending_cycle_world_turn(
+		core_loop: Variant, expected_turn: int,
+		expected_bundle: String, phase: String) -> bool:
+	var pending: Dictionary = core_loop.pending_seoul_cycle_world()
+	if int(GameState.turn) != expected_turn \
+			or int(pending.get("turn", 0)) != expected_turn \
+			or str(pending.get("bundle_id", "")) != expected_bundle \
+			or str(pending.get("status", "")) not in ["pending", "claimed"]:
+		_fail("Core Loop V2 %s crossed the Week-%d world barrier: turn=%d pending=%s." % [
+			phase, expected_turn, int(GameState.turn), str(pending)])
+		return false
+	if _seoul_cycle_has_resolved_world_receipt(
+			core_loop, expected_turn, expected_bundle):
+		_fail("Core Loop V2 %s resolved the Week-%d world receipt before its story completed." % [
+			phase, expected_turn])
+		return false
+	return true
+
+
+func _seoul_cycle_has_resolved_world_receipt(
+		core_loop: Variant, expected_turn: int,
+		expected_bundle: String) -> bool:
+	var month_index := int((expected_turn - 1) / 4) + 1
+	var snapshot: Dictionary = core_loop.seoul_cycle_snapshot(month_index)
+	var raw_receipts: Variant = snapshot.get("world_receipts", {})
+	if not raw_receipts is Dictionary:
+		return false
+	for raw_receipt in (raw_receipts as Dictionary).values():
+		if raw_receipt is Dictionary \
+				and int((raw_receipt as Dictionary).get("turn", 0)) \
+					== expected_turn \
+				and str((raw_receipt as Dictionary).get("bundle_id", "")) \
+					== expected_bundle \
+				and str((raw_receipt as Dictionary).get("status", "")) \
+					== "resolved":
+			return true
+	return false
 
 func _advance_route_story(_story: Node, input_mode: String) -> void:
 	if input_mode == "mouse":
@@ -9153,6 +11980,22 @@ func _send_route_raw_gamepad_button(button_index: JoyButton) -> void:
 	_record_route_injected_event(released)
 	Input.parse_input_event(released)
 	await get_tree().process_frame
+
+
+func _send_route_gamepad_axis(axis: JoyAxis, value: float) -> void:
+	var motion := InputEventJoypadMotion.new()
+	motion.device = 0
+	motion.axis = axis
+	motion.axis_value = clampf(value, -1.0, 1.0)
+	_record_route_injected_event(motion)
+	Input.parse_input_event(motion)
+	await get_tree().process_frame
+	var released := motion.duplicate() as InputEventJoypadMotion
+	released.axis_value = 0.0
+	_record_route_injected_event(released)
+	Input.parse_input_event(released)
+	await get_tree().process_frame
+
 
 func _send_route_mouse_click(position: Vector2) -> void:
 	# Push local viewport coordinates directly. Input.parse_input_event() routes via
@@ -15323,6 +18166,52 @@ func _save(shot_name: String, settle_time: float = 0.3) -> void:
 	var path := "%s/%s.png" % [OUT_DIR, shot_name]
 	img.save_png(path)
 	print("SHOT %s" % path)
+
+
+func _core_loop_v2_first_variant_difference(
+		left: Variant, right: Variant, path: String = "$") -> String:
+	if left == right:
+		return "none"
+	if typeof(left) != typeof(right):
+		return "%s type %d != %d; left=%s right=%s" % [
+			path, typeof(left), typeof(right), str(left), str(right)]
+	if left is Dictionary:
+		var left_dictionary := left as Dictionary
+		var right_dictionary := right as Dictionary
+		var keys: Array = left_dictionary.keys()
+		for raw_key in right_dictionary:
+			if not left_dictionary.has(raw_key):
+				keys.append(raw_key)
+		keys.sort_custom(func(a: Variant, b: Variant) -> bool:
+			return str(a) < str(b))
+		for raw_key in keys:
+			var child_path := "%s.%s" % [path, str(raw_key)]
+			if not left_dictionary.has(raw_key):
+				return "%s missing from saved snapshot; live=%s" % [
+					child_path, str(right_dictionary.get(raw_key))]
+			if not right_dictionary.has(raw_key):
+				return "%s missing from live snapshot; saved=%s" % [
+					child_path, str(left_dictionary.get(raw_key))]
+			var difference := _core_loop_v2_first_variant_difference(
+				left_dictionary.get(raw_key), right_dictionary.get(raw_key),
+				child_path)
+			if difference != "none":
+				return difference
+		return "none"
+	if left is Array:
+		var left_array := left as Array
+		var right_array := right as Array
+		if left_array.size() != right_array.size():
+			return "%s array size %d != %d" % [
+				path, left_array.size(), right_array.size()]
+		for index in range(left_array.size()):
+			var difference := _core_loop_v2_first_variant_difference(
+				left_array[index], right_array[index], "%s[%d]" % [path, index])
+			if difference != "none":
+				return difference
+		return "none"
+	return "%s value saved=%s live=%s" % [path, str(left), str(right)]
+
 
 func _fail(msg: String) -> void:
 	_qa_failed = true

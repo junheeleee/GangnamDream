@@ -79,13 +79,9 @@ func save_game(
 		"metadata": metadata.duplicate(true),
 	}
 	payload.merge(save_identity_fields(), true)
-	var file = FileAccess.open(_slot_path(slot), FileAccess.WRITE)
-	if file == null:
-		save_completed.emit(false, slot)
-		return false
-	file.store_string(JSON.stringify(payload, "\t"))
-	save_completed.emit(true, slot)
-	return true
+	var saved := _write_save_payload(_slot_path(slot), payload, slot)
+	save_completed.emit(saved, slot)
+	return saved
 
 func autosave(resume_context: Dictionary = {}) -> bool:
 	return save_game(AUTOSAVE_SLOT, resume_context)
@@ -98,18 +94,16 @@ func load_game(slot: int) -> bool:
 	if not _valid_slot(slot):
 		load_completed.emit(false, slot)
 		return false
-	if not has_save(slot):
+	var path := _slot_path(slot)
+	var selection: Dictionary = _select_save_candidate(path, slot)
+	if not bool(selection.get("valid", false)):
 		load_completed.emit(false, slot)
 		return false
-	var parsed = JSON.parse_string(FileAccess.get_file_as_string(_slot_path(slot)))
-	if not (parsed is Dictionary):
-		load_completed.emit(false, slot)
-		return false
-	var state_value: Variant = parsed.get("state", parsed)
-	if not state_value is Dictionary:
-		load_completed.emit(false, slot)
-		return false
-	var compatibility := inspect_payload_compatibility(parsed, state_value)
+	var parsed: Dictionary = selection.get("payload", {})
+	var state_value: Dictionary = selection.get("state", {})
+	var compatibility: Dictionary = selection.get("compatibility", {})
+	var recovered_from_backup := bool(selection.get(
+		"recovered_from_backup", false))
 	_last_load_diagnostic = compatibility.duplicate(true)
 	if not bool(compatibility.get("compatible", false)):
 		push_warning("SaveManager: rejected slot %d (%s)." % [
@@ -118,6 +112,9 @@ func load_game(slot: int) -> bool:
 		return false
 	for warning in compatibility.get("warnings", []):
 		push_warning("SaveManager: slot %d: %s." % [slot, str(warning)])
+	if recovered_from_backup and not _restore_primary_from_backup(path, slot):
+		push_warning(("SaveManager: slot %d loaded from its verified backup, " \
+			+ "but the primary file could not be restored.") % slot)
 	var state := migrate_narrative_rhythm_state(
 			state_value, int(parsed.get("narrative_rhythm_version", 0)))
 	GameState.load_from_dict(state)
@@ -180,13 +177,19 @@ func migrate_narrative_rhythm_state(state: Dictionary, source_version: int) -> D
 func has_save(slot: int) -> bool:
 	if not _valid_slot(slot):
 		return false
-	return FileAccess.file_exists(_slot_path(slot))
+	var path := _slot_path(slot)
+	return FileAccess.file_exists(path) \
+			or FileAccess.file_exists(_backup_path(path))
 
 func delete_save(slot: int) -> void:
 	if not _valid_slot(slot):
 		return
-	if has_save(slot):
-		DirAccess.remove_absolute(ProjectSettings.globalize_path(_slot_path(slot)))
+	var path := _slot_path(slot)
+	for owned_path in [
+		path, _backup_path(path), "%s.tmp" % path,
+		"%s.tmp" % _backup_path(path), "%s.recovery.tmp" % path,
+	]:
+		_remove_save_temporary_file(str(owned_path))
 
 func get_slots() -> Array:
 	var slots: Array = []
@@ -199,19 +202,21 @@ func get_save_info(slot: int) -> Dictionary:
 		return {"slot": slot, "empty": true, "invalid": true}
 	if not has_save(slot):
 		return {"slot": slot, "empty": true}
-	var parsed = JSON.parse_string(FileAccess.get_file_as_string(_slot_path(slot)))
-	if not (parsed is Dictionary):
+	var path := _slot_path(slot)
+	var selection: Dictionary = _select_save_candidate(path, slot)
+	if not bool(selection.get("valid", false)):
 		return {"slot": slot, "empty": true, "corrupt": true}
-	var state_value: Variant = parsed.get("state", {})
-	if not state_value is Dictionary:
-		return {"slot": slot, "empty": true, "corrupt": true}
-	var state: Dictionary = state_value
+	var parsed: Dictionary = selection.get("payload", {})
+	var state: Dictionary = selection.get("state", {})
 	var resume_value: Variant = parsed.get("resume", {})
 	var resume: Dictionary = resume_value if resume_value is Dictionary else {}
 	var metadata_value: Variant = parsed.get("metadata", {})
 	var metadata: Dictionary = metadata_value if metadata_value is Dictionary else {}
 	var turn: int = maxi(1, int(state.get("turn", 1)))
-	var compatibility := inspect_payload_compatibility(parsed, state)
+	var compatibility: Dictionary = selection.get("compatibility", {})
+	var recovered_from_backup := bool(selection.get(
+		"recovered_from_backup", false))
+	var recovery_reason := str(selection.get("recovery_reason", ""))
 	var info := {
 		"slot": slot,
 		"empty": false,
@@ -233,6 +238,8 @@ func get_save_info(slot: int) -> Dictionary:
 		"phase": str(resume.get("phase", "")),
 		"label": str(metadata.get("label", "")),
 		"qa_fixture": bool(metadata.get("qa_fixture", false)),
+		"recovered_from_backup": recovered_from_backup,
+		"recovery_reason": recovery_reason if recovered_from_backup else "",
 	}
 	info.merge(compatibility, true)
 	return info
@@ -264,11 +271,9 @@ func inspect_payload_compatibility(
 		"target_identity": current,
 	}
 	var raw_version: Variant = payload.get("version", 1)
-	if not (raw_version is int or raw_version is float):
-		result["reason"] = "invalid_save_version"
-		return result
-	if raw_version is float and not is_equal_approx(
-			float(raw_version), float(int(raw_version))):
+	if not (raw_version is int or raw_version is float) \
+			or not is_finite(float(raw_version)) \
+			or float(raw_version) != float(int(raw_version)):
 		result["reason"] = "invalid_save_version"
 		return result
 	var file_version := int(raw_version)
@@ -333,12 +338,27 @@ func inspect_payload_compatibility(
 			result["reason"] = "build_flavor_mismatch"
 			return result
 
-	var turn: int = maxi(1, int(state.get("turn", 1)))
+	var raw_turn: Variant = state.get("turn", 1)
+	if not (raw_turn is int or raw_turn is float) \
+			or not is_finite(float(raw_turn)) \
+			or float(raw_turn) != float(int(raw_turn)) \
+			or int(raw_turn) < 1:
+		result["reason"] = "invalid_turn"
+		return result
+	var turn := int(raw_turn)
 	if target_flavor in ["demo", BUILD_FLAVOR.PLAYTEST_FLAVOR_ID]:
 		if source_flavor == "full":
 			result["reason"] = "full_save_in_demo"
 			return result
-		if turn > GameState.DEMO_TURN_LIMIT:
+		var exact_playtest_completion := (
+			target_flavor == BUILD_FLAVOR.PLAYTEST_FLAVOR_ID
+			and target_namespace == BUILD_FLAVOR.PLAYTEST_SAVE_NAMESPACE
+			and source_flavor == BUILD_FLAVOR.PLAYTEST_FLAVOR_ID
+			and source_namespace == BUILD_FLAVOR.PLAYTEST_SAVE_NAMESPACE
+			and _is_v2_demo_completion_boundary(state)
+		)
+		if turn > GameState.DEMO_TURN_LIMIT \
+				and not exact_playtest_completion:
 			result["reason"] = "demo_turn_limit"
 			return result
 	elif target_flavor == "full" and source_flavor == "demo":
@@ -361,8 +381,393 @@ func inspect_payload_compatibility(
 func _valid_slot(slot: int) -> bool:
 	return slot >= AUTOSAVE_SLOT and slot <= SLOT_COUNT
 
+func _is_v2_demo_completion_boundary(state: Dictionary) -> bool:
+	# Week 24 is committed before the calendar advances to turn 25. That turn is
+	# the sealed demo receipt, not playable Week 25, and is reloadable only in
+	# the dedicated V2 playtest namespace. Keep arbitrary turn-25 states blocked.
+	if not _is_exact_integer(
+			state.get("turn", null), GameState.DEMO_TURN_LIMIT + 1):
+		return false
+	var raw_v2: Variant = state.get("core_loop_v2_state", {})
+	if not raw_v2 is Dictionary:
+		return false
+	var v2: Dictionary = raw_v2
+	var completed_turns: Variant = v2.get("completed_turns", [])
+	if not completed_turns is Array \
+			or (completed_turns as Array).size() != GameState.DEMO_TURN_LIMIT:
+		return false
+	var normalized_completed_turns: Array[int] = []
+	for raw_week in completed_turns as Array:
+		var completed_week := int(raw_week) \
+				if raw_week is int or raw_week is float else 0
+		if not _is_exact_integer(raw_week, completed_week) \
+				or completed_week < 1 \
+				or completed_week > GameState.DEMO_TURN_LIMIT \
+				or normalized_completed_turns.has(completed_week):
+			return false
+		normalized_completed_turns.append(completed_week)
+	for week in range(1, GameState.DEMO_TURN_LIMIT + 1):
+		if not normalized_completed_turns.has(week):
+			return false
+	return v2.get("enabled", null) is bool \
+			and v2.get("enabled", false) == true \
+			and v2.get("prototype_complete", null) is bool \
+			and v2.get("prototype_complete", false) == true \
+			and _is_exact_integer(v2.get("development_cap_week", null),
+				GameState.DEMO_TURN_LIMIT) \
+			and _is_exact_integer(v2.get("completed_through_week", null),
+				GameState.DEMO_TURN_LIMIT) \
+			and _is_exact_integer(v2.get("completed_at_turn", null),
+				GameState.DEMO_TURN_LIMIT + 1) \
+			and _is_exact_integer(v2.get("prototype_completed_at_turn", null),
+				GameState.DEMO_TURN_LIMIT + 1)
+
 func _slot_path(slot: int) -> String:
 	return BUILD_FLAVOR.slot_path(slot)
+
+func _backup_path(path: String) -> String:
+	return "%s.bak" % path
+
+func _is_exact_integer(value: Variant, expected: int) -> bool:
+	if value is int:
+		return int(value) == expected
+	if not value is float or not is_finite(float(value)):
+		return false
+	return float(value) == float(expected)
+
+func _read_save_candidate(path: String, slot: int) -> Dictionary:
+	if not FileAccess.file_exists(path):
+		return {"valid": false, "reason": "missing", "path": path}
+	var bytes := FileAccess.get_file_as_bytes(path)
+	var json := JSON.new()
+	if json.parse(bytes.get_string_from_utf8()) != OK:
+		return {"valid": false, "reason": "invalid_json", "path": path}
+	var parsed: Variant = json.data
+	if not parsed is Dictionary:
+		return {"valid": false, "reason": "invalid_json", "path": path}
+	var payload: Dictionary = parsed
+	if payload.has("slot") and not _is_exact_integer(payload.get("slot"), slot):
+		return {"valid": false, "reason": "slot_mismatch", "path": path}
+	if not payload.has("state") and (
+			payload.has("version") or payload.has("slot")
+			or payload.has("resume") or payload.has("metadata")
+			or payload.has("build_flavor") or payload.has("save_namespace")
+	):
+		return {"valid": false, "reason": "invalid_state", "path": path}
+	var state_value: Variant = payload.get("state", payload)
+	if not state_value is Dictionary:
+		return {"valid": false, "reason": "invalid_state", "path": path}
+	var state_diagnostic := _save_state_field_diagnostic(
+		state_value as Dictionary)
+	if not state_diagnostic.is_empty():
+		return {
+			"valid": false,
+			"reason": "invalid_state_field",
+			"diagnostic": state_diagnostic,
+			"path": path,
+		}
+	return {
+		"valid": true,
+		"reason": "ok",
+		"path": path,
+		"bytes": bytes,
+		"payload": payload,
+		"state": state_value,
+	}
+
+func _save_state_field_diagnostic(state: Dictionary) -> String:
+	# Missing top-level fields are valid legacy input. Only fields that are
+	# present are checked, and nested schemas remain owned by their migrations.
+	var dictionary_fields := [
+		"action_axis_this_week", "action_places_this_week",
+		"pending_weekly_commitment", "forgone_path_debts",
+		"core_loop_v2_state", "phone_state", "contact_counts",
+		"last_contact_turn", "run_seen_scenes_by_year", "year_scenes",
+		"tendency", "housing_months", "current_job",
+		"milestones_reached", "portfolio", "loans", "cast", "flags",
+		"active_thought", "market_prices", "price_history",
+		"market_context", "unlocked_stat_thresholds",
+		"random_event_counts", "random_event_last_turns",
+	]
+	for key in dictionary_fields:
+		if state.has(key) and not state.get(key) is Dictionary:
+			return "%s:expected_dictionary" % key
+	var array_fields := [
+		"week_routine", "action_records_this_week", "recent_action_places",
+		"recent_action_weeks", "weekly_commitments", "relationships",
+		"inventory", "news_log", "event_log", "action_log", "clues",
+		"thoughts_done", "deferred_events", "run_theme_categories",
+	]
+	for key in array_fields:
+		if state.has(key) and not state.get(key) is Array:
+			return "%s:expected_array" % key
+	var integer_fields := [
+		"age", "year", "month", "week_of_month", "turn",
+		"health", "mental", "intelligence", "social_skill", "appearance",
+		"investment_skill", "luck", "reputation",
+		"gambling_tendency", "addiction_tendency",
+		"job_tenure", "work_performance",
+		"action_points", "max_action_points", "tutorial_step",
+		"grind_streak_weeks", "money_weeks_total",
+		"human_weeks_total", "month_money_weeks", "month_human_weeks",
+		"last_month_money_weeks", "last_month_human_weeks",
+		"route_orthodox", "route_unorthodox", "moral_band_last",
+		"events_seen", "health", "mental",
+	]
+	for key in integer_fields:
+		if not state.has(key):
+			continue
+		var value: Variant = state.get(key)
+		if not (value is int or value is float) \
+				or not is_finite(float(value)) \
+				or float(value) != float(int(value)):
+			return "%s:expected_finite_integer" % key
+		if key == "turn" and int(value) < 1:
+			return "turn:expected_positive_integer"
+	for key in [
+		"loop_tint_spent", "moral_tint", "peak_asset", "money",
+		"monthly_income", "fixed_expense",
+	]:
+		if state.has(key):
+			var value: Variant = state.get(key)
+			if not (value is int or value is float) \
+					or not is_finite(float(value)):
+				return "%s:expected_finite_number" % key
+	for key in [
+		"housing", "difficulty", "tendency_realized", "month_focus",
+		"run_theme", "player_name", "player_background", "player_route",
+	]:
+		if state.has(key) and not state.get(key) is String:
+			return "%s:expected_string" % key
+	if state.has("is_game_over") and not state.get("is_game_over") is bool:
+		return "is_game_over:expected_bool"
+	return ""
+
+func _select_save_candidate(path: String, slot: int) -> Dictionary:
+	var candidate: Dictionary = _read_save_candidate(path, slot)
+	var recovered_from_backup := false
+	var recovery_reason := str(candidate.get("reason", "missing"))
+	var recovery_diagnostic := str(candidate.get("diagnostic", ""))
+	if not bool(candidate.get("valid", false)):
+		candidate = _read_save_candidate(_backup_path(path), slot)
+		recovered_from_backup = bool(candidate.get("valid", false))
+	if not bool(candidate.get("valid", false)):
+		return {
+			"valid": false,
+			"reason": str(candidate.get("reason", recovery_reason)),
+			"diagnostic": str(candidate.get(
+				"diagnostic", recovery_diagnostic)),
+		}
+	var parsed: Dictionary = candidate.get("payload", {})
+	var state: Dictionary = candidate.get("state", {})
+	var compatibility: Dictionary = inspect_payload_compatibility(parsed, state)
+	if not bool(compatibility.get("compatible", false)) \
+			and not recovered_from_backup \
+			and _compatibility_failure_allows_backup(
+				str(compatibility.get("reason", ""))):
+		var backup_candidate: Dictionary = _read_save_candidate(
+			_backup_path(path), slot)
+		if bool(backup_candidate.get("valid", false)):
+			var backup_payload: Dictionary = backup_candidate.get("payload", {})
+			var backup_state: Dictionary = backup_candidate.get("state", {})
+			var backup_compatibility: Dictionary = inspect_payload_compatibility(
+				backup_payload, backup_state)
+			if bool(backup_compatibility.get("compatible", false)):
+				recovery_reason = str(compatibility.get(
+					"reason", "invalid_primary"))
+				candidate = backup_candidate
+				parsed = backup_payload
+				state = backup_state
+				compatibility = backup_compatibility
+				recovered_from_backup = true
+	if recovered_from_backup:
+		var recovery_warnings: Array = compatibility.get(
+			"warnings", []).duplicate()
+		if not recovery_warnings.has("recovered_from_backup"):
+			recovery_warnings.append("recovered_from_backup")
+		compatibility["warnings"] = recovery_warnings
+		compatibility["compatibility_status"] = "compatible_with_warning"
+		compatibility["recovered_from_backup"] = true
+		compatibility["recovery_reason"] = recovery_reason
+		if not recovery_diagnostic.is_empty():
+			compatibility["diagnostic"] = recovery_diagnostic
+	return {
+		"valid": true,
+		"candidate": candidate,
+		"payload": parsed,
+		"state": state,
+		"compatibility": compatibility,
+		"recovered_from_backup": recovered_from_backup,
+		"recovery_reason": recovery_reason if recovered_from_backup else "",
+		"diagnostic": recovery_diagnostic if recovered_from_backup else "",
+	}
+
+func _compatibility_failure_allows_backup(reason: String) -> bool:
+	return reason in [
+		"invalid_payload", "invalid_save_version", "invalid_identity_field",
+		"unknown_build_flavor", "invalid_state_field",
+	]
+
+func _write_save_payload(path: String, payload: Dictionary, slot: int) -> bool:
+	# Never truncate the last known-good save in place. Godot's Windows rename
+	# deletes an existing destination before MoveFileW, so a verified sidecar is
+	# required even after a perfect temporary write. Load paths can recover that
+	# sidecar if replacement loses the primary; macOS/Linux still get same-folder
+	# POSIX rename semantics.
+	var temporary_path := "%s.tmp" % path
+	var serialized := JSON.stringify(payload, "\t")
+	var serialized_bytes := serialized.to_utf8_buffer()
+	var write_error := _write_exact_bytes(temporary_path, serialized_bytes)
+	if write_error != OK:
+		_remove_save_temporary_file(temporary_path)
+		_save_write_warning(slot, "temporary file write", write_error)
+		return false
+	var readback := FileAccess.get_file_as_bytes(temporary_path)
+	if readback != serialized_bytes or not _is_expected_save_payload(readback, slot):
+		_remove_save_temporary_file(temporary_path)
+		_save_write_warning(slot, "temporary file verification", ERR_FILE_CORRUPT)
+		return false
+
+	var primary_candidate := _read_save_candidate(path, slot)
+	var backup_candidate := _read_save_candidate(_backup_path(path), slot)
+	var primary_compatible := _save_candidate_is_compatible(primary_candidate)
+	var backup_compatible := _save_candidate_is_compatible(backup_candidate)
+	if primary_compatible:
+		var previous_bytes: PackedByteArray = primary_candidate.get(
+			"bytes", PackedByteArray())
+		if not _prepare_verified_backup(path, previous_bytes, slot):
+			_remove_save_temporary_file(temporary_path)
+			_save_write_warning(slot, "verified backup preparation", FAILED)
+			return false
+	elif backup_compatible:
+		# A prior interrupted replacement may already have left only the verified
+		# backup, or a malformed/incompatible primary may sit beside a compatible
+		# backup. Keep that last loadable generation untouched until the new current
+		# primary is installed and verified.
+		pass
+
+	# ManualSaveCheck owns this one-shot seam to exercise the otherwise
+	# platform/race-dependent failure between backup preservation and replacement.
+	# It is removed before returning and cannot affect a later save attempt.
+	if has_meta("_qa_fail_next_primary_replacement"):
+		var fail_replacement := bool(get_meta(
+			"_qa_fail_next_primary_replacement", false))
+		remove_meta("_qa_fail_next_primary_replacement")
+		if fail_replacement:
+			_remove_save_temporary_file(temporary_path)
+			_restore_primary_from_backup(path, slot)
+			_save_write_warning(slot, "primary replacement", FAILED)
+			return false
+
+	var rename_error := DirAccess.rename_absolute(
+			ProjectSettings.globalize_path(temporary_path),
+			ProjectSettings.globalize_path(path))
+	if rename_error != OK:
+		_remove_save_temporary_file(temporary_path)
+		_restore_primary_from_backup(path, slot)
+		_save_write_warning(slot, "primary replacement", rename_error)
+		return false
+	var final_bytes := FileAccess.get_file_as_bytes(path)
+	if final_bytes != serialized_bytes \
+			or not _is_expected_save_payload(final_bytes, slot):
+		_restore_primary_from_backup(path, slot)
+		_save_write_warning(slot, "primary file verification", ERR_FILE_CORRUPT)
+		return false
+	return true
+
+func _save_candidate_is_compatible(candidate: Dictionary) -> bool:
+	if not bool(candidate.get("valid", false)):
+		return false
+	var payload: Dictionary = candidate.get("payload", {})
+	var state: Dictionary = candidate.get("state", {})
+	return bool(inspect_payload_compatibility(
+		payload, state).get("compatible", false))
+
+func _is_expected_save_payload(bytes: PackedByteArray, slot: int) -> bool:
+	var parsed: Variant = JSON.parse_string(bytes.get_string_from_utf8())
+	if not parsed is Dictionary:
+		return false
+	var payload: Dictionary = parsed
+	if not _is_exact_integer(payload.get("version", null), SAVE_VERSION) \
+			or not _is_exact_integer(payload.get("slot", null), slot) \
+			or not payload.get("state", null) is Dictionary:
+		return false
+	var expected_identity := save_identity_fields()
+	for key in ["game_version", "build_id", "build_flavor", "save_namespace"]:
+		if not payload.get(key, null) is String \
+				or str(payload.get(key, "")) != str(expected_identity.get(key, "")):
+			return false
+	return true
+
+func _write_exact_bytes(path: String, bytes: PackedByteArray) -> Error:
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		return FileAccess.get_open_error()
+	var wrote_all := file.store_buffer(bytes)
+	file.flush()
+	var write_error := file.get_error()
+	file.close()
+	if not wrote_all and write_error == OK:
+		write_error = ERR_FILE_CANT_WRITE
+	if write_error != OK:
+		return write_error
+	return OK if FileAccess.get_file_as_bytes(path) == bytes else ERR_FILE_CORRUPT
+
+func _prepare_verified_backup(
+		path: String, previous_bytes: PackedByteArray, slot: int) -> bool:
+	var backup_path := _backup_path(path)
+	var existing := _read_save_candidate(backup_path, slot)
+	if bool(existing.get("valid", false)) \
+			and existing.get("bytes", PackedByteArray()) == previous_bytes:
+		return true
+	var backup_temporary_path := "%s.tmp" % backup_path
+	var write_error := _write_exact_bytes(backup_temporary_path, previous_bytes)
+	if write_error != OK \
+			or not bool(_read_save_candidate(
+				backup_temporary_path, slot).get("valid", false)):
+		_remove_save_temporary_file(backup_temporary_path)
+		return false
+	var rename_error := DirAccess.rename_absolute(
+		ProjectSettings.globalize_path(backup_temporary_path),
+		ProjectSettings.globalize_path(backup_path))
+	if rename_error != OK:
+		_remove_save_temporary_file(backup_temporary_path)
+		return false
+	var verified := _read_save_candidate(backup_path, slot)
+	return bool(verified.get("valid", false)) \
+			and verified.get("bytes", PackedByteArray()) == previous_bytes
+
+func _restore_primary_from_backup(path: String, slot: int) -> bool:
+	var backup := _read_save_candidate(_backup_path(path), slot)
+	if not bool(backup.get("valid", false)):
+		return false
+	var backup_bytes: PackedByteArray = backup.get("bytes", PackedByteArray())
+	var primary := _read_save_candidate(path, slot)
+	if bool(primary.get("valid", false)) \
+			and primary.get("bytes", PackedByteArray()) == backup_bytes:
+		return true
+	var recovery_path := "%s.recovery.tmp" % path
+	if _write_exact_bytes(recovery_path, backup_bytes) != OK \
+			or not bool(_read_save_candidate(recovery_path, slot).get("valid", false)):
+		_remove_save_temporary_file(recovery_path)
+		return false
+	var rename_error := DirAccess.rename_absolute(
+		ProjectSettings.globalize_path(recovery_path),
+		ProjectSettings.globalize_path(path))
+	if rename_error != OK:
+		_remove_save_temporary_file(recovery_path)
+		return false
+	var restored := _read_save_candidate(path, slot)
+	return bool(restored.get("valid", false)) \
+			and restored.get("bytes", PackedByteArray()) == backup_bytes
+
+func _remove_save_temporary_file(path: String) -> void:
+	if FileAccess.file_exists(path):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+
+func _save_write_warning(slot: int, stage: String, error: Error) -> void:
+	push_warning("SaveManager: slot %d save failed during %s (error %d)." % [
+		slot, stage, error])
 
 func _estimate_total_assets(state: Dictionary) -> float:
 	var total = float(state.get("money", 0.0))

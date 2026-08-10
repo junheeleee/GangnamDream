@@ -175,9 +175,16 @@ func _check_v2_preplan_tutorial_gate() -> void:
 	_expect(preplan_index >= 0 and chapter_index > preplan_index \
 			and planner_index > chapter_index,
 		"V2 route no longer places interview/calculation before Chapter 1 and planner")
+	# Fresh Seoul Cycle runs enter the cycle board directly, while compatible
+	# legacy V2 plans still enter the planner. The single tutorial gate therefore
+	# has exactly two callers (plus its definition), one on each planning surface.
 	_expect(main_source.count(
-		"_maybe_show_core_loop_v2_tutorial(") == 2,
-		"V2 tutorial is no longer owned solely by the planner opener")
+		"_maybe_show_core_loop_v2_tutorial(") == 3 \
+			and main_source.contains(
+				"if not read_only:\n\t\t_maybe_show_core_loop_v2_tutorial(month_index)") \
+			and main_source.contains(
+				"if not read_only:\n\t\t_maybe_show_core_loop_v2_tutorial(\n\t\t\tDEMO_CORE_LOOP_V2.month_for_turn(GameState.turn))"),
+		"V2 tutorial is not owned solely by the planner and Seoul Cycle board openers")
 
 	var seen_before: Dictionary = TutorialOverlay._seen.duplicate(true)
 	TutorialOverlay._seen.erase("core_loop_v2")

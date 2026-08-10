@@ -69,6 +69,7 @@ EXPECTED_CONTRACT_ROOT_KEYS = {
     "post_demo_application_contracts",
     "deferred_callback_contracts",
     "surface",
+    "seoul_cycle",
     "episode_plan",
     "phone",
     "routine",
@@ -77,6 +78,50 @@ EXPECTED_CONTRACT_ROOT_KEYS = {
     "decline_outcomes",
     "scene_bundles",
     "months",
+}
+EXPECTED_SEOUL_CYCLE_NODES = {
+    "convenience": {
+        "owner": "livelihood",
+        "place": "neighborhood_convenience_store",
+        "threshold": 3,
+        "deadline_week": 4,
+        "trigger_deadline_week": 3,
+        "trigger_bundle": "m1_convenience_trial_shift",
+        "repeatable_after_completion": True,
+        "allocation_effects": {"money": 70_000, "health": -1, "mental": -1},
+    },
+    "resume": {
+        "owner": "career",
+        "place": "youth_center",
+        "threshold": 3,
+        "deadline_week": 3,
+        "trigger_bundle": "m1_youth_center_resume_clinic",
+        "repeatable_after_completion": False,
+        "allocation_effects": {"mental": -1},
+    },
+    "father": {
+        "owner": "father",
+        "place": "phone_call",
+        "threshold": 2,
+        "deadline_week": 3,
+        "trigger_bundle": "father_first_call",
+        "repeatable_after_completion": False,
+        "allocation_effects": {"mental": -1},
+    },
+    "recovery": {
+        "owner": "self",
+        "place": "gosiwon_room",
+        "threshold": 3,
+        "deadline_week": 4,
+        "trigger_bundle": "",
+        "repeatable_after_completion": True,
+        "allocation_effects": {},
+        "allocation_effects_by_progress": {
+            "1": {"health": 1, "mental": 2},
+            "2": {"health": 1, "mental": 3},
+            "3": {"health": 2, "mental": 4},
+        },
+    },
 }
 GENERIC_FOREGROUND_IDS = {
     "routine_apply",
@@ -5212,8 +5257,8 @@ def measure_long_tail_readers(
     runtime_material_actions: set[str] = set()
     legacy_action_routes = {
         "side_shift": "_core_loop_v2_open_side_shift(bundle_id)",
-        "resume": "_ap_write_resume()",
-        "interview": "_ap_interview_prep()",
+        "resume": "_ap_write_resume(true)",
+        "interview": "_ap_interview_prep(true)",
         "rest": "_core_loop_v2_take_recovery(scene_bundle)",
     }
     for bundle_id, raw_bundle in practical_actions.items():
@@ -6221,6 +6266,9 @@ def main() -> int:
         contract.get("long_arc_contract"), "long_arc_contract", errors
     )
     surface = require_dict(contract.get("surface"), "surface", errors)
+    seoul_cycle = require_dict(
+        contract.get("seoul_cycle"), "seoul_cycle", errors
+    )
     episode_plan = require_dict(
         contract.get("episode_plan"), "episode_plan", errors
     )
@@ -6230,6 +6278,652 @@ def main() -> int:
     bundles = require_dict(contract.get("scene_bundles"), "scene_bundles", errors)
     months = require_list(contract.get("months"), "months", errors)
     groups = require_dict(contract.get("exclusive_groups"), "exclusive_groups", errors)
+
+    if set(seoul_cycle) != {
+        "schema_version",
+        "planning_mode",
+        "prototype_month",
+        "weeks",
+        "background_routines",
+        "capacity",
+        "nodes",
+        "world_clock",
+        "months",
+    }:
+        fail("seoul_cycle root shape drifted", errors)
+    if (
+        int(seoul_cycle.get("schema_version", 0)) != 1
+        or seoul_cycle.get("planning_mode") != "seoul_cycle_v1"
+        or int(seoul_cycle.get("prototype_month", 0)) != 1
+        or seoul_cycle.get("weeks") != [1, 4]
+    ):
+        fail(
+            "Seoul Cycle must keep four local weeks and the seoul_cycle_v1 save identity",
+            errors,
+        )
+    cycle_background = require_dict(
+        seoul_cycle.get("background_routines"),
+        "seoul_cycle.background_routines",
+        errors,
+    )
+    if (
+        cycle_background.get("policy") != "absorbed_by_nodes"
+        or bool(cycle_background.get("automatic_effects", True))
+        or not bool(cycle_background.get("durable_suppressed_receipt", False))
+    ):
+        fail(
+            "fresh Seoul Cycle must suppress hidden routines and let allocation "
+            "receipts own every livelihood/recovery change",
+            errors,
+        )
+    for copy_key in ("reason_ko", "reason_en"):
+        if not str(cycle_background.get(copy_key, "")).strip():
+            fail(f"seoul_cycle.background_routines.{copy_key} is empty", errors)
+
+    cycle_capacity = require_dict(
+        seoul_cycle.get("capacity"), "seoul_cycle.capacity", errors
+    )
+    if (
+        int(cycle_capacity.get("count", 0)) != 4
+        or int(cycle_capacity.get("minimum", 0)) != 1
+        or int(cycle_capacity.get("maximum", 0)) != 6
+        or not str(cycle_capacity.get("label_ko", "")).strip()
+        or not str(cycle_capacity.get("label_en", "")).strip()
+    ):
+        fail("Seoul Cycle capacity must remain four visible 1..6 pieces", errors)
+    progress_bands = require_list(
+        cycle_capacity.get("progress_bands"),
+        "seoul_cycle.capacity.progress_bands",
+        errors,
+    )
+    expected_progress_bands = [
+        {"minimum": 1, "maximum": 2, "progress": 1, "quality": "strained"},
+        {"minimum": 3, "maximum": 4, "progress": 2, "quality": "steady"},
+        {"minimum": 5, "maximum": 6, "progress": 3, "quality": "strong"},
+    ]
+    if progress_bands != expected_progress_bands:
+        fail("Seoul Cycle 1..6 capacity-to-progress bands drifted", errors)
+    condition_bands = require_list(
+        cycle_capacity.get("condition_bands"),
+        "seoul_cycle.capacity.condition_bands",
+        errors,
+    )
+    expected_conditions = [
+        ("depleted", 79, [1, 2, 2, 3]),
+        ("strained", 119, [2, 2, 3, 4]),
+        ("steady", 159, [2, 3, 4, 5]),
+        ("ready", 200, [3, 4, 5, 6]),
+    ]
+    actual_conditions = [
+        (
+            str(row.get("id", "")),
+            int(row.get("maximum_total", 0)),
+            row.get("values"),
+        )
+        for row in condition_bands
+        if isinstance(row, dict)
+    ]
+    if actual_conditions != expected_conditions:
+        fail("Seoul Cycle condition bands or deterministic four-piece sets drifted", errors)
+
+    cycle_months = require_dict(
+        seoul_cycle.get("months"), "seoul_cycle.months", errors
+    )
+    expected_cycle_month_keys = {str(month) for month in range(1, 7)}
+    if set(cycle_months) != expected_cycle_month_keys:
+        fail(
+            "Seoul Cycle must author exactly Month 1..6 and stop before Week 25",
+            errors,
+        )
+
+    def validate_cycle_effects(raw: Any, path: str) -> None:
+        effects = require_dict(raw, path, errors)
+        for raw_key, value in effects.items():
+            key = str(raw_key)
+            if key not in {"money", "health", "mental"}:
+                fail(f"{path} contains unsupported stat {key!r}", errors)
+            if isinstance(value, bool) or not isinstance(value, (int, float)):
+                fail(f"{path}.{key} must be a numeric receipt delta", errors)
+
+    def bundle_allowed_weeks(bundle_id: str) -> set[int]:
+        raw_bundle = bundles.get(bundle_id, {})
+        if not isinstance(raw_bundle, dict):
+            return set()
+        raw_allowed = raw_bundle.get("allowed_weeks")
+        if isinstance(raw_allowed, list):
+            return {
+                int(value)
+                for value in raw_allowed
+                if isinstance(value, int) and not isinstance(value, bool)
+            }
+        locked_week = raw_bundle.get("locked_week")
+        if isinstance(locked_week, int) and not isinstance(locked_week, bool):
+            return {int(locked_week)}
+        return set(range(1, 25))
+
+    cycle_node_total = 0
+    cycle_world_total = 0
+    for month_index in range(1, 7):
+        month_key = str(month_index)
+        month_path = f"seoul_cycle.months.{month_key}"
+        month_spec = require_dict(cycle_months.get(month_key), month_path, errors)
+        if set(month_spec) != {"weeks", "nodes", "world_clock"}:
+            fail(f"{month_path} shape drifted", errors)
+        month_start = ((month_index - 1) * 4) + 1
+        month_end = month_index * 4
+        if month_spec.get("weeks") != [month_start, month_end]:
+            fail(
+                f"{month_path}.weeks must remain [{month_start}, {month_end}]",
+                errors,
+            )
+        month_nodes = require_dict(
+            month_spec.get("nodes"), f"{month_path}.nodes", errors
+        )
+        expected_node_ids = (
+            set(EXPECTED_SEOUL_CYCLE_NODES)
+            if month_index == 1
+            else {
+                f"m{month_index}_advancement",
+                f"m{month_index}_livelihood",
+                f"m{month_index}_people",
+                f"m{month_index}_self",
+            }
+        )
+        if set(month_nodes) != expected_node_ids:
+            fail(
+                f"{month_path} must expose exactly its four authored nodes: "
+                f"expected {sorted(expected_node_ids)}, got {sorted(month_nodes)}",
+                errors,
+            )
+        cycle_node_total += len(month_nodes)
+        for raw_node_id, raw_node in month_nodes.items():
+            node_id = str(raw_node_id)
+            node_path = f"{month_path}.nodes.{node_id}"
+            node = require_dict(raw_node, node_path, errors)
+            for field in ("owner", "place", "summary_bundle"):
+                if not str(node.get(field, "")).strip():
+                    fail(f"{node_path}.{field} is empty", errors)
+            for copy_key in (
+                "label_ko", "label_en", "board_label_ko", "board_label_en",
+                "place_ko", "place_en"
+            ):
+                copy = str(node.get(copy_key, "")).strip()
+                if not copy:
+                    fail(f"{node_path}.{copy_key} is empty", errors)
+                elif copy_key.endswith("_en") and HANGUL_RE.search(copy):
+                    fail(f"{node_path}.{copy_key} contains Hangul", errors)
+                if copy_key == "board_label_ko" and len(copy) > 12:
+                    fail(f"{node_path}.{copy_key} exceeds the 12-character card budget", errors)
+                if copy_key == "board_label_en" and len(copy) > 24:
+                    fail(f"{node_path}.{copy_key} exceeds the 24-character card budget", errors)
+                if copy_key.startswith("board_label_") \
+                        and ("…" in copy or copy.endswith("...")):
+                    fail(f"{node_path}.{copy_key} authors an ellipsis instead of a card label", errors)
+            if int(node.get("threshold", 0)) <= 0:
+                fail(f"{node_path}.threshold must be positive", errors)
+            deadline_week = int(node.get("deadline_week", 0))
+            if deadline_week not in range(1, 5):
+                fail(f"{node_path}.deadline_week escaped local Week 1..4", errors)
+            if "repeatable_after_completion" not in node \
+                    or not isinstance(node.get("repeatable_after_completion"), bool):
+                fail(
+                    f"{node_path}.repeatable_after_completion must be explicit",
+                    errors,
+                )
+            livelihood_node = str(node.get("owner", "")) == "livelihood"
+            expected_repeatable = str(node.get("owner", "")) in {
+                "livelihood", "self"
+            }
+            if node.get("repeatable_after_completion") is not expected_repeatable:
+                fail(
+                    f"{node_path}.repeatable_after_completion must be "
+                    f"{expected_repeatable} for its track",
+                    errors,
+                )
+            if livelihood_node:
+                if deadline_week != 4:
+                    fail(
+                        f"{node_path} must keep generic livelihood open "
+                        "through local Week 4",
+                        errors,
+                    )
+            if "trigger_deadline_week" in node:
+                trigger_deadline_week = int(node.get("trigger_deadline_week", 0))
+                if trigger_deadline_week not in range(1, deadline_week + 1):
+                    fail(
+                        f"{node_path}.trigger_deadline_week escaped its node deadline",
+                        errors,
+                    )
+
+            has_base_effects = "allocation_effects" in node
+            has_progress_effects = "allocation_effects_by_progress" in node
+            if has_base_effects:
+                validate_cycle_effects(
+                    node.get("allocation_effects"),
+                    f"{node_path}.allocation_effects",
+                )
+            if has_progress_effects:
+                raw_tiers = node.get("allocation_effects_by_progress")
+                if not isinstance(raw_tiers, dict) \
+                        or set(raw_tiers) != {"1", "2", "3"}:
+                    fail(
+                        f"{node_path}.allocation_effects_by_progress must own "
+                        "exact progress gains 1, 2, and 3",
+                        errors,
+                    )
+                else:
+                    for progress_gain, raw_effects in raw_tiers.items():
+                        validate_cycle_effects(
+                            raw_effects,
+                            f"{node_path}.allocation_effects_by_progress."
+                            f"{progress_gain}",
+                        )
+                if node.get("allocation_effects") != {}:
+                    fail(
+                        f"{node_path}.allocation_effects must be empty when "
+                        "progress tiers own the full delta",
+                        errors,
+                    )
+            if not has_base_effects and not has_progress_effects:
+                fail(
+                    f"{node_path} needs allocation_effects or "
+                    "allocation_effects_by_progress",
+                    errors,
+                )
+            validate_cycle_effects(
+                node.get("completion_effects"),
+                f"{node_path}.completion_effects",
+            )
+            if "expiry_effects" in node:
+                validate_cycle_effects(
+                    node.get("expiry_effects"), f"{node_path}.expiry_effects"
+                )
+
+            trigger_candidates: list[str] = []
+            raw_trigger_options = node.get("trigger_options")
+            if raw_trigger_options is not None:
+                if not isinstance(raw_trigger_options, list):
+                    fail(f"{node_path}.trigger_options must be an array", errors)
+                else:
+                    for raw_bundle_id in raw_trigger_options:
+                        bundle_id = str(raw_bundle_id).strip()
+                        if bundle_id and bundle_id not in trigger_candidates:
+                            trigger_candidates.append(bundle_id)
+            if "trigger_bundle" in node:
+                trigger_bundle = str(node.get("trigger_bundle", "")).strip()
+                if trigger_bundle and trigger_bundle not in trigger_candidates:
+                    trigger_candidates.append(trigger_bundle)
+            elif raw_trigger_options is None:
+                fail(
+                    f"{node_path} needs trigger_bundle or trigger_options",
+                    errors,
+                )
+            fallback_trigger_bundle = str(node.get(
+                "fallback_trigger_bundle", ""
+            )).strip()
+            if fallback_trigger_bundle \
+                    and fallback_trigger_bundle not in trigger_candidates:
+                trigger_candidates.append(fallback_trigger_bundle)
+            has_fixed_trigger_fallback = bool(
+                str(node.get("trigger_bundle", "")).strip()
+                or fallback_trigger_bundle
+            )
+            if isinstance(raw_trigger_options, list) \
+                    and raw_trigger_options \
+                    and not has_fixed_trigger_fallback \
+                    and not bool(node.get("disable_without_trigger", False)):
+                fail(
+                    f"{node_path} must lock when every conditional trigger "
+                    "option is unmet",
+                    errors,
+                )
+            month_weeks = set(range(month_start, month_end + 1))
+            candidate_deadlines: list[int] = []
+            for bundle_id in trigger_candidates:
+                if bundle_id not in bundles:
+                    fail(
+                        f"{node_path} references unknown trigger bundle {bundle_id}",
+                        errors,
+                    )
+                elif not (bundle_allowed_weeks(bundle_id) & month_weeks):
+                    fail(
+                        f"{node_path} trigger {bundle_id} cannot occur in "
+                        f"Weeks {month_start}..{month_end}",
+                        errors,
+                    )
+                allowed_in_month = bundle_allowed_weeks(bundle_id) & month_weeks
+                if allowed_in_month:
+                    candidate_deadlines.append(
+                        max(allowed_in_month) - month_start + 1
+                    )
+            authored_trigger_deadline = int(node.get(
+                "trigger_deadline_week", 0
+            ))
+            effective_trigger_deadline = authored_trigger_deadline \
+                if authored_trigger_deadline > 0 else (
+                    min(candidate_deadlines) if candidate_deadlines else 0
+                )
+            if expected_repeatable \
+                    and trigger_candidates \
+                    and effective_trigger_deadline > 0 \
+                    and effective_trigger_deadline < deadline_week:
+                if not bool(node.get("fallback_after_trigger_expiry", False)) \
+                        or not str(node.get(
+                            "trigger_expiry_consequence", ""
+                        )).strip():
+                    fail(
+                        f"{node_path} must preserve its generic repeatable "
+                        "action after one explicit trigger-expiry receipt",
+                        errors,
+                    )
+                validate_cycle_effects(
+                    node.get("trigger_expiry_effects"),
+                    f"{node_path}.trigger_expiry_effects",
+                )
+            summary_bundle = str(node.get("summary_bundle", "")).strip()
+            if summary_bundle and summary_bundle not in bundles:
+                fail(
+                    f"{node_path} references unknown summary bundle "
+                    f"{summary_bundle}",
+                    errors,
+                )
+
+        world_clock = require_dict(
+            month_spec.get("world_clock"), f"{month_path}.world_clock", errors
+        )
+        world_events = require_list(
+            world_clock.get("events"),
+            f"{month_path}.world_clock.events",
+            errors,
+        )
+        if int(world_clock.get("maximum", 0)) != 4:
+            fail(f"{month_path}.world_clock.maximum must remain 4", errors)
+        seen_world_weeks: set[int] = set()
+        for event_index, raw_event in enumerate(world_events):
+            event_path = f"{month_path}.world_clock.events.{event_index}"
+            event = require_dict(raw_event, event_path, errors)
+            week_index = int(event.get("week_index", 0))
+            if week_index not in range(1, 5):
+                fail(f"{event_path}.week_index escaped local Week 1..4", errors)
+                continue
+            if week_index in seen_world_weeks:
+                fail(
+                    f"{month_path} has two single-stage world events in Week "
+                    f"{week_index}",
+                    errors,
+                )
+            seen_world_weeks.add(week_index)
+            if "phase" in event \
+                    and str(event.get("phase", "")).strip() \
+                        != "after_allocation":
+                fail(
+                    f"{event_path}.phase cannot claim an unsupported "
+                    "pre-allocation stage",
+                    errors,
+                )
+            if not str(event.get("kind", "")).strip():
+                fail(f"{event_path}.kind is empty", errors)
+            world_candidates: list[str] = []
+            raw_options = event.get("bundle_options")
+            if raw_options is not None:
+                if not isinstance(raw_options, list):
+                    fail(f"{event_path}.bundle_options must be an array", errors)
+                else:
+                    world_candidates.extend(
+                        str(value).strip()
+                        for value in raw_options
+                        if str(value).strip()
+                    )
+            fixed_bundle = str(event.get("bundle_id", "")).strip()
+            if fixed_bundle:
+                world_candidates.append(fixed_bundle)
+            if not world_candidates:
+                fail(f"{event_path} has no world bundle owner", errors)
+            absolute_turn = month_start + week_index - 1
+            if absolute_turn < 1 or absolute_turn > 24:
+                fail(f"{event_path} leaked outside the 24-week demo", errors)
+            for bundle_id in set(world_candidates):
+                if bundle_id not in bundles:
+                    fail(
+                        f"{event_path} references unknown world bundle {bundle_id}",
+                        errors,
+                    )
+                elif absolute_turn not in bundle_allowed_weeks(bundle_id):
+                    fail(
+                        f"{event_path} places {bundle_id} in disallowed Week "
+                        f"{absolute_turn}",
+                        errors,
+                    )
+        cycle_world_total += len(world_events)
+
+    month_one_spec = cycle_months.get("1", {})
+    if isinstance(month_one_spec, dict):
+        if seoul_cycle.get("nodes") != month_one_spec.get("nodes") \
+                or seoul_cycle.get("world_clock") != month_one_spec.get(
+                    "world_clock"
+                ):
+            fail(
+                "legacy top-level Month-One Seoul Cycle data must mirror months.1",
+                errors,
+            )
+    month_six = cycle_months.get("6", {})
+    month_six_world = (
+        month_six.get("world_clock", {}) if isinstance(month_six, dict) else {}
+    )
+    month_six_events = (
+        month_six_world.get("events", [])
+        if isinstance(month_six_world, dict) else []
+    )
+    if not any(
+        isinstance(event, dict)
+        and int(event.get("week_index", 0)) == 4
+        and (
+            str(event.get("bundle_id", "")).strip() == "demo_collision"
+            or (
+                isinstance(event.get("bundle_options"), list)
+                and "demo_collision" in event.get("bundle_options", [])
+            )
+        )
+        for event in month_six_events
+    ):
+        fail("Month Six must hand local W4/global W24 to demo_collision", errors)
+    if cycle_node_total != 24:
+        fail(
+            f"Seoul Cycle authored {cycle_node_total} nodes instead of 24",
+            errors,
+        )
+
+    cycle_nodes = require_dict(
+        seoul_cycle.get("nodes"), "seoul_cycle.nodes", errors
+    )
+    if set(cycle_nodes) != set(EXPECTED_SEOUL_CYCLE_NODES):
+        fail(
+            "Seoul Cycle must expose exactly livelihood, career, father, and "
+            "recovery node owners",
+            errors,
+        )
+    for node_id, expected_node in EXPECTED_SEOUL_CYCLE_NODES.items():
+        node = require_dict(
+            cycle_nodes.get(node_id), f"seoul_cycle.nodes.{node_id}", errors
+        )
+        for field, expected in expected_node.items():
+            if node.get(field) != expected:
+                fail(
+                    f"seoul_cycle.nodes.{node_id}.{field} expected "
+                    f"{expected!r}, got {node.get(field)!r}",
+                    errors,
+                )
+        if node.get("summary_bundle") != (
+            expected_node["trigger_bundle"]
+            if node_id != "recovery"
+            else "m1_phone_off_sunday"
+        ):
+            fail(f"seoul_cycle.nodes.{node_id} lost its month-summary owner", errors)
+        for copy_key in (
+            "label_ko", "label_en", "board_label_ko", "board_label_en",
+            "place_ko", "place_en", "echo_ko", "echo_en"
+        ):
+            copy = str(node.get(copy_key, "")).strip()
+            if not copy:
+                fail(f"seoul_cycle.nodes.{node_id}.{copy_key} is empty", errors)
+            if copy_key.endswith("_en") and HANGUL_RE.search(copy):
+                fail(
+                    f"seoul_cycle.nodes.{node_id}.{copy_key} contains Hangul",
+                    errors,
+                )
+        completion_effects = require_dict(
+            node.get("completion_effects"),
+            f"seoul_cycle.nodes.{node_id}.completion_effects",
+            errors,
+        )
+        if node_id == "recovery":
+            if completion_effects or not bool(
+                node.get("repeatable_after_completion", False)
+            ) or node.get("allocation_effects_by_progress") != {
+                "1": {"health": 1, "mental": 2},
+                "2": {"health": 1, "mental": 3},
+                "3": {"health": 2, "mental": 4},
+            }:
+                fail("recovery node lost its progress-tier repeatable receipts", errors)
+        elif completion_effects:
+            fail(f"seoul_cycle.nodes.{node_id} gained hidden completion effects", errors)
+
+    cycle_world = require_dict(
+        seoul_cycle.get("world_clock"), "seoul_cycle.world_clock", errors
+    )
+    expected_world_events = [
+        {"week_index": 3, "bundle_id": "hyunsu_first_meet", "kind": "encounter"},
+        {
+            "week_index": 4,
+            "bundle_id": "first_temptation_boss",
+            "kind": "fixed_crisis",
+        },
+    ]
+    raw_cycle_world_events = cycle_world.get("events", [])
+    projected_cycle_world_events = [
+        {
+            "week_index": event.get("week_index"),
+            "bundle_id": event.get("bundle_id"),
+            "kind": event.get("kind"),
+        }
+        for event in raw_cycle_world_events
+        if isinstance(event, dict)
+    ] if isinstance(raw_cycle_world_events, list) else []
+    if (
+        int(cycle_world.get("maximum", 0)) != 4
+        or projected_cycle_world_events != expected_world_events
+    ):
+        fail("Seoul Cycle world clock must own exactly W3 Hyunsu and W4 temptation", errors)
+
+    try:
+        seoul_board_source = (ROOT / "scenes/SeoulCycleBoard.gd").read_text(
+            encoding="utf-8"
+        )
+        completion_source = (ROOT / "scenes/CoreLoopV2Completion.gd").read_text(
+            encoding="utf-8"
+        )
+        vignette_source = (ROOT / "assets/shaders/vignette.gdshader").read_text(
+            encoding="utf-8"
+        )
+        main_game_cycle_source = (ROOT / "scenes/MainGame.gd").read_text(
+            encoding="utf-8"
+        )
+        demo_cycle_source = DEMO_CORE_LOOP_PATH.read_text(encoding="utf-8")
+    except OSError as exc:
+        fail(f"cannot load Seoul Cycle runtime surface: {exc}", errors)
+        seoul_board_source = ""
+        completion_source = ""
+        vignette_source = ""
+        main_game_cycle_source = ""
+        demo_cycle_source = ""
+    for token in (
+        "signal allocation_requested(die_id: String, node_id: String)",
+        'set_meta("seoul_cycle_snapshot_contract", "seoul_cycle_v1")',
+        'button.set_meta("seoul_cycle_effort_tile", true)',
+        'button.set_meta("seoul_cycle_node_id", node_id)',
+        'set_meta("seoul_cycle_world_clock", current)',
+        "func _cancel_or_close() -> void:",
+        "func _connect_focus_neighbors() -> void:",
+        "func _snapshot_validation_error(snapshot: Dictionary) -> String:",
+        "_close_button.visible = _read_only",
+        "func _localized_board_label(data: Dictionary) -> String:",
+        "title.text = _localized_board_label(node_data)",
+    ):
+        if token not in seoul_board_source:
+            fail(f"Seoul Cycle board lost input/receipt token {token!r}", errors)
+    for token in (
+        "const MAX_MONTH_EVENTS := 8",
+        'set_meta("core_loop_v2_completion_surface", true)',
+        'set_meta("core_loop_v2_summary", true)',
+        'set_meta("core_loop_v2_detail_row", true)',
+        'set_meta("core_loop_v2_detail_entry_text", text)',
+        "func summary_visible() -> bool:",
+        "func details_visible() -> bool:",
+        "func current_page() -> int:",
+        "JOY_BUTTON_LEFT_SHOULDER",
+        "JOY_BUTTON_RIGHT_SHOULDER",
+        "JOY_BUTTON_DPAD_UP",
+        "JOY_BUTTON_DPAD_DOWN",
+        "JOY_BUTTON_B",
+        "JOY_BUTTON_A",
+    ):
+        if token not in completion_source:
+            fail(f"Core Loop V2 completion lost component token {token!r}", errors)
+    if "ScrollContainer" in completion_source:
+        fail("Core Loop V2 completion summary/detail component reintroduced scrolling", errors)
+    for token in (
+        "* stress_norm",
+        "vec3(0.75, 0.02, 0.02) * stress_alpha",
+        "+ vec3(0.01, 0.01, 0.08) * mental_alpha",
+    ):
+        if token not in vignette_source:
+            fail(f"vignette shader lost weighted crisis token {token!r}", errors)
+    for token in (
+        "DEMO_CORE_LOOP_V2.initialize_seoul_cycle(month_index)",
+        "DEMO_CORE_LOOP_V2.claim_seoul_cycle_trigger()",
+        "DEMO_CORE_LOOP_V2.claim_seoul_cycle_world()",
+        "DEMO_CORE_LOOP_V2.complete_seoul_cycle_turn(",
+        "DEMO_CORE_LOOP_V2.commit_seoul_cycle_allocation(",
+        "_core_loop_v2_open_seoul_cycle_board(false)",
+        "func _core_loop_v2_open_saved_plan() -> bool:",
+        "func _core_loop_v2_seoul_cycle_blocks_manual_advance() -> bool:",
+    ):
+        if token not in main_game_cycle_source:
+            fail(f"MainGame lost Seoul Cycle route token {token!r}", errors)
+    for token in (
+        'const SEOUL_CYCLE_MODE := "seoul_cycle_v1"',
+        "static func seoul_cycle_month_spec(month_index: int = -1) -> Dictionary:",
+        "static func _seoul_cycle_month_start_turn(month_index: int) -> int:",
+        "static func _seoul_cycle_month_end_turn(month_index: int) -> int:",
+        "static func plan_uses_seoul_cycle(raw_plan: Dictionary) -> bool:",
+        "static func preview_seoul_cycle_allocation(",
+        "static func commit_seoul_cycle_allocation(",
+        "static func claim_seoul_cycle_trigger() -> Dictionary:",
+        "static func claim_seoul_cycle_world() -> Dictionary:",
+        "static func resolve_seoul_cycle_trigger(bundle_id: String) -> bool:",
+        "static func resolve_seoul_cycle_world(bundle_id: String) -> bool:",
+        "static func complete_seoul_cycle_turn(",
+        "static func normalize_seoul_cycle_state(raw_state: Dictionary) -> Dictionary:",
+        '"expiry_receipts":',
+        '"expired_nodes":',
+        '"trigger_deadline_week"',
+        '"fallback_after_trigger_expiry"',
+        '"disable_without_trigger"',
+        '"status": "suppressed"',
+        '"effects": {}',
+        '"units": []',
+        'state["completion_snapshots"][str(cap)] =',
+        "static func completion_snapshot(trusted_fresh_boundary: bool = false) -> Dictionary:",
+        "static func _completion_snapshot_is_valid(",
+        '"closing_state": closing_state',
+        '"frozen_at_turn": int(GameState.turn)',
+        "var boundary_was_already_complete := (",
+        "var frozen_snapshot := completion_snapshot(not boundary_was_already_complete)",
+        "var late_unfrozen_boundary := completed_through >= cap",
+        '"legacy_boundary_incomplete": late_unfrozen_boundary',
+    ):
+        if token not in demo_cycle_source:
+            fail(f"DemoCoreLoopV2 lost Seoul Cycle state token {token!r}", errors)
 
     expected_episode_offers = [
         "m1_convenience_trial_shift",
@@ -9610,9 +10304,13 @@ def main() -> int:
         return 1
 
     print(
-        "episode_surface month=1 offers=4 choose=2 ordered_plans=12 "
-        "manual_week_inputs=0 manual_routine_inputs=0 "
-        "automatic=week3_world+week4_crisis legacy_fallback=1"
+        "seoul_cycle_surface months=6 capacity=4 nodes=24 allocations=24 "
+        f"world_events={cycle_world_total} horizon=1..24/no_month7 "
+        "background_routines=suppressed receipts=allocation_owned+expiry_ledger"
+    )
+    print(
+        "legacy_episode_compat month=1 offers=4 choose=2 ordered_plans=12 "
+        "manual_week_inputs=0 automatic=week3_world+week4_crisis preserved=1"
     )
     for line in axis_measurement_lines:
         print(line)
@@ -9624,7 +10322,10 @@ def main() -> int:
         f"months={len(months)} weeks={scope['min_week']}..{scope['max_week']} "
         f"bundles={len(bundles)} target_minutes={total_minutes} "
         f"slots={surface['foreground_slots_per_month']} "
-        "episode_offers=4 episode_choose=2 episode_manual_week_inputs=0 "
+        "seoul_cycle_capacity=4 seoul_cycle_months=6 "
+        f"seoul_cycle_nodes={cycle_node_total} "
+        f"seoul_cycle_world_events={cycle_world_total} "
+        "seoul_cycle_allocations=24 legacy_episode_compat=1 "
         f"phone_tabs={len(EXPECTED_PHONE_TABS)} "
         f"phone_message_surfaces={len(EXPECTED_PHONE_MESSAGE_SURFACES)} "
         f"phone_contact_methods={len(EXPECTED_PHONE_CONTACT_METHODS)} "
