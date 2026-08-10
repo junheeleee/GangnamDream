@@ -18,7 +18,7 @@
 `systems/DemoCoreLoopV2.gd`, 신규 `scenes/SeoulCycleBoard.gd`와 `.uid`,
 `scenes/MainGame.gd`, `scenes/TutorialOverlay.gd`,
 `tools/CoreLoopV2FirstEntryCheck.gd`, 신규
-`tools/CoreLoopV2CycleCheck.gd`와 `.uid`, `tools/ScreenshotQA.gd`,
+`tools/CoreLoopV2CycleCheck.gd`와 `.uid`·`.tscn`, `tools/ScreenshotQA.gd`,
 `tools/demo_core_loop_v2_audit.py`, `tools/audit.sh`,
 `tools/run_core_loop_v2_input_qa.sh`. `project.godot`, 2~6개월 산문·수치, 기존
 편의점/이력서/도박 미니게임 내부는 잠그지 않는다.
