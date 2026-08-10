@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-95
+# Archived Queue Spec: ORDER-95
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-95 [P0·설계 근거] 참조작을 전수 분석해 가져올 것과 안 가져올 것을 판정표로 만든다
+#### [x] ORDER-95 [P0·설계 근거] 참조작을 전수 분석해 가져올 것과 안 가져올 것을 판정표로 만든다
 
 **착수 (2026-08-11) — 만지는 파일:** `docs/CODEX_QUEUE.md`,
 `docs/queue_active/ORDER-95.md`(완료 시 `docs/queue_archive/ORDER-95.md`로 이동),
@@ -10,6 +10,13 @@
 `docs/CONTEXT_INDEX.md`, `docs/context_manifest.json`, `docs/WORK_LOG.md`,
 `docs/queue_archive/CODEX_QUEUE_2026-08.md`, `CLAUDE.md`, `docs/STATUS.md`.
 코드·데이터·자산은 만지지 않는다.
+
+**완료 (2026-08-11):** 44단위를 `24+20` 두 독립 배치로 판정했다. 결과는
+`가져온다 32 / 보류 3 / 버린다 9`이며, 모든 채택 항목은 기존 주간 여력·노드·
+클록·영수증 중 하나와 사용자 승인 뒤의 1~2배치 최대 규모를 명시한다. 원작
+고유 외형·카드·주사위·호감도·별도 달력·실시간 타이머는 채택하지 않았다.
+L1 기계 판정과 L2 정본 재독은 통과했고, L3 사용자의 임의 3단위 응집 판정은
+**OPEN**이다. 실제 원장: [`REFERENCE_SYSTEM_VERDICTS.md`](../REFERENCE_SYSTEM_VERDICTS.md).
 
 **사용자 지시 (2026-08-10):** *"코덱스보고 직접 그 게임들 자료 다 분석해서 이
 게임에 가져올 수 있는 건 다 가져오자. 모든 걸 다 독창적으로 만들 필요 없어.
@@ -113,3 +120,17 @@ Cultist Simulator의 카드 테이블은 민준의 한 달로 번역할 자리�
 - 모든 `가져온다` 항목이 붙을 기존 시스템을 명시하고, 각각이 열릴 후속 오더의
   크기를 1~2배치로 추정한다.
 - 코드·데이터·자산 무변경이 증명되고 전체 감사와 CI가 초록이다.
+
+## 완료 증거와 규범 승격
+
+- **L1:** A01~A24·B01~B20 정확히 44행, 행마다 네 칸, 출처 ID 39개 전부
+  원장에 연결. `가져온다` 32행은 전부 기존 요소와 `1배치/2배치`를 가진다.
+- **L2:** 원작의 고유 명칭·세계·장르 외형을 한국의 사람·장소·기한·금액·
+  물건으로 번역했고, 중복 교훈은 여덟 응집 규칙 아래 한 소유자로 합쳤다.
+- **L3 OPEN:** 사용자가 임의 3개 채택 단위를 읽는 판정은 자동 초록으로
+  대체하지 않는다. 실패하면 표본만 고치지 않고 44단위를 전량 재검토한다.
+- **승격:** 지속 규칙과 판정은 `docs/REFERENCE_SYSTEM_VERDICTS.md`, 정본 라우팅은
+  `docs/CONTEXT_INDEX.md`와 `docs/context_manifest.json`, 선택 이유는
+  `docs/DECISIONS.md`가 소유한다.
+- **일회성:** 44행을 두 독립 배치로 조사하고 출처를 수집하는 실행 지시는 이
+  오더에만 남긴다. 판정표는 구현 승인이 아니며 후속 오더를 자동 생성하지 않는다.

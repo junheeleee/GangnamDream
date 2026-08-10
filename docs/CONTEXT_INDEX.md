@@ -1,6 +1,6 @@
 # Gangnam Dream Context Index
 
-Updated: 2026-08-03
+Updated: 2026-08-11
 
 이 문서는 “무엇이 정본인가”를 다시 설명하는 바이블이 아니라, 작업에 필요한 정본만 고르는 라우터다. 상세 규칙은 아래 소유 문서 한 곳에만 둔다. 기계 판독 버전은 `docs/context_manifest.json`이다.
 
@@ -31,6 +31,7 @@ Updated: 2026-08-03
 | 상품 정체성·현재 상태 | `CLAUDE.md` | 현재 목표와 불변 규칙. 실행 우선순위·상태는 `CODEX_QUEUE.md`만 소유 |
 | 세계·인물·5장 서사 | `docs/STORY_BIBLE.md`, `docs/CANON_MAP.md` | 의도된 이야기와 세계 사실 |
 | 선택·주간 루프 | `docs/CORE_LOOP_V2.md`, `content/meta/demo_core_loop_v2.json`, `docs/AP_REDESIGN.md`, `docs/GAME_RECOMPOSITION_PLAN.md` | 데모의 넓은 월간 약속·별도 세로 연락폰·관계 주도권, 기존 AP·Quiet/Echo 폴백 |
+| 참조 시스템 판정 | `docs/REFERENCE_SYSTEM_VERDICTS.md` | 외부 참조 구조의 채택·보류·폐기, 기존 여력·노드·클록·영수증 부착 경계 |
 | 선택·5장 결과 | `docs/CHOICE_CONSEQUENCE_SYSTEM.md` | 표현·기억·결정 선택, 영수증·사실·반복 패턴, 챕터 간 스노우볼과 엔딩 입력 |
 | 인과·장소·대화 채널 | `content/meta/story_rules.json`, `docs/STORY_CONSISTENCY_SYSTEM.md` | 선행조건, 통화/기억, 장면 전환 |
 | 관계·결혼 | `docs/ROMANCE_SYSTEM.md` | 호칭, 상호배타, 결혼·이별 |
@@ -84,6 +85,7 @@ Updated: 2026-08-03
 
 - 사건 편성: `content/meta/event_director.json`
 - 장편 구조: `docs/GAME_RECOMPOSITION_PLAN.md`
+- 참조작에서 가져올 구조·버릴 외형 판정: `docs/REFERENCE_SYSTEM_VERDICTS.md`
 - 수치 변경: 관련 시뮬레이터와 `tools/balance_check.py`
 
 데모 1~24주에서는 Core Loop V2가 화면·관계 주도권·월간 편성의 우선

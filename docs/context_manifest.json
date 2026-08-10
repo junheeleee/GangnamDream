@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-08-03",
+  "updated": "2026-08-11",
   "boot": {
     "required": [
       {
@@ -61,6 +61,9 @@
       "content/meta/demo_core_loop_v2.json",
       "docs/AP_REDESIGN.md",
       "docs/GAME_RECOMPOSITION_PLAN.md"
+    ],
+    "reference_systems": [
+      "docs/REFERENCE_SYSTEM_VERDICTS.md"
     ],
     "choice_consequences": [
       "docs/CHOICE_CONSEQUENCE_SYSTEM.md"
@@ -169,6 +172,7 @@
       ],
       "conditional": [
         "docs/GAME_RECOMPOSITION_PLAN.md",
+        "docs/REFERENCE_SYSTEM_VERDICTS.md",
         "content/meta/event_director.json",
         "tools/balance_check.py"
       ]
@@ -262,6 +266,7 @@
       "docs/I18N_INFRASTRUCTURE.md",
       "docs/MODDING.md",
       "docs/MORAL_TINT.md",
+      "docs/REFERENCE_SYSTEM_VERDICTS.md",
       "docs/ROMANCE_SYSTEM.md",
       "docs/SCENE_TIER.md",
       "docs/STORY_BIBLE.md",
