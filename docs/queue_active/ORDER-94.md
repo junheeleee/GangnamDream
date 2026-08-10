@@ -16,7 +16,8 @@
 `docs/QA_CHECKLIST.md`, `docs/DEMO_FIXLOG.md`, `docs/WORK_LOG.md`,
 `docs/human_gates.json`, `content/meta/demo_core_loop_v2.json`,
 `systems/DemoCoreLoopV2.gd`, 신규 `scenes/SeoulCycleBoard.gd`와 `.uid`,
-`scenes/MainGame.gd`, `tools/CoreLoopV2FirstEntryCheck.gd`, 신규
+`scenes/MainGame.gd`, `scenes/TutorialOverlay.gd`,
+`tools/CoreLoopV2FirstEntryCheck.gd`, 신규
 `tools/CoreLoopV2CycleCheck.gd`와 `.uid`, `tools/ScreenshotQA.gd`,
 `tools/demo_core_loop_v2_audit.py`, `tools/audit.sh`,
 `tools/run_core_loop_v2_input_qa.sh`. `project.godot`, 2~6개월 산문·수치, 기존
