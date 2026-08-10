@@ -20,8 +20,10 @@
 
 **착수 선언 — 만지는 파일:** 생산자·독자와 저장 필드를 전수한 결과, 구현은
 `content/events/core_loop_v2_events.json`,
-`content/events_en/core_loop_v2_events.json`, `systems/DemoCoreLoopV2.gd`만
-바꾼다. 표적 증거는 `tools/demo_core_loop_v2_audit.py`,
+`content/events_en/core_loop_v2_events.json`, `systems/DemoCoreLoopV2.gd`,
+`scenes/StoryMode.gd`만 바꾼다. `StoryMode`는 Week 24 효과 적용 전 정확 영수증을
+검사하고, First Bill 회상에서 완료 당시 아버지 기억만 읽는 경계에 한정한다.
+표적 증거는 `tools/demo_core_loop_v2_audit.py`,
 `tools/CoreLoopV2BCheck.gd`, `tools/CoreLoopV2ECheck.gd`,
 `tools/CoreLoopV2HandoffCheck.gd`, `tools/ManualSaveCheck.gd`,
 `tools/ScreenshotQA.gd`가 소유한다. 본문 여섯 개가 늘어나는 파생 범위는
