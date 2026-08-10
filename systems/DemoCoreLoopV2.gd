@@ -67,7 +67,10 @@ const FIRST_BILL_OPENING_ID := "v2_demo_first_bill_opening"
 const FIRST_BILL_DECISION_ID := "v2_demo_first_bill"
 const FIRST_BILL_LEDGER_ID := "v2_demo_first_bill_ledger"
 const FIRST_BILL_REPLAY_SCHEMA := 1
+const MONTH_ONE_EPISODE_MODE := "month_one_episode_v1"
+const MONTH_ONE_EPISODE_TOKEN := "{v2_month_one_episode_echo}"
 const FIRST_BILL_STORY_TOKENS := [
+	MONTH_ONE_EPISODE_TOKEN,
 	"{v2_first_bill_body}",
 	"{v2_first_bill_trace}",
 	"{v2_first_bill_evidence}",
@@ -465,6 +468,206 @@ static func plan_for_month(month_index: int = -1) -> Dictionary:
 		return {}
 	var plan: Variant = (plans as Dictionary).get(str(target_month), {})
 	return (plan as Dictionary).duplicate(true) if plan is Dictionary else {}
+
+## Month One is the vertical slice for the episode-shaped planning loop. The
+## player chooses two promises; chronology and unplanned pressure stay owned by
+## the story. Later months deliberately keep the legacy planner until this
+## slice has been played and approved.
+static func episode_plan_spec() -> Dictionary:
+	var raw_spec: Variant = contract().get("episode_plan", {})
+	return (raw_spec as Dictionary).duplicate(true) \
+		if raw_spec is Dictionary else {}
+
+static func episode_selection_enabled(month_index: int = -1) -> bool:
+	var target_month := (
+		month_index if month_index > 0 else month_for_turn(GameState.turn))
+	var spec := episode_plan_spec()
+	if spec.is_empty() \
+			or target_month != int(spec.get("prototype_month", 0)):
+		return false
+	var existing := plan_for_month(target_month)
+	if not existing.is_empty():
+		# Only plans born through the new commit path may reopen on the episode
+		# surface. A legacy Month-One plan can change application eligibility
+		# after Week One, but that must never relabel its W1/W2 slots as promises.
+		return plan_uses_episode_selection(existing)
+	var available := available_offer_ids(target_month)
+	for raw_id in spec.get("incompatible_if_available", []):
+		if available.has(str(raw_id).strip_edges()):
+			# A legacy save may still own the old Month-One application card. It
+			# must finish with the legacy planner rather than silently lose it.
+			return false
+	var offers := episode_offer_ids(target_month)
+	return offers.size() >= maxi(1, int(spec.get("selection_count", 2)))
+
+static func episode_offer_ids(month_index: int = -1) -> Array[String]:
+	var target_month := (
+		month_index if month_index > 0 else month_for_turn(GameState.turn))
+	var spec := episode_plan_spec()
+	var result: Array[String] = []
+	if target_month != int(spec.get("prototype_month", 0)):
+		return result
+	var available := available_offer_ids(target_month)
+	for raw_id in spec.get("player_offers", []):
+		var bundle_id := str(raw_id).strip_edges()
+		if available.has(bundle_id) and not result.has(bundle_id):
+			result.append(bundle_id)
+	return result
+
+static func plan_uses_episode_selection(raw_plan: Dictionary) -> bool:
+	if str(raw_plan.get("planning_mode", "")) != MONTH_ONE_EPISODE_MODE:
+		return false
+	var raw_commitments: Variant = raw_plan.get("player_commitments", [])
+	if not raw_commitments is Array:
+		return false
+	var commitments: Array = raw_commitments
+	if commitments.size() != 2:
+		return false
+	var typed_commitments: Array[String] = []
+	var raw_allowed: Variant = episode_plan_spec().get("player_offers", [])
+	if not raw_allowed is Array:
+		return false
+	for raw_id in commitments:
+		var bundle_id := str(raw_id).strip_edges()
+		if bundle_id.is_empty() or not (raw_allowed as Array).has(bundle_id) \
+				or typed_commitments.has(bundle_id):
+			return false
+		typed_commitments.append(bundle_id)
+	var expected := _episode_schedule_for_selection(1, typed_commitments)
+	var raw_schedule: Variant = raw_plan.get("schedule", {})
+	if expected.is_empty() or not raw_schedule is Dictionary:
+		return false
+	var actual := _normalized_schedule(raw_schedule as Dictionary)
+	if actual.size() != expected.size():
+		return false
+	for week_key in expected:
+		if str(actual.get(week_key, "")) != str(expected[week_key]):
+			return false
+	return true
+
+static func episode_commitments_from_plan(raw_plan: Dictionary) -> Array[String]:
+	var result: Array[String] = []
+	if not plan_uses_episode_selection(raw_plan):
+		return result
+	for raw_id in raw_plan.get("player_commitments", []):
+		result.append(str(raw_id).strip_edges())
+	return result
+
+static func _episode_schedule_for_selection(
+		month_index: int, ordered_ids: Array[String]) -> Dictionary:
+	var spec := episode_plan_spec()
+	var month := month_spec(month_index)
+	var weeks: Array = month.get("weeks", [])
+	if weeks.size() != 2 or ordered_ids.size() != 2:
+		return {}
+	var first_week := int(weeks[0])
+	var schedule := {
+		str(first_week): ordered_ids[0],
+		str(first_week + 1): ordered_ids[1],
+	}
+	for raw_entry in spec.get("automatic_schedule", []):
+		if not raw_entry is Dictionary:
+			return {}
+		var entry: Dictionary = raw_entry
+		var week := int(entry.get("week", 0))
+		var bundle_id := str(entry.get("bundle", "")).strip_edges()
+		if week < first_week or week > int(weeks[1]) \
+				or bundle_id.is_empty() or schedule.has(str(week)):
+			return {}
+		schedule[str(week)] = bundle_id
+	return schedule
+
+static func validate_episode_selection(
+		month_index: int, raw_ordered_ids: Array) -> Dictionary:
+	if not episode_selection_enabled(month_index):
+		return {"ok": false, "error": "episode_selection_unavailable"}
+	var selection_count := maxi(
+		1, int(episode_plan_spec().get("selection_count", 2)))
+	if raw_ordered_ids.size() != selection_count:
+		return {"ok": false, "error": "choose_two_commitments"}
+	var allowed := episode_offer_ids(month_index)
+	var ordered_ids: Array[String] = []
+	for raw_id in raw_ordered_ids:
+		var bundle_id := str(raw_id).strip_edges()
+		if not allowed.has(bundle_id):
+			return {
+				"ok": false,
+				"error": "unavailable_bundle",
+				"bundle": bundle_id,
+			}
+		if ordered_ids.has(bundle_id):
+			return {
+				"ok": false,
+				"error": "duplicate_bundle",
+				"bundle": bundle_id,
+			}
+		ordered_ids.append(bundle_id)
+	var schedule := _episode_schedule_for_selection(month_index, ordered_ids)
+	if schedule.is_empty():
+		return {"ok": false, "error": "invalid_episode_schedule"}
+	var routines := default_routines()
+	var plan_validation := validate_plan(month_index, schedule, routines)
+	if not bool(plan_validation.get("ok", false)):
+		return plan_validation
+	return {
+		"ok": true,
+		"ordered_ids": ordered_ids,
+		"schedule": plan_validation.get("schedule", {}).duplicate(true),
+		"routines": plan_validation.get("routines", {}).duplicate(true),
+	}
+
+static func commit_episode_selection(
+		month_index: int, raw_ordered_ids: Array) -> Dictionary:
+	var validation := validate_episode_selection(month_index, raw_ordered_ids)
+	if not bool(validation.get("ok", false)):
+		return validation
+	var result := commit_plan(
+		month_index,
+		validation.get("schedule", {}),
+		validation.get("routines", {}))
+	if not bool(result.get("ok", false)):
+		return result
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var plan: Dictionary = state["plans"].get(str(month_index), {})
+	var ordered_ids: Array = validation.get("ordered_ids", [])
+	plan["planning_mode"] = MONTH_ONE_EPISODE_MODE
+	plan["player_commitments"] = ordered_ids.duplicate()
+	state["plans"][str(month_index)] = plan
+	GameState.core_loop_v2_state = state
+	result["planning_mode"] = MONTH_ONE_EPISODE_MODE
+	result["player_commitments"] = ordered_ids.duplicate()
+	return result
+
+static func month_one_episode_echo(replay_snapshot: Dictionary = {}) -> String:
+	# The first-month crisis is not part of gallery replay today. Keeping the
+	# argument makes the formatter contract explicit and avoids leaking current
+	# run state into a future replay if that event is added to the archive.
+	if not replay_snapshot.is_empty():
+		return ""
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	if str(state.get("active_bundle", "")) != "first_temptation_boss" \
+			or str(state.get("active_kind", "")) != "schedule" \
+			or int(state.get("active_turn", 0)) != 4 \
+			or int(GameState.turn) != 4:
+		return ""
+	var plan := plan_for_month(1)
+	var commitments := episode_commitments_from_plan(plan)
+	if commitments.is_empty():
+		return ""
+	var completed_turn := int(
+		state["completed_bundle_turns"].get(commitments[0], 0))
+	if completed_turn < 1 or completed_turn > 3:
+		return ""
+	var raw_echoes: Variant = episode_plan_spec().get("primary_echo", {})
+	if not raw_echoes is Dictionary:
+		return ""
+	var raw_copy: Variant = (raw_echoes as Dictionary).get(commitments[0], {})
+	if not raw_copy is Dictionary:
+		return ""
+	var copy := LocaleManager.ui(
+		str((raw_copy as Dictionary).get("copy_ko", "")),
+		str((raw_copy as Dictionary).get("copy_en", "")))
+	return "\n\n%s" % copy if not copy.is_empty() else ""
 
 static func needs_plan(month_index: int = -1) -> bool:
 	return plan_for_month(month_index).is_empty()
@@ -3029,6 +3232,8 @@ static func format_first_bill_story_tokens(
 	var replacements: Dictionary = {}
 	for token in FIRST_BILL_STORY_TOKENS:
 		replacements[token] = ""
+	replacements[MONTH_ONE_EPISODE_TOKEN] = month_one_episode_echo(
+		replay_snapshot)
 	var finale := _first_bill_finale_contract()
 	var snapshot := validated_first_bill_replay_snapshot(replay_snapshot)
 	var state := _normalized_state(GameState.core_loop_v2_state)

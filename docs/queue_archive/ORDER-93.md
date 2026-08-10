@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-93
+# Archived Queue Spec: ORDER-93
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-93 [P0·코어 루프] 첫 달을 월간 약속 선택과 한 달 에피소드로 다시 만든다
+#### [x] ORDER-93 [P0·코어 루프] 첫 달을 월간 약속 선택과 한 달 에피소드로 다시 만든다
 
 **사용자 승인 (2026-08-10):** 카드 문구와 물성만 고쳐 현재 상황을 모면하지
 말고, 매주 무엇을 정하며 어디서 재미가 생기는지 24주·48주·240주 관점에서
@@ -16,9 +16,12 @@
 `docs/CORE_LOOP_V2.md`, `docs/UI_ART_DIRECTION.md`,
 `docs/CONTROLLER_UX_STRATEGY.md`, `docs/QA_CHECKLIST.md`,
 `docs/DEMO_FIXLOG.md`, `docs/RELEASE_NOTES.md`, `docs/WORK_LOG.md`,
-`docs/STATUS.md`, `docs/human_gates.json`, `docs/I18N_INFRASTRUCTURE.md`,
+`docs/STATUS.md`, `docs/CONTENT_RATING_INVENTORY.md`,
+`docs/human_gates.json`, `docs/I18N_INFRASTRUCTURE.md`,
+`docs/queue_archive/CODEX_QUEUE_2026-08.md`,
 `docs/I18N_GLOSSARY_ZH.md`, `content/meta/demo_core_loop_v2.json`,
 `content/meta/demo_localization_scope.json`,
+`content/meta/release_content_inventory.json`,
 `content/events/core_loop_v2_events.json`,
 `content/events_en/core_loop_v2_events.json`, `content/events/arc_events.json`,
 `content/events_en/arc_events.json`, `locale/ui_ja.json`,
@@ -50,7 +53,7 @@ Godot가 기존 스크립트의 UID·import 메타를 갱신할 때만 그 동�
 - 첫 달 새 계획에서는 `목요일 야간 대타`, `자기소개서 네 문항 수정`,
   `아버지에게 다시 전화`, `휴대폰을 끄는 일요일`만 선택 후보가 된다.
   플레이어는 순서가 있는 두 약속을 고른다. 첫 번째는 이달의 중심, 두 번째는
-  곁에 둘 약속이며 네 주 달력에 직접 넣지 않는다.
+  함께 챙길 약속이며 네 주 달력에 직접 넣지 않는다.
 - 시스템은 중심 약속을 1주차, 보조 약속을 2주차, 현수 첫 만남을 숨은 세계
   사건으로 3주차, 첫 유혹 위기를 숨은 고정 사건으로 4주차에 편성한다. 실제
   기한이 충돌하거나 구 저장 호환 제안이 있을 때만 결정론적으로 가장 이른
@@ -66,11 +69,11 @@ Godot가 기존 스크립트의 UID·import 메타를 갱신할 때만 그 동�
 
 ## 배치 B — 선택이 4주차 중심 장면으로 돌아온다
 
-- 첫 번째로 고른 약속은 4주차 `arc_temptation_01` 직전의 짧은 전용 브리지로
+- 첫 번째로 고른 약속은 4주차 `arc_temptation_01` 본문에 붙는 짧은 한 문단으로
   돌아온다. 대타 수당, 고쳐 둔 자기소개서, 아버지 통화 뒤의 침묵, 비워 둔
   일요일 중 실제 완료한 한 가지 물리 흔적만 보여 주고 숨은 도덕·확정 미래를
   해설하지 않는다.
-- 브리지는 선택 없는 한 호흡이며 기존 유혹 장면·두 선택·효과·금액을 바꾸지
+- 이 문단은 별도 사건·클릭·선택 없는 한 호흡이며 기존 유혹 장면·두 선택·효과·금액을 바꾸지
   않는다. 중심 약속이 없거나 구 저장이면 종전 장면으로 안전하게 폴백한다.
 - 현수 첫 만남은 선택 카드·미선택 기록·가짜 자기 메모를 만들지 않는다. 만남
   뒤에 열리는 `현수에게 먼저 보내는 메시지`부터 플레이어 약속으로 남는다.
@@ -85,7 +88,7 @@ Godot가 기존 스크립트의 UID·import 메타를 갱신할 때만 그 동�
   왕복, 구 계획 읽기, KO/EN 실제 입력, 키보드·패드, 960×600·1280×800,
   Reduce Motion, 2~24주 회귀와 전체 감사를 통과한다.
 - L2: 현수와 첫 유혹은 계획 전에 제목·보낸 사람·결말이 보이지 않고, 중심
-  약속 네 종류가 각각 W4 브리지 하나로 돌아오며, 유혹의 선택·효과·금액과
+  약속 네 종류가 각각 W4 인라인 문단 하나로 돌아오며, 유혹의 선택·효과·금액과
   2~6개월 결과는 전후와 같다.
 - L3: 사용자는 첫 화면을 60초 안에 끝내고 ① 고른 두 약속, ② 미룬 한 가지,
   ③ 현수를 계획한 적 없이 만났다는 점, ④ 4주차 유혹 전에 되돌아온 자기
@@ -100,3 +103,27 @@ Godot가 기존 스크립트의 UID·import 메타를 갱신할 때만 그 동�
   각각 한 번만 정의된다.
 - 자동 검증은 구조·입력·정합만 통과했다고 기록하고 재미 GO는 사용자 플레이
   뒤에만 닫는다. 첫 달 사람 판정용 동일 리비전 테스트 빌드를 제공한다.
+
+## 완료 기록 (2026-08-10)
+
+- 새 저장의 첫 달은 네 후보 중 `중심·함께` 두 약속만 고른다. 같은 내부 네 주
+  저장에는 중심 W1, 함께 W2, 숨은 현수 세계 사건 W3, 숨은 첫 유혹 W4가
+  결정론적으로 기록된다. 구 첫 달 계획과 2~6개월의 선택·효과·산문은 보존했다.
+- 완료한 중심 약속 네 종류는 `arc_temptation_01`의 기존 선택 직전 본문에
+  물리 흔적 한 문단으로만 돌아온다. 새 사건·클릭·선택·효과·금액·플래그는 0이며,
+  완료 증거가 없거나 구 저장이면 빈 문자열로 폴백한다.
+- 한국어 패드와 영어 키보드가 각각 실제 입력으로 24주를 완주했다
+  (`1,484`/`1,496` 원시 입력, 의미 입력·혼합 기기·알 수 없는 입력 0).
+  KO/EN 960×600·1280×800 화면 검사는 첫 선택·2/2·읽기 전용 미래 은폐를
+  포함해 통과했고, UI 예외 덧칠은 기준선 `2,116`보다 낮은 `2,112`로 끝났다.
+- 출시 콘텐츠 원장과 일본어·중국어 준비 범위를 새 한영 문구에 맞춰 갱신했다.
+  중국어는 번역 완료로 표시하지 않았으며 두 지역 모두 글꼴·본문·출시는 계속
+  차단 상태다. 자동 감사는 통과했지만 `demo_month1_episode_fun` 사람 판정은
+  의도적으로 열어 두었다.
+- **승격:** 첫 달의 약속/루틴/세계 사건/고정 위기 소유권과 확장 금지는
+  `docs/CORE_LOOP_V2.md`, 무채색 2×2 표면은 `docs/UI_ART_DIRECTION.md`,
+  패드 의미 입력은 `docs/CONTROLLER_UX_STRATEGY.md`, 기계·사람 판정 경계는
+  `docs/QA_CHECKLIST.md`와 `docs/human_gates.json`이 계속 소유한다.
+- **일회성:** 이 오더의 착수 파일 목록, 두 구현 배치와 현재 리비전의 검사
+  수치는 작업 증거이므로 이 아카이브에만 남긴다. 첫 달을 2~24주로 확장할지는
+  테스트 빌드의 사람 판정 뒤 새 오더에서만 결정한다.

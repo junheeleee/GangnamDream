@@ -51,6 +51,35 @@
       ]
     },
     {
+      "id": "demo_month1_episode_fun",
+      "domain": "gameplay",
+      "gate": "첫 달 두 약속이 한 달 에피소드로 이어지는가",
+      "why": "자동 검사는 후보 수, 편성, 저장, 입력과 인과 소유권을 증명한다. 두 약속을 고른 기억과 4주차의 회수가 실제 재미와 책임감으로 이어지는지는 사용자 플레이만 판정한다.",
+      "owner": "ORDER-93",
+      "state": "open",
+      "scope": {
+        "blocks": [
+          "core_loop_v2_month1_expansion"
+        ],
+        "content": "새 저장 1개월차의 2×2 약속 선택부터 W3 현수 첫 만남과 W4 첫 유혹 직전 중심 약속 회수까지"
+      },
+      "revision": "demo_rc",
+      "sample": {
+        "cohort": "demo_month1_episode_first_play",
+        "requirements": [
+          "같은 demo_rc의 새 저장에서 사전 설명 없이 첫 달 약속 선택판을 시작",
+          "첫 화면을 60초 안에 끝내고 4주차 첫 유혹 장면 진입까지 정상 독해",
+          "유도 문구 없이 고른 두 약속, 미룬 한 가지, 현수 첫 만남, 4주차 직전 돌아온 자기 행동을 말함"
+        ]
+      },
+      "acceptance": [
+        "플레이어가 고른 중심·함께 약속 두 개와 미룬 약속 하나를 기억함",
+        "현수를 미리 계획한 것이 아니라 세계 사건으로 만났다고 이해함",
+        "4주차 위기 직전의 물리 흔적을 앞서 완료한 중심 약속의 결과로 연결함",
+        "첫 화면을 일정 관리나 카드 네 개 채우기로 부르지 않고 한 달의 우선순위를 고른 장면으로 받아들임"
+      ]
+    },
+    {
       "id": "demo_inventory_task_hand_feel",
       "domain": "gameplay",
       "gate": "재고조사 약속 수행 장면의 행동감",
@@ -248,7 +277,7 @@
         "blocks": [
           "demo"
         ],
-        "content": "Core Loop V2의 월간 네 약속·생계/성장/회복 루틴·다음 달 영수증"
+        "content": "Core Loop V2의 2~6개월 월간 네 약속·생계/성장/회복 루틴·다음 달 영수증과 첫 달 수직 단면 이후의 24주 전략"
       },
       "revision": "demo_rc",
       "sample": {
@@ -458,7 +487,7 @@
         "blocks": [
           "demo-release"
         ],
-        "content": "P-10의 공통 영어 수단 1단위·주요 화자→청자 12단위·기능 화자와 단역 8단위·73사건/584동적 전수 교차 검토 1단위로 구성된 22단위 원장"
+        "content": "P-10의 공통 영어 수단 1단위·주요 화자→청자 12단위·기능 화자와 단역 8단위·73사건/592동적 전수 교차 검토 1단위로 구성된 22단위 원장"
       },
       "revision": "demo_rc",
       "sample": {
@@ -525,7 +554,7 @@
         "cohort": "zh_cn_demo_native_context_review",
         "requirements": [
           "한국어와 게임 문맥을 함께 이해하는 중국 본토 원어민 검수자",
-          "해당 demo_rc에서 zh_translation_audit.py --lang zh-CN --strict PASS: 정적 UI 2,601/2,601·73사건·465본문·577동적·4자산과 프로젝트 소유 SC 글꼴 준비 완료",
+          "해당 demo_rc에서 zh_translation_audit.py --lang zh-CN --strict PASS: 정적 UI 2,615/2,615·73사건·465본문·585동적·4자산과 프로젝트 소유 SC 글꼴 준비 완료",
           "같은 demo_rc를 새 세이브로 시작해 24주와 CTA까지 정상 속도로 독해",
           "한 경로에 나오지 않은 합법 도달 73개 사건과 모든 선택·결과를 한국어 정본과 직접 대조",
           "SC 글꼴이 JP 공유 한자보다 먼저 선택되는 실제 화면을 Windows·macOS·Linux/Steam Deck에서 확인"
@@ -557,7 +586,7 @@
         "cohort": "zh_tw_demo_native_context_review",
         "requirements": [
           "한국어와 게임 문맥을 함께 이해하는 대만 원어민 검수자",
-          "해당 demo_rc에서 zh_translation_audit.py --lang zh-TW --strict PASS: 정적 UI 2,601/2,601·73사건·465본문·577동적·4자산과 프로젝트 소유 TC 글꼴 준비 완료",
+          "해당 demo_rc에서 zh_translation_audit.py --lang zh-TW --strict PASS: 정적 UI 2,615/2,615·73사건·465본문·585동적·4자산과 프로젝트 소유 TC 글꼴 준비 완료",
           "같은 demo_rc를 새 세이브로 시작해 24주와 CTA까지 정상 속도로 독해",
           "한 경로에 나오지 않은 합법 도달 73개 사건과 모든 선택·결과를 한국어 정본과 직접 대조",
           "TC 글꼴이 JP 공유 한자보다 먼저 선택되는 실제 화면을 Windows·macOS·Linux/Steam Deck에서 확인"

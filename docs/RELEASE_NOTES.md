@@ -9,6 +9,22 @@
   loans, mods, 24→48-week ledgers, and the 240-week convergence model share the same gate.
 
 ## Unreleased
+- Introduced an isolated fresh-start Month-One episode prototype without changing
+  Months Two through Six or old committed/in-progress Month-One saves. Instead of
+  manually filling four weeks and confirming two routines, the player chooses an
+  ordered primary and secondary promise from four concrete 2x2 cards, then starts
+  the month once; livelihood and recovery stay active in the background. The
+  system schedules the two promises first, lets Hyunsu's first meeting arrive as
+  an unannounced Week-Three world encounter, and keeps the Week-Four temptation as
+  a hidden fixed crisis. The first meeting no longer appears as a selectable card,
+  forgone opportunity, self-note, or fake message. Immediately before the existing
+  temptation prose, one no-input paragraph can recall the completed primary through
+  its concrete trace—shift pay, a revised cover letter, silence after Father's call,
+  or an emptied Sunday—while every original choice, effect, amount, flag, and route
+  remains unchanged; missing-primary and legacy saves use the old scene. The first
+  tutorial now teaches only promise choice, world interruption, and in-scene
+  response. This remains a playtest candidate: automation cannot close the open
+  60-second recall and fun verdict or authorize expansion across all 24 weeks.
 - Rebuilt the V2 opening so its monthly plan has a reason before it becomes a
   menu. The prologue now sends a real Mirae Industrial Tech application, moves
   directly through the same-day interview and its gross two-million-won offer,
@@ -22,8 +38,9 @@
   round-trip unchanged through Weeks 24, 48, and 240. Four real 1→24 component
   routes and their 25→48 continuations now own new exact cash/health/mental
   ledgers; the five-year event cadence remains unchanged. The current demo
-  localization scope is 73 events, 465 authored leaves, and 584 dynamic pair
-  occurrences / 577 unique keys, including the mandatory first-planner tutorial,
+  localization scope is 73 events, 465 authored leaves, and 592 dynamic pair
+  occurrences / 585 unique keys, including the mandatory first-planner tutorial,
+  four Month-One primary traces,
   inside a 1,603-event bilingual catalog. Automated continuity,
   input, bilingual, save, balance, direction, audio, and inventory checks do not
   replace the open same-build human verdict on the first five minutes.

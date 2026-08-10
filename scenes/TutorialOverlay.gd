@@ -418,69 +418,57 @@ static func _get_slides(game_id: String) -> Array:
 			return [
 				_localized_slide(
 					"goal",
-					"24주 동안 버티고 선택하기",
-					"Choose How to Survive 24 Weeks",
+					"첫 달에 지킬 두 약속",
+					"Two Promises for the First Month",
 					(
-						"민준은 서른셋, 가진 돈은 [b]50만 원[/b]입니다.\n"
-						+ "목표는 [b]5년 안에 자산 30억 원[/b].\n\n"
-						+ "이번 데모는 1년짜리 첫 챕터 가운데 앞 24주를 다룹니다.\n"
-						+ "한 달이 시작되면 넓은 계획판에서 앞으로 네 주를 정합니다.\n\n"
-						+ "무엇을 골랐는지뿐 아니라, 무엇을 미뤘는지도\n"
-						+ "다음 달의 돈과 몸, 사람 관계에 영향을 줍니다."
+						"첫 달에는 눈앞에 놓인 네 가지 약속 중 [b]두 가지[/b]를 고릅니다.\n\n"
+						+ "먼저 고른 것은 이번 달의 [b]중심 약속[/b],\n"
+						+ "두 번째는 함께 챙길 약속이 됩니다.\n\n"
+						+ "선택한 약속을 한 번 더 누르면 취소할 수 있습니다.\n"
+						+ "무엇을 챙겼는지뿐 아니라 무엇을 미뤘는지도 뒤에 남습니다."
 					),
 					(
-						"Minjun is 33, with [b]KRW 500,000[/b] to his name.\n"
-						+ "His goal: [b]KRW 3 billion in assets within five years[/b].\n\n"
-						+ "This demo covers the first 24 weeks of the year-long Chapter 1.\n"
-						+ "At the start of each month, use the planning board to set the next four weeks.\n\n"
-						+ "What you choose matters. So does what you leave for later.\n"
-						+ "Both affect your money, health, and relationships."
+						"In the first month, choose [b]two[/b] of the four promises in front of Minjun.\n\n"
+						+ "The first becomes the month's [b]central promise[/b].\n"
+						+ "The second is the promise he will also keep.\n\n"
+						+ "Press a selected promise again to remove it.\n"
+						+ "What you postpone can leave a mark, too."
 					)
 				),
 				_localized_slide(
 					"ap",
-					"제안을 네 주에 놓기",
-					"Place Offers Across Four Weeks",
+					"계획 밖의 일도 찾아온다",
+					"Life Does Not Follow the Plan",
 					(
-						"왼쪽에는 이번 달에 고를 수 있는 제안이, 오른쪽에는\n"
-						+ "[b]1주차부터 4주차[/b]까지의 일정이 보입니다.\n\n"
-						+ "제안 앞 분류는 이번 달의 시간을 어디에 쓰는지만 말합니다.\n"
-						+ "진로(취업·경력) · 생계(당장 수입) · 성장(배움·성찰)\n"
-						+ "회복(쉼·숨 돌릴 시간) · 돌봄(가족·생활 책임) · 관계(사람과의 시간)\n"
-						+ "이 분류만으로 이후 결과를 미리 알 수는 없습니다.\n\n"
-						+ "제안을 고른 뒤 넣을 주를 선택하세요. 고정 일정은 옮길 수 없고,\n"
-						+ "나머지 빈 주는 모두 채웁니다. 확정 전에는 언제든 바꿀 수 있습니다."
+						"첫 달에는 고른 두 약속이 이야기의 흐름에 맞춰 [b]자동으로 편성[/b]됩니다.\n"
+						+ "생계와 회복도 별도 표를 만들지 않아도 배경에서 이어집니다.\n\n"
+						+ "하지만 민준이 아직 모르는 사람과 사건은 일정표에 미리 적히지 않습니다.\n"
+						+ "예기치 않은 만남과 압박은 그 주가 왔을 때 찾아옵니다."
 					),
 					(
-						"This month's offers are on the left. The calendar for\n"
-						+ "[b]Weeks 1 through 4[/b] is on the right.\n\n"
-						+ "A label says only how Minjun plans to spend that time.\n"
-						+ "CAREER (jobs) · INCOME (earning now) · GROWTH (learning or reflection)\n"
-						+ "RECOVERY (rest or breathing room) · CARE (family or daily needs) · PEOPLE (time with others)\n"
-						+ "It does not reveal what follows.\n\n"
-						+ "Choose an offer, then its week. Fixed commitments cannot move;\n"
-						+ "fill every remaining open week. You can replace non-fixed offers before confirming."
+						"In the first month, the two promises are [b]scheduled automatically[/b]\n"
+						+ "to fit the story. Livelihood and recovery continue in the background.\n\n"
+						+ "People and dangers Minjun does not know about are never written into his plan.\n"
+						+ "Unexpected encounters and pressure arrive when their week comes."
 					)
 				),
 				_localized_slide(
 					"health",
-					"한 달 동안 계속할 일",
-					"What Continues Through the Month",
+					"장면에서 어떻게 할지 고른다",
+					"Choose How to Face Each Scene",
 					(
-						"[b]주로 할 일[/b]과 [b]보조로 할 일[/b]은 생계, 성장, 회복 중\n"
-						+ "이번 달 내내 이어 갈 행동을 정합니다.\n\n"
-						+ "마지막 확인 화면에서는 선택한 일정과 [b]고르지 않은 제안[/b]을\n"
-						+ "함께 보여 줍니다. 확인한 뒤에만 첫 주가 시작됩니다.\n\n"
-						+ "휴대폰은 문자와 통화 기록을 볼 때만 엽니다. 돈과 일정은\n"
-						+ "지금 보고 있는 넓은 화면에서 관리합니다."
+						"월초에는 [b]무엇을 책임질지[/b] 고릅니다.\n"
+						+ "실제 장면에서는 어떻게 말하고, 일하고, 위기에 답할지 고릅니다.\n\n"
+						+ "가벼운 대답은 그 자리의 반응만 바꿀 수 있고,\n"
+						+ "중요한 선택은 뒤의 장면과 관계에 오래 남습니다.\n\n"
+						+ "두 약속을 고른 뒤 [b]이달 시작[/b]을 누르세요."
 					),
 					(
-						"[b]Primary[/b] and [b]secondary[/b] routines set what continues\n"
-						+ "through the month: livelihood, growth, or recovery.\n\n"
-						+ "The final review shows both your scheduled commitments and the\n"
-						+ "[b]offers you did not choose[/b]. Week 1 starts only after you confirm.\n\n"
-						+ "Open the phone only for messages and call history. Money and\n"
-						+ "scheduling stay on the full planning screen."
+						"At the start of the month, choose [b]what Minjun will take responsibility for[/b].\n"
+						+ "Inside each scene, choose how he speaks, works, and answers pressure.\n\n"
+						+ "A light reply may change only the immediate response.\n"
+						+ "A major decision can follow him into later scenes and relationships.\n\n"
+						+ "Choose two promises, then press [b]Start Month[/b]."
 					)
 				)
 			]
