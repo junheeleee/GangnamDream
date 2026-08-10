@@ -1441,6 +1441,76 @@ func _check_first_bill_legacy_resume_matrix() -> void:
 					],
 		"Legacy dirty-prose queue did not replace decision with opening exactly once")
 
+	# Early playtest saves could already be paused on the dirty result with both
+	# the exact callback receipt and a readerless generic story receipt. The new
+	# runtime never creates that duplicate, but loading must preserve it byte for
+	# byte and must not replay the already-applied choice effect.
+	_prepare_first_bill_fixture(
+		40, false, "김민준", "gosiwon", 500_000.0, true)
+	_apply_first_bill_story_choice_once("v2_dirty_recruiter_week24", 1)
+	_expect(_v2_story_receipt_count(
+			"v2_dirty_recruiter_week24", 1) == 0,
+		"Fresh dirty result unexpectedly created a retired generic receipt")
+	var old_generic_key := \
+		"demo_collision:v2_dirty_recruiter_week24:1:24"
+	var old_generic_receipt := {
+		"receipt_key": old_generic_key,
+		"bundle_id": "demo_collision",
+		"active_kind": "schedule",
+		"event_id": "v2_dirty_recruiter_week24",
+		"choice_index": 1,
+		"turn": 24,
+	}
+	var old_generic_state: Dictionary = \
+		GameState.core_loop_v2_state.duplicate(true)
+	var old_generic_receipts: Dictionary = (
+		old_generic_state.get(
+			"story_choice_receipts", {}) as Dictionary).duplicate(true)
+	old_generic_receipts[old_generic_key] = old_generic_receipt
+	old_generic_state["story_choice_receipts"] = old_generic_receipts
+	GameState.core_loop_v2_state = old_generic_state
+	var expected_old_generic := _json_round_trip_dictionary(
+		old_generic_receipts)
+	var dirty_result_stats := [
+		int(GameState.intelligence), int(GameState.mental),
+	]
+	_downgrade_first_bill_context_to_legacy()
+	var old_dirty_result_resume := _legacy_story_context(
+		"v2_dirty_recruiter_week24", "result",
+		[CORE_LOOP.FIRST_BILL_DECISION_ID], 1, "")
+	_expect(SaveManager.save_game(TEST_SLOT, old_dirty_result_resume),
+		"Old dirty-result generic receipt fixture could not be saved")
+	_expect(SaveManager.load_game(TEST_SLOT),
+		"Old dirty-result generic receipt fixture could not be loaded")
+	if not await _spawn_loaded_story():
+		return
+	var loaded_dirty_callback: Dictionary = (
+		(GameState.core_loop_v2_state.get(
+			"deferred_callback_receipts", {}) as Dictionary).get(
+				"fell_to_darkness", {}) as Dictionary).duplicate(true)
+	_expect(str((_story.get("_current") as Dictionary).get("id", "")) \
+			== "v2_dirty_recruiter_week24" \
+			and bool(_story.get("_pending_after_result")) \
+			and int(_story.get("_pending_result_choice_index")) == 1 \
+			and [int(GameState.intelligence), int(GameState.mental)] \
+				== dirty_result_stats \
+			and GameState.core_loop_v2_state.get(
+				"story_choice_receipts", {}) == expected_old_generic \
+			and _v2_story_receipt_count(
+				"v2_dirty_recruiter_week24", 1) == 1 \
+			and str(loaded_dirty_callback.get("source", "")) \
+				== "fell_to_darkness" \
+			and str(loaded_dirty_callback.get("root", "")) \
+				== "v2_dirty_recruiter_week24" \
+			and str(loaded_dirty_callback.get("status", "")) == "resolved" \
+			and bool(loaded_dirty_callback.get("synthetic", false)) \
+			and str(loaded_dirty_callback.get("event_id", "")) \
+				== "v2_dirty_recruiter_week24" \
+			and int(loaded_dirty_callback.get("choice_index", -1)) == 1 \
+			and int(loaded_dirty_callback.get("resolved_turn", -1)) == 24,
+		"Old dirty-result save replayed effects, erased generic state, or changed exact transport")
+	await _free_story()
+
 	# Saving on the old decision choices must rewind to the authored opening,
 	# not attempt to map pagination into a scene the player never read.
 	_prepare_first_bill_fixture(
@@ -2094,7 +2164,7 @@ func _finish() -> void:
 	_stop_test_audio()
 	await get_tree().create_timer(0.10).timeout
 	if _failures.is_empty():
-		print("MANUAL_SAVE_CHECK_OK slots=10 durability=temp-readback/verified-backup/primary-preserved/retry/recovery/compatible-backup-preserved/wrong-type/missing-key manual_feedback=failure-stays/success-close identity=current/partial/unknown/full-demo/v2-isolated/completion-turn25-exact/cutoff future=reject-before-state prose=source_progress locale_mismatch=rewind choices=1 result_once=1 timer=1 pages=2 dialogue_history=prose/choice/result/legacy_notice first_bill=expression/decision/ledger+preclamp_H3_H99+fatal_short_circuit+frozen_replay+local_ledger+hyunsu+legacy_atomic+nonstory_root_only/no_synthetic_archive archive=opening1/decision0 meta=restored")
+		print("MANUAL_SAVE_CHECK_OK slots=10 durability=temp-readback/verified-backup/primary-preserved/retry/recovery/compatible-backup-preserved/wrong-type/missing-key manual_feedback=failure-stays/success-close identity=current/partial/unknown/full-demo/v2-isolated/completion-turn25-exact/cutoff future=reject-before-state prose=source_progress locale_mismatch=rewind choices=1 result_once=1 timer=1 pages=2 dialogue_history=prose/choice/result/legacy_notice first_bill=expression/decision/ledger+preclamp_H3_H99+fatal_short_circuit+frozen_replay+local_ledger+hyunsu+legacy_atomic+old_dirty_generic_inert+nonstory_root_only/no_synthetic_archive archive=opening1/decision0 meta=restored")
 		get_tree().quit(0)
 		return
 	for failure in _failures:

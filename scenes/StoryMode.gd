@@ -3109,9 +3109,17 @@ func _story_memory_condition_matches(condition_key: String) -> bool:
 				return false
 			var character_id := receipt_id.substr(0, separator).strip_edges()
 			var memory_id := receipt_id.substr(separator + 1).strip_edges()
+			var memory_known := DEMO_CORE_LOOP_V2 \
+				.first_bill_replay_has_relationship_memory(
+					_first_bill_replay_snapshot,
+					character_id, memory_id) \
+				if _read_only_replay \
+					and str(_current.get("id", "")) \
+						== DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID \
+				else DEMO_CORE_LOOP_V2.has_relationship_memory(
+					character_id, memory_id)
 			if character_id.is_empty() or memory_id.is_empty() \
-					or not DEMO_CORE_LOOP_V2.has_relationship_memory(
-						character_id, memory_id):
+					or not memory_known:
 				return false
 		elif condition.begins_with("future_story_source:"):
 			var source_key := condition.trim_prefix(
@@ -5261,8 +5269,13 @@ func _on_choice(idx: int):
 	if not _choice_visible(choice):
 		return
 	var expression_choice := GameState.is_expression_choice(choice)
-	_stop_story_choice_countdown()
 	var current_event_id := str(_current.get("id", ""))
+	if not _read_only_replay and not expression_choice \
+			and DEMO_CORE_LOOP_V2.is_active() \
+			and not DEMO_CORE_LOOP_V2.story_choice_commit_available(
+				current_event_id, idx):
+		return
+	_stop_story_choice_countdown()
 	if _read_only_replay \
 			and current_event_id == DEMO_CORE_LOOP_V2.FIRST_BILL_DECISION_ID:
 		var replay_choice_snapshot := \

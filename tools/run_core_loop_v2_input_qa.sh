@@ -134,17 +134,22 @@ if [[ "${GANGNAM_QA_XVFB:-0}" == "1" ]]; then
 fi
 
 cd "${project_root}"
+qa_command=("${runner[@]}" "${display_args[@]}")
+if ((${#audio_args[@]} > 0)); then
+  qa_command+=("${audio_args[@]}")
+fi
+qa_command+=(
+  --log-file "${qa_root}/godot.log"
+  --resolution "${resolution}" res://tools/ScreenshotQA.tscn --
+  "${qa_args[@]}"
+  --demo-build --core-loop-v2-playtest-build --qa-isolated-user-data
+)
 XDG_DATA_HOME="${qa_root}/data" \
 XDG_CONFIG_HOME="${qa_root}/config" \
 XDG_CACHE_HOME="${qa_root}/cache" \
 GANGNAM_QA_OUT="${output_dir}" \
 GANGNAM_QA_USER_DIR="${isolated_user_dir}" \
-  run_qa_limited "${runner[@]}" "${display_args[@]}" \
-    "${audio_args[@]}" \
-    --log-file "${qa_root}/godot.log" \
-    --resolution "${resolution}" res://tools/ScreenshotQA.tscn -- \
-    "${qa_args[@]}" \
-    --demo-build --core-loop-v2-playtest-build --qa-isolated-user-data \
+  run_qa_limited "${qa_command[@]}" \
     2>&1 | tee "${log_path}"
 
 grep -F "${marker}" "${log_path}" >/dev/null

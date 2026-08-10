@@ -249,6 +249,74 @@ const CORE_LOOP_V2_INPUT_STORY_CHOICES := {
 	"v2_demo_first_bill": 7,
 }
 
+const FATHER_MEMORY_READER_SURFACES: Array[Dictionary] = [
+	{
+		"memory": "father_gangnam_words_held_back",
+		"reader_event": "v2_father_health_signal",
+		"producer_bundle": "father_quiet_call",
+		"producer_event": "arc_father_quiet_call",
+		"producer_choice": 0,
+		"producer_turn": 9,
+	},
+	{
+		"memory": "father_quiet_call_ended",
+		"reader_event": "v2_father_health_signal",
+		"producer_bundle": "father_quiet_call",
+		"producer_event": "arc_father_quiet_call",
+		"producer_choice": 1,
+		"producer_turn": 9,
+	},
+	{
+		"memory": "father_asked_more",
+		"reader_event": "v2_father_health_signal",
+		"producer_bundle": "father_quiet_call",
+		"producer_event": "arc_father_quiet_call",
+		"producer_choice": 2,
+		"producer_turn": 9,
+	},
+	{
+		"memory": "father_neighbor_detail_checked",
+		"reader_event": "v2_demo_first_bill_opening",
+		"producer_bundle": "father_health_signal",
+		"producer_event": "v2_father_health_signal",
+		"producer_choice": 0,
+		"producer_turn": 21,
+	},
+	{
+		"memory": "father_called_again_that_evening",
+		"reader_event": "v2_demo_first_bill_opening",
+		"producer_bundle": "father_health_signal",
+		"producer_event": "v2_father_health_signal",
+		"producer_choice": 1,
+		"producer_turn": 21,
+	},
+	{
+		"memory": "father_health_warning_postponed",
+		"reader_event": "v2_demo_first_bill_opening",
+		"producer_bundle": "father_health_signal",
+		"producer_event": "v2_father_health_signal",
+		"producer_choice": 2,
+		"producer_turn": 21,
+	},
+]
+
+const W24_CORRUPT_DIRTY_SURFACES: Array[Dictionary] = [
+	{
+		"root": "v2_dirty_trace_initial_call",
+		"source": "callback_escaped_dirty_trace",
+		"flag": "escaped_dirty_money",
+		"synthetic": false,
+		"shot": "escaped",
+	},
+	{
+		"root": "v2_dirty_recruiter_week24",
+		"source": "fell_to_darkness",
+		"flag": "fell_to_darkness",
+		"synthetic": true,
+		"shot": "dark",
+	},
+]
+
 const CORE_LOOP_V2_INPUT_ROUTINES := {
 	"primary": "livelihood",
 	"secondary": "recovery",
@@ -2905,7 +2973,16 @@ func _assert_seoul_cycle_preview_full_label(
 		return false
 	return true
 
-func _shot_first_bill_finale_surfaces(_lang: String, prefix: String) -> void:
+func _shot_first_bill_finale_surfaces(lang: String, prefix: String) -> void:
+	await _shot_father_memory_reader_surfaces(lang, prefix)
+	if _qa_failed:
+		return
+	await _shot_first_bill_archive_father_memory_surfaces(lang, prefix)
+	if _qa_failed:
+		return
+	await _shot_w24_corrupt_dirty_choice_surfaces(lang, prefix)
+	if _qa_failed:
+		return
 	# The finale never has eight simultaneous candidates. Render three valid
 	# week-24 lives so every original decision is evidenced without inventing a
 	# candidate or turning the scene into an eight-button debug menu.
@@ -3002,6 +3079,550 @@ func _shot_first_bill_finale_surfaces(_lang: String, prefix: String) -> void:
 		"v2_demo_first_bill",
 		prefix + "18_first_bill_decisions_sangchul",
 		"", 0.45, true, true)
+
+func _shot_father_memory_reader_surfaces(
+		lang: String, prefix: String) -> void:
+	var resolution := get_window().size
+	if resolution not in [Vector2i(960, 600), Vector2i(1280, 800)]:
+		_fail("Father memory reader QA requires 960x600 or 1280x800, got %s." % [
+			str(resolution)])
+		return
+	for event_id in [
+		"v2_father_health_signal", "v2_demo_first_bill_opening",
+	]:
+		if not _prepare_father_memory_reader_fixture(str(event_id), {}):
+			return
+		await _shot_father_memory_reader_page(
+			str(event_id), "", prefix + "15e_father_memory_legacy_%s" % [
+				str(event_id).trim_prefix("v2_")])
+		if _qa_failed:
+			return
+	for raw_spec in FATHER_MEMORY_READER_SURFACES:
+		var spec: Dictionary = raw_spec
+		var event_id := str(spec.get("reader_event", ""))
+		var memory_id := str(spec.get("memory", ""))
+		if not _prepare_father_memory_reader_fixture(event_id, spec):
+			return
+		await _shot_father_memory_reader_page(
+			event_id, memory_id,
+			prefix + "15f_father_memory_%s" % memory_id)
+		if _qa_failed:
+			return
+	print(
+		"FATHER_MEMORY_READER_SURFACE_OK "
+		+ "lang=%s resolution=%dx%d one_hot=6 legacy=2 result_cards=0" % [
+			lang, resolution.x, resolution.y])
+
+func _shot_first_bill_archive_father_memory_surfaces(
+		lang: String, prefix: String) -> void:
+	var resolution := get_window().size
+	var original_meta: Dictionary = MetaProgression.data.duplicate(true)
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	var frozen_spec: Dictionary = FATHER_MEMORY_READER_SURFACES[3]
+	var live_spec: Dictionary = FATHER_MEMORY_READER_SURFACES[4]
+	var frozen_memory := str(frozen_spec.get("memory", ""))
+	var live_memory := str(live_spec.get("memory", ""))
+	var frozen_snapshot: Dictionary = {}
+	var legacy_snapshot: Dictionary = {}
+	var fixture_ready := _prepare_first_bill_fixture("career_daeun")
+	if fixture_ready:
+		fixture_ready = _seed_father_memory_reader_receipt(
+			frozen_spec, true)
+	if fixture_ready:
+		var prechoice_snapshot: Dictionary = \
+			core_loop.build_first_bill_replay_snapshot()
+		frozen_snapshot = core_loop.first_bill_replay_snapshot_with_choice(
+			prechoice_snapshot, 0)
+		if frozen_snapshot.is_empty() \
+				or str(frozen_snapshot.get("father_memory", "")) != frozen_memory:
+			_fail(("First Bill archive QA could not freeze Father memory %s: " \
+				+ "prechoice=%s frozen=%s.") % [
+					frozen_memory, str(prechoice_snapshot), str(frozen_snapshot)])
+			fixture_ready = false
+	if fixture_ready:
+		legacy_snapshot = frozen_snapshot.duplicate(true)
+		legacy_snapshot.erase("father_memory")
+		if core_loop.validated_complete_first_bill_replay_snapshot(
+				legacy_snapshot).is_empty():
+			_fail("First Bill archive QA rejected its schema-1 compatibility snapshot.")
+			fixture_ready = false
+	if fixture_ready:
+		fixture_ready = _seed_father_memory_reader_receipt(
+			live_spec, true)
+	if fixture_ready and not core_loop.has_relationship_memory(
+			"father", live_memory):
+		_fail("First Bill archive QA could not seed the later live Father memory %s." % [
+			live_memory])
+		fixture_ready = false
+	if fixture_ready:
+		_set_first_bill_archive_snapshot(frozen_snapshot)
+		await _shot_first_bill_archive_replay_page(
+			frozen_memory, live_memory,
+			prefix + "15g_first_bill_archive_frozen_A_live_B")
+	if fixture_ready and not _qa_failed:
+		_set_first_bill_archive_snapshot(legacy_snapshot)
+		await _shot_first_bill_archive_replay_page(
+			"", live_memory,
+			prefix + "15h_first_bill_archive_schema1_base")
+	MetaProgression.data = original_meta
+	GameState.story_replay_mode = false
+	GameState.pending_story_queue.clear()
+	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	await _settle(0.2)
+	if not fixture_ready or _qa_failed:
+		return
+	print((
+		"FATHER_MEMORY_ARCHIVE_REPLAY_OK "
+		+ "lang=%s resolution=%dx%d frozen=1 live_fallback=0 "
+		+ "schema1_base=1 result_cards=0 state_mutations=0") % [
+			lang, resolution.x, resolution.y])
+
+func _set_first_bill_archive_snapshot(snapshot: Dictionary) -> void:
+	var snapshots: Dictionary = {}
+	var raw_snapshots: Variant = MetaProgression.data.get(
+		"scene_replay_snapshots", {})
+	if raw_snapshots is Dictionary:
+		snapshots = (raw_snapshots as Dictionary).duplicate(true)
+	snapshots["v2_demo_first_bill_opening"] = snapshot.duplicate(true)
+	MetaProgression.data["scene_replay_snapshots"] = snapshots
+
+func _shot_first_bill_archive_replay_page(
+		expected_memory: String, live_memory: String,
+		shot_name: String) -> void:
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	var event: Dictionary = DataRegistry.find_event(
+		"v2_demo_first_bill_opening")
+	var raw_memory_map: Variant = event.get(
+		"description_memory_if_known", {})
+	if event.is_empty() or not raw_memory_map is Dictionary:
+		_fail("First Bill archive replay lost its authored Father memory map.")
+		return
+	var memory_map: Dictionary = raw_memory_map
+	var expected_variants: Dictionary = {}
+	for raw_spec in FATHER_MEMORY_READER_SURFACES:
+		var spec: Dictionary = raw_spec
+		if str(spec.get("reader_event", "")) \
+				!= "v2_demo_first_bill_opening":
+			continue
+		var memory_id := str(spec.get("memory", ""))
+		var condition_key := "relationship_memory:father:%s" % memory_id
+		expected_variants[memory_id] = core_loop.format_first_bill_story_text(
+			str(memory_map.get(condition_key, "")))
+	var state_before: Dictionary = GameState.serialize().duplicate(true)
+	GameState.story_replay_mode = true
+	GameState.pending_story_queue = ["v2_demo_first_bill_opening"]
+	var packed := load("res://scenes/StoryMode.tscn") as PackedScene
+	if packed == null:
+		_fail("First Bill archive QA could not load StoryMode.tscn.")
+		return
+	var story := packed.instantiate()
+	get_tree().root.add_child.call_deferred(story)
+	await get_tree().process_frame
+	if story.has_method("_set_auto_mode"):
+		story._set_auto_mode(false, false)
+	await _settle(0.45)
+	var actual_event: Variant = story.get("_current")
+	var replay_snapshot: Dictionary = story.get(
+		"_first_bill_replay_snapshot")
+	var resolved_description := str(story.call(
+		"_resolved_story_description", actual_event)) \
+		if actual_event is Dictionary else ""
+	var exact_surface := bool(story.get("_read_only_replay")) \
+		and actual_event is Dictionary \
+		and str((actual_event as Dictionary).get("id", "")) \
+			== "v2_demo_first_bill_opening" \
+		and str(replay_snapshot.get("father_memory", "missing")) \
+			== expected_memory
+	for memory_id in expected_variants:
+		var memory_copy := str(expected_variants[memory_id])
+		var should_exist := str(memory_id) == expected_memory
+		if memory_copy.is_empty() \
+				or resolved_description.contains(memory_copy) != should_exist:
+			exact_surface = false
+	var base_paragraph := str(event.get("description", "")).split(
+		"\n\n", false)[0]
+	var base_probe := str(story.call("_fmt", base_paragraph))
+	if base_probe.is_empty() or not resolved_description.contains(base_probe):
+		exact_surface = false
+	if not expected_memory.is_empty() \
+			and resolved_description.contains(str(expected_variants.get(
+				live_memory, ""))):
+		exact_surface = false
+	if not exact_surface:
+		_fail("First Bill archive replay did not hold frozen=%s over live=%s." % [
+			expected_memory if not expected_memory.is_empty() else "schema1_base",
+			live_memory])
+	else:
+		var visible_probe := base_probe.substr(0, mini(28, base_probe.length()))
+		if not expected_memory.is_empty():
+			var expected_copy := str(expected_variants.get(expected_memory, ""))
+			visible_probe = expected_copy.substr(
+				0, mini(28, expected_copy.length()))
+		if await _seek_story_fragment(story, visible_probe):
+			var visible_copy := _collect_control_text(story)
+			var result_card := story.get("_result_record_card") as Control
+			if visible_probe not in visible_copy \
+					or bool(story.get("_pending_after_result")) \
+					or (is_instance_valid(result_card) \
+						and result_card.is_visible_in_tree()) \
+					or GameState.serialize() != state_before:
+				_fail("First Bill archive replay mutated state or added a result card.")
+			elif LocaleManager.is_english() and _contains_hangul(visible_copy):
+				_fail("First Bill archive replay leaked Hangul on the English surface.")
+			else:
+				await _save(shot_name)
+	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	GameState.story_replay_mode = false
+	GameState.pending_story_queue.clear()
+	await _settle(0.2)
+
+func _shot_w24_corrupt_dirty_choice_surfaces(
+		lang: String, prefix: String) -> void:
+	var resolution := get_window().size
+	var original_meta: Dictionary = MetaProgression.data.duplicate(true)
+	var rejected_choices := 0
+	for raw_spec in W24_CORRUPT_DIRTY_SURFACES:
+		var spec: Dictionary = raw_spec
+		if not _prepare_w24_corrupt_dirty_fixture(spec):
+			break
+		var root_id := str(spec.get("root", ""))
+		GameState.story_replay_mode = false
+		GameState.pending_story_queue = [root_id]
+		var packed := load("res://scenes/StoryMode.tscn") as PackedScene
+		if packed == null:
+			_fail("W24 corrupt-choice QA could not load StoryMode.tscn.")
+			break
+		var story := packed.instantiate()
+		get_tree().root.add_child.call_deferred(story)
+		await get_tree().process_frame
+		if story.has_method("_set_auto_mode"):
+			story._set_auto_mode(false, false)
+		await _settle(0.45)
+		if not await _open_story_choices_for_qa(story, root_id):
+			break
+		var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+		var state_before: Dictionary = GameState.serialize().duplicate(true)
+		var effects_before := _w24_effect_surface_state()
+		var text_before := _collect_control_text(story)
+		var choices_before := _visible_story_choice_texts(story)
+		var dialogue_before: Array = story.get(
+			"_dialogue_log_entries").duplicate(true)
+		var follow_up_before := str(story.get("_pending_follow_up"))
+		var focus_before := get_viewport().gui_get_focus_owner()
+		for choice_index in range(2):
+			if core_loop.story_choice_commit_available(
+					root_id, choice_index):
+				_fail("W24 corrupt choice %s[%d] passed its exact preflight." % [
+					root_id, choice_index])
+				break
+			story.call("_on_choice", choice_index)
+			await get_tree().process_frame
+			var result_card := story.get("_result_record_card") as Control
+			var current: Variant = story.get("_current")
+			var unchanged: bool = GameState.serialize() == state_before \
+				and _w24_effect_surface_state() == effects_before \
+				and bool(story.get("_showing_choices")) \
+				and not bool(story.get("_pending_after_result")) \
+				and int(story.get("_pending_result_choice_index")) == -1 \
+				and str(story.get("_pending_follow_up")) == follow_up_before \
+				and story.get("_dialogue_log_entries") == dialogue_before \
+				and current is Dictionary \
+				and str((current as Dictionary).get("id", "")) == root_id \
+				and _collect_control_text(story) == text_before \
+				and _visible_story_choice_texts(story) == choices_before \
+				and get_viewport().gui_get_focus_owner() == focus_before \
+				and not (is_instance_valid(result_card) \
+					and result_card.is_visible_in_tree()) \
+				and _w24_generic_story_receipt_count(root_id) == 0
+			if not unchanged:
+				_fail("W24 corrupt choice %s[%d] changed state, effects, or UI." % [
+					root_id, choice_index])
+				break
+			rejected_choices += 1
+		if not _qa_failed:
+			var visible_copy := _collect_control_text(story)
+			if LocaleManager.is_english() and _contains_hangul(visible_copy):
+				_fail("W24 corrupt choice %s leaked Hangul on the English surface." % [
+					root_id])
+			else:
+				await _save(prefix + "15i_w24_corrupt_%s_unchanged" % [
+					str(spec.get("shot", "dirty"))])
+		_remove_nodes_by_script("res://scenes/StoryMode.gd")
+		GameState.pending_story_queue.clear()
+		await _settle(0.2)
+		if _qa_failed:
+			break
+	MetaProgression.data = original_meta
+	GameState.story_replay_mode = false
+	GameState.pending_story_queue.clear()
+	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	await _settle(0.2)
+	if _qa_failed:
+		return
+	if rejected_choices != 4:
+		_fail("W24 corrupt-choice QA rejected %d/4 choices." % rejected_choices)
+		return
+	print((
+		"W24_CORRUPT_DIRTY_SURFACE_OK "
+		+ "lang=%s resolution=%dx%d roots=2 choices=4 rejected=4 "
+		+ "state_mutations=0 effects=0 result_cards=0 "
+		+ "generic_receipts=0 ui_changes=0") % [
+			lang, resolution.x, resolution.y])
+
+func _prepare_w24_corrupt_dirty_fixture(spec: Dictionary) -> bool:
+	_prepare_main_game_state()
+	GameState.story_replay_mode = false
+	GameState.pending_story_queue.clear()
+	GameState.turn = 24
+	GameState.month = 6
+	GameState.week_of_month = 4
+	GameState.flags.erase("escaped_dirty_money")
+	GameState.flags.erase("fell_to_darkness")
+	var flag_id := str(spec.get("flag", ""))
+	var source_id := str(spec.get("source", ""))
+	var root_id := str(spec.get("root", ""))
+	if flag_id.is_empty() or source_id.is_empty() or root_id.is_empty():
+		_fail("W24 corrupt-choice QA received an incomplete fixture.")
+		return false
+	GameState.flags[flag_id] = true
+	GameState.deferred_events = []
+	if not bool(spec.get("synthetic", false)):
+		GameState.deferred_events = [{
+			"event_id": source_id,
+			"trigger_turn": 24,
+		}]
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	if not bool(core_loop.initialize_for_run(true)) \
+			or not bool(core_loop.begin_bundle("demo_collision", "schedule")):
+		_fail("W24 corrupt-choice QA could not begin %s." % root_id)
+		return false
+	var prepared: Dictionary = core_loop.prepare_demo_collision()
+	if not bool(prepared.get("ok", false)) \
+			or str((prepared.get("context", {}) as Dictionary).get(
+				"dirty_root", "")) != root_id:
+		_fail("W24 corrupt-choice QA could not prepare %s: %s." % [
+			root_id, str(prepared)])
+		return false
+	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var receipts: Dictionary = state.get(
+		"deferred_callback_receipts", {}).duplicate(true)
+	receipts.erase(source_id)
+	state["deferred_callback_receipts"] = receipts
+	GameState.core_loop_v2_state = state
+	if _w24_generic_story_receipt_count(root_id) != 0:
+		_fail("W24 corrupt-choice fixture inherited a generic receipt for %s." % [
+			root_id])
+		return false
+	return true
+
+func _open_story_choices_for_qa(story: Node, event_id: String) -> bool:
+	var current: Variant = story.get("_current")
+	if not current is Dictionary \
+			or str((current as Dictionary).get("id", "")) != event_id:
+		_fail("W24 corrupt-choice QA requested %s but StoryMode opened %s." % [
+			event_id, str(current)])
+		return false
+	for _step in range(40):
+		if bool(story.get("_showing_choices")):
+			await _settle(0.35)
+			return true
+		if bool(story.get("_pending_after_result")):
+			break
+		if bool(story.get("_typing")):
+			story.call("_complete_typing")
+		else:
+			story.call("_on_advance")
+		await _settle(0.10)
+	_fail("W24 corrupt-choice QA never exposed choices for %s." % event_id)
+	return false
+
+func _visible_story_choice_texts(story: Node) -> Array[String]:
+	var result: Array[String] = []
+	var choice_box := story.get("_choice_box") as Control
+	if not is_instance_valid(choice_box):
+		return result
+	for raw_button in choice_box.find_children("*", "Button", true, false):
+		if raw_button is Button \
+				and (raw_button as Button).is_visible_in_tree():
+			result.append((raw_button as Button).text)
+	return result
+
+func _w24_effect_surface_state() -> Dictionary:
+	return {
+		"money": float(GameState.money),
+		"health": int(GameState.health),
+		"mental": int(GameState.mental),
+		"intelligence": int(GameState.intelligence),
+		"reputation": int(GameState.reputation),
+		"addiction_tendency": int(GameState.addiction_tendency),
+	}
+
+func _w24_generic_story_receipt_count(event_id: String) -> int:
+	var raw_receipts: Variant = GameState.core_loop_v2_state.get(
+		"story_choice_receipts", {})
+	if not raw_receipts is Dictionary:
+		return 0
+	var count := 0
+	for raw_receipt in (raw_receipts as Dictionary).values():
+		if raw_receipt is Dictionary \
+				and str((raw_receipt as Dictionary).get(
+					"event_id", "")) == event_id:
+			count += 1
+	return count
+
+func _prepare_father_memory_reader_fixture(
+		event_id: String, spec: Dictionary) -> bool:
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	if event_id == "v2_demo_first_bill_opening":
+		if not _prepare_first_bill_fixture("career_daeun"):
+			return false
+	else:
+		_prepare_main_game_state()
+		GameState.turn = 21
+		GameState.month = 6
+		GameState.week_of_month = 1
+		if not bool(core_loop.initialize_for_run(true)):
+			_fail("Father memory reader fixture could not initialize Core Loop V2.")
+			return false
+	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	state["relationship_memories"] = []
+	GameState.core_loop_v2_state = state
+	if not spec.is_empty():
+		return _seed_father_memory_reader_receipt(spec, false)
+	return true
+
+func _seed_father_memory_reader_receipt(
+		spec: Dictionary, preserve_other_characters: bool) -> bool:
+	var bundle_id := str(spec.get("producer_bundle", ""))
+	var producer_event := str(spec.get("producer_event", ""))
+	var memory_id := str(spec.get("memory", ""))
+	var choice_index := int(spec.get("producer_choice", -1))
+	var producer_turn := int(spec.get("producer_turn", 0))
+	if bundle_id.is_empty() or producer_event.is_empty() \
+			or memory_id.is_empty() or choice_index < 0 or producer_turn <= 0:
+		_fail("Father memory reader fixture received an incomplete one-hot spec: %s." % [
+			str(spec)])
+		return false
+	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var memories: Array = []
+	if preserve_other_characters:
+		for raw_memory in state.get("relationship_memories", []):
+			if raw_memory is Dictionary \
+					and str((raw_memory as Dictionary).get(
+						"character", "")) != "father":
+				memories.append((raw_memory as Dictionary).duplicate(true))
+	var from_stage := "unmet" if bundle_id == "father_health_signal" \
+		else "opening"
+	var initiative := "reciprocal" if bundle_id == "father_health_signal" \
+		else "player"
+	memories.append({
+		"receipt_key": "%s:%s:%d:%d" % [
+			bundle_id, producer_event, choice_index, producer_turn],
+		"character": "father",
+		"from": from_stage,
+		"to": "opening",
+		"initiative": initiative,
+		"memory": memory_id,
+		"bundle_id": bundle_id,
+		"event_id": producer_event,
+		"choice_index": choice_index,
+		"turn": producer_turn,
+	})
+	state["relationship_memories"] = memories
+	GameState.core_loop_v2_state = state
+	return true
+
+func _shot_father_memory_reader_page(
+		event_id: String, memory_id: String, shot_name: String) -> void:
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	var memory_map: Variant = event.get("description_memory_if_known", {})
+	if event.is_empty() or not memory_map is Dictionary:
+		_fail("Father memory reader lost its existing event/map: %s." % event_id)
+		return
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	var expected_variants: Dictionary = {}
+	for raw_spec in FATHER_MEMORY_READER_SURFACES:
+		var spec: Dictionary = raw_spec
+		if str(spec.get("reader_event", "")) != event_id:
+			continue
+		var candidate_memory := str(spec.get("memory", ""))
+		var condition_key := "relationship_memory:father:%s" % candidate_memory
+		var raw_copy := str((memory_map as Dictionary).get(
+			condition_key, "")).strip_edges()
+		if raw_copy.is_empty():
+			_fail("Father memory reader %s lost KO/EN copy for %s." % [
+				event_id, candidate_memory])
+			return
+		expected_variants[candidate_memory] = core_loop.format_first_bill_story_text(
+			raw_copy)
+	var expected_memory_copy := str(expected_variants.get(memory_id, ""))
+	if not memory_id.is_empty() and expected_memory_copy.is_empty():
+		_fail("Father memory reader has no exact copy for %s:%s." % [
+			event_id, memory_id])
+		return
+	GameState.pending_story_queue = [event_id]
+	var packed := load("res://scenes/StoryMode.tscn") as PackedScene
+	if packed == null:
+		_fail("Father memory reader fixture could not load StoryMode.tscn.")
+		return
+	var story := packed.instantiate()
+	get_tree().root.add_child.call_deferred(story)
+	await get_tree().process_frame
+	if story.has_method("_set_auto_mode"):
+		story._set_auto_mode(false, false)
+	await _settle(0.45)
+	var actual_event: Variant = story.get("_current")
+	if not actual_event is Dictionary \
+			or str((actual_event as Dictionary).get("id", "")) != event_id:
+		_fail("Father memory reader requested %s but StoryMode opened %s." % [
+			event_id, str(actual_event)])
+		return
+	var resolved_description := str(story.call(
+		"_resolved_story_description", actual_event))
+	for candidate_memory in expected_variants:
+		var candidate_copy := str(expected_variants[candidate_memory])
+		var should_exist := str(candidate_memory) == memory_id
+		if resolved_description.contains(candidate_copy) != should_exist:
+			_fail(
+				"Father memory reader one-hot mismatch %s:%s expected=%s." % [
+					event_id, candidate_memory, str(should_exist)])
+			return
+	var base_copy: String = core_loop.format_first_bill_story_text(
+		str(event.get("description", "")))
+	if not resolved_description.contains(base_copy):
+		_fail("Father memory reader %s lost its legacy base description." % event_id)
+		return
+	var visible_probe: String = base_copy.substr(
+		0, mini(28, base_copy.length()))
+	if not expected_memory_copy.is_empty():
+		visible_probe = expected_memory_copy.substr(
+			0, mini(28, expected_memory_copy.length()))
+	if visible_probe.is_empty() or not await _seek_story_fragment(
+			story, visible_probe):
+		return
+	if str((story.get("_current") as Dictionary).get("id", "")) != event_id:
+		_fail("Father memory reader %s opened an extra event card." % event_id)
+		return
+	var result_card := story.get("_result_record_card") as Control
+	if bool(story.get("_pending_after_result")) \
+			or (is_instance_valid(result_card) and result_card.is_visible_in_tree()):
+		_fail("Father memory reader %s rendered an extra result card." % event_id)
+		return
+	if (event.get("choices", []) as Array).size() != 3:
+		_fail("Father memory reader %s changed its legacy three-choice event." % event_id)
+		return
+	var visible_copy := _collect_control_text(story)
+	if visible_probe not in visible_copy:
+		_fail("Father memory reader %s:%s was not visible on the story surface." % [
+			event_id, memory_id if not memory_id.is_empty() else "legacy"])
+		return
+	if LocaleManager.is_english() and _contains_hangul(visible_copy):
+		_fail("Father memory reader %s leaked Hangul on the English surface." % event_id)
+		return
+	await _save(shot_name)
+	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	GameState.pending_story_queue.clear()
+	await _settle(0.2)
 
 func _prepare_first_bill_fixture(profile: String) -> bool:
 	_prepare_main_game_state()

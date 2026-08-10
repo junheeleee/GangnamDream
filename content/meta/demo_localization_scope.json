@@ -209,9 +209,9 @@
     "chapter_event_ids_sha256": "d0d8c63ac3d70ac9db0fba6d550fa61f86d906f660c322b87593a639eb18a9a8",
     "visible_event_count": 73,
     "visible_event_ids_sha256": "340ea03ac1c6416d53b0ba97c7a74619da81cad81bb069ac3d33d732fcefcdb8",
-    "event_text_count": 465,
-    "event_text_ko_chars": 39801,
-    "event_text_sha256": "f0fea9e9643bc8fb9d0a28e63d02d86877c1c7390756bb336155084b38a01403",
+    "event_text_count": 471,
+    "event_text_ko_chars": 40100,
+    "event_text_sha256": "d1a15b40c75f76e722f32a51a49cda4407d4fd1208d51e0afcc4abd8edb423a8",
     "event_owner_counts": {
       "content/events/arc_daeun.json": 1,
       "content/events/arc_events.json": 12,
@@ -252,7 +252,7 @@
   },
   "strict_gate": {
     "automated_requires": [
-      "73 exact event overlays and 465 translated text leaves",
+      "73 exact event overlays and 471 translated text leaves",
       "657 dynamic lookup keys and four visible market asset names",
       "exact choice count/order and text-only overlay fields",
       "placeholder, paragraph, terminology, and Korean-won preservation",

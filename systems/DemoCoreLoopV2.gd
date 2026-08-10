@@ -67,6 +67,17 @@ const FIRST_BILL_OPENING_ID := "v2_demo_first_bill_opening"
 const FIRST_BILL_DECISION_ID := "v2_demo_first_bill"
 const FIRST_BILL_LEDGER_ID := "v2_demo_first_bill_ledger"
 const FIRST_BILL_REPLAY_SCHEMA := 1
+const FIRST_BILL_FATHER_MEMORY_IDS := [
+	"father_neighbor_detail_checked",
+	"father_called_again_that_evening",
+	"father_health_warning_postponed",
+]
+# These Week-24 callbacks already own an exact deferred receipt. Their generic
+# story-choice receipts were a second, readerless copy of the same choice.
+const EXACT_DEFERRED_CHOICE_ROOTS := [
+	"v2_dirty_trace_initial_call",
+	"v2_dirty_recruiter_week24",
+]
 const MONTH_ONE_EPISODE_MODE := "month_one_episode_v1"
 const SEOUL_CYCLE_SCHEMA := 1
 const SEOUL_CYCLE_MODE := "seoul_cycle_v1"
@@ -5082,6 +5093,7 @@ static func build_first_bill_replay_snapshot(
 		"housing_expense": float(GameState.get_housing_expense()),
 		"required_cash": float(GameState.get_monthly_required_cash()),
 		"context": context.duplicate(true),
+		"father_memory": _first_bill_father_memory_id(state),
 		"dirty_receipt": {},
 		"hyunsu_receipt": {},
 		"obligation_receipt": {},
@@ -5209,6 +5221,17 @@ static func validated_first_bill_replay_snapshot(
 			return {}
 	var snapshot := raw_snapshot.duplicate(true)
 	snapshot["context"] = context.duplicate(true)
+	# Schema-1 archives created before ORDER-88 have no frozen Father memory.
+	# Normalize that absence to an explicit empty value so replay can never
+	# fall back to a later run's live relationship state.
+	var raw_father_memory: Variant = raw_snapshot.get("father_memory", "")
+	if not raw_father_memory is String:
+		return {}
+	var father_memory := str(raw_father_memory).strip_edges()
+	if not father_memory.is_empty() \
+			and father_memory not in FIRST_BILL_FATHER_MEMORY_IDS:
+		return {}
+	snapshot["father_memory"] = father_memory
 	var raw_obligation: Variant = snapshot.get("obligation_receipt", {})
 	if not raw_obligation is Dictionary:
 		return {}
@@ -5239,6 +5262,18 @@ static func first_bill_replay_choice_available(
 	return _first_bill_candidate_ids_from_raw(
 		(snapshot.get("context", {}) as Dictionary).get(
 			"candidate_ids", [])).has(obligation_id.strip_edges())
+
+static func first_bill_replay_has_relationship_memory(
+		replay_snapshot: Dictionary,
+		character_id: String,
+		memory_id: String) -> bool:
+	var snapshot := validated_first_bill_replay_snapshot(replay_snapshot)
+	if snapshot.is_empty() \
+			or character_id.strip_edges() != "father":
+		return false
+	var frozen_memory := str(snapshot.get("father_memory", ""))
+	return not frozen_memory.is_empty() \
+		and memory_id.strip_edges() == frozen_memory
 
 static func first_bill_replay_snapshot_with_choice(
 		replay_snapshot: Dictionary, choice_index: int) -> Dictionary:
@@ -5321,6 +5356,30 @@ static func _first_bill_replay_state(snapshot: Dictionary) -> Dictionary:
 		state["obligation_receipts"]["demo_collision"] = (
 			raw_obligation as Dictionary).duplicate(true)
 	return state
+
+static func _first_bill_father_memory_id(state: Dictionary) -> String:
+	var found := ""
+	for raw_receipt in state.get("relationship_memories", []):
+		if not raw_receipt is Dictionary:
+			continue
+		var receipt: Dictionary = raw_receipt
+		var memory_id := str(receipt.get("memory", "")).strip_edges()
+		var choice_index := int(receipt.get("choice_index", -1))
+		if str(receipt.get("character", "")) != "father" \
+				or str(receipt.get("bundle_id", "")) != "father_health_signal" \
+				or str(receipt.get("event_id", "")) \
+					!= "v2_father_health_signal" \
+				or int(receipt.get("turn", -1)) != 21 \
+				or memory_id not in FIRST_BILL_FATHER_MEMORY_IDS:
+			continue
+		var outcome := _relationship_outcome_for_choice(
+			"father_health_signal", "v2_father_health_signal", choice_index)
+		if str(outcome.get("memory", "")) != memory_id:
+			continue
+		if not found.is_empty() and found != memory_id:
+			return ""
+		found = memory_id
+	return found
 
 static func _first_bill_cash_position_sentence(money: float) -> String:
 	var arrears := maxf(0.0, -money)
@@ -6046,6 +6105,17 @@ static func story_choice_available(
 		and (context.get("candidate_ids", []) as Array).has(
 			normalized_obligation)
 
+## Week-24 exact callback choices must prove their claimed transport before
+## StoryMode applies any authored effect. Other story choices retain their
+## existing availability contract.
+static func story_choice_commit_available(
+		event_id: String, choice_index: int) -> bool:
+	if event_id not in EXACT_DEFERRED_CHOICE_ROOTS:
+		return true
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	return _exact_deferred_story_choice_matches(
+		state, event_id, choice_index, false)
+
 static func _demo_collision_candidate_ids(state: Dictionary) -> Array[String]:
 	var priority: Array[String] = ["father_call"]
 	if application_status("city_facility_ops_2026h1") == "submitted" \
@@ -6707,6 +6777,50 @@ static func _story_choice_is_deferred_callback(
 			return true
 	return false
 
+static func _exact_deferred_story_choice_matches(
+		state: Dictionary,
+		event_id: String,
+		choice_index: int,
+		allow_resolved: bool) -> bool:
+	if event_id not in EXACT_DEFERRED_CHOICE_ROOTS \
+			or str(state.get("active_bundle", "")) != "demo_collision" \
+			or str(state.get("active_kind", "")) != "schedule" \
+			or int(state.get("active_turn", 0)) != int(GameState.turn) \
+			or int(GameState.turn) != 24:
+		return false
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	var choices: Variant = event.get("choices", [])
+	if event.is_empty() or not choices is Array \
+			or choice_index < 0 or choice_index >= (choices as Array).size() \
+			or not (choices as Array)[choice_index] is Dictionary:
+		return false
+	var context := _validated_demo_collision_context(state)
+	if context.is_empty() \
+			or str(context.get("dirty_root", "")) != event_id:
+		return false
+	var source := str(context.get("dirty_source", "")).strip_edges()
+	var raw_receipt: Variant = state["deferred_callback_receipts"].get(
+		source, {})
+	if source.is_empty() or not raw_receipt is Dictionary:
+		return false
+	var receipt: Dictionary = raw_receipt
+	var raw_synthetic: Variant = receipt.get("synthetic", null)
+	var expected_synthetic := source == "fell_to_darkness"
+	if str(receipt.get("source", "")) != source \
+			or str(receipt.get("root", "")) != event_id \
+			or int(receipt.get("trigger_turn", -1)) != 24 \
+			or int(receipt.get("claimed_turn", -1)) != int(GameState.turn) \
+			or not raw_synthetic is bool \
+			or bool(raw_synthetic) != expected_synthetic:
+		return false
+	var status := str(receipt.get("status", ""))
+	if status == "claimed":
+		return true
+	return allow_resolved and status == "resolved" \
+		and str(receipt.get("event_id", "")) == event_id \
+		and int(receipt.get("choice_index", -1)) == choice_index \
+		and int(receipt.get("resolved_turn", -1)) == int(GameState.turn)
+
 static func _note_generic_story_choice(
 		state: Dictionary, event_id: String, choice_index: int) -> bool:
 	var owner_id := str(state.get("active_bundle", "")).strip_edges()
@@ -6730,6 +6844,13 @@ static func _note_generic_story_choice(
 	if not initiated_character.is_empty() \
 			and not GameState.cast.has(initiated_character):
 		return false
+	# Validate the live owner/event/choice above, then require the exact callback
+	# transport. Do not fall through to a generic receipt when that transport is
+	# absent or corrupt. Existing generic receipts in old saves remain inert and
+	# untouched because normalization deliberately preserves them.
+	if event_id in EXACT_DEFERRED_CHOICE_ROOTS:
+		return _exact_deferred_story_choice_matches(
+			state, event_id, choice_index, true)
 	var receipt_key := "%s:%s:%d:%d" % [
 		owner_id, event_id, choice_index, int(GameState.turn)]
 	var raw_existing: Variant = state["story_choice_receipts"].get(
@@ -6775,6 +6896,23 @@ static func _note_generic_story_choice(
 
 static func _note_deferred_callback_story_choice(
 		state: Dictionary, event_id: String, choice_index: int) -> bool:
+	if event_id in EXACT_DEFERRED_CHOICE_ROOTS:
+		if not _exact_deferred_story_choice_matches(
+				state, event_id, choice_index, true):
+			return false
+		var context := _validated_demo_collision_context(state)
+		var source := str(context.get("dirty_source", "")).strip_edges()
+		var receipt: Dictionary = state[
+			"deferred_callback_receipts"].get(source, {}).duplicate(true)
+		if str(receipt.get("status", "")) == "resolved":
+			return true
+		receipt["status"] = "resolved"
+		receipt["event_id"] = event_id
+		receipt["choice_index"] = choice_index
+		receipt["resolved_turn"] = int(GameState.turn)
+		state["deferred_callback_receipts"][source] = receipt
+		GameState.core_loop_v2_state = state
+		return true
 	for raw_source in state["deferred_callback_receipts"]:
 		var source := str(raw_source)
 		var raw_receipt: Variant = state[

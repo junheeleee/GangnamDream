@@ -269,6 +269,11 @@
     "id": "v2_father_health_signal",
     "title": "The Pharmacy Bag",
     "description": "On Monday morning, June 1, a message arrives from Mr. Choi, Father's neighbor in Changwon.\n\n“Minjun, I've seen your father come home with a pharmacy bag a few times lately. It looks like he's been going to a hospital, but I couldn't ask what was wrong. Give him a call.”\n\n{name} calls Father immediately. The phone rings for a long time, but he does not answer. Eleven minutes later, a short text arrives from Father.\n\n“I'm fine. Don't worry about it.”",
+    "description_memory_if_known": {
+      "relationship_memory:father:father_gangnam_words_held_back": "On that call, he had stopped short of saying anything about Gangnam. Today, the unsaid words remain between a short text and the long stretch of ringing.",
+      "relationship_memory:father:father_quiet_call_ended": "On that call, he had let Father's “Yeah” be the last word and ended the call himself. Today, he keeps the phone to his ear until the ringing stops.",
+      "relationship_memory:father:father_asked_more": "On that call, one more question had brought a brief laugh from the other end. Today, the same number gives him only a long stretch of ringing."
+    },
     "choices": [
       {
         "text": "Ask Mr. Choi which hospital it was",
@@ -480,6 +485,11 @@
     "id": "v2_demo_first_bill_opening",
     "title": "The First Bill",
     "description": "At 5:52 p.m. on Friday, June 26, {name} sits down at the desk in his room with the banking app open beside his notebook.\n\n{cash_position}. This month's housing cost of {expense}, along with any loan interest, has not left the account yet; any pay still due has not arrived either.\n\n{v2_first_bill_body}\n\n{v2_first_bill_trace}\n\n{v2_first_bill_evidence}\n\nHe has not chosen anything yet. First, he decides what to look at again.",
+    "description_memory_if_known": {
+      "relationship_memory:father:father_neighbor_detail_checked": "The notebook still holds the two dates confirmed with Mr. Choi and the words “pharmacy bag.”",
+      "relationship_memory:father:father_called_again_that_evening": "The notebook holds the morning text and, on the next line, the time he called again that evening.",
+      "relationship_memory:father:father_health_warning_postponed": "The space left for a call to Father on the June 1 calendar is still blank."
+    },
     "choices": [
       {
         "text": "Read Father's last message again",

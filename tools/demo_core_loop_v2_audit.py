@@ -161,6 +161,18 @@ STORY_OWNED_ACTION_ROOTS = {
     "m3_room_ledger": "v2_m3_room_ledger_anchor",
     "m4_housing_welfare_consultation": "v2_m4_housing_consultation_anchor",
 }
+EXPECTED_FATHER_SMALL_COMPLETION_READERS = {
+    "v2_father_health_signal": {
+        "father_gangnam_words_held_back",
+        "father_quiet_call_ended",
+        "father_asked_more",
+    },
+    "v2_demo_first_bill_opening": {
+        "father_neighbor_detail_checked",
+        "father_called_again_that_evening",
+        "father_health_warning_postponed",
+    },
+}
 STORY_GAMEPLAY_KEYS = {
     "effects",
     "flags",
@@ -4610,6 +4622,9 @@ def measure_long_tail_readers(
         planner_source = (ROOT / "scenes/CoreLoopPlanner.gd").read_text(
             encoding="utf-8"
         )
+        story_mode_source = (ROOT / "scenes/StoryMode.gd").read_text(
+            encoding="utf-8"
+        )
         event_director = json.loads(
             (ROOT / "content/meta/event_director.json").read_text(
                 encoding="utf-8"
@@ -4624,6 +4639,7 @@ def measure_long_tail_readers(
         game_state_source = ""
         event_director_source = ""
         planner_source = ""
+        story_mode_source = ""
         event_director = {}
         ending_rows = []
 
@@ -4934,6 +4950,103 @@ def measure_long_tail_readers(
         for event_id, event in registered_events.items()
         if isinstance(event, dict) and relationship_reader_keys(event)
     }
+    father_small_completion_memories = {
+        memory_id
+        for memory_ids in EXPECTED_FATHER_SMALL_COMPLETION_READERS.values()
+        for memory_id in memory_ids
+    }
+    father_small_completion_host_ids = {
+        event_id
+        for event_id, readers in registered_memory_readers.items()
+        if set(readers) & father_small_completion_memories
+    }
+    father_small_completion_new_event_ids = (
+        father_small_completion_host_ids
+        - set(EXPECTED_FATHER_SMALL_COMPLETION_READERS)
+    )
+    try:
+        english_v2_rows = json.loads(
+            CORE_V2_EVENTS_EN_PATH.read_text(encoding="utf-8")
+        )
+    except (OSError, json.JSONDecodeError) as exc:
+        fail(f"cannot load English father small-completion readers: {exc}", errors)
+        english_v2_rows = []
+    english_v2_events = {
+        str(row.get("id", "")): row
+        for row in english_v2_rows
+        if isinstance(row, dict) and str(row.get("id", ""))
+    } if isinstance(english_v2_rows, list) else {}
+    for event_id, expected_memories in (
+        EXPECTED_FATHER_SMALL_COMPLETION_READERS.items()
+    ):
+        if event_id not in demo_event_ids:
+            fail(
+                f"father small-completion reader {event_id} is not an existing "
+                "demo event",
+                errors,
+            )
+        actual_memories = (
+            set(registered_memory_readers.get(event_id, {}))
+            & father_small_completion_memories
+        )
+        if actual_memories != expected_memories:
+            fail(
+                f"father small-completion reader {event_id} must own exactly "
+                f"{sorted(expected_memories)}, got {sorted(actual_memories)}",
+                errors,
+            )
+        korean_memory_map = registered_events.get(event_id, {}).get(
+            "description_memory_if_known", {}
+        )
+        english_memory_map = english_v2_events.get(event_id, {}).get(
+            "description_memory_if_known", {}
+        )
+        if not isinstance(korean_memory_map, dict) \
+                or not isinstance(english_memory_map, dict):
+            fail(
+                f"father small-completion reader {event_id} must be bilingual",
+                errors,
+            )
+            continue
+        for memory_id in expected_memories:
+            producer = relationship_producers.get(memory_id)
+            if producer is None or producer[1] != "father":
+                fail(
+                    f"father small-completion reader uses unknown producer "
+                    f"father:{memory_id}",
+                    errors,
+                )
+            actual_hosts = {
+                reader_event_id
+                for reader_event_id, readers in registered_memory_readers.items()
+                if memory_id in readers
+            }
+            if actual_hosts != {event_id}:
+                fail(
+                    f"father small-completion memory {memory_id} must have one "
+                    f"existing host {event_id}, got {sorted(actual_hosts)}",
+                    errors,
+                )
+            condition_key = f"relationship_memory:father:{memory_id}"
+            korean_copy = str(korean_memory_map.get(condition_key, "")).strip()
+            english_copy = str(english_memory_map.get(condition_key, "")).strip()
+            if not korean_copy or not english_copy:
+                fail(
+                    f"father small-completion memory {memory_id} lost KO/EN copy",
+                    errors,
+                )
+            elif HANGUL_RE.search(english_copy):
+                fail(
+                    f"father small-completion English copy contains Hangul for "
+                    f"{memory_id}",
+                    errors,
+                )
+    if father_small_completion_new_event_ids:
+        fail(
+            "father small-completion readers created new event hosts "
+            f"{sorted(father_small_completion_new_event_ids)}",
+            errors,
+        )
     demo_prose_readers: set[str] = set()
     for event_id in demo_event_ids:
         demo_prose_readers.update(
@@ -5202,6 +5315,18 @@ def measure_long_tail_readers(
         demo_readers | y1_readers | y2_y5_readers | ending_readers
     )
     relationship_readerless = relationship_memory_ids - named_relationship_readers
+    if not father_small_completion_memories.issubset(demo_prose_readers):
+        fail(
+            "father small-completion memories must all resolve as demo prose "
+            "readers",
+            errors,
+        )
+    if relationship_readerless:
+        fail(
+            "relationship memories remain readerless after the ORDER-88 "
+            f"small completion: {sorted(relationship_readerless)}",
+            errors,
+        )
     relationship_overlap_demo_y1 = demo_readers & y1_readers
     relationship_post_demo_prose = (
         y1_prose_only | y2_y5_prose_only | ending_prose_only
@@ -5688,6 +5813,9 @@ def measure_long_tail_readers(
             "v2_dirty_recruiter_week24",
         ),
     )
+    dirty_choice_ids: set[str] = set()
+    # ORDER-88 retires the four generic copies. The exact deferred receipts
+    # below remain the only durable Week-24 choice transport.
     dirty_story_receipt_ids: set[str] = set()
     dirty_deferred_receipt_ids: set[str] = set()
     dirty_local_material = 0
@@ -5722,11 +5850,11 @@ def measure_long_tail_readers(
                     and str(raw_choice.get("choice_kind", "")) == "expression":
                 fail(
                     f"Week-24 dirty choice {root_id}[{choice_index}] "
-                    "no longer writes a generic story receipt",
+                    "became expression-only instead of keeping its local effect",
                     errors,
                 )
                 continue
-            dirty_story_receipt_ids.add(f"{root_id}[{choice_index}]")
+            dirty_choice_ids.add(f"{root_id}[{choice_index}]")
             if isinstance(raw_choice, dict) \
                     and isinstance(raw_choice.get("effects"), dict) \
                     and bool(raw_choice.get("effects")):
@@ -5740,6 +5868,18 @@ def measure_long_tail_readers(
     generic_story_writer = gdscript_function(
         demo_core_loop_source, "_note_generic_story_choice"
     )
+    exact_choice_preflight = gdscript_function(
+        demo_core_loop_source, "story_choice_commit_available"
+    )
+    exact_choice_matcher = gdscript_function(
+        demo_core_loop_source, "_exact_deferred_story_choice_matches"
+    )
+    deferred_choice_writer = gdscript_function(
+        demo_core_loop_source, "_note_deferred_callback_story_choice"
+    )
+    story_choice_handler = gdscript_function(
+        story_mode_source, "_on_choice"
+    )
     action_story_stage_function = gdscript_function(
         demo_core_loop_source, "action_story_stage"
     )
@@ -5749,13 +5889,82 @@ def measure_long_tail_readers(
     story_receipt_reader_function = gdscript_function(
         demo_core_loop_source, "_has_current_bundle_story_receipt"
     )
+    exact_deferred_roots_match = re.search(
+        r"const EXACT_DEFERRED_CHOICE_ROOTS\s*:=\s*\[([\s\S]*?)\]",
+        demo_core_loop_source,
+    )
+    exact_deferred_roots = set(re.findall(
+        r'"([^"]+)"',
+        exact_deferred_roots_match.group(1)
+        if exact_deferred_roots_match is not None else "",
+    ))
+    expected_dirty_roots = {root_id for _, _, root_id in dirty_specs}
+    deferred_bypass_index = generic_story_writer.find(
+        "if event_id in EXACT_DEFERRED_CHOICE_ROOTS:"
+    )
+    generic_receipt_key_index = generic_story_writer.find("var receipt_key :=")
+    deferred_bypass_block = generic_story_writer[
+        deferred_bypass_index:generic_receipt_key_index
+    ] if 0 <= deferred_bypass_index < generic_receipt_key_index else ""
     if (
         "var story_recorded := _note_generic_story_choice("
         not in note_story_choice_function
         or 'state["story_choice_receipts"][receipt_key] = receipt'
         not in generic_story_writer
+        or exact_deferred_roots != expected_dirty_roots
+        or "_exact_deferred_story_choice_matches("
+        not in deferred_bypass_block
+        or "state, event_id, choice_index, true)"
+        not in deferred_bypass_block
+        or "story_choice_receipts" in deferred_bypass_block
     ):
-        fail("Week-24 dirty choices stopped writing generic story receipts", errors)
+        fail(
+            "Week-24 dirty choices must bypass generic story receipts while "
+            "preserving the exact deferred transport",
+            errors,
+        )
+    preflight_index = story_choice_handler.find(
+        "story_choice_commit_available("
+    )
+    stop_countdown_index = story_choice_handler.find(
+        "_stop_story_choice_countdown()"
+    )
+    apply_choice_index = story_choice_handler.find("GameState.apply_choice(")
+    exact_keyed_transport = (
+        "if event_id not in EXACT_DEFERRED_CHOICE_ROOTS:"
+        in exact_choice_preflight
+        and "_exact_deferred_story_choice_matches("
+        in exact_choice_preflight
+        and "state, event_id, choice_index, false)"
+        in exact_choice_preflight
+        and '_validated_demo_collision_context(state)'
+        in exact_choice_matcher
+        and 'context.get("dirty_source", "")'
+        in exact_choice_matcher
+        and 'state["deferred_callback_receipts"].get('
+        in exact_choice_matcher
+        and 'receipt.get("trigger_turn", -1)' in exact_choice_matcher
+        and 'receipt.get("synthetic", null)' in exact_choice_matcher
+        and 'source == "fell_to_darkness"' in exact_choice_matcher
+        and 'if status == "claimed":' in exact_choice_matcher
+        and "allow_resolved and status == \"resolved\""
+        in exact_choice_matcher
+        and "if event_id in EXACT_DEFERRED_CHOICE_ROOTS:"
+        in deferred_choice_writer
+        and 'context.get("dirty_source", "")'
+        in deferred_choice_writer
+        and 'state["deferred_callback_receipts"][source] = receipt'
+        in deferred_choice_writer
+        and 0 <= preflight_index < stop_countdown_index < apply_choice_index
+        and "not _read_only_replay and not expression_choice"
+        in story_choice_handler
+    )
+    if not exact_keyed_transport:
+        fail(
+            "Week-24 dirty choice effects must preflight and resolve only "
+            "their context-owned deferred receipt",
+            errors,
+        )
     story_receipt_reader_calls = demo_core_loop_source.count(
         "_has_current_bundle_story_receipt("
     )
@@ -5881,7 +6090,12 @@ def measure_long_tail_readers(
     )
     if not deferred_completion_guard:
         fail("Week-24 dirty completion lost its deferred-receipt guard", errors)
-    if dirty_local_material != len(dirty_story_receipt_ids):
+    if (
+        len(dirty_choice_ids) != 4
+        or dirty_local_material != len(dirty_choice_ids)
+        or dirty_story_receipt_ids
+        or len(dirty_deferred_receipt_ids) != 2
+    ):
         fail("Week-24 dirty choices lost their local effects", errors)
 
     white_ending = endings.get("gangnam_dream_white", {})
@@ -6045,6 +6259,15 @@ def measure_long_tail_readers(
         callback_labels[branch] = labels
 
     lines = [
+        "order88_small_completion "
+        f"relationship_readerless={len(relationship_readerless)} "
+        f"father_memory_readers={len(father_small_completion_memories)} "
+        f"existing_reader_events={len(father_small_completion_host_ids)} "
+        f"new_events={len(father_small_completion_new_event_ids)} "
+        f"w24_dirty_choices={len(dirty_choice_ids)} "
+        f"w24_generic_story_receipts={len(dirty_story_receipt_ids)} "
+        f"w24_exact_deferred_receipts={len(dirty_deferred_receipt_ids)} "
+        f"w24_choice_effects={dirty_local_material}",
         "long_tail_inventory "
         f"relationship_bundles={len(relationship_bundle_ids)} "
         f"relationship_memories={len(relationship_memory_ids)} "
@@ -6053,7 +6276,8 @@ def measure_long_tail_readers(
         f"authored_action_story_receipts={len(authored_story_receipt_ids)} "
         f"routine_receipts={routine_receipt_count} "
         f"first_bill_decisions={len(obligation_ids)} "
-        f"w24_dirty_story_choices={len(dirty_story_receipt_ids)} "
+        f"w24_dirty_choices={len(dirty_choice_ids)} "
+        f"w24_dirty_generic_story_receipts={len(dirty_story_receipt_ids)} "
         f"w24_dirty_deferred_receipts={len(dirty_deferred_receipt_ids)}",
         "long_tail_family family=relationship_memory layer=memory "
         f"producers={len(relationship_memory_ids)} "
@@ -6182,16 +6406,16 @@ def measure_long_tail_readers(
         f"post_demo_recap_only={len(first_bill_post_demo_recap_only)} "
         f"effectful_excluded={len(first_bill_effectful_post_demo)} "
         f"ids={compact_ids(first_bill_long_tail_candidates)}",
-        "long_tail_family family=w24_dirty_story_receipt layer=mechanical "
+        "long_tail_family family=w24_dirty_generic_story_receipt layer=mechanical "
         f"producers={len(dirty_story_receipt_ids)} "
+        f"retired_duplicate_choices={len(dirty_choice_ids)} "
         f"choice_local_material={dirty_local_material} receipt_local_material=0 "
-        "demo_exact=0 reader_mode=action_story_only "
+        "demo_exact=0 reader_mode=retired_exact_deferred_owned "
         "y1_exact=0 y2_y5_exact=0 ending_exact=0 "
         f"readerless={len(dirty_story_receipt_ids)}",
-        "long_tail_candidate family=w24_dirty_story_receipt "
-        "candidate_disposition=pending_user_classification_not_auto_defect "
-        "classification_question=small_completion_or_long_tail_gap "
-        f"count={len(dirty_story_receipt_ids)} basis=write_only "
+        "long_tail_candidate family=w24_dirty_generic_story_receipt "
+        "candidate_disposition=retired_duplicate_exact_deferred_owned "
+        f"count={len(dirty_story_receipt_ids)} basis=no_writer "
         f"ids={compact_ids(dirty_story_receipt_ids)}",
         "long_tail_family family=w24_dirty_deferred_receipt layer=decision "
         f"producers={len(dirty_deferred_receipt_ids)} local_material=0 "

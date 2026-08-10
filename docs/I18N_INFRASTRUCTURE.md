@@ -122,7 +122,7 @@ by deleting legacy Month-One strings is a scope error rather than a documentatio
 adjustment.
 
 - 73 visible events: 12 prologue, one Chapter 1 card, and 60 Week 1-24 events.
-- 465 translatable event text leaves and zero endings. The Week-24 CTA is not a
+- 471 translatable event text leaves and zero endings. The Week-24 CTA is not a
   `finish_run` ending.
 - 657 unique Korean lookup keys across 686 dynamic KO/EN pair occurrences,
   including the monthly planner, mandatory three-slide first-planner tutorial,
@@ -134,7 +134,7 @@ adjustment.
   four player-facing Month-One decision verbs and four possible primary traces;
   ORDER-94 adds the 28 occurrences / 24 unique Seoul Cycle board labels above.
 - Four asset names visible in the Week-21 market route.
-- The 465 event leaves, 657 unique dynamic keys, and four asset names form 1,126
+- The 471 event leaves, 657 unique dynamic keys, and four asset names form 1,132
   unique demo translation sources in total. Repeated dynamic occurrences do not
   increase that source total.
 
@@ -150,13 +150,13 @@ back to English even after the event body is complete.
 
 | Locale | Static UI | Events | Event text leaves | Dynamic keys | Demo catalog |
 |---|---:|---:|---:|---:|---:|
-| `ja` | 2,730/2,730 | 1/73 | 8/465 | 9/657 | 0/4 |
-| `zh-CN` | 0/2,730 | 0/73 | 0/465 | 0/657 | 0/4 |
-| `zh-TW` | 0/2,730 | 0/73 | 0/465 | 0/657 | 0/4 |
+| `ja` | 2,730/2,730 | 1/73 | 8/471 | 9/657 | 0/4 |
+| `zh-CN` | 0/2,730 | 0/73 | 0/471 | 0/657 | 0/4 |
+| `zh-TW` | 0/2,730 | 0/73 | 0/471 | 0/657 | 0/4 |
 
 Skeleton mode verifies this scope, existing rows, fallback paths, and the hidden
 shipping state without pretending missing prose is complete. Per-language
-`--strict` additionally requires 73/73 events, 465/465 leaves, 657/657 dynamic
+`--strict` additionally requires 73/73 events, 471/471 leaves, 657/657 dynamic
 keys, 4/4 catalog names, and zero direct English bypasses. It is expected to fail
 until an approved body-translation wave is finished. Japanese has the required
 terminology and source-shape validator now. `zh_translation_audit.py --strict`
@@ -254,8 +254,8 @@ runtime check proves alias normalization, UI miss logging, English
 event/ending/catalog fallback, locale money labels, and bundled glyph coverage.
 
 `ja_translation_pipeline.py` defaults to UI-only generation. Its read-only
-`--scope demo --inventory` proves that the future wave contains exactly 465 event
-leaves, 657 dynamic keys, four catalog names, and no ending: 1,126 unique demo
+`--scope demo --inventory` proves that the future wave contains exactly 471 event
+leaves, 657 dynamic keys, four catalog names, and no ending: 1,132 unique demo
 translation sources in total. Demo generation exits
 with `BODY_TRANSLATION_HELD` unless `--allow-body` is passed after the approved
 24-week source text is declared final; it merges those rows without deleting
@@ -268,7 +268,7 @@ assets.
 `zh_translation_audit.py` reads both regions from the Korean source independently.
 Its normal mode reports the empty skeleton and both blocked font routes without
 claiming completion. Its region-specific strict mode requires 2,730/2,730 static
-UI keys, the exact 73/465/657/4 demo body (1,126 unique demo translation sources),
+UI keys, the exact 73/471/657/4 demo body (1,132 unique demo translation sources),
 zero direct English bypasses, every
 context-unambiguous wrong-region character in the pinned OpenCC 1.3.1 classifier
 set (4,093 for `zh-CN`, 3,804 for `zh-TW`), project-locked regional terms,
@@ -330,8 +330,8 @@ and validator together.
 
 Before either Chinese demo claim, that region requires:
 
-1. 2,730/2,730 static UI keys and strict parity for all 73 demo events, 465 event
-   leaves, 657 dynamic keys, and four catalog names: 1,126 unique demo translation
+1. 2,730/2,730 static UI keys and strict parity for all 73 demo events, 471 event
+   leaves, 657 dynamic keys, and four catalog names: 1,132 unique demo translation
    sources in total; no ending is fabricated.
 2. Zero Hangul, kana, untranslated English prose, direct English bypass, wrong-
    region script, currency conversion, or placeholder/paragraph drift.

@@ -749,6 +749,11 @@
     "one_time": true,
     "background": "current_housing",
     "description": "6월 1일 월요일 아침. 창원 옆집에 사는 최씨 아저씨에게서 메시지가 왔다.\n\n“민준아, 네 아버지가 요 며칠 약국 봉투를 들고 들어오더라. 병원에 다니는 것 같은데 어디가 안 좋은지는 나도 못 물었다. 네가 한번 연락해 봐라.”\n\n{name}은 바로 아버지에게 전화를 걸었다. 신호는 오래 갔지만 받지 않았다. 11분 뒤 아버지에게서 짧은 문자가 왔다.\n\n“괜찮으니까 신경 쓰지 마라.”",
+    "description_memory_if_known": {
+      "relationship_memory:father:father_gangnam_words_held_back": "그때 통화에서 끝내 꺼내지 못한 강남 이야기가 있었다. 오늘은 짧은 문자와 오래 가는 신호음 사이에 그 말이 다시 남았다.",
+      "relationship_memory:father:father_quiet_call_ended": "그때는 “그래” 뒤의 침묵을 먼저 닫았다. 오늘은 신호음이 끊길 때까지 휴대폰을 내리지 못했다.",
+      "relationship_memory:father:father_asked_more": "그때 한마디를 더 묻자 수화기 너머에서 짧은 웃음이 돌아왔다. 오늘은 같은 번호에서 긴 신호음만 돌아왔다."
+    },
     "choices": [
       {
         "text": "최씨 아저씨에게 어느 병원인지 묻는다",
@@ -1301,6 +1306,11 @@
     "portrait": "player_first_bill_decision",
     "background": "v2_first_bill_desk_closeup",
     "description": "6월 26일 금요일 17:52. {name}은 지금 사는 방의 책상 앞에 앉아 은행 앱과 수첩을 나란히 열었다.\n\n{cash_position}. 이번 달 주거비 {expense}과 대출이자가 있다면 그 금액도 아직 빠져나가기 전이었고, 받을 급여가 있다면 그것도 아직 들어오기 전이었다.\n\n{v2_first_bill_body}\n\n{v2_first_bill_trace}\n\n{v2_first_bill_evidence}\n\n아직 고른 일은 없었다. {name}은 무엇부터 다시 볼지 정했다.",
+    "description_memory_if_known": {
+      "relationship_memory:father:father_neighbor_detail_checked": "수첩에는 최씨 아저씨에게 확인한 날짜 두 개와 “약국 봉투”가 그대로 적혀 있었다.",
+      "relationship_memory:father:father_called_again_that_evening": "수첩에는 아침 문자와 그날 저녁 다시 건 통화 시각이 한 줄씩 적혀 있었다.",
+      "relationship_memory:father:father_health_warning_postponed": "6월 1일 달력에 비워 둔 아버지 통화 칸은 그대로였다."
+    },
     "choices": [
       {
         "text": "아버지의 마지막 문자를 다시 읽는다",

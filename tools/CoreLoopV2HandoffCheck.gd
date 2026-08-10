@@ -52,6 +52,19 @@ const ACTUAL_CARRYOVER_PATHS := [
 	"dirty_deeper_growth",
 ]
 
+const DIRTY_RECEIPT_PATHS := {
+	"dirty_return_recovery_low": {
+		"source": "callback_escaped_dirty_trace",
+		"root": "v2_dirty_trace_initial_call",
+		"synthetic": false,
+	},
+	"dirty_deeper_growth": {
+		"source": "fell_to_darkness",
+		"root": "v2_dirty_recruiter_week24",
+		"synthetic": true,
+	},
+}
+
 # JobSystem uses Godot's global RNG for monthly stat/performance rolls. These
 # fixed seeds make the exact component ledger reproducible without pretending
 # that the production UI chose a random vignette outcome.
@@ -148,6 +161,7 @@ func _ready() -> void:
 	_check_phone_purchase_retirement_migration()
 	_check_durable_legacy_replacements()
 	_check_identity_retirement_boundaries()
+	_check_v1_dirty_receipt_non_inference()
 	_check_actual_snapshot_carryover()
 	_check_v2_week_24_handoff()
 	await _check_side_shift_identity_boundaries()
@@ -174,6 +188,7 @@ func _ready() -> void:
 			+ "phone_retirement=valid_refund_once/forged_zero "
 			+ "legacy_replacements=durable_receipts/suppression_cleared "
 			+ "identity_retirement=week24_48_240/save_load/legacy_values_preserved "
+			+ "dirty_receipt=week24_48_240/exact/no_generic/v1_no_inference "
 			+ "side_shift_identity=v2_week25_48_240_zero/v1_founder_preserved "
 			+ "carryover=component_runtime/e_component_snapshots4/"
 			+ "autosave_roundtrip4/week25_48/weekly_actions24/"
@@ -285,6 +300,28 @@ func _check_legacy_hyunsu_timing_path(
 		"legacy path scheduled or routed the obsolete duplicate pivot")
 
 
+func _check_v1_dirty_receipt_non_inference() -> void:
+	GameState.start_new_game()
+	GameState.flags["escaped_dirty_money"] = true
+	GameState.flags["fell_to_darkness"] = true
+	for boundary in [24, 48, 240]:
+		_set_turn_date(boundary)
+		var snapshot: Dictionary = GameState.serialize().duplicate(true)
+		GameState.start_new_game()
+		GameState.load_from_dict(snapshot)
+		var v1_state_before: Dictionary = \
+			GameState.core_loop_v2_state.duplicate(true)
+		var initialized := CORE_LOOP.initialize_for_run()
+		var raw_deferred: Variant = GameState.core_loop_v2_state.get(
+			"deferred_callback_receipts", {})
+		_expect(not initialized \
+				and GameState.core_loop_v2_state == v1_state_before \
+				and (not raw_deferred is Dictionary \
+					or (raw_deferred as Dictionary).is_empty()) \
+				and _dirty_generic_story_receipt_count() == 0,
+			"V1 dirty flags inferred a V2 choice receipt at Week %d" % boundary)
+
+
 func _check_actual_snapshot_carryover() -> void:
 	# This is a component-runtime bridge: real E snapshots, production
 	# GameState/system transactions, and MainGame's actual scheduler. The live
@@ -320,6 +357,23 @@ func _check_actual_snapshot_carryover() -> void:
 				and CORE_LOOP.is_prototype_complete() \
 				and not CORE_LOOP.is_active(),
 			"%s did not load its exact unreset W24→25 snapshot" % path_id)
+		var dirty_receipt_spec: Dictionary = {}
+		if DIRTY_RECEIPT_PATHS.has(path_id):
+			dirty_receipt_spec = (
+				DIRTY_RECEIPT_PATHS[path_id] as Dictionary).duplicate(true)
+		var dirty_receipt_at_24: Dictionary = {}
+		if not dirty_receipt_spec.is_empty():
+			dirty_receipt_at_24 = _exact_dirty_deferred_receipt(
+				dirty_receipt_spec)
+			_expect(not dirty_receipt_at_24.is_empty() \
+					and _dirty_generic_story_receipt_count() == 0,
+				("%s W24 snapshot did not contain only its exact dirty receipt: "
+				+ "deferred=%s generic=%d") % [
+					path_id,
+					str(GameState.core_loop_v2_state.get(
+						"deferred_callback_receipts", {})),
+					_dirty_generic_story_receipt_count(),
+				])
 
 		var v2_before: Dictionary = GameState.core_loop_v2_state.duplicate(true)
 		var routines_before: Dictionary = (
@@ -667,6 +721,12 @@ func _check_actual_snapshot_carryover() -> void:
 		else:
 			_expect(str(routed_by_week.get("34", "")) != "arc_rescue_job",
 				"%s invented a rescue job for an already-employed snapshot" % path_id)
+		if not dirty_receipt_spec.is_empty():
+			_expect(_exact_dirty_deferred_receipt(dirty_receipt_spec) \
+					== dirty_receipt_at_24 \
+					and _dirty_generic_story_receipt_count() == 0,
+				"%s W48 handoff changed its exact dirty receipt or added generic state" \
+					% path_id)
 
 		_carryover_evidence.append(
 			"%s=W48_%.1f_%d_%d/floor_%d_%d/rest_%s/months_%s" % [
@@ -682,6 +742,25 @@ func _check_actual_snapshot_carryover() -> void:
 			str(FULL_ROUTE_CHECK.FULL_ROUTE_EVIDENCE_NAMES[path_id]),
 			"|".join(routed_trace),
 		])
+		if not dirty_receipt_spec.is_empty():
+			# Year-One fallback and the five-year boundary consume flags/prose, not
+			# a reconstructed generic story receipt. Carry the one Week-24 truth
+			# through a real serialization boundary at the run cap.
+			_set_turn_date(240)
+			var week_240_snapshot: Dictionary = GameState.serialize().duplicate(true)
+			GameState.start_new_game()
+			GameState.load_from_dict(week_240_snapshot)
+			var before_initialize: Dictionary = \
+				GameState.core_loop_v2_state.duplicate(true)
+			var initialized := CORE_LOOP.initialize_for_run()
+			_expect(initialized \
+					and GameState.core_loop_v2_state == before_initialize \
+					and int(GameState.turn) == 240 \
+					and _exact_dirty_deferred_receipt(dirty_receipt_spec) \
+						== dirty_receipt_at_24 \
+					and _dirty_generic_story_receipt_count() == 0,
+				"%s W240 save/load changed or inferred a dirty choice receipt" \
+					% path_id)
 
 	MetaProgression.data = meta_data_backup
 	MetaProgression.set("_new_this_run", new_this_run_backup)
@@ -1914,6 +1993,49 @@ func _exact_deferred_turn(event_id: String) -> int:
 			matches.append(int((raw_entry as Dictionary).get(
 				"trigger_turn", 0)))
 	return matches[0] if matches.size() == 1 else -1
+
+
+func _exact_dirty_deferred_receipt(spec: Dictionary) -> Dictionary:
+	var raw_receipts: Variant = GameState.core_loop_v2_state.get(
+		"deferred_callback_receipts", {})
+	if not raw_receipts is Dictionary:
+		return {}
+	var source := str(spec.get("source", ""))
+	var root := str(spec.get("root", ""))
+	var raw_receipt: Variant = (raw_receipts as Dictionary).get(source, {})
+	if not raw_receipt is Dictionary:
+		return {}
+	var receipt: Dictionary = raw_receipt
+	var exact := receipt.size() == 9 \
+		and str(receipt.get("source", "")) == source \
+		and int(receipt.get("trigger_turn", -1)) == 24 \
+		and int(receipt.get("claimed_turn", -1)) == 24 \
+		and str(receipt.get("root", "")) == root \
+		and str(receipt.get("status", "")) == "resolved" \
+		and bool(receipt.get("synthetic", not bool(
+			spec.get("synthetic", false)))) \
+			== bool(spec.get("synthetic", false)) \
+		and str(receipt.get("event_id", "")) == root \
+		and int(receipt.get("choice_index", -1)) == 0 \
+		and int(receipt.get("resolved_turn", -1)) == 24
+	return receipt.duplicate(true) if exact else {}
+
+
+func _dirty_generic_story_receipt_count() -> int:
+	var raw_receipts: Variant = GameState.core_loop_v2_state.get(
+		"story_choice_receipts", {})
+	if not raw_receipts is Dictionary:
+		return 0
+	var count := 0
+	for raw_receipt in (raw_receipts as Dictionary).values():
+		if raw_receipt is Dictionary \
+				and str((raw_receipt as Dictionary).get("event_id", "")) \
+					in [
+						"v2_dirty_trace_initial_call",
+						"v2_dirty_recruiter_week24",
+					]:
+			count += 1
+	return count
 
 
 func _exact_city_transition_receipts() -> Array[Dictionary]:

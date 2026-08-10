@@ -4,6 +4,56 @@ extends Node
 const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
 const STORY_MODE := preload("res://scenes/StoryMode.gd")
 const FULL_ROUTE_CHECK := preload("res://tools/CoreLoopV2ECheck.gd")
+const FATHER_MEMORY_READER_SPECS := [
+	{
+		"memory": "father_gangnam_words_held_back",
+		"producer_bundle": "father_quiet_call",
+		"producer_event": "arc_father_quiet_call",
+		"producer_choice": 0,
+		"producer_turn": 12,
+		"reader_event": "v2_father_health_signal",
+	},
+	{
+		"memory": "father_quiet_call_ended",
+		"producer_bundle": "father_quiet_call",
+		"producer_event": "arc_father_quiet_call",
+		"producer_choice": 1,
+		"producer_turn": 12,
+		"reader_event": "v2_father_health_signal",
+	},
+	{
+		"memory": "father_asked_more",
+		"producer_bundle": "father_quiet_call",
+		"producer_event": "arc_father_quiet_call",
+		"producer_choice": 2,
+		"producer_turn": 12,
+		"reader_event": "v2_father_health_signal",
+	},
+	{
+		"memory": "father_neighbor_detail_checked",
+		"producer_bundle": "father_health_signal",
+		"producer_event": "v2_father_health_signal",
+		"producer_choice": 0,
+		"producer_turn": 21,
+		"reader_event": "v2_demo_first_bill_opening",
+	},
+	{
+		"memory": "father_called_again_that_evening",
+		"producer_bundle": "father_health_signal",
+		"producer_event": "v2_father_health_signal",
+		"producer_choice": 1,
+		"producer_turn": 21,
+		"reader_event": "v2_demo_first_bill_opening",
+	},
+	{
+		"memory": "father_health_warning_postponed",
+		"producer_bundle": "father_health_signal",
+		"producer_event": "v2_father_health_signal",
+		"producer_choice": 2,
+		"producer_turn": 21,
+		"reader_event": "v2_demo_first_bill_opening",
+	},
+]
 
 var _failures: Array[String] = []
 var _inject_late_commitment := false
@@ -50,7 +100,7 @@ func _ready() -> void:
 			+ "continuation=week12_to_13/roundtrip prerequisites=typed/closed_safe "
 			+ "entries=daeun_jiyeon_father_hyunsu exclusive=romance_entry "
 			+ "relationship=from_to/current_turn_receipt/no_regression "
-			+ "memory=reader_variants "
+			+ "memory=reader_variants/father6_ko_en/exact_wrong/schema2_v1_safe "
 			+ "application=submitted/interviewed/no_offer "
 			+ "callback=receipt_superseded/mindset3/v1_truthful/long_preserved "
 			+ "prelude=scheduled_owner/interview+math/story_action/save_once "
@@ -823,7 +873,173 @@ func _check_relationship_memory_description_variants() -> void:
 	story._current_presentation = {}
 	_expect(not story._story_nameplate_hidden(),
 		"an ordinary story presentation inherited the hidden nameplate")
+	_check_father_small_completion_readers(story)
 	story.free()
+
+func _check_father_small_completion_readers(story) -> void:
+	var original_language := LocaleManager.language
+	var expected_keys_by_event := {
+		"v2_father_health_signal": [
+			"relationship_memory:father:father_asked_more",
+			"relationship_memory:father:father_gangnam_words_held_back",
+			"relationship_memory:father:father_quiet_call_ended",
+		],
+		"v2_demo_first_bill_opening": [
+			"relationship_memory:father:father_called_again_that_evening",
+			"relationship_memory:father:father_health_warning_postponed",
+			"relationship_memory:father:father_neighbor_detail_checked",
+		],
+	}
+	for language in ["ko", "en"]:
+		LocaleManager.set_language(language)
+		for reader_event_id in expected_keys_by_event:
+			var reader_event: Dictionary = DataRegistry.find_event(
+				reader_event_id)
+			var raw_memory_map: Variant = reader_event.get(
+				"description_memory_if_known", {})
+			var actual_keys: Array[String] = []
+			if raw_memory_map is Dictionary:
+				for raw_key in (raw_memory_map as Dictionary):
+					actual_keys.append(str(raw_key))
+			actual_keys.sort()
+			var expected_keys: Array = expected_keys_by_event[
+				reader_event_id].duplicate()
+			expected_keys.sort()
+			_expect(not reader_event.is_empty() \
+					and actual_keys == expected_keys,
+				"%s %s lost the exact three Father memory readers" % [
+					language, reader_event_id])
+
+		for raw_spec in FATHER_MEMORY_READER_SPECS:
+			var spec: Dictionary = raw_spec
+			var memory_id := str(spec["memory"])
+			var reader_event_id := str(spec["reader_event"])
+			var condition_key := "relationship_memory:father:%s" % memory_id
+			var reader_event: Dictionary = DataRegistry.find_event(
+				reader_event_id)
+			var memory_map: Dictionary = reader_event.get(
+				"description_memory_if_known", {})
+			var memory_text := str(memory_map.get(condition_key, ""))
+			_expect(not memory_text.strip_edges().is_empty(),
+				"%s %s has no prose for %s" % [
+					language, reader_event_id, memory_id])
+
+			_fresh()
+			var baseline: String = story._resolved_story_description(reader_event)
+			_expect(not baseline.contains(story._fmt(memory_text)),
+				"%s %s appeared without a typed receipt" % [
+					language, memory_id])
+
+			var state: Dictionary = GameState.core_loop_v2_state
+			state["relationship_memories"] = [
+				{
+					"character": "hyunsu",
+					"memory": memory_id,
+				},
+				{
+					"character": "father",
+					"memory": "%s_wrong" % memory_id,
+				},
+			]
+			GameState.core_loop_v2_state = state
+			var wrong_key: String = story._resolved_story_description(reader_event)
+			_expect(not wrong_key.contains(story._fmt(memory_text)),
+				"%s %s accepted a wrong character or memory key" % [
+					language, memory_id])
+
+			state = GameState.core_loop_v2_state
+			state["relationship_memories"] = [{
+				"character": "father",
+				"memory": memory_id,
+				"bundle_id": str(spec["producer_bundle"]),
+				"event_id": str(spec["producer_event"]),
+				"choice_index": int(spec["producer_choice"]),
+				"turn": int(spec["producer_turn"]),
+			}]
+			GameState.core_loop_v2_state = state
+			var exact: String = story._resolved_story_description(reader_event)
+			_expect(exact.contains(story._fmt(memory_text)),
+				"%s %s did not reach %s through its exact typed receipt" % [
+					language, memory_id, reader_event_id])
+
+			_seed_schema_two_father_memory(spec)
+			var migrated_event: Dictionary = DataRegistry.find_event(
+				reader_event_id)
+			var migrated: String = story._resolved_story_description(migrated_event)
+			_expect(CORE_LOOP.has_relationship_memory("father", memory_id) \
+					and migrated.contains(story._fmt(memory_text)),
+				"%s schema-2 exact receipt did not migrate/read %s" % [
+					language, memory_id])
+
+		_check_father_legacy_flags_do_not_infer_memories(story, language)
+	LocaleManager.set_language(original_language)
+
+func _seed_schema_two_father_memory(spec: Dictionary) -> void:
+	GameState.start_new_game()
+	var producer_turn := int(spec["producer_turn"])
+	GameState.turn = mini(24, producer_turn + 1)
+	var producer_bundle := str(spec["producer_bundle"])
+	var producer_event := str(spec["producer_event"])
+	var producer_choice := int(spec["producer_choice"])
+	var receipt_key := "%s:%s:%d:%d" % [
+		producer_bundle, producer_event, producer_choice, producer_turn]
+	var completed_bundles: Array = [producer_bundle]
+	if producer_bundle == "father_quiet_call":
+		completed_bundles.push_front("father_first_call")
+	GameState.core_loop_v2_state = {
+		"schema": 2,
+		"enabled": true,
+		"completed_turns": range(1, GameState.turn),
+		"completed_bundles": completed_bundles,
+		"relationship_stages": {"father": "opening"},
+		"relationship_choice_receipts": {receipt_key: true},
+		"relationship_history": [],
+		"player_initiated": [],
+	}
+	_expect(CORE_LOOP.initialize_for_run(),
+		"schema-2 Father memory fixture did not initialize for %s" \
+			% str(spec["memory"]))
+
+func _check_father_legacy_flags_do_not_infer_memories(
+		story, language: String) -> void:
+	GameState.start_new_game()
+	GameState.flags["asked_father_more"] = true
+	GameState.flags["arc_father_quiet_call_seen"] = true
+	GameState.flags["arc_father_01_seen"] = true
+	GameState.flags["arc_father_02_done"] = true
+	for raw_spec in FATHER_MEMORY_READER_SPECS:
+		GameState.flags[str((raw_spec as Dictionary)["memory"])] = true
+	GameState.core_loop_v2_state = {}
+	for reader_event_id in [
+		"v2_father_health_signal", "v2_demo_first_bill_opening",
+	]:
+		var event: Dictionary = DataRegistry.find_event(reader_event_id)
+		var memory_map: Dictionary = event.get(
+			"description_memory_if_known", {})
+		var resolved: String = story._resolved_story_description(event)
+		for raw_text in memory_map.values():
+			_expect(not resolved.contains(story._fmt(str(raw_text))),
+				"%s V1 flags inferred typed Father prose in %s" % [
+					language, reader_event_id])
+
+	GameState.turn = 21
+	GameState.core_loop_v2_state = {
+		"schema": 2,
+		"enabled": true,
+		"relationship_stages": {"father": "opening"},
+		"relationship_choice_receipts": {
+			"father_quiet_call:arc_father_quiet_call:99:12": true,
+		},
+		"relationship_history": [],
+		"player_initiated": [],
+	}
+	_expect(CORE_LOOP.initialize_for_run(),
+		"schema-2 wrong-key Father fixture did not initialize")
+	for raw_spec in FATHER_MEMORY_READER_SPECS:
+		var memory_id := str((raw_spec as Dictionary)["memory"])
+		_expect(not CORE_LOOP.has_relationship_memory("father", memory_id),
+			"%s schema-2 flags or wrong receipt inferred %s" % [
+				language, memory_id])
 
 func _check_legacy_callback_resolution() -> void:
 	var mindset_callbacks := [

@@ -3,6 +3,7 @@ extends Node
 
 const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
 const MAIN_GAME_SCRIPT := preload("res://scenes/MainGame.gd")
+const STORY_MODE_SCRIPT := preload("res://scenes/StoryMode.gd")
 
 const BASE_OFFERS := [
 	"m6_public_recruitment",
@@ -26,6 +27,54 @@ const OBLIGATION_IDS := [
 	"sangchul_ledger",
 	"urgent_paid_shift",
 	"body_rest",
+]
+
+const DIRTY_CHOICE_FIXTURES := [
+	{
+		"root": "v2_dirty_trace_initial_call",
+		"source": "callback_escaped_dirty_trace",
+		"flag": "escaped_dirty_money",
+		"synthetic": false,
+		"effects": [
+			{"mental": -4},
+			{"intelligence": 1, "mental": -5},
+		],
+		"ko_anchors": ["말한 순서", "사건번호"],
+		"en_anchors": [
+			"order in which he gave the dates",
+			"case number",
+		],
+	},
+	{
+		"root": "v2_dirty_recruiter_week24",
+		"source": "fell_to_darkness",
+		"flag": "fell_to_darkness",
+		"synthetic": true,
+		"effects": [
+			{"mental": -2},
+			{"intelligence": 1, "mental": -4},
+		],
+		"ko_anchors": ["새 번호를 차단", "발신 시각을 캡처"],
+		"en_anchors": [
+			"blocked the new number",
+			"saved a screenshot",
+		],
+	},
+]
+
+const FATHER_FIRST_BILL_MEMORY_FIXTURES := [
+	{
+		"memory": "father_neighbor_detail_checked",
+		"choice_index": 0,
+	},
+	{
+		"memory": "father_called_again_that_evening",
+		"choice_index": 1,
+	},
+	{
+		"memory": "father_health_warning_postponed",
+		"choice_index": 2,
+	},
 ]
 
 const ACTION_STORY_FIXTURES := [
@@ -975,6 +1024,8 @@ func _ready() -> void:
 	_check_first_bill_context_corruption_rejection()
 	_check_first_bill_custom_player_name_copy()
 	_check_hanbit_first_bill_provenance()
+	_check_first_bill_father_memory_replay_snapshot()
+	_check_dirty_choice_single_truth()
 	_check_collision_queue_and_receipts()
 	_check_city_choice_preserves_submission()
 	_check_full_route_release_paths()
@@ -1010,6 +1061,10 @@ func _ready() -> void:
 			+ "first_bill=expression_zero_state/context_corruption3/"
 			+ "loan_housing_required_split_ko_en/custom_name_ko_en/"
 			+ "hanbit_exact_provenance_legacy_prune_save "
+			+ "father_replay=frozen3/live_isolated/schema1_empty "
+			+ "dirty_choice=2x2/effects/exact_deferred/no_generic/"
+			+ "corrupt_reject/live_preflight/keyed_duplicate_safe/"
+			+ "save_load/ko_en_trace "
 			+ "component_routes=4/week1_500k_65_60/plans/events/declines/"
 			+ "pressure6/subsidy1/routines48 "
 			+ "snapshots=%s " % ",".join(_full_route_evidence)
@@ -2026,6 +2081,257 @@ func _hanbit_offer_receipt(choice_index: int) -> Dictionary:
 		"choice_index": choice_index,
 		"turn": 17,
 	}
+
+
+func _check_dirty_choice_single_truth() -> void:
+	var original_language := LocaleManager.language
+	for raw_fixture in DIRTY_CHOICE_FIXTURES:
+		var fixture: Dictionary = raw_fixture
+		var root := str(fixture["root"])
+		var source := str(fixture["source"])
+		for choice_index in range(2):
+			_fresh_at(24)
+			GameState.flags[str(fixture["flag"])] = true
+			if not bool(fixture["synthetic"]):
+				GameState.deferred_events = [{
+					"event_id": source,
+					"trigger_turn": 24,
+				}]
+			_expect(CORE_LOOP.begin_bundle("demo_collision", "schedule"),
+				"dirty choice fixture could not begin %s[%d]" % [
+					root, choice_index,
+				])
+			var prepared := CORE_LOOP.prepare_demo_collision()
+			_expect(bool(prepared.get("ok", false)) \
+					and (prepared.get("context", {}) as Dictionary).get(
+						"dirty_root", "") == root,
+				"dirty choice fixture could not prepare %s[%d]: %s" % [
+					root, choice_index, str(prepared),
+				])
+			if not bool(prepared.get("ok", false)):
+				continue
+			# A second same-root value used to intercept the dictionary scan even
+			# though the collision context owned a different exact source key.
+			# Keep it first and prove only the context-owned receipt can resolve.
+			var bogus_source := "00_qa_same_root_%s_%d" % [
+				root, choice_index,
+			]
+			var bogus_receipt := {
+				"source": bogus_source,
+				"trigger_turn": 24,
+				"claimed_turn": 24,
+				"root": root,
+				"status": "claimed",
+				"synthetic": bool(fixture["synthetic"]),
+			}
+			var state_with_bogus: Dictionary = (
+				GameState.core_loop_v2_state.duplicate(true))
+			var existing_deferred: Dictionary = state_with_bogus.get(
+				"deferred_callback_receipts", {})
+			var reordered_deferred := {
+				bogus_source: bogus_receipt.duplicate(true),
+			}
+			for raw_source in existing_deferred:
+				reordered_deferred[str(raw_source)] = (
+					existing_deferred[raw_source] as Dictionary).duplicate(true)
+			state_with_bogus["deferred_callback_receipts"] = reordered_deferred
+			GameState.core_loop_v2_state = state_with_bogus
+
+			var before_stats := {
+				"intelligence": int(GameState.intelligence),
+				"mental": int(GameState.mental),
+			}
+			var event: Dictionary = DataRegistry.find_event(root)
+			var choices: Array = event.get("choices", [])
+			var applied := choice_index < choices.size() \
+				and GameState.apply_choice(
+					event, choices[choice_index] as Dictionary)
+			var noted := applied \
+				and CORE_LOOP.note_story_choice(root, choice_index)
+			var expected_effects: Dictionary = (
+				fixture["effects"] as Array)[choice_index]
+			var after_stats := {
+				"intelligence": int(GameState.intelligence),
+				"mental": int(GameState.mental),
+			}
+			_expect(noted \
+					and int(after_stats["intelligence"]) \
+						- int(before_stats["intelligence"]) \
+						== int(expected_effects.get("intelligence", 0)) \
+					and int(after_stats["mental"]) \
+						- int(before_stats["mental"]) \
+						== int(expected_effects.get("mental", 0)),
+				"dirty choice %s[%d] did not apply its exact authored effect" % [
+					root, choice_index,
+				])
+
+			var expected_receipt := {
+				"source": source,
+				"trigger_turn": 24,
+				"claimed_turn": 24,
+				"root": root,
+				"status": "resolved",
+				"synthetic": bool(fixture["synthetic"]),
+				"event_id": root,
+				"choice_index": choice_index,
+				"resolved_turn": 24,
+			}
+			_expect(_callback_receipt(source) == expected_receipt \
+					and _callback_receipt(bogus_source) == bogus_receipt \
+					and _story_choice_receipt_count(root) == 0,
+				"dirty choice %s[%d] did not keep one exact deferred truth" % [
+					root, choice_index,
+				])
+
+			LocaleManager.language = "ko"
+			DataRegistry.reload()
+			var ko_trace := CORE_LOOP.format_first_bill_story_tokens(
+				"{v2_first_bill_trace}")
+			LocaleManager.language = "en"
+			DataRegistry.reload()
+			var en_trace := CORE_LOOP.format_first_bill_story_tokens(
+				"{v2_first_bill_trace}")
+			_expect(ko_trace.contains(str(
+					(fixture["ko_anchors"] as Array)[choice_index])) \
+					and en_trace.contains(str(
+						(fixture["en_anchors"] as Array)[choice_index])),
+				"dirty choice %s[%d] did not render its exact KO/EN trace" % [
+					root, choice_index,
+				])
+			LocaleManager.language = original_language
+			DataRegistry.reload()
+
+			var saved: Dictionary = GameState.serialize().duplicate(true)
+			GameState.start_new_game()
+			GameState.load_from_dict(saved)
+			CORE_LOOP.initialize_for_run()
+			_expect({
+					"intelligence": int(GameState.intelligence),
+					"mental": int(GameState.mental),
+					} == after_stats \
+					and _callback_receipt(source) == expected_receipt \
+					and _callback_receipt(bogus_source) == bogus_receipt \
+					and _story_choice_receipt_count(root) == 0 \
+					and CORE_LOOP.note_story_choice(root, choice_index) \
+					and _callback_receipt(source) == expected_receipt \
+					and _story_choice_receipt_count(root) == 0,
+				"dirty choice %s[%d] drifted or gained a generic receipt after load" % [
+					root, choice_index,
+				])
+
+	# A damaged save with the live dirty root but no matching transport must fail
+	# closed. It must never recreate the retired generic receipt as a fallback.
+	for raw_fixture in DIRTY_CHOICE_FIXTURES:
+		var fixture: Dictionary = raw_fixture
+		var root := str(fixture["root"])
+		var source := str(fixture["source"])
+		_fresh_at(24)
+		GameState.flags[str(fixture["flag"])] = true
+		if not bool(fixture["synthetic"]):
+			GameState.deferred_events = [{
+				"event_id": source,
+				"trigger_turn": 24,
+			}]
+		_expect(CORE_LOOP.begin_bundle("demo_collision", "schedule"),
+			"corrupt dirty fixture could not begin %s" % root)
+		var prepared := CORE_LOOP.prepare_demo_collision()
+		if not bool(prepared.get("ok", false)):
+			_expect(false, "corrupt dirty fixture could not prepare %s" % root)
+			continue
+		var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+		(state["deferred_callback_receipts"] as Dictionary).erase(source)
+		GameState.core_loop_v2_state = state
+		var generic_before: Dictionary = (
+			state["story_choice_receipts"] as Dictionary).duplicate(true)
+		var event: Dictionary = DataRegistry.find_event(root)
+		var live_before: Dictionary = GameState.serialize().duplicate(true)
+		var story := STORY_MODE_SCRIPT.new()
+		story.set("_current", event)
+		story.call("_on_choice", 0)
+		_expect(GameState.serialize() == live_before \
+				and int(story.get("_pending_result_choice_index")) == -1 \
+				and not bool(story.get("_pending_after_result")),
+			"StoryMode applied a dirty choice before exact transport for %s" \
+				% root)
+		story.free()
+		_expect(not CORE_LOOP.note_story_choice(root, 0) \
+				and GameState.core_loop_v2_state.get(
+					"story_choice_receipts", {}) == generic_before \
+				and _story_choice_receipt_count(root) == 0,
+			"missing deferred transport fell through to generic receipt for %s" \
+				% root)
+	LocaleManager.language = original_language
+	DataRegistry.reload()
+
+
+func _check_first_bill_father_memory_replay_snapshot() -> void:
+	var original_language := LocaleManager.language
+	LocaleManager.set_language("ko")
+	var opening: Dictionary = DataRegistry.find_event(
+		CORE_LOOP.FIRST_BILL_OPENING_ID)
+	var memory_map: Dictionary = opening.get(
+		"description_memory_if_known", {})
+	var legacy_checked := false
+	for fixture_index in range(FATHER_FIRST_BILL_MEMORY_FIXTURES.size()):
+		var fixture: Dictionary = FATHER_FIRST_BILL_MEMORY_FIXTURES[
+			fixture_index]
+		var memory_id := str(fixture["memory"])
+		var choice_index := int(fixture["choice_index"])
+		_fresh_at(24)
+		_seed_exact_father_health_memory(memory_id, choice_index)
+		_expect(CORE_LOOP.begin_bundle("demo_collision", "schedule"),
+			"Father replay fixture could not begin for %s" % memory_id)
+		var prepared := CORE_LOOP.prepare_demo_collision()
+		var prechoice := CORE_LOOP.build_first_bill_replay_snapshot()
+		var frozen := CORE_LOOP.first_bill_replay_snapshot_with_choice(
+			prechoice, 0)
+		_expect(bool(prepared.get("ok", false)) \
+				and not frozen.is_empty() \
+				and str(frozen.get("father_memory", "")) == memory_id,
+			"First Bill snapshot did not freeze %s" % memory_id)
+
+		var live_fixture: Dictionary = FATHER_FIRST_BILL_MEMORY_FIXTURES[
+			(fixture_index + 1) % FATHER_FIRST_BILL_MEMORY_FIXTURES.size()]
+		var live_memory := str(live_fixture["memory"])
+		var live_choice_index := int(live_fixture["choice_index"])
+		_seed_exact_father_health_memory(
+			live_memory, live_choice_index, true)
+		var story := STORY_MODE_SCRIPT.new()
+		story.set("_read_only_replay", true)
+		story.set("_first_bill_replay_snapshot", frozen)
+		story.set("_current", opening)
+		var resolved: String = story.call(
+			"_resolved_story_description", opening)
+		var frozen_text := str(memory_map.get(
+			"relationship_memory:father:%s" % memory_id, ""))
+		var live_text := str(memory_map.get(
+			"relationship_memory:father:%s" % live_memory, ""))
+		_expect(resolved.contains(story.call("_fmt", frozen_text)) \
+				and not resolved.contains(story.call("_fmt", live_text)),
+			"First Bill replay read live %s instead of frozen %s" % [
+				live_memory, memory_id,
+			])
+
+		if not legacy_checked:
+			var legacy := frozen.duplicate(true)
+			legacy.erase("father_memory")
+			var validated_legacy := CORE_LOOP \
+				.validated_complete_first_bill_replay_snapshot(legacy)
+			story.set("_first_bill_replay_snapshot", validated_legacy)
+			var legacy_resolved: String = story.call(
+				"_resolved_story_description", opening)
+			_expect(not validated_legacy.is_empty() \
+					and str(validated_legacy.get("father_memory", "missing")) \
+						== "" \
+					and not legacy_resolved.contains(
+						story.call("_fmt", frozen_text)) \
+					and not legacy_resolved.contains(
+						story.call("_fmt", live_text)),
+				"Schema-1 First Bill replay inferred a live Father memory")
+			legacy_checked = true
+		story.free()
+	LocaleManager.set_language(original_language)
+	DataRegistry.reload()
 
 
 func _check_collision_queue_and_receipts() -> void:
@@ -3738,6 +4044,23 @@ func _callback_receipt(source: String) -> Dictionary:
 	return (raw_receipt as Dictionary).duplicate(true) \
 		if raw_receipt is Dictionary else {}
 
+func _story_choice_receipt_count(
+		event_id: String, choice_index: int = -1) -> int:
+	var raw_receipts: Variant = GameState.core_loop_v2_state.get(
+		"story_choice_receipts", {})
+	if not raw_receipts is Dictionary:
+		return 0
+	var count := 0
+	for raw_receipt in (raw_receipts as Dictionary).values():
+		if not raw_receipt is Dictionary:
+			continue
+		var receipt: Dictionary = raw_receipt
+		if str(receipt.get("event_id", "")) == event_id \
+				and (choice_index < 0 \
+					or int(receipt.get("choice_index", -1)) == choice_index):
+			count += 1
+	return count
+
 func _seed_consumed_consequence(
 		consequence_id: String, presented_turn: int) -> void:
 	var state: Dictionary = GameState.core_loop_v2_state
@@ -3839,6 +4162,29 @@ func _set_relationship_memory(
 		"memory": memory,
 		"bundle_id": bundle_id,
 		"turn": memory_turn,
+	})
+	state["relationship_memories"] = memories
+	GameState.core_loop_v2_state = state
+
+func _seed_exact_father_health_memory(
+		memory_id: String,
+		choice_index: int,
+		replace: bool = false) -> void:
+	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var memories: Array = [] if replace else (
+		state.get("relationship_memories", []) as Array).duplicate(true)
+	memories.append({
+		"receipt_key": "father_health_signal:v2_father_health_signal:%d:21" \
+			% choice_index,
+		"character": "father",
+		"from": "unmet",
+		"to": "opening",
+		"initiative": "reciprocal",
+		"memory": memory_id,
+		"bundle_id": "father_health_signal",
+		"event_id": "v2_father_health_signal",
+		"choice_index": choice_index,
+		"turn": 21,
 	})
 	state["relationship_memories"] = memories
 	GameState.core_loop_v2_state = state
