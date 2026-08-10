@@ -47,6 +47,9 @@ Retail은 기존 `gangnam_dream_{autosave,slot_N,settings,display,meta}.json`을
 위 네 필드, `save_version`, `features`, 전체 Git `revision`/`tree`, 소스 상태,
 Godot 버전, 생성 시각, 산출물 SHA-256을 기록한다. 생성 직후
 `tools/build_identity_audit.py`가 profile과 소스 상수를 대조한다.
+묶음 `demo`·`playtest` 패키지는 발급 전 `BUILD_ID`의 `YYYY.MM.DD`가 clean
+HEAD 커밋 날짜와 같은지도 검사한다. 날짜가 다르면 export 전에 중단되므로,
+새 테스트 패키지를 발급할 때는 `BUILD_ID`를 `YYYY.MM.DD.N` 형식으로 먼저 올린다.
 
 `build_id`와 `game_version` 차이는 호환 키가 아니라 진단 경고다. 미래
 `save_version`, 빈 식별자, 부적합한 flavor/namespace는 `GameState` 적용 전에
@@ -90,14 +93,15 @@ GODOT=/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot \
 이 명령은 순서대로 다음을 수행한다.
 
 1. tracked·untracked 변경 0인 clean Git 소스 확인
-2. Godot `--import`로 fresh checkout의 리소스·`class_name` 캐시 생성
-3. 소스 재확인 후 기존 데모 flavor, t=1~8 정본 아크, t=24 허용/t=25 차단 계약 검사
-4. V2 playtest 진입 1/retail release 진입 0, 전역 표식, 14개 사용자 데이터 경로
+2. `BUILD_ID` 날짜와 clean HEAD 커밋 날짜 일치 확인
+3. Godot `--import`로 fresh checkout의 리소스·`class_name` 캐시 생성
+4. 소스 재확인 후 기존 데모 flavor, t=1~8 정본 아크, t=24 허용/t=25 차단 계약 검사
+5. V2 playtest 진입 1/retail release 진입 0, 전역 표식, 14개 사용자 데이터 경로
    교집합 0, 10개 preset 계약 검사
-5. Windows V2 playtest export
-6. macOS V2 playtest export
-7. Linux/Steam Deck V2 playtest export
-8. 소스 재확인 후 `build/playtest/MANIFEST.sha256` 생성
+6. Windows V2 playtest export
+7. macOS V2 playtest export
+8. Linux/Steam Deck V2 playtest export
+9. 소스 재확인 후 `build/playtest/MANIFEST.sha256` 생성
 
 개별 V2 빌드는 `windows-playtest`, `macos-playtest`, `linux-playtest` 타깃을
 사용한다. 기존 Demo는 `demo`, `windows-demo`, `macos-demo`, `linux-demo`로

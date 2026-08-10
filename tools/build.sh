@@ -102,6 +102,10 @@ require_clean_playtest_source() {
   fi
 }
 
+require_current_package_build_id() {
+  python3 "$PROJECT_DIR/tools/build_identity_audit.py" --require-head-date
+}
+
 prepare_playtest_imports() {
   echo ""
   echo "📦 clean checkout 리소스·전역 클래스 import 준비..."
@@ -518,6 +522,7 @@ write_playtest_manifest() {
 
 build_demo() {
   require_clean_playtest_source
+  require_current_package_build_id
   prepare_playtest_imports
   require_clean_playtest_source
   run_demo_contract
@@ -530,6 +535,7 @@ build_demo() {
 
 build_playtest() {
   require_clean_playtest_source
+  require_current_package_build_id
   prepare_playtest_imports
   require_clean_playtest_source
   run_demo_contract
