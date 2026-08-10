@@ -682,6 +682,8 @@ func _core_loop_v2_ensure_surfaces() -> void:
 		_core_loop_planner = CORE_LOOP_PLANNER_SCRIPT.new()
 		add_child(_core_loop_planner)
 		_core_loop_planner.plan_committed.connect(_on_core_loop_v2_plan_committed)
+		_core_loop_planner.episode_committed.connect(
+			_on_core_loop_v2_episode_committed)
 		_core_loop_planner.planner_closed.connect(
 			_on_core_loop_v2_planner_closed)
 		_core_loop_planner.communication_requested.connect(
@@ -837,6 +839,22 @@ func _on_core_loop_v2_plan_committed(
 	if not bool(result.get("ok", false)):
 		push_error("Core Loop V2 rejected plan: %s" % str(result.get("error", "unknown")))
 		return
+	_core_loop_v2_finish_plan_commit()
+
+func _on_core_loop_v2_episode_committed(
+		month_index: int, ordered_ids: Array) -> void:
+	var result := DEMO_CORE_LOOP_V2.commit_episode_selection(
+		month_index, ordered_ids)
+	if not bool(result.get("ok", false)):
+		var error := str(result.get("error", "unknown"))
+		push_error("Core Loop V2 rejected episode plan: %s" % error)
+		if is_instance_valid(_core_loop_planner) \
+				and _core_loop_planner.has_method("episode_commit_rejected"):
+			_core_loop_planner.episode_commit_rejected(error)
+		return
+	_core_loop_v2_finish_plan_commit()
+
+func _core_loop_v2_finish_plan_commit() -> void:
 	if is_instance_valid(_core_loop_planner):
 		_core_loop_planner.close()
 	if is_instance_valid(_main_ui_root):

@@ -217,7 +217,7 @@ var _core_loop_v2_save_events: Array[Dictionary] = []
 
 const CORE_LOOP_V2_INPUT_PLANS := {
 	1: [
-		"m1_convenience_trial_shift", "father_first_call", "hyunsu_first_meet",
+		"m1_convenience_trial_shift", "father_first_call",
 	],
 	2: [
 		"m2_seorin_application", "hyunsu_player_reachout",
@@ -2273,16 +2273,12 @@ func _capture_core_loop_v2_activity_category_tutorial(
 	await _settle(0.20)
 	var tutorial_text := _collect_control_text(overlay)
 	var expected_copy := [
-		LocaleManager.ui("제안을 네 주에 놓기", "Place Offers Across Four Weeks"),
-		LocaleManager.ui("진로(취업·경력)", "CAREER (jobs)"),
-		LocaleManager.ui("생계(당장 수입)", "INCOME (earning now)"),
-		LocaleManager.ui("성장(배움·성찰)", "GROWTH (learning or reflection)"),
-		LocaleManager.ui("회복(쉼·숨 돌릴 시간)", "RECOVERY (rest or breathing room)"),
-		LocaleManager.ui("돌봄(가족·생활 책임)", "CARE (family or daily needs)"),
-		LocaleManager.ui("관계(사람과의 시간)", "PEOPLE (time with others)"),
-		LocaleManager.ui(
-			"이 분류만으로 이후 결과를 미리 알 수는 없습니다.",
-			"It does not reveal what follows."),
+		LocaleManager.ui("계획 밖의 일도 찾아온다", "Life Does Not Follow the Plan"),
+		LocaleManager.ui("고른 두 약속", "the two promises"),
+		LocaleManager.ui("자동으로 편성", "scheduled automatically"),
+		LocaleManager.ui("생계와 회복", "Livelihood and recovery"),
+		LocaleManager.ui("민준이 아직 모르는", "Minjun does not know"),
+		LocaleManager.ui("예기치 않은 만남과 압박", "Unexpected encounters and pressure"),
 	]
 	for expected in expected_copy:
 		if str(expected) not in tutorial_text:
@@ -2296,7 +2292,7 @@ func _capture_core_loop_v2_activity_category_tutorial(
 		_fail("Core Loop V2 activity-category tutorial is clipped at %s." % [
 			get_viewport().get_visible_rect().size])
 		return
-	await _save(prefix + "00_activity_category_tutorial", 0.05)
+	await _save(prefix + "00_month_one_episode_tutorial", 0.05)
 	_remove_nodes_by_script("res://scenes/TutorialOverlay.gd")
 	await _settle(0.10)
 	if planner.schedule_snapshot() != schedule_before \
@@ -2425,23 +2421,67 @@ func _shot_core_loop_v2_fresh_month_one_planner(
 		return
 	await _settle(0.28)
 	var planner := _mg._core_loop_planner as Control
-	_assert_core_loop_v2_planner_surface(
-		planner, "fresh post-interview Month One", 1, false, false)
-	if _qa_failed:
+	if not bool(planner.call("episode_selection_mode")):
+		_fail("Core Loop V2 fresh Month One did not open the episode selection surface.")
 		return
 	var offer_buttons: Dictionary = planner._offer_buttons
-	if offer_buttons.size() != 5 \
+	var expected_offer_ids := [
+		"m1_convenience_trial_shift",
+		"m1_youth_center_resume_clinic",
+		"father_first_call",
+		"m1_phone_off_sunday",
+	]
+	if offer_buttons.size() != 4 \
 			or offer_buttons.has("m1_mirae_application") \
-			or not offer_buttons.has("m1_convenience_trial_shift"):
-		_fail("Core Loop V2 fresh planner did not replace the sent application with exactly five usable offers: %s." % [
+			or offer_buttons.has("hyunsu_first_meet") \
+			or offer_buttons.has("first_temptation_boss"):
+		_fail("Core Loop V2 fresh planner did not expose exactly four known promises: %s." % [
 			str(offer_buttons.keys())])
 		return
-	var schedule: Dictionary = planner.schedule_snapshot()
-	if schedule != {"4": "first_temptation_boss"}:
-		_fail("Core Loop V2 fresh planner did not keep three open weeks and one fixed boss: %s." % [
-			str(schedule)])
+	for offer_id in expected_offer_ids:
+		if not offer_buttons.has(offer_id):
+			_fail("Core Loop V2 fresh planner lost known promise %s." % offer_id)
+			return
+	if not planner.schedule_snapshot().is_empty():
+		_fail("Core Loop V2 fresh planner exposed an automatic future before two choices.")
 		return
 	await _save(prefix + "10e_opening_first_planner", 0.05)
+	(offer_buttons[expected_offer_ids[0]] as Button).pressed.emit()
+	(offer_buttons[expected_offer_ids[1]] as Button).pressed.emit()
+	await _settle(0.12)
+	var expected_schedule := {
+		"1": expected_offer_ids[0],
+		"2": expected_offer_ids[1],
+		"3": "hyunsu_first_meet",
+		"4": "first_temptation_boss",
+	}
+	if planner.episode_commitment_snapshot() != expected_offer_ids.slice(0, 2) \
+			or planner.schedule_snapshot() != expected_schedule:
+		_fail("Core Loop V2 did not turn two ordered promises into the deterministic month: %s / %s." % [
+			str(planner.episode_commitment_snapshot()),
+			str(planner.schedule_snapshot()),
+		])
+		return
+	await _save(prefix + "10f_opening_two_promises", 0.05)
+	var commit_result: Dictionary = core_loop.commit_episode_selection(
+		1, planner.episode_commitment_snapshot())
+	if not bool(commit_result.get("ok", false)):
+		_fail("Core Loop V2 fresh episode plan could not commit for read-only capture.")
+		return
+	planner.close()
+	if not bool(_mg._core_loop_v2_open_planner(1, true)):
+		_fail("Core Loop V2 committed episode plan could not reopen read-only.")
+		return
+	await _settle(0.16)
+	var read_only_text := _collect_control_text(planner)
+	for hidden_future in [
+		"현수", "공용 주방", "모르는 번호", "HYUNSU", "SHARED KITCHEN",
+		"UNKNOWN NUMBER",
+	]:
+		if hidden_future.to_lower() in read_only_text.to_lower():
+			_fail("Month-One read-only plan revealed a future event before its week: %s." % hidden_future)
+			return
+	await _save(prefix + "10g_opening_plan_read_only", 0.05)
 	await _dispose_main_game()
 
 func _shot_first_bill_finale_surfaces(_lang: String, prefix: String) -> void:
@@ -7720,6 +7760,80 @@ func _run_core_loop_v2_input_route(
 					return false
 				var wanted: Array = CORE_LOOP_V2_INPUT_PLANS[month_index]
 				var expected_schedule := _core_loop_v2_expected_schedule(month_index)
+				if month_index == 1:
+					if not bool(planner.call("episode_selection_mode")):
+						_fail("Fresh Month One opened the legacy calendar instead of the episode surface.")
+						return false
+					var commitments: Array = planner.call(
+						"episode_commitment_snapshot")
+					var next_promise := ""
+					for raw_offer in wanted:
+						var offer_id := str(raw_offer)
+						if not commitments.has(offer_id):
+							next_promise = offer_id
+							break
+					if not next_promise.is_empty():
+						var promise_button := _find_visible_meta_value_button(
+							planner, "core_loop_v2_offer_id", next_promise)
+						if promise_button == null:
+							_fail("Month One cannot reach promise %s." % next_promise)
+							return false
+						if commitments.is_empty() and offer_intents == 0:
+							var restored_focus := get_viewport().gui_get_focus_owner()
+							if restored_focus != promise_button:
+								_fail("Month-One tutorial did not restore focus to its first promise: %s." % [
+									restored_focus.name if is_instance_valid(restored_focus) else "none"])
+								return false
+							await _send_route_input(input_mode)
+						else:
+							await _activate_route_control(promise_button, input_mode)
+						offer_intents += 1
+						var after_commitments: Array = planner.call(
+							"episode_commitment_snapshot")
+						var expected_commitments: Array = wanted.slice(
+							0, after_commitments.size())
+						var after_promise_schedule: Dictionary = planner.call(
+							"schedule_snapshot")
+						if after_commitments != expected_commitments \
+								or (after_commitments.size() == 1 \
+									and not after_promise_schedule.is_empty()) \
+								or (after_commitments.size() == 2 \
+									and after_promise_schedule != expected_schedule) \
+								or not _core_loop_v2_progress_surface_matches(
+									planner, after_promise_schedule,
+									"Month One after promise %s" % next_promise):
+							_fail("Month-One promise input was not one ordered, automatic change: commitments=%s schedule=%s." % [
+								str(after_commitments), str(after_promise_schedule)])
+							return false
+						continue
+					if commitments != wanted or schedule != expected_schedule:
+						_fail("Month One reached Start Month with the wrong promises or schedule: %s / %s." % [
+							str(commitments), str(schedule)])
+						return false
+					var episode_confirm := _find_visible_meta_button(
+						planner, "core_loop_v2_plan_confirm")
+					if episode_confirm == null:
+						_fail("Month One has no enabled single Start Month action.")
+						return false
+					await _activate_route_control(episode_confirm, input_mode)
+					await get_tree().process_frame
+					var episode_plan: Dictionary = core_loop.plan_for_month(1)
+					if episode_plan.get("schedule", {}) != expected_schedule \
+							or episode_plan.get("routines", {}) \
+								!= CORE_LOOP_V2_INPUT_ROUTINES \
+							or str(episode_plan.get("planning_mode", "")) \
+								!= core_loop.MONTH_ONE_EPISODE_MODE \
+							or episode_plan.get("player_commitments", []) != wanted:
+						_fail("Month One single confirm did not persist its ordered episode plan: %s." % [
+							str(episode_plan)])
+						return false
+					if committed_months.has(1):
+						_fail("Month One committed more than once.")
+						return false
+					committed_months[1] = true
+					print("CORE_LOOP_V2_INPUT_PLAN device=%s month=1 mode=episode promises=%s schedule=%s" % [
+						input_mode, wanted, expected_schedule])
+					continue
 				var next_offer := ""
 				for raw_offer in wanted:
 					var offer_id := str(raw_offer)
@@ -8101,14 +8215,22 @@ func _find_visible_core_loop_v2_planner(root: Node) -> Control:
 	return control if is_instance_valid(control) and control.is_visible_in_tree() else null
 
 func _core_loop_v2_expected_schedule(month_index: int) -> Dictionary:
+	if month_index == 1:
+		var month_one_wanted: Array = CORE_LOOP_V2_INPUT_PLANS.get(1, [])
+		if month_one_wanted.size() != 2:
+			return {}
+		return {
+			"1": str(month_one_wanted[0]),
+			"2": str(month_one_wanted[1]),
+			"3": "hyunsu_first_meet",
+			"4": "first_temptation_boss",
+		}
 	var schedule: Dictionary = {}
 	var month_start := (month_index - 1) * 4 + 1
 	var wanted: Array = CORE_LOOP_V2_INPUT_PLANS.get(month_index, [])
 	var wanted_index := 0
 	for week in range(month_start, month_start + 4):
-		if month_index == 1 and week == 4:
-			schedule[str(week)] = "first_temptation_boss"
-		elif month_index == 6 and week == 24:
+		if month_index == 6 and week == 24:
 			schedule[str(week)] = "demo_collision"
 		else:
 			if wanted_index >= wanted.size():
@@ -8140,6 +8262,9 @@ func _core_loop_v2_changed_schedule_keys(
 
 func _core_loop_v2_progress_surface_matches(
 		planner: Control, schedule: Dictionary, context: String) -> bool:
+	if bool(planner.call("episode_selection_mode")):
+		return _core_loop_v2_episode_progress_surface_matches(
+			planner, schedule, context)
 	var steps: Array = planner.get("_step_buttons") as Array
 	if steps.size() != 3:
 		_fail("Core Loop V2 %s lost its three workflow steps." % context)
@@ -8178,6 +8303,54 @@ func _core_loop_v2_progress_surface_matches(
 	if ready != marked_ready:
 		_fail("Core Loop V2 %s final-review readiness disagrees with validation." % context)
 		return false
+	return true
+
+
+func _core_loop_v2_episode_progress_surface_matches(
+		planner: Control, schedule: Dictionary, context: String) -> bool:
+	var commitments: Array = planner.call("episode_commitment_snapshot")
+	var episode_surface := planner.get("_episode_surface") as Control
+	var calendar_surface := planner.get("_calendar_surface") as Control
+	var step_rail := planner.get("_step_rail") as Control
+	var progress_label := planner.get("_episode_progress_label") as Label
+	var confirm := planner.get("_confirm_button") as Button
+	if not is_instance_valid(episode_surface) \
+			or not episode_surface.is_visible_in_tree() \
+			or not is_instance_valid(calendar_surface) \
+			or calendar_surface.is_visible_in_tree() \
+			or not is_instance_valid(step_rail) or step_rail.is_visible_in_tree() \
+			or not is_instance_valid(progress_label) \
+			or "%d/2" % commitments.size() not in progress_label.text \
+			or int(planner.get_meta("core_loop_v2_commitment_count", -1)) \
+				!= commitments.size() \
+			or not is_instance_valid(confirm):
+		_fail("Core Loop V2 %s lost its single-screen episode progress surface." % context)
+		return false
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	var ready := commitments.size() == 2 and bool(
+		core_loop.validate_episode_selection(1, commitments).get("ok", false))
+	if ready != not confirm.disabled:
+		_fail("Core Loop V2 %s episode Start Month readiness drifted." % context)
+		return false
+	var expected_schedule := _core_loop_v2_expected_schedule(1) if ready else {}
+	if schedule != expected_schedule:
+		_fail("Core Loop V2 %s episode schedule appeared too early or drifted: %s." % [
+			context, schedule])
+		return false
+	var viewport_rect := get_viewport().get_visible_rect().grow(1.0)
+	for control in [
+		planner,
+		planner.get("_page_margin") as Control,
+		episode_surface,
+		progress_label as Control,
+		confirm as Control,
+	]:
+		if not is_instance_valid(control) or not control.is_visible_in_tree() \
+				or not viewport_rect.encloses(control.get_global_rect()) \
+				or not _control_inside_clipping_ancestors(control):
+			_fail("Core Loop V2 %s episode surface escaped 960x600: %s." % [
+				context, control.name if is_instance_valid(control) else "missing"])
+			return false
 	return true
 
 func _core_loop_v2_armed_surface_visible(
@@ -8351,8 +8524,8 @@ func _assert_core_loop_v2_input_completion(
 			or not bool(TutorialOverlay._seen.get("core_loop_v2", false)):
 		_fail("Core Loop V2 onboarding was not one state-free three-slide sequence.")
 		return false
-	if offer_intents != 22 or week_commits != 22:
-		_fail("Core Loop V2 completed with offer/week input counts %d/%d instead of 22/22." % [
+	if offer_intents != 21 or week_commits != 19:
+		_fail("Core Loop V2 completed with promise-or-offer/week input counts %d/%d instead of 21/19." % [
 			offer_intents, week_commits])
 		return false
 	if side_shift_inputs != 21:

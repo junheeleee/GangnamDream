@@ -16,9 +16,9 @@ but their dictionaries and body overlays remain empty.
 |---|---|---|---|---|
 | `ko` | Shipping, source | Inline source | `content/events/` | `content/endings.json` |
 | `en` | Shipping, strict | Inline fallback | `content/events_en/` | `content/endings_en.json` |
-| `ja` | Prepared beta, hidden | 2,601/2,601 keys | 1/1,603 full; 1/73 demo | 0/35 full; 0 required by demo |
-| `zh-CN` | Prepared, hidden; font blocked | 0/2,601 keys | 0/1,603 full; 0/73 demo | 0/35 full; 0 required by demo |
-| `zh-TW` | Prepared, hidden; font blocked | 0/2,601 keys | 0/1,603 full; 0/73 demo | 0/35 full; 0 required by demo |
+| `ja` | Prepared beta, hidden | 2,615/2,615 keys | 1/1,603 full; 1/73 demo | 0/35 full; 0 required by demo |
+| `zh-CN` | Prepared, hidden; font blocked | 0/2,615 keys | 0/1,603 full; 0/73 demo | 0/35 full; 0 required by demo |
+| `zh-TW` | Prepared, hidden; font blocked | 0/2,615 keys | 0/1,603 full; 0/73 demo | 0/35 full; 0 required by demo |
 
 `LocaleManager.SHIPPING_LANGUAGES` is the player-facing allowlist. Adding a
 language to `SUPPORTED_LANGUAGES` is not permission to expose it in the first-run
@@ -69,18 +69,49 @@ representative playthrough. `tools/demo_localization_scope.py` follows every
 legal Week 1-24 bundle, foreground root, immediate follow-up, the complete
 prologue closure, and the required Chapter 1 card. The current locked scope is:
 
+ORDER-93 adds a fresh-start Month-One presentation without deleting the old
+translation surface. Its four promise cards, primary/secondary labels, `0/2`
+counter, one Start-Month action, three ownership tutorial pages, read-only record,
+and four possible inline Week-Four primary traces are demo dynamic sources in
+Korean and English and future source rows for Japanese, Simplified Chinese, and
+Traditional Chinese. The old Month-One week/routine/review strings remain in
+scope because committed/in-progress saves must still render them; Months Two
+through Six keep using the same strings. Hiding a control on the fresh path is
+not permission to delete its localization key.
+
+Every locale must preserve the ownership boundary in meaning, not merely token
+shape:
+
+- the four visible cards are promises Minjun can choose, and their order means
+  primary/secondary rather than good/bad or success/failure;
+- the tutorial may say that the world can interrupt, but it may not name Hyunsu,
+  the unknown caller, or the Week-Four crisis before they arrive;
+- `hyunsu_first_meet` is never translated as Minjun's appointment, self-note, or
+  missed offer;
+- each Week-Four bridge describes only the concrete trace of the actually
+  completed primary promise and adds no moral judgment, forecast, stat, amount,
+  or extra interaction;
+- a missing-primary or legacy path uses the old scene text without inventing a
+  generic trace.
+
+The implementation-derived counts below include the new keys and all four trace
+branches. The source manifest must lock these exact values; a count drop caused
+by deleting legacy Month-One strings is a scope error rather than a documentation
+adjustment.
+
 - 73 visible events: 12 prologue, one Chapter 1 card, and 60 Week 1-24 events.
 - 465 translatable event text leaves and zero endings. The Week-24 CTA is not a
   `finish_run` ending.
-- 577 unique Korean lookup keys across 584 dynamic KO/EN pair occurrences,
+- 585 unique Korean lookup keys across 592 dynamic KO/EN pair occurrences,
   including the monthly planner, mandatory three-slide first-planner tutorial,
   opening cinematic, runtime event/name surfaces, portrait labels, the
   inventory-task contract, and every legal randomized
   convenience, delivery, resume, and interview surface. The randomized activity
   portion is 147 occurrences / 146 unique keys; the inventory task adds 32
-  contract-pair occurrences.
+  contract-pair occurrences. ORDER-93 adds exactly eight occurrences/keys:
+  four player-facing Month-One decision verbs and four possible primary traces.
 - Four asset names visible in the Week-21 market route.
-- The 465 event leaves, 577 unique dynamic keys, and four asset names form 1,046
+- The 465 event leaves, 585 unique dynamic keys, and four asset names form 1,054
   unique demo translation sources in total. Repeated dynamic occurrences do not
   increase that source total.
 
@@ -91,22 +122,22 @@ the complete event-ID hash so a content change cannot silently leave the
 translation plan stale.
 
 Current prepared coverage is deliberately incomplete. Static UI is a separate
-claim surface: a Chinese demo cannot ship with its 2,601 current UI keys falling
+claim surface: a Chinese demo cannot ship with its 2,615 current UI keys falling
 back to English even after the event body is complete.
 
 | Locale | Static UI | Events | Event text leaves | Dynamic keys | Demo catalog |
 |---|---:|---:|---:|---:|---:|
-| `ja` | 2,601/2,601 | 1/73 | 8/465 | 9/577 | 0/4 |
-| `zh-CN` | 0/2,601 | 0/73 | 0/465 | 0/577 | 0/4 |
-| `zh-TW` | 0/2,601 | 0/73 | 0/465 | 0/577 | 0/4 |
+| `ja` | 2,615/2,615 | 1/73 | 8/465 | 9/585 | 0/4 |
+| `zh-CN` | 0/2,615 | 0/73 | 0/465 | 0/585 | 0/4 |
+| `zh-TW` | 0/2,615 | 0/73 | 0/465 | 0/585 | 0/4 |
 
 Skeleton mode verifies this scope, existing rows, fallback paths, and the hidden
 shipping state without pretending missing prose is complete. Per-language
-`--strict` additionally requires 73/73 events, 465/465 leaves, 577/577 dynamic
+`--strict` additionally requires 73/73 events, 465/465 leaves, 585/585 dynamic
 keys, 4/4 catalog names, and zero direct English bypasses. It is expected to fail
 until an approved body-translation wave is finished. Japanese has the required
 terminology and source-shape validator now. `zh_translation_audit.py --strict`
-adds 2,601/2,601 static UI keys, separate Simplified/Traditional script and
+adds 2,615/2,615 static UI keys, separate Simplified/Traditional script and
 terminology, Korean-won semantics, romanized-name locks, and a project-owned
 regional font route. It cannot certify one region from the other region's text.
 The narrow manifest-locked dynamic lookup routes currently report zero direct
@@ -193,7 +224,7 @@ godot --rendering-driver opengl3 --resolution 1280x800 \
 ```
 
 The default full-game coverage command keeps English strict and prepared locales
-in skeleton mode. `ja_translation_audit.py --scope ui` requires all 2,601 current
+in skeleton mode. `ja_translation_audit.py --scope ui` requires all 2,615 current
 UI keys, exact placeholder/newline parity, zero Hangul or yen conversion,
 canonical names and casino terms, and no lock/unlock polarity reversal. The
 runtime check proves alias normalization, UI miss logging, English
@@ -201,7 +232,7 @@ event/ending/catalog fallback, locale money labels, and bundled glyph coverage.
 
 `ja_translation_pipeline.py` defaults to UI-only generation. Its read-only
 `--scope demo --inventory` proves that the future wave contains exactly 465 event
-leaves, 577 dynamic keys, four catalog names, and no ending: 1,046 unique demo
+leaves, 585 dynamic keys, four catalog names, and no ending: 1,054 unique demo
 translation sources in total. Demo generation exits
 with `BODY_TRANSLATION_HELD` unless `--allow-body` is passed after the approved
 24-week source text is declared final; it merges those rows without deleting
@@ -213,8 +244,8 @@ assets.
 
 `zh_translation_audit.py` reads both regions from the Korean source independently.
 Its normal mode reports the empty skeleton and both blocked font routes without
-claiming completion. Its region-specific strict mode requires 2,601/2,601 static
-UI keys, the exact 73/465/577/4 demo body (1,046 unique demo translation sources),
+claiming completion. Its region-specific strict mode requires 2,615/2,615 static
+UI keys, the exact 73/465/585/4 demo body (1,054 unique demo translation sources),
 zero direct English bypasses, every
 context-unambiguous wrong-region character in the pinned OpenCC 1.3.1 classifier
 set (4,093 for `zh-CN`, 3,804 for `zh-TW`), project-locked regional terms,
@@ -276,8 +307,8 @@ and validator together.
 
 Before either Chinese demo claim, that region requires:
 
-1. 2,601/2,601 static UI keys and strict parity for all 73 demo events, 465 event
-   leaves, 577 dynamic keys, and four catalog names: 1,046 unique demo translation
+1. 2,615/2,615 static UI keys and strict parity for all 73 demo events, 465 event
+   leaves, 585 dynamic keys, and four catalog names: 1,054 unique demo translation
    sources in total; no ending is fabricated.
 2. Zero Hangul, kana, untranslated English prose, direct English bypass, wrong-
    region script, currency conversion, or placeholder/paragraph drift.

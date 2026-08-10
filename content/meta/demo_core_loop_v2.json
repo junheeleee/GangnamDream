@@ -195,6 +195,47 @@
     "visible_affinity_numbers": false,
     "visible_moral_values": false
   },
+  "episode_plan": {
+    "prototype_month": 1,
+    "selection_count": 2,
+    "player_offers": [
+      "m1_convenience_trial_shift",
+      "m1_youth_center_resume_clinic",
+      "father_first_call",
+      "m1_phone_off_sunday"
+    ],
+    "incompatible_if_available": ["m1_mirae_application"],
+    "automatic_schedule": [
+      {
+        "week": 3,
+        "bundle": "hyunsu_first_meet",
+        "role": "world"
+      },
+      {
+        "week": 4,
+        "bundle": "first_temptation_boss",
+        "role": "fixed_crisis"
+      }
+    ],
+    "primary_echo": {
+      "m1_convenience_trial_shift": {
+        "copy_ko": "목요일 밤 대타를 마치고 받은 돈은 통장에 남아 있었다. 손바닥에는 비닐장갑 안에서 불은 자국이 아직 옅게 보였다.",
+        "copy_en": "The pay from Thursday night's cover shift was still in the account. Faint marks from the plastic gloves remained across his palms."
+      },
+      "m1_youth_center_resume_clinic": {
+        "copy_ko": "고쳐 둔 자기소개서 네 문항이 노트북 화면에 열려 있었다. 지원할 곳은 다시 찾을 수 있었지만, 월세 이체일은 먼저 다가왔다.",
+        "copy_en": "The four revised cover-letter answers were still open on the laptop. He could look for another opening, but rent day would arrive first."
+      },
+      "father_first_call": {
+        "copy_ko": "아버지와 통화를 마친 뒤에도 마지막 침묵이 방에 남아 있었다. 통화 기록 아래에는 다음 월세 이체일이 떠 있었다.",
+        "copy_en": "The last silence from the call with Father still lingered in the room. Beneath the call log, the next rent date waited."
+      },
+      "m1_phone_off_sunday": {
+        "copy_ko": "휴대폰을 꺼 둔 일요일에는 한 번 푹 잤다. 다시 화면을 켜도 월세 이체일까지 남은 날은 늘어나지 않았다.",
+        "copy_en": "He had slept through one Sunday with the phone off. Turning the screen back on did not add another day before rent."
+      }
+    }
+  },
   "phone": {
     "schema_version": 3,
     "persistent_fields": [
@@ -868,6 +909,8 @@
       "consumes_slot": true,
       "offer_ko": "목요일 밤 대타",
       "offer_en": "Thursday Night Cover Shift",
+      "decision_ko": "목요일 야간 대타를 맡는다",
+      "decision_en": "Take the Thursday Night Shift",
       "detail_ko": "집 근처 편의점의 하루짜리 심야 대타를 맡는다.",
       "detail_en": "Cover one overnight shift at a nearby convenience store.",
       "deadline_ko": "이번 달 목요일 밤 한 번",
@@ -886,6 +929,8 @@
       "consumes_slot": true,
       "offer_ko": "자기소개서 네 문항 고쳐 쓰기",
       "offer_en": "Rewrite Four Cover-Letter Answers",
+      "decision_ko": "자기소개서 네 문항을 고친다",
+      "decision_en": "Rewrite the Four Cover-Letter Answers",
       "detail_ko": "저장해 둔 자기소개서를 열어 지원동기와 강점 등 네 문항의 답을 다시 쓴다.",
       "detail_en": "Open the saved cover letter and rewrite four answers, including motivation and strengths.",
       "deadline_ko": "다음 지원서 제출 전",
@@ -904,6 +949,8 @@
       "consumes_slot": true,
       "offer_ko": "휴대폰을 끄는 일요일",
       "offer_en": "A Sunday with the Phone Off",
+      "decision_ko": "일요일에는 휴대폰을 끈다",
+      "decision_en": "Turn Off the Phone on Sunday",
       "detail_ko": "지원 알림과 돈 계산을 멈추고 하루 동안 푹 잔다.",
       "detail_en": "Silence job alerts and money calculations long enough to sleep.",
       "deadline_ko": "이번 달 안에 쉴 수 있는 일요일",
@@ -1859,6 +1906,8 @@
       "message_body_en": "Tonight · Call",
       "offer_ko": "아버지와 통화하기",
       "offer_en": "Talk with Father",
+      "decision_ko": "아버지에게 다시 전화한다",
+      "decision_en": "Call Father Back",
       "detail_ko": "아버지와 짧은 안부를 나누고, 그 뒤에 남은 침묵까지 듣는다.",
       "detail_en": "Exchange a few words with Father and stay on the line through the silence that follows.",
       "deadline_ko": "이번 달 저녁 한 번",

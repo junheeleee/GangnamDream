@@ -2,6 +2,7 @@ extends Control
 ## ORDER-76: 월간 계획판. 연락용 휴대폰과 분리해 네 주를 넓은 화면에서 정한다.
 
 signal plan_committed(month_index: int, schedule: Dictionary, routines: Dictionary)
+signal episode_committed(month_index: int, ordered_ids: Array)
 signal planner_closed
 signal communication_requested(bundle_id: String)
 
@@ -47,6 +48,10 @@ var _using_recommended_routines := false
 var _confirm_activation_from_mouse := false
 var _review_mouse_double_click_blocked := false
 var _review_mouse_single_click_armed := false
+var _episode_selection_mode := false
+var _episode_commitments: Array[String] = []
+var _episode_commit_in_flight := false
+var _episode_status_override := ""
 
 var _font: FontFile
 var _font_bold: FontFile
@@ -54,6 +59,7 @@ var _page_margin: MarginContainer
 var _page: VBoxContainer
 var _title_label: Label
 var _month_label: Label
+var _step_rail: HBoxContainer
 var _step_buttons: Array[Button] = []
 var _overview_button: Button
 var _people_button: Button
@@ -66,6 +72,14 @@ var _offer_scroll: ScrollContainer
 var _calendar_scroll: ScrollContainer
 var _read_only_scroll: ScrollContainer
 var _read_only_surface: VBoxContainer
+var _episode_surface: VBoxContainer
+var _episode_heading_label: Label
+var _episode_progress_label: Label
+var _episode_grid: GridContainer
+var _episode_detail_panel: PanelContainer
+var _episode_detail_label: Label
+var _episode_timeline_title: Label
+var _episode_timeline: GridContainer
 var _offer_list: VBoxContainer
 var _slot_list: VBoxContainer
 var _offers_title_label: Label
@@ -103,6 +117,8 @@ func _ready() -> void:
 func open(month_index: int, read_only: bool = false) -> bool:
 	var reopen_same_month := _opened_once and _last_opened_month == month_index
 	var was_read_only := _read_only_plan
+	var was_episode_selection_mode := _episode_selection_mode
+	var preserved_episode_commitments := _episode_commitments.duplicate()
 	_month_index = month_index
 	_month_data = CORE_LOOP.month_spec(month_index)
 	_review_confirm_release_required = false
@@ -119,6 +135,13 @@ func open(month_index: int, read_only: bool = false) -> bool:
 		visible = false
 		return false
 	_read_only_plan = read_only
+	_episode_selection_mode = (
+		CORE_LOOP.plan_uses_episode_selection(committed_plan)
+		if read_only else CORE_LOOP.episode_selection_enabled(month_index)
+	)
+	_episode_commit_in_flight = false
+	_episode_status_override = ""
+	_episode_commitments.clear()
 	_locked_by_week = {}
 	for raw_lock in _month_data.get("locked", []):
 		if raw_lock is Dictionary:
@@ -134,6 +157,9 @@ func open(month_index: int, read_only: bool = false) -> bool:
 			_routines = CORE_LOOP.default_routines()
 		_using_recommended_routines = false
 		_review_pending = false
+		if _episode_selection_mode:
+			_episode_commitments = CORE_LOOP.episode_commitments_from_plan(
+				committed_plan)
 	elif not reopen_same_month or was_read_only:
 		_schedule = {}
 		_routines = CORE_LOOP.default_routines()
@@ -141,8 +167,13 @@ func open(month_index: int, read_only: bool = false) -> bool:
 			_routines["primary"] = "livelihood"
 		_using_recommended_routines = true
 		_review_pending = false
-		for week_key in _locked_by_week:
-			_schedule[str(week_key)] = str(_locked_by_week[week_key])
+		if not _episode_selection_mode:
+			for week_key in _locked_by_week:
+				_schedule[str(week_key)] = str(_locked_by_week[week_key])
+	elif _episode_selection_mode and was_episode_selection_mode:
+		_episode_commitments.assign(preserved_episode_commitments)
+	if _episode_selection_mode and not _read_only_plan:
+		_sync_episode_schedule()
 	var weeks: Array = _month_data.get("weeks", [1, 4])
 	_selected_week = int(weeks[0])
 	for week in range(int(weeks[0]), int(weeks[1]) + 1):
@@ -177,6 +208,7 @@ func close() -> void:
 	_confirm_activation_from_mouse = false
 	_review_mouse_double_click_blocked = false
 	_review_mouse_single_click_armed = false
+	_episode_commit_in_flight = false
 	if was_visible:
 		SceneTransition.set_playtest_marker_context(
 			SceneTransition.PLAYTEST_MARKER_CONTEXT_DEFAULT)
@@ -201,6 +233,12 @@ func schedule_snapshot() -> Dictionary:
 func routine_snapshot() -> Dictionary:
 	return _routines.duplicate(true)
 
+func episode_selection_mode() -> bool:
+	return _episode_selection_mode
+
+func episode_commitment_snapshot() -> Array[String]:
+	return _episode_commitments.duplicate()
+
 func review_pending() -> bool:
 	return _review_pending
 
@@ -214,7 +252,9 @@ func placement_error() -> String:
 	return _placement_error
 
 func focus_offer(bundle_id: String) -> bool:
-	if not CORE_LOOP.available_offer_ids(_month_index).has(bundle_id):
+	var available := _episode_surface_offer_ids() \
+		if _episode_selection_mode else CORE_LOOP.available_offer_ids(_month_index)
+	if not available.has(bundle_id):
 		return false
 	_review_pending = false
 	_review_confirm_release_required = false
@@ -232,7 +272,7 @@ func _dictionary_copy(value: Variant) -> Dictionary:
 	return (value as Dictionary).duplicate(true) if value is Dictionary else {}
 
 func assign_offer_to_week(bundle_id: String, week: int) -> bool:
-	if _read_only_plan:
+	if _read_only_plan or _episode_selection_mode:
 		return false
 	if not CORE_LOOP.available_offer_ids(_month_index).has(bundle_id):
 		return false
@@ -256,7 +296,7 @@ func assign_offer_to_week(bundle_id: String, week: int) -> bool:
 	return true
 
 func select_routine(slot: String, routine_id: String) -> bool:
-	if _read_only_plan:
+	if _read_only_plan or _episode_selection_mode:
 		return false
 	if slot not in ["primary", "secondary"] \
 			or not CORE_LOOP.routine_options().has(routine_id):
@@ -280,7 +320,7 @@ func select_routine(slot: String, routine_id: String) -> bool:
 	return true
 
 func unassign_week(week: int) -> bool:
-	if _read_only_plan:
+	if _read_only_plan or _episode_selection_mode:
 		return false
 	var week_key := str(week)
 	if _locked_by_week.has(week_key) or not _schedule.has(week_key):
@@ -376,11 +416,11 @@ func _build_ui() -> void:
 	_close_button.mouse_entered.connect(_focus_on_hover.bind(_close_button))
 	header_actions.add_child(_close_button)
 
-	var step_rail := HBoxContainer.new()
-	step_rail.name = "PlannerStepRail"
-	step_rail.custom_minimum_size = Vector2(0, 38)
-	step_rail.add_theme_constant_override("separation", 8)
-	_page.add_child(step_rail)
+	_step_rail = HBoxContainer.new()
+	_step_rail.name = "PlannerStepRail"
+	_step_rail.custom_minimum_size = Vector2(0, 38)
+	_step_rail.add_theme_constant_override("separation", 8)
+	_page.add_child(_step_rail)
 	for index in range(3):
 		var step_button := _button("", false)
 		step_button.name = "PlannerStep%d" % (index + 1)
@@ -389,12 +429,68 @@ func _build_ui() -> void:
 		step_button.set_meta("core_loop_v2_workflow_step", index)
 		step_button.pressed.connect(_switch_workflow_step.bind(index))
 		step_button.mouse_entered.connect(_focus_on_hover.bind(step_button))
-		step_rail.add_child(step_button)
+		_step_rail.add_child(step_button)
 		_step_buttons.append(step_button)
 
 	var divider := HSeparator.new()
 	divider.add_theme_color_override("color", Color("#343b45"))
 	_page.add_child(divider)
+
+	_episode_surface = VBoxContainer.new()
+	_episode_surface.name = "MonthOneEpisodeSurface"
+	_episode_surface.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_episode_surface.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_episode_surface.add_theme_constant_override("separation", 10)
+	_episode_surface.visible = false
+	_page.add_child(_episode_surface)
+
+	var episode_heading_row := HBoxContainer.new()
+	episode_heading_row.custom_minimum_size = Vector2(0, 30)
+	episode_heading_row.add_theme_constant_override("separation", 12)
+	_episode_surface.add_child(episode_heading_row)
+	_episode_heading_label = _section_title("")
+	_episode_heading_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	episode_heading_row.add_child(_episode_heading_label)
+	_episode_progress_label = _label("", 17, COLOR_ACCENT, true)
+	_episode_progress_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_episode_progress_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	episode_heading_row.add_child(_episode_progress_label)
+
+	_episode_grid = GridContainer.new()
+	_episode_grid.name = "MonthOnePromiseGrid"
+	_episode_grid.columns = 2
+	_episode_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_episode_grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	UIStyle.apply_grid_spacing(_episode_grid, 10, 10)
+	_episode_surface.add_child(_episode_grid)
+
+	_episode_detail_panel = PanelContainer.new()
+	_episode_detail_panel.name = "MonthOnePromiseDetail"
+	_episode_detail_panel.custom_minimum_size = Vector2(0, 78)
+	_episode_detail_panel.add_theme_stylebox_override(
+		"panel", _panel_style(Color("#11151a", 0.98), COLOR_BORDER, 1))
+	_episode_surface.add_child(_episode_detail_panel)
+	var episode_detail_margin := MarginContainer.new()
+	episode_detail_margin.add_theme_constant_override("margin_left", 14)
+	episode_detail_margin.add_theme_constant_override("margin_right", 14)
+	episode_detail_margin.add_theme_constant_override("margin_top", 9)
+	episode_detail_margin.add_theme_constant_override("margin_bottom", 9)
+	_episode_detail_panel.add_child(episode_detail_margin)
+	_episode_detail_label = _label("", 14, COLOR_DIM)
+	_episode_detail_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_episode_detail_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	episode_detail_margin.add_child(_episode_detail_label)
+
+	_episode_timeline_title = _section_title("")
+	_episode_timeline_title.visible = false
+	_episode_surface.add_child(_episode_timeline_title)
+	_episode_timeline = GridContainer.new()
+	_episode_timeline.name = "MonthOneReadOnlyTimeline"
+	_episode_timeline.columns = 2
+	_episode_timeline.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	UIStyle.apply_grid_spacing(_episode_timeline, 8, 8)
+	_episode_timeline.visible = false
+	_episode_surface.add_child(_episode_timeline)
 
 	_calendar_surface = HBoxContainer.new()
 	_calendar_surface.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -552,6 +648,16 @@ func _apply_responsive_layout() -> void:
 	_page_margin.add_theme_constant_override("margin_top", top_margin)
 	_page_margin.add_theme_constant_override("margin_bottom", bottom_margin)
 	_page.add_theme_constant_override("separation", 10 if _compact_layout else 14)
+	_episode_surface.add_theme_constant_override(
+		"separation", 8 if _compact_layout else 10)
+	UIStyle.apply_grid_spacing(
+		_episode_grid,
+		8 if _compact_layout else 10,
+		8 if _compact_layout else 10)
+	UIStyle.apply_grid_spacing(
+		_episode_timeline,
+		6 if _compact_layout else 8,
+		6 if _compact_layout else 8)
 	_calendar_surface.add_theme_constant_override(
 		"separation", 14 if _compact_layout else 22)
 	_calendar_right_column.custom_minimum_size = Vector2(
@@ -585,10 +691,20 @@ func _apply_responsive_layout() -> void:
 		82 if _compact_layout else 96, 46)
 	_detail_label.custom_minimum_size = Vector2(
 		0, 40 if _compact_layout else 58)
+	_episode_detail_panel.custom_minimum_size = Vector2(
+		0, 64 if _compact_layout else 84)
 	for raw_button in _offer_buttons.values():
 		if raw_button is Button:
 			(raw_button as Button).custom_minimum_size = Vector2(
-				0, 58 if _compact_layout else 62)
+				0,
+				(70 if _compact_layout else 92) if (
+					_episode_selection_mode and _read_only_plan) else (
+					104 if _compact_layout else 118) if _episode_selection_mode else (
+					58 if _compact_layout else 62))
+	for raw_panel in _episode_timeline.get_children():
+		if raw_panel is PanelContainer:
+			(raw_panel as PanelContainer).custom_minimum_size = Vector2(
+				0, 42 if _compact_layout else 48)
 	for raw_button in _slot_buttons.values():
 		if raw_button is Button:
 			(raw_button as Button).custom_minimum_size = Vector2(
@@ -600,6 +716,8 @@ func _request_communication() -> void:
 
 
 func _open_routine_editor() -> void:
+	if _episode_selection_mode:
+		return
 	_clear_placement_intent()
 	_review_pending = false
 	_review_confirm_release_required = false
@@ -618,6 +736,22 @@ func _rebuild() -> void:
 			_month_index,
 			_localized(_month_data, "title"),
 		]
+	if _episode_selection_mode:
+		_rebuild_episode_selection_surface()
+		return
+	set_meta("core_loop_v2_episode_selection", false)
+	set_meta("core_loop_v2_episode_read_only", false)
+	set_meta("core_loop_v2_commitment_count", 0)
+	_episode_surface.visible = false
+	_step_rail.visible = true
+	_overview_button.visible = true
+	_people_button.visible = true
+	_communication_button.visible = true
+	_overview_button.focus_mode = Control.FOCUS_ALL
+	_people_button.focus_mode = Control.FOCUS_ALL
+	_communication_button.focus_mode = Control.FOCUS_ALL
+	for step_button in _step_buttons:
+		step_button.focus_mode = Control.FOCUS_ALL
 	if _read_only_plan:
 		_month_label.text = LocaleManager.ui(
 			"확정한 일정과 매주 할 일을 확인한다. 이달 계획은 바꿀 수 없다.",
@@ -643,6 +777,8 @@ func _rebuild() -> void:
 		"Open messages, call history, and contacts.")
 	_close_button.text = LocaleManager.ui("닫기", "CLOSE")
 	_close_button.visible = _read_only_plan
+	_close_button.focus_mode = Control.FOCUS_ALL \
+		if _close_button.visible else Control.FOCUS_NONE
 	_edit_button.text = LocaleManager.ui("일정 수정", "EDIT PLAN")
 	_edit_button.visible = _review_pending and not _read_only_plan
 	_refresh_step_rail()
@@ -662,6 +798,312 @@ func _rebuild() -> void:
 	_focus_restore_generation += 1
 	call_deferred(
 		"_restore_focus_after_rebuild", _focus_restore_generation)
+
+
+func _rebuild_episode_selection_surface() -> void:
+	_review_pending = false
+	_review_confirm_release_required = false
+	_clear_placement_intent()
+	set_meta("core_loop_v2_review_pending", false)
+	set_meta("core_loop_v2_episode_selection", true)
+	set_meta("core_loop_v2_episode_read_only", _read_only_plan)
+	_month_label.text = LocaleManager.ui(
+		"확정한 두 약속과 이번 달의 네 주를 확인한다."
+			if _read_only_plan else
+		"이번 달에 책임질 두 약속을 고른다. 먼저 고른 일이 중심이 된다.",
+		"Review the two promises and this month's four weeks."
+			if _read_only_plan else
+		"Choose two promises for this month. Your first choice becomes its center.")
+	_overview_button.visible = false
+	_people_button.visible = false
+	_close_button.visible = false
+	for hidden_button in [_overview_button, _people_button, _close_button]:
+		hidden_button.focus_mode = Control.FOCUS_NONE
+	_communication_button.visible = true
+	_communication_button.focus_mode = Control.FOCUS_ALL
+	var badge_count := _communication_badge_count()
+	_communication_button.text = LocaleManager.ui(
+		"휴대폰%s" % (" · %d" % badge_count if badge_count > 0 else ""),
+		"PHONE%s" % (" · %d" % badge_count if badge_count > 0 else ""))
+	_communication_button.tooltip_text = LocaleManager.ui(
+		"문자와 통화 기록, 연락처를 연다.",
+		"Open messages, call history, and contacts.")
+	_step_rail.visible = false
+	for step_button in _step_buttons:
+		step_button.focus_mode = Control.FOCUS_NONE
+	_calendar_surface.visible = false
+	_read_only_scroll.visible = false
+	_episode_surface.visible = true
+	_edit_button.visible = false
+	_rebuild_episode_offer_grid()
+	_refresh_episode_selection_surface()
+	_apply_responsive_layout()
+	_focus_restore_generation += 1
+	call_deferred(
+		"_restore_focus_after_rebuild", _focus_restore_generation)
+
+
+func _episode_selection_count() -> int:
+	return maxi(1, int(CORE_LOOP.episode_plan_spec().get(
+		"selection_count", 2)))
+
+
+func _episode_surface_offer_ids() -> Array[String]:
+	if not _read_only_plan:
+		return CORE_LOOP.episode_offer_ids(_month_index)
+	var result: Array[String] = []
+	for raw_id in CORE_LOOP.episode_plan_spec().get("player_offers", []):
+		var bundle_id := str(raw_id).strip_edges()
+		if not bundle_id.is_empty() and not CORE_LOOP.bundle(bundle_id).is_empty() \
+				and not result.has(bundle_id):
+			result.append(bundle_id)
+	return result
+
+
+func _episode_decision_text(offer: Dictionary) -> String:
+	var text := _localized(offer, "decision").strip_edges()
+	return text if not text.is_empty() else _localized(offer, "offer")
+
+
+func _rebuild_episode_offer_grid() -> void:
+	_clear_children(_episode_grid)
+	_offer_buttons.clear()
+	_slot_buttons.clear()
+	var offers := _episode_surface_offer_ids()
+	if not offers.has(_selected_offer_id):
+		_selected_offer_id = str(offers[0]) if not offers.is_empty() else ""
+	for bundle_id in offers:
+		var offer := CORE_LOOP.bundle(bundle_id)
+		var button := _button("", false)
+		button.name = "EpisodeOffer_%s" % bundle_id
+		button.set_meta("core_loop_v2_offer_id", bundle_id)
+		button.set_meta("core_loop_v2_episode_offer", true)
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		button.icon = _offer_kind_icon(str(offer.get("kind", "")))
+		button.expand_icon = false
+		button.pressed.connect(_toggle_episode_offer.bind(bundle_id))
+		button.focus_entered.connect(_episode_offer_focused.bind(bundle_id))
+		button.mouse_entered.connect(_focus_on_hover.bind(button))
+		_episode_grid.add_child(button)
+		_offer_buttons[bundle_id] = button
+
+
+func _refresh_episode_selection_surface() -> void:
+	var selection_count := _episode_selection_count()
+	_episode_heading_label.text = LocaleManager.ui(
+		"확정한 약속과 네 주" if _read_only_plan else
+		"이번 달에 책임질 두 약속",
+		"PROMISES AND FOUR WEEKS" if _read_only_plan else
+		"TWO PROMISES FOR THIS MONTH")
+	_episode_progress_label.text = LocaleManager.ui(
+		"%d/%d · 확정됨" if _read_only_plan else "%d/%d",
+		"%d/%d · CONFIRMED" if _read_only_plan else "%d/%d") % [
+			_episode_commitments.size(), selection_count,
+		]
+	set_meta("core_loop_v2_commitment_count", _episode_commitments.size())
+	for bundle_id in _episode_surface_offer_ids():
+		var button: Button = _offer_buttons.get(bundle_id) as Button
+		if not is_instance_valid(button):
+			continue
+		var offer := CORE_LOOP.bundle(bundle_id)
+		var rank := _episode_commitments.find(bundle_id)
+		var prefix := ""
+		if rank == 0:
+			prefix = LocaleManager.ui("중심 · ", "CENTER · ")
+		elif rank == 1:
+			prefix = LocaleManager.ui("함께 · ", "ALONGSIDE · ")
+		var second_line := _localized(offer, "deadline")
+		if _read_only_plan and rank < 0:
+			second_line = LocaleManager.ui(
+				"이번 달에는 고르지 않음", "NOT CHOSEN THIS MONTH")
+		button.text = "%s%s\n%s" % [
+			prefix, _episode_decision_text(offer), second_line,
+		]
+		button.set_meta("core_loop_v2_commitment_rank", rank)
+		button.set_meta("core_loop_v2_commitment_selected", rank >= 0)
+		# The first-month surface is one episode decision, not four category
+		# tiles. Keep every unselected promise in the same ink/concrete material;
+		# only focus and selection may introduce the restrained gold signal.
+		_apply_button_style(button, rank >= 0, rank >= 0)
+	_episode_timeline_title.visible = _read_only_plan
+	_episode_timeline.visible = _read_only_plan
+	if _read_only_plan:
+		_episode_timeline_title.text = LocaleManager.ui(
+			"시스템이 편성한 네 주", "THE FOUR WEEKS AS SCHEDULED")
+		_rebuild_episode_timeline()
+	else:
+		_clear_children(_episode_timeline)
+	_refresh_episode_detail()
+	_refresh_footer()
+	_connect_episode_focus_neighbors()
+
+
+func _episode_offer_focused(bundle_id: String) -> void:
+	if not _episode_selection_mode or not _offer_buttons.has(bundle_id):
+		return
+	_selected_offer_id = bundle_id
+	_episode_status_override = ""
+	_refresh_episode_detail()
+
+
+func _toggle_episode_offer(bundle_id: String) -> void:
+	if not _episode_selection_mode or _read_only_plan \
+			or _episode_commit_in_flight \
+			or not _episode_surface_offer_ids().has(bundle_id):
+		return
+	_selected_offer_id = bundle_id
+	var existing_index := _episode_commitments.find(bundle_id)
+	if existing_index >= 0:
+		_episode_commitments.remove_at(existing_index)
+	elif _episode_commitments.size() >= _episode_selection_count():
+		_episode_status_override = LocaleManager.ui(
+			"두 약속을 이미 골랐다. 바꾸려면 고른 카드를 다시 누른다.",
+			"Two promises are already chosen. Select one of them again to change it.")
+		_refresh_episode_detail()
+		return
+	else:
+		_episode_commitments.append(bundle_id)
+	_episode_status_override = ""
+	_sync_episode_schedule()
+	_refresh_episode_selection_surface()
+
+
+func _undo_last_episode_offer() -> bool:
+	if not _episode_selection_mode or _read_only_plan \
+			or _episode_commitments.is_empty():
+		return false
+	_selected_offer_id = _episode_commitments[_episode_commitments.size() - 1]
+	_episode_commitments.pop_back()
+	_episode_status_override = ""
+	_sync_episode_schedule()
+	_refresh_episode_selection_surface()
+	var button: Button = _offer_buttons.get(_selected_offer_id) as Button
+	if is_instance_valid(button):
+		button.call_deferred("grab_focus")
+	return true
+
+
+func _sync_episode_schedule() -> void:
+	if not _episode_selection_mode or _read_only_plan:
+		return
+	_schedule = {}
+	_routines = CORE_LOOP.default_routines()
+	if _episode_commitments.size() != _episode_selection_count():
+		return
+	var validation := CORE_LOOP.validate_episode_selection(
+		_month_index, _episode_commitments)
+	if not bool(validation.get("ok", false)):
+		return
+	_schedule = _dictionary_copy(validation.get("schedule", {}))
+	_routines = _dictionary_copy(validation.get("routines", {}))
+
+
+func _episode_plan_ready() -> bool:
+	if _read_only_plan:
+		return _episode_commitments.size() == _episode_selection_count()
+	if _episode_commitments.size() != _episode_selection_count():
+		return false
+	return bool(CORE_LOOP.validate_episode_selection(
+		_month_index, _episode_commitments).get("ok", false))
+
+
+func _refresh_episode_detail() -> void:
+	if not _episode_status_override.is_empty():
+		_episode_detail_label.text = _episode_status_override
+		return
+	var offer := CORE_LOOP.bundle(_selected_offer_id)
+	if offer.is_empty():
+		_episode_detail_label.text = LocaleManager.ui(
+			"약속에 포커스를 두면 무엇을 하고, 미루면 무엇이 달라지는지 볼 수 있다.",
+			"Focus a promise to see what it asks and what changes if it is left out.")
+		return
+	_episode_detail_label.text = "%s\n%s · %s" % [
+		_localized(offer, "detail"),
+		LocaleManager.ui("고르지 않으면", "IF LEFT OUT"),
+		_localized(offer, "decline"),
+	]
+
+
+func _rebuild_episode_timeline() -> void:
+	_clear_children(_episode_timeline)
+	var weeks: Array = _month_data.get("weeks", [1, 4])
+	if weeks.size() != 2:
+		return
+	var first_week := int(weeks[0])
+	for week in range(first_week, int(weeks[1]) + 1):
+		var bundle_id := str(_schedule.get(str(week), ""))
+		var player_knew := week < first_week + 2
+		var happened := CORE_LOOP.turn_completed(week)
+		var body := LocaleManager.ui("기록 없음", "NO RECORD")
+		if not bundle_id.is_empty() and (player_knew or happened):
+			body = _episode_decision_text(CORE_LOOP.bundle(bundle_id))
+		elif not bundle_id.is_empty():
+			body = LocaleManager.ui(
+				"그 주가 오면 알게 된다", "REVEALED WHEN THE WEEK ARRIVES")
+		var panel := PanelContainer.new()
+		panel.custom_minimum_size = Vector2(0, 48)
+		panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		panel.set_meta("core_loop_v2_episode_week", week)
+		panel.set_meta(
+			"core_loop_v2_future_hidden",
+			not bundle_id.is_empty() and not player_knew and not happened)
+		panel.add_theme_stylebox_override(
+			"panel", _panel_style(Color("#0f1318", 0.96), COLOR_BORDER, 1))
+		var label := _label(LocaleManager.ui(
+			"%d주차 · %s", "WEEK %d · %s") % [
+				posmod(week - 1, 4) + 1, body,
+			], 14, COLOR_DIM, player_knew or happened)
+		label.clip_text = true
+		label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		panel.add_child(label)
+		_episode_timeline.add_child(panel)
+
+
+func _connect_episode_focus_neighbors() -> void:
+	var controls: Array[Control] = []
+	for bundle_id in _episode_surface_offer_ids():
+		var button: Control = _offer_buttons.get(bundle_id) as Control
+		if is_instance_valid(button):
+			controls.append(button)
+	if controls.is_empty():
+		return
+	var ready := _episode_plan_ready()
+	var header_target: Control = _communication_button
+	_communication_button.focus_neighbor_left = _communication_button.get_path_to(
+		_communication_button)
+	_communication_button.focus_neighbor_right = _communication_button.get_path_to(
+		_communication_button)
+	_communication_button.focus_neighbor_top = _communication_button.get_path_to(
+		_communication_button)
+	_communication_button.focus_neighbor_bottom = _communication_button.get_path_to(
+		controls[0])
+	for index in range(controls.size()):
+		var control := controls[index]
+		var column := index % 2
+		var left_target := controls[index - 1] if column == 1 else control
+		var right_target := controls[index + 1] \
+			if column == 0 and index + 1 < controls.size() else control
+		var top_target := controls[index - 2] if index >= 2 else header_target
+		var bottom_target: Control = control
+		if index + 2 < controls.size():
+			bottom_target = controls[index + 2]
+		elif ready:
+			bottom_target = _confirm_button
+		control.focus_neighbor_left = control.get_path_to(left_target)
+		control.focus_neighbor_right = control.get_path_to(right_target)
+		control.focus_neighbor_top = control.get_path_to(top_target)
+		control.focus_neighbor_bottom = control.get_path_to(bottom_target)
+	var confirm_top := controls[controls.size() - 1]
+	_confirm_button.focus_neighbor_left = _confirm_button.get_path_to(
+		_confirm_button)
+	_confirm_button.focus_neighbor_right = _confirm_button.get_path_to(
+		_confirm_button)
+	_confirm_button.focus_neighbor_top = _confirm_button.get_path_to(confirm_top)
+	_confirm_button.focus_neighbor_bottom = _confirm_button.get_path_to(
+		_confirm_button)
 
 
 func _connect_non_calendar_focus_neighbors() -> void:
@@ -1680,6 +2122,9 @@ func _restore_focus_key(key: String) -> bool:
 
 
 func _assign_offer(bundle_id: String) -> void:
+	if _episode_selection_mode:
+		_toggle_episode_offer(bundle_id)
+		return
 	if _read_only_plan or _review_pending:
 		return
 	if not CORE_LOOP.available_offer_ids(_month_index).has(bundle_id):
@@ -1756,6 +2201,9 @@ func _select_week(week: int) -> void:
 	call_deferred("_focus_next_offer_or_confirm")
 
 func _offer_focused(bundle_id: String) -> void:
+	if _episode_selection_mode:
+		_episode_offer_focused(bundle_id)
+		return
 	if _active_tab != 1 or not _calendar_surface.is_visible_in_tree():
 		return
 	_selected_offer_id = bundle_id
@@ -1859,6 +2307,9 @@ func _on_confirm_gui_input(event: InputEvent) -> void:
 
 
 func _commit_plan() -> void:
+	if _episode_selection_mode:
+		_commit_episode_selection()
+		return
 	var mouse_activation := _confirm_activation_from_mouse
 	_confirm_activation_from_mouse = false
 	if _read_only_plan:
@@ -1889,7 +2340,37 @@ func _commit_plan() -> void:
 		"plan_committed", _month_index, _schedule.duplicate(true),
 		_routines.duplicate(true))
 
+
+func _commit_episode_selection() -> void:
+	if _read_only_plan:
+		close()
+		return
+	if _episode_commit_in_flight:
+		return
+	var validation := CORE_LOOP.validate_episode_selection(
+		_month_index, _episode_commitments)
+	if not bool(validation.get("ok", false)):
+		_episode_status_override = LocaleManager.ui(
+			"이번 달에 책임질 서로 다른 두 약속을 고른다.",
+			"Choose two different promises to carry this month.")
+		_refresh_episode_detail()
+		_refresh_footer()
+		return
+	_schedule = _dictionary_copy(validation.get("schedule", {}))
+	_routines = _dictionary_copy(validation.get("routines", {}))
+	_episode_commit_in_flight = true
+	_refresh_footer()
+	episode_committed.emit(
+		_month_index, _episode_commitments.duplicate())
+	# Signal handlers run synchronously. If the planner is still open, the
+	# runtime rejected or did not own the commit; restore a usable surface.
+	if visible:
+		_episode_commit_in_flight = false
+		_refresh_footer()
+
 func _switch_tab(index: int) -> void:
+	if _episode_selection_mode:
+		return
 	# Compatibility adapter for focused QA and the phone's VIEW PLAN route.
 	# The player surface no longer exposes four tabs.
 	match clampi(index, 0, 3):
@@ -1905,6 +2386,8 @@ func _switch_tab(index: int) -> void:
 
 
 func _open_info_view(index: int) -> void:
+	if _episode_selection_mode:
+		return
 	if index not in [0, 2]:
 		return
 	_clear_placement_intent()
@@ -1917,6 +2400,8 @@ func _open_info_view(index: int) -> void:
 
 
 func _switch_workflow_step(index: int) -> void:
+	if _episode_selection_mode:
+		return
 	var target := clampi(index, 0, 2)
 	if target != 0:
 		_clear_placement_intent()
@@ -1930,6 +2415,8 @@ func _switch_workflow_step(index: int) -> void:
 
 
 func _cycle_step(delta: int) -> void:
+	if _episode_selection_mode:
+		return
 	_switch_workflow_step(int(posmod(_workflow_step + delta, 3)))
 	_step_buttons[_workflow_step].call_deferred("grab_focus")
 
@@ -1944,11 +2431,43 @@ func _communication_shortcut_pressed(event: InputEvent) -> bool:
 				or key_event.physical_keycode == KEY_P)
 	return false
 
+
+func _handle_episode_input(event: InputEvent) -> bool:
+	if _communication_shortcut_pressed(event):
+		_request_communication()
+		return true
+	if event is InputEventJoypadButton and (event as InputEventJoypadButton).pressed:
+		match int((event as InputEventJoypadButton).button_index):
+			JOY_BUTTON_B:
+				if _read_only_plan:
+					close()
+				else:
+					_undo_last_episode_offer()
+				return true
+			JOY_BUTTON_X, JOY_BUTTON_LEFT_SHOULDER, JOY_BUTTON_RIGHT_SHOULDER:
+				# Month One has no hidden remove verb or workflow rail.
+				return true
+	if ControllerHints.secondary_pressed(event) \
+			or event.is_action_pressed("gd_tab_prev") \
+			or event.is_action_pressed("gd_tab_next"):
+		return true
+	if event.is_action_pressed("ui_cancel"):
+		if _read_only_plan:
+			close()
+		else:
+			_undo_last_episode_offer()
+		return true
+	return false
+
 func _unhandled_input(event: InputEvent) -> void:
 	if not visible:
 		return
 	if event is InputEventKey and (event as InputEventKey).echo:
 		get_viewport().set_input_as_handled()
+		return
+	if _episode_selection_mode:
+		if _handle_episode_input(event):
+			get_viewport().set_input_as_handled()
 		return
 	var handled := false
 	if _communication_shortcut_pressed(event):
@@ -2004,6 +2523,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _refresh_footer() -> void:
 	if not is_instance_valid(_confirm_button):
+		return
+	if _episode_selection_mode:
+		_refresh_episode_footer()
 		return
 	if _read_only_plan:
 		_edit_button.visible = false
@@ -2152,6 +2674,46 @@ func _refresh_footer() -> void:
 			ControllerHints.shoulder_l(),
 			ControllerHints.shoulder_r(),
 		])
+
+
+func _refresh_episode_footer() -> void:
+	_edit_button.visible = false
+	_confirm_button.visible = true
+	if _read_only_plan:
+		_set_button_disabled(_confirm_button, false)
+		_confirm_button.text = LocaleManager.ui("닫기", "CLOSE")
+		_apply_button_style(_confirm_button, false, true)
+		_hint_label.text = LocaleManager.ui(
+			"방향키로 약속과 네 주 확인 · %s 닫기",
+			"D-pad Review promises and weeks · %s Close") % [
+				ControllerHints.east(),
+			]
+		return
+	var ready := _episode_plan_ready()
+	_set_button_disabled(
+		_confirm_button, not ready or _episode_commit_in_flight)
+	_confirm_button.text = LocaleManager.ui("이달 시작", "BEGIN MONTH")
+	_confirm_button.set_meta("core_loop_v2_episode_ready", ready)
+	_apply_button_style(
+		_confirm_button, false, ready and not _episode_commit_in_flight)
+	if _episode_commitments.is_empty():
+		_hint_label.text = LocaleManager.ui(
+			"방향키로 약속 이동 · %s 중심 약속 고르기",
+			"D-pad Move · %s Choose the center promise") % [
+				ControllerHints.south(),
+			]
+	elif _episode_commitments.size() < _episode_selection_count():
+		_hint_label.text = LocaleManager.ui(
+			"%s 함께 챙길 약속 고르기 · %s 최근 선택 취소",
+			"%s Choose the second promise · %s Undo last choice") % [
+				ControllerHints.south(), ControllerHints.east(),
+			]
+	else:
+		_hint_label.text = LocaleManager.ui(
+			"%s 카드 선택 취소 · %s 최근 선택 취소 · 아래로 이달 시작",
+			"%s Deselect card · %s Undo last choice · Down to Begin Month") % [
+				ControllerHints.south(), ControllerHints.east(),
+			]
 
 func _fit_status_label_height(minimum_height: float) -> void:
 	if not is_instance_valid(_status_label):

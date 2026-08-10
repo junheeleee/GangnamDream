@@ -49,7 +49,8 @@ func _run() -> void:
 			+ "trigger=v2_application_send receipts=presented/consumed/no_replay "
 			+ "expression=2/state_free roots=adjacent "
 			+ "slides=3 locale=ko/en fresh=1 reentry=1 focus_restore=1 "
-			+ "input_leak=0 save_reshow=0 legacy_untouched=1")
+			+ "episode_promises=2 input_leak=0 save_reshow=0 "
+			+ "legacy_untouched=1")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -64,11 +65,14 @@ func _check_localized_tutorial_copy() -> void:
 	_expect(ko_slides.size() == 3,
 		"Korean V2 onboarding does not contain exactly three slides")
 	for required in [
-		"24주", "첫 챕터", "넓은 계획판", "네 주", "주로 할 일",
-		"보조로 할 일", "고르지 않은 제안", "문자와 통화",
+		"첫 달", "네 가지 약속", "두 가지", "중심 약속", "자동으로 편성",
+		"예기치 않은", "장면", "이달 시작",
 	]:
 		_expect(required in ko_text,
 			"Korean V2 onboarding lost required concept: %s" % required)
+	for retired in ["제안을 네 주에 놓기", "주로 할 일", "보조로 할 일", "최종 확인"]:
+		_expect(retired not in ko_text,
+			"Korean V2 onboarding still teaches retired Month-One work: %s" % retired)
 
 	LocaleManager.set_language("en")
 	var en_slides: Array = TutorialOverlay._get_slides(TUTORIAL_ID)
@@ -76,12 +80,14 @@ func _check_localized_tutorial_copy() -> void:
 	_expect(en_slides.size() == 3,
 		"English V2 onboarding does not contain exactly three slides")
 	for required in [
-		"24 weeks", "Chapter 1", "planning board", "four weeks",
-		"Primary", "secondary", "offers you did not choose",
-		"messages and call history",
+		"first month", "four promises", "two", "central promise",
+		"scheduled automatically", "unexpected", "scene", "Start Month",
 	]:
 		_expect(required.to_lower() in en_text.to_lower(),
 			"English V2 onboarding lost required concept: %s" % required)
+	for retired in ["Place Offers Across Four Weeks", "Primary routines", "final review"]:
+		_expect(retired.to_lower() not in en_text.to_lower(),
+			"English V2 onboarding still teaches retired Month-One work: %s" % retired)
 	_expect(not _contains_hangul(en_text),
 		"English V2 onboarding contains Hangul: %s" % en_text)
 
@@ -491,6 +497,23 @@ func _check_fresh_and_reentry_flow() -> void:
 
 	_underlying_presses = 0
 	var offer_buttons: Dictionary = planner.get("_offer_buttons")
+	var expected_episode_offers := [
+		"m1_convenience_trial_shift",
+		"m1_youth_center_resume_clinic",
+		"father_first_call",
+		"m1_phone_off_sunday",
+	]
+	_expect(bool(CORE_LOOP.episode_selection_enabled(1)) \
+			and offer_buttons.size() == expected_episode_offers.size(),
+		"fresh Month-One planner did not open the four-promise episode surface")
+	for offer_id in expected_episode_offers:
+		_expect(offer_buttons.has(offer_id),
+			"fresh Month-One episode surface lost promise %s" % offer_id)
+	for hidden_id in [
+		"m1_mirae_application", "hyunsu_first_meet", "first_temptation_boss",
+	]:
+		_expect(not offer_buttons.has(hidden_id),
+			"fresh Month-One episode surface leaked hidden item %s" % hidden_id)
 	for raw_button in offer_buttons.values():
 		var offer_button := raw_button as Button
 		if is_instance_valid(offer_button):

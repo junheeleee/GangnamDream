@@ -13,6 +13,7 @@ func _ready() -> void:
 	_check_explicit_activation()
 	_check_deadline_and_routine_validation()
 	_check_month_one_plan()
+	_check_month_one_episode_contract()
 	_check_background_routines_once()
 	_check_midmonth_employment_routine_transition()
 	_check_decline_consumption_once()
@@ -31,6 +32,7 @@ func _ready() -> void:
 		print(
 			"CORE_LOOP_V2_CHECK_OK activation=explicit shared_months=2 slots=4 "
 			+ "locked=week4 deadlines=machine plan=immutable "
+			+ "episode=two_promises/ordered/4_echoes/legacy_safe "
 			+ "routines=16_units/once/job_transition "
 			+ "forgone=producer_consumer/once delayed=cross_month/one_per_week "
 			+ "relationship=choice_only/monotonic summary=ack/save "
@@ -216,6 +218,221 @@ func _check_month_one_plan() -> void:
 		"month-one calendar did not survive save/load")
 	_expect(CORE_LOOP.has_completed_bundle("m1_mirae_application"),
 		"completed application did not survive save/load")
+
+func _check_month_one_episode_contract() -> void:
+	var expected_offers: Array[String] = [
+		"m1_convenience_trial_shift",
+		"m1_youth_center_resume_clinic",
+		"father_first_call",
+		"m1_phone_off_sunday",
+	]
+	GameState.start_new_game()
+	CORE_LOOP.initialize_for_run(true)
+	_expect(not CORE_LOOP.episode_selection_enabled(1),
+		"untouched Month One replaced the legacy application planner before the interview")
+	_expect(CORE_LOOP.episode_offer_ids(1) == expected_offers,
+		"Month-One promise candidates drifted from their authored order")
+	_mark_mirae_interviewed()
+	_expect(CORE_LOOP.episode_selection_enabled(1),
+		"post-interview Month One did not unlock the two-promise episode surface")
+	_expect(CORE_LOOP.episode_offer_ids(1) == expected_offers,
+		"post-interview promise candidates changed identity or authored order")
+
+	for wrong_size in [[], [expected_offers[0]], expected_offers.slice(0, 3)]:
+		var size_result := CORE_LOOP.validate_episode_selection(1, wrong_size)
+		_expect(not bool(size_result.get("ok", false)) \
+				and str(size_result.get("error", "")) \
+					== "choose_two_commitments",
+			"episode planner accepted a selection that was not exactly two promises")
+	var duplicate_result := CORE_LOOP.validate_episode_selection(
+		1, [expected_offers[0], expected_offers[0]])
+	_expect(not bool(duplicate_result.get("ok", false)) \
+			and str(duplicate_result.get("error", "")) == "duplicate_bundle",
+		"episode planner accepted the same promise twice")
+	var automatic_result := CORE_LOOP.validate_episode_selection(
+		1, [expected_offers[0], "hyunsu_first_meet"])
+	_expect(not bool(automatic_result.get("ok", false)) \
+			and str(automatic_result.get("error", "")) == "unavailable_bundle",
+		"episode planner let the player choose the automatic world event")
+
+	var ordered: Array = [expected_offers[0], expected_offers[2]]
+	var state_before_validation: Dictionary = GameState.serialize().duplicate(true)
+	var validation := CORE_LOOP.validate_episode_selection(1, ordered)
+	var expected_schedule := {
+		"1": expected_offers[0],
+		"2": expected_offers[2],
+		"3": "hyunsu_first_meet",
+		"4": "first_temptation_boss",
+	}
+	_expect(bool(validation.get("ok", false)) \
+			and validation.get("ordered_ids", []) == ordered \
+			and validation.get("schedule", {}) == expected_schedule \
+			and validation.get("routines", {}) == CORE_LOOP.default_routines(),
+		"two ordered promises did not produce the fixed four-week episode chronology")
+	_expect(GameState.serialize() == state_before_validation,
+		"reading or validating the Month-One episode choices mutated the run")
+	var repeated_validation := CORE_LOOP.validate_episode_selection(1, ordered)
+	var reversed_validation := CORE_LOOP.validate_episode_selection(
+		1, [ordered[1], ordered[0]])
+	_expect(repeated_validation == validation,
+		"the same ordered promises did not resolve deterministically")
+	_expect(bool(reversed_validation.get("ok", false)) \
+			and reversed_validation.get("schedule", {}).get("1", "") == ordered[1] \
+			and reversed_validation.get("schedule", {}).get("2", "") == ordered[0] \
+			and reversed_validation.get("schedule", {}).get("3", "") \
+				== "hyunsu_first_meet" \
+			and reversed_validation.get("schedule", {}).get("4", "") \
+				== "first_temptation_boss",
+		"reversing the promises did not reverse only their Week-One/Week-Two order")
+
+	var committed := CORE_LOOP.commit_episode_selection(1, ordered)
+	var plan := CORE_LOOP.plan_for_month(1)
+	_expect(bool(committed.get("ok", false)) \
+			and str(committed.get("planning_mode", "")) \
+				== CORE_LOOP.MONTH_ONE_EPISODE_MODE \
+			and committed.get("player_commitments", []) == ordered,
+		"episode commit did not return its durable mode and ordered promises")
+	_expect(CORE_LOOP.plan_uses_episode_selection(plan) \
+			and CORE_LOOP.episode_commitments_from_plan(plan) == ordered \
+			and plan.get("schedule", {}) == expected_schedule \
+			and plan.get("selected", []) == [
+				expected_offers[0], expected_offers[2],
+				"hyunsu_first_meet", "first_temptation_boss",
+			],
+		"committed episode plan lost its marker, chronology, or selected ledger")
+	var forgone_ids: Array[String] = []
+	for raw_record in CORE_LOOP.forgone_for_month(1):
+		if raw_record is Dictionary:
+			forgone_ids.append(str((raw_record as Dictionary).get("bundle_id", "")))
+	forgone_ids.sort()
+	var expected_forgone: Array[String] = [expected_offers[1], expected_offers[3]]
+	expected_forgone.sort()
+	_expect(forgone_ids == expected_forgone \
+			and not forgone_ids.has("hyunsu_first_meet") \
+			and not forgone_ids.has("first_temptation_boss") \
+			and not forgone_ids.has("m1_mirae_application"),
+		"episode commit treated automatic chronology or the finished application as forgone")
+	var state_before_duplicate: Dictionary = GameState.serialize().duplicate(true)
+	var duplicate_commit := CORE_LOOP.commit_episode_selection(1, ordered)
+	_expect(not bool(duplicate_commit.get("ok", false)) \
+			and str(duplicate_commit.get("error", "")) == "plan_already_committed" \
+			and GameState.serialize() == state_before_duplicate,
+		"duplicate episode commit changed the immutable plan or decline ledger")
+
+	var saved_episode: Dictionary = GameState.serialize().duplicate(true)
+	GameState.start_new_game()
+	GameState.load_from_dict(saved_episode)
+	CORE_LOOP.initialize_for_run(true)
+	var loaded_plan := CORE_LOOP.plan_for_month(1)
+	_expect(CORE_LOOP.plan_uses_episode_selection(loaded_plan) \
+			and CORE_LOOP.episode_selection_enabled(1) \
+			and CORE_LOOP.episode_commitments_from_plan(loaded_plan) == ordered \
+			and loaded_plan.get("schedule", {}) == expected_schedule,
+		"ordered Month-One promises did not survive save/load")
+
+	_check_month_one_episode_echoes(expected_offers)
+	_check_month_one_legacy_plan_fallback()
+
+func _check_month_one_episode_echoes(offer_ids: Array[String]) -> void:
+	var language_before := LocaleManager.language
+	var echo_spec: Dictionary = CORE_LOOP.episode_plan_spec().get(
+		"primary_echo", {})
+	for primary_id in offer_ids:
+		GameState.start_new_game()
+		CORE_LOOP.initialize_for_run(true)
+		_mark_mirae_interviewed()
+		var secondary_id := offer_ids[0] \
+			if primary_id != offer_ids[0] else offer_ids[1]
+		var committed := CORE_LOOP.commit_episode_selection(
+			1, [primary_id, secondary_id])
+		_expect(bool(committed.get("ok", false)),
+			"echo fixture could not commit primary promise %s" % primary_id)
+		var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+		state["completed_bundles"] = [primary_id]
+		state["completed_bundle_turns"][primary_id] = 1
+		state["completed_turns"] = [1]
+		state["active_bundle"] = "first_temptation_boss"
+		state["active_kind"] = "schedule"
+		state["active_turn"] = 4
+		GameState.turn = 4
+		GameState.core_loop_v2_state = state
+		var copy_spec: Dictionary = echo_spec.get(primary_id, {})
+		LocaleManager.language = "ko"
+		var ko_echo := CORE_LOOP.month_one_episode_echo()
+		_expect(ko_echo == "\n\n%s" % str(copy_spec.get("copy_ko", "")),
+			"Week-Four crisis lost the Korean physical echo for %s" % primary_id)
+		var formatted := CORE_LOOP.format_first_bill_story_text(
+			"앞%s뒤" % CORE_LOOP.MONTH_ONE_EPISODE_TOKEN)
+		_expect(not formatted.contains(CORE_LOOP.MONTH_ONE_EPISODE_TOKEN) \
+				and formatted == "앞%s뒤" % ko_echo,
+			"First-Bill formatter did not expand the primary-promise echo once")
+		LocaleManager.language = "en"
+		var en_echo := CORE_LOOP.month_one_episode_echo()
+		_expect(en_echo == "\n\n%s" % str(copy_spec.get("copy_en", "")) \
+				and not _contains_hangul(en_echo),
+			"Week-Four crisis lost the English echo or leaked Korean for %s" \
+				% primary_id)
+		var saved_active_crisis: Dictionary = GameState.serialize().duplicate(true)
+		GameState.start_new_game()
+		GameState.load_from_dict(saved_active_crisis)
+		CORE_LOOP.initialize_for_run(true)
+		_expect(CORE_LOOP.month_one_episode_echo() == en_echo,
+			"active Week-Four echo for %s did not survive save/load" % primary_id)
+
+	# The echo is an owned consequence, not a global summary of current-run data.
+	var valid_state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var missing_completion: Dictionary = valid_state.duplicate(true)
+	var completed_turns: Dictionary = missing_completion["completed_bundle_turns"]
+	completed_turns.erase(offer_ids[offer_ids.size() - 1])
+	missing_completion["completed_bundle_turns"] = completed_turns
+	GameState.core_loop_v2_state = missing_completion
+	_expect(CORE_LOOP.month_one_episode_echo().is_empty(),
+		"uncompleted primary promise fabricated a Week-Four physical echo")
+	var wrong_owner: Dictionary = valid_state.duplicate(true)
+	wrong_owner["active_bundle"] = "hyunsu_first_meet"
+	GameState.core_loop_v2_state = wrong_owner
+	_expect(CORE_LOOP.month_one_episode_echo().is_empty(),
+		"episode echo leaked outside the Week-Four crisis owner")
+	GameState.core_loop_v2_state = valid_state.duplicate(true)
+	_expect(CORE_LOOP.month_one_episode_echo({"player_name": "Replay"}).is_empty(),
+		"episode echo leaked current-run promises into replay formatting")
+	var corrupt_plan_state: Dictionary = valid_state.duplicate(true)
+	var corrupt_plan: Dictionary = corrupt_plan_state["plans"]["1"]
+	corrupt_plan["player_commitments"] = [
+		offer_ids[offer_ids.size() - 1], "hyunsu_first_meet"]
+	corrupt_plan_state["plans"]["1"] = corrupt_plan
+	GameState.core_loop_v2_state = corrupt_plan_state
+	_expect(CORE_LOOP.episode_commitments_from_plan(corrupt_plan).is_empty() \
+			and CORE_LOOP.month_one_episode_echo().is_empty(),
+		"malformed promise marker was trusted as an authored Week-Four echo")
+	LocaleManager.language = language_before
+
+func _check_month_one_legacy_plan_fallback() -> void:
+	GameState.start_new_game()
+	CORE_LOOP.initialize_for_run(true)
+	_expect(bool(CORE_LOOP.commit_plan(1, _month_one_schedule()).get("ok", false)),
+		"legacy Month-One fallback fixture could not commit its old plan")
+	var legacy_state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	legacy_state["application_statuses"]["mirae_industrial_tech"] = "interviewed"
+	legacy_state["completed_bundles"] = ["m1_mirae_application"]
+	legacy_state["completed_bundle_turns"]["m1_mirae_application"] = 1
+	legacy_state["completed_turns"] = [1]
+	legacy_state["active_bundle"] = "first_temptation_boss"
+	legacy_state["active_kind"] = "schedule"
+	legacy_state["active_turn"] = 4
+	GameState.turn = 4
+	GameState.core_loop_v2_state = legacy_state
+	var saved_legacy: Dictionary = GameState.serialize().duplicate(true)
+	GameState.start_new_game()
+	GameState.load_from_dict(saved_legacy)
+	CORE_LOOP.initialize_for_run(true)
+	var legacy_plan := CORE_LOOP.plan_for_month(1)
+	_expect(not CORE_LOOP.plan_uses_episode_selection(legacy_plan) \
+			and CORE_LOOP.episode_commitments_from_plan(legacy_plan).is_empty() \
+			and not CORE_LOOP.episode_selection_enabled(1),
+		"old Month-One save was relabeled as an episode plan after its application closed")
+	_expect(CORE_LOOP.month_one_episode_echo().is_empty(),
+		"old Month-One save fabricated a primary-promise crisis echo")
 
 func _check_background_routines_once() -> void:
 	GameState.start_new_game()
@@ -2222,6 +2439,11 @@ func _focus_neighbor(control: Control, property_name: StringName) -> Control:
 	if path.is_empty():
 		return null
 	return control.get_node_or_null(path) as Control
+
+func _mark_mirae_interviewed() -> void:
+	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	state["application_statuses"]["mirae_industrial_tech"] = "interviewed"
+	GameState.core_loop_v2_state = state
 
 func _month_one_schedule() -> Dictionary:
 	return {

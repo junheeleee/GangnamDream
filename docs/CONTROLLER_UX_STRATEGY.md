@@ -1,6 +1,6 @@
 # Controller UX Strategy
 
-Updated: 2026-07-27
+Updated: 2026-08-10
 
 ## Why This Exists
 
@@ -63,6 +63,30 @@ Before demo/release candidate builds:
 Implementation status: the 24-week planner and communication phone use separate
 focus contexts. The existing AP surface remains the post-V2 fallback until the
 human GO.
+
+Fresh Month One is a bounded episode prototype, not the three-step planner
+compressed into a smaller modal:
+
+- D-pad moves through the four promises as a 2x2 grid. There is no hidden fifth
+  target, week column, routine step, or shoulder-tab workflow on this surface.
+- South selects or deselects the focused promise. Selection order is visible as
+  `Center` and `Alongside`; mouse, keyboard, and controller must create the same
+  order and cancellation result.
+- The only irreversible target is **Start Month**, enabled at `2/2`. It requires
+  a fresh confirm edge after the selection input; held/repeated input cannot
+  choose the second promise and commit the month in one gesture.
+- East never commits. It cancels the current unconfirmed selection/state or
+  returns one safe layer according to the visible surface.
+- Week Three's world encounter and Week Four's fixed crisis are neither focus
+  targets nor preview labels. The read-only record reveals only information the
+  player has actually learned.
+- The complete decision board, focused detail, counter, and confirm fit at
+  960x600 without an internal scroll. Reduce Motion may remove transitions but
+  cannot change focus order or require another input.
+
+Already committed/in-progress Month-One saves and Months Two through Six use the
+legacy planner contract below. This is deliberate comparison evidence until the
+same-build human playtest approves the prototype.
 
 - The full-width planner shows exactly four vertical week slots beside the
   current offers at 1280×800. At 960×600, reference surfaces may scroll
@@ -368,13 +392,17 @@ All on controller only.
 The title-to-demo route has completed all 24 weeks with actual keyboard events and zero mouse events, then with actual mouse events and zero keyboard events. Sixteen Korean/English display-matrix renders cover eight release resolutions, and each language has Xbox, PlayStation, and Nintendo title-glyph evidence at 1080p. The exact contract and remaining physical-device gates are recorded in `docs/INPUT_MATRIX.md`.
 
 `CoreLoopV2Check.tscn` verifies explicit activation, the fixed three-step
-workflow rail and information actions, four-slot scheduling, the fixed fourth
-week, first-legal-empty-week focus, raw D-pad-only placement, East cancellation,
-West removal only on the week card that owns focus, disabled-focus exclusion,
-and a release-gated final review that starts on the safe Edit action. It also
-covers save/load, delayed consequences across a month boundary, one consequence
-per week, player-initiated relationship state, and zero hidden-score or Korean
-leakage on the English planner.
+workflow rail and information actions for the legacy Month-One and Month-Two-to-
+Six paths, four-slot scheduling, the fixed fourth week, first-legal-empty-week
+focus, raw D-pad-only placement, East cancellation, West removal only on the week
+card that owns focus, disabled-focus exclusion, and a release-gated final review
+that starts on the safe Edit action. The ORDER-93 targeted contract must also
+verify the fresh Month-One 2x2 grid, ordered two-promise selection, fresh-confirm
+gate, zero manual week/routine input, hidden Week-Three/Week-Four ownership,
+deterministic schedule, read-only reopen, legacy-save fallback, and unchanged
+Month-Two-to-Six navigation. It also covers save/load, delayed consequences
+across a month boundary, one consequence per week, player-initiated relationship
+state, and zero hidden-score or Korean leakage on the English planner.
 `CommunicationPhoneCheck.tscn` separately verifies portrait bounds, message and
 contact filtering, thread navigation, offer routing, and focus isolation.
 `ScreenshotQA --qa=core-loop-v2 --lang=ko/en` boots the real `MainGame`, opens

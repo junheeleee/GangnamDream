@@ -69,6 +69,7 @@ EXPECTED_CONTRACT_ROOT_KEYS = {
     "post_demo_application_contracts",
     "deferred_callback_contracts",
     "surface",
+    "episode_plan",
     "phone",
     "routine",
     "relationship",
@@ -6220,12 +6221,95 @@ def main() -> int:
         contract.get("long_arc_contract"), "long_arc_contract", errors
     )
     surface = require_dict(contract.get("surface"), "surface", errors)
+    episode_plan = require_dict(
+        contract.get("episode_plan"), "episode_plan", errors
+    )
     phone = require_dict(contract.get("phone"), "phone", errors)
     routine = require_dict(contract.get("routine"), "routine", errors)
     relationship = require_dict(contract.get("relationship"), "relationship", errors)
     bundles = require_dict(contract.get("scene_bundles"), "scene_bundles", errors)
     months = require_list(contract.get("months"), "months", errors)
     groups = require_dict(contract.get("exclusive_groups"), "exclusive_groups", errors)
+
+    expected_episode_offers = [
+        "m1_convenience_trial_shift",
+        "m1_youth_center_resume_clinic",
+        "father_first_call",
+        "m1_phone_off_sunday",
+    ]
+    if (
+        int(episode_plan.get("prototype_month", 0)) != 1
+        or int(episode_plan.get("selection_count", 0)) != 2
+        or episode_plan.get("player_offers") != expected_episode_offers
+        or episode_plan.get("incompatible_if_available")
+        != ["m1_mirae_application"]
+    ):
+        fail(
+            "Month-One episode plan must expose exactly four known promises, "
+            "choose two in order, and preserve the legacy application fallback",
+            errors,
+        )
+    expected_automatic_schedule = [
+        {"week": 3, "bundle": "hyunsu_first_meet", "role": "world"},
+        {
+            "week": 4,
+            "bundle": "first_temptation_boss",
+            "role": "fixed_crisis",
+        },
+    ]
+    if episode_plan.get("automatic_schedule") != expected_automatic_schedule:
+        fail(
+            "Month-One automatic schedule must keep the unknown encounter in "
+            "Week 3 and the fixed crisis in Week 4",
+            errors,
+        )
+    primary_echo = require_dict(
+        episode_plan.get("primary_echo"), "episode_plan.primary_echo", errors
+    )
+    if set(primary_echo) != set(expected_episode_offers):
+        fail("every Month-One promise must own one primary echo", errors)
+    for bundle_id in expected_episode_offers:
+        offer = require_dict(
+            bundles.get(bundle_id), f"scene_bundles.{bundle_id}", errors
+        )
+        if (
+            str(offer.get("initiated_by", "")) != "player"
+            or not bool(offer.get("consumes_slot", False))
+            or not str(offer.get("decision_ko", "")).strip()
+            or not str(offer.get("decision_en", "")).strip()
+        ):
+            fail(
+                f"{bundle_id} must remain a player-owned promise with KO/EN "
+                "decision copy",
+                errors,
+            )
+        echo = require_dict(
+            primary_echo.get(bundle_id),
+            f"episode_plan.primary_echo.{bundle_id}",
+            errors,
+        )
+        if (
+            not str(echo.get("copy_ko", "")).strip()
+            or not str(echo.get("copy_en", "")).strip()
+        ):
+            fail(f"{bundle_id} primary echo must have KO/EN copy", errors)
+    hyunsu_first_meet = require_dict(
+        bundles.get("hyunsu_first_meet"),
+        "scene_bundles.hyunsu_first_meet",
+        errors,
+    )
+    first_temptation = require_dict(
+        bundles.get("first_temptation_boss"),
+        "scene_bundles.first_temptation_boss",
+        errors,
+    )
+    if str(hyunsu_first_meet.get("initiated_by", "")) != "world":
+        fail("Hyunsu's first meeting must remain world-owned", errors)
+    if (
+        str(first_temptation.get("initiated_by", "")) != "world"
+        or int(first_temptation.get("locked_week", 0)) != 4
+    ):
+        fail("the Month-One temptation must remain a world-owned Week-4 crisis", errors)
 
     cafe_offer = require_dict(
         bundles.get("cafe_world_glimpse"),
@@ -6350,6 +6434,23 @@ def main() -> int:
     except OSError as exc:
         fail(f"cannot load monthly planner surface: {exc}", errors)
         planner_surface_source = ""
+
+    for required_episode_surface_token in (
+        "signal episode_committed(month_index: int, ordered_ids: Array)",
+        'var _episode_commitments: Array[String] = []',
+        '_episode_grid.columns = 2',
+        'CORE_LOOP.episode_offer_ids(_month_index)',
+        'CORE_LOOP.validate_episode_selection(',
+        'episode_committed.emit(',
+        'if _read_only_plan or _episode_selection_mode:',
+        '"core_loop_v2_future_hidden"',
+    ):
+        if required_episode_surface_token not in planner_surface_source:
+            fail(
+                "Month-One episode surface lost token "
+                f"{required_episode_surface_token!r}",
+                errors,
+            )
 
     def planner_function_source(function_name: str) -> str:
         match = re.search(
@@ -6628,6 +6729,19 @@ def main() -> int:
             errors,
         )
     demo_core_loop_source = DEMO_CORE_LOOP_PATH.read_text(encoding="utf-8")
+    for required_episode_runtime_token in (
+        'const MONTH_ONE_EPISODE_MODE := "month_one_episode_v1"',
+        'state["plans"][str(month_index)] = plan',
+        'plan["player_commitments"] = ordered_ids.duplicate()',
+        'str(state.get("active_bundle", "")) != "first_temptation_boss"',
+        'state["completed_bundle_turns"].get(commitments[0], 0)',
+    ):
+        if required_episode_runtime_token not in demo_core_loop_source:
+            fail(
+                "Month-One episode runtime lost safety token "
+                f"{required_episode_runtime_token!r}",
+                errors,
+            )
     validate_activity_task_contracts(
         bundles,
         registered_events,
@@ -9131,10 +9245,16 @@ def main() -> int:
         "arc_temptation_01 accept choice",
         errors,
     )
-    if "월세만 따지면 석 달" not in str(temptation_event.get("description", "")):
+    temptation_description = str(temptation_event.get("description", ""))
+    if "월세만 따지면 석 달" not in temptation_description:
         fail(
             "The KRW 2,000,000 temptation must equal just over three "
             "KRW 650,000 rents",
+            errors,
+        )
+    if temptation_description.count("{v2_month_one_episode_echo}") != 1:
+        fail(
+            "the Korean Week-4 temptation must own exactly one Month-One echo token",
             errors,
         )
     if (
@@ -9336,8 +9456,16 @@ def main() -> int:
         "English arc_temptation_01",
         errors,
     )
-    if "three months of rent" not in str(english_temptation.get("description", "")):
+    english_temptation_description = str(
+        english_temptation.get("description", "")
+    )
+    if "three months of rent" not in english_temptation_description:
         fail("English temptation copy must use the three-rent calculation", errors)
+    if english_temptation_description.count("{v2_month_one_episode_echo}") != 1:
+        fail(
+            "the English Week-4 temptation must mirror the Month-One echo token",
+            errors,
+        )
     english_temptation_choices = require_list(
         english_temptation.get("choices"),
         "English arc_temptation_01.choices",
@@ -9481,6 +9609,11 @@ def main() -> int:
             print(f"ERROR core loop v2: {message}")
         return 1
 
+    print(
+        "episode_surface month=1 offers=4 choose=2 ordered_plans=12 "
+        "manual_week_inputs=0 manual_routine_inputs=0 "
+        "automatic=week3_world+week4_crisis legacy_fallback=1"
+    )
     for line in axis_measurement_lines:
         print(line)
     for line in long_tail_measurement_lines:
@@ -9491,6 +9624,7 @@ def main() -> int:
         f"months={len(months)} weeks={scope['min_week']}..{scope['max_week']} "
         f"bundles={len(bundles)} target_minutes={total_minutes} "
         f"slots={surface['foreground_slots_per_month']} "
+        "episode_offers=4 episode_choose=2 episode_manual_week_inputs=0 "
         f"phone_tabs={len(EXPECTED_PHONE_TABS)} "
         f"phone_message_surfaces={len(EXPECTED_PHONE_MESSAGE_SURFACES)} "
         f"phone_contact_methods={len(EXPECTED_PHONE_CONTACT_METHODS)} "
