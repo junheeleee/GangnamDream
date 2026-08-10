@@ -7,6 +7,7 @@
 **착수 (2026-08-10 Codex):** 만지는 파일은 `scenes/CoreLoopPlanner.gd`,
 `scenes/TutorialOverlay.gd`, `tools/CoreLoopV2Check.gd`,
 `tools/ScreenshotQA.gd`, `tools/demo_core_loop_v2_audit.py`,
+`tools/demo_localization_scope.py`,
 `docs/MORAL_TINT.md`, `docs/QA_CHECKLIST.md`,
 `docs/I18N_INFRASTRUCTURE.md`, `locale/ui_ja.json`,
 `content/meta/demo_localization_scope.json`, `docs/WORK_LOG.md`,
