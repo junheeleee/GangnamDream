@@ -2,7 +2,14 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-95 [P0·설계 근거] 참조작을 전수 분석해 가져올 것과 안 가져올 것을 판정표로 만든다
+#### [~] ORDER-95 [P0·설계 근거] 참조작을 전수 분석해 가져올 것과 안 가져올 것을 판정표로 만든다
+
+**착수 (2026-08-11) — 만지는 파일:** `docs/CODEX_QUEUE.md`,
+`docs/queue_active/ORDER-95.md`(완료 시 `docs/queue_archive/ORDER-95.md`로 이동),
+`docs/REFERENCE_SYSTEM_VERDICTS.md`, `docs/DECISIONS.md`,
+`docs/context_manifest.json`, `docs/WORK_LOG.md`,
+`docs/queue_archive/CODEX_QUEUE_2026-08.md`, `CLAUDE.md`, `docs/STATUS.md`.
+코드·데이터·자산은 만지지 않는다.
 
 **사용자 지시 (2026-08-10):** *"코덱스보고 직접 그 게임들 자료 다 분석해서 이
 게임에 가져올 수 있는 건 다 가져오자. 모든 걸 다 독창적으로 만들 필요 없어.
