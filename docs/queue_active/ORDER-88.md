@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-88 [P0·선택 인과] 독자 없는 아버지 기억과 24주 중복 영수증을 기존 장면 안에서 닫는다
+#### [~] ORDER-88 [P0·선택 인과] 독자 없는 아버지 기억과 24주 중복 영수증을 기존 장면 안에서 닫는다
 
 **사용자 승인 (2026-08-04):** `docs/DECISIONS.md`의 판정 ③, “독자 없는 기억을
 작은 완결로 닫는다”를 실행한다. 3·4개월차 0장면 경로는 `ORDER-83`이 이미 깊은
@@ -18,17 +18,23 @@
 `v2_dirty_recruiter_week24[0/1]`은 실제 효과와 First Bill의 정확한 추적
 영수증이 따로 있는데도 선택 기록 자체는 다시 읽히지 않는다.
 
-**착수 때 잠글 파일 후보:** `content/events/core_loop_v2_events.json`과 영어
-오버레이, 아버지/월말 회수 장면을 실제로 소유한 기존 event 파일,
+**착수 선언 — 만지는 파일:** 생산자·독자와 저장 필드를 전수한 결과, 구현은
+`content/events/core_loop_v2_events.json`,
+`content/events_en/core_loop_v2_events.json`, `systems/DemoCoreLoopV2.gd`만
+바꾼다. 표적 증거는 `tools/demo_core_loop_v2_audit.py`,
+`tools/CoreLoopV2BCheck.gd`, `tools/CoreLoopV2ECheck.gd`,
+`tools/CoreLoopV2HandoffCheck.gd`, `tools/ManualSaveCheck.gd`,
+`tools/ScreenshotQA.gd`가 소유한다. 본문 여섯 개가 늘어나는 파생 범위는
+`content/meta/demo_localization_scope.json`, `docs/I18N_INFRASTRUCTURE.md`,
+`docs/I18N_GLOSSARY_ZH.md`, `docs/human_gates.json`에 반영한다. 정본·검증·종료는
+`docs/CORE_LOOP_V2.md`, `docs/QA_CHECKLIST.md`, `CLAUDE.md`,
+`docs/CODEX_QUEUE.md`, 이 활성 사양과 완료 뒤 `docs/queue_archive/ORDER-88.md`,
+`docs/queue_archive/CODEX_QUEUE_2026-08.md`, `docs/WORK_LOG.md`, 생성
+`docs/STATUS.md`만 만진다. `scenes/MainGame.gd`,
 `content/meta/demo_core_loop_v2.json`, `content/meta/narrative_spine.json`,
 `content/meta/story_rules.json`, `content/meta/exposed_event_state_contracts.json`,
-`systems/DemoCoreLoopV2.gd`, `scenes/MainGame.gd`, `tools/demo_core_loop_v2_audit.py`,
-`tools/CoreLoopV2BCheck.gd`, `tools/CoreLoopV2ECheck.gd`,
-`tools/CoreLoopV2HandoffCheck.gd`, `tools/ScreenshotQA.gd`, 현지화·오디오·연출
-생성 원장과 `docs/CORE_LOOP_V2.md`, `docs/QA_CHECKLIST.md`, `docs/BALANCE.md`,
-`docs/WORK_LOG.md`, `docs/human_gates.json`, 큐 활성·아카이브 경로. 착수 선언은
-생산자·독자와 실제 저장 필드를 다시 전수한 뒤 정확한 파일만 남겨 별도 커밋으로
-먼저 푸시한다.
+시각·오디오·연출 원장, `docs/BALANCE.md`, `docs/DECISIONS.md`는 사건·라우팅·
+장소·효과·수치가 바뀌지 않으므로 제외한다.
 
 ## 깊이 3문
 
