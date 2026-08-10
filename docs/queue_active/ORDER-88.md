@@ -26,7 +26,9 @@
 표적 증거는 `tools/demo_core_loop_v2_audit.py`,
 `tools/CoreLoopV2BCheck.gd`, `tools/CoreLoopV2ECheck.gd`,
 `tools/CoreLoopV2HandoffCheck.gd`, `tools/ManualSaveCheck.gd`,
-`tools/ScreenshotQA.gd`가 소유한다. 본문 여섯 개가 늘어나는 파생 범위는
+`tools/ScreenshotQA.gd`, `tools/run_core_loop_v2_input_qa.sh`가 소유한다.
+입력 runner는 CI 무음 옵션을 추가한 뒤 드러난 macOS Bash 3.2의 빈 배열
+호환만 수리하고 제품 입력 의미는 바꾸지 않는다. 본문 여섯 개가 늘어나는 파생 범위는
 `content/meta/demo_localization_scope.json`, `docs/I18N_INFRASTRUCTURE.md`,
 `docs/I18N_GLOSSARY_ZH.md`, `docs/human_gates.json`에 반영한다. 정본·검증·종료는
 `docs/CORE_LOOP_V2.md`, `docs/QA_CHECKLIST.md`, `CLAUDE.md`,
