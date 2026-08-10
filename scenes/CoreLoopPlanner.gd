@@ -31,6 +31,7 @@ var _armed_offer_id := ""
 var _placement_error := ""
 var _detail_week := -1
 var _active_tab := 1
+var _workflow_step := 0
 var _review_pending := false
 var _read_only_plan := false
 var _opened_once := false
@@ -53,9 +54,9 @@ var _page_margin: MarginContainer
 var _page: VBoxContainer
 var _title_label: Label
 var _month_label: Label
-var _step_panels: Array[PanelContainer] = []
-var _step_labels: Array[Label] = []
-var _tab_buttons: Array[Button] = []
+var _step_buttons: Array[Button] = []
+var _overview_button: Button
+var _people_button: Button
 var _communication_button: Button
 var _close_button: Button
 var _calendar_surface: HBoxContainer
@@ -149,7 +150,8 @@ func open(month_index: int, read_only: bool = false) -> bool:
 			_selected_week = week
 			break
 	_active_tab = 1
-	if not reopen_same_month:
+	_workflow_step = 0
+	if not reopen_same_month or was_read_only or read_only:
 		_last_focus_key = ""
 	_last_opened_month = month_index
 	_opened_once = true
@@ -166,7 +168,6 @@ func open(month_index: int, read_only: bool = false) -> bool:
 	# opened and immediately disappeared.
 	modulate.a = 1.0
 	return true
-
 func close() -> void:
 	var was_visible := visible
 	if was_visible:
@@ -221,6 +222,7 @@ func focus_offer(bundle_id: String) -> bool:
 	_selected_offer_id = bundle_id
 	_detail_week = -1
 	_active_tab = 1
+	_workflow_step = 0
 	_pending_focus_offer_id = bundle_id
 	if visible:
 		_rebuild()
@@ -344,13 +346,19 @@ func _build_ui() -> void:
 	var header_actions := HBoxContainer.new()
 	header_actions.add_theme_constant_override("separation", 6)
 	header.add_child(header_actions)
-	for index in range(4):
-		var tab := _button("", false)
-		tab.custom_minimum_size = Vector2(108, 42)
-		tab.pressed.connect(_switch_tab.bind(index))
-		tab.mouse_entered.connect(tab.grab_focus)
-		header_actions.add_child(tab)
-		_tab_buttons.append(tab)
+	_overview_button = _button("", false)
+	_overview_button.name = "PlannerOverviewButton"
+	_overview_button.custom_minimum_size = Vector2(108, 42)
+	_overview_button.pressed.connect(_open_info_view.bind(0))
+	_overview_button.mouse_entered.connect(
+		_focus_on_hover.bind(_overview_button))
+	header_actions.add_child(_overview_button)
+	_people_button = _button("", false)
+	_people_button.name = "PlannerPeopleButton"
+	_people_button.custom_minimum_size = Vector2(108, 42)
+	_people_button.pressed.connect(_open_info_view.bind(2))
+	_people_button.mouse_entered.connect(_focus_on_hover.bind(_people_button))
+	header_actions.add_child(_people_button)
 	_communication_button = _button("", false)
 	_communication_button.name = "CommunicationButton"
 	_communication_button.custom_minimum_size = Vector2(124, 42)
@@ -358,13 +366,14 @@ func _build_ui() -> void:
 		"문자와 통화 기록, 연락처를 연다.",
 		"Open messages, call history, and contacts.")
 	_communication_button.pressed.connect(_request_communication)
-	_communication_button.mouse_entered.connect(_communication_button.grab_focus)
+	_communication_button.mouse_entered.connect(
+		_focus_on_hover.bind(_communication_button))
 	header_actions.add_child(_communication_button)
 	_close_button = _button("", false)
 	_close_button.name = "PlannerCloseButton"
 	_close_button.custom_minimum_size = Vector2(92, 42)
 	_close_button.pressed.connect(close)
-	_close_button.mouse_entered.connect(_close_button.grab_focus)
+	_close_button.mouse_entered.connect(_focus_on_hover.bind(_close_button))
 	header_actions.add_child(_close_button)
 
 	var step_rail := HBoxContainer.new()
@@ -373,17 +382,15 @@ func _build_ui() -> void:
 	step_rail.add_theme_constant_override("separation", 8)
 	_page.add_child(step_rail)
 	for index in range(3):
-		var step_panel := PanelContainer.new()
-		step_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		step_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		step_rail.add_child(step_panel)
-		_step_panels.append(step_panel)
-		var step_label := _label("", 14, COLOR_DIM, true)
-		step_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		step_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		step_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		step_panel.add_child(step_label)
-		_step_labels.append(step_label)
+		var step_button := _button("", false)
+		step_button.name = "PlannerStep%d" % (index + 1)
+		step_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		step_button.custom_minimum_size = Vector2(0, 38)
+		step_button.set_meta("core_loop_v2_workflow_step", index)
+		step_button.pressed.connect(_switch_workflow_step.bind(index))
+		step_button.mouse_entered.connect(_focus_on_hover.bind(step_button))
+		step_rail.add_child(step_button)
+		_step_buttons.append(step_button)
 
 	var divider := HSeparator.new()
 	divider.add_theme_color_override("color", Color("#343b45"))
@@ -485,7 +492,8 @@ func _build_ui() -> void:
 	_routine_edit_button.name = "PlannerRoutineEditButton"
 	_routine_edit_button.custom_minimum_size = Vector2(96, 46)
 	_routine_edit_button.pressed.connect(_open_routine_editor)
-	_routine_edit_button.mouse_entered.connect(_routine_edit_button.grab_focus)
+	_routine_edit_button.mouse_entered.connect(
+		_focus_on_hover.bind(_routine_edit_button))
 	routine_row.add_child(_routine_edit_button)
 
 	_read_only_scroll = ScrollContainer.new()
@@ -515,14 +523,14 @@ func _build_ui() -> void:
 	_edit_button.set_meta("core_loop_v2_review_edit", true)
 	_edit_button.custom_minimum_size = Vector2(150, 48)
 	_edit_button.pressed.connect(_cancel_commit_review)
-	_edit_button.mouse_entered.connect(_edit_button.grab_focus)
+	_edit_button.mouse_entered.connect(_focus_on_hover.bind(_edit_button))
 	footer.add_child(_edit_button)
 	_confirm_button = _button("", true)
 	_confirm_button.set_meta("core_loop_v2_plan_confirm", true)
 	_confirm_button.custom_minimum_size = Vector2(330, 48)
 	_confirm_button.pressed.connect(_commit_plan)
 	_confirm_button.gui_input.connect(_on_confirm_gui_input)
-	_confirm_button.mouse_entered.connect(_confirm_button.grab_focus)
+	_confirm_button.mouse_entered.connect(_focus_on_hover.bind(_confirm_button))
 	footer.add_child(_confirm_button)
 	_apply_responsive_layout()
 
@@ -552,23 +560,21 @@ func _apply_responsive_layout() -> void:
 		320 if _compact_layout else 400, 0)
 	_title_label.add_theme_font_size_override(
 		"font_size", 26 if _compact_layout else 28)
-	for tab in _tab_buttons:
-		tab.custom_minimum_size = Vector2(
+	for info_button in [_overview_button, _people_button]:
+		info_button.custom_minimum_size = Vector2(
 			80 if _compact_layout else 108,
 			40 if _compact_layout else 42)
-		tab.add_theme_font_size_override(
-			"font_size", 15)
+		info_button.add_theme_font_size_override("font_size", 15)
 	_communication_button.custom_minimum_size = Vector2(
 		104 if _compact_layout else 124,
 		40 if _compact_layout else 42)
 	_close_button.custom_minimum_size = Vector2(
 		70 if _compact_layout else 92,
 		40 if _compact_layout else 42)
-	for step_panel in _step_panels:
-		step_panel.custom_minimum_size.y = 34 if _compact_layout else 38
-	for step_label in _step_labels:
-		step_label.add_theme_font_size_override(
-			"font_size", 13 if _compact_layout else 14)
+	for step_button in _step_buttons:
+		step_button.custom_minimum_size.y = 46
+		step_button.add_theme_font_size_override(
+			"font_size", 14 if _compact_layout else 15)
 	_edit_button.custom_minimum_size = Vector2(
 		118 if _compact_layout else 150,
 		46 if _compact_layout else 48)
@@ -598,6 +604,7 @@ func _open_routine_editor() -> void:
 	_review_pending = false
 	_review_confirm_release_required = false
 	_active_tab = 3
+	_workflow_step = 1
 	var primary_id := str(_routines.get("primary", ""))
 	_pending_focus_routine_key = "primary:%s" % primary_id
 	_last_focus_key = ""
@@ -623,18 +630,10 @@ func _rebuild() -> void:
 		_month_label.text = LocaleManager.ui(
 			"이번 달 제안을 네 주에 나눠 넣고, 매주 이어 갈 일을 정한다.",
 			"Place this month's options across four weeks and choose what to keep doing weekly.")
-	var tab_names := [
-		LocaleManager.ui("현황", "OVERVIEW"),
-		LocaleManager.ui("일정", "CALENDAR"),
-		LocaleManager.ui("사람", "PEOPLE"),
-		LocaleManager.ui("기록", "RECORD") if _read_only_plan else (
-			LocaleManager.ui("최종 확인", "REVIEW") if _review_pending
-			else LocaleManager.ui("루틴·확인", "ROUTINE")
-		),
-	]
-	for index in range(_tab_buttons.size()):
-		_tab_buttons[index].text = tab_names[index]
-		_apply_button_style(_tab_buttons[index], index == _active_tab, false)
+	_overview_button.text = LocaleManager.ui("현황", "OVERVIEW")
+	_people_button.text = LocaleManager.ui("사람", "PEOPLE")
+	_apply_button_style(_overview_button, _active_tab == 0, false)
+	_apply_button_style(_people_button, _active_tab == 2, false)
 	var badge_count := _communication_badge_count()
 	_communication_button.text = LocaleManager.ui(
 		"휴대폰%s" % (" · %d" % badge_count if badge_count > 0 else ""),
@@ -654,6 +653,10 @@ func _rebuild() -> void:
 	else:
 		_rebuild_read_only_surface()
 		_connect_non_calendar_focus_neighbors()
+	# Keep the persistent schedule summary truthful even while its surface is
+	# hidden behind the weekly-activity or review step.
+	_refresh_routine_strip()
+	_connect_header_focus_neighbors()
 	_apply_responsive_layout()
 	_refresh_footer()
 	_focus_restore_generation += 1
@@ -662,30 +665,31 @@ func _rebuild() -> void:
 
 
 func _connect_non_calendar_focus_neighbors() -> void:
-	if _active_tab < 0 or _active_tab >= _tab_buttons.size():
+	var active_navigation := _active_navigation_control()
+	if not is_instance_valid(active_navigation):
 		return
-	var active_tab := _tab_buttons[_active_tab]
 	if _active_tab == 3 or not _read_only_focus_controls.is_empty():
-		_connect_read_only_focus_neighbors(active_tab)
+		_connect_read_only_focus_neighbors(active_navigation)
 		return
-	var footer_top: Control = active_tab
+	var footer_top: Control = active_navigation
 	if _review_pending and is_instance_valid(_edit_button):
-		_edit_button.focus_neighbor_top = _edit_button.get_path_to(active_tab)
+		_edit_button.focus_neighbor_top = _edit_button.get_path_to(active_navigation)
 		_edit_button.focus_neighbor_right = _edit_button.get_path_to(_confirm_button)
 		_confirm_button.focus_neighbor_left = _confirm_button.get_path_to(_edit_button)
 		footer_top = _edit_button
-	_confirm_button.focus_neighbor_top = _confirm_button.get_path_to(active_tab)
+	_confirm_button.focus_neighbor_top = _confirm_button.get_path_to(active_navigation)
 	_confirm_button.focus_neighbor_bottom = _confirm_button.get_path_to(
 		_confirm_button)
-	active_tab.focus_neighbor_bottom = active_tab.get_path_to(footer_top)
+	active_navigation.focus_neighbor_bottom = active_navigation.get_path_to(footer_top)
 
 
-func _connect_read_only_focus_neighbors(active_tab: Control) -> void:
+func _connect_read_only_focus_neighbors(active_navigation: Control) -> void:
+	_reset_footer_focus_neighbors()
 	var validation := CORE_LOOP.validate_plan(
 		_month_index, _schedule, _routines)
 	var plan_ready := _read_only_plan or (
 		bool(validation.get("ok", false)) and _armed_offer_id.is_empty())
-	var footer_target: Control = active_tab
+	var footer_target: Control = active_navigation
 	if _review_pending:
 		footer_target = _edit_button
 	elif plan_ready:
@@ -708,7 +712,7 @@ func _connect_read_only_focus_neighbors(active_tab: Control) -> void:
 			var left_target: Control = row[maxi(column_index - 1, 0)] as Control
 			var right_target: Control = row[mini(
 				column_index + 1, row.size() - 1)] as Control
-			var top_target: Control = active_tab
+			var top_target: Control = active_navigation
 			if not prior_row.is_empty():
 				top_target = prior_row[mini(
 					column_index, prior_row.size() - 1)] as Control
@@ -727,7 +731,7 @@ func _connect_read_only_focus_neighbors(active_tab: Control) -> void:
 		last_routine = row[0] as Control
 
 	var prior_content: Control = last_routine \
-		if is_instance_valid(last_routine) else active_tab
+		if is_instance_valid(last_routine) else active_navigation
 	for index in range(_read_only_focus_controls.size()):
 		var control := _read_only_focus_controls[index]
 		if not is_instance_valid(first_content):
@@ -745,50 +749,189 @@ func _connect_read_only_focus_neighbors(active_tab: Control) -> void:
 
 	if not is_instance_valid(first_content):
 		first_content = footer_target
-	active_tab.focus_neighbor_bottom = active_tab.get_path_to(first_content)
+	active_navigation.focus_neighbor_bottom = active_navigation.get_path_to(first_content)
 	var last_content: Control = prior_content \
-		if prior_content != active_tab else first_content
+		if prior_content != active_navigation else first_content
 	if _review_pending:
 		_edit_button.focus_neighbor_top = _edit_button.get_path_to(last_content)
 		_edit_button.focus_neighbor_right = _edit_button.get_path_to(_confirm_button)
 		_confirm_button.focus_neighbor_left = _confirm_button.get_path_to(_edit_button)
 	_confirm_button.focus_neighbor_top = _confirm_button.get_path_to(
-		last_content if plan_ready or _review_pending else active_tab)
+		last_content if plan_ready or _review_pending else active_navigation)
 	_confirm_button.focus_neighbor_bottom = _confirm_button.get_path_to(
 		_confirm_button)
 
 
 func _refresh_step_rail() -> void:
-	if _step_panels.size() != 3 or _step_labels.size() != 3:
+	if _step_buttons.size() != 3:
 		return
+	var week_count := _filled_week_count()
+	var week_remaining := maxi(4 - week_count, 0)
+	var routine_count := _routine_choice_count()
+	var routine_valid := _read_only_plan or _routine_choices_valid()
+	var validation := CORE_LOOP.validate_plan(_month_index, _schedule, _routines)
+	# A confirmed plan is a historical record. Current availability may change
+	# after its weeks execute, but that must not rewrite a once-valid 4/4 record
+	# as CHECK when the player reopens it.
+	var schedule_valid := (_read_only_plan and week_count == 4) \
+		or _schedule_choices_valid(validation)
+	var final_ready := bool(validation.get("ok", false)) \
+		and _armed_offer_id.is_empty()
 	var labels := [
-		LocaleManager.ui("1  할 일 선택", "1  CHOOSE"),
-		LocaleManager.ui("2  주차 배치", "2  PLACE"),
-		LocaleManager.ui("3  최종 확인", "3  REVIEW"),
+		LocaleManager.ui(
+			("1단계 · 주차 {done}/4 · 완료" if schedule_valid
+			else "1단계 · 주차 {done}/4 · 확인 필요") if week_remaining == 0
+			else "1단계 · 주차 {done}/4 · {left}개 남음",
+			("STEP 1 · WEEKS {done}/4 · DONE" if schedule_valid
+			else "STEP 1 · WEEKS {done}/4 · CHECK") if week_remaining == 0
+			else "STEP 1 · WEEKS {done}/4 · {left} LEFT").format({
+				"done": week_count,
+				"left": week_remaining,
+			}),
+		LocaleManager.ui(
+			"2단계 · 매주 할 일 {done}/2 · 완료" if routine_valid
+			else (
+				"2단계 · 매주 할 일 {done}/2 · 확인 필요" if routine_count >= 2
+				else "2단계 · 매주 할 일 {done}/2 · {left}개 남음"),
+			"STEP 2 · ROUTINES {done}/2 · DONE" if routine_valid
+			else (
+				"STEP 2 · ROUTINES {done}/2 · CHECK" if routine_count >= 2
+				else "STEP 2 · ROUTINES {done}/2 · {left} LEFT")).format({
+				"done": routine_count,
+				"left": maxi(2 - routine_count, 0),
+			}),
+		LocaleManager.ui(
+			"3단계 · 최종 확인 · 확정됨" if _read_only_plan else (
+				"3단계 · 최종 확인 · 준비됨" if final_ready
+				else "3단계 · 최종 확인 · %s" % _plan_blocker_short(validation)),
+			"STEP 3 · FINAL REVIEW · CONFIRMED" if _read_only_plan else (
+				"STEP 3 · FINAL REVIEW · READY" if final_ready
+				else "STEP 3 · FINAL REVIEW · %s" % _plan_blocker_short(validation))),
 	]
-	var active_step := 2 if _review_pending else (
-		1 if not _armed_offer_id.is_empty() else 0)
-	if not _review_pending and _schedule.size() >= 4:
-		active_step = 2
 	for index in range(3):
 		var completed := (
-			(index == 0 and (_selected_offer_count() > 0 or not _armed_offer_id.is_empty()))
-			or (index == 1 and _schedule.size() >= 4)
-			or (index == 2 and _read_only_plan)
+			(index == 0 and schedule_valid)
+			or (index == 1 and routine_valid)
+			or (index == 2 and (_read_only_plan or final_ready))
 		)
-		var active := index == active_step and not _read_only_plan
-		_step_labels[index].text = "%s%s" % [
-			"✓  " if completed and not active else "",
-			labels[index],
-		]
-		_step_labels[index].add_theme_color_override(
-			"font_color", COLOR_TEXT if active else (
-				COLOR_ACCENT if completed else COLOR_DIM))
-		_step_panels[index].add_theme_stylebox_override(
-			"panel", _panel_style(
-				Color("#202631", 0.98) if active else Color("#10141a", 0.94),
-				COLOR_ACCENT if active or completed else Color("#39424e"),
-				2 if active else 1))
+		var active := _active_tab not in [0, 2] and index == _workflow_step
+		var step_button := _step_buttons[index]
+		step_button.text = labels[index]
+		step_button.set_meta("core_loop_v2_progress_complete", completed)
+		_apply_button_style(step_button, active, completed)
+
+
+func _schedule_choices_valid(validation: Dictionary) -> bool:
+	if _filled_week_count() != 4:
+		return false
+	return str(validation.get("error", "")) in [
+		"", "choose_two_routines", "routines_must_be_distinct",
+		"unknown_routine", "job_requires_primary_livelihood",
+	]
+
+
+func _filled_week_count() -> int:
+	var count := 0
+	var weeks: Array = _month_data.get("weeks", [1, 4])
+	for week in range(int(weeks[0]), int(weeks[1]) + 1):
+		if not str(_schedule.get(str(week), "")).is_empty():
+			count += 1
+	return count
+
+
+func _routine_choice_count() -> int:
+	var options := CORE_LOOP.routine_options()
+	var counted: Array[String] = []
+	for slot in ["primary", "secondary"]:
+		var routine_id := str(_routines.get(slot, "")).strip_edges()
+		if routine_id.is_empty() or not options.has(routine_id) \
+				or counted.has(routine_id):
+			continue
+		counted.append(routine_id)
+	return counted.size()
+
+
+func _routine_choices_valid() -> bool:
+	return bool(CORE_LOOP.validate_routines(_routines).get("ok", false))
+
+
+func _plan_blocker_short(validation: Dictionary) -> String:
+	if not _armed_offer_id.is_empty():
+		return LocaleManager.ui(
+			"제안 배치 또는 취소", "PLACE/CANCEL OFFER")
+	var error := str(validation.get("error", ""))
+	match error:
+		"fill_four_weeks", "empty_week":
+			var weeks_left := maxi(4 - _filled_week_count(), 0)
+			return LocaleManager.ui(
+				"주차 %d개 남음" % weeks_left,
+				"%d %s LEFT" % [weeks_left, "WEEK" if weeks_left == 1 else "WEEKS"])
+		"choose_two_routines":
+			var routines_left := maxi(2 - _routine_choice_count(), 0)
+			return LocaleManager.ui(
+				"매주 할 일 %d개 남음" % routines_left,
+				"%d %s LEFT" % [routines_left, "ROUTINE" if routines_left == 1 else "ROUTINES"])
+		"routines_must_be_distinct":
+			return LocaleManager.ui(
+				"서로 다른 2개 필요", "CHOOSE 2 DIFFERENT")
+		"unknown_routine":
+			return LocaleManager.ui(
+				"고를 수 없는 항목", "ROUTINE UNAVAILABLE")
+		"job_requires_primary_livelihood":
+			return LocaleManager.ui(
+				"본업을 주 루틴으로 선택", "CHOOSE JOB AS PRIMARY")
+		"deadline_missed":
+			return LocaleManager.ui("기한 지난 주차", "DEADLINE MISSED")
+		"exclusive_group":
+			return LocaleManager.ui("겹치는 만남", "MEETINGS OVERLAP")
+		"active_named_characters_cap":
+			return LocaleManager.ui("사람 약속 줄이기", "REDUCE MEETUPS")
+		"unavailable_bundle":
+			return LocaleManager.ui("제안 다시 선택", "RESELECT OFFER")
+		"locked_week_changed":
+			return LocaleManager.ui("고정 일정 복원", "RESTORE FIXED EVENT")
+		"duplicate_bundle":
+			return LocaleManager.ui("중복 일정 제거", "REMOVE DUPLICATE")
+		"":
+			return LocaleManager.ui("확인 필요", "CHECK")
+	return LocaleManager.ui("일정 수정", "FIX SCHEDULE")
+
+
+func _active_navigation_control() -> Control:
+	if _active_tab == 0:
+		return _overview_button
+	if _active_tab == 2:
+		return _people_button
+	if _workflow_step >= 0 and _workflow_step < _step_buttons.size():
+		return _step_buttons[_workflow_step]
+	return null
+
+
+func _connect_header_focus_neighbors() -> void:
+	var active_navigation := _active_navigation_control()
+	var header_controls: Array[Control] = [
+		_overview_button, _people_button, _communication_button,
+	]
+	if _close_button.visible:
+		header_controls.append(_close_button)
+	for index in range(header_controls.size()):
+		var control := header_controls[index]
+		var left := header_controls[maxi(index - 1, 0)]
+		var right := header_controls[mini(index + 1, header_controls.size() - 1)]
+		control.focus_neighbor_left = control.get_path_to(left)
+		control.focus_neighbor_right = control.get_path_to(right)
+		control.focus_neighbor_top = control.get_path_to(control)
+		if control != active_navigation:
+			control.focus_neighbor_bottom = control.get_path_to(_step_buttons[0])
+	for index in range(_step_buttons.size()):
+		var step_button := _step_buttons[index]
+		step_button.focus_neighbor_left = step_button.get_path_to(
+			_step_buttons[maxi(index - 1, 0)])
+		step_button.focus_neighbor_right = step_button.get_path_to(
+			_step_buttons[mini(index + 1, _step_buttons.size() - 1)])
+		step_button.focus_neighbor_top = step_button.get_path_to(_overview_button)
+		if step_button != active_navigation:
+			step_button.focus_neighbor_bottom = step_button.get_path_to(step_button)
 
 
 func _communication_badge_count() -> int:
@@ -829,7 +972,7 @@ func _rebuild_calendar() -> void:
 		offer_button.expand_icon = false
 		offer_button.pressed.connect(_assign_offer.bind(bundle_id))
 		offer_button.focus_entered.connect(_offer_focused.bind(bundle_id))
-		offer_button.mouse_entered.connect(offer_button.grab_focus)
+		offer_button.mouse_entered.connect(_focus_on_hover.bind(offer_button))
 		_offer_list.add_child(offer_button)
 		_offer_buttons[bundle_id] = offer_button
 
@@ -844,7 +987,7 @@ func _rebuild_calendar() -> void:
 		slot_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		slot_button.pressed.connect(_select_week.bind(week))
 		slot_button.focus_entered.connect(_week_focused.bind(week))
-		slot_button.mouse_entered.connect(slot_button.grab_focus)
+		slot_button.mouse_entered.connect(_focus_on_hover.bind(slot_button))
 		_slot_list.add_child(slot_button)
 		_slot_buttons[str(week)] = slot_button
 	_refresh_calendar()
@@ -854,15 +997,15 @@ func _refresh_calendar() -> void:
 	var available := CORE_LOOP.available_offer_ids(_month_index)
 	set_meta("core_loop_v2_armed_offer_id", _armed_offer_id)
 	_offers_title_label.text = LocaleManager.ui(
-		"할 일 후보 {total}개 · 선택 {done}개",
-		"{total} OPTIONS · {done} CHOSEN").format({
-			"done": _selected_offer_count(),
+		"이번 달 제안 {total}개",
+		"{total} OPTIONS THIS MONTH").format({
 			"total": available.size(),
 		})
+	var filled_weeks := _filled_week_count()
 	_weeks_title_label.text = LocaleManager.ui(
-		"4주 달력 · {done}/4주 완료",
-		"FOUR-WEEK CALENDAR · {done}/4 FILLED").format({
-			"done": mini(_schedule.size(), 4),
+		"네 주의 일정 · {done}/4",
+		"FOUR-WEEK SCHEDULE · {done}/4").format({
+			"done": filled_weeks,
 		})
 	for bundle_id in available:
 		var button: Button = _offer_buttons.get(bundle_id)
@@ -912,7 +1055,7 @@ func _refresh_calendar() -> void:
 					" · FIXED EVENT" if locked else "",
 					_localized(scene_bundle, "offer"),
 				])
-		button.disabled = locked
+		_set_button_disabled(button, locked)
 		_apply_week_style(
 			button, bundle_id, week == _selected_week, locked)
 
@@ -988,6 +1131,7 @@ func _refresh_routine_strip() -> void:
 
 
 func _connect_calendar_focus_neighbors() -> void:
+	_reset_footer_focus_neighbors()
 	var offer_controls: Array[Control] = []
 	for bundle_id in CORE_LOOP.available_offer_ids(_month_index):
 		var offer_button: Control = _offer_buttons.get(bundle_id) as Control
@@ -1007,6 +1151,12 @@ func _connect_calendar_focus_neighbors() -> void:
 
 	if offer_controls.is_empty() or enabled_week_controls.is_empty():
 		return
+	var validation := CORE_LOOP.validate_plan(
+		_month_index, _schedule, _routines)
+	var plan_ready := bool(validation.get("ok", false)) \
+		and _armed_offer_id.is_empty()
+	var footer_target: Control = _confirm_button \
+		if plan_ready else _step_buttons[0]
 
 	var right_target: Button = _slot_buttons.get(str(_selected_week)) as Button
 	if not is_instance_valid(right_target) or right_target.disabled:
@@ -1020,9 +1170,9 @@ func _connect_calendar_focus_neighbors() -> void:
 	for index in range(offer_controls.size()):
 		var button := offer_controls[index]
 		var top_target: Control = offer_controls[index - 1] \
-			if index > 0 else _tab_buttons[1]
+			if index > 0 else _step_buttons[0]
 		var bottom_target: Control = offer_controls[index + 1] \
-			if index + 1 < offer_controls.size() else _confirm_button
+			if index + 1 < offer_controls.size() else footer_target
 		button.focus_neighbor_left = button.get_path_to(button)
 		button.focus_neighbor_right = button.get_path_to(right_target)
 		button.focus_neighbor_top = button.get_path_to(top_target)
@@ -1030,7 +1180,7 @@ func _connect_calendar_focus_neighbors() -> void:
 
 	for index in range(all_week_controls.size()):
 		var button := all_week_controls[index]
-		var prior_enabled: Control = _tab_buttons[1]
+		var prior_enabled: Control = _step_buttons[0]
 		var next_enabled: Control = _routine_edit_button
 		for candidate_index in range(enabled_week_controls.size()):
 			var candidate := enabled_week_controls[candidate_index]
@@ -1052,14 +1202,28 @@ func _connect_calendar_focus_neighbors() -> void:
 
 	var first_offer := offer_controls[0]
 	var last_week := enabled_week_controls[enabled_week_controls.size() - 1]
-	_tab_buttons[1].focus_neighbor_bottom = _tab_buttons[1].get_path_to(first_offer)
+	_step_buttons[0].focus_neighbor_bottom = _step_buttons[0].get_path_to(first_offer)
 	_routine_edit_button.focus_neighbor_top = _routine_edit_button.get_path_to(last_week)
 	_routine_edit_button.focus_neighbor_bottom = _routine_edit_button.get_path_to(
-		_confirm_button)
+		footer_target)
 	_routine_edit_button.focus_neighbor_left = _routine_edit_button.get_path_to(
 		left_target)
 	_confirm_button.focus_neighbor_top = _confirm_button.get_path_to(
-		_routine_edit_button)
+		_routine_edit_button if plan_ready else _step_buttons[0])
+
+
+func _reset_footer_focus_neighbors() -> void:
+	# Rebuilds reuse the footer controls. Clear every review-only edge before
+	# reconnecting the visible surface so a hidden Edit button can never remain
+	# in the Calendar or confirmed-plan focus graph.
+	for control in [_edit_button, _confirm_button]:
+		if not is_instance_valid(control):
+			continue
+		var self_path: NodePath = control.get_path_to(control)
+		control.focus_neighbor_left = self_path
+		control.focus_neighbor_right = self_path
+		control.focus_neighbor_top = self_path
+		control.focus_neighbor_bottom = self_path
 
 
 func _rebuild_read_only_surface() -> void:
@@ -1074,7 +1238,10 @@ func _rebuild_read_only_surface() -> void:
 		2:
 			_build_people_surface()
 		3:
-			_build_record_surface()
+			if _workflow_step == 1 and not _review_pending:
+				_build_routine_surface()
+			else:
+				_build_record_surface()
 
 
 func _build_status_surface() -> void:
@@ -1225,6 +1392,14 @@ func _build_record_surface() -> void:
 			else LocaleManager.ui("이번 달 계획", "THIS MONTH'S PLAN")
 		)
 	_read_only_surface.add_child(_section_title(section_heading))
+	if not _read_only_plan and not _review_pending:
+		var validation := CORE_LOOP.validate_plan(
+			_month_index, _schedule, _routines)
+		if not bool(validation.get("ok", false)):
+			_read_only_surface.add_child(_read_only_row(
+				LocaleManager.ui("확정 전에 고칠 것", "FIX BEFORE CONFIRMING"),
+				_plan_error_text(validation),
+				76))
 	_build_routine_surface()
 	_read_only_surface.add_child(_read_only_row(
 		LocaleManager.ui("네 주에 할 일", "WHAT YOU WILL DO"),
@@ -1328,7 +1503,7 @@ func _build_routine_surface() -> void:
 					"Income is already your fixed primary job and cannot be selected twice.")
 			button.custom_minimum_size = Vector2(0, 46)
 			button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			button.disabled = (
+			_set_button_disabled(button, (
 				_read_only_plan
 				or (
 					employed
@@ -1337,9 +1512,9 @@ func _build_routine_surface() -> void:
 						or (slot == "secondary" and str(routine_id) == "livelihood")
 					)
 				)
-			)
+			))
 			button.pressed.connect(select_routine.bind(slot, str(routine_id)))
-			button.mouse_entered.connect(button.grab_focus)
+			button.mouse_entered.connect(_focus_on_hover.bind(button))
 			row.add_child(button)
 			var key := "%s:%s" % [slot, str(routine_id)]
 			_routine_buttons[key] = button
@@ -1400,7 +1575,7 @@ func _register_read_only_focus_control(control: Control) -> void:
 		_set_read_only_focus_state.bind(control, true))
 	control.focus_exited.connect(
 		_set_read_only_focus_state.bind(control, false))
-	control.mouse_entered.connect(control.grab_focus)
+	control.mouse_entered.connect(_focus_on_hover.bind(control))
 	_read_only_focus_controls.append(control)
 
 
@@ -1440,8 +1615,9 @@ func _restore_focus_after_rebuild(generation: int) -> void:
 		if is_instance_valid(first_offer):
 			first_offer.grab_focus()
 			return
-	if _active_tab >= 0 and _active_tab < _tab_buttons.size():
-		_tab_buttons[_active_tab].grab_focus()
+	var active_navigation := _active_navigation_control()
+	if is_instance_valid(active_navigation):
+		active_navigation.grab_focus()
 
 
 func _current_focus_key() -> String:
@@ -1454,9 +1630,13 @@ func _current_focus_key() -> String:
 		return "close"
 	if owner == _confirm_button:
 		return "confirm"
-	for index in range(_tab_buttons.size()):
-		if owner == _tab_buttons[index]:
-			return "tab:%d" % index
+	if owner == _overview_button:
+		return "info:overview"
+	if owner == _people_button:
+		return "info:people"
+	for index in range(_step_buttons.size()):
+		if owner == _step_buttons[index]:
+			return "step:%d" % index
 	for bundle_id in _offer_buttons:
 		if owner == _offer_buttons[bundle_id]:
 			return "offer:%s" % bundle_id
@@ -1477,10 +1657,14 @@ func _restore_focus_key(key: String) -> bool:
 		target = _close_button
 	elif key == "confirm":
 		target = _confirm_button
-	elif key.begins_with("tab:"):
-		var index := int(key.trim_prefix("tab:"))
-		if index >= 0 and index < _tab_buttons.size():
-			target = _tab_buttons[index]
+	elif key == "info:overview":
+		target = _overview_button
+	elif key == "info:people":
+		target = _people_button
+	elif key.begins_with("step:"):
+		var index := int(key.trim_prefix("step:"))
+		if index >= 0 and index < _step_buttons.size():
+			target = _step_buttons[index]
 	elif key.begins_with("offer:"):
 		target = _offer_buttons.get(key.trim_prefix("offer:")) as Control
 	elif key.begins_with("week:"):
@@ -1615,8 +1799,18 @@ func _focus_week_button(week: int) -> void:
 func _focus_next_offer_or_confirm() -> void:
 	if not visible or _active_tab != 1:
 		return
-	if _schedule.size() >= 4:
-		_confirm_button.grab_focus()
+	if _filled_week_count() >= 4:
+		var validation := CORE_LOOP.validate_plan(
+			_month_index, _schedule, _routines)
+		if bool(validation.get("ok", false)):
+			_confirm_button.grab_focus()
+		elif str(validation.get("error", "")) in [
+			"choose_two_routines", "routines_must_be_distinct",
+			"unknown_routine", "job_requires_primary_livelihood",
+		]:
+			_switch_workflow_step(1)
+		else:
+			_switch_workflow_step(2)
 		return
 	for bundle_id in CORE_LOOP.available_offer_ids(_month_index):
 		if _schedule.values().has(bundle_id):
@@ -1674,11 +1868,10 @@ func _commit_plan() -> void:
 		_placement_error = "review_blocked"
 		_refresh_calendar()
 		return
-	if _schedule.size() != 4:
-		return
 	var validation := CORE_LOOP.validate_plan(_month_index, _schedule, _routines)
 	if not bool(validation.get("ok", false)):
 		_status_label.text = _plan_error_text(validation)
+		_refresh_step_rail()
 		return
 	if not _review_pending:
 		_begin_commit_review()
@@ -1697,19 +1890,48 @@ func _commit_plan() -> void:
 		_routines.duplicate(true))
 
 func _switch_tab(index: int) -> void:
-	var target := clampi(index, 0, 3)
-	if target != 1:
-		_clear_placement_intent()
-	if _review_pending and target != 3:
+	# Compatibility adapter for focused QA and the phone's VIEW PLAN route.
+	# The player surface no longer exposes four tabs.
+	match clampi(index, 0, 3):
+		0:
+			_open_info_view(0)
+		1:
+			_switch_workflow_step(0)
+		2:
+			_open_info_view(2)
+		3:
+			_switch_workflow_step(
+				2 if _read_only_plan or _review_pending else 1)
+
+
+func _open_info_view(index: int) -> void:
+	if index not in [0, 2]:
+		return
+	_clear_placement_intent()
+	if _review_pending:
 		_review_pending = false
 		_review_confirm_release_required = false
-	_active_tab = target
-	_last_focus_key = "tab:%d" % target
+	_active_tab = index
+	_last_focus_key = "info:overview" if index == 0 else "info:people"
 	_rebuild()
 
-func _cycle_tab(delta: int) -> void:
-	_switch_tab(int(posmod(_active_tab + delta, 4)))
-	_tab_buttons[_active_tab].call_deferred("grab_focus")
+
+func _switch_workflow_step(index: int) -> void:
+	var target := clampi(index, 0, 2)
+	if target != 0:
+		_clear_placement_intent()
+	if _review_pending and target != 2:
+		_review_pending = false
+		_review_confirm_release_required = false
+	_workflow_step = target
+	_active_tab = 1 if target == 0 else 3
+	_last_focus_key = "step:%d" % target
+	_rebuild()
+
+
+func _cycle_step(delta: int) -> void:
+	_switch_workflow_step(int(posmod(_workflow_step + delta, 3)))
+	_step_buttons[_workflow_step].call_deferred("grab_focus")
 
 func _communication_shortcut_pressed(event: InputEvent) -> bool:
 	if event is InputEventJoypadButton:
@@ -1751,10 +1973,10 @@ func _unhandled_input(event: InputEvent) -> void:
 						unassign_week(week)
 				handled = true
 			JOY_BUTTON_LEFT_SHOULDER:
-				_cycle_tab(-1)
+				_cycle_step(-1)
 				handled = true
 			JOY_BUTTON_RIGHT_SHOULDER:
-				_cycle_tab(1)
+				_cycle_step(1)
 				handled = true
 	if not handled and ControllerHints.secondary_pressed(event):
 		if not _read_only_plan and not _review_pending \
@@ -1764,10 +1986,10 @@ func _unhandled_input(event: InputEvent) -> void:
 				unassign_week(week)
 		handled = true
 	elif not handled and event.is_action_pressed("gd_tab_prev"):
-		_cycle_tab(-1)
+		_cycle_step(-1)
 		handled = true
 	elif not handled and event.is_action_pressed("gd_tab_next"):
-		_cycle_tab(1)
+		_cycle_step(1)
 		handled = true
 	elif not handled and event.is_action_pressed("ui_cancel"):
 		if _read_only_plan:
@@ -1786,7 +2008,7 @@ func _refresh_footer() -> void:
 	if _read_only_plan:
 		_edit_button.visible = false
 		_confirm_button.visible = true
-		_confirm_button.disabled = false
+		_set_button_disabled(_confirm_button, false)
 		_confirm_button.text = LocaleManager.ui("계획판 닫기", "CLOSE PLANNER")
 		_apply_button_style(_confirm_button, false, true)
 		_status_label.text = LocaleManager.ui(
@@ -1794,8 +2016,8 @@ func _refresh_footer() -> void:
 			"This plan is confirmed. The schedule and weekly routines cannot be changed.")
 		_fit_status_label_height(52.0)
 		_hint_label.text = LocaleManager.ui(
-			"위아래로 내용 확인 · %s 닫기 · %s/%s 탭",
-			"UP/DOWN Review · %s Close · %s/%s Tabs") % [
+			"위아래로 내용 확인 · %s 닫기 · %s/%s 단계",
+			"UP/DOWN Review · %s Close · %s/%s Steps") % [
 				ControllerHints.east(),
 				ControllerHints.shoulder_l(),
 				ControllerHints.shoulder_r(),
@@ -1805,8 +2027,9 @@ func _refresh_footer() -> void:
 	var validation := CORE_LOOP.validate_plan(_month_index, _schedule, _routines)
 	var ready := bool(validation.get("ok", false)) \
 		and _armed_offer_id.is_empty()
-	_confirm_button.disabled = not ready \
-		or (_review_pending and _review_confirm_release_required)
+	_set_button_disabled(
+		_confirm_button,
+		not ready or (_review_pending and _review_confirm_release_required))
 	_apply_button_style(
 		_confirm_button, false,
 		ready and not _review_confirm_release_required)
@@ -1821,29 +2044,35 @@ func _refresh_footer() -> void:
 				ControllerHints.south(),
 			]
 		return
-	var routine_count := 0
-	for slot in ["primary", "secondary"]:
-		if not str(_routines.get(slot, "")).is_empty():
-			routine_count += 1
+	var routine_count := _routine_choice_count()
 	_confirm_button.text = LocaleManager.ui(
 		"일정 {weeks}/4 · 루틴 {routines}/2 — 계획 확인",
 		"WEEKS {weeks}/4 · ROUTINES {routines}/2 — REVIEW").format({
-			"weeks": mini(_schedule.size(), 4),
+			"weeks": _filled_week_count(),
 			"routines": routine_count,
 		})
 	if not ready and _active_tab != 1:
-		if _active_tab == 3:
+		if _active_tab == 3 and _workflow_step == 1:
 			_hint_label.text = LocaleManager.ui(
-				"좌우·위아래 루틴 이동 · %s 선택 · %s/%s 탭",
-				"D-pad Routines · %s Select · %s/%s Tabs") % [
+				"좌우·위아래 매주 할 일 이동 · %s 선택 · %s/%s 단계",
+				"D-pad Weekly Activities · %s Select · %s/%s Steps") % [
 					ControllerHints.south(),
+					ControllerHints.shoulder_l(),
+					ControllerHints.shoulder_r(),
+				]
+		elif _active_tab == 3 and _workflow_step == 2:
+			_status_label.text = _plan_error_text(validation)
+			_fit_status_label_height(72.0)
+			_hint_label.text = LocaleManager.ui(
+				"위아래로 계획 확인 · %s/%s 단계에서 남은 항목 수정",
+				"UP/DOWN Review · %s/%s Steps to finish missing items") % [
 					ControllerHints.shoulder_l(),
 					ControllerHints.shoulder_r(),
 				]
 		else:
 			_hint_label.text = LocaleManager.ui(
-				"위아래로 내용 확인 · %s/%s 탭 · 일정 탭에서 계획 계속",
-				"UP/DOWN Review · %s/%s Tabs · Continue in Calendar") % [
+				"위아래로 내용 확인 · %s/%s 단계 · 1단계에서 계획 계속",
+				"UP/DOWN Review · %s/%s Steps · Continue in Step 1") % [
 					ControllerHints.shoulder_l(),
 					ControllerHints.shoulder_r(),
 				]
@@ -1855,18 +2084,18 @@ func _refresh_footer() -> void:
 		_fit_status_label_height(52.0)
 		if _active_tab == 1:
 			_hint_label.text = LocaleManager.ui(
-				"다음 · %s 계획 확인 · %s 주차에서 빼기 · %s/%s 탭" % [
+				"다음 · %s 계획 확인 · %s 주차에서 빼기 · %s/%s 단계" % [
 					ControllerHints.south(), ControllerHints.west(),
 					ControllerHints.shoulder_l(), ControllerHints.shoulder_r(),
 				],
-				"NEXT · %s Review Plan · %s Remove on Week · %s/%s Tabs" % [
+				"NEXT · %s Review Plan · %s Remove on Week · %s/%s Steps" % [
 					ControllerHints.south(), ControllerHints.west(),
 					ControllerHints.shoulder_l(), ControllerHints.shoulder_r(),
 				])
 		else:
 			_hint_label.text = LocaleManager.ui(
-				"위아래로 내용 확인 · %s 계획 확인 · %s/%s 탭",
-				"UP/DOWN Review · %s Review Plan · %s/%s Tabs") % [
+				"위아래로 내용 확인 · %s 계획 확인 · %s/%s 단계",
+				"UP/DOWN Review · %s Review Plan · %s/%s Steps") % [
 					ControllerHints.south(),
 					ControllerHints.shoulder_l(),
 					ControllerHints.shoulder_r(),
@@ -1893,11 +2122,11 @@ func _refresh_footer() -> void:
 		_status_label.text = _placement_error_text(_placement_error)
 		_fit_status_label_height(72.0)
 		_hint_label.text = LocaleManager.ui(
-			"1/2 할 일 선택 · %s 선택 · %s 주차에서만 빼기 · %s/%s 탭" % [
+			"할 일 선택 · %s 선택 · %s 주차에서만 빼기 · %s/%s 단계" % [
 				ControllerHints.south(), ControllerHints.west(),
 				ControllerHints.shoulder_l(), ControllerHints.shoulder_r(),
 			],
-			"STEP 1/2 · %s Choose · %s Remove on Week · %s/%s Tabs" % [
+			"CHOOSE · %s Select · %s Remove on Week · %s/%s Steps" % [
 				ControllerHints.south(), ControllerHints.west(),
 				ControllerHints.shoulder_l(), ControllerHints.shoulder_r(),
 			])
@@ -1911,13 +2140,13 @@ func _refresh_footer() -> void:
 	).format({"count": missed_count})
 	_fit_status_label_height(52.0)
 	_hint_label.text = LocaleManager.ui(
-		"1/2 할 일 선택 · %s 선택 · %s 주차에서만 빼기 · %s/%s 탭" % [
+		"할 일 선택 · %s 선택 · %s 주차에서만 빼기 · %s/%s 단계" % [
 			ControllerHints.south(),
 			ControllerHints.west(),
 			ControllerHints.shoulder_l(),
 			ControllerHints.shoulder_r(),
 		],
-		"STEP 1/2 · %s Choose · %s Remove on Week · %s/%s Tabs" % [
+		"CHOOSE · %s Select · %s Remove on Week · %s/%s Steps" % [
 			ControllerHints.south(),
 			ControllerHints.west(),
 			ControllerHints.shoulder_l(),
@@ -1961,6 +2190,10 @@ func _placement_error_text(error: String) -> String:
 
 func _plan_error_text(validation: Dictionary) -> String:
 	match str(validation.get("error", "")):
+		"fill_four_weeks", "empty_week":
+			return LocaleManager.ui(
+				"네 주의 일정을 모두 채운다.",
+				"Fill all four weeks of the schedule.")
 		"deadline_missed":
 			return LocaleManager.ui(
 				"그 주에는 이미 기한이 지났다. 더 이른 주로 옮겨야 한다.",
@@ -1973,6 +2206,10 @@ func _plan_error_text(validation: Dictionary) -> String:
 			return LocaleManager.ui(
 				"서로 다른 두 가지를 골라야 한다.",
 				"Choose two different things.")
+		"unknown_routine":
+			return LocaleManager.ui(
+				"매주 할 일 중 지금은 고를 수 없는 항목이 있다.",
+				"One weekly activity is no longer available.")
 		"job_requires_primary_livelihood":
 			return LocaleManager.ui(
 				"취업 중에는 본업을 매주 해야 한다.",
@@ -1981,6 +2218,14 @@ func _plan_error_text(validation: Dictionary) -> String:
 			return LocaleManager.ui(
 				"서로 겹치는 두 만남은 같은 달에 함께 고를 수 없다.",
 				"These two meetings cannot both be chosen in the same month.")
+		"active_named_characters_cap":
+			return LocaleManager.ui(
+				"이번 달에 사람과 잡은 약속이 너무 많다. 한 약속을 다른 일로 바꾼다.",
+				"Too many personal commitments overlap this month. Replace one with another kind of work.")
+		"unavailable_bundle", "locked_week_changed", "duplicate_bundle":
+			return LocaleManager.ui(
+				"일정에 지금 넣을 수 없는 약속이 있다. 네 주를 다시 확인한다.",
+				"One commitment no longer fits this schedule. Review all four weeks.")
 	return LocaleManager.ui(
 		"네 주에 할 일과 매주 계속할 두 가지를 모두 정해야 한다.",
 		"Fill all four weeks and choose both weekly activities.")
@@ -1996,6 +2241,7 @@ func _begin_commit_review() -> void:
 	_review_confirm_not_before_msec = Time.get_ticks_msec() \
 		+ REVIEW_CONFIRM_DELAY_MSEC
 	_active_tab = 3
+	_workflow_step = 2
 	_rebuild()
 	_edit_button.call_deferred("grab_focus")
 
@@ -2006,6 +2252,7 @@ func _cancel_commit_review() -> void:
 	_review_mouse_double_click_blocked = false
 	_review_mouse_single_click_armed = false
 	_active_tab = 1
+	_workflow_step = 0
 	_rebuild()
 
 func _scheduled_commitment_lines() -> Array[String]:
@@ -2548,6 +2795,20 @@ func _button(text: String, primary: bool) -> Button:
 		button.add_theme_font_override("font", _font_bold)
 	_apply_button_style(button, false, primary)
 	return button
+
+
+func _set_button_disabled(button: BaseButton, disabled: bool) -> void:
+	button.disabled = disabled
+	button.focus_mode = Control.FOCUS_NONE if disabled else Control.FOCUS_ALL
+
+
+func _focus_on_hover(control: Control) -> void:
+	if not is_instance_valid(control) or not control.is_visible_in_tree() \
+			or control.focus_mode == Control.FOCUS_NONE:
+		return
+	if control is BaseButton and (control as BaseButton).disabled:
+		return
+	control.grab_focus()
 
 func _apply_button_style(button: Button, selected: bool, filled: bool) -> void:
 	if not is_instance_valid(button):

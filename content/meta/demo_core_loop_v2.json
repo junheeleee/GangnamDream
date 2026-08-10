@@ -184,7 +184,9 @@
   },
   "surface": {
     "primary": "monthly_planner",
-    "tabs": ["status", "calendar", "people", "record"],
+    "workflow_steps": ["schedule", "routines", "review"],
+    "fixed_info_actions": ["status", "people"],
+    "single_navigation_layer": true,
     "foreground_slots_per_month": 4,
     "minimum_offers_per_month": 5,
     "maximum_offers_per_month": 7,

@@ -497,7 +497,10 @@ func _check_fresh_and_reentry_flow() -> void:
 			offer_button.pressed.connect(_on_underlying_planner_pressed)
 	var schedule_before: Dictionary = planner.schedule_snapshot()
 	var routines_before: Dictionary = planner.routine_snapshot()
-	var tab_before := int(planner.get("_active_tab"))
+	var navigation_before := {
+		"active_surface": int(planner.get("_active_tab")),
+		"workflow_step": int(planner.get("_workflow_step")),
+	}
 	_send_phone_shortcut_key()
 	await get_tree().process_frame
 	await get_tree().process_frame
@@ -515,17 +518,17 @@ func _check_fresh_and_reentry_flow() -> void:
 		"North opened the phone or stole focus while the V2 tutorial was active")
 
 	_send_tab_key(KEY_E)
-	await _expect_tutorial_owns_planner_tab(
-		planner, tutorial, tab_before, "E")
+	await _expect_tutorial_owns_planner_navigation(
+		planner, tutorial, navigation_before, "E")
 	_send_tab_key(KEY_Q)
-	await _expect_tutorial_owns_planner_tab(
-		planner, tutorial, tab_before, "Q")
+	await _expect_tutorial_owns_planner_navigation(
+		planner, tutorial, navigation_before, "Q")
 	_send_tab_shoulder(JOY_BUTTON_RIGHT_SHOULDER)
-	await _expect_tutorial_owns_planner_tab(
-		planner, tutorial, tab_before, "right shoulder")
+	await _expect_tutorial_owns_planner_navigation(
+		planner, tutorial, navigation_before, "right shoulder")
 	_send_tab_shoulder(JOY_BUTTON_LEFT_SHOULDER)
-	await _expect_tutorial_owns_planner_tab(
-		planner, tutorial, tab_before, "left shoulder")
+	await _expect_tutorial_owns_planner_navigation(
+		planner, tutorial, navigation_before, "left shoulder")
 
 	_send_keyboard_accept()
 	await get_tree().process_frame
@@ -554,8 +557,11 @@ func _check_fresh_and_reentry_flow() -> void:
 	_expect(_underlying_presses == 0 \
 			and planner.schedule_snapshot() == schedule_before \
 			and planner.routine_snapshot() == routines_before \
-			and int(planner.get("_active_tab")) == tab_before,
-		"tutorial input changed the monthly plan or switched its underlying tab")
+			and int(planner.get("_active_tab")) \
+				== int(navigation_before["active_surface"]) \
+			and int(planner.get("_workflow_step")) \
+				== int(navigation_before["workflow_step"]),
+		"tutorial input changed the monthly plan or its underlying navigation")
 	var restored_focus := get_viewport().gui_get_focus_owner()
 	_expect(restored_focus != null and planner.is_ancestor_of(restored_focus),
 		"closing V2 onboarding did not restore focus to the planner")
@@ -689,13 +695,16 @@ func _send_tab_shoulder(button_index: JoyButton) -> void:
 	Input.parse_input_event(release)
 
 
-func _expect_tutorial_owns_planner_tab(
+func _expect_tutorial_owns_planner_navigation(
 		planner: Control, tutorial: TutorialOverlay,
-		expected_tab: int, input_name: String) -> void:
+		expected_navigation: Dictionary, input_name: String) -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 	var tutorial_focus := get_viewport().gui_get_focus_owner()
-	_expect(int(planner.get("_active_tab")) == expected_tab \
+	_expect(int(planner.get("_active_tab")) \
+			== int(expected_navigation.get("active_surface", -1)) \
+			and int(planner.get("_workflow_step")) \
+				== int(expected_navigation.get("workflow_step", -1)) \
 			and tutorial_focus != null \
 			and tutorial.is_ancestor_of(tutorial_focus),
 		"%s switched the planner or stole focus behind V2 onboarding" \

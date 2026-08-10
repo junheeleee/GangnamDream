@@ -23,7 +23,8 @@ CORE_V2_EVENTS_EN_PATH = (
 STORY_RULES_PATH = ROOT / "content" / "meta" / "story_rules.json"
 HANGUL_RE = re.compile(r"[가-힣]")
 
-EXPECTED_TABS = ["status", "calendar", "people", "record"]
+EXPECTED_PLANNER_WORKFLOW_STEPS = ["schedule", "routines", "review"]
+EXPECTED_PLANNER_INFO_ACTIONS = ["status", "people"]
 EXPECTED_PHONE_TABS = ["messages", "contacts"]
 EXPECTED_PHONE_MESSAGE_SURFACES = ["inbound_message", "call_log"]
 EXPECTED_PHONE_CONTACT_METHODS = ["phone", "kakao", "business_card"]
@@ -4923,7 +4924,7 @@ def measure_long_tail_readers(
         r"match _active_tab:[\s\S]*?\n\t\t2:\s*\n\t\t\t_build_people_surface\(\)",
         planner_rebuild,
     ):
-        fail("planner People tab no longer opens its read-only surface", errors)
+        fail("planner People action no longer opens its read-only surface", errors)
     if (
         '"지금까지 만난 사람", "PEOPLE MET SO FAR"' not in planner_people
         or "_relationship_copy(character_id)" not in planner_people
@@ -6307,8 +6308,72 @@ def main() -> int:
 
     if surface.get("primary") != "monthly_planner":
         fail("surface.primary must be the wide monthly_planner", errors)
-    if surface.get("tabs") != EXPECTED_TABS:
-        fail(f"monthly planner tabs must be {EXPECTED_TABS}", errors)
+    if surface.get("workflow_steps") != EXPECTED_PLANNER_WORKFLOW_STEPS:
+        fail(
+            "monthly planner workflow steps must be "
+            f"{EXPECTED_PLANNER_WORKFLOW_STEPS}",
+            errors,
+        )
+    if surface.get("fixed_info_actions") != EXPECTED_PLANNER_INFO_ACTIONS:
+        fail(
+            "monthly planner info actions must be "
+            f"{EXPECTED_PLANNER_INFO_ACTIONS}",
+            errors,
+        )
+    if not bool(surface.get("single_navigation_layer", False)):
+        fail("monthly planner must expose one workflow navigation layer", errors)
+    try:
+        planner_surface_source = (
+            ROOT / "scenes/CoreLoopPlanner.gd"
+        ).read_text(encoding="utf-8")
+    except OSError as exc:
+        fail(f"cannot load monthly planner surface: {exc}", errors)
+        planner_surface_source = ""
+    if "_tab_buttons" in planner_surface_source:
+        fail("monthly planner reintroduced the retired four-tab layer", errors)
+    for required_surface_token in (
+        "var _step_buttons: Array[Button]",
+        "var _overview_button: Button",
+        "var _people_button: Button",
+        "pressed.connect(_switch_workflow_step.bind(index))",
+        "pressed.connect(_open_info_view.bind(0))",
+        "pressed.connect(_open_info_view.bind(2))",
+        "func _filled_week_count() -> int:",
+        "func _routine_choice_count() -> int:",
+        "func _plan_blocker_short(validation: Dictionary) -> String:",
+        "func _reset_footer_focus_neighbors() -> void:",
+        "func _set_button_disabled(button: BaseButton, disabled: bool) -> void:",
+        "func _focus_on_hover(control: Control) -> void:",
+        "_routine_edit_button.pressed.connect(_open_routine_editor)",
+        "_edit_button.pressed.connect(_cancel_commit_review)",
+    ):
+        if required_surface_token not in planner_surface_source:
+            fail(
+                "monthly planner lost its single-rail surface token "
+                f"{required_surface_token!r}",
+                errors,
+            )
+    blocker_source = planner_surface_source.partition(
+        "func _plan_blocker_short(validation: Dictionary) -> String:"
+    )[2].partition("func _active_navigation_control() -> Control:")[0]
+    for blocker_id in (
+        "fill_four_weeks",
+        "choose_two_routines",
+        "routines_must_be_distinct",
+        "unknown_routine",
+        "job_requires_primary_livelihood",
+        "deadline_missed",
+        "exclusive_group",
+        "active_named_characters_cap",
+        "unavailable_bundle",
+        "locked_week_changed",
+        "duplicate_bundle",
+    ):
+        if f'"{blocker_id}"' not in blocker_source:
+            fail(
+                f"monthly planner rail lost exact blocker {blocker_id}",
+                errors,
+            )
     if int(surface.get("foreground_slots_per_month", 0)) != 4:
         fail("foreground_slots_per_month must be 4", errors)
     if int(surface.get("maximum_locked_slots_per_month", 99)) != 1:

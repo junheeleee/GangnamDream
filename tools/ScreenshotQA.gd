@@ -2023,8 +2023,36 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	if _qa_failed:
 		return
 	await _save(prefix + "02_planner_calendar_filled", 0.05)
+	var routines_before_blocker: Dictionary = planner.routine_snapshot()
+	planner._routines["secondary"] = ""
+	planner.call("_rebuild")
+	await _settle(0.14)
+	if "1/2" not in str((planner._step_buttons[1] as Button).text) \
+			or LocaleManager.ui("1개 남음", "1 ROUTINE LEFT") \
+				not in str((planner._step_buttons[2] as Button).text):
+		_fail("The filled planner did not show its missing weekly activity in the rail.")
+		return
+	(planner._step_buttons[2] as Button).pressed.emit()
+	await _settle(0.14)
+	_assert_core_loop_v2_planner_surface(
+		planner, "routine blocker", 3, false, false)
+	if _qa_failed:
+		return
+	var blocker_text := _collect_control_text(planner._read_only_surface)
+	if LocaleManager.ui("확정 전에 고칠 것", "FIX BEFORE CONFIRMING") \
+			not in blocker_text \
+			or LocaleManager.ui(
+				"이번 달에 매주 계속할 두 가지를 고른다.",
+				"Choose two things to keep up each week this month.") \
+				not in blocker_text:
+		_fail("The final-review surface hid the full weekly-activity blocker.")
+		return
+	await _save(prefix + "02b_planner_routine_blocked", 0.05)
+	planner._routines = routines_before_blocker
+	(planner._step_buttons[0] as Button).pressed.emit()
+	await _settle(0.14)
 
-	planner.call("_switch_tab", 0)
+	(planner._overview_button as Button).pressed.emit()
 	await _settle(0.14)
 	_assert_core_loop_v2_planner_surface(
 		planner, "status", 0, false, false)
@@ -2050,7 +2078,7 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		stages[character_id] = "opening"
 	people_state["relationship_stages"] = stages
 	GameState.core_loop_v2_state = people_state
-	planner.call("_switch_tab", 2)
+	(planner._people_button as Button).pressed.emit()
 	await _settle(0.14)
 	_assert_core_loop_v2_planner_surface(
 		planner, "people", 2, false, false)
@@ -2065,7 +2093,7 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	await _save(prefix + "04_planner_people", 0.05)
 	GameState.core_loop_v2_state = canonical_state
 
-	planner.call("_switch_tab", 3)
+	(planner._step_buttons[2] as Button).pressed.emit()
 	await _settle(0.14)
 	_assert_core_loop_v2_planner_surface(
 		planner, "record", 3, false, false)
@@ -3570,18 +3598,42 @@ func _assert_core_loop_v2_planner_surface(
 			str(planner.read_only_plan()), str(planner.review_pending()),
 		])
 		return
-	var tabs: Array = planner._tab_buttons
-	if tabs.size() != 4:
-		_fail("Core Loop V2 %s planner exposes %d tabs instead of four." % [
-			context, tabs.size()])
+	var steps: Array = planner._step_buttons
+	if steps.size() != 3:
+		_fail("Core Loop V2 %s planner exposes %d workflow steps instead of three." % [
+			context, steps.size()])
 		return
-	for tab_index in range(tabs.size()):
-		var tab := tabs[tab_index] as Button
-		if not is_instance_valid(tab) or not tab.is_visible_in_tree() \
-				or tab.text.strip_edges().is_empty():
-			_fail("Core Loop V2 %s planner tab %d is missing or blank." % [
-				context, tab_index])
+	for step_index in range(steps.size()):
+		var step := steps[step_index] as Button
+		if not is_instance_valid(step) or not step.is_visible_in_tree() \
+				or step.text.strip_edges().is_empty() \
+				or step.custom_minimum_size.y < 46.0 \
+				or step.get_theme_font_size("font_size") < 14:
+			_fail("Core Loop V2 %s planner workflow step %d is missing or blank." % [
+				context, step_index])
 			return
+	var overview := planner._overview_button as Button
+	var people := planner._people_button as Button
+	if not is_instance_valid(overview) or not overview.is_visible_in_tree() \
+			or not is_instance_valid(people) or not people.is_visible_in_tree() \
+			or overview.text != LocaleManager.ui("현황", "OVERVIEW") \
+			or people.text != LocaleManager.ui("사람", "PEOPLE"):
+		_fail("Core Loop V2 %s planner lost its fixed Overview/People actions." % context)
+		return
+	var filled_weeks := int(planner.call("_filled_week_count"))
+	var routine_count := int(planner.call("_routine_choice_count"))
+	var schedule_step := steps[0] as Button
+	var routine_step := steps[1] as Button
+	if "%d/4" % filled_weeks not in str(schedule_step.text) \
+			or "%d/2" % routine_count not in str(routine_step.text):
+		_fail("Core Loop V2 %s planner progress rail disagrees with its plan data." % context)
+		return
+	if expected_tab == 1 and int(planner._workflow_step) != 0:
+		_fail("Core Loop V2 %s calendar did not own workflow step one." % context)
+		return
+	if expected_tab == 3 and int(planner._workflow_step) != 2:
+		_fail("Core Loop V2 %s review/record did not own workflow step three." % context)
+		return
 
 	var viewport_rect := get_viewport().get_visible_rect()
 	var page_margin := planner._page_margin as Control
@@ -7227,6 +7279,7 @@ func _run_core_loop_v2_input_route(
 	var side_shift_inputs := 0
 	var commitment_task_inputs := 0
 	var commitment_task_completions := 0
+	var review_edit_wiring_checked := false
 
 	for _step in range(50000):
 		await get_tree().create_timer(0.012).timeout
@@ -7466,6 +7519,7 @@ func _run_core_loop_v2_input_route(
 						"schedule": tutorial_planner.call("schedule_snapshot"),
 						"routines": tutorial_planner.call("routine_snapshot"),
 						"active_tab": int(tutorial_planner.get("_active_tab")),
+						"workflow_step": int(tutorial_planner.get("_workflow_step")),
 						"review_pending": bool(tutorial_planner.call("review_pending")),
 					}
 				elif tutorial_instance_id != current_tutorial_instance:
@@ -7507,15 +7561,17 @@ func _run_core_loop_v2_input_route(
 				var tutorial_planner_after := {
 					"schedule": tutorial_planner.call("schedule_snapshot") \
 						if is_instance_valid(tutorial_planner) else {},
-					"routines": tutorial_planner.call("routine_snapshot") \
-						if is_instance_valid(tutorial_planner) else {},
-					"active_tab": int(tutorial_planner.get("_active_tab")) \
-						if is_instance_valid(tutorial_planner) else -1,
-					"review_pending": bool(tutorial_planner.call("review_pending")) \
+						"routines": tutorial_planner.call("routine_snapshot") \
+							if is_instance_valid(tutorial_planner) else {},
+						"active_tab": int(tutorial_planner.get("_active_tab")) \
+							if is_instance_valid(tutorial_planner) else -1,
+						"workflow_step": int(tutorial_planner.get("_workflow_step")) \
+							if is_instance_valid(tutorial_planner) else -1,
+						"review_pending": bool(tutorial_planner.call("review_pending")) \
 						if is_instance_valid(tutorial_planner) else true,
 				}
 				if tutorial_planner_after != tutorial_planner_before:
-					_fail("Core Loop V2 onboarding changed the underlying schedule, routines, tab, or review state.")
+					_fail("Core Loop V2 onboarding changed the underlying plan, workflow step, or review state.")
 					return false
 				tutorial_state_verified = true
 
@@ -7527,6 +7583,10 @@ func _run_core_loop_v2_input_route(
 					return false
 				planner_months_seen[month_index] = true
 				var schedule: Dictionary = planner.call("schedule_snapshot")
+				if not _core_loop_v2_progress_surface_matches(
+						planner, schedule,
+						"Month %d before input" % month_index):
+					return false
 				var plan_before: Dictionary = core_loop.plan_for_month(month_index)
 				if not plan_before.is_empty():
 					_fail("Core Loop V2 Month %d planner reopened after its plan was committed." % month_index)
@@ -7575,6 +7635,10 @@ func _run_core_loop_v2_input_route(
 								planner, offer_button, next_offer,
 								"Month %d input route" % month_index):
 						return false
+					if not _core_loop_v2_progress_surface_matches(
+							planner, schedule,
+							"Month %d armed offer" % month_index):
+						return false
 
 					var week_button: Button = null
 					if raw_first_placement:
@@ -7616,6 +7680,10 @@ func _run_core_loop_v2_input_route(
 							target_week, next_offer, after_offer_input,
 							after_week_input])
 						return false
+					if not _core_loop_v2_progress_surface_matches(
+							planner, after_week_input,
+							"Month %d after week commit" % month_index):
+						return false
 					continue
 				if schedule.size() != 4:
 					_fail("Core Loop V2 Month %d filled %d weeks instead of four: %s." % [
@@ -7648,6 +7716,7 @@ func _run_core_loop_v2_input_route(
 					var calendar_surface := planner.get("_calendar_surface") as Control
 					var review_surface := planner.get("_read_only_surface") as Control
 					if int(planner.get("_active_tab")) != 3 \
+							or int(planner.get("_workflow_step")) != 2 \
 							or not is_instance_valid(review_scroll) \
 							or not review_scroll.is_visible_in_tree() \
 							or not is_instance_valid(calendar_surface) \
@@ -7668,6 +7737,36 @@ func _run_core_loop_v2_input_route(
 					if confirm.disabled:
 						_fail("Core Loop V2 Month %d final confirm did not unlock after a fresh release gate." % month_index)
 						return false
+					if not review_edit_wiring_checked:
+						await _activate_route_control(review_edit, input_mode)
+						await get_tree().process_frame
+						var confirm_left: Control = confirm.get_node_or_null(
+							confirm.focus_neighbor_left) as Control
+						if bool(planner.get_meta(
+								"core_loop_v2_review_pending", false)) \
+								or int(planner.get("_active_tab")) != 1 \
+								or int(planner.get("_workflow_step")) != 0 \
+								or review_edit.is_visible_in_tree() \
+								or confirm_left == review_edit \
+								or not core_loop.plan_for_month(month_index).is_empty():
+							_fail("Core Loop V2 Month %d Edit Plan wiring did not return to a focus-safe schedule." % month_index)
+							return false
+						await _activate_route_control(confirm, input_mode)
+						await get_tree().process_frame
+						review_edit = _find_visible_meta_button(
+							planner, "core_loop_v2_review_edit")
+						if review_edit == null \
+								or not bool(planner.get_meta(
+									"core_loop_v2_review_pending", false)) \
+								or get_viewport().gui_get_focus_owner() != review_edit:
+							_fail("Core Loop V2 Month %d could not re-enter review after the real Edit Plan action." % month_index)
+							return false
+						await get_tree().create_timer(0.40).timeout
+						await get_tree().process_frame
+						if confirm.disabled:
+							_fail("Core Loop V2 Month %d re-entered review did not unlock after release." % month_index)
+							return false
+						review_edit_wiring_checked = true
 				else:
 					await get_tree().process_frame
 					var committed: Dictionary = core_loop.plan_for_month(month_index)
@@ -7910,6 +8009,49 @@ func _core_loop_v2_changed_schedule_keys(
 				or str(before.get(key, "")) != str(after.get(key, "")):
 			changed.append(key)
 	return changed
+
+
+func _core_loop_v2_progress_surface_matches(
+		planner: Control, schedule: Dictionary, context: String) -> bool:
+	var steps: Array = planner.get("_step_buttons") as Array
+	if steps.size() != 3:
+		_fail("Core Loop V2 %s lost its three workflow steps." % context)
+		return false
+	var schedule_step := steps[0] as Button
+	var routine_step := steps[1] as Button
+	var review_step := steps[2] as Button
+	if not is_instance_valid(schedule_step) \
+			or not is_instance_valid(routine_step) \
+			or not is_instance_valid(review_step):
+		_fail("Core Loop V2 %s has an invalid workflow-step control." % context)
+		return false
+	var filled_weeks := int(planner.call("_filled_week_count"))
+	var routines: Dictionary = planner.call("routine_snapshot")
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	var routine_options: Dictionary = core_loop.routine_options()
+	var counted_routines: Array[String] = []
+	for slot in ["primary", "secondary"]:
+		var routine_id := str(routines.get(slot, "")).strip_edges()
+		if routine_id.is_empty() or not routine_options.has(routine_id) \
+				or counted_routines.has(routine_id):
+			continue
+		counted_routines.append(routine_id)
+	var routine_count := counted_routines.size()
+	if filled_weeks != schedule.size() \
+			or "%d/4" % filled_weeks not in schedule_step.text \
+			or "%d/2" % routine_count not in routine_step.text:
+		_fail("Core Loop V2 %s progress text disagrees with schedule/routines." % context)
+		return false
+	var validation: Dictionary = core_loop.validate_plan(
+			int(planner.get_meta("core_loop_v2_month", 0)), schedule, routines)
+	var ready := bool(validation.get("ok", false)) \
+		and _core_loop_v2_armed_offer_id(planner).is_empty()
+	var marked_ready := bool(review_step.get_meta(
+		"core_loop_v2_progress_complete", false))
+	if ready != marked_ready:
+		_fail("Core Loop V2 %s final-review readiness disagrees with validation." % context)
+		return false
+	return true
 
 func _core_loop_v2_armed_surface_visible(
 	planner: Control, offer_button: Button, offer_id: String,

@@ -67,26 +67,41 @@ human GO.
 - The full-width planner shows exactly four vertical week slots beside the
   current offers at 1280×800. At 960×600, reference surfaces may scroll
   vertically but the active decision and footer remain reachable.
+- The planner has one visible workflow navigation layer: **Weeks n/4 → Weekly
+  Activities n/2 → Final Review**. Those three names never change with state;
+  only their count or status suffix changes. A fixed assignment counts toward
+  n/4, but merely arming an offer does not. Confirmed records remain content
+  inside Final Review rather than becoming a renamed navigation item. They keep
+  their confirmed progress even when later state changes make an old offer
+  unavailable; a historical record is not revalidated as a new plan.
 - D-pad moves within offers or week slots; South assigns or confirms. West
   removes the selected non-fixed assignment. It never removes a locked week or
-  commits the month.
-- LB/RB switches Status / Calendar / People / Routine; Routine becomes Review
-  during final confirmation and Record after commitment. Down enters every
-  focusable reading card, routine choice, and footer in one continuous path;
-  focus-follow scrolling exposes content below 960×600. Mouse hover grabs the
-  same GUI focus used by keyboard and controller.
-- The People tab shows lived relationship history without revealing an unmet
-  character's name, affinity, route stage, or future requirement.
+  commits the month. LB/RB and Q/E cycle only the three workflow steps.
+- **Overview** and **People** are fixed information actions outside the workflow
+  rail. D-pad Up reaches that header row and left/right moves only among visible
+  neighbours. People shows lived relationship history without revealing an
+  unmet character's name, affinity, route stage, or future requirement.
+- Down enters every focusable reading card, routine choice, and valid footer in
+  one continuous path; focus-follow scrolling exposes content below 960×600.
+  Mouse hover grabs the same GUI focus used by keyboard and controller.
 - The planner names its prefilled routines as recommended defaults and exposes
   Change without making the player discover a hidden setup step.
-- Before all four weeks are valid, non-Calendar reading paths loop back to their
-  visible tab instead of entering the disabled Review button, and their footer
-  copy never advertises Calendar-only place/remove actions. When employed,
-  primary Income is visibly fixed and duplicate secondary Income is disabled
-  and omitted from the controller focus path.
-- The final confirmation stays disabled until all four weeks are filled. The
-  first confirm opens the chosen/unchosen review; held/repeated input and an OS
-  double-click edge are discarded, so only a fresh second confirm commits.
+- Reading paths loop back to the visible action or workflow step that owns them
+  unless a valid footer action exists. Hidden and disabled controls are omitted
+  from every directional neighbour and focus-restoration path. Non-Week footer
+  copy never advertises Week-only place/remove actions. When employed, primary
+  Income is visibly fixed and duplicate secondary Income is disabled and also
+  omitted from focus.
+- Final confirmation stays disabled until the complete plan validates,
+  including all four weeks and two valid, distinct weekly activities. The
+  Final Review step remains readable, and its rail label states
+  the exact actionable reason: remaining weeks or activities, invalid routine,
+  required primary livelihood, missed deadline, overlapping meetings, active
+  character cap, unavailable offer, changed fixed event, or duplicate booking.
+  A disabled confirmation can never receive focus through D-pad, hover, Tab, or
+  Shift-Tab.
+- The first confirm opens the chosen/unchosen review; held/repeated input and an
+  OS double-click edge are discarded, so only a fresh second confirm commits.
 - The top Plan button reopens only the immutable confirmed month. East closes it
   and restores the prior gameplay focus.
 - P or North opens a separate portrait communication drawer. Its LB/RB tabs are
@@ -352,12 +367,13 @@ All on controller only.
 
 The title-to-demo route has completed all 24 weeks with actual keyboard events and zero mouse events, then with actual mouse events and zero keyboard events. Sixteen Korean/English display-matrix renders cover eight release resolutions, and each language has Xbox, PlayStation, and Nintendo title-glyph evidence at 1080p. The exact contract and remaining physical-device gates are recorded in `docs/INPUT_MATRIX.md`.
 
-`CoreLoopV2Check.tscn` verifies explicit activation, four-slot scheduling, the
-fixed fourth week, first-legal-empty-week focus, raw D-pad-only placement,
-East cancellation, West removal only on the week card that owns focus, and a
-release-gated final review that starts on the safe Edit action. It also covers
-save/load, delayed consequences across a month boundary, one consequence per
-week, player-initiated relationship state, and zero hidden-score or Korean
+`CoreLoopV2Check.tscn` verifies explicit activation, the fixed three-step
+workflow rail and information actions, four-slot scheduling, the fixed fourth
+week, first-legal-empty-week focus, raw D-pad-only placement, East cancellation,
+West removal only on the week card that owns focus, disabled-focus exclusion,
+and a release-gated final review that starts on the safe Edit action. It also
+covers save/load, delayed consequences across a month boundary, one consequence
+per week, player-initiated relationship state, and zero hidden-score or Korean
 leakage on the English planner.
 `CommunicationPhoneCheck.tscn` separately verifies portrait bounds, message and
 contact filtering, thread navigation, offer routing, and focus isolation.
