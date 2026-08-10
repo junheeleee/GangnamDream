@@ -9,9 +9,11 @@
 `tools/ScreenshotQA.gd`, `docs/CORE_LOOP_V2.md`,
 `docs/CONTROLLER_UX_STRATEGY.md`,
 `content/meta/demo_core_loop_v2.json`, `tools/demo_core_loop_v2_audit.py`,
-`docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `CLAUDE.md`, 이 활성 사양과 완료
-아카이브·큐 인덱스다. 표면 계약만 정렬하며 콘텐츠·효과·저장·확정 조건은
-바꾸지 않는다.
+`locale/ui_ja.json`, `content/meta/demo_localization_scope.json`,
+`docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/STATUS.md`, `CLAUDE.md`, 이 활성
+사양과 완료 아카이브·큐 인덱스다. 새 정적 UI 키에 필요한 일본어 준비 사전과
+중국어 준비 원장만 동기화하며 본문 번역은 시작하지 않는다. 표면 계약만 정렬하고
+콘텐츠·효과·저장·확정 조건은 바꾸지 않는다.
 
 **사용자 승인 (2026-08-05):** `docs/PROPOSALS.md`의 `P-12`를 권고대로 실행한다.
 사용자 플레이 판정은 *"이 화면은 제일 중요한 화면이자 제일 많이 하는 화면이고
