@@ -22,6 +22,7 @@ func _ready() -> void:
 	_check_story_followup_suppression()
 	_check_branch_resolution()
 	_check_prototype_completion_boundary()
+	await _check_neutral_offer_surface()
 	await _check_planner_surface()
 	await _stop_test_audio()
 	LocaleManager.language = original_language
@@ -42,6 +43,7 @@ func _ready() -> void:
 			+ "planner_input=east_cancel/west_focus_only/fresh_confirm/double_click_safe/shoulders/p-north "
 			+ "planner_job=primary_fixed/duplicate_disabled "
 			+ "planner_layout=1280x800/960x600 communication=separate_signal "
+			+ "planner_category=month2_cafe/recovery_surface/internal_temptation "
 			+ "en_hangul=0 hidden_scores=0")
 		get_tree().quit(0)
 		return
@@ -675,6 +677,187 @@ func _check_prototype_completion_boundary() -> void:
 		"week-12 continuation did not survive save/load")
 	_expect(GameState.turn == 13,
 		"week-12 continuation save did not remain at week 13")
+
+func _check_neutral_offer_surface() -> void:
+	const CAFE_OFFER := "cafe_world_glimpse"
+	const RECOVERY_OFFER := "m2_sleep_debt_sunday"
+	_expect(str(CORE_LOOP.bundle(CAFE_OFFER).get("kind", "")) == "temptation",
+		"cafe offer lost its internal temptation routing kind")
+	_expect(str(CORE_LOOP.bundle(RECOVERY_OFFER).get("kind", "")) == "recovery",
+		"month-two recovery comparison offer lost its authored kind")
+
+	for language in ["ko", "en"]:
+		GameState.start_new_game()
+		CORE_LOOP.initialize_for_run(true)
+		LocaleManager.set_language(language)
+		var planner = PLANNER.new()
+		var commits: Array[Dictionary] = []
+		planner.plan_committed.connect(func(
+				month_index: int, schedule: Dictionary,
+				routines: Dictionary) -> void:
+			commits.append({
+				"month": month_index,
+				"schedule": schedule.duplicate(true),
+				"routines": routines.duplicate(true),
+			}))
+		add_child(planner)
+		planner.set_anchors_preset(Control.PRESET_TOP_LEFT)
+		planner.position = Vector2.ZERO
+		planner.size = Vector2(1280, 800)
+		_expect(planner.open(2),
+			"%s neutral-category fixture could not open month two" % language)
+		await get_tree().create_timer(0.35).timeout
+		LocaleManager.set_language(language)
+		await get_tree().process_frame
+
+		_expect_neutral_cafe_presentation(planner, language, "idle")
+		var schedule_before: Dictionary = planner.schedule_snapshot()
+		var state_before: Dictionary = (
+			GameState.core_loop_v2_state as Dictionary).duplicate(true)
+		await _navigate_to_planner_offer(planner, CAFE_OFFER)
+		await _press_planner_pad(JOY_BUTTON_A)
+		_expect(_planner_armed_offer_id(planner) == CAFE_OFFER \
+				and planner.schedule_snapshot() == schedule_before \
+				and GameState.core_loop_v2_state == state_before,
+			"%s cafe South did not remain a zero-delta placement intent" % language)
+		_expect_neutral_cafe_presentation(planner, language, "armed")
+
+		await _press_planner_pad(JOY_BUTTON_B)
+		_expect(_planner_armed_offer_id(planner).is_empty() \
+				and planner.schedule_snapshot() == schedule_before \
+				and GameState.core_loop_v2_state == state_before \
+				and _focused_planner_offer(planner) == CAFE_OFFER,
+			"%s cafe East did not cancel intent without changing state" % language)
+		_expect_neutral_cafe_presentation(planner, language, "cancelled")
+
+		await _press_planner_pad(JOY_BUTTON_A)
+		_expect(_planner_armed_offer_id(planner) == CAFE_OFFER,
+			"%s cafe could not be re-armed after cancellation" % language)
+		await _navigate_to_planner_week(planner, 7)
+		await _press_planner_pad(JOY_BUTTON_A)
+		_expect(_planner_armed_offer_id(planner).is_empty() \
+				and planner.schedule_snapshot() == {"7": CAFE_OFFER} \
+				and GameState.core_loop_v2_state == state_before \
+				and str(CORE_LOOP.bundle(CAFE_OFFER).get("kind", "")) \
+					== "temptation",
+			"%s cafe Week-7 placement changed more than the draft schedule" % language)
+		_expect_neutral_cafe_presentation(planner, language, "placed")
+
+		_expect(planner.assign_offer_to_week("m2_seorin_application", 5) \
+				and planner.assign_offer_to_week("m2_rain_delivery_shift", 6) \
+				and planner.assign_offer_to_week("m2_sleep_debt_sunday", 8),
+			"%s cafe review fixture could not fill the other three weeks" % language)
+		var complete_schedule: Dictionary = planner.schedule_snapshot()
+		var plan_validation: Dictionary = CORE_LOOP.validate_plan(
+			2, complete_schedule, planner.routine_snapshot())
+		_expect(bool(plan_validation.get("ok", false)),
+			"%s cafe review fixture was not a valid month-two plan: %s" % [
+				language, plan_validation])
+		planner._switch_workflow_step(2)
+		await get_tree().process_frame
+		_expect_hidden_category_absent(
+			_collect_surface_text(planner), language, "record")
+
+		planner._commit_plan()
+		await get_tree().process_frame
+		_expect(planner.review_pending() and commits.is_empty(),
+			"%s cafe plan skipped its final review" % language)
+		_expect_hidden_category_absent(
+			_collect_surface_text(planner), language, "review")
+		await get_tree().create_timer(0.40).timeout
+		await get_tree().process_frame
+		await _click_planner_control(planner._confirm_button)
+		_expect(commits.size() == 1 \
+				and int(commits[0].get("month", 0)) == 2,
+			"%s cafe plan did not emit one fresh confirmation" % language)
+		if not commits.is_empty():
+			var committed: Dictionary = CORE_LOOP.commit_plan(
+				2,
+				commits[0].get("schedule", {}) as Dictionary,
+				commits[0].get("routines", {}) as Dictionary)
+			_expect(bool(committed.get("ok", false)),
+				"%s cafe plan could not reach the confirmed record" % language)
+			_expect(planner.open(2, true) and planner.read_only_plan() \
+					and planner.schedule_snapshot() == complete_schedule,
+				"%s cafe confirmed record did not reopen the same plan" % language)
+			await get_tree().process_frame
+			_expect_hidden_category_absent(
+				_collect_surface_text(planner), language, "confirmed record")
+			_expect(str(CORE_LOOP.bundle(CAFE_OFFER).get("kind", "")) \
+					== "temptation",
+				"%s confirming the cafe plan changed its internal kind" % language)
+
+		GameState.core_loop_v2_state = state_before
+		_expect(GameState.core_loop_v2_state == state_before,
+			"%s cafe review fixture did not restore its isolated run state" % language)
+
+		planner.queue_free()
+		await get_tree().process_frame
+		await get_tree().process_frame
+
+
+func _expect_neutral_cafe_presentation(
+		planner, language: String, phase: String) -> void:
+	var cafe_button := planner._offer_buttons.get(
+		"cafe_world_glimpse") as Button
+	var recovery_button := planner._offer_buttons.get(
+		"m2_sleep_debt_sunday") as Button
+	_expect(is_instance_valid(cafe_button) and is_instance_valid(recovery_button),
+		"%s month-two planner lost a neutral-category comparison card" % language)
+	if not is_instance_valid(cafe_button) or not is_instance_valid(recovery_button):
+		return
+	var expected_label := "회복" if language == "ko" else "RECOVERY"
+	var forbidden_label := "유혹" if language == "ko" else "TEMPTATION"
+	var calendar_text := _collect_surface_text(planner._calendar_surface)
+	_expect(cafe_button.text.find(expected_label) >= 0 \
+			and recovery_button.text.find(expected_label) >= 0 \
+			and calendar_text.find(forbidden_label) < 0,
+		"%s %s planner leaked or lost the neutral recovery label" % [
+			language, phase])
+	var cafe_icon_path := (
+		cafe_button.icon.resource_path if cafe_button.icon != null else "")
+	var recovery_icon_path := (
+		recovery_button.icon.resource_path \
+		if recovery_button.icon != null else "")
+	_expect(cafe_icon_path == "res://assets/ui/icons/icon_rest.svg" \
+			and cafe_icon_path == recovery_icon_path,
+		"%s %s cafe card did not use the ordinary recovery icon" % [
+			language, phase])
+	var cafe_hover := cafe_button.get_theme_stylebox("hover") as StyleBoxFlat
+	var recovery_hover := (
+		recovery_button.get_theme_stylebox("hover") as StyleBoxFlat)
+	var shared_category_color := is_instance_valid(cafe_hover) \
+		and is_instance_valid(recovery_hover) \
+		and cafe_hover.border_color.is_equal_approx(
+			recovery_hover.border_color)
+	if phase != "armed":
+		var cafe_normal := (
+			cafe_button.get_theme_stylebox("normal") as StyleBoxFlat)
+		var recovery_normal := (
+			recovery_button.get_theme_stylebox("normal") as StyleBoxFlat)
+		shared_category_color = shared_category_color \
+			and is_instance_valid(cafe_normal) \
+			and is_instance_valid(recovery_normal) \
+			and cafe_normal.border_color.is_equal_approx(
+				recovery_normal.border_color)
+	_expect(shared_category_color \
+			and planner._offer_surface_kind("temptation") == "recovery" \
+			and planner._offer_kind_label("temptation") \
+				== planner._offer_kind_label("recovery") \
+			and planner._offer_kind_color("temptation").is_equal_approx(
+				planner._offer_kind_color("recovery")) \
+			and planner._offer_kind_icon("temptation").resource_path \
+				== "res://assets/ui/icons/icon_rest.svg",
+		"%s %s cafe card retained a distinct category presentation" % [
+			language, phase])
+
+
+func _expect_hidden_category_absent(
+		surface_text: String, language: String, phase: String) -> void:
+	var forbidden_label := "유혹" if language == "ko" else "TEMPTATION"
+	_expect(surface_text.find(forbidden_label) < 0,
+		"%s %s leaked the internal cafe category" % [language, phase])
+
 
 func _check_planner_surface() -> void:
 	GameState.start_new_game()
@@ -1688,7 +1871,8 @@ func _navigate_to_planner_offer(planner, target_offer_id: String) -> void:
 	if _focused_planner_week(planner) > 0:
 		await _press_planner_pad(JOY_BUTTON_DPAD_LEFT)
 	var current_offer_id := _focused_planner_offer(planner)
-	var available: Array[String] = CORE_LOOP.available_offer_ids(1)
+	var month_index := int(planner.get_meta("core_loop_v2_month", 0))
+	var available: Array[String] = CORE_LOOP.available_offer_ids(month_index)
 	var current_index := available.find(current_offer_id)
 	var target_index := available.find(target_offer_id)
 	_expect(current_index >= 0 and target_index >= 0,

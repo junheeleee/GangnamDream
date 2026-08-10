@@ -458,7 +458,7 @@
         "blocks": [
           "demo-release"
         ],
-        "content": "P-10의 공통 영어 수단 1단위·주요 화자→청자 12단위·기능 화자와 단역 8단위·73사건/578동적 전수 교차 검토 1단위로 구성된 22단위 원장"
+        "content": "P-10의 공통 영어 수단 1단위·주요 화자→청자 12단위·기능 화자와 단역 8단위·73사건/584동적 전수 교차 검토 1단위로 구성된 22단위 원장"
       },
       "revision": "demo_rc",
       "sample": {
@@ -525,7 +525,7 @@
         "cohort": "zh_cn_demo_native_context_review",
         "requirements": [
           "한국어와 게임 문맥을 함께 이해하는 중국 본토 원어민 검수자",
-          "해당 demo_rc에서 zh_translation_audit.py --lang zh-CN --strict PASS: 정적 UI 2,590/2,590·73사건·465본문·571동적·4자산과 프로젝트 소유 SC 글꼴 준비 완료",
+          "해당 demo_rc에서 zh_translation_audit.py --lang zh-CN --strict PASS: 정적 UI 2,601/2,601·73사건·465본문·577동적·4자산과 프로젝트 소유 SC 글꼴 준비 완료",
           "같은 demo_rc를 새 세이브로 시작해 24주와 CTA까지 정상 속도로 독해",
           "한 경로에 나오지 않은 합법 도달 73개 사건과 모든 선택·결과를 한국어 정본과 직접 대조",
           "SC 글꼴이 JP 공유 한자보다 먼저 선택되는 실제 화면을 Windows·macOS·Linux/Steam Deck에서 확인"
@@ -557,7 +557,7 @@
         "cohort": "zh_tw_demo_native_context_review",
         "requirements": [
           "한국어와 게임 문맥을 함께 이해하는 대만 원어민 검수자",
-          "해당 demo_rc에서 zh_translation_audit.py --lang zh-TW --strict PASS: 정적 UI 2,590/2,590·73사건·465본문·571동적·4자산과 프로젝트 소유 TC 글꼴 준비 완료",
+          "해당 demo_rc에서 zh_translation_audit.py --lang zh-TW --strict PASS: 정적 UI 2,601/2,601·73사건·465본문·577동적·4자산과 프로젝트 소유 TC 글꼴 준비 완료",
           "같은 demo_rc를 새 세이브로 시작해 24주와 CTA까지 정상 속도로 독해",
           "한 경로에 나오지 않은 합법 도달 73개 사건과 모든 선택·결과를 한국어 정본과 직접 대조",
           "TC 글꼴이 JP 공유 한자보다 먼저 선택되는 실제 화면을 Windows·macOS·Linux/Steam Deck에서 확인"

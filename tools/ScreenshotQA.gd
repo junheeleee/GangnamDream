@@ -1832,6 +1832,16 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		planner, "empty calendar", 1, false, false)
 	if _qa_failed:
 		return
+	await _capture_core_loop_v2_activity_category_tutorial(planner, prefix)
+	if _qa_failed:
+		return
+	await _capture_core_loop_v2_cafe_recovery_offer(planner, core_loop, prefix)
+	if _qa_failed:
+		return
+	_assert_core_loop_v2_planner_surface(
+		planner, "restored empty calendar", 1, false, false)
+	if _qa_failed:
+		return
 	var initial_schedule: Dictionary = planner.schedule_snapshot()
 	if initial_schedule.size() != 1 \
 			or str(initial_schedule.get("4", "")) != "first_temptation_boss":
@@ -2244,6 +2254,123 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		"v2_m4_housing_consultation_anchor", prefix + "15d_m4_housing_privacy_result",
 		lang, 0.45, true, true, 1, 0, false, 1)
 	await _shot_first_bill_finale_surfaces(lang, prefix)
+
+
+func _capture_core_loop_v2_activity_category_tutorial(
+		planner: Control, prefix: String) -> void:
+	var schedule_before: Dictionary = planner.schedule_snapshot()
+	var routines_before: Dictionary = planner.routine_snapshot()
+	var state_before: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var flags_before: Dictionary = GameState.flags.duplicate(true)
+	_remove_nodes_by_script("res://scenes/TutorialOverlay.gd")
+	TutorialOverlay.force_show("core_loop_v2", _mg as Control)
+	await _settle(0.30)
+	var overlay := _find_tutorial_overlay()
+	if not is_instance_valid(overlay) or not overlay.has_method("_show_slide"):
+		_fail("Core Loop V2 activity-category tutorial slide is missing.")
+		return
+	overlay.call("_show_slide", 1)
+	await _settle(0.20)
+	var tutorial_text := _collect_control_text(overlay)
+	var expected_copy := [
+		LocaleManager.ui("제안을 네 주에 놓기", "Place Offers Across Four Weeks"),
+		LocaleManager.ui("진로(취업·경력)", "CAREER (jobs)"),
+		LocaleManager.ui("생계(당장 수입)", "INCOME (earning now)"),
+		LocaleManager.ui("성장(배움·성찰)", "GROWTH (learning or reflection)"),
+		LocaleManager.ui("회복(쉼·숨 돌릴 시간)", "RECOVERY (rest or breathing room)"),
+		LocaleManager.ui("돌봄(가족·생활 책임)", "CARE (family or daily needs)"),
+		LocaleManager.ui("관계(사람과의 시간)", "PEOPLE (time with others)"),
+		LocaleManager.ui(
+			"이 분류만으로 이후 결과를 미리 알 수는 없습니다.",
+			"It does not reveal what follows."),
+	]
+	for expected in expected_copy:
+		if str(expected) not in tutorial_text:
+			_fail("Core Loop V2 activity-category tutorial omitted '%s'." % expected)
+			return
+	var body := overlay.get("_body_lbl") as RichTextLabel
+	var viewport_rect := get_viewport().get_visible_rect().grow(1.0)
+	if not is_instance_valid(body) \
+			or not viewport_rect.encloses(body.get_global_rect()) \
+			or body.get_content_height() > body.size.y + 1.0:
+		_fail("Core Loop V2 activity-category tutorial is clipped at %s." % [
+			get_viewport().get_visible_rect().size])
+		return
+	await _save(prefix + "00_activity_category_tutorial", 0.05)
+	_remove_nodes_by_script("res://scenes/TutorialOverlay.gd")
+	await _settle(0.10)
+	if planner.schedule_snapshot() != schedule_before \
+			or planner.routine_snapshot() != routines_before \
+			or GameState.core_loop_v2_state != state_before \
+			or GameState.flags != flags_before:
+		_fail("Capturing the activity-category tutorial mutated the first plan or run state.")
+
+
+func _capture_core_loop_v2_cafe_recovery_offer(
+		planner: Control, core_loop: Variant, prefix: String) -> void:
+	var original_month := int(planner.get_meta("core_loop_v2_month", 0))
+	var original_schedule: Dictionary = planner.schedule_snapshot()
+	var original_routines: Dictionary = planner.routine_snapshot()
+	var state_before: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var cafe_bundle_before: Dictionary = core_loop.bundle("cafe_world_glimpse")
+	if original_month != 1 or str(cafe_bundle_before.get("kind", "")) != "temptation":
+		_fail("Core Loop V2 café recovery fixture lost its Month-One origin or internal kind.")
+		return
+	if not bool(_mg._core_loop_v2_open_planner(2, false)):
+		_fail("Core Loop V2 could not open Month Two for the café recovery capture.")
+		return
+	await _settle(0.24)
+	var month_two_schedule: Dictionary = planner.schedule_snapshot()
+	var month_two_routines: Dictionary = planner.routine_snapshot()
+	var cafe_offer := planner._offer_buttons.get("cafe_world_glimpse") as Button
+	if not is_instance_valid(cafe_offer) or not cafe_offer.is_visible_in_tree():
+		_fail("Month Two does not expose the café-world offer on the real planner.")
+		return
+	cafe_offer.grab_focus()
+	await get_tree().process_frame
+	var offer_scroll := planner._offer_scroll as ScrollContainer
+	if is_instance_valid(offer_scroll):
+		offer_scroll.ensure_control_visible(cafe_offer)
+	await _settle(0.20)
+	var expected_label := LocaleManager.ui("회복", "RECOVERY")
+	var planner_text := _collect_control_text(planner)
+	var icon_path := cafe_offer.icon.resource_path \
+		if cafe_offer.icon != null else ""
+	var offer_view := offer_scroll.get_global_rect().grow(1.0) \
+		if is_instance_valid(offer_scroll) else Rect2()
+	if get_viewport().gui_get_focus_owner() != cafe_offer \
+			or expected_label not in cafe_offer.text \
+			or icon_path != "res://assets/ui/icons/icon_rest.svg" \
+			or not offer_view.encloses(cafe_offer.get_global_rect()):
+		_fail(("Month Two café offer is not a visible focused %s card with icon_rest: "
+			+ "focus=%s icon=%s rect=%s view=%s.") % [
+			expected_label,
+			str(get_viewport().gui_get_focus_owner()),
+			icon_path,
+			cafe_offer.get_global_rect(),
+			offer_view,
+		])
+		return
+	if "유혹" in planner_text or "TEMPTATION" in planner_text.to_upper():
+		_fail("Month Two planner leaked 유혹/TEMPTATION before the café choice.")
+		return
+	if planner.schedule_snapshot() != month_two_schedule \
+			or planner.routine_snapshot() != month_two_routines \
+			or not _core_loop_v2_armed_offer_id(planner).is_empty() \
+			or GameState.core_loop_v2_state != state_before \
+			or core_loop.bundle("cafe_world_glimpse") != cafe_bundle_before:
+		_fail("Focusing the Month Two café offer mutated its plan, state, or internal kind.")
+		return
+	await _save(prefix + "00a_month2_cafe_recovery_focused", 0.05)
+	if not bool(_mg._core_loop_v2_open_planner(original_month, false)):
+		_fail("Core Loop V2 could not restore Month One after the café capture.")
+		return
+	await _settle(0.20)
+	if planner.schedule_snapshot() != original_schedule \
+			or planner.routine_snapshot() != original_routines \
+			or GameState.core_loop_v2_state != state_before:
+		_fail("The Month Two café capture changed the original monthly plan or run state.")
+
 
 func _shot_core_loop_v2_fresh_month_one_planner(
 		lang: String, prefix: String) -> void:

@@ -35,6 +35,7 @@ MANIFEST_PATH = ROOT / "content/meta/demo_localization_scope.json"
 RELEASE_LEDGER_PATH = ROOT / "content/meta/release_content_inventory.json"
 DEMO_CONTRACT_PATH = ROOT / "content/meta/demo_core_loop_v2.json"
 OPENING_PATH = ROOT / "scenes/OpeningCinematic.gd"
+TUTORIAL_PATH = ROOT / "scenes/TutorialOverlay.gd"
 IMAGE_REGISTRY_PATH = ROOT / "autoloads/ImageRegistry.gd"
 LOCALE_MANAGER_PATH = ROOT / "autoloads/LocaleManager.gd"
 PREPARED_LANGUAGES = ("ja", "zh-CN", "zh-TW")
@@ -115,6 +116,7 @@ ROUTE_FUNCTIONS: dict[str, tuple[str, ...]] = {
     ),
     "scenes/CommunicationPhone.gd": ("_optional_phone_copy", "_localized"),
     "scenes/OpeningCinematic.gd": ("_localized",),
+    "scenes/TutorialOverlay.gd": ("_localized_slide",),
     "scenes/StartMenu.gd": (
         "_theme_text",
         "_difficulty_text",
@@ -144,6 +146,9 @@ ROUTE_REQUIRED_FRAGMENTS: dict[tuple[str, str], str] = {
     ),
     ("scenes/JobHuntMiniGame.gd", "_loc"): (
         "return LocaleManager.ui(korean, english)"
+    ),
+    ("scenes/TutorialOverlay.gd", "_localized_slide"): (
+        "LocaleManager.ui(body_ko, body_en)"
     ),
 }
 
@@ -340,6 +345,138 @@ def collect_opening_pairs() -> tuple[list[Pair], list[str]]:
     return sorted(pairs, key=lambda row: row.source_id), errors
 
 
+def _gd_call_body(source: str, open_paren: int) -> tuple[str, int]:
+    """Return one balanced GDScript call body without evaluating code."""
+    depth = 0
+    in_string = False
+    escaped = False
+    for index in range(open_paren, len(source)):
+        char = source[index]
+        if in_string:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                in_string = False
+            continue
+        if char == '"':
+            in_string = True
+        elif char == "(":
+            depth += 1
+        elif char == ")":
+            depth -= 1
+            if depth == 0:
+                return source[open_paren + 1:index], index + 1
+    raise ValueError("unterminated _localized_slide call")
+
+
+def _gd_call_args(body: str) -> list[str]:
+    args: list[str] = []
+    start = 0
+    depth = 0
+    in_string = False
+    escaped = False
+    for index, char in enumerate(body):
+        if in_string:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                in_string = False
+            continue
+        if char == '"':
+            in_string = True
+        elif char in "([{":
+            depth += 1
+        elif char in ")]}":
+            depth -= 1
+        elif char == "," and depth == 0:
+            args.append(body[start:index].strip())
+            start = index + 1
+    args.append(body[start:].strip())
+    return args
+
+
+def _gd_concat_string(expression: str) -> str:
+    literal = re.compile(r'"(?:\\.|[^"\\])*"')
+    values: list[str] = []
+    cursor = 0
+    residue: list[str] = []
+    for match in literal.finditer(expression):
+        residue.append(expression[cursor:match.start()])
+        values.append(json.loads(match.group(0)))
+        cursor = match.end()
+    residue.append(expression[cursor:])
+    if not values or re.sub(r"[\s+()]", "", "".join(residue)):
+        raise ValueError("localized tutorial argument is not a literal concatenation")
+    return "".join(values)
+
+
+def collect_core_loop_tutorial_pairs() -> tuple[list[Pair], list[str]]:
+    """Collect the mandatory three-slide first-planner explanation."""
+    source = TUTORIAL_PATH.read_text(encoding="utf-8")
+    block_match = re.search(
+        r'(?ms)^\t\t"core_loop_v2":\s*\n(?P<body>.*?)^\t\t"main_game":\s*$',
+        source,
+    )
+    if block_match is None:
+        return [], ["TutorialOverlay: core_loop_v2 slide block not found"]
+    block = block_match.group("body")
+    pairs: list[Pair] = []
+    errors: list[str] = []
+    cursor = 0
+    slide_index = 0
+    needle = "_localized_slide("
+    while True:
+        call_start = block.find(needle, cursor)
+        if call_start < 0:
+            break
+        open_paren = call_start + len(needle) - 1
+        try:
+            body, cursor = _gd_call_body(block, open_paren)
+            args = _gd_call_args(body)
+        except ValueError as exc:
+            errors.append(f"TutorialOverlay core_loop_v2[{slide_index}]: {exc}")
+            break
+        if len(args) != 5:
+            errors.append(
+                "TutorialOverlay core_loop_v2[%d]: expected 5 arguments, got %d"
+                % (slide_index, len(args))
+            )
+            slide_index += 1
+            continue
+        for field, ko_index, en_index in (
+            ("title", 1, 2), ("body", 3, 4)
+        ):
+            try:
+                korean = _gd_concat_string(args[ko_index])
+                english = _gd_concat_string(args[en_index])
+            except (ValueError, json.JSONDecodeError) as exc:
+                errors.append(
+                    f"TutorialOverlay core_loop_v2[{slide_index}].{field}: {exc}"
+                )
+                continue
+            if not korean.strip() or not english.strip():
+                errors.append(
+                    f"TutorialOverlay core_loop_v2[{slide_index}].{field}: empty pair"
+                )
+                continue
+            pairs.append(Pair(
+                "scenes/TutorialOverlay.gd::core_loop_v2[%d].%s"
+                % (slide_index, field),
+                korean,
+                english,
+            ))
+        slide_index += 1
+    if slide_index != 3:
+        errors.append(
+            f"TutorialOverlay core_loop_v2: expected 3 slides, found {slide_index}"
+        )
+    return pairs, errors
+
+
 def _gd_const_array_block(text: str, name: str) -> str:
     match = re.search(
         rf"(?ms)^const\s+{re.escape(name)}\s*(?::=|=)\s*\[\s*\n(.*?)^\]\s*$",
@@ -522,6 +659,7 @@ def build_scope() -> tuple[dict[str, Any], dict[str, Any], list[str]]:
     demo_pairs, pair_errors = collect_json_suffix_pairs(demo_contract)
     demo_inline_pairs, inline_pair_errors = collect_json_inline_pairs(demo_contract)
     opening_pairs, opening_errors = collect_opening_pairs()
+    tutorial_pairs, tutorial_errors = collect_core_loop_tutorial_pairs()
     event_pairs = collect_event_runtime_pairs(event_ids, events)
     person_pairs, person_errors = collect_person_pairs(event_ids, events)
     activity_pairs, activity_errors, activity_owner_counts = (
@@ -529,12 +667,13 @@ def build_scope() -> tuple[dict[str, Any], dict[str, Any], list[str]]:
     )
     all_pairs = sorted(
         demo_pairs + demo_inline_pairs + opening_pairs + event_pairs
-        + person_pairs + activity_pairs,
+        + tutorial_pairs + person_pairs + activity_pairs,
         key=lambda row: row.source_id,
     )
     merged_pairs, merge_errors = merge_pairs(all_pairs)
     errors.extend(
-        pair_errors + inline_pair_errors + opening_errors + person_errors
+        pair_errors + inline_pair_errors + opening_errors + tutorial_errors
+        + person_errors
         + activity_errors
         + merge_errors
     )
@@ -586,6 +725,11 @@ def build_scope() -> tuple[dict[str, Any], dict[str, Any], list[str]]:
         "opening_pairs_sha256": sha_rows(
             f"{pair.source_id}\0{pair.korean}\0{pair.english}"
             for pair in opening_pairs
+        ),
+        "tutorial_pair_occurrences": len(tutorial_pairs),
+        "tutorial_pairs_sha256": sha_rows(
+            f"{pair.source_id}\0{pair.korean}\0{pair.english}"
+            for pair in tutorial_pairs
         ),
         "event_runtime_pair_occurrences": len(event_pairs),
         "person_pair_occurrences": len(person_pairs),
@@ -1064,6 +1208,11 @@ def run_self_test(
     cases += 1
     if not broken_inline_errors:
         failures.append("incomplete inline ko/en pair was not rejected")
+
+    tutorial_pairs, tutorial_errors = collect_core_loop_tutorial_pairs()
+    cases += 1
+    if tutorial_errors or len(tutorial_pairs) != 6:
+        failures.append("three-slide first-planner tutorial was not collected exactly")
 
     changed_ids = list(runtime["event_ids"]) + ["callback_escaped_dirty_trace"]
     cases += 1

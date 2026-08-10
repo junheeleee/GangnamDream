@@ -444,16 +444,22 @@ static func _get_slides(game_id: String) -> Array:
 					(
 						"왼쪽에는 이번 달에 고를 수 있는 제안이, 오른쪽에는\n"
 						+ "[b]1주차부터 4주차[/b]까지의 일정이 보입니다.\n\n"
-						+ "제안을 고른 뒤 넣을 주를 선택하세요. 이미 정해진 일정은\n"
-						+ "옮길 수 없고, 나머지 빈 주는 모두 채워야 합니다.\n\n"
-						+ "확정하기 전에는 일정을 빼고 다른 제안으로 바꿀 수 있습니다."
+						+ "제안 앞 분류는 이번 달의 시간을 어디에 쓰는지만 말합니다.\n"
+						+ "진로(취업·경력) · 생계(당장 수입) · 성장(배움·성찰)\n"
+						+ "회복(쉼·숨 돌릴 시간) · 돌봄(가족·생활 책임) · 관계(사람과의 시간)\n"
+						+ "이 분류만으로 이후 결과를 미리 알 수는 없습니다.\n\n"
+						+ "제안을 고른 뒤 넣을 주를 선택하세요. 고정 일정은 옮길 수 없고,\n"
+						+ "나머지 빈 주는 모두 채웁니다. 확정 전에는 언제든 바꿀 수 있습니다."
 					),
 					(
 						"This month's offers are on the left. The calendar for\n"
 						+ "[b]Weeks 1 through 4[/b] is on the right.\n\n"
-						+ "Choose an offer, then choose its week. Fixed commitments cannot\n"
-						+ "move, and every remaining open week must be filled.\n\n"
-						+ "Before confirming, you can remove a commitment and replace it."
+						+ "A label says only how Minjun plans to spend that time.\n"
+						+ "CAREER (jobs) · INCOME (earning now) · GROWTH (learning or reflection)\n"
+						+ "RECOVERY (rest or breathing room) · CARE (family or daily needs) · PEOPLE (time with others)\n"
+						+ "It does not reveal what follows.\n\n"
+						+ "Choose an offer, then its week. Fixed commitments cannot move;\n"
+						+ "fill every remaining open week. You can replace non-fixed offers before confirming."
 					)
 				),
 				_localized_slide(

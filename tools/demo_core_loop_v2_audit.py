@@ -6227,6 +6227,27 @@ def main() -> int:
     months = require_list(contract.get("months"), "months", errors)
     groups = require_dict(contract.get("exclusive_groups"), "exclusive_groups", errors)
 
+    cafe_offer = require_dict(
+        bundles.get("cafe_world_glimpse"),
+        "scene_bundles.cafe_world_glimpse",
+        errors,
+    )
+    recovery_comparison_offer = require_dict(
+        bundles.get("m2_sleep_debt_sunday"),
+        "scene_bundles.m2_sleep_debt_sunday",
+        errors,
+    )
+    if str(cafe_offer.get("kind", "")) != "temptation":
+        fail(
+            "cafe_world_glimpse must retain its internal temptation kind",
+            errors,
+        )
+    if str(recovery_comparison_offer.get("kind", "")) != "recovery":
+        fail(
+            "m2_sleep_debt_sunday must remain the recovery surface comparison",
+            errors,
+        )
+
     if int(contract.get("schema_version", 0)) != 3:
         fail("schema_version must be 3 for the 24-week executable contract", errors)
     if bool(contract.get("runtime_default", True)):
@@ -6329,6 +6350,81 @@ def main() -> int:
     except OSError as exc:
         fail(f"cannot load monthly planner surface: {exc}", errors)
         planner_surface_source = ""
+
+    def planner_function_source(function_name: str) -> str:
+        match = re.search(
+            rf"^func {re.escape(function_name)}\b[\s\S]*?(?=^func |\Z)",
+            planner_surface_source,
+            re.MULTILINE,
+        )
+        return match.group(0) if match is not None else ""
+
+    offer_surface_kind_source = planner_function_source("_offer_surface_kind")
+    offer_label_source = planner_function_source("_offer_kind_label")
+    offer_color_source = planner_function_source("_offer_kind_color")
+    offer_icon_source = planner_function_source("_offer_kind_icon")
+    planner_category_source = "\n".join(
+        (
+            offer_surface_kind_source,
+            offer_label_source,
+            offer_color_source,
+            offer_icon_source,
+        )
+    )
+    if not re.search(
+        r'"recovery"\s*,\s*"temptation"\s*:\s*return\s+"recovery"',
+        offer_surface_kind_source,
+    ):
+        fail(
+            "monthly planner must alias internal temptation to neutral recovery",
+            errors,
+        )
+    if any(
+        "match _offer_surface_kind(kind):" not in function_source
+        for function_source in (
+            offer_label_source,
+            offer_color_source,
+            offer_icon_source,
+        )
+    ):
+        fail(
+            "planner label, colour, and icon must share one surface-kind owner",
+            errors,
+        )
+    for required_category_token in (
+        'LocaleManager.ui("회복", "RECOVERY")',
+        "return COLOR_RECOVERY",
+        'path = "res://assets/ui/icons/icon_rest.svg"',
+    ):
+        if required_category_token not in planner_category_source:
+            fail(
+                "neutral recovery presentation lost token "
+                f"{required_category_token!r}",
+                errors,
+            )
+    for forbidden_category_label in ('"유혹"', '"TEMPTATION"'):
+        if forbidden_category_label in planner_category_source:
+            fail(
+                "monthly planner classification leaked hidden label "
+                f"{forbidden_category_label}",
+                errors,
+            )
+
+    rebuild_calendar_source = planner_function_source("_rebuild_calendar")
+    refresh_calendar_source = planner_function_source("_refresh_calendar")
+    apply_week_style_source = planner_function_source("_apply_week_style")
+    if (
+        "_offer_kind_label(" not in rebuild_calendar_source
+        or "_offer_kind_icon(" not in rebuild_calendar_source
+        or "_offer_kind_label(kind)" not in refresh_calendar_source
+        or "_apply_offer_style(" not in refresh_calendar_source
+        or "_offer_kind_color(kind)" not in apply_week_style_source
+    ):
+        fail(
+            "planner rebuild, armed refresh, and placed-week style must all "
+            "use the neutral offer presentation",
+            errors,
+        )
     if "_tab_buttons" in planner_surface_source:
         fail("monthly planner reintroduced the retired four-tab layer", errors)
     for required_surface_token in (

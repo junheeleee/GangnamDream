@@ -22,8 +22,9 @@
   round-trip unchanged through Weeks 24, 48, and 240. Four real 1→24 component
   routes and their 25→48 continuations now own new exact cash/health/mental
   ledgers; the five-year event cadence remains unchanged. The current demo
-  localization scope is 73 events, 465 authored leaves, and 578 dynamic pair
-  occurrences / 571 unique keys inside a 1,603-event bilingual catalog. Automated continuity,
+  localization scope is 73 events, 465 authored leaves, and 584 dynamic pair
+  occurrences / 577 unique keys, including the mandatory first-planner tutorial,
+  inside a 1,603-event bilingual catalog. Automated continuity,
   input, bilingual, save, balance, direction, audio, and inventory checks do not
   replace the open same-build human verdict on the first five minutes.
 - Established a speaker-to-listener English voice contract and reread the entire reachable 24-week English surface: 72 events, 447 authored leaves, 543 dynamic occurrences / 536 unique keys, and 147 activity lines. Daeun, Jiyeon, Hyunsu, Father, Sangchul, Jaehyuk, institutions, and incidental speakers now retain distinct sentence shape, directness, hesitation, contractions, and contextual address without importing Korean honorifics. The pass also corrected meaning drift in family debt, accident compensation, fraud recovery, recruitment, and official notices while preserving every choice, effect, flag, date, amount, and route. Demo `oppa` and `-ssi` remain zero and `hyung` remains contextual; native or near-native random-three review remains open.

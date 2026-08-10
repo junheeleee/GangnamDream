@@ -2686,52 +2686,71 @@ func _section_title(text: String) -> Label:
 	return label
 
 
-func _offer_kind_label(kind: String) -> String:
+func _offer_surface_kind(kind: String) -> String:
+	# Runtime kinds own routing and consequences. The planning board owns a
+	# smaller, neutral vocabulary for what Minjun spends time doing. Keeping the
+	# alias here prevents a hidden branch name from leaking back through a label,
+	# colour, or icon independently.
 	match kind:
 		"career", "boss":
+			return "career"
+		"livelihood":
+			return "livelihood"
+		"growth", "reflection":
+			return "growth"
+		"recovery", "temptation":
+			return "recovery"
+		"care":
+			return "care"
+		"encounter", "pursuit":
+			return "people"
+	return "option"
+
+
+func _offer_kind_label(kind: String) -> String:
+	match _offer_surface_kind(kind):
+		"career":
 			return LocaleManager.ui("진로", "CAREER")
 		"livelihood":
 			return LocaleManager.ui("생계", "INCOME")
-		"growth", "reflection":
+		"growth":
 			return LocaleManager.ui("성장", "GROWTH")
 		"recovery":
 			return LocaleManager.ui("회복", "RECOVERY")
 		"care":
 			return LocaleManager.ui("돌봄", "CARE")
-		"encounter", "pursuit":
+		"people":
 			return LocaleManager.ui("관계", "PEOPLE")
-		"temptation":
-			return LocaleManager.ui("유혹", "TEMPTATION")
 	return LocaleManager.ui("선택", "OPTION")
 
 
 func _offer_kind_color(kind: String) -> Color:
-	match kind:
-		"career", "boss":
+	match _offer_surface_kind(kind):
+		"career":
 			return COLOR_CAREER
 		"livelihood":
 			return COLOR_LIVELIHOOD
-		"growth", "reflection":
+		"growth":
 			return COLOR_GROWTH
 		"recovery":
 			return COLOR_RECOVERY
-		"care", "encounter", "pursuit", "temptation":
+		"care", "people":
 			return COLOR_RELATIONSHIP
 	return COLOR_BORDER
 
 
 func _offer_kind_icon(kind: String) -> Texture2D:
 	var path := "res://assets/ui/icons/icon_goal.svg"
-	match kind:
-		"career", "boss":
+	match _offer_surface_kind(kind):
+		"career":
 			path = "res://assets/ui/icons/icon_job.svg"
 		"livelihood":
 			path = "res://assets/ui/icons/icon_aruba.svg"
-		"growth", "reflection":
+		"growth":
 			path = "res://assets/ui/icons/icon_study.svg"
 		"recovery":
 			path = "res://assets/ui/icons/icon_rest.svg"
-		"care", "encounter", "pursuit", "temptation":
+		"care", "people":
 			path = "res://assets/ui/icons/icon_relationship.svg"
 	return load(path) as Texture2D
 
