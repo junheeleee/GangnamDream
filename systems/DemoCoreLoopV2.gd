@@ -1766,8 +1766,9 @@ static func _resolve_seoul_cycle_entry_public(
 		cycle, pending_key, bundle_id)
 	var raw_existing: Variant = cycle.get(receipt_key, {}).get(
 		receipt_id, {}) if cycle.get(receipt_key, {}) is Dictionary else {}
-	if raw_existing is Dictionary \
-			and str((raw_existing as Dictionary).get("status", "")) == "resolved":
+	if _seoul_cycle_resolved_receipt_matches(
+			raw_existing, pending_key, receipt_id,
+			bundle_id, int(GameState.turn)):
 		return true
 	if not active_bundle_id().is_empty() \
 			or int(state["completed_bundle_turns"].get(bundle_id, 0)) \
@@ -1787,7 +1788,7 @@ static func _seoul_cycle_entry_receipt_id(
 	if raw_entry is Dictionary and not (raw_entry as Dictionary).is_empty():
 		if pending_key == "pending_trigger":
 			return str((raw_entry as Dictionary).get("node_id", ""))
-		return str((raw_entry as Dictionary).get("week_index", ""))
+		return _seoul_cycle_world_receipt_id(raw_entry as Dictionary)
 	if pending_key == "pending_trigger":
 		for raw_node_id in cycle.get("nodes", {}):
 			var raw_node: Variant = cycle["nodes"].get(raw_node_id, {})
@@ -1795,7 +1796,26 @@ static func _seoul_cycle_entry_receipt_id(
 					and str((raw_node as Dictionary).get(
 						"trigger_bundle", "")) == bundle_id:
 				return str(raw_node_id)
-	return str(int(GameState.turn))
+	var month := int(cycle.get("month", 0))
+	var week_index := int(GameState.turn) \
+		- _seoul_cycle_month_start_turn(month) + 1
+	return str(week_index) if week_index >= 1 and week_index <= 4 else ""
+
+static func _seoul_cycle_resolved_receipt_matches(
+		raw_receipt: Variant, pending_key: String,
+		receipt_id: String, bundle_id: String, turn: int) -> bool:
+	if receipt_id.is_empty() or not raw_receipt is Dictionary:
+		return false
+	var receipt: Dictionary = raw_receipt
+	if str(receipt.get("status", "")) != "resolved" \
+			or str(receipt.get("bundle_id", "")) != bundle_id \
+			or int(receipt.get("turn", 0)) != turn \
+			or int(receipt.get("claimed_turn", 0)) != turn \
+			or int(receipt.get("resolved_turn", 0)) != turn:
+		return false
+	if pending_key == "pending_trigger":
+		return str(receipt.get("node_id", "")) == receipt_id
+	return _seoul_cycle_world_receipt_id(receipt) == receipt_id
 
 static func _resolve_seoul_cycle_entry_in_state(
 		state: Dictionary, pending_key: String,
@@ -1812,7 +1832,7 @@ static func _resolve_seoul_cycle_entry_in_state(
 		return false
 	var receipt_id := str(entry.get("node_id", "")) \
 		if pending_key == "pending_trigger" \
-		else str(entry.get("week_index", ""))
+		else _seoul_cycle_world_receipt_id(entry)
 	if receipt_id.is_empty():
 		return false
 	if pending_key == "pending_trigger":
@@ -1840,6 +1860,17 @@ static func _resolve_seoul_cycle_entry_in_state(
 	cycle[pending_key] = {}
 	state[SEOUL_CYCLE_STATE_KEY] = cycle
 	return true
+
+static func _seoul_cycle_world_receipt_id(entry: Dictionary) -> String:
+	var raw_week: Variant = entry.get("week_index", null)
+	if not (raw_week is int or raw_week is float) \
+			or not is_finite(float(raw_week)):
+		return ""
+	var week_index := int(raw_week)
+	if week_index < 1 or week_index > 4 \
+			or float(raw_week) != float(week_index):
+		return ""
+	return str(week_index)
 
 static func complete_seoul_cycle_turn(
 		month_index: int = -1) -> Dictionary:
@@ -1991,9 +2022,9 @@ static func _seoul_cycle_turn_ready(
 		var raw_receipt: Variant = (
 			cycle.get("world_receipts", {}) as Dictionary).get(
 				str(week_index), {})
-		if not raw_receipt is Dictionary \
-				or str((raw_receipt as Dictionary).get("status", "")) \
-					!= "resolved":
+		if not _seoul_cycle_resolved_receipt_matches(
+				raw_receipt, "pending_world", str(week_index),
+				str(world_event.get("bundle_id", "")), turn):
 			return false
 	for raw_node in (cycle.get("nodes", {}) as Dictionary).values():
 		if raw_node is Dictionary \
@@ -7603,6 +7634,11 @@ static func normalize_seoul_cycle_state(raw_state: Dictionary) -> Dictionary:
 		if bool(capacity.get("consumed", false)) \
 				and not nodes.has(str(capacity.get("node_id", ""))):
 			return {}
+	var normalized_world_receipts := \
+		_seoul_cycle_world_receipt_dictionary(
+			raw_state.get("world_receipts", {}), month)
+	if not bool(normalized_world_receipts.get("ok", false)):
+		return {}
 	var state := {
 		"schema": SEOUL_CYCLE_SCHEMA,
 		"planning_mode": SEOUL_CYCLE_MODE,
@@ -7625,8 +7661,8 @@ static func normalize_seoul_cycle_state(raw_state: Dictionary) -> Dictionary:
 			raw_state.get("allocation_receipts", {})),
 		"trigger_receipts": _seoul_cycle_receipt_dictionary(
 			raw_state.get("trigger_receipts", {})),
-		"world_receipts": _seoul_cycle_receipt_dictionary(
-			raw_state.get("world_receipts", {})),
+		"world_receipts": (
+			normalized_world_receipts.get("receipts", {}) as Dictionary),
 		"expiry_receipts": _seoul_cycle_receipt_dictionary(
 			raw_state.get("expiry_receipts", {})),
 		"pending_trigger": _normalized_seoul_cycle_pending(
@@ -7658,6 +7694,57 @@ static func _seoul_cycle_receipt_dictionary(raw_receipts: Variant) -> Dictionary
 		if raw_receipt is Dictionary and not (raw_receipt as Dictionary).is_empty():
 			receipts[str(raw_key)] = (raw_receipt as Dictionary).duplicate(true)
 	return receipts
+
+## Godot's JSON round-trip restores every number as a float. A world beat
+## saved while pending can therefore resolve under the legacy alias `"4.0"`,
+## while the calendar asks for the canonical integer week key `"4"`. Repair
+## only that exact integral alias; arbitrary mismatched keys remain invalid,
+## and a collision fails closed instead of merging two receipts.
+static func _seoul_cycle_world_receipt_dictionary(
+		raw_receipts: Variant, month: int) -> Dictionary:
+	if raw_receipts is Dictionary:
+		var raw_keys: Dictionary = {}
+		for raw_key in (raw_receipts as Dictionary).keys():
+			var key := str(raw_key)
+			if raw_keys.has(key):
+				return {"ok": false, "receipts": {}}
+			raw_keys[key] = true
+		for week_index in range(1, 5):
+			if raw_keys.has(str(week_index)) \
+					and raw_keys.has("%d.0" % week_index):
+				return {"ok": false, "receipts": {}}
+	var receipts := _seoul_cycle_receipt_dictionary(raw_receipts)
+	for raw_key in receipts.keys():
+		var key := str(raw_key)
+		var raw_receipt: Variant = receipts.get(raw_key, {})
+		if not raw_receipt is Dictionary:
+			continue
+		var raw_week: Variant = (raw_receipt as Dictionary).get(
+			"week_index", null)
+		if not (raw_week is int or raw_week is float) \
+				or not is_finite(float(raw_week)):
+			continue
+		var week_index := int(raw_week)
+		if week_index < 1 or week_index > 4 \
+				or float(raw_week) != float(week_index):
+			continue
+		var canonical_key := str(week_index)
+		if key != "%s.0" % canonical_key:
+			continue
+		var receipt: Dictionary = raw_receipt
+		var turn := _seoul_cycle_month_start_turn(month) + week_index - 1
+		var bundle_id := str(receipt.get("bundle_id", ""))
+		if not _seoul_cycle_resolved_receipt_matches(
+				receipt, "pending_world", canonical_key,
+				bundle_id, turn) \
+				or not _seoul_cycle_world_bundle_authored_for_week(
+					month, week_index, bundle_id):
+			continue
+		if receipts.has(canonical_key):
+			return {"ok": false, "receipts": {}}
+		receipts[canonical_key] = receipt.duplicate(true)
+		receipts.erase(raw_key)
+	return {"ok": true, "receipts": receipts}
 
 static func _normalized_seoul_cycle_pending(
 		raw_pending: Variant, expected_kind: String,

@@ -4,6 +4,7 @@ extends Node
 ##   godot --headless --path . res://tools/CoreLoopV2CycleCheck.tscn
 
 const CORE := preload("res://systems/DemoCoreLoopV2.gd")
+const BUILD_FLAVOR := preload("res://systems/BuildFlavor.gd")
 const MAIN_GAME_SCRIPT := preload("res://scenes/MainGame.gd")
 const MAIN_GAME_SCENE := preload("res://scenes/MainGame.tscn")
 const FATHER_EVENT := "arc_father_01_call"
@@ -27,6 +28,9 @@ func _run() -> void:
 	_check_city_world_presentation_proof()
 	_check_cycle_routine_and_livelihood()
 	_check_four_week_cycle()
+	_check_later_month_world_receipt_idempotency()
+	_check_external_stalled_save_fixture()
+	await _check_external_stalled_slot_e2e()
 	if _failures.is_empty():
 		print(
 			"CORE_LOOP_V2_CYCLE_CHECK_OK "
@@ -35,6 +39,10 @@ func _run() -> void:
 			+ "legacy=preserved capacity=4/deterministic/no_reroll "
 			+ "progress=1/2/3 trigger=father/receipt "
 			+ "world=w3_hyunsu+w4_temptation/exactly_once "
+			+ "world_save=pending_float/canonical+legacy_recovery/collision_closed "
+			+ "world_idempotency=month2/local_week/full_proof "
+			+ "external_stalled_save=optional/non_destructive "
+			+ "external_slot=optional/isolated_guard/load/notebook/month2/reload "
 			+ "turn=atomic deadline=node+featured_expiry echo=actual_receipt "
 			+ "routine=absorbed/zero/idempotent livelihood=allocated_70000 "
 			+ "livelihood_trigger=resolved/no_expiry/w4_repeat "
@@ -50,6 +58,285 @@ func _run() -> void:
 	for failure in _failures:
 		push_error("CORE_LOOP_V2_CYCLE_CHECK_FAIL: %s" % failure)
 	get_tree().quit(1)
+
+
+func _check_external_stalled_save_fixture() -> void:
+	var fixture_path := ""
+	for raw_arg in OS.get_cmdline_user_args():
+		var arg := str(raw_arg)
+		if arg.begins_with("--stalled-save-fixture="):
+			fixture_path = arg.trim_prefix("--stalled-save-fixture=")
+			break
+	if fixture_path.is_empty():
+		return
+	_expect(FileAccess.file_exists(fixture_path),
+		"external stalled-save fixture does not exist")
+	if not FileAccess.file_exists(fixture_path):
+		return
+	var parsed: Variant = JSON.parse_string(
+		FileAccess.get_file_as_string(fixture_path))
+	_expect(parsed is Dictionary,
+		"external stalled-save fixture is not a JSON dictionary")
+	if not parsed is Dictionary:
+		return
+	var raw_state: Variant = (parsed as Dictionary).get("state", {})
+	_expect(raw_state is Dictionary,
+		"external stalled-save fixture has no state dictionary")
+	if not raw_state is Dictionary:
+		return
+	var state: Dictionary = raw_state
+	var raw_v2: Variant = state.get("core_loop_v2_state", {})
+	var raw_cycle: Variant = (
+		(raw_v2 as Dictionary).get("seoul_cycle", {})
+		if raw_v2 is Dictionary else {})
+	var raw_world: Variant = (
+		(raw_cycle as Dictionary).get("world_receipts", {})
+		if raw_cycle is Dictionary else {})
+	_expect(raw_world is Dictionary \
+		and (raw_world as Dictionary).has("4.0") \
+		and not (raw_world as Dictionary).has("4"),
+		"external fixture is not the exact BUILD 2026.08.11.2 stalled shape")
+	if not raw_world is Dictionary \
+			or not (raw_world as Dictionary).has("4.0") \
+			or (raw_world as Dictionary).has("4"):
+		return
+	var expected_money := float(state.get("money", 0.0))
+	var expected_health := int(state.get("health", 0))
+	var expected_mental := int(state.get("mental", 0))
+	GameState.start_new_game()
+	GameState.load_from_dict(state.duplicate(true))
+	CORE.initialize_for_run(true)
+	var recovered := CORE.seoul_cycle_snapshot(1)
+	var recovered_world: Dictionary = recovered.get("world_receipts", {})
+	_expect(int(GameState.turn) == 4 \
+		and recovered_world.has("4") \
+		and not recovered_world.has("4.0") \
+		and bool(recovered.get("turn_ready", false)) \
+		and float(GameState.money) == expected_money \
+		and int(GameState.health) == expected_health \
+		and int(GameState.mental) == expected_mental,
+		"external stalled save did not recover in memory without replaying effects")
+	var completion := CORE.complete_seoul_cycle_turn(1)
+	_expect(bool(completion.get("ok", false)) \
+		and CORE.turn_completed(4) \
+		and int(completion.get("next_turn", 0)) == 5,
+		"external stalled save could not close Week 4 exactly once in memory")
+	var completed_frozen: Dictionary = GameState.serialize().duplicate(true)
+	var duplicate_completion := CORE.complete_seoul_cycle_turn(1)
+	_expect(not bool(duplicate_completion.get("ok", true)) \
+		and str(duplicate_completion.get("error", "")) \
+			== "cycle_turn_already_completed" \
+		and GameState.serialize() == completed_frozen,
+		"external stalled save applied its Week 4 completion twice")
+
+
+func _check_external_stalled_slot_e2e() -> void:
+	if not OS.get_cmdline_user_args().has("--stalled-save-slot-e2e"):
+		return
+	var isolated_root := BUILD_FLAVOR.qa_isolated_user_root().simplify_path()
+	var isolated_prefix := isolated_root.trim_suffix("/") + "/"
+	var slot_path := SaveManager.slot_path(
+		SaveManager.AUTOSAVE_SLOT).simplify_path()
+	_expect(not isolated_root.is_empty() \
+		and slot_path.is_absolute_path() \
+		and slot_path.begins_with(isolated_prefix),
+		"external stalled-slot E2E requires an isolated playtest user root")
+	if isolated_root.is_empty() \
+			or not slot_path.is_absolute_path() \
+			or not slot_path.begins_with(isolated_prefix):
+		return
+	var loaded_slot := SaveManager.load_game(0)
+	_expect(loaded_slot,
+		"isolated stalled autosave was rejected by SaveManager")
+	if not loaded_slot:
+		return
+	CORE.initialize_for_run(true)
+	var loaded := CORE.seoul_cycle_snapshot(1)
+	var loaded_world: Dictionary = loaded.get("world_receipts", {})
+	var temptation_choice_key := \
+		"first_temptation_boss:arc_temptation_01:0:4"
+	_expect(int(GameState.turn) == 4 \
+		and loaded_world.has("4") and not loaded_world.has("4.0") \
+		and bool(loaded.get("turn_ready", false)) \
+		and float(GameState.money) == 675000.0 \
+		and int(GameState.health) == 56 \
+		and int(GameState.mental) == 52 \
+		and (loaded.get("capacities", []) as Array).size() == 4 \
+		and (loaded.get("allocation_receipts", {}) as Dictionary).size() == 4 \
+		and (GameState.core_loop_v2_state.get(
+			"story_choice_receipts", {}) as Dictionary).has(
+				temptation_choice_key) \
+		and _weekly_followup_count(4, "first_temptation_boss") == 1,
+		"SaveManager load did not recover the exact stalled player state")
+
+	var main_game: Control = MAIN_GAME_SCENE.instantiate()
+	main_game.set_meta("_screenshot_qa_static_surface", true)
+	add_child(main_game)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	main_game.call("_core_loop_v2_continue_seoul_cycle_week", 1, loaded)
+	for _frame in range(6):
+		await get_tree().process_frame
+	var month_one_summary := CORE.month_summary(1)
+	_expect(int(GameState.turn) == 5 \
+		and int(GameState.month) == 2 \
+		and int(GameState.week_of_month) == 1 \
+		and str(main_game.get("_modal_kind")) \
+			== "core_loop_v2_month_summary" \
+		and not bool(month_one_summary.get("acknowledged", true)) \
+		and (month_one_summary.get(
+			"allocation_receipts", []) as Array).size() == 4 \
+		and _weekly_followup_count(4, "first_temptation_boss") == 1,
+		"recovered Week 4 did not reach the Month 1 notebook exactly once")
+	if not SaveManager.autosave():
+		_expect(false, "isolated recovered notebook could not be saved")
+	_dispose_durable_gate_main(main_game)
+	await get_tree().process_frame
+	_expect(SaveManager.load_game(0),
+		"isolated recovered notebook could not be reloaded")
+	CORE.initialize_for_run(true)
+	var reloaded_summary := CORE.month_summary(1)
+	_expect(int(GameState.turn) == 5 \
+		and not bool(reloaded_summary.get("acknowledged", true)) \
+		and (reloaded_summary.get(
+			"allocation_receipts", []) as Array).size() == 4 \
+		and (GameState.core_loop_v2_state.get(
+			"story_choice_receipts", {}) as Dictionary).has(
+				temptation_choice_key) \
+		and _weekly_followup_count(4, "first_temptation_boss") == 1,
+		"durable notebook reload lost or duplicated the player's W4 facts")
+
+	var resumed_main: Control = MAIN_GAME_SCENE.instantiate()
+	resumed_main.set_meta("_screenshot_qa_static_surface", true)
+	add_child(resumed_main)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	resumed_main.call("_core_loop_v2_show_month_summary", reloaded_summary, false)
+	await get_tree().process_frame
+	resumed_main.call("_core_loop_v2_acknowledge_month_summary", 1)
+	for _frame in range(8):
+		await get_tree().process_frame
+	var month_two := CORE.seoul_cycle_snapshot(2)
+	var month_two_board := resumed_main.get("_seoul_cycle_board") as Control
+	_expect(bool(CORE.month_summary(1).get("acknowledged", false)) \
+		and int(GameState.turn) == 5 \
+		and int(month_two.get("month", 0)) == 2 \
+		and bool(month_two.get("active", false)) \
+		and is_instance_valid(month_two_board) and month_two_board.visible \
+		and _weekly_followup_count(4, "first_temptation_boss") == 1,
+		"notebook confirmation did not enter the Month 2 board exactly once")
+	var month_two_money := float(GameState.money)
+	var month_two_health := int(GameState.health)
+	var month_two_mental := int(GameState.mental)
+	_expect(SaveManager.autosave(),
+		"isolated Month 2 board could not be saved")
+	_dispose_durable_gate_main(resumed_main)
+	await get_tree().process_frame
+	var reloaded_month_two := SaveManager.load_game(0)
+	_expect(reloaded_month_two,
+		"isolated Month 2 board could not be reloaded")
+	if reloaded_month_two:
+		CORE.initialize_for_run(true)
+		var durable_month_two := CORE.seoul_cycle_snapshot(2)
+		_expect(bool(CORE.month_summary(1).get("acknowledged", false)) \
+			and int(GameState.turn) == 5 \
+			and int(durable_month_two.get("month", 0)) == 2 \
+			and bool(durable_month_two.get("active", false)) \
+			and float(GameState.money) == month_two_money \
+			and int(GameState.health) == month_two_health \
+			and int(GameState.mental) == month_two_mental \
+			and (GameState.core_loop_v2_state.get(
+				"story_choice_receipts", {}) as Dictionary).has(
+					temptation_choice_key) \
+			and _weekly_followup_count(4, "first_temptation_boss") == 1,
+			"durable Month 2 reload lost or duplicated the recovered run")
+	await _stop_durable_gate_audio()
+
+
+func _weekly_followup_count(turn: int, bundle_id: String) -> int:
+	var count := 0
+	for raw_record in GameState.weekly_commitments:
+		if not raw_record is Dictionary \
+				or int((raw_record as Dictionary).get("turn", 0)) != turn:
+			continue
+		var details: Dictionary = (raw_record as Dictionary).get("details", {})
+		for raw_followup in details.get("followups", []):
+			if raw_followup is Dictionary \
+					and str((raw_followup as Dictionary).get(
+						"bundle_id", "")) == bundle_id:
+				count += 1
+	return count
+
+
+func _check_later_month_world_receipt_idempotency() -> void:
+	_prepare_fresh_cycle_gate()
+	_expect(bool(CORE.initialize_seoul_cycle(1).get("ok", false)),
+		"Month 2 world-receipt fixture could not seed Month 1 ownership")
+	GameState.turn = 5
+	GameState.month = 2
+	GameState.week_of_month = 1
+	var initialized := CORE.initialize_seoul_cycle(2)
+	_expect(bool(initialized.get("ok", false)),
+		"Month 2 world-receipt fixture could not initialize")
+	if not bool(initialized.get("ok", false)):
+		return
+	GameState.turn = 8
+	GameState.month = 2
+	GameState.week_of_month = 4
+	GameState.weekly_commitments = [{
+		"turn": 8,
+		"source": "seoul_cycle",
+		"choice_id": "m2_world_idempotency_fixture",
+		"details": {
+			"execution": "seoul_cycle",
+			"week_baseline": {"money": float(GameState.money)},
+			"followups": [],
+		},
+	}]
+	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var cycle: Dictionary = state.get("seoul_cycle", {})
+	cycle["pending_world"] = {
+		"kind": "consequence",
+		"node_id": "",
+		"bundle_id": "temptation_consequence",
+		"turn": 8,
+		"week_index": 4,
+		"status": "claimed",
+		"claimed_turn": 8,
+	}
+	state["seoul_cycle"] = cycle
+	state["completed_bundle_turns"]["temptation_consequence"] = 8
+	if not (state["completed_bundles"] as Array).has("temptation_consequence"):
+		state["completed_bundles"].append("temptation_consequence")
+	GameState.core_loop_v2_state = state
+	var first := CORE.resolve_seoul_cycle_world("temptation_consequence")
+	var serialized: Variant = JSON.parse_string(
+		JSON.stringify(GameState.serialize()))
+	_expect(first and serialized is Dictionary,
+		"Month 2 world receipt did not resolve before JSON reload")
+	if not first or not serialized is Dictionary:
+		return
+	GameState.start_new_game()
+	GameState.load_from_dict(serialized as Dictionary)
+	CORE.initialize_for_run(true)
+	var second := CORE.resolve_seoul_cycle_world("temptation_consequence")
+	var snapshot := CORE.seoul_cycle_snapshot(2)
+	var world: Dictionary = snapshot.get("world_receipts", {})
+	var followup_count := 0
+	for raw_record in GameState.weekly_commitments:
+		if not raw_record is Dictionary \
+				or int((raw_record as Dictionary).get("turn", 0)) != 8:
+			continue
+		var details: Dictionary = (raw_record as Dictionary).get("details", {})
+		for raw_followup in details.get("followups", []):
+			if raw_followup is Dictionary \
+					and str((raw_followup as Dictionary).get(
+						"bundle_id", "")) == "temptation_consequence":
+				followup_count += 1
+	_expect(second \
+		and world.has("4") and not world.has("8") \
+		and followup_count == 1,
+		"Month 2 world resolve was not idempotent under its local-week key")
 
 
 func _check_contract_and_determinism() -> void:
@@ -1441,6 +1728,27 @@ func _check_four_week_cycle() -> void:
 		and str((w4_commit.get("pending_world", {}) as Dictionary).get(
 			"bundle_id", "")) == "first_temptation_boss",
 		"W4 generic livelihood fallback forged progress or lost its ordinary pay")
+	# Reproduce the real BUILD 2026.08.11.2 boundary: autosave while the W4
+	# world beat is pending, JSON reload (all numbers become floats), then the
+	# story resolves. The receipt key must still be the canonical integer week.
+	var w4_money_before_reload := float(GameState.money)
+	var w4_health_before_reload := int(GameState.health)
+	var w4_mental_before_reload := int(GameState.mental)
+	var w4_pending_json: Variant = JSON.parse_string(
+		JSON.stringify(GameState.serialize()))
+	_expect(w4_pending_json is Dictionary,
+		"W4 pending-world JSON fixture could not be parsed")
+	if not w4_pending_json is Dictionary:
+		return
+	GameState.start_new_game()
+	GameState.load_from_dict(w4_pending_json as Dictionary)
+	CORE.initialize_for_run(true)
+	_expect(str(CORE.pending_seoul_cycle_world().get(
+		"bundle_id", "")) == "first_temptation_boss" \
+		and float(GameState.money) == w4_money_before_reload \
+		and int(GameState.health) == w4_health_before_reload \
+		and int(GameState.mental) == w4_mental_before_reload,
+		"W4 pending-world JSON reload changed the allocation or lost its owner")
 	_expect(bool(CORE.claim_seoul_cycle_world().get("ok", false)) \
 		and CORE.begin_seoul_cycle_world("first_temptation_boss"),
 		"W4 temptation could not enter the existing story surface")
@@ -1454,10 +1762,86 @@ func _check_four_week_cycle() -> void:
 		"W4 echo did not read the actual latest livelihood receipt in KO/EN")
 	var temptation_completed_bundle := CORE.complete_active_bundle()
 	var temptation_resolved_again := CORE.resolve_seoul_cycle_world("first_temptation_boss")
+	var canonical_w4_snapshot := CORE.seoul_cycle_snapshot(1)
+	var canonical_w4_world: Dictionary = canonical_w4_snapshot.get(
+		"world_receipts", {})
+	var w4_money_after_resolution := float(GameState.money)
+	var w4_health_after_resolution := int(GameState.health)
+	var w4_mental_after_resolution := int(GameState.mental)
 	_expect(temptation_completed_bundle == "first_temptation_boss" \
 		and not CORE.turn_completed(4) \
-		and temptation_resolved_again,
-		"W4 world completed the calendar early or failed to resolve")
+		and temptation_resolved_again \
+		and canonical_w4_world.has("4") \
+		and not canonical_w4_world.has("4.0") \
+		and bool(canonical_w4_snapshot.get("turn_ready", false)),
+		"W4 world completed early or wrote a non-canonical receipt after JSON reload")
+
+	# Existing user saves may already contain the exact legacy alias `"4.0"`.
+	# Load that shape and prove it recovers without replaying effects or story.
+	var collision_cycle: Dictionary = (GameState.core_loop_v2_state.get(
+		"seoul_cycle", {}) as Dictionary).duplicate(true)
+	var collision_world: Dictionary = collision_cycle.get(
+		"world_receipts", {})
+	collision_world["4.0"] = (collision_world.get(
+		"4", {}) as Dictionary).duplicate(true)
+	collision_cycle["world_receipts"] = collision_world
+	_expect(CORE.normalize_seoul_cycle_state(collision_cycle).is_empty(),
+		"world receipt canonical/legacy key collision did not fail closed")
+	var raw_collision_cycle: Dictionary = collision_cycle.duplicate(true)
+	var raw_collision_world: Dictionary = raw_collision_cycle.get(
+		"world_receipts", {})
+	raw_collision_world["4"] = "corrupt canonical receipt"
+	raw_collision_cycle["world_receipts"] = raw_collision_world
+	_expect(CORE.normalize_seoul_cycle_state(raw_collision_cycle).is_empty(),
+		"non-dictionary canonical key hid a legacy-alias collision")
+	var malformed_alias_cycle: Dictionary = collision_cycle.duplicate(true)
+	var malformed_alias_world: Dictionary = malformed_alias_cycle.get(
+		"world_receipts", {})
+	malformed_alias_world.erase("4")
+	var malformed_alias: Dictionary = malformed_alias_world.get(
+		"4.0", {})
+	malformed_alias["resolved_turn"] = 3
+	malformed_alias_world["4.0"] = malformed_alias
+	malformed_alias_cycle["world_receipts"] = malformed_alias_world
+	var malformed_normalized := CORE.normalize_seoul_cycle_state(
+		malformed_alias_cycle)
+	_expect(not malformed_normalized.is_empty() \
+		and not (malformed_normalized.get(
+			"world_receipts", {}) as Dictionary).has("4") \
+		and not CORE._seoul_cycle_turn_ready(malformed_normalized, 4),
+		"malformed legacy alias was promoted into a closable Week 4 receipt")
+
+	var legacy_alias_save: Dictionary = GameState.serialize().duplicate(true)
+	var legacy_v2: Dictionary = legacy_alias_save.get(
+		"core_loop_v2_state", {})
+	var legacy_cycle: Dictionary = legacy_v2.get(
+		"seoul_cycle", {})
+	var legacy_world: Dictionary = legacy_cycle.get("world_receipts", {})
+	legacy_world["4.0"] = (legacy_world.get(
+		"4", {}) as Dictionary).duplicate(true)
+	legacy_world.erase("4")
+	legacy_cycle["world_receipts"] = legacy_world
+	legacy_v2["seoul_cycle"] = legacy_cycle
+	legacy_alias_save["core_loop_v2_state"] = legacy_v2
+	var legacy_alias_json: Variant = JSON.parse_string(
+		JSON.stringify(legacy_alias_save))
+	_expect(legacy_alias_json is Dictionary,
+		"legacy W4 world-receipt JSON fixture could not be parsed")
+	if not legacy_alias_json is Dictionary:
+		return
+	GameState.start_new_game()
+	GameState.load_from_dict(legacy_alias_json as Dictionary)
+	CORE.initialize_for_run(true)
+	var recovered_w4_snapshot := CORE.seoul_cycle_snapshot(1)
+	var recovered_w4_world: Dictionary = recovered_w4_snapshot.get(
+		"world_receipts", {})
+	_expect(recovered_w4_world.has("4") \
+		and not recovered_w4_world.has("4.0") \
+		and bool(recovered_w4_snapshot.get("turn_ready", false)) \
+		and float(GameState.money) == w4_money_after_resolution \
+		and int(GameState.health) == w4_health_after_resolution \
+		and int(GameState.mental) == w4_mental_after_resolution,
+		"legacy W4 receipt alias did not recover the user's exact stalled state")
 	_expect(bool(CORE.complete_seoul_cycle_turn(1).get("ok", false)) \
 		and CORE.turn_completed(4),
 		"W4 cycle transaction did not close exactly once")
