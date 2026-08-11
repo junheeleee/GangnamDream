@@ -49,9 +49,10 @@ Chapter 1 완성으로 세지 않는다.
   진행 `+0`과 같은 이름만 반복하면 `FAKE_REPEAT`다.
 - Story 장면의 입력 상한은 `docs/CHOICE_CONSEQUENCE_SYSTEM.md` §4가 소유한다.
   Story는 주간 행동을 대신 고르거나 추가 주간 자원을 소비하지 않는다.
-- W48은 `마지막 행동 → M12 완료·만료·세계 사건 → 12월 정산·실패 판정 →
-  chapter1_end_snapshot → 연말 보스 → 실제 본 장면 회고 → chapter1_complete 저장
-  → 완료 화면` 순서다. 사용자가 2장 시작을 선택한 뒤에만 W49로 간다.
+- W48은 `마지막 행동 → M12 완료·만료·세계 사건 → 12월 정산·실패 판정` 뒤
+  치명적 결과면 그 자리에서 끝난다. 생존한 경로만 `chapter1_end_snapshot →
+  연말 보스 → 실제 본 장면 회고 → chapter1_complete 저장 → 완료 화면`으로
+  이어지고, 사용자가 2장 시작을 선택한 뒤에만 W49로 간다.
 
 ## 배치 A — checker-first W1~24 implemented prefix 25단위
 
@@ -119,6 +120,16 @@ verb·비용·가용성·참가자·결과를 전혀 바꾸지 않을 때만 쓴
 `tools/audit_scope.json`.
 
 **컨텍스트 정합 1:** `docs/context_manifest.json`.
+
+**교차 정본 9:** `docs/MASTER_RELEASE_AUDIT.md`, `docs/BUILD_PIPELINE.md`,
+`docs/HANDOFF.md`, `docs/AP_REDESIGN.md`, `docs/GAME_RECOMPOSITION_PLAN.md`,
+`docs/BALANCE.md`, `docs/SCENE_TIER.md`, `docs/STEAM_PAGE.md`,
+`docs/NEXTFEST_CHECKLIST.md`. 기존 24주 측정·패키지·호환 증거는 삭제하지 않고
+W1~24 audited-prefix 진단으로 분류하며, retail/default·공개 데모·제품 save
+bridge는 동일 clean W1~48 Chapter 1 후보만 소유하게 맞춘다.
+
+**생성기 1:** `tools/project_dashboard.py`. 생성 `STATUS.md`가 active candidate의
+`note`와 W1~24 prefix/48주 공백을 버리지 않도록 source generator를 함께 맞춘다.
 
 제품 런타임, `content/meta/demo_core_loop_v2.json`, 사건 원고, 밸런스 수치,
 저장 schema, UI·입력·폰·프롤로그는 이번 오더에서 수정하지 않는다. 원장이 발견한
