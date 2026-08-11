@@ -42,11 +42,13 @@
         "cohort": "demo_normal_reading_full_run",
         "requirements": [
           "같은 demo_rc에서 KO와 EN 각 1회",
-          "처음부터 24주 CTA까지 정상 독해 속도로 진행"
+          "처음부터 24주 CTA까지 정상 독해 속도로 진행",
+          "언어 선택부터 24주 CTA까지 실제 경과 시간과 연속 확인 입력으로 넘긴 구간을 기록"
         ]
       },
       "acceptance": [
         "반복 입력과 장면 간격을 포함한 24주 몰입에 사람 GO",
+        "75~95분 pre-playtest 목표를 실제 경과 시간으로 유지하거나 재조정하고, 목표 밖 결과를 자동 완주 추정치로 덮지 않음",
         "자동 완주나 추정 플레이타임을 사람 판정으로 대신하지 않음"
       ]
     },
@@ -373,12 +375,14 @@
         "cohort": "demo_user_normal_reading",
         "requirements": [
           "demo_rc 24주 정상 독해 플레이",
-          "망설인 장면·선택 원문과 다르게 플레이할 의향을 기록"
+          "망설인 장면·선택 원문과 다르게 플레이할 의향을 기록",
+          "24주 직후 유도 없이 이 게임에서 반복해서 한 일과 가장 재미있었던 행동을 한 문장으로 설명"
         ]
       },
       "acceptance": [
         "같은 주에 함께 할 수 없는 네 노드와 기한 사이에서 실제 고민이 생김",
         "월별 노드와 사건이 바뀌어 24회의 배치가 같은 선택의 복제로 느껴지지 않음",
+        "플레이어가 게임의 핵심을 한정된 시간을 배치하고 포기한 것의 대가를 뒤에서 사는 생활 선택으로 설명하며, 대화 버튼만 고르는 게임으로 축소해 기억하지 않음",
         "다르게 플레이하면 다른 5년이 될 것 같다는 사람 GO"
       ]
     },
@@ -707,7 +711,7 @@
         "cohort": "ja_demo_native_context_review",
         "requirements": [
           "게임 문맥과 한국어를 함께 이해하는 일본어 원어민 검수자",
-          "같은 demo_rc에서 ja_translation_audit.py --scope ui 및 --scope demo --strict PASS: legacy UI 2,780/2,780·context UI 30/30(총 UI 2,810/2,810)·73사건·471본문·657동적·4자산",
+          "같은 demo_rc에서 ja_translation_audit.py --scope ui 및 --scope demo --strict PASS: legacy UI 2,782/2,782·context UI 30/30(총 UI 2,812/2,812)·73사건·471본문·657동적·4자산",
           "같은 demo_rc를 새 세이브로 시작해 24주와 CTA까지 정상 속도로 독해",
           "한 경로에 나오지 않은 합법 도달 73개 사건과 모든 선택·결과를 한국어 정본과 직접 대조"
         ]
@@ -737,7 +741,7 @@
         "cohort": "zh_cn_demo_native_context_review",
         "requirements": [
           "한국어와 게임 문맥을 함께 이해하는 중국 본토 원어민 검수자",
-          "해당 demo_rc에서 zh_translation_audit.py --lang zh-CN --strict PASS: legacy UI 2,780/2,780·context UI 30/30·73사건·471본문·657동적·4자산과 프로젝트 소유 SC 글꼴 준비 완료",
+          "해당 demo_rc에서 zh_translation_audit.py --lang zh-CN --strict PASS: legacy UI 2,782/2,782·context UI 30/30·73사건·471본문·657동적·4자산과 프로젝트 소유 SC 글꼴 준비 완료",
           "같은 demo_rc를 새 세이브로 시작해 24주와 CTA까지 정상 속도로 독해",
           "한 경로에 나오지 않은 합법 도달 73개 사건과 모든 선택·결과를 한국어 정본과 직접 대조",
           "SC 글꼴이 JP 공유 한자보다 먼저 선택되는 실제 화면을 Windows·macOS·Linux/Steam Deck에서 확인"
@@ -769,7 +773,7 @@
         "cohort": "zh_tw_demo_native_context_review",
         "requirements": [
           "한국어와 게임 문맥을 함께 이해하는 대만 원어민 검수자",
-          "해당 demo_rc에서 zh_translation_audit.py --lang zh-TW --strict PASS: legacy UI 2,780/2,780·context UI 30/30·73사건·471본문·657동적·4자산과 프로젝트 소유 TC 글꼴 준비 완료",
+          "해당 demo_rc에서 zh_translation_audit.py --lang zh-TW --strict PASS: legacy UI 2,782/2,782·context UI 30/30·73사건·471본문·657동적·4자산과 프로젝트 소유 TC 글꼴 준비 완료",
           "같은 demo_rc를 새 세이브로 시작해 24주와 CTA까지 정상 속도로 독해",
           "한 경로에 나오지 않은 합법 도달 73개 사건과 모든 선택·결과를 한국어 정본과 직접 대조",
           "TC 글꼴이 JP 공유 한자보다 먼저 선택되는 실제 화면을 Windows·macOS·Linux/Steam Deck에서 확인"
