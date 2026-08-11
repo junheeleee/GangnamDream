@@ -26,8 +26,15 @@
     "systems/DemoCoreLoopV2.gd",
     "autoloads/ImageRegistry.gd"
   ],
-  "shipping_languages": ["ko", "en"],
-  "prepared_languages": ["ja", "zh-CN", "zh-TW"],
+  "shipping_languages": [
+    "ko",
+    "en"
+  ],
+  "prepared_languages": [
+    "ja",
+    "zh-CN",
+    "zh-TW"
+  ],
   "body_translation": "held_until_explicit_demo_GO",
   "full_body_translation": "held_until_separate_full_game_GO",
   "chinese_preparation_contract": {
@@ -35,8 +42,8 @@
     "automatic_script_conversion": false,
     "body_translation": "held_until_explicit_demo_GO",
     "shipping": false,
-    "static_ui_source_count": 2730,
-    "static_ui_source_keys_sha256": "b67df90ba814deeac78db1b1bc4836d16596b6b93521e97a34427ae3b2bcb222",
+    "static_ui_source_count": 2780,
+    "static_ui_source_keys_sha256": "34f476ae2d36ffa43f6eceb1969e34ee38aef63052e5e19632cb736a51e2ea8c",
     "regions": {
       "zh-CN": {
         "source_language": "ko",
@@ -1007,8 +1014,8 @@
     "note": "Context migration is complete. Preserve the 2,730 legacy Korean UI keys and the locked 30 context IDs across 37 product calls. JA/zh-CN/zh-TW body translation remains held until a separate approved demo translation order explicitly enables --allow-body."
   },
   "ui_parameterized_template_plan": {
-    "schema_version": 1,
-    "status": "planned",
+    "schema_version": 2,
+    "status": "resolved",
     "order": "ORDER-97",
     "alias": "LOC-0.5",
     "raw_candidate_expressions": 55,
@@ -1017,32 +1024,1451 @@
     "branch_selected_literals": 2,
     "locale_money_formatters": 2,
     "locale_money_formatter_owners": [
-      "scenes/SeoulCycleBoard.gd::_format_money",
-      "scenes/CommitmentTask.gd::_format_money"
+      "scenes/CommitmentTask.gd::_format_money",
+      "scenes/SeoulCycleBoard.gd::_format_money"
     ],
     "migrated_templates": 42,
     "new_legacy_key_candidates": 41,
     "callsite_distribution": {
       "autoloads/GameState.gd": 4,
-      "scenes/MainGame.gd": 1,
-      "scenes/CommunicationPhone.gd": 3,
       "scenes/ArubaGame.gd": 1,
-      "scenes/StartMenu.gd": 16,
-      "scenes/StoryMode.gd": 7,
+      "scenes/CommunicationPhone.gd": 3,
+      "scenes/CoreLoopPlanner.gd": 13,
+      "scenes/MainGame.gd": 1,
       "scenes/SeoulCycleBoard.gd": 2,
-      "scenes/CoreLoopPlanner.gd": 13
+      "scenes/StartMenu.gd": 16,
+      "scenes/StoryMode.gd": 7
     },
-    "first_run_adjustment_expected": {
-      "total_ui_call_occurrences": 3301,
-      "legacy_pair_call_occurrences": 3264,
-      "context_call_occurrences": 37,
-      "legacy_korean_source_keys": 2771,
-      "ja_legacy_rows": 2771,
-      "ja_context_rows": 30
+    "candidate_registry_sha256": "2b63cc585c663ee145f51f6c09e3a794222367e628b05612d01856d2b4fd4398",
+    "candidate_registry": [
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "autoloads/GameState.gd",
+        "function": "_complete_thought",
+        "ko": "💡 결론에 도달: %s",
+        "en": "💡 Reached a conclusion: %s",
+        "ko_signature": [
+          "%s"
+        ],
+        "en_signature": [
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "autoloads/GameState.gd",
+        "function": "add_clue",
+        "ko": "🔎 단서 발견: %s",
+        "en": "🔎 Clue found: %s",
+        "ko_signature": [
+          "%s"
+        ],
+        "en_signature": [
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "autoloads/GameState.gd",
+        "function": "build_year_scene_choices",
+        "ko": "그 해를 접으면, 「%s」이 가장 먼저 남았다.",
+        "en": "When that year folded shut, “%s” was the scene that remained.",
+        "ko_signature": [
+          "%s"
+        ],
+        "en_signature": [
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "autoloads/GameState.gd",
+        "function": "start_thought",
+        "ko": "💭 생각 정리 시작: %s (%d주)",
+        "en": "💭 Started working it out: %s (%d weeks)",
+        "ko_signature": [
+          "%s",
+          "%d"
+        ],
+        "en_signature": [
+          "%s",
+          "%d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "scenes/ArubaGame.gd",
+        "function": "_del_refresh_ui",
+        "ko": " (비 할증 %s)",
+        "en": " (%s rain surge)",
+        "ko_signature": [
+          "%s"
+        ],
+        "en_signature": [
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "locale_money_formatter",
+        "batch": "B",
+        "path": "scenes/CommitmentTask.gd",
+        "function": "_format_money",
+        "ko": "%s%s원",
+        "en": "%sKRW %s",
+        "ko_signature": [
+          "%s",
+          "%s"
+        ],
+        "en_signature": [
+          "%s",
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "count": 1
+      },
+      {
+        "disposition": "dynamic_pair_reader",
+        "batch": "preserve",
+        "path": "scenes/CommitmentTask.gd",
+        "function": "_localized",
+        "ko": "%s_ko",
+        "en": "%s_en",
+        "ko_signature": [
+          "%s"
+        ],
+        "en_signature": [
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "scenes/CommunicationPhone.gd",
+        "function": "_build_contact_list",
+        "ko": "실제로 연락할 수 있는 사람 · %d",
+        "en": "PEOPLE YOU CAN REACH · %d",
+        "ko_signature": [
+          "%d"
+        ],
+        "en_signature": [
+          "%d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "scenes/CommunicationPhone.gd",
+        "function": "_build_conversation_list",
+        "ko": "이번 달 받은 연락 · %d",
+        "en": "RECEIVED THIS MONTH · %d",
+        "ko_signature": [
+          "%d"
+        ],
+        "en_signature": [
+          "%d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "dynamic_pair_reader",
+        "batch": "preserve",
+        "path": "scenes/CommunicationPhone.gd",
+        "function": "_optional_phone_copy",
+        "ko": "%s_ko",
+        "en": "%s_en",
+        "ko_signature": [
+          "%s"
+        ],
+        "en_signature": [
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "scenes/CommunicationPhone.gd",
+        "function": "_rebuild",
+        "ko": "%s/%s 탭 · %s 뒤로 · P/%s 닫기",
+        "en": "%s/%s Tabs · %s Back · P/%s Close",
+        "ko_signature": [
+          "%s",
+          "%s",
+          "%s",
+          "%s"
+        ],
+        "en_signature": [
+          "%s",
+          "%s",
+          "%s",
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_plan_blocker_short",
+        "ko": "매주 할 일 %d개 남음",
+        "en": "%d %s LEFT",
+        "ko_signature": [
+          "%d"
+        ],
+        "en_signature": [
+          "%d",
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_plan_blocker_short",
+        "ko": "주차 %d개 남음",
+        "en": "%d %s LEFT",
+        "ko_signature": [
+          "%d"
+        ],
+        "en_signature": [
+          "%d",
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_rebuild",
+        "ko": "휴대폰%s",
+        "en": "PHONE%s",
+        "ko_signature": [
+          "%s"
+        ],
+        "en_signature": [
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_rebuild_episode_selection_surface",
+        "ko": "휴대폰%s",
+        "en": "PHONE%s",
+        "ko_signature": [
+          "%s"
+        ],
+        "en_signature": [
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_refresh_calendar",
+        "ko": "%d주차%s\n%s",
+        "en": "WEEK %d%s\n%s",
+        "ko_signature": [
+          "%d",
+          "%s",
+          "%s"
+        ],
+        "en_signature": [
+          "%d",
+          "%s",
+          "%s"
+        ],
+        "ko_newlines": 1,
+        "en_newlines": 1,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_refresh_calendar",
+        "ko": "%d주차\n비어 있음",
+        "en": "WEEK %d\nOpen",
+        "ko_signature": [
+          "%d"
+        ],
+        "en_signature": [
+          "%d"
+        ],
+        "ko_newlines": 1,
+        "en_newlines": 1,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_refresh_calendar_detail",
+        "ko": "%d주차 · %s\n%s",
+        "en": "WEEK %d · %s\n%s",
+        "ko_signature": [
+          "%d",
+          "%s",
+          "%s"
+        ],
+        "en_signature": [
+          "%d",
+          "%s",
+          "%s"
+        ],
+        "ko_newlines": 1,
+        "en_newlines": 1,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_refresh_calendar_detail",
+        "ko": "%d주차는 비어 있다.\n왼쪽에서 할 일을 고른 뒤 이 주를 눌러 일정에 넣는다.",
+        "en": "WEEK %d is open.\nChoose an offer on the left, then press this week to place it.",
+        "ko_signature": [
+          "%d"
+        ],
+        "en_signature": [
+          "%d"
+        ],
+        "ko_newlines": 1,
+        "en_newlines": 1,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_refresh_footer",
+        "ko": "2/2 주차 선택 · %s 주에 넣기 · %s 선택 취소 · %s 일정 빼기",
+        "en": "STEP 2/2 · %s Place in Week · %s Cancel · %s Remove",
+        "ko_signature": [
+          "%s",
+          "%s",
+          "%s"
+        ],
+        "en_signature": [
+          "%s",
+          "%s",
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_refresh_footer",
+        "ko": "다음 · %s 계획 확인 · %s 주차에서 빼기 · %s/%s 단계",
+        "en": "NEXT · %s Review Plan · %s Remove on Week · %s/%s Steps",
+        "ko_signature": [
+          "%s",
+          "%s",
+          "%s",
+          "%s"
+        ],
+        "en_signature": [
+          "%s",
+          "%s",
+          "%s",
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_refresh_footer",
+        "ko": "할 일 선택 · %s 선택 · %s 주차에서만 빼기 · %s/%s 단계",
+        "en": "CHOOSE · %s Select · %s Remove on Week · %s/%s Steps",
+        "ko_signature": [
+          "%s",
+          "%s",
+          "%s",
+          "%s"
+        ],
+        "en_signature": [
+          "%s",
+          "%s",
+          "%s",
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 2
+      },
+      {
+        "disposition": "branch_selected_literal",
+        "batch": "preserve",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_refresh_step_rail",
+        "ko": [
+          "1단계 · 주차 {done}/4 · 완료",
+          "1단계 · 주차 {done}/4 · 확인 필요",
+          "1단계 · 주차 {done}/4 · {left}개 남음"
+        ],
+        "en": [
+          "STEP 1 · WEEKS {done}/4 · DONE",
+          "STEP 1 · WEEKS {done}/4 · CHECK",
+          "STEP 1 · WEEKS {done}/4 · {left} LEFT"
+        ],
+        "ko_signature": [
+          [
+            "{done}"
+          ],
+          [
+            "{done}"
+          ],
+          [
+            "{done}",
+            "{left}"
+          ]
+        ],
+        "en_signature": [
+          [
+            "{done}"
+          ],
+          [
+            "{done}"
+          ],
+          [
+            "{done}",
+            "{left}"
+          ]
+        ],
+        "ko_newlines": [
+          0,
+          0,
+          0
+        ],
+        "en_newlines": [
+          0,
+          0,
+          0
+        ],
+        "count": 1
+      },
+      {
+        "disposition": "branch_selected_literal",
+        "batch": "preserve",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_refresh_step_rail",
+        "ko": [
+          "2단계 · 매주 할 일 {done}/2 · 완료",
+          "2단계 · 매주 할 일 {done}/2 · 확인 필요",
+          "2단계 · 매주 할 일 {done}/2 · {left}개 남음"
+        ],
+        "en": [
+          "STEP 2 · ROUTINES {done}/2 · DONE",
+          "STEP 2 · ROUTINES {done}/2 · CHECK",
+          "STEP 2 · ROUTINES {done}/2 · {left} LEFT"
+        ],
+        "ko_signature": [
+          [
+            "{done}"
+          ],
+          [
+            "{done}"
+          ],
+          [
+            "{done}",
+            "{left}"
+          ]
+        ],
+        "en_signature": [
+          [
+            "{done}"
+          ],
+          [
+            "{done}"
+          ],
+          [
+            "{done}",
+            "{left}"
+          ]
+        ],
+        "ko_newlines": [
+          0,
+          0,
+          0
+        ],
+        "en_newlines": [
+          0,
+          0,
+          0
+        ],
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_refresh_step_rail",
+        "ko": "3단계 · 최종 확인 · %s",
+        "en": "STEP 3 · FINAL REVIEW · %s",
+        "ko_signature": [
+          "%s"
+        ],
+        "en_signature": [
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "dynamic_pair_reader",
+        "batch": "preserve",
+        "path": "scenes/MainGame.gd",
+        "function": "_core_loop_v2_localized",
+        "ko": "%s_ko",
+        "en": "%s_en",
+        "ko_signature": [
+          "%s"
+        ],
+        "en_signature": [
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "scenes/MainGame.gd",
+        "function": "_populate_save_load_page",
+        "ko": "슬롯 %d–%d",
+        "en": "Slots %d–%d",
+        "ko_signature": [
+          "%d",
+          "%d"
+        ],
+        "en_signature": [
+          "%d",
+          "%d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "dynamic_pair_reader",
+        "batch": "preserve",
+        "path": "scenes/OpeningCinematic.gd",
+        "function": "_localized",
+        "ko": "%s_ko",
+        "en": "%s_en",
+        "ko_signature": [
+          "%s"
+        ],
+        "en_signature": [
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "count": 1
+      },
+      {
+        "disposition": "locale_money_formatter",
+        "batch": "B",
+        "path": "scenes/SeoulCycleBoard.gd",
+        "function": "_format_money",
+        "ko": "%s%s원",
+        "en": "%s%s won",
+        "ko_signature": [
+          "%s",
+          "%s"
+        ],
+        "en_signature": [
+          "%s",
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "scenes/SeoulCycleBoard.gd",
+        "function": "_refresh_surface",
+        "ko": "%d년 %d월 · %d주차",
+        "en": "%04d.%02d · WEEK %d",
+        "ko_signature": [
+          "%d",
+          "%d",
+          "%d"
+        ],
+        "en_signature": [
+          "%04d",
+          "%02d",
+          "%d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "scenes/SeoulCycleBoard.gd",
+        "function": "_refresh_surface",
+        "ko": "이번 달 남은 여력 · %d/4",
+        "en": "MONTHLY CAPACITY LEFT · %d/4",
+        "ko_signature": [
+          "%d"
+        ],
+        "en_signature": [
+          "%d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StartMenu.gd",
+        "function": "_archive_cg_title",
+        "ko": "장면 기록 %02d",
+        "en": "Scene Record %02d",
+        "ko_signature": [
+          "%02d"
+        ],
+        "en_signature": [
+          "%02d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StartMenu.gd",
+        "function": "_archive_hidden_card",
+        "ko": "비밀 기록 %02d",
+        "en": "HIDDEN RECORD %02d",
+        "ko_signature": [
+          "%02d"
+        ],
+        "en_signature": [
+          "%02d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StartMenu.gd",
+        "function": "_build_ui",
+        "ko": "%d주 데모 시작",
+        "en": "Start %d-Week Demo",
+        "ko_signature": [
+          "%d"
+        ],
+        "en_signature": [
+          "%d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StartMenu.gd",
+        "function": "_build_ui",
+        "ko": "1~%d주 V2 데모를 별도 테스트 저장으로 시작합니다.",
+        "en": "Start the Weeks 1–%d V2 demo in a separate playtest save.",
+        "ko_signature": [
+          "%d"
+        ],
+        "en_signature": [
+          "%d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StartMenu.gd",
+        "function": "_build_ui",
+        "ko": "Core Loop V2  ·  %d주 테스트",
+        "en": "Core Loop V2  ·  %d-Week Test",
+        "ko_signature": [
+          "%d"
+        ],
+        "en_signature": [
+          "%d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StartMenu.gd",
+        "function": "_build_ui",
+        "ko": "최근 기록  ·  %d년 %d월  ·  %s",
+        "en": "LAST RECORD  ·  %d / %02d  ·  %s",
+        "ko_signature": [
+          "%d",
+          "%d",
+          "%s"
+        ],
+        "en_signature": [
+          "%d",
+          "%02d",
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StartMenu.gd",
+        "function": "_build_ui",
+        "ko": "현재 열린 1~%d주 월간 약속 구조를 별도 저장 상태로 시작합니다.",
+        "en": "Start the currently available Weeks 1–%d monthly-commitment slice in a separate run state.",
+        "ko_signature": [
+          "%d"
+        ],
+        "en_signature": [
+          "%d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StartMenu.gd",
+        "function": "_open_third_party_notices",
+        "ko": "엔진 %d · 서체 %d패밀리/%d파일 · 오디오 출처 %d개/%d파일",
+        "en": "Engine %d · Fonts %d families/%d files · Audio %d sources/%d files",
+        "ko_signature": [
+          "%d",
+          "%d",
+          "%d",
+          "%d",
+          "%d"
+        ],
+        "en_signature": [
+          "%d",
+          "%d",
+          "%d",
+          "%d",
+          "%d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StartMenu.gd",
+        "function": "_rebuild_slots",
+        "ko": "챕터 %d · %d주차  ·  %s",
+        "en": "Chapter %d · Week %d  ·  %s",
+        "ko_signature": [
+          "%d",
+          "%d",
+          "%s"
+        ],
+        "en_signature": [
+          "%d",
+          "%d",
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StartMenu.gd",
+        "function": "_rebuild_slots_with_confirm",
+        "ko": "챕터 %d · %d주차  ·  %s",
+        "en": "Chapter %d · Week %d  ·  %s",
+        "ko_signature": [
+          "%d",
+          "%d",
+          "%s"
+        ],
+        "en_signature": [
+          "%d",
+          "%d",
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StartMenu.gd",
+        "function": "_refresh_load_slot_pager",
+        "ko": "페이지 %d / 2",
+        "en": "Page %d / 2",
+        "ko_signature": [
+          "%d"
+        ],
+        "en_signature": [
+          "%d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StartMenu.gd",
+        "function": "_slot_title",
+        "ko": "슬롯 %d",
+        "en": "Slot %d",
+        "ko_signature": [
+          "%d"
+        ],
+        "en_signature": [
+          "%d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": true,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StartMenu.gd",
+        "function": "_third_party_notice_entry",
+        "ko": "이 출처를 사용한 게임 파일 · %d개",
+        "en": "Game files using this source · %d",
+        "ko_signature": [
+          "%d"
+        ],
+        "en_signature": [
+          "%d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StartMenu.gd",
+        "function": "_update_archive_status",
+        "ko": "CG  %d / %d",
+        "en": "CG  %d / %d",
+        "ko_signature": [
+          "%d",
+          "%d"
+        ],
+        "en_signature": [
+          "%d",
+          "%d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StartMenu.gd",
+        "function": "_update_archive_status",
+        "ko": "발견된 비밀  %d",
+        "en": "SECRETS FOUND  %d",
+        "ko_signature": [
+          "%d"
+        ],
+        "en_signature": [
+          "%d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StartMenu.gd",
+        "function": "_update_archive_status",
+        "ko": "회상  %d / %d",
+        "en": "SCENES  %d / %d",
+        "ko_signature": [
+          "%d",
+          "%d"
+        ],
+        "en_signature": [
+          "%d",
+          "%d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StoryMode.gd",
+        "function": "_add_story_save_slot_row",
+        "ko": "%d년 %d월 · 자산 %s",
+        "en": "%d / %02d · Assets %s",
+        "ko_signature": [
+          "%d",
+          "%d",
+          "%s"
+        ],
+        "en_signature": [
+          "%d",
+          "%02d",
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StoryMode.gd",
+        "function": "_add_story_save_slot_row",
+        "ko": "챕터 %d · %d주차",
+        "en": "Chapter %d · Week %d",
+        "ko_signature": [
+          "%d",
+          "%d"
+        ],
+        "en_signature": [
+          "%d",
+          "%d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StoryMode.gd",
+        "function": "_build_story_audio_settings_button",
+        "ko": "장면 설정 (%s)",
+        "en": "Scene settings (%s)",
+        "ko_signature": [
+          "%s"
+        ],
+        "en_signature": [
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StoryMode.gd",
+        "function": "_create_story_save_popup",
+        "ko": "슬롯 %d–%d",
+        "en": "Slots %d–%d",
+        "ko_signature": [
+          "%d",
+          "%d"
+        ],
+        "en_signature": [
+          "%d",
+          "%d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StoryMode.gd",
+        "function": "_save_story_to_slot",
+        "ko": "슬롯 %d에 현재 장면을 저장했습니다.",
+        "en": "Current scene saved to slot %d.",
+        "ko_signature": [
+          "%d"
+        ],
+        "en_signature": [
+          "%d"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StoryMode.gd",
+        "function": "_save_story_to_slot",
+        "ko": "챕터 %d · %s",
+        "en": "Chapter %d · %s",
+        "ko_signature": [
+          "%d",
+          "%s"
+        ],
+        "en_signature": [
+          "%d",
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "A",
+        "path": "scenes/StoryMode.gd",
+        "function": "_set_story_language",
+        "ko": "장면 설정 (%s)",
+        "en": "Scene settings (%s)",
+        "ko_signature": [
+          "%s"
+        ],
+        "en_signature": [
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      }
+    ],
+    "source_inventory_phases": {
+      "baseline": {
+        "migrated_calls": 0,
+        "existing_lookup_before_format_migrations": 0,
+        "money_formatter_migrations": 0,
+        "localized_argument_calls": 0,
+        "migrated_branch_literal_calls": 0,
+        "total_ui_call_occurrences": 3260,
+        "legacy_pair_call_occurrences": 3223,
+        "context_call_occurrences": 37,
+        "legacy_korean_source_keys": 2736,
+        "legacy_korean_source_keys_sha256": "cbbc91a08618f6476902d8511379073133c1dd2756523cc55c73cefc5ea9ee4b"
+      },
+      "batch_a": {
+        "migrated_calls": 23,
+        "existing_lookup_before_format_migrations": 0,
+        "money_formatter_migrations": 0,
+        "localized_argument_calls": 0,
+        "migrated_branch_literal_calls": 0,
+        "total_ui_call_occurrences": 3283,
+        "legacy_pair_call_occurrences": 3246,
+        "context_call_occurrences": 37,
+        "legacy_korean_source_keys": 2756,
+        "legacy_korean_source_keys_sha256": "79b3868441158876d45cb27651cabd1ea5575c188c99e09d100b0672e3f25806"
+      },
+      "batch_b": {
+        "migrated_calls": 24,
+        "existing_lookup_before_format_migrations": 2,
+        "money_formatter_migrations": 2,
+        "localized_argument_calls": 1,
+        "migrated_branch_literal_calls": 2,
+        "total_ui_call_occurrences": 3287,
+        "legacy_pair_call_occurrences": 3250,
+        "context_call_occurrences": 37,
+        "legacy_korean_source_keys": 2761,
+        "legacy_korean_source_keys_sha256": "4031a0328d9dd552841902fc48552279665c832d9da60582f3741209cfb6fe3e"
+      },
+      "final": {
+        "migrated_calls": 47,
+        "existing_lookup_before_format_migrations": 2,
+        "money_formatter_migrations": 2,
+        "localized_argument_calls": 1,
+        "migrated_branch_literal_calls": 2,
+        "total_ui_call_occurrences": 3310,
+        "legacy_pair_call_occurrences": 3273,
+        "context_call_occurrences": 37,
+        "legacy_korean_source_keys": 2780,
+        "legacy_korean_source_keys_sha256": "34f476ae2d36ffa43f6eceb1969e34ee38aef63052e5e19632cb736a51e2ea8c"
+      }
     },
-    "note": "Classify all 55 candidates before implementation. Record the exact per-callsite disposition registry before editing product calls, then change only the exact 47 preformatted player-facing calls from lookup-after-format to lookup-before-format; preserve KO/EN bytes, the 30 context IDs, and all gameplay/save data. Counts under first_run_adjustment_expected are verification targets, not rejection baselines, until the first collector run."
+    "existing_lookup_before_format_calls": 2,
+    "existing_lookup_before_format_provenance_sha256": "e3da859943cccb2f423fbe47b9c1ab5c222c4259a1fd0a10e6f6591a58259b6c",
+    "existing_lookup_before_format_provenance": [
+      {
+        "batch": "B",
+        "path": "scenes/ArubaGame.gd",
+        "function": "_del_refresh_ui",
+        "ko": "소요 %d분 / %d분 (여유 %d분)  |  예상 추가 수입 +%s%s",
+        "en": "Time %d / %d min (%d min spare)  |  Expected extra income +%s%s",
+        "ko_signature": [
+          "%d",
+          "%d",
+          "%d",
+          "%s",
+          "%s"
+        ],
+        "en_signature": [
+          "%d",
+          "%d",
+          "%d",
+          "%s",
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": true,
+        "ko_args": "[time_used,DEL_TIME_BUDGET,remaining,target_extra_income,target_surge_suffix,]",
+        "en_args": "[time_used,DEL_TIME_BUDGET,remaining,english_extra_income,english_surge_suffix,]",
+        "count": 1
+      },
+      {
+        "batch": "B",
+        "path": "autoloads/GameState.gd",
+        "function": "build_year_scene_choices",
+        "ko": "「%s」",
+        "en": "“%s”",
+        "ko_signature": [
+          "%s"
+        ],
+        "en_signature": [
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": true,
+        "ko_args": "title",
+        "en_args": "english_title",
+        "count": 1
+      }
+    ],
+    "note": "The exact registry is the complete 55-expression disposition set. Its two preserved branch calls expand to six stable legacy translation variants; the migrated STEP 3 selector exposes two stable literals; and the locked-week suffix is one separately registered localized argument. The Aruba status parent and GameState year-choice quote were already lookup-before-format, so their target/English argument splits are separate baseline-key provenance migrations and do not alter the raw55 disposition counts or source inventory. Only whole baseline, Batch A, Batch B, or final source phases are valid; missing, extra, stale, or selector-partial rows fail before translation inventory can pass.",
+    "branch_legacy_variant_keys": 6,
+    "branch_legacy_variant_occurrences": 6,
+    "localized_argument_calls": 1,
+    "localized_argument_legacy_keys": 1,
+    "localized_argument_registry_sha256": "46e2c053bfa30f3c7b185d12d129d03e9260c4d2cf8ae42408b63f36a3f2f3e8",
+    "localized_argument_registry": [
+      {
+        "batch": "B",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_refresh_calendar",
+        "parent_ko": "%d주차%s\n%s",
+        "parent_en": "WEEK %d%s\n%s",
+        "argument_index": 1,
+        "ko": " · 고정 일정",
+        "en": " · FIXED EVENT",
+        "ko_signature": [],
+        "en_signature": [],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      }
+    ],
+    "migrated_branch_literal_calls": 2,
+    "migrated_branch_literal_keys": 2,
+    "migrated_branch_literal_registry_sha256": "7e7bc95e4cc758b52be35b6476275d90a08b8758c8bc4dbb673e8f8c0b6b0f44",
+    "migrated_branch_literal_registry": [
+      {
+        "batch": "B",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_refresh_step_rail",
+        "parent_ko": "3단계 · 최종 확인 · %s",
+        "parent_en": "STEP 3 · FINAL REVIEW · %s",
+        "ko": "3단계 · 최종 확인 · 확정됨",
+        "en": "STEP 3 · FINAL REVIEW · CONFIRMED",
+        "ko_signature": [],
+        "en_signature": [],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      },
+      {
+        "batch": "B",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_refresh_step_rail",
+        "parent_ko": "3단계 · 최종 확인 · %s",
+        "parent_en": "STEP 3 · FINAL REVIEW · %s",
+        "ko": "3단계 · 최종 확인 · 준비됨",
+        "en": "STEP 3 · FINAL REVIEW · READY",
+        "ko_signature": [],
+        "en_signature": [],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
+        "count": 1
+      }
+    ],
+    "argument_provenance_calls": 15,
+    "argument_provenance_registry_sha256": "e6b935b85c79c3ef2ee65de19aa954eb93bbef90564d8d05bd0145bb86fe6e49",
+    "argument_provenance_registry": [
+      {
+        "batch": "B",
+        "path": "autoloads/GameState.gd",
+        "function": "_complete_thought",
+        "ko": "💡 결론에 도달: %s",
+        "en": "💡 Reached a conclusion: %s",
+        "ko_args": "title",
+        "en_args": "english_title",
+        "count": 1
+      },
+      {
+        "batch": "B",
+        "path": "autoloads/GameState.gd",
+        "function": "add_clue",
+        "ko": "🔎 단서 발견: %s",
+        "en": "🔎 Clue found: %s",
+        "ko_args": "title",
+        "en_args": "english_title",
+        "count": 1
+      },
+      {
+        "batch": "B",
+        "path": "autoloads/GameState.gd",
+        "function": "build_year_scene_choices",
+        "ko": "그 해를 접으면, 「%s」이 가장 먼저 남았다.",
+        "en": "When that year folded shut, “%s” was the scene that remained.",
+        "ko_args": "title",
+        "en_args": "english_title",
+        "count": 1
+      },
+      {
+        "batch": "B",
+        "path": "autoloads/GameState.gd",
+        "function": "start_thought",
+        "ko": "💭 생각 정리 시작: %s (%d주)",
+        "en": "💭 Started working it out: %s (%d weeks)",
+        "ko_args": "[title,turns]",
+        "en_args": "[english_title,turns]",
+        "count": 1
+      },
+      {
+        "batch": "B",
+        "path": "scenes/ArubaGame.gd",
+        "function": "_del_refresh_ui",
+        "ko": " (비 할증 %s)",
+        "en": " (%s rain surge)",
+        "ko_args": "_fmt(surge_preview)",
+        "en_args": "LocaleManager.format_money_english(float(surge_preview))",
+        "count": 1
+      },
+      {
+        "batch": "B",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_plan_blocker_short",
+        "ko": "주차 %d개 남음",
+        "en": "%d %s LEFT",
+        "ko_args": "weeks_left",
+        "en_args": "[weeks_left,\"WEEK\"ifweeks_left==1else\"WEEKS\"]",
+        "count": 1
+      },
+      {
+        "batch": "B",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_plan_blocker_short",
+        "ko": "매주 할 일 %d개 남음",
+        "en": "%d %s LEFT",
+        "ko_args": "routines_left",
+        "en_args": "[routines_left,\"ROUTINE\"ifroutines_left==1else\"ROUTINES\"]",
+        "count": 1
+      },
+      {
+        "batch": "B",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_refresh_calendar",
+        "ko": "%d주차%s\n%s",
+        "en": "WEEK %d%s\n%s",
+        "ko_args": "[week_in_month,locked_suffix,localized_offer,]",
+        "en_args": "[week_in_month,\" · FIXED EVENT\"iflockedelse\"\",english_offer,]",
+        "count": 1
+      },
+      {
+        "batch": "B",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_refresh_calendar_detail",
+        "ko": "%d주차 · %s\n%s",
+        "en": "WEEK %d · %s\n%s",
+        "ko_args": "[week_in_month,localized_offer,localized_detail,]",
+        "en_args": "[week_in_month,_english_copy(week_offer,\"offer\"),_english_copy(week_offer,\"detail\"),]",
+        "count": 1
+      },
+      {
+        "batch": "B",
+        "path": "scenes/CoreLoopPlanner.gd",
+        "function": "_refresh_step_rail",
+        "ko": "3단계 · 최종 확인 · %s",
+        "en": "STEP 3 · FINAL REVIEW · %s",
+        "ko_args": "_plan_blocker_short(validation)",
+        "en_args": "_plan_blocker_short_english(validation)",
+        "count": 1
+      },
+      {
+        "batch": "A",
+        "path": "scenes/StartMenu.gd",
+        "function": "_build_ui",
+        "ko": "최근 기록  ·  %d년 %d월  ·  %s",
+        "en": "LAST RECORD  ·  %d / %02d  ·  %s",
+        "ko_args": "[int(latest.get(\"year\",2026)),int(latest.get(\"month\",1)),_format_money(latest.get(\"total_assets\",0))]",
+        "en_args": "[int(latest.get(\"year\",2026)),int(latest.get(\"month\",1)),_format_start_money(float(latest.get(\"total_assets\",0)))]",
+        "count": 1
+      },
+      {
+        "batch": "A",
+        "path": "scenes/StartMenu.gd",
+        "function": "_rebuild_slots",
+        "ko": "챕터 %d · %d주차  ·  %s",
+        "en": "Chapter %d · Week %d  ·  %s",
+        "ko_args": "[info.get(\"chapter\",1),info.get(\"turn\",1),_format_money(info.get(\"total_assets\",0))]",
+        "en_args": "[info.get(\"chapter\",1),info.get(\"turn\",1),_format_start_money(float(info.get(\"total_assets\",0)))]",
+        "count": 1
+      },
+      {
+        "batch": "A",
+        "path": "scenes/StartMenu.gd",
+        "function": "_rebuild_slots_with_confirm",
+        "ko": "챕터 %d · %d주차  ·  %s",
+        "en": "Chapter %d · Week %d  ·  %s",
+        "ko_args": "[info.get(\"chapter\",1),info.get(\"turn\",1),_format_money(info.get(\"total_assets\",0))]",
+        "en_args": "[info.get(\"chapter\",1),info.get(\"turn\",1),_format_start_money(float(info.get(\"total_assets\",0)))]",
+        "count": 1
+      },
+      {
+        "batch": "A",
+        "path": "scenes/StoryMode.gd",
+        "function": "_add_story_save_slot_row",
+        "ko": "%d년 %d월 · 자산 %s",
+        "en": "%d / %02d · Assets %s",
+        "ko_args": "[int(info.get(\"year\",2026)),int(info.get(\"month\",1)),_story_money(float(info.get(\"total_assets\",0.0)))]",
+        "en_args": "[int(info.get(\"year\",2026)),int(info.get(\"month\",1)),_story_money_english(float(info.get(\"total_assets\",0.0)))]",
+        "count": 1
+      },
+      {
+        "batch": "A",
+        "path": "scenes/StoryMode.gd",
+        "function": "_save_story_to_slot",
+        "ko": "챕터 %d · %s",
+        "en": "Chapter %d · %s",
+        "ko_args": "[chapter,event_title]",
+        "en_args": "[chapter,event_title_english]",
+        "count": 1
+      }
+    ]
   },
-  "receipt_only_event_ids": ["callback_escaped_dirty_trace"],
+  "receipt_only_event_ids": [
+    "callback_escaped_dirty_trace"
+  ],
   "korean_clock_contract": {
     "schema_version": 1,
     "scope": "Only exact Korean clock mentions on the derived 24-week event and dynamic player surface; durations and counts are not clock mentions.",
@@ -1223,9 +2649,16 @@
     "dynamic_pairs_sha256": "653b1969ab008c49bf7207cee7c0b5eb2083cc0c5472efb228a81e3e427a39d5",
     "dynamic_unique_sha256": "0b483dc3ba79aae2c034d2fb6ec881e0827fba009228298abd2aa99c706dd98b",
     "demo_ending_count": 0,
-    "catalog_asset_name_ids": ["samsung", "kakao", "hyundai", "kospi_etf"],
+    "catalog_asset_name_ids": [
+      "samsung",
+      "kakao",
+      "hyundai",
+      "kospi_etf"
+    ],
     "catalog_asset_names_sha256": "187802b46719245170031f912663ad8bc7308bbe187bba0a819d9f3f2ad4cab4",
-    "receipt_only_event_ids": ["callback_escaped_dirty_trace"]
+    "receipt_only_event_ids": [
+      "callback_escaped_dirty_trace"
+    ]
   },
   "strict_gate": {
     "automated_requires": [

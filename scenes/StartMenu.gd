@@ -217,18 +217,16 @@ func _difficulty_text(did: String, data: Dictionary, key: String) -> String:
 func _slot_title(slot: int) -> String:
 	if slot == 0:
 		return _tr("자동저장", "Autosave")
-	return _tr("슬롯 %d" % slot, "Slot %d" % slot)
+	return LocaleManager.ui_format("슬롯 %d", "Slot %d", slot, slot)
 
 func _format_start_money(amount: float) -> String:
-	if LocaleManager.is_exact_english():
-		if abs(amount) >= 1_000_000_000.0:
-			return "KRW %.1fB" % (amount / 1_000_000_000.0)
-		if abs(amount) >= 1_000_000.0:
-			return "KRW %.1fM" % (amount / 1_000_000.0)
-		if abs(amount) >= 1_000.0:
-			return "KRW %.0fK" % (amount / 1_000.0)
-		return "KRW %.0f" % amount
-	return _format_money(amount)
+	if abs(amount) >= 1_000_000_000.0:
+		return "KRW %.1fB" % (amount / 1_000_000_000.0)
+	if abs(amount) >= 1_000_000.0:
+		return "KRW %.1fM" % (amount / 1_000_000.0)
+	if abs(amount) >= 1_000.0:
+		return "KRW %.0fK" % (amount / 1_000.0)
+	return "KRW %.0f" % amount
 
 func _rebuild_language_ui(show_splash: bool = false) -> void:
 	if _splash_prompt_tween and _splash_prompt_tween.is_running():
@@ -508,11 +506,13 @@ func _build_ui():
 	if latest_slot >= 0:
 		var latest: Dictionary = SaveManager.get_save_info(latest_slot)
 		var resume := Label.new()
-		resume.text = _tr(
-			"최근 기록  ·  %d년 %d월  ·  %s" % [
+		resume.text = LocaleManager.ui_format(
+			"최근 기록  ·  %d년 %d월  ·  %s",
+			"LAST RECORD  ·  %d / %02d  ·  %s",
+			[
 				int(latest.get("year", 2026)), int(latest.get("month", 1)),
 				_format_money(latest.get("total_assets", 0))],
-			"LAST RECORD  ·  %d / %02d  ·  %s" % [
+			[
 				int(latest.get("year", 2026)), int(latest.get("month", 1)),
 				_format_start_money(float(latest.get("total_assets", 0)))])
 		resume.add_theme_font_size_override("font_size", 11)
@@ -532,15 +532,15 @@ func _build_ui():
 
 	var core_loop_cap_week := DemoCoreLoopV2Script.development_cap_week()
 	var new_btn := _title_command_button(
-		_tr("%d주 데모 시작" % core_loop_cap_week,
-			"Start %d-Week Demo" % core_loop_cap_week)
+		LocaleManager.ui_format(
+			"%d주 데모 시작", "Start %d-Week Demo",
+			core_loop_cap_week, core_loop_cap_week)
 		if playtest_build else _tr("새 이야기", "New Story"))
 	if playtest_build:
-		new_btn.tooltip_text = _tr(
-			"1~%d주 V2 데모를 별도 테스트 저장으로 시작합니다." \
-				% core_loop_cap_week,
-			"Start the Weeks 1–%d V2 demo in a separate playtest save." \
-				% core_loop_cap_week)
+		new_btn.tooltip_text = LocaleManager.ui_format(
+			"1~%d주 V2 데모를 별도 테스트 저장으로 시작합니다.",
+			"Start the Weeks 1–%d V2 demo in a separate playtest save.",
+			core_loop_cap_week, core_loop_cap_week)
 		new_btn.set_meta("core_loop_v2_test_entry", true)
 		new_btn.set_meta("build_entry_kind", "core_loop_v2_playtest")
 		new_btn.pressed.connect(_start_core_loop_v2_test_run)
@@ -560,13 +560,14 @@ func _build_ui():
 				])
 	elif OS.is_debug_build():
 		var core_loop_v2_btn := _title_command_button(
-			_tr("Core Loop V2  ·  %d주 테스트" % core_loop_cap_week,
-				"Core Loop V2  ·  %d-Week Test" % core_loop_cap_week), true)
-		core_loop_v2_btn.tooltip_text = _tr(
-			"현재 열린 1~%d주 월간 약속 구조를 별도 저장 상태로 시작합니다." \
-				% core_loop_cap_week,
-			"Start the currently available Weeks 1–%d monthly-commitment slice in a separate run state." \
-				% core_loop_cap_week)
+			LocaleManager.ui_format(
+				"Core Loop V2  ·  %d주 테스트",
+				"Core Loop V2  ·  %d-Week Test",
+				core_loop_cap_week, core_loop_cap_week), true)
+		core_loop_v2_btn.tooltip_text = LocaleManager.ui_format(
+			"현재 열린 1~%d주 월간 약속 구조를 별도 저장 상태로 시작합니다.",
+			"Start the currently available Weeks 1–%d monthly-commitment slice in a separate run state.",
+			core_loop_cap_week, core_loop_cap_week)
 		core_loop_v2_btn.set_meta("core_loop_v2_test_entry", true)
 		core_loop_v2_btn.set_meta("build_entry_kind", "core_loop_v2_debug")
 		core_loop_v2_btn.pressed.connect(_start_core_loop_v2_test_run)
@@ -933,7 +934,7 @@ func _open_archive_overlay() -> void:
 	var title := _label(LocaleManager.ui_context(
 		"ui.navigation.archive", "기록", "ARCHIVE"),
 		27, "#f0f3f6", HORIZONTAL_ALIGNMENT_LEFT)
-	title.add_theme_font_override("font", load("res://assets/fonts/Pretendard-Bold.ttf"))
+	title.add_theme_font_override("font", FontKit.ui_bold())
 	heading.add_child(title)
 	heading.add_child(_label(
 		_tr("지나온 장면은 남지만, 다시 보는 선택은 현재를 바꾸지 않습니다.",
@@ -1127,19 +1128,24 @@ func _update_archive_status() -> void:
 				for cg_id in ImageRegistry.CG.keys():
 					if MetaProgression.is_cg_unlocked(str(cg_id)):
 						unlocked += 1
-				_archive_progress_label.text = _tr("CG  %d / %d" % [unlocked, ImageRegistry.CG.size()],
-					"CG  %d / %d" % [unlocked, ImageRegistry.CG.size()])
+				_archive_progress_label.text = LocaleManager.ui_format(
+					"CG  %d / %d", "CG  %d / %d",
+					[unlocked, ImageRegistry.CG.size()],
+					[unlocked, ImageRegistry.CG.size()])
 			1:
 				var seen := 0
 				for scene_id in ARCHIVE_SCENE_IDS:
 					if MetaProgression.has_seen_scene(scene_id):
 						seen += 1
-				_archive_progress_label.text = _tr("회상  %d / %d" % [seen, ARCHIVE_SCENE_IDS.size()],
-					"SCENES  %d / %d" % [seen, ARCHIVE_SCENE_IDS.size()])
+				_archive_progress_label.text = LocaleManager.ui_format(
+					"회상  %d / %d", "SCENES  %d / %d",
+					[seen, ARCHIVE_SCENE_IDS.size()],
+					[seen, ARCHIVE_SCENE_IDS.size()])
 			_:
 				var hidden_count := _archive_unlocked_hidden().size()
-				_archive_progress_label.text = _tr("발견된 비밀  %d" % hidden_count,
-					"SECRETS FOUND  %d" % hidden_count)
+				_archive_progress_label.text = LocaleManager.ui_format(
+					"발견된 비밀  %d", "SECRETS FOUND  %d",
+					hidden_count, hidden_count)
 	var pages := _archive_page_count()
 	if is_instance_valid(_archive_page_label):
 		_archive_page_label.text = "%02d / %02d" % [_archive_page + 1, pages]
@@ -1278,7 +1284,7 @@ func _archive_scene_card(scene_id: String, catalog_index: int) -> Button:
 	button.add_child(copy)
 	copy.add_child(_label(_archive_scene_kind(scene_id), 10, "#77818d", HORIZONTAL_ALIGNMENT_LEFT))
 	var title_label := _label(title, 18, "#edf1f5" if unlocked else "#4d5661", HORIZONTAL_ALIGNMENT_LEFT)
-	title_label.add_theme_font_override("font", load("res://assets/fonts/Pretendard-Bold.ttf"))
+	title_label.add_theme_font_override("font", FontKit.ui_bold())
 	title_label.clip_text = true
 	title_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	copy.add_child(title_label)
@@ -1308,10 +1314,12 @@ func _archive_hidden_card(achievement: Dictionary, catalog_index: int) -> PanelC
 	var copy := VBoxContainer.new()
 	copy.add_theme_constant_override("separation", 8)
 	card.add_child(copy)
-	copy.add_child(_label(_tr("비밀 기록 %02d" % (catalog_index + 1), "HIDDEN RECORD %02d" % (catalog_index + 1)),
+	copy.add_child(_label(LocaleManager.ui_format(
+		"비밀 기록 %02d", "HIDDEN RECORD %02d",
+		catalog_index + 1, catalog_index + 1),
 		10, "#9b8459", HORIZONTAL_ALIGNMENT_LEFT))
 	var title: Label = _label(str(achievement.get("name", "")), 19, "#eef1f4", HORIZONTAL_ALIGNMENT_LEFT)
-	title.add_theme_font_override("font", load("res://assets/fonts/Pretendard-Bold.ttf"))
+	title.add_theme_font_override("font", FontKit.ui_bold())
 	copy.add_child(title)
 	copy.add_child(_label(str(achievement.get("description", "")), 12, "#9ba4ae", HORIZONTAL_ALIGNMENT_LEFT))
 	return card
@@ -1353,7 +1361,9 @@ func _archive_cg_title(cg_id: String, catalog_index: int) -> String:
 			return str(event.get("title", _tr("장면 기록", "Scene Record")))
 	if cg_id == "cg_start":
 		return _tr("시작의 기록", "The Beginning")
-	return _tr("장면 기록 %02d" % (catalog_index + 1), "Scene Record %02d" % (catalog_index + 1))
+	return LocaleManager.ui_format(
+		"장면 기록 %02d", "Scene Record %02d",
+		catalog_index + 1, catalog_index + 1)
 
 func _archive_value_contains_cg(value: Variant, cg_id: String) -> bool:
 	if value is String:
@@ -1562,12 +1572,14 @@ func _rebuild_slots():
 			sub_line = _tr("비어 있음", "Empty")
 		else:
 			top_line += "  ·  " + _save_source_label(info)
-			sub_line = _tr(
-				"챕터 %d · %d주차  ·  %s" % [
+			sub_line = LocaleManager.ui_format(
+				"챕터 %d · %d주차  ·  %s",
+				"Chapter %d · Week %d  ·  %s",
+				[
 					info.get("chapter", 1), info.get("turn", 1),
 					_format_money(info.get("total_assets", 0))
 				],
-				"Chapter %d · Week %d  ·  %s" % [
+				[
 					info.get("chapter", 1), info.get("turn", 1),
 					_format_start_money(float(info.get("total_assets", 0)))
 				])
@@ -1625,12 +1637,14 @@ func _rebuild_slots_with_confirm(confirm_slot: int):
 			sub_line = _tr("비어 있음", "Empty")
 		else:
 			top_line += "  ·  " + _save_source_label(info)
-			sub_line = _tr(
-				"챕터 %d · %d주차  ·  %s" % [
+			sub_line = LocaleManager.ui_format(
+				"챕터 %d · %d주차  ·  %s",
+				"Chapter %d · Week %d  ·  %s",
+				[
 					info.get("chapter", 1), info.get("turn", 1),
 					_format_money(info.get("total_assets", 0))
 				],
-				"Chapter %d · Week %d  ·  %s" % [
+				[
 					info.get("chapter", 1), info.get("turn", 1),
 					_format_start_money(float(info.get("total_assets", 0)))
 				])
@@ -1699,9 +1713,9 @@ func _set_load_slot_page(page: int) -> void:
 
 func _refresh_load_slot_pager() -> void:
 	if is_instance_valid(_load_page_label):
-		_load_page_label.text = _tr(
-			"페이지 %d / 2" % (_load_slot_page + 1),
-			"Page %d / 2" % (_load_slot_page + 1))
+		_load_page_label.text = LocaleManager.ui_format(
+			"페이지 %d / 2", "Page %d / 2",
+			_load_slot_page + 1, _load_slot_page + 1)
 	if is_instance_valid(_load_prev_button):
 		_load_prev_button.disabled = _load_slot_page == 0
 	if is_instance_valid(_load_next_button):
@@ -2353,15 +2367,17 @@ func _open_third_party_notices() -> void:
 	intro.name = "ThirdPartyNoticesIntro"
 	body.add_child(intro)
 	var summary: Dictionary = data.get("summary", {})
-	var summary_text := _tr(
-		"엔진 %d · 서체 %d패밀리/%d파일 · 오디오 출처 %d개/%d파일" % [
+	var summary_text := LocaleManager.ui_format(
+		"엔진 %d · 서체 %d패밀리/%d파일 · 오디오 출처 %d개/%d파일",
+		"Engine %d · Fonts %d families/%d files · Audio %d sources/%d files",
+		[
 			int(summary.get("component_entries", 0)),
 			int(summary.get("font_families", 0)),
 			int(summary.get("font_files", 0)),
 			int(summary.get("audio_sources", 0)),
 			int(summary.get("audio_assets", 0)),
 		],
-		"Engine %d · Fonts %d families/%d files · Audio %d sources/%d files" % [
+		[
 			int(summary.get("component_entries", 0)),
 			int(summary.get("font_families", 0)),
 			int(summary.get("font_files", 0)),
@@ -2579,11 +2595,11 @@ func _third_party_notice_entry(entry: Dictionary) -> Control:
 			14, "#98a6b5", HORIZONTAL_ALIGNMENT_LEFT))
 	if entry.has("shipping_asset_count"):
 		column.add_child(_label(
-			_tr(
-				"이 출처를 사용한 게임 파일 · %d개" % int(
-					entry.get("shipping_asset_count", 0)),
-				"Game files using this source · %d" % int(
-					entry.get("shipping_asset_count", 0))),
+			LocaleManager.ui_format(
+				"이 출처를 사용한 게임 파일 · %d개",
+				"Game files using this source · %d",
+				int(entry.get("shipping_asset_count", 0)),
+				int(entry.get("shipping_asset_count", 0))),
 			13, "#73808d", HORIZONTAL_ALIGNMENT_LEFT))
 	return panel
 

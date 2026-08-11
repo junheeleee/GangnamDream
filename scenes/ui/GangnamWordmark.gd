@@ -1,9 +1,6 @@
 class_name GangnamWordmark
 extends VBoxContainer
 
-const FONT_BOLD := preload("res://assets/fonts/Pretendard-Bold.ttf")
-const FONT_REGULAR := preload("res://assets/fonts/Pretendard-Regular.ttf")
-
 var _title_color := Color("#edf0f3")
 var _detail_color := Color("#8e98a4")
 
@@ -24,7 +21,7 @@ func _init(font_size: int = 66, subtitle: String = "") -> void:
 	if not subtitle.is_empty():
 		var caption := Label.new()
 		caption.text = subtitle
-		caption.add_theme_font_override("font", FONT_REGULAR)
+		caption.add_theme_font_override("font", FontKit.ui_regular())
 		caption.add_theme_font_size_override("font_size", clampi(font_size / 5, 7, 11))
 		caption.add_theme_color_override("font_color", _detail_color)
 		caption.autowrap_mode = TextServer.AUTOWRAP_OFF
@@ -41,7 +38,7 @@ func _make_letter_row(text: String, font_size: int, row_index: int) -> HBoxConta
 	for index in text.length():
 		var glyph := Label.new()
 		glyph.text = text.substr(index, 1)
-		glyph.add_theme_font_override("font", FONT_BOLD)
+		glyph.add_theme_font_override("font", FontKit.ui_bold())
 		glyph.add_theme_font_size_override("font_size", font_size)
 		glyph.add_theme_color_override("font_color", _title_color)
 		glyph.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.58))

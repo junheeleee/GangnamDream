@@ -65,8 +65,8 @@ var _living_scene: LivingSceneLayer
 var _title_label: Label
 var _body_label: Label
 var _beat_rule: ColorRect
-var _font: FontFile
-var _font_bold: FontFile
+var _font: Font
+var _font_bold: Font
 
 # Runtime check hook: tests may inspect a fully built first beat without timers.
 var _qa_disable_autoplay := false
@@ -75,8 +75,8 @@ var _qa_suppress_transition := false
 var _transition_request_count := 0
 
 func _ready() -> void:
-	_font = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
-	_font_bold = load("res://assets/fonts/Pretendard-Bold.ttf") as FontFile
+	_font = FontKit.ui_regular()
+	_font_bold = FontKit.ui_bold()
 	FontKit.attach_emoji_fallback(_font)
 	FontKit.attach_emoji_fallback(_font_bold)
 	_reduced_motion = _qa_force_reduced_motion or bool(SaveManager.get_setting(

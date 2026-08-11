@@ -175,8 +175,8 @@ var _choice_countdown_deadline_msec: int = 0
 var _choice_countdown_total_msec: int = 0
 var _choice_countdown_default_index: int = 0
 
-var _font: FontFile
-var _font_bold: FontFile
+var _font: Font
+var _font_bold: Font
 
 const TYPE_SPEED := 0.018   # 글자당 초
 const AUTO_CJK_CHARS_PER_MINUTE := 390.0
@@ -279,8 +279,8 @@ func _ready():
 	_load_next_event()
 
 func _load_fonts():
-	_font      = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
-	_font_bold = load("res://assets/fonts/Pretendard-Bold.ttf") as FontFile
+	_font      = FontKit.ui_regular()
+	_font_bold = FontKit.ui_bold()
 	FontKit.attach_emoji_fallback(_font)
 	FontKit.attach_emoji_fallback(_font_bold)
 
@@ -945,9 +945,9 @@ func _build_story_audio_settings_button() -> void:
 	_audio_settings_button.offset_right = -14
 	_audio_settings_button.offset_bottom = 44
 	_audio_settings_button.text = _tr("설정", "Settings")
-	_audio_settings_button.tooltip_text = _tr(
-		"장면 설정 (%s)" % ControllerHints.start_btn(),
-		"Scene settings (%s)" % ControllerHints.start_btn())
+	_audio_settings_button.tooltip_text = LocaleManager.ui_format(
+		"장면 설정 (%s)", "Scene settings (%s)",
+		ControllerHints.start_btn(), ControllerHints.start_btn())
 	_audio_settings_button.focus_mode = Control.FOCUS_NONE
 	_audio_settings_button.z_index = 74
 	_register_story_font(_audio_settings_button, "font_size", 14)
@@ -1800,9 +1800,10 @@ func _create_story_save_popup() -> void:
 	column.add_child(pager)
 	for page in range(2):
 		var page_button := Button.new()
-		page_button.text = _tr(
-			"슬롯 %d–%d" % [page * 5 + 1, page * 5 + 5],
-			"Slots %d–%d" % [page * 5 + 1, page * 5 + 5])
+		page_button.text = LocaleManager.ui_format(
+			"슬롯 %d–%d", "Slots %d–%d",
+			[page * 5 + 1, page * 5 + 5],
+			[page * 5 + 1, page * 5 + 5])
 		page_button.toggle_mode = true
 		page_button.button_pressed = page == _story_save_page
 		page_button.disabled = page == _story_save_page
@@ -1915,16 +1916,19 @@ func _add_story_save_slot_row(
 		secondary.text = _tr("현재 장면을 저장할 수 있습니다.", "Save the current scene here.")
 	else:
 		var label := str(info.get("label", "")).strip_edges()
-		primary.text = label if not label.is_empty() else _tr(
-			"챕터 %d · %d주차" % [int(info.get("chapter", 1)), int(info.get("turn", 1))],
-			"Chapter %d · Week %d" % [int(info.get("chapter", 1)), int(info.get("turn", 1))])
-		secondary.text = _tr(
-			"%d년 %d월 · 자산 %s" % [
+		primary.text = label if not label.is_empty() else LocaleManager.ui_format(
+			"챕터 %d · %d주차", "Chapter %d · Week %d",
+			[int(info.get("chapter", 1)), int(info.get("turn", 1))],
+			[int(info.get("chapter", 1)), int(info.get("turn", 1))])
+		secondary.text = LocaleManager.ui_format(
+			"%d년 %d월 · 자산 %s",
+			"%d / %02d · Assets %s",
+			[
 				int(info.get("year", 2026)), int(info.get("month", 1)),
 				_story_money(float(info.get("total_assets", 0.0)))],
-			"%d / %02d · Assets %s" % [
+			[
 				int(info.get("year", 2026)), int(info.get("month", 1)),
-				_story_money(float(info.get("total_assets", 0.0)))])
+				_story_money_english(float(info.get("total_assets", 0.0)))])
 		if bool(info.get("qa_fixture", false)):
 			secondary.text += _tr(" · 테스트 기록", " · QA record")
 	primary.add_theme_font_size_override("font_size", 14)
@@ -1992,14 +1996,18 @@ func _save_story_to_slot(slot: int) -> void:
 		_replace_story_popup_with_save_page()
 		return
 	var event_title: String = _fmt(str(_current.get("title", ""))).strip_edges()
+	var event_title_english: String = _fmt(str(_current.get(
+		"title_en",
+		DataRegistry.english_event_title(
+			str(_current.get("id", "")), event_title)))).strip_edges()
 	var chapter := mini(5, floori(float(maxi(1, GameState.turn) - 1) / 48.0) + 1)
-	var label := _tr(
-		"챕터 %d · %s" % [chapter, event_title],
-		"Chapter %d · %s" % [chapter, event_title])
+	var label := LocaleManager.ui_format(
+		"챕터 %d · %s", "Chapter %d · %s",
+		[chapter, event_title], [chapter, event_title_english])
 	if SaveManager.save_game(slot, context, {"label": label, "qa_fixture": false}):
-		_story_save_notice = _tr(
-			"슬롯 %d에 현재 장면을 저장했습니다." % slot,
-			"Current scene saved to slot %d." % slot)
+		_story_save_notice = LocaleManager.ui_format(
+			"슬롯 %d에 현재 장면을 저장했습니다.",
+			"Current scene saved to slot %d.", slot, slot)
 		AudioManager.play("choice_made")
 	else:
 		_story_save_notice = _tr("저장에 실패했습니다.", "Save failed.")
@@ -2628,6 +2636,9 @@ func _compact_cash_position_label() -> String:
 func _story_money(amount: float) -> String:
 	if not LocaleManager.is_exact_english():
 		return GameState.format_money(amount)
+	return _story_money_english(amount)
+
+func _story_money_english(amount: float) -> String:
 	var sign := "-" if amount < 0.0 else ""
 	var value := absf(amount)
 	if value >= 1_000_000_000.0:
@@ -2789,9 +2800,9 @@ func _set_story_language(raw_language: String) -> void:
 	_refresh_continue_hint_text()
 	if is_instance_valid(_audio_settings_button):
 		_audio_settings_button.text = _tr("설정", "Settings")
-		_audio_settings_button.tooltip_text = _tr(
-			"장면 설정 (%s)" % ControllerHints.start_btn(),
-			"Scene settings (%s)" % ControllerHints.start_btn())
+		_audio_settings_button.tooltip_text = LocaleManager.ui_format(
+			"장면 설정 (%s)", "Scene settings (%s)",
+			ControllerHints.start_btn(), ControllerHints.start_btn())
 	_refresh_dialogue_log_button(true)
 	_settings_focus_key = "language:%s" % language
 	call_deferred("_rebuild_story_settings_popup", _settings_focus_key)

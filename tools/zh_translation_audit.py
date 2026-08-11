@@ -31,6 +31,8 @@ import demo_localization_scope as demo_scope  # noqa: E402
 from ja_translation_pipeline import (  # noqa: E402
     UiInventory,
     collect_ui_inventory,
+    duplicate_json_object_keys,
+    duplicate_json_object_keys_from_text,
 )
 
 
@@ -1667,16 +1669,21 @@ def chinese_contract_errors(manifest: dict[str, Any]) -> list[str]:
     inventory = collect_ui_inventory(
         ui_contract if isinstance(ui_contract, dict) else {}
     )
-    static_sources = sorted(inventory.legacy_blueprint)
+    parameter_contract = manifest.get("ui_parameterized_template_plan", {})
+    final_inventory = parameter_contract.get(
+        "source_inventory_phases", {}
+    ).get("final", {}) if isinstance(parameter_contract, dict) else {}
     expected = {
         "source_language": "ko",
         "automatic_script_conversion": False,
         "body_translation": "held_until_explicit_demo_GO",
         "shipping": False,
-        "static_ui_source_count": len(static_sources),
-        "static_ui_source_keys_sha256": hashlib.sha256(
-            "\n".join(static_sources).encode("utf-8")
-        ).hexdigest(),
+        "static_ui_source_count": final_inventory.get(
+            "legacy_korean_source_keys"
+        ),
+        "static_ui_source_keys_sha256": final_inventory.get(
+            "legacy_korean_source_keys_sha256"
+        ),
     }
     contract = manifest.get("chinese_preparation_contract")
     if not isinstance(contract, dict):
@@ -1714,6 +1721,7 @@ def chinese_contract_errors(manifest: dict[str, Any]) -> list[str]:
 def static_ui_coverage(
     lang: str, runtime: dict[str, Any], strict: bool,
     actual_override: Optional[dict[str, Any]] = None,
+    raw_text_override: Optional[str] = None,
 ) -> tuple[int, int, int, int, list[str]]:
     inventory = _static_ui_inventory()
     legacy_entries = {entry.source: entry for entry in inventory.legacy_entries}
@@ -1723,6 +1731,15 @@ def static_ui_coverage(
     expected_legacy = set(inventory.legacy_blueprint)
     expected_context = set(inventory.planned_context_blueprint)
     ui_path = ROOT / "locale" / f"ui_{lang}.json"
+    duplicate_keys: list[str] = []
+    if raw_text_override is not None:
+        duplicate_keys = duplicate_json_object_keys_from_text(raw_text_override)
+    elif actual_override is None and ui_path.is_file():
+        duplicate_keys = duplicate_json_object_keys(ui_path)
+    if duplicate_keys:
+        return 0, len(expected_legacy), 0, len(expected_context), [
+            f"{lang}:ui: duplicate raw JSON keys {duplicate_keys[:12]}"
+        ]
     actual = actual_override
     if actual is None:
         actual = read_json(ui_path) if ui_path.is_file() else {}
@@ -2514,6 +2531,9 @@ static func attach_locale_fallbacks(font: FontFile, language: String) -> void:
         failures.append("107-key collision partition mutation was not rejected")
 
     cases += 1
+    expected_inventory = _static_ui_inventory()
+    expected_legacy_total = len(expected_inventory.legacy_blueprint)
+    expected_context_total = len(expected_inventory.planned_context_blueprint)
     for lang in LANGUAGES:
         (
             legacy_covered,
@@ -2522,8 +2542,9 @@ static func attach_locale_fallbacks(font: FontFile, language: String) -> void:
             context_total,
             skeleton_errors,
         ) = static_ui_coverage(lang, runtime, False, {})
-        if legacy_covered != 0 or legacy_total != 2730 \
-                or context_covered != 0 or context_total != 30 \
+        if legacy_covered != 0 or legacy_total != expected_legacy_total \
+                or context_covered != 0 \
+                or context_total != expected_context_total \
                 or skeleton_errors:
             failures.append(
                 f"empty {lang} two-layer skeleton was rejected: "
@@ -2534,7 +2555,8 @@ static func attach_locale_fallbacks(font: FontFile, language: String) -> void:
         *_coverage, strict_errors = static_ui_coverage(lang, runtime, True, {})
         if not any("strict legacy static_ui coverage" in error for error in strict_errors):
             failures.append(f"empty {lang} strict legacy UI mutation escaped")
-        if not any("strict context static_ui coverage 0/30" in error
+        if not any(
+            f"strict context static_ui coverage 0/{expected_context_total}" in error
                    for error in strict_errors):
             failures.append(f"empty {lang} strict context UI mutation escaped")
 
@@ -2544,6 +2566,22 @@ static func attach_locale_fallbacks(font: FontFile, language: String) -> void:
     )
     if not any("unknown source keys" in error for error in unknown_errors):
         failures.append("unknown Chinese context dictionary key was accepted")
+
+    cases += 1
+    duplicate_source = sorted(expected_inventory.legacy_blueprint)[0]
+    duplicate_key = json.dumps(duplicate_source, ensure_ascii=False)
+    duplicate_fixture = (
+        "{" + duplicate_key + ":\"first\"," + duplicate_key + ":\"last\"}"
+    )
+    *_coverage, duplicate_errors = static_ui_coverage(
+        "zh-CN",
+        runtime,
+        False,
+        {duplicate_source: "last"},
+        raw_text_override=duplicate_fixture,
+    )
+    if not any("duplicate raw JSON keys" in error for error in duplicate_errors):
+        failures.append("duplicate Chinese raw UI key mutation escaped")
 
     cases += 1
     blocked = font_route("zh-CN", override_primary="")

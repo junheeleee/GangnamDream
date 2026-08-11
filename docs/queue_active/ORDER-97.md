@@ -50,10 +50,14 @@ manifest에 path·함수·KO/EN 템플릿·placeholder signature·count와 위 5
   실제 core-loop 화면에서 확인한다.
 
 42템플릿 중 기존 `슬롯 %d` 한 개를 제외한 41개가 새 legacy key 후보다.
-첫 manifest 실행에서 확정할 예상 원장은 `legacy lookup 3,264 + context 37 =
-total 3,301`, 한국어 legacy key 2,771, JA `legacy 2,771/2,771 + context
-30/30`이다. 이 수치는 **[첫 실행 재조정]**이며 첫 collector 결과가 다르면
-호출을 빼거나 더하지 말고 55개 disposition·중복 template부터 다시 대조한다.
+첫 collector 뒤 branch-selected literal의 6개 안정 key, planner의 고정 일정·STEP3
+상태 key와 기존 lookup-before-format 경계를 숨기지 않도록 원장을 확장했다. 최종
+실측은 `total 3,310 = legacy lookup 3,273 + context 37`, 한국어 legacy key
+2,780, JA `legacy 2,780/2,780 + context 30/30 = 2,810/2,810`이다. raw 후보
+55개의 disposition은 그대로이며, 그 밖의 기존 안전 호출을 provenance 때문에
+`ui_format`으로 옮긴 2건(Aruba 상태 문장·연도 선택 회상)은 supplemental 원장으로
+분리한다. 따라서 런타임 `ui_format`은 49호출이고, KO/EN 인자가 다른 경로 15건도
+별도 exact 원장으로 잠근다.
 
 ## lookup·format 계약
 
@@ -63,10 +67,15 @@ total 3,301`, 한국어 legacy key 2,771, JA `legacy 2,771/2,771 + context
 - KO는 `ko_template % ko_args`, EN은 `en_template % en_args`와 byte 동일하다.
 - 준비 언어에서 community/built-in legacy template hit는 번역 template을
   적절한 인자와 포맷하고, 양쪽 miss는 EN template·EN args를 쓴다.
+- event·단서·생각처럼 현재 언어에서 먼저 찾은 동적 제목은 EN fallback 인자로
+  재사용하지 않는다. `DataRegistry`가 built-in/community/mod 우선순위와 같은
+  명시적 English 제목을 별도로 보존하고, target/EN 인자를 각각 공급한다.
 - lookup은 **완성 문자열이 아니라 템플릿**을 key로 사용한다. miss dedupe도
   값마다 늘어나는 완성 문자열이 아니라 안정 template 한 건을 기록한다.
-- placeholder 수·종류·순서와 줄바꿈이 KO/EN/JA/community 행에서 맞지 않으면
-  format 전에 실패한다. `%` 오류를 빈 문자열이나 원문으로 조용히 삼키지 않는다.
+- KO와 EN은 각자 자기 template·args를 독립 검증하므로 서로의 placeholder 수가
+  달라도 된다. JA/community target은 한국어와 변환 종류·개수·순서, 명시적 `+`
+  부호·정밀도, 줄바꿈이 같아야 하며 폭·0 패딩만 달라도 된다. 어긋나면 format
+  전에 실패하고 `%` 오류를 빈 문자열이나 원문으로 조용히 삼키지 않는다.
 - 두 exact-money owner는 새 template key 수에 포함하지 않는다. LocaleManager의
   한 formatter가 KO/EN 기존 바이트를 보존하면서 JA는 `ウォン`, zh-CN은 `韩元`,
   zh-TW는 `韓元`을 정확 1원 단위로 표시하고, 보드·재고조사 로컬 formatter가
@@ -76,15 +85,17 @@ total 3,301`, 한국어 legacy key 2,771, JA `legacy 2,771/2,771 + context
 
 ## 정확한 파일 소유권
 
-**제품·데이터 12:** `autoloads/LocaleManager.gd`, `autoloads/GameState.gd`,
+**제품·데이터 13:** `autoloads/LocaleManager.gd`, `autoloads/GameState.gd`,
+`autoloads/DataRegistry.gd`,
 `scenes/MainGame.gd`, `scenes/CommunicationPhone.gd`, `scenes/ArubaGame.gd`,
 `scenes/StartMenu.gd`, `scenes/StoryMode.gd`, `scenes/SeoulCycleBoard.gd`,
 `scenes/CoreLoopPlanner.gd`, `scenes/CommitmentTask.gd`, `locale/ui_ja.json`,
 `content/meta/demo_localization_scope.json`.
 
-**감사·QA 6:** `tools/ja_translation_pipeline.py`, `tools/zh_translation_audit.py`,
+**감사·QA 7:** `tools/ja_translation_pipeline.py`, `tools/zh_translation_audit.py`,
 `tools/I18nInfrastructureCheck.gd`, `tools/ModLayerCheck.gd`,
-`tools/ScreenshotQA.gd`, `tools/english_hangul_audit.py`.
+`tools/ScreenshotQA.gd`, `tools/english_hangul_audit.py`,
+`tools/PlaytestFlavorCheck.gd`.
 `zh_translation_audit.py`의 skeleton self-test가 legacy 분모 2,730을
 하드코딩하므로 새 inventory에서 읽게 바꾼다. `ja_translation_audit.py`와
 demo/multilingual 감사기는 새 원장을 소비하므로 실행하되 별도 결함이 없으면
@@ -95,6 +106,34 @@ demo/multilingual 감사기는 새 원장을 소비하므로 실행하되 별도
 `docs/QA_CHECKLIST.md`, `docs/DECISIONS.md`, `docs/human_gates.json`.
 선언·완료 기록은 `docs/CODEX_QUEUE.md`, 이 사양, `CLAUDE.md`, 완료 뒤
 `docs/WORK_LOG.md`, 8월 큐 archive와 생성 `docs/STATUS.md`만 만진다.
+
+### 사용자 발견 P1 범위 추가 — 일본어 혼합 폰트
+
+실제 JA 후보 화면에서 가나와 한자의 굵기가 다른 문제가 발견됐다. 원인은
+Pretendard가 가나는 갖지만 일본어 한자를 전부 갖지 않아 가나는 primary
+Pretendard, 한자는 fallback Noto Sans JP로 갈린 것과, variable Noto의 기본
+`wght=100`을 명시적으로 덮지 않은 것이다. 정상 조판 차이로 보지 않고 이 오더의
+출시 차단 P1로 수리한다.
+
+- **폰트 소유 25:** `autoloads/FontKit.gd`, `autoloads/UIStyle.gd`;
+  `scenes/BaccaratTable.gd`, `BigWheelGame.gd`, `BlackjackTable.gd`,
+  `CommitmentTask.gd`, `CommunicationPhone.gd`, `CoreLoopPlanner.gd`,
+  `CoreLoopV2Completion.gd`, `DaiSaiTable.gd`, `HoldemClub.gd`,
+  `JeongseonCasino.gd`, `MainGame.gd`, `OpeningCinematic.gd`, `RaceTrack.gd`,
+  `RouletteTable.gd`, `ScalpingGame.gd`, `SeoulCycleBoard.gd`,
+  `SlotMachineGame.gd`, `SplashScreen.gd`, `StartMenu.gd`, `StoryMode.gd`,
+  `TradingFloor.gd`, `TutorialOverlay.gd`, `scenes/ui/GangnamWordmark.gd`.
+- **추가 QA·배선 5:** `tools/FontRoutingCheck.gd`, `.gd.uid`, `.tscn`,
+  `tools/audit.sh`, `tools/audit_scope.json`. 기존 `ScreenshotQA.gd`는 synthetic
+  CJK 문단도 제품의 locale-aware font role을 쓰게 하고 JA·두 ZH 원화 기대를
+  같은 formatter 계약으로 검증한다.
+- JA는 Noto Sans JP primary `400/600/700` → 동웨이트 Pretendard → emoji,
+  KO/EN은 Pretendard primary → 동웨이트 Noto Sans JP → emoji다. 이미 생성된
+  Control도 언어 전환 때 같은 공유 role resource 안에서 바뀌어야 한다.
+- `FontRoutingCheck`는 제품 직접 폰트 로드 0, variable axis와 정확 굵기,
+  대표 가나·한자·문장부호의 단일 Noto RID, KO/EN 우선순위, emoji-last,
+  런타임 전환을 잠근다. 기존 ORDER-97 L3 임의 3표면은 이 폰트 수정 뒤 재생성한
+  같은 `demo_rc`를 사용하며, 자동 캡처가 사람 판정을 대신하지 않는다.
 
 ## 비범위
 
@@ -110,6 +149,8 @@ demo/multilingual 감사기는 새 원장을 소비하므로 실행하되 별도
   formatter 2`, 잔여 preformat lookup 0, 47 owner count exact를 증명한다. 두
   money formatter는 locale owner 하나를 공유하고 KO/EN byte exact와
   JA/zh-CN/zh-TW unit·부호·쉼표를 표적 검사한다.
+- supplemental lookup-before-format 2건, 전체 runtime `ui_format` 49건,
+  target/English argument provenance 15건을 exact registry와 self-test로 잠근다.
 - collector의 실제 total/legacy/context/key/hash와 JA/ZH 분모를 manifest·정본에
   승격한다. 예상값을 맞추려고 호출이나 template을 임의로 합치지 않는다.
 - API는 KO/EN byte 동일, built-in/community hit, legacy fallback, miss→EN,
@@ -119,6 +160,9 @@ demo/multilingual 감사기는 새 원장을 소비하므로 실행하되 별도
 - 실제 JA `core-loop-v2`, `gallery`, `story-en`, `i18n-layout`을 1280×800에서
   확인하고 서울 보드의 `WEEK`, `MONTHLY CAPACITY LEFT`, `won` 잔류를 0으로
   만든다. KO/EN 두 해상도 surface도 같은 리비전에서 다시 돈다.
+- `FontRoutingCheck`를 전체 감사와 변경 파일 selector에 등록하고 JA
+  `i18n-layout`과 실제 core-loop/gallery/story 표면에서 가나·한자 굵기 혼합,
+  잘림, 줄바꿈 회귀가 없음을 같은 최종 리비전으로 다시 확인한다.
 - L2는 42개 JA template을 한국어 문맥·placeholder와 전수 대조한다. L3는
   23단위 Batch A와 24단위 Batch B에서 각각 사용자가 임의 3개 실제 표면을 보고
   하나라도 틀리면 해당

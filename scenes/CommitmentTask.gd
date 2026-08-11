@@ -37,8 +37,8 @@ var _inspected_requirement_id := ""
 var _overreach_requirement_id := ""
 var _target_feedback_tweens: Dictionary = {}
 
-var _font: FontFile
-var _font_bold: FontFile
+var _font: Font
+var _font_bold: Font
 var _background: TextureRect
 var _header_panel: Panel
 var _task_id_label: Label
@@ -65,8 +65,8 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	clip_contents = true
-	_font = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
-	_font_bold = load("res://assets/fonts/Pretendard-Bold.ttf") as FontFile
+	_font = FontKit.ui_regular()
+	_font_bold = FontKit.ui_bold()
 	_build_ui()
 	resized.connect(_apply_geometry)
 	LocaleManager.language_changed.connect(_on_language_changed)
@@ -1088,16 +1088,7 @@ func _effect_line(effects: Dictionary) -> String:
 
 
 func _format_money(raw_value: Variant) -> String:
-	var value := int(raw_value)
-	var absolute_digits := str(absi(value))
-	var insert_at := absolute_digits.length() - 3
-	while insert_at > 0:
-		absolute_digits = absolute_digits.insert(insert_at, ",")
-		insert_at -= 3
-	var sign_text := "+" if value > 0 else ("-" if value < 0 else "")
-	return LocaleManager.ui(
-		"%s%s원" % [sign_text, absolute_digits],
-		"%sKRW %s" % [sign_text, absolute_digits])
+	return LocaleManager.format_whole_won(int(raw_value), true, true)
 
 
 func _format_signed_number(raw_value: Variant) -> String:

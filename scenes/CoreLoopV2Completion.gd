@@ -34,9 +34,9 @@ var _detail_entries: Array[Dictionary] = []
 var _owns_playtest_marker_context := false
 var _terminal_action_in_flight := false
 
-var _font_regular: FontFile = null
-var _font_semibold: FontFile = null
-var _font_bold: FontFile = null
+var _font_regular: Font = null
+var _font_semibold: Font = null
+var _font_bold: Font = null
 
 var _summary_root: VBoxContainer = null
 var _details_root: VBoxContainer = null
@@ -310,14 +310,11 @@ func _load_fonts() -> void:
 	_font_semibold = UIStyle.font_semibold
 	_font_bold = UIStyle.font_bold
 	if _font_regular == null:
-		_font_regular = load(
-			"res://assets/fonts/Pretendard-Regular.ttf") as FontFile
+		_font_regular = FontKit.ui_regular()
 	if _font_semibold == null:
-		_font_semibold = load(
-			"res://assets/fonts/Pretendard-SemiBold.ttf") as FontFile
+		_font_semibold = FontKit.ui_semibold()
 	if _font_bold == null:
-		_font_bold = load(
-			"res://assets/fonts/Pretendard-Bold.ttf") as FontFile
+		_font_bold = FontKit.ui_bold()
 	FontKit.attach_emoji_fallback(_font_regular)
 	FontKit.attach_emoji_fallback(_font_semibold)
 	FontKit.attach_emoji_fallback(_font_bold)

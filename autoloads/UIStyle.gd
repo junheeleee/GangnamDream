@@ -1,13 +1,8 @@
 extends Node
 ## UIStyle — 강남드림 전역 UI 스타일 시스템
 ##
-## Pretendard 폰트 + 색상 팔레트 + 스타일박스 헬퍼를 중앙 관리.
+## locale-aware 폰트 + 색상 팔레트 + 스타일박스 헬퍼를 중앙 관리.
 ## MainGame, StartMenu 등 모든 씬에서 UIStyle.font_regular 등으로 접근.
-
-# ── 폰트 preload (autoload 레벨 → export 시 반드시 PCK 포함) ─────────
-const _PRELOAD_REGULAR  := preload("res://assets/fonts/Pretendard-Regular.ttf")
-const _PRELOAD_SEMIBOLD := preload("res://assets/fonts/Pretendard-SemiBold.ttf")
-const _PRELOAD_BOLD     := preload("res://assets/fonts/Pretendard-Bold.ttf")
 
 # ── 색상 팔레트 ──────────────────────────────────────────────────
 const C_BG_BASE       := "#0c0c10"
@@ -43,25 +38,35 @@ const MATERIAL_PRESS_TRAVEL_PX := 1
 const MATERIAL_PRESS_DURATION_SEC := 0.055
 
 # ── 폰트 레퍼런스 (로드 후 할당) ──────────────────────────────────
-var font_regular:  FontFile = null
-var font_semibold: FontFile = null
-var font_bold:     FontFile = null
+var font_regular:  Font = null
+var font_semibold: Font = null
+var font_bold:     Font = null
 
 # ── 초기화 ───────────────────────────────────────────────────────
 func _ready():
 	_load_fonts()
+	call_deferred("_bind_locale_font_route")
 
 func _load_fonts():
-	font_regular  = _PRELOAD_REGULAR
-	font_semibold = _PRELOAD_SEMIBOLD
-	font_bold     = _PRELOAD_BOLD
-	FontKit.attach_emoji_fallback(font_regular)
-	FontKit.attach_emoji_fallback(font_semibold)
-	FontKit.attach_emoji_fallback(font_bold)
+	font_regular  = FontKit.ui_regular()
+	font_semibold = FontKit.ui_semibold()
+	font_bold     = FontKit.ui_bold()
 	# 전역 fallback 설정 → 폰트 오버라이드 없는 라벨도 한국어 표시
 	if font_regular:
 		ThemeDB.fallback_font      = font_regular
 		ThemeDB.fallback_font_size = 15
+
+func _bind_locale_font_route() -> void:
+	var locale_manager := get_node_or_null("/root/LocaleManager")
+	if locale_manager == null:
+		return
+	FontKit.configure_language(str(locale_manager.language))
+	var callback := Callable(self, "_on_font_language_changed")
+	if not locale_manager.language_changed.is_connected(callback):
+		locale_manager.language_changed.connect(callback)
+
+func _on_font_language_changed(language: String) -> void:
+	FontKit.configure_language(language)
 
 # ── 스타일박스 헬퍼 ──────────────────────────────────────────────
 func panel_style(bg: String, border: String = C_BORDER, radius: int = 8) -> StyleBoxFlat:
@@ -376,7 +381,7 @@ func override_stylebox(
 # ── 폰트 적용 유틸 ───────────────────────────────────────────────
 ## 범용 폰트 적용 — Label, Button, LineEdit, RichTextLabel 모두 지원
 func apply_font(node: Control, bold: bool = false):
-	var f: FontFile = font_bold if bold and font_bold \
+	var f: Font = font_bold if bold and font_bold \
 		else (font_semibold if bold and font_semibold else font_regular)
 	if not f:
 		return

@@ -1106,6 +1106,20 @@
       ]
     },
     {
+      "tool": "tools/FontRoutingCheck.tscn",
+      "godot": true,
+      "why": "KO/EN Pretendard·JA Noto Sans JP 400/600/700 primary와 emoji 최종 폴백",
+      "paths": [
+        "autoloads/**",
+        "assets/fonts/**",
+        "scenes/**",
+        "systems/**",
+        "ui_components/**",
+        "tools/FontRoutingCheck.gd",
+        "tools/FontRoutingCheck.tscn"
+      ]
+    },
+    {
       "tool": "tools/ImmersionLoopCheck.tscn",
       "godot": true,
       "why": "주간 루프 몰입",

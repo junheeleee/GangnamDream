@@ -330,6 +330,7 @@ const NEWS_HEADLINES_EN := {
 
 var events: Array = []
 var events_by_id: Dictionary = {}
+var event_english_titles_by_id: Dictionary = {}
 var assets: Array = []
 var assets_by_id: Dictionary = {}
 var jobs: Array = []
@@ -405,6 +406,7 @@ func reload():
 		for event in _load_array(path):
 			events.append(event)
 			events_by_id[event.get("id", "")] = event
+	_rebuild_english_event_titles()
 
 	# 비한국어는 완성된 EN을 안전망으로 먼저 적용한다. 준비 언어 오버레이가
 	# 비어 있거나 일부만 번역돼도 한국어 본문이 화면에 새지 않는다.
@@ -479,6 +481,15 @@ func reload():
 
 func find_event(event_id):
 	return events_by_id.get(event_id, {})
+
+func english_event_title(event_id: String, fallback: String = "") -> String:
+	return str(event_english_titles_by_id.get(event_id, fallback))
+
+func english_clue_title(clue_id: String, fallback: String = "") -> String:
+	return str(CLUE_TEXT_EN.get(clue_id, {}).get("title", fallback))
+
+func english_thought_title(thought_id: String, fallback: String = "") -> String:
+	return str(THOUGHT_TEXT_EN.get(thought_id, {}).get("title", fallback))
 
 func find_story_rule(event_id: String) -> Dictionary:
 	var rule: Variant = story_rules_by_event.get(event_id, {})
@@ -628,12 +639,17 @@ func _apply_event_mods() -> void:
 				if index >= 0:
 					events[index] = merged
 				events_by_id[event_id] = merged
+				if source.get("title", null) is String \
+						and not str(source.get("title", "")).is_empty():
+					event_english_titles_by_id[event_id] = str(source.get("title", ""))
 				continue
 			var clean := _sanitize_new_mod_event(source, pack_ids, path)
 			if clean.is_empty():
 				continue
 			events.append(clean)
 			events_by_id[event_id] = clean
+			if not str(clean.get("title", "")).is_empty():
+				event_english_titles_by_id[event_id] = str(clean.get("title", ""))
 
 func _sanitize_new_mod_event(source: Dictionary, pack_ids: Dictionary, path: String) -> Dictionary:
 	if not _mod_event_root_keys_valid(source, path):
@@ -978,6 +994,44 @@ func _catalog_values_compatible(base_value: Variant, patch_value: Variant) -> bo
 		if not _catalog_values_compatible(base_array[0], value):
 			return false
 	return true
+
+func _rebuild_english_event_titles() -> void:
+	event_english_titles_by_id.clear()
+	for event_variant in events:
+		if not event_variant is Dictionary:
+			continue
+		var event := event_variant as Dictionary
+		var event_id := str(event.get("id", ""))
+		var title := str(event.get("title", ""))
+		if not event_id.is_empty() and not title.strip_edges().is_empty():
+			event_english_titles_by_id[event_id] = title
+	_overlay_english_event_titles(EVENT_LOCALE_DIR % "en")
+	var community_dir := ModLoader.language_events_dir("en")
+	if not community_dir.is_empty():
+		_overlay_english_event_titles(community_dir)
+
+func _overlay_english_event_titles(overlay_dir: String) -> void:
+	var directory_path := ProjectSettings.globalize_path(overlay_dir) \
+		if overlay_dir.begins_with("user://") else overlay_dir
+	var directory := DirAccess.open(directory_path)
+	if not directory:
+		return
+	directory.list_dir_begin()
+	var file_name := directory.get_next()
+	while not file_name.is_empty():
+		if file_name.ends_with(".json"):
+			for event_variant in _load_array(overlay_dir.path_join(file_name)):
+				if not event_variant is Dictionary:
+					continue
+				var event := event_variant as Dictionary
+				if not event.get("title", null) is String:
+					continue
+				var event_id := str(event.get("id", ""))
+				var title := str(event.get("title", ""))
+				if not event_id.is_empty() and not title.strip_edges().is_empty():
+					event_english_titles_by_id[event_id] = title
+		file_name = directory.get_next()
+	directory.list_dir_end()
 
 func _apply_event_overlay(lang: String) -> void:
 	_apply_event_overlay_dir(EVENT_LOCALE_DIR % lang, false)

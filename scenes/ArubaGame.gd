@@ -1134,18 +1134,34 @@ func _del_refresh_ui() -> void:
 	var remaining := DEL_TIME_BUDGET - time_used
 	var status_color := "#3dba6a" if remaining >= 20 else "#f0b429" if remaining >= 0 else "#e85d5d"
 	if is_instance_valid(_del_status_lbl):
-		_del_status_lbl.text = LocaleManager.ui(
+		var target_extra_income := _fmt(tip_preview + bonus_preview + surge_preview)
+		var english_extra_income := LocaleManager.format_money_english(
+			float(tip_preview + bonus_preview + surge_preview))
+		var target_surge_suffix := LocaleManager.ui_format(
+			" (비 할증 %s)", " (%s rain surge)",
+			_fmt(surge_preview),
+			LocaleManager.format_money_english(float(surge_preview))) \
+			if _is_rain_surge_shift() else ""
+		var english_surge_suffix := " (%s rain surge)" \
+			% LocaleManager.format_money_english(float(surge_preview)) \
+			if _is_rain_surge_shift() else ""
+		_del_status_lbl.text = LocaleManager.ui_format(
 			"소요 %d분 / %d분 (여유 %d분)  |  예상 추가 수입 +%s%s",
-			"Time %d / %d min (%d min spare)  |  Expected extra income +%s%s") % [
+			"Time %d / %d min (%d min spare)  |  Expected extra income +%s%s",
+			[
 				time_used,
 				DEL_TIME_BUDGET,
 				remaining,
-				_fmt(tip_preview + bonus_preview + surge_preview),
-				LocaleManager.ui(
-					" (비 할증 %s)" % _fmt(surge_preview),
-					" (%s rain surge)" % _fmt(surge_preview))
-				if _is_rain_surge_shift() else "",
-			]
+				target_extra_income,
+				target_surge_suffix,
+			],
+			[
+				time_used,
+				DEL_TIME_BUDGET,
+				remaining,
+				english_extra_income,
+				english_surge_suffix,
+			])
 		_del_status_lbl.add_theme_color_override("font_color", Color(status_color))
 
 	if is_instance_valid(_del_confirm_btn):

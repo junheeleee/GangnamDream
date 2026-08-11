@@ -326,6 +326,29 @@ func _tr(ko: String, en: String) -> String:
 	return LocaleManager.ui(ko, en)
 
 
+func _order97_expected(lang: String, ko: String, en: String, ja: String) -> String:
+	match LocaleManager.normalize_language(lang):
+		"ko":
+			return ko
+		"ja":
+			return ja
+	return en
+
+
+func _order97_expected_whole_won(
+		lang: String, amount: int, ko: String, en: String, ja: String) -> String:
+	if LocaleManager.normalize_language(lang) in ["zh-CN", "zh-TW"]:
+		return LocaleManager.format_whole_won(amount)
+	return _order97_expected(lang, ko, en, ja)
+
+
+func _qa_language_prefix(stem: String, lang: String) -> String:
+	return "%s_%s_" % [
+		stem,
+		LocaleManager.normalize_language(lang).replace("-", "_").to_lower(),
+	]
+
+
 func _core_loop_v2_completion_allocation_week_prefix(
 		global_week: int) -> String:
 	# Derive the prefix from the same complete product string used by MainGame.
@@ -611,7 +634,9 @@ func _ready() -> void:
 		return
 	if scope == QA_SCOPE_GALLERY:
 		var lang := _qa_language("en")
-		await _shot_archive_surfaces(lang, "archive_en_" if lang == "en" else "archive_ko_")
+		await _shot_archive_surfaces(lang, _qa_language_prefix("archive", lang))
+		if _qa_failed:
+			return
 		print("SCREENSHOT_QA_DONE scope=gallery lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
@@ -641,12 +666,16 @@ func _ready() -> void:
 	if scope == QA_SCOPE_I18N_LAYOUT:
 		var lang := _qa_language("zh-CN")
 		await _shot_i18n_layout(lang)
+		if _qa_failed:
+			return
 		print("SCREENSHOT_QA_DONE scope=i18n-layout lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_STORY_EN:
 		var lang := _qa_language("en")
-		await _shot_story_surfaces(lang, "story_en_" if lang == "en" else "story_ko_")
+		await _shot_story_surfaces(lang, _qa_language_prefix("story", lang))
+		if _qa_failed:
+			return
 		print("SCREENSHOT_QA_DONE scope=story-en lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
@@ -1022,7 +1051,9 @@ func _ready() -> void:
 		return
 	if scope == QA_SCOPE_ARUBA_EN:
 		var lang := _qa_language("en")
-		await _shot_aruba_surfaces(lang, "aruba_en_" if lang == "en" else "aruba_ko_")
+		await _shot_aruba_surfaces(lang, _qa_language_prefix("aruba", lang))
+		if _qa_failed:
+			return
 		print("SCREENSHOT_QA_DONE scope=aruba-en lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
@@ -1980,6 +2011,9 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		planner, "empty calendar", 1, false, false)
 	if _qa_failed:
 		return
+	_assert_order97_planner_initial_surface(planner, lang)
+	if _qa_failed:
+		return
 	await _capture_core_loop_v2_activity_category_tutorial(planner, prefix)
 	if _qa_failed:
 		return
@@ -2036,6 +2070,9 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 			or int(planner.get("_selected_week")) != 2:
 		_fail("A no-arm week press changed the schedule.")
 		return
+	_assert_order97_planner_empty_detail(planner, lang, 2)
+	if _qa_failed:
+		return
 
 	# Offer means intent; the legal week press is the only mutation boundary.
 	first_offer.pressed.emit()
@@ -2043,6 +2080,14 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	if planner.schedule_snapshot() != initial_schedule \
 			or not _core_loop_v2_armed_surface_visible(
 				planner, first_offer, "m1_mirae_application", "legal intent"):
+		return
+	_assert_order97_planner_hint(
+		planner, lang, "armed placement",
+		"2/2 주차 선택 · %s 주에 넣기 · %s 선택 취소 · %s 일정 빼기",
+		"STEP 2/2 · %s Place in Week · %s Cancel · %s Remove",
+		"ステップ2/2・週を選択・%sでこの週に入れる・%sで選択解除・%sで予定を外す",
+		[ControllerHints.south(), ControllerHints.east(), ControllerHints.west()])
+	if _qa_failed:
 		return
 	await _save(prefix + "01a_planner_offer_armed", 0.45)
 	week_one.pressed.emit()
@@ -2180,15 +2225,97 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		planner, "filled calendar", 1, false, false)
 	if _qa_failed:
 		return
+	_assert_order97_planner_step_rail(
+		planner, lang, "filled",
+		[
+			"1단계 · 주차 4/4 · 완료",
+			"2단계 · 매주 할 일 2/2 · 완료",
+			"3단계 · 최종 확인 · 준비됨",
+		],
+		[
+			"STEP 1 · WEEKS 4/4 · DONE",
+			"STEP 2 · ROUTINES 2/2 · DONE",
+			"STEP 3 · FINAL REVIEW · READY",
+		],
+		[
+			"ステップ1・予定 4/4・完了",
+			"ステップ2・ルーティン 2/2・完了",
+			"ステップ3・最終確認・準備完了",
+		])
+	if _qa_failed:
+		return
+	_assert_order97_planner_hint(
+		planner, lang, "ready review",
+		"다음 · %s 계획 확인 · %s 주차에서 빼기 · %s/%s 단계",
+		"NEXT · %s Review Plan · %s Remove on Week · %s/%s Steps",
+		"次へ・%sで予定確認・%sで週から外す・%s/%sで段階切替",
+		[
+			ControllerHints.south(), ControllerHints.west(),
+			ControllerHints.shoulder_l(), ControllerHints.shoulder_r(),
+		])
+	if _qa_failed:
+		return
 	await _save(prefix + "02_planner_calendar_filled", 0.05)
+
+	# Exercise both full-count CHECK branches without committing either invalid
+	# fixture. These are stable literal keys selected before formatting.
+	var schedule_before_check: Dictionary = planner.schedule_snapshot()
+	var invalid_schedule: Dictionary = schedule_before_check.duplicate(true)
+	invalid_schedule["2"] = "m1_mirae_application"
+	planner._schedule = invalid_schedule
+	planner.call("_rebuild")
+	await _settle(0.10)
+	_assert_order97_planner_step_exact(
+		planner, lang, "schedule CHECK", 0,
+		"1단계 · 주차 4/4 · 확인 필요",
+		"STEP 1 · WEEKS 4/4 · CHECK",
+		"ステップ1・予定 4/4・要確認")
+	if _qa_failed:
+		return
+	await _save(prefix + "02a_planner_schedule_check", 0.05)
+	planner._schedule = schedule_before_check
+
+	var routines_before_check: Dictionary = planner.routine_snapshot()
+	var job_before_check: Dictionary = GameState.current_job.duplicate(true)
+	GameState.current_job = {"id": "order97_qa_job"}
+	planner._routines = {"primary": "recovery", "secondary": "growth"}
+	planner.call("_rebuild")
+	await _settle(0.10)
+	_assert_order97_planner_step_exact(
+		planner, lang, "routine CHECK", 1,
+		"2단계 · 매주 할 일 2/2 · 확인 필요",
+		"STEP 2 · ROUTINES 2/2 · CHECK",
+		"ステップ2・ルーティン 2/2・要確認")
+	if _qa_failed:
+		return
+	await _save(prefix + "02aa_planner_routine_check", 0.05)
+	GameState.current_job = job_before_check
+	planner._routines = routines_before_check
+	planner._schedule = schedule_before_check
+	planner.call("_rebuild")
+	await _settle(0.10)
 	var routines_before_blocker: Dictionary = planner.routine_snapshot()
 	planner._routines["secondary"] = ""
 	planner.call("_rebuild")
 	await _settle(0.14)
-	if "1/2" not in str((planner._step_buttons[1] as Button).text) \
-			or LocaleManager.ui("1개 남음", "1 ROUTINE LEFT") \
-				not in str((planner._step_buttons[2] as Button).text):
-		_fail("The filled planner did not show its missing weekly activity in the rail.")
+	_assert_order97_planner_step_rail(
+		planner, lang, "routine remaining",
+		[
+			"1단계 · 주차 4/4 · 완료",
+			"2단계 · 매주 할 일 1/2 · 1개 남음",
+			"3단계 · 최종 확인 · 매주 할 일 1개 남음",
+		],
+		[
+			"STEP 1 · WEEKS 4/4 · DONE",
+			"STEP 2 · ROUTINES 1/2 · 1 LEFT",
+			"STEP 3 · FINAL REVIEW · 1 ROUTINE LEFT",
+		],
+		[
+			"ステップ1・予定 4/4・完了",
+			"ステップ2・ルーティン 1/2・残り1件",
+			"ステップ3・最終確認・ルーティン・残り1件",
+		])
+	if _qa_failed:
 		return
 	(planner._step_buttons[2] as Button).pressed.emit()
 	await _settle(0.14)
@@ -2292,7 +2419,7 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	await _settle(0.34)
 	var phone := _mg._communication_phone as Control
 	_assert_core_loop_v2_communication_phone(
-		phone, "conversation inbox", "list", 0)
+		phone, "conversation inbox", "list", 0, lang)
 	if _qa_failed:
 		return
 	await _save(prefix + "07_phone_inbox", 0.05)
@@ -2306,7 +2433,7 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	conversation.pressed.emit()
 	await _settle(0.14)
 	_assert_core_loop_v2_communication_phone(
-		phone, "conversation thread", "thread", 0)
+		phone, "conversation thread", "thread", 0, lang)
 	if _qa_failed:
 		return
 	await _save(prefix + "08_phone_thread", 0.05)
@@ -2314,7 +2441,7 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	phone.call("_switch_tab", 1)
 	await _settle(0.14)
 	_assert_core_loop_v2_communication_phone(
-		phone, "contacts", "list", 1)
+		phone, "contacts", "list", 1, lang)
 	if _qa_failed:
 		return
 	await _save(prefix + "09_phone_contacts", 0.05)
@@ -2331,6 +2458,25 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	planner = _mg._core_loop_planner as Control
 	_assert_core_loop_v2_planner_surface(
 		planner, "read-only Plan reopen", 1, true, false)
+	if _qa_failed:
+		return
+	_assert_order97_planner_step_rail(
+		planner, lang, "confirmed",
+		[
+			"1단계 · 주차 4/4 · 완료",
+			"2단계 · 매주 할 일 2/2 · 완료",
+			"3단계 · 최종 확인 · 확정됨",
+		],
+		[
+			"STEP 1 · WEEKS 4/4 · DONE",
+			"STEP 2 · ROUTINES 2/2 · DONE",
+			"STEP 3 · FINAL REVIEW · CONFIRMED",
+		],
+		[
+			"ステップ1・予定 4/4・完了",
+			"ステップ2・ルーティン 2/2・完了",
+			"ステップ3・最終確認・確定済み",
+		])
 	if _qa_failed:
 		return
 	var locked_schedule: Dictionary = planner.schedule_snapshot()
@@ -2969,27 +3115,49 @@ func _assert_seoul_cycle_board_surface(
 	var surface_text := _collect_control_text(board)
 	var remaining_capacity := int(board.get_meta(
 		"seoul_cycle_remaining_effort_count", -1))
+	var year := int(snapshot.get("year", 2026))
+	var calendar_month := int(snapshot.get(
+		"calendar_month", snapshot.get("month", 1)))
+	var week_of_month := int(snapshot.get("week_of_month", 1))
+	var exact_date := _order97_expected(
+		lang,
+		"%d년 %d월 · %d주차" % [year, calendar_month, week_of_month],
+		"%04d.%02d · WEEK %d" % [year, calendar_month, week_of_month],
+		"%d年%d月・第%d週" % [year, calendar_month, week_of_month])
+	var exact_capacity := _order97_expected(
+		lang,
+		"이번 달 남은 여력 · %d/4" % remaining_capacity,
+		"MONTHLY CAPACITY LEFT · %d/4" % remaining_capacity,
+		"今月の余力・残り%d/4" % remaining_capacity)
 	var world_clock := maxi(0, int(snapshot.get("world_clock", 0)))
 	var world_clock_max := maxi(1, int(snapshot.get("world_clock_max", 4)))
 	world_clock = mini(world_clock, world_clock_max)
 	for required in [
 		_tr("서울의 네 주", "FOUR WEEKS IN SEOUL"),
-		_tr("2026년 1월 · 1주차", "2026.01 · WEEK 1"),
+		exact_date,
 		_tr("도시 시간 %d/%d", "CITY CLOCK %d/%d") % [
 			world_clock, world_clock_max],
 		_tr("배치 미리보기", "ALLOCATION PREVIEW"),
-		_tr(
-			"이번 달 남은 여력 · %d/4" % remaining_capacity,
-			"MONTHLY CAPACITY LEFT · %d/4" % remaining_capacity),
+		exact_capacity,
 	]:
 		if str(required).to_lower() not in surface_text.to_lower():
 			_fail("Core Loop V2 %s omitted visible board copy %s." % [context, required])
 			return false
-	var exact_cash := _tr("498,800원", "498,800 won")
+	var exact_cash := _order97_expected_whole_won(
+		lang, 498_800, "498,800원", "498,800 won", "498,800ウォン")
 	if exact_cash not in surface_text:
 		_fail("Core Loop V2 %s abbreviated its exact won balance instead of showing %s." % [
 			context, exact_cash])
 		return false
+	if LocaleManager.normalize_language(lang) == "ja":
+		for stale_static in [
+			"%04d.%02d · WEEK %d" % [year, calendar_month, week_of_month],
+			"MONTHLY CAPACITY LEFT", "498,800 won", "KRW 498,800",
+		]:
+			if stale_static in surface_text:
+				_fail("Core Loop V2 %s Japanese Seoul board retained static English copy %s." % [
+					context, stale_static])
+				return false
 	if lang != "ko" and _contains_hangul(surface_text):
 		_fail("Core Loop V2 %s leaked Hangul on the %s Seoul board." % [
 			context, lang])
@@ -4806,15 +4974,36 @@ func _assert_core_loop_v2_debug_entry(lang: String) -> void:
 		_fail("DEBUG title menu does not expose the Core Loop V2 test entry.")
 		return
 	var build_flavor = load("res://systems/BuildFlavor.gd")
-	var expected_test_label := LocaleManager.ui(
-		"24주 데모 시작", "Start 24-Week Demo") \
+	var cap_week := int(load("res://systems/DemoCoreLoopV2.gd").development_cap_week())
+	var expected_test_label := _order97_expected(
+		lang,
+		"%d주 데모 시작" % cap_week,
+		"Start %d-Week Demo" % cap_week,
+		"%d週間デモを開始" % cap_week) \
 		if build_flavor.is_core_loop_v2_playtest_build() else \
-		LocaleManager.ui(
-			"Core Loop V2  ·  24주 테스트",
-			"Core Loop V2  ·  24-Week Test")
+		_order97_expected(
+			lang,
+			"Core Loop V2  ·  %d주 테스트" % cap_week,
+			"Core Loop V2  ·  %d-Week Test" % cap_week,
+			"Core Loop V2  ·  %d週間テスト" % cap_week)
+	var expected_tooltip := _order97_expected(
+		lang,
+		"1~%d주 V2 데모를 별도 테스트 저장으로 시작합니다." % cap_week,
+		"Start the Weeks 1–%d V2 demo in a separate playtest save." % cap_week,
+		"第1～%d週のV2デモを、別のテスト用セーブデータで開始します。" % cap_week) \
+		if build_flavor.is_core_loop_v2_playtest_build() else \
+		_order97_expected(
+			lang,
+			"현재 열린 1~%d주 월간 약속 구조를 별도 저장 상태로 시작합니다." % cap_week,
+			"Start the currently available Weeks 1–%d monthly-commitment slice in a separate run state." % cap_week,
+			"現在プレイできる第1～%d週の「月ごとの約束」を、別のセーブデータで開始します。" % cap_week)
 	if test_button.text != expected_test_label:
 		_fail("DEBUG Core Loop V2 entry does not name the twenty-four-week slice: %s." % [
 			test_button.text])
+		return
+	if test_button.tooltip_text != expected_tooltip:
+		_fail("DEBUG Core Loop V2 entry tooltip is not the exact %s surface: %s." % [
+			lang, test_button.tooltip_text])
 		return
 	if test_button.focus_mode != Control.FOCUS_ALL:
 		_fail("Core Loop V2 test entry is not keyboard/controller focusable.")
@@ -4968,9 +5157,131 @@ func _assert_core_loop_v2_planner_surface(
 		_fail("Core Loop V2 %s planner has no visible trapped focus." % context)
 
 
+func _assert_order97_planner_step_rail(
+		planner: Control, lang: String, context: String,
+		expected_ko: Array[String], expected_en: Array[String],
+		expected_ja: Array[String]) -> void:
+	var expected: Array[String] = expected_en
+	match LocaleManager.normalize_language(lang):
+		"ko":
+			expected = expected_ko
+		"ja":
+			expected = expected_ja
+	var steps: Array = planner._step_buttons
+	if steps.size() != 3 or expected.size() != 3:
+		_fail("ORDER-97 %s planner rail cannot expose three exact steps." % context)
+		return
+	for index in range(3):
+		var actual := str((steps[index] as Button).text) \
+			if steps[index] is Button else ""
+		if actual != expected[index]:
+			_fail("ORDER-97 %s planner step %d mismatch for %s: expected=%s actual=%s." % [
+				context, index + 1, lang, expected[index], actual])
+			return
+
+
+func _assert_order97_planner_step_exact(
+		planner: Control, lang: String, context: String, index: int,
+		ko: String, en: String, ja: String) -> void:
+	var steps: Array = planner._step_buttons
+	var actual := str((steps[index] as Button).text) \
+		if index >= 0 and index < steps.size() and steps[index] is Button else ""
+	var expected := _order97_expected(lang, ko, en, ja)
+	if actual != expected:
+		_fail("ORDER-97 %s planner step %d mismatch for %s: expected=%s actual=%s." % [
+			context, index + 1, lang, expected, actual])
+
+
+func _assert_order97_planner_initial_surface(
+		planner: Control, lang: String) -> void:
+	_assert_order97_planner_step_rail(
+		planner, lang, "initial",
+		[
+			"1단계 · 주차 1/4 · 3개 남음",
+			"2단계 · 매주 할 일 2/2 · 완료",
+			"3단계 · 최종 확인 · 주차 3개 남음",
+		],
+		[
+			"STEP 1 · WEEKS 1/4 · 3 LEFT",
+			"STEP 2 · ROUTINES 2/2 · DONE",
+			"STEP 3 · FINAL REVIEW · 3 WEEKS LEFT",
+		],
+		[
+			"ステップ1・予定 1/4・残り3枠",
+			"ステップ2・ルーティン 2/2・完了",
+			"ステップ3・最終確認・未設定の週・残り3枠",
+		])
+	if _qa_failed:
+		return
+	var week_one := planner._slot_buttons.get("1") as Button
+	var week_four := planner._slot_buttons.get("4") as Button
+	var expected_open := _order97_expected(
+		lang, "1주차\n비어 있음", "WEEK 1\nOpen", "第1週\n空き")
+	var expected_fixed := _order97_expected(
+		lang, "4주차 · 고정 일정", "WEEK 4 · FIXED EVENT", "第4週・固定予定")
+	var fixed_heading := str(week_four.text).split("\n")[0] \
+		if is_instance_valid(week_four) else ""
+	if not is_instance_valid(week_one) or week_one.text != expected_open \
+			or fixed_heading != expected_fixed:
+		_fail("ORDER-97 initial calendar static copy mismatch for %s: open=%s fixed=%s." % [
+			lang, week_one.text if is_instance_valid(week_one) else "missing",
+			fixed_heading])
+		return
+	var badge_count := int(planner.call("_communication_badge_count"))
+	var badge_suffix := " · %d" % badge_count if badge_count > 0 else ""
+	var expected_phone := _order97_expected(
+		lang, "휴대폰%s", "PHONE%s", "スマホ%s") % badge_suffix
+	if not is_instance_valid(planner._communication_button) \
+			or str(planner._communication_button.text) != expected_phone:
+		_fail("ORDER-97 planner phone label mismatch for %s: expected=%s actual=%s." % [
+			lang, expected_phone,
+			str(planner._communication_button.text) \
+				if is_instance_valid(planner._communication_button) else "missing"])
+		return
+	var expected_hint := _order97_expected(
+		lang,
+		"할 일 선택 · %s 선택 · %s 주차에서만 빼기 · %s/%s 단계",
+		"CHOOSE · %s Select · %s Remove on Week · %s/%s Steps",
+		"予定を選ぶ・%sで決定・%sで週から外す・%s/%sで段階切替") % [
+			ControllerHints.south(), ControllerHints.west(),
+			ControllerHints.shoulder_l(), ControllerHints.shoulder_r(),
+		]
+	if not is_instance_valid(planner._hint_label) \
+			or str(planner._hint_label.text) != expected_hint:
+		_fail("ORDER-97 planner initial hint mismatch for %s: expected=%s actual=%s." % [
+			lang, expected_hint,
+			str(planner._hint_label.text) \
+				if is_instance_valid(planner._hint_label) else "missing"])
+
+
+func _assert_order97_planner_empty_detail(
+		planner: Control, lang: String, week_in_month: int) -> void:
+	var expected := _order97_expected(
+		lang,
+		"%d주차는 비어 있다.\n왼쪽에서 할 일을 고른 뒤 이 주를 눌러 일정에 넣는다." % week_in_month,
+		"WEEK %d is open.\nChoose an offer on the left, then press this week to place it." % week_in_month,
+		"第%d週は空いている。\n左側で提案を選び、この週を押して予定に入れる。" % week_in_month)
+	var actual := str(planner._detail_label.text) \
+		if is_instance_valid(planner._detail_label) else ""
+	if actual != expected:
+		_fail("ORDER-97 empty-week detail mismatch for %s: expected=%s actual=%s." % [
+			lang, expected, actual])
+
+
+func _assert_order97_planner_hint(
+		planner: Control, lang: String, context: String,
+		ko: String, en: String, ja: String, arguments: Array) -> void:
+	var expected := _order97_expected(lang, ko, en, ja) % arguments
+	var actual := str(planner._hint_label.text) \
+		if is_instance_valid(planner._hint_label) else ""
+	if actual != expected:
+		_fail("ORDER-97 %s planner hint mismatch for %s: expected=%s actual=%s." % [
+			context, lang, expected, actual])
+
+
 func _assert_core_loop_v2_communication_phone(
 		phone: Control, context: String, expected_mode: String,
-		expected_tab: int) -> void:
+		expected_tab: int, lang: String) -> void:
 	if not is_instance_valid(phone) or not phone.is_visible_in_tree():
 		_fail("Core Loop V2 %s communication phone is not visible." % context)
 		return
@@ -5059,6 +5370,50 @@ func _assert_core_loop_v2_communication_phone(
 	elif contact_methods.is_empty() or not communication_surfaces.is_empty():
 		_fail("Core Loop V2 %s contacts mixed conversations or has no real contact." % context)
 		return
+
+	var expected_footer := _order97_expected(
+		lang,
+		"%s/%s 탭 · %s 뒤로 · P/%s 닫기",
+		"%s/%s Tabs · %s Back · P/%s Close",
+		"%s/%sでタブ切替・%sで戻る・P/%sで閉じる") % [
+			ControllerHints.shoulder_l(), ControllerHints.shoulder_r(),
+			ControllerHints.east(), ControllerHints.north(),
+		]
+	var footer := phone._footer_hint as Label
+	if not is_instance_valid(footer) or footer.text != expected_footer:
+		_fail("ORDER-97 %s phone footer mismatch for %s: expected=%s actual=%s." % [
+			context, lang, expected_footer,
+			footer.text if is_instance_valid(footer) else "missing"])
+		return
+	var exact_surface_text := _collect_control_text(phone)
+	if expected_mode == "list":
+		var item_count := int(phone.call(
+			"_received_contact_offer_ids").size()) if expected_tab == 0 \
+			else int(phone.call("_actual_contact_ids").size())
+		var expected_section := _order97_expected(
+			lang,
+			"이번 달 받은 연락 · %d", "RECEIVED THIS MONTH · %d",
+			"今月届いた連絡・%d件") % item_count if expected_tab == 0 else \
+			_order97_expected(
+				lang,
+				"실제로 연락할 수 있는 사람 · %d", "PEOPLE YOU CAN REACH · %d",
+				"実際に連絡できる相手・%d人") % item_count
+		if expected_section not in exact_surface_text:
+			_fail("ORDER-97 %s phone section mismatch for %s: %s." % [
+				context, lang, expected_section])
+			return
+	if LocaleManager.normalize_language(lang) == "ja":
+		for stale_static in [
+			"RECEIVED THIS MONTH", "PEOPLE YOU CAN REACH",
+			" Tabs ", " Back ", " Close",
+		]:
+			if stale_static in exact_surface_text:
+				_fail("ORDER-97 %s Japanese phone retained static English copy %s." % [
+					context, stale_static])
+				return
+		if _contains_hangul(exact_surface_text):
+			_fail("ORDER-97 %s Japanese phone leaked Hangul." % context)
+			return
 
 	var phone_text := _collect_control_text(phone).to_lower()
 	for legacy_copy in [
@@ -5260,6 +5615,167 @@ func _shot_language_gate() -> void:
 	await _shot_start_menu("ko", "locale_01_korean_start_menu")
 	await _shot_story_event("arc_jiyeon_narrow_room_1", "locale_02_korean_jiyeon_name", "ko", 0.45, true, false, -1, 2, true)
 
+
+func _order97_i18n_format_probe(lang: String) -> Dictionary:
+	var south := ControllerHints.south()
+	var east := ControllerHints.east()
+	var north := ControllerHints.north()
+	var west := ControllerHints.west()
+	var shoulder_l := ControllerHints.shoulder_l()
+	var shoulder_r := ControllerHints.shoulder_r()
+	var start := ControllerHints.start_btn()
+	var target_money := LocaleManager.format_whole_won(498_800)
+	var english_money := "498,800 won"
+	var locked_suffix := LocaleManager.ui(" · 고정 일정", " · FIXED EVENT")
+	var rain_suffix := LocaleManager.ui_format(
+		" (비 할증 %s)", " (%s rain surge)",
+		GameState.format_money(5_000.0), "5 thousand won")
+	var week_blocker := LocaleManager.ui_format(
+		"주차 %d개 남음", "%d %s LEFT", 3, [3, "WEEKS"])
+	var actual: Array[String] = [
+		"DATE  " + LocaleManager.ui_format(
+			"%d년 %d월 · %d주차", "%04d.%02d · WEEK %d",
+			[2026, 1, 1], [2026, 1, 1]),
+		"CAP  " + LocaleManager.ui_format(
+			"이번 달 남은 여력 · %d/4", "MONTHLY CAPACITY LEFT · %d/4", 3, 3),
+		"MONEY  " + target_money,
+		"LOCK  " + LocaleManager.ui_format(
+			"%d주차%s\n%s", "WEEK %d%s\n%s",
+			[4, locked_suffix, "BODY FALLBACK"],
+			[4, " · FIXED EVENT", "BODY FALLBACK"]),
+		"S1R  " + LocaleManager.ui(
+			"1단계 · 주차 {done}/4 · {left}개 남음",
+			"STEP 1 · WEEKS {done}/4 · {left} LEFT").format(
+				{"done": 1, "left": 3}),
+		"S1C  " + LocaleManager.ui(
+			"1단계 · 주차 {done}/4 · 확인 필요",
+			"STEP 1 · WEEKS {done}/4 · CHECK").format({"done": 4}),
+		"S1D  " + LocaleManager.ui(
+			"1단계 · 주차 {done}/4 · 완료",
+			"STEP 1 · WEEKS {done}/4 · DONE").format({"done": 4}),
+		"S2R  " + LocaleManager.ui(
+			"2단계 · 매주 할 일 {done}/2 · {left}개 남음",
+			"STEP 2 · ROUTINES {done}/2 · {left} LEFT").format(
+				{"done": 1, "left": 1}),
+		"S2C  " + LocaleManager.ui(
+			"2단계 · 매주 할 일 {done}/2 · 확인 필요",
+			"STEP 2 · ROUTINES {done}/2 · CHECK").format({"done": 2}),
+		"S2D  " + LocaleManager.ui(
+			"2단계 · 매주 할 일 {done}/2 · 완료",
+			"STEP 2 · ROUTINES {done}/2 · DONE").format({"done": 2}),
+		"S3B  " + LocaleManager.ui_format(
+			"3단계 · 최종 확인 · %s", "STEP 3 · FINAL REVIEW · %s",
+			week_blocker, "3 WEEKS LEFT"),
+		"S3R  " + LocaleManager.ui(
+			"3단계 · 최종 확인 · 준비됨", "STEP 3 · FINAL REVIEW · READY"),
+		"S3C  " + LocaleManager.ui(
+			"3단계 · 최종 확인 · 확정됨", "STEP 3 · FINAL REVIEW · CONFIRMED"),
+		"PHONE  " + LocaleManager.ui_format(
+			"%s/%s 탭 · %s 뒤로 · P/%s 닫기",
+			"%s/%s Tabs · %s Back · P/%s Close",
+			[shoulder_l, shoulder_r, east, north],
+			[shoulder_l, shoulder_r, east, north]),
+		"GALLERY  " + LocaleManager.ui_format(
+			"비밀 기록 %02d", "HIDDEN RECORD %02d", 1, 1),
+		"START  " + LocaleManager.ui_format(
+			"슬롯 %d", "Slot %d", 7, 7) + "  |  " + LocaleManager.ui_format(
+			"페이지 %d / 2", "Page %d / 2", 1, 1),
+		"RECENT  " + LocaleManager.ui_format(
+			"최근 기록  ·  %d년 %d월  ·  %s",
+			"LAST RECORD  ·  %d / %02d  ·  %s",
+			[2026, 1, target_money], [2026, 1, english_money]),
+		"STORY  " + LocaleManager.ui_format(
+			"장면 설정 (%s)", "Scene settings (%s)", start, start) \
+			+ "  |  " + LocaleManager.ui_format(
+				"슬롯 %d–%d", "Slots %d–%d", [1, 5], [1, 5]),
+		"SAVE  " + LocaleManager.ui_format(
+			"챕터 %d · %d주차", "Chapter %d · Week %d", [2, 3], [2, 3]) \
+			+ "  |  " + LocaleManager.ui_format(
+				"%d년 %d월 · 자산 %s", "%d / %02d · Assets %s",
+				[2026, 1, target_money], [2026, 1, english_money]),
+		"NOTICE  " + LocaleManager.ui_format(
+			"슬롯 %d에 현재 장면을 저장했습니다.",
+			"Current scene saved to slot %d.", 7, 7),
+		"ARUBA  " + LocaleManager.ui_format(
+			"소요 %d분 / %d분 (여유 %d분)  |  예상 추가 수입 +%s%s",
+			"Time %d / %d min (%d min spare)  |  Expected extra income +%s%s",
+			[18, 120, 102, GameState.format_money(18_000.0), rain_suffix],
+			[18, 120, 102, "18 thousand won", " (5 thousand won rain surge)"]),
+	]
+	var expected: Array[String] = [
+		"DATE  " + _order97_expected(
+			lang, "2026년 1월 · 1주차", "2026.01 · WEEK 1", "2026年1月・第1週"),
+		"CAP  " + _order97_expected(
+			lang, "이번 달 남은 여력 · 3/4", "MONTHLY CAPACITY LEFT · 3/4",
+			"今月の余力・残り3/4"),
+		"MONEY  " + _order97_expected_whole_won(
+			lang, 498_800, "498,800원", "498,800 won", "498,800ウォン"),
+		"LOCK  " + _order97_expected(
+			lang, "4주차 · 고정 일정\nBODY FALLBACK",
+			"WEEK 4 · FIXED EVENT\nBODY FALLBACK",
+			"第4週・固定予定\nBODY FALLBACK"),
+		"S1R  " + _order97_expected(
+			lang, "1단계 · 주차 1/4 · 3개 남음", "STEP 1 · WEEKS 1/4 · 3 LEFT",
+			"ステップ1・予定 1/4・残り3枠"),
+		"S1C  " + _order97_expected(
+			lang, "1단계 · 주차 4/4 · 확인 필요", "STEP 1 · WEEKS 4/4 · CHECK",
+			"ステップ1・予定 4/4・要確認"),
+		"S1D  " + _order97_expected(
+			lang, "1단계 · 주차 4/4 · 완료", "STEP 1 · WEEKS 4/4 · DONE",
+			"ステップ1・予定 4/4・完了"),
+		"S2R  " + _order97_expected(
+			lang, "2단계 · 매주 할 일 1/2 · 1개 남음", "STEP 2 · ROUTINES 1/2 · 1 LEFT",
+			"ステップ2・ルーティン 1/2・残り1件"),
+		"S2C  " + _order97_expected(
+			lang, "2단계 · 매주 할 일 2/2 · 확인 필요", "STEP 2 · ROUTINES 2/2 · CHECK",
+			"ステップ2・ルーティン 2/2・要確認"),
+		"S2D  " + _order97_expected(
+			lang, "2단계 · 매주 할 일 2/2 · 완료", "STEP 2 · ROUTINES 2/2 · DONE",
+			"ステップ2・ルーティン 2/2・完了"),
+		"S3B  " + _order97_expected(
+			lang, "3단계 · 최종 확인 · 주차 3개 남음",
+			"STEP 3 · FINAL REVIEW · 3 WEEKS LEFT",
+			"ステップ3・最終確認・未設定の週・残り3枠"),
+		"S3R  " + _order97_expected(
+			lang, "3단계 · 최종 확인 · 준비됨", "STEP 3 · FINAL REVIEW · READY",
+			"ステップ3・最終確認・準備完了"),
+		"S3C  " + _order97_expected(
+			lang, "3단계 · 최종 확인 · 확정됨", "STEP 3 · FINAL REVIEW · CONFIRMED",
+			"ステップ3・最終確認・確定済み"),
+		"PHONE  " + _order97_expected(
+			lang,
+			"%s/%s 탭 · %s 뒤로 · P/%s 닫기",
+			"%s/%s Tabs · %s Back · P/%s Close",
+			"%s/%sでタブ切替・%sで戻る・P/%sで閉じる") % [
+				shoulder_l, shoulder_r, east, north],
+		"GALLERY  " + _order97_expected(
+			lang, "비밀 기록 01", "HIDDEN RECORD 01", "シークレット記録 01"),
+		"START  " + _order97_expected(
+			lang, "슬롯 7  |  페이지 1 / 2", "Slot 7  |  Page 1 / 2",
+			"スロット 7  |  ページ 1 / 2"),
+		"RECENT  " + _order97_expected(
+			lang, "최근 기록  ·  2026년 1월  ·  498,800원",
+			"LAST RECORD  ·  2026 / 01  ·  498,800 won",
+			"最新の記録  ·  2026年1月  ·  498,800ウォン"),
+		"STORY  " + _order97_expected(
+			lang, "장면 설정 (%s)  |  슬롯 1–5" % start,
+			"Scene settings (%s)  |  Slots 1–5" % start,
+			"シーン設定（%s）  |  スロット1～5" % start),
+		"SAVE  " + _order97_expected(
+			lang, "챕터 2 · 3주차  |  2026년 1월 · 자산 498,800원",
+			"Chapter 2 · Week 3  |  2026 / 01 · Assets 498,800 won",
+			"チャプター2・第3週  |  2026年1月・資産 498,800ウォン"),
+		"NOTICE  " + _order97_expected(
+			lang, "슬롯 7에 현재 장면을 저장했습니다.",
+			"Current scene saved to slot 7.", "現在のシーンをスロット7に保存しました。"),
+		"ARUBA  " + _order97_expected(
+			lang,
+			"소요 18분 / 120분 (여유 102분)  |  예상 추가 수입 +2만원 (비 할증 5000원)",
+			"Time 18 / 120 min (102 min spare)  |  Expected extra income +18 thousand won (5 thousand won rain surge)",
+			"所要18分 / 120分（余裕102分）  |  予想追加収入 +2万ウォン （雨天割増 5000ウォン）"),
+	]
+	return {"actual": "\n".join(actual), "expected": "\n".join(expected)}
+
 func _shot_i18n_layout(lang: String) -> void:
 	_set_qa_language(lang)
 	var canvas := ColorRect.new()
@@ -5292,7 +5808,7 @@ func _shot_i18n_layout(lang: String) -> void:
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 20)
 	margin.add_child(column)
-	var ui_font = load("res://assets/fonts/Pretendard-Regular.ttf") as Font
+	var ui_font := FontKit.ui_regular()
 
 	var title := Label.new()
 	title.text = "CJK LINE-WRAP QA  /  %s" % lang
@@ -5335,6 +5851,34 @@ func _shot_i18n_layout(lang: String) -> void:
 		_fail("CJK sample did not wrap across at least three lines for %s." % lang)
 		return
 	await _save("i18n_layout_%s" % lang.replace("-", "_"), 0.0)
+	var normalized_lang := LocaleManager.normalize_language(lang)
+	if normalized_lang in ["ko", "en", "ja", "zh-CN", "zh-TW"]:
+		var probe := _order97_i18n_format_probe(normalized_lang)
+		var actual := str(probe.get("actual", ""))
+		var expected := str(probe.get("expected", ""))
+		if actual != expected:
+			_fail("ORDER-97 i18n format probe mismatch for %s:\nEXPECTED\n%s\nACTUAL\n%s" % [
+				normalized_lang, expected, actual])
+			return
+		if normalized_lang == "ja" and _contains_hangul(actual):
+			_fail("ORDER-97 Japanese format probe leaked Hangul.")
+			return
+		panel.custom_minimum_size = Vector2(920.0, 650.0)
+		panel.position = (viewport_size - panel.custom_minimum_size) * 0.5
+		UIStyle.override_constant(margin, &"margin_left", 34)
+		UIStyle.override_constant(margin, &"margin_right", 34)
+		UIStyle.override_constant(margin, &"margin_top", 28)
+		UIStyle.override_constant(margin, &"margin_bottom", 28)
+		UIStyle.override_constant(column, &"separation", 8)
+		title.text = "ORDER-97 FORMAT CONTRACT  /  %s" % normalized_lang
+		body.text = actual
+		body.custom_minimum_size = Vector2(852.0, 500.0)
+		UIStyle.override_font_size(body, &"font_size", 14)
+		footer.text = "Exact static templates · BODY FALLBACK is intentionally English"
+		await _settle(0.25)
+		await _save(
+			"i18n_layout_%s_order97_formats" % normalized_lang.replace("-", "_"),
+			0.0)
 	canvas.queue_free()
 	await get_tree().process_frame
 
@@ -10207,9 +10751,14 @@ func _core_loop_v2_armed_surface_visible(
 				not in status_label.text:
 		_fail("Core Loop V2 %s armed offer has no visible week prompt." % context)
 		return false
+	var expected_hint := _order97_expected(
+		LocaleManager.language,
+		"2/2 주차 선택 · %s 주에 넣기 · %s 선택 취소 · %s 일정 빼기",
+		"STEP 2/2 · %s Place in Week · %s Cancel · %s Remove",
+		"ステップ2/2・週を選択・%sでこの週に入れる・%sで選択解除・%sで予定を外す") % [
+			ControllerHints.south(), ControllerHints.east(), ControllerHints.west()]
 	if not is_instance_valid(hint_label) \
-			or _tr("주에 넣기", "Place in Week") not in hint_label.text \
-			or _tr("선택 취소", "Cancel") not in hint_label.text:
+			or hint_label.text != expected_hint:
 		_fail("Core Loop V2 %s armed offer has no independent placement/cancel hint." % context)
 		return false
 	var viewport_rect := get_viewport().get_visible_rect().grow(1.0)
@@ -12874,7 +13423,7 @@ func _shot_archive_surfaces(lang: String = "en", prefix: String = "archive_en_")
 	await _settle(0.35)
 	menu._open_archive_overlay()
 	await _settle(0.45)
-	_assert_archive_surface(menu, "CG gallery")
+	_assert_archive_surface(menu, "CG gallery", lang)
 	await _save(prefix + "01_cg_gallery")
 
 	var first_cg_id := str(cg_ids[0])
@@ -12884,12 +13433,12 @@ func _shot_archive_surfaces(lang: String = "en", prefix: String = "archive_en_")
 	menu._close_archive_cg_preview()
 	menu._set_archive_tab(1)
 	await _settle(0.35)
-	_assert_archive_surface(menu, "scene replay")
+	_assert_archive_surface(menu, "scene replay", lang)
 	await _save(prefix + "03_scene_replay")
 
 	menu._set_archive_tab(2)
 	await _settle(0.35)
-	_assert_archive_surface(menu, "hidden records")
+	_assert_archive_surface(menu, "hidden records", lang)
 	_assert_locked_hidden_names_absent(menu)
 	await _save(prefix + "04_hidden_records")
 	_remove_start_menu_nodes()
@@ -13365,7 +13914,8 @@ func _shot_trailer_extended_surfaces() -> void:
 		_mg.call("_exit_minigame_overlay")
 	await _dispose_main_game()
 
-func _assert_archive_surface(menu: Control, context: String) -> void:
+func _assert_archive_surface(
+		menu: Control, context: String, lang: String) -> void:
 	var overlay := menu.get("_archive_overlay") as Control
 	if not is_instance_valid(overlay):
 		_fail("%s overlay missing" % context)
@@ -13383,6 +13933,54 @@ func _assert_archive_surface(menu: Control, context: String) -> void:
 				or rect.end.x > viewport_rect.end.x + 1.0 or rect.end.y > viewport_rect.end.y + 1.0:
 			_fail("%s button leaves viewport: %s %s" % [context, button.name, rect])
 			return
+	var tab := int(menu.get("_archive_tab"))
+	var total := int(menu.call("_archive_item_count"))
+	var expected_progress := ""
+	match tab:
+		0:
+			var unlocked := 0
+			for cg_id in ImageRegistry.CG.keys():
+				if MetaProgression.is_cg_unlocked(str(cg_id)):
+					unlocked += 1
+			expected_progress = _order97_expected(
+				lang, "CG  %d / %d", "CG  %d / %d", "CG  %d / %d") % [
+					unlocked, total]
+		1:
+			var seen_count := 0
+			for scene_id in MetaProgression.data.get("seen_scenes", []):
+				if MetaProgression.has_seen_scene(str(scene_id)):
+					seen_count += 1
+			expected_progress = _order97_expected(
+				lang, "회상  %d / %d", "SCENES  %d / %d", "回想  %d / %d") % [
+					seen_count, total]
+		_:
+			var hidden_count := int(menu.call("_archive_unlocked_hidden").size())
+			expected_progress = _order97_expected(
+				lang, "발견된 비밀  %d", "SECRETS FOUND  %d",
+				"発見したシークレット  %d") % hidden_count
+	var progress := menu.get("_archive_progress_label") as Label
+	if not is_instance_valid(progress) or progress.text != expected_progress:
+		_fail("ORDER-97 %s archive progress mismatch for %s: expected=%s actual=%s." % [
+			context, lang, expected_progress,
+			progress.text if is_instance_valid(progress) else "missing"])
+		return
+	var fallback_title := str(menu.call("_archive_cg_title", "__order97_qa__", 6))
+	var expected_fallback := _order97_expected(
+		lang, "장면 기록 07", "Scene Record 07", "シーン記録 07")
+	if fallback_title != expected_fallback:
+		_fail("ORDER-97 archive fallback title mismatch for %s: expected=%s actual=%s." % [
+			lang, expected_fallback, fallback_title])
+		return
+	var surface_text := _collect_control_text(overlay)
+	if tab == 2:
+		var expected_hidden := _order97_expected(
+			lang, "비밀 기록 01", "HIDDEN RECORD 01", "シークレット記録 01")
+		if expected_hidden not in surface_text:
+			_fail("ORDER-97 hidden-record label mismatch for %s: %s." % [
+				lang, expected_hidden])
+			return
+	if LocaleManager.normalize_language(lang) == "ja" and _contains_hangul(surface_text):
+		_fail("ORDER-97 %s Japanese archive surface leaked Hangul." % context)
 
 func _assert_locked_hidden_names_absent(menu: Control) -> void:
 	var overlay := menu.get("_archive_overlay") as Control
@@ -13416,6 +14014,9 @@ func _contains_hangul(text: String) -> bool:
 	return false
 
 func _shot_story_surfaces(lang: String = "en", prefix: String = "story_en_") -> void:
+	await _shot_order97_story_save_surface(lang, prefix)
+	if _qa_failed:
+		return
 	# 플래시포워드 콜드오픈(신규) — 프롤로그보다 앞서 재생되는 5년 뒤 씬.
 	await _shot_story_event("story_flashforward", prefix + "00_flashforward", lang, 1.0, true)
 	await _shot_story_event("story_arrival", prefix + "00b_arrival_reset", lang, 0.45, true)
@@ -13451,6 +14052,56 @@ func _shot_story_surfaces(lang: String = "en", prefix: String = "story_en_") -> 
 	await _shot_story_event("arc_jiyeon_narrow_room_1", prefix + "13a1_romance_jiyeon_narrow_door", lang, 0.45, true, false, -1, 2, true)
 	await _shot_story_event("arc_jiyeon_narrow_room_2", prefix + "13b_romance_jiyeon_narrow_room", lang, 0.65, true)
 	await _shot_story_event("arc_jiyeon_narrow_room_2", prefix + "13c_romance_jiyeon_narrow_choices", lang, 0.45, true, true)
+
+
+func _shot_order97_story_save_surface(lang: String, prefix: String) -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	_prepare_story_event_fixture("arc_intro_01_meal")
+	GameState.pending_story_queue = ["arc_intro_01_meal"]
+	var packed := load("res://scenes/StoryMode.tscn") as PackedScene
+	var story := packed.instantiate() as Control
+	get_tree().root.add_child.call_deferred(story)
+	await get_tree().process_frame
+	if story.has_method("_set_auto_mode"):
+		story.call("_set_auto_mode", false, false)
+	await _settle(0.30)
+	var settings_button := story.get("_audio_settings_button") as Button
+	var hint := ControllerHints.start_btn()
+	var expected_tooltip := _order97_expected(
+		lang, "장면 설정 (%s)", "Scene settings (%s)", "シーン設定（%s）") % hint
+	if not is_instance_valid(settings_button) \
+			or settings_button.tooltip_text != expected_tooltip:
+		_fail("ORDER-97 Story settings tooltip mismatch for %s: expected=%s actual=%s." % [
+			lang, expected_tooltip,
+			settings_button.tooltip_text \
+				if is_instance_valid(settings_button) else "missing"])
+		return
+	story.call("_open_audio_settings")
+	await _settle(0.15)
+	story.call("_open_story_save_load")
+	await _settle(0.20)
+	var popup := story.get("_audio_settings_popup") as Control
+	if not is_instance_valid(popup) or not popup.is_visible_in_tree():
+		_fail("ORDER-97 Story Records popup did not open for %s." % lang)
+		return
+	var expected_pages := [
+		_order97_expected(lang, "슬롯 1–5", "Slots 1–5", "スロット1～5"),
+		_order97_expected(lang, "슬롯 6–10", "Slots 6–10", "スロット6～10"),
+	]
+	var visible_button_texts: Array[String] = []
+	for raw_button in popup.find_children("*", "Button", true, false):
+		if raw_button is Button and (raw_button as Button).visible:
+			visible_button_texts.append((raw_button as Button).text)
+	for expected_page in expected_pages:
+		if expected_page not in visible_button_texts:
+			_fail("ORDER-97 Story Records pager mismatch for %s: missing=%s actual=%s." % [
+				lang, expected_page, str(visible_button_texts)])
+			return
+	await _save(prefix + "00a_story_save_records", 0.05)
+	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	GameState.pending_story_queue.clear()
+	await _settle(0.20)
 
 func _shot_story_presence_surfaces(lang: String = "en", prefix: String = "presence_en_") -> void:
 	_set_qa_language(lang)
@@ -18367,7 +19018,7 @@ func _shot_aruba_surfaces(lang: String = "en", prefix: String = "aruba_en_") -> 
 
 	GameState.current_job = {
 		"id": "job_03",
-		"name": ("Office Worker" if LocaleManager.is_english() else "사무직"),
+		"name": ("사무직" if lang == "ko" else "Office Worker"),
 		"base_salary": 2_240_000.0,
 		"tier": 2,
 	}
@@ -18377,7 +19028,7 @@ func _shot_aruba_surfaces(lang: String = "en", prefix: String = "aruba_en_") -> 
 
 	GameState.current_job = {
 		"id": "job_01",
-		"name": ("Convenience Store Clerk" if LocaleManager.is_english() else "편의점 알바"),
+		"name": ("편의점 알바" if lang == "ko" else "Convenience Store Clerk"),
 		"base_salary": 900_000.0,
 		"tier": 1,
 	}
@@ -18430,18 +19081,37 @@ func _shot_aruba_surfaces(lang: String = "en", prefix: String = "aruba_en_") -> 
 
 	GameState.current_job = {
 		"id": "job_02",
-		"name": ("Delivery Rider" if LocaleManager.is_english() else "배달 라이더"),
+		"name": ("배달 라이더" if lang == "ko" else "Delivery Rider"),
 		"base_salary": 1_300_000.0,
 		"tier": 1,
 	}
-	await _open_aruba_for_qa(node)
+	await _open_aruba_for_qa(node, {"weather": "rain", "surge_pay": true})
 	await _save(prefix + "02_delivery_route")
+	node.call("_del_toggle", 0)
+	await _settle(0.12)
+	var delivery_status := node.get("_del_status_lbl") as Label
+	var expected_status := _order97_expected(
+		lang,
+		"소요 18분 / 120분 (여유 102분)  |  예상 추가 수입 +2만원 (비 할증 5000원)",
+		"Time 18 / 120 min (102 min spare)  |  Expected extra income +18 thousand won (5 thousand won rain surge)",
+		"所要18分 / 120分（余裕102分）  |  予想追加収入 +2万ウォン （雨天割増 5000ウォン）")
+	if not is_instance_valid(delivery_status) or delivery_status.text != expected_status:
+		_fail("ORDER-97 Aruba rain status mismatch for %s: expected=%s actual=%s." % [
+			lang, expected_status,
+			delivery_status.text if is_instance_valid(delivery_status) else "missing"])
+		return
+	if LocaleManager.normalize_language(lang) == "ja" \
+			and (_contains_hangul(delivery_status.text) \
+			or "rain surge" in delivery_status.text):
+		_fail("ORDER-97 Japanese Aruba rain status retained a static fallback leak.")
+		return
+	await _save(prefix + "02a_delivery_rain_surge")
 	_hide_aruba_for_qa(node)
 
-func _open_aruba_for_qa(node: Node) -> void:
+func _open_aruba_for_qa(node: Node, shift_context: Dictionary = {}) -> void:
 	if _mg.has_method("_enter_minigame_overlay"):
 		_mg.call("_enter_minigame_overlay", node)
-	node.open()
+	node.open(shift_context)
 	await _settle(0.6)
 
 func _hide_aruba_for_qa(node: Node) -> void:

@@ -53,8 +53,8 @@ var _reel_scroll_idx: Array = [0, 0, 0]            # 각 릴의 현재 심볼 �
 var _reel_current_symbols: Array = [0, 1, 0]       # 각 릴 중앙 페이라인 심볼
 
 # ── UI 참조 ────────────────────────────────────────────────────
-var _font: FontFile
-var _font_bold: FontFile
+var _font: Font
+var _font_bold: Font
 
 var _reel_labels: Array   = []   # Array[Label] — 3개
 var _reel_top_labels: Array = []
@@ -97,8 +97,8 @@ func _ready() -> void:
 	set_process(false)
 
 func _load_fonts() -> void:
-	_font      = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
-	_font_bold = load("res://assets/fonts/Pretendard-Bold.ttf") as FontFile
+	_font      = FontKit.ui_regular()
+	_font_bold = FontKit.ui_bold()
 
 func _f(node, bold: bool = false) -> void:
 	if not node:
@@ -621,7 +621,7 @@ func _draw_reel_symbol_tile(ctrl: Control, rect: Rect2, symbol: int, alpha: floa
 	_draw_slot_symbol(ctrl, inset, symbol, alpha, is_center)
 
 func _draw_slot_symbol(ctrl: Control, rect: Rect2, symbol: int, alpha: float, is_center: bool) -> void:
-	var font: FontFile = _font_bold if _font_bold else _font
+	var font: Font = _font_bold if _font_bold else _font
 	var center := rect.position + rect.size * 0.5
 	var size_big: int = 50 if is_center else 22
 	var size_mid: int = 34 if is_center else 16

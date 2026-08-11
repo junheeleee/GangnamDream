@@ -75,8 +75,8 @@ var _wheel_angle: float     = 0.0
 var _ball_angle: float      = -PI * 0.5
 
 # UI
-var _font: FontFile
-var _font_bold: FontFile
+var _font: Font
+var _font_bold: Font
 
 var _content_root: Control
 var _msg_lbl: Label
@@ -109,11 +109,11 @@ func _ready() -> void:
 	set_process(false)
 
 func _load_fonts() -> void:
-	_font      = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
-	_font_bold = load("res://assets/fonts/Pretendard-Bold.ttf") as FontFile
+	_font      = FontKit.ui_regular()
+	_font_bold = FontKit.ui_bold()
 
 func _f(n: Object, bold: bool = false) -> void:
-	var ft: FontFile = _font_bold if bold else _font
+	var ft: Font = _font_bold if bold else _font
 	if ft and n:
 		n.add_theme_font_override("font", ft)
 		if n is RichTextLabel:

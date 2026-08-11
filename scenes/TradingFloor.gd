@@ -9,8 +9,8 @@ signal closed
 
 var inv                              # InvestmentSystem (MainGame 주입)
 var _selected: String = ""
-var _font: FontFile
-var _font_bold: FontFile
+var _font: Font
+var _font_bold: Font
 
 # 보드에 노출할 대표 자산 (+ 보유 중인 자산은 동적으로 추가)
 const FEATURED := ["samsung", "kospi_etf", "sp500", "nvidia", "ai_chip",
@@ -53,13 +53,13 @@ func _tr(ko_text: String, en_text: String) -> String:
 
 # ── 폰트 ──────────────────────────────────────────────────────
 func _load_fonts() -> void:
-	_font      = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
-	_font_bold = load("res://assets/fonts/Pretendard-Bold.ttf") as FontFile
+	_font      = FontKit.ui_regular()
+	_font_bold = FontKit.ui_bold()
 	FontKit.attach_emoji_fallback(_font)
 	FontKit.attach_emoji_fallback(_font_bold)
 
 func _font_for(lbl: Object, bold: bool = false) -> void:
-	var f: FontFile = _font_bold if bold else _font
+	var f: Font = _font_bold if bold else _font
 	if f and lbl:
 		lbl.add_theme_font_override("font", f)
 		if lbl is RichTextLabel:

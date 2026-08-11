@@ -45,8 +45,8 @@ var _position_lbl: Label
 var _hint_lbl: Label
 var _buy_btn: Button
 var _sell_btn: Button
-var _font: FontFile
-var _font_bold: FontFile
+var _font: Font
+var _font_bold: Font
 
 func _ready() -> void:
 	_rng.randomize()
@@ -60,8 +60,8 @@ func _tr(ko_text: String, en_text: String) -> String:
 	return LocaleManager.ui(ko_text, en_text)
 
 func _load_fonts() -> void:
-	_font      = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
-	_font_bold = load("res://assets/fonts/Pretendard-Bold.ttf") as FontFile
+	_font      = FontKit.ui_regular()
+	_font_bold = FontKit.ui_bold()
 
 func _f(n: Control, bold := false) -> void:
 	var ft = _font_bold if bold else _font

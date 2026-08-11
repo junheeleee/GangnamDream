@@ -1,6 +1,71 @@
 # Gangnam Dream Decisions
 
+## 2026-08-11 (일본어 가나와 한자를 같은 Noto Sans JP 굵기로 그린다)
+
+일본어 화면에서 히라가나·가타카나는 Pretendard, 한자는 Noto Sans JP로 갈라져
+획 굵기가 달랐다. Pretendard가 가나는 갖지만 일본어 한자를 전부 갖지 않고,
+Noto Sans JP variable 원본의 기본 `wght`가 `100`이기 때문에 생긴 실제 혼합
+폰트 결함이다. 한자의 획 밀도 때문에 생기는 정상적인 광학 차이로 승인하지 않는다.
+
+`ja`의 UI primary는 Noto Sans JP 하나로 고정하고 regular/semibold/bold 역할을
+각각 `400/600/700`으로 명시한다. 같은 역할에서 Pretendard는 한글 등 비일본어
+글리프의 동웨이트 폴백, 번들 emoji는 마지막이다. `ko`·`en`은 기존 Pretendard를
+primary로 유지하고 동웨이트 Noto Sans JP와 emoji를 뒤에 둔다. 언어 전환은
+Control을 재생성하지 않고 공유 `FontVariation` 역할의 내부 체인을 제자리에서
+바꾼다.
+
+제품 스크립트는 폰트 파일을 직접 로드하지 않고 `FontKit`의 세 역할만 쓴다.
+자동 검사는 variable axis의 `100..900/default 100`, 실제 `400/600/700` RID,
+가나·한자·일본어 문장부호의 단일 Noto RID, KO/EN의 Pretendard 우선순위,
+emoji-last, 런타임 언어 전환을 함께 잠근다. 이 결정은 SC/TC 자형이나 폰트 출시
+준비를 대신하지 않으며, 두 중국어 전용 폰트 게이트는 계속 차단 상태다.
+
+## 2026-08-11 (값을 끼우기 전에 안정 UI 템플릿을 번역한다)
+
+ORDER-97은 lookup 전에 값을 끼우던 raw 후보를 정확히 `55 = 이동 47 + 동적
+pair reader 4 + branch-selected literal 2 + locale money formatter 2`로 잠근다.
+47호출은 42개 안정 템플릿으로 이동하고, 동적 reader와 분기 뒤 정적 literal은
+성격을 바꾸지 않으며, 두 exact-money owner는 template key로 세지 않는다. 경로·
+함수·KO/EN 템플릿·placeholder signature·호출 수의 누락, 추가, 중복, stale,
+selector 일부 일치는 원장 실패다.
+
+`LocaleManager.ui_format(ko_template, en_template, ko_args, en_args)`이 lookup과
+format provenance를 한 곳에서 소유한다. KO와 EN은 서로의 placeholder 개수에
+맞추지 않고 각각 자기 template·args를 독립 검증한다. 준비 언어 hit는 한국어
+template과 변환 종류·순서·명시적 `+` 부호·정밀도·줄바꿈이 같은 target
+template에 target/KO args를 넣고, miss는 EN template에 명시 EN args를 넣는다.
+`%d`와 `%02d` 같은 폭·0 패딩 차이만 허용하며 잘못된 `%`, 인자 수·종류,
+target 변환 순서·의미 modifier·줄바꿈 drift는 fail-closed다.
+부모가 영어 fallback이 됐을 때 현재 locale의 금액·문구가 안에 섞이지 않도록
+중첩 인자의 target producer와 explicit-English producer도 원장에 고정한다.
+
+착수 raw 55 밖에서 이미 lookup-before-format이던 Aruba 상태 부모와 GameState
+연말 장면 선택 따옴표 2건은 별도 provenance 보강으로 target/EN 인자를 나눴다.
+따라서 제품 런타임의 `ui_format`은
+`47 + supplemental existing 2 = 49`호출이며 raw 분류를 57로 바꾸지 않는다.
+raw 이동 호출의 중첩 target/explicit-English 인자 provenance는 정확히 15행으로
+잠근다.
+정확 1원 표면은 `CommitmentTask::_format_money`와
+`SeoulCycleBoard::_format_money` 두 owner만 유지하고 하나의
+`LocaleManager.format_whole_won()`에 위임한다. 숫자·부호·쉼표는 그대로 두고
+CommitmentTask의 영어 `KRW` prefix·양수 부호 정책과 SeoulCycleBoard의 `won`
+suffix를 각각 보존하며, JA/zh-CN/zh-TW는 `ウォン/韩元/韓元`을 쓴다.
+
+최종 실측 정적 UI 원장은 `3,310호출 = legacy 3,273 + context 37`, 고유 legacy
+한국어 key 2,780개와 context ID 30개다. 일본어는
+`2,780/2,780 + 30/30 = 2,810/2,810`, 두 중국어 skeleton은 각각
+`0/2,780 + 0/30`이다. locale UI JSON의 raw key는 유일해야 하며 parser의
+last-wins effective 수로 중복을 숨기지 않는다.
+
+이 실측과 자동 계약은 실제 화면의 사람 판정이 아니다. Batch A 23호출과 Batch B
+24호출에서 사용자가 각각 임의 3개 실제 표면을 같은 후보로 확인하는 L3 게이트는
+증거 대기 OPEN이며, 하나라도 틀리면 해당 배치 전량을 반려한다. 이 결정은 최종
+surface, 전체 audit, CI, 원어민 또는 4개국어 출시 GO를 선언하지 않는다.
+
 ## 2026-08-11 (다의 UI만 안정 문맥 ID로 나누고 기존 번역 키는 보존한다)
+
+> 아래 3,254호출·2,730키·3,217 legacy 수치는 ORDER-96 완료 당시의 역사적
+> baseline이다. 현재 원장은 위 ORDER-97 결정의 3,310호출·2,780 legacy key다.
 
 정적 UI의 3,254호출·2,730개 한국어 키를 전수 비교하니 같은 한국어에 여러 영어
 인자가 붙은 키가 107개였다. 형식 차이 34개와 한 번역을 공유할 수 있는 45개를

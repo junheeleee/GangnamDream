@@ -19,8 +19,8 @@ var roulette_table
 var big_wheel_game
 var dai_sai_table
 
-var _font: FontFile
-var _font_bold: FontFile
+var _font: Font
+var _font_bold: Font
 
 var _balance_lbl: Label
 var _session_lbl: Label
@@ -46,13 +46,13 @@ func _ready() -> void:
 	_build_ui()
 
 func _load_fonts() -> void:
-	_font      = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
-	_font_bold = load("res://assets/fonts/Pretendard-Bold.ttf") as FontFile
+	_font      = FontKit.ui_regular()
+	_font_bold = FontKit.ui_bold()
 
 func _f(n: Control, bold: bool = false) -> void:
 	if not n:
 		return
-	var ft: FontFile = _font_bold if bold else _font
+	var ft: Font = _font_bold if bold else _font
 	if not ft:
 		return
 	if n is Label or n is Button or n is RichTextLabel:

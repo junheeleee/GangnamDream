@@ -89,7 +89,9 @@ CATALOG_SOURCES = {
 
 RUNTIME_DIRS = ("autoloads", "scenes", "systems", "ui_components")
 UI_PAIR = re.compile(
-    r'(?:\b_tr|LocaleManager\.ui)\(\s*'
+    # `_planner_copy` is a stable literal-pair reader whose third argument only
+    # selects explicit English; its Korean branch still reaches LocaleManager.ui.
+    r'(?:\b_tr|LocaleManager\.ui|\b_planner_copy)\(\s*'
     r'("(?:\\.|[^"\\])*")\s*,\s*'
     r'("(?:\\.|[^"\\])*")',
     re.DOTALL,
@@ -102,6 +104,13 @@ UI_CONTEXT_PAIR = re.compile(
     re.DOTALL,
 )
 RAW_UI_CONTEXT_CALL = re.compile(r"LocaleManager\.ui_context\s*\(")
+RAW_UI_FORMAT_CALL = re.compile(r"LocaleManager\.ui_format\s*\(")
+RAW_WHOLE_WON_CALL = re.compile(r"LocaleManager\.format_whole_won\s*\(")
+UI_PAIR_CALL_START = re.compile(
+    r"(?<![A-Za-z0-9_])(?:LocaleManager\.ui(?![_A-Za-z0-9])|_tr)\s*\("
+)
+UI_FORMAT_CALL_START = re.compile(r"LocaleManager\.ui_format\s*\(")
+GD_STRING_LITERAL = re.compile(r'"(?:\\.|[^"\\])*"', re.DOTALL)
 GD_FUNCTION = re.compile(
     r"(?m)^\s*(?:static\s+)?func\s+([A-Za-z0-9_]+)\s*\("
 )
@@ -114,6 +123,11 @@ PLACEHOLDER = re.compile(
     r"\[/?(?:b|i|u|s|center|right|fill|color(?:=[^\]]+)?|font(?:=[^\]]+)?|"
     r"font_size(?:=[^\]]+)?|url(?:=[^\]]+)?|img(?:=[^\]]+)?)]"
 )
+UI_PRINTF_MAX_WIDTH = 64
+UI_PRINTF_MAX_PRECISION = 12
+UI_PRINTF_CONVERSIONS = frozenset("scdoxXfv")
+UI_PRINTF_POSITIVE_CONVERSIONS = frozenset("doxXf")
+UI_PRINTF_PRECISION_CONVERSIONS = frozenset("fv")
 YEN_AMOUNT = re.compile(r"(?:\d|万|億)\s*円|[¥￥]")
 BAD_TERMS = ("ダエン", "ジヨンヌ", "お兄さん", "ヴィラ", "カンナムド")
 EXACT_TRANSLATIONS = {
@@ -252,12 +266,15 @@ class Entry:
     source: str
     context: str
     context_id: str = ""
+    format_template: bool = False
 
     @property
     def source_hash(self) -> str:
         payload = f"{PROMPT_VERSION}\0{self.source}"
         if self.context_id:
             payload += f"\0{self.context_id}\0{self.context}"
+        if self.format_template:
+            payload += "\0ui_format"
         return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
@@ -273,6 +290,27 @@ class UiCall:
 
 
 @dataclass(frozen=True)
+class UiParameterizedObservation:
+    path: str
+    function: str
+    line: int
+    state: str
+    korean: str | tuple[str, ...]
+    english: str | tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class UiFormatArgumentShape:
+    path: str
+    function: str
+    line: int
+    korean: str
+    english: str
+    ko_args: str
+    en_args: str
+
+
+@dataclass(frozen=True)
 class UiInventory:
     calls: tuple[UiCall, ...]
     legacy_entries: tuple[Entry, ...]
@@ -282,7 +320,7 @@ class UiInventory:
     observed_context_entries: tuple[Entry, ...]
     observed_context_blueprint: dict[str, Any]
     errors: tuple[str, ...]
-    stats: dict[str, int]
+    stats: dict[str, Any]
 
     @property
     def entries(self) -> list[Entry]:
@@ -296,6 +334,25 @@ class UiInventory:
 def read_json(path: pathlib.Path) -> Any:
     with path.open(encoding="utf-8") as handle:
         return json.load(handle)
+
+
+def duplicate_json_object_keys_from_text(text: str) -> list[str]:
+    duplicates: list[str] = []
+
+    def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        output: dict[str, Any] = {}
+        for key, value in pairs:
+            if key in output:
+                duplicates.append(key)
+            output[key] = value
+        return output
+
+    json.loads(text, object_pairs_hook=unique_object)
+    return sorted(set(duplicates))
+
+
+def duplicate_json_object_keys(path: pathlib.Path) -> list[str]:
+    return duplicate_json_object_keys_from_text(path.read_text(encoding="utf-8"))
 
 
 def read_ui_context_contract() -> dict[str, Any]:
@@ -482,11 +539,357 @@ def collect_endings() -> tuple[list[Entry], list[dict[str, Any]]]:
     return entries, output_rows
 
 
+def _balanced_call_body(source: str, start: int) -> tuple[str, int]:
+    """Return one GDScript call body and the byte after its closing paren."""
+    opening = source.find("(", start)
+    if opening < 0:
+        raise ValueError("call has no opening parenthesis")
+    depth = 0
+    in_string = False
+    escaped = False
+    in_comment = False
+    for index in range(opening, len(source)):
+        character = source[index]
+        if in_comment:
+            if character == "\n":
+                in_comment = False
+            continue
+        if in_string:
+            if escaped:
+                escaped = False
+            elif character == "\\":
+                escaped = True
+            elif character == '"':
+                in_string = False
+            continue
+        if character == "#":
+            in_comment = True
+        elif character == '"':
+            in_string = True
+        elif character == "(":
+            depth += 1
+        elif character == ")":
+            depth -= 1
+            if depth == 0:
+                return source[opening + 1:index], index + 1
+    raise ValueError("unterminated GDScript call")
+
+
+def _split_gd_arguments(body: str) -> list[str]:
+    arguments: list[str] = []
+    start = 0
+    depths = {"(": 0, "[": 0, "{": 0}
+    closers = {")": "(", "]": "[", "}": "{"}
+    in_string = False
+    escaped = False
+    in_comment = False
+    for index, character in enumerate(body):
+        if in_comment:
+            if character == "\n":
+                in_comment = False
+            continue
+        if in_string:
+            if escaped:
+                escaped = False
+            elif character == "\\":
+                escaped = True
+            elif character == '"':
+                in_string = False
+            continue
+        if character == "#":
+            in_comment = True
+        elif character == '"':
+            in_string = True
+        elif character in depths:
+            depths[character] += 1
+        elif character in closers:
+            depths[closers[character]] -= 1
+        elif character == "," and not any(depths.values()):
+            arguments.append(body[start:index].strip())
+            start = index + 1
+    arguments.append(body[start:].strip())
+    return arguments
+
+
+def _expression_literals_and_percent_ops(
+    expression: str,
+) -> tuple[list[tuple[int, int, int, str]], list[tuple[int, int]]]:
+    """Lex string literals and real `%` operators, excluding literal `%` text."""
+    literals: list[tuple[int, int, int, str]] = []
+    operators: list[tuple[int, int]] = []
+    depth = 0
+    index = 0
+    in_comment = False
+    while index < len(expression):
+        character = expression[index]
+        if in_comment:
+            if character == "\n":
+                in_comment = False
+            index += 1
+            continue
+        if character == "#":
+            in_comment = True
+            index += 1
+            continue
+        if character == '"':
+            start = index
+            index += 1
+            escaped = False
+            while index < len(expression):
+                if escaped:
+                    escaped = False
+                elif expression[index] == "\\":
+                    escaped = True
+                elif expression[index] == '"':
+                    index += 1
+                    break
+                index += 1
+            raw = expression[start:index]
+            try:
+                value = decode_gd_string(raw)
+            except (ValueError, json.JSONDecodeError):
+                value = raw[1:-1]
+            literals.append((start, index, depth, value))
+            continue
+        if character in "([{":
+            depth += 1
+        elif character in ")]}":
+            depth -= 1
+        elif character == "%":
+            operators.append((index, depth))
+        index += 1
+    return literals, operators
+
+
+def _outer_printf_template(expression: str) -> str | None:
+    literals, operators = _expression_literals_and_percent_ops(expression)
+    if not operators:
+        return None
+    operator, _depth = min(operators, key=lambda item: (item[1], item[0]))
+    preceding = [literal for literal in literals if literal[1] <= operator]
+    if not preceding:
+        return None
+    return max(preceding, key=lambda literal: literal[1])[3]
+
+
+def _has_condition_outside_strings(expression: str) -> bool:
+    stripped = GD_STRING_LITERAL.sub('""', expression)
+    stripped = re.sub(r"(?m)#.*$", "", stripped)
+    return re.search(r"\bif\b", stripped) is not None
+
+
+def _all_string_literals(expression: str) -> tuple[str, ...]:
+    literals, _operators = _expression_literals_and_percent_ops(expression)
+    return tuple(literal[3] for literal in literals)
+
+
+def _ui_template_signature(template: str) -> list[str]:
+    return PLACEHOLDER.findall(template)
+
+
+def _normalize_gd_expression(expression: str) -> str:
+    """Remove layout/comments while preserving bytes inside string literals."""
+    output: list[str] = []
+    index = 0
+    in_comment = False
+    while index < len(expression):
+        character = expression[index]
+        if in_comment:
+            if character == "\n":
+                in_comment = False
+            index += 1
+            continue
+        if character == "#":
+            in_comment = True
+            index += 1
+            continue
+        if character == '"':
+            start = index
+            index += 1
+            escaped = False
+            while index < len(expression):
+                if escaped:
+                    escaped = False
+                elif expression[index] == "\\":
+                    escaped = True
+                elif expression[index] == '"':
+                    index += 1
+                    break
+                index += 1
+            output.append(expression[start:index])
+            continue
+        if not character.isspace() and character != "\\":
+            output.append(character)
+        index += 1
+    return "".join(output)
+
+
+def _function_owner(
+    functions: list[tuple[int, str]], offset: int,
+) -> str:
+    function_offsets = [position for position, _name in functions]
+    index = bisect.bisect_right(function_offsets, offset) - 1
+    return functions[index][1] if index >= 0 else "<module>"
+
+
+def collect_ui_parameterized_observations() -> tuple[
+    list[UiParameterizedObservation], list[str]
+]:
+    """Collect every member of the locked 55-call preformat disposition set.
+
+    The original defect set consists of 53 pair calls containing a real `%`
+    operator and two conditional template calls that already format after
+    lookup. During migration, `ui_format` replaces only the 47 migrate rows;
+    two already-safe lookup-before-format calls are registered separately when
+    their target and explicit-English argument provenance diverges.
+    `format_whole_won` replaces only the two local money owners.
+    """
+    observations: list[UiParameterizedObservation] = []
+    errors: list[str] = []
+    for directory in RUNTIME_DIRS:
+        for path in sorted((ROOT / directory).rglob("*.gd")):
+            relative_path = str(path.relative_to(ROOT))
+            source = path.read_text(encoding="utf-8")
+            functions = [
+                (match.start(), match.group(1))
+                for match in GD_FUNCTION.finditer(source)
+            ]
+            for match in UI_PAIR_CALL_START.finditer(source):
+                try:
+                    body, end = _balanced_call_body(source, match.start())
+                except ValueError as exc:
+                    errors.append(f"{relative_path}: malformed UI pair call: {exc}")
+                    continue
+                arguments = _split_gd_arguments(body)
+                if len(arguments) < 2:
+                    continue
+                korean_literals, korean_ops = (
+                    _expression_literals_and_percent_ops(arguments[0])
+                )
+                english_literals, english_ops = (
+                    _expression_literals_and_percent_ops(arguments[1])
+                )
+                function = _function_owner(functions, match.start())
+                line = source.count("\n", 0, match.start()) + 1
+                if korean_ops or english_ops:
+                    korean = _outer_printf_template(arguments[0])
+                    english = _outer_printf_template(arguments[1])
+                    if korean is None or english is None:
+                        errors.append(
+                            f"{relative_path}:{line}: preformat pair lacks two "
+                            "literal templates"
+                        )
+                        continue
+                    observations.append(UiParameterizedObservation(
+                        relative_path, function, line, "preformat", korean, english
+                    ))
+                    continue
+                suffix = source[end:end + 96]
+                if _has_condition_outside_strings(arguments[0]) \
+                        and _has_condition_outside_strings(arguments[1]) \
+                        and re.match(r"\s*\.format\s*\(", suffix):
+                    observations.append(UiParameterizedObservation(
+                        relative_path,
+                        function,
+                        line,
+                        "branch_selected",
+                        tuple(literal[3] for literal in korean_literals),
+                        tuple(literal[3] for literal in english_literals),
+                    ))
+
+            for match in UI_FORMAT_CALL_START.finditer(source):
+                try:
+                    body, _end = _balanced_call_body(source, match.start())
+                except ValueError as exc:
+                    errors.append(f"{relative_path}: malformed ui_format call: {exc}")
+                    continue
+                arguments = _split_gd_arguments(body)
+                if len(arguments) != 4:
+                    line = source.count("\n", 0, match.start()) + 1
+                    errors.append(
+                        f"{relative_path}:{line}: ui_format requires exactly four arguments"
+                    )
+                    continue
+                try:
+                    korean = decode_gd_string(arguments[0])
+                    english = decode_gd_string(arguments[1])
+                except (ValueError, json.JSONDecodeError):
+                    line = source.count("\n", 0, match.start()) + 1
+                    errors.append(
+                        f"{relative_path}:{line}: ui_format requires two literal templates"
+                    )
+                    continue
+                observations.append(UiParameterizedObservation(
+                    relative_path,
+                    _function_owner(functions, match.start()),
+                    source.count("\n", 0, match.start()) + 1,
+                    "migrated",
+                    korean,
+                    english,
+                ))
+
+            for match in RAW_WHOLE_WON_CALL.finditer(source):
+                observations.append(UiParameterizedObservation(
+                    relative_path,
+                    _function_owner(functions, match.start()),
+                    source.count("\n", 0, match.start()) + 1,
+                    "money_migrated",
+                    "",
+                    "",
+                ))
+    observations.sort(key=lambda row: (
+        row.path, row.function, row.line, row.state,
+    ))
+    return observations, errors
+
+
+def collect_ui_format_argument_shapes() -> tuple[
+    list[UiFormatArgumentShape], list[str]
+]:
+    shapes: list[UiFormatArgumentShape] = []
+    errors: list[str] = []
+    for directory in RUNTIME_DIRS:
+        for path in sorted((ROOT / directory).rglob("*.gd")):
+            relative_path = str(path.relative_to(ROOT))
+            source = path.read_text(encoding="utf-8")
+            functions = [
+                (match.start(), match.group(1))
+                for match in GD_FUNCTION.finditer(source)
+            ]
+            for match in UI_FORMAT_CALL_START.finditer(source):
+                line = source.count("\n", 0, match.start()) + 1
+                try:
+                    body, _end = _balanced_call_body(source, match.start())
+                    arguments = _split_gd_arguments(body)
+                    if len(arguments) != 4:
+                        raise ValueError("requires exactly four arguments")
+                    korean = decode_gd_string(arguments[0])
+                    english = decode_gd_string(arguments[1])
+                except (ValueError, json.JSONDecodeError) as exc:
+                    errors.append(
+                        f"{relative_path}:{line}: cannot collect ui_format "
+                        f"argument provenance ({exc})"
+                    )
+                    continue
+                shapes.append(UiFormatArgumentShape(
+                    relative_path,
+                    _function_owner(functions, match.start()),
+                    line,
+                    korean,
+                    english,
+                    _normalize_gd_expression(arguments[2]),
+                    _normalize_gd_expression(arguments[3]),
+                ))
+    shapes.sort(key=lambda row: (row.path, row.function, row.line))
+    return shapes, errors
+
+
 def parse_ui_calls(relative_path: str, source: str) -> tuple[list[UiCall], list[str]]:
-    """Read literal legacy/context UI calls and attach a stable function owner."""
+    """Read literal legacy/context/format UI calls with stable function owners."""
     functions = [(match.start(), match.group(1)) for match in GD_FUNCTION.finditer(source)]
     function_offsets = [offset for offset, _name in functions]
     parsed_context_offsets: set[int] = set()
+    parsed_format_offsets: set[int] = set()
     calls: list[UiCall] = []
     errors: list[str] = []
 
@@ -535,11 +938,86 @@ def parse_ui_calls(relative_path: str, source: str) -> tuple[list[UiCall], list[
             english=english,
         ))
 
+    for match in UI_FORMAT_CALL_START.finditer(source):
+        parsed_format_offsets.add(match.start())
+        try:
+            body, _end = _balanced_call_body(source, match.start())
+        except ValueError as exc:
+            errors.append(f"{relative_path}: malformed ui_format call ({exc})")
+            continue
+        arguments = _split_gd_arguments(body)
+        line = source.count("\n", 0, match.start()) + 1
+        if len(arguments) != 4:
+            errors.append(
+                f"{relative_path}:{line}: ui_format requires exactly four arguments"
+            )
+            continue
+        try:
+            korean = decode_gd_string(arguments[0])
+            english = decode_gd_string(arguments[1])
+        except (ValueError, json.JSONDecodeError) as exc:
+            errors.append(
+                f"{relative_path}:{line}: ui_format requires two literal templates ({exc})"
+            )
+            continue
+        if not korean.strip():
+            errors.append(f"{relative_path}:{line}: empty Korean format template")
+            continue
+        calls.append(UiCall(
+            path=relative_path,
+            function=owner(match.start()),
+            line=line,
+            api="format",
+            korean=korean,
+            english=english,
+        ))
+
+    # A conditional expression can still choose a stable literal template
+    # before lookup. Expand each reachable literal pair into the translation
+    # inventory even though the source contains one runtime call.
+    for match in UI_PAIR_CALL_START.finditer(source):
+        try:
+            body, end = _balanced_call_body(source, match.start())
+        except ValueError:
+            continue
+        arguments = _split_gd_arguments(body)
+        if len(arguments) < 2 \
+                or not _has_condition_outside_strings(arguments[0]) \
+                or not _has_condition_outside_strings(arguments[1]) \
+                or not re.match(r"\s*\.format\s*\(", source[end:end + 96]):
+            continue
+        korean_variants = _all_string_literals(arguments[0])
+        english_variants = _all_string_literals(arguments[1])
+        line = source.count("\n", 0, match.start()) + 1
+        if len(korean_variants) != len(english_variants) \
+                or len(korean_variants) < 2:
+            errors.append(
+                f"{relative_path}:{line}: branch-selected UI variants must "
+                "form aligned literal KO/EN pairs"
+            )
+            continue
+        for korean, english in zip(korean_variants, english_variants):
+            calls.append(UiCall(
+                path=relative_path,
+                function=owner(match.start()),
+                line=line,
+                api="branch",
+                korean=korean,
+                english=english,
+            ))
+
     raw_context_offsets = {match.start() for match in RAW_UI_CONTEXT_CALL.finditer(source)}
     for offset in sorted(raw_context_offsets - parsed_context_offsets):
         line = source.count("\n", 0, offset) + 1
         errors.append(
             f"{relative_path}:{line}: ui_context requires three literal string arguments"
+        )
+    raw_format_offsets = {match.start() for match in RAW_UI_FORMAT_CALL.finditer(source)}
+    for offset in sorted(raw_format_offsets - parsed_format_offsets):
+        line = source.count("\n", 0, offset) + 1
+        errors.append(
+            f"{relative_path}:{line}: ui_format requires four arguments with "
+            "literal Korean/English templates"
         )
     return sorted(calls, key=lambda call: call.line), errors
 
@@ -594,42 +1072,959 @@ def _ui_contract_rows(
     return partition, registry
 
 
+def _candidate_selector(
+    path: str, function: str, korean: str | tuple[str, ...] | list[str],
+    english: str | tuple[str, ...] | list[str],
+) -> tuple[str, str, str, str]:
+    def encode(value: str | tuple[str, ...] | list[str]) -> str:
+        if isinstance(value, str):
+            return value
+        return json.dumps(list(value), ensure_ascii=False, separators=(",", ":"))
+    return path, function, encode(korean), encode(english)
+
+
+def validate_ui_parameterized_contract(
+    contract: dict[str, Any],
+    calls: Iterable[UiCall],
+    source_keys: set[str],
+    observations: Optional[list[UiParameterizedObservation]] = None,
+) -> tuple[list[str], dict[str, Any]]:
+    """Prove the exact 55-row disposition registry and an atomic phase."""
+    errors: list[str] = []
+    if contract.get("schema_version") != 2:
+        errors.append("manifest: UI parameterized template schema_version must be 2")
+    raw_registry = contract.get("candidate_registry")
+    if not isinstance(raw_registry, list):
+        errors.append("manifest: parameterized candidate_registry must be an array")
+        raw_registry = []
+
+    allowed_dispositions = {
+        "migrate", "dynamic_pair_reader", "branch_selected_literal",
+        "locale_money_formatter",
+    }
+    allowed_batches = {"A", "B", "preserve"}
+    required_row_keys = {
+        "disposition", "batch", "path", "function", "ko", "en",
+        "ko_signature", "en_signature", "ko_newlines", "en_newlines",
+        "count",
+    }
+    registry: dict[tuple[str, str, str, str], dict[str, Any]] = {}
+    disposition_counts: dict[str, int] = {
+        disposition: 0 for disposition in allowed_dispositions
+    }
+    migration_distribution: dict[str, int] = {}
+    migrate_templates: set[str] = set()
+    nonbaseline_templates: set[str] = set()
+    branch_variant_templates: set[str] = set()
+    branch_variant_occurrences = 0
+    for index, raw_row in enumerate(raw_registry):
+        if not isinstance(raw_row, dict):
+            errors.append(f"manifest: candidate_registry[{index}] must be an object")
+            continue
+        disposition = raw_row.get("disposition")
+        expected_keys = set(required_row_keys)
+        if disposition == "migrate":
+            expected_keys.add("baseline_legacy_key")
+        if set(raw_row) != expected_keys:
+            errors.append(
+                f"manifest: candidate_registry[{index}] fields "
+                f"{sorted(raw_row)} != {sorted(expected_keys)}"
+            )
+        batch = raw_row.get("batch")
+        path = raw_row.get("path")
+        function = raw_row.get("function")
+        korean = raw_row.get("ko")
+        english = raw_row.get("en")
+        count = raw_row.get("count")
+        if disposition not in allowed_dispositions:
+            errors.append(
+                f"manifest: candidate_registry[{index}] invalid disposition"
+            )
+            continue
+        expected_batch = "preserve" if disposition in {
+            "dynamic_pair_reader", "branch_selected_literal"
+        } else ("A" if path in {"scenes/StartMenu.gd", "scenes/StoryMode.gd"}
+                else "B")
+        if batch not in allowed_batches or batch != expected_batch:
+            errors.append(
+                f"manifest: candidate_registry[{index}] batch {batch!r} "
+                f"!= {expected_batch!r}"
+            )
+        if not isinstance(path, str) or not path.endswith(".gd") \
+                or not isinstance(function, str) or not function:
+            errors.append(f"manifest: candidate_registry[{index}] owner is malformed")
+            continue
+        if not isinstance(count, int) or isinstance(count, bool) or count <= 0:
+            errors.append(f"manifest: candidate_registry[{index}] count is malformed")
+            continue
+        branch_row = disposition == "branch_selected_literal"
+        if branch_row:
+            valid_templates = (
+                isinstance(korean, list) and isinstance(english, list)
+                and len(korean) == len(english) and len(korean) >= 2
+                and all(isinstance(value, str) and value for value in korean)
+                and all(isinstance(value, str) and value for value in english)
+            )
+            korean_rows = korean if isinstance(korean, list) else []
+            english_rows = english if isinstance(english, list) else []
+        else:
+            valid_templates = (
+                isinstance(korean, str) and bool(korean)
+                and isinstance(english, str) and bool(english)
+            )
+            korean_rows = [korean] if isinstance(korean, str) else []
+            english_rows = [english] if isinstance(english, str) else []
+        if not valid_templates:
+            errors.append(
+                f"manifest: candidate_registry[{index}] KO/EN templates are malformed"
+            )
+            continue
+        actual_ko_signature: Any = [
+            _ui_template_signature(value) for value in korean_rows
+        ]
+        actual_en_signature: Any = [
+            _ui_template_signature(value) for value in english_rows
+        ]
+        actual_ko_newlines: Any = [value.count("\n") for value in korean_rows]
+        actual_en_newlines: Any = [value.count("\n") for value in english_rows]
+        if not branch_row:
+            actual_ko_signature = actual_ko_signature[0]
+            actual_en_signature = actual_en_signature[0]
+            actual_ko_newlines = actual_ko_newlines[0]
+            actual_en_newlines = actual_en_newlines[0]
+        if raw_row.get("ko_signature") != actual_ko_signature \
+                or raw_row.get("en_signature") != actual_en_signature:
+            errors.append(
+                f"manifest: candidate_registry[{index}] placeholder signature is stale"
+            )
+        if raw_row.get("ko_newlines") != actual_ko_newlines \
+                or raw_row.get("en_newlines") != actual_en_newlines:
+            errors.append(
+                f"manifest: candidate_registry[{index}] newline signature is stale"
+            )
+        selector = _candidate_selector(path, function, korean, english)
+        if selector in registry:
+            errors.append(f"manifest: duplicate parameterized selector {selector!r}")
+        else:
+            registry[selector] = raw_row
+        disposition_counts[disposition] += count
+        if disposition == "migrate":
+            migration_distribution[path] = migration_distribution.get(path, 0) + count
+            assert isinstance(korean, str)
+            migrate_templates.add(korean)
+            baseline_key = raw_row.get("baseline_legacy_key")
+            if not isinstance(baseline_key, bool):
+                errors.append(
+                    f"manifest: candidate_registry[{index}] baseline_legacy_key "
+                    "must be boolean"
+                )
+            elif not baseline_key:
+                nonbaseline_templates.add(korean)
+        elif disposition == "branch_selected_literal":
+            branch_variant_templates.update(korean_rows)
+            branch_variant_occurrences += len(korean_rows) * count
+
+    declared_counts = {
+        "migrate": contract.get("migrate_lookup_before_format_calls"),
+        "dynamic_pair_reader": contract.get("dynamic_pair_readers"),
+        "branch_selected_literal": contract.get("branch_selected_literals"),
+        "locale_money_formatter": contract.get("locale_money_formatters"),
+    }
+    for disposition, actual_count in disposition_counts.items():
+        if declared_counts.get(disposition) != actual_count:
+            errors.append(
+                f"manifest: {disposition} count {declared_counts.get(disposition)!r} "
+                f"!= registry {actual_count}"
+            )
+    if contract.get("raw_candidate_expressions") != sum(disposition_counts.values()):
+        errors.append(
+            "manifest: raw candidate count does not equal registry dispositions"
+        )
+    if contract.get("callsite_distribution") != dict(sorted(migration_distribution.items())):
+        errors.append("manifest: parameterized callsite_distribution is stale")
+    if contract.get("migrated_templates") != len(migrate_templates):
+        errors.append("manifest: migrated template count is stale")
+    if contract.get("new_legacy_key_candidates") != len(nonbaseline_templates):
+        errors.append("manifest: new legacy template count is stale")
+    if contract.get("branch_legacy_variant_keys") != len(branch_variant_templates) \
+            or contract.get("branch_legacy_variant_occurrences") \
+            != branch_variant_occurrences:
+        errors.append("manifest: branch legacy variant inventory is stale")
+    expected_money_owners = sorted(
+        f"{row['path']}::{row['function']}"
+        for row in raw_registry if isinstance(row, dict)
+        and row.get("disposition") == "locale_money_formatter"
+    )
+    if contract.get("locale_money_formatter_owners") != expected_money_owners:
+        errors.append("manifest: locale money formatter owners are stale")
+    registry_hash = hashlib.sha256(json.dumps(
+        raw_registry, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")).hexdigest()
+    if contract.get("candidate_registry_sha256") != registry_hash:
+        errors.append(
+            f"manifest: candidate registry SHA-256 mismatch {registry_hash}"
+        )
+
+    raw_existing_provenance = contract.get(
+        "existing_lookup_before_format_provenance"
+    )
+    if not isinstance(raw_existing_provenance, list):
+        errors.append(
+            "manifest: existing_lookup_before_format_provenance must be an array"
+        )
+        raw_existing_provenance = []
+    existing_provenance_required = {
+        "batch", "path", "function", "ko", "en", "ko_signature",
+        "en_signature", "ko_newlines", "en_newlines", "baseline_legacy_key",
+        "ko_args", "en_args", "count",
+    }
+    existing_provenance_registry: dict[
+        tuple[str, str, str, str, str, str], dict[str, Any]
+    ] = {}
+    existing_provenance_templates: dict[
+        tuple[str, str, str, str], dict[str, Any]
+    ] = {}
+    existing_provenance_total = 0
+    for index, row in enumerate(raw_existing_provenance):
+        if not isinstance(row, dict):
+            errors.append(
+                "manifest: existing_lookup_before_format_provenance"
+                f"[{index}] must be an object"
+            )
+            continue
+        if set(row) != existing_provenance_required:
+            errors.append(
+                "manifest: existing_lookup_before_format_provenance"
+                f"[{index}] fields are stale"
+            )
+        batch = row.get("batch")
+        path = row.get("path")
+        function = row.get("function")
+        korean = row.get("ko")
+        english = row.get("en")
+        ko_args = row.get("ko_args")
+        en_args = row.get("en_args")
+        count = row.get("count")
+        if batch != "B" or not all(isinstance(value, str) and value
+                for value in (
+                    path, function, korean, english, ko_args, en_args,
+                )) or not isinstance(count, int) or isinstance(count, bool) \
+                or count <= 0 or row.get("baseline_legacy_key") is not True:
+            errors.append(
+                "manifest: existing_lookup_before_format_provenance"
+                f"[{index}] is malformed"
+            )
+            continue
+        if ko_args == en_args:
+            errors.append(
+                "manifest: existing lookup-before-format provenance does not "
+                "describe distinct target/English arguments"
+            )
+        template_selector = _candidate_selector(
+            path, function, korean, english
+        )
+        if template_selector in registry:
+            errors.append(
+                "manifest: existing lookup-before-format row overlaps the raw55 "
+                f"registry {template_selector!r}"
+            )
+        if template_selector in existing_provenance_templates:
+            errors.append(
+                "manifest: duplicate existing lookup-before-format template "
+                f"{template_selector!r}"
+            )
+        else:
+            existing_provenance_templates[template_selector] = row
+        selector = path, function, korean, english, ko_args, en_args
+        if selector in existing_provenance_registry:
+            errors.append(
+                "manifest: duplicate existing lookup-before-format provenance "
+                f"{selector!r}"
+            )
+        else:
+            existing_provenance_registry[selector] = row
+        existing_provenance_total += count
+        if row.get("ko_signature") != _ui_template_signature(korean) \
+                or row.get("en_signature") != _ui_template_signature(english) \
+                or row.get("ko_newlines") != korean.count("\n") \
+                or row.get("en_newlines") != english.count("\n"):
+            errors.append(
+                "manifest: existing_lookup_before_format_provenance"
+                f"[{index}] signature is stale"
+            )
+    if contract.get("existing_lookup_before_format_calls") \
+            != existing_provenance_total:
+        errors.append(
+            "manifest: existing lookup-before-format migration count is stale"
+        )
+    existing_provenance_hash = hashlib.sha256(json.dumps(
+        raw_existing_provenance, ensure_ascii=False, sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")).hexdigest()
+    if contract.get("existing_lookup_before_format_provenance_sha256") \
+            != existing_provenance_hash:
+        errors.append(
+            "manifest: existing lookup-before-format provenance SHA-256 mismatch "
+            f"{existing_provenance_hash}"
+        )
+
+    raw_supplemental = contract.get("localized_argument_registry")
+    if not isinstance(raw_supplemental, list):
+        errors.append("manifest: localized_argument_registry must be an array")
+        raw_supplemental = []
+    supplemental_registry: dict[
+        tuple[str, str, str, str], dict[str, Any]
+    ] = {}
+    supplemental_required = {
+        "batch", "path", "function", "parent_ko", "parent_en",
+        "argument_index", "ko", "en", "ko_signature", "en_signature",
+        "ko_newlines", "en_newlines", "baseline_legacy_key", "count",
+    }
+    supplemental_total = 0
+    supplemental_keys: set[str] = set()
+    for index, row in enumerate(raw_supplemental):
+        if not isinstance(row, dict):
+            errors.append(
+                f"manifest: localized_argument_registry[{index}] must be an object"
+            )
+            continue
+        if set(row) != supplemental_required:
+            errors.append(
+                f"manifest: localized_argument_registry[{index}] fields are stale"
+            )
+        path = row.get("path")
+        function = row.get("function")
+        korean = row.get("ko")
+        english = row.get("en")
+        count = row.get("count")
+        if row.get("batch") != "B" or not isinstance(path, str) \
+                or not isinstance(function, str) or not isinstance(korean, str) \
+                or not korean or not isinstance(english, str) or not english \
+                or not isinstance(count, int) or isinstance(count, bool) \
+                or count <= 0 or row.get("baseline_legacy_key") is not False:
+            errors.append(
+                f"manifest: localized_argument_registry[{index}] is malformed"
+            )
+            continue
+        selector = path, function, korean, english
+        if selector in supplemental_registry:
+            errors.append(f"manifest: duplicate localized argument {selector!r}")
+        else:
+            supplemental_registry[selector] = row
+        supplemental_total += count
+        supplemental_keys.add(korean)
+        if row.get("ko_signature") != _ui_template_signature(korean) \
+                or row.get("en_signature") != _ui_template_signature(english) \
+                or row.get("ko_newlines") != korean.count("\n") \
+                or row.get("en_newlines") != english.count("\n"):
+            errors.append(
+                f"manifest: localized_argument_registry[{index}] signature is stale"
+            )
+        parent_selector = _candidate_selector(
+            path, function, row.get("parent_ko", ""), row.get("parent_en", "")
+        )
+        parent = registry.get(parent_selector)
+        argument_index = row.get("argument_index")
+        if parent is None or parent.get("disposition") != "migrate" \
+                or parent.get("batch") != "B" \
+                or not isinstance(argument_index, int) \
+                or isinstance(argument_index, bool) or argument_index < 0 \
+                or argument_index >= len(parent.get("ko_signature", [])):
+            errors.append(
+                f"manifest: localized_argument_registry[{index}] parent is stale"
+            )
+    if contract.get("localized_argument_calls") != supplemental_total:
+        errors.append("manifest: localized argument call count is stale")
+    if contract.get("localized_argument_legacy_keys") != len(supplemental_keys):
+        errors.append("manifest: localized argument key count is stale")
+    supplemental_hash = hashlib.sha256(json.dumps(
+        raw_supplemental, ensure_ascii=False, sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")).hexdigest()
+    if contract.get("localized_argument_registry_sha256") != supplemental_hash:
+        errors.append(
+            f"manifest: localized argument registry SHA-256 mismatch "
+            f"{supplemental_hash}"
+        )
+
+    raw_split_literals = contract.get("migrated_branch_literal_registry")
+    if not isinstance(raw_split_literals, list):
+        errors.append("manifest: migrated_branch_literal_registry must be an array")
+        raw_split_literals = []
+    split_literal_required = {
+        "batch", "path", "function", "parent_ko", "parent_en", "ko", "en",
+        "ko_signature", "en_signature", "ko_newlines", "en_newlines",
+        "baseline_legacy_key", "count",
+    }
+    split_literal_registry: dict[
+        tuple[str, str, str, str], dict[str, Any]
+    ] = {}
+    split_literal_total = 0
+    split_literal_keys: set[str] = set()
+    for index, row in enumerate(raw_split_literals):
+        if not isinstance(row, dict):
+            errors.append(
+                f"manifest: migrated_branch_literal_registry[{index}] "
+                "must be an object"
+            )
+            continue
+        if set(row) != split_literal_required:
+            errors.append(
+                f"manifest: migrated_branch_literal_registry[{index}] "
+                "fields are stale"
+            )
+        path = row.get("path")
+        function = row.get("function")
+        korean = row.get("ko")
+        english = row.get("en")
+        count = row.get("count")
+        if row.get("batch") != "B" or not isinstance(path, str) \
+                or not isinstance(function, str) or not isinstance(korean, str) \
+                or not korean or not isinstance(english, str) or not english \
+                or not isinstance(count, int) or isinstance(count, bool) \
+                or count <= 0 or row.get("baseline_legacy_key") is not False:
+            errors.append(
+                f"manifest: migrated_branch_literal_registry[{index}] is malformed"
+            )
+            continue
+        selector = path, function, korean, english
+        if selector in split_literal_registry:
+            errors.append(f"manifest: duplicate migrated branch literal {selector!r}")
+        else:
+            split_literal_registry[selector] = row
+        split_literal_total += count
+        split_literal_keys.add(korean)
+        if row.get("ko_signature") != _ui_template_signature(korean) \
+                or row.get("en_signature") != _ui_template_signature(english) \
+                or row.get("ko_newlines") != korean.count("\n") \
+                or row.get("en_newlines") != english.count("\n"):
+            errors.append(
+                f"manifest: migrated_branch_literal_registry[{index}] "
+                "signature is stale"
+            )
+        parent = registry.get(_candidate_selector(
+            path, function, row.get("parent_ko", ""), row.get("parent_en", "")
+        ))
+        if parent is None or parent.get("disposition") != "migrate" \
+                or parent.get("batch") != "B":
+            errors.append(
+                f"manifest: migrated_branch_literal_registry[{index}] "
+                "parent is stale"
+            )
+    if contract.get("migrated_branch_literal_calls") != split_literal_total:
+        errors.append("manifest: migrated branch literal call count is stale")
+    if contract.get("migrated_branch_literal_keys") != len(split_literal_keys):
+        errors.append("manifest: migrated branch literal key count is stale")
+    split_literal_hash = hashlib.sha256(json.dumps(
+        raw_split_literals, ensure_ascii=False, sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")).hexdigest()
+    if contract.get("migrated_branch_literal_registry_sha256") \
+            != split_literal_hash:
+        errors.append(
+            "manifest: migrated branch literal registry SHA-256 mismatch "
+            f"{split_literal_hash}"
+        )
+
+    raw_provenance = contract.get("argument_provenance_registry")
+    if not isinstance(raw_provenance, list):
+        errors.append("manifest: argument_provenance_registry must be an array")
+        raw_provenance = []
+    provenance_required = {
+        "batch", "path", "function", "ko", "en", "ko_args", "en_args",
+        "count",
+    }
+    provenance_registry: dict[
+        tuple[str, str, str, str, str, str], dict[str, Any]
+    ] = {}
+    provenance_total = 0
+    for index, row in enumerate(raw_provenance):
+        if not isinstance(row, dict):
+            errors.append(
+                f"manifest: argument_provenance_registry[{index}] must be an object"
+            )
+            continue
+        if set(row) != provenance_required:
+            errors.append(
+                f"manifest: argument_provenance_registry[{index}] fields are stale"
+            )
+        batch = row.get("batch")
+        path = row.get("path")
+        function = row.get("function")
+        korean = row.get("ko")
+        english = row.get("en")
+        ko_args = row.get("ko_args")
+        en_args = row.get("en_args")
+        count = row.get("count")
+        if batch not in {"A", "B"} or not all(isinstance(value, str) and value
+                for value in (
+                    path, function, korean, english, ko_args, en_args,
+                )) or not isinstance(count, int) or isinstance(count, bool) \
+                or count <= 0:
+            errors.append(
+                f"manifest: argument_provenance_registry[{index}] is malformed"
+            )
+            continue
+        if ko_args == en_args:
+            errors.append(
+                f"manifest: argument_provenance_registry[{index}] does not "
+                "describe a distinct KO/EN argument path"
+            )
+        selector = path, function, korean, english, ko_args, en_args
+        if selector in provenance_registry:
+            errors.append(f"manifest: duplicate argument provenance {selector!r}")
+        else:
+            provenance_registry[selector] = row
+        provenance_total += count
+        parent = registry.get(_candidate_selector(
+            path, function, korean, english
+        ))
+        if parent is None or parent.get("disposition") != "migrate" \
+                or parent.get("batch") != batch:
+            errors.append(
+                f"manifest: argument_provenance_registry[{index}] parent is stale"
+            )
+    if contract.get("argument_provenance_calls") != provenance_total:
+        errors.append("manifest: argument provenance call count is stale")
+    provenance_hash = hashlib.sha256(json.dumps(
+        raw_provenance, ensure_ascii=False, sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")).hexdigest()
+    if contract.get("argument_provenance_registry_sha256") != provenance_hash:
+        errors.append(
+            f"manifest: argument provenance registry SHA-256 mismatch "
+            f"{provenance_hash}"
+        )
+
+    if observations is None:
+        observations, observation_errors = collect_ui_parameterized_observations()
+        errors.extend(observation_errors)
+    observation_counts: dict[
+        tuple[str, tuple[str, str, str, str]], int
+    ] = {}
+    money_migrated_counts: dict[tuple[str, str], int] = {}
+    for observation in observations:
+        if observation.state == "money_migrated":
+            owner = observation.path, observation.function
+            money_migrated_counts[owner] = money_migrated_counts.get(owner, 0) + 1
+            continue
+        selector = _candidate_selector(
+            observation.path, observation.function,
+            observation.korean, observation.english,
+        )
+        key = observation.state, selector
+        observation_counts[key] = observation_counts.get(key, 0) + 1
+
+    known_observation_keys: set[tuple[str, tuple[str, str, str, str]]] = set()
+    migrated_selectors: set[tuple[str, str, str, str]] = set()
+    money_migrated_total = 0
+    for selector, row in registry.items():
+        disposition = row["disposition"]
+        expected_count = int(row["count"])
+        if disposition == "migrate":
+            legacy = observation_counts.get(("preformat", selector), 0)
+            migrated = observation_counts.get(("migrated", selector), 0)
+            known_observation_keys.update({
+                ("preformat", selector), ("migrated", selector),
+            })
+            if legacy + migrated != expected_count:
+                errors.append(
+                    f"source: parameterized selector {selector!r} count "
+                    f"{legacy + migrated} != {expected_count}"
+                )
+            if legacy and migrated:
+                errors.append(
+                    f"source: partial parameterized selector migration {selector!r} "
+                    f"legacy={legacy} migrated={migrated}"
+                )
+            if migrated == expected_count:
+                migrated_selectors.add(selector)
+        elif disposition == "dynamic_pair_reader":
+            actual = observation_counts.get(("preformat", selector), 0)
+            known_observation_keys.add(("preformat", selector))
+            if actual != expected_count:
+                errors.append(
+                    f"source: dynamic pair reader {selector!r} count "
+                    f"{actual} != {expected_count}"
+                )
+        elif disposition == "branch_selected_literal":
+            actual = observation_counts.get(("branch_selected", selector), 0)
+            known_observation_keys.add(("branch_selected", selector))
+            if actual != expected_count:
+                errors.append(
+                    f"source: branch-selected literal {selector!r} count "
+                    f"{actual} != {expected_count}"
+                )
+        else:
+            legacy = observation_counts.get(("preformat", selector), 0)
+            known_observation_keys.add(("preformat", selector))
+            owner = row["path"], row["function"]
+            migrated = money_migrated_counts.get(owner, 0)
+            money_migrated_total += migrated
+            if legacy + migrated != expected_count:
+                errors.append(
+                    f"source: locale money owner {owner!r} count "
+                    f"{legacy + migrated} != {expected_count}"
+                )
+            if legacy and migrated:
+                errors.append(f"source: partial locale money migration {owner!r}")
+
+    observed_existing_templates = 0
+    for selector, row in existing_provenance_templates.items():
+        key = "migrated", selector
+        known_observation_keys.add(key)
+        actual = observation_counts.get(key, 0)
+        observed_existing_templates += actual
+        if actual not in (0, row["count"]):
+            errors.append(
+                f"source: partial existing lookup-before-format migration "
+                f"{selector!r} {actual}/{row['count']}"
+            )
+
+    for key, count in sorted(observation_counts.items(), key=str):
+        if count and key not in known_observation_keys:
+            errors.append(f"source: extra/unclassified parameterized row {key!r} x{count}")
+    money_owners = {
+        (row["path"], row["function"])
+        for row in raw_registry if isinstance(row, dict)
+        and row.get("disposition") == "locale_money_formatter"
+    }
+    for owner, count in sorted(money_migrated_counts.items()):
+        if owner not in money_owners:
+            errors.append(f"source: extra locale money formatter call {owner!r} x{count}")
+
+    phase_selectors = {
+        "baseline": set(),
+        "batch_a": {
+            selector for selector, row in registry.items()
+            if row.get("disposition") == "migrate" and row.get("batch") == "A"
+        },
+        "batch_b": {
+            selector for selector, row in registry.items()
+            if row.get("disposition") == "migrate" and row.get("batch") == "B"
+        },
+        "final": {
+            selector for selector, row in registry.items()
+            if row.get("disposition") == "migrate"
+        },
+    }
+    observed_phase = "invalid_partial"
+    for phase_name, expected_selectors in phase_selectors.items():
+        if migrated_selectors == expected_selectors:
+            observed_phase = phase_name
+            break
+    if observed_phase == "invalid_partial":
+        errors.append(
+            "source: parameterized migration is not an atomic baseline/Batch A/"
+            "Batch B/final phase"
+        )
+    expected_existing_templates = (
+        existing_provenance_total
+        if observed_phase in {"batch_b", "final"} else 0
+    )
+    if observed_existing_templates != expected_existing_templates:
+        errors.append(
+            f"source: phase {observed_phase} existing lookup-before-format "
+            f"migrations {observed_existing_templates} "
+            f"!= {expected_existing_templates}"
+        )
+
+    format_shapes, format_shape_errors = collect_ui_format_argument_shapes()
+    errors.extend(format_shape_errors)
+    observed_provenance: dict[
+        tuple[str, str, str, str, str, str], int
+    ] = {}
+    observed_existing_provenance: dict[
+        tuple[str, str, str, str, str, str], int
+    ] = {}
+    for shape in format_shapes:
+        if shape.ko_args == shape.en_args:
+            continue
+        selector = (
+            shape.path, shape.function, shape.korean, shape.english,
+            shape.ko_args, shape.en_args,
+        )
+        if selector in existing_provenance_registry:
+            observed_existing_provenance[selector] = (
+                observed_existing_provenance.get(selector, 0) + 1
+            )
+            continue
+        observed_provenance[selector] = observed_provenance.get(selector, 0) + 1
+    expected_provenance_total = 0
+    active_batches = {
+        "baseline": set(), "batch_a": {"A"}, "batch_b": {"B"},
+        "final": {"A", "B"},
+    }.get(observed_phase, set())
+    for selector, row in provenance_registry.items():
+        expected_count = row["count"] if row["batch"] in active_batches else 0
+        expected_provenance_total += expected_count
+        actual = observed_provenance.get(selector, 0)
+        if actual != expected_count:
+            errors.append(
+                f"source: argument provenance {selector!r} count "
+                f"{actual} != {expected_count}"
+            )
+    for selector, count in sorted(observed_provenance.items()):
+        if selector not in provenance_registry:
+            errors.append(
+                f"source: extra/unclassified argument provenance "
+                f"{selector!r} x{count}"
+            )
+    if sum(observed_provenance.values()) != expected_provenance_total:
+        errors.append(
+            "source: argument provenance phase total is stale"
+        )
+    expected_existing_provenance_total = 0
+    for selector, row in existing_provenance_registry.items():
+        expected_count = row["count"] if row["batch"] in active_batches else 0
+        expected_existing_provenance_total += expected_count
+        actual = observed_existing_provenance.get(selector, 0)
+        if actual != expected_count:
+            errors.append(
+                f"source: existing lookup-before-format provenance "
+                f"{selector!r} count {actual} != {expected_count}"
+            )
+    for selector, count in sorted(observed_existing_provenance.items()):
+        if selector not in existing_provenance_registry:
+            errors.append(
+                "source: extra existing lookup-before-format provenance "
+                f"{selector!r} x{count}"
+            )
+    if sum(observed_existing_provenance.values()) \
+            != expected_existing_provenance_total:
+        errors.append(
+            "source: existing lookup-before-format provenance phase total is stale"
+        )
+    expected_money_migrations = 2 if observed_phase in {"batch_b", "final"} else 0
+    if money_migrated_total != expected_money_migrations:
+        errors.append(
+            f"source: phase {observed_phase} money migrations "
+            f"{money_migrated_total} != {expected_money_migrations}"
+        )
+
+    call_rows = tuple(calls)
+    supplemental_counts: dict[tuple[str, str, str, str], int] = {}
+    for call in call_rows:
+        if call.api != "legacy":
+            continue
+        selector = call.path, call.function, call.korean, call.english
+        if selector in supplemental_registry:
+            supplemental_counts[selector] = supplemental_counts.get(selector, 0) + 1
+    observed_supplemental = sum(supplemental_counts.values())
+    for selector, row in supplemental_registry.items():
+        actual = supplemental_counts.get(selector, 0)
+        if actual not in (0, row["count"]):
+            errors.append(
+                f"source: partial localized argument {selector!r} "
+                f"{actual}/{row['count']}"
+            )
+    expected_supplemental = (
+        supplemental_total if observed_phase in {"batch_b", "final"} else 0
+    )
+    if observed_supplemental != expected_supplemental:
+        errors.append(
+            f"source: phase {observed_phase} localized arguments "
+            f"{observed_supplemental} != {expected_supplemental}"
+        )
+    split_literal_counts: dict[tuple[str, str, str, str], int] = {}
+    for call in call_rows:
+        if call.api != "legacy":
+            continue
+        selector = call.path, call.function, call.korean, call.english
+        if selector in split_literal_registry:
+            split_literal_counts[selector] = split_literal_counts.get(selector, 0) + 1
+    observed_split_literals = sum(split_literal_counts.values())
+    for selector, row in split_literal_registry.items():
+        actual = split_literal_counts.get(selector, 0)
+        if actual not in (0, row["count"]):
+            errors.append(
+                f"source: partial migrated branch literal {selector!r} "
+                f"{actual}/{row['count']}"
+            )
+    expected_split_literals = (
+        split_literal_total if observed_phase in {"batch_b", "final"} else 0
+    )
+    if observed_split_literals != expected_split_literals:
+        errors.append(
+            f"source: phase {observed_phase} migrated branch literals "
+            f"{observed_split_literals} != {expected_split_literals}"
+        )
+    legacy_calls = [call for call in call_rows if call.api in {"legacy", "format"}]
+    legacy_calls.extend(call for call in call_rows if call.api == "branch")
+    context_calls = [call for call in call_rows if call.api == "context"]
+    phase_contracts = contract.get("source_inventory_phases")
+    if not isinstance(phase_contracts, dict) or set(phase_contracts) != set(phase_selectors):
+        errors.append(
+            "manifest: source_inventory_phases must contain baseline, batch_a, "
+            "batch_b, and final"
+        )
+        phase_contracts = {}
+    expected_phase = phase_contracts.get(observed_phase, {})
+    if not isinstance(expected_phase, dict):
+        errors.append(f"manifest: source inventory phase {observed_phase} is malformed")
+        expected_phase = {}
+    actual_inventory = {
+        "migrated_calls": sum(
+            int(registry[selector]["count"]) for selector in migrated_selectors
+        ),
+        "existing_lookup_before_format_migrations": observed_existing_templates,
+        "money_formatter_migrations": money_migrated_total,
+        "localized_argument_calls": observed_supplemental,
+        "migrated_branch_literal_calls": observed_split_literals,
+        "total_ui_call_occurrences": len(call_rows),
+        "legacy_pair_call_occurrences": len(legacy_calls),
+        "context_call_occurrences": len(context_calls),
+        "legacy_korean_source_keys": len(source_keys),
+        "legacy_korean_source_keys_sha256": hashlib.sha256(
+            "\n".join(sorted(source_keys)).encode("utf-8")
+        ).hexdigest(),
+    }
+    if expected_phase != actual_inventory:
+        errors.append(
+            f"manifest: {observed_phase} source inventory {expected_phase!r} "
+            f"!= observed {actual_inventory!r}"
+        )
+    return errors, {
+        **actual_inventory,
+        "observed_phase": observed_phase,
+        "registry_rows": len(registry),
+        "raw_candidates": sum(disposition_counts.values()),
+        "migrate_calls": disposition_counts["migrate"],
+        "migrated_templates": len(migrate_templates),
+        "new_templates": len(nonbaseline_templates),
+        "branch_variant_keys": len(branch_variant_templates),
+        "localized_argument_keys": len(supplemental_keys),
+        "migrated_branch_literal_keys": len(split_literal_keys),
+        "argument_provenance_calls": sum(observed_provenance.values()),
+        "existing_lookup_before_format_provenance_calls": sum(
+            observed_existing_provenance.values()
+        ),
+    }
+
+
 def validate_ui_context_contract(
     calls: list[UiCall] | tuple[UiCall, ...],
     contract: Optional[dict[str, Any]] = None,
+    parameter_contract: Optional[dict[str, Any]] = None,
 ) -> tuple[list[str], dict[str, int]]:
     """Validate the immutable 107-key plan separately from observed migration."""
     if contract is None:
         contract = read_ui_context_contract()
+    if parameter_contract is None:
+        manifest = read_json(UI_CONTEXT_MANIFEST_PATH)
+        raw_parameter_contract = manifest.get("ui_parameterized_template_plan")
+        parameter_contract = (
+            raw_parameter_contract if isinstance(raw_parameter_contract, dict) else {}
+        )
     errors: list[str] = []
     if contract.get("schema_version") != 1:
         errors.append("manifest: ui semantic context schema_version must be 1")
 
-    legacy_calls = [call for call in calls if call.api == "legacy"]
+    legacy_api_calls = [call for call in calls if call.api == "legacy"]
+    branch_calls = [call for call in calls if call.api == "branch"]
+    format_calls = [call for call in calls if call.api == "format"]
+    legacy_calls = [*legacy_api_calls, *branch_calls, *format_calls]
     context_calls = [call for call in calls if call.api == "context"]
     source_keys = {call.korean for call in calls}
-    source_key_hash = hashlib.sha256(
-        "\n".join(sorted(source_keys)).encode("utf-8")
-    ).hexdigest()
     variants: dict[str, set[str]] = {}
     for call in calls:
         variants.setdefault(call.korean, set()).add(call.english)
     collisions = {key: values for key, values in variants.items() if len(values) > 1}
 
     baseline_calls = contract.get("legacy_pair_call_occurrences")
-    if baseline_calls != len(calls):
-        errors.append(
-            f"manifest: source pair calls {baseline_calls!r} != observed {len(calls)}"
+    supplemental_rows = parameter_contract.get(
+        "localized_argument_registry", []
+    )
+    split_literal_rows = parameter_contract.get(
+        "migrated_branch_literal_registry", []
+    )
+    existing_format_rows = parameter_contract.get(
+        "existing_lookup_before_format_provenance", []
+    )
+    supplemental_selectors = {
+        (
+            row.get("path"), row.get("function"),
+            row.get("ko"), row.get("en"),
         )
-    if contract.get("legacy_korean_source_keys") != len(source_keys):
+        for row in supplemental_rows if isinstance(row, dict)
+    }
+    supplemental_calls = [
+        call for call in legacy_api_calls
+        if (call.path, call.function, call.korean, call.english)
+        in supplemental_selectors
+    ]
+    split_literal_selectors = {
+        (
+            row.get("path"), row.get("function"),
+            row.get("ko"), row.get("en"),
+        )
+        for row in split_literal_rows if isinstance(row, dict)
+    }
+    split_literal_calls = [
+        call for call in legacy_api_calls
+        if (call.path, call.function, call.korean, call.english)
+        in split_literal_selectors
+    ]
+    existing_format_selectors = {
+        (
+            row.get("path"), row.get("function"),
+            row.get("ko"), row.get("en"),
+        )
+        for row in existing_format_rows if isinstance(row, dict)
+    }
+    existing_format_calls = [
+        call for call in format_calls
+        if (call.path, call.function, call.korean, call.english)
+        in existing_format_selectors
+    ]
+    observed_baseline_calls = (
+        len(calls) - len(format_calls) + len(existing_format_calls)
+        - len(branch_calls)
+        - len(supplemental_calls) - len(split_literal_calls)
+    )
+    if baseline_calls != observed_baseline_calls:
+        errors.append(
+            "manifest: baseline source pair calls "
+            f"{baseline_calls!r} != observed {observed_baseline_calls}"
+        )
+    nonbaseline_templates = {
+        row.get("ko") for row in parameter_contract.get("candidate_registry", [])
+        if isinstance(row, dict) and row.get("disposition") == "migrate"
+        and row.get("baseline_legacy_key") is False
+        and isinstance(row.get("ko"), str)
+    }
+    branch_templates = {
+        value for row in parameter_contract.get("candidate_registry", [])
+        if isinstance(row, dict)
+        and row.get("disposition") == "branch_selected_literal"
+        and isinstance(row.get("ko"), list)
+        for value in row["ko"] if isinstance(value, str)
+    }
+    supplemental_templates = {
+        row.get("ko") for row in supplemental_rows if isinstance(row, dict)
+        and isinstance(row.get("ko"), str)
+    }
+    split_literal_templates = {
+        row.get("ko") for row in split_literal_rows if isinstance(row, dict)
+        and isinstance(row.get("ko"), str)
+    }
+    baseline_source_keys = (
+        source_keys - nonbaseline_templates - branch_templates
+        - supplemental_templates - split_literal_templates
+    )
+    if contract.get("legacy_korean_source_keys") != len(baseline_source_keys):
         errors.append(
             "manifest: legacy Korean source key count "
-            f"{contract.get('legacy_korean_source_keys')!r} != {len(source_keys)}"
+            f"{contract.get('legacy_korean_source_keys')!r} != "
+            f"{len(baseline_source_keys)}"
         )
-    if contract.get("legacy_korean_source_keys_sha256") != source_key_hash:
+    baseline_source_key_hash = hashlib.sha256(
+        "\n".join(sorted(baseline_source_keys)).encode("utf-8")
+    ).hexdigest()
+    if contract.get("legacy_korean_source_keys_sha256") != baseline_source_key_hash:
         errors.append(
             "manifest: legacy Korean source key SHA-256 mismatch "
-            f"{source_key_hash}"
+            f"{baseline_source_key_hash}"
         )
     if contract.get("multi_english_korean_keys") != len(collisions):
         errors.append(
@@ -805,22 +2200,36 @@ def validate_ui_context_contract(
         errors.append("manifest: implemented must be boolean")
     elif implemented:
         if len(context_calls) != planned_calls \
-                or len(legacy_calls) != completed_legacy \
+                or len(legacy_api_calls) + len(existing_format_calls) \
+                - len(supplemental_calls) \
+                - len(split_literal_calls) \
+                != completed_legacy \
                 or migrated_ids != len(registry):
             errors.append(
                 "source: implemented context migration is incomplete "
-                f"legacy={len(legacy_calls)}/{completed_legacy} "
+                f"legacy={len(legacy_api_calls) + len(existing_format_calls) - len(supplemental_calls) - len(split_literal_calls)}/"
+                f"{completed_legacy} "
                 f"context={len(context_calls)}/{planned_calls} "
                 f"ids={migrated_ids}/{len(registry)}"
             )
-    elif len(legacy_calls) != baseline_calls or context_calls or migrated_ids:
+    elif len(legacy_api_calls) + len(existing_format_calls) \
+            - len(supplemental_calls) \
+            - len(split_literal_calls) != baseline_calls \
+            or context_calls or migrated_ids:
         errors.append(
             "source: implemented=false requires the untouched 0/37 state "
-            f"legacy={len(legacy_calls)}/{baseline_calls} "
+            f"legacy={len(legacy_api_calls) + len(existing_format_calls) - len(supplemental_calls) - len(split_literal_calls)}/"
+            f"{baseline_calls} "
             f"context={len(context_calls)}/0 ids={migrated_ids}/0"
         )
     stats = {
         "legacy_calls": len(legacy_calls),
+        "legacy_api_calls": len(legacy_api_calls),
+        "format_calls": len(format_calls),
+        "branch_variant_calls": len(branch_calls),
+        "localized_argument_calls": len(supplemental_calls),
+        "migrated_branch_literal_calls": len(split_literal_calls),
+        "existing_lookup_before_format_calls": len(existing_format_calls),
         "context_calls": len(context_calls),
         "source_calls": len(calls),
         "legacy_keys": len(source_keys),
@@ -893,9 +2302,25 @@ def build_ui_context_layers(
 def collect_ui_inventory(
     contract: Optional[dict[str, Any]] = None,
 ) -> UiInventory:
-    effective_contract = contract if contract is not None else read_ui_context_contract()
+    manifest = read_json(UI_CONTEXT_MANIFEST_PATH)
+    effective_contract = contract if contract is not None else (
+        manifest.get("ui_semantic_context_blocker", {})
+    )
+    parameter_contract = manifest.get("ui_parameterized_template_plan", {})
+    if not isinstance(effective_contract, dict):
+        effective_contract = {}
+    if not isinstance(parameter_contract, dict):
+        parameter_contract = {}
     calls: list[UiCall] = []
     errors: list[str] = []
+    japanese_ui_path = ROOT / "locale/ui_ja.json"
+    if japanese_ui_path.is_file():
+        duplicate_keys = duplicate_json_object_keys(japanese_ui_path)
+        if duplicate_keys:
+            errors.append(
+                "locale/ui_ja.json: duplicate raw JSON keys "
+                f"{duplicate_keys[:12]}"
+            )
     for directory in RUNTIME_DIRS:
         for path in sorted((ROOT / directory).rglob("*.gd")):
             relative_path = str(path.relative_to(ROOT))
@@ -905,10 +2330,23 @@ def collect_ui_inventory(
             calls.extend(parsed)
             errors.extend(parse_errors)
     calls.sort(key=lambda call: (call.path, call.line, call.api))
-    contract_errors, stats = validate_ui_context_contract(calls, effective_contract)
+    source_keys = {call.korean for call in calls}
+    parameter_errors, parameter_stats = validate_ui_parameterized_contract(
+        parameter_contract, calls, source_keys
+    )
+    contract_errors, stats = validate_ui_context_contract(
+        calls, effective_contract, parameter_contract
+    )
+    errors.extend(parameter_errors)
     errors.extend(contract_errors)
+    stats.update({
+        f"parameter_{key}": value for key, value in parameter_stats.items()
+    })
 
     legacy_locations: dict[str, set[str]] = {}
+    formatted_templates = {
+        call.korean for call in calls if call.api == "format"
+    }
     for call in calls:
         legacy_locations.setdefault(call.korean, set()).add(
             f"{call.path}:{call.line}"
@@ -919,7 +2357,12 @@ def collect_ui_inventory(
     for index, korean in enumerate(sorted(legacy_locations)):
         key = f"ui::{index:04d}::{hashlib.sha1(korean.encode()).hexdigest()[:12]}"
         context = "UI / " + ", ".join(sorted(legacy_locations[korean])[:4])
-        legacy_entries.append(Entry(key, korean, context))
+        legacy_entries.append(Entry(
+            key,
+            korean,
+            context,
+            format_template=korean in formatted_templates,
+        ))
         legacy_blueprint[korean] = {"$entry": key}
 
     (
@@ -1002,14 +2445,121 @@ def tokens(text: str) -> list[str]:
     return sorted(PLACEHOLDER.findall(text))
 
 
+def parse_ui_printf_contract(text: str) -> tuple[list[str], list[str]]:
+    """Mirror LocaleManager's strict printf grammar and semantic contract."""
+    contract: list[str] = []
+    index = 0
+    while index < len(text):
+        if text[index] != "%":
+            index += 1
+            continue
+        if index + 1 < len(text) and text[index + 1] == "%":
+            index += 2
+            continue
+        start = index
+        index += 1
+        alignment = ""
+        if index < len(text) and text[index] in "+-":
+            alignment = text[index]
+            index += 1
+        width_start = index
+        while index < len(text) and "0" <= text[index] <= "9":
+            index += 1
+        width = text[width_start:index]
+        if width and int(width) > UI_PRINTF_MAX_WIDTH:
+            return contract, [
+                f"width exceeds {UI_PRINTF_MAX_WIDTH} at character {start}"
+            ]
+        has_precision = index < len(text) and text[index] == "."
+        precision = ""
+        if has_precision:
+            index += 1
+            precision_start = index
+            while index < len(text) and "0" <= text[index] <= "9":
+                index += 1
+            precision = str(int(text[precision_start:index] or "0"))
+            if int(precision) > UI_PRINTF_MAX_PRECISION:
+                return contract, [
+                    f"precision exceeds {UI_PRINTF_MAX_PRECISION} "
+                    f"at character {start}"
+                ]
+        if index >= len(text) or not (
+            "A" <= text[index] <= "Z" or "a" <= text[index] <= "z"
+        ):
+            return contract, [f"invalid percent sequence at character {start}"]
+        conversion = text[index]
+        if conversion not in UI_PRINTF_CONVERSIONS:
+            return contract, [f"unsupported conversion %{conversion}"]
+        if alignment == "+" and conversion not in UI_PRINTF_POSITIVE_CONVERSIONS:
+            return contract, [f"+ modifier is invalid for %{conversion}"]
+        if alignment == "-" and not width:
+            return contract, [f"- modifier requires a width for %{conversion}"]
+        if has_precision and conversion not in UI_PRINTF_PRECISION_CONVERSIONS:
+            return contract, [f"precision is invalid for %{conversion}"]
+        explicit_positive = "+" if alignment == "+" else ""
+        contract.append(
+            f"{conversion}|{explicit_positive}|{precision}"
+        )
+        index += 1
+    return contract, []
+
+
+def ui_printf_contract(text: str) -> list[str]:
+    """Return LocaleManager's semantic contract; use the parser for validity."""
+    contract, _errors = parse_ui_printf_contract(text)
+    return contract
+
+
+def non_printf_tokens(text: str) -> list[str]:
+    return sorted(
+        token for token in PLACEHOLDER.findall(text)
+        if not token.startswith("%")
+    )
+
+
+def ui_placeholder_errors(source: str, translated: str) -> list[str]:
+    errors: list[str] = []
+    source_printf, source_syntax_errors = parse_ui_printf_contract(source)
+    target_printf, target_syntax_errors = parse_ui_printf_contract(translated)
+    errors.extend(
+        f"source printf contract invalid: {error}"
+        for error in source_syntax_errors
+    )
+    errors.extend(
+        f"target printf contract invalid: {error}"
+        for error in target_syntax_errors
+    )
+    if source_printf != target_printf:
+        errors.append(
+            f"printf contract mismatch {source_printf} != {target_printf}"
+        )
+    source_other = non_printf_tokens(source)
+    target_other = non_printf_tokens(translated)
+    if source_other != target_other:
+        errors.append(
+            f"placeholder mismatch {source_other} != {target_other}"
+        )
+    return errors
+
+
 def repair_single_placeholder(entry: Entry, translated: str) -> str:
     """Restore an unambiguous one-token model typo without rewriting prose."""
     source_tokens = PLACEHOLDER.findall(entry.source)
     translated_tokens = PLACEHOLDER.findall(translated)
+    allowed_ui_width_change = (
+        entry.format_template
+        and len(source_tokens) == 1
+        and len(translated_tokens) == 1
+        and source_tokens[0].startswith("%")
+        and translated_tokens[0].startswith("%")
+        and ui_printf_contract(source_tokens[0])
+            == ui_printf_contract(translated_tokens[0])
+    )
     if (
         len(source_tokens) == 1
         and len(translated_tokens) == 1
         and source_tokens[0] != translated_tokens[0]
+        and not allowed_ui_width_change
     ):
         return translated.replace(translated_tokens[0], source_tokens[0], 1)
     return translated
@@ -1053,7 +2603,9 @@ def validate_translation(entry: Entry, translated: Any) -> list[str]:
         and not JAPANESE.search(translated)
     ):
         errors.append("no Japanese glyphs in translated Korean source")
-    if tokens(entry.source) != tokens(translated):
+    if entry.format_template:
+        errors.extend(ui_placeholder_errors(entry.source, translated))
+    elif tokens(entry.source) != tokens(translated):
         errors.append(f"placeholder mismatch {tokens(entry.source)} != {tokens(translated)}")
     if entry.key.startswith("ui::"):
         if entry.source.count("\n") != translated.count("\n"):
@@ -1506,13 +3058,174 @@ def main() -> int:
                     or validate_translation(entry, target):
                 failures.append(f"canonical Latin exact mapping failed: {source}")
         cases += 1
+        duplicate_fixture = duplicate_json_object_keys_from_text(
+            '{"보통":"普通","nested":{"진실":"真実","진실":"真実"},'
+            '"보통":"標準"}'
+        )
+        if duplicate_fixture != ["보통", "진실"]:
+            failures.append(
+                f"raw JSON duplicate-key guard failed: {duplicate_fixture}"
+            )
+        cases += 1
+        width_entry = Entry(
+            "ui::self-test-width", "번호 %d", "pipeline self-test",
+            format_template=True,
+        )
+        width_target = "番号 %02d"
+        if validate_translation(width_entry, width_target) \
+                or normalize_translation_for_entry(
+                    width_entry, width_target
+                ) != width_target:
+            failures.append(
+                "UI printf width/zero-padding-only difference was rejected or rewritten"
+            )
+        cases += 1
+        alignment_target = "番号 %-5d"
+        if validate_translation(width_entry, alignment_target) \
+                or normalize_translation_for_entry(
+                    width_entry, alignment_target
+                ) != alignment_target:
+            failures.append(
+                "UI printf valid width/alignment difference was rejected or rewritten"
+            )
+        cases += 1
+        valid_ui_contracts = {
+            "%s": ["s||"],
+            "%c": ["c||"],
+            "%+05d": ["d|+|"],
+            "%+05o": ["o|+|"],
+            "%+05x": ["x|+|"],
+            "%+05X": ["X|+|"],
+            "%+64.12f": ["f|+|12"],
+            "%.2v": ["v||2"],
+            "%% · %02d": ["d||"],
+        }
+        for template, expected_contract in valid_ui_contracts.items():
+            observed_contract, syntax_errors = parse_ui_printf_contract(template)
+            if syntax_errors or observed_contract != expected_contract:
+                failures.append(
+                    "UI printf valid grammar mismatch: "
+                    f"{template!r} -> {observed_contract!r} / {syntax_errors!r}"
+                )
+        cases += len(valid_ui_contracts)
+        malformed_ui_targets = [
+            "番号 %-d",
+            "番号 %65d",
+            "番号 %999d",
+            "番号 %1$d",
+            "番号 %#d",
+            "番号 % d",
+            "番号 %*d",
+            "番号 %i",
+            "番号 %--10d",
+            "番号 %",
+            "番号 %🦊",
+            "番号 %.2d",
+            "番号 %+s",
+            "番号 %+v",
+            "番号 %.13f",
+        ]
+        for malformed_target in malformed_ui_targets:
+            if not any(
+                "printf contract invalid" in error
+                for error in validate_translation(width_entry, malformed_target)
+            ):
+                failures.append(
+                    "UI printf malformed target was accepted: "
+                    f"{malformed_target!r}"
+                )
+        cases += len(malformed_ui_targets)
+        precision_bound_entry = Entry(
+            "ui::self-test-precision-bound", "비율 %.2f", "pipeline self-test",
+            format_template=True,
+        )
+        for malformed_target in ["比率 %.99f", "比率 %999.2f"]:
+            if not any(
+                "printf contract invalid" in error
+                for error in validate_translation(
+                    precision_bound_entry, malformed_target
+                )
+            ):
+                failures.append(
+                    "UI printf precision/width bound was accepted: "
+                    f"{malformed_target!r}"
+                )
+        cases += 2
+        precision_entry = Entry(
+            "ui::self-test-precision", "비율 %.2f", "pipeline self-test",
+            format_template=True,
+        )
+        if not any(
+            "printf contract mismatch" in error
+            for error in validate_translation(precision_entry, "比率 %.1f")
+        ):
+            failures.append("UI printf precision drift was accepted")
+        cases += 1
+        default_precision_entry = Entry(
+            "ui::self-test-default-precision", "비율 %f", "pipeline self-test",
+            format_template=True,
+        )
+        if not any(
+            "printf contract mismatch" in error
+            for error in validate_translation(default_precision_entry, "比率 %.f")
+        ):
+            failures.append("UI printf explicit zero precision matched no precision")
+        cases += 1
+        zero_precision_entry = Entry(
+            "ui::self-test-zero-precision", "비율 %.f", "pipeline self-test",
+            format_template=True,
+        )
+        if validate_translation(zero_precision_entry, "比率 %.0f"):
+            failures.append("UI printf equivalent zero precision was rejected")
+        cases += 1
+        sign_entry = Entry(
+            "ui::self-test-sign", "변화 %d", "pipeline self-test",
+            format_template=True,
+        )
+        if not any(
+            "printf contract mismatch" in error
+            for error in validate_translation(sign_entry, "変化 %+05d")
+        ):
+            failures.append("UI printf explicit-sign drift was accepted")
+        cases += 1
+        order_entry = Entry(
+            "ui::self-test-order", "순서 %d · %s", "pipeline self-test",
+            format_template=True,
+        )
+        if not any(
+            "printf contract mismatch" in error
+            for error in validate_translation(order_entry, "順序 %s・%02d")
+        ):
+            failures.append("UI printf conversion order drift was accepted")
+        cases += 1
         ui_inventory = collect_ui_inventory()
         failures.extend(
             f"actual UI contract: {error}" for error in ui_inventory.errors
         )
+        formatted_ui_entries = sum(
+            1 for entry in ui_inventory.legacy_entries
+            if entry.format_template
+        )
+        if formatted_ui_entries != 44:
+            failures.append(
+                "actual UI formatted-template tagging drifted: "
+                f"{formatted_ui_entries} != 44"
+            )
+        cases += 1
         implementation_complete = bool(ui_inventory.stats.get("implemented"))
         expected_observed_context = 30 if implementation_complete else 0
-        if len(ui_inventory.entries) != 2730 + expected_observed_context \
+        parameter_phase = str(
+            ui_inventory.stats.get("parameter_observed_phase", "")
+        )
+        parameter_contract = manifest.get("ui_parameterized_template_plan", {})
+        phase_inventory = parameter_contract.get(
+            "source_inventory_phases", {}
+        ).get(parameter_phase, {})
+        expected_legacy_entries = int(
+            phase_inventory.get("legacy_korean_source_keys", -1)
+        )
+        if len(ui_inventory.entries) != expected_legacy_entries \
+                + expected_observed_context \
                 or len(ui_inventory.planned_context_entries) != 30 \
                 or len(ui_inventory.observed_context_entries) \
                 != expected_observed_context:
@@ -1521,6 +3234,27 @@ def main() -> int:
                 f"actual={len(ui_inventory.entries)} "
                 f"planned={len(ui_inventory.planned_context_entries)} "
                 f"observed={len(ui_inventory.observed_context_entries)}"
+            )
+        cases += 1
+        exact_parameter_stats = {
+            "source_calls": 3310,
+            "legacy_calls": 3273,
+            "format_calls": 49,
+            "parameter_raw_candidates": 55,
+            "parameter_migrate_calls": 47,
+            "parameter_existing_lookup_before_format_migrations": 2,
+            "parameter_argument_provenance_calls": 15,
+            "parameter_existing_lookup_before_format_provenance_calls": 2,
+        }
+        stale_parameter_stats = {
+            key: (ui_inventory.stats.get(key), expected)
+            for key, expected in exact_parameter_stats.items()
+            if ui_inventory.stats.get(key) != expected
+        }
+        if stale_parameter_stats:
+            failures.append(
+                "final parameterized inventory drifted: "
+                f"{stale_parameter_stats}"
             )
         cases += 1
         expected_premature = [] if implementation_complete \
@@ -1537,13 +3271,15 @@ def main() -> int:
             'func fixture():\n'
             '\t_tr("기록", "Log")\n'
             '\tLocaleManager.ui("생활", "Living")\n'
-            '\tLocaleManager.ui_context("ui.navigation.archive", "기록", "Archive")\n',
+            '\tLocaleManager.ui_context("ui.navigation.archive", "기록", "Archive")\n'
+            '\tLocaleManager.ui_format("%d주", "%d wk", 1, 1)\n',
         )
         if fixture_errors or [call.api for call in fixture_calls] != [
-            "legacy", "legacy", "context"
+            "legacy", "legacy", "context", "format"
         ] or fixture_calls[-1].function != "fixture":
             failures.append(
-                f"dual UI API collector failed: calls={fixture_calls} errors={fixture_errors}"
+                f"three UI API collector failed: calls={fixture_calls} "
+                f"errors={fixture_errors}"
             )
         cases += 1
         legacy_exact = Entry("ui::legacy", "도박장", "legacy UI")
@@ -1592,7 +3328,7 @@ def main() -> int:
         completed_contract["implemented"] = True
         cases += 1
         completed_errors, completed_stats = validate_ui_context_contract(
-            completed_calls, completed_contract
+            completed_calls, completed_contract, parameter_contract
         )
         if completed_errors or completed_stats.get("context_calls") != 37:
             failures.append(
@@ -1611,6 +3347,36 @@ def main() -> int:
                 "completed generation did not select exactly 30 observed rows: "
                 f"planned={len(completed_planned_entries)} "
                 f"observed={len(completed_observed_entries)}"
+            )
+
+        untouched_context_calls = [
+            UiCall(
+                call.path,
+                call.function,
+                call.line,
+                "legacy",
+                call.korean,
+                call.english,
+            ) if call.api == "context" else call
+            for call in ui_inventory.calls
+        ]
+        untouched_context_contract = json.loads(json.dumps(
+            ui_contract, ensure_ascii=False
+        ))
+        untouched_context_contract["implemented"] = False
+        cases += 1
+        untouched_errors, untouched_stats = validate_ui_context_contract(
+            untouched_context_calls,
+            untouched_context_contract,
+            parameter_contract,
+        )
+        if untouched_errors \
+                or untouched_stats.get("context_calls") != 0 \
+                or untouched_stats.get("migrated_context_ids") != 0:
+            failures.append(
+                "untouched context baseline fixture failed after supplemental "
+                "format conversion: "
+                f"stats={untouched_stats} errors={untouched_errors}"
             )
 
         single_id_calls = list(ui_inventory.calls)
@@ -1710,6 +3476,174 @@ def main() -> int:
             )
             if not mutation_errors:
                 failures.append(f"{label} mutation was not rejected")
+
+        parameter_observations, observation_errors = (
+            collect_ui_parameterized_observations()
+        )
+        if observation_errors:
+            failures.append(
+                f"parameterized observation fixture failed: {observation_errors}"
+            )
+        parameter_source_keys = {call.korean for call in ui_inventory.calls}
+
+        cases += 1
+        changed_parameter = json.loads(json.dumps(
+            parameter_contract, ensure_ascii=False
+        ))
+        changed_parameter["candidate_registry"].pop()
+        missing_errors, _missing_stats = validate_ui_parameterized_contract(
+            changed_parameter, ui_inventory.calls, parameter_source_keys,
+            parameter_observations,
+        )
+        if not any(
+            "extra/unclassified" in error or "count" in error
+            for error in missing_errors
+        ):
+            failures.append("missing parameterized registry row was not rejected")
+
+        cases += 1
+        changed_parameter = json.loads(json.dumps(
+            parameter_contract, ensure_ascii=False
+        ))
+        changed_parameter["candidate_registry"].append(
+            dict(changed_parameter["candidate_registry"][0])
+        )
+        extra_errors, _extra_stats = validate_ui_parameterized_contract(
+            changed_parameter, ui_inventory.calls, parameter_source_keys,
+            parameter_observations,
+        )
+        if not any("duplicate parameterized selector" in error
+                   for error in extra_errors):
+            failures.append("extra parameterized registry row was not rejected")
+
+        cases += 1
+        changed_parameter = json.loads(json.dumps(
+            parameter_contract, ensure_ascii=False
+        ))
+        first_migrate = next(
+            row for row in changed_parameter["candidate_registry"]
+            if row.get("disposition") == "migrate"
+        )
+        first_migrate["ko"] += " stale"
+        stale_errors, _stale_stats = validate_ui_parameterized_contract(
+            changed_parameter, ui_inventory.calls, parameter_source_keys,
+            parameter_observations,
+        )
+        if not any("stale" in error or "parameterized selector" in error
+                   for error in stale_errors):
+            failures.append("stale parameterized registry row was not rejected")
+
+        cases += 1
+        split_row = next(
+            row for row in parameter_contract["candidate_registry"]
+            if row.get("disposition") == "migrate" and row.get("count") == 2
+        )
+        split_selector = _candidate_selector(
+            split_row["path"], split_row["function"],
+            split_row["ko"], split_row["en"],
+        )
+        split_observations = list(parameter_observations)
+        for index, observation in enumerate(split_observations):
+            if observation.state in {"preformat", "migrated"} \
+                    and _candidate_selector(
+                observation.path, observation.function,
+                observation.korean, observation.english,
+            ) == split_selector:
+                split_observations[index] = UiParameterizedObservation(
+                    observation.path, observation.function, observation.line,
+                    "preformat" if observation.state == "migrated" \
+                    else "migrated",
+                    observation.korean, observation.english,
+                )
+                break
+        partial_errors, _partial_stats = validate_ui_parameterized_contract(
+            parameter_contract, ui_inventory.calls, parameter_source_keys,
+            split_observations,
+        )
+        if not any("partial parameterized selector" in error
+                   for error in partial_errors):
+            failures.append("partial parameterized selector was not rejected")
+
+        cases += 1
+        unknown_observations = [*parameter_observations,
+            UiParameterizedObservation(
+                "scenes/SelfTest.gd", "fixture", 1, "preformat",
+                "알 수 없음 %d", "Unknown %d",
+            )]
+        unknown_errors, _unknown_stats = validate_ui_parameterized_contract(
+            parameter_contract, ui_inventory.calls, parameter_source_keys,
+            unknown_observations,
+        )
+        if not any("extra/unclassified parameterized row" in error
+                   for error in unknown_errors):
+            failures.append("unknown parameterized source row was not rejected")
+
+        cases += 1
+        changed_parameter = json.loads(json.dumps(
+            parameter_contract, ensure_ascii=False
+        ))
+        changed_parameter["argument_provenance_registry"].pop()
+        missing_provenance_errors, _missing_provenance_stats = (
+            validate_ui_parameterized_contract(
+                changed_parameter, ui_inventory.calls, parameter_source_keys,
+                parameter_observations,
+            )
+        )
+        if not any("extra/unclassified argument provenance" in error
+                   for error in missing_provenance_errors):
+            failures.append("missing argument provenance row was not rejected")
+
+        cases += 1
+        changed_parameter = json.loads(json.dumps(
+            parameter_contract, ensure_ascii=False
+        ))
+        changed_parameter["argument_provenance_registry"][0]["en_args"] += \
+            "_stale"
+        stale_provenance_errors, _stale_provenance_stats = (
+            validate_ui_parameterized_contract(
+                changed_parameter, ui_inventory.calls, parameter_source_keys,
+                parameter_observations,
+            )
+        )
+        if not any("argument provenance" in error
+                   for error in stale_provenance_errors):
+            failures.append("stale argument provenance row was not rejected")
+
+        cases += 1
+        changed_parameter = json.loads(json.dumps(
+            parameter_contract, ensure_ascii=False
+        ))
+        changed_parameter["existing_lookup_before_format_provenance"].pop()
+        missing_existing_errors, _missing_existing_stats = (
+            validate_ui_parameterized_contract(
+                changed_parameter, ui_inventory.calls, parameter_source_keys,
+                parameter_observations,
+            )
+        )
+        if not any("extra/unclassified parameterized row" in error
+                   for error in missing_existing_errors):
+            failures.append(
+                "missing existing lookup-before-format provenance was not rejected"
+            )
+
+        cases += 1
+        changed_parameter = json.loads(json.dumps(
+            parameter_contract, ensure_ascii=False
+        ))
+        changed_parameter["existing_lookup_before_format_provenance"][0][
+            "en_args"
+        ] += "_stale"
+        stale_existing_errors, _stale_existing_stats = (
+            validate_ui_parameterized_contract(
+                changed_parameter, ui_inventory.calls, parameter_source_keys,
+                parameter_observations,
+            )
+        )
+        if not any("existing lookup-before-format provenance" in error
+                   for error in stale_existing_errors):
+            failures.append(
+                "stale existing lookup-before-format provenance was not rejected"
+            )
         if failures:
             print(
                 f"JA_TRANSLATE_SELF_TEST_FAIL cases={cases} "
@@ -1793,6 +3727,13 @@ def main() -> int:
                     "JA_TRANSLATE_INVENTORY scope=ui "
                     f"entries={len(entries)} legacy_keys={stats['legacy_keys']} "
                     f"legacy_calls={stats['legacy_calls']} "
+                    f"format_calls={stats['format_calls']} "
+                    "supplemental_format_calls="
+                    f"{stats['parameter_existing_lookup_before_format_provenance_calls']} "
+                    "argument_provenance="
+                    f"{stats['parameter_argument_provenance_calls']} "
+                    f"parameter_phase={stats['parameter_observed_phase']} "
+                    f"parameter_registry={stats['parameter_raw_candidates']} "
                     f"context_ids={stats['migrated_context_ids']}/"
                     f"{stats['planned_context_ids']} context_calls="
                     f"{stats['context_calls']}/{stats['planned_context_calls']} "

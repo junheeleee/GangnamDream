@@ -300,12 +300,12 @@ var _goal_motive_lbl: Label
 var _goal_time_lbl: Label  # 남은 개월 표시
 
 # ── Pretendard 폰트 (한국어 가독성) ─────────────────────────────
-var _font_regular: FontFile
-var _font_bold: FontFile
+var _font_regular: Font
+var _font_bold: Font
 
 func _load_fonts():
-	_font_regular = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
-	_font_bold    = load("res://assets/fonts/Pretendard-Bold.ttf") as FontFile
+	_font_regular = FontKit.ui_regular()
+	_font_bold    = FontKit.ui_bold()
 	if _font_regular:
 		FontKit.attach_emoji_fallback(_font_regular)
 	if _font_bold:
@@ -18915,9 +18915,10 @@ func _populate_save_load_page(
 		child.queue_free()
 	first_page_button.disabled = page == 0
 	second_page_button.disabled = page == 1
-	page_label.text = _tr(
-		"슬롯 %d–%d" % [page * 5 + 1, page * 5 + 5],
-		"Slots %d–%d" % [page * 5 + 1, page * 5 + 5])
+	page_label.text = LocaleManager.ui_format(
+		"슬롯 %d–%d", "Slots %d–%d",
+		[page * 5 + 1, page * 5 + 5],
+		[page * 5 + 1, page * 5 + 5])
 	for slot in range(page * 5 + 1, mini(SaveManager.SLOT_COUNT + 1, page * 5 + 6)):
 		var info = SaveManager.get_save_info(slot)
 		var row = HBoxContainer.new()

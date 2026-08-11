@@ -51,12 +51,13 @@ func _run() -> void:
 			push_error("MOD_LAYER_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("MOD_LAYER_CHECK_OK languages=2 event_text_only=1 ending_text_only=1 image=1 audio=1 fallback=1 ui_context_layers=5 ui_context_refresh=1 default_name=1 custom_event=1 override=1 invalid_flag=1 blank_copy=1 presets=2 schema_guard=1 load_order=1 load_order_flip=1 themes=4 toggles=1 save_marker=1 scripts=0")
+	print("MOD_LAYER_CHECK_OK languages=2 event_text_only=1 ending_text_only=1 image=1 audio=1 fallback=1 ui_context_layers=5 ui_context_refresh=1 ui_format_layers=2 ui_format_refresh=1 ui_format_fail_closed=1 ui_format_syntax=1 exact_money=1 english_money_arg=1 english_event_title=1 default_name=1 custom_event=1 override=1 invalid_flag=1 blank_copy=1 presets=2 schema_guard=1 load_order=1 load_order_flip=1 themes=4 toggles=1 save_marker=1 scripts=0")
 	get_tree().quit(0)
 
 func _prepare_directories() -> void:
 	for path in [
 		LANG_ROOT.path_join(TEST_CODE).path_join("events_%s" % TEST_CODE),
+		LANG_ROOT.path_join("en").path_join("events_en"),
 		LANG_ROOT.path_join("ja"),
 		ASSET_ROOT.path_join("characters"),
 		ASSET_ROOT.path_join("audio"),
@@ -100,9 +101,10 @@ func _write_language_pack(event_before: Dictionary, ending_before: Dictionary) -
 	})
 	_write_json(root.path_join("ui_%s.json" % TEST_CODE), {
 		"설정": "QA SETTINGS",
+		"QA 수 %d": "QA COMMUNITY NUMBER %d",
 		"잘못된 값": 77,
 	})
-	_write_context_language_pack("QA CONTEXT V1")
+	_write_context_language_pack("QA CONTEXT V1", "QA SLOT V1 %d")
 	var choices: Array = event_before.get("choices", [])
 	_write_json(root.path_join("events_%s" % TEST_CODE).path_join("qa.json"), [{
 		"id": str(event_before.get("id", "")),
@@ -117,6 +119,10 @@ func _write_language_pack(event_before: Dictionary, ending_before: Dictionary) -
 			"effects": {"money": 9_999_999_999},
 		}] if not choices.is_empty() else [],
 	}])
+	_write_json(LANG_ROOT.path_join("en/events_en/qa.json"), [{
+		"id": str(event_before.get("id", "")),
+		"title": "QA COMMUNITY ENGLISH TITLE",
+	}])
 	_write_json(root.path_join("endings_%s.json" % TEST_CODE), [{
 		"id": str(ending_before.get("id", "")),
 		"title": "QA ENDING",
@@ -125,11 +131,18 @@ func _write_language_pack(event_before: Dictionary, ending_before: Dictionary) -
 		"cg": "cg_start",
 	}])
 
-func _write_context_language_pack(explicit_value: String) -> void:
+func _write_context_language_pack(explicit_value: String, format_value: String) -> void:
 	_write_json(LANG_ROOT.path_join("ja").path_join("ui_ja.json"), {
 		"ui.qa.context": explicit_value,
 		"기록": "QA COMMUNITY LEGACY",
 		"김민준": "QA MINJUN",
+		"슬롯 %d": format_value,
+		"깨진 포맷 %d": "QA BROKEN %s",
+		"순서 포맷 %d · %s": "QA ORDER %s · %d",
+		"줄 포맷 %d\n둘": "QA LINE %d",
+		"수식 포맷 %d": "QA FORMULA %#d",
+		"부호 포맷 %d": "QA SIGN %+d",
+		"폭 포맷 %d": "QA WIDTH %999d",
 	})
 
 func _write_asset_overrides() -> void:
@@ -338,8 +351,18 @@ func _check_language_overlay(event_before: Dictionary, ending_before: Dictionary
 	LocaleManager.set_language(TEST_CODE)
 	DataRegistry.reload()
 	_expect(LocaleManager.ui("설정", "Settings") == "QA SETTINGS", "community UI text did not load")
+	_expect(LocaleManager.ui_format(
+		"QA 수 %d", "QA NUMBER %02d", 7, 99) == "QA COMMUNITY NUMBER 7",
+		"community formatted UI did not use its translated template and target args")
+	_expect(LocaleManager.format_whole_won(123_456, true, true) == "+KRW 123,456",
+		"community locale did not use the exact English whole-won fallback")
+	_expect(LocaleManager.format_money_english(123_450_000.0) == "123.5 million won",
+		"community locale leaked into an explicit English money argument")
 	var event_after: Dictionary = DataRegistry.find_event(str(event_before.get("id", "")))
 	_expect(str(event_after.get("title", "")) == "QA EVENT TITLE", "event title did not overlay")
+	_expect(DataRegistry.english_event_title(
+		str(event_before.get("id", ""))) == "QA COMMUNITY ENGLISH TITLE",
+		"target event overlay replaced the explicit English title cache")
 	_expect(str(event_after.get("description", "")) == "QA EVENT BODY", "event body did not overlay")
 	_expect(event_after.get("effects", {}) == event_before.get("effects", {}), "external event changed gameplay effects")
 	_expect(event_after.get("conditions", {}) == event_before.get("conditions", {}), "external event changed conditions")
@@ -383,6 +406,40 @@ func _check_context_ui_provenance() -> void:
 	_expect(LocaleManager.ui_context(
 		"ui.qa.no_context", "설정", "QA EN") == "設定",
 		"built-in legacy key did not serve a missing context ID")
+	_expect(LocaleManager.ui_format(
+		"슬롯 %d", "Slot %02d", 4, 94) == "QA SLOT V1 4",
+		"community formatted template did not win over the built-in legacy row")
+	_expect(LocaleManager.ui_format(
+		"몸  %d", "BODY  %02d", 5, 95) == "体力  5",
+		"built-in formatted template did not serve a community miss")
+	_expect(LocaleManager.ui_format(
+		"깨진 포맷 %d", "BROKEN FORMAT %d", 1, 1) \
+			== LocaleManager.UI_FORMAT_ERROR,
+		"community placeholder mismatch did not fail closed")
+	_expect(LocaleManager.ui_format(
+		"순서 포맷 %d · %s", "ORDER FORMAT %d · %s", [1, "A"], [1, "A"]) \
+			== LocaleManager.UI_FORMAT_ERROR,
+		"community placeholder order mismatch did not fail closed")
+	_expect(LocaleManager.ui_format(
+		"줄 포맷 %d\n둘", "LINE FORMAT %d\nTWO", 1, 1) \
+			== LocaleManager.UI_FORMAT_ERROR,
+		"community newline mismatch did not fail closed")
+	_expect(LocaleManager.ui_format(
+		"수식 포맷 %d", "FORMULA FORMAT %d", 1, 1) \
+			== LocaleManager.UI_FORMAT_ERROR,
+		"community invalid same-kind modifier did not fail closed")
+	_expect(LocaleManager.ui_format(
+		"부호 포맷 %d", "SIGN FORMAT %d", 1, 1) \
+			== LocaleManager.UI_FORMAT_ERROR,
+		"community semantic sign modifier drift did not fail closed")
+	_expect(LocaleManager.ui_format(
+		"폭 포맷 %d", "WIDTH FORMAT %d", 1, 1) \
+			== LocaleManager.UI_FORMAT_ERROR,
+		"community excessive width did not fail closed")
+	_expect(LocaleManager.format_whole_won(123_456, true, true) == "+123,456ウォン",
+		"community overlay changed the Japanese whole-won unit")
+	_expect(LocaleManager.format_money_english(123_450_000.0) == "123.5 million won",
+		"Japanese community overlay leaked into an explicit English money argument")
 	_expect(LocaleManager.get_ui_miss_count("ja") == 0,
 		"a successful context provenance layer recorded a miss")
 	_expect(LocaleManager.ui_context(
@@ -392,17 +449,31 @@ func _check_context_ui_provenance() -> void:
 		"ui.qa.missing", "다른 원문", "SECOND QA EN FALLBACK")
 	_expect(LocaleManager.get_ui_misses("ja") == ["context:ui.qa.missing"],
 		"community context miss was not deduplicated by stable ID")
+	_expect(LocaleManager.ui_format(
+		"없는 포맷 %d", "MISSING FORMAT %d", 6, 86) == "MISSING FORMAT 86",
+		"community formatted miss did not use English args")
+	LocaleManager.ui_format(
+		"없는 포맷 %d", "MISSING FORMAT %d", 7, 87)
+	_expect(LocaleManager.get_ui_misses("ja") == [
+		"context:ui.qa.missing", "없는 포맷 %d",
+	], "community formatted miss was not deduplicated by stable template")
 
-	_write_context_language_pack("QA CONTEXT V2")
+	_write_context_language_pack("QA CONTEXT V2", "QA SLOT V2 %d")
 	_expect(LocaleManager.ui_context(
 		"ui.qa.context", "기록", "QA EN") == "QA CONTEXT V1",
 		"community context cache changed before refresh")
+	_expect(LocaleManager.ui_format(
+		"슬롯 %d", "Slot %d", 8, 98) == "QA SLOT V1 8",
+		"community formatted cache changed before refresh")
 	LocaleManager.refresh_community_packs()
 	_expect(LocaleManager.get_ui_miss_count("ja") == 0,
 		"community refresh did not clear context misses")
 	_expect(LocaleManager.ui_context(
 		"ui.qa.context", "기록", "QA EN") == "QA CONTEXT V2",
 		"community context table did not reload after refresh")
+	_expect(LocaleManager.ui_format(
+		"슬롯 %d", "Slot %d", 9, 99) == "QA SLOT V2 9",
+		"community formatted template did not reload after refresh")
 	LocaleManager.refresh_community_packs()
 	LocaleManager.language = original_language
 	_expect(LocaleManager.ui("설정", "Settings") == "QA SETTINGS" \
@@ -435,6 +506,8 @@ func _check_data_mods(
 			asset_volatility_before: float) -> void:
 	var custom: Dictionary = DataRegistry.find_event("mod_qa_random")
 	_expect(not custom.is_empty(), "valid custom random event was not loaded")
+	_expect(DataRegistry.english_event_title("mod_qa_random") == "QA RANDOM EVENT",
+		"custom event did not own its language-neutral English title")
 	_expect(str(custom.get("rarity", "")) != "story" and float(custom.get("weight", 0.0)) > 0.0,
 		"custom event entered a non-random lane")
 	_expect(DataRegistry.find_event("mod_qa_bad_flag").is_empty(),
@@ -446,6 +519,9 @@ func _check_data_mods(
 		"built-in event collision replaced canon without override=true")
 	var rewritten: Dictionary = DataRegistry.find_event(str(override_before.get("id", "")))
 	_expect(str(rewritten.get("title", "")) == "QA STORY REWRITE", "explicit story rewrite did not load")
+	_expect(DataRegistry.english_event_title(
+		str(override_before.get("id", ""))) == "QA STORY REWRITE",
+		"explicit story rewrite did not replace its English title owner")
 	_expect(rewritten.get("conditions", {}) == override_before.get("conditions", {}),
 		"story rewrite changed the schedule conditions")
 	_expect(rewritten.get("choices", []).size() == override_before.get("choices", []).size(),

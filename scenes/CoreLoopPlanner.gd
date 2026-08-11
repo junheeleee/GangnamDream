@@ -53,8 +53,8 @@ var _episode_commitments: Array[String] = []
 var _episode_commit_in_flight := false
 var _episode_status_override := ""
 
-var _font: FontFile
-var _font_bold: FontFile
+var _font: Font
+var _font_bold: Font
 var _page_margin: MarginContainer
 var _page: VBoxContainer
 var _title_label: Label
@@ -107,8 +107,8 @@ func _ready() -> void:
 	set_meta("core_loop_v2_armed_offer_id", "")
 	z_index = 96
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	_font = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
-	_font_bold = load("res://assets/fonts/Pretendard-Bold.ttf") as FontFile
+	_font = FontKit.ui_regular()
+	_font_bold = FontKit.ui_bold()
 	_build_ui()
 	resized.connect(_apply_responsive_layout)
 	LocaleManager.language_changed.connect(_on_language_changed)
@@ -769,9 +769,9 @@ func _rebuild() -> void:
 	_apply_button_style(_overview_button, _active_tab == 0, false)
 	_apply_button_style(_people_button, _active_tab == 2, false)
 	var badge_count := _communication_badge_count()
-	_communication_button.text = LocaleManager.ui(
-		"휴대폰%s" % (" · %d" % badge_count if badge_count > 0 else ""),
-		"PHONE%s" % (" · %d" % badge_count if badge_count > 0 else ""))
+	var phone_badge := " · %d" % badge_count if badge_count > 0 else ""
+	_communication_button.text = LocaleManager.ui_format(
+		"휴대폰%s", "PHONE%s", phone_badge, phone_badge)
 	_communication_button.tooltip_text = LocaleManager.ui(
 		"문자와 통화 기록, 연락처를 연다.",
 		"Open messages, call history, and contacts.")
@@ -822,9 +822,9 @@ func _rebuild_episode_selection_surface() -> void:
 	_communication_button.visible = true
 	_communication_button.focus_mode = Control.FOCUS_ALL
 	var badge_count := _communication_badge_count()
-	_communication_button.text = LocaleManager.ui(
-		"휴대폰%s" % (" · %d" % badge_count if badge_count > 0 else ""),
-		"PHONE%s" % (" · %d" % badge_count if badge_count > 0 else ""))
+	var phone_badge := " · %d" % badge_count if badge_count > 0 else ""
+	_communication_button.text = LocaleManager.ui_format(
+		"휴대폰%s", "PHONE%s", phone_badge, phone_badge)
 	_communication_button.tooltip_text = LocaleManager.ui(
 		"문자와 통화 기록, 연락처를 연다.",
 		"Open messages, call history, and contacts.")
@@ -1243,12 +1243,16 @@ func _refresh_step_rail() -> void:
 				"left": maxi(2 - routine_count, 0),
 			}),
 		LocaleManager.ui(
-			"3단계 · 최종 확인 · 확정됨" if _read_only_plan else (
-				"3단계 · 최종 확인 · 준비됨" if final_ready
-				else "3단계 · 최종 확인 · %s" % _plan_blocker_short(validation)),
-			"STEP 3 · FINAL REVIEW · CONFIRMED" if _read_only_plan else (
-				"STEP 3 · FINAL REVIEW · READY" if final_ready
-				else "STEP 3 · FINAL REVIEW · %s" % _plan_blocker_short(validation))),
+			"3단계 · 최종 확인 · 확정됨",
+			"STEP 3 · FINAL REVIEW · CONFIRMED") if _read_only_plan else (
+			LocaleManager.ui(
+				"3단계 · 최종 확인 · 준비됨",
+				"STEP 3 · FINAL REVIEW · READY") if final_ready
+			else LocaleManager.ui_format(
+				"3단계 · 최종 확인 · %s",
+				"STEP 3 · FINAL REVIEW · %s",
+				_plan_blocker_short(validation),
+				_plan_blocker_short_english(validation))),
 	]
 	for index in range(3):
 		var completed := (
@@ -1299,44 +1303,92 @@ func _routine_choices_valid() -> bool:
 
 func _plan_blocker_short(validation: Dictionary) -> String:
 	if not _armed_offer_id.is_empty():
-		return LocaleManager.ui(
-			"제안 배치 또는 취소", "PLACE/CANCEL OFFER")
+		return _planner_copy(
+			"제안 배치 또는 취소", "PLACE/CANCEL OFFER", false)
 	var error := str(validation.get("error", ""))
 	match error:
 		"fill_four_weeks", "empty_week":
 			var weeks_left := maxi(4 - _filled_week_count(), 0)
-			return LocaleManager.ui(
-				"주차 %d개 남음" % weeks_left,
-				"%d %s LEFT" % [weeks_left, "WEEK" if weeks_left == 1 else "WEEKS"])
+			return LocaleManager.ui_format(
+				"주차 %d개 남음", "%d %s LEFT",
+				weeks_left,
+				[weeks_left, "WEEK" if weeks_left == 1 else "WEEKS"])
 		"choose_two_routines":
 			var routines_left := maxi(2 - _routine_choice_count(), 0)
-			return LocaleManager.ui(
-				"매주 할 일 %d개 남음" % routines_left,
-				"%d %s LEFT" % [routines_left, "ROUTINE" if routines_left == 1 else "ROUTINES"])
+			return LocaleManager.ui_format(
+				"매주 할 일 %d개 남음", "%d %s LEFT",
+				routines_left,
+				[routines_left, "ROUTINE" if routines_left == 1 else "ROUTINES"])
 		"routines_must_be_distinct":
-			return LocaleManager.ui(
-				"서로 다른 2개 필요", "CHOOSE 2 DIFFERENT")
+			return _planner_copy(
+				"서로 다른 2개 필요", "CHOOSE 2 DIFFERENT", false)
 		"unknown_routine":
-			return LocaleManager.ui(
-				"고를 수 없는 항목", "ROUTINE UNAVAILABLE")
+			return _planner_copy(
+				"고를 수 없는 항목", "ROUTINE UNAVAILABLE", false)
 		"job_requires_primary_livelihood":
-			return LocaleManager.ui(
-				"본업을 주 루틴으로 선택", "CHOOSE JOB AS PRIMARY")
+			return _planner_copy(
+				"본업을 주 루틴으로 선택", "CHOOSE JOB AS PRIMARY", false)
 		"deadline_missed":
-			return LocaleManager.ui("기한 지난 주차", "DEADLINE MISSED")
+			return _planner_copy(
+				"기한 지난 주차", "DEADLINE MISSED", false)
 		"exclusive_group":
-			return LocaleManager.ui("겹치는 만남", "MEETINGS OVERLAP")
+			return _planner_copy(
+				"겹치는 만남", "MEETINGS OVERLAP", false)
 		"active_named_characters_cap":
-			return LocaleManager.ui("사람 약속 줄이기", "REDUCE MEETUPS")
+			return _planner_copy(
+				"사람 약속 줄이기", "REDUCE MEETUPS", false)
 		"unavailable_bundle":
-			return LocaleManager.ui("제안 다시 선택", "RESELECT OFFER")
+			return _planner_copy(
+				"제안 다시 선택", "RESELECT OFFER", false)
 		"locked_week_changed":
-			return LocaleManager.ui("고정 일정 복원", "RESTORE FIXED EVENT")
+			return _planner_copy(
+				"고정 일정 복원", "RESTORE FIXED EVENT", false)
 		"duplicate_bundle":
-			return LocaleManager.ui("중복 일정 제거", "REMOVE DUPLICATE")
+			return _planner_copy(
+				"중복 일정 제거", "REMOVE DUPLICATE", false)
 		"":
-			return LocaleManager.ui("확인 필요", "CHECK")
-	return LocaleManager.ui("일정 수정", "FIX SCHEDULE")
+			return _planner_copy("확인 필요", "CHECK", false)
+	return _planner_copy("일정 수정", "FIX SCHEDULE", false)
+
+
+func _plan_blocker_short_english(validation: Dictionary) -> String:
+	if not _armed_offer_id.is_empty():
+		return "PLACE/CANCEL OFFER"
+	var error := str(validation.get("error", ""))
+	match error:
+		"fill_four_weeks", "empty_week":
+			var weeks_left := maxi(4 - _filled_week_count(), 0)
+			return "%d %s LEFT" % [
+				weeks_left, "WEEK" if weeks_left == 1 else "WEEKS"]
+		"choose_two_routines":
+			var routines_left := maxi(2 - _routine_choice_count(), 0)
+			return "%d %s LEFT" % [
+				routines_left,
+				"ROUTINE" if routines_left == 1 else "ROUTINES"]
+		"routines_must_be_distinct":
+			return "CHOOSE 2 DIFFERENT"
+		"unknown_routine":
+			return "ROUTINE UNAVAILABLE"
+		"job_requires_primary_livelihood":
+			return "CHOOSE JOB AS PRIMARY"
+		"deadline_missed":
+			return "DEADLINE MISSED"
+		"exclusive_group":
+			return "MEETINGS OVERLAP"
+		"active_named_characters_cap":
+			return "REDUCE MEETUPS"
+		"unavailable_bundle":
+			return "RESELECT OFFER"
+		"locked_week_changed":
+			return "RESTORE FIXED EVENT"
+		"duplicate_bundle":
+			return "REMOVE DUPLICATE"
+		"":
+			return "CHECK"
+	return "FIX SCHEDULE"
+
+func _planner_copy(ko: String, en: String, exact_english: bool) -> String:
+	return en if exact_english else LocaleManager.ui(ko, en)
 
 
 func _active_navigation_control() -> Control:
@@ -1481,21 +1533,26 @@ func _refresh_calendar() -> void:
 		var locked := _locked_by_week.has(week_key)
 		var week_in_month := posmod(week - 1, 4) + 1
 		if bundle_id.is_empty():
-			button.text = LocaleManager.ui(
-				"%d주차\n비어 있음" % week_in_month,
-				"WEEK %d\nOpen" % week_in_month)
+			button.text = LocaleManager.ui_format(
+				"%d주차\n비어 있음", "WEEK %d\nOpen",
+				week_in_month, week_in_month)
 		else:
 			var scene_bundle := CORE_LOOP.bundle(bundle_id)
-			button.text = LocaleManager.ui(
-				"%d주차%s\n%s" % [
+			var locked_suffix := LocaleManager.ui(
+				" · 고정 일정", " · FIXED EVENT") if locked else ""
+			var localized_offer := _localized(scene_bundle, "offer")
+			var english_offer := _english_copy(scene_bundle, "offer")
+			button.text = LocaleManager.ui_format(
+				"%d주차%s\n%s", "WEEK %d%s\n%s",
+				[
 					week_in_month,
-					" · 고정 일정" if locked else "",
-					_localized(scene_bundle, "offer"),
+					locked_suffix,
+					localized_offer,
 				],
-				"WEEK %d%s\n%s" % [
+				[
 					week_in_month,
 					" · FIXED EVENT" if locked else "",
-					_localized(scene_bundle, "offer"),
+					english_offer,
 				])
 		_set_button_disabled(button, locked)
 		_apply_week_style(
@@ -1514,19 +1571,22 @@ func _refresh_calendar_detail() -> void:
 		var week_in_month := posmod(_detail_week - 1, 4) + 1
 		var week_bundle_id := str(_schedule.get(week_key, ""))
 		if week_bundle_id.is_empty():
-			_detail_label.text = LocaleManager.ui(
-				"%d주차는 비어 있다.\n왼쪽에서 할 일을 고른 뒤 이 주를 눌러 일정에 넣는다." % week_in_month,
-				"WEEK %d is open.\nChoose an offer on the left, then press this week to place it." % week_in_month)
+			_detail_label.text = LocaleManager.ui_format(
+				"%d주차는 비어 있다.\n왼쪽에서 할 일을 고른 뒤 이 주를 눌러 일정에 넣는다.",
+				"WEEK %d is open.\nChoose an offer on the left, then press this week to place it.",
+				week_in_month, week_in_month)
 			return
 		var week_offer := CORE_LOOP.bundle(week_bundle_id)
-		_detail_label.text = LocaleManager.ui(
-			"%d주차 · %s\n%s" % [
-				week_in_month, _localized(week_offer, "offer"),
-				_localized(week_offer, "detail"),
+		var localized_offer := _localized(week_offer, "offer")
+		var localized_detail := _localized(week_offer, "detail")
+		_detail_label.text = LocaleManager.ui_format(
+			"%d주차 · %s\n%s", "WEEK %d · %s\n%s",
+			[
+				week_in_month, localized_offer, localized_detail,
 			],
-			"WEEK %d · %s\n%s" % [
-				week_in_month, _localized(week_offer, "offer"),
-				_localized(week_offer, "detail"),
+			[
+				week_in_month, _english_copy(week_offer, "offer"),
+				_english_copy(week_offer, "detail"),
 			])
 		return
 
@@ -2605,12 +2665,14 @@ func _refresh_footer() -> void:
 			"All four weeks and weekly routines are set. Review what you chose and what you will leave out.")
 		_fit_status_label_height(52.0)
 		if _active_tab == 1:
-			_hint_label.text = LocaleManager.ui(
-				"다음 · %s 계획 확인 · %s 주차에서 빼기 · %s/%s 단계" % [
+			_hint_label.text = LocaleManager.ui_format(
+				"다음 · %s 계획 확인 · %s 주차에서 빼기 · %s/%s 단계",
+				"NEXT · %s Review Plan · %s Remove on Week · %s/%s Steps",
+				[
 					ControllerHints.south(), ControllerHints.west(),
 					ControllerHints.shoulder_l(), ControllerHints.shoulder_r(),
 				],
-				"NEXT · %s Review Plan · %s Remove on Week · %s/%s Steps" % [
+				[
 					ControllerHints.south(), ControllerHints.west(),
 					ControllerHints.shoulder_l(), ControllerHints.shoulder_r(),
 				])
@@ -2630,12 +2692,14 @@ func _refresh_footer() -> void:
 		var error_text := _placement_error_text(_placement_error)
 		_status_label.text = armed_prompt if error_text.is_empty() else error_text
 		_fit_status_label_height(52.0)
-		_hint_label.text = LocaleManager.ui(
-			"2/2 주차 선택 · %s 주에 넣기 · %s 선택 취소 · %s 일정 빼기" % [
+		_hint_label.text = LocaleManager.ui_format(
+			"2/2 주차 선택 · %s 주에 넣기 · %s 선택 취소 · %s 일정 빼기",
+			"STEP 2/2 · %s Place in Week · %s Cancel · %s Remove",
+			[
 				ControllerHints.south(), ControllerHints.east(),
 				ControllerHints.west(),
 			],
-			"STEP 2/2 · %s Place in Week · %s Cancel · %s Remove" % [
+			[
 				ControllerHints.south(), ControllerHints.east(),
 				ControllerHints.west(),
 			])
@@ -2643,12 +2707,14 @@ func _refresh_footer() -> void:
 	if not _placement_error.is_empty():
 		_status_label.text = _placement_error_text(_placement_error)
 		_fit_status_label_height(72.0)
-		_hint_label.text = LocaleManager.ui(
-			"할 일 선택 · %s 선택 · %s 주차에서만 빼기 · %s/%s 단계" % [
+		_hint_label.text = LocaleManager.ui_format(
+			"할 일 선택 · %s 선택 · %s 주차에서만 빼기 · %s/%s 단계",
+			"CHOOSE · %s Select · %s Remove on Week · %s/%s Steps",
+			[
 				ControllerHints.south(), ControllerHints.west(),
 				ControllerHints.shoulder_l(), ControllerHints.shoulder_r(),
 			],
-			"CHOOSE · %s Select · %s Remove on Week · %s/%s Steps" % [
+			[
 				ControllerHints.south(), ControllerHints.west(),
 				ControllerHints.shoulder_l(), ControllerHints.shoulder_r(),
 			])
@@ -2661,14 +2727,16 @@ func _refresh_footer() -> void:
 		"Fill all four weeks. {count} other options will be left out this month."
 	).format({"count": missed_count})
 	_fit_status_label_height(52.0)
-	_hint_label.text = LocaleManager.ui(
-		"할 일 선택 · %s 선택 · %s 주차에서만 빼기 · %s/%s 단계" % [
+	_hint_label.text = LocaleManager.ui_format(
+		"할 일 선택 · %s 선택 · %s 주차에서만 빼기 · %s/%s 단계",
+		"CHOOSE · %s Select · %s Remove on Week · %s/%s Steps",
+		[
 			ControllerHints.south(),
 			ControllerHints.west(),
 			ControllerHints.shoulder_l(),
 			ControllerHints.shoulder_r(),
 		],
-		"CHOOSE · %s Select · %s Remove on Week · %s/%s Steps" % [
+		[
 			ControllerHints.south(),
 			ControllerHints.west(),
 			ControllerHints.shoulder_l(),
@@ -2897,6 +2965,10 @@ func _localized(data: Dictionary, stem: String) -> String:
 	var ko_text := str(data.get("%s_ko" % stem, ""))
 	var en_text := str(data.get("%s_en" % stem, ko_text))
 	return LocaleManager.ui(ko_text, en_text)
+
+func _english_copy(data: Dictionary, stem: String) -> String:
+	var ko_text := str(data.get("%s_ko" % stem, ""))
+	return str(data.get("%s_en" % stem, ko_text))
 
 func _routine_effect_copy(option: Dictionary) -> String:
 	var raw_effects: Variant = option.get("weekly_effects", {})

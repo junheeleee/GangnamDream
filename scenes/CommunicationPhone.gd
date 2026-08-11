@@ -41,8 +41,8 @@ var _thread_bundle_id := ""
 var _thread_kind := ""
 var _return_focus_key := ""
 
-var _font: FontFile
-var _font_bold: FontFile
+var _font: Font
+var _font_bold: Font
 var _shade: ColorRect
 var _drawer: Control
 var _phone_holder: Control
@@ -65,8 +65,8 @@ func _ready() -> void:
 	z_index = 110
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	_font = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
-	_font_bold = load("res://assets/fonts/Pretendard-Bold.ttf") as FontFile
+	_font = FontKit.ui_regular()
+	_font_bold = FontKit.ui_bold()
 	_build_ui()
 	resized.connect(_update_geometry)
 	LocaleManager.language_changed.connect(_on_language_changed)
@@ -322,11 +322,13 @@ func _rebuild() -> void:
 		_build_conversation_list()
 	else:
 		_build_contact_list()
-	_footer_hint.text = LocaleManager.ui(
-		"%s/%s 탭 · %s 뒤로 · P/%s 닫기" % [
+	_footer_hint.text = LocaleManager.ui_format(
+		"%s/%s 탭 · %s 뒤로 · P/%s 닫기",
+		"%s/%s Tabs · %s Back · P/%s Close",
+		[
 			ControllerHints.shoulder_l(), ControllerHints.shoulder_r(),
 			ControllerHints.east(), ControllerHints.north()],
-		"%s/%s Tabs · %s Back · P/%s Close" % [
+		[
 			ControllerHints.shoulder_l(), ControllerHints.shoulder_r(),
 			ControllerHints.east(), ControllerHints.north()])
 	_body_scroll.scroll_vertical = 0
@@ -351,9 +353,9 @@ func _update_tab_copy_and_style() -> void:
 
 func _build_conversation_list() -> void:
 	var ids := _received_contact_offer_ids()
-	_body.add_child(_section_title(LocaleManager.ui(
-		"이번 달 받은 연락 · %d" % ids.size(),
-		"RECEIVED THIS MONTH · %d" % ids.size())))
+	_body.add_child(_section_title(LocaleManager.ui_format(
+		"이번 달 받은 연락 · %d", "RECEIVED THIS MONTH · %d",
+		ids.size(), ids.size())))
 	for bundle_id in ids:
 		var offer := CORE_LOOP.bundle(bundle_id)
 		var surface := _contact_surface_kind(offer)
@@ -517,9 +519,9 @@ func _build_thread() -> void:
 
 func _build_contact_list() -> void:
 	var contact_ids := _actual_contact_ids()
-	_body.add_child(_section_title(LocaleManager.ui(
-		"실제로 연락할 수 있는 사람 · %d" % contact_ids.size(),
-		"PEOPLE YOU CAN REACH · %d" % contact_ids.size())))
+	_body.add_child(_section_title(LocaleManager.ui_format(
+		"실제로 연락할 수 있는 사람 · %d", "PEOPLE YOU CAN REACH · %d",
+		contact_ids.size(), contact_ids.size())))
 	for character_id in contact_ids:
 		_body.add_child(_contact_row(character_id))
 	if contact_ids.is_empty():

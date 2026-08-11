@@ -40,8 +40,8 @@ var _error_text := ""
 var _allocation_in_flight := false
 var _open_generation := 0
 
-var _font: FontFile
-var _font_bold: FontFile
+var _font: Font
+var _font_bold: Font
 var _background: TextureRect
 var _shade: TextureRect
 var _header_panel: Panel
@@ -85,8 +85,8 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	clip_contents = true
-	_font = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
-	_font_bold = load("res://assets/fonts/Pretendard-Bold.ttf") as FontFile
+	_font = FontKit.ui_regular()
+	_font_bold = FontKit.ui_bold()
 	FontKit.attach_emoji_fallback(_font)
 	FontKit.attach_emoji_fallback(_font_bold)
 	_build_ui()
@@ -535,9 +535,9 @@ func _refresh_surface() -> void:
 	var calendar_month := int(_snapshot.get(
 		"calendar_month", _snapshot.get("month", 1)))
 	var week := int(_snapshot.get("week_of_month", 1))
-	_time_label.text = _tr(
-		"%d년 %d월 · %d주차" % [year, calendar_month, week],
-		"%04d.%02d · WEEK %d" % [year, calendar_month, week])
+	_time_label.text = LocaleManager.ui_format(
+		"%d년 %d월 · %d주차", "%04d.%02d · WEEK %d",
+		[year, calendar_month, week], [year, calendar_month, week])
 	_money_label.text = _tr("현금  ", "CASH  ") + _format_money(float(_snapshot.get("money", 0)))
 	_health_label.text = _tr("몸  %d", "BODY  %d") % int(_snapshot.get("health", 0))
 	_mental_label.text = _tr("마음  %d", "MIND  %d") % int(_snapshot.get("mental", 0))
@@ -546,9 +546,9 @@ func _refresh_surface() -> void:
 		"여력을 고른 뒤 장소를 정한다",
 		"CHOOSE CAPACITY, THEN A PLACE")
 	_refresh_world_clock()
-	_effort_title_label.text = _tr(
-		"이번 달 남은 여력 · %d/4" % _remaining_effort_count(),
-		"MONTHLY CAPACITY LEFT · %d/4" % _remaining_effort_count())
+	_effort_title_label.text = LocaleManager.ui_format(
+		"이번 달 남은 여력 · %d/4", "MONTHLY CAPACITY LEFT · %d/4",
+		_remaining_effort_count(), _remaining_effort_count())
 	for node_id in _node_order:
 		_refresh_node_content(node_id)
 	for die_id in _die_order:
@@ -1697,16 +1697,7 @@ func _localized_board_label(data: Dictionary) -> String:
 func _format_money(amount: float) -> String:
 	# The allocation board is a decision surface: unlike compact HUD copy, it
 	# must show the exact won amount before the player commits a week.
-	var value := roundi(amount)
-	var digits := str(absi(value))
-	var insert_at := digits.length() - 3
-	while insert_at > 0:
-		digits = digits.insert(insert_at, ",")
-		insert_at -= 3
-	var sign_text := "-" if value < 0 else ""
-	return _tr(
-		"%s%s원" % [sign_text, digits],
-		"%s%s won" % [sign_text, digits])
+	return LocaleManager.format_whole_won(roundi(amount))
 
 
 func _signed_money(amount: int) -> String:

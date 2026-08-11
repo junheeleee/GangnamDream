@@ -32,12 +32,12 @@ var _context_lbl: Label
 var _press_lbl:  Label
 var _living_scene: LivingSceneLayer
 
-var _font: FontFile
-var _font_bold: FontFile
+var _font: Font
+var _font_bold: Font
 
 func _load_fonts():
-	_font      = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
-	_font_bold = load("res://assets/fonts/Pretendard-Bold.ttf") as FontFile
+	_font      = FontKit.ui_regular()
+	_font_bold = FontKit.ui_bold()
 	FontKit.attach_emoji_fallback(_font)
 	FontKit.attach_emoji_fallback(_font_bold)
 

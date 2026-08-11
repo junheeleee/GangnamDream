@@ -241,8 +241,10 @@ func _check_start_surface() -> void:
 	_expect(legacy_entries == 0,
 		"Playtest StartMenu still exposed the legacy New Story entry.")
 	if is_instance_valid(playtest_entry):
-		var expected_entry_text := "Start 24-Week Demo" \
-			if LocaleManager.is_english() else "24주 데모 시작"
+		var cap_week := DemoCoreLoopV2Script.development_cap_week()
+		var expected_entry_text := LocaleManager.ui_format(
+			"%d주 데모 시작", "Start %d-Week Demo",
+			cap_week, cap_week)
 		_expect(playtest_entry.text == expected_entry_text,
 			"Playtest entry text drifted: %s." % playtest_entry.text)
 		_expect(bool(playtest_entry.get_meta("core_loop_v2_test_entry", false)),

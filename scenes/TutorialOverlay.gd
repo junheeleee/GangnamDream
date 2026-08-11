@@ -580,8 +580,8 @@ var _slides: Array = []
 var _game_id: String = ""
 var _slide_idx: int = 0
 
-var _font: FontFile
-var _font_bold: FontFile
+var _font: Font
+var _font_bold: Font
 var _body_lbl: RichTextLabel
 var _page_lbl: Label
 var _next_btn: Button
@@ -596,8 +596,8 @@ var _completed_run := false
 var _closing := false
 
 func _ready() -> void:
-	_font      = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
-	_font_bold = load("res://assets/fonts/Pretendard-Bold.ttf") as FontFile
+	_font      = FontKit.ui_regular()
+	_font_bold = FontKit.ui_bold()
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	z_index = 200
 	_build_ui()
@@ -684,7 +684,7 @@ func _exit_tree() -> void:
 		_seen.erase(_game_id)
 
 func _f(n: Object, bold: bool = false) -> void:
-	var ft: FontFile = _font_bold if bold else _font
+	var ft: Font = _font_bold if bold else _font
 	if ft and n:
 		n.add_theme_font_override("font", ft)
 		if n is RichTextLabel:

@@ -44,8 +44,8 @@ var _pad_horse_idx: int = 0
 var _pad_stake_idx: int = 0
 var _pad_result_idx: int = 0
 
-var _font: FontFile
-var _font_bold: FontFile
+var _font: Font
+var _font_bold: Font
 
 # 노드
 var _header: RichTextLabel
@@ -68,8 +68,8 @@ func _ready() -> void:
 	set_process(false)
 
 func _load_fonts() -> void:
-	_font      = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
-	_font_bold = load("res://assets/fonts/Pretendard-Bold.ttf") as FontFile
+	_font      = FontKit.ui_regular()
+	_font_bold = FontKit.ui_bold()
 	FontKit.attach_emoji_fallback(_font)
 	FontKit.attach_emoji_fallback(_font_bold)
 

@@ -263,6 +263,7 @@ func get_year_scene_candidates(year_index: int, limit: int = 4) -> Array:
 		rows.append({
 			"id": scene_id,
 			"title": title,
+			"title_en": DataRegistry.english_event_title(scene_id, title),
 			"score": _year_scene_score(event, order),
 			"order": order,
 		})
@@ -278,13 +279,16 @@ func build_year_scene_choices(year_index: int) -> Array:
 	var choices: Array = []
 	for row in get_year_scene_candidates(year_index, 4):
 		var title := str(row.get("title", row.get("id", "")))
+		var english_title := str(row.get("title_en", title))
 		choices.append({
-			"text": LocaleManager.ui("「%s」", "“%s”") % title,
+			"text": LocaleManager.ui_format(
+				"「%s」", "“%s”", title, english_title),
 			"effects": {},
 			"year_scene": {"year": year_index, "scene_id": str(row.get("id", ""))},
-			"result_text": LocaleManager.ui(
-				"그 해를 접으면, 「%s」이 가장 먼저 남았다." % title,
-				"When that year folded shut, “%s” was the scene that remained." % title),
+			"result_text": LocaleManager.ui_format(
+				"그 해를 접으면, 「%s」이 가장 먼저 남았다.",
+				"When that year folded shut, “%s” was the scene that remained.",
+				title, english_title),
 		})
 	return choices
 
@@ -3620,7 +3624,10 @@ func add_clue(clue_id: String) -> bool:
 	clues.append(clue_id)
 	var c: Dictionary = DataRegistry.get_clue(clue_id)
 	var title: String = str(c.get("title", clue_id))
-	add_log(LocaleManager.ui("🔎 단서 발견: %s" % title, "🔎 Clue found: %s" % title), "system")
+	var english_title := DataRegistry.english_clue_title(clue_id, title)
+	add_log(LocaleManager.ui_format(
+		"🔎 단서 발견: %s", "🔎 Clue found: %s",
+		title, english_title), "system")
 	clue_added.emit(clue_id)
 	stats_changed.emit()
 	return true
@@ -3664,7 +3671,11 @@ func start_thought(thought_id: String) -> bool:
 	var turns: int = max(1, int(t.get("processing_turns", 1)))
 	active_thought = {"id": thought_id, "turns_left": turns}
 	var title: String = str(t.get("title", thought_id))
-	add_log(LocaleManager.ui("💭 생각 정리 시작: %s (%d주)" % [title, turns], "💭 Started working it out: %s (%d weeks)" % [title, turns]), "system")
+	var english_title := DataRegistry.english_thought_title(thought_id, title)
+	add_log(LocaleManager.ui_format(
+		"💭 생각 정리 시작: %s (%d주)",
+		"💭 Started working it out: %s (%d weeks)",
+		[title, turns], [english_title, turns]), "system")
 	stats_changed.emit()
 	return true
 
@@ -3695,6 +3706,9 @@ func _complete_thought(thought_id: String) -> void:
 	if unlock != "":
 		add_deferred_event(unlock, 0)
 	var title: String = str(t.get("title", thought_id))
-	add_log(LocaleManager.ui("💡 결론에 도달: %s" % title, "💡 Reached a conclusion: %s" % title), "system")
+	var english_title := DataRegistry.english_thought_title(thought_id, title)
+	add_log(LocaleManager.ui_format(
+		"💡 결론에 도달: %s", "💡 Reached a conclusion: %s",
+		title, english_title), "system")
 	thought_completed.emit(thought_id)
 	stats_changed.emit()

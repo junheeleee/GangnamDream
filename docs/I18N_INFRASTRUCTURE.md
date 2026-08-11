@@ -16,9 +16,9 @@ but their dictionaries and body overlays remain empty.
 |---|---|---|---|---|
 | `ko` | Shipping, source | Inline source | `content/events/` | `content/endings.json` |
 | `en` | Shipping, strict | Inline fallback | `content/events_en/` | `content/endings_en.json` |
-| `ja` | Prepared beta, hidden | legacy 2,730/2,730; context 30/30 | 1/1,603 full; 1/73 demo | 0/35 full; 0 required by demo |
-| `zh-CN` | Prepared, hidden; font blocked | legacy 0/2,730; context 0/30 | 0/1,603 full; 0/73 demo | 0/35 full; 0 required by demo |
-| `zh-TW` | Prepared, hidden; font blocked | legacy 0/2,730; context 0/30 | 0/1,603 full; 0/73 demo | 0/35 full; 0 required by demo |
+| `ja` | Prepared beta, hidden | legacy 2,780/2,780; context 30/30 (2,810/2,810 total) | 1/1,603 full; 1/73 demo | 0/35 full; 0 required by demo |
+| `zh-CN` | Prepared, hidden; font blocked | legacy 0/2,780; context 0/30 | 0/1,603 full; 0/73 demo | 0/35 full; 0 required by demo |
+| `zh-TW` | Prepared, hidden; font blocked | legacy 0/2,780; context 0/30 | 0/1,603 full; 0/73 demo | 0/35 full; 0 required by demo |
 
 `LocaleManager.SHIPPING_LANGUAGES` is the player-facing allowlist. Adding a
 language to `SUPPORTED_LANGUAGES` is not permission to expose it in the first-run
@@ -26,9 +26,9 @@ gate or Steam metadata.
 
 ## UI Contract
 
-The existing `LocaleManager.ui(korean, english)` and `_tr(korean, english)`
-call sites remain unchanged. For a prepared language, the Korean source string
-is used as the legacy lookup key in `locale/ui_<code>.json`:
+Unparameterized call sites continue to use `LocaleManager.ui(korean, english)`
+or `_tr(korean, english)`. For a prepared language, the Korean source string is
+used as the legacy lookup key in `locale/ui_<code>.json`:
 
 ```json
 {
@@ -63,15 +63,67 @@ English. Refreshing community packs clears both provenance caches and all UI
 misses. Existing community packs need no migration; a new pack may add context
 IDs beside its existing Korean keys.
 
-A source audit found 107 Korean keys whose current call sites carry more than
-one English value. Thirty-four are formatting-only, 45 can share one target
-translation after an explicit semantic allowlist, and 28 require 30 stable
-context IDs across 37 call sites. The manifest owns that exact partition and
-each context row's ID, Korean source, allowed English variants, owner function,
-and call count. Exactly 37 product calls use the context API, leaving
-`3,217 legacy + 37 context`, and Japanese owns all 30 context rows while
-preserving every one of the 2,730 legacy keys. Japanese and Chinese body work
-must build on this locked inventory rather than reopening the key migration.
+The ORDER-96 baseline source audit found 107 Korean keys whose then-current call
+sites carried more than one English value. Thirty-four were formatting-only, 45
+could share one target translation after an explicit semantic allowlist, and 28
+required 30 stable context IDs across 37 call sites. At that revision the
+historical inventory was `3,217 legacy + 37 context` calls and 2,730 legacy
+Korean keys. The manifest still owns that exact partition and each context row's
+ID, Korean source, allowed English variants, owner function, and call count.
+
+ORDER-97 adds a separate parameterized-template contract without reopening those
+30 context IDs. The final measured static inventory is now exactly `3,310 calls
+= 3,273 legacy + 37 context`, with 2,780 unique legacy Korean keys and the same
+30 context IDs. Japanese owns all `2,780 legacy + 30 context = 2,810` rows;
+both Chinese skeletons remain `legacy 0/2,780 + context 0/30`.
+
+`LocaleManager.ui_format(ko_template, en_template, ko_args, en_args)` performs a
+stable legacy-template lookup before inserting values. Korean and English each
+validate and format their own template and argument list independently; their
+arity may legitimately differ. A prepared-language hit must have the same
+placeholder conversion kinds and order and the same newline count as the Korean
+template, then formats with the target/Korean argument list. A miss formats the
+English template with the explicit English argument list. Width and zero-padding
+such as `%d` versus `%02d` may differ without changing the conversion kind.
+Explicit positive-sign and precision modifiers are semantic and must match the
+Korean template. An invalid percent sequence, wrong argument count or type,
+reordered conversion, semantic-modifier drift, or newline drift fails closed
+instead of returning a partially formatted or wrong-language string.
+
+Nested values follow the same provenance boundary. Target arguments may contain
+localized copy or locale-formatted money, while fallback arguments must be
+produced explicitly in English; reusing a current-locale completed value on both
+sides can produce an English parent with Japanese or Chinese content. The
+collector locks exactly 15 raw-migration argument-provenance rows in addition to
+the templates.
+
+The exact pre-migration registry remains `55 raw candidates = 47 migrated
+lookup-before-format calls / 42 templates + 4 dynamic pair readers + 2
+branch-selected literals + 2 locale money formatters`. Two pre-existing calls
+were outside that raw-55 set because their template lookup order was already
+correct: the Aruba status parent and GameState's year-choice quote. ORDER-97
+separately split their target and English argument provenance. Runtime therefore
+contains exactly 49 `ui_format` calls: the 47 raw migrations plus those two
+supplemental existing calls. Registry validation rejects missing, extra,
+duplicate, stale, or selector-partial path/function/template/signature/count rows
+rather than adjusting the expected inventory.
+
+The two exact whole-won owners remain
+`CommitmentTask::_format_money` and `SeoulCycleBoard::_format_money`. They share
+`LocaleManager.format_whole_won()` and are not template keys: the formatter keeps
+whole-won digits, sign, and comma placement exact. `CommitmentTask` preserves its
+signed English `KRW` prefix policy, while `SeoulCycleBoard` preserves its `won`
+suffix; Japanese, Simplified Chinese, and Traditional Chinese emit `ウォン`,
+`韩元`, and `韓元`. English fallback arguments that need the general
+large-number formatter use an explicit English producer, never the active-locale
+formatter.
+
+Every locale UI file is also a raw JSON source contract. Object keys must be
+unique in the file itself; accepting the last value returned by `json.load` does
+not make a duplicate key valid. Generation and audit tooling must reject raw
+duplicates before using effective dictionary counts. Japanese and Chinese body
+work must build on this locked inventory rather than reopening either key
+migration.
 
 ## Content Contract
 
@@ -167,14 +219,14 @@ the complete event-ID hash so a content change cannot silently leave the
 translation plan stale.
 
 Current prepared coverage is deliberately incomplete. Static UI is a separate
-claim surface: a Chinese demo cannot ship with its 2,730 current UI keys falling
+claim surface: a Chinese demo cannot ship with its 2,780 current UI keys falling
 back to English even after the event body is complete.
 
 | Locale | Static UI | Events | Event text leaves | Dynamic keys | Demo catalog |
 |---|---:|---:|---:|---:|---:|
-| `ja` | legacy 2,730/2,730; context 30/30 | 1/73 | 8/471 | 9/657 | 0/4 |
-| `zh-CN` | legacy 0/2,730; context 0/30 | 0/73 | 0/471 | 0/657 | 0/4 |
-| `zh-TW` | legacy 0/2,730; context 0/30 | 0/73 | 0/471 | 0/657 | 0/4 |
+| `ja` | legacy 2,780/2,780; context 30/30 | 1/73 | 8/471 | 9/657 | 0/4 |
+| `zh-CN` | legacy 0/2,780; context 0/30 | 0/73 | 0/471 | 0/657 | 0/4 |
+| `zh-TW` | legacy 0/2,780; context 0/30 | 0/73 | 0/471 | 0/657 | 0/4 |
 
 Skeleton mode verifies this scope, existing rows, fallback paths, and the hidden
 shipping state without pretending missing prose is complete. Per-language
@@ -182,7 +234,7 @@ shipping state without pretending missing prose is complete. Per-language
 keys, 4/4 catalog names, and zero direct English bypasses. It is expected to fail
 until an approved body-translation wave is finished. Japanese has the required
 terminology and source-shape validator now. `zh_translation_audit.py --strict`
-adds 2,730/2,730 legacy UI keys and 30/30 context IDs, separate
+adds 2,780/2,780 legacy UI keys and 30/30 context IDs, separate
 Simplified/Traditional script and
 terminology, Korean-won semantics, romanized-name locks, and a project-owned
 regional font route. It cannot certify one region from the other region's text.
@@ -216,11 +268,25 @@ otherwise English.
 
 ## Font Gate
 
-The project bundles `NotoSansJP-Variable.ttf` and attaches it through `FontKit`
-before the emoji fallback. Runtime inspection now proves hiragana, katakana,
-kanji, and Japanese punctuation from project-owned files rather than an
-operating-system fallback. The font and its retained `OFL-NotoSansJP.txt` came
-from the official Google Fonts Noto Sans JP distribution.
+The project bundles `NotoSansJP-Variable.ttf`. When `ja` is active, `FontKit`
+uses it as the primary font for the entire Japanese run—hiragana, katakana,
+kanji, and Japanese punctuation—at exact `wght` values `400`, `600`, and `700`.
+Weight-matched Pretendard follows for non-Japanese glyphs, and the bundled emoji
+font is last. For `ko` and `en`, Pretendard remains primary and weight-matched
+Noto Sans JP remains the next fallback. Locale changes mutate the shared role
+resources in place so controls created before the change switch with the rest of
+the UI.
+
+This ordering is a correctness boundary, not an aesthetic preference.
+Pretendard contains kana but does not contain the full Japanese kanji set, while
+the bundled variable Noto source defaults to `wght=100`. Leaving Pretendard as
+the Japanese primary therefore mixed Pretendard kana with Noto kanji and could
+render the latter at Thin. `FontRoutingCheck.tscn` rejects that split by proving
+the variable axis, the three exact weights, one Noto RID for representative
+Japanese text, weight-matched KO/EN fallback, emoji-last ordering, runtime locale
+switching, and zero direct product font loads. The font and its retained
+`OFL-NotoSansJP.txt` came from the official Google Fonts Noto Sans JP
+distribution.
 
 SHA-256 locks:
 
@@ -271,7 +337,7 @@ godot --rendering-driver opengl3 --resolution 1280x800 \
 ```
 
 The default full-game coverage command keeps English strict and prepared locales
-in skeleton mode. `ja_translation_audit.py --scope ui` requires all 2,730 legacy
+in skeleton mode. `ja_translation_audit.py --scope ui` requires all 2,780 legacy
 UI keys and all 30 context IDs. It also
 requires exact placeholder/newline parity, zero Hangul or yen conversion,
 canonical names and casino terms, and no lock/unlock polarity reversal. The two
@@ -280,6 +346,10 @@ planned 30-ID/37-call registry separate from the observed migration count. The
 runtime check proves alias normalization, five-layer context lookup,
 provenance-preserving community refresh, UI miss logging, English
 event/ending/catalog fallback, locale money labels, and bundled glyph coverage.
+The parameterized registry additionally locks the raw `55 = 47 + 4 + 2 + 2`
+disposition, the two supplemental existing calls, 49 runtime `ui_format` calls,
+the two exact-money owners, 15 argument-provenance rows, and raw duplicate-key
+rejection.
 
 `ja_translation_pipeline.py` defaults to UI-only generation. Its read-only
 `--scope demo --inventory` proves that the future wave contains exactly 471 event
@@ -295,7 +365,7 @@ assets.
 
 `zh_translation_audit.py` reads both regions from the Korean source independently.
 Its normal mode reports the empty skeleton and both blocked font routes without
-claiming completion. Its region-specific strict mode requires 2,730/2,730 legacy
+claiming completion. Its region-specific strict mode requires 2,780/2,780 legacy
 UI keys and 30/30 context IDs, the exact 73/471/657/4 demo body (1,132 unique demo translation sources),
 zero direct English bypasses, every
 context-unambiguous wrong-region character in the pinned OpenCC 1.3.1 classifier
@@ -328,6 +398,10 @@ its source revision, input hashes, derivation rule, and Apache-2.0 copy under
 Japanese infrastructure began after content freeze, but prose generation is
 held because the playable demo is still being revised. The Japanese
 UI dictionary remains a hidden beta and is not a shipping-language promise.
+ORDER-97's L3 screen review is also still open: the user must select three actual
+Batch A surfaces and three actual Batch B surfaces from the same candidate, and
+one failure rejects the corresponding whole 23- or 24-call batch. Inventory,
+template, or screenshot automation does not supply that evidence.
 Once the approved 24-week source text is declared final, the remaining wave requires:
 
 1. A terminology and character-address sheet before bulk translation.
@@ -358,7 +432,7 @@ and validator together.
 
 Before either Chinese demo claim, that region requires:
 
-1. 2,730/2,730 legacy UI keys, 30/30 context IDs, and strict parity for all 73 demo events, 471 event
+1. 2,780/2,780 legacy UI keys, 30/30 context IDs, and strict parity for all 73 demo events, 471 event
    leaves, 657 dynamic keys, and four catalog names: 1,132 unique demo translation
    sources in total; no ending is fabricated.
 2. Zero Hangul, kana, untranslated English prose, direct English bypass, wrong-
