@@ -105,9 +105,11 @@ verb·비용·가용성·참가자·결과를 전혀 바꾸지 않을 때만 쓴
 
 ## 정확한 파일 소유권
 
-**선언·정본 8:** `docs/CODEX_QUEUE.md`, 이 사양, `CLAUDE.md`,
+**선언·정본 9:** `docs/CODEX_QUEUE.md`, 이 사양, `CLAUDE.md`,
 `docs/CORE_LOOP_V2.md`, `docs/CONTEXT_INDEX.md`, `docs/QA_CHECKLIST.md`,
-`docs/WORK_LOG.md`, 생성 `docs/STATUS.md`. 부팅 예산 보관 이동은
+`docs/DECISIONS.md`, `docs/WORK_LOG.md`, 생성 `docs/STATUS.md`. 최신 사용자 지시가
+기존 24주→후반부 순차 승인 결정을 48주 Chapter 1 완성 단위로 대체한 이유는
+`docs/DECISIONS.md`에 한 번만 기록한다. 부팅 예산 보관 이동은
 `docs/history/WORK_LOG_2026-08-03.md`만 추가로 소유한다.
 
 **기계 원장·검사 5:** 신규
