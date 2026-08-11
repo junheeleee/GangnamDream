@@ -3007,6 +3007,18 @@ func _shot_core_loop_v2_fresh_month_one_cycle(
 			_fail("Month-One Seoul board revealed a future event before its week: %s." % hidden_future)
 			return
 	await _save(prefix + "10i_seoul_cycle_read_only", 0.05)
+	board.show_error(_tr(
+		"자동 저장에 실패했습니다. 배치는 고정했지만 다음 장면으로 넘어가지 않습니다.",
+		"Autosave failed. The allocation is locked, but the game will not proceed."))
+	await _settle(0.08)
+	if not _assert_seoul_cycle_preview_corpus_layout(board, lang):
+		return
+	if not _assert_seoul_cycle_board_surface(
+			board, "read-only autosave error cycle", lang, true):
+		return
+	await _save(prefix + "10ia_seoul_cycle_error_layout", 0.05)
+	board.show_error("")
+	await _settle(0.05)
 	board.close()
 	# close() restores the persistent badge synchronously. MainGame may then
 	# defer the still-mandatory current-week board and hide it again on the next
@@ -3161,6 +3173,134 @@ func _assert_seoul_cycle_board_surface(
 	if lang != "ko" and _contains_hangul(surface_text):
 		_fail("Core Loop V2 %s leaked Hangul on the %s Seoul board." % [
 			context, lang])
+		return false
+	if not _assert_seoul_cycle_preview_layout(board, context):
+		return false
+	return true
+
+
+func _assert_seoul_cycle_preview_layout(board: Control, context: String) -> bool:
+	var preview_panel := board.get("_preview_panel") as Panel
+	var preview_choice := board.get("_preview_choice_label") as Label
+	var commit_button := board.get("_commit_button") as Button
+	if not is_instance_valid(preview_panel) \
+			or not is_instance_valid(preview_choice) \
+			or not is_instance_valid(commit_button):
+		_fail("Core Loop V2 %s lost its allocation-preview layout owners." % context)
+		return false
+	var viewport_size: Vector2i = board.get_meta(
+		"seoul_cycle_viewport_size", Vector2i.ZERO)
+	var expected_choice_font := 15 \
+		if viewport_size.x < 1100 or viewport_size.y < 700 else 17
+	var choice_font_size := preview_choice.get_theme_font_size("font_size")
+	if choice_font_size < expected_choice_font:
+		_fail("Core Loop V2 %s shrank its allocation-preview choice below the %dpx role: %dpx." % [
+			context, expected_choice_font, choice_font_size])
+		return false
+	var clearance := float(board.get_meta(
+		"seoul_cycle_preview_layout_clearance", -INF))
+	if not is_finite(clearance) or clearance < -0.5:
+		_fail("Core Loop V2 %s allocation-preview rows exceed their panel by %.1fpx." % [
+			context, -clearance])
+		return false
+
+	var ordered_controls: Array[Control] = []
+	for property_name in [
+		"_preview_title_label",
+		"_preview_choice_label",
+		"_preview_progress_label",
+		"_preview_effect_label",
+		"_preview_deadline_label",
+		"_error_label",
+	]:
+		var label := board.get(property_name) as Label
+		if not is_instance_valid(label):
+			_fail("Core Loop V2 %s lost preview row %s." % [context, property_name])
+			return false
+		if not label.visible or label.text.is_empty():
+			continue
+		if label.get_line_count() != label.get_visible_line_count():
+			_fail("Core Loop V2 %s clips preview row %s: lines=%d visible=%d." % [
+				context, label.name, label.get_line_count(),
+				label.get_visible_line_count()])
+			return false
+		var local_bounds := Rect2(Vector2.ZERO, label.size).grow(0.75)
+		for character_index in range(label.text.length()):
+			var codepoint := label.text.unicode_at(character_index)
+			if codepoint in [9, 10, 13, 32]:
+				continue
+			var character_bounds := label.get_character_bounds(character_index)
+			if character_bounds.size == Vector2.ZERO:
+				continue
+			if not local_bounds.encloses(character_bounds):
+				_fail("Core Loop V2 %s clips character %d in preview row %s: glyph=%s slot=%s." % [
+					context, character_index, label.name,
+					character_bounds, Rect2(Vector2.ZERO, label.size)])
+				return false
+		ordered_controls.append(label)
+	ordered_controls.append(commit_button)
+	for index in range(ordered_controls.size() - 1):
+		var current := ordered_controls[index]
+		var following := ordered_controls[index + 1]
+		if current.position.y + current.size.y > following.position.y + 0.5:
+			_fail("Core Loop V2 %s overlaps preview rows %s and %s: current_bottom=%.1f next_top=%.1f." % [
+				context, current.name, following.name,
+				current.position.y + current.size.y, following.position.y])
+			return false
+	var panel_bounds := Rect2(Vector2.ZERO, preview_panel.size).grow(0.75)
+	for control in ordered_controls:
+		if not panel_bounds.encloses(Rect2(control.position, control.size)):
+			_fail("Core Loop V2 %s preview row %s escaped its panel." % [
+				context, control.name])
+			return false
+	return true
+
+
+func _assert_seoul_cycle_preview_corpus_layout(
+		board: Control, lang: String) -> bool:
+	var preview_choice := board.get("_preview_choice_label") as Label
+	if not is_instance_valid(preview_choice):
+		_fail("Seoul Cycle preview corpus has no choice label.")
+		return false
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	var raw_months: Variant = core_loop.seoul_cycle_spec().get("months", {})
+	if not raw_months is Dictionary:
+		_fail("Seoul Cycle preview corpus has no authored month inventory.")
+		return false
+	var original_text := preview_choice.text
+	var checked := 0
+	var passed := true
+	for raw_month in (raw_months as Dictionary).keys():
+		var raw_spec: Variant = (raw_months as Dictionary).get(raw_month, {})
+		if not raw_spec is Dictionary:
+			continue
+		var raw_nodes: Variant = (raw_spec as Dictionary).get("nodes", {})
+		if not raw_nodes is Dictionary:
+			continue
+		for raw_node_id in (raw_nodes as Dictionary).keys():
+			var raw_node: Variant = (raw_nodes as Dictionary).get(raw_node_id, {})
+			if not raw_node is Dictionary:
+				continue
+			var node: Dictionary = raw_node
+			preview_choice.text = "%s\n%s" % [
+				_tr(str(node.get("place_ko", "")), str(node.get("place_en", ""))),
+				_tr(str(node.get("label_ko", "")), str(node.get("label_en", ""))),
+			]
+			board.call("_refresh_preview_geometry_if_ready")
+			checked += 1
+			if not _assert_seoul_cycle_preview_layout(
+					board, "authored month %s node %s (%s)" % [
+						raw_month, raw_node_id, lang]):
+				passed = false
+				break
+		if not passed:
+			break
+	preview_choice.text = original_text
+	board.call("_refresh_preview_geometry_if_ready")
+	if not passed:
+		return false
+	if checked != 24:
+		_fail("Seoul Cycle preview corpus expected 24 authored node surfaces, got %d." % checked)
 		return false
 	return true
 

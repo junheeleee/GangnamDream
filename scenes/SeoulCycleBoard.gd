@@ -706,6 +706,7 @@ func _refresh_preview() -> void:
 		_preview_deadline_label.text = ""
 		set_meta("seoul_cycle_preview_progress_delta", 0)
 		set_meta("seoul_cycle_preview_node_id", "")
+		_refresh_preview_geometry_if_ready()
 		return
 	var node_label := _localized(node_data, "label")
 	var place_label := _localized(node_data, "place")
@@ -723,6 +724,7 @@ func _refresh_preview() -> void:
 		_preview_deadline_label.text = _deadline_line(node_data, {})
 		set_meta("seoul_cycle_preview_progress_delta", 0)
 		set_meta("seoul_cycle_preview_node_id", preview_node_id)
+		_refresh_preview_geometry_if_ready()
 		return
 	var die := _die_data(_selected_die_id)
 	var preview := _preview_for(_selected_die_id, preview_node_id)
@@ -772,6 +774,14 @@ func _refresh_preview() -> void:
 	set_meta("seoul_cycle_preview_progress_delta", progress_delta)
 	set_meta("seoul_cycle_preview_node_id", preview_node_id)
 	set_meta("seoul_cycle_preview_after_progress", after_progress)
+	_refresh_preview_geometry_if_ready()
+
+
+func _refresh_preview_geometry_if_ready() -> void:
+	if not is_instance_valid(_preview_panel) \
+			or _preview_panel.size.x <= 0.0 or _preview_panel.size.y <= 0.0:
+		return
+	_apply_preview_geometry(size.x < 1100.0 or size.y < 700.0)
 
 
 func _refresh_commit_state() -> void:
@@ -1193,25 +1203,71 @@ func _apply_preview_geometry(compact: bool) -> void:
 	_preview_title_label.position = Vector2(pad, 12.0)
 	_preview_title_label.size = Vector2(inner_width, 25.0)
 	UIStyle.override_font_size(_preview_title_label, "font_size", 15 if compact else 17)
-	_preview_choice_label.position = Vector2(pad, 44.0)
-	_preview_choice_label.size = Vector2(inner_width, 66.0 if compact else 76.0)
-	UIStyle.override_font_size(_preview_choice_label, "font_size", 15 if compact else 17)
-	_preview_progress_label.position = Vector2(pad, 111.0 if compact else 123.0)
-	_preview_progress_label.size = Vector2(inner_width, 48.0)
-	UIStyle.override_font_size(_preview_progress_label, "font_size", 14 if compact else 16)
-	_preview_effect_label.position = Vector2(pad, 161.0 if compact else 178.0)
-	_preview_effect_label.size = Vector2(inner_width, 72.0 if compact else 86.0)
-	UIStyle.override_font_size(_preview_effect_label, "font_size", 12 if compact else 14)
-	_preview_deadline_label.position = Vector2(pad, 234.0 if compact else 266.0)
-	_preview_deadline_label.size = Vector2(inner_width, 52.0)
-	UIStyle.override_font_size(_preview_deadline_label, "font_size", 12 if compact else 13)
 	var commit_height := 54.0 if compact else 62.0
 	_commit_button.position = Vector2(pad, height - pad - commit_height)
 	_commit_button.size = Vector2(inner_width, commit_height)
 	UIStyle.override_font_size(_commit_button, "font_size", 14 if compact else 15)
-	_error_label.position = Vector2(pad, maxf(286.0, _commit_button.position.y - 48.0))
-	_error_label.size = Vector2(inner_width, 43.0)
+
+	UIStyle.override_font_size(_preview_choice_label, "font_size", 15 if compact else 17)
+	UIStyle.override_font_size(_preview_progress_label, "font_size", 14 if compact else 16)
+	UIStyle.override_font_size(_preview_effect_label, "font_size", 12 if compact else 14)
+	UIStyle.override_font_size(_preview_deadline_label, "font_size", 12 if compact else 13)
 	UIStyle.override_font_size(_error_label, "font_size", 12 if compact else 13)
+	for label in [
+		_preview_choice_label,
+		_preview_progress_label,
+		_preview_effect_label,
+		_preview_deadline_label,
+		_error_label,
+	]:
+		label.size = Vector2(inner_width, 1.0)
+
+	var row_gap := 4.0 if compact else 7.0
+	var error_height := 0.0
+	var content_bottom := _commit_button.position.y - row_gap
+	if _error_label.visible and not _error_label.text.is_empty():
+		error_height = _preview_label_required_height(_error_label, 30.0)
+		_error_label.position = Vector2(
+			pad, _commit_button.position.y - row_gap - error_height)
+		_error_label.size = Vector2(inner_width, error_height)
+		content_bottom = _error_label.position.y - row_gap
+	else:
+		_error_label.position = Vector2(pad, _commit_button.position.y)
+		_error_label.size = Vector2(inner_width, 0.0)
+
+	var preview_rows: Array[Label] = [
+		_preview_choice_label,
+		_preview_progress_label,
+		_preview_effect_label,
+		_preview_deadline_label,
+	]
+	var row_minimums := [30.0, 22.0, 30.0, 18.0]
+	var cursor_y := 44.0
+	var visible_row_count := 0
+	for index in range(preview_rows.size()):
+		var label := preview_rows[index]
+		var row_height := _preview_label_required_height(
+			label, row_minimums[index])
+		if row_height <= 0.0:
+			label.position = Vector2(pad, cursor_y)
+			label.size = Vector2(inner_width, 0.0)
+			continue
+		if visible_row_count > 0:
+			cursor_y += row_gap
+		label.position = Vector2(pad, cursor_y)
+		label.size = Vector2(inner_width, row_height)
+		cursor_y += row_height
+		visible_row_count += 1
+	set_meta("seoul_cycle_preview_layout_clearance", content_bottom - cursor_y)
+	set_meta("seoul_cycle_preview_choice_font_size",
+		_preview_choice_label.get_theme_font_size("font_size"))
+	set_meta("seoul_cycle_preview_error_height", error_height)
+
+
+func _preview_label_required_height(label: Label, minimum_height: float) -> float:
+	if not is_instance_valid(label) or label.text.is_empty():
+		return 0.0
+	return maxf(minimum_height, ceilf(label.get_combined_minimum_size().y))
 
 
 func _apply_effort_geometry(compact: bool) -> void:
