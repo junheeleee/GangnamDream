@@ -44,7 +44,7 @@ cleanup_isolated_home() {
     return 1
   fi
   case "$target" in
-	  "$temp_root"/gangnam-achievements.*|"$temp_root"/gangnam-communication-phone.*|"$temp_root"/gangnam-core-loop-v2.*|"$temp_root"/gangnam-core-loop-v2-b.*|"$temp_root"/gangnam-core-loop-v2-c.*|"$temp_root"/gangnam-core-loop-v2-cycle-balance.*|"$temp_root"/gangnam-core-loop-v2-d.*|"$temp_root"/gangnam-core-loop-v2-e.*|"$temp_root"/gangnam-core-loop-v2-first-entry.*|"$temp_root"/gangnam-core-loop-v2-handoff.*|"$temp_root"/gangnam-ending-route.*|"$temp_root"/gangnam-first30.*|"$temp_root"/gangnam-hidden.*|"$temp_root"/gangnam-housing-keepsake.*|"$temp_root"/gangnam-immersion-loop.*|"$temp_root"/gangnam-input-matrix.*|"$temp_root"/gangnam-manual-save.*|"$temp_root"/gangnam-mod-layer.*|"$temp_root"/gangnam-money-integrity.*|"$temp_root"/gangnam-phone-system.*|"$temp_root"/gangnam-story-audio.*|"$temp_root"/gangnam-story-dialogue-history.*|"$temp_root"/gangnam-story-tutorial.*)
+	  "$temp_root"/gangnam-achievements.*|"$temp_root"/gangnam-communication-phone.*|"$temp_root"/gangnam-controller-semantic.*|"$temp_root"/gangnam-core-loop-v2.*|"$temp_root"/gangnam-core-loop-v2-b.*|"$temp_root"/gangnam-core-loop-v2-c.*|"$temp_root"/gangnam-core-loop-v2-cycle-balance.*|"$temp_root"/gangnam-core-loop-v2-d.*|"$temp_root"/gangnam-core-loop-v2-e.*|"$temp_root"/gangnam-core-loop-v2-first-entry.*|"$temp_root"/gangnam-core-loop-v2-handoff.*|"$temp_root"/gangnam-ending-route.*|"$temp_root"/gangnam-first30.*|"$temp_root"/gangnam-hidden.*|"$temp_root"/gangnam-housing-keepsake.*|"$temp_root"/gangnam-immersion-loop.*|"$temp_root"/gangnam-input-matrix.*|"$temp_root"/gangnam-manual-save.*|"$temp_root"/gangnam-mod-layer.*|"$temp_root"/gangnam-money-integrity.*|"$temp_root"/gangnam-phone-system.*|"$temp_root"/gangnam-story-audio.*|"$temp_root"/gangnam-story-dialogue-history.*|"$temp_root"/gangnam-story-tutorial.*)
       rm -rf -- "$target"
       ;;
     *)
@@ -988,6 +988,25 @@ else
 fi
 
 echo "──────────────────────────────────────────"
+echo "● 패드 의미 버튼·trigger edge·모달 누수·진동 설정 검사"
+if [ -x "$GODOT" ]; then
+  CONTROLLER_SEMANTIC_HOME=$(make_isolated_home "gangnam-controller-semantic")
+  CONTROLLER_SEMANTIC_RAW=$(run_limited env HOME="$CONTROLLER_SEMANTIC_HOME" "$GODOT" --headless --quit-after 3600 res://tools/ControllerSemanticCheck.tscn 2>&1)
+  CONTROLLER_SEMANTIC_STATUS=$?
+  cleanup_isolated_home "$CONTROLLER_SEMANTIC_HOME"
+  echo "$CONTROLLER_SEMANTIC_RAW" | grep -E "CONTROLLER_SEMANTIC_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
+  if godot_check_passed "$CONTROLLER_SEMANTIC_RAW" "$CONTROLLER_SEMANTIC_STATUS" \
+      "CONTROLLER_SEMANTIC_CHECK_OK" strict; then
+    CONTROLLER_SEMANTIC_EXIT=0
+  else
+    CONTROLLER_SEMANTIC_EXIT=1
+  fi
+else
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 패드 의미 입력 체크 건너뜀."
+  CONTROLLER_SEMANTIC_EXIT=0
+fi
+
+echo "──────────────────────────────────────────"
 echo "● 업적 15종 카탈로그/번역/실제 해금 경로 검사"
 if [ -x "$GODOT" ]; then
   ACHIEVEMENT_HOME=$(make_isolated_home "gangnam-achievements")
@@ -1170,7 +1189,7 @@ AUDIT_EXIT_FLAGS="
   SCENE_AUDIO_CATALOG_EXIT FULL_RUN_AUDIO_EXIT SCENE_DIRECTION_CATALOG_EXIT FULL_RUN_DIRECTION_EXIT GAME_AUDIO_CONTRACT_EXIT UI_SFX_EXIT
   LAUNCH_AUDIO_EXIT AUDIO_EXIT GAME_AUDIO_RUNTIME_EXIT BGM_EXIT MORAL_AMBIENCE_EXIT IMMERSION_EXIT
   MOTIVATION_EXIT TUTORIAL_EXIT STORY_TUTORIAL_EXIT STORY_PLAYBACK_EXIT STORY_DIALOGUE_HISTORY_EXIT MANUAL_SAVE_EXIT SURFACE_COHERENCE_EXIT IDENTITY_SIGNATURE_EXIT FEATURE_LIVENESS_EXIT STATUS_DOC_EXIT HUMAN_GATES_EXIT
-  STORY_PRESENCE_EXIT LIVING_SCENE_EXIT SCENE_DIRECTION_RUNTIME_EXIT TEXT_MATERIAL_EXIT STORY_AUDIO_EXIT INPUT_MATRIX_EXIT
+  STORY_PRESENCE_EXIT LIVING_SCENE_EXIT SCENE_DIRECTION_RUNTIME_EXIT TEXT_MATERIAL_EXIT STORY_AUDIO_EXIT INPUT_MATRIX_EXIT CONTROLLER_SEMANTIC_EXIT
   ACHIEVEMENT_EXIT HIDDEN_EXIT HOUSING_KEEPSAKE_EXIT YEAR_IDENTITY_EXIT CAST_VISUAL_TIME_EXIT DEMO_BUILD_EXIT PLAYTEST_FLAVOR_EXIT
   TRAILER_EXIT GD_EXIT
 "

@@ -166,7 +166,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if key.echo:
 			return
 
-	var pad_navigation_event := event.is_action_pressed("gd_tab_prev") \
+	var major_direction := ControllerHints.major_direction(event)
+	var pad_navigation_event := (major_direction != 0 and _phase == Phase.BETTING) \
+			or event.is_action_pressed("gd_tab_prev") \
 			or event.is_action_pressed("gd_tab_next") \
 			or event.is_action_pressed("ui_left") \
 			or event.is_action_pressed("ui_right") \
@@ -180,7 +182,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		_pad_navigation_active = true
 
 	var handled := false
-	if event.is_action_pressed("gd_tab_prev"):
+	if major_direction != 0:
+		if _phase == Phase.BETTING:
+			handled = _pad_cycle_stake(major_direction)
+		else:
+			handled = true
+	elif event.is_action_pressed("gd_tab_prev"):
 		handled = _pad_cycle_target(-1)
 	elif event.is_action_pressed("gd_tab_next"):
 		handled = _pad_cycle_target(1)
@@ -275,8 +282,10 @@ func _pad_cycle_stake(direction: int) -> bool:
 	var idx := STAKE_OPTIONS.find(_active_stake)
 	if idx < 0:
 		idx = 2
-	idx = int(posmod(idx + direction, STAKE_OPTIONS.size()))
-	_set_stake(int(STAKE_OPTIONS[idx]))
+	var next_idx := clampi(idx + direction, 0, STAKE_OPTIONS.size() - 1)
+	if next_idx == idx:
+		return true
+	_set_stake(int(STAKE_OPTIONS[next_idx]))
 	_flash(_tr("베팅 단위: %s", "Stake: %s") % GameState.format_money(float(_active_stake)), "#d8dbe8")
 	return true
 
@@ -321,7 +330,6 @@ func _add_bet(type: String) -> void:
 		"PP": _bet_pp += add
 		"BP": _bet_bp += add
 	AudioManager.play_varied("chip_place")
-	AudioManager.pulse_gamepad(0.06, 0.12, 0.06)
 	_spawn_bet_chip(type, add)
 	_show_table_banner("BET  %s" % type, Color("#f0b429"), 0.22)
 	_render()
@@ -371,7 +379,7 @@ func _deal() -> void:
 	_deal_idx = 0
 	_deal_timer = 0.1
 	_phase = Phase.DEALING
-	AudioManager.pulse_gamepad(0.08, 0.18, 0.10)
+	AudioManager.play_haptic(&"commit_wager")
 	set_process(true)
 	_render()
 	_show_table_banner("NO MORE BETS", Color("#f0b429"), 0.52)
@@ -992,13 +1000,15 @@ func _add_pad_hint(parent: VBoxContainer) -> void:
 	hint.add_theme_color_override("default_color", Color("#aeb6ca"))
 	_f(hint, true)
 	hint.bbcode_text = _tr(
-		"[b]%s[/b]   [%s/%s] 존  [%s] 칩 놓기/딜  [%s] 단위  [%s] 규칙  [%s] 취소",
-		"[b]%s[/b]   [%s/%s] Zone  [%s] Bet/Deal  [%s] Stake  [%s] Rules  [%s] Cancel"
+		"[b]%s[/b]  [%s/%s] 존  [%s] 칩/딜  [%s/%s] 단위 −/+  [%s] 단위 +  [%s] 규칙  [%s] 취소",
+		"[b]%s[/b]  [%s/%s] Zone  [%s] Bet/Deal  [%s/%s] Unit −/+  [%s] Unit +  [%s] Rules  [%s] Cancel"
 	) % [
 		_pad_target_label(),
 		ControllerHints.shoulder_l(),
 		ControllerHints.shoulder_r(),
 		ControllerHints.south(),
+		ControllerHints.trigger_l(),
+		ControllerHints.trigger_r(),
 		ControllerHints.west(),
 		ControllerHints.north(),
 		ControllerHints.east(),

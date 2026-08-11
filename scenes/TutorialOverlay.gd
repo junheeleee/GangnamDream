@@ -626,8 +626,14 @@ func _process(_delta: float) -> void:
 
 func _input(event: InputEvent) -> void:
 	# The tutorial owns the whole first-entry surface, not only its focused Next
-	# button. Consume tab navigation in the early input phase so the planner
-	# behind this overlay cannot switch tabs before _unhandled_input reaches us.
+	# button. Consume tab and major navigation in the early input phase so the
+	# surface behind this overlay cannot switch tabs/pages or change a stake.
+	# Still pass trigger press/release through ControllerHints so its hysteresis
+	# latch cannot emerge from the modal in a stale held state.
+	if _is_major_input_event(event):
+		ControllerHints.major_direction(event)
+		get_viewport().set_input_as_handled()
+		return
 	if event.is_action("gd_tab_prev") or event.is_action("gd_tab_next"):
 		get_viewport().set_input_as_handled()
 		return
@@ -649,6 +655,14 @@ func _input(event: InputEvent) -> void:
 		if mouse_event.button_index == MOUSE_BUTTON_LEFT \
 				and mouse_event.pressed and mouse_event.double_click:
 			get_viewport().set_input_as_handled()
+
+func _is_major_input_event(event: InputEvent) -> bool:
+	if event.is_action("gd_major_prev") or event.is_action("gd_major_next"):
+		return true
+	if event is InputEventJoypadMotion:
+		var axis := (event as InputEventJoypadMotion).axis
+		return axis == JOY_AXIS_TRIGGER_LEFT or axis == JOY_AXIS_TRIGGER_RIGHT
+	return false
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and (event as InputEventKey).echo:

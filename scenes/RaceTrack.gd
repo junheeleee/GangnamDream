@@ -207,7 +207,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if key.echo:
 			return
 
-	var pad_navigation_event := event.is_action_pressed("gd_tab_prev") \
+	var major_direction := ControllerHints.major_direction(event)
+	var pad_navigation_event := (major_direction != 0 and _phase == Phase.BETTING) \
+			or event.is_action_pressed("gd_tab_prev") \
 			or event.is_action_pressed("gd_tab_next") \
 			or event.is_action_pressed("ui_up") \
 			or event.is_action_pressed("ui_down") \
@@ -223,7 +225,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	var handled := false
 	match _phase:
 		Phase.BETTING:
-			if event.is_action_pressed("ui_up"):
+			if major_direction != 0:
+				handled = _pad_cycle_stake(major_direction)
+			elif event.is_action_pressed("ui_up"):
 				handled = _pad_move_horse(-1)
 			elif event.is_action_pressed("ui_down"):
 				handled = _pad_move_horse(1)
@@ -240,7 +244,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			elif ControllerHints.details_pressed(event):
 				handled = _pad_show_rules()
 		Phase.RESULT:
-			if event.is_action_pressed("gd_tab_prev") \
+			if major_direction != 0:
+				handled = true
+			elif event.is_action_pressed("gd_tab_prev") \
 					or event.is_action_pressed("ui_left"):
 				handled = _pad_move_result(-1)
 			elif event.is_action_pressed("gd_tab_next") \
@@ -258,7 +264,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			elif ControllerHints.details_pressed(event):
 				handled = _pad_show_rules()
 		Phase.RACE:
-			if event.is_action_pressed("ui_cancel"):
+			if major_direction != 0:
+				handled = true
+			elif event.is_action_pressed("ui_cancel"):
 				handled = true
 
 	if handled:
@@ -281,7 +289,12 @@ func _pad_cycle_bet_type(delta: int) -> bool:
 	return true
 
 func _pad_cycle_stake(delta: int) -> bool:
-	_pad_stake_idx = int(posmod(_pad_stake_idx + delta, STAKE_OPTIONS.size()))
+	if _phase != Phase.BETTING:
+		return true
+	var next_idx := clampi(_pad_stake_idx + delta, 0, STAKE_OPTIONS.size() - 1)
+	if next_idx == _pad_stake_idx:
+		return true
+	_pad_stake_idx = next_idx
 	AudioManager.play("casino_coin")
 	_render()
 	return true
@@ -487,9 +500,14 @@ func _render_betting() -> void:
 	# 정보상 (오늘의 한 마리 — 진짜일까 함정일까)
 	_build_dealer_row(bet_panel)
 	_add_pad_hint(bet_panel, _tr(
-		"[b]패드[/b]  ↑↓ 말 선택 · ←→ 베팅 종류 · %s 금액 · %s 선택/베팅 · %s 취소/나가기 · %s 규칙",
-		"[b]Pad[/b]  ↑↓ Horse · ←→ Bet Type · %s Stake · %s Pick/Bet · %s Undo/Leave · %s Rules"
-	) % [ControllerHints.west(), ControllerHints.south(), ControllerHints.east(), ControllerHints.north()])
+		"[b]패드[/b]  ↑↓ 말 · ←→/%s/%s 종류 · %s/%s 금액 −/+ · %s 금액 + · %s 선택/베팅 · %s 취소 · %s 규칙",
+		"[b]Pad[/b]  ↑↓ Horse · ←→/%s/%s Type · %s/%s Stake −/+ · %s Stake + · %s Pick/Bet · %s Undo · %s Rules"
+	) % [
+		ControllerHints.shoulder_l(), ControllerHints.shoulder_r(),
+		ControllerHints.trigger_l(), ControllerHints.trigger_r(),
+		ControllerHints.west(), ControllerHints.south(),
+		ControllerHints.east(), ControllerHints.north(),
+	])
 
 	# 베팅종류 선택 (연승/단승/복승/삼쌍승)
 	var type_row := HBoxContainer.new()
@@ -750,7 +768,7 @@ func _update_race_call(delta: float) -> void:
 		if not _final_stretch_sfx_played:
 			_final_stretch_sfx_played = true
 			AudioManager.play("race_crowd_rise")
-			AudioManager.pulse_gamepad(0.14, 0.34, 0.16)
+			AudioManager.play_haptic(&"danger_impact")
 			_shake_node(_content, 3.0, 0.16)
 		if is_instance_valid(_msg):
 			_pulse_node(_msg, 1.12, 0.22)
@@ -966,13 +984,11 @@ func _finish_race() -> void:
 		var profit := payout - _bet_stake
 		AudioManager.play_delayed("chip_collect", 0.16)
 		AudioManager.play_casino_result(profit, float(_bet_stake), profit >= float(_bet_stake) * 10.0)
-		AudioManager.pulse_gamepad(0.16, 0.48, 0.16)
 		_screen_flash(Color("#f0b429"), 0.22, 0.44)
 		_shake_node(_content, 5.0, 0.22)
 		_last_lost = false
 	else:
 		AudioManager.play_casino_result(-float(_bet_stake), float(_bet_stake))
-		AudioManager.pulse_gamepad(0.28, 0.26, 0.18)
 		_screen_flash(Color("#d73a49"), 0.22, 0.38)
 		_shake_node(_content, 10.0, 0.30)
 		_last_lost = true

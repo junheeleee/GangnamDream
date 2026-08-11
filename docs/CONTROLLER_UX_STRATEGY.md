@@ -1,6 +1,6 @@
 # Controller UX Strategy
 
-Updated: 2026-08-10
+Updated: 2026-08-11
 
 ## Why This Exists
 
@@ -17,7 +17,8 @@ Mouse UI can expose many clickable elements. Controller UI needs a smaller seman
 - One highlighted decision at a time.
 - One confirm button.
 - One back/cancel button.
-- Shoulder buttons for switching groups or tabs.
+- Shoulder buttons for switching sibling groups or tabs.
+- Triggers for previous/next pages or reversible coarse value changes.
 - Face buttons for clear secondary verbs only.
 - No required multi-button chords for basic actions.
 
@@ -30,17 +31,24 @@ Focus routing is a fallback safety net. It is not the design.
 | D-pad / Left stick | Move selection inside the current group |
 | South / A | Confirm the highlighted choice |
 | East / B | Back, close, or cancel pending bet |
-| West / X | Adjust stake / quick secondary action where relevant |
+| West / X | Clear, remove, repeat, or another named contextual secondary action |
 | North / Y | Rules / details / inspect |
 | LB / RB | Switch tab, group, or betting category |
+| LT / RT | Previous/next page, or coarse value decrease/increase |
 | Menu / Start | System menu |
 | R3 | Advance week only when AP is empty |
 
-Keyboard uses the same semantic layer instead of pretending to be an Xbox pad: `Enter` confirms, `Esc` cancels, `X` is the contextual secondary action, `Y` opens details/rules, `Q/E` switch groups, `F10` opens settings, and `N` advances an empty week. Visible hints must switch with the last active device.
+Keyboard uses the same semantic layer instead of pretending to be an Xbox pad: `Enter` confirms, `Esc` cancels, `X` is the contextual secondary action, `Y` opens details/rules, `Q/E` switch groups, `PageUp/PageDown` change major page or coarse value, `F10` opens settings, and `N` advances an empty week. Visible hints must switch with the last active device.
+
+Not every screen uses every input. A surface without pages or a coarse reversible value
+must leave LT/RT inert instead of inventing a shortcut. Triggers never confirm, save,
+load, buy, commit a schedule, advance time, or exit. An analog trigger crossing the
+press threshold produces exactly one action and cannot fire again until it crosses the
+release threshold.
 
 The same button should not mean different things on neighboring screens unless the screen title makes the mode unmistakable.
 
-Button labels shown to the player must come from `ControllerHints`, not hardcoded `A/B/X/Y` strings. The design contract uses physical positions (`South`, `East`, `West`, `North`), but the UI must surface the connected brand: Xbox/Steam Deck `A/B/X/Y`, PlayStation `✕/○/□/△`, Nintendo `B/A/Y/X`.
+Button labels shown to the player must come from `ControllerHints`, not hardcoded `A/B/X/Y` strings. The design contract uses physical positions (`South`, `East`, `West`, `North`), but the UI must surface the connected brand: Xbox/Steam Deck `A/B/X/Y` and `LT/RT`, PlayStation `✕/○/□/△` and `L2/R2`, Nintendo `B/A/Y/X` and `ZL/ZR`.
 
 ## Acceptance Gates
 
@@ -55,6 +63,8 @@ Before demo/release candidate builds:
 - `A` must always commit the highlighted thing, not trigger a hidden default elsewhere.
 - Help/rules must be reachable without leaving the current screen.
 - The player should never need to remember a hidden button chord to perform a basic action.
+- A held or noisy analog trigger changes one page/value once; it cannot repeat until released.
+- No ordinary focus, tab, page, prose, or value-preview input vibrates the controller.
 
 ## Screen Models
 
@@ -216,7 +226,8 @@ Implementation status: first pass complete in `scenes/JeongseonCasino.gd`.
 Use an action rail.
 
 - Primary actions: Hit/Stand/Call/Raise/Fold.
-- Stake/raise amount should be adjusted by X/Y or LB/RB, not selected from many small chip buttons unless in a dedicated stake mode.
+- Stake/buy-in is adjusted backward/forward by LT/RT. LB/RB remains an
+  action-family control and X remains a named contextual secondary action.
 - A commits current highlighted action.
 - B cancels a pending raise/bet, then exits only if nothing is pending.
 
@@ -226,8 +237,8 @@ Implementation status: first pass complete in `scenes/BlackjackTable.gd`.
 
 Blackjack should read as one table decision, not a web form with five buttons.
 
-- Betting phase: A deals, X/LB/RB cycles stake, Y opens rules, B exits.
-- Player turn: D-pad or LB/RB/X moves the action rail across Hit / Stand / Double / Split.
+- Betting phase: LT/RT decreases/increases stake, A deals, Y opens rules, B exits.
+- Player turn: D-pad or LB/RB moves the action rail across Hit / Stand / Double / Split.
 - A confirms the highlighted action.
 - Result phase: A starts the next hand, Y opens rules, B exits.
 
@@ -239,8 +250,8 @@ Implementation status: first pass complete in `scenes/HoldemClub.gd`.
 
 Holdem has higher accident risk than other casino screens because the wrong confirm can fold or shove.
 
-- Buy-in phase: A starts, X/LB/RB cycles buy-in, Y opens rules, B leaves.
-- Player turn: D-pad or LB/RB/X moves the action rail across legal actions only.
+- Buy-in phase: LT/RT decreases/increases buy-in, A starts, Y opens rules, B leaves.
+- Player turn: D-pad or LB/RB moves the action rail across legal actions only.
 - A confirms the highlighted action.
 - B leaves the seat/session rather than landing on a small Leave button in the same rail.
 - New action turns default to Check/Call rather than Fold.
@@ -255,7 +266,7 @@ Implementation status: first pass complete in `scenes/BaccaratTable.gd`.
 
 - D-pad left/right: Player / Banker / Tie.
 - D-pad up/down or LB/RB: side bets.
-- X: cycle stake.
+- LT/RT: decrease/increase stake.
 - A: place chip on highlighted zone; on the Deal target, start the round.
 - Y: rules.
 - B: clear current bets, then exit if no bet is pending.
@@ -276,7 +287,7 @@ Controller flow:
 
 - LB/RB: switch Simple / Face / Total.
 - D-pad: move within the current mode.
-- X: cycle stake.
+- LT/RT: decrease/increase stake.
 - A: select/place the highlighted bet; press A again on the active bet to roll.
 - Y: rules.
 - B: clear pending bet or exit.
@@ -296,7 +307,7 @@ Recommended model:
 - Mode 3: Action target (BET/SPIN).
 - LB/RB: switch modes.
 - D-pad: move cursor in current mode.
-- X: cycle stake.
+- LT/RT: decrease/increase stake.
 - A: place chip or spin on the active action target.
 - B: clear last chip / back.
 - Y: rules/payouts.
@@ -310,7 +321,7 @@ Implementation status: first pass complete in `scenes/SlotMachineGame.gd`.
 Slots should be the simplest controller experience in the game.
 
 - A: Spin.
-- X or LB/RB: cycle stake.
+- LT/RT: decrease/increase stake.
 - Y: rules.
 - B: exit.
 
@@ -326,7 +337,7 @@ Big Wheel should feel like choosing a wedge and pulling the lever.
 - D-pad down: move to `SPIN`.
 - D-pad up: return to segment cursor.
 - A: select the segment; when `SPIN` is active, spin.
-- X: cycle stake.
+- LT/RT: decrease/increase stake.
 - Y: rules.
 - B: clear the selected segment, then exit if nothing is selected.
 
@@ -340,13 +351,38 @@ RaceTrack should read as a betting slip, not a long web list with chip buttons.
 
 - D-pad up/down: choose horse.
 - D-pad left/right or LB/RB: change bet type.
-- X: cycle stake.
+- LT/RT: decrease/increase stake.
 - A: pick the highlighted horse; once enough horses are picked, place the bet.
 - Y: rules.
 - B: remove the last pick, then exit if no pick is pending.
 - Result phase: A starts the next race, B exits.
 
 The horse list may remain scrollable/clickable for mouse, but controller mode must keep one visible horse cursor plus one visible bet/stake target.
+
+## Haptic Direction
+
+Vibration is a sparse direction layer, not a second click sound. The transferable
+reference structures are:
+
+- [Hades](https://blog.playstation.com/?p=350240) gives rare relationship and
+  companion-arrival moments distinct tactile signatures. Gangnam Dream likewise
+  reserves named cues for an actual choice/action commit, danger, result, or
+  physical beat.
+- [Astro's Playroom](https://blog.playstation.com/?p=343436) ties a consistent
+  sensation to a material or action family. Gangnam Dream centralizes named
+  profiles instead of letting each scene invent motor numbers; it does not copy
+  Astro's continuous surface density or adaptive-trigger showcase.
+- [The Last of Us Part II accessibility contract](https://store.playstation.com/en-us/concept/230079/)
+  permits play without controller vibration and redundantly communicates cues.
+  Gangnam Dream's Vibration toggle and 0% strength must be truly silent, while
+  visual and audio feedback retain every result and warning.
+
+Focus, hover, ordinary button clicks, opening/closing menus, tabs, pages, prose
+advance, and reversible value preview never vibrate. A disabled or failed action
+never vibrates. A successful semantic commit may emit one named profile after the
+state change succeeds; danger, result, and physical beats use their own centralized
+profiles. Reduce Motion does not change this information contract, and vibration
+must remain optional in title, MainGame, and in-scene settings.
 
 ## Implementation Order
 
@@ -387,7 +423,9 @@ All on controller only.
 
 ## Current Automated Evidence
 
-`InputMatrixCheck.tscn` executes the shared West/North secondary routes for the casino hub, Blackjack, Baccarat, Slots, Roulette, Big Wheel, Dai Sai, Holdem, and RaceTrack in both keyboard and gamepad modes. It also drives nine keyboard core tasks through real input dispatch, from stake selection to starting the actual hand, spin, roll, race, or selected casino table. This prevents a keyboard-only command from being documented but unreachable, and prevents gamepad labels from drifting away from their physical action.
+`InputMatrixCheck.tscn` executes the shared West/North secondary routes for the casino hub, Blackjack, Baccarat, Slots, Roulette, Big Wheel, Dai Sai, Holdem, and RaceTrack in both keyboard and gamepad modes. It also drives ten keyboard core tasks through real input dispatch, including the eight direct games, casino hub launch, and resume-assessment return. For every direct game it sends raw LT/RT or L2/R2 press, held jitter, and release: a valid setup changes exactly one stake/buy-in step, while an in-flight/result phase preserves value, money, session count, focus, phase, and visibility.
+
+`ControllerSemanticCheck.tscn` owns the cross-surface trigger contract. It drives title load/archive pages, Story save/settings, the six-month completion ledger, and MainGame save/ending pages; checks the `0.55` press and `0.35` release gate; and rejects modal leakage, prose advance, finishing, exiting, saving, loading, or any other destructive trigger fallthrough. `GameAudioContractCheck.tscn` rejects ordinary-UI vibration, raw scene motor numbers, unused profile IDs, and output after Off or 0% strength.
 
 The title-to-demo route has completed all 24 weeks with actual keyboard events and zero mouse events, then with actual mouse events and zero keyboard events. Sixteen Korean/English display-matrix renders cover eight release resolutions, and each language has Xbox, PlayStation, and Nintendo title-glyph evidence at 1080p. The exact contract and remaining physical-device gates are recorded in `docs/INPUT_MATRIX.md`.
 

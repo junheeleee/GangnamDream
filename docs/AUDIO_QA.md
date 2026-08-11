@@ -188,10 +188,27 @@ These field-recording layers are filtered to keep speech indistinct and contain 
 
 Focus traversal is a last resort. Gameplay scenes use direct state machines and contextual actions; focus is allowed only for settings and short conventional linear menus. The scene settings hub opens on the active text-size segment and uses explicit two-dimensional neighbors through language, audio, motion, and Close. Casino rounds, racing, and card play never require walking a flat button graph.
 
+### Haptic ownership
+
+- `AudioManager` owns named vibration profiles. Scenes may request a semantic
+  profile but may not pass raw motor strengths or durations.
+- UI focus, hover, click, open/close, tab/page navigation, prose advance, and
+  reversible stake/value preview are silent. Failed or disabled actions are silent.
+- Successful choice/action/wager commits, real danger, major results, and named
+  physical beats may emit exactly one matching profile after success.
+- Vibration never carries information alone. The same result, warning, and timing
+  remain visible and audible with vibration disabled.
+- `Vibration = Off` and `Strength = 0%` immediately stop active output and prevent
+  every subsequent profile. The setting persists across save-independent settings
+  reloads and is reachable from title, MainGame, and Story scene settings.
+- A 30-minute physical-pad pass judges fatigue and whether profiles are actually
+  distinguishable. Automated strength and call-site checks are not a feel verdict.
+
 ## Player-Facing Controls
 
 - Event scenes expose a compact top-right Settings button for mouse users.
-- `gd_menu` opens text size, language, Music/Ambience, SFX, and Reduce Motion from inside a story event without scrolling.
+- `gd_menu` opens text size, language, Music/Ambience, SFX, Reduce Motion,
+  Vibration, and Vibration Strength from inside a story event without scrolling.
 - Xbox/Steam Deck Menu, DualSense Options, and Switch `+` resolve through the same action.
 - The modal pauses typing, AUTO, direction holds/beats, and timed choices. Menu or Cancel closes it, restores the focused choice and remaining countdown, and does not restart scene audio.
 - Language changes rebind the current paragraph, choices, and result in place. They never replay a choice effect, follow-up, paragraph cue, BGM, or ambience.
@@ -216,11 +233,11 @@ Latest targeted result:
 ```text
 AUDIO_SOURCE_AUDIT_OK assets=139 bgm=20 ambience=49 sfx=70 source_libraries=21 recordings_or_samples=139 procedural=0
 SCENE_AUDIO_CONTRACT_OK cg=74 peak_events=116 ambience_keys=39 music_keys=20 demo_contracts=45 demo_foley_events=42
-GAME_AUDIO_CONTRACT_OK physical=31 stages=19 activities=7 activity_music=1 human_layers=10 direct_pad=9
+GAME_AUDIO_CONTRACT_OK physical=32 stages=19 activities=7 activity_music=1 human_layers=10 direct_pad=9
 AUDIO_ASSET_CHECK_OK bgm=20 ambience=49 sfx=70
 LAUNCH_AUDIO_OK stereo=2 rate=44100 duration=1.55
 BGM_CONTINUITY_OK mode=menu key=menu ambience=
-GAME_AUDIO_RUNTIME_OK physical=31 ambience_roundtrip=3 varied_playback=1 casino_music=1
+GAME_AUDIO_RUNTIME_OK physical=32 ambience_roundtrip=3 varied_playback=1 casino_music=1 haptics=12 unused_profiles=0 direct_scene_raw=0 vibration_roundtrip=1 boundary_clamp=8 same_stack=3
 MORAL_AMBIENCE_CHECK_OK profiles=10 neutral=-8.04 dark=-22.04 deep=-54.04
 STORY_AUDIO_SETTINGS_CHECK_OK text=3 locale=ko/en timer_pause=11996 result_replay=0
 DEMO_EXPERIENCE_AUDIT_OK reports=2 parity=ko/en music=10 authored_music=41

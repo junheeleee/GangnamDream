@@ -198,7 +198,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if key.echo:
 			return
 
-	var pad_navigation_event := event.is_action_pressed("gd_tab_prev") \
+	var major_direction := ControllerHints.major_direction(event)
+	var pad_navigation_event := (major_direction != 0 and _phase == Phase.IDLE) \
+			or event.is_action_pressed("gd_tab_prev") \
 			or event.is_action_pressed("gd_tab_next") \
 			or event.is_action_pressed("ui_left") \
 			or event.is_action_pressed("ui_right") \
@@ -212,7 +214,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		_pad_navigation_active = true
 
 	var handled := false
-	if event.is_action_pressed("gd_tab_prev"):
+	if major_direction != 0:
+		if _phase == Phase.IDLE:
+			handled = _pad_cycle_stake(major_direction)
+		else:
+			handled = true
+	elif event.is_action_pressed("gd_tab_prev"):
 		handled = _pad_cycle_mode(-1)
 	elif event.is_action_pressed("gd_tab_next"):
 		handled = _pad_cycle_mode(1)
@@ -337,8 +344,10 @@ func _pad_cycle_stake(direction: int) -> bool:
 	var idx := STAKE_OPTIONS.find(_stake)
 	if idx < 0:
 		idx = 1
-	idx = int(posmod(idx + direction, STAKE_OPTIONS.size()))
-	_select_stake(int(STAKE_OPTIONS[idx]))
+	var next_idx := clampi(idx + direction, 0, STAKE_OPTIONS.size() - 1)
+	if next_idx == idx:
+		return true
+	_select_stake(int(STAKE_OPTIONS[next_idx]))
 	_flash(_tr("베팅 금액: %s", "Stake: %s") % GameState.format_money(float(_stake)), "#d8dbe8")
 	return true
 
@@ -1287,14 +1296,16 @@ func _refresh_pad_hint() -> void:
 	if not show_hint:
 		return
 	_pad_hint_lbl.bbcode_text = _tr(
-		"[b]%s[/b] · %s   [%s/%s] 모드  [%s] 칩/스핀  [%s] 금액  [%s] 규칙  [%s] 취소",
-		"[b]%s[/b] · %s   [%s/%s] Mode  [%s] Bet/Spin  [%s] Stake  [%s] Rules  [%s] Cancel"
+		"[b]%s[/b] · %s  [%s/%s] 모드  [%s] 칩/스핀  [%s/%s] 금액 −/+  [%s] 금액 +  [%s] 규칙  [%s] 취소",
+		"[b]%s[/b] · %s  [%s/%s] Mode  [%s] Bet/Spin  [%s/%s] Stake −/+  [%s] Stake +  [%s] Rules  [%s] Cancel"
 	) % [
 		_pad_mode_label(),
 		_pad_target_label(),
 		ControllerHints.shoulder_l(),
 		ControllerHints.shoulder_r(),
 		ControllerHints.south(),
+		ControllerHints.trigger_l(),
+		ControllerHints.trigger_r(),
 		ControllerHints.west(),
 		ControllerHints.north(),
 		ControllerHints.east(),

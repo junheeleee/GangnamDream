@@ -16,9 +16,9 @@ but their dictionaries and body overlays remain empty.
 |---|---|---|---|---|
 | `ko` | Shipping, source | Inline source | `content/events/` | `content/endings.json` |
 | `en` | Shipping, strict | Inline fallback | `content/events_en/` | `content/endings_en.json` |
-| `ja` | Prepared beta, hidden | legacy 2,780/2,780; context 30/30 (2,810/2,810 total) | 1/1,603 full; 1/73 demo | 0/35 full; 0 required by demo |
-| `zh-CN` | Prepared, hidden; font blocked | legacy 0/2,780; context 0/30 | 0/1,603 full; 0/73 demo | 0/35 full; 0 required by demo |
-| `zh-TW` | Prepared, hidden; font blocked | legacy 0/2,780; context 0/30 | 0/1,603 full; 0/73 demo | 0/35 full; 0 required by demo |
+| `ja` | Prepared beta, hidden | legacy 2,782/2,782; context 30/30 (2,812/2,812 total) | 1/1,603 full; 1/73 demo | 0/35 full; 0 required by demo |
+| `zh-CN` | Prepared, hidden; font blocked | legacy 0/2,782; context 0/30 | 0/1,603 full; 0/73 demo | 0/35 full; 0 required by demo |
+| `zh-TW` | Prepared, hidden; font blocked | legacy 0/2,782; context 0/30 | 0/1,603 full; 0/73 demo | 0/35 full; 0 required by demo |
 
 `LocaleManager.SHIPPING_LANGUAGES` is the player-facing allowlist. Adding a
 language to `SUPPORTED_LANGUAGES` is not permission to expose it in the first-run
@@ -72,10 +72,13 @@ Korean keys. The manifest still owns that exact partition and each context row's
 ID, Korean source, allowed English variants, owner function, and call count.
 
 ORDER-97 adds a separate parameterized-template contract without reopening those
-30 context IDs. The final measured static inventory is now exactly `3,310 calls
-= 3,273 legacy + 37 context`, with 2,780 unique legacy Korean keys and the same
-30 context IDs. Japanese owns all `2,780 legacy + 30 context = 2,810` rows;
-both Chinese skeletons remain `legacy 0/2,780 + context 0/30`.
+30 context IDs. Its migration revision measured `3,310 calls = 3,273 legacy +
+37 context` and 2,780 unique legacy Korean keys. ORDER-98 subsequently moved the
+eight direct-game controller hint keys and added the current page and vibration
+settings copy. The current measured inventory is therefore exactly `3,313 calls
+= 3,276 legacy + 37 context`, with 2,782 unique legacy Korean keys and the same
+30 context IDs. Japanese owns all `2,782 legacy + 30 context = 2,812` rows;
+both Chinese skeletons remain `legacy 0/2,782 + context 0/30`.
 
 `LocaleManager.ui_format(ko_template, en_template, ko_args, en_args)` performs a
 stable legacy-template lookup before inserting values. Korean and English each
@@ -219,14 +222,14 @@ the complete event-ID hash so a content change cannot silently leave the
 translation plan stale.
 
 Current prepared coverage is deliberately incomplete. Static UI is a separate
-claim surface: a Chinese demo cannot ship with its 2,780 current UI keys falling
+claim surface: a Chinese demo cannot ship with its 2,782 current UI keys falling
 back to English even after the event body is complete.
 
 | Locale | Static UI | Events | Event text leaves | Dynamic keys | Demo catalog |
 |---|---:|---:|---:|---:|---:|
-| `ja` | legacy 2,780/2,780; context 30/30 | 1/73 | 8/471 | 9/657 | 0/4 |
-| `zh-CN` | legacy 0/2,780; context 0/30 | 0/73 | 0/471 | 0/657 | 0/4 |
-| `zh-TW` | legacy 0/2,780; context 0/30 | 0/73 | 0/471 | 0/657 | 0/4 |
+| `ja` | legacy 2,782/2,782; context 30/30 | 1/73 | 8/471 | 9/657 | 0/4 |
+| `zh-CN` | legacy 0/2,782; context 0/30 | 0/73 | 0/471 | 0/657 | 0/4 |
+| `zh-TW` | legacy 0/2,782; context 0/30 | 0/73 | 0/471 | 0/657 | 0/4 |
 
 Skeleton mode verifies this scope, existing rows, fallback paths, and the hidden
 shipping state without pretending missing prose is complete. Per-language
@@ -234,7 +237,7 @@ shipping state without pretending missing prose is complete. Per-language
 keys, 4/4 catalog names, and zero direct English bypasses. It is expected to fail
 until an approved body-translation wave is finished. Japanese has the required
 terminology and source-shape validator now. `zh_translation_audit.py --strict`
-adds 2,780/2,780 legacy UI keys and 30/30 context IDs, separate
+adds 2,782/2,782 legacy UI keys and 30/30 context IDs, separate
 Simplified/Traditional script and
 terminology, Korean-won semantics, romanized-name locks, and a project-owned
 regional font route. It cannot certify one region from the other region's text.
@@ -337,7 +340,7 @@ godot --rendering-driver opengl3 --resolution 1280x800 \
 ```
 
 The default full-game coverage command keeps English strict and prepared locales
-in skeleton mode. `ja_translation_audit.py --scope ui` requires all 2,780 legacy
+in skeleton mode. `ja_translation_audit.py --scope ui` requires all 2,782 legacy
 UI keys and all 30 context IDs. It also
 requires exact placeholder/newline parity, zero Hangul or yen conversion,
 canonical names and casino terms, and no lock/unlock polarity reversal. The two
@@ -365,7 +368,7 @@ assets.
 
 `zh_translation_audit.py` reads both regions from the Korean source independently.
 Its normal mode reports the empty skeleton and both blocked font routes without
-claiming completion. Its region-specific strict mode requires 2,780/2,780 legacy
+claiming completion. Its region-specific strict mode requires 2,782/2,782 legacy
 UI keys and 30/30 context IDs, the exact 73/471/657/4 demo body (1,132 unique demo translation sources),
 zero direct English bypasses, every
 context-unambiguous wrong-region character in the pinned OpenCC 1.3.1 classifier
@@ -432,7 +435,7 @@ and validator together.
 
 Before either Chinese demo claim, that region requires:
 
-1. 2,780/2,780 legacy UI keys, 30/30 context IDs, and strict parity for all 73 demo events, 471 event
+1. 2,782/2,782 legacy UI keys, 30/30 context IDs, and strict parity for all 73 demo events, 471 event
    leaves, 657 dynamic keys, and four catalog names: 1,132 unique demo translation
    sources in total; no ending is fabricated.
 2. Zero Hangul, kana, untranslated English prose, direct English bypass, wrong-

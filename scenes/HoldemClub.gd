@@ -133,7 +133,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if key.echo:
 			return
 
-	var pad_navigation_event := event.is_action_pressed("gd_tab_prev") \
+	var major_direction := ControllerHints.major_direction(event)
+	var pad_navigation_event := (major_direction != 0 and _phase == Phase.SETUP) \
+			or event.is_action_pressed("gd_tab_prev") \
 			or event.is_action_pressed("gd_tab_next") \
 			or event.is_action_pressed("ui_left") \
 			or event.is_action_pressed("ui_right") \
@@ -145,44 +147,50 @@ func _unhandled_input(event: InputEvent) -> void:
 		_pad_navigation_active = true
 
 	var handled := false
-	match _phase:
-		Phase.SETUP:
-			if event.is_action_pressed("gd_tab_prev") or event.is_action_pressed("ui_left"):
-				handled = _pad_cycle_buyin(-1)
-			elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right") or ControllerHints.secondary_pressed(event):
-				handled = _pad_cycle_buyin(1)
-			elif event.is_action_pressed("ui_accept"):
-				handled = _pad_start_buyin()
-			elif event.is_action_pressed("ui_cancel"):
-				handled = _pad_leave()
-			elif ControllerHints.details_pressed(event):
-				handled = _pad_show_rules()
-		Phase.PREFLOP, Phase.FLOP, Phase.TURN, Phase.RIVER:
-			if _is_player_action_waiting():
-				if event.is_action_pressed("gd_tab_prev") or event.is_action_pressed("ui_left"):
-					handled = _pad_move_action(-1)
-				elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right") or ControllerHints.secondary_pressed(event):
-					handled = _pad_move_action(1)
+	if major_direction != 0:
+		if _phase == Phase.SETUP:
+			handled = _pad_cycle_buyin(major_direction)
+		else:
+			handled = true
+	else:
+		match _phase:
+			Phase.SETUP:
+				if event.is_action_pressed("ui_left"):
+					handled = _pad_cycle_buyin(-1)
+				elif event.is_action_pressed("ui_right") or ControllerHints.secondary_pressed(event):
+					handled = _pad_cycle_buyin(1)
 				elif event.is_action_pressed("ui_accept"):
-					handled = _pad_accept_action()
+					handled = _pad_start_buyin()
+				elif event.is_action_pressed("ui_cancel"):
+					handled = _pad_leave()
+				elif ControllerHints.details_pressed(event):
+					handled = _pad_show_rules()
+			Phase.PREFLOP, Phase.FLOP, Phase.TURN, Phase.RIVER:
+				if _is_player_action_waiting():
+					if event.is_action_pressed("gd_tab_prev") or event.is_action_pressed("ui_left"):
+						handled = _pad_move_action(-1)
+					elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right") or ControllerHints.secondary_pressed(event):
+						handled = _pad_move_action(1)
+					elif event.is_action_pressed("ui_accept"):
+						handled = _pad_accept_action()
+					elif event.is_action_pressed("ui_cancel"):
+						handled = _pad_leave_mid()
+					elif ControllerHints.details_pressed(event):
+						handled = _pad_show_rules()
+				elif event.is_action_pressed("ui_cancel"):
+					handled = _pad_leave_mid()
+			Phase.SHOWDOWN:
+				if event.is_action_pressed("ui_accept"):
+					handled = _pad_next_hand()
 				elif event.is_action_pressed("ui_cancel"):
 					handled = _pad_leave_mid()
 				elif ControllerHints.details_pressed(event):
 					handled = _pad_show_rules()
-			elif event.is_action_pressed("ui_cancel"):
-				handled = _pad_leave_mid()
-		Phase.SHOWDOWN:
-			if event.is_action_pressed("ui_accept"):
-				handled = _pad_next_hand()
-			elif event.is_action_pressed("ui_cancel"):
-				handled = _pad_leave_mid()
-			elif ControllerHints.details_pressed(event):
-				handled = _pad_show_rules()
-		Phase.RESULT:
-			if event.is_action_pressed("ui_accept") or event.is_action_pressed("ui_cancel"):
-				handled = _pad_leave()
-			elif ControllerHints.details_pressed(event):
-				handled = _pad_show_rules()
+			Phase.RESULT:
+				if event.is_action_pressed("ui_accept") or event.is_action_pressed("ui_cancel"):
+					handled = _pad_leave()
+				elif ControllerHints.details_pressed(event):
+					handled = _pad_show_rules()
 
 	if handled:
 		get_viewport().set_input_as_handled()
@@ -198,8 +206,10 @@ func _pad_cycle_buyin(direction: int) -> bool:
 	var idx := affordable.find(_buy_in)
 	if idx < 0:
 		idx = 0
-	idx = int(posmod(idx + direction, affordable.size()))
-	_buy_in = int(affordable[idx])
+	var next_idx := clampi(idx + direction, 0, affordable.size() - 1)
+	if next_idx == idx:
+		return true
+	_buy_in = int(affordable[next_idx])
 	AudioManager.play("casino_coin")
 	_show_buyin_screen()
 	return true
@@ -324,13 +334,13 @@ func _show_buyin_screen() -> void:
 	var leave := _make_btn(_tr("자리를 뜬다", "Leave Seat"), _leave, "#2a1818")
 	vb.add_child(leave)
 	_add_pad_hint(vb, _tr(
-		"[%s] 시작  [%s/%s/%s] 바이인  [%s] 규칙  [%s] 나가기",
-		"[%s] Start  [%s/%s/%s] Buy-In  [%s] Rules  [%s] Leave"
+		"[%s] 시작  [%s/%s] 바이인 −/+  [%s] 바이인 +  [%s] 규칙  [%s] 나가기",
+		"[%s] Start  [%s/%s] Buy-In −/+  [%s] Buy-In +  [%s] Rules  [%s] Leave"
 	) % [
 		ControllerHints.south(),
+		ControllerHints.trigger_l(),
+		ControllerHints.trigger_r(),
 		ControllerHints.west(),
-		ControllerHints.shoulder_l(),
-		ControllerHints.shoulder_r(),
 		ControllerHints.north(),
 		ControllerHints.east(),
 	])
@@ -377,7 +387,7 @@ func _start_hand() -> void:
 	_render_table()
 	AudioManager.play_varied("chip_place")
 	_play_card_sound_sequence(2, 0.12)
-	AudioManager.pulse_gamepad(0.06, 0.14, 0.08)
+	AudioManager.play_haptic(&"commit_wager")
 	_show_table_banner("NEW HAND", Color("#c9a227"), 0.65)
 	_spawn_chip_burst(Color("#f0b429"), Vector2(0.50, 0.47), 6)
 	_screen_flash(Color("#c9a227"), 0.10, 0.22)
@@ -1049,7 +1059,7 @@ func _player_action(action: String, amount: int) -> void:
 			_pot += actual
 			_set_msg(_tr("콜 (%s).", "Call (%s).") % _fmt(actual))
 			AudioManager.play_varied("chip_place")
-			AudioManager.pulse_gamepad(0.06, 0.14, 0.07)
+			AudioManager.play_haptic(&"commit_wager")
 			_show_table_banner("CALL", Color("#5de89c"), 0.45)
 			_spawn_chip_burst(Color("#5de89c"), Vector2(0.50, 0.56), 4)
 			_pulse_node(_msg_lbl, 1.04, 0.18)
@@ -1061,7 +1071,7 @@ func _player_action(action: String, amount: int) -> void:
 			_max_bet = maxi(_max_bet, _player_bet)
 			_set_msg(_tr("레이즈 → %s", "Raise to %s") % _fmt(_player_bet))
 			AudioManager.play_varied("chip_place", 1.5 if actual >= 200_000 else 0.0, 0.91, 1.03)
-			AudioManager.pulse_gamepad(0.11, 0.28, 0.10)
+			AudioManager.play_haptic(&"commit_wager")
 			_show_table_banner("RAISE", Color("#f0b429"), 0.58)
 			_spawn_chip_burst(Color("#f0b429"), Vector2(0.50, 0.56), 8)
 			_screen_flash(Color("#f0b429"), 0.13, 0.22)
@@ -1151,7 +1161,6 @@ func _advance_phase() -> void:
 	var new_cards := 1 if banner in ["TURN", "RIVER"] else 3
 	_render_table()
 	_play_card_flip_sequence(new_cards, 0.10)
-	AudioManager.pulse_gamepad(0.05, 0.12, 0.08)
 	_show_table_banner(banner, Color("#c9a227"), 0.62)
 	_screen_flash(Color("#c9a227"), 0.09, 0.20)
 	# 새로 공개된 카드들 scale 0→1 순차 팝인

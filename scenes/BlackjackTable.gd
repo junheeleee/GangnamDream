@@ -116,7 +116,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if key.echo:
 			return
 
-	var pad_navigation_event := event.is_action_pressed("gd_tab_prev") \
+	var major_direction := ControllerHints.major_direction(event)
+	var pad_navigation_event := (major_direction != 0 and _phase == Phase.BETTING) \
+			or event.is_action_pressed("gd_tab_prev") \
 			or event.is_action_pressed("gd_tab_next") \
 			or event.is_action_pressed("ui_left") \
 			or event.is_action_pressed("ui_right") \
@@ -128,39 +130,45 @@ func _unhandled_input(event: InputEvent) -> void:
 		_pad_navigation_active = true
 
 	var handled := false
-	match _phase:
-		Phase.BETTING:
-			if event.is_action_pressed("gd_tab_prev") or event.is_action_pressed("ui_left"):
-				handled = _pad_cycle_stake(-1)
-			elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right") or ControllerHints.secondary_pressed(event):
-				handled = _pad_cycle_stake(1)
-			elif event.is_action_pressed("ui_accept"):
-				handled = _pad_deal()
-			elif event.is_action_pressed("ui_cancel"):
-				handled = _pad_exit()
-			elif ControllerHints.details_pressed(event):
-				handled = _pad_show_rules()
-		Phase.PLAYER_TURN:
-			if event.is_action_pressed("gd_tab_prev") or event.is_action_pressed("ui_left"):
-				handled = _pad_move_action(-1)
-			elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right") or ControllerHints.secondary_pressed(event):
-				handled = _pad_move_action(1)
-			elif event.is_action_pressed("ui_accept"):
-				handled = _pad_accept_action()
-			elif event.is_action_pressed("ui_cancel"):
-				handled = _pad_exit()
-			elif ControllerHints.details_pressed(event):
-				handled = _pad_show_rules()
-		Phase.RESULT:
-			if event.is_action_pressed("ui_accept"):
-				handled = _pad_next_hand()
-			elif event.is_action_pressed("ui_cancel"):
-				handled = _pad_exit()
-			elif ControllerHints.details_pressed(event):
-				handled = _pad_show_rules()
-		_:
-			if event.is_action_pressed("ui_cancel"):
-				handled = _pad_exit()
+	if major_direction != 0:
+		if _phase == Phase.BETTING:
+			handled = _pad_cycle_stake(major_direction)
+		else:
+			handled = true
+	else:
+		match _phase:
+			Phase.BETTING:
+				if event.is_action_pressed("ui_left"):
+					handled = _pad_cycle_stake(-1)
+				elif event.is_action_pressed("ui_right") or ControllerHints.secondary_pressed(event):
+					handled = _pad_cycle_stake(1)
+				elif event.is_action_pressed("ui_accept"):
+					handled = _pad_deal()
+				elif event.is_action_pressed("ui_cancel"):
+					handled = _pad_exit()
+				elif ControllerHints.details_pressed(event):
+					handled = _pad_show_rules()
+			Phase.PLAYER_TURN:
+				if event.is_action_pressed("gd_tab_prev") or event.is_action_pressed("ui_left"):
+					handled = _pad_move_action(-1)
+				elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right") or ControllerHints.secondary_pressed(event):
+					handled = _pad_move_action(1)
+				elif event.is_action_pressed("ui_accept"):
+					handled = _pad_accept_action()
+				elif event.is_action_pressed("ui_cancel"):
+					handled = _pad_exit()
+				elif ControllerHints.details_pressed(event):
+					handled = _pad_show_rules()
+			Phase.RESULT:
+				if event.is_action_pressed("ui_accept"):
+					handled = _pad_next_hand()
+				elif event.is_action_pressed("ui_cancel"):
+					handled = _pad_exit()
+				elif ControllerHints.details_pressed(event):
+					handled = _pad_show_rules()
+			_:
+				if event.is_action_pressed("ui_cancel"):
+					handled = _pad_exit()
 
 	if handled:
 		get_viewport().set_input_as_handled()
@@ -176,8 +184,10 @@ func _pad_cycle_stake(direction: int) -> bool:
 	var idx := affordable.find(_stake)
 	if idx < 0:
 		idx = 0
-	idx = int(posmod(idx + direction, affordable.size()))
-	_stake = int(affordable[idx])
+	var next_idx := clampi(idx + direction, 0, affordable.size() - 1)
+	if next_idx == idx:
+		return true
+	_stake = int(affordable[next_idx])
 	AudioManager.play("casino_coin")
 	_flash(_tr("베팅 금액: %s", "Stake: %s") % GameState.format_money(float(_stake)), "#d8dbe8")
 	_render()
@@ -241,7 +251,6 @@ func _deal() -> void:
 
 	GameState.add_money(-float(_stake))
 	AudioManager.play_varied("chip_place")
-	AudioManager.pulse_gamepad(0.07, 0.15, 0.08)
 	_spawn_bet_chip(_stake, Vector2(0.50, 0.66))
 	_dealer = [_shoe.pop_front(), _shoe.pop_front()]
 	_player = [_shoe.pop_front(), _shoe.pop_front()]
@@ -258,6 +267,7 @@ func _deal() -> void:
 		_resolve_hand()
 		return
 
+	AudioManager.play_haptic(&"commit_wager")
 	_render()
 	_show_table_banner("DEAL", Color("#c9a227"), 0.48)
 	if is_instance_valid(_content_root):
@@ -271,10 +281,14 @@ func _hit() -> void:
 	var hand := _split_hand()
 	hand.append(_shoe.pop_front())
 	AudioManager.play_varied("card_deal")
-	AudioManager.pulse_gamepad(0.04, 0.10, 0.06)
 	_show_table_banner("HIT", Color("#c9a227"), 0.38)
 	_screen_flash(Color("#c9a227"), 0.08, 0.16)
-	if BJ.hand_value(hand) >= 21:
+	var terminal_value := BJ.hand_value(hand) >= 21
+	var resolves_now := terminal_value \
+			and not (_split_active and not _split.is_empty())
+	if not resolves_now:
+		AudioManager.play_haptic(&"physical_card")
+	if terminal_value:
 		_next_or_dealer()
 	else:
 		_render()
@@ -296,7 +310,6 @@ func _double_down() -> void:
 	if GameState.money < float(_stake): return
 	GameState.add_money(-float(_stake))
 	AudioManager.play_varied("chip_place")
-	AudioManager.pulse_gamepad(0.10, 0.25, 0.10)
 	_spawn_bet_chip(_stake, Vector2(0.50, 0.66))
 	_show_table_banner("DOUBLE DOWN", Color("#f0b429"), 0.55)
 	_screen_flash(Color("#f0b429"), 0.13, 0.24)
@@ -306,6 +319,8 @@ func _double_down() -> void:
 	else:
 		_dbl_down = true
 	hand.append(_shoe.pop_front())
+	if _split_active and not _split.is_empty():
+		AudioManager.play_haptic(&"commit_wager")
 	_next_or_dealer()
 
 func _do_split() -> void:
@@ -316,7 +331,7 @@ func _do_split() -> void:
 	if GameState.money < float(_stake): return
 	GameState.add_money(-float(_stake))
 	AudioManager.play_varied("chip_place")
-	AudioManager.pulse_gamepad(0.08, 0.18, 0.08)
+	AudioManager.play_haptic(&"commit_wager")
 	_spawn_bet_chip(_stake, Vector2(0.58, 0.66))
 	_show_table_banner("SPLIT", Color("#d4a0ff"), 0.52)
 	_screen_flash(Color("#d4a0ff"), 0.11, 0.22)
@@ -382,7 +397,6 @@ func _next_or_dealer() -> void:
 func _dealer_play_and_resolve() -> void:
 	# 딜러 두 번째 카드 공개 후 플레이
 	AudioManager.play_varied("card_flip")
-	AudioManager.pulse_gamepad(0.05, 0.13, 0.08)
 	_show_table_banner("DEALER", Color("#e85d5d"), 0.40)
 	var cards_before := _dealer.size()
 	BJ.dealer_play(_dealer, _shoe)
@@ -591,13 +605,13 @@ func _render_betting() -> void:
 	vb.add_child(exit_btn)
 
 	_add_pad_hint(vb, _tr(
-		"[%s] 딜  [%s/%s/%s] 금액  [%s] 규칙  [%s] 나가기",
-		"[%s] Deal  [%s/%s/%s] Stake  [%s] Rules  [%s] Exit"
+		"[%s] 딜  [%s/%s] 금액 −/+  [%s] 금액 +  [%s] 규칙  [%s] 나가기",
+		"[%s] Deal  [%s/%s] Stake −/+  [%s] Stake +  [%s] Rules  [%s] Exit"
 	) % [
 		ControllerHints.south(),
+		ControllerHints.trigger_l(),
+		ControllerHints.trigger_r(),
 		ControllerHints.west(),
-		ControllerHints.shoulder_l(),
-		ControllerHints.shoulder_r(),
 		ControllerHints.north(),
 		ControllerHints.east(),
 	])

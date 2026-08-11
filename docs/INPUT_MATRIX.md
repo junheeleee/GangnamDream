@@ -1,6 +1,6 @@
 # Input and Display Matrix
 
-Updated: 2026-07-19
+Updated: 2026-08-11
 
 ## Release Position
 
@@ -13,17 +13,20 @@ The automated evidence below is sufficient for continued demo production. It is 
 | Surface | Keyboard | Mouse | Xbox / Steam Deck | DualSense | Switch Pro | Evidence |
 |---|---|---|---|---|---|---|
 | Title to demo ending | PASS | PASS | Contract only | Contract only | Contract only | Real 24-week keyboard and mouse routes |
+| Title load/archive pages | PageUp/PageDown, Q/E | Direct click | LT/RT pages, LB/RB archive tabs | L2/R2 pages, L1/R1 archive tabs | ZL/ZR pages, L/R archive tabs | Raw trigger edge and modal-capture gate |
 | VN choices | Arrows + Enter/Esc | Direct click | D-pad + South/East | D-pad + Cross/Circle | D-pad + B/A | StoryMode route and brand screenshots |
 | AP decision | Arrows + Enter | Direct click | D-pad + A/B | D-pad + Cross/Circle | D-pad + B/A | One-screen decision board, no scroll |
-| V2 monthly planner | Arrows, Enter, X, Q/E | Direct click | D-pad, A/X, LB/RB | D-pad, Cross/Square, L1/R1 | D-pad, B/Y, L/R | Four-week planner, review, immutable reopen |
+| Fresh Seoul Cycle | Arrows, Enter/Esc | Direct click | D-pad, A/B | D-pad, Cross/Circle | D-pad, B/A | Four local nodes; no fake trigger action |
+| Legacy V2 planner | Arrows, Enter, X, Q/E | Direct click | D-pad, A/X, LB/RB | D-pad, Cross/Square, L1/R1 | D-pad, B/Y, L/R | Four-week planner, review, immutable reopen |
 | Portrait contact phone | P, arrows, Enter/Esc, Q/E | Direct click | Y, D-pad, A/B, LB/RB | Triangle, D-pad, Cross/Circle, L1/R1 | X, D-pad, B/A, L/R | Messages/Contacts only, modal focus restore |
-| Story settings | F10/Esc | Settings button | Menu/B | Options/Circle | Plus/A | Text/language/audio/motion runtime gate, no scroll |
-| Casino hub and direct games | Q/E, X, Y, Enter, Esc | Direct click | LB/RB, X/Y, A/B | L1/R1, Square/Triangle, Cross/Circle | L/R, Y/X, B/A | Nine scenes, 18 keyboard/gamepad secondary routes, nine keyboard core tasks |
-| Vibration | N/A | N/A | API contract | API contract | API contract | Enable, strength, and bounded cue profiles; physical feel pending |
+| Story settings/save pages | F10/Esc, PageUp/PageDown | Settings button | Menu/B, LT/RT save pages | Options/Circle, L2/R2 save pages | Plus/A, ZL/ZR save pages | Text/language/audio/motion/vibration gate, no scroll |
+| Completion/month ledger | Y, PageUp/PageDown, Esc | Direct click | Y, LT/RT, B | Triangle, L2/R2, Circle | X, ZL/ZR, A | Triggers page only; never finish or exit |
+| Casino hub and direct games | Q/E, PageUp/PageDown, X, Y, Enter, Esc | Direct click | LB/RB group, LT/RT stake, X/Y, A/B | L1/R1 group, L2/R2 stake, Square/Triangle, Cross/Circle | L/R group, ZL/ZR stake, Y/X, B/A | Nine scenes, 18 secondary routes, eight reversible major routes |
+| Vibration | N/A | N/A | On/off + strength | On/off + strength | On/off + strength | Title/Main/Story persistence, immediate stop, named cue profiles; physical feel pending |
 
-Physical-position names are canonical: South confirms, East cancels, West performs the contextual secondary action, and North opens details/rules. `ControllerHints` owns all visible labels. No game scene may hardcode Xbox letters.
+Physical-position names are canonical: South confirms, East cancels, West performs the contextual secondary action, and North opens details/rules. L1/R1 move between sibling tabs, groups, or action families; L2/R2 move a page or reversibly decrease/increase a coarse value. Triggers never confirm, save, load, buy, commit, advance time, exit, or delete. `ControllerHints` owns all visible labels. No game scene may hardcode Xbox letters.
 
-The keyboard equivalent is equally semantic: `Enter` confirms, `Esc` backs out, `X` performs the contextual secondary action, `Y` opens rules/details, `Q/E` change groups, `F10` opens settings, and `N` advances a finished week. Keyboard input immediately replaces pad letters in visible hints.
+The keyboard equivalent is equally semantic: `Enter` confirms, `Esc` backs out, `X` performs the contextual secondary action, `Y` opens rules/details, `Q/E` change groups, `PageUp/PageDown` move pages or coarse values, `F10` opens settings, and `N` advances a finished week. Analog triggers press at `0.55`, re-arm only below `0.35`, and produce exactly one change per press. Keyboard input immediately replaces pad letters in visible hints.
 
 Keyboard-only demo evidence:
 
@@ -74,7 +77,7 @@ Story text has Small, Default, and Large levels. The event-scene settings hub ap
 
 Rain and snow use canvas-UV-correct downward movement. `LivingSceneCheck` locks the shader sign and `ScreenshotQA` compares real rain frames; the current probe found a best displacement of `+24 px` downward with `0.9507` correlation.
 
-Vibration is limited to meaningful commits and pressure beats. Ambient navigation, prose advance, hover, looping weather, and ordinary focus movement must remain silent and still.
+Vibration is limited to named meaningful commits, danger/results, and sparse physical beats. Ambient navigation, focus, tabs, page movement, prose advance, hover, value preview, looping weather, and failed or disabled actions remain silent. Turning vibration off or setting strength to zero immediately stops an in-flight cue; all information remains visible and audible without haptics.
 
 ## Automated Gates
 
@@ -82,10 +85,14 @@ Vibration is limited to meaningful commits and pressure beats. Ambient navigatio
 
 ```text
 INPUT_MATRIX_CHECK_OK modes=3 resolutions=8 brands=3
-direct_scenes=9 direct_routes=18 keyboard_tasks=9 action_sets=4
+direct_scenes=9 direct_routes=18 major_routes=8 modal_routes=8 boundary_routes=16 invalid_routes=8
+keyboard_tasks=10 action_sets=4
+
+CONTROLLER_SEMANTIC_CHECK_OK surfaces=4 major_actions=2 raw_routes=8
+trigger_gate=1 reconnect_gate=2 modal_leaks=0 vibration=1
 ```
 
-The nine keyboard tasks do more than toggle a control: Blackjack deals, Baccarat places a Player bet and deals, Slots starts the reels, Roulette stages a bet and spins, Big Wheel selects and spins, Dai Sai selects and rolls, Holdem buys in and deals, RaceTrack selects a horse and starts the race, and the casino hub launches the highlighted table. The English 1080p Blackjack capture also verifies that keyboard hints replace gamepad letters and that the longest stake text fits the central betting spot.
+The ten keyboard tasks do more than toggle a control: Blackjack deals, Baccarat places a Player bet and deals, Slots starts the reels, Roulette stages a bet and spins, Big Wheel selects and spins, Dai Sai selects and rolls, Holdem buys in and deals, RaceTrack selects a horse and starts the race, the casino hub launches the highlighted table, and the resume assessment returns control to the AP surface. The same gate sends raw L2/R2 press, held jitter, and release events through all eight direct games. Each first-entry/rules tutorial consumes those edges without changing the hidden stake or buy-in. A valid setup changes one value step; all sixteen endpoint routes clamp instead of wrapping; an in-flight/result phase preserves value, money, round/session count, focus, phase, and visibility. A held trigger carried through disconnect/reconnect cannot fire until a neutral release has been observed, while a neutral reconnect preserves the first intentional press.
 
 `ScreenshotQA --qa=display-matrix` passes in both Korean and English at 960x600, 1280x720, 1280x800, 1600x900, 1920x1080, 2560x1440, 3440x1440, and 3840x2160. Each of the sixteen runs captures title settings, the demo AP decision, and a StoryMode choice, and verifies exact PNG dimensions, TV-safe controls, active keyboard/controller focus, and distortion-free background cover. The 1080p passes also capture Xbox, PlayStation, and Nintendo title hints in both languages.
 

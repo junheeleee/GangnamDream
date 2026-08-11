@@ -154,6 +154,8 @@ var _dialogue_log_event_serial: int = 0
 var _dialogue_log_next_serial: int = 0
 var _audio_bgm_slider: HSlider = null
 var _audio_sfx_slider: HSlider = null
+var _audio_vibration_toggle: CheckButton = null
+var _audio_vibration_slider: HSlider = null
 var _audio_reduce_motion_toggle: CheckButton = null
 var _story_text_size: String = STORY_TEXT_SIZE_DEFAULT
 var _story_text_size_buttons: Dictionary = {}
@@ -997,11 +999,12 @@ func _create_story_settings_popup(focus_key: String, play_open_sound: bool) -> v
 	panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	var palette := _story_palette()
 	panel.add_theme_stylebox_override("panel", _story_panel_style(
-		palette["panel_bg"], palette["panel_border"], 7, 30, 24, 3))
+		palette["panel_bg"], palette["panel_border"], 7, 30, 16, 3))
 	overlay.add_child(panel)
+	overlay.set_meta("story_settings_surface", "settings")
 
 	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 10)
+	column.add_theme_constant_override("separation", 5)
 	panel.add_child(column)
 	var title := Label.new()
 	title.text = _tr("장면 설정", "Scene Settings")
@@ -1046,6 +1049,20 @@ func _create_story_settings_popup(focus_key: String, play_open_sound: bool) -> v
 	_audio_sfx_slider = _add_story_volume_row(
 		column, _tr("효과음", "Sound Effects"), AudioManager.master_volume,
 		func(value: float): AudioManager.set_sfx_volume(value))
+	_audio_vibration_toggle = _add_story_toggle_row(
+		column,
+		_tr("컨트롤러 진동", "Controller Vibration"),
+		_tr("의미 있는 선택·위기·결과의 촉각만 사용", "Only meaningful choices, danger, and results use haptics"),
+		AudioManager.vibration_enabled(),
+		func(on: bool):
+			AudioManager.set_vibration_enabled(on)
+			_sync_story_vibration_controls(),
+		"vibration_control")
+	_audio_vibration_slider = _add_story_volume_row(
+		column, _tr("진동 강도", "Vibration Strength"), AudioManager.vibration_intensity(),
+		func(value: float): AudioManager.set_vibration_intensity(value),
+		"vibration_intensity_control")
+	_audio_vibration_slider.step = 0.10
 	_audio_reduce_motion_toggle = _add_story_toggle_row(
 		column,
 		_tr("동작 감소", "Reduce Motion"),
@@ -1053,11 +1070,12 @@ func _create_story_settings_popup(focus_key: String, play_open_sound: bool) -> v
 		bool(SaveManager.get_setting("reduce_motion", false)),
 		func(on: bool):
 			SaveManager.set_setting("reduce_motion", on)
-			_configure_living_scene())
+			_configure_living_scene(),
+		"reduce_motion_control")
 
 	var save_load_button := Button.new()
 	save_load_button.text = _tr("저장 / 불러오기  ›", "Save / Load  ›")
-	save_load_button.custom_minimum_size = Vector2(0, 42)
+	save_load_button.custom_minimum_size = Vector2(0, 36)
 	save_load_button.focus_mode = Control.FOCUS_ALL
 	save_load_button.add_theme_font_size_override("font_size", 16)
 	if _font_bold:
@@ -1077,7 +1095,7 @@ func _create_story_settings_popup(focus_key: String, play_open_sound: bool) -> v
 
 	var close_button := Button.new()
 	close_button.text = _tr("닫기", "Close")
-	close_button.custom_minimum_size = Vector2(0, 42)
+	close_button.custom_minimum_size = Vector2(0, 36)
 	close_button.focus_mode = Control.FOCUS_ALL
 	close_button.add_theme_font_size_override("font_size", 16)
 	if _font_bold:
@@ -1112,7 +1130,7 @@ func _add_story_segmented_row(
 		selected_key: String,
 		on_select: Callable) -> Dictionary:
 	var row := HBoxContainer.new()
-	row.custom_minimum_size = Vector2(0, 48)
+	row.custom_minimum_size = Vector2(0, 42)
 	row.add_theme_constant_override("separation", 14)
 	parent.add_child(row)
 	var label := Label.new()
@@ -1142,7 +1160,7 @@ func _add_story_segmented_row(
 		button.button_group = group
 		button.button_pressed = key == selected_key
 		button.focus_mode = Control.FOCUS_ALL
-		button.custom_minimum_size = Vector2(0, 40)
+		button.custom_minimum_size = Vector2(0, 34)
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.add_theme_font_size_override("font_size", 16)
 		if _font_bold:
@@ -1206,13 +1224,16 @@ func _wire_story_settings_focus(
 	_audio_bgm_slider.focus_neighbor_top = language_buttons[0].get_path()
 	_audio_bgm_slider.focus_neighbor_bottom = _audio_sfx_slider.get_path()
 	_audio_sfx_slider.focus_neighbor_top = _audio_bgm_slider.get_path()
-	_audio_sfx_slider.focus_neighbor_bottom = _audio_reduce_motion_toggle.get_path()
-	_audio_reduce_motion_toggle.focus_neighbor_top = _audio_sfx_slider.get_path()
+	_audio_sfx_slider.focus_neighbor_bottom = _audio_vibration_toggle.get_path()
+	_audio_vibration_toggle.focus_neighbor_top = _audio_sfx_slider.get_path()
+	_audio_vibration_slider.focus_neighbor_top = _audio_vibration_toggle.get_path()
+	_audio_vibration_slider.focus_neighbor_bottom = _audio_reduce_motion_toggle.get_path()
 	_audio_reduce_motion_toggle.focus_neighbor_bottom = save_load_button.get_path()
 	save_load_button.focus_neighbor_top = _audio_reduce_motion_toggle.get_path()
 	save_load_button.focus_neighbor_bottom = close_button.get_path()
 	close_button.focus_neighbor_top = save_load_button.get_path()
 	close_button.focus_neighbor_bottom = text_buttons[0].get_path()
+	_sync_story_vibration_controls()
 	var focus_control := _story_settings_focus_control(
 		focus_key, save_load_button, close_button)
 	if is_instance_valid(focus_control):
@@ -1229,15 +1250,20 @@ func _story_settings_focus_control(
 	match focus_key:
 		"bgm": return _audio_bgm_slider
 		"sfx": return _audio_sfx_slider
+		"vibration": return _audio_vibration_toggle
+		"vibration_strength":
+			return _audio_vibration_slider \
+					if AudioManager.vibration_enabled() else _audio_vibration_toggle
 		"motion": return _audio_reduce_motion_toggle
 		"save": return save_load_button
 		"close": return close_button
 	return _story_text_size_buttons.get(_story_text_size) as Control
 
 func _add_story_volume_row(
-		parent: Control, label_text: String, initial_value: float, on_change: Callable) -> HSlider:
+		parent: Control, label_text: String, initial_value: float, on_change: Callable,
+		meta_key: String = "") -> HSlider:
 	var row := HBoxContainer.new()
-	row.custom_minimum_size = Vector2(0, 50)
+	row.custom_minimum_size = Vector2(0, 42)
 	row.add_theme_constant_override("separation", 14)
 	parent.add_child(row)
 	var label := Label.new()
@@ -1254,9 +1280,11 @@ func _add_story_volume_row(
 	slider.max_value = 1.0
 	slider.step = 0.05
 	slider.value = initial_value
-	slider.custom_minimum_size = Vector2(260, 42)
+	slider.custom_minimum_size = Vector2(260, 34)
 	slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	slider.focus_mode = Control.FOCUS_ALL
+	if not meta_key.is_empty():
+		slider.set_meta(meta_key, true)
 	var slider_focus := StyleBoxFlat.new()
 	slider_focus.bg_color = Color(0, 0, 0, 0)
 	slider_focus.border_color = _story_palette()["focus"]
@@ -1284,11 +1312,12 @@ func _add_story_volume_row(
 func _add_story_toggle_row(
 		parent: Control,
 		label_text: String,
-		hint_text: String,
-		initial_value: bool,
-		on_change: Callable) -> CheckButton:
+	hint_text: String,
+	initial_value: bool,
+	on_change: Callable,
+	meta_key: String = "") -> CheckButton:
 	var row := HBoxContainer.new()
-	row.custom_minimum_size = Vector2(0, 54)
+	row.custom_minimum_size = Vector2(0, 44)
 	row.add_theme_constant_override("separation", 14)
 	parent.add_child(row)
 	var copy := VBoxContainer.new()
@@ -1311,13 +1340,31 @@ func _add_story_toggle_row(
 		hint.add_theme_font_override("font", _font)
 	copy.add_child(hint)
 	var toggle := CheckButton.new()
-	toggle.custom_minimum_size = Vector2(58, 46)
+	toggle.custom_minimum_size = Vector2(58, 40)
 	toggle.button_pressed = initial_value
 	toggle.focus_mode = Control.FOCUS_ALL
-	toggle.set_meta("reduce_motion_control", true)
+	if not meta_key.is_empty():
+		toggle.set_meta(meta_key, true)
 	toggle.toggled.connect(func(on: bool): on_change.call(on))
 	row.add_child(toggle)
 	return toggle
+
+func _sync_story_vibration_controls() -> void:
+	if not is_instance_valid(_audio_vibration_toggle) \
+			or not is_instance_valid(_audio_vibration_slider) \
+			or not is_instance_valid(_audio_reduce_motion_toggle):
+		return
+	var enabled := AudioManager.vibration_enabled()
+	_audio_vibration_slider.editable = enabled
+	_audio_vibration_slider.focus_mode = Control.FOCUS_ALL if enabled else Control.FOCUS_NONE
+	_audio_vibration_toggle.focus_neighbor_bottom = (
+		_audio_vibration_slider.get_path() if enabled \
+		else _audio_reduce_motion_toggle.get_path())
+	_audio_reduce_motion_toggle.focus_neighbor_top = (
+		_audio_vibration_slider.get_path() if enabled \
+		else _audio_vibration_toggle.get_path())
+	if not enabled and get_viewport().gui_get_focus_owner() == _audio_vibration_slider:
+		_audio_vibration_toggle.call_deferred("grab_focus")
 
 func _close_audio_settings() -> void:
 	if not is_instance_valid(_audio_settings_popup):
@@ -1327,6 +1374,8 @@ func _close_audio_settings() -> void:
 	_audio_settings_popup = null
 	_audio_bgm_slider = null
 	_audio_sfx_slider = null
+	_audio_vibration_toggle = null
+	_audio_vibration_slider = null
 	_audio_reduce_motion_toggle = null
 	_story_text_size_buttons.clear()
 	_story_text_speed_buttons.clear()
@@ -1700,6 +1749,8 @@ func _rebuild_story_settings_popup(focus_key: String) -> void:
 	_audio_settings_popup = null
 	_audio_bgm_slider = null
 	_audio_sfx_slider = null
+	_audio_vibration_toggle = null
+	_audio_vibration_slider = null
 	_audio_reduce_motion_toggle = null
 	_story_text_size_buttons.clear()
 	_story_text_speed_buttons.clear()
@@ -1720,6 +1771,8 @@ func _replace_story_popup_with_save_page() -> void:
 		_audio_settings_popup = null
 		_audio_bgm_slider = null
 		_audio_sfx_slider = null
+		_audio_vibration_toggle = null
+		_audio_vibration_slider = null
 		_audio_reduce_motion_toggle = null
 		_story_text_size_buttons.clear()
 		_story_text_speed_buttons.clear()
@@ -1735,6 +1788,7 @@ func _create_story_save_popup() -> void:
 	overlay.z_index = 120
 	add_child(overlay)
 	_audio_settings_popup = overlay
+	overlay.set_meta("story_settings_surface", "save")
 	overlay.tree_exited.connect(func():
 		if _audio_settings_popup == overlay:
 			_audio_settings_popup = null)
@@ -1800,10 +1854,14 @@ func _create_story_save_popup() -> void:
 	column.add_child(pager)
 	for page in range(2):
 		var page_button := Button.new()
-		page_button.text = LocaleManager.ui_format(
+		var range_text := LocaleManager.ui_format(
 			"슬롯 %d–%d", "Slots %d–%d",
 			[page * 5 + 1, page * 5 + 5],
 			[page * 5 + 1, page * 5 + 5])
+		page_button.text = "%s  [%s]" % [
+			range_text,
+			ControllerHints.trigger_l() if page == 0 else ControllerHints.trigger_r(),
+		]
 		page_button.toggle_mode = true
 		page_button.button_pressed = page == _story_save_page
 		page_button.disabled = page == _story_save_page
@@ -4465,9 +4523,13 @@ func _on_advance():
 func _unhandled_input(event: InputEvent):
 	if event.is_action_released("ui_accept"):
 		_reset_advance_hold()
+	var major_direction := ControllerHints.major_direction(event)
 	if _transitioning or _story_scene_transition_active:
 		return
 	if is_instance_valid(_dialogue_log_popup):
+		if major_direction != 0:
+			get_viewport().set_input_as_handled()
+			return
 		if ControllerHints.secondary_pressed(event) \
 				or event.is_action_pressed("gd_menu") \
 				or event.is_action_pressed("ui_cancel"):
@@ -4475,8 +4537,17 @@ func _unhandled_input(event: InputEvent):
 			get_viewport().set_input_as_handled()
 		return
 	if is_instance_valid(_audio_settings_popup):
+		if major_direction != 0:
+			if str(_audio_settings_popup.get_meta("story_settings_surface", "")) == "save":
+				_set_story_save_page(_story_save_page + major_direction)
+			get_viewport().set_input_as_handled()
+			return
 		if event.is_action_pressed("gd_menu") or event.is_action_pressed("ui_cancel"):
 			_close_audio_settings()
+		get_viewport().set_input_as_handled()
+		return
+	if major_direction != 0:
+		# Story prose has no page skip. Triggers act only inside the visible save surface.
 		get_viewport().set_input_as_handled()
 		return
 	if ControllerHints.secondary_pressed(event):
@@ -5312,7 +5383,7 @@ func _on_choice(idx: int):
 	_pending_result_choice_index = idx
 	_record_dialogue_choice(choice, idx)
 	AudioManager.play("choice_made")
-	AudioManager.pulse_gamepad(0.035, 0.070, 0.055)
+	AudioManager.play_haptic(&"commit_choice")
 	_play_story_ink_transition("choice", 0.65)
 	_pulse_story_choice_commit()
 

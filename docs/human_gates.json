@@ -185,6 +185,67 @@
       ]
     },
     {
+      "id": "order98_semantic_controller_batch_a_random_three",
+      "domain": "input",
+      "gate": "ORDER-98 Batch A 의미 입력 임의 3표면 실기기 대조",
+      "why": "자동 입력은 action·edge·상태 불변을 증명하지만, 처음 잡은 사람이 포커스 레일을 훑지 않고 L1/R1과 L2/R2의 역할을 바로 읽는지는 실제 손으로 판정해야 한다.",
+      "owner": "ORDER-98",
+      "state": "open",
+      "scope": {
+        "blocks": [
+          "order98-close",
+          "claim:controller"
+        ],
+        "content": "Batch A 15단위의 title/archive/save/completion/MainGame/Story 페이지·탭·화면 도구와 세 브랜드 글리프"
+      },
+      "revision": "demo_rc",
+      "sample": {
+        "cohort": "order98_semantic_controller_batch_a_random_three",
+        "requirements": [
+          "같은 active demo_rc와 ORDER-98 Batch A 15단위 원장에서 사용자가 서로 다른 실제 표면 3개를 임의 선택",
+          "실제 Steam Deck·DualSense·Switch Pro 중 해당 표면의 표시 글리프와 일치하는 패드로 정상 속도 수행",
+          "D-pad·ABXY·L1/R1·L2/R2 안내만 보고 코드·마우스·키보드 없이 핵심 행동을 첫 시도에 완료",
+          "한 표면이라도 잘못된 trigger 방향·숨은 확정·포커스 소실·12회 초과 왕복이면 표본만 고치지 않고 Batch A 15단위를 전량 재검토"
+        ]
+      },
+      "acceptance": [
+        "세 표면 모두 L1/R1은 sibling group, L2/R2는 이전/다음 페이지 또는 감소/증가로 즉시 읽힘",
+        "확정·저장·불러오기·진행·종료가 trigger로 실행되거나 모달 뒤로 누수되는 경우 0",
+        "현재 장치 글리프·화면 동사·실제 입력이 일치하고 사용자 최종 GO"
+      ]
+    },
+    {
+      "id": "order98_semantic_controller_batch_b_random_three",
+      "domain": "input",
+      "gate": "ORDER-98 Batch B 직접 게임·진동 임의 3표면 실기기 대조",
+      "why": "자동화는 stake와 profile 호출을 셀 수 있지만, trigger 방향이 손에 자연스럽고 의미 진동은 구별되면서 30분 동안 피로하지 않은지는 실제 패드로만 판정할 수 있다.",
+      "owner": "ORDER-98",
+      "state": "open",
+      "scope": {
+        "blocks": [
+          "order98-close",
+          "claim:controller"
+        ],
+        "content": "Batch B의 8 직접 게임, 큰 단위 값 조절, 중앙 진동 profile과 title/MainGame/Story 진동 설정"
+      },
+      "revision": "demo_rc",
+      "sample": {
+        "cohort": "order98_semantic_controller_batch_b_random_three",
+        "requirements": [
+          "같은 active demo_rc와 ORDER-98 Batch B 원장에서 사용자가 서로 다른 직접 게임 3개를 임의 선택",
+          "각 게임에서 L2 감소·R2 증가, 그룹 이동, 베팅·라운드·결과·재시작 또는 안전 종료를 실제 패드로 수행",
+          "같은 30분 구간에서 일반 포커스·탭·페이지·값 미리보기의 무진동과 의미 commit·위험·결과·물리 비트의 구분성을 확인",
+          "title/MainGame/Story에서 진동 OFF와 0%를 각각 켠 뒤 진행 중 cue 즉시 정지와 이후 무진동을 확인",
+          "한 게임이라도 오입력·잘못된 trigger 방향·disabled 상태 변화·일상 진동 피로·OFF 누출이 있으면 Batch B 15단위를 전량 재검토"
+        ]
+      },
+      "acceptance": [
+        "세 게임 모두 L2 감소·R2 증가와 L1/R1 그룹 역할을 첫 시도에 구분함",
+        "일반 탐색은 조용하고 의미 profile은 화면·소리와 함께 서로 구별되며 30분 동안 거슬리지 않음",
+        "진동 OFF·0%에서 실제 출력 0이고 모든 정보·선택·결과가 그대로이며 사용자 최종 GO"
+      ]
+    },
+    {
       "id": "external_readthrough",
       "domain": "narrative",
       "gate": "외부 정상 독해 10인 플레이 (현재 0/10)",

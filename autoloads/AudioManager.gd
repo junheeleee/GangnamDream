@@ -17,6 +17,24 @@ var _last_direction_sting_ms: int = 0
 var _story_audio_generation: int = 0
 var _story_audio_seen: Dictionary = {}
 var _pitch_rng := RandomNumberGenerator.new()
+var _vibration_stop_serial: int = 0
+
+# Scene code requests semantic profiles instead of owning motor strengths or timing.
+# Vector3 stores weak motor, strong motor, and duration seconds in that order.
+const HAPTIC_PROFILES: Dictionary = {
+	&"commit_choice": Vector3(0.035, 0.070, 0.055),
+	&"commit_action": Vector3(0.045, 0.110, 0.065),
+	&"commit_wager": Vector3(0.070, 0.150, 0.080),
+	&"danger_impact": Vector3(0.220, 0.200, 0.130),
+	&"physical_card": Vector3(0.050, 0.120, 0.075),
+	&"physical_dice_roll": Vector3(0.100, 0.220, 0.120),
+	&"physical_reel_spin": Vector3(0.080, 0.180, 0.100),
+	&"physical_reel_stop": Vector3(0.070, 0.160, 0.055),
+	&"result_jackpot": Vector3(0.350, 0.900, 0.240),
+	&"result_win": Vector3(0.180, 0.450, 0.140),
+	&"result_loss": Vector3(0.320, 0.250, 0.180),
+	&"result_push": Vector3(0.080, 0.080, 0.080),
+}
 
 const _SFX_COOLDOWN_MS = {
 	"click": 45,
@@ -465,15 +483,12 @@ func _event_cue_key(ev: Dictionary) -> String:
 
 func play_ui_click(volume_mod: float = -4.0) -> void:
 	play("click", volume_mod)
-	pulse_gamepad(0.022, 0.045, 0.045)
 
 func play_ui_close(volume_mod: float = -8.0) -> void:
 	play("close", volume_mod)
-	pulse_gamepad(0.035, 0.060, 0.070)
 
 func play_ui_open(volume_mod: float = -5.0) -> void:
 	play("open_modal", volume_mod)
-	pulse_gamepad(0.030, 0.075, 0.060)
 
 func play_delayed(sound_id: String, delay: float, volume_mod: float = 0.0) -> void:
 	if delay <= 0.0:
@@ -494,25 +509,36 @@ func play_casino_result(net_amount: float, stake: float = 0.0, force_jackpot: bo
 	var stake_abs: float = maxf(absf(stake), 1.0)
 	if force_jackpot or net_amount >= maxf(stake_abs * 10.0, 1_000_000.0):
 		play("casino_jackpot")
-		pulse_gamepad(0.35, 0.90, 0.24)
+		play_haptic(&"result_jackpot")
 	elif net_amount > 0.0:
 		play("casino_win")
-		pulse_gamepad(0.18, 0.45, 0.14)
+		play_haptic(&"result_win")
 	elif net_amount < 0.0:
 		play("casino_lose")
-		pulse_gamepad(0.32, 0.25, 0.18)
+		play_haptic(&"result_loss")
 	else:
 		play("casino_card", -4.0)
-		pulse_gamepad(0.08, 0.08, 0.08)
+		play_haptic(&"result_push")
 
-func pulse_gamepad(weak: float, strong: float, duration: float = 0.12) -> void:
+func haptic_profile(profile_id: StringName) -> Vector3:
+	var profile: Variant = HAPTIC_PROFILES.get(profile_id, Vector3.ZERO)
+	return profile if profile is Vector3 else Vector3.ZERO
+
+func play_haptic(profile_id: StringName) -> bool:
+	var profile := haptic_profile(profile_id)
+	if profile == Vector3.ZERO:
+		return false
+	return _pulse_gamepad(profile.x, profile.y, profile.z)
+
+func _pulse_gamepad(weak: float, strong: float, duration: float = 0.12) -> bool:
 	if duration <= 0.0:
-		return
+		return false
 	if not vibration_enabled():
-		return
+		return false
 	var intensity := vibration_intensity()
 	if intensity <= 0.0:
-		return
+		return false
+	var pulsed := false
 	for device in Input.get_connected_joypads():
 		Input.start_joy_vibration(
 			int(device),
@@ -520,8 +546,11 @@ func pulse_gamepad(weak: float, strong: float, duration: float = 0.12) -> void:
 			clampf(strong * intensity, 0.0, 1.0),
 			duration
 		)
+		pulsed = true
+	return pulsed
 
 func stop_gamepad_vibration() -> void:
+	_vibration_stop_serial += 1
 	for device in Input.get_connected_joypads():
 		Input.stop_joy_vibration(int(device))
 
@@ -531,7 +560,10 @@ func set_vibration_enabled(enabled: bool) -> void:
 		stop_gamepad_vibration()
 
 func set_vibration_intensity(value: float) -> void:
-	SaveManager.set_setting("vibration_intensity", clampf(value, 0.0, 1.0))
+	var clamped_value := clampf(value, 0.0, 1.0)
+	SaveManager.set_setting("vibration_intensity", clamped_value)
+	if clamped_value <= 0.0:
+		stop_gamepad_vibration()
 
 func vibration_enabled() -> bool:
 	return bool(SaveManager.get_setting("vibration_enabled", true))

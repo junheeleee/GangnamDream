@@ -61,7 +61,14 @@ python3 tools/release_content_inventory.py \
 - No short menu should force the player through more than 12 focusable targets in one rail; gameplay must not become a focus rail at all.
 - Casino minigames must pass controller-only flow: change stake, place bet, read bet, start round, read result, repeat/exit.
 - Dense casino layouts such as Dai Sai and Roulette must use mode/cursor models, not flat focus traversal over every visible bet button.
-- `A/South` confirms the highlighted item, `B/East` backs out or clears pending action, `Y/North` opens rules/details, `LB/RB` changes group/tab/mode.
+- `A/South` confirms the highlighted item, `B/East` backs out or clears pending action,
+  `X/West` performs the named contextual secondary action, `Y/North` opens
+  rules/details, `LB/RB` changes sibling group/tab/mode, and `L2/R2` changes the
+  previous/next page or decreases/increases a reversible coarse value.
+- A screen without pages or a coarse value leaves `L2/R2` inert. Triggers never
+  confirm, save, load, purchase, commit a schedule, advance time, or exit.
+- A held/noisy analog trigger changes exactly one page/value before release;
+  thresholds, reconnect, modal capture, and background input cannot duplicate it.
 - When the right-side Info Deck is open, `B/East` must close it instead of opening the system menu.
 - Basic actions must not require hidden multi-button chords.
 
@@ -73,7 +80,13 @@ python3 tools/release_content_inventory.py \
 - QHD/4K text and vector surfaces remain native-sharp. Raster masters must not reveal obvious 1280px upscale softness at normal viewing distance.
 - A platform glyph changes presentation only. Xbox/Steam Deck, DualSense, and Nintendo controllers preserve the same semantic South/East/West/North actions.
 - Controller-only suspend/resume restores the last safe focus and never advances prose, confirms a bet, or consumes AP on wake.
-- Gamepad vibration is optional and intensity-controlled. Repeated prose/menu confirms do not buzz continuously; semantic pulses are reserved for tactile table actions, race impacts, real danger, and major result beats.
+- Gamepad vibration is optional and intensity-controlled. Focus, hover, UI
+  click/open/close, tab/page navigation, prose advance, failed input, and reversible
+  value preview never vibrate. Named semantic pulses are reserved for successful
+  choice/action/wager commits, tactile table actions, race impacts, real danger,
+  and major result beats; raw per-scene motor numbers are rejected.
+- Vibration Off and 0% both stop active output immediately and remain silent after
+  settings reload. Visual/audio feedback must preserve all information without it.
 
 ## Targeted Screenshot QA
 - Run screenshot QA for the surface you changed, not the entire visual suite by default.
@@ -83,7 +96,7 @@ python3 tools/release_content_inventory.py \
 | Change area | Fast QA command |
 |---|---|
 | First-five-minute reading contract: fresh StoryMode AUTO OFF, same-session user opt-in persistence, one physical Enter/South/click per tutorial page, planner focus restoration, the three-page promise/world/scene ownership tutorial, and the 2020 Knee flashback using only the age-57 `father_past` portrait in KO/EN safe crops | `StoryPlaybackCheck.tscn`, `TutorialInputCheck.tscn`, `StoryTutorialPlacementCheck.tscn`, then `--qa=story-presence --lang=ko/en` at 1280×800 |
-| StoryMode reading settings: three text sizes, Slow/Normal/Fast typewriter speed, immediate persistence, authored slow-pacing ratio, AUTO total-time compensation, text-size→speed→language controller focus, and 960×600 no-scroll fit | `StoryAudioSettingsCheck.tscn` at `--resolution 960x600`, plus Japanese UI audit |
+| StoryMode reading settings: three text sizes, Slow/Normal/Fast typewriter speed, immediate persistence, authored slow-pacing ratio, AUTO total-time compensation, text-size→speed→language→audio→vibration→motion controller focus, vibration off/0% immediate stop and disabled-strength focus skip, and 960×600 no-scroll fit | `StoryAudioSettingsCheck.tscn`, `InputMatrixCheck.tscn`, `ControllerSemanticCheck.tscn` at `--resolution 960x600`, then `--qa=story-audio --lang=ko/en` plus Japanese UI audit |
 | StoryMode Dialogue History: only fully seen prose, the confirmed player choice, and seen result text; literal bracket notices retained while real BBCode is stripped; partial current text without future leakage; no unchosen/locked option or hidden score; same-session follow-up continuity; fresh-session reset; actual top-button/West open, East close, visible scroll focus and bottom-to-Close navigation; paused typing/AUTO/direction/timed choice; exact choice-focus and timer restoration; source-progress resume across text-size pagination; cross-locale source-shape mismatch rewinding the current phase to source zero without future leakage; nested resume schema and explicit pre-feature v4 notice; standard/large text choice/result captures; KO/EN 1280×720 plus KO 960×600 fit | `StoryDialogueHistoryCheck.tscn`, `ManualSaveCheck.tscn`, then `--qa=story-dialogue-history --lang=ko/en` at 1280×720 and `--lang=ko/en` at 960×600 |
 | Quiet-week compression and readable consequence contract: no-information Quiet weeks render no card or fixed delay while preserving economy/axes/calendar; meaningful Echo/bridge/result cards remain for explicit confirmation; month summaries clear stale weekly layers; the family notebook motive is literal and matched in KO/EN/JA; `WAVE` and `ECHO` remain distinct; fast-forward QA inputs are measured separately from required player inputs | `MotivationImprintCheck.tscn`, `ImmersionLoopCheck.tscn`, `--qa=motivation-imprint --lang=ko/en/ja`, `--qa=immersion-loop --lang=ko/en/ja`, then `--qa=demo-gamepad --lang=ko --pad=playstation --demo-build` and `--qa=full-gamepad --lang=en --pad=xbox` |
 | Ten-slot manual saves: autosave/v3 compatibility, StoryMode prose/choice/result/timer resume, effect-once restoration, two five-row 960×600 pages, and local chapter-start fixtures at weeks 1/49/97/145/193 | `ManualSaveCheck.tscn`, then `--qa=full-gamepad --lang=ko --pad=playstation --write-chapter-saves` when regenerating slots 6–10 |
@@ -394,7 +407,9 @@ Automated text-material gates:
 
 Automated input and display gates:
 
-- `InputMatrixCheck.tscn` must print `INPUT_MATRIX_CHECK_OK modes=3 resolutions=8 brands=3 direct_scenes=9 direct_routes=18 keyboard_tasks=10 action_sets=4`; the same run also proves StartMenu Down/Up focus movement before opening Settings.
+- `InputMatrixCheck.tscn` must print `INPUT_MATRIX_CHECK_OK modes=3 resolutions=8 brands=3 direct_scenes=9 direct_routes=18 major_routes=8 modal_routes=8 boundary_routes=16 invalid_routes=8 keyboard_tasks=10 action_sets=4`; the same run also proves StartMenu Down/Up focus movement before opening Settings, skips disabled vibration strength, and keeps all eight direct-game tutorials from leaking L2/R2 into the hidden stake or buy-in.
+- `ControllerSemanticCheck.tscn` must print `CONTROLLER_SEMANTIC_CHECK_OK surfaces=4 major_actions=2 raw_routes=8 trigger_gate=1 reconnect_gate=2 modal_leaks=0 vibration=1`. It sends raw trigger/key press and release through title load/archive, Story save/settings, the 24-week completion ledger, and MainGame save/ending pages; held trigger jitter, held reconnect duplication, neutral reconnect first-press loss, hidden modal input, prose/finish fallthrough, and destructive trigger actions are failures.
+- `GameAudioContractCheck.tscn` must print `GAME_AUDIO_RUNTIME_OK physical=32 ambience_roundtrip=3 varied_playback=1 casino_music=1 haptics=12 unused_profiles=0 direct_scene_raw=0 vibration_roundtrip=1 boundary_clamp=8 same_stack=3`. Ordinary UI wrappers and raw scene motor values are forbidden; every named profile must own a real callsite, all eight reversible value routes must stop at their endpoints, and reel/card/result beats must not overwrite one another in the same call stack.
 - Its keyboard tasks must place/start one real round in Blackjack, Baccarat, Slots, Roulette, Big Wheel, Dai Sai, Holdem, and RaceTrack, then launch the selected table from the casino hub. A stake-only toggle is insufficient.
 - Keyboard-only title-to-demo QA must reach the week-25 CTA with `mouse_events=0`; mouse-only QA must reach the same boundary with `key_events=0`. Both routes must begin unemployed and exercise money and human axes.
 - The month summary and demo-ending CTA must fit at 1280x800 without vertical scrolling or an off-screen progression button.
@@ -402,7 +417,10 @@ Automated input and display gates:
 - Settings, AP pressure, and Story choice controls must stay inside the 2.5% TV-safe rectangle and own valid keyboard/controller focus. Story backgrounds must use covered aspect preservation rather than stretching. Captured PNG dimensions must equal the requested output dimensions.
 - A passing QHD/4K layout does not certify native art sharpness. Record the source dimensions of each sampled background, portrait, and CG; a 1280x800 source shown at 3840x2160 remains raster-master debt even when the frame is geometrically correct.
 - Xbox/Steam Deck, PlayStation, and Nintendo labels must come from `ControllerHints` physical positions. Game scenes may not hardcode one brand's face-button letters.
-- Reduce Motion and vibration on/off/strength must be reachable from both title and in-run settings without restarting current audio or changing game state.
+- Reduce Motion and vibration on/off/strength must be reachable from title,
+  MainGame, and Story scene settings without restarting current audio or changing
+  game state. Disabling vibration also removes the strength slider from focus and
+  stops an already-running cue.
 - The Steam Full Controller Support claim remains blocked until physical Steam Deck, DualSense, and Switch Pro blind passes cover reconnect, suspend/resume, overlay, and accidental input.
 
 ## Launch

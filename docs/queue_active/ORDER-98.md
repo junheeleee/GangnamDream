@@ -55,13 +55,16 @@ D-pad, ABXY의 네 물리 위치, L1/R1, L2/R2를 화면의 의미에 맞게 분
 컨트롤러 진동은 입력 성공을 매번 확인하는 클릭음의 복제물이 아니라, 화면·소리와
 함께 한 사건의 무게를 닫는 연출 층이다. 공식 개발자 설명에서 다음 구조만 빌린다.
 
-- **Hades:** 케르베로스를 쓰다듬는 관계 행동과 동료 도움 도착처럼 드문 문맥마다
+- **[Hades](https://blog.playstation.com/?p=350240):** 케르베로스를 쓰다듬는 관계 행동과 동료 도움 도착처럼 드문 문맥마다
   다른 촉각을 둔다. 강남드림은 사람의 전화 도착, 되돌릴 수 없는 선택 확정,
   도움·위기 도착처럼 이름 있는 순간만 pulse owner로 삼는다.
-- **Astro's Playroom / Astro Bot:** 표면·능력마다 일관된 촉각 서명을 둔다.
+- **[Astro's Playroom](https://blog.playstation.com/?p=343436) /
+  [Astro Bot](https://blog.playstation.com/2024/07/29/first-look-astro-bot-limited-edition-dualsense-wireless-controller/):**
+  표면·능력마다 일관된 촉각 서명을 둔다.
   강남드림은 돈 손실·성공·위험·관계 commit의 profile을 장면마다 임의 숫자로
   다시 만들지 않는다. 상시 지면 질감과 모든 UI 이동의 진동량은 가져오지 않는다.
-- **The Last of Us Part II:** 진동 단서를 시각·오디오와 함께 제공하고 완전히 끌 수
+- **[The Last of Us Part II](https://store.playstation.com/en-us/concept/230079/):**
+  진동 단서를 시각·오디오와 함께 제공하고 완전히 끌 수
   있게 한다. 진동만으로 결과·위험·방향을 전달하지 않으며 off/0%에서도 같은
   선택과 정보를 얻는다.
 
@@ -85,7 +88,8 @@ D-pad, ABXY의 네 물리 위치, L1/R1, L2/R2를 화면의 의미에 맞게 분
 9. legacy planner의 L1/R1 workflow와 West 제거
 10. 연락폰의 North 열기·L1/R1 탭·East 한 단계 뒤로
 11. 서울 배치 보드의 지역 D-pad·South 선택/확정·East 취소와 trigger 무행동
-12. Story의 West 기록·North AUTO·Menu 설정 충돌 방지
+12. Story의 West 기록·North AUTO·Menu 설정 충돌 방지와 장면 설정의 진동
+    on/off·강도 즉시 적용
 13. trigger 한 번당 한 변화·release 전 재입력 0
 14. 모달 뒤 입력 누수·숨은 commit·focus theft 0
 15. Xbox/PlayStation/Nintendo·키보드 힌트와 실제 action 일치
@@ -99,15 +103,19 @@ RaceTrack의 L2/R2 베팅액 또는 바이인 감소/증가
 11. North 규칙, South 실행, East pending clear→exit 안전 순서
 12. 처리 불가 phase에서 trigger는 상태·돈·라운드·focus를 바꾸지 않음
 13. 포커스·탭·페이지·일반 대사·값 변경은 무진동, 성공한 의미 commit만 1 pulse
-14. vibration off/0%·강도 배율·시각/오디오 중복과 실제 화면 힌트
+14. title/MainGame/Story 설정의 vibration off/0%·강도 배율·즉시 stop,
+    시각/오디오 중복과 실제 화면 힌트
 15. 정상 속도 물리 패드 표본에서 오입력·버튼 탐색·긴 포커스 왕복·진동 피로 기록
 
 ## 정확한 파일 소유권
 
-**제품·입력·촉각 15:** `project.godot`, `autoloads/ControllerHints.gd`,
+**제품·입력·촉각·후보 식별 18:** `project.godot`,
+`steam_input/game_actions_gangnam_dream.vdf`, `autoloads/ControllerHints.gd`,
 `autoloads/AudioManager.gd`,
+`systems/BuildInfo.gd`,
 `scenes/StartMenu.gd`, `scenes/StoryMode.gd`, `scenes/MainGame.gd`,
-`scenes/CoreLoopV2Completion.gd`, `scenes/BlackjackTable.gd`,
+`scenes/CoreLoopV2Completion.gd`, `scenes/TutorialOverlay.gd`,
+`scenes/BlackjackTable.gd`,
 `scenes/BaccaratTable.gd`, `scenes/SlotMachineGame.gd`,
 `scenes/RouletteTable.gd`, `scenes/BigWheelGame.gd`, `scenes/DaiSaiTable.gd`,
 `scenes/HoldemClub.gd`, `scenes/RaceTrack.gd`.
@@ -122,11 +130,46 @@ RaceTrack의 L2/R2 베팅액 또는 바이인 감소/증가
 `docs/QA_CHECKLIST.md`, `docs/human_gates.json`.
 선언·완료 기록은 `docs/CODEX_QUEUE.md`, 이 사양, `CLAUDE.md`, 완료 뒤
 `docs/WORK_LOG.md`, 8월 큐 archive와 생성 `docs/STATUS.md`만 만진다.
+체크포인트 기록으로 `WORK_LOG.md`가 40KB 부팅 예산을 넘으면 가장 오래된
+2026-08-03 원문만 `docs/history/WORK_LOG_2026-08-03.md`로 보관한다.
+
+**감사에서 추가된 정적 UI 현지화 7:**
+`content/meta/demo_localization_scope.json`, `locale/ui_ja.json`,
+`tools/ja_translation_pipeline.py`, `docs/I18N_INFRASTRUCTURE.md`,
+`docs/I18N_GLOSSARY_JA.md`, `docs/I18N_GLOSSARY_ZH.md`, `docs/MODDING.md`.
+L2/R2의 실제 감소·증가 동사, 페이지, 진동 설정 설명이 새 사용자 표시 문자열을
+만들었으므로 일본어 정적 UI 행과 현재 원장만 함께 이동한다. ORDER-96/97 당시의
+역사적 3,254/3,217/2,730 및 3,310/3,273/2,780 기록은 덮어쓰지 않고, 현재
+ORDER-98 관측값을 별도 snapshot으로 보존한다. 중국어 본문·정적 번역과
+`--allow-body`, 준비언어 shipping 상태는 계속 비범위다.
 
 `CoreLoopPlanner`, `CommunicationPhone`, `SeoulCycleBoard`, `CommitmentTask`,
 `JeongseonCasino`는 현재 의미 분배를 읽기·실행 회귀 대상으로 삼되, 감사에서 실제
 결함이 나오지 않으면 제품 파일을 편의상 수정하지 않는다. 소유권 추가가 필요하면
 구체 결함과 파일을 이 사양에 먼저 적고 선언 delta를 분리한다.
+
+구현 교차감사에서 신규 major previous/next가 Godot InputMap에는 있으나 Steam Input
+action manifest에는 없어 사용자 remap 표면에서 두 의미 행동이 사라지는 결함을
+확인했다. 위 manifest를 제품 소유권에 추가하고 Menu/Story/Life/Minigame 네 action
+set 모두에 같은 두 행동을 선언한다.
+
+최종 독립 검토에서는 직접 게임의 첫 진입·규칙 `TutorialOverlay`가 L1/R1만
+소비하고 신규 trigger press/release를 뒤의 게임 `_unhandled_input`으로 흘려
+베팅액·바이인을 바꾸는 모달 누수를 확인했다. 위 오버레이를 제품 소유권에
+추가하고, 공용 trigger latch는 계속 갱신하되 8게임 모두 모달이 열린 동안 값·돈·
+라운드·focus 변화 0을 raw 입력으로 증명한다.
+
+전체 감사에서는 위 신규 힌트·설정 copy 때문에 source UI가
+`3,313 = legacy 3,276 + context 37`, legacy key 2,782로 이동했지만 JA 사전과
+manifest가 ORDER-97의 3,310/3,273/2,780에 머문 것을 확인했다. 위 7파일을
+추가 소유권으로 먼저 선언한 뒤, 낡은 패드 힌트 8행을 현재 힌트로 교체하고
+새 정적 UI 3행을 더해 JA `2,782/2,782 + context 30/30`을 복구한다.
+
+오늘 집 테스트에 넘길 clean 후보가 직전 `2026.08.11.1` 패키지와 같은 화면·
+저장 메타 식별자를 재사용하지 않도록 `BuildInfo.BUILD_ID`를
+`2026.08.11.2`로 발급한다. 이 변경은 게임 규칙이나 저장 호환 키가 아니라
+패키지 provenance이며, 최종 입력·표면 매트릭스와 빌드 매니페스트는 이 식별자를
+포함한 같은 clean revision에 묶는다.
 
 ## 비범위
 
@@ -160,3 +203,30 @@ RaceTrack의 L2/R2 베팅액 또는 바이인 감소/증가
   12회 초과 focus 왕복, 오입력, 잘못된 trigger 방향이 하나라도 있으면 해당 배치
   전량을 다시 연다. 같은 30분 구간에서 일상 진동이 거슬리거나 의미 pulse를 서로
   구별하지 못하거나 off 상태에서 한 번이라도 울리면 촉각 배치도 전량 다시 연다.
+
+## 2026-08-11 구현 체크포인트 — L1/L2 완료, L3 OPEN
+
+- 공용 trigger action·세 브랜드 글리프·press/release/reconnect gate와 title,
+  Story, MainGame, 완료 화면의 페이지·설정·포커스 복귀를 구현했다. 8개 직접
+  게임은 L2 감소/R2 증가를 경계에서 멈추며, 비활성 phase와 모달 뒤 상태 변화는
+  0이다.
+- 일반 UI 탐색 진동을 제거하고, scene raw pulse 0·사용 중인 중앙 profile 12개·
+  동시 stack 중복 0·OFF/0% 즉시 정지를 잠갔다. 현재 UI 원장은
+  `3,313 = legacy 3,276 + context 37`, legacy 2,782키이며 JA는
+  `2,782/2,782 + context 30/30`이다.
+- L1/L2 증거: `CONTROLLER_SEMANTIC_CHECK_OK ... reconnect_gate=2 ...`,
+  `INPUT_MATRIX_CHECK_OK ... major_routes=8 modal_routes=8 boundary_routes=16
+  invalid_routes=8 ...`, `GAME_AUDIO_RUNTIME_OK ... haptics=12
+  unused_profiles=0 direct_scene_raw=0 vibration_roundtrip=1 boundary_clamp=8
+  same_stack=3`, 전체 `audit.sh`, KO/EN×keyboard/gamepad 24주 4경로와
+  KO/EN×1280×800/960×600 4표면이 통과했다. 빌드 식별자 발급 뒤 같은 최종
+  revision에서 이 증거를 다시 봉인한다.
+- **L3 OPEN:** `demo_rc`는 패키지 발급 전까지 `waiting_rebuild`다. clean 후보를
+  발급한 뒤 사용자가 집에서 서울 보드를 처음 정상 속도로 플레이하고, Batch A
+  임의 3표면과 Batch B 임의 3게임의 물리 패드 방향·도달성·진동 피로를 판정하기
+  전에는 이 오더를 `[x]`로 닫거나 자동 증거를 재미 GO로 부르지 않는다.
+- **승격:** `docs/CONTROLLER_UX_STRATEGY.md`, `docs/INPUT_MATRIX.md`,
+  `docs/AUDIO_QA.md`, `docs/SCENE_DIRECTION.md`, `docs/QA_CHECKLIST.md`,
+  `docs/human_gates.json`, 현지화 정본 4문서와 manifest/JA 사전.
+- **일회성:** 정확 파일 소유권, 두 15단위 배치 목록, 변경 revision의 수치 원장,
+  검사 명령·로그·패키지 식별자 발급 절차.

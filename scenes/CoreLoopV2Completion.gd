@@ -595,7 +595,7 @@ func _render_detail_page() -> void:
 	UIStyle.override_constant(nav, "separation", 10)
 	nav.set_meta("core_loop_v2_page_navigation", true)
 	_details_root.add_child(nav)
-	_page_prev_button = _button("‹", false)
+	_page_prev_button = _button("[%s] ‹" % ControllerHints.trigger_l(), false)
 	_page_prev_button.custom_minimum_size = Vector2(52, 48)
 	_page_prev_button.focus_mode = Control.FOCUS_NONE
 	_page_prev_button.set_meta("core_loop_v2_page_prev", true)
@@ -617,7 +617,7 @@ func _render_detail_page() -> void:
 	_detail_page_counter.set_meta("core_loop_v2_page_counter", true)
 	page_heading.add_child(_detail_page_counter)
 
-	_page_next_button = _button("›", false)
+	_page_next_button = _button("› [%s]" % ControllerHints.trigger_r(), false)
 	_page_next_button.custom_minimum_size = Vector2(52, 48)
 	_page_next_button.focus_mode = Control.FOCUS_NONE
 	_page_next_button.set_meta("core_loop_v2_page_next", true)
@@ -899,8 +899,8 @@ func _refresh_hints() -> void:
 			"[%s/%s] 페이지 이동  ·  ↑↓ 기록 선택  ·  [%s] 결산으로",
 			"[%s/%s] Change Page  ·  ↑↓ Select Record  ·  [%s] Recap"
 		) % [
-			ControllerHints.shoulder_l(),
-			ControllerHints.shoulder_r(),
+			ControllerHints.trigger_l(),
+			ControllerHints.trigger_r(),
 			ControllerHints.east(),
 			]
 
@@ -918,10 +918,9 @@ func _input(event: InputEvent) -> void:
 				_show_summary()
 				handled = true
 			JOY_BUTTON_LEFT_SHOULDER:
-				_change_detail_page(-1)
+				# L1/R1 is reserved for sibling groups, not ledger pages.
 				handled = true
 			JOY_BUTTON_RIGHT_SHOULDER:
-				_change_detail_page(1)
 				handled = true
 			JOY_BUTTON_DPAD_UP:
 				handled = _move_detail_row(-1)
@@ -953,18 +952,20 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 
 	var handled := false
+	var major_direction := ControllerHints.major_direction(event)
 	if details_visible():
-		if event.is_action_pressed("ui_cancel") \
+		if major_direction != 0:
+			_change_detail_page(major_direction)
+			handled = true
+		elif event.is_action_pressed("ui_cancel") \
 				or _joy_button_pressed(event, JOY_BUTTON_B):
 			_show_summary()
 			handled = true
 		elif event.is_action_pressed("gd_tab_prev") \
-				or _joy_button_pressed(event, JOY_BUTTON_LEFT_SHOULDER):
-			_change_detail_page(-1)
-			handled = true
-		elif event.is_action_pressed("gd_tab_next") \
+				or event.is_action_pressed("gd_tab_next") \
+				or _joy_button_pressed(event, JOY_BUTTON_LEFT_SHOULDER) \
 				or _joy_button_pressed(event, JOY_BUTTON_RIGHT_SHOULDER):
-			_change_detail_page(1)
+			# No sibling group exists in the detail ledger.
 			handled = true
 		elif event.is_action_pressed("ui_up") \
 				or _joy_button_pressed(event, JOY_BUTTON_DPAD_UP):
@@ -978,7 +979,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			# Details are read-only. South never commits or exits from this layer.
 			handled = true
 	else:
-		if ControllerHints.details_pressed(event):
+		if major_direction != 0:
+			# Triggers cannot finish, retry, or exit the terminal recap.
+			handled = true
+		elif ControllerHints.details_pressed(event):
 			_show_details()
 			handled = true
 		elif event.is_action_pressed("ui_accept") \

@@ -24,6 +24,16 @@ const DIRECT_INPUT_CASES: Array[Dictionary] = [
 	{"path": "res://scenes/RaceTrack.gd", "state": "_pad_stake_idx"},
 	{"path": "res://scenes/JeongseonCasino.gd", "state": "_glossary_overlay"},
 ]
+const MAJOR_INPUT_CASES: Array[Dictionary] = [
+	{"path": "res://scenes/BlackjackTable.gd", "tutorial": "blackjack", "state": "_stake", "options": "STAKE_OPTIONS", "counter": "_rounds"},
+	{"path": "res://scenes/BaccaratTable.gd", "tutorial": "baccarat", "state": "_active_stake", "options": "STAKE_OPTIONS", "counter": "_rounds"},
+	{"path": "res://scenes/SlotMachineGame.gd", "tutorial": "slot", "state": "_active_stake", "options": "STAKE_OPTIONS", "counter": "_rounds"},
+	{"path": "res://scenes/RouletteTable.gd", "tutorial": "roulette", "state": "_stake", "options": "STAKE_OPTIONS", "counter": "_rounds"},
+	{"path": "res://scenes/BigWheelGame.gd", "tutorial": "bigwheel", "state": "_stake", "options": "STAKE_OPTIONS", "counter": "_rounds"},
+	{"path": "res://scenes/DaiSaiTable.gd", "tutorial": "daisai", "state": "_stake", "options": "STAKE_OPTIONS", "counter": "_rounds"},
+	{"path": "res://scenes/HoldemClub.gd", "tutorial": "holdem", "state": "_buy_in", "options": "VALID_BUYINS", "counter": "_hands_played"},
+	{"path": "res://scenes/RaceTrack.gd", "tutorial": "racetrack", "state": "_pad_stake_idx", "options": "STAKE_OPTIONS", "counter": "_completed_races", "index_state": true},
+]
 
 var _failures: Array[String] = []
 var _original_vibration_enabled: bool
@@ -40,14 +50,16 @@ func _run() -> void:
 	_check_input_actions()
 	_check_accessibility_and_haptics()
 	await _check_settings_surface()
+	await _check_story_vibration_settings()
 	_check_direct_input_scenes()
 	await _check_direct_input_runtime()
+	await _check_major_stake_routes()
 	await _check_minigame_keyboard_tasks()
 	_check_steam_input_template()
 	_restore_settings()
 	ControllerHints.clear_qa_override()
 	if _failures.is_empty():
-		print("INPUT_MATRIX_CHECK_OK modes=3 resolutions=8 brands=3 direct_scenes=9 direct_routes=18 keyboard_tasks=10 action_sets=4")
+		print("INPUT_MATRIX_CHECK_OK modes=3 resolutions=8 brands=3 direct_scenes=9 direct_routes=18 major_routes=8 modal_routes=8 boundary_routes=16 invalid_routes=8 keyboard_tasks=10 action_sets=4")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -79,9 +91,9 @@ func _check_display_contract() -> void:
 
 func _check_controller_glyphs() -> void:
 	var cases: Array = [
-		[ControllerHints.Brand.XBOX, ["A", "B", "X", "Y", "RB", "Menu", "LB"]],
-		[ControllerHints.Brand.PLAYSTATION, ["✕", "○", "□", "△", "R1", "Options", "L1"]],
-		[ControllerHints.Brand.NINTENDO, ["B", "A", "Y", "X", "R", "+", "L"]],
+		[ControllerHints.Brand.XBOX, ["A", "B", "X", "Y", "RB", "Menu", "LB", "LT", "RT"]],
+		[ControllerHints.Brand.PLAYSTATION, ["✕", "○", "□", "△", "R1", "Options", "L1", "L2", "R2"]],
+		[ControllerHints.Brand.NINTENDO, ["B", "A", "Y", "X", "R", "+", "L", "ZL", "ZR"]],
 	]
 	for data in cases:
 		ControllerHints.force_brand_for_qa(data[0])
@@ -89,6 +101,7 @@ func _check_controller_glyphs() -> void:
 			ControllerHints.south(), ControllerHints.east(), ControllerHints.west(),
 			ControllerHints.north(), ControllerHints.shoulder_r(),
 			ControllerHints.start_btn(), ControllerHints.shoulder_l(),
+			ControllerHints.trigger_l(), ControllerHints.trigger_r(),
 		]
 		_expect(actual == data[1], "%s glyph layout is %s" % [ControllerHints.brand_name(), actual])
 	_expect(ControllerHints.brand_from_device_name("DualSense Wireless Controller") \
@@ -98,17 +111,23 @@ func _check_controller_glyphs() -> void:
 	_expect(ControllerHints.brand_from_device_name("Steam Deck") \
 		== ControllerHints.Brand.XBOX, "Steam Deck physical layout detection failed")
 	ControllerHints.clear_qa_override()
+	if Input.get_connected_joypads().is_empty():
+		_expect(ControllerHints.trigger_l() == "PageUp" \
+				and ControllerHints.trigger_r() == "PageDown",
+			"keyboard trigger hints do not match PageUp/PageDown")
 
 func _check_input_actions() -> void:
 	for action in [
 		"ui_accept", "ui_cancel", "ui_up", "ui_down", "ui_left", "ui_right",
 		"gd_next_month", "gd_menu", "gd_tab_next", "gd_tab_prev",
-		"gd_secondary", "gd_details",
+		"gd_major_prev", "gd_major_next", "gd_secondary", "gd_details",
 	]:
 		_expect(InputMap.has_action(action), "InputMap action missing: %s" % action)
 	var keyboard_contract := {
 		"gd_tab_prev": KEY_Q,
 		"gd_tab_next": KEY_E,
+		"gd_major_prev": KEY_PAGEUP,
+		"gd_major_next": KEY_PAGEDOWN,
 		"gd_secondary": KEY_X,
 		"gd_details": KEY_Y,
 		"gd_menu": KEY_F10,
@@ -126,6 +145,22 @@ func _check_input_actions() -> void:
 					break
 		_expect(found, "%s has no keyboard binding for %s" % [
 			action_name, OS.get_keycode_string(expected_key)])
+	var trigger_contract := {
+		"gd_major_prev": JOY_AXIS_TRIGGER_LEFT,
+		"gd_major_next": JOY_AXIS_TRIGGER_RIGHT,
+	}
+	for action_name in trigger_contract:
+		var expected_axis := int(trigger_contract[action_name])
+		var found_axis := false
+		for mapped_event in InputMap.action_get_events(action_name):
+			if mapped_event is InputEventJoypadMotion:
+				var motion := mapped_event as InputEventJoypadMotion
+				if int(motion.axis) == expected_axis and motion.axis_value > 0.0:
+					found_axis = true
+					break
+		_expect(found_axis, "%s has no physical trigger-axis binding" % action_name)
+		_expect(is_equal_approx(InputMap.action_get_deadzone(action_name), 0.55),
+			"%s trigger threshold is not 0.55" % action_name)
 
 func _check_accessibility_and_haptics() -> void:
 	var reduced := LivingSceneLayer.build_profile(
@@ -178,6 +213,26 @@ func _check_settings_surface() -> void:
 			var matches: Array[Control] = []
 			_collect_meta_controls(overlay, key, matches)
 			_expect(matches.size() == 1, "settings expected one %s, found %d" % [key, matches.size()])
+		var vibration_controls: Array[Control] = []
+		var strength_controls: Array[Control] = []
+		_collect_meta_controls(overlay, "vibration_control", vibration_controls)
+		_collect_meta_controls(overlay, "vibration_intensity_control", strength_controls)
+		if vibration_controls.size() == 1 and strength_controls.size() == 1:
+			var vibration_toggle := vibration_controls[0] as CheckButton
+			var vibration_slider := strength_controls[0] as HSlider
+			if not vibration_toggle.button_pressed:
+				vibration_toggle.button_pressed = true
+				vibration_toggle.toggled.emit(true)
+			vibration_toggle.grab_focus()
+			await get_tree().process_frame
+			await _press_key(KEY_ENTER)
+			_expect(not AudioManager.vibration_enabled() \
+					and vibration_slider.focus_mode == Control.FOCUS_NONE,
+				"StartMenu vibration off left its strength in the focus rail")
+			await _press_key(KEY_ENTER)
+			_expect(AudioManager.vibration_enabled() \
+					and vibration_slider.focus_mode == Control.FOCUS_ALL,
+				"StartMenu vibration on did not restore its strength control")
 		var resolution_controls: Array[Control] = []
 		_collect_meta_controls(overlay, "resolution_control", resolution_controls)
 		if resolution_controls.size() == 1 and resolution_controls[0] is OptionButton:
@@ -218,6 +273,101 @@ func _find_first_panel(root: Node) -> PanelContainer:
 			return found
 	return null
 
+func _check_story_vibration_settings() -> void:
+	var game_state_snapshot: Dictionary = GameState.serialize().duplicate(true)
+	var pending_story_snapshot: Array = GameState.pending_story_queue.duplicate(true)
+	var return_scene_snapshot: String = GameState.story_return_scene
+	AudioManager.set_vibration_enabled(true)
+	AudioManager.set_vibration_intensity(0.60)
+	GameState.start_new_game()
+	GameState.pending_story_queue = ["story_prologue_dad"]
+	GameState.story_return_scene = "res://scenes/MainGame.tscn"
+	var packed := load("res://scenes/StoryMode.tscn") as PackedScene
+	_expect(packed != null, "StoryMode settings surface could not be loaded")
+	if packed == null:
+		GameState.load_from_dict(game_state_snapshot)
+		GameState.pending_story_queue = pending_story_snapshot
+		GameState.story_return_scene = return_scene_snapshot
+		return
+	var story := packed.instantiate() as Control
+	add_child(story)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await _press_key(KEY_F10)
+	await get_tree().process_frame
+	var overlay := story.get("_audio_settings_popup") as Control
+	_expect(is_instance_valid(overlay), "StoryMode Menu input did not open scene settings")
+	if is_instance_valid(overlay):
+		var vibration_controls: Array[Control] = []
+		var strength_controls: Array[Control] = []
+		var motion_controls: Array[Control] = []
+		_collect_meta_controls(overlay, "vibration_control", vibration_controls)
+		_collect_meta_controls(overlay, "vibration_intensity_control", strength_controls)
+		_collect_meta_controls(overlay, "reduce_motion_control", motion_controls)
+		_expect(vibration_controls.size() == 1,
+			"StoryMode expected one vibration toggle, found %d" % vibration_controls.size())
+		_expect(strength_controls.size() == 1,
+			"StoryMode expected one vibration strength, found %d" % strength_controls.size())
+		var panel := _find_first_panel(overlay)
+		_expect(panel != null, "StoryMode scene settings panel is missing")
+		if panel != null and panel.get_child_count() > 0:
+			var column := panel.get_child(0) as Control
+			_expect(column.get_combined_minimum_size().y <= column.size.y + 0.5,
+				"StoryMode scene settings content overflows the 960x600-safe panel")
+		if vibration_controls.size() == 1 and strength_controls.size() == 1 \
+				and motion_controls.size() == 1:
+			var toggle := vibration_controls[0] as CheckButton
+			var slider := strength_controls[0] as HSlider
+			var motion := motion_controls[0]
+			_expect(toggle.focus_neighbor_bottom == slider.get_path() \
+					and slider.focus_neighbor_bottom == motion.get_path(),
+				"StoryMode vibration controls are outside the settings focus order")
+			var stop_serial_before_off := int(AudioManager.get("_vibration_stop_serial"))
+			toggle.grab_focus()
+			await get_tree().process_frame
+			await _press_key(KEY_ENTER)
+			_expect(not AudioManager.vibration_enabled(),
+				"StoryMode vibration toggle did not disable output immediately")
+			_expect(int(AudioManager.get("_vibration_stop_serial")) \
+					== stop_serial_before_off + 1,
+				"StoryMode vibration off did not stop an active pulse immediately")
+			_expect(slider.focus_mode == Control.FOCUS_NONE \
+					and toggle.focus_neighbor_bottom == motion.get_path(),
+				"StoryMode disabled vibration strength stayed in the focus rail")
+			_expect(AudioManager.vibration_profile(0.5, 0.8) == Vector2.ZERO,
+				"StoryMode vibration off did not produce a silent profile")
+			await _press_key(KEY_ENTER)
+			_expect(AudioManager.vibration_enabled() \
+					and slider.focus_mode == Control.FOCUS_ALL,
+				"StoryMode vibration toggle did not restore strength control")
+			var stop_serial_before_zero := int(AudioManager.get("_vibration_stop_serial"))
+			slider.value = 0.0
+			await get_tree().process_frame
+			_expect(is_zero_approx(AudioManager.vibration_intensity()) \
+					and AudioManager.vibration_profile(0.5, 0.8) == Vector2.ZERO,
+				"StoryMode zero vibration strength did not stay silent")
+			_expect(int(AudioManager.get("_vibration_stop_serial")) \
+					== stop_serial_before_zero + 1,
+				"StoryMode zero vibration strength did not stop an active pulse immediately")
+	story.call("_close_audio_settings")
+	await get_tree().process_frame
+	await _press_key(KEY_F10)
+	await get_tree().process_frame
+	var reopened_toggle := story.get("_audio_vibration_toggle") as CheckButton
+	var reopened_slider := story.get("_audio_vibration_slider") as HSlider
+	_expect(is_instance_valid(reopened_toggle) and reopened_toggle.button_pressed,
+		"StoryMode vibration enabled setting did not survive popup rebuild")
+	_expect(is_instance_valid(reopened_slider) and is_zero_approx(reopened_slider.value),
+		"StoryMode vibration strength did not survive popup rebuild")
+	story.call("_close_audio_settings")
+	await get_tree().process_frame
+	story.queue_free()
+	await get_tree().process_frame
+	GameState.load_from_dict(game_state_snapshot)
+	GameState.pending_story_queue = pending_story_snapshot
+	GameState.story_return_scene = return_scene_snapshot
+	BGMPlayer.update_idle_ambience()
+
 func _check_direct_input_scenes() -> void:
 	for path in DIRECT_INPUT_SCENES:
 		_expect(FileAccess.file_exists(path), "direct-input scene missing: %s" % path)
@@ -242,6 +392,167 @@ func _check_direct_input_runtime() -> void:
 	GameState.money = original_money
 	GameState.flags = original_flags
 	BGMPlayer.update_idle_ambience()
+
+func _check_major_stake_routes() -> void:
+	var original_money := float(GameState.money)
+	var original_flags := GameState.flags.duplicate(true)
+	var tutorial_snapshot := TutorialOverlay._seen.duplicate(true)
+	GameState.money = 100_000_000.0
+	for test_case in MAJOR_INPUT_CASES:
+		await _exercise_major_stake_route(test_case)
+	GameState.money = original_money
+	GameState.flags = original_flags
+	TutorialOverlay._seen.clear()
+	TutorialOverlay._seen.merge(tutorial_snapshot, true)
+	BGMPlayer.update_idle_ambience()
+
+func _exercise_major_stake_route(test_case: Dictionary) -> void:
+	var path := str(test_case.get("path", ""))
+	var state_name := str(test_case.get("state", ""))
+	var counter_name := str(test_case.get("counter", ""))
+	var script := load(path) as Script
+	_expect(script != null, "major route could not load %s" % path)
+	if script == null:
+		return
+	var constants := script.get_script_constant_map()
+	var options_variant: Variant = constants.get(str(test_case.get("options", "")), [])
+	_expect(options_variant is Array and (options_variant as Array).size() >= 2,
+		"major route has no reversible option set: %s" % path)
+	if not options_variant is Array or (options_variant as Array).size() < 2:
+		return
+	var options := options_variant as Array
+	var surface := script.new() as Control
+	_expect(surface != null, "major route could not instantiate %s" % path)
+	if surface == null:
+		return
+	add_child(surface)
+	await get_tree().process_frame
+	var tutorial_id := str(test_case.get("tutorial", ""))
+	TutorialOverlay._seen.erase(tutorial_id)
+	surface.call("open")
+	await get_tree().process_frame
+	var tutorial: TutorialOverlay = null
+	for child in surface.get_children():
+		if child is TutorialOverlay:
+			tutorial = child as TutorialOverlay
+			break
+	_expect(is_instance_valid(tutorial), "%s did not open its trigger-capture tutorial" % path)
+	if is_instance_valid(tutorial):
+		var modal_value := int(surface.get(state_name))
+		var modal_money := float(GameState.money)
+		var modal_counter := int(surface.get(counter_name))
+		var modal_phase := int(surface.get("_phase"))
+		var modal_focus := get_viewport().gui_get_focus_owner()
+		ControllerHints.reset_major_input_state()
+		await _major_axis_value(JOY_AXIS_TRIGGER_RIGHT, 0.62)
+		await _major_axis_value(JOY_AXIS_TRIGGER_RIGHT, 0.83)
+		await _major_axis_value(JOY_AXIS_TRIGGER_RIGHT, 0.0)
+		await _major_axis_value(JOY_AXIS_TRIGGER_LEFT, 0.62)
+		await _major_axis_value(JOY_AXIS_TRIGGER_LEFT, 0.0)
+		_expect(int(surface.get(state_name)) == modal_value \
+				and is_equal_approx(float(GameState.money), modal_money) \
+				and int(surface.get(counter_name)) == modal_counter \
+				and int(surface.get("_phase")) == modal_phase \
+				and surface.visible,
+			"%s tutorial leaked trigger input into hidden game state" % path)
+		_expect(get_viewport().gui_get_focus_owner() == modal_focus \
+				and tutorial.is_ancestor_of(modal_focus),
+			"%s tutorial trigger moved focus behind the modal" % path)
+		tutorial.call("_dismiss", false)
+		await get_tree().process_frame
+		await get_tree().process_frame
+	var initial_value := int(surface.get(state_name))
+	var initial_index := initial_value if bool(test_case.get("index_state", false)) \
+			else options.find(initial_value)
+	_expect(initial_index >= 0, "%s initial major value is outside its option set" % path)
+	if initial_index < 0:
+		await _dispose_keyboard_surface(surface)
+		return
+	var before_index := clampi(int(options.size() / 2), 0, options.size() - 2)
+	var before := before_index if bool(test_case.get("index_state", false)) \
+			else int(options[before_index])
+	surface.set(state_name, before)
+	ControllerHints.reset_major_input_state()
+	await _major_axis_value(JOY_AXIS_TRIGGER_RIGHT, 0.62)
+	var expected_next_index := clampi(before_index + 1, 0, options.size() - 1)
+	var expected_next := expected_next_index \
+		if bool(test_case.get("index_state", false)) \
+		else int(options[expected_next_index])
+	var after_next := int(surface.get(state_name))
+	_expect(after_next == expected_next,
+		"%s R2 moved %s to %d instead of next %d" % [path, state_name, after_next, expected_next])
+	await _major_axis_value(JOY_AXIS_TRIGGER_RIGHT, 0.83)
+	_expect(int(surface.get(state_name)) == after_next,
+		"%s held R2 repeated its major value" % path)
+	await _major_axis_value(JOY_AXIS_TRIGGER_RIGHT, 0.0)
+	await _major_axis_value(JOY_AXIS_TRIGGER_LEFT, 0.62)
+	await _major_axis_value(JOY_AXIS_TRIGGER_LEFT, 0.0)
+	_expect(int(surface.get(state_name)) == before,
+		"%s L2 did not reverse the R2 value change" % path)
+
+	# L2/R2 are decrease/increase, not circular selectors. At either endpoint
+	# the outward trigger must be a raw-input no-op instead of wrapping direction.
+	var min_value := 0 if bool(test_case.get("index_state", false)) else int(options[0])
+	var max_value := options.size() - 1 if bool(test_case.get("index_state", false)) \
+			else int(options[-1])
+	surface.set(state_name, min_value)
+	var boundary_money := float(GameState.money)
+	var boundary_counter := int(surface.get(counter_name))
+	var boundary_phase := int(surface.get("_phase"))
+	var boundary_focus := get_viewport().gui_get_focus_owner()
+	ControllerHints.reset_major_input_state()
+	await _major_axis_value(JOY_AXIS_TRIGGER_LEFT, 0.62)
+	await _major_axis_value(JOY_AXIS_TRIGGER_LEFT, 0.83)
+	await _major_axis_value(JOY_AXIS_TRIGGER_LEFT, 0.0)
+	_expect(int(surface.get(state_name)) == min_value,
+		"%s L2 wrapped the minimum major value" % path)
+	_expect(is_equal_approx(float(GameState.money), boundary_money) \
+			and int(surface.get(counter_name)) == boundary_counter \
+			and int(surface.get("_phase")) == boundary_phase \
+			and get_viewport().gui_get_focus_owner() == boundary_focus \
+			and surface.visible,
+		"%s minimum L2 boundary mutated game/focus state" % path)
+
+	surface.set(state_name, max_value)
+	boundary_money = float(GameState.money)
+	boundary_counter = int(surface.get(counter_name))
+	boundary_phase = int(surface.get("_phase"))
+	boundary_focus = get_viewport().gui_get_focus_owner()
+	ControllerHints.reset_major_input_state()
+	await _major_axis_value(JOY_AXIS_TRIGGER_RIGHT, 0.62)
+	await _major_axis_value(JOY_AXIS_TRIGGER_RIGHT, 0.83)
+	await _major_axis_value(JOY_AXIS_TRIGGER_RIGHT, 0.0)
+	_expect(int(surface.get(state_name)) == max_value,
+		"%s R2 wrapped the maximum major value" % path)
+	_expect(is_equal_approx(float(GameState.money), boundary_money) \
+			and int(surface.get(counter_name)) == boundary_counter \
+			and int(surface.get("_phase")) == boundary_phase \
+			and get_viewport().gui_get_focus_owner() == boundary_focus \
+			and surface.visible,
+		"%s maximum R2 boundary mutated game/focus state" % path)
+
+	# Phase 1 is an in-flight/result phase on all eight direct games. Triggers
+	# must be captured without changing value, money, round count, or focus.
+	surface.set_process(false)
+	surface.set("_phase", 1)
+	var invalid_value := int(surface.get(state_name))
+	var invalid_money := float(GameState.money)
+	var invalid_counter := int(surface.get(counter_name))
+	var invalid_focus := get_viewport().gui_get_focus_owner()
+	ControllerHints.reset_major_input_state()
+	await _major_axis_value(JOY_AXIS_TRIGGER_RIGHT, 0.62)
+	await _major_axis_value(JOY_AXIS_TRIGGER_RIGHT, 0.0)
+	_expect(int(surface.get(state_name)) == invalid_value,
+		"%s invalid phase changed %s" % [path, state_name])
+	_expect(is_equal_approx(float(GameState.money), invalid_money),
+		"%s invalid phase changed money" % path)
+	_expect(int(surface.get(counter_name)) == invalid_counter,
+		"%s invalid phase changed round/session count" % path)
+	_expect(get_viewport().gui_get_focus_owner() == invalid_focus,
+		"%s invalid phase stole focus" % path)
+	_expect(int(surface.get("_phase")) == 1 and surface.visible,
+		"%s invalid trigger changed phase or exited" % path)
+	await _dispose_keyboard_surface(surface)
 
 func _exercise_secondary_route(test_case: Dictionary, input_mode: String) -> void:
 	var path := str(test_case.get("path", ""))
@@ -674,6 +985,14 @@ func _press_joy(button_index: JoyButton) -> void:
 	Input.parse_input_event(release)
 	await get_tree().process_frame
 
+func _major_axis_value(axis: JoyAxis, value: float) -> void:
+	var motion := InputEventJoypadMotion.new()
+	motion.device = 0
+	motion.axis = axis
+	motion.axis_value = value
+	Input.parse_input_event(motion)
+	await get_tree().process_frame
+
 func _check_steam_input_template() -> void:
 	_expect(FileAccess.file_exists(STEAM_ACTIONS_PATH), "Steam Input action template missing")
 	if not FileAccess.file_exists(STEAM_ACTIONS_PATH):
@@ -685,6 +1004,49 @@ func _check_steam_input_template() -> void:
 		"\"english\"", "\"koreana\"",
 	]:
 		_expect(source.contains(token), "Steam Input template missing %s" % token)
+	for action_set in ["Menu", "Story", "Life", "Minigame"]:
+		var action_set_body := _vdf_named_block(source, action_set)
+		_expect(not action_set_body.is_empty(),
+			"Steam Input template could not parse %s action set" % action_set)
+		_expect(action_set_body.count("\"MajorPrevious\"") == 1,
+			"Steam Input %s set must declare MajorPrevious exactly once" % action_set)
+		_expect(action_set_body.count("\"MajorNext\"") == 1,
+			"Steam Input %s set must declare MajorNext exactly once" % action_set)
+	_expect(source.count("\"MajorPrevious\"") == 4,
+		"Steam Input MajorPrevious action declaration count is not four")
+	_expect(source.count("\"MajorNext\"") == 4,
+		"Steam Input MajorNext action declaration count is not four")
+	for localized_title in [
+		"\"#Action_MajorPrevious\"\t\"Previous Page / Decrease\"",
+		"\"#Action_MajorNext\"\t\"Next Page / Increase\"",
+		"\"#Action_MajorPrevious\"\t\"이전 페이지 / 감소\"",
+		"\"#Action_MajorNext\"\t\"다음 페이지 / 증가\"",
+	]:
+		_expect(source.contains(localized_title),
+			"Steam Input template missing localized major title %s" % localized_title)
+	_expect(source.count("\"#Action_MajorPrevious\"") == 6,
+		"Steam Input MajorPrevious title reference/localization count is not six")
+	_expect(source.count("\"#Action_MajorNext\"") == 6,
+		"Steam Input MajorNext title reference/localization count is not six")
+
+func _vdf_named_block(source: String, block_name: String) -> String:
+	var marker := "\"%s\"" % block_name
+	var marker_index := source.find(marker)
+	if marker_index < 0:
+		return ""
+	var open_index := source.find("{", marker_index + marker.length())
+	if open_index < 0:
+		return ""
+	var depth := 0
+	for index in range(open_index, source.length()):
+		var character := source.substr(index, 1)
+		if character == "{":
+			depth += 1
+		elif character == "}":
+			depth -= 1
+			if depth == 0:
+				return source.substr(open_index + 1, index - open_index - 1)
+	return ""
 
 func _restore_settings() -> void:
 	AudioManager.set_vibration_intensity(_original_vibration_intensity)

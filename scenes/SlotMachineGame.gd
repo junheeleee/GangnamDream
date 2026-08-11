@@ -154,8 +154,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		if key.echo:
 			return
 
-	var pad_navigation_event := event.is_action_pressed("gd_tab_prev") \
-			or event.is_action_pressed("gd_tab_next") \
+	var major_direction := ControllerHints.major_direction(event)
+	var pad_navigation_event := (major_direction != 0 and _phase == Phase.IDLE) \
 			or event.is_action_pressed("ui_accept") \
 			or event.is_action_pressed("ui_cancel") \
 			or ControllerHints.secondary_pressed(event) \
@@ -164,9 +164,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		_pad_navigation_active = true
 
 	var handled := false
-	if event.is_action_pressed("gd_tab_prev"):
-		handled = _pad_cycle_stake(-1)
-	elif event.is_action_pressed("gd_tab_next") or ControllerHints.secondary_pressed(event):
+	if major_direction != 0:
+		if _phase == Phase.IDLE:
+			handled = _pad_cycle_stake(major_direction)
+		else:
+			handled = true
+	elif event.is_action_pressed("gd_tab_prev") or event.is_action_pressed("gd_tab_next"):
+		handled = true
+	elif ControllerHints.secondary_pressed(event):
 		handled = _pad_cycle_stake(1)
 	elif event.is_action_pressed("ui_accept"):
 		handled = _pad_spin()
@@ -179,13 +184,15 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func _pad_cycle_stake(direction: int) -> bool:
-	if _phase == Phase.SPINNING:
+	if _phase != Phase.IDLE:
 		return true
 	var idx := STAKE_OPTIONS.find(_active_stake)
 	if idx < 0:
 		idx = 2
-	idx = int(posmod(idx + direction, STAKE_OPTIONS.size()))
-	_on_stake_select(int(STAKE_OPTIONS[idx]))
+	var next_idx := clampi(idx + direction, 0, STAKE_OPTIONS.size() - 1)
+	if next_idx == idx:
+		return true
+	_on_stake_select(int(STAKE_OPTIONS[next_idx]))
 	_flash_msg(_tr("베팅 금액: %s", "Stake: %s") % GameState.format_money(float(_active_stake)), "#d8dbe8")
 	return true
 
@@ -242,7 +249,7 @@ func _start_spin() -> void:
 		_cabinet_overlay.queue_redraw()
 
 	AudioManager.play("slot_start")
-	AudioManager.pulse_gamepad(0.08, 0.18, 0.10)
+	AudioManager.play_haptic(&"physical_reel_spin")
 
 func _process(delta: float) -> void:
 	if _phase != Phase.SPINNING:
@@ -531,7 +538,10 @@ func _bump_reel(index: int) -> void:
 	var panel := _reel_panels[index] as PanelContainer
 	if not is_instance_valid(panel):
 		return
-	AudioManager.pulse_gamepad(0.05 + float(index) * 0.02, 0.12 + float(index) * 0.04, 0.055)
+	# The final reel resolves the wager in this same frame. Let that result own
+	# the tactile beat instead of starting a stop pulse that is immediately replaced.
+	if index < _reel_panels.size() - 1:
+		AudioManager.play_haptic(&"physical_reel_stop")
 	var base: Vector2 = panel.position
 	var tw := create_tween()
 	tw.tween_property(panel, "position:y", base.y + 5.0, 0.045)
@@ -1308,13 +1318,13 @@ func _refresh_pad_hint() -> void:
 	if not show_hint:
 		return
 	_pad_hint_lbl.bbcode_text = _tr(
-		"[b]SPIN[/b]   [%s] 돌리기  [%s/%s/%s] 금액  [%s] 규칙  [%s] 나가기",
-		"[b]SPIN[/b]   [%s] Spin  [%s/%s/%s] Stake  [%s] Rules  [%s] Exit"
+		"[b]SPIN[/b]  [%s] 돌리기  [%s/%s] 금액 −/+  [%s] 금액 +  [%s] 규칙  [%s] 나가기",
+		"[b]SPIN[/b]  [%s] Spin  [%s/%s] Stake −/+  [%s] Stake +  [%s] Rules  [%s] Exit"
 	) % [
 		ControllerHints.south(),
+		ControllerHints.trigger_l(),
+		ControllerHints.trigger_r(),
 		ControllerHints.west(),
-		ControllerHints.shoulder_l(),
-		ControllerHints.shoulder_r(),
 		ControllerHints.north(),
 		ControllerHints.east(),
 	]

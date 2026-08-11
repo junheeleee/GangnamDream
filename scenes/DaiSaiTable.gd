@@ -160,7 +160,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if key.echo:
 			return
 
-	var pad_navigation_event := event.is_action_pressed("gd_tab_prev") \
+	var major_direction := ControllerHints.major_direction(event)
+	var pad_navigation_event := (major_direction != 0 and _phase == Phase.IDLE) \
+			or event.is_action_pressed("gd_tab_prev") \
 			or event.is_action_pressed("gd_tab_next") \
 			or event.is_action_pressed("ui_left") \
 			or event.is_action_pressed("ui_right") \
@@ -174,7 +176,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		_pad_navigation_active = true
 
 	var handled := false
-	if event.is_action_pressed("gd_tab_prev"):
+	if major_direction != 0:
+		if _phase == Phase.IDLE:
+			handled = _pad_cycle_stake(major_direction)
+		else:
+			handled = true
+	elif event.is_action_pressed("gd_tab_prev"):
 		handled = _pad_cycle_mode(-1)
 	elif event.is_action_pressed("gd_tab_next"):
 		handled = _pad_cycle_mode(1)
@@ -271,13 +278,15 @@ func _pad_cancel() -> bool:
 	return true
 
 func _pad_cycle_stake(direction: int) -> bool:
-	if _phase == Phase.ROLLING:
+	if _phase != Phase.IDLE:
 		return true
 	var idx := STAKE_OPTIONS.find(_stake)
 	if idx < 0:
 		idx = 1
-	idx = int(posmod(idx + direction, STAKE_OPTIONS.size()))
-	_select_stake(int(STAKE_OPTIONS[idx]))
+	var next_idx := clampi(idx + direction, 0, STAKE_OPTIONS.size() - 1)
+	if next_idx == idx:
+		return true
+	_select_stake(int(STAKE_OPTIONS[next_idx]))
 	_flash_msg(_tr("베팅 단위: %s", "Stake: %s") % GameState.format_money(float(_stake)), "#d8dbe8")
 	return true
 
@@ -386,7 +395,7 @@ func _do_roll() -> void:
 	AudioManager.play_varied("chip_place")
 	AudioManager.play_delayed("dice_cup_shake", 0.08)
 	AudioManager.play_delayed_varied("dice_roll", 0.46, -3.0, 0.90, 1.10)
-	AudioManager.pulse_gamepad(0.10, 0.22, 0.12)
+	AudioManager.play_haptic(&"physical_dice_roll")
 	set_process(true)
 	_refresh()
 
@@ -895,14 +904,16 @@ func _refresh_pad_hint() -> void:
 	if not show_hint:
 		return
 	_pad_hint_lbl.bbcode_text = _tr(
-		"[b]%s[/b] · %s   [%s/%s] 모드  [%s] 선택/굴림  [%s] 칩  [%s] 규칙  [%s] 뒤로",
-		"[b]%s[/b] · %s   [%s/%s] Mode  [%s] Select/Roll  [%s] Stake  [%s] Rules  [%s] Back"
+		"[b]%s[/b] · %s  [%s/%s] 모드  [%s] 선택/굴림  [%s/%s] 칩 −/+  [%s] 칩 +  [%s] 규칙  [%s] 뒤로",
+		"[b]%s[/b] · %s  [%s/%s] Mode  [%s] Select/Roll  [%s/%s] Stake −/+  [%s] Stake +  [%s] Rules  [%s] Back"
 	) % [
 		_pad_mode_label(),
 		_pad_current_bet_label(),
 		ControllerHints.shoulder_l(),
 		ControllerHints.shoulder_r(),
 		ControllerHints.south(),
+		ControllerHints.trigger_l(),
+		ControllerHints.trigger_r(),
 		ControllerHints.west(),
 		ControllerHints.north(),
 		ControllerHints.east(),
@@ -1049,7 +1060,6 @@ func _flash_msg(text: String, color_hex: String) -> void:
 func _pulse_dice() -> void:
 	if not is_instance_valid(_dice_ctrl):
 		return
-	AudioManager.pulse_gamepad(0.14, 0.34, 0.11)
 	var tw := create_tween()
 	tw.tween_property(_dice_ctrl, "scale", Vector2(1.06, 1.06), 0.12)
 	tw.tween_property(_dice_ctrl, "scale", Vector2.ONE, 0.16)
@@ -1057,7 +1067,6 @@ func _pulse_dice() -> void:
 func _shake_dice() -> void:
 	if not is_instance_valid(_dice_ctrl):
 		return
-	AudioManager.pulse_gamepad(0.22, 0.20, 0.13)
 	var base := _dice_ctrl.position
 	var tw := create_tween()
 	for i in range(5):

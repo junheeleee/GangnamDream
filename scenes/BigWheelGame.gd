@@ -194,7 +194,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if key.echo:
 			return
 
-	var pad_navigation_event := event.is_action_pressed("gd_tab_prev") \
+	var major_direction := ControllerHints.major_direction(event)
+	var pad_navigation_event := (major_direction != 0 and _phase == Phase.IDLE) \
+			or event.is_action_pressed("gd_tab_prev") \
 			or event.is_action_pressed("gd_tab_next") \
 			or event.is_action_pressed("ui_left") \
 			or event.is_action_pressed("ui_right") \
@@ -208,7 +210,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		_pad_navigation_active = true
 
 	var handled := false
-	if event.is_action_pressed("gd_tab_prev") or event.is_action_pressed("ui_left"):
+	if major_direction != 0:
+		if _phase == Phase.IDLE:
+			handled = _pad_cycle_stake(major_direction)
+		else:
+			handled = true
+	elif event.is_action_pressed("gd_tab_prev") or event.is_action_pressed("ui_left"):
 		handled = _pad_move_segment(-1)
 	elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right"):
 		handled = _pad_move_segment(1)
@@ -300,8 +307,10 @@ func _pad_cycle_stake(direction: int) -> bool:
 	var idx := STAKE_OPTIONS.find(_stake)
 	if idx < 0:
 		idx = 1
-	idx = int(posmod(idx + direction, STAKE_OPTIONS.size()))
-	_select_stake(int(STAKE_OPTIONS[idx]))
+	var next_idx := clampi(idx + direction, 0, STAKE_OPTIONS.size() - 1)
+	if next_idx == idx:
+		return true
+	_select_stake(int(STAKE_OPTIONS[next_idx]))
 	_flash_msg(_tr("베팅 금액: %s", "Stake: %s") % GameState.format_money(float(_stake)), "#d8dbe8")
 	return true
 
@@ -967,13 +976,15 @@ func _refresh_pad_hint() -> void:
 		return
 	var target := "SPIN" if _pad_focus_spin else _segment_display_label(_pad_seg_idx)
 	_pad_hint_lbl.bbcode_text = _tr(
-		"[b]%s[/b]   [%s/%s] 구역  [%s] 선택/스핀  [%s] 금액  [%s] 규칙  [%s] 취소",
-		"[b]%s[/b]   [%s/%s] Segment  [%s] Select/Spin  [%s] Stake  [%s] Rules  [%s] Cancel"
+		"[b]%s[/b]  [%s/%s] 구역  [%s] 선택/스핀  [%s/%s] 금액 −/+  [%s] 금액 +  [%s] 규칙  [%s] 취소",
+		"[b]%s[/b]  [%s/%s] Segment  [%s] Select/Spin  [%s/%s] Stake −/+  [%s] Stake +  [%s] Rules  [%s] Cancel"
 	) % [
 		target,
 		ControllerHints.shoulder_l(),
 		ControllerHints.shoulder_r(),
 		ControllerHints.south(),
+		ControllerHints.trigger_l(),
+		ControllerHints.trigger_r(),
 		ControllerHints.west(),
 		ControllerHints.north(),
 		ControllerHints.east(),

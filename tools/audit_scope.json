@@ -798,10 +798,39 @@
       "godot": true,
       "why": "입력·해상도·글리프·Steam Input",
       "paths": [
+        "project.godot",
         "scenes/**",
         "autoloads/ControllerHints.gd",
         "steam_input/**",
-        "ui_components/**"
+        "ui_components/**",
+        "tools/InputMatrixCheck.gd",
+        "tools/InputMatrixCheck.gd.uid",
+        "tools/InputMatrixCheck.tscn"
+      ]
+    },
+    {
+      "tool": "tools/ControllerSemanticCheck.tscn",
+      "godot": true,
+      "why": "패드 의미 버튼·trigger edge·모달 누수·진동 설정",
+      "paths": [
+        "project.godot",
+        "autoloads/ControllerHints.gd",
+        "autoloads/AudioManager.gd",
+        "scenes/StartMenu.gd",
+        "scenes/StoryMode.gd",
+        "scenes/MainGame.gd",
+        "scenes/CoreLoopV2Completion.gd",
+        "scenes/BlackjackTable.gd",
+        "scenes/BaccaratTable.gd",
+        "scenes/SlotMachineGame.gd",
+        "scenes/RouletteTable.gd",
+        "scenes/BigWheelGame.gd",
+        "scenes/DaiSaiTable.gd",
+        "scenes/HoldemClub.gd",
+        "scenes/RaceTrack.gd",
+        "tools/ControllerSemanticCheck.gd",
+        "tools/ControllerSemanticCheck.gd.uid",
+        "tools/ControllerSemanticCheck.tscn"
       ]
     },
     {
@@ -832,7 +861,16 @@
         "assets/audio/**",
         "assets/game_audio_manifest.json",
         "autoloads/AudioManager.gd",
-        "autoloads/BGMPlayer.gd"
+        "autoloads/BGMPlayer.gd",
+        "scenes/BlackjackTable.gd",
+        "scenes/BaccaratTable.gd",
+        "scenes/SlotMachineGame.gd",
+        "scenes/RouletteTable.gd",
+        "scenes/BigWheelGame.gd",
+        "scenes/DaiSaiTable.gd",
+        "scenes/HoldemClub.gd",
+        "scenes/RaceTrack.gd",
+        "tools/GameAudioContractCheck.gd"
       ]
     },
     {

@@ -43,6 +43,11 @@ var modal_close_button: Button
 var next_button: Button
 var _modal_cancelable: bool = false
 var _modal_kind: String = ""
+var _save_load_page_idx: int = 0
+var _save_load_slot_list: VBoxContainer = null
+var _save_load_page_label: Label = null
+var _save_load_prev_button: Button = null
+var _save_load_next_button: Button = null
 var _invest_pad_asset_idx: int = 0
 var _invest_pad_action_idx: int = 0
 var _invest_pad_asset_ids: Array = []
@@ -8478,7 +8483,7 @@ func _show_effects_float(effects: Dictionary):
 
 func _play_choice_feedback(effects: Dictionary, choice: Dictionary):
 	AudioManager.play("choice_made")
-	AudioManager.pulse_gamepad(0.035, 0.070, 0.055)
+	AudioManager.play_haptic(&"commit_choice")
 	_pulse_choice_surface()
 	if choice.has("opportunity"):
 		var result := str(GameState.flags.get("_last_opportunity_result", ""))
@@ -12536,7 +12541,7 @@ func _pulse_ap_action_card(card: Control) -> void:
 
 func _play_ap_commit_feedback() -> void:
 	AudioManager.play("choice_made", -8.0)
-	AudioManager.pulse_gamepad(0.045, 0.110, 0.065)
+	AudioManager.play_haptic(&"commit_action")
 
 func _action_axis_for_function(fn_name: String) -> String:
 	match fn_name:
@@ -18853,6 +18858,8 @@ func _build_display_settings(parent: Control) -> void:
 	intensity_slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	intensity_slider.custom_minimum_size = Vector2(170, 32)
 	intensity_slider.editable = vibration_toggle.button_pressed
+	intensity_slider.focus_mode = Control.FOCUS_ALL \
+		if vibration_toggle.button_pressed else Control.FOCUS_NONE
 	intensity_slider.set_meta("vibration_intensity_control", true)
 	intensity_slider.value_changed.connect(func(value: float):
 		AudioManager.set_vibration_intensity(value))
@@ -18866,9 +18873,13 @@ func _build_display_settings(parent: Control) -> void:
 	intensity_row.add_child(intensity_value)
 	vibration_toggle.toggled.connect(func(on: bool):
 		AudioManager.set_vibration_enabled(on)
-		intensity_slider.editable = on)
+		intensity_slider.editable = on
+		intensity_slider.focus_mode = Control.FOCUS_ALL if on else Control.FOCUS_NONE
+		if not on and get_viewport().gui_get_focus_owner() == intensity_slider:
+			vibration_toggle.grab_focus())
 
 func _build_save_load_section(parent: Control):
+	_save_load_page_idx = 0
 	var sep = HSeparator.new()
 	sep.modulate = Color("#2a2a3a")
 	parent.add_child(sep)
@@ -18878,32 +18889,37 @@ func _build_save_load_section(parent: Control):
 	var header = _label(_tr("저장 / 불러오기", "Save / Load"), 12, "#5a6075")
 	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header_row.add_child(header)
-	var page_label := _label(_tr("슬롯 1–5", "Slots 1–5"), 11, "#7a8496")
-	page_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	page_label.custom_minimum_size = Vector2(88, 0)
-	header_row.add_child(page_label)
+	_save_load_page_label = _label(_tr("슬롯 1–5", "Slots 1–5"), 11, "#7a8496")
+	_save_load_page_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_save_load_page_label.custom_minimum_size = Vector2(128, 0)
+	header_row.add_child(_save_load_page_label)
 
 	var pager := HBoxContainer.new()
 	pager.add_theme_constant_override("separation", 6)
 	parent.add_child(pager)
-	var first_page_button := _small_button(_tr("1–5", "1–5"), "#2a3442")
-	first_page_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	first_page_button.custom_minimum_size = Vector2(0, 32)
-	pager.add_child(first_page_button)
-	var second_page_button := _small_button(_tr("6–10", "6–10"), "#2a3442")
-	second_page_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	second_page_button.custom_minimum_size = Vector2(0, 32)
-	pager.add_child(second_page_button)
+	_save_load_prev_button = _small_button(
+		"[%s]  %s" % [ControllerHints.trigger_l(), _tr("1–5", "1–5")], "#2a3442")
+	_save_load_prev_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_save_load_prev_button.custom_minimum_size = Vector2(0, 32)
+	pager.add_child(_save_load_prev_button)
+	_save_load_next_button = _small_button(
+		"%s  [%s]" % [_tr("6–10", "6–10"), ControllerHints.trigger_r()], "#2a3442")
+	_save_load_next_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_save_load_next_button.custom_minimum_size = Vector2(0, 32)
+	pager.add_child(_save_load_next_button)
 
-	var slot_list := VBoxContainer.new()
-	slot_list.add_theme_constant_override("separation", 5)
-	parent.add_child(slot_list)
-	first_page_button.pressed.connect(_populate_save_load_page.bind(
-		slot_list, 0, first_page_button, second_page_button, page_label))
-	second_page_button.pressed.connect(_populate_save_load_page.bind(
-		slot_list, 1, first_page_button, second_page_button, page_label))
+	_save_load_slot_list = VBoxContainer.new()
+	_save_load_slot_list.add_theme_constant_override("separation", 5)
+	parent.add_child(_save_load_slot_list)
+	_save_load_prev_button.pressed.connect(_populate_save_load_page.bind(
+		_save_load_slot_list, 0, _save_load_prev_button, _save_load_next_button,
+		_save_load_page_label))
+	_save_load_next_button.pressed.connect(_populate_save_load_page.bind(
+		_save_load_slot_list, 1, _save_load_prev_button, _save_load_next_button,
+		_save_load_page_label))
 	_populate_save_load_page(
-		slot_list, 0, first_page_button, second_page_button, page_label)
+		_save_load_slot_list, 0, _save_load_prev_button, _save_load_next_button,
+		_save_load_page_label)
 
 func _populate_save_load_page(
 		parent: Control,
@@ -18911,6 +18927,7 @@ func _populate_save_load_page(
 		first_page_button: Button,
 		second_page_button: Button,
 		page_label: Label) -> void:
+	_save_load_page_idx = clampi(page, 0, 1)
 	for child in parent.get_children():
 		child.queue_free()
 	first_page_button.disabled = page == 0
@@ -18955,6 +18972,37 @@ func _populate_save_load_page(
 		else:
 			load_btn.pressed.connect(_load_from_slot.bind(slot))
 		row.add_child(load_btn)
+
+func _change_system_save_page(delta: int) -> bool:
+	if _modal_kind != "system" \
+			or not is_instance_valid(_save_load_slot_list) \
+			or not is_instance_valid(_save_load_prev_button) \
+			or not is_instance_valid(_save_load_next_button) \
+			or not is_instance_valid(_save_load_page_label):
+		return false
+	var next_page := clampi(_save_load_page_idx + delta, 0, 1)
+	if next_page == _save_load_page_idx:
+		return true
+	_populate_save_load_page(
+		_save_load_slot_list, next_page, _save_load_prev_button,
+		_save_load_next_button, _save_load_page_label)
+	call_deferred("_focus_first_system_save_control")
+	return true
+
+func _focus_first_system_save_control() -> void:
+	if _modal_kind != "system" or not is_instance_valid(_save_load_slot_list):
+		return
+	for row in _save_load_slot_list.get_children():
+		if row.is_queued_for_deletion():
+			continue
+		for node in row.find_children("*", "Button", true, false):
+			if node is Button and not (node as Button).disabled:
+				(node as Button).grab_focus()
+				return
+	var pager_fallback := _save_load_next_button \
+			if _save_load_page_idx == 0 else _save_load_prev_button
+	if is_instance_valid(pager_fallback) and not pager_fallback.disabled:
+		pager_fallback.grab_focus()
 
 func _save_to_slot(slot: int):
 	if not SaveManager.save_game(slot):
@@ -19007,6 +19055,16 @@ func _unhandled_input(event):
 		return
 	if _core_loop_v2_phone_shortcut_pressed(event) \
 			and _core_loop_v2_open_phone():
+		get_viewport().set_input_as_handled()
+		return
+	var major_direction := ControllerHints.major_direction(event)
+	if major_direction != 0:
+		if modal_layer and modal_layer.visible:
+			if _modal_kind == "system":
+				_change_system_save_page(major_direction)
+			elif _modal_kind == "ending":
+				_ending_change_major(major_direction)
+		# Triggers never fall through to a focused Save/Load/Quit/commit button.
 		get_viewport().set_input_as_handled()
 		return
 	# Space/Enter: 타이핑 스킵 (비주얼노벨 표준 — 모달 닫힌 상태에서만)
@@ -19500,7 +19558,8 @@ func _ending_add_navigation(
 	row.add_theme_constant_override("separation", 10)
 	parent.add_child(row)
 	if allow_back:
-		var back_btn := _button(_tr("이전", "Back"), "#11131a")
+		var back_btn := _button(
+			"[%s] %s" % [ControllerHints.trigger_l(), _tr("이전", "Back")], "#11131a")
 		back_btn.custom_minimum_size = Vector2(150, 46)
 		back_btn.pressed.connect(_ending_show_page.bind(_ending_page_index - 1))
 		row.add_child(back_btn)
@@ -19512,7 +19571,8 @@ func _ending_add_navigation(
 	index_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	index_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	row.add_child(index_label)
-	var next_btn := _button(next_text, "#17222b")
+	var next_btn := _button(
+		"%s [%s]" % [next_text, ControllerHints.trigger_r()], "#17222b")
 	next_btn.custom_minimum_size = Vector2(210, 46)
 	next_btn.set_meta("ending_nav", true)
 	next_btn.pressed.connect(next_action)
@@ -19563,6 +19623,29 @@ func _ending_advance_finale() -> void:
 		_ending_show_page(0)
 		return
 	_ending_show_page(1)
+
+func _ending_change_major(delta: int) -> void:
+	if _modal_kind != "ending" or _ending_data.is_empty():
+		return
+	if delta < 0:
+		if _ending_page_index == 0:
+			if _ending_finale_beat_index > 0:
+				_ending_finale_beat_index -= 1
+				_ending_show_page(0)
+			return
+		if _ending_page_index == 1:
+			_ending_finale_beat_index = maxi(0, _ending_finale_beats.size() - 1)
+			_ending_show_page(0)
+		else:
+			_ending_show_page(_ending_page_index - 1)
+		return
+	if _ending_page_index == 0:
+		_ending_advance_finale()
+	elif _ending_page_index == 1:
+		# Preserve the authored after-credits cut instead of skipping to the ledger.
+		_ending_leave_credits()
+	elif _ending_page_index < ENDING_PAGE_COUNT - 1:
+		_ending_show_page(_ending_page_index + 1)
 
 func _ending_add_finale_stage(parent: VBoxContainer) -> void:
 	var palette := _moral_ui_palette()
@@ -19801,7 +19884,8 @@ func _ending_build_collection_page() -> void:
 	actions.custom_minimum_size = Vector2(0, 48)
 	actions.add_theme_constant_override("separation", 10)
 	page.add_child(actions)
-	var back_btn := _button(_tr("이전", "Back"), "#11131a")
+	var back_btn := _button(
+		"[%s] %s" % [ControllerHints.trigger_l(), _tr("이전", "Back")], "#11131a")
 	back_btn.custom_minimum_size = Vector2(150, 46)
 	back_btn.pressed.connect(_ending_show_page.bind(4))
 	actions.add_child(back_btn)

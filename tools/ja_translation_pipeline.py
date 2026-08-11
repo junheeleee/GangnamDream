@@ -116,6 +116,14 @@ GD_FUNCTION = re.compile(
 )
 UI_CONTEXT_ID = re.compile(r"^ui\.[a-z0-9]+(?:[._][a-z0-9]+)*$")
 UI_CONTEXT_MANIFEST_PATH = ROOT / "content/meta/demo_localization_scope.json"
+ORDER96_HISTORICAL_UI_BASELINE = {
+    "legacy_pair_call_occurrences": 3254,
+    "post_migration_legacy_pair_call_occurrences": 3217,
+    "legacy_korean_source_keys": 2730,
+    "legacy_korean_source_keys_sha256": (
+        "b67df90ba814deeac78db1b1bc4836d16596b6b93521e97a34427ae3b2bcb222"
+    ),
+}
 HANGUL = re.compile(r"[\u1100-\u11ff\u3130-\u318f\uac00-\ud7a3]")
 JAPANESE = re.compile(r"[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff]")
 PLACEHOLDER = re.compile(
@@ -1931,7 +1939,24 @@ def validate_ui_context_contract(
         variants.setdefault(call.korean, set()).add(call.english)
     collisions = {key: values for key, values in variants.items() if len(values) > 1}
 
-    baseline_calls = contract.get("legacy_pair_call_occurrences")
+    historical_baseline = {
+        key: contract.get(key) for key in ORDER96_HISTORICAL_UI_BASELINE
+    }
+    if historical_baseline != ORDER96_HISTORICAL_UI_BASELINE:
+        errors.append(
+            "manifest: ORDER-96 historical UI baseline drifted "
+            f"{historical_baseline!r}"
+        )
+    current_snapshot = contract.get("current_source_snapshot")
+    snapshot_fields = set(ORDER96_HISTORICAL_UI_BASELINE)
+    if not isinstance(current_snapshot, dict) \
+            or set(current_snapshot) != snapshot_fields:
+        errors.append(
+            "manifest: current_source_snapshot must contain exactly the "
+            "four legacy inventory fields"
+        )
+        current_snapshot = {}
+    baseline_calls = current_snapshot.get("legacy_pair_call_occurrences")
     supplemental_rows = parameter_contract.get(
         "localized_argument_registry", []
     )
@@ -2012,18 +2037,22 @@ def validate_ui_context_contract(
         source_keys - nonbaseline_templates - branch_templates
         - supplemental_templates - split_literal_templates
     )
-    if contract.get("legacy_korean_source_keys") != len(baseline_source_keys):
+    current_source_key_count = current_snapshot.get("legacy_korean_source_keys")
+    if current_source_key_count != len(baseline_source_keys):
         errors.append(
-            "manifest: legacy Korean source key count "
-            f"{contract.get('legacy_korean_source_keys')!r} != "
+            "manifest: current legacy Korean source key count "
+            f"{current_source_key_count!r} != "
             f"{len(baseline_source_keys)}"
         )
     baseline_source_key_hash = hashlib.sha256(
         "\n".join(sorted(baseline_source_keys)).encode("utf-8")
     ).hexdigest()
-    if contract.get("legacy_korean_source_keys_sha256") != baseline_source_key_hash:
+    current_source_key_hash = current_snapshot.get(
+        "legacy_korean_source_keys_sha256"
+    )
+    if current_source_key_hash != baseline_source_key_hash:
         errors.append(
-            "manifest: legacy Korean source key SHA-256 mismatch "
+            "manifest: current legacy Korean source key SHA-256 mismatch "
             f"{baseline_source_key_hash}"
         )
     if contract.get("multi_english_korean_keys") != len(collisions):
@@ -2143,10 +2172,24 @@ def validate_ui_context_contract(
             "manifest: planned context callsites "
             f"{contract.get('planned_context_callsite_migrations')!r} != {planned_calls}"
         )
-    completed_legacy = contract.get("post_migration_legacy_pair_call_occurrences")
+    historical_completed_legacy = contract.get(
+        "post_migration_legacy_pair_call_occurrences"
+    )
+    historical_baseline_calls = contract.get("legacy_pair_call_occurrences")
+    if isinstance(historical_baseline_calls, int) \
+            and historical_completed_legacy \
+            != historical_baseline_calls - planned_calls:
+        errors.append(
+            "manifest: historical post-migration legacy calls "
+            f"{historical_completed_legacy!r} != "
+            f"{historical_baseline_calls-planned_calls}"
+        )
+    completed_legacy = current_snapshot.get(
+        "post_migration_legacy_pair_call_occurrences"
+    )
     if isinstance(baseline_calls, int) and completed_legacy != baseline_calls - planned_calls:
         errors.append(
-            f"manifest: post-migration legacy calls {completed_legacy!r} != "
+            f"manifest: current post-migration legacy calls {completed_legacy!r} != "
             f"{baseline_calls-planned_calls}"
         )
 
@@ -3237,8 +3280,8 @@ def main() -> int:
             )
         cases += 1
         exact_parameter_stats = {
-            "source_calls": 3310,
-            "legacy_calls": 3273,
+            "source_calls": 3313,
+            "legacy_calls": 3276,
             "format_calls": 49,
             "parameter_raw_candidates": 55,
             "parameter_migrate_calls": 47,
@@ -3469,6 +3512,14 @@ def main() -> int:
         changed = json.loads(json.dumps(ui_contract, ensure_ascii=False))
         changed["context_registry"].append(changed["context_registry"][0].copy())
         mutation_cases.append(("duplicate context ID", changed))
+        changed = json.loads(json.dumps(ui_contract, ensure_ascii=False))
+        changed["current_source_snapshot"][
+            "legacy_pair_call_occurrences"
+        ] += 1
+        mutation_cases.append(("current source snapshot", changed))
+        changed = json.loads(json.dumps(ui_contract, ensure_ascii=False))
+        changed["legacy_korean_source_keys"] += 1
+        mutation_cases.append(("ORDER-96 historical baseline", changed))
         for label, changed_contract in mutation_cases:
             cases += 1
             mutation_errors, _stats = validate_ui_context_contract(

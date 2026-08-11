@@ -42,8 +42,8 @@
     "automatic_script_conversion": false,
     "body_translation": "held_until_explicit_demo_GO",
     "shipping": false,
-    "static_ui_source_count": 2780,
-    "static_ui_source_keys_sha256": "34f476ae2d36ffa43f6eceb1969e34ee38aef63052e5e19632cb736a51e2ea8c",
+    "static_ui_source_count": 2782,
+    "static_ui_source_keys_sha256": "c2fdbca007086f1eb9152bf76e882692ed7e4f21e5487d65075c63a7f03952bf",
     "regions": {
       "zh-CN": {
         "source_language": "ko",
@@ -67,6 +67,12 @@
     "post_migration_legacy_pair_call_occurrences": 3217,
     "legacy_korean_source_keys": 2730,
     "legacy_korean_source_keys_sha256": "b67df90ba814deeac78db1b1bc4836d16596b6b93521e97a34427ae3b2bcb222",
+    "current_source_snapshot": {
+      "legacy_pair_call_occurrences": 3257,
+      "post_migration_legacy_pair_call_occurrences": 3220,
+      "legacy_korean_source_keys": 2732,
+      "legacy_korean_source_keys_sha256": "1d1424c3b3d96fa95ca4c7f289e9ab9baa9f79e87cca8e0a37fba3bc3babbf58"
+    },
     "multi_english_korean_keys": 107,
     "format_equivalent_keys": 34,
     "shared_translation_keys": 45,
@@ -1011,7 +1017,7 @@
         ]
       }
     ],
-    "note": "Context migration is complete. Preserve the 2,730 legacy Korean UI keys and the locked 30 context IDs across 37 product calls. JA/zh-CN/zh-TW body translation remains held until a separate approved demo translation order explicitly enables --allow-body."
+    "note": "The ORDER-96 3,254-call/2,730-key context baseline remains immutable historical evidence. current_source_snapshot records later non-parameterized static UI copy without rewriting that baseline; the locked 30 context IDs still own the same 37 product calls. JA/zh-CN/zh-TW body translation remains held until a separate approved demo translation order explicitly enables --allow-body."
   },
   "ui_parameterized_template_plan": {
     "schema_version": 2,
@@ -2159,11 +2165,11 @@
         "money_formatter_migrations": 0,
         "localized_argument_calls": 0,
         "migrated_branch_literal_calls": 0,
-        "total_ui_call_occurrences": 3260,
-        "legacy_pair_call_occurrences": 3223,
+        "total_ui_call_occurrences": 3263,
+        "legacy_pair_call_occurrences": 3226,
         "context_call_occurrences": 37,
-        "legacy_korean_source_keys": 2736,
-        "legacy_korean_source_keys_sha256": "cbbc91a08618f6476902d8511379073133c1dd2756523cc55c73cefc5ea9ee4b"
+        "legacy_korean_source_keys": 2738,
+        "legacy_korean_source_keys_sha256": "add0e638f325d7a7ecbc5d889d63306b2dd7570c9dd1b76f8297f6f0cae2d102"
       },
       "batch_a": {
         "migrated_calls": 23,
@@ -2171,11 +2177,11 @@
         "money_formatter_migrations": 0,
         "localized_argument_calls": 0,
         "migrated_branch_literal_calls": 0,
-        "total_ui_call_occurrences": 3283,
-        "legacy_pair_call_occurrences": 3246,
+        "total_ui_call_occurrences": 3286,
+        "legacy_pair_call_occurrences": 3249,
         "context_call_occurrences": 37,
-        "legacy_korean_source_keys": 2756,
-        "legacy_korean_source_keys_sha256": "79b3868441158876d45cb27651cabd1ea5575c188c99e09d100b0672e3f25806"
+        "legacy_korean_source_keys": 2758,
+        "legacy_korean_source_keys_sha256": "9746c01147fe8114c815fc40a40e6bb1412b63161d43f2f88deac552a7c53238"
       },
       "batch_b": {
         "migrated_calls": 24,
@@ -2183,11 +2189,11 @@
         "money_formatter_migrations": 2,
         "localized_argument_calls": 1,
         "migrated_branch_literal_calls": 2,
-        "total_ui_call_occurrences": 3287,
-        "legacy_pair_call_occurrences": 3250,
+        "total_ui_call_occurrences": 3290,
+        "legacy_pair_call_occurrences": 3253,
         "context_call_occurrences": 37,
-        "legacy_korean_source_keys": 2761,
-        "legacy_korean_source_keys_sha256": "4031a0328d9dd552841902fc48552279665c832d9da60582f3741209cfb6fe3e"
+        "legacy_korean_source_keys": 2763,
+        "legacy_korean_source_keys_sha256": "fa8ebf5990fd812c2811beebec1f6f88eb6c349ba461171e368748839c59ecde"
       },
       "final": {
         "migrated_calls": 47,
@@ -2195,11 +2201,11 @@
         "money_formatter_migrations": 2,
         "localized_argument_calls": 1,
         "migrated_branch_literal_calls": 2,
-        "total_ui_call_occurrences": 3310,
-        "legacy_pair_call_occurrences": 3273,
+        "total_ui_call_occurrences": 3313,
+        "legacy_pair_call_occurrences": 3276,
         "context_call_occurrences": 37,
-        "legacy_korean_source_keys": 2780,
-        "legacy_korean_source_keys_sha256": "34f476ae2d36ffa43f6eceb1969e34ee38aef63052e5e19632cb736a51e2ea8c"
+        "legacy_korean_source_keys": 2782,
+        "legacy_korean_source_keys_sha256": "c2fdbca007086f1eb9152bf76e882692ed7e4f21e5487d65075c63a7f03952bf"
       }
     },
     "existing_lookup_before_format_calls": 2,

@@ -12049,7 +12049,7 @@ func _assert_core_loop_v2_completion_detail_page(
 	var expected_page_hint := _tr(
 		"[%s/%s] 페이지 이동  ·  ↑↓ 기록 선택  ·  [%s] 결산으로",
 		"[%s/%s] Change Page  ·  ↑↓ Select Record  ·  [%s] Recap") % [
-			ControllerHints.shoulder_l(), ControllerHints.shoulder_r(),
+			ControllerHints.trigger_l(), ControllerHints.trigger_r(),
 			ControllerHints.east()]
 	if _collect_control_text(detail_hint).strip_edges() != expected_page_hint:
 		_fail("Core Loop V2 completion page %d retained obsolete page-navigation copy: %s." % [
@@ -12141,18 +12141,24 @@ func _assert_core_loop_v2_completion_detail_page(
 
 func _send_core_loop_v2_completion_raw(
 		input_mode: String, action: String) -> void:
+	if action == "page_prev":
+		if input_mode == "gamepad":
+			await _send_route_gamepad_axis(JOY_AXIS_TRIGGER_LEFT, 0.62)
+		else:
+			await _send_route_key(KEY_PAGEUP)
+		return
+	if action == "page_next":
+		if input_mode == "gamepad":
+			await _send_route_gamepad_axis(JOY_AXIS_TRIGGER_RIGHT, 0.62)
+		else:
+			await _send_route_key(KEY_PAGEDOWN)
+		return
 	var keycode: Key = KEY_NONE
 	var joy_button: JoyButton = JOY_BUTTON_A
 	match action:
 		"north":
 			keycode = KEY_Y
 			joy_button = JOY_BUTTON_Y
-		"page_prev":
-			keycode = KEY_Q
-			joy_button = JOY_BUTTON_LEFT_SHOULDER
-		"page_next":
-			keycode = KEY_E
-			joy_button = JOY_BUTTON_RIGHT_SHOULDER
 		"row_up":
 			keycode = KEY_UP
 			joy_button = JOY_BUTTON_DPAD_UP
@@ -14424,7 +14430,11 @@ func _dialogue_history_kind_count(entries: Array, kind: String) -> int:
 func _shot_story_audio_settings(lang: String = "en", prefix: String = "story_audio_en_") -> void:
 	_set_qa_language(lang)
 	var original_text_size := str(SaveManager.get_setting("story_text_size", "standard"))
+	var original_vibration_enabled := AudioManager.vibration_enabled()
+	var original_vibration_intensity := AudioManager.vibration_intensity()
 	SaveManager.set_setting("story_text_size", "standard")
+	AudioManager.set_vibration_enabled(true)
+	AudioManager.set_vibration_intensity(0.70)
 	_prepare_main_game_state()
 	_prepare_story_event_fixture("arc_daeun_wedding_day")
 	GameState.flags["daeun_wedding_small"] = true
@@ -14440,13 +14450,27 @@ func _shot_story_audio_settings(lang: String = "en", prefix: String = "story_aud
 	var popup := story.get("_audio_settings_popup") as Control
 	var bgm_slider := story.get("_audio_bgm_slider") as HSlider
 	var sfx_slider := story.get("_audio_sfx_slider") as HSlider
+	var vibration_toggle := story.get("_audio_vibration_toggle") as CheckButton
+	var vibration_slider := story.get("_audio_vibration_slider") as HSlider
+	var motion_toggle := story.get("_audio_reduce_motion_toggle") as CheckButton
 	var text_buttons: Dictionary = story.get("_story_text_size_buttons")
 	var language_buttons: Dictionary = story.get("_story_language_buttons")
 	var large_button := text_buttons.get("large") as Button
 	if not is_instance_valid(popup) or not is_instance_valid(bgm_slider) \
-			or not is_instance_valid(sfx_slider) or not is_instance_valid(large_button) \
+			or not is_instance_valid(sfx_slider) \
+			or not is_instance_valid(vibration_toggle) \
+			or not is_instance_valid(vibration_slider) \
+			or not is_instance_valid(motion_toggle) \
+			or not is_instance_valid(large_button) \
 			or not language_buttons.has("ko") or not language_buttons.has("en"):
 		_fail("Story scene settings surface is incomplete.")
+		return
+	if not vibration_toggle.button_pressed \
+			or not vibration_slider.editable \
+			or vibration_slider.focus_mode != Control.FOCUS_ALL \
+			or vibration_toggle.focus_neighbor_bottom != vibration_slider.get_path() \
+			or vibration_slider.focus_neighbor_bottom != motion_toggle.get_path():
+		_fail("Story vibration controls are outside the enabled settings focus rail.")
 		return
 	var settings_panel := popup.get_child(0) as Control if popup.get_child_count() > 0 else null
 	if not is_instance_valid(settings_panel) \
@@ -14467,6 +14491,19 @@ func _shot_story_audio_settings(lang: String = "en", prefix: String = "story_aud
 		_fail("Story scene settings leaked Hangul in %s mode." % lang)
 		return
 	await _save(prefix + "01_wedding_scene_settings_large")
+	vibration_toggle.grab_focus()
+	await _send_route_key(KEY_ENTER)
+	await _settle(0.10)
+	if vibration_toggle.button_pressed \
+			or vibration_slider.editable \
+			or vibration_slider.focus_mode != Control.FOCUS_NONE \
+			or vibration_toggle.focus_neighbor_bottom != motion_toggle.get_path():
+		_fail("Story vibration Off did not disable and skip its strength control.")
+		return
+	vibration_toggle.grab_focus()
+	await _save(prefix + "01b_wedding_scene_settings_vibration_off")
+	await _send_route_key(KEY_ENTER)
+	await _settle(0.10)
 	story.call("_close_audio_settings")
 	await _settle(0.18)
 	story.call("_complete_typing")
@@ -14480,6 +14517,8 @@ func _shot_story_audio_settings(lang: String = "en", prefix: String = "story_aud
 		return
 	await _save(prefix + "02_wedding_large_text")
 	SaveManager.set_setting("story_text_size", original_text_size)
+	AudioManager.set_vibration_intensity(original_vibration_intensity)
+	AudioManager.set_vibration_enabled(original_vibration_enabled)
 	_remove_nodes_by_script("res://scenes/StoryMode.gd")
 	GameState.pending_story_queue.clear()
 	await _settle(0.2)
@@ -20221,6 +20260,7 @@ func _shot_holdem_club(prefix: String = "") -> void:
 	_enter_activity_direction_for_qa(node, "holdem_club")
 	node.open()
 	await _settle(0.4)
+	_assert_major_trigger_hint(node, "Holdem setup")
 	node._buy_in = 100_000
 	node._start_hand()
 	await _settle(1.0)
@@ -20245,6 +20285,7 @@ func _shot_racetrack(prefix: String = "") -> void:
 	_enter_activity_direction_for_qa(node, "racetrack")
 	node.open()
 	await _settle(0.8)
+	_assert_major_trigger_hint(node, "RaceTrack betting")
 	await _save(_shot_name(prefix, "07_racetrack_betting"))
 	node.skip_countdown_for_smoke = true
 	node._bet_type = 1
@@ -20297,6 +20338,7 @@ func _shot_casino_table(node_name: String, shot_name: String, prefix: String = "
 		return
 	node.open()
 	await _settle(0.4)
+	_assert_major_trigger_hint(node, node_name)
 	match node_name:
 		"baccarat_table":
 			await _save(_shot_name(prefix, "09a_baccarat_betting"))
@@ -20348,6 +20390,29 @@ func _shot_casino_table(node_name: String, shot_name: String, prefix: String = "
 	if "visible" in node:
 		node.visible = false
 	await _settle(0.3)
+
+func _assert_major_trigger_hint(node: Control, label: String) -> void:
+	if not ControllerHints.is_pad_active():
+		return
+	var left := ControllerHints.trigger_l()
+	var right := ControllerHints.trigger_r()
+	var matched: RichTextLabel = null
+	for candidate in node.find_children("*", "RichTextLabel", true, false):
+		if not candidate is RichTextLabel or not (candidate as RichTextLabel).is_visible_in_tree():
+			continue
+		var text := str((candidate as RichTextLabel).text)
+		if text.contains(left) and text.contains(right):
+			matched = candidate as RichTextLabel
+			break
+	if not is_instance_valid(matched):
+		_fail("%s has no visible %s/%s coarse-value hint." % [label, left, right])
+		return
+	if matched.get_content_height() > matched.size.y + 1.0:
+		_fail("%s trigger hint clips at %s: content=%s size=%s." % [
+			label, get_viewport().get_visible_rect().size,
+			matched.get_content_height(), matched.size.y])
+	if not node.get_global_rect().encloses(matched.get_global_rect()):
+		_fail("%s trigger hint escaped its game surface." % label)
 
 func _shot_ending(ending_id: String, shot_name: String) -> void:
 	if _mg.has_method("_show_ending"):

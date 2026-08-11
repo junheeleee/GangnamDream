@@ -1,7 +1,7 @@
 "In Game Actions"
 {
 	"major_revision"		"1"
-	"minor_revision"		"0"
+	"minor_revision"		"1"
 	"major_revision_affects_xinput"		"0"
 	"major_revision_affects_mousekb"	"0"
 
@@ -25,6 +25,8 @@
 				"SystemMenu"		"#Action_SystemMenu"
 				"TabPrevious"		"#Action_TabPrevious"
 				"TabNext"		"#Action_TabNext"
+				"MajorPrevious"		"#Action_MajorPrevious"
+				"MajorNext"		"#Action_MajorNext"
 				"Details"		"#Action_Details"
 			}
 		}
@@ -46,6 +48,8 @@
 				"Back"			"#Action_Back"
 				"AutoText"		"#Action_AutoText"
 				"SceneSettings"	"#Action_SceneSettings"
+				"MajorPrevious"		"#Action_MajorPrevious"
+				"MajorNext"		"#Action_MajorNext"
 			}
 		}
 
@@ -67,6 +71,8 @@
 				"AdvanceWeek"		"#Action_AdvanceWeek"
 				"TabPrevious"		"#Action_TabPrevious"
 				"TabNext"		"#Action_TabNext"
+				"MajorPrevious"		"#Action_MajorPrevious"
+				"MajorNext"		"#Action_MajorNext"
 				"SystemMenu"		"#Action_SystemMenu"
 			}
 		}
@@ -90,6 +96,8 @@
 				"Details"		"#Action_Details"
 				"TabPrevious"		"#Action_TabPrevious"
 				"TabNext"		"#Action_TabNext"
+				"MajorPrevious"		"#Action_MajorPrevious"
+				"MajorNext"		"#Action_MajorNext"
 				"SystemMenu"		"#Action_SystemMenu"
 			}
 		}
@@ -112,6 +120,8 @@
 			"#Action_Details"	"Rules / Details"
 			"#Action_TabPrevious"	"Previous Tab"
 			"#Action_TabNext"	"Next Tab"
+			"#Action_MajorPrevious"	"Previous Page / Decrease"
+			"#Action_MajorNext"	"Next Page / Increase"
 			"#Action_AdvanceWeek"	"Advance Week"
 			"#Action_AutoText"	"Auto Text"
 			"#Action_SystemMenu"	"System Menu"
@@ -132,6 +142,8 @@
 			"#Action_Details"	"규칙 / 상세"
 			"#Action_TabPrevious"	"이전 탭"
 			"#Action_TabNext"	"다음 탭"
+			"#Action_MajorPrevious"	"이전 페이지 / 감소"
+			"#Action_MajorNext"	"다음 페이지 / 증가"
 			"#Action_AdvanceWeek"	"다음 주"
 			"#Action_AutoText"	"자동 재생"
 			"#Action_SystemMenu"	"시스템 메뉴"

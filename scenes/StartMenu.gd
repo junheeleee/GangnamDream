@@ -415,21 +415,38 @@ func _input(event):
 			get_viewport().set_input_as_handled()
 			_dismiss_splash()
 		return
+	var major_direction := ControllerHints.major_direction(event)
 	if is_instance_valid(_notices_overlay) and event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
 		_close_third_party_notices()
+		return
+	if is_instance_valid(_notices_overlay) and major_direction != 0:
+		get_viewport().set_input_as_handled()
 		return
 	if is_instance_valid(_settings_overlay) and event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
 		_close_settings_popup()
 		return
+	if is_instance_valid(_settings_overlay) and major_direction != 0:
+		get_viewport().set_input_as_handled()
+		return
 	if is_instance_valid(_load_overlay) and event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
 		_close_load_overlay()
 		return
+	if is_instance_valid(_load_overlay) and major_direction != 0:
+		get_viewport().set_input_as_handled()
+		_set_load_slot_page(_load_slot_page + major_direction)
+		return
 	if is_instance_valid(_archive_preview_layer) and event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
 		_close_archive_cg_preview()
+		return
+	if is_instance_valid(_archive_preview_layer):
+		if major_direction != 0 or (
+				event is InputEventJoypadButton and event.pressed and event.button_index in [
+					JOY_BUTTON_LEFT_SHOULDER, JOY_BUTTON_RIGHT_SHOULDER]):
+			get_viewport().set_input_as_handled()
 		return
 	if is_instance_valid(_archive_overlay):
 		if event.is_action_pressed("ui_cancel"):
@@ -443,6 +460,13 @@ func _input(event):
 			elif event.button_index == JOY_BUTTON_RIGHT_SHOULDER:
 				get_viewport().set_input_as_handled()
 				_set_archive_tab((_archive_tab + 1) % 3)
+		if major_direction != 0:
+			get_viewport().set_input_as_handled()
+			_change_archive_page(major_direction)
+		return
+	if major_direction != 0:
+		# Title commands have no page/coarse action until a paged overlay is open.
+		get_viewport().set_input_as_handled()
 
 func _dismiss_splash():
 	_splash_active = false
@@ -826,7 +850,8 @@ func _open_load_overlay() -> void:
 	pager.custom_minimum_size = Vector2(0, 36)
 	pager.add_theme_constant_override("separation", 8)
 	body.add_child(pager)
-	_load_prev_button = _title_command_button(_tr("‹  슬롯 1–5", "‹  Slots 1–5"), true)
+	_load_prev_button = _title_command_button(
+		"[%s]  %s" % [ControllerHints.trigger_l(), _tr("‹  슬롯 1–5", "‹  Slots 1–5")], true)
 	_title_command_buttons.erase(_load_prev_button)
 	_load_prev_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_load_prev_button.custom_minimum_size = Vector2(0, 36)
@@ -839,7 +864,8 @@ func _open_load_overlay() -> void:
 	_load_page_label.add_theme_font_size_override("font_size", 12)
 	_load_page_label.add_theme_color_override("font_color", Color(MENU_TEXT_DIM))
 	pager.add_child(_load_page_label)
-	_load_next_button = _title_command_button(_tr("슬롯 6–10  ›", "Slots 6–10  ›"), true)
+	_load_next_button = _title_command_button(
+		"%s  [%s]" % [_tr("슬롯 6–10  ›", "Slots 6–10  ›"), ControllerHints.trigger_r()], true)
 	_title_command_buttons.erase(_load_next_button)
 	_load_next_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_load_next_button.custom_minimum_size = Vector2(0, 36)
@@ -861,10 +887,18 @@ func _open_load_overlay() -> void:
 func _focus_first_load_button() -> void:
 	if not is_instance_valid(slot_container):
 		return
-	for node in slot_container.find_children("*", "Button", true, false):
-		if node is Button and not (node as Button).disabled:
-			(node as Button).grab_focus()
-			return
+	for row in slot_container.get_children():
+		if row.is_queued_for_deletion():
+			continue
+		for node in row.find_children("*", "Button", true, false):
+			if node is Button and not (node as Button).disabled:
+				(node as Button).grab_focus()
+				return
+	# A fresh install can have no enabled load target. Keep keyboard/controller
+	# focus inside the visible modal instead of leaving it on a hidden title CTA.
+	var pager_fallback := _load_next_button if _load_slot_page == 0 else _load_prev_button
+	if is_instance_valid(pager_fallback) and not pager_fallback.disabled:
+		pager_fallback.grab_focus()
 
 func _close_load_overlay() -> void:
 	if is_instance_valid(_load_overlay):
@@ -982,21 +1016,26 @@ func _open_archive_overlay() -> void:
 	footer.add_theme_constant_override("separation", 10)
 	body.add_child(footer)
 	var pad_hint := _label(
-		"[%s/%s] %s" % [ControllerHints.shoulder_l(), ControllerHints.shoulder_r(), _tr("탭 이동", "Change tab")]
-			if ControllerHints.is_pad_active() else _tr("열람 전용 기록", "READ-ONLY ARCHIVE"),
+		"[%s/%s] %s  ·  [%s/%s] %s" % [
+			ControllerHints.shoulder_l(), ControllerHints.shoulder_r(),
+			_tr("탭 이동", "Change tab"),
+			ControllerHints.trigger_l(), ControllerHints.trigger_r(),
+			_tr("페이지", "Page")],
 		11, "#66707b", HORIZONTAL_ALIGNMENT_LEFT)
 	pad_hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	pad_hint.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	footer.add_child(pad_hint)
-	_archive_prev_button = _archive_nav_button(LocaleManager.ui_context(
-		"ui.archive.previous_page", "이전", "Previous"), 112)
+	_archive_prev_button = _archive_nav_button("[%s] %s" % [
+		ControllerHints.trigger_l(), LocaleManager.ui_context(
+			"ui.archive.previous_page", "이전", "Previous")], 128)
 	_archive_prev_button.pressed.connect(_change_archive_page.bind(-1))
 	footer.add_child(_archive_prev_button)
 	_archive_page_label = _label("", 12, "#b9c1ca", HORIZONTAL_ALIGNMENT_CENTER)
 	_archive_page_label.custom_minimum_size = Vector2(82, 0)
 	_archive_page_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	footer.add_child(_archive_page_label)
-	_archive_next_button = _archive_nav_button(_tr("다음", "Next"), 112)
+	_archive_next_button = _archive_nav_button(
+		"%s [%s]" % [_tr("다음", "Next"), ControllerHints.trigger_r()], 128)
 	_archive_next_button.pressed.connect(_change_archive_page.bind(1))
 	footer.add_child(_archive_next_button)
 
@@ -1072,7 +1111,10 @@ func _set_archive_tab(tab_index: int) -> void:
 
 func _change_archive_page(delta: int) -> void:
 	var pages := _archive_page_count()
-	_archive_page = clampi(_archive_page + delta, 0, pages - 1)
+	var next_page := clampi(_archive_page + delta, 0, pages - 1)
+	if next_page == _archive_page:
+		return
+	_archive_page = next_page
 	_render_archive_page()
 
 func _archive_page_count() -> int:
@@ -1706,7 +1748,10 @@ func _visible_load_slots() -> Array[int]:
 	return slots
 
 func _set_load_slot_page(page: int) -> void:
-	_load_slot_page = clampi(page, 0, 1)
+	var next_page := clampi(page, 0, 1)
+	if next_page == _load_slot_page:
+		return
+	_load_slot_page = next_page
 	_delete_confirm_slot = -1
 	_rebuild_slots()
 	call_deferred("_focus_first_load_button")
@@ -3067,6 +3112,8 @@ func _build_display_settings_menu(parent: Control) -> void:
 	intensity_slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	intensity_slider.custom_minimum_size = Vector2(170, 32)
 	intensity_slider.editable = vibration_toggle.button_pressed
+	intensity_slider.focus_mode = Control.FOCUS_ALL \
+		if vibration_toggle.button_pressed else Control.FOCUS_NONE
 	intensity_slider.set_meta("vibration_intensity_control", true)
 	intensity_slider.value_changed.connect(func(value: float):
 		AudioManager.set_vibration_intensity(value))
@@ -3082,7 +3129,10 @@ func _build_display_settings_menu(parent: Control) -> void:
 	intensity_row.add_child(intensity_value)
 	vibration_toggle.toggled.connect(func(on: bool):
 		AudioManager.set_vibration_enabled(on)
-		intensity_slider.editable = on)
+		intensity_slider.editable = on
+		intensity_slider.focus_mode = Control.FOCUS_ALL if on else Control.FOCUS_NONE
+		if not on and get_viewport().gui_get_focus_owner() == intensity_slider:
+			vibration_toggle.grab_focus())
 
 func _format_money(amount) -> String:
 	return GameState.format_money(float(amount))
