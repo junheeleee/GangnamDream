@@ -118,19 +118,26 @@ JA는 기존 한국어 키 2,730개를 그대로 두고 의미에 맞는 비어 
 `scenes/StoryMode.gd`, `locale/ui_ja.json`,
 `content/meta/demo_localization_scope.json`.
 
-**감사·테스트 5:** `tools/ja_translation_pipeline.py`,
+**감사·테스트 7:** `tools/ja_translation_pipeline.py`,
 `tools/ja_translation_audit.py`, `tools/zh_translation_audit.py`,
-`tools/I18nInfrastructureCheck.gd`, `tools/ModLayerCheck.gd`.
+`tools/I18nInfrastructureCheck.gd`, `tools/ModLayerCheck.gd`,
+`tools/ScreenshotQA.gd`, `tools/english_hangul_audit.py`. 새 문맥 API도 기존
+영어 무한글 감사에서 `_tr`/`LocaleManager.ui`와 같은 안전한 KO/EN 쌍으로
+인식한다. 일본어 실제 표면을 기존 core-loop scope로 실행할 때
+제품의 `선택 중` 번역을 QA가 `선택 중 ·`이라는 다른 lookup key로 비교하던
+오탐만 제품과 같은 key로 맞춘다.
 
-**지속 정본 6:** `docs/I18N_INFRASTRUCTURE.md`, `docs/I18N_GLOSSARY_JA.md`,
+**지속 정본·사람 게이트 7:** `docs/I18N_INFRASTRUCTURE.md`, `docs/I18N_GLOSSARY_JA.md`,
 `docs/I18N_GLOSSARY_ZH.md`, `docs/MODDING.md`, `docs/QA_CHECKLIST.md`,
-`docs/DECISIONS.md`. 선언·완료 기록은 `docs/CODEX_QUEUE.md`, 이 사양,
+`docs/DECISIONS.md`, `docs/human_gates.json`. 문맥 UI 분모를 추가하면서 기존
+JA·zh-CN·zh-TW 사람 판정의 strict 선행조건에도 `context 30/30`을 명시한다.
+선언·완료 기록은 `docs/CODEX_QUEUE.md`, 이 사양,
 `CLAUDE.md`, 완료 뒤 `docs/WORK_LOG.md`와 8월 큐 archive만 만진다.
 
 기존 `audit.sh`와 `audit_scope.json`은 위 검사·경로를 이미 배선하므로 새 전용
 도구를 만들지 않는 최소안에서는 수정하지 않는다. `ModLoader.gd`, 중국어 UI
 skeleton, `multilingual_surface_audit.py`, `i18n_coverage_check.py`,
-`demo_localization_scope.py`, `ScreenshotQA.gd`, 사건·엔딩·catalog도 수정하지 않는다.
+`demo_localization_scope.py`, 사건·엔딩·catalog도 수정하지 않는다.
 
 ## 비범위
 

@@ -576,7 +576,8 @@ func _build_ui():
 	load_btn.pressed.connect(_open_load_overlay)
 	menu.add_child(load_btn)
 
-	var archive_btn := _title_command_button(_tr("기록", "Archive"))
+	var archive_btn := _title_command_button(LocaleManager.ui_context(
+		"ui.navigation.archive", "기록", "Archive"))
 	archive_btn.pressed.connect(_open_archive_overlay)
 	menu.add_child(archive_btn)
 
@@ -929,7 +930,9 @@ func _open_archive_overlay() -> void:
 	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	heading.add_theme_constant_override("separation", 2)
 	header.add_child(heading)
-	var title := _label(_tr("기록", "ARCHIVE"), 27, "#f0f3f6", HORIZONTAL_ALIGNMENT_LEFT)
+	var title := _label(LocaleManager.ui_context(
+		"ui.navigation.archive", "기록", "ARCHIVE"),
+		27, "#f0f3f6", HORIZONTAL_ALIGNMENT_LEFT)
 	title.add_theme_font_override("font", load("res://assets/fonts/Pretendard-Bold.ttf"))
 	heading.add_child(title)
 	heading.add_child(_label(
@@ -984,7 +987,8 @@ func _open_archive_overlay() -> void:
 	pad_hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	pad_hint.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	footer.add_child(pad_hint)
-	_archive_prev_button = _archive_nav_button(_tr("이전", "Previous"), 112)
+	_archive_prev_button = _archive_nav_button(LocaleManager.ui_context(
+		"ui.archive.previous_page", "이전", "Previous"), 112)
 	_archive_prev_button.pressed.connect(_change_archive_page.bind(-1))
 	footer.add_child(_archive_prev_button)
 	_archive_page_label = _label("", 12, "#b9c1ca", HORIZONTAL_ALIGNMENT_CENTER)
@@ -1237,7 +1241,8 @@ func _archive_scene_card(scene_id: String, catalog_index: int) -> Button:
 		unlocked = unlocked and not DemoCoreLoopV2Script \
 			.validated_complete_first_bill_replay_snapshot(
 				MetaProgression.get_scene_replay_snapshot(scene_id)).is_empty()
-	var title := str(event.get("title", _tr("기록", "Record"))) if unlocked else "???"
+	var title := str(event.get("title", LocaleManager.ui_context(
+		"ui.archive.record_fallback", "기록", "Record"))) if unlocked else "???"
 	var button := _archive_card_button(142)
 	button.name = "ArchiveScene_%02d" % (catalog_index + 1)
 	button.disabled = not unlocked

@@ -55,7 +55,7 @@
   "ui_semantic_context_blocker": {
     "schema_version": 1,
     "status": "blocked_until_LOC-0",
-    "implemented": false,
+    "implemented": true,
     "legacy_pair_call_occurrences": 3254,
     "post_migration_legacy_pair_call_occurrences": 3217,
     "legacy_korean_source_keys": 2730,

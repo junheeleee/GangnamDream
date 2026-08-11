@@ -2912,7 +2912,8 @@ func _routine_effect_copy(option: Dictionary) -> String:
 		"money": LocaleManager.ui("현금", "Cash"),
 		"health": LocaleManager.ui("건강", "Health"),
 		"mental": LocaleManager.ui("정신력", "Mental"),
-		"intelligence": LocaleManager.ui("지력", "Skill"),
+		"intelligence": LocaleManager.ui_context(
+			"ui.planner.skill_axis", "지력", "Skill"),
 		"work_performance": LocaleManager.ui("업무", "Work"),
 	}
 	var order := ["money", "health", "mental", "intelligence", "work_performance"]
@@ -3274,7 +3275,8 @@ func _offer_kind_label(kind: String) -> String:
 		"career":
 			return LocaleManager.ui("진로", "CAREER")
 		"livelihood":
-			return LocaleManager.ui("생계", "INCOME")
+			return LocaleManager.ui_context(
+				"ui.planner.income_axis", "생계", "INCOME")
 		"growth":
 			return LocaleManager.ui("성장", "GROWTH")
 		"recovery":
@@ -3282,8 +3284,10 @@ func _offer_kind_label(kind: String) -> String:
 		"care":
 			return LocaleManager.ui("돌봄", "CARE")
 		"people":
-			return LocaleManager.ui("관계", "PEOPLE")
-	return LocaleManager.ui("선택", "OPTION")
+			return LocaleManager.ui_context(
+				"ui.planner.people_axis", "관계", "PEOPLE")
+	return LocaleManager.ui_context(
+		"ui.choice.noun_label", "선택", "OPTION")
 
 
 func _offer_kind_color(kind: String) -> Color:

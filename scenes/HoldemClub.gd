@@ -490,7 +490,7 @@ func _render_table() -> void:
 	var hdr := RichTextLabel.new()
 	hdr.bbcode_enabled = true
 	var phase_names := [
-		_tr("설정", "Setup"),
+		LocaleManager.ui_context("ui.holdem.setup_action", "설정", "Setup"),
 		_tr("프리플랍", "Preflop"),
 		_tr("플랍", "Flop"),
 		_tr("턴", "Turn"),

@@ -2711,7 +2711,8 @@ func _core_loop_v2_completion_view_model(
 		if money_is_known else
 		{
 			"label": _tr("종결 현금", "CLOSING CASH"),
-			"value": _tr("기록 없음", "NOT RECORDED"),
+			"value": LocaleManager.ui_context(
+				"ui.completion.unrecorded_value", "기록 없음", "NOT RECORDED"),
 			"note": missing_boundary_note,
 			"accent": "#a5adb9",
 		}
@@ -2836,7 +2837,8 @@ func _core_loop_v2_completion_view_model(
 				"value": (
 					GameState.format_money(float(fixed_raw))
 					if fixed_is_known else
-					_tr("기록 없음", "NOT RECORDED")),
+					LocaleManager.ui_context(
+						"ui.completion.unrecorded_value", "기록 없음", "NOT RECORDED")),
 				"note": (
 					_tr("%d개월차", "MONTH %d") % completed_months
 					if fixed_is_known else missing_boundary_note),
@@ -2847,7 +2849,8 @@ func _core_loop_v2_completion_view_model(
 				"value": (
 					"%d / 100" % int(health_raw)
 					if health_is_known else
-					_tr("기록 없음", "NOT RECORDED")),
+					LocaleManager.ui_context(
+						"ui.completion.unrecorded_value", "기록 없음", "NOT RECORDED")),
 				"note": (
 					_tr("%d개월 종료", "AT MONTH %d CLOSE") % completed_months
 					if health_is_known else missing_boundary_note),
@@ -2858,7 +2861,8 @@ func _core_loop_v2_completion_view_model(
 				"value": (
 					"%d / 100" % int(mental_raw)
 					if mental_is_known else
-					_tr("기록 없음", "NOT RECORDED")),
+					LocaleManager.ui_context(
+						"ui.completion.unrecorded_value", "기록 없음", "NOT RECORDED")),
 				"note": (
 					_tr("%d개월 종료", "AT MONTH %d CLOSE") % completed_months
 					if mental_is_known else missing_boundary_note),
@@ -5579,7 +5583,11 @@ func _show_tutorial() -> void:
 	modal_body.add_child(_tutorial_card("goal", _tr("목표", "Goal"), _tr("자산 30억. 시간은 60개월뿐입니다.", "KRW 3B in assets. Gangnam is the status symbol. You have only 60 months."), "#f0b429"))
 	modal_body.add_child(_tutorial_card("ap", _tr("행동", "Actions"), _tr("매주 AP로 구직, 투자, 자기계발, 휴식, 미니게임을 선택합니다.", "Each week, spend AP on Job Hunt, Invest, Self-Dev, Rest, or mini-games."), "#5b9cf6"))
 	modal_body.add_child(_tutorial_card("invest", _tr("방향", "Approach"), _tr("안정 루트는 느리지만 버팁니다. 속도 루트는 빠르지만 한 번에 무너질 수 있습니다.", "The steady route is slow but durable. The fast route is quick but can collapse in one blow."), "#00c896"))
-	modal_body.add_child(_tutorial_card("health", _tr("위험", "Danger"), _tr("건강/정신력이 0이 되거나 빚이 -1억을 넘으면 끝납니다.", "It's over if Health/Mental hits 0, or if debt exceeds -KRW 100M."), "#ff6b6b"))
+	modal_body.add_child(_tutorial_card(
+		"health",
+		LocaleManager.ui_context("ui.tutorial.danger", "위험", "Danger"),
+		_tr("건강/정신력이 0이 되거나 빚이 -1억을 넘으면 끝납니다.", "It's over if Health/Mental hits 0, or if debt exceeds -KRW 100M."),
+		"#ff6b6b"))
 	modal_body.add_child(_wrap_label(
 		_tr("첫 주 추천: 구직활동으로 수입 0원 상태를 먼저 벗어나세요.",
 			"Week 1 tip: use Job Hunt to first escape having zero income."),
@@ -8162,7 +8170,8 @@ func _reveal_choices():
 	line_l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	line_l.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	sep_row.add_child(line_l)
-	var sep_lbl = _label(_tr("선택", "Choices"), 11, "#2e3a52")
+	var sep_lbl = _label(LocaleManager.ui_context(
+		"ui.choice.noun_label", "선택", "Choices"), 11, "#2e3a52")
 	sep_lbl.set_meta("moral_role", "separator_text")
 	sep_lbl.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	sep_row.add_child(sep_lbl)
@@ -8190,7 +8199,9 @@ func _reveal_choices():
 		group.modulate.a = 0.0
 		group.scale = Vector2(0.986, 0.986)
 		choice_box.add_child(group)
-		var button = _action_button("  %d.  %s" % [display_number, _fmt(choice.get("text", _tr("선택", "Choice")))], acc)
+		var button = _action_button("  %d.  %s" % [display_number, _fmt(choice.get(
+			"text", LocaleManager.ui_context(
+				"ui.choice.noun_label", "선택", "Choice")))], acc)
 		button.custom_minimum_size = Vector2(0, 44)
 		button.pressed.connect((func(idx): _choose(idx)).bind(i))
 		group.add_child(button)
@@ -8293,7 +8304,8 @@ func _ap_remaining_text() -> String:
 				if GameState.has_weekly_commitment_for_turn(GameState.turn) \
 				else _tr("한 번만 선택", "CHOOSE ONCE")
 	if GameState.action_points <= 0:
-		return _tr("주 종료", "WEEK SPENT")
+		return LocaleManager.ui_context(
+			"ui.week.spent_status", "주 종료", "WEEK SPENT")
 	var bonus := _ap_bonus_amount()
 	if bonus > 0:
 		return _tr("%d번 남음 (+%d)", "%d LEFT (+%d)") % [GameState.action_points, bonus]
@@ -10613,7 +10625,8 @@ func _situation_category_tag(category: String) -> String:
 		"gambling":
 			return _tr("도박", "RISK")
 		"health":
-			return _tr("건강", "BODY")
+			return LocaleManager.ui_context(
+				"ui.situation.body_tag", "건강", "BODY")
 		"investment":
 			return _tr("투자", "INV")
 		"relationship":
@@ -10621,13 +10634,15 @@ func _situation_category_tag(category: String) -> String:
 		"disasters":
 			return _tr("위기", "CRISIS")
 		"politics":
-			return _tr("사회", "CIVIC")
+			return LocaleManager.ui_context(
+				"ui.situation.civic_tag", "사회", "CIVIC")
 		"comedy":
 			return _tr("일상", "LIFE")
 		"military":
 			return _tr("예비군", "RES")
 		_:
-			return _tr("상황", "EVENT")
+			return LocaleManager.ui_context(
+				"ui.situation.event_fallback", "상황", "EVENT")
 
 func _ap_act_index() -> int:
 	var turn: int = maxi(1, int(GameState.turn))
@@ -10778,7 +10793,8 @@ func _demo_director_route_week() -> void:
 func _action_echo_label(record: Dictionary) -> String:
 	var action_id := str(record.get("id", ""))
 	match action_id:
-		"apply": return _tr("지원", "Application")
+		"apply": return LocaleManager.ui_context(
+			"ui.job.application_noun", "지원", "Application")
 		"resume": return _tr("지원서 다듬기", "Application rewrite")
 		"interview": return _tr("면접 연습", "Interview practice")
 		"side_shift": return _tr("추가 근무", "Extra shift")
@@ -10801,7 +10817,8 @@ func _action_echo_label(record: Dictionary) -> String:
 		"invest_sell": return _tr("직접 매도", "A market sell")
 		"invest_leverage": return _tr("레버리지 매수", "A leveraged buy")
 		"startup": return _tr("창업 업무", "Startup work")
-		"create": return _tr("콘텐츠 제작", "Creating content")
+		"create": return LocaleManager.ui_context(
+			"ui.action.creating_content", "콘텐츠 제작", "Creating content")
 		"gamble_racetrack": return _tr("경마장 승부", "A racetrack bet")
 		"gamble_holdem": return _tr("홀덤 승부", "A hold'em game")
 		"gamble_scalping": return _tr("스캘핑", "A scalping session")
@@ -11679,7 +11696,8 @@ func _weekly_commitment_return_cost_text(cost: Dictionary) -> String:
 		"relationship_cooling":
 			var person_id := str(cost.get("person_id", ""))
 			var person_name := str(ImageRegistry.get_person_info(person_id).get(
-				"name", _tr("인연", "the relationship")))
+				"name", LocaleManager.ui_context(
+					"ui.forgone.relationship_fallback", "인연", "the relationship")))
 			return _tr(
 				"{weeks}주 늦은 연락 · {name} 호감 {delta}",
 				"Contact delayed {weeks}W · {name} affinity {delta}"
@@ -12073,7 +12091,8 @@ func _add_ap_section_header(title: String, subtitle: String, first_month_horizon
 	notebook_btn.pressed.connect(_open_notebook)
 	row.add_child(notebook_btn)
 
-	var life_btn := _icon_small_button(_tr("생활", "Life"), "life", "#111820")
+	var life_btn := _icon_small_button(LocaleManager.ui_context(
+		"ui.situation.life_tag", "생활", "Life"), "life", "#111820")
 	life_btn.set_meta("moral_role", "button")
 	life_btn.set_meta("moral_accent", "#9a8a5a")
 	life_btn.custom_minimum_size = Vector2(84, 30)
@@ -13811,7 +13830,8 @@ func _item_art_frame(item_id: String, accent: String, size: Vector2 = Vector2(92
 		img.modulate = Color(1, 1, 1, 0.95)
 		frame.add_child(img)
 	else:
-		var mark: Label = _label(_tr("기억", "KEEP"), 10, "#7b8494")
+		var mark: Label = _label(LocaleManager.ui_context(
+			"ui.choice.keep_action", "기억", "KEEP"), 10, "#7b8494")
 		mark.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		mark.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		mark.custom_minimum_size = size
@@ -14505,7 +14525,7 @@ func _open_cat_life():
 		_tr("월 고정비 %s · 현금 %s", "Monthly cost %s · Cash %s") % [current_expense, GameState.format_money(GameState.money)],
 		"#64748b",
 		"life",
-		_tr("현재", "Now"))
+		LocaleManager.ui_context("ui.housing.now_status", "현재", "Now"))
 
 	var next_id: String = str(GameState.get_housing_info().get("next", ""))
 	if next_id.is_empty():
@@ -14532,7 +14552,8 @@ func _open_cat_life():
 			],
 			"#7a8496",
 			"life",
-			_tr("대기", "Need"))
+			LocaleManager.ui_context(
+				"ui.housing.requirement_state", "대기", "Need"))
 	# 일반 소모품 상점은 제거하고, 관계 서사에 쓰이는 선물 진열대만 유지한다.
 	_build_gift_shelf()
 
@@ -14596,7 +14617,8 @@ func _open_cat_gambling():
 			or GameState.flags.get("recovery_holding", false) \
 			or GameState.flags.get("beat_addiction", false)
 	var locked: bool = _in_recovery and not GameState.flags.get("relapsed", false)
-	_open_modal(_tr("도박장", "Gambling Venues"), true)
+	_open_modal(LocaleManager.ui_context(
+		"ui.gambling.venues_title", "도박장", "Gambling Venues"), true)
 	if locked:
 		modal_body.add_child(_wrap_label(_tr("회복 중 — 지금은 들어가지 않기로 했다.", "In recovery — you decided not to go back in."), 13, "#7a8496"))
 		return
@@ -14924,7 +14946,8 @@ func _ap_save_money():
 	GameState.add_log(_tr("💰 절약 — %s", "💰 Saving — %s") % scene, "event")
 	GameState.register_action_axis("money", "store", "save")
 	GameState.finalize_weekly_commitment("save", "", {"saved": saved})
-	_show_vignette(_tr("절약", "Saving"), scene + (_tr("\n\n%s 절약했다.", "\n\nSaved %s.") % GameState.format_money(saved)),
+	_show_vignette(LocaleManager.ui_context(
+		"ui.saving.activity_title", "절약", "Saving"), scene + (_tr("\n\n%s 절약했다.", "\n\nSaved %s.") % GameState.format_money(saved)),
 		{"money": saved, "stress": 2}, "#4a7a5a")
 	turn_action_log.append(_tr("✓ 💰 절약 — %s", "✓ 💰 Saving — %s") % GameState.format_money(saved))
 	AudioManager.play("money_gain")
@@ -16669,7 +16692,8 @@ func _ap_result_tone_label(disp: Dictionary) -> Dictionary:
 	if negative > 0:
 		return {"label": _tr("손실", "COST"), "color": "#ff8a8a"}
 	if positive > 0:
-		return {"label": _tr("성장", "GAIN"), "color": "#7ee0b2"}
+		return {"label": LocaleManager.ui_context(
+			"ui.result.gain_badge", "성장", "GAIN"), "color": "#7ee0b2"}
 	return {"label": _tr("기록", "LOG"), "color": "#8f98aa"}
 
 func _ap_result_effect_order(disp: Dictionary) -> Array[String]:
@@ -17241,7 +17265,7 @@ func _job_tiers() -> Array:
 
 func _job_tier_label(tier: int) -> String:
 	var tier_labels := {
-		1: _tr("입문", "Entry"),
+		1: LocaleManager.ui_context("ui.job.entry_tier", "입문", "Entry"),
 		2: _tr("성장", "Growth"),
 		3: _tr("전문가", "Expert"),
 		4: _tr("상위", "Top"),
@@ -18283,7 +18307,8 @@ func _open_first_investment_guide() -> void:
 		_tr("레버리지", "Leverage"),
 		_tr("수익·손실 모두 2배입니다. 가치가 원금의 35% 아래면 강제 청산됩니다.",
 		"Gains and losses are 2x. Forced liquidation below 35% of principal."),
-		"#ef7070", "leverage", _tr("주의", "WARN"), 64.0)
+		"#ef7070", "leverage", LocaleManager.ui_context(
+			"ui.investment.warning_badge", "주의", "WARN"), 64.0)
 	var open_btn := _icon_button(_tr("투자 데스크 열기", "Open Investment Desk"), "invest", "#183a2b")
 	open_btn.pressed.connect(_open_investments)
 	modal_body.add_child(open_btn)
@@ -22471,8 +22496,10 @@ func _open_title_collection():
 		"rare": _tr("레어", "RARE"), "legendary": _tr("전설", "LEGENDARY")
 	}
 	var cat_names: Dictionary = {
-		"주거": _tr("주거", "Housing"), "직업": _tr("직업", "Career"), "투자": _tr("투자", "Investment"),
-		"성향": _tr("성향", "Tendencies"), "관계": _tr("관계", "Relationships"), "생활": _tr("생활", "Lifestyle"),
+		"주거": _tr("주거", "Housing"), "직업": LocaleManager.ui_context(
+			"ui.meta.career_category", "직업", "Career"), "투자": _tr("투자", "Investment"),
+		"성향": _tr("성향", "Tendencies"), "관계": _tr("관계", "Relationships"), "생활": LocaleManager.ui_context(
+			"ui.meta.lifestyle_category", "생활", "Lifestyle"),
 		"자산": _tr("자산", "Assets"), "메타": _tr("메타", "Meta"), "미니게임": _tr("미니게임", "Mini-Games"),
 		"이야기": _tr("이야기", "Story"),
 	}

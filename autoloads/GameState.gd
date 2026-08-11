@@ -2966,7 +2966,8 @@ func get_credit_grade() -> int:
 func get_credit_grade_label() -> String:
 	var g := get_credit_grade()
 	if g <= 3: return LocaleManager.ui("우량", "Prime")
-	if g <= 6: return LocaleManager.ui("보통", "Standard")
+	if g <= 6: return LocaleManager.ui_context(
+		"ui.credit.standard_grade", "보통", "Standard")
 	if g <= 8: return LocaleManager.ui("주의", "Watch")
 	return LocaleManager.ui("위험", "Risk")
 

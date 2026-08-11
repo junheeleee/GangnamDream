@@ -345,7 +345,8 @@ func _update_tab_copy_and_style() -> void:
 	if _screen_mode == "thread":
 		_header_title.text = _thread_title
 	else:
-		_header_title.text = LocaleManager.ui("연락", "PHONE")
+		_header_title.text = LocaleManager.ui_context(
+			"ui.phone.title", "연락", "PHONE")
 
 
 func _build_conversation_list() -> void:

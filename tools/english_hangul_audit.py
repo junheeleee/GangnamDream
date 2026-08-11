@@ -61,6 +61,7 @@ RUNTIME_TARGETS = [
 LOCALIZED_CALLS = (
     "_tr(",
     "LocaleManager.ui(",
+    "LocaleManager.ui_context(",
     "_localized_slide(",
 )
 

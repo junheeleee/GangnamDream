@@ -16,7 +16,7 @@ but their dictionaries and body overlays remain empty.
 |---|---|---|---|---|
 | `ko` | Shipping, source | Inline source | `content/events/` | `content/endings.json` |
 | `en` | Shipping, strict | Inline fallback | `content/events_en/` | `content/endings_en.json` |
-| `ja` | Prepared beta, hidden | legacy 2,730/2,730; context 0/30 | 1/1,603 full; 1/73 demo | 0/35 full; 0 required by demo |
+| `ja` | Prepared beta, hidden | legacy 2,730/2,730; context 30/30 | 1/1,603 full; 1/73 demo | 0/35 full; 0 required by demo |
 | `zh-CN` | Prepared, hidden; font blocked | legacy 0/2,730; context 0/30 | 0/1,603 full; 0/73 demo | 0/35 full; 0 required by demo |
 | `zh-TW` | Prepared, hidden; font blocked | legacy 0/2,730; context 0/30 | 0/1,603 full; 0/73 demo | 0/35 full; 0 required by demo |
 
@@ -68,12 +68,10 @@ one English value. Thirty-four are formatting-only, 45 can share one target
 translation after an explicit semantic allowlist, and 28 require 30 stable
 context IDs across 37 call sites. The manifest owns that exact partition and
 each context row's ID, Korean source, allowed English variants, owner function,
-and call count. The context API and two-provenance lookup exist, but Batch A
-deliberately leaves all 3,254 product calls on the legacy API and adds no target
-rows. Batch B alone moves the exact 37 calls (`3,217 legacy + 37 context`) and
-adds 30 Japanese rows while preserving every one of the 2,730 legacy keys.
-Japanese or Chinese body translation remains blocked until that migration is
-complete.
+and call count. Exactly 37 product calls use the context API, leaving
+`3,217 legacy + 37 context`, and Japanese owns all 30 context rows while
+preserving every one of the 2,730 legacy keys. Japanese and Chinese body work
+must build on this locked inventory rather than reopening the key migration.
 
 ## Content Contract
 
@@ -174,7 +172,7 @@ back to English even after the event body is complete.
 
 | Locale | Static UI | Events | Event text leaves | Dynamic keys | Demo catalog |
 |---|---:|---:|---:|---:|---:|
-| `ja` | legacy 2,730/2,730; context 0/30 | 1/73 | 8/471 | 9/657 | 0/4 |
+| `ja` | legacy 2,730/2,730; context 30/30 | 1/73 | 8/471 | 9/657 | 0/4 |
 | `zh-CN` | legacy 0/2,730; context 0/30 | 0/73 | 0/471 | 0/657 | 0/4 |
 | `zh-TW` | legacy 0/2,730; context 0/30 | 0/73 | 0/471 | 0/657 | 0/4 |
 
@@ -274,7 +272,7 @@ godot --rendering-driver opengl3 --resolution 1280x800 \
 
 The default full-game coverage command keeps English strict and prepared locales
 in skeleton mode. `ja_translation_audit.py --scope ui` requires all 2,730 legacy
-UI keys and, after Batch B moves the product calls, all 30 context IDs. It also
+UI keys and all 30 context IDs. It also
 requires exact placeholder/newline parity, zero Hangul or yen conversion,
 canonical names and casino terms, and no lock/unlock polarity reversal. The two
 source collectors must agree on the exact `34 + 45 + 28` partition and keep the

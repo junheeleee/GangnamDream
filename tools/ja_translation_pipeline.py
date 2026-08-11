@@ -1510,9 +1510,12 @@ def main() -> int:
         failures.extend(
             f"actual UI contract: {error}" for error in ui_inventory.errors
         )
-        if len(ui_inventory.entries) != 2730 \
+        implementation_complete = bool(ui_inventory.stats.get("implemented"))
+        expected_observed_context = 30 if implementation_complete else 0
+        if len(ui_inventory.entries) != 2730 + expected_observed_context \
                 or len(ui_inventory.planned_context_entries) != 30 \
-                or ui_inventory.observed_context_entries:
+                or len(ui_inventory.observed_context_entries) \
+                != expected_observed_context:
             failures.append(
                 "planned/observed UI inventory separation failed: "
                 f"actual={len(ui_inventory.entries)} "
@@ -1520,10 +1523,14 @@ def main() -> int:
                 f"observed={len(ui_inventory.observed_context_entries)}"
             )
         cases += 1
+        expected_premature = [] if implementation_complete \
+            else ["ui.credit.standard_grade"]
         if premature_context_dictionary_keys(
             {"ui.credit.standard_grade"}, ui_inventory
-        ) != ["ui.credit.standard_grade"]:
-            failures.append("premature planned Japanese context row was not rejected")
+        ) != expected_premature:
+            failures.append(
+                "Japanese context row phase guard did not match implementation state"
+            )
         cases += 1
         fixture_calls, fixture_errors = parse_ui_calls(
             "scenes/SelfTest.gd",
@@ -1619,21 +1626,29 @@ def main() -> int:
                     call.path,
                     call.function,
                     call.line,
-                    "context",
+                    "legacy" if implementation_complete else "context",
                     call.korean,
                     call.english,
-                    "ui.credit.standard_grade",
+                    "" if implementation_complete else "ui.credit.standard_grade",
                 )
                 break
         cases += 1
         single_errors, single_stats = validate_ui_context_contract(
             single_id_calls, ui_contract
         )
-        if single_stats.get("context_calls") != 1 \
-                or single_stats.get("migrated_context_ids") != 1 \
-                or not any("implemented=false" in error for error in single_errors):
+        expected_single_contexts = 36 if implementation_complete else 1
+        expected_single_ids = 29 if implementation_complete else 1
+        expected_single_error = (
+            "implemented context migration is incomplete"
+            if implementation_complete else
+            "implemented=false"
+        )
+        if single_stats.get("context_calls") != expected_single_contexts \
+                or single_stats.get("migrated_context_ids") != expected_single_ids \
+                or not any(expected_single_error in error
+                           for error in single_errors):
             failures.append(
-                "whole one-call ID migration escaped planned state: "
+                "whole one-call ID phase mutation escaped: "
                 f"stats={single_stats} errors={single_errors}"
             )
 
@@ -1650,9 +1665,10 @@ def main() -> int:
                     call.path,
                     call.function,
                     call.line,
-                    "context",
+                    "legacy" if implementation_complete else "context",
                     call.korean,
                     call.english,
+                    "" if implementation_complete else
                     "ui.completion.unrecorded_value",
                 )
                 break

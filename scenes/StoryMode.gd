@@ -4881,7 +4881,8 @@ func _story_result_tone_label(disp: Dictionary, cast_items: Array = []) -> Dicti
 	if negative > 0:
 		return {"label": _tr("손실", "COST"), "color": Color("#d99494")}
 	if positive > 0:
-		return {"label": _tr("성장", "GAIN"), "color": Color("#a9d8c1")}
+		return {"label": LocaleManager.ui_context(
+			"ui.result.gain_badge", "성장", "GAIN"), "color": Color("#a9d8c1")}
 	return {"label": _tr("기록", "LOG"), "color": Color("#8f98aa")}
 
 func _story_result_effect_color(key: String, val: int) -> Color:
