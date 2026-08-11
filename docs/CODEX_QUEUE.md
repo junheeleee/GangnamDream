@@ -59,7 +59,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-97 · LOC-0.5 값을 끼우기 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | 착수 — preformat 후보 54개를 전수 분류하고 정확 46호출만 lookup→format 순서로 바꿔 JA/ZH의 영구 EN fallback을 제거 |
+| 1 | [~] | ORDER-97 · LOC-0.5 값을 끼우기 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | 착수 — preformat 후보 55개를 전수 분류하고 정확 47호출만 lookup→format 순서로 바꿔 JA/ZH의 영구 EN fallback을 제거 |
 
 ### 남은 데모 출시선
 

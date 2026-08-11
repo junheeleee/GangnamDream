@@ -27,32 +27,33 @@ JA/ZH가 해당 key를 가질 수 없고 EN fallback이 영구적으로 남는�
 
 ## 고정 전수 원장과 두 배치
 
-착수 실측의 raw 후보 54개를 정확히 다음 네 종류로 분류한다.
+착수 실측의 raw 후보 55개를 정확히 다음 네 종류로 분류한다.
 
-- **이동 46호출 / 41템플릿:** lookup 전에 값을 끼우는 player-facing UI.
+- **이동 47호출 / 42템플릿:** lookup 전에 값을 끼우는 player-facing UI.
 - **동적 pair reader 4:** 이미 별도 KO/EN 데이터의 완성값을 읽으므로 이동 금지.
 - **branch-selected literal 2:** 분기 뒤 정적 문자열을 고르며 preformat 결함이 아님.
 - **locale money formatter 2:** `SeoulCycleBoard::_format_money`와
-  `CommitmentTask::_format_money`은 46개 template 호출에 섞지 않고, 정확한
+  `CommitmentTask::_format_money`은 47개 template 호출에 섞지 않고, 정확한
   1원 단위·부호·쉼표를 보존하는 LocaleManager 소유 formatter 하나로 합친다.
 
-46호출의 파일별 정확한 수는 `GameState 4 + MainGame 1 +
+47호출의 파일별 정확한 수는 `GameState 4 + MainGame 1 +
 CommunicationPhone 3 + ArubaGame 1 + StartMenu 16 + StoryMode 7 +
-SeoulCycleBoard 2 + CoreLoopPlanner 12 = 46`이다. manifest는 path·함수·KO/EN
-템플릿·placeholder signature·count와 위 54개 전수 disposition을 먼저 잠근다.
-unclassified·duplicate·stale·편의상 추가한 호출은 실패다.
+SeoulCycleBoard 2 + CoreLoopPlanner 13 = 47`이다. Batch A의 첫 단위는
+manifest에 path·함수·KO/EN 템플릿·placeholder signature·count와 위 55개
+전수 disposition을 exact registry로 먼저 기록한다. 그 registry가 완성되기 전에는
+제품 호출을 옮기지 않는다. unclassified·duplicate·stale·편의상 추가한 호출은 실패다.
 
 - **배치 A 23단위:** `StartMenu 16 + StoryMode 7`. 시작·기록·설정·장면 표면을
   실제 gallery/story 화면과 함께 닫는다.
-- **배치 B 23단위:** 나머지 `4+1+3+1+2+12=23`과 별도 money formatter 두
+- **배치 B 24단위:** 나머지 `4+1+3+1+2+13=24`와 별도 money formatter 두
   owner를 함께 닫는다. 서울 보드의 날짜·남은 여력·정확 원화와 재고조사 수당을
   실제 core-loop 화면에서 확인한다.
 
-41템플릿 중 기존 `슬롯 %d` 한 개를 제외한 40개가 새 legacy key 후보다.
-첫 manifest 실행에서 확정할 예상 원장은 `legacy lookup 3,263 + context 37 =
-total 3,300`, 한국어 legacy key 2,770, JA `legacy 2,770/2,770 + context
+42템플릿 중 기존 `슬롯 %d` 한 개를 제외한 41개가 새 legacy key 후보다.
+첫 manifest 실행에서 확정할 예상 원장은 `legacy lookup 3,264 + context 37 =
+total 3,301`, 한국어 legacy key 2,771, JA `legacy 2,771/2,771 + context
 30/30`이다. 이 수치는 **[첫 실행 재조정]**이며 첫 collector 결과가 다르면
-호출을 빼거나 더하지 말고 54개 disposition·중복 template부터 다시 대조한다.
+호출을 빼거나 더하지 말고 55개 disposition·중복 template부터 다시 대조한다.
 
 ## lookup·format 계약
 
@@ -105,8 +106,8 @@ demo/multilingual 감사기는 새 원장을 소비하므로 실행하되 별도
 
 ## 검증·완료 조건
 
-- 전수 원장 `54 = migrate 46 + dynamic reader 4 + branch literal 2 + money
-  formatter 2`, 잔여 preformat lookup 0, 46 owner count exact를 증명한다. 두
+- 전수 원장 `55 = migrate 47 + dynamic reader 4 + branch literal 2 + money
+  formatter 2`, 잔여 preformat lookup 0, 47 owner count exact를 증명한다. 두
   money formatter는 locale owner 하나를 공유하고 KO/EN byte exact와
   JA/zh-CN/zh-TW unit·부호·쉼표를 표적 검사한다.
 - collector의 실제 total/legacy/context/key/hash와 JA/ZH 분모를 manifest·정본에
@@ -118,8 +119,9 @@ demo/multilingual 감사기는 새 원장을 소비하므로 실행하되 별도
 - 실제 JA `core-loop-v2`, `gallery`, `story-en`, `i18n-layout`을 1280×800에서
   확인하고 서울 보드의 `WEEK`, `MONTHLY CAPACITY LEFT`, `won` 잔류를 0으로
   만든다. KO/EN 두 해상도 surface도 같은 리비전에서 다시 돈다.
-- L2는 41개 JA template을 한국어 문맥·placeholder와 전수 대조한다. L3는
-  각 23단위 배치에서 사용자가 임의 3개 실제 표면을 보고 하나라도 틀리면 해당
+- L2는 42개 JA template을 한국어 문맥·placeholder와 전수 대조한다. L3는
+  23단위 Batch A와 24단위 Batch B에서 각각 사용자가 임의 3개 실제 표면을 보고
+  하나라도 틀리면 해당
   배치 전량을 반려한다. 자동 초록은 원어민·4개국어 shipping GO가 아니다.
 - 지속 lookup/format 규칙을 정본에 승격하고, 두 배치의 호출 목록·실행 로그는
   일회성으로 판정한 뒤 archive한다.
