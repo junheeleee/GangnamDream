@@ -59,9 +59,10 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-99 · SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | [99](queue_active/ORDER-99.md) | BUILD 2026.08.11.3 발급·격리 실제 저장 L1/L2 완료 — 사용자 동일 저장의 1월 수첩→2월 보드 확인 대기 |
-| 2 | [~] | ORDER-97 · LOC-0.5 값을 끼우기 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | 착수 — preformat 후보 55개를 전수 분류하고 정확 47호출만 lookup→format 순서로 바꿔 JA/ZH의 영구 EN fallback을 제거 |
-| 3 | [~] | ORDER-98 · PAD-1 포커스 레일을 의미 버튼으로 줄인다 | [98](queue_active/ORDER-98.md) | 구현·L1/L2 완료, demo_rc active — 집 플레이·물리 패드 Batch A/B L3 대기 |
+| 1 | [~] | ORDER-100 · CH1-LEDGER-0 48주 인과 원장과 현재 부채를 먼저 고정한다 | [100](queue_active/ORDER-100.md) | 선언 — W1~24 audited prefix와 W25~48 공백을 exact machine ledger로 고정 |
+| 2 | [~] | ORDER-99 · SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | [99](queue_active/ORDER-99.md) | BUILD 2026.08.11.3 발급·격리 실제 저장 L1/L2 완료 — 사용자 동일 저장의 1월 수첩→2월 보드 확인 대기 |
+| 3 | [~] | ORDER-97 · LOC-0.5 값을 끼우기 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | 착수 — preformat 후보 55개를 전수 분류하고 정확 47호출만 lookup→format 순서로 바꿔 JA/ZH의 영구 EN fallback을 제거 |
+| 4 | [~] | ORDER-98 · PAD-1 포커스 레일을 의미 버튼으로 줄인다 | [98](queue_active/ORDER-98.md) | 구현·L1/L2 완료, demo_rc active — 집 플레이·물리 패드 Batch A/B L3 대기 |
 
 ### 남은 데모 출시선
 
@@ -75,8 +76,8 @@
 4. `MainGame.gd` 전체 이사가 아니라 데모 UI 한 이음새만 무행동 추출
 5. 데모 접근성·성능 예산을 실측한 뒤 테마 단일 출처와 KO/EN 대조 시트 적용
 6. 데모 인물 모티프·64px 실루엣·장면 소유·표정 문법을 비교 시트로 판정
-7. clean main에서 새 V2 RC를 발급하고 정상 속도 24주·물리 입력·연속 A/V·외부
-   30분 이해도와 24주 완주를 **같은 리비전**에서 각각 판정
+7. clean main에서 새 Chapter 1 RC를 발급하고 전반부 24주 회귀와 정상 속도 48주·
+   물리 입력·연속 A/V·외부 30분 이해도·48주 완주를 **같은 리비전**에서 각각 판정
 8. 사람 GO와 심의/스토어 결정을 받은 뒤에만 retail 기본 진입·출고 패키지를 전환
 
 ### 부모 계획과 데모 뒤 범위
@@ -86,7 +87,7 @@
   [62](queue_backlog/ORDER-62.md), [63](queue_backlog/ORDER-63.md),
   [64](queue_backlog/ORDER-64.md), [66](queue_backlog/ORDER-66.md),
   [67](queue_backlog/ORDER-67.md)
-- 데모 뒤 25~240주: [60](queue_backlog/ORDER-60.md),
+- Chapter 1 뒤 49~240주: [60](queue_backlog/ORDER-60.md),
   [65](queue_backlog/ORDER-65.md), [77](queue_backlog/ORDER-77.md),
   `ORDER-64` 전 자산 확산, `ORDER-67` 나머지 구조화
 - 열린 사람 판정과 정확한 scope/RC/표본/합격 기준은
