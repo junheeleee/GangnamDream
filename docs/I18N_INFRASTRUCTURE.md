@@ -16,9 +16,9 @@ but their dictionaries and body overlays remain empty.
 |---|---|---|---|---|
 | `ko` | Shipping, source | Inline source | `content/events/` | `content/endings.json` |
 | `en` | Shipping, strict | Inline fallback | `content/events_en/` | `content/endings_en.json` |
-| `ja` | Prepared beta, hidden | 2,730/2,730 keys | 1/1,603 full; 1/73 demo | 0/35 full; 0 required by demo |
-| `zh-CN` | Prepared, hidden; font blocked | 0/2,730 keys | 0/1,603 full; 0/73 demo | 0/35 full; 0 required by demo |
-| `zh-TW` | Prepared, hidden; font blocked | 0/2,730 keys | 0/1,603 full; 0/73 demo | 0/35 full; 0 required by demo |
+| `ja` | Prepared beta, hidden | legacy 2,730/2,730; context 0/30 | 1/1,603 full; 1/73 demo | 0/35 full; 0 required by demo |
+| `zh-CN` | Prepared, hidden; font blocked | legacy 0/2,730; context 0/30 | 0/1,603 full; 0/73 demo | 0/35 full; 0 required by demo |
+| `zh-TW` | Prepared, hidden; font blocked | legacy 0/2,730; context 0/30 | 0/1,603 full; 0/73 demo | 0/35 full; 0 required by demo |
 
 `LocaleManager.SHIPPING_LANGUAGES` is the player-facing allowlist. Adding a
 language to `SUPPORTED_LANGUAGES` is not permission to expose it in the first-run
@@ -28,7 +28,7 @@ gate or Steam metadata.
 
 The existing `LocaleManager.ui(korean, english)` and `_tr(korean, english)`
 call sites remain unchanged. For a prepared language, the Korean source string
-is used as the lookup key in `locale/ui_<code>.json`:
+is used as the legacy lookup key in `locale/ui_<code>.json`:
 
 ```json
 {
@@ -42,14 +42,38 @@ non-Korean language. The source text is a content identifier for this layer, so
 changing Korean UI copy after translation freeze requires moving the matching
 dictionary key in the same commit.
 
+Only the 28 Korean keys whose call sites have genuinely different meanings use
+the additional `LocaleManager.ui_context(context_id, korean, english)` API. The
+30 stable context IDs remain flat top-level string keys in the same
+`ui_<code>.json`; they are not gameplay IDs and do not introduce a second file
+format. Korean and English return their supplied arguments byte-for-byte. A
+prepared language resolves in this exact order:
+
+1. community-pack context ID;
+2. community-pack legacy Korean key;
+3. built-in context ID;
+4. built-in legacy Korean key;
+5. the supplied English string.
+
+Built-in and community dictionaries therefore remain separate caches. Merging
+them before lookup would let a built-in context row incorrectly defeat an old
+community pack's Korean-key override. When both context and legacy rows are
+missing, the runtime records one deduplicated miss as `context:<id>` and returns
+English. Refreshing community packs clears both provenance caches and all UI
+misses. Existing community packs need no migration; a new pack may add context
+IDs beside its existing Korean keys.
+
 A source audit found 107 Korean keys whose current call sites carry more than
 one English value. Thirty-four are formatting-only, 45 can share one target
 translation after an explicit semantic allowlist, and 28 require 30 stable
-context IDs across 37 call sites. That `LOC-0` migration is a translation
-blocker, not part of the current 2,730-key legacy dictionary: it must preserve
-all existing Korean keys, add the context-aware lookup and audit contract, and
-finish before Japanese or Chinese body translation begins. No context API or
-context-key translation is implemented yet.
+context IDs across 37 call sites. The manifest owns that exact partition and
+each context row's ID, Korean source, allowed English variants, owner function,
+and call count. The context API and two-provenance lookup exist, but Batch A
+deliberately leaves all 3,254 product calls on the legacy API and adds no target
+rows. Batch B alone moves the exact 37 calls (`3,217 legacy + 37 context`) and
+adds 30 Japanese rows while preserving every one of the 2,730 legacy keys.
+Japanese or Chinese body translation remains blocked until that migration is
+complete.
 
 ## Content Contract
 
@@ -150,9 +174,9 @@ back to English even after the event body is complete.
 
 | Locale | Static UI | Events | Event text leaves | Dynamic keys | Demo catalog |
 |---|---:|---:|---:|---:|---:|
-| `ja` | 2,730/2,730 | 1/73 | 8/471 | 9/657 | 0/4 |
-| `zh-CN` | 0/2,730 | 0/73 | 0/471 | 0/657 | 0/4 |
-| `zh-TW` | 0/2,730 | 0/73 | 0/471 | 0/657 | 0/4 |
+| `ja` | legacy 2,730/2,730; context 0/30 | 1/73 | 8/471 | 9/657 | 0/4 |
+| `zh-CN` | legacy 0/2,730; context 0/30 | 0/73 | 0/471 | 0/657 | 0/4 |
+| `zh-TW` | legacy 0/2,730; context 0/30 | 0/73 | 0/471 | 0/657 | 0/4 |
 
 Skeleton mode verifies this scope, existing rows, fallback paths, and the hidden
 shipping state without pretending missing prose is complete. Per-language
@@ -160,7 +184,8 @@ shipping state without pretending missing prose is complete. Per-language
 keys, 4/4 catalog names, and zero direct English bypasses. It is expected to fail
 until an approved body-translation wave is finished. Japanese has the required
 terminology and source-shape validator now. `zh_translation_audit.py --strict`
-adds 2,730/2,730 static UI keys, separate Simplified/Traditional script and
+adds 2,730/2,730 legacy UI keys and 30/30 context IDs, separate
+Simplified/Traditional script and
 terminology, Korean-won semantics, romanized-name locks, and a project-owned
 regional font route. It cannot certify one region from the other region's text.
 The narrow manifest-locked dynamic lookup routes currently report zero direct
@@ -242,15 +267,20 @@ python3 tools/demo_localization_scope.py --lang all
 python3 tools/zh_translation_audit.py --lang all
 python3 tools/zh_translation_audit.py --self-test
 godot --headless res://tools/I18nInfrastructureCheck.tscn
+godot --headless res://tools/ModLayerCheck.tscn
 godot --rendering-driver opengl3 --resolution 1280x800 \
   res://tools/ScreenshotQA.tscn -- --qa=i18n-layout --lang=ja
 ```
 
 The default full-game coverage command keeps English strict and prepared locales
-in skeleton mode. `ja_translation_audit.py --scope ui` requires all 2,730 current
-UI keys, exact placeholder/newline parity, zero Hangul or yen conversion,
-canonical names and casino terms, and no lock/unlock polarity reversal. The
-runtime check proves alias normalization, UI miss logging, English
+in skeleton mode. `ja_translation_audit.py --scope ui` requires all 2,730 legacy
+UI keys and, after Batch B moves the product calls, all 30 context IDs. It also
+requires exact placeholder/newline parity, zero Hangul or yen conversion,
+canonical names and casino terms, and no lock/unlock polarity reversal. The two
+source collectors must agree on the exact `34 + 45 + 28` partition and keep the
+planned 30-ID/37-call registry separate from the observed migration count. The
+runtime check proves alias normalization, five-layer context lookup,
+provenance-preserving community refresh, UI miss logging, English
 event/ending/catalog fallback, locale money labels, and bundled glyph coverage.
 
 `ja_translation_pipeline.py` defaults to UI-only generation. Its read-only
@@ -267,8 +297,8 @@ assets.
 
 `zh_translation_audit.py` reads both regions from the Korean source independently.
 Its normal mode reports the empty skeleton and both blocked font routes without
-claiming completion. Its region-specific strict mode requires 2,730/2,730 static
-UI keys, the exact 73/471/657/4 demo body (1,132 unique demo translation sources),
+claiming completion. Its region-specific strict mode requires 2,730/2,730 legacy
+UI keys and 30/30 context IDs, the exact 73/471/657/4 demo body (1,132 unique demo translation sources),
 zero direct English bypasses, every
 context-unambiguous wrong-region character in the pinned OpenCC 1.3.1 classifier
 set (4,093 for `zh-CN`, 3,804 for `zh-TW`), project-locked regional terms,
@@ -330,7 +360,7 @@ and validator together.
 
 Before either Chinese demo claim, that region requires:
 
-1. 2,730/2,730 static UI keys and strict parity for all 73 demo events, 471 event
+1. 2,730/2,730 legacy UI keys, 30/30 context IDs, and strict parity for all 73 demo events, 471 event
    leaves, 657 dynamic keys, and four catalog names: 1,132 unique demo translation
    sources in total; no ending is fabricated.
 2. Zero Hangul, kana, untranslated English prose, direct English bypass, wrong-

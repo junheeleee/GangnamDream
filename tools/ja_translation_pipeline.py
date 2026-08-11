@@ -10,6 +10,7 @@ text-only; gameplay data is never copied into a locale file.
 from __future__ import annotations
 
 import argparse
+import bisect
 import hashlib
 import json
 import os
@@ -93,6 +94,19 @@ UI_PAIR = re.compile(
     r'("(?:\\.|[^"\\])*")',
     re.DOTALL,
 )
+UI_CONTEXT_PAIR = re.compile(
+    r'LocaleManager\.ui_context\s*\(\s*'
+    r'("(?:\\.|[^"\\])*")\s*,\s*'
+    r'("(?:\\.|[^"\\])*")\s*,\s*'
+    r'("(?:\\.|[^"\\])*")',
+    re.DOTALL,
+)
+RAW_UI_CONTEXT_CALL = re.compile(r"LocaleManager\.ui_context\s*\(")
+GD_FUNCTION = re.compile(
+    r"(?m)^\s*(?:static\s+)?func\s+([A-Za-z0-9_]+)\s*\("
+)
+UI_CONTEXT_ID = re.compile(r"^ui\.[a-z0-9]+(?:[._][a-z0-9]+)*$")
+UI_CONTEXT_MANIFEST_PATH = ROOT / "content/meta/demo_localization_scope.json"
 HANGUL = re.compile(r"[\u1100-\u11ff\u3130-\u318f\uac00-\ud7a3]")
 JAPANESE = re.compile(r"[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff]")
 PLACEHOLDER = re.compile(
@@ -237,16 +251,57 @@ class Entry:
     key: str
     source: str
     context: str
+    context_id: str = ""
 
     @property
     def source_hash(self) -> str:
         payload = f"{PROMPT_VERSION}\0{self.source}"
+        if self.context_id:
+            payload += f"\0{self.context_id}\0{self.context}"
         return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+@dataclass(frozen=True)
+class UiCall:
+    path: str
+    function: str
+    line: int
+    api: str
+    korean: str
+    english: str
+    context_id: str = ""
+
+
+@dataclass(frozen=True)
+class UiInventory:
+    calls: tuple[UiCall, ...]
+    legacy_entries: tuple[Entry, ...]
+    legacy_blueprint: dict[str, Any]
+    planned_context_entries: tuple[Entry, ...]
+    planned_context_blueprint: dict[str, Any]
+    observed_context_entries: tuple[Entry, ...]
+    observed_context_blueprint: dict[str, Any]
+    errors: tuple[str, ...]
+    stats: dict[str, int]
+
+    @property
+    def entries(self) -> list[Entry]:
+        return [*self.legacy_entries, *self.observed_context_entries]
+
+    @property
+    def blueprint(self) -> dict[str, Any]:
+        return {**self.legacy_blueprint, **self.observed_context_blueprint}
 
 
 def read_json(path: pathlib.Path) -> Any:
     with path.open(encoding="utf-8") as handle:
         return json.load(handle)
+
+
+def read_ui_context_contract() -> dict[str, Any]:
+    manifest = read_json(UI_CONTEXT_MANIFEST_PATH)
+    contract = manifest.get("ui_semantic_context_blocker")
+    return contract if isinstance(contract, dict) else {}
 
 
 def write_json(path: pathlib.Path, value: Any) -> None:
@@ -427,28 +482,477 @@ def collect_endings() -> tuple[list[Entry], list[dict[str, Any]]]:
     return entries, output_rows
 
 
-def collect_ui() -> tuple[list[Entry], dict[str, Any]]:
-    contexts: dict[str, set[str]] = {}
+def parse_ui_calls(relative_path: str, source: str) -> tuple[list[UiCall], list[str]]:
+    """Read literal legacy/context UI calls and attach a stable function owner."""
+    functions = [(match.start(), match.group(1)) for match in GD_FUNCTION.finditer(source)]
+    function_offsets = [offset for offset, _name in functions]
+    parsed_context_offsets: set[int] = set()
+    calls: list[UiCall] = []
+    errors: list[str] = []
+
+    def owner(offset: int) -> str:
+        index = bisect.bisect_right(function_offsets, offset) - 1
+        return functions[index][1] if index >= 0 else "<module>"
+
+    for match in UI_PAIR.finditer(source):
+        try:
+            korean = decode_gd_string(match.group(1))
+            english = decode_gd_string(match.group(2))
+        except (ValueError, json.JSONDecodeError) as exc:
+            errors.append(f"{relative_path}: invalid legacy UI literal ({exc})")
+            continue
+        if not korean.strip():
+            errors.append(f"{relative_path}: empty Korean legacy UI key")
+            continue
+        calls.append(UiCall(
+            path=relative_path,
+            function=owner(match.start()),
+            line=source.count("\n", 0, match.start()) + 1,
+            api="legacy",
+            korean=korean,
+            english=english,
+        ))
+
+    for match in UI_CONTEXT_PAIR.finditer(source):
+        parsed_context_offsets.add(match.start())
+        try:
+            context_id = decode_gd_string(match.group(1))
+            korean = decode_gd_string(match.group(2))
+            english = decode_gd_string(match.group(3))
+        except (ValueError, json.JSONDecodeError) as exc:
+            errors.append(f"{relative_path}: invalid context UI literal ({exc})")
+            continue
+        if not context_id.strip() or not korean.strip():
+            errors.append(f"{relative_path}: empty context ID or Korean UI key")
+            continue
+        calls.append(UiCall(
+            path=relative_path,
+            function=owner(match.start()),
+            line=source.count("\n", 0, match.start()) + 1,
+            api="context",
+            context_id=context_id,
+            korean=korean,
+            english=english,
+        ))
+
+    raw_context_offsets = {match.start() for match in RAW_UI_CONTEXT_CALL.finditer(source)}
+    for offset in sorted(raw_context_offsets - parsed_context_offsets):
+        line = source.count("\n", 0, offset) + 1
+        errors.append(
+            f"{relative_path}:{line}: ui_context requires three literal string arguments"
+        )
+    return sorted(calls, key=lambda call: call.line), errors
+
+
+def _ui_format_signature(text: str) -> str:
+    return "".join(character for character in text.casefold() if character.isalnum())
+
+
+def _ui_contract_rows(
+    contract: dict[str, Any], errors: list[str],
+) -> tuple[dict[str, dict[str, set[str]]], dict[str, Any]]:
+    raw_partition = contract.get("collision_partition")
+    categories = ("format_equivalent", "shared_translation", "context_split")
+    partition: dict[str, dict[str, set[str]]] = {}
+    if not isinstance(raw_partition, dict) or set(raw_partition) != set(categories):
+        errors.append("manifest: collision_partition must contain exactly three categories")
+        raw_partition = {}
+    for category in categories:
+        raw_rows = raw_partition.get(category, {})
+        parsed: dict[str, set[str]] = {}
+        if not isinstance(raw_rows, dict):
+            errors.append(f"manifest: collision_partition.{category} must be an object")
+            raw_rows = {}
+        for korean, english_rows in raw_rows.items():
+            if not isinstance(korean, str) or not korean.strip():
+                errors.append(f"manifest: {category} contains an empty/non-string Korean key")
+                continue
+            if not isinstance(english_rows, list) or not english_rows:
+                errors.append(f"manifest: {category}.{korean!r} needs English variants")
+                continue
+            if not all(isinstance(value, str) and value for value in english_rows):
+                errors.append(f"manifest: {category}.{korean!r} has invalid English variants")
+                continue
+            if len(set(english_rows)) != len(english_rows):
+                errors.append(f"manifest: {category}.{korean!r} repeats an English variant")
+            parsed[korean] = set(english_rows)
+        partition[category] = parsed
+    raw_registry = contract.get("context_registry")
+    registry: dict[str, Any] = {}
+    if not isinstance(raw_registry, list):
+        errors.append("manifest: context_registry must be an array")
+        raw_registry = []
+    for index, row in enumerate(raw_registry):
+        if not isinstance(row, dict) or not isinstance(row.get("id"), str):
+            errors.append(f"manifest: context_registry[{index}] is malformed")
+            continue
+        context_id = row["id"]
+        if context_id in registry:
+            errors.append(f"manifest: duplicate context ID {context_id!r}")
+            continue
+        registry[context_id] = row
+    return partition, registry
+
+
+def validate_ui_context_contract(
+    calls: list[UiCall] | tuple[UiCall, ...],
+    contract: Optional[dict[str, Any]] = None,
+) -> tuple[list[str], dict[str, int]]:
+    """Validate the immutable 107-key plan separately from observed migration."""
+    if contract is None:
+        contract = read_ui_context_contract()
+    errors: list[str] = []
+    if contract.get("schema_version") != 1:
+        errors.append("manifest: ui semantic context schema_version must be 1")
+
+    legacy_calls = [call for call in calls if call.api == "legacy"]
+    context_calls = [call for call in calls if call.api == "context"]
+    source_keys = {call.korean for call in calls}
+    source_key_hash = hashlib.sha256(
+        "\n".join(sorted(source_keys)).encode("utf-8")
+    ).hexdigest()
+    variants: dict[str, set[str]] = {}
+    for call in calls:
+        variants.setdefault(call.korean, set()).add(call.english)
+    collisions = {key: values for key, values in variants.items() if len(values) > 1}
+
+    baseline_calls = contract.get("legacy_pair_call_occurrences")
+    if baseline_calls != len(calls):
+        errors.append(
+            f"manifest: source pair calls {baseline_calls!r} != observed {len(calls)}"
+        )
+    if contract.get("legacy_korean_source_keys") != len(source_keys):
+        errors.append(
+            "manifest: legacy Korean source key count "
+            f"{contract.get('legacy_korean_source_keys')!r} != {len(source_keys)}"
+        )
+    if contract.get("legacy_korean_source_keys_sha256") != source_key_hash:
+        errors.append(
+            "manifest: legacy Korean source key SHA-256 mismatch "
+            f"{source_key_hash}"
+        )
+    if contract.get("multi_english_korean_keys") != len(collisions):
+        errors.append(
+            f"manifest: multi-English key count is {len(collisions)}, expected "
+            f"{contract.get('multi_english_korean_keys')!r}"
+        )
+
+    partition, registry = _ui_contract_rows(contract, errors)
+    category_fields = {
+        "format_equivalent": "format_equivalent_keys",
+        "shared_translation": "shared_translation_keys",
+        "context_split": "context_split_korean_keys",
+    }
+    declared_union: set[str] = set()
+    for category, field in category_fields.items():
+        rows = partition.get(category, {})
+        if contract.get(field) != len(rows):
+            errors.append(
+                f"manifest: {field} {contract.get(field)!r} != {len(rows)}"
+            )
+        overlap = declared_union & set(rows)
+        if overlap:
+            errors.append(f"manifest: collision partition overlap {sorted(overlap)[:8]}")
+        declared_union.update(rows)
+        for korean, expected_english in rows.items():
+            actual_english = collisions.get(korean)
+            if actual_english != expected_english:
+                errors.append(
+                    f"manifest: {category}.{korean!r} variants "
+                    f"{sorted(expected_english)!r} != observed "
+                    f"{sorted(actual_english or set())!r}"
+                )
+    missing = set(collisions) - declared_union
+    stale = declared_union - set(collisions)
+    if missing or stale:
+        errors.append(
+            f"manifest: collision partition mismatch missing={sorted(missing)[:8]} "
+            f"stale={sorted(stale)[:8]}"
+        )
+    for korean, english_rows in partition.get("format_equivalent", {}).items():
+        if len({_ui_format_signature(value) for value in english_rows}) != 1:
+            errors.append(f"manifest: formatting-only row is semantic: {korean!r}")
+    for korean, english_rows in partition.get("shared_translation", {}).items():
+        if len({_ui_format_signature(value) for value in english_rows}) == 1:
+            errors.append(f"manifest: semantic allowlist row is formatting-only: {korean!r}")
+
+    planned_ids = contract.get("planned_context_ids")
+    if planned_ids != len(registry):
+        errors.append(f"manifest: planned context IDs {planned_ids!r} != {len(registry)}")
+    selectors: dict[tuple[str, str, str, str], tuple[str, int]] = {}
+    registry_totals: dict[str, int] = {}
+    registry_korean: set[str] = set()
+    for context_id, row in registry.items():
+        if not isinstance(context_id, str) or not UI_CONTEXT_ID.fullmatch(context_id):
+            errors.append(f"manifest: invalid context ID {context_id!r}")
+            continue
+        if not isinstance(row, dict):
+            errors.append(f"manifest: context row {context_id!r} must be an object")
+            continue
+        korean = row.get("ko")
+        allowed_english = row.get("allowed_en")
+        callsites = row.get("callsites")
+        if not isinstance(korean, str) or not korean:
+            errors.append(f"manifest: {context_id} has invalid ko")
+            continue
+        registry_korean.add(korean)
+        if not isinstance(allowed_english, list) or not allowed_english \
+                or not all(isinstance(value, str) and value for value in allowed_english):
+            errors.append(f"manifest: {context_id} has invalid allowed_en")
+            allowed_english = []
+        if len(set(allowed_english)) != len(allowed_english):
+            errors.append(f"manifest: {context_id} repeats allowed_en")
+        if not isinstance(callsites, list) or not callsites:
+            errors.append(f"manifest: {context_id} needs callsites")
+            callsites = []
+        row_total = 0
+        callsite_english: set[str] = set()
+        for index, callsite in enumerate(callsites):
+            if not isinstance(callsite, dict):
+                errors.append(f"manifest: {context_id}.callsites[{index}] is invalid")
+                continue
+            path = callsite.get("path")
+            function = callsite.get("function")
+            english = callsite.get("en")
+            count = callsite.get("count")
+            if not isinstance(path, str) or not isinstance(function, str) \
+                    or not isinstance(english, str) or not isinstance(count, int) \
+                    or isinstance(count, bool) or count <= 0:
+                errors.append(f"manifest: {context_id}.callsites[{index}] is malformed")
+                continue
+            selector = (path, function, korean, english)
+            if selector in selectors:
+                errors.append(f"manifest: duplicate context callsite selector {selector!r}")
+            else:
+                selectors[selector] = (context_id, count)
+            row_total += count
+            callsite_english.add(english)
+        if set(allowed_english) != callsite_english:
+            errors.append(
+                f"manifest: {context_id} allowed_en does not equal callsite English"
+            )
+        registry_totals[context_id] = row_total
+    split_keys = set(partition.get("context_split", {}))
+    if registry_korean != split_keys:
+        errors.append(
+            "manifest: context registry Korean keys do not equal context_split "
+            f"missing={sorted(split_keys-registry_korean)[:8]} "
+            f"extra={sorted(registry_korean-split_keys)[:8]}"
+        )
+    if source_keys & set(registry):
+        errors.append("manifest: context ID collides with a legacy source key")
+
+    planned_calls = sum(registry_totals.values())
+    if contract.get("planned_context_callsite_migrations") != planned_calls:
+        errors.append(
+            "manifest: planned context callsites "
+            f"{contract.get('planned_context_callsite_migrations')!r} != {planned_calls}"
+        )
+    completed_legacy = contract.get("post_migration_legacy_pair_call_occurrences")
+    if isinstance(baseline_calls, int) and completed_legacy != baseline_calls - planned_calls:
+        errors.append(
+            f"manifest: post-migration legacy calls {completed_legacy!r} != "
+            f"{baseline_calls-planned_calls}"
+        )
+
+    combined_counts: dict[tuple[str, str, str, str], int] = {}
+    context_counts: dict[tuple[str, str, str, str], int] = {}
+    migrated_by_id: dict[str, int] = {}
+    for call in calls:
+        selector = (call.path, call.function, call.korean, call.english)
+        combined_counts[selector] = combined_counts.get(selector, 0) + 1
+        if call.api != "context":
+            continue
+        context_counts[selector] = context_counts.get(selector, 0) + 1
+        expected = selectors.get(selector)
+        if expected is None:
+            errors.append(
+                f"source: unknown context call {call.path}:{call.line} "
+                f"{call.context_id!r}/{call.korean!r}/{call.english!r}"
+            )
+            continue
+        expected_id, _expected_count = expected
+        if call.context_id != expected_id:
+            errors.append(
+                f"source: {call.path}:{call.line} context ID {call.context_id!r} "
+                f"!= {expected_id!r}"
+            )
+            continue
+        migrated_by_id[expected_id] = migrated_by_id.get(expected_id, 0) + 1
+    for selector, (context_id, expected_count) in selectors.items():
+        if combined_counts.get(selector, 0) != expected_count:
+            errors.append(
+                f"source: planned selector {selector!r} count "
+                f"{combined_counts.get(selector, 0)} != {expected_count}"
+            )
+        migrated = context_counts.get(selector, 0)
+        if migrated not in (0, expected_count):
+            errors.append(
+                f"source: partial selector migration {selector!r} "
+                f"{migrated}/{expected_count}"
+            )
+    for context_id, expected_count in registry_totals.items():
+        migrated = migrated_by_id.get(context_id, 0)
+        if migrated not in (0, expected_count):
+            errors.append(
+                f"source: partial context ID migration {context_id} "
+                f"{migrated}/{expected_count}"
+            )
+
+    migrated_ids = sum(1 for value in migrated_by_id.values() if value)
+    implemented = contract.get("implemented")
+    if not isinstance(implemented, bool):
+        errors.append("manifest: implemented must be boolean")
+    elif implemented:
+        if len(context_calls) != planned_calls \
+                or len(legacy_calls) != completed_legacy \
+                or migrated_ids != len(registry):
+            errors.append(
+                "source: implemented context migration is incomplete "
+                f"legacy={len(legacy_calls)}/{completed_legacy} "
+                f"context={len(context_calls)}/{planned_calls} "
+                f"ids={migrated_ids}/{len(registry)}"
+            )
+    elif len(legacy_calls) != baseline_calls or context_calls or migrated_ids:
+        errors.append(
+            "source: implemented=false requires the untouched 0/37 state "
+            f"legacy={len(legacy_calls)}/{baseline_calls} "
+            f"context={len(context_calls)}/0 ids={migrated_ids}/0"
+        )
+    stats = {
+        "legacy_calls": len(legacy_calls),
+        "context_calls": len(context_calls),
+        "source_calls": len(calls),
+        "legacy_keys": len(source_keys),
+        "collision_keys": len(collisions),
+        "format_equivalent": len(partition.get("format_equivalent", {})),
+        "shared_translation": len(partition.get("shared_translation", {})),
+        "context_split": len(partition.get("context_split", {})),
+        "planned_context_ids": len(registry),
+        "planned_context_calls": planned_calls,
+        "migrated_context_ids": migrated_ids,
+        "implemented": int(implemented is True),
+    }
+    return errors, stats
+
+
+def build_ui_context_layers(
+    calls: Iterable[UiCall], contract: dict[str, Any],
+) -> tuple[
+    tuple[Entry, ...], dict[str, Any], tuple[Entry, ...], dict[str, Any]
+]:
+    """Build all 30 planned rows, then the observed subset used for generation."""
+    call_rows = tuple(calls)
+    _partition, registry = _ui_contract_rows(contract, [])
+    planned_context_entries: list[Entry] = []
+    planned_context_blueprint: dict[str, Any] = {}
+    for context_id in sorted(registry):
+        row = registry[context_id]
+        korean = row.get("ko")
+        allowed_english = row.get("allowed_en")
+        callsites = row.get("callsites")
+        if not isinstance(korean, str) or not isinstance(allowed_english, list) \
+                or not isinstance(callsites, list):
+            continue
+        english = sorted(value for value in allowed_english if isinstance(value, str))
+        owners = sorted({
+            f"{callsite.get('path')}::{callsite.get('function')}"
+            for callsite in callsites if isinstance(callsite, dict)
+        })
+        key = f"ui::context::{context_id}"
+        context = (
+            f"UI context {context_id} / EN {' | '.join(english)} / "
+            + ", ".join(owners)
+        )
+        planned_context_entries.append(Entry(key, korean, context, context_id))
+        planned_context_blueprint[context_id] = {"$entry": key}
+
+    planned_by_id = {
+        entry.context_id: entry for entry in planned_context_entries
+    }
+    observed_ids = {
+        call.context_id for call in call_rows if call.api == "context"
+    }
+    observed_context_entries = [
+        planned_by_id[context_id]
+        for context_id in sorted(observed_ids)
+        if context_id in planned_by_id
+    ]
+    observed_context_blueprint = {
+        entry.context_id: {"$entry": entry.key}
+        for entry in observed_context_entries
+    }
+    return (
+        tuple(planned_context_entries),
+        planned_context_blueprint,
+        tuple(observed_context_entries),
+        observed_context_blueprint,
+    )
+
+
+def collect_ui_inventory(
+    contract: Optional[dict[str, Any]] = None,
+) -> UiInventory:
+    effective_contract = contract if contract is not None else read_ui_context_contract()
+    calls: list[UiCall] = []
+    errors: list[str] = []
     for directory in RUNTIME_DIRS:
         for path in sorted((ROOT / directory).rglob("*.gd")):
-            source = path.read_text(encoding="utf-8")
-            for match in UI_PAIR.finditer(source):
-                try:
-                    korean = decode_gd_string(match.group(1))
-                except (ValueError, json.JSONDecodeError):
-                    continue
-                if not korean.strip():
-                    continue
-                line = source.count("\n", 0, match.start()) + 1
-                contexts.setdefault(korean, set()).add(f"{path.relative_to(ROOT)}:{line}")
-    entries: list[Entry] = []
-    blueprint: dict[str, Any] = {}
-    for index, korean in enumerate(sorted(contexts)):
+            relative_path = str(path.relative_to(ROOT))
+            parsed, parse_errors = parse_ui_calls(
+                relative_path, path.read_text(encoding="utf-8")
+            )
+            calls.extend(parsed)
+            errors.extend(parse_errors)
+    calls.sort(key=lambda call: (call.path, call.line, call.api))
+    contract_errors, stats = validate_ui_context_contract(calls, effective_contract)
+    errors.extend(contract_errors)
+
+    legacy_locations: dict[str, set[str]] = {}
+    for call in calls:
+        legacy_locations.setdefault(call.korean, set()).add(
+            f"{call.path}:{call.line}"
+        )
+
+    legacy_entries: list[Entry] = []
+    legacy_blueprint: dict[str, Any] = {}
+    for index, korean in enumerate(sorted(legacy_locations)):
         key = f"ui::{index:04d}::{hashlib.sha1(korean.encode()).hexdigest()[:12]}"
-        context = "UI / " + ", ".join(sorted(contexts[korean])[:4])
-        entries.append(Entry(key, korean, context))
-        blueprint[korean] = {"$entry": key}
-    return entries, blueprint
+        context = "UI / " + ", ".join(sorted(legacy_locations[korean])[:4])
+        legacy_entries.append(Entry(key, korean, context))
+        legacy_blueprint[korean] = {"$entry": key}
+
+    (
+        planned_context_entries,
+        planned_context_blueprint,
+        observed_context_entries,
+        observed_context_blueprint,
+    ) = build_ui_context_layers(calls, effective_contract)
+
+    return UiInventory(
+        calls=tuple(calls),
+        legacy_entries=tuple(legacy_entries),
+        legacy_blueprint=legacy_blueprint,
+        planned_context_entries=planned_context_entries,
+        planned_context_blueprint=planned_context_blueprint,
+        observed_context_entries=observed_context_entries,
+        observed_context_blueprint=observed_context_blueprint,
+        errors=tuple(errors),
+        stats=stats,
+    )
+
+
+def collect_ui() -> tuple[list[Entry], dict[str, Any]]:
+    inventory = collect_ui_inventory()
+    return inventory.entries, inventory.blueprint
+
+
+def premature_context_dictionary_keys(
+    actual_keys: Iterable[str], inventory: UiInventory,
+) -> list[str]:
+    if inventory.stats.get("implemented"):
+        return []
+    return sorted(set(actual_keys) & set(inventory.planned_context_blueprint))
 
 
 def collect_catalog() -> tuple[list[Entry], dict[str, Any]]:
@@ -529,6 +1033,13 @@ def normalize_translation_for_entry(entry: Entry, translated: str) -> str:
     return translated
 
 
+def exact_translation_for_entry(entry: Entry) -> Optional[str]:
+    """Legacy source canon must not erase the meaning of a context-specific row."""
+    if entry.context_id:
+        return None
+    return EXACT_TRANSLATIONS.get(entry.source)
+
+
 def validate_translation(entry: Entry, translated: Any) -> list[str]:
     errors: list[str] = []
     if not isinstance(translated, str) or not translated.strip():
@@ -537,7 +1048,7 @@ def validate_translation(entry: Entry, translated: Any) -> list[str]:
         remains = sorted(set(re.findall(r"[가-힣]+", translated)))
         errors.append(f"Hangul remains {remains[:8]}")
     if (
-        EXACT_TRANSLATIONS.get(entry.source) is None
+        exact_translation_for_entry(entry) is None
         and HANGUL.search(entry.source)
         and not JAPANESE.search(translated)
     ):
@@ -994,6 +1505,195 @@ def main() -> int:
             if EXACT_TRANSLATIONS.get(source) != target \
                     or validate_translation(entry, target):
                 failures.append(f"canonical Latin exact mapping failed: {source}")
+        cases += 1
+        ui_inventory = collect_ui_inventory()
+        failures.extend(
+            f"actual UI contract: {error}" for error in ui_inventory.errors
+        )
+        if len(ui_inventory.entries) != 2730 \
+                or len(ui_inventory.planned_context_entries) != 30 \
+                or ui_inventory.observed_context_entries:
+            failures.append(
+                "planned/observed UI inventory separation failed: "
+                f"actual={len(ui_inventory.entries)} "
+                f"planned={len(ui_inventory.planned_context_entries)} "
+                f"observed={len(ui_inventory.observed_context_entries)}"
+            )
+        cases += 1
+        if premature_context_dictionary_keys(
+            {"ui.credit.standard_grade"}, ui_inventory
+        ) != ["ui.credit.standard_grade"]:
+            failures.append("premature planned Japanese context row was not rejected")
+        cases += 1
+        fixture_calls, fixture_errors = parse_ui_calls(
+            "scenes/SelfTest.gd",
+            'func fixture():\n'
+            '\t_tr("기록", "Log")\n'
+            '\tLocaleManager.ui("생활", "Living")\n'
+            '\tLocaleManager.ui_context("ui.navigation.archive", "기록", "Archive")\n',
+        )
+        if fixture_errors or [call.api for call in fixture_calls] != [
+            "legacy", "legacy", "context"
+        ] or fixture_calls[-1].function != "fixture":
+            failures.append(
+                f"dual UI API collector failed: calls={fixture_calls} errors={fixture_errors}"
+            )
+        cases += 1
+        legacy_exact = Entry("ui::legacy", "도박장", "legacy UI")
+        context_exact = Entry(
+            "ui::context::ui.gambling.venues_title",
+            "도박장",
+            "Gambling venues title",
+            "ui.gambling.venues_title",
+        )
+        if exact_translation_for_entry(legacy_exact) != "カジノ" \
+                or exact_translation_for_entry(context_exact) is not None:
+            failures.append("legacy exact translation leaked into a context row")
+        if context_exact.source_hash == Entry(
+            "ui::context::ui.gambling.other",
+            "도박장",
+            "Gambling venues title",
+            "ui.gambling.other",
+        ).source_hash:
+            failures.append("context cache hash omitted the stable context ID")
+
+        ui_contract = manifest.get("ui_semantic_context_blocker", {})
+        selector_ids = {
+            (
+                callsite["path"],
+                callsite["function"],
+                row["ko"],
+                callsite["en"],
+            ): row["id"]
+            for row in ui_contract.get("context_registry", [])
+            for callsite in row.get("callsites", [])
+        }
+        completed_calls = [
+            UiCall(
+                call.path,
+                call.function,
+                call.line,
+                "context",
+                call.korean,
+                call.english,
+                selector_ids[(call.path, call.function, call.korean, call.english)],
+            ) if (call.path, call.function, call.korean, call.english) in selector_ids
+            else call
+            for call in ui_inventory.calls
+        ]
+        completed_contract = json.loads(json.dumps(ui_contract, ensure_ascii=False))
+        completed_contract["implemented"] = True
+        cases += 1
+        completed_errors, completed_stats = validate_ui_context_contract(
+            completed_calls, completed_contract
+        )
+        if completed_errors or completed_stats.get("context_calls") != 37:
+            failures.append(
+                "completed 37-call migration fixture failed: "
+                f"stats={completed_stats} errors={completed_errors}"
+            )
+        (
+            completed_planned_entries,
+            _completed_planned_blueprint,
+            completed_observed_entries,
+            _completed_observed_blueprint,
+        ) = build_ui_context_layers(completed_calls, completed_contract)
+        if len(completed_planned_entries) != 30 \
+                or len(completed_observed_entries) != 30:
+            failures.append(
+                "completed generation did not select exactly 30 observed rows: "
+                f"planned={len(completed_planned_entries)} "
+                f"observed={len(completed_observed_entries)}"
+            )
+
+        single_id_calls = list(ui_inventory.calls)
+        single_selector = (
+            "autoloads/GameState.gd",
+            "get_credit_grade_label",
+            "보통",
+            "Standard",
+        )
+        for index, call in enumerate(single_id_calls):
+            if (call.path, call.function, call.korean, call.english) == single_selector:
+                single_id_calls[index] = UiCall(
+                    call.path,
+                    call.function,
+                    call.line,
+                    "context",
+                    call.korean,
+                    call.english,
+                    "ui.credit.standard_grade",
+                )
+                break
+        cases += 1
+        single_errors, single_stats = validate_ui_context_contract(
+            single_id_calls, ui_contract
+        )
+        if single_stats.get("context_calls") != 1 \
+                or single_stats.get("migrated_context_ids") != 1 \
+                or not any("implemented=false" in error for error in single_errors):
+            failures.append(
+                "whole one-call ID migration escaped planned state: "
+                f"stats={single_stats} errors={single_errors}"
+            )
+
+        partial_calls = list(ui_inventory.calls)
+        partial_selector = (
+            "scenes/MainGame.gd",
+            "_core_loop_v2_completion_view_model",
+            "기록 없음",
+            "NOT RECORDED",
+        )
+        for index, call in enumerate(partial_calls):
+            if (call.path, call.function, call.korean, call.english) == partial_selector:
+                partial_calls[index] = UiCall(
+                    call.path,
+                    call.function,
+                    call.line,
+                    "context",
+                    call.korean,
+                    call.english,
+                    "ui.completion.unrecorded_value",
+                )
+                break
+        cases += 1
+        partial_errors, _partial_stats = validate_ui_context_contract(
+            partial_calls, ui_contract
+        )
+        if not any("partial" in error for error in partial_errors):
+            failures.append("partial context ID migration was not rejected")
+
+        mutation_cases: list[tuple[str, dict[str, Any]]] = []
+        changed = json.loads(json.dumps(ui_contract, ensure_ascii=False))
+        changed["collision_partition"]["format_equivalent"].pop("고시원", None)
+        mutation_cases.append(("partition deletion", changed))
+        changed = json.loads(json.dumps(ui_contract, ensure_ascii=False))
+        changed["collision_partition"]["shared_translation"]["건강"] = [
+            "BODY", "HEALTH", "Health"
+        ]
+        mutation_cases.append(("partition overlap", changed))
+        changed = json.loads(json.dumps(ui_contract, ensure_ascii=False))
+        next(
+            row for row in changed["context_registry"]
+            if row.get("id") == "ui.credit.standard_grade"
+        )["allowed_en"] = ["Normal"]
+        mutation_cases.append(("context English", changed))
+        changed = json.loads(json.dumps(ui_contract, ensure_ascii=False))
+        next(
+            row for row in changed["context_registry"]
+            if row.get("id") == "ui.credit.standard_grade"
+        )["callsites"][0]["count"] += 1
+        mutation_cases.append(("context count", changed))
+        changed = json.loads(json.dumps(ui_contract, ensure_ascii=False))
+        changed["context_registry"].append(changed["context_registry"][0].copy())
+        mutation_cases.append(("duplicate context ID", changed))
+        for label, changed_contract in mutation_cases:
+            cases += 1
+            mutation_errors, _stats = validate_ui_context_contract(
+                ui_inventory.calls, changed_contract
+            )
+            if not mutation_errors:
+                failures.append(f"{label} mutation was not rejected")
         if failures:
             print(
                 f"JA_TRANSLATE_SELF_TEST_FAIL cases={cases} "
@@ -1004,7 +1704,10 @@ def main() -> int:
             return 1
         print(
             "JA_TRANSLATE_SELF_TEST_OK "
-            f"cases={cases} entries={expected_entries} merge=non_destructive"
+            f"cases={cases} entries={expected_entries} merge=non_destructive "
+            f"ui={ui_inventory.stats.get('legacy_keys', 0)} "
+            f"context={ui_inventory.stats.get('context_calls', 0)}/"
+            f"{ui_inventory.stats.get('planned_context_calls', 0)}"
         )
         return 0
 
@@ -1039,7 +1742,19 @@ def main() -> int:
         if args.scope == "all" else (args.scope,)
     if args.inventory:
         for scope in scopes:
-            entries, _blueprint = collectors[scope]()
+            if scope == "ui":
+                ui_inventory = collect_ui_inventory()
+                if ui_inventory.errors:
+                    print(
+                        f"JA_TRANSLATE_INVENTORY_FAIL scope=ui "
+                        f"errors={len(ui_inventory.errors)}"
+                    )
+                    for error in ui_inventory.errors:
+                        print(f"  {error}")
+                    return 1
+                entries, _blueprint = ui_inventory.entries, ui_inventory.blueprint
+            else:
+                entries, _blueprint = collectors[scope]()
             if scope == "demo":
                 event_count = sum(
                     1 for entry in entries if entry.key.startswith("event::")
@@ -1056,6 +1771,19 @@ def main() -> int:
                     f"entries={len(entries)} events={event_count} "
                     f"dynamic={dynamic_count} catalog={catalog_count} endings=0"
                 )
+            elif scope == "ui":
+                stats = ui_inventory.stats
+                print(
+                    "JA_TRANSLATE_INVENTORY scope=ui "
+                    f"entries={len(entries)} legacy_keys={stats['legacy_keys']} "
+                    f"legacy_calls={stats['legacy_calls']} "
+                    f"context_ids={stats['migrated_context_ids']}/"
+                    f"{stats['planned_context_ids']} context_calls="
+                    f"{stats['context_calls']}/{stats['planned_context_calls']} "
+                    "partition="
+                    f"{stats['format_equivalent']}+{stats['shared_translation']}+"
+                    f"{stats['context_split']}"
+                )
             else:
                 print(
                     f"JA_TRANSLATE_INVENTORY scope={scope} entries={len(entries)}"
@@ -1063,13 +1791,22 @@ def main() -> int:
         return 0
     cache = load_cache()
     for scope in scopes:
-        entries, blueprint = collectors[scope]()
+        if scope == "ui":
+            ui_inventory = collect_ui_inventory()
+            if ui_inventory.errors:
+                print(f"UI_CONTEXT_CONTRACT_FAIL errors={len(ui_inventory.errors)}")
+                for error in ui_inventory.errors:
+                    print(f"  {error}")
+                return 1
+            entries, blueprint = ui_inventory.entries, ui_inventory.blueprint
+        else:
+            entries, blueprint = collectors[scope]()
         drafts: dict[str, str] = {}
         translated: dict[str, str] = {}
         missing_drafts: list[Entry] = []
         missing_review: list[Entry] = []
         for entry in entries:
-            exact = EXACT_TRANSLATIONS.get(entry.source)
+            exact = exact_translation_for_entry(entry)
             if exact is not None:
                 translated[entry.key] = exact
                 drafts[entry.key] = exact

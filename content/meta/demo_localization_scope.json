@@ -53,16 +53,957 @@
     }
   },
   "ui_semantic_context_blocker": {
+    "schema_version": 1,
     "status": "blocked_until_LOC-0",
     "implemented": false,
     "legacy_pair_call_occurrences": 3254,
+    "post_migration_legacy_pair_call_occurrences": 3217,
     "legacy_korean_source_keys": 2730,
+    "legacy_korean_source_keys_sha256": "b67df90ba814deeac78db1b1bc4836d16596b6b93521e97a34427ae3b2bcb222",
     "multi_english_korean_keys": 107,
     "format_equivalent_keys": 34,
     "shared_translation_keys": 45,
     "context_split_korean_keys": 28,
     "planned_context_ids": 30,
     "planned_context_callsite_migrations": 37,
+    "collision_partition": {
+      "format_equivalent": {
+        "고시원": [
+          "Goshiwon",
+          "goshiwon"
+        ],
+        "고정비": [
+          "FIXED COST",
+          "Fixed Cost"
+        ],
+        "누군가": [
+          "Someone",
+          "someone"
+        ],
+        "닫기": [
+          "CLOSE",
+          "Close"
+        ],
+        "달성까지 %s": [
+          "%s TO GO",
+          "%s to go"
+        ],
+        "메시지": [
+          "MESSAGE",
+          "Message"
+        ],
+        "무료": [
+          "FREE",
+          "Free"
+        ],
+        "비어 있음": [
+          "Empty",
+          "empty"
+        ],
+        "빌라 전세": [
+          "Villa jeonse",
+          "villa (jeonse)"
+        ],
+        "사람": [
+          "PEOPLE",
+          "People"
+        ],
+        "사회성": [
+          "SOCIAL",
+          "Social"
+        ],
+        "선택 결과": [
+          "CHOICE RESULT",
+          "Choice Result"
+        ],
+        "시간의 기록": [
+          "THE TIME LEDGER",
+          "The Time Ledger"
+        ],
+        "시작": [
+          "START",
+          "Start"
+        ],
+        "시장": [
+          "Market",
+          "market"
+        ],
+        "아무도 없다": [
+          "No one",
+          "no one"
+        ],
+        "아파트 전세": [
+          "Apartment jeonse",
+          "apartment (jeonse)"
+        ],
+        "업무성과": [
+          "PERFORMANCE",
+          "Performance"
+        ],
+        "연인": [
+          "Partner",
+          "partner"
+        ],
+        "영상통화": [
+          "VIDEO CALL",
+          "Video call"
+        ],
+        "외모": [
+          "APPEARANCE",
+          "Appearance"
+        ],
+        "운": [
+          "LUCK",
+          "Luck"
+        ],
+        "월수입": [
+          "MONTHLY INCOME",
+          "Monthly Income"
+        ],
+        "정선 카지노": [
+          "Jeongseon Casino",
+          "Jeongseon casino"
+        ],
+        "정신": [
+          "MENTAL",
+          "Mental"
+        ],
+        "정신력": [
+          "MENTAL",
+          "Mental"
+        ],
+        "지원 계속": [
+          "Keep Applying",
+          "Keep applying"
+        ],
+        "짝수": [
+          "EVEN",
+          "Even"
+        ],
+        "창업 업무": [
+          "Startup Work",
+          "Startup work"
+        ],
+        "체납": [
+          "ARREARS",
+          "Arrears"
+        ],
+        "타이 — 베팅 환불": [
+          "PUSH — bet returned",
+          "Push — bet returned"
+        ],
+        "평판": [
+          "REPUTATION",
+          "Reputation"
+        ],
+        "현금": [
+          "CASH",
+          "Cash"
+        ],
+        "홀수": [
+          "ODD",
+          "Odd"
+        ]
+      },
+      "shared_translation": {
+        "%d년 %d월 %d주차": [
+          "%04d-%02d W%d",
+          "%d-%02d W%d"
+        ],
+        "VIP 인맥": [
+          "VIP network",
+          "VIP networking"
+        ],
+        "[%s/%s/%s/%s] 액션  [%s] 확정  [%s] 규칙  [%s] 나가기": [
+          "[%s/%s/%s/%s] Action  [%s] Confirm  [%s] Rules  [%s] Exit",
+          "[%s/%s/%s/%s] Action  [%s] Confirm  [%s] Rules  [%s] Leave"
+        ],
+        "[%s] 다음 핸드  [%s] 규칙  [%s] 나가기": [
+          "[%s] Next Hand  [%s] Rules  [%s] Exit",
+          "[%s] Next Hand  [%s] Rules  [%s] Leave"
+        ],
+        "가족": [
+          "FAM",
+          "Family"
+        ],
+        "게임 종료": [
+          "Quit",
+          "Quit Game"
+        ],
+        "경마장": [
+          "Racecourse",
+          "Racetrack"
+        ],
+        "나가기": [
+          "Exit",
+          "Leave"
+        ],
+        "내 사람들": [
+          "My People",
+          "Relationships"
+        ],
+        "다음 재정 목표": [
+          "NEXT MONEY GOAL",
+          "Next Financial Goal"
+        ],
+        "돈": [
+          "FIN",
+          "MONEY",
+          "Money"
+        ],
+        "돌아가기": [
+          "Back",
+          "Return"
+        ],
+        "레버리지 매수": [
+          "A leveraged buy",
+          "Leverage Buy"
+        ],
+        "마음": [
+          "MENTAL",
+          "MIND"
+        ],
+        "매도 완료": [
+          "Sale complete",
+          "Sold"
+        ],
+        "보유 자산 없음": [
+          "No holdings",
+          "No positions"
+        ],
+        "불러오기": [
+          "Load",
+          "Load Game"
+        ],
+        "상승장": [
+          "Bull",
+          "Bull Market"
+        ],
+        "세션 종료": [
+          "Session Complete",
+          "Session Ended"
+        ],
+        "손님": [
+          "Customer",
+          "GUEST"
+        ],
+        "스캘핑": [
+          "A scalping session",
+          "Scalping"
+        ],
+        "스캘핑 트레이딩": [
+          "Scalp Trading",
+          "Scalping Trading"
+        ],
+        "완료": [
+          "Completed",
+          "DONE",
+          "Done"
+        ],
+        "용어": [
+          "TERM",
+          "Terms"
+        ],
+        "원룸": [
+          "One-room",
+          "Studio",
+          "one-room"
+        ],
+        "이번 주 확정": [
+          "WEEK COMMITTED",
+          "WEEK SET"
+        ],
+        "인맥 넓히기": [
+          "Network",
+          "Networking"
+        ],
+        "일정 수정": [
+          "EDIT PLAN",
+          "FIX SCHEDULE"
+        ],
+        "자금 +%s": [
+          "Funds +%s",
+          "Money +%s"
+        ],
+        "자동 저장에 실패했다. 시작 화면으로 나가기 전에 다시 시도해 주세요.": [
+          "Autosave failed. Please retry before returning to the title screen.",
+          "Autosave failed. Please try again before returning to the title screen."
+        ],
+        "자유런": [
+          "Free Run",
+          "자유런"
+        ],
+        "지난 선택 · {choices}": [
+          "LAST CHOICE · {choices}",
+          "LAST CHOICES · {choices}"
+        ],
+        "지원서 다듬기": [
+          "Application rewrite",
+          "Refine the Application"
+        ],
+        "지하 홀덤 클럽": [
+          "Underground Hold'em",
+          "Underground Hold'em Club"
+        ],
+        "처리 완료": [
+          "COMPLETED",
+          "Handled"
+        ],
+        "체리 2개": [
+          "2 Cherries",
+          "Two cherries"
+        ],
+        "총자산": [
+          "Assets",
+          "Total Assets"
+        ],
+        "카지노 허브로": [
+          "Back to Casino",
+          "Casino Hub"
+        ],
+        "투자": [
+          "INV",
+          "Invest",
+          "Investment"
+        ],
+        "투자 화면으로": [
+          "Back to Investing",
+          "To Invest Screen"
+        ],
+        "투자감각": [
+          "INVESTING",
+          "Invest Skill",
+          "Investing"
+        ],
+        "하락장": [
+          "Bear",
+          "Bear Market"
+        ],
+        "현금이 부족합니다": [
+          "Insufficient cash",
+          "Not enough cash"
+        ],
+        "확인": [
+          "Confirm",
+          "OK"
+        ],
+        "효과음": [
+          "SFX",
+          "Sound Effects"
+        ]
+      },
+      "context_split": {
+        "건강": [
+          "BODY",
+          "HEALTH",
+          "Health"
+        ],
+        "관계": [
+          "PEOPLE",
+          "REL",
+          "RELATIONS",
+          "Relations",
+          "Relationships"
+        ],
+        "기록": [
+          "ARCHIVE",
+          "Archive",
+          "LOG",
+          "Log",
+          "Record"
+        ],
+        "기록 없음": [
+          "NO RECORD",
+          "NOT RECORDED",
+          "No record"
+        ],
+        "기억": [
+          "KEEP",
+          "MEMORY",
+          "Memory"
+        ],
+        "대기": [
+          "Need",
+          "Pending"
+        ],
+        "도박장": [
+          "Gambling",
+          "Gambling Venues"
+        ],
+        "보통": [
+          "Normal",
+          "Standard"
+        ],
+        "사회": [
+          "CIVIC",
+          "SOC"
+        ],
+        "상황": [
+          "EVENT",
+          "Situation"
+        ],
+        "생계": [
+          "INCOME",
+          "Survival Money"
+        ],
+        "생활": [
+          "Life",
+          "Lifestyle",
+          "Living"
+        ],
+        "선택": [
+          "Choice",
+          "Choices",
+          "Choose",
+          "OPTION",
+          "Select"
+        ],
+        "설정": [
+          "Options",
+          "Settings",
+          "Setup"
+        ],
+        "성장": [
+          "GAIN",
+          "GROWTH",
+          "Growth"
+        ],
+        "연락": [
+          "CONTACTS",
+          "PHONE"
+        ],
+        "위험": [
+          "Danger",
+          "Risk"
+        ],
+        "이전": [
+          "Back",
+          "Previous"
+        ],
+        "인연": [
+          "BOND",
+          "Bond",
+          "Connection",
+          "the relationship"
+        ],
+        "입문": [
+          "Entry",
+          "Novice"
+        ],
+        "절약": [
+          "Save",
+          "Saving"
+        ],
+        "주 종료": [
+          "WEEK CLOSED",
+          "WEEK SPENT"
+        ],
+        "주의": [
+          "WARN",
+          "Watch"
+        ],
+        "지력": [
+          "INTELLIGENCE",
+          "Intelligence",
+          "Skill"
+        ],
+        "지원": [
+          "Application",
+          "Apply"
+        ],
+        "직업": [
+          "Career",
+          "Job"
+        ],
+        "콘텐츠 제작": [
+          "Create Content",
+          "Creating content"
+        ],
+        "현재": [
+          "Current",
+          "Now"
+        ]
+      }
+    },
+    "context_registry": [
+      {
+        "id": "ui.credit.standard_grade",
+        "ko": "보통",
+        "allowed_en": [
+          "Standard"
+        ],
+        "callsites": [
+          {
+            "path": "autoloads/GameState.gd",
+            "function": "get_credit_grade_label",
+            "en": "Standard",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.phone.title",
+        "ko": "연락",
+        "allowed_en": [
+          "PHONE"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/CommunicationPhone.gd",
+            "function": "_update_tab_copy_and_style",
+            "en": "PHONE",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.planner.skill_axis",
+        "ko": "지력",
+        "allowed_en": [
+          "Skill"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/CoreLoopPlanner.gd",
+            "function": "_routine_effect_copy",
+            "en": "Skill",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.planner.income_axis",
+        "ko": "생계",
+        "allowed_en": [
+          "INCOME"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/CoreLoopPlanner.gd",
+            "function": "_offer_kind_label",
+            "en": "INCOME",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.planner.people_axis",
+        "ko": "관계",
+        "allowed_en": [
+          "PEOPLE"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/CoreLoopPlanner.gd",
+            "function": "_offer_kind_label",
+            "en": "PEOPLE",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.choice.noun_label",
+        "ko": "선택",
+        "allowed_en": [
+          "OPTION",
+          "Choices",
+          "Choice"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/CoreLoopPlanner.gd",
+            "function": "_offer_kind_label",
+            "en": "OPTION",
+            "count": 1
+          },
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_reveal_choices",
+            "en": "Choices",
+            "count": 1
+          },
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_reveal_choices",
+            "en": "Choice",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.holdem.setup_action",
+        "ko": "설정",
+        "allowed_en": [
+          "Setup"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/HoldemClub.gd",
+            "function": "_render_table",
+            "en": "Setup",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.completion.unrecorded_value",
+        "ko": "기록 없음",
+        "allowed_en": [
+          "NOT RECORDED"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_core_loop_v2_completion_view_model",
+            "en": "NOT RECORDED",
+            "count": 4
+          }
+        ]
+      },
+      {
+        "id": "ui.tutorial.danger",
+        "ko": "위험",
+        "allowed_en": [
+          "Danger"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_show_tutorial",
+            "en": "Danger",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.week.spent_status",
+        "ko": "주 종료",
+        "allowed_en": [
+          "WEEK SPENT"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_ap_remaining_text",
+            "en": "WEEK SPENT",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.situation.body_tag",
+        "ko": "건강",
+        "allowed_en": [
+          "BODY"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_situation_category_tag",
+            "en": "BODY",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.situation.civic_tag",
+        "ko": "사회",
+        "allowed_en": [
+          "CIVIC"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_situation_category_tag",
+            "en": "CIVIC",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.situation.event_fallback",
+        "ko": "상황",
+        "allowed_en": [
+          "EVENT"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_situation_category_tag",
+            "en": "EVENT",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.job.application_noun",
+        "ko": "지원",
+        "allowed_en": [
+          "Application"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_action_echo_label",
+            "en": "Application",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.action.creating_content",
+        "ko": "콘텐츠 제작",
+        "allowed_en": [
+          "Creating content"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_action_echo_label",
+            "en": "Creating content",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.forgone.relationship_fallback",
+        "ko": "인연",
+        "allowed_en": [
+          "the relationship"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_weekly_commitment_return_cost_text",
+            "en": "the relationship",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.situation.life_tag",
+        "ko": "생활",
+        "allowed_en": [
+          "Life"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_add_ap_section_header",
+            "en": "Life",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.choice.keep_action",
+        "ko": "기억",
+        "allowed_en": [
+          "KEEP"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_item_art_frame",
+            "en": "KEEP",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.housing.now_status",
+        "ko": "현재",
+        "allowed_en": [
+          "Now"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_open_cat_life",
+            "en": "Now",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.housing.requirement_state",
+        "ko": "대기",
+        "allowed_en": [
+          "Need"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_open_cat_life",
+            "en": "Need",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.gambling.venues_title",
+        "ko": "도박장",
+        "allowed_en": [
+          "Gambling Venues"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_open_cat_gambling",
+            "en": "Gambling Venues",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.saving.activity_title",
+        "ko": "절약",
+        "allowed_en": [
+          "Saving"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_ap_save_money",
+            "en": "Saving",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.result.gain_badge",
+        "ko": "성장",
+        "allowed_en": [
+          "GAIN"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_ap_result_tone_label",
+            "en": "GAIN",
+            "count": 1
+          },
+          {
+            "path": "scenes/StoryMode.gd",
+            "function": "_story_result_tone_label",
+            "en": "GAIN",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.job.entry_tier",
+        "ko": "입문",
+        "allowed_en": [
+          "Entry"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_job_tier_label",
+            "en": "Entry",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.investment.warning_badge",
+        "ko": "주의",
+        "allowed_en": [
+          "WARN"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_open_first_investment_guide",
+            "en": "WARN",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.meta.career_category",
+        "ko": "직업",
+        "allowed_en": [
+          "Career"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_open_title_collection",
+            "en": "Career",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.meta.lifestyle_category",
+        "ko": "생활",
+        "allowed_en": [
+          "Lifestyle"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/MainGame.gd",
+            "function": "_open_title_collection",
+            "en": "Lifestyle",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.navigation.archive",
+        "ko": "기록",
+        "allowed_en": [
+          "Archive",
+          "ARCHIVE"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/StartMenu.gd",
+            "function": "_build_ui",
+            "en": "Archive",
+            "count": 1
+          },
+          {
+            "path": "scenes/StartMenu.gd",
+            "function": "_open_archive_overlay",
+            "en": "ARCHIVE",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.archive.previous_page",
+        "ko": "이전",
+        "allowed_en": [
+          "Previous"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/StartMenu.gd",
+            "function": "_open_archive_overlay",
+            "en": "Previous",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "ui.archive.record_fallback",
+        "ko": "기록",
+        "allowed_en": [
+          "Record"
+        ],
+        "callsites": [
+          {
+            "path": "scenes/StartMenu.gd",
+            "function": "_archive_scene_card",
+            "en": "Record",
+            "count": 1
+          }
+        ]
+      }
+    ],
     "note": "Do not start JA/ZH body translation until LOC-0 assigns stable context IDs without renaming or deleting the 2,730 legacy Korean UI keys."
   },
   "receipt_only_event_ids": ["callback_escaped_dirty_trace"],

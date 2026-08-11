@@ -20,6 +20,7 @@ func _run() -> void:
 	var original_language := LocaleManager.language
 	_check_language_codes()
 	_check_existing_translated_overlay()
+	_check_ui_context_contract()
 	var english_event := _localized_event_text("en", REPRESENTATIVE_EVENT)
 	var english_ending := _localized_ending_text("en", REPRESENTATIVE_ENDING)
 	var english_job := _localized_job_name("en", "job_01")
@@ -56,6 +57,47 @@ func _check_existing_translated_overlay() -> void:
 		"Existing Japanese event overlay did not win over English fallback.")
 	_expect(not _contains_hangul(localized),
 		"Existing Japanese event overlay contains Korean.")
+
+func _check_ui_context_contract() -> void:
+	var original_language := LocaleManager.language
+	LocaleManager.clear_ui_misses()
+	var ko_text := "문맥 직접\n%s"
+	var en_text := "Direct context\n%s"
+	LocaleManager.language = "ko"
+	_expect(LocaleManager.ui_context("ui.qa.direct", ko_text, en_text) == ko_text,
+		"Korean context lookup changed its source argument.")
+	_expect(LocaleManager.get_ui_miss_count("ko") == 0,
+		"Korean direct context lookup recorded a miss.")
+	LocaleManager.language = "en"
+	_expect(LocaleManager.ui_context("ui.qa.direct", ko_text, en_text) == en_text,
+		"English context lookup changed its fallback argument.")
+	_expect(LocaleManager.get_ui_miss_count("en") == 0,
+		"English direct context lookup recorded a miss.")
+
+	LocaleManager.language = "ja"
+	_expect(LocaleManager.ui("설정", "Settings") == "設定",
+		"Existing legacy UI lookup changed after provenance separation.")
+	_expect(LocaleManager.ui_context("연락", "설정", "English context") == "連絡",
+		"Built-in context key did not win over its legacy fallback key.")
+	_expect(LocaleManager.ui_context(
+		"ui.qa.no_context", "설정", "English fallback") == "設定",
+		"Missing built-in context did not use the legacy Korean key.")
+	_expect(LocaleManager.get_ui_miss_count("ja") == 0,
+		"Successful built-in context or legacy lookup recorded a miss.")
+	var fallback := LocaleManager.ui_context(
+		"ui.qa.missing", "문맥 폴백 없음", "Context English fallback")
+	_expect(fallback == "Context English fallback",
+		"Missing context and legacy keys did not fall back to English.")
+	_expect(LocaleManager.get_ui_misses("ja") == ["context:ui.qa.missing"],
+		"Context miss was not keyed by its stable ID.")
+	LocaleManager.ui_context(
+		"ui.qa.missing", "다른 원문", "Second English fallback")
+	_expect(LocaleManager.get_ui_miss_count("ja") == 1,
+		"Repeated context ID miss was not deduplicated.")
+	LocaleManager.refresh_community_packs()
+	_expect(LocaleManager.get_ui_miss_count("ja") == 0,
+		"Refreshing UI packs did not clear context misses.")
+	LocaleManager.language = original_language
 
 func _check_target_language(lang: String, english_event: String, english_ending: String, english_job: String) -> void:
 	_set_language_without_persisting(lang)
