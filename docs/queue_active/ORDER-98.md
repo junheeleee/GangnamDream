@@ -219,12 +219,16 @@ manifest가 ORDER-97의 3,310/3,273/2,780에 머문 것을 확인했다. 위 7�
   invalid_routes=8 ...`, `GAME_AUDIO_RUNTIME_OK ... haptics=12
   unused_profiles=0 direct_scene_raw=0 vibration_roundtrip=1 boundary_clamp=8
   same_stack=3`, 전체 `audit.sh`, KO/EN×keyboard/gamepad 24주 4경로와
-  KO/EN×1280×800/960×600 4표면이 통과했다. 빌드 식별자 발급 뒤 같은 최종
-  revision에서 이 증거를 다시 봉인한다.
-- **L3 OPEN:** `demo_rc`는 패키지 발급 전까지 `waiting_rebuild`다. clean 후보를
-  발급한 뒤 사용자가 집에서 서울 보드를 처음 정상 속도로 플레이하고, Batch A
-  임의 3표면과 Batch B 임의 3게임의 물리 패드 방향·도달성·진동 피로를 판정하기
-  전에는 이 오더를 `[x]`로 닫거나 자동 증거를 재미 GO로 부르지 않는다.
+  KO/EN×1280×800/960×600 4표면을 빌드 식별자를 포함한 같은 최종 revision에서
+  다시 봉인했다.
+- **L3 OPEN:** clean `demo_rc`는 commit `5736061916626a193dab4fd044ef44813938c4f7`,
+  tree `c996b98369fe9df6eeb2a76b04a306b69d218e04`, manifest SHA-256
+  `9cecaede2e51fd4401d336c0567dc86e96c862767cf134e0cb82c2174380fb56`로
+  발급했다. macOS 패키지는 타이틀·24주 시작·설정 진입까지 실제 실행했고,
+  Windows와 Linux/Steam Deck는 산출물 생성만 확인했다. 사용자가 집에서 서울
+  보드를 처음 정상 속도로 플레이하고 Batch A 임의 3표면과 Batch B 임의 3게임의
+  물리 패드 방향·도달성·진동 피로를 판정하기 전에는 이 오더를 `[x]`로 닫거나
+  자동 증거를 재미 GO로 부르지 않는다.
 - **승격:** `docs/CONTROLLER_UX_STRATEGY.md`, `docs/INPUT_MATRIX.md`,
   `docs/AUDIO_QA.md`, `docs/SCENE_DIRECTION.md`, `docs/QA_CHECKLIST.md`,
   `docs/human_gates.json`, 현지화 정본 4문서와 manifest/JA 사전.

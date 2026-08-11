@@ -296,7 +296,7 @@ Windows와 Linux/Deck의 `run` 칸은 아직 미검증이다. macOS 실주행 �
 | macOS V2 no-argument entry smoke | PASS · 진입까지만 | 일반 앱 실행으로 최초 언어 선택→JUNPAC→KO/EN 시작 메뉴, build identity·전역 표식, fresh playtest 데이터의 24주 단일 기본 진입, 콘텐츠 안내→V2 도입 장면 확인 |
 | Linux/Deck V2 export | PASS · 생성만 | ELF64 x86-64 산출물과 manifest 해시 생성. Linux/Deck native run은 OPEN |
 | §5 전체 package smoke | OPEN | 서울 사이클 보드, 실제 1→24주·동결 결산·재시도·CTA·실제 Week 25 차단, 연속 A/V·입력은 아직 판정하지 않음 |
-| External/human evidence | OPEN | `human_gates.json`의 `demo_rc`는 재빌드 대기이며 외부 표본 0/10. flavor-proof 산출물을 외부 후보로 등록하지 않음 |
+| External/human evidence | RETIRED | 당시 `demo_rc`는 재빌드 대기였고 외부 표본 0/10. 이 flavor-proof 산출물은 외부 후보로 등록하지 않음 |
 
 flavor-proof는 `BUILD 2026.08.03.1`, revision
 `835452bc01ea97316d9dfafeaa79b8c862cca595`, tree
@@ -308,6 +308,19 @@ Windows/macOS/Linux artifact SHA-256은 각각
 `9b90ba5d6831c3edabd64c3fec90d8a15c2c3686500b530629f6e8c250988072`,
 `8e325325e0b3b1502d3b38ddf3c7931ac48aa092ffce5dc8d6d57589016acee0`다.
 이는 exact artifact provenance일 뿐 최종 V2 demo RC나 출시 GO가 아니다.
+
+### 현재 V2 집 플레이 후보 (2026-08-11, 사람 판정 OPEN)
+
+BUILD `2026.08.11.2`는 clean revision
+`5736061916626a193dab4fd044ef44813938c4f7`, tree
+`c996b98369fe9df6eeb2a76b04a306b69d218e04`에서 세 플랫폼을 export했다.
+manifest 파일 SHA-256은
+`9cecaede2e51fd4401d336c0567dc86e96c862767cf134e0cb82c2174380fb56`다.
+macOS 패키지는 일반 앱 실행으로 타이틀, `Start 24-Week Demo`, 설정의 진동
+ON/OFF·강도까지 실제 확인했다. Windows와 Linux/Steam Deck는 생성·해시만
+확인했으므로 각 플랫폼 실행 주장은 아직 OPEN이다. `human_gates.json`의
+`demo_rc`는 이 provenance로 active지만 정상 속도 재미, 물리 패드, 연속 A/V,
+외부 독해와 원어민 판정은 모두 OPEN이며 출시 GO가 아니다.
 
 ### 외부 정상 독해 RC 게이트 (2026-07-21)
 

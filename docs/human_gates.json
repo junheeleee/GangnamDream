@@ -9,11 +9,11 @@
   ],
   "release_candidates": {
     "demo_rc": {
-      "status": "waiting_rebuild",
-      "commit": null,
-      "tree": null,
-      "manifest_sha256": null,
-      "note": "Core Loop V2 이전 e849a6a RC는 현 후보 판정에 사용할 수 없다. 통합 완료 뒤 clean main에서 새 데모 RC를 발급한다."
+      "status": "active",
+      "commit": "5736061916626a193dab4fd044ef44813938c4f7",
+      "tree": "c996b98369fe9df6eeb2a76b04a306b69d218e04",
+      "manifest_sha256": "9cecaede2e51fd4401d336c0567dc86e96c862767cf134e0cb82c2174380fb56",
+      "note": "BUILD 2026.08.11.2의 clean 24주 집 플레이 후보. macOS 패키지는 타이틀·24주 시작·설정 진입까지 실제 실행했고 Windows와 Linux/Steam Deck는 산출물 생성만 확인했다. 정상 속도 재미·물리 패드·연속 A/V·원어민 게이트는 OPEN이다."
     },
     "full_rc": {
       "status": "waiting_rebuild",
@@ -600,7 +600,7 @@
       "id": "reference_system_verdicts_random_three",
       "domain": "gameplay",
       "gate": "참조 시스템 판정표 채택 항목 임의 3단위 대조",
-      "why": "자동 검사는 44단위 판정표의 구조와 기존 시스템 소유자를 확인할 수 있지만, 채택 항목이 강남드림 안에서 구체적으로 그려지고 서로를 지우지 않는지는 사람이 함께 읽어야 판정할 수 있다. 현재 demo_rc는 waiting_rebuild라 판정 증거도 아직 없다.",
+      "why": "자동 검사는 44단위 판정표의 구조와 기존 시스템 소유자를 확인할 수 있지만, 채택 항목이 강남드림 안에서 구체적으로 그려지고 서로를 지우지 않는지는 사람이 함께 읽어야 판정할 수 있다. active demo_rc는 발급됐지만 사람 판정 증거는 아직 없다.",
       "owner": "ORDER-95",
       "state": "open",
       "scope": {
@@ -628,7 +628,7 @@
       "id": "order97_ui_format_batch_a_random_three",
       "domain": "localization",
       "gate": "ORDER-97 Batch A 실제 UI 임의 3표면 대조",
-      "why": "템플릿·인자·키 수 자동 검사는 lookup provenance를 증명하지만 시작·기록·설정·장면 화면의 최종 문맥과 값이 사람에게 맞게 읽히는지는 실제 후보 표면을 봐야 한다. 현재 demo_rc가 waiting_rebuild라 판정 증거도 아직 없다.",
+      "why": "템플릿·인자·키 수 자동 검사는 lookup provenance를 증명하지만 시작·기록·설정·장면 화면의 최종 문맥과 값이 사람에게 맞게 읽히는지는 실제 후보 표면을 봐야 한다. active demo_rc는 발급됐지만 사람 판정 증거는 아직 없다.",
       "owner": "ORDER-97",
       "state": "open",
       "scope": {
@@ -660,7 +660,7 @@
       "id": "order97_ui_format_batch_b_random_three",
       "domain": "localization",
       "gate": "ORDER-97 Batch B 실제 UI 임의 3표면 대조",
-      "why": "정적 원장은 남은 호출과 돈 formatter의 소유권을 증명하지만 계획판·연락폰·배달·재고조사 표면의 최종 문맥, 복수형, 고정 일정과 돈 단위는 같은 후보의 실제 화면에서 사람이 확인해야 한다. 현재 demo_rc가 waiting_rebuild라 판정 증거도 아직 없다.",
+      "why": "정적 원장은 남은 호출과 돈 formatter의 소유권을 증명하지만 계획판·연락폰·배달·재고조사 표면의 최종 문맥, 복수형, 고정 일정과 돈 단위는 같은 후보의 실제 화면에서 사람이 확인해야 한다. active demo_rc는 발급됐지만 사람 판정 증거는 아직 없다.",
       "owner": "ORDER-97",
       "state": "open",
       "scope": {
