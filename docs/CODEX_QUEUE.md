@@ -59,7 +59,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-96 · LOC-0 다의 한국어 UI 키를 안정 문맥 ID로 분리 | [96](queue_active/ORDER-96.md) | 착수 — 2,730 legacy 키를 보존하며 28키를 30 ID·37호출로 분리해 JA/ZH 본문 번역의 의미 충돌을 먼저 제거 |
+| 1 | [~] | ORDER-97 · LOC-0.5 값을 끼우기 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | 착수 — preformat 후보 54개를 전수 분류하고 정확 46호출만 lookup→format 순서로 바꿔 JA/ZH의 영구 EN fallback을 제거 |
 
 ### 남은 데모 출시선
 

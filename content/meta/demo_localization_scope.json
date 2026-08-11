@@ -54,7 +54,7 @@
   },
   "ui_semantic_context_blocker": {
     "schema_version": 1,
-    "status": "blocked_until_LOC-0",
+    "status": "resolved",
     "implemented": true,
     "legacy_pair_call_occurrences": 3254,
     "post_migration_legacy_pair_call_occurrences": 3217,
@@ -1004,7 +1004,43 @@
         ]
       }
     ],
-    "note": "Do not start JA/ZH body translation until LOC-0 assigns stable context IDs without renaming or deleting the 2,730 legacy Korean UI keys."
+    "note": "Context migration is complete. Preserve the 2,730 legacy Korean UI keys and the locked 30 context IDs across 37 product calls. JA/zh-CN/zh-TW body translation remains held until a separate approved demo translation order explicitly enables --allow-body."
+  },
+  "ui_parameterized_template_plan": {
+    "schema_version": 1,
+    "status": "planned",
+    "order": "ORDER-97",
+    "alias": "LOC-0.5",
+    "raw_candidate_expressions": 54,
+    "migrate_lookup_before_format_calls": 46,
+    "dynamic_pair_readers": 4,
+    "branch_selected_literals": 2,
+    "locale_money_formatters": 2,
+    "locale_money_formatter_owners": [
+      "scenes/SeoulCycleBoard.gd::_format_money",
+      "scenes/CommitmentTask.gd::_format_money"
+    ],
+    "migrated_templates": 41,
+    "new_legacy_key_candidates": 40,
+    "callsite_distribution": {
+      "autoloads/GameState.gd": 4,
+      "scenes/MainGame.gd": 1,
+      "scenes/CommunicationPhone.gd": 3,
+      "scenes/ArubaGame.gd": 1,
+      "scenes/StartMenu.gd": 16,
+      "scenes/StoryMode.gd": 7,
+      "scenes/SeoulCycleBoard.gd": 2,
+      "scenes/CoreLoopPlanner.gd": 12
+    },
+    "first_run_adjustment_expected": {
+      "total_ui_call_occurrences": 3300,
+      "legacy_pair_call_occurrences": 3263,
+      "context_call_occurrences": 37,
+      "legacy_korean_source_keys": 2770,
+      "ja_legacy_rows": 2770,
+      "ja_context_rows": 30
+    },
+    "note": "Classify all 54 candidates before implementation. Change only the exact 46 preformatted player-facing calls from lookup-after-format to lookup-before-format; preserve KO/EN bytes, the 30 context IDs, and all gameplay/save data. Counts under first_run_adjustment_expected are verification targets, not rejection baselines, until the first collector run."
   },
   "receipt_only_event_ids": ["callback_escaped_dirty_trace"],
   "korean_clock_contract": {

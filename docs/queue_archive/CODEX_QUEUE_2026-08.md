@@ -13,6 +13,14 @@
 
 ## 2026-08
 
+- `[x] ORDER-96` (2026-08-11): 한국어 legacy UI 2,730키를 삭제·이름 변경하지
+  않고, 다중 영어 의미가 충돌하던 28키의 정확한 제품 호출 37곳을 안정 문맥 ID
+  30개로 분리했다. built-in/community provenance와 5단계 fallback, 구 community
+  pack 호환을 잠갔고 JA는 legacy 2,730/2,730+context 30/30이다. KO/EN 네 화면,
+  JA 실제 core/gallery/story/layout, 전체 감사와
+  [CI 31450617753](https://github.com/junheeleee/GangnamDream/actions/runs/31450617753)이
+  통과했다. 원어민·출시 판정은 OPEN이며, 실제 JA 화면에서 찾은 포맷 전 lookup
+  결함은 후속 ORDER-97이 소유한다. [사양](ORDER-96.md)
 - `[x] ORDER-88` (2026-08-11): 독자가 없던 아버지 기억 여섯 개를
   새 카드 없이 21주 건강 신호와 24주 첫 청구서의 KO/EN 문단으로
   돌려줬고, 갤러리 회상은 완료 당시 21주 기억을 고정했다. 24주
