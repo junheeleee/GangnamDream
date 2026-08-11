@@ -1,6 +1,6 @@
 # Gangnam Dream Audio QA
 
-Updated: 2026-08-04
+Updated: 2026-08-11
 
 Production gate: an audio file existing and loading is not the same as launch approval. Every asset must also satisfy `docs/PRODUCTION_ASSET_PIPELINE.md`: commercial provenance, clean head/tail, mix balance, semantic runtime mapping, image-paired listening, and 30-minute fatigue QA.
 
@@ -57,11 +57,11 @@ All 139 current assets are recording/sample-backed: 20 real-piano scores, 49 fie
 - Dedicated Core Loop V2 ScreenshotQA rendered opening, all three decision
   contexts, all three ledger states, and the convenience/warehouse result
   moves at KO 960×600 and EN 1280×800. This proves the authored First Bill
-  surfaces are reachable in the V2 harness; it is not a 24-week listening or
-  `demo-experience` pass. The separate V2 `demo-experience` input route
-  currently stalls at the Week 1 planner in both locales and remains an open
-  automation gate. Legacy six-month profile counts below must not be cited as
-  V2 completion evidence.
+  surfaces are reachable in the V2 harness. The separate V2
+  `demo-experience` route now completes the Korean and English 24-week paths
+  and reports `DEMO_EXPERIENCE_AUDIT_OK`; neither automated result is a
+  continuous human listening approval. Legacy six-month profile counts below
+  must not be cited as V2 completion evidence.
 
 ## Launch Identity
 
@@ -102,7 +102,7 @@ The seven base tracks cover title, routine, crisis, and endings. Five authored p
 - Korean PlayStation and English Xbox 24-week profiles expose the same 46 events, ten music keys, 41 authored-music events, and a maximum unscored root run of one.
 - 이 데모 통과는 본편의 사람 청취 통과가 아니다. 전 사건 의도와 대표 경로
   연속성은 아래 자동 게이트로 확장됐지만, 활동 피로도와 장별 사람 청취는
-  [`ORDER-43`](queue_active/ORDER-43.md)의 열린 후속 게이트가 소유한다.
+  [`ORDER-43`](queue_archive/ORDER-43.md)의 열린 후속 게이트가 소유한다.
 
 ### Full-Run Audio Coverage
 
@@ -249,15 +249,13 @@ Hyunsu's reunion remains scoreless on the live housing room tone through the emp
 
 ## Human Listening Gate
 
-The previous `cf92085` candidate is superseded by clean revision
-`eceeb6e78799d9b3c775f03bdf2475fbcbb4a78d` (tree
-`da84bb080e42d8888f85e9b211b3f19d8662c2d3`). Its three-platform manifest
-SHA-256 is `b383f4eda8e2a01a54ef1137d2f686a62e45a64c2861f65ec905a64813e2a94e`.
-All three artifacts re-verify against that manifest, and the extracted macOS
-package boots under an isolated HOME while loading the new audio resources
-without an error. Automated routing, Korean/English rendering, complete
-24-week parity, export, and package boot pass; this is not a listening
-approval.
+The exact current listening candidate is owned only by
+`docs/human_gates.json` at `release_candidates.demo_rc`; do not copy its
+commit, tree, or manifest hash into this durable contract. The active candidate
+has verified three-platform artifact hashes, and its extracted macOS package
+boots while loading the audio resources without an error. Automated routing,
+Korean/English rendering, complete 24-week parity, export, and package boot
+pass; this is not a listening approval.
 
 Before demo lock, listen at the real 1280x800/Steam Deck presentation and on headphones, laptop speakers, and a living-room TV:
 
