@@ -12,13 +12,14 @@ import sys
 from typing import Any
 
 from ja_translation_pipeline import (
-    EXACT_TRANSLATIONS,
     ROOT,
     Entry,
     collect_catalog,
     collect_endings,
     collect_events,
-    collect_ui,
+    collect_ui_inventory,
+    exact_translation_for_entry,
+    premature_context_dictionary_keys,
     validate_translation,
 )
 
@@ -65,7 +66,7 @@ def check_text(entry: Entry, translated: Any, errors: list[str]) -> None:
         errors.append(f"{entry.key}: {error}")
     if not isinstance(translated, str):
         return
-    exact = EXACT_TRANSLATIONS.get(entry.source)
+    exact = exact_translation_for_entry(entry)
     if exact is not None and translated != exact:
         errors.append(f"{entry.key}: exact-canon mismatch {translated!r} != {exact!r}")
     for korean, japanese in TERM_REQUIREMENTS.items():
@@ -159,9 +160,11 @@ def _demo_runtime(errors: list[str]) -> tuple[dict[str, Any], dict[str, Any]]:
 
 def check_ui_scope(actual: Any, errors: list[str]) -> int:
     """Keep static UI exact while allowing only locked demo dynamic keys."""
-    rows, blueprint = collect_ui()
+    inventory = collect_ui_inventory()
+    rows, blueprint = inventory.entries, inventory.blueprint
     entries = {entry.key: entry for entry in rows}
     before = len(errors)
+    errors.extend(f"ui source: {error}" for error in inventory.errors)
     if not isinstance(actual, dict):
         errors.append("ui: expected object")
         actual = {}
@@ -174,7 +177,13 @@ def check_ui_scope(actual: Any, errors: list[str]) -> int:
     dynamic_keys = set(runtime["merged_pairs"])
     static_keys = set(blueprint)
     extra_keys = set(actual) - static_keys
-    unknown_extra = extra_keys - dynamic_keys
+    premature_context = set(premature_context_dictionary_keys(actual, inventory))
+    if premature_context:
+        errors.append(
+            "ui: planned context rows appeared before implementation "
+            f"{sorted(premature_context)[:8]}"
+        )
+    unknown_extra = extra_keys - dynamic_keys - premature_context
     if unknown_extra:
         errors.append(
             f"ui: unknown extra keys {sorted(unknown_extra)[:8]}"
@@ -187,8 +196,15 @@ def check_ui_scope(actual: Any, errors: list[str]) -> int:
         )
         check_text(entry, actual[korean], errors)
     dynamic_present = len(dynamic_keys & set(actual))
+    legacy_present = len(set(inventory.legacy_blueprint) & set(actual))
+    context_present = len(set(inventory.planned_context_blueprint) & set(actual))
+    stats = inventory.stats
     print(
-        f"JA_AUDIT_SCOPE name=ui strings={len(rows)} "
+        "JA_AUDIT_SCOPE name=ui "
+        f"legacy={legacy_present}/{len(inventory.legacy_blueprint)} "
+        f"context={context_present}/{len(inventory.planned_context_blueprint)} "
+        f"migrated={stats['migrated_context_ids']}/"
+        f"{stats['planned_context_ids']} "
         f"demo_dynamic={dynamic_present}/{len(dynamic_keys)} "
         f"errors={len(errors)-before}"
     )

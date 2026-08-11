@@ -8,7 +8,8 @@ const SUPPORTED_LANGUAGES: Array[String] = ["ko", "en", "ja", "zh-CN", "zh-TW"]
 const SHIPPING_LANGUAGES: Array[String] = ["ko", "en"]
 const UI_TABLE_PATH := "res://locale/ui_%s.json"
 
-var _ui_tables: Dictionary = {}
+var _builtin_ui_tables: Dictionary = {}
+var _community_ui_tables: Dictionary = {}
 var _ui_misses: Dictionary = {}
 
 # 주인공 기본 이름 — 언어 전환 시 다른 언어 기본값으로 동기화 (커스텀 이름은 보존)
@@ -122,9 +123,8 @@ func _is_default_player_name(raw_name: String) -> bool:
 	for lang in known_languages:
 		if lang in ["ko", "en"]:
 			continue
-		var table := _get_ui_table(lang)
-		var localized_name := str(table.get(DEFAULT_NAME_KO, ""))
-		if not localized_name.is_empty() and raw_name == localized_name:
+		var localized_name: Variant = _lookup_legacy_ui(lang, DEFAULT_NAME_KO)
+		if localized_name != null and raw_name == str(localized_name):
 			return true
 	return false
 
@@ -146,15 +146,44 @@ func ui(ko_text: String, en_text: String) -> String:
 		return ko_text
 	if language == "en":
 		return en_text
-	var table := _get_ui_table(language)
-	if table.has(ko_text):
-		return str(table[ko_text])
+	var localized: Variant = _lookup_legacy_ui(language, ko_text)
+	if localized != null:
+		return str(localized)
 	_record_ui_miss(language, ko_text)
 	return en_text
 
-func _get_ui_table(lang: String) -> Dictionary:
-	if _ui_tables.has(lang):
-		return _ui_tables[lang]
+## 다의 source string은 안정 context ID를 먼저 조회한다. community pack의
+## 기존 한국어 키가 built-in context보다 앞서야 구형 pack의 override가 보존된다.
+func ui_context(context_id: String, ko_text: String, en_text: String) -> String:
+	if language == "ko":
+		return ko_text
+	if language == "en":
+		return en_text
+	var builtin := _get_builtin_ui_table(language)
+	var community := _get_community_ui_table(language)
+	if community.has(context_id):
+		return str(community[context_id])
+	if community.has(ko_text):
+		return str(community[ko_text])
+	if builtin.has(context_id):
+		return str(builtin[context_id])
+	if builtin.has(ko_text):
+		return str(builtin[ko_text])
+	_record_ui_miss(language, "context:%s" % context_id)
+	return en_text
+
+func _lookup_legacy_ui(lang: String, source_text: String) -> Variant:
+	var builtin := _get_builtin_ui_table(lang)
+	var community := _get_community_ui_table(lang)
+	if community.has(source_text):
+		return str(community[source_text])
+	if builtin.has(source_text):
+		return str(builtin[source_text])
+	return null
+
+func _get_builtin_ui_table(lang: String) -> Dictionary:
+	if _builtin_ui_tables.has(lang):
+		return _builtin_ui_tables[lang]
 	var table: Dictionary = {}
 	var path := UI_TABLE_PATH % lang
 	if FileAccess.file_exists(path):
@@ -163,6 +192,13 @@ func _get_ui_table(lang: String) -> Dictionary:
 			table = parsed
 		else:
 			push_warning("Invalid UI locale dictionary: %s" % path)
+	_builtin_ui_tables[lang] = table
+	return table
+
+func _get_community_ui_table(lang: String) -> Dictionary:
+	if _community_ui_tables.has(lang):
+		return _community_ui_tables[lang]
+	var table: Dictionary = {}
 	var community_path := ModLoader.language_ui_path(lang)
 	if not community_path.is_empty() and FileAccess.file_exists(community_path):
 		var community: Variant = JSON.parse_string(FileAccess.get_file_as_string(community_path))
@@ -173,11 +209,12 @@ func _get_ui_table(lang: String) -> Dictionary:
 					table[str(key)] = str(value)
 		else:
 			push_warning("Invalid community UI locale dictionary: %s" % community_path)
-	_ui_tables[lang] = table
+	_community_ui_tables[lang] = table
 	return table
 
 func refresh_community_packs() -> void:
-	_ui_tables.clear()
+	_builtin_ui_tables.clear()
+	_community_ui_tables.clear()
 	_ui_misses.clear()
 
 func _record_ui_miss(lang: String, source_text: String) -> void:

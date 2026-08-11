@@ -1,11 +1,12 @@
-# Active Queue Spec: ORDER-96
+# Archived Queue Spec: ORDER-96
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-96 [P0·현지화 기반] LOC-0 — 다의 한국어 UI 키를 안정 문맥 ID로 분리한다
+#### [x] ORDER-96 [P0·현지화 기반] LOC-0 — 다의 한국어 UI 키를 안정 문맥 ID로 분리한다
 
-**선행 조건:** `ORDER-88`이 `[x]`로 닫히고 아카이브되기 전에는 착수하지 않는다.
-그 뒤 이 사양과 실행 표를 `[~]`로 함께 바꾸는 별도 선언 커밋을 먼저 만든다.
+**선행 조건 완료 (2026-08-11):** `ORDER-88`은 `[x]`로 닫히고
+`docs/queue_archive/ORDER-88.md`로 내렸다. 이 `[~]` 전환은 구현과 분리한
+착수 선언이며, 아래 정확한 파일 소유권 밖으로 범위를 늘리지 않는다.
 
 `docs/I18N_INFRASTRUCTURE.md`와
 `content/meta/demo_localization_scope.json`이 잠근 현재 실측은 UI source pair
@@ -117,19 +118,26 @@ JA는 기존 한국어 키 2,730개를 그대로 두고 의미에 맞는 비어 
 `scenes/StoryMode.gd`, `locale/ui_ja.json`,
 `content/meta/demo_localization_scope.json`.
 
-**감사·테스트 5:** `tools/ja_translation_pipeline.py`,
+**감사·테스트 7:** `tools/ja_translation_pipeline.py`,
 `tools/ja_translation_audit.py`, `tools/zh_translation_audit.py`,
-`tools/I18nInfrastructureCheck.gd`, `tools/ModLayerCheck.gd`.
+`tools/I18nInfrastructureCheck.gd`, `tools/ModLayerCheck.gd`,
+`tools/ScreenshotQA.gd`, `tools/english_hangul_audit.py`. 새 문맥 API도 기존
+영어 무한글 감사에서 `_tr`/`LocaleManager.ui`와 같은 안전한 KO/EN 쌍으로
+인식한다. 일본어 실제 표면을 기존 core-loop scope로 실행할 때
+제품의 `선택 중` 번역을 QA가 `선택 중 ·`이라는 다른 lookup key로 비교하던
+오탐만 제품과 같은 key로 맞춘다.
 
-**지속 정본 6:** `docs/I18N_INFRASTRUCTURE.md`, `docs/I18N_GLOSSARY_JA.md`,
+**지속 정본·사람 게이트 7:** `docs/I18N_INFRASTRUCTURE.md`, `docs/I18N_GLOSSARY_JA.md`,
 `docs/I18N_GLOSSARY_ZH.md`, `docs/MODDING.md`, `docs/QA_CHECKLIST.md`,
-`docs/DECISIONS.md`. 선언·완료 기록은 `docs/CODEX_QUEUE.md`, 이 사양,
+`docs/DECISIONS.md`, `docs/human_gates.json`. 문맥 UI 분모를 추가하면서 기존
+JA·zh-CN·zh-TW 사람 판정의 strict 선행조건에도 `context 30/30`을 명시한다.
+선언·완료 기록은 `docs/CODEX_QUEUE.md`, 이 사양,
 `CLAUDE.md`, 완료 뒤 `docs/WORK_LOG.md`와 8월 큐 archive만 만진다.
 
 기존 `audit.sh`와 `audit_scope.json`은 위 검사·경로를 이미 배선하므로 새 전용
 도구를 만들지 않는 최소안에서는 수정하지 않는다. `ModLoader.gd`, 중국어 UI
 skeleton, `multilingual_surface_audit.py`, `i18n_coverage_check.py`,
-`demo_localization_scope.py`, `ScreenshotQA.gd`, 사건·엔딩·catalog도 수정하지 않는다.
+`demo_localization_scope.py`, 사건·엔딩·catalog도 수정하지 않는다.
 
 ## 비범위
 
@@ -162,3 +170,44 @@ skeleton, `multilingual_surface_audit.py`, `i18n_coverage_check.py`,
   반려한다. 자동 초록은 원어민 승인이나 shipping GO가 아니다.
 - 지속 규칙은 위 여섯 정본에 승격하고, 30행 migration·두 배치 실행 지시는
   일회성으로 판정한 뒤 사양을 archive한다.
+
+## 완료 기록 (2026-08-11)
+
+- 기존 한국어 UI 키 2,730개를 삭제·이름 변경하지 않고, 다중 영어 의미가
+  충돌하던 28키의 정확한 제품 호출 37곳을 안정 문맥 ID 30개로 옮겼다.
+  최종 원장은 `legacy 3,217 + context 37 = 3,254`, 다중 의미 분할
+  `34 formatting + 45 shared + 28 split = 107`, 일본어 사전
+  `legacy 2,730/2,730 + context 30/30 = 2,760행`이다.
+- `LocaleManager.ui_context()`는 KO/EN 원문을 그대로 돌려주며 준비 언어에서는
+  community context → community legacy → built-in context → built-in legacy →
+  EN 순으로 읽는다. 구 community pack의 legacy override와 새 context 행,
+  기본 이름 역조회, miss dedupe·refresh를 실제 런타임에서 함께 검증했다.
+- KO/EN 1280×800·960×600 네 core-loop 표면은
+  `CORE_LOOP_V2_SURFACE_MATRIX_OK ... cases=4`로 통과했다. JA는 실제
+  `core-loop-v2`, `gallery`, `story-en`, `i18n-layout` 1280×800을 열어
+  문맥 명사·행동·badge, 완료 화면 7쪽, 구 저장, 아버지 회상, 손상 Week-24
+  영수증을 확인했다. 비한국어 화면의 한글 누출 검사도 JA까지 넓혔다.
+- 로컬 전체 `audit.sh`, `en_coverage_check.py`, manifest·queue·사람 게이트·
+  dashboard·diff 검사를 통과했다. 구현 commit `a741a32`의
+  [GitHub Actions 31450617753](https://github.com/junheeleee/GangnamDream/actions/runs/31450617753)은
+  정적 감사·밸런스, Godot 전체 감사·컴파일, KO PlayStation/EN keyboard
+  실제 24주, 240주 경제 시뮬, 경마 스모크의 모든 단계를 성공했다.
+- L2 전수 재독과 독립 코드 검토에서 P0/P1은 0이다. 자동 초록은 일본어
+  원어민·출시 GO가 아니며, 실제 24주 전체 문맥 판정은 기존
+  `ja_demo_native_context_review` 사람 게이트에 **OPEN**으로 이관한다. 이
+  기술 오더의 `[x]`는 L3 완료 주장이 아니며, 사용자가 임의 3개에서 하나라도
+  문맥 오류를 찾으면 Batch B 전체를 다시 여는 원래 반려 계약을 유지한다.
+- 실제 JA 보드에서 `WEEK`, `MONTHLY CAPACITY LEFT`, `won`이 남은 원인은
+  값을 먼저 끼운 문자열을 번역 key로 넘기는 별도 구조 결함이다. 이번 오더의
+  고정 2,730키 범위를 조용히 넓히지 않고 후속 `ORDER-97 · LOC-0.5`에서
+  전체 포맷 호출을 먼저 분류한 뒤 본문 번역 전에 고친다.
+- **승격:** built-in/community provenance 분리, 문맥 lookup 우선순위,
+  legacy pack 호환과 miss 계약은 `docs/I18N_INFRASTRUCTURE.md`와
+  `docs/MODDING.md`가 소유한다. 고정 30 ID·37호출과 2계층 JA/ZH 감사는
+  `content/meta/demo_localization_scope.json`, `docs/QA_CHECKLIST.md`,
+  `docs/I18N_GLOSSARY_JA.md`, `docs/I18N_GLOSSARY_ZH.md`가 소유하며,
+  결정 근거와 고정 수치는 `docs/DECISIONS.md`, 사람 판정은
+  `docs/human_gates.json`이 소유한다.
+- **일회성:** 배치 A/B의 15단위 분할, 당시 줄 번호, 임시 실행 디렉터리와
+  로그 경로는 이 아카이브에만 남긴다. 30개 일본어 행을 본문 번역 완료나
+  JA·zh-CN·zh-TW shipping 승인으로 해석하지 않는다.

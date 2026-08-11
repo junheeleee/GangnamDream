@@ -19,7 +19,7 @@ import struct
 import sys
 from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation
-from typing import Any, Iterable
+from typing import Any, Iterable, Optional
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -28,7 +28,10 @@ if str(TOOLS) not in sys.path:
     sys.path.insert(0, str(TOOLS))
 
 import demo_localization_scope as demo_scope  # noqa: E402
-from ja_translation_pipeline import collect_ui  # noqa: E402
+from ja_translation_pipeline import (  # noqa: E402
+    UiInventory,
+    collect_ui_inventory,
+)
 
 
 LANGUAGES = ("zh-CN", "zh-TW")
@@ -478,14 +481,14 @@ class SemanticCount:
     counter_class: str
 
 
-_STATIC_UI_CACHE: tuple[list[Any], dict[str, Any]] | None = None
+_STATIC_UI_CACHE: UiInventory | None = None
 _SCRIPT_FORBIDDEN_CACHE: dict[str, frozenset[str]] | None = None
 
 
-def _static_ui_inventory() -> tuple[list[Any], dict[str, Any]]:
+def _static_ui_inventory() -> UiInventory:
     global _STATIC_UI_CACHE
     if _STATIC_UI_CACHE is None:
-        _STATIC_UI_CACHE = collect_ui()
+        _STATIC_UI_CACHE = collect_ui_inventory()
     return _STATIC_UI_CACHE
 
 
@@ -1660,8 +1663,11 @@ def font_route(
 
 
 def chinese_contract_errors(manifest: dict[str, Any]) -> list[str]:
-    _rows, static_blueprint = _static_ui_inventory()
-    static_sources = sorted(static_blueprint)
+    ui_contract = manifest.get("ui_semantic_context_blocker")
+    inventory = collect_ui_inventory(
+        ui_contract if isinstance(ui_contract, dict) else {}
+    )
+    static_sources = sorted(inventory.legacy_blueprint)
     expected = {
         "source_language": "ko",
         "automatic_script_conversion": False,
@@ -1675,7 +1681,7 @@ def chinese_contract_errors(manifest: dict[str, Any]) -> list[str]:
     contract = manifest.get("chinese_preparation_contract")
     if not isinstance(contract, dict):
         return ["manifest: chinese_preparation_contract is missing"]
-    errors: list[str] = []
+    errors: list[str] = [f"UI context: {error}" for error in inventory.errors]
     for key, value in expected.items():
         if contract.get(key) != value:
             errors.append(
@@ -1707,35 +1713,70 @@ def chinese_contract_errors(manifest: dict[str, Any]) -> list[str]:
 
 def static_ui_coverage(
     lang: str, runtime: dict[str, Any], strict: bool,
-) -> tuple[int, int, list[str]]:
-    rows, blueprint = _static_ui_inventory()
-    entries = {entry.source: entry for entry in rows}
-    expected = set(blueprint)
+    actual_override: Optional[dict[str, Any]] = None,
+) -> tuple[int, int, int, int, list[str]]:
+    inventory = _static_ui_inventory()
+    legacy_entries = {entry.source: entry for entry in inventory.legacy_entries}
+    context_entries = {
+        entry.context_id: entry for entry in inventory.planned_context_entries
+    }
+    expected_legacy = set(inventory.legacy_blueprint)
+    expected_context = set(inventory.planned_context_blueprint)
     ui_path = ROOT / "locale" / f"ui_{lang}.json"
-    actual = read_json(ui_path) if ui_path.is_file() else {}
+    actual = actual_override
+    if actual is None:
+        actual = read_json(ui_path) if ui_path.is_file() else {}
     errors: list[str] = []
     if not isinstance(actual, dict):
-        return 0, len(expected), [f"{ui_path.relative_to(ROOT)}: expected object"]
+        return 0, len(expected_legacy), 0, len(expected_context), [
+            f"{ui_path.relative_to(ROOT)}: expected object"
+        ]
 
-    allowed = expected | set(runtime["merged_pairs"])
+    allowed = expected_legacy | expected_context | set(runtime["merged_pairs"])
     unknown = sorted(set(actual) - allowed)
     if unknown:
         errors.append(f"{lang}:ui: unknown source keys {unknown[:8]}")
-    covered = 0
-    for source in sorted(expected):
+    legacy_covered = 0
+    for source in sorted(expected_legacy):
         if source not in actual:
             continue
         target = actual[source]
         if not isinstance(target, str) or not target.strip():
             errors.append(f"{lang}:ui:{source!r}: empty/non-string translation")
             continue
-        covered += 1
-        entry = entries[source]
+        legacy_covered += 1
+        entry = legacy_entries[source]
         for error in validate_text(lang, entry.key, source, target):
             errors.append(f"{lang}:{entry.key}: {error}")
-    if strict and covered != len(expected):
-        errors.append(f"{lang}: strict static_ui coverage {covered}/{len(expected)}")
-    return covered, len(expected), errors
+    context_covered = 0
+    for context_id in sorted(expected_context):
+        if context_id not in actual:
+            continue
+        target = actual[context_id]
+        if not isinstance(target, str) or not target.strip():
+            errors.append(f"{lang}:ui:{context_id!r}: empty/non-string translation")
+            continue
+        context_covered += 1
+        entry = context_entries[context_id]
+        for error in validate_text(lang, entry.key, entry.source, target):
+            errors.append(f"{lang}:{entry.key}: {error}")
+    if strict and legacy_covered != len(expected_legacy):
+        errors.append(
+            f"{lang}: strict legacy static_ui coverage "
+            f"{legacy_covered}/{len(expected_legacy)}"
+        )
+    if strict and context_covered != len(expected_context):
+        errors.append(
+            f"{lang}: strict context static_ui coverage "
+            f"{context_covered}/{len(expected_context)}"
+        )
+    return (
+        legacy_covered,
+        len(expected_legacy),
+        context_covered,
+        len(expected_context),
+        errors,
+    )
 
 
 def required_chinese_codepoints(
@@ -2456,6 +2497,55 @@ static func attach_locale_fallbacks(font: FontFile, language: String) -> void:
         failures.append("static UI source-count mutation was not rejected")
 
     cases += 1
+    changed = json.loads(json.dumps(manifest, ensure_ascii=False))
+    next(
+        row for row in changed["ui_semantic_context_blocker"]["context_registry"]
+        if row.get("id") == "ui.credit.standard_grade"
+    )["allowed_en"] = ["Normal"]
+    if not chinese_contract_errors(changed):
+        failures.append("context registry English mutation was not rejected")
+
+    cases += 1
+    changed = json.loads(json.dumps(manifest, ensure_ascii=False))
+    changed["ui_semantic_context_blocker"]["collision_partition"][
+        "format_equivalent"
+    ].pop("고시원", None)
+    if not chinese_contract_errors(changed):
+        failures.append("107-key collision partition mutation was not rejected")
+
+    cases += 1
+    for lang in LANGUAGES:
+        (
+            legacy_covered,
+            legacy_total,
+            context_covered,
+            context_total,
+            skeleton_errors,
+        ) = static_ui_coverage(lang, runtime, False, {})
+        if legacy_covered != 0 or legacy_total != 2730 \
+                or context_covered != 0 or context_total != 30 \
+                or skeleton_errors:
+            failures.append(
+                f"empty {lang} two-layer skeleton was rejected: "
+                f"legacy={legacy_covered}/{legacy_total} "
+                f"context={context_covered}/{context_total} "
+                f"errors={skeleton_errors}"
+            )
+        *_coverage, strict_errors = static_ui_coverage(lang, runtime, True, {})
+        if not any("strict legacy static_ui coverage" in error for error in strict_errors):
+            failures.append(f"empty {lang} strict legacy UI mutation escaped")
+        if not any("strict context static_ui coverage 0/30" in error
+                   for error in strict_errors):
+            failures.append(f"empty {lang} strict context UI mutation escaped")
+
+    cases += 1
+    *_coverage, unknown_errors = static_ui_coverage(
+        "zh-CN", runtime, False, {"ui.unknown_context": "未知"}
+    )
+    if not any("unknown source keys" in error for error in unknown_errors):
+        failures.append("unknown Chinese context dictionary key was accepted")
+
+    cases += 1
     blocked = font_route("zh-CN", override_primary="")
     if blocked.ready or not blocked.shared_han_jp_first or blocked.covered != 0:
         failures.append(f"empty Chinese font route was not blocked: {blocked}")
@@ -2570,7 +2660,13 @@ def main() -> int:
             lang, runtime, args.strict
         )
         errors.extend(coverage_errors)
-        ui_covered, ui_total, ui_errors = static_ui_coverage(
+        (
+            ui_legacy_covered,
+            ui_legacy_total,
+            ui_context_covered,
+            ui_context_total,
+            ui_errors,
+        ) = static_ui_coverage(
             lang, runtime, args.strict
         )
         errors.extend(ui_errors)
@@ -2584,7 +2680,10 @@ def main() -> int:
             "ZH_DEMO_PREP "
             f"lang={lang} events={result['events']}/{result['total_events']} "
             f"strings={result['event_strings']}/{result['total_event_strings']} "
-            f"ui={ui_covered}/{ui_total} "
+            f"ui_legacy={ui_legacy_covered}/{ui_legacy_total} "
+            f"ui_context={ui_context_covered}/{ui_context_total} "
+            f"context_plan={_static_ui_inventory().stats['migrated_context_ids']}/"
+            f"{_static_ui_inventory().stats['planned_context_ids']} "
             f"dynamic={result['dynamic']}/{result['total_dynamic']} "
             f"catalog={result['catalog']}/{result['total_catalog']} "
             f"font={'ready' if route.ready else 'blocked'} "

@@ -34,6 +34,7 @@ func _run() -> void:
 	LocaleManager.refresh_community_packs()
 	_check_discovery()
 	_check_language_overlay(event_before, ending_before)
+	_check_context_ui_provenance()
 	_check_asset_override()
 	_check_data_mods(
 		override_before,
@@ -50,12 +51,13 @@ func _run() -> void:
 			push_error("MOD_LAYER_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("MOD_LAYER_CHECK_OK languages=1 event_text_only=1 ending_text_only=1 image=1 audio=1 fallback=1 custom_event=1 override=1 invalid_flag=1 blank_copy=1 presets=2 schema_guard=1 load_order=1 load_order_flip=1 themes=4 toggles=1 save_marker=1 scripts=0")
+	print("MOD_LAYER_CHECK_OK languages=2 event_text_only=1 ending_text_only=1 image=1 audio=1 fallback=1 ui_context_layers=5 ui_context_refresh=1 default_name=1 custom_event=1 override=1 invalid_flag=1 blank_copy=1 presets=2 schema_guard=1 load_order=1 load_order_flip=1 themes=4 toggles=1 save_marker=1 scripts=0")
 	get_tree().quit(0)
 
 func _prepare_directories() -> void:
 	for path in [
 		LANG_ROOT.path_join(TEST_CODE).path_join("events_%s" % TEST_CODE),
+		LANG_ROOT.path_join("ja"),
 		ASSET_ROOT.path_join("characters"),
 		ASSET_ROOT.path_join("audio"),
 		MOD_ROOT.path_join("events"),
@@ -100,6 +102,7 @@ func _write_language_pack(event_before: Dictionary, ending_before: Dictionary) -
 		"설정": "QA SETTINGS",
 		"잘못된 값": 77,
 	})
+	_write_context_language_pack("QA CONTEXT V1")
 	var choices: Array = event_before.get("choices", [])
 	_write_json(root.path_join("events_%s" % TEST_CODE).path_join("qa.json"), [{
 		"id": str(event_before.get("id", "")),
@@ -121,6 +124,13 @@ func _write_language_pack(event_before: Dictionary, ending_before: Dictionary) -
 		"grade": "BROKEN",
 		"cg": "cg_start",
 	}])
+
+func _write_context_language_pack(explicit_value: String) -> void:
+	_write_json(LANG_ROOT.path_join("ja").path_join("ui_ja.json"), {
+		"ui.qa.context": explicit_value,
+		"기록": "QA COMMUNITY LEGACY",
+		"김민준": "QA MINJUN",
+	})
 
 func _write_asset_overrides() -> void:
 	var portrait_path := ASSET_ROOT.path_join("characters/main_character_unemployed.png")
@@ -312,6 +322,7 @@ func _write_data_mods(
 
 func _check_discovery() -> void:
 	_expect(TEST_CODE in ModLoader.discover_language_codes(), "community language was not discovered")
+	_expect("ja" in ModLoader.discover_language_codes(), "community overlay for a built-in language was not discovered")
 	_expect(TEST_CODE in LocaleManager.get_selectable_languages(), "community language was not selectable")
 	_expect(LocaleManager.get_language_display_name(TEST_CODE) == "QA Native", "pack native name was not used")
 	_expect(
@@ -346,6 +357,57 @@ func _check_language_overlay(event_before: Dictionary, ending_before: Dictionary
 		"external ending changed grade")
 	_expect(str(ending_after.get("cg", "")) == str(ending_before.get("cg", "")),
 		"external ending changed CG routing")
+
+func _check_context_ui_provenance() -> void:
+	var original_language := LocaleManager.language
+	LocaleManager.language = "ja"
+	LocaleManager.clear_ui_misses("ja")
+	_expect(LocaleManager.localize_player_name("김민준") == "QA MINJUN",
+		"community Japanese default player name did not load into the UI cache")
+	LocaleManager.language = "en"
+	_expect(LocaleManager.localize_player_name("QA MINJUN") == "Kim Minjun",
+		"cached community Japanese name was not recognized from English")
+	LocaleManager.language = "ko"
+	_expect(LocaleManager.localize_player_name("QA MINJUN") == "김민준",
+		"cached community Japanese name was not recognized from Korean")
+	LocaleManager.language = "ja"
+	_expect(LocaleManager.ui_context(
+		"ui.qa.context", "기록", "QA EN") == "QA CONTEXT V1",
+		"community context ID did not win over its community legacy key")
+	_expect(LocaleManager.ui_context(
+		"연락", "기록", "QA EN") == "QA COMMUNITY LEGACY",
+		"community legacy key did not win over a built-in context key")
+	_expect(LocaleManager.ui_context(
+		"연락", "설정", "QA EN") == "連絡",
+		"built-in context key did not win over its built-in legacy key")
+	_expect(LocaleManager.ui_context(
+		"ui.qa.no_context", "설정", "QA EN") == "設定",
+		"built-in legacy key did not serve a missing context ID")
+	_expect(LocaleManager.get_ui_miss_count("ja") == 0,
+		"a successful context provenance layer recorded a miss")
+	_expect(LocaleManager.ui_context(
+		"ui.qa.missing", "문맥 폴백 없음", "QA EN FALLBACK") == "QA EN FALLBACK",
+		"missing context and legacy keys did not return English")
+	LocaleManager.ui_context(
+		"ui.qa.missing", "다른 원문", "SECOND QA EN FALLBACK")
+	_expect(LocaleManager.get_ui_misses("ja") == ["context:ui.qa.missing"],
+		"community context miss was not deduplicated by stable ID")
+
+	_write_context_language_pack("QA CONTEXT V2")
+	_expect(LocaleManager.ui_context(
+		"ui.qa.context", "기록", "QA EN") == "QA CONTEXT V1",
+		"community context cache changed before refresh")
+	LocaleManager.refresh_community_packs()
+	_expect(LocaleManager.get_ui_miss_count("ja") == 0,
+		"community refresh did not clear context misses")
+	_expect(LocaleManager.ui_context(
+		"ui.qa.context", "기록", "QA EN") == "QA CONTEXT V2",
+		"community context table did not reload after refresh")
+	LocaleManager.refresh_community_packs()
+	LocaleManager.language = original_language
+	_expect(LocaleManager.ui("설정", "Settings") == "QA SETTINGS" \
+			and LocaleManager.get_ui_miss_count(original_language) == 0,
+		"context fixture did not restore the original language/cache state")
 
 func _check_asset_override() -> void:
 	var portrait_path := "res://assets/characters/main_character_unemployed.png"

@@ -325,6 +325,54 @@ const CORE_LOOP_V2_INPUT_ROUTINES := {
 func _tr(ko: String, en: String) -> String:
 	return LocaleManager.ui(ko, en)
 
+
+func _core_loop_v2_completion_allocation_week_prefix(
+		global_week: int) -> String:
+	# Derive the prefix from the same complete product string used by MainGame.
+	# Short fragments such as "%d주 ·" are not standalone localization keys, so
+	# looking those up independently would incorrectly fall back to English in
+	# Japanese and future community languages.
+	var sentinel := "__QA_COMPLETION_NODE__"
+	var sample := _tr(
+		"%d주 · %s — 여력 %d, 진행 +%d칸",
+		"W%d · %s — capacity %d, +%d progress") % [
+			global_week, sentinel, 987_654, 321]
+	var marker_index := sample.find(sentinel)
+	return sample.left(marker_index) if marker_index >= 0 else ""
+
+
+func _core_loop_v2_completion_recap_week_prefix(global_week: int) -> String:
+	var sentinel := "__QA_RECAP_TITLE__"
+	var sample := _tr("%d주 · %s", "W%d · %s") % [global_week, sentinel]
+	var marker_index := sample.find(sentinel)
+	return sample.left(marker_index) if marker_index >= 0 else ""
+
+
+func _core_loop_v2_completion_expected_allocation_line(
+		record: Dictionary) -> String:
+	var label := _tr(
+		str(record.get("label_ko", record.get("node_id", ""))),
+		str(record.get("label_en", record.get("node_id", ""))))
+	var absolute_week := int(record.get("turn", 0))
+	if absolute_week <= 0:
+		absolute_week = ((maxi(1, int(record.get("month", 1))) - 1) * 4) \
+			+ maxi(1, int(record.get("week_index", 1)))
+	if bool(record.get("fallback_allocation", false)):
+		return _tr(
+			"%d주 · %s — 여력 %d, 특별 기회를 놓친 뒤 일반 실행",
+			"W%d · %s — capacity %d, regular action after missed chance") % [
+				absolute_week, label, int(record.get("capacity_value", 0))]
+	if bool(record.get("repeat_allocation", false)):
+		return _tr(
+			"%d주 · %s — 여력 %d, 완료 뒤 추가 실행",
+			"W%d · %s — capacity %d, additional run after completion") % [
+				absolute_week, label, int(record.get("capacity_value", 0))]
+	return _tr(
+		"%d주 · %s — 여력 %d, 진행 +%d칸",
+		"W%d · %s — capacity %d, +%d progress") % [
+			absolute_week, label, int(record.get("capacity_value", 0)),
+			int(record.get("progress_gain", 0))]
+
 func _record_route_injected_event(event: InputEvent) -> void:
 	if event is InputEventKey:
 		_route_keyboard_events += 1
@@ -1804,9 +1852,9 @@ func _assert_commitment_task_surface(
 			or raw_task_id != "m3_inventory_shift":
 		_fail("Commitment Task %s leaks a raw task ID or lost its bundle owner." % context)
 		return
-	if lang == "en" and _contains_hangul(surface_text):
-		_fail("Commitment Task %s English surface contains Hangul: %s." % [
-			context, surface_text])
+	if lang != "ko" and _contains_hangul(surface_text):
+		_fail("Commitment Task %s %s surface contains Hangul: %s." % [
+			context, lang, surface_text])
 
 func _commitment_task_focus_targets(surface: Control) -> Array[Button]:
 	var result: Array[Button] = []
@@ -2053,8 +2101,8 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 			or str((planner._status_label as Label).text) == occupied_status_before \
 			or not _core_loop_v2_armed_surface_visible(
 				planner, hyunsu_offer, "hyunsu_first_meet", "occupied error",
-				"그 주에는 이미 다른 약속이 있다.",
-				"That week already has a commitment."):
+				"그 주에는 이미 다른 약속이 있다. 먼저 그 약속을 빼야 한다.",
+				"That week already has a commitment. Remove it first."):
 		_fail("An occupied week did not reject visibly while preserving intent.")
 		return
 	await _save(prefix + "01b_planner_occupied_error", 0.45)
@@ -2095,8 +2143,8 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 			or str((planner._status_label as Label).text) == deadline_status_before \
 			or not _core_loop_v2_armed_surface_visible(
 				planner, deadline_offer, deadline_offer_id, "deadline error",
-				"그 주까지 미루면 늦는다.",
-				"That week is too late."):
+				"그 주까지 미루면 늦는다. 더 이른 주를 골라야 한다.",
+				"That week is too late. Choose an earlier one."):
 		_fail("A deadline-invalid week did not reject visibly while preserving intent.")
 		return
 	await _save(prefix + "01c_planner_deadline_error", 0.45)
@@ -2896,9 +2944,9 @@ func _assert_seoul_cycle_board_surface(
 		var node: Dictionary = raw_node
 		var parts: Dictionary = raw_parts
 		var title := parts.get("title") as Label
-		var expected_card_label := str(node.get(
-			"board_label_ko" if lang == "ko" else "board_label_en", ""
-		)).strip_edges()
+		var expected_card_label := _tr(
+			str(node.get("board_label_ko", "")),
+			str(node.get("board_label_en", ""))).strip_edges()
 		if not is_instance_valid(title) or expected_card_label.is_empty() \
 				or title.text != expected_card_label \
 				or "…" in title.text or title.text.ends_with("..."):
@@ -2921,28 +2969,30 @@ func _assert_seoul_cycle_board_surface(
 	var surface_text := _collect_control_text(board)
 	var remaining_capacity := int(board.get_meta(
 		"seoul_cycle_remaining_effort_count", -1))
-	for required in (
-		[
-			"서울의 네 주", "2026년 1월 · 1주차", "도시 시간",
-			"배치 미리보기", "이번 달 남은 여력 · %d/4" % remaining_capacity,
-		]
-		if lang == "ko" else
-		[
-			"FOUR WEEKS IN SEOUL", "2026.01 · WEEK 1", "CITY CLOCK",
-			"ALLOCATION PREVIEW",
-			"MONTHLY CAPACITY LEFT · %d/4" % remaining_capacity,
-		]
-	):
+	var world_clock := maxi(0, int(snapshot.get("world_clock", 0)))
+	var world_clock_max := maxi(1, int(snapshot.get("world_clock_max", 4)))
+	world_clock = mini(world_clock, world_clock_max)
+	for required in [
+		_tr("서울의 네 주", "FOUR WEEKS IN SEOUL"),
+		_tr("2026년 1월 · 1주차", "2026.01 · WEEK 1"),
+		_tr("도시 시간 %d/%d", "CITY CLOCK %d/%d") % [
+			world_clock, world_clock_max],
+		_tr("배치 미리보기", "ALLOCATION PREVIEW"),
+		_tr(
+			"이번 달 남은 여력 · %d/4" % remaining_capacity,
+			"MONTHLY CAPACITY LEFT · %d/4" % remaining_capacity),
+	]:
 		if str(required).to_lower() not in surface_text.to_lower():
 			_fail("Core Loop V2 %s omitted visible board copy %s." % [context, required])
 			return false
-	var exact_cash := "498,800원" if lang == "ko" else "498,800 won"
+	var exact_cash := _tr("498,800원", "498,800 won")
 	if exact_cash not in surface_text:
 		_fail("Core Loop V2 %s abbreviated its exact won balance instead of showing %s." % [
 			context, exact_cash])
 		return false
-	if lang == "en" and _contains_hangul(surface_text):
-		_fail("Core Loop V2 %s leaked Hangul on the English Seoul board." % context)
+	if lang != "ko" and _contains_hangul(surface_text):
+		_fail("Core Loop V2 %s leaked Hangul on the %s Seoul board." % [
+			context, lang])
 		return false
 	return true
 
@@ -2959,11 +3009,12 @@ func _assert_seoul_cycle_preview_full_label(
 		_fail("Seoul Cycle full-label preview cannot find %s." % node_id)
 		return false
 	var node: Dictionary = raw_node
-	var full_label := str(node.get(
-		"label_ko" if lang == "ko" else "label_en", "")).strip_edges()
-	var short_label := str(node.get(
-		"board_label_ko" if lang == "ko" else "board_label_en", ""
-	)).strip_edges()
+	var full_label := _tr(
+		str(node.get("label_ko", "")),
+		str(node.get("label_en", ""))).strip_edges()
+	var short_label := _tr(
+		str(node.get("board_label_ko", "")),
+		str(node.get("board_label_en", ""))).strip_edges()
 	var preview := board.get("_preview_choice_label") as Label
 	if not is_instance_valid(preview) or full_label.is_empty() \
 			or short_label.is_empty() or full_label not in preview.text:
@@ -3811,13 +3862,24 @@ func _shot_first_bill_ledger_pages(shot_prefix: String) -> void:
 		_fail("First-bill ledger fixture opened the wrong event: %s." % [
 			str(actual_event)])
 		return
-	var markers := [
-		[_tr("끝낸 일", "Done —"), "_done"],
-		[_tr("미룬 일", "Deferred —"), "_deferred"],
-		[_tr("마감을 놓친 일", "Deadline missed —"), "_deadline_missed"],
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	var marker_tokens := [
+		["{v2_first_bill_done}", "_done"],
+		["{v2_first_bill_not_done}", "_deferred"],
+		["{v2_first_bill_deadline_missed}", "_deadline_missed"],
 	]
-	for marker in markers:
-		if not await _seek_story_fragment(story, str(marker[0])):
+	for marker in marker_tokens:
+		# These ledger rows are dynamic narrative material, not the static UI keys
+		# "끝낸 일"/"미룬 일". Resolve the actual durable receipt copy so a partial
+		# Japanese body pack correctly falls back to English instead of borrowing an
+		# unrelated translated UI heading.
+		var resolved_marker := str(core_loop.format_first_bill_story_tokens(
+			str(marker[0]))).strip_edges()
+		var marker_lines := resolved_marker.split("\n", false)
+		var visible_marker := str(marker_lines[0]).strip_edges() \
+			if not marker_lines.is_empty() else ""
+		if visible_marker.is_empty() \
+				or not await _seek_story_fragment(story, visible_marker):
 			return
 		_assert_first_bill_story_surface(
 			story, "v2_demo_first_bill_ledger", -1)
@@ -5060,18 +5122,20 @@ func _assert_core_loop_v2_record_names(
 		"m1_youth_center_resume_clinic",
 		"m1_phone_off_sunday",
 	]
-	var offer_key := "offer_ko" if lang == "ko" else "offer_en"
-	var decline_key := "decline_ko" if lang == "ko" else "decline_en"
 	for bundle_id in scheduled_ids + unchosen_ids:
 		var bundle: Dictionary = core_loop.bundle(bundle_id)
-		var offer_name := str(bundle.get(offer_key, ""))
+		var offer_name := _tr(
+			str(bundle.get("offer_ko", "")),
+			str(bundle.get("offer_en", "")))
 		if offer_name.is_empty() or offer_name not in surface_text:
 			_fail("Core Loop V2 record omitted the named commitment/opportunity %s (%s)." % [
 				bundle_id, offer_name])
 			return
 	for bundle_id in unchosen_ids:
 		var bundle: Dictionary = core_loop.bundle(bundle_id)
-		var future_copy := str(bundle.get(decline_key, ""))
+		var future_copy := _tr(
+			str(bundle.get("decline_ko", "")),
+			str(bundle.get("decline_en", "")))
 		if not future_copy.is_empty() and future_copy in surface_text:
 			_fail("Core Loop V2 pre-commit record spoiled the future outcome for %s." % bundle_id)
 			return
@@ -5363,8 +5427,8 @@ func _shot_third_party_notices(lang: String) -> void:
 		for token in expected[index]:
 			if str(token) not in visible_text:
 				_fail("Third-party notice tab %d lost %s." % [index, token])
-		if lang == "en" and _contains_hangul(visible_text):
-			_fail("English third-party notice tab %d contains Hangul." % index)
+		if lang != "ko" and _contains_hangul(visible_text):
+			_fail("%s third-party notice tab %d contains Hangul." % [lang, index])
 		await _save(prefix + names[index], 0.45)
 		_check_third_party_notice_chrome(overlay, viewport, index)
 	if ControllerHints.is_pad_active():
@@ -6885,9 +6949,9 @@ func _run_demo_input_route(
 					return
 				if full_run:
 					print("FULL_STORY_EVENT week=%d id=%s" % [GameState.turn, event_id])
-				if full_run and lang == "en" and _contains_hangul(_collect_control_text(scene)):
+				if full_run and lang != "ko" and _contains_hangul(_collect_control_text(scene)):
 					MetaProgression.data = original_meta
-					_fail("Full-run English StoryMode leaked Hangul in %s." % event_id)
+					_fail("Full-run %s StoryMode leaked Hangul in %s." % [lang, event_id])
 					return
 			if write_chapter_saves and CHAPTER_SAVE_EVENTS.has(event_id) \
 					and not written_chapter_saves.has(event_id) \
@@ -7178,9 +7242,10 @@ func _run_demo_input_route(
 						MetaProgression.data = original_meta
 						_fail("Full-run ending modal opened without a recorded ending ID.")
 						return
-					if lang == "en" and _contains_hangul(modal_text):
+					if lang != "ko" and _contains_hangul(modal_text):
 						MetaProgression.data = original_meta
-						_fail("Full-run English ending modal leaked Hangul: %s." % full_ending_id)
+						_fail("Full-run %s ending modal leaked Hangul: %s." % [
+							lang, full_ending_id])
 						return
 					var ending_page := int(scene.get("_ending_page_index"))
 					var ending_page_count := int(modal.get_meta("ending_page_count", 0))
@@ -10132,7 +10197,7 @@ func _core_loop_v2_armed_surface_visible(
 	if not is_instance_valid(offer_button) \
 			or not bool(offer_button.get_meta(
 				"core_loop_v2_offer_armed", false)) \
-			or _tr("선택 중 ·", "SELECTED ·") not in offer_button.text:
+			or _tr("선택 중", "SELECTED") not in offer_button.text:
 		_fail("Core Loop V2 %s armed offer card has no visible selected state." % context)
 		return false
 	var status_label := planner.get("_status_label") as Label
@@ -10270,8 +10335,8 @@ func _assert_core_loop_v2_completion_surface(
 		_fail("Core Loop V2 completion component exposed no presentation model.")
 		return false
 	var model: Dictionary = (model_raw as Dictionary).duplicate(true)
-	var expected_title := "서울에서 보낸 스물네 주" if lang == "ko" \
-		else "Twenty-Four Weeks in Seoul"
+	var expected_title := _tr(
+		"서울에서 보낸 스물네 주", "Twenty-Four Weeks in Seoul")
 	if str(model.get("title", "")) != expected_title:
 		_fail("Core Loop V2 completion title drifted: expected=%s actual=%s." % [
 			expected_title, str(model.get("title", "missing"))])
@@ -10325,8 +10390,8 @@ func _assert_core_loop_v2_completion_surface(
 			model_allocation_lines.append(allocation_line)
 		for allocation_index in range((month_allocations as Array).size()):
 			var global_week := month_index * 4 + allocation_index + 1
-			var expected_week_prefix := "%d주 ·" % global_week \
-				if lang == "ko" else "W%d ·" % global_week
+			var expected_week_prefix := \
+				_core_loop_v2_completion_allocation_week_prefix(global_week)
 			var allocation_line := str(
 				(month_allocations as Array)[allocation_index]).strip_edges()
 			if not allocation_line.begins_with(expected_week_prefix):
@@ -10346,36 +10411,36 @@ func _assert_core_loop_v2_completion_surface(
 			model_allocation_lines.size()])
 		return false
 
-	var fallback_copy := (
-		"특별 기회를 놓친 뒤 일반 실행"
-		if lang == "ko" else "regular action after missed chance")
-	var repeat_copy := (
-		"완료 뒤 추가 실행"
-		if lang == "ko" else "additional run after completion")
-	var progress_copy := "진행 +" if lang == "ko" else "progress"
 	var expected_fallback := 0
 	var expected_repeat := 0
+	var ordered_allocations: Array[Dictionary] = []
 	for raw_allocation in allocations:
 		if not raw_allocation is Dictionary:
 			_fail("Core Loop V2 completion allocation ledger contains a non-object receipt.")
 			return false
-		if bool((raw_allocation as Dictionary).get("fallback_allocation", false)):
+		var allocation: Dictionary = (raw_allocation as Dictionary).duplicate(true)
+		ordered_allocations.append(allocation)
+		if bool(allocation.get("fallback_allocation", false)):
 			expected_fallback += 1
-		elif bool((raw_allocation as Dictionary).get("repeat_allocation", false)):
+		elif bool(allocation.get("repeat_allocation", false)):
 			expected_repeat += 1
-	var fallback_lines := model_allocation_lines.filter(
-		func(line: String): return fallback_copy in line).size()
-	var repeat_lines := model_allocation_lines.filter(
-		func(line: String): return repeat_copy in line).size()
-	var progress_lines := model_allocation_lines.filter(
-		func(line: String): return progress_copy in line).size()
+	ordered_allocations.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
+		var left_key := "%04d|%s|%s" % [
+			int(left.get("turn", 0)), str(left.get("node_id", "")),
+			str(left.get("capacity_id", ""))]
+		var right_key := "%04d|%s|%s" % [
+			int(right.get("turn", 0)), str(right.get("node_id", "")),
+			str(right.get("capacity_id", ""))]
+		return left_key < right_key)
+	var expected_allocation_lines: Array[String] = []
+	for allocation in ordered_allocations:
+		expected_allocation_lines.append(
+			_core_loop_v2_completion_expected_allocation_line(allocation))
 	if expected_fallback < 1 \
-			or fallback_lines != expected_fallback \
-			or repeat_lines != expected_repeat \
-			or progress_lines != 24 - expected_fallback - expected_repeat:
-		_fail("Core Loop V2 completion allocation wording drifted: fallback=%d/%d repeat=%d/%d progress=%d/%d." % [
-			fallback_lines, expected_fallback, repeat_lines, expected_repeat,
-			progress_lines, 24 - expected_fallback - expected_repeat])
+			or model_allocation_lines != expected_allocation_lines:
+		_fail("Core Loop V2 completion allocation wording drifted: fallback=%d repeat=%d expected=%s actual=%s." % [
+			expected_fallback, expected_repeat,
+			str(expected_allocation_lines), str(model_allocation_lines)])
 		return false
 
 	await _send_core_loop_v2_completion_raw(input_mode, "north")
@@ -10452,14 +10517,34 @@ func _assert_core_loop_v2_completion_autosave_state(
 				if is_instance_valid(finish) else "missing"])
 		return false
 	var required_cta := (
-		"데모를 마치고" if lang == "ko" else "Finish Demo"
-	) if expected_ok else (
-		"자동 저장 다시 시도" if lang == "ko" else "Retry Autosave")
-	var required_boundary := (
-		"자동 저장" if lang == "ko" else
-		"saved automatically" if expected_ok else "Autosave")
+		_tr(
+			"[%s] 데모를 마치고 시작 화면으로",
+			"[%s] Finish Demo · Return to Title")
+		if expected_ok else
+		_tr("[%s] 자동 저장 다시 시도", "[%s] Retry Autosave")
+	) % ControllerHints.south()
+	var boundary_candidates: Array[String] = []
+	if expected_ok:
+		boundary_candidates = [
+			_tr(
+				"여섯 달의 기록을 자동 저장했다. 첫해는 아직 끝나지 않았다.",
+				"Your six-month record was saved automatically. The first year is not over yet."),
+			_tr(
+				"저장된 여섯 달의 기록을 열었다. 첫해는 아직 끝나지 않았다.",
+				"Your saved six-month record is open. The first year is not over yet."),
+		]
+	else:
+		boundary_candidates = [
+			_tr(
+				"자동 저장에 실패했다. 시작 화면으로 나가기 전에 다시 시도해 주세요.",
+				"Autosave failed. Please retry before returning to the title screen."),
+			_tr(
+				"자동 저장에 다시 실패했다. 저장 공간을 확인한 뒤 다시 시도해 주세요.",
+				"Autosave failed again. Check available storage, then retry."),
+		]
+	var boundary_matches := boundary.text in boundary_candidates
 	if required_cta.to_lower() not in finish.text.to_lower() \
-			or required_boundary.to_lower() not in boundary.text.to_lower():
+			or not boundary_matches:
 		_fail("Core Loop V2 completion autosave copy drifted: cta=%s boundary=%s." % [
 			finish.text, boundary.text])
 		return false
@@ -10548,8 +10633,8 @@ func _assert_core_loop_v2_completion_snapshot_purity(
 			_fail("Core Loop V2 completion Month %d lost its snapshot-owned event ledger." % [
 				month_index + 1])
 			return false
-	if lang == "en" and _contains_hangul(str(model)):
-		_fail("Core Loop V2 English immutable completion model leaked Hangul.")
+	if lang != "ko" and _contains_hangul(str(model)):
+		_fail("Core Loop V2 %s immutable completion model leaked Hangul." % lang)
 		return false
 	if not _assert_core_loop_v2_completion_hero(
 			scene, completion, snapshot):
@@ -10560,7 +10645,8 @@ func _assert_core_loop_v2_completion_snapshot_purity(
 func _assert_core_loop_v2_legacy_completion_missing_metrics(
 		scene: Node, completion: Control, base_snapshot: Dictionary,
 		lang: String, capture_prefix: String) -> bool:
-	var missing_copy := "기록 없음" if lang == "ko" else "NOT RECORDED"
+	var missing_copy := LocaleManager.ui_context(
+		"ui.completion.unrecorded_value", "기록 없음", "NOT RECORDED")
 	var cases: Array[Dictionary] = [
 		{
 			"id": "missing_final_after",
@@ -10635,9 +10721,8 @@ func _assert_core_loop_v2_legacy_completion_missing_metrics(
 					str(cases[case_index].get("id", "missing")), metric_index,
 					expected_value, str(metric.get("value", "missing"))])
 				return false
-		var missed_unknown := (
-			"이 달의 누락 기록은 옛 저장에서 완전히 복원할 수 없다."
-			if lang == "ko" else
+		var missed_unknown := _tr(
+			"이 달의 누락 기록은 옛 저장에서 완전히 복원할 수 없다.",
 			"This older save cannot fully recover what was missed this month.")
 		for month_index in range(6):
 			var raw_month: Variant = (months_raw as Array)[month_index]
@@ -10689,10 +10774,6 @@ func _assert_core_loop_v2_legacy_completion_missing_metrics(
 func _assert_core_loop_v2_old_completion_component_fallbacks(
 		scene: Node, completion: Control, base_snapshot: Dictionary,
 		lang: String, capture_prefix: String) -> bool:
-	var unknown_week_copy := (
-		"옛 저장에 주간 기록이 남아 있지 않다."
-		if lang == "ko" else
-		"Weekly record not available in this older save.")
 	var old_snapshot: Dictionary = base_snapshot.duplicate(true)
 	old_snapshot["legacy_boundary_incomplete"] = true
 	old_snapshot["closing_state"] = {}
@@ -10738,13 +10819,17 @@ func _assert_core_loop_v2_old_completion_component_fallbacks(
 		for row_index in range(rows.size()):
 			var absolute_week := month_index * 4 + row_index + 1
 			var line := str(rows[row_index])
-			var prefix := "%d주 ·" % absolute_week \
-				if lang == "ko" else "W%d ·" % absolute_week
-			if not line.begins_with(prefix):
+			var recovered_prefix := \
+				_core_loop_v2_completion_recap_week_prefix(absolute_week)
+			var unknown_line := _tr(
+				"%d주 · 옛 저장에 주간 기록이 남아 있지 않다.",
+				"W%d · Weekly record not available in this older save.") \
+				% absolute_week
+			if line != unknown_line and not line.begins_with(recovered_prefix):
 				_fail("Core Loop V2 old episode weekly row lost global Week %d: %s." % [
 					absolute_week, line])
 				return false
-			if unknown_week_copy in line:
+			if line == unknown_line:
 				primary_unknown += 1
 			else:
 				primary_recovered += 1
@@ -10824,10 +10909,11 @@ func _assert_core_loop_v2_old_completion_component_fallbacks(
 		var bundle: Dictionary = core_loop.bundle(
 			str(event_bundles[event_index]))
 		var event_turn := int(event_index / 2) + 1
-		var offer := str(bundle.get(
-			"offer_ko" if lang == "ko" else "offer_en", ""))
+		var offer := _tr(
+			str(bundle.get("offer_ko", "")),
+			str(bundle.get("offer_en", "")))
 		expected_five_events.append(
-			("%d주 · %s" if lang == "ko" else "W%d · %s") % [
+			_tr("%d주 · %s", "W%d · %s") % [
 				event_turn, offer])
 	if five_events != expected_five_events:
 		_fail("Core Loop V2 legal five-event month was rejected, deduplicated, or unsorted: %s." % [
@@ -10893,10 +10979,11 @@ func _assert_core_loop_v2_old_completion_component_fallbacks(
 		var bundle: Dictionary = core_loop.bundle(
 			str(event_bundles[event_index]))
 		var event_turn := int(event_index / 2) + 1
-		var offer := str(bundle.get(
-			"offer_ko" if lang == "ko" else "offer_en", ""))
+		var offer := _tr(
+			str(bundle.get("offer_ko", "")),
+			str(bundle.get("offer_en", "")))
 		expected_dense_events.append(
-			("%d주 · %s" if lang == "ko" else "W%d · %s") % [
+			_tr("%d주 · %s", "W%d · %s") % [
 				event_turn, offer])
 	if dense_events != expected_dense_events \
 			or dense_events.size() != 8 or dense_unique.size() != 8:
@@ -10984,14 +11071,23 @@ func _assert_core_loop_v2_old_completion_component_fallbacks(
 		if visible.get("_model") is Dictionary else {})
 	var recovery_months: Array = recovery_model.get("months", [])
 	var recovery_unknown := 0
-	for raw_month in recovery_months:
+	for month_index in range(recovery_months.size()):
+		var raw_month: Variant = recovery_months[month_index]
 		if not raw_month is Dictionary \
 				or not (raw_month as Dictionary).get("events", []) is Array \
 				or not ((raw_month as Dictionary).get("events", []) as Array).is_empty():
 			_fail("Core Loop V2 rejected-model recovery leaked the invalid primary ledger.")
 			return false
-		for line in (raw_month as Dictionary).get("allocations", []):
-			if unknown_week_copy in str(line):
+		var month_allocations: Array = (raw_month as Dictionary).get(
+			"allocations", [])
+		for row_index in range(month_allocations.size()):
+			var line: Variant = month_allocations[row_index]
+			var absolute_week := month_index * 4 + row_index + 1
+			var unknown_line := _tr(
+				"%d주 · 옛 저장에 주간 기록이 남아 있지 않다.",
+				"W%d · Weekly record not available in this older save.") \
+				% absolute_week
+			if str(line) == unknown_line:
 				recovery_unknown += 1
 	if recovery_months.size() != 6 or recovery_unknown != 24:
 		_fail("Core Loop V2 rejected-model recovery invented weekly history: unknown=%d." % [
@@ -11020,7 +11116,8 @@ func _assert_core_loop_v2_component_replaces_old_modal(
 	var model_raw: Variant = completion.get("_model")
 	var model: Dictionary = model_raw if model_raw is Dictionary else {}
 	var metrics_raw: Variant = model.get("metrics", [])
-	var missing_copy := "기록 없음" if lang == "ko" else "NOT RECORDED"
+	var missing_copy := LocaleManager.ui_context(
+		"ui.completion.unrecorded_value", "기록 없음", "NOT RECORDED")
 	if not metrics_raw is Array or (metrics_raw as Array).size() < 4:
 		_fail("Core Loop V2 %s component has no closing metrics." % context)
 		return false
@@ -11123,8 +11220,8 @@ func _assert_core_loop_v2_completion_summary_layout(
 			or not is_instance_valid(title):
 		_fail("Core Loop V2 completion summary lost a required presentation component.")
 		return false
-	var expected_title := "서울에서 보낸 스물네 주" if lang == "ko" \
-		else "Twenty-Four Weeks in Seoul"
+	var expected_title := _tr(
+		"서울에서 보낸 스물네 주", "Twenty-Four Weeks in Seoul")
 	if title.text != expected_title:
 		_fail("Core Loop V2 completion summary title is %s, expected %s." % [
 			title.text, expected_title])
@@ -11163,8 +11260,8 @@ func _assert_core_loop_v2_completion_summary_layout(
 			_fail("Core Loop V2 first summary dropped player copy below 14px: %s=%d." % [
 				control.name, control.get_theme_font_size("font_size")])
 			return false
-	if lang == "en" and _contains_hangul(_collect_control_text(summary)):
-		_fail("Core Loop V2 English completion summary leaked Hangul.")
+	if lang != "ko" and _contains_hangul(_collect_control_text(summary)):
+		_fail("Core Loop V2 %s completion summary leaked Hangul." % lang)
 		return false
 	var focus_owner := get_viewport().gui_get_focus_owner()
 	if not is_instance_valid(focus_owner) or focus_owner != finish:
@@ -11215,15 +11312,16 @@ func _core_loop_v2_completion_expected_entries(
 		entries.append({
 			"kind": "missed", "source_index": 0,
 			"text": "\n".join(missed_lines) if not missed_lines.is_empty() \
-				else ("놓친 일이 없다." if lang == "ko" else "Nothing was missed."),
+				else _tr("놓친 일이 없다.", "Nothing was missed."),
 		})
 	else:
 		var unresolved: Array = model.get("unresolved", [])
 		if unresolved.is_empty():
 			entries.append({
 				"kind": "unresolved", "source_index": 0,
-				"text": "남아 있는 미결 항목이 없다." if lang == "ko" \
-					else "No open threads remain.",
+				"text": _tr(
+					"남아 있는 미결 항목이 없다.",
+					"No open threads remain."),
 			})
 		else:
 			for index in range(unresolved.size()):
@@ -11259,8 +11357,12 @@ func _assert_core_loop_v2_completion_detail_page(
 			or not is_instance_valid(detail_hint) or not is_instance_valid(panel):
 		_fail("Core Loop V2 completion page %d lost its page counter/host/hint." % page_index)
 		return false
-	var expected_page_hint := "페이지 이동" if lang == "ko" else "Change Page"
-	if expected_page_hint not in _collect_control_text(detail_hint):
+	var expected_page_hint := _tr(
+		"[%s/%s] 페이지 이동  ·  ↑↓ 기록 선택  ·  [%s] 결산으로",
+		"[%s/%s] Change Page  ·  ↑↓ Select Record  ·  [%s] Recap") % [
+			ControllerHints.shoulder_l(), ControllerHints.shoulder_r(),
+			ControllerHints.east()]
+	if _collect_control_text(detail_hint).strip_edges() != expected_page_hint:
 		_fail("Core Loop V2 completion page %d retained obsolete page-navigation copy: %s." % [
 			page_index, _collect_control_text(detail_hint)])
 		return false
@@ -11282,10 +11384,10 @@ func _assert_core_loop_v2_completion_detail_page(
 		if str(entry.get("kind", "")) == "allocation" and page_index <= 6:
 			var global_week := (page_index - 1) * 4 \
 				+ int(entry.get("source_index", -1)) + 1
-			var expected_row_label := "%d주차 배치" % global_week \
-				if lang == "ko" else "WEEK %d ALLOCATION" % global_week
-			var expected_readout_prefix := "%d주 ·" % global_week \
-				if lang == "ko" else "W%d ·" % global_week
+			var expected_row_label := _tr(
+				"%d주차 배치", "WEEK %d ALLOCATION") % global_week
+			var expected_readout_prefix := \
+				_core_loop_v2_completion_allocation_week_prefix(global_week)
 			if not is_instance_valid(row) or row.text != expected_row_label \
 					or not str(entry.get("text", "")).begins_with(
 						expected_readout_prefix):
@@ -11337,12 +11439,13 @@ func _assert_core_loop_v2_completion_detail_page(
 		if int(completion.get("_selected_row")) != expected.size() - 1:
 			_fail("Core Loop V2 raw D-pad Down did not restore the final completion row.")
 			return false
-	if lang == "en":
+	if lang != "ko":
 		var details_root := _find_visible_meta_control(
 			completion, "core_loop_v2_details", true)
 		if is_instance_valid(details_root) \
 				and _contains_hangul(_collect_control_text(details_root)):
-			_fail("Core Loop V2 English completion page %d leaked Hangul." % page_index)
+			_fail("Core Loop V2 %s completion page %d leaked Hangul." % [
+				lang, page_index])
 			return false
 	return true
 
@@ -13569,8 +13672,8 @@ func _shot_story_audio_settings(lang: String = "en", prefix: String = "story_aud
 	if str(story.get("_story_text_size")) != "large":
 		_fail("Story scene settings did not apply large text.")
 		return
-	if lang == "en" and _contains_hangul(_collect_control_text(popup)):
-		_fail("Story scene settings leaked Hangul in English mode.")
+	if lang != "ko" and _contains_hangul(_collect_control_text(popup)):
+		_fail("Story scene settings leaked Hangul in %s mode." % lang)
 		return
 	await _save(prefix + "01_wedding_scene_settings_large")
 	story.call("_close_audio_settings")
@@ -13581,8 +13684,8 @@ func _shot_story_audio_settings(lang: String = "en", prefix: String = "story_aud
 	if not is_instance_valid(body) or body.get_content_height() > body.size.y + 1.0:
 		_fail("Large story text clipped at %s." % str(get_viewport().get_visible_rect().size))
 		return
-	if lang == "en" and _contains_hangul(_collect_control_text(story)):
-		_fail("Large English story surface leaked Hangul.")
+	if lang != "ko" and _contains_hangul(_collect_control_text(story)):
+		_fail("Large %s story surface leaked Hangul." % lang)
 		return
 	await _save(prefix + "02_wedding_large_text")
 	SaveManager.set_setting("story_text_size", original_text_size)

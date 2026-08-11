@@ -13,6 +13,24 @@
 
 ## 2026-08
 
+- `[x] ORDER-96` (2026-08-11): 한국어 legacy UI 2,730키를 삭제·이름 변경하지
+  않고, 다중 영어 의미가 충돌하던 28키의 정확한 제품 호출 37곳을 안정 문맥 ID
+  30개로 분리했다. built-in/community provenance와 5단계 fallback, 구 community
+  pack 호환을 잠갔고 JA는 legacy 2,730/2,730+context 30/30이다. KO/EN 네 화면,
+  JA 실제 core/gallery/story/layout, 전체 감사와
+  [CI 31450617753](https://github.com/junheeleee/GangnamDream/actions/runs/31450617753)이
+  통과했다. 원어민·출시 판정은 OPEN이며, 실제 JA 화면에서 찾은 포맷 전 lookup
+  결함은 후속 ORDER-97이 소유한다. [사양](ORDER-96.md)
+- `[x] ORDER-88` (2026-08-11): 독자가 없던 아버지 기억 여섯 개를
+  새 카드 없이 21주 건강 신호와 24주 첫 청구서의 KO/EN 문단으로
+  돌려줬고, 갤러리 회상은 완료 당시 21주 기억을 고정했다. 24주
+  경찰·모집책 선택 네 개는 정확 deferred 영수증 두 개만 소유하고
+  중복 범용 기록을 새로 쓰지 않으며, 손상·누락은 효과 전에 닫힌다.
+  독자 0·중복 작성 0·신규 사건 0, KO/EN 네 24주 실제 입력과 네
+  화면, W48/W240, 전체 감사와
+  [CI 31441743970](https://github.com/junheeleee/GangnamDream/actions/runs/31441743970)을
+  통과했다. 관계의 작은 차이가 자연스럽게 느껴지는지는 OPEN이다.
+  [사양](ORDER-88.md)
 - `[x] ORDER-95` (2026-08-11): Citizen Sleeper부터 Exocolonist까지 이미
   정본에 인용한 참조작을 44단위로 전수 분석해 `가져온다 32 / 보류 3 /
   버린다 9`로 판정했다. 모든 채택은 서울 사이클의 주간 여력·노드·클록·
