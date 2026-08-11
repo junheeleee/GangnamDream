@@ -10,10 +10,10 @@
   "release_candidates": {
     "demo_rc": {
       "status": "active",
-      "commit": "5736061916626a193dab4fd044ef44813938c4f7",
-      "tree": "c996b98369fe9df6eeb2a76b04a306b69d218e04",
-      "manifest_sha256": "9cecaede2e51fd4401d336c0567dc86e96c862767cf134e0cb82c2174380fb56",
-      "note": "BUILD 2026.08.11.2의 clean 24주 집 플레이 후보. macOS 패키지는 타이틀·24주 시작·설정 진입까지 실제 실행했고 Windows와 Linux/Steam Deck는 산출물 생성만 확인했다. 정상 속도 재미·물리 패드·연속 A/V·원어민 게이트는 OPEN이다."
+      "commit": "22f1f2acdc0f57641fefb7a855f195814c6c6197",
+      "tree": "3aaab2da15adf7f7f4fae998c03f291e2d0ef0fb",
+      "manifest_sha256": "96e76eddd5d727e30cd055c5cd7245a5d42985e5b99698eb84df3aa394811519",
+      "note": "BUILD 2026.08.11.3의 clean 저장 복구 체크포인트. macOS 패키지를 실제 사용자 autosave의 격리 복사본과 같은 playtest 저장 이름으로 부팅했고, 원본 hash는 불변이다. Windows·macOS·Linux 산출물과 KO/EN 키보드·패드 24주 입력, 두 해상도 표면은 자동 검증했다. 이 후보는 48주 Chapter 1 완성본이 아니며 동일 저장의 Month 2 진입, 정상 속도 재미·물리 패드·연속 A/V·원어민 게이트는 OPEN이다."
     },
     "full_rc": {
       "status": "waiting_rebuild",

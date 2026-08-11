@@ -375,7 +375,8 @@
       "path": "CLAUDE.md",
       "must_contain": [
         "1턴=1주, 240주",
-        "데모=24주",
+        "현재 완성 단위는 1~48주 Chapter 1 한 해",
+        "구현된 V2 전반부",
         "project.godot"
       ]
     }

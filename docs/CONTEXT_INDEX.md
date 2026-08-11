@@ -66,7 +66,7 @@ Updated: 2026-08-11
 조건부:
 
 - 관계 장면: `docs/ROMANCE_SYSTEM.md`
-- 데모 1~24주 편성: `docs/CORE_LOOP_V2.md`, `content/meta/demo_core_loop_v2.json`, 필요한 경우 `docs/queue_backlog/ORDER-57.md`
+- Chapter 1의 1~48주 편성: `docs/CORE_LOOP_V2.md`, `content/meta/demo_core_loop_v2.json`, 필요한 경우 현재 48행 인과 원장과 활성 Chapter 1 오더. 현재 제품에 구현된 전반부는 1~24주다.
 - 본편 폴백 편성: `docs/GAME_RECOMPOSITION_PLAN.md`, 현재 `ORDER-28`
 - 엔딩 라우팅: `content/endings.json`, `systems/EndingSystem.gd`, 관련 `DECISIONS` 절
 
@@ -88,9 +88,11 @@ Updated: 2026-08-11
 - 참조작에서 가져올 구조·버릴 외형 판정: `docs/REFERENCE_SYSTEM_VERDICTS.md`
 - 수치 변경: 관련 시뮬레이터와 `tools/balance_check.py`
 
-데모 1~24주에서는 Core Loop V2가 화면·관계 주도권·월간 편성의 우선
-정본이다. 기존 AP/Decision 문서는 내부 경제와 25~240주 폴백의 증거이며,
-V2 사람 GO 전까지 삭제하거나 전 구간에 확산하지 않는다.
+Chapter 1의 완성 단위는 1~48주다. 현재 구현된 1~24주 전반부에서는 Core
+Loop V2가 화면·관계 주도권·월간 편성의 우선 정본이고, 25~48주는 48행 인과
+원장이 채워질 때까지 기존 폴백의 증거일 뿐 완성 제품으로 세지 않는다. 기존
+AP/Decision 문서는 내부 경제와 49~240주 폴백의 증거이며, Chapter 1 사람 GO
+전까지 삭제하거나 후속 장에 확산하지 않는다.
 `docs/CORE_LOOP_V2_REVIEW.md`는 대안 비용을 비교한 논의 자료이며 정본이나
 실행 오더가 아니다. 요청받아 대안을 재검토할 때만 읽는다.
 
