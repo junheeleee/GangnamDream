@@ -143,6 +143,8 @@
         "completion_receipt_ids": [
           "receipt:trigger:m1_youth_center_resume_clinic",
           "receipt:completed:m1_youth_center_resume_clinic",
+          "receipt:application:mirae_industrial_tech:submitted",
+          "receipt:application_transition:m1_youth_center_resume_clinic:application:1",
           "fact:resume_polished",
           "receipt:action:m1_youth_center_resume_clinic"
         ],
@@ -151,6 +153,8 @@
         ],
         "repeat_receipt_unique_by": [],
         "state_delta_keys": [
+          "application_status:mirae_industrial_tech",
+          "application_transition_receipt:m1_youth_center_resume_clinic:application:1",
           "completed_bundle:m1_youth_center_resume_clinic",
           "intelligence",
           "mental",
@@ -162,6 +166,10 @@
             "variant_id": "variant:m1_resume:m1_youth_center_resume_clinic:quality:0",
             "activation_ids": [
               "bundle:m1_youth_center_resume_clinic",
+              "action_execution:m1_youth_center_resume_clinic:job_hunt_application",
+              "action_turn:m1_youth_center_resume_clinic:1",
+              "action_origin:m1_youth_center_resume_clinic:fresh_order101",
+              "action_application:m1_youth_center_resume_clinic:mirae_industrial_tech:submitted",
               "action_quality:m1_youth_center_resume_clinic:0"
             ],
             "produced_fact_ids": [
@@ -176,12 +184,17 @@
             "runtime_proof_ids": [
               "proof:runtime:resume_quality_outcome",
               "proof:runtime:job_hunt_resume_stress_formula",
-              "proof:runtime:action_receipt"
+              "proof:runtime:action_receipt",
+              "proof:runtime:fresh_w1_application_owner"
             ],
             "selection_group_id": "group:producer:m1_resume:m1_youth_center_resume_clinic:resume_quality",
             "activation_roles": {
               "material_state_ids": [
                 "bundle:m1_youth_center_resume_clinic",
+                "action_execution:m1_youth_center_resume_clinic:job_hunt_application",
+                "action_turn:m1_youth_center_resume_clinic:1",
+                "action_origin:m1_youth_center_resume_clinic:fresh_order101",
+                "action_application:m1_youth_center_resume_clinic:mirae_industrial_tech:submitted",
                 "action_quality:m1_youth_center_resume_clinic:0"
               ],
               "scene_handoff_fact_ids": [],
@@ -194,6 +207,10 @@
             "variant_id": "variant:m1_resume:m1_youth_center_resume_clinic:quality:1",
             "activation_ids": [
               "bundle:m1_youth_center_resume_clinic",
+              "action_execution:m1_youth_center_resume_clinic:job_hunt_application",
+              "action_turn:m1_youth_center_resume_clinic:1",
+              "action_origin:m1_youth_center_resume_clinic:fresh_order101",
+              "action_application:m1_youth_center_resume_clinic:mirae_industrial_tech:submitted",
               "action_quality:m1_youth_center_resume_clinic:1"
             ],
             "produced_fact_ids": [
@@ -208,12 +225,17 @@
             "runtime_proof_ids": [
               "proof:runtime:resume_quality_outcome",
               "proof:runtime:job_hunt_resume_stress_formula",
-              "proof:runtime:action_receipt"
+              "proof:runtime:action_receipt",
+              "proof:runtime:fresh_w1_application_owner"
             ],
             "selection_group_id": "group:producer:m1_resume:m1_youth_center_resume_clinic:resume_quality",
             "activation_roles": {
               "material_state_ids": [
                 "bundle:m1_youth_center_resume_clinic",
+                "action_execution:m1_youth_center_resume_clinic:job_hunt_application",
+                "action_turn:m1_youth_center_resume_clinic:1",
+                "action_origin:m1_youth_center_resume_clinic:fresh_order101",
+                "action_application:m1_youth_center_resume_clinic:mirae_industrial_tech:submitted",
                 "action_quality:m1_youth_center_resume_clinic:1"
               ],
               "scene_handoff_fact_ids": [],
@@ -226,6 +248,10 @@
             "variant_id": "variant:m1_resume:m1_youth_center_resume_clinic:quality:2",
             "activation_ids": [
               "bundle:m1_youth_center_resume_clinic",
+              "action_execution:m1_youth_center_resume_clinic:job_hunt_application",
+              "action_turn:m1_youth_center_resume_clinic:1",
+              "action_origin:m1_youth_center_resume_clinic:fresh_order101",
+              "action_application:m1_youth_center_resume_clinic:mirae_industrial_tech:submitted",
               "action_quality:m1_youth_center_resume_clinic:2"
             ],
             "produced_fact_ids": [
@@ -241,12 +267,17 @@
             "runtime_proof_ids": [
               "proof:runtime:resume_quality_outcome",
               "proof:runtime:job_hunt_resume_stress_formula",
-              "proof:runtime:action_receipt"
+              "proof:runtime:action_receipt",
+              "proof:runtime:fresh_w1_application_owner"
             ],
             "selection_group_id": "group:producer:m1_resume:m1_youth_center_resume_clinic:resume_quality",
             "activation_roles": {
               "material_state_ids": [
                 "bundle:m1_youth_center_resume_clinic",
+                "action_execution:m1_youth_center_resume_clinic:job_hunt_application",
+                "action_turn:m1_youth_center_resume_clinic:1",
+                "action_origin:m1_youth_center_resume_clinic:fresh_order101",
+                "action_application:m1_youth_center_resume_clinic:mirae_industrial_tech:submitted",
                 "action_quality:m1_youth_center_resume_clinic:2"
               ],
               "scene_handoff_fact_ids": [],
@@ -259,6 +290,10 @@
             "variant_id": "variant:m1_resume:m1_youth_center_resume_clinic:quality:3",
             "activation_ids": [
               "bundle:m1_youth_center_resume_clinic",
+              "action_execution:m1_youth_center_resume_clinic:job_hunt_application",
+              "action_turn:m1_youth_center_resume_clinic:1",
+              "action_origin:m1_youth_center_resume_clinic:fresh_order101",
+              "action_application:m1_youth_center_resume_clinic:mirae_industrial_tech:submitted",
               "action_quality:m1_youth_center_resume_clinic:3"
             ],
             "produced_fact_ids": [
@@ -274,12 +309,17 @@
             "runtime_proof_ids": [
               "proof:runtime:resume_quality_outcome",
               "proof:runtime:job_hunt_resume_stress_formula",
-              "proof:runtime:action_receipt"
+              "proof:runtime:action_receipt",
+              "proof:runtime:fresh_w1_application_owner"
             ],
             "selection_group_id": "group:producer:m1_resume:m1_youth_center_resume_clinic:resume_quality",
             "activation_roles": {
               "material_state_ids": [
                 "bundle:m1_youth_center_resume_clinic",
+                "action_execution:m1_youth_center_resume_clinic:job_hunt_application",
+                "action_turn:m1_youth_center_resume_clinic:1",
+                "action_origin:m1_youth_center_resume_clinic:fresh_order101",
+                "action_application:m1_youth_center_resume_clinic:mirae_industrial_tech:submitted",
                 "action_quality:m1_youth_center_resume_clinic:3"
               ],
               "scene_handoff_fact_ids": [],
@@ -353,6 +393,7 @@
       "runtime_proof_ids": [
         "proof:row:m1_resume",
         "proof:runtime:allocation_commit",
+        "proof:runtime:fresh_w1_application_owner",
         "proof:runtime:terminal_expiry",
         "proof:runtime:month_summary",
         "proof:runtime:save_roundtrip_prefix",
@@ -1358,7 +1399,7 @@
       "runtime_pointer": "content/meta/demo_core_loop_v2.json#/seoul_cycle/months/2/nodes/m2_people",
       "slot_owner": "people",
       "build_family": "build:relationship_initiative",
-      "selection_owner": "runtime_first_eligible",
+      "selection_owner": "player",
       "availability": {
         "threshold": 2,
         "threshold_by_trigger": {},
@@ -1370,7 +1411,7 @@
           "hyunsu_player_reachout",
           "cafe_world_glimpse"
         ],
-        "fallback_trigger_bundle_id": "cafe_world_glimpse",
+        "fallback_trigger_bundle_id": null,
         "disable_without_trigger": true,
         "fallback_after_trigger_expiry": false,
         "declared_candidate_cap": null,
@@ -2308,7 +2349,7 @@
       "runtime_proof_ids": [
         "proof:row:m2_people",
         "proof:runtime:allocation_commit",
-        "proof:runtime:first_eligible_person",
+        "proof:runtime:player_required_person_selection",
         "proof:runtime:terminal_expiry",
         "proof:runtime:month_summary",
         "proof:runtime:save_roundtrip_prefix",
@@ -28764,9 +28805,60 @@
         "proof:invocation:w04_allocation_echo",
         "proof:invocation:w04_month_summary",
         "proof:invocation:w04_hyunsu_world_choice",
-        "proof:invocation:w04_first_temptation_choice"
+        "proof:invocation:w04_first_temptation_choice",
+        "proof:runtime:fresh_w1_application_owner"
       ],
       "invocations": [
+        {
+          "invocation_id": "producer:milestone:w04:fresh_w1_application_owner",
+          "runtime_pointer": "systems/DemoCoreLoopV2.gd::_apply_action_application_receipt",
+          "always_reader_ids": [],
+          "conditional_readers": [],
+          "exclusive_variant_groups": [],
+          "producer_variant_groups": [
+            {
+              "selection_group_id": "group:producer:milestone:w04:fresh_w1_application_owner",
+              "selection_mode": "exactly_one",
+              "causal_status": "active"
+            }
+          ],
+          "conditional_producers": [
+            {
+              "variant_id": "variant:milestone:w04:fresh_w1_application_owner",
+              "activation_ids": [
+                "receipt:action:m1_youth_center_resume_clinic",
+                "state:w1_onboarding:origin:fresh_order101",
+                "runtime:turn:1"
+              ],
+              "activation_roles": {
+                "history_memory_ids": [],
+                "material_state_ids": [
+                  "receipt:action:m1_youth_center_resume_clinic",
+                  "state:w1_onboarding:origin:fresh_order101",
+                  "runtime:turn:1"
+                ],
+                "scene_handoff_fact_ids": [],
+                "story_decision_ids": [],
+                "scene_handoff_decision_ids": []
+              },
+              "produced_fact_ids": [
+                "receipt:application:mirae_industrial_tech:submitted",
+                "receipt:application_transition:m1_youth_center_resume_clinic:application:1",
+                "state:application_writer:mirae_industrial_tech:core"
+              ],
+              "effect_contract_ids": [
+                "effect:fresh_w1_application:typed_action_receipt"
+              ],
+              "runtime_proof_ids": [
+                "proof:runtime:fresh_w1_application_owner"
+              ],
+              "selection_group_id": "group:producer:milestone:w04:fresh_w1_application_owner"
+            }
+          ],
+          "runtime_proof_ids": [
+            "proof:runtime:fresh_w1_application_owner"
+          ]
+        },
         {
           "invocation_id": "reader:milestone:w04:hyunsu_world_choice",
           "runtime_pointer": "systems/DemoCoreLoopV2.gd::note_story_choice",
@@ -29241,6 +29333,15 @@
       ],
       "co_presence_groups": [
         {
+          "group_id": "group:w04:fresh_w1_application_owner",
+          "invocation_ids": [
+            "producer:milestone:w04:fresh_w1_application_owner"
+          ],
+          "runtime_proof_ids": [
+            "proof:runtime:fresh_w1_application_owner"
+          ]
+        },
+        {
           "group_id": "group:w04:hyunsu_world",
           "invocation_ids": [
             "reader:milestone:w04:hyunsu_world_choice",
@@ -29273,12 +29374,29 @@
       ],
       "execution_stages": [
         {
+          "stage_id": "w04:fresh_w1_application_owner",
+          "order_index": 5,
+          "applicability_ids": [
+            "state:w1_onboarding:origin:fresh_order101",
+            "runtime:turn:1"
+          ],
+          "predecessor_stage_ids": [],
+          "invocation_ids": [
+            "producer:milestone:w04:fresh_w1_application_owner"
+          ],
+          "runtime_proof_ids": [
+            "proof:runtime:fresh_w1_application_owner"
+          ]
+        },
+        {
           "stage_id": "w04:w03_hyunsu_choice",
           "order_index": 10,
           "applicability_ids": [
             "world:m1:w3:bundle:hyunsu_first_meet"
           ],
-          "predecessor_stage_ids": [],
+          "predecessor_stage_ids": [
+            "w04:fresh_w1_application_owner"
+          ],
           "invocation_ids": [
             "reader:milestone:w04:hyunsu_world_choice"
           ],
@@ -44290,16 +44408,16 @@
       "assertion": "forgone_ids are emitted in the commitment payload for display, with no declared reader that changes later availability or consequence."
     },
     {
-      "proof_id": "proof:debt:layer_collision_story",
-      "kind": "json_pointer",
-      "pointer": "content/events/core_loop_v2_events.json#/0/choices/0/flags",
-      "assertion": "The prologue Story choice writes opening_preplan_application_sent, crossing Story attitude ownership into application state setup."
+      "proof_id": "proof:runtime:fresh_w1_application_owner",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_apply_action_application_receipt",
+      "assertion": "The fresh W1 typed action receipt is the sole Mirae submitted-application writer and persists its exact transition before the opening interview claim. invocation_contract:producer:milestone:w04:fresh_w1_application_owner|always=|conditional=|exclusive=|producer_groups=group:producer:milestone:w04:fresh_w1_application_owner:exactly_one:active|producers=variant:milestone:w04:fresh_w1_application_owner@group:producer:milestone:w04:fresh_w1_application_owner co_presence_contract:group:w04:fresh_w1_application_owner|invocations=producer:milestone:w04:fresh_w1_application_owner execution_stage:w04:fresh_w1_application_owner|order=5|applicability=state:w1_onboarding:origin:fresh_order101,runtime:turn:1|predecessors=|invocations=producer:milestone:w04:fresh_w1_application_owner"
     },
     {
-      "proof_id": "proof:debt:layer_collision_runtime",
+      "proof_id": "proof:runtime:player_required_person_selection",
       "kind": "source_symbol",
-      "pointer": "systems/DemoCoreLoopV2.gd::claim_preplan_opening_from_trigger",
-      "assertion": "The opening trigger claim consumes the Story flag to claim the preplan application, duplicating weekly action/application ownership."
+      "pointer": "systems/DemoCoreLoopV2.gd::_resolved_seoul_cycle_node",
+      "assertion": "M2 returns the sorted exact eligible candidate set without selecting a sibling; preview requires an explicit candidate and commit/save normalization preserve the same selected identity across new receipts while legacy blank identities remain unbackfilled."
     },
     {
       "proof_id": "proof:debt:dead_card_terminal",
@@ -45348,14 +45466,14 @@
     {
       "proof_id": "proof:data:fresh_run_origin_application_sent",
       "kind": "json_pointer",
-      "pointer": "content/events/core_loop_v2_events.json#/0/choices/0/flags",
-      "assertion": "The fresh Seoul Cycle opening choice sets opening_preplan_application_sent before the Month 1 plan and Father call."
+      "pointer": "content/meta/demo_core_loop_v2.json#/scene_bundles/m1_youth_center_resume_clinic/action_config",
+      "assertion": "The fresh Seoul Cycle run authors W1 as a typed job_hunt_application for Mirae with submitted status; the opening Story choice remains expression-only."
     },
     {
       "proof_id": "proof:scope:fresh_father_player_initiative",
       "kind": "source_symbol",
       "pointer": "systems/DemoCoreLoopV2.gd::_relationship_outcome_for_choice",
-      "assertion": "Within run_origin=fresh_seoul_cycle_v1, opening_preplan_application_sent is true, so the legacy preplan-false reciprocal rewrite is not taken and father_first_call keeps its authored player initiative."
+      "assertion": "Within run_origin=fresh_seoul_cycle_v1, the mandatory typed W1 action precedes later allocations and father_first_call keeps its authored player initiative rather than receiving a fabricated reciprocal rewrite."
     },
     {
       "proof_id": "proof:runtime:story_choice_effect_application",
@@ -46105,7 +46223,7 @@
       "proof_id": "proof:execution_stage:w04_w03_hyunsu_choice",
       "kind": "source_symbol",
       "pointer": "scenes/StoryMode.gd::_on_choice",
-      "assertion": "execution_stage:w04:w03_hyunsu_choice|order=10|applicability=world:m1:w3:bundle:hyunsu_first_meet|predecessors=|invocations=reader:milestone:w04:hyunsu_world_choice"
+      "assertion": "execution_stage:w04:w03_hyunsu_choice|order=10|applicability=world:m1:w3:bundle:hyunsu_first_meet|predecessors=w04:fresh_w1_application_owner|invocations=reader:milestone:w04:hyunsu_world_choice"
     },
     {
       "proof_id": "proof:execution_stage:w04_w03_hyunsu_completion",
@@ -52867,6 +52985,8 @@
           "produced_fact_ids": [
             "receipt:trigger:m1_youth_center_resume_clinic",
             "receipt:completed:m1_youth_center_resume_clinic",
+            "receipt:application:mirae_industrial_tech:submitted",
+            "receipt:application_transition:m1_youth_center_resume_clinic:application:1",
             "receipt:action:m1_youth_center_resume_clinic"
           ],
           "runtime_proof_ids": [
@@ -52874,7 +52994,8 @@
             "proof:runtime:bundle_completion",
             "proof:runtime:trigger_resolution",
             "proof:runtime:action_commitment",
-            "proof:runtime:action_receipt"
+            "proof:runtime:action_receipt",
+            "proof:runtime:fresh_w1_application_owner"
           ],
           "nested_output_group_ids": [
             "group:producer:m1_resume:m1_youth_center_resume_clinic:resume_quality"
@@ -52912,7 +53033,8 @@
         "proof:runtime:trigger_resolution",
         "proof:runtime:bundle_completion",
         "proof:runtime:action_commitment",
-        "proof:runtime:action_receipt"
+        "proof:runtime:action_receipt",
+        "proof:runtime:fresh_w1_application_owner"
       ]
     },
     {
@@ -53174,7 +53296,7 @@
           ],
           "runtime_proof_ids": [
             "proof:row:m2_people",
-            "proof:runtime:first_eligible_person",
+            "proof:runtime:player_required_person_selection",
             "proof:runtime:bundle_completion",
             "proof:runtime:trigger_resolution",
             "proof:runtime:relationship_receipt"
@@ -53196,7 +53318,7 @@
           ],
           "runtime_proof_ids": [
             "proof:row:m2_people",
-            "proof:runtime:first_eligible_person",
+            "proof:runtime:player_required_person_selection",
             "proof:runtime:bundle_completion",
             "proof:runtime:trigger_resolution"
           ],
@@ -53242,7 +53364,7 @@
         "proof:runtime:allocation_commit",
         "proof:runtime:terminal_expiry",
         "proof:runtime:save_roundtrip_prefix",
-        "proof:runtime:first_eligible_person",
+        "proof:runtime:player_required_person_selection",
         "proof:runtime:trigger_resolution",
         "proof:runtime:bundle_completion",
         "proof:runtime:relationship_receipt"
@@ -54749,7 +54871,6 @@
         24
       ],
       "debt_ids": [
-        "row:m2_people:selection_owner",
         "row:m3_people:selection_owner",
         "row:m4_people:selection_owner",
         "row:m5_people:selection_owner",
@@ -54810,9 +54931,7 @@
         1,
         24
       ],
-      "debt_ids": [
-        "event:v2_opening_application_send:application_status"
-      ],
+      "debt_ids": [],
       "blocker_ids": []
     },
     {

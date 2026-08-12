@@ -1,6 +1,5 @@
 {
   "AUTO_PERSON_PICK": [
-    "row:m2_people:selection_owner",
     "row:m3_people:selection_owner",
     "row:m4_people:selection_owner",
     "row:m5_people:selection_owner",
@@ -22,9 +21,6 @@
   ],
   "DISPLAY_ONLY_FORGONE": [
     "runtime:seoul_cycle:forgone_ids"
-  ],
-  "LAYER_COLLISION": [
-    "event:v2_opening_application_send:application_status"
   ],
   "MILESTONE_FANIN": [
     "group:w24:story_scene:fanin"
