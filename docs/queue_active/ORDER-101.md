@@ -56,8 +56,11 @@ W4/W8 milestone의 기존 source scenario, W24의 fan-in/save 계약, W25~48 gap
 1. `m1_resume`: fresh W1 안내는 stable node ID로 자기소개서 수행층에 들어간다.
    Back/Cancel은 무변이이며 최종 Send 한 번만 주간 commitment 1,
    `m1_youth_center_resume_clinic` action receipt 1, typed quality, Mirae application
-   transition 1을 한 transaction으로 쓴다. 고정 슬롯이나 이상적인 seed를
-   가정하지 않는다.
+   transition 1을 한 transaction으로 쓴다. 플레이어가 고른 실제 unspent
+   capacity 1개를 소비하되, fresh turn 1·미완료·무receipt에서만 명시적인
+   `onboarding_completion_override`가 자기소개서 노드를 완료한다. 고정 슬롯이나
+   이상적인 seed를 가정하지 않으며 구 저장과 이후 진입은 기존 threshold 3·
+   progress band를 그대로 쓴다.
 2. `m1_convenience`: 기존 반복 행동·다음달 이월·receipt cardinality를 보존하고
    새 안내가 W2~W4 선택권을 가리지 않는지 회귀한다.
 3. `m1_father`: 완료 branch receipt를 기존
@@ -73,9 +76,10 @@ W4/W8 milestone의 기존 source scenario, W24의 fan-in/save 계약, W25~48 gap
 7. `m2_people`: 가능한 Hyunsu/Cafe 후보를 보드에 함께 보이고 플레이어가 하나를
    직접 확정한다. 선택 identity를 allocation과 함께 저장하고 선택한 branch만
    receipt·관계 변화·Hyunsu 2/Sangchul 1 후속 중 맞는 것을 생산한다.
-8. `m2_self`: 완료 action receipt를 M3 회복의 named offer/state variant가 읽는다.
-   기존 수치 밴드를 조용히 바꾸지 않으며, threshold/effect 변경이 필요하면
-   먼저 별도 판정을 올린다.
+8. `m2_self`: 완료 action receipt를 기존 W9 `m3_self` 경계의 named
+   offer/state variant가 읽는다. ORDER-101은 그 exact non-Story reader field와
+   edge까지만 소유하고 W9 보드·본문은 만들지 않는다. 기존 수치 밴드를 조용히
+   바꾸지 않으며, threshold/effect 변경이 필요하면 먼저 별도 판정을 올린다.
 
 ### exact debt 수리 12단위
 
@@ -126,23 +130,26 @@ W4/W8 milestone의 기존 source scenario, W24의 fan-in/save 계약, W25~48 gap
 
 ## 저장·원자성 계약
 
-- **post-result durable**를 선택한다. allocation pending 저장은 같은 minigame을
-  재개하고, final Send가 quality/application/action receipt를 모두 성공시킨 뒤
-  Story로 넘기기 전에 기존 SaveManager entrypoint로 한 번 저장한다.
+- **post-result durable + pre-result restart-on-load**를 선택한다. allocation
+  pending 저장은 고른 capacity·node와 owner만 보존한다. draft-pre-Send와
+  mid-interview의 입력 답안·점수는 저장하지 않으며 load 시 같은 minigame을
+  처음부터 다시 연다. final Send가 quality/application/action receipt를 모두
+  성공시킨 뒤 Story로 넘기기 전에 기존 SaveManager entrypoint로 한 번 저장한다.
 - resume quality, application write, action receipt, Story handoff의 각 late failure는
   전체 pre-state rollback 또는 같은 durable receipt 재표시만 허용한다. 부분
   polished·부분 submitted·capacity 이중 차감은 금지다.
-- checkpoint는 pre-commit / draft-pre-Send / post-Send-pre-Story / Story choice /
+- checkpoint는 pre-commit / draft-pre-Send(restart) / post-Send-pre-Story / Story choice /
   Story result / post-interview-pre-week-close / week-closed / W5 result presented /
   consumed 아홉 개다. 각 save를 두 번 load해 AP·capacity·effect·quality·
-  application·choice·completion cardinality를 검사한다.
+  application·choice·completion cardinality를 검사한다. mid-interview도
+  restart-on-load이며 이미 확정된 application·capacity는 다시 쓰지 않는다.
 - legacy before-send, submitted/presented, mid-interview, interviewed/math 저장은
   origin/schema를 보존한다. 새 안내가 과거 클릭이나 weekly receipt를 발명하거나
   이미 본 결과를 다시 적용하면 실패다.
 
 ## 정확한 파일 소유권
 
-**제품/데이터 10:** `content/meta/demo_core_loop_v2.json`,
+**제품/데이터 9:** `content/meta/demo_core_loop_v2.json`,
 `content/meta/story_rules.json`, `content/meta/narrative_spine.json`,
 `content/events/core_loop_v2_events.json`,
 `content/events_en/core_loop_v2_events.json`, `systems/DemoCoreLoopV2.gd`,
@@ -156,16 +163,18 @@ W4/W8 milestone의 기존 source scenario, W24의 fan-in/save 계약, W25~48 gap
 `tools/CoreLoopV2FirstEntryCheck.gd`, `tools/CoreLoopV2CycleBalanceCheck.gd`,
 `tools/run_core_loop_v2_input_qa.sh`.
 
-**선언/증거 7:** 이 사양, `docs/CODEX_QUEUE.md`, `docs/QA_CHECKLIST.md`,
-`docs/WORK_LOG.md`, `CLAUDE.md`, 완료 시 생성하는 `docs/STATUS.md`, 사람 L3를
-등록할 때만 `docs/human_gates.json`.
+**정본/선언/증거 9:** `docs/CORE_LOOP_V2.md`, `docs/BALANCE.md`, 이 사양,
+`docs/CODEX_QUEUE.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `CLAUDE.md`,
+완료 시 생성하는 `docs/STATUS.md`, 사람 L3를 등록할 때만
+`docs/human_gates.json`.
 
 **비소유:** `autoloads/{GameState,SaveManager,EventManager,DataRegistry,
 MetaProgression}.gd`, `systems/JobSystem.gd`, `project.godot`,
-`content/jobs.json`, W9+ 제품 노드/새 Story 본문, `docs/CORE_LOOP_V2.md`,
-`docs/CHOICE_CONSEQUENCE_SYSTEM.md`, `docs/BALANCE.md`, `tools/audit.sh`,
-`tools/audit_scope.json`. 저장 스키마·새 인물 장면·밴드 밖 수치가 필요하면
-조용히 범위를 넓히지 않고 제안한다.
+`content/jobs.json`, W9+ 제품 노드/새 Story 본문,
+`docs/CHOICE_CONSEQUENCE_SYSTEM.md`, `tools/audit.sh`, `tools/audit_scope.json`.
+예외적으로 기존 W9 bundle/node의 exact prerequisite·non-Story modifier reader
+field는 W1~8 producer의 첫 named consumer 경계로만 수정할 수 있다. 저장 스키마·
+새 인물 장면·밴드 밖 수치가 필요하면 조용히 범위를 넓히지 않고 제안한다.
 
 ## L1·L2·L3 증거
 
@@ -180,7 +189,7 @@ MetaProgression}.gd`, `systems/JobSystem.gd`, `project.godot`,
   owner, 품질 0~3+expiry causal A/B, 완료/만료 next surface, W1/W5 consequence,
   두 사람 동시 후보와 JSON order reversal, KO/EN·keyboard/pad W1~8.
 - 기존 등록 회귀 안의 `Order101PersistenceCheck` 절: 아홉 save phase×
-  fresh/legacy, double reload,
+  fresh/legacy, double reload, pre-result restart와 post-result restore의 구분,
   late-failure rollback, post-result durable, selected person identity 보존.
 - Story application write, month-summary-only reader, completed/expired identical
   signature, offer-only mock interview, `runtime_first_eligible`, free build flag,
