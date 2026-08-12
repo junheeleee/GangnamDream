@@ -843,6 +843,34 @@ func _core_loop_v2_cycle_surface_snapshot(
 					continue
 				var preview := DEMO_CORE_LOOP_V2.preview_seoul_cycle_allocation(
 					capacity_id, str(node_id))
+				# Player-owned trigger nodes cannot share one speculative preview:
+				# each candidate may author a different threshold and scene window.
+				# Keep the unselected preview as the chooser contract, and attach
+				# exact, side-effect-free variants for the Board's local selection.
+				var candidate_previews: Dictionary = {}
+				if bool(preview.get("trigger_selection_required", false)):
+					var raw_candidates: Variant = preview.get(
+						"trigger_candidates", [])
+					if raw_candidates is Array:
+						for raw_candidate in raw_candidates:
+							if not raw_candidate is Dictionary:
+								continue
+							var candidate_id := str(
+								(raw_candidate as Dictionary).get(
+									"id", "")).strip_edges()
+							if candidate_id.is_empty():
+								continue
+							var candidate_preview := \
+								DEMO_CORE_LOOP_V2.preview_seoul_cycle_allocation(
+									capacity_id, str(node_id), -1,
+									candidate_id)
+							if bool(candidate_preview.get("ok", false)) \
+									and str(candidate_preview.get(
+										"selected_trigger_bundle_id", "")) \
+										== candidate_id:
+								candidate_previews[candidate_id] = \
+									candidate_preview
+				preview["trigger_candidate_previews"] = candidate_previews
 				node_previews[str(node_id)] = preview
 			previews[capacity_id] = node_previews
 	surface["previews"] = previews
@@ -1174,14 +1202,15 @@ func _on_core_loop_v2_episode_committed(
 	_core_loop_v2_finish_plan_commit()
 
 func _on_seoul_cycle_allocation_requested(
-		capacity_id: String, node_id: String) -> void:
+		capacity_id: String, node_id: String,
+		selected_bundle_id: String = "") -> void:
 	if _seoul_cycle_allocation_in_flight \
 			or not is_instance_valid(_seoul_cycle_board) \
 			or not _seoul_cycle_board.visible:
 		return
 	_seoul_cycle_allocation_in_flight = true
 	var result := _core_loop_v2_commit_seoul_cycle_allocation_durably(
-		capacity_id, node_id)
+		capacity_id, node_id, selected_bundle_id)
 	if not bool(result.get("ok", false)):
 		if str(result.get("error", "")) == "autosave_failed" \
 				and bool(result.get("state_committed", false)):
@@ -1223,9 +1252,10 @@ func _core_loop_v2_initialize_seoul_cycle_durably(
 	}
 
 func _core_loop_v2_commit_seoul_cycle_allocation_durably(
-		capacity_id: String, node_id: String) -> Dictionary:
+		capacity_id: String, node_id: String,
+		selected_bundle_id: String = "") -> Dictionary:
 	var result: Dictionary = DEMO_CORE_LOOP_V2.commit_seoul_cycle_allocation(
-		capacity_id, node_id)
+		capacity_id, node_id, -1, selected_bundle_id)
 	if not bool(result.get("ok", false)):
 		return result
 	# Effects, the spent capacity, the weekly ledger, and pending scene owners

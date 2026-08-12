@@ -21,6 +21,7 @@ func _ready() -> void:
 func _run() -> void:
 	_check_contract_and_determinism()
 	_check_order101_fresh_w1_application_contract()
+	_check_order101_m2_people_selection_contract()
 	await _check_order101_main_result_committed_double_reload()
 	_check_run_generation_provenance()
 	_check_completion_boundary_trust()
@@ -734,6 +735,787 @@ func _check_order101_fresh_w1_application_contract() -> void:
 				"application_transition_receipts", {}) as Dictionary).is_empty() \
 			and CORE.fresh_w1_onboarding_snapshot().is_empty(),
 		"execution-less legacy resume inherited or was rejected by fresh action_config")
+
+
+func _check_order101_m2_people_selection_contract() -> void:
+	var contract_snapshot: Dictionary = DataRegistry.demo_core_loop_v2.duplicate(true)
+	var cycle_spec: Dictionary = contract_snapshot.get("seoul_cycle", {})
+	var months: Dictionary = cycle_spec.get("months", {})
+	var month_two: Dictionary = months.get("2", {})
+	var node_specs: Dictionary = month_two.get("nodes", {})
+	var people_spec: Dictionary = node_specs.get("m2_people", {})
+	var authored_ids: Array[String] = []
+	for raw_id in people_spec.get("trigger_options", []):
+		authored_ids.append(str(raw_id))
+	var expected_ids: Array[String] = [
+		"cafe_world_glimpse", "hyunsu_player_reachout",
+	]
+	_expect(_sorted_strings(authored_ids) == expected_ids \
+		and authored_ids.size() == 2 \
+		and str(people_spec.get("trigger_selection_mode", "")) \
+			== "player_required" \
+		and str(people_spec.get("selection_owner", "")) == "player" \
+		and not people_spec.has("fallback_trigger_bundle") \
+		and not people_spec.has("summary_bundle"),
+		"M2 people authoring did not declare exactly two player-owned choices")
+
+	_check_m2_people_candidate_cardinality(contract_snapshot)
+	_check_m2_people_json_order_independence(contract_snapshot)
+	_check_m2_people_choice_roundtrip(contract_snapshot)
+	_check_m2_people_legacy_resolution(contract_snapshot)
+	_check_m2_people_legacy_partial_continuation(contract_snapshot)
+	_check_m2_people_chosen_branch(
+		contract_snapshot, "hyunsu_player_reachout", 0)
+	_check_m2_people_chosen_branch(
+		contract_snapshot, "hyunsu_player_reachout", 1)
+	_check_m2_people_chosen_branch(
+		contract_snapshot, "cafe_world_glimpse", 2)
+	DataRegistry.demo_core_loop_v2 = contract_snapshot
+	print(
+		"ORDER101_M2_PEOPLE_SELECTION_OK "
+		+ "eligible=0/1/2 explicit=1 canonical=reversal "
+		+ "mutation=fail_closed save=double/normalize legacy=preserved "
+		+ "legacy_partial=continued/double_reload "
+		+ "branch=three_outcomes/receipt/relationship/next/reload")
+
+
+func _check_m2_people_candidate_cardinality(
+		contract_snapshot: Dictionary) -> void:
+	var hyunsu_id := "hyunsu_player_reachout"
+	var cafe_id := "cafe_world_glimpse"
+
+	var zero_snapshot := _prepare_m2_people_fixture(
+		contract_snapshot, [hyunsu_id], false)
+	var zero_node := _m2_people_node(zero_snapshot)
+	var zero_capacity := _unused_capacity(zero_snapshot, 1, true)
+	var zero_before: Dictionary = GameState.serialize().duplicate(true)
+	var zero_preview := CORE.preview_seoul_cycle_allocation(
+		zero_capacity, "m2_people", 2)
+	var zero_commit := CORE.commit_seoul_cycle_allocation(
+		zero_capacity, "m2_people", 2)
+	_expect((zero_node.get("eligible_trigger_bundle_ids", []) as Array).is_empty() \
+		and str(zero_node.get("status", "")) == "locked" \
+		and not bool(zero_preview.get("ok", true)) \
+		and not bool(zero_commit.get("ok", true)) \
+		and GameState.serialize() == zero_before,
+		"zero-eligible M2 people node unlocked or mutated state")
+
+	var one_snapshot := _prepare_m2_people_fixture(
+		contract_snapshot, [hyunsu_id, cafe_id], false)
+	var one_node := _m2_people_node(one_snapshot)
+	var one_capacity := _unused_capacity(one_snapshot, 1, true)
+	var one_before: Dictionary = GameState.serialize().duplicate(true)
+	var one_preview := CORE.preview_seoul_cycle_allocation(
+		one_capacity, "m2_people", 2)
+	var one_commit := CORE.commit_seoul_cycle_allocation(
+		one_capacity, "m2_people", 2)
+	var one_invalid := CORE.commit_seoul_cycle_allocation(
+		one_capacity, "m2_people", 2, hyunsu_id)
+	var one_selected_preview := CORE.preview_seoul_cycle_allocation(
+		one_capacity, "m2_people", 2, cafe_id)
+	var one_candidates: Array = one_preview.get("trigger_candidates", [])
+	_expect(one_node.get("eligible_trigger_bundle_ids", []) == [cafe_id] \
+		and str(one_node.get("status", "")) == "open" \
+		and not bool(one_preview.get("ok", true)) \
+		and str(one_preview.get("error", "")) \
+			== "trigger_selection_required" \
+		and bool(one_preview.get("trigger_selection_required", false)) \
+		and _m2_candidate_ids(one_candidates) == [cafe_id] \
+		and _m2_candidate_copy_complete(one_candidates) \
+		and not bool(one_commit.get("ok", true)) \
+		and str(one_commit.get("error", "")) \
+			== "trigger_selection_required" \
+		and not bool(one_invalid.get("ok", true)) \
+		and str(one_invalid.get("error", "")) == "invalid_trigger_selection" \
+		and bool(one_selected_preview.get("ok", false)) \
+		and str(one_selected_preview.get(
+			"selected_trigger_bundle_id", "")) == cafe_id \
+		and GameState.serialize() == one_before,
+		"one-eligible M2 people choice auto-selected, lacked copy, or mutated")
+
+	var two_snapshot := _prepare_m2_people_fixture(
+		contract_snapshot, [hyunsu_id, cafe_id], true)
+	var two_node := _m2_people_node(two_snapshot)
+	var two_capacity := _unused_capacity(two_snapshot, 1, true)
+	var two_before: Dictionary = GameState.serialize().duplicate(true)
+	var two_preview := CORE.preview_seoul_cycle_allocation(
+		two_capacity, "m2_people", 2)
+	var two_commit := CORE.commit_seoul_cycle_allocation(
+		two_capacity, "m2_people", 2)
+	var two_invalid := CORE.commit_seoul_cycle_allocation(
+		two_capacity, "m2_people", 2, "unknown_people_branch")
+	var two_candidates: Array = two_preview.get("trigger_candidates", [])
+	_expect(two_node.get("eligible_trigger_bundle_ids", []) \
+			== [cafe_id, hyunsu_id] \
+		and str(two_node.get("selected_trigger_bundle_id", "")).is_empty() \
+		and str(two_node.get("trigger_bundle", "")).is_empty() \
+		and str(two_node.get("summary_bundle", "")).is_empty() \
+		and not bool(two_preview.get("ok", true)) \
+		and str(two_preview.get("error", "")) \
+			== "trigger_selection_required" \
+		and _m2_candidate_ids(two_candidates) == [cafe_id, hyunsu_id] \
+		and _m2_candidate_copy_complete(two_candidates) \
+		and not bool(two_commit.get("ok", true)) \
+		and not bool(two_invalid.get("ok", true)) \
+		and str(two_invalid.get("error", "")) \
+			== "invalid_trigger_selection" \
+		and GameState.serialize() == two_before,
+		"two-eligible M2 people choice used a first-candidate fallback or mutated")
+
+
+func _check_m2_people_json_order_independence(
+		contract_snapshot: Dictionary) -> void:
+	var hyunsu_id := "hyunsu_player_reachout"
+	var cafe_id := "cafe_world_glimpse"
+	var forward := _prepare_m2_people_fixture(
+		contract_snapshot, [hyunsu_id, cafe_id], true)
+	var forward_capacity := _unused_capacity(forward, 1, true)
+	var forward_preview := CORE.preview_seoul_cycle_allocation(
+		forward_capacity, "m2_people", 2)
+	var forward_identity := {
+		"eligible": _m2_people_node(forward).get(
+			"eligible_trigger_bundle_ids", []),
+		"candidates": _m2_candidate_ids(
+			forward_preview.get("trigger_candidates", [])),
+	}
+	var reversed := _prepare_m2_people_fixture(
+		contract_snapshot, [cafe_id, hyunsu_id], true)
+	var reversed_capacity := _unused_capacity(reversed, 1, true)
+	var reversed_preview := CORE.preview_seoul_cycle_allocation(
+		reversed_capacity, "m2_people", 2)
+	var reversed_identity := {
+		"eligible": _m2_people_node(reversed).get(
+			"eligible_trigger_bundle_ids", []),
+		"candidates": _m2_candidate_ids(
+			reversed_preview.get("trigger_candidates", [])),
+	}
+	var before_choice: Dictionary = GameState.serialize().duplicate(true)
+	var second_choice := CORE.preview_seoul_cycle_allocation(
+		reversed_capacity, "m2_people", 2, hyunsu_id)
+	_expect(forward_identity == reversed_identity \
+		and forward_identity.get("eligible", []) == [cafe_id, hyunsu_id] \
+		and bool(second_choice.get("ok", false)) \
+		and str(second_choice.get(
+			"selected_trigger_bundle_id", "")) == hyunsu_id \
+		and GameState.serialize() == before_choice,
+		"reversing JSON trigger_options changed canonical identity or first-picked")
+
+
+func _check_m2_people_choice_roundtrip(
+		contract_snapshot: Dictionary) -> void:
+	var hyunsu_id := "hyunsu_player_reachout"
+	var cafe_id := "cafe_world_glimpse"
+	var snapshot := _prepare_m2_people_fixture(
+		contract_snapshot, [hyunsu_id, cafe_id], true)
+	var unselected_cycle: Dictionary = GameState.core_loop_v2_state.get(
+		"seoul_cycle", {}).duplicate(true)
+	var capacity_id := _unused_capacity(snapshot, 1, false)
+	var committed := CORE.commit_seoul_cycle_allocation(
+		capacity_id, "m2_people", 2, cafe_id)
+	var receipt: Dictionary = committed.get("receipt", {})
+	var weekly: Dictionary = receipt.get("weekly_commitment", {})
+	var weekly_details: Dictionary = weekly.get("details", {})
+	var partial_snapshot := CORE.seoul_cycle_snapshot(2)
+	var partial_node := _m2_people_node(partial_snapshot)
+	var expected_identity := _m2_people_choice_identity(partial_snapshot)
+	_expect(bool(committed.get("ok", false)) \
+		and not bool(committed.get("completed_now", true)) \
+		and int(committed.get("progress_after", -1)) == 1 \
+		and int(committed.get("threshold", 0)) == 2 \
+		and str(receipt.get("selected_trigger_bundle_id", "")) == cafe_id \
+		and str(receipt.get("trigger_bundle", "")).is_empty() \
+		and str(weekly_details.get(
+			"selected_trigger_bundle_id", "")) == cafe_id \
+		and str(partial_node.get(
+			"selected_trigger_bundle_id", "")) == cafe_id \
+		and str(partial_node.get("trigger_bundle", "")) == cafe_id \
+		and str(partial_node.get("summary_bundle", "")) == cafe_id \
+		and str(partial_node.get("trigger_selection_origin", "")) \
+			== "player_selection" \
+		and (partial_snapshot.get("pending_trigger", {}) as Dictionary).is_empty(),
+		"partial M2 people allocation did not pin the exact Cafe choice")
+
+	var raw_cycle: Dictionary = GameState.core_loop_v2_state.get(
+		"seoul_cycle", {}).duplicate(true)
+	var before_normalize: Dictionary = GameState.serialize().duplicate(true)
+	var normalized := CORE.normalize_seoul_cycle_state(raw_cycle)
+	_expect(not normalized.is_empty() \
+		and _m2_people_choice_identity(normalized) == expected_identity \
+		and GameState.serialize() == before_normalize,
+		"M2 people normalization changed selection or mutated live state")
+	_check_m2_people_selected_shape_rejections(
+		unselected_cycle, raw_cycle, cafe_id, hyunsu_id)
+
+	var saved: Dictionary = GameState.serialize().duplicate(true)
+	var sibling_weekly_save := saved.duplicate(true)
+	var sibling_weekly: Array = sibling_weekly_save.get(
+		"weekly_commitments", [])
+	if not sibling_weekly.is_empty() and sibling_weekly[0] is Dictionary:
+		var sibling_record: Dictionary = (
+			sibling_weekly[0] as Dictionary).duplicate(true)
+		var sibling_details: Dictionary = sibling_record.get(
+			"details", {}).duplicate(true)
+		sibling_details["selected_trigger_bundle_id"] = hyunsu_id
+		sibling_record["details"] = sibling_details
+		sibling_weekly[0] = sibling_record
+		sibling_weekly_save["weekly_commitments"] = sibling_weekly
+	GameState.start_new_game()
+	GameState.load_from_dict(sibling_weekly_save)
+	CORE.initialize_for_run(true)
+	_expect((GameState.core_loop_v2_state.get(
+		"seoul_cycle", {}) as Dictionary).is_empty(),
+		"top-level weekly ledger accepted a sibling people branch on load")
+	for reload_index in range(2):
+		GameState.start_new_game()
+		GameState.load_from_dict(saved.duplicate(true))
+		CORE.initialize_for_run(true)
+		var reloaded := CORE.seoul_cycle_snapshot(2)
+		_expect(_m2_people_choice_identity(reloaded) == expected_identity \
+			and (reloaded.get("allocation_receipts", {}) as Dictionary).size() == 1 \
+			and GameState.weekly_commitments.size() == 1,
+			"M2 people choice drifted or duplicated on reload %d" \
+				% [reload_index + 1])
+		saved = GameState.serialize().duplicate(true)
+
+	_expect(bool(CORE.complete_seoul_cycle_turn(2).get("ok", false)),
+		"partial Cafe week could not close after double reload")
+	_advance_to_next_week()
+	var week_two := CORE.seoul_cycle_snapshot(2)
+	var second_capacity := _unused_capacity(week_two, 3, true)
+	var before_branch_change: Dictionary = GameState.serialize().duplicate(true)
+	var changed := CORE.commit_seoul_cycle_allocation(
+		second_capacity, "m2_people", 2, hyunsu_id)
+	_expect(not bool(changed.get("ok", true)) \
+		and str(changed.get("error", "")) == "trigger_branch_change_rejected" \
+		and GameState.serialize() == before_branch_change,
+		"a later week changed the already-pinned people branch")
+	var completed := CORE.commit_seoul_cycle_allocation(
+		second_capacity, "m2_people", 2, cafe_id)
+	var pending: Dictionary = completed.get("pending_trigger", {})
+	_expect(bool(completed.get("ok", false)) \
+		and bool(completed.get("completed_now", false)) \
+		and str(pending.get("bundle_id", "")) == cafe_id \
+		and str(pending.get("selected_trigger_bundle_id", "")) == cafe_id,
+		"the pinned Cafe choice did not own its eventual completion trigger")
+	_check_m2_people_pending_shape_rejections(
+		GameState.core_loop_v2_state.get("seoul_cycle", {}), hyunsu_id)
+
+
+func _check_m2_people_legacy_resolution(
+		contract_snapshot: Dictionary) -> void:
+	var hyunsu_id := "hyunsu_player_reachout"
+	var cafe_id := "cafe_world_glimpse"
+	var initialized := _prepare_m2_people_fixture(
+		contract_snapshot, [hyunsu_id, cafe_id], true)
+	var legacy_cycle: Dictionary = GameState.core_loop_v2_state.get(
+		"seoul_cycle", {}).duplicate(true)
+	var legacy_nodes: Dictionary = legacy_cycle.get("nodes", {})
+	var legacy_people: Dictionary = legacy_nodes.get("m2_people", {})
+	legacy_people.erase("eligible_trigger_bundle_ids")
+	legacy_people.erase("selected_trigger_bundle_id")
+	legacy_people.erase("trigger_selection_origin")
+	legacy_people.erase("trigger_selection_migrated_legacy")
+	legacy_people["trigger_bundle"] = cafe_id
+	legacy_people["summary_bundle"] = cafe_id
+	legacy_nodes["m2_people"] = legacy_people
+	legacy_cycle["nodes"] = legacy_nodes
+	var live_before: Dictionary = GameState.serialize().duplicate(true)
+	var migrated := CORE.normalize_seoul_cycle_state(legacy_cycle)
+	var migrated_node := _m2_people_node(migrated)
+	_expect(not migrated.is_empty() \
+		and migrated_node.get("eligible_trigger_bundle_ids", []) == [cafe_id] \
+		and str(migrated_node.get(
+			"selected_trigger_bundle_id", "")) == cafe_id \
+		and str(migrated_node.get("trigger_bundle", "")) == cafe_id \
+		and str(migrated_node.get("summary_bundle", "")) == cafe_id \
+		and str(migrated_node.get("trigger_selection_origin", "")) \
+			== "legacy_persisted_trigger" \
+		and bool(migrated_node.get(
+			"trigger_selection_migrated_legacy", false)) \
+		and (migrated.get("allocation_receipts", {}) as Dictionary).is_empty() \
+		and (migrated.get("trigger_receipts", {}) as Dictionary).is_empty() \
+		and GameState.serialize() == live_before,
+		"legacy persisted Cafe trigger was re-evaluated or minted a receipt")
+
+	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	state["seoul_cycle"] = legacy_cycle
+	GameState.core_loop_v2_state = state
+	var legacy_save: Dictionary = GameState.serialize().duplicate(true)
+	GameState.start_new_game()
+	GameState.load_from_dict(legacy_save)
+	CORE.initialize_for_run(true)
+	var loaded := CORE.seoul_cycle_snapshot(2)
+	var loaded_node := _m2_people_node(loaded)
+	_expect(loaded_node.get("eligible_trigger_bundle_ids", []) == [cafe_id] \
+		and str(loaded_node.get("selected_trigger_bundle_id", "")) == cafe_id \
+		and str(loaded_node.get("trigger_bundle", "")) == cafe_id \
+		and (loaded.get("allocation_receipts", {}) as Dictionary).is_empty() \
+		and (loaded.get("trigger_receipts", {}) as Dictionary).is_empty() \
+		and GameState.weekly_commitments.is_empty(),
+		"legacy people trigger did not survive load exactly once")
+	var malformed := migrated.duplicate(true)
+	var malformed_nodes: Dictionary = malformed.get("nodes", {})
+	var malformed_people: Dictionary = malformed_nodes.get("m2_people", {})
+	malformed_people["selected_trigger_bundle_id"] = hyunsu_id
+	malformed_nodes["m2_people"] = malformed_people
+	malformed["nodes"] = malformed_nodes
+	_expect(CORE.normalize_seoul_cycle_state(malformed).is_empty(),
+		"mismatched legacy selected/trigger identity did not fail closed")
+	_expect(not initialized.is_empty(),
+		"legacy fixture failed to initialize its source cycle")
+
+
+func _check_m2_people_legacy_partial_continuation(
+		contract_snapshot: Dictionary) -> void:
+	var hyunsu_id := "hyunsu_player_reachout"
+	var cafe_id := "cafe_world_glimpse"
+	var snapshot := _prepare_m2_people_fixture(
+		contract_snapshot, [hyunsu_id, cafe_id], true)
+	var first_capacity := _unused_capacity(snapshot, 1, false)
+	var first_commit := CORE.commit_seoul_cycle_allocation(
+		first_capacity, "m2_people", 2, cafe_id)
+	_expect(bool(first_commit.get("ok", false)) \
+		and not bool(first_commit.get("completed_now", true)),
+		"legacy-partial source fixture did not create Cafe W5 progress")
+
+	# Rebuild the exact pre-player-selection save shape. The node had already
+	# persisted its resolved Cafe trigger, while neither duplicated weekly copy
+	# nor the allocation receipt knew the later selected-id field yet.
+	var legacy_save: Dictionary = GameState.serialize().duplicate(true)
+	var legacy_v2: Dictionary = legacy_save.get(
+		"core_loop_v2_state", {})
+	var legacy_cycle: Dictionary = legacy_v2.get("seoul_cycle", {})
+	var legacy_nodes: Dictionary = legacy_cycle.get("nodes", {})
+	var legacy_people: Dictionary = legacy_nodes.get("m2_people", {})
+	for field in [
+		"eligible_trigger_bundle_ids", "selected_trigger_bundle_id",
+		"trigger_selection_origin", "trigger_selection_migrated_legacy",
+	]:
+		legacy_people.erase(field)
+	legacy_people["trigger_bundle"] = cafe_id
+	legacy_people["summary_bundle"] = cafe_id
+	legacy_nodes["m2_people"] = legacy_people
+	legacy_cycle["nodes"] = legacy_nodes
+	var legacy_receipts: Dictionary = legacy_cycle.get(
+		"allocation_receipts", {})
+	var legacy_w5: Dictionary = legacy_receipts.get("5", {})
+	legacy_w5.erase("selected_trigger_bundle_id")
+	var legacy_embedded: Dictionary = legacy_w5.get(
+		"weekly_commitment", {})
+	var legacy_embedded_details: Dictionary = legacy_embedded.get(
+		"details", {})
+	legacy_embedded_details.erase("selected_trigger_bundle_id")
+	legacy_embedded["details"] = legacy_embedded_details
+	legacy_w5["weekly_commitment"] = legacy_embedded
+	legacy_receipts["5"] = legacy_w5
+	legacy_cycle["allocation_receipts"] = legacy_receipts
+	legacy_v2["seoul_cycle"] = legacy_cycle
+	legacy_save["core_loop_v2_state"] = legacy_v2
+	var legacy_outer: Array = legacy_save.get("weekly_commitments", [])
+	for outer_index in range(legacy_outer.size()):
+		if not legacy_outer[outer_index] is Dictionary \
+				or int((legacy_outer[outer_index] as Dictionary).get(
+					"turn", 0)) != 5:
+			continue
+		var outer: Dictionary = (
+			legacy_outer[outer_index] as Dictionary).duplicate(true)
+		var outer_details: Dictionary = outer.get("details", {})
+		outer_details.erase("selected_trigger_bundle_id")
+		outer["details"] = outer_details
+		legacy_outer[outer_index] = outer
+	legacy_save["weekly_commitments"] = legacy_outer
+
+	GameState.start_new_game()
+	GameState.load_from_dict(legacy_save)
+	CORE.initialize_for_run(true)
+	var migrated := CORE.seoul_cycle_snapshot(2)
+	var migrated_node := _m2_people_node(migrated)
+	var migrated_receipt: Dictionary = (
+		migrated.get("allocation_receipts", {}) as Dictionary).get("5", {})
+	var migrated_embedded: Dictionary = migrated_receipt.get(
+		"weekly_commitment", {})
+	var migrated_embedded_details: Dictionary = migrated_embedded.get(
+		"details", {})
+	var migrated_outer := GameState.get_weekly_commitment_for_turn(5)
+	var migrated_outer_details: Dictionary = migrated_outer.get("details", {})
+	_expect(not migrated.is_empty() \
+		and migrated_node.get("eligible_trigger_bundle_ids", []) == [cafe_id] \
+		and str(migrated_node.get(
+			"selected_trigger_bundle_id", "")) == cafe_id \
+		and str(migrated_node.get("trigger_selection_origin", "")) \
+			== "legacy_persisted_trigger" \
+		and bool(migrated_node.get(
+			"trigger_selection_migrated_legacy", false)) \
+		and not migrated_receipt.has("selected_trigger_bundle_id") \
+		and not migrated_embedded_details.has(
+			"selected_trigger_bundle_id") \
+		and not migrated_outer_details.has("selected_trigger_bundle_id"),
+		"prepatch Cafe partial save did not migrate without invented identities")
+	_expect(bool(CORE.complete_seoul_cycle_turn(2).get("ok", false)),
+		"prepatch Cafe partial W5 could not close after migration")
+	var closed_w5: Dictionary = CORE.seoul_cycle_snapshot(2).get(
+		"allocation_receipts", {}).get("5", {}).duplicate(true)
+	_advance_to_next_week()
+	var week_six := CORE.seoul_cycle_snapshot(2)
+	var second_capacity := _unused_capacity(week_six, 3, true)
+	var before_sibling: Dictionary = GameState.serialize().duplicate(true)
+	var sibling_change := CORE.commit_seoul_cycle_allocation(
+		second_capacity, "m2_people", 2, hyunsu_id)
+	_expect(not bool(sibling_change.get("ok", true)) \
+		and str(sibling_change.get("error", "")) \
+			== "trigger_branch_change_rejected" \
+		and GameState.serialize() == before_sibling,
+		"prepatch Cafe partial save allowed a W6 sibling branch change")
+	var continued := CORE.commit_seoul_cycle_allocation(
+		second_capacity, "m2_people", 2, cafe_id)
+	var continued_cycle := CORE.seoul_cycle_snapshot(2)
+	var continued_node := _m2_people_node(continued_cycle)
+	var continued_receipts: Dictionary = continued_cycle.get(
+		"allocation_receipts", {})
+	var continued_w5: Dictionary = continued_receipts.get("5", {})
+	var continued_w6: Dictionary = continued_receipts.get("6", {})
+	var continued_w6_weekly: Dictionary = continued_w6.get(
+		"weekly_commitment", {})
+	var continued_w6_details: Dictionary = continued_w6_weekly.get(
+		"details", {})
+	var continued_pending: Dictionary = continued_cycle.get(
+		"pending_trigger", {})
+	_expect(bool(continued.get("ok", false)) \
+		and bool(continued.get("completed_now", false)) \
+		and continued_receipts.size() == 2 \
+		and continued_w5 == closed_w5 \
+		and not continued_w5.has("selected_trigger_bundle_id") \
+		and str(continued_w6.get(
+			"selected_trigger_bundle_id", "")) == cafe_id \
+		and str(continued_w6.get("trigger_bundle", "")) == cafe_id \
+		and str(continued_w6_details.get(
+			"selected_trigger_bundle_id", "")) == cafe_id \
+		and continued_node.get("eligible_trigger_bundle_ids", []) == [cafe_id] \
+		and str(continued_node.get(
+			"selected_trigger_bundle_id", "")) == cafe_id \
+		and str(continued_node.get("trigger_selection_origin", "")) \
+			== "legacy_persisted_trigger" \
+		and bool(continued_node.get(
+			"trigger_selection_migrated_legacy", false)) \
+		and str(continued_pending.get("bundle_id", "")) == cafe_id \
+		and str(continued_pending.get(
+			"selected_trigger_bundle_id", "")) == cafe_id \
+		and not (GameState.core_loop_v2_state.get(
+			"completed_bundles", []) as Array).has(hyunsu_id),
+		"prepatch Cafe partial continuation lost old/new receipts or leaked sibling")
+	var normalized := CORE.normalize_seoul_cycle_state(
+		GameState.core_loop_v2_state.get("seoul_cycle", {}))
+	_expect(not normalized.is_empty() \
+		and normalized == GameState.core_loop_v2_state.get("seoul_cycle", {}),
+		"continued prepatch Cafe cycle did not normalize exactly")
+	var continued_save: Dictionary = GameState.serialize().duplicate(true)
+	var expected_cycle: Dictionary = GameState.core_loop_v2_state.get(
+		"seoul_cycle", {}).duplicate(true)
+	for reload_index in range(2):
+		GameState.start_new_game()
+		GameState.load_from_dict(continued_save.duplicate(true))
+		CORE.initialize_for_run(true)
+		var reloaded_cycle: Dictionary = GameState.core_loop_v2_state.get(
+			"seoul_cycle", {})
+		var reloaded_receipts: Dictionary = reloaded_cycle.get(
+			"allocation_receipts", {})
+		_expect(reloaded_cycle == expected_cycle \
+			and reloaded_receipts.size() == 2 \
+			and reloaded_receipts.get("5", {}) == closed_w5 \
+			and str((reloaded_receipts.get("6", {}) as Dictionary).get(
+				"selected_trigger_bundle_id", "")) == cafe_id \
+			and str((reloaded_cycle.get(
+				"pending_trigger", {}) as Dictionary).get(
+					"bundle_id", "")) == cafe_id \
+			and not (GameState.core_loop_v2_state.get(
+				"completed_bundles", []) as Array).has(hyunsu_id),
+			"prepatch Cafe continuation drifted on reload %d" \
+				% [reload_index + 1])
+		continued_save = GameState.serialize().duplicate(true)
+
+
+func _check_m2_people_chosen_branch(
+		contract_snapshot: Dictionary, chosen_id: String,
+		story_choice_index: int) -> void:
+	var hyunsu_id := "hyunsu_player_reachout"
+	var cafe_id := "cafe_world_glimpse"
+	var sibling_id := cafe_id if chosen_id == hyunsu_id else hyunsu_id
+	var snapshot := _prepare_m2_people_fixture(
+		contract_snapshot, [hyunsu_id, cafe_id], true)
+	if chosen_id == cafe_id:
+		GameState.turn = 6
+		GameState.month = 2
+		GameState.week_of_month = 2
+		snapshot = CORE.seoul_cycle_snapshot(2)
+	var capacity_id := _unused_capacity(snapshot, 3, true)
+	var committed := CORE.commit_seoul_cycle_allocation(
+		capacity_id, "m2_people", 2, chosen_id)
+	var pending: Dictionary = committed.get("pending_trigger", {})
+	var receipt: Dictionary = committed.get("receipt", {})
+	var weekly: Dictionary = receipt.get("weekly_commitment", {})
+	var weekly_details: Dictionary = weekly.get("details", {})
+	_expect(bool(committed.get("ok", false)) \
+		and bool(committed.get("completed_now", false)) \
+		and str(receipt.get("selected_trigger_bundle_id", "")) == chosen_id \
+		and str(receipt.get("trigger_bundle", "")) == chosen_id \
+		and str(weekly_details.get(
+			"selected_trigger_bundle_id", "")) == chosen_id \
+		and str(pending.get("bundle_id", "")) == chosen_id \
+		and str(pending.get("selected_trigger_bundle_id", "")) == chosen_id,
+		"chosen people branch did not exclusively own allocation/pending receipts")
+	var claimed := CORE.claim_seoul_cycle_trigger()
+	var began := bool(claimed.get("ok", false)) \
+		and CORE.begin_seoul_cycle_trigger(chosen_id)
+	_expect(began, "chosen people branch could not be claimed: %s" % chosen_id)
+	if began and chosen_id == hyunsu_id:
+		_apply_and_note_story("v2_hyunsu_player_reachout", 0)
+		_apply_and_note_story("v2_hyunsu_first_study", story_choice_index)
+	elif began:
+		_apply_and_note_story("cafe_00", story_choice_index)
+	var completed_id := CORE.complete_active_bundle() if began else ""
+	var completed_save: Dictionary = GameState.serialize().duplicate(true)
+	GameState.start_new_game()
+	GameState.load_from_dict(completed_save)
+	CORE.initialize_for_run(true)
+	var resolved := CORE.seoul_cycle_snapshot(2)
+	var trigger_receipt: Dictionary = (
+		resolved.get("trigger_receipts", {}) as Dictionary).get(
+			"m2_people", {})
+	var completed_bundles: Array = GameState.core_loop_v2_state.get(
+		"completed_bundles", [])
+	var relationship_matches := (
+		_has_relationship_receipt(chosen_id, "hyunsu")
+		if chosen_id == hyunsu_id
+		else not _has_relationship_receipt(hyunsu_id, "hyunsu")
+	)
+	var month_three_next_ids := CORE.available_offer_ids(3)
+	var month_four_next_ids := CORE.available_offer_ids(4)
+	var next_surface_matches := (
+		month_three_next_ids.has("hyunsu_study_followup") \
+			and not month_four_next_ids.has("sangchul_world_meet")
+		if chosen_id == hyunsu_id else
+		month_four_next_ids.has("sangchul_world_meet") \
+			and not month_three_next_ids.has("hyunsu_study_followup")
+	)
+	var expected_memory := (
+		("hyunsu_resume_shared" if story_choice_index == 0 \
+		else "hyunsu_problem_set_shared")
+		if chosen_id == hyunsu_id else ""
+	)
+	var sibling_memory := (
+		("hyunsu_problem_set_shared" if story_choice_index == 0 \
+		else "hyunsu_resume_shared")
+		if chosen_id == hyunsu_id else ""
+	)
+	var memory_matches := chosen_id != hyunsu_id \
+		or (CORE.has_relationship_memory("hyunsu", expected_memory) \
+			and not CORE.has_relationship_memory("hyunsu", sibling_memory))
+	_expect(completed_id == chosen_id \
+		and str(trigger_receipt.get("bundle_id", "")) == chosen_id \
+		and str(trigger_receipt.get(
+			"selected_trigger_bundle_id", "")) == chosen_id \
+		and completed_bundles.has(chosen_id) \
+		and not completed_bundles.has(sibling_id) \
+		and relationship_matches \
+		and memory_matches \
+		and next_surface_matches,
+		"chosen people outcome %d leaked into sibling receipt/memory/next surface" \
+			% story_choice_index)
+	var resolved_cycle: Dictionary = GameState.core_loop_v2_state.get(
+		"seoul_cycle", {}).duplicate(true)
+	var malformed_resolved := resolved_cycle.duplicate(true)
+	var malformed_trigger_receipts: Dictionary = malformed_resolved.get(
+		"trigger_receipts", {})
+	var malformed_trigger_receipt: Dictionary = malformed_trigger_receipts.get(
+		"m2_people", {})
+	malformed_trigger_receipt["selected_trigger_bundle_id"] = sibling_id
+	malformed_trigger_receipts["m2_people"] = malformed_trigger_receipt
+	malformed_resolved["trigger_receipts"] = malformed_trigger_receipts
+	_expect(CORE.normalize_seoul_cycle_state(malformed_resolved).is_empty(),
+		"resolved people receipt accepted a sibling selected identity")
+
+
+func _check_m2_people_selected_shape_rejections(
+		unselected_cycle: Dictionary, selected_cycle: Dictionary,
+		selected_id: String, sibling_id: String) -> void:
+	var no_receipt := unselected_cycle.duplicate(true)
+	var no_receipt_nodes: Dictionary = no_receipt.get("nodes", {})
+	var selected_node := _m2_people_node(selected_cycle)
+	selected_node["progress"] = 0
+	selected_node["status"] = "open"
+	selected_node["completed_turn"] = 0
+	selected_node["last_allocation_turn"] = 0
+	no_receipt_nodes["m2_people"] = selected_node
+	no_receipt["nodes"] = no_receipt_nodes
+	_expect(CORE.normalize_seoul_cycle_state(no_receipt).is_empty(),
+		"non-legacy player choice without an allocation receipt was accepted")
+
+	var bad_node := selected_cycle.duplicate(true)
+	var bad_node_nodes: Dictionary = bad_node.get("nodes", {})
+	var bad_people: Dictionary = bad_node_nodes.get("m2_people", {})
+	bad_people["selected_trigger_bundle_id"] = sibling_id
+	bad_node_nodes["m2_people"] = bad_people
+	bad_node["nodes"] = bad_node_nodes
+	_expect(CORE.normalize_seoul_cycle_state(bad_node).is_empty(),
+		"selected people node accepted a sibling branch identity")
+
+	var bad_receipt_selection := selected_cycle.duplicate(true)
+	var selection_receipts: Dictionary = bad_receipt_selection.get(
+		"allocation_receipts", {})
+	var selection_receipt: Dictionary = selection_receipts.get("5", {})
+	selection_receipt["selected_trigger_bundle_id"] = sibling_id
+	selection_receipts["5"] = selection_receipt
+	bad_receipt_selection["allocation_receipts"] = selection_receipts
+	_expect(CORE.normalize_seoul_cycle_state(
+		bad_receipt_selection).is_empty(),
+		"allocation receipt accepted a sibling selected identity")
+
+	var bad_receipt_trigger := selected_cycle.duplicate(true)
+	var trigger_receipts: Dictionary = bad_receipt_trigger.get(
+		"allocation_receipts", {})
+	var trigger_receipt: Dictionary = trigger_receipts.get("5", {})
+	trigger_receipt["trigger_bundle"] = sibling_id
+	trigger_receipts["5"] = trigger_receipt
+	bad_receipt_trigger["allocation_receipts"] = trigger_receipts
+	_expect(CORE.normalize_seoul_cycle_state(bad_receipt_trigger).is_empty(),
+		"partial allocation receipt accepted a sibling trigger identity")
+
+	var bad_weekly := selected_cycle.duplicate(true)
+	var weekly_receipts: Dictionary = bad_weekly.get(
+		"allocation_receipts", {})
+	var weekly_receipt: Dictionary = weekly_receipts.get("5", {})
+	var embedded_weekly: Dictionary = weekly_receipt.get(
+		"weekly_commitment", {})
+	var embedded_details: Dictionary = embedded_weekly.get("details", {})
+	embedded_details["selected_trigger_bundle_id"] = sibling_id
+	embedded_weekly["details"] = embedded_details
+	weekly_receipt["weekly_commitment"] = embedded_weekly
+	weekly_receipts["5"] = weekly_receipt
+	bad_weekly["allocation_receipts"] = weekly_receipts
+	_expect(CORE.normalize_seoul_cycle_state(bad_weekly).is_empty(),
+		"nested weekly receipt accepted a sibling selected identity")
+	_expect(selected_id != sibling_id,
+		"malformed people fixture did not use distinct branch identities")
+
+
+func _check_m2_people_pending_shape_rejections(
+		raw_cycle: Dictionary, sibling_id: String) -> void:
+	for pending_field in ["bundle_id", "selected_trigger_bundle_id"]:
+		var malformed := raw_cycle.duplicate(true)
+		var pending: Dictionary = malformed.get("pending_trigger", {})
+		pending[pending_field] = sibling_id
+		malformed["pending_trigger"] = pending
+		_expect(CORE.normalize_seoul_cycle_state(malformed).is_empty(),
+			"pending people trigger accepted sibling %s" % pending_field)
+
+
+func _prepare_m2_people_fixture(
+		contract_snapshot: Dictionary, trigger_options: Array,
+		hyunsu_eligible: bool) -> Dictionary:
+	DataRegistry.demo_core_loop_v2 = _m2_people_contract_fixture(
+		contract_snapshot, trigger_options)
+	_prepare_fresh_cycle_gate()
+	var month_one := CORE.initialize_seoul_cycle(1)
+	_expect(bool(month_one.get("ok", false)),
+		"M2 people fixture could not establish Month One cycle provenance")
+	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var applications: Dictionary = state.get("application_statuses", {})
+	applications.erase("mirae_industrial_tech")
+	state["application_statuses"] = applications
+	if hyunsu_eligible:
+		var completed: Array = state.get("completed_bundles", [])
+		if not completed.has("hyunsu_first_meet"):
+			completed.append("hyunsu_first_meet")
+		state["completed_bundles"] = completed
+		var completed_turns: Dictionary = state.get(
+			"completed_bundle_turns", {})
+		completed_turns["hyunsu_first_meet"] = 3
+		state["completed_bundle_turns"] = completed_turns
+		var stages: Dictionary = state.get("relationship_stages", {})
+		stages["hyunsu"] = "opening"
+		state["relationship_stages"] = stages
+		var memories: Array = state.get("relationship_memories", [])
+		memories.append({
+			"character": "hyunsu",
+			"memory": "hyunsu_honest_uncertainty",
+			"bundle_id": "hyunsu_first_meet",
+			"turn": 3,
+		})
+		state["relationship_memories"] = memories
+	GameState.core_loop_v2_state = state
+	GameState.turn = 5
+	GameState.month = 2
+	GameState.week_of_month = 1
+	var initialized := CORE.initialize_seoul_cycle(2)
+	_expect(bool(initialized.get("ok", false)),
+		"M2 people fixture could not initialize Month Two")
+	return CORE.seoul_cycle_snapshot(2)
+
+
+func _m2_people_contract_fixture(
+		contract_snapshot: Dictionary, trigger_options: Array) -> Dictionary:
+	var fixture := contract_snapshot.duplicate(true)
+	var cycle: Dictionary = fixture.get("seoul_cycle", {})
+	var months: Dictionary = cycle.get("months", {})
+	var month_two: Dictionary = months.get("2", {})
+	var nodes: Dictionary = month_two.get("nodes", {})
+	var people: Dictionary = nodes.get("m2_people", {})
+	people["trigger_options"] = trigger_options.duplicate()
+	nodes["m2_people"] = people
+	month_two["nodes"] = nodes
+	months["2"] = month_two
+	cycle["months"] = months
+	fixture["seoul_cycle"] = cycle
+	return fixture
+
+
+func _m2_people_node(raw_cycle: Dictionary) -> Dictionary:
+	var raw_nodes: Variant = raw_cycle.get("nodes", {})
+	if not raw_nodes is Dictionary:
+		return {}
+	var raw_people: Variant = (raw_nodes as Dictionary).get("m2_people", {})
+	return (raw_people as Dictionary).duplicate(true) \
+		if raw_people is Dictionary else {}
+
+
+func _m2_candidate_ids(raw_candidates: Array) -> Array[String]:
+	var ids: Array[String] = []
+	for raw_candidate in raw_candidates:
+		if raw_candidate is Dictionary:
+			ids.append(str((raw_candidate as Dictionary).get("id", "")))
+	return ids
+
+
+func _m2_candidate_copy_complete(raw_candidates: Array) -> bool:
+	for raw_candidate in raw_candidates:
+		if not raw_candidate is Dictionary:
+			return false
+		for key in ["id", "label_ko", "label_en", "detail_ko", "detail_en"]:
+			if str((raw_candidate as Dictionary).get(key, "")).strip_edges().is_empty():
+				return false
+	return true
+
+
+func _m2_people_choice_identity(raw_cycle: Dictionary) -> Dictionary:
+	var node := _m2_people_node(raw_cycle)
+	return {
+		"eligible_trigger_bundle_ids": (
+			node.get("eligible_trigger_bundle_ids", []) as Array).duplicate(),
+		"selected_trigger_bundle_id": str(node.get(
+			"selected_trigger_bundle_id", "")),
+		"trigger_bundle": str(node.get("trigger_bundle", "")),
+		"summary_bundle": str(node.get("summary_bundle", "")),
+		"trigger_selection_origin": str(node.get(
+			"trigger_selection_origin", "")),
+		"trigger_selection_migrated_legacy": bool(node.get(
+			"trigger_selection_migrated_legacy", false)),
+		"progress": int(node.get("progress", 0)),
+		"status": str(node.get("status", "")),
+		"allocation_receipts": (
+			raw_cycle.get("allocation_receipts", {}) as Dictionary).duplicate(true),
+		"pending_trigger": (
+			raw_cycle.get("pending_trigger", {}) as Dictionary).duplicate(true),
+	}
 
 
 func _check_order101_main_result_committed_double_reload() -> void:

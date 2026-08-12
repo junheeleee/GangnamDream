@@ -1696,6 +1696,66 @@ def validate_order101_w1_application_contract(
         )
 
 
+def validate_order101_m2_people_selection_contract(
+    contract: dict[str, Any],
+    errors: list[str],
+) -> None:
+    """Keep Month Two's relationship branch owned by an explicit player choice."""
+    seoul_cycle = require_dict(
+        contract.get("seoul_cycle"), "seoul_cycle", errors
+    )
+    cycle_months = require_dict(
+        seoul_cycle.get("months"), "seoul_cycle.months", errors
+    )
+    month_two = require_dict(
+        cycle_months.get("2"), "seoul_cycle.months.2", errors
+    )
+    month_two_nodes = require_dict(
+        month_two.get("nodes"), "seoul_cycle.months.2.nodes", errors
+    )
+    people = require_dict(
+        month_two_nodes.get("m2_people"),
+        "seoul_cycle.months.2.nodes.m2_people",
+        errors,
+    )
+    expected_candidates = [
+        "hyunsu_player_reachout",
+        "cafe_world_glimpse",
+    ]
+    trigger_options = people.get("trigger_options")
+    if not isinstance(trigger_options, list) \
+            or len(trigger_options) != len(expected_candidates) \
+            or set(trigger_options) != set(expected_candidates):
+        fail(
+            "m2_people.trigger_options must keep the exact Hyunsu/Cafe "
+            "candidate identities; JSON order is presentation-neutral",
+            errors,
+        )
+    if people.get("selection_owner") != "player":
+        fail(
+            "m2_people.selection_owner must be player, never "
+            "runtime_first_eligible",
+            errors,
+        )
+    if people.get("trigger_selection_mode") != "player_required":
+        fail(
+            "m2_people.trigger_selection_mode must require an explicit player "
+            "choice even when exactly one candidate is eligible",
+            errors,
+        )
+    if str(people.get("fallback_trigger_bundle", "")).strip():
+        fail(
+            "m2_people cannot author a fallback trigger that silently chooses "
+            "a relationship branch for the player",
+            errors,
+        )
+    if not bool(people.get("disable_without_trigger", False)):
+        fail(
+            "m2_people must remain locked when no authored candidate is eligible",
+            errors,
+        )
+
+
 def fixture_predicate_met(predicate: dict[str, Any], fixture: dict[str, Any]) -> bool:
     kind = str(predicate.get("kind", ""))
     if kind == "completed_bundle":
@@ -6894,9 +6954,15 @@ def main() -> int:
             node_id = str(raw_node_id)
             node_path = f"{month_path}.nodes.{node_id}"
             node = require_dict(raw_node, node_path, errors)
-            for field in ("owner", "place", "summary_bundle"):
+            for field in ("owner", "place"):
                 if not str(node.get(field, "")).strip():
                     fail(f"{node_path}.{field} is empty", errors)
+            player_trigger_required = (
+                node.get("trigger_selection_mode") == "player_required"
+            )
+            if not player_trigger_required \
+                    and not str(node.get("summary_bundle", "")).strip():
+                fail(f"{node_path}.summary_bundle is empty", errors)
             for copy_key in (
                 "label_ko", "label_en", "board_label_ko", "board_label_en",
                 "place_ko", "place_en"
@@ -7841,6 +7907,7 @@ def main() -> int:
     registered_events = load_registered_events(errors)
     validate_opening_motivation_contract(contract, registered_events, errors)
     validate_order101_w1_application_contract(contract, errors)
+    validate_order101_m2_people_selection_contract(contract, errors)
     temptation_bundle = require_dict(
         bundles.get("temptation_consequence"),
         "scene_bundles.temptation_consequence",

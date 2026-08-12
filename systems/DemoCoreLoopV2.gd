@@ -87,6 +87,7 @@ const EXACT_DEFERRED_CHOICE_ROOTS := [
 const MONTH_ONE_EPISODE_MODE := "month_one_episode_v1"
 const SEOUL_CYCLE_SCHEMA := 1
 const SEOUL_CYCLE_MODE := "seoul_cycle_v1"
+const SEOUL_CYCLE_TRIGGER_PLAYER_REQUIRED := "player_required"
 const SEOUL_CYCLE_STATE_KEY := "seoul_cycle"
 const MONTH_ONE_EPISODE_TOKEN := "{v2_month_one_episode_echo}"
 const FIRST_BILL_STORY_TOKENS := [
@@ -1065,10 +1066,15 @@ static func _new_seoul_cycle_state(month_index: int) -> Dictionary:
 		node["deadline_week"] = clampi(
 			int(node.get("deadline_week", 4)), 1, 4)
 		node["progress"] = 0
+		var player_trigger_required := _seoul_cycle_player_trigger_required(node)
+		var no_player_trigger_candidates := player_trigger_required \
+			and (node.get("eligible_trigger_bundle_ids", []) as Array).is_empty()
 		node["status"] = (
 			"locked"
-			if bool(node.get("disable_without_trigger", false)) \
-				and str(node.get("trigger_bundle", "")).is_empty()
+			if no_player_trigger_candidates \
+				or (not player_trigger_required \
+					and bool(node.get("disable_without_trigger", false)) \
+					and str(node.get("trigger_bundle", "")).is_empty())
 			else "open"
 		)
 		if not str(node.get("trigger_bundle", "")).is_empty():
@@ -1104,6 +1110,18 @@ static func _new_seoul_cycle_state(month_index: int) -> Dictionary:
 static func _resolved_seoul_cycle_node(
 		node_spec: Dictionary, month_index: int) -> Dictionary:
 	var node := node_spec.duplicate(true)
+	if _seoul_cycle_player_trigger_required(node):
+		if str(node.get("selection_owner", "")).strip_edges() != "player":
+			return {}
+		var eligible_ids := _eligible_seoul_cycle_player_trigger_ids(
+			node, month_index)
+		node["eligible_trigger_bundle_ids"] = eligible_ids
+		node["selected_trigger_bundle_id"] = ""
+		node["trigger_bundle"] = ""
+		node["summary_bundle"] = ""
+		node["trigger_selection_origin"] = "unselected_player"
+		node["trigger_selection_migrated_legacy"] = false
+		return node
 	var candidates := _seoul_cycle_node_trigger_candidates(node)
 	var available := available_offer_ids(month_index)
 	var resolved_trigger := ""
@@ -1134,6 +1152,8 @@ static func _seoul_cycle_node_with_resolved_trigger(
 		month_index: int) -> Dictionary:
 	var node := node_spec.duplicate(true)
 	node["trigger_bundle"] = resolved_trigger
+	if _seoul_cycle_player_trigger_required(node):
+		node["selected_trigger_bundle_id"] = resolved_trigger
 	if resolved_trigger.is_empty():
 		return node
 	var chosen_bundle := bundle(resolved_trigger)
@@ -1177,6 +1197,52 @@ static func _seoul_cycle_node_with_resolved_trigger(
 			if not person_id.is_empty():
 				node["owner"] = person_id
 	return node
+
+static func _seoul_cycle_player_trigger_required(node: Dictionary) -> bool:
+	return str(node.get("trigger_selection_mode", "")).strip_edges() \
+		== SEOUL_CYCLE_TRIGGER_PLAYER_REQUIRED
+
+static func _eligible_seoul_cycle_player_trigger_ids(
+		node_spec: Dictionary, month_index: int) -> Array[String]:
+	var eligible: Array[String] = []
+	var available := available_offer_ids(month_index)
+	for bundle_id in _seoul_cycle_node_trigger_candidates(node_spec):
+		var scene_bundle := bundle(bundle_id)
+		if scene_bundle.is_empty() \
+				or not available.has(bundle_id) \
+				or not _bundle_requirement_met(scene_bundle):
+			continue
+		eligible.append(bundle_id)
+	eligible.sort()
+	return eligible
+
+static func _seoul_cycle_player_trigger_candidate_records(
+		node: Dictionary, at_turn: int = -1) -> Array[Dictionary]:
+	var candidates: Array[Dictionary] = []
+	var raw_ids: Variant = node.get("eligible_trigger_bundle_ids", [])
+	if not raw_ids is Array:
+		return candidates
+	for raw_id in raw_ids:
+		var bundle_id := str(raw_id).strip_edges()
+		var scene_bundle := bundle(bundle_id)
+		if bundle_id.is_empty() or scene_bundle.is_empty():
+			continue
+		if at_turn > 0:
+			var latest_allowed_turn := 0
+			for raw_week in scene_bundle.get("allowed_weeks", []):
+				latest_allowed_turn = maxi(latest_allowed_turn, int(raw_week))
+			if latest_allowed_turn < at_turn:
+				continue
+		candidates.append({
+			"id": bundle_id,
+			"label_ko": str(scene_bundle.get("offer_ko", "")),
+			"label_en": str(scene_bundle.get("offer_en", "")),
+			"detail_ko": str(scene_bundle.get("detail_ko", "")),
+			"detail_en": str(scene_bundle.get("detail_en", "")),
+		})
+	candidates.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
+		return str(left.get("id", "")) < str(right.get("id", "")))
+	return candidates
 
 static func _seoul_cycle_node_trigger_candidates(
 		node_spec: Dictionary) -> Array[String]:
@@ -1330,12 +1396,37 @@ static func seoul_cycle_snapshot(month_index: int = -1) -> Dictionary:
 
 static func preview_seoul_cycle_allocation(
 		capacity_id: String, node_id: String,
-		month_index: int = -1) -> Dictionary:
+		month_index: int = -1,
+		selected_bundle_id: String = "") -> Dictionary:
 	var snapshot := seoul_cycle_snapshot(month_index)
 	if not bool(snapshot.get("active", false)):
 		return {"ok": false, "error": "seoul_cycle_inactive"}
 	var turn := int(snapshot.get("turn", 0))
 	var week_index := int(snapshot.get("week_index", 0))
+	# Once a player-owned branch is durable, a sibling request is an identity
+	# mutation regardless of whether another weekly gate would also reject the
+	# call. Give that invariant precedence so retries and stale UI callbacks can
+	# never disguise a branch-change attempt as an ordinary duplicate commit.
+	var early_raw_node: Variant = (snapshot.get("nodes", {}) as Dictionary).get(
+		node_id, {})
+	if early_raw_node is Dictionary \
+			and _seoul_cycle_player_trigger_required(
+				early_raw_node as Dictionary):
+		var early_persisted := str((early_raw_node as Dictionary).get(
+			"selected_trigger_bundle_id", "")).strip_edges()
+		var early_requested := selected_bundle_id.strip_edges()
+		if not early_persisted.is_empty() \
+				and not early_requested.is_empty() \
+				and early_requested != early_persisted:
+			return {
+				"ok": false,
+				"error": "trigger_branch_change_rejected",
+				"trigger_selection_required": false,
+				"trigger_candidates": \
+					_seoul_cycle_player_trigger_candidate_records(
+						early_raw_node as Dictionary, turn),
+				"selected_trigger_bundle_id": early_persisted,
+			}
 	if (snapshot.get("completed_turns", []) as Array).has(turn):
 		return {"ok": false, "error": "cycle_turn_already_completed"}
 	if (snapshot.get("allocation_receipts", {}) as Dictionary).has(str(turn)):
@@ -1365,6 +1456,57 @@ static func preview_seoul_cycle_allocation(
 	if not raw_node is Dictionary or (raw_node as Dictionary).is_empty():
 		return {"ok": false, "error": "unknown_node"}
 	var node: Dictionary = (raw_node as Dictionary).duplicate(true)
+	var player_trigger_required := _seoul_cycle_player_trigger_required(node)
+	var trigger_candidates: Array[Dictionary] = []
+	if player_trigger_required:
+		trigger_candidates = _seoul_cycle_player_trigger_candidate_records(
+			node, turn)
+	var persisted_trigger := str(node.get(
+		"selected_trigger_bundle_id",
+		node.get("trigger_bundle", ""))).strip_edges()
+	var requested_trigger := selected_bundle_id.strip_edges()
+	var eligible_ids: Array[String] = []
+	if player_trigger_required:
+		var raw_eligible_ids: Variant = node.get(
+			"eligible_trigger_bundle_ids", [])
+		if not raw_eligible_ids is Array:
+			return {
+				"ok": false,
+				"error": "invalid_trigger_selection_state",
+				"trigger_selection_required": true,
+				"trigger_candidates": trigger_candidates,
+			}
+		for raw_id in raw_eligible_ids:
+			eligible_ids.append(str(raw_id).strip_edges())
+		eligible_ids.sort()
+		var active_candidate_ids: Array[String] = []
+		for candidate in trigger_candidates:
+			active_candidate_ids.append(str(candidate.get("id", "")))
+		if not persisted_trigger.is_empty():
+			if not eligible_ids.has(persisted_trigger) \
+					or not active_candidate_ids.has(persisted_trigger) \
+					or (not requested_trigger.is_empty() \
+						and requested_trigger != persisted_trigger):
+				return {
+					"ok": false,
+					"error": "trigger_branch_change_rejected",
+					"trigger_selection_required": false,
+					"trigger_candidates": trigger_candidates,
+					"selected_trigger_bundle_id": persisted_trigger,
+				}
+			node = _seoul_cycle_node_with_resolved_trigger(
+				node, persisted_trigger, int(snapshot.get("month", 0)))
+		elif not requested_trigger.is_empty():
+			if not eligible_ids.has(requested_trigger) \
+					or not active_candidate_ids.has(requested_trigger):
+				return {
+					"ok": false,
+					"error": "invalid_trigger_selection",
+					"trigger_selection_required": true,
+					"trigger_candidates": trigger_candidates,
+				}
+			node = _seoul_cycle_node_with_resolved_trigger(
+				node, requested_trigger, int(snapshot.get("month", 0)))
 	var node_status := str(node.get("status", "open"))
 	var repeatable := bool(node.get("repeatable_after_completion", false))
 	if node_status in ["expired", "awaiting_trigger", "locked"] \
@@ -1436,9 +1578,11 @@ static func preview_seoul_cycle_allocation(
 	var immediate_effects := _merged_seoul_cycle_effects(
 		allocation_effects,
 		node.get("completion_effects", {}) if completed_now else {})
+	var selection_missing := player_trigger_required \
+		and persisted_trigger.is_empty() and requested_trigger.is_empty()
 	return {
-		"ok": true,
-		"error": "",
+		"ok": not selection_missing,
+		"error": "trigger_selection_required" if selection_missing else "",
 		"month": int(snapshot.get("month", 0)),
 		"turn": turn,
 		"week_index": week_index,
@@ -1464,13 +1608,18 @@ static func preview_seoul_cycle_allocation(
 			and progress_after < threshold,
 		"immediate_effects": immediate_effects,
 		"trigger_bundle": trigger_bundle,
+		"trigger_selection_required": selection_missing,
+		"trigger_candidates": trigger_candidates,
+		"selected_trigger_bundle_id": str(node.get(
+			"selected_trigger_bundle_id", "")),
 	}
 
 static func commit_seoul_cycle_allocation(
 		capacity_id: String, node_id: String,
-		month_index: int = -1) -> Dictionary:
+		month_index: int = -1,
+		selected_bundle_id: String = "") -> Dictionary:
 	var preview := preview_seoul_cycle_allocation(
-		capacity_id, node_id, month_index)
+		capacity_id, node_id, month_index, selected_bundle_id)
 	if not bool(preview.get("ok", false)):
 		return preview
 	var state := _normalized_state(GameState.core_loop_v2_state)
@@ -1493,6 +1642,38 @@ static func commit_seoul_cycle_allocation(
 	capacity["node_id"] = node_id
 	cycle["capacities"][capacity_index] = capacity
 	var node: Dictionary = cycle["nodes"].get(node_id, {})
+	var selected_trigger_bundle_id := str(preview.get(
+		"selected_trigger_bundle_id", "")).strip_edges()
+	if _seoul_cycle_player_trigger_required(node):
+		var migrated_legacy_selection := bool(node.get(
+			"trigger_selection_migrated_legacy", false))
+		var existing_trigger_bundle_id := str(node.get(
+			"selected_trigger_bundle_id",
+			node.get("trigger_bundle", ""))).strip_edges()
+		var raw_eligible_ids: Variant = node.get(
+			"eligible_trigger_bundle_ids", [])
+		if not raw_eligible_ids is Array \
+				or selected_trigger_bundle_id.is_empty() \
+				or not (raw_eligible_ids as Array).has(
+					selected_trigger_bundle_id) \
+				or (not existing_trigger_bundle_id.is_empty() \
+					and existing_trigger_bundle_id \
+						!= selected_trigger_bundle_id):
+			return {"ok": false, "error": "invalid_trigger_selection"}
+		node = _seoul_cycle_node_with_resolved_trigger(
+			node, selected_trigger_bundle_id,
+			int(preview.get("month", 0)))
+		# A migrated save may already contain allocation/weekly rows from before
+		# selected identity was duplicated into every receipt. Preserve that
+		# provenance for the lifetime of the node: new rows carry the exact saved
+		# branch, while old blank rows remain historical rather than being
+		# retroactively fabricated or invalidated on the next reload.
+		node["trigger_selection_origin"] = (
+			"legacy_persisted_trigger"
+			if migrated_legacy_selection else "player_selection"
+		)
+		node["trigger_selection_migrated_legacy"] = \
+			migrated_legacy_selection
 	if bool(preview.get("onboarding_completion_override", false)):
 		node["onboarding_completion_override_applied"] = true
 		node["authored_threshold"] = int(preview.get(
@@ -1555,6 +1736,8 @@ static func commit_seoul_cycle_allocation(
 		"repeat_allocation": bool(preview.get("repeat_allocation", false)),
 		"fallback_allocation": bool(preview.get(
 			"fallback_allocation", false)),
+		"selected_trigger_bundle_id": selected_trigger_bundle_id,
+		"trigger_bundle": trigger_bundle,
 		"effects": effects.duplicate(true),
 		"weekly_commitment": (
 			transaction.get("record", {}) as Dictionary).duplicate(true),
@@ -1586,6 +1769,7 @@ static func commit_seoul_cycle_allocation(
 			"kind": "node_trigger",
 			"node_id": node_id,
 			"bundle_id": trigger_bundle,
+			"selected_trigger_bundle_id": selected_trigger_bundle_id,
 			"turn": turn,
 			"status": "pending",
 		}
@@ -1681,6 +1865,8 @@ static func _seoul_cycle_commitment_payload(
 				"repeat_allocation", false)),
 			"fallback_allocation": bool(preview.get(
 				"fallback_allocation", false)),
+			"selected_trigger_bundle_id": str(preview.get(
+				"selected_trigger_bundle_id", "")),
 			"label_ko": str(node.get("label_ko", "")),
 			"label_en": str(node.get("label_en", "")),
 			"place": str(node.get("place", "")),
@@ -1942,6 +2128,8 @@ static func _resolve_seoul_cycle_entry_in_state(
 		"source_kind": str(entry.get("kind", "")),
 		"bundle_id": bundle_id,
 		"node_id": str(entry.get("node_id", "")),
+		"selected_trigger_bundle_id": str(entry.get(
+			"selected_trigger_bundle_id", "")),
 		"week_index": int(entry.get("week_index", 0)),
 	}):
 		return false
@@ -8136,6 +8324,21 @@ static func _normalized_schedule(raw_schedule: Dictionary) -> Dictionary:
 			schedule[str(week)] = bundle_id
 	return schedule
 
+static func _normalized_player_trigger_ids(
+		raw_ids: Variant, authored_ids: Array[String]) -> Dictionary:
+	if not raw_ids is Array or (raw_ids as Array).size() > 2:
+		return {"ok": false, "ids": []}
+	var ids: Array[String] = []
+	for raw_id in raw_ids:
+		var bundle_id := str(raw_id).strip_edges()
+		if bundle_id.is_empty() or ids.has(bundle_id) \
+				or not authored_ids.has(bundle_id) \
+				or bundle(bundle_id).is_empty():
+			return {"ok": false, "ids": []}
+		ids.append(bundle_id)
+	ids.sort()
+	return {"ok": true, "ids": ids}
+
 ## Public for save migration tests and recovery callers. It never creates new
 ## capacities: an old/malformed save cannot gain a reroll by normalization.
 static func normalize_seoul_cycle_state(raw_state: Dictionary) -> Dictionary:
@@ -8205,15 +8408,118 @@ static func normalize_seoul_cycle_state(raw_state: Dictionary) -> Dictionary:
 		var node: Dictionary = (raw_node_spec as Dictionary).duplicate(true)
 		var raw_runtime_node: Variant = (raw_nodes as Dictionary).get(
 			node_id, {})
+		var player_trigger_required := _seoul_cycle_player_trigger_required(node)
 		if raw_runtime_node is Dictionary:
 			var persisted_trigger := str(
 				(raw_runtime_node as Dictionary).get(
 					"trigger_bundle", "")).strip_edges()
-			if persisted_trigger.is_empty() \
+			if player_trigger_required:
+				var authored_ids := _seoul_cycle_node_trigger_candidates(
+					raw_node_spec as Dictionary)
+				authored_ids.sort()
+				if not persisted_trigger.is_empty() \
+						and not authored_ids.has(persisted_trigger):
+					return {}
+				var selected_trigger := str(
+					(raw_runtime_node as Dictionary).get(
+						"selected_trigger_bundle_id", "")).strip_edges()
+				var has_durable_eligibility := (
+					raw_runtime_node as Dictionary).has(
+						"eligible_trigger_bundle_ids")
+				var durable_selection_fields := [
+					"selected_trigger_bundle_id",
+					"trigger_selection_origin",
+					"trigger_selection_migrated_legacy",
+				]
+				var has_any_player_selection_field := false
+				var has_all_player_selection_fields := true
+				for field in durable_selection_fields:
+					has_any_player_selection_field = \
+						has_any_player_selection_field \
+						or (raw_runtime_node as Dictionary).has(field)
+					has_all_player_selection_fields = \
+						has_all_player_selection_fields \
+						and (raw_runtime_node as Dictionary).has(field)
+				if not has_durable_eligibility \
+						and has_any_player_selection_field:
+					return {}
+				if has_durable_eligibility \
+						and (not has_all_player_selection_fields \
+							or not (raw_runtime_node as Dictionary).has(
+								"trigger_bundle") \
+							or not (raw_runtime_node as Dictionary).has(
+								"summary_bundle")):
+					return {}
+				var persisted_origin := str(
+					(raw_runtime_node as Dictionary).get(
+						"trigger_selection_origin", "")).strip_edges()
+				var eligible_ids: Array[String] = []
+				if has_durable_eligibility:
+					var raw_eligible_ids: Variant = (
+						raw_runtime_node as Dictionary).get(
+							"eligible_trigger_bundle_ids", [])
+					var normalized_ids := _normalized_player_trigger_ids(
+						raw_eligible_ids,
+						authored_ids)
+					if not bool(normalized_ids.get("ok", false)) \
+							or raw_eligible_ids != normalized_ids.get("ids", []) \
+							or selected_trigger != persisted_trigger \
+							or persisted_origin not in [
+								"unselected_player", "player_selection",
+								"legacy_persisted_trigger",
+							]:
+						return {}
+					eligible_ids.assign(normalized_ids.get("ids", []))
+					var raw_migrated: Variant = (
+						raw_runtime_node as Dictionary).get(
+							"trigger_selection_migrated_legacy", null)
+					if not raw_migrated is bool \
+							or bool(raw_migrated) \
+								!= (persisted_origin \
+									== "legacy_persisted_trigger"):
+						return {}
+					if persisted_origin == "legacy_persisted_trigger":
+						if (not selected_trigger.is_empty() \
+								and (eligible_ids.size() != 1 \
+									or eligible_ids[0] != selected_trigger)) \
+								or (selected_trigger.is_empty() \
+									and not eligible_ids.is_empty()):
+							return {}
+						node["trigger_selection_migrated_legacy"] = true
+					else:
+						if (selected_trigger.is_empty() \
+								and persisted_origin != "unselected_player") \
+								or (not selected_trigger.is_empty() \
+									and persisted_origin != "player_selection"):
+							return {}
+						node["trigger_selection_migrated_legacy"] = false
+				else:
+					# Legacy cycle nodes had already persisted the runtime-picked
+					# trigger. That exact ID is the only migration authority: do not
+					# re-run today's predicates or invent its former sibling list.
+					selected_trigger = persisted_trigger
+					if not selected_trigger.is_empty():
+						eligible_ids.append(selected_trigger)
+					persisted_origin = "legacy_persisted_trigger"
+					node["trigger_selection_migrated_legacy"] = true
+				if not selected_trigger.is_empty():
+					if not eligible_ids.has(selected_trigger):
+						return {}
+					node = _seoul_cycle_node_with_resolved_trigger(
+						node, selected_trigger, month)
+				else:
+					node["trigger_bundle"] = ""
+					node["selected_trigger_bundle_id"] = ""
+					node["summary_bundle"] = ""
+				node["eligible_trigger_bundle_ids"] = eligible_ids
+				node["trigger_selection_origin"] = persisted_origin
+			elif persisted_trigger.is_empty() \
 					or _seoul_cycle_node_trigger_candidates(
 						raw_node_spec as Dictionary).has(persisted_trigger):
 				node = _seoul_cycle_node_with_resolved_trigger(
 					node, persisted_trigger, month)
+			else:
+				return {}
 			for key in [
 				"progress", "status", "completed_turn",
 				"last_allocation_turn", "expired_turn", "featured_status",
@@ -8224,6 +8530,15 @@ static func normalize_seoul_cycle_state(raw_state: Dictionary) -> Dictionary:
 			]:
 				if (raw_runtime_node as Dictionary).has(key):
 					node[key] = (raw_runtime_node as Dictionary)[key]
+		elif player_trigger_required:
+			# A malformed/very old unresolved node cannot gain relationship
+			# choices merely by being loaded under today's prerequisites.
+			node["eligible_trigger_bundle_ids"] = []
+			node["selected_trigger_bundle_id"] = ""
+			node["trigger_bundle"] = ""
+			node["summary_bundle"] = ""
+			node["trigger_selection_origin"] = "legacy_persisted_trigger"
+			node["trigger_selection_migrated_legacy"] = true
 		var threshold: int = maxi(1, int(node.get("threshold", 1)))
 		var completion_threshold := threshold
 		if node.get("onboarding_completion_override_applied", false) == true:
@@ -8243,6 +8558,23 @@ static func normalize_seoul_cycle_state(raw_state: Dictionary) -> Dictionary:
 		if status in ["awaiting_trigger", "completed"] \
 				and int(node["progress"]) < completion_threshold:
 			status = "in_progress"
+		if player_trigger_required:
+			var selected_trigger := str(node.get(
+				"selected_trigger_bundle_id", "")).strip_edges()
+			var eligible_ids: Array = node.get(
+				"eligible_trigger_bundle_ids", [])
+			if selected_trigger.is_empty():
+				if not eligible_ids.is_empty() and status == "locked":
+					return {}
+				if eligible_ids.is_empty():
+					status = "locked"
+				elif int(node["progress"]) > 0 \
+						or status not in ["open", "expired"]:
+					return {}
+			elif str(node.get("trigger_bundle", "")) != selected_trigger \
+					or str(node.get("summary_bundle", "")) != selected_trigger \
+					or not eligible_ids.has(selected_trigger):
+				return {}
 		node["status"] = status
 		node["completed_turn"] = clampi(
 			int(node.get("completed_turn", 0)),
@@ -8264,6 +8596,57 @@ static func normalize_seoul_cycle_state(raw_state: Dictionary) -> Dictionary:
 			raw_state.get("world_receipts", {}), month)
 	if not bool(normalized_world_receipts.get("ok", false)):
 		return {}
+	var allocation_receipts := _seoul_cycle_receipt_dictionary(
+		raw_state.get("allocation_receipts", {}))
+	for raw_turn_key in allocation_receipts:
+		var raw_allocation: Variant = allocation_receipts.get(
+			raw_turn_key, {})
+		if not raw_allocation is Dictionary:
+			return {}
+		var allocation: Dictionary = raw_allocation
+		var allocation_node_id := str(allocation.get("node_id", ""))
+		var allocation_node: Dictionary = nodes.get(
+			allocation_node_id, {})
+		if allocation_node.is_empty() \
+				or not _seoul_cycle_player_trigger_required(allocation_node):
+			continue
+		var allocation_capacity_id := str(
+			allocation.get("capacity_id", ""))
+		var matched_capacity := false
+		for capacity in capacities:
+			if str(capacity.get("id", "")) == allocation_capacity_id \
+					and bool(capacity.get("consumed", false)) \
+					and int(capacity.get("consumed_turn", 0)) \
+						== int(allocation.get("turn", 0)) \
+					and str(capacity.get("node_id", "")) \
+						== allocation_node_id:
+				matched_capacity = true
+				break
+		if not matched_capacity:
+			return {}
+	for capacity in capacities:
+		if not bool(capacity.get("consumed", false)):
+			continue
+		var consumed_turn := int(capacity.get("consumed_turn", 0))
+		var raw_allocation: Variant = allocation_receipts.get(
+			str(consumed_turn), {})
+		if not raw_allocation is Dictionary \
+				or str((raw_allocation as Dictionary).get(
+					"capacity_id", "")) != str(capacity.get("id", "")) \
+				or str((raw_allocation as Dictionary).get(
+					"node_id", "")) != str(capacity.get("node_id", "")):
+			return {}
+	var trigger_receipts := _seoul_cycle_receipt_dictionary(
+		raw_state.get("trigger_receipts", {}))
+	var pending_trigger := _normalized_seoul_cycle_pending(
+		raw_state.get("pending_trigger", {}), "node_trigger", month)
+	if raw_state.get("pending_trigger", {}) is Dictionary \
+			and not (raw_state.get("pending_trigger", {}) as Dictionary).is_empty() \
+			and pending_trigger.is_empty():
+		return {}
+	if not _normalize_seoul_cycle_player_trigger_identity(
+			nodes, allocation_receipts, trigger_receipts, pending_trigger):
+		return {}
 	var state := {
 		"schema": SEOUL_CYCLE_SCHEMA,
 		"planning_mode": SEOUL_CYCLE_MODE,
@@ -8282,16 +8665,13 @@ static func normalize_seoul_cycle_state(raw_state: Dictionary) -> Dictionary:
 			maxi(1, int((month_spec.get("world_clock", {}) as Dictionary).get(
 				"maximum", 4))) if month_spec.get("world_clock", {}) is Dictionary \
 				else 4),
-		"allocation_receipts": _seoul_cycle_receipt_dictionary(
-			raw_state.get("allocation_receipts", {})),
-		"trigger_receipts": _seoul_cycle_receipt_dictionary(
-			raw_state.get("trigger_receipts", {})),
+		"allocation_receipts": allocation_receipts,
+		"trigger_receipts": trigger_receipts,
 		"world_receipts": (
 			normalized_world_receipts.get("receipts", {}) as Dictionary),
 		"expiry_receipts": _seoul_cycle_receipt_dictionary(
 			raw_state.get("expiry_receipts", {})),
-		"pending_trigger": _normalized_seoul_cycle_pending(
-			raw_state.get("pending_trigger", {}), "node_trigger", month),
+		"pending_trigger": pending_trigger,
 		"pending_world": _normalized_seoul_cycle_pending(
 			raw_state.get("pending_world", {}), "world", month),
 		"completed_turns": [],
@@ -8319,6 +8699,213 @@ static func _seoul_cycle_receipt_dictionary(raw_receipts: Variant) -> Dictionary
 		if raw_receipt is Dictionary and not (raw_receipt as Dictionary).is_empty():
 			receipts[str(raw_key)] = (raw_receipt as Dictionary).duplicate(true)
 	return receipts
+
+static func _normalize_seoul_cycle_player_trigger_identity(
+		nodes: Dictionary, allocation_receipts: Dictionary,
+		trigger_receipts: Dictionary, pending_trigger: Dictionary) -> bool:
+	for raw_node_id in nodes:
+		var node_id := str(raw_node_id)
+		var raw_node: Variant = nodes.get(raw_node_id, {})
+		if not raw_node is Dictionary \
+				or not _seoul_cycle_player_trigger_required(raw_node as Dictionary):
+			continue
+		var node: Dictionary = raw_node
+		var selected := str(node.get(
+			"selected_trigger_bundle_id", "")).strip_edges()
+		var migrated_legacy := bool(node.get(
+			"trigger_selection_migrated_legacy", false))
+		var matching_allocations: Array[Dictionary] = []
+		for raw_receipt in allocation_receipts.values():
+			if raw_receipt is Dictionary \
+					and str((raw_receipt as Dictionary).get(
+						"node_id", "")) == node_id:
+				matching_allocations.append(raw_receipt as Dictionary)
+		matching_allocations.sort_custom(func(
+				left: Dictionary, right: Dictionary) -> bool:
+			return int(left.get("turn", 0)) < int(right.get("turn", 0)))
+		if not migrated_legacy \
+				and ((not selected.is_empty() and matching_allocations.is_empty()) \
+					or (selected.is_empty() and not matching_allocations.is_empty())):
+			return false
+		var completion_receipt_count := 0
+		for receipt in matching_allocations:
+			var receipt_selected := str(receipt.get(
+				"selected_trigger_bundle_id", "")).strip_edges()
+			var weekly: Dictionary = receipt.get("weekly_commitment", {}) \
+				if receipt.get("weekly_commitment", {}) is Dictionary else {}
+			var details: Dictionary = weekly.get("details", {}) \
+				if weekly.get("details", {}) is Dictionary else {}
+			var weekly_selected := str(details.get(
+				"selected_trigger_bundle_id", "")).strip_edges()
+			if migrated_legacy and receipt_selected.is_empty() \
+					and weekly_selected.is_empty():
+				continue
+			if selected.is_empty() or receipt_selected != selected \
+					or weekly_selected != selected:
+				return false
+			var completed_now := bool(receipt.get("completed_now", false))
+			var receipt_trigger := str(receipt.get(
+				"trigger_bundle", "")).strip_edges()
+			if completed_now:
+				completion_receipt_count += 1
+				if receipt_trigger != selected:
+					return false
+			elif not receipt_trigger.is_empty():
+				return false
+		if completion_receipt_count > 1:
+			return false
+		var raw_pending: Variant = pending_trigger
+		var has_pending := false
+		if raw_pending is Dictionary \
+				and str((raw_pending as Dictionary).get(
+					"node_id", "")) == node_id:
+			has_pending = true
+			var pending_selected := str(
+				(raw_pending as Dictionary).get(
+					"selected_trigger_bundle_id", "")).strip_edges()
+			var pending_bundle := str(
+				(raw_pending as Dictionary).get("bundle_id", "")).strip_edges()
+			if selected.is_empty() or pending_bundle != selected \
+					or (not migrated_legacy and pending_selected != selected) \
+					or (migrated_legacy and not pending_selected.is_empty() \
+						and pending_selected != selected):
+				return false
+		var has_resolved := false
+		for raw_receipt_key in trigger_receipts:
+			var raw_trigger_receipt: Variant = trigger_receipts.get(
+				raw_receipt_key, {})
+			if not raw_trigger_receipt is Dictionary \
+					or str((raw_trigger_receipt as Dictionary).get(
+						"node_id", "")) != node_id:
+				continue
+			if str(raw_receipt_key) != node_id:
+				return false
+			has_resolved = true
+			var resolved_selected := str(
+				(raw_trigger_receipt as Dictionary).get(
+					"selected_trigger_bundle_id", "")).strip_edges()
+			var resolved_bundle := str(
+				(raw_trigger_receipt as Dictionary).get(
+					"bundle_id", "")).strip_edges()
+			if selected.is_empty() or resolved_bundle != selected \
+					or (not migrated_legacy and resolved_selected != selected) \
+					or (migrated_legacy and not resolved_selected.is_empty() \
+						and resolved_selected != selected):
+				return false
+		if not migrated_legacy:
+			if has_pending and has_resolved:
+				return false
+			if completion_receipt_count == 0 \
+					and (has_pending or has_resolved):
+				return false
+			if completion_receipt_count == 1 \
+					and not has_pending and not has_resolved:
+				return false
+			if has_pending and str(node.get("status", "")) \
+					!= "awaiting_trigger":
+				return false
+			if has_resolved and str(node.get("status", "")) != "completed":
+				return false
+	return true
+
+## The allocation receipt keeps the transaction-time weekly record, while
+## GameState.weekly_commitments is the live echo/review ledger. Both durable
+## copies must name the same player-owned branch. Follow-up arrays and outcome
+## snapshots legitimately evolve after a scene resolves, so compare only the
+## immutable allocation identity instead of requiring byte equality forever.
+static func _seoul_cycle_outer_weekly_identity_valid(
+		cycle: Dictionary, raw_weekly_commitments: Variant) -> bool:
+	if cycle.is_empty():
+		return true
+	if not raw_weekly_commitments is Array:
+		return false
+	var nodes: Dictionary = cycle.get("nodes", {}) \
+		if cycle.get("nodes", {}) is Dictionary else {}
+	var allocation_receipts: Dictionary = cycle.get(
+		"allocation_receipts", {}) \
+		if cycle.get("allocation_receipts", {}) is Dictionary else {}
+	for raw_receipt in allocation_receipts.values():
+		if not raw_receipt is Dictionary:
+			return false
+		var receipt: Dictionary = raw_receipt
+		var node_id := str(receipt.get("node_id", "")).strip_edges()
+		var raw_node: Variant = nodes.get(node_id, {})
+		if not raw_node is Dictionary \
+				or not _seoul_cycle_player_trigger_required(
+					raw_node as Dictionary):
+			continue
+		var node: Dictionary = raw_node
+		var migrated_legacy := bool(node.get(
+			"trigger_selection_migrated_legacy", false))
+		var selected := str(node.get(
+			"selected_trigger_bundle_id", "")).strip_edges()
+		var turn := int(receipt.get("turn", 0))
+		var capacity_id := str(receipt.get("capacity_id", "")).strip_edges()
+		var raw_embedded: Variant = receipt.get("weekly_commitment", {})
+		if selected.is_empty() or turn <= 0 or capacity_id.is_empty() \
+				or not raw_embedded is Dictionary:
+			return false
+		var embedded: Dictionary = raw_embedded
+		var embedded_details: Dictionary = embedded.get("details", {}) \
+			if embedded.get("details", {}) is Dictionary else {}
+		var matches: Array[Dictionary] = []
+		for raw_weekly in raw_weekly_commitments as Array:
+			if raw_weekly is Dictionary \
+					and int((raw_weekly as Dictionary).get("turn", -1)) == turn:
+				matches.append(raw_weekly as Dictionary)
+		if matches.size() != 1:
+			return false
+		var outer: Dictionary = matches.front()
+		var outer_details: Dictionary = outer.get("details", {}) \
+			if outer.get("details", {}) is Dictionary else {}
+		var receipt_selected := str(receipt.get(
+			"selected_trigger_bundle_id", "")).strip_edges()
+		var embedded_selected := str(embedded_details.get(
+			"selected_trigger_bundle_id", "")).strip_edges()
+		var outer_selected := str(outer_details.get(
+			"selected_trigger_bundle_id", "")).strip_edges()
+		var legacy_blank_identity := migrated_legacy \
+			and receipt_selected.is_empty() \
+			and embedded_selected.is_empty() \
+			and outer_selected.is_empty()
+		if not legacy_blank_identity \
+				and (receipt_selected != selected \
+					or embedded_selected != selected \
+					or outer_selected != selected):
+			return false
+		var expected_person := str(node.get("owner", "")).strip_edges() \
+			if str(node.get("commitment_action_id", "")) == "contact" \
+				and str(node.get("owner", "")).strip_edges() != "people" \
+			else ""
+		for weekly in [embedded, outer]:
+			var details: Dictionary = weekly.get("details", {}) \
+				if weekly.get("details", {}) is Dictionary else {}
+			if str(weekly.get("source", "")) != "seoul_cycle" \
+					or str(weekly.get("person_id", "")).strip_edges() \
+						!= expected_person \
+					or str(details.get("execution", "")) != "seoul_cycle" \
+					or int(details.get("month", 0)) \
+						!= int(cycle.get("month", 0)) \
+					or str(details.get("node_id", "")) != node_id \
+					or str(details.get("capacity_id", "")) != capacity_id:
+				return false
+		for stable_key in [
+			"pressure_id", "pressure_family", "choice_id",
+			"actual_action_id", "person_id",
+		]:
+			if str(outer.get(stable_key, "")) \
+					!= str(embedded.get(stable_key, "")):
+				return false
+		for stable_detail_key in [
+			"execution", "month", "week_index", "node_id", "capacity_id",
+			"capacity_value", "progress_gain", "progress_after", "threshold",
+			"completed_now", "repeat_allocation", "fallback_allocation",
+			"selected_trigger_bundle_id", "place",
+		]:
+			if outer_details.get(stable_detail_key, null) \
+					!= embedded_details.get(stable_detail_key, null):
+				return false
+	return true
 
 ## Godot's JSON round-trip restores every number as a float. A world beat
 ## saved while pending can therefore resolve under the legacy alias `"4.0"`,
@@ -8559,6 +9146,12 @@ static func _normalized_state(raw_state: Dictionary) -> Dictionary:
 			state[key] = {}
 	state[SEOUL_CYCLE_STATE_KEY] = normalize_seoul_cycle_state(
 		state.get(SEOUL_CYCLE_STATE_KEY, {}))
+	if not _seoul_cycle_outer_weekly_identity_valid(
+			state[SEOUL_CYCLE_STATE_KEY], GameState.weekly_commitments):
+		# A split identity must not leave an apparently playable partial cycle.
+		# Clearing this isolated subsystem is the existing load-time fail-closed
+		# behavior for malformed Seoul-cycle saves.
+		state[SEOUL_CYCLE_STATE_KEY] = {}
 	state[W1_ONBOARDING_STATE_KEY] = _normalized_w1_onboarding(
 		state.get(W1_ONBOARDING_STATE_KEY, {}))
 	_validate_w1_onboarding_cycle_override(state)

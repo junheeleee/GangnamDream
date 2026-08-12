@@ -6,7 +6,8 @@ extends Control
 ## emits one allocation request. The host applies the transaction and calls
 ## refresh() with the resulting snapshot.
 
-signal allocation_requested(die_id: String, node_id: String)
+signal allocation_requested(
+	die_id: String, node_id: String, selected_bundle_id: String)
 signal board_closed
 
 const BACKGROUND := preload("res://assets/backgrounds/gangnam_night_street.png")
@@ -33,6 +34,7 @@ var _snapshot: Dictionary = {}
 var _read_only := false
 var _selected_die_id := ""
 var _selected_node_id := ""
+var _selected_trigger_bundle_id := ""
 var _inspected_node_id := ""
 var _focused_group := ""
 var _focused_id := ""
@@ -64,6 +66,9 @@ var _preview_choice_label: Label
 var _preview_progress_label: Label
 var _preview_effect_label: Label
 var _preview_deadline_label: Label
+var _trigger_candidate_panel: Panel
+var _trigger_candidate_title_label: Label
+var _trigger_candidate_layer: Control
 var _error_label: Label
 var _commit_button: Button
 var _effort_panel: Panel
@@ -76,6 +81,10 @@ var _node_parts: Dictionary = {}
 var _die_order: Array[String] = []
 var _die_buttons: Dictionary = {}
 var _die_parts: Dictionary = {}
+var _trigger_candidate_order: Array[String] = []
+var _trigger_candidate_buttons: Dictionary = {}
+var _trigger_candidate_records: Dictionary = {}
+var _trigger_candidate_signature := ""
 var _rebuilding_entities := false
 
 
@@ -183,6 +192,7 @@ func close() -> void:
 	set_meta("seoul_cycle_board_open", false)
 	set_meta("seoul_cycle_focus_group", "")
 	set_meta("seoul_cycle_focus_id", "")
+	set_meta("seoul_cycle_trigger_candidate_focus_id", "")
 	SceneTransition.set_playtest_marker_context(
 		SceneTransition.PLAYTEST_MARKER_CONTEXT_DEFAULT)
 	AudioManager.play_ui_close(-11.0)
@@ -334,6 +344,23 @@ func _build_ui() -> void:
 	_preview_deadline_label.name = "SeoulCyclePreviewDeadline"
 	_preview_deadline_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_preview_panel.add_child(_preview_deadline_label)
+	_trigger_candidate_panel = Panel.new()
+	_trigger_candidate_panel.name = "SeoulCycleTriggerCandidates"
+	_trigger_candidate_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	_trigger_candidate_panel.clip_contents = true
+	_trigger_candidate_panel.visible = false
+	_trigger_candidate_panel.set_meta("seoul_cycle_trigger_candidate_panel", true)
+	UIStyle.override_stylebox(_trigger_candidate_panel,
+		"panel", _panel_style(Color("#0c1015", 0.98), Color("#59636d"), 1, 5))
+	_preview_panel.add_child(_trigger_candidate_panel)
+	_trigger_candidate_title_label = _label("", 11, COLOR_ACCENT, true)
+	_trigger_candidate_title_label.name = "SeoulCycleTriggerCandidateTitle"
+	_trigger_candidate_title_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_trigger_candidate_panel.add_child(_trigger_candidate_title_label)
+	_trigger_candidate_layer = Control.new()
+	_trigger_candidate_layer.name = "SeoulCycleTriggerCandidateChoices"
+	_trigger_candidate_layer.mouse_filter = Control.MOUSE_FILTER_PASS
+	_trigger_candidate_panel.add_child(_trigger_candidate_layer)
 	_error_label = _label("", 13, COLOR_DANGER, true)
 	_error_label.name = "SeoulCycleError"
 	_error_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -543,8 +570,8 @@ func _refresh_surface() -> void:
 	_mental_label.text = _tr("마음  %d", "MIND  %d") % int(_snapshot.get("mental", 0))
 	_map_title_label.text = _tr("이번 주, 어디에 쓸 것인가", "WHERE DOES THIS WEEK GO?")
 	_map_subtitle_label.text = _tr(
-		"여력을 고른 뒤 장소를 정한다",
-		"CHOOSE CAPACITY, THEN A PLACE")
+		"여력 → 장소 → 약속 → 확정",
+		"CAPACITY → PLACE → THREAD → COMMIT")
 	_refresh_world_clock()
 	_effort_title_label.text = LocaleManager.ui_format(
 		"이번 달 남은 여력 · %d/4", "MONTHLY CAPACITY LEFT · %d/4",
@@ -554,7 +581,9 @@ func _refresh_surface() -> void:
 	for die_id in _die_order:
 		_refresh_die_content(die_id)
 	_refresh_hint()
+	_refresh_trigger_candidate_surface()
 	_refresh_visual_states()
+	_refresh_trigger_candidate_states()
 	_refresh_preview()
 	_refresh_commit_state()
 	_update_root_meta()
@@ -581,7 +610,8 @@ func _refresh_node_content(node_id: String) -> void:
 			"특별 기회 종료 · 일반 행동 가능",
 			"FEATURED CHANCE MISSED · REGULAR ACTION OPEN")
 		UIStyle.override_color(status, "font_color", COLOR_DANGER)
-	elif bool(node_data.get("locked", false)):
+	elif bool(node_data.get("locked", false)) \
+			or _node_has_empty_required_trigger_candidates(node_id):
 		status.text = _tr(
 			"이번 달 이어진 연락 없음",
 			"NO THREAD TO FOLLOW THIS MONTH")
@@ -626,6 +656,102 @@ func _refresh_die_content(die_id: String) -> void:
 	UIStyle.override_color(detail, "font_color", COLOR_MUTED if spent else COLOR_TICKET_DIM)
 
 
+func _refresh_trigger_candidate_surface() -> void:
+	var preview := _preview_for(_selected_die_id, _selected_node_id)
+	var required := _trigger_selection_required(preview)
+	var candidates := _trigger_candidates(preview)
+	var next_records: Dictionary = {}
+	var next_order: Array[String] = []
+	for candidate in candidates:
+		var candidate_id := str(candidate.get("id", ""))
+		if candidate_id.is_empty():
+			continue
+		next_order.append(candidate_id)
+		next_records[candidate_id] = candidate
+	var signature := JSON.stringify(candidates)
+	var next_visible := required and not next_order.is_empty() \
+			and not _selected_die_id.is_empty() \
+			and not _selected_node_id.is_empty()
+	if signature != _trigger_candidate_signature:
+		_rebuilding_entities = true
+		_trigger_candidate_order.clear()
+		_trigger_candidate_buttons.clear()
+		_trigger_candidate_records.clear()
+		_clear_children(_trigger_candidate_layer)
+		_trigger_candidate_signature = signature
+		_trigger_candidate_order = next_order
+		_trigger_candidate_records = next_records
+		for candidate_id in _trigger_candidate_order:
+			_create_trigger_candidate_button(candidate_id)
+		_rebuilding_entities = false
+	else:
+		_trigger_candidate_order = next_order
+		_trigger_candidate_records = next_records
+	if not required or (not _selected_trigger_bundle_id.is_empty() \
+			and not _trigger_candidate_records.has(_selected_trigger_bundle_id)):
+		_selected_trigger_bundle_id = ""
+	_trigger_candidate_panel.visible = next_visible
+	_trigger_candidate_title_label.text = _tr(
+		"이어갈 약속 · 직접 선택",
+		"THREAD TO FOLLOW · CHOOSE ONE")
+	# Candidate availability changes the node/commit routes even when the
+	# records are byte-for-byte unchanged (for example after East undo).
+	_connect_focus_neighbors()
+
+
+func _create_trigger_candidate_button(candidate_id: String) -> void:
+	var button := Button.new()
+	button.name = "TriggerCandidate_%s" % _safe_node_name(candidate_id)
+	button.focus_mode = Control.FOCUS_ALL
+	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	button.add_theme_font_override("font", _font_bold)
+	button.set_meta("seoul_cycle_trigger_candidate", true)
+	button.set_meta("seoul_cycle_trigger_candidate_id", candidate_id)
+	button.pressed.connect(_on_trigger_candidate_pressed.bind(candidate_id))
+	button.focus_entered.connect(_on_focus_entered.bind("candidate", candidate_id))
+	button.focus_exited.connect(_on_focus_exited.bind("candidate", candidate_id))
+	button.mouse_entered.connect(_on_mouse_entered.bind(button))
+	_trigger_candidate_layer.add_child(button)
+	_trigger_candidate_buttons[candidate_id] = button
+
+
+func _refresh_trigger_candidate_states() -> void:
+	for candidate_id in _trigger_candidate_order:
+		var button: Button = _trigger_candidate_buttons.get(candidate_id)
+		if not is_instance_valid(button):
+			continue
+		var candidate: Dictionary = _trigger_candidate_records.get(candidate_id, {})
+		var selected := candidate_id == _selected_trigger_bundle_id
+		var focused := button.has_focus()
+		button.text = _localized(candidate, "label")
+		button.tooltip_text = _localized(candidate, "detail")
+		button.disabled = _read_only
+		button.focus_mode = Control.FOCUS_NONE if _read_only else Control.FOCUS_ALL
+		UIStyle.override_font_size(button, "font_size", 11 if size.x < 1100.0 else 12)
+		UIStyle.override_color(button, "font_color", COLOR_TEXT)
+		UIStyle.override_color(button, "font_hover_color", COLOR_TEXT)
+		UIStyle.override_color(button, "font_pressed_color", COLOR_TEXT)
+		UIStyle.override_color(button, "font_focus_color", COLOR_TEXT)
+		var base_background := Color("#222a32", 0.98) if selected else Color("#141a20", 0.98)
+		var base_border := COLOR_ACCENT if selected else Color("#4b5660")
+		UIStyle.override_stylebox(button,
+			"normal", _panel_style(base_background, base_border, 2 if selected else 1, 4))
+		UIStyle.override_stylebox(button,
+			"hover", _panel_style(Color("#26313a", 0.99), COLOR_FOCUS, 2, 4))
+		UIStyle.override_stylebox(button,
+			"pressed", _panel_style(Color("#0b0f13", 0.99), COLOR_ACCENT, 3, 4))
+		UIStyle.override_stylebox(button,
+			"focus", _panel_style(Color.TRANSPARENT, COLOR_FOCUS, 3, 4))
+		UIStyle.override_stylebox(button,
+			"disabled", _panel_style(Color("#11161b", 0.90), Color("#394149"), 1, 4))
+		button.set_meta("seoul_cycle_trigger_candidate_selected", selected)
+		button.set_meta("seoul_cycle_trigger_candidate_focused", focused)
+		button.set_meta("seoul_cycle_visual_state",
+			_visual_state(selected, focused, button.disabled))
+
+
 func _refresh_visual_states() -> void:
 	var nodes: Dictionary = _snapshot.get("nodes", {})
 	for node_id in _node_order:
@@ -633,7 +759,7 @@ func _refresh_visual_states() -> void:
 		if not is_instance_valid(button):
 			continue
 		var node_data: Dictionary = nodes.get(node_id, {})
-		var unavailable := _node_unavailable(node_data)
+		var unavailable := _node_unavailable_by_id(node_id)
 		var interactive_unavailable := unavailable and not _read_only
 		button.disabled = interactive_unavailable
 		button.focus_mode = (
@@ -654,6 +780,11 @@ func _refresh_visual_states() -> void:
 		button.set_meta("seoul_cycle_selected", selected)
 		button.set_meta("seoul_cycle_focused", button.has_focus())
 		button.set_meta("seoul_cycle_visual_state", _visual_state(selected, button.has_focus(), unavailable))
+		var node_preview := _preview_for(_selected_die_id, node_id)
+		button.set_meta("seoul_cycle_trigger_selection_required",
+			_trigger_selection_required(node_preview))
+		button.set_meta("seoul_cycle_trigger_candidate_count",
+			_trigger_candidates(node_preview).size())
 		var overlay: Control = (_node_parts[node_id] as Dictionary).get("overlay")
 		if is_instance_valid(overlay):
 			overlay.queue_redraw()
@@ -771,9 +902,30 @@ func _refresh_preview() -> void:
 	var effect_line: String = _effect_line(preview.get("effects", node_data.get("effects", {})))
 	_preview_effect_label.text = effect_line if summary.is_empty() else "%s\n%s" % [summary, effect_line]
 	_preview_deadline_label.text = _deadline_line(node_data, preview)
+	if _trigger_selection_required(preview):
+		var candidate := _trigger_candidate_record_for_preview()
+		var candidate_label := _localized(candidate, "label")
+		var candidate_detail := _localized(candidate, "detail")
+		if not candidate_label.is_empty():
+			_preview_effect_label.text = "%s · %s\n%s" % [
+				_tr("약속 설명", "THREAD DETAIL"),
+				candidate_label,
+				candidate_detail if not candidate_detail.is_empty() else effect_line,
+			]
+		# A rejection owns the scarce compact preview space until the player
+		# retries; the focused candidate still exposes its detail as a tooltip.
+		if _error_label.visible:
+			_preview_effect_label.text = ""
+		_preview_deadline_label.text = ""
 	set_meta("seoul_cycle_preview_progress_delta", progress_delta)
 	set_meta("seoul_cycle_preview_node_id", preview_node_id)
 	set_meta("seoul_cycle_preview_after_progress", after_progress)
+	set_meta("seoul_cycle_preview_deadline_week",
+		int(preview.get("deadline_week", node_data.get("deadline_week", 0))))
+	set_meta("seoul_cycle_preview_completed_now",
+		bool(preview.get("completed_now", false)))
+	set_meta("seoul_cycle_preview_selected_trigger_bundle_id",
+		str(preview.get("selected_trigger_bundle_id", "")))
 	_refresh_preview_geometry_if_ready()
 
 
@@ -786,14 +938,20 @@ func _refresh_preview_geometry_if_ready() -> void:
 
 func _refresh_commit_state() -> void:
 	var preview := _preview_for(_selected_die_id, _selected_node_id)
-	var preview_valid := bool(preview.get("valid", true))
+	var trigger_required := _trigger_selection_required(preview)
+	var trigger_selected := not trigger_required \
+			or _selected_trigger_candidate_is_valid()
+	var preview_valid := bool(preview.get("valid", true)) \
+			or (str(preview.get("error", "")) == "trigger_selection_required" \
+			and trigger_selected)
 	var ready := not _read_only \
 			and not _allocation_in_flight \
 			and not _selected_die_id.is_empty() \
 			and not _selected_node_id.is_empty() \
 			and not bool(_die_data(_selected_die_id).get("spent", true)) \
 			and _node_available_by_id(_selected_node_id) \
-			and preview_valid
+			and preview_valid \
+			and trigger_selected
 	_commit_button.disabled = not ready
 	if _read_only:
 		_commit_button.text = _tr("보기 전용", "READ ONLY")
@@ -803,6 +961,10 @@ func _refresh_commit_state() -> void:
 		_commit_button.text = _tr("여력을 먼저 고른다", "CHOOSE CAPACITY FIRST")
 	elif _selected_node_id.is_empty():
 		_commit_button.text = _tr("장소를 선택한다", "CHOOSE A PLACE")
+	elif trigger_required and _trigger_candidates(preview).is_empty():
+		_commit_button.text = _tr("이어갈 약속이 없다", "NO THREAD TO FOLLOW")
+	elif trigger_required and not trigger_selected:
+		_commit_button.text = _tr("이어갈 약속을 고른다", "CHOOSE A THREAD")
 	elif not preview_valid:
 		_commit_button.text = _localized(preview, "reason")
 	else:
@@ -861,10 +1023,12 @@ func _on_die_pressed(die_id: String) -> void:
 	if _selected_die_id == die_id:
 		_selected_die_id = ""
 		_selected_node_id = ""
+		_selected_trigger_bundle_id = ""
 		AudioManager.play_ui_close(-13.0)
 	else:
 		_selected_die_id = die_id
 		_selected_node_id = ""
+		_selected_trigger_bundle_id = ""
 		AudioManager.play("click", -10.0)
 	_refresh_surface()
 	_focus_first_available_node()
@@ -889,10 +1053,29 @@ func _on_node_pressed(node_id: String) -> void:
 	if not _node_available_by_id(node_id):
 		return
 	_error_text = ""
-	_selected_node_id = "" if _selected_node_id == node_id else node_id
+	if _selected_node_id == node_id:
+		_selected_node_id = ""
+	else:
+		_selected_node_id = node_id
+	_selected_trigger_bundle_id = ""
 	AudioManager.play("click", -10.0)
 	_refresh_surface()
-	if not _selected_node_id.is_empty() and not _commit_button.disabled:
+	if _selected_node_requires_trigger_choice():
+		_focus_first_trigger_candidate()
+	elif not _selected_node_id.is_empty() and not _commit_button.disabled:
+		_commit_button.grab_focus()
+
+
+func _on_trigger_candidate_pressed(candidate_id: String) -> void:
+	if _read_only or _allocation_in_flight \
+			or not _trigger_candidate_panel.visible \
+			or not _trigger_candidate_records.has(candidate_id):
+		return
+	_error_text = ""
+	_selected_trigger_bundle_id = candidate_id
+	AudioManager.play("click", -10.0)
+	_refresh_surface()
+	if not _commit_button.disabled:
 		_commit_button.grab_focus()
 
 
@@ -900,21 +1083,37 @@ func _on_commit_pressed() -> void:
 	if _commit_button.disabled or _allocation_in_flight:
 		return
 	var preview := _preview_for(_selected_die_id, _selected_node_id)
-	if not bool(preview.get("valid", true)):
+	var preview_valid := bool(preview.get("valid", true)) \
+			or (str(preview.get("error", "")) == "trigger_selection_required" \
+			and _selected_trigger_candidate_is_valid())
+	if not preview_valid or (_trigger_selection_required(preview) \
+			and not _selected_trigger_candidate_is_valid()):
 		return
 	_allocation_in_flight = true
 	_error_text = ""
 	_refresh_commit_state()
 	AudioManager.play("choice_made", -7.0)
-	allocation_requested.emit(_selected_die_id, _selected_node_id)
+	allocation_requested.emit(
+		_selected_die_id, _selected_node_id, _selected_trigger_bundle_id)
 
 
 func _cancel_or_close() -> void:
 	if _allocation_in_flight:
 		return
+	if not _selected_trigger_bundle_id.is_empty():
+		var return_candidate := _selected_trigger_bundle_id
+		_selected_trigger_bundle_id = ""
+		_error_text = ""
+		AudioManager.play_ui_close(-13.0)
+		_refresh_surface()
+		var candidate_button: Button = _trigger_candidate_buttons.get(return_candidate)
+		if is_instance_valid(candidate_button) and not candidate_button.disabled:
+			candidate_button.grab_focus()
+		return
 	if not _selected_node_id.is_empty():
 		var return_node := _selected_node_id
 		_selected_node_id = ""
+		_selected_trigger_bundle_id = ""
 		_error_text = ""
 		AudioManager.play_ui_close(-13.0)
 		_refresh_surface()
@@ -925,6 +1124,7 @@ func _cancel_or_close() -> void:
 	if not _selected_die_id.is_empty():
 		var return_die := _selected_die_id
 		_selected_die_id = ""
+		_selected_trigger_bundle_id = ""
 		_error_text = ""
 		AudioManager.play_ui_close(-13.0)
 		_refresh_surface()
@@ -953,7 +1153,10 @@ func _on_focus_entered(group: String, item_id: String) -> void:
 		_inspected_node_id = item_id
 	set_meta("seoul_cycle_focus_group", group)
 	set_meta("seoul_cycle_focus_id", item_id)
+	set_meta("seoul_cycle_trigger_candidate_focus_id",
+		item_id if group == "candidate" else "")
 	_refresh_visual_states()
+	_refresh_trigger_candidate_states()
 	_refresh_preview()
 
 
@@ -965,7 +1168,9 @@ func _on_focus_exited(group: String, item_id: String) -> void:
 		_focused_id = ""
 		set_meta("seoul_cycle_focus_group", "")
 		set_meta("seoul_cycle_focus_id", "")
+		set_meta("seoul_cycle_trigger_candidate_focus_id", "")
 	_refresh_visual_states()
+	_refresh_trigger_candidate_states()
 
 
 func _on_mouse_entered(button: Button) -> void:
@@ -987,7 +1192,10 @@ func _on_input_mode_changed(_mode: int, _brand: int) -> void:
 func _focus_after_open(generation: int) -> void:
 	if generation != _open_generation or not visible:
 		return
-	if not _selected_node_id.is_empty() and not _commit_button.disabled:
+	if _selected_node_requires_trigger_choice() \
+			and not _selected_trigger_candidate_is_valid():
+		_focus_first_trigger_candidate()
+	elif not _selected_node_id.is_empty() and not _commit_button.disabled:
 		_commit_button.grab_focus()
 	elif not _selected_die_id.is_empty():
 		_focus_first_available_node()
@@ -1007,6 +1215,8 @@ func _restore_focus_after_refresh(
 			target = _die_buttons.get(item_id)
 		"node":
 			target = _node_buttons.get(item_id)
+		"candidate":
+			target = _trigger_candidate_buttons.get(item_id)
 		"commit":
 			target = _commit_button
 	if is_instance_valid(target) and not target.disabled:
@@ -1034,6 +1244,14 @@ func _focus_first_available_node() -> void:
 		_commit_button.grab_focus()
 
 
+func _focus_first_trigger_candidate() -> void:
+	for candidate_id in _trigger_candidate_order:
+		var button: Button = _trigger_candidate_buttons.get(candidate_id)
+		if is_instance_valid(button) and not button.disabled and button.visible:
+			button.grab_focus()
+			return
+
+
 func _connect_focus_neighbors() -> void:
 	if _node_order.size() != NODE_COUNT or _die_order.size() != EFFORT_COUNT:
 		return
@@ -1054,8 +1272,36 @@ func _connect_focus_neighbors() -> void:
 	_set_neighbors(die_buttons[2], die_buttons[1], die_buttons[3], node_buttons[3], die_buttons[2])
 	_set_neighbors(die_buttons[3], die_buttons[2], die_buttons[3], node_buttons[3], die_buttons[3])
 	_set_neighbors(_commit_button, node_buttons[1], _commit_button, node_buttons[1], node_buttons[3])
+	var candidate_buttons: Array[Button] = []
+	if _trigger_candidate_panel.visible:
+		for candidate_id in _trigger_candidate_order:
+			var candidate_button: Button = _trigger_candidate_buttons.get(candidate_id)
+			if is_instance_valid(candidate_button):
+				candidate_buttons.append(candidate_button)
+	if not candidate_buttons.is_empty():
+		var source_node: Button = _node_buttons.get(_selected_node_id)
+		if not is_instance_valid(source_node):
+			source_node = node_buttons[1]
+		for candidate_index in range(candidate_buttons.size()):
+			var candidate_button := candidate_buttons[candidate_index]
+			var previous_button: Button = (
+				source_node if candidate_index == 0 else candidate_buttons[candidate_index - 1])
+			var next_button: Button = (
+				_commit_button if candidate_index == candidate_buttons.size() - 1
+				else candidate_buttons[candidate_index + 1])
+			_set_neighbors(
+				candidate_button,
+				source_node,
+				_commit_button,
+				previous_button,
+				next_button)
+		source_node.focus_neighbor_right = source_node.get_path_to(candidate_buttons[0])
+		source_node.focus_next = source_node.get_path_to(candidate_buttons[0])
+		_commit_button.focus_neighbor_left = _commit_button.get_path_to(candidate_buttons[-1])
+		_commit_button.focus_neighbor_top = _commit_button.get_path_to(candidate_buttons[-1])
+		_commit_button.focus_previous = _commit_button.get_path_to(candidate_buttons[-1])
 	var neighbor_meta: Dictionary = {}
-	for button in node_buttons + die_buttons + [_commit_button]:
+	for button in node_buttons + die_buttons + candidate_buttons + [_commit_button]:
 		neighbor_meta[button.name] = {
 			"left": str(button.focus_neighbor_left),
 			"right": str(button.focus_neighbor_right),
@@ -1213,6 +1459,7 @@ func _apply_preview_geometry(compact: bool) -> void:
 	UIStyle.override_font_size(_preview_effect_label, "font_size", 12 if compact else 14)
 	UIStyle.override_font_size(_preview_deadline_label, "font_size", 12 if compact else 13)
 	UIStyle.override_font_size(_error_label, "font_size", 12 if compact else 13)
+	UIStyle.override_font_size(_trigger_candidate_title_label, "font_size", 10 if compact else 11)
 	for label in [
 		_preview_choice_label,
 		_preview_progress_label,
@@ -1235,19 +1482,77 @@ func _apply_preview_geometry(compact: bool) -> void:
 		_error_label.position = Vector2(pad, _commit_button.position.y)
 		_error_label.size = Vector2(inner_width, 0.0)
 
-	var preview_rows: Array[Label] = [
+	var leading_rows: Array[Label] = [
 		_preview_choice_label,
 		_preview_progress_label,
+	]
+	var trailing_rows: Array[Label] = [
 		_preview_effect_label,
 		_preview_deadline_label,
 	]
-	var row_minimums := [30.0, 22.0, 30.0, 18.0]
+	var leading_minimums := [30.0, 22.0]
+	var trailing_minimums := [30.0, 18.0]
 	var cursor_y := 44.0
 	var visible_row_count := 0
-	for index in range(preview_rows.size()):
-		var label := preview_rows[index]
+	for index in range(leading_rows.size()):
+		var label := leading_rows[index]
 		var row_height := _preview_label_required_height(
-			label, row_minimums[index])
+			label, leading_minimums[index])
+		if row_height <= 0.0:
+			label.position = Vector2(pad, cursor_y)
+			label.size = Vector2(inner_width, 0.0)
+			continue
+		if visible_row_count > 0:
+			cursor_y += row_gap
+		label.position = Vector2(pad, cursor_y)
+		label.size = Vector2(inner_width, row_height)
+		cursor_y += row_height
+		visible_row_count += 1
+
+	var candidate_panel_height := 0.0
+	var candidate_button_height := 36.0 if compact else 42.0
+	var candidate_gap := 3.0 if compact else 4.0
+	if _trigger_candidate_panel.visible and not _trigger_candidate_order.is_empty():
+		if visible_row_count > 0:
+			cursor_y += row_gap
+		var candidate_title_height := 16.0 if compact else 18.0
+		candidate_panel_height = 7.0 + candidate_title_height + 4.0 \
+				+ candidate_button_height * _trigger_candidate_order.size() \
+				+ candidate_gap * maxi(0, _trigger_candidate_order.size() - 1) \
+				+ 7.0
+		_trigger_candidate_panel.position = Vector2(pad, cursor_y)
+		_trigger_candidate_panel.size = Vector2(inner_width, candidate_panel_height)
+		_trigger_candidate_title_label.position = Vector2(7.0, 4.0)
+		_trigger_candidate_title_label.size = Vector2(
+			maxf(0.0, inner_width - 14.0), candidate_title_height)
+		_trigger_candidate_layer.position = Vector2(
+			7.0, 7.0 + candidate_title_height + 4.0)
+		_trigger_candidate_layer.size = Vector2(
+			maxf(0.0, inner_width - 14.0),
+			candidate_button_height * _trigger_candidate_order.size() \
+					+ candidate_gap * maxi(0, _trigger_candidate_order.size() - 1))
+		for candidate_index in range(_trigger_candidate_order.size()):
+			var candidate_id := _trigger_candidate_order[candidate_index]
+			var candidate_button: Button = _trigger_candidate_buttons.get(candidate_id)
+			if not is_instance_valid(candidate_button):
+				continue
+			candidate_button.position = Vector2(
+				0.0, candidate_index * (candidate_button_height + candidate_gap))
+			candidate_button.size = Vector2(
+				_trigger_candidate_layer.size.x, candidate_button_height)
+			UIStyle.override_font_size(
+				candidate_button, "font_size", 11 if compact else 12)
+		cursor_y += candidate_panel_height
+		visible_row_count += 1
+	else:
+		_trigger_candidate_panel.position = Vector2(pad, cursor_y)
+		_trigger_candidate_panel.size = Vector2(inner_width, 0.0)
+		_trigger_candidate_layer.size = Vector2.ZERO
+
+	for index in range(trailing_rows.size()):
+		var label := trailing_rows[index]
+		var row_height := _preview_label_required_height(
+			label, trailing_minimums[index])
 		if row_height <= 0.0:
 			label.position = Vector2(pad, cursor_y)
 			label.size = Vector2(inner_width, 0.0)
@@ -1259,6 +1564,7 @@ func _apply_preview_geometry(compact: bool) -> void:
 		cursor_y += row_height
 		visible_row_count += 1
 	set_meta("seoul_cycle_preview_layout_clearance", content_bottom - cursor_y)
+	set_meta("seoul_cycle_trigger_candidate_panel_height", candidate_panel_height)
 	set_meta("seoul_cycle_preview_choice_font_size",
 		_preview_choice_label.get_theme_font_size("font_size"))
 	set_meta("seoul_cycle_preview_error_height", error_height)
@@ -1379,6 +1685,7 @@ func _restore_snapshot_selection(force_clear: bool) -> void:
 	if force_clear:
 		_selected_die_id = ""
 		_selected_node_id = ""
+		_selected_trigger_bundle_id = ""
 	var raw_selected: Variant = _snapshot.get("selected", {})
 	if raw_selected is Dictionary:
 		var selected: Dictionary = raw_selected
@@ -1398,8 +1705,17 @@ func _restore_snapshot_selection(force_clear: bool) -> void:
 			or bool(_die_data(_selected_die_id).get("spent", true)):
 		_selected_die_id = ""
 		_selected_node_id = ""
+		_selected_trigger_bundle_id = ""
 	if not _node_available_by_id(_selected_node_id):
 		_selected_node_id = ""
+		_selected_trigger_bundle_id = ""
+	var restored_preview := _preview_for(_selected_die_id, _selected_node_id)
+	var restored_candidate_ids: Array[String] = []
+	for candidate in _trigger_candidates(restored_preview):
+		restored_candidate_ids.append(str(candidate.get("id", "")))
+	if not _trigger_selection_required(restored_preview) \
+			or not restored_candidate_ids.has(_selected_trigger_bundle_id):
+		_selected_trigger_bundle_id = ""
 	_inspected_node_id = _selected_node_id
 
 
@@ -1413,7 +1729,7 @@ func _preview_for(die_id: String, node_id: String) -> Dictionary:
 		if raw_row is Dictionary:
 			var raw_matrix_preview: Variant = (raw_row as Dictionary).get(node_id, {})
 			if raw_matrix_preview is Dictionary and not (raw_matrix_preview as Dictionary).is_empty():
-				return _normalized_preview(
+				return _selected_trigger_preview(
 					raw_matrix_preview as Dictionary, die_id, node_id)
 	var raw_preview: Variant = _snapshot.get("preview", {})
 	if raw_preview is Dictionary:
@@ -1442,6 +1758,46 @@ func _preview_for(die_id: String, node_id: String) -> Dictionary:
 	if node_preview is Dictionary:
 		return _normalized_preview(node_preview, die_id, node_id)
 	return {}
+
+
+func _selected_trigger_preview(
+		base_preview: Dictionary, die_id: String, node_id: String) -> Dictionary:
+	var normalized_base := _normalized_preview(base_preview, die_id, node_id)
+	if _selected_trigger_bundle_id.is_empty() \
+			or not bool(normalized_base.get(
+				"trigger_selection_required", false)):
+		return normalized_base
+	var raw_variants: Variant = base_preview.get(
+		"trigger_candidate_previews", {})
+	if raw_variants is Dictionary:
+		var raw_variant: Variant = (raw_variants as Dictionary).get(
+			_selected_trigger_bundle_id, {})
+		if raw_variant is Dictionary \
+				and not (raw_variant as Dictionary).is_empty():
+			var variant := _normalized_preview(
+				raw_variant as Dictionary, die_id, node_id)
+			if bool(variant.get("valid", false)) \
+					and str(variant.get(
+						"selected_trigger_bundle_id", "")) \
+						== _selected_trigger_bundle_id:
+				# The runtime variant owns progress, effects, deadline, and copy.
+				# The base preview still owns the chooser surface so East can undo
+				# the local selection before the allocation transaction exists.
+				variant["trigger_selection_required"] = true
+				variant["trigger_candidates"] = normalized_base.get(
+					"trigger_candidates", []).duplicate(true)
+				variant["trigger_candidate_previews"] = (
+					raw_variants as Dictionary).duplicate(true)
+				return variant
+	var rejected := normalized_base.duplicate(true)
+	rejected["ok"] = false
+	rejected["valid"] = false
+	rejected["error"] = "invalid_trigger_selection"
+	rejected["reason_ko"] = _preview_error_text(
+		"invalid_trigger_selection", true)
+	rejected["reason_en"] = _preview_error_text(
+		"invalid_trigger_selection", false)
+	return rejected
 
 
 func _preview_node_id() -> String:
@@ -1501,13 +1857,65 @@ func _deadline_line(node_data: Dictionary, preview: Dictionary) -> String:
 	return _tr("기한 %d주차", "DEADLINE WEEK %d") % deadline
 
 
-func _node_available_by_id(node_id: String) -> bool:
-	if node_id.is_empty():
+func _trigger_selection_required(preview: Dictionary) -> bool:
+	return bool(preview.get("trigger_selection_required", false))
+
+
+func _trigger_candidates(preview: Dictionary) -> Array[Dictionary]:
+	var candidates: Array[Dictionary] = []
+	var raw_candidates: Variant = preview.get("trigger_candidates", [])
+	if not (raw_candidates is Array):
+		return candidates
+	for raw_candidate in raw_candidates:
+		if raw_candidate is Dictionary:
+			candidates.append(raw_candidate as Dictionary)
+	return candidates
+
+
+func _selected_node_requires_trigger_choice() -> bool:
+	if _selected_die_id.is_empty() or _selected_node_id.is_empty():
 		return false
+	var preview := _preview_for(_selected_die_id, _selected_node_id)
+	return _trigger_selection_required(preview) \
+			and not _trigger_candidates(preview).is_empty()
+
+
+func _selected_trigger_candidate_is_valid() -> bool:
+	return not _selected_trigger_bundle_id.is_empty() \
+			and _trigger_candidate_records.has(_selected_trigger_bundle_id)
+
+
+func _trigger_candidate_record_for_preview() -> Dictionary:
+	if _focused_group == "candidate" \
+			and _trigger_candidate_records.has(_focused_id):
+		return _trigger_candidate_records.get(_focused_id, {})
+	if _trigger_candidate_records.has(_selected_trigger_bundle_id):
+		return _trigger_candidate_records.get(_selected_trigger_bundle_id, {})
+	if not _trigger_candidate_order.is_empty():
+		return _trigger_candidate_records.get(_trigger_candidate_order[0], {})
+	return {}
+
+
+func _node_has_empty_required_trigger_candidates(node_id: String) -> bool:
+	if _selected_die_id.is_empty() or node_id.is_empty():
+		return false
+	var preview := _preview_for(_selected_die_id, node_id)
+	return _trigger_selection_required(preview) \
+			and _trigger_candidates(preview).is_empty()
+
+
+func _node_unavailable_by_id(node_id: String) -> bool:
+	if node_id.is_empty():
+		return true
 	var nodes: Dictionary = _snapshot.get("nodes", {})
 	if not nodes.has(node_id) or not (nodes[node_id] is Dictionary):
-		return false
-	return not _node_unavailable(nodes[node_id])
+		return true
+	return _node_unavailable(nodes[node_id]) \
+			or _node_has_empty_required_trigger_candidates(node_id)
+
+
+func _node_available_by_id(node_id: String) -> bool:
+	return not _node_unavailable_by_id(node_id)
 
 
 func _node_unavailable(node_data: Dictionary) -> bool:
@@ -1544,6 +1952,7 @@ func _base_progress(value: int) -> int:
 
 
 func _update_root_meta() -> void:
+	var selected_preview := _preview_for(_selected_die_id, _selected_node_id)
 	set_meta("seoul_cycle_read_only", _read_only)
 	set_meta("seoul_cycle_month", int(_snapshot.get("month", 0)))
 	set_meta("seoul_cycle_turn", int(_snapshot.get("turn", 0)))
@@ -1552,9 +1961,30 @@ func _update_root_meta() -> void:
 	set_meta("seoul_cycle_node_ids", _node_order.duplicate())
 	set_meta("seoul_cycle_selected_die_id", _selected_die_id)
 	set_meta("seoul_cycle_selected_node_id", _selected_node_id)
+	set_meta("seoul_cycle_selected_trigger_bundle_id", _selected_trigger_bundle_id)
+	set_meta("seoul_cycle_trigger_candidate_ids", _trigger_candidate_order.duplicate())
+	set_meta("seoul_cycle_trigger_candidate_count", _trigger_candidate_order.size())
+	set_meta("seoul_cycle_trigger_selection_required",
+		_trigger_selection_required(selected_preview))
+	set_meta("seoul_cycle_trigger_candidate_panel_visible",
+		_trigger_candidate_panel.visible)
+	set_meta("seoul_cycle_trigger_candidate_focus_id",
+		_focused_id if _focused_group == "candidate" else "")
+	set_meta("seoul_cycle_selection_stage", _selection_stage())
 	set_meta("seoul_cycle_remaining_effort_count", _remaining_effort_count())
 	set_meta("seoul_cycle_error", _error_text)
 	set_meta("seoul_cycle_viewport_size", Vector2i(roundi(size.x), roundi(size.y)))
+
+
+func _selection_stage() -> String:
+	if _selected_die_id.is_empty():
+		return "capacity"
+	if _selected_node_id.is_empty():
+		return "node"
+	if _selected_node_requires_trigger_choice() \
+			and not _selected_trigger_candidate_is_valid():
+		return "candidate"
+	return "commit"
 
 
 func _normalized_snapshot(raw_snapshot: Dictionary) -> Dictionary:
@@ -1640,6 +2070,10 @@ func _normalized_preview(
 		"effects", preview.get("immediate_effects", {}))
 	preview["deadline_closes"] = bool(preview.get(
 		"deadline_closes", preview.get("will_expire", false)))
+	preview["trigger_selection_required"] = bool(preview.get(
+		"trigger_selection_required", false))
+	preview["trigger_candidates"] = _normalized_trigger_candidates(
+		preview.get("trigger_candidates", []))
 	preview["valid"] = bool(preview.get("valid", preview.get("ok", true)))
 	if not preview.has("reason_ko") and not preview.has("reason_en"):
 		var error_code := str(preview.get("error", ""))
@@ -1647,6 +2081,34 @@ func _normalized_preview(
 			preview["reason_ko"] = _preview_error_text(error_code, true)
 			preview["reason_en"] = _preview_error_text(error_code, false)
 	return preview
+
+
+func _normalized_trigger_candidates(raw_candidates: Variant) -> Array[Dictionary]:
+	var candidates: Array[Dictionary] = []
+	if not (raw_candidates is Array):
+		return candidates
+	for raw_candidate in raw_candidates:
+		if not (raw_candidate is Dictionary):
+			continue
+		var candidate: Dictionary = (raw_candidate as Dictionary).duplicate(true)
+		candidate["id"] = str(candidate.get(
+			"id", candidate.get("bundle_id", candidate.get("trigger_bundle_id", ""))))
+		var fallback_label := str(candidate.get("label", candidate.get("title", "")))
+		candidate["label_ko"] = str(candidate.get(
+			"label_ko", candidate.get("title_ko", fallback_label)))
+		candidate["label_en"] = str(candidate.get(
+			"label_en", candidate.get("title_en", fallback_label)))
+		var fallback_detail := str(candidate.get(
+			"detail", candidate.get("summary", candidate.get("description", ""))))
+		candidate["detail_ko"] = str(candidate.get(
+			"detail_ko", candidate.get(
+				"summary_ko", candidate.get("description_ko", fallback_detail))))
+		candidate["detail_en"] = str(candidate.get(
+			"detail_en", candidate.get(
+				"summary_en", candidate.get("description_en", fallback_detail))))
+		candidates.append(candidate)
+	candidates.sort_custom(_sort_trigger_candidates)
+	return candidates
 
 
 func _preview_error_text(error_code: String, korean: bool) -> String:
@@ -1661,6 +2123,10 @@ func _preview_error_text(error_code: String, korean: bool) -> String:
 			return "이번 주 배치 완료" if korean else "WEEK ALREADY COMMITTED"
 		"cycle_entry_unresolved":
 			return "먼저 도착한 일을 마친다" if korean else "RESOLVE THE CURRENT EVENT FIRST"
+		"trigger_selection_required":
+			return "이어갈 약속을 고른다" if korean else "CHOOSE A THREAD"
+		"invalid_trigger_selection":
+			return "고른 약속을 다시 확인한다" if korean else "CHECK THE SELECTED THREAD"
 	return "배치할 수 없음" if korean else "ALLOCATION UNAVAILABLE"
 
 
@@ -1704,6 +2170,43 @@ func _snapshot_validation_error(snapshot: Dictionary) -> String:
 	var week := int(snapshot.get("week_of_month", 1))
 	if week < 1 or week > 4:
 		return "week_of_month must stay inside 1..4"
+	var raw_previews: Variant = snapshot.get("previews", {})
+	if raw_previews is Dictionary:
+		for raw_capacity_id in (raw_previews as Dictionary).keys():
+			var raw_row: Variant = (raw_previews as Dictionary).get(raw_capacity_id, {})
+			if not (raw_row is Dictionary):
+				continue
+			for raw_node_id in (raw_row as Dictionary).keys():
+				var raw_preview: Variant = (raw_row as Dictionary).get(raw_node_id, {})
+				if not (raw_preview is Dictionary):
+					continue
+				var trigger_error := _trigger_candidate_contract_error(
+					raw_preview as Dictionary,
+					"%s/%s" % [str(raw_capacity_id), str(raw_node_id)])
+				if not trigger_error.is_empty():
+					return trigger_error
+	return ""
+
+
+func _trigger_candidate_contract_error(preview: Dictionary, context: String) -> String:
+	var raw_candidates: Variant = preview.get("trigger_candidates", [])
+	if not (raw_candidates is Array):
+		return "trigger_candidates must be an Array at %s" % context
+	var candidates: Array = raw_candidates
+	if candidates.size() > 2:
+		return "trigger_candidates supports at most 2 entries at %s" % context
+	var seen_ids: Dictionary = {}
+	for raw_candidate in candidates:
+		if not (raw_candidate is Dictionary):
+			return "every trigger candidate must be a Dictionary at %s" % context
+		var candidate: Dictionary = raw_candidate
+		var candidate_id := str(candidate.get("id", "")).strip_edges()
+		if candidate_id.is_empty() or seen_ids.has(candidate_id):
+			return "trigger candidate ids must be non-empty and unique at %s" % context
+		if _localized_contract_value(candidate, "label").is_empty() \
+				or _localized_contract_value(candidate, "detail").is_empty():
+			return "every trigger candidate requires localized label/detail at %s" % context
+		seen_ids[candidate_id] = true
 	return ""
 
 
@@ -1722,6 +2225,10 @@ func _sort_node_ids(a: String, b: String) -> bool:
 	if left_order == right_order:
 		return a < b
 	return left_order < right_order
+
+
+func _sort_trigger_candidates(a: Dictionary, b: Dictionary) -> bool:
+	return str(a.get("id", "")) < str(b.get("id", ""))
 
 
 func _localized(data: Dictionary, base_key: String) -> String:
