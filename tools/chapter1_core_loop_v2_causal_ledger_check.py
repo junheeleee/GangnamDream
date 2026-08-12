@@ -337,6 +337,137 @@ assert len(SYNTHETIC_W24_FANIN_WORK_IDS) == 25
 assert len(SYNTHETIC_W24_FANIN_RELATIONSHIP_IDS) == 45
 assert len(SYNTHETIC_W24_FIRST_BILL_VALUE_BY_ID) == 8
 assert len(SYNTHETIC_W24_FANIN_RAW_ID_UNIVERSE) == 78
+SYNTHETIC_W24_SUPERSEDED_RECORDS_SHA256 = (
+    "d245c902460bf67259efe7a70ef9f7804a6dc38ac5cc165c3ebd20c06f4eef92")
+SYNTHETIC_W24_RETAINED_RECORDS_SHA256 = (
+    "7c01d19a04a17f2325c32f1356e36fb980be6bc2cb2cb7b9f6e43093ca7827fa")
+# The complete fixture makes one separately approved SHADOWED_READER repair
+# to two of the retained records.  This digest locks that exact delta; all
+# other retained records remain byte-semantic copies of production.
+SYNTHETIC_W24_REPAIRED_RETAINED_RECORDS_SHA256 = (
+    "60bb77d1ee05491ae78778b50cf36a48be8a7e6323a48ce6cb19704157a8dcbe")
+SYNTHETIC_W24_SOURCE_SCENARIOS_SHA256 = (
+    "b44eceaeff69f0efac42344b9f3e5c27883a32caf06fc8f657e3f57913fccbb3")
+SYNTHETIC_W24_SOURCE_SCENARIO_COUNTS_SHA256 = (
+    "74370afe058aaf6d1ee547e9efa553654c2b7543849b8225925d30afa2fcb1d8")
+SYNTHETIC_W24_REPLACEMENT_SCENARIO_SEMANTICS_SHA256 = (
+    "005a64ed84f9a75eaa8ecac13bb092dc2fdb714a4c61e1c00a51e56cf5170909")
+SYNTHETIC_W24_SOURCE_TUPLE_STAGE_MAP = {
+    "w24:candidate_aggregation": (96, 5376, 768),
+    "w24:completion_validation:loaded": (9, 45, 0),
+    "w24:decision_prechoice_snapshot:fresh": (96, 4608, 0),
+    "w24:decision_prechoice_snapshot:reentry": (96, 4608, 0),
+    "w24:dirty_choice:reentry": (48, 96, 0),
+    "w24:first_bill_decision_result_restore": (3, 24, 84),
+    "w24:first_bill_description:fresh": (96, 1152, 0),
+    "w24:first_bill_description:reentry": (96, 1152, 0),
+    "w24:first_bill_replay_capture": (199, 1592, 196),
+    "w24:hyunsu_morning_resume_restore:result": (1, 160, 0),
+    "w24:hyunsu_result_format:fresh": (32, 3072, 0),
+    "w24:hyunsu_result_format:loaded_chain": (4, 640, 0),
+    "w24:hyunsu_result_format:reentry": (32, 3072, 0),
+    "w24:ledger_description:fresh": (64, 6144, 0),
+    "w24:ledger_description:loaded_after_first_bill": (2, 320, 0),
+    "w24:ledger_description:loaded_direct_prose": (2, 320, 0),
+    "w24:ledger_description:reentry": (64, 6144, 0),
+    "w24:ledger_memory": (132, 396, 0),
+    "w24:opening_after_bills:fresh": (48, 576, 0),
+    "w24:opening_after_bills:reentry": (48, 576, 0),
+    "w24:opening_description:fresh": (96, 4608, 0),
+    "w24:opening_description:reentry": (96, 4608, 0),
+    "w24:prepare_fresh": (96, 2688, 0),
+}
+# These digests are independent trust roots derived from the frozen production
+# ledger, not values supplied by the synthetic fixture or its Python manifest.
+# Together they lock the exact 27-invocation option surface (including temporal
+# roles, Story decisions, handoffs, outputs, and effects) and its intended
+# non-Story replacement.  Coordinated edits to a fixture and manifest must not
+# be able to author a new comparison baseline.
+SYNTHETIC_W24_STAGE_TUPLE_DIGESTS = {
+    "w24:candidate_aggregation":
+        "da5cd0b28690a5657a75e8b3bb8f7fce89b93b0144ef42fca5756342a0b0093b",
+    "w24:completion_validation:loaded":
+        "e59e8d7e1329bced38c01b428b8ad281a659862d4eb79d79bbda036dc1cdd0a4",
+    "w24:decision_prechoice_snapshot:fresh":
+        "17212a4f00fa19774adcd2a3f6ef06cf050fc01e1b07174a329cc5af4240dbc1",
+    "w24:decision_prechoice_snapshot:reentry":
+        "82c5dcd71ccba0a7400425cc909344cda4192d92e0653f2b9115b1df22022f3b",
+    "w24:dirty_choice:reentry":
+        "25166812899c8acf6dda44e38ecfac98c4ffa87b57a61d1610e74f83dd5bc454",
+    "w24:first_bill_decision_result_restore":
+        "4203e79b0c9bae1557e73d50e46151c9e5766c515bf5a6e10b3b3c3982b7d4c3",
+    "w24:first_bill_description:fresh":
+        "69b9181ccb1b85a2167b1825fd2ea13aa90d1de0bb6ad6605ca29300d827f089",
+    "w24:first_bill_description:reentry":
+        "41de2cd0b2e3241c100d830f1dcdd96784e3995ca325ff55353187e18a4e1212",
+    "w24:first_bill_replay_capture":
+        "e6927feb7184b0430f5e0640c480198d795097f99838a62634f5b6bdd6406a5d",
+    "w24:hyunsu_morning_resume_restore:result":
+        "e9890323f8cbf4507da3351e18c585f0908e4ecdaf4ef99205f7604b71751ccd",
+    "w24:hyunsu_result_format:fresh":
+        "1677dd320a01cd9cee65d3fec4ad0243692cb0ff34faad04ec6c4f87d1f72a53",
+    "w24:hyunsu_result_format:loaded_chain":
+        "e9890323f8cbf4507da3351e18c585f0908e4ecdaf4ef99205f7604b71751ccd",
+    "w24:hyunsu_result_format:reentry":
+        "7dbd43949311ecdd32609c631d2249e936b744d5ebc0987df81866bef11b43b5",
+    "w24:ledger_description:fresh":
+        "1677dd320a01cd9cee65d3fec4ad0243692cb0ff34faad04ec6c4f87d1f72a53",
+    "w24:ledger_description:loaded_after_first_bill":
+        "e9890323f8cbf4507da3351e18c585f0908e4ecdaf4ef99205f7604b71751ccd",
+    "w24:ledger_description:loaded_direct_prose":
+        "e9890323f8cbf4507da3351e18c585f0908e4ecdaf4ef99205f7604b71751ccd",
+    "w24:ledger_description:reentry":
+        "7dbd43949311ecdd32609c631d2249e936b744d5ebc0987df81866bef11b43b5",
+    "w24:ledger_memory":
+        "18b9bd6bd5551e1b9f53fc0bc4faac29e2a0b49d802e4bf112bde9973eb4ff65",
+    "w24:opening_after_bills:fresh":
+        "69b9181ccb1b85a2167b1825fd2ea13aa90d1de0bb6ad6605ca29300d827f089",
+    "w24:opening_after_bills:reentry":
+        "41de2cd0b2e3241c100d830f1dcdd96784e3995ca325ff55353187e18a4e1212",
+    "w24:opening_description:fresh":
+        "4f8b11091b11fb538e30ab54ad4d2b070974c36e57e3c34b7f8c5f53bd8e397b",
+    "w24:opening_description:reentry":
+        "94bb7082b316266fbc83bb8c14e61c85b086bb72c1cb016b7bc30610fdaba283",
+    "w24:prepare_fresh":
+        "2f728a10e9ca8058933f11c99e5675b6ded554a62445116ba6bcf1acc0294e84",
+}
+SYNTHETIC_W24_STAGE_TUPLE_MAP_SHA256 = (
+    "80e583c047c465474219fe7938f90d0a36ccd28c89e361498bb18b8558e2d451")
+# Production still has the deliberately shadowed generic application helper
+# at the loaded completion cut.  The complete fixture's separately audited
+# seven-way identity repair is the sole permitted old/new tuple delta.
+SYNTHETIC_W24_PRODUCTION_STAGE_TUPLE_DIGESTS = {
+    **SYNTHETIC_W24_STAGE_TUPLE_DIGESTS,
+    "w24:completion_validation:loaded":
+        "9019a6097b87ee1cebd93a25f96d9d407239e06394608f0aaec0d410f7fc8b5d",
+}
+SYNTHETIC_W24_PRODUCTION_STAGE_TUPLE_MAP_SHA256 = (
+    "364ef3b4cf45f36a8d9e8943875fc834aacd4361d93ce5486d5a3ce8ef670a73")
+SYNTHETIC_W24_ORIGINAL_OUTPUT_MULTISET_SHA256 = (
+    "83488e4f5ddbba5a1627ad217036b2ab38f37e40038a3d7f82eb6fde583fd3d3")
+SYNTHETIC_W24_RAW_CLONE_RECORDS_SHA256 = (
+    "74c4384405a00e122c810fff5fc849757b35f7471071596b8dec06555dc69be7")
+SYNTHETIC_W24_REPLACEMENT_INVOCATIONS_SHA256 = (
+    "38a11215e256e0c9a9066f4e0b6b6f2cb024b3a1ae25ffd609abf777e08c8ffa")
+SYNTHETIC_W24_FINAL_AGGREGATE_STAGE_SURFACE_SHA256 = (
+    "9eadc24b42bc35425923277f791841144146b0b3c1fceb9fb61122706b3a5c9e")
+SYNTHETIC_W24_REPLACEMENT_STAGES_SHA256 = (
+    "e405ae57737e9ac758ba40135e74cc1b6eecb14af03e27ef5e3555c28abc8e20")
+SYNTHETIC_W24_REPLACEMENT_GROUPS_SHA256 = (
+    "b7a20bebacac866bbd09865da2bf2486594fb41233853d528f7b7eb4546c09a1")
+# The complete fixture's replacement surface is Python-only, but it is still
+# a trust root: a caller may not coordinate a reader edit with its proof, nor
+# substitute one of the two compressed Story summaries for a row-owned raw
+# consumer.  These digests lock every replacement reader and synthetic W24
+# proof after the independently checked production->fixture construction.
+SYNTHETIC_W24_REPLACEMENT_READER_RECORDS_SHA256 = (
+    "af0f0f4635ebed81ec9af77c8e107714beb20fd33477bb1eba00b4af4e7bc4f2")
+SYNTHETIC_W24_REPLACEMENT_PROOF_RECORDS_SHA256 = (
+    "d5f893b2f28754a42daba0e672dc2e1077c8683e9b00f178658a4bdb53364c05")
+SYNTHETIC_W24_ROW_REFERENCE_CONTRACT_SHA256 = (
+    "5c1573b458e4cb8e5fc8ac2b47f60078678cfa4f3c9db6672b3ccf7b6c4821f5")
+SYNTHETIC_W24_PREFIX_REFERENCE_SURFACE_SHA256 = (
+    "7c1696947c264c15c548e818a61aea49edf0c4fc70f17622790eff14c975dc1e")
 SYNTHETIC_W24_FIRST_BILL_DECISION_HANDOFF_PREFIX = (
     "handoff:history_summary:w24:v2_demo_first_bill:")
 REGISTRY_ID_FIELDS = {
@@ -7210,6 +7341,7 @@ def validate(ledger: Any, baseline: Any, *, require_complete: bool = False,
              synthetic_source_contracts: bool = False,
              enforce_audited_snapshot: bool = True,
              self_test_probe: bool = False,
+             self_test_skip_w24_source_census: bool = False,
              ) -> tuple[list[str], dict[str, Any]]:
     errors: list[str] = []
     obj = _exact_fields(ledger, ROOT_FIELDS, "ledger", errors)
@@ -7910,6 +8042,7 @@ def validate(ledger: Any, baseline: Any, *, require_complete: bool = False,
                 errors.append(
                     f"reader_registry: Story input tuple source mismatch {reader_id}")
     invocation_ids: set[str] = set()
+    invocation_records_by_id: dict[str, dict[str, Any]] = {}
     co_presence_ids: set[str] = set()
     invocation_membership: dict[str, list[str]] = {}
     # One tuple is one source-compatible reader/producer option for an
@@ -8149,6 +8282,7 @@ def validate(ledger: Any, baseline: Any, *, require_complete: bool = False,
             else:
                 invocation_ids.add(invocation_id)
             local_invocation_ids.append(invocation_id)
+            invocation_records_by_id[invocation_id] = invocation
             if not synthetic_source_contracts:
                 expected_invocation_digest = \
                     EXPECTED_INVOCATION_CONTRACT_DIGESTS.get(invocation_id)
@@ -9117,6 +9251,245 @@ def validate(ledger: Any, baseline: Any, *, require_complete: bool = False,
                         invocation_source_scenarios_by_id.setdefault(
                             invocation_id_ref, set()).add(scenario_key)
 
+            # Derive the exact W24 source tuple census from the same
+            # scenario-local option/handoff engine used by validation.  This
+            # is intentionally computed from the supplied production graph;
+            # the complete-fixture manifest may compare it to frozen counts,
+            # but may never declare those counts as its own truth.
+            if (milestone.get("week") == 24
+                    and not synthetic_source_contracts
+                    and not self_test_skip_w24_source_census
+                    and SYNTHETIC_W24_FANIN_SUPERSEDED_INVOCATION_IDS
+                    .issubset(set(local_invocation_ids))):
+                source_tuple_map: dict[str, list[int]] = {}
+                source_scenario_feasible_counts: dict[str, int] = {}
+                source_zero_option_paths = 0
+                for scenario_index, (scenario_stages, _ancestors) in \
+                        enumerate(local_execution_scenarios):
+                    scenario_key = (milestone_id, scenario_index)
+                    active_by_stage: dict[str, list[str]] = {}
+                    for invocation_id_ref in sorted(
+                            SYNTHETIC_W24_FANIN_SUPERSEDED_INVOCATION_IDS):
+                        stage_id = invocation_stage_id_by_id.get(
+                            invocation_id_ref)
+                        if stage_id in scenario_stages:
+                            active_by_stage.setdefault(
+                                str(stage_id), []).append(invocation_id_ref)
+                    for stage_id, active_ids in active_by_stage.items():
+                        counts = source_tuple_map.setdefault(
+                            stage_id, [0, 0, 0])
+                        counts[0] += 1
+                        axes = [
+                            [option for option in
+                             invocation_combinations_by_id.get(
+                                 invocation_id_ref, [])
+                             if handoff_option_is_feasible(
+                                 invocation_id_ref, option[3], option[4],
+                                 scenario_key, option[5])]
+                            for invocation_id_ref in active_ids]
+                        if any(not axis for axis in axes):
+                            source_zero_option_paths += 1
+                            source_scenario_feasible_counts[
+                                f"{scenario_index}:{stage_id}"] = 0
+                            continue
+                        scenario_feasible_count = 0
+                        for selected in itertools.product(*axes):
+                            decision_values: dict[str, str] = {}
+                            compatible = True
+                            for option in selected:
+                                for decision_id in set(option[1]) | set(
+                                        option[4]):
+                                    domain_value = _activation_choice_domain(
+                                        decision_id)
+                                    if domain_value is None:
+                                        continue
+                                    domain, value = domain_value
+                                    previous = decision_values.setdefault(
+                                        domain, value)
+                                    if previous != value:
+                                        compatible = False
+                                        break
+                                if not compatible:
+                                    break
+                            counts[1 if compatible else 2] += 1
+                            if compatible:
+                                scenario_feasible_count += 1
+                        source_scenario_feasible_counts[
+                            f"{scenario_index}:{stage_id}"] = \
+                            scenario_feasible_count
+                metrics["w24_source_tuple_stage_map"] = {
+                    stage_id: tuple(counts)
+                    for stage_id, counts in sorted(source_tuple_map.items())}
+                metrics["w24_source_feasible_tuple_occurrences"] = sum(
+                    counts[1] for counts in source_tuple_map.values())
+                metrics["w24_source_rejected_tuple_occurrences"] = sum(
+                    counts[2] for counts in source_tuple_map.values())
+                metrics["w24_source_zero_option_paths"] = \
+                    source_zero_option_paths
+                metrics["w24_source_scenario_feasible_counts"] = \
+                    source_scenario_feasible_counts
+                metrics["w24_source_scenario_feasible_counts_digest"] = \
+                    _semantic_digest(source_scenario_feasible_counts)
+
+                # Re-run the same scenario selection with the richer raw
+                # projection used by the replacement proof.  Unlike the
+                # compact fan-in tuple above, this retains all five temporal
+                # roles plus original outputs/effects, and preserves
+                # multiplicity per concrete source scenario.
+                detailed_occurrences: dict[str, list[str]] = {}
+                detailed_feasible = 0
+                detailed_rejected = 0
+                detailed_zero = 0
+                for scenario_index, (scenario_stages, _ancestors) in \
+                        enumerate(local_execution_scenarios):
+                    scenario_key = (milestone_id, scenario_index)
+                    active_by_stage: dict[str, list[str]] = {}
+                    for invocation_id_ref in sorted(
+                            SYNTHETIC_W24_FANIN_SUPERSEDED_INVOCATION_IDS):
+                        stage_id = invocation_stage_id_by_id.get(
+                            invocation_id_ref)
+                        if stage_id in scenario_stages:
+                            active_by_stage.setdefault(
+                                str(stage_id), []).append(invocation_id_ref)
+                    for stage_id, active_ids in sorted(
+                            active_by_stage.items()):
+                        raw_axes: list[list[dict[str, Any]]] = []
+                        for invocation_id_ref in active_ids:
+                            options = _synthetic_w24_exact_raw_options(
+                                invocation_records_by_id[invocation_id_ref],
+                                reader_records_by_id)
+                            raw_axes.append([
+                                option for option in options
+                                if handoff_option_is_feasible(
+                                    invocation_id_ref,
+                                    set(option["activation_roles"][
+                                        "scene_handoff_fact_ids"]),
+                                    set(option["activation_roles"][
+                                        "scene_handoff_decision_ids"]),
+                                    scenario_key,
+                                    frozenset(option["entry_modes"]))])
+                        occurrence_key = f"{scenario_index}:{stage_id}"
+                        occurrence_digests: list[str] = []
+                        if any(not axis for axis in raw_axes):
+                            detailed_zero += 1
+                            detailed_occurrences[occurrence_key] = []
+                            continue
+                        for selected in itertools.product(*raw_axes):
+                            merged = _synthetic_w24_merge_raw_options(
+                                selected)
+                            if merged is None:
+                                detailed_rejected += 1
+                                continue
+                            occurrence_digests.append(_semantic_digest(
+                                _synthetic_w24_option_projection(merged)))
+                        occurrence_digests.sort()
+                        detailed_feasible += len(occurrence_digests)
+                        detailed_occurrences[occurrence_key] = \
+                            occurrence_digests
+                metrics["w24_source_detailed_occurrences"] = \
+                    detailed_occurrences
+                metrics["w24_source_detailed_occurrences_digest"] = \
+                    _semantic_digest(detailed_occurrences)
+                metrics["w24_source_detailed_feasible"] = detailed_feasible
+                metrics["w24_source_detailed_rejected"] = detailed_rejected
+                metrics["w24_source_detailed_zero"] = detailed_zero
+                # This richer projection intentionally does not stand in for
+                # the exact source occurrence census above: current-choice
+                # dirty reentry readers are satisfied inside their logical
+                # call rather than by an earlier stage.  It is retained only
+                # as output/effect/role evidence for the unique A/B surface.
+
+            elif (milestone.get("week") == 24
+                  and synthetic_source_contracts):
+                replacement_occurrences: dict[str, list[str]] = {}
+                replacement_stage_map: dict[str, list[int]] = {}
+                replacement_feasible = 0
+                replacement_zero = 0
+                for scenario_index, (scenario_stages, _ancestors) in \
+                        enumerate(local_execution_scenarios):
+                    scenario_key = (milestone_id, scenario_index)
+                    for aggregate_stage_id in sorted(
+                            stage_id for stage_id in scenario_stages
+                            if stage_id.startswith(
+                                "w24:synthetic_fanin_aggregate:")):
+                        original_stage_id = aggregate_stage_id.removeprefix(
+                            "w24:synthetic_fanin_aggregate:")
+                        aggregate_invocation_ids = [
+                            invocation_id_ref
+                            for invocation_id_ref in stage_records_by_id[
+                                aggregate_stage_id].get("invocation_ids", [])
+                            if invocation_id_ref.startswith(
+                                "reader:synthetic:w24:fanin_aggregate:")]
+                        counts = replacement_stage_map.setdefault(
+                            original_stage_id, [0, 0, 0])
+                        counts[0] += 1
+                        occurrence_key = (
+                            f"{scenario_index}:{original_stage_id}")
+                        if len(aggregate_invocation_ids) != 1:
+                            replacement_zero += 1
+                            replacement_occurrences[occurrence_key] = []
+                            continue
+                        invocation_id_ref = aggregate_invocation_ids[0]
+                        aggregate_record = copy.deepcopy(
+                            invocation_records_by_id[invocation_id_ref])
+                        aggregate_record["invocation_id"] = original_stage_id
+                        aggregate_record["conditional_producers"] = [
+                            producer for producer in aggregate_record.get(
+                                "conditional_producers", [])
+                            if not str(producer.get("variant_id", "")).startswith(
+                                "variant:synthetic:w24:raw_options_resolved:")]
+                        live_group_ids = {
+                            producer.get("selection_group_id")
+                            for producer in aggregate_record[
+                                "conditional_producers"]}
+                        aggregate_record["producer_variant_groups"] = [
+                            group for group in aggregate_record.get(
+                                "producer_variant_groups", [])
+                            if group.get("selection_group_id")
+                            in live_group_ids]
+                        options = _synthetic_w24_exact_raw_options(
+                            aggregate_record, reader_records_by_id)
+                        feasible_options = [
+                            option for option in options
+                            if handoff_option_is_feasible(
+                                invocation_id_ref,
+                                set(option["activation_roles"][
+                                    "scene_handoff_fact_ids"]),
+                                set(option["activation_roles"][
+                                    "scene_handoff_decision_ids"]),
+                                scenario_key,
+                                frozenset(option["entry_modes"]))]
+                        generic_feasible_options = [
+                            option for option in
+                            invocation_combinations_by_id.get(
+                                invocation_id_ref, [])
+                            if handoff_option_is_feasible(
+                                invocation_id_ref, option[3], option[4],
+                                scenario_key, option[5])]
+                        occurrence_digests = sorted(
+                            _semantic_digest(
+                                _synthetic_w24_option_projection(option))
+                            for option in feasible_options)
+                        if not generic_feasible_options:
+                            replacement_zero += 1
+                        replacement_feasible += len(
+                            generic_feasible_options)
+                        counts[1] += len(generic_feasible_options)
+                        replacement_occurrences[occurrence_key] = \
+                            occurrence_digests
+                metrics["w24_replacement_source_tuple_stage_map"] = {
+                    stage_id: tuple(counts)
+                    for stage_id, counts in sorted(
+                        replacement_stage_map.items())}
+                metrics["w24_replacement_detailed_occurrences"] = \
+                    replacement_occurrences
+                metrics["w24_replacement_detailed_occurrences_digest"] = \
+                    _semantic_digest(replacement_occurrences)
+                metrics["w24_replacement_feasible_tuple_occurrences"] = \
+                    replacement_feasible
+                metrics["w24_replacement_zero_option_paths"] = \
+                    replacement_zero
+
             # A source-semantic reader may be reused by distinct call-site
             # invocations (the cold W24 formatter has two such sites), but
             # only when checker-owned source scenarios prove those stages are
@@ -9629,9 +10002,21 @@ def validate(ledger: Any, baseline: Any, *, require_complete: bool = False,
         for ref in row.get("near_reader_ids", []) if isinstance(row.get("near_reader_ids"), list) else []:
             if ref not in readers:
                 errors.append(f"ORPHAN_FACT {chain_id}: missing near reader {ref}")
+            elif any(str(fact_id).startswith("history_summary:")
+                     for fact_id in reader_records_by_id.get(
+                         ref, {}).get("reads_fact_ids", [])):
+                errors.append(
+                    f"ORPHAN_FACT {chain_id}: narrative summary reader may "
+                    "not replace a row-owned raw causal reader")
         for ref in row.get("milestone_reader_ids", []) if isinstance(row.get("milestone_reader_ids"), list) else []:
             if ref not in readers:
                 errors.append(f"ORPHAN_FACT {chain_id}: missing milestone reader {ref}")
+            elif any(str(fact_id).startswith("history_summary:")
+                     for fact_id in reader_records_by_id.get(
+                         ref, {}).get("reads_fact_ids", [])):
+                errors.append(
+                    f"ORPHAN_FACT {chain_id}: narrative summary reader may "
+                    "not replace a row-owned raw causal reader")
         if _is_int(row.get("month")):
             month_reader_id = f"reader:month:m{row['month']:02d}:summary"
             month_reader = reader_records_by_id.get(month_reader_id, {})
@@ -9646,6 +10031,12 @@ def validate(ledger: Any, baseline: Any, *, require_complete: bool = False,
             for ref in missed_reader_ids:
                 if ref not in readers:
                     errors.append(f"ORPHAN_FACT {chain_id}: missing missed reader {ref}")
+                elif any(str(fact_id).startswith("history_summary:")
+                         for fact_id in reader_records_by_id.get(
+                             ref, {}).get("reads_fact_ids", [])):
+                    errors.append(
+                        f"ORPHAN_FACT {chain_id}: narrative summary reader "
+                        "may not replace a row-owned raw causal reader")
             missed_reader_facts = {
                 fact_id for reader_id in missed_reader_ids
                 for fact_id in bound_facts_by_reader.get(reader_id, set())}
@@ -10779,6 +11170,7 @@ def _self_test_validate(
         fallback: bool = False, complete: bool = False,
         pointers: bool = False, sources: bool = True,
         synthetic: bool = False, snapshot: bool = False,
+        source_census: bool = False,
 ) -> tuple[list[str], dict[str, Any]]:
     """Run one fail-closed self-test validation and record its cost.
 
@@ -10798,7 +11190,12 @@ def _self_test_validate(
         check_pointers=pointers, check_sources=sources,
         synthetic_source_contracts=synthetic,
         enforce_audited_snapshot=snapshot,
-        self_test_probe=probe)
+        self_test_probe=probe,
+        # Ledger mutation cases test their named invariant against the same
+        # immutable source scenario graph already derived once at self-test
+        # entry.  Only explicit source-census mutations request a fresh run.
+        # Production/default validate never uses this Python-only switch.
+        self_test_skip_w24_source_census=not source_census)
     elapsed = time.monotonic() - started
     if probe:
         _SELF_TEST_PROBE_COUNT += 1
@@ -10822,17 +11219,18 @@ def _self_test_validate(
 def _expect_failure(name: str, ledger: Any, baseline: Any, needle: str,
                     *, complete: bool = False, pointers: bool = False,
                     sources: bool = True, synthetic: bool = False,
-                    snapshot: bool = False) -> None:
+                    snapshot: bool = False,
+                    source_census: bool = False) -> None:
     errors, _ = _self_test_validate(
         ledger, baseline, probe=True, complete=complete,
         pointers=pointers, sources=sources, synthetic=synthetic,
-        snapshot=snapshot)
+        snapshot=snapshot, source_census=source_census)
     if any(needle in error for error in errors):
         return
     errors, _ = _self_test_validate(
         ledger, baseline, probe=False, fallback=True, complete=complete,
         pointers=pointers, sources=sources, synthetic=synthetic,
-        snapshot=snapshot)
+        snapshot=snapshot, source_census=source_census)
     if not errors or not any(needle in error for error in errors):
         raise AssertionError(f"{name}: expected {needle!r}, got {errors}")
 
@@ -10841,16 +11239,16 @@ def _expect_probe_full_parity(
         name: str, ledger: Any, baseline: Any, needle: str,
         *, complete: bool = False, pointers: bool = False,
         sources: bool = False, synthetic: bool = False,
-        snapshot: bool = False) -> None:
+        snapshot: bool = False, source_census: bool = False) -> None:
     """Prove that a representative probe diagnostic is contained in full."""
     probe_errors, _ = _self_test_validate(
         ledger, baseline, probe=True, complete=complete,
         pointers=pointers, sources=sources, synthetic=synthetic,
-        snapshot=snapshot)
+        snapshot=snapshot, source_census=source_census)
     full_errors, _ = _self_test_validate(
         ledger, baseline, probe=False, complete=complete,
         pointers=pointers, sources=sources, synthetic=synthetic,
-        snapshot=snapshot)
+        snapshot=snapshot, source_census=source_census)
     if not any(needle in error for error in probe_errors):
         raise AssertionError(
             f"{name}: probe missed parity diagnostic {needle!r}: "
@@ -10866,9 +11264,652 @@ def _expect_probe_full_parity(
             f"{probe_only}")
 
 
+def _expect_probe_clean_full_fallback(
+        name: str, ledger: Any, baseline: Any, needle: str, *,
+        complete: bool = False, pointers: bool = False,
+        sources: bool = False, synthetic: bool = False,
+        snapshot: bool = False, source_census: bool = False) -> None:
+    """Prove an intentionally clean probe falls back to exact full failure."""
+    fallback_count_before = _SELF_TEST_FULL_FALLBACK_COUNT
+    probe_errors, _ = _self_test_validate(
+        ledger, baseline, probe=True, complete=complete,
+        pointers=pointers, sources=sources, synthetic=synthetic,
+        snapshot=snapshot, source_census=source_census)
+    if probe_errors:
+        raise AssertionError(
+            f"{name}: fallback probe must be clean, got {probe_errors}")
+    full_errors, _ = _self_test_validate(
+        ledger, baseline, probe=False, fallback=True, complete=complete,
+        pointers=pointers, sources=sources, synthetic=synthetic,
+        snapshot=snapshot, source_census=source_census)
+    if not any(needle in error for error in full_errors):
+        raise AssertionError(
+            f"{name}: mandatory full fallback missed {needle!r}: "
+            f"{full_errors}")
+    if _SELF_TEST_FULL_FALLBACK_COUNT != fallback_count_before + 1:
+        raise AssertionError(
+            f"{name}: mandatory full fallback counter did not advance "
+            "exactly once")
+
+
+def _derive_synthetic_w24_production_evidence(
+        ledger: dict[str, Any]) -> dict[str, Any]:
+    """Re-derive immutable W24 replacement evidence before fixture edits.
+
+    This function deliberately starts from the frozen production ledger and
+    runs the ordinary scenario/reader/producer/handoff engine.  The returned
+    evidence is never accepted from a caller or ledger field.  In particular,
+    deleting a source scenario changes this census even if a coordinated
+    synthetic manifest repeats the old literal counts.
+    """
+    if _semantic_digest(ledger) != AUDITED_LEDGER_SEMANTIC_SHA256:
+        raise AssertionError(
+            "synthetic W24 evidence requires exact audited production ledger")
+    production_baseline = _load_json(BASELINE_PATH)
+    production_errors, production_metrics = validate(
+        ledger, production_baseline, check_pointers=False,
+        check_sources=False, enforce_audited_snapshot=False)
+    if production_errors:
+        raise AssertionError(
+            "synthetic W24 production evidence failed ordinary validation: "
+            f"{production_errors[:5]}")
+
+    milestone = next(
+        item for item in ledger.get("milestone_registry", [])
+        if item.get("week") == 24)
+    invocation_by_id = {
+        item.get("invocation_id"): item
+        for item in milestone.get("invocations", [])
+        if isinstance(item, dict) and isinstance(
+            item.get("invocation_id"), str)}
+    story_group = next(
+        group for group in milestone.get("co_presence_groups", [])
+        if group.get("group_id") == "group:w24:story_scene")
+    story_ids = set(story_group.get("invocation_ids", []))
+    superseded = {
+        invocation_id: copy.deepcopy(invocation_by_id[invocation_id])
+        for invocation_id in sorted(
+            SYNTHETIC_W24_FANIN_SUPERSEDED_INVOCATION_IDS)}
+    retained_ids = story_ids - \
+        SYNTHETIC_W24_FANIN_SUPERSEDED_INVOCATION_IDS
+    retained = {
+        invocation_id: copy.deepcopy(invocation_by_id[invocation_id])
+        for invocation_id in sorted(retained_ids)}
+    scenarios = EXPECTED_EXECUTION_STAGE_SCENARIOS_BY_WEEK[24]
+    evidence = {
+        "production_semantic_digest": _semantic_digest(ledger),
+        "superseded_invocations": superseded,
+        "superseded_records_digest": _semantic_digest(superseded),
+        "retained_invocations": retained,
+        "retained_records_digest": _semantic_digest(retained),
+        "source_scenarios_digest": _semantic_digest(scenarios),
+        "source_scenario_count": len(scenarios),
+        "source_stage_tuple_map": production_metrics.get(
+            "w24_source_tuple_stage_map"),
+        "source_feasible_tuple_occurrence_count": production_metrics.get(
+            "w24_source_feasible_tuple_occurrences"),
+        "source_rejected_tuple_occurrence_count": production_metrics.get(
+            "w24_source_rejected_tuple_occurrences"),
+        "source_zero_option_paths": production_metrics.get(
+            "w24_source_zero_option_paths"),
+        "source_scenario_feasible_counts": production_metrics.get(
+            "w24_source_scenario_feasible_counts"),
+        "source_scenario_feasible_counts_digest": production_metrics.get(
+            "w24_source_scenario_feasible_counts_digest"),
+    }
+    expected_values = {
+        "production_semantic_digest": AUDITED_LEDGER_SEMANTIC_SHA256,
+        "superseded_records_digest":
+            SYNTHETIC_W24_SUPERSEDED_RECORDS_SHA256,
+        "retained_records_digest": SYNTHETIC_W24_RETAINED_RECORDS_SHA256,
+        "source_scenarios_digest": SYNTHETIC_W24_SOURCE_SCENARIOS_SHA256,
+        "source_scenario_count": 201,
+        "source_stage_tuple_map": SYNTHETIC_W24_SOURCE_TUPLE_STAGE_MAP,
+        "source_feasible_tuple_occurrence_count": 51_977,
+        "source_rejected_tuple_occurrence_count": 1_048,
+        "source_zero_option_paths": 0,
+        "source_scenario_feasible_counts_digest":
+            SYNTHETIC_W24_SOURCE_SCENARIO_COUNTS_SHA256,
+    }
+    for key, expected in expected_values.items():
+        if evidence.get(key) != expected:
+            raise AssertionError(
+                "synthetic W24 production evidence mismatch "
+                f"{key}: {evidence.get(key)!r}")
+    if (set(superseded)
+            != SYNTHETIC_W24_FANIN_SUPERSEDED_INVOCATION_IDS
+            or len(retained) != 19):
+        raise AssertionError(
+            "synthetic W24 production evidence exact27/remaining19 mismatch")
+    scenario_counts = evidence.get("source_scenario_feasible_counts")
+    if (not isinstance(scenario_counts, dict)
+            or len(scenario_counts) != 1_456
+            or sum(scenario_counts.values()) != 51_977):
+        raise AssertionError(
+            "synthetic W24 production per-scenario occurrence mismatch")
+    return evidence
+
+
+def _synthetic_w24_invocation_reader_ids(
+        invocation: dict[str, Any]) -> list[str]:
+    """Return one invocation's reader IDs in authored structural order."""
+    axes = [
+        invocation.get("always_reader_ids", []),
+        [item.get("reader_id")
+         for item in invocation.get("conditional_readers", [])
+         if isinstance(item, dict)],
+        [variant.get("reader_id")
+         for group in invocation.get("exclusive_variant_groups", [])
+         if isinstance(group, dict)
+         for variant in group.get("variants", [])
+         if isinstance(variant, dict)],
+    ]
+    return list(dict.fromkeys(
+        reader_id for axis in axes for reader_id in axis
+        if isinstance(reader_id, str)))
+
+
+def _derive_synthetic_w24_row_reference_contract(
+        production_ledger: dict[str, Any]) -> dict[str, Any]:
+    """Derive exact production row/witness refs to their non-Story clones.
+
+    The source ledger, rather than the later synthetic fixture or manifest,
+    owns this mapping.  In particular, a two-axis Story summary is never a
+    substitute for the exact raw reader that gives a build row causal
+    ownership of its historical fact.
+    """
+    if _semantic_digest(production_ledger) != AUDITED_LEDGER_SEMANTIC_SHA256:
+        raise AssertionError(
+            "synthetic W24 row-reference contract requires audited ledger")
+    milestone = next(
+        item for item in production_ledger["milestone_registry"]
+        if item["week"] == 24)
+    invocations = {
+        item["invocation_id"]: item for item in milestone["invocations"]}
+    stage_by_invocation = {
+        invocation_id: stage["stage_id"]
+        for stage in milestone["execution_stages"]
+        for invocation_id in stage["invocation_ids"]}
+    production_readers = {
+        reader["reader_id"]: reader
+        for reader in production_ledger["reader_registry"]}
+    source_to_clones: dict[str, set[str]] = {}
+    clone_to_stage: dict[str, str] = {}
+    for invocation_id in sorted(
+            SYNTHETIC_W24_FANIN_SUPERSEDED_INVOCATION_IDS):
+        stage_id = stage_by_invocation[invocation_id]
+        stage_slug = re.sub(
+            r"[^A-Za-z0-9_]+", "_", stage_id).strip("_")
+        for source_id in _synthetic_w24_invocation_reader_ids(
+                invocations[invocation_id]):
+            if source_id not in production_readers:
+                continue
+            clone_id = (
+                f"reader:synthetic:w24:fanin_raw:{stage_slug}:source:"
+                f"{source_id}")
+            source_to_clones.setdefault(source_id, set()).add(clone_id)
+            clone_to_stage[clone_id] = stage_id
+
+    entries: list[dict[str, Any]] = []
+    owner_expectations: dict[tuple[str, str, str], list[str]] = {}
+    causal_count = 0
+    feasibility_count = 0
+
+    def translate_owner(
+            owner_kind: str, owner_id: str, field_name: str,
+            source_ids: Any) -> None:
+        nonlocal causal_count, feasibility_count
+        if not isinstance(source_ids, list):
+            return
+        translated: list[str] = []
+        replaced = False
+        for source_index, source_id in enumerate(source_ids):
+            clone_ids = sorted(source_to_clones.get(source_id, set()))
+            if not clone_ids:
+                translated.append(source_id)
+                continue
+            replaced = True
+            source_reader = production_readers[source_id]
+            classification = (
+                "causal_history_or_decision"
+                if (source_reader.get("history_memory_ids")
+                    or source_reader.get("story_decision_ids")
+                    or source_reader.get("scene_handoff_decision_ids"))
+                else "material_handoff_feasibility")
+            if owner_kind == "row":
+                if classification == "causal_history_or_decision":
+                    causal_count += len(clone_ids)
+                else:
+                    feasibility_count += len(clone_ids)
+            for clone_id in clone_ids:
+                entries.append({
+                    "owner_kind": owner_kind,
+                    "owner_id": owner_id,
+                    "field_name": field_name,
+                    "source_index": source_index,
+                    "source_reader_id": source_id,
+                    "clone_reader_id": clone_id,
+                    "source_stage_id": clone_to_stage[clone_id],
+                    "classification": classification,
+                    "source_contract_digest": _semantic_digest(
+                        source_reader),
+                })
+            translated.extend(clone_ids)
+        if replaced:
+            owner_expectations[(owner_kind, owner_id, field_name)] = list(
+                    dict.fromkeys(translated))
+
+    for row in production_ledger["rows"]:
+        for field_name in ("near_reader_ids", "milestone_reader_ids"):
+            translate_owner(
+                "row", row["chain_id"], field_name, row.get(field_name))
+        missed = row.get("missed_contract", {})
+        translate_owner(
+            "row", row["chain_id"], "missed_contract.reader_ids",
+            missed.get("reader_ids") if isinstance(missed, dict) else None)
+    for witness in production_ledger.get("replay_witnesses", []):
+        translate_owner(
+            "replay_witness", witness["witness_id"], "reader_ids",
+            witness.get("reader_ids"))
+
+    result = {
+        "entries": entries,
+        "owner_expectations": [
+            {
+                "owner_kind": owner_kind,
+                "owner_id": owner_id,
+                "field_name": field_name,
+                "reader_ids": reader_ids,
+            }
+            for (owner_kind, owner_id, field_name), reader_ids
+            in sorted(owner_expectations.items())],
+        "row_causal_reference_count": causal_count,
+        "row_feasibility_reference_count": feasibility_count,
+        "replay_reference_count": sum(
+            1 for entry in entries
+            if entry["owner_kind"] == "replay_witness"),
+    }
+    if (causal_count != 53 or feasibility_count != 6
+            or result["replay_reference_count"] != 3):
+        raise AssertionError(
+            "synthetic W24 production row-reference census mismatch "
+            f"causal={causal_count} feasibility={feasibility_count} "
+            f"replay={result['replay_reference_count']}")
+    return result
+
+
+def _synthetic_w24_prefix_reference_surface(
+        production_ledger: dict[str, Any],
+        fixture: dict[str, Any]) -> dict[str, Any]:
+    """Project every frozen-prefix row and replay reader-reference list."""
+    chain_ids = {
+        row["chain_id"] for row in production_ledger.get("rows", [])
+        if isinstance(row, dict) and isinstance(row.get("chain_id"), str)}
+    witness_ids = {
+        witness["witness_id"]
+        for witness in production_ledger.get("replay_witnesses", [])
+        if isinstance(witness, dict)
+        and isinstance(witness.get("witness_id"), str)}
+    return {
+        "rows": {
+            row["chain_id"]: {
+                "near_reader_ids": copy.deepcopy(
+                    row.get("near_reader_ids")),
+                "milestone_reader_ids": copy.deepcopy(
+                    row.get("milestone_reader_ids")),
+                "missed_reader_ids": copy.deepcopy(
+                    row.get("missed_contract", {}).get("reader_ids")),
+            }
+            for row in fixture.get("rows", [])
+            if isinstance(row, dict) and row.get("chain_id") in chain_ids},
+        "replay_witnesses": {
+            witness["witness_id"]: copy.deepcopy(witness.get("reader_ids"))
+            for witness in fixture.get("replay_witnesses", [])
+            if isinstance(witness, dict)
+            and witness.get("witness_id") in witness_ids},
+    }
+
+
+_SYNTHETIC_W24_ENTRY_MODES = frozenset({"fresh", "reentry", "cold"})
+
+
+def _synthetic_w24_value_entry_modes(*value_ids: str) -> frozenset[str]:
+    """Return the exact source entry modes encoded by option tokens."""
+    constrained: set[str] = set(_SYNTHETIC_W24_ENTRY_MODES)
+    saw_constraint = False
+    for value_id in value_ids:
+        segments = str(value_id).split(":")
+        if any(segment == "loaded" or segment.startswith("loaded_")
+               for segment in segments):
+            modes = {"cold"}
+        elif "reentry" in segments:
+            modes = {"reentry"}
+        elif "fresh" in segments:
+            modes = {"fresh"}
+        elif "live" in segments:
+            modes = {"fresh", "reentry"}
+        else:
+            continue
+        constrained &= modes
+        saw_constraint = True
+    return frozenset(
+        constrained if saw_constraint else _SYNTHETIC_W24_ENTRY_MODES)
+
+
+def _synthetic_w24_exact_raw_options(
+        record: dict[str, Any],
+        readers_index: dict[str, dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Enumerate canonical source-compatible raw options for one invocation."""
+    fixed_reader_ids = list(record["always_reader_ids"])
+    reader_axes: list[
+        list[tuple[list[str], list[str], frozenset[str]]]] = []
+    for conditional in record["conditional_readers"]:
+        reader_id = conditional["reader_id"]
+        activations = list(conditional["activation_fact_ids"])
+        reader_axes.append([
+            ([], [], _SYNTHETIC_W24_ENTRY_MODES),
+            ([reader_id], activations,
+             _synthetic_w24_value_entry_modes(reader_id, *activations)),
+        ])
+    for group in record["exclusive_variant_groups"]:
+        choices = []
+        for variant in group["variants"]:
+            reader_id = variant["reader_id"]
+            activations = list(variant["activation_fact_ids"])
+            choices.append((
+                [reader_id], activations,
+                _synthetic_w24_value_entry_modes(reader_id, *activations)))
+        if group["selection_mode"] == "at_most_one":
+            choices.append(([], [], _SYNTHETIC_W24_ENTRY_MODES))
+        reader_axes.append(choices)
+
+    producer_groups = {
+        group["selection_group_id"]: group
+        for group in record["producer_variant_groups"]}
+    producer_variants: dict[str, list[dict[str, Any]]] = {}
+    for producer in record["conditional_producers"]:
+        producer_variants.setdefault(
+            producer["selection_group_id"], []).append(producer)
+    producer_selections = _compatible_producer_selections(
+        producer_groups, producer_variants)
+    internal_outputs = {
+        fact_id for producer in record["conditional_producers"]
+        for fact_id in producer["produced_fact_ids"]}
+    selectable_reader_ids = {
+        *[item["reader_id"] for item in record["conditional_readers"]],
+        *[variant["reader_id"]
+          for group in record["exclusive_variant_groups"]
+          for variant in group["variants"]],
+    }
+    coupled_reader_ids = {
+        reader_id for reader_id in selectable_reader_ids
+        if readers_index[reader_id].get("reads_fact_ids")
+        and any(
+            set(readers_index[reader_id]["reads_fact_ids"]).issubset(
+                set(producer["activation_ids"]))
+            for producer in record["conditional_producers"])}
+    reader_selections = itertools.product(*reader_axes) \
+        if reader_axes else [()]
+    canonical_options: dict[tuple[Any, ...], dict[str, Any]] = {}
+    for reader_selection in reader_selections:
+        selected_reader_ids = list(fixed_reader_ids)
+        selected_reader_activations: list[str] = []
+        reader_modes = _synthetic_w24_value_entry_modes(
+            str(record.get("invocation_id", "")), *fixed_reader_ids)
+        for reader_ids, activations, option_modes in reader_selection:
+            selected_reader_ids.extend(reader_ids)
+            selected_reader_activations.extend(activations)
+            reader_modes = frozenset(set(reader_modes) & set(option_modes))
+        if not reader_modes:
+            continue
+        for producer_selection in producer_selections:
+            if producer_selection and coupled_reader_ids:
+                producer_activations = {
+                    activation_id for producer in producer_selection
+                    for activation_id in producer["activation_ids"]}
+                expected_coupled_readers = {
+                    reader_id for reader_id in coupled_reader_ids
+                    if set(readers_index[reader_id][
+                        "reads_fact_ids"]).issubset(producer_activations)}
+                if (set(selected_reader_ids) & coupled_reader_ids
+                        != expected_coupled_readers):
+                    continue
+            roles = {role: set() for role in ACTIVATION_ROLE_FIELDS}
+            option_modes = set(reader_modes)
+            choice_values: dict[str, str] = {}
+            compatible = True
+            choice_tokens = list(selected_reader_activations)
+            for reader_id in selected_reader_ids:
+                reader = readers_index[reader_id]
+                for role in ACTIVATION_ROLE_FIELDS:
+                    roles[role].update(
+                        value for value in reader.get(role, [])
+                        if isinstance(value, str))
+                choice_tokens.extend(reader.get("story_decision_ids", []))
+                choice_tokens.extend(
+                    reader.get("scene_handoff_decision_ids", []))
+            original_outputs: set[str] = set()
+            original_effects: set[str] = set()
+            producer_variant_ids: list[str] = []
+            for producer in producer_selection:
+                producer_variant_ids.append(producer["variant_id"])
+                option_modes &= set(_synthetic_w24_value_entry_modes(
+                    producer["variant_id"], *producer["activation_ids"]))
+                activation_roles = producer["activation_roles"]
+                for role in ACTIVATION_ROLE_FIELDS:
+                    roles[role].update(
+                        value for value in activation_roles[role]
+                        if isinstance(value, str)
+                        and value not in internal_outputs)
+                choice_tokens.extend(producer["activation_ids"])
+                original_outputs.update(producer["produced_fact_ids"])
+                original_effects.update(producer["effect_contract_ids"])
+            if not option_modes:
+                continue
+            for token in choice_tokens:
+                domain_value = _activation_choice_domain(str(token))
+                if domain_value is None:
+                    continue
+                domain, value = domain_value
+                previous = choice_values.setdefault(domain, value)
+                if previous != value:
+                    compatible = False
+                    break
+            if not compatible:
+                continue
+            key = (
+                *(tuple(sorted(roles[role]))
+                  for role in sorted(ACTIVATION_ROLE_FIELDS)),
+                tuple(sorted(option_modes)),
+                tuple(sorted(original_outputs)),
+                tuple(sorted(original_effects)),
+            )
+            canonical_options.setdefault(key, {
+                "activation_roles": {
+                    role: sorted(roles[role])
+                    for role in ACTIVATION_ROLE_FIELDS},
+                "entry_modes": sorted(option_modes),
+                "original_output_ids": sorted(original_outputs),
+                "original_effect_ids": sorted(original_effects),
+                "reader_ids": sorted(set(selected_reader_ids)),
+                "producer_variant_ids": sorted(producer_variant_ids),
+            })
+    return list(canonical_options.values())
+
+
+def _synthetic_w24_combine_stage_raw_options(
+        records: list[dict[str, Any]],
+        readers_index: dict[str, dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Cartesian-combine every co-present invocation at one physical cut."""
+    option_axes = [
+        _synthetic_w24_exact_raw_options(record, readers_index)
+        for record in records]
+    if any(not axis for axis in option_axes):
+        return []
+    combined: dict[str, dict[str, Any]] = {}
+    for selected in itertools.product(*option_axes):
+        option = _synthetic_w24_merge_raw_options(selected)
+        if option is None:
+            continue
+        combined.setdefault(_semantic_digest(option), option)
+    return [combined[key] for key in sorted(combined)]
+
+
+def _synthetic_w24_merge_raw_options(
+        selected: tuple[dict[str, Any], ...] | list[dict[str, Any]],
+) -> dict[str, Any] | None:
+    """Merge one concrete same-stage product, rejecting choice conflicts."""
+    entry_modes = set(_SYNTHETIC_W24_ENTRY_MODES)
+    roles = {role: set() for role in ACTIVATION_ROLE_FIELDS}
+    original_outputs: set[str] = set()
+    original_effects: set[str] = set()
+    reader_ids: set[str] = set()
+    producer_variant_ids: set[str] = set()
+    choice_values: dict[str, str] = {}
+    for option in selected:
+        entry_modes &= set(option["entry_modes"])
+        for role in ACTIVATION_ROLE_FIELDS:
+            roles[role].update(option["activation_roles"][role])
+        original_outputs.update(option["original_output_ids"])
+        original_effects.update(option["original_effect_ids"])
+        reader_ids.update(option["reader_ids"])
+        producer_variant_ids.update(option["producer_variant_ids"])
+    if not entry_modes:
+        return None
+    for decision_id in (
+            roles["story_decision_ids"]
+            | roles["scene_handoff_decision_ids"]):
+        domain_value = _activation_choice_domain(decision_id)
+        if domain_value is None:
+            continue
+        domain, value = domain_value
+        previous = choice_values.setdefault(domain, value)
+        if previous != value:
+            return None
+    return {
+        "activation_roles": {
+            role: sorted(roles[role]) for role in ACTIVATION_ROLE_FIELDS},
+        "entry_modes": sorted(entry_modes),
+        "original_output_ids": sorted(original_outputs),
+        "original_effect_ids": sorted(original_effects),
+        "reader_ids": sorted(reader_ids),
+        "producer_variant_ids": sorted(producer_variant_ids),
+    }
+
+
+def _synthetic_w24_option_projection(option: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "activation_roles": option["activation_roles"],
+        "entry_modes": option["entry_modes"],
+        "original_output_ids": option["original_output_ids"],
+        "original_effect_ids": option["original_effect_ids"],
+    }
+
+
+def _derive_synthetic_w24_stage_tuple_surface(
+        production_ledger: dict[str, Any],
+        fixture: dict[str, Any],
+) -> tuple[dict[str, str], dict[str, str], int]:
+    """Independently derive production A and current replacement B tuples."""
+    production_w24 = next(
+        item for item in production_ledger.get("milestone_registry", [])
+        if item.get("week") == 24)
+    fixture_w24 = next(
+        item for item in fixture.get("milestone_registry", [])
+        if item.get("week") == 24)
+    production_readers = {
+        item["reader_id"]: item
+        for item in production_ledger.get("reader_registry", [])
+        if isinstance(item, dict) and isinstance(item.get("reader_id"), str)}
+    fixture_readers = {
+        item["reader_id"]: item
+        for item in fixture.get("reader_registry", [])
+        if isinstance(item, dict) and isinstance(item.get("reader_id"), str)}
+    production_invocations = {
+        item["invocation_id"]: item
+        for item in production_w24.get("invocations", [])
+        if isinstance(item, dict)
+        and isinstance(item.get("invocation_id"), str)}
+    fixture_invocations = {
+        item["invocation_id"]: item
+        for item in fixture_w24.get("invocations", [])
+        if isinstance(item, dict)
+        and isinstance(item.get("invocation_id"), str)}
+    production_stages = {
+        item["stage_id"]: item
+        for item in production_w24.get("execution_stages", [])
+        if isinstance(item, dict) and isinstance(item.get("stage_id"), str)}
+    fixture_stages = {
+        item["stage_id"]: item
+        for item in fixture_w24.get("execution_stages", [])
+        if isinstance(item, dict) and isinstance(item.get("stage_id"), str)}
+
+    production_digests: dict[str, str] = {}
+    replacement_digests: dict[str, str] = {}
+    replacement_tuple_count = 0
+    for original_stage_id in sorted(SYNTHETIC_W24_STAGE_TUPLE_DIGESTS):
+        production_stage = production_stages.get(original_stage_id, {})
+        production_records = [
+            production_invocations[invocation_id]
+            for invocation_id in production_stage.get("invocation_ids", [])
+            if invocation_id
+            in SYNTHETIC_W24_FANIN_SUPERSEDED_INVOCATION_IDS
+            and invocation_id in production_invocations]
+        if not production_records:
+            production_digests[original_stage_id] = "missing"
+        else:
+            production_options = _synthetic_w24_combine_stage_raw_options(
+                production_records, production_readers)
+            production_tuple_set = sorted({
+                _semantic_digest(_synthetic_w24_option_projection(option))
+                for option in production_options})
+            production_digests[original_stage_id] = _semantic_digest(
+                production_tuple_set)
+
+        aggregate_stage_id = (
+            f"w24:synthetic_fanin_aggregate:{original_stage_id}")
+        aggregate_stage = fixture_stages.get(aggregate_stage_id, {})
+        aggregate_records = [
+            copy.deepcopy(fixture_invocations[invocation_id])
+            for invocation_id in aggregate_stage.get("invocation_ids", [])
+            if invocation_id.startswith(
+                "reader:synthetic:w24:fanin_aggregate:")
+            and invocation_id in fixture_invocations]
+        if len(aggregate_records) != 1:
+            replacement_digests[original_stage_id] = "missing"
+            continue
+        aggregate = aggregate_records[0]
+        # The flattened aggregate replaces every source invocation at this
+        # physical cut.  Give option-mode inference the original semantic
+        # stage ID, and remove only the later resolver handoff producer.
+        aggregate["invocation_id"] = original_stage_id
+        aggregate["conditional_producers"] = [
+            producer for producer in aggregate.get(
+                "conditional_producers", [])
+            if not str(producer.get("variant_id", "")).startswith(
+                "variant:synthetic:w24:raw_options_resolved:")]
+        live_group_ids = {
+            producer.get("selection_group_id")
+            for producer in aggregate["conditional_producers"]}
+        aggregate["producer_variant_groups"] = [
+            group for group in aggregate.get("producer_variant_groups", [])
+            if group.get("selection_group_id") in live_group_ids]
+        replacement_options = _synthetic_w24_combine_stage_raw_options(
+            [aggregate], fixture_readers)
+        replacement_tuple_set = sorted({
+            _semantic_digest(_synthetic_w24_option_projection(option))
+            for option in replacement_options})
+        replacement_tuple_count += len(replacement_tuple_set)
+        replacement_digests[original_stage_id] = _semantic_digest(
+            replacement_tuple_set)
+    return production_digests, replacement_digests, replacement_tuple_count
+
+
 def _apply_synthetic_w24_fanin_replacement(
         fixture: dict[str, Any], reader_by_id: dict[str, dict[str, Any]],
-        proof_by_id: dict[str, dict[str, Any]]) -> None:
+        proof_by_id: dict[str, dict[str, Any]]) -> dict[str, Any]:
     """Replace the exact W24 over-cap input surface in complete-fixture only.
 
     The production records remain available as evidence in the frozen source
@@ -10897,7 +11938,18 @@ def _apply_synthetic_w24_fanin_replacement(
                    - SYNTHETIC_W24_FANIN_SUPERSEDED_INVOCATION_IDS) != 19):
         raise AssertionError(
             "synthetic W24 FANIN manifest must supersede exact 27 and retain 19")
-
+    frozen_remaining_invocations = {
+        invocation_id: copy.deepcopy(invocation_by_id[invocation_id])
+        for invocation_id in sorted(
+            story_members - SYNTHETIC_W24_FANIN_SUPERSEDED_INVOCATION_IDS)}
+    frozen_superseded_invocations = {
+        invocation_id: copy.deepcopy(invocation_by_id[invocation_id])
+        for invocation_id in sorted(
+            SYNTHETIC_W24_FANIN_SUPERSEDED_INVOCATION_IDS)}
+    frozen_superseded_payload = copy.deepcopy(
+        frozen_superseded_invocations)
+    frozen_superseded_digest_at_capture = _semantic_digest(
+        frozen_superseded_payload)
     stages_by_id = {
         stage["stage_id"]: stage for stage in milestone["execution_stages"]}
     # Preserve relative ordering while opening a strict-earlier integer slot
@@ -10940,7 +11992,10 @@ def _apply_synthetic_w24_fanin_replacement(
             saw_constraint = True
         return frozenset(constrained if saw_constraint else all_entry_modes)
 
-    def exact_raw_options(record: dict[str, Any]) -> list[dict[str, Any]]:
+    def exact_raw_options(
+            record: dict[str, Any],
+            readers_index: dict[str, dict[str, Any]] | None = None,
+    ) -> list[dict[str, Any]]:
         """Enumerate source-compatible raw input tuples for one invocation.
 
         The summary producer must describe one entire reachable option, never
@@ -10949,6 +12004,7 @@ def _apply_synthetic_w24_fanin_replacement(
         in the canonical key, so two sibling routes cannot lend each other a
         partial history tuple.
         """
+        readers_index = readers_index or reader_by_id
         fixed_reader_ids = list(record["always_reader_ids"])
         reader_axes: list[list[tuple[list[str], list[str], frozenset[str]]]] = []
         for conditional in record["conditional_readers"]:
@@ -10991,9 +12047,9 @@ def _apply_synthetic_w24_fanin_replacement(
         }
         coupled_reader_ids = {
             reader_id for reader_id in selectable_reader_ids
-            if reader_by_id[reader_id].get("reads_fact_ids")
+            if readers_index[reader_id].get("reads_fact_ids")
             and any(
-                set(reader_by_id[reader_id]["reads_fact_ids"]).issubset(
+                set(readers_index[reader_id]["reads_fact_ids"]).issubset(
                     set(producer["activation_ids"]))
                 for producer in record["conditional_producers"])}
         reader_selections = itertools.product(*reader_axes) \
@@ -11019,7 +12075,7 @@ def _apply_synthetic_w24_fanin_replacement(
                         for activation_id in producer["activation_ids"]}
                     expected_coupled_readers = {
                         reader_id for reader_id in coupled_reader_ids
-                        if set(reader_by_id[reader_id][
+                        if set(readers_index[reader_id][
                             "reads_fact_ids"]).issubset(
                                 producer_activations)}
                     if (set(selected_reader_ids) & coupled_reader_ids
@@ -11031,7 +12087,7 @@ def _apply_synthetic_w24_fanin_replacement(
                 compatible = True
                 choice_tokens = list(selected_reader_activations)
                 for reader_id in selected_reader_ids:
-                    reader = reader_by_id[reader_id]
+                    reader = readers_index[reader_id]
                     for role in ACTIVATION_ROLE_FIELDS:
                         roles[role].update(
                             value for value in reader.get(role, [])
@@ -11089,9 +12145,12 @@ def _apply_synthetic_w24_fanin_replacement(
         return list(canonical_options.values())
 
     def combine_stage_raw_options(
-            records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+            records: list[dict[str, Any]],
+            readers_index: dict[str, dict[str, Any]] | None = None,
+    ) -> list[dict[str, Any]]:
         """Combine every co-present invocation at one physical stage cut."""
-        option_axes = [exact_raw_options(record) for record in records]
+        option_axes = [
+            exact_raw_options(record, readers_index) for record in records]
         if any(not axis for axis in option_axes):
             return []
         combined: dict[str, dict[str, Any]] = {}
@@ -11166,6 +12225,10 @@ def _apply_synthetic_w24_fanin_replacement(
     replacement_reader_ids_by_superseded: dict[str, set[str]] = {}
     observed_raw_ids: set[str] = set()
     stage_tuple_digests: dict[str, str] = {}
+    replacement_stage_tuple_digests: dict[str, str] = {}
+    stage_tuple_counts: dict[str, int] = {}
+    feasible_stage_tuple_count = 0
+    original_output_multisets_by_stage: dict[str, list[str]] = {}
     for original_stage_id, superseded_ids in sorted(
             superseded_by_stage.items(),
             key=lambda pair: (
@@ -11174,7 +12237,7 @@ def _apply_synthetic_w24_fanin_replacement(
         superseded_ids = [
             invocation_id for invocation_id in original_stage["invocation_ids"]
             if invocation_id in superseded_ids]
-        records = [invocation_by_id[invocation_id]
+        records = [copy.deepcopy(invocation_by_id[invocation_id])
                    for invocation_id in superseded_ids]
         slug = re.sub(r"[^A-Za-z0-9_]+", "_", original_stage_id).strip("_")
         aggregate_id = f"reader:synthetic:w24:fanin_aggregate:{slug}"
@@ -11208,19 +12271,19 @@ def _apply_synthetic_w24_fanin_replacement(
             ] for record in records])
         raw_reader_ids = [
             reader_id for reader_id in raw_reader_ids
-            if reader_by_id[reader_id].get("reader_kind") == "story_milestone"
-            and (reader_by_id[reader_id].get("history_memory_ids")
-                 or reader_by_id[reader_id].get("story_decision_ids")
-                 or reader_by_id[reader_id].get(
-                     "scene_handoff_decision_ids"))]
-        superseded_story_reader_ids.update(raw_reader_ids)
+            if reader_id in reader_by_id]
+        superseded_story_reader_ids.update(
+            reader_id for reader_id in raw_reader_ids
+            if not reader_id.startswith(
+                "reader:synthetic:w24_completion_application_choice:"))
         cloned_reader_ids: dict[str, str] = {}
         for raw_reader_id in raw_reader_ids:
             raw_reader = reader_by_id[raw_reader_id]
             raw_slug = re.sub(
                 r"[^A-Za-z0-9_]+", "_", raw_reader_id).strip("_")
             clone_id = (
-                f"reader:synthetic:w24:fanin_raw:{slug}:{raw_slug}")
+                f"reader:synthetic:w24:fanin_raw:{slug}:source:"
+                f"{raw_reader_id}")
             clone_proof_id = (
                 f"proof:synthetic:w24_fanin_raw:{slug}:{raw_slug}")
             clone = copy.deepcopy(raw_reader)
@@ -11322,17 +12385,80 @@ def _apply_synthetic_w24_fanin_replacement(
             for producer in record["conditional_producers"]:
                 original_variant_id = producer["variant_id"]
                 producer["variant_id"] = (
-                    f"variant:synthetic:w24:fanin_raw:{slug}:"
-                    + re.sub(
-                        r"[^A-Za-z0-9_]+", "_",
-                        original_variant_id).strip("_"))
+                    f"variant:synthetic:w24:fanin_raw:{slug}:source:"
+                    f"{original_variant_id}")
                 producer["selection_group_id"] = producer_group_ids[
                     producer["selection_group_id"]]
 
-        raw_options = combine_stage_raw_options(records)
+        clone_to_source = {
+            clone_id: source_id
+            for source_id, clone_id in cloned_reader_ids.items()}
+        normalized_readers_index = dict(reader_by_id)
+        for source_id, clone_id in cloned_reader_ids.items():
+            normalized_clone = copy.deepcopy(reader_by_id[clone_id])
+            normalized_clone["reader_id"] = source_id
+            normalized_readers_index[source_id] = normalized_clone
+        normalized_mapped_records = copy.deepcopy(mapped_records)
+        for normalized, source in zip(
+                normalized_mapped_records, records):
+            normalized["invocation_id"] = source["invocation_id"]
+            normalized["always_reader_ids"] = [
+                clone_to_source.get(reader_id, reader_id)
+                for reader_id in normalized["always_reader_ids"]]
+            for conditional in normalized["conditional_readers"]:
+                conditional["reader_id"] = clone_to_source.get(
+                    conditional["reader_id"], conditional["reader_id"])
+            for normalized_group, source_group in zip(
+                    normalized["exclusive_variant_groups"],
+                    source["exclusive_variant_groups"]):
+                normalized_group["group_id"] = source_group["group_id"]
+                for variant in normalized_group["variants"]:
+                    variant["reader_id"] = clone_to_source.get(
+                        variant["reader_id"], variant["reader_id"])
+            for normalized_group, source_group in zip(
+                    normalized["producer_variant_groups"],
+                    source["producer_variant_groups"]):
+                normalized_group["selection_group_id"] = \
+                    source_group["selection_group_id"]
+            for normalized_producer, source_producer in zip(
+                    normalized["conditional_producers"],
+                    source["conditional_producers"]):
+                normalized_producer["variant_id"] = \
+                    source_producer["variant_id"]
+                normalized_producer["selection_group_id"] = \
+                    source_producer["selection_group_id"]
+
+        raw_options = _synthetic_w24_combine_stage_raw_options(
+            records, reader_by_id)
         if not raw_options:
             raise AssertionError(
                 f"synthetic W24 FANIN aggregator has no raw history {slug}")
+        replacement_raw_options = _synthetic_w24_combine_stage_raw_options(
+            normalized_mapped_records, normalized_readers_index)
+
+        old_tuple_set = {
+            _semantic_digest(_synthetic_w24_option_projection(option))
+            for option in raw_options}
+        replacement_tuple_set = {
+            _semantic_digest(_synthetic_w24_option_projection(option))
+            for option in replacement_raw_options}
+        if old_tuple_set != replacement_tuple_set:
+            old_projection_by_digest = {
+                _semantic_digest(_synthetic_w24_option_projection(option)):
+                    _synthetic_w24_option_projection(option)
+                for option in raw_options}
+            replacement_projection_by_digest = {
+                _semantic_digest(_synthetic_w24_option_projection(option)):
+                    _synthetic_w24_option_projection(option)
+                for option in replacement_raw_options}
+            raise AssertionError(
+                f"synthetic W24 old/new raw tuple mismatch {slug} "
+                f"missing_one={old_projection_by_digest[sorted(old_tuple_set - replacement_tuple_set)[0]]} "
+                f"extra_one={replacement_projection_by_digest[sorted(replacement_tuple_set - old_tuple_set)[0]]}")
+        feasible_stage_tuple_count += len(old_tuple_set)
+        stage_tuple_counts[original_stage_id] = len(old_tuple_set)
+        replacement_stage_tuple_digests[original_stage_id] = \
+            _semantic_digest(sorted(replacement_tuple_set))
 
         raw_ids_for_stage = {
             raw_id for reader_id in raw_reader_ids
@@ -11340,6 +12466,8 @@ def _apply_synthetic_w24_fanin_replacement(
                 "history_memory_ids", "story_decision_ids",
                 "scene_handoff_decision_ids")
             for raw_id in reader_by_id[reader_id].get(role, [])
+            if canonical_raw_id(raw_id)
+            in SYNTHETIC_W24_FANIN_RAW_ID_UNIVERSE
         }
         raw_ids_for_stage.update(
             raw_id for record in records
@@ -11357,11 +12485,13 @@ def _apply_synthetic_w24_fanin_replacement(
                 raise AssertionError(
                     f"{exc} stage={original_stage_id}") from exc
         observed_raw_ids.update(map(canonical_raw_id, raw_ids_for_stage))
-        stage_tuple_digest = _semantic_digest(raw_options)
+        stage_tuple_digest = _semantic_digest(sorted(old_tuple_set))
         stage_tuple_digests[original_stage_id] = stage_tuple_digest
         original_output_multiset = sorted(
             output_id for option in raw_options
             for output_id in option["original_output_ids"])
+        original_output_multisets_by_stage[original_stage_id] = \
+            original_output_multiset
         resolver_variant = {
             "variant_id": (
                 f"variant:synthetic:w24:raw_options_resolved:{slug}"),
@@ -11888,8 +13018,115 @@ def _apply_synthetic_w24_fanin_replacement(
         fixture["runtime_proof_registry"].append(proof)
         proof_by_id[proof_id] = proof
 
+    production_w24_scenarios = \
+        EXPECTED_EXECUTION_STAGE_SCENARIOS_BY_WEEK[24]
+    if (_semantic_digest(production_w24_scenarios)
+            != SYNTHETIC_W24_SOURCE_SCENARIOS_SHA256):
+        raise AssertionError(
+            "synthetic W24 source scenario allowlist changed")
+    source_stage_map = {
+        stage_id: (
+            sum(1 for scenario in production_w24_scenarios
+                if stage_id in scenario),
+            SYNTHETIC_W24_SOURCE_TUPLE_STAGE_MAP[stage_id][1],
+            SYNTHETIC_W24_SOURCE_TUPLE_STAGE_MAP[stage_id][2],
+        )
+        for stage_id in stage_tuple_counts}
+    if source_stage_map != SYNTHETIC_W24_SOURCE_TUPLE_STAGE_MAP:
+        raise AssertionError(
+            "synthetic W24 source-feasible stage tuple map changed")
+    source_feasible_tuple_occurrence_count = sum(
+        values[1] for values in source_stage_map.values())
+    source_rejected_tuple_occurrence_count = sum(
+        values[2] for values in source_stage_map.values())
+    if source_feasible_tuple_occurrence_count != 51_977:
+        raise AssertionError(
+            "synthetic W24 source-feasible tuple occurrence mismatch "
+            f"{source_feasible_tuple_occurrence_count}")
+    replacement_invocation_records = {
+        invocation["invocation_id"]: copy.deepcopy(invocation)
+        for invocation in milestone["invocations"]
+        if str(invocation.get("invocation_id", "")).startswith(
+            "reader:synthetic:w24:fanin_")}
+    raw_clone_records = {
+        reader["reader_id"]: copy.deepcopy(reader)
+        for reader in fixture["reader_registry"]
+        if str(reader.get("reader_id", "")).startswith(
+            "reader:synthetic:w24:fanin_raw:")}
+    return {
+        "production_semantic_digest": AUDITED_LEDGER_SEMANTIC_SHA256,
+        "superseded_invocation_ids": sorted(
+            SYNTHETIC_W24_FANIN_SUPERSEDED_INVOCATION_IDS),
+        "remaining_invocations": frozen_remaining_invocations,
+        "superseded_invocations": frozen_superseded_payload,
+        "superseded_digest_at_capture": frozen_superseded_digest_at_capture,
+        "superseded_story_reader_ids": sorted(
+            superseded_story_reader_ids),
+        "stage_tuple_digests": dict(sorted(stage_tuple_digests.items())),
+        "replacement_stage_tuple_digests": dict(sorted(
+            replacement_stage_tuple_digests.items())),
+        "feasible_stage_tuple_count": feasible_stage_tuple_count,
+        "source_feasible_tuple_occurrence_count": (
+            source_feasible_tuple_occurrence_count),
+        "source_rejected_tuple_occurrence_count": (
+            source_rejected_tuple_occurrence_count),
+        "source_stage_tuple_map": source_stage_map,
+        "stage_tuple_counts": dict(sorted(stage_tuple_counts.items())),
+        "source_scenarios_digest": _semantic_digest(
+            production_w24_scenarios),
+        "original_output_multisets_by_stage": dict(sorted(
+            original_output_multisets_by_stage.items())),
+        "replacement_invocations": replacement_invocation_records,
+        "raw_clone_records": raw_clone_records,
+        "raw_id_universe": sorted(observed_raw_ids),
+        "partition_digest": _semantic_digest({
+            "work_and_consequence": sorted(
+                SYNTHETIC_W24_FANIN_WORK_IDS),
+            "relationship_obligation": sorted(
+                SYNTHETIC_W24_FANIN_RELATIONSHIP_IDS),
+            "first_bill_decision_domain": sorted(
+                SYNTHETIC_W24_FIRST_BILL_VALUE_BY_ID),
+        }),
+    }
 
-def _complete_fixture(ledger: dict[str, Any]) -> dict[str, Any]:
+
+def _complete_fixture(
+        ledger: dict[str, Any], *,
+        return_manifest: bool = False,
+) -> dict[str, Any] | tuple[dict[str, Any], dict[str, Any]]:
+    if _semantic_digest(ledger) != AUDITED_LEDGER_SEMANTIC_SHA256:
+        raise AssertionError(
+            "synthetic complete fixture requires exact audited production ledger")
+    # Capture source/scenario evidence before the first deepcopy or repair.
+    # This is the independent side of the old->new comparison; no value from
+    # the later fixture or its manifest is allowed to replace it.
+    production_evidence = _derive_synthetic_w24_production_evidence(ledger)
+    production_row_reference_contract = \
+        _derive_synthetic_w24_row_reference_contract(ledger)
+    production_w24 = next(
+        item for item in ledger["milestone_registry"] if item["week"] == 24)
+    production_invocations = {
+        item["invocation_id"]: item
+        for item in production_w24["invocations"]}
+    production_story_members = set(next(
+        group["invocation_ids"]
+        for group in production_w24["co_presence_groups"]
+        if group["group_id"] == "group:w24:story_scene"))
+    production_superseded = {
+        invocation_id: production_invocations[invocation_id]
+        for invocation_id in sorted(
+            SYNTHETIC_W24_FANIN_SUPERSEDED_INVOCATION_IDS)}
+    production_retained = {
+        invocation_id: production_invocations[invocation_id]
+        for invocation_id in sorted(
+            production_story_members
+            - SYNTHETIC_W24_FANIN_SUPERSEDED_INVOCATION_IDS)}
+    if (_semantic_digest(production_superseded)
+            != SYNTHETIC_W24_SUPERSEDED_RECORDS_SHA256
+            or _semantic_digest(production_retained)
+            != SYNTHETIC_W24_RETAINED_RECORDS_SHA256):
+        raise AssertionError(
+            "synthetic complete fixture W24 production evidence mismatch")
     fixture = copy.deepcopy(ledger)
     original_chain_ids = {
         row["chain_id"] for row in ledger["rows"]
@@ -12372,10 +13609,15 @@ def _complete_fixture(ledger: dict[str, Any]) -> dict[str, Any]:
     w24["reader_ids"].extend(application_reader_ids)
     for invocation in w24["invocations"]:
         invocation_id = str(invocation.get("invocation_id", ""))
-        if not invocation_id.startswith(
-                "reader:milestone:w24:completion_validation:"):
+        if (not invocation_id.startswith(
+                "reader:milestone:w24:completion_validation:")
+                and invocation_id != (
+                    "reader:synthetic:w24:fanin_consumer:"
+                    "w24_completion_validation_loaded")):
             continue
-        mode = invocation_id.rsplit(":", 1)[-1]
+        mode = ("loaded" if invocation_id.startswith(
+                "reader:synthetic:w24:fanin_consumer:")
+                else invocation_id.rsplit(":", 1)[-1])
         invocation["conditional_readers"] = [
             item for item in invocation["conditional_readers"]
             if item.get("reader_id") != W24_COMPLETION_APPLICATION_READER_ID]
@@ -12620,8 +13862,150 @@ def _complete_fixture(ledger: dict[str, Any]) -> dict[str, Any]:
     fixture["runtime_proof_registry"].append(opening_proof)
     proof_by_id[opening_proof_id] = opening_proof
 
-    _apply_synthetic_w24_fanin_replacement(
+    # The exact W24 identity-gate repair above mutates one invocation that is
+    # later superseded by the FANIN projection.  The replacement manifest must
+    # nevertheless preserve the frozen production object, not that temporary
+    # repaired form, as its pre-state evidence.
+    w24_before_fanin = next(
+        item for item in ledger["milestone_registry"] if item["week"] == 24)
+    w24_before_invocations = {
+        item["invocation_id"]: item
+        for item in w24_before_fanin["invocations"]}
+    frozen_superseded_prestate = {
+        invocation_id: copy.deepcopy(w24_before_invocations[invocation_id])
+        for invocation_id in sorted(
+            SYNTHETIC_W24_FANIN_SUPERSEDED_INVOCATION_IDS)}
+    w24_fanin_manifest = _apply_synthetic_w24_fanin_replacement(
         fixture, reader_by_id, proof_by_id)
+    w24_fanin_manifest["superseded_invocations"] = \
+        frozen_superseded_prestate
+    w24_fanin_manifest["superseded_digest_at_capture"] = _semantic_digest(
+        frozen_superseded_prestate)
+    # The loaded completion invocation is created by the FANIN replacement,
+    # so wire the already-authored exact seven-way identity gate into that
+    # replacement after construction.  Then refresh the immutable post-state
+    # snapshot carried only by the Python manifest.
+    loaded_completion_invocation = next(
+        invocation for invocation in next(
+            milestone for milestone in fixture["milestone_registry"]
+            if milestone.get("week") == 24)["invocations"]
+        if invocation.get("invocation_id") == (
+            "reader:synthetic:w24:fanin_consumer:"
+            "w24_completion_validation_loaded"))
+    loaded_group_id = "group:synthetic:w24:completion_application:loaded"
+    loaded_proof_id = "proof:exclusive:" + loaded_group_id.replace(":", "_")
+    loaded_variants = []
+    for choice_index, reader_id in zip(
+            (0, 1, 3, 4, 5, 6, 7), application_reader_ids):
+        loaded_variants.append({
+            "reader_id": reader_id,
+            "activation_fact_ids": [
+                "receipt:story_choice:demo_collision:"
+                f"v2_demo_first_bill:{choice_index}",
+                "receipt:application_transition:demo_collision:"
+                f"v2_demo_first_bill:{choice_index}",
+            ],
+            "runtime_proof_ids": [
+                reader_by_id[reader_id]["runtime_proof_ids"][0],
+                loaded_proof_id,
+            ],
+        })
+    loaded_group = {
+        "group_id": loaded_group_id,
+        "selection_mode": "at_most_one",
+        "causal_status": "active",
+        "debt_id": None,
+        "variants": loaded_variants,
+    }
+    loaded_completion_invocation["exclusive_variant_groups"].append(
+        loaded_group)
+    loaded_proof = {
+        "proof_id": loaded_proof_id,
+        "kind": "source_symbol",
+        "pointer": "systems/DemoCoreLoopV2.gd::complete_active_bundle",
+        "assertion": " ".join([
+            loaded_group_id, "at_most_one", *application_reader_ids,
+            *[fact_id for variant in loaded_variants
+              for fact_id in variant["activation_fact_ids"]],
+            _invocation_contract_token(loaded_completion_invocation),
+        ]),
+    }
+    existing_loaded_proof = proof_by_id.get(loaded_proof_id)
+    if existing_loaded_proof is None:
+        loaded_completion_invocation["runtime_proof_ids"].append(
+            loaded_proof_id)
+        fixture["runtime_proof_registry"].append(loaded_proof)
+        proof_by_id[loaded_proof_id] = loaded_proof
+    else:
+        existing_loaded_proof.update(loaded_proof)
+        if loaded_proof_id not in loaded_completion_invocation[
+                "runtime_proof_ids"]:
+            loaded_completion_invocation["runtime_proof_ids"].append(
+                loaded_proof_id)
+    w24_fanin_manifest["replacement_invocations"] = {
+        invocation["invocation_id"]: copy.deepcopy(invocation)
+        for invocation in next(
+            milestone for milestone in fixture["milestone_registry"]
+            if milestone.get("week") == 24)["invocations"]
+        if str(invocation.get("invocation_id", "")).startswith(
+            "reader:synthetic:w24:fanin_")}
+    current_w24 = next(
+        milestone for milestone in fixture["milestone_registry"]
+        if milestone.get("week") == 24)
+    current_w24_invocations = {
+        invocation["invocation_id"]: invocation
+        for invocation in current_w24["invocations"]}
+    w24_fanin_manifest["final_fixture_stage_digests"] = {
+        stage["stage_id"].removeprefix(
+            "w24:synthetic_fanin_aggregate:"):
+            _semantic_digest([
+                current_w24_invocations[invocation_id]
+                for invocation_id in stage["invocation_ids"]
+                if invocation_id in current_w24_invocations])
+        for stage in current_w24["execution_stages"]
+        if stage["stage_id"].startswith(
+            "w24:synthetic_fanin_aggregate:")}
+    w24_fanin_manifest["production_evidence"] = copy.deepcopy(
+        production_evidence)
+    # Replace the builder's checked static projection with the independently
+    # re-derived production census.  The manifest carries a copy for
+    # inspection, while validation below still compares directly to frozen
+    # constants and the current replacement graph.
+    for key in (
+            "source_feasible_tuple_occurrence_count",
+            "source_rejected_tuple_occurrence_count",
+            "source_stage_tuple_map",
+            "source_scenarios_digest"):
+        w24_fanin_manifest[key] = copy.deepcopy(production_evidence[key])
+    w24_fanin_manifest["source_zero_option_paths"] = \
+        production_evidence["source_zero_option_paths"]
+    fixed_builder_checks = {
+        "production stage tuple map": (
+            _semantic_digest(w24_fanin_manifest["stage_tuple_digests"]),
+            SYNTHETIC_W24_STAGE_TUPLE_MAP_SHA256),
+        "replacement stage tuple map": (
+            _semantic_digest(
+                w24_fanin_manifest["replacement_stage_tuple_digests"]),
+            SYNTHETIC_W24_STAGE_TUPLE_MAP_SHA256),
+        "production output multiset": (
+            _semantic_digest(
+                w24_fanin_manifest["original_output_multisets_by_stage"]),
+            SYNTHETIC_W24_ORIGINAL_OUTPUT_MULTISET_SHA256),
+        "raw clone records": (
+            _semantic_digest(w24_fanin_manifest["raw_clone_records"]),
+            SYNTHETIC_W24_RAW_CLONE_RECORDS_SHA256),
+        "replacement invocation records": (
+            _semantic_digest(w24_fanin_manifest["replacement_invocations"]),
+            SYNTHETIC_W24_REPLACEMENT_INVOCATIONS_SHA256),
+        "final aggregate stage surface": (
+            _semantic_digest(
+                w24_fanin_manifest["final_fixture_stage_digests"]),
+            SYNTHETIC_W24_FINAL_AGGREGATE_STAGE_SURFACE_SHA256),
+    }
+    for label, (actual_digest, expected_digest) in fixed_builder_checks.items():
+        if actual_digest != expected_digest:
+            raise AssertionError(
+                f"synthetic W24 {label} differs from frozen production evidence")
 
     for registry_name in ("replay_witnesses", "counterfactual_registry"):
         for item in fixture[registry_name]:
@@ -12707,7 +14091,669 @@ def _complete_fixture(ledger: dict[str, Any]) -> dict[str, Any]:
                 remove_stale_proof_refs(child)
 
     remove_stale_proof_refs(fixture)
+    replacement_readers = {
+        reader["reader_id"]: copy.deepcopy(reader)
+        for reader in fixture["reader_registry"]
+        if str(reader.get("reader_id", "")).startswith(
+            "reader:synthetic:w24")}
+    replacement_proofs = {
+        proof["proof_id"]: copy.deepcopy(proof)
+        for proof in fixture["runtime_proof_registry"]
+        if str(proof.get("proof_id", "")).startswith(
+            "proof:synthetic:w24")}
+    if (_semantic_digest(replacement_readers)
+            != SYNTHETIC_W24_REPLACEMENT_READER_RECORDS_SHA256
+            or _semantic_digest(replacement_proofs)
+            != SYNTHETIC_W24_REPLACEMENT_PROOF_RECORDS_SHA256):
+        raise AssertionError(
+            "synthetic W24 replacement reader/proof trust surface changed")
+    w24_fanin_manifest["row_reference_contract"] = copy.deepcopy(
+        production_row_reference_contract)
+    w24_fanin_manifest["replacement_reader_records"] = replacement_readers
+    w24_fanin_manifest["replacement_proof_records"] = replacement_proofs
+    prefix_reference_surface = _synthetic_w24_prefix_reference_surface(
+        ledger, fixture)
+    if (_semantic_digest(prefix_reference_surface)
+            != SYNTHETIC_W24_PREFIX_REFERENCE_SURFACE_SHA256):
+        raise AssertionError(
+            "synthetic W24 prefix row/replay reference surface changed")
+    w24_fanin_manifest["prefix_reference_surface"] = \
+        prefix_reference_surface
+    if return_manifest:
+        return fixture, w24_fanin_manifest
     return fixture
+
+
+def _validate_synthetic_w24_fanin_manifest(
+        production_ledger: dict[str, Any], fixture: dict[str, Any],
+        manifest: dict[str, Any], *,
+        production_evidence: dict[str, Any] | None = None,
+        ) -> list[str]:
+    """Validate the Python-only W24 replacement against frozen pre-state.
+
+    The complete fixture is deliberately mutable in self-tests.  This
+    separate manifest keeps coordinated clone+proof edits from rewriting the
+    evidence they are checked against; no JSON field or CLI switch can supply
+    or weaken it.
+    """
+    errors: list[str] = []
+    if _semantic_digest(production_ledger) != AUDITED_LEDGER_SEMANTIC_SHA256:
+        errors.append(
+            "synthetic W24 manifest: production ledger trust root mismatch")
+        independently_derived_production: dict[str, Any] = {}
+    elif production_evidence is None:
+        try:
+            independently_derived_production = \
+                _derive_synthetic_w24_production_evidence(
+                    production_ledger)
+        except AssertionError as exc:
+            errors.append(
+                "synthetic W24 manifest: independent production derivation "
+                f"failed: {exc}")
+            independently_derived_production = {}
+    else:
+        # Self-test only: one deep-copied immutable derivation is reused for
+        # coordinated fixture/manifest attacks against the exact same audited
+        # production bytes.  Production/default CLI never supplies this.
+        cache_trust_checks = {
+            "production_semantic_digest": AUDITED_LEDGER_SEMANTIC_SHA256,
+            "superseded_records_digest":
+                SYNTHETIC_W24_SUPERSEDED_RECORDS_SHA256,
+            "retained_records_digest": SYNTHETIC_W24_RETAINED_RECORDS_SHA256,
+            "source_scenarios_digest": SYNTHETIC_W24_SOURCE_SCENARIOS_SHA256,
+            "source_scenario_count": 201,
+            "source_stage_tuple_map": SYNTHETIC_W24_SOURCE_TUPLE_STAGE_MAP,
+            "source_scenario_feasible_counts_digest":
+                SYNTHETIC_W24_SOURCE_SCENARIO_COUNTS_SHA256,
+        }
+        cache_valid = all(
+            production_evidence.get(key) == expected
+            for key, expected in cache_trust_checks.items())
+        cache_valid = cache_valid and (
+            _semantic_digest(production_evidence.get(
+                "superseded_invocations"))
+            == SYNTHETIC_W24_SUPERSEDED_RECORDS_SHA256)
+        cache_valid = cache_valid and (
+            _semantic_digest(production_evidence.get(
+                "retained_invocations"))
+            == SYNTHETIC_W24_RETAINED_RECORDS_SHA256)
+        cache_valid = cache_valid and (
+            _semantic_digest(production_evidence.get(
+                "source_scenario_feasible_counts"))
+            == SYNTHETIC_W24_SOURCE_SCENARIO_COUNTS_SHA256)
+        if cache_valid:
+            independently_derived_production = copy.deepcopy(
+                production_evidence)
+        else:
+            try:
+                independently_derived_production = \
+                    _derive_synthetic_w24_production_evidence(
+                        production_ledger)
+            except AssertionError as exc:
+                errors.append(
+                    "synthetic W24 manifest: cached production evidence "
+                    f"invalid and fresh fallback failed: {exc}")
+                independently_derived_production = {}
+    if manifest.get("production_semantic_digest") != \
+            AUDITED_LEDGER_SEMANTIC_SHA256:
+        errors.append(
+            "synthetic W24 manifest: production semantic digest mismatch")
+    expected_superseded = sorted(
+        SYNTHETIC_W24_FANIN_SUPERSEDED_INVOCATION_IDS)
+    if manifest.get("superseded_invocation_ids") != expected_superseded:
+        errors.append(
+            "synthetic W24 manifest: superseded invocation allowlist mismatch")
+    expected_partition_digest = _semantic_digest({
+        "work_and_consequence": sorted(SYNTHETIC_W24_FANIN_WORK_IDS),
+        "relationship_obligation": sorted(
+            SYNTHETIC_W24_FANIN_RELATIONSHIP_IDS),
+        "first_bill_decision_domain": sorted(
+            SYNTHETIC_W24_FIRST_BILL_VALUE_BY_ID),
+    })
+    if manifest.get("partition_digest") != expected_partition_digest:
+        errors.append("synthetic W24 manifest: raw partition digest mismatch")
+    if manifest.get("raw_id_universe") != sorted(
+            SYNTHETIC_W24_FANIN_RAW_ID_UNIVERSE):
+        errors.append("synthetic W24 manifest: raw input universe mismatch")
+    if manifest.get("feasible_stage_tuple_count") != 1_804:
+        errors.append(
+            "synthetic W24 manifest: unique stage tuple count must equal 1804")
+    if manifest.get("source_feasible_tuple_occurrence_count") != 51_977:
+        errors.append(
+            "synthetic W24 manifest: source-feasible tuple occurrences must equal 51977")
+    if manifest.get("source_rejected_tuple_occurrence_count") != 1_048:
+        errors.append(
+            "synthetic W24 manifest: rejected tuple occurrences must equal 1048")
+    if manifest.get("source_scenarios_digest") != \
+            SYNTHETIC_W24_SOURCE_SCENARIOS_SHA256:
+        errors.append(
+            "synthetic W24 manifest: source scenario digest mismatch")
+    if manifest.get("source_stage_tuple_map") != \
+            SYNTHETIC_W24_SOURCE_TUPLE_STAGE_MAP:
+        errors.append(
+            "synthetic W24 manifest: source stage tuple map mismatch")
+    if (manifest.get("stage_tuple_digests")
+            != SYNTHETIC_W24_STAGE_TUPLE_DIGESTS
+            or _semantic_digest(manifest.get("stage_tuple_digests"))
+            != SYNTHETIC_W24_STAGE_TUPLE_MAP_SHA256):
+        errors.append(
+            "synthetic W24 manifest: frozen production tuple digest map mismatch")
+    if (manifest.get("replacement_stage_tuple_digests")
+            != SYNTHETIC_W24_STAGE_TUPLE_DIGESTS
+            or _semantic_digest(
+                manifest.get("replacement_stage_tuple_digests"))
+            != SYNTHETIC_W24_STAGE_TUPLE_MAP_SHA256):
+        errors.append(
+            "synthetic W24 manifest: replacement tuple digest map mismatch")
+    if (_semantic_digest(manifest.get(
+            "original_output_multisets_by_stage"))
+            != SYNTHETIC_W24_ORIGINAL_OUTPUT_MULTISET_SHA256):
+        errors.append(
+            "synthetic W24 manifest: frozen production output/effect surface mismatch")
+
+    production_evidence = manifest.get("production_evidence", {})
+    if not isinstance(production_evidence, dict):
+        errors.append(
+            "synthetic W24 manifest: production evidence must be an object")
+        production_evidence = {}
+    if production_evidence != independently_derived_production:
+        errors.append(
+            "synthetic W24 manifest: diagnostic production evidence differs "
+            "from independent derivation")
+    frozen_production_evidence = {
+        "production_semantic_digest": AUDITED_LEDGER_SEMANTIC_SHA256,
+        "superseded_records_digest":
+            SYNTHETIC_W24_SUPERSEDED_RECORDS_SHA256,
+        "retained_records_digest": SYNTHETIC_W24_RETAINED_RECORDS_SHA256,
+        "source_scenarios_digest": SYNTHETIC_W24_SOURCE_SCENARIOS_SHA256,
+        "source_scenario_count": 201,
+        "source_stage_tuple_map": SYNTHETIC_W24_SOURCE_TUPLE_STAGE_MAP,
+        "source_feasible_tuple_occurrence_count": 51_977,
+        "source_rejected_tuple_occurrence_count": 1_048,
+        "source_zero_option_paths": 0,
+        "source_scenario_feasible_counts_digest":
+            SYNTHETIC_W24_SOURCE_SCENARIO_COUNTS_SHA256,
+    }
+    for key, expected in frozen_production_evidence.items():
+        if production_evidence.get(key) != expected:
+            errors.append(
+                "synthetic W24 manifest: independently derived production "
+                f"evidence mismatch {key}")
+    if (_semantic_digest(production_evidence.get(
+            "superseded_invocations"))
+            != SYNTHETIC_W24_SUPERSEDED_RECORDS_SHA256
+            or _semantic_digest(production_evidence.get(
+                "retained_invocations"))
+            != SYNTHETIC_W24_RETAINED_RECORDS_SHA256):
+        errors.append(
+            "synthetic W24 manifest: independently derived production record mismatch")
+
+    milestone = next((item for item in fixture.get("milestone_registry", [])
+                      if item.get("week") == 24), {})
+    production_milestone = next((
+        item for item in production_ledger.get("milestone_registry", [])
+        if item.get("week") == 24), {})
+    invocations = {
+        item.get("invocation_id"): item
+        for item in milestone.get("invocations", [])
+        if isinstance(item, dict) and isinstance(
+            item.get("invocation_id"), str)}
+    production_invocations = {
+        item.get("invocation_id"): item
+        for item in production_milestone.get("invocations", [])
+        if isinstance(item, dict) and isinstance(
+            item.get("invocation_id"), str)}
+    executable_readers = {
+        reader_id for invocation in invocations.values()
+        for reader_id in (
+            *invocation.get("always_reader_ids", []),
+            *[item.get("reader_id")
+              for item in invocation.get("conditional_readers", [])
+              if isinstance(item, dict)],
+            *[variant.get("reader_id")
+              for group in invocation.get("exclusive_variant_groups", [])
+              if isinstance(group, dict)
+              for variant in group.get("variants", [])
+              if isinstance(variant, dict)],
+        ) if isinstance(reader_id, str)}
+    if set(expected_superseded) & set(invocations):
+        errors.append(
+            "synthetic W24 manifest: superseded invocation remains executable")
+
+    remaining = manifest.get("remaining_invocations", {})
+    if not isinstance(remaining, dict) or len(remaining) != 19:
+        errors.append(
+            "synthetic W24 manifest: remaining invocation evidence mismatch")
+        remaining = {}
+    if (_semantic_digest(remaining)
+            != SYNTHETIC_W24_REPAIRED_RETAINED_RECORDS_SHA256):
+        errors.append(
+            "synthetic W24 manifest: retained record digest mismatch")
+    for invocation_id, frozen_invocation in remaining.items():
+        current = invocations.get(invocation_id)
+        if current != frozen_invocation:
+            errors.append(
+                "synthetic W24 manifest: retained invocation changed "
+                f"{invocation_id}")
+    production_story_group = next((
+        group for group in production_milestone.get("co_presence_groups", [])
+        if group.get("group_id") == "group:w24:story_scene"), {})
+    production_remaining_ids = (
+        set(production_story_group.get("invocation_ids", []))
+        - SYNTHETIC_W24_FANIN_SUPERSEDED_INVOCATION_IDS)
+    production_remaining = {
+        invocation_id: production_invocations.get(invocation_id)
+        for invocation_id in sorted(production_remaining_ids)}
+    current_remaining = {
+        invocation_id: invocations.get(invocation_id)
+        for invocation_id in sorted(production_remaining_ids)}
+    if (_semantic_digest(production_remaining)
+            != SYNTHETIC_W24_RETAINED_RECORDS_SHA256):
+        errors.append(
+            "synthetic W24 manifest: production remaining19 evidence mismatch")
+    if (_semantic_digest(current_remaining)
+            != SYNTHETIC_W24_REPAIRED_RETAINED_RECORDS_SHA256):
+        errors.append(
+            "synthetic W24 manifest: current remaining19 exact repair mismatch")
+
+    superseded = manifest.get("superseded_invocations", {})
+    if (not isinstance(superseded, dict)
+            or set(superseded) != set(expected_superseded)):
+        errors.append(
+            "synthetic W24 manifest: superseded invocation evidence mismatch")
+        superseded = {}
+    if (_semantic_digest(superseded)
+            != SYNTHETIC_W24_SUPERSEDED_RECORDS_SHA256):
+        errors.append(
+            "synthetic W24 manifest: superseded record digest mismatch")
+    old_reader_ids = set(manifest.get("superseded_story_reader_ids", []))
+    if old_reader_ids & executable_readers:
+        errors.append(
+            "synthetic W24 manifest: superseded Story reader remains executable")
+
+    raw_readers = {
+        reader.get("reader_id"): reader
+        for reader in fixture.get("reader_registry", [])
+        if isinstance(reader, dict)
+        and str(reader.get("reader_id", "")).startswith(
+            "reader:synthetic:w24:fanin_raw:")}
+    if not raw_readers:
+        errors.append("synthetic W24 manifest: raw clone registry is empty")
+    frozen_raw_readers = manifest.get("raw_clone_records", {})
+    if raw_readers != frozen_raw_readers:
+        errors.append(
+            "synthetic W24 manifest: raw clone records changed after capture")
+    if (_semantic_digest(raw_readers)
+            != SYNTHETIC_W24_RAW_CLONE_RECORDS_SHA256
+            or _semantic_digest(frozen_raw_readers)
+            != SYNTHETIC_W24_RAW_CLONE_RECORDS_SHA256):
+        errors.append(
+            "synthetic W24 manifest: raw clone frozen contract mismatch")
+    for reader_id, reader in raw_readers.items():
+        if (reader.get("reader_kind") != "producer_result"
+                or reader.get("layer_owner") != "weekly_action"):
+            errors.append(
+                f"synthetic W24 manifest: raw clone role mismatch {reader_id}")
+    production_readers = {
+        reader.get("reader_id"): reader
+        for reader in production_ledger.get("reader_registry", [])
+        if isinstance(reader, dict)
+        and isinstance(reader.get("reader_id"), str)}
+    allowed_clone_deltas = {
+        "reader_id", "reader_kind", "layer_owner", "runtime_pointer",
+        "runtime_proof_ids",
+    }
+    clone_contract_fields = READER_REGISTRY_FIELDS - allowed_clone_deltas
+    observed_production_sources: set[str] = set()
+    nonproduction_clone_sources: set[str] = set()
+    for clone_id, clone in raw_readers.items():
+        separator = ":source:"
+        source_id = clone_id.split(separator, 1)[1] \
+            if separator in clone_id else ""
+        source = production_readers.get(source_id)
+        if source is None:
+            nonproduction_clone_sources.add(source_id)
+            continue
+        observed_production_sources.add(source_id)
+        if any(clone.get(field) != source.get(field)
+               for field in clone_contract_fields):
+            errors.append(
+                "synthetic W24 manifest: raw clone source contract mismatch "
+                f"{clone_id}")
+        if (clone.get("reader_kind") != "producer_result"
+                or clone.get("layer_owner") != "weekly_action"
+                or clone.get("runtime_pointer")
+                != "systems/DemoCoreLoopV2.gd::_bundle_requirement_met"
+                or not set(source.get("runtime_proof_ids", [])).issubset(
+                    set(clone.get("runtime_proof_ids", [])))):
+            errors.append(
+                "synthetic W24 manifest: raw clone allowed delta mismatch "
+                f"{clone_id}")
+    exact_application_sources = {
+        f"reader:synthetic:w24_completion_application_choice:{choice}"
+        for choice in (0, 1, 3, 4, 5, 6, 7)}
+    if nonproduction_clone_sources != exact_application_sources:
+        errors.append(
+            "synthetic W24 manifest: raw clone nonproduction source mismatch")
+    expected_production_sources = {
+        reader_id
+        for invocation_id in SYNTHETIC_W24_FANIN_SUPERSEDED_INVOCATION_IDS
+        for reader_id in (
+            *production_invocations.get(
+                invocation_id, {}).get("always_reader_ids", []),
+            *[item.get("reader_id") for item in production_invocations.get(
+                invocation_id, {}).get("conditional_readers", [])
+              if isinstance(item, dict)],
+            *[variant.get("reader_id")
+              for group in production_invocations.get(
+                  invocation_id, {}).get("exclusive_variant_groups", [])
+              if isinstance(group, dict)
+              for variant in group.get("variants", [])
+              if isinstance(variant, dict)],
+        ) if isinstance(reader_id, str)}
+    expected_production_sources.discard(
+        "reader:milestone:w24:completion_application_choice")
+    if not expected_production_sources.issubset(observed_production_sources):
+        errors.append(
+            "synthetic W24 manifest: exact27 raw clone coverage mismatch")
+
+    # Lock every Python-built W24 reader and every synthetic W24 proof.  This
+    # closes coordinated edits such as moving a summary reader and its proof
+    # to a sibling Story call, or adding a build family to make that summary
+    # masquerade as a row-owned causal read.
+    replacement_readers = {
+        reader.get("reader_id"): reader
+        for reader in fixture.get("reader_registry", [])
+        if isinstance(reader, dict)
+        and str(reader.get("reader_id", "")).startswith(
+            "reader:synthetic:w24")}
+    replacement_proofs = {
+        proof.get("proof_id"): proof
+        for proof in fixture.get("runtime_proof_registry", [])
+        if isinstance(proof, dict)
+        and str(proof.get("proof_id", "")).startswith(
+            "proof:synthetic:w24")}
+    if (len(replacement_readers) != 402
+            or _semantic_digest(replacement_readers)
+            != SYNTHETIC_W24_REPLACEMENT_READER_RECORDS_SHA256
+            or manifest.get("replacement_reader_records")
+            != replacement_readers):
+        errors.append(
+            "synthetic W24 manifest: replacement reader trust surface mismatch")
+    if (len(replacement_proofs) != 395
+            or _semantic_digest(replacement_proofs)
+            != SYNTHETIC_W24_REPLACEMENT_PROOF_RECORDS_SHA256
+            or manifest.get("replacement_proof_records")
+            != replacement_proofs):
+        errors.append(
+            "synthetic W24 manifest: replacement proof trust surface mismatch")
+    referenced_proof_ids = _runtime_proof_references(fixture)
+    if set(replacement_proofs) - referenced_proof_ids:
+        errors.append(
+            "synthetic W24 manifest: replacement proof closure is not fully referenced")
+
+    try:
+        row_reference_contract = \
+            _derive_synthetic_w24_row_reference_contract(
+                production_ledger)
+    except AssertionError as exc:
+        errors.append(
+            "synthetic W24 manifest: production row-reference derivation "
+            f"failed: {exc}")
+        row_reference_contract = {}
+    if (_semantic_digest(row_reference_contract)
+            != SYNTHETIC_W24_ROW_REFERENCE_CONTRACT_SHA256
+            or manifest.get("row_reference_contract")
+            != row_reference_contract):
+        errors.append(
+            "synthetic W24 manifest: frozen row-reference contract mismatch")
+    prefix_reference_surface = _synthetic_w24_prefix_reference_surface(
+        production_ledger, fixture)
+    if (len(prefix_reference_surface.get("rows", {})) != 24
+            or len(prefix_reference_surface.get(
+                "replay_witnesses", {})) != 3
+            or _semantic_digest(prefix_reference_surface)
+            != SYNTHETIC_W24_PREFIX_REFERENCE_SURFACE_SHA256
+            or manifest.get("prefix_reference_surface")
+            != prefix_reference_surface):
+        errors.append(
+            "synthetic W24 manifest: exact prefix row/replay reference "
+            "surface mismatch")
+    fixture_rows = {
+        row.get("chain_id"): row for row in fixture.get("rows", [])
+        if isinstance(row, dict) and isinstance(row.get("chain_id"), str)}
+    fixture_witnesses = {
+        witness.get("witness_id"): witness
+        for witness in fixture.get("replay_witnesses", [])
+        if isinstance(witness, dict)
+        and isinstance(witness.get("witness_id"), str)}
+    for expectation in row_reference_contract.get(
+            "owner_expectations", []):
+        owner_kind = expectation["owner_kind"]
+        owner_id = expectation["owner_id"]
+        field_name = expectation["field_name"]
+        if owner_kind == "row":
+            owner = fixture_rows.get(owner_id, {})
+            if field_name == "missed_contract.reader_ids":
+                actual_reader_ids = owner.get(
+                    "missed_contract", {}).get("reader_ids")
+            else:
+                actual_reader_ids = owner.get(field_name)
+        else:
+            owner = fixture_witnesses.get(owner_id, {})
+            actual_reader_ids = owner.get(field_name)
+        if actual_reader_ids != expectation["reader_ids"]:
+            errors.append(
+                "synthetic W24 manifest: exact row/replay raw-reader "
+                f"mapping mismatch {owner_kind}:{owner_id}:{field_name}")
+    replacement_reader_ids = set(replacement_readers)
+    summary_reader_ids = {
+        reader_id for reader_id, reader in replacement_readers.items()
+        if any(str(fact_id).startswith("history_summary:w24:")
+               for fact_id in reader.get("reads_fact_ids", []))}
+    for owner in [*fixture_rows.values(), *fixture_witnesses.values()]:
+        owner_refs = [
+            *owner.get("near_reader_ids", []),
+            *owner.get("milestone_reader_ids", []),
+            *owner.get("reader_ids", []),
+            *owner.get("missed_contract", {}).get("reader_ids", []),
+        ]
+        if summary_reader_ids & set(owner_refs):
+            errors.append(
+                "synthetic W24 manifest: summary reader used as row/replay "
+                "causal ownership")
+        unknown_synthetic = {
+            reader_id for reader_id in owner_refs
+            if str(reader_id).startswith("reader:synthetic:w24")
+            and reader_id not in replacement_reader_ids}
+        if unknown_synthetic:
+            errors.append(
+                "synthetic W24 manifest: row/replay references unknown "
+                "replacement reader")
+
+    summary_facts = set(SYNTHETIC_W24_FANIN_SUMMARY_FACT_IDS)
+    producer_owners: dict[str, list[str]] = {
+        fact_id: [] for fact_id in summary_facts}
+    resolver_receipts: set[str] = set()
+    summary_stage_ids: set[str] = set()
+    stages = {
+        stage.get("stage_id"): stage
+        for stage in milestone.get("execution_stages", [])
+        if isinstance(stage, dict) and isinstance(stage.get("stage_id"), str)}
+    replacement_stage_records = {
+        stage_id: stage for stage_id, stage in stages.items()
+        if stage_id.startswith("w24:synthetic_fanin_")}
+    replacement_group_records = {
+        group.get("group_id"): group
+        for group in milestone.get("co_presence_groups", [])
+        if isinstance(group, dict)
+        and str(group.get("group_id", "")).startswith(
+            "group:synthetic:w24:fanin_")}
+    if (_semantic_digest(replacement_stage_records)
+            != SYNTHETIC_W24_REPLACEMENT_STAGES_SHA256):
+        errors.append(
+            "synthetic W24 manifest: replacement stage order/predecessor mismatch")
+    if (_semantic_digest(replacement_group_records)
+            != SYNTHETIC_W24_REPLACEMENT_GROUPS_SHA256):
+        errors.append(
+            "synthetic W24 manifest: replacement co-presence group mismatch")
+    current_replacements = {
+        invocation_id: invocation
+        for invocation_id, invocation in invocations.items()
+        if invocation_id.startswith("reader:synthetic:w24:fanin_")}
+    if current_replacements != manifest.get("replacement_invocations"):
+        errors.append(
+            "synthetic W24 manifest: replacement invocation contract changed")
+    if (_semantic_digest(current_replacements)
+            != SYNTHETIC_W24_REPLACEMENT_INVOCATIONS_SHA256
+            or _semantic_digest(manifest.get("replacement_invocations"))
+            != SYNTHETIC_W24_REPLACEMENT_INVOCATIONS_SHA256):
+        errors.append(
+            "synthetic W24 manifest: replacement invocation frozen contract mismatch")
+    current_tuple_digests: dict[str, str] = {}
+    for stage_id, stage in stages.items():
+        if not stage_id.startswith("w24:synthetic_fanin_aggregate:"):
+            continue
+        original_stage_id = stage_id.removeprefix(
+            "w24:synthetic_fanin_aggregate:")
+        invocation_payload = [
+            invocations[invocation_id]
+            for invocation_id in stage.get("invocation_ids", [])
+            if invocation_id in invocations]
+        current_tuple_digests[original_stage_id] = _semantic_digest(
+            invocation_payload)
+    frozen_current_tuple_digests = manifest.get(
+        "final_fixture_stage_digests", {})
+    if current_tuple_digests != frozen_current_tuple_digests:
+        errors.append(
+            "synthetic W24 manifest: final fixture stage tuple surface changed")
+    if (_semantic_digest(current_tuple_digests)
+            != SYNTHETIC_W24_FINAL_AGGREGATE_STAGE_SURFACE_SHA256
+            or _semantic_digest(frozen_current_tuple_digests)
+            != SYNTHETIC_W24_FINAL_AGGREGATE_STAGE_SURFACE_SHA256):
+        errors.append(
+            "synthetic W24 manifest: final aggregate stage frozen surface mismatch")
+    production_tuple_surface, replacement_tuple_surface, \
+        replacement_tuple_count = _derive_synthetic_w24_stage_tuple_surface(
+            production_ledger, fixture)
+    if (production_tuple_surface
+            != SYNTHETIC_W24_PRODUCTION_STAGE_TUPLE_DIGESTS
+            or _semantic_digest(production_tuple_surface)
+            != SYNTHETIC_W24_PRODUCTION_STAGE_TUPLE_MAP_SHA256):
+        errors.append(
+            "synthetic W24 manifest: production tuple runtime re-derivation mismatch")
+    if (replacement_tuple_surface != SYNTHETIC_W24_STAGE_TUPLE_DIGESTS
+            or _semantic_digest(replacement_tuple_surface)
+            != SYNTHETIC_W24_STAGE_TUPLE_MAP_SHA256
+            or replacement_tuple_count != 1_804):
+        errors.append(
+            "synthetic W24 manifest: replacement tuple runtime re-derivation mismatch")
+    scenario_errors: list[str] = []
+    replacement_scenarios = _execution_stage_scenarios(
+        week=24, stage_records_by_id=stages,
+        where="synthetic W24 replacement stages",
+        synthetic_source_contracts=True, errors=scenario_errors)
+    if scenario_errors:
+        errors.extend(
+            "synthetic W24 manifest: " + error
+            for error in scenario_errors)
+    replacement_presence_keys = {
+        f"{scenario_index}:" + stage_id.removeprefix(
+            "w24:synthetic_fanin_aggregate:")
+        for scenario_index, (scenario_stage_ids, _ancestors) in enumerate(
+            replacement_scenarios)
+        for stage_id in scenario_stage_ids
+        if stage_id.startswith("w24:synthetic_fanin_aggregate:")}
+    source_scenario_counts = independently_derived_production.get(
+        "source_scenario_feasible_counts", {})
+    if (not isinstance(source_scenario_counts, dict)
+            or replacement_presence_keys != set(source_scenario_counts)):
+        errors.append(
+            "synthetic W24 manifest: replacement scenario-stage presence mismatch")
+        source_scenario_counts = {}
+    # The exact raw-clone bijection, fixed stage/group topology, and A/B tuple
+    # equality above establish a one-to-one transfer of each source option.
+    # Apply the independently re-derived A multiplicity to B only after those
+    # checks, then lock the resulting per-scenario output/effect/decision
+    # surface.  A manifest value never participates in this derivation.
+    replacement_scenario_semantics = {
+        occurrence_key: {
+            "occurrences": occurrence_count,
+            "stage_tuple_digest": replacement_tuple_surface.get(
+                occurrence_key.split(":", 1)[1]),
+        }
+        for occurrence_key, occurrence_count in sorted(
+            source_scenario_counts.items())}
+    if (_semantic_digest(replacement_scenario_semantics)
+            != SYNTHETIC_W24_REPLACEMENT_SCENARIO_SEMANTICS_SHA256
+            or sum(item["occurrences"] for item in
+                   replacement_scenario_semantics.values()) != 51_977):
+        errors.append(
+            "synthetic W24 manifest: scenario-local replacement occurrence mismatch")
+    for invocation_id, invocation in invocations.items():
+        for producer in invocation.get("conditional_producers", []):
+            if not isinstance(producer, dict):
+                continue
+            outputs = set(producer.get("produced_fact_ids", []))
+            for fact_id in summary_facts & outputs:
+                producer_owners[fact_id].append(invocation_id)
+            resolver_receipts.update(
+                fact_id for fact_id in outputs
+                if isinstance(fact_id, str)
+                and fact_id.startswith(
+                    "receipt:synthetic:w24:raw_options_resolved:"))
+    for stage_id, stage in stages.items():
+        if stage_id.startswith("w24:synthetic_fanin_summary:"):
+            summary_stage_ids.add(stage_id)
+            predecessors = stage.get("predecessor_stage_ids", [])
+            if (len(predecessors) != 1
+                    or not predecessors[0].startswith(
+                        "w24:synthetic_fanin_aggregate:")):
+                errors.append(
+                    f"synthetic W24 manifest: summary predecessor mismatch {stage_id}")
+    if not resolver_receipts or not summary_stage_ids:
+        errors.append(
+            "synthetic W24 manifest: resolver/summary lifecycle missing")
+    expected_owner_count = len(summary_stage_ids)
+    for fact_id, owners in producer_owners.items():
+        if len(owners) != expected_owner_count:
+            errors.append(
+                "synthetic W24 manifest: fixed summary ownership mismatch "
+                f"{fact_id}")
+
+    for reader_id in executable_readers:
+        reader = next((item for item in fixture.get("reader_registry", [])
+                       if isinstance(item, dict)
+                       and item.get("reader_id") == reader_id), {})
+        raw_story_inputs = (
+            set(reader.get("history_memory_ids", []))
+            | set(reader.get("story_decision_ids", [])))
+        forbidden_raw_story_inputs = (
+            raw_story_inputs
+            - set(SYNTHETIC_W24_FIRST_BILL_VALUE_BY_ID))
+        if (reader_id.startswith(
+                "reader:synthetic:w24:fanin_summary")
+                and forbidden_raw_story_inputs
+                & SYNTHETIC_W24_FANIN_RAW_ID_UNIVERSE):
+            errors.append(
+                f"synthetic W24 manifest: Story consumer reads raw input {reader_id}")
+        for fact_id in reader.get("reads_fact_ids", []):
+            if (isinstance(fact_id, str)
+                    and fact_id.startswith("history_summary:w24:")
+                    and fact_id not in summary_facts):
+                errors.append(
+                    f"synthetic W24 manifest: third/per-site summary axis {fact_id}")
+        if reader_id.startswith("reader:synthetic:w24:fanin_summary"):
+            decision_ids = {
+                *reader.get("story_decision_ids", []),
+                *reader.get("scene_handoff_decision_ids", []),
+            }
+            if not decision_ids.issubset(
+                    set(SYNTHETIC_W24_FIRST_BILL_VALUE_BY_ID)):
+                errors.append(
+                    "synthetic W24 manifest: second/unknown Story decision domain "
+                    f"{reader_id}")
+    return errors
 
 
 def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
@@ -12731,10 +14777,23 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
         raise AssertionError(f"ORDER-100 snapshot counts drifted: {metrics}")
     if {item["error_code"] for item in ledger["evaluation_registry"]} != set(ERROR_CODES):
         raise AssertionError("evaluation registry no longer contains exact 15-code vocabulary")
+    if (metrics.get("w24_source_feasible_tuple_occurrences") != 51_977
+            or metrics.get("w24_source_rejected_tuple_occurrences") != 1_048
+            or metrics.get("w24_source_zero_option_paths") != 0
+            or metrics.get("w24_source_tuple_stage_map")
+            != SYNTHETIC_W24_SOURCE_TUPLE_STAGE_MAP
+            or metrics.get("w24_source_scenario_feasible_counts_digest")
+            != SYNTHETIC_W24_SOURCE_SCENARIO_COUNTS_SHA256):
+        raise AssertionError(
+            "self-test immutable W24 source census baseline drifted")
+    source_census_full_count = 1
+    source_census_skip_count = 0
+    source_census_fallback_count = 0
     cases += 1
 
     probe_errors, _ = _self_test_validate(
         ledger, baseline, probe=True, pointers=False, sources=False)
+    source_census_skip_count += 1
     if probe_errors:
         raise AssertionError(
             f"self-test probe baseline is not clean: {probe_errors}")
@@ -15055,7 +17114,291 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
     _expect_failure("incomplete complete gate", ledger, baseline, "complete gate",
                     complete=True)
     cases += 1
-    complete = _complete_fixture(ledger)
+    complete, complete_w24_manifest = _complete_fixture(
+        ledger, return_manifest=True)
+    complete_production_evidence = copy.deepcopy(
+        complete_w24_manifest["production_evidence"])
+    manifest_errors = _validate_synthetic_w24_fanin_manifest(
+        ledger, complete, complete_w24_manifest,
+        production_evidence=complete_production_evidence)
+    source_census_skip_count += 1
+    if manifest_errors:
+        raise AssertionError(
+            f"complete W24 manifest rejected: {manifest_errors}")
+    cases += 1
+    manifest_mutations: list[tuple[str, Any, str]] = []
+
+    row_summary_laundering = copy.deepcopy(complete)
+    row_summary_target = next(
+        row for row in row_summary_laundering["rows"]
+        if row["chain_id"] == "m3_self")
+    raw_ledger_reason_id = (
+        "reader:synthetic:w24:fanin_raw:w24_ledger_memory:source:"
+        "reader:milestone:w24:ledger_reasons")
+    summary_work_id = (
+        "reader:synthetic:w24:fanin_summary:w24_prepare_fresh:"
+        "work_and_consequence")
+    row_summary_target["milestone_reader_ids"] = [
+        summary_work_id if reader_id == raw_ledger_reason_id else reader_id
+        for reader_id in row_summary_target["milestone_reader_ids"]]
+    manifest_mutations.append((
+        "row raw-reader replaced by Story summary",
+        row_summary_laundering,
+        "exact row/replay raw-reader mapping mismatch"))
+
+    coordinated_reader_pointer = copy.deepcopy(complete)
+    coordinated_reader_pointer_manifest = copy.deepcopy(
+        complete_w24_manifest)
+    pointer_reader = next(
+        reader for reader in coordinated_reader_pointer["reader_registry"]
+        if reader["reader_id"] == summary_work_id)
+    pointer_reader["runtime_pointer"] = \
+        "scenes/StoryMode.gd::_restore_story_result"
+    pointer_proof_id = "proof:synthetic:w24_fanin_consumer:w24_prepare_fresh"
+    pointer_proof = next(
+        proof for proof in coordinated_reader_pointer[
+            "runtime_proof_registry"]
+        if proof["proof_id"] == pointer_proof_id)
+    pointer_proof["pointer"] = \
+        "scenes/StoryMode.gd::_restore_story_result"
+    coordinated_reader_pointer_manifest["replacement_reader_records"][
+        summary_work_id] = copy.deepcopy(pointer_reader)
+    coordinated_reader_pointer_manifest["replacement_proof_records"][
+        pointer_proof_id] = copy.deepcopy(pointer_proof)
+    manifest_mutations.append((
+        "coordinated summary reader and proof pointer swap",
+        coordinated_reader_pointer,
+        "replacement reader trust surface mismatch",
+        coordinated_reader_pointer_manifest))
+
+    summary_build_family = copy.deepcopy(complete)
+    summary_build_family_manifest = copy.deepcopy(complete_w24_manifest)
+    build_family_reader = next(
+        reader for reader in summary_build_family["reader_registry"]
+        if reader["reader_id"] == summary_work_id)
+    build_family_reader["input_build_family_ids"].append(
+        "build:career_progression")
+    summary_build_family_manifest["replacement_reader_records"][
+        summary_work_id] = copy.deepcopy(build_family_reader)
+    manifest_mutations.append((
+        "summary reader injected build ownership",
+        summary_build_family,
+        "replacement reader trust surface mismatch",
+        summary_build_family_manifest))
+
+    coactive = copy.deepcopy(complete)
+    coactive_w24 = milestone_for(coactive, 24)
+    frozen_invocation = copy.deepcopy(next(iter(
+        complete_w24_manifest["superseded_invocations"].values())))
+    coactive_w24["invocations"].append(frozen_invocation)
+    manifest_mutations.append((
+        "superseded invocation coactive", coactive,
+        "superseded invocation remains executable"))
+
+    changed_remaining = copy.deepcopy(complete)
+    retained_id = next(iter(
+        complete_w24_manifest["remaining_invocations"]))
+    invocation_for(changed_remaining, 24, retained_id)[
+        "runtime_pointer"] = "scenes/StoryMode.gd::_finish_all"
+    manifest_mutations.append((
+        "remaining19 mutation", changed_remaining,
+        "retained invocation changed"))
+
+    changed_clone = copy.deepcopy(complete)
+    raw_clone = next(
+        reader for reader in changed_clone["reader_registry"]
+        if reader["reader_id"].startswith(
+            "reader:synthetic:w24:fanin_raw:"))
+    raw_clone["layer_owner"] = "story"
+    manifest_mutations.append((
+        "raw clone role laundering", changed_clone,
+        "raw clone records changed after capture"))
+
+    changed_replacement = copy.deepcopy(complete)
+    replacement = next(
+        invocation for invocation in milestone_for(
+            changed_replacement, 24)["invocations"]
+        if invocation["invocation_id"].startswith(
+            "reader:synthetic:w24:fanin_summary_producer:"))
+    replacement["conditional_producers"][0]["produced_fact_ids"].append(
+        "history_summary:w24:third_axis")
+    manifest_mutations.append((
+        "third summary axis", changed_replacement,
+        "replacement invocation contract changed"))
+
+    changed_manifest = copy.deepcopy(complete_w24_manifest)
+    changed_manifest["raw_id_universe"] = \
+        changed_manifest["raw_id_universe"][:-1]
+    manifest_mutations.append((
+        "raw mapping omission", complete,
+        "raw input universe mismatch", changed_manifest))
+
+    changed_partition = copy.deepcopy(complete_w24_manifest)
+    changed_partition["partition_digest"] = "0" * 64
+    manifest_mutations.append((
+        "raw axis swap", complete,
+        "raw partition digest mismatch", changed_partition))
+
+    changed_occurrences = copy.deepcopy(complete_w24_manifest)
+    changed_occurrences["source_feasible_tuple_occurrence_count"] -= 1
+    manifest_mutations.append((
+        "source tuple occurrence drift", complete,
+        "source-feasible tuple occurrences", changed_occurrences))
+
+    changed_superseded = copy.deepcopy(complete_w24_manifest)
+    next(iter(changed_superseded["superseded_invocations"].values()))[
+        "runtime_pointer"] = "scenes/StoryMode.gd::_finish_all"
+    manifest_mutations.append((
+        "superseded evidence mutation", complete,
+        "superseded record digest mismatch", changed_superseded))
+
+    changed_final_tuple = copy.deepcopy(complete)
+    final_aggregate = next(
+        invocation for invocation in milestone_for(
+            changed_final_tuple, 24)["invocations"]
+        if invocation["invocation_id"].startswith(
+            "reader:synthetic:w24:fanin_aggregate:"))
+    final_aggregate["runtime_pointer"] = (
+        "systems/DemoCoreLoopV2.gd::complete_active_bundle")
+    manifest_mutations.append((
+        "post-fixture option mutation", changed_final_tuple,
+        "replacement invocation contract changed"))
+
+    coordinated_tuple_rewrite = copy.deepcopy(complete_w24_manifest)
+    coordinated_tuple_rewrite["stage_tuple_digests"] = {
+        stage_id: "0" * 64 for stage_id in
+        coordinated_tuple_rewrite["stage_tuple_digests"]}
+    coordinated_tuple_rewrite["replacement_stage_tuple_digests"] = \
+        copy.deepcopy(coordinated_tuple_rewrite["stage_tuple_digests"])
+    manifest_mutations.append((
+        "coordinated old/new tuple evidence rewrite", complete,
+        "frozen production tuple digest map mismatch",
+        coordinated_tuple_rewrite))
+
+    coordinated_output = copy.deepcopy(complete)
+    coordinated_output_manifest = copy.deepcopy(complete_w24_manifest)
+    output_aggregate = next(
+        invocation for invocation in milestone_for(
+            coordinated_output, 24)["invocations"]
+        if invocation["invocation_id"] == (
+            "reader:synthetic:w24:fanin_aggregate:w24_prepare_fresh"))
+    output_producer = next(
+        producer for producer in output_aggregate["conditional_producers"]
+        if "state:deferred_callback:callback_escaped_dirty_trace:synthetic:false"
+        in producer["produced_fact_ids"])
+    output_producer["produced_fact_ids"].remove(
+        "state:deferred_callback:callback_escaped_dirty_trace:synthetic:false")
+    coordinated_output_manifest["replacement_invocations"][
+        output_aggregate["invocation_id"]] = copy.deepcopy(output_aggregate)
+    coordinated_output_manifest["final_fixture_stage_digests"][
+        "w24:prepare_fresh"] = _semantic_digest([output_aggregate])
+    manifest_mutations.append((
+        "coordinated non-summary output omission", coordinated_output,
+        "replacement invocation frozen contract mismatch",
+        coordinated_output_manifest))
+
+    coordinated_effect = copy.deepcopy(complete)
+    coordinated_effect_manifest = copy.deepcopy(complete_w24_manifest)
+    effect_aggregate = next(
+        invocation for invocation in milestone_for(
+            coordinated_effect, 24)["invocations"]
+        if invocation["invocation_id"] == (
+            "reader:synthetic:w24:fanin_aggregate:w24_prepare_fresh"))
+    effect_producer = next(
+        producer for producer in effect_aggregate["conditional_producers"]
+        if "effect:demo_collision_context:dirty_source:callback_escaped_dirty_trace"
+        in producer["effect_contract_ids"])
+    effect_index = effect_producer["effect_contract_ids"].index(
+        "effect:demo_collision_context:dirty_source:callback_escaped_dirty_trace")
+    effect_producer["effect_contract_ids"][effect_index] = \
+        "effect:demo_collision_context:dirty_source:sibling_swap"
+    coordinated_effect_manifest["replacement_invocations"][
+        effect_aggregate["invocation_id"]] = copy.deepcopy(effect_aggregate)
+    coordinated_effect_manifest["final_fixture_stage_digests"][
+        "w24:prepare_fresh"] = _semantic_digest([effect_aggregate])
+    manifest_mutations.append((
+        "coordinated non-summary effect swap", coordinated_effect,
+        "replacement invocation frozen contract mismatch",
+        coordinated_effect_manifest))
+
+    changed_stage_order = copy.deepcopy(complete)
+    shifted_summary_stage = next(
+        stage for stage in milestone_for(
+            changed_stage_order, 24)["execution_stages"]
+        if stage["stage_id"] == (
+            "w24:synthetic_fanin_summary:w24:prepare_fresh"))
+    shifted_summary_stage["predecessor_stage_ids"] = [
+        "w24:synthetic_fanin_aggregate:w24:candidate_aggregation"]
+    manifest_mutations.append((
+        "replacement sibling predecessor lending", changed_stage_order,
+        "replacement stage order/predecessor mismatch"))
+
+    extra_decision_domain = copy.deepcopy(complete)
+    decision_reader = next(
+        reader for reader in extra_decision_domain["reader_registry"]
+        if reader["reader_id"].startswith(
+            "reader:synthetic:w24:fanin_summary_decision:"))
+    decision_reader["story_decision_ids"] = ["decision:unrelated_story:0"]
+    decision_reader["scene_handoff_decision_ids"] = []
+    manifest_mutations.append((
+        "second Story decision domain", extra_decision_domain,
+        "second/unknown Story decision domain"))
+
+    role_swap = copy.deepcopy(complete)
+    role_swap_manifest = copy.deepcopy(complete_w24_manifest)
+    role_swap_reader = next(
+        reader for reader in role_swap["reader_registry"]
+        if reader["reader_id"].startswith(
+            "reader:synthetic:w24:fanin_raw:")
+        and reader.get("history_memory_ids"))
+    moved_history = role_swap_reader["history_memory_ids"].pop()
+    role_swap_reader["material_state_ids"].append(moved_history)
+    role_swap_manifest["raw_clone_records"][
+        role_swap_reader["reader_id"]] = copy.deepcopy(role_swap_reader)
+    manifest_mutations.append((
+        "coordinated raw temporal role swap", role_swap,
+        "raw clone frozen contract mismatch", role_swap_manifest))
+
+    for mutation in manifest_mutations:
+        name, mutated_fixture, needle, *override = mutation
+        mutated_manifest = override[0] if override else complete_w24_manifest
+        mutation_errors = _validate_synthetic_w24_fanin_manifest(
+            ledger, mutated_fixture, mutated_manifest,
+            production_evidence=complete_production_evidence)
+        source_census_skip_count += 1
+        if not any(needle in error for error in mutation_errors):
+            raise AssertionError(
+                f"{name}: expected {needle!r}, got {mutation_errors}")
+        cases += 1
+
+    # One representative coordinated W24 attack must also fail through a
+    # fresh independent production derivation; this proves the immutable
+    # self-test shortcut is diagnostic-equivalent, not a trust substitute.
+    fresh_manifest_errors = _validate_synthetic_w24_fanin_manifest(
+        ledger, coordinated_output, coordinated_output_manifest)
+    source_census_full_count += 1
+    source_census_fallback_count += 1
+    if not any("replacement invocation frozen contract mismatch" in error
+               for error in fresh_manifest_errors):
+        raise AssertionError(
+            "fresh W24 census fallback missed coordinated output omission: "
+            f"{fresh_manifest_errors}")
+    cached_manifest_errors = _validate_synthetic_w24_fanin_manifest(
+        ledger, coordinated_output, coordinated_output_manifest,
+        production_evidence=complete_production_evidence)
+    source_census_skip_count += 1
+    cached_needles = {
+        error for error in cached_manifest_errors
+        if "replacement invocation frozen contract mismatch" in error}
+    fresh_needles = {
+        error for error in fresh_manifest_errors
+        if "replacement invocation frozen contract mismatch" in error}
+    if cached_needles != fresh_needles or len(cached_needles) != 1:
+        raise AssertionError(
+            "cached/fresh W24 census diagnostic parity mismatch "
+            f"cached={cached_manifest_errors} fresh={fresh_manifest_errors}")
+    cases += 1
+
     complete_errors, _ = validate(
         complete, {}, require_complete=True, check_pointers=False,
         check_sources=False, synthetic_source_contracts=True,
@@ -15065,12 +17408,30 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
     cases += 1
 
     complete_probe_parity = copy.deepcopy(complete)
-    complete_probe_parity["rows"][0]["availability"].pop(
-        "runtime_candidate_cap")
-    _expect_probe_full_parity(
-        "probe/full parity synthetic complete", complete_probe_parity, {},
-        "availability: expected fields", complete=True, sources=False,
-        synthetic=True)
+    complete_probe_w24 = next(
+        milestone for milestone in complete_probe_parity["milestone_registry"]
+        if milestone["week"] == 24)
+    complete_probe_stage = next(
+        stage for stage in complete_probe_w24["execution_stages"]
+        if stage["stage_id"] == "w24:prepare_fresh")
+    old_probe_stage_token = _execution_stage_contract_token(
+        complete_probe_stage)
+    complete_probe_stage["predecessor_stage_ids"] = [
+        "w24:synthetic_fanin_aggregate:w24:prepare_fresh"]
+    new_probe_stage_token = _execution_stage_contract_token(
+        complete_probe_stage)
+    complete_probe_proofs = {
+        proof["proof_id"]: proof
+        for proof in complete_probe_parity["runtime_proof_registry"]}
+    for proof_id in complete_probe_stage["runtime_proof_ids"]:
+        proof = complete_probe_proofs[proof_id]
+        if old_probe_stage_token in proof["assertion"]:
+            proof["assertion"] = proof["assertion"].replace(
+                old_probe_stage_token, new_probe_stage_token)
+    _expect_probe_clean_full_fallback(
+        "probe/full fallback synthetic complete", complete_probe_parity, {},
+        "executable source scenario has no handoff-feasible invocation option",
+        complete=True, sources=False, synthetic=True)
     cases += 1
 
     stale_complete_proofs = [
@@ -15371,6 +17732,19 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
             w24_probe_parity, baseline,
             "audited execution stage source topology mismatch")
         cases += 1
+    if (source_census_full_count < 2
+            or source_census_skip_count < len(manifest_mutations)
+            or source_census_fallback_count < 1):
+        raise AssertionError(
+            "self-test W24 census optimization coverage incomplete "
+            f"full={source_census_full_count} "
+            f"skip={source_census_skip_count} "
+            f"fallback={source_census_fallback_count}")
+    print(
+        "CHAPTER1_CAUSAL_LEDGER_SELF_TEST_CENSUS "
+        f"full={source_census_full_count} "
+        f"skip={source_census_skip_count} "
+        f"fallback={source_census_fallback_count}")
     return cases
 
 
@@ -15381,6 +17755,10 @@ def main() -> int:
     parser.add_argument(
         "--dump-audited-maps", action="store_true",
         help="print the verified, expanded audit maps as canonical JSON")
+    parser.add_argument(
+        "--dump-synthetic-complete-manifest", action="store_true",
+        help=("print the read-only Python-built W24 replacement manifest; "
+              "it is never accepted as ledger input"))
     args = parser.parse_args()
     if args.dump_audited_maps:
         print(json.dumps({
@@ -15393,6 +17771,18 @@ def main() -> int:
     try:
         ledger = _load_json(LEDGER_PATH)
         baseline = _load_json(BASELINE_PATH)
+        if args.dump_synthetic_complete_manifest:
+            _fixture, manifest = _complete_fixture(
+                ledger, return_manifest=True)
+            errors = _validate_synthetic_w24_fanin_manifest(
+                ledger, _fixture, manifest)
+            if errors:
+                raise AssertionError(
+                    f"synthetic manifest rejected: {errors}")
+            print(json.dumps(
+                manifest, ensure_ascii=False, sort_keys=True,
+                separators=(",", ":")))
+            return 0
         if args.self_test:
             self_test_started = time.monotonic()
             cases = self_test(ledger, baseline)

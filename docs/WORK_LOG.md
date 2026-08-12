@@ -14,37 +14,42 @@
 > 차례로 옮긴다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
-## 2026-08-12 (Codex — 48주 Chapter 1 인과 원장 체크포인트)
+## 2026-08-12 (Codex — 48주 Chapter 1 인과 원장 L1/L2 완료)
 
 - 사용자의 최신 지시대로 완성 단위를 W1~24 진단판에서 W1~48 Chapter 1 한
   해로 바꿨다. W1~24는 현재 제품의 audited prefix, W25~48 기존 AP는 제품
-  증거가 아닌 coverage gap이다. 제품 코드·스토리·수치·세이브는 이번 오더에서
-  바꾸지 않았다.
+  증거가 아닌 coverage gap이다. 제품 코드·스토리·수치·세이브는 바꾸지 않았다.
 - 사람 정본은 주간 행동=시간·비용·진전·포기, 생활 빌드=`쌓인 이력 → 지금
   가능한 일`, Story=별도 장면의 표현·기억·결정으로 소유권을 나눴다. 세 층은
   이름 있는 receipt와 실제 runtime reader로만 연결하고 새 XP·스킬 포인트나
-  모든 조합별 장면을 만들지 않는다.
-- 기계 원장은 12개월×네 가족 target 48 중 현행 24행과 missing slot 24개를
-  기록한다. final snapshot은 reader 86, fact read contract 128, milestone 12,
-  invocation 16, co-presence group 12, runtime proof 176이다. 없는 후반부
-  producer·reader·마일스톤은 발명하지 않았다.
-- exact baseline은 evaluated code 10개의 stable debt 59개다: missing slot 24,
-  완료 뒤 죽은 카드 12, downstream reader가 없는 fact/receipt 12, 자동 사람
-  선택 5, shadowed reader·unreachable cap·unscheduled chain·display-only forgone·
-  Story/application 소유 충돌·W24 scene fan-in 각 1. full-scope 3개 검사는
-  coverage 때문에 blocked이며 0건으로 보고하지 않는다.
-- 첫 checker 초안이 결과 표시를 causal reader로 세고, 느슨한 fact pointer와
-  invocation 분할로 W24 fan-in을 숨기며, 빈 producer/counterfactual로도 합성
-  48행을 통과시키는 false-green을 독립 검토에서 적발했다. fact별 read contract,
-  배타 variant, scene co-presence 조합, 완료행 producer/near/month/W48/save proof,
-  비반복 self-loop와 W48 replay branch를 기계 계약으로 보강했다.
-- 현재 snapshot은 `CHAPTER1_CAUSAL_LEDGER_SNAPSHOT_VALID debt_codes=10 blocked=3`,
-  self-test `cases=130`을 통과한다. complete-only gate는 authoritative 48행·gap 0·
-  blocked 0·debt/baseline `{}`·W48 replay가 없어 정확히 실패한다. 자동 초록은
-  canon GO가 아니며, 12개월×네 가족 전수표 사용자 판정 전 ORDER-100은 `[~]`다.
-- 다음 구현은 W1~8만 소유한다. 긴 프롤로그, 첫 주 실제 보드 안내, 자소서→지원→
-  면접의 named reader, 주간 자원 용어·조작, 보드의 연락폰 접근, W5~8 첫 회수를
-  닫은 뒤에만 W9 이후로 간다.
+  48개 조합별 장면으로 흉내 내지 않는다.
+- 최종 machine ledger는 target 48 중 rows 24·gap 24, readers 420,
+  read contracts 1,132, milestones 12, invocations 80, execution stages 75,
+  co-presence groups 17, runtime proofs 1,493을 기록한다. row conditional variants
+  94/groups 48, milestone producers 198/groups 52, counterfactuals 24,
+  replay witnesses 3, evaluations 15다. 없는 W25~48 producer·reader는 발명하지 않았다.
+- exact baseline은 evaluated code 10개의 stable debt 60개다: ROW 24, DEAD 12,
+  ORPHAN 12, AUTO 5, SHADOW 2, CAP·UNSCHEDULED·DISPLAY·LAYER·FANIN 각 1.
+  full-scope 3개는 coverage로 blocked이며 0건으로 가장하지 않는다.
+- W24 fresh·reentry·Story save 복귀의 역할, 210 source scenarios, 51,977 feasible
+  tuple, 78개 역사/결정 입력의 두 역사 축+한 결정 도메인 압축을 source-exact하게
+  잠갔다. 독립 공격이 찾아낸 row→Story summary 세탁, reader+proof 동시 relabel,
+  build-family 삽입도 exact 53+6 row refs, replacement readers 402/proofs 395
+  전체 레코드 고정으로 닫았다.
+- checker `a70d9f9cf026ca438a90a5f1479306e7bff6147bcbf8ce8df6388eec8f6b1f17`,
+  ledger `deade081b2d14d19d7893e12e5c141f55b976b2cc22cebbf5b4602f3ce5affa5`,
+  baseline `9c4d736ffa17e39133e22399b9ee956ebeb021ed9bc6d1141815a388ab44a2bd`를
+  독립 재검증했다. normal은 gap 25~48/debt codes 10/blocked 3을 정직하게 보고하고,
+  self-test 305건이 통과했다. Python-only synthetic complete는 rows48·debt `{}`로
+  gate의 양성 경로만 증명하며 제품 완성 주장이 아니다. 전체 audit·Godot compile·
+  EN coverage도 통과했다.
+- macOS 대소문자 비구분 임시 경로 정리 중 원장 파일이 지워진 사고가 있었지만,
+  Codex session JSONL의 삭제 직전 payload를 byte-exact 복구·별도 snapshot 대조한
+  뒤 승인 변경만 재적용했다. 최종 원장은 복구본과 분리 보관한 검증 경로를 거쳐
+  위 hash로 고정됐고 다른 제품 파일은 삭제하지 않았다.
+- 자동 초록은 canon GO가 아니다. 12개월×네 가족 전수표의 범위·공백·수리 순서를
+  사용자가 L3로 판정하기 전 ORDER-100은 `[~]`다. 승인 뒤 ORDER-101의 W1~8부터
+  시작하며, W25~48 구현·W48 종료·동일 clean RC 통합 검증은 ORDER-104~107이 맡는다.
 
 ## 2026-08-11 (Codex — 첫 집 플레이 P0 저장 복구·48주 Chapter 1 재착수)
 

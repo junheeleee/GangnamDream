@@ -89,130 +89,13 @@ Chapter 1 완성으로 세지 않는다.
   연말 보스 → 실제 본 장면 회고 → chapter1_complete 저장 → 완료 화면`으로
   이어지고, 사용자가 2장 시작을 선택한 뒤에만 W49로 간다.
 
-## 배치 A — checker-first W1~24 implemented prefix 25단위
+## 기계 상세 보관
 
-1. Chapter 1 범위·세 층 소유권·W48 종료·원장 schema와 최소 checker/self-test
-   harness를 먼저 고정
-2–25. M1~M6의 month×family 24행을 각각 독립 판정
-
-각 행은 runtime pointer, availability, 완료·만료 producer, terminal, next verb,
-근거리·월말·연말 reader, replay/save proof를 한 단위로 대조한다. 24행을 한 번의
-“전수 확인”으로 뭉개지 않는다.
-
-## 배치 B — W25~48 gap·검사·부채 라우팅 25단위
-
-1–24. M7~M12의 month×family 24 missing slot ID를 각각 대조하되 gameplay row를
-   만들지 않고 단일 `coverage_gaps` 범위 레코드·후속 owner ORDER-104~106·
-   `ROW_BIJECTION` debt로 판정
-25. checker·self-test·baseline·audit wiring·새 세션 context routing을 한 묶음으로
-   실행하고 current missing/extra/stale를 봉인
-
-## 초기 exact debt
-
-초기 baseline은 아래 결손을 숨기지 않는다. 자세한 ID는 machine baseline이 소유한다.
-
-- `ROW_BIJECTION`: W25~48 month×family slot 24개 미구현
-- `DEAD_CARD`: 완료 뒤 대체 동사가 없는 비반복 카드 12개
-- `AUTO_PERSON_PICK`: M2~M6 사람 카드 5개
-- `ORPHAN_FACT`: `resume_polished` 1개와 후속 gate/router가 실제 소비하지 않는
-  action receipt 11개, 합계 12개. 같은 producer 결과창·월말 표시·아카이브는
-  downstream reader로 세지 않는다.
-- `SHADOWED_READER`: M3 재고조사→M4 물류수업의 결과 방법 reader와 W24 완료
-  검증이 요구된 도시 선택의 정확한 application transition identity를 확인하지 못하는
-  reader, 합계 2개
-- `UNREACHABLE_CAP`: M5 사람 최대 2 계약 1개
-- `UNSCHEDULED_CHAIN`: 현재 W1~24 데이터에 선언됐지만 fresh 서울 사이클 편성이
-  없는 `bundle:sns_pressure_night`
-- `DISPLAY_ONLY_FORGONE`: 주간 `forgone_ids`가 후속 행동을 바꾸지 않음
-- `LAYER_COLLISION`: 프롤로그 Story가 지원 상태를 직접 씀
-- `MILESTONE_FANIN`: W24 첫 청구서 한 장면이 여러 내부 invocation을 통해
-  서로 다른 역사 기억·결정을 상한보다 많이 함께 읽는 1개
-
-현재 exact baseline은 10개 evaluated code의 stable debt 60개이며, full-scope
-3개 코드는 W25~48 coverage로 `blocked_by_coverage`다. 이 숫자는 해결할 때만
-줄이며 ID를 삭제하거나 표시 reader를 인과 reader로 바꿔 맞추지 않는다.
-
-`ROW_BIJECTION`은 48 target의 missing/duplicate month×family에만 쓴다.
-`FAKE_REPEAT`는 W1~24 evaluated scope에서 0건이다.
-`ROUTE_NO_DIVERGENCE`, `ROUTE_HARD_LOCK`, `SAVE_ROUNDTRIP`의 48주 전체 판정은
-top-level `evaluation_registry`에서 `blocked_by_coverage`와 blocker gap ID를 갖는다.
-미구현 후반부를 0건으로 보고해 거짓 초록을 만들지 않으며 ORDER-107에서만 full
-scope 0건을 요구한다. blocker 없는 blocked, gap이 있는데 full evaluated 주장,
-evaluation 행 삭제는 self-test가 거부한다. 표현 선택의 수치 합류는 합법이므로
-`COUNTERFACTUAL_NOOP`으로 세지 않는다. 해당 코드는 행동·기억·결정 선택이 next
-verb·비용·가용성·참가자·결과를 전혀 바꾸지 않을 때만 쓴다.
-
-허용 debt code는 `ROW_BIJECTION`, `DEAD_CARD`, `ORPHAN_FACT`,
-`SHADOWED_READER`, `AUTO_PERSON_PICK`, `UNREACHABLE_CAP`, `UNSCHEDULED_CHAIN`,
-`DISPLAY_ONLY_FORGONE`, `COUNTERFACTUAL_NOOP`, `LAYER_COLLISION`,
-`MILESTONE_FANIN`, `FAKE_REPEAT`, `ROUTE_NO_DIVERGENCE`, `ROUTE_HARD_LOCK`,
-`SAVE_ROUNDTRIP`의 정확 15개다. `MILESTONE_FANIN`은 `story_milestone` 장면의
-가능한 한 실행이 서로 다른 역사 기억 2개+Story 결정 1개를 넘거나 입력이 이름
-없이 합쳐질 때만 쓴다. 돈·몸·직업 같은 현재 물질 상태는 별도 입력으로 증명하되
-기억 수에 넣지 않으며, build 가족 수로 기억 수를 대신하지 않는다.
-
-## 정확한 파일 소유권
-
-**선언·정본 9:** `docs/CODEX_QUEUE.md`, 이 사양, `CLAUDE.md`,
-`docs/CORE_LOOP_V2.md`, `docs/CONTEXT_INDEX.md`, `docs/QA_CHECKLIST.md`,
-`docs/DECISIONS.md`, `docs/WORK_LOG.md`, 생성 `docs/STATUS.md`. 최신 사용자 지시가
-기존 24주→후반부 순차 승인 결정을 48주 Chapter 1 완성 단위로 대체한 이유는
-`docs/DECISIONS.md`에 한 번만 기록한다. 부팅 예산 보관 이동은
-`docs/history/WORK_LOG_2026-08-03.md`만 추가로 소유한다.
-
-**기계 원장·검사 5:** 신규
-`content/meta/chapter1_core_loop_v2_causal_ledger.json`, 신규
-`tools/chapter1_core_loop_v2_causal_ledger_check.py`, 신규
-`tools/chapter1_core_loop_v2_causal_debt_baseline.json`, `tools/audit.sh`,
-`tools/audit_scope.json`.
-
-**컨텍스트 정합 1:** `docs/context_manifest.json`.
-
-**교차 정본 9:** `docs/MASTER_RELEASE_AUDIT.md`, `docs/BUILD_PIPELINE.md`,
-`docs/HANDOFF.md`, `docs/AP_REDESIGN.md`, `docs/GAME_RECOMPOSITION_PLAN.md`,
-`docs/BALANCE.md`, `docs/SCENE_TIER.md`, `docs/STEAM_PAGE.md`,
-`docs/NEXTFEST_CHECKLIST.md`. 기존 24주 측정·패키지·호환 증거는 삭제하지 않고
-W1~24 audited-prefix 진단으로 분류하며, retail/default·공개 데모·제품 save
-bridge는 동일 clean W1~48 Chapter 1 후보만 소유하게 맞춘다.
-
-**생성기 1:** `tools/project_dashboard.py`. 생성 `STATUS.md`가 active candidate의
-`note`와 W1~24 prefix/48주 공백을 버리지 않도록 source generator를 함께 맞춘다.
-
-제품 런타임, `content/meta/demo_core_loop_v2.json`, 사건 원고, 밸런스 수치,
-저장 schema, UI·입력·폰·프롤로그는 이번 오더에서 수정하지 않는다. 원장이 발견한
-결손 수리는 ORDER-101 이후 8주 단위 오더가 하나씩 소유한다.
-
-## 완료 증거
-
-- machine ledger가 target `48`, implemented `24`, gap `24`를 정확히 보고한다.
-- W1~24 24행의 runtime pointer·가족·producer·terminal·reader가 현 제품과 맞는다.
-- current debt가 baseline과 missing/extra/stale 0으로 일치한다.
-- malformed·duplicate·stale pointer·orphan·shadowed·coverage-gap mutation self-test가
-  모두 실패를 검출한다.
-- ledger의 canonical JSON 의미 해시와 모든 runtime proof의 ID·kind·pointer·assertion·
-  pointed-source digest를 checker가 별도 신뢰 루트로 고정한다. 원장만 함께
-  relabel하거나 유효하지만 무관한 함수로 proof를 옮겨도 실패해야 한다.
-- 인과 실행을 소유하는 runtime/data/normative source와 MainGame·StoryMode scene
-  binding은 exact source digest로 고정하고, replay archive의 실제 저장·조회 경로를
-  소유하는 MetaProgression·BuildFlavor도 같은 신뢰 루트에 둔다. `project.godot`은
-  GameState·DataRegistry·EventManager·SaveManager·MetaProgression의 exact autoload
-  binding을 검사한다. 화면·입력 등
-  무관한 프로젝트 설정 전체를 원장 해시로 얼리지는 않는다.
-- 24개 행동은 allocation-only 1개와 trigger-bearing 23개로 전수 분류하고, 모든
-  execution family가 fixed direct output 또는 source-exact conditional group 중
-  정확히 하나의 계약을 가진다. 미분류 family와 고정 결과에 발명한 group은 모두
-  실패한다.
-- audit selector는 원장·baseline·checker·제품 source 변경에서 이 검사를 고른다.
-- JSON parse, checker self-test/current, audit scope verify, queue/context/dashboard,
-  `git diff --check`가 통과한다.
-- normal audit은 known gap이 있어도 snapshot을 검증할 수 있지만 반드시
-  `COVERAGE_GAP weeks=25..48 missing_slots=24 authoritative=24/48`을 출력하고
-  Chapter 1 `OK`라고 부르지 않는다. 별도 `--require-complete-chapter-one`은
-  rows 48, gap 0, blocked evaluation 0, current debt `{}`, baseline `{}`일 때만
-  통과한다.
-- baseline은 metadata나 빈 배열 없이 `{ERROR_CODE:[stable_id,...]}`만 가지며
-  current와 exact equality다. 새 debt와 이미 해결된 stale debt가 모두 실패하고,
-  명시적 갱신 명령 없이 자동 재작성하지 않는다.
+완료된 배치·부채 taxonomy·파일 범위·L1 증거는
+[보관본](../queue_archive/ORDER-100_L1_L2_2026-08-12.md)이 소유한다. 현재 snapshot은
+`target/implemented/gap=48/24/24`, `debt/blocked=60/3`이다. 정확한 ID·pointer·fact·proof는
+machine ledger·baseline·checker가 소유하며, 아래 48행은 QA L2·L3 판정 표이지 원장을
+대체하지 않는다.
 
 ## L1·L2·L3 증거 양식
 
