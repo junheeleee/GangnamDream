@@ -10,6 +10,108 @@ const MAIN_GAME_SCENE := preload("res://scenes/MainGame.tscn")
 const FATHER_EVENT := "arc_father_01_call"
 const HYUNSU_EVENT := "arc_intro_04_hyunsu"
 const TEMPTATION_EVENT := "arc_temptation_01"
+const ORDER101_TERMINAL_SLICE_ROUTES := {
+	"m1_resume_completed_q3_to_m2_advancement_ready": {
+		"source": {"month": 1, "node": "resume", "terminal": "completed",
+			"proof_kind": "typed_action_application",
+			"proof_id": "m1_youth_center_resume_clinic:application:1",
+			"quality": 3},
+		"target": {"month": 2, "node": "m2_advancement",
+			"bundle": "m2_seorin_application", "variant_id": "resume_ready"},
+		"completion_effects": {"mental": 1},
+	},
+	"m1_resume_completed_q2_to_m2_advancement_polished": {
+		"source": {"month": 1, "node": "resume", "terminal": "completed",
+			"proof_kind": "typed_action_application",
+			"proof_id": "m1_youth_center_resume_clinic:application:1",
+			"quality": 2},
+		"target": {"month": 2, "node": "m2_advancement",
+			"bundle": "m2_seorin_application", "variant_id": "resume_polished"},
+		"completion_effects": {"mental": 0},
+	},
+	"m1_resume_completed_q1_to_m2_advancement_revised": {
+		"source": {"month": 1, "node": "resume", "terminal": "completed",
+			"proof_kind": "typed_action_application",
+			"proof_id": "m1_youth_center_resume_clinic:application:1",
+			"quality": 1},
+		"target": {"month": 2, "node": "m2_advancement",
+			"bundle": "m2_seorin_application", "variant_id": "resume_revised"},
+		"completion_effects": {"mental": -1},
+	},
+	"m1_resume_completed_q0_to_m2_advancement_rewritten": {
+		"source": {"month": 1, "node": "resume", "terminal": "completed",
+			"proof_kind": "typed_action_application",
+			"proof_id": "m1_youth_center_resume_clinic:application:1",
+			"quality": 0},
+		"target": {"month": 2, "node": "m2_advancement",
+			"bundle": "m2_seorin_application", "variant_id": "resume_rewritten"},
+		"completion_effects": {"mental": -2},
+	},
+	"m1_resume_expired_to_m2_advancement_rebuilt": {
+		"source": {"month": 1, "node": "resume", "terminal": "expired",
+			"proof_kind": "node_expiry", "proof_id": "m1:resume"},
+		"target": {"month": 2, "node": "m2_advancement",
+			"bundle": "m2_seorin_application", "variant_id": "resume_rebuilt"},
+		"completion_effects": {"mental": -3},
+	},
+	"m1_father_completed_wellbeing_to_m3_quiet_call": {
+		"source": {"month": 1, "node": "father", "terminal": "completed",
+			"proof_kind": "relationship_choice",
+			"proof_id": "father_first_call:arc_father_01_call:0"},
+		"target": {"month": 3, "node": "m3_people",
+			"bundle": "father_quiet_call",
+			"variant_id": "father_wellbeing_returned"},
+		"completion_effects": {},
+	},
+	"m1_father_completed_future_reassured_to_m3_quiet_call": {
+		"source": {"month": 1, "node": "father", "terminal": "completed",
+			"proof_kind": "relationship_choice",
+			"proof_id": "father_first_call:arc_father_01_call:1"},
+		"target": {"month": 3, "node": "m3_people",
+			"bundle": "father_quiet_call",
+			"variant_id": "father_future_reassured"},
+		"completion_effects": {},
+	},
+	"m1_father_completed_call_ended_quickly_to_m3_quiet_call": {
+		"source": {"month": 1, "node": "father", "terminal": "completed",
+			"proof_kind": "relationship_choice",
+			"proof_id": "father_first_call:arc_father_01_call:2"},
+		"target": {"month": 3, "node": "m3_people",
+			"bundle": "father_quiet_call",
+			"variant_id": "father_call_ended_quickly"},
+		"completion_effects": {},
+	},
+	"m1_father_expired_to_m2_people_open": {
+		"source": {"month": 1, "node": "father", "terminal": "expired",
+			"proof_kind": "node_expiry", "proof_id": "m1:father"},
+		"target": {"month": 2, "node": "m2_people", "bundle": "",
+			"variant_id": "father_call_put_off"},
+		"completion_effects": {},
+	},
+	"m2_people_completed_hyunsu_to_m3_followup": {
+		"source": {"month": 2, "node": "m2_people", "terminal": "completed",
+			"proof_kind": "selected_trigger",
+			"proof_id": "m2:m2_people:hyunsu_player_reachout"},
+		"target": {"month": 3, "node": "m3_people",
+			"bundle": "hyunsu_study_followup", "variant_id": "hyunsu_followup"},
+		"completion_effects": {},
+	},
+	"m2_people_completed_cafe_to_m4_sangchul": {
+		"source": {"month": 2, "node": "m2_people", "terminal": "completed",
+			"proof_kind": "selected_trigger",
+			"proof_id": "m2:m2_people:cafe_world_glimpse"},
+		"target": {"month": 4, "node": "m4_people",
+			"bundle": "sangchul_world_meet", "variant_id": "cafe_sangchul_lead"},
+		"completion_effects": {},
+	},
+	"m2_people_expired_to_m3_contact_fail_forward": {
+		"source": {"month": 2, "node": "m2_people", "terminal": "expired",
+			"proof_kind": "node_expiry", "proof_id": "m2:m2_people"},
+		"target": {"month": 3, "node": "m3_people", "bundle": "",
+			"variant_id": "contact_fail_forward"},
+		"completion_effects": {},
+	},
+}
 
 var _failures: Array[String] = []
 
@@ -20,8 +122,13 @@ func _ready() -> void:
 
 func _run() -> void:
 	_check_contract_and_determinism()
+	_check_order101_terminal_slice_spec()
+	_check_order101_terminal_slice_free_injection_rejected()
 	_check_order101_fresh_w1_application_contract()
+	_check_order101_resume_terminal_source_receipts()
+	_check_order101_father_terminal_source_receipts()
 	_check_order101_m2_people_selection_contract()
+	_check_order101_m2_people_terminal_source_receipts()
 	await _check_order101_main_result_committed_double_reload()
 	_check_run_generation_provenance()
 	_check_completion_boundary_trust()
@@ -37,6 +144,9 @@ func _run() -> void:
 	if _failures.is_empty():
 		print(
 			"CORE_LOOP_V2_CYCLE_CHECK_OK "
+			+ "terminal_slice=u09_u11_u12_u16/source_receipts_12of12 "
+			+ "mutations=capacity/father/selected/expiry/summary "
+			+ "retention=w25/w48 "
 			+ "mode=seoul_cycle_v1 fresh_only=1 provenance=new/save/no_inference "
 			+ "old_episode=preserved "
 			+ "legacy=preserved capacity=4/deterministic/no_reroll "
@@ -420,6 +530,998 @@ func _check_contract_and_determinism() -> void:
 		"month is not part of deterministic capacity identity")
 
 
+func _check_order101_terminal_slice_spec() -> void:
+	var spec := CORE.seoul_cycle_spec()
+	var routes: Dictionary = spec.get("terminal_routes", {})
+	_expect(_sorted_strings(routes.keys()) \
+		== _sorted_strings(ORDER101_TERMINAL_SLICE_ROUTES.keys()),
+		"U09/U11/U12/U16 terminal slice route IDs drifted")
+	var resume_results_ko: Array[String] = []
+	var resume_results_en: Array[String] = []
+	for route_id in ORDER101_TERMINAL_SLICE_ROUTES:
+		var expected: Dictionary = ORDER101_TERMINAL_SLICE_ROUTES[route_id]
+		var route: Dictionary = routes.get(route_id, {})
+		_expect(not route.is_empty(),
+			"terminal slice route is missing: %s" % route_id)
+		if route.is_empty():
+			continue
+		var expected_keys: Array[String] = [
+			"completion_effects", "detail_en", "detail_ko", "label_en",
+			"label_ko", "result_en", "result_ko", "source", "target",
+		]
+		if route_id.begins_with("m1_resume_"):
+			expected_keys.append("balance_status")
+			expected_keys.sort()
+		_expect(_sorted_strings(route.keys()) == expected_keys,
+			"terminal slice route has hidden/unknown fields: %s" % route_id)
+		_expect(_dictionary_equal_with_numeric_values(
+			route.get("source", {}), expected.get("source", {})) \
+			and _dictionary_equal_with_numeric_values(
+				route.get("target", {}), expected.get("target", {})) \
+			and _dictionary_equal_with_numeric_values(
+				route.get("completion_effects", {}),
+				expected.get("completion_effects", {})),
+			"terminal slice source/target/effect topology drifted: %s" % route_id)
+		_expect(
+			str(route.get("balance_status", "")) == "first_run_adjustment"
+			if route_id.begins_with("m1_resume_")
+			else not route.has("balance_status"),
+			"terminal slice balance provenance drifted: %s" % route_id)
+		for locale_key in [
+			"label_ko", "label_en", "detail_ko", "detail_en",
+			"result_ko", "result_en",
+		]:
+			var copy := str(route.get(locale_key, "")).strip_edges()
+			_expect(not copy.is_empty(),
+				"terminal slice route lost %s: %s" % [locale_key, route_id])
+			if locale_key.ends_with("_en"):
+				_expect(not _contains_hangul(copy),
+					"terminal slice English copy leaks Hangul: %s/%s" % [
+						route_id, locale_key])
+		if route_id.begins_with("m1_resume_"):
+			resume_results_ko.append(str(route.get("result_ko", "")))
+			resume_results_en.append(str(route.get("result_en", "")))
+	var unique_resume_results_ko := _sorted_strings(resume_results_ko)
+	var unique_resume_results_en := _sorted_strings(resume_results_en)
+	_expect(resume_results_ko.size() == 5 \
+		and unique_resume_results_ko.size() == 5 \
+		and _deduplicated_strings(unique_resume_results_ko).size() == 5 \
+		and resume_results_en.size() == 5 \
+		and unique_resume_results_en.size() == 5 \
+		and _deduplicated_strings(unique_resume_results_en).size() == 5,
+		"resume q3/q2/q1/q0/expiry lost five visible result variants")
+	var month_two := CORE.seoul_cycle_month_spec(2)
+	var month_two_advancement: Dictionary = (
+		month_two.get("nodes", {}) as Dictionary).get("m2_advancement", {})
+	var resume_bundle := CORE.bundle("m2_seorin_application")
+	_expect(int(month_two_advancement.get("threshold", 0)) == 2 \
+		and _int_values(resume_bundle.get("allowed_weeks", [])) == [5, 6],
+		"resume terminal variants changed M2 threshold or W5-W6 availability")
+
+
+func _check_order101_terminal_slice_free_injection_rejected() -> void:
+	_prepare_base_v2()
+	GameState.flags["resume_polished"] = true
+	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var completed: Array = state.get("completed_bundles", [])
+	completed.append("m1_youth_center_resume_clinic")
+	state["completed_bundles"] = completed
+	GameState.core_loop_v2_state = state
+	_expect(CORE.terminal_transition_receipt(
+		"m1_resume_completed_q2_to_m2_advancement_polished").is_empty() \
+		and CORE.terminal_routes_for_target(2, "m2_advancement").is_empty(),
+		"free resume_polished/completed-bundle state minted a terminal route")
+
+	# Even a complete-looking public envelope is not a producer. The nested
+	# proof must be an exact copied receipt from the live source month, not a
+	# caller-authored dictionary that merely repeats the claimed turn.
+	state = GameState.core_loop_v2_state.duplicate(true)
+	var q2_spec: Dictionary = (
+		CORE.seoul_cycle_spec().get("terminal_routes", {}) as Dictionary).get(
+			"m1_resume_completed_q2_to_m2_advancement_polished", {})
+	state["terminal_transition_receipts"] = {
+		"m1_resume_completed_q2_to_m2_advancement_polished": {
+			"schema": CORE.TERMINAL_TRANSITION_SCHEMA,
+			"route_id": "m1_resume_completed_q2_to_m2_advancement_polished",
+			"status": "derived",
+			"source_month": 1,
+			"source_node": "resume",
+			"source_terminal": "completed",
+			"source_turn": 1,
+			"proof_kind": "typed_action_application",
+			"proof_id": "m1_youth_center_resume_clinic:application:1",
+			"source_proof": {"source_turn": 1},
+			"target_month": 2,
+			"target_node": "m2_advancement",
+			"target_bundle": "m2_seorin_application",
+			"variant_id": "resume_polished",
+			"completion_effects": (
+				q2_spec.get("completion_effects", {}) as Dictionary).duplicate(true),
+		},
+	}
+	GameState.core_loop_v2_state = state
+	_expect(CORE.terminal_transition_receipt(
+		"m1_resume_completed_q2_to_m2_advancement_polished").is_empty() \
+		and CORE.terminal_routes_for_target(2, "m2_advancement").is_empty(),
+		"direct terminal receipt injection passed without an exact source proof")
+
+
+func _check_order101_resume_terminal_source_receipts() -> void:
+	for quality in range(4):
+		var route_id: String = [
+			"m1_resume_completed_q0_to_m2_advancement_rewritten",
+			"m1_resume_completed_q1_to_m2_advancement_revised",
+			"m1_resume_completed_q2_to_m2_advancement_polished",
+			"m1_resume_completed_q3_to_m2_advancement_ready",
+		][quality]
+		var produced := _produce_completed_resume_month(quality)
+		if produced.is_empty():
+			continue
+		var receipt := CORE.terminal_transition_receipt(route_id)
+		var proof: Dictionary = receipt.get("source_proof", {})
+		var node: Dictionary = proof.get("node_state", {})
+		var allocation: Dictionary = proof.get("allocation_receipt", {})
+		var trigger: Dictionary = proof.get("trigger_receipt", {})
+		var action: Dictionary = proof.get("action_receipt", {})
+		var details: Dictionary = action.get("result_details", {})
+		var transition: Dictionary = proof.get(
+			"application_transition_receipt", {})
+		_expect(str(receipt.get("route_id", "")) == route_id \
+			and int(receipt.get("source_month", 0)) == 1 \
+			and str(receipt.get("source_node", "")) == "resume" \
+			and str(receipt.get("source_terminal", "")) == "completed" \
+			and int(receipt.get("source_turn", 0)) == 1 \
+			and str(receipt.get("proof_kind", "")) \
+				== "typed_action_application" \
+			and str(receipt.get("proof_id", "")) \
+				== "m1_youth_center_resume_clinic:application:1" \
+			and int(receipt.get("target_month", 0)) == 2 \
+			and str(receipt.get("target_node", "")) == "m2_advancement" \
+			and str(receipt.get("target_bundle", "")) \
+				== "m2_seorin_application" \
+			and str(receipt.get("variant_id", "")) == [
+				"resume_rewritten", "resume_revised", "resume_polished",
+				"resume_ready"][quality] \
+			and int(node.get("completed_turn", 0)) == 1 \
+			and str(node.get("status", "")) == "completed" \
+			and bool(allocation.get("completed_now", false)) \
+			and str(allocation.get("node_id", "")) == "resume" \
+			and str(trigger.get("bundle_id", "")) \
+				== "m1_youth_center_resume_clinic" \
+			and str(trigger.get("status", "")) == "resolved" \
+			and str(action.get("bundle_id", "")) \
+				== "m1_youth_center_resume_clinic" \
+			and int(details.get("quality", -1)) == quality \
+			and str(details.get("execution", "")) \
+				== "job_hunt_application" \
+			and str(transition.get("receipt_key", "")) \
+				== "m1_youth_center_resume_clinic:application:1" \
+			and int(transition.get("quality", -1)) == quality,
+			"quality %d terminal receipt did not copy the exact W1 producer" \
+				% quality)
+		var frozen_receipt := receipt.duplicate(true)
+		var frozen_state: Dictionary = GameState.serialize().duplicate(true)
+		var replayed := CORE.record_month_summary(1, {}, {})
+		_expect(not replayed.is_empty() \
+			and CORE.terminal_transition_receipt(route_id) == frozen_receipt \
+			and GameState.serialize() == frozen_state,
+			"quality %d repeated month close rewrote its terminal receipt" % quality)
+		var saved: Dictionary = GameState.serialize().duplicate(true)
+		for reload_index in range(2):
+			GameState.start_new_game()
+			GameState.load_from_dict(saved.duplicate(true))
+			CORE.initialize_for_run(true)
+			_expect(CORE.terminal_transition_receipt(route_id) == frozen_receipt,
+				"quality %d terminal receipt drifted on reload %d" % [
+					quality, reload_index + 1])
+			saved = GameState.serialize().duplicate(true)
+		_check_terminal_receipt_nested_mutations_rejected(
+			saved, route_id, frozen_receipt, quality)
+		_check_terminal_receipt_underlying_mutations_rejected(
+			saved, route_id, quality)
+		if quality == 0:
+			_check_terminal_coupled_capacity_mutation_rejected(
+				saved, route_id, frozen_receipt)
+			_check_terminal_long_horizon_retention(
+				saved, route_id, frozen_receipt, 1)
+	_check_order101_resume_expiry_source_receipt()
+
+
+func _check_order101_resume_expiry_source_receipt() -> void:
+	var route_id := "m1_resume_expired_to_m2_advancement_rebuilt"
+	_prepare_fresh_cycle_gate()
+	var initialized := CORE.initialize_seoul_cycle(1)
+	_expect(bool(initialized.get("ok", false)),
+		"resume expiry source could not initialize Month One")
+	if not bool(initialized.get("ok", false)):
+		return
+	for turn in range(1, 5):
+		var snapshot := CORE.seoul_cycle_snapshot(1)
+		var capacity_id := _unused_capacity(snapshot, 0, true)
+		var committed := CORE.commit_seoul_cycle_allocation(
+			capacity_id, "recovery", 1)
+		if not bool(committed.get("ok", false)):
+			_expect(false, "resume expiry Week %d recovery commit failed" % turn)
+			return
+		if turn == 3 and not _resolve_cycle_story_world(
+				"hyunsu_first_meet", HYUNSU_EVENT, 0):
+			return
+		if turn == 4 and not _resolve_cycle_story_world(
+				"first_temptation_boss", TEMPTATION_EVENT, 0):
+			return
+		if not bool(CORE.complete_seoul_cycle_turn(1).get("ok", false)):
+			_expect(false, "resume expiry Week %d could not close" % turn)
+			return
+		if turn < 4:
+			_advance_to_next_week()
+	var summary := CORE.record_month_summary(1, {}, {})
+	var receipt := CORE.terminal_transition_receipt(route_id)
+	var proof: Dictionary = receipt.get("source_proof", {})
+	var node: Dictionary = proof.get("node_state", {})
+	var expiry: Dictionary = proof.get("expiry_receipt", {})
+	var expiry_before: Dictionary = expiry.get("before", {})
+	var expiry_after: Dictionary = expiry.get("after", {})
+	_expect(not summary.is_empty() \
+		and str(receipt.get("source_terminal", "")) == "expired" \
+		and int(receipt.get("source_turn", 0)) == 3 \
+		and str(receipt.get("proof_kind", "")) == "node_expiry" \
+		and str(receipt.get("proof_id", "")) == "m1:resume" \
+		and str(receipt.get("variant_id", "")) == "resume_rebuilt" \
+		and int((receipt.get("completion_effects", {}) as Dictionary).get(
+			"mental", 0)) == -3 \
+		and str(node.get("id", "")) == "resume" \
+		and str(node.get("status", "")) == "expired" \
+		and int(node.get("expired_turn", 0)) == 3 \
+		and int(node.get("progress", 0)) < int(node.get("threshold", 0)) \
+		and str(expiry.get("node_id", "")) == "resume" \
+		and str(expiry.get("status", "")) == "consumed" \
+		and int(expiry.get("turn", 0)) == 3 \
+		and int(expiry.get("week_index", 0)) == 3 \
+		and str(expiry.get("consequence_id", "")) \
+			== "m1_resume_clinic_window_closed" \
+		and int((expiry.get("effects", {}) as Dictionary).get(
+			"mental", 0)) == -1 \
+		and int(expiry_after.get("mental", 0)) \
+			== int(expiry_before.get("mental", 0)) - 1 \
+		and (summary.get("expired_nodes", []) as Array).has("resume") \
+		and (summary.get("cycle_completed_turns", []) as Array).has(3),
+		"resume expiry route did not derive from the exact W3 node expiry")
+	var frozen := receipt.duplicate(true)
+	var frozen_state: Dictionary = GameState.serialize().duplicate(true)
+	_expect(CORE.record_month_summary(1, {}, {}) == summary \
+		and CORE.terminal_transition_receipt(route_id) == frozen \
+		and GameState.serialize() == frozen_state,
+		"resume expiry receipt changed on repeated month close")
+	var saved: Dictionary = GameState.serialize().duplicate(true)
+	for reload_index in range(2):
+		GameState.start_new_game()
+		GameState.load_from_dict(saved.duplicate(true))
+		CORE.initialize_for_run(true)
+		_expect(CORE.terminal_transition_receipt(route_id) == frozen,
+			"resume expiry receipt drifted on reload %d" % [reload_index + 1])
+		saved = GameState.serialize().duplicate(true)
+	for field_path in [
+		["source_proof", "node_state", "expired_turn"],
+		["source_proof", "expiry_receipt", "node_id"],
+		["source_proof", "expiry_receipt", "status"],
+		["source_proof", "expiry_receipt", "week_index"],
+		["source_proof", "expiry_receipt", "consequence_id"],
+		["source_proof", "expiry_receipt", "effects", "mental"],
+	]:
+		var malformed := saved.duplicate(true)
+		var state: Dictionary = malformed.get("core_loop_v2_state", {})
+		var receipts: Dictionary = state.get("terminal_transition_receipts", {})
+		var bad := frozen.duplicate(true)
+		_set_nested_terminal_mutation(bad, field_path, 0)
+		receipts[route_id] = bad
+		state["terminal_transition_receipts"] = receipts
+		malformed["core_loop_v2_state"] = state
+		GameState.start_new_game()
+		GameState.load_from_dict(malformed)
+		CORE.initialize_for_run(true)
+		_expect(CORE.terminal_transition_receipt(route_id).is_empty(),
+			"resume expiry receipt accepted mutation %s" % str(field_path))
+
+
+func _check_order101_father_terminal_source_receipts() -> void:
+	var route_ids: Array[String] = [
+		"m1_father_completed_wellbeing_to_m3_quiet_call",
+		"m1_father_completed_future_reassured_to_m3_quiet_call",
+		"m1_father_completed_call_ended_quickly_to_m3_quiet_call",
+	]
+	var memories: Array[String] = [
+		"father_wellbeing_returned", "father_future_reassured",
+		"father_call_ended_quickly",
+	]
+	for choice_index in range(3):
+		var source := _produce_fresh_father_completed_month(choice_index)
+		if source.is_empty():
+			continue
+		var summary: Dictionary = source.get("summary", {})
+		var source_turn := int(source.get("source_turn", 0))
+		var route_id := route_ids[choice_index]
+		var receipt := CORE.terminal_transition_receipt(route_id)
+		var proof: Dictionary = receipt.get("source_proof", {})
+		var relationship: Dictionary = proof.get(
+			"relationship_receipt", {})
+		var expected_key := "father_first_call:arc_father_01_call:%d:%d" \
+			% [choice_index, source_turn]
+		_expect(not summary.is_empty() \
+			and str(receipt.get("source_terminal", "")) == "completed" \
+			and int(receipt.get("source_turn", 0)) == source_turn \
+			and str(receipt.get("proof_kind", "")) \
+				== "relationship_choice" \
+			and str(receipt.get("proof_id", "")) \
+				== "father_first_call:arc_father_01_call:%d" % choice_index \
+			and str(receipt.get("target_node", "")) == "m3_people" \
+			and str(receipt.get("target_bundle", "")) \
+				== "father_quiet_call" \
+			and str(receipt.get("variant_id", "")) == memories[choice_index] \
+			and str(proof.get("relationship_receipt_key", "")) \
+				== "relationship_choice_receipts.%s" % expected_key \
+			and str(proof.get("relationship_memory_key", "")) \
+				== "relationship_memories[%s]" % expected_key \
+			and str(relationship.get("receipt_key", "")) == expected_key \
+			and str(relationship.get("bundle_id", "")) == "father_first_call" \
+			and str(relationship.get("event_id", "")) == FATHER_EVENT \
+			and int(relationship.get("choice_index", -1)) == choice_index \
+			and int(relationship.get("turn", 0)) == source_turn \
+			and str(relationship.get("character", "")) == "father" \
+			and str(relationship.get("initiative", "")) == "player" \
+			and str(relationship.get("memory", "")) == memories[choice_index] \
+			and CORE.has_relationship_memory("father", memories[choice_index]),
+			("father choice %d terminal proof did not bind its exact fresh " \
+				+ "player receipt/memory") % choice_index)
+		for sibling_index in range(3):
+			if sibling_index == choice_index:
+				continue
+			_expect(not CORE.has_relationship_memory(
+				"father", memories[sibling_index]) \
+				and CORE.terminal_transition_receipt(
+					route_ids[sibling_index]).is_empty(),
+				"father choice %d leaked sibling %d" % [
+					choice_index, sibling_index])
+		var frozen := receipt.duplicate(true)
+		var saved: Dictionary = GameState.serialize().duplicate(true)
+		for reload_index in range(2):
+			GameState.start_new_game()
+			GameState.load_from_dict(saved.duplicate(true))
+			CORE.initialize_for_run(true)
+			_expect(CORE.terminal_transition_receipt(route_id) == frozen,
+				"father choice %d receipt drifted on reload %d" % [
+					choice_index, reload_index + 1])
+			saved = GameState.serialize().duplicate(true)
+		_check_father_terminal_mutations_rejected(
+			saved, route_id, frozen, choice_index, source_turn)
+		if choice_index == 0:
+			_check_father_terminal_no_offer_summary_durability(
+				saved, route_id, frozen, source_turn)
+	_check_order101_father_expiry_source_receipt()
+
+
+func _check_father_terminal_mutations_rejected(
+		saved: Dictionary, route_id: String, frozen: Dictionary,
+		choice_index: int, source_turn: int) -> void:
+	for field_path in [
+		["source_proof", "relationship_receipt", "choice_index"],
+		["source_proof", "relationship_receipt", "memory"],
+		["source_proof", "trigger_receipt", "bundle_id"],
+	]:
+		var malformed := saved.duplicate(true)
+		var state: Dictionary = malformed.get("core_loop_v2_state", {})
+		var receipts: Dictionary = state.get("terminal_transition_receipts", {})
+		var bad := frozen.duplicate(true)
+		_set_nested_terminal_mutation(bad, field_path, choice_index)
+		receipts[route_id] = bad
+		state["terminal_transition_receipts"] = receipts
+		malformed["core_loop_v2_state"] = state
+		GameState.start_new_game()
+		GameState.load_from_dict(malformed)
+		CORE.initialize_for_run(true)
+		_expect(CORE.terminal_transition_receipt(route_id).is_empty(),
+			"father terminal receipt accepted mutation %s" % str(field_path))
+	for mutation in [
+		"delete_receipt", "delete_memory", "selected_memory_mutation",
+		"sibling_receipt_coexist",
+	]:
+		var malformed := saved.duplicate(true)
+		var state: Dictionary = malformed.get("core_loop_v2_state", {})
+		var expected_key := "father_first_call:arc_father_01_call:%d:%d" \
+			% [choice_index, source_turn]
+		if mutation == "delete_receipt":
+			(state.get("relationship_choice_receipts", {}) as Dictionary).erase(
+				expected_key)
+		elif mutation == "delete_memory":
+			var memories: Array = state.get("relationship_memories", [])
+			for index in range(memories.size() - 1, -1, -1):
+				if memories[index] is Dictionary \
+						and str((memories[index] as Dictionary).get(
+							"receipt_key", "")) == expected_key:
+					memories.remove_at(index)
+			state["relationship_memories"] = memories
+		elif mutation == "selected_memory_mutation":
+			var all_receipts: Dictionary = state.get(
+				"relationship_choice_receipts", {})
+			var relationship: Dictionary = all_receipts.get(expected_key, {})
+			relationship["memory"] = "father_sibling_injection"
+			all_receipts[expected_key] = relationship
+			state["relationship_choice_receipts"] = all_receipts
+		else:
+			var sibling_index := (choice_index + 1) % 3
+			var sibling_memories: Array[String] = [
+				"father_wellbeing_returned", "father_future_reassured",
+				"father_call_ended_quickly",
+			]
+			var sibling_key := (
+				"father_first_call:arc_father_01_call:%d:%d" \
+				% [sibling_index, source_turn])
+			var all_receipts: Dictionary = state.get(
+				"relationship_choice_receipts", {})
+			var sibling_receipt: Dictionary = (
+				all_receipts.get(expected_key, {}) as Dictionary).duplicate(true)
+			sibling_receipt["receipt_key"] = sibling_key
+			sibling_receipt["choice_index"] = sibling_index
+			sibling_receipt["memory"] = sibling_memories[sibling_index]
+			all_receipts[sibling_key] = sibling_receipt
+			state["relationship_choice_receipts"] = all_receipts
+			for ledger_key in ["relationship_history", "relationship_memories"]:
+				var ledger: Array = state.get(ledger_key, [])
+				ledger.append(sibling_receipt.duplicate(true))
+				state[ledger_key] = ledger
+		malformed["core_loop_v2_state"] = state
+		GameState.start_new_game()
+		GameState.load_from_dict(malformed)
+		CORE.initialize_for_run(true)
+		_expect(CORE.terminal_transition_receipt(route_id).is_empty(),
+			"father terminal receipt ignored underlying %s" % mutation)
+
+
+func _check_order101_father_expiry_source_receipt() -> void:
+	var route_id := "m1_father_expired_to_m2_people_open"
+	if not _prepare_fresh_w1_after_interview():
+		return
+	if not bool(CORE.complete_seoul_cycle_turn(1).get("ok", false)):
+		_expect(false, "father expiry source could not close typed W1")
+		return
+	for turn in range(2, 5):
+		_advance_to_next_week()
+		var snapshot := CORE.seoul_cycle_snapshot(1)
+		var capacity_id := _unused_capacity(snapshot, 0, true)
+		var committed := CORE.commit_seoul_cycle_allocation(
+			capacity_id, "recovery", 1)
+		if not bool(committed.get("ok", false)):
+			_expect(false, "father expiry Week %d recovery commit failed" % turn)
+			return
+		if turn == 3 and not _resolve_cycle_story_world(
+				"hyunsu_first_meet", HYUNSU_EVENT, 0):
+			return
+		if turn == 4 and not _resolve_cycle_story_world(
+				"first_temptation_boss", TEMPTATION_EVENT, 0):
+			return
+		if not bool(CORE.complete_seoul_cycle_turn(1).get("ok", false)):
+			_expect(false, "father expiry Week %d could not close" % turn)
+			return
+	var summary := CORE.record_month_summary(1, {}, {})
+	var receipt := CORE.terminal_transition_receipt(route_id)
+	var proof: Dictionary = receipt.get("source_proof", {})
+	var node: Dictionary = proof.get("node_state", {})
+	var expiry: Dictionary = proof.get("expiry_receipt", {})
+	_expect(not summary.is_empty() \
+		and str(receipt.get("source_terminal", "")) == "expired" \
+		and int(receipt.get("source_turn", 0)) == 3 \
+		and str(receipt.get("proof_kind", "")) == "node_expiry" \
+		and str(receipt.get("proof_id", "")) == "m1:father" \
+		and int(receipt.get("target_month", 0)) == 2 \
+		and str(receipt.get("target_node", "")) == "m2_people" \
+		and str(receipt.get("target_bundle", "")).is_empty() \
+		and str(receipt.get("variant_id", "")) == "father_call_put_off" \
+		and str(node.get("status", "")) == "expired" \
+		and int(node.get("expired_turn", 0)) == 3 \
+		and int(node.get("progress", 0)) < int(node.get("threshold", 0)) \
+		and str(expiry.get("node_id", "")) == "father" \
+		and int(expiry.get("turn", 0)) == 3 \
+		and int(expiry.get("week_index", 0)) == 3 \
+		and str(expiry.get("consequence_id", "")) \
+			== "m1_father_call_put_off" \
+		and int((expiry.get("effects", {}) as Dictionary).get(
+			"mental", 0)) == -1 \
+		and (summary.get("expired_nodes", []) as Array).has("father") \
+		and CORE.terminal_routes_for_target(2, "m2_people").size() == 1,
+		"father expiry route did not bind the exact W3 expiry topology")
+	var father_expiry_saved: Dictionary = GameState.serialize().duplicate(true)
+	_check_terminal_expiry_forbidden_story_rejected(
+		father_expiry_saved, route_id, "father_first_call",
+		FATHER_EVENT, 0, 2)
+
+
+func _prepare_fresh_w1_after_interview() -> bool:
+	var source := _order101_fresh_w1_result_committed_save(2)
+	if source.is_empty():
+		return false
+	var completed_resume := CORE.complete_active_bundle()
+	var claimed_interview := completed_resume \
+		== "m1_youth_center_resume_clinic" \
+		and CORE.claim_fresh_w1_opening_interview()
+	if not claimed_interview:
+		_expect(false, "fresh father fixture could not claim W1 interview")
+		return false
+	_apply_and_note_story("arc_intro_01_meal", 0)
+	_apply_and_note_story("v2_opening_return_math", 0)
+	var completed_interview := CORE.complete_active_bundle()
+	_expect(completed_interview == "opening_interview_math" \
+		and CORE.application_status("mirae_industrial_tech") == "interviewed" \
+		and CORE.opening_application_provenance_valid(),
+		"fresh father fixture did not consume the typed W1 interview")
+	return completed_interview == "opening_interview_math"
+
+
+func _produce_fresh_father_completed_month(choice_index: int) -> Dictionary:
+	if not _prepare_fresh_w1_after_interview():
+		return {}
+	if not bool(CORE.complete_seoul_cycle_turn(1).get("ok", false)):
+		_expect(false, "fresh father source could not close typed W1")
+		return {}
+	_advance_to_next_week()
+	var snapshot := CORE.seoul_cycle_snapshot(1)
+	var capacity_id := _unused_capacity(snapshot, 3, true)
+	var committed := CORE.commit_seoul_cycle_allocation(
+		capacity_id, "father", 1)
+	var claimed := CORE.claim_seoul_cycle_trigger()
+	var began := bool(claimed.get("ok", false)) \
+		and CORE.begin_seoul_cycle_trigger("father_first_call")
+	if began:
+		_apply_and_note_story(FATHER_EVENT, choice_index)
+	var completed := CORE.complete_active_bundle() if began else ""
+	_expect(bool(committed.get("ok", false)) \
+		and bool(committed.get("completed_now", false)) \
+		and completed == "father_first_call",
+		"father choice %d did not run through actual fresh W2 board/story" \
+			% choice_index)
+	if completed != "father_first_call" \
+			or not bool(CORE.complete_seoul_cycle_turn(1).get("ok", false)):
+		return {}
+	for turn in range(3, 5):
+		_advance_to_next_week()
+		var filler_snapshot := CORE.seoul_cycle_snapshot(1)
+		var filler_capacity := _unused_capacity(filler_snapshot, 0, true)
+		var filler := CORE.commit_seoul_cycle_allocation(
+			filler_capacity, "recovery", 1)
+		if not bool(filler.get("ok", false)):
+			_expect(false, "fresh father source filler failed at W%d" % turn)
+			return {}
+		if turn == 3 and not _resolve_cycle_story_world(
+				"hyunsu_first_meet", HYUNSU_EVENT, 0):
+			return {}
+		if turn == 4 and not _resolve_cycle_story_world(
+				"first_temptation_boss", TEMPTATION_EVENT, 0):
+			return {}
+		if not bool(CORE.complete_seoul_cycle_turn(1).get("ok", false)):
+			_expect(false, "fresh father source could not close W%d" % turn)
+			return {}
+	var summary := CORE.record_month_summary(1, {}, {})
+	return {"summary": summary, "source_turn": 2}
+
+
+func _check_father_terminal_no_offer_summary_durability(
+		saved: Dictionary, route_id: String, frozen: Dictionary,
+		source_turn: int) -> void:
+	GameState.start_new_game()
+	GameState.load_from_dict(saved.duplicate(true))
+	CORE.initialize_for_run(true)
+	GameState.turn = 5
+	GameState.month = 2
+	GameState.week_of_month = 1
+	var initialized := CORE.initialize_seoul_cycle(2)
+	if not bool(initialized.get("ok", false)):
+		_expect(false, "father durability could not initialize M2")
+		return
+	# Use the same exact action-resolving filler as the M2 source fixtures. A
+	# threshold-completing self allocation would leave its own rest trigger open
+	# while this durability route resolves the fixed Mirae world beat.
+	var filler_ok := _commit_m2_terminal_filler()
+	var world_claimed := CORE.claim_seoul_cycle_world()
+	var world_began := bool(world_claimed.get("ok", false)) \
+		and CORE.begin_seoul_cycle_world("m2_mirae_result_message")
+	if world_began:
+		_apply_and_note_story("v2_mirae_result_message", 0)
+	var world_completed := CORE.complete_active_bundle() if world_began else ""
+	_expect(filler_ok \
+		and world_completed == "m2_mirae_result_message" \
+		and CORE.application_status("mirae_industrial_tech") == "no_offer" \
+		and CORE.terminal_transition_receipt(route_id) == frozen,
+		"father receipt did not survive exact W5 no-offer transition")
+	if world_completed != "m2_mirae_result_message":
+		return
+	var week_five_closed := CORE.complete_seoul_cycle_turn(2)
+	_expect(bool(week_five_closed.get("ok", false)),
+		"father durability could not close W5")
+	if not bool(week_five_closed.get("ok", false)):
+		return
+	for turn in range(6, 9):
+		_advance_to_next_week()
+		if not _commit_m2_terminal_filler():
+			return
+		if turn == 8 and not _resolve_cycle_story_world(
+				"temptation_consequence", "arc_temptation_clean", 0):
+			return
+		if not bool(CORE.complete_seoul_cycle_turn(2).get("ok", false)):
+			_expect(false, "father durability could not close W%d" % turn)
+			return
+	CORE.record_month_summary(2, {}, {})
+	GameState.turn = 9
+	GameState.month = 3
+	GameState.week_of_month = 1
+	var month_three := CORE.initialize_seoul_cycle(3)
+	var summary_only_save: Dictionary = GameState.serialize().duplicate(true)
+	_expect(bool(month_three.get("ok", false)) \
+		and CORE.terminal_transition_receipt(route_id) == frozen,
+		"father receipt did not survive M3 summary-only replacement")
+	for reload_index in range(2):
+		GameState.start_new_game()
+		GameState.load_from_dict(summary_only_save.duplicate(true))
+		CORE.initialize_for_run(true)
+		_expect(CORE.application_status("mirae_industrial_tech") == "no_offer" \
+			and CORE.terminal_transition_receipt(route_id) == frozen,
+			"father no-offer summary receipt drifted on reload %d" \
+				% [reload_index + 1])
+		summary_only_save = GameState.serialize().duplicate(true)
+	_check_father_summary_only_provenance_mutations(
+		summary_only_save, route_id, frozen, source_turn)
+
+
+func _check_father_summary_only_provenance_mutations(
+		saved: Dictionary, route_id: String, frozen: Dictionary,
+		source_turn: int) -> void:
+	var expected_key := "father_first_call:arc_father_01_call:0:%d" \
+		% source_turn
+	for mutation in ["delete_typed_action", "coupled_reciprocal"]:
+		var malformed := saved.duplicate(true)
+		var state: Dictionary = malformed.get("core_loop_v2_state", {})
+		if mutation == "delete_typed_action":
+			(state.get("action_receipts", {}) as Dictionary).erase(
+				"m1_youth_center_resume_clinic")
+		else:
+			var receipts: Dictionary = state.get(
+				"terminal_transition_receipts", {})
+			var bad: Dictionary = frozen.duplicate(true)
+			var proof: Dictionary = bad.get("source_proof", {})
+			var proof_relationship: Dictionary = proof.get(
+				"relationship_receipt", {})
+			proof_relationship["initiative"] = "reciprocal"
+			proof["relationship_receipt"] = proof_relationship
+			bad["source_proof"] = proof
+			receipts[route_id] = bad
+			state["terminal_transition_receipts"] = receipts
+			var relationships: Dictionary = state.get(
+				"relationship_choice_receipts", {})
+			var relationship: Dictionary = relationships.get(expected_key, {})
+			relationship["initiative"] = "reciprocal"
+			relationships[expected_key] = relationship
+			state["relationship_choice_receipts"] = relationships
+			for ledger_key in ["relationship_history", "relationship_memories"]:
+				var ledger: Array = state.get(ledger_key, [])
+				for index in range(ledger.size()):
+					if ledger[index] is Dictionary \
+							and str((ledger[index] as Dictionary).get(
+								"receipt_key", "")) == expected_key:
+						var row: Dictionary = (
+							ledger[index] as Dictionary).duplicate(true)
+						row["initiative"] = "reciprocal"
+						ledger[index] = row
+				state[ledger_key] = ledger
+		malformed["core_loop_v2_state"] = state
+		GameState.start_new_game()
+		GameState.load_from_dict(malformed)
+		CORE.initialize_for_run(true)
+		_expect(CORE.terminal_transition_receipt(route_id).is_empty(),
+			"father summary-only receipt accepted %s provenance mutation" \
+				% mutation)
+
+
+func _produce_completed_resume_month(quality: int) -> Dictionary:
+	var source_save := _order101_fresh_w1_result_committed_save(quality)
+	if source_save.is_empty():
+		return {}
+	var completed_bundle := CORE.complete_active_bundle()
+	_expect(completed_bundle == "m1_youth_center_resume_clinic" \
+		and CORE.pending_seoul_cycle_trigger().is_empty(),
+		"quality %d source could not resolve its exact resume trigger" % quality)
+	if completed_bundle != "m1_youth_center_resume_clinic":
+		return {}
+	if not _close_order101_source_month_after_w1():
+		return {}
+	var summary := CORE.record_month_summary(1, {}, {})
+	_expect(not summary.is_empty(),
+		"quality %d source month did not create its live close receipt" % quality)
+	return summary
+
+
+func _close_order101_source_month_after_w1() -> bool:
+	if not bool(CORE.complete_seoul_cycle_turn(1).get("ok", false)):
+		_expect(false, "terminal source W1 could not close")
+		return false
+	for turn in range(2, 5):
+		_advance_to_next_week()
+		var snapshot := CORE.seoul_cycle_snapshot(1)
+		var capacity_id := _unused_capacity(snapshot, 0, true)
+		var committed := CORE.commit_seoul_cycle_allocation(
+			capacity_id, "recovery", 1)
+		if not bool(committed.get("ok", false)):
+			_expect(false, "terminal source Week %d recovery commit failed" % turn)
+			return false
+		if turn == 3 and not _resolve_cycle_story_world(
+				"hyunsu_first_meet", HYUNSU_EVENT, 0):
+			return false
+		if turn == 4 and not _resolve_cycle_story_world(
+				"first_temptation_boss", TEMPTATION_EVENT, 0):
+			return false
+		if not bool(CORE.complete_seoul_cycle_turn(1).get("ok", false)):
+			_expect(false, "terminal source Week %d could not close" % turn)
+			return false
+	return true
+
+
+func _check_terminal_receipt_nested_mutations_rejected(
+		saved: Dictionary, route_id: String, receipt: Dictionary,
+		quality: int) -> void:
+	for field_path in [
+		["source_proof", "node_state", "completed_turn"],
+		["source_proof", "allocation_receipt", "node_id"],
+		["source_proof", "trigger_receipt", "bundle_id"],
+		["source_proof", "action_receipt", "result_details", "quality"],
+		["source_proof", "application_transition_receipt", "quality"],
+	]:
+		var malformed := saved.duplicate(true)
+		var state: Dictionary = malformed.get("core_loop_v2_state", {})
+		var all_receipts: Dictionary = state.get(
+			"terminal_transition_receipts", {})
+		var bad: Dictionary = receipt.duplicate(true)
+		_set_nested_terminal_mutation(bad, field_path, quality)
+		all_receipts[route_id] = bad
+		state["terminal_transition_receipts"] = all_receipts
+		malformed["core_loop_v2_state"] = state
+		GameState.start_new_game()
+		GameState.load_from_dict(malformed)
+		CORE.initialize_for_run(true)
+		_expect(CORE.terminal_transition_receipt(route_id).is_empty(),
+			"terminal receipt accepted mutated nested path %s" % str(field_path))
+
+
+func _check_terminal_receipt_underlying_mutations_rejected(
+		saved: Dictionary, route_id: String, quality: int) -> void:
+	for mutation in [
+		"delete_action", "transition_quality", "live_allocation_node",
+		"live_trigger_bundle", "summary_node_turn", "summary_allocation_node",
+		"delete_all_source_ledgers",
+	]:
+		var malformed := saved.duplicate(true)
+		var state: Dictionary = malformed.get("core_loop_v2_state", {})
+		match mutation:
+			"delete_action":
+				(state.get("action_receipts", {}) as Dictionary).erase(
+					"m1_youth_center_resume_clinic")
+			"transition_quality":
+				var transitions: Dictionary = state.get(
+					"application_transition_receipts", {})
+				var transition: Dictionary = transitions.get(
+					"m1_youth_center_resume_clinic:application:1", {})
+				transition["quality"] = quality + 10
+				transitions[
+					"m1_youth_center_resume_clinic:application:1"] = transition
+			"live_allocation_node":
+				var cycle: Dictionary = state.get("seoul_cycle", {})
+				var allocations: Dictionary = cycle.get("allocation_receipts", {})
+				var allocation: Dictionary = allocations.get("1", {})
+				allocation["node_id"] = "father"
+				allocations["1"] = allocation
+				cycle["allocation_receipts"] = allocations
+				state["seoul_cycle"] = cycle
+			"live_trigger_bundle":
+				var cycle: Dictionary = state.get("seoul_cycle", {})
+				var triggers: Dictionary = cycle.get("trigger_receipts", {})
+				var trigger: Dictionary = triggers.get("resume", {})
+				trigger["bundle_id"] = "father_first_call"
+				triggers["resume"] = trigger
+				cycle["trigger_receipts"] = triggers
+				state["seoul_cycle"] = cycle
+			"summary_node_turn":
+				var summaries: Dictionary = state.get("month_summaries", {})
+				var summary: Dictionary = summaries.get("1", {})
+				var nodes: Dictionary = summary.get("node_states", {})
+				var node: Dictionary = nodes.get("resume", {})
+				node["completed_turn"] = 99
+				nodes["resume"] = node
+				summary["node_states"] = nodes
+				summaries["1"] = summary
+				state["month_summaries"] = summaries
+			"summary_allocation_node":
+				var summaries: Dictionary = state.get("month_summaries", {})
+				var summary: Dictionary = summaries.get("1", {})
+				var allocations: Array = summary.get("allocation_receipts", [])
+				for index in range(allocations.size()):
+					if allocations[index] is Dictionary \
+							and int((allocations[index] as Dictionary).get(
+								"turn", 0)) == 1:
+						var allocation: Dictionary = (
+							allocations[index] as Dictionary).duplicate(true)
+						allocation["node_id"] = "father"
+						allocations[index] = allocation
+				summary["allocation_receipts"] = allocations
+				summaries["1"] = summary
+				state["month_summaries"] = summaries
+			"delete_all_source_ledgers":
+				state["action_receipts"] = {}
+				state["application_transition_receipts"] = {}
+				state["month_summaries"] = {}
+				state["seoul_cycle"] = {}
+		malformed["core_loop_v2_state"] = state
+		GameState.start_new_game()
+		GameState.load_from_dict(malformed)
+		CORE.initialize_for_run(true)
+		_expect(CORE.terminal_transition_receipt(route_id).is_empty(),
+			"terminal receipt ignored mutated underlying source: %s" % mutation)
+
+
+func _check_terminal_coupled_capacity_mutation_rejected(
+		saved: Dictionary, route_id: String,
+		frozen_receipt: Dictionary) -> void:
+	var malformed := saved.duplicate(true)
+	var state: Dictionary = malformed.get("core_loop_v2_state", {})
+	var cycle: Dictionary = state.get("seoul_cycle", {})
+	var action_receipts: Dictionary = state.get("action_receipts", {})
+	var action: Dictionary = action_receipts.get(
+		"m1_youth_center_resume_clinic", {})
+	var details: Dictionary = action.get("result_details", {})
+	var original_capacity_id := str(details.get("capacity_id", ""))
+	var sibling_capacity: Dictionary = {}
+	for raw_capacity in cycle.get("capacities", []):
+		if raw_capacity is Dictionary \
+				and str((raw_capacity as Dictionary).get("id", "")) \
+					!= original_capacity_id:
+			sibling_capacity = (raw_capacity as Dictionary).duplicate(true)
+			break
+	_expect(not sibling_capacity.is_empty(),
+		"q0 capacity mutation fixture has no legal sibling capacity")
+	if sibling_capacity.is_empty():
+		return
+	var sibling_id := str(sibling_capacity.get("id", ""))
+	var sibling_value := int(sibling_capacity.get("value", 0))
+	details["capacity_id"] = sibling_id
+	details["capacity_value"] = sibling_value
+	action["result_details"] = details
+	action_receipts["m1_youth_center_resume_clinic"] = action
+	state["action_receipts"] = action_receipts
+	var terminal_receipts: Dictionary = state.get(
+		"terminal_transition_receipts", {})
+	var forged: Dictionary = frozen_receipt.duplicate(true)
+	var proof: Dictionary = forged.get("source_proof", {})
+	var proof_action: Dictionary = proof.get("action_receipt", {})
+	var proof_details: Dictionary = proof_action.get("result_details", {})
+	proof_details["capacity_id"] = sibling_id
+	proof_details["capacity_value"] = sibling_value
+	proof_action["result_details"] = proof_details
+	proof["action_receipt"] = proof_action
+	forged["source_proof"] = proof
+	terminal_receipts[route_id] = forged
+	state["terminal_transition_receipts"] = terminal_receipts
+	malformed["core_loop_v2_state"] = state
+	GameState.start_new_game()
+	GameState.load_from_dict(malformed)
+	CORE.initialize_for_run(true)
+	_expect(CORE.terminal_transition_receipt(route_id).is_empty(),
+		"q0 receipt accepted coupled action/proof sibling capacity while " \
+			+ "allocation/onboarding authority stayed unchanged")
+
+
+func _check_terminal_long_horizon_retention(
+		saved: Dictionary, route_id: String, frozen_receipt: Dictionary,
+		source_turn: int) -> void:
+	var missing_outer := saved.duplicate(true)
+	var source_weekly: Array = missing_outer.get("weekly_commitments", [])
+	for index in range(source_weekly.size() - 1, -1, -1):
+		if source_weekly[index] is Dictionary \
+				and int((source_weekly[index] as Dictionary).get(
+					"turn", 0)) == source_turn:
+			source_weekly.remove_at(index)
+	missing_outer["weekly_commitments"] = source_weekly
+	GameState.start_new_game()
+	GameState.load_from_dict(missing_outer)
+	CORE.initialize_for_run(true)
+	_expect(CORE.terminal_transition_receipt(route_id).is_empty(),
+		"live source cycle accepted a missing source-turn outer weekly row")
+
+	var bad_summary := saved.duplicate(true)
+	var summary_state: Dictionary = bad_summary.get("core_loop_v2_state", {})
+	var summaries: Dictionary = summary_state.get("month_summaries", {})
+	var source_month := CORE.month_for_turn(source_turn)
+	var summary: Dictionary = summaries.get(str(source_month), {})
+	var allocations: Array = summary.get("allocation_receipts", [])
+	for index in range(allocations.size()):
+		if allocations[index] is Dictionary \
+				and int((allocations[index] as Dictionary).get(
+					"turn", 0)) == source_turn:
+			var allocation: Dictionary = (
+				allocations[index] as Dictionary).duplicate(true)
+			var embedded: Dictionary = allocation.get(
+				"weekly_commitment", {}).duplicate(true)
+			var embedded_details: Dictionary = embedded.get(
+				"details", {}).duplicate(true)
+			embedded_details["capacity_id"] = "summary_sibling_capacity"
+			embedded["details"] = embedded_details
+			allocation["weekly_commitment"] = embedded
+			allocations[index] = allocation
+			break
+	summary["allocation_receipts"] = allocations
+	summaries[str(source_month)] = summary
+	summary_state["month_summaries"] = summaries
+	bad_summary["core_loop_v2_state"] = summary_state
+	GameState.start_new_game()
+	GameState.load_from_dict(bad_summary)
+	CORE.initialize_for_run(true)
+	_expect(CORE.terminal_transition_receipt(route_id).is_empty(),
+		"terminal reader ignored mutated summary-embedded weekly identity")
+
+	for future_turn in [25, 48]:
+		var future := saved.duplicate(true)
+		future["turn"] = future_turn
+		future["month"] = CORE.month_for_turn(future_turn)
+		future["week_of_month"] = ((future_turn - 1) % 4) + 1
+		var future_state: Dictionary = future.get("core_loop_v2_state", {})
+		future_state["seoul_cycle"] = {}
+		future["core_loop_v2_state"] = future_state
+		var future_weekly: Array = future.get("weekly_commitments", [])
+		for ledger_turn in range(future_turn - 16, future_turn):
+			future_weekly.append(_terminal_retention_weekly_record(ledger_turn))
+		future["weekly_commitments"] = future_weekly
+		GameState.start_new_game()
+		GameState.load_from_dict(future)
+		CORE.initialize_for_run(true)
+		_expect(GameState.weekly_commitments.size() == 16 \
+			and not GameState.has_weekly_commitment_for_turn(source_turn) \
+			and CORE.terminal_transition_receipt(route_id) == frozen_receipt,
+			"terminal receipt did not survive legal outer-ledger pruning at W%d" \
+				% future_turn)
+		var roundtrip: Dictionary = GameState.serialize().duplicate(true)
+		for reload_index in range(2):
+			GameState.start_new_game()
+			GameState.load_from_dict(roundtrip.duplicate(true))
+			CORE.initialize_for_run(true)
+			_expect(CORE.terminal_transition_receipt(route_id) == frozen_receipt,
+				"W%d terminal receipt drifted on retention reload %d" % [
+					future_turn, reload_index + 1])
+			roundtrip = GameState.serialize().duplicate(true)
+
+
+func _terminal_retention_weekly_record(turn: int) -> Dictionary:
+	return {
+		"turn": turn,
+		"source": "story_event",
+		"pressure_id": "story:terminal_retention_%d" % turn,
+		"pressure_family": "story",
+		"choice_id": "story:terminal_retention_%d:0" % turn,
+		"actual_action_id": "story_choice",
+		"person_id": "",
+		"forgone_ids": [],
+		"echoed_turn": -1,
+	}
+
+
+func _set_nested_terminal_mutation(
+		receipt: Dictionary, field_path: Array, quality: int) -> void:
+	var cursor := receipt
+	for index in range(field_path.size() - 1):
+		var key := str(field_path[index])
+		var child: Dictionary = cursor.get(key, {}).duplicate(true)
+		cursor[key] = child
+		cursor = child
+	var leaf := str(field_path.back())
+	cursor[leaf] = (
+		quality + 10 if leaf == "quality" \
+		else 99 if leaf in ["completed_turn", "expired_turn", "week_index"] \
+		else -99 if leaf == "mental" \
+		else "sibling_injection")
+
+
 func _check_order101_fresh_w1_application_contract() -> void:
 	var typed_father_initiative := ""
 	for quality in range(4):
@@ -777,6 +1879,596 @@ func _check_order101_m2_people_selection_contract() -> void:
 		+ "mutation=fail_closed save=double/normalize legacy=preserved "
 		+ "legacy_partial=continued/double_reload "
 		+ "branch=three_outcomes/receipt/relationship/next/reload")
+
+
+func _check_order101_m2_people_terminal_source_receipts() -> void:
+	var contract_snapshot: Dictionary = DataRegistry.demo_core_loop_v2.duplicate(
+		true)
+	_check_m2_people_completed_terminal_source(
+		contract_snapshot, "hyunsu_player_reachout", 0)
+	_check_m2_people_completed_terminal_source(
+		contract_snapshot, "hyunsu_player_reachout", 1)
+	_check_m2_people_completed_terminal_source(
+		contract_snapshot, "cafe_world_glimpse", 2)
+	_check_m2_people_expired_terminal_source(contract_snapshot, "")
+	_check_m2_people_expired_terminal_source(
+		contract_snapshot, "hyunsu_player_reachout")
+	_check_m2_people_expired_terminal_source(
+		contract_snapshot, "cafe_world_glimpse")
+	DataRegistry.demo_core_loop_v2 = contract_snapshot
+
+
+func _check_m2_people_completed_terminal_source(
+		contract_snapshot: Dictionary, selected_id: String,
+		story_choice_index: int) -> void:
+	var hyunsu_id := "hyunsu_player_reachout"
+	var cafe_id := "cafe_world_glimpse"
+	var sibling_id := cafe_id if selected_id == hyunsu_id else hyunsu_id
+	var route_id := (
+		"m2_people_completed_hyunsu_to_m3_followup"
+		if selected_id == hyunsu_id
+		else "m2_people_completed_cafe_to_m4_sangchul")
+	var expected_turn := 5 if selected_id == hyunsu_id else 6
+	var initialized := _prepare_m2_people_fixture(
+		contract_snapshot, [hyunsu_id, cafe_id], true)
+	var selected_commit: Dictionary = {}
+	for turn in range(5, 9):
+		var snapshot := CORE.seoul_cycle_snapshot(2)
+		if turn == expected_turn:
+			var capacity_id := _unused_capacity(snapshot, 3, true)
+			selected_commit = CORE.commit_seoul_cycle_allocation(
+				capacity_id, "m2_people", 2, selected_id)
+			_expect(bool(selected_commit.get("ok", false)) \
+				and bool(selected_commit.get("completed_now", false)),
+				"%s did not complete from actual M2 capacity at W%d" % [
+					selected_id, turn])
+			if not _resolve_m2_people_selected_story(
+					selected_id, story_choice_index):
+				return
+		elif not _commit_m2_terminal_filler():
+			return
+		if not bool(CORE.complete_seoul_cycle_turn(2).get("ok", false)):
+			_expect(false, "%s source could not close W%d" % [
+				selected_id, turn])
+			return
+		if turn < 8:
+			_advance_to_next_week()
+	var summary := CORE.record_month_summary(2, {}, {})
+	var receipt := CORE.terminal_transition_receipt(route_id)
+	var proof: Dictionary = receipt.get("source_proof", {})
+	var node: Dictionary = proof.get("node_state", {})
+	var allocation: Dictionary = proof.get("allocation_receipt", {})
+	var weekly: Dictionary = allocation.get("weekly_commitment", {})
+	var weekly_details: Dictionary = weekly.get("details", {})
+	var trigger: Dictionary = proof.get("trigger_receipt", {})
+	var relationship: Dictionary = proof.get("relationship_receipt", {})
+	var expected_memory := (
+		"hyunsu_resume_shared" if story_choice_index == 0
+		else "hyunsu_problem_set_shared") if selected_id == hyunsu_id else ""
+	var sibling_memory := (
+		"hyunsu_problem_set_shared" if story_choice_index == 0
+		else "hyunsu_resume_shared") if selected_id == hyunsu_id else ""
+	var state: Dictionary = GameState.core_loop_v2_state
+	var completed: Array = state.get("completed_bundles", [])
+	var completed_turns: Dictionary = state.get("completed_bundle_turns", {})
+	_expect(not initialized.is_empty() and not summary.is_empty() \
+		and str(receipt.get("route_id", "")) == route_id \
+		and int(receipt.get("source_month", 0)) == 2 \
+		and str(receipt.get("source_node", "")) == "m2_people" \
+		and str(receipt.get("source_terminal", "")) == "completed" \
+		and int(receipt.get("source_turn", 0)) == expected_turn \
+		and str(receipt.get("proof_kind", "")) == "selected_trigger" \
+		and str(receipt.get("proof_id", "")) \
+			== "m2:m2_people:%s" % selected_id \
+		and str(node.get("status", "")) == "completed" \
+		and int(node.get("completed_turn", 0)) == expected_turn \
+		and str(node.get("selected_trigger_bundle_id", "")) == selected_id \
+		and str(node.get("trigger_bundle", "")) == selected_id \
+		and str(node.get("summary_bundle", "")) == selected_id \
+		and bool(allocation.get("completed_now", false)) \
+		and int(allocation.get("turn", 0)) == expected_turn \
+		and str(allocation.get("node_id", "")) == "m2_people" \
+		and str(allocation.get("selected_trigger_bundle_id", "")) \
+			== selected_id \
+		and str(allocation.get("trigger_bundle", "")) == selected_id \
+		and str(weekly_details.get("selected_trigger_bundle_id", "")) \
+			== selected_id \
+		and str(trigger.get("status", "")) == "resolved" \
+		and str(trigger.get("bundle_id", "")) == selected_id \
+		and str(trigger.get("selected_trigger_bundle_id", "")) \
+			== selected_id \
+		and int(proof.get("completed_bundle_turn", 0)) == expected_turn \
+		and completed.count(selected_id) == 1 \
+		and not completed.has(sibling_id) \
+		and int(completed_turns.get(selected_id, 0)) == expected_turn \
+		and not completed_turns.has(sibling_id),
+		"%s terminal receipt did not copy its exact selected M2 producer" \
+			% selected_id)
+	if selected_id == hyunsu_id:
+		_expect(str(relationship.get("bundle_id", "")) == selected_id \
+			and str(relationship.get("event_id", "")) \
+				== "v2_hyunsu_first_study" \
+			and int(relationship.get("choice_index", -1)) \
+				== story_choice_index \
+			and int(relationship.get("turn", 0)) == expected_turn \
+			and str(relationship.get("memory", "")) == expected_memory \
+			and _m2_relationship_receipt_count(
+				selected_id, expected_memory, expected_turn) == 1 \
+			and _m2_relationship_receipt_count(
+				selected_id, sibling_memory, expected_turn) == 0,
+			"Hyunsu outcome %d did not stay exact and exclusive" \
+				% story_choice_index)
+	else:
+		_expect(not proof.has("relationship_receipt") \
+			and not proof.has("relationship_receipt_key") \
+			and _m2_relationship_bundle_count(hyunsu_id) == 0,
+			"Cafe terminal source fabricated a Hyunsu relationship outcome")
+	var source_saved: Dictionary = GameState.serialize().duplicate(true)
+	_check_m2_terminal_receipt_repeat_and_reload(route_id, receipt, summary)
+	_check_m2_selected_terminal_mutations(
+		source_saved, route_id, receipt, selected_id,
+		expected_turn, story_choice_index)
+	if selected_id == hyunsu_id and story_choice_index == 0:
+		_check_terminal_long_horizon_retention(
+			source_saved, route_id, receipt, expected_turn)
+
+
+func _check_m2_people_expired_terminal_source(
+		contract_snapshot: Dictionary, partial_selected_id: String) -> void:
+	var hyunsu_id := "hyunsu_player_reachout"
+	var cafe_id := "cafe_world_glimpse"
+	var route_id := "m2_people_expired_to_m3_contact_fail_forward"
+	var initialized := _prepare_m2_people_fixture(
+		contract_snapshot, [hyunsu_id, cafe_id], true)
+	var partial_commit: Dictionary = {}
+	for turn in range(5, 9):
+		var snapshot := CORE.seoul_cycle_snapshot(2)
+		if turn == 5 and not partial_selected_id.is_empty():
+			var capacity_id := _unused_capacity(snapshot, 1, false)
+			partial_commit = CORE.commit_seoul_cycle_allocation(
+				capacity_id, "m2_people", 2, partial_selected_id)
+			_expect(bool(partial_commit.get("ok", false)) \
+				and not bool(partial_commit.get("completed_now", true)) \
+				and int(partial_commit.get("progress_after", 0)) == 1,
+				"%s expiry fixture did not create one legal partial allocation" \
+					% partial_selected_id)
+		elif not _commit_m2_terminal_filler():
+			return
+		if not bool(CORE.complete_seoul_cycle_turn(2).get("ok", false)):
+			_expect(false, "M2 people expiry source could not close W%d" % turn)
+			return
+		if turn < 8:
+			_advance_to_next_week()
+	var expected_expired_turn := (
+		6 if partial_selected_id == hyunsu_id else 7)
+	var summary := CORE.record_month_summary(2, {}, {})
+	var receipt := CORE.terminal_transition_receipt(route_id)
+	var proof: Dictionary = receipt.get("source_proof", {})
+	var node: Dictionary = proof.get("node_state", {})
+	var expiry: Dictionary = proof.get("expiry_receipt", {})
+	var state: Dictionary = GameState.core_loop_v2_state
+	var cycle: Dictionary = state.get("seoul_cycle", {})
+	var completed: Array = state.get("completed_bundles", [])
+	var completed_turns: Dictionary = state.get("completed_bundle_turns", {})
+	var selected_allocation_count := 0
+	for raw_allocation in (cycle.get("allocation_receipts", {}) \
+			as Dictionary).values():
+		if raw_allocation is Dictionary \
+				and str((raw_allocation as Dictionary).get(
+					"node_id", "")) == "m2_people":
+			selected_allocation_count += 1
+	_expect(not initialized.is_empty() and not summary.is_empty() \
+		and str(receipt.get("route_id", "")) == route_id \
+		and int(receipt.get("source_month", 0)) == 2 \
+		and str(receipt.get("source_node", "")) == "m2_people" \
+		and str(receipt.get("source_terminal", "")) == "expired" \
+		and int(receipt.get("source_turn", 0)) == expected_expired_turn \
+		and str(receipt.get("proof_kind", "")) == "node_expiry" \
+		and str(receipt.get("proof_id", "")) == "m2:m2_people" \
+		and int(receipt.get("target_month", 0)) == 3 \
+		and str(receipt.get("target_node", "")) == "m3_people" \
+		and str(receipt.get("target_bundle", "")).is_empty() \
+		and str(receipt.get("variant_id", "")) == "contact_fail_forward" \
+		and str(node.get("status", "")) == "expired" \
+		and int(node.get("expired_turn", 0)) == expected_expired_turn \
+		and int(node.get("progress", -1)) \
+			== (0 if partial_selected_id.is_empty() else 1) \
+		and int(node.get("threshold", 0)) == 2 \
+		and str(node.get("selected_trigger_bundle_id", "")) \
+			== partial_selected_id \
+		and str(node.get("trigger_bundle", "")) == partial_selected_id \
+		and str(node.get("summary_bundle", "")) == partial_selected_id \
+		and str(expiry.get("node_id", "")) == "m2_people" \
+		and str(expiry.get("status", "")) == "consumed" \
+		and int(expiry.get("turn", 0)) == expected_expired_turn \
+		and int(expiry.get("week_index", 0)) == expected_expired_turn - 4 \
+		and str(expiry.get("consequence_id", "")) == "m2_people_expired" \
+		and (expiry.get("effects", {}) as Dictionary).is_empty() \
+		and selected_allocation_count \
+			== (0 if partial_selected_id.is_empty() else 1) \
+		and not (cycle.get("trigger_receipts", {}) as Dictionary).has(
+			"m2_people") \
+		and not completed.has(hyunsu_id) and not completed.has(cafe_id) \
+		and not completed_turns.has(hyunsu_id) \
+		and not completed_turns.has(cafe_id) \
+		and _m2_relationship_bundle_count(hyunsu_id) == 0,
+		"M2 people %s expiry invented a completion or lost partial identity" \
+			% (partial_selected_id if not partial_selected_id.is_empty() \
+				else "zero-allocation"))
+	if not partial_selected_id.is_empty():
+		var allocation: Dictionary = partial_commit.get("receipt", {})
+		var weekly: Dictionary = allocation.get("weekly_commitment", {})
+		var details: Dictionary = weekly.get("details", {})
+		_expect(not bool(allocation.get("completed_now", true)) \
+			and str(allocation.get("selected_trigger_bundle_id", "")) \
+				== partial_selected_id \
+			and str(allocation.get("trigger_bundle", "")).is_empty() \
+			and str(details.get("selected_trigger_bundle_id", "")) \
+				== partial_selected_id,
+			"partial expiry lost its historical selected allocation identity")
+	var source_saved: Dictionary = GameState.serialize().duplicate(true)
+	_check_m2_terminal_receipt_repeat_and_reload(route_id, receipt, summary)
+	var forbidden_bundle := (
+		partial_selected_id if not partial_selected_id.is_empty()
+		else cafe_id)
+	var forbidden_event := (
+		"v2_hyunsu_first_study"
+		if forbidden_bundle == hyunsu_id else "cafe_00")
+	_check_terminal_expiry_forbidden_story_rejected(
+		source_saved, route_id, forbidden_bundle,
+		forbidden_event, 0, 5)
+	if partial_selected_id == hyunsu_id:
+		_check_m2_summary_only_eligible_mutation(
+			source_saved, route_id, receipt, partial_selected_id)
+
+
+func _resolve_m2_people_selected_story(
+		selected_id: String, story_choice_index: int) -> bool:
+	var claimed := CORE.claim_seoul_cycle_trigger()
+	var began := bool(claimed.get("ok", false)) \
+		and CORE.begin_seoul_cycle_trigger(selected_id)
+	_expect(began, "%s terminal source trigger could not begin" % selected_id)
+	if not began:
+		return false
+	if selected_id == "hyunsu_player_reachout":
+		_apply_and_note_story("v2_hyunsu_player_reachout", 0)
+		_apply_and_note_story("v2_hyunsu_first_study", story_choice_index)
+	else:
+		_apply_and_note_story("cafe_00", story_choice_index)
+	var completed := CORE.complete_active_bundle()
+	_expect(completed == selected_id,
+		"%s terminal source Story did not complete exactly" % selected_id)
+	return completed == selected_id
+
+
+func _commit_m2_terminal_filler() -> bool:
+	var snapshot := CORE.seoul_cycle_snapshot(2)
+	var capacity_id := _unused_capacity(snapshot, 0, true)
+	var committed := CORE.commit_seoul_cycle_allocation(
+		capacity_id, "m2_livelihood", 2)
+	_expect(bool(committed.get("ok", false)),
+		"M2 terminal source filler allocation failed")
+	if not bool(committed.get("ok", false)):
+		return false
+	var pending: Dictionary = committed.get("pending_trigger", {})
+	if not pending.is_empty():
+		_expect(str(pending.get("bundle_id", "")) \
+			== "m2_rain_delivery_shift",
+			"M2 terminal filler produced an unexpected trigger")
+		return _resolve_cycle_side_shift_trigger("m2_rain_delivery_shift")
+	return true
+
+
+func _check_m2_terminal_receipt_repeat_and_reload(
+		route_id: String, receipt: Dictionary, summary: Dictionary) -> void:
+	var frozen_state: Dictionary = GameState.serialize().duplicate(true)
+	_expect(not receipt.is_empty() \
+		and CORE.record_month_summary(2, {}, {}) == summary \
+		and CORE.terminal_transition_receipt(route_id) == receipt \
+		and GameState.serialize() == frozen_state,
+		"%s changed on repeated M2 month close" % route_id)
+	var saved := frozen_state.duplicate(true)
+	for reload_index in range(2):
+		GameState.start_new_game()
+		GameState.load_from_dict(saved.duplicate(true))
+		CORE.initialize_for_run(true)
+		_expect(CORE.terminal_transition_receipt(route_id) == receipt,
+			"%s drifted on reload %d" % [route_id, reload_index + 1])
+		saved = GameState.serialize().duplicate(true)
+
+
+func _check_m2_selected_terminal_mutations(
+		saved: Dictionary, route_id: String, frozen_receipt: Dictionary,
+		selected_id: String, source_turn: int,
+		story_choice_index: int) -> void:
+	var proof: Dictionary = frozen_receipt.get("source_proof", {})
+	var story_keys: Array = proof.get("story_choice_receipt_keys", [])
+	_expect(not story_keys.is_empty(),
+		"%s terminal proof has no canonical Story receipt keys" % selected_id)
+	if story_keys.is_empty():
+		return
+	var missing_own := saved.duplicate(true)
+	var missing_state: Dictionary = missing_own.get("core_loop_v2_state", {})
+	var own_story_receipts: Dictionary = missing_state.get(
+		"story_choice_receipts", {})
+	var own_path := str(story_keys.back())
+	var own_key := own_path.trim_prefix("story_choice_receipts.")
+	own_story_receipts.erase(own_key)
+	missing_state["story_choice_receipts"] = own_story_receipts
+	missing_own["core_loop_v2_state"] = missing_state
+	_assert_terminal_reader_empty_after_load(
+		missing_own, route_id,
+		"%s terminal receipt survived deletion of its own Story receipt" \
+			% selected_id)
+
+	var sibling := saved.duplicate(true)
+	var sibling_state: Dictionary = sibling.get("core_loop_v2_state", {})
+	var sibling_story: Dictionary = sibling_state.get(
+		"story_choice_receipts", {})
+	if selected_id == "hyunsu_player_reachout":
+		var cafe_story := _terminal_story_receipt_fixture(
+			"cafe_world_glimpse", "cafe_00", 0, source_turn)
+		sibling_story[str(cafe_story.get("receipt_key", ""))] = cafe_story
+	else:
+		for event_choice in [
+			["v2_hyunsu_player_reachout", 0],
+			["v2_hyunsu_first_study", 0],
+		]:
+			var hyunsu_story := _terminal_story_receipt_fixture(
+				"hyunsu_player_reachout", str(event_choice[0]),
+				int(event_choice[1]), source_turn)
+			sibling_story[str(hyunsu_story.get(
+				"receipt_key", ""))] = hyunsu_story
+		var sibling_relationship := _terminal_relationship_receipt_fixture(
+			"hyunsu_player_reachout", "v2_hyunsu_first_study", 0,
+			source_turn, "hyunsu", "opening", "player_reached_out",
+			"player", "hyunsu_resume_shared")
+		var sibling_relationship_key := str(sibling_relationship.get(
+			"receipt_key", ""))
+		var relationship_receipts: Dictionary = sibling_state.get(
+			"relationship_choice_receipts", {})
+		relationship_receipts[sibling_relationship_key] = sibling_relationship
+		sibling_state["relationship_choice_receipts"] = relationship_receipts
+		for ledger_key in ["relationship_history", "relationship_memories"]:
+			var ledger: Array = sibling_state.get(ledger_key, [])
+			ledger.append(sibling_relationship.duplicate(true))
+			sibling_state[ledger_key] = ledger
+	sibling_state["story_choice_receipts"] = sibling_story
+	sibling["core_loop_v2_state"] = sibling_state
+	_assert_terminal_reader_empty_after_load(
+		sibling, route_id,
+		"%s terminal receipt accepted a well-shaped sibling Story/relationship " \
+			% selected_id + "artifact in the source month")
+
+	if selected_id == "hyunsu_player_reachout":
+		_check_hyunsu_coupled_choice_mutation(
+			saved, route_id, frozen_receipt, source_turn,
+			story_choice_index)
+
+
+func _check_hyunsu_coupled_choice_mutation(
+		saved: Dictionary, route_id: String, frozen_receipt: Dictionary,
+		source_turn: int, original_choice: int) -> void:
+	var sibling_choice := 1 if original_choice == 0 else 0
+	var sibling_memory := (
+		"hyunsu_resume_shared" if sibling_choice == 0
+		else "hyunsu_problem_set_shared")
+	var old_story_key := (
+		"hyunsu_player_reachout:v2_hyunsu_first_study:%d:%d" \
+		% [original_choice, source_turn])
+	var new_story_key := (
+		"hyunsu_player_reachout:v2_hyunsu_first_study:%d:%d" \
+		% [sibling_choice, source_turn])
+	var old_relationship_key := old_story_key
+	var new_relationship_key := new_story_key
+	var malformed := saved.duplicate(true)
+	var state: Dictionary = malformed.get("core_loop_v2_state", {})
+	var story_receipts: Dictionary = state.get("story_choice_receipts", {})
+	var story: Dictionary = story_receipts.get(old_story_key, {})
+	story_receipts.erase(old_story_key)
+	story["receipt_key"] = new_story_key
+	story["choice_index"] = sibling_choice
+	story_receipts[new_story_key] = story
+	state["story_choice_receipts"] = story_receipts
+	var relationships: Dictionary = state.get(
+		"relationship_choice_receipts", {})
+	var relationship: Dictionary = relationships.get(old_relationship_key, {})
+	relationships.erase(old_relationship_key)
+	relationship["receipt_key"] = new_relationship_key
+	relationship["choice_index"] = sibling_choice
+	relationship["memory"] = sibling_memory
+	relationships[new_relationship_key] = relationship
+	state["relationship_choice_receipts"] = relationships
+	for ledger_key in ["relationship_history", "relationship_memories"]:
+		var ledger: Array = state.get(ledger_key, [])
+		for index in range(ledger.size()):
+			if ledger[index] is Dictionary \
+					and str((ledger[index] as Dictionary).get(
+						"receipt_key", "")) == old_relationship_key:
+				var row: Dictionary = (
+					ledger[index] as Dictionary).duplicate(true)
+				row["receipt_key"] = new_relationship_key
+				row["choice_index"] = sibling_choice
+				row["memory"] = sibling_memory
+				ledger[index] = row
+		state[ledger_key] = ledger
+	var terminal_receipts: Dictionary = state.get(
+		"terminal_transition_receipts", {})
+	var forged := frozen_receipt.duplicate(true)
+	var proof: Dictionary = forged.get("source_proof", {})
+	var proof_story_keys: Array = proof.get(
+		"story_choice_receipt_keys", []).duplicate(true)
+	var proof_story_receipts: Array = proof.get(
+		"story_choice_receipts", []).duplicate(true)
+	for index in range(proof_story_receipts.size()):
+		if proof_story_receipts[index] is Dictionary \
+				and str((proof_story_receipts[index] as Dictionary).get(
+					"event_id", "")) == "v2_hyunsu_first_study":
+			var proof_story: Dictionary = (
+				proof_story_receipts[index] as Dictionary).duplicate(true)
+			proof_story["receipt_key"] = new_story_key
+			proof_story["choice_index"] = sibling_choice
+			proof_story_receipts[index] = proof_story
+			proof_story_keys[index] = "story_choice_receipts.%s" % new_story_key
+	proof["story_choice_receipt_keys"] = proof_story_keys
+	proof["story_choice_receipts"] = proof_story_receipts
+	proof["relationship_receipt_key"] = (
+		"relationship_choice_receipts.%s" % new_relationship_key)
+	proof["relationship_memory_key"] = (
+		"relationship_memories[%s]" % new_relationship_key)
+	proof["relationship_receipt"] = relationship.duplicate(true)
+	forged["source_proof"] = proof
+	terminal_receipts[route_id] = forged
+	state["terminal_transition_receipts"] = terminal_receipts
+	malformed["core_loop_v2_state"] = state
+	_assert_terminal_reader_empty_after_load(
+		malformed, route_id,
+		"Hyunsu terminal receipt accepted a coupled Story/key/memory choice swap")
+
+
+func _terminal_story_receipt_fixture(
+		bundle_id: String, event_id: String, choice_index: int,
+		turn: int) -> Dictionary:
+	var receipt_key := "%s:%s:%d:%d" % [
+		bundle_id, event_id, choice_index, turn]
+	return {
+		"receipt_key": receipt_key,
+		"bundle_id": bundle_id,
+		"active_kind": "schedule",
+		"event_id": event_id,
+		"choice_index": choice_index,
+		"turn": turn,
+	}
+
+
+func _terminal_relationship_receipt_fixture(
+		bundle_id: String, event_id: String, choice_index: int, turn: int,
+		character: String, from_stage: String, to_stage: String,
+		initiative: String, memory: String) -> Dictionary:
+	var receipt_key := "%s:%s:%d:%d" % [
+		bundle_id, event_id, choice_index, turn]
+	return {
+		"receipt_key": receipt_key,
+		"character": character,
+		"from": from_stage,
+		"to": to_stage,
+		"initiative": initiative,
+		"memory": memory,
+		"bundle_id": bundle_id,
+		"event_id": event_id,
+		"choice_index": choice_index,
+		"turn": turn,
+	}
+
+
+func _assert_terminal_reader_empty_after_load(
+		saved: Dictionary, route_id: String, failure_message: String) -> void:
+	GameState.start_new_game()
+	GameState.load_from_dict(saved)
+	CORE.initialize_for_run(true)
+	_expect(CORE.terminal_transition_receipt(route_id).is_empty(),
+		failure_message)
+
+
+func _check_terminal_expiry_forbidden_story_rejected(
+		saved: Dictionary, route_id: String, forbidden_bundle: String,
+		forbidden_event: String, choice_index: int, turn: int) -> void:
+	var malformed := saved.duplicate(true)
+	var state: Dictionary = malformed.get("core_loop_v2_state", {})
+	var story_receipts: Dictionary = state.get("story_choice_receipts", {})
+	var forbidden := _terminal_story_receipt_fixture(
+		forbidden_bundle, forbidden_event, choice_index, turn)
+	story_receipts[str(forbidden.get("receipt_key", ""))] = forbidden
+	state["story_choice_receipts"] = story_receipts
+	malformed["core_loop_v2_state"] = state
+	_assert_terminal_reader_empty_after_load(
+		malformed, route_id,
+		"%s expiry receipt accepted forbidden completed-branch Story %s" % [
+			route_id, forbidden_bundle])
+
+
+func _check_m2_summary_only_eligible_mutation(
+		saved: Dictionary, route_id: String, frozen_receipt: Dictionary,
+		selected_id: String) -> void:
+	GameState.start_new_game()
+	GameState.load_from_dict(saved.duplicate(true))
+	CORE.initialize_for_run(true)
+	GameState.turn = 9
+	GameState.month = 3
+	GameState.week_of_month = 1
+	var month_three := CORE.initialize_seoul_cycle(3)
+	var summary_only: Dictionary = GameState.serialize().duplicate(true)
+	_expect(bool(month_three.get("ok", false)) \
+		and int((GameState.core_loop_v2_state.get(
+			"seoul_cycle", {}) as Dictionary).get("month", 0)) == 3 \
+		and CORE.terminal_transition_receipt(route_id) == frozen_receipt,
+		"M2 partial-expiry receipt did not survive actual M3 replacement")
+	if not bool(month_three.get("ok", false)):
+		return
+	for reload_index in range(2):
+		GameState.start_new_game()
+		GameState.load_from_dict(summary_only.duplicate(true))
+		CORE.initialize_for_run(true)
+		_expect(CORE.terminal_transition_receipt(route_id) == frozen_receipt,
+			"M2 summary-only receipt drifted on reload %d" \
+				% [reload_index + 1])
+		summary_only = GameState.serialize().duplicate(true)
+	var malformed := summary_only.duplicate(true)
+	var state: Dictionary = malformed.get("core_loop_v2_state", {})
+	var terminal_receipts: Dictionary = state.get(
+		"terminal_transition_receipts", {})
+	var forged: Dictionary = terminal_receipts.get(route_id, {}).duplicate(true)
+	var proof: Dictionary = forged.get("source_proof", {})
+	var proof_node: Dictionary = proof.get("node_state", {})
+	var original_eligible: Array = proof_node.get(
+		"eligible_trigger_bundle_ids", [])
+	_expect(original_eligible.size() == 2 \
+		and original_eligible.has(selected_id),
+		"M2 summary-only fixture did not preserve both authored candidates")
+	proof_node["eligible_trigger_bundle_ids"] = [selected_id]
+	proof["node_state"] = proof_node
+	forged["source_proof"] = proof
+	terminal_receipts[route_id] = forged
+	state["terminal_transition_receipts"] = terminal_receipts
+	var summaries: Dictionary = state.get("month_summaries", {})
+	var month_two: Dictionary = summaries.get("2", {})
+	var nodes: Dictionary = month_two.get("node_states", {})
+	var people: Dictionary = nodes.get("m2_people", {})
+	people["eligible_trigger_bundle_ids"] = [selected_id]
+	nodes["m2_people"] = people
+	month_two["node_states"] = nodes
+	summaries["2"] = month_two
+	state["month_summaries"] = summaries
+	malformed["core_loop_v2_state"] = state
+	_assert_terminal_reader_empty_after_load(
+		malformed, route_id,
+		"M2 summary-only reader accepted coupled proof/summary eligible-set " \
+			+ "shrinkage")
+
+
+func _m2_relationship_receipt_count(
+		bundle_id: String, memory: String, turn: int) -> int:
+	var count := 0
+	for raw_receipt in (GameState.core_loop_v2_state.get(
+			"relationship_choice_receipts", {}) as Dictionary).values():
+		if raw_receipt is Dictionary \
+				and str((raw_receipt as Dictionary).get(
+					"bundle_id", "")) == bundle_id \
+				and str((raw_receipt as Dictionary).get("memory", "")) == memory \
+				and int((raw_receipt as Dictionary).get("turn", 0)) == turn:
+			count += 1
+	return count
+
+
+func _m2_relationship_bundle_count(bundle_id: String) -> int:
+	var count := 0
+	for raw_receipt in (GameState.core_loop_v2_state.get(
+			"relationship_choice_receipts", {}) as Dictionary).values():
+		if raw_receipt is Dictionary \
+				and str((raw_receipt as Dictionary).get(
+					"bundle_id", "")) == bundle_id:
+			count += 1
+	return count
 
 
 func _check_m2_people_candidate_cardinality(
@@ -1680,7 +3372,7 @@ func _check_order101_w1_handoff_collision_rollback(
 		"fresh W1 exact rollback could not retry the same Continue successfully")
 
 
-func _order101_fresh_w1_result_committed_save() -> Dictionary:
+func _order101_fresh_w1_result_committed_save(quality: int = 2) -> Dictionary:
 	_prepare_base_v2()
 	var began_onboarding := CORE.begin_fresh_w1_onboarding()
 	GameState.flags["prologue_done"] = true
@@ -1707,8 +3399,10 @@ func _order101_fresh_w1_result_committed_save() -> Dictionary:
 	var restarted := armed and CORE.restart_fresh_w1_minigame()
 	var before_send: Dictionary = GameState.serialize().duplicate(true)
 	var finalized: Dictionary = (
-		CORE.finalize_fresh_w1_application(2, 2) if restarted else {})
+		CORE.finalize_fresh_w1_application(2, quality)
+		if restarted else {})
 	var after_send: Dictionary = GameState.serialize().duplicate(true)
+	var expected_intelligence_gain := 2 if quality == 3 else 1 if quality == 2 else 0
 	_expect(bool(allocation.get("ok", false)) and began_trigger and armed \
 		and restarted and bool(finalized.get("ok", false)) \
 		and float(after_send.get("money", 0.0)) \
@@ -1718,7 +3412,11 @@ func _order101_fresh_w1_result_committed_save() -> Dictionary:
 		and int(after_send.get("mental", 0)) \
 			== clampi(int(before_send.get("mental", 0)) - 2, 0, 100) \
 		and int(after_send.get("intelligence", 0)) \
-			== int(before_send.get("intelligence", 0)) + 1 \
+			== int(before_send.get("intelligence", 0)) \
+				+ expected_intelligence_gain \
+		and int((CORE.action_receipt(
+			"m1_youth_center_resume_clinic").get(
+				"result_details", {}) as Dictionary).get("quality", -1)) == quality \
 		and CORE.action_result_ready() \
 		and CORE.fresh_w1_onboarding_phase() == "result_committed",
 		"actual MainGame result-reload fixture could not commit Send")
@@ -3321,15 +5019,18 @@ func _resolve_cycle_side_shift_trigger(bundle_id: String) -> bool:
 	var action_noted := bool(transaction.get("ok", false)) \
 		and CORE.note_action_commitment(
 			transaction.get("record", {}) as Dictionary)
-	var acknowledged := action_noted \
-		and CORE.acknowledge_action_story_result(bundle_id)
+	var story_stage := CORE.action_story_stage(bundle_id) if action_noted else ""
+	var acknowledged := action_noted
+	if story_stage == "story":
+		acknowledged = CORE.acknowledge_action_story_result(bundle_id)
 	_expect(bool(claimed.get("ok", false)) and began and armed \
 		and bool(transaction.get("ok", false)) and action_noted \
 		and acknowledged,
 		"livelihood trigger did not produce its supplemental action receipt")
 	if not acknowledged:
 		return false
-	_apply_and_note_story("v2_convenience_trial_shift", 0)
+	if story_stage == "story":
+		_apply_and_note_story("v2_convenience_trial_shift", 0)
 	var completed := CORE.complete_active_bundle()
 	_expect(completed == bundle_id \
 		and CORE.pending_seoul_cycle_trigger().is_empty(),
@@ -3447,6 +5148,46 @@ func _sorted_strings(raw_values: Array) -> Array[String]:
 		result.append(str(raw_value))
 	result.sort()
 	return result
+
+
+func _deduplicated_strings(raw_values: Array[String]) -> Array[String]:
+	var result: Array[String] = []
+	for raw_value in raw_values:
+		if not result.has(raw_value):
+			result.append(raw_value)
+	return result
+
+
+func _int_values(raw_values: Array) -> Array[int]:
+	var result: Array[int] = []
+	for raw_value in raw_values:
+		result.append(int(raw_value))
+	return result
+
+
+func _dictionary_equal_with_numeric_values(
+		left_raw: Variant, right_raw: Variant) -> bool:
+	if not left_raw is Dictionary or not right_raw is Dictionary:
+		return false
+	var left: Dictionary = left_raw
+	var right: Dictionary = right_raw
+	if _sorted_strings(left.keys()) != _sorted_strings(right.keys()):
+		return false
+	for raw_key in left:
+		var key := str(raw_key)
+		var left_value: Variant = left.get(raw_key)
+		var right_value: Variant = right.get(key)
+		if left_value is Dictionary or right_value is Dictionary:
+			if not _dictionary_equal_with_numeric_values(
+					left_value, right_value):
+				return false
+		elif typeof(left_value) in [TYPE_INT, TYPE_FLOAT] \
+				and typeof(right_value) in [TYPE_INT, TYPE_FLOAT]:
+			if float(left_value) != float(right_value):
+				return false
+		elif left_value != right_value:
+			return false
+	return true
 
 
 func _contains_hangul(text: String) -> bool:

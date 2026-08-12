@@ -210,6 +210,144 @@ EXPECTED_FRESH_W1_ONBOARDING_OVERRIDE = {
     "turn": 1,
     "effective_threshold": 1,
 }
+EXPECTED_ORDER101_TERMINAL_SLICE_ROUTE_IDS = {
+    "m1_resume_completed_q3_to_m2_advancement_ready",
+    "m1_resume_completed_q2_to_m2_advancement_polished",
+    "m1_resume_completed_q1_to_m2_advancement_revised",
+    "m1_resume_completed_q0_to_m2_advancement_rewritten",
+    "m1_resume_expired_to_m2_advancement_rebuilt",
+    "m1_father_completed_wellbeing_to_m3_quiet_call",
+    "m1_father_completed_future_reassured_to_m3_quiet_call",
+    "m1_father_completed_call_ended_quickly_to_m3_quiet_call",
+    "m1_father_expired_to_m2_people_open",
+    "m2_people_completed_hyunsu_to_m3_followup",
+    "m2_people_completed_cafe_to_m4_sangchul",
+    "m2_people_expired_to_m3_contact_fail_forward",
+}
+EXPECTED_ORDER101_RESUME_TERMINAL_SLICE_ROUTES = {
+    "m1_resume_completed_q3_to_m2_advancement_ready": (
+        "completed", 3, "resume_ready", 1,
+    ),
+    "m1_resume_completed_q2_to_m2_advancement_polished": (
+        "completed", 2, "resume_polished", 0,
+    ),
+    "m1_resume_completed_q1_to_m2_advancement_revised": (
+        "completed", 1, "resume_revised", -1,
+    ),
+    "m1_resume_completed_q0_to_m2_advancement_rewritten": (
+        "completed", 0, "resume_rewritten", -2,
+    ),
+    "m1_resume_expired_to_m2_advancement_rebuilt": (
+        "expired", None, "resume_rebuilt", -3,
+    ),
+}
+EXPECTED_ORDER101_NON_RESUME_TERMINAL_SLICE_ROUTES = {
+    "m1_father_completed_wellbeing_to_m3_quiet_call": (
+        {
+            "month": 1,
+            "node": "father",
+            "terminal": "completed",
+            "proof_kind": "relationship_choice",
+            "proof_id": "father_first_call:arc_father_01_call:0",
+        },
+        {
+            "month": 3,
+            "node": "m3_people",
+            "bundle": "father_quiet_call",
+            "variant_id": "father_wellbeing_returned",
+        },
+    ),
+    "m1_father_completed_future_reassured_to_m3_quiet_call": (
+        {
+            "month": 1,
+            "node": "father",
+            "terminal": "completed",
+            "proof_kind": "relationship_choice",
+            "proof_id": "father_first_call:arc_father_01_call:1",
+        },
+        {
+            "month": 3,
+            "node": "m3_people",
+            "bundle": "father_quiet_call",
+            "variant_id": "father_future_reassured",
+        },
+    ),
+    "m1_father_completed_call_ended_quickly_to_m3_quiet_call": (
+        {
+            "month": 1,
+            "node": "father",
+            "terminal": "completed",
+            "proof_kind": "relationship_choice",
+            "proof_id": "father_first_call:arc_father_01_call:2",
+        },
+        {
+            "month": 3,
+            "node": "m3_people",
+            "bundle": "father_quiet_call",
+            "variant_id": "father_call_ended_quickly",
+        },
+    ),
+    "m1_father_expired_to_m2_people_open": (
+        {
+            "month": 1,
+            "node": "father",
+            "terminal": "expired",
+            "proof_kind": "node_expiry",
+            "proof_id": "m1:father",
+        },
+        {
+            "month": 2,
+            "node": "m2_people",
+            "bundle": "",
+            "variant_id": "father_call_put_off",
+        },
+    ),
+    "m2_people_completed_hyunsu_to_m3_followup": (
+        {
+            "month": 2,
+            "node": "m2_people",
+            "terminal": "completed",
+            "proof_kind": "selected_trigger",
+            "proof_id": "m2:m2_people:hyunsu_player_reachout",
+        },
+        {
+            "month": 3,
+            "node": "m3_people",
+            "bundle": "hyunsu_study_followup",
+            "variant_id": "hyunsu_followup",
+        },
+    ),
+    "m2_people_completed_cafe_to_m4_sangchul": (
+        {
+            "month": 2,
+            "node": "m2_people",
+            "terminal": "completed",
+            "proof_kind": "selected_trigger",
+            "proof_id": "m2:m2_people:cafe_world_glimpse",
+        },
+        {
+            "month": 4,
+            "node": "m4_people",
+            "bundle": "sangchul_world_meet",
+            "variant_id": "cafe_sangchul_lead",
+        },
+    ),
+    "m2_people_expired_to_m3_contact_fail_forward": (
+        {
+            "month": 2,
+            "node": "m2_people",
+            "terminal": "expired",
+            "proof_kind": "node_expiry",
+            "proof_id": "m2:m2_people",
+        },
+        {
+            "month": 3,
+            "node": "m3_people",
+            "bundle": "",
+            "variant_id": "contact_fail_forward",
+        },
+    ),
+}
 ALLOWED_PREREQUISITE_GROUPS = {"all", "any"}
 ALLOWED_PREREQUISITE_KINDS = {
     "completed_bundle",
@@ -1754,6 +1892,252 @@ def validate_order101_m2_people_selection_contract(
             "m2_people must remain locked when no authored candidate is eligible",
             errors,
         )
+
+
+def validate_order101_terminal_slice_contract(
+    contract: dict[str, Any],
+    errors: list[str],
+) -> None:
+    """Lock the twelve U09/U11/U12/U16 replacement routes in this slice."""
+    seoul_cycle = require_dict(
+        contract.get("seoul_cycle"), "seoul_cycle", errors
+    )
+    routes = require_dict(
+        seoul_cycle.get("terminal_routes"),
+        "seoul_cycle.terminal_routes",
+        errors,
+    )
+    if set(routes) != EXPECTED_ORDER101_TERMINAL_SLICE_ROUTE_IDS:
+        fail(
+            "seoul_cycle.terminal_routes must contain exactly the twelve "
+            "ORDER-101 route IDs; missing="
+            f"{sorted(EXPECTED_ORDER101_TERMINAL_SLICE_ROUTE_IDS - set(routes))} "
+            f"extra={sorted(set(routes) - EXPECTED_ORDER101_TERMINAL_SLICE_ROUTE_IDS)}",
+            errors,
+        )
+
+    bundles = require_dict(contract.get("scene_bundles"), "scene_bundles", errors)
+    base_route_keys = {
+        "source", "target", "completion_effects",
+        "label_ko", "label_en", "detail_ko", "detail_en",
+        "result_ko", "result_en",
+    }
+    for route_id in sorted(EXPECTED_ORDER101_TERMINAL_SLICE_ROUTE_IDS):
+        route = require_dict(
+            routes.get(route_id),
+            f"seoul_cycle.terminal_routes.{route_id}",
+            errors,
+        )
+        is_resume_route = route_id in (
+            EXPECTED_ORDER101_RESUME_TERMINAL_SLICE_ROUTES
+        )
+        expected_route_keys = set(base_route_keys)
+        if is_resume_route:
+            expected_route_keys.add("balance_status")
+        if set(route) != expected_route_keys:
+            fail(
+                f"terminal route {route_id} keys must be exact: "
+                f"expected={sorted(expected_route_keys)!r} "
+                f"actual={sorted(route)!r}",
+                errors,
+            )
+        if is_resume_route and route.get("balance_status") \
+                != "first_run_adjustment":
+            fail(
+                f"resume terminal route {route_id} must carry the exact "
+                "first_run_adjustment balance provenance",
+                errors,
+            )
+        source = require_dict(
+            route.get("source"), f"terminal route {route_id}.source", errors
+        )
+        target = require_dict(
+            route.get("target"), f"terminal route {route_id}.target", errors
+        )
+        completion_effects = require_dict(
+            route.get("completion_effects"),
+            f"terminal route {route_id}.completion_effects",
+            errors,
+        )
+        for text_key in (
+            "label_ko", "label_en", "detail_ko", "detail_en",
+            "result_ko", "result_en",
+        ):
+            value = route.get(text_key)
+            if not isinstance(value, str) or not value.strip():
+                fail(f"terminal route {route_id}.{text_key} must be non-empty", errors)
+            if text_key.endswith("_en") and HANGUL_RE.search(str(value)):
+                fail(f"terminal route {route_id}.{text_key} leaks Hangul", errors)
+        if (
+            int(source.get("month", 0)) not in (1, 2)
+            or not str(source.get("node", "")).strip()
+            or source.get("terminal") not in {"completed", "expired"}
+            or not str(source.get("proof_kind", "")).strip()
+            or not str(source.get("proof_id", "")).strip()
+        ):
+            fail(f"terminal route {route_id} has an incomplete source identity", errors)
+        target_month = int(target.get("month", 0))
+        target_node = str(target.get("node", "")).strip()
+        target_bundle = str(target.get("bundle", "")).strip()
+        target_variant = str(target.get("variant_id", "")).strip()
+        if (
+            target_month <= int(source.get("month", 0))
+            or target_month not in (2, 3, 4)
+            or not target_node
+            or not target_variant
+        ):
+            fail(f"terminal route {route_id} has an invalid future target", errors)
+        if target_bundle and target_bundle not in bundles:
+            fail(
+                f"terminal route {route_id} targets missing bundle {target_bundle}",
+                errors,
+            )
+        if set(completion_effects) - {"mental"}:
+            fail(
+                f"terminal route {route_id} writes unsupported completion effects",
+                errors,
+            )
+
+    for route_id, expected in (
+        EXPECTED_ORDER101_RESUME_TERMINAL_SLICE_ROUTES.items()
+    ):
+        terminal, quality, variant_id, mental_delta = expected
+        route = routes.get(route_id, {})
+        if not isinstance(route, dict):
+            continue
+        source = route.get("source", {})
+        target = route.get("target", {})
+        effects = route.get("completion_effects", {})
+        expected_source = {
+            "month": 1,
+            "node": "resume",
+            "terminal": terminal,
+            "proof_kind": (
+                "typed_action_application"
+                if terminal == "completed"
+                else "node_expiry"
+            ),
+            "proof_id": (
+                "m1_youth_center_resume_clinic:application:1"
+                if terminal == "completed" else "m1:resume"
+            ),
+        }
+        if quality is not None:
+            expected_source["quality"] = quality
+        if source != expected_source:
+            fail(
+                f"terminal route {route_id} source must be exact: "
+                f"expected={expected_source!r} actual={source!r}",
+                errors,
+            )
+        if target != {
+            "month": 2,
+            "node": "m2_advancement",
+            "bundle": "m2_seorin_application",
+            "variant_id": variant_id,
+        }:
+            fail(f"terminal route {route_id} has the wrong M2 target", errors)
+        if effects != {"mental": mental_delta}:
+            fail(
+                f"terminal route {route_id} must apply mental {mental_delta} "
+                "only on target completion",
+                errors,
+            )
+
+    for locale_key in ("result_ko", "result_en"):
+        resume_results = [
+            str(routes.get(route_id, {}).get(locale_key, "")).strip()
+            for route_id in EXPECTED_ORDER101_RESUME_TERMINAL_SLICE_ROUTES
+            if isinstance(routes.get(route_id), dict)
+        ]
+        if len(resume_results) != 5 or len(set(resume_results)) != 5:
+            fail(
+                "the five resume terminal routes need five visible "
+                f"{locale_key} variants",
+                errors,
+            )
+
+    for route_id, expected in (
+        EXPECTED_ORDER101_NON_RESUME_TERMINAL_SLICE_ROUTES.items()
+    ):
+        expected_source, expected_target = expected
+        route = routes.get(route_id, {})
+        if not isinstance(route, dict):
+            continue
+        source = route.get("source", {})
+        target = route.get("target", {})
+        if source != expected_source:
+            fail(
+                f"terminal route {route_id} source must be exact: "
+                f"expected={expected_source!r} actual={source!r}",
+                errors,
+            )
+        if target != expected_target:
+            fail(
+                f"terminal route {route_id} target must be exact: "
+                f"expected={expected_target!r} actual={target!r}",
+                errors,
+            )
+
+    expired_people = routes.get(
+        "m2_people_expired_to_m3_contact_fail_forward", {}
+    )
+    if isinstance(expired_people, dict):
+        expired_copy = " ".join(
+            str(expired_people.get(key, ""))
+            for key in ("label_ko", "label_en", "detail_ko", "detail_en",
+                        "result_ko", "result_en")
+        ).lower()
+        for false_claim in ("답이 오지", "went unanswered"):
+            if false_claim in expired_copy:
+                fail(
+                    "the M2 people expiry route cannot claim that an unsent "
+                    f"message was sent or went unanswered ({false_claim!r})",
+                    errors,
+                )
+        if "보내지 못" not in expired_copy or not any(
+            phrase in expired_copy for phrase in ("never sent", "unsent")
+        ):
+            fail(
+                "the M2 people expiry copy must truthfully identify the "
+                "message as unsent in both KO and EN",
+                errors,
+            )
+
+    months = require_dict(seoul_cycle.get("months"), "seoul_cycle.months", errors)
+    month_two = require_dict(months.get("2"), "seoul_cycle.months.2", errors)
+    month_two_nodes = require_dict(
+        month_two.get("nodes"), "seoul_cycle.months.2.nodes", errors
+    )
+    advancement = require_dict(
+        month_two_nodes.get("m2_advancement"),
+        "seoul_cycle.months.2.nodes.m2_advancement",
+        errors,
+    )
+    resume_target = require_dict(
+        bundles.get("m2_seorin_application"),
+        "scene_bundles.m2_seorin_application",
+        errors,
+    )
+    if int(advancement.get("threshold", 0)) != 2:
+        fail("resume terminal variants must preserve M2 advancement threshold 2", errors)
+    if resume_target.get("allowed_weeks") != [5, 6]:
+        fail("resume terminal variants must preserve the exact W5-W6 window", errors)
+
+    try:
+        demo_source = DEMO_CORE_LOOP_PATH.read_text(encoding="utf-8")
+    except OSError as exc:
+        fail(f"cannot load terminal-slice runtime source: {exc}", errors)
+        return
+    for function_name in (
+        "terminal_transition_receipt",
+        "terminal_routes_for_target",
+    ):
+        if f"func {function_name}(" not in demo_source:
+            fail(
+                f"DemoCoreLoopV2 lacks terminal-slice API {function_name}",
+                errors,
+            )
 
 
 def fixture_predicate_met(predicate: dict[str, Any], fixture: dict[str, Any]) -> bool:
@@ -6798,6 +7182,7 @@ def main() -> int:
         "planning_mode",
         "prototype_month",
         "weeks",
+        "terminal_routes",
         "background_routines",
         "capacity",
         "nodes",
@@ -7908,6 +8293,7 @@ def main() -> int:
     validate_opening_motivation_contract(contract, registered_events, errors)
     validate_order101_w1_application_contract(contract, errors)
     validate_order101_m2_people_selection_contract(contract, errors)
+    validate_order101_terminal_slice_contract(contract, errors)
     temptation_bundle = require_dict(
         bundles.get("temptation_consequence"),
         "scene_bundles.temptation_consequence",

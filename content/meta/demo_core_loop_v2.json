@@ -241,6 +241,281 @@
     "planning_mode": "seoul_cycle_v1",
     "prototype_month": 1,
     "weeks": [1, 4],
+    "terminal_routes": {
+      "m1_resume_completed_q3_to_m2_advancement_ready": {
+        "source": {
+          "month": 1,
+          "node": "resume",
+          "terminal": "completed",
+          "proof_kind": "typed_action_application",
+          "proof_id": "m1_youth_center_resume_clinic:application:1",
+          "quality": 3
+        },
+        "target": {
+          "month": 2,
+          "node": "m2_advancement",
+          "bundle": "m2_seorin_application",
+          "variant_id": "resume_ready"
+        },
+        "completion_effects": {"mental": 1},
+        "balance_status": "first_run_adjustment",
+        "label_ko": "준비해 둔 문장으로 서린물산 지원하기",
+        "label_en": "Apply to Seorin with the Ready Draft",
+        "detail_ko": "첫 지원 때 정리한 문장을 다시 풀어 쓰지 않고 서린물산 계약직 지원서에 맞춘다.",
+        "detail_en": "Adapt the sentences prepared for the first application to Seorin's contract opening without rebuilding them.",
+        "result_ko": "문장 구조를 다시 잡는 시간을 아껴 마지막 확인까지 마쳤다. 마음 +1",
+        "result_en": "The prepared structure left enough room for one last review. Mind +1"
+      },
+      "m1_resume_completed_q2_to_m2_advancement_polished": {
+        "source": {
+          "month": 1,
+          "node": "resume",
+          "terminal": "completed",
+          "proof_kind": "typed_action_application",
+          "proof_id": "m1_youth_center_resume_clinic:application:1",
+          "quality": 2
+        },
+        "target": {
+          "month": 2,
+          "node": "m2_advancement",
+          "bundle": "m2_seorin_application",
+          "variant_id": "resume_polished"
+        },
+        "completion_effects": {"mental": 0},
+        "balance_status": "first_run_adjustment",
+        "label_ko": "다듬은 자기소개서로 서린물산 지원하기",
+        "label_en": "Apply to Seorin with the Polished Draft",
+        "detail_ko": "청년센터에서 다듬은 문장을 서린물산 계약직 공고에 맞춰 다시 확인한다.",
+        "detail_en": "Review the youth-center draft against Seorin's contract-role posting.",
+        "result_ko": "다듬어 둔 문장을 공고에 맞춰 고쳐 지원서를 보냈다.",
+        "result_en": "The polished draft was adapted to the posting and sent."
+      },
+      "m1_resume_completed_q1_to_m2_advancement_revised": {
+        "source": {
+          "month": 1,
+          "node": "resume",
+          "terminal": "completed",
+          "proof_kind": "typed_action_application",
+          "proof_id": "m1_youth_center_resume_clinic:application:1",
+          "quality": 1
+        },
+        "target": {
+          "month": 2,
+          "node": "m2_advancement",
+          "bundle": "m2_seorin_application",
+          "variant_id": "resume_revised"
+        },
+        "completion_effects": {"mental": -1},
+        "balance_status": "first_run_adjustment",
+        "label_ko": "문장을 다시 고쳐 서린물산 지원하기",
+        "label_en": "Revise the Draft and Apply to Seorin",
+        "detail_ko": "첫 지원서에 남은 거친 문장을 고친 뒤 서린물산 계약직 지원서에 옮긴다.",
+        "detail_en": "Revise the rough passages left in the first draft before adapting it to Seorin's contract opening.",
+        "result_ko": "거친 문장을 다시 고치느라 시간이 들었지만 지원서는 보냈다. 마음 -1",
+        "result_en": "Revising the rough passages took time, but the application went out. Mind -1"
+      },
+      "m1_resume_completed_q0_to_m2_advancement_rewritten": {
+        "source": {
+          "month": 1,
+          "node": "resume",
+          "terminal": "completed",
+          "proof_kind": "typed_action_application",
+          "proof_id": "m1_youth_center_resume_clinic:application:1",
+          "quality": 0
+        },
+        "target": {
+          "month": 2,
+          "node": "m2_advancement",
+          "bundle": "m2_seorin_application",
+          "variant_id": "resume_rewritten"
+        },
+        "completion_effects": {"mental": -2},
+        "balance_status": "first_run_adjustment",
+        "label_ko": "자기소개서를 다시 써 서린물산 지원하기",
+        "label_en": "Rewrite the Draft and Apply to Seorin",
+        "detail_ko": "첫 지원서의 문장을 거의 처음부터 다시 써 서린물산 계약직 공고에 맞춘다.",
+        "detail_en": "Rewrite most of the first application before fitting it to Seorin's contract-role posting.",
+        "result_ko": "문장을 거의 새로 썼다. 늦지 않게 보냈지만 기운이 더 들었다. 마음 -2",
+        "result_en": "Most of the draft had to be rebuilt. It went out on time, but it took more out of him. Mind -2"
+      },
+      "m1_resume_expired_to_m2_advancement_rebuilt": {
+        "source": {
+          "month": 1,
+          "node": "resume",
+          "terminal": "expired",
+          "proof_kind": "node_expiry",
+          "proof_id": "m1:resume"
+        },
+        "target": {
+          "month": 2,
+          "node": "m2_advancement",
+          "bundle": "m2_seorin_application",
+          "variant_id": "resume_rebuilt"
+        },
+        "completion_effects": {"mental": -3},
+        "balance_status": "first_run_adjustment",
+        "label_ko": "빈 문서부터 서린물산 지원서 다시 만들기",
+        "label_en": "Rebuild the Seorin Application from a Blank Page",
+        "detail_ko": "청년센터 수정 기한을 넘긴 뒤 빈 문서에서 다시 시작해 서린물산 계약직 공고에 지원한다.",
+        "detail_en": "After missing the youth-center revision window, start from a blank page and apply to Seorin's contract opening.",
+        "result_ko": "빈 문서부터 다시 만들었지만 지원을 포기하지는 않았다. 마음 -3",
+        "result_en": "The application was rebuilt from a blank page instead of abandoned. Mind -3"
+      },
+      "m1_father_completed_wellbeing_to_m3_quiet_call": {
+        "source": {
+          "month": 1,
+          "node": "father",
+          "terminal": "completed",
+          "proof_kind": "relationship_choice",
+          "proof_id": "father_first_call:arc_father_01_call:0"
+        },
+        "target": {
+          "month": 3,
+          "node": "m3_people",
+          "bundle": "father_quiet_call",
+          "variant_id": "father_wellbeing_returned"
+        },
+        "completion_effects": {},
+        "label_ko": "아버지의 안부를 다시 묻는 일요일",
+        "label_en": "Ask Father How He Is Again on Sunday",
+        "detail_ko": "첫 통화에서 되물었던 안부를 기억하고 이번에는 내가 먼저 다시 전화한다.",
+        "detail_en": "Remember asking after Father in the first call and be the one to call again this Sunday.",
+        "result_ko": "첫 통화의 질문을 잊지 않고 다음 통화로 이어 갔다.",
+        "result_en": "The question from the first call carried into the next one."
+      },
+      "m1_father_completed_future_reassured_to_m3_quiet_call": {
+        "source": {
+          "month": 1,
+          "node": "father",
+          "terminal": "completed",
+          "proof_kind": "relationship_choice",
+          "proof_id": "father_first_call:arc_father_01_call:1"
+        },
+        "target": {
+          "month": 3,
+          "node": "m3_people",
+          "bundle": "father_quiet_call",
+          "variant_id": "father_future_reassured"
+        },
+        "completion_effects": {},
+        "label_ko": "괜찮다고 한 뒤 아버지에게 다시 전화하기",
+        "label_en": "Call Father Again After Saying Things Were Fine",
+        "detail_ko": "괜찮다고 답했던 첫 통화 뒤, 이번에는 내가 먼저 전화해 그 말 뒤의 침묵을 듣는다.",
+        "detail_en": "After saying things were fine in the first call, call first and listen to the silence behind that answer.",
+        "result_ko": "괜찮다는 말 뒤에 남은 이야기를 다음 통화까지 가져갔다.",
+        "result_en": "What remained behind 'I'm fine' carried into the next call."
+      },
+      "m1_father_completed_call_ended_quickly_to_m3_quiet_call": {
+        "source": {
+          "month": 1,
+          "node": "father",
+          "terminal": "completed",
+          "proof_kind": "relationship_choice",
+          "proof_id": "father_first_call:arc_father_01_call:2"
+        },
+        "target": {
+          "month": 3,
+          "node": "m3_people",
+          "bundle": "father_quiet_call",
+          "variant_id": "father_call_ended_quickly"
+        },
+        "completion_effects": {},
+        "label_ko": "짧게 끊은 통화를 다시 잇는 일요일",
+        "label_en": "Call Back After Ending the First Call Short",
+        "detail_ko": "짧게 끊었던 첫 통화를 기억하고, 이번 일요일에는 먼저 전화해 조금 더 오래 듣는다.",
+        "detail_en": "Remember ending the first call short, then call first this Sunday and stay on the line longer.",
+        "result_ko": "짧게 끝낸 첫 통화가 그대로 마지막 통화가 되지는 않았다.",
+        "result_en": "The first call ended short, but it did not become the last one."
+      },
+      "m1_father_expired_to_m2_people_open": {
+        "source": {
+          "month": 1,
+          "node": "father",
+          "terminal": "expired",
+          "proof_kind": "node_expiry",
+          "proof_id": "m1:father"
+        },
+        "target": {
+          "month": 2,
+          "node": "m2_people",
+          "bundle": "",
+          "variant_id": "father_call_put_off"
+        },
+        "completion_effects": {},
+        "label_ko": "미룬 통화 뒤 연락할 시간을 다시 잡기",
+        "label_en": "Make Time to Reach Out After Putting Off the Call",
+        "detail_ko": "아버지 통화는 놓쳤지만 이번 달 연락할 시간을 비워 둔다. 누구의 관계도 대신 진전시키지 않는다.",
+        "detail_en": "The call with Father was missed, but set aside time to reach out this month without advancing anyone's relationship for free.",
+        "result_ko": "누구를 만났다고 만들지 않고, 연락할 시간을 실제로 썼다.",
+        "result_en": "Time was actually spent reaching out without inventing a meeting or relationship."
+      },
+      "m2_people_completed_hyunsu_to_m3_followup": {
+        "source": {
+          "month": 2,
+          "node": "m2_people",
+          "terminal": "completed",
+          "proof_kind": "selected_trigger",
+          "proof_id": "m2:m2_people:hyunsu_player_reachout"
+        },
+        "target": {
+          "month": 3,
+          "node": "m3_people",
+          "bundle": "hyunsu_study_followup",
+          "variant_id": "hyunsu_followup"
+        },
+        "completion_effects": {},
+        "label_ko": "현수가 먼저 제안한 다음 공부 시간",
+        "label_en": "Hyunsu Suggests the Next Study Hour",
+        "detail_ko": "먼저 함께 공부하자고 연락한 뒤, 이번에는 현수가 같은 시간에 다시 공부하자고 한다.",
+        "detail_en": "After reaching out to study together first, hear Hyunsu suggest another hour at the same time.",
+        "result_ko": "내가 먼저 잡은 첫 약속이 현수의 다음 제안으로 돌아왔다.",
+        "result_en": "The first plan I initiated returned as Hyunsu's next invitation."
+      },
+      "m2_people_completed_cafe_to_m4_sangchul": {
+        "source": {
+          "month": 2,
+          "node": "m2_people",
+          "terminal": "completed",
+          "proof_kind": "selected_trigger",
+          "proof_id": "m2:m2_people:cafe_world_glimpse"
+        },
+        "target": {
+          "month": 4,
+          "node": "m4_people",
+          "bundle": "sangchul_world_meet",
+          "variant_id": "cafe_sangchul_lead"
+        },
+        "completion_effects": {},
+        "label_ko": "카페에서 들은 방값을 직접 물어보기",
+        "label_en": "Ask Directly About the Housing Costs Heard at the Café",
+        "detail_ko": "카페 옆자리에서 들은 재개발 이야기를 따라 신촌 부동산에서 보증금과 월세를 묻는다.",
+        "detail_en": "Follow the redevelopment lead overheard at the café and ask a Sinchon real-estate office about deposits and rent.",
+        "result_ko": "옆자리의 통화가 상철에게 먼저 찾아갈 이유가 되었다.",
+        "result_en": "The call at the next table became a reason to seek Sangchul out."
+      },
+      "m2_people_expired_to_m3_contact_fail_forward": {
+        "source": {
+          "month": 2,
+          "node": "m2_people",
+          "terminal": "expired",
+          "proof_kind": "node_expiry",
+          "proof_id": "m2:m2_people"
+        },
+        "target": {
+          "month": 3,
+          "node": "m3_people",
+          "bundle": "",
+          "variant_id": "contact_fail_forward"
+        },
+        "completion_effects": {},
+        "label_ko": "보내지 못한 연락을 정리하기",
+        "label_en": "Sort Out the Messages That Were Never Sent",
+        "detail_ko": "지난달 약속을 잡지 못한 채 남은 연락처와 보낼 말을 정리한다. 만났다고 기록하지 않는다.",
+        "detail_en": "Sort the contacts and unsent words left after failing to make plans last month, without recording a meeting that never happened.",
+        "result_ko": "만남을 지어내지 않고, 다음에 연락할 수 있도록 기록만 정리했다.",
+        "result_en": "No meeting was invented; the contact record was made usable for another attempt."
+      }
+    },
     "background_routines": {
       "policy": "absorbed_by_nodes",
       "automatic_effects": false,
