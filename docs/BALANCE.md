@@ -86,6 +86,23 @@ CORE_LOOP_V2_CYCLE_BALANCE_OK weeks=24 months=6 routes=livelihood/advancement/pe
 바뀌지 않았음을 검사하지만, fresh 서울 사이클의 24개 실제 배치나 출시 PASS를
 대신하지 않는다.
 
+## 2026-08-12 — W1 자기소개서 안내의 실제 여력·단일 지원 경계
+
+- fresh turn 1은 플레이어가 직접 고른 unspent capacity 하나를 `resume` 노드에
+  배치한다. capacity ID·값·기본 진전은 원래 progress band대로 저장하며 강한
+  여력이나 고정 슬롯을 자동 선택하지 않는다.
+- 이 한 번에만 `onboarding_completion_override`가 authored threshold 3의 남은
+  진전을 대체해 자기소개서 수행층을 연다. 구 저장·재진입·다른 노드의 threshold와
+  월간 condition band는 바꾸지 않는다.
+- 자기소개서 품질 0~3은 모두 지원까지 가는 fail-forward다. 품질은 typed action
+  receipt에 남아 M2 지원 조건을 다르게 만들지만 capacity를 증식하거나 또 한 주를
+  소비하지 않는다.
+- draft·mid-interview 저장은 선택한 주간 여력만 보존하고 수행층을 처음부터 다시
+  연다. 최종 Send 뒤에는 효과·품질·지원·action receipt를 먼저 저장한 다음 같은
+  주의 면접 consequence로 간다. Story는 이 수치와 지원 상태를 쓰지 않는다.
+- 이 기준은 아래 2026-08-05의 ‘계획 전 Story 지원’ fresh 기준을 대체한다. 당시
+  지원을 이미 쓴 구 저장은 origin을 보존하며 새 주간 영수증을 발명하지 않는다.
+
 ## 2026-08-05 — 첫 계획 전 면접·125년 계산과 새 1주차 기준선
 
 - 목표 비교는 **30억원 ÷ 세전 월 200만원 = 1,500개월 = 125년**이다. 이는
