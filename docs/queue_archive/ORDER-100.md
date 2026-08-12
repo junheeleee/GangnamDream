@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-100
+# Archived Queue Spec: ORDER-100
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-100 [P0·Chapter 1 정본] CH1-LEDGER-0 — 48주 인과 원장과 현재 부채를 먼저 고정한다
+#### [x] ORDER-100 [P0·Chapter 1 정본] CH1-LEDGER-0 — 48주 인과 원장과 현재 부채를 먼저 고정한다
 
 **사용자 지시 (2026-08-11):** 완성 단위를 24주가 아니라 48주로 잡고 Chapter 1을
 완성한다. 구현 중 현재 대화만 기억해 날코딩하지 않으며, 새 세션에서도 같은 판단을
@@ -92,7 +92,7 @@ Chapter 1 완성으로 세지 않는다.
 ## 기계 상세 보관
 
 완료된 배치·부채 taxonomy·파일 범위·L1 증거는
-[보관본](../queue_archive/ORDER-100_L1_L2_2026-08-12.md)이 소유한다. 현재 snapshot은
+[보관본](ORDER-100_L1_L2_2026-08-12.md)이 소유한다. 현재 snapshot은
 `target/implemented/gap=48/24/24`, `debt/blocked=60/3`이다. 정확한 ID·pointer·fact·proof는
 machine ledger·baseline·checker가 소유하며, 아래 48행은 QA L2·L3 판정 표이지 원장을
 대체하지 않는다.
@@ -104,9 +104,9 @@ machine ledger·baseline·checker가 소유하며, 아래 48행은 QA L2·L3 판
 - L2: 48 target slot 전수표에 month/family, implemented 또는 missing, runtime/current
   gap, producer↔reader, next verb, debt owner를 한 행씩 기록한다. 요약 count만으로
   대체하지 않는다.
-- L3: 12개월×네 가족 전수 요약을 사용자에게 보여 정본 범위·공백·수리 순서를
-  판정받는다. 자동 checker 통과는 canon GO가 아니며, 사용자 판정 전 ORDER-100을
-  `[x]`로 닫지 않는다.
+- L3: 사용자가 완성 단위를 W1~48 Chapter 1 한 해로 정하고 W1~8부터
+  W41~48까지 8주 단위로 수리한 뒤 같은 RC를 통합 검증하는 순서를 승인했다.
+  자동 checker 통과가 재미 GO는 아니므로 제품별 사람 판정은 자식 오더에 남긴다.
 
 ### L2 현재 48-slot 전수표
 

@@ -59,10 +59,9 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-100 · CH1-LEDGER-0 48주 인과 원장과 현재 부채를 먼저 고정한다 | [100](queue_active/ORDER-100.md) | L1/L2 완료 — 48행 전수 원장·debt 60·완성 게이트를 봉인했고 사용자 L3 범위·공백·수리 순서 판정 대기 |
-| 2 | [~] | ORDER-99 · SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | [99](queue_active/ORDER-99.md) | BUILD 2026.08.11.3 발급·격리 실제 저장 L1/L2 완료 — 사용자 동일 저장의 1월 수첩→2월 보드 확인 대기 |
-| 3 | [~] | ORDER-97 · LOC-0.5 값을 끼우기 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | 착수 — preformat 후보 55개를 전수 분류하고 정확 47호출만 lookup→format 순서로 바꿔 JA/ZH의 영구 EN fallback을 제거 |
-| 4 | [~] | ORDER-98 · PAD-1 포커스 레일을 의미 버튼으로 줄인다 | [98](queue_active/ORDER-98.md) | 구현·L1/L2 완료, demo_rc active — 집 플레이·물리 패드 Batch A/B L3 대기 |
+| 1 | [~] | ORDER-99 · SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | [99](queue_active/ORDER-99.md) | BUILD 2026.08.11.3 발급·격리 실제 저장 L1/L2 완료 — 사용자 동일 저장의 1월 수첩→2월 보드 확인 대기 |
+| 2 | [~] | ORDER-97 · LOC-0.5 값을 끼우기 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | 착수 — preformat 후보 55개를 전수 분류하고 정확 47호출만 lookup→format 순서로 바꿔 JA/ZH의 영구 EN fallback을 제거 |
+| 3 | [~] | ORDER-98 · PAD-1 포커스 레일을 의미 버튼으로 줄인다 | [98](queue_active/ORDER-98.md) | 구현·L1/L2 완료, demo_rc active — 집 플레이·물리 패드 Batch A/B L3 대기 |
 
 ### 남은 데모 출시선
 
