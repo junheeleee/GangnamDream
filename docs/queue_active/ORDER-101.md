@@ -149,11 +149,11 @@ W4/W8 milestone의 기존 source scenario, W24의 fan-in/save 계약, W25~48 gap
 
 ## 정확한 파일 소유권
 
-**제품/데이터 9:** `content/meta/demo_core_loop_v2.json`,
+**제품/데이터 10:** `content/meta/demo_core_loop_v2.json`,
 `content/meta/story_rules.json`, `content/meta/narrative_spine.json`,
 `content/events/core_loop_v2_events.json`,
 `content/events_en/core_loop_v2_events.json`, `systems/DemoCoreLoopV2.gd`,
-`scenes/MainGame.gd`, `scenes/SeoulCycleBoard.gd`,
+`scenes/MainGame.gd`, `scenes/JobHuntMiniGame.gd`, `scenes/SeoulCycleBoard.gd`,
 `scenes/StoryMode.gd`.
 
 **기계/회귀 8:** `content/meta/chapter1_core_loop_v2_causal_ledger.json`,
