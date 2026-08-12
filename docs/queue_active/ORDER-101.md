@@ -162,12 +162,17 @@ W4/W8 milestone의 기존 source scenario, W24의 fan-in/save 계약, W25~48 gap
 `scenes/MainGame.gd`, `scenes/JobHuntMiniGame.gd`, `scenes/SeoulCycleBoard.gd`,
 `scenes/StoryMode.gd`.
 
-**기계/회귀 8:** `content/meta/chapter1_core_loop_v2_causal_ledger.json`,
+**기계/회귀 11:** `content/meta/chapter1_core_loop_v2_causal_ledger.json`,
 `tools/chapter1_core_loop_v2_causal_debt_baseline.json`,
 `tools/chapter1_core_loop_v2_causal_ledger_check.py`,
 `tools/demo_core_loop_v2_audit.py`, `tools/CoreLoopV2CycleCheck.gd`,
 `tools/CoreLoopV2FirstEntryCheck.gd`, `tools/CoreLoopV2CycleBalanceCheck.gd`,
-`tools/run_core_loop_v2_input_qa.sh`.
+`tools/run_core_loop_v2_input_qa.sh`, `tools/DemoBuildCheck.gd`,
+`tools/StoryPlaybackCheck.gd`, `tools/StoryTutorialPlacementCheck.gd`.
+
+마지막 세 회귀 검사는 구현 중 실제로 부딪힌 구 fresh 경로 강제를 함께
+교체한다. 새 W1 행동을 우회해 Story가 지원 material을 쓰는 과거 기대를
+호환 증거로 남기지 않으며, 구 저장 표본은 별도 legacy origin으로 검증한다.
 
 **정본/선언/증거 9:** `docs/CORE_LOOP_V2.md`, `docs/BALANCE.md`, 이 사양,
 `docs/CODEX_QUEUE.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `CLAUDE.md`,
