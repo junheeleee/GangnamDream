@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-08-11 14:30 UTC · 22f1f2ac`
+> 생성 시각 · 커밋: `2026-08-11 16:16 UTC · f7ac29ed`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -17,6 +17,8 @@
 **초록불은 계약을 지켰다는 뜻이지 좋다는 뜻이 아니다.** 아래는 자동 검사가
 대신할 수 없어 남아 있는 것이며, 원장은
 [`human_gates.json`](human_gates.json)이 소유한다.
+
+> **활성 demo_rc 주의:** BUILD 2026.08.11.3의 clean 저장 복구 체크포인트. macOS 패키지를 실제 사용자 autosave의 격리 복사본과 같은 playtest 저장 이름으로 부팅했고, 원본 hash는 불변이다. Windows·macOS·Linux 산출물과 KO/EN 키보드·패드 24주 입력, 두 해상도 표면은 자동 검증했다. 이 후보는 48주 Chapter 1 완성본이 아니며 동일 저장의 Month 2 진입, 정상 속도 재미·물리 패드·연속 A/V·원어민 게이트는 OPEN이다.
 
 | 범위 | 판정 | 후보 | 표본·환경 | 합격 기준 | 소유 |
 |---|---|---|---|---|---|
@@ -82,6 +84,7 @@
 
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
+| `ORDER-100` | CH1-LEDGER-0 48주 인과 원장과 현재 부채를 먼저 고정한다 | 진행 | 선언 — W1~24 audited prefix와 W25~48 공백을 exact machine ledger로 고정 |
 | `ORDER-99` | SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | 진행 | BUILD 2026.08.11.3 발급·격리 실제 저장 L1/L2 완료 — 사용자 동일 저장의 1월 수첩→2월 보드 확인 대기 |
 | `ORDER-97` | LOC-0.5 값을 끼우기 전에 UI 템플릿을 번역 | 진행 | 착수 — preformat 후보 55개를 전수 분류하고 정확 47호출만 lookup→format 순서로 바꿔 JA/ZH의 영구 EN fallback을 제거 |
 | `ORDER-98` | PAD-1 포커스 레일을 의미 버튼으로 줄인다 | 진행 | 구현·L1/L2 완료, demo_rc active — 집 플레이·물리 패드 Batch A/B L3 대기 |
@@ -151,7 +154,7 @@
 | **Kim Minjun**<br>`minjun` | Wants a different life without knowing what may remain of him | Folded account statement showing the starting balance, never a luxury prop at launch | Four-note theme that can clear, distort, or hollow out | 0 |
 | **Im Sangchul**<br>`sangchul` | The hand offering a ladder may be the hand that built the trap | Business card with handwritten number | Low brushed rhythm and one muted brass breath | 2 |
 
-## 데모 24주 — 번들 60개
+## 현재 구현 W1~24 audited prefix — 번들 60개
 
 `행동`은 결과 카드이고 `장면`만 집필된 체인을 갖는다. `미집필`은 아직 없다.
 

@@ -49,6 +49,41 @@ Chapter 1 완성으로 세지 않는다.
   진행 `+0`과 같은 이름만 반복하면 `FAKE_REPEAT`다.
 - Story 장면의 입력 상한은 `docs/CHOICE_CONSEQUENCE_SYSTEM.md` §4가 소유한다.
   Story는 주간 행동을 대신 고르거나 추가 주간 자원을 소비하지 않는다.
+- 독자는 사실별 `read_contract`와 그 사실을 실제 소비하는 runtime proof를 가진다.
+  결과 팝업·월말 표시·아카이브에 한 번 보였다는 이유만으로 인과 독자나 다음
+  동사로 세지 않는다.
+- 주간 branch는 보드에서 고른 기회와 공통 완료 사실만 소유한다. 자소서 품질,
+  알바 수행 결과, 재고조사 방법, 회복 감소, Story 선택처럼 그 안에서 갈리는
+  결과는 source-exact nested output group으로 연결한다. 내부 결과 때문에 주간
+  branch 수를 부풀리거나, 다른 행동의 output group을 붙이거나, 상호배타 결과를
+  공통 완료 사실로 합치면 검사 실패다.
+- 주차 정점도 reader만 기록하지 않는다. W4 단위부터 W48까지 그 장면 안에서
+  새 flag·job·deferred receipt·obligation·context root를 만드는 선택이 있으면
+  milestone conditional producer와 후속 reader의 exact handoff를 함께 기록한다.
+  첫 실행의 due event와 재진입의 claimed/resolved receipt는 서로 바꿔 쓸 수 없다.
+- 여러 장면·호출로 이어지는 정점은 `execution_stages`가 source-derived 적용 조건,
+  선행 stage, invocation, runtime proof를 명시한다. JSON 배열 위치는 실행 순서의
+  증거가 아니며, 같은 순서의 두 stage는 fresh/reentry처럼 실제로 상호배타일 때만
+  허용한다. 치명·생존, dirty/clean, 선택적 후속을 한 경로에 모두 함께 있었다고
+  합치거나 뒤 stage의 출력을 앞 stage 입력으로 돌리면 검사 실패다.
+- 같은 W24 장면이라도 최초 prepare, 이미 준비된 MainGame 재진입, StoryMode 저장
+  복귀는 입력 소유권이 다르다. 최초 경로의 현재 장면 handoff를 재진입·복귀의
+  material/history 입력으로 재사용하거나 세 경로의 reader 역할을 한 ID에 합치면
+  검사 실패다. source에서 서로 배타적인 호출만 같은 reader ID를 다시 쓸 수 있다.
+- 첫 청구서 formatter는 special token 하나가 있으면 material·dirty trace·현수·
+  obligation replacement를 한 호출에서 모두 계산한다. 따라서 실제 token-bearing
+  callsite마다 전체 read set을 기록하고 fact 합집합만 중복 제거한다. token이 없는
+  현수 prose 호출에 가짜 reader를 붙이거나 여러 호출을 한 번 읽은 것으로 압축하지
+  않는다.
+- 저장 증거는 `SaveManager.save_game`의 state payload, UTF-8 byte 쓰기·검증,
+  byte 읽기·typed state 복원, `SaveManager.load_game`, `GameState` serialize/load,
+  V2 전체 state normalization, Seoul Cycle receipt normalization의 정확한 여덟
+  단계를 모두 지난다. 메모리 dictionary 복사나 저장 함수 이름 하나만으로
+  SAVE_ROUNDTRIP을 증명하지 않는다.
+- 월말 Story reader는 한 실행에서 늘 함께 읽는 입력, 독립적으로 함께 성립할 수
+  있는 조건부 입력, 정확히 하나만 성립하는 배타 variant를 invocation 단위로
+  구분한다. 입력 상한은 가능한 각 실행 조합의 합집합에 적용하며, 같은 장면을
+  여러 reader ID로 쪼개 fan-in을 숨기면 검사 실패다.
 - W48은 `마지막 행동 → M12 완료·만료·세계 사건 → 12월 정산·실패 판정` 뒤
   치명적 결과면 그 자리에서 끝난다. 생존한 경로만 `chapter1_end_snapshot →
   연말 보스 → 실제 본 장면 회고 → chapter1_complete 저장 → 완료 화면`으로
@@ -79,13 +114,23 @@ Chapter 1 완성으로 세지 않는다.
 - `ROW_BIJECTION`: W25~48 month×family slot 24개 미구현
 - `DEAD_CARD`: 완료 뒤 대체 동사가 없는 비반복 카드 12개
 - `AUTO_PERSON_PICK`: M2~M6 사람 카드 5개
-- `ORPHAN_FACT`: M1 자소서 `resume_polished`, M6 NCS action receipt
-- `SHADOWED_READER`: M3 재고조사→M4 물류수업 reader 1개
+- `ORPHAN_FACT`: `resume_polished` 1개와 후속 gate/router가 실제 소비하지 않는
+  action receipt 11개, 합계 12개. 같은 producer 결과창·월말 표시·아카이브는
+  downstream reader로 세지 않는다.
+- `SHADOWED_READER`: M3 재고조사→M4 물류수업의 결과 방법 reader와 W24 완료
+  검증이 요구된 도시 선택의 정확한 application transition identity를 확인하지 못하는
+  reader, 합계 2개
 - `UNREACHABLE_CAP`: M5 사람 최대 2 계약 1개
 - `UNSCHEDULED_CHAIN`: 현재 W1~24 데이터에 선언됐지만 fresh 서울 사이클 편성이
   없는 `bundle:sns_pressure_night`
 - `DISPLAY_ONLY_FORGONE`: 주간 `forgone_ids`가 후속 행동을 바꾸지 않음
 - `LAYER_COLLISION`: 프롤로그 Story가 지원 상태를 직접 씀
+- `MILESTONE_FANIN`: W24 첫 청구서 한 장면이 여러 내부 invocation을 통해
+  서로 다른 역사 기억·결정을 상한보다 많이 함께 읽는 1개
+
+현재 exact baseline은 10개 evaluated code의 stable debt 60개이며, full-scope
+3개 코드는 W25~48 coverage로 `blocked_by_coverage`다. 이 숫자는 해결할 때만
+줄이며 ID를 삭제하거나 표시 reader를 인과 reader로 바꿔 맞추지 않는다.
 
 `ROW_BIJECTION`은 48 target의 missing/duplicate month×family에만 쓴다.
 `FAKE_REPEAT`는 W1~24 evaluated scope에서 0건이다.
@@ -101,8 +146,10 @@ verb·비용·가용성·참가자·결과를 전혀 바꾸지 않을 때만 쓴
 `SHADOWED_READER`, `AUTO_PERSON_PICK`, `UNREACHABLE_CAP`, `UNSCHEDULED_CHAIN`,
 `DISPLAY_ONLY_FORGONE`, `COUNTERFACTUAL_NOOP`, `LAYER_COLLISION`,
 `MILESTONE_FANIN`, `FAKE_REPEAT`, `ROUTE_NO_DIVERGENCE`, `ROUTE_HARD_LOCK`,
-`SAVE_ROUNDTRIP`의 정확 15개다. `MILESTONE_FANIN`은 `story_milestone` reader가
-행동/build 가족 2개+Story 결정 1개를 넘거나 입력이 이름 없이 합쳐질 때만 쓴다.
+`SAVE_ROUNDTRIP`의 정확 15개다. `MILESTONE_FANIN`은 `story_milestone` 장면의
+가능한 한 실행이 서로 다른 역사 기억 2개+Story 결정 1개를 넘거나 입력이 이름
+없이 합쳐질 때만 쓴다. 돈·몸·직업 같은 현재 물질 상태는 별도 입력으로 증명하되
+기억 수에 넣지 않으며, build 가족 수로 기억 수를 대신하지 않는다.
 
 ## 정확한 파일 소유권
 
@@ -142,6 +189,19 @@ bridge는 동일 clean W1~48 Chapter 1 후보만 소유하게 맞춘다.
 - current debt가 baseline과 missing/extra/stale 0으로 일치한다.
 - malformed·duplicate·stale pointer·orphan·shadowed·coverage-gap mutation self-test가
   모두 실패를 검출한다.
+- ledger의 canonical JSON 의미 해시와 모든 runtime proof의 ID·kind·pointer·assertion·
+  pointed-source digest를 checker가 별도 신뢰 루트로 고정한다. 원장만 함께
+  relabel하거나 유효하지만 무관한 함수로 proof를 옮겨도 실패해야 한다.
+- 인과 실행을 소유하는 runtime/data/normative source와 MainGame·StoryMode scene
+  binding은 exact source digest로 고정하고, replay archive의 실제 저장·조회 경로를
+  소유하는 MetaProgression·BuildFlavor도 같은 신뢰 루트에 둔다. `project.godot`은
+  GameState·DataRegistry·EventManager·SaveManager·MetaProgression의 exact autoload
+  binding을 검사한다. 화면·입력 등
+  무관한 프로젝트 설정 전체를 원장 해시로 얼리지는 않는다.
+- 24개 행동은 allocation-only 1개와 trigger-bearing 23개로 전수 분류하고, 모든
+  execution family가 fixed direct output 또는 source-exact conditional group 중
+  정확히 하나의 계약을 가진다. 미분류 family와 고정 결과에 발명한 group은 모두
+  실패한다.
 - audit selector는 원장·baseline·checker·제품 source 변경에서 이 검사를 고른다.
 - JSON parse, checker self-test/current, audit scope verify, queue/context/dashboard,
   `git diff --check`가 통과한다.
@@ -164,6 +224,68 @@ bridge는 동일 clean W1~48 Chapter 1 후보만 소유하게 맞춘다.
 - L3: 12개월×네 가족 전수 요약을 사용자에게 보여 정본 범위·공백·수리 순서를
   판정받는다. 자동 checker 통과는 canon GO가 아니며, 사용자 판정 전 ORDER-100을
   `[x]`로 닫지 않는다.
+
+### L2 현재 48-slot 전수표
+
+`P`는 해당 행의 완료·만료 producer ID 수, `R`은 행이 직접 명명한 near+milestone
+reader ID의 중복 제거 수다. 정확한 ID·pointer·fact 계약은 같은 `chain_id`의 machine
+ledger 행이 소유하며 checker가 source와 대조한다. 표의 `없음`은 빈칸이 아니라 현재
+`DEAD_CARD` 또는 후속 구현 경계다. 전역 부채 5개는 표 아래에 따로 적는다.
+
+| 월·가족 | 현재 정본 행 | producer → named reader | 완료 / 만료 뒤 동사 | 현 부채·후속 |
+|---|---|---:|---|---|
+| M1 직업·앞날 | `m1_resume` · 자기소개서 고쳐 쓰기 | P5 → R5 | 없음 / m2_advancement | DEAD+ORPHAN×2 · ORDER-101 |
+| M1 생계 | `m1_convenience` · 이번 주 편의점 시프트 | P5 → R6 | m1_convenience / m2_livelihood | — · ORDER-101 |
+| M1 사람 | `m1_father` · 아버지에게 할 말 적기 | P4 → R7 | 없음 / m2_people | DEAD · ORDER-101 |
+| M1 회복 | `m1_recovery` · 이번 주 하루 비우기 | P2 → R4 | m1_recovery / m2_self | — · ORDER-101 |
+| M2 직업·앞날 | `m2_advancement` · 서린물산 지원서 완성하기 | P5 → R6 | 없음 / m3_advancement | DEAD+ORPHAN · ORDER-101 |
+| M2 생계 | `m2_livelihood` · 배달 콜과 비 오는 금요일 | P5 → R6 | m2_livelihood / m3_livelihood | ORPHAN · ORDER-101 |
+| M2 사람 | `m2_people` · 연락하고 만날 시간 맞추기 | P4 → R6 | 없음 / m3_people | DEAD+AUTO · ORDER-101 |
+| M2 회복 | `m2_self` · 밀린 잠 갚기 | P4 → R4 | m2_self / m3_self | ORPHAN · ORDER-101 |
+| M3 직업·앞날 | `m3_advancement` · 한빛유통 지원서 보내기 | P5 → R6 | 없음 / m4_advancement | DEAD+ORPHAN · ORDER-102 |
+| M3 생계 | `m3_livelihood` · 야간 재고조사 조에 들어가기 | P5 → R8 | m3_livelihood / m4_livelihood | SHADOW · ORDER-102 |
+| M3 사람 | `m3_people` · 다시 만날 사람에게 연락하기 | P6 → R9 | 없음 / m4_people | DEAD+AUTO · ORDER-102 |
+| M3 회복 | `m3_self` · 영수증과 빨래 정리하기 | P4 → R6 | m3_self / m4_self | — · ORDER-102 |
+| M4 직업·앞날 | `m4_advancement` · 이번 달 면접·지원·수업 | P13 → R9 | 없음 / m5_advancement | DEAD · ORDER-102 |
+| M4 생계 | `m4_livelihood` · 엿새 심야 물류조 들어가기 | P5 → R4 | m4_livelihood / m5_livelihood | ORPHAN · ORDER-102 |
+| M4 사람 | `m4_people` · 다시 찾아갈 사람과 시간 맞추기 | P7 → R14 | 없음 / m5_people | DEAD+AUTO · ORDER-102 |
+| M4 회복 | `m4_self` · 몸과 방값 함께 점검하기 | P4 → R4 | m4_self / m5_self | — · ORDER-102 |
+| M5 직업·앞날 | `m5_advancement` · 도시시설운영단 지원서 보내기 | P5 → R6 | 없음 / m6_advancement | DEAD+ORPHAN · ORDER-103 |
+| M5 생계 | `m5_livelihood` · 나흘 이삿짐 보조조 들어가기 | P5 → R4 | m5_livelihood / m6_livelihood | — · ORDER-103 |
+| M5 사람 | `m5_people` · 기다리게 둔 사람에게 연락하기 | P7 → R9 | 없음 / m6_people | DEAD+AUTO+CAP · ORDER-103 |
+| M5 회복 | `m5_self` · 아무 약속 없는 일요일 | P4 → R4 | m5_self / m6_self | — · ORDER-103 |
+| M6 직업·앞날 | `m6_advancement` · NCS 실전 문제 시간 안에 풀기 | P4 → R4 | 없음 / 없음 | DEAD+ORPHAN · ORDER-103 |
+| M6 생계 | `m6_livelihood` · 사흘 심야 상하차조 잡기 | P5 → R4 | m6_livelihood / 없음 | ORPHAN · ORDER-103 |
+| M6 사람 | `m6_people` · 이번 달 지켜야 할 약속에 연락하기 | P4 → R54 | 없음 / 없음 | DEAD+AUTO · ORDER-103 |
+| M6 회복 | `m6_self` · 하루를 아무에게도 주지 않기 | P5 → R4 | m6_self / 없음 | ORPHAN · ORDER-103 |
+| M7 직업·앞날 | `slot:m07:advancement` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-104 |
+| M7 생계 | `slot:m07:livelihood` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-104 |
+| M7 사람 | `slot:m07:people` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-104 |
+| M7 회복 | `slot:m07:self` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-104 |
+| M8 직업·앞날 | `slot:m08:advancement` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-104 |
+| M8 생계 | `slot:m08:livelihood` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-104 |
+| M8 사람 | `slot:m08:people` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-104 |
+| M8 회복 | `slot:m08:self` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-104 |
+| M9 직업·앞날 | `slot:m09:advancement` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-105 |
+| M9 생계 | `slot:m09:livelihood` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-105 |
+| M9 사람 | `slot:m09:people` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-105 |
+| M9 회복 | `slot:m09:self` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-105 |
+| M10 직업·앞날 | `slot:m10:advancement` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-105 |
+| M10 생계 | `slot:m10:livelihood` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-105 |
+| M10 사람 | `slot:m10:people` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-105 |
+| M10 회복 | `slot:m10:self` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-105 |
+| M11 직업·앞날 | `slot:m11:advancement` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-106 |
+| M11 생계 | `slot:m11:livelihood` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-106 |
+| M11 사람 | `slot:m11:people` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-106 |
+| M11 회복 | `slot:m11:self` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-106 |
+| M12 직업·앞날 | `slot:m12:advancement` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-106 |
+| M12 생계 | `slot:m12:livelihood` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-106 |
+| M12 사람 | `slot:m12:people` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-106 |
+| M12 회복 | `slot:m12:self` · missing | P0 → R0 | 미정 / 미정 | ROW · ORDER-106 |
+
+행 밖의 현재 부채는 `DISPLAY_ONLY_FORGONE`, `LAYER_COLLISION`,
+`UNSCHEDULED_CHAIN`, W24 `MILESTONE_FANIN`, W24 application identity
+`SHADOWED_READER` 각 1개다. 행 부채 31 + missing ROW 24 + 전역 5 = exact 60이다.
 
 이 오더는 baseline을 `{}`로 만들지 않는다. 최종 Chapter 1 후보에서 모든 행과
 milestone이 실체화되고 baseline이 `{}`가 되는 책임은 ORDER-101~107이 나눠 가진다.

@@ -1,0 +1,82 @@
+{
+  "AUTO_PERSON_PICK": [
+    "row:m2_people:selection_owner",
+    "row:m3_people:selection_owner",
+    "row:m4_people:selection_owner",
+    "row:m5_people:selection_owner",
+    "row:m6_people:selection_owner"
+  ],
+  "DEAD_CARD": [
+    "row:m1_father:completed",
+    "row:m1_resume:completed",
+    "row:m2_advancement:completed",
+    "row:m2_people:completed",
+    "row:m3_advancement:completed",
+    "row:m3_people:completed",
+    "row:m4_advancement:completed",
+    "row:m4_people:completed",
+    "row:m5_advancement:completed",
+    "row:m5_people:completed",
+    "row:m6_advancement:completed",
+    "row:m6_people:completed"
+  ],
+  "DISPLAY_ONLY_FORGONE": [
+    "runtime:seoul_cycle:forgone_ids"
+  ],
+  "LAYER_COLLISION": [
+    "event:v2_opening_application_send:application_status"
+  ],
+  "MILESTONE_FANIN": [
+    "group:w24:story_scene:fanin"
+  ],
+  "ORPHAN_FACT": [
+    "fact:resume_polished",
+    "receipt:action:m1_youth_center_resume_clinic",
+    "receipt:action:m2_rain_delivery_shift",
+    "receipt:action:m2_seorin_application",
+    "receipt:action:m2_sleep_debt_sunday",
+    "receipt:action:m3_hanbit_application",
+    "receipt:action:m4_dodam_application",
+    "receipt:action:m4_logistics_shift",
+    "receipt:action:m5_city_service_application",
+    "receipt:action:m6_holiday_night_shift",
+    "receipt:action:m6_no_plans_day",
+    "receipt:action:m6_public_recruitment"
+  ],
+  "ROW_BIJECTION": [
+    "slot:m07:advancement",
+    "slot:m07:livelihood",
+    "slot:m07:people",
+    "slot:m07:self",
+    "slot:m08:advancement",
+    "slot:m08:livelihood",
+    "slot:m08:people",
+    "slot:m08:self",
+    "slot:m09:advancement",
+    "slot:m09:livelihood",
+    "slot:m09:people",
+    "slot:m09:self",
+    "slot:m10:advancement",
+    "slot:m10:livelihood",
+    "slot:m10:people",
+    "slot:m10:self",
+    "slot:m11:advancement",
+    "slot:m11:livelihood",
+    "slot:m11:people",
+    "slot:m11:self",
+    "slot:m12:advancement",
+    "slot:m12:livelihood",
+    "slot:m12:people",
+    "slot:m12:self"
+  ],
+  "SHADOWED_READER": [
+    "reader:m4_certificate_session:inventory_method",
+    "reader:milestone:w24:completion_application_choice"
+  ],
+  "UNREACHABLE_CAP": [
+    "row:m5_people:declared_cap_2"
+  ],
+  "UNSCHEDULED_CHAIN": [
+    "bundle:sns_pressure_night"
+  ]
+}

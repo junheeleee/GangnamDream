@@ -4,6 +4,128 @@ Use this checklist before major commits, playable builds, and release candidates
 
 Cross-discipline release gates and current product risks live in `docs/MASTER_RELEASE_AUDIT.md`.
 
+## Chapter 1 48-Week Causal Ledger Gate
+
+This gate has two deliberately different modes. A truthful snapshot of an
+incomplete Chapter 1 may pass the first mode; only a complete 12-month causal
+ledger may pass the second. Neither mode is a normal-speed human GO.
+
+### Current snapshot and coverage-gap gate
+
+- Run `python3 tools/chapter1_core_loop_v2_causal_ledger_check.py --self-test`,
+  then run `python3 tools/chapter1_core_loop_v2_causal_ledger_check.py` against
+  the checked-in ledger and debt baseline. The current declaration snapshot
+  must report target rows `48`, authoritative implemented rows `24`, missing
+  slots `24`, exact current↔baseline debt equality, and the literal diagnostic
+  `COVERAGE_GAP weeks=25..48 missing_slots=24 authoritative=24/48`.
+- Exit zero in this mode means only that the W1–24 prefix and the W25–48 gap
+  were described without missing, extra, duplicate, stale, or fabricated
+  evidence. `coverage_gaps` entries do not count as gameplay rows. A gap record
+  may name its range, missing slot IDs, status, runtime proof, and later owner;
+  it must not invent a producer, terminal, next verb, reader, or save proof for
+  unimplemented play.
+- The checker must lock the ledger's canonical semantic JSON digest and every
+  proof's exact ID, kind, pointer, assertion, and pointed-source digest. It must
+  also lock the causal runtime/data/normative owners and the MainGame/StoryMode
+  scene bindings, while checking the five exact project autoload bindings rather
+  than freezing unrelated project settings. A coordinated ledger relabel, a
+  valid-but-unrelated function pointer, or a changed transitive causal owner is
+  a failure even when the JSON schema still passes.
+- Every weekly branch owns only its board-route completion. Job-hunt quality,
+  Aruba results, inventory outcomes, recovery diminution, and Story choices are
+  exact nested output groups. The checker must enumerate realized branch×group
+  outputs, reject a group from another row or unreachable bundle, and reject a
+  Story output used to inflate weekly-route divergence or clear an orphan fact.
+  The 23 trigger-bearing rows plus the one allocation-only row must form an
+  exact execution-family census with zero unclassified rows and no invented
+  conditional group on a fixed result.
+- Milestone invocations must declare both facts read and facts produced. A
+  producer→reader handoff must preserve first-run versus reentry ownership,
+  exact choice identity, mutually exclusive activation, and any context-root or
+  deferred-receipt gate. A displayed log is classified separately and cannot
+  satisfy a causal reader, route-divergence, or orphan-fact requirement.
+- A multi-stage milestone must declare source-derived applicability,
+  predecessors, invocation membership, and runtime proof for every execution
+  stage. JSON array order is non-semantic: the checker must validate the DAG,
+  reject cycles and later→earlier handoffs, and allow a shared order index only
+  for source-proven mutually exclusive paths. Fatal/surviving, fresh/reentry,
+  dirty/clean, and optional-follow-up paths may not be unioned into one
+  impossible co-present execution.
+- First-entry, prepared MainGame reentry, and cold StoryMode resume must keep
+  separate handoff versus durable material/history roles. A reader may be reused
+  across mutually exclusive call sites only when no source scenario co-presents
+  the duplicates. Every First Bill formatter call containing a special token
+  must bind its eager full read set; a token-free call must not gain a fake
+  causal reader.
+- Each row's save proof is the exact eight-step chain from `SaveManager.save_game`
+  through payload byte write/read verification, `SaveManager.load_game`,
+  `GameState` serialize/load, and both V2 normalization layers. A raw dictionary
+  round trip or a pointer to only one normalization function is insufficient.
+- A report, dashboard, audit summary, or handoff that turns this expected
+  `COVERAGE_GAP`, a blocked full-scope evaluation, or normal snapshot exit zero
+  into Chapter 1 `OK`, complete, green, or release-ready evidence fails this
+  gate. Removing the blocked evaluation, reporting zero findings for an
+  unevaluated W25–48 scope, or weakening the target from 48 rows also fails.
+- Existing 24-week title-to-CTA input, surface, survivability, localization,
+  save, and First Bill rows remain authoritative prefix regression evidence.
+  The existing Week-24→48 component carryover row remains historical/legacy
+  compatibility evidence, including its expected zero new V2 receipts after
+  Week 24. Those checks may catch a regression, but none can satisfy the
+  complete-Chapter-One mode or prove playable W25 input.
+
+### Completion-only machine gate and W48 order
+
+- Run
+  `python3 tools/chapter1_core_loop_v2_causal_ledger_check.py --require-complete-chapter-one`
+  only for a final Chapter 1 candidate. It must fail while any coverage gap,
+  blocked evaluation, current debt, or baseline debt remains. It may exit zero
+  only with exactly 48 unique month×family rows, all 12 months containing one
+  `advancement`, `livelihood`, `people`, and `self` row, gap count `0`, blocked full-scope
+  evaluations `0`, and both current debt and baseline equal to `{}`. Every row
+  must have real runtime evidence for availability, completion/expiry producer,
+  terminal, next verb, near/month/W48 reader, and save round trip.
+- The completion gate must also prove this exact living W48 order:
+
+```text
+last W48 capacity/node action
+→ its threshold/task and W48 world event
+→ M12 completed/expired/forgone outcomes
+→ December income, fixed cost, arrears, decline, and failure check
+├─ fatal result → terminal failure only
+└─ survived → chapter1_end_snapshot from the post-settlement state
+              → arc_year1_close
+              → eligible actual-seen-scene curation
+              → chapter1_complete save
+              → Chapter 1 completion surface
+              → user chooses Chapter 2
+              → W49 and chapter_card_34
+```
+
+- Routing `arc_year1_close` at W48 week start, before the final action or
+  December settlement, is a failure even if the event is reachable. A fatal
+  December result opens no Year-One boss, scene curation, completion save, or
+  completion surface. The frozen snapshot must contain the actual final action
+  and post-settlement material state and must not read W49 or Chapter 2 facts.
+
+### L2 48-slot review and human boundary
+
+- L2 is one exhaustive 48-row review table, not a count summary. It contains
+  exactly one row for each `M01..M12 × advancement|livelihood|people|self` slot
+  and records slot ID, month/week window, family, `implemented|missing`, runtime
+  pointer or current gap proof, completion/expiry producer and terminal, next
+  verb, near/month/W48 reader, save proof, current debt code, and later debt
+  owner. Duplicate or absent slots fail. In the declaration snapshot, M1–M6 are
+  the 24 implemented rows and M7–M12 are the 24 explicit missing rows; a missing
+  row may not be reviewed as if planned prose were runtime evidence.
+- Checker self-tests, the normal snapshot, the completion-only flag, and the L2
+  table are L1/L2 evidence only. Even a future
+  `--require-complete-chapter-one` pass does not approve pacing, depth, intuitive
+  controller play, physical-pad feel, continuous A/V, remembered sacrifices,
+  replay variety, or emotional closure. The same clean candidate still requires
+  normal-speed 48-week play, physical input/A/V checks, and the user-owned L3
+  Chapter 1 verdict before retail default, release, or Chapter 1 completion may
+  be claimed.
+
 ## Release Content Survey / Rating Intake Gate
 
 - `content/meta/release_content_inventory.json` is the machine ledger and
@@ -114,7 +236,7 @@ python3 tools/release_content_inventory.py \
 | Core Loop V2 Weeks 9–12 gate: Month Three presents exactly four Seoul Cycle nodes with unique work, place, deadline, and threshold semantics; the inventory-crew milestone opens the real inventory task, not a generic confirmation; the people node resolves at enrollment to one causally eligible person/encounter and becomes locked when none exists; the room-ledger/self node owns recovery and story exactly once; world events remain separate from player allocation. Weekly owner, action result, node progress, application/relationship receipt, featured miss, month summary, and save/load remain atomic; the 80,000-won repair, 2,000,000/1,500,000/3,000,000 cash facts, 310,000-won arrears, and 50,000-won inventory ledger stay exact | `python3 tools/demo_core_loop_v2_audit.py`, `CoreLoopV2CycleCheck.tscn`, the Month-Three segments of `tools/run_core_loop_v2_input_qa.sh full-matrix`, and KO/EN surface captures; the first-meeting→player-pursuit feel remains a human gate |
 | Core Loop V2 Weeks 13–16 gate: Month Four uses four nodes—interview/application/class, logistics livelihood, one causally eligible person, and health/housing self-care. Conditional career/people triggers resolve once with their exact week window, threshold, localized label/place, named owner, and contact axis and remain identical after normalize and save/load; unmet people paths lock instead of inventing a contact or recording a forgone choice. Existing Hanbit, Daeun, Jiyeon, Sangchul, and Jaehyuk prerequisites and exclusive groups remain authoritative; the logistics and housing actions own their effects once; Week 16 summary reaches Month Five without legacy-planner fallthrough | `python3 tools/demo_core_loop_v2_audit.py`, `CoreLoopV2CycleCheck.tscn`, `tools/run_core_loop_v2_input_qa.sh full-matrix`, and `surface-matrix`; normal-speed pursuit memory/fun remains a human gate |
 | Core Loop V2 Weeks 17–20 gate: Month Five uses four nodes—next application/work preparation, moving livelihood, one waiting person, and an empty Sunday. The selected person branch preserves its prior contact and exact allowed week or locks; `daeun_shared_dream` can still feed Week 21 only from its legal Week-20 path. Hanbit hired/declined status, job_03, received-message receipt, 1,680,000-won first pay and 2,240,000-won later pay, Friday 18:00 City deadline, moving/spreadsheet action ownership, Month-Six response deferral, decline consumers, and Month-Five summary all remain exact and atomic | `python3 tools/demo_core_loop_v2_audit.py`, `CoreLoopV2CycleCheck.tscn`, `tools/run_core_loop_v2_input_qa.sh full-matrix`, and KO/EN surfaces; normal-speed conflict memory/fun remains a human gate |
-| Core Loop V2 Weeks 21–24 release-candidate gate: Month Six has four nodes—NCS/final practice, loading livelihood, an actually owed promise, and rest/walk—with conditional people paths locked when their prerequisites are absent. Week-21 Father signal and Week-22/23 application responses stay world-owned; Week-24 preserves dirty-account callback → First Bill opening/decision/ledger → eligible Hyunsu exam echo ordering without inventing an absent branch. Every allocation, follow-up, world receipt, selected/deferred/expired obligation, final pay, and successful completion autosave occurs exactly once; the 24-allocation recap separates spent time, partial progress, missed featured opportunities, and locked paths. A successful completion CTA never calls `finish_run` or writes again; a failed-autosave South input remains on the same recap and owns only the explicit retry | `python3 tools/demo_core_loop_v2_audit.py`, `CoreLoopV2CycleCheck.tscn`, `CoreLoopV2FirstEntryCheck.tscn`, `tools/run_core_loop_v2_input_qa.sh full-matrix`, `surface-matrix`, and `CoreLoopV2CycleBalanceCheck.tscn`; normal-speed 75–95-minute memory/fun, physical pad, and continuous A/V remain human gates |
+| Core Loop V2 Weeks 21–24 audited-prefix gate: Month Six has four nodes—NCS/final practice, loading livelihood, an actually owed promise, and rest/walk—with conditional people paths locked when their prerequisites are absent. Week-21 Father signal and Week-22/23 application responses stay world-owned; Week-24 preserves dirty-account callback → First Bill opening/decision/ledger → eligible Hyunsu exam echo ordering without inventing an absent branch. Every allocation, follow-up, world receipt, selected/deferred/expired obligation, final pay, and successful completion autosave occurs exactly once; the 24-allocation recap separates spent time, partial progress, missed featured opportunities, and locked paths. A successful diagnostic CTA never calls `finish_run` or writes again; a failed-autosave South input remains on the same recap and owns only the explicit retry | `python3 tools/demo_core_loop_v2_audit.py`, `CoreLoopV2CycleCheck.tscn`, `CoreLoopV2FirstEntryCheck.tscn`, `tools/run_core_loop_v2_input_qa.sh full-matrix`, `surface-matrix`, and `CoreLoopV2CycleBalanceCheck.tscn`; normal-speed 75–95-minute memory/fun, physical pad, and continuous A/V remain W1–24 diagnostic gates |
 | Father-memory closure and Week-24 receipt ownership: the three mutually exclusive Month-Three quiet-call memories each add one visible KO/EN paragraph to the guaranteed Week-21 Father health signal; the three mutually exclusive Week-21 responses each add one paragraph to the guaranteed First Bill opening. Gallery replay freezes that one Week-21 memory and never substitutes a later run's relationship state; an old schema-1 replay without the field uses base prose. Missing, wrong-character, legacy-flag-only, V1, and unreconstructable completed-save paths likewise infer no contact. The four police/recruiter choices preflight the collision-owned claimed receipt before any effect or result UI, keep their exact effects once, resolve only that exact source key, create zero new generic story-choice receipts, preserve injected old or same-root foreign receipts unchanged, and fail closed when their exact deferred owner is absent | `python3 tools/demo_core_loop_v2_audit.py`, `CoreLoopV2BCheck.tscn`, `CoreLoopV2ECheck.tscn`, `CoreLoopV2HandoffCheck.tscn`, `ManualSaveCheck.tscn`, and KO/EN `tools/run_core_loop_v2_input_qa.sh surface-matrix`; automation must report relationship `readerless=0`, Week-24 generic `write_only=0`, exact deferred owners/readers `2`, local effects `4`, and new events `0`. Whether the variations feel like a remembered relationship rather than a hidden score remains the ORDER-88 human gate |
 | Twenty-Four Weeks in Seoul completion: the fresh boundary freezes Week-24 money, fixed expense, body, mind, housing/background, financial rung, temptation receipts, all 24 allocations, six month summaries, obligations, and unresolved threads before later live state can change. The first summary has no vertical scroll; North opens six month pages plus one unresolved page, LB/RB wraps pages, D-pad selects exact receipt rows, East returns, and South exits only after autosave succeeds. Each month keeps four global-week allocation rows, up to four outcomes, up to eight deterministically ordered scene receipts, and a missed record. Failed autosave retries on the same component instance and cannot escape; success unlocks the terminal CTA. A supported pre-snapshot completed save shows only reconstructable facts and marks every missing amount, state, week, relationship, callback, obligation, or event as `기록 없음 / NOT RECORDED`; it never reads the current HUD, fabricates a receipt, or falls back to the obsolete modal. KO/EN 960×600 and 1280×800 keep the summary, details, focus, and CTA inside the viewport | `tools/run_core_loop_v2_input_qa.sh surface-matrix` must end with exact `CORE_LOOP_V2_SURFACE_MATRIX_OK languages=ko+en resolutions=1280x800+960x600 cases=4` and covers snapshot immutability, retry, seven-page navigation, and legacy unknown/fallback fixtures; `full-matrix` covers keyboard/gamepad completion and one non-writing title CTA |
 | Core Loop V2 title-to-24-week product route: preconfigured KO/EN title → opening/prologue → Chapter 1 → three-page Seoul Cycle tutorial → six monthly boards → 24 raw-input capacity/node allocations → every eligible threshold action and world event → five intermediate month summaries → First Bill opening/decision/ledger and only the causally eligible exam echo → exactly one successful turn-25 completion autosave → frozen summary → six month pages plus unresolved page → non-writing CTA → title and V2-entry rediscovery. KO/EN×keyboard/gamepad must each report six cycle plans, 24 allocations, suppressed routines 24, expected world/trigger receipts, `first_bill=1/1/1`, `autosave=1`, `title_return=1`, `mixed=0`, `semantic_events=0`, and `unknown_events=0`; settings/display/meta/autosave/slot paths remain inside each run's isolated absolute root | `tools/run_core_loop_v2_input_qa.sh full-matrix` must end with exact `CORE_LOOP_V2_FULL_MATRIX_OK languages=ko+en devices=keyboard+gamepad weeks=24 cases=4`; selectors may locate and focus controls by stable metadata, but activation uses raw `InputEventKey` or `InputEventJoypadButton` press/release. Direct schedule/choice/GameState assembly, `pressed.emit()`, semantic action injection, mixed-device rescue, and legacy `demo-experience` do not satisfy this gate. Packaged boot and physical Deck/pad feel remain separate gates |
@@ -123,7 +245,7 @@ python3 tools/release_content_inventory.py \
 | Core Loop V2 24-week survivability: the fresh Seoul Cycle balance owner must execute four named strategies—livelihood, advancement, people, recovery—and one deliberate high-cost fatal route through all real allocations, trigger/world effects, decline receipts, and six month settlements. It records exact monthly cash/health/mental/employment plus observed floors, never seeds later-week receipts or normalizes stats, and evaluates game over after due decline but before summary/CTA. The old 18 branch-only kernels and 48 routine units remain legacy/fallback regression only and cannot satisfy this row | `python3 tools/demo_core_loop_v2_audit.py`, `CoreLoopV2CycleBalanceCheck.tscn`, and `CoreLoopV2CycleCheck.tscn`; `tools/audit.sh` must require exit 0, exact `CORE_LOOP_V2_CYCLE_BALANCE_OK`, and zero engine/script/parse errors in strict mode. Exact trajectories and named baselines are owned by `docs/BALANCE.md` |
 | Whole-won cash and funded opportunities: nearest won with signed `.5` away from zero, one settlement per transaction, integer serialization after retired-phone migration and repeated load, conserved loan/investment receipts, exact 19 choices / 15 events / 7 files, funded choice parity across MainGame/StoryMode/EventManager, zero-stake no RNG/state/cooldown/follow-up, two state-free KO/EN fallback exits, item-gated sibling handling, and safe new/override mod topology | `python3 tools/opportunity_money_audit.py`, `python3 tools/mod_pack_validator.py --self-test`, `MoneyIntegrityCheck.tscn`, `CoreLoopV2HandoffCheck.tscn`, `SimRun.tscn`, then `python3 tools/convergence_sim.py --runs 3000 --write docs/CONVERGENCE_REPORT.md`; exact W24/W48/W240 and policy bands are owned by `docs/BALANCE.md`.<br>`SimRun.tscn` records real metaprogression, so local runs must use a disposable `HOME` with `GANGNAM_SIMRUN_ISOLATED=1`; ordinary player HOME execution is rejected and CI gives the step its own HOME. |
 | Core Loop V2 Year-One component carryover `[component-runtime PASS]`: all four unmodified turn-25 snapshots continuing through production GameState weekly actions and month processing plus the actual Week-27/31/36/42/48 Hyunsu/Year-One scheduler outcomes and the selected clean path's Week-28 City result; no date teleport during the carryover drive, no V2 routine effect or receipt after Week 24, no stat normalization, positive health/mental at every month close, exact Week-48 `arc_year1_close`; non-positive-cash cafe paths use the same production availability contract and state-free authored exit as the player surface | `CoreLoopV2HandoffCheck.tscn`; exact Week-24→48 cash/health/mental, observed floors, recovery weeks and monthly ledgers for all four paths are owned by `docs/BALANCE.md`; this is component-runtime evidence, not UI end-to-end evidence |
-| Demo-save → full-build MainGame continuation `[OPEN human/release blocker]`: after V2 is promoted out of its isolated playtest namespace, a completed public-demo save loaded by the full build must leave the 24-week CTA, restore the normal post-demo economy and controls, preserve V2 future receipts and the actual prologue/run-seen history, and enter Week 25 exactly once. Reloading the sealed turn-25 receipt inside the current playtest namespace is not handoff evidence | A real demo-flavor save created from the MainGame prologue through the Week-24 CTA must be loaded in a separate full-build process and driven through Week 28; a component-built snapshot or current V2 playtest save cannot close this gate, and public continuation support remains unclaimed while it is OPEN |
+| Chapter-One demo-save → full-build MainGame continuation `[OPEN human/release blocker]`: after V2 is promoted out of its isolated playtest namespace, a surviving W48 `chapter1_complete` save loaded by the full build must remain on the completion boundary until the user chooses Chapter Two, then restore the normal economy and controls, preserve all 48 action receipts plus actual prologue/run-seen history, and enter Week 49 exactly once. Reloading the sealed turn-25 diagnostic receipt or driving a legacy component snapshot to W48 is not handoff evidence | A real demo-flavor save created from the MainGame prologue through W48 action, December settlement, Year-One close and Chapter-One completion must be loaded in a separate full-build process and driven through Week 52; a component-built snapshot or current W1–24 playtest save cannot close this gate, and public continuation support remains unclaimed while it is OPEN |
 | Seoul Cycle, legacy planner, and portrait contact phone: fresh enrolled Months One through Six use one full-screen four-capacity/four-node board. It shows exact progress, effects, deadline, world-clock position, locked/expired/featured-missed/repeat state; preview and East cancellation are zero-delta; South commits one legal pair; unavailable nodes leave the focus path; root East cannot bypass an unfinished week; saved unfinished boards reopen editable; finished history reopens read-only; the floating playtest badge is hidden while open and synchronously restored on close. The old three-step `Weeks → Routines → Final Review` planner remains only for already committed episode/legacy saves and preserves its old placement, routine, refund, and read-only contracts. The separate right-side portrait phone remains Messages/Contacts only; only `inbound_message|call_log` is conversation and only `phone|kakao|business_card` is reachable contact; device/store/finance/investment/leisure/game entry points remain zero | `PhoneSystemCheck.tscn`, `CommunicationPhoneCheck.tscn`, `CoreLoopV2Check.tscn`, `CoreLoopV2CycleCheck.tscn`, `CoreLoopV2FirstEntryCheck.tscn`, `TutorialInputCheck.tscn`, `tools/run_core_loop_v2_input_qa.sh full-matrix`, and `surface-matrix` |
 | First-run language gate, KO default names, localized portrait name tags | `--qa=locale-gate` |
 | Prologue motivation imprint: Knee, Last Payment, notebook choices, persistent goal sentence, notebook modal, montage, and month-end ritual | `--qa=motivation-imprint --lang=ko/en` |
@@ -285,7 +407,7 @@ Automated onboarding gates:
 - The first-24-week scene-flow profiler must report `events=46 roots=25 followups=21 continuous=9 followup_recuts=0 uncontracted_moves=0 same_week_conflict_switches=0`. It must keep the first shift, Hyunsu study, first investment loss, job/investment mirror, and Hyunsu night scene at weeks `3/18/15/20/20`; the first savings milestone may not interrupt week 17 and must retain its pending latch through later spending.
 - With the same route seed and selected actions, KO and EN must produce the same week-by-week cash, event order, pressure sequence, action profile, and final gameplay state. Localized prose may change only the input count. Presentation motion and audio pitch must never consume the global gameplay random stream.
 - The demo route must observe `arc_gangnam_visit_alone` and `arc_four_months_in` in week 22, `story_first_savings_milestone` in week 23, `hyunsu_exam_day` as the final story event in week 24, and no formal Hyunsu result before the cutoff. The representative route must hold at least KRW 3,000,000 when the savings prose is shown; the current KO/EN route holds KRW 7,010,192. A full route must observe exactly one pass/fail result in week 25. Week 22 above 55 confirms fails the spacing gate.
-- The paragraph above and the existing `demo-experience` title-to-CTA routes are legacy-fallback evidence, not proof of the V2 Seoul Cycle. The dedicated V2 product-route row is the instrumented source-runtime owner: stable selectors establish target reachability, synthesized raw event press/release establishes activation, and the isolated sealed turn-25 receipt proves that Weeks 1–24 completed. It never proves playable Week 25 or public-demo→full handoff. Directional focus links and packaged first-run entry need separate automation; physical device feel and a normal-speed verdict remain human gates.
+- The paragraph above and the existing `demo-experience` title-to-CTA routes are legacy-fallback evidence, not proof of the V2 Seoul Cycle. The dedicated V2 product-route row is the instrumented source-runtime owner: stable selectors establish target reachability, synthesized raw event press/release establishes activation, and the isolated sealed turn-25 receipt proves that Weeks 1–24 completed. It never proves playable W25–48, Chapter-One completion, or the W48→W49 public-demo/full handoff. Directional focus links and packaged first-run entry need separate automation; physical device feel and a normal-speed verdict remain human gates.
 - The First Bill must expose one gallery/year-scene root. It starts at the desk at 17:52, moves through the selected action's actual place and elapsed time, then returns to the same notebook ledger. Title, dialogue history, and score must not restart as separate cards; route backgrounds and ambience must follow the authored movement. Only currently valid 2–4 candidates may appear. Three expression choices must produce distinct local prose with zero serialized-state, promise, receipt, relationship, or Moral change; the selected one of the existing eight decisions must preserve its exact effect and receipts. The ledger must distinguish selected, deferred, and expired obligations, skip after a fatal health result, and leave Monday 29 June without erasing the finished action.
 - A completed First Bill replay must use its bounded JSON-safe snapshot rather than live-run HUD/state, expose no internal fragments as separate gallery entries, and allow alternate decision/fatal/ledger viewing without mutating the current run. Legacy Week-24 in-progress saves must migrate atomically to the opening→decision→ledger sequence; malformed or contradictory receipt/queue/pending-index payloads must roll back byte-identically. A legacy completed save without reconstructable pre-close facts must not receive a synthetic replay snapshot.
 - The current generated direction/audio inventory is 1,603 localized event pairs, 177 authored event edges, and 94 registered backgrounds. `python3 tools/scene_direction_catalog.py`, `scene_audio_contract_check.py`, the release-content inventory freshness check, and their self-tests must agree on those generated sources after any opening or First Bill edit; older 1,565/166/91 values in historical release notes are not the current baseline.
@@ -498,7 +620,7 @@ Automated input and display gates:
 - Loading restores player state, portfolio, relationships, flags, inventory, and logs.
 - Every new save stores `game_version`, `build_id`, `build_flavor`, and `save_namespace`; the start-menu slot row shows its source and compatibility before loading.
 - A `game_version` or `build_id` mismatch is diagnostic-only and loads with a warning. A future save schema, invalid identity field, mismatched namespace/flavor, full save opened in a demo, or a general post-Week-24 save opened in the demo/V2 playtest is rejected before mutating `GameState`. The sole V2 exception is the exact same-playtest-identity, strict-typed `turn=25` completion receipt with completed Weeks `1..24`; it reopens the Week-24 recap/CTA and does not expose Week-25 play. Any arbitrary turn 25 or turn 26+ remains rejected.
-- The compatibility direction allows a demo-flavor save in a full loader, but a full save may not load in the demo and the current V2 playtest namespace is isolated in both directions. Public-demo CTA→full MainGame Week-25 continuation remains the OPEN human/release blocker above; loader acceptance alone does not close it. Identity-less legacy saves remain eligible within the active flavor and cutoff, with an explicit warning.
+- The compatibility direction allows a demo-flavor save in a full loader, but a full save may not load in the demo and the current V2 playtest namespace is isolated in both directions. The current W1–24 loader/cutoff is diagnostic compatibility only. The public human/release blocker is a surviving W48 `chapter1_complete` save → explicit Chapter-Two choice → full MainGame Week 49 exactly once; loader acceptance alone does not close it. Identity-less legacy saves remain eligible within the active flavor and cutoff, with an explicit warning.
 - A save write must verify temporary bytes and payload identity before replacement, preserve a byte-identical verified backup of the prior primary, and leave the prior primary/backup untouched on any failed stage. Retry must produce one success without stale temporary files. If the primary is missing or parse-corrupt, load may use only a compatible verified backup and must restore the canonical primary bytes before applying state.
 - Archive `seen_scenes` and `unlocked_cgs` survive restarts through MetaProgression; old meta saves receive empty defaults without migration failure.
 - Archive replay never mutates the active run, achievements, scene history, or CG unlock history.

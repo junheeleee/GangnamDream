@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-08-11",
+  "updated": "2026-08-12",
   "boot": {
     "required": [
       {
@@ -58,6 +58,7 @@
     ],
     "weekly_loop": [
       "docs/CORE_LOOP_V2.md",
+      "content/meta/chapter1_core_loop_v2_causal_ledger.json",
       "content/meta/demo_core_loop_v2.json",
       "docs/AP_REDESIGN.md",
       "docs/GAME_RECOMPOSITION_PLAN.md"
@@ -156,6 +157,7 @@
       ],
       "conditional": [
         "docs/CORE_LOOP_V2.md",
+        "content/meta/chapter1_core_loop_v2_causal_ledger.json",
         "content/meta/demo_core_loop_v2.json",
         "docs/ROMANCE_SYSTEM.md",
         "docs/GAME_RECOMPOSITION_PLAN.md",
@@ -165,6 +167,7 @@
     "gameplay_balance": {
       "required": [
         "docs/CORE_LOOP_V2.md",
+        "content/meta/chapter1_core_loop_v2_causal_ledger.json",
         "content/meta/demo_core_loop_v2.json",
         "docs/AP_REDESIGN.md",
         "docs/BALANCE.md",
@@ -213,6 +216,8 @@
       ],
       "conditional": [
         "docs/QA_CHECKLIST.md",
+        "docs/CORE_LOOP_V2.md",
+        "content/meta/chapter1_core_loop_v2_causal_ledger.json",
         "docs/MORAL_TINT.md",
         "autoloads/ControllerHints.gd"
       ]
@@ -358,7 +363,12 @@
       "must_contain": [
         "주요 장면 수에는 목표·하한·상한을 두지 않는다.",
         "수를 맞추려고 얕은 사건을 전경으로 올리지 않으며",
-        "authored 판정은 `existing_roots` 또는 `planned_scene_id`가 실제 등록 사건으로"
+        "authored 판정은 `existing_roots` 또는 `planned_scene_id`가 실제 등록 사건으로",
+        "Chapter 1 48행 인과 원장",
+        "runtime proof",
+        "reader ID를 나눠 실제 fan-in을 숨기지 않는다",
+        "chapter1_end_snapshot",
+        "W1~48 Chapter 1 제작 게이트"
       ]
     },
     {

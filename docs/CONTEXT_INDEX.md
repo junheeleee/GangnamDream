@@ -1,6 +1,6 @@
 # Gangnam Dream Context Index
 
-Updated: 2026-08-11
+Updated: 2026-08-12
 
 이 문서는 “무엇이 정본인가”를 다시 설명하는 바이블이 아니라, 작업에 필요한 정본만 고르는 라우터다. 상세 규칙은 아래 소유 문서 한 곳에만 둔다. 기계 판독 버전은 `docs/context_manifest.json`이다.
 
@@ -30,7 +30,7 @@ Updated: 2026-08-11
 |---|---|---|
 | 상품 정체성·현재 상태 | `CLAUDE.md` | 현재 목표와 불변 규칙. 실행 우선순위·상태는 `CODEX_QUEUE.md`만 소유 |
 | 세계·인물·5장 서사 | `docs/STORY_BIBLE.md`, `docs/CANON_MAP.md` | 의도된 이야기와 세계 사실 |
-| 선택·주간 루프 | `docs/CORE_LOOP_V2.md`, `content/meta/demo_core_loop_v2.json`, `docs/AP_REDESIGN.md`, `docs/GAME_RECOMPOSITION_PLAN.md` | 데모의 넓은 월간 약속·별도 세로 연락폰·관계 주도권, 기존 AP·Quiet/Echo 폴백 |
+| 선택·주간 루프 | `docs/CORE_LOOP_V2.md`, `content/meta/chapter1_core_loop_v2_causal_ledger.json`, `content/meta/demo_core_loop_v2.json`, `docs/AP_REDESIGN.md`, `docs/GAME_RECOMPOSITION_PLAN.md` | Chapter 1의 48주 인과 슬롯·현재 전반부 런타임·별도 세로 연락폰·관계 주도권, 기존 AP·Quiet/Echo 폴백 |
 | 참조 시스템 판정 | `docs/REFERENCE_SYSTEM_VERDICTS.md` | 외부 참조 구조의 채택·보류·폐기, 기존 여력·노드·클록·영수증 부착 경계 |
 | 선택·5장 결과 | `docs/CHOICE_CONSEQUENCE_SYSTEM.md` | 표현·기억·결정 선택, 영수증·사실·반복 패턴, 챕터 간 스노우볼과 엔딩 입력 |
 | 인과·장소·대화 채널 | `content/meta/story_rules.json`, `docs/STORY_CONSISTENCY_SYSTEM.md` | 선행조건, 통화/기억, 장면 전환 |
@@ -66,7 +66,7 @@ Updated: 2026-08-11
 조건부:
 
 - 관계 장면: `docs/ROMANCE_SYSTEM.md`
-- Chapter 1의 1~48주 편성: `docs/CORE_LOOP_V2.md`, `content/meta/demo_core_loop_v2.json`, 필요한 경우 현재 48행 인과 원장과 활성 Chapter 1 오더. 현재 제품에 구현된 전반부는 1~24주다.
+- Chapter 1의 1~48주 편성: `docs/CODEX_QUEUE.md`가 가리키는 현재 활성 Chapter 1 오더, `docs/CORE_LOOP_V2.md`, `content/meta/chapter1_core_loop_v2_causal_ledger.json`, `content/meta/demo_core_loop_v2.json`. 현재 제품에 구현된 전반부는 1~24주다.
 - 본편 폴백 편성: `docs/GAME_RECOMPOSITION_PLAN.md`, 현재 `ORDER-28`
 - 엔딩 라우팅: `content/endings.json`, `systems/EndingSystem.gd`, 관련 `DECISIONS` 절
 
@@ -75,6 +75,7 @@ Updated: 2026-08-11
 필수:
 
 - `docs/CORE_LOOP_V2.md`
+- `content/meta/chapter1_core_loop_v2_causal_ledger.json`
 - `content/meta/demo_core_loop_v2.json`
 - `docs/AP_REDESIGN.md`
 - `docs/BALANCE.md`
@@ -140,6 +141,8 @@ AP/Decision 문서는 내부 경제와 49~240주 폴백의 증거이며, Chapter
 조건부:
 
 - 화면 계약: `docs/QA_CHECKLIST.md`
+- Chapter 1 보드·패드·해상도: `docs/CODEX_QUEUE.md`가 가리키는 활성 Chapter 1
+  오더, `docs/CORE_LOOP_V2.md`, `content/meta/chapter1_core_loop_v2_causal_ledger.json`
 - Moral 표면: `docs/MORAL_TINT.md`
 - 실제 의미 입력: `autoloads/ControllerHints.gd`
 

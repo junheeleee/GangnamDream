@@ -1,6 +1,6 @@
 # Gangnam Dream Master Release Audit
 
-Updated: 2026-08-03
+Updated: 2026-08-12
 
 ## Mission
 
@@ -15,16 +15,17 @@ Adjacent and top-selling execution references are assigned by surface in `docs/S
 - The demo must create desire for another week, another relationship scene, and another run before asking for a wishlist.
 - Market appeal is tested with strangers and store data, not inferred from content volume.
 
-## Current 24-Week Demo RC Boundary
+## Current W1–24 Audited-Prefix RC Boundary
 
-The current V2 line is an automated release candidate, not a human release
-approval. Weeks 1–24 use the monthly four-promise loop on a full-width planning
+BUILD `2026.08.11.3` is an automated save-recovery and audited-prefix candidate,
+not a completed Chapter One or a human release approval. Weeks 1–24 use the
+monthly four-promise loop on a full-width planning
 board; a separate portrait contact phone contains only real messages, call
 history, and reachable contacts. Week 24 ends at the midpoint of the 48-week
-first chapter. Durable receipts continue to
+first chapter. Existing legacy carryover evidence continues those receipts to
 Hyunsu's Week-27 result, the City Facilities Week-28 result, the exact
 Week-48/96/144/192 closes and the Week-197 reckoning without replacing the
-240-week ending.
+240-week ending, but it is not playable W25–48 Seoul Cycle evidence.
 
 Automated gates cover exact economy ledgers, choice/state round trips, one
 fresh-boundary autosave, completed-save resume without another write, Korean
@@ -32,10 +33,13 @@ and English 720p surfaces, controller navigation contracts, all five chapter
 handoffs and zero representative-path scheduler jams. Device tiers, purchases,
 favorites, and phone-hosted finance or leisure are retired; valid legacy
 refurbished-phone receipts receive one idempotent KRW 180,000 migration refund.
-`runtime_default=false` stays locked until one unchanged RC
-passes a normal-speed 75–95-minute play, physical Steam Deck/DualSense input,
-continuous headphone/laptop/TV A/V review, external comprehension and a human
-desire-to-continue verdict.
+`runtime_default=false` stays locked until one unchanged **W1–48 Chapter One
+RC** has 48 real action rows, no coverage gap or causal debt, the exact W48
+survivor/fatal boundary, and passes measured normal-speed play, physical
+Steam Deck/DualSense input, continuous headphone/laptop/TV A/V review,
+external comprehension and a human desire-to-continue verdict. The former
+75–95-minute W1–24 target remains diagnostic evidence and is not a retail
+unlock condition.
 
 ## Artifact Identity, Save, and Third-Party Notice Gate
 

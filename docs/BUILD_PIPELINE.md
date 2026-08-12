@@ -74,10 +74,11 @@ HEAD 커밋 날짜와 같은지, 첫 부모가 쓴 ID를 그대로 재사용하�
 불능이면 호환되는 verified backup만 읽어 primary를 같은 바이트로 복구한다.
 이 계약은 프로세스 내 교체·복구 증거이며 OS 전원 상실 시나리오까지 승인하지는 않는다.
 
-기존 demo flavor 저장을 full loader가 인식할 수 있다는 호환 방향과, 공개 데모의
-24주 결산에서 full MainGame 25주로 이어지는 제품 경로는 다른 판정이다.
-현재 V2 playtest 저장은 정식판과 격리되며, 공개 데모→정식판 Week 25
-MainGame 이월은 아래 실기기·사람 게이트가 열려 있는 출시 블로커다.
+기존 demo flavor 저장을 full loader가 인식할 수 있다는 호환 방향과 공개 제품
+bridge는 다른 판정이다. 현재 BUILD `.3`의 V2 playtest 저장은 정식판과 격리된
+W1~24 audited-prefix 진단이며 W25 이월 후보가 아니다. 공개 제품 bridge는 같은
+clean W1~48 후보의 생존 `chapter1_complete` 저장을 full build가 열고, 사용자가
+2장 시작을 고른 뒤 W49를 정확히 한 번 시작하는 경로다.
 
 ## 2. 준비
 
@@ -175,7 +176,7 @@ autoload·StartMenu 코드에서 다음을 검사한다.
 - 창 제목·시작 화면 build identity·전 장면 corner marker 중 flavor 누락이 없는지
 - `runtime_default=false`와 24주 cutoff가 유지되고 feature만으로 런을 몰래 켜지 않는지
 
-### 24주 서울 사이클·결산·저장 스모크
+### W1~24 audited-prefix 서울 사이클·결산·저장 스모크
 
 - `CoreLoopV2CycleBalanceCheck.tscn`은 fresh 실제 배치로 생계·성장·사람·회복
   24주 경로와 고비용 사망 경로를 돌린다. `audit.sh`는 위의 exact marker·종료
@@ -352,15 +353,19 @@ Linux·Steam Deck `6858217e11fc6820d00f5be4cacb13e16e7f859ad534aefbfa572449bd95a
 
 자동 게이트는 표본이 `READY_FOR_HUMAN_VERDICT`인지만 판정하며 재미·출시 GO를 선언하지 않는다. Windows와 Linux/Deck의 물리 기기 실행 스모크도 계속 OPEN이다.
 
-### 공개 데모→정식판 Week 25 이월 `[OPEN 사람/출시 블로커]`
+이 절의 PASS는 저장 복구 체크포인트와 전반부 회귀만 증명한다. W25~48의 24개
+실제 행동 행, W48 정산/생존 분기, Chapter 1 완료를 대신하지 않는다.
 
-봉인된 V2 turn-25 저장을 **같은 playtest namespace에서** 다시 열어 결산을
-보는 것은 이월 증거가 아니다. V2가 공개 demo flavor로 승격된 뒤에는 같은
-산출물의 실제 프롤로그→24주→결산 경로가 만든 데모 저장을 별도 full-build
-프로세스에서 열고, 결산 CTA를 떠나 정상 정식판 경제·조작을 복구한 뒤
-Week 25를 정확히 한 번 시작해 Week 28까지 주행해야 한다. 미래 영수증·프롤로그
-이력이 보존되는지도 같은 실기기·사람 판정으로 확인한다. 이 게이트가 닫히기
-전에는 공개 데모 저장의 Week 25 제품 이월을 지원한다고 표시하지 않는다.
+### 공개 Chapter 1→정식판 Week 49 이월 `[OPEN 사람/출시 블로커]`
+
+봉인된 V2 turn-25 저장을 다시 열거나 legacy component를 W48까지 돌리는 것은
+이월 증거가 아니다. V2가 공개 demo flavor로 승격된 뒤에는 같은 산출물의 실제
+프롤로그→W48 행동·12월 정산→생존 `chapter1_complete` 경로가 만든 저장을 별도
+full-build 프로세스에서 연다. 완료 화면에서는 W49가 아직 시작되지 않아야 하며,
+사용자가 2장 시작을 고른 뒤에만 정상 정식판 경제·조작을 복구하고 W49를 정확히
+한 번 시작해 W52까지 주행한다. 48개 행동 영수증·프롤로그·연말 회고가 보존되는
+지도 같은 실기기·사람 판정으로 확인한다. 이 게이트 전에는 공개 데모 저장의
+Chapter 2 제품 이월을 지원한다고 표시하지 않는다.
 
 ## 6. 스모크 기록
 
@@ -374,18 +379,20 @@ Week 25를 정확히 한 번 시작해 Week 28까지 주행해야 한다. 미래
 | 언어/입력 장치 |  |
 | 무인자 부팅→언어 선택→시작 메뉴 | PASS / FAIL |
 | build identity·전역 표식 | PASS / FAIL |
-| fresh 데이터의 24주 단일 진입 | PASS / FAIL |
+| fresh 데이터의 W1~24 prefix 진입 | PASS / FAIL |
 | CycleBalance strict exact marker·오류 0 | PASS / FAIL |
 | full-matrix exact marker | PASS / FAIL |
 | surface-matrix exact marker | PASS / FAIL |
 | 전용 진입→V2 서울 사이클 보드 | PASS / FAIL |
-| 실제 1→24주→동결 요약·6개월·미결→CTA | PASS / FAIL |
+| 실제 W1→24→동결 요약·6개월·미결→진단 CTA | PASS / FAIL |
 | 자동저장 재시도·구저장 unknown 표면 | PASS / FAIL |
-| 실제 Week 25 진입 전 차단 | PASS / FAIL |
-| 공개 데모→full Week 25 이월 | OPEN / PASS / FAIL |
+| `.3`에서 실제 Week 25 진입 차단 | PASS / FAIL |
+| 최종 W1→48 Chapter 1 완료 | OPEN / PASS / FAIL |
+| 공개 Chapter 1→full Week 49 이월 | OPEN / PASS / FAIL |
 | 중단/오류 |  |
 | 증적 경로 |  |
 
-무인자 진입 스모크 `PASS`와 24주 완주 `PASS`는 별도 판정이다. §5.1~6을
-닫으려면 서울 사이클 보드까지 실제 입력으로 가야 하고, §5.7은 같은 산출물로
-24주 동결 결산·상세·미결·CTA와 실제 Week 25 차단까지 정상 속도로 완주해야 한다.
+무인자 진입 스모크 `PASS`와 W1~24 prefix 완주 `PASS`는 별도 판정이다. 현재
+`.3` 증거를 닫으려면 서울 사이클 보드부터 24주 동결 결산·상세·미결·진단 CTA와
+Week 25 차단까지 실제 입력으로 가야 한다. 최종 공개 후보는 그와 별도로 같은
+clean W1~48 경로와 위 Week 49 bridge를 통과해야 한다.

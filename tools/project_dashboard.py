@@ -687,6 +687,15 @@ def markdown() -> str:
     add("")
 
     gate_ledger = human_gate_ledger()
+    release_candidates = gate_ledger.get("release_candidates", {})
+    demo_candidate = (
+        release_candidates.get("demo_rc", {})
+        if isinstance(release_candidates, dict) else {}
+    )
+    demo_candidate_note = (
+        demo_candidate.get("note", "")
+        if isinstance(demo_candidate, dict) else ""
+    )
     gate_source = gate_ledger.get("gates", [])
     gates = [
         gate for gate in gate_source
@@ -697,6 +706,9 @@ def markdown() -> str:
     add("**초록불은 계약을 지켰다는 뜻이지 좋다는 뜻이 아니다.** 아래는 자동 검사가")
     add("대신할 수 없어 남아 있는 것이며, 원장은")
     add("[`human_gates.json`](human_gates.json)이 소유한다.")
+    if isinstance(demo_candidate_note, str) and demo_candidate_note.strip():
+        add("")
+        add(f"> **활성 demo_rc 주의:** {md_escape(demo_candidate_note.strip())}")
     add("")
     add("| 범위 | 판정 | 후보 | 표본·환경 | 합격 기준 | 소유 |")
     add("|---|---|---|---|---|---|")
@@ -782,7 +794,7 @@ def markdown() -> str:
             f"{md_escape(r['prop'])} | {md_escape(r['motif'])} | {r['prop_mentions']} |")
     add("")
 
-    add(f"## 데모 24주 — 번들 {len(bundles)}개")
+    add(f"## 현재 구현 W1~24 audited prefix — 번들 {len(bundles)}개")
     add("")
     add("`행동`은 결과 카드이고 `장면`만 집필된 체인을 갖는다. `미집필`은 아직 없다.")
     add("")
@@ -871,6 +883,21 @@ def build() -> str:
     bundles = demo_bundles()
     dom = dominant_choices(by)
     gate_ledger = human_gate_ledger()
+    release_candidates = gate_ledger.get("release_candidates", {})
+    demo_candidate = (
+        release_candidates.get("demo_rc", {})
+        if isinstance(release_candidates, dict) else {}
+    )
+    demo_candidate_note = (
+        demo_candidate.get("note", "")
+        if isinstance(demo_candidate, dict) else ""
+    )
+    demo_candidate_note_html = (
+        '<p class="warnbar"><strong>활성 demo_rc 주의:</strong> '
+        f'{html.escape(demo_candidate_note.strip())}</p>'
+        if isinstance(demo_candidate_note, str) and demo_candidate_note.strip()
+        else ""
+    )
     gate_source = gate_ledger.get("gates", [])
     gates = [
         gate for gate in gate_source
@@ -959,6 +986,7 @@ def build() -> str:
   <h2>사람만 할 수 있는 판정</h2>
   <p class="lede"><strong>초록불은 계약을 지켰다는 뜻이지 좋다는 뜻이 아니다.</strong>
   범위·후보·표본·합격 기준이 같은 행에서 확인돼야 사람 판정을 출시 근거로 쓸 수 있다.</p>
+  {demo_candidate_note_html}
   <div class="scroll"><table>
     <thead><tr><th>범위</th><th>판정</th><th>후보</th><th>표본·환경</th><th>합격 기준</th><th>소유</th></tr></thead>
     <tbody>{human_gate_rows}</tbody></table></div>
@@ -1000,7 +1028,7 @@ def build() -> str:
 </section>
 
 <section>
-  <h2>데모 24주 — 번들 {len(bundles)}개</h2>
+  <h2>현재 구현 W1~24 audited prefix — 번들 {len(bundles)}개</h2>
   <p class="lede">번들이 전부 장면인 것은 아니다. <em>행동</em>은 결과 카드이고,
   <em>장면</em>만 집필된 체인을 갖는다.</p>
   <div class="scroll"><table>
