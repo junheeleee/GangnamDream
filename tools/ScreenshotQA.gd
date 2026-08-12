@@ -9259,6 +9259,9 @@ func _run_core_loop_v2_input_route(
 	var cycle_cancel_checked := false
 	var w22_world_guard_started := false
 	var w22_world_receipt_seen := false
+	var w1_job_hunt_answers := 0
+	var w1_job_hunt_review_inputs := 0
+	var w1_send_inputs := 0
 
 	for _step in range(50000):
 		await get_tree().create_timer(0.012).timeout
@@ -9462,10 +9465,31 @@ func _run_core_loop_v2_input_route(
 					str(selected)])
 				return false
 
-			# The fresh Month-One route replaces the already-sent application with a
-			# real convenience-store cover shift. Drive every customer response and
-			# Clock Out through the selected raw input device.
+			# Fresh W1 owns the application through the actual resume mini-game. Drive
+			# all four answers and the review CTA with the selected raw input device;
+			# the material transaction remains pending until the following Send modal.
 			if bool(scene.get("_minigame_overlay_active")):
+				var job_hunt := scene.get("job_hunt_game") as Control
+				if is_instance_valid(job_hunt) \
+						and job_hunt.is_visible_in_tree() \
+						and bool(job_hunt.get("application_submission_mode")):
+					var question_index := int(job_hunt.get("_q_idx"))
+					var job_hunt_input := get_viewport().gui_get_focus_owner() as Button
+					if not is_instance_valid(job_hunt_input) \
+							or not job_hunt.is_ancestor_of(job_hunt_input) \
+							or not job_hunt_input.is_visible_in_tree() \
+							or job_hunt_input.disabled:
+						# `open()` installs its focus with call_deferred. Wait for that
+						# real surface instead of manufacturing a direct button call.
+						continue
+					await _activate_route_control(job_hunt_input, input_mode)
+					if question_index < 4:
+						w1_job_hunt_answers += 1
+					else:
+						w1_job_hunt_review_inputs += 1
+					continue
+
+			# Other authored action owners retain their existing mini-game routing.
 				var shift_game := scene.get("aruba_game") as Control
 				if not is_instance_valid(shift_game) \
 						or not shift_game.is_visible_in_tree():
@@ -9493,7 +9517,7 @@ func _run_core_loop_v2_input_route(
 				if tutorial_instance_id == 0:
 					if not is_equal_approx(float(GameState.money), 498_800.0) \
 							or int(GameState.health) != 68 \
-							or int(GameState.mental) != 66:
+						or int(GameState.mental) != 64:
 						_fail("Core Loop V2 playable prologue did not reach the planner with its exact choice-0 state: cash=%s health=%d mental=%d." % [
 							str(GameState.money), int(GameState.health),
 							int(GameState.mental)])
@@ -9986,6 +10010,8 @@ func _run_core_loop_v2_input_route(
 							tutorial_inputs, tutorial_state_verified,
 							action_result_confirms, offer_intents,
 							week_commits, side_shift_inputs,
+							w1_job_hunt_answers,
+							w1_job_hunt_review_inputs, w1_send_inputs,
 							commitment_task_inputs,
 							commitment_task_completions,
 							cycle_allocations):
@@ -10080,6 +10106,22 @@ func _run_core_loop_v2_input_route(
 				else:
 					var action_receipt: Dictionary = core_loop.action_receipt(
 						result_owner)
+					if result_owner == "m1_youth_center_resume_clinic":
+						var result_state: Dictionary = GameState.core_loop_v2_state
+						var result_cycle: Dictionary = core_loop.seoul_cycle_snapshot(1)
+						var result_applications: Dictionary = result_state.get(
+							"application_transition_receipts", {})
+						if w1_job_hunt_answers != 4 \
+								or w1_job_hunt_review_inputs != 1 \
+								or w1_send_inputs != 1 \
+								or (result_cycle.get("allocation_receipts", {}) as Dictionary).size() != 1 \
+								or (result_state.get("action_receipts", {}) as Dictionary).size() != 1 \
+								or result_applications.size() != 1 \
+								or GameState.weekly_commitments.size() != 1 \
+								or core_loop.application_status(
+									"mirae_industrial_tech") != "submitted":
+							_fail("Fresh W1 raw input did not produce one allocation/action/application/weekly owner.")
+							return false
 					if action_receipt.is_empty() \
 							or int(action_receipt.get("turn", 0)) \
 								!= int(GameState.turn) \
@@ -10113,6 +10155,16 @@ func _run_core_loop_v2_input_route(
 
 			var modal_layer := scene.get("modal_layer") as Control
 			if is_instance_valid(modal_layer) and modal_layer.visible:
+				if bool(modal_layer.get_meta(
+						"fresh_w1_application_send", false)):
+					var send_button := _find_visible_meta_button(
+						scene, "fresh_w1_application_send_button")
+					if send_button == null or w1_send_inputs != 0:
+						_fail("Fresh W1 exposed a missing or duplicate Send command.")
+						return false
+					await _activate_route_control(send_button, input_mode)
+					w1_send_inputs += 1
+					continue
 				_fail("Core Loop V2 reached unexpected modal %s at week %d." % [
 					str(scene.get("_modal_kind")), int(GameState.turn)])
 				return false
@@ -10358,6 +10410,8 @@ func _seoul_cycle_input_node_for_turn(
 	var nodes: Dictionary = snapshot.get("nodes", {})
 	var candidates: Array[String] = []
 	if month_index == 1:
+		if str(core_loop.fresh_w1_onboarding_phase()) == "board":
+			return "resume"
 		var preferred_node_id := ""
 		match cycle_path:
 			"livelihood":
@@ -12224,6 +12278,8 @@ func _assert_core_loop_v2_input_completion(
 		tutorial_state_verified: bool,
 		action_result_confirms: Dictionary, offer_intents: int,
 		week_commits: int, side_shift_inputs: int,
+		w1_job_hunt_answers: int, w1_job_hunt_review_inputs: int,
+		w1_send_inputs: int,
 		commitment_task_inputs: int,
 		commitment_task_completions: int,
 		cycle_allocations: int) -> bool:
@@ -12245,8 +12301,13 @@ func _assert_core_loop_v2_input_completion(
 			cycle_allocations,
 			offer_intents, week_commits])
 		return false
-	if side_shift_inputs != 21:
-		_fail("Core Loop V2 fresh cover shift used %d raw inputs instead of ten customer/response pairs plus Clock Out." % side_shift_inputs)
+	if side_shift_inputs != 0 \
+			or w1_job_hunt_answers != 4 \
+			or w1_job_hunt_review_inputs != 1 \
+			or w1_send_inputs != 1:
+		_fail("Core Loop V2 fresh W1 input used side-shift/job-hunt/review/Send counts %d/%d/%d/%d instead of 0/4/1/1." % [
+			side_shift_inputs, w1_job_hunt_answers,
+			w1_job_hunt_review_inputs, w1_send_inputs])
 		return false
 	if commitment_task_inputs != 7 or commitment_task_completions != 1:
 		_fail("Core Loop V2 inventory commitment task used %d raw inputs and %d completions instead of 7/1." % [
@@ -12565,12 +12626,13 @@ func _assert_core_loop_v2_input_completion(
 		var bundle_id := str(raw_bundle_id)
 		var owner_bundle: Dictionary = core_loop.bundle(bundle_id)
 		if not str(owner_bundle.get("action_id", "")).strip_edges().is_empty() \
-				and not bool(core_loop.story_owns_action_result(bundle_id)):
+				and not bool(core_loop.story_owns_action_result(bundle_id)) \
+				and bundle_id != "m1_youth_center_resume_clinic":
 			expected_action_results.append(bundle_id)
 	expected_action_results.sort()
 	if action_result_confirms.size() != expected_action_results.size():
-		_fail("Core Loop V2 confirmed %d action results instead of %d." % [
-			action_result_confirms.size(), expected_action_results.size()])
+		_fail("Core Loop V2 confirmed action results %s instead of %s." % [
+			str(action_result_confirms.keys()), str(expected_action_results)])
 		return false
 	for bundle_id in expected_action_results:
 		if int(action_result_confirms.get(bundle_id, 0)) != 1:
@@ -12589,6 +12651,48 @@ func _assert_core_loop_v2_input_completion(
 				_fail("Seoul Cycle owner %s did not play authored root %s exactly once in Week %d." % [
 					bundle_id, root_id, owner_turn])
 				return false
+	var w1_action: Dictionary = core_loop.action_receipt(
+		"m1_youth_center_resume_clinic")
+	var w1_applications: Dictionary = state.get(
+		"application_transition_receipts", {})
+	var w1_application: Dictionary = w1_applications.get(
+		"m1_youth_center_resume_clinic:application:1", {})
+	var w1_application_keys := w1_applications.keys().filter(func(raw_key):
+		return str(raw_key).begins_with(
+			"m1_youth_center_resume_clinic:application:"))
+	var month_one_summary: Dictionary = (state.get(
+		"month_summaries", {}) as Dictionary).get("1", {})
+	var month_one_allocations: Array = month_one_summary.get(
+		"allocation_receipts", [])
+	var w1_allocation: Dictionary = (
+		month_one_allocations[0] as Dictionary
+		if not month_one_allocations.is_empty() \
+			and month_one_allocations[0] is Dictionary else {})
+	var w1_weekly: Dictionary = w1_allocation.get(
+		"weekly_commitment", {})
+	var w1_weekly_details: Dictionary = w1_weekly.get("details", {})
+	var w1_consequence: Dictionary = (state.get(
+		"consequence_receipts", {}) as Dictionary).get(
+		"opening_interview_math", {})
+	if str(w1_action.get("application_id", "")) \
+			!= "mirae_industrial_tech" \
+			or str(w1_action.get("application_status", "")) != "submitted" \
+			or w1_application_keys.size() != 1 \
+			or str(w1_application.get("source", "")) \
+				!= "typed_action_receipt" \
+			or str(w1_weekly.get("source", "")) != "seoul_cycle" \
+			or int(w1_weekly.get("turn", 0)) != 1 \
+			or str(w1_weekly.get("choice_id", "")) != "resume" \
+			or str(w1_weekly_details.get("execution", "")) \
+				!= "seoul_cycle" \
+			or str(w1_weekly_details.get("node_id", "")) != "resume" \
+			or str(w1_consequence.get("status", "")) != "consumed" \
+			or str(w1_consequence.get("claim_source", "")) \
+				!= "typed_action_receipt":
+		_fail("Fresh W1 raw input lost its typed action/application/weekly/interview ownership: action=%s app_keys=%s app=%s monthly_weekly=%s consequence=%s." % [
+			str(w1_action), str(w1_application_keys), str(w1_application),
+			str(w1_weekly), str(w1_consequence)])
+		return false
 	if int(GameState.turn) != 25 or int(GameState.month) != 7 \
 			or int(GameState.week_of_month) != 1 or GameState.is_game_over:
 		_fail("Core Loop V2 boundary is not the live Week-25/Month-7 continuation: turn=%d month=%d week=%d game_over=%s." % [
@@ -12611,7 +12715,6 @@ func _assert_core_loop_v2_input_completion(
 		"story_last_payment_wait", "story_last_payment_word",
 		"story_last_payment_exit", "story_prologue_dad",
 		"story_prologue_goal", "story_prologue_meal",
-		"v2_opening_application_send",
 		"arc_intro_01_meal", "v2_opening_return_math",
 		"chapter_card_33",
 	]
@@ -12626,8 +12729,8 @@ func _assert_core_loop_v2_input_completion(
 			return false
 	var opening_instances: Array[int] = []
 	for opening_id in [
-			"v2_opening_application_send", "arc_intro_01_meal",
-			"v2_opening_return_math", "chapter_card_33"]:
+			"arc_intro_01_meal", "v2_opening_return_math",
+			"chapter_card_33"]:
 		var positions := _core_loop_v2_story_positions(
 			story_sequence, opening_id)
 		if positions.size() != 1:
@@ -12636,21 +12739,25 @@ func _assert_core_loop_v2_input_completion(
 			return false
 		opening_instances.append(int(story_sequence[positions[0]].get(
 			"instance", 0)))
-	if opening_instances.any(func(instance_id):
-			return instance_id != opening_instances[0]):
-		_fail("Core Loop V2 Send, interview, calculation, and Chapter 1 did not remain in one StoryMode queue: %s." % opening_instances)
+	if opening_instances[0] != opening_instances[1]:
+		_fail("Core Loop V2 interview and calculation split across StoryMode queues: %s." % [opening_instances])
+		return false
+	if opening_instances[2] == opening_instances[1]:
+		_fail("Core Loop V2 Chapter 1 card did not follow the consumed interview bundle in a new StoryMode queue: %s." % [opening_instances])
 		return false
 	var chapter_positions := _core_loop_v2_story_positions(
 		story_sequence, "chapter_card_33")
 	var dialogue_titles: Array = story_sequence[chapter_positions[0]].get(
 		"dialogue_log_titles", [])
 	for logged_opening_id in [
-			"v2_opening_application_send", "arc_intro_01_meal",
-			"v2_opening_return_math"]:
+			"arc_intro_01_meal", "v2_opening_return_math"]:
 		var expected_title := str(DataRegistry.find_event(
 			logged_opening_id).get("title", ""))
-		if expected_title.is_empty() or not dialogue_titles.has(expected_title):
-			_fail("Core Loop V2 dialogue history lost %s before the Chapter 1 card." % logged_opening_id)
+		if expected_title.is_empty():
+			_fail("Core Loop V2 opening event %s lost its authored title." % logged_opening_id)
+			return false
+		if dialogue_titles.has(expected_title):
+			_fail("Core Loop V2 fresh Chapter 1 visit leaked prior interview history for %s." % logged_opening_id)
 			return false
 	if not _core_loop_v2_story_positions(
 			story_sequence, "arc_intro_02_dad_call").is_empty():
@@ -12662,9 +12769,12 @@ func _assert_core_loop_v2_input_completion(
 	var final_opening_receipt: Dictionary = (
 		state.get("consequence_receipts", {}) as Dictionary
 	).get("opening_interview_math", {})
-	if str(chapter_opening_receipt.get("status", "")) != "presented" \
+	if chapter_opening_receipt != final_opening_receipt \
+			or str(chapter_opening_receipt.get("status", "")) != "consumed" \
 			or chapter_opening_receipt.get("roots", []) != [
 				"arc_intro_01_meal", "v2_opening_return_math"] \
+			or str(chapter_opening_receipt.get("claim_source", "")) \
+				!= "typed_action_receipt" \
 			or str(final_opening_receipt.get("status", "")) != "consumed" \
 			or final_opening_receipt.get("roots", []) != [
 				"arc_intro_01_meal", "v2_opening_return_math"] \
@@ -12672,7 +12782,7 @@ func _assert_core_loop_v2_input_completion(
 				"opening_application_status", "")) != "interviewed" \
 			or chapter_record.get("opening_mindset_flags", []) != [
 				false, false, false]:
-		_fail("Core Loop V2 opening lost its consumed interview/calculation receipt or fabricated a mindset.")
+		_fail("Core Loop V2 Chapter visit lost its consumed typed interview/calculation receipt or fabricated a mindset.")
 		return false
 	var opening_log_counts := {
 		"story_pressure": 0,
@@ -12688,11 +12798,11 @@ func _assert_core_loop_v2_input_completion(
 					opening_log_counts[logged_id]) + 1
 	if opening_log_counts != {
 			"story_pressure": 0,
-			"v2_opening_application_send": 1,
+			"v2_opening_application_send": 0,
 			"arc_intro_01_meal": 1,
 			"v2_opening_return_math": 0,
 		}:
-		_fail("Core Loop V2 opening replayed the legacy app-open card, duplicated a scene, or persisted the expression-only calculation: %s." % opening_log_counts)
+		_fail("Core Loop V2 opening replayed the legacy Story Send, duplicated a scene, or persisted the expression-only calculation: %s." % opening_log_counts)
 		return false
 	var father_cycle_positions := _core_loop_v2_story_positions(
 		story_sequence, "arc_father_01_call")

@@ -26,6 +26,7 @@ func _run() -> void:
 	_check_export_presets()
 	_check_opening_interview_causality()
 	_check_v2_preplan_opening_contract()
+	_check_v2_legacy_paused_send_contract()
 	_check_opening_sequences()
 	_check_narrative_bridge_contract()
 	_check_chapter_one_temporal_contract()
@@ -40,7 +41,7 @@ func _run() -> void:
 			push_error("DEMO_BUILD_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("DEMO_BUILD_CHECK_OK feature=%s cutoff=%d chain=%d presets=%d v2_send=1 v2_roots=2 offers=6/5" % [
+	print("DEMO_BUILD_CHECK_OK feature=%s cutoff=%d chain=%d presets=%d fresh_w1=guided_typed roots=0 legacy_paused_send=1" % [
 		GameState.DEMO_FEATURE,
 		GameState.DEMO_TURN_LIMIT,
 		EXPECTED_ROOTS.size(),
@@ -137,42 +138,71 @@ func _check_opening_interview_causality() -> void:
 func _check_v2_preplan_opening_contract() -> void:
 	GameState.start_new_game(
 		"김민준", "지방_상경", "직장형", "백수", "자유런", "현실")
-	CORE_LOOP.initialize_for_run(true)
+	_expect(CORE_LOOP.initialize_for_run(true),
+		"Fresh V2 opening fixture could not initialize.")
 	GameState.turn = 1
 	GameState.flags["prologue_done"] = true
 	var opening_roots := ["arc_intro_01_meal", "v2_opening_return_math"]
-	var offers_before: Array = CORE_LOOP.available_offer_ids(1)
-	_expect(offers_before == [
-		"m1_mirae_application", "m1_convenience_trial_shift",
-		"m1_youth_center_resume_clinic", "m1_phone_off_sunday",
-		"father_first_call", "hyunsu_first_meet",
-	], "Fresh Month One no longer preserves all six pre-interview offers.")
-	_expect(CORE_LOOP.fresh_preplan_opening_roots() == opening_roots,
-		"Fresh V2 entry did not reserve the interview and calculation roots.")
-	_expect(not CORE_LOOP.fresh_preplan_opening_roots().has(
-			CORE_LOOP.OPENING_APPLICATION_EVENT_ID),
-		"Fresh V2 entry directly reserved Send instead of letting StoryMode replace the legacy follow-up.")
+	_expect(CORE_LOOP.begin_fresh_w1_onboarding(),
+		"Fresh V2 opening did not create its guided W1 owner.")
+	_expect(CORE_LOOP.fresh_preplan_opening_roots().is_empty(),
+		"Fresh V2 entry reserved interview/calculation before the W1 action.")
+	_expect(CORE_LOOP.opening_follow_up_event(
+			"story_prologue_meal", "story_pressure", opening_roots).is_empty(),
+		"Fresh prologue did not stop before the guided W1 board.")
+	var before_story_send: Dictionary = GameState.serialize().duplicate(true)
+	_expect(not CORE_LOOP.story_choice_commit_available(
+			CORE_LOOP.OPENING_APPLICATION_EVENT_ID, 0, []) \
+			and not CORE_LOOP.note_story_choice(
+				CORE_LOOP.OPENING_APPLICATION_EVENT_ID, 0, []) \
+			and GameState.serialize() == before_story_send,
+		"Fresh opening allowed the retired Story Send to write material state.")
 
-	var send_event: Dictionary = DataRegistry.find_event(
-		CORE_LOOP.OPENING_APPLICATION_EVENT_ID)
-	var send_choices: Array = send_event.get("choices", [])
-	if send_choices.size() != 1:
-		_failures.append("The V2 opening Send action is missing.")
+	var initialized := CORE_LOOP.initialize_seoul_cycle(1)
+	var cycle := CORE_LOOP.seoul_cycle_snapshot(1)
+	var capacities: Array = cycle.get("capacities", [])
+	if not bool(initialized.get("ok", false)) or capacities.is_empty():
+		_failures.append("The guided W1 Seoul Cycle board could not initialize.")
 		return
-	_expect(GameState.apply_choice(
-			send_event, send_choices[0] as Dictionary) \
-			and CORE_LOOP.note_story_choice(
-				CORE_LOOP.OPENING_APPLICATION_EVENT_ID, 0),
-		"The real Send action did not claim the V2 opening consequence.")
+	var capacity: Dictionary = capacities[0]
+	var allocation := CORE_LOOP.commit_seoul_cycle_allocation(
+		str(capacity.get("id", "")), CORE_LOOP.W1_ONBOARDING_NODE_ID, 1)
+	var trigger_claim := CORE_LOOP.claim_seoul_cycle_trigger()
+	var typed_action_ready := bool(allocation.get("ok", false)) \
+		and bool(trigger_claim.get("ok", false)) \
+		and CORE_LOOP.begin_seoul_cycle_trigger(
+			CORE_LOOP.W1_ONBOARDING_BUNDLE_ID) \
+		and GameState.arm_weekly_commitment({
+			"turn": 1,
+			"pressure_id": CORE_LOOP.W1_ONBOARDING_BUNDLE_ID,
+			"pressure_family": "growth",
+			"choice_id": "resume",
+			"forgone_ids": [],
+			"supplemental_to_seoul_cycle": true,
+		}) \
+		and CORE_LOOP.restart_fresh_w1_minigame()
+	_expect(typed_action_ready,
+		"The guided board did not hand its exact W1 action to the minigame.")
+	if not typed_action_ready:
+		return
+	var transaction := CORE_LOOP.finalize_fresh_w1_application(2, 2)
+	_expect(bool(transaction.get("ok", false)) \
+			and CORE_LOOP.complete_active_bundle() \
+				== CORE_LOOP.W1_ONBOARDING_BUNDLE_ID \
+			and CORE_LOOP.fresh_w1_onboarding_phase() == "action_completed" \
+			and CORE_LOOP.claim_fresh_w1_opening_interview(),
+		"The typed W1 action did not submit and present its interview owner.")
 	var presented_receipt: Dictionary = (
 		GameState.core_loop_v2_state.get(
 			"consequence_receipts", {}) as Dictionary
 	).get(CORE_LOOP.OPENING_INTERVIEW_BUNDLE_ID, {})
 	_expect(str(presented_receipt.get("status", "")) == "presented" \
 			and presented_receipt.get("roots", []) == opening_roots \
+			and str(presented_receipt.get("claim_source", "")) \
+				== "typed_action_receipt" \
 			and CORE_LOOP.application_status(
 				"mirae_industrial_tech") == "submitted",
-		"V2 Send did not persist one submitted application and presented receipt.")
+		"Typed W1 Send did not persist its submitted application and receipt.")
 
 	CORE_LOOP.prepare_story_bundle(CORE_LOOP.OPENING_INTERVIEW_BUNDLE_ID)
 	var interview_event: Dictionary = DataRegistry.find_event(
@@ -210,14 +240,18 @@ func _check_v2_preplan_opening_contract() -> void:
 			"consequence_receipts", {}) as Dictionary
 	).get(CORE_LOOP.OPENING_INTERVIEW_BUNDLE_ID, {})
 	_expect(str(consumed_receipt.get("status", "")) == "consumed" \
-			and consumed_receipt.get("roots", []) == opening_roots,
+			and consumed_receipt.get("roots", []) == opening_roots \
+			and str(consumed_receipt.get("claim_source", "")) \
+				== "typed_action_receipt" \
+			and CORE_LOOP.fresh_w1_onboarding_phase() == "consumed",
 		"The consumed opening receipt lost its exact two-root history.")
 
-	var offers_after: Array = CORE_LOOP.available_offer_ids(1)
-	_expect(offers_after == [
-		"m1_convenience_trial_shift", "m1_youth_center_resume_clinic",
-		"m1_phone_off_sunday", "father_first_call", "hyunsu_first_meet",
-	], "Interviewed Month One must expose exactly five non-duplicate offers.")
+	var main_script := load("res://scenes/MainGame.gd") as GDScript
+	var main_game: Node = main_script.new()
+	_expect(str(main_game.call("_opening_chapter_event_id")) \
+			== "chapter_card_33",
+		"Chapter 1 did not unlock after typed Send, interview, and calculation.")
+	main_game.free()
 	var opening_counts := {
 		"story_pressure": 0,
 		"v2_opening_application_send": 0,
@@ -231,14 +265,79 @@ func _check_v2_preplan_opening_contract() -> void:
 				opening_counts[event_id] = int(opening_counts[event_id]) + 1
 	_expect(opening_counts == {
 		"story_pressure": 0,
-		"v2_opening_application_send": 1,
+		"v2_opening_application_send": 0,
 		"arc_intro_01_meal": 1,
 		"v2_opening_return_math": 0,
-	}, "The V2 opening replayed the legacy app-open card, duplicated a committed scene, or logged its expression.")
+	}, "Fresh W1 wrote Story application material, replayed the app-open card, or logged its expressions.")
 	_expect(not bool(GameState.flags.get("mindset_saver", false)) \
 			and not bool(GameState.flags.get("mindset_investor", false)) \
 			and not bool(GameState.flags.get("mindset_founder", false)),
 		"The expression-only calculation fabricated a legacy mindset.")
+
+func _check_v2_legacy_paused_send_contract() -> void:
+	GameState.start_new_game(
+		"김민준", "지방_상경", "직장형", "백수", "자유런", "현실")
+	_expect(CORE_LOOP.initialize_for_run(true),
+		"Legacy paused-Send fixture could not initialize.")
+	GameState.turn = 1
+	GameState.flags["prologue_done"] = true
+	var roots: Array = CORE_LOOP.fresh_preplan_opening_roots()
+	var before_wrong_queue: Dictionary = GameState.serialize().duplicate(true)
+	_expect(roots == ["arc_intro_01_meal", "v2_opening_return_math"] \
+			and CORE_LOOP.fresh_w1_onboarding_snapshot().is_empty(),
+		"Legacy no-marker save lost its exact adjacent interview/math queue.")
+	_expect(not CORE_LOOP.story_choice_commit_available(
+			CORE_LOOP.OPENING_APPLICATION_EVENT_ID, 0, []) \
+			and not CORE_LOOP.note_story_choice(
+				CORE_LOOP.OPENING_APPLICATION_EVENT_ID, 0, []) \
+			and GameState.serialize() == before_wrong_queue,
+		"Legacy Send accepted a missing or inexact reserved queue.")
+	var send_event: Dictionary = DataRegistry.find_event(
+		CORE_LOOP.OPENING_APPLICATION_EVENT_ID)
+	var choices: Array = send_event.get("choices", [])
+	if choices.size() != 1:
+		_failures.append("The legacy paused-Send event is missing.")
+		return
+	var commit_available := CORE_LOOP.story_choice_commit_available(
+		CORE_LOOP.OPENING_APPLICATION_EVENT_ID, 0, roots)
+	var applied := commit_available and GameState.apply_choice(
+		send_event, choices[0] as Dictionary)
+	var recorded := applied and CORE_LOOP.note_story_choice(
+		CORE_LOOP.OPENING_APPLICATION_EVENT_ID, 0, roots)
+	var trigger: Dictionary = CORE_LOOP.bundle(
+		CORE_LOOP.OPENING_INTERVIEW_BUNDLE_ID).get("preplan_trigger", {})
+	_expect(commit_available and applied and recorded,
+		"The exact legacy paused-Send save could not resume its authored click "
+		+ ("(available=%s applied=%s recorded=%s status=%s active=%s "
+		+ "trigger=%s pending=%s committed=%s flags=%s).") % [
+			str(commit_available), str(applied), str(recorded),
+			CORE_LOOP.application_status("mirae_industrial_tech"),
+			CORE_LOOP.active_bundle_id(),
+			str(trigger),
+			str(GameState.has_pending_weekly_commitment(1)),
+			str(GameState.has_weekly_commitment_for_turn(1)),
+			str(GameState.flags),
+		])
+	var state: Dictionary = GameState.core_loop_v2_state
+	var receipt: Dictionary = (
+		state.get("consequence_receipts", {}) as Dictionary
+	).get(CORE_LOOP.OPENING_INTERVIEW_BUNDLE_ID, {})
+	var transition_key := "%s:%s:0:1" % [
+		CORE_LOOP.OPENING_INTERVIEW_BUNDLE_ID,
+		CORE_LOOP.OPENING_APPLICATION_EVENT_ID,
+	]
+	var transition: Dictionary = (
+		state.get("application_transition_receipts", {}) as Dictionary
+	).get(transition_key, {})
+	_expect(CORE_LOOP.application_status(
+			"mirae_industrial_tech") == "submitted" \
+			and str(receipt.get("claim_source", "")) == "story_choice" \
+			and receipt.get("roots", []) == roots \
+			and str(transition.get("source", "")) == "legacy_story_send" \
+			and CORE_LOOP.action_receipt(
+				CORE_LOOP.W1_ONBOARDING_BUNDLE_ID).is_empty() \
+			and not GameState.has_weekly_commitment_for_turn(1),
+		"Legacy Send fabricated a fresh weekly action or lost its exact provenance.")
 
 func _check_narrative_bridge_contract() -> void:
 	GameState.start_new_game("김민준", "지방_상경", "직장형", "백수", "자유런", "현실")

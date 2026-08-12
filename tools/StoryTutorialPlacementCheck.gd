@@ -98,16 +98,25 @@ func _run() -> void:
 
 	story.free()
 	await get_tree().process_frame
-	_check_v2_preplan_tutorial_gate()
+	await _check_v2_preplan_tutorial_gate()
 	for player_value in AudioManager.get("_pool"):
 		var player := player_value as AudioStreamPlayer
 		if player != null:
 			player.stop()
 			player.stream = null
 	BGMPlayer.stop()
-	await get_tree().process_frame
+	# BGMPlayer.stop() stops playback but intentionally keeps the cached streams
+	# for the running game. This one-shot checker exits immediately, so release
+	# those references as well; otherwise the family track from the prologue is
+	# still owned while Godot tears down the test process.
+	for child in BGMPlayer.get_children():
+		if child is AudioStreamPlayer:
+			(child as AudioStreamPlayer).stop()
+			(child as AudioStreamPlayer).stream = null
+	for _frame in range(4):
+		await get_tree().process_frame
 	if _failures.is_empty():
-		print("STORY_TUTORIAL_PLACEMENT_CHECK_OK direct_action=1 rail=0 result_visible=1 popup=0 follow_up=1 ap_tutorial=1 v2_preplan_gate=1")
+		print("STORY_TUTORIAL_PLACEMENT_CHECK_OK direct_action=1 rail=0 result_visible=1 popup=0 follow_up=1 ap_tutorial=1 v2_guided_board=1 legacy_preplan=1")
 		call_deferred("_quit", 0)
 		return
 	for failure in _failures:
@@ -166,15 +175,24 @@ func _tree_contains_text(root: Node, needle: String) -> bool:
 func _check_v2_preplan_tutorial_gate() -> void:
 	var main_source := FileAccess.get_file_as_string(
 		"res://scenes/MainGame.gd")
+	var typed_handoff_index := main_source.find(
+		"if DEMO_CORE_LOOP_V2.fresh_w1_onboarding_phase() == \"action_completed\":")
 	var preplan_index := main_source.find(
-		"if _core_loop_v2_route_preplan_opening_if_pending():")
+		"if _core_loop_v2_route_preplan_opening_if_pending():",
+		typed_handoff_index)
 	var chapter_index := main_source.find(
 		"if _route_opening_chapter_if_pending():", preplan_index)
+	var cycle_index := main_source.find(
+		"if DEMO_CORE_LOOP_V2.seoul_cycle_available(month_index):",
+		chapter_index)
 	var planner_index := main_source.find(
-		"if DEMO_CORE_LOOP_V2.needs_plan(month_index):", chapter_index)
-	_expect(preplan_index >= 0 and chapter_index > preplan_index \
-			and planner_index > chapter_index,
-		"V2 route no longer places interview/calculation before Chapter 1 and planner")
+		"if DEMO_CORE_LOOP_V2.needs_plan(month_index):", cycle_index)
+	_expect(typed_handoff_index >= 0 \
+			and preplan_index > typed_handoff_index \
+			and chapter_index > preplan_index \
+			and cycle_index > chapter_index \
+			and planner_index > cycle_index,
+		"V2 route no longer orders typed interview, legacy recovery, Chapter 1, cycle, and planner")
 	# Fresh Seoul Cycle runs enter the cycle board directly, while compatible
 	# legacy V2 plans still enter the planner. The single tutorial gate therefore
 	# has exactly two callers (plus its definition), one on each planning surface.
@@ -189,34 +207,96 @@ func _check_v2_preplan_tutorial_gate() -> void:
 	var seen_before: Dictionary = TutorialOverlay._seen.duplicate(true)
 	TutorialOverlay._seen.erase("core_loop_v2")
 	GameState.start_new_game()
-	CORE_LOOP.initialize_for_run(true)
+	_expect(CORE_LOOP.initialize_for_run(true),
+		"fresh tutorial fixture could not initialize")
+	GameState.turn = 1
+	_expect(CORE_LOOP.begin_fresh_w1_onboarding(),
+		"fresh tutorial fixture could not create its W1 owner")
+	GameState.flags["prologue_done"] = true
+	_expect(CORE_LOOP.fresh_preplan_opening_roots().is_empty() \
+			and CORE_LOOP.opening_follow_up_event(
+				"story_prologue_meal", "story_pressure", []).is_empty(),
+		"fresh prologue did not stop before an empty guided-W1 handoff")
+	_expect(not TutorialOverlay._seen.has("core_loop_v2"),
+		"V2 tutorial appeared during the fresh prologue")
+	var initialized := CORE_LOOP.initialize_seoul_cycle(1)
+	_expect(bool(initialized.get("ok", false)) \
+			and CORE_LOOP.fresh_w1_onboarding_phase() == "board" \
+			and CORE_LOOP.application_status(
+				"mirae_industrial_tech").is_empty() \
+			and CORE_LOOP.action_receipt(
+				CORE_LOOP.W1_ONBOARDING_BUNDLE_ID).is_empty(),
+		"fresh prologue fabricated material instead of opening the W1 board")
+
+	var packed := load("res://scenes/MainGame.tscn") as PackedScene
+	if packed == null:
+		_expect(false, "MainGame fixture could not load for the guided tutorial")
+	else:
+		var main_game = packed.instantiate()
+		main_game.set_meta("_screenshot_qa_static_surface", true)
+		main_game.set_meta("_qa_suppress_opening_chapter_transition", true)
+		main_game.set_meta("_qa_core_loop_v2_autosave_result", true)
+		add_child(main_game)
+		await get_tree().process_frame
+		await get_tree().process_frame
+		var board = main_game.get("_seoul_cycle_board")
+		if not is_instance_valid(board) or not bool(board.visible):
+			main_game.call("_core_loop_v2_open_seoul_cycle_board", false)
+			await get_tree().process_frame
+			board = main_game.get("_seoul_cycle_board")
+		var board_visible := is_instance_valid(board) and bool(board.visible)
+		var tutorial_seen := TutorialOverlay._seen.has("core_loop_v2")
+		var cycle_plan := CORE_LOOP.plan_uses_seoul_cycle(
+			CORE_LOOP.plan_for_month(1))
+		_expect(board_visible and tutorial_seen and cycle_plan,
+			"first V2 tutorial did not appear on the real guided W1 board "
+			+ "(board=%s seen=%s cycle_plan=%s tutorial_flag=%s)" % [
+				str(board_visible), str(tutorial_seen), str(cycle_plan),
+				str(GameState.flags.get("tutorial_shown", null)),
+			])
+		main_game.queue_free()
+		await get_tree().process_frame
+		await get_tree().process_frame
+
+	# Separate compatibility fixture: an old save paused on the former Send
+	# screen has no fresh marker and retains the exact adjacent roots. Its click
+	# may recover the pre-plan consequence, but never a fresh weekly action.
+	TutorialOverlay._seen.erase("core_loop_v2")
+	GameState.start_new_game()
+	_expect(CORE_LOOP.initialize_for_run(true),
+		"legacy tutorial fixture could not initialize")
 	GameState.turn = 1
 	GameState.flags["prologue_done"] = true
-	_expect(CORE_LOOP.fresh_preplan_opening_roots() == [
-		"arc_intro_01_meal", "v2_opening_return_math"],
-		"fresh V2 opening did not reserve interview and calculation before planning")
-	_expect(not CORE_LOOP.fresh_preplan_opening_roots().has(
-			CORE_LOOP.OPENING_APPLICATION_EVENT_ID),
-		"fresh V2 opening directly reserved Send instead of replacing the legacy follow-up")
+	var roots: Array = CORE_LOOP.fresh_preplan_opening_roots()
 	var send_event: Dictionary = DataRegistry.find_event(
 		CORE_LOOP.OPENING_APPLICATION_EVENT_ID)
 	var choices: Array = send_event.get("choices", [])
-	var sent := choices.size() == 1 and GameState.apply_choice(
-		send_event, choices[0] as Dictionary)
-	_expect(sent and CORE_LOOP.needs_preplan_opening(),
-		"the real Send action did not establish the pre-plan opening gate")
+	var sent := roots == ["arc_intro_01_meal", "v2_opening_return_math"] \
+		and CORE_LOOP.fresh_w1_onboarding_snapshot().is_empty() \
+		and choices.size() == 1 \
+		and CORE_LOOP.story_choice_commit_available(
+			CORE_LOOP.OPENING_APPLICATION_EVENT_ID, 0, roots) \
+		and GameState.apply_choice(send_event, choices[0] as Dictionary) \
+		and CORE_LOOP.note_story_choice(
+			CORE_LOOP.OPENING_APPLICATION_EVENT_ID, 0, roots)
+	_expect(sent,
+		"the exact legacy paused-Send action could not recover its consequence")
 	_expect(not TutorialOverlay._seen.has("core_loop_v2"),
-		"V2 tutorial appeared during the prologue Send action")
-	var claimed := CORE_LOOP.claim_saved_preplan_opening()
+		"V2 tutorial appeared during the legacy paused-Send action")
 	var receipt: Dictionary = (
 		GameState.core_loop_v2_state.get(
 			"consequence_receipts", {}) as Dictionary
 	).get(CORE_LOOP.OPENING_INTERVIEW_BUNDLE_ID, {})
-	_expect(claimed and str(receipt.get("status", "")) == "presented" \
-			and CORE_LOOP.plan_for_month(1).is_empty(),
-		"V2 pre-plan gate did not claim the opening before a Month-One plan existed")
+	_expect(str(receipt.get("status", "")) == "presented" \
+			and str(receipt.get("claim_source", "")) == "story_choice" \
+			and receipt.get("roots", []) == roots \
+			and CORE_LOOP.plan_for_month(1).is_empty() \
+			and CORE_LOOP.action_receipt(
+				CORE_LOOP.W1_ONBOARDING_BUNDLE_ID).is_empty() \
+			and not GameState.has_weekly_commitment_for_turn(1),
+		"legacy pre-plan recovery fabricated a fresh weekly action")
 	_expect(not TutorialOverlay._seen.has("core_loop_v2"),
-		"V2 tutorial interrupted the interview/calculation consequence")
+		"V2 tutorial interrupted the legacy interview/calculation consequence")
 	TutorialOverlay._seen.clear()
 	TutorialOverlay._seen.merge(seen_before, true)
 

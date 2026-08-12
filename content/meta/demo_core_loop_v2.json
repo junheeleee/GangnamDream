@@ -53,7 +53,7 @@
       "v2_moving_crew_days": "solo action bridge without authored speaker exchange or message payload",
       "v2_empty_sunday": "solo recovery bridge without authored speaker exchange or message payload",
       "v2_demo_first_bill_ledger": "continuous solo reflection fragment whose only choice closes the notebook",
-      "v2_opening_application_send": "solo job-app action without an authored speaker exchange",
+      "v2_opening_application_send": "solo application preview without an authored speaker exchange",
       "v2_opening_return_math": "solo calculation and a missed-call notification without a live speaker exchange"
     }
   },
@@ -303,6 +303,11 @@
         "place_ko": "청년센터",
         "place_en": "Youth Center",
         "threshold": 3,
+        "onboarding_completion_override": {
+          "origin": "fresh_order101",
+          "turn": 1,
+          "effective_threshold": 1
+        },
         "deadline_week": 3,
         "deadline_follows_trigger": true,
         "trigger_bundle": "m1_youth_center_resume_clinic",
@@ -412,6 +417,11 @@
             "place_ko": "청년센터",
             "place_en": "Youth Center",
             "threshold": 3,
+            "onboarding_completion_override": {
+              "origin": "fresh_order101",
+              "turn": 1,
+              "effective_threshold": 1
+            },
             "deadline_week": 3,
             "deadline_follows_trigger": true,
             "trigger_bundle": "m1_youth_center_resume_clinic",
@@ -1508,7 +1518,8 @@
         "event_id": "v2_opening_application_send",
         "choices": [0],
         "application_id": "mirae_industrial_tech",
-        "status": "submitted"
+        "status": "submitted",
+        "legacy_only": true
       },
       "characters": [],
       "initiated_by": "system",
@@ -1680,6 +1691,15 @@
       "estimated_minutes": 3,
       "allowed_weeks": [1, 2, 3],
       "action_id": "resume",
+      "action_config": {
+        "execution": "job_hunt_application",
+        "application_id": "mirae_industrial_tech",
+        "status": "submitted",
+        "result_title_ko": "미래산업기술 지원서를 보냈다",
+        "result_title_en": "Mirae Industrial Tech Application Sent",
+        "result_body_ko": "고쳐 쓴 자기소개서 네 문항을 첨부해 지원했다. 화면에 ‘접수 완료 · 오전 9:14’가 떴다.",
+        "result_body_en": "He attached the revised four-answer cover letter and sent the application. The screen read, ‘Application received · 9:14 a.m.’"
+      },
       "characters": [],
       "initiated_by": "player",
       "consumes_slot": true,

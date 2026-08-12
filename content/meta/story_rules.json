@@ -230,7 +230,8 @@
       "to_location": "goshiwon_room",
       "arrival_cue_ko": "다음 날 아침",
       "arrival_cue_en": "The next morning",
-      "queue_only": true
+      "queue_only": true,
+      "legacy_only": true
     },
     "v2_opening_application_send->arc_intro_01_meal": {
       "mode": "explicit_move",
@@ -238,7 +239,8 @@
       "to_location": "office_interview_day",
       "arrival_cue_ko": "마포구. 3층. 엘리베이터 없음.",
       "arrival_cue_en": "Mapo-gu. Third floor. No elevator.",
-      "queue_only": true
+      "queue_only": true,
+      "legacy_only": true
     },
     "arc_intro_01_meal->v2_opening_return_math": {
       "mode": "time_cut",
@@ -1681,11 +1683,7 @@
     "v2_opening_application_send": {
       "logic": {
         "core_loop_v2": {
-          "produces_all": [
-            "story_job_unlocked",
-            "opening_interview_application_sent",
-            "opening_preplan_application_sent"
-          ]
+          "produces_all": []
         }
       },
       "presentation": {

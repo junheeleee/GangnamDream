@@ -28,14 +28,6 @@
     "choices": [
       {
         "text": "미래산업기술에 지원서를 보낸다",
-        "effects": {
-          "intelligence": 2
-        },
-        "flags": [
-          "story_job_unlocked",
-          "opening_interview_application_sent",
-          "opening_preplan_application_sent"
-        ],
         "result_text": "{name}은 지원 버튼을 눌렀다. 화면에 ‘접수 완료 · 오전 9:14’가 떴다."
       }
     ]

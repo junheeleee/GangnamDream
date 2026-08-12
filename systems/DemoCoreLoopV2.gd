@@ -63,6 +63,12 @@ const CITY_RESULT_RECEIPT_ID := "city_facility_ops_2026h1_result"
 const OPENING_INTERVIEW_BUNDLE_ID := "opening_interview_math"
 const OPENING_APPLICATION_EVENT_ID := "v2_opening_application_send"
 const LEGACY_OPENING_INTERVIEW_ROOT := "arc_intro_01_meal"
+const W1_ONBOARDING_STATE_KEY := "w1_resume_onboarding"
+const W1_ONBOARDING_SCHEMA := 1
+const W1_ONBOARDING_ORIGIN := "fresh_order101"
+const W1_ONBOARDING_NODE_ID := "resume"
+const W1_ONBOARDING_BUNDLE_ID := "m1_youth_center_resume_clinic"
+const W1_ONBOARDING_APPLICATION_ID := "mirae_industrial_tech"
 const FIRST_BILL_OPENING_ID := "v2_demo_first_bill_opening"
 const FIRST_BILL_DECISION_ID := "v2_demo_first_bill"
 const FIRST_BILL_LEDGER_ID := "v2_demo_first_bill_ledger"
@@ -226,6 +232,60 @@ static func initialize_for_run(force: bool = false) -> bool:
 	_apply_legacy_callback_retirements(state)
 	GameState.core_loop_v2_state = state
 	return true
+
+## ORDER-101 fresh-only onboarding owner. The marker is deliberately created
+## before the prologue queue starts, so the legacy pre-plan recovery path can
+## continue to identify older saves by the absence of this exact provenance.
+static func begin_fresh_w1_onboarding() -> bool:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var existing: Dictionary = state.get(W1_ONBOARDING_STATE_KEY, {})
+	if not existing.is_empty():
+		return str(existing.get("origin", "")) == W1_ONBOARDING_ORIGIN \
+			and int(existing.get("turn", 0)) == 1
+	if not bool(state.get("enabled", false)) \
+			or int(GameState.turn) != 1 \
+			or str(state.get("run_generation", "")) \
+				!= GameState.CORE_LOOP_V2_ELIGIBLE_RUN_GENERATION \
+			or not (state.get("plans", {}) as Dictionary).is_empty() \
+			or bool(GameState.flags.get("story_job_unlocked", false)) \
+			or bool(GameState.flags.get(
+				"opening_interview_application_sent", false)) \
+			or not application_status(W1_ONBOARDING_APPLICATION_ID).is_empty():
+		return false
+	state[W1_ONBOARDING_STATE_KEY] = {
+		"schema": W1_ONBOARDING_SCHEMA,
+		"origin": W1_ONBOARDING_ORIGIN,
+		"turn": 1,
+		"node_id": W1_ONBOARDING_NODE_ID,
+		"bundle_id": W1_ONBOARDING_BUNDLE_ID,
+		"application_id": W1_ONBOARDING_APPLICATION_ID,
+		"phase": "prologue",
+		"selected_capacity_id": "",
+		"selected_capacity_value": 0,
+		"quality": -1,
+	}
+	GameState.core_loop_v2_state = state
+	return true
+
+static func fresh_w1_onboarding_snapshot() -> Dictionary:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	return (state.get(W1_ONBOARDING_STATE_KEY, {}) as Dictionary).duplicate(true)
+
+static func fresh_w1_onboarding_phase() -> String:
+	return str(fresh_w1_onboarding_snapshot().get("phase", ""))
+
+static func fresh_w1_onboarding_pending() -> bool:
+	var phase := fresh_w1_onboarding_phase()
+	return not phase.is_empty() and phase != "consumed"
+
+static func _fresh_w1_onboarding_allocation_gate(
+		state: Dictionary, month_index: int, node_id: String = "") -> bool:
+	var onboarding: Dictionary = state.get(W1_ONBOARDING_STATE_KEY, {})
+	return month_index == 1 and int(GameState.turn) == 1 \
+		and str(onboarding.get("origin", "")) == W1_ONBOARDING_ORIGIN \
+		and str(onboarding.get("phase", "")) in ["prologue", "board"] \
+		and (node_id.is_empty() \
+			or node_id == str(onboarding.get("node_id", "")))
 
 ## V2 does not infer a permanent saver/investor/founder identity from the old
 ## pre-action declaration. Keep every legacy flag and tendency intact for save
@@ -872,9 +932,13 @@ static func _fresh_seoul_cycle_gate(
 		if str(state.get("run_generation", "")) \
 				!= GameState.CORE_LOOP_V2_ELIGIBLE_RUN_GENERATION:
 			return false
-		for raw_id in episode_plan_spec().get("incompatible_if_available", []):
-			if available_offer_ids(month_index).has(str(raw_id).strip_edges()):
-				return false
+		# Fresh ORDER-101 is identified before Story and deliberately leaves the
+		# old application offer available. Only that exact marker bypasses the
+		# legacy discriminator; old pre-plan saves retain the prior behavior.
+		if not _fresh_w1_onboarding_allocation_gate(state, month_index):
+			for raw_id in episode_plan_spec().get("incompatible_if_available", []):
+				if available_offer_ids(month_index).has(str(raw_id).strip_edges()):
+					return false
 	return true
 
 static func seoul_cycle_available(month_index: int = -1) -> bool:
@@ -958,6 +1022,10 @@ static func initialize_seoul_cycle(month_index: int = 1) -> Dictionary:
 			"mental": int(GameState.mental),
 		}
 	state[SEOUL_CYCLE_STATE_KEY] = cycle
+	if _fresh_w1_onboarding_allocation_gate(state, target_month):
+		var onboarding: Dictionary = state[W1_ONBOARDING_STATE_KEY]
+		onboarding["phase"] = "board"
+		state[W1_ONBOARDING_STATE_KEY] = onboarding
 	GameState.core_loop_v2_state = state
 	return {
 		"ok": true,
@@ -1276,6 +1344,11 @@ static func preview_seoul_cycle_allocation(
 			or not (snapshot.get("pending_world", {}) as Dictionary).is_empty() \
 			or not active_bundle_id().is_empty():
 		return {"ok": false, "error": "cycle_entry_unresolved"}
+	var outer_state := _normalized_state(GameState.core_loop_v2_state)
+	var fresh_onboarding := _fresh_w1_onboarding_allocation_gate(
+		outer_state, int(snapshot.get("month", 0)))
+	if fresh_onboarding and node_id != W1_ONBOARDING_NODE_ID:
+		return {"ok": false, "error": "onboarding_resume_required"}
 	var selected_capacity: Dictionary = {}
 	for raw_capacity in snapshot.get("capacities", []):
 		if raw_capacity is Dictionary \
@@ -1304,7 +1377,10 @@ static func preview_seoul_cycle_allocation(
 	var gain := _seoul_cycle_progress_for_capacity(capacity_value)
 	if gain <= 0:
 		return {"ok": false, "error": "invalid_capacity_value"}
-	var threshold: int = maxi(1, int(node.get("threshold", 1)))
+	var authored_threshold: int = maxi(1, int(node.get("threshold", 1)))
+	var onboarding_override := fresh_onboarding \
+		and node_id == W1_ONBOARDING_NODE_ID
+	var threshold: int = 1 if onboarding_override else authored_threshold
 	var progress_before: int = clampi(int(node.get("progress", 0)), 0, threshold)
 	var authored_trigger := str(node.get("trigger_bundle", "")).strip_edges()
 	var fallback_allocation := bool(node.get("fallback_mode", false)) \
@@ -1376,6 +1452,8 @@ static func preview_seoul_cycle_allocation(
 		"progress_gain": applied_progress,
 		"progress_after": progress_after,
 		"threshold": threshold,
+		"authored_threshold": authored_threshold,
+		"onboarding_completion_override": onboarding_override,
 		"completed_now": completed_now,
 		"repeat_allocation": repeat_allocation,
 		"fallback_allocation": fallback_allocation,
@@ -1415,6 +1493,14 @@ static func commit_seoul_cycle_allocation(
 	capacity["node_id"] = node_id
 	cycle["capacities"][capacity_index] = capacity
 	var node: Dictionary = cycle["nodes"].get(node_id, {})
+	if bool(preview.get("onboarding_completion_override", false)):
+		node["onboarding_completion_override_applied"] = true
+		node["authored_threshold"] = int(preview.get(
+			"authored_threshold", node.get("threshold", 1)))
+		node["completion_threshold"] = int(preview.get("threshold", 1))
+		node["onboarding_capacity_id"] = capacity_id
+		node["onboarding_capacity_value"] = int(preview.get(
+			"capacity_value", 0))
 	node["progress"] = int(preview.get("progress_after", 0))
 	node["last_allocation_turn"] = turn
 	var trigger_bundle := str(preview.get("trigger_bundle", ""))
@@ -1461,6 +1547,10 @@ static func commit_seoul_cycle_allocation(
 		"progress_gain": int(preview.get("progress_gain", 0)),
 		"progress_after": int(preview.get("progress_after", 0)),
 		"threshold": int(preview.get("threshold", 1)),
+		"authored_threshold": int(preview.get(
+			"authored_threshold", preview.get("threshold", 1))),
+		"onboarding_completion_override": bool(preview.get(
+			"onboarding_completion_override", false)),
 		"completed_now": bool(preview.get("completed_now", false)),
 		"repeat_allocation": bool(preview.get("repeat_allocation", false)),
 		"fallback_allocation": bool(preview.get(
@@ -1476,6 +1566,13 @@ static func commit_seoul_cycle_allocation(
 		},
 	}
 	cycle["allocation_receipts"][str(turn)] = receipt
+	if bool(preview.get("onboarding_completion_override", false)):
+		var onboarding: Dictionary = state.get(W1_ONBOARDING_STATE_KEY, {})
+		onboarding["phase"] = "allocation_pending"
+		onboarding["selected_capacity_id"] = capacity_id
+		onboarding["selected_capacity_value"] = int(preview.get(
+			"capacity_value", 0))
+		state[W1_ONBOARDING_STATE_KEY] = onboarding
 	var raw_world_clock: Variant = seoul_cycle_month_spec(
 		int(preview.get("month", 1))).get("world_clock", {})
 	var world_maximum := 4
@@ -2255,12 +2352,14 @@ static func _seoul_cycle_month_one_echo(state: Dictionary) -> String:
 static func needs_plan(month_index: int = -1) -> bool:
 	return plan_for_month(month_index).is_empty()
 
-## A fresh run may queue the entire prologue -> interview -> calculation ->
-## chapter sequence at once, but it must not claim the interview before the
-## player presses Send in the V2 application scene. These roots are therefore
-## only a presentation reservation; note_story_choice() creates the owner.
+## Compatibility API for pre-ORDER-101 saves that still own the old
+## prologue -> Send -> interview queue. A fresh run has an explicit onboarding
+## marker and must never reserve these legacy roots ahead of its W1 action.
 static func fresh_preplan_opening_roots() -> Array:
 	var state := _normalized_state(GameState.core_loop_v2_state)
+	var onboarding: Dictionary = state.get(W1_ONBOARDING_STATE_KEY, {})
+	if str(onboarding.get("origin", "")) == W1_ONBOARDING_ORIGIN:
+		return []
 	if not _preplan_opening_base_available(state) \
 			or not bool(GameState.flags.get("prologue_done", false)) \
 			or not str(state.get("active_bundle", "")).is_empty():
@@ -2271,6 +2370,60 @@ static func fresh_preplan_opening_roots() -> Array:
 		if not root_id.is_empty() and not roots.has(root_id):
 			roots.append(root_id)
 	return roots
+
+static func _legacy_preplan_opening_queue_matches(
+		reserved_queue: Array) -> bool:
+	var roots := resolved_event_roots(OPENING_INTERVIEW_BUNDLE_ID)
+	if roots.is_empty() or reserved_queue.size() < roots.size() \
+			or reserved_queue.size() > roots.size() + 1:
+		return false
+	for root_index in range(roots.size()):
+		if str(reserved_queue[root_index]) != str(roots[root_index]):
+			return false
+	return reserved_queue.size() == roots.size() \
+		or str(reserved_queue.back()) == "chapter_card_33"
+
+static func _legacy_preplan_opening_send_available(
+		state: Dictionary, event_id: String, choice_index: int,
+		reserved_queue: Array) -> bool:
+	var onboarding: Dictionary = state.get(W1_ONBOARDING_STATE_KEY, {})
+	var trigger := _preplan_opening_trigger()
+	var raw_choices: Variant = trigger.get("choices", [])
+	var choice_matches := false
+	if raw_choices is Array:
+		for raw_choice in raw_choices as Array:
+			if int(raw_choice) == choice_index:
+				choice_matches = true
+				break
+	if not onboarding.is_empty() \
+			or trigger.is_empty() \
+			or trigger.get("legacy_only", false) != true \
+			or event_id != str(trigger.get("event_id", "")) \
+			or not raw_choices is Array \
+			or not choice_matches \
+			or not _legacy_preplan_opening_queue_matches(reserved_queue) \
+			or not _preplan_opening_base_available(state) \
+			or not str(state.get("active_bundle", "")).is_empty() \
+			or not bool(GameState.flags.get("prologue_done", false)) \
+			or bool(GameState.flags.get("story_job_unlocked", false)) \
+			or bool(GameState.flags.get(
+				"opening_interview_application_sent", false)) \
+			or bool(GameState.flags.get(
+				"opening_preplan_application_sent", false)) \
+			or GameState.has_pending_weekly_commitment(int(GameState.turn)) \
+			or GameState.has_weekly_commitment_for_turn(int(GameState.turn)):
+		return false
+	var application_id := str(trigger.get(
+		"application_id", "")).strip_edges()
+	var transition_key := "%s:%s:%d:%d" % [
+		OPENING_INTERVIEW_BUNDLE_ID, event_id, choice_index,
+		int(GameState.turn)]
+	return not application_id.is_empty() \
+		and str(trigger.get("status", "")) == "submitted" \
+		and application_status(application_id).is_empty() \
+		and not state["application_transition_receipts"].has(
+			transition_key) \
+		and not state["action_receipts"].has(W1_ONBOARDING_BUNDLE_ID)
 
 ## Fresh V2 replaces the legacy app-open card with one deeper scene that ends
 ## in an actual Send. The replacement is allowed only while StoryMode still
@@ -2283,15 +2436,23 @@ static func opening_follow_up_event(
 			or follow_up_id != "story_pressure":
 		return follow_up_id
 	var state := _normalized_state(GameState.core_loop_v2_state)
+	var onboarding: Dictionary = state.get(W1_ONBOARDING_STATE_KEY, {})
+	if str(onboarding.get("origin", "")) == W1_ONBOARDING_ORIGIN \
+			and str(onboarding.get("phase", "")) == "prologue" \
+			and int(GameState.turn) == 1:
+		# End StoryMode after the meal. The next owner is the guided W1 board;
+		# neither the legacy pressure card nor the former Send preview may enter
+		# the fresh queue.
+		return ""
 	if not _preplan_opening_base_available(state) \
 			or not bool(GameState.flags.get("prologue_done", false)) \
 			or bool(GameState.flags.get("story_job_unlocked", false)) \
 			or bool(GameState.flags.get(
 				"opening_interview_application_sent", false)):
 		return follow_up_id
-	for raw_root in resolved_event_roots(OPENING_INTERVIEW_BUNDLE_ID):
-		if not reserved_queue.has(str(raw_root)):
-			return follow_up_id
+	if not onboarding.is_empty() \
+			or not _legacy_preplan_opening_queue_matches(reserved_queue):
+		return follow_up_id
 	var trigger_event_id := str(_preplan_opening_trigger().get(
 		"event_id", "")).strip_edges()
 	return OPENING_APPLICATION_EVENT_ID \
@@ -2323,7 +2484,9 @@ static func claim_saved_preplan_opening() -> bool:
 	return _claim_preplan_opening("saved_preplan_recovery")
 
 static func _preplan_opening_base_available(state: Dictionary) -> bool:
-	if not bool(state.get("enabled", false)) or int(GameState.turn) != 1:
+	if not (state.get(W1_ONBOARDING_STATE_KEY, {}) as Dictionary).is_empty() \
+			or not bool(state.get("enabled", false)) \
+			or int(GameState.turn) != 1:
 		return false
 	var raw_plan: Variant = state["plans"].get("1", {})
 	if raw_plan is Dictionary and not (raw_plan as Dictionary).is_empty():
@@ -2370,6 +2533,82 @@ static func claim_preplan_opening_from_trigger(
 				"opening_interview_application_sent", false)):
 		return false
 	return _claim_preplan_opening("story_choice")
+
+## Old saves paused on the former Story-owned Send surface have no onboarding
+## marker but do retain the adjacent interview/math queue. The state-free
+## authored choice proves the click; this exact origin-gated transaction then
+## restores the legacy application provenance and consequence owner without a
+## weekly/action receipt. A failed postcondition restores the pre-click state.
+static func claim_legacy_preplan_opening_from_send(
+		event_id: String, choice_index: int,
+		reserved_queue: Array) -> bool:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	if not _legacy_preplan_opening_send_available(
+			state, event_id, choice_index, reserved_queue):
+		return false
+	var snapshot: Dictionary = GameState.serialize().duplicate(true)
+	GameState.flags["story_job_unlocked"] = true
+	GameState.flags["opening_interview_application_sent"] = true
+	GameState.flags["opening_preplan_application_sent"] = true
+	if not _claim_preplan_opening("story_choice"):
+		GameState.call("_restore_serialized_snapshot_exact", snapshot)
+		return false
+	state = _normalized_state(GameState.core_loop_v2_state)
+	var application_id := _preplan_opening_application_id()
+	var transition_key := "%s:%s:%d:%d" % [
+		OPENING_INTERVIEW_BUNDLE_ID, event_id, choice_index,
+		int(GameState.turn)]
+	state["application_transition_receipts"][transition_key] = {
+		"receipt_key": transition_key,
+		"application_id": application_id,
+		"from": "not_submitted",
+		"to": "submitted",
+		"bundle_id": OPENING_INTERVIEW_BUNDLE_ID,
+		"event_id": event_id,
+		"choice_index": choice_index,
+		"turn": int(GameState.turn),
+		"source": "legacy_story_send",
+	}
+	GameState.core_loop_v2_state = state
+	state = _normalized_state(GameState.core_loop_v2_state)
+	var raw_receipt: Variant = state["consequence_receipts"].get(
+		OPENING_INTERVIEW_BUNDLE_ID, {})
+	var raw_transition: Variant = state[
+		"application_transition_receipts"].get(transition_key, {})
+	var valid: bool = raw_receipt is Dictionary \
+		and str((raw_receipt as Dictionary).get("status", "")) \
+			== "presented" \
+		and str((raw_receipt as Dictionary).get("claim_source", "")) \
+			== "story_choice" \
+		and (raw_receipt as Dictionary).get("roots", []) \
+			== resolved_event_roots(OPENING_INTERVIEW_BUNDLE_ID) \
+		and str(state.get("active_bundle", "")) \
+			== OPENING_INTERVIEW_BUNDLE_ID \
+		and str(state.get("active_kind", "")) == "consequence" \
+		and int(state.get("active_turn", 0)) == int(GameState.turn) \
+		and str(state["application_statuses"].get(application_id, "")) \
+			== "submitted" \
+		and raw_transition is Dictionary \
+		and str((raw_transition as Dictionary).get("receipt_key", "")) \
+			== transition_key \
+		and str((raw_transition as Dictionary).get("source", "")) \
+			== "legacy_story_send" \
+		and str((raw_transition as Dictionary).get("from", "")) \
+			== "not_submitted" \
+		and str((raw_transition as Dictionary).get("to", "")) \
+			== "submitted" \
+		and bool(GameState.flags.get("story_job_unlocked", false)) \
+		and bool(GameState.flags.get(
+			"opening_interview_application_sent", false)) \
+		and bool(GameState.flags.get(
+			"opening_preplan_application_sent", false)) \
+		and not GameState.has_pending_weekly_commitment(int(GameState.turn)) \
+		and not GameState.has_weekly_commitment_for_turn(int(GameState.turn)) \
+		and not state["action_receipts"].has(W1_ONBOARDING_BUNDLE_ID)
+	if not valid:
+		GameState.call("_restore_serialized_snapshot_exact", snapshot)
+		return false
+	return true
 
 static func _claim_preplan_opening(source: String) -> bool:
 	var state := _normalized_state(GameState.core_loop_v2_state)
@@ -3926,6 +4165,48 @@ static func acknowledge_action_story_result(
 ## A saved result screen is presentation state, not permission to execute the
 ## action again. Return the durable receipt only when the active bundle, turn,
 ## and finalized weekly commitment still describe the same action.
+static func _action_record_for_bundle_from_weekly_commitment(
+		commitment: Dictionary, bundle_id: String,
+		expected_action: String) -> Dictionary:
+	if commitment.is_empty() \
+			or int(commitment.get("turn", -1)) != int(GameState.turn):
+		return {}
+	if str(commitment.get("pressure_id", "")) == bundle_id:
+		return commitment.duplicate(true)
+	var cycle_details: Dictionary = (
+		(commitment.get("details", {}) as Dictionary).duplicate(true)
+		if commitment.get("details", {}) is Dictionary else {}
+	)
+	if str(commitment.get("source", "")) != "seoul_cycle" \
+			or str(cycle_details.get("execution", "")) != "seoul_cycle" \
+			or not cycle_details.get("action_followups", []) is Array:
+		return {}
+	var match_record: Dictionary = {}
+	for raw_followup in cycle_details.get("action_followups", []):
+		if not raw_followup is Dictionary:
+			continue
+		var followup: Dictionary = raw_followup
+		if str(followup.get("bundle_id", "")) != bundle_id \
+				or str(followup.get("action_id", "")).strip_edges().to_lower() \
+					!= expected_action \
+				or int(followup.get("turn", -1)) != int(GameState.turn):
+			continue
+		if not match_record.is_empty():
+			return {}
+		match_record = {
+			"turn": int(followup.get("turn", -1)),
+			"pressure_id": bundle_id,
+			"choice_id": expected_action,
+			"actual_action_id": str(followup.get("action_id", "")),
+			"outcome": (
+				(followup.get("outcome", {}) as Dictionary).duplicate(true)
+				if followup.get("outcome", {}) is Dictionary else {}),
+			"details": (
+				(followup.get("details", {}) as Dictionary).duplicate(true)
+				if followup.get("details", {}) is Dictionary else {}),
+		}
+	return match_record
+
 static func recover_action_result() -> Dictionary:
 	var state := _normalized_state(GameState.core_loop_v2_state)
 	var bundle_id := str(state.get("active_bundle", "")).strip_edges()
@@ -3946,11 +4227,12 @@ static func recover_action_result() -> Dictionary:
 			or str(receipt.get("action_id", "")).strip_edges().to_lower() \
 				!= expected_action:
 		return {}
-	var commitment := GameState.get_weekly_commitment_for_turn(active_turn)
+	var commitment := _action_record_for_bundle_from_weekly_commitment(
+		GameState.get_weekly_commitment_for_turn(active_turn),
+		bundle_id, expected_action)
 	var actual_action := str(
 		commitment.get("actual_action_id", "")).strip_edges().to_lower()
 	if commitment.is_empty() \
-			or str(commitment.get("pressure_id", "")) != bundle_id \
 			or str(commitment.get("choice_id", "")).strip_edges().to_lower() \
 				!= expected_action \
 			or not GameState.weekly_commitment_action_matches(
@@ -4236,8 +4518,11 @@ static func _action_receipt_from_record(
 		(scene_bundle.get("action_config", {}) as Dictionary).duplicate(true)
 		if scene_bundle.get("action_config", {}) is Dictionary else {}
 	)
-	var execution := str(details.get(
-		"execution", config.get("execution", ""))).strip_edges()
+	# Runtime details, not today's authored config, prove which executor actually
+	# ran. In particular, the same resume bundle remains a normal minigame for
+	# non-onboarding/legacy play even though fresh W1 derives its typed
+	# application executor from the onboarding marker.
+	var execution := str(details.get("execution", "")).strip_edges()
 	if execution.is_empty():
 		match expected_action:
 			"apply":
@@ -4246,6 +4531,28 @@ static func _action_receipt_from_record(
 				execution = "rest"
 	if not execution.is_empty():
 		details["execution"] = execution
+	if execution == "job_hunt_application":
+		var fresh_origin := str(details.get(
+			"onboarding_origin", "")) == W1_ONBOARDING_ORIGIN
+		var typed_quality := int(details.get("quality", -1))
+		if not fresh_origin \
+				or bundle_id != W1_ONBOARDING_BUNDLE_ID \
+				or record_turn != 1 \
+				or typed_quality not in range(0, 4) \
+				or str(details.get("application_id", "")) \
+					!= W1_ONBOARDING_APPLICATION_ID \
+				or str(details.get("status", "")) != "submitted" \
+				or not bool(details.get(
+					"onboarding_completion_override", false)):
+			return {}
+	elif str(config.get("execution", "")) == "job_hunt_application":
+		# The authored bundle advertises the fresh-only executor, but a legacy
+		# record may prove an ordinary resume minigame (or predate execution
+		# details entirely). Do not snapshot application copy or identity into
+		# that receipt merely because current content changed after the save.
+		config = {}
+		if not execution.is_empty():
+			config["execution"] = execution
 	# A schema-two record can outlive the content conversion from instant effect
 	# to activity task. Rebuild the receipt with the historical execution and
 	# effects that the record actually proves; keeping today's activity config as
@@ -4291,11 +4598,15 @@ static func _action_receipt_from_record(
 			if str(result_key) != "ok":
 				details[result_key] = activity_result[result_key]
 		details.erase("ok")
+	var config_owns_application := str(config.get(
+		"execution", "")) != "job_hunt_application"
 	var application_id := str(details.get(
-		"application_id", config.get("application_id", ""))).strip_edges()
+		"application_id", config.get("application_id", "") \
+			if config_owns_application else "")).strip_edges()
 	var status := str(details.get(
 		"status", config.get(
-			"application_status", config.get("status", "")))).strip_edges()
+			"application_status", config.get("status", "")) \
+			if config_owns_application else "")).strip_edges()
 	return {
 		"bundle_id": bundle_id,
 		"action_id": expected_action,
@@ -4310,6 +4621,47 @@ static func _action_receipt_from_record(
 			if record.get("outcome", {}) is Dictionary else {}
 		),
 	}
+
+static func _apply_action_application_receipt(
+		state: Dictionary, bundle_id: String, receipt: Dictionary) -> bool:
+	var application_id := str(receipt.get("application_id", ""))
+	var status := str(receipt.get("application_status", ""))
+	if application_id.is_empty() or status.is_empty():
+		return true
+	var details: Dictionary = receipt.get("result_details", {}) \
+		if receipt.get("result_details", {}) is Dictionary else {}
+	if str(details.get("execution", "")) != "job_hunt_application":
+		state["application_statuses"][application_id] = status
+		return true
+	if bundle_id != W1_ONBOARDING_BUNDLE_ID \
+			or application_id != W1_ONBOARDING_APPLICATION_ID \
+			or status != "submitted":
+		return false
+	var transition_key := "%s:application:1" % bundle_id
+	var transition := {
+		"receipt_key": transition_key,
+		"application_id": application_id,
+		"from": "not_submitted",
+		"to": status,
+		"bundle_id": bundle_id,
+		"event_id": "",
+		"choice_index": -1,
+		"turn": 1,
+		"source": "typed_action_receipt",
+		"quality": int(details.get("quality", -1)),
+	}
+	var raw_existing: Variant = state[
+		"application_transition_receipts"].get(transition_key, {})
+	if raw_existing is Dictionary and not (raw_existing as Dictionary).is_empty() \
+			and raw_existing != transition:
+		return false
+	var prior_status := str(state["application_statuses"].get(
+		application_id, ""))
+	if prior_status not in ["", status]:
+		return false
+	state["application_transition_receipts"][transition_key] = transition
+	state["application_statuses"][application_id] = status
+	return true
 
 static func note_action_commitment(record: Dictionary) -> bool:
 	if active_kind() != "schedule":
@@ -4339,6 +4691,8 @@ static func note_action_commitment(record: Dictionary) -> bool:
 			return false
 		_clear_activity_task_session_for_owner(
 			state, active_id, int(GameState.turn))
+		if not _apply_action_application_receipt(state, active_id, existing):
+			return false
 		state["action_result_ready"] = not (
 			_is_action_story_bundle(active_bundle)
 			and _has_current_action_story_acknowledgement(
@@ -4350,16 +4704,257 @@ static func note_action_commitment(record: Dictionary) -> bool:
 		active_id, active_bundle, record)
 	if receipt.is_empty() or int(receipt.get("turn", -1)) != int(GameState.turn):
 		return false
-	var application_id := str(receipt.get("application_id", ""))
-	var status := str(receipt.get("application_status", ""))
 	state["action_receipts"][active_id] = receipt
 	_clear_activity_task_session_for_owner(
 		state, active_id, int(GameState.turn))
-	if not application_id.is_empty() and not status.is_empty():
-		state["application_statuses"][application_id] = status
+	if not _apply_action_application_receipt(state, active_id, receipt):
+		return false
 	state["action_result_ready"] = true
 	GameState.core_loop_v2_state = state
 	return true
+
+static func _fresh_w1_application_postcondition(
+		state: Dictionary, record: Dictionary, quality: int) -> bool:
+	var onboarding: Dictionary = state.get(W1_ONBOARDING_STATE_KEY, {})
+	var raw_receipt: Variant = state["action_receipts"].get(
+		W1_ONBOARDING_BUNDLE_ID, {})
+	if not raw_receipt is Dictionary:
+		return false
+	var receipt: Dictionary = raw_receipt
+	var details: Dictionary = receipt.get("result_details", {}) \
+		if receipt.get("result_details", {}) is Dictionary else {}
+	var transition_key := "%s:application:1" % W1_ONBOARDING_BUNDLE_ID
+	var raw_transition: Variant = state[
+		"application_transition_receipts"].get(transition_key, {})
+	return str(onboarding.get("phase", "")) == "result_committed" \
+		and int(onboarding.get("quality", -1)) == quality \
+		and int(receipt.get("turn", -1)) == 1 \
+		and str(receipt.get("application_id", "")) \
+			== W1_ONBOARDING_APPLICATION_ID \
+		and str(receipt.get("application_status", "")) == "submitted" \
+		and str(details.get("execution", "")) == "job_hunt_application" \
+		and int(details.get("quality", -1)) == quality \
+		and str(details.get("onboarding_origin", "")) \
+			== W1_ONBOARDING_ORIGIN \
+		and str(details.get("capacity_id", "")) \
+			== str(onboarding.get("selected_capacity_id", "")) \
+		and int(details.get("capacity_value", 0)) \
+			== int(onboarding.get("selected_capacity_value", 0)) \
+		and str(state["application_statuses"].get(
+			W1_ONBOARDING_APPLICATION_ID, "")) == "submitted" \
+		and raw_transition is Dictionary \
+		and str((raw_transition as Dictionary).get("from", "")) \
+			== "not_submitted" \
+		and str((raw_transition as Dictionary).get("to", "")) == "submitted" \
+		and not record.is_empty()
+
+## The final Send is the single owner of effects, the cycle followup, the typed
+## action receipt, and Mirae's submission transition. Any failed postcondition
+## restores the serialized pre-Send state, including the armed commitment.
+static func finalize_fresh_w1_application(
+		stress_delta: int, quality: int) -> Dictionary:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var onboarding: Dictionary = state.get(W1_ONBOARDING_STATE_KEY, {})
+	var capacity_id := str(onboarding.get(
+		"selected_capacity_id", "")).strip_edges()
+	var capacity_value := int(onboarding.get("selected_capacity_value", 0))
+	if quality not in range(0, 4) \
+			or str(onboarding.get("origin", "")) != W1_ONBOARDING_ORIGIN \
+			or str(onboarding.get("phase", "")) != "minigame" \
+			or int(GameState.turn) != 1 \
+			or active_bundle_id() != W1_ONBOARDING_BUNDLE_ID \
+			or active_kind() != "schedule" \
+			or capacity_id.is_empty() or capacity_value not in range(1, 7) \
+			or not GameState.has_pending_weekly_commitment(1) \
+			or state["action_receipts"].has(W1_ONBOARDING_BUNDLE_ID) \
+			or not application_status(W1_ONBOARDING_APPLICATION_ID).is_empty():
+		return {"ok": false, "error": "fresh_application_preflight_failed"}
+	var snapshot: Dictionary = GameState.serialize().duplicate(true)
+	var effects := {"stress": stress_delta}
+	var flag_updates: Dictionary = {}
+	if quality >= 2:
+		flag_updates["resume_polished"] = true
+		if quality == 3:
+			effects["intelligence"] = 2
+		else:
+			effects["intelligence"] = 1
+	var details := {
+		"execution": "job_hunt_application",
+		"quality": quality,
+		"effects": effects.duplicate(true),
+		"application_id": W1_ONBOARDING_APPLICATION_ID,
+		"status": "submitted",
+		"onboarding_origin": W1_ONBOARDING_ORIGIN,
+		"node_id": W1_ONBOARDING_NODE_ID,
+		"capacity_id": capacity_id,
+		"capacity_value": capacity_value,
+		"onboarding_completion_override": true,
+	}
+	var transaction := GameState.finalize_weekly_effect_action(
+		"resume", effects, "money", "youth_center", "", details,
+		flag_updates)
+	if not bool(transaction.get("ok", false)):
+		return transaction
+	var raw_record: Variant = transaction.get("record", {})
+	if not raw_record is Dictionary \
+			or not note_action_commitment(raw_record as Dictionary):
+		GameState.call("_restore_serialized_snapshot_exact", snapshot)
+		return {
+			"ok": false,
+			"error": "fresh_application_receipt_failed",
+			"rolled_back": true,
+		}
+	state = _normalized_state(GameState.core_loop_v2_state)
+	onboarding = state.get(W1_ONBOARDING_STATE_KEY, {})
+	onboarding["phase"] = "result_committed"
+	onboarding["quality"] = quality
+	state[W1_ONBOARDING_STATE_KEY] = onboarding
+	GameState.core_loop_v2_state = state
+	state = _normalized_state(GameState.core_loop_v2_state)
+	if not _fresh_w1_application_postcondition(
+			state, raw_record as Dictionary, quality):
+		GameState.call("_restore_serialized_snapshot_exact", snapshot)
+		return {
+			"ok": false,
+			"error": "fresh_application_postcondition_failed",
+			"rolled_back": true,
+		}
+	return {
+		"ok": true,
+		"record": (raw_record as Dictionary).duplicate(true),
+		"effects": effects.duplicate(true),
+		"quality": quality,
+	}
+
+static func stage_fresh_w1_application_draft(
+		_stress_delta: int, quality: int) -> bool:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var onboarding: Dictionary = state.get(W1_ONBOARDING_STATE_KEY, {})
+	if quality not in range(0, 4) \
+			or str(onboarding.get("phase", "")) != "minigame" \
+			or active_bundle_id() != W1_ONBOARDING_BUNDLE_ID \
+			or not GameState.has_pending_weekly_commitment(1):
+		return false
+	# Draft score/stress is intentionally memory-only in MainGame. A manual save
+	# before Send therefore reloads this same minigame from question one.
+	return true
+
+static func restart_fresh_w1_minigame() -> bool:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var onboarding: Dictionary = state.get(W1_ONBOARDING_STATE_KEY, {})
+	if str(onboarding.get("phase", "")) not in [
+			"allocation_pending", "minigame", "draft"] \
+			or active_bundle_id() != W1_ONBOARDING_BUNDLE_ID \
+			or not active_bundle_is_seoul_cycle_trigger():
+		return false
+	onboarding["phase"] = "minigame"
+	onboarding["quality"] = -1
+	onboarding["stress_delta"] = 0
+	state[W1_ONBOARDING_STATE_KEY] = onboarding
+	GameState.core_loop_v2_state = state
+	return true
+
+static func claim_fresh_w1_opening_interview() -> bool:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var onboarding: Dictionary = state.get(W1_ONBOARDING_STATE_KEY, {})
+	var raw_receipt: Variant = state["action_receipts"].get(
+		W1_ONBOARDING_BUNDLE_ID, {})
+	if str(onboarding.get("phase", "")) != "action_completed" \
+			or not raw_receipt is Dictionary \
+			or str((raw_receipt as Dictionary).get(
+				"application_id", "")) != W1_ONBOARDING_APPLICATION_ID \
+			or str((raw_receipt as Dictionary).get(
+				"application_status", "")) != "submitted" \
+			or state["consequence_receipts"].has(
+				OPENING_INTERVIEW_BUNDLE_ID) \
+			or not str(state.get("active_bundle", "")).is_empty():
+		return false
+	var roots := resolved_event_roots(OPENING_INTERVIEW_BUNDLE_ID)
+	if roots.is_empty():
+		return false
+	state["active_bundle"] = OPENING_INTERVIEW_BUNDLE_ID
+	state["active_kind"] = "consequence"
+	state["active_turn"] = int(GameState.turn)
+	state["action_result_ready"] = false
+	state["consequence_receipts"][OPENING_INTERVIEW_BUNDLE_ID] = {
+		"consequence_id": OPENING_INTERVIEW_BUNDLE_ID,
+		"scheduled_bundle": W1_ONBOARDING_BUNDLE_ID,
+		"turn": int(GameState.turn),
+		"status": "presented",
+		"surface_kind": "fresh_w1_action",
+		"roots": roots.duplicate(),
+		"presented_turn": int(GameState.turn),
+		"consumed_turn": 0,
+		"legacy_separate_owner": false,
+		"claim_source": "typed_action_receipt",
+	}
+	if not state["shown_consequences"].has(OPENING_INTERVIEW_BUNDLE_ID):
+		state["shown_consequences"].append(OPENING_INTERVIEW_BUNDLE_ID)
+	state["shown_consequence_turns"][OPENING_INTERVIEW_BUNDLE_ID] = int(
+		GameState.turn)
+	onboarding["phase"] = "consequence_presented"
+	state[W1_ONBOARDING_STATE_KEY] = onboarding
+	GameState.core_loop_v2_state = state
+	prepare_story_bundle(OPENING_INTERVIEW_BUNDLE_ID)
+	return true
+
+## Continue is one transaction boundary for the fresh W1 Send. Completing the
+## action first and claiming its interview second would otherwise strand a save
+## as action_completed if the late consequence claim collided or lost its roots.
+static func complete_fresh_w1_action_and_claim_interview() -> Dictionary:
+	var snapshot: Dictionary = GameState.serialize().duplicate(true)
+	var expected_roots := resolved_event_roots(OPENING_INTERVIEW_BUNDLE_ID)
+	if expected_roots.is_empty():
+		GameState.call("_restore_serialized_snapshot_exact", snapshot)
+		return {
+			"ok": false,
+			"error": "fresh_w1_interview_roots_missing",
+			"rolled_back": true,
+		}
+	var completed_id := complete_active_bundle()
+	if completed_id != W1_ONBOARDING_BUNDLE_ID:
+		GameState.call("_restore_serialized_snapshot_exact", snapshot)
+		return {
+			"ok": false,
+			"error": "fresh_w1_action_completion_failed",
+			"rolled_back": true,
+		}
+	if not claim_fresh_w1_opening_interview():
+		GameState.call("_restore_serialized_snapshot_exact", snapshot)
+		return {
+			"ok": false,
+			"error": "fresh_w1_interview_claim_failed",
+			"rolled_back": true,
+		}
+	var state: Dictionary = GameState.core_loop_v2_state
+	var onboarding: Dictionary = state.get(W1_ONBOARDING_STATE_KEY, {})
+	var raw_receipt: Variant = state.get(
+		"consequence_receipts", {}).get(OPENING_INTERVIEW_BUNDLE_ID, {})
+	var valid: bool = str(onboarding.get("phase", "")) == "consequence_presented" \
+		and str(state.get("active_bundle", "")) == OPENING_INTERVIEW_BUNDLE_ID \
+		and str(state.get("active_kind", "")) == "consequence" \
+		and int(state.get("active_turn", 0)) == int(GameState.turn) \
+		and not bool(state.get("action_result_ready", true)) \
+		and raw_receipt is Dictionary \
+		and str((raw_receipt as Dictionary).get("status", "")) == "presented" \
+		and str((raw_receipt as Dictionary).get("scheduled_bundle", "")) \
+			== W1_ONBOARDING_BUNDLE_ID \
+		and (raw_receipt as Dictionary).get("roots", []) == expected_roots \
+		and (state.get("completed_bundles", []) as Array).count(
+			W1_ONBOARDING_BUNDLE_ID) == 1
+	if not valid:
+		GameState.call("_restore_serialized_snapshot_exact", snapshot)
+		return {
+			"ok": false,
+			"error": "fresh_w1_interview_handoff_postcondition_failed",
+			"rolled_back": true,
+		}
+	return {
+		"ok": true,
+		"completed_bundle": W1_ONBOARDING_BUNDLE_ID,
+		"interview_bundle": OPENING_INTERVIEW_BUNDLE_ID,
+		"roots": expected_roots.duplicate(),
+	}
 
 static func complete_active_bundle() -> String:
 	var state := _normalized_state(GameState.core_loop_v2_state)
@@ -4477,6 +5072,17 @@ static func complete_active_bundle() -> String:
 					state, cycle_pending_key, cycle_receipt_key,
 					bundle_id, int(GameState.turn)):
 				return ""
+	var onboarding: Dictionary = state.get(W1_ONBOARDING_STATE_KEY, {})
+	if bundle_id == W1_ONBOARDING_BUNDLE_ID \
+			and kind == "schedule" \
+			and str(onboarding.get("phase", "")) == "result_committed":
+		onboarding["phase"] = "action_completed"
+		state[W1_ONBOARDING_STATE_KEY] = onboarding
+	elif bundle_id == OPENING_INTERVIEW_BUNDLE_ID \
+			and kind == "consequence" \
+			and str(onboarding.get("phase", "")) == "consequence_presented":
+		onboarding["phase"] = "consumed"
+		state[W1_ONBOARDING_STATE_KEY] = onboarding
 	state["active_bundle"] = ""
 	state["active_kind"] = ""
 	state["active_turn"] = 0
@@ -5404,7 +6010,8 @@ static func _first_bill_father_memory_id(state: Dictionary) -> String:
 				or memory_id not in FIRST_BILL_FATHER_MEMORY_IDS:
 			continue
 		var outcome := _relationship_outcome_for_choice(
-			"father_health_signal", "v2_father_health_signal", choice_index)
+			"father_health_signal", "v2_father_health_signal", choice_index,
+			state)
 		if str(outcome.get("memory", "")) != memory_id:
 			continue
 		if not found.is_empty() and found != memory_id:
@@ -6140,7 +6747,12 @@ static func story_choice_available(
 ## StoryMode applies any authored effect. Other story choices retain their
 ## existing availability contract.
 static func story_choice_commit_available(
-		event_id: String, choice_index: int) -> bool:
+		event_id: String, choice_index: int,
+		reserved_queue: Array = []) -> bool:
+	if event_id == OPENING_APPLICATION_EVENT_ID:
+		return _legacy_preplan_opening_send_available(
+			_normalized_state(GameState.core_loop_v2_state),
+			event_id, choice_index, reserved_queue)
 	if event_id not in EXACT_DEFERRED_CHOICE_ROOTS:
 		return true
 	var state := _normalized_state(GameState.core_loop_v2_state)
@@ -6386,10 +6998,16 @@ static func was_player_initiated(character_id: String) -> bool:
 	var initiated: Variant = GameState.core_loop_v2_state.get("player_initiated", [])
 	return initiated is Array and (initiated as Array).has(character_id)
 
-static func note_story_choice(event_id: String, choice_index: int) -> bool:
-	# The fresh opening is queued before the application is sent so StoryMode
-	# can keep one continuous scene. Claim its V2 owner only after GameState has
-	# applied the exact data-declared Send choice.
+static func note_story_choice(
+		event_id: String, choice_index: int,
+		reserved_queue: Array = []) -> bool:
+	# ORDER-101 fresh runs never show the old Story Send. Only an exact legacy
+	# queue may restore that state-free click's application/consequence owner.
+	if claim_legacy_preplan_opening_from_send(
+			event_id, choice_index, reserved_queue):
+		return true
+	# Preserve already-materialized pre-ORDER-101 choices whose old authored
+	# flags were applied before this runtime hook.
 	if claim_preplan_opening_from_trigger(event_id, choice_index):
 		return true
 	var state := _normalized_state(GameState.core_loop_v2_state)
@@ -7099,7 +7717,7 @@ static func _note_relationship_story_choice(
 		# save migration. Old planned runs received Father's incoming call; only
 		# the new pre-plan missed-call route records a player callback.
 		var resolved_outcome := _relationship_outcome_for_choice(
-			bundle_id, event_id, choice_index)
+			bundle_id, event_id, choice_index, state)
 		if resolved_outcome.is_empty():
 			return false
 		outcome = resolved_outcome
@@ -7600,10 +8218,17 @@ static func normalize_seoul_cycle_state(raw_state: Dictionary) -> Dictionary:
 				"progress", "status", "completed_turn",
 				"last_allocation_turn", "expired_turn", "featured_status",
 				"missed_trigger_bundle", "fallback_mode",
+				"onboarding_completion_override_applied", "authored_threshold",
+				"completion_threshold", "onboarding_capacity_id",
+				"onboarding_capacity_value",
 			]:
 				if (raw_runtime_node as Dictionary).has(key):
 					node[key] = (raw_runtime_node as Dictionary)[key]
 		var threshold: int = maxi(1, int(node.get("threshold", 1)))
+		var completion_threshold := threshold
+		if node.get("onboarding_completion_override_applied", false) == true:
+			completion_threshold = clampi(int(node.get(
+				"completion_threshold", threshold)), 1, threshold)
 		node["id"] = node_id
 		node["threshold"] = threshold
 		node["deadline_week"] = clampi(
@@ -7616,7 +8241,7 @@ static func normalize_seoul_cycle_state(raw_state: Dictionary) -> Dictionary:
 		]:
 			status = "open" if int(node["progress"]) == 0 else "in_progress"
 		if status in ["awaiting_trigger", "completed"] \
-				and int(node["progress"]) < threshold:
+				and int(node["progress"]) < completion_threshold:
 			status = "in_progress"
 		node["status"] = status
 		node["completed_turn"] = clampi(
@@ -7811,6 +8436,102 @@ static func _seoul_cycle_world_bundle_authored_for_week(
 			and bundle_allowed_in_week(bundle_id, absolute_turn)
 	return false
 
+static func _normalized_w1_onboarding(raw_state: Variant) -> Dictionary:
+	if not raw_state is Dictionary:
+		return {}
+	var onboarding: Dictionary = (raw_state as Dictionary).duplicate(true)
+	if int(onboarding.get("schema", 0)) != W1_ONBOARDING_SCHEMA \
+			or str(onboarding.get("origin", "")) != W1_ONBOARDING_ORIGIN \
+			or int(onboarding.get("turn", 0)) != 1 \
+			or str(onboarding.get("node_id", "")) != W1_ONBOARDING_NODE_ID \
+			or str(onboarding.get("bundle_id", "")) != W1_ONBOARDING_BUNDLE_ID \
+			or str(onboarding.get("application_id", "")) \
+				!= W1_ONBOARDING_APPLICATION_ID:
+		return {}
+	var phase := str(onboarding.get("phase", ""))
+	# A short-lived early implementation wrote the unsent confirmation draft.
+	# Treat it exactly like any other pre-result save: restart the minigame.
+	if phase == "draft":
+		phase = "minigame"
+		onboarding["quality"] = -1
+		onboarding["stress_delta"] = 0
+	if phase not in [
+		"prologue", "board", "allocation_pending", "minigame",
+		"result_committed", "action_completed", "consequence_presented",
+		"consumed",
+	]:
+		return {}
+	return {
+		"schema": W1_ONBOARDING_SCHEMA,
+		"origin": W1_ONBOARDING_ORIGIN,
+		"turn": 1,
+		"node_id": W1_ONBOARDING_NODE_ID,
+		"bundle_id": W1_ONBOARDING_BUNDLE_ID,
+		"application_id": W1_ONBOARDING_APPLICATION_ID,
+		"phase": phase,
+		"selected_capacity_id": str(onboarding.get(
+			"selected_capacity_id", "")).strip_edges(),
+		"selected_capacity_value": clampi(int(onboarding.get(
+			"selected_capacity_value", 0)), 0, 6),
+		"quality": clampi(int(onboarding.get("quality", -1)), -1, 3),
+		"stress_delta": clampi(int(onboarding.get("stress_delta", 0)), -20, 20),
+	}
+
+static func _validate_w1_onboarding_cycle_override(state: Dictionary) -> void:
+	var onboarding: Dictionary = state.get(W1_ONBOARDING_STATE_KEY, {})
+	var cycle: Dictionary = state.get(SEOUL_CYCLE_STATE_KEY, {})
+	if cycle.is_empty():
+		return
+	var nodes: Dictionary = cycle.get("nodes", {})
+	var raw_node: Variant = nodes.get(W1_ONBOARDING_NODE_ID, {})
+	if not raw_node is Dictionary:
+		return
+	var node: Dictionary = (raw_node as Dictionary).duplicate(true)
+	if node.get("onboarding_completion_override_applied", false) != true:
+		return
+	var selected_capacity_id := str(onboarding.get(
+		"selected_capacity_id", "")).strip_edges()
+	var selected_capacity_value := int(onboarding.get(
+		"selected_capacity_value", 0))
+	var raw_receipt: Variant = (cycle.get(
+		"allocation_receipts", {}) as Dictionary).get("1", {})
+	var valid := str(onboarding.get("origin", "")) == W1_ONBOARDING_ORIGIN \
+		and str(onboarding.get("phase", "")) in [
+			"allocation_pending", "minigame", "draft", "result_committed",
+			"action_completed", "consequence_presented", "consumed"] \
+		and int(cycle.get("month", 0)) == 1 \
+		and int(node.get("threshold", 0)) == 3 \
+		and int(node.get("authored_threshold", 0)) == 3 \
+		and int(node.get("completion_threshold", 0)) == 1 \
+		and str(node.get("onboarding_capacity_id", "")) \
+			== selected_capacity_id \
+		and int(node.get("onboarding_capacity_value", 0)) \
+			== selected_capacity_value \
+		and not selected_capacity_id.is_empty() \
+		and selected_capacity_value in range(1, 7) \
+		and raw_receipt is Dictionary \
+		and str((raw_receipt as Dictionary).get("node_id", "")) \
+			== W1_ONBOARDING_NODE_ID \
+		and str((raw_receipt as Dictionary).get("capacity_id", "")) \
+			== selected_capacity_id \
+		and int((raw_receipt as Dictionary).get("capacity_value", 0)) \
+			== selected_capacity_value \
+		and bool((raw_receipt as Dictionary).get(
+			"onboarding_completion_override", false))
+	if not valid:
+		for key in [
+			"onboarding_completion_override_applied", "authored_threshold",
+			"completion_threshold", "onboarding_capacity_id",
+			"onboarding_capacity_value",
+		]:
+			node.erase(key)
+		if str(node.get("status", "")) in ["awaiting_trigger", "completed"] \
+				and int(node.get("progress", 0)) < int(node.get("threshold", 1)):
+			node["status"] = "in_progress"
+		nodes[W1_ONBOARDING_NODE_ID] = node
+		cycle["nodes"] = nodes
+		state[SEOUL_CYCLE_STATE_KEY] = cycle
+
 static func _normalized_state(raw_state: Dictionary) -> Dictionary:
 	var state := raw_state.duplicate(true)
 	var source_schema := int(state.get("schema", 1))
@@ -7832,11 +8553,15 @@ static func _normalized_state(raw_state: Dictionary) -> Dictionary:
 		"deferred_callback_receipts", "demo_collision_context",
 		"future_story_receipts", "future_application_receipts",
 		"activity_task_session", SEOUL_CYCLE_STATE_KEY,
+		W1_ONBOARDING_STATE_KEY,
 	]:
 		if not state.has(key) or not state[key] is Dictionary:
 			state[key] = {}
 	state[SEOUL_CYCLE_STATE_KEY] = normalize_seoul_cycle_state(
 		state.get(SEOUL_CYCLE_STATE_KEY, {}))
+	state[W1_ONBOARDING_STATE_KEY] = _normalized_w1_onboarding(
+		state.get(W1_ONBOARDING_STATE_KEY, {}))
+	_validate_w1_onboarding_cycle_override(state)
 	for key in [
 		"forgone", "completed_turns", "completed_bundles",
 		"shown_consequences", "player_initiated", "pending_declines",
@@ -7940,8 +8665,10 @@ static func _recover_finalized_action_state(
 	if active_turn < 1 or active_turn != int(GameState.turn) \
 			or (state.get("completed_turns", []) as Array).has(active_turn):
 		return
-	var commitment := GameState.get_weekly_commitment_for_turn(active_turn)
-	if str(commitment.get("pressure_id", "")) != bundle_id:
+	var commitment := _action_record_for_bundle_from_weekly_commitment(
+		GameState.get_weekly_commitment_for_turn(active_turn),
+		bundle_id, expected_action)
+	if commitment.is_empty():
 		return
 	var recovered := _action_receipt_from_record(
 		bundle_id, scene_bundle, commitment)
@@ -7957,19 +8684,14 @@ static func _recover_finalized_action_state(
 					"action_id", "")).strip_edges().to_lower() \
 					!= expected_action:
 			return
-		var prior_application_id := str(
-			(existing as Dictionary).get("application_id", ""))
-		var prior_status := str(
-			(existing as Dictionary).get("application_status", ""))
-		if not prior_application_id.is_empty() and not prior_status.is_empty():
-			state["application_statuses"][prior_application_id] = prior_status
+		if not _apply_action_application_receipt(
+				state, bundle_id, existing as Dictionary):
+			return
 	else:
 		state["action_receipts"][bundle_id] = recovered
 	var receipt: Dictionary = state["action_receipts"][bundle_id]
-	var application_id := str(receipt.get("application_id", ""))
-	var status := str(receipt.get("application_status", ""))
-	if not application_id.is_empty() and not status.is_empty():
-		state["application_statuses"][application_id] = status
+	if not _apply_action_application_receipt(state, bundle_id, receipt):
+		return
 	state["action_result_ready"] = not (
 		_is_action_story_bundle(scene_bundle)
 		and _has_current_action_story_acknowledgement(state, bundle_id)
@@ -8029,7 +8751,7 @@ static func _migrate_schema_two_relationship_state(state: Dictionary) -> void:
 		var outcome := _relationship_outcome_for_choice(
 			str(identity.get("bundle_id", "")),
 			str(identity.get("event_id", "")),
-			int(identity.get("choice_index", -1)))
+			int(identity.get("choice_index", -1)), state)
 		if outcome.is_empty():
 			continue
 		var receipt := {
@@ -8098,8 +8820,58 @@ static func _legacy_relationship_receipt_identity(key: String) -> Dictionary:
 		"turn": turn,
 	}
 
+static func opening_application_provenance_valid() -> bool:
+	return _opening_application_provenance_valid(
+		_normalized_state(GameState.core_loop_v2_state))
+
+static func _opening_application_provenance_valid(state: Dictionary) -> bool:
+	var onboarding: Dictionary = state.get(W1_ONBOARDING_STATE_KEY, {})
+	if str(onboarding.get("origin", "")) == W1_ONBOARDING_ORIGIN:
+		var raw_receipt: Variant = state["action_receipts"].get(
+			W1_ONBOARDING_BUNDLE_ID, {})
+		if not raw_receipt is Dictionary:
+			return false
+		var receipt: Dictionary = raw_receipt
+		var details: Dictionary = receipt.get("result_details", {}) \
+			if receipt.get("result_details", {}) is Dictionary else {}
+		var transition_key := "%s:application:1" % W1_ONBOARDING_BUNDLE_ID
+		var raw_transition: Variant = state[
+			"application_transition_receipts"].get(transition_key, {})
+		var live_status := str(state["application_statuses"].get(
+			W1_ONBOARDING_APPLICATION_ID, ""))
+		return int(receipt.get("turn", -1)) == 1 \
+			and str(receipt.get("bundle_id", "")) \
+				== W1_ONBOARDING_BUNDLE_ID \
+			and str(receipt.get("action_id", "")) == "resume" \
+			and str(receipt.get("application_id", "")) \
+				== W1_ONBOARDING_APPLICATION_ID \
+			and str(receipt.get("application_status", "")) == "submitted" \
+			and str(details.get("execution", "")) \
+				== "job_hunt_application" \
+			and str(details.get("onboarding_origin", "")) \
+				== W1_ONBOARDING_ORIGIN \
+			and int(details.get("quality", -1)) in range(0, 4) \
+			and str(details.get("capacity_id", "")) \
+				== str(onboarding.get("selected_capacity_id", "")) \
+			and int(details.get("capacity_value", 0)) \
+				== int(onboarding.get("selected_capacity_value", 0)) \
+			and live_status in ["submitted", "interviewed"] \
+			and raw_transition is Dictionary \
+			and str((raw_transition as Dictionary).get("source", "")) \
+				== "typed_action_receipt" \
+			and str((raw_transition as Dictionary).get("from", "")) \
+				== "not_submitted" \
+			and str((raw_transition as Dictionary).get("to", "")) \
+				== "submitted"
+	# Old pre-plan saves have no ORDER-101 marker. Preserve their exact authored
+	# provenance; a free application status without that legacy write is not
+	# enough to rewrite Father's incoming-call history.
+	return bool(GameState.flags.get(
+		"opening_preplan_application_sent", false))
+
 static func _relationship_outcome_for_choice(
-		bundle_id: String, event_id: String, choice_index: int) -> Dictionary:
+		bundle_id: String, event_id: String, choice_index: int,
+		evidence_state: Dictionary = {}) -> Dictionary:
 	var scene_bundle := bundle(bundle_id)
 	var raw_outcomes: Variant = scene_bundle.get("relationship_outcomes", [])
 	if not raw_outcomes is Array:
@@ -8121,8 +8893,9 @@ static func _relationship_outcome_for_choice(
 				# in-progress plan; only the new missed-call route is player-led.
 				if bundle_id == "father_first_call" \
 						and event_id == "arc_father_01_call" \
-						and not bool(GameState.flags.get(
-							"opening_preplan_application_sent", false)):
+						and not _opening_application_provenance_valid(
+							evidence_state if not evidence_state.is_empty() else
+							GameState.core_loop_v2_state):
 					resolved["initiative"] = "reciprocal"
 				return resolved
 	return {}

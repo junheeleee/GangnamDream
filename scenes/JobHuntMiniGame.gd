@@ -221,6 +221,7 @@ const INTERVIEW_QUESTIONS_PER_SESSION: int = 5
 
 # ── 상태 ─────────────────────────────────────────────────────────
 var current_mode: Mode = Mode.RESUME  # MainGame이 closed 핸들러에서 읽음
+var application_submission_mode: bool = false
 var _mode: Mode = Mode.RESUME
 var _active_questions: Array = []  # 이번 세션에 사용할 랜덤 문항
 var _choice_layouts: Array = []  # 문항별 표시 순서. 최고점 답의 위치를 세션 안에서 분산한다.
@@ -281,10 +282,12 @@ func _process(delta: float) -> void:
 			_on_timeout()
 
 # ── 진입 ─────────────────────────────────────────────────────────
-func open(mode: Mode) -> void:
+func open(mode: Mode, application_submission: bool = false) -> void:
 	BGMPlayer.enter_activity_ambience("office")
 	_mode = mode
 	current_mode = mode
+	application_submission_mode = application_submission \
+		and mode == Mode.RESUME
 	_q_idx = 0
 	_total_score = 0
 	_stress_delta = 0
@@ -683,7 +686,10 @@ func _show_result() -> void:
 			"정신력 %+d", "Mental %+d") % (-final_stress_delta)
 		_content_vb.add_child(stat_lbl)
 
-	var ok_btn := _make_btn(LocaleManager.ui("확인", "Confirm"), "#20201f", 15)
+	var result_cta := LocaleManager.ui(
+		"지원서 검토로", "Review Application") \
+		if application_submission_mode else LocaleManager.ui("확인", "Confirm")
+	var ok_btn := _make_btn(result_cta, "#20201f", 15)
 	ok_btn.custom_minimum_size = Vector2(0, 46)
 	ok_btn.pressed.connect(func(): _on_finish(quality))
 	_content_vb.add_child(ok_btn)

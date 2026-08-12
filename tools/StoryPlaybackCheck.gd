@@ -81,12 +81,17 @@ func _ready() -> void:
 	await _free_story_fixture()
 	if not _check_queue_only_transition_contracts():
 		return
-	if not await _check_v2_fresh_followup_replacement():
+	if not await _check_v2_fresh_guided_handoff():
 		return
 	await _free_story_fixture()
 	if not await _check_same_location_handoff():
 		return
 	await _free_story_fixture()
+	await _stop_test_audio()
+	# Covered handoff fixtures intentionally leave a deferred scene replacement
+	# pending until quit. Keep their transition click silent so that final frame
+	# does not strand a one-shot stream while still avoiding a scene flash.
+	AudioManager.sfx_enabled = false
 	if not _check_covered_story_handoff():
 		return
 	if not _check_v2_covered_preplan_handoff():
@@ -98,7 +103,8 @@ func _ready() -> void:
 			DEMO_QUEUE_ONLY_EDGES.size(), DEMO_SAME_LOCATION_EDGES.size()
 		]
 		+ "direct_commit=1 hints=ko_en_xbox_ps_nintendo choice_commit=0 "
-		+ "fresh_replace=1 legacy_keep=1 legacy_covered=1 v2_covered=1"
+		+ "fresh_guided=1 story_send_writes=0 legacy_paused_send=1 "
+		+ "legacy_covered=1 typed_w1_covered=1"
 	)
 	get_tree().quit(0)
 
@@ -266,13 +272,7 @@ func _check_accept_hold_boundary() -> bool:
 
 func _check_direct_continue_contract() -> bool:
 	var original_language := LocaleManager.language
-	var original_intelligence: int = int(GameState.intelligence)
-	var had_unlock_flag := GameState.flags.has("story_job_unlocked")
-	var unlock_flag_value: Variant = GameState.flags.get("story_job_unlocked", null)
-	var had_sent_flag := GameState.flags.has(
-		"opening_interview_application_sent")
-	var sent_flag_value: Variant = GameState.flags.get(
-		"opening_interview_application_sent", null)
+	var original_state: Dictionary = GameState.serialize().duplicate(true)
 	LocaleManager.set_language("en")
 	ControllerHints.force_brand_for_qa(ControllerHints.Brand.XBOX)
 	if not await _spawn_story_fixture("story_pressure"):
@@ -323,6 +323,20 @@ func _check_direct_continue_contract() -> bool:
 		_fail("legacy direct action no longer describes opening the job app")
 		return false
 
+	# This direct action survives only for an old save paused on the former Send
+	# screen. Its exact adjacent queue is the provenance required by StoryMode.
+	GameState.start_new_game()
+	if not CORE_LOOP.initialize_for_run(true):
+		_fail("legacy paused-Send fixture could not initialize")
+		return false
+	GameState.turn = 1
+	GameState.flags["prologue_done"] = true
+	var legacy_roots: Array = CORE_LOOP.fresh_preplan_opening_roots()
+	if legacy_roots != ["arc_intro_01_meal", "v2_opening_return_math"] \
+			or not CORE_LOOP.fresh_w1_onboarding_snapshot().is_empty():
+		_fail("legacy paused-Send fixture lost its no-marker adjacent queue")
+		return false
+	_story.set("_queue", legacy_roots.duplicate())
 	_set_direct_fixture_state(DataRegistry.find_event(
 		CORE_LOOP.OPENING_APPLICATION_EVENT_ID))
 	_story.call("_set_auto_mode", true, false, false)
@@ -331,33 +345,36 @@ func _check_direct_continue_contract() -> bool:
 		_fail("V2 direct action does not state the committed Send")
 		return false
 
+	var legacy_before: Dictionary = GameState.serialize().duplicate(true)
+	var events_before: int = GameState.events_seen
 	_story.call("_arm_auto_advance", "final")
 	_story.set("_auto_wait", 0.0)
 	_story.call("_process", 0.01)
 	if bool(_story.get("_showing_choices")) or not bool(_story.get("_pending_after_result")):
 		_fail("auto direct action opened a fake choice rail or skipped its result")
 		return false
-	if GameState.intelligence != original_intelligence + 2 \
+	if GameState.intelligence != int(legacy_before.get("intelligence", 0)) \
+			or GameState.events_seen != events_before + 1 \
 			or not bool(GameState.flags.get("story_job_unlocked", false)) \
 			or not bool(GameState.flags.get(
-				"opening_interview_application_sent", false)):
-		_fail("auto direct action did not apply its effects and flag exactly once")
+				"opening_interview_application_sent", false)) \
+			or CORE_LOOP.application_status(
+				"mirae_industrial_tech") != "submitted" \
+			or CORE_LOOP.active_bundle_id() \
+				!= CORE_LOOP.OPENING_INTERVIEW_BUNDLE_ID \
+			or not CORE_LOOP.action_receipt(
+				CORE_LOOP.W1_ONBOARDING_BUNDLE_ID).is_empty() \
+			or GameState.has_weekly_commitment_for_turn(1):
+		_fail("legacy direct Send lost its exact non-weekly application provenance")
 		return false
+	var legacy_after: Dictionary = GameState.serialize().duplicate(true)
 	for _step in range(4):
 		_story.call("_process", 0.40)
-	if GameState.intelligence != original_intelligence + 2:
-		_fail("held direct action applied its effect more than once")
+	if GameState.serialize() != legacy_after:
+		_fail("held legacy Send applied its transaction more than once")
 		return false
 
-	GameState.intelligence = original_intelligence
-	if had_unlock_flag:
-		GameState.flags["story_job_unlocked"] = unlock_flag_value
-	else:
-		GameState.flags.erase("story_job_unlocked")
-	if had_sent_flag:
-		GameState.flags["opening_interview_application_sent"] = sent_flag_value
-	else:
-		GameState.flags.erase("opening_interview_application_sent")
+	GameState.call("_restore_serialized_snapshot_exact", original_state)
 	ControllerHints.clear_qa_override()
 	LocaleManager.set_language(original_language)
 	return true
@@ -517,24 +534,32 @@ func _check_queue_only_transition_contracts() -> bool:
 				]
 			)
 			return false
+		var legacy_send_edge := str(edge[0]) \
+			== CORE_LOOP.OPENING_APPLICATION_EVENT_ID \
+			or str(edge[1]) == CORE_LOOP.OPENING_APPLICATION_EVENT_ID
+		if legacy_send_edge \
+				and not bool(authored.get("legacy_only", false)):
+			_fail("a retired Story Send edge is no longer legacy-only: %s" % [
+				edge_key,
+			])
+			return false
 	return true
 
-func _check_v2_fresh_followup_replacement() -> bool:
+func _check_v2_fresh_guided_handoff() -> bool:
 	GameState.start_new_game()
 	if not CORE_LOOP.initialize_for_run(true):
-		_fail("V2 follow-up replacement fixture could not initialize")
+		_fail("fresh guided-W1 fixture could not initialize")
 		return false
 	GameState.turn = 1
+	if not CORE_LOOP.begin_fresh_w1_onboarding():
+		_fail("fresh guided-W1 fixture could not create its owner")
+		return false
 	GameState.flags["prologue_done"] = true
 	var roots: Array = CORE_LOOP.fresh_preplan_opening_roots()
-	if roots != ["arc_intro_01_meal", "v2_opening_return_math"] \
-			or roots.has(CORE_LOOP.OPENING_APPLICATION_EVENT_ID):
-		_fail("fresh V2 queue no longer reserves only interview and calculation")
+	if not roots.is_empty():
+		_fail("fresh V2 queue reserved material before the W1 action")
 		return false
-	var opening_queue := ["story_prologue_meal"]
-	opening_queue.append_array(roots)
-	opening_queue.append("chapter_card_33")
-	GameState.pending_story_queue = opening_queue
+	GameState.pending_story_queue = ["story_prologue_meal"]
 	GameState.story_return_scene = "res://scenes/MainGame.tscn"
 	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
 	add_child(_story)
@@ -543,28 +568,33 @@ func _check_v2_fresh_followup_replacement() -> bool:
 	var current: Dictionary = _story.get("_current")
 	var reserved_queue: Array = _story.get("_queue")
 	if str(current.get("id", "")) != "story_prologue_meal" \
-			or reserved_queue != [
-				"arc_intro_01_meal", "v2_opening_return_math",
-				"chapter_card_33"] \
-			or reserved_queue.has(CORE_LOOP.OPENING_APPLICATION_EVENT_ID):
-		_fail("fresh StoryMode queue directly reserved Send or lost an opening root")
+			or not reserved_queue.is_empty():
+		_fail("fresh StoryMode queued Send/interview/math/chapter before W1")
 		return false
 	var choices: Array = current.get("choices", [])
 	if choices.size() != 2:
 		_fail("prologue meal fixture lost its two authored choices")
 		return false
-	var replaced := str(_story.call(
+	var before_follow_up: Dictionary = GameState.serialize().duplicate(true)
+	var follow_up := str(_story.call(
 		"_choice_follow_up_id", choices[0] as Dictionary,
 		"story_prologue_meal", 0))
-	if replaced != CORE_LOOP.OPENING_APPLICATION_EVENT_ID:
-		_fail("StoryMode did not replace the fresh legacy app-open follow-up with Send")
+	if not follow_up.is_empty() \
+			or CORE_LOOP.story_choice_commit_available(
+				CORE_LOOP.OPENING_APPLICATION_EVENT_ID, 0, []) \
+			or CORE_LOOP.note_story_choice(
+				CORE_LOOP.OPENING_APPLICATION_EVENT_ID, 0, []) \
+			or GameState.serialize() != before_follow_up:
+		_fail("fresh prologue did not stop cleanly before the guided board")
 		return false
-	_story.set("_queue", [])
-	var legacy_follow_up := str(_story.call(
-		"_choice_follow_up_id", choices[0] as Dictionary,
-		"story_prologue_meal", 0))
-	if legacy_follow_up != "story_pressure":
-		_fail("StoryMode rewrote an unreserved legacy follow-up into a submitted application")
+	var initialized := CORE_LOOP.initialize_seoul_cycle(1)
+	if not bool(initialized.get("ok", false)) \
+			or CORE_LOOP.fresh_w1_onboarding_phase() != "board" \
+			or CORE_LOOP.application_status(
+				"mirae_industrial_tech") != "" \
+			or not CORE_LOOP.action_receipt(
+				CORE_LOOP.W1_ONBOARDING_BUNDLE_ID).is_empty():
+		_fail("fresh prologue did not hand off to an unallocated guided W1 board")
 		return false
 	return true
 
@@ -617,7 +647,7 @@ func _send_accept_action(pressed: bool) -> void:
 	await get_tree().process_frame
 
 func _check_covered_story_handoff() -> bool:
-	# The preceding replacement fixture deliberately enables V2. Reset to a
+	# The preceding guided-W1 fixture deliberately enables V2. Reset to a
 	# genuine legacy run so this handoff proves compatibility rather than
 	# inheriting the new router through shared autoload state.
 	GameState.start_new_game()
@@ -637,6 +667,7 @@ func _check_covered_story_handoff() -> bool:
 
 	var main_script := load("res://scenes/MainGame.gd") as GDScript
 	var main: Node = main_script.new()
+	main.set_meta("_screenshot_qa_static_surface", true)
 	main.call("_continue_after_story")
 	var queued_id := str(GameState.pending_story_queue[0]) if not GameState.pending_story_queue.is_empty() else ""
 	if queued_id != "arc_intro_02_dad_call":
@@ -651,18 +682,8 @@ func _check_covered_story_handoff() -> bool:
 	return true
 
 func _check_v2_covered_preplan_handoff() -> bool:
-	GameState.start_new_game()
-	CORE_LOOP.initialize_for_run(true)
-	GameState.turn = 1
-	GameState.flags["prologue_done"] = true
-	var send_event: Dictionary = DataRegistry.find_event(
-		CORE_LOOP.OPENING_APPLICATION_EVENT_ID)
-	var send_choices: Array = send_event.get("choices", [])
-	if send_choices.size() != 1 \
-			or not GameState.apply_choice(
-				send_event, send_choices[0] as Dictionary) \
-			or not CORE_LOOP.needs_preplan_opening():
-		_fail("V2 covered handoff fixture could not reach its saved Send state")
+	if not _prepare_fresh_w1_action_completed():
+		_fail("typed W1 covered handoff fixture could not finish its action")
 		return false
 	GameState.pending_story_queue.clear()
 	var active_tween := SceneTransition.get("_tween") as Tween
@@ -673,8 +694,8 @@ func _check_v2_covered_preplan_handoff() -> bool:
 
 	var main_script := load("res://scenes/MainGame.gd") as GDScript
 	var main: Node = main_script.new()
-	var routed := bool(main.call(
-		"_core_loop_v2_route_preplan_opening_if_pending"))
+	main.set_meta("_screenshot_qa_static_surface", true)
+	main.call("_core_loop_v2_route_week")
 	var receipt: Dictionary = (
 		GameState.core_loop_v2_state.get(
 			"consequence_receipts", {}) as Dictionary
@@ -688,17 +709,66 @@ func _check_v2_covered_preplan_handoff() -> bool:
 		active_tween.kill()
 	SceneTransition.set("_tween", null)
 	main.free()
-	if not routed or not queue_is_exact \
-			or not remained_covered \
+	if not queue_is_exact or not remained_covered \
 			or CORE_LOOP.active_bundle_id() \
 				!= CORE_LOOP.OPENING_INTERVIEW_BUNDLE_ID \
 			or str(receipt.get("status", "")) != "presented" \
-			or receipt.get("roots", []) != expected_queue:
+			or receipt.get("roots", []) != expected_queue \
+			or str(receipt.get("claim_source", "")) \
+				!= "typed_action_receipt":
 		_fail(
-			"V2 saved Send did not queue exactly interview -> calculation "
+			"Typed W1 Send did not queue exactly interview -> calculation "
 			+ "behind the opaque cover")
 		return false
 	return true
+
+func _prepare_fresh_w1_action_completed() -> bool:
+	GameState.start_new_game()
+	if not CORE_LOOP.initialize_for_run(true):
+		return false
+	GameState.turn = 1
+	GameState.flags["prologue_done"] = true
+	if not CORE_LOOP.begin_fresh_w1_onboarding():
+		return false
+	var initialized := CORE_LOOP.initialize_seoul_cycle(1)
+	var capacities: Array = CORE_LOOP.seoul_cycle_snapshot(1).get(
+		"capacities", [])
+	if not bool(initialized.get("ok", false)) or capacities.is_empty():
+		return false
+	var capacity: Dictionary = capacities[0]
+	var allocation := CORE_LOOP.commit_seoul_cycle_allocation(
+		str(capacity.get("id", "")), CORE_LOOP.W1_ONBOARDING_NODE_ID, 1)
+	if not bool(allocation.get("ok", false)):
+		return false
+	var claim := CORE_LOOP.claim_seoul_cycle_trigger()
+	if not bool(claim.get("ok", false)) \
+			or not CORE_LOOP.begin_seoul_cycle_trigger(
+				CORE_LOOP.W1_ONBOARDING_BUNDLE_ID) \
+			or not GameState.arm_weekly_commitment({
+				"turn": 1,
+				"pressure_id": CORE_LOOP.W1_ONBOARDING_BUNDLE_ID,
+				"pressure_family": "growth",
+				"choice_id": "resume",
+				"forgone_ids": [],
+				"supplemental_to_seoul_cycle": true,
+			}) \
+			or not CORE_LOOP.restart_fresh_w1_minigame():
+		return false
+	var transaction := CORE_LOOP.finalize_fresh_w1_application(2, 2)
+	return bool(transaction.get("ok", false)) \
+		and CORE_LOOP.complete_active_bundle() \
+			== CORE_LOOP.W1_ONBOARDING_BUNDLE_ID \
+		and CORE_LOOP.fresh_w1_onboarding_phase() == "action_completed"
+
+func _stop_test_audio() -> void:
+	BGMPlayer.stop()
+	for owner in [AudioManager, BGMPlayer]:
+		for child in owner.get_children():
+			if child is AudioStreamPlayer:
+				(child as AudioStreamPlayer).stop()
+				(child as AudioStreamPlayer).stream = null
+	for _frame in range(4):
+		await get_tree().process_frame
 
 func _fail(message: String) -> void:
 	push_error("STORY_PLAYBACK_CHECK_FAIL: %s" % message)

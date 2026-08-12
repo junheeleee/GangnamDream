@@ -20,6 +20,8 @@ func _ready() -> void:
 
 func _run() -> void:
 	_check_contract_and_determinism()
+	_check_order101_fresh_w1_application_contract()
+	await _check_order101_main_result_committed_double_reload()
 	_check_run_generation_provenance()
 	_check_completion_boundary_trust()
 	await _check_durable_save_retry_boundaries()
@@ -37,6 +39,12 @@ func _run() -> void:
 			+ "mode=seoul_cycle_v1 fresh_only=1 provenance=new/save/no_inference "
 			+ "old_episode=preserved "
 			+ "legacy=preserved capacity=4/deterministic/no_reroll "
+			+ "fresh_w1=actual_capacity/effective1/authored3/quality0..3 "
+			+ "application=typed_receipt/nested_followup/post_result_restore "
+				+ "legacy_resume=minigame+missing_execution/no_application "
+				+ "main_result_reload=begin+route/double/frozen/continue_gated "
+				+ "w1_handoff=atomic/collision_rollback/retry "
+				+ "father_provenance=typed+legacy/free_status_closed "
 			+ "progress=1/2/3 trigger=father/receipt "
 			+ "world=w3_hyunsu+w4_temptation/exactly_once "
 			+ "world_save=pending_float/canonical+legacy_recovery/collision_closed "
@@ -409,6 +417,532 @@ func _check_contract_and_determinism() -> void:
 		1, 65, 60, "김민준") != CORE._generated_seoul_cycle_capacities(
 		2, 65, 60, "김민준"),
 		"month is not part of deterministic capacity identity")
+
+
+func _check_order101_fresh_w1_application_contract() -> void:
+	var typed_father_initiative := ""
+	for quality in range(4):
+		_prepare_base_v2()
+		_expect(CORE.begin_fresh_w1_onboarding(),
+			"quality %d fixture could not create the fresh W1 owner" % quality)
+		GameState.flags["prologue_done"] = true
+		var initialized := CORE.initialize_seoul_cycle(1)
+		var cycle: Dictionary = CORE.seoul_cycle_snapshot(1)
+		var capacities: Array = cycle.get("capacities", [])
+		_expect(bool(initialized.get("ok", false)) and capacities.size() == 4 \
+			and CORE.fresh_w1_onboarding_phase() == "board",
+			"quality %d fixture did not enter the four-capacity W1 board" % quality)
+		if capacities.size() != 4:
+			continue
+		# Rotate through the generated pieces. The contract may not assume a
+		# particular slot or an ideal capacity value.
+		var selected: Dictionary = capacities[quality % capacities.size()]
+		var capacity_id := str(selected.get("id", ""))
+		var capacity_value := int(selected.get("value", 0))
+		var before_wrong_node: Dictionary = GameState.serialize().duplicate(true)
+		var wrong_node := CORE.preview_seoul_cycle_allocation(
+			capacity_id, "father", 1)
+		_expect(not bool(wrong_node.get("ok", true)) \
+			and str(wrong_node.get("error", "")) \
+				== "onboarding_resume_required" \
+			and GameState.serialize() == before_wrong_node,
+			"fresh W1 accepted a non-resume node or changed state during preview")
+		var preview := CORE.preview_seoul_cycle_allocation(
+			capacity_id, "resume", 1)
+		_expect(bool(preview.get("ok", false)) \
+			and int(preview.get("threshold", 0)) == 1 \
+			and int(preview.get("authored_threshold", 0)) == 3 \
+			and bool(preview.get("onboarding_completion_override", false)) \
+			and bool(preview.get("completed_now", false)) \
+			and str(preview.get("capacity_id", "")) == capacity_id \
+			and int(preview.get("capacity_value", 0)) == capacity_value,
+			"fresh W1 did not complete resume with the selected capacity while " \
+			+ "preserving authored threshold 3")
+		var allocation := CORE.commit_seoul_cycle_allocation(
+			capacity_id, "resume", 1)
+		var allocation_receipt: Dictionary = allocation.get("receipt", {})
+		var onboarding := CORE.fresh_w1_onboarding_snapshot()
+		_expect(bool(allocation.get("ok", false)) \
+			and bool(allocation_receipt.get(
+				"onboarding_completion_override", false)) \
+			and int(allocation_receipt.get("threshold", 0)) == 1 \
+			and int(allocation_receipt.get("authored_threshold", 0)) == 3 \
+			and str(allocation_receipt.get("capacity_id", "")) == capacity_id \
+			and int(allocation_receipt.get("capacity_value", 0)) == capacity_value \
+			and str(onboarding.get("selected_capacity_id", "")) == capacity_id \
+			and int(onboarding.get("selected_capacity_value", 0)) == capacity_value \
+			and CORE.application_status("mirae_industrial_tech").is_empty() \
+			and CORE.action_receipt(
+				"m1_youth_center_resume_clinic").is_empty(),
+			"allocation wrote an application/result or lost the actual capacity")
+		if not bool(allocation.get("ok", false)):
+			continue
+
+		var claimed := CORE.claim_seoul_cycle_trigger()
+		var began := bool(claimed.get("ok", false)) \
+			and CORE.begin_seoul_cycle_trigger(
+				"m1_youth_center_resume_clinic")
+		var armed := began and GameState.arm_weekly_commitment({
+			"turn": int(GameState.turn),
+			"pressure_id": "m1_youth_center_resume_clinic",
+			"pressure_family": "growth",
+			"choice_id": "resume",
+			"forgone_ids": [],
+			"supplemental_to_seoul_cycle": true,
+		})
+		var restarted := armed and CORE.restart_fresh_w1_minigame()
+		_expect(bool(claimed.get("ok", false)) and began and armed and restarted \
+			and CORE.fresh_w1_onboarding_phase() == "minigame",
+			"fresh W1 could not enter the restartable resume minigame")
+		if not restarted:
+			continue
+
+		# A pre-result save carries only allocation and owner. It must not persist
+		# answers or quality; load restarts the same minigame from its beginning.
+		var pre_result_save: Dictionary = GameState.serialize().duplicate(true)
+		GameState.start_new_game()
+		GameState.load_from_dict(pre_result_save)
+		CORE.initialize_for_run(true)
+		onboarding = CORE.fresh_w1_onboarding_snapshot()
+		_expect(CORE.fresh_w1_onboarding_phase() == "minigame" \
+			and int(onboarding.get("quality", -1)) == -1 \
+			and str(onboarding.get("selected_capacity_id", "")) == capacity_id \
+			and CORE.application_status("mirae_industrial_tech").is_empty() \
+			and CORE.action_receipt(
+				"m1_youth_center_resume_clinic").is_empty(),
+			"pre-result reload restored a draft score/application instead of " \
+			+ "restarting the minigame")
+
+		var invalid_pre_state: Dictionary = GameState.serialize().duplicate(true)
+		var invalid_quality := CORE.finalize_fresh_w1_application(1, 4)
+		_expect(not bool(invalid_quality.get("ok", true)) \
+			and GameState.serialize() == invalid_pre_state,
+			"out-of-range quality changed part of the fresh application transaction")
+		var finalized := CORE.finalize_fresh_w1_application(quality + 1, quality)
+		var receipt := CORE.action_receipt(
+			"m1_youth_center_resume_clinic")
+		var details: Dictionary = receipt.get("result_details", {})
+		var commitment := GameState.get_weekly_commitment_for_turn(1)
+		var followups: Array = (
+			(commitment.get("details", {}) as Dictionary).get(
+				"action_followups", [])
+			if commitment.get("details", {}) is Dictionary else [])
+		var matching_followups := 0
+		for raw_followup in followups:
+			if raw_followup is Dictionary \
+					and str((raw_followup as Dictionary).get(
+						"bundle_id", "")) \
+						== "m1_youth_center_resume_clinic":
+				matching_followups += 1
+		_expect(bool(finalized.get("ok", false)) \
+			and CORE.fresh_w1_onboarding_phase() == "result_committed" \
+			and str(receipt.get("application_id", "")) \
+				== "mirae_industrial_tech" \
+			and str(receipt.get("application_status", "")) == "submitted" \
+			and str(details.get("execution", "")) == "job_hunt_application" \
+			and int(details.get("quality", -1)) == quality \
+			and str(details.get("capacity_id", "")) == capacity_id \
+			and int(details.get("capacity_value", 0)) == capacity_value \
+			and CORE.application_status("mirae_industrial_tech") == "submitted" \
+			and matching_followups == 1,
+			(
+				"quality %d did not fail-forward through one typed nested "
+				+ "job_hunt_application receipt"
+			) % quality)
+		var recovered := CORE.recover_action_result()
+		_expect(str(recovered.get("bundle_id", "")) \
+			== "m1_youth_center_resume_clinic" \
+			and int((recovered.get("result_details", {}) as Dictionary).get(
+				"quality", -1)) == quality,
+			"quality %d result could not recover from the nested cycle followup" \
+				% quality)
+
+		var post_result_save: Dictionary = GameState.serialize().duplicate(true)
+		GameState.start_new_game()
+		GameState.load_from_dict(post_result_save)
+		CORE.initialize_for_run(true)
+		var restored := CORE.recover_action_result()
+		_expect(str(restored.get("bundle_id", "")) \
+			== "m1_youth_center_resume_clinic" \
+			and int((restored.get("result_details", {}) as Dictionary).get(
+				"quality", -1)) == quality \
+			and CORE.application_status("mirae_industrial_tech") == "submitted" \
+			and CORE.fresh_w1_onboarding_phase() == "result_committed",
+			"quality %d post-result reload reran or lost the durable Send" % quality)
+
+		var completed := CORE.complete_active_bundle()
+		var claimed_interview := completed \
+			== "m1_youth_center_resume_clinic" \
+			and CORE.claim_fresh_w1_opening_interview()
+		_expect(claimed_interview \
+			and CORE.fresh_w1_onboarding_phase() == "consequence_presented" \
+			and CORE.active_bundle_id() == "opening_interview_math" \
+			and CORE.active_kind() == "consequence",
+			"quality %d Send did not hand off to the same-week interview" % quality)
+		if quality == 3 and claimed_interview:
+			var typed_father := CORE._relationship_outcome_for_choice(
+				"father_first_call", FATHER_EVENT, 0)
+			typed_father_initiative = str(typed_father.get(
+				"initiative", ""))
+			_expect(CORE.opening_application_provenance_valid() \
+					and typed_father_initiative == "player",
+				"typed W1 receipt did not prove Father's player-led callback")
+
+			# A free-floating status/flag pair is not provenance. Keep every
+			# tempting compatibility value while deleting the only typed producer;
+			# the relationship must fail closed to the historical incoming call.
+			var forged_state: Dictionary = (
+				GameState.core_loop_v2_state as Dictionary).duplicate(true)
+			(forged_state.get("action_receipts", {}) as Dictionary).erase(
+				"m1_youth_center_resume_clinic")
+			GameState.core_loop_v2_state = forged_state
+			GameState.flags["story_job_unlocked"] = true
+			GameState.flags["opening_interview_application_sent"] = true
+			GameState.flags["opening_preplan_application_sent"] = true
+			var forged_father := CORE._relationship_outcome_for_choice(
+				"father_first_call", FATHER_EVENT, 0)
+			_expect(not CORE.opening_application_provenance_valid() \
+					and CORE.application_status(
+						"mirae_industrial_tech") == "submitted" \
+					and str(forged_father.get("initiative", "")) \
+						== "reciprocal",
+				"free application status/flags impersonated the typed W1 producer")
+
+	# A real legacy Send remains authoritative by its preserved flag and yields
+	# the same player-led Father callback as the new typed action receipt.
+	_prepare_base_v2()
+	GameState.flags["prologue_done"] = true
+	GameState.flags["story_job_unlocked"] = true
+	GameState.flags["opening_interview_application_sent"] = true
+	GameState.flags["opening_preplan_application_sent"] = true
+	var legacy_provenance_state: Dictionary = (
+		GameState.core_loop_v2_state as Dictionary).duplicate(true)
+	legacy_provenance_state["application_statuses"][
+		"mirae_industrial_tech"] = "submitted"
+	GameState.core_loop_v2_state = legacy_provenance_state
+	var legacy_father := CORE._relationship_outcome_for_choice(
+		"father_first_call", FATHER_EVENT, 0)
+	_expect(CORE.opening_application_provenance_valid() \
+			and typed_father_initiative == "player" \
+			and str(legacy_father.get("initiative", "")) \
+				== typed_father_initiative,
+		"typed and preserved legacy Send disagreed on Father-call provenance")
+
+	# The exception is fresh-only. The established non-onboarding cycle retains
+	# the authored threshold and normal 1/2/3 progress bands.
+	_prepare_fresh_cycle_gate()
+	var normal_init := CORE.initialize_seoul_cycle(1)
+	var normal_cycle := CORE.seoul_cycle_snapshot(1)
+	var normal_capacities: Array = normal_cycle.get("capacities", [])
+	if bool(normal_init.get("ok", false)) and not normal_capacities.is_empty():
+		var normal_capacity: Dictionary = normal_capacities[0]
+		var normal_preview := CORE.preview_seoul_cycle_allocation(
+			str(normal_capacity.get("id", "")), "resume", 1)
+		_expect(bool(normal_preview.get("ok", false)) \
+			and int(normal_preview.get("threshold", 0)) == 3 \
+			and not bool(normal_preview.get(
+				"onboarding_completion_override", true)),
+			"legacy/later resume entry did not preserve authored threshold 3")
+
+	# The same bundle has a fresh-only application config, but a non-onboarding
+	# legacy threshold completion must still produce an ordinary resume receipt.
+	# It may never inherit Mirae identity from current content data.
+	_prepare_base_v2()
+	GameState.flags["prologue_done"] = true
+	var legacy_began := CORE.begin_bundle(
+		"m1_youth_center_resume_clinic", "schedule")
+	var legacy_armed := legacy_began and GameState.arm_weekly_commitment({
+		"turn": 1,
+		"pressure_id": "m1_youth_center_resume_clinic",
+		"pressure_family": "growth",
+		"choice_id": "resume",
+		"forgone_ids": [],
+	})
+	var legacy_transaction: Dictionary = {}
+	if legacy_armed:
+		legacy_transaction = GameState.finalize_weekly_effect_action(
+			"resume", {"stress": 1}, "money", "work", "", {
+				"execution": "job_hunt_minigame",
+				"quality": 2,
+				"effects": {"stress": 1},
+			}, {"resume_polished": true})
+	var legacy_noted := bool(legacy_transaction.get("ok", false)) \
+		and CORE.note_action_commitment(
+			legacy_transaction.get("record", {}) as Dictionary)
+	var legacy_receipt := CORE.action_receipt(
+		"m1_youth_center_resume_clinic")
+	var legacy_details: Dictionary = legacy_receipt.get("result_details", {})
+	var legacy_config: Dictionary = legacy_receipt.get("config", {})
+	_expect(legacy_began and legacy_armed \
+		and bool(legacy_transaction.get("ok", false)) and legacy_noted \
+		and str(legacy_details.get("execution", "")) \
+			== "job_hunt_minigame" \
+		and legacy_config == {"execution": "job_hunt_minigame"} \
+		and int(legacy_details.get("quality", -1)) == 2 \
+		and str(legacy_receipt.get("application_id", "")).is_empty() \
+		and str(legacy_receipt.get("application_status", "")).is_empty() \
+		and CORE.application_status("mirae_industrial_tech").is_empty() \
+		and CORE.fresh_w1_onboarding_snapshot().is_empty(),
+		"nonfresh resume inherited Mirae application ownership from action_config")
+
+	# Older finalized records may predate the execution discriminator entirely.
+	# Current fresh-only action_config must not relabel or reject that proven
+	# ordinary resume; its receipt keeps no executor/application config at all.
+	_prepare_base_v2()
+	GameState.flags["prologue_done"] = true
+	var no_execution_began := CORE.begin_bundle(
+		"m1_youth_center_resume_clinic", "schedule")
+	var no_execution_armed := no_execution_began \
+		and GameState.arm_weekly_commitment({
+			"turn": 1,
+			"pressure_id": "m1_youth_center_resume_clinic",
+			"pressure_family": "growth",
+			"choice_id": "resume",
+			"forgone_ids": [],
+		})
+	var no_execution_transaction: Dictionary = {}
+	if no_execution_armed:
+		no_execution_transaction = GameState.finalize_weekly_effect_action(
+			"resume", {"stress": 1}, "money", "work", "", {
+				"quality": 1,
+				"effects": {"stress": 1},
+			}, {})
+	var no_execution_record: Dictionary = no_execution_transaction.get(
+		"record", {})
+	var no_execution_record_details: Dictionary = no_execution_record.get(
+		"details", {}) if no_execution_record.get(
+		"details", {}) is Dictionary else {}
+	var no_execution_noted := bool(no_execution_transaction.get("ok", false)) \
+		and not no_execution_record_details.has("execution") \
+		and CORE.note_action_commitment(no_execution_record)
+	var no_execution_receipt := CORE.action_receipt(
+		"m1_youth_center_resume_clinic")
+	var no_execution_details: Dictionary = no_execution_receipt.get(
+		"result_details", {})
+	_expect(no_execution_began and no_execution_armed \
+			and bool(no_execution_transaction.get("ok", false)) \
+			and no_execution_noted \
+			and not no_execution_details.has("execution") \
+			and (no_execution_receipt.get("config", {}) as Dictionary).is_empty() \
+			and str(no_execution_receipt.get(
+				"application_id", "")).is_empty() \
+			and str(no_execution_receipt.get(
+				"application_status", "")).is_empty() \
+			and CORE.application_status(
+				"mirae_industrial_tech").is_empty() \
+			and (GameState.core_loop_v2_state.get(
+				"application_transition_receipts", {}) as Dictionary).is_empty() \
+			and CORE.fresh_w1_onboarding_snapshot().is_empty(),
+		"execution-less legacy resume inherited or was rejected by fresh action_config")
+
+
+func _check_order101_main_result_committed_double_reload() -> void:
+	var frozen := _order101_fresh_w1_result_committed_save()
+	if frozen.is_empty():
+		return
+	var frozen_v2: Dictionary = frozen.get("core_loop_v2_state", {})
+	var frozen_cycle: Dictionary = frozen_v2.get("seoul_cycle", {})
+	var frozen_receipt: Dictionary = (frozen_v2.get(
+		"action_receipts", {}) as Dictionary).get(
+			"m1_youth_center_resume_clinic", {})
+	var frozen_transitions: Dictionary = frozen_v2.get(
+		"application_transition_receipts", {})
+	var frozen_capacities: Array = frozen_cycle.get("capacities", [])
+	var frozen_allocations: Dictionary = frozen_cycle.get(
+		"allocation_receipts", {})
+	var frozen_weekly: Array = frozen.get("weekly_commitments", [])
+	var frozen_action_points := int(frozen.get("action_points", -1))
+	var frozen_money := float(frozen.get("money", 0.0))
+	var frozen_health := int(frozen.get("health", 0))
+	var frozen_mental := int(frozen.get("mental", 0))
+	var frozen_intelligence := int(frozen.get("intelligence", 0))
+	_expect(frozen_action_points == 0 \
+		and (frozen_cycle.get("allocation_receipts", {}) as Dictionary).size() == 1 \
+		and (frozen_v2.get("action_receipts", {}) as Dictionary).size() == 1 \
+		and frozen_transitions.size() == 1 \
+		and (frozen.get("weekly_commitments", []) as Array).size() == 1,
+		"actual MainGame result-reload fixture lost its atomic result baseline")
+	_check_order101_w1_handoff_collision_rollback(frozen)
+
+	for entrypoint in ["_begin_month", "_core_loop_v2_route_week"]:
+		for reload_index in range(2):
+			GameState.start_new_game()
+			GameState.pending_story_queue = []
+			GameState.load_from_dict(frozen.duplicate(true))
+			CORE.initialize_for_run(true)
+			var main_game: Control = await _spawn_durable_gate_main(true)
+			main_game.call(entrypoint)
+			await get_tree().process_frame
+			await get_tree().process_frame
+
+			var routed_v2: Dictionary = GameState.core_loop_v2_state
+			var routed_cycle: Dictionary = routed_v2.get("seoul_cycle", {})
+			var board := main_game.get("_seoul_cycle_board") as Control
+			var planner := main_game.get("_core_loop_planner") as Control
+			var job_hunt := main_game.get("job_hunt_game") as Control
+			var choice_box := main_game.get("choice_box") as Node
+			var result_surface_count := _meta_node_count(
+				choice_box, "ap_result_confirm")
+			var route_label := "%s reload %d" % [entrypoint, reload_index + 1]
+			_expect(int(GameState.action_points) == frozen_action_points \
+				and float(GameState.money) == frozen_money \
+				and int(GameState.health) == frozen_health \
+				and int(GameState.mental) == frozen_mental \
+				and int(GameState.intelligence) == frozen_intelligence \
+				and routed_cycle.get("capacities", []) == frozen_capacities \
+				and routed_cycle.get(
+					"allocation_receipts", {}) == frozen_allocations \
+				and GameState.weekly_commitments == frozen_weekly \
+				and CORE.action_receipt(
+					"m1_youth_center_resume_clinic") == frozen_receipt \
+				and routed_v2.get(
+					"application_transition_receipts", {}) == frozen_transitions,
+				"%s changed AP/capacity/effects/action/application state" % route_label)
+			_expect(result_surface_count == 1 \
+				and CORE.action_result_ready() \
+				and CORE.active_bundle_id() == "m1_youth_center_resume_clinic" \
+				and CORE.fresh_w1_onboarding_phase() == "result_committed" \
+				and GameState.pending_story_queue.is_empty() \
+				and (not is_instance_valid(board) or not board.visible) \
+				and (not is_instance_valid(planner) or not planner.visible) \
+				and (not is_instance_valid(job_hunt) or not job_hunt.visible) \
+				and not bool(main_game.get("_minigame_overlay_active")),
+				"%s did not keep one result surface ahead of interview/cycle routing" \
+					% route_label)
+
+			# Continue is the sole consumer. One confirmation may complete Send and
+			# hand the exact same-week interview roots to Story; reload itself may not.
+			main_game.call("_on_result_confirmed")
+			var interview_roots := CORE.resolved_event_roots(
+				CORE.OPENING_INTERVIEW_BUNDLE_ID)
+			var completed_after_continue: Array = GameState.core_loop_v2_state.get(
+				"completed_bundles", [])
+			_expect(CORE.fresh_w1_onboarding_phase() == "consequence_presented" \
+				and CORE.active_bundle_id() == CORE.OPENING_INTERVIEW_BUNDLE_ID \
+				and CORE.active_kind() == "consequence" \
+				and GameState.pending_story_queue == interview_roots \
+				and completed_after_continue.count(
+					"m1_youth_center_resume_clinic") == 1,
+				"%s Continue did not consume exactly once into the opening interview" \
+					% route_label)
+			SceneTransition.fade_in()
+			_dispose_durable_gate_main(main_game)
+			await get_tree().process_frame
+
+
+func _check_order101_w1_handoff_collision_rollback(
+		frozen: Dictionary) -> void:
+	GameState.start_new_game()
+	GameState.pending_story_queue = []
+	GameState.load_from_dict(frozen.duplicate(true))
+	CORE.initialize_for_run(true)
+	var before_missing_roots: Dictionary = GameState.serialize().duplicate(true)
+	var contract_snapshot: Dictionary = DataRegistry.demo_core_loop_v2.duplicate(true)
+	var rootless_contract: Dictionary = contract_snapshot.duplicate(true)
+	var rootless_bundles: Dictionary = rootless_contract.get(
+		"scene_bundles", {})
+	var rootless_interview: Dictionary = rootless_bundles.get(
+		CORE.OPENING_INTERVIEW_BUNDLE_ID, {})
+	rootless_interview["existing_roots"] = []
+	rootless_bundles[CORE.OPENING_INTERVIEW_BUNDLE_ID] = rootless_interview
+	rootless_contract["scene_bundles"] = rootless_bundles
+	DataRegistry.demo_core_loop_v2 = rootless_contract
+	var missing_roots := CORE.complete_fresh_w1_action_and_claim_interview()
+	DataRegistry.demo_core_loop_v2 = contract_snapshot
+	_expect(not bool(missing_roots.get("ok", true)) \
+		and bool(missing_roots.get("rolled_back", false)) \
+		and str(missing_roots.get("error", "")) \
+			== "fresh_w1_interview_roots_missing" \
+		and GameState.serialize() == before_missing_roots \
+		and CORE.fresh_w1_onboarding_phase() == "result_committed" \
+		and CORE.action_result_ready() \
+		and CORE.active_bundle_id() == CORE.W1_ONBOARDING_BUNDLE_ID,
+		"fresh W1 missing interview roots did not preserve result_committed")
+
+	GameState.start_new_game()
+	GameState.pending_story_queue = []
+	GameState.load_from_dict(frozen.duplicate(true))
+	CORE.initialize_for_run(true)
+	var colliding_state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	colliding_state["consequence_receipts"][CORE.OPENING_INTERVIEW_BUNDLE_ID] = {
+		"consequence_id": CORE.OPENING_INTERVIEW_BUNDLE_ID,
+		"turn": 1,
+		"status": "presented",
+		"roots": ["qa_collision"],
+	}
+	GameState.core_loop_v2_state = colliding_state
+	var before_collision: Dictionary = GameState.serialize().duplicate(true)
+	var failed := CORE.complete_fresh_w1_action_and_claim_interview()
+	_expect(not bool(failed.get("ok", true)) \
+		and bool(failed.get("rolled_back", false)) \
+		and str(failed.get("error", "")) == "fresh_w1_interview_claim_failed" \
+		and GameState.serialize() == before_collision \
+		and CORE.fresh_w1_onboarding_phase() == "result_committed" \
+		and CORE.action_result_ready() \
+		and CORE.active_bundle_id() == CORE.W1_ONBOARDING_BUNDLE_ID \
+		and CORE.active_kind() == "schedule",
+		"fresh W1 interview collision did not exactly restore result_committed")
+	var repaired_state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	repaired_state["consequence_receipts"].erase(
+		CORE.OPENING_INTERVIEW_BUNDLE_ID)
+	GameState.core_loop_v2_state = repaired_state
+	var retry := CORE.complete_fresh_w1_action_and_claim_interview()
+	_expect(bool(retry.get("ok", false)) \
+		and CORE.fresh_w1_onboarding_phase() == "consequence_presented" \
+		and CORE.active_bundle_id() == CORE.OPENING_INTERVIEW_BUNDLE_ID \
+		and CORE.active_kind() == "consequence" \
+		and not CORE.action_result_ready() \
+		and (GameState.core_loop_v2_state.get(
+			"completed_bundles", []) as Array).count(
+				CORE.W1_ONBOARDING_BUNDLE_ID) == 1,
+		"fresh W1 exact rollback could not retry the same Continue successfully")
+
+
+func _order101_fresh_w1_result_committed_save() -> Dictionary:
+	_prepare_base_v2()
+	var began_onboarding := CORE.begin_fresh_w1_onboarding()
+	GameState.flags["prologue_done"] = true
+	var initialized := CORE.initialize_seoul_cycle(1)
+	var capacities: Array = CORE.seoul_cycle_snapshot(1).get("capacities", [])
+	if not began_onboarding or not bool(initialized.get("ok", false)) \
+			or capacities.is_empty():
+		_expect(false, "actual MainGame result-reload fixture could not open W1")
+		return {}
+	var capacity_id := str((capacities[0] as Dictionary).get("id", ""))
+	var allocation := CORE.commit_seoul_cycle_allocation(
+		capacity_id, "resume", 1)
+	var claimed := CORE.claim_seoul_cycle_trigger()
+	var began_trigger := bool(claimed.get("ok", false)) \
+		and CORE.begin_seoul_cycle_trigger("m1_youth_center_resume_clinic")
+	var armed := began_trigger and GameState.arm_weekly_commitment({
+		"turn": 1,
+		"pressure_id": "m1_youth_center_resume_clinic",
+		"pressure_family": "growth",
+		"choice_id": "resume",
+		"forgone_ids": [],
+		"supplemental_to_seoul_cycle": true,
+	})
+	var restarted := armed and CORE.restart_fresh_w1_minigame()
+	var before_send: Dictionary = GameState.serialize().duplicate(true)
+	var finalized: Dictionary = (
+		CORE.finalize_fresh_w1_application(2, 2) if restarted else {})
+	var after_send: Dictionary = GameState.serialize().duplicate(true)
+	_expect(bool(allocation.get("ok", false)) and began_trigger and armed \
+		and restarted and bool(finalized.get("ok", false)) \
+		and float(after_send.get("money", 0.0)) \
+			== float(before_send.get("money", 0.0)) \
+		and int(after_send.get("health", 0)) \
+			== int(before_send.get("health", 0)) \
+		and int(after_send.get("mental", 0)) \
+			== clampi(int(before_send.get("mental", 0)) - 2, 0, 100) \
+		and int(after_send.get("intelligence", 0)) \
+			== int(before_send.get("intelligence", 0)) + 1 \
+		and CORE.action_result_ready() \
+		and CORE.fresh_w1_onboarding_phase() == "result_committed",
+		"actual MainGame result-reload fixture could not commit Send")
+	if not bool(finalized.get("ok", false)):
+		return {}
+	return GameState.serialize().duplicate(true)
 
 
 func _check_run_generation_provenance() -> void:
@@ -2065,6 +2599,15 @@ func _has_relationship_receipt(bundle_id: String, character_id: String) -> bool:
 					== int(GameState.turn):
 			return true
 	return false
+
+
+func _meta_node_count(root: Node, meta_key: String) -> int:
+	if not is_instance_valid(root):
+		return 0
+	var count := 1 if root.has_meta(meta_key) else 0
+	for child in root.get_children():
+		count += _meta_node_count(child, meta_key)
+	return count
 
 
 func _unused_capacity(

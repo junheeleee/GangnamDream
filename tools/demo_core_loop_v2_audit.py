@@ -177,17 +177,38 @@ STORY_GAMEPLAY_KEYS = {
     "effects",
     "flags",
     "flag_updates",
+    "money",
+    "health",
+    "mental",
+    "stress",
+    "intelligence",
+    "action_points",
+    "tendency",
+    "tendency_change",
+    "mindset",
     "relationship_change",
     "relationship_changes",
+    "application_id",
+    "application_status",
     "application_transition",
     "future_story_outcome",
     "moral_tint",
     "route",
 }
-EXPECTED_OPENING_SEND_FLAGS = {
+RETIRED_OPENING_STORY_FLAGS = {
     "story_job_unlocked",
     "opening_interview_application_sent",
     "opening_preplan_application_sent",
+}
+EXPECTED_FRESH_W1_APPLICATION_ACTION = {
+    "execution": "job_hunt_application",
+    "application_id": "mirae_industrial_tech",
+    "status": "submitted",
+}
+EXPECTED_FRESH_W1_ONBOARDING_OVERRIDE = {
+    "origin": "fresh_order101",
+    "turn": 1,
+    "effective_threshold": 1,
 }
 ALLOWED_PREREQUISITE_GROUPS = {"all", "any"}
 ALLOWED_PREREQUISITE_KINDS = {
@@ -1264,6 +1285,7 @@ def validate_opening_motivation_contract(
         "choices": [0],
         "application_id": "mirae_industrial_tech",
         "status": "submitted",
+        "legacy_only": True,
     }
     expected_prerequisites = {
         "all": [{
@@ -1282,8 +1304,8 @@ def validate_opening_motivation_contract(
         or opening.get("prerequisites") != expected_prerequisites
     ):
         fail(
-            "opening_interview_math must own interview + 125-year return, "
-            "trigger from the sent application, and suppress only the legacy math",
+            "opening_interview_math must own interview + 125-year return, keep "
+            "the legacy-only Story trigger, and suppress only the legacy math",
             errors,
         )
 
@@ -1322,7 +1344,7 @@ def validate_opening_motivation_contract(
     if (
         len(legacy_pressure_choices) != 1
         or "story_job_unlocked" not in legacy_pressure_flags
-        or (EXPECTED_OPENING_SEND_FLAGS - {"story_job_unlocked"}).intersection(
+        or (RETIRED_OPENING_STORY_FLAGS - {"story_job_unlocked"}).intersection(
             legacy_pressure_flags
         )
     ):
@@ -1342,21 +1364,31 @@ def validate_opening_motivation_contract(
         "registered event v2_opening_application_send.choices",
         errors,
     )
-    application_flags = (
-        set(application_choices[0].get("flags", []))
+    application_choice = (
+        application_choices[0]
         if len(application_choices) == 1
         and isinstance(application_choices[0], dict)
-        and isinstance(application_choices[0].get("flags", []), list)
-        else set()
+        else {}
     )
-    if (
-        len(application_choices) != 1
-        or not isinstance(application_choices[0], dict)
-        or not EXPECTED_OPENING_SEND_FLAGS.issubset(application_flags)
+    material_story_keys = STORY_GAMEPLAY_KEYS.intersection(application_choice)
+    if len(application_choices) != 1 or not application_choice:
+        fail(
+            "v2_opening_application_send must retain one explanatory choice",
+            errors,
+        )
+    elif (
+        application_choice.get("choice_kind") == "expression"
+        or material_story_keys
+        or RETIRED_OPENING_STORY_FLAGS.intersection(
+            set(application_choice.get("flags", []))
+            if isinstance(application_choice.get("flags", []), list)
+            else set()
+        )
     ):
         fail(
-            "v2_opening_application_send must own one actual Send choice and "
-            f"produce {sorted(EXPECTED_OPENING_SEND_FLAGS)}",
+            "the legacy-only Story Send must be a non-expression, state-free "
+            "choice with zero authored stats/flags/application writes; fresh "
+            "material remains owned only by the typed W1 action receipt",
             errors,
         )
 
@@ -1382,23 +1414,36 @@ def validate_opening_motivation_contract(
         "English v2_opening_application_send.choices",
         errors,
     )
-    application_result = str(application_choices[0].get("result_text", "")) \
-        if application_choices and isinstance(application_choices[0], dict) else ""
+    english_application_choice = (
+        english_application_choices[0]
+        if len(english_application_choices) == 1
+        and isinstance(english_application_choices[0], dict)
+        else {}
+    )
+    if (
+        len(english_application_choices) != 1
+        or STORY_GAMEPLAY_KEYS.intersection(english_application_choice)
+    ):
+        fail(
+            "English v2_opening_application_send must mirror the single "
+            "text-only, state-free choice",
+            errors,
+        )
+    application_result = str(application_choice.get("result_text", ""))
     english_application_result = str(
-        english_application_choices[0].get("result_text", "")
-    ) if english_application_choices \
-        and isinstance(english_application_choices[0], dict) else ""
+        english_application_choice.get("result_text", "")
+    )
     if (
         not str(application_event.get("description", "")).startswith("다음 날 아침")
-        or "오전 9:14" not in application_result
+        or not application_result.strip()
         or not str(english_application.get("description", "")).startswith(
             "The next morning"
         )
-        or "9:14 a.m." not in english_application_result
+        or not english_application_result.strip()
     ):
         fail(
-            "the fresh application must move from the evening meal to a "
-            "next-morning 9:14 Send in both languages",
+            "the fresh opening preview must keep its next-morning cut and one "
+            "non-material result in both languages",
             errors,
         )
 
@@ -1422,10 +1467,9 @@ def validate_opening_motivation_contract(
         errors,
     )
     produces_all = send_logic.get("produces_all", [])
-    if not isinstance(produces_all, list) \
-            or not EXPECTED_OPENING_SEND_FLAGS.issubset(set(produces_all)):
+    if not isinstance(produces_all, list) or produces_all:
         fail(
-            "opening Send story rule must declare every durable application flag",
+            "opening preview story rule must declare an exactly empty produces_all",
             errors,
         )
     opening_transition = require_dict(
@@ -1439,11 +1483,48 @@ def validate_opening_motivation_contract(
     )
     if (
         opening_transition.get("mode") != "time_cut"
+        or opening_transition.get("from_location") != "convenience_night"
+        or opening_transition.get("to_location") != "goshiwon_room"
         or opening_transition.get("arrival_cue_ko") != "다음 날 아침"
         or opening_transition.get("arrival_cue_en") != "The next morning"
+        or opening_transition.get("queue_only") is not True
     ):
         fail(
-            "the evening meal-to-Send transition must own the next-morning cut",
+            "the evening meal-to-Send transition must retain its exact legacy "
+            "next-morning time-cut/locations/queue contract",
+            errors,
+        )
+
+    if opening_transition.get("legacy_only") is not True:
+        fail(
+            "the old meal-to-application-preview Story edge must be explicitly "
+            "legacy_only",
+            errors,
+        )
+
+    legacy_send_transition = require_dict(
+        require_dict(
+            story_rules.get("transition_contracts"),
+            "story_rules.transition_contracts",
+            errors,
+        ).get("v2_opening_application_send->arc_intro_01_meal"),
+        "legacy Send-to-interview transition",
+        errors,
+    )
+    if (
+        legacy_send_transition.get("mode") != "explicit_move"
+        or legacy_send_transition.get("from_location") != "goshiwon_room"
+        or legacy_send_transition.get("to_location") != "office_interview_day"
+        or legacy_send_transition.get("arrival_cue_ko")
+            != "마포구. 3층. 엘리베이터 없음."
+        or legacy_send_transition.get("arrival_cue_en")
+            != "Mapo-gu. Third floor. No elevator."
+        or legacy_send_transition.get("queue_only") is not True
+        or legacy_send_transition.get("legacy_only") is not True
+    ):
+        fail(
+            "the compatibility Send-to-interview edge must retain its exact "
+            "legacy-only move/cue/queue contract",
             errors,
         )
 
@@ -1472,6 +1553,147 @@ def validate_opening_motivation_contract(
                 "v2_opening_return_math choices must be expression-only and state-free",
                 errors,
             )
+
+
+def validate_order101_w1_application_contract(
+    contract: dict[str, Any],
+    errors: list[str],
+) -> None:
+    """Lock fresh W1 application ownership without changing legacy thresholds."""
+    seoul_cycle = require_dict(
+        contract.get("seoul_cycle"), "seoul_cycle", errors
+    )
+    nodes = require_dict(seoul_cycle.get("nodes"), "seoul_cycle.nodes", errors)
+    resume = require_dict(nodes.get("resume"), "seoul_cycle.nodes.resume", errors)
+    if int(resume.get("threshold", 0)) != 3:
+        fail(
+            "the authored resume threshold must remain 3 for legacy and later entry",
+            errors,
+        )
+    if resume.get("onboarding_completion_override") \
+            != EXPECTED_FRESH_W1_ONBOARDING_OVERRIDE:
+        fail(
+            "resume.onboarding_completion_override must be the explicit "
+            "fresh_order101 Turn-1 effective-threshold-1 exception",
+            errors,
+        )
+
+    bundles = require_dict(contract.get("scene_bundles"), "scene_bundles", errors)
+    resume_bundle = require_dict(
+        bundles.get("m1_youth_center_resume_clinic"),
+        "scene_bundles.m1_youth_center_resume_clinic",
+        errors,
+    )
+    action_config = require_dict(
+        resume_bundle.get("action_config"),
+        "m1_youth_center_resume_clinic.action_config",
+        errors,
+    )
+    for key, expected in EXPECTED_FRESH_W1_APPLICATION_ACTION.items():
+        if action_config.get(key) != expected:
+            fail(
+                "m1_youth_center_resume_clinic.action_config."
+                f"{key} expected {expected!r}, got {action_config.get(key)!r}",
+                errors,
+            )
+
+    try:
+        demo_source = DEMO_CORE_LOOP_PATH.read_text(encoding="utf-8")
+        main_source = (ROOT / "scenes" / "MainGame.gd").read_text(
+            encoding="utf-8"
+        )
+        job_hunt_source = (ROOT / "scenes" / "JobHuntMiniGame.gd").read_text(
+            encoding="utf-8"
+        )
+        story_mode_source = (ROOT / "scenes" / "StoryMode.gd").read_text(
+            encoding="utf-8"
+        )
+    except OSError as exc:
+        fail(f"cannot load fresh W1 runtime ownership sources: {exc}", errors)
+        return
+
+    for function_name in (
+        "begin_fresh_w1_onboarding",
+        "fresh_w1_onboarding_snapshot",
+        "fresh_w1_onboarding_phase",
+        "fresh_w1_onboarding_pending",
+        "finalize_fresh_w1_application",
+        "claim_fresh_w1_opening_interview",
+        "claim_legacy_preplan_opening_from_send",
+    ):
+        if f"func {function_name}(" not in demo_source:
+            fail(f"DemoCoreLoopV2 lacks ORDER-101 API {function_name}", errors)
+    if (
+        '"action_followups"' not in demo_source
+        or "job_hunt_application" not in demo_source
+        or "onboarding_completion_override_applied" not in demo_source
+        or "completion_threshold" not in demo_source
+        or "authored_threshold" not in demo_source
+    ):
+        fail(
+            "DemoCoreLoopV2 must recover nested Seoul-cycle action followups "
+            "and preserve the authored/effective onboarding thresholds",
+            errors,
+        )
+    if (
+        'config_owns_application := str(config.get(' not in demo_source
+        or '!= "job_hunt_application"' not in demo_source
+    ):
+        fail(
+            "nonfresh resume receipts must ignore the fresh-only Mirae identity "
+            "in current action_config",
+            errors,
+        )
+    combined_ui_source = main_source + "\n" + job_hunt_source
+    if "Send Application" not in combined_ui_source \
+            or "지원서 보내기" not in combined_ui_source:
+        fail(
+            "the final W1 application CTA must explicitly say Send Application "
+            "in English and 지원서 보내기 in Korean",
+            errors,
+        )
+    if (
+        '"action_result"' not in main_source
+        or "finalize_fresh_w1_application" not in main_source
+        or "claim_fresh_w1_opening_interview" not in main_source
+    ):
+        fail(
+            "MainGame must own the post-result durable retry phase before the "
+            "fresh W1 interview consequence",
+            errors,
+        )
+    if (
+        'func opening_follow_up_event(' not in demo_source
+        or 'return ""' not in demo_source
+        or "fresh_w1_onboarding_pending" not in main_source
+        or "_core_loop_v2_route_seoul_cycle_week" not in main_source
+    ):
+        fail(
+            "fresh prologue must suppress the legacy Story follow-up and route "
+            "to the guided W1 board in MainGame",
+            errors,
+        )
+    if (
+        "legacy_story_send" not in demo_source
+        or "_legacy_preplan_opening_queue_matches" not in demo_source
+        or "fresh_preplan_opening_roots" not in demo_source
+        or not re.search(
+            r"story_choice_commit_available\(\s*"
+            r"current_event_id\s*,\s*idx\s*,\s*_queue\s*\)",
+            story_mode_source,
+        )
+        or not re.search(
+            r"note_story_choice\(\s*"
+            r"current_event_id\s*,\s*idx\s*,\s*_queue\s*\)",
+            story_mode_source,
+        )
+    ):
+        fail(
+            "StoryMode must pass its exact reserved queue through preflight and "
+            "post-apply note so only a pre-ORDER-101 paused Send can create the "
+            "legacy_story_send application owner",
+            errors,
+        )
 
 
 def fixture_predicate_met(predicate: dict[str, Any], fixture: dict[str, Any]) -> bool:
@@ -5405,6 +5627,14 @@ def measure_long_tail_readers(
                 and activity_task_has_material_outcomes(config):
             static_material_actions.add(bundle_id)
             continue
+        if (
+            execution == "job_hunt_application"
+            and str(config.get("application_id", "")).strip()
+            and str(config.get("status", "")).strip() == "submitted"
+            and str(raw_bundle.get("action_id", "")).strip() == "resume"
+        ):
+            static_material_actions.add(bundle_id)
+            continue
         action_id = str(raw_bundle.get("action_id", "")).strip()
         route_token = legacy_action_routes.get(action_id, "")
         if not execution and route_token and route_token in main_game_source:
@@ -7061,7 +7291,7 @@ def main() -> int:
         main_game_cycle_source = ""
         demo_cycle_source = ""
     for token in (
-        "signal allocation_requested(die_id: String, node_id: String)",
+        "signal allocation_requested(",
         'set_meta("seoul_cycle_snapshot_contract", "seoul_cycle_v1")',
         'button.set_meta("seoul_cycle_effort_tile", true)',
         'button.set_meta("seoul_cycle_node_id", node_id)',
@@ -7610,6 +7840,7 @@ def main() -> int:
 
     registered_events = load_registered_events(errors)
     validate_opening_motivation_contract(contract, registered_events, errors)
+    validate_order101_w1_application_contract(contract, errors)
     temptation_bundle = require_dict(
         bundles.get("temptation_consequence"),
         "scene_bundles.temptation_consequence",

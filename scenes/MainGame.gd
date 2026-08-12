@@ -158,6 +158,7 @@ var _seoul_cycle_focus_restore: Control = null
 var _seoul_cycle_allocation_in_flight := false
 var _seoul_cycle_save_retry_phase: String = ""
 var _seoul_cycle_save_retry_month: int = 0
+var _fresh_w1_application_draft: Dictionary = {}
 var _title_collection_button: Button = null
 var _core_loop_v2_side_shift_job_id := ""
 var _core_loop_v2_completion_autosave_succeeded := false
@@ -557,10 +558,18 @@ func _core_loop_v2_route_week() -> void:
 		if not _core_loop_v2_restore_action_result():
 			push_error(
 				"Core Loop V2 could not restore its finalized action result")
+			return
 		return
 	if action_story_stage == "story":
 		_core_loop_v2_begin_story_bundle(
 			DEMO_CORE_LOOP_V2.active_bundle_id(), "schedule")
+		return
+	if DEMO_CORE_LOOP_V2.fresh_w1_onboarding_phase() == "action_completed":
+		if not DEMO_CORE_LOOP_V2.claim_fresh_w1_opening_interview():
+			push_error("Fresh W1 application lost its interview handoff")
+			return
+		_core_loop_v2_begin_story_bundle(
+			DEMO_CORE_LOOP_V2.OPENING_INTERVIEW_BUNDLE_ID, "consequence")
 		return
 	if _core_loop_v2_route_preplan_opening_if_pending():
 		return
@@ -787,6 +796,10 @@ func _core_loop_v2_cycle_surface_snapshot(
 			visual_dice.append(capacity)
 		surface["dice"] = visual_dice
 	var visual_nodes: Dictionary = {}
+	var onboarding_phase := DEMO_CORE_LOOP_V2.fresh_w1_onboarding_phase()
+	var guided_w1_board := onboarding_phase in ["prologue", "board"] \
+		and int(surface.get("month", 0)) == 1 \
+		and int(GameState.turn) == 1
 	var raw_nodes: Variant = surface.get("nodes", {})
 	if raw_nodes is Dictionary:
 		for raw_node_id in raw_nodes:
@@ -794,11 +807,16 @@ func _core_loop_v2_cycle_surface_snapshot(
 			if not raw_node is Dictionary:
 				continue
 			var node: Dictionary = (raw_node as Dictionary).duplicate(true)
-			node["target"] = int(node.get("threshold", node.get("target", 1)))
+			var guided_resume := guided_w1_board \
+				and str(raw_node_id) == DEMO_CORE_LOOP_V2.W1_ONBOARDING_NODE_ID
+			node["target"] = 1 if guided_resume else int(node.get(
+				"completion_threshold", node.get("threshold", node.get("target", 1))))
 			var status := str(node.get("status", "open"))
 			node["completed"] = status == "completed"
 			node["expired"] = status == "expired"
-			node["locked"] = status == "locked"
+			node["locked"] = status == "locked" \
+				or (guided_w1_board and not guided_resume)
+			node["onboarding_completion_override"] = guided_resume
 			node["repeatable"] = bool(node.get(
 				"repeatable_after_completion", node.get("repeatable", false)))
 			visual_nodes[str(raw_node_id)] = node
@@ -868,7 +886,8 @@ func _maybe_show_core_loop_v2_tutorial(month_index: int) -> void:
 	# appears only above the first real monthly planning board.
 	if month_index != 1 or GameState.turn != 1 \
 			or not bool(GameState.flags.get("prologue_done", false)) \
-			or not bool(GameState.flags.get("chapter_33_seen", false)) \
+			or (not bool(GameState.flags.get("chapter_33_seen", false)) \
+				and not DEMO_CORE_LOOP_V2.fresh_w1_onboarding_pending()) \
 			or bool(GameState.flags.get("tutorial_shown", false)):
 		return
 	var tutorial := TutorialOverlay.maybe_show("core_loop_v2", self)
@@ -880,6 +899,9 @@ func _mark_core_loop_v2_tutorial_completed() -> void:
 	GameState.flags["tutorial_shown"] = true
 
 func _opening_chapter_event_id() -> String:
+	var onboarding_phase := DEMO_CORE_LOOP_V2.fresh_w1_onboarding_phase()
+	if not onboarding_phase.is_empty() and onboarding_phase != "consumed":
+		return ""
 	if GameState.turn == 1 \
 			and bool(GameState.flags.get("prologue_done", false)) \
 			and not bool(GameState.flags.get("chapter_33_seen", false)):
@@ -1226,7 +1248,7 @@ func _core_loop_v2_open_seoul_cycle_save_retry_gate(
 		phase: String, month_index: int, retry_failed: bool = false) -> void:
 	if phase not in [
 		"initialization", "allocation", "week_advance",
-		"month_summary", "month_acknowledged",
+		"month_summary", "month_acknowledged", "action_result",
 	]:
 		return
 	_seoul_cycle_save_retry_phase = phase
@@ -1256,6 +1278,10 @@ func _core_loop_v2_open_seoul_cycle_save_retry_gate(
 		locked_copy = _tr(
 			"이번 주 배치와 수치·영수증은 이미 한 번 적용했습니다. 저장이 끝나기 전에는 장면·세계 사건·다음 주로 진행하지 않습니다.",
 			"This week's allocation, effects, and receipt were applied once. Scenes, world events, and the next week stay blocked until the save completes.")
+	elif phase == "action_result":
+		locked_copy = _tr(
+			"지원서는 이미 한 번 전송되어 수치와 영수증이 고정됐습니다. 저장이 끝나기 전에는 면접 장면으로 넘어가지 않습니다.",
+			"The application was sent once and its effects and receipt are locked. The interview will not begin until the save completes.")
 	elif phase == "week_advance":
 		locked_copy = _tr(
 			"끝낸 주의 달력 상태는 이미 고정했습니다. 저장이 끝나기 전에는 다음 주 화면을 열지 않습니다.",
@@ -1298,13 +1324,16 @@ func _core_loop_v2_retry_seoul_cycle_autosave() -> void:
 	_seoul_cycle_save_retry_month = 0
 	modal_layer.remove_meta("seoul_cycle_save_retry")
 	modal_layer.remove_meta("seoul_cycle_save_retry_phase")
-	_close_modal(false)
+	_close_modal(false, false)
 	call_deferred(
 		"_core_loop_v2_resume_after_seoul_cycle_save_retry",
 		phase, month_index)
 
 func _core_loop_v2_resume_after_seoul_cycle_save_retry(
 		phase: String, month_index: int) -> void:
+	if phase == "action_result":
+		_core_loop_v2_finish_action_week()
+		return
 	if phase == "initialization":
 		_core_loop_v2_continue_seoul_cycle_week(
 			month_index,
@@ -1440,6 +1469,19 @@ func _core_loop_v2_begin_action_bundle(bundle_id: String, scene_bundle: Dictiona
 	var execution := str(action_config.get("execution", "")).strip_edges()
 	if not execution.is_empty():
 		match execution:
+			"job_hunt_application":
+				if DEMO_CORE_LOOP_V2.fresh_w1_onboarding_phase() in [
+						"allocation_pending", "minigame"]:
+					if action_id != "resume" \
+							or not DEMO_CORE_LOOP_V2.restart_fresh_w1_minigame():
+						_core_loop_v2_rollback_action_bundle()
+						push_error("Fresh W1 application could not start")
+						return
+					_ap_write_resume(true, true)
+				else:
+					# The data bundle remains usable by old Month-One saves, but only
+					# the exact fresh onboarding owner may turn it into an application.
+					_ap_write_resume(true)
 			"application":
 				_core_loop_v2_submit_application(
 					bundle_id, scene_bundle, action_config)
@@ -3354,6 +3396,17 @@ func _core_loop_v2_finish_action_week() -> void:
 				"Core Loop V2 action-story result could not be acknowledged")
 			return
 		_core_loop_v2_begin_story_bundle(bundle_id, "schedule")
+		return
+	if bundle_id == DEMO_CORE_LOOP_V2.W1_ONBOARDING_BUNDLE_ID:
+		var handoff := (
+			DEMO_CORE_LOOP_V2.complete_fresh_w1_action_and_claim_interview())
+		if not bool(handoff.get("ok", false)):
+			push_error("Fresh W1 Send could not hand off atomically: %s" % str(
+				handoff.get("error", "unknown")))
+			_core_loop_v2_restore_action_result()
+			return
+		_core_loop_v2_begin_story_bundle(
+			DEMO_CORE_LOOP_V2.OPENING_INTERVIEW_BUNDLE_ID, "consequence")
 		return
 	var was_seoul_cycle_owner := (
 		DEMO_CORE_LOOP_V2.active_bundle_is_seoul_cycle_trigger()
@@ -5815,6 +5868,16 @@ func _begin_month():
 			# recovery, AP, or application state.
 			push_error(
 				"Core Loop V2 could not recover the saved action result")
+			return
+		return
+	var onboarding_phase := DEMO_CORE_LOOP_V2.fresh_w1_onboarding_phase()
+	if DEMO_CORE_LOOP_V2.is_active() and onboarding_phase in [
+			"allocation_pending", "minigame"]:
+		# Allocation was already durably committed. Reload resumes that owner and
+		# starts the unsent minigame from question one without a second AP/economy
+		# reset or a reconstructed draft score.
+		turn_action_log.clear()
+		_begin_month_story_and_render()
 		return
 	GameState.restore_ap()
 	_animate_ap_refill()
@@ -5832,24 +5895,17 @@ func _begin_month_story_and_render():
 	# ── 스토리 이벤트 트리거 ─────────────────────────
 	# 턴 1: 프롤로그 → StoryMode(비주얼노벨)로 재생 (1회만)
 	if GameState.turn == 1 and not GameState.flags.get("prologue_done", false):
+		if DEMO_CORE_LOOP_V2.is_active() \
+				and not DEMO_CORE_LOOP_V2.begin_fresh_w1_onboarding():
+			push_error("Core Loop V2 could not establish fresh W1 onboarding")
+			return
 		GameState.flags["prologue_done"] = true
 		# 플래시포워드 콜드오픈(5년 뒤 '가능한' 민준) → follow_up으로 프롤로그(story_arrival)에 이어짐.
 		# story_flashforward_seen: 1회 가드(위 prologue_done가 실질 가드, 이 플래그는 재생 이력 판독).
 		var prologue_root := "story_arrival"
 		if not GameState.flags.get("story_flashforward_seen", false):
 			prologue_root = "story_flashforward"
-		var opening_queue: Array = [prologue_root]
-		# Reserve the interview and calculation behind the prologue's real Send
-		# choice. DemoCore claims their consequence owner only when that choice is
-		# applied, so a save before Send still owns no fabricated application.
-		if DEMO_CORE_LOOP_V2.is_active():
-			for raw_root in DEMO_CORE_LOOP_V2.fresh_preplan_opening_roots():
-				opening_queue.append(str(raw_root))
-			if opening_queue.size() > 1 \
-					and not bool(GameState.flags.get(
-						"chapter_33_seen", false)):
-				opening_queue.append("chapter_card_33")
-		_go_story_mode(opening_queue)
+		_go_story_mode([prologue_root])
 		return
 	# A fresh scene return and a saved MainGame re-entry must agree on the same
 	# prologue -> interview/calculation -> Chapter 1 -> wide planner order.
@@ -5934,6 +5990,11 @@ func _go_story_mode(event_ids: Array, keep_cover: bool = false):
 		GameState.flags["foreground_story_turn"] = GameState.turn
 	GameState.pending_story_queue = story_queue
 	GameState.story_return_scene = "res://scenes/MainGame.tscn"
+	# Static QA owns the instantiated MainGame node for the whole assertion. Keep
+	# the durable story handoff payload, but do not let a deferred fade replace the
+	# test scene underneath later checks.
+	if bool(get_meta("_screenshot_qa_static_surface", false)):
+		return
 	if keep_cover:
 		SceneTransition.go_covered("res://scenes/StoryMode.tscn")
 	else:
@@ -16951,14 +17012,16 @@ func _ap_create_content():
 	_show_vignette(_tr("콘텐츠 제작", "Create Content"), flavor, display_eff, "#3fb950")
 	_refresh_all()
 
-func _ap_write_resume(allow_committed_week: bool = false):
+func _ap_write_resume(
+		allow_committed_week: bool = false,
+		application_submission: bool = false):
 	if GameState.action_points <= 0 and not allow_committed_week:
 		return
 	turn_action_log.append(_tr(
 		"자기소개서 작성 — 평가 시작",
 		"Resume Writing — assessment started"))
 	_enter_minigame_overlay(job_hunt_game)
-	job_hunt_game.open(0)  # Mode.RESUME = 0
+	job_hunt_game.open(0, application_submission)  # Mode.RESUME = 0
 
 func _ap_interview_prep(allow_committed_week: bool = false):
 	if GameState.action_points <= 0 and not allow_committed_week:
@@ -16971,6 +17034,18 @@ func _on_job_hunt_closed(stress_delta: int, quality: int) -> void:
 	_exit_minigame_overlay()
 	# quality: 0=재작성필요, 1=무난, 2=양호, 3=우수
 	var is_resume: bool = job_hunt_game.current_mode == 0  # Mode.RESUME
+	if is_resume and bool(job_hunt_game.application_submission_mode):
+		if not DEMO_CORE_LOOP_V2.stage_fresh_w1_application_draft(
+				stress_delta, quality):
+			_core_loop_v2_rollback_action_bundle()
+			push_error("Fresh W1 application draft failed preflight")
+			return
+		_fresh_w1_application_draft = {
+			"stress_delta": stress_delta,
+			"quality": quality,
+		}
+		_core_loop_v2_open_fresh_w1_send_confirmation()
+		return
 	var action_id := "resume" if is_resume else "interview"
 	var effects := {"stress": stress_delta}
 	var flag_updates: Dictionary = {}
@@ -17059,6 +17134,55 @@ func _on_job_hunt_closed(stress_delta: int, quality: int) -> void:
 		call_deferred("_core_loop_v2_finish_action_week")
 		return
 	_render_ap_actions()
+
+func _core_loop_v2_open_fresh_w1_send_confirmation() -> void:
+	if _fresh_w1_application_draft.is_empty():
+		return
+	_open_modal(_tr("지원서 최종 확인", "FINAL APPLICATION REVIEW"), false,
+		"fresh_w1_application_send")
+	modal_layer.set_meta("fresh_w1_application_send", true)
+	modal_body.add_child(_wrap_label(_tr(
+		"고쳐 쓴 자기소개서 네 문항을 미래산업기술 지원서에 첨부했습니다. 보내기 전 마지막 확인입니다. 평가가 낮아도 지원서는 전송되며 결과는 그 선택에서 이어집니다.",
+		"The four revised cover-letter answers are attached to the Mirae Industrial Tech application. This is the final review. Even a weak draft will be sent, and the story will continue from that choice."),
+		14, "#d9dee5"))
+	var send_button := _primary_cta_button(_tr(
+		"지원서 보내기  ›", "Send Application  ›"))
+	send_button.set_meta("fresh_w1_application_send_button", true)
+	send_button.pressed.connect(
+		_core_loop_v2_send_fresh_w1_application.bind(send_button))
+	modal_body.add_child(send_button)
+	send_button.call_deferred("grab_focus")
+
+func _core_loop_v2_send_fresh_w1_application(send_button: Button) -> void:
+	if _fresh_w1_application_draft.is_empty() or send_button.disabled:
+		return
+	send_button.disabled = true
+	var stress_delta := int(_fresh_w1_application_draft.get(
+		"stress_delta", 0))
+	var quality := int(_fresh_w1_application_draft.get("quality", -1))
+	var transaction := DEMO_CORE_LOOP_V2.finalize_fresh_w1_application(
+		stress_delta, quality)
+	if not bool(transaction.get("ok", false)):
+		send_button.disabled = false
+		push_error("Fresh W1 Send transaction failed: %s" % str(
+			transaction.get("error", "unknown")))
+		return
+	_fresh_w1_application_draft.clear()
+	GameState.add_tendency("career", 1)
+	GameState.add_log(_tr(
+		"미래산업기술 지원서 전송 완료 (평가 %s)" % ["D", "C", "B", "A"][quality],
+		"Mirae Industrial Tech application sent (Grade %s)" % ["D", "C", "B", "A"][quality]),
+		"event")
+	GameState.stats_changed.emit()
+	_refresh_all()
+	# The result transaction becomes durable before interview Story ownership.
+	# A failed save may only retry this exact write; Send never runs twice.
+	if not _core_loop_v2_autosave_durable_state():
+		_core_loop_v2_open_seoul_cycle_save_retry_gate(
+			"action_result", DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn))
+		return
+	_close_modal(false, false)
+	_core_loop_v2_finish_action_week()
 
 func _ap_move_housing():
 	# AP 소비 없음 — 이사는 자금으로 하는 결정
@@ -19204,7 +19328,7 @@ func _focus_first_in_modal_body():
 			child.grab_focus()
 			return
 
-func _close_modal(play_sound: bool = true):
+func _close_modal(play_sound: bool = true, resume_flow: bool = true):
 	if not _modal_activity_id.is_empty():
 		var ambience := str(_modal_activity_contract.get("ambience", ""))
 		if not ambience.is_empty():
@@ -19224,6 +19348,8 @@ func _close_modal(play_sound: bool = true):
 		modal_pad_hint_label.visible = false
 	if play_sound:
 		AudioManager.play_ui_close()
+	if not resume_flow:
+		return
 	if _pending_month_summary:
 		_pending_month_summary = false
 		if GameState.has_reached_demo_limit():

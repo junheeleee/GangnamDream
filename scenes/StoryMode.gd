@@ -5356,8 +5356,15 @@ func _on_choice(idx: int):
 	if not _read_only_replay and not expression_choice \
 			and DEMO_CORE_LOOP_V2.is_active() \
 			and not DEMO_CORE_LOOP_V2.story_choice_commit_available(
-				current_event_id, idx):
+				current_event_id, idx, _queue):
 		return
+	var legacy_opening_send := not _read_only_replay \
+		and not expression_choice \
+		and DEMO_CORE_LOOP_V2.is_active() \
+		and current_event_id \
+			== DEMO_CORE_LOOP_V2.OPENING_APPLICATION_EVENT_ID
+	var legacy_opening_snapshot: Dictionary = (
+		GameState.serialize().duplicate(true) if legacy_opening_send else {})
 	_stop_story_choice_countdown()
 	if _read_only_replay \
 			and current_event_id == DEMO_CORE_LOOP_V2.FIRST_BILL_DECISION_ID:
@@ -5407,7 +5414,15 @@ func _on_choice(idx: int):
 				or not GameState.apply_choice(_current, choice):
 			return
 		if not expression_choice and DEMO_CORE_LOOP_V2.is_active():
-			DEMO_CORE_LOOP_V2.note_story_choice(current_event_id, idx)
+			var story_recorded := DEMO_CORE_LOOP_V2.note_story_choice(
+				current_event_id, idx, _queue)
+			if legacy_opening_send and not story_recorded:
+				GameState.call(
+					"_restore_serialized_snapshot_exact",
+					legacy_opening_snapshot)
+				push_error(
+					"Legacy opening Send lost its exact application owner")
+				return
 		if not expression_choice:
 			DEMO_CORE_LOOP_V2.note_post_demo_application_result(
 				current_event_id, idx)
