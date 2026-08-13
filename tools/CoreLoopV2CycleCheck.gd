@@ -127,6 +127,7 @@ func _run() -> void:
 	_check_order101_fresh_w1_application_contract()
 	_check_order101_resume_terminal_source_receipts()
 	_check_order101_resume_terminal_target_initialization()
+	_check_order101_resume_terminal_execution()
 	_check_order101_father_terminal_source_receipts()
 	_check_order101_m2_people_selection_contract()
 	_check_order101_m2_people_terminal_source_receipts()
@@ -147,6 +148,9 @@ func _run() -> void:
 		print(
 			"CORE_LOOP_V2_CYCLE_CHECK_OK "
 			+ "terminal_slice=u09_u11_u12_u16/source_receipts_12of12 "
+			+ "target_execution=q0_partial+completed/double_reload+ordinary_forgone "
+			+ "target_mutations=capacity/full_coupled/fractional/status/axis/"
+			+ "resolution/pending/resolved/zero_expiry "
 			+ "mutations=capacity/father/selected/expiry/summary "
 			+ "retention=w25/w48 "
 			+ "mode=seoul_cycle_v1 fresh_only=1 provenance=new/save/no_inference "
@@ -931,6 +935,687 @@ func _check_order101_resume_terminal_target_initialization() -> void:
 		initialized_save, route_id)
 
 
+func _check_order101_resume_terminal_execution() -> void:
+	var route_id := "m1_resume_completed_q0_to_m2_advancement_rewritten"
+	var candidate_id := "terminal:%s" % route_id
+	var source_summary := _produce_completed_resume_month(0)
+	var source_receipt := CORE.terminal_transition_receipt(route_id)
+	_expect(not source_summary.is_empty() and not source_receipt.is_empty(),
+		"q0 target-execution fixture did not produce its exact source receipt")
+	if source_summary.is_empty() or source_receipt.is_empty():
+		return
+	_advance_to_next_week()
+	var initialized := CORE.initialize_seoul_cycle(2)
+	var w5_snapshot := CORE.seoul_cycle_snapshot(2)
+	var w5_capacity := _unused_capacity(w5_snapshot, 1, false)
+	var w5_node: Dictionary = (
+		w5_snapshot.get("nodes", {}) as Dictionary).get("m2_advancement", {})
+	var binding: Dictionary = (
+		w5_node.get("terminal_route_bindings", {}) as Dictionary).get(
+			route_id, {})
+	var mental_before := int(GameState.mental)
+	var before_preview: Dictionary = GameState.serialize().duplicate(true)
+	var partial_preview := CORE.preview_seoul_cycle_allocation(
+		w5_capacity, "m2_advancement", 2, candidate_id)
+	_expect(bool(initialized.get("ok", false)) \
+		and bool(w5_snapshot.get("active", false)) \
+		and not w5_capacity.is_empty() \
+		and int(partial_preview.get("base_progress", 0)) == 1 \
+		and int(partial_preview.get("progress_after", 0)) == 1 \
+		and not bool(partial_preview.get("completed_now", true)) \
+		and bool(partial_preview.get("terminal_route_required", false)) \
+		and not bool(partial_preview.get(
+			"terminal_selection_required", true)) \
+		and not bool(partial_preview.get("terminal_selection_new", true)) \
+		and str(partial_preview.get(
+			"selected_trigger_candidate_id", "")) == candidate_id \
+		and str(partial_preview.get(
+			"selected_trigger_bundle_id", "")) == "m2_seorin_application" \
+		and str(partial_preview.get(
+			"selected_terminal_route_id", "")) == route_id \
+		and str(partial_preview.get("terminal_variant_id", "")) \
+			== "resume_rewritten" \
+		and _variant_equal_with_numeric_values(
+			partial_preview.get("terminal_target_binding", {}), binding) \
+		and _variant_equal_with_numeric_values(
+			partial_preview.get("terminal_completion_effects", {}),
+			{"mental": -2}) \
+		and (partial_preview.get("immediate_effects", {}) as Dictionary).is_empty() \
+		and str(partial_preview.get("trigger_bundle", "")).is_empty() \
+		and GameState.serialize() == before_preview \
+		and int(GameState.mental) == mental_before \
+		and CORE.terminal_transition_resolution(route_id).is_empty(),
+		"q0 W5 preview did not preserve its coalesced terminal identity without effects")
+	if not bool(partial_preview.get("ok", false)):
+		return
+	var partial_commit := CORE.commit_seoul_cycle_allocation(
+		w5_capacity, "m2_advancement", 2, candidate_id)
+	var partial_receipt: Dictionary = partial_commit.get("receipt", {})
+	var partial_weekly: Dictionary = partial_receipt.get(
+		"weekly_commitment", {})
+	var partial_details: Dictionary = partial_weekly.get("details", {})
+	var partial_cycle := CORE.seoul_cycle_snapshot(2)
+	var partial_node: Dictionary = (
+		partial_cycle.get("nodes", {}) as Dictionary).get("m2_advancement", {})
+	_expect(bool(partial_commit.get("ok", false)) \
+		and not bool(partial_commit.get("completed_now", true)) \
+		and str(partial_node.get(
+			"selected_trigger_candidate_id", "")) == candidate_id \
+		and str(partial_node.get("selected_terminal_route_id", "")) == route_id \
+		and str(partial_receipt.get(
+			"selected_trigger_candidate_id", "")) == candidate_id \
+		and str(partial_receipt.get(
+			"selected_trigger_bundle_id", "")) == "m2_seorin_application" \
+		and str(partial_receipt.get(
+			"selected_terminal_route_id", "")) == route_id \
+		and str(partial_receipt.get("terminal_variant_id", "")) \
+			== "resume_rewritten" \
+		and _variant_equal_with_numeric_values(
+			partial_receipt.get("terminal_target_binding", {}), binding) \
+		and _variant_equal_with_numeric_values(
+			partial_receipt.get("terminal_completion_effects", {}),
+			{"mental": -2}) \
+		and str(partial_details.get(
+			"selected_trigger_candidate_id", "")) == candidate_id \
+		and str(partial_details.get(
+			"selected_trigger_bundle_id", "")) == "m2_seorin_application" \
+		and str(partial_details.get(
+			"selected_terminal_route_id", "")) == route_id \
+		and str(partial_details.get("terminal_variant_id", "")) \
+			== "resume_rewritten" \
+		and _variant_equal_with_numeric_values(
+			partial_details.get("terminal_target_binding", {}), binding) \
+		and _variant_equal_with_numeric_values(
+			partial_details.get("terminal_completion_effects", {}),
+			{"mental": -2}) \
+		and (partial_commit.get("pending_trigger", {}) as Dictionary).is_empty() \
+		and int(GameState.mental) == mental_before \
+		and CORE.terminal_transition_resolution(route_id).is_empty(),
+		"q0 W5 partial commit lost identity or applied its terminal result early")
+	if not bool(partial_commit.get("ok", false)):
+		return
+	var partial_saved: Dictionary = GameState.serialize().duplicate(true)
+	_check_terminal_active_allocation_authority_rejected(
+		partial_saved, route_id, candidate_id, binding)
+	for reload_index in range(2):
+		GameState.start_new_game()
+		GameState.load_from_dict(partial_saved.duplicate(true))
+		CORE.initialize_for_run(true)
+		var reloaded_cycle := CORE.seoul_cycle_snapshot(2)
+		var reloaded_node: Dictionary = (
+			reloaded_cycle.get("nodes", {}) as Dictionary).get(
+				"m2_advancement", {})
+		_expect(bool(reloaded_cycle.get("active", false)) \
+			and str(reloaded_node.get(
+				"selected_trigger_candidate_id", "")) == candidate_id \
+			and str(reloaded_node.get(
+				"selected_terminal_route_id", "")) == route_id \
+			and int(reloaded_node.get("progress", 0)) == 1 \
+			and int(GameState.mental) == mental_before \
+			and CORE.terminal_transition_resolution(route_id).is_empty(),
+			"q0 partial terminal selection replayed on reload %d" \
+				% [reload_index + 1])
+		partial_saved = GameState.serialize().duplicate(true)
+	var w5_closed := CORE.complete_seoul_cycle_turn(2)
+	_expect(bool(w5_closed.get("ok", false)),
+		"q0 partial terminal week could not close after reload")
+	if not bool(w5_closed.get("ok", false)):
+		return
+	_advance_to_next_week()
+	var w6_snapshot := CORE.seoul_cycle_snapshot(2)
+	var w6_capacity := _unused_capacity(w6_snapshot, 1, true)
+	var completion_mental_before := int(GameState.mental)
+	var before_completion_preview: Dictionary = GameState.serialize().duplicate(true)
+	var completion_preview := CORE.preview_seoul_cycle_allocation(
+		w6_capacity, "m2_advancement", 2, candidate_id)
+	_expect(bool(completion_preview.get("ok", false)) \
+		and bool(completion_preview.get("completed_now", false)) \
+		and not bool(completion_preview.get("terminal_selection_new", true)) \
+		and str(completion_preview.get(
+			"selected_trigger_candidate_id", "")) == candidate_id \
+		and str(completion_preview.get(
+			"selected_terminal_route_id", "")) == route_id \
+		and str(completion_preview.get("terminal_variant_id", "")) \
+			== "resume_rewritten" \
+		and int((completion_preview.get(
+			"immediate_effects", {}) as Dictionary).get("mental", 0)) == -2 \
+		and GameState.serialize() == before_completion_preview \
+		and int(GameState.mental) == completion_mental_before \
+		and CORE.terminal_transition_resolution(route_id).is_empty(),
+		"q0 W6 completion preview did not expose one deferred terminal result")
+	if not bool(completion_preview.get("ok", false)):
+		return
+	var completion_commit := CORE.commit_seoul_cycle_allocation(
+		w6_capacity, "m2_advancement", 2, candidate_id)
+	var completion_receipt: Dictionary = completion_commit.get("receipt", {})
+	var completion_weekly: Dictionary = completion_receipt.get(
+		"weekly_commitment", {})
+	var completion_details: Dictionary = completion_weekly.get("details", {})
+	var pending: Dictionary = completion_commit.get("pending_trigger", {})
+	var resolution := CORE.terminal_transition_resolution(route_id)
+	var expected_resolution := {
+		"schema": CORE.TERMINAL_TARGET_BINDING_SCHEMA,
+		"route_id": route_id,
+		"resolution": "completed",
+		"binding": binding.duplicate(true),
+		"target_month": 2,
+		"target_node": "m2_advancement",
+		"target_turn": 6,
+		"allocation_receipt_id": "seoul_cycle_m2_w2",
+		"allocation_receipt_key": "seoul_cycle.allocation_receipts.6",
+		"selected_candidate_id": candidate_id,
+		"selected_terminal_route_id": route_id,
+		"variant_id": "resume_rewritten",
+		"effect_applied": true,
+		"result_variant": "resume_rewritten",
+	}
+	_expect(bool(completion_commit.get("ok", false)) \
+		and bool(completion_commit.get("completed_now", false)) \
+		and int(GameState.mental) == completion_mental_before - 2 \
+		and int((completion_receipt.get(
+			"effects", {}) as Dictionary).get("mental", 0)) == -2 \
+		and str(completion_receipt.get(
+			"selected_trigger_candidate_id", "")) == candidate_id \
+		and str(completion_receipt.get(
+			"selected_terminal_route_id", "")) == route_id \
+		and str(completion_receipt.get("terminal_variant_id", "")) \
+			== "resume_rewritten" \
+		and _variant_equal_with_numeric_values(
+			completion_receipt.get("terminal_target_binding", {}), binding) \
+		and str(completion_details.get(
+			"selected_trigger_candidate_id", "")) == candidate_id \
+		and str(completion_details.get(
+			"selected_terminal_route_id", "")) == route_id \
+		and str(completion_details.get("terminal_variant_id", "")) \
+			== "resume_rewritten" \
+		and _variant_equal_with_numeric_values(
+			completion_details.get("terminal_target_binding", {}), binding) \
+		and str(pending.get("bundle_id", "")) == "m2_seorin_application" \
+		and str(pending.get(
+			"selected_trigger_candidate_id", "")) == candidate_id \
+		and str(pending.get("selected_terminal_route_id", "")) == route_id \
+		and str(pending.get("terminal_variant_id", "")) \
+			== "resume_rewritten" \
+		and _variant_equal_with_numeric_values(
+			pending.get("terminal_target_binding", {}), binding) \
+		and _variant_equal_with_numeric_values(resolution, expected_resolution),
+		"q0 completion did not apply and resolve its exact terminal result once")
+	if not bool(completion_commit.get("ok", false)):
+		return
+	var completed_saved: Dictionary = GameState.serialize().duplicate(true)
+	var duplicate := CORE.commit_seoul_cycle_allocation(
+		w6_capacity, "m2_advancement", 2, candidate_id)
+	_expect(not bool(duplicate.get("ok", true)) \
+		and int(GameState.mental) == completion_mental_before - 2 \
+		and _variant_equal_with_numeric_values(
+			CORE.terminal_transition_resolution(route_id), expected_resolution) \
+		and GameState.serialize() == completed_saved,
+		"q0 duplicate completion replayed its effect or resolution")
+	for reload_index in range(2):
+		GameState.start_new_game()
+		GameState.load_from_dict(completed_saved.duplicate(true))
+		CORE.initialize_for_run(true)
+		var reloaded_pending := CORE.pending_seoul_cycle_trigger()
+		_expect(int(GameState.mental) == completion_mental_before - 2 \
+			and str(reloaded_pending.get(
+				"selected_trigger_candidate_id", "")) == candidate_id \
+			and str(reloaded_pending.get(
+				"selected_terminal_route_id", "")) == route_id \
+			and _variant_equal_with_numeric_values(
+				CORE.terminal_transition_resolution(route_id), expected_resolution),
+			"q0 completed terminal result replayed or drifted on reload %d" \
+				% [reload_index + 1])
+		completed_saved = GameState.serialize().duplicate(true)
+	_check_terminal_completed_target_authority_rejected(
+		completed_saved, route_id, candidate_id, binding)
+
+
+func _check_terminal_active_allocation_authority_rejected(
+		partial_saved: Dictionary, route_id: String,
+		candidate_id: String, binding: Dictionary) -> void:
+	var baseline_state: Dictionary = partial_saved.get("core_loop_v2_state", {})
+	var baseline_cycle: Dictionary = baseline_state.get("seoul_cycle", {})
+	var baseline_nodes: Dictionary = baseline_cycle.get("nodes", {})
+	var baseline_node: Dictionary = baseline_nodes.get("m2_advancement", {})
+	var authored_node: Dictionary = (
+		CORE.seoul_cycle_month_spec(2).get("nodes", {}) as Dictionary).get(
+			"m2_advancement", {})
+	var baseline_allocations: Dictionary = baseline_cycle.get(
+		"allocation_receipts", {})
+	var allocation_key: Variant = null
+	var baseline_allocation: Dictionary = {}
+	for raw_key in baseline_allocations.keys():
+		var raw_allocation: Variant = baseline_allocations.get(raw_key, {})
+		if raw_allocation is Dictionary \
+				and int((raw_allocation as Dictionary).get("turn", 0)) == 5 \
+				and str((raw_allocation as Dictionary).get("node_id", "")) \
+					== "m2_advancement":
+			allocation_key = raw_key
+			baseline_allocation = (
+				raw_allocation as Dictionary).duplicate(true)
+			break
+	var baseline_capacity: Dictionary = {}
+	var baseline_capacity_index := -1
+	var raw_capacities: Array = baseline_cycle.get("capacities", [])
+	for index in range(raw_capacities.size()):
+		var raw_capacity: Variant = raw_capacities[index]
+		if raw_capacity is Dictionary \
+				and str((raw_capacity as Dictionary).get("id", "")) \
+					== str(baseline_allocation.get("capacity_id", "")):
+			baseline_capacity = (raw_capacity as Dictionary).duplicate(true)
+			baseline_capacity_index = index
+			break
+	var baseline_weekly: Dictionary = baseline_allocation.get(
+		"weekly_commitment", {})
+	var baseline_details: Dictionary = baseline_weekly.get("details", {})
+	var outer_weekly: Array = partial_saved.get("weekly_commitments", [])
+	var outer_index := -1
+	for index in range(outer_weekly.size()):
+		var raw_weekly: Variant = outer_weekly[index]
+		if raw_weekly is Dictionary \
+				and int((raw_weekly as Dictionary).get("turn", 0)) == 5:
+			outer_index = index
+			break
+	var baseline_outer: Dictionary = (
+		outer_weekly[outer_index] as Dictionary) if outer_index >= 0 else {}
+	var original_value := int(baseline_capacity.get("value", 0))
+	var original_quality := str(baseline_capacity.get("quality", ""))
+	_expect(allocation_key != null \
+		and not baseline_capacity.is_empty() \
+		and bool(baseline_capacity.get("consumed", false)) \
+		and int(baseline_capacity.get("consumed_turn", 0)) == 5 \
+		and str(baseline_capacity.get("node_id", "")) == "m2_advancement" \
+		and original_value in range(1, 7) \
+		and original_quality in ["strained", "steady", "strong"] \
+		and int(baseline_allocation.get("capacity_value", 0)) == original_value \
+		and str(baseline_allocation.get("capacity_quality", "")) \
+			== original_quality \
+		and str(baseline_allocation.get("id", "")) == "seoul_cycle_m2_w1" \
+		and str(baseline_allocation.get("status", "")) == "allocated" \
+		and str(baseline_allocation.get("planning_mode", "")) \
+			== "seoul_cycle_v1" \
+		and int(baseline_allocation.get("month", 0)) == 2 \
+		and int(baseline_allocation.get("turn", 0)) == 5 \
+		and int(baseline_allocation.get("week_index", 0)) == 1 \
+		and int(baseline_allocation.get("progress_before", -1)) == 0 \
+		and int(baseline_allocation.get("progress_gain", -1)) == 1 \
+		and int(baseline_allocation.get("progress_after", -1)) == 1 \
+		and int(baseline_allocation.get("threshold", 0)) == 2 \
+		and int(baseline_allocation.get("authored_threshold", 0)) == 2 \
+		and baseline_allocation.get("completed_now", null) is bool \
+		and baseline_allocation.get("repeat_allocation", null) is bool \
+		and baseline_allocation.get("fallback_allocation", null) is bool \
+		and not bool(baseline_allocation.get("completed_now", true)) \
+		and not authored_node.has("fallback_after_trigger_expiry") \
+		and not bool(baseline_node.get("fallback_mode", false)) \
+		and int(baseline_node.get("progress", -1)) == 1 \
+		and str(baseline_node.get("selected_trigger_candidate_id", "")) \
+			== candidate_id \
+		and str(baseline_node.get("selected_terminal_route_id", "")) \
+			== route_id \
+		and int(baseline_details.get("capacity_value", 0)) == original_value \
+		and str(baseline_details.get("capacity_quality", "")) \
+			== original_quality \
+		and int(baseline_details.get("progress_after", -1)) == 1 \
+		and not bool(baseline_details.get("completed_now", true)) \
+		and outer_index >= 0 \
+		and str(baseline_weekly.get("axis", "")) == "human" \
+		and str(baseline_outer.get("axis", "")) == "human" \
+		and baseline_capacity_index >= 0 \
+		and CORE.terminal_transition_resolution(route_id).is_empty(),
+		"q0 active-allocation mutation fixture was not one genuine partial commit")
+	if allocation_key == null or baseline_capacity.is_empty() \
+			or outer_index < 0 or baseline_capacity_index < 0:
+		return
+	var sibling_value := original_value + 1 if original_value < 6 else 5
+	var sibling_quality := "steady" if original_quality != "steady" else "strong"
+	for mutation in [
+		"receipt_capacity_value", "receipt_capacity_quality",
+		"receipt_progress_gain", "node_progress", "weekly_capacity_value",
+		"weekly_capacity_quality", "weekly_progress", "weekly_completed_now",
+		"receipt_completed_now", "receipt_effects", "completed_resolution",
+		"fractional_capacity", "node_status", "node_completed_turn",
+		"embedded_axis", "outer_axis", "coupled_axis",
+		"fully_coupled_completion",
+		"receipt_id", "receipt_status", "receipt_planning_mode",
+		"fractional_month", "fractional_turn", "fractional_week_index",
+		"fractional_progress_before", "fractional_progress_gain",
+		"fractional_progress_after", "fractional_threshold",
+		"fractional_authored_threshold", "nonbool_completed",
+		"nonbool_repeat", "nonbool_fallback", "coupled_fallback",
+	]:
+		var malformed := partial_saved.duplicate(true)
+		var state: Dictionary = malformed.get("core_loop_v2_state", {})
+		var cycle: Dictionary = state.get("seoul_cycle", {})
+		var capacities: Array = cycle.get("capacities", [])
+		var capacity: Dictionary = (
+			capacities[baseline_capacity_index] as Dictionary).duplicate(true)
+		var nodes: Dictionary = cycle.get("nodes", {})
+		var node: Dictionary = nodes.get("m2_advancement", {})
+		var allocations: Dictionary = cycle.get("allocation_receipts", {})
+		var allocation: Dictionary = allocations.get(allocation_key, {})
+		var weekly: Dictionary = allocation.get("weekly_commitment", {})
+		var details: Dictionary = weekly.get("details", {})
+		var malformed_outer: Array = malformed.get("weekly_commitments", [])
+		var matching_outer: Dictionary = (
+			malformed_outer[outer_index] as Dictionary).duplicate(true)
+		var outer_details: Dictionary = matching_outer.get("details", {})
+		match mutation:
+			"receipt_capacity_value":
+				allocation["capacity_value"] = sibling_value
+			"receipt_capacity_quality":
+				allocation["capacity_quality"] = sibling_quality
+			"receipt_progress_gain":
+				allocation["progress_gain"] = 2
+			"node_progress":
+				node["progress"] = 2
+			"weekly_capacity_value":
+				details["capacity_value"] = sibling_value
+				outer_details["capacity_value"] = sibling_value
+			"weekly_capacity_quality":
+				details["capacity_quality"] = sibling_quality
+				outer_details["capacity_quality"] = sibling_quality
+			"weekly_progress":
+				details["progress_after"] = 2
+				outer_details["progress_after"] = 2
+			"weekly_completed_now":
+				details["completed_now"] = true
+				outer_details["completed_now"] = true
+			"receipt_completed_now":
+				allocation["completed_now"] = true
+			"receipt_effects":
+				var before: Dictionary = allocation.get("before", {})
+				var after: Dictionary = before.duplicate(true)
+				after["mental"] = int(before.get("mental", 0)) - 2
+				allocation["effects"] = {"mental": -2}
+				allocation["after"] = after
+			"completed_resolution":
+				var resolutions: Dictionary = state.get(
+					"terminal_transition_resolutions", {})
+				resolutions[route_id] = {
+					"schema": CORE.TERMINAL_TARGET_BINDING_SCHEMA,
+					"route_id": route_id,
+					"resolution": "completed",
+					"binding": binding.duplicate(true),
+					"target_month": 2,
+					"target_node": "m2_advancement",
+					"target_turn": 5,
+					"allocation_receipt_id": "seoul_cycle_m2_w1",
+					"allocation_receipt_key": "seoul_cycle.allocation_receipts.5",
+					"selected_candidate_id": candidate_id,
+					"selected_terminal_route_id": route_id,
+					"variant_id": "resume_rewritten",
+					"effect_applied": true,
+					"result_variant": "resume_rewritten",
+				}
+				state["terminal_transition_resolutions"] = resolutions
+			"fractional_capacity":
+				var fractional_value := float(original_value) + 0.5
+				capacity["value"] = fractional_value
+				allocation["capacity_value"] = fractional_value
+				details["capacity_value"] = fractional_value
+				outer_details["capacity_value"] = fractional_value
+			"node_status":
+				node["status"] = "completed"
+			"node_completed_turn":
+				node["completed_turn"] = 5
+			"embedded_axis":
+				weekly["axis"] = "money"
+			"outer_axis":
+				matching_outer["axis"] = "money"
+			"coupled_axis":
+				weekly["axis"] = "money"
+				matching_outer["axis"] = "money"
+			"fully_coupled_completion":
+				var forged_value := 3
+				var forged_quality := "steady"
+				capacity["value"] = forged_value
+				capacity["quality"] = forged_quality
+				allocation["capacity_value"] = forged_value
+				allocation["capacity_quality"] = forged_quality
+				allocation["progress_gain"] = 2
+				allocation["progress_after"] = 2
+				allocation["completed_now"] = true
+				allocation["trigger_bundle"] = "m2_seorin_application"
+				var forged_before: Dictionary = allocation.get("before", {})
+				var forged_after: Dictionary = forged_before.duplicate(true)
+				forged_after["mental"] = int(
+					forged_before.get("mental", 0)) - 2
+				allocation["effects"] = {"mental": -2}
+				allocation["after"] = forged_after
+				for key in [
+					"capacity_value", "capacity_quality", "progress_gain",
+					"progress_after", "completed_now",
+				]:
+					details[key] = allocation[key]
+					outer_details[key] = allocation[key]
+				weekly["outcome"] = {"mental": -2}
+				matching_outer["outcome"] = {"mental": -2}
+				node["progress"] = 2
+				node["status"] = "awaiting_trigger"
+				node["completed_turn"] = 5
+				node["last_allocation_turn"] = 5
+				cycle["pending_trigger"] = {
+					"kind": "node_trigger",
+					"node_id": "m2_advancement",
+					"bundle_id": "m2_seorin_application",
+					"selected_trigger_bundle_id": "m2_seorin_application",
+					"selected_trigger_candidate_id": candidate_id,
+					"selected_terminal_route_id": route_id,
+					"terminal_variant_id": "resume_rewritten",
+					"terminal_target_binding": binding.duplicate(true),
+					"turn": 5,
+					"status": "pending",
+				}
+				var coupled_resolutions: Dictionary = state.get(
+					"terminal_transition_resolutions", {})
+				coupled_resolutions[route_id] = {
+					"schema": CORE.TERMINAL_TARGET_BINDING_SCHEMA,
+					"route_id": route_id,
+					"resolution": "completed",
+					"binding": binding.duplicate(true),
+					"target_month": 2,
+					"target_node": "m2_advancement",
+					"target_turn": 5,
+					"allocation_receipt_id": "seoul_cycle_m2_w1",
+					"allocation_receipt_key": "seoul_cycle.allocation_receipts.5",
+					"selected_candidate_id": candidate_id,
+					"selected_terminal_route_id": route_id,
+					"variant_id": "resume_rewritten",
+					"effect_applied": true,
+					"result_variant": "resume_rewritten",
+				}
+				state["terminal_transition_resolutions"] = coupled_resolutions
+				malformed["mental"] = int(malformed.get("mental", 0)) - 2
+			"receipt_id":
+				allocation["id"] = "seoul_cycle_m2_w2"
+			"receipt_status":
+				allocation["status"] = "turn_completed"
+			"receipt_planning_mode":
+				allocation["planning_mode"] = "legacy_plan"
+			"fractional_month":
+				allocation["month"] = 2.5
+			"fractional_turn":
+				allocation["turn"] = 5.5
+			"fractional_week_index":
+				allocation["week_index"] = 1.5
+			"fractional_progress_before":
+				allocation["progress_before"] = 0.5
+			"fractional_progress_gain":
+				allocation["progress_gain"] = 1.5
+			"fractional_progress_after":
+				allocation["progress_after"] = 1.5
+			"fractional_threshold":
+				allocation["threshold"] = 2.5
+			"fractional_authored_threshold":
+				allocation["authored_threshold"] = 2.5
+			"nonbool_completed":
+				allocation["completed_now"] = "false"
+			"nonbool_repeat":
+				allocation["repeat_allocation"] = "false"
+			"nonbool_fallback":
+				allocation["fallback_allocation"] = "false"
+			"coupled_fallback":
+				allocation["progress_gain"] = 0
+				allocation["progress_after"] = 0
+				allocation["fallback_allocation"] = true
+				allocation["effects"] = {}
+				allocation["after"] = (
+					allocation.get("before", {}) as Dictionary).duplicate(true)
+				for key in [
+					"progress_gain", "progress_after", "fallback_allocation",
+				]:
+					details[key] = allocation[key]
+					outer_details[key] = allocation[key]
+				weekly["outcome"] = {}
+				matching_outer["outcome"] = {}
+				node["progress"] = 0
+				node["status"] = "open"
+				node["completed_turn"] = 0
+				node["last_allocation_turn"] = 5
+		weekly["details"] = details
+		allocation["weekly_commitment"] = weekly
+		allocations[allocation_key] = allocation
+		cycle["allocation_receipts"] = allocations
+		capacities[baseline_capacity_index] = capacity
+		cycle["capacities"] = capacities
+		nodes["m2_advancement"] = node
+		cycle["nodes"] = nodes
+		state["seoul_cycle"] = cycle
+		matching_outer["details"] = outer_details
+		malformed_outer[outer_index] = matching_outer
+		malformed["weekly_commitments"] = malformed_outer
+		malformed["core_loop_v2_state"] = state
+		GameState.start_new_game()
+		GameState.load_from_dict(malformed)
+		CORE.initialize_for_run(true)
+		var before_retry: Dictionary = GameState.serialize().duplicate(true)
+		var retried := CORE.initialize_seoul_cycle(2)
+		_expect(not bool(CORE.seoul_cycle_snapshot(2).get("active", true)) \
+			and CORE.terminal_target_candidates(
+				2, "m2_advancement").is_empty() \
+			and CORE.terminal_transition_resolution(route_id).is_empty() \
+			and not bool(retried.get("ok", true)) \
+			and str(retried.get("error", "")) == "terminal_binding_conflict" \
+			and GameState.serialize() == before_retry,
+			"q0 active allocation accepted %s authority mutation" % mutation)
+
+
+func _check_terminal_completed_target_authority_rejected(
+		completed_saved: Dictionary, route_id: String,
+		candidate_id: String, binding: Dictionary) -> void:
+	var baseline_state: Dictionary = completed_saved.get("core_loop_v2_state", {})
+	var baseline_cycle: Dictionary = baseline_state.get("seoul_cycle", {})
+	var baseline_node: Dictionary = (
+		baseline_cycle.get("nodes", {}) as Dictionary).get(
+			"m2_advancement", {})
+	var baseline_pending: Dictionary = baseline_cycle.get("pending_trigger", {})
+	var baseline_resolution: Dictionary = (
+		baseline_state.get("terminal_transition_resolutions", {}) \
+			as Dictionary).get(route_id, {})
+	_expect(str(baseline_node.get("status", "")) == "awaiting_trigger" \
+		and int(baseline_node.get("progress", 0)) == 2 \
+		and int(baseline_node.get("completed_turn", 0)) == 6 \
+		and int(baseline_node.get("last_allocation_turn", 0)) == 6 \
+		and str(baseline_pending.get("node_id", "")) == "m2_advancement" \
+		and str(baseline_pending.get("bundle_id", "")) \
+			== "m2_seorin_application" \
+		and str(baseline_pending.get("selected_trigger_candidate_id", "")) \
+			== candidate_id \
+		and str(baseline_resolution.get("resolution", "")) == "completed",
+		"q0 completed-target mutation fixture was not awaiting its exact trigger")
+	if baseline_pending.is_empty() or baseline_resolution.is_empty():
+		return
+	for mutation in ["node_status", "node_completed_turn", "pending_deleted"]:
+		var malformed := completed_saved.duplicate(true)
+		var state: Dictionary = malformed.get("core_loop_v2_state", {})
+		var cycle: Dictionary = state.get("seoul_cycle", {})
+		var nodes: Dictionary = cycle.get("nodes", {})
+		var node: Dictionary = nodes.get("m2_advancement", {})
+		match mutation:
+			"node_status":
+				node["status"] = "completed"
+			"node_completed_turn":
+				node["completed_turn"] = 5
+			"pending_deleted":
+				cycle["pending_trigger"] = {}
+		nodes["m2_advancement"] = node
+		cycle["nodes"] = nodes
+		state["seoul_cycle"] = cycle
+		malformed["core_loop_v2_state"] = state
+		_expect_terminal_active_target_mutation_rejected(
+			malformed, route_id, "q0 completed %s" % mutation)
+
+	GameState.start_new_game()
+	GameState.load_from_dict(completed_saved.duplicate(true))
+	CORE.initialize_for_run(true)
+	var claimed := CORE.claim_seoul_cycle_trigger()
+	var began := bool(claimed.get("ok", false)) \
+		and CORE.begin_seoul_cycle_trigger("m2_seorin_application")
+	var armed := began and GameState.arm_weekly_commitment({
+		"turn": int(GameState.turn),
+		"pressure_id": "m2_seorin_application",
+		"pressure_family": "growth",
+		"choice_id": "apply",
+		"forgone_ids": [],
+		"supplemental_to_seoul_cycle": true,
+	})
+	var transaction: Dictionary = {}
+	if armed:
+		transaction = GameState.finalize_weekly_effect_action(
+			"apply", {}, "money", "work", "", {
+				"execution": "application",
+				"application_id": "seorin_contract_2026q1",
+				"status": "submitted",
+			})
+	var action_noted := bool(transaction.get("ok", false)) \
+		and CORE.note_action_commitment(
+			transaction.get("record", {}) as Dictionary)
+	var resolved_bundle := CORE.complete_active_bundle() if action_noted else ""
+	var resolved_save: Dictionary = GameState.serialize().duplicate(true)
+	var resolved_state: Dictionary = resolved_save.get("core_loop_v2_state", {})
+	var resolved_cycle: Dictionary = resolved_state.get("seoul_cycle", {})
+	var resolved_node: Dictionary = (
+		resolved_cycle.get("nodes", {}) as Dictionary).get(
+			"m2_advancement", {})
+	var trigger_receipts: Dictionary = resolved_cycle.get("trigger_receipts", {})
+	_expect(began and armed and action_noted \
+		and resolved_bundle == "m2_seorin_application" \
+		and str(resolved_node.get("status", "")) == "completed" \
+		and (resolved_cycle.get("pending_trigger", {}) as Dictionary).is_empty() \
+		and not (trigger_receipts.get(
+			"m2_advancement", {}) as Dictionary).is_empty() \
+		and _variant_equal_with_numeric_values(
+			CORE.terminal_transition_resolution(route_id), baseline_resolution),
+		"q0 completed-target fixture could not resolve its actual trigger")
+	if resolved_bundle == "m2_seorin_application" \
+			and not (trigger_receipts.get(
+				"m2_advancement", {}) as Dictionary).is_empty():
+		trigger_receipts.erase("m2_advancement")
+		resolved_cycle["trigger_receipts"] = trigger_receipts
+		resolved_state["seoul_cycle"] = resolved_cycle
+		resolved_save["core_loop_v2_state"] = resolved_state
+		_expect_terminal_active_target_mutation_rejected(
+			resolved_save, route_id, "q0 resolved trigger deletion")
+
+
+func _expect_terminal_active_target_mutation_rejected(
+		malformed: Dictionary, route_id: String, label: String) -> void:
+	GameState.start_new_game()
+	GameState.load_from_dict(malformed)
+	CORE.initialize_for_run(true)
+	var before_retry: Dictionary = GameState.serialize().duplicate(true)
+	var retried := CORE.initialize_seoul_cycle(2)
+	_expect(not bool(CORE.seoul_cycle_snapshot(2).get("active", true)) \
+		and CORE.terminal_target_candidates(
+			2, "m2_advancement").is_empty() \
+		and CORE.terminal_transition_resolution(route_id).is_empty() \
+		and not bool(retried.get("ok", true)) \
+		and str(retried.get("error", "")) == "terminal_binding_conflict" \
+		and GameState.serialize() == before_retry,
+		"%s escaped fail-closed target authority" % label)
+
+
 func _check_terminal_target_identity_erasure_rejected(
 		initialized_save: Dictionary, route_id: String,
 		target_month: int, target_node: String) -> void:
@@ -1500,8 +2185,136 @@ func _check_order101_father_expiry_target_initialization(
 			"father expiry mixed target drifted on reload %d" \
 				% [reload_index + 1])
 		saved = GameState.serialize().duplicate(true)
+	_check_terminal_m2_union_ordinary_selection(
+		saved, source_receipt, route_id, terminal_id, candidate_ids)
 	_check_terminal_m2_coupled_candidate_shrink_rejected(
 		saved, route_id, terminal_id)
+
+
+func _check_terminal_m2_union_ordinary_selection(
+		initialized_save: Dictionary, source_receipt: Dictionary,
+		route_id: String, terminal_id: String,
+		expected_candidate_ids: Array[String]) -> void:
+	GameState.start_new_game()
+	GameState.load_from_dict(initialized_save.duplicate(true))
+	CORE.initialize_for_run(true)
+	var snapshot := CORE.seoul_cycle_snapshot(2)
+	var node: Dictionary = (
+		snapshot.get("nodes", {}) as Dictionary).get("m2_people", {})
+	var binding: Dictionary = (
+		node.get("terminal_route_bindings", {}) as Dictionary).get(route_id, {})
+	var capacity_id := _unused_capacity(snapshot, 2, true)
+	var before_missing: Dictionary = GameState.serialize().duplicate(true)
+	var missing := CORE.preview_seoul_cycle_allocation(
+		capacity_id, "m2_people", 2)
+	_expect(not bool(missing.get("ok", true)) \
+		and str(missing.get("error", "")) == "trigger_selection_required" \
+		and bool(missing.get("trigger_selection_required", false)) \
+		and bool(missing.get("terminal_route_required", false)) \
+		and bool(missing.get("terminal_selection_required", false)) \
+		and _m2_candidate_ids(missing.get("trigger_candidates", [])) \
+			== expected_candidate_ids \
+		and str(missing.get(
+			"selected_trigger_candidate_id", "")).is_empty() \
+		and GameState.serialize() == before_missing \
+		and CORE.terminal_transition_resolution(route_id).is_empty(),
+		"mixed M2 people union did not require one explicit unified candidate")
+	var ordinary_id := "hyunsu_player_reachout"
+	var before_preview: Dictionary = GameState.serialize().duplicate(true)
+	var preview := CORE.preview_seoul_cycle_allocation(
+		capacity_id, "m2_people", 2, ordinary_id)
+	_expect(bool(preview.get("ok", false)) \
+		and bool(preview.get("completed_now", false)) \
+		and bool(preview.get("terminal_route_required", false)) \
+		and not bool(preview.get("terminal_selection_required", true)) \
+		and bool(preview.get("terminal_selection_new", false)) \
+		and str(preview.get("selected_trigger_candidate_id", "")) \
+			== ordinary_id \
+		and str(preview.get("selected_trigger_bundle_id", "")) \
+			== ordinary_id \
+		and str(preview.get("selected_terminal_route_id", "")).is_empty() \
+		and str(preview.get("terminal_variant_id", "")).is_empty() \
+		and (preview.get("terminal_target_binding", {}) as Dictionary).is_empty() \
+		and (preview.get("terminal_completion_effects", {}) as Dictionary).is_empty() \
+		and str(preview.get("trigger_bundle", "")) == ordinary_id \
+		and _m2_candidate_ids(preview.get("trigger_candidates", [])) \
+			== expected_candidate_ids \
+		and GameState.serialize() == before_preview,
+		"raw ordinary candidate did not preview through the mixed terminal union")
+	if not bool(preview.get("ok", false)):
+		return
+	var mental_before := int(GameState.mental)
+	var committed := CORE.commit_seoul_cycle_allocation(
+		capacity_id, "m2_people", 2, ordinary_id)
+	var receipt: Dictionary = committed.get("receipt", {})
+	var weekly: Dictionary = receipt.get("weekly_commitment", {})
+	var details: Dictionary = weekly.get("details", {})
+	var pending: Dictionary = committed.get("pending_trigger", {})
+	var committed_node: Dictionary = (
+		(CORE.seoul_cycle_snapshot(2).get("nodes", {}) as Dictionary).get(
+			"m2_people", {}))
+	var resolution := CORE.terminal_transition_resolution(route_id)
+	var expected_resolution := {
+		"schema": CORE.TERMINAL_TARGET_BINDING_SCHEMA,
+		"route_id": route_id,
+		"resolution": "forgone",
+		"binding": binding.duplicate(true),
+		"target_month": 2,
+		"target_node": "m2_people",
+		"target_turn": 5,
+		"allocation_receipt_id": "seoul_cycle_m2_w1",
+		"allocation_receipt_key": "seoul_cycle.allocation_receipts.5",
+		"selected_candidate_id": ordinary_id,
+		"selected_terminal_route_id": "",
+		"variant_id": "father_call_put_off",
+		"effect_applied": false,
+		"result_variant": "",
+	}
+	_expect(bool(committed.get("ok", false)) \
+		and bool(committed.get("completed_now", false)) \
+		and str(committed_node.get(
+			"selected_trigger_candidate_id", "")) == ordinary_id \
+		and str(committed_node.get(
+			"selected_trigger_bundle_id", "")) == ordinary_id \
+		and str(committed_node.get(
+			"selected_terminal_route_id", "")).is_empty() \
+		and str(committed_node.get("terminal_selection_origin", "")) \
+			== "terminal_union_player" \
+		and str(receipt.get("selected_trigger_candidate_id", "")) == ordinary_id \
+		and str(receipt.get("selected_trigger_bundle_id", "")) == ordinary_id \
+		and str(receipt.get("selected_terminal_route_id", "")).is_empty() \
+		and str(receipt.get("terminal_variant_id", "")).is_empty() \
+		and (receipt.get("terminal_target_binding", {}) as Dictionary).is_empty() \
+		and str(details.get("selected_trigger_candidate_id", "")) == ordinary_id \
+		and str(details.get("selected_trigger_bundle_id", "")) == ordinary_id \
+		and str(details.get("selected_terminal_route_id", "")).is_empty() \
+		and str(details.get("terminal_variant_id", "")).is_empty() \
+		and (details.get("terminal_target_binding", {}) as Dictionary).is_empty() \
+		and str(weekly.get("choice_id", "")) == "contact" \
+		and str(weekly.get("axis", "")) == "human" \
+		and str(weekly.get("person_id", "")) == "hyunsu" \
+		and str(pending.get("bundle_id", "")) == ordinary_id \
+		and str(pending.get("selected_trigger_candidate_id", "")) == ordinary_id \
+		and str(pending.get("selected_trigger_bundle_id", "")) == ordinary_id \
+		and str(pending.get("selected_terminal_route_id", "")).is_empty() \
+		and str(pending.get("terminal_variant_id", "")).is_empty() \
+		and (pending.get("terminal_target_binding", {}) as Dictionary).is_empty() \
+		and _variant_equal_with_numeric_values(resolution, expected_resolution) \
+		and CORE.terminal_transition_receipt(route_id) == source_receipt \
+		and int(GameState.mental) == mental_before,
+		"ordinary union selection did not propagate exactly or forgo the terminal route")
+	if not bool(committed.get("ok", false)):
+		return
+	var committed_save: Dictionary = GameState.serialize().duplicate(true)
+	var wrong_branch := CORE.commit_seoul_cycle_allocation(
+		capacity_id, "m2_people", 2, terminal_id)
+	_expect(not bool(wrong_branch.get("ok", true)) \
+		and str(wrong_branch.get("error", "")) \
+			== "terminal_branch_change_rejected" \
+		and GameState.serialize() == committed_save \
+		and _variant_equal_with_numeric_values(
+			CORE.terminal_transition_resolution(route_id), expected_resolution),
+		"mixed union allowed a stale callback to replace the durable ordinary choice")
 
 
 func _check_terminal_m2_coupled_candidate_shrink_rejected(
@@ -1679,6 +2492,13 @@ func _check_father_terminal_no_offer_summary_durability(
 		if not bool(CORE.complete_seoul_cycle_turn(2).get("ok", false)):
 			_expect(false, "father durability could not close W%d" % turn)
 			return
+	var month_two_closed_save: Dictionary = GameState.serialize().duplicate(true)
+	_check_terminal_auto_selected_zero_expiry_authority_rejected(
+		month_two_closed_save,
+		"m1_resume_completed_q2_to_m2_advancement_polished")
+	GameState.start_new_game()
+	GameState.load_from_dict(month_two_closed_save.duplicate(true))
+	CORE.initialize_for_run(true)
 	CORE.record_month_summary(2, {}, {})
 	GameState.turn = 9
 	GameState.month = 3
@@ -1699,6 +2519,98 @@ func _check_father_terminal_no_offer_summary_durability(
 		summary_only_save = GameState.serialize().duplicate(true)
 	_check_father_summary_only_provenance_mutations(
 		summary_only_save, route_id, frozen, source_turn)
+
+
+func _check_terminal_auto_selected_zero_expiry_authority_rejected(
+		closed_save: Dictionary, route_id: String) -> void:
+	var baseline_state: Dictionary = closed_save.get("core_loop_v2_state", {})
+	var baseline_cycle: Dictionary = baseline_state.get("seoul_cycle", {})
+	var nodes: Dictionary = baseline_cycle.get("nodes", {})
+	var node: Dictionary = nodes.get("m2_advancement", {})
+	var expiries: Dictionary = baseline_cycle.get("expiry_receipts", {})
+	var expiry: Dictionary = expiries.get("m2_advancement", {})
+	var expired_nodes: Array = baseline_cycle.get("expired_nodes", [])
+	var allocations: Dictionary = baseline_cycle.get("allocation_receipts", {})
+	var matching_allocations := 0
+	for raw_allocation in allocations.values():
+		if raw_allocation is Dictionary \
+				and str((raw_allocation as Dictionary).get("node_id", "")) \
+					== "m2_advancement":
+			matching_allocations += 1
+	var expiry_turn := int(node.get("expired_turn", 0))
+	var closing_allocation: Dictionary = allocations.get(str(expiry_turn), {})
+	var closing_expired: Array = closing_allocation.get("expired_nodes", [])
+	_expect(str(node.get("status", "")) == "expired" \
+		and int(node.get("progress", -1)) == 0 \
+		and int(node.get("completed_turn", -1)) == 0 \
+		and int(node.get("last_allocation_turn", -1)) == 0 \
+		and expiry_turn == 6 \
+		and str(node.get("selected_terminal_route_id", "")) == route_id \
+		and str(node.get("selected_trigger_candidate_id", "")) \
+			== "terminal:%s" % route_id \
+		and matching_allocations == 0 \
+		and expired_nodes.count("m2_advancement") == 1 \
+		and closing_expired.count("m2_advancement") == 1 \
+		and str(expiry.get("node_id", "")) == "m2_advancement" \
+		and int(expiry.get("turn", 0)) == expiry_turn \
+		and int(expiry.get("week_index", 0)) == 2 \
+		and str(expiry.get("status", "")) == "consumed" \
+		and (baseline_cycle.get("completed_turns", []) as Array).has(expiry_turn),
+		"auto-selected zero-allocation terminal expiry fixture was not exact")
+	if expiry.is_empty() or closing_allocation.is_empty():
+		return
+	for mutation in [
+		"coupled_delete", "receipt_status", "receipt_turn",
+		"expired_nodes_delete", "closing_receipt_delete", "node_expired_turn",
+	]:
+		var malformed := closed_save.duplicate(true)
+		var state: Dictionary = malformed.get("core_loop_v2_state", {})
+		var cycle: Dictionary = state.get("seoul_cycle", {})
+		var malformed_nodes: Dictionary = cycle.get("nodes", {})
+		var malformed_node: Dictionary = malformed_nodes.get(
+			"m2_advancement", {})
+		var malformed_expiries: Dictionary = cycle.get("expiry_receipts", {})
+		var malformed_expiry: Dictionary = malformed_expiries.get(
+			"m2_advancement", {})
+		var malformed_expired_nodes: Array = cycle.get("expired_nodes", [])
+		var malformed_allocations: Dictionary = cycle.get(
+			"allocation_receipts", {})
+		var malformed_closing: Dictionary = malformed_allocations.get(
+			str(expiry_turn), {})
+		var malformed_closing_expired: Array = malformed_closing.get(
+			"expired_nodes", [])
+		match mutation:
+			"coupled_delete":
+				malformed_expiries.erase("m2_advancement")
+				malformed_expired_nodes.erase("m2_advancement")
+				malformed_closing_expired.erase("m2_advancement")
+				malformed_node["status"] = "open"
+				malformed_node["expired_turn"] = 0
+			"receipt_status":
+				malformed_expiry["status"] = "pending"
+			"receipt_turn":
+				malformed_expiry["turn"] = 7
+			"expired_nodes_delete":
+				malformed_expired_nodes.erase("m2_advancement")
+			"closing_receipt_delete":
+				malformed_closing_expired.erase("m2_advancement")
+			"node_expired_turn":
+				malformed_node["expired_turn"] = 7
+		if mutation == "coupled_delete":
+			malformed_expiries.erase("m2_advancement")
+		else:
+			malformed_expiries["m2_advancement"] = malformed_expiry
+		malformed_closing["expired_nodes"] = malformed_closing_expired
+		malformed_allocations[str(expiry_turn)] = malformed_closing
+		malformed_nodes["m2_advancement"] = malformed_node
+		cycle["nodes"] = malformed_nodes
+		cycle["expiry_receipts"] = malformed_expiries
+		cycle["expired_nodes"] = malformed_expired_nodes
+		cycle["allocation_receipts"] = malformed_allocations
+		state["seoul_cycle"] = cycle
+		malformed["core_loop_v2_state"] = state
+		_expect_terminal_active_target_mutation_rejected(
+			malformed, route_id, "auto-selected expiry %s" % mutation)
 
 
 func _check_father_summary_only_provenance_mutations(

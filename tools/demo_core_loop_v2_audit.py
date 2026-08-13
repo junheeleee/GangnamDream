@@ -2160,6 +2160,14 @@ def validate_order101_terminal_slice_contract(
         "_terminal_target_binding_witness_for_month_present",
         "_terminal_target_binding_witnesses_globally_valid",
         "_terminal_node_with_selected_candidate",
+        "_terminal_node_has_binding",
+        "_terminal_selected_binding",
+        "_terminal_selected_identity",
+        "_terminal_allocation_resolution_drafts",
+        "_normalize_seoul_cycle_terminal_identity",
+        "_terminal_active_node_expiry_valid",
+        "_terminal_live_resolutions_valid",
+        "_seoul_cycle_outer_weekly_identity_valid",
         "_bind_terminal_routes_to_new_cycle",
     ):
         if f"func {helper_name}(" not in demo_source:
@@ -2394,6 +2402,8 @@ def validate_order101_terminal_slice_contract(
         'resolution_kind not in ["completed", "expired", "forgone"]',
         '"terminal:%s" % route_id',
         '"seoul_cycle.allocation_receipts.%d" % target_turn',
+        "terminal_resolution_drafts",
+        'state["terminal_transition_resolutions"][str(raw_route_id)]',
     ):
         if runtime_token not in demo_source:
             fail(
@@ -2401,6 +2411,138 @@ def validate_order101_terminal_slice_contract(
                 f"{runtime_token!r}",
                 errors,
             )
+
+    for function_name in (
+        "preview_seoul_cycle_allocation",
+        "commit_seoul_cycle_allocation",
+    ):
+        signature_match = re.search(
+            rf"static func {function_name}\(.*?selected_candidate_id: String = \"\""
+            rf".*?\) -> Dictionary:",
+            demo_source,
+            flags=re.DOTALL,
+        )
+        if signature_match is None:
+            fail(
+                f"{function_name} does not own the unified selected candidate ID",
+                errors,
+            )
+
+    preview_match = re.search(
+        r"static func preview_seoul_cycle_allocation\(.*?"
+        r"(?=\nstatic func commit_seoul_cycle_allocation\()",
+        demo_source,
+        flags=re.DOTALL,
+    )
+    if preview_match is None:
+        fail("cannot inspect unified terminal allocation preview", errors)
+    else:
+        preview_body = preview_match.group(0)
+        for key in (
+            "terminal_route_required",
+            "terminal_selection_required",
+            "terminal_selection_new",
+            "selected_trigger_candidate_id",
+            "selected_trigger_bundle_id",
+            "selected_terminal_route_id",
+            "terminal_variant_id",
+            "terminal_target_binding",
+            "terminal_completion_effects",
+            "terminal_result_ko",
+            "terminal_result_en",
+        ):
+            if f'"{key}"' not in preview_body:
+                fail(
+                    f"terminal allocation preview does not expose {key!r}",
+                    errors,
+                )
+
+    commit_match = re.search(
+        r"static func commit_seoul_cycle_allocation\(.*?"
+        r"(?=\nstatic func _seoul_cycle_commitment_payload\()",
+        demo_source,
+        flags=re.DOTALL,
+    )
+    if commit_match is None:
+        fail("cannot inspect unified terminal allocation commit", errors)
+    else:
+        commit_body = commit_match.group(0)
+        for key in (
+            "selected_trigger_candidate_id",
+            "selected_trigger_bundle_id",
+            "selected_terminal_route_id",
+            "terminal_variant_id",
+            "terminal_target_binding",
+            "terminal_completion_effects",
+        ):
+            if commit_body.count(f'"{key}"') < 2:
+                fail(
+                    "terminal allocation commit does not propagate exact "
+                    f"{key!r} identity through its persisted surfaces",
+                    errors,
+                )
+        for token in (
+            "_terminal_allocation_resolution_drafts(",
+            "terminal_resolution_drafts",
+            'state["terminal_transition_resolutions"][str(raw_route_id)]',
+        ):
+            if token not in commit_body:
+                fail(
+                    "terminal allocation commit lacks resolution writer token "
+                    f"{token!r}",
+                    errors,
+                )
+
+    for helper_name, required_tokens in (
+        (
+            "_normalize_seoul_cycle_terminal_identity",
+            (
+                "capacities: Array",
+                'matched_capacity.get("value", 0)',
+                'allocation.get("capacity_value", null)',
+                'matched_capacity.get("quality", "")',
+                'allocation.get("capacity_quality", "")',
+                '"capacity_value", "capacity_quality", "progress_gain"',
+                'allocation.get("progress_before", -1)',
+                'str(node.get("status", "")) != expected_status',
+                "_terminal_active_node_expiry_valid(",
+            ),
+        ),
+        (
+            "_terminal_active_node_expiry_valid",
+            (
+                'expiry_receipts.get(node_id, {})',
+                'expired_nodes.count(node_id) == 1',
+                'completed_turns.has(expected_turn)',
+                '"expired_nodes", []) as Array).count(node_id) != 1',
+                "_terminal_effect_snapshot_valid(",
+            ),
+        ),
+        (
+            "_seoul_cycle_outer_weekly_identity_valid",
+            (
+                'str(weekly.get("axis", "")) != expected_axis',
+                '"actual_action_id", "person_id", "axis"',
+                '"capacity_value", "progress_gain", "progress_after", "threshold"',
+                '"capacity_quality", "place"',
+            ),
+        ),
+    ):
+        helper_match = re.search(
+            rf"static func {re.escape(helper_name)}\(.*?(?=\nstatic func |\Z)",
+            demo_source,
+            flags=re.DOTALL,
+        )
+        if helper_match is None:
+            continue
+        helper_body = helper_match.group(0)
+        for token in required_tokens:
+            if token not in helper_body:
+                fail(
+                    f"terminal target authority helper {helper_name} lacks "
+                    f"exact replay token {token!r}",
+                    errors,
+                )
 
 
 def fixture_predicate_met(predicate: dict[str, Any], fixture: dict[str, Any]) -> bool:

@@ -2188,6 +2188,7 @@ func finalize_seoul_cycle_weekly_commitment(
 		"choice_id": choice_id,
 		"actual_action_id": choice_id,
 		"person_id": person_id,
+		"axis": normalized_axis,
 		"forgone_ids": (commitment.get("forgone_ids", []) as Array).duplicate() \
 			if commitment.get("forgone_ids", []) is Array else [],
 		"outcome": _weekly_commitment_outcome(
