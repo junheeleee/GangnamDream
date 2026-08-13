@@ -1007,13 +1007,63 @@ static func terminal_transition_resolution(route_id: String) -> Dictionary:
 	var raw_plans: Variant = state.get("plans", {})
 	var raw_plan: Variant = (raw_plans as Dictionary).get(
 		str(target_month), {}) if raw_plans is Dictionary else {}
-	if target_month != month_for_turn(int(GameState.turn)) \
-			or not raw_plan is Dictionary \
-			or not plan_uses_seoul_cycle(raw_plan as Dictionary) \
-			or cycle.is_empty() \
-			or int(cycle.get("month", 0)) != target_month:
+	var live_authority := target_month == month_for_turn(int(GameState.turn)) \
+		and raw_plan is Dictionary \
+		and plan_uses_seoul_cycle(raw_plan as Dictionary) \
+		and not cycle.is_empty() \
+		and int(cycle.get("month", 0)) == target_month \
+		and _terminal_live_resolution_matches_cycle(
+			state, cycle, raw_plan as Dictionary, normalized_id, resolution)
+	if live_authority:
+		return (raw_resolution as Dictionary).duplicate(true)
+	if target_month >= month_for_turn(int(GameState.turn)):
+		return {}
+	var historical := _terminal_historical_cycle_summary(
+		state, target_month, _seoul_cycle_month_start_turn(target_month + 1))
+	var historical_resolutions: Variant = historical.get(
+		"terminal_transition_resolutions", {})
+	var raw_historical: Variant = (
+		historical_resolutions as Dictionary).get(normalized_id, {}) \
+		if historical_resolutions is Dictionary else {}
+	if not raw_historical is Dictionary \
+			or not _terminal_variant_semantically_equal(
+			raw_historical, raw_resolution):
 		return {}
 	return (raw_resolution as Dictionary).duplicate(true)
+
+static func _terminal_live_resolution_matches_cycle(
+		state: Dictionary, cycle: Dictionary, plan: Dictionary,
+		route_id: String, resolution: Dictionary) -> bool:
+	# A current-month result is not authoritative merely because its envelope
+	# matches a source receipt. It must still belong to the exact bound target
+	# node and to the live allocation/expiry set. This closes the downgrade in
+	# which all cycle/plan/witness binding markers were erased while a detached
+	# root resolution remained publicly visible.
+	if not _seoul_cycle_raw_has_terminal_binding(cycle) \
+			or not _seoul_cycle_plan_has_terminal_binding(plan):
+		return false
+	var raw_nodes: Variant = cycle.get("nodes", {})
+	var raw_allocations: Variant = cycle.get("allocation_receipts", {})
+	if not raw_nodes is Dictionary or not raw_allocations is Dictionary:
+		return false
+	var node_id := str(resolution.get("target_node", "")).strip_edges()
+	var raw_node: Variant = (raw_nodes as Dictionary).get(node_id, {})
+	if node_id.is_empty() or not raw_node is Dictionary \
+			or not _terminal_node_has_binding(raw_node as Dictionary):
+		return false
+	var node: Dictionary = raw_node
+	var raw_route_ids: Variant = node.get("eligible_terminal_route_ids", [])
+	var raw_bindings: Variant = node.get("terminal_route_bindings", {})
+	var raw_binding: Variant = (raw_bindings as Dictionary).get(
+		route_id, {}) if raw_bindings is Dictionary else {}
+	return raw_route_ids is Array \
+		and (raw_route_ids as Array).count(route_id) == 1 \
+		and raw_binding is Dictionary \
+		and _terminal_variant_semantically_equal(
+			resolution.get("binding", {}), raw_binding) \
+		and _terminal_live_resolutions_valid(
+			state, raw_nodes as Dictionary,
+			raw_allocations as Dictionary)
 
 static func _terminal_transition_resolution_has_exact_shape(
 		route_id: String, resolution: Dictionary,
@@ -1096,7 +1146,18 @@ static func _terminal_transition_resolution_has_exact_shape(
 				and not selected_candidate.begins_with("terminal:")) \
 				or (not selected_route.is_empty() \
 					and selected_candidate == "terminal:%s" % selected_route))
-	return resolution_kind == "expired"
+	if resolution_kind != "expired" or allocation_id.is_empty():
+		return false
+	var expired_candidate := str(resolution.get(
+		"selected_candidate_id", "")).strip_edges()
+	var expired_route := str(resolution.get(
+		"selected_terminal_route_id", "")).strip_edges()
+	# An expiry points at the closing weekly allocation whose expired_nodes
+	# list seals the event. A selected terminal keeps its chooser identity;
+	# an untouched union expires every route without inventing a selection.
+	return (expired_candidate.is_empty() and expired_route.is_empty()) \
+		or (expired_route == route_id \
+			and expired_candidate == "terminal:%s" % route_id)
 
 static func _terminal_binding_has_nonzero_effect(binding: Dictionary) -> bool:
 	var raw_effects: Variant = binding.get("completion_effects", {})
@@ -1172,6 +1233,101 @@ static func _terminal_allocation_resolution_drafts(
 				route_id, resolution, state):
 			return {"ok": false, "resolutions": {}}
 		drafts[route_id] = resolution
+	return {"ok": true, "resolutions": drafts}
+
+static func _terminal_expiry_resolution_drafts(
+		state: Dictionary, cycle: Dictionary,
+		expired_node_ids: Array[String], target_turn: int) -> Dictionary:
+	var target_month := int(cycle.get("month", 0))
+	var week_index := target_turn - _seoul_cycle_month_start_turn(
+		target_month) + 1
+	var allocation_id := "seoul_cycle_m%d_w%d" % [target_month, week_index]
+	var allocation_key := "seoul_cycle.allocation_receipts.%d" % target_turn
+	var raw_allocations: Variant = cycle.get("allocation_receipts", {})
+	var raw_closing: Variant = (raw_allocations as Dictionary).get(
+		str(target_turn), {}) if raw_allocations is Dictionary else {}
+	var raw_completed_turns: Variant = cycle.get("completed_turns", [])
+	if not raw_closing is Dictionary \
+			or not raw_completed_turns is Array \
+			or not (raw_closing as Dictionary).get("expired_nodes", null) is Array:
+		return {"ok": false, "resolutions": {}}
+	var completed_turns: Array[int] = []
+	completed_turns.assign(raw_completed_turns as Array)
+	if not _terminal_active_allocation_envelope_valid(
+			raw_closing as Dictionary, str(target_turn), target_month,
+			completed_turns, false):
+		return {"ok": false, "resolutions": {}}
+	var raw_nodes: Variant = cycle.get("nodes", {})
+	var raw_resolutions: Variant = state.get(
+		"terminal_transition_resolutions", {})
+	if not raw_nodes is Dictionary or not raw_resolutions is Dictionary:
+		return {"ok": false, "resolutions": {}}
+	var sorted_node_ids: Array[String] = expired_node_ids.duplicate()
+	sorted_node_ids.sort()
+	var drafts: Dictionary = {}
+	for node_id in sorted_node_ids:
+		if ((raw_closing as Dictionary).get(
+				"expired_nodes", []) as Array).count(node_id) != 1:
+			return {"ok": false, "resolutions": {}}
+		var raw_node: Variant = (raw_nodes as Dictionary).get(node_id, {})
+		if not raw_node is Dictionary \
+				or not _terminal_node_has_binding(raw_node as Dictionary):
+			continue
+		var node: Dictionary = raw_node
+		if str(node.get("status", "")) != "expired" \
+				or int(node.get("expired_turn", 0)) != target_turn:
+			return {"ok": false, "resolutions": {}}
+		var selected_candidate := str(node.get(
+			"selected_trigger_candidate_id", "")).strip_edges()
+		var selected_route := str(node.get(
+			"selected_terminal_route_id", "")).strip_edges()
+		var raw_route_ids: Variant = node.get(
+			"eligible_terminal_route_ids", [])
+		var raw_bindings: Variant = node.get("terminal_route_bindings", {})
+		if not raw_route_ids is Array or not raw_bindings is Dictionary:
+			return {"ok": false, "resolutions": {}}
+		for raw_route_id in raw_route_ids as Array:
+			var route_id := str(raw_route_id).strip_edges()
+			var expires_unselected := selected_candidate.is_empty() \
+				and selected_route.is_empty()
+			var expires_selected := selected_route == route_id \
+				and selected_candidate == "terminal:%s" % route_id
+			if not expires_unselected and not expires_selected:
+				continue
+			# Immutable resolution slots are never healed. Even an empty or
+			# wrong-typed placeholder predating the expiry transaction is conflict.
+			if (raw_resolutions as Dictionary).has(route_id):
+				return {"ok": false, "resolutions": {}}
+			var raw_binding: Variant = (raw_bindings as Dictionary).get(
+				route_id, {})
+			if not raw_binding is Dictionary \
+					or not _terminal_target_binding_matches_receipt(
+						route_id, raw_binding as Dictionary, state):
+				return {"ok": false, "resolutions": {}}
+			var binding: Dictionary = raw_binding
+			var resolution := {
+				"schema": TERMINAL_TARGET_BINDING_SCHEMA,
+				"route_id": route_id,
+				"resolution": "expired",
+				"binding": binding.duplicate(true),
+				"target_month": target_month,
+				"target_node": node_id,
+				"target_turn": target_turn,
+				"allocation_receipt_id": allocation_id,
+				"allocation_receipt_key": allocation_key,
+				"selected_candidate_id": selected_candidate \
+					if expires_selected else "",
+				"selected_terminal_route_id": selected_route \
+					if expires_selected else "",
+				"variant_id": str(binding.get("variant_id", "")),
+				"effect_applied": false,
+				"result_variant": "",
+			}
+			if drafts.has(route_id) \
+					or not _terminal_transition_resolution_has_exact_shape(
+						route_id, resolution, state):
+				return {"ok": false, "resolutions": {}}
+			drafts[route_id] = resolution
 	return {"ok": true, "resolutions": drafts}
 
 static func terminal_routes_for_target(
@@ -1306,9 +1462,80 @@ static func terminal_target_candidates(
 		return []
 	return _terminal_binding_candidate_records(raw_node as Dictionary)
 
-static func _terminal_valid_bindings_for_target(
+static func _terminal_source_summary_witness_present(
+		state: Dictionary, route_id: String, source_month: int) -> bool:
+	var raw_summaries: Variant = state.get("month_summaries", {})
+	var raw_summary: Variant = (raw_summaries as Dictionary).get(
+		str(source_month), {}) if raw_summaries is Dictionary else {}
+	if not raw_summary is Dictionary:
+		return false
+	var raw_witnesses: Variant = (raw_summary as Dictionary).get(
+		"terminal_source_witnesses", {})
+	return raw_witnesses is Dictionary \
+		and (raw_witnesses as Dictionary).has(route_id)
+
+static func _terminal_source_proof_from_summary(
+		state: Dictionary, route_id: String,
+		spec: Dictionary) -> Dictionary:
+	var source: Dictionary = spec.get("source", {}) \
+		if spec.get("source", {}) is Dictionary else {}
+	var source_month := int(source.get("month", 0))
+	var raw_summaries: Variant = state.get("month_summaries", {})
+	var raw_summary: Variant = (raw_summaries as Dictionary).get(
+		str(source_month), {}) if raw_summaries is Dictionary else {}
+	if not raw_summary is Dictionary \
+			or str((raw_summary as Dictionary).get(
+				"planning_mode", "")) != SEOUL_CYCLE_MODE \
+			or not _terminal_integral_number_matches(
+				(raw_summary as Dictionary).get("month", null), source_month):
+		return {}
+	var summary: Dictionary = raw_summary
+	for typed_field in [
+		{"key": "node_states", "type": TYPE_DICTIONARY},
+		{"key": "allocation_receipts", "type": TYPE_ARRAY},
+		{"key": "trigger_receipts", "type": TYPE_DICTIONARY},
+		{"key": "expiry_receipts", "type": TYPE_DICTIONARY},
+		{"key": "cycle_completed_turns", "type": TYPE_ARRAY},
+		{"key": "expired_nodes", "type": TYPE_ARRAY},
+	]:
+		if typeof(summary.get(str(typed_field["key"]), null)) \
+				!= int(typed_field["type"]):
+			return {}
+	var allocations: Dictionary = {}
+	for raw_allocation in summary["allocation_receipts"] as Array:
+		if not raw_allocation is Dictionary:
+			return {}
+		var raw_turn: Variant = (raw_allocation as Dictionary).get("turn", null)
+		if typeof(raw_turn) not in [TYPE_INT, TYPE_FLOAT] \
+				or not _terminal_integral_number_matches(raw_turn, int(raw_turn)):
+			return {}
+		var turn_key := str(int(raw_turn))
+		if allocations.has(turn_key):
+			return {}
+		allocations[turn_key] = (raw_allocation as Dictionary).duplicate(true)
+	var cycle := {
+		"month": source_month,
+		"nodes": (summary["node_states"] as Dictionary).duplicate(true),
+		"allocation_receipts": allocations,
+		"trigger_receipts": (
+			summary["trigger_receipts"] as Dictionary).duplicate(true),
+		"expiry_receipts": (
+			summary["expiry_receipts"] as Dictionary).duplicate(true),
+		"completed_turns": (summary["cycle_completed_turns"] as Array).duplicate(),
+		"expired_nodes": (summary["expired_nodes"] as Array).duplicate(),
+	}
+	return _terminal_source_proof(state, cycle, route_id, spec)
+
+## Resolve the immutable source receipts for one target without consulting a
+## target plan, cycle, witness, or resolution.  Those are downstream copies;
+## deriving the expected set from them would let a coupled marker deletion
+## silently turn a bound target back into an ordinary legacy cycle.
+static func _terminal_receipt_bindings_for_target(
 		state: Dictionary, target_month: int,
 		target_node: String) -> Dictionary:
+	var raw_receipts: Variant = state.get("terminal_transition_receipts", {})
+	if not raw_receipts is Dictionary:
+		return {"ok": false, "bindings": {}}
 	var bindings: Dictionary = {}
 	var route_ids: Array[String] = []
 	for raw_route_id in _terminal_route_specs().keys():
@@ -1317,27 +1544,36 @@ static func _terminal_valid_bindings_for_target(
 	for route_id in route_ids:
 		var raw_spec: Variant = _terminal_route_specs().get(route_id, {})
 		if not raw_spec is Dictionary:
-			continue
-		var target: Dictionary = (raw_spec as Dictionary).get("target", {}) \
-			if (raw_spec as Dictionary).get("target", {}) is Dictionary else {}
+			return {"ok": false, "bindings": {}}
+		var spec: Dictionary = raw_spec
+		var source: Dictionary = spec.get("source", {}) \
+			if spec.get("source", {}) is Dictionary else {}
+		var target: Dictionary = spec.get("target", {}) \
+			if spec.get("target", {}) is Dictionary else {}
 		if int(target.get("month", 0)) != target_month \
 				or str(target.get("node", "")) != target_node:
 			continue
-		var raw_receipt: Variant = state["terminal_transition_receipts"].get(
-			route_id, {})
-		if not raw_receipt is Dictionary \
-				or (raw_receipt as Dictionary).is_empty():
+		var raw_receipt: Variant = (raw_receipts as Dictionary).get(
+			route_id, null)
+		var summary_proof := _terminal_source_proof_from_summary(
+			state, route_id, spec)
+		if raw_receipt == null:
+			# A closed source summary owns a second copy.  Deleting only the root
+			# receipt must be a conflict, not evidence that the route never existed.
+			if not summary_proof.is_empty() \
+					or _terminal_source_summary_witness_present(
+						state, route_id, int(source.get("month", 0))):
+				return {"ok": false, "bindings": {}}
 			continue
-		if not _terminal_transition_receipt_matches_spec(
-				route_id, raw_receipt as Dictionary, state):
+		if not raw_receipt is Dictionary \
+				or (raw_receipt as Dictionary).is_empty() \
+				or not _terminal_transition_receipt_matches_spec(
+					route_id, raw_receipt as Dictionary, state):
 			return {"ok": false, "bindings": {}}
-		var raw_resolution: Variant = state[
-			"terminal_transition_resolutions"].get(route_id, {})
-		if raw_resolution is Dictionary \
-				and not (raw_resolution as Dictionary).is_empty():
-			# A target is bound only when it first opens. A resolution that
-			# predates that transaction is injected provenance, not evidence that
-			# the route was already consumed.
+		if not summary_proof.is_empty() \
+				and not _terminal_variant_semantically_equal(
+					summary_proof,
+					(raw_receipt as Dictionary).get("source_proof", {})):
 			return {"ok": false, "bindings": {}}
 		var binding := _terminal_target_binding_from_receipt(
 			route_id, raw_receipt as Dictionary)
@@ -1346,6 +1582,47 @@ static func _terminal_valid_bindings_for_target(
 					route_id, binding, state):
 			return {"ok": false, "bindings": {}}
 		bindings[route_id] = binding
+	return {"ok": true, "bindings": bindings}
+
+static func _terminal_receipt_bound_nodes_for_target(
+		state: Dictionary, target_month: int) -> Dictionary:
+	var raw_nodes: Variant = seoul_cycle_month_spec(
+		target_month).get("nodes", {})
+	if not raw_nodes is Dictionary:
+		return {"ok": false, "nodes": {}}
+	var node_ids: Array[String] = []
+	for raw_node_id in (raw_nodes as Dictionary).keys():
+		node_ids.append(str(raw_node_id))
+	node_ids.sort()
+	var nodes: Dictionary = {}
+	for node_id in node_ids:
+		var binding_result := _terminal_receipt_bindings_for_target(
+			state, target_month, node_id)
+		if not bool(binding_result.get("ok", false)):
+			return {"ok": false, "nodes": {}}
+		var bindings: Dictionary = binding_result.get("bindings", {})
+		if not bindings.is_empty():
+			nodes[node_id] = bindings.duplicate(true)
+	return {"ok": true, "nodes": nodes}
+
+static func _terminal_valid_bindings_for_target(
+		state: Dictionary, target_month: int,
+		target_node: String) -> Dictionary:
+	var receipt_result := _terminal_receipt_bindings_for_target(
+		state, target_month, target_node)
+	if not bool(receipt_result.get("ok", false)):
+		return {"ok": false, "bindings": {}}
+	var bindings: Dictionary = receipt_result.get("bindings", {})
+	var route_ids: Array[String] = []
+	for raw_route_id in bindings.keys():
+		route_ids.append(str(raw_route_id))
+	route_ids.sort()
+	for route_id in route_ids:
+		if state["terminal_transition_resolutions"].has(route_id):
+			# A target is bound only when it first opens. A resolution that
+			# predates that transaction is injected provenance, not evidence that
+			# the route was already consumed.
+			return {"ok": false, "bindings": {}}
 	return {"ok": true, "bindings": bindings}
 
 static func _terminal_union_ordinary_candidates(
@@ -1488,14 +1765,25 @@ static func _terminal_historical_cycle_summary(
 		{"key": "world_receipts", "type": TYPE_DICTIONARY},
 		{"key": "expiry_receipts", "type": TYPE_DICTIONARY},
 		{"key": "expired_nodes", "type": TYPE_ARRAY},
+		{"key": "terminal_transition_resolutions", "type": TYPE_DICTIONARY},
+		{"key": "terminal_source_witnesses", "type": TYPE_DICTIONARY},
 	]:
 		if typeof(summary.get(str(typed_field["key"]), null)) \
 				!= int(typed_field["type"]):
 			return {}
-	if int(summary.get("month", 0)) != month_index \
+	if not _terminal_integral_number_matches(
+			summary.get("month", null), month_index) \
 			or str(summary.get("planning_mode", "")) != SEOUL_CYCLE_MODE \
-			or int(summary.get("recorded_turn", 0)) not in [month_end, month_end + 1] \
-			or int(summary.get("world_clock", -1)) != 4:
+			or (not _terminal_integral_number_matches(
+				summary.get("recorded_turn", null), month_end) \
+				and not _terminal_integral_number_matches(
+					summary.get("recorded_turn", null), month_end + 1)) \
+			or not _terminal_integral_number_matches(
+				summary.get("world_clock", null), 4):
+		return {}
+	if not _terminal_variant_semantically_equal(
+			summary.get("terminal_source_witnesses", {}),
+			_terminal_source_witnesses_for_month(state, month_index)):
 		return {}
 	var raw_authored_nodes: Variant = seoul_cycle_month_spec(
 		month_index).get("nodes", {})
@@ -1595,13 +1883,21 @@ static func _terminal_historical_cycle_summary(
 			state, month_index, allocations, nodes, summary,
 			resolved_nodes):
 		return {}
-	return {
+	var historical_cycle := {
 		"summary": summary,
 		"allocations": allocations,
 		"nodes": nodes,
 		"resolved_nodes": resolved_nodes,
 		"completed_turns": completed_turns,
 	}
+	var historical_resolutions := _terminal_historical_resolutions_for_month(
+		state, month_index, historical_cycle)
+	if not bool(historical_resolutions.get("ok", false)):
+		return {}
+	historical_cycle["terminal_transition_resolutions"] = (
+		(historical_resolutions.get(
+			"resolutions", {}) as Dictionary).duplicate(true))
+	return historical_cycle
 
 ## A closed summary records the runtime-resolved node identity rather than
 ## asking today's prerequisite resolver to choose it again.  The durable
@@ -1619,6 +1915,23 @@ static func _terminal_historical_resolved_nodes(
 			return {}
 		var authored: Dictionary = raw_authored
 		var node: Dictionary = raw_node
+		for raw_numeric_field in [
+			["historical_node_schema", TERMINAL_HISTORICAL_CYCLE_SCHEMA],
+			["progress", int(node.get("progress", 0))],
+			["threshold", int(node.get("threshold", 1))],
+			["deadline_week", int(node.get("deadline_week", 4))],
+			["completed_turn", int(node.get("completed_turn", 0))],
+			["last_allocation_turn", int(node.get(
+				"last_allocation_turn", 0))],
+			["expired_turn", int(node.get("expired_turn", 0))],
+		]:
+			var numeric_field: Array = raw_numeric_field
+			if not _terminal_integral_number_matches(
+					node.get(str(numeric_field[0]), null),
+					int(numeric_field[1])):
+				return {}
+		if not node.get("fallback_mode", null) is bool:
+			return {}
 		var candidates := _seoul_cycle_node_trigger_candidates(authored)
 		var resolved_trigger := str(node.get(
 			"resolved_trigger_bundle_id", "")).strip_edges()
@@ -1634,7 +1947,8 @@ static func _terminal_historical_resolved_nodes(
 			# cannot downgrade them through this compatibility branch.
 			var raw_authority: Variant = node.get(
 				"historical_node_schema", null)
-			if raw_authority != null:
+			if raw_authority != null \
+					and not _terminal_node_has_binding(node):
 				return {}
 			var missed := str(node.get(
 				"missed_trigger_bundle", "")).strip_edges()
@@ -1652,15 +1966,44 @@ static func _terminal_historical_resolved_nodes(
 			authored, resolved_trigger, month_index)
 		if resolved.is_empty():
 			return {}
-		for stable_key in ["owner", "place", "summary_bundle"]:
-			if node.get(stable_key, null) != resolved.get(stable_key, null):
-				return {}
-		# JSON numbers deserialize as floats while runtime progress fields are
-		# normalized as ints. They represent the same authored whole-week values.
-		for stable_numeric_key in ["threshold", "deadline_week"]:
-			if int(node.get(stable_numeric_key, 0)) \
-					!= int(resolved.get(stable_numeric_key, 0)):
-				return {}
+		if _terminal_node_has_binding(node):
+			for terminal_key in [
+				"binding_candidate_ids", "ordinary_candidate_ids",
+				"eligible_terminal_route_ids", "terminal_route_bindings",
+				"selected_trigger_bundle_id",
+				"selected_trigger_candidate_id",
+				"selected_terminal_route_id", "terminal_selection_origin",
+				"terminal_result_ko", "terminal_result_en",
+				"terminal_completion_effects",
+			]:
+				var terminal_value: Variant = node.get(terminal_key, null)
+				resolved[terminal_key] = terminal_value.duplicate(true) \
+					if terminal_value is Dictionary or terminal_value is Array \
+					else terminal_value
+			var historical_candidate := str(node.get(
+				"selected_trigger_candidate_id", "")).strip_edges()
+			if historical_candidate.is_empty():
+				if str(node.get("terminal_selection_origin", "")) \
+						!= "unselected_union":
+					return {}
+				resolved["trigger_bundle"] = ""
+				resolved["summary_bundle"] = ""
+				resolved["selected_trigger_bundle_id"] = ""
+			else:
+				resolved = _terminal_node_with_selected_candidate(
+					resolved, historical_candidate, month_index)
+				if resolved.is_empty():
+					return {}
+			for stable_key in ["owner", "place", "summary_bundle"]:
+				if node.get(stable_key, null) != resolved.get(stable_key, null):
+					return {}
+			# JSON numbers deserialize as floats while runtime progress fields are
+			# normalized as ints. They represent the same authored whole-week values.
+			for stable_numeric_key in ["threshold", "deadline_week"]:
+				if not _terminal_integral_number_matches(
+						node.get(stable_numeric_key, null),
+						int(resolved.get(stable_numeric_key, 0))):
+					return {}
 		var expected_action := str(resolved.get(
 			"commitment_action_id",
 			_seoul_cycle_default_action_id(str(resolved.get("owner", "")))
@@ -1670,7 +2013,7 @@ static func _terminal_historical_resolved_nodes(
 		)).strip_edges().to_lower()
 		var expected_person := str(resolved.get("owner", "")).strip_edges() \
 			if expected_action == "contact" \
-				and str(resolved.get("owner", "")).strip_edges() != "people" \
+			and str(resolved.get("owner", "")).strip_edges() != "people" \
 			else ""
 		# The two approved empty-bundle terminal modifiers turn the otherwise
 		# generic people node into contact/human without inventing a person. An
@@ -1816,6 +2159,9 @@ static func _terminal_historical_node_timelines_valid(
 		node_allocations.sort_custom(func(
 				left: Dictionary, right: Dictionary) -> bool:
 			return int(left.get("turn", 0)) < int(right.get("turn", 0)))
+		if not _terminal_historical_selection_identity_valid(
+				node, node_allocations):
+			return false
 		var progress := 0
 		var completed_turn := 0
 		var last_allocation_turn := 0
@@ -1829,6 +2175,8 @@ static func _terminal_historical_node_timelines_valid(
 			"turn", 0)) if has_trigger_expiry else 0
 		for allocation in node_allocations:
 			var allocation_turn := int(allocation.get("turn", 0))
+			var outer_valid := _terminal_historical_outer_weekly_valid(
+				state, allocation, month_index, resolved)
 			if int(allocation.get("progress_before", -1)) != progress \
 					or allocation_turn <= last_allocation_turn \
 					or (int(node.get("expired_turn", 0)) > 0 \
@@ -1836,8 +2184,7 @@ static func _terminal_historical_node_timelines_valid(
 					or bool(allocation.get("fallback_allocation", false)) \
 						!= (has_trigger_expiry \
 							and allocation_turn > trigger_expiry_turn) \
-					or not _terminal_historical_outer_weekly_valid(
-						state, allocation, month_index, resolved):
+					or not outer_valid:
 				return false
 			progress = int(allocation.get("progress_after", -1))
 			last_allocation_turn = allocation_turn
@@ -1863,7 +2210,7 @@ static func _terminal_historical_node_timelines_valid(
 				and str(resolved.get("owner", "")) == "people" \
 				and str(resolved.get("commitment_action_id", "")) != "contact":
 			return false
-		var expected_threshold := maxi(1, int(resolved.get("threshold", 1)))
+		var expected_threshold: int = maxi(1, int(resolved.get("threshold", 1)))
 		var expected_progress := mini(progress, expected_threshold)
 		var node_status := str(node.get("status", ""))
 		var node_expired := (raw_expired_nodes as Array).count(node_id) == 1
@@ -1979,6 +2326,218 @@ static func _terminal_historical_node_timelines_valid(
 			return false
 	return true
 
+static func _terminal_historical_bound_nodes(
+		state: Dictionary, month_index: int,
+		historical_nodes: Dictionary) -> Dictionary:
+	var raw_witnesses: Variant = state.get(
+		"terminal_target_binding_receipts", {})
+	if not raw_witnesses is Dictionary:
+		return {}
+	var result: Dictionary = {}
+	var prefix := "%d:" % month_index
+	for raw_witness_key in (raw_witnesses as Dictionary).keys():
+		var witness_key := str(raw_witness_key)
+		if not witness_key.begins_with(prefix):
+			continue
+		var raw_witness: Variant = (raw_witnesses as Dictionary).get(
+			witness_key, {})
+		if not raw_witness is Dictionary:
+			return {}
+		var witness: Dictionary = raw_witness
+		var node_id := str(witness.get("target_node", "")).strip_edges()
+		var raw_node: Variant = historical_nodes.get(node_id, {})
+		var raw_bindings: Variant = witness.get("terminal_route_bindings", {})
+		if node_id.is_empty() or result.has(node_id) \
+				or not raw_node is Dictionary \
+				or not raw_bindings is Dictionary \
+				or (raw_bindings as Dictionary).is_empty() \
+				or not _terminal_integral_number_matches(
+					witness.get("target_month", null), month_index):
+			return {}
+		var node: Dictionary = raw_node
+		var route_ids: Array[String] = []
+		for raw_route_id in (raw_bindings as Dictionary).keys():
+			route_ids.append(str(raw_route_id))
+		route_ids.sort()
+		if not _terminal_node_has_binding(node) \
+				or node.get("binding_candidate_ids", null) \
+					!= witness.get("binding_candidate_ids", null) \
+				or node.get("ordinary_candidate_ids", null) \
+					!= witness.get("ordinary_candidate_ids", null) \
+				or node.get("eligible_terminal_route_ids", null) != route_ids \
+				or not _terminal_variant_semantically_equal(
+					node.get("terminal_route_bindings", {}), raw_bindings):
+			return {}
+		result[node_id] = witness
+	return result
+
+static func _terminal_historical_resolution_matches_cycle(
+		state: Dictionary, route_id: String, resolution: Dictionary,
+		month_index: int, node_id: String, node: Dictionary,
+		binding: Dictionary, allocations: Array[Dictionary]) -> bool:
+	if not _terminal_transition_resolution_has_exact_shape(
+			route_id, resolution, state) \
+			or not _terminal_variant_semantically_equal(
+				resolution.get("binding", {}), binding) \
+			or not _terminal_integral_number_matches(
+				resolution.get("target_month", null), month_index) \
+			or str(resolution.get("target_node", "")) != node_id:
+		return false
+	var selected_candidate := str(resolution.get(
+		"selected_candidate_id", "")).strip_edges()
+	var selected_route := str(resolution.get(
+		"selected_terminal_route_id", "")).strip_edges()
+	var resolution_kind := str(resolution.get("resolution", ""))
+	if selected_candidate != str(node.get(
+			"selected_trigger_candidate_id", "")).strip_edges() \
+			or selected_route != str(node.get(
+				"selected_terminal_route_id", "")).strip_edges():
+		return false
+	var matching_allocations: Array[Dictionary] = []
+	for allocation in allocations:
+		if str(allocation.get("node_id", "")) == node_id:
+			matching_allocations.append(allocation)
+	matching_allocations.sort_custom(func(
+			left: Dictionary, right: Dictionary) -> bool:
+		return int(left.get("turn", 0)) < int(right.get("turn", 0)))
+	var expected_allocation: Dictionary = {}
+	match resolution_kind:
+		"completed":
+			for allocation in matching_allocations:
+				if bool(allocation.get("completed_now", false)):
+					if not expected_allocation.is_empty():
+						return false
+					expected_allocation = allocation
+			if expected_allocation.is_empty() \
+					or selected_route != route_id \
+					or selected_candidate != "terminal:%s" % route_id \
+					or str(node.get("status", "")) != "completed" \
+					or int(node.get("completed_turn", 0)) \
+						!= int(expected_allocation.get("turn", 0)):
+				return false
+		"forgone":
+			if matching_allocations.is_empty() \
+					or selected_candidate.is_empty() \
+					or selected_route == route_id:
+				return false
+			expected_allocation = matching_allocations[0]
+		"expired":
+			var expiry_turn := int(node.get("expired_turn", 0))
+			if str(node.get("status", "")) != "expired" or expiry_turn <= 0:
+				return false
+			for allocation in allocations:
+				if int(allocation.get("turn", 0)) == expiry_turn:
+					if not expected_allocation.is_empty():
+						return false
+					expected_allocation = allocation
+			if expected_allocation.is_empty() \
+					or not expected_allocation.get("expired_nodes", null) is Array \
+					or (expected_allocation.get(
+						"expired_nodes", []) as Array).count(node_id) != 1 \
+					or not ((selected_candidate.is_empty() \
+						and selected_route.is_empty()) \
+						or (selected_route == route_id \
+							and selected_candidate == "terminal:%s" % route_id)):
+				return false
+		_:
+			return false
+	var expected_turn := int(expected_allocation.get("turn", 0))
+	var expected_week := int(expected_allocation.get("week_index", 0))
+	return _terminal_integral_number_matches(
+			resolution.get("target_turn", null), expected_turn) \
+		and str(resolution.get("allocation_receipt_id", "")) \
+			== "seoul_cycle_m%d_w%d" % [month_index, expected_week] \
+		and str(resolution.get("allocation_receipt_key", "")) \
+			== "seoul_cycle.allocation_receipts.%d" % expected_turn
+
+static func _terminal_historical_resolutions_for_month(
+		state: Dictionary, month_index: int,
+		historical_cycle: Dictionary) -> Dictionary:
+	var raw_summary: Variant = historical_cycle.get("summary", {})
+	var raw_nodes: Variant = historical_cycle.get("nodes", {})
+	var raw_allocations: Variant = historical_cycle.get("allocations", [])
+	var raw_root: Variant = state.get("terminal_transition_resolutions", {})
+	if not raw_summary is Dictionary or not raw_nodes is Dictionary \
+			or not raw_allocations is Array or not raw_root is Dictionary:
+		return {"ok": false, "resolutions": {}}
+	var raw_summary_resolutions: Variant = (raw_summary as Dictionary).get(
+		"terminal_transition_resolutions", {})
+	if not raw_summary_resolutions is Dictionary:
+		return {"ok": false, "resolutions": {}}
+	var receipt_bound_result := _terminal_receipt_bound_nodes_for_target(
+		state, month_index)
+	if not bool(receipt_bound_result.get("ok", false)):
+		return {"ok": false, "resolutions": {}}
+	var receipt_bound_nodes: Dictionary = receipt_bound_result.get("nodes", {})
+	var bound_nodes := _terminal_historical_bound_nodes(
+		state, month_index, raw_nodes as Dictionary)
+	var expected_bound_node_ids: Array[String] = []
+	for raw_expected_node_id in receipt_bound_nodes.keys():
+		expected_bound_node_ids.append(str(raw_expected_node_id))
+	expected_bound_node_ids.sort()
+	var actual_bound_node_ids: Array[String] = []
+	for raw_actual_node_id in bound_nodes.keys():
+		actual_bound_node_ids.append(str(raw_actual_node_id))
+	actual_bound_node_ids.sort()
+	if actual_bound_node_ids != expected_bound_node_ids:
+		return {"ok": false, "resolutions": {}}
+	if bound_nodes.is_empty():
+		return {"ok": not _terminal_target_binding_witness_for_month_present(
+				state, month_index) \
+			and (raw_summary_resolutions as Dictionary).is_empty(),
+			"resolutions": {}}
+	var allocations: Array[Dictionary] = []
+	for raw_allocation in raw_allocations as Array:
+		if not raw_allocation is Dictionary:
+			return {"ok": false, "resolutions": {}}
+		allocations.append(raw_allocation as Dictionary)
+	var expected_route_ids: Array[String] = []
+	for node_id in bound_nodes.keys():
+		var witness: Dictionary = bound_nodes[node_id]
+		var raw_bindings: Dictionary = witness.get("terminal_route_bindings", {})
+		var expected_bindings: Variant = receipt_bound_nodes.get(node_id, {})
+		if not expected_bindings is Dictionary \
+				or not _terminal_variant_semantically_equal(
+					raw_bindings, expected_bindings):
+			return {"ok": false, "resolutions": {}}
+		for raw_route_id in raw_bindings.keys():
+			var route_id := str(raw_route_id).strip_edges()
+			if route_id.is_empty() or expected_route_ids.has(route_id):
+				return {"ok": false, "resolutions": {}}
+			expected_route_ids.append(route_id)
+	expected_route_ids.sort()
+	var summary_route_ids: Array[String] = []
+	for raw_route_id in (raw_summary_resolutions as Dictionary).keys():
+		summary_route_ids.append(str(raw_route_id))
+	summary_route_ids.sort()
+	if summary_route_ids != expected_route_ids:
+		return {"ok": false, "resolutions": {}}
+	var validated: Dictionary = {}
+	for node_id in bound_nodes.keys():
+		var witness: Dictionary = bound_nodes[node_id]
+		var bindings: Dictionary = witness.get("terminal_route_bindings", {})
+		var node: Dictionary = (raw_nodes as Dictionary).get(node_id, {})
+		for raw_route_id in bindings.keys():
+			var route_id := str(raw_route_id)
+			var raw_summary_resolution: Variant = (
+				raw_summary_resolutions as Dictionary).get(route_id, {})
+			var raw_root_resolution: Variant = (raw_root as Dictionary).get(
+				route_id, {})
+			var root_equal := raw_summary_resolution is Dictionary \
+				and raw_root_resolution is Dictionary \
+				and _terminal_variant_semantically_equal(
+					raw_summary_resolution, raw_root_resolution)
+			var cycle_equal := root_equal \
+				and _terminal_historical_resolution_matches_cycle(
+					state, route_id, raw_summary_resolution as Dictionary,
+					month_index, node_id, node,
+					bindings[route_id] as Dictionary, allocations)
+			if not root_equal or not cycle_equal:
+				return {"ok": false, "resolutions": {}}
+			validated[route_id] = (
+				raw_summary_resolution as Dictionary).duplicate(true)
+	return {"ok": true, "resolutions": validated}
+
 static func _terminal_historical_node_expiry_valid(
 		receipt: Dictionary, resolved: Dictionary, node_id: String,
 		month_index: int, expiry_turn: int) -> bool:
@@ -1993,8 +2552,10 @@ static func _terminal_historical_node_expiry_valid(
 		and expiry_turn == month_start \
 			+ clampi(int(resolved.get("deadline_week", 4)), 1, 4) - 1 \
 		and str(receipt.get("node_id", "")) == node_id \
-		and int(receipt.get("turn", 0)) == expiry_turn \
-		and int(receipt.get("week_index", 0)) == week_index \
+		and _terminal_integral_number_matches(
+			receipt.get("turn", null), expiry_turn) \
+		and _terminal_integral_number_matches(
+			receipt.get("week_index", null), week_index) \
 		and str(receipt.get("status", "")) == "consumed" \
 		and str(receipt.get("consequence_id", "")) \
 			== str(resolved.get("expiry_consequence", "%s_expired" % node_id)) \
@@ -2013,7 +2574,7 @@ static func _terminal_historical_trigger_expiry_valid(
 		"missed_trigger_bundle", "")).strip_edges()
 	var expected_trigger := str(resolved.get(
 		"resolved_trigger_bundle_id", "")).strip_edges()
-	var week_index := clampi(int(resolved.get(
+	var week_index: int = clampi(int(resolved.get(
 		"trigger_deadline_week", resolved.get("deadline_week", 4))), 1, 4)
 	var expiry_turn := _seoul_cycle_month_start_turn(month_index) \
 		+ week_index - 1
@@ -2032,8 +2593,10 @@ static func _terminal_historical_trigger_expiry_valid(
 		and str(receipt.get("scope", "")) == "trigger" \
 		and str(receipt.get("node_id", "")) == node_id \
 		and str(receipt.get("trigger_bundle", "")) == trigger_bundle \
-		and int(receipt.get("turn", 0)) == expiry_turn \
-		and int(receipt.get("week_index", 0)) == week_index \
+		and _terminal_integral_number_matches(
+			receipt.get("turn", null), expiry_turn) \
+		and _terminal_integral_number_matches(
+			receipt.get("week_index", null), week_index) \
 		and str(receipt.get("status", "")) == "consumed" \
 		and str(receipt.get("consequence_id", "")) == str(resolved.get(
 			"trigger_expiry_consequence", "%s_opportunity_missed" % node_id)) \
@@ -2079,6 +2642,12 @@ static func _terminal_historical_outer_weekly_valid(
 		return false
 	var embedded_details: Dictionary = raw_embedded_details
 	var outer_details: Dictionary = raw_outer_details
+	if _terminal_node_has_binding(resolved_node) \
+			and (not _terminal_selection_copy_matches_node(
+				embedded_details, resolved_node) \
+				or not _terminal_selection_copy_matches_node(
+					outer_details, resolved_node)):
+		return false
 	var week_index := turn - _seoul_cycle_month_start_turn(month_index) + 1
 	var expected_action := str(resolved_node.get(
 		"commitment_action_id", "")).strip_edges().to_lower()
@@ -2102,8 +2671,30 @@ static func _terminal_historical_outer_weekly_valid(
 		if embedded_details.get(stable_detail_key, null) \
 				!= outer_details.get(stable_detail_key, null):
 			return false
+	for numeric_detail in [
+		["month", month_index], ["week_index", week_index],
+		["capacity_value", int(allocation.get("capacity_value", 0))],
+		["progress_gain", int(allocation.get("progress_gain", 0))],
+		["progress_after", int(allocation.get("progress_after", 0))],
+		["threshold", int(allocation.get("threshold", 1))],
+	]:
+		var detail_pair: Array = numeric_detail
+		if not _terminal_integral_number_matches(
+				embedded_details.get(str(detail_pair[0]), null),
+				int(detail_pair[1])) \
+				or not _terminal_integral_number_matches(
+					outer_details.get(str(detail_pair[0]), null),
+					int(detail_pair[1])):
+			return false
+	for bool_detail in [
+		"completed_now", "repeat_allocation", "fallback_allocation",
+	]:
+		if not embedded_details.get(bool_detail, null) is bool \
+				or not outer_details.get(bool_detail, null) is bool:
+			return false
 	return str(embedded.get("source", "")) == "seoul_cycle" \
-		and int(embedded.get("turn", 0)) == turn \
+		and _terminal_integral_number_matches(
+			embedded.get("turn", null), turn) \
 		and str(embedded.get("pressure_id", "")) \
 			== "seoul_cycle:m%d:w%d" % [month_index, week_index] \
 		and str(embedded.get("pressure_family", "")) == "seoul_cycle" \
@@ -2112,7 +2703,7 @@ static func _terminal_historical_outer_weekly_valid(
 		and str(embedded.get("person_id", "")) == expected_person \
 		and str(embedded.get("axis", "")) == expected_axis \
 		and str(outer.get("source", "")) == "seoul_cycle" \
-		and int(outer.get("turn", 0)) == turn \
+		and _terminal_integral_number_matches(outer.get("turn", null), turn) \
 		and str(outer.get("pressure_id", "")) \
 			== "seoul_cycle:m%d:w%d" % [month_index, week_index] \
 		and str(outer.get("pressure_family", "")) == "seoul_cycle" \
@@ -2121,8 +2712,10 @@ static func _terminal_historical_outer_weekly_valid(
 		and str(outer.get("person_id", "")) == expected_person \
 		and str(outer.get("axis", "")) == expected_axis \
 		and str(outer_details.get("execution", "")) == "seoul_cycle" \
-		and int(outer_details.get("month", 0)) == month_index \
-		and int(outer_details.get("week_index", 0)) == week_index \
+		and _terminal_integral_number_matches(
+			outer_details.get("month", null), month_index) \
+		and _terminal_integral_number_matches(
+			outer_details.get("week_index", null), week_index) \
 		and str(outer_details.get("node_id", "")) \
 			== str(allocation.get("node_id", "")) \
 		and str(outer_details.get("place", "")) \
@@ -2166,6 +2759,22 @@ static func _terminal_historical_allocation_valid(
 	]:
 		if not allocation.has(required_key):
 			return false
+	for numeric_key in [
+		"month", "turn", "week_index", "capacity_value",
+		"progress_before", "progress_gain", "progress_after", "threshold",
+		"authored_threshold", "completed_turn",
+	]:
+		var raw_numeric: Variant = allocation.get(numeric_key, null)
+		if typeof(raw_numeric) not in [TYPE_INT, TYPE_FLOAT] \
+				or not _terminal_integral_number_matches(
+					raw_numeric, int(raw_numeric)):
+			return false
+	for bool_key in [
+		"onboarding_completion_override", "completed_now",
+		"repeat_allocation", "fallback_allocation",
+	]:
+		if not allocation.get(bool_key, null) is bool:
+			return false
 	var turn := int(allocation.get("turn", 0))
 	var month_start := _seoul_cycle_month_start_turn(month_index)
 	var month_end := _seoul_cycle_month_end_turn(month_index)
@@ -2183,7 +2792,21 @@ static func _terminal_historical_allocation_valid(
 	var fallback_allocation := bool(allocation.get("fallback_allocation", false))
 	var resolved_node: Dictionary = raw_resolved_node \
 		if raw_resolved_node is Dictionary else {}
-	var authored_threshold := maxi(1, int(resolved_node.get("threshold", 1)))
+	var terminal_bound := _terminal_node_has_binding(resolved_node)
+	if terminal_bound:
+		for terminal_key in [
+			"selected_trigger_candidate_id", "selected_terminal_route_id",
+			"terminal_variant_id", "terminal_target_binding",
+			"terminal_completion_effects",
+		]:
+			if not allocation.has(terminal_key):
+				return false
+		if str(resolved_node.get(
+				"selected_trigger_candidate_id", "")).strip_edges().is_empty() \
+				or not _terminal_selection_copy_matches_node(
+					allocation, resolved_node):
+			return false
+	var authored_threshold: int = maxi(1, int(resolved_node.get("threshold", 1)))
 	var fresh_onboarding_override := month_index == 1 \
 		and node_id == W1_ONBOARDING_NODE_ID \
 		and bool(allocation.get("onboarding_completion_override", false))
@@ -2191,7 +2814,10 @@ static func _terminal_historical_allocation_valid(
 		if fresh_onboarding_override else authored_threshold
 	var expected_trigger := str(resolved_node.get(
 		"trigger_bundle", "")).strip_edges()
-	if _seoul_cycle_player_trigger_required(resolved_node):
+	if terminal_bound:
+		expected_trigger = str(resolved_node.get(
+			"selected_trigger_bundle_id", "")).strip_edges()
+	elif _seoul_cycle_player_trigger_required(resolved_node):
 		expected_trigger = str(allocation.get(
 			"selected_trigger_bundle_id", "")).strip_edges()
 	var expected_repeat := progress_before >= expected_threshold \
@@ -2208,7 +2834,7 @@ static func _terminal_historical_allocation_valid(
 		and turn > int((raw_trigger_expiry as Dictionary).get("turn", 0))
 	var base_gain := _seoul_cycle_progress_for_capacity(capacity_value)
 	var progress_ceiling := expected_threshold
-	var trigger_min_week := clampi(int(resolved_node.get(
+	var trigger_min_week: int = clampi(int(resolved_node.get(
 		"trigger_min_week", 1)), 1, 4)
 	if not expected_trigger.is_empty() and week_index < trigger_min_week:
 		progress_ceiling = maxi(0, expected_threshold - 1)
@@ -2222,23 +2848,13 @@ static func _terminal_historical_allocation_valid(
 				"trigger_deadline_week",
 				resolved_node.get("deadline_week", 4))), 1, 4) \
 			and bundle_allowed_in_week(expected_trigger, turn) else ""
-	var expected_allocation_effects: Variant = resolved_node.get(
-		"allocation_effects", {})
-	var raw_tier_effects: Variant = resolved_node.get(
-		"allocation_effects_by_progress", {})
-	if raw_tier_effects is Dictionary \
-			and (raw_tier_effects as Dictionary).get(
-				str(base_gain), {}) is Dictionary:
-		expected_allocation_effects = _merged_seoul_cycle_effects(
-			expected_allocation_effects,
-			(raw_tier_effects as Dictionary).get(str(base_gain), {}))
-	if not expected_trigger_on_completion.is_empty() \
-			and bool(resolved_node.get(
-				"completion_replaces_allocation_effects", false)):
-		expected_allocation_effects = {}
-	var expected_effects := _merged_seoul_cycle_effects(
-		expected_allocation_effects,
-		resolved_node.get("completion_effects", {}) if completed_now else {})
+	# Reuse the commit projection so a completed terminal candidate replays its
+	# source-bound completion overlay as well as the authored node effects.
+	# Omitting the overlay made a legitimate completed target fail only after
+	# the month summary replaced its live cycle.
+	var expected_effects := _seoul_cycle_expected_allocation_effects(
+		resolved_node, capacity_value, completed_now,
+		expected_trigger_on_completion)
 	if turn < month_start or turn > month_end \
 			or not raw_resolved_node is Dictionary \
 			or str(allocation.get("id", "")) \
@@ -2294,6 +2910,9 @@ static func _terminal_historical_allocation_valid(
 	if not raw_details is Dictionary:
 		return false
 	var details: Dictionary = raw_details
+	if terminal_bound \
+			and not _terminal_selection_copy_matches_node(details, resolved_node):
+		return false
 	for identity in [
 		["month", month_index], ["week_index", week_index],
 		["node_id", node_id], ["capacity_id", capacity_id],
@@ -2324,16 +2943,25 @@ static func _terminal_historical_kept_matches_allocation(
 	var raw_node: Variant = nodes.get(node_id, {})
 	if not raw_node is Dictionary:
 		return false
+	for bool_key in [
+		"completed_now", "repeat_allocation", "fallback_allocation",
+	]:
+		if not kept.get(bool_key, null) is bool:
+			return false
 	return int(kept.get("week", 0)) == int(allocation.get("turn", 0)) \
 		and str(kept.get("bundle_id", "")) \
 			== str((raw_node as Dictionary).get("summary_bundle", "")) \
 		and str(kept.get("node_id", "")) == node_id \
 		and str(kept.get("capacity_id", "")) \
 			== str(allocation.get("capacity_id", "")) \
-		and int(kept.get("capacity_value", 0)) \
-			== int(allocation.get("capacity_value", 0)) \
-		and int(kept.get("progress_gain", -1)) \
-			== int(allocation.get("progress_gain", -2)) \
+		and _terminal_integral_number_matches(
+			kept.get("week", null), int(allocation.get("turn", 0))) \
+		and _terminal_integral_number_matches(
+			kept.get("capacity_value", null),
+			int(allocation.get("capacity_value", 0))) \
+		and _terminal_integral_number_matches(
+			kept.get("progress_gain", null),
+			int(allocation.get("progress_gain", -2))) \
 		and bool(kept.get("completed_now", false)) \
 			== bool(allocation.get("completed_now", false)) \
 		and bool(kept.get("repeat_allocation", false)) \
@@ -2637,6 +3265,81 @@ static func _terminal_selected_identity(node: Dictionary) -> Dictionary:
 		"terminal_target_binding": binding,
 		"terminal_completion_effects": completion_effects,
 	}
+
+static func _terminal_selection_copy_matches_node(
+		value: Dictionary, node: Dictionary) -> bool:
+	var expected := _terminal_selected_identity(node)
+	return str(value.get("selected_trigger_bundle_id", "")) \
+			== str(node.get("selected_trigger_bundle_id", "")) \
+		and str(value.get("selected_trigger_candidate_id", "")) \
+			== str(expected.get("selected_trigger_candidate_id", "")) \
+		and str(value.get("selected_terminal_route_id", "")) \
+			== str(expected.get("selected_terminal_route_id", "")) \
+		and str(value.get("terminal_variant_id", "")) \
+			== str(expected.get("terminal_variant_id", "")) \
+		and _terminal_variant_semantically_equal(
+			value.get("terminal_target_binding", null),
+			expected.get("terminal_target_binding", {})) \
+		and _terminal_effects_semantically_equal(
+			value.get("terminal_completion_effects", null),
+			expected.get("terminal_completion_effects", {}))
+
+static func _terminal_historical_selection_identity_valid(
+		node: Dictionary,
+		matching_allocations: Array[Dictionary]) -> bool:
+	if not _terminal_node_has_binding(node):
+		return true
+	var raw_candidate_ids: Variant = node.get("binding_candidate_ids", [])
+	var raw_ordinary_ids: Variant = node.get("ordinary_candidate_ids", [])
+	var raw_route_ids: Variant = node.get("eligible_terminal_route_ids", [])
+	if not raw_candidate_ids is Array or not raw_ordinary_ids is Array \
+			or not raw_route_ids is Array:
+		return false
+	var candidate_ids: Array = raw_candidate_ids
+	var ordinary_ids: Array = raw_ordinary_ids
+	var route_ids: Array = raw_route_ids
+	var selected_candidate := str(node.get(
+		"selected_trigger_candidate_id", "")).strip_edges()
+	var selected_route := str(node.get(
+		"selected_terminal_route_id", "")).strip_edges()
+	var origin := str(node.get("terminal_selection_origin", "")).strip_edges()
+	if matching_allocations.is_empty():
+		if selected_candidate.is_empty():
+			return selected_route.is_empty() and origin == "unselected_union"
+		# Initialization auto-selects only one sole terminal candidate.  A mixed
+		# or multi-candidate union cannot acquire a free historical selection by
+		# rewriting its node and expired-resolution copies after month close.
+		return candidate_ids.size() == 1 \
+			and ordinary_ids.is_empty() \
+			and route_ids.size() == 1 \
+			and selected_candidate == str(candidate_ids[0]) \
+			and selected_candidate == "terminal:%s" % selected_route \
+			and selected_route == str(route_ids[0]) \
+			and origin == "terminal_auto"
+	if selected_candidate.is_empty() or not candidate_ids.has(selected_candidate):
+		return false
+	var expected_auto := candidate_ids.size() == 1 \
+		and ordinary_ids.is_empty() \
+		and route_ids.size() == 1 \
+		and selected_candidate == "terminal:%s" % str(route_ids[0])
+	if origin != ("terminal_auto" if expected_auto else "terminal_union_player"):
+		return false
+	if selected_candidate.begins_with("terminal:"):
+		if selected_route != selected_candidate.trim_prefix("terminal:") \
+				or not route_ids.has(selected_route):
+			return false
+	elif not selected_route.is_empty() or not ordinary_ids.has(selected_candidate):
+		return false
+	for allocation in matching_allocations:
+		var raw_weekly: Variant = allocation.get("weekly_commitment", {})
+		var raw_details: Variant = (raw_weekly as Dictionary).get(
+			"details", {}) if raw_weekly is Dictionary else {}
+		if not raw_details is Dictionary \
+				or not _terminal_selection_copy_matches_node(allocation, node) \
+				or not _terminal_selection_copy_matches_node(
+					raw_details as Dictionary, node):
+			return false
+	return true
 
 static func _bind_terminal_routes_to_new_cycle(
 		state: Dictionary, cycle: Dictionary,
@@ -3694,7 +4397,7 @@ static func _terminal_expiry_semantics_valid(
 					or (origin == "legacy_persisted_trigger" and not migrated):
 				return false
 	var deadline := int(resolved.get("deadline_week", 4))
-	var threshold := maxi(1, int(resolved.get("threshold", 1)))
+	var threshold: int = maxi(1, int(resolved.get("threshold", 1)))
 	var raw_effects: Variant = resolved.get("expiry_effects", {})
 	if not raw_effects is Dictionary:
 		return false
@@ -4293,6 +4996,8 @@ static func initialize_seoul_cycle(month_index: int = 1) -> Dictionary:
 		var existing_cycle: Dictionary = state.get(
 			SEOUL_CYCLE_STATE_KEY, {})
 		if existing_cycle.is_empty():
+			var raw_receipt_bound := _terminal_receipt_bound_nodes_for_target(
+				GameState.core_loop_v2_state, target_month)
 			var raw_cycle: Variant = GameState.core_loop_v2_state.get(
 				SEOUL_CYCLE_STATE_KEY, {})
 			var raw_plans: Variant = GameState.core_loop_v2_state.get(
@@ -4306,7 +5011,12 @@ static func initialize_seoul_cycle(month_index: int = 1) -> Dictionary:
 						and _seoul_cycle_plan_has_terminal_binding(
 							raw_plan as Dictionary)) \
 					or _terminal_target_binding_witness_for_month_present(
-						GameState.core_loop_v2_state, target_month):
+						GameState.core_loop_v2_state, target_month) \
+					or _terminal_transition_resolution_for_month_present(
+						GameState.core_loop_v2_state, target_month) \
+					or not bool(raw_receipt_bound.get("ok", false)) \
+					or not (raw_receipt_bound.get("nodes", {}) \
+						as Dictionary).is_empty():
 				return {"ok": false, "error": "terminal_binding_conflict"}
 			return {"ok": false, "error": "seoul_cycle_state_missing"}
 		return {
@@ -5796,8 +6506,52 @@ static func _seoul_cycle_world_receipt_id(entry: Dictionary) -> String:
 		return ""
 	return str(week_index)
 
+static func _terminal_effect_snapshot_after(
+		before: Dictionary, effects: Dictionary) -> Dictionary:
+	if not _terminal_dictionary_has_exact_keys(
+			before, ["health", "mental", "money"]) \
+			or not _terminal_effects_semantically_equal(effects, effects):
+		return {}
+	return {
+		"health": clampi(
+			int(before.get("health", 0)) + int(effects.get("health", 0)),
+			0, 100),
+		"mental": clampi(
+			int(before.get("mental", 0)) + int(effects.get("mental", 0)),
+			0, 100),
+		"money": float(before.get("money", 0.0)) \
+			+ float(effects.get("money", 0.0)),
+	}
+
 static func complete_seoul_cycle_turn(
 		month_index: int = -1) -> Dictionary:
+	# Inspect immutable result slots before normalizing the live cycle.  The
+	# normalizer deliberately clears a cycle whose result ledger is malformed;
+	# closing that turn must report the narrower conflict and leave the raw save
+	# byte-for-byte untouched instead of degrading to a generic inactive error.
+	var requested_month := month_index \
+		if month_index > 0 else month_for_turn(int(GameState.turn))
+	var raw_state: Dictionary = GameState.core_loop_v2_state
+	var raw_resolutions: Variant = raw_state.get(
+		"terminal_transition_resolutions", {})
+	if not raw_resolutions is Dictionary:
+		return {"ok": false, "error": "terminal_resolution_conflict"}
+	for raw_route_id in _terminal_route_specs().keys():
+		var route_id := str(raw_route_id)
+		var raw_spec: Variant = _terminal_route_specs().get(route_id, {})
+		var target: Dictionary = (raw_spec as Dictionary).get("target", {}) \
+			if raw_spec is Dictionary \
+				and (raw_spec as Dictionary).get("target", {}) is Dictionary else {}
+		if int(target.get("month", 0)) != requested_month \
+				or not (raw_resolutions as Dictionary).has(route_id):
+			continue
+		var raw_resolution: Variant = (raw_resolutions as Dictionary).get(
+			route_id, null)
+		if not raw_resolution is Dictionary \
+				or (raw_resolution as Dictionary).is_empty() \
+				or not _terminal_transition_resolution_has_exact_shape(
+				route_id, raw_resolution as Dictionary, raw_state):
+			return {"ok": false, "error": "terminal_resolution_conflict"}
 	var snapshot := seoul_cycle_snapshot(month_index)
 	if not bool(snapshot.get("active", false)):
 		return {"ok": false, "error": "seoul_cycle_inactive"}
@@ -5813,17 +6567,29 @@ static func complete_seoul_cycle_turn(
 	var weekly_commitment := GameState.get_weekly_commitment_for_turn(turn)
 	var weekly_details: Dictionary = weekly_commitment.get("details", {}) \
 		if weekly_commitment.get("details", {}) is Dictionary else {}
+	var weekly_baseline: Variant = weekly_details.get("week_baseline", {})
 	if str(weekly_details.get("execution", "")) != "seoul_cycle" \
+			or not weekly_baseline is Dictionary \
+			or (weekly_baseline as Dictionary).is_empty() \
 			or str(weekly_details.get("node_id", "")) \
-				!= str((snapshot.get("allocation_receipts", {}) as Dictionary).get(
-					str(turn), {}).get("node_id", "")):
+					!= str((snapshot.get("allocation_receipts", {}) as Dictionary).get(
+						str(turn), {}).get("node_id", "")):
 		return {"ok": false, "error": "cycle_weekly_commitment_missing"}
 	var state := _normalized_state(GameState.core_loop_v2_state)
 	var cycle: Dictionary = state.get(SEOUL_CYCLE_STATE_KEY, {})
 	var expired_this_turn: Array[String] = []
 	var expiry_receipts_this_turn: Array = []
+	var effect_steps: Array[Dictionary] = []
+	var planned_stats := {
+		"money": float(GameState.money),
+		"health": int(GameState.health),
+		"mental": int(GameState.mental),
+	}
+	var sorted_node_ids: Array[String] = []
 	for raw_node_id in cycle.get("nodes", {}):
-		var node_id := str(raw_node_id)
+		sorted_node_ids.append(str(raw_node_id))
+	sorted_node_ids.sort()
+	for node_id in sorted_node_ids:
 		var node: Dictionary = cycle["nodes"].get(node_id, {})
 		var trigger_deadline: int = clampi(int(node.get(
 			"trigger_deadline_week", node.get("deadline_week", 4))), 1, 4)
@@ -5837,12 +6603,11 @@ static func complete_seoul_cycle_turn(
 			var trigger_expiry_effects: Dictionary = node.get(
 				"trigger_expiry_effects", {}) \
 				if node.get("trigger_expiry_effects", {}) is Dictionary else {}
-			var trigger_before := {
-				"money": float(GameState.money),
-				"health": int(GameState.health),
-				"mental": int(GameState.mental),
-			}
-			_apply_seoul_cycle_effects(trigger_expiry_effects)
+			var trigger_before := planned_stats.duplicate(true)
+			var trigger_after := _terminal_effect_snapshot_after(
+				trigger_before, trigger_expiry_effects)
+			if trigger_after.is_empty():
+				return {"ok": false, "error": "cycle_expiry_preflight_failed"}
 			var missed_trigger := str(node.get("trigger_bundle", ""))
 			var trigger_expiry_receipt := {
 				"scope": "trigger",
@@ -5856,12 +6621,10 @@ static func complete_seoul_cycle_turn(
 					"%s_opportunity_missed" % node_id)),
 				"effects": trigger_expiry_effects.duplicate(true),
 				"before": trigger_before,
-				"after": {
-					"money": float(GameState.money),
-					"health": int(GameState.health),
-					"mental": int(GameState.mental),
-				},
+				"after": trigger_after,
 			}
+			effect_steps.append(trigger_expiry_effects.duplicate(true))
+			planned_stats = trigger_after
 			cycle["expiry_receipts"][trigger_receipt_id] = (
 				trigger_expiry_receipt)
 			expiry_receipts_this_turn.append(
@@ -5885,12 +6648,11 @@ static func complete_seoul_cycle_turn(
 			if not cycle["expiry_receipts"].has(node_id):
 				var expiry_effects: Dictionary = node.get("expiry_effects", {}) \
 					if node.get("expiry_effects", {}) is Dictionary else {}
-				var expiry_before := {
-					"money": float(GameState.money),
-					"health": int(GameState.health),
-					"mental": int(GameState.mental),
-				}
-				_apply_seoul_cycle_effects(expiry_effects)
+				var expiry_before := planned_stats.duplicate(true)
+				var expiry_after := _terminal_effect_snapshot_after(
+					expiry_before, expiry_effects)
+				if expiry_after.is_empty():
+					return {"ok": false, "error": "cycle_expiry_preflight_failed"}
 				var expiry_receipt := {
 					"node_id": node_id,
 					"turn": turn,
@@ -5900,12 +6662,10 @@ static func complete_seoul_cycle_turn(
 						"expiry_consequence", "%s_expired" % node_id)),
 					"effects": expiry_effects.duplicate(true),
 					"before": expiry_before,
-					"after": {
-						"money": float(GameState.money),
-						"health": int(GameState.health),
-						"mental": int(GameState.mental),
-					},
+					"after": expiry_after,
 				}
+				effect_steps.append(expiry_effects.duplicate(true))
+				planned_stats = expiry_after
 				cycle["expiry_receipts"][node_id] = expiry_receipt
 				expiry_receipts_this_turn.append(expiry_receipt.duplicate(true))
 	var receipt: Dictionary = cycle["allocation_receipts"].get(str(turn), {})
@@ -5917,6 +6677,24 @@ static func complete_seoul_cycle_turn(
 	if not state["completed_turns"].has(turn):
 		state["completed_turns"].append(turn)
 	state[SEOUL_CYCLE_STATE_KEY] = cycle
+	var terminal_expiry_result := _terminal_expiry_resolution_drafts(
+		state, cycle, expired_this_turn, turn)
+	if not bool(terminal_expiry_result.get("ok", false)):
+		return {"ok": false, "error": "terminal_resolution_conflict"}
+	var terminal_resolution_drafts: Dictionary = terminal_expiry_result.get(
+		"resolutions", {})
+	for raw_route_id in terminal_resolution_drafts.keys():
+		state["terminal_transition_resolutions"][str(raw_route_id)] = (
+			terminal_resolution_drafts[raw_route_id] as Dictionary).duplicate(true)
+	var validated_cycle := normalize_seoul_cycle_state(cycle, state)
+	if validated_cycle.is_empty() \
+			or not _seoul_cycle_outer_weekly_identity_valid(
+				validated_cycle, GameState.weekly_commitments):
+		return {"ok": false, "error": "cycle_expiry_preflight_failed"}
+	# Every fallible identity check is complete. Apply the already validated
+	# effect sequence, then install the cycle/resolution transaction once.
+	for effects in effect_steps:
+		_apply_seoul_cycle_effects(effects)
 	GameState.core_loop_v2_state = state
 	if not GameState.refresh_seoul_cycle_weekly_commitment(turn):
 		push_error("Seoul cycle could not refresh its weekly commitment")
@@ -5927,6 +6705,7 @@ static func complete_seoul_cycle_turn(
 		"receipt": receipt.duplicate(true),
 		"expired_nodes": expired_this_turn,
 		"expiry_receipts": expiry_receipts_this_turn,
+		"terminal_resolutions": terminal_resolution_drafts.duplicate(true),
 		"next_turn": turn + 1,
 	}
 
@@ -7543,10 +8322,10 @@ static func _terminal_source_proof(
 	return {}
 
 static func _derive_terminal_transition_receipts_for_month(
-		state: Dictionary, month_index: int) -> void:
+		state: Dictionary, month_index: int) -> bool:
 	var cycle: Dictionary = state.get(SEOUL_CYCLE_STATE_KEY, {})
 	if not _terminal_month_topology_complete(cycle, month_index):
-		return
+		return false
 	var route_ids: Array[String] = []
 	for raw_route_id in _terminal_route_specs():
 		route_ids.append(str(raw_route_id))
@@ -7560,13 +8339,13 @@ static func _derive_terminal_transition_receipts_for_month(
 			if spec.get("source", {}) is Dictionary else {}
 		if int(source.get("month", 0)) != month_index:
 			continue
-		# Immutable means a conflicting or malformed historical value is never
-		# repaired in place. Public readers reject it and target binding fails closed.
-		if state["terminal_transition_receipts"].has(route_id):
-			continue
 		var source_proof := _terminal_source_proof(
 			state, cycle, route_id, spec)
+		var has_existing: bool = state[
+			"terminal_transition_receipts"].has(route_id)
 		if source_proof.is_empty():
+			if has_existing:
+				return false
 			continue
 		var target: Dictionary = spec.get("target", {}) \
 			if spec.get("target", {}) is Dictionary else {}
@@ -7588,26 +8367,179 @@ static func _derive_terminal_transition_receipts_for_month(
 				(spec.get("completion_effects", {}) as Dictionary).duplicate(true)),
 			"status": "derived",
 		}
-		if _terminal_transition_receipt_matches_spec(route_id, receipt, state):
-			state["terminal_transition_receipts"][route_id] = receipt
+		if has_existing:
+			var raw_existing: Variant = state[
+				"terminal_transition_receipts"].get(route_id, null)
+			if not raw_existing is Dictionary \
+					or not _terminal_variant_semantically_equal(
+						raw_existing, receipt) \
+					or not _terminal_transition_receipt_matches_spec(
+						route_id, raw_existing as Dictionary, state):
+				return false
+			continue
+		if not _terminal_transition_receipt_matches_spec(route_id, receipt, state):
+			return false
+		state["terminal_transition_receipts"][route_id] = receipt
+	return true
+
+## Month rollover owns economy, decline, calendar, summary, and autosave as one
+## boundary.  Validate the closing Seoul transaction on a duplicate before the
+## shared rollover mutates any global state; the real writer runs afterward with
+## the final economy snapshot and can no longer discover a structural surprise.
+static func _terminal_month_requires_seoul_authority(
+		state: Dictionary, raw_core_state: Dictionary,
+		month_index: int) -> bool:
+	var raw_plans: Variant = state.get("plans", {})
+	var raw_plan: Variant = (raw_plans as Dictionary).get(
+		str(month_index), {}) if raw_plans is Dictionary else {}
+	var plan: Dictionary = raw_plan if raw_plan is Dictionary else {}
+	var raw_cycle: Variant = raw_core_state.get(SEOUL_CYCLE_STATE_KEY, {})
+	var raw_cycle_claims_seoul := raw_cycle is Dictionary \
+		and not (raw_cycle as Dictionary).is_empty() \
+		and int((raw_cycle as Dictionary).get("month", 0)) == month_index
+	var receipt_bound_result := _terminal_receipt_bound_nodes_for_target(
+		state, month_index)
+	var receipt_bound_nodes: Dictionary = receipt_bound_result.get("nodes", {}) \
+		if bool(receipt_bound_result.get("ok", false)) else {}
+	var raw_summaries: Variant = state.get("month_summaries", {})
+	var raw_summary: Variant = (raw_summaries as Dictionary).get(
+		str(month_index), {}) if raw_summaries is Dictionary else {}
+	var summary_claims_seoul := false
+	if raw_summary is Dictionary:
+		var summary: Dictionary = raw_summary
+		summary_claims_seoul = str(summary.get(
+			"planning_mode", "")) == SEOUL_CYCLE_MODE
+		for owned_key in [
+			"allocation_receipts", "node_states", "expired_nodes",
+			"expiry_receipts", "cycle_completed_turns", "world_clock",
+			"trigger_receipts", "world_receipts",
+			"terminal_transition_resolutions", "terminal_source_witnesses",
+			"historical_cycle_authority",
+		]:
+			if summary.has(owned_key):
+				summary_claims_seoul = true
+				break
+	var source_receipt_present := false
+	var raw_receipts: Variant = state.get("terminal_transition_receipts", {})
+	if raw_receipts is Dictionary:
+		for raw_route_id in (raw_receipts as Dictionary).keys():
+			var raw_spec: Variant = _terminal_route_specs().get(
+				str(raw_route_id), {})
+			var spec: Dictionary = raw_spec if raw_spec is Dictionary else {}
+			var raw_source: Variant = spec.get("source", {})
+			if raw_source is Dictionary \
+					and int((raw_source as Dictionary).get("month", 0)) \
+						== month_index:
+				source_receipt_present = true
+				break
+	return plan_uses_seoul_cycle(plan) \
+		or raw_cycle_claims_seoul \
+		or not bool(receipt_bound_result.get("ok", false)) \
+		or not receipt_bound_nodes.is_empty() \
+		or source_receipt_present \
+		or summary_claims_seoul \
+		or _terminal_target_binding_witness_for_month_present(
+			state, month_index) \
+		or _terminal_transition_resolution_for_month_present(
+			state, month_index)
+
+static func can_record_month_summary(month_index: int) -> bool:
+	var raw_core_state := GameState.core_loop_v2_state.duplicate(true)
+	var state := _normalized_state(raw_core_state)
+	var month_key := str(month_index)
+	var raw_plans: Variant = state.get("plans", {})
+	var raw_plan: Variant = (raw_plans as Dictionary).get(
+		month_key, {}) if raw_plans is Dictionary else {}
+	var plan: Dictionary = raw_plan if raw_plan is Dictionary else {}
+	var seoul_authority_required := _terminal_month_requires_seoul_authority(
+		state, raw_core_state, month_index)
+	if not seoul_authority_required:
+		return true
+	# At the pre-rollover boundary this month cannot already own a notebook.
+	# Idempotent reads/replays happen through record_month_summary after the
+	# boundary; accepting a preinstalled row here would freeze stale economics.
+	if state["month_summaries"].has(month_key):
+		return false
+	if not plan_uses_seoul_cycle(plan) \
+			or int(GameState.turn) != _seoul_cycle_month_end_turn(month_index) \
+			or not _derive_terminal_transition_receipts_for_month(
+				state, month_index):
+		return false
+	var payload := _seoul_cycle_month_summary_payload(state, month_index)
+	if payload.is_empty():
+		return false
+	var provisional := {
+		"month": month_index,
+		"planning_mode": SEOUL_CYCLE_MODE,
+		"before": {},
+		"after": {},
+		"acknowledged": false,
+		"recorded_turn": _seoul_cycle_month_end_turn(month_index),
+		"cash_shortfall": 0.0,
+	}
+	for raw_key in payload.keys():
+		var key := str(raw_key)
+		var value: Variant = payload.get(raw_key)
+		provisional[key] = value.duplicate(true) \
+			if value is Dictionary or value is Array else value
+	state["month_summaries"][month_key] = provisional
+	return not _terminal_historical_cycle_summary(
+		state, month_index,
+		_seoul_cycle_month_start_turn(month_index + 1)).is_empty()
 
 static func record_month_summary(
 		month_index: int, before: Dictionary, after: Dictionary,
 		extra: Dictionary = {}) -> Dictionary:
+	var raw_core_state := GameState.core_loop_v2_state.duplicate(true)
 	var state := _normalized_state(GameState.core_loop_v2_state)
 	var month_key := str(month_index)
+	var raw_plans: Variant = state.get("plans", {})
+	var raw_plan: Variant = (raw_plans as Dictionary).get(
+		month_key, {}) if raw_plans is Dictionary else {}
+	var plan: Dictionary = (raw_plan as Dictionary).duplicate(true) \
+		if raw_plan is Dictionary else {}
+	var seoul_authority_required := _terminal_month_requires_seoul_authority(
+		state, raw_core_state, month_index)
 	if state["month_summaries"].has(month_key):
-		return (state["month_summaries"][month_key] as Dictionary).duplicate(true)
-	_derive_terminal_transition_receipts_for_month(state, month_index)
-	var plan := plan_for_month(month_index)
+		var existing: Variant = state["month_summaries"].get(month_key, {})
+		if not existing is Dictionary:
+			return {}
+		if seoul_authority_required \
+				or str((existing as Dictionary).get(
+					"planning_mode", "")) == SEOUL_CYCLE_MODE:
+			var historical := _terminal_historical_cycle_summary(
+				state, month_index,
+				_seoul_cycle_month_start_turn(month_index + 1))
+			if historical.is_empty():
+				return {}
+		return (existing as Dictionary).duplicate(true)
+	var reserved_keys: Array[String] = [
+		"month", "planning_mode", "before", "after", "fixed_expense",
+		"monthly_income", "kept", "routines", "decline_receipts",
+		"acknowledged", "recorded_turn", "cash_shortfall",
+		"allocation_receipts", "node_states", "expired_nodes",
+		"expiry_receipts", "cycle_completed_turns", "world_clock",
+		"trigger_receipts", "world_receipts",
+		"terminal_transition_resolutions", "terminal_source_witnesses",
+		"historical_cycle_authority",
+	]
+	for raw_extra_key in extra.keys():
+		if reserved_keys.has(str(raw_extra_key)):
+			return {}
 	var completed_turns: Array = state.get("completed_turns", [])
 	var kept: Array = []
 	var schedule: Dictionary = plan.get("schedule", {}) as Dictionary \
 		if plan.get("schedule", {}) is Dictionary else {}
 	var cycle_summary: Dictionary = {}
-	if plan_uses_seoul_cycle(plan):
+	if seoul_authority_required:
+		if not plan_uses_seoul_cycle(plan) \
+				or not _derive_terminal_transition_receipts_for_month(
+					state, month_index):
+			return {}
 		cycle_summary = _seoul_cycle_month_summary_payload(
 			state, month_index)
+		if cycle_summary.is_empty():
+			return {}
 		kept = (cycle_summary.get("kept", []) as Array).duplicate(true)
 	else:
 		for raw_week in schedule:
@@ -7639,6 +8571,7 @@ static func record_month_summary(
 			"expiry_receipts",
 			"cycle_completed_turns", "world_clock",
 			"trigger_receipts", "world_receipts",
+			"terminal_transition_resolutions",
 			"terminal_source_witnesses", "historical_cycle_authority",
 		]:
 			summary[cycle_key] = cycle_summary.get(cycle_key).duplicate(true) \
@@ -7652,13 +8585,26 @@ static func record_month_summary(
 	summary["cash_shortfall"] = cash_shortfall_for_money(
 		float(after.get("money", 0.0)))
 	state["month_summaries"][month_key] = summary
+	if seoul_authority_required and _terminal_historical_cycle_summary(
+			state, month_index,
+			_seoul_cycle_month_start_turn(month_index + 1)).is_empty():
+		return {}
 	GameState.core_loop_v2_state = state
 	return summary.duplicate(true)
 
 static func _seoul_cycle_month_summary_payload(
 		state: Dictionary, month_index: int) -> Dictionary:
 	var cycle: Dictionary = state.get(SEOUL_CYCLE_STATE_KEY, {})
-	if cycle.is_empty() or int(cycle.get("month", 0)) != month_index:
+	var completed_result := _terminal_completed_turns_for_month(
+		cycle.get("completed_turns", []), month_index, true)
+	var raw_allocations: Variant = cycle.get("allocation_receipts", {})
+	if cycle.is_empty() or int(cycle.get("month", 0)) != month_index \
+			or not _terminal_month_topology_complete(cycle, month_index) \
+			or not bool(completed_result.get("ok", false)) \
+			or not raw_allocations is Dictionary \
+			or (raw_allocations as Dictionary).size() != 4 \
+			or not _terminal_integral_number_matches(
+				cycle.get("world_clock", null), 4):
 		return {}
 	var first_turn := ((month_index - 1) * 4) + 1
 	var last_turn := first_turn + 3
@@ -7667,11 +8613,11 @@ static func _seoul_cycle_month_summary_payload(
 	var nodes: Dictionary = cycle.get("nodes", {})
 	for turn in range(first_turn, last_turn + 1):
 		var raw_receipt: Variant = (
-			cycle.get("allocation_receipts", {}) as Dictionary).get(
+			raw_allocations as Dictionary).get(
 				str(turn), {})
 		if not raw_receipt is Dictionary \
 				or (raw_receipt as Dictionary).is_empty():
-			continue
+			return {}
 		var receipt: Dictionary = (raw_receipt as Dictionary).duplicate(true)
 		allocation_receipts.append(receipt)
 		var node_id := str(receipt.get("node_id", ""))
@@ -7751,7 +8697,49 @@ static func _seoul_cycle_month_summary_payload(
 				"trigger_selection_migrated_legacy",
 			]:
 				node_state[player_key] = projection[player_key]
+		if _terminal_node_has_binding(node):
+			for terminal_key in [
+				"binding_candidate_ids", "ordinary_candidate_ids",
+				"eligible_terminal_route_ids", "terminal_route_bindings",
+				"selected_trigger_bundle_id",
+				"selected_trigger_candidate_id",
+				"selected_terminal_route_id", "terminal_selection_origin",
+				"terminal_result_ko", "terminal_result_en",
+				"terminal_completion_effects",
+			]:
+				var terminal_value: Variant = node.get(terminal_key, null)
+				node_state[terminal_key] = terminal_value.duplicate(true) \
+					if terminal_value is Dictionary or terminal_value is Array \
+					else terminal_value
 		node_states[node_id] = node_state
+	var target_resolutions: Dictionary = {}
+	var expected_terminal_route_ids: Array[String] = []
+	for raw_node in nodes.values():
+		if not raw_node is Dictionary \
+				or not _terminal_node_has_binding(raw_node as Dictionary):
+			continue
+		for raw_route_id in (raw_node as Dictionary).get(
+				"eligible_terminal_route_ids", []) as Array:
+			var route_id := str(raw_route_id).strip_edges()
+			if route_id.is_empty() or expected_terminal_route_ids.has(route_id):
+				return {}
+			expected_terminal_route_ids.append(route_id)
+	var raw_root_resolutions: Variant = state.get(
+		"terminal_transition_resolutions", {})
+	if not raw_root_resolutions is Dictionary:
+		return {}
+	expected_terminal_route_ids.sort()
+	for route_id in expected_terminal_route_ids:
+		var raw_resolution: Variant = (raw_root_resolutions as Dictionary).get(
+			route_id, {})
+		if not raw_resolution is Dictionary \
+				or not _terminal_transition_resolution_has_exact_shape(
+					route_id, raw_resolution as Dictionary, state) \
+				or int((raw_resolution as Dictionary).get(
+					"target_month", 0)) != month_index:
+			return {}
+		target_resolutions[route_id] = (
+			raw_resolution as Dictionary).duplicate(true)
 	return {
 		"kept": kept,
 		"allocation_receipts": allocation_receipts,
@@ -7770,6 +8758,7 @@ static func _seoul_cycle_month_summary_payload(
 			cycle.get("trigger_receipts", {}) as Dictionary).duplicate(true),
 		"world_receipts": (
 			cycle.get("world_receipts", {}) as Dictionary).duplicate(true),
+		"terminal_transition_resolutions": target_resolutions,
 	}
 
 static func _seoul_cycle_historical_authority(
@@ -7797,11 +8786,29 @@ static func _seoul_cycle_historical_authority(
 		"capacities": capacity_projection,
 	}
 
+static func _validated_month_summary(
+		state: Dictionary, raw_core_state: Dictionary,
+		month_index: int) -> Dictionary:
+	var raw_summary: Variant = state["month_summaries"].get(
+		str(month_index), {})
+	if not raw_summary is Dictionary:
+		return {}
+	var summary: Dictionary = raw_summary
+	if _terminal_month_requires_seoul_authority(
+			state, raw_core_state, month_index):
+		if str(summary.get("planning_mode", "")) != SEOUL_CYCLE_MODE:
+			return {}
+		var historical := _terminal_historical_cycle_summary(
+			state, month_index,
+			_seoul_cycle_month_start_turn(month_index + 1))
+		if historical.is_empty():
+			return {}
+	return summary.duplicate(true)
+
 static func month_summary(month_index: int) -> Dictionary:
-	var state := _normalized_state(GameState.core_loop_v2_state)
-	var raw_summary: Variant = state["month_summaries"].get(str(month_index), {})
-	return (raw_summary as Dictionary).duplicate(true) \
-		if raw_summary is Dictionary else {}
+	var raw_core_state := GameState.core_loop_v2_state.duplicate(true)
+	var state := _normalized_state(raw_core_state)
+	return _validated_month_summary(state, raw_core_state, month_index)
 
 static func month_opening_snapshot(month_index: int) -> Dictionary:
 	var state := _normalized_state(GameState.core_loop_v2_state)
@@ -7811,24 +8818,30 @@ static func month_opening_snapshot(month_index: int) -> Dictionary:
 		if raw_snapshot is Dictionary else {}
 
 static func pending_month_summary() -> Dictionary:
-	var state := _normalized_state(GameState.core_loop_v2_state)
+	var raw_core_state := GameState.core_loop_v2_state.duplicate(true)
+	var state := _normalized_state(raw_core_state)
 	var month_indexes: Array[int] = []
 	for raw_key in state["month_summaries"]:
-		month_indexes.append(int(raw_key))
+		var month_index := int(raw_key)
+		if str(month_index) == str(raw_key):
+			month_indexes.append(month_index)
 	month_indexes.sort()
 	for month_index in month_indexes:
-		var raw_summary: Variant = state["month_summaries"].get(str(month_index), {})
-		if raw_summary is Dictionary \
-				and not bool((raw_summary as Dictionary).get("acknowledged", false)):
-			return (raw_summary as Dictionary).duplicate(true)
+		var summary := _validated_month_summary(
+			state, raw_core_state, month_index)
+		if not summary.is_empty() \
+				and not bool(summary.get("acknowledged", false)):
+			return summary
 	return {}
 
 static func acknowledge_month_summary(month_index: int) -> bool:
-	var state := _normalized_state(GameState.core_loop_v2_state)
+	var raw_core_state := GameState.core_loop_v2_state.duplicate(true)
+	var state := _normalized_state(raw_core_state)
 	var month_key := str(month_index)
-	if not state["month_summaries"].has(month_key):
+	var summary := _validated_month_summary(
+		state, raw_core_state, month_index)
+	if summary.is_empty():
 		return false
-	var summary: Dictionary = state["month_summaries"][month_key]
 	summary["acknowledged"] = true
 	state["month_summaries"][month_key] = summary
 	GameState.core_loop_v2_state = state
@@ -12595,6 +13608,30 @@ static func _terminal_target_binding_witness_for_month_present(
 			return true
 	return false
 
+static func _terminal_transition_resolution_for_month_present(
+		state: Dictionary, target_month: int) -> bool:
+	var raw_resolutions: Variant = state.get(
+		"terminal_transition_resolutions", {})
+	if not raw_resolutions is Dictionary:
+		return false
+	for raw_route_id in (raw_resolutions as Dictionary).keys():
+		var route_id := str(raw_route_id).strip_edges()
+		var raw_spec: Variant = _terminal_route_specs().get(route_id, {})
+		var spec: Dictionary = raw_spec if raw_spec is Dictionary else {}
+		var raw_target: Variant = spec.get("target", {})
+		if raw_target is Dictionary \
+				and int((raw_target as Dictionary).get("month", 0)) \
+					== target_month:
+			return true
+		var raw_resolution: Variant = (raw_resolutions as Dictionary).get(
+			raw_route_id, {})
+		if raw_resolution is Dictionary \
+				and _terminal_integral_number_matches(
+					(raw_resolution as Dictionary).get("target_month", null),
+					target_month):
+			return true
+	return false
+
 static func _terminal_target_binding_witnesses_globally_valid(
 		state: Dictionary) -> bool:
 	var raw_witnesses: Variant = state.get(
@@ -12608,15 +13645,36 @@ static func _terminal_target_binding_witnesses_globally_valid(
 		if not raw_plan is Dictionary:
 			return false
 		var plan: Dictionary = raw_plan
-		if not _seoul_cycle_plan_has_terminal_binding(plan):
+		if plan.is_empty():
 			continue
 		var target_month := int(raw_month_key)
+		if str(target_month) != str(raw_month_key):
+			return false
+		var receipt_bound_result := _terminal_receipt_bound_nodes_for_target(
+			state, target_month)
+		if not bool(receipt_bound_result.get("ok", false)):
+			return false
+		var receipt_bound_nodes: Dictionary = receipt_bound_result.get(
+			"nodes", {})
+		var expected_bound_node_ids: Array[String] = []
+		for raw_expected_node_id in receipt_bound_nodes.keys():
+			expected_bound_node_ids.append(str(raw_expected_node_id))
+		expected_bound_node_ids.sort()
+		var plan_has_binding := _seoul_cycle_plan_has_terminal_binding(plan)
+		if expected_bound_node_ids.is_empty():
+			if plan_has_binding:
+				return false
+			continue
+		# Once a target plan exists, valid source receipts independently require
+		# its complete binding schema.  Erasing the plan/cycle/witness copies in
+		# concert cannot make the receipt-backed route disappear.
+		if not plan_has_binding:
+			return false
 		var normalized_bound_nodes := _normalized_terminal_identity_ids(
 			plan.get("terminal_bound_node_ids", []))
 		var raw_candidate_sets: Variant = plan.get(
 			"terminal_binding_candidate_sets", {})
-		if str(target_month) != str(raw_month_key) \
-				or not plan_uses_seoul_cycle(plan) \
+		if not plan_uses_seoul_cycle(plan) \
 				or int(plan.get("terminal_binding_schema", 0)) \
 					!= TERMINAL_TARGET_BINDING_SCHEMA \
 				or not bool(normalized_bound_nodes.get("ok", false)) \
@@ -12624,7 +13682,7 @@ static func _terminal_target_binding_witnesses_globally_valid(
 			return false
 		var bound_node_ids: Array[String] = []
 		bound_node_ids.assign(normalized_bound_nodes.get("ids", []))
-		if bound_node_ids.is_empty() \
+		if bound_node_ids != expected_bound_node_ids \
 				or (raw_candidate_sets as Dictionary).size() \
 					!= bound_node_ids.size():
 			return false
@@ -12658,6 +13716,8 @@ static func _terminal_target_binding_witnesses_globally_valid(
 			var witness: Dictionary = raw_witness
 			var raw_bindings: Variant = witness.get(
 				"terminal_route_bindings", {})
+			var expected_bindings: Variant = receipt_bound_nodes.get(
+				node_id, {})
 			var raw_eligibility: Variant = witness.get(
 				"ordinary_eligibility", {})
 			var historical_eligibility := \
@@ -12675,6 +13735,9 @@ static func _terminal_target_binding_witnesses_globally_valid(
 							"binding_candidate_ids", null) \
 					or not raw_bindings is Dictionary \
 					or (raw_bindings as Dictionary).is_empty() \
+					or not expected_bindings is Dictionary \
+					or not _terminal_variant_semantically_equal(
+						raw_bindings, expected_bindings) \
 					or not raw_eligibility is Dictionary \
 					or not _terminal_dictionary_has_exact_keys(
 						raw_eligibility as Dictionary, [
@@ -12762,6 +13825,13 @@ static func normalize_seoul_cycle_state(
 	var has_binding_schema := raw_state.has("terminal_binding_schema")
 	var has_bound_nodes := raw_state.has("terminal_bound_node_ids")
 	if has_binding_schema != has_bound_nodes:
+		return {}
+	# A current-month resolution can only have been produced by a terminal-bound
+	# target cycle. If every cycle/plan/witness marker is erased while its root
+	# result survives, do not silently reinterpret that state as a legacy cycle.
+	if not has_binding_schema and not outer_state.is_empty() \
+			and _terminal_transition_resolution_for_month_present(
+				outer_state, month):
 		return {}
 	var source_health_raw: Variant = raw_state.get("source_health", 0)
 	var source_mental_raw: Variant = raw_state.get("source_mental", 0)
@@ -13703,7 +14773,7 @@ static func _normalize_seoul_cycle_terminal_identity(
 		var expected_completed_turn := 0
 		var expected_status := "open"
 		var completion_count := 0
-		var threshold := maxi(1, int(node.get("threshold", 1)))
+		var threshold: int = maxi(1, int(node.get("threshold", 1)))
 		for allocation in matching_allocations:
 			var allocation_capacity_id := str(allocation.get(
 				"capacity_id", "")).strip_edges()
@@ -13794,7 +14864,7 @@ static func _normalize_seoul_cycle_terminal_identity(
 			var expected_completed := not fallback_allocation \
 				and expected_progress < threshold \
 				and expected_after >= threshold
-			var trigger_deadline := clampi(int(node.get(
+			var trigger_deadline: int = clampi(int(node.get(
 				"trigger_deadline_week", node.get("deadline_week", 4))), 1, 4)
 			var expected_trigger := expected_bundle \
 				if completed_now and allocation_week <= trigger_deadline \
@@ -13910,7 +14980,7 @@ static func _terminal_active_node_expiry_valid(
 		node: Dictionary, node_id: String, month: int,
 		expiry_receipts: Dictionary, expired_nodes: Array,
 		completed_turns: Array[int], allocation_receipts: Dictionary) -> bool:
-	var deadline := clampi(int(node.get("deadline_week", 4)), 1, 4)
+	var deadline: int = clampi(int(node.get("deadline_week", 4)), 1, 4)
 	var expected_turn := _seoul_cycle_month_start_turn(month) + deadline - 1
 	var raw_expiry: Variant = expiry_receipts.get(node_id, {})
 	if not raw_expiry is Dictionary \
@@ -13993,23 +15063,47 @@ static func _terminal_live_resolutions_valid(
 				if not completion_allocation.is_empty():
 					return false
 				completion_allocation = allocation
+		var node_expired := str(node.get("status", "")) == "expired"
+		var expiry_allocation: Dictionary = {}
+		if node_expired:
+			var expiry_turn := int(node.get("expired_turn", 0))
+			var raw_expiry_allocation: Variant = allocation_receipts.get(
+				str(expiry_turn), {})
+			if not raw_expiry_allocation is Dictionary \
+					or not (raw_expiry_allocation as Dictionary).get(
+						"expired_nodes", null) is Array \
+					or ((raw_expiry_allocation as Dictionary).get(
+						"expired_nodes", []) as Array).count(node_id) != 1:
+				return false
+			expiry_allocation = raw_expiry_allocation
 		for raw_route_id in raw_route_ids as Array:
 			var route_id := str(raw_route_id).strip_edges()
 			var raw_resolution: Variant = (raw_resolutions as Dictionary).get(
 				route_id, {})
 			var expected_kind := ""
 			var expected_allocation: Dictionary = {}
-			if not selected_candidate.is_empty() and not allocations.is_empty():
+			if selected_candidate.is_empty() and selected_route.is_empty():
+				if node_expired:
+					expected_kind = "expired"
+					expected_allocation = expiry_allocation
+			elif not selected_candidate.is_empty() and not allocations.is_empty():
 				if route_id == selected_route:
 					if not completion_allocation.is_empty():
 						expected_kind = "completed"
 						expected_allocation = completion_allocation
+					elif node_expired:
+						expected_kind = "expired"
+						expected_allocation = expiry_allocation
 				else:
 					expected_kind = "forgone"
 					expected_allocation = allocations[0]
+			elif route_id == selected_route \
+					and selected_candidate == "terminal:%s" % route_id \
+					and node_expired:
+				expected_kind = "expired"
+				expected_allocation = expiry_allocation
 			if expected_kind.is_empty():
-				if raw_resolution is Dictionary \
-						and not (raw_resolution as Dictionary).is_empty():
+				if (raw_resolutions as Dictionary).has(route_id):
 					return false
 				continue
 			if not raw_resolution is Dictionary \
@@ -14023,6 +15117,11 @@ static func _terminal_live_resolutions_valid(
 			var allocation_turn := int(expected_allocation.get("turn", 0))
 			var allocation_month := int(expected_allocation.get("month", 0))
 			var allocation_week := int(expected_allocation.get("week_index", 0))
+			var expected_selected_candidate := selected_candidate
+			var expected_selected_route := selected_route
+			if expected_kind == "expired" and selected_route != route_id:
+				expected_selected_candidate = ""
+				expected_selected_route = ""
 			if str(resolution.get("resolution", "")) != expected_kind \
 					or not _terminal_variant_semantically_equal(
 						resolution.get("binding", {}), raw_binding) \
@@ -14035,9 +15134,9 @@ static func _terminal_live_resolutions_valid(
 					or str(resolution.get("allocation_receipt_key", "")) \
 						!= "seoul_cycle.allocation_receipts.%d" % allocation_turn \
 					or str(resolution.get("selected_candidate_id", "")) \
-						!= selected_candidate \
+						!= expected_selected_candidate \
 					or str(resolution.get("selected_terminal_route_id", "")) \
-						!= selected_route:
+						!= expected_selected_route:
 				return false
 	return true
 

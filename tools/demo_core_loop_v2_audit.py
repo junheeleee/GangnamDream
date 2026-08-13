@@ -2164,6 +2164,10 @@ def validate_order101_terminal_slice_contract(
         "_terminal_selected_binding",
         "_terminal_selected_identity",
         "_terminal_allocation_resolution_drafts",
+        "_terminal_expiry_resolution_drafts",
+        "_terminal_live_resolution_matches_cycle",
+        "_terminal_historical_resolutions_for_month",
+        "_terminal_historical_resolution_matches_cycle",
         "_normalize_seoul_cycle_terminal_identity",
         "_terminal_active_node_expiry_valid",
         "_terminal_live_resolutions_valid",
@@ -2404,6 +2408,7 @@ def validate_order101_terminal_slice_contract(
         '"seoul_cycle.allocation_receipts.%d" % target_turn',
         "terminal_resolution_drafts",
         'state["terminal_transition_resolutions"][str(raw_route_id)]',
+        '"terminal_transition_resolutions"',
     ):
         if runtime_token not in demo_source:
             fail(
@@ -2493,6 +2498,78 @@ def validate_order101_terminal_slice_contract(
                     errors,
                 )
 
+    close_match = re.search(
+        r"static func complete_seoul_cycle_turn\(.*?"
+        r"(?=\nstatic func _seoul_cycle_turn_ready\()",
+        demo_source,
+        flags=re.DOTALL,
+    )
+    if close_match is None:
+        fail("cannot inspect terminal expiry resolution close", errors)
+    else:
+        close_body = close_match.group(0)
+        for token in (
+            "_terminal_expiry_resolution_drafts(",
+            "terminal_resolution_drafts",
+            'state["terminal_transition_resolutions"][str(raw_route_id)]',
+            'receipt["expired_nodes"] = expired_this_turn.duplicate()',
+        ):
+            if token not in close_body:
+                fail(
+                    "terminal month close lacks expiry resolution token "
+                    f"{token!r}",
+                    errors,
+                )
+
+    for helper_name, required_tokens in (
+        (
+            "_seoul_cycle_month_summary_payload",
+            (
+                '"terminal_transition_resolutions"',
+            ),
+        ),
+        (
+            "terminal_transition_resolution",
+            (
+                "_terminal_live_resolution_matches_cycle(",
+                "_terminal_historical_cycle_summary(",
+            ),
+        ),
+        (
+            "_terminal_historical_cycle_summary",
+            (
+                "_terminal_historical_resolutions_for_month(",
+                'historical_cycle["terminal_transition_resolutions"]',
+            ),
+        ),
+        (
+            "_terminal_historical_resolutions_for_month",
+            (
+                "_terminal_historical_resolution_matches_cycle(",
+            ),
+        ),
+    ):
+        helper_match = re.search(
+            rf"static func {re.escape(helper_name)}\(.*?(?=\nstatic func |\Z)",
+            demo_source,
+            flags=re.DOTALL,
+        )
+        if helper_match is None:
+            fail(
+                f"cannot inspect terminal historical resolution helper "
+                f"{helper_name}",
+                errors,
+            )
+            continue
+        helper_body = helper_match.group(0)
+        for token in required_tokens:
+            if token not in helper_body:
+                fail(
+                    "terminal historical resolution wiring lacks exact token "
+                    f"{token!r} in {helper_name}",
+                    errors,
+                )
+
     for helper_name, required_tokens in (
         (
             "_normalize_seoul_cycle_terminal_identity",
@@ -2543,6 +2620,360 @@ def validate_order101_terminal_slice_contract(
                     f"exact replay token {token!r}",
                     errors,
                 )
+
+
+def validate_order101_month_summary_boundary_contract(
+    errors: list[str],
+) -> None:
+    """Keep the Seoul-cycle month boundary fail-closed before rollover."""
+    try:
+        demo_source = DEMO_CORE_LOOP_PATH.read_text(encoding="utf-8")
+        main_source = (ROOT / "scenes/MainGame.gd").read_text(
+            encoding="utf-8"
+        )
+    except OSError as exc:
+        fail(f"cannot load month-summary boundary sources: {exc}", errors)
+        return
+
+    def gdscript_function(source: str, function_name: str) -> str:
+        match = re.search(
+            rf"^(?:static )?func {re.escape(function_name)}\b[\s\S]*?"
+            r"(?=^(?:static )?func |\Z)",
+            source,
+            re.MULTILINE,
+        )
+        return match.group(0) if match is not None else ""
+
+    def gdscript_guard_suite(
+        source: str, guard_pattern: str
+    ) -> tuple[re.Match[str] | None, str]:
+        guard = re.search(
+            rf"(?m)^(?P<indent>[ \t]*){guard_pattern}\s*$",
+            source,
+        )
+        if guard is None:
+            return None, ""
+        guard_indent = len(guard.group("indent"))
+        suite_lines: list[str] = []
+        for line in source[guard.end():].splitlines():
+            if not line.strip():
+                suite_lines.append(line)
+                continue
+            line_indent = len(line) - len(line.lstrip(" \t"))
+            if line_indent <= guard_indent:
+                break
+            suite_lines.append(line)
+        return guard, "\n".join(suite_lines)
+
+    can_record_body = gdscript_function(
+        demo_source, "can_record_month_summary"
+    )
+    if not can_record_body or "static func can_record_month_summary(" \
+            not in can_record_body:
+        fail(
+            "DemoCoreLoopV2 must define can_record_month_summary",
+            errors,
+        )
+    elif 'if state["month_summaries"].has(month_key):' \
+            not in can_record_body:
+        fail(
+            "DemoCoreLoopV2.can_record_month_summary must reject a "
+            "preinstalled same-month notebook before rollover",
+            errors,
+        )
+
+    advance_body = gdscript_function(
+        main_source, "_core_loop_v2_advance_completed_week"
+    )
+    if not advance_body:
+        fail(
+            "cannot inspect MainGame._core_loop_v2_advance_completed_week",
+            errors,
+        )
+    else:
+        transition_calls = list(re.finditer(
+            r"_run_month_end_transition\s*\(", advance_body
+        ))
+        preflight_calls = list(re.finditer(
+            r"(?m)^[ \t]*if not "
+            r"DEMO_CORE_LOOP_V2\.can_record_month_summary\("
+            r"\s*closing_month\s*\):\s*$",
+            advance_body,
+        ))
+        if len(transition_calls) != 2:
+            fail(
+                "MainGame completed-week boundary must contain exactly two "
+                "_run_month_end_transition calls",
+                errors,
+            )
+        if len(preflight_calls) != 2:
+            fail(
+                "MainGame completed-week boundary must preflight exactly two "
+                "can_record_month_summary calls",
+                errors,
+            )
+        if len(transition_calls) == 2 and len(preflight_calls) == 2:
+            for index, (preflight, transition) in enumerate(
+                zip(preflight_calls, transition_calls), start=1
+            ):
+                guard_body = advance_body[preflight.end():transition.start()]
+                if preflight.start() >= transition.start() or not re.search(
+                    r"(?m)^[ \t]+return\s*$", guard_body
+                ):
+                    fail(
+                        "MainGame month-end transition "
+                        f"{index} must follow a fail-closed can_record "
+                        "preflight",
+                        errors,
+                    )
+                if not re.search(
+                    r"var\s+boundary_before\s*:\s*Dictionary\s*=\s*"
+                    r"GameState\.serialize\(\)\.duplicate\(true\)",
+                    guard_body,
+                ):
+                    fail(
+                        "MainGame month-end transition "
+                        f"{index} must capture boundary_before before rollover",
+                        errors,
+                    )
+                if not re.search(
+                    r"var\s+boundary_pending_events\s*:\s*Array\s*=\s*"
+                    r"EventManager\.pending_events\.duplicate\(true\)",
+                    guard_body,
+                ):
+                    fail(
+                        "MainGame month-end transition "
+                        f"{index} must capture pending events before rollover",
+                        errors,
+                    )
+
+        record_calls = list(re.finditer(
+            r"var\s+(?P<result>[A-Za-z_]\w*)"
+            r"(?:\s*:\s*[A-Za-z_]\w*)?\s*:=\s*"
+            r"DEMO_CORE_LOOP_V2\.record_month_summary\s*\(",
+            advance_body,
+        ))
+        if len(record_calls) != 2:
+            fail(
+                "MainGame completed-week boundary must record exactly two "
+                "month-summary paths",
+                errors,
+            )
+        for index, record_call in enumerate(record_calls, start=1):
+            segment_end = (
+                record_calls[index].start()
+                if index < len(record_calls)
+                else len(advance_body)
+            )
+            after_record = advance_body[record_call.end():segment_end]
+            result_name = record_call.group("result")
+            empty_guard, empty_suite = gdscript_guard_suite(
+                after_record,
+                rf"if {re.escape(result_name)}\.is_empty\(\):",
+            )
+            rollback_index = empty_suite.find(
+                "GameState._restore_serialized_snapshot_exact("
+                "boundary_before)"
+            )
+            pending_rollback_index = empty_suite.find(
+                "EventManager.pending_events = "
+                "boundary_pending_events.duplicate(true)"
+            )
+            state_guard_index = empty_suite.find(
+                "GameState.serialize() != boundary_before"
+            )
+            pending_guard_index = empty_suite.find(
+                "EventManager.pending_events != boundary_pending_events"
+            )
+            return_match = re.search(r"(?m)^[ \t]*return\s*$", empty_suite)
+            if empty_guard is None \
+                    or rollback_index < 0 \
+                    or pending_rollback_index < 0 \
+                    or state_guard_index < 0 \
+                    or pending_guard_index < 0 \
+                    or return_match is None \
+                    or max(
+                        rollback_index,
+                        pending_rollback_index,
+                        state_guard_index,
+                        pending_guard_index,
+                    ) >= return_match.start():
+                fail(
+                    "MainGame record_month_summary path "
+                    f"{index} must restore and verify GameState plus pending "
+                    "events before returning on an empty result",
+                    errors,
+                )
+
+        mark_guard, mark_suite = gdscript_guard_suite(
+            advance_body,
+            r"if not DEMO_CORE_LOOP_V2\.mark_prototype_complete\(\):",
+        )
+        mark_rollback_index = mark_suite.find(
+            "GameState._restore_serialized_snapshot_exact(boundary_before)"
+        )
+        mark_pending_rollback_index = mark_suite.find(
+            "EventManager.pending_events = "
+            "boundary_pending_events.duplicate(true)"
+        )
+        mark_state_guard_index = mark_suite.find(
+            "GameState.serialize() != boundary_before"
+        )
+        mark_pending_guard_index = mark_suite.find(
+            "EventManager.pending_events != boundary_pending_events"
+        )
+        mark_return = re.search(r"(?m)^[ \t]*return\s*$", mark_suite)
+        if mark_guard is None \
+                or mark_rollback_index < 0 \
+                or mark_pending_rollback_index < 0 \
+                or mark_state_guard_index < 0 \
+                or mark_pending_guard_index < 0 \
+                or mark_return is None \
+                or max(
+                    mark_rollback_index,
+                    mark_pending_rollback_index,
+                    mark_state_guard_index,
+                    mark_pending_guard_index,
+                ) >= mark_return.start():
+            fail(
+                "MainGame prototype-close failure must restore and verify "
+                "GameState plus pending events before returning",
+                errors,
+            )
+
+        if len(re.findall(
+            r"_run_month_end_transition\(\s*false\s*,\s*false\s*\)",
+            advance_body,
+        )) != 2:
+            fail(
+                "MainGame V2 month boundaries must use exactly two "
+                "non-persisting shared rollovers",
+                errors,
+            )
+        if "_check_title_unlocks" in advance_body:
+            fail(
+                "MainGame V2 month rollover must not publish titles before "
+                "its durable summary/completion surface",
+                errors,
+            )
+
+    authority_helper = gdscript_function(
+        demo_source, "_terminal_month_requires_seoul_authority"
+    )
+    if not authority_helper:
+        fail(
+            "DemoCoreLoopV2 lacks shared Seoul month authority detection",
+            errors,
+        )
+    for function_name in (
+        "can_record_month_summary",
+        "record_month_summary",
+        "_validated_month_summary",
+    ):
+        function_body = gdscript_function(demo_source, function_name)
+        if not function_body:
+            fail(f"DemoCoreLoopV2 lacks {function_name}", errors)
+            continue
+        if "_terminal_month_requires_seoul_authority(" not in function_body:
+            fail(
+                f"DemoCoreLoopV2.{function_name} must share Seoul month "
+                "authority detection",
+                errors,
+            )
+
+    title_publish_contracts = {
+        "_core_loop_v2_show_month_summary": (
+            "persist_new_boundary",
+            "_core_loop_v2_autosave_durable_state()",
+            "_check_title_unlocks(false)",
+        ),
+        "_core_loop_v2_resume_after_seoul_cycle_save_retry": (
+            'phase == "month_summary"',
+            "_check_title_unlocks(false)",
+        ),
+        "_core_loop_v2_retry_completion_autosave": (
+            "_core_loop_v2_autosave_completion()",
+            "_check_title_unlocks(false)",
+        ),
+        "_core_loop_v2_open_completion_surface": (
+            "persist_new_boundary and "
+            "_core_loop_v2_completion_autosave_succeeded",
+            "_check_title_unlocks(false)",
+        ),
+        "_core_loop_v2_show_completion": (
+            "persist_new_boundary and "
+            "_core_loop_v2_completion_autosave_succeeded",
+            "_check_title_unlocks(false)",
+        ),
+        "_core_loop_v2_return_to_title": (
+            "_core_loop_v2_autosave_completion()",
+            "_check_title_unlocks(false)",
+        ),
+    }
+    for function_name, required_tokens in title_publish_contracts.items():
+        function_body = gdscript_function(main_source, function_name)
+        if not function_body:
+            fail(f"MainGame lacks {function_name}", errors)
+            continue
+        for token in required_tokens:
+            if token not in function_body:
+                fail(
+                    f"MainGame.{function_name} lacks durable title token "
+                    f"{token!r}",
+                    errors,
+                )
+
+    month_transition_body = gdscript_function(
+        main_source, "_run_month_end_transition"
+    )
+    persist_guard, persist_suite = gdscript_guard_suite(
+        month_transition_body, r"if persist_transition:",
+    )
+    if persist_guard is None \
+            or "SaveManager.autosave()" not in persist_suite \
+            or "_check_title_unlocks()" not in persist_suite:
+        fail(
+            "MainGame shared month transition must keep its legacy title "
+            "writer behind persist_transition autosave success",
+            errors,
+        )
+
+    validated_helper = gdscript_function(
+        demo_source, "_validated_month_summary"
+    )
+    if not validated_helper:
+        fail("DemoCoreLoopV2 lacks _validated_month_summary", errors)
+    for function_name in (
+        "month_summary",
+        "pending_month_summary",
+        "acknowledge_month_summary",
+    ):
+        function_body = gdscript_function(demo_source, function_name)
+        if not function_body:
+            fail(f"DemoCoreLoopV2 lacks {function_name}", errors)
+            continue
+        if not re.search(
+            r"_validated_month_summary\(\s*"
+            r"state\s*,\s*raw_core_state\s*,\s*month_index\s*\)",
+            function_body,
+        ):
+            fail(
+                f"DemoCoreLoopV2.{function_name} must route through "
+                "_validated_month_summary",
+                errors,
+            )
+        if re.search(
+            r"state\[\"month_summaries\"\]\.get\s*\(", function_body
+        ) or re.search(
+            r"(?m)^\s*(?:return|var\s+[A-Za-z_]\w*[^=]*)="
+            r"?\s*state\[\"month_summaries\"\]\[",
+            function_body,
+        ):
+            fail(
+                f"DemoCoreLoopV2.{function_name} must not read a raw "
+                "month-summary payload",
+                errors,
+            )
 
 
 def fixture_predicate_met(predicate: dict[str, Any], fixture: dict[str, Any]) -> bool:
@@ -8702,6 +9133,7 @@ def main() -> int:
     validate_order101_w1_application_contract(contract, errors)
     validate_order101_m2_people_selection_contract(contract, errors)
     validate_order101_terminal_slice_contract(contract, errors)
+    validate_order101_month_summary_boundary_contract(errors)
     temptation_bundle = require_dict(
         bundles.get("temptation_consequence"),
         "scene_bundles.temptation_consequence",

@@ -1373,6 +1373,7 @@ func _core_loop_v2_resume_after_seoul_cycle_save_retry(
 		if phase == "week_advance" or phase == "month_acknowledged":
 			_begin_month()
 		elif phase == "month_summary":
+			_check_title_unlocks(false)
 			_core_loop_v2_show_month_summary(
 				DEMO_CORE_LOOP_V2.month_summary(month_index), false)
 		return
@@ -3009,6 +3010,8 @@ func _core_loop_v2_open_completion_surface(
 		_core_loop_v2_autosave_completion()
 		if persist_new_boundary else true
 	)
+	if persist_new_boundary and _core_loop_v2_completion_autosave_succeeded:
+		_check_title_unlocks(false)
 	_core_loop_v2_completion_model = _core_loop_v2_completion_view_model(
 		snapshot, cap_week, persist_new_boundary)
 	if is_instance_valid(modal_layer):
@@ -3055,6 +3058,7 @@ func _core_loop_v2_retry_completion_autosave() -> void:
 			_core_loop_v2_completion.open(_core_loop_v2_completion_model)
 		return
 	_core_loop_v2_completion_autosave_succeeded = true
+	_check_title_unlocks(false)
 	_core_loop_v2_completion_model["autosave_ok"] = true
 	_core_loop_v2_completion_model["boundary"] = (
 		_core_loop_v2_completion_boundary_copy(
@@ -3353,6 +3357,8 @@ func _core_loop_v2_show_completion(
 		_core_loop_v2_autosave_completion()
 		if persist_new_boundary else true
 	)
+	if persist_new_boundary and _core_loop_v2_completion_autosave_succeeded:
+		_check_title_unlocks(false)
 	modal_layer.set_meta(
 		"core_loop_v2_completion_autosave_succeeded",
 		_core_loop_v2_completion_autosave_succeeded)
@@ -3409,6 +3415,7 @@ func _core_loop_v2_return_to_title() -> void:
 				Color(UIStyle.C_ACCENT_RED))
 			return
 		_core_loop_v2_completion_autosave_succeeded = true
+		_check_title_unlocks(false)
 	if is_instance_valid(_core_loop_v2_completion):
 		_core_loop_v2_completion.close()
 	if bool(get_meta("_screenshot_qa_static_surface", false)):
@@ -3729,6 +3736,10 @@ func _core_loop_v2_show_month_summary(
 	if persist_new_boundary and not _core_loop_v2_autosave_durable_state():
 		_core_loop_v2_open_seoul_cycle_save_retry_gate(
 			"month_summary", month_index)
+	elif persist_new_boundary:
+		# Titles own a separate meta save. Publish only after the gameplay boundary
+		# is durable, without changing the GameState snapshot that was just saved.
+		_check_title_unlocks(false)
 
 func _core_loop_v2_acknowledge_month_summary(month_index: int) -> void:
 	if not DEMO_CORE_LOOP_V2.acknowledge_month_summary(month_index):
@@ -3747,6 +3758,13 @@ func _core_loop_v2_advance_completed_week() -> void:
 		var before := DEMO_CORE_LOOP_V2.month_opening_snapshot(closing_month)
 		if before.is_empty():
 			before = _core_loop_v2_economy_snapshot()
+		if not DEMO_CORE_LOOP_V2.can_record_month_summary(closing_month):
+			push_error(
+				"Core Loop V2 could not preflight its week-%d month summary" \
+				% cap_week)
+			return
+		var boundary_before: Dictionary = GameState.serialize().duplicate(true)
+		var boundary_pending_events: Array = EventManager.pending_events.duplicate(true)
 		# V2 owns one durable boundary write after its decline receipts,
 		# month summary, and terminal marker are all complete. Saving inside
 		# the shared rollover would leave a reloadable turn-13 snapshot
@@ -3762,9 +3780,24 @@ func _core_loop_v2_advance_completed_week() -> void:
 		if GameState.is_game_over:
 			return
 		var after := _core_loop_v2_economy_snapshot()
-		DEMO_CORE_LOOP_V2.record_month_summary(
+		var summary := DEMO_CORE_LOOP_V2.record_month_summary(
 			closing_month, before, after)
+		if summary.is_empty():
+			GameState._restore_serialized_snapshot_exact(boundary_before)
+			EventManager.pending_events = boundary_pending_events.duplicate(true)
+			if GameState.serialize() != boundary_before \
+					or EventManager.pending_events != boundary_pending_events:
+				push_error("Core Loop V2 failed to restore its month boundary exactly")
+			push_error(
+				"Core Loop V2 could not record its week-%d month summary" \
+				% cap_week)
+			return
 		if not DEMO_CORE_LOOP_V2.mark_prototype_complete():
+			GameState._restore_serialized_snapshot_exact(boundary_before)
+			EventManager.pending_events = boundary_pending_events.duplicate(true)
+			if GameState.serialize() != boundary_before \
+					or EventManager.pending_events != boundary_pending_events:
+				push_error("Core Loop V2 failed to restore its prototype boundary exactly")
 			push_error("Core Loop V2 could not close its week-%d boundary" % cap_week)
 			return
 		# The completion surface owns the one terminal autosave after every
@@ -3776,6 +3809,13 @@ func _core_loop_v2_advance_completed_week() -> void:
 		var before := DEMO_CORE_LOOP_V2.month_opening_snapshot(closing_month)
 		if before.is_empty():
 			before = _core_loop_v2_economy_snapshot()
+		if not DEMO_CORE_LOOP_V2.can_record_month_summary(closing_month):
+			push_error(
+				"Core Loop V2 could not preflight its month-%d summary" \
+				% closing_month)
+			return
+		var boundary_before: Dictionary = GameState.serialize().duplicate(true)
+		var boundary_pending_events: Array = EventManager.pending_events.duplicate(true)
 		# The V2 month receipt and the calendar rollover must become durable
 		# together; the caller writes the single completed boundary below.
 		_run_month_end_transition(false, false)
@@ -3790,6 +3830,16 @@ func _core_loop_v2_advance_completed_week() -> void:
 		var after := _core_loop_v2_economy_snapshot()
 		var summary := DEMO_CORE_LOOP_V2.record_month_summary(
 			closing_month, before, after)
+		if summary.is_empty():
+			GameState._restore_serialized_snapshot_exact(boundary_before)
+			EventManager.pending_events = boundary_pending_events.duplicate(true)
+			if GameState.serialize() != boundary_before \
+					or EventManager.pending_events != boundary_pending_events:
+				push_error("Core Loop V2 failed to restore its month boundary exactly")
+			push_error(
+				"Core Loop V2 could not record its month-%d summary" \
+				% closing_month)
+			return
 		# The notebook surface writes the one boundary save after the summary
 		# exists, matching the terminal completion ownership above.
 		_core_loop_v2_show_month_summary(summary)
@@ -7866,8 +7916,8 @@ func _run_month_end_transition(
 	if GameState.is_game_over:
 		return
 	if persist_transition:
-		SaveManager.autosave()
-	_check_title_unlocks()
+		if SaveManager.autosave():
+			_check_title_unlocks()
 	if show_summary:
 		_show_month_summary(snap)
 	else:
@@ -22618,13 +22668,14 @@ func _get_month_advice() -> String:
 			return _tr("근속 %d개월, 업무 성과 %d입니다. 승진 기회가 다가오고 있어요. 꾸준히 유지하세요.", "Tenure %d months, performance %d. Promotion chances are approaching. Stay consistent.") % [tenure, GameState.work_performance]
 	return ""
 
-func _check_title_unlocks():
+func _check_title_unlocks(record_game_log: bool = true):
 	var newly = MetaProgression.check_and_unlock_titles()
 	var rare_colors = {"common": "#8892a4", "uncommon": "#b8c0cc", "rare": "#dce5ee", "legendary": "#f8fbff"}
 	for t in newly:
 		var color = rare_colors.get(t.get("rare", "common"), "#8892a4")
 		_show_toast(_tr("칭호 해금: 「%s」", "Title Unlocked: \"%s\"") % t.get("name", ""), Color(color))
-		GameState.add_log(_tr("칭호 해금: %s", "Title Unlocked: %s") % t.get("name", ""), "system")
+		if record_game_log:
+			GameState.add_log(_tr("칭호 해금: %s", "Title Unlocked: %s") % t.get("name", ""), "system")
 
 func _title_collection_badge(text: String, color: String, muted: bool = false) -> PanelContainer:
 	var badge := PanelContainer.new()
