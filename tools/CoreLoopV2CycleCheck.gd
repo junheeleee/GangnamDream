@@ -126,9 +126,11 @@ func _run() -> void:
 	_check_order101_terminal_slice_free_injection_rejected()
 	_check_order101_fresh_w1_application_contract()
 	_check_order101_resume_terminal_source_receipts()
+	_check_order101_resume_terminal_target_initialization()
 	_check_order101_father_terminal_source_receipts()
 	_check_order101_m2_people_selection_contract()
 	_check_order101_m2_people_terminal_source_receipts()
+	_check_order101_m2_people_expiry_target_initialization()
 	await _check_order101_main_result_committed_double_reload()
 	_check_run_generation_provenance()
 	_check_completion_boundary_trust()
@@ -463,6 +465,22 @@ func _check_contract_and_determinism() -> void:
 	_expect(int(spec.get("schema_version", 0)) == 1 \
 		and str(spec.get("planning_mode", "")) == CORE.SEOUL_CYCLE_MODE,
 		"Seoul Cycle contract identity is missing")
+	_expect(CORE._terminal_effects_semantically_equal(
+		{"health": -1.0, "mental": 2.0, "money": 70000.0},
+		{"health": -1, "mental": 2, "money": 70000}) \
+		and CORE._terminal_effects_semantically_equal({}, {}),
+		"terminal effect identity rejected exact JSON int/float values")
+	_expect(not CORE._terminal_effects_semantically_equal(
+			{"mental": 1.0, "money": 0.0}, {"mental": 1}) \
+		and not CORE._terminal_effects_semantically_equal(
+			{"mental": 1, "luck": 0}, {"mental": 1, "luck": 0}) \
+		and not CORE._terminal_effects_semantically_equal(
+			{"mental": "1"}, {"mental": 1}) \
+		and not CORE._terminal_effects_semantically_equal(
+			{"mental": 1.5}, {"mental": 1}) \
+		and not CORE._terminal_effects_semantically_equal(
+			{"mental": NAN}, {"mental": 0}),
+		"terminal effect identity accepted key/type/fraction/non-finite mutation")
 	var capacity: Dictionary = spec.get("capacity", {})
 	_expect(int(capacity.get("count", 0)) == 4 \
 		and int(capacity.get("minimum", 0)) == 1 \
@@ -707,6 +725,11 @@ func _check_order101_resume_terminal_source_receipts() -> void:
 			and GameState.serialize() == frozen_state,
 			"quality %d repeated month close rewrote its terminal receipt" % quality)
 		var saved: Dictionary = GameState.serialize().duplicate(true)
+		if quality == 0:
+			_check_terminal_source_json_target_roundtrip(
+				saved, route_id, frozen_receipt, 2, "m2_advancement")
+			_check_terminal_fractional_scalar_rejected(
+				saved, route_id, frozen_receipt)
 		for reload_index in range(2):
 			GameState.start_new_game()
 			GameState.load_from_dict(saved.duplicate(true))
@@ -725,6 +748,327 @@ func _check_order101_resume_terminal_source_receipts() -> void:
 			_check_terminal_long_horizon_retention(
 				saved, route_id, frozen_receipt, 1)
 	_check_order101_resume_expiry_source_receipt()
+
+
+func _check_order101_resume_terminal_target_initialization() -> void:
+	var route_id := "m1_resume_completed_q3_to_m2_advancement_ready"
+	var father_expiry_route := "m1_father_expired_to_m2_people_open"
+	var candidate_id := "terminal:%s" % route_id
+	var father_candidate_id := "terminal:%s" % father_expiry_route
+	var source_summary := _produce_completed_resume_month(3)
+	var receipt := CORE.terminal_transition_receipt(route_id)
+	_expect(not source_summary.is_empty() and not receipt.is_empty(),
+		"q3 target-init fixture did not produce its exact source receipt")
+	if source_summary.is_empty() or receipt.is_empty():
+		return
+	var before_preinit_query: Dictionary = GameState.serialize().duplicate(true)
+	_expect(CORE.terminal_target_candidates(
+		2, "m2_advancement").is_empty() \
+		and GameState.serialize() == before_preinit_query,
+		"target candidates appeared before M2 initialization or mutated source state")
+	_advance_to_next_week()
+	var advanced_receipt := CORE.terminal_transition_receipt(route_id)
+	_expect(advanced_receipt == receipt,
+		"q3 source receipt stopped validating at the W4-to-W5 boundary")
+	var initialized := CORE.initialize_seoul_cycle(2)
+	var snapshot := CORE.seoul_cycle_snapshot(2)
+	var node: Dictionary = (snapshot.get("nodes", {}) as Dictionary).get(
+		"m2_advancement", {})
+	var candidates := CORE.terminal_target_candidates(2, "m2_advancement")
+	var route_spec: Dictionary = (
+		CORE.seoul_cycle_spec().get("terminal_routes", {}) as Dictionary).get(
+			route_id, {})
+	var expected_binding := {
+		"schema": CORE.TERMINAL_TARGET_BINDING_SCHEMA,
+		"route_id": route_id,
+		"variant_id": "resume_ready",
+		"source_month": 1,
+		"source_node": "resume",
+		"source_terminal": "completed",
+		"source_turn": 1,
+		"proof_kind": "typed_action_application",
+		"proof_id": "m1_youth_center_resume_clinic:application:1",
+		"target_month": 2,
+		"target_node": "m2_advancement",
+		"target_bundle": "m2_seorin_application",
+		"completion_effects": {"mental": 1},
+		"label_ko": str(route_spec.get("label_ko", "")),
+		"label_en": str(route_spec.get("label_en", "")),
+		"detail_ko": str(route_spec.get("detail_ko", "")),
+		"detail_en": str(route_spec.get("detail_en", "")),
+		"result_ko": str(route_spec.get("result_ko", "")),
+		"result_en": str(route_spec.get("result_en", "")),
+	}
+	var expected_candidate := {
+		"id": candidate_id,
+		"kind": "terminal",
+		"bundle_id": "m2_seorin_application",
+		"route_id": route_id,
+		"variant_id": "resume_ready",
+		"label_ko": str(route_spec.get("label_ko", "")),
+		"label_en": str(route_spec.get("label_en", "")),
+		"detail_ko": str(route_spec.get("detail_ko", "")),
+		"detail_en": str(route_spec.get("detail_en", "")),
+		"completion_effects": {"mental": 1},
+		"source": {
+			"month": 1,
+			"node": "resume",
+			"terminal": "completed",
+			"turn": 1,
+			"proof_kind": "typed_action_application",
+			"proof_id": "m1_youth_center_resume_clinic:application:1",
+		},
+	}
+	var bindings: Dictionary = node.get("terminal_route_bindings", {})
+	var initialized_state: Dictionary = GameState.core_loop_v2_state
+	var initialized_cycle: Dictionary = initialized_state.get("seoul_cycle", {})
+	var initialized_plan: Dictionary = (
+		initialized_state.get("plans", {}) as Dictionary).get("2", {})
+	var expected_candidate_set := {
+		"ordinary_candidate_ids": [],
+		"binding_candidate_ids": [candidate_id],
+	}
+	var expected_father_candidate_set := {
+		"ordinary_candidate_ids": [
+			"cafe_world_glimpse", "hyunsu_player_reachout",
+		],
+		"binding_candidate_ids": [
+			"cafe_world_glimpse", "hyunsu_player_reachout",
+			father_candidate_id,
+		],
+	}
+	var target_candidate_sets: Dictionary = initialized_plan.get(
+		"terminal_binding_candidate_sets", {})
+	_expect(bool(initialized.get("ok", false)) \
+		and not bool(initialized.get("resumed", true)) \
+		and candidates.size() == 1 \
+		and _terminal_record_equal_with_numeric_effects(
+			candidates[0], expected_candidate) \
+		and _sorted_strings(node.get("binding_candidate_ids", [])) \
+			== [candidate_id] \
+		and _sorted_strings(node.get("eligible_terminal_route_ids", [])) \
+			== [route_id] \
+		and _sorted_strings(bindings.keys()) == [route_id] \
+		and _terminal_record_equal_with_numeric_effects(
+			bindings.get(route_id, {}), expected_binding) \
+		and str(node.get("selected_trigger_candidate_id", "")) == candidate_id \
+		and str(node.get("selected_trigger_bundle_id", "")) \
+			== "m2_seorin_application" \
+		and str(node.get("selected_terminal_route_id", "")) == route_id \
+		and str(node.get("terminal_selection_origin", "")) == "terminal_auto" \
+		and str(node.get("trigger_bundle", "")) == "m2_seorin_application" \
+		and str(node.get("summary_bundle", "")) == "m2_seorin_application" \
+		and int(initialized_cycle.get("terminal_binding_schema", 0)) \
+			== CORE.TERMINAL_TARGET_BINDING_SCHEMA \
+		and initialized_cycle.get("terminal_bound_node_ids", []) \
+			== ["m2_advancement", "m2_people"] \
+		and int(initialized_plan.get("terminal_binding_schema", 0)) \
+			== CORE.TERMINAL_TARGET_BINDING_SCHEMA \
+		and initialized_plan.get("terminal_bound_node_ids", []) \
+			== ["m2_advancement", "m2_people"] \
+		and target_candidate_sets.get(
+			"m2_advancement", {}) == expected_candidate_set \
+		and target_candidate_sets.get(
+			"m2_people", {}) == expected_father_candidate_set \
+		and CORE.terminal_transition_receipt(route_id) == receipt \
+		and not CORE.terminal_transition_receipt(
+			father_expiry_route).is_empty() \
+		and CORE.terminal_transition_resolution(route_id).is_empty(),
+		"q3 target initialization did not persist one exact coalesced candidate")
+	var initialized_save: Dictionary = GameState.serialize().duplicate(true)
+	var before_candidate_query := initialized_save.duplicate(true)
+	var reread_candidates := CORE.terminal_target_candidates(
+		2, "m2_advancement")
+	_expect(reread_candidates.size() == 1 \
+		and _terminal_record_equal_with_numeric_effects(
+			reread_candidates[0], expected_candidate) \
+		and GameState.serialize() == before_candidate_query,
+		"target candidate read mutated initialized state")
+	var resumed := CORE.initialize_seoul_cycle(2)
+	_expect(bool(resumed.get("ok", false)) \
+		and bool(resumed.get("resumed", false)) \
+		and GameState.serialize() == initialized_save \
+		and CORE.terminal_transition_resolution(route_id).is_empty(),
+		"repeated target initialization consumed or rewrote its binding")
+	var roundtrip := initialized_save.duplicate(true)
+	for reload_index in range(2):
+		GameState.start_new_game()
+		GameState.load_from_dict(roundtrip.duplicate(true))
+		CORE.initialize_for_run(true)
+		var reloaded_candidates := CORE.terminal_target_candidates(
+			2, "m2_advancement")
+		_expect(CORE.terminal_transition_receipt(route_id) == receipt \
+			and reloaded_candidates.size() == 1 \
+			and _terminal_record_equal_with_numeric_effects(
+				reloaded_candidates[0], expected_candidate) \
+			and CORE.terminal_transition_resolution(route_id).is_empty(),
+			"q3 target binding drifted on init-only reload %d" \
+				% [reload_index + 1])
+		roundtrip = GameState.serialize().duplicate(true)
+
+	var missing_source := initialized_save.duplicate(true)
+	var missing_state: Dictionary = missing_source.get("core_loop_v2_state", {})
+	(missing_state.get("terminal_transition_receipts", {}) as Dictionary).erase(
+		route_id)
+	missing_source["core_loop_v2_state"] = missing_state
+	GameState.start_new_game()
+	GameState.load_from_dict(missing_source)
+	CORE.initialize_for_run(true)
+	var missing_before: Dictionary = GameState.serialize().duplicate(true)
+	var missing_resume := CORE.initialize_seoul_cycle(2)
+	_expect(CORE.terminal_transition_receipt(route_id).is_empty() \
+		and CORE.terminal_target_candidates(2, "m2_advancement").is_empty() \
+		and not bool(missing_resume.get("ok", true)) \
+		and str(missing_resume.get("error", "")) \
+			== "terminal_binding_conflict" \
+		and GameState.serialize() == missing_before,
+		"persisted target binding survived deletion of its exact source receipt")
+	_check_terminal_target_identity_erasure_rejected(
+		initialized_save, route_id, 2, "m2_advancement")
+	_check_terminal_target_three_surface_erasure_rejected(
+		initialized_save, route_id, 2, "m2_advancement")
+	_check_terminal_target_witness_lifetime_rejected(
+		initialized_save, route_id)
+
+
+func _check_terminal_target_identity_erasure_rejected(
+		initialized_save: Dictionary, route_id: String,
+		target_month: int, target_node: String) -> void:
+	var malformed := initialized_save.duplicate(true)
+	var state: Dictionary = malformed.get("core_loop_v2_state", {})
+	var cycle: Dictionary = state.get("seoul_cycle", {})
+	cycle.erase("terminal_binding_schema")
+	cycle.erase("terminal_bound_node_ids")
+	var nodes: Dictionary = cycle.get("nodes", {})
+	for raw_node_id in nodes.keys():
+		var node: Dictionary = nodes.get(raw_node_id, {})
+		for field in [
+			"binding_candidate_ids", "ordinary_candidate_ids",
+			"eligible_terminal_route_ids", "terminal_route_bindings",
+			"selected_trigger_candidate_id", "selected_terminal_route_id",
+			"terminal_selection_origin", "terminal_result_ko",
+			"terminal_result_en", "terminal_completion_effects",
+		]:
+			node.erase(field)
+		nodes[raw_node_id] = node
+	cycle["nodes"] = nodes
+	state["seoul_cycle"] = cycle
+	malformed["core_loop_v2_state"] = state
+	GameState.start_new_game()
+	GameState.load_from_dict(malformed)
+	CORE.initialize_for_run(true)
+	var before_retry: Dictionary = GameState.serialize().duplicate(true)
+	var retried := CORE.initialize_seoul_cycle(target_month)
+	_expect(not bool(CORE.seoul_cycle_snapshot(target_month).get(
+		"active", true)) \
+		and CORE.terminal_target_candidates(
+			target_month, target_node).is_empty() \
+		and not bool(retried.get("ok", true)) \
+		and str(retried.get("error", "")) == "terminal_binding_conflict" \
+		and CORE.terminal_transition_resolution(route_id).is_empty() \
+		and GameState.serialize() == before_retry,
+		"erased target identity downgraded a bound terminal cycle to ordinary")
+
+
+func _check_terminal_target_three_surface_erasure_rejected(
+		initialized_save: Dictionary, route_id: String,
+		target_month: int, target_node: String) -> void:
+	var malformed := initialized_save.duplicate(true)
+	var state: Dictionary = malformed.get("core_loop_v2_state", {})
+	var witness_key := "%d:%s" % [target_month, target_node]
+	var root_witnesses: Dictionary = state.get(
+		"terminal_target_binding_receipts", {})
+	_expect(not (root_witnesses.get(witness_key, {}) as Dictionary).is_empty(),
+		"three-surface erasure fixture lost its immutable root witness")
+	if (root_witnesses.get(witness_key, {}) as Dictionary).is_empty():
+		return
+	var expected_root_witnesses: Dictionary = root_witnesses.duplicate(true)
+
+	var cycle: Dictionary = state.get("seoul_cycle", {})
+	cycle.erase("terminal_binding_schema")
+	cycle.erase("terminal_bound_node_ids")
+	var nodes: Dictionary = cycle.get("nodes", {})
+	for raw_node_id in nodes.keys():
+		var node: Dictionary = nodes.get(raw_node_id, {})
+		for field in [
+			"binding_candidate_ids", "ordinary_candidate_ids",
+			"eligible_terminal_route_ids", "terminal_route_bindings",
+			"selected_trigger_candidate_id", "selected_terminal_route_id",
+			"terminal_selection_origin", "terminal_result_ko",
+			"terminal_result_en", "terminal_completion_effects",
+		]:
+			node.erase(field)
+		nodes[raw_node_id] = node
+	cycle["nodes"] = nodes
+	state["seoul_cycle"] = cycle
+
+	var plans: Dictionary = state.get("plans", {})
+	var plan: Dictionary = plans.get(str(target_month), {})
+	plan.erase("terminal_binding_schema")
+	plan.erase("terminal_bound_node_ids")
+	plan.erase("terminal_binding_candidate_sets")
+	plans[str(target_month)] = plan
+	state["plans"] = plans
+	malformed["core_loop_v2_state"] = state
+
+	GameState.start_new_game()
+	GameState.load_from_dict(malformed)
+	CORE.initialize_for_run(true)
+	var before_retry: Dictionary = GameState.serialize().duplicate(true)
+	var retried := CORE.initialize_seoul_cycle(target_month)
+	var retained_witnesses: Dictionary = GameState.core_loop_v2_state.get(
+		"terminal_target_binding_receipts", {})
+	_expect(not bool(CORE.seoul_cycle_snapshot(target_month).get(
+		"active", true)) \
+		and CORE.terminal_target_candidates(
+			target_month, target_node).is_empty() \
+		and not bool(retried.get("ok", true)) \
+		and str(retried.get("error", "")) == "terminal_binding_conflict" \
+		and retained_witnesses == expected_root_witnesses \
+		and CORE.terminal_transition_resolution(route_id).is_empty() \
+		and GameState.serialize() == before_retry,
+		"root witness did not stop a three-surface terminal downgrade")
+
+
+func _check_terminal_target_witness_lifetime_rejected(
+		initialized_save: Dictionary, route_id: String) -> void:
+	for mutation in ["future", "past", "missing_current"]:
+		var malformed := initialized_save.duplicate(true)
+		var state: Dictionary = malformed.get("core_loop_v2_state", {})
+		var witnesses: Dictionary = state.get(
+			"terminal_target_binding_receipts", {})
+		var current_key := "2:m2_advancement"
+		var raw_current: Variant = witnesses.get(current_key, {})
+		_expect(raw_current is Dictionary \
+			and not (raw_current as Dictionary).is_empty(),
+			"witness lifetime fixture lost its current-month authority")
+		if not raw_current is Dictionary \
+				or (raw_current as Dictionary).is_empty():
+			return
+		if mutation == "missing_current":
+			witnesses.erase(current_key)
+		else:
+			var forged: Dictionary = (raw_current as Dictionary).duplicate(true)
+			var forged_month := 3 if mutation == "future" else 1
+			var forged_node := "m3_people" if mutation == "future" else "resume"
+			forged["target_month"] = forged_month
+			forged["target_node"] = forged_node
+			witnesses["%d:%s" % [forged_month, forged_node]] = forged
+		state["terminal_target_binding_receipts"] = witnesses
+		malformed["core_loop_v2_state"] = state
+		GameState.start_new_game()
+		GameState.load_from_dict(malformed)
+		CORE.initialize_for_run(true)
+		var before_retry: Dictionary = GameState.serialize().duplicate(true)
+		var retried := CORE.initialize_seoul_cycle(2)
+		_expect(not bool(CORE.seoul_cycle_snapshot(2).get("active", true)) \
+			and CORE.terminal_target_candidates(
+				2, "m2_advancement").is_empty() \
+			and not bool(retried.get("ok", true)) \
+			and str(retried.get("error", "")) == "terminal_binding_conflict" \
+			and CORE.terminal_transition_resolution(route_id).is_empty() \
+			and GameState.serialize() == before_retry,
+			"terminal target accepted a %s root witness set" % mutation)
 
 
 func _check_order101_resume_expiry_source_receipt() -> void:
@@ -1029,9 +1373,197 @@ func _check_order101_father_expiry_source_receipt() -> void:
 		and CORE.terminal_routes_for_target(2, "m2_people").size() == 1,
 		"father expiry route did not bind the exact W3 expiry topology")
 	var father_expiry_saved: Dictionary = GameState.serialize().duplicate(true)
+	_check_terminal_source_json_target_roundtrip(
+		father_expiry_saved, route_id, receipt, 2, "m2_people")
 	_check_terminal_expiry_forbidden_story_rejected(
 		father_expiry_saved, route_id, "father_first_call",
 		FATHER_EVENT, 0, 2)
+	_check_order101_father_expiry_target_initialization(
+		father_expiry_saved, receipt)
+
+
+func _check_order101_father_expiry_target_initialization(
+		source_saved: Dictionary, source_receipt: Dictionary) -> void:
+	var route_id := "m1_father_expired_to_m2_people_open"
+	var resume_route := "m1_resume_completed_q2_to_m2_advancement_polished"
+	var terminal_id := "terminal:%s" % route_id
+	var resume_terminal_id := "terminal:%s" % resume_route
+	GameState.start_new_game()
+	GameState.load_from_dict(source_saved.duplicate(true))
+	CORE.initialize_for_run(true)
+	_advance_to_next_week()
+	var initialized := CORE.initialize_seoul_cycle(2)
+	var snapshot := CORE.seoul_cycle_snapshot(2)
+	var node: Dictionary = (snapshot.get("nodes", {}) as Dictionary).get(
+		"m2_people", {})
+	var candidates := CORE.terminal_target_candidates(2, "m2_people")
+	var candidate_ids := _m2_candidate_ids(candidates)
+	var target_state: Dictionary = GameState.core_loop_v2_state
+	var target_cycle: Dictionary = target_state.get("seoul_cycle", {})
+	var target_plan: Dictionary = (
+		target_state.get("plans", {}) as Dictionary).get("2", {})
+	var expected_ordinary := [
+		"cafe_world_glimpse", "hyunsu_player_reachout",
+	]
+	var expected_candidate_set := {
+		"ordinary_candidate_ids": expected_ordinary,
+		"binding_candidate_ids": candidate_ids,
+	}
+	var expected_resume_candidate_set := {
+		"ordinary_candidate_ids": [],
+		"binding_candidate_ids": [resume_terminal_id],
+	}
+	var target_candidate_sets: Dictionary = target_plan.get(
+		"terminal_binding_candidate_sets", {})
+	var target_witnesses: Dictionary = target_state.get(
+		"terminal_target_binding_receipts", {})
+	var people_witness: Dictionary = target_witnesses.get("2:m2_people", {})
+	var people_eligibility: Dictionary = people_witness.get(
+		"ordinary_eligibility", {})
+	var terminal_candidate: Dictionary = {}
+	for raw_candidate in candidates:
+		if raw_candidate is Dictionary \
+				and str((raw_candidate as Dictionary).get("id", "")) \
+					== terminal_id:
+			terminal_candidate = raw_candidate as Dictionary
+			break
+	_expect(bool(initialized.get("ok", false)) \
+		and not bool(initialized.get("resumed", true)) \
+		and bool(snapshot.get("active", false)) \
+		and candidate_ids == [
+			"cafe_world_glimpse", "hyunsu_player_reachout", terminal_id,
+		] \
+		and _sorted_strings(node.get("binding_candidate_ids", [])) \
+			== candidate_ids \
+		and _sorted_strings(node.get("eligible_trigger_bundle_ids", [])) \
+			== expected_ordinary \
+		and node.get("ordinary_candidate_ids", []) == expected_ordinary \
+		and str(node.get("trigger_selection_origin", "")) \
+			== "unselected_player" \
+		and not bool(node.get("trigger_selection_migrated_legacy", true)) \
+		and str(node.get("selected_trigger_candidate_id", "")).is_empty() \
+		and str(node.get("selected_trigger_bundle_id", "")).is_empty() \
+		and str(node.get("selected_terminal_route_id", "")).is_empty() \
+		and str(node.get("terminal_selection_origin", "")) \
+			== "unselected_union" \
+		and str(node.get("trigger_bundle", "")).is_empty() \
+		and str(node.get("summary_bundle", "")).is_empty() \
+		and str(node.get("status", "")) == "open" \
+		and str(terminal_candidate.get("kind", "")) == "terminal" \
+		and str(terminal_candidate.get("bundle_id", "")).is_empty() \
+		and str(terminal_candidate.get("route_id", "")) == route_id \
+		and str(terminal_candidate.get("variant_id", "")) \
+			== "father_call_put_off" \
+		and int(target_cycle.get("terminal_binding_schema", 0)) \
+			== CORE.TERMINAL_TARGET_BINDING_SCHEMA \
+		and target_cycle.get("terminal_bound_node_ids", []) \
+			== ["m2_advancement", "m2_people"] \
+		and int(target_plan.get("terminal_binding_schema", 0)) \
+			== CORE.TERMINAL_TARGET_BINDING_SCHEMA \
+		and target_plan.get("terminal_bound_node_ids", []) \
+			== ["m2_advancement", "m2_people"] \
+		and target_candidate_sets.get(
+			"m2_people", {}) == expected_candidate_set \
+		and target_candidate_sets.get(
+			"m2_advancement", {}) == expected_resume_candidate_set \
+		and _sorted_strings(people_witness.keys()) == [
+			"binding_candidate_ids", "ordinary_candidate_ids",
+			"ordinary_eligibility", "schema", "target_month", "target_node",
+			"terminal_route_bindings",
+		] \
+		and people_eligibility == {
+			"schema": CORE.TERMINAL_TARGET_BINDING_SCHEMA,
+			"cut_turn": 5,
+			"eligible_authored_candidate_ids": expected_ordinary,
+		} \
+		and CORE.terminal_transition_receipt(route_id) == source_receipt \
+		and not CORE.terminal_transition_receipt(resume_route).is_empty() \
+		and CORE.terminal_transition_resolution(route_id).is_empty(),
+		"father expiry did not expose its exact mixed M2 people candidate union")
+	var saved: Dictionary = GameState.serialize().duplicate(true)
+	for reload_index in range(2):
+		GameState.start_new_game()
+		GameState.load_from_dict(saved.duplicate(true))
+		CORE.initialize_for_run(true)
+		var reloaded := CORE.seoul_cycle_snapshot(2)
+		var reloaded_node: Dictionary = (
+			reloaded.get("nodes", {}) as Dictionary).get("m2_people", {})
+		_expect(bool(reloaded.get("active", false)) \
+			and _m2_candidate_ids(CORE.terminal_target_candidates(
+				2, "m2_people")) == candidate_ids \
+			and _sorted_strings(reloaded_node.get(
+				"eligible_trigger_bundle_ids", [])) \
+				== ["cafe_world_glimpse", "hyunsu_player_reachout"] \
+			and str(reloaded_node.get("terminal_selection_origin", "")) \
+				== "unselected_union" \
+			and CORE.terminal_transition_receipt(route_id) == source_receipt,
+			"father expiry mixed target drifted on reload %d" \
+				% [reload_index + 1])
+		saved = GameState.serialize().duplicate(true)
+	_check_terminal_m2_coupled_candidate_shrink_rejected(
+		saved, route_id, terminal_id)
+
+
+func _check_terminal_m2_coupled_candidate_shrink_rejected(
+		initialized_save: Dictionary, route_id: String,
+		terminal_id: String) -> void:
+	var malformed := initialized_save.duplicate(true)
+	var state: Dictionary = malformed.get("core_loop_v2_state", {})
+	var cycle: Dictionary = state.get("seoul_cycle", {})
+	var nodes: Dictionary = cycle.get("nodes", {})
+	var node: Dictionary = nodes.get("m2_people", {})
+	var shrunk_ordinary := ["cafe_world_glimpse"]
+	var shrunk_candidates := ["cafe_world_glimpse", terminal_id]
+	node["ordinary_candidate_ids"] = shrunk_ordinary
+	node["eligible_trigger_bundle_ids"] = shrunk_ordinary
+	node["binding_candidate_ids"] = shrunk_candidates
+	nodes["m2_people"] = node
+	cycle["nodes"] = nodes
+	state["seoul_cycle"] = cycle
+	var plans: Dictionary = state.get("plans", {})
+	var plan: Dictionary = plans.get("2", {})
+	var candidate_sets: Dictionary = plan.get(
+		"terminal_binding_candidate_sets", {})
+	candidate_sets["m2_people"] = {
+		"ordinary_candidate_ids": shrunk_ordinary,
+		"binding_candidate_ids": shrunk_candidates,
+	}
+	plan["terminal_binding_candidate_sets"] = candidate_sets
+	plans["2"] = plan
+	state["plans"] = plans
+	var witnesses: Dictionary = state.get(
+		"terminal_target_binding_receipts", {})
+	var witness: Dictionary = witnesses.get("2:m2_people", {})
+	var preserved_eligibility: Dictionary = witness.get(
+		"ordinary_eligibility", {})
+	_expect(preserved_eligibility == {
+		"schema": CORE.TERMINAL_TARGET_BINDING_SCHEMA,
+		"cut_turn": 5,
+		"eligible_authored_candidate_ids": [
+			"cafe_world_glimpse", "hyunsu_player_reachout",
+		],
+	}, "triple-shrink fixture lost its historical eligibility authority")
+	if preserved_eligibility.is_empty():
+		return
+	witness["ordinary_candidate_ids"] = shrunk_ordinary
+	witness["binding_candidate_ids"] = shrunk_candidates
+	_expect(witness.get("ordinary_eligibility", {}) == preserved_eligibility,
+		"triple-shrink attack accidentally changed eligibility authority")
+	witnesses["2:m2_people"] = witness
+	state["terminal_target_binding_receipts"] = witnesses
+	malformed["core_loop_v2_state"] = state
+	GameState.start_new_game()
+	GameState.load_from_dict(malformed)
+	CORE.initialize_for_run(true)
+	var before_retry: Dictionary = GameState.serialize().duplicate(true)
+	var retried := CORE.initialize_seoul_cycle(2)
+	_expect(not bool(CORE.seoul_cycle_snapshot(2).get("active", true)) \
+		and CORE.terminal_target_candidates(2, "m2_people").is_empty() \
+		and not bool(retried.get("ok", true)) \
+		and str(retried.get("error", "")) == "terminal_binding_conflict" \
+		and CORE.terminal_transition_resolution(route_id).is_empty() \
+		and GameState.serialize() == before_retry,
+		"triple-coupled M2 candidate shrinkage escaped historical eligibility")
 
 
 func _prepare_fresh_w1_after_interview() -> bool:
@@ -1490,12 +2022,132 @@ func _check_terminal_long_horizon_retention(
 				"W%d terminal receipt drifted on retention reload %d" % [
 					future_turn, reload_index + 1])
 			roundtrip = GameState.serialize().duplicate(true)
+		if source_turn == 1:
+			_check_terminal_generic_retention_without_source(
+				saved, route_id, frozen_receipt, source_turn, future_turn)
+		_check_terminal_invalid_long_horizon_reader(
+			saved, route_id, source_turn, future_turn, false)
+		_check_terminal_invalid_long_horizon_reader(
+			saved, route_id, source_turn, future_turn, true)
+	if source_turn == 1:
+		_check_terminal_invalid_retention_target_init(
+			saved, route_id, source_turn, false)
+		_check_terminal_invalid_retention_target_init(
+			saved, route_id, source_turn, true)
 
 
-func _terminal_retention_weekly_record(turn: int) -> Dictionary:
-	return {
+func _check_terminal_generic_retention_without_source(
+		saved: Dictionary, route_id: String, frozen_receipt: Dictionary,
+		source_turn: int, future_turn: int) -> void:
+	var future: Dictionary = saved.duplicate(true)
+	future["turn"] = future_turn
+	future["month"] = CORE.month_for_turn(future_turn)
+	future["week_of_month"] = ((future_turn - 1) % 4) + 1
+	var future_state: Dictionary = future.get("core_loop_v2_state", {})
+	future_state["seoul_cycle"] = {}
+	future["core_loop_v2_state"] = future_state
+	var future_weekly: Array = future.get("weekly_commitments", [])
+	for ledger_turn in range(future_turn - 16, future_turn):
+		future_weekly.append(_terminal_retention_weekly_record(
+			ledger_turn, false))
+	future["weekly_commitments"] = future_weekly
+	GameState.start_new_game()
+	GameState.load_from_dict(future)
+	CORE.initialize_for_run(true)
+	var source_free := true
+	for raw_record in GameState.weekly_commitments:
+		if not raw_record is Dictionary \
+				or not str((raw_record as Dictionary).get(
+					"source", "")).is_empty():
+			source_free = false
+			break
+	_expect(GameState.weekly_commitments.size() == 16 \
+		and source_free \
+		and not GameState.has_weekly_commitment_for_turn(source_turn) \
+		and CORE.terminal_transition_receipt(route_id) == frozen_receipt,
+		"terminal receipt rejected legal generic source-free eviction at W%d" \
+			% future_turn)
+
+
+func _check_terminal_invalid_long_horizon_reader(
+		saved: Dictionary, route_id: String, source_turn: int,
+		future_turn: int, stale_sixteen: bool) -> void:
+	var malformed: Dictionary = saved.duplicate(true)
+	malformed["turn"] = future_turn
+	malformed["month"] = CORE.month_for_turn(future_turn)
+	malformed["week_of_month"] = ((future_turn - 1) % 4) + 1
+	var state: Dictionary = malformed.get("core_loop_v2_state", {})
+	state["seoul_cycle"] = {}
+	malformed["core_loop_v2_state"] = state
+	malformed["weekly_commitments"] = _terminal_invalid_retention_weekly(
+		source_turn, stale_sixteen)
+	GameState.start_new_game()
+	GameState.load_from_dict(malformed)
+	CORE.initialize_for_run(true)
+	var expected_size := 16 if stale_sixteen else 0
+	_expect(GameState.weekly_commitments.size() == expected_size \
+		and not GameState.has_weekly_commitment_for_turn(source_turn),
+		"invalid W%d retention fixture did not preserve its %s outer ledger" \
+			% [future_turn, "stale-16" if stale_sixteen else "empty"])
+	var target: Dictionary = ORDER101_TERMINAL_SLICE_ROUTES.get(
+		route_id, {}).get("target", {})
+	var before_read: Dictionary = GameState.serialize().duplicate(true)
+	var receipt: Dictionary = CORE.terminal_transition_receipt(route_id)
+	var routes: Array = CORE.terminal_routes_for_target(
+		int(target.get("month", 0)), str(target.get("node", "")))
+	var resolution: Dictionary = CORE.terminal_transition_resolution(route_id)
+	_expect(receipt.is_empty() \
+		and routes.is_empty() \
+		and resolution.is_empty() \
+		and GameState.serialize() == before_read,
+		"terminal reader accepted or mutated a W%d %s outer ledger" % [
+			future_turn, "stale-16" if stale_sixteen else "empty"])
+
+
+func _check_terminal_invalid_retention_target_init(
+		saved: Dictionary, route_id: String, source_turn: int,
+		stale_sixteen: bool) -> void:
+	GameState.start_new_game()
+	GameState.load_from_dict(saved.duplicate(true))
+	CORE.initialize_for_run(true)
+	_advance_to_next_week()
+	var malformed: Dictionary = GameState.serialize().duplicate(true)
+	malformed["weekly_commitments"] = _terminal_invalid_retention_weekly(
+		source_turn, stale_sixteen)
+	GameState.start_new_game()
+	GameState.load_from_dict(malformed)
+	CORE.initialize_for_run(true)
+	var target: Dictionary = ORDER101_TERMINAL_SLICE_ROUTES.get(
+		route_id, {}).get("target", {})
+	var target_month := int(target.get("month", 0))
+	var target_node := str(target.get("node", ""))
+	var before_init: Dictionary = GameState.serialize().duplicate(true)
+	var result: Dictionary = CORE.initialize_seoul_cycle(target_month)
+	_expect(CORE.terminal_transition_receipt(route_id).is_empty() \
+		and CORE.terminal_target_candidates(
+			target_month, target_node).is_empty() \
+		and not bool(result.get("ok", true)) \
+		and str(result.get("error", "")) == "terminal_binding_conflict" \
+		and CORE.terminal_transition_resolution(route_id).is_empty() \
+		and GameState.serialize() == before_init,
+		("target initialization consumed or downgraded a %s outer-ledger " \
+			+ "conflict") % ("stale-16" if stale_sixteen else "empty"))
+
+
+func _terminal_invalid_retention_weekly(
+		source_turn: int, stale_sixteen: bool) -> Array:
+	var records: Array = []
+	if not stale_sixteen:
+		return records
+	for ledger_turn in range(source_turn - 16, source_turn):
+		records.append(_terminal_retention_weekly_record(ledger_turn))
+	return records
+
+
+func _terminal_retention_weekly_record(
+		turn: int, include_source: bool = true) -> Dictionary:
+	var record := {
 		"turn": turn,
-		"source": "story_event",
 		"pressure_id": "story:terminal_retention_%d" % turn,
 		"pressure_family": "story",
 		"choice_id": "story:terminal_retention_%d:0" % turn,
@@ -1504,6 +2156,9 @@ func _terminal_retention_weekly_record(turn: int) -> Dictionary:
 		"forgone_ids": [],
 		"echoed_turn": -1,
 	}
+	if include_source:
+		record["source"] = "story_event"
+	return record
 
 
 func _set_nested_terminal_mutation(
@@ -1888,8 +2543,10 @@ func _check_order101_m2_people_terminal_source_receipts() -> void:
 		contract_snapshot, "hyunsu_player_reachout", 0)
 	_check_m2_people_completed_terminal_source(
 		contract_snapshot, "hyunsu_player_reachout", 1)
-	_check_m2_people_completed_terminal_source(
+	var cafe_source_save := _check_m2_people_completed_terminal_source(
 		contract_snapshot, "cafe_world_glimpse", 2)
+	_check_order101_cafe_jiyeon_m4_union(
+		contract_snapshot, cafe_source_save)
 	_check_m2_people_expired_terminal_source(contract_snapshot, "")
 	_check_m2_people_expired_terminal_source(
 		contract_snapshot, "hyunsu_player_reachout")
@@ -1898,9 +2555,534 @@ func _check_order101_m2_people_terminal_source_receipts() -> void:
 	DataRegistry.demo_core_loop_v2 = contract_snapshot
 
 
+func _check_order101_m2_people_expiry_target_initialization() -> void:
+	var contract_snapshot: Dictionary = DataRegistry.demo_core_loop_v2.duplicate(
+		true)
+	var route_id := "m2_people_expired_to_m3_contact_fail_forward"
+	var terminal_id := "terminal:%s" % route_id
+	var initialized := _prepare_m2_people_fixture(
+		contract_snapshot,
+		["hyunsu_player_reachout", "cafe_world_glimpse"], false)
+	if initialized.is_empty():
+		DataRegistry.demo_core_loop_v2 = contract_snapshot
+		return
+	for turn in range(5, 9):
+		var snapshot := CORE.seoul_cycle_snapshot(2)
+		var node_id := "m2_advancement" if turn == 5 else "m2_self"
+		var capacity_id := _unused_capacity(snapshot, 0, turn == 6)
+		var committed := CORE.commit_seoul_cycle_allocation(
+			capacity_id, node_id, 2)
+		var expected_self_completion := turn == 6
+		var expected_self_repeat := turn in [7, 8]
+		_expect(bool(committed.get("ok", false)) \
+			and bool(committed.get("completed_now", false)) \
+				== expected_self_completion \
+			and bool(committed.get("repeat_allocation", false)) \
+				== expected_self_repeat,
+			"terminal-only M3 filler ownership drifted at W%d" % turn)
+		if not bool(committed.get("ok", false)):
+			DataRegistry.demo_core_loop_v2 = contract_snapshot
+			return
+		if expected_self_completion \
+				and not _resolve_cycle_recovery_trigger(
+					"m2_sleep_debt_sunday"):
+			DataRegistry.demo_core_loop_v2 = contract_snapshot
+			return
+		var closed := CORE.complete_seoul_cycle_turn(2)
+		_expect(bool(closed.get("ok", false)),
+			"terminal-only M3 fixture could not close W%d" % turn)
+		if not bool(closed.get("ok", false)):
+			DataRegistry.demo_core_loop_v2 = contract_snapshot
+			return
+		if turn < 8:
+			_advance_to_next_week()
+	var summary := CORE.record_month_summary(2, {}, {})
+	var receipt := CORE.terminal_transition_receipt(route_id)
+	var state: Dictionary = GameState.core_loop_v2_state
+	_expect(not summary.is_empty() and not receipt.is_empty() \
+		and not (state.get("completed_bundles", []) as Array).has(
+			"m2_rain_delivery_shift") \
+		and not (state.get("completed_bundles", []) as Array).has(
+			"hyunsu_player_reachout") \
+		and not (state.get("completed_bundles", []) as Array).has(
+			"cafe_world_glimpse"),
+		"terminal-only M3 fixture fabricated an ordinary people prerequisite")
+	if summary.is_empty() or receipt.is_empty():
+		DataRegistry.demo_core_loop_v2 = contract_snapshot
+		return
+	_advance_to_next_week()
+	var month_three := CORE.initialize_seoul_cycle(3)
+	var target_snapshot := CORE.seoul_cycle_snapshot(3)
+	var node: Dictionary = (
+		target_snapshot.get("nodes", {}) as Dictionary).get("m3_people", {})
+	var candidates := CORE.terminal_target_candidates(3, "m3_people")
+	var candidate: Dictionary = candidates[0] as Dictionary \
+		if candidates.size() == 1 and candidates[0] is Dictionary else {}
+	var target_state: Dictionary = GameState.core_loop_v2_state
+	var target_cycle: Dictionary = target_state.get("seoul_cycle", {})
+	var target_plan: Dictionary = (
+		target_state.get("plans", {}) as Dictionary).get("3", {})
+	var expected_candidate_set := {
+		"ordinary_candidate_ids": [],
+		"binding_candidate_ids": [terminal_id],
+	}
+	var target_witnesses: Dictionary = target_state.get(
+		"terminal_target_binding_receipts", {})
+	var people_witness: Dictionary = target_witnesses.get("3:m3_people", {})
+	var people_eligibility: Dictionary = people_witness.get(
+		"ordinary_eligibility", {})
+	_expect(bool(month_three.get("ok", false)) \
+		and not bool(month_three.get("resumed", true)) \
+		and bool(target_snapshot.get("active", false)) \
+		and _m2_candidate_ids(candidates) == [terminal_id] \
+		and _sorted_strings(node.get("binding_candidate_ids", [])) \
+			== [terminal_id] \
+		and _sorted_strings(node.get("eligible_terminal_route_ids", [])) \
+			== [route_id] \
+		and str(node.get("selected_trigger_candidate_id", "")) \
+			== terminal_id \
+		and str(node.get("selected_terminal_route_id", "")) == route_id \
+		and str(node.get("terminal_selection_origin", "")) \
+			== "terminal_auto" \
+		and str(node.get("selected_trigger_bundle_id", "")).is_empty() \
+		and str(node.get("trigger_bundle", "")).is_empty() \
+		and str(node.get("summary_bundle", "")).is_empty() \
+		and str(node.get("status", "")) == "open" \
+		and str(node.get("owner", "")) == "people" \
+		and str(node.get("commitment_action_id", "")) == "contact" \
+		and str(node.get("axis", "")) == "human" \
+		and str(candidate.get("kind", "")) == "terminal" \
+		and str(candidate.get("bundle_id", "")).is_empty() \
+		and str(candidate.get("route_id", "")) == route_id \
+		and str(candidate.get("variant_id", "")) \
+			== "contact_fail_forward" \
+		and node.get("ordinary_candidate_ids", []) == [] \
+		and int(target_cycle.get("terminal_binding_schema", 0)) \
+			== CORE.TERMINAL_TARGET_BINDING_SCHEMA \
+		and target_cycle.get("terminal_bound_node_ids", []) == ["m3_people"] \
+		and int(target_plan.get("terminal_binding_schema", 0)) \
+			== CORE.TERMINAL_TARGET_BINDING_SCHEMA \
+		and target_plan.get("terminal_bound_node_ids", []) == ["m3_people"] \
+		and (target_plan.get(
+			"terminal_binding_candidate_sets", {}) as Dictionary).get(
+				"m3_people", {}) == expected_candidate_set \
+		and _sorted_strings(people_witness.keys()) == [
+			"binding_candidate_ids", "ordinary_candidate_ids",
+			"ordinary_eligibility", "schema", "target_month", "target_node",
+			"terminal_route_bindings",
+		] \
+		and people_eligibility == {
+			"schema": CORE.TERMINAL_TARGET_BINDING_SCHEMA,
+			"cut_turn": 9,
+			"eligible_authored_candidate_ids": [],
+		} \
+		and CORE.terminal_transition_receipt(route_id) == receipt \
+		and CORE.terminal_transition_resolution(route_id).is_empty(),
+		"M2 people expiry did not expose one executable empty M3 target")
+	var saved: Dictionary = GameState.serialize().duplicate(true)
+	for reload_index in range(2):
+		GameState.start_new_game()
+		GameState.load_from_dict(saved.duplicate(true))
+		CORE.initialize_for_run(true)
+		var reloaded := CORE.seoul_cycle_snapshot(3)
+		var reloaded_node: Dictionary = (
+			reloaded.get("nodes", {}) as Dictionary).get("m3_people", {})
+		_expect(bool(reloaded.get("active", false)) \
+			and _m2_candidate_ids(CORE.terminal_target_candidates(
+				3, "m3_people")) == [terminal_id] \
+			and str(reloaded_node.get("selected_trigger_candidate_id", "")) \
+				== terminal_id \
+			and str(reloaded_node.get("commitment_action_id", "")) \
+				== "contact" \
+			and str(reloaded_node.get("axis", "")) == "human" \
+			and CORE.terminal_transition_receipt(route_id) == receipt,
+			"empty M3 target drifted on reload %d" % [reload_index + 1])
+		saved = GameState.serialize().duplicate(true)
+	_check_terminal_m3_coupled_candidate_add_rejected(
+		saved, route_id, terminal_id)
+	_check_terminal_m3_fake_routine_authority_rejected(
+		saved, receipt, route_id, terminal_id)
+	_check_terminal_m3_fake_relationship_authority_rejected(
+		saved, receipt, route_id)
+	_check_terminal_m3_late_eligibility_does_not_expand(
+		saved, receipt, route_id, terminal_id)
+	DataRegistry.demo_core_loop_v2 = contract_snapshot
+
+
+func _check_terminal_m3_coupled_candidate_add_rejected(
+		initialized_save: Dictionary, route_id: String,
+		terminal_id: String) -> void:
+	var malformed := initialized_save.duplicate(true)
+	var state: Dictionary = malformed.get("core_loop_v2_state", {})
+	var cycle: Dictionary = state.get("seoul_cycle", {})
+	var nodes: Dictionary = cycle.get("nodes", {})
+	var current_node: Dictionary = nodes.get("m3_people", {})
+	var bindings: Dictionary = (
+		current_node.get("terminal_route_bindings", {}) as Dictionary).duplicate(
+			true)
+	var route_ids: Array = (
+		current_node.get("eligible_terminal_route_ids", []) as Array).duplicate()
+	var node_spec: Dictionary = (
+		(CORE.seoul_cycle_month_spec(3).get("nodes", {}) as Dictionary).get(
+			"m3_people", {}) as Dictionary).duplicate(true)
+	var added_id := "daeun_world_meet"
+	var expanded_candidates := [added_id, terminal_id]
+	node_spec["id"] = "m3_people"
+	node_spec["progress"] = 0
+	node_spec["completed_turn"] = 0
+	node_spec["last_allocation_turn"] = 0
+	node_spec["binding_candidate_ids"] = expanded_candidates
+	node_spec["ordinary_candidate_ids"] = [added_id]
+	node_spec["eligible_terminal_route_ids"] = route_ids
+	node_spec["terminal_route_bindings"] = bindings
+	node_spec["trigger_bundle"] = ""
+	node_spec["summary_bundle"] = ""
+	node_spec["selected_trigger_bundle_id"] = ""
+	node_spec["selected_trigger_candidate_id"] = ""
+	node_spec["selected_terminal_route_id"] = ""
+	node_spec["terminal_selection_origin"] = "unselected_union"
+	node_spec["terminal_result_ko"] = ""
+	node_spec["terminal_result_en"] = ""
+	node_spec["terminal_completion_effects"] = {}
+	node_spec["status"] = "open"
+	nodes["m3_people"] = node_spec
+	cycle["nodes"] = nodes
+	state["seoul_cycle"] = cycle
+
+	var plans: Dictionary = state.get("plans", {})
+	var plan: Dictionary = plans.get("3", {})
+	var candidate_sets: Dictionary = plan.get(
+		"terminal_binding_candidate_sets", {})
+	candidate_sets["m3_people"] = {
+		"ordinary_candidate_ids": [added_id],
+		"binding_candidate_ids": expanded_candidates,
+	}
+	plan["terminal_binding_candidate_sets"] = candidate_sets
+	plans["3"] = plan
+	state["plans"] = plans
+	var witnesses: Dictionary = state.get(
+		"terminal_target_binding_receipts", {})
+	var witness: Dictionary = witnesses.get("3:m3_people", {})
+	var preserved_eligibility: Dictionary = witness.get(
+		"ordinary_eligibility", {})
+	_expect(preserved_eligibility == {
+		"schema": CORE.TERMINAL_TARGET_BINDING_SCHEMA,
+		"cut_turn": 9,
+		"eligible_authored_candidate_ids": [],
+	}, "triple-add fixture was not historically ineligible for Daeun")
+	if preserved_eligibility.is_empty():
+		return
+	witness["ordinary_candidate_ids"] = [added_id]
+	witness["binding_candidate_ids"] = expanded_candidates
+	_expect(witness.get("ordinary_eligibility", {}) == preserved_eligibility,
+		"triple-add attack accidentally changed eligibility authority")
+	witnesses["3:m3_people"] = witness
+	state["terminal_target_binding_receipts"] = witnesses
+	malformed["core_loop_v2_state"] = state
+
+	GameState.start_new_game()
+	GameState.load_from_dict(malformed)
+	CORE.initialize_for_run(true)
+	var before_retry: Dictionary = GameState.serialize().duplicate(true)
+	var retried := CORE.initialize_seoul_cycle(3)
+	_expect(not bool(CORE.seoul_cycle_snapshot(3).get("active", true)) \
+		and CORE.terminal_target_candidates(3, "m3_people").is_empty() \
+		and not bool(retried.get("ok", true)) \
+		and str(retried.get("error", "")) == "terminal_binding_conflict" \
+		and CORE.terminal_transition_resolution(route_id).is_empty() \
+		and GameState.serialize() == before_retry,
+		"triple-coupled M3 candidate addition escaped historical eligibility")
+
+
+func _check_terminal_m3_fake_routine_authority_rejected(
+		initialized_save: Dictionary, source_receipt: Dictionary,
+		route_id: String, terminal_id: String) -> void:
+	var malformed := initialized_save.duplicate(true)
+	var state: Dictionary = malformed.get("core_loop_v2_state", {})
+	var summaries: Dictionary = state.get("month_summaries", {})
+	var month_two: Dictionary = summaries.get("2", {})
+	var original_summary: Dictionary = month_two.duplicate(true)
+	var allocations: Array = month_two.get("allocation_receipts", [])
+	var forged_allocation := {"node_id": "m2_livelihood"}
+	allocations.append(forged_allocation)
+	month_two["allocation_receipts"] = allocations
+	summaries["2"] = month_two
+	state["month_summaries"] = summaries
+	var terminal_receipts: Dictionary = state.get(
+		"terminal_transition_receipts", {})
+	_expect(terminal_receipts.get(route_id, {}) == source_receipt \
+		and (original_summary.get("allocation_receipts", []) as Array).size() + 1 \
+			== allocations.size() \
+		and allocations.back() == forged_allocation \
+		and not (original_summary.get(
+			"allocation_receipts", []) as Array).has(forged_allocation),
+		"fake-routine attack changed the terminal source or was vacuous")
+	var source_only: Dictionary = malformed.duplicate(true)
+	source_only["core_loop_v2_state"] = state.duplicate(true)
+	_expect_terminal_source_survives_auxiliary_forgery(
+		source_only, route_id, source_receipt, "minimal livelihood allocation")
+
+	var cycle: Dictionary = state.get("seoul_cycle", {})
+	var nodes: Dictionary = cycle.get("nodes", {})
+	var node: Dictionary = nodes.get("m3_people", {})
+	var binding_ids: Array[String] = ["daeun_world_meet", terminal_id]
+	node["ordinary_candidate_ids"] = ["daeun_world_meet"]
+	node["binding_candidate_ids"] = binding_ids
+	node["selected_trigger_candidate_id"] = ""
+	node["selected_trigger_bundle_id"] = ""
+	node["selected_terminal_route_id"] = ""
+	node["terminal_selection_origin"] = "unselected_union"
+	node["terminal_result_ko"] = ""
+	node["terminal_result_en"] = ""
+	node["terminal_completion_effects"] = {}
+	node["trigger_bundle"] = ""
+	node["summary_bundle"] = ""
+	node["status"] = "open"
+	nodes["m3_people"] = node
+	cycle["nodes"] = nodes
+	state["seoul_cycle"] = cycle
+	var plans: Dictionary = state.get("plans", {})
+	var plan: Dictionary = plans.get("3", {})
+	var candidate_sets: Dictionary = plan.get(
+		"terminal_binding_candidate_sets", {})
+	candidate_sets["m3_people"] = {
+		"ordinary_candidate_ids": ["daeun_world_meet"],
+		"binding_candidate_ids": binding_ids,
+	}
+	plan["terminal_binding_candidate_sets"] = candidate_sets
+	plans["3"] = plan
+	state["plans"] = plans
+	var witnesses: Dictionary = state.get(
+		"terminal_target_binding_receipts", {})
+	var witness: Dictionary = witnesses.get("3:m3_people", {})
+	witness["ordinary_candidate_ids"] = ["daeun_world_meet"]
+	witness["binding_candidate_ids"] = binding_ids
+	witness["ordinary_eligibility"] = {
+		"schema": CORE.TERMINAL_TARGET_BINDING_SCHEMA,
+		"cut_turn": 9,
+		"eligible_authored_candidate_ids": ["daeun_world_meet"],
+	}
+	witnesses["3:m3_people"] = witness
+	state["terminal_target_binding_receipts"] = witnesses
+	malformed["core_loop_v2_state"] = state
+
+	GameState.start_new_game()
+	GameState.load_from_dict(malformed)
+	CORE.initialize_for_run(true)
+	var before_retry: Dictionary = GameState.serialize().duplicate(true)
+	var retried := CORE.initialize_seoul_cycle(3)
+	_expect(not bool(CORE.seoul_cycle_snapshot(3).get("active", true)) \
+		and CORE.terminal_target_candidates(3, "m3_people").is_empty() \
+		and not bool(retried.get("ok", true)) \
+		and str(retried.get("error", "")) == "terminal_binding_conflict" \
+		and CORE.terminal_transition_resolution(route_id).is_empty() \
+		and GameState.serialize() == before_retry,
+		"minimal fake livelihood allocation forged historical Daeun eligibility")
+
+
+func _check_terminal_m3_fake_relationship_authority_rejected(
+		initialized_save: Dictionary, source_receipt: Dictionary,
+		route_id: String) -> void:
+	var malformed := initialized_save.duplicate(true)
+	var state: Dictionary = malformed.get("core_loop_v2_state", {})
+	var completed: Array = state.get("completed_bundles", [])
+	var completed_turns: Dictionary = state.get("completed_bundle_turns", {})
+	_expect(not completed.has("father_first_call") \
+		and not completed_turns.has("father_first_call") \
+		and (state.get("relationship_choice_receipts", {}) as Dictionary) \
+			.values().all(func(raw_receipt: Variant) -> bool:
+				return not raw_receipt is Dictionary \
+					or str((raw_receipt as Dictionary).get(
+						"character", "")) != "father"),
+		"fake-father fixture already contained an authored father authority")
+	completed.append("father_first_call")
+	completed_turns["father_first_call"] = 2
+	state["completed_bundles"] = completed
+	state["completed_bundle_turns"] = completed_turns
+	var summaries: Dictionary = state.get("month_summaries", {})
+	var month_one: Dictionary = summaries.get("1", {})
+	month_one["trigger_receipts"] = {
+		"forged_father": {
+			"bundle_id": "father_first_call",
+			"status": "resolved",
+			"turn": 2,
+		},
+	}
+	month_one["world_receipts"] = {}
+	summaries["1"] = month_one
+	state["month_summaries"] = summaries
+	var fake_event := "unauthored_father_call"
+	var fake_memory := "unauthored_father_memory"
+	var fake_relationship := _terminal_relationship_receipt_fixture(
+		"father_first_call", fake_event, 0, 2, "father",
+		"unmet", "met", "player", fake_memory)
+	var fake_key := str(fake_relationship.get("receipt_key", ""))
+	var relationships: Dictionary = state.get(
+		"relationship_choice_receipts", {})
+	relationships[fake_key] = fake_relationship
+	state["relationship_choice_receipts"] = relationships
+	for ledger_key in ["relationship_history", "relationship_memories"]:
+		var ledger: Array = state.get(ledger_key, [])
+		ledger.append(fake_relationship.duplicate(true))
+		state[ledger_key] = ledger
+	var story_receipts: Dictionary = state.get("story_choice_receipts", {})
+	story_receipts[fake_key] = _terminal_story_receipt_fixture(
+		"father_first_call", fake_event, 0, 2)
+	state["story_choice_receipts"] = story_receipts
+	_expect((state.get("terminal_transition_receipts", {}) as Dictionary).get(
+		route_id, {}) == source_receipt \
+		and relationships.get(fake_key, {}) == fake_relationship \
+		and (state.get("relationship_history", []) as Array).count(
+			fake_relationship) == 1 \
+		and (state.get("relationship_memories", []) as Array).count(
+			fake_relationship) == 1 \
+		and story_receipts.has(fake_key),
+		"fake-father attack changed its terminal source or lacked a full quartet")
+	var source_only: Dictionary = malformed.duplicate(true)
+	source_only["core_loop_v2_state"] = state.duplicate(true)
+	_expect_terminal_source_survives_auxiliary_forgery(
+		source_only, route_id, source_receipt,
+		"self-consistent unauthored father chain")
+	if not _inject_terminal_ordinary_candidate_across_target_surfaces(
+			state, 3, "m3_people", "father_quiet_call"):
+		_expect(false, "fake-father attack could not expand all target surfaces")
+		return
+	malformed["core_loop_v2_state"] = state
+	GameState.start_new_game()
+	GameState.load_from_dict(malformed)
+	CORE.initialize_for_run(true)
+	var before_retry: Dictionary = GameState.serialize().duplicate(true)
+	var retried := CORE.initialize_seoul_cycle(3)
+	_expect(not bool(CORE.seoul_cycle_snapshot(3).get("active", true)) \
+		and CORE.terminal_target_candidates(3, "m3_people").is_empty() \
+		and not bool(retried.get("ok", true)) \
+		and str(retried.get("error", "")) == "terminal_binding_conflict" \
+		and CORE.terminal_transition_resolution(route_id).is_empty() \
+		and GameState.serialize() == before_retry,
+		"self-consistent unauthored father chain forged M3 eligibility")
+
+
+func _inject_terminal_ordinary_candidate_across_target_surfaces(
+		state: Dictionary, target_month: int,
+		target_node: String, added_id: String) -> bool:
+	var cycle: Dictionary = state.get("seoul_cycle", {})
+	var nodes: Dictionary = cycle.get("nodes", {})
+	var current: Dictionary = nodes.get(target_node, {})
+	var raw_bindings: Variant = current.get("terminal_route_bindings", {})
+	var raw_routes: Variant = current.get("eligible_terminal_route_ids", [])
+	if not raw_bindings is Dictionary or (raw_bindings as Dictionary).is_empty() \
+			or not raw_routes is Array or (raw_routes as Array).is_empty():
+		return false
+	var ordinary_ids: Array[String] = []
+	ordinary_ids.assign(current.get("ordinary_candidate_ids", []))
+	if ordinary_ids.has(added_id):
+		return false
+	ordinary_ids.append(added_id)
+	ordinary_ids.sort()
+	var candidate_ids: Array[String] = ordinary_ids.duplicate()
+	for raw_route_id in raw_routes as Array:
+		candidate_ids.append("terminal:%s" % str(raw_route_id))
+	candidate_ids.sort()
+	var raw_node_spec: Variant = (
+		CORE.seoul_cycle_month_spec(target_month).get(
+			"nodes", {}) as Dictionary).get(target_node, {})
+	if not raw_node_spec is Dictionary:
+		return false
+	var node: Dictionary = (raw_node_spec as Dictionary).duplicate(true)
+	node["id"] = target_node
+	node["progress"] = 0
+	node["completed_turn"] = 0
+	node["last_allocation_turn"] = 0
+	node["binding_candidate_ids"] = candidate_ids
+	node["ordinary_candidate_ids"] = ordinary_ids
+	node["eligible_terminal_route_ids"] = (raw_routes as Array).duplicate()
+	node["terminal_route_bindings"] = (
+		(raw_bindings as Dictionary).duplicate(true))
+	node["trigger_bundle"] = ""
+	node["summary_bundle"] = ""
+	node["selected_trigger_bundle_id"] = ""
+	node["selected_trigger_candidate_id"] = ""
+	node["selected_terminal_route_id"] = ""
+	node["terminal_selection_origin"] = "unselected_union"
+	node["terminal_result_ko"] = ""
+	node["terminal_result_en"] = ""
+	node["terminal_completion_effects"] = {}
+	node["status"] = "open"
+	nodes[target_node] = node
+	cycle["nodes"] = nodes
+	state["seoul_cycle"] = cycle
+	var plans: Dictionary = state.get("plans", {})
+	var plan: Dictionary = plans.get(str(target_month), {})
+	var candidate_sets: Dictionary = plan.get(
+		"terminal_binding_candidate_sets", {})
+	candidate_sets[target_node] = {
+		"ordinary_candidate_ids": ordinary_ids.duplicate(),
+		"binding_candidate_ids": candidate_ids.duplicate(),
+	}
+	plan["terminal_binding_candidate_sets"] = candidate_sets
+	plans[str(target_month)] = plan
+	state["plans"] = plans
+	var witnesses: Dictionary = state.get(
+		"terminal_target_binding_receipts", {})
+	var witness_key := "%d:%s" % [target_month, target_node]
+	var witness: Dictionary = witnesses.get(witness_key, {})
+	var eligibility: Dictionary = witness.get("ordinary_eligibility", {})
+	var eligible_ids: Array[String] = []
+	eligible_ids.assign(eligibility.get("eligible_authored_candidate_ids", []))
+	if eligible_ids.has(added_id):
+		return false
+	eligible_ids.append(added_id)
+	eligible_ids.sort()
+	eligibility["eligible_authored_candidate_ids"] = eligible_ids
+	witness["ordinary_candidate_ids"] = ordinary_ids.duplicate()
+	witness["binding_candidate_ids"] = candidate_ids.duplicate()
+	witness["ordinary_eligibility"] = eligibility
+	witnesses[witness_key] = witness
+	state["terminal_target_binding_receipts"] = witnesses
+	return true
+
+
+func _expect_terminal_source_survives_auxiliary_forgery(
+		source_only_save: Dictionary, route_id: String,
+		source_receipt: Dictionary, fixture_name: String) -> void:
+	GameState.start_new_game()
+	GameState.load_from_dict(source_only_save.duplicate(true))
+	CORE.initialize_for_run(true)
+	_expect(CORE.terminal_transition_receipt(route_id) == source_receipt,
+		"%s unexpectedly invalidated the independent terminal source" \
+			% fixture_name)
+
+
+func _check_terminal_m3_late_eligibility_does_not_expand(
+		initialized_save: Dictionary, source_receipt: Dictionary,
+		route_id: String, terminal_id: String) -> void:
+	GameState.start_new_game()
+	GameState.load_from_dict(initialized_save.duplicate(true))
+	CORE.initialize_for_run(true)
+	var snapshot := CORE.seoul_cycle_snapshot(3)
+	var capacity_id := _unused_capacity(snapshot, 0, false)
+	var committed := CORE.commit_seoul_cycle_allocation(
+		capacity_id, "m3_livelihood", 3)
+	_expect(bool(committed.get("ok", false)) \
+		and _m2_candidate_ids(CORE.terminal_target_candidates(
+			3, "m3_people")) == [terminal_id],
+		"same-month livelihood fact expanded a frozen M3 candidate set")
+	if not bool(committed.get("ok", false)):
+		return
+	var saved_after_fact: Dictionary = GameState.serialize().duplicate(true)
+	GameState.start_new_game()
+	GameState.load_from_dict(saved_after_fact.duplicate(true))
+	CORE.initialize_for_run(true)
+	_expect(_m2_candidate_ids(CORE.terminal_target_candidates(
+		3, "m3_people")) == [terminal_id] \
+		and CORE.terminal_transition_receipt(route_id) == source_receipt \
+		and CORE.terminal_transition_resolution(route_id).is_empty(),
+		"frozen M3 eligibility expanded after same-month fact reload")
+
+
 func _check_m2_people_completed_terminal_source(
 		contract_snapshot: Dictionary, selected_id: String,
-		story_choice_index: int) -> void:
+		story_choice_index: int) -> Dictionary:
 	var hyunsu_id := "hyunsu_player_reachout"
 	var cafe_id := "cafe_world_glimpse"
 	var sibling_id := cafe_id if selected_id == hyunsu_id else hyunsu_id
@@ -1924,13 +3106,13 @@ func _check_m2_people_completed_terminal_source(
 					selected_id, turn])
 			if not _resolve_m2_people_selected_story(
 					selected_id, story_choice_index):
-				return
+				return {}
 		elif not _commit_m2_terminal_filler():
-			return
+			return {}
 		if not bool(CORE.complete_seoul_cycle_turn(2).get("ok", false)):
 			_expect(false, "%s source could not close W%d" % [
 				selected_id, turn])
-			return
+			return {}
 		if turn < 8:
 			_advance_to_next_week()
 	var summary := CORE.record_month_summary(2, {}, {})
@@ -2011,6 +3193,192 @@ func _check_m2_people_completed_terminal_source(
 	if selected_id == hyunsu_id and story_choice_index == 0:
 		_check_terminal_long_horizon_retention(
 			source_saved, route_id, receipt, expected_turn)
+	elif selected_id == cafe_id:
+		_check_terminal_m4_fake_completed_authority_rejected(
+			source_saved, route_id, receipt)
+	return source_saved
+
+
+func _check_order101_cafe_jiyeon_m4_union(
+		contract_snapshot: Dictionary, cafe_source_save: Dictionary) -> void:
+	var cafe_route := "m2_people_completed_cafe_to_m4_sangchul"
+	var terminal_id := "terminal:%s" % cafe_route
+	_expect(not cafe_source_save.is_empty(),
+		"Cafe-to-M4 fixture did not preserve its actual M2 source save")
+	if cafe_source_save.is_empty():
+		return
+	DataRegistry.demo_core_loop_v2 = contract_snapshot.duplicate(true)
+	GameState.start_new_game()
+	GameState.load_from_dict(cafe_source_save.duplicate(true))
+	CORE.initialize_for_run(true)
+	var cafe_receipt := CORE.terminal_transition_receipt(cafe_route)
+	var source_state: Dictionary = GameState.core_loop_v2_state
+	var source_summary: Dictionary = (
+		source_state.get("month_summaries", {}) as Dictionary).get("2", {})
+	var source_nodes: Dictionary = source_summary.get("node_states", {})
+	var source_livelihood: Dictionary = source_nodes.get("m2_livelihood", {})
+	_expect(not cafe_receipt.is_empty() \
+		and str(source_livelihood.get("status", "")) == "completed" \
+		and int(source_livelihood.get("completed_turn", 0)) in range(5, 9) \
+		and (source_state.get("completed_bundles", []) as Array).count(
+			"m2_rain_delivery_shift") == 1,
+		"Cafe-to-M4 fixture lacked its actual M2 livelihood prerequisite")
+	if cafe_receipt.is_empty() \
+			or str(source_livelihood.get("status", "")) != "completed":
+		return
+
+	_advance_to_next_week()
+	var month_three := CORE.initialize_seoul_cycle(3)
+	var month_three_snapshot := CORE.seoul_cycle_snapshot(3)
+	var m3_people: Dictionary = (
+		month_three_snapshot.get("nodes", {}) as Dictionary).get(
+			"m3_people", {})
+	_expect(bool(month_three.get("ok", false)) \
+		and bool(month_three_snapshot.get("active", false)) \
+		and str(m3_people.get("status", "")) == "open" \
+		and str(m3_people.get("trigger_bundle", "")) == "jiyeon_world_meet" \
+		and str(m3_people.get("summary_bundle", "")) == "jiyeon_world_meet" \
+		and str(m3_people.get("owner", "")) == "jiyeon" \
+		and CORE.terminal_transition_receipt(cafe_route) == cafe_receipt,
+		"actual M2 livelihood did not auto-resolve the canonical first M3 " \
+			+ "people branch")
+	if not bool(month_three.get("ok", false)) \
+			or str(m3_people.get("trigger_bundle", "")) != "jiyeon_world_meet":
+		return
+
+	var w9_capacity := _unused_capacity(month_three_snapshot, 0, false)
+	var w9_commit := CORE.commit_seoul_cycle_allocation(
+		w9_capacity, "m3_people", 3)
+	_expect(bool(w9_commit.get("ok", false)) \
+		and not bool(w9_commit.get("completed_now", true)) \
+		and int(w9_commit.get("progress_after", 0)) == 1 \
+		and str(w9_commit.get("selected_trigger_bundle_id", "")).is_empty() \
+		and str(w9_commit.get("trigger_bundle", "")).is_empty(),
+		"M3 Jiyeon route did not create its actual pre-window partial allocation")
+	if not bool(w9_commit.get("ok", false)) \
+			or not bool(CORE.complete_seoul_cycle_turn(3).get("ok", false)):
+		_expect(false, "M3 Jiyeon route could not close W9")
+		return
+
+	_advance_to_next_week()
+	var w10_snapshot := CORE.seoul_cycle_snapshot(3)
+	var w10_capacity := _unused_capacity(w10_snapshot, 0, true)
+	var w10_commit := CORE.commit_seoul_cycle_allocation(
+		w10_capacity, "m3_people", 3)
+	var w10_pending: Dictionary = w10_commit.get("pending_trigger", {})
+	_expect(bool(w10_commit.get("ok", false)) \
+		and bool(w10_commit.get("completed_now", false)) \
+		and str(w10_commit.get("selected_trigger_bundle_id", "")).is_empty() \
+		and str(w10_commit.get("trigger_bundle", "")) == "jiyeon_world_meet" \
+		and str(w10_pending.get("bundle_id", "")) == "jiyeon_world_meet",
+		"M3 Jiyeon route did not complete into its authored Story trigger")
+	if not bool(w10_commit.get("ok", false)) \
+			or not _resolve_order101_jiyeon_world_meet():
+		return
+	if not bool(CORE.complete_seoul_cycle_turn(3).get("ok", false)):
+		_expect(false, "M3 Jiyeon route could not close W10")
+		return
+
+	_advance_to_next_week()
+	var w11_snapshot := CORE.seoul_cycle_snapshot(3)
+	var w11_capacity := _unused_capacity(w11_snapshot, 0, false)
+	var w11_commit := CORE.commit_seoul_cycle_allocation(
+		w11_capacity, "m3_livelihood", 3)
+	_expect(bool(w11_commit.get("ok", false)) \
+		and not bool(w11_commit.get("completed_now", true)) \
+		and (w11_commit.get("pending_trigger", {}) as Dictionary).is_empty(),
+		"M3 union fixture unexpectedly completed its W11 filler")
+	if not bool(w11_commit.get("ok", false)) \
+			or not bool(CORE.complete_seoul_cycle_turn(3).get("ok", false)):
+		_expect(false, "M3 union fixture could not close W11")
+		return
+
+	_advance_to_next_week()
+	var w12_snapshot := CORE.seoul_cycle_snapshot(3)
+	var w12_capacity := _unused_capacity(w12_snapshot, 0, false)
+	var w12_commit := CORE.commit_seoul_cycle_allocation(
+		w12_capacity, "m3_livelihood", 3)
+	_expect(bool(w12_commit.get("ok", false)) \
+		and bool(w12_commit.get("fallback_allocation", false)) \
+		and (w12_commit.get("pending_trigger", {}) as Dictionary).is_empty(),
+		"M3 union fixture did not use the authored livelihood fail-forward at W12")
+	if not bool(w12_commit.get("ok", false)) \
+			or not bool(CORE.complete_seoul_cycle_turn(3).get("ok", false)):
+		_expect(false, "M3 union fixture could not close W12")
+		return
+
+	var month_three_summary := CORE.record_month_summary(3, {}, {})
+	var completed: Array = GameState.core_loop_v2_state.get(
+		"completed_bundles", [])
+	var completed_turns: Dictionary = GameState.core_loop_v2_state.get(
+		"completed_bundle_turns", {})
+	_expect(not month_three_summary.is_empty() \
+		and completed.count("jiyeon_world_meet") == 1 \
+		and int(completed_turns.get("jiyeon_world_meet", 0)) == 10 \
+		and CORE.terminal_transition_receipt(cafe_route) == cafe_receipt,
+		"M3 close did not retain exact Jiyeon and delayed Cafe source authority")
+	if month_three_summary.is_empty():
+		return
+
+	_advance_to_next_week()
+	var month_four := CORE.initialize_seoul_cycle(4)
+	var m4_snapshot := CORE.seoul_cycle_snapshot(4)
+	var m4_people: Dictionary = (
+		m4_snapshot.get("nodes", {}) as Dictionary).get("m4_people", {})
+	var expected_ids: Array[String] = ["jiyeon_bus_stop_reunion", terminal_id]
+	var candidate_ids := _m2_candidate_ids(
+		CORE.terminal_target_candidates(4, "m4_people"))
+	_expect(bool(month_four.get("ok", false)) \
+		and bool(m4_snapshot.get("active", false)) \
+		and candidate_ids == expected_ids \
+		and m4_people.get("ordinary_candidate_ids", []) \
+			== ["jiyeon_bus_stop_reunion"] \
+		and _sorted_strings(m4_people.get("binding_candidate_ids", [])) \
+			== expected_ids \
+		and str(m4_people.get("selected_trigger_candidate_id", "")).is_empty() \
+		and str(m4_people.get("selected_terminal_route_id", "")).is_empty() \
+		and str(m4_people.get("terminal_selection_origin", "")) \
+			== "unselected_union" \
+		and str(m4_people.get("trigger_bundle", "")).is_empty() \
+		and CORE.terminal_transition_receipt(cafe_route) == cafe_receipt,
+		"M4 board did not expose both delayed Sangchul and actual Jiyeon verbs")
+	var saved: Dictionary = GameState.serialize().duplicate(true)
+	for reload_index in range(2):
+		GameState.start_new_game()
+		GameState.load_from_dict(saved.duplicate(true))
+		CORE.initialize_for_run(true)
+		var reloaded_snapshot: Dictionary = CORE.seoul_cycle_snapshot(4)
+		var reloaded_ids := _m2_candidate_ids(
+			CORE.terminal_target_candidates(4, "m4_people"))
+		var reloaded_node: Dictionary = (
+			reloaded_snapshot.get("nodes", {}) as Dictionary).get(
+				"m4_people", {})
+		var reloaded_receipt: Dictionary = CORE.terminal_transition_receipt(
+			cafe_route)
+		_expect(bool(reloaded_snapshot.get("active", false)) \
+			and reloaded_ids == expected_ids \
+			and reloaded_node.get("ordinary_candidate_ids", []) \
+				== ["jiyeon_bus_stop_reunion"] \
+			and str(reloaded_node.get(
+				"terminal_selection_origin", "")) == "unselected_union" \
+			and reloaded_receipt == cafe_receipt,
+			"Cafe+Jiyeon M4 union drifted on reload %d" % [reload_index + 1])
+		saved = GameState.serialize().duplicate(true)
+
+
+func _resolve_order101_jiyeon_world_meet() -> bool:
+	var claimed := CORE.claim_seoul_cycle_trigger()
+	var began := bool(claimed.get("ok", false)) \
+		and CORE.begin_seoul_cycle_trigger("jiyeon_world_meet")
+	_expect(began, "M3 Jiyeon Story trigger could not begin")
+	if not began:
+		return false
+	_apply_and_note_story("arc_jiyeon_01_crash", 0)
+	var completed := CORE.complete_active_bundle()
+	_expect(completed == "jiyeon_world_meet" \
+		and CORE.pending_seoul_cycle_trigger().is_empty(),
+		"M3 Jiyeon Story did not resolve its exact people branch")
+	return completed == "jiyeon_world_meet"
 
 
 func _check_m2_people_expired_terminal_source(
@@ -2107,6 +3475,9 @@ func _check_m2_people_expired_terminal_source(
 				== partial_selected_id,
 			"partial expiry lost its historical selected allocation identity")
 	var source_saved: Dictionary = GameState.serialize().duplicate(true)
+	if partial_selected_id.is_empty():
+		_check_terminal_source_json_target_roundtrip(
+			source_saved, route_id, receipt, 3, "m3_people")
 	_check_m2_terminal_receipt_repeat_and_reload(route_id, receipt, summary)
 	var forbidden_bundle := (
 		partial_selected_id if not partial_selected_id.is_empty()
@@ -2120,6 +3491,316 @@ func _check_m2_people_expired_terminal_source(
 	if partial_selected_id == hyunsu_id:
 		_check_m2_summary_only_eligible_mutation(
 			source_saved, route_id, receipt, partial_selected_id)
+	elif partial_selected_id.is_empty():
+		_check_m2_expiry_downgrade_target_conflict(
+			source_saved, route_id, receipt)
+
+
+func _check_m2_expiry_downgrade_target_conflict(
+		source_saved: Dictionary, route_id: String,
+		frozen_receipt: Dictionary) -> void:
+	var malformed: Dictionary = source_saved.duplicate(true)
+	var state: Dictionary = malformed.get("core_loop_v2_state", {})
+	var cycle: Dictionary = state.get("seoul_cycle", {})
+	var cycle_nodes: Dictionary = cycle.get("nodes", {})
+	var cycle_node: Dictionary = cycle_nodes.get("m2_people", {})
+	var cycle_expiries: Dictionary = cycle.get("expiry_receipts", {})
+	var cycle_expired: Array = cycle.get("expired_nodes", [])
+	var summaries: Dictionary = state.get("month_summaries", {})
+	var summary: Dictionary = summaries.get("2", {})
+	var summary_nodes: Dictionary = summary.get("node_states", {})
+	var summary_node: Dictionary = summary_nodes.get("m2_people", {})
+	var summary_expiries: Dictionary = summary.get("expiry_receipts", {})
+	var summary_expired: Array = summary.get("expired_nodes", [])
+	_expect(str(cycle_node.get("status", "")) == "expired" \
+		and int(cycle_node.get("expired_turn", 0)) == 7 \
+		and cycle_expiries.has("m2_people") \
+		and cycle_expired.count("m2_people") == 1 \
+		and str(summary_node.get("status", "")) == "expired" \
+		and int(summary_node.get("expired_turn", 0)) == 7 \
+		and summary_expiries.has("m2_people") \
+		and summary_expired.count("m2_people") == 1 \
+		and (state.get("terminal_transition_receipts", {}) as Dictionary).get(
+			route_id, {}) == frozen_receipt,
+		"terminal conflict fixture lacked its exact live and summary node expiry")
+	cycle_node["status"] = "open"
+	cycle_node.erase("expired_turn")
+	cycle_nodes["m2_people"] = cycle_node
+	cycle_expiries.erase("m2_people")
+	while cycle_expired.has("m2_people"):
+		cycle_expired.erase("m2_people")
+	cycle["nodes"] = cycle_nodes
+	cycle["expiry_receipts"] = cycle_expiries
+	cycle["expired_nodes"] = cycle_expired
+	summary_node["status"] = "open"
+	summary_node.erase("expired_turn")
+	summary_nodes["m2_people"] = summary_node
+	summary_expiries.erase("m2_people")
+	while summary_expired.has("m2_people"):
+		summary_expired.erase("m2_people")
+	var allocations: Array = summary.get("allocation_receipts", [])
+	for index in range(allocations.size()):
+		if not allocations[index] is Dictionary:
+			continue
+		var allocation: Dictionary = (
+			allocations[index] as Dictionary).duplicate(true)
+		var expired_nodes: Array = allocation.get("expired_nodes", [])
+		while expired_nodes.has("m2_people"):
+			expired_nodes.erase("m2_people")
+		allocation["expired_nodes"] = expired_nodes
+		allocations[index] = allocation
+	summary["node_states"] = summary_nodes
+	summary["expiry_receipts"] = summary_expiries
+	summary["expired_nodes"] = summary_expired
+	summary["allocation_receipts"] = allocations
+	summaries["2"] = summary
+	state["seoul_cycle"] = cycle
+	state["month_summaries"] = summaries
+	malformed["core_loop_v2_state"] = state
+	GameState.start_new_game()
+	GameState.load_from_dict(malformed)
+	CORE.initialize_for_run(true)
+	_advance_to_next_week()
+	var before_init: Dictionary = GameState.serialize().duplicate(true)
+	var retried: Dictionary = CORE.initialize_seoul_cycle(3)
+	_expect(CORE.terminal_transition_receipt(route_id).is_empty() \
+		and CORE.terminal_target_candidates(3, "m3_people").is_empty() \
+		and not bool(retried.get("ok", true)) \
+		and str(retried.get("error", "")) == "terminal_binding_conflict" \
+		and CORE.terminal_transition_resolution(route_id).is_empty() \
+		and GameState.serialize() == before_init,
+		"coupled source node-expiry downgrade did not fail target init closed")
+
+
+func _check_terminal_source_json_target_roundtrip(
+		source_saved: Dictionary, route_id: String,
+		frozen_receipt: Dictionary, target_month: int,
+		target_node: String) -> void:
+	var parsed: Variant = JSON.parse_string(JSON.stringify(source_saved))
+	_expect(parsed is Dictionary,
+		"%s source save did not survive whole-save JSON parsing" % route_id)
+	if not parsed is Dictionary:
+		return
+	GameState.start_new_game()
+	GameState.load_from_dict(parsed as Dictionary)
+	CORE.initialize_for_run(true)
+	var json_receipt := CORE.terminal_transition_receipt(route_id)
+	var target_turn := (target_month - 1) * 4 + 1
+	_expect(int(GameState.turn) == target_turn - 1,
+		"%s source calendar drifted on whole-save JSON load" % route_id)
+	_expect(not json_receipt.is_empty(),
+		"%s source receipt disappeared on whole-save JSON load" % route_id)
+	_expect(json_receipt.is_empty() or _variant_equal_with_numeric_values(
+		json_receipt, frozen_receipt),
+		"%s source receipt fields drifted on whole-save JSON load" % route_id)
+	if json_receipt.is_empty() or int(GameState.turn) != target_turn - 1:
+		GameState.start_new_game()
+		GameState.load_from_dict(source_saved.duplicate(true))
+		CORE.initialize_for_run(true)
+		return
+	_advance_to_next_week()
+	var initialized := CORE.initialize_seoul_cycle(target_month)
+	var terminal_id := "terminal:%s" % route_id
+	var candidates := CORE.terminal_target_candidates(
+		target_month, target_node)
+	_expect(bool(initialized.get("ok", false)) \
+		and bool(CORE.seoul_cycle_snapshot(target_month).get("active", false)) \
+		and _m2_candidate_ids(candidates).has(terminal_id) \
+		and _variant_equal_with_numeric_values(
+			CORE.terminal_transition_receipt(route_id), frozen_receipt) \
+		and CORE.terminal_transition_resolution(route_id).is_empty(),
+		"%s JSON source did not initialize its actual terminal target" % route_id)
+	var target_saved: Dictionary = GameState.serialize().duplicate(true)
+	if route_id == "m1_resume_completed_q0_to_m2_advancement_rewritten":
+		_check_terminal_summary_only_fractional_turn_rejected(
+			target_saved, route_id, target_month, target_node)
+	for reload_index in range(2):
+		var reload_parsed: Variant = JSON.parse_string(
+			JSON.stringify(target_saved))
+		_expect(reload_parsed is Dictionary,
+			"%s target JSON reload %d could not parse" % [
+				route_id, reload_index + 1])
+		if not reload_parsed is Dictionary:
+			break
+		GameState.start_new_game()
+		GameState.load_from_dict(reload_parsed as Dictionary)
+		CORE.initialize_for_run(true)
+		var reload_candidates := CORE.terminal_target_candidates(
+			target_month, target_node)
+		_expect(bool(CORE.seoul_cycle_snapshot(target_month).get(
+			"active", false)) \
+			and _m2_candidate_ids(reload_candidates).has(terminal_id) \
+			and _variant_equal_with_numeric_values(
+				CORE.terminal_transition_receipt(route_id), frozen_receipt) \
+			and CORE.terminal_transition_resolution(route_id).is_empty(),
+			"%s target drifted on whole-save JSON reload %d" % [
+				route_id, reload_index + 1])
+		target_saved = GameState.serialize().duplicate(true)
+	GameState.start_new_game()
+	GameState.load_from_dict(source_saved.duplicate(true))
+	CORE.initialize_for_run(true)
+
+
+func _check_terminal_fractional_scalar_rejected(
+		source_saved: Dictionary, route_id: String,
+		frozen_receipt: Dictionary) -> void:
+	var malformed: Dictionary = source_saved.duplicate(true)
+	var state: Dictionary = malformed.get("core_loop_v2_state", {})
+	var receipts: Dictionary = state.get("terminal_transition_receipts", {})
+	var receipt: Dictionary = receipts.get(route_id, {}).duplicate(true)
+	_expect(receipt == frozen_receipt,
+		"fractional scalar fixture lost its exact source receipt")
+	receipt["source_month"] = 1.5
+	receipts[route_id] = receipt
+	state["terminal_transition_receipts"] = receipts
+	malformed["core_loop_v2_state"] = state
+	GameState.start_new_game()
+	GameState.load_from_dict(malformed)
+	CORE.initialize_for_run(true)
+	_expect(CORE.terminal_transition_receipt(route_id).is_empty(),
+		"terminal receipt laundered fractional source_month through int coercion")
+
+
+func _check_terminal_summary_only_fractional_turn_rejected(
+		target_saved: Dictionary, route_id: String,
+		target_month: int, target_node: String) -> void:
+	var malformed: Dictionary = target_saved.duplicate(true)
+	var state: Dictionary = malformed.get("core_loop_v2_state", {})
+	var cycle: Dictionary = state.get("seoul_cycle", {})
+	var receipts: Dictionary = state.get("terminal_transition_receipts", {})
+	var receipt: Dictionary = receipts.get(route_id, {}).duplicate(true)
+	var receipt_proof: Dictionary = receipt.get("source_proof", {}).duplicate(true)
+	var receipt_node: Dictionary = receipt_proof.get(
+		"node_state", {}).duplicate(true)
+	var summaries: Dictionary = state.get("month_summaries", {})
+	var summary: Dictionary = summaries.get("1", {}).duplicate(true)
+	var summary_nodes: Dictionary = summary.get("node_states", {}).duplicate(true)
+	var summary_node: Dictionary = summary_nodes.get("resume", {}).duplicate(true)
+	var witnesses: Dictionary = summary.get(
+		"terminal_source_witnesses", {}).duplicate(true)
+	var witness: Dictionary = witnesses.get(route_id, {}).duplicate(true)
+	var witness_proof: Dictionary = witness.get("source_proof", {}).duplicate(true)
+	var witness_node: Dictionary = witness_proof.get(
+		"node_state", {}).duplicate(true)
+	_expect(int(cycle.get("month", 0)) == target_month \
+		and int(receipt_node.get("completed_turn", 0)) == 1 \
+		and int(summary_node.get("completed_turn", 0)) == 1 \
+		and int(witness_node.get("completed_turn", 0)) == 1,
+		"summary-only fractional fixture lacked its three exact completed turns")
+	receipt_node["completed_turn"] = 1.5
+	receipt_proof["node_state"] = receipt_node
+	receipt["source_proof"] = receipt_proof
+	receipts[route_id] = receipt
+	summary_node["completed_turn"] = 1.5
+	summary_nodes["resume"] = summary_node
+	summary["node_states"] = summary_nodes
+	witness_node["completed_turn"] = 1.5
+	witness_proof["node_state"] = witness_node
+	witness["source_proof"] = witness_proof
+	witnesses[route_id] = witness
+	summary["terminal_source_witnesses"] = witnesses
+	summaries["1"] = summary
+	state["terminal_transition_receipts"] = receipts
+	state["month_summaries"] = summaries
+	malformed["core_loop_v2_state"] = state
+	GameState.start_new_game()
+	GameState.load_from_dict(malformed)
+	CORE.initialize_for_run(true)
+	var before_retry: Dictionary = GameState.serialize().duplicate(true)
+	var retried := CORE.initialize_seoul_cycle(target_month)
+	_expect(CORE.terminal_transition_receipt(route_id).is_empty() \
+		and CORE.terminal_target_candidates(
+			target_month, target_node).is_empty() \
+		and not bool(retried.get("ok", true)) \
+		and str(retried.get("error", "")) == "terminal_binding_conflict" \
+		and CORE.terminal_transition_resolution(route_id).is_empty() \
+		and GameState.serialize() == before_retry,
+		"summary-only coupled fractional completed_turn escaped target conflict")
+
+
+func _check_terminal_m4_fake_completed_authority_rejected(
+		source_saved: Dictionary, route_id: String,
+		source_receipt: Dictionary) -> void:
+	var initialized_save: Dictionary = source_saved.duplicate(true)
+	var source_state: Dictionary = initialized_save.get(
+		"core_loop_v2_state", {})
+	_expect(not (source_state.get("completed_bundles", []) as Array).has(
+		"sns_pressure_night") \
+		and not (source_state.get("completed_bundle_turns", {}) as Dictionary).has(
+			"sns_pressure_night") \
+		and (source_state.get("terminal_transition_receipts", {}) as Dictionary) \
+			.get(route_id, {}) == source_receipt,
+		"fake-completion fixture already had SNS authority or lost Cafe source")
+	GameState.start_new_game()
+	GameState.load_from_dict(initialized_save.duplicate(true))
+	CORE.initialize_for_run(true)
+	GameState.turn = 9
+	GameState.month = 3
+	GameState.week_of_month = 1
+	var month_three := CORE.initialize_seoul_cycle(3)
+	_expect(bool(month_three.get("ok", false)),
+		"fake-completion fixture could not initialize intervening M3")
+	if not bool(month_three.get("ok", false)):
+		return
+	GameState.turn = 13
+	GameState.month = 4
+	GameState.week_of_month = 1
+	var month_four := CORE.initialize_seoul_cycle(4)
+	_expect(bool(month_four.get("ok", false)) \
+		and _m2_candidate_ids(CORE.terminal_target_candidates(
+			4, "m4_people")).has(
+				"terminal:m2_people_completed_cafe_to_m4_sangchul") \
+		and not _m2_candidate_ids(CORE.terminal_target_candidates(
+			4, "m4_people")).has("jaehyuk_world_meet"),
+		"fake-completion fixture did not reach M4 with Jaehyuk absent")
+	if not bool(month_four.get("ok", false)):
+		return
+	var malformed: Dictionary = GameState.serialize().duplicate(true)
+	var state: Dictionary = malformed.get("core_loop_v2_state", {})
+	var completed: Array = state.get("completed_bundles", [])
+	var completed_turns: Dictionary = state.get("completed_bundle_turns", {})
+	completed.append("sns_pressure_night")
+	completed_turns["sns_pressure_night"] = 6
+	state["completed_bundles"] = completed
+	state["completed_bundle_turns"] = completed_turns
+	var summaries: Dictionary = state.get("month_summaries", {})
+	var month_two: Dictionary = summaries.get("2", {})
+	var world_receipts: Dictionary = month_two.get("world_receipts", {})
+	world_receipts["fake_sns"] = {
+		"bundle_id": "sns_pressure_night",
+		"status": "resolved",
+		"turn": 6,
+	}
+	month_two["world_receipts"] = world_receipts
+	summaries["2"] = month_two
+	state["month_summaries"] = summaries
+	_expect((state.get("terminal_transition_receipts", {}) as Dictionary).get(
+		route_id, {}) == source_receipt \
+		and completed.count("sns_pressure_night") == 1 \
+		and int(completed_turns.get("sns_pressure_night", 0)) == 6 \
+		and world_receipts.has("fake_sns"),
+		"fake-completion attack changed Cafe source or lacked forged authority")
+	var source_only: Dictionary = malformed.duplicate(true)
+	source_only["core_loop_v2_state"] = state.duplicate(true)
+	_expect_terminal_source_survives_auxiliary_forgery(
+		source_only, route_id, source_receipt, "minimal SNS world completion")
+	if not _inject_terminal_ordinary_candidate_across_target_surfaces(
+			state, 4, "m4_people", "jaehyuk_world_meet"):
+		_expect(false, "fake-completion attack could not expand M4 surfaces")
+		return
+	malformed["core_loop_v2_state"] = state
+	GameState.start_new_game()
+	GameState.load_from_dict(malformed)
+	CORE.initialize_for_run(true)
+	var before_retry: Dictionary = GameState.serialize().duplicate(true)
+	var retried := CORE.initialize_seoul_cycle(4)
+	_expect(not bool(CORE.seoul_cycle_snapshot(4).get("active", true)) \
+		and CORE.terminal_target_candidates(4, "m4_people").is_empty() \
+		and not bool(retried.get("ok", true)) \
+		and str(retried.get("error", "")) == "terminal_binding_conflict" \
+		and CORE.terminal_transition_resolution(route_id).is_empty() \
+		and GameState.serialize() == before_retry,
+		"minimal fake SNS completion forged historical Jaehyuk eligibility")
 
 
 func _resolve_m2_people_selected_story(
@@ -2157,6 +3838,37 @@ func _commit_m2_terminal_filler() -> bool:
 			"M2 terminal filler produced an unexpected trigger")
 		return _resolve_cycle_side_shift_trigger("m2_rain_delivery_shift")
 	return true
+
+
+func _resolve_cycle_recovery_trigger(bundle_id: String) -> bool:
+	var claimed := CORE.claim_seoul_cycle_trigger()
+	var began := bool(claimed.get("ok", false)) \
+		and CORE.begin_seoul_cycle_trigger(bundle_id)
+	var armed := began and GameState.arm_weekly_commitment({
+		"turn": int(GameState.turn),
+		"pressure_id": bundle_id,
+		"pressure_family": "recovery",
+		"choice_id": "rest",
+		"forgone_ids": [],
+		"supplemental_to_seoul_cycle": true,
+	})
+	var transaction: Dictionary = {}
+	if armed:
+		transaction = GameState.finalize_weekly_effect_action(
+			"rest", {"mental": 10, "health": 3}, "human", "home", "", {
+				"execution": "rest",
+				"effects": {"mental": 10, "health": 3},
+				"diminished_by_recovery_routine": false,
+			})
+	var action_noted := bool(transaction.get("ok", false)) \
+		and CORE.note_action_commitment(
+			transaction.get("record", {}) as Dictionary)
+	var completed := CORE.complete_active_bundle() if action_noted else ""
+	_expect(bool(claimed.get("ok", false)) and began and armed \
+		and bool(transaction.get("ok", false)) and action_noted \
+		and completed == bundle_id,
+		"recovery trigger did not execute its exact supplemental action")
+	return completed == bundle_id
 
 
 func _check_m2_terminal_receipt_repeat_and_reload(
@@ -4589,6 +6301,12 @@ func _check_cycle_routine_and_livelihood() -> void:
 			"allocation_receipts", {}) as Dictionary).get(
 				"4", {}) as Dictionary).get("repeat_allocation", false)),
 		"resolved livelihood route expired its trigger or lost its W4 repeat receipt")
+	var completed_summary := CORE.record_month_summary(1, {}, {})
+	var completed_saved: Dictionary = GameState.serialize().duplicate(true)
+	_expect(not completed_summary.is_empty(),
+		"completed trigger expiry-coexistence fixture did not close Month One")
+	if not completed_summary.is_empty():
+		_check_order101_completed_trigger_expiry_coexistence(completed_saved)
 
 
 func _check_four_week_cycle() -> void:
@@ -4599,6 +6317,9 @@ func _check_four_week_cycle() -> void:
 		return
 	var initial_capacities: Array = CORE.seoul_cycle_snapshot(1).get(
 		"capacities", []).duplicate(true)
+	var actual_month_opening := CORE.month_opening_snapshot(1)
+	_expect(not actual_month_opening.is_empty(),
+		"four-week cycle did not persist its actual opening authority")
 	_expect_cycle_routine_suppressed(1)
 
 	# W1: spend a medium/strong value on Father, prove relationship receipt,
@@ -4884,6 +6605,13 @@ func _check_four_week_cycle() -> void:
 		"mental": int(GameState.mental),
 	}
 	var summary := CORE.record_month_summary(1, month_before, month_after)
+	if not actual_month_opening.is_empty():
+		var summary_state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+		var opening_snapshots: Dictionary = summary_state.get(
+			"month_opening_snapshots", {})
+		opening_snapshots["1"] = actual_month_opening.duplicate(true)
+		summary_state["month_opening_snapshots"] = opening_snapshots
+		GameState.core_loop_v2_state = summary_state
 	var summary_nodes: Dictionary = summary.get("node_states", {})
 	_expect(str(summary.get("planning_mode", "")) \
 		== CORE.SEOUL_CYCLE_MODE \
@@ -4916,6 +6644,7 @@ func _check_four_week_cycle() -> void:
 		"seoul_cycle", {}).duplicate(true)
 	var saved_summary: Dictionary = summary.duplicate(true)
 	var saved_run: Dictionary = GameState.serialize().duplicate(true)
+	_check_order101_closed_summary_expiry_authority(saved_run)
 	GameState.start_new_game()
 	GameState.load_from_dict(saved_run)
 	CORE.initialize_for_run(true)
@@ -4928,6 +6657,423 @@ func _check_four_week_cycle() -> void:
 		_expect(not CORE.seoul_cycle_snapshot(1).get("active", true) \
 			and not CORE.seoul_cycle_available(1),
 			"completed Month-One cycle leaked into turn %d" % future_turn)
+
+
+func _check_order101_closed_summary_expiry_authority(
+		closed_saved: Dictionary) -> void:
+	GameState.start_new_game()
+	GameState.load_from_dict(closed_saved.duplicate(true))
+	CORE.initialize_for_run(true)
+	GameState.turn = 5
+	GameState.month = 2
+	GameState.week_of_month = 1
+	var baseline_state: Dictionary = GameState.core_loop_v2_state
+	var baseline_history: Dictionary = CORE._terminal_historical_cycle_summary(
+		baseline_state, 1, 5)
+	_expect(LocaleManager.language == "en" \
+		and GameState.player_name == LocaleManager.DEFAULT_NAME_EN,
+		"KO-produced closed summary did not load with its EN display identity")
+	_expect(not baseline_history.is_empty(),
+		"KO-produced closed summary lost authority after EN reload")
+	_expect(_order101_historical_capacity_authority_exact(
+		baseline_state, baseline_history, LocaleManager.DEFAULT_NAME_KO),
+		"KO-produced closed summary changed its frozen capacity order after EN reload")
+	_check_order101_locale_stable_historical_authority()
+
+	var trigger_downgrade: Dictionary = closed_saved.duplicate(true)
+	var trigger_state: Dictionary = trigger_downgrade.get(
+		"core_loop_v2_state", {})
+	var trigger_summaries: Dictionary = trigger_state.get("month_summaries", {})
+	var trigger_summary: Dictionary = trigger_summaries.get("1", {})
+	var trigger_expiries: Dictionary = trigger_summary.get("expiry_receipts", {})
+	var trigger_nodes: Dictionary = trigger_summary.get("node_states", {})
+	var trigger_node: Dictionary = trigger_nodes.get("convenience", {})
+	var trigger_allocations: Array = trigger_summary.get("allocation_receipts", [])
+	var trigger_kept: Array = trigger_summary.get("kept", [])
+	var trigger_allocation_index := _order101_summary_allocation_index(
+		trigger_allocations, 4, "convenience")
+	_expect(trigger_expiries.has("convenience:trigger") \
+		and str(trigger_node.get("featured_status", "")) == "expired" \
+		and bool(trigger_node.get("fallback_mode", false)) \
+		and str(trigger_node.get("missed_trigger_bundle", "")) \
+			== "m1_convenience_trial_shift" \
+		and trigger_allocation_index >= 0 \
+		and bool((trigger_allocations[trigger_allocation_index] \
+			as Dictionary).get("fallback_allocation", false)),
+		"trigger-expiry downgrade fixture lacked its actual receipt and fallback")
+	if trigger_allocation_index >= 0:
+		trigger_expiries.erase("convenience:trigger")
+		trigger_node.erase("featured_status")
+		trigger_node.erase("missed_trigger_bundle")
+		trigger_node.erase("fallback_mode")
+		var trigger_allocation: Dictionary = (
+			trigger_allocations[trigger_allocation_index] as Dictionary).duplicate(
+				true)
+		var ordinary_gain := CORE._seoul_cycle_progress_for_capacity(
+			int(trigger_allocation.get("capacity_value", 0)))
+		trigger_allocation["fallback_allocation"] = false
+		trigger_allocation["progress_gain"] = ordinary_gain
+		trigger_allocation["progress_after"] = ordinary_gain
+		var trigger_weekly: Dictionary = trigger_allocation.get(
+			"weekly_commitment", {}).duplicate(true)
+		var trigger_details: Dictionary = trigger_weekly.get(
+			"details", {}).duplicate(true)
+		trigger_details["fallback_allocation"] = false
+		trigger_details["progress_gain"] = ordinary_gain
+		trigger_details["progress_after"] = ordinary_gain
+		trigger_weekly["details"] = trigger_details
+		trigger_allocation["weekly_commitment"] = trigger_weekly
+		trigger_allocations[trigger_allocation_index] = trigger_allocation
+		trigger_node["progress"] = ordinary_gain
+		for index in range(trigger_kept.size()):
+			if trigger_kept[index] is Dictionary \
+					and int((trigger_kept[index] as Dictionary).get(
+						"week", 0)) == 4:
+				var kept: Dictionary = (trigger_kept[index] as Dictionary).duplicate(
+					true)
+				kept["fallback_allocation"] = false
+				kept["progress_gain"] = ordinary_gain
+				trigger_kept[index] = kept
+		for index in range((trigger_downgrade.get(
+				"weekly_commitments", []) as Array).size()):
+			var outer: Variant = (trigger_downgrade.get(
+				"weekly_commitments", []) as Array)[index]
+			if outer is Dictionary and int((outer as Dictionary).get(
+					"turn", 0)) == 4:
+				var outer_record: Dictionary = (outer as Dictionary).duplicate(true)
+				var outer_details: Dictionary = outer_record.get(
+					"details", {}).duplicate(true)
+				outer_details["fallback_allocation"] = false
+				outer_details["progress_gain"] = ordinary_gain
+				outer_details["progress_after"] = ordinary_gain
+				outer_record["details"] = outer_details
+				(trigger_downgrade["weekly_commitments"] as Array)[index] = \
+					outer_record
+		trigger_nodes["convenience"] = trigger_node
+		trigger_summary["node_states"] = trigger_nodes
+		trigger_summary["expiry_receipts"] = trigger_expiries
+		trigger_summary["allocation_receipts"] = trigger_allocations
+		trigger_summary["kept"] = trigger_kept
+		trigger_summaries["1"] = trigger_summary
+		trigger_state["month_summaries"] = trigger_summaries
+		trigger_downgrade["core_loop_v2_state"] = trigger_state
+		_check_order101_historical_expiry_mutation_rejected(
+			trigger_downgrade,
+			"coupled trigger-expiry marker and fallback downgrade")
+
+	var node_downgrade: Dictionary = closed_saved.duplicate(true)
+	var node_state: Dictionary = node_downgrade.get("core_loop_v2_state", {})
+	var node_summaries: Dictionary = node_state.get("month_summaries", {})
+	var node_summary: Dictionary = node_summaries.get("1", {})
+	var node_expiries: Dictionary = node_summary.get("expiry_receipts", {})
+	var node_expired: Array = node_summary.get("expired_nodes", [])
+	var node_nodes: Dictionary = node_summary.get("node_states", {})
+	var resume_node: Dictionary = node_nodes.get("resume", {})
+	_expect(node_expiries.has("resume") \
+		and node_expired.count("resume") == 1 \
+		and str(resume_node.get("status", "")) == "expired" \
+		and int(resume_node.get("expired_turn", 0)) == 3,
+		"node-expiry downgrade fixture lacked its actual Resume expiry")
+	node_expiries.erase("resume")
+	while node_expired.has("resume"):
+		node_expired.erase("resume")
+	resume_node["status"] = "open"
+	resume_node.erase("expired_turn")
+	node_nodes["resume"] = resume_node
+	var node_allocations: Array = node_summary.get("allocation_receipts", [])
+	for index in range(node_allocations.size()):
+		if not node_allocations[index] is Dictionary:
+			continue
+		var allocation: Dictionary = (
+			node_allocations[index] as Dictionary).duplicate(true)
+		var allocation_expired: Array = allocation.get("expired_nodes", [])
+		while allocation_expired.has("resume"):
+			allocation_expired.erase("resume")
+		allocation["expired_nodes"] = allocation_expired
+		node_allocations[index] = allocation
+	node_summary["expiry_receipts"] = node_expiries
+	node_summary["expired_nodes"] = node_expired
+	node_summary["node_states"] = node_nodes
+	node_summary["allocation_receipts"] = node_allocations
+	node_summaries["1"] = node_summary
+	node_state["month_summaries"] = node_summaries
+	node_downgrade["core_loop_v2_state"] = node_state
+	_check_order101_historical_expiry_mutation_rejected(
+		node_downgrade, "coupled node-expiry downgrade")
+
+	var post_expiry: Dictionary = closed_saved.duplicate(true)
+	var post_state: Dictionary = post_expiry.get("core_loop_v2_state", {})
+	var post_summaries: Dictionary = post_state.get("month_summaries", {})
+	var post_summary: Dictionary = post_summaries.get("1", {})
+	var post_nodes: Dictionary = post_summary.get("node_states", {})
+	var post_node: Dictionary = post_nodes.get("convenience", {})
+	var post_allocations: Array = post_summary.get("allocation_receipts", [])
+	var post_index := _order101_summary_allocation_index(
+		post_allocations, 4, "convenience")
+	var post_expiries: Dictionary = post_summary.get("expiry_receipts", {})
+	var post_receipt: Dictionary = post_expiries.get("convenience", {})
+	_expect(post_index >= 0 \
+		and int(post_node.get("expired_turn", 0)) == 4 \
+		and int(post_node.get("last_allocation_turn", 0)) == 4 \
+		and int(post_receipt.get("turn", 0)) == 4,
+		"post-expiry allocation fixture lacked its actual W4 boundary")
+	if post_index >= 0:
+		post_node["expired_turn"] = 3
+		post_nodes["convenience"] = post_node
+		post_receipt["turn"] = 3
+		post_receipt["week_index"] = 3
+		post_expiries["convenience"] = post_receipt
+		for index in range(post_allocations.size()):
+			if not post_allocations[index] is Dictionary:
+				continue
+			var allocation: Dictionary = (
+				post_allocations[index] as Dictionary).duplicate(true)
+			var allocation_expired: Array = allocation.get("expired_nodes", [])
+			if int(allocation.get("turn", 0)) == 3 \
+					and not allocation_expired.has("convenience"):
+				allocation_expired.append("convenience")
+			if int(allocation.get("turn", 0)) == 4:
+				while allocation_expired.has("convenience"):
+					allocation_expired.erase("convenience")
+			allocation["expired_nodes"] = allocation_expired
+			post_allocations[index] = allocation
+		post_summary["node_states"] = post_nodes
+		post_summary["expiry_receipts"] = post_expiries
+		post_summary["allocation_receipts"] = post_allocations
+		post_summaries["1"] = post_summary
+		post_state["month_summaries"] = post_summaries
+		post_expiry["core_loop_v2_state"] = post_state
+		_check_order101_historical_expiry_mutation_rejected(
+			post_expiry, "allocation after a coupled earlier node expiry")
+
+
+func _check_order101_completed_trigger_expiry_coexistence(
+		completed_saved: Dictionary) -> void:
+	GameState.start_new_game()
+	GameState.load_from_dict(completed_saved.duplicate(true))
+	CORE.initialize_for_run(true)
+	GameState.turn = 5
+	GameState.month = 2
+	GameState.week_of_month = 1
+	_expect(not CORE._terminal_historical_cycle_summary(
+		GameState.core_loop_v2_state, 1, 5).is_empty(),
+		"completed-trigger coexistence fixture lacked genuine historical authority")
+	var malformed: Dictionary = completed_saved.duplicate(true)
+	var state: Dictionary = malformed.get("core_loop_v2_state", {})
+	var summaries: Dictionary = state.get("month_summaries", {})
+	var summary: Dictionary = summaries.get("1", {})
+	var nodes: Dictionary = summary.get("node_states", {})
+	var node: Dictionary = nodes.get("convenience", {})
+	var triggers: Dictionary = summary.get("trigger_receipts", {})
+	var expiries: Dictionary = summary.get("expiry_receipts", {})
+	_expect(str(node.get("status", "")) == "completed" \
+		and int(node.get("completed_turn", 0)) == 2 \
+		and str((triggers.get("convenience", {}) as Dictionary).get(
+			"bundle_id", "")) == "m1_convenience_trial_shift" \
+		and not expiries.has("convenience:trigger"),
+		"completed-trigger coexistence fixture lacked its exact resolved branch")
+	var effect_snapshot := {"health": 50, "mental": 50, "money": 0.0}
+	expiries["convenience:trigger"] = {
+		"scope": "trigger",
+		"node_id": "convenience",
+		"trigger_bundle": "m1_convenience_trial_shift",
+		"turn": 3,
+		"week_index": 3,
+		"status": "consumed",
+		"consequence_id": "m1_cover_shift_window_closed",
+		"effects": {},
+		"before": effect_snapshot.duplicate(true),
+		"after": effect_snapshot.duplicate(true),
+	}
+	node["featured_status"] = "expired"
+	node["missed_trigger_bundle"] = "m1_convenience_trial_shift"
+	node["fallback_mode"] = true
+	nodes["convenience"] = node
+	summary["node_states"] = nodes
+	summary["expiry_receipts"] = expiries
+	summaries["1"] = summary
+	state["month_summaries"] = summaries
+	malformed["core_loop_v2_state"] = state
+	_check_order101_historical_expiry_mutation_rejected(
+		malformed, "resolved trigger plus canonical sibling trigger expiry")
+
+
+func _check_order101_locale_stable_historical_authority() -> void:
+	var en_to_ko := _order101_produce_locale_closed_cycle(
+		"en", "ko", LocaleManager.DEFAULT_NAME_EN)
+	if not en_to_ko.is_empty():
+		_check_order101_locale_history_accepts(
+			en_to_ko, "ko", LocaleManager.DEFAULT_NAME_EN,
+			LocaleManager.DEFAULT_NAME_KO, "EN-to-KO default name")
+
+	const CUSTOM_NAME := "하늘고래"
+	var custom_to_en := _order101_produce_locale_closed_cycle(
+		"ko", "en", CUSTOM_NAME)
+	if not custom_to_en.is_empty():
+		_check_order101_locale_history_accepts(
+			custom_to_en, "en", CUSTOM_NAME, CUSTOM_NAME,
+			"custom-name KO-to-EN")
+
+	var default_mismatch := en_to_ko.duplicate(true)
+	if not default_mismatch.is_empty():
+		default_mismatch["player_name"] = "다른 사용자 이름"
+		_check_order101_locale_history_rejects(
+			default_mismatch, "ko", "current player name only")
+
+	var signature_mismatch := custom_to_en.duplicate(true)
+	if not signature_mismatch.is_empty():
+		var mismatch_state: Dictionary = signature_mismatch.get(
+			"core_loop_v2_state", {})
+		var mismatch_summaries: Dictionary = mismatch_state.get(
+			"month_summaries", {})
+		var mismatch_summary: Dictionary = mismatch_summaries.get("1", {})
+		var mismatch_authority: Dictionary = mismatch_summary.get(
+			"historical_cycle_authority", {})
+		var source_health := int(mismatch_authority.get("source_health", 0))
+		var source_mental := int(mismatch_authority.get("source_mental", 0))
+		mismatch_authority["seed_signature"] = CORE._seoul_cycle_seed_signature(
+			1, source_health, source_mental, "위조된 이름")
+		mismatch_summary["historical_cycle_authority"] = mismatch_authority
+		mismatch_summaries["1"] = mismatch_summary
+		mismatch_state["month_summaries"] = mismatch_summaries
+		signature_mismatch["core_loop_v2_state"] = mismatch_state
+		_check_order101_locale_history_rejects(
+			signature_mismatch, "en", "seed signature only")
+
+
+func _order101_produce_locale_closed_cycle(
+		source_language: String, target_language: String,
+		player_name: String) -> Dictionary:
+	LocaleManager.set_language(source_language)
+	GameState.start_new_game(
+		player_name, "지방_상경", "직장형", "백수", "자유런", "현실")
+	CORE.initialize_for_run(true)
+	GameState.flags["prologue_done"] = true
+	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	state["application_statuses"]["mirae_industrial_tech"] = "interviewed"
+	GameState.core_loop_v2_state = state
+	var initialized := CORE.initialize_seoul_cycle(1)
+	_expect(bool(initialized.get("ok", false)) \
+		and str(GameState.player_name) == player_name,
+		"%s locale authority fixture could not initialize its actual cycle" \
+			% source_language)
+	if not bool(initialized.get("ok", false)):
+		return {}
+	for turn in range(1, 5):
+		var snapshot := CORE.seoul_cycle_snapshot(1)
+		var capacity_id := _unused_capacity(snapshot, 0, true)
+		var committed := CORE.commit_seoul_cycle_allocation(
+			capacity_id, "recovery", 1)
+		if not bool(committed.get("ok", false)):
+			_expect(false, "%s locale authority W%d allocation failed" % [
+				source_language, turn])
+			return {}
+		if turn == 3 and not _resolve_cycle_story_world(
+				"hyunsu_first_meet", HYUNSU_EVENT, 0):
+			return {}
+		if turn == 4 and not _resolve_cycle_story_world(
+				"first_temptation_boss", TEMPTATION_EVENT, 0):
+			return {}
+		if not bool(CORE.complete_seoul_cycle_turn(1).get("ok", false)):
+			_expect(false, "%s locale authority W%d could not close" % [
+				source_language, turn])
+			return {}
+		if turn < 4:
+			_advance_to_next_week()
+	var summary := CORE.record_month_summary(1, {}, {})
+	_expect(not summary.is_empty(),
+		"%s locale authority did not produce a closed summary" \
+			% source_language)
+	if summary.is_empty():
+		return {}
+	LocaleManager.set_language(target_language)
+	return GameState.serialize().duplicate(true)
+
+
+func _check_order101_locale_history_accepts(
+		saved: Dictionary, target_language: String, frozen_seed_name: String,
+		expected_current_name: String, label: String) -> void:
+	LocaleManager.set_language(target_language)
+	GameState.start_new_game()
+	GameState.load_from_dict(saved.duplicate(true))
+	CORE.initialize_for_run(true)
+	GameState.turn = 5
+	GameState.month = 2
+	GameState.week_of_month = 1
+	var state: Dictionary = GameState.core_loop_v2_state
+	var history := CORE._terminal_historical_cycle_summary(state, 1, 5)
+	_expect(LocaleManager.language == target_language \
+		and str(GameState.player_name) == expected_current_name \
+		and _order101_historical_capacity_authority_exact(
+			state, history, frozen_seed_name),
+		"%s locale transition lost exact historical capacity authority" % label)
+
+
+func _check_order101_locale_history_rejects(
+		saved: Dictionary, target_language: String, label: String) -> void:
+	LocaleManager.set_language(target_language)
+	GameState.start_new_game()
+	GameState.load_from_dict(saved.duplicate(true))
+	CORE.initialize_for_run(true)
+	GameState.turn = 5
+	GameState.month = 2
+	GameState.week_of_month = 1
+	_expect(CORE._terminal_historical_cycle_summary(
+		GameState.core_loop_v2_state, 1, 5).is_empty(),
+		"locale history accepted %s mutation" % label)
+
+
+func _order101_historical_capacity_authority_exact(
+		state: Dictionary, history: Dictionary,
+		frozen_seed_name: String) -> bool:
+	if history.is_empty():
+		return false
+	var summary: Dictionary = history.get("summary", {})
+	var authority: Dictionary = summary.get("historical_cycle_authority", {})
+	var source_health := int(authority.get("source_health", -1))
+	var source_mental := int(authority.get("source_mental", -1))
+	if str(authority.get("seed_signature", "")) \
+			!= CORE._seoul_cycle_seed_signature(
+				1, source_health, source_mental, frozen_seed_name):
+		return false
+	var expected := CORE._generated_seoul_cycle_capacities(
+		1, source_health, source_mental, frozen_seed_name)
+	var actual: Array = authority.get("capacities", [])
+	if actual.size() != expected.size() or actual.size() != 4:
+		return false
+	for index in range(expected.size()):
+		if not actual[index] is Dictionary or not expected[index] is Dictionary:
+			return false
+		for key in ["id", "value", "quality"]:
+			if (actual[index] as Dictionary).get(key, null) \
+					!= (expected[index] as Dictionary).get(key, null):
+				return false
+	return not CORE._terminal_historical_capacity_values(
+		state, 1, authority).is_empty()
+
+
+func _check_order101_historical_expiry_mutation_rejected(
+		malformed: Dictionary, label: String) -> void:
+	GameState.start_new_game()
+	GameState.load_from_dict(malformed.duplicate(true))
+	CORE.initialize_for_run(true)
+	GameState.turn = 5
+	GameState.month = 2
+	GameState.week_of_month = 1
+	_expect(CORE._terminal_historical_cycle_summary(
+		GameState.core_loop_v2_state, 1, 5).is_empty(),
+		"closed summary accepted %s" % label)
+
+
+func _order101_summary_allocation_index(
+		allocations: Array, turn: int, node_id: String) -> int:
+	for index in range(allocations.size()):
+		if allocations[index] is Dictionary \
+				and int((allocations[index] as Dictionary).get("turn", 0)) == turn \
+				and str((allocations[index] as Dictionary).get(
+					"node_id", "")) == node_id:
+			return index
+	return -1
 
 
 func _expect_legacy_routine_effects(label: String, month_index: int) -> void:
@@ -5186,6 +7332,63 @@ func _dictionary_equal_with_numeric_values(
 			if float(left_value) != float(right_value):
 				return false
 		elif left_value != right_value:
+			return false
+	return true
+
+
+func _variant_equal_with_numeric_values(
+		left: Variant, right: Variant) -> bool:
+	if left is Dictionary or right is Dictionary:
+		if not left is Dictionary or not right is Dictionary:
+			return false
+		var left_dictionary: Dictionary = left
+		var right_dictionary: Dictionary = right
+		if _sorted_strings(left_dictionary.keys()) \
+				!= _sorted_strings(right_dictionary.keys()):
+			return false
+		for raw_key in left_dictionary:
+			if typeof(raw_key) != TYPE_STRING:
+				return false
+			var key := str(raw_key)
+			if not right_dictionary.has(key):
+				return false
+			if not _variant_equal_with_numeric_values(
+					left_dictionary.get(raw_key), right_dictionary.get(key)):
+				return false
+		return true
+	if left is Array or right is Array:
+		if not left is Array or not right is Array \
+				or (left as Array).size() != (right as Array).size():
+			return false
+		for index in range((left as Array).size()):
+			if not _variant_equal_with_numeric_values(
+					(left as Array)[index], (right as Array)[index]):
+				return false
+		return true
+	if typeof(left) in [TYPE_INT, TYPE_FLOAT] \
+			or typeof(right) in [TYPE_INT, TYPE_FLOAT]:
+		return typeof(left) in [TYPE_INT, TYPE_FLOAT] \
+			and typeof(right) in [TYPE_INT, TYPE_FLOAT] \
+			and is_finite(float(left)) and is_finite(float(right)) \
+			and float(left) == float(right)
+	return left == right
+
+
+func _terminal_record_equal_with_numeric_effects(
+		left_raw: Variant, right_raw: Variant) -> bool:
+	if not left_raw is Dictionary or not right_raw is Dictionary:
+		return false
+	var left: Dictionary = left_raw
+	var right: Dictionary = right_raw
+	if _sorted_strings(left.keys()) != _sorted_strings(right.keys()):
+		return false
+	for raw_key in left:
+		var key := str(raw_key)
+		if key == "completion_effects":
+			if not _dictionary_equal_with_numeric_values(
+					left.get(raw_key), right.get(key)):
+				return false
+		elif left.get(raw_key) != right.get(key):
 			return false
 	return true
 

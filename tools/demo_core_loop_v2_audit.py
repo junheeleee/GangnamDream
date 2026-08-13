@@ -2129,13 +2129,276 @@ def validate_order101_terminal_slice_contract(
     except OSError as exc:
         fail(f"cannot load terminal-slice runtime source: {exc}", errors)
         return
+    if "TMP_TERMINAL_" in demo_source:
+        fail(
+            "DemoCoreLoopV2 still contains temporary terminal-binding debug output",
+            errors,
+        )
     for function_name in (
+        "terminal_target_candidates",
         "terminal_transition_receipt",
+        "terminal_transition_resolution",
         "terminal_routes_for_target",
     ):
         if f"func {function_name}(" not in demo_source:
             fail(
                 f"DemoCoreLoopV2 lacks terminal-slice API {function_name}",
+                errors,
+            )
+
+    for helper_name in (
+        "_terminal_candidate_from_binding",
+        "_terminal_ordinary_candidate",
+        "_terminal_binding_candidate_records",
+        "_terminal_valid_bindings_for_target",
+        "_terminal_union_ordinary_candidates",
+        "_terminal_ordinary_candidates_at_target_open",
+        "_terminal_historical_predicate_met",
+        "_terminal_historical_completed_bundle",
+        "_terminal_historical_routine_selected",
+        "_terminal_historical_relationship_predicate_met",
+        "_terminal_target_binding_witness_for_month_present",
+        "_terminal_target_binding_witnesses_globally_valid",
+        "_terminal_node_with_selected_candidate",
+        "_bind_terminal_routes_to_new_cycle",
+    ):
+        if f"func {helper_name}(" not in demo_source:
+            fail(
+                f"DemoCoreLoopV2 lacks target-candidate helper {helper_name}",
+                errors,
+            )
+
+    expected_candidate_tokens = {
+        "id", "kind", "bundle_id", "route_id", "variant_id",
+        "label_ko", "label_en", "detail_ko", "detail_en",
+        "completion_effects", "source",
+    }
+    expected_candidate_source_tokens = {
+        "month", "node", "terminal", "turn", "proof_kind", "proof_id",
+    }
+    candidate_match = re.search(
+        r"static func _terminal_candidate_from_binding\(.*?"
+        r"(?=\nstatic func |\Z)",
+        demo_source,
+        flags=re.DOTALL,
+    )
+    if candidate_match is None:
+        fail("cannot inspect the terminal target candidate builder", errors)
+    else:
+        candidate_body = candidate_match.group(0)
+        for key in expected_candidate_tokens | expected_candidate_source_tokens:
+            if f'"{key}"' not in candidate_body:
+                fail(
+                    f"terminal candidate builder lacks exact field {key!r}",
+                    errors,
+                )
+    for node_field in (
+        "binding_candidate_ids",
+        "ordinary_candidate_ids",
+        "eligible_terminal_route_ids",
+        "terminal_route_bindings",
+        "selected_trigger_candidate_id",
+        "selected_trigger_bundle_id",
+        "selected_terminal_route_id",
+        "terminal_selection_origin",
+    ):
+        if f'node["{node_field}"]' not in demo_source \
+                and f'selected["{node_field}"]' not in demo_source:
+            fail(
+                f"terminal target node does not persist {node_field}",
+                errors,
+            )
+    for builder_token in (
+        'candidate_ids.append("terminal:%s" % route_id)',
+        "if not terminal_bundles.has(ordinary_id):",
+        'node["terminal_selection_origin"] = "unselected_union"',
+        'node["terminal_selection_origin"] = "terminal_auto"',
+        'result_cycle["terminal_binding_schema"] = TERMINAL_TARGET_BINDING_SCHEMA',
+        'result_cycle["terminal_bound_node_ids"] = bound_node_ids',
+        'new_plan["terminal_binding_candidate_sets"] = candidate_sets',
+        '["ordinary_candidate_ids", "binding_candidate_ids"]',
+        "candidate_ids.sort()",
+        "route_ids.sort()",
+    ):
+        if builder_token not in demo_source:
+            fail(
+                "terminal candidate union/coalescing contract lacks exact token "
+                f"{builder_token!r}",
+                errors,
+            )
+
+    expected_witness_keys = {
+        "schema", "target_month", "target_node", "ordinary_candidate_ids",
+        "binding_candidate_ids", "terminal_route_bindings",
+        "ordinary_eligibility",
+    }
+    expected_eligibility_keys = {
+        "schema", "cut_turn", "eligible_authored_candidate_ids",
+    }
+    witness_validator_match = re.search(
+        r"static func _terminal_target_binding_witnesses_globally_valid\(.*?"
+        r"(?=\nstatic func |\Z)",
+        demo_source,
+        flags=re.DOTALL,
+    )
+    if witness_validator_match is None:
+        fail("cannot inspect terminal target witness validation", errors)
+    else:
+        witness_validator = witness_validator_match.group(0)
+        witness_keys_match = re.search(
+            r"_terminal_dictionary_has_exact_keys\(\s*"
+            r"raw_witness as Dictionary,\s*\[(.*?)\]\s*\)",
+            witness_validator,
+            flags=re.DOTALL,
+        )
+        eligibility_keys_match = re.search(
+            r"_terminal_dictionary_has_exact_keys\(\s*"
+            r"raw_eligibility as Dictionary,\s*\[(.*?)\]\s*\)",
+            witness_validator,
+            flags=re.DOTALL,
+        )
+        for owner, key_match, expected_keys in (
+            ("root witness", witness_keys_match, expected_witness_keys),
+            (
+                "historical eligibility",
+                eligibility_keys_match,
+                expected_eligibility_keys,
+            ),
+        ):
+            if key_match is None:
+                fail(f"terminal {owner} lacks an exact key gate", errors)
+                continue
+            actual_keys = re.findall(r'"([a-z_]+)"', key_match.group(1))
+            if len(actual_keys) != len(set(actual_keys)) \
+                    or set(actual_keys) != expected_keys:
+                fail(
+                    f"terminal {owner} keys must be exact: "
+                    f"expected={sorted(expected_keys)!r} "
+                    f"actual={actual_keys!r}",
+                    errors,
+                )
+        for token in (
+            "_terminal_ordinary_candidates_at_target_open(",
+            '"eligible_authored_candidate_ids"',
+            "historical_eligibility.get(\"cut_turn\", 0)",
+            "historical_eligibility.get(\"ids\", [])",
+            "actual_witness_keys == expected_witness_keys",
+        ):
+            if token not in witness_validator:
+                fail(
+                    "terminal root witness is not tied to exact historical "
+                    f"eligibility token {token!r}",
+                    errors,
+                )
+
+    historical_helper_match = re.search(
+        r"static func _terminal_ordinary_candidates_at_target_open\(.*?"
+        r"(?=\nstatic func |\Z)",
+        demo_source,
+        flags=re.DOTALL,
+    )
+    if historical_helper_match is None:
+        fail("cannot inspect terminal historical eligibility evaluator", errors)
+    else:
+        historical_helper = historical_helper_match.group(0)
+        for token in (
+            "var cut_turn := _seoul_cycle_month_start_turn(target_month)",
+            "_seoul_cycle_node_trigger_candidates(node_spec)",
+            "_terminal_historical_predicate_met(",
+            'return {"ok": true, "ids": eligible_ids, "cut_turn": cut_turn}',
+        ):
+            if token not in historical_helper:
+                fail(
+                    "terminal historical eligibility evaluator lacks exact "
+                    f"token {token!r}",
+                    errors,
+                )
+
+    for authority_token in (
+        "var terminal_target_witnesses_valid :=",
+        "_terminal_target_binding_witnesses_globally_valid(state)",
+        "if terminal_target_witnesses_valid else {}",
+        "_terminal_target_binding_witness_for_month_present(",
+        "GameState.core_loop_v2_state, target_month",
+        "if current_month_witness_keys.is_empty() == has_binding_schema:",
+        '"ordinary_eligibility": {',
+        '"eligible_authored_candidate_ids":',
+        "eligible_authored_ids.duplicate()",
+    ):
+        if authority_token not in demo_source:
+            fail(
+                "terminal target authority wiring lacks exact token "
+                f"{authority_token!r}",
+                errors,
+            )
+
+    expected_binding_keys = {
+        "schema", "route_id", "variant_id", "source_month", "source_node",
+        "source_terminal", "source_turn", "proof_kind", "proof_id",
+        "target_month", "target_node", "target_bundle", "completion_effects",
+        "label_ko", "label_en", "detail_ko", "detail_en", "result_ko",
+        "result_en",
+    }
+    expected_resolution_keys = {
+        "schema", "route_id", "resolution", "binding", "target_month",
+        "target_node", "target_turn", "allocation_receipt_id",
+        "allocation_receipt_key", "selected_candidate_id",
+        "selected_terminal_route_id", "variant_id", "effect_applied",
+        "result_variant",
+    }
+    for helper_name, value_name, expected_keys in (
+        (
+            "_terminal_target_binding_matches_receipt",
+            "binding",
+            expected_binding_keys,
+        ),
+        (
+            "_terminal_transition_resolution_has_exact_shape",
+            "resolution",
+            expected_resolution_keys,
+        ),
+    ):
+        helper_match = re.search(
+            rf"static func {re.escape(helper_name)}\(.*?(?=\nstatic func |\Z)",
+            demo_source,
+            flags=re.DOTALL,
+        )
+        if helper_match is None:
+            fail(
+                f"DemoCoreLoopV2 lacks the exact {helper_name} key gate",
+                errors,
+            )
+            continue
+        exact_keys_match = re.search(
+            rf"_terminal_dictionary_has_exact_keys\({value_name},\s*\[(.*?)\]\)",
+            helper_match.group(0),
+            flags=re.DOTALL,
+        )
+        if exact_keys_match is None:
+            fail(
+                f"DemoCoreLoopV2 lacks the exact {helper_name} key gate",
+                errors,
+            )
+            continue
+        actual_keys = re.findall(r'"([a-z_]+)"', exact_keys_match.group(1))
+        if len(actual_keys) != len(set(actual_keys)) \
+                or set(actual_keys) != expected_keys:
+            fail(
+                f"{helper_name} keys must be exact: "
+                f"expected={sorted(expected_keys)!r} actual={actual_keys!r}",
+                errors,
+            )
+    for runtime_token in (
+        "TERMINAL_TARGET_BINDING_SCHEMA := 1",
+        '"terminal_transition_resolutions"',
+        'resolution_kind not in ["completed", "expired", "forgone"]',
+        '"terminal:%s" % route_id',
+        '"seoul_cycle.allocation_receipts.%d" % target_turn',
+    ):
+        if runtime_token not in demo_source:
+            fail(
+                "DemoCoreLoopV2 target-resolution contract lacks exact token "
+                f"{runtime_token!r}",
                 errors,
             )
 
@@ -7808,7 +8071,10 @@ def main() -> int:
         "static func resolve_seoul_cycle_trigger(bundle_id: String) -> bool:",
         "static func resolve_seoul_cycle_world(bundle_id: String) -> bool:",
         "static func complete_seoul_cycle_turn(",
-        "static func normalize_seoul_cycle_state(raw_state: Dictionary) -> Dictionary:",
+        "static func normalize_seoul_cycle_state(",
+        "raw_state: Dictionary, outer_state: Dictionary = {}) -> Dictionary:",
+        "_terminal_target_binding_matches_receipt(",
+        "route_id, raw_binding as Dictionary, outer_state",
         '"expiry_receipts":',
         '"expired_nodes":',
         '"trigger_deadline_week"',
