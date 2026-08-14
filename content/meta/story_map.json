@@ -9,8 +9,8 @@
     "direct_stops": [24, 30],
     "history_inputs_per_scene": 2,
     "decision_inputs_per_scene": 1,
-    "named_readers": 15,
-    "generic_commitments": 201
+    "named_readers": 17,
+    "generic_commitments": 200
   },
   "loop_contract": {
     "routine": "automatic_until_changed",
@@ -19,7 +19,15 @@
     "protected_commitments": 1,
     "optional_second": {
       "maximum": 1,
-      "requires_any": ["cash_buffer", "health_buffer", "trust_buffer"]
+      "margin_axes": ["cash", "health", "trust"],
+      "margin_capacity": 1,
+      "initial_margin": null,
+      "margin_lifetime_months": 1,
+      "requires": "same_axis_margin",
+      "consumes": "on_confirm",
+      "completion_refund": false,
+      "single_protected_completion": "next_month_same_axis_margin_unless_selected_repaid_burden",
+      "double_month_next_margin": null
     },
     "order_prompt": "dependency_or_deadline_only",
     "random_incidents": "modify_cost_or_conflict_never_close",
@@ -48,8 +56,8 @@
       "m60_close_all_accounts"
     ],
     "miss_consequences": {
-      "deferred": "next_month_pressure_and_axis_debt",
-      "expired": "path_closed_and_axis_loss"
+      "deferred": "returns_once_next_month_as_selectable_debt_then_expires",
+      "expired": "specific_path_or_pressure_effect_only_no_global_stack_penalty"
     }
   },
   "commitment_causality": {
@@ -79,7 +87,7 @@
     "generic_reader": {
       "source": "all_commitments",
       "states": ["completed", "deferred", "expired"],
-      "completed": "next_month_axis_buffer",
+      "completed": "loop_contract.optional_second.single_protected_completion",
       "misses": "loop_contract.miss_consequences",
       "months": [1, 59],
       "terminal": {
@@ -108,6 +116,20 @@
         "source": {"kind": "selected_commitment", "commitment_id": "m03_jiyeon_answer", "slot": ["protected", "optional_second"]},
         "reader": {"kind": "scene", "scene_id": "m03_jiyeon_first_meet"},
         "effect": {"kind": "delivery", "root": "arc_jiyeon_01_crash"}
+      },
+      {
+        "id": "reader.m04_sangchul_delivery",
+        "mode": "gate",
+        "source": {"kind": "selected_commitment", "commitment_id": "m04_sangchul_office_coffee", "slot": ["protected", "optional_second"]},
+        "reader": {"kind": "scene", "scene_id": "m04_sangchul_coffee"},
+        "effect": {"kind": "delivery", "root": "arc_sangchul_01_meet"}
+      },
+      {
+        "id": "reader.m05_jaehyuk_delivery",
+        "mode": "gate",
+        "source": {"kind": "selected_commitment", "commitment_id": "m05_jaehyuk_reunion", "slot": ["protected", "optional_second"]},
+        "reader": {"kind": "scene", "scene_id": "m05_jaehyuk_plain_echo"},
+        "effect": {"kind": "delivery", "root": "v2_jaehyuk_plain_reunion_echo"}
       },
       {
         "id": "reader.m09_relationship_reentry",
@@ -255,10 +277,9 @@
             "deadline": "W4 대포통장 제안은 그달 안에만 답할 수 있다"
           },
           "commitments": [
-            {"id": "m01_survival_shift", "source": "pressure", "axis": "cash", "label": "첫 달 월세와 식비를 만들 생계 근무를 끝낸다", "due_week": 1, "miss": "expired", "after": null},
-            {"id": "m01_legal_application", "source": "opportunity", "axis": "cash", "label": "첫 합법 지원서를 제출하고 면접 준비를 마친다", "due_week": 2, "miss": "expired", "after": null},
-            {"id": "m01_father_call", "source": "person_promise", "axis": "trust", "label": "아버지에게 먼저 전화해 이번 주 안부를 듣는다", "due_week": 3, "miss": "deferred", "after": null},
-            {"id": "m01_hyunsu_promise", "source": "person_promise", "axis": "trust", "label": "현수와 정한 시험 전 약속 시간에 문을 두드린다", "due_week": 4, "miss": "expired", "after": null}
+            {"id": "m01_survival_shift", "source": "pressure", "axis": "cash", "label": "첫 달 월세와 식비를 만들 생계 근무를 끝낸다", "due_week": 1, "miss": "expired", "after": null, "strategy": {"completed": {"preview": "이번 달 생존선을 확보하고 다음 달 현금 선택을 준비한다", "gains": ["security.first_month_survival"]}, "missed": {"preview": "다음 달에 월세와 식비 현금 공백이 압력으로 남는다", "costs": ["pressure.m02_cash_shortfall"], "deferred_to": null}}},
+            {"id": "m01_legal_application", "source": "opportunity", "axis": "cash", "label": "첫 합법 지원서를 제출하고 면접 준비를 마친다", "due_week": 2, "miss": "expired", "after": null, "strategy": {"completed": {"preview": "M04 채용 결과와 합법 일자리 파이프라인을 연다", "gains": ["upside.legal_job_pipeline"]}, "missed": {"preview": "이번 공고와 그 채용 결과 창구가 닫힌다", "costs": ["closed.first_legal_posting"], "deferred_to": null}}},
+            {"id": "m01_father_call", "source": "person_promise", "axis": "trust", "label": "아버지에게 먼저 전화해 이번 주 안부를 듣는다", "due_week": 3, "miss": "deferred", "after": null, "strategy": {"completed": {"preview": "초기 가족 연락을 지키고 다음 달 관계 선택을 준비한다", "gains": ["connection.father_contact"]}, "missed": {"preview": "M02에 한 번뿐인 회신 빚으로 돌아오며 또 놓치면 초기 연락이 식는다", "costs": ["debt.m02_return_father_call"], "deferred_to": "m02_return_father_call"}}}
           ],
           "beats": [
             {
@@ -289,9 +310,9 @@
             "deadline": "W8 세계 사건은 월말 전에 한 번만 돌아온다"
           },
           "commitments": [
-            {"id": "m02_close_account_risk", "source": "pressure", "axis": "cash", "label": "첫 불법 제안 뒤 생긴 계좌 위험과 현금 공백을 확인하고 막는다", "due_week": 5, "miss": "expired", "after": null},
-            {"id": "m02_hyunsu_second_try", "source": "opportunity", "axis": "trust", "label": "현수에게 다시 찾아가 시험 준비 한 자리를 함께 지킨다", "due_week": 7, "miss": "expired", "after": null},
-            {"id": "m02_return_father_call", "source": "person_promise", "axis": "trust", "label": "아버지의 짧은 연락에 그날 다시 전화를 건다", "due_week": 8, "miss": "deferred", "after": null}
+            {"id": "m02_close_account_risk", "source": "pressure", "axis": "cash", "label": "첫 불법 제안 뒤 생긴 계좌 위험과 현금 공백을 확인하고 막는다", "due_week": 5, "miss": "expired", "after": null, "strategy": {"repays_pressure": ["pressure.m02_cash_shortfall"], "completed": {"preview": "계좌 위험을 봉합한다. 전월 현금 공백을 갚는 달이면 새 여유는 생기지 않는다", "gains": ["security.account_risk_closed"]}, "missed": {"preview": "금융 흠집과 다음 달 현금 압력이 남는다", "costs": ["pressure.m03_financial_scar"], "deferred_to": null}}},
+            {"id": "m02_hyunsu_first_promise", "source": "opportunity", "axis": "trust", "label": "현수와 정한 첫 시험 준비 약속에 가서 한 자리를 함께 지킨다", "due_week": 7, "miss": "expired", "after": null, "strategy": {"completed": {"preview": "현수와 돈이 아닌 공동공부의 첫 경로를 연다", "gains": ["connection.hyunsu_path"]}, "missed": {"preview": "초기 현수 경로가 닫히고 후반 재회만 남는다", "costs": ["closed.hyunsu_early_path"], "deferred_to": null}}},
+            {"id": "m02_return_father_call", "source": "person_promise", "axis": "trust", "label": "아버지의 짧은 연락에 그날 다시 전화를 건다", "due_week": 8, "miss": "expired", "after": null, "strategy": {"availability": {"receipts_any": [{"id": "m01_father_call", "states": ["deferred"]}]}, "repays_deferred": ["m01_father_call"], "completed": {"preview": "전월 회신 빚을 갚지만 이 행동으로 새 여유는 생기지 않는다", "gains": ["connection.father_contact_repaired"]}, "missed": {"preview": "두 번째로 놓쳐 초기 가족 연락 경로가 식는다", "costs": ["closed.father_early_contact"], "deferred_to": null}}}
           ],
           "beats": [
             {
@@ -322,9 +343,9 @@
             "deadline": "첫 만남은 이번 달 생활 동선에서만 성립한다"
           },
           "commitments": [
-            {"id": "m03_cover_deposit_gap", "source": "pressure", "axis": "cash", "label": "퇴실 통보 전에 보증금 부족액과 남은 숙박일을 확정한다", "due_week": 9, "miss": "expired", "after": null},
-            {"id": "m03_daeun_return", "source": "opportunity", "axis": "trust", "label": "새벽 편의점에 다시 들러 다은에게 이름을 묻는다", "due_week": 11, "miss": "expired", "after": null},
-            {"id": "m03_jiyeon_answer", "source": "person_promise", "axis": "trust", "label": "자전거 사고 뒤 지연의 보상 제안에 직접 답한다", "due_week": 12, "miss": "expired", "after": null}
+            {"id": "m03_cover_deposit_gap", "source": "pressure", "axis": "cash", "label": "퇴실 통보 전에 보증금 부족액과 남은 숙박일을 확정한다", "due_week": 9, "miss": "expired", "after": null, "strategy": {"repays_pressure": ["pressure.m03_financial_scar"], "completed": {"preview": "주거 범위를 확보한다. 전월 금융 흠집을 수습하는 달이면 새 여유는 생기지 않는다", "gains": ["security.housing_floor"]}, "missed": {"preview": "M04에 임시거처와 더 비싼 주거 압력이 생긴다", "costs": ["pressure.m04_emergency_housing"], "deferred_to": null}}},
+            {"id": "m03_daeun_return", "source": "opportunity", "axis": "trust", "label": "새벽 편의점에 다시 들러 다은에게 이름을 묻는다", "due_week": 11, "miss": "expired", "after": null, "strategy": {"completed": {"preview": "다은의 즉시 진입 장면과 후속 관계 경로를 연다", "gains": ["connection.daeun_route"]}, "missed": {"preview": "다은의 이번 즉시 진입 창구가 닫힌다", "costs": ["closed.daeun_immediate_door"], "deferred_to": null}}},
+            {"id": "m03_jiyeon_answer", "source": "person_promise", "axis": "trust", "label": "자전거 사고 뒤 지연의 보상 제안에 직접 답한다", "due_week": 12, "miss": "expired", "after": null, "strategy": {"completed": {"preview": "지연의 즉시 진입 장면과 후속 관계 경로를 연다", "gains": ["connection.jiyeon_route"]}, "missed": {"preview": "지연에게 바로 답하는 이번 창구가 닫힌다", "costs": ["closed.jiyeon_immediate_door"], "deferred_to": null}}}
           ],
           "beats": [
             {
@@ -370,9 +391,9 @@
             "deadline": "방을 알아보러 간 실제 동선에서만 첫 만남이 열린다"
           },
           "commitments": [
-            {"id": "m04_answer_job_result", "source": "pressure", "axis": "cash", "label": "채용 결과 통보에 답하고 첫 출근일을 확정한다", "due_week": 13, "miss": "expired", "after": null},
-            {"id": "m04_independent_room_view", "source": "opportunity", "axis": "cash", "label": "예약한 독립 매물 한 곳에 가서 보증금과 월세를 확인한다", "due_week": 14, "miss": "expired", "after": null},
-            {"id": "m04_sangchul_office_coffee", "source": "person_promise", "axis": "trust", "label": "상철 사무실에서 실제 방값을 묻고 커피가 식을 때까지 남는다", "due_week": 16, "miss": "expired", "after": null}
+            {"id": "m04_answer_job_result", "source": "pressure", "axis": "cash", "label": "채용 결과 통보에 답하고 첫 출근일을 확정한다", "due_week": 13, "miss": "expired", "after": null, "strategy": {"availability": {"receipts_any": [{"id": "m01_legal_application", "states": ["completed"]}]}, "completed": {"preview": "첫 합법 출근일과 안정 수입 경로를 확정한다", "gains": ["security.first_job_start"]}, "missed": {"preview": "이번 채용 결과와 첫 출근 창구가 닫힌다", "costs": ["closed.current_job_offer"], "deferred_to": null}}},
+            {"id": "m04_independent_room_view", "source": "opportunity", "axis": "cash", "label": "예약한 독립 매물 한 곳에 가서 보증금과 월세를 확인한다", "due_week": 14, "miss": "expired", "after": null, "strategy": {"repays_pressure": ["pressure.m04_emergency_housing"], "completed": {"preview": "독립 주거 견적을 얻는다. 전월 거처 압력을 수습하는 달이면 새 여유는 생기지 않는다", "gains": ["security.independent_housing_option"]}, "missed": {"preview": "예약한 매물과 그 견적 창구가 닫힌다", "costs": ["closed.independent_room_listing"], "deferred_to": null}}},
+            {"id": "m04_sangchul_office_coffee", "source": "person_promise", "axis": "trust", "label": "상철 사무실에서 실제 방값을 묻고 커피가 식을 때까지 남는다", "due_week": 16, "miss": "expired", "after": null, "strategy": {"completed": {"preview": "상철을 거래 전에 사람으로 만난 따뜻한 초기 경로를 연다", "gains": ["upside.sangchul_warm_entry"]}, "missed": {"preview": "따뜻한 첫 만남은 닫히고 M06 연락은 차가운 현장 거래로만 온다", "costs": ["closed.sangchul_warm_entry"], "deferred_to": null}}}
           ],
           "beats": [
             {
@@ -404,12 +425,12 @@
           },
           "availability": {
             "axis": "route.m05.second_crossing",
-            "values": ["none", "daeun", "jiyeon", "both"]
+            "values": ["none", "daeun", "jiyeon"]
           },
           "commitments": [
-            {"id": "m05_job_result", "source": "pressure", "axis": "cash", "label": "취업 결과에 답하고 출근 또는 다음 지원 준비를 끝낸다", "due_week": 17, "miss": "expired", "after": null, "available_values": ["*"]},
-            {"id": "m05_jaehyuk_reunion", "source": "opportunity", "axis": "trust", "label": "재혁과 돈 이야기가 없는 포장마차 재회 약속을 지킨다", "due_week": 19, "miss": "expired", "after": null, "available_values": ["*"]},
-            {"id": "m05_second_crossing", "source": "person_promise", "axis": "trust", "label": "앞서 만난 다은 또는 지연에게 먼저 연락해 두 번째 만남을 잡는다", "due_week": 20, "miss": "deferred", "after": null, "available_values": ["daeun", "jiyeon", "both"]}
+            {"id": "m05_job_result", "source": "pressure", "axis": "cash", "label": "현재 잡은 생계처의 출근·교대 또는 다음 지원 중 하나를 확정한다", "due_week": 17, "miss": "expired", "after": null, "available_values": ["*"], "strategy": {"completed": {"preview": "M04 채용 결과와 겹치지 않는 현재 생계선을 확정한다", "gains": ["security.legal_income_route"]}, "missed": {"preview": "현재 생계선이 끊겨 M06 현금 선택이 더 급해진다", "costs": ["pressure.m06_job_gap"], "deferred_to": null}}},
+            {"id": "m05_jaehyuk_reunion", "source": "opportunity", "axis": "trust", "label": "재혁과 돈 이야기가 없는 포장마차 재회 약속을 지킨다", "due_week": 19, "miss": "expired", "after": null, "available_values": ["*"], "strategy": {"completed": {"preview": "돈 이전의 재혁 우정 경로를 보존한다", "gains": ["connection.jaehyuk_plain_reunion"]}, "missed": {"preview": "평범한 재회가 닫히고 후일 만남은 거래에 더 가까워진다", "costs": ["closed.jaehyuk_plain_reunion"], "deferred_to": null}}},
+            {"id": "m05_second_crossing", "source": "person_promise", "axis": "trust", "label": "앞서 주력으로 지킨 다은 또는 지연에게 먼저 연락해 두 번째 만남을 잡는다", "due_week": 20, "miss": "deferred", "after": null, "available_values": ["daeun", "jiyeon"], "actor_slots": ["person"], "strategy": {"availability": {"receipts_any": [{"id": "m03_daeun_return", "states": ["completed"]}, {"id": "m03_jiyeon_answer", "states": ["completed"]}]}, "focus": {"kind": "selection_focus", "actor_slot": "person", "resolve": "protected_then_optional", "sources": [{"commitment_id": "m03_daeun_return", "actor_id": "daeun"}, {"commitment_id": "m03_jiyeon_answer", "actor_id": "jiyeon"}]}, "completed": {"preview": "M03 주력 인물과 M06 데이트를 약속하고 관계 단계를 올린다", "gains": ["connection.romance_second_crossing"]}, "missed": {"preview": "같은 인물과의 M06 데이트가 한 번뿐인 관계 빚으로 돌아온다", "costs": ["debt.m06_person_date"], "deferred_to": "m06_person_date"}}}
           ],
           "beats": [
             {
@@ -444,10 +465,10 @@
             "values": ["unattached", "person_connected"]
           },
           "commitments": [
-            {"id": "m06_work_deadline", "source": "pressure", "axis": "cash", "label": "금요일 18시 30분 전 채용 또는 생계 마감 서류를 직접 제출한다", "due_week": 24, "miss": "expired", "after": null, "available_values": ["*"]},
-            {"id": "m06_sangchul_door", "source": "opportunity", "axis": "cash", "label": "같은 금요일 상철이 알려 준 현장에 직접 도착한다", "due_week": 24, "miss": "expired", "after": null, "available_values": ["*"]},
-            {"id": "m06_family_signal", "source": "person_promise", "axis": "health", "label": "약국 봉투 신호 뒤 정한 시각에 아버지에게 전화한다", "due_week": 24, "miss": "expired", "after": null, "available_values": ["*"]},
-            {"id": "m06_person_date", "source": "person_promise", "axis": "trust", "label": "먼저 이어 온 사람과 잡은 같은 금요일 약속에 나간다", "due_week": 24, "miss": "expired", "after": null, "available_values": ["person_connected"]}
+            {"id": "m06_work_deadline", "source": "pressure", "axis": "cash", "label": "금요일 18시 30분 전 채용 또는 생계 마감 서류를 직접 제출한다", "due_week": 24, "miss": "expired", "after": null, "available_values": ["*"], "strategy": {"repays_pressure": ["pressure.m06_job_gap"], "completed": {"preview": "이번 업무 마감을 지키고, 끊긴 전월 생계가 있으면 먼저 수습한다", "gains": ["security.legal_work_deadline"]}, "missed": {"preview": "현재 합법 업무 문과 다음 수입 기회가 닫힌다", "costs": ["closed.current_legal_work_door"], "deferred_to": null}}},
+            {"id": "m06_sangchul_door", "source": "opportunity", "axis": "cash", "label": "상철 쪽에서 온 현장 주소를 확인하고 같은 금요일 직접 도착한다", "due_week": 24, "miss": "expired", "after": null, "available_values": ["*"], "strategy": {"completed": {"preview": "따뜻한 인맥 여부와 별개로 이번 돈·현장 제안에 답한다", "gains": ["upside.sangchul_field_door"]}, "missed": {"preview": "이번 현장 초대와 소개인의 문이 닫힌다", "costs": ["closed.sangchul_field_invitation"], "deferred_to": null}}},
+            {"id": "m06_family_signal", "source": "person_promise", "axis": "health", "label": "약국 봉투 신호 뒤 정한 시각에 아버지에게 전화한다", "due_week": 24, "miss": "expired", "after": null, "available_values": ["*"], "strategy": {"completed": {"preview": "아버지의 건강 경고를 제때 듣고 가족 돌봄 경로를 연다", "gains": ["connection.father_health_signal"]}, "missed": {"preview": "제때 알 권리와 이번 가족 건강 창구를 잃는다", "costs": ["closed.father_health_signal"], "deferred_to": null}}},
+            {"id": "m06_person_date", "source": "person_promise", "axis": "trust", "label": "M05 약속에 기록된 같은 사람과 금요일 데이트에 나간다", "due_week": 24, "miss": "expired", "after": null, "available_values": ["person_connected"], "actor_slots": ["person"], "strategy": {"availability": {"receipts_any": [{"id": "m05_second_crossing", "states": ["completed", "deferred"]}]}, "focus": {"kind": "receipt_actor", "actor_slot": "person", "source_receipt_id": "m05_second_crossing"}, "repays_deferred": ["m05_second_crossing"], "completed": {"preview": "M05에 정한 같은 사람과 데이트를 지켜 초기 관계 단계를 확정한다", "gains": ["connection.person_date_kept"]}, "missed": {"preview": "그 사람과의 이번 데이트와 초기 관계 단계가 닫힌다", "costs": ["closed.early_relationship_stage"], "deferred_to": null}}}
           ],
           "beats": [
             {

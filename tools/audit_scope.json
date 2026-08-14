@@ -16,7 +16,8 @@
     {
       "id": "story-map",
       "paths": [
-        "content/meta/story_map.json"
+        "content/meta/story_map.json",
+        "tools/story_map_strategy_sim.py"
       ],
       "owned_paths": [
         "CLAUDE.md",
@@ -32,11 +33,13 @@
         "tools/audit_scope.json",
         "tools/audit_select.py",
         "tools/narrative_spine_audit.py",
-        "tools/story_map_audit.py"
+        "tools/story_map_audit.py",
+        "tools/story_map_strategy_sim.py"
       ],
       "tools": [
         "tools/story_map_audit.py",
-        "tools/narrative_spine_audit.py"
+        "tools/narrative_spine_audit.py",
+        "tools/story_map_strategy_sim.py --self-test"
       ],
       "why": "월 배치만 바뀌면 240주 런타임 대신 지도·5장 정합만 검사한다"
     }
@@ -143,6 +146,14 @@
         "content/meta/story_rules.json",
         "content/meta/narrative_spine.json",
         "tools/story_map_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/story_map_strategy_sim.py --self-test",
+      "why": "M01~M06 같은 색 여유·미룸·문 닫힘의 지배전략 없는 짧은 상태 탐색",
+      "paths": [
+        "content/meta/story_map.json",
+        "tools/story_map_strategy_sim.py"
       ]
     },
     {

@@ -65,8 +65,8 @@ COMMITMENT_AXES = {"cash", "health", "trust"}
 MISSED_RESULTS = {"deferred", "expired"}
 RECEIPT_STATES = {"completed", "deferred", "expired"}
 EXPECTED_MISS_CONSEQUENCES = {
-    "deferred": "next_month_pressure_and_axis_debt",
-    "expired": "path_closed_and_axis_loss",
+    "deferred": "returns_once_next_month_as_selectable_debt_then_expires",
+    "expired": "specific_path_or_pressure_effect_only_no_global_stack_penalty",
 }
 CAUSALITY_KEYS = {
     "selection_slots", "selection_record", "receipt_record", "reader_modes",
@@ -1414,8 +1414,8 @@ def validate_commitment_causality(
             errors.append(f"{owner}.generic_reader.source: must cover all commitments")
         if generic.get("states") != ["completed", "deferred", "expired"]:
             errors.append(f"{owner}.generic_reader.states: must cover every terminal receipt state")
-        if generic.get("completed") != "next_month_axis_buffer":
-            errors.append(f"{owner}.generic_reader.completed: must become next-month axis buffer")
+        if generic.get("completed") != "loop_contract.optional_second.single_protected_completion":
+            errors.append(f"{owner}.generic_reader.completed: must use the optional-second margin contract")
         if generic.get("misses") != "loop_contract.miss_consequences":
             errors.append(f"{owner}.generic_reader.misses: must use the loop miss contract")
         generic_months = generic.get("months")
@@ -1887,10 +1887,8 @@ def validate_story_map(
             "candidate_sources": ["pressure", "opportunity", "person_promise"],
             "candidate_count": [2, 4],
             "protected_commitments": 1,
-            "optional_second": {
-                "maximum": 1,
-                "requires_any": ["cash_buffer", "health_buffer", "trust_buffer"],
-            },
+            "optional_second": {"maximum": 1, "margin_axes": ["cash", "health", "trust"], "margin_capacity": 1,
+                "initial_margin": None, "margin_lifetime_months": 1, "requires": "same_axis_margin", "consumes": "on_confirm", "completion_refund": False, "single_protected_completion": "next_month_same_axis_margin_unless_selected_repaid_burden", "double_month_next_margin": None},
             "order_prompt": "dependency_or_deadline_only",
             "random_incidents": "modify_cost_or_conflict_never_close",
             "miss_consequences": EXPECTED_MISS_CONSEQUENCES,
@@ -2106,6 +2104,7 @@ def validate_story_map(
             for commitment_index, commitment in enumerate(commitments):
                 commitment_owner = f"{month_owner}.commitments[{commitment_index}]"
                 allowed_commitment = set(COMMITMENT_KEYS)
+                if month_number <= 6 and isinstance(commitment, dict) and "strategy" in commitment: allowed_commitment.add("strategy")
                 if isinstance(commitment, dict) and "actor_slots" in commitment:
                     allowed_commitment.add("actor_slots")
                 if availability_declared or (
@@ -3470,7 +3469,7 @@ def run_self_test(
     case(
         "selected_reader_is_same_month",
         lambda x: causal_reader(x, "reader.m03_daeun_delivery")["source"].update(
-            {"commitment_id": "m02_hyunsu_second_try"}
+            {"commitment_id": "m02_hyunsu_first_promise"}
         ),
         "selected source must share the reader month",
     )
