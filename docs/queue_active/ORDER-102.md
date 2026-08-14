@@ -52,7 +52,7 @@
 `tools/narrative_spine_audit.py`, `content/meta/story_rules.json`,
 `docs/CHOICE_CONSEQUENCE_SYSTEM.md`, `docs/DECISIONS.md`,
 `docs/CONTEXT_INDEX.md`, `docs/context_manifest.json`,
-`tools/audit_scope.json`(빠른 영향 선택 연결이 필요할 때만).
+`tools/audit_scope.json`, `tools/audit_select.py`(story map 단독 fast lane).
 
 기존 이벤트 JSON·제품 런타임·여력 UI·causal ledger·legacy migration은 이
 배치에서 수정하지 않는다. `project.godot`은 사용자 소유이므로 건드리지 않는다.
