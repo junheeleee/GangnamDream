@@ -59,9 +59,10 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-99 · SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | [99](queue_active/ORDER-99.md) | BUILD 2026.08.11.3 발급·격리 실제 저장 L1/L2 완료 — 사용자 동일 저장의 1월 수첩→2월 보드 확인 대기 |
-| 2 | [~] | ORDER-97 · LOC-0.5 값을 끼우기 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | 착수 — preformat 후보 55개를 전수 분류하고 정확 47호출만 lookup→format 순서로 바꿔 JA/ZH의 영구 EN fallback을 제거 |
-| 3 | [~] | ORDER-98 · PAD-1 포커스 레일을 의미 버튼으로 줄인다 | [98](queue_active/ORDER-98.md) | 구현·L1/L2 완료, demo_rc active — 집 플레이·물리 패드 Batch A/B L3 대기 |
+| 1 | [~] | ORDER-102 · 60개월 story map과 빠른 영향 검사를 만든다 | [102](queue_active/ORDER-102.md) | 사용자 방향 승인·선언 — 단일 월간 정본과 M1/M35/M55 세로 단면부터 구현 |
+| 2 | [~] | ORDER-99 · SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | [99](queue_active/ORDER-99.md) | BUILD 2026.08.11.3 발급·격리 실제 저장 L1/L2 완료 — 사용자 동일 저장의 1월 수첩→2월 보드 확인 대기 |
+| 3 | [~] | ORDER-97 · LOC-0.5 값을 끼우기 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | 착수 — preformat 후보 55개를 전수 분류하고 정확 47호출만 lookup→format 순서로 바꿔 JA/ZH의 영구 EN fallback을 제거 |
+| 4 | [~] | ORDER-98 · PAD-1 포커스 레일을 의미 버튼으로 줄인다 | [98](queue_active/ORDER-98.md) | 구현·L1/L2 완료, demo_rc active — 집 플레이·물리 패드 Batch A/B L3 대기 |
 
 ### 남은 데모 출시선
 
@@ -69,12 +70,12 @@
 하므로 아직 사양을 미리 굳히지 않는다. 차례가 오면 한 항목씩 1~2배치 자식
 오더를 만들고 위 표에 올린다.
 
-데모 제품선의 다음 자식은 ORDER-101 L1/L2의 baseline 47·blocked 3,
-W1~8 save matrix와 W24 뒤 U01..U20 사람 모집단을 인계받아 W9~16(M3~M4)의
-exact scope를 선언하는 ORDER-102다. 그다음 W17~24 자식을 닫고 clean W1~24
-demo_rc를 발급한다. 실제 착수 때 1~2배치 사양을 만들며 첫 실물 전 감소 목표나
-W9+ 제품 노드를 여기서 미리 발명하지 않는다. W25~48은 데모 뒤 본편 Chapter 1
-제품선이고 데모 출시·RC·사람 판정의 조건이 아니다.
+W9~16 exact-scope 자식 계획은 2026-08-14 사용자 지시에 따라 ORDER-102의
+60개월 story map 뒤로 내려간다. 맵 없이 W9~16 노드부터 늘리지 않는다. 기존
+ORDER-101 baseline 47·blocked 3, W1~8 save matrix, W24 뒤 U01..U20 사람 모집단은
+폐기하지 않고 M1~M6 이관 입력으로 보존한다. story map 승인 뒤 데모의 남은
+W9~24 수리와 clean demo_rc를 작은 자식 오더로 다시 연다. W25~48은 계속 데모
+출시·RC·사람 판정 조건이 아니다.
 
 1. 축·위험 실측이 표면 또는 장면 결함을 증명할 때만 정확한 최소 수리
 2. E 이후 변경분만 데모 계층/T1·T2 계약 재감사
