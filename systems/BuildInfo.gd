@@ -7,7 +7,7 @@ extends RefCounted
 const BuildFlavorScript := preload("res://systems/BuildFlavor.gd")
 
 const GAME_VERSION := "0.1.0-dev"
-const BUILD_ID := "2026.08.11.3"
+const BUILD_ID := "2026.08.14.1"
 const DEMO_CHANNEL := "24-WEEK DEMO"
 const CORE_LOOP_V2_CHANNEL := "CORE LOOP V2"
 const CORE_LOOP_V2_PLAYTEST_CHANNEL := "CORE LOOP V2 · PLAYTEST"
