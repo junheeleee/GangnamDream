@@ -8,11 +8,13 @@
   python3 tools/audit_select.py                 # 워킹 트리 변경 기준으로 실행
   python3 tools/audit_select.py --base main     # main 대비 변경 기준
   python3 tools/audit_select.py --list          # 실행하지 않고 목록만
+  python3 tools/audit_select.py --lane story-map  # 승인된 명시 차선
   python3 tools/audit_select.py --verify        # audit.sh 검사가 전부 등록됐는지
   python3 tools/audit_select.py -- a.json b.gd  # 파일을 직접 지정
 
 안전 기본값: 어떤 규칙에도 매칭되지 않는 변경이 있으면 전체 감사를 요구한다.
-표적 감사는 전체 감사를 대체하지 않는다 — 배치 마감과 CI는 계속 audit.sh를 돈다.
+표적 감사는 전체 감사가 필요한 변경을 숨기지 않는다. 전체 감사는 활성 오더,
+챕터 승인, RC가 명시한 때만 실행한다.
 """
 
 from __future__ import annotations
@@ -71,6 +73,16 @@ def select(files: list[str], scope: dict) -> tuple[list[dict], list[str]]:
     checks = scope["checks"]
     selected: list[dict] = []
     unmatched: list[str] = []
+    for lane in scope.get("fast_lanes", []):
+        lane_paths = lane.get("paths", [])
+        if files and lane_paths and all(matches(path, lane_paths) for path in files):
+            requested = lane.get("tools", [])
+            selected = [check for check in checks if check["tool"] in requested]
+            for always in scope.get("always", []):
+                found = next((check for check in checks if check["tool"] == always), None)
+                if found and found not in selected:
+                    selected.append(found)
+            return selected, []
     for path in files:
         hit = False
         for check in checks:
@@ -86,6 +98,23 @@ def select(files: list[str], scope: dict) -> tuple[list[dict], list[str]]:
             if found:
                 selected.append(found)
     return selected, unmatched
+
+
+def named_lane(name: str, scope: dict) -> dict | None:
+    return next(
+        (lane for lane in scope.get("fast_lanes", []) if lane.get("id") == name),
+        None,
+    )
+
+
+def lane_checks(lane: dict, scope: dict) -> list[dict]:
+    requested = lane.get("tools", [])
+    selected = [check for check in scope["checks"] if check["tool"] in requested]
+    for always in scope.get("always", []):
+        found = next((check for check in scope["checks"] if check["tool"] == always), None)
+        if found and found not in selected:
+            selected.append(found)
+    return selected
 
 
 def registered_tools(scope: dict) -> set[str]:
@@ -148,12 +177,16 @@ def main() -> int:
     parser = argparse.ArgumentParser(add_help=True)
     parser.add_argument("--base", help="이 ref 대비 변경을 본다 (예: main)")
     parser.add_argument("--list", action="store_true", help="실행하지 않고 목록만")
+    parser.add_argument("--lane", help="audit_scope.json에 선언된 명시 검사 차선")
     parser.add_argument("--verify", action="store_true",
                         help="audit.sh의 검사가 전부 등록됐는지 확인")
     parser.add_argument("files", nargs="*", help="파일을 직접 지정")
     args = parser.parse_args()
 
     scope = load_scope()
+
+    if args.lane and (args.base or args.files):
+        parser.error("--lane은 --base 또는 직접 파일 목록과 함께 쓸 수 없다")
 
     if args.verify:
         missing = sorted(audit_sh_tools() - registered_tools(scope))
@@ -170,13 +203,31 @@ def main() -> int:
         return 0
 
     files = args.files or changed_files(args.base)
-    if not files:
-        print("변경 없음 — 실행할 검사 없음")
-        return 0
-
-    selected, unmatched = select(files, scope)
-
-    print(f"변경 파일 {len(files)}개 → 검사 {len(selected)}개")
+    if args.lane:
+        lane = named_lane(args.lane, scope)
+        if lane is None:
+            available = ", ".join(
+                sorted(str(item.get("id")) for item in scope.get("fast_lanes", []) if item.get("id"))
+            ) or "없음"
+            print(f"알 수 없는 검사 차선: {args.lane} (사용 가능: {available})")
+            return 2
+        owned_paths = lane.get("owned_paths", [])
+        outside = [path for path in files if owned_paths and not matches(path, owned_paths)]
+        if outside:
+            print(f"검사 차선 {args.lane} 범위 밖 변경:")
+            for path in outside:
+                print(f"    {path}")
+            print("  → 명시 차선으로 숨기지 말고 일반 영향 검사를 사용한다.")
+            return 2
+        selected = lane_checks(lane, scope)
+        unmatched: list[str] = []
+        print(f"명시 검사 차선 {args.lane} → 검사 {len(selected)}개")
+    else:
+        if not files:
+            print("변경 없음 — 실행할 검사 없음")
+            return 0
+        selected, unmatched = select(files, scope)
+        print(f"변경 파일 {len(files)}개 → 검사 {len(selected)}개")
     if unmatched:
         print()
         print("⚠ 매칭 규칙이 없는 변경:")
@@ -206,7 +257,7 @@ def main() -> int:
             print(f"   - {tool}")
         return 1
     print(f"✅ 표적 감사 통과 ({len(selected)}개)")
-    print("   전체 감사를 대체하지 않는다 — 배치 마감과 CI는 ./tools/audit.sh를 돈다.")
+    print("   전체 감사는 활성 오더·챕터 승인·RC가 요구할 때만 실행한다.")
     return 0
 
 

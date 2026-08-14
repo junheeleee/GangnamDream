@@ -30,7 +30,8 @@ Updated: 2026-08-14
 |---|---|---|
 | 상품 정체성·현재 상태 | `CLAUDE.md` | 현재 목표와 불변 규칙. 실행 우선순위·상태는 `CODEX_QUEUE.md`만 소유 |
 | 세계·인물·5장 서사 | `docs/STORY_BIBLE.md`, `docs/CANON_MAP.md` | 의도된 이야기와 세계 사실 |
-| 선택·주간 루프 | `docs/CORE_LOOP_V2.md`, `content/meta/chapter1_core_loop_v2_causal_ledger.json`, `content/meta/demo_core_loop_v2.json`, `docs/AP_REDESIGN.md`, `docs/GAME_RECOMPOSITION_PLAN.md` | Chapter 1의 48주 인과 슬롯·현재 전반부 런타임·별도 세로 연락폰·관계 주도권, 기존 AP·Quiet/Echo 폴백 |
+| 60개월 배치·분기 예산 | `content/meta/story_map.json`, `docs/CHOICE_CONSEQUENCE_SYSTEM.md` | M01~M60의 실제 후보 2~4개·기한, 장면 전체 기억+carryover 2와 결정 1 상한, branch별 실제 참가자 receipt binding, KEEP/MOVE/EXPAND/NEW 상태 |
+| 현재 W1~24 주간 구현 | `docs/CORE_LOOP_V2.md`, `content/meta/chapter1_core_loop_v2_causal_ledger.json`, `content/meta/demo_core_loop_v2.json`, `docs/AP_REDESIGN.md`, `docs/GAME_RECOMPOSITION_PLAN.md` | 기존 데모 런타임·저장 이관 기준선·48주 gap 증거. 최종 월간 코어의 분기 정본이 아님 |
 | 참조 시스템 판정 | `docs/REFERENCE_SYSTEM_VERDICTS.md` | 외부 참조 구조의 채택·보류·폐기, 기존 여력·노드·클록·영수증 부착 경계 |
 | 선택·5장 결과 | `docs/CHOICE_CONSEQUENCE_SYSTEM.md` | 표현·기억·결정 선택, 영수증·사실·반복 패턴, 챕터 간 스노우볼과 엔딩 입력 |
 | 인과·장소·대화 채널 | `content/meta/story_rules.json`, `docs/STORY_CONSISTENCY_SYSTEM.md` | 선행조건, 통화/기억, 장면 전환 |
@@ -61,6 +62,7 @@ Updated: 2026-08-14
 - `docs/CHOICE_CONSEQUENCE_SYSTEM.md`
 - `docs/STORY_CONSISTENCY_SYSTEM.md`
 - `content/meta/narrative_spine.json`
+- `content/meta/story_map.json`
 - `content/meta/story_rules.json`
 
 조건부:
@@ -74,6 +76,8 @@ Updated: 2026-08-14
 
 필수:
 
+- `content/meta/story_map.json`
+- `docs/CHOICE_CONSEQUENCE_SYSTEM.md`
 - `docs/CORE_LOOP_V2.md`
 - `content/meta/chapter1_core_loop_v2_causal_ledger.json`
 - `content/meta/demo_core_loop_v2.json`

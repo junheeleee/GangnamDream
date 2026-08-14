@@ -32,6 +32,41 @@
         "leveraged",
         "repaid"
       ]
+    },
+    "story.first_illegal_offer": {
+      "type": "enum",
+      "default": "unknown",
+      "values": ["unknown", "refused", "escaped", "lent"]
+    },
+    "story.father_hospital_door": {
+      "type": "enum",
+      "default": "unknown",
+      "values": ["unknown", "visited", "deferred", "avoided"]
+    },
+    "story.sangchul_truth_resolution": {
+      "type": "enum",
+      "default": "unknown",
+      "values": ["unknown", "refused_to_know", "confronted", "used", "cut_ties"]
+    },
+    "story.jaehyuk_guarantee_resolution": {
+      "type": "enum",
+      "default": "unknown",
+      "values": ["unknown", "refused", "vouched", "blocked"]
+    },
+    "story.partner_commitment": {
+      "type": "enum",
+      "default": "none",
+      "values": ["none", "daeun", "jiyeon"]
+    },
+    "story.partner_name_use": {
+      "type": "enum",
+      "default": "n_a",
+      "values": ["n_a", "asked_refused", "consensual", "secret"]
+    },
+    "story.father_final_contact": {
+      "type": "enum",
+      "default": "unknown",
+      "values": ["unknown", "present", "called", "missed"]
     }
   },
   "participant_role_types": [

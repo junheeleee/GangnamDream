@@ -1,0 +1,2777 @@
+{
+  "schema_version": 1,
+  "scope": {
+    "months": [1, 60],
+    "weeks_per_month": 4,
+    "months_per_chapter": 12
+  },
+  "design_targets": {
+    "direct_stops": [24, 30],
+    "history_inputs_per_scene": 2,
+    "decision_inputs_per_scene": 1,
+    "named_readers": 15,
+    "generic_commitments": 201
+  },
+  "loop_contract": {
+    "routine": "automatic_until_changed",
+    "candidate_sources": ["pressure", "opportunity", "person_promise"],
+    "candidate_count": [2, 4],
+    "protected_commitments": 1,
+    "optional_second": {
+      "maximum": 1,
+      "requires_any": ["cash_buffer", "health_buffer", "trust_buffer"]
+    },
+    "order_prompt": "dependency_or_deadline_only",
+    "random_incidents": "modify_cost_or_conflict_never_close",
+    "retired_selectable_ids": [
+      "m11_cap_open_door_loss",
+      "m12_close_first_ledger",
+      "m15_hold_medicine_cash",
+      "m16_pay_routine_change_cost",
+      "m17_protect_cash",
+      "m20_hold_invite_buffer",
+      "m24_close_second_ledger",
+      "m26_separate_pitch_buffer",
+      "m27_protect_living_cash",
+      "m31_stabilize_month",
+      "m36_close_third_ledger",
+      "m39_hold_cash_floor",
+      "m41_clear_urgent_work",
+      "m42_prepare_shared_cost",
+      "m48_close_fourth_ledger",
+      "m50_hold_final_buffer",
+      "m52_preserve_exit_cash",
+      "m54_prepare_final_draft",
+      "m54_confirm_attendance",
+      "m58_prepare_name_record",
+      "m59_audit_final_numbers",
+      "m60_close_all_accounts"
+    ],
+    "miss_consequences": {
+      "deferred": "next_month_pressure_and_axis_debt",
+      "expired": "path_closed_and_axis_loss"
+    }
+  },
+  "commitment_causality": {
+    "selection_slots": ["protected", "optional_second"],
+    "selection_record": {
+      "kind": "selected_commitment",
+      "commitment_id": "string",
+      "slot": ["protected", "optional_second"]
+    },
+    "receipt_record": {
+      "kind": "commitment_receipt",
+      "source_receipt_id": "string",
+      "state": ["completed", "deferred", "expired"],
+      "resolved_week": "integer",
+      "selection_slot": ["protected", "optional_second", null],
+      "actors": "object"
+    },
+    "reader_modes": ["gate", "focus"],
+    "write_order": [
+      "selection_saved",
+      "selected_readers_dispatched",
+      "scene_writes_staged",
+      "scene_writes_and_completed_receipts_atomic_commit",
+      "resolved_readers_dispatched",
+      "month_closed"
+    ],
+    "generic_reader": {
+      "source": "all_commitments",
+      "states": ["completed", "deferred", "expired"],
+      "completed": "next_month_axis_buffer",
+      "misses": "loop_contract.miss_consequences",
+      "months": [1, 59],
+      "terminal": {
+        "month": 60,
+        "kind": "ledger_echo",
+        "after_scene": "m60_final_signature",
+        "target": "final_month_ledger_echo",
+        "next_month": null,
+        "signature_receipt": {
+          "commitment_id": "m60_sign_own_answer",
+          "state_to_outcome": {"completed": "signed", "expired": "leave_blank"}
+        }
+      }
+    },
+    "named_readers": [
+      {
+        "id": "reader.m03_daeun_delivery",
+        "mode": "gate",
+        "source": {"kind": "selected_commitment", "commitment_id": "m03_daeun_return", "slot": ["protected", "optional_second"]},
+        "reader": {"kind": "scene", "scene_id": "m03_daeun_first_meet"},
+        "effect": {"kind": "delivery", "root": "arc_daeun_01_meet"}
+      },
+      {
+        "id": "reader.m03_jiyeon_delivery",
+        "mode": "gate",
+        "source": {"kind": "selected_commitment", "commitment_id": "m03_jiyeon_answer", "slot": ["protected", "optional_second"]},
+        "reader": {"kind": "scene", "scene_id": "m03_jiyeon_first_meet"},
+        "effect": {"kind": "delivery", "root": "arc_jiyeon_01_crash"}
+      },
+      {
+        "id": "reader.m09_relationship_reentry",
+        "mode": "focus",
+        "sources": [
+          {"kind": "commitment_receipt", "source_receipt_id": "m09_call_daeun", "state": ["completed"], "value": "daeun"},
+          {"kind": "commitment_receipt", "source_receipt_id": "m09_call_jiyeon", "state": ["completed"], "value": "jiyeon"},
+          {"kind": "commitment_receipt", "source_receipt_id": "m09_answer_hyunsu", "state": ["completed"], "value": "hyunsu"}
+        ],
+        "resolve": "selection_slot_then_due_week",
+        "fallback_value": "none",
+        "reader": {"kind": "scene", "scene_id": "m09_relationship_reentry"},
+        "effect": {"kind": "coverage", "axis": "route.m09.relationship_reentry"}
+      },
+      {
+        "id": "reader.m20_chosen_door",
+        "mode": "focus",
+        "sources": [
+          {"kind": "commitment_receipt", "source_receipt_id": "m20_sangchul_network", "state": ["completed"], "value": "sangchul"},
+          {"kind": "commitment_receipt", "source_receipt_id": "m20_jiyeon_door", "state": ["completed"], "value": "jiyeon"},
+          {"kind": "commitment_receipt", "source_receipt_id": "m20_casino_invitation", "state": ["completed"], "value": "casino"}
+        ],
+        "resolve": "selection_slot_then_due_week",
+        "fallback_value": "none",
+        "reader": {"kind": "scene", "scene_id": "m20_people_open_doors"},
+        "effect": {"kind": "coverage", "axis": "route.m20.chosen_door"}
+      },
+      {
+        "id": "reader.m35_selected_listener",
+        "mode": "focus",
+        "sources": [
+          {"kind": "selected_commitment", "commitment_id": "m35_call_father", "slot": ["protected", "optional_second"], "value": "father"},
+          {"kind": "selected_commitment", "commitment_id": "m35_meet_hyunsu", "slot": ["protected", "optional_second"], "value": "hyunsu"}
+        ],
+        "resolve": "selection_slot_then_due_week",
+        "fallback_value": "none",
+        "reader": {"kind": "scene", "scene_id": "m35_choice_heard"},
+        "effect": {"kind": "coverage", "axis": "route.m35.selected_listener"}
+      },
+      {
+        "id": "reader.m43_lived_promise",
+        "mode": "gate",
+        "source": {"kind": "commitment_receipt", "source_receipt_id": "m43_keep_lived_promise", "state": ["completed"]},
+        "reader": {"kind": "scene", "scene_id": "m43_year_three_half"},
+        "effect": {"kind": "outcome", "target": "echo.lived_promise_completed"}
+      },
+      {
+        "id": "reader.m46_body_help",
+        "mode": "gate",
+        "source": {"kind": "commitment_receipt", "source_receipt_id": "m46_seek_body_help", "state": ["completed"]},
+        "reader": {"kind": "scene", "scene_id": "m46_bill_night"},
+        "effect": {"kind": "cost", "target": "outcome.body_help_cost"}
+      },
+      {
+        "id": "reader.m46_father_reply",
+        "mode": "gate",
+        "source": {"kind": "commitment_receipt", "source_receipt_id": "m46_answer_father", "state": ["completed"]},
+        "reader": {"kind": "scene", "scene_id": "m46_bill_night"},
+        "effect": {"kind": "outcome", "target": "echo.father_same_night_reply"}
+      },
+      {
+        "id": "reader.m46_partner_cost",
+        "mode": "gate",
+        "source": {"kind": "commitment_receipt", "source_receipt_id": "m46_face_partner", "state": ["completed"]},
+        "reader": {"kind": "scene", "scene_id": "m46_bill_night"},
+        "effect": {"kind": "outcome", "target": "echo.partner_cost_admission"}
+      },
+      {
+        "id": "reader.m55_hold_signature_option",
+        "mode": "gate",
+        "source": {"kind": "selected_commitment", "commitment_id": "m55_hold_signature", "slot": ["protected", "optional_second"]},
+        "reader": {"kind": "scene", "scene_id": "m55_three_in_room"},
+        "effect": {"kind": "availability", "target": "choice.hold_signature", "after": null}
+      },
+      {
+        "id": "reader.m55_disclose_terms_option",
+        "mode": "gate",
+        "source": {"kind": "selected_commitment", "commitment_id": "m55_disclose_all_terms", "slot": ["protected", "optional_second"]},
+        "reader": {"kind": "scene", "scene_id": "m55_three_in_room"},
+        "effect": {"kind": "availability", "target": "choice.disclose_all_terms", "after": null}
+      },
+      {
+        "id": "reader.m55_reviewer_question_option",
+        "mode": "gate",
+        "source": {"kind": "selected_commitment", "commitment_id": "m55_let_reviewer_question", "slot": ["protected", "optional_second"]},
+        "reader": {"kind": "scene", "scene_id": "m55_three_in_room"},
+        "effect": {"kind": "availability", "target": "choice.let_reviewer_question", "after": "choice.disclose_all_terms"}
+      },
+      {
+        "id": "reader.m55_return_name_option",
+        "mode": "gate",
+        "source": {"kind": "selected_commitment", "commitment_id": "m55_return_protected_name", "slot": ["protected", "optional_second"]},
+        "reader": {"kind": "scene", "scene_id": "m55_three_in_room"},
+        "effect": {"kind": "availability", "target": "choice.return_protected_name", "after": "choice.disclose_all_terms"}
+      },
+      {
+        "id": "reader.m57_file_name_delivery",
+        "mode": "gate",
+        "source": {"kind": "selected_commitment", "commitment_id": "m57_file_name_decision", "slot": ["protected", "optional_second"]},
+        "reader": {"kind": "scene", "scene_id": "m57_name_on_line"},
+        "effect": {"kind": "delivery", "root": "arc_y5_name_on_line"}
+      },
+      {
+        "id": "reader.m60_sign_option",
+        "mode": "gate",
+        "source": {"kind": "selected_commitment", "commitment_id": "m60_sign_own_answer", "slot": ["protected", "optional_second"]},
+        "reader": {"kind": "scene", "scene_id": "m60_final_signature"},
+        "effect": {"kind": "availability", "target": "choice.sign", "after": null}
+      }
+    ]
+  },
+  "vertical_slices": {
+    "M01": "entry_loop",
+    "M35": "cross_chapter_payoff",
+    "M55": "ensemble_collision"
+  },
+  "long_term_decisions": [
+    "story.first_illegal_offer",
+    "story.father_hospital_door",
+    "story.sangchul_truth_resolution",
+    "story.jaehyuk_guarantee_resolution",
+    "story.partner_commitment",
+    "story.partner_name_use",
+    "story.father_final_contact"
+  ],
+  "carryover_slots": {
+    "boss_choice": {"type": "receipt_ref", "required": ["kind", "source_receipt_id"], "optional": ["actor_id"]},
+    "protected_commitment": {"type": "receipt_ref", "required": ["kind", "source_receipt_id"], "optional": ["actor_id"]},
+    "expired_obligation": {"type": "receipt_ref", "required": ["kind", "source_receipt_id"], "optional": ["actor_id"]},
+    "open_debt": {"type": "receipt_ref", "required": ["kind", "source_receipt_id"], "optional": ["actor_id"]}
+  },
+  "chapters": [
+    {
+      "chapter": 1,
+      "carryover": ["boss_choice", "expired_obligation", "open_debt", "protected_commitment"],
+      "months": [
+        {
+          "month": 1,
+          "design_label": "첫 선",
+          "phase": "setup",
+          "contract": {
+            "pressure": "현금 50만원과 첫 달 생존",
+            "opportunity": "첫 지원과 합법적인 생계 진입",
+            "person_promise": "아버지와 현수의 도착을 일정 상품으로 만들지 않는다",
+            "deadline": "W4 대포통장 제안은 그달 안에만 답할 수 있다"
+          },
+          "commitments": [
+            {"id": "m01_survival_shift", "source": "pressure", "axis": "cash", "label": "첫 달 월세와 식비를 만들 생계 근무를 끝낸다", "due_week": 1, "miss": "expired", "after": null},
+            {"id": "m01_legal_application", "source": "opportunity", "axis": "cash", "label": "첫 합법 지원서를 제출하고 면접 준비를 마친다", "due_week": 2, "miss": "expired", "after": null},
+            {"id": "m01_father_call", "source": "person_promise", "axis": "trust", "label": "아버지에게 먼저 전화해 이번 주 안부를 듣는다", "due_week": 3, "miss": "deferred", "after": null},
+            {"id": "m01_hyunsu_promise", "source": "person_promise", "axis": "trust", "label": "현수와 정한 시험 전 약속 시간에 문을 두드린다", "due_week": 4, "miss": "expired", "after": null}
+          ],
+          "beats": [
+            {
+              "id": "m01_first_line",
+              "scene_id": "m01_first_line",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_temptation_01",
+              "rule_status": "needs_rule",
+              "intent": "첫 불법 제안이 이후 사람과 계약을 보는 기준으로 남는다.",
+              "channel": "message",
+              "cast": ["player", "dirty_recruiter"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m01_first_line"], "decision": "story.first_illegal_offer", "carryovers": []},
+              "forgone": ["합법 생계의 시간", "빠른 현금의 안전"]
+            }
+          ]
+        },
+        {
+          "month": 2,
+          "design_label": "첫 선택의 표정",
+          "phase": "setup",
+          "contract": {
+            "pressure": "첫 선택의 결과와 계속되는 생계",
+            "opportunity": "현수에게 먼저 손을 내미는 두 번째 시도",
+            "person_promise": "거절과 수락의 결과를 같은 문장으로 덮지 않는다",
+            "deadline": "W8 세계 사건은 월말 전에 한 번만 돌아온다"
+          },
+          "commitments": [
+            {"id": "m02_close_account_risk", "source": "pressure", "axis": "cash", "label": "첫 불법 제안 뒤 생긴 계좌 위험과 현금 공백을 확인하고 막는다", "due_week": 5, "miss": "expired", "after": null},
+            {"id": "m02_hyunsu_second_try", "source": "opportunity", "axis": "trust", "label": "현수에게 다시 찾아가 시험 준비 한 자리를 함께 지킨다", "due_week": 7, "miss": "expired", "after": null},
+            {"id": "m02_return_father_call", "source": "person_promise", "axis": "trust", "label": "아버지의 짧은 연락에 그날 다시 전화를 건다", "due_week": 8, "miss": "deferred", "after": null}
+          ],
+          "beats": [
+            {
+              "id": "m02_first_line_echo",
+              "scene_id": "m02_first_line_echo",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "KEEP",
+              "root": "arc_temptation_clean",
+              "rule_status": "needs_rule",
+              "intent": "첫 선의 선택을 즉시 점수화하지 않고 생활의 표정으로 회수한다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": ["memory.m01_first_line"], "decision": "story.first_illegal_offer", "carryovers": []},
+              "writes": {"memories": ["memory.m02_first_consequence"], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 3,
+          "design_label": "같은 도시의 사람",
+          "phase": "setup",
+          "contract": {
+            "pressure": "돈을 벌면서 사람을 다시 찾아갈 시간",
+            "opportunity": "다은 또는 지연과의 첫 실제 교차",
+            "person_promise": "우연한 첫 만남 뒤 진전은 플레이어가 시간을 써야 열린다",
+            "deadline": "첫 만남은 이번 달 생활 동선에서만 성립한다"
+          },
+          "commitments": [
+            {"id": "m03_cover_deposit_gap", "source": "pressure", "axis": "cash", "label": "퇴실 통보 전에 보증금 부족액과 남은 숙박일을 확정한다", "due_week": 9, "miss": "expired", "after": null},
+            {"id": "m03_daeun_return", "source": "opportunity", "axis": "trust", "label": "새벽 편의점에 다시 들러 다은에게 이름을 묻는다", "due_week": 11, "miss": "expired", "after": null},
+            {"id": "m03_jiyeon_answer", "source": "person_promise", "axis": "trust", "label": "자전거 사고 뒤 지연의 보상 제안에 직접 답한다", "due_week": 12, "miss": "expired", "after": null}
+          ],
+          "beats": [
+            {
+              "id": "m03_daeun_first_meet",
+              "scene_id": "m03_daeun_first_meet",
+              "kind": "scene",
+              "delivery": "flow",
+              "work": "KEEP",
+              "root": "arc_daeun_01_meet",
+              "rule_status": "mapped",
+              "intent": "편의점의 작은 호의를 연애 보상이 아니라 다음 연락의 자격으로 남긴다.",
+              "channel": "in_person",
+              "cast": ["player", "daeun"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": []
+            },
+            {
+              "id": "m03_jiyeon_first_meet",
+              "scene_id": "m03_jiyeon_first_meet",
+              "kind": "scene",
+              "delivery": "flow",
+              "work": "KEEP",
+              "root": "arc_jiyeon_01_crash",
+              "rule_status": "mapped",
+              "intent": "자전거 사고 뒤 지연의 보상 제안에 답한 때만 첫 실제 교차를 전달한다.",
+              "channel": "in_person",
+              "cast": ["player", "jiyeon"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 4,
+          "design_label": "식지 않은 커피",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "방값과 직업 결과가 동시에 닥친다",
+            "opportunity": "상철의 첫 커피와 돈의 문",
+            "person_promise": "상철은 첫 만남부터 악역처럼 보이지 않는다",
+            "deadline": "방을 알아보러 간 실제 동선에서만 첫 만남이 열린다"
+          },
+          "commitments": [
+            {"id": "m04_answer_job_result", "source": "pressure", "axis": "cash", "label": "채용 결과 통보에 답하고 첫 출근일을 확정한다", "due_week": 13, "miss": "expired", "after": null},
+            {"id": "m04_independent_room_view", "source": "opportunity", "axis": "cash", "label": "예약한 독립 매물 한 곳에 가서 보증금과 월세를 확인한다", "due_week": 14, "miss": "expired", "after": null},
+            {"id": "m04_sangchul_office_coffee", "source": "person_promise", "axis": "trust", "label": "상철 사무실에서 실제 방값을 묻고 커피가 식을 때까지 남는다", "due_week": 16, "miss": "expired", "after": null}
+          ],
+          "beats": [
+            {
+              "id": "m04_sangchul_coffee",
+              "scene_id": "m04_sangchul_coffee",
+              "kind": "scene",
+              "delivery": "flow",
+              "work": "KEEP",
+              "root": "arc_sangchul_01_meet",
+              "rule_status": "mapped",
+              "intent": "호의와 거래가 아직 구분되지 않는 첫 인상을 남긴다.",
+              "channel": "in_person",
+              "cast": ["player", "sangchul"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m04_cold_coffee"], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 5,
+          "design_label": "기다리는 쪽",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "취업 결과와 앞서 만난 사람이 같은 시간을 요구한다",
+            "opportunity": "재혁의 평범한 재회 또는 기존 관계의 두 번째 교차",
+            "person_promise": "재혁은 아직 투자나 보증을 권하지 않는다",
+            "deadline": "이번 달 다시 찾지 않은 사람은 재진입 비용을 남긴다"
+          },
+          "availability": {
+            "axis": "route.m05.second_crossing",
+            "values": ["none", "daeun", "jiyeon", "both"]
+          },
+          "commitments": [
+            {"id": "m05_job_result", "source": "pressure", "axis": "cash", "label": "취업 결과에 답하고 출근 또는 다음 지원 준비를 끝낸다", "due_week": 17, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m05_jaehyuk_reunion", "source": "opportunity", "axis": "trust", "label": "재혁과 돈 이야기가 없는 포장마차 재회 약속을 지킨다", "due_week": 19, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m05_second_crossing", "source": "person_promise", "axis": "trust", "label": "앞서 만난 다은 또는 지연에게 먼저 연락해 두 번째 만남을 잡는다", "due_week": 20, "miss": "deferred", "after": null, "available_values": ["daeun", "jiyeon", "both"]}
+          ],
+          "beats": [
+            {
+              "id": "m05_jaehyuk_plain_echo",
+              "scene_id": "m05_jaehyuk_plain_echo",
+              "kind": "scene",
+              "delivery": "flow",
+              "work": "KEEP",
+              "root": "v2_jaehyuk_plain_reunion_echo",
+              "rule_status": "mapped",
+              "intent": "사기 징후보다 먼저 다시 친구로 믿을 시간을 준다.",
+              "channel": "in_person",
+              "cast": ["player", "jaehyuk"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m05_first_priority"], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 6,
+          "design_label": "첫 청구서",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "직업·사람·가족의 마감이 한 금요일에 충돌한다",
+            "opportunity": "지킬 한 약속을 직접 고른다",
+            "person_promise": "선택하지 않은 약속도 출처와 만료를 남긴다",
+            "deadline": "W24 금요일 뒤에는 닫힌 마감을 다음 주로 미룰 수 없다"
+          },
+          "availability": {
+            "axis": "route.m06.person_path",
+            "values": ["unattached", "person_connected"]
+          },
+          "commitments": [
+            {"id": "m06_work_deadline", "source": "pressure", "axis": "cash", "label": "금요일 18시 30분 전 채용 또는 생계 마감 서류를 직접 제출한다", "due_week": 24, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m06_sangchul_door", "source": "opportunity", "axis": "cash", "label": "같은 금요일 상철이 알려 준 현장에 직접 도착한다", "due_week": 24, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m06_family_signal", "source": "person_promise", "axis": "health", "label": "약국 봉투 신호 뒤 정한 시각에 아버지에게 전화한다", "due_week": 24, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m06_person_date", "source": "person_promise", "axis": "trust", "label": "먼저 이어 온 사람과 잡은 같은 금요일 약속에 나간다", "due_week": 24, "miss": "expired", "after": null, "available_values": ["person_connected"]}
+          ],
+          "beats": [
+            {
+              "id": "m06_first_bill",
+              "scene_id": "m06_first_bill",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "KEEP",
+              "root": "v2_demo_first_bill_opening",
+              "rule_status": "needs_rule",
+              "intent": "완료·미룸·만료를 처음으로 한 장부에서 분리한다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": ["memory.m02_first_consequence", "memory.m05_first_priority"], "decision": "story.first_illegal_offer", "carryovers": []},
+              "writes": {"memories": ["memory.m06_first_bill"], "decision": null, "carryovers": []},
+              "forgone": ["지키지 못한 약속", "마감 뒤 닫히는 기회"]
+            }
+          ]
+        },
+        {
+          "month": 7,
+          "design_label": "시험 뒤의 방",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "현수의 실패와 민준의 생활이 겹친다",
+            "opportunity": "결과를 바꾸지 않고 실패 뒤 곁에 있을 수 있다",
+            "person_promise": "시험 전 한 선택이 4년치 결과를 뒤집지 않는다",
+            "deadline": "결과 문자가 온 뒤에만 문을 두드릴 수 있다"
+          },
+          "commitments": [
+            {"id": "m07_sign_move_contract", "source": "pressure", "axis": "cash", "label": "퇴실일 전에 선택한 방 계약서에 서명하고 계약금을 낸다", "due_week": 25, "miss": "expired", "after": null},
+            {"id": "m07_take_weekend_shift", "source": "opportunity", "axis": "cash", "label": "현수 결과 뒤 주말 유급 대체근무에 출근한다", "due_week": 27, "miss": "expired", "after": null},
+            {"id": "m07_knock_and_stay", "source": "person_promise", "axis": "trust", "label": "같은 주말 현수 문을 두드리고 기다릴지 혼자 둘지 직접 전한다", "due_week": 27, "miss": "expired", "after": null}
+          ],
+          "beats": [
+            {
+              "id": "m07_hyunsu_result",
+              "scene_id": "m07_hyunsu_result",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "KEEP",
+              "root": "hyunsu_result_fail",
+              "rule_status": "mapped",
+              "intent": "성공 확률 대신 실패 뒤의 관계 기억을 만든다.",
+              "channel": "message",
+              "cast": ["player", "hyunsu"],
+              "reads": {"memories": ["memory.m06_first_bill"], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m07_hyunsu_result"], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 8,
+          "design_label": "얇은 벽 밖으로",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "주거비와 고시원 퇴실이 생활을 흔든다",
+            "opportunity": "새 방을 고를 기준을 처음 세운다",
+            "person_promise": "이사는 면적 상승과 고독을 함께 바꾼다",
+            "deadline": "퇴실일 전에 방을 정하지 않으면 선택지가 줄어든다"
+          },
+          "commitments": [
+            {"id": "m08_pack_before_exit", "source": "pressure", "axis": "cash", "label": "퇴실일 전에 짐과 보증금 정산을 끝낸다", "due_week": 29, "miss": "expired", "after": null},
+            {"id": "m08_choose_room", "source": "opportunity", "axis": "cash", "label": "통근·월세·고독을 비교해 실제 다음 방을 계약한다", "due_week": 31, "miss": "expired", "after": null},
+            {"id": "m08_hyunsu_goodbye", "source": "person_promise", "axis": "trust", "label": "떠나기 전 현수에게 빈방이 되는 날짜를 직접 알린다", "due_week": 32, "miss": "expired", "after": null}
+          ],
+          "beats": [
+            {
+              "id": "m08_goshiwon_exit",
+              "scene_id": "m08_goshiwon_exit",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_goshiwon_goodbye",
+              "rule_status": "mapped",
+              "intent": "주거 상승을 배경 교체가 아니라 사람과 시간의 변화로 만든다.",
+              "channel": "in_person",
+              "cast": ["player", "hyunsu"],
+              "reads": {"memories": ["memory.m07_hyunsu_result"], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m08_goshiwon_exit"], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 9,
+          "design_label": "먼저 다시 찾는 사람",
+          "phase": "reversal",
+          "contract": {
+            "pressure": "다은·지연·현수의 재진입 비용이 동시에 보인다",
+            "opportunity": "한 사람에게 먼저 시간을 쓴다",
+            "person_promise": "선택하지 않은 관계는 사라지지 않고 기다린 기록을 남긴다",
+            "deadline": "이번 달 먼저 연락하지 않으면 다음 만남의 온도가 달라진다"
+          },
+          "availability": {
+            "axis": "route.m09.reentry_candidates",
+            "values": ["neither", "daeun", "jiyeon", "both"]
+          },
+          "commitments": [
+            {"id": "m09_settle_new_room", "source": "pressure", "axis": "cash", "label": "새 방의 첫 월세와 생활비를 기한 안에 정산한다", "due_week": 33, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m09_call_daeun", "source": "opportunity", "axis": "trust", "label": "다은에게 먼저 연락해 편의점 밖의 짧은 약속을 잡는다", "due_week": 34, "miss": "deferred", "after": null, "available_values": ["daeun", "both"]},
+            {"id": "m09_call_jiyeon", "source": "person_promise", "axis": "trust", "label": "지연에게 먼저 연락해 미뤄 둔 답을 직접 전한다", "due_week": 35, "miss": "deferred", "after": null, "available_values": ["jiyeon", "both"]},
+            {"id": "m09_answer_hyunsu", "source": "person_promise", "axis": "trust", "label": "현수의 근황 메시지에 이번 달 안으로 답한다", "due_week": 36, "miss": "deferred", "after": null, "available_values": ["*"]}
+          ],
+          "beats": [
+            {
+              "id": "m09_relationship_reentry",
+              "scene_id": "m09_relationship_reentry",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_daeun_02_regular",
+              "rule_status": "needs_rule",
+              "intent": "호감도 문이 아니라 플레이어가 먼저 쓴 시간으로 관계를 연다.",
+              "channel": "in_person",
+              "cast": ["player", "daeun"],
+              "reads": {"memories": ["memory.m05_first_priority"], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m09_relationship_reentry"], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "route.m09.relationship_reentry",
+                "base_values": ["daeun"],
+                "fallbacks": [
+                  {"values": ["jiyeon"], "root": "arc_y1_jiyeon_relationship_reentry", "work": "NEW", "rule_status": "planned", "channel": "in_person", "cast": ["player", "jiyeon"], "reads": {"memories": ["memory.m05_first_priority"], "decision": null, "carryovers": []}, "forgone": ["다은과 현수의 이번 재진입"]},
+                  {"values": ["hyunsu"], "root": "arc_y1_hyunsu_relationship_reentry", "work": "NEW", "rule_status": "planned", "channel": "message", "cast": ["player", "hyunsu"], "reads": {"memories": ["memory.m05_first_priority"], "decision": null, "carryovers": []}, "forgone": ["다은과 지연의 이번 재진입"]},
+                  {"values": ["*"], "root": "arc_y1_relationship_reentry_none", "work": "NEW", "rule_status": "planned", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m05_first_priority"], "decision": null, "carryovers": []}, "forgone": ["이번 달 먼저 찾을 관계"]}
+                ]
+              },
+              "forgone": ["먼저 찾지 않은 사람의 즉시 재회"]
+            }
+          ]
+        },
+        {
+          "month": 10,
+          "design_label": "새 방 첫 저녁",
+          "phase": "reversal",
+          "contract": {
+            "pressure": "새 집의 비용과 혼자 남은 저녁",
+            "opportunity": "현재 주거에서 삶의 다음 기준을 세운다",
+            "person_promise": "부유한 저장을 과거 고시원으로 되돌리지 않는다",
+            "deadline": "이사 첫날의 감각은 그날만 기록된다"
+          },
+          "commitments": [
+            {"id": "m10_first_room_bill", "source": "pressure", "axis": "cash", "label": "새 방의 공과금과 다음 월세 날짜를 장부에 고정한다", "due_week": 37, "miss": "expired", "after": null},
+            {"id": "m10_reset_routine", "source": "opportunity", "axis": "health", "label": "현재 방과 통근에 맞춰 한 달 루틴을 다시 짠다", "due_week": 39, "miss": "expired", "after": null},
+            {"id": "m10_share_address", "source": "person_promise", "axis": "trust", "label": "아버지에게 새 주소와 연락 가능한 시간을 직접 알린다", "due_week": 40, "miss": "deferred", "after": null}
+          ],
+          "beats": [
+            {
+              "id": "m10_new_room_night",
+              "scene_id": "m10_new_room_night",
+              "kind": "scene",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_housing_new_life",
+              "rule_status": "mapped",
+              "intent": "주소가 바뀌어도 몸에 밴 서울의 습관이 남는 장면을 만든다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": ["memory.m08_goshiwon_exit"], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m10_new_room_night"], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 11,
+          "design_label": "처음 열린 문",
+          "phase": "reversal",
+          "contract": {
+            "pressure": "직장·상철·재혁이 서로 다른 빠른 길을 보여 준다",
+            "opportunity": "한 문을 받아들이거나 거리를 둔다",
+            "person_promise": "사람의 호의를 즉시 경제 보상으로 환산하지 않는다",
+            "deadline": "이번 해가 끝나기 전에 하나의 문만 깊게 들어갈 수 있다"
+          },
+          "commitments": [
+            {"id": "m11_take_current_route_review", "source": "pressure", "axis": "cash", "label": "현재 생계처의 연장 또는 승급 면담에 직접 나간다", "due_week": 42, "miss": "expired", "after": null},
+            {"id": "m11_check_sangchul_offer", "source": "opportunity", "axis": "cash", "label": "상철이 지정한 현장에 가서 주소와 소개인을 확인한다", "due_week": 43, "miss": "expired", "after": null},
+            {"id": "m11_meet_jaehyuk_plainly", "source": "person_promise", "axis": "trust", "label": "투자 얘기 없는 재혁의 포장마차 약속에 나간다", "due_week": 43, "miss": "expired", "after": null}
+          ],
+          "beats": [
+            {
+              "id": "m11_jaehyuk_reunion",
+              "scene_id": "m11_jaehyuk_reunion",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_jaehyuk_01_reunion",
+              "rule_status": "needs_rule",
+              "intent": "재혁의 성공한 겉모습을 믿을 충분한 인간적 시간을 먼저 준다.",
+              "channel": "in_person",
+              "cast": ["player", "jaehyuk"],
+              "reads": {"memories": ["memory.m05_first_priority"], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m11_first_open_door"], "decision": null, "carryovers": []},
+              "forgone": ["상철의 문", "혼자 가는 느린 길"]
+            }
+          ]
+        },
+        {
+          "month": 12,
+          "design_label": "첫해 보스",
+          "phase": "boss",
+          "contract": {
+            "pressure": "처음 넘은 선과 끝까지 지킨 선을 함께 본다",
+            "opportunity": "다음 해에 무엇을 지킬지 확정한다",
+            "person_promise": "연말 회고는 하이라이트 목록이 아니라 원인의 편집이다",
+            "deadline": "W48 결산 뒤에는 첫해 결정을 다시 고를 수 없다"
+          },
+          "commitments": [
+            {"id": "m12_pay_named_overdue_bill", "source": "pressure", "axis": "cash", "label": "통지서에 적힌 미납 한 건을 실제 이체한다", "due_week": 45, "miss": "deferred", "after": null},
+            {"id": "m12_year_end_call", "source": "person_promise", "axis": "trust", "label": "아버지 또는 현수와 정한 연말 통화를 끝까지 지킨다", "due_week": 46, "miss": "expired", "after": null},
+            {"id": "m12_enter_one_open_door", "source": "opportunity", "axis": "cash", "label": "지난달 남겨 둔 한 현장 또는 면담에 실제 도착한다", "due_week": 47, "miss": "expired", "after": null}
+          ],
+          "beats": [
+            {
+              "id": "m12_year_one_boss",
+              "scene_id": "m12_year_one_boss",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_year1_close",
+              "rule_status": "needs_rule",
+              "intent": "첫 선·첫 청구서·첫 열린 문을 다음 장의 네 요약으로 잠근다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": ["memory.m06_first_bill", "memory.m11_first_open_door"], "decision": "story.first_illegal_offer", "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": ["boss_choice", "protected_commitment", "expired_obligation", "open_debt"]},
+              "forgone": ["첫해에 닫힌 문", "다음 장으로 넘긴 빚"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "chapter": 2,
+      "carryover": ["boss_choice", "expired_obligation", "open_debt", "protected_commitment"],
+      "months": [
+        {
+          "month": 13,
+          "design_label": "첫해 장부",
+          "phase": "setup",
+          "contract": {
+            "pressure": "혼자 번 돈과 사람이 연 문을 구분해야 한다",
+            "opportunity": "첫해 기록에서 실제 자격을 찾는다",
+            "person_promise": "장부는 관계를 숫자로 지우지 않는다",
+            "deadline": "새해 첫 달에 지킬 약속을 정해야 한다"
+          },
+          "commitments": [
+            {"id": "m13_return_to_person", "source": "person_promise", "axis": "trust", "label": "첫해에 기다리게 한 사람과 잡은 새해 첫 약속에 도착한다", "due_week": 49, "miss": "expired", "after": null},
+            {"id": "m13_clear_old_cost", "source": "pressure", "axis": "cash", "label": "첫해에서 넘어온 미납 한 건을 갚거나 빌린 물건을 돌려준다", "due_week": 50, "miss": "deferred", "after": null},
+            {"id": "m13_use_boss_opening", "source": "opportunity", "axis": "cash", "label": "첫해 보스에서 남긴 한 현장 또는 면담에 실제 들어간다", "due_week": 52, "miss": "expired", "after": null}
+          ],
+          "beats": [
+            {
+              "id": "m13_year_ledger",
+              "scene_id": "m13_year_ledger",
+              "kind": "bridge",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_year_one_mark",
+              "rule_status": "needs_rule",
+              "intent": "첫해 보스와 지킨 약속을 두 번째 해의 현실로 번역한다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": [], "decision": null, "carryovers": ["boss_choice", "protected_commitment"]},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 14,
+          "design_label": "돈의 구조",
+          "phase": "setup",
+          "contract": {
+            "pressure": "월급의 천장과 남은 빚이 보인다",
+            "opportunity": "사람을 거쳐 규모를 키우는 길",
+            "person_promise": "열린 빚의 출처를 지우지 않는다",
+            "deadline": "다음 소개가 오기 전에 첫해 미해결 비용을 확인한다"
+          },
+          "commitments": [
+            {"id": "m14_pay_open_debt", "source": "pressure", "axis": "cash", "label": "열린 빚의 첫 상환액을 기한 안에 실제 이체한다", "due_week": 53, "miss": "deferred", "after": null},
+            {"id": "m14_bank_limit_review", "source": "opportunity", "axis": "cash", "label": "은행 예약 창구에서 현재 소득으로 가능한 한도를 통보받는다", "due_week": 55, "miss": "expired", "after": null},
+            {"id": "m14_ask_sangchul_source", "source": "person_promise", "axis": "trust", "label": "상철의 소개 자리에 가서 소개인과 수수료를 당사자 앞에서 묻는다", "due_week": 56, "miss": "expired", "after": null}
+          ],
+          "beats": [
+            {
+              "id": "m14_money_structure",
+              "scene_id": "m14_money_structure",
+              "kind": "bridge",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_34_money_attracts_money",
+              "rule_status": "needs_rule",
+              "intent": "시간당 노동과 사람을 거치는 돈의 차이를 보여 준다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": [], "decision": null, "carryovers": ["expired_obligation", "open_debt"]},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 15,
+          "design_label": "먼저 쓸 시간",
+          "phase": "setup",
+          "contract": {
+            "pressure": "다은·지연·아버지가 같은 달에 시간을 요구한다",
+            "opportunity": "한 관계를 먼저 지킨다",
+            "person_promise": "조건이 성립하지 않은 인물을 억지 호출하지 않는다",
+            "deadline": "이번 달의 부재는 다음 관계 장면에 남는다"
+          },
+          "availability": {
+            "axis": "route.m15.relationship_path",
+            "values": ["unattached", "daeun", "jiyeon", "both_open"]
+          },
+          "commitments": [
+            {"id": "m15_take_paid_weekend_shift", "source": "pressure", "axis": "cash", "label": "두 사람 약속과 겹친 주말 유급 교대에 출근한다", "due_week": 59, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m15_daeun_time", "source": "opportunity", "axis": "trust", "label": "이어진 다은과 잡은 같은 주말 저녁에 나간다", "due_week": 59, "miss": "expired", "after": null, "available_values": ["daeun", "both_open"]},
+            {"id": "m15_jiyeon_answer", "source": "person_promise", "axis": "trust", "label": "이어진 지연을 만나 같은 주말 제안에 답한다", "due_week": 59, "miss": "expired", "after": null, "available_values": ["jiyeon", "both_open"]},
+            {"id": "m15_father_medicine", "source": "person_promise", "axis": "health", "label": "약 문자를 받은 날 아버지에게 전화해 약 이름과 복용 횟수를 듣는다", "due_week": 57, "miss": "expired", "after": null, "available_values": ["*"]}
+          ],
+          "beats": [
+            {
+              "id": "m15_father_medication",
+              "scene_id": "m15_father_medication",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_father_medication",
+              "rule_status": "mapped",
+              "intent": "가족 사실을 연애 보상과 분리해 현재 이동 중에 도착시킨다.",
+              "channel": "message",
+              "cast": ["player", "mother"],
+              "reads": {"memories": ["memory.m09_relationship_reentry"], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m15_first_priority"], "decision": null, "carryovers": []},
+              "forgone": ["다른 관계의 이번 달 약속"]
+            }
+          ]
+        },
+        {
+          "month": 16,
+          "design_label": "루틴의 덫",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "반복되는 생활이 선택하지 않아도 몸을 쓴다",
+            "opportunity": "루틴을 유지하거나 바꿀 이유를 발견한다",
+            "person_promise": "루틴을 매주 같은 카드로 묻지 않는다",
+            "deadline": "월말까지 바꾸지 않은 루틴은 다음 달 기본값이 된다"
+          },
+          "commitments": [
+            {"id": "m16_accept_night_roster", "source": "pressure", "axis": "cash", "label": "다음 네 주 야간 고정 근무표에 직접 서명한다", "due_week": 61, "miss": "expired", "after": null},
+            {"id": "m16_take_sleep_clinic", "source": "opportunity", "axis": "health", "label": "미뤄 둔 수면 또는 근골격 검사 예약에 출석한다", "due_week": 62, "miss": "expired", "after": null},
+            {"id": "m16_keep_standing_contact", "source": "person_promise", "axis": "trust", "label": "반복 생활에 밀린 정기 연락을 약속한 시각에 건다", "due_week": 63, "miss": "expired", "after": null}
+          ],
+          "beats": [
+            {
+              "id": "m16_routine_trap",
+              "scene_id": "m16_routine_trap",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_34_routine_trap",
+              "rule_status": "mapped",
+              "intent": "반복 루틴을 독립 선택 카드가 아니라 자동 흐름의 비용으로 내린다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 17,
+          "design_label": "호의의 가격",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "상철·재혁·연인의 부탁이 시간을 요구한다",
+            "opportunity": "한 사람의 부탁을 실제로 들어 본다",
+            "person_promise": "호의를 받은 대가를 즉시 선악으로 해설하지 않는다",
+            "deadline": "이번 달 응답하지 않은 부탁은 조건이 바뀐다"
+          },
+          "availability": {
+            "axis": "route.m17.partner_presence",
+            "values": ["unattached", "partnered"]
+          },
+          "commitments": [
+            {"id": "m17_keep_paid_evening_shift", "source": "pressure", "axis": "cash", "label": "상철의 저녁과 겹친 유급 저녁 교대에 출근한다", "due_week": 66, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m17_join_sangchul_dinner", "source": "opportunity", "axis": "trust", "label": "상철의 저녁 자리에 가서 비어 있던 십몇 년의 말을 듣는다", "due_week": 66, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m17_answer_jaehyuk", "source": "person_promise", "axis": "trust", "label": "재혁의 작은 부탁을 만나 듣고 범위를 그 자리에서 정한다", "due_week": 67, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m17_keep_partner_promise", "source": "person_promise", "axis": "trust", "label": "이어진 연인과 먼저 잡은 같은 주말 약속에 나간다", "due_week": 67, "miss": "expired", "after": null, "available_values": ["partnered"]}
+          ],
+          "beats": [
+            {
+              "id": "m17_sangchul_human",
+              "scene_id": "m17_sangchul_human",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_sangchul_human",
+              "rule_status": "needs_rule",
+              "intent": "첫 커피의 호의가 실제 유지비를 요구하도록 만든다.",
+              "channel": "in_person",
+              "cast": ["player", "sangchul"],
+              "reads": {"memories": ["memory.m04_cold_coffee"], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m17_favor_price"], "decision": null, "carryovers": []},
+              "forgone": ["다른 인물에게 쓸 시간"]
+            }
+          ]
+        },
+        {
+          "month": 18,
+          "design_label": "도시에 밴 습관",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "1년 반의 반복이 몸과 방을 바꾼다",
+            "opportunity": "생활 몽타주 뒤 한 인물 장면을 남긴다",
+            "person_promise": "반복을 독립 카드 여러 장으로 쪼개지 않는다",
+            "deadline": "이번 달 회고 뒤에는 같은 습관을 설명하지 않는다"
+          },
+          "availability": {
+            "axis": "route.m18.person_presence",
+            "values": ["unattached", "person_connected"]
+          },
+          "commitments": [
+            {"id": "m18_answer_rent_increase", "source": "pressure", "axis": "cash", "label": "집주인의 인상 통보에 갱신 또는 이사 답을 보낸다", "due_week": 69, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m18_take_overdue_checkup", "source": "opportunity", "axis": "health", "label": "18개월 미뤄 둔 건강검진 예약에 실제 출석한다", "due_week": 71, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m18_evening_with_person", "source": "person_promise", "axis": "trust", "label": "이어진 사람과 잡은 저녁을 몽타주로 넘기지 않고 지킨다", "due_week": 72, "miss": "expired", "after": null, "available_values": ["person_connected"]}
+          ],
+          "beats": [
+            {
+              "id": "m18_year_half",
+              "scene_id": "m18_year_half",
+              "kind": "bridge",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_year_one_half",
+              "rule_status": "needs_rule",
+              "intent": "방보다 먼저 몸에 밴 서울의 시간을 압축한다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": ["memory.m10_new_room_night"], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 19,
+          "design_label": "느린 사람의 새 길",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "현수의 다른 진로와 민준의 속도를 비교한다",
+            "opportunity": "실패 뒤 먼저 약속을 잡는다",
+            "person_promise": "재회는 현재 주거의 메시지 뒤 실제 이동으로만 열린다",
+            "deadline": "이번 달 답하지 않으면 재회의 온도가 달라진다"
+          },
+          "commitments": [
+            {"id": "m19_cover_weekend_shift", "source": "pressure", "axis": "cash", "label": "현수 약속과 겹친 주말 유급 근무에 출근한다", "due_week": 75, "miss": "expired", "after": null},
+            {"id": "m19_answer_and_arrive", "source": "person_promise", "axis": "trust", "label": "현수 메시지에 답하고 약속한 국밥집까지 실제로 간다", "due_week": 75, "miss": "expired", "after": null},
+            {"id": "m19_follow_hyunsu_lead", "source": "opportunity", "axis": "cash", "label": "재회 뒤 받은 실제 일 단서의 담당자를 찾아간다", "due_week": 76, "miss": "deferred", "after": "m19_answer_and_arrive"}
+          ],
+          "beats": [
+            {
+              "id": "m19_hyunsu_reunion",
+              "scene_id": "m19_hyunsu_reunion",
+              "kind": "scene",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "hyunsu_reunion_later",
+              "rule_status": "mapped",
+              "intent": "느리지만 사람을 담보로 잡지 않은 시간을 대조한다.",
+              "channel": "in_person",
+              "cast": ["player", "hyunsu"],
+              "reads": {"memories": ["memory.m07_hyunsu_result"], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m19_hyunsu_new_path"], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 20,
+          "design_label": "사람이 여는 문",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "혼자 찾을 수 없는 기회가 관계를 통해서만 온다",
+            "opportunity": "상철 네트워크·지연·카지노 중 살아 있는 한 문",
+            "person_promise": "카지노는 상시 행동이 아니라 상태와 관계가 만든 초대다",
+            "deadline": "초대는 이번 달 비용을 계산한 뒤 수락하거나 닫힌다"
+          },
+          "availability": {
+            "axis": "route.m20.open_door",
+            "values": ["sangchul", "jiyeon", "casino"]
+          },
+          "commitments": [
+            {"id": "m20_keep_paid_shift", "source": "pressure", "axis": "cash", "label": "초대와 겹친 기존 유급 근무를 끝낸다", "due_week": 78, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m20_sangchul_network", "source": "opportunity", "axis": "trust", "label": "상철이 연결한 현장에 가서 소개인과 조건을 직접 듣는다", "due_week": 78, "miss": "expired", "after": null, "available_values": ["sangchul"]},
+            {"id": "m20_jiyeon_door", "source": "person_promise", "axis": "trust", "label": "이어진 지연이 연 자리에 동행해 자기 답을 직접 말한다", "due_week": 79, "miss": "expired", "after": null, "available_values": ["jiyeon"]},
+            {"id": "m20_casino_invitation", "source": "opportunity", "axis": "health", "label": "실제로 온 카지노 초대에 가서 현장에서 수락하거나 거절한다", "due_week": 80, "miss": "expired", "after": null, "available_values": ["casino"]}
+          ],
+          "beats": [
+            {
+              "id": "m20_people_open_doors",
+              "scene_id": "m20_people_open_doors",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_34_doors_open",
+              "rule_status": "needs_rule",
+              "intent": "기회가 사람의 얼굴로 올 때 유지비와 위험을 같이 보인다.",
+              "channel": "mixed",
+              "cast": ["player", "sangchul"],
+              "reads": {"memories": ["memory.m17_favor_price", "memory.m19_hyunsu_new_path"], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m20_door_choice"], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "route.m20.chosen_door",
+                "base_values": ["sangchul"],
+                "fallbacks": [
+                  {"values": ["jiyeon"], "root": "arc_y2_jiyeon_chosen_door", "work": "NEW", "rule_status": "planned", "channel": "in_person", "cast": ["player", "jiyeon"], "reads": {"memories": ["memory.m17_favor_price", "memory.m19_hyunsu_new_path"], "decision": null, "carryovers": []}, "forgone": ["상철과 카지노의 이번 문"]},
+                  {"values": ["casino"], "root": "arc_y2_casino_chosen_door", "work": "NEW", "rule_status": "planned", "channel": "in_person", "cast": ["player", "sangchul"], "reads": {"memories": ["memory.m17_favor_price", "memory.m19_hyunsu_new_path"], "decision": null, "carryovers": []}, "forgone": ["상철과 지연의 이번 문"]},
+                  {"values": ["*"], "root": "arc_y2_chosen_door_none", "work": "NEW", "rule_status": "planned", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m17_favor_price", "memory.m19_hyunsu_new_path"], "decision": null, "carryovers": []}, "forgone": ["이번 달 실제로 들어갈 문"]}
+                ]
+              },
+              "forgone": ["다른 네트워크의 이번 창", "혼자 버는 안전"]
+            }
+          ]
+        },
+        {
+          "month": 21,
+          "design_label": "밤 버스의 비용",
+          "phase": "reversal",
+          "contract": {
+            "pressure": "열린 문이 생활과 관계에 남긴 값을 본다",
+            "opportunity": "같은 선택을 계속할지 방향을 조정한다",
+            "person_promise": "결과는 숫자만이 아니라 돌아오는 길의 사람으로 보인다",
+            "deadline": "다음 큰 제안 전에 현재 비용을 인정해야 한다"
+          },
+          "commitments": [
+            {"id": "m21_pay_open_door_cost", "source": "pressure", "axis": "cash", "label": "지난달 초대 뒤 도착한 실제 청구서 한 건을 납부한다", "due_week": 81, "miss": "deferred", "after": null},
+            {"id": "m21_tell_the_cost", "source": "person_promise", "axis": "trust", "label": "기다린 사람을 터미널에서 만나 늦은 이유를 직접 말한다", "due_week": 82, "miss": "expired", "after": null},
+            {"id": "m21_cancel_repeat_invitation", "source": "opportunity", "axis": "health", "label": "다음 고위험 초대의 좌석 또는 예약을 마감 전에 취소한다", "due_week": 84, "miss": "expired", "after": null}
+          ],
+          "beats": [
+            {
+              "id": "m21_two_years_in",
+              "scene_id": "m21_two_years_in",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_34_two_years_in",
+              "rule_status": "mapped",
+              "intent": "두 해의 상승이 누구의 시간 위에 있었는지 되돌아본다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": ["memory.m20_door_choice"], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 22,
+          "design_label": "관계의 방향",
+          "phase": "reversal",
+          "contract": {
+            "pressure": "다은의 미래와 지연의 제안이 같은 삶을 요구한다",
+            "opportunity": "관계를 더 깊게 하거나 정직하게 거리를 둔다",
+            "person_promise": "두 히로인은 보상 트랙이 아니라 반전된 거울이다",
+            "deadline": "이번 달의 답이 다음 장의 참가자를 바꾼다"
+          },
+          "availability": {
+            "axis": "route.m22.relationship_path",
+            "values": ["daeun", "jiyeon", "unattached"]
+          },
+          "commitments": [
+            {"id": "m22_answer_lease_renewal", "source": "pressure", "axis": "cash", "label": "다음 계절 주거를 정하는 갱신 통보에 답한다", "due_week": 85, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m22_answer_daeun_future", "source": "opportunity", "axis": "trust", "label": "다은을 만나 고향행과 서울 잔류 질문에 답한다", "due_week": 86, "miss": "expired", "after": null, "available_values": ["daeun"]},
+            {"id": "m22_answer_jiyeon_offer", "source": "person_promise", "axis": "trust", "label": "지연을 만나 사랑과 접근권 조건을 나눠 묻고 답한다", "due_week": 87, "miss": "expired", "after": null, "available_values": ["jiyeon"]},
+            {"id": "m22_close_honestly", "source": "person_promise", "axis": "trust", "label": "이어 갈 수 없는 관계에는 직접 만나 끝을 알린다", "due_week": 88, "miss": "expired", "after": null, "available_values": ["*"]}
+          ],
+          "beats": [
+            {
+              "id": "m22_daeun_fork",
+              "scene_id": "m22_daeun_fork",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_daeun_03_fork",
+              "rule_status": "needs_rule",
+              "intent": "호감도 임계 대신 함께 살 방향을 실제 대화로 묻는다.",
+              "channel": "in_person",
+              "cast": ["player", "daeun"],
+              "reads": {"memories": ["memory.m09_relationship_reentry", "memory.m15_first_priority"], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "route.m22.relationship_path",
+                "base_values": ["daeun"],
+                "fallbacks": [
+                  {
+                    "values": ["jiyeon"],
+                    "root": "arc_jiyeon_03_offer",
+                    "work": "EXPAND",
+                    "rule_status": "mapped",
+                    "channel": "in_person",
+                    "cast": ["player", "jiyeon"],
+                    "reads": {"memories": ["memory.m15_first_priority"], "decision": null, "carryovers": []},
+                    "forgone": ["다은과 이어진 미래 대화"]
+                  },
+                  {
+                    "values": ["*"],
+                    "root": "arc_y2_relationship_fork_unattached",
+                    "work": "NEW",
+                    "rule_status": "planned",
+                    "channel": "internal",
+                    "cast": ["player"],
+                    "reads": {"memories": ["memory.m15_first_priority"], "decision": null, "carryovers": []},
+                    "forgone": ["두 관계 중 하나를 더 깊게 만드는 기회"]
+                  }
+                ]
+              },
+              "forgone": ["다른 관계의 같은 깊이"]
+            }
+          ]
+        },
+        {
+          "month": 23,
+          "design_label": "병실 문과 식은 커피",
+          "phase": "reversal",
+          "contract": {
+            "pressure": "상철의 거울과 아버지 병실이 같은 주말에 겹친다",
+            "opportunity": "병실 문을 열거나 미루거나 피한다",
+            "person_promise": "문을 열지 못한 선택도 4장의 마지막 연락으로 돌아온다",
+            "deadline": "아버지의 입원 기간 안에만 직접 방문할 수 있다"
+          },
+          "availability": {
+            "axis": "route.m23.partner_presence",
+            "values": ["unattached", "partnered"]
+          },
+          "commitments": [
+            {"id": "m23_keep_income_deadline", "source": "pressure", "axis": "cash", "label": "창원행과 겹친 월말 수입 마감을 예정대로 끝낸다", "due_week": 89, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m23_open_hospital_door", "source": "opportunity", "axis": "health", "label": "입원 기간 안에 창원으로 내려가 아버지 병실 문을 연다", "due_week": 90, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m23_answer_sangchul", "source": "person_promise", "axis": "trust", "label": "상철과 잡힌 주말 약속을 지키거나 취소 이유를 직접 전한다", "due_week": 91, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m23_keep_partner_informed", "source": "person_promise", "axis": "trust", "label": "이어진 연인에게 병실과 일정 충돌을 숨기지 않고 알린다", "due_week": 92, "miss": "deferred", "after": null, "available_values": ["partnered"]}
+          ],
+          "beats": [
+            {
+              "id": "m23_hospital_door",
+              "scene_id": "m23_hospital_door",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_34_parents_visit",
+              "rule_status": "needs_rule",
+              "intent": "호의의 가격과 가족에게 쓸 시간을 한 문턱에 놓는다.",
+              "channel": "in_person",
+              "cast": ["player", "father"],
+              "reads": {"memories": ["memory.m04_cold_coffee", "memory.m15_first_priority"], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m23_hospital_door"], "decision": "story.father_hospital_door", "carryovers": []},
+              "forgone": ["같은 주말의 돈 기회", "되돌아오지 않는 방문 시간"]
+            }
+          ]
+        },
+        {
+          "month": 24,
+          "design_label": "두 번째 해 보스",
+          "phase": "boss",
+          "contract": {
+            "pressure": "병실 문과 사람을 통해 연 기회의 값을 정산한다",
+            "opportunity": "다음 장에서 의심할 사람과 지킬 약속을 확정한다",
+            "person_promise": "병실 방문 여부를 성공 점수로 상쇄하지 않는다",
+            "deadline": "W96 뒤에는 2장 선택을 다시 고를 수 없다"
+          },
+          "commitments": [
+            {"id": "m24_pay_named_due_bill", "source": "pressure", "axis": "cash", "label": "병원 또는 계약에서 실제 도착한 청구 한 건을 납부한다", "due_week": 93, "miss": "deferred", "after": null},
+            {"id": "m24_keep_father_followup", "source": "person_promise", "axis": "health", "label": "퇴원 또는 검사 뒤 아버지와 정한 통화나 방문을 지킨다", "due_week": 94, "miss": "expired", "after": null},
+            {"id": "m24_face_open_door_owner", "source": "opportunity", "axis": "trust", "label": "지난 문을 연 사람을 만나 다음 제안의 출처를 묻는다", "due_week": 95, "miss": "expired", "after": null},
+            {"id": "m24_protect_one_person", "source": "person_promise", "axis": "trust", "label": "다음 장까지 지킬 사람과 정한 연말 약속에 실제 도착한다", "due_week": 96, "miss": "expired", "after": null}
+          ],
+          "beats": [
+            {
+              "id": "m24_year_two_boss",
+              "scene_id": "m24_year_two_boss",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_year2_close",
+              "rule_status": "needs_rule",
+              "intent": "사람을 거쳐 연 문과 병실 문을 3장의 진실 입력으로 잠근다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": ["memory.m20_door_choice", "memory.m23_hospital_door"], "decision": "story.father_hospital_door", "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": ["boss_choice", "protected_commitment", "expired_obligation", "open_debt"]},
+              "forgone": ["확인하지 않은 사람의 진실", "미룬 가족의 시간"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "chapter": 3,
+      "carryover": ["boss_choice", "expired_obligation", "open_debt", "protected_commitment"],
+      "months": [
+        {
+          "month": 25,
+          "design_label": "같은 서류",
+          "phase": "setup",
+          "contract": {
+            "pressure": "아버지 상환서와 현재 투자 계약이 같은 화면에 놓인다",
+            "opportunity": "친구와 멘토의 제안을 의심할 근거를 찾는다",
+            "person_promise": "전 장에서 지킨 사람과 보스 선택을 잊지 않는다",
+            "deadline": "새 계약에 답하기 전에 과거 서류를 읽는다"
+          },
+          "availability": {
+            "axis": "story.father_hospital_door",
+            "values": ["unknown", "visited", "deferred", "avoided"]
+          },
+          "commitments": [
+            {"id": "m25_freeze_new_contract", "source": "pressure", "axis": "cash", "label": "과거 서류를 읽을 때까지 새 송금과 서명 일정을 멈춘다", "due_week": 97, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m25_compare_documents", "source": "opportunity", "axis": "trust", "label": "아버지 상환서와 현재 투자 계약의 이름·주소·보증 조항을 대조한다", "due_week": 99, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m25_ask_father_source", "source": "person_promise", "axis": "trust", "label": "아버지에게 서류의 출처를 묻거나 병실을 미룬 사실부터 인정한다", "due_week": 100, "miss": "deferred", "after": "m25_compare_documents", "available_values": ["visited", "deferred", "avoided"]}
+          ],
+          "beats": [
+            {
+              "id": "m25_after_hospital",
+              "scene_id": "m25_after_hospital",
+              "kind": "bridge",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_father_05_after_visit",
+              "rule_status": "needs_rule",
+              "intent": "2장의 병실 문을 3장의 보증 서류와 연결한다.",
+              "channel": "message",
+              "cast": ["player", "father"],
+              "reads": {"memories": [], "decision": "story.father_hospital_door", "carryovers": ["boss_choice", "protected_commitment"]},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "story.father_hospital_door",
+                "base_values": ["visited"],
+                "fallbacks": [
+                  {
+                    "values": ["deferred"],
+                    "root": "arc_father_quiet_call",
+                    "work": "EXPAND",
+                    "rule_status": "needs_rule",
+                    "channel": "phone",
+                    "cast": ["player", "father"],
+                    "reads": {"memories": [], "decision": "story.father_hospital_door", "carryovers": ["boss_choice", "protected_commitment"]},
+                    "forgone": []
+                  },
+                  {
+                    "values": ["avoided"],
+                    "root": "arc_y3_father_avoidance_document",
+                    "work": "NEW",
+                    "rule_status": "planned",
+                    "channel": "internal",
+                    "cast": ["player"],
+                    "reads": {"memories": [], "decision": "story.father_hospital_door", "carryovers": ["boss_choice", "protected_commitment"]},
+                    "forgone": []
+                  }
+                ]
+              },
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 26,
+          "design_label": "각자 가는 길",
+          "phase": "setup",
+          "contract": {
+            "pressure": "생일·관계·아버지 단서가 서로 다른 방향을 가리킨다",
+            "opportunity": "누구의 말을 먼저 믿을지 정한다",
+            "person_promise": "생일은 만나지 않은 지연을 발명하지 않는다",
+            "deadline": "큰 피치가 오기 전에 한 사람의 말을 들을 수 있다"
+          },
+          "availability": {
+            "axis": "route.m26.relationship_witness",
+            "values": ["absent", "present"]
+          },
+          "commitments": [
+            {"id": "m26_work_birthday_shift", "source": "pressure", "axis": "cash", "label": "생일과 겹친 유급 근무에 출근한다", "due_week": 101, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m26_call_father_birthday", "source": "person_promise", "axis": "health", "label": "생일 문자를 받은 그날 아버지에게 먼저 전화한다", "due_week": 101, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m26_visit_court_archive", "source": "opportunity", "axis": "trust", "label": "상환확인서 사건번호로 법원 기록 사본을 떼러 간다", "due_week": 103, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m26_hear_one_person", "source": "person_promise", "axis": "trust", "label": "큰 피치 전에 살아 있는 관계 한 사람을 만나 그가 본 위험을 듣는다", "due_week": 104, "miss": "expired", "after": null, "available_values": ["present"]}
+          ],
+          "beats": [
+            {
+              "id": "m26_birthday_handoff",
+              "scene_id": "m26_birthday_handoff",
+              "kind": "bridge",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_35_birthday",
+              "rule_status": "needs_rule",
+              "intent": "2장의 미해결 의무와 열린 빚을 3장의 참가자 조건으로 바꾼다.",
+              "channel": "mixed",
+              "cast": ["player", "father"],
+              "reads": {"memories": [], "decision": null, "carryovers": ["expired_obligation", "open_debt"]},
+              "writes": {"memories": ["memory.m26_birthday_direction"], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 27,
+          "design_label": "친구의 큰 제안",
+          "phase": "setup",
+          "contract": {
+            "pressure": "재혁의 제안이 우정과 투자 판단을 섞는다",
+            "opportunity": "믿거나 조사하거나 거절한다",
+            "person_promise": "재혁은 괴물이 아니라 피해자였던 시간을 가진다",
+            "deadline": "피치 뒤 송금·조사 창은 길게 열리지 않는다"
+          },
+          "commitments": [
+            {"id": "m27_work_instead_of_pitch", "source": "pressure", "axis": "cash", "label": "호텔 약속과 겹친 생계 또는 계약 근무를 지킨다", "due_week": 105, "miss": "expired", "after": null},
+            {"id": "m27_meet_jaehyuk_pitch", "source": "person_promise", "axis": "trust", "label": "호텔에서 재혁의 제안을 끝까지 듣는다", "due_week": 105, "miss": "expired", "after": null},
+            {"id": "m27_send_limited_transfer", "source": "opportunity", "axis": "cash", "label": "피치 뒤 감당할 몫만 실제 송금한다", "due_week": 107, "miss": "expired", "after": "m27_meet_jaehyuk_pitch"},
+            {"id": "m27_take_terms_to_witness", "source": "person_promise", "axis": "trust", "label": "피치 원문을 제삼자 한 명에게 그대로 보여 준다", "due_week": 108, "miss": "expired", "after": "m27_meet_jaehyuk_pitch"}
+          ],
+          "beats": [
+            {
+              "id": "m27_jaehyuk_pitch",
+              "scene_id": "m27_jaehyuk_pitch",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_jaehyuk_03_pitch",
+              "rule_status": "needs_rule",
+              "intent": "우정의 기억과 타인 자본의 유혹을 한 선택에 둔다.",
+              "channel": "in_person",
+              "cast": ["player", "jaehyuk"],
+              "reads": {"memories": ["memory.m11_first_open_door", "memory.m26_birthday_direction"], "decision": "story.first_illegal_offer", "carryovers": []},
+              "writes": {"memories": ["memory.m27_jaehyuk_pitch"], "decision": null, "carryovers": []},
+              "forgone": ["우정을 의심하지 않는 관계", "조사에 쓰지 않은 시간"]
+            }
+          ]
+        },
+        {
+          "month": 28,
+          "design_label": "늦게 도착한 말",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "지연의 편도표와 아버지의 고백이 동시에 멀어진다",
+            "opportunity": "떠나는 사람에게 먼저 말한다",
+            "person_promise": "관계가 성립하지 않은 경로에는 다른 가족 장면을 쓴다",
+            "deadline": "편도표와 고백은 기다려 주지 않는다"
+          },
+          "availability": {
+            "axis": "route.m28.relationship_path",
+            "values": ["jiyeon_departure", "daeun_continues", "unattached"]
+          },
+          "commitments": [
+            {"id": "m28_keep_nonrefundable_shift", "source": "pressure", "axis": "cash", "label": "떠나는 사람과 겹친 취소 불가 근무에 출근한다", "due_week": 111, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m28_reach_jiyeon", "source": "opportunity", "axis": "trust", "label": "이어진 지연의 출발 전 플랫폼에 도착한다", "due_week": 111, "miss": "expired", "after": null, "available_values": ["jiyeon_departure"]},
+            {"id": "m28_keep_daeun_family_departure", "source": "opportunity", "axis": "trust", "label": "다은 경로에서는 고향행 버스 앞 약속에 도착한다", "due_week": 111, "miss": "expired", "after": null, "available_values": ["daeun_continues"]},
+            {"id": "m28_answer_father_confession", "source": "person_promise", "axis": "health", "label": "아버지의 고백 전화를 끊지 않고 그날 끝까지 듣는다", "due_week": 112, "miss": "expired", "after": null, "available_values": ["*"]}
+          ],
+          "beats": [
+            {
+              "id": "m28_jiyeon_departure",
+              "scene_id": "m28_jiyeon_departure",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y3_jiyeon_departure",
+              "rule_status": "mapped",
+              "intent": "나이를 먹는 것과 자기 방향을 고르는 것이 다름을 보여 준다.",
+              "channel": "in_person",
+              "cast": ["player", "jiyeon"],
+              "reads": {"memories": ["memory.m09_relationship_reentry"], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m28_late_words"], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "route.m28.relationship_path",
+                "base_values": ["jiyeon_departure"],
+                "fallbacks": [
+                  {"values": ["daeun_continues"], "root": "arc_daeun_year3_together", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "daeun"], "reads": {"memories": ["memory.m09_relationship_reentry"], "decision": null, "carryovers": []}, "forgone": ["지연과 나누지 못한 늦은 말"]},
+                  {"values": ["*"], "root": "arc_y3_relationship_departure_unattached", "work": "NEW", "rule_status": "planned", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m09_relationship_reentry"], "decision": null, "carryovers": []}, "forgone": ["이어진 관계의 작별 장면"]}
+                ]
+              },
+              "forgone": ["떠나기 전 마지막 대화"]
+            }
+          ]
+        },
+        {
+          "month": 29,
+          "design_label": "대답 없는 화면",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "재혁의 침묵과 관계의 빈자리가 불안을 키운다",
+            "opportunity": "기다리거나 피해자 흔적을 찾는다",
+            "person_promise": "연락두절을 곧바로 최종 사기로 확정하지 않는다",
+            "deadline": "돈이 이동하기 전에 확인할 마지막 창이 있다"
+          },
+          "commitments": [
+            {"id": "m29_freeze_transfers", "source": "pressure", "axis": "cash", "label": "재혁이 답할 때까지 추가 송금과 자동이체를 잠근다", "due_week": 113, "miss": "expired", "after": null},
+            {"id": "m29_trace_victims", "source": "opportunity", "axis": "trust", "label": "계약명과 계좌를 따라 실제 피해자 글과 거래 흔적을 찾는다", "due_week": 115, "miss": "expired", "after": null},
+            {"id": "m29_send_last_question", "source": "person_promise", "axis": "trust", "label": "재혁에게 확인할 마지막 질문과 답변 기한을 한 번만 보낸다", "due_week": 116, "miss": "expired", "after": "m29_trace_victims"}
+          ],
+          "beats": [
+            {
+              "id": "m29_jaehyuk_wait",
+              "scene_id": "m29_jaehyuk_wait",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_jaehyuk_wait",
+              "rule_status": "needs_rule",
+              "intent": "제안 뒤 기다림이 믿음과 의심을 실제 시간으로 만든다.",
+              "channel": "message",
+              "cast": ["player", "jaehyuk"],
+              "reads": {"memories": ["memory.m27_jaehyuk_pitch"], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 30,
+          "design_label": "같은 서명",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "사기 발각과 아버지 보증 기억이 겹친다",
+            "opportunity": "피해자와 연대하거나 재혁을 역이용한다",
+            "person_promise": "재혁이 없는 방에 그의 몸을 발명하지 않는다",
+            "deadline": "마지막 음성메시지 뒤에는 관계가 이전으로 돌아가지 않는다"
+          },
+          "availability": {
+            "axis": "route.m30.jaehyuk_response",
+            "values": ["ghosted", "countered", "no_contact"]
+          },
+          "commitments": [
+            {"id": "m30_preserve_evidence", "source": "pressure", "axis": "cash", "label": "계좌·대화·계약 원본을 지우지 않고 신고 가능한 묶음으로 보존한다", "due_week": 117, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m30_join_victims", "source": "opportunity", "axis": "trust", "label": "찾아낸 피해자에게 원본을 공개하고 공동 대응 일정을 잡는다", "due_week": 118, "miss": "expired", "after": "m30_preserve_evidence", "available_values": ["*"]},
+            {"id": "m30_negotiate_recovery", "source": "opportunity", "axis": "cash", "label": "같은 증거로 손실 회수 조건을 제시하되 피해자 몫을 숨기지 않는다", "due_week": 119, "miss": "expired", "after": "m30_preserve_evidence", "available_values": ["countered"]},
+            {"id": "m30_leave_final_voice", "source": "person_promise", "axis": "trust", "label": "재혁에게 마지막 답을 남기고 이전 우정의 문을 닫는다", "due_week": 120, "miss": "expired", "after": null, "available_values": ["*"]}
+          ],
+          "beats": [
+            {
+              "id": "m30_jaehyuk_ghost",
+              "scene_id": "m30_jaehyuk_ghost",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_jaehyuk_04a_ghost",
+              "rule_status": "needs_rule",
+              "intent": "친구의 서명과 아버지의 보증을 같은 질문으로 만든다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": ["memory.m27_jaehyuk_pitch"], "decision": "story.first_illegal_offer", "carryovers": []},
+              "writes": {"memories": ["memory.m30_same_signature"], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "route.m30.jaehyuk_response",
+                "base_values": ["ghosted"],
+                "fallbacks": [
+                  {"values": ["countered"], "root": "arc_jaehyuk_04b_counter", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "jaehyuk"], "reads": {"memories": ["memory.m27_jaehyuk_pitch"], "decision": "story.first_illegal_offer", "carryovers": []}, "forgone": ["재혁을 놓친 채 서류만 추적하는 길"]},
+                  {"values": ["*"], "root": "arc_y3_jaehyuk_no_contact", "work": "NEW", "rule_status": "planned", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m27_jaehyuk_pitch"], "decision": "story.first_illegal_offer", "carryovers": []}, "forgone": ["재혁의 직접 반응을 확인할 기회"]}
+                ]
+              },
+              "forgone": ["친구로 돌아갈 가능성", "피해자의 신뢰"]
+            }
+          ]
+        },
+        {
+          "month": 31,
+          "design_label": "반환점",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "30억과 남은 시간이 처음 같은 계산기에 놓인다",
+            "opportunity": "목표의 이유를 다시 쓴다",
+            "person_promise": "계산기 독백을 여러 카드로 반복하지 않는다",
+            "deadline": "후반부에 들어가기 전에 목표를 계속할지 인정한다"
+          },
+          "commitments": [
+            {"id": "m31_pay_post_fraud_rent", "source": "pressure", "axis": "cash", "label": "사기 뒤 남은 돈으로 이번 달 주거비를 실제 납부한다", "due_week": 121, "miss": "expired", "after": null},
+            {"id": "m31_close_unverified_position", "source": "opportunity", "axis": "cash", "label": "출처를 확인하지 못한 포지션 하나를 시장 마감 전에 닫는다", "due_week": 123, "miss": "deferred", "after": null},
+            {"id": "m31_say_goal_aloud", "source": "person_promise", "axis": "trust", "label": "가까운 사람을 만나 남은 120주에도 계속 가는 이유를 말한다", "due_week": 124, "miss": "expired", "after": null}
+          ],
+          "beats": [
+            {
+              "id": "m31_midpoint",
+              "scene_id": "m31_midpoint",
+              "kind": "bridge",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_midpoint_reckoning",
+              "rule_status": "needs_rule",
+              "intent": "숫자를 목표가 아니라 인격의 증거로 다시 묻는다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": ["memory.m30_same_signature"], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 32,
+          "design_label": "이름이 연결되는 밤",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "상환확인서·마포 주소·한PD건설이 연결된다",
+            "opportunity": "상철을 단정하거나 유보할 근거를 모은다",
+            "person_promise": "기사 하나만으로 상철을 범인으로 확정하지 않는다",
+            "deadline": "대면 전에 기록의 연도·법원·주소를 맞춰야 한다"
+          },
+          "availability": {
+            "axis": "route.m32.truth_source",
+            "values": ["records_match", "father_confession", "unproven"]
+          },
+          "commitments": [
+            {"id": "m32_collect_bank_transfer_record", "source": "pressure", "axis": "cash", "label": "은행 창구에서 아버지 빚의 이체 증명서를 직접 발급받는다", "due_week": 125, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m32_match_records", "source": "opportunity", "axis": "trust", "label": "법원 사본의 연도와 사건번호와 마포 주소를 현장에서 맞춘다", "due_week": 126, "miss": "expired", "after": null, "available_values": ["records_match"]},
+            {"id": "m32_meet_father_for_missing_name", "source": "opportunity", "axis": "trust", "label": "기록이 모자란 경로에서는 아버지를 만나 빠진 소개인 이름을 듣는다", "due_week": 126, "miss": "expired", "after": null, "available_values": ["father_confession"]},
+            {"id": "m32_notify_sangchul", "source": "person_promise", "axis": "trust", "label": "확보한 사실 또는 남은 빈칸과 대면 날짜를 상철에게 통보한다", "due_week": 128, "miss": "expired", "after": null, "available_values": ["*"]}
+          ],
+          "beats": [
+            {
+              "id": "m32_sangchul_deduction",
+              "scene_id": "m32_sangchul_deduction",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "KEEP",
+              "root": "arc_sangchul_deduction",
+              "rule_status": "mapped",
+              "intent": "추론을 우연한 폭로가 아니라 실제 증거 결합으로 만든다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": ["memory.m04_cold_coffee", "memory.m30_same_signature"], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m32_records_match"], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "route.m32.truth_source",
+                "base_values": ["records_match"],
+                "fallbacks": [
+                  {"values": ["father_confession"], "root": "arc_father_06_confession", "work": "EXPAND", "rule_status": "mapped", "channel": "in_person", "cast": ["player", "father"], "reads": {"memories": ["memory.m04_cold_coffee", "memory.m30_same_signature"], "decision": null, "carryovers": []}, "forgone": []},
+                  {"values": ["*"], "root": "arc_y3_truth_unproven", "work": "NEW", "rule_status": "planned", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m04_cold_coffee", "memory.m30_same_signature"], "decision": null, "carryovers": []}, "forgone": []}
+                ]
+              },
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 33,
+          "design_label": "모르는 채로 남을 권리",
+          "phase": "reversal",
+          "contract": {
+            "pressure": "상철에게 진실을 묻는 순간 호의와 과거가 충돌한다",
+            "opportunity": "알기를 거부하거나 대면하거나 이용하거나 떠난다",
+            "person_promise": "증거 부족 경로도 능동적 선택을 갖는다",
+            "deadline": "대면을 떠난 뒤에는 같은 관계로 돌아갈 수 없다"
+          },
+          "commitments": [
+            {"id": "m33_keep_independent_income", "source": "pressure", "axis": "cash", "label": "상철과 결별해도 버틸 수 있게 이번 달 수입선을 따로 지킨다", "due_week": 129, "miss": "expired", "after": null},
+            {"id": "m33_prepare_evidence", "source": "opportunity", "axis": "trust", "label": "대면에서 물을 세 가지 사실과 모르는 한 가지를 따로 적는다", "due_week": 131, "miss": "expired", "after": null},
+            {"id": "m33_face_sangchul", "source": "person_promise", "axis": "trust", "label": "상철과 같은 자리에 앉아 알기·이용·결별 중 자기 답을 전한다", "due_week": 132, "miss": "expired", "after": "m33_prepare_evidence"}
+          ],
+          "beats": [
+            {
+              "id": "m33_sangchul_truth",
+              "scene_id": "m33_sangchul_truth",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_sangchul_confrontation",
+              "rule_status": "needs_rule",
+              "intent": "진실을 본 정도가 아니라 그 진실을 어떻게 소유할지 결정한다.",
+              "channel": "in_person",
+              "cast": ["player", "sangchul"],
+              "reads": {"memories": ["memory.m04_cold_coffee", "memory.m32_records_match"], "decision": "story.father_hospital_door", "carryovers": []},
+              "writes": {"memories": ["memory.m33_truth_resolution"], "decision": "story.sangchul_truth_resolution", "carryovers": []},
+              "forgone": ["상철과의 이전 관계", "끝까지 모르는 편안함"]
+            }
+          ]
+        },
+        {
+          "month": 34,
+          "design_label": "진실 뒤의 첫 거래",
+          "phase": "reversal",
+          "contract": {
+            "pressure": "진실을 안 뒤에도 상철의 인맥을 쓸 수 있다",
+            "opportunity": "인맥을 계속 쓰거나 끊거나 마지막으로 쓴다",
+            "person_promise": "올바른 대답 하나로 과거 비용을 지우지 않는다",
+            "deadline": "이번 거래 뒤 관계의 실용적 형태가 잠긴다"
+          },
+          "availability": {
+            "axis": "story.sangchul_truth_resolution",
+            "values": ["unknown", "refused_to_know", "confronted", "used", "cut_ties"]
+          },
+          "commitments": [
+            {"id": "m34_keep_deal_deadline", "source": "pressure", "axis": "cash", "label": "진실과 별개로 이미 맡은 거래의 법적 마감을 지킨다", "due_week": 133, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m34_find_independent_door", "source": "opportunity", "axis": "cash", "label": "상철의 이름 없이 같은 거래를 검토할 독립 창구를 찾는다", "due_week": 135, "miss": "expired", "after": null, "available_values": ["unknown", "refused_to_know", "confronted", "cut_ties"]},
+            {"id": "m34_set_sangchul_boundary", "source": "person_promise", "axis": "trust", "label": "상철에게 인맥을 계속 쓸지 마지막으로 쓸지 끊을지 직접 알린다", "due_week": 136, "miss": "expired", "after": null, "available_values": ["unknown", "refused_to_know", "confronted", "used", "cut_ties"]}
+          ],
+          "beats": [
+            {
+              "id": "m34_cost_of_knowing",
+              "scene_id": "m34_cost_of_knowing",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "source_month": 35,
+              "root": "arc_y3_cost_of_knowing",
+              "rule_status": "needs_rule",
+              "intent": "진실을 안 뒤의 첫 행동으로 도덕적 태도를 증명한다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": ["memory.m33_truth_resolution"], "decision": "story.sangchul_truth_resolution", "carryovers": []},
+              "writes": {"memories": ["memory.m34_network_after_truth"], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "story.sangchul_truth_resolution",
+                "base_values": ["confronted", "used"],
+                "fallbacks": [
+                  {"values": ["refused_to_know"], "root": "arc_sangchul_buried_silence", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m33_truth_resolution"], "decision": "story.sangchul_truth_resolution", "carryovers": []}, "forgone": ["상철 인맥의 다음 거래"]},
+                  {"values": ["cut_ties"], "root": "arc_sangchul_reckoning", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m33_truth_resolution"], "decision": "story.sangchul_truth_resolution", "carryovers": []}, "forgone": ["관계를 이용해 얻을 마지막 이익"]}
+                ]
+              },
+              "forgone": ["상철 인맥의 다음 기회", "관계를 끊은 안전"]
+            }
+          ]
+        },
+        {
+          "month": 35,
+          "design_label": "선택을 들은 사람",
+          "phase": "reversal",
+          "contract": {
+            "pressure": "민준의 선택을 가까운 사람이 자기 삶의 언어로 되묻는다",
+            "opportunity": "아버지 또는 현수에게 먼저 말한다",
+            "person_promise": "이름 언급이 아니라 실제 통화 상대의 반응을 쓴다",
+            "deadline": "연말 전에 한 사람에게만 먼저 진실을 말할 수 있다"
+          },
+          "availability": {
+            "axis": "route.m35.listener",
+            "values": ["father_available", "hyunsu_only"]
+          },
+          "commitments": [
+            {"id": "m35_finish_year_deal", "source": "pressure", "axis": "cash", "label": "진실을 말할 약속과 겹친 연말 거래 마감에 나간다", "due_week": 139, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m35_file_evidence_copy", "source": "opportunity", "axis": "trust", "label": "법률상담 창구에 상철 기록 사본을 제출하고 접수번호를 받는다", "due_week": 138, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m35_call_father", "source": "person_promise", "axis": "trust", "label": "가능한 경로에서 아버지에게 먼저 전화해 선택을 말한다", "due_week": 139, "miss": "expired", "after": null, "available_values": ["father_available"]},
+            {"id": "m35_meet_hyunsu", "source": "person_promise", "axis": "trust", "label": "현수를 만나 선택을 말하고 그의 첫 반응을 끝까지 듣는다", "due_week": 139, "miss": "expired", "after": null, "available_values": ["*"]}
+          ],
+          "beats": [
+            {
+              "id": "m35_choice_heard",
+              "scene_id": "m35_choice_heard",
+              "kind": "consequence",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "source_month": 33,
+              "root": "arc_minjun_first_call",
+              "rule_status": "needs_rule",
+              "intent": "기존 첫 능동 전화가 직전 진실 선택을 실제 사람에게 들려주는 장면이 된다.",
+              "channel": "phone",
+              "cast": ["player", "@truth_listener"],
+              "role_bindings": {"truth_listener": {"kind": "literal", "actor_id": "father"}},
+              "distinct_roles": ["@truth_listener"],
+              "reads": {"memories": ["memory.m23_hospital_door", "memory.m34_network_after_truth"], "decision": "story.sangchul_truth_resolution", "carryovers": []},
+              "writes": {"memories": ["memory.m35_truth_handling"], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "route.m35.selected_listener",
+                "base_values": ["father"],
+                "fallbacks": [
+                  {"values": ["hyunsu"], "root": "arc_y3_truth_heard_by_hyunsu", "work": "NEW", "rule_status": "planned", "channel": "in_person", "cast": ["player", "@truth_listener"], "role_bindings": {"truth_listener": {"kind": "literal", "actor_id": "hyunsu"}}, "distinct_roles": ["@truth_listener"], "reads": {"memories": ["memory.m23_hospital_door", "memory.m34_network_after_truth"], "decision": "story.sangchul_truth_resolution", "carryovers": []}, "forgone": ["아버지에게 먼저 말할 기회"]},
+                  {"values": ["*"], "root": "arc_y3_truth_heard_by_none", "work": "NEW", "rule_status": "planned", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m23_hospital_door", "memory.m34_network_after_truth"], "decision": "story.sangchul_truth_resolution", "carryovers": []}, "forgone": ["이번 달 진실을 들을 사람"]}
+                ]
+              },
+              "forgone": ["먼저 말하지 않은 사람의 증언"]
+            }
+          ]
+        },
+        {
+          "month": 36,
+          "design_label": "같은 손 보스",
+          "phase": "boss",
+          "contract": {
+            "pressure": "폭로·침묵·이용의 비용을 자기 목소리로 인정한다",
+            "opportunity": "다음 장에 지킬 사람과 남은 빚을 확정한다",
+            "person_promise": "연말은 선택을 들은 사람의 반응을 직접 읽는다",
+            "deadline": "W144 뒤에는 3장의 진실 결정을 다시 고를 수 없다"
+          },
+          "commitments": [
+            {"id": "m36_pay_named_truth_cost", "source": "pressure", "axis": "cash", "label": "폭로 또는 이용 또는 단절로 생긴 실제 손실 한 건을 낸다", "due_week": 141, "miss": "deferred", "after": null},
+            {"id": "m36_answer_listener", "source": "person_promise", "axis": "trust", "label": "선택을 들은 사람을 다시 만나 남긴 질문에 답한다", "due_week": 142, "miss": "expired", "after": null},
+            {"id": "m36_take_year_end_exam", "source": "opportunity", "axis": "health", "label": "다음 장 전에 잡힌 건강검진에 실제 출석한다", "due_week": 143, "miss": "expired", "after": null}
+          ],
+          "beats": [
+            {
+              "id": "m36_year_three_boss",
+              "scene_id": "m36_year_three_boss",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_year3_close",
+              "rule_status": "needs_rule",
+              "intent": "같은 서명과 선택을 들은 사람을 4장의 청구서 입력으로 잠근다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": ["memory.m30_same_signature", "memory.m35_truth_handling"], "decision": "story.sangchul_truth_resolution", "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": ["boss_choice", "protected_commitment", "expired_obligation", "open_debt"]},
+              "forgone": ["진실을 알기 전의 관계", "말하지 않은 비용"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "chapter": 4,
+      "carryover": ["boss_choice", "expired_obligation", "open_debt", "protected_commitment"],
+      "months": [
+        {
+          "month": 37,
+          "design_label": "청구서의 표지",
+          "phase": "setup",
+          "contract": {
+            "pressure": "3년치 영수증이 몸과 관계의 비용으로 돌아온다",
+            "opportunity": "지난 선택에서 지킬 한 축을 정한다",
+            "person_promise": "3장 보스와 지킨 약속을 계산기 독백으로 덮지 않는다",
+            "deadline": "새 갈림길 전에 지난 장의 비용을 읽는다"
+          },
+          "commitments": [
+            {"id": "m37_pay_overdue_cost", "source": "pressure", "axis": "cash", "label": "3년치 중 가장 오래 밀린 실제 청구 한 건을 납부한다", "due_week": 145, "miss": "deferred", "after": null},
+            {"id": "m37_attend_minseo_seminar", "source": "opportunity", "axis": "trust", "label": "먼저 도착한 민서의 투자 세미나에 직접 간다", "due_week": 147, "miss": "expired", "after": null},
+            {"id": "m37_return_to_affected_person", "source": "person_promise", "axis": "trust", "label": "가장 오래 기다린 사람을 만나 미룬 약속의 원문을 돌려준다", "due_week": 148, "miss": "expired", "after": null}
+          ],
+          "beats": [
+            {
+              "id": "m37_path_cost",
+              "scene_id": "m37_path_cost",
+              "kind": "bridge",
+              "delivery": "flow",
+              "work": "KEEP",
+              "root": "arc_35_path_cost",
+              "rule_status": "needs_rule",
+              "intent": "3장 보스와 지킨 약속을 4장 현실에 연결한다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": ["memory.m35_truth_handling"], "decision": null, "carryovers": ["boss_choice"]},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": []
+            },
+            {
+              "id": "m37_minseo_first_question",
+              "scene_id": "m37_minseo_first_question",
+              "kind": "scene",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_minseo_01_meet",
+              "rule_status": "needs_rule",
+              "intent": "민서의 첫 질문을 5장 도착 장면보다 앞선 실제 만남으로 심는다.",
+              "channel": "in_person",
+              "cast": ["player", "minseo"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m37_minseo_question"], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 38,
+          "design_label": "마지막 두 해의 갈림길",
+          "phase": "setup",
+          "contract": {
+            "pressure": "몸과 관계가 더는 무한 자원이 아니다",
+            "opportunity": "남은 방식의 규모를 줄이거나 키운다",
+            "person_promise": "만료된 의무와 열린 빚을 새 선택의 비용으로 쓴다",
+            "deadline": "규모 선택은 4장 초반에 한 번만 연다"
+          },
+          "commitments": [
+            {"id": "m38_keep_recovery_appointment", "source": "pressure", "axis": "health", "label": "과부하로 미뤄 둔 치료 또는 휴식 약속에 출석한다", "due_week": 149, "miss": "expired", "after": null},
+            {"id": "m38_choose_scale", "source": "opportunity", "axis": "cash", "label": "거래 상대 앞에서 남은 2년의 계약 규모와 손실 상한을 확정한다", "due_week": 151, "miss": "expired", "after": null},
+            {"id": "m38_tell_new_pace", "source": "person_promise", "axis": "trust", "label": "영향받는 사람을 만나 새 속도와 포기할 일을 알린다", "due_week": 152, "miss": "expired", "after": "m38_choose_scale"}
+          ],
+          "beats": [
+            {
+              "id": "m38_year_three_crossroads",
+              "scene_id": "m38_year_three_crossroads",
+              "kind": "bridge",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_year_three_crossroads",
+              "rule_status": "needs_rule",
+              "intent": "3장 미해결 의무와 열린 빚을 남은 2년의 판 크기로 바꾼다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": [], "decision": null, "carryovers": ["expired_obligation", "open_debt"]},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 39,
+          "design_label": "세 개의 약속",
+          "phase": "setup",
+          "contract": {
+            "pressure": "투자·가족·연인의 약속이 같은 주말에 충돌한다",
+            "opportunity": "한 약속을 보호하고 다른 약속의 비용을 인정한다",
+            "person_promise": "세 사람은 이름 언급이 아니라 실제 연락과 동선으로 충돌한다",
+            "deadline": "같은 주말이 지나면 셋을 모두 지킬 수 없다"
+          },
+          "availability": {
+            "axis": "route.m39.relationship_path",
+            "values": ["unattached", "daeun", "jiyeon"]
+          },
+          "commitments": [
+            {"id": "m39_investment_meeting", "source": "opportunity", "axis": "cash", "label": "투자 책임자가 정한 주말 계약 검토 자리에 참석한다", "due_week": 155, "miss": "expired", "after": null, "actor_slots": ["deal_owner"], "available_values": ["*"]},
+            {"id": "m39_father_weekend", "source": "pressure", "axis": "health", "label": "아버지와 잡은 같은 주말 병원 또는 통화 약속을 지킨다", "due_week": 155, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m39_partner_weekend", "source": "person_promise", "axis": "trust", "label": "이어진 연인과 먼저 정한 같은 주말 자리에 나간다", "due_week": 155, "miss": "expired", "after": null, "actor_slots": ["promise_person"], "available_values": ["daeun", "jiyeon"]}
+          ],
+          "beats": [
+            {
+              "id": "m39_three_promises",
+              "scene_id": "m39_three_promises",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "NEW",
+              "root": "arc_y4_three_promises",
+              "rule_status": "planned",
+              "intent": "돈·가족·사랑을 실제 시간 충돌로 처음 한 프레임에 놓는다.",
+              "channel": "mixed",
+              "cast": ["player", "father", "@promise_person", "@deal_owner"],
+              "selector": {"selected_all": ["m39_investment_meeting", "m39_partner_weekend"], "selected_none": ["m39_father_weekend"], "availability_values": ["daeun", "jiyeon"]},
+              "role_bindings": {
+                "promise_person": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m39_partner_weekend", "slot": ["protected", "optional_second"]}, "actor_role": "promise_person"},
+                "deal_owner": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m39_investment_meeting", "slot": ["protected", "optional_second"]}, "actor_role": "deal_owner"}
+              },
+              "distinct_roles": ["@promise_person", "@deal_owner"],
+              "reads": {"memories": ["memory.m35_truth_handling"], "decision": "story.sangchul_truth_resolution", "carryovers": ["protected_commitment"]},
+              "writes": {"memories": ["memory.m39_three_promises"], "decision": null, "carryovers": []},
+              "actor_outputs": {
+                "memory.m39_three_promises": {
+                  "roles": {
+                    "surviving_witness": {"kind": "scene_role", "role": "deal_owner"},
+                    "nearest_person": {"kind": "scene_role", "role": "promise_person"}
+                  },
+                  "all_distinct": [["surviving_witness", "nearest_person"]]
+                }
+              },
+              "coverage": {
+                "axis": "route.m39.attendees",
+                "base_values": ["romance_and_deal"],
+                "fallbacks": [
+                  {"values": ["father_and_deal"], "root": "arc_y4_three_promises_father_and_deal", "work": "NEW", "rule_status": "planned", "channel": "mixed", "cast": ["player", "father", "@deal_owner"], "selector": {"selected_all": ["m39_father_weekend", "m39_investment_meeting"], "selected_none": ["m39_partner_weekend"], "availability_values": ["*"]}, "role_bindings": {"deal_owner": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m39_investment_meeting", "slot": ["protected", "optional_second"]}, "actor_role": "deal_owner"}}, "distinct_roles": ["@deal_owner"], "reads": {"memories": ["memory.m35_truth_handling"], "decision": "story.sangchul_truth_resolution", "carryovers": ["protected_commitment"]}, "actor_outputs": {"memory.m39_three_promises": {"roles": {"surviving_witness": {"kind": "scene_role", "role": "deal_owner"}, "nearest_person": {"kind": "literal", "actor_id": "father"}}, "all_distinct": [["surviving_witness", "nearest_person"]]}}, "forgone": ["연인과 잡은 같은 주말 약속"]},
+                  {"values": ["father_and_romance"], "root": "arc_y4_three_promises_father_and_romance", "work": "NEW", "rule_status": "planned", "channel": "mixed", "cast": ["player", "father", "@promise_person"], "selector": {"selected_all": ["m39_father_weekend", "m39_partner_weekend"], "selected_none": ["m39_investment_meeting"], "availability_values": ["daeun", "jiyeon"]}, "role_bindings": {"promise_person": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m39_partner_weekend", "slot": ["protected", "optional_second"]}, "actor_role": "promise_person"}}, "distinct_roles": ["@promise_person"], "reads": {"memories": ["memory.m35_truth_handling"], "decision": "story.sangchul_truth_resolution", "carryovers": ["protected_commitment"]}, "actor_outputs": {"memory.m39_three_promises": {"roles": {"surviving_witness": {"kind": "literal", "actor_id": "father"}, "nearest_person": {"kind": "scene_role", "role": "promise_person"}}, "all_distinct": [["surviving_witness", "nearest_person"]]}}, "forgone": ["투자 책임자와 잡은 같은 주말 검토"]},
+                  {"values": ["deal_only"], "root": "arc_y4_three_promises_deal_only", "work": "NEW", "rule_status": "planned", "channel": "mixed", "cast": ["player", "hyunsu", "@deal_owner"], "selector": {"selected_all": ["m39_investment_meeting"], "selected_none": ["m39_father_weekend", "m39_partner_weekend"], "availability_values": ["*"]}, "role_bindings": {"deal_owner": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m39_investment_meeting", "slot": ["protected", "optional_second"]}, "actor_role": "deal_owner"}}, "distinct_roles": ["@deal_owner"], "reads": {"memories": ["memory.m35_truth_handling"], "decision": "story.sangchul_truth_resolution", "carryovers": ["protected_commitment"]}, "actor_outputs": {"memory.m39_three_promises": {"roles": {"surviving_witness": {"kind": "scene_role", "role": "deal_owner"}, "nearest_person": {"kind": "literal", "actor_id": "hyunsu"}}, "all_distinct": [["surviving_witness", "nearest_person"]]}}, "forgone": ["아버지와 연인에게 먼저 잡은 같은 주말"]},
+                  {"values": ["romance_only"], "root": "arc_y4_three_promises_romance_only", "work": "NEW", "rule_status": "planned", "channel": "mixed", "cast": ["player", "hyunsu", "@promise_person"], "selector": {"selected_all": ["m39_partner_weekend"], "selected_none": ["m39_father_weekend", "m39_investment_meeting"], "availability_values": ["daeun", "jiyeon"]}, "role_bindings": {"promise_person": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m39_partner_weekend", "slot": ["protected", "optional_second"]}, "actor_role": "promise_person"}}, "distinct_roles": ["@promise_person"], "reads": {"memories": ["memory.m35_truth_handling"], "decision": "story.sangchul_truth_resolution", "carryovers": ["protected_commitment"]}, "actor_outputs": {"memory.m39_three_promises": {"roles": {"surviving_witness": {"kind": "scene_role", "role": "promise_person"}, "nearest_person": {"kind": "literal", "actor_id": "hyunsu"}}, "all_distinct": [["surviving_witness", "nearest_person"]]}}, "forgone": ["아버지와 투자 책임자에게 먼저 잡은 같은 주말"]},
+                  {"values": ["father_only"], "root": "arc_y4_three_promises_alternate_attendees", "work": "NEW", "rule_status": "planned", "channel": "mixed", "cast": ["player", "father", "hyunsu"], "selector": {"selected_all": ["m39_father_weekend"], "selected_none": ["m39_investment_meeting", "m39_partner_weekend"], "availability_values": ["*"]}, "reads": {"memories": ["memory.m35_truth_handling"], "decision": "story.sangchul_truth_resolution", "carryovers": ["protected_commitment"]}, "actor_outputs": {"memory.m39_three_promises": {"roles": {"surviving_witness": {"kind": "literal", "actor_id": "father"}, "nearest_person": {"kind": "literal", "actor_id": "hyunsu"}}, "all_distinct": [["surviving_witness", "nearest_person"]]}}, "forgone": ["연인과 거래 상대가 모두 참석한 원래 일정"]}
+                ]
+              },
+              "forgone": ["지키지 못한 두 약속의 원래 일정"]
+            }
+          ]
+        },
+        {
+          "month": 40,
+          "design_label": "오지 않은 사람",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "M39에서 고르지 않은 사람이 실제로 반응한다",
+            "opportunity": "관계를 수리하거나 비용을 소유한다",
+            "person_promise": "미선택 인물은 침묵으로 삭제되지 않는다",
+            "deadline": "다음 청구 전에 한 관계만 수리할 수 있다"
+          },
+          "commitments": [
+            {"id": "m40_pay_missed_cost", "source": "pressure", "axis": "cash", "label": "놓친 약속 때문에 생긴 취소비와 교통 손실을 이번 달 장부에서 정산한다", "due_week": 157, "miss": "expired", "after": null},
+            {"id": "m40_offer_one_repair", "source": "opportunity", "axis": "trust", "label": "놓친 사람 한 명에게 변명 대신 가능한 수리 약속 하나를 제안한다", "due_week": 159, "miss": "expired", "after": null},
+            {"id": "m40_show_up_for_repair", "source": "person_promise", "axis": "trust", "label": "상대가 받아들인 수리 약속의 장소와 시간에 실제로 나타난다", "due_week": 160, "miss": "expired", "after": "m40_offer_one_repair"}
+          ],
+          "beats": [
+            {
+              "id": "m40_unexpected_hand",
+              "scene_id": "m40_unexpected_hand",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_36_unexpected_hand",
+              "rule_status": "needs_rule",
+              "intent": "선택하지 않은 사람과 예상 밖에 남은 사람을 실제 반응으로 보여 준다.",
+              "channel": "in_person",
+              "cast": ["player", "@surviving_witness"],
+              "role_bindings": {"surviving_witness": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m39_three_promises", "actor_role": "surviving_witness"}},
+              "distinct_roles": ["@surviving_witness"],
+              "reads": {"memories": ["memory.m28_late_words", "memory.m39_three_promises"], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": []
+            },
+            {
+              "id": "m40_minseo_real_cost",
+              "scene_id": "m40_minseo_real_cost",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_minseo_02_real",
+              "rule_status": "needs_rule",
+              "intent": "민서의 숫자 뒤 생활비를 보여 주어 마지막 해 도착 판정의 기준을 만든다.",
+              "channel": "in_person",
+              "cast": ["player", "minseo"],
+              "reads": {"memories": ["memory.m37_minseo_question"], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m40_minseo_price"], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 41,
+          "design_label": "몸을 발견한 사람",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "몸의 경고가 더는 혼잣말로 끝나지 않는다",
+            "opportunity": "누가 발견했는지 또는 아무도 오지 않았는지를 인정한다",
+            "person_promise": "사람의 돌봄을 체력 보너스로만 환산하지 않는다",
+            "deadline": "경고를 무시하면 다음 달 행동 폭이 실제로 줄어든다"
+          },
+          "commitments": [
+            {"id": "m41_open_door_to_nearest_person", "source": "person_promise", "axis": "trust", "label": "몸의 이상을 본 사람이 찾아온 첫 시각에 문을 열고 위치를 알린다", "due_week": 161, "miss": "expired", "after": null},
+            {"id": "m41_keep_client_deadline", "source": "pressure", "axis": "cash", "label": "진료와 겹친 필수 업무 현장에 나간다", "due_week": 162, "miss": "expired", "after": null},
+            {"id": "m41_take_examination", "source": "opportunity", "axis": "health", "label": "몸의 경고가 가시기 전 잡힌 검사에 실제 출석한다", "due_week": 162, "miss": "expired", "after": null}
+          ],
+          "beats": [
+            {
+              "id": "m41_body_witness",
+              "scene_id": "m41_body_witness",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "NEW",
+              "root": "arc_y4_body_witness",
+              "rule_status": "planned",
+              "intent": "몸의 장부에 실제 목격자 또는 부재를 남긴다.",
+              "channel": "in_person",
+              "cast": ["player", "@nearest_person"],
+              "role_bindings": {"nearest_person": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m39_three_promises", "actor_role": "nearest_person"}},
+              "distinct_roles": ["@nearest_person"],
+              "reads": {"memories": ["memory.m39_three_promises"], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m41_body_witness"], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 42,
+          "design_label": "가족과 연인의 교차",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "가족의 기대와 연인의 미래가 같은 식탁에 앉는다",
+            "opportunity": "다은·지연·혼자 경로의 관계 약속을 확정한다",
+            "person_promise": "다른 사람 이름을 부르는 2인 장면으로 삼자 충돌을 대신하지 않는다",
+            "deadline": "이번 식탁 뒤 파트너 방향은 쉽게 되돌릴 수 없다"
+          },
+          "availability": {
+            "axis": "route.m42.relationship_path",
+            "values": ["unattached", "daeun", "jiyeon"]
+          },
+          "commitments": [
+            {"id": "m42_keep_paid_weekend_assignment", "source": "pressure", "axis": "cash", "label": "가족 식탁과 겹친 유급 주말 업무에 나간다", "due_week": 165, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m42_face_family_member", "source": "opportunity", "axis": "trust", "label": "가족 구성원이 잡은 식탁에 혼자라도 도착한다", "due_week": 165, "miss": "expired", "after": null, "actor_slots": ["family_member"], "available_values": ["*"]},
+            {"id": "m42_bring_partner_to_table", "source": "person_promise", "axis": "trust", "label": "이어진 파트너와 함께 그 식탁 문을 연다", "due_week": 166, "miss": "expired", "after": "m42_face_family_member", "actor_slots": ["partner"], "available_values": ["daeun", "jiyeon"]}
+          ],
+          "beats": [
+            {
+              "id": "m42_family_partner_collision",
+              "scene_id": "m42_family_partner_collision",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "NEW",
+              "root": "arc_y4_family_partner_collision",
+              "rule_status": "planned",
+              "intent": "실제 같은 장소의 세 사람이 서로의 이해관계를 말한다.",
+              "channel": "in_person",
+              "cast": ["player", "@partner", "@family_member"],
+              "selector": {"selected_all": ["m42_face_family_member", "m42_bring_partner_to_table"], "selected_none": [], "availability_values": ["daeun", "jiyeon"]},
+              "role_bindings": {
+                "partner": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m42_bring_partner_to_table", "slot": ["protected", "optional_second"]}, "actor_role": "partner"},
+                "family_member": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m42_face_family_member", "slot": ["protected", "optional_second"]}, "actor_role": "family_member"}
+              },
+              "distinct_roles": ["@partner", "@family_member"],
+              "reads": {"memories": ["memory.m39_three_promises", "memory.m41_body_witness"], "decision": "story.father_hospital_door", "carryovers": []},
+              "writes": {"memories": ["memory.m42_partner_family"], "decision": "story.partner_commitment", "carryovers": []},
+              "coverage": {
+                "axis": "route.m42.family_collision",
+                "base_values": ["partner_and_family"],
+                "fallbacks": [
+                  {"values": ["family_only"], "root": "arc_y4_family_commitment_none", "work": "NEW", "rule_status": "planned", "channel": "in_person", "cast": ["player", "@family_member"], "selector": {"selected_all": ["m42_face_family_member"], "selected_none": ["m42_bring_partner_to_table"], "availability_values": ["*"]}, "role_bindings": {"family_member": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m42_face_family_member", "slot": ["protected", "optional_second"]}, "actor_role": "family_member"}}, "distinct_roles": ["@family_member"], "reads": {"memories": ["memory.m39_three_promises", "memory.m41_body_witness"], "decision": "story.father_hospital_door", "carryovers": []}, "forgone": ["연인과 가족이 같은 자리에 앉는 경로"]},
+                  {"values": ["family_missed"], "root": "arc_y4_family_table_missed", "work": "NEW", "rule_status": "planned", "channel": "internal", "cast": ["player"], "selector": {"selected_all": [], "selected_none": ["m42_face_family_member", "m42_bring_partner_to_table"], "availability_values": ["*"]}, "reads": {"memories": ["memory.m39_three_promises", "memory.m41_body_witness"], "decision": "story.father_hospital_door", "carryovers": []}, "forgone": ["가족 식탁과 장기 관계를 함께 확정할 기회"]}
+                ]
+              },
+              "forgone": ["다른 관계 경로", "가족에게 감춘 미래"]
+            }
+          ]
+        },
+        {
+          "month": 43,
+          "design_label": "약속의 실제 비용",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "M42의 약속이 일정·돈·주거를 요구한다",
+            "opportunity": "약속을 생활에 넣거나 후퇴한다",
+            "person_promise": "약속은 호감도 한 번으로 유지되지 않는다",
+            "deadline": "다음 가족 연락 전 실제 비용을 지불해야 한다"
+          },
+          "commitments": [
+            {"id": "m43_pay_shared_cost", "source": "pressure", "axis": "cash", "label": "M42에서 약속한 주거·교통·생활 비용의 첫 회차를 낸다", "due_week": 169, "miss": "expired", "after": null},
+            {"id": "m43_rebuild_schedule", "source": "opportunity", "axis": "health", "label": "관계 약속을 넣기 위해 과로 일정 하나를 실제 달력에서 뺀다", "due_week": 171, "miss": "expired", "after": null},
+            {"id": "m43_keep_lived_promise", "source": "person_promise", "axis": "trust", "label": "약속한 생활 시간을 한 번 실제로 함께 보내고 후퇴할지 말한다", "due_week": 172, "miss": "expired", "after": "m43_rebuild_schedule"}
+          ],
+          "beats": [
+            {
+              "id": "m43_year_three_half",
+              "scene_id": "m43_year_three_half",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_year_three_half",
+              "rule_status": "needs_rule",
+              "intent": "시간 계산을 약속이 실제로 요구하는 생활 비용으로 바꾼다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": ["memory.m42_partner_family"], "decision": "story.partner_commitment", "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 44,
+          "design_label": "이번에 놓치면 돌아오지 않는 주말",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "아버지의 마지막일 수 있는 연락과 현재 약속이 충돌한다",
+            "opportunity": "통화할지 미룰지 실제 이동 중에 결정한다",
+            "person_promise": "기억 통화를 KTX 안 실제 동석처럼 보이지 않는다",
+            "deadline": "23초의 통화 창은 다시 오지 않는다"
+          },
+          "availability": {
+            "axis": "story.father_hospital_door",
+            "values": ["unknown", "visited", "deferred", "avoided"]
+          },
+          "commitments": [
+            {"id": "m44_close_work_before_train", "source": "pressure", "axis": "cash", "label": "기차에 오르기 전 되돌릴 수 없는 업무 마감을 끝낸다", "due_week": 173, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m44_board_ktx", "source": "opportunity", "axis": "health", "label": "아버지에게 갈 수 있는 마지막 KTX 시간에 승차한다", "due_week": 174, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m44_take_father_call", "source": "person_promise", "axis": "trust", "label": "열차 안에서 열린 23초의 아버지 통화에 답한다", "due_week": 175, "miss": "expired", "after": "m44_board_ktx", "available_values": ["visited", "deferred", "avoided"]},
+            {"id": "m44_keep_current_promise", "source": "person_promise", "axis": "trust", "label": "같은 주말에 먼저 잡힌 현재 사람의 약속을 지킨다", "due_week": 176, "miss": "expired", "after": null, "available_values": ["*"]}
+          ],
+          "beats": [
+            {
+              "id": "m44_father_ktx_call",
+              "scene_id": "m44_father_ktx_call",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "KEEP",
+              "root": "arc_father_call_on_ktx",
+              "rule_status": "needs_rule",
+              "intent": "1장의 짧은 통화를 4장의 되돌릴 수 없는 시간으로 회수한다.",
+              "channel": "phone",
+              "cast": ["player", "father"],
+              "reads": {"memories": ["memory.m23_hospital_door"], "decision": "story.father_hospital_door", "carryovers": []},
+              "writes": {"memories": ["memory.m44_last_call_window"], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "story.father_hospital_door",
+                "base_values": ["visited"],
+                "fallbacks": [
+                  {"values": ["deferred"], "root": "arc_father_call_on_ktx_number", "work": "EXPAND", "rule_status": "needs_rule", "channel": "phone", "cast": ["player", "father"], "reads": {"memories": ["memory.m23_hospital_door"], "decision": "story.father_hospital_door", "carryovers": []}, "forgone": []},
+                  {"values": ["avoided"], "root": "arc_father_call_on_ktx_memory", "work": "EXPAND", "rule_status": "needs_rule", "channel": "memory", "cast": ["player", "father"], "reads": {"memories": ["memory.m23_hospital_door"], "decision": "story.father_hospital_door", "carryovers": []}, "forgone": []}
+                ]
+              },
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 45,
+          "design_label": "빌릴 이름",
+          "phase": "reversal",
+          "contract": {
+            "pressure": "규모를 키우려면 민준 아닌 누군가의 이름이 필요하다",
+            "opportunity": "요청을 거절하거나 조건을 묻거나 숨긴다",
+            "person_promise": "연인을 서류 보너스로 쓰지 않는다",
+            "deadline": "이번 계약 창이 지나면 같은 조건으로는 다시 오지 않는다"
+          },
+          "availability": {
+            "axis": "story.partner_commitment",
+            "values": ["none", "daeun", "jiyeon"]
+          },
+          "commitments": [
+            {"id": "m45_measure_financing_gap", "source": "pressure", "axis": "cash", "label": "거래 책임자를 만나 부족액과 왜 타인 명의가 필요한지 처음 듣는다", "due_week": 177, "miss": "expired", "after": null, "actor_slots": ["deal_owner"], "available_values": ["*"]},
+            {"id": "m45_prepare_own_name", "source": "opportunity", "axis": "cash", "label": "은행 또는 감정 창구에서 독립적으로 규모를 줄인 자기 명의 견적을 받는다", "due_week": 179, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m45_ask_partner_consent", "source": "person_promise", "axis": "trust", "label": "파트너에게 원문을 공개하고 검토를 계속할 의향만 묻는다", "due_week": 179, "miss": "expired", "after": "m45_measure_financing_gap", "actor_slots": ["partner"], "available_values": ["daeun", "jiyeon"]},
+            {"id": "m45_state_no_partner", "source": "person_promise", "axis": "trust", "label": "혼자 경로에서는 빌릴 이름이 없다고 거래 책임자에게 독립적으로 알린다", "due_week": 179, "miss": "expired", "after": null, "available_values": ["none"]}
+          ],
+          "beats": [
+            {
+              "id": "m45_borrowed_name",
+              "scene_id": "m45_borrowed_name",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "NEW",
+              "root": "arc_y4_borrowed_name",
+              "rule_status": "planned",
+              "intent": "사람을 담보로 쓰는 선택을 실제 문서와 동의 문제로 만든다.",
+              "channel": "in_person",
+              "cast": ["player", "@partner", "@deal_owner"],
+              "selector": {"selected_all": ["m45_measure_financing_gap", "m45_ask_partner_consent"], "selected_none": [], "availability_values": ["daeun", "jiyeon"]},
+              "role_bindings": {
+                "partner": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m45_ask_partner_consent", "slot": ["protected", "optional_second"]}, "actor_role": "partner"},
+                "deal_owner": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m45_measure_financing_gap", "slot": ["protected", "optional_second"]}, "actor_role": "deal_owner"}
+              },
+              "distinct_roles": ["@partner", "@deal_owner"],
+              "reads": {"memories": ["memory.m42_partner_family"], "decision": "story.partner_commitment", "carryovers": []},
+              "writes": {"memories": ["memory.m45_name_handling"], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "route.m45.name_request_delivery",
+                "base_values": ["partner_live"],
+                "fallbacks": [
+                  {"values": ["deal_owner_live"], "root": "arc_y4_borrowed_name_self", "work": "NEW", "rule_status": "planned", "channel": "in_person", "cast": ["player", "@deal_owner"], "selector": {"selected_all": ["m45_measure_financing_gap"], "selected_none": ["m45_ask_partner_consent"], "availability_values": ["*"]}, "role_bindings": {"deal_owner": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m45_measure_financing_gap", "slot": ["protected", "optional_second"]}, "actor_role": "deal_owner"}}, "distinct_roles": ["@deal_owner"], "reads": {"memories": ["memory.m42_partner_family"], "decision": "story.partner_commitment", "carryovers": []}, "forgone": ["연인의 원문 동의가 있는 공동 검토"]},
+                  {"values": ["document_only"], "root": "arc_y4_borrowed_name_document_gap", "work": "NEW", "rule_status": "planned", "channel": "internal", "cast": ["player"], "selector": {"selected_all": [], "selected_none": ["m45_measure_financing_gap", "m45_ask_partner_consent"], "availability_values": ["*"]}, "reads": {"memories": ["memory.m42_partner_family"], "decision": "story.partner_commitment", "carryovers": []}, "forgone": ["거래 책임자에게 직접 부족액과 이름 문제를 확인할 자리"]}
+                ]
+              },
+              "forgone": ["빠른 규모 확대", "파트너의 온전한 신뢰"]
+            }
+          ]
+        },
+        {
+          "month": 46,
+          "design_label": "청구서가 온 밤",
+          "phase": "reversal",
+          "contract": {
+            "pressure": "몸·관계·아버지 연락이 한 밤에 도착한다",
+            "opportunity": "먼저 책임질 청구서를 고른다",
+            "person_promise": "다은 경로만 깊고 다른 경로는 비는 구조를 허용하지 않는다",
+            "deadline": "오늘 밤 미룬 청구서는 M47에 형태를 바꿔 돌아온다"
+          },
+          "availability": {
+            "axis": "story.partner_commitment",
+            "values": ["none", "daeun", "jiyeon"]
+          },
+          "commitments": [
+            {"id": "m46_pay_urgent_bill", "source": "pressure", "axis": "cash", "label": "오늘 자정 전에 끊기는 계약 또는 생활 청구서를 낸다", "due_week": 181, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m46_seek_body_help", "source": "opportunity", "axis": "health", "label": "악화된 몸의 신호를 넘기지 않고 야간 진료나 휴식을 택한다", "due_week": 182, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m46_answer_father", "source": "person_promise", "axis": "trust", "label": "아버지에게 온 연락을 오늘 밤 안에 받거나 다시 건다", "due_week": 183, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m46_face_partner", "source": "person_promise", "axis": "trust", "label": "이어진 파트너와 같은 밤에 만나 미룬 약속의 실제 비용을 말한다", "due_week": 184, "miss": "expired", "after": null, "available_values": ["daeun", "jiyeon"]}
+          ],
+          "beats": [
+            {
+              "id": "m46_bill_night",
+              "scene_id": "m46_bill_night",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "NEW",
+              "root": "arc_y4_bill_night",
+              "rule_status": "planned",
+              "intent": "세 청구서의 우선순위를 선택이 아니라 실제 부재와 도착으로 보여 준다.",
+              "channel": "mixed",
+              "cast": ["player", "@partner", "father"],
+              "role_bindings": {"partner": {"kind": "fact_actor", "fact_id": "story.partner_commitment", "value_to_actor": {"daeun": "daeun", "jiyeon": "jiyeon"}}},
+              "distinct_roles": ["@partner"],
+              "reads": {"memories": ["memory.m41_body_witness", "memory.m45_name_handling"], "decision": "story.partner_commitment", "carryovers": []},
+              "writes": {"memories": ["memory.m46_bill_night"], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "story.partner_commitment",
+                "base_values": ["daeun", "jiyeon"],
+                "fallbacks": [
+                  {"values": ["none"], "root": "arc_y4_network_bill", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "father"], "reads": {"memories": ["memory.m41_body_witness", "memory.m45_name_handling"], "decision": "story.partner_commitment", "carryovers": []}, "forgone": []}
+                ]
+              },
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 47,
+          "design_label": "마지막 연락과 빈 의자",
+          "phase": "reversal",
+          "contract": {
+            "pressure": "아버지의 생존·별세와 마지막 연락이 불가역으로 갈린다",
+            "opportunity": "있거나 전화하거나 놓친 사실을 소유한다",
+            "person_promise": "선택한 방문이 별세를 막는 보상이 되지 않는다",
+            "deadline": "마지막 연락 뒤에는 같은 말을 다시 할 수 없다"
+          },
+          "availability": {
+            "axis": "father.life",
+            "values": ["alive", "concern", "hospitalized", "passed"]
+          },
+          "commitments": [
+            {"id": "m47_clear_departure_cost", "source": "pressure", "axis": "cash", "label": "창원으로 움직일 교통비와 비울 업무의 손실을 감당한다", "due_week": 185, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m47_go_to_father", "source": "opportunity", "axis": "health", "label": "아버지가 살아 있는 마지막 창에 직접 곁으로 간다", "due_week": 187, "miss": "expired", "after": "m47_clear_departure_cost", "available_values": ["alive", "concern", "hospitalized"]},
+            {"id": "m47_make_final_contact", "source": "person_promise", "axis": "trust", "label": "갈 수 없다면 마지막 통화 창에 전화하고 놓쳤다면 그 사실을 기록한다", "due_week": 188, "miss": "expired", "after": null, "available_values": ["alive", "concern", "hospitalized", "passed"]}
+          ],
+          "beats": [
+            {
+              "id": "m47_father_passing",
+              "scene_id": "m47_father_passing",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "source_month": 44,
+              "root": "arc_father_passing",
+              "rule_status": "needs_rule",
+              "intent": "방문·미방문·통화의 결과를 경로별 실제 장면으로 청구한다.",
+              "channel": "mixed",
+              "cast": ["player", "father"],
+              "reads": {"memories": ["memory.m44_last_call_window", "memory.m46_bill_night"], "decision": "story.father_hospital_door", "carryovers": []},
+              "writes": {"memories": ["memory.m47_final_contact"], "decision": "story.father_final_contact", "carryovers": []},
+              "coverage": {
+                "axis": "story.father_hospital_door",
+                "base_values": ["deferred", "avoided"],
+                "fallbacks": [
+                  {"values": ["visited"], "root": "arc_father_passing_hospital_room", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "father"], "reads": {"memories": ["memory.m44_last_call_window", "memory.m46_bill_night"], "decision": "story.father_hospital_door", "carryovers": []}, "forgone": ["병실 밖에서 마지막 연락을 받는 경로"]}
+                ]
+              },
+              "forgone": ["하지 못한 마지막 말", "같은 밤의 계약"]
+            }
+          ]
+        },
+        {
+          "month": 48,
+          "design_label": "청구서 보스",
+          "phase": "boss",
+          "contract": {
+            "pressure": "남은 몸·사람·이름으로 마지막 해에 들어갈지 결정한다",
+            "opportunity": "마지막 해에 보호할 약속을 확정한다",
+            "person_promise": "아버지의 생사와 관계를 숫자 결산으로 덮지 않는다",
+            "deadline": "W192 뒤에는 4장의 마지막 연락을 다시 고를 수 없다"
+          },
+          "availability": {
+            "axis": "story.father_final_contact",
+            "values": ["unknown", "present", "called", "missed"]
+          },
+          "commitments": [
+            {"id": "m48_pay_named_family_invoice", "source": "pressure", "axis": "cash", "label": "교통 또는 병원 또는 장례에서 실제 도착한 청구 한 건을 납부한다", "due_week": 189, "miss": "deferred", "after": null, "available_values": ["*"]},
+            {"id": "m48_keep_body_followup", "source": "opportunity", "axis": "health", "label": "몸의 경고 뒤 잡힌 재검 또는 치료 약속에 출석한다", "due_week": 190, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m48_tell_surviving_person", "source": "person_promise", "axis": "trust", "label": "남아 있는 사람을 만나 마지막 연락과 마지막 해 약속을 말한다", "due_week": 191, "miss": "expired", "after": null, "available_values": ["present", "called", "missed"]}
+          ],
+          "beats": [
+            {
+              "id": "m48_year_four_boss",
+              "scene_id": "m48_year_four_boss",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_year4_close",
+              "rule_status": "needs_rule",
+              "intent": "몸의 목격자와 마지막 연락을 최종해의 네 요약으로 잠근다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": ["memory.m41_body_witness", "memory.m47_final_contact"], "decision": "story.father_final_contact", "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": ["boss_choice", "protected_commitment", "expired_obligation", "open_debt"]},
+              "forgone": ["마지막 해에 가져갈 수 없는 약속", "이미 지나간 연락"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "chapter": 5,
+      "carryover": null,
+      "months": [
+        {
+          "month": 49,
+          "design_label": "마지막 계약의 표지",
+          "phase": "setup",
+          "contract": {
+            "pressure": "현재 경제 경로의 마지막 계약이 모습을 드러낸다",
+            "opportunity": "직업·창업·투자 경로에 맞는 서류를 연다",
+            "person_promise": "모든 경로를 같은 부동산 딜로 뭉개지 않는다",
+            "deadline": "마지막 해 첫 달에 계약의 물성을 확정한다"
+          },
+          "availability": {
+            "axis": "route.m49.economic_path",
+            "values": ["career", "startup", "investment"]
+          },
+          "commitments": [
+            {"id": "m49_clear_old_obligations", "source": "pressure", "axis": "cash", "label": "마지막 계약 전에 기존 빚과 만기 의무를 한 번 더 정리한다", "due_week": 193, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m49_open_path_contract", "source": "opportunity", "axis": "cash", "label": "실제로 쌓은 직업·창업·투자 경로에 맞는 최종 서류를 연다", "due_week": 195, "miss": "expired", "after": null, "available_values": ["career", "startup", "investment"]},
+            {"id": "m49_choose_reviewer", "source": "person_promise", "axis": "trust", "label": "계약을 함께 읽을 한 사람을 정해 원문 전체를 보낸다", "due_week": 196, "miss": "deferred", "after": "m49_open_path_contract", "actor_slots": ["reviewer"], "available_values": ["*"]}
+          ],
+          "beats": [
+            {
+              "id": "m49_final_contract_cover",
+              "scene_id": "m49_final_contract_cover",
+              "kind": "bridge",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_37_reckoning",
+              "rule_status": "needs_rule",
+              "intent": "4장 보스와 보호한 약속을 마지막 계약의 형태로 바꾼다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": [], "decision": null, "carryovers": ["boss_choice", "protected_commitment"]},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 50,
+          "design_label": "담보로 쓰지 않을 것",
+          "phase": "setup",
+          "contract": {
+            "pressure": "마지막 질주 전에 지킬 사람과 약속을 정해야 한다",
+            "opportunity": "절대 담보로 쓰지 않을 한 이름을 고른다",
+            "person_promise": "보호할 사람은 엔딩 보너스가 아니라 열린 선택을 제한한다",
+            "deadline": "최종 제안이 오기 전에 보호선을 정한다"
+          },
+          "commitments": [
+            {"id": "m50_answer_final_push_deadline", "source": "pressure", "axis": "cash", "label": "마지막 질주를 여는 유급 계약 또는 거래 마감에 답한다", "due_week": 197, "miss": "expired", "after": null},
+            {"id": "m50_draw_name_boundary", "source": "opportunity", "axis": "trust", "label": "최종 계약 초안에서 보호할 한 사람의 이름을 직접 빼 달라고 요청한다", "due_week": 198, "miss": "expired", "after": null},
+            {"id": "m50_tell_protected_person", "source": "person_promise", "axis": "trust", "label": "그 사람을 만나 뺀 이름과 포기할 기회를 원문으로 보여 준다", "due_week": 200, "miss": "expired", "after": "m50_draw_name_boundary", "actor_slots": ["protected_person"]}
+          ],
+          "beats": [
+            {
+              "id": "m50_final_year_start",
+              "scene_id": "m50_final_year_start",
+              "kind": "bridge",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_final_year_start",
+              "rule_status": "needs_rule",
+              "intent": "4장에서 보호한 사람과 직전 검토자 선택을 마지막 해의 보호 맥락으로 바꾸고, 같은 인물이 두 역할이면 역할을 합쳐 기록한다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": [], "decision": "story.partner_commitment", "carryovers": ["protected_commitment"]},
+              "writes": {"memories": ["memory.m50_protection_context"], "decision": null, "carryovers": []},
+              "actor_outputs": {
+                "memory.m50_protection_context": {
+                  "roles": {
+                    "protected_person": {"kind": "receipt_actor", "source_type": "carryover", "source_id": "protected_commitment", "actor_role": "actor", "fallback": {"kind": "first_distinct", "actor_ids": ["hyunsu", "minseo"]}},
+                    "reviewer": {"kind": "commitment_actor", "source": {"kind": "commitment_receipt", "source_receipt_id": "m49_choose_reviewer", "state": ["completed"]}, "actor_role": "reviewer", "fallback": {"kind": "first_distinct", "actor_ids": ["minseo", "hyunsu"]}}
+                  },
+                  "coalesced": [["protected_person", "reviewer"]]
+                }
+              },
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 51,
+          "design_label": "도착 뒤의 비용",
+          "phase": "setup",
+          "contract": {
+            "pressure": "민서와 번아웃이 도착이 끝이 아님을 보여 준다",
+            "opportunity": "먼저 도착한 사람의 경고를 듣는다",
+            "person_promise": "민서는 1~3장에 조기 등장하지 않는다",
+            "deadline": "최종 제안 전에 도착 후 삶을 한 번 본다"
+          },
+          "availability": {
+            "axis": "route.m51.asset_band",
+            "values": ["near_goal", "not_arrived"]
+          },
+          "commitments": [
+            {"id": "m51_check_burnout", "source": "pressure", "axis": "health", "label": "현재 자산과 무관하게 번아웃 신호를 검사하고 멈출 시간을 만든다", "due_week": 201, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m51_hear_minseo", "source": "opportunity", "axis": "trust", "label": "민서를 만나거나 전화해 도착한 뒤와 못 도착한 뒤의 질문을 듣는다", "due_week": 203, "miss": "expired", "after": null, "available_values": ["near_goal", "not_arrived"]},
+            {"id": "m51_ask_after_goal", "source": "person_promise", "axis": "trust", "label": "보호할 사람에게 30억 뒤에도 함께 지킬 삶이 무엇인지 묻는다", "due_week": 204, "miss": "deferred", "after": "m51_hear_minseo", "available_values": ["*"]}
+          ],
+          "beats": [
+            {
+              "id": "m51_minseo_arrival",
+              "scene_id": "m51_minseo_arrival",
+              "kind": "scene",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_minseo_03_arrival",
+              "rule_status": "needs_rule",
+              "intent": "30억 근처에서도 질문이 끝나지 않는다는 비교를 준다.",
+              "channel": "in_person",
+              "cast": ["player", "minseo"],
+              "reads": {"memories": ["memory.m40_minseo_price", "memory.m50_protection_context"], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m51_goal_cost"], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "route.m51.asset_band",
+                "base_values": ["near_goal"],
+                "fallbacks": [
+                  {"values": ["*"], "root": "arc_minseo_03b_not_arrived", "work": "EXPAND", "rule_status": "needs_rule", "channel": "phone", "cast": ["player", "minseo"], "reads": {"memories": ["memory.m40_minseo_price", "memory.m50_protection_context"], "decision": null, "carryovers": []}, "forgone": []}
+                ]
+              },
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 52,
+          "design_label": "최종 제안",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "현재 살아 있는 제안자가 마지막 계약을 가져온다",
+            "opportunity": "상철·재혁·독립 시장 중 한 제안을 검토한다",
+            "person_promise": "제안자의 부재 경로에 유령 인물을 동석시키지 않는다",
+            "deadline": "이번 달 계약 조건은 다음 달 보증 요청 전까지만 유효하다"
+          },
+          "availability": {
+            "axis": "route.m52.final_proposer",
+            "values": ["known_network", "independent"]
+          },
+          "commitments": [
+            {"id": "m52_keep_existing_income_closing", "source": "pressure", "axis": "cash", "label": "최종 제안과 겹친 기존 수입 계약의 마감에 나간다", "due_week": 205, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m52_hear_live_proposer", "source": "opportunity", "axis": "cash", "label": "현재 실제로 남은 제안자를 만나 전체 계약 조건을 듣는다", "due_week": 207, "miss": "expired", "after": null, "actor_slots": ["proposer"], "available_values": ["known_network", "independent"]},
+            {"id": "m52_share_full_terms", "source": "person_promise", "axis": "trust", "label": "앞서 정한 검토자에게 숨긴 부속 조항 없이 원문을 직접 건넨다", "due_week": 208, "miss": "expired", "after": "m52_hear_live_proposer", "available_values": ["*"]}
+          ],
+          "beats": [
+            {
+              "id": "m52_final_offer",
+              "scene_id": "m52_final_offer",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "NEW",
+              "root": "arc_y5_final_offer",
+              "rule_status": "planned",
+              "intent": "경제 경로마다 다른 서류로 같은 도덕 질문을 연다.",
+              "channel": "in_person",
+              "cast": ["player", "@final_proposer"],
+              "selector": {"selected_all": ["m52_hear_live_proposer"], "selected_none": [], "availability_values": ["known_network"]},
+              "role_bindings": {"final_proposer": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m52_hear_live_proposer", "slot": ["protected", "optional_second"]}, "actor_role": "proposer"}},
+              "distinct_roles": ["@final_proposer"],
+              "reads": {"memories": ["memory.m50_protection_context", "memory.m51_goal_cost"], "decision": "story.sangchul_truth_resolution", "carryovers": []},
+              "writes": {"memories": ["memory.m52_final_offer"], "decision": null, "carryovers": []},
+              "actor_outputs": {
+                "memory.m52_final_offer": {
+                  "roles": {
+                    "proposer": {"kind": "scene_role", "role": "final_proposer"},
+                    "reviewer": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m50_protection_context", "actor_role": "reviewer"},
+                    "protected_person": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m50_protection_context", "actor_role": "protected_person"},
+                    "counterparty": {"kind": "scene_role", "role": "final_proposer"}
+                  },
+                  "coalesced": [["proposer", "reviewer", "protected_person"]]
+                }
+              },
+              "coverage": {
+                "axis": "route.m52.offer_delivery",
+                "base_values": ["known_network_live"],
+                "fallbacks": [
+                  {"values": ["independent_live"], "root": "arc_y5_final_offer_independent", "work": "NEW", "rule_status": "planned", "channel": "in_person", "cast": ["player", "@final_proposer"], "selector": {"selected_all": ["m52_hear_live_proposer"], "selected_none": [], "availability_values": ["independent"]}, "role_bindings": {"final_proposer": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m52_hear_live_proposer", "slot": ["protected", "optional_second"]}, "actor_role": "proposer"}}, "distinct_roles": ["@final_proposer"], "reads": {"memories": ["memory.m50_protection_context", "memory.m51_goal_cost"], "decision": "story.sangchul_truth_resolution", "carryovers": []}, "actor_outputs": {"memory.m52_final_offer": {"roles": {"proposer": {"kind": "scene_role", "role": "final_proposer"}, "reviewer": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m50_protection_context", "actor_role": "reviewer"}, "protected_person": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m50_protection_context", "actor_role": "protected_person"}, "counterparty": {"kind": "scene_role", "role": "final_proposer"}}, "coalesced": [["proposer", "reviewer", "protected_person"]]}}, "forgone": ["기존 인맥이 가져온 마지막 제안"]},
+                  {"values": ["document"], "root": "arc_y5_final_offer_document", "work": "NEW", "rule_status": "planned", "channel": "message", "cast": ["player", "@final_proposer"], "selector": {"selected_all": [], "selected_none": ["m52_hear_live_proposer"], "availability_values": ["*"]}, "role_bindings": {"final_proposer": {"kind": "commitment_actor", "source": {"kind": "available_commitment", "commitment_id": "m52_hear_live_proposer"}, "actor_role": "proposer"}}, "distinct_roles": ["@final_proposer"], "reads": {"memories": ["memory.m50_protection_context", "memory.m51_goal_cost"], "decision": "story.sangchul_truth_resolution", "carryovers": []}, "actor_outputs": {"memory.m52_final_offer": {"roles": {"proposer": {"kind": "scene_role", "role": "final_proposer"}, "reviewer": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m50_protection_context", "actor_role": "reviewer"}, "protected_person": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m50_protection_context", "actor_role": "protected_person"}, "counterparty": {"kind": "scene_role", "role": "final_proposer"}}, "coalesced": [["proposer", "reviewer", "protected_person"]]}}, "forgone": ["제안자와 직접 조건을 확인하는 자리"]}
+                ]
+              },
+              "forgone": ["다른 경제 경로의 마지막 제안"]
+            }
+          ]
+        },
+        {
+          "month": 53,
+          "design_label": "재혁의 보증 거울",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "아버지의 첫 실수가 친구의 PDF로 돌아온다",
+            "opportunity": "거절·보증·차단을 고른다",
+            "person_promise": "재혁의 법적·시간적 재등장 사유를 먼저 설명한다",
+            "deadline": "보증 요청은 10초 결정 뒤 다시 열리지 않는다"
+          },
+          "commitments": [
+            {"id": "m53_freeze_guarantee", "source": "pressure", "axis": "cash", "label": "PDF를 확인하기 전 보증 서명과 인증 절차를 모두 멈춘다", "due_week": 209, "miss": "expired", "after": null},
+            {"id": "m53_verify_pdf", "source": "opportunity", "axis": "trust", "label": "보증 PDF의 채무자·금액·책임 범위를 독립적으로 확인한다", "due_week": 210, "miss": "expired", "after": null},
+            {"id": "m53_hear_jaehyuk_return", "source": "person_promise", "axis": "trust", "label": "재혁이 왜 지금 돌아왔는지 그의 입으로 끝까지 듣는다", "due_week": 211, "miss": "expired", "after": null},
+            {"id": "m53_tell_protected_person", "source": "person_promise", "axis": "trust", "label": "보증 결정을 내리기 전에 보호할 사람에게 요청 원문을 보여 준다", "due_week": 212, "miss": "expired", "after": "m53_verify_pdf"}
+          ],
+          "beats": [
+            {
+              "id": "m53_jaehyuk_guarantee",
+              "scene_id": "m53_jaehyuk_guarantee",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "source_month": 15,
+              "root": "arc_jaehyuk_mirror",
+              "rule_status": "needs_rule",
+              "intent": "피해자가 타인의 이름을 담보로 잡는 미래를 마지막 해에 회수한다.",
+              "channel": "message",
+              "cast": ["player", "jaehyuk"],
+              "reads": {"memories": ["memory.m30_same_signature", "memory.m52_final_offer"], "decision": "story.first_illegal_offer", "carryovers": []},
+              "writes": {"memories": ["memory.m53_guarantee_request"], "decision": "story.jaehyuk_guarantee_resolution", "carryovers": []},
+              "forgone": ["친구 관계의 마지막 형태", "보호한 이름의 안전"]
+            }
+          ]
+        },
+        {
+          "month": 54,
+          "design_label": "상철의 마지막 문",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "상철의 타협이 마지막 계약 조건으로 돌아온다",
+            "opportunity": "문을 열거나 조건만 듣거나 거절한다",
+            "person_promise": "상철의 3장 심판 결과가 그의 참석 자격을 바꾼다",
+            "deadline": "M55 회의 전에 상철의 문을 닫거나 연다"
+          },
+          "availability": {
+            "axis": "story.sangchul_truth_resolution",
+            "values": ["unknown", "refused_to_know", "confronted", "used", "cut_ties"]
+          },
+          "commitments": [
+            {"id": "m54_keep_contract_closing", "source": "pressure", "axis": "cash", "label": "상철의 문과 겹친 현재 계약 마감에 나간다", "due_week": 215, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m54_resolve_sangchul_door", "source": "opportunity", "axis": "trust", "label": "이어진 경로는 옛 사무실 문을 두드리고 끊은 경로는 남은 서면 조건을 받는다", "due_week": 215, "miss": "expired", "after": null, "available_values": ["unknown", "refused_to_know", "confronted", "used", "cut_ties"]},
+            {"id": "m54_hear_chosen_reviewer", "source": "person_promise", "axis": "trust", "label": "선택한 검토자를 만나 가장 위험한 한 조항을 직접 듣는다", "due_week": 216, "miss": "expired", "after": null, "available_values": ["*"]}
+          ],
+          "beats": [
+            {
+              "id": "m54_sangchul_final_door",
+              "scene_id": "m54_sangchul_final_door",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "NEW",
+              "root": "arc_sangchul_final_door",
+              "rule_status": "planned",
+              "intent": "차가운 커피 모티프의 5장 독자를 실제 장면으로 만든다.",
+              "channel": "in_person",
+              "cast": ["player", "sangchul"],
+              "reads": {"memories": ["memory.m53_guarantee_request"], "decision": "story.sangchul_truth_resolution", "carryovers": ["expired_obligation"]},
+              "writes": {"memories": ["memory.m54_sangchul_final_door"], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "story.sangchul_truth_resolution",
+                "base_values": ["confronted", "used"],
+                "fallbacks": [
+                  {"values": ["refused_to_know", "cut_ties"], "root": "arc_y5_sangchul_absent_door", "work": "NEW", "rule_status": "planned", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m53_guarantee_request"], "decision": "story.sangchul_truth_resolution", "carryovers": ["expired_obligation"]}, "forgone": []}
+                ]
+              },
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 55,
+          "design_label": "같은 방의 세 사람",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "제안자·검토자·보호할 사람이 같은 계약을 다르게 읽는다",
+            "opportunity": "전부 공개하거나 서로 이용하거나 이름을 거둔다",
+            "person_promise": "세 사람은 실제 같은 장소에 있으며 이름 언급으로 대체하지 않는다",
+            "deadline": "회의가 끝나면 숨긴 조건과 공개한 이름이 되돌아가지 않는다"
+          },
+          "availability": {
+            "axis": "story.jaehyuk_guarantee_resolution",
+            "values": ["unknown", "refused", "vouched", "blocked"]
+          },
+          "commitments": [
+            {"id": "m55_hold_signature", "source": "pressure", "axis": "cash", "label": "회의가 끝날 때까지 계약금 이체와 전자서명을 잠근다", "due_week": 217, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m55_disclose_all_terms", "source": "opportunity", "axis": "trust", "label": "제안자·검토자·보호 대상의 세 역할에게, 같은 인물이 겹쳐도 모든 조건을 공개한다", "due_week": 218, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m55_let_reviewer_question", "source": "person_promise", "axis": "trust", "label": "검토자가 제안자와 다르면 직접 묻게 하고, 같으면 이해충돌과 원문 검토를 기록한다", "due_week": 219, "miss": "expired", "after": "m55_disclose_all_terms", "available_values": ["refused", "vouched", "blocked"]},
+            {"id": "m55_return_protected_name", "source": "person_promise", "axis": "trust", "label": "보호할 사람이 원하면 회의 자리에서 그 이름을 계약에서 거둔다", "due_week": 220, "miss": "expired", "after": "m55_disclose_all_terms", "available_values": ["refused", "vouched", "blocked"]}
+          ],
+          "beats": [
+            {
+              "id": "m55_three_in_room_opening",
+              "scene_id": "m55_three_in_room",
+              "kind": "scene",
+              "delivery": "flow",
+              "work": "NEW",
+              "root": "arc_y5_three_in_room",
+              "rule_status": "planned",
+              "intent": "제안자·검토자·보호 대상의 세 역할을 실제 1~3명에게 결속하고, 같은 배우면 한 자리로 합친다.",
+              "channel": "in_person",
+              "cast": ["player", "@final_proposer", "@chosen_reviewer", "@protected_person"],
+              "role_bindings": {
+                "final_proposer": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m52_final_offer", "actor_role": "proposer"},
+                "chosen_reviewer": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m52_final_offer", "actor_role": "reviewer"},
+                "protected_person": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m52_final_offer", "actor_role": "protected_person"}
+              },
+              "coalesce_roles": ["@final_proposer", "@chosen_reviewer", "@protected_person"],
+              "reads": {"memories": ["memory.m50_protection_context", "memory.m52_final_offer"], "decision": "story.jaehyuk_guarantee_resolution", "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "story.jaehyuk_guarantee_resolution",
+                "base_values": ["refused", "vouched"],
+                "fallbacks": [
+                  {"values": ["blocked"], "root": "arc_y5_three_in_room_blocked_review", "work": "NEW", "rule_status": "planned", "channel": "in_person", "cast": ["player", "@final_proposer", "@chosen_reviewer", "@protected_person"], "role_bindings": {"final_proposer": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m52_final_offer", "actor_role": "proposer"}, "chosen_reviewer": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m52_final_offer", "actor_role": "reviewer"}, "protected_person": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m52_final_offer", "actor_role": "protected_person"}}, "coalesce_roles": ["@final_proposer", "@chosen_reviewer", "@protected_person"], "reads": {"memories": ["memory.m50_protection_context", "memory.m52_final_offer"], "decision": "story.jaehyuk_guarantee_resolution", "carryovers": []}, "forgone": []}
+                ]
+              },
+              "forgone": []
+            },
+            {
+              "id": "m55_three_in_room_decision",
+              "scene_id": "m55_three_in_room",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "NEW",
+              "root": "arc_y5_three_in_room_decision",
+              "rule_status": "planned",
+              "intent": "세 역할이 같은 인물에게 겹치면 인원을 부풀리지 않고 이해충돌까지 한 회의에서 확정한다.",
+              "channel": "in_person",
+              "cast": ["player", "@final_proposer", "@chosen_reviewer", "@protected_person"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m55_three_in_room"], "decision": null, "carryovers": []},
+              "actor_outputs": {
+                "memory.m55_three_in_room": {
+                  "roles": {
+                    "proposer": {"kind": "scene_role", "role": "final_proposer"},
+                    "reviewer": {"kind": "scene_role", "role": "chosen_reviewer"},
+                    "protected_person": {"kind": "scene_role", "role": "protected_person"}
+                  },
+                  "coalesced": [["proposer", "reviewer", "protected_person"]]
+                }
+              },
+              "forgone": ["감춘 조건의 신뢰", "다른 사람 이름을 쓰는 빠른 길"]
+            }
+          ]
+        },
+        {
+          "month": 56,
+          "design_label": "아버지의 약봉지",
+          "phase": "escalation",
+          "contract": {
+            "pressure": "아버지의 기억 또는 현재 통화가 M55 선택을 심판한다",
+            "opportunity": "그의 실수와 다른 선택을 했는지 본다",
+            "person_promise": "생존 경로는 기억 속 죽은 사람을 발명하지 않는다",
+            "deadline": "최종 이름 결정을 하기 전 한 번만 돌아본다"
+          },
+          "availability": {
+            "axis": "father.life",
+            "values": ["alive", "concern", "hospitalized", "passed"]
+          },
+          "commitments": [
+            {"id": "m56_revisit_father_trace", "source": "opportunity", "axis": "trust", "label": "기일 또는 약속 시각에 생존 경로는 전화하고 별세 경로는 약봉지를 꺼낸다", "due_week": 221, "miss": "expired", "after": null, "available_values": ["alive", "concern", "hospitalized", "passed"]},
+            {"id": "m56_work_anniversary_deadline", "source": "pressure", "axis": "cash", "label": "같은 시각 최종 계약의 유급 마감에 나간다", "due_week": 221, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m56_share_father_lesson", "source": "person_promise", "axis": "trust", "label": "보호할 사람을 만나 아버지의 보증과 지난 선택을 말한다", "due_week": 224, "miss": "expired", "after": "m56_revisit_father_trace", "available_values": ["*"]}
+          ],
+          "beats": [
+            {
+              "id": "m56_father_legacy",
+              "scene_id": "m56_father_legacy",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_father_legacy",
+              "rule_status": "needs_rule",
+              "intent": "아버지의 보증과 M55의 이름 사용을 남은 36주의 선택과 직접 대조한다.",
+              "channel": "memory",
+              "cast": ["player", "father"],
+              "reads": {"memories": ["memory.m47_final_contact"], "decision": "story.father_final_contact", "carryovers": ["open_debt"]},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "route.m56.father_life",
+                "base_values": ["passed"],
+                "fallbacks": [
+                  {"values": ["*"], "root": "arc_pre_ending_father_call", "work": "EXPAND", "rule_status": "needs_rule", "channel": "phone", "cast": ["player", "father"], "reads": {"memories": ["memory.m47_final_contact"], "decision": "story.father_final_contact", "carryovers": ["open_debt"]}, "forgone": []}
+                ]
+              },
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 57,
+          "design_label": "이름을 적는 사람",
+          "phase": "reversal",
+          "contract": {
+            "pressure": "내 이름으로 책임질지 다른 사람을 담보로 쓸지 결정한다",
+            "opportunity": "거절·동의·비밀 사용의 사실을 확정한다",
+            "person_promise": "파트너를 계약 도구나 엔딩 트로피로 만들지 않는다",
+            "deadline": "실제 계약 작성 전에 이름 사용 방식이 잠긴다"
+          },
+          "availability": {
+            "axis": "story.partner_commitment",
+            "values": ["none", "daeun", "jiyeon"]
+          },
+          "commitments": [
+            {"id": "m57_keep_safe_income_closing", "source": "pressure", "axis": "cash", "label": "명의 계약과 겹친 기존 수입의 마지막 마감을 지킨다", "due_week": 226, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m57_file_name_decision", "source": "opportunity", "axis": "cash", "label": "제출 창구에서 거절 뒤 철회 또는 명시 동의 또는 몰래 사용 또는 자기 명의만을 실제 접수한다", "due_week": 227, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m57_deliver_filed_copy", "source": "person_promise", "axis": "trust", "label": "보호한 사람에게 접수본을 그날 직접 건넨다", "due_week": 228, "miss": "deferred", "after": "m57_file_name_decision", "available_values": ["*"]}
+          ],
+          "beats": [
+            {
+              "id": "m57_name_on_line",
+              "scene_id": "m57_name_on_line",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "NEW",
+              "root": "arc_y5_name_on_line",
+              "rule_status": "planned",
+              "intent": "누구의 이름과 시간을 담보로 쓸지 최종 사실로 남긴다.",
+              "channel": "in_person",
+              "cast": ["player", "@protected_person"],
+              "role_bindings": {"protected_person": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m55_three_in_room", "actor_role": "protected_person"}},
+              "distinct_roles": ["@protected_person"],
+              "reads": {"memories": ["memory.m54_sangchul_final_door", "memory.m55_three_in_room"], "decision": "story.partner_commitment", "carryovers": []},
+              "writes": {"memories": ["memory.m57_name_decision"], "decision": "story.partner_name_use", "carryovers": []},
+              "actor_outputs": {
+                "memory.m57_name_decision": {
+                  "roles": {
+                    "primary_witness": {"kind": "scene_role", "role": "protected_person"},
+                    "secondary_witness": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m55_three_in_room", "actor_role": "reviewer"}
+                  },
+                  "coalesced": [["primary_witness", "secondary_witness"]]
+                }
+              },
+              "coverage": {
+                "axis": "story.partner_commitment",
+                "base_values": ["daeun", "jiyeon"],
+                "fallbacks": [
+                  {"values": ["none"], "root": "arc_y5_name_on_line_self", "work": "NEW", "rule_status": "planned", "channel": "in_person", "cast": ["player", "@protected_person"], "role_bindings": {"protected_person": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m55_three_in_room", "actor_role": "protected_person"}}, "distinct_roles": ["@protected_person"], "reads": {"memories": ["memory.m54_sangchul_final_door", "memory.m55_three_in_room"], "decision": "story.partner_commitment", "carryovers": []}, "actor_outputs": {"memory.m57_name_decision": {"roles": {"primary_witness": {"kind": "scene_role", "role": "protected_person"}, "secondary_witness": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m55_three_in_room", "actor_role": "reviewer"}}, "coalesced": [["primary_witness", "secondary_witness"]]}}, "forgone": ["연인의 이름을 계약에 쓸 선택"]}
+                ]
+              },
+              "forgone": ["빠른 계약", "보호한 사람의 신뢰"]
+            }
+          ]
+        },
+        {
+          "month": 58,
+          "design_label": "사람들의 판결",
+          "phase": "reversal",
+          "contract": {
+            "pressure": "가장 관련 있는 두 사람이 M57을 서로 다르게 읽는다",
+            "opportunity": "변명하거나 책임지거나 관계를 놓는다",
+            "person_promise": "모든 인물 에필로그를 나열하지 않고 관련 있는 둘만 부른다",
+            "deadline": "계약 실행 전 마지막 관계 판정이다"
+          },
+          "availability": {
+            "axis": "story.partner_commitment",
+            "values": ["none", "daeun", "jiyeon"]
+          },
+          "commitments": [
+            {"id": "m58_answer_counterparty_ultimatum", "source": "pressure", "axis": "cash", "label": "서명을 재개하라는 거래 상대의 당일 요구에 직접 답한다", "due_week": 230, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m58_hear_primary_witness", "source": "person_promise", "axis": "trust", "label": "가장 직접 영향을 받은 사람의 판정 자리에 간다", "due_week": 230, "miss": "expired", "after": null, "available_values": ["none", "daeun", "jiyeon"]},
+            {"id": "m58_hear_secondary_witness", "source": "person_promise", "axis": "trust", "label": "다른 위치에서 본 두 번째 사람의 판정 자리에 간다", "due_week": 231, "miss": "expired", "after": null, "available_values": ["none", "daeun", "jiyeon"]}
+          ],
+          "beats": [
+            {
+              "id": "m58_people_verdict",
+              "scene_id": "m58_people_verdict",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "NEW",
+              "root": "arc_y5_people_verdict",
+              "rule_status": "planned",
+              "intent": "숫자가 아닌 두 사람의 반응으로 이름 사용의 값을 보여 준다.",
+              "channel": "mixed",
+              "cast": ["player", "hyunsu", "minseo"],
+              "reads": {"memories": ["memory.m51_goal_cost", "memory.m57_name_decision"], "decision": "story.partner_commitment", "carryovers": []},
+              "writes": {"memories": ["memory.m58_people_verdict"], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "story.partner_commitment",
+                "base_values": ["none"],
+                "fallbacks": [
+                  {"values": ["daeun"], "root": "arc_daeun_final_choice", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "daeun", "hyunsu"], "reads": {"memories": ["memory.m51_goal_cost", "memory.m57_name_decision"], "decision": "story.partner_commitment", "carryovers": []}, "forgone": []},
+                  {"values": ["jiyeon"], "root": "arc_jiyeon_verdict", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "jiyeon", "hyunsu"], "reads": {"memories": ["memory.m51_goal_cost", "memory.m57_name_decision"], "decision": "story.partner_commitment", "carryovers": []}, "forgone": []}
+                ]
+              },
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 59,
+          "design_label": "실제 계약",
+          "phase": "reversal",
+          "contract": {
+            "pressure": "체결·취소·엑싯 중 하나를 실제 숫자와 서류로 실행한다",
+            "opportunity": "현재 경제 경로의 계약을 끝낸다",
+            "person_promise": "사람 판정과 물질 결과를 서로 대신하게 하지 않는다",
+            "deadline": "W236 뒤에는 계약을 실행할 시간이 없다"
+          },
+          "availability": {
+            "axis": "route.m59.contract_path",
+            "values": ["property", "career", "startup"]
+          },
+          "commitments": [
+            {"id": "m59_keep_safe_income_closing", "source": "pressure", "axis": "cash", "label": "최종 계약과 겹친 기존 수입 마감에 나간다", "due_week": 234, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m59_execute_contract_result", "source": "opportunity", "axis": "cash", "label": "중개 또는 은행 또는 회사 창구에서 체결 또는 취소 또는 엑싯의 돈과 서류를 실제로 움직인다", "due_week": 235, "miss": "expired", "after": null, "available_values": ["property", "career", "startup"]},
+            {"id": "m59_deliver_result_to_affected_person", "source": "person_promise", "axis": "trust", "label": "영향받은 사람에게 체결 또는 취소 원본을 직접 건넨다", "due_week": 236, "miss": "deferred", "after": "m59_execute_contract_result", "available_values": ["*"]}
+          ],
+          "beats": [
+            {
+              "id": "m59_contract_execution",
+              "scene_id": "m59_contract_execution",
+              "kind": "decision",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_pre_ending_summit",
+              "rule_status": "needs_rule",
+              "intent": "실행 약속을 고른 경우에만 경제 경로의 돈과 서류를 움직이고, 미선택이면 미실행 사실을 남긴다.",
+              "channel": "in_person",
+              "cast": ["player", "@contract_counterparty"],
+              "selector": {"selected_all": ["m59_execute_contract_result"], "selected_none": [], "availability_values": ["property"]},
+              "role_bindings": {"contract_counterparty": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m52_final_offer", "actor_role": "counterparty"}},
+              "distinct_roles": ["@contract_counterparty"],
+              "reads": {"memories": ["memory.m52_final_offer", "memory.m58_people_verdict"], "decision": "story.partner_name_use", "carryovers": []},
+              "writes": {"memories": ["memory.m59_contract_result"], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "route.m59.execution_delivery",
+                "base_values": ["property_live"],
+                "fallbacks": [
+                  {"values": ["other_live"], "root": "arc_y5_contract_execution_other_path", "work": "NEW", "rule_status": "planned", "channel": "in_person", "cast": ["player", "@contract_counterparty"], "selector": {"selected_all": ["m59_execute_contract_result"], "selected_none": [], "availability_values": ["career", "startup"]}, "role_bindings": {"contract_counterparty": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m52_final_offer", "actor_role": "counterparty"}}, "distinct_roles": ["@contract_counterparty"], "reads": {"memories": ["memory.m52_final_offer", "memory.m58_people_verdict"], "decision": "story.partner_name_use", "carryovers": []}, "forgone": ["다른 경제 경로의 계약 물성"]},
+                  {"values": ["not_executed"], "root": "arc_y5_contract_not_executed_notice", "work": "NEW", "rule_status": "planned", "channel": "message", "cast": ["player", "@contract_counterparty"], "selector": {"selected_all": [], "selected_none": ["m59_execute_contract_result"], "availability_values": ["*"]}, "role_bindings": {"contract_counterparty": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m52_final_offer", "actor_role": "counterparty"}}, "distinct_roles": ["@contract_counterparty"], "reads": {"memories": ["memory.m52_final_offer", "memory.m58_people_verdict"], "decision": "story.partner_name_use", "carryovers": []}, "forgone": ["현장에서 돈과 서류를 실제로 움직이는 계약 실행"]}
+                ]
+              },
+              "forgone": []
+            }
+          ]
+        },
+        {
+          "month": 60,
+          "design_label": "마지막 서명",
+          "phase": "boss",
+          "contract": {
+            "pressure": "도착한 숫자와 남은 사람을 같은 수첩 마지막 줄에서 본다",
+            "opportunity": "다섯 해의 책임을 자기 이름으로 끝낸다",
+            "person_promise": "엔딩은 30억·아버지·관계·두 거울에 모두 답한다",
+            "deadline": "W240 뒤에는 새 큰 결정을 추가하지 않는다"
+          },
+          "availability": {
+            "axis": "route.m60.ending_context",
+            "values": ["arrived_father_alive", "arrived_father_passed", "not_arrived_father_alive", "not_arrived_father_passed"]
+          },
+          "commitments": [
+            {"id": "m60_take_key_or_return_documents", "source": "pressure", "axis": "cash", "label": "계약 결과에 따라 열쇠를 받거나 서류를 돌려준다", "due_week": 237, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m60_face_remaining_person", "source": "person_promise", "axis": "trust", "label": "끝까지 남은 사람을 만나거나 통화해 그의 이후를 듣는다", "due_week": 238, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m60_answer_father_trace", "source": "person_promise", "axis": "health", "label": "아버지가 살아 있으면 통화하고 아니면 남은 기억 앞에 답한다", "due_week": 239, "miss": "expired", "after": null, "available_values": ["arrived_father_alive", "arrived_father_passed", "not_arrived_father_alive", "not_arrived_father_passed"]},
+            {"id": "m60_sign_own_answer", "source": "opportunity", "axis": "trust", "label": "도착 여부와 상관없이 누구의 이름과 시간을 썼는지 자기 이름으로 서명한다", "due_week": 240, "miss": "expired", "after": null, "available_values": ["arrived_father_alive", "arrived_father_passed", "not_arrived_father_alive", "not_arrived_father_passed"]}
+          ],
+          "beats": [
+            {
+              "id": "m60_final_signature",
+              "scene_id": "m60_final_signature",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_final_countdown",
+              "rule_status": "needs_rule",
+              "intent": "M55의 충돌과 사람들의 판결을 마지막 서명과 엔딩으로 회수한다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": ["memory.m55_three_in_room", "memory.m59_contract_result"], "decision": "story.partner_name_use", "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["닫힌 사람의 길", "체결하지 않은 마지막 계약"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

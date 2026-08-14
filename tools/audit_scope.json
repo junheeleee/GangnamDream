@@ -12,6 +12,35 @@
     "tools/context_manifest_check.py",
     "tools/queue_consistency_check.py"
   ],
+  "fast_lanes": [
+    {
+      "id": "story-map",
+      "paths": [
+        "content/meta/story_map.json"
+      ],
+      "owned_paths": [
+        "CLAUDE.md",
+        "content/meta/narrative_spine.json",
+        "content/meta/story_map.json",
+        "content/meta/story_rules.json",
+        "docs/CHOICE_CONSEQUENCE_SYSTEM.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CONTEXT_INDEX.md",
+        "docs/DECISIONS.md",
+        "docs/context_manifest.json",
+        "docs/queue_active/ORDER-102.md",
+        "tools/audit_scope.json",
+        "tools/audit_select.py",
+        "tools/narrative_spine_audit.py",
+        "tools/story_map_audit.py"
+      ],
+      "tools": [
+        "tools/story_map_audit.py",
+        "tools/narrative_spine_audit.py"
+      ],
+      "why": "월 배치만 바뀌면 240주 런타임 대신 지도·5장 정합만 검사한다"
+    }
+  ],
   "checks": [
     {
       "tool": "tools/audit.py",
@@ -107,6 +136,16 @@
       ]
     },
     {
+      "tool": "tools/story_map_audit.py",
+      "why": "60개월 배치·기억 생산자/독자·장간 carryover·M01/M35/M55 세로 단면",
+      "paths": [
+        "content/meta/story_map.json",
+        "content/meta/story_rules.json",
+        "content/meta/narrative_spine.json",
+        "tools/story_map_audit.py"
+      ]
+    },
+    {
       "tool": "tools/speech_register_audit.py",
       "why": "호칭·관계 단계별 말투",
       "paths": [
@@ -137,7 +176,9 @@
       "why": "5장 구조·세계 법칙·모티프 plant/reader",
       "paths": [
         "content/meta/narrative_spine.json",
-        "content/events/**"
+        "content/meta/story_map.json",
+        "content/events/**",
+        "tools/narrative_spine_audit.py"
       ]
     },
     {

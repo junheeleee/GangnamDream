@@ -87,6 +87,12 @@
         "arc_sangchul_deduction",
         "arc_sangchul_confrontation",
         "arc_sangchul_reckoning"
+      ],
+      "planned_anchors": [
+        {
+          "chapter": 5,
+          "event": "arc_y5_three_in_room"
+        }
       ]
     },
     {
@@ -102,8 +108,19 @@
         "arc_jaehyuk_01_reunion",
         "arc_jaehyuk_01b_real_face",
         "arc_jaehyuk_03_pitch",
-        "arc_jaehyuk_04a_ghost",
-        "arc_jaehyuk_mirror"
+        "arc_jaehyuk_04a_ghost"
+      ],
+      "planned_anchors": [
+        {
+          "chapter": 5,
+          "event": "arc_y5_three_in_room"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_jaehyuk_mirror",
+          "mode": "expand",
+          "source_month": 15
+        }
       ]
     },
     {
@@ -189,12 +206,16 @@
           "event": "arc_sangchul_deduction"
         },
         {
-          "chapter": 3,
-          "event": "arc_jaehyuk_mirror"
-        },
-        {
           "chapter": 5,
           "event": "arc_final_countdown"
+        }
+      ],
+      "planned_readers": [
+        {
+          "chapter": 5,
+          "event": "arc_jaehyuk_mirror",
+          "mode": "expand",
+          "source_month": 15
         }
       ]
     },
@@ -239,10 +260,12 @@
         {
           "chapter": 3,
           "event": "arc_sangchul_confrontation"
-        },
+        }
+      ],
+      "planned_readers": [
         {
           "chapter": 5,
-          "event": "arc_sangchul_reckoning"
+          "event": "arc_y5_three_in_room"
         }
       ]
     },
@@ -487,11 +510,11 @@
         "arc_midpoint_reckoning"
       ],
       "boss": [
-        "arc_jaehyuk_mirror",
         "arc_sangchul_confrontation",
         "arc_goal_vertigo"
       ],
       "aftermath": [
+        "arc_y3_cost_of_knowing",
         "arc_sangchul_year3",
         "arc_year3_close",
         "chapter_card_36"
@@ -514,10 +537,9 @@
             "arc_jaehyuk_hyunsu_warning",
             "arc_jaehyuk_04a_ghost",
             "arc_jaehyuk_04b_counter",
-            "arc_jaehyuk_aftermath",
-            "arc_jaehyuk_mirror"
+            "arc_jaehyuk_aftermath"
           ],
-          "payoff": "친구에게 맡긴 돈이 아버지의 보증 서명과 같은 질문으로 돌아온다."
+          "payoff": "친구에게 맡긴 돈의 손실과 경고가 끝나지 않은 채 남아, 보증 서명의 거울을 마지막 해로 넘긴다."
         },
         {
           "id": "father_and_sangchul_same_hands",
@@ -656,6 +678,13 @@
         "arc_final_week",
         "arc_year5_scene",
         "arc_37_ending_peace"
+      ],
+      "planned_relocations": [
+        {
+          "phase": "escalation",
+          "event": "arc_jaehyuk_mirror",
+          "source_month": 15
+        }
       ],
       "handoff": "엔딩은 30억의 성패와 함께, 1장의 문턱에 섰던 사람과 같은 이름으로 끝나는지 답한다."
     }

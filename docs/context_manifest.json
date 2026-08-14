@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-08-12",
+  "updated": "2026-08-14",
   "boot": {
     "required": [
       {
@@ -54,7 +54,12 @@
     ],
     "world_characters_chapters": [
       "docs/STORY_BIBLE.md",
-      "docs/CANON_MAP.md"
+      "docs/CANON_MAP.md",
+      "content/meta/narrative_spine.json"
+    ],
+    "monthly_story_map": [
+      "content/meta/story_map.json",
+      "docs/CHOICE_CONSEQUENCE_SYSTEM.md"
     ],
     "weekly_loop": [
       "docs/CORE_LOOP_V2.md",
@@ -153,6 +158,7 @@
         "docs/CHOICE_CONSEQUENCE_SYSTEM.md",
         "docs/STORY_CONSISTENCY_SYSTEM.md",
         "content/meta/narrative_spine.json",
+        "content/meta/story_map.json",
         "content/meta/story_rules.json"
       ],
       "conditional": [
@@ -166,6 +172,8 @@
     },
     "gameplay_balance": {
       "required": [
+        "content/meta/story_map.json",
+        "docs/CHOICE_CONSEQUENCE_SYSTEM.md",
         "docs/CORE_LOOP_V2.md",
         "content/meta/chapter1_core_loop_v2_causal_ledger.json",
         "content/meta/demo_core_loop_v2.json",

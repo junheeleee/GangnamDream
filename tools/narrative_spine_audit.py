@@ -14,6 +14,7 @@ from event_schedule import deferred_follow_ups
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SPINE_PATH = os.path.join(ROOT, "content", "meta", "narrative_spine.json")
+STORY_MAP_PATH = os.path.join(ROOT, "content", "meta", "story_map.json")
 EVENTS_KO = os.path.join(ROOT, "content", "events")
 EVENTS_EN = os.path.join(ROOT, "content", "events_en")
 PHASES = ("setup", "escalation", "reversal", "boss", "aftermath")
@@ -37,7 +38,7 @@ CHAPTER_PHASE_REQUIRED = {
         "setup": {"arc_35_birthday", "arc_jiyeon_year3", "arc_jaehyuk_03_pitch"},
         "escalation": {"arc_father_06_confession", "arc_sangchul_known_offer", "arc_why_gangnam_real"},
         "reversal": {"arc_jaehyuk_aftermath", "arc_y3_jiyeon_departure", "arc_midpoint_reckoning"},
-        "boss": {"arc_jaehyuk_mirror", "arc_sangchul_confrontation", "arc_goal_vertigo"},
+        "boss": {"arc_sangchul_confrontation", "arc_goal_vertigo"},
         "aftermath": {"arc_year3_close"},
     },
     4: {
@@ -82,7 +83,6 @@ CHAPTER_TEMPORAL_REQUIRED = {
         "arc_jiyeon_year3",
         "arc_y3_jiyeon_departure",
         "arc_jaehyuk_03_pitch",
-        "arc_jaehyuk_mirror",
         "arc_father_06_confession",
         "arc_sangchul_confrontation",
         "arc_why_gangnam_real",
@@ -104,6 +104,10 @@ CHAPTER_TEMPORAL_REQUIRED = {
 }
 
 CHAPTER_TEMPORAL_COUNTS = {1: 2, 2: 1, 3: 4, 4: 3}
+RELOCATED_SPINE_EVENTS = {"arc_jaehyuk_mirror"}
+REQUIRED_CHAPTER_RELOCATIONS = {
+    5: {("escalation", "arc_jaehyuk_mirror", 15)},
+}
 REQUIRED_DEFERRED_EDGES = {
     ("arc_year_one_half", "arc_34_two_years_in"): 18,
     ("arc_goal_vertigo", "arc_35_path_cost"): 22,
@@ -151,6 +155,117 @@ def fail(errors: list[str], message: str) -> None:
     errors.append(message)
 
 
+def collect_planned_events(
+    story_map: Any, errors: list[str]
+) -> tuple[dict[str, tuple[int, int]], dict[str, tuple[int, int, int]]]:
+    """Index NEW roots and EXPAND+source relocations in one story-map traversal."""
+    planned_events: dict[str, tuple[int, int]] = {}
+    planned_relocations: dict[str, tuple[int, int, int]] = {}
+    if not isinstance(story_map, dict):
+        fail(errors, "story_map root must be an object")
+        return planned_events, planned_relocations
+    story_chapters = story_map.get("chapters", [])
+    if not isinstance(story_chapters, list):
+        fail(errors, "story_map chapters must be an array")
+        return planned_events, planned_relocations
+    for chapter in story_chapters:
+        if not isinstance(chapter, dict):
+            fail(errors, "story_map chapter must be an object")
+            continue
+        chapter_number = int(chapter.get("chapter", 0))
+        months = chapter.get("months", [])
+        if not isinstance(months, list):
+            fail(errors, f"story_map chapter {chapter_number} months must be an array")
+            continue
+        for month in months:
+            if not isinstance(month, dict):
+                fail(errors, f"story_map chapter {chapter_number} month must be an object")
+                continue
+            month_number = int(month.get("month", 0))
+            for beat in month.get("beats", []):
+                if not isinstance(beat, dict):
+                    continue
+                event_id = str(beat.get("root", "")).strip()
+                if beat.get("work") == "NEW" and beat.get("rule_status") == "planned":
+                    if not event_id:
+                        fail(
+                            errors,
+                            f"story_map chapter {chapter_number} month {month_number} "
+                            "has a NEW/planned beat without a root",
+                        )
+                        continue
+                    if event_id in planned_events:
+                        fail(errors, f"story_map planned root duplicated: {event_id}")
+                        continue
+                    planned_events[event_id] = (chapter_number, month_number)
+                if beat.get("work") == "EXPAND" and "source_month" in beat:
+                    source_month = int(beat.get("source_month", 0))
+                    if not event_id or source_month <= 0:
+                        fail(
+                            errors,
+                            f"story_map chapter {chapter_number} month {month_number} "
+                            "has an EXPAND relocation beat without root/source_month",
+                        )
+                        continue
+                    if event_id in planned_relocations:
+                        fail(errors, f"story_map relocated root duplicated: {event_id}")
+                        continue
+                    planned_relocations[event_id] = (
+                        chapter_number,
+                        month_number,
+                        source_month,
+                    )
+    return planned_events, planned_relocations
+
+
+def require_planned_event(
+    event_id: str,
+    chapter_number: int,
+    context: str,
+    planned_events: dict[str, tuple[int, int]],
+    ko_ids: set[str],
+    en_ids: set[str],
+    errors: list[str],
+) -> None:
+    planned_location = planned_events.get(event_id)
+    if planned_location is None:
+        fail(errors, f"{context} is not a story_map NEW/planned root: {event_id}")
+    elif planned_location[0] != chapter_number:
+        fail(
+            errors,
+            f"{context} chapter mismatch: {event_id} is declared for "
+            f"chapter {planned_location[0]}, not {chapter_number}",
+        )
+    if event_id in ko_ids or event_id in en_ids:
+        fail(errors, f"{context} already exists: {event_id}")
+
+
+def require_planned_relocation(
+    event_id: str,
+    chapter_number: int,
+    source_month: int,
+    context: str,
+    planned_relocations: dict[str, tuple[int, int, int]],
+    ko_ids: set[str],
+    en_ids: set[str],
+    errors: list[str],
+) -> None:
+    planned_location = planned_relocations.get(event_id)
+    if planned_location is None:
+        fail(errors, f"{context} is not a story_map EXPAND+source root: {event_id}")
+    elif planned_location[0] != chapter_number or planned_location[2] != source_month:
+        fail(
+            errors,
+            f"{context} relocation mismatch: {event_id} is chapter "
+            f"{planned_location[0]} from M{planned_location[2]}, not chapter "
+            f"{chapter_number} from M{source_month}",
+        )
+    if event_id not in ko_ids:
+        fail(errors, f"{context} lacks existing KO event: {event_id}")
+    if event_id not in en_ids:
+        fail(errors, f"{context} lacks existing EN event: {event_id}")
+
+
 def require_event(
     event_id: str,
     context: str,
@@ -171,12 +286,14 @@ def main() -> int:
         return 1
 
     spine = load_json(SPINE_PATH)
+    story_map = load_json(STORY_MAP_PATH)
     ko_ids = load_event_ids(EVENTS_KO)
     en_ids = load_event_ids(EVENTS_EN)
     ko_events = load_event_map(EVENTS_KO)
     if not isinstance(spine, dict):
         print("NARRATIVE_SPINE_AUDIT_ERROR root must be an object")
         return 1
+    planned_events, planned_relocations = collect_planned_events(story_map, errors)
 
     central_question = str(spine.get("central_question", "")).strip()
     if len(central_question) < 20:
@@ -209,12 +326,21 @@ def main() -> int:
     }
     if character_ids != CORE_CAST:
         fail(errors, f"core cast mismatch: {sorted(character_ids)}")
+    planned_character_anchors = 0
+    required_ensemble_anchors = {
+        "sangchul": (5, "arc_y5_three_in_room"),
+        "jaehyuk": (5, "arc_y5_three_in_room"),
+    }
+    required_character_relocations = {
+        "jaehyuk": (5, "arc_jaehyuk_mirror", 15),
+    }
     for row in characters if isinstance(characters, list) else []:
         if not isinstance(row, dict):
             continue
         character_id = str(row.get("id", ""))
         chapters = row.get("chapters", [])
         anchors = row.get("anchors", [])
+        planned_anchors = row.get("planned_anchors", [])
         if len(str(row.get("function", "")).strip()) < 15:
             fail(errors, f"character {character_id} lacks a dramatic function")
         if not isinstance(chapters, list) or len(set(chapters)) < 4:
@@ -222,7 +348,82 @@ def main() -> int:
         if not isinstance(anchors, list) or len(anchors) < 3:
             fail(errors, f"character {character_id} needs at least three anchors")
         for event_id in anchors if isinstance(anchors, list) else []:
+            if str(event_id) in RELOCATED_SPINE_EVENTS:
+                fail(
+                    errors,
+                    f"character {character_id} authored anchor is planned for relocation: "
+                    f"{event_id}",
+                )
             require_event(str(event_id), f"character {character_id}", ko_ids, en_ids, errors)
+        if not isinstance(planned_anchors, list):
+            fail(errors, f"character {character_id} planned_anchors must be an array")
+            planned_anchors = []
+        planned_pairs: set[tuple[int, str]] = set()
+        relocation_pairs: set[tuple[int, str, int]] = set()
+        for planned_anchor in planned_anchors:
+            if not isinstance(planned_anchor, dict):
+                fail(errors, f"character {character_id} planned anchor must be an object")
+                continue
+            chapter_number = int(planned_anchor.get("chapter", 0))
+            event_id = str(planned_anchor.get("event", "")).strip()
+            mode = str(planned_anchor.get("mode", "new"))
+            planned_pair = (chapter_number, event_id)
+            if planned_pair in planned_pairs:
+                fail(errors, f"character {character_id} planned anchor duplicated: {event_id}")
+                continue
+            planned_pairs.add(planned_pair)
+            planned_character_anchors += 1
+            if chapter_number not in chapters:
+                fail(
+                    errors,
+                    f"character {character_id} planned anchor chapter {chapter_number} "
+                    "is absent from its declared chapters",
+                )
+            if event_id in anchors:
+                fail(
+                    errors,
+                    f"character {character_id} planned anchor is already authored: {event_id}",
+                )
+            if mode == "new":
+                require_planned_event(
+                    event_id,
+                    chapter_number,
+                    f"character {character_id} planned anchor",
+                    planned_events,
+                    ko_ids,
+                    en_ids,
+                    errors,
+                )
+            elif mode == "expand":
+                source_month = int(planned_anchor.get("source_month", 0))
+                relocation_pair = (chapter_number, event_id, source_month)
+                relocation_pairs.add(relocation_pair)
+                require_planned_relocation(
+                    event_id,
+                    chapter_number,
+                    source_month,
+                    f"character {character_id} planned anchor",
+                    planned_relocations,
+                    ko_ids,
+                    en_ids,
+                    errors,
+                )
+            else:
+                fail(errors, f"character {character_id} planned anchor has invalid mode: {mode}")
+        required_ensemble_anchor = required_ensemble_anchors.get(character_id)
+        if required_ensemble_anchor and required_ensemble_anchor not in planned_pairs:
+            fail(
+                errors,
+                f"character {character_id} must plan chapter 5 ensemble anchor "
+                "arc_y5_three_in_room",
+            )
+        required_relocation = required_character_relocations.get(character_id)
+        if required_relocation and required_relocation not in relocation_pairs:
+            fail(
+                errors,
+                f"character {character_id} must expand/relocate arc_jaehyuk_mirror "
+                "from M15 to chapter 5",
+            )
 
     # 조연 정본: CORE_CAST의 "전 편 관통" 계약을 흔들지 않으면서 반복 등장
     # 인물을 등재한다. 특정 장에만 존재하는 것이 설계인 인물이 있다 —
@@ -261,6 +462,7 @@ def main() -> int:
         chapters = []
     expected_start = 1
     phase_owner: dict[str, int] = {}
+    chapter_relocations: set[tuple[int, str, str, int]] = set()
     for expected_number, chapter in enumerate(chapters, start=1):
         if not isinstance(chapter, dict):
             fail(errors, f"chapter {expected_number} must be an object")
@@ -304,6 +506,11 @@ def main() -> int:
                 continue
             for raw_event_id in event_ids:
                 event_id = str(raw_event_id)
+                if event_id in RELOCATED_SPINE_EVENTS:
+                    fail(
+                        errors,
+                        f"chapter {number} {phase} still authors relocated event {event_id}",
+                    )
                 require_event(event_id, f"chapter {number} {phase}", ko_ids, en_ids, errors)
                 if event_id in phase_owner:
                     fail(
@@ -319,6 +526,34 @@ def main() -> int:
                     errors,
                     f"chapter {number} {phase} lost required anchors: {missing_ids}",
                 )
+        relocation_rows = chapter.get("planned_relocations", [])
+        if not isinstance(relocation_rows, list):
+            fail(errors, f"chapter {number} planned_relocations must be an array")
+            relocation_rows = []
+        for relocation in relocation_rows:
+            if not isinstance(relocation, dict):
+                fail(errors, f"chapter {number} planned relocation must be an object")
+                continue
+            phase = str(relocation.get("phase", ""))
+            event_id = str(relocation.get("event", "")).strip()
+            source_month = int(relocation.get("source_month", 0))
+            relocation_contract = (number, phase, event_id, source_month)
+            if relocation_contract in chapter_relocations:
+                fail(errors, f"chapter {number} planned relocation duplicated: {event_id}")
+                continue
+            chapter_relocations.add(relocation_contract)
+            if phase not in PHASES:
+                fail(errors, f"chapter {number} planned relocation has invalid phase: {phase}")
+            require_planned_relocation(
+                event_id,
+                number,
+                source_month,
+                f"chapter {number} planned relocation",
+                planned_relocations,
+                ko_ids,
+                en_ids,
+                errors,
+            )
         if number in CHAPTER_TEMPORAL_COUNTS:
             temporal_spines = chapter.get("temporal_spines", [])
             required_count = CHAPTER_TEMPORAL_COUNTS[number]
@@ -355,6 +590,12 @@ def main() -> int:
                     )
                 for temporal_event_id in temporal_event_ids:
                     event_id = str(temporal_event_id)
+                    if event_id in RELOCATED_SPINE_EVENTS:
+                        fail(
+                            errors,
+                            f"chapter {number} temporal spine {temporal_id} still authors "
+                            f"relocated event {event_id}",
+                        )
                     require_event(
                         event_id,
                         f"chapter {number} temporal spine {temporal_id}",
@@ -370,6 +611,20 @@ def main() -> int:
                     errors,
                     f"chapter {number} temporal spines lost anchors: {missing_temporal_events}",
                 )
+    for chapter_number, required_relocations in REQUIRED_CHAPTER_RELOCATIONS.items():
+        missing_relocations = sorted(
+            required_relocations
+            - {
+                (phase, event_id, source_month)
+                for owner, phase, event_id, source_month in chapter_relocations
+                if owner == chapter_number
+            }
+        )
+        if missing_relocations:
+            fail(
+                errors,
+                f"chapter {chapter_number} lost planned relocations: {missing_relocations}",
+            )
     if expected_start != 241:
         fail(errors, f"chapter windows must end at week 240, got {expected_start - 1}")
 
@@ -406,6 +661,7 @@ def main() -> int:
         motif_ids.add(motif_id)
         plant = motif.get("plant", {})
         readers = motif.get("readers", [])
+        planned_readers = motif.get("planned_readers", [])
         if not isinstance(plant, dict) or int(plant.get("chapter", 0)) != 1:
             fail(errors, f"motif {motif_id} must be planted in chapter 1")
             plant = {}
@@ -414,7 +670,11 @@ def main() -> int:
         if not isinstance(readers, list) or len(readers) < 2:
             fail(errors, f"motif {motif_id} needs at least two later readers")
             readers = []
+        if not isinstance(planned_readers, list):
+            fail(errors, f"motif {motif_id} planned_readers must be an array")
+            planned_readers = []
         seen_late = False
+        has_chapter_five_reader = False
         for reader in readers:
             if not isinstance(reader, dict):
                 fail(errors, f"motif {motif_id} reader must be an object")
@@ -425,14 +685,59 @@ def main() -> int:
             if chapter_number >= 3:
                 seen_late = True
             if chapter_number == 5:
-                chapter_five_readers += 1
+                has_chapter_five_reader = True
+            reader_event_id = str(reader.get("event", ""))
+            if reader_event_id in RELOCATED_SPINE_EVENTS:
+                fail(
+                    errors,
+                    f"motif {motif_id} authored reader is planned for relocation: "
+                    f"{reader_event_id}",
+                )
             require_event(
-                str(reader.get("event", "")),
+                reader_event_id,
                 f"motif {motif_id} reader",
                 ko_ids,
                 en_ids,
                 errors,
             )
+        for reader in planned_readers:
+            if not isinstance(reader, dict):
+                fail(errors, f"motif {motif_id} planned reader must be an object")
+                continue
+            chapter_number = int(reader.get("chapter", 0))
+            event_id = str(reader.get("event", "")).strip()
+            mode = str(reader.get("mode", "new"))
+            if chapter_number <= int(plant.get("chapter", 1)):
+                fail(errors, f"motif {motif_id} planned reader must occur after its plant")
+            if chapter_number >= 3:
+                seen_late = True
+            if chapter_number == 5:
+                has_chapter_five_reader = True
+            if mode == "new":
+                require_planned_event(
+                    event_id,
+                    chapter_number,
+                    f"motif {motif_id} planned reader",
+                    planned_events,
+                    ko_ids,
+                    en_ids,
+                    errors,
+                )
+            elif mode == "expand":
+                require_planned_relocation(
+                    event_id,
+                    chapter_number,
+                    int(reader.get("source_month", 0)),
+                    f"motif {motif_id} planned reader",
+                    planned_relocations,
+                    ko_ids,
+                    en_ids,
+                    errors,
+                )
+            else:
+                fail(errors, f"motif {motif_id} planned reader has invalid mode: {mode}")
+        if has_chapter_five_reader:
+            chapter_five_readers += 1
         if not seen_late:
             fail(errors, f"motif {motif_id} never survives into chapter 3+")
         if motif_id == "signature":
@@ -504,6 +809,8 @@ def main() -> int:
     print(
         "NARRATIVE_SPINE_AUDIT_OK "
         f"chapters={len(chapters)} characters={len(characters)} "
+        f"planned_character_anchors={planned_character_anchors} "
+        f"planned_relocations={len(chapter_relocations)} "
         f"supporting={len(supporting)} system_spine=5 "
         f"world_laws={len(world_laws)} motifs={len(motifs)} "
         f"chapter5_readers={chapter_five_readers} "
