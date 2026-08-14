@@ -1,12 +1,20 @@
-# Active Queue Spec: ORDER-102
+# Archived Queue Spec: ORDER-102
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-102 [P0·코어 재설계] 60개월 story map과 빠른 영향 검사를 만든다
+#### [x] ORDER-102 [P0·코어 재설계] 60개월 story map과 빠른 영향 검사를 만든다
 
-**현재 상태 (2026-08-15):** 60개월 설계 후보와 M01·M35·M55 세로 단면,
-`story-map` 명시 fast lane까지 완성했다. 사용자 후속 판정에 따라 M01~M06에서
-형식적 순서표가 아닌 실제 고민과 지배전략 부재를 먼저 증명한다. 런타임·산문·UI는 그 뒤다.
+**완료 (2026-08-15):** 60개월 설계 후보와 M01·M35·M55 세로 단면,
+`story-map` 명시 fast lane을 완성했다. M01~M06은 주력 하나와 같은 축 여유로
+고르는 둘째, 한 번만 돌아오는 미룸, 특정 문 닫힘을 갖는다. 4,509개 합법 경로와
+18개 Pareto 결과에서 항상 현금·항상 둘째·한 축 고정 등 다섯 제한 정책이
+지배전략이 아님을 확인했고, 클릭 순서와 인물 focus·pressure producer의
+false-open 변조 13건을 거부했다. 제품 런타임·산문·기존 24주 판은 수정하지 않았다.
+
+계속 유효한 월간 정본·기억/결정 상한·같은 축 여유·미룸/만료 규칙은
+`content/meta/story_map.json`과 `docs/CHOICE_CONSEQUENCE_SYSTEM.md`로 승격했다.
+파일 소유권·세로 단면 순서·검사 명령은 일회성이다. 사용자가 실제 고민이 드는
+화면 구현을 승인했으므로 후속 ORDER-103이 독립 M01~M06 체험판을 소유한다.
 
 **사용자 판정 (2026-08-14):** 숫자 여력 `5·3·2·4`를 네 행동에 돌려 쓰는
 현재 판은 순서와 배분의 의미가 약하고, 회사 지원·알바처럼 초반에만 성립하는
