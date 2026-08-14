@@ -12,11 +12,11 @@ GODOT="${GODOT:-/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot}"
 # 놓치더라도 감사 프로세스가 몇 시간씩 남지 않도록 동일한 제한을 보장한다.
 run_limited() {
   if command -v gtimeout >/dev/null 2>&1; then
-    gtimeout 150 "$@"
+    gtimeout 720 "$@"
   elif command -v timeout >/dev/null 2>&1; then
-    timeout 150 "$@"
+    timeout 720 "$@"
   elif command -v perl >/dev/null 2>&1; then
-    perl -e '$seconds = shift; alarm $seconds; exec @ARGV' 150 "$@"
+    perl -e '$seconds = shift; alarm $seconds; exec @ARGV' 720 "$@"
   else
     "$@"
   fi

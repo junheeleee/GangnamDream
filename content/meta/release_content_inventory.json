@@ -221,12 +221,12 @@
     "fresh_start_chapter_root": "chapter_card_33",
     "week_1_24_event_count": 60,
     "week_1_24_event_ids_sha256": "d18b1f6e142583bde96fa9068fd0e03d7a14132a09dce89551872258593d1a22",
-    "prologue_event_count": 12,
-    "prologue_event_ids_sha256": "7b783dd4c8f8abdbb7f34219b35d50e9ea00ff221f704301c03dc9b40904dd7f",
+    "prologue_event_count": 11,
+    "prologue_event_ids_sha256": "8b0492fb4092ec80a5c0a53dd302b16fbf918c008559560c56a098d144995913",
     "chapter_event_count": 1,
     "chapter_event_ids_sha256": "d0d8c63ac3d70ac9db0fba6d550fa61f86d906f660c322b87593a639eb18a9a8",
-    "fresh_start_event_count": 73,
-    "fresh_start_event_ids_sha256": "340ea03ac1c6416d53b0ba97c7a74619da81cad81bb069ac3d33d732fcefcdb8"
+    "fresh_start_event_count": 72,
+    "fresh_start_event_ids_sha256": "4f06623c859fd557ee1080f6be676e182206b5e26f5ec276390861f89a95159e"
   },
   "network_contract": {
     "runtime_roots": ["autoloads", "scenes", "systems", "ui_components"],

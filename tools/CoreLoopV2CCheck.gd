@@ -35,6 +35,8 @@ const RELATIONSHIP_STAGES := [
 var _failures: Array[String] = []
 var _captured_boundary_saves: Array[Dictionary] = []
 var _autosave_backup: Dictionary = {}
+var _canonical_w8_sns_save: Dictionary = {}
+var _canonical_w8_sns_cafe_save: Dictionary = {}
 
 func _ready() -> void:
 	_backup_autosave()
@@ -225,12 +227,9 @@ func _check_month_four_offer_matrix() -> void:
 			and sangchul_producer != jaehyuk_producer,
 		"Sangchul and Jaehyuk do not have distinct prior-route producers")
 
-	_fresh_at(13)
+	_expect(_load_canonical_w8_sns_fixture(13, true),
+		"rich Month Four fixture could not load canonical W8 SNS authority")
 	_unlock_daeun_named_path()
-	if not sangchul_producer.is_empty():
-		_mark_completed(sangchul_producer, 7)
-	if not jaehyuk_producer.is_empty():
-		_mark_completed(jaehyuk_producer, 8)
 	var rich: Array[String] = CORE_LOOP.available_offer_ids(4)
 	var required_rich: Array[String] = [
 		"m4_dodam_application",
@@ -600,19 +599,15 @@ func _check_money_entry_prerequisites_and_exclusivity() -> void:
 			and not sangchul_only.has("jaehyuk_world_meet"),
 		"Sangchul's route did not open only Sangchul")
 
-	_fresh_at(13)
-	if not jaehyuk_producer.is_empty():
-		_mark_completed(jaehyuk_producer, 8)
+	_expect(_load_canonical_w8_sns_fixture(13),
+		"Jaehyuk-only fixture could not load canonical W8 SNS authority")
 	var jaehyuk_only: Array[String] = CORE_LOOP.available_offer_ids(4)
 	_expect(jaehyuk_only.has("jaehyuk_world_meet") \
 			and not jaehyuk_only.has("sangchul_world_meet"),
 		"Jaehyuk's route did not open only Jaehyuk")
 
-	_fresh_at(13)
-	if not sangchul_producer.is_empty():
-		_mark_completed(sangchul_producer, 7)
-	if not jaehyuk_producer.is_empty():
-		_mark_completed(jaehyuk_producer, 8)
+	_expect(_load_canonical_w8_sns_fixture(13, true),
+		"two-route fixture could not load canonical W8 SNS authority")
 	var both_visible: Array[String] = CORE_LOOP.available_offer_ids(4)
 	_expect(both_visible.has("sangchul_world_meet") \
 			and both_visible.has("jaehyuk_world_meet"),
@@ -1322,6 +1317,282 @@ func _unlock_daeun_distance_path() -> void:
 	_set_relationship_memory(
 		"daeun", "daeun_kept_distance",
 		"daeun_world_meet", 11)
+
+func _load_canonical_w8_sns_fixture(
+		target_turn: int, include_cafe: bool = false) -> bool:
+	if include_cafe and _canonical_w8_sns_cafe_save.is_empty():
+		_canonical_w8_sns_cafe_save = _produce_canonical_w8_sns_save(true)
+	elif not include_cafe and _canonical_w8_sns_save.is_empty():
+		_canonical_w8_sns_save = _produce_canonical_w8_sns_save(false)
+	var fixture := (
+		_canonical_w8_sns_cafe_save if include_cafe
+		else _canonical_w8_sns_save)
+	if fixture.is_empty():
+		return false
+	GameState.start_new_game()
+	GameState.load_from_dict(fixture.duplicate(true))
+	if not CORE_LOOP.initialize_for_run(true):
+		return false
+	GameState.turn = target_turn
+	GameState.month = CORE_LOOP.month_for_turn(target_turn)
+	GameState.week_of_month = ((target_turn - 1) % 4) + 1
+	var state: Dictionary = GameState.core_loop_v2_state
+	return (state.get("completed_bundles", []) as Array).count(
+			"sns_pressure_night") == 1 \
+		and int((state.get("completed_bundle_turns", {}) as Dictionary).get(
+			"sns_pressure_night", 0)) == 8 \
+		and not CORE_LOOP.month_summary(2).is_empty() \
+		and CORE_LOOP.available_offer_ids(4).has("jaehyuk_world_meet") \
+		and CORE_LOOP.available_offer_ids(4).has("sangchul_world_meet") \
+			== include_cafe
+
+func _produce_canonical_w8_sns_save(include_cafe: bool) -> Dictionary:
+	_fresh_at(1)
+	GameState.flags["prologue_done"] = true
+	# The C check starts after the opening interview. This unrelated status only
+	# opens the established Seoul Cycle gate; the SNS producer below is created
+	# exclusively through allocation, world, Story, prelude, and close APIs.
+	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var statuses: Dictionary = state.get("application_statuses", {})
+	statuses["mirae_industrial_tech"] = "interviewed"
+	state["application_statuses"] = statuses
+	GameState.core_loop_v2_state = state
+
+	var month_one := CORE_LOOP.initialize_seoul_cycle(1)
+	_expect(bool(month_one.get("ok", false)),
+		"canonical SNS fixture could not initialize Month One")
+	if not bool(month_one.get("ok", false)):
+		return {}
+	for turn in range(1, 5):
+		var snapshot := CORE_LOOP.seoul_cycle_snapshot(1)
+		var capacity_id := _sns_fixture_unused_capacity(snapshot)
+		var committed := CORE_LOOP.commit_seoul_cycle_allocation(
+			capacity_id, "recovery", 1)
+		_expect(bool(committed.get("ok", false)),
+			"canonical SNS fixture Month One allocation failed at W%d" % turn)
+		if not bool(committed.get("ok", false)):
+			return {}
+		var pending_world: Dictionary = CORE_LOOP.pending_seoul_cycle_world()
+		if not pending_world.is_empty():
+			var world_bundle := str(pending_world.get("bundle_id", ""))
+			var world_ok := false
+			if world_bundle == "hyunsu_first_meet":
+				world_ok = _resolve_sns_fixture_story_world(
+					world_bundle, "arc_intro_04_hyunsu", 0)
+			elif world_bundle == "first_temptation_boss":
+				world_ok = _resolve_sns_fixture_story_world(
+					world_bundle, "arc_temptation_01", 0)
+			_expect(world_ok,
+				"canonical SNS fixture could not resolve W%d world owner %s" % [
+					turn, world_bundle])
+			if not world_ok:
+				return {}
+		var closed := CORE_LOOP.complete_seoul_cycle_turn(1)
+		_expect(bool(closed.get("ok", false)),
+			"canonical SNS fixture could not close W%d" % turn)
+		if not bool(closed.get("ok", false)):
+			return {}
+		if turn < 4:
+			_sns_fixture_advance_week()
+	var month_one_summary := CORE_LOOP.record_month_summary(1, {}, {})
+	_expect(not month_one_summary.is_empty(),
+		"canonical SNS fixture did not freeze Month One authority")
+	if month_one_summary.is_empty():
+		return {}
+
+	_sns_fixture_advance_week()
+	var month_two := CORE_LOOP.initialize_seoul_cycle(2)
+	_expect(bool(month_two.get("ok", false)),
+		"canonical SNS fixture could not initialize Month Two")
+	if not bool(month_two.get("ok", false)):
+		return {}
+	for turn in range(5, 9):
+		var snapshot := CORE_LOOP.seoul_cycle_snapshot(2)
+		var capacity_id := _sns_fixture_unused_capacity(snapshot)
+		var node_id := "m2_self" if turn in [5, 7] else "m2_livelihood"
+		var selected_candidate_id := ""
+		if include_cafe:
+			if turn == 5 or turn == 7:
+				node_id = "m2_people"
+				selected_candidate_id = "cafe_world_glimpse"
+			elif turn == 6:
+				node_id = "m2_self"
+			else:
+				node_id = "m2_livelihood"
+		var committed := CORE_LOOP.commit_seoul_cycle_allocation(
+			capacity_id, node_id, 2, selected_candidate_id)
+		_expect(bool(committed.get("ok", false)),
+			"canonical SNS fixture Month Two allocation failed at W%d: %s" % [
+				turn, str(committed)])
+		if not bool(committed.get("ok", false)):
+			return {}
+		var pending_trigger: Dictionary = CORE_LOOP.pending_seoul_cycle_trigger()
+		if not pending_trigger.is_empty():
+			var trigger_bundle := str(pending_trigger.get("bundle_id", ""))
+			var trigger_ok := (
+				_resolve_sns_fixture_story_trigger(
+					trigger_bundle, "cafe_00", 0)
+				if trigger_bundle == "cafe_world_glimpse" else
+				_resolve_sns_fixture_action_trigger(trigger_bundle))
+			_expect(trigger_ok,
+				"canonical SNS fixture could not resolve W%d trigger %s" % [
+					turn, trigger_bundle])
+			if not trigger_ok:
+				return {}
+		var pending_world: Dictionary = CORE_LOOP.pending_seoul_cycle_world()
+		if not pending_world.is_empty():
+			var world_bundle := str(pending_world.get("bundle_id", ""))
+			var world_ok := (
+				_resolve_sns_fixture_world()
+				if world_bundle == "sns_pressure_night" else
+				_resolve_sns_fixture_story_world(
+					world_bundle, "v2_mirae_result_message", 0)
+				if world_bundle == "m2_mirae_result_message" else false)
+			_expect(world_ok,
+				"canonical SNS fixture could not resolve W%d world owner %s" % [
+					turn, world_bundle])
+			if not world_ok:
+				return {}
+		var closed := CORE_LOOP.complete_seoul_cycle_turn(2)
+		_expect(bool(closed.get("ok", false)),
+			"canonical SNS fixture could not close W%d" % turn)
+		if not bool(closed.get("ok", false)):
+			return {}
+		if turn < 8:
+			_sns_fixture_advance_week()
+	var month_two_summary := CORE_LOOP.record_month_summary(2, {}, {})
+	var final_state: Dictionary = GameState.core_loop_v2_state
+	var cycle: Dictionary = final_state.get("seoul_cycle", {})
+	var world_receipt: Dictionary = (
+		cycle.get("world_receipts", {}) as Dictionary).get("4", {})
+	var prelude := CORE_LOOP.scheduled_prelude_receipt(
+		"sns_pressure_night", 8)
+	var valid := not month_two_summary.is_empty() \
+		and str(world_receipt.get("bundle_id", "")) == "sns_pressure_night" \
+		and str(world_receipt.get("status", "")) == "resolved" \
+		and str(prelude.get("consequence_id", "")) \
+			== "temptation_consequence" \
+		and str(prelude.get("status", "")) == "consumed" \
+		and (final_state.get("completed_bundles", []) as Array).count(
+			"sns_pressure_night") == 1 \
+		and int((final_state.get(
+			"completed_bundle_turns", {}) as Dictionary).get(
+				"sns_pressure_night", 0)) == 8
+	_expect(valid,
+		"canonical SNS fixture did not freeze exact W8 world authority")
+	return GameState.serialize().duplicate(true) if valid else {}
+
+func _resolve_sns_fixture_story_world(
+		bundle_id: String, event_id: String, choice_index: int) -> bool:
+	var claimed := CORE_LOOP.claim_seoul_cycle_world()
+	var began := bool(claimed.get("ok", false)) \
+		and CORE_LOOP.begin_seoul_cycle_world(bundle_id)
+	if not began or not _apply_and_note_sns_fixture_story(
+			event_id, choice_index):
+		return false
+	return CORE_LOOP.complete_active_bundle() == bundle_id \
+		and CORE_LOOP.pending_seoul_cycle_world().is_empty()
+
+func _resolve_sns_fixture_story_trigger(
+		bundle_id: String, event_id: String, choice_index: int) -> bool:
+	var claimed := CORE_LOOP.claim_seoul_cycle_trigger()
+	var began := bool(claimed.get("ok", false)) \
+		and CORE_LOOP.begin_seoul_cycle_trigger(bundle_id)
+	if not began or not _apply_and_note_sns_fixture_story(
+			event_id, choice_index):
+		return false
+	return CORE_LOOP.complete_active_bundle() == bundle_id \
+		and CORE_LOOP.pending_seoul_cycle_trigger().is_empty()
+
+func _resolve_sns_fixture_world() -> bool:
+	var bundle_id := "sns_pressure_night"
+	var claimed := CORE_LOOP.claim_seoul_cycle_world()
+	var began := bool(claimed.get("ok", false)) \
+		and CORE_LOOP.begin_seoul_cycle_world(bundle_id)
+	if not began:
+		return false
+	var prelude := CORE_LOOP.claim_scheduled_prelude(bundle_id)
+	var receipt: Dictionary = prelude.get("receipt", {})
+	var roots: Array = receipt.get("roots", []) \
+		if receipt.get("roots", []) is Array else []
+	if not bool(prelude.get("ok", false)) or roots.size() != 1:
+		return false
+	for raw_root in roots:
+		if not _apply_and_note_sns_fixture_story(str(raw_root), 0):
+			return false
+	if not _apply_and_note_sns_fixture_story("arc_intro_03_sns", 0):
+		return false
+	var consumed := CORE_LOOP.consume_scheduled_prelude(bundle_id)
+	return bool(consumed.get("ok", false)) \
+		and CORE_LOOP.complete_active_bundle() == bundle_id \
+		and CORE_LOOP.pending_seoul_cycle_world().is_empty()
+
+func _resolve_sns_fixture_action_trigger(bundle_id: String) -> bool:
+	var recovery := bundle_id == "m2_sleep_debt_sunday"
+	var side_shift := bundle_id == "m2_rain_delivery_shift"
+	if not recovery and not side_shift:
+		return false
+	var action_id := "rest" if recovery else "side_shift"
+	var effects := {"mental": 10, "health": 3} if recovery else {}
+	var axis := "human" if recovery else "money"
+	var place_id := "home" if recovery else "work"
+	var claimed := CORE_LOOP.claim_seoul_cycle_trigger()
+	var began := bool(claimed.get("ok", false)) \
+		and CORE_LOOP.begin_seoul_cycle_trigger(bundle_id)
+	var armed := began and GameState.arm_weekly_commitment({
+		"turn": int(GameState.turn),
+		"pressure_id": bundle_id,
+		"pressure_family": "recovery" if recovery else "livelihood",
+		"choice_id": action_id,
+		"forgone_ids": [],
+		"supplemental_to_seoul_cycle": true,
+	})
+	if not armed:
+		return false
+	var details := {
+		"execution": "rest" if recovery else "side_shift",
+		"effects": effects.duplicate(true),
+	}
+	if recovery:
+		details["diminished_by_recovery_routine"] = false
+	else:
+		details["axis"] = axis
+		details["place_id"] = place_id
+	var transaction := GameState.finalize_weekly_effect_action(
+		action_id, effects, axis, place_id, "", details)
+	if not bool(transaction.get("ok", false)) \
+			or not CORE_LOOP.note_action_commitment(
+				transaction.get("record", {}) as Dictionary):
+		return false
+	return CORE_LOOP.complete_active_bundle() == bundle_id \
+		and CORE_LOOP.pending_seoul_cycle_trigger().is_empty()
+
+func _apply_and_note_sns_fixture_story(
+		event_id: String, choice_index: int) -> bool:
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	var choices: Array = event.get("choices", []) \
+		if event.get("choices", []) is Array else []
+	return not event.is_empty() \
+		and choice_index >= 0 and choice_index < choices.size() \
+		and choices[choice_index] is Dictionary \
+		and GameState.apply_choice(event, choices[choice_index] as Dictionary) \
+		and CORE_LOOP.note_story_choice(event_id, choice_index)
+
+func _sns_fixture_unused_capacity(snapshot: Dictionary) -> String:
+	var candidates: Array[Dictionary] = []
+	for raw_capacity in snapshot.get("capacities", []):
+		if raw_capacity is Dictionary \
+				and not bool((raw_capacity as Dictionary).get(
+					"consumed", false)):
+			candidates.append((raw_capacity as Dictionary).duplicate(true))
+	if candidates.is_empty():
+		return ""
+	candidates.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		return int(a.get("value", 0)) > int(b.get("value", 0)))
+	return str(candidates[0].get("id", ""))
+
+func _sns_fixture_advance_week() -> void:
+	GameState.advance_calendar()
 
 func _fresh_at(target_turn: int = 13) -> void:
 	GameState.start_new_game()

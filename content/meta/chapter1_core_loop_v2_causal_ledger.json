@@ -346,7 +346,9 @@
         "reentry_cost": null
       },
       "next_verb_by_terminal": {
-        "completed": [],
+        "completed": [
+          "m2_advancement"
+        ],
         "expired": [
           "m2_advancement"
         ]
@@ -358,7 +360,8 @@
       ],
       "near_reader_ids": [
         "reader:near:m1_resume",
-        "reader:action:m1_youth_center_resume_clinic"
+        "reader:action:m1_youth_center_resume_clinic",
+        "reader:next:terminal:m1_resume_to_m2_advancement"
       ],
       "milestone_reader_ids": [
         "reader:month:m01:summary",
@@ -375,7 +378,7 @@
         "reader_ids": [
           "reader:month:m01:summary"
         ],
-        "changes_future_availability": false
+        "changes_future_availability": true
       },
       "counterfactual_id": "counterfactual:m1_resume",
       "surface_pointers": {
@@ -893,7 +896,9 @@
         "reentry_cost": null
       },
       "next_verb_by_terminal": {
-        "completed": [],
+        "completed": [
+          "m3_people"
+        ],
         "expired": [
           "m2_people"
         ]
@@ -1146,7 +1151,9 @@
         "reentry_cost": null
       },
       "next_verb_by_terminal": {
-        "completed": [],
+        "completed": [
+          "reader:result:m3_seorin"
+        ],
         "expired": [
           "m3_advancement"
         ]
@@ -2302,7 +2309,10 @@
         "reentry_cost": null
       },
       "next_verb_by_terminal": {
-        "completed": [],
+        "completed": [
+          "m3_people",
+          "m4_people"
+        ],
         "expired": [
           "m3_people"
         ]
@@ -2443,7 +2453,8 @@
       },
       "next_verb_by_terminal": {
         "completed": [
-          "m2_self"
+          "m2_self",
+          "m3_self"
         ],
         "expired": [
           "m3_self"
@@ -2456,7 +2467,8 @@
       ],
       "near_reader_ids": [
         "reader:near:m2_self",
-        "reader:action:m2_sleep_debt_sunday"
+        "reader:action:m2_sleep_debt_sunday",
+        "reader:next:terminal:m2_self_to_m3_self"
       ],
       "milestone_reader_ids": [
         "reader:month:m02:summary",
@@ -2472,7 +2484,7 @@
         "reader_ids": [
           "reader:month:m02:summary"
         ],
-        "changes_future_availability": false
+        "changes_future_availability": true
       },
       "counterfactual_id": "counterfactual:m2_self",
       "surface_pointers": {
@@ -8133,6 +8145,68 @@
       "scene_handoff_decision_ids": []
     },
     {
+      "reader_id": "reader:next:terminal:m1_resume_to_m2_advancement",
+      "reader_kind": "next_verb",
+      "layer_owner": "story",
+      "status": "active",
+      "reads_fact_ids": [
+        "receipt:completed:m1_youth_center_resume_clinic",
+        "fact:resume_polished",
+        "receipt:action:m1_youth_center_resume_clinic"
+      ],
+      "history_memory_ids": [
+        "receipt:completed:m1_youth_center_resume_clinic",
+        "fact:resume_polished",
+        "receipt:action:m1_youth_center_resume_clinic"
+      ],
+      "material_state_ids": [],
+      "read_contracts": [
+        {
+          "fact_id": "receipt:completed:m1_youth_center_resume_clinic",
+          "runtime_proof_ids": [
+            "proof:data:terminal_routes:order101",
+            "proof:runtime:terminal_source_proof",
+            "proof:runtime:terminal_typed_action_proof",
+            "proof:runtime:terminal_target_candidates"
+          ]
+        },
+        {
+          "fact_id": "fact:resume_polished",
+          "runtime_proof_ids": [
+            "proof:data:terminal_routes:order101",
+            "proof:runtime:terminal_source_proof",
+            "proof:runtime:terminal_typed_action_proof",
+            "proof:runtime:terminal_target_candidates",
+            "proof:runtime:resume_quality_outcome"
+          ]
+        },
+        {
+          "fact_id": "receipt:action:m1_youth_center_resume_clinic",
+          "runtime_proof_ids": [
+            "proof:data:terminal_routes:order101",
+            "proof:runtime:terminal_source_proof",
+            "proof:runtime:terminal_typed_action_proof",
+            "proof:runtime:terminal_target_candidates"
+          ]
+        }
+      ],
+      "input_build_family_ids": [
+        "build:career_progression"
+      ],
+      "story_decision_ids": [],
+      "runtime_pointer": "content/meta/demo_core_loop_v2.json#/seoul_cycle/terminal_routes",
+      "runtime_proof_ids": [
+        "proof:row:m1_resume",
+        "proof:data:terminal_routes:order101",
+        "proof:runtime:terminal_source_proof",
+        "proof:runtime:terminal_typed_action_proof",
+        "proof:runtime:terminal_target_candidates",
+        "proof:runtime:resume_quality_outcome"
+      ],
+      "scene_handoff_fact_ids": [],
+      "scene_handoff_decision_ids": []
+    },
+    {
       "reader_id": "reader:near:m1_convenience",
       "reader_kind": "display",
       "layer_owner": "summary",
@@ -8519,6 +8593,44 @@
       "runtime_proof_ids": [
         "proof:row:m2_self",
         "proof:read:action_m2_sleep_debt_sunday"
+      ],
+      "scene_handoff_fact_ids": [],
+      "scene_handoff_decision_ids": []
+    },
+    {
+      "reader_id": "reader:next:terminal:m2_self_to_m3_self",
+      "reader_kind": "next_verb",
+      "layer_owner": "story",
+      "status": "active",
+      "reads_fact_ids": [
+        "receipt:action:m2_sleep_debt_sunday"
+      ],
+      "history_memory_ids": [
+        "receipt:action:m2_sleep_debt_sunday"
+      ],
+      "material_state_ids": [],
+      "read_contracts": [
+        {
+          "fact_id": "receipt:action:m2_sleep_debt_sunday",
+          "runtime_proof_ids": [
+            "proof:data:terminal_routes:order101",
+            "proof:runtime:terminal_source_proof",
+            "proof:runtime:terminal_action_receipt_proof",
+            "proof:runtime:terminal_target_candidates"
+          ]
+        }
+      ],
+      "input_build_family_ids": [
+        "build:recovery_capacity"
+      ],
+      "story_decision_ids": [],
+      "runtime_pointer": "content/meta/demo_core_loop_v2.json#/seoul_cycle/terminal_routes",
+      "runtime_proof_ids": [
+        "proof:row:m2_self",
+        "proof:data:terminal_routes:order101",
+        "proof:runtime:terminal_source_proof",
+        "proof:runtime:terminal_action_receipt_proof",
+        "proof:runtime:terminal_target_candidates"
       ],
       "scene_handoff_fact_ids": [],
       "scene_handoff_decision_ids": []
@@ -9641,14 +9753,18 @@
           "fact_id": "state:relationship:father:met",
           "runtime_proof_ids": [
             "proof:read:next_father_quiet_call",
-            "proof:data:prerequisites:father_quiet_call"
+            "proof:data:prerequisites:father_quiet_call",
+            "proof:runtime:legacy_040746_schema_two_consumer_admission",
+            "proof:runtime:legacy_040746_relationship_ledgers"
           ]
         },
         {
           "fact_id": "memory:father:father_wellbeing_returned",
           "runtime_proof_ids": [
             "proof:read:next_father_quiet_call",
-            "proof:data:prerequisites:father_quiet_call"
+            "proof:data:prerequisites:father_quiet_call",
+            "proof:runtime:legacy_040746_schema_two_consumer_admission",
+            "proof:runtime:legacy_040746_relationship_ledgers"
           ]
         }
       ],
@@ -9661,7 +9777,9 @@
         "proof:row:m1_father",
         "proof:runtime:trigger_prerequisites",
         "proof:read:next_father_quiet_call",
-        "proof:data:prerequisites:father_quiet_call"
+        "proof:data:prerequisites:father_quiet_call",
+        "proof:runtime:legacy_040746_schema_two_consumer_admission",
+        "proof:runtime:legacy_040746_relationship_ledgers"
       ],
       "scene_handoff_fact_ids": [],
       "scene_handoff_decision_ids": []
@@ -9694,14 +9812,18 @@
           "fact_id": "state:relationship:father:met",
           "runtime_proof_ids": [
             "proof:read:next_father_quiet_call_future_reassured",
-            "proof:data:prerequisites:father_quiet_call"
+            "proof:data:prerequisites:father_quiet_call",
+            "proof:runtime:legacy_040746_schema_two_consumer_admission",
+            "proof:runtime:legacy_040746_relationship_ledgers"
           ]
         },
         {
           "fact_id": "memory:father:father_future_reassured",
           "runtime_proof_ids": [
             "proof:read:next_father_quiet_call_future_reassured",
-            "proof:data:prerequisites:father_quiet_call"
+            "proof:data:prerequisites:father_quiet_call",
+            "proof:runtime:legacy_040746_schema_two_consumer_admission",
+            "proof:runtime:legacy_040746_relationship_ledgers"
           ]
         }
       ],
@@ -9714,7 +9836,9 @@
         "proof:row:m1_father",
         "proof:runtime:trigger_prerequisites",
         "proof:read:next_father_quiet_call_future_reassured",
-        "proof:data:prerequisites:father_quiet_call"
+        "proof:data:prerequisites:father_quiet_call",
+        "proof:runtime:legacy_040746_schema_two_consumer_admission",
+        "proof:runtime:legacy_040746_relationship_ledgers"
       ],
       "scene_handoff_fact_ids": [],
       "scene_handoff_decision_ids": []
@@ -9747,14 +9871,18 @@
           "fact_id": "state:relationship:father:met",
           "runtime_proof_ids": [
             "proof:read:next_father_quiet_call_ended_quickly",
-            "proof:data:prerequisites:father_quiet_call"
+            "proof:data:prerequisites:father_quiet_call",
+            "proof:runtime:legacy_040746_schema_two_consumer_admission",
+            "proof:runtime:legacy_040746_relationship_ledgers"
           ]
         },
         {
           "fact_id": "memory:father:father_call_ended_quickly",
           "runtime_proof_ids": [
             "proof:read:next_father_quiet_call_ended_quickly",
-            "proof:data:prerequisites:father_quiet_call"
+            "proof:data:prerequisites:father_quiet_call",
+            "proof:runtime:legacy_040746_schema_two_consumer_admission",
+            "proof:runtime:legacy_040746_relationship_ledgers"
           ]
         }
       ],
@@ -9767,7 +9895,9 @@
         "proof:row:m1_father",
         "proof:runtime:trigger_prerequisites",
         "proof:read:next_father_quiet_call_ended_quickly",
-        "proof:data:prerequisites:father_quiet_call"
+        "proof:data:prerequisites:father_quiet_call",
+        "proof:runtime:legacy_040746_schema_two_consumer_admission",
+        "proof:runtime:legacy_040746_relationship_ledgers"
       ],
       "scene_handoff_fact_ids": [],
       "scene_handoff_decision_ids": []
@@ -9779,11 +9909,13 @@
       "status": "active",
       "reads_fact_ids": [
         "receipt:completed:m2_seorin_application",
-        "receipt:application:seorin_contract_2026q1:submitted"
+        "receipt:application:seorin_contract_2026q1:submitted",
+        "receipt:action:m2_seorin_application"
       ],
       "history_memory_ids": [
         "receipt:completed:m2_seorin_application",
-        "receipt:application:seorin_contract_2026q1:submitted"
+        "receipt:application:seorin_contract_2026q1:submitted",
+        "receipt:action:m2_seorin_application"
       ],
       "material_state_ids": [],
       "read_contracts": [
@@ -9800,6 +9932,19 @@
             "proof:read:result_m3_seorin",
             "proof:data:prerequisites:m3_seorin_result_message"
           ]
+        },
+        {
+          "fact_id": "receipt:action:m2_seorin_application",
+          "runtime_proof_ids": [
+            "proof:read:result_m3_seorin",
+            "proof:data:prerequisites:m3_seorin_result_message",
+            "proof:runtime:action_receipt_prerequisite",
+            "proof:runtime:exact_live_action_weekly_commitment",
+            "proof:runtime:action_record_from_weekly_commitment",
+            "proof:runtime:legacy_040746_schema_two_consumer_admission",
+            "proof:runtime:legacy_040746_action_recovery",
+            "proof:runtime:legacy_040746_action_weekly_record"
+          ]
         }
       ],
       "input_build_family_ids": [
@@ -9810,6 +9955,12 @@
       "runtime_proof_ids": [
         "proof:row:m2_advancement",
         "proof:runtime:trigger_prerequisites",
+        "proof:runtime:action_receipt_prerequisite",
+        "proof:runtime:exact_live_action_weekly_commitment",
+        "proof:runtime:action_record_from_weekly_commitment",
+        "proof:runtime:legacy_040746_schema_two_consumer_admission",
+        "proof:runtime:legacy_040746_action_recovery",
+        "proof:runtime:legacy_040746_action_weekly_record",
         "proof:read:result_m3_seorin",
         "proof:data:prerequisites:m3_seorin_result_message"
       ],
@@ -10963,11 +11114,13 @@
       "status": "active",
       "reads_fact_ids": [
         "receipt:completed:m2_seorin_application",
-        "receipt:application:seorin_contract_2026q1:submitted"
+        "receipt:application:seorin_contract_2026q1:submitted",
+        "receipt:action:m2_seorin_application"
       ],
       "history_memory_ids": [
         "receipt:completed:m2_seorin_application",
-        "receipt:application:seorin_contract_2026q1:submitted"
+        "receipt:application:seorin_contract_2026q1:submitted",
+        "receipt:action:m2_seorin_application"
       ],
       "material_state_ids": [],
       "read_contracts": [
@@ -10984,6 +11137,19 @@
             "proof:read:milestone_w12_seorin_submitted",
             "proof:data:prerequisites:m3_seorin_result_message"
           ]
+        },
+        {
+          "fact_id": "receipt:action:m2_seorin_application",
+          "runtime_proof_ids": [
+            "proof:read:milestone_w12_seorin_submitted",
+            "proof:data:prerequisites:m3_seorin_result_message",
+            "proof:runtime:action_receipt_prerequisite",
+            "proof:runtime:exact_live_action_weekly_commitment",
+            "proof:runtime:action_record_from_weekly_commitment",
+            "proof:runtime:legacy_040746_schema_two_consumer_admission",
+            "proof:runtime:legacy_040746_action_recovery",
+            "proof:runtime:legacy_040746_action_weekly_record"
+          ]
         }
       ],
       "input_build_family_ids": [
@@ -10995,6 +11161,12 @@
         "proof:milestone:w12",
         "proof:read:milestone_w12_seorin_submitted",
         "proof:invocation:w12_story",
+        "proof:runtime:action_receipt_prerequisite",
+        "proof:runtime:exact_live_action_weekly_commitment",
+        "proof:runtime:action_record_from_weekly_commitment",
+        "proof:runtime:legacy_040746_schema_two_consumer_admission",
+        "proof:runtime:legacy_040746_action_recovery",
+        "proof:runtime:legacy_040746_action_weekly_record",
         "proof:data:prerequisites:m3_seorin_result_message"
       ],
       "scene_handoff_fact_ids": [],
@@ -11886,10 +12058,12 @@
       "layer_owner": "story",
       "status": "active",
       "reads_fact_ids": [
-        "receipt:completed:m2_rain_delivery_shift"
+        "receipt:completed:m2_rain_delivery_shift",
+        "receipt:action:m2_rain_delivery_shift"
       ],
       "history_memory_ids": [
-        "receipt:completed:m2_rain_delivery_shift"
+        "receipt:completed:m2_rain_delivery_shift",
+        "receipt:action:m2_rain_delivery_shift"
       ],
       "material_state_ids": [],
       "read_contracts": [
@@ -11898,6 +12072,40 @@
           "runtime_proof_ids": [
             "proof:read:unlock:jiyeon_world_meet",
             "proof:data:prerequisites:jiyeon_world_meet"
+          ]
+        },
+        {
+          "fact_id": "receipt:action:m2_rain_delivery_shift",
+          "runtime_proof_ids": [
+            "proof:read:unlock:jiyeon_world_meet",
+            "proof:data:prerequisites:jiyeon_world_meet",
+            "proof:runtime:action_receipt_prerequisite",
+            "proof:runtime:exact_live_action_weekly_commitment",
+            "proof:runtime:action_record_from_weekly_commitment",
+            "proof:runtime:historical_action_receipt_prerequisite",
+            "proof:runtime:normalize_core_loop_v2_state",
+            "proof:runtime:legacy_040746_origin_mint",
+            "proof:runtime:legacy_040746_origin_witness",
+            "proof:runtime:legacy_040746_origin_lookup",
+            "proof:runtime:legacy_040746_origin_migration",
+            "proof:runtime:authority_ledger_shape_poison_normalization",
+            "proof:runtime:authority_absence_shape_poison_gate",
+            "proof:runtime:legacy_040746_schema_two_consumer_admission",
+            "proof:runtime:legacy_040746_active_story_flags",
+            "proof:runtime:legacy_040746_active_story_authority",
+            "proof:runtime:legacy_040746_temptation_story_record",
+            "proof:runtime:legacy_040746_relationship_ledgers",
+            "proof:runtime:legacy_040746_routine_ledger",
+            "proof:runtime:legacy_040746_shown_ledgers",
+            "proof:runtime:legacy_040746_action_weekly_record",
+            "proof:runtime:legacy_040746_weekly_record_validation",
+            "proof:runtime:legacy_040746_weekly_census",
+            "proof:runtime:legacy_040746_plan_origin_entry",
+            "proof:runtime:legacy_040746_plan_origin_validation",
+            "proof:runtime:legacy_040746_plan_origin_normalization",
+            "proof:runtime:legacy_action_migration",
+            "proof:runtime:legacy_040746_delivery_tuple",
+            "proof:runtime:legacy_040746_rain_weekly_witness"
           ]
         }
       ],
@@ -11909,6 +12117,33 @@
       "runtime_proof_ids": [
         "proof:row:m2_livelihood",
         "proof:runtime:trigger_prerequisites",
+        "proof:runtime:action_receipt_prerequisite",
+        "proof:runtime:exact_live_action_weekly_commitment",
+        "proof:runtime:action_record_from_weekly_commitment",
+        "proof:runtime:historical_action_receipt_prerequisite",
+        "proof:runtime:normalize_core_loop_v2_state",
+        "proof:runtime:legacy_040746_origin_mint",
+        "proof:runtime:legacy_040746_origin_witness",
+        "proof:runtime:legacy_040746_origin_lookup",
+        "proof:runtime:legacy_040746_origin_migration",
+        "proof:runtime:authority_ledger_shape_poison_normalization",
+        "proof:runtime:authority_absence_shape_poison_gate",
+        "proof:runtime:legacy_040746_schema_two_consumer_admission",
+        "proof:runtime:legacy_040746_active_story_flags",
+        "proof:runtime:legacy_040746_active_story_authority",
+        "proof:runtime:legacy_040746_temptation_story_record",
+        "proof:runtime:legacy_040746_relationship_ledgers",
+        "proof:runtime:legacy_040746_routine_ledger",
+        "proof:runtime:legacy_040746_shown_ledgers",
+        "proof:runtime:legacy_040746_action_weekly_record",
+        "proof:runtime:legacy_040746_weekly_record_validation",
+        "proof:runtime:legacy_040746_weekly_census",
+        "proof:runtime:legacy_040746_plan_origin_entry",
+        "proof:runtime:legacy_040746_plan_origin_validation",
+        "proof:runtime:legacy_040746_plan_origin_normalization",
+        "proof:runtime:legacy_action_migration",
+        "proof:runtime:legacy_040746_delivery_tuple",
+        "proof:runtime:legacy_040746_rain_weekly_witness",
         "proof:data:prerequisites:jiyeon_world_meet",
         "proof:read:unlock:jiyeon_world_meet"
       ],
@@ -12416,7 +12651,7 @@
       "reader_id": "reader:unlock:jaehyuk_world_meet",
       "reader_kind": "action_unlock",
       "layer_owner": "story",
-      "status": "blocked_by_unscheduled",
+      "status": "active",
       "reads_fact_ids": [
         "receipt:completed:sns_pressure_night"
       ],
@@ -12429,7 +12664,39 @@
           "fact_id": "receipt:completed:sns_pressure_night",
           "runtime_proof_ids": [
             "proof:read:unlock:jaehyuk_world_meet",
-            "proof:data:prerequisites:jaehyuk_world_meet"
+            "proof:data:prerequisites:jaehyuk_world_meet",
+            "proof:runtime:sns_live_predicate_dispatch",
+            "proof:runtime:sns_historical_predicate_dispatch",
+            "proof:runtime:sns_consequence_completion_authority",
+            "proof:runtime:sns_completed_bundle_state_valid",
+            "proof:runtime:legacy_040746_origin_mint",
+            "proof:runtime:legacy_040746_origin_witness",
+            "proof:runtime:legacy_040746_origin_lookup",
+            "proof:runtime:legacy_040746_origin_migration",
+            "proof:runtime:authority_ledger_shape_poison_normalization",
+            "proof:runtime:authority_absence_shape_poison_gate",
+            "proof:runtime:legacy_040746_schema_two_consumer_admission",
+            "proof:runtime:legacy_040746_active_story_flags",
+            "proof:runtime:legacy_040746_active_story_authority",
+            "proof:runtime:legacy_040746_active_story_completion",
+            "proof:runtime:legacy_040746_active_story_next_verb",
+            "proof:runtime:legacy_040746_temptation_story_record",
+            "proof:runtime:legacy_040746_relationship_ledgers",
+            "proof:runtime:legacy_040746_routine_ledger",
+            "proof:runtime:legacy_040746_shown_ledgers",
+            "proof:runtime:legacy_040746_action_weekly_record",
+            "proof:runtime:legacy_040746_weekly_record_validation",
+            "proof:runtime:legacy_040746_weekly_census",
+            "proof:runtime:legacy_040746_plan_origin_entry",
+            "proof:runtime:legacy_040746_plan_origin_validation",
+            "proof:runtime:legacy_040746_plan_origin_normalization",
+            "proof:runtime:legacy_040746_plan_origin_lookup",
+            "proof:runtime:legacy_040746_plan_origin_install",
+            "proof:runtime:sns_legacy_schedule_isolation",
+            "proof:runtime:sns_legacy_schedule_shape",
+            "proof:runtime:sns_legacy_completion_authority",
+            "proof:runtime:legacy_sns_current_story_authority_absent",
+            "proof:runtime:legacy_040746_sns_completed_origin"
           ]
         }
       ],
@@ -12440,9 +12707,59 @@
       "runtime_pointer": "content/meta/demo_core_loop_v2.json#/scene_bundles/jaehyuk_world_meet/prerequisites",
       "runtime_proof_ids": [
         "proof:runtime:trigger_prerequisites",
-        "proof:debt:unscheduled_sns_pressure",
+        "proof:data:world_clock:m2_sns_pressure_night",
+        "proof:runtime:world_clock_bundle_resolution",
+        "proof:runtime:bundle_completion",
         "proof:data:prerequisites:jaehyuk_world_meet",
-        "proof:read:unlock:jaehyuk_world_meet"
+        "proof:read:unlock:jaehyuk_world_meet",
+        "proof:runtime:sns_live_predicate_dispatch",
+        "proof:runtime:sns_historical_predicate_dispatch",
+        "proof:runtime:sns_consequence_completion_authority",
+        "proof:runtime:sns_completed_bundle_state_valid",
+        "proof:runtime:sns_historical_world_completion",
+        "proof:runtime:legacy_040746_origin_mint",
+        "proof:runtime:legacy_040746_origin_witness",
+        "proof:runtime:legacy_040746_origin_lookup",
+        "proof:runtime:legacy_040746_origin_migration",
+        "proof:runtime:authority_ledger_shape_poison_normalization",
+        "proof:runtime:authority_absence_shape_poison_gate",
+        "proof:runtime:legacy_040746_schema_two_consumer_admission",
+        "proof:runtime:legacy_040746_active_story_flags",
+        "proof:runtime:legacy_040746_active_story_authority",
+        "proof:runtime:legacy_040746_active_story_completion",
+        "proof:runtime:legacy_040746_active_story_next_verb",
+        "proof:runtime:legacy_040746_temptation_story_record",
+        "proof:runtime:legacy_040746_relationship_ledgers",
+        "proof:runtime:legacy_040746_routine_ledger",
+        "proof:runtime:legacy_040746_shown_ledgers",
+        "proof:runtime:legacy_040746_action_weekly_record",
+        "proof:runtime:legacy_040746_weekly_record_validation",
+        "proof:runtime:legacy_040746_weekly_census",
+        "proof:runtime:legacy_040746_plan_origin_entry",
+        "proof:runtime:legacy_040746_plan_origin_validation",
+        "proof:runtime:legacy_040746_plan_origin_normalization",
+        "proof:runtime:legacy_040746_plan_origin_lookup",
+        "proof:runtime:legacy_040746_plan_origin_install",
+        "proof:runtime:sns_legacy_schedule_isolation",
+        "proof:runtime:sns_legacy_schedule_shape",
+        "proof:runtime:sns_legacy_completion_authority",
+        "proof:runtime:legacy_sns_current_story_authority_absent",
+        "proof:runtime:legacy_040746_sns_completed_origin",
+        "proof:runtime:sns_w4_temptation_root",
+        "proof:runtime:story_receipt_prefix_entries_valid",
+        "proof:runtime:story_receipt_owner_union_valid",
+        "proof:runtime:current_story_event_scope_preflight",
+        "proof:runtime:generic_story_choice_single_transaction",
+        "proof:runtime:story_choice_transaction_rollback",
+        "proof:runtime:story_mode_choice_full_transaction",
+        "proof:runtime:game_state_exact_snapshot_restore",
+        "proof:runtime:sns_story_receipt_identity_set",
+        "proof:runtime:sns_exact_story_choice_receipt",
+        "proof:runtime:sns_story_completion",
+        "proof:runtime:sns_story_choice_flags",
+        "proof:runtime:sns_scheduled_prelude_lookup",
+        "proof:runtime:sns_scheduled_prelude_validation",
+        "proof:runtime:sns_prelude_story_completion"
       ],
       "scene_handoff_fact_ids": [],
       "scene_handoff_decision_ids": []
@@ -14106,11 +14423,11 @@
       "status": "active",
       "reads_fact_ids": [
         "state:completion_application_required:demo_collision",
-        "receipt:application_transition:demo_collision:any_current_turn"
+        "receipt:application_transition:demo_collision:selected_choice_exact"
       ],
       "history_memory_ids": [
         "state:completion_application_required:demo_collision",
-        "receipt:application_transition:demo_collision:any_current_turn"
+        "receipt:application_transition:demo_collision:selected_choice_exact"
       ],
       "material_state_ids": [],
       "scene_handoff_fact_ids": [],
@@ -14123,9 +14440,17 @@
           ]
         },
         {
-          "fact_id": "receipt:application_transition:demo_collision:any_current_turn",
+          "fact_id": "receipt:application_transition:demo_collision:selected_choice_exact",
           "runtime_proof_ids": [
-            "proof:read:w24_completion_application_any_current_turn"
+            "proof:read:w24_completion_application_selected_choice_exact",
+            "proof:runtime:current_story_choice_receipt_census",
+            "proof:runtime:current_story_event_scope_preflight",
+            "proof:runtime:generic_story_choice_single_transaction",
+            "proof:runtime:story_choice_transaction_rollback",
+            "proof:runtime:story_mode_choice_full_transaction",
+            "proof:runtime:game_state_exact_snapshot_restore",
+            "proof:runtime:current_outcome_receipt_ledger_census",
+            "proof:runtime:current_outcome_receipt_allowed_sibling"
           ]
         }
       ],
@@ -14136,8 +14461,15 @@
       "runtime_proof_ids": [
         "proof:read:w24_completion_application_required",
         "proof:runtime:w24_completion_application_runtime_applicable",
-        "proof:read:w24_completion_application_any_current_turn",
-        "proof:debt:w24_completion_application_choice"
+        "proof:read:w24_completion_application_selected_choice_exact",
+        "proof:runtime:current_story_choice_receipt_census",
+        "proof:runtime:current_story_event_scope_preflight",
+        "proof:runtime:generic_story_choice_single_transaction",
+        "proof:runtime:story_choice_transaction_rollback",
+        "proof:runtime:story_mode_choice_full_transaction",
+        "proof:runtime:game_state_exact_snapshot_restore",
+        "proof:runtime:current_outcome_receipt_ledger_census",
+        "proof:runtime:current_outcome_receipt_allowed_sibling"
       ]
     },
     {
@@ -42282,12 +42614,20 @@
               "reader_id": "reader:milestone:w24:completion_application_choice",
               "activation_fact_ids": [
                 "state:completion_application_required:demo_collision",
-                "receipt:application_transition:demo_collision:any_current_turn"
+                "receipt:application_transition:demo_collision:selected_choice_exact"
               ],
               "runtime_proof_ids": [
                 "proof:read:w24_completion_application_required",
                 "proof:runtime:w24_completion_application_runtime_applicable",
-                "proof:read:w24_completion_application_any_current_turn"
+                "proof:read:w24_completion_application_selected_choice_exact",
+                "proof:runtime:current_story_choice_receipt_census",
+                "proof:runtime:current_story_event_scope_preflight",
+                "proof:runtime:generic_story_choice_single_transaction",
+                "proof:runtime:story_choice_transaction_rollback",
+                "proof:runtime:story_mode_choice_full_transaction",
+                "proof:runtime:game_state_exact_snapshot_restore",
+                "proof:runtime:current_outcome_receipt_ledger_census",
+                "proof:runtime:current_outcome_receipt_allowed_sibling"
               ]
             }
           ],
@@ -42402,12 +42742,20 @@
               "reader_id": "reader:milestone:w24:completion_application_choice",
               "activation_fact_ids": [
                 "state:completion_application_required:demo_collision",
-                "receipt:application_transition:demo_collision:any_current_turn"
+                "receipt:application_transition:demo_collision:selected_choice_exact"
               ],
               "runtime_proof_ids": [
                 "proof:read:w24_completion_application_required",
                 "proof:runtime:w24_completion_application_runtime_applicable",
-                "proof:read:w24_completion_application_any_current_turn"
+                "proof:read:w24_completion_application_selected_choice_exact",
+                "proof:runtime:current_story_choice_receipt_census",
+                "proof:runtime:current_story_event_scope_preflight",
+                "proof:runtime:generic_story_choice_single_transaction",
+                "proof:runtime:story_choice_transaction_rollback",
+                "proof:runtime:story_mode_choice_full_transaction",
+                "proof:runtime:game_state_exact_snapshot_restore",
+                "proof:runtime:current_outcome_receipt_ledger_census",
+                "proof:runtime:current_outcome_receipt_allowed_sibling"
               ]
             }
           ],
@@ -42523,12 +42871,20 @@
               "reader_id": "reader:milestone:w24:completion_application_choice",
               "activation_fact_ids": [
                 "state:completion_application_required:demo_collision",
-                "receipt:application_transition:demo_collision:any_current_turn"
+                "receipt:application_transition:demo_collision:selected_choice_exact"
               ],
               "runtime_proof_ids": [
                 "proof:read:w24_completion_application_required",
                 "proof:runtime:w24_completion_application_runtime_applicable",
-                "proof:read:w24_completion_application_any_current_turn"
+                "proof:read:w24_completion_application_selected_choice_exact",
+                "proof:runtime:current_story_choice_receipt_census",
+                "proof:runtime:current_story_event_scope_preflight",
+                "proof:runtime:generic_story_choice_single_transaction",
+                "proof:runtime:story_choice_transaction_rollback",
+                "proof:runtime:story_mode_choice_full_transaction",
+                "proof:runtime:game_state_exact_snapshot_restore",
+                "proof:runtime:current_outcome_receipt_ledger_census",
+                "proof:runtime:current_outcome_receipt_allowed_sibling"
               ]
             }
           ],
@@ -44174,6 +44530,36 @@
       "assertion": "Turn completion advances node deadlines, completion, trigger expiry, and node expiry state."
     },
     {
+      "proof_id": "proof:runtime:terminal_expiry_outcomes_absent",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_terminal_expiry_outcomes_absent",
+      "assertion": "The m2_advancement expired branch first rejects any durable authority-ledger shape poison, then requires that m2_seorin_application has no completed bundle/turn, typed action receipt, Seorin application status or transition, or matching Month 2 outer/nested weekly action owner; completed and expired Seorin authority cannot coexist."
+    },
+    {
+      "proof_id": "proof:runtime:authority_ledger_shape_poison_normalization",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_normalized_authority_shape_poison",
+      "assertion": "For an exact current-schema save, normalization records a durable poison whenever any of the six Dictionary authority ledgers or three Array authority ledgers is absent or has the wrong raw container type; a malformed or forged existing poison marker also remains poisoned."
+    },
+    {
+      "proof_id": "proof:runtime:authority_absence_shape_poison_gate",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_authority_absence_shape_poisoned",
+      "assertion": "Absence-based terminal and historical compatibility authority is admissible only when the durable authority-ledger shape marker is an exact empty Array. Normalization also clears legacy-origin authority and disables terminal target witnesses whenever this marker is nonempty."
+    },
+    {
+      "proof_id": "proof:runtime:terminal_authority_quarantine",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_quarantine_terminal_authority",
+      "assertion": "A poisoned exact-current save or any unknown/fractional schema irreversibly clears terminal transition receipts, transition resolutions, target-binding receipts, Seoul-cycle state, and terminal authority embedded in month summaries, so deleting the poison marker on a later reload cannot resurrect an expired route."
+    },
+    {
+      "proof_id": "proof:runtime:terminal_summary_authority_quarantine",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_clear_terminal_authority_from_month_summaries",
+      "assertion": "Terminal quarantine scans every retained month summary and removes terminal source witnesses, transition resolutions, and historical-cycle authority before the normalized state can be serialized again."
+    },
+    {
       "proof_id": "proof:runtime:month_summary",
       "kind": "source_symbol",
       "pointer": "systems/DemoCoreLoopV2.gd::_seoul_cycle_month_summary_payload",
@@ -44225,7 +44611,13 @@
       "proof_id": "proof:runtime:action_commitment",
       "kind": "source_symbol",
       "pointer": "systems/DemoCoreLoopV2.gd::note_action_commitment",
-      "assertion": "note_action_commitment validates the active scheduled bundle, expected action, actual action, and turn, then persists the bundle-keyed action receipt and any action-config application status before exposing the action result."
+      "assertion": "note_action_commitment validates the active scheduled bundle, expected action, actual action, turn, and exact authored application detail identity before deriving a receipt. Non-application actions cannot acquire application fields, and application state is applied without status regression before the validated result is exposed."
+    },
+    {
+      "proof_id": "proof:runtime:current_application_action_record_validation",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_current_application_action_record_valid",
+      "assertion": "Current-schema action rows may rebuild application authority only when execution, application_id, status, and any authored job_id exactly match the active bundle configuration. An application without an authored job_id rejects an added owner, ordinary non-application actions reject application fields, and the typed fresh-W1 exception remains confined to its separate exact validator."
     },
     {
       "proof_id": "proof:runtime:exclusive_cap",
@@ -44303,13 +44695,259 @@
       "proof_id": "proof:runtime:trigger_prerequisites",
       "kind": "source_symbol",
       "pointer": "systems/DemoCoreLoopV2.gd::_bundle_requirement_met",
-      "assertion": "Bundle prerequisites consume named completed bundles, applications, relationship stages, memories, and player initiative."
+      "assertion": "Bundle prerequisites consume named completed bundles, exact typed action receipts, applications, relationship stages, memories, and player initiative."
+    },
+    {
+      "proof_id": "proof:runtime:action_receipt_prerequisite",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_action_receipt_predicate_met",
+      "assertion": "The action_receipt prerequisite helper requires the exact bundle, action, authored month, optional application identity, and one exact live weekly commitment authority; only the explicit Jiyeon legacy contract may fall back to a pre-schema completed bundle without minting a receipt."
+    },
+    {
+      "proof_id": "proof:runtime:exact_live_action_weekly_commitment",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_exact_live_action_weekly_commitment",
+      "assertion": "A live typed action receipt is reconstructed only from one full-scan weekly commitment at the exact integral receipt turn; malformed, fractional, absent, or competing same-turn rows fail closed instead of inheriting reverse last-wins lookup semantics."
+    },
+    {
+      "proof_id": "proof:runtime:action_record_from_weekly_commitment",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_action_record_for_bundle_from_weekly_commitment",
+      "assertion": "A matching Seoul action follow-up is unique and binds the exact bundle, action, and raw integral turn; fractional or duplicate nested owners cannot reconstruct the Seorin or Jiyeon typed action receipt."
+    },
+    {
+      "proof_id": "proof:runtime:historical_action_receipt_prerequisite",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_terminal_historical_action_receipt_predicate_met",
+      "assertion": "Historical target reconstruction requires the same exact action identity and source month, and accepts a Jiyeon fallback only when its migrated schema-two identity agrees with the closed Month 2 completion authority."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_origin_mint",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_mint_legacy_040746_origin",
+      "assertion": "A legacy origin is minted once only from the post-GameState-load schema-two boundary: the exact 040746 core projection, its exact empty or in-flight loaded pending commitment, and the exact producer-owned weekly rows at source turn 1 through 9. Completed direct actions own one row, generic scheduled Story bundles own none, and only the pacing-owned Week 4 temptation boss owns a Story row. This proof does not claim authority over malformed rows already discarded by the non-ORDER-101 deserializer."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_origin_witness",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_legacy_040746_origin_witness_valid",
+      "assertion": "The frozen 040746 witness has exactly eight identity and source fields, binds the exact schema-two core projection and producer-derived weekly census at one integral source turn from 1 through 9, preserves the exact loaded pending commitment, and revalidates its frozen Story flag authority on every lookup/reload. An in-flight action contributes a weekly row only after its result is ready; an in-flight generic Story contributes none, while the Week 4 pacing boss may contribute its owned Story row after choice."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_origin_lookup",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_legacy_040746_origin_from_state",
+      "assertion": "A schema-three continuation has exactly one demo_core_loop_v2@040746a origin receipt and one witness copy; the two copies must be semantically identical and the shared witness must still pass the exact validator."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_origin_migration",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_normalized_legacy_origin_migration",
+      "assertion": "Normalization mints only on an exact schema-two source and otherwise only looks up an existing exact witness on schema three, then rebuilds the equal origin and plan-origin ledgers before deriving any Rain fallback; relabelling a current save cannot re-mint compatibility authority."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_relationship_ledgers",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_legacy_040746_relationship_ledgers_valid",
+      "assertion": "The 040746 origin reconstructs every relationship stage, legacy receipt key, and player-initiative entry from exact ordered history rows. Each row is bounded by the source turn, uses one frozen authored bundle/event/choice outcome, owns the exact source-plan slot, and is either exactly completed at that turn or is the exact active source-turn bundle; the raw stage, receipt, and initiative ledgers must then equal the reconstruction. Future, unscheduled, duplicate, malformed, or stage-divergent relationship authority cannot be injected before schema-two relationship migration."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_routine_ledger",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_legacy_040746_routine_ledger_valid",
+      "assertion": "The 040746 origin accepts only string-keyed, unique, bounded routine receipts whose exact two-unit producer shape matches the authored plan, and every completed turn owns its exact receipt."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_shown_ledgers",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_legacy_040746_shown_ledgers_valid",
+      "assertion": "The 040746 shown-consequence ledger follows the frozen immediate producer topology: opening_interview_math can be consumed only at Week 2 after the exact Week 1 Mirae application authority, and temptation_consequence only at Week 5 after the exact Week 4 boss authority. An active consequence is likewise confined to its exact Week 2 or Week 5 phase and must not already appear in the shown ledgers."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_schema_two_consumer_admission",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_normalized_state",
+      "assertion": "Legacy typed authority is consumed only after the raw schema is exactly integral schema two and the exact 040746 origin mint produced its named receipt. That admitted origin alone gates shown-consequence synthesis, schema-two relationship migration, action recovery, and prototype completion lift; exact schema three preserves current authority, while fractional, future, or otherwise unknown schemas clear legacy relationship ledgers and cannot enter those compatibility consumers."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_action_recovery",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_recover_finalized_action_state",
+      "assertion": "Finalized action recovery accepts only an exact current-schema source or one admitted 040746 origin and preserves the raw integral active turn. The legacy branch resolves exactly one matching frozen action row; the current branch requires its exact live weekly owner and authored application identity. A witnessed legacy row serialized as current cannot re-mint a deleted receipt, fresh-W1 recovery must pass its committed-owner gate, and application state is validated before any recovered receipt becomes authoritative."
+    },
+    {
+      "proof_id": "proof:runtime:fresh_w1_application_recovery_gate",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_current_job_hunt_application_recovery_valid",
+      "assertion": "Fresh-W1 application recovery requires result_committed with no pending Week-1 commitment, exactly one capacity allocation, exact embedded-to-outer Seoul-cycle identity and details, and a nested action whose derived receipt equals the candidate. Failure removes the action receipt, Mirae status, transition receipt, and result-ready signal rather than promoting pre-result material."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_active_story_flags",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_legacy_040746_active_story_flags_valid",
+      "assertion": "An in-flight 040746 opening-interview or SNS Story derives its pre-choice versus exact chosen phase only from the frozen authored flag combinations. The same witness validator requires an already-shown opening to have exactly one truth/lie branch and an already-completed SNS owner to have exactly one authored q0/q1/q2 flag tuple. Missing seen flags, ambiguous outcome flags, and contradictory branches invalidate origin admission on every reload."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_active_story_authority",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_install_legacy_040746_active_story_authority",
+      "assertion": "Only an admitted frozen origin may install active legacy Story authority. A pre-choice opening seeds only its old submitted application state; an exact post-choice opening or SNS source writes one canonical current Story receipt at the frozen bundle, event, choice, kind, and turn, with the opening application transition written atomically."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_active_story_completion",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::legacy_active_story_completion_ready",
+      "assertion": "An admitted post-choice legacy opening or SNS owner is completion-ready only when its exact installed current Story receipt and, for opening, exact application transition/status are valid."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_active_story_next_verb",
+      "kind": "source_symbol",
+      "pointer": "scenes/MainGame.gd::_core_loop_v2_route_week",
+      "assertion": "MainGame first presents any admitted pre-choice legacy roots, then completes an exact post-choice legacy owner: schedule owners advance the completed week, while consequence owners refresh and defer the week router so the next application/SNS notebook verb cannot stall."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_temptation_story_record",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_legacy_040746_temptation_story_record_valid",
+      "assertion": "The sole 040746 Week 4 temptation Story row binds choice zero to its clean reachable outcome and flags, or choice one to exact 2,000,000 money, bounded stress, and the crossed-line flag set. The frozen row, live branch flags, and later W8 clean/fallout root cannot disagree."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_action_weekly_record",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_legacy_040746_action_weekly_record_valid",
+      "assertion": "Every 040746 direct-action weekly row is bound to the exact scheduled bundle, historical action identity, family, empty person/forgone owners, and frozen per-action producer shape. In particular, the old Seorin application identity is exactly seorin/submitted rather than the current seorin_contract_2026q1 identity, while Rain must match one enumerated delivery tuple; current-ID swaps or impossible outcomes cannot mint typed action authority during migration or recovery."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_weekly_record_validation",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_legacy_040746_weekly_record_valid",
+      "assertion": "Every loaded 040746 weekly row has the frozen producer shape for its scheduled bundle. Direct-action rows require the exact action family, action ID, echoed-turn sentinel, per-bundle details, and producer-reachable outcome; the sole Week 4 pacing Story row requires the exact owner/event/choice identity, complete forgone-choice complement, money axis, and delayed timing."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_weekly_census",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_legacy_040746_weekly_witnesses_valid",
+      "assertion": "The 040746 weekly witness ledger is ordered exactly by producer turn: every completed direct action owns one row, generic scheduled Story bundles own none, and only the pacing-owned Week 4 temptation boss owns a Story row. An in-flight action owns its source-turn row only after result readiness, while a Week 4 in-flight boss may be before or after its durable choice row. Reordering, duplication, omission, or an invented generic Story row fails closed."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_plan_origin_entry",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_legacy_040746_plan_origin_entry",
+      "assertion": "A durable 040746 Month 1 or Month 2 plan origin contains exactly schema, origin, month, planned turn, frozen availability, and the exact validated legacy plan; Month 2 freezes whether Hyunsu reachout was historically available."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_plan_origin_validation",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_legacy_040746_plan_origin_entry_valid",
+      "assertion": "A continued plan-origin entry must have the exact six-field shape, equal the live plan, retain the exact Month 2 availability witness, and revalidate that plan against a reference state reconstructed from the frozen availability."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_plan_origin_normalization",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_normalized_legacy_040746_plan_origins",
+      "assertion": "A raw schema-two load derives equal plan receipt and witness copies from its exact origin core, while schema-three continuation accepts only equal exact-key plan-origin ledgers whose entries still match the live plans."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_plan_origin_lookup",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_legacy_040746_plan_origin_from_state",
+      "assertion": "Legacy schedule consumers first require the exact generic origin, then read a Month 1 or Month 2 plan only from equal receipt and witness copies whose entry still validates against the live plan."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_plan_origin_install",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::commit_plan",
+      "assertion": "After commit_plan stores the exact legacy plan, it installs the durable plan-origin entry before exposing the state, allowing a witnessed old plan created after the initial origin mint to survive reload without reconstructing provenance from current metadata."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_action_migration",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_normalized_legacy_action_migration",
+      "assertion": "Normalization rebuilds the sole Jiyeon compatibility fallback from the exact 040746 witness only when Rain is completed exactly once at authored Week 6 or 7, occupies that exact source-plan slot, and owns one exact legacy weekly row; a schema-three continuation must also retain the exact live completion, fallback and migration receipt and no typed Rain action receipt."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_delivery_tuple",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_legacy_040746_delivery_tuple_valid",
+      "assertion": "A legacy Rain action must equal one producer-reachable nonempty subset of the frozen six delivery routes within 120 minutes: integral earnings equal 90000 plus route tips and 8000 per route, health request equals -3 minus route count, mental request equals minus max(route count minus 2, zero), money is exact, and omitted stat deltas represent only a clamped zero while explicit zero or impossible deltas fail closed."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_rain_weekly_witness",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_legacy_040746_rain_weekly_witness",
+      "assertion": "Rain compatibility resolves exactly one loaded legacy weekly row at the exact completion turn, with the exact ten-field schema-two action shape, Rain bundle/family/action identity, empty person and forgone owners, and one exact delivery tuple admitted by the frozen producer enumerator."
+    },
+    {
+      "proof_id": "proof:data:terminal_routes:order101",
+      "kind": "json_pointer",
+      "pointer": "content/meta/demo_core_loop_v2.json#/seoul_cycle/terminal_routes",
+      "assertion": "The exact ORDER-101 terminal route slice binds M1 resume quality/expiry, all three father choices/expiry, M2 advancement expiry, both M2 people selections/expiry, and the M2 sleep action receipt to distinct playable targets."
+    },
+    {
+      "proof_id": "proof:runtime:terminal_source_proof",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_terminal_source_proof",
+      "assertion": "Terminal routes are created only from an exact live source terminal plus their typed action, relationship, selected-trigger, or expiry provenance."
+    },
+    {
+      "proof_id": "proof:runtime:terminal_historical_validation_cache",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_terminal_historical_cycle_summary",
+      "assertion": "Historical month validation reuses a result only within the same outer validation context and exact month/cut-turn key after a collision-free Variant equality token binds the normalized state, turn, player, locale, flags, weekly ledger, raw core state, authored-data revision, and locale-content revision. Replacing either authored Dictionary reference or changing either monotonic revision clears the cache; every exact input mutation replaces the token and clears it, while a recursive in-progress key returns empty authority and is never evaluated or cached as provenance."
+    },
+    {
+      "proof_id": "proof:runtime:authored_content_revision",
+      "kind": "source_symbol",
+      "pointer": "autoloads/DataRegistry.gd::notify_content_override",
+      "assertion": "Supported in-place authored-data overrides advance DataRegistry.content_revision, and normal registry reload advances the same monotonic generation after rebuilding the authored dictionaries."
+    },
+    {
+      "proof_id": "proof:runtime:locale_content_revision",
+      "kind": "source_symbol",
+      "pointer": "autoloads/LocaleManager.gd::refresh_community_packs",
+      "assertion": "Refreshing localized content clears every cached UI table and advances LocaleManager.content_revision, while each newly loaded built-in or community table advances the same generation before historical localized projections may be reused."
+    },
+    {
+      "proof_id": "proof:runtime:terminal_historical_locked_resolution",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_terminal_historical_resolved_nodes",
+      "assertion": "Historical node replay first requires terminal-binding raw-field presence to equal one fully typed, nonempty binding shape. A genuinely non-terminal-bound node may retain an explicit empty resolved trigger only when its authored disable-without-trigger rule, locked zero-progress projection, stable owner/place/summary identity, threshold/deadline, and no-fallback fields are exact and its target-opening ordinary eligibility re-derives successfully to the exact empty set."
+    },
+    {
+      "proof_id": "proof:runtime:terminal_historical_timeline_parity",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_terminal_historical_node_timelines_valid",
+      "assertion": "Historical replay treats an unselected terminal-bound node with an exact nonempty ordinary-candidate array as runtime-open for deadline expiry, while a genuinely initially locked node must own zero allocations and cannot be reinterpreted as expired."
+    },
+    {
+      "proof_id": "proof:runtime:terminal_historical_binding_census",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_terminal_historical_resolutions_for_month",
+      "assertion": "Historical terminal resolutions require the exact same sorted bound-node identity set from full-shape binding fields in the raw summary, durable target witnesses, and receipt-derived expected bindings; a typed fabricated binding without both independent authorities is rejected."
+    },
+    {
+      "proof_id": "proof:runtime:terminal_typed_action_proof",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_terminal_typed_action_proof_matches_state",
+      "assertion": "The M1 resume terminal proof binds its exact action receipt, application transition, turn, capacity and quality without accepting a free resume_polished flag."
+    },
+    {
+      "proof_id": "proof:runtime:terminal_action_receipt_proof",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_terminal_action_receipt_proof_matches_state",
+      "assertion": "The M2 self terminal proof binds the exact sleep-debt action receipt bundle, rest action and source month before exposing the M3 recovery variant."
+    },
+    {
+      "proof_id": "proof:runtime:terminal_target_candidates",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::terminal_target_candidates",
+      "assertion": "Target-month board candidates are derived only from validated durable terminal bindings and preserve the authored target node, bundle, variant and source identity."
     },
     {
       "proof_id": "proof:runtime:completion_snapshot",
       "kind": "source_symbol",
       "pointer": "systems/DemoCoreLoopV2.gd::completion_snapshot",
-      "assertion": "The implemented prefix freezes a completion snapshot at its current boundary; this is not proof of W48 completion."
+      "assertion": "The implemented prefix freezes an immutable Week-24 projection, including the boundary current_job_id and typed authority ledgers. The recap's Hanbit unresolved clue calls completion_snapshot_has_hanbit_employment_provenance directly on that validated projection (never through live-state normalization) and requires job_03, resolved status, the sole exact Week-17 acceptance transition, and the exact Week-24 Hanbit candidate/obligation authority; this remains prefix evidence, not proof of W48 completion."
     },
     {
       "proof_id": "proof:runtime:save_roundtrip_prefix",
@@ -44384,22 +45022,10 @@
       "assertion": "The M4 certificate-session fallback has no prerequisite or outcome reader for the M3 inventory method fact."
     },
     {
-      "proof_id": "proof:debt:orphan_resume_polished",
-      "kind": "json_pointer",
-      "pointer": "content/meta/demo_core_loop_v2.json#/seoul_cycle/months/1/nodes/resume",
-      "assertion": "M1 resume completion produces resume_polished, but no active named reader changes later availability, cost, participant, next verb, or result."
-    },
-    {
       "proof_id": "proof:debt:orphan_ncs_receipt",
       "kind": "json_pointer",
       "pointer": "content/meta/demo_core_loop_v2.json#/scene_bundles/m6_public_recruitment",
       "assertion": "M6 public-recruitment creates an action receipt, but no active named reader consumes it before the implemented boundary."
-    },
-    {
-      "proof_id": "proof:debt:unscheduled_sns_pressure",
-      "kind": "json_pointer",
-      "pointer": "content/meta/demo_core_loop_v2.json#/scene_bundles/sns_pressure_night",
-      "assertion": "sns_pressure_night is authored and required by jaehyuk_world_meet, but no fresh M1-M6 Seoul Cycle node or world-clock entry schedules it."
     },
     {
       "proof_id": "proof:debt:display_only_forgone",
@@ -44411,7 +45037,7 @@
       "proof_id": "proof:runtime:fresh_w1_application_owner",
       "kind": "source_symbol",
       "pointer": "systems/DemoCoreLoopV2.gd::_apply_action_application_receipt",
-      "assertion": "The fresh W1 typed action receipt is the sole Mirae submitted-application writer and persists its exact transition before the opening interview claim. invocation_contract:producer:milestone:w04:fresh_w1_application_owner|always=|conditional=|exclusive=|producer_groups=group:producer:milestone:w04:fresh_w1_application_owner:exactly_one:active|producers=variant:milestone:w04:fresh_w1_application_owner@group:producer:milestone:w04:fresh_w1_application_owner co_presence_contract:group:w04:fresh_w1_application_owner|invocations=producer:milestone:w04:fresh_w1_application_owner execution_stage:w04:fresh_w1_application_owner|order=5|applicability=state:w1_onboarding:origin:fresh_order101,runtime:turn:1|predecessors=|invocations=producer:milestone:w04:fresh_w1_application_owner"
+      "assertion": "The fresh W1 typed action receipt is the sole Mirae submitted-application writer, rejects a conflicting prior status, and persists its exact transition before the opening interview claim. Reload recovery additionally requires the committed, pending-free Week-1 owner proved by proof:runtime:fresh_w1_application_recovery_gate. invocation_contract:producer:milestone:w04:fresh_w1_application_owner|always=|conditional=|exclusive=|producer_groups=group:producer:milestone:w04:fresh_w1_application_owner:exactly_one:active|producers=variant:milestone:w04:fresh_w1_application_owner@group:producer:milestone:w04:fresh_w1_application_owner co_presence_contract:group:w04:fresh_w1_application_owner|invocations=producer:milestone:w04:fresh_w1_application_owner execution_stage:w04:fresh_w1_application_owner|order=5|applicability=state:w1_onboarding:origin:fresh_order101,runtime:turn:1|predecessors=|invocations=producer:milestone:w04:fresh_w1_application_owner"
     },
     {
       "proof_id": "proof:runtime:player_required_person_selection",
@@ -44423,7 +45049,7 @@
       "proof_id": "proof:debt:dead_card_terminal",
       "kind": "source_symbol",
       "pointer": "systems/DemoCoreLoopV2.gd::preview_seoul_cycle_allocation",
-      "assertion": "Completed nonrepeatable nodes remain represented by the same terminal card; 12 completed terminals declare no replacement next verb."
+      "assertion": "Eight later completed nonrepeatable nodes still declare no executable next verb after the exact W1-W8 terminal/result route repairs."
     },
     {
       "proof_id": "proof:read:near_m1_resume",
@@ -44717,7 +45343,7 @@
       "proof_id": "proof:read:result_m3_seorin",
       "kind": "source_symbol",
       "pointer": "systems/DemoCoreLoopV2.gd::_bundle_requirement_met",
-      "assertion": "The m3_seorin_result_message all-prerequisite evaluator reads exact receipt:completed:m2_seorin_application and receipt:application:seorin_contract_2026q1:submitted."
+      "assertion": "The m3_seorin_result_message all-prerequisite evaluator reads exact receipt:completed:m2_seorin_application, receipt:application:seorin_contract_2026q1:submitted, and receipt:action:m2_seorin_application."
     },
     {
       "proof_id": "proof:read:result_m4_hanbit_interview",
@@ -44801,7 +45427,7 @@
       "proof_id": "proof:read:milestone_w12_seorin_submitted",
       "kind": "source_symbol",
       "pointer": "systems/DemoCoreLoopV2.gd::_bundle_requirement_met",
-      "assertion": "The W12 m3_seorin_result_message all-prerequisite evaluator reads exact receipt:completed:m2_seorin_application and receipt:application:seorin_contract_2026q1:submitted."
+      "assertion": "The W12 m3_seorin_result_message all-prerequisite evaluator reads exact receipt:completed:m2_seorin_application, receipt:application:seorin_contract_2026q1:submitted, and receipt:action:m2_seorin_application."
     },
     {
       "proof_id": "proof:read:milestone_w20_hanbit_interviewed",
@@ -45182,6 +45808,138 @@
       "assertion": "Month 1 world_clock schedules hyunsu_first_meet at relative Week 3 as the external producer for its completed-bundle and authored relationship outcomes."
     },
     {
+      "proof_id": "proof:data:world_clock:m2_sns_pressure_night",
+      "kind": "json_pointer",
+      "pointer": "content/meta/demo_core_loop_v2.json#/seoul_cycle/months/2/world_clock/events/1",
+      "assertion": "Month 2 world_clock schedules sns_pressure_night exactly once at local Week 4 (global W8) as a non-slot consequence."
+    },
+    {
+      "proof_id": "proof:runtime:world_clock_bundle_resolution",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_seoul_cycle_world_event_for_week",
+      "assertion": "The world-clock resolver selects the authored exact-week bundle only when its prerequisites and absolute allowed-week contract hold."
+    },
+    {
+      "proof_id": "proof:runtime:sns_live_predicate_dispatch",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_predicate_met",
+      "assertion": "The live completed_bundle predicate delegates sns_pressure_night to the exact W8 consequence-completion authority instead of accepting bare completed-bundle membership."
+    },
+    {
+      "proof_id": "proof:runtime:sns_historical_predicate_dispatch",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_terminal_historical_predicate_met",
+      "assertion": "Historical terminal prerequisite reconstruction delegates sns_pressure_night to the same exact W8 consequence-completion authority used by the live reader."
+    },
+    {
+      "proof_id": "proof:runtime:sns_consequence_completion_authority",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_sns_consequence_completion_valid",
+      "assertion": "The SNS authority requires exact global W8 completion, a closed Month 2 historical world receipt, one exact SNS Story choice, and the consumed temptation_consequence prelude before Jaehyuk can unlock."
+    },
+    {
+      "proof_id": "proof:runtime:sns_completed_bundle_state_valid",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_terminal_completed_bundle_state_valid",
+      "assertion": "The SNS completion authority accepts exactly one global sns_pressure_night completion whose completed_bundle_turn is exactly global Week 8."
+    },
+    {
+      "proof_id": "proof:runtime:sns_historical_world_completion",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_terminal_historical_completed_bundle",
+      "assertion": "The historical SNS completion is backed by the closed Month 2 summary, one canonical resolved W8 world receipt, its authored week, and the same turn's single allocation authority."
+    },
+    {
+      "proof_id": "proof:runtime:sns_legacy_schedule_isolation",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_legacy_sns_schedule_owner_valid",
+      "assertion": "The legacy SNS schedule owner is admitted only through the exact 040746 origin witness and durable Month 2 plan-origin pair, then requires the live plan to equal that frozen plan, retain one exact authored four-slot schedule with SNS at the completion turn, and have no Seoul Cycle state."
+    },
+    {
+      "proof_id": "proof:runtime:sns_legacy_schedule_shape",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_legacy_month_schedule_has_exact_shape",
+      "assertion": "A legacy Month 2 owner must be one exact four-week authored schedule with unique allowed bundles at their allowed turns; an invented, duplicate, or mixed-month schedule cannot mint SNS authority."
+    },
+    {
+      "proof_id": "proof:runtime:sns_legacy_completion_authority",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_legacy_sns_consequence_completion_valid",
+      "assertion": "The witnessed legacy schedule can establish SNS completion only at its exact authored Month 2 turn and with exact completed-bundle state; it accepts either an exact current SNS Story receipt from playback or an exact historical completion already present in the frozen 040746 source core, never bare migrated membership."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_040746_sns_completed_origin",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_legacy_040746_sns_completed_origin_valid",
+      "assertion": "Historical legacy SNS completion must already exist exactly once in the frozen 040746 source core, with one integral authored Week 5-through-8 completion turn, the source Month 2 plan scheduling sns_pressure_night at that same turn, and—through the revalidated origin witness—exactly one frozen q0/q1/q2 SNS flag tuple. Generic scheduled Story bundles did not produce weekly commitment rows in 040746, so no fabricated SNS weekly row or stripped/ambiguous choice flag set is accepted as authority."
+    },
+    {
+      "proof_id": "proof:runtime:legacy_sns_current_story_authority_absent",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_legacy_sns_current_story_authority_absent",
+      "assertion": "The historical SNS branch is available only when the current Story receipt ledger contains no raw key at the SNS bundle/event base or prefix and no Dictionary value claiming either the SNS bundle or event; malformed, off-turn, duplicate, and shadow entries therefore fail closed instead of falling through to old weekly authority."
+    },
+    {
+      "proof_id": "proof:runtime:sns_w4_temptation_root",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_canonical_w4_temptation_root",
+      "assertion": "The selected W8 temptation root is derived from exactly one exact Week 4 first_temptation_boss choice and must agree with the lent_account flag."
+    },
+    {
+      "proof_id": "proof:runtime:story_receipt_prefix_entries_valid",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_story_receipt_prefix_entries_valid",
+      "assertion": "Every raw Story-receipt key equal to an authoritative bundle/event base or under its colon prefix must map to a Dictionary whose canonical key, receipt key, bundle, event, integral choice, and exact turn agree; malformed scalars and key/value identity mismatches fail closed."
+    },
+    {
+      "proof_id": "proof:runtime:story_receipt_owner_union_valid",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_story_receipt_owner_union_valid",
+      "assertion": "Every Story receipt whose raw key claims an authoritative owner/event union, whose value claims that owner, or whose value claims an authored event is in one fail-closed census. Each scoped entry must be a canonical exact-turn receipt for that owner, an event in the complete authored union, and the exact active kind. The W8 SNS owner union includes its main arc_intro_03_sns event and both attached temptation events before the main and attached subsets are counted separately, so wrong-bundle, wrong-event, off-turn, scalar, and key/value shadows fail without rejecting the legitimate sibling surface."
+    },
+    {
+      "proof_id": "proof:runtime:sns_story_receipt_identity_set",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_terminal_story_receipts_for_identity",
+      "assertion": "The W4 temptation authority scans every Story receipt value for the exact first_temptation_boss, arc_temptation_01, and Week 4 identity, so a malformed-key duplicate remains visible to the exact-one gate."
+    },
+    {
+      "proof_id": "proof:runtime:sns_exact_story_choice_receipt",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_terminal_story_choice_receipt",
+      "assertion": "The selected W4 temptation choice also requires its canonical receipt key, exact six-key payload, scheduled owner, bounded choice index, and exact source turn."
+    },
+    {
+      "proof_id": "proof:runtime:sns_story_completion",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_sns_story_receipt_complete",
+      "assertion": "sns_pressure_night owns exactly one canonical scheduled arc_intro_03_sns Story receipt at global Week 8; malformed, duplicate, or sibling receipts fail closed, and the selected choice must pass the exact SNS flag mapping."
+    },
+    {
+      "proof_id": "proof:runtime:sns_story_choice_flags",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_sns_story_choice_flags_valid",
+      "assertion": "The exact current SNS choice is bounded to indexes 0, 1, or 2 and is atomically bound to arc_intro_sns_seen=true, deleted_sns iff choice 0, and envy_fuel iff choice 1; a receipt and its branch flags cannot disagree."
+    },
+    {
+      "proof_id": "proof:runtime:sns_scheduled_prelude_lookup",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_scheduled_prelude_receipt_from_state",
+      "assertion": "The scheduled-prelude lookup censuses the expected temptation_consequence raw key and value identity as well as the sns_pressure_night owner and Week 8, rejects malformed, wrong-owner, shadow, or duplicate authority, and returns only one fully validated receipt."
+    },
+    {
+      "proof_id": "proof:runtime:sns_scheduled_prelude_validation",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_scheduled_prelude_receipt_valid",
+      "assertion": "The canonical SNS prelude is the unique temptation_consequence receipt scheduled by sns_pressure_night at Week 8, with exact keys, roots, presentation evidence, and consumed status."
+    },
+    {
+      "proof_id": "proof:runtime:sns_prelude_story_completion",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_scheduled_prelude_story_receipts_complete",
+      "assertion": "The consumed W8 prelude preflights both clean and fallout raw-key prefixes, rejects every sibling-root receipt, contains exactly the root derived from the exact Week 4 choice, and requires exactly one canonical scheduled Story receipt for that selected root."
+    },
+    {
       "proof_id": "proof:data:world_clock:hyunsu_first_meet_relationship_outcomes",
       "kind": "json_pointer",
       "pointer": "content/meta/demo_core_loop_v2.json#/scene_bundles/hyunsu_first_meet/relationship_outcomes",
@@ -45209,13 +45967,13 @@
       "proof_id": "proof:data:prerequisites:jiyeon_world_meet",
       "kind": "json_pointer",
       "pointer": "content/meta/demo_core_loop_v2.json#/scene_bundles/jiyeon_world_meet/prerequisites",
-      "assertion": "jiyeon_world_meet authored prerequisites exact JSON: {\"all\":[{\"bundle_id\":\"m2_rain_delivery_shift\",\"kind\":\"completed_bundle\"}]}"
+      "assertion": "jiyeon_world_meet authored prerequisites exact JSON: {\"all\":[{\"kind\":\"completed_bundle\",\"bundle_id\":\"m2_rain_delivery_shift\"},{\"kind\":\"action_receipt\",\"bundle_id\":\"m2_rain_delivery_shift\",\"action_id\":\"side_shift\",\"month\":2,\"legacy_completed_bundle_fallback\":true}]}"
     },
     {
       "proof_id": "proof:read:unlock:jiyeon_world_meet",
       "kind": "source_symbol",
       "pointer": "systems/DemoCoreLoopV2.gd::_bundle_requirement_met",
-      "assertion": "_bundle_requirement_met consumes exact content/meta/demo_core_loop_v2.json#/scene_bundles/jiyeon_world_meet/prerequisites variant facts receipt:completed:m2_rain_delivery_shift."
+      "assertion": "_bundle_requirement_met consumes exact content/meta/demo_core_loop_v2.json#/scene_bundles/jiyeon_world_meet/prerequisites facts receipt:completed:m2_rain_delivery_shift and receipt:action:m2_rain_delivery_shift."
     },
     {
       "proof_id": "proof:data:prerequisites:daeun_world_meet",
@@ -45485,7 +46243,7 @@
       "proof_id": "proof:runtime:generic_story_choice_receipt",
       "kind": "source_symbol",
       "pointer": "systems/DemoCoreLoopV2.gd::_note_generic_story_choice",
-      "assertion": "_note_generic_story_choice writes one exact active bundle/event/choice/turn story_choice_receipt for every non-expression scheduled Story choice."
+      "assertion": "_note_generic_story_choice writes one exact active bundle/event/choice/turn story_choice_receipt only after revalidating the current schedule/consequence owner, turn, and event membership in that live owner's authored roots; an unowned Story choice cannot mint a V2 receipt."
     },
     {
       "proof_id": "proof:runtime:story_choice_outcome_dispatch",
@@ -46904,22 +47662,64 @@
       "assertion": "The city application outcome is applicable only when the frozen demo_collision context contains city_work_sample."
     },
     {
-      "proof_id": "proof:read:w24_completion_application_any_current_turn",
+      "proof_id": "proof:read:w24_completion_application_selected_choice_exact",
       "kind": "source_symbol",
       "pointer": "systems/DemoCoreLoopV2.gd::_has_current_application_receipt",
-      "assertion": "The runtime completion helper accepts any application transition receipt whose bundle_id is demo_collision and whose turn is current."
+      "assertion": "The completion helper selects exactly one applicable authored outcome whose exact current Story receipt identifies the chosen event/index, then requires one exact application transition key and payload joined to its application/from/to/bundle/event/choice/turn, the resulting application status, and a fail-closed raw-key/value census with no sibling authority."
     },
     {
-      "proof_id": "proof:debt:w24_completion_application_choice",
+      "proof_id": "proof:runtime:current_story_choice_receipt_census",
       "kind": "source_symbol",
-      "pointer": "systems/DemoCoreLoopV2.gd::_has_current_application_receipt",
-      "assertion": "SHADOWED_READER reader:milestone:w24:completion_application_choice: the active generic bundle+turn gate does not join the selected Story event/choice to transition application/from/to/status identity; ORDER-103 owns that intended choice-specific hardening."
+      "pointer": "systems/DemoCoreLoopV2.gd::_current_story_choice_receipt_census_valid",
+      "assertion": "Every current Story receipt consumer fail-closes on the full selected owner/event/turn identity census: malformed canonical-prefix keys, same-event wrong-owner keys, scalar values, off-key values, and duplicate siblings cannot coexist with the one exact canonical receipt."
+    },
+    {
+      "proof_id": "proof:runtime:current_story_event_scope_preflight",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_current_story_event_scope_present",
+      "assertion": "Before a generic Story producer writes, the event-scope preflight scans canonical-prefix keys, same-event current-turn keys, and values claiming that event/turn so a second sequential choice cannot append beside an existing choice."
+    },
+    {
+      "proof_id": "proof:runtime:generic_story_choice_single_transaction",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_note_generic_story_choice",
+      "assertion": "The generic Story producer revalidates the current schedule/consequence owner, current turn, and membership of the event in that live owner's authored roots before validating the choice; it rejects any competing event-scope receipt, accepts only the exact canonical callback as idempotent, and writes one canonical current-owner receipt."
+    },
+    {
+      "proof_id": "proof:runtime:story_choice_transaction_rollback",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::note_story_choice",
+      "assertion": "note_story_choice snapshots the raw core-loop state before normalization and treats generic plus deferred, obligation, relationship, and application typed writers as one callback transaction; if any expected writer fails, it restores the exact pre-choice core-loop state instead of leaving partial receipts."
+    },
+    {
+      "proof_id": "proof:runtime:story_mode_choice_full_transaction",
+      "kind": "source_symbol",
+      "pointer": "scenes/StoryMode.gd::_on_choice",
+      "assertion": "StoryMode asks the V2 transaction classifier before applying authored effects. A fresh unowned prologue choice remains an ordinary Story choice and mints no V2 receipt; the retired legacy Send and every exact-deferred Week-24 root always enter strict commit preflight even when their claimed transport or context is absent or malformed, while an authorized active-owner root snapshots the full serialized GameState and restores it after an unavailable/apply failure or rejected DemoCore callback so no partial authored or typed-receipt effect survives."
+    },
+    {
+      "proof_id": "proof:runtime:game_state_exact_snapshot_restore",
+      "kind": "source_symbol",
+      "pointer": "autoloads/GameState.gd::_restore_serialized_snapshot_exact",
+      "assertion": "The transaction rollback first loads the saved snapshot, then deep-copies every Dictionary/Array field from that snapshot back onto GameState before emitting the state change signal; compatibility normalization cannot leak into a failed Story choice."
+    },
+    {
+      "proof_id": "proof:runtime:current_outcome_receipt_ledger_census",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_current_outcome_receipt_ledger_census_valid",
+      "assertion": "Current relationship/application outcome readers census the full raw key/value owner-event-turn union, fail closed on malformed, off-key, wrong-event, scalar, or duplicate authority, and require the one exact expected receipt."
+    },
+    {
+      "proof_id": "proof:runtime:current_outcome_receipt_allowed_sibling",
+      "kind": "source_symbol",
+      "pointer": "systems/DemoCoreLoopV2.gd::_current_outcome_receipt_allowed_sibling",
+      "assertion": "The only allowed same-owner application transition sibling is the exact pre-plan Week-One opening Send receipt: canonical key and nine-field payload, not_submitted-to-submitted transition, legacy_story_send source, empty fresh onboarding state, interviewed final status, and all three producer flags."
     },
     {
       "proof_id": "proof:runtime:demo_collision_completion_validation",
       "kind": "source_symbol",
       "pointer": "systems/DemoCoreLoopV2.gd::complete_active_bundle",
-      "assertion": "demo_collision completion validates the exact context and current obligation, plus resolved dirty receipt iff dirty. When the selected choice requires the applicable city outcome, the runtime presently accepts a generic application transition receipt joined only by demo_collision bundle_id and current turn; it does not validate the selected choice identity or read generic Story/Hyunsu morning receipts."
+      "assertion": "demo_collision completion validates the exact context and current obligation, plus resolved dirty receipt iff dirty. When the selected choice requires the applicable city outcome, completion requires the exact choice-correlated Story and application transition authority; generic Story/Hyunsu morning receipts remain outside this gate."
     },
     {
       "proof_id": "proof:invocation:w24_cycle_resolution",
@@ -53188,7 +53988,18 @@
           ],
           "runtime_proof_ids": [
             "proof:row:m2_advancement",
-            "proof:runtime:terminal_expiry"
+            "proof:runtime:terminal_expiry",
+            "proof:runtime:terminal_expiry_outcomes_absent",
+            "proof:runtime:authority_ledger_shape_poison_normalization",
+            "proof:runtime:authority_absence_shape_poison_gate",
+            "proof:runtime:terminal_authority_quarantine",
+            "proof:runtime:terminal_summary_authority_quarantine",
+            "proof:runtime:terminal_historical_locked_resolution",
+            "proof:runtime:terminal_historical_timeline_parity",
+            "proof:runtime:terminal_historical_binding_census",
+            "proof:runtime:terminal_historical_validation_cache",
+            "proof:runtime:authored_content_revision",
+            "proof:runtime:locale_content_revision"
           ],
           "nested_output_group_ids": [],
           "applicability_ids": [
@@ -53209,7 +54020,18 @@
         "proof:runtime:trigger_resolution",
         "proof:runtime:bundle_completion",
         "proof:runtime:action_commitment",
-        "proof:runtime:action_receipt"
+        "proof:runtime:action_receipt",
+        "proof:runtime:authored_content_revision",
+        "proof:runtime:authority_absence_shape_poison_gate",
+        "proof:runtime:authority_ledger_shape_poison_normalization",
+        "proof:runtime:locale_content_revision",
+        "proof:runtime:terminal_authority_quarantine",
+        "proof:runtime:terminal_expiry_outcomes_absent",
+        "proof:runtime:terminal_historical_binding_census",
+        "proof:runtime:terminal_historical_locked_resolution",
+        "proof:runtime:terminal_historical_timeline_parity",
+        "proof:runtime:terminal_historical_validation_cache",
+        "proof:runtime:terminal_summary_authority_quarantine"
       ]
     },
     {
@@ -54812,10 +55634,6 @@
         24
       ],
       "debt_ids": [
-        "row:m1_father:completed",
-        "row:m1_resume:completed",
-        "row:m2_advancement:completed",
-        "row:m2_people:completed",
         "row:m3_advancement:completed",
         "row:m3_people:completed",
         "row:m4_advancement:completed",
@@ -54835,11 +55653,6 @@
         24
       ],
       "debt_ids": [
-        "fact:resume_polished",
-        "receipt:action:m1_youth_center_resume_clinic",
-        "receipt:action:m2_rain_delivery_shift",
-        "receipt:action:m2_seorin_application",
-        "receipt:action:m2_sleep_debt_sunday",
         "receipt:action:m3_hanbit_application",
         "receipt:action:m4_dodam_application",
         "receipt:action:m4_logistics_shift",
@@ -54858,8 +55671,7 @@
         24
       ],
       "debt_ids": [
-        "reader:m4_certificate_session:inventory_method",
-        "reader:milestone:w24:completion_application_choice"
+        "reader:m4_certificate_session:inventory_method"
       ],
       "blocker_ids": []
     },
@@ -54897,9 +55709,7 @@
         1,
         24
       ],
-      "debt_ids": [
-        "bundle:sns_pressure_night"
-      ],
+      "debt_ids": [],
       "blocker_ids": []
     },
     {

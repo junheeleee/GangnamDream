@@ -743,7 +743,7 @@ def _function_owner(
 def collect_ui_parameterized_observations() -> tuple[
     list[UiParameterizedObservation], list[str]
 ]:
-    """Collect every member of the locked 55-call preformat disposition set.
+    """Collect the locked preformat disposition set and later registered rows.
 
     The original defect set consists of 53 pair calls containing a real `%`
     operator and two conditional template calls that already format after
@@ -1097,7 +1097,7 @@ def validate_ui_parameterized_contract(
     source_keys: set[str],
     observations: Optional[list[UiParameterizedObservation]] = None,
 ) -> tuple[list[str], dict[str, Any]]:
-    """Prove the exact 55-row disposition registry and an atomic phase."""
+    """Prove the exact disposition registry and an atomic phase."""
     errors: list[str] = []
     if contract.get("schema_version") != 2:
         errors.append("manifest: UI parameterized template schema_version must be 2")
@@ -1333,7 +1333,7 @@ def validate_ui_parameterized_contract(
         )
         if template_selector in registry:
             errors.append(
-                "manifest: existing lookup-before-format row overlaps the raw55 "
+                "manifest: existing lookup-before-format row overlaps the parameterized "
                 f"registry {template_selector!r}"
             )
         if template_selector in existing_provenance_templates:
@@ -3249,10 +3249,10 @@ def main() -> int:
             1 for entry in ui_inventory.legacy_entries
             if entry.format_template
         )
-        if formatted_ui_entries != 44:
+        if formatted_ui_entries != 45:
             failures.append(
                 "actual UI formatted-template tagging drifted: "
-                f"{formatted_ui_entries} != 44"
+                f"{formatted_ui_entries} != 45"
             )
         cases += 1
         implementation_complete = bool(ui_inventory.stats.get("implemented"))
@@ -3280,11 +3280,11 @@ def main() -> int:
             )
         cases += 1
         exact_parameter_stats = {
-            "source_calls": 3313,
-            "legacy_calls": 3276,
-            "format_calls": 49,
-            "parameter_raw_candidates": 55,
-            "parameter_migrate_calls": 47,
+            "source_calls": 3323,
+            "legacy_calls": 3286,
+            "format_calls": 50,
+            "parameter_raw_candidates": 56,
+            "parameter_migrate_calls": 48,
             "parameter_existing_lookup_before_format_migrations": 2,
             "parameter_argument_provenance_calls": 15,
             "parameter_existing_lookup_before_format_provenance_calls": 2,

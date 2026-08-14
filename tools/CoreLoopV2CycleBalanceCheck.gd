@@ -12,6 +12,8 @@ extends Node
 ##   GANGNAM_QA_USER_DIR=/absolute/temp/dir godot --headless --path . \
 ##     res://tools/CoreLoopV2CycleBalanceCheck.tscn -- \
 ##     --core-loop-v2-playtest-build --qa-isolated-user-data
+## A single production route can be timed without weakening its numeric lock:
+##   ... --cycle-balance-route=advancement
 
 const CORE := preload("res://systems/DemoCoreLoopV2.gd")
 const ARUBA := preload("res://scenes/ArubaGame.gd")
@@ -47,6 +49,43 @@ const ROUTE_SEEDS := {
 	"recovery": 94104,
 	"fatal_cost": 94105,
 }
+const ORDER101_RESUME_TERMINAL_BALANCE_CASES: Array[Dictionary] = [
+	{
+		"label": "quality 3",
+		"quality": 3,
+		"route_id": "m1_resume_completed_q3_to_m2_advancement_ready",
+		"variant_id": "resume_ready",
+		"effect": 1,
+	},
+	{
+		"label": "quality 2",
+		"quality": 2,
+		"route_id": "m1_resume_completed_q2_to_m2_advancement_polished",
+		"variant_id": "resume_polished",
+		"effect": 0,
+	},
+	{
+		"label": "quality 1",
+		"quality": 1,
+		"route_id": "m1_resume_completed_q1_to_m2_advancement_revised",
+		"variant_id": "resume_revised",
+		"effect": -1,
+	},
+	{
+		"label": "quality 0",
+		"quality": 0,
+		"route_id": "m1_resume_completed_q0_to_m2_advancement_rewritten",
+		"variant_id": "resume_rewritten",
+		"effect": -2,
+	},
+	{
+		"label": "expiry",
+		"quality": -1,
+		"route_id": "m1_resume_expired_to_m2_advancement_rebuilt",
+		"variant_id": "resume_rebuilt",
+		"effect": -3,
+	},
+]
 
 # Locked after this runner has traversed all production surfaces. Keeping the
 # complete six-month rows here makes every printed money/body/mind/employment
@@ -56,57 +95,57 @@ const EXPECTED_MONTHS: Dictionary = {
 	"livelihood": [
 		{"month": 1, "money": 388000, "health": 59, "mental": 55,
 			"employed": false, "employment_id": ""},
-		{"month": 2, "money": 73500, "health": 49, "mental": 58,
+		{"month": 2, "money": 73500, "health": 49, "mental": 71,
 			"employed": false, "employment_id": ""},
-		{"month": 3, "money": -76500, "health": 40, "mental": 45,
+		{"month": 3, "money": -76500, "health": 40, "mental": 58,
 			"employed": false, "employment_id": ""},
-		{"month": 4, "money": -136500, "health": 31, "mental": 30,
+		{"month": 4, "money": -136500, "health": 31, "mental": 43,
 			"employed": false, "employment_id": ""},
-		{"month": 5, "money": -646500, "health": 33, "mental": 25,
+		{"month": 5, "money": -646500, "health": 33, "mental": 38,
 			"employed": false, "employment_id": ""},
-		{"month": 6, "money": -475500, "health": 21, "mental": 10,
+		{"month": 6, "money": -475500, "health": 21, "mental": 23,
 			"employed": false, "employment_id": ""},
 	],
 	"advancement": [
 		{"month": 1, "money": 290000, "health": 62, "mental": 60,
 			"employed": false, "employment_id": ""},
-		{"month": 2, "money": -220000, "health": 61, "mental": 65,
+		{"month": 2, "money": -220000, "health": 61, "mental": 78,
 			"employed": false, "employment_id": ""},
-		{"month": 3, "money": -730000, "health": 58, "mental": 52,
+		{"month": 3, "money": -730000, "health": 58, "mental": 65,
 			"employed": false, "employment_id": ""},
-		{"month": 4, "money": -1240000, "health": 54, "mental": 40,
+		{"month": 4, "money": -1240000, "health": 54, "mental": 53,
 			"employed": false, "employment_id": ""},
-		{"month": 5, "money": -70000, "health": 55, "mental": 38,
+		{"month": 5, "money": -70000, "health": 55, "mental": 51,
 			"employed": true, "employment_id": "job_03"},
-		{"month": 6, "money": 1651000, "health": 56, "mental": 32,
+		{"month": 6, "money": 1651000, "health": 56, "mental": 45,
 			"employed": true, "employment_id": "job_03"},
 	],
 	"people": [
 		{"month": 1, "money": 247000, "health": 62, "mental": 61,
 			"employed": false, "employment_id": ""},
-		{"month": 2, "money": -207500, "health": 55, "mental": 67,
+		{"month": 2, "money": -207500, "health": 55, "mental": 80,
 			"employed": false, "employment_id": ""},
-		{"month": 3, "money": -497500, "health": 48, "mental": 53,
+		{"month": 3, "money": -497500, "health": 49, "mental": 76,
 			"employed": false, "employment_id": ""},
-		{"month": 4, "money": -1077500, "health": 45, "mental": 39,
+		{"month": 4, "money": -1077500, "health": 47, "mental": 68,
 			"employed": false, "employment_id": ""},
-		{"month": 5, "money": -1657500, "health": 47, "mental": 34,
+		{"month": 5, "money": -1657500, "health": 49, "mental": 65,
 			"employed": false, "employment_id": ""},
-		{"month": 6, "money": -2246500, "health": 51, "mental": 34,
+		{"month": 6, "money": -2246500, "health": 53, "mental": 65,
 			"employed": false, "employment_id": ""},
 	],
 	"recovery": [
 		{"month": 1, "money": 150000, "health": 68, "mental": 66,
 			"employed": false, "employment_id": ""},
-		{"month": 2, "money": -500000, "health": 72, "mental": 80,
+		{"month": 2, "money": -500000, "health": 72, "mental": 89,
 			"employed": false, "employment_id": ""},
-		{"month": 3, "money": -1150000, "health": 74, "mental": 78,
+		{"month": 3, "money": -1150000, "health": 75, "mental": 89,
 			"employed": false, "employment_id": ""},
-		{"month": 4, "money": -1800000, "health": 75, "mental": 75,
+		{"month": 4, "money": -1800000, "health": 77, "mental": 88,
 			"employed": false, "employment_id": ""},
-		{"month": 5, "money": -2450000, "health": 81, "mental": 78,
+		{"month": 5, "money": -2450000, "health": 84, "mental": 89,
 			"employed": false, "employment_id": ""},
-		{"month": 6, "money": -3109000, "health": 89, "mental": 85,
+		{"month": 6, "money": -3109000, "health": 93, "mental": 89,
 			"employed": false, "employment_id": ""},
 	],
 	"fatal_cost": [
@@ -118,15 +157,15 @@ const EXPECTED_MONTHS: Dictionary = {
 }
 const EXPECTED_MINIMA: Dictionary = {
 	"livelihood": {
-		"min_money": -646500, "min_health": 21, "min_mental": 10,
+		"min_money": -646500, "min_health": 21, "min_mental": 23,
 		"death_week": 0, "ending": "",
 	},
 	"advancement": {
-		"min_money": -1240000, "min_health": 54, "min_mental": 32,
+		"min_money": -1240000, "min_health": 54, "min_mental": 45,
 		"death_week": 0, "ending": "",
 	},
 	"people": {
-		"min_money": -2246500, "min_health": 44, "min_mental": 33,
+		"min_money": -2246500, "min_health": 46, "min_mental": 56,
 		"death_week": 0, "ending": "",
 	},
 	"recovery": {
@@ -160,6 +199,39 @@ func _run() -> void:
 	_meta_snapshot = MetaProgression.data.duplicate(true)
 	_original_sfx_enabled = AudioManager.sfx_enabled
 	AudioManager.sfx_enabled = false
+	var route_filter := _cycle_balance_route_filter()
+	if not route_filter.is_empty():
+		var filtered_result: Dictionary = await _run_route(route_filter)
+		_results[route_filter] = filtered_result
+		_print_route(filtered_result)
+		_assert_locked_route_numbers([route_filter])
+		MetaProgression.data = _meta_snapshot.duplicate(true)
+		await _stop_test_audio()
+		AudioManager.sfx_enabled = _original_sfx_enabled
+		if _failures.is_empty():
+			print("CORE_LOOP_V2_CYCLE_BALANCE_ROUTE_OK route=%s" % route_filter)
+			get_tree().quit(0)
+			return
+		for failure in _failures:
+			push_error("CORE_LOOP_V2_CYCLE_BALANCE_FAIL: %s" % failure)
+		get_tree().quit(1)
+		return
+	await _check_order101_resume_terminal_balance()
+	if "--order101-terminal-balance-only" in OS.get_cmdline_user_args():
+		MetaProgression.data = _meta_snapshot.duplicate(true)
+		await _stop_test_audio()
+		AudioManager.sfx_enabled = _original_sfx_enabled
+		if _failures.is_empty():
+			print(
+				"CORE_LOOP_V2_ORDER101_TERMINAL_BALANCE_OK "
+				+ "sources=quality3/quality2/quality1/quality0/expiry "
+				+ "effects=1/0/-1/-2/-3 threshold=2")
+			get_tree().quit(0)
+			return
+		for failure in _failures:
+			push_error("CORE_LOOP_V2_ORDER101_TERMINAL_BALANCE_FAIL: %s" % failure)
+		get_tree().quit(1)
+		return
 	for route_id in ALL_ROUTE_IDS:
 		var result: Dictionary = await _run_route(route_id)
 		_results[route_id] = result
@@ -240,7 +312,8 @@ func _run_route(route_id: String) -> Dictionary:
 				break
 			var committed := CORE.commit_seoul_cycle_allocation(
 				str(picked.get("capacity_id", "")),
-				str(picked.get("node_id", "")), month_index)
+				str(picked.get("node_id", "")), month_index,
+				str(picked.get("selected_candidate_id", "")))
 			if not bool(committed.get("ok", false)):
 				_expect(false, "%s Week %d allocation failed: %s" % [
 					route_id, int(GameState.turn),
@@ -260,6 +333,12 @@ func _run_route(route_id: String) -> Dictionary:
 					int(picked_preview.get("capacity_value", 0)),
 					int(picked_preview.get("progress_gain", 0)),
 					str(picked_preview.get("immediate_effects", {}))])
+				if not str(picked.get(
+						"selected_candidate_id", "")).is_empty():
+					print("CYCLE_BALANCE_SELECTION route=%s week=%d node=%s candidate=%s" % [
+						route_id, int(GameState.turn),
+						str(picked.get("node_id", "")),
+						str(picked.get("selected_candidate_id", ""))])
 			_track_minima(result)
 
 			if not await _resolve_cycle_entries(route_id):
@@ -291,11 +370,17 @@ func _run_route(route_id: String) -> Dictionary:
 		result["world_receipts"] = int(result["world_receipts"]) \
 			+ (closing_snapshot.get("world_receipts", {}) as Dictionary).size()
 		var before_month := CORE.month_opening_snapshot(month_index)
+		if not CORE.can_record_month_summary(month_index):
+			_expect(false, "%s Month %d summary preflight failed before rollover" % [
+				route_id, month_index])
+			break
+		var boundary_before: Dictionary = GameState.serialize().duplicate(true)
+		var boundary_pending_events: Array = \
+			EventManager.pending_events.duplicate(true)
 		_run_production_month_end(month_index)
 		_track_minima(result)
-		var month_row := _month_row(month_index)
-		(result["months"] as Array).append(month_row)
 		if GameState.is_game_over:
+			(result["months"] as Array).append(_month_row(month_index))
 			result["death_week"] = month_index * 4
 			result["ending"] = _last_ending_id
 			break
@@ -303,12 +388,23 @@ func _run_route(route_id: String) -> Dictionary:
 		GameState.check_game_over()
 		_track_minima(result)
 		if GameState.is_game_over:
+			(result["months"] as Array).append(_month_row(month_index))
 			result["death_week"] = month_index * 4
 			result["ending"] = _last_ending_id
 			break
 		var after_month := _economy_snapshot()
 		var summary := CORE.record_month_summary(
 			month_index, before_month, after_month)
+		if summary.is_empty():
+			GameState._restore_serialized_snapshot_exact(boundary_before)
+			EventManager.pending_events = boundary_pending_events.duplicate(true)
+			_expect(GameState.serialize() == boundary_before \
+					and EventManager.pending_events == boundary_pending_events,
+				"%s Month %d summary failure did not roll back exactly" % [
+					route_id, month_index])
+			_expect(false, "%s Month %d summary could not be recorded" % [
+				route_id, month_index])
+			break
 		_expect(str(summary.get("planning_mode", "")) \
 				== CORE.SEOUL_CYCLE_MODE \
 				and (summary.get("allocation_receipts", []) as Array).size() == 4,
@@ -318,6 +414,7 @@ func _run_route(route_id: String) -> Dictionary:
 		_expect(CORE.acknowledge_month_summary(month_index),
 			"%s Month %d summary could not be acknowledged" % [
 				route_id, month_index])
+		(result["months"] as Array).append(_month_row(month_index))
 
 	result["final_money"] = float(GameState.money)
 	result["final_health"] = int(GameState.health)
@@ -332,8 +429,6 @@ func _run_route(route_id: String) -> Dictionary:
 		result["death_week"] = int(GameState.turn)
 		result["ending"] = _last_ending_id
 	return result
-
-
 func _prepare_fresh_cycle(route_id: String) -> void:
 	_last_ending_id = ""
 	seed(int(ROUTE_SEEDS.get(route_id, 94100)))
@@ -345,6 +440,372 @@ func _prepare_fresh_cycle(route_id: String) -> void:
 	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
 	state["application_statuses"]["mirae_industrial_tech"] = "interviewed"
 	GameState.core_loop_v2_state = state
+
+
+func _check_order101_resume_terminal_balance() -> void:
+	for balance_case in ORDER101_RESUME_TERMINAL_BALANCE_CASES:
+		var quality := int(balance_case.get("quality", -1))
+		var source_ready := (
+			await _order101_produce_typed_resume_source(quality)
+			if quality >= 0
+			else await _order101_produce_resume_expiry_source()
+		)
+		if not source_ready:
+			continue
+		await _order101_execute_resume_terminal_balance(balance_case)
+
+
+func _order101_produce_typed_resume_source(quality: int) -> bool:
+	_last_ending_id = ""
+	seed(10130 + quality)
+	MetaProgression.data = DataRegistry.default_meta.duplicate(true)
+	GameState.start_new_game(
+		"김민준", "지방_상경", "직장형", "백수", "자유런", "현실")
+	CORE.initialize_for_run(true)
+	var began_onboarding := CORE.begin_fresh_w1_onboarding()
+	GameState.flags["prologue_done"] = true
+	var initialized := CORE.initialize_seoul_cycle(1)
+	var capacities: Array = CORE.seoul_cycle_snapshot(1).get("capacities", [])
+	if not began_onboarding or not bool(initialized.get("ok", false)) \
+			or capacities.is_empty():
+		_expect(false,
+			"ORDER-101 quality %d could not open the actual fresh W1 producer" \
+				% quality)
+		return false
+	var capacity_id := str((capacities[0] as Dictionary).get("id", ""))
+	var allocation := CORE.commit_seoul_cycle_allocation(
+		capacity_id, "resume", 1)
+	var claimed := CORE.claim_seoul_cycle_trigger()
+	var began_trigger := bool(claimed.get("ok", false)) \
+		and CORE.begin_seoul_cycle_trigger("m1_youth_center_resume_clinic")
+	var armed := began_trigger and GameState.arm_weekly_commitment({
+		"turn": 1,
+		"pressure_id": "m1_youth_center_resume_clinic",
+		"pressure_family": "growth",
+		"choice_id": "resume",
+		"forgone_ids": [],
+		"supplemental_to_seoul_cycle": true,
+	})
+	var restarted := armed and CORE.restart_fresh_w1_minigame()
+	var finalized: Dictionary = (
+		CORE.finalize_fresh_w1_application(2, quality) if restarted else {})
+	var action := CORE.action_receipt("m1_youth_center_resume_clinic")
+	var details: Dictionary = action.get("result_details", {})
+	_expect(bool(allocation.get("ok", false)) \
+		and bool(allocation.get("completed_now", false)) \
+		and began_trigger and armed and restarted \
+		and bool(finalized.get("ok", false)) \
+		and CORE.fresh_w1_onboarding_phase() == "result_committed" \
+		and CORE.application_status("mirae_industrial_tech") == "submitted" \
+		and str(details.get("execution", "")) == "job_hunt_application" \
+		and int(details.get("quality", -1)) == quality,
+		"ORDER-101 quality %d did not come from the actual fresh typed Send" \
+			% quality)
+	if not bool(finalized.get("ok", false)):
+		return false
+	var completed_bundle := CORE.complete_active_bundle()
+	_expect(completed_bundle == "m1_youth_center_resume_clinic",
+		"ORDER-101 quality %d could not resolve its W1 producer" % quality)
+	if completed_bundle != "m1_youth_center_resume_clinic":
+		return false
+	return await _order101_close_source_month_after_w1(
+		"quality %d" % quality)
+
+
+func _order101_produce_resume_expiry_source() -> bool:
+	# A submitted typed application and an expired Resume are mutually exclusive
+	# source terminals. Keep this production node-expiry route separate from the
+	# fresh typed producers above; only the legacy eligibility discriminator is
+	# supplied so Month One can open without manufacturing Resume progress.
+	_last_ending_id = ""
+	seed(10129)
+	MetaProgression.data = DataRegistry.default_meta.duplicate(true)
+	GameState.start_new_game(
+		"김민준", "지방_상경", "직장형", "백수", "자유런", "현실")
+	CORE.initialize_for_run(true)
+	GameState.flags["prologue_done"] = true
+	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	state["application_statuses"]["mirae_industrial_tech"] = "interviewed"
+	GameState.core_loop_v2_state = state
+	var initialized := CORE.initialize_seoul_cycle(1)
+	_expect(bool(initialized.get("ok", false)),
+		"ORDER-101 expiry could not open its production Month One board")
+	if not bool(initialized.get("ok", false)):
+		return false
+	for turn in range(1, 5):
+		var snapshot := CORE.seoul_cycle_snapshot(1)
+		var capacity_id := _order101_unused_capacity(snapshot, false)
+		var committed := CORE.commit_seoul_cycle_allocation(
+			capacity_id, "recovery", 1)
+		if not bool(committed.get("ok", false)):
+			_expect(false,
+				"ORDER-101 expiry W%d recovery allocation failed" % turn)
+			return false
+		if not await _resolve_cycle_entries("ORDER-101 expiry"):
+			return false
+		var closed := CORE.complete_seoul_cycle_turn(1)
+		if not bool(closed.get("ok", false)):
+			_expect(false, "ORDER-101 expiry W%d could not close" % turn)
+			return false
+		if turn < 4:
+			GameState.advance_calendar()
+	var summary := CORE.record_month_summary(1, {}, {})
+	var route_id := "m1_resume_expired_to_m2_advancement_rebuilt"
+	var receipt := CORE.terminal_transition_receipt(route_id)
+	var proof: Dictionary = receipt.get("source_proof", {})
+	var node: Dictionary = proof.get("node_state", {})
+	var expiry: Dictionary = proof.get("expiry_receipt", {})
+	_expect(not summary.is_empty() \
+		and str(receipt.get("source_terminal", "")) == "expired" \
+		and str(receipt.get("proof_kind", "")) == "node_expiry" \
+		and str(receipt.get("proof_id", "")) == "m1:resume" \
+		and str(node.get("status", "")) == "expired" \
+		and int(node.get("expired_turn", 0)) == 3 \
+		and int(node.get("progress", -1)) == 0 \
+		and str(expiry.get("node_id", "")) == "resume" \
+		and int(expiry.get("turn", 0)) == 3,
+		"ORDER-101 expiry source was not minted by the actual W3 node expiry")
+	return not summary.is_empty() and not receipt.is_empty()
+
+
+func _order101_close_source_month_after_w1(label: String) -> bool:
+	var w1_closed := CORE.complete_seoul_cycle_turn(1)
+	if not bool(w1_closed.get("ok", false)):
+		_expect(false, "ORDER-101 %s W1 could not close" % label)
+		return false
+	for turn in range(2, 5):
+		GameState.advance_calendar()
+		var snapshot := CORE.seoul_cycle_snapshot(1)
+		var capacity_id := _order101_unused_capacity(snapshot, true)
+		var committed := CORE.commit_seoul_cycle_allocation(
+			capacity_id, "recovery", 1)
+		if not bool(committed.get("ok", false)):
+			_expect(false,
+				"ORDER-101 %s W%d recovery allocation failed" % [label, turn])
+			return false
+		if not await _resolve_cycle_entries("ORDER-101 %s" % label):
+			return false
+		var closed := CORE.complete_seoul_cycle_turn(1)
+		if not bool(closed.get("ok", false)):
+			_expect(false,
+				"ORDER-101 %s W%d could not close" % [label, turn])
+			return false
+	var summary := CORE.record_month_summary(1, {}, {})
+	_expect(not summary.is_empty(),
+		"ORDER-101 %s did not mint its Month One terminal receipt" % label)
+	return not summary.is_empty()
+
+
+func _order101_execute_resume_terminal_balance(
+		balance_case: Dictionary) -> void:
+	var label := str(balance_case.get("label", "unknown"))
+	var quality := int(balance_case.get("quality", -1))
+	var route_id := str(balance_case.get("route_id", ""))
+	var variant_id := str(balance_case.get("variant_id", ""))
+	var effect := int(balance_case.get("effect", 999))
+	var candidate_id := "terminal:%s" % route_id
+	var source_receipt := CORE.terminal_transition_receipt(route_id)
+	var source_proof: Dictionary = source_receipt.get("source_proof", {})
+	var source_action: Dictionary = source_proof.get("action_receipt", {})
+	var source_details: Dictionary = source_action.get("result_details", {})
+	var source_effects: Dictionary = source_receipt.get(
+		"completion_effects", {})
+	_expect(not source_receipt.is_empty() \
+		and str(source_receipt.get("route_id", "")) == route_id \
+		and str(source_receipt.get("variant_id", "")) == variant_id \
+		and int(source_receipt.get("target_month", 0)) == 2 \
+		and str(source_receipt.get("target_node", "")) == "m2_advancement" \
+		and str(source_receipt.get("target_bundle", "")) \
+			== "m2_seorin_application" \
+		and source_effects.has("mental") \
+		and int(source_effects.get("mental", 999)) == effect \
+		and ((quality >= 0 \
+			and str(source_receipt.get("source_terminal", "")) == "completed" \
+			and str(source_receipt.get("proof_kind", "")) \
+				== "typed_action_application" \
+			and int(source_details.get("quality", -1)) == quality) \
+			or (quality < 0 \
+				and str(source_receipt.get("source_terminal", "")) == "expired" \
+				and str(source_receipt.get("proof_kind", "")) == "node_expiry")),
+		"ORDER-101 %s source did not bind its exact route/effect" % label)
+
+	GameState.advance_calendar()
+	var initialized := CORE.initialize_seoul_cycle(2)
+	var snapshot := CORE.seoul_cycle_snapshot(2)
+	var node: Dictionary = (snapshot.get("nodes", {}) as Dictionary).get(
+		"m2_advancement", {})
+	var binding: Dictionary = (
+		node.get("terminal_route_bindings", {}) as Dictionary).get(route_id, {})
+	var candidates := CORE.terminal_target_candidates(2, "m2_advancement")
+	var route_spec: Dictionary = (
+		CORE.seoul_cycle_spec().get("terminal_routes", {}) as Dictionary).get(
+			route_id, {})
+	var spec_effects: Dictionary = route_spec.get("completion_effects", {})
+	var binding_effects: Dictionary = binding.get("completion_effects", {})
+	var candidate: Dictionary = candidates[0] if candidates.size() == 1 else {}
+	var candidate_effects: Dictionary = candidate.get("completion_effects", {})
+	_expect(bool(initialized.get("ok", false)) \
+		and int(node.get("threshold", 0)) == 2 \
+		and int(node.get("deadline_week", 0)) == 2 \
+		and candidates.size() == 1 \
+		and str(candidate.get("id", "")) == candidate_id \
+		and str(candidate.get("route_id", "")) == route_id \
+		and str(candidate.get("variant_id", "")) == variant_id \
+		and str(candidate.get("bundle_id", "")) == "m2_seorin_application" \
+		and str(binding.get("route_id", "")) == route_id \
+		and str(binding.get("variant_id", "")) == variant_id \
+		and str(binding.get("target_node", "")) == "m2_advancement" \
+		and str(binding.get("target_bundle", "")) == "m2_seorin_application" \
+		and str(route_spec.get("balance_status", "")) \
+			== "first_run_adjustment" \
+		and spec_effects.has("mental") \
+		and int(spec_effects.get("mental", 999)) == effect \
+		and binding_effects.has("mental") \
+		and int(binding_effects.get("mental", 999)) == effect \
+		and candidate_effects.has("mental") \
+		and int(candidate_effects.get("mental", 999)) == effect,
+		"ORDER-101 %s lost its M2 route, +1..-3 effect, or threshold 2" \
+			% label)
+	if not bool(initialized.get("ok", false)) or candidates.size() != 1:
+		return
+
+	var partial_pick := _order101_pick_terminal_allocation(
+		snapshot, candidate_id, false)
+	if partial_pick.is_empty():
+		_expect(false,
+			"ORDER-101 %s lacked a genuine W5 partial threshold step" % label)
+		return
+	var partial_preview: Dictionary = partial_pick.get("preview", {})
+	var mental_before_partial := int(GameState.mental)
+	_expect(bool(partial_preview.get("ok", false)) \
+		and int(partial_preview.get("progress_after", 0)) == 1 \
+		and not bool(partial_preview.get("completed_now", true)) \
+		and (partial_preview.get("immediate_effects", {}) as Dictionary).is_empty() \
+		and str(partial_preview.get("selected_terminal_route_id", "")) \
+			== route_id \
+		and str(partial_preview.get("terminal_variant_id", "")) == variant_id,
+		"ORDER-101 %s W5 preview skipped the first of two threshold steps" \
+			% label)
+	var partial_commit := CORE.commit_seoul_cycle_allocation(
+		str(partial_pick.get("capacity_id", "")), "m2_advancement", 2,
+		candidate_id)
+	var partial_node: Dictionary = (
+		CORE.seoul_cycle_snapshot(2).get("nodes", {}) as Dictionary).get(
+			"m2_advancement", {})
+	_expect(bool(partial_commit.get("ok", false)) \
+		and not bool(partial_commit.get("completed_now", true)) \
+		and int(partial_node.get("progress", 0)) == 1 \
+		and int(partial_node.get("threshold", 0)) == 2 \
+		and int(GameState.mental) == mental_before_partial \
+		and CORE.terminal_transition_resolution(route_id).is_empty(),
+		"ORDER-101 %s W5 applied its result before threshold completion" % label)
+	if not bool(partial_commit.get("ok", false)):
+		return
+	if not await _resolve_cycle_entries("ORDER-101 %s" % label):
+		return
+	var w5_closed := CORE.complete_seoul_cycle_turn(2)
+	_expect(bool(w5_closed.get("ok", false)),
+		"ORDER-101 %s W5 partial step could not close: %s" % [
+			label, str(w5_closed.get("error", "unknown"))])
+	if not bool(w5_closed.get("ok", false)):
+		return
+	GameState.advance_calendar()
+
+	var w6_snapshot := CORE.seoul_cycle_snapshot(2)
+	var completion_pick := _order101_pick_terminal_allocation(
+		w6_snapshot, candidate_id, true)
+	if completion_pick.is_empty():
+		_expect(false,
+			"ORDER-101 %s lacked a genuine W6 threshold completion" % label)
+		return
+	var completion_preview: Dictionary = completion_pick.get("preview", {})
+	var preview_effects: Dictionary = completion_preview.get(
+		"immediate_effects", {})
+	var mental_before_completion := int(GameState.mental)
+	_expect(bool(completion_preview.get("ok", false)) \
+		and bool(completion_preview.get("completed_now", false)) \
+		and int(completion_preview.get("progress_after", 0)) >= 2 \
+		and preview_effects.has("mental") \
+		and int(preview_effects.get("mental", 999)) == effect \
+		and str(completion_preview.get("selected_terminal_route_id", "")) \
+			== route_id \
+		and str(completion_preview.get("terminal_variant_id", "")) == variant_id,
+		"ORDER-101 %s W6 preview did not expose its exact completion effect" \
+			% label)
+	var completion_commit := CORE.commit_seoul_cycle_allocation(
+		str(completion_pick.get("capacity_id", "")), "m2_advancement", 2,
+		candidate_id)
+	var completion_receipt: Dictionary = completion_commit.get("receipt", {})
+	var completion_effects: Dictionary = completion_receipt.get("effects", {})
+	var pending: Dictionary = completion_commit.get("pending_trigger", {})
+	var resolution := CORE.terminal_transition_resolution(route_id)
+	var completed_node: Dictionary = (
+		CORE.seoul_cycle_snapshot(2).get("nodes", {}) as Dictionary).get(
+			"m2_advancement", {})
+	_expect(bool(completion_commit.get("ok", false)) \
+		and bool(completion_commit.get("completed_now", false)) \
+		and str(completed_node.get("status", "")) == "awaiting_trigger" \
+		and int(completed_node.get("progress", 0)) \
+			>= int(completed_node.get("threshold", 0)) \
+		and int(completed_node.get("threshold", 0)) == 2,
+		"ORDER-101 %s did not complete the production threshold transaction" \
+			% label)
+	_expect(completion_effects.has("mental") \
+		and int(completion_effects.get("mental", 999)) == effect \
+		and int(GameState.mental) == mental_before_completion + effect,
+		"ORDER-101 %s did not apply exactly %d at terminal threshold 2" \
+			% [label, effect])
+	_expect(str(completion_receipt.get(
+			"selected_terminal_route_id", "")) == route_id \
+		and str(completion_receipt.get("terminal_variant_id", "")) == variant_id \
+		and str(pending.get("bundle_id", "")) == "m2_seorin_application" \
+		and str(pending.get("selected_terminal_route_id", "")) == route_id \
+		and str(resolution.get("route_id", "")) == route_id \
+		and str(resolution.get("resolution", "")) == "completed" \
+		and int(resolution.get("target_month", 0)) == 2 \
+		and str(resolution.get("target_node", "")) == "m2_advancement" \
+		and int(resolution.get("target_turn", 0)) == 6 \
+		and str(resolution.get("variant_id", "")) == variant_id \
+		and bool(resolution.get("effect_applied", false)) == (effect != 0) \
+		and str(resolution.get("result_variant", "")) == variant_id,
+		"ORDER-101 %s completion lost its route or terminal resolution" % label)
+
+
+func _order101_unused_capacity(
+		snapshot: Dictionary, prefer_high: bool) -> String:
+	var available: Array[Dictionary] = []
+	for raw_capacity in snapshot.get("capacities", []):
+		if raw_capacity is Dictionary \
+				and not bool((raw_capacity as Dictionary).get("consumed", false)):
+			available.append((raw_capacity as Dictionary).duplicate(true))
+	if available.is_empty():
+		return ""
+	available.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		return int(a.get("value", 0)) > int(b.get("value", 0)) \
+			if prefer_high else int(a.get("value", 0)) < int(b.get("value", 0)))
+	return str(available[0].get("id", ""))
+
+
+func _order101_pick_terminal_allocation(
+		snapshot: Dictionary, candidate_id: String,
+		want_completion: bool) -> Dictionary:
+	for raw_capacity in snapshot.get("capacities", []):
+		if not raw_capacity is Dictionary \
+				or bool((raw_capacity as Dictionary).get("consumed", false)):
+			continue
+		var capacity_id := str((raw_capacity as Dictionary).get("id", ""))
+		var preview := CORE.preview_seoul_cycle_allocation(
+			capacity_id, "m2_advancement", 2, candidate_id)
+		if not bool(preview.get("ok", false)) \
+				or bool(preview.get("completed_now", false)) != want_completion:
+			continue
+		if not want_completion and int(preview.get("progress_after", 0)) != 1:
+			continue
+		return {
+			"capacity_id": capacity_id,
+			"preview": preview,
+		}
+	return {}
 
 
 func _pick_allocation(route_id: String, month_index: int) -> Dictionary:
@@ -365,14 +826,16 @@ func _pick_allocation(route_id: String, month_index: int) -> Dictionary:
 				continue
 			for capacity in capacities:
 				var capacity_id := str(capacity.get("id", ""))
-				var preview := CORE.preview_seoul_cycle_allocation(
-					capacity_id, node_id, month_index)
-				if bool(preview.get("ok", false)):
+				var selected := _route_allocation_preview(
+					route_id, capacity_id, node_id, month_index, snapshot)
+				if not selected.is_empty():
 					candidates.append({
 						"capacity_id": capacity_id,
 						"node_id": node_id,
 						"role": role,
-						"preview": preview,
+						"preview": selected.get("preview", {}),
+						"selected_candidate_id": str(selected.get(
+							"selected_candidate_id", "")),
 					})
 		if not candidates.is_empty():
 			candidates.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
@@ -388,16 +851,103 @@ func _pick_allocation(route_id: String, month_index: int) -> Dictionary:
 		var node_id := str(raw_node_id)
 		for capacity in capacities:
 			var capacity_id := str(capacity.get("id", ""))
-			var preview := CORE.preview_seoul_cycle_allocation(
-				capacity_id, node_id, month_index)
-			if bool(preview.get("ok", false)):
+			var selected := _route_allocation_preview(
+				route_id, capacity_id, node_id, month_index, snapshot)
+			if not selected.is_empty():
 				return {
 					"capacity_id": capacity_id,
 					"node_id": node_id,
 					"role": _node_role(node_id, nodes.get(node_id, {})),
-					"preview": preview,
+					"preview": selected.get("preview", {}),
+					"selected_candidate_id": str(selected.get(
+						"selected_candidate_id", "")),
 				}
 	return {}
+
+
+func _route_allocation_preview(
+		route_id: String, capacity_id: String, node_id: String,
+		month_index: int, snapshot: Dictionary) -> Dictionary:
+	var preview := CORE.preview_seoul_cycle_allocation(
+		capacity_id, node_id, month_index)
+	if bool(preview.get("ok", false)):
+		var persisted_candidate := str(preview.get(
+			"selected_trigger_candidate_id", "")).strip_edges()
+		if persisted_candidate.is_empty():
+			persisted_candidate = str(preview.get(
+				"selected_trigger_bundle_id", "")).strip_edges()
+		return {
+			"preview": preview,
+			"selected_candidate_id": persisted_candidate,
+		}
+	if not bool(preview.get("trigger_selection_required", false)):
+		return {}
+	var legal_candidates: Array[Dictionary] = []
+	for raw_candidate in preview.get("trigger_candidates", []):
+		if not raw_candidate is Dictionary:
+			continue
+		var candidate_id := str((raw_candidate as Dictionary).get(
+			"id", "")).strip_edges()
+		if candidate_id.is_empty():
+			continue
+		var selected_preview := CORE.preview_seoul_cycle_allocation(
+			capacity_id, node_id, month_index, candidate_id)
+		if not bool(selected_preview.get("ok", false)):
+			continue
+		legal_candidates.append({
+			"id": candidate_id,
+			"record": (raw_candidate as Dictionary).duplicate(true),
+			"preview": selected_preview,
+		})
+	if legal_candidates.is_empty():
+		return {}
+	var raw_node: Variant = (snapshot.get("nodes", {}) as Dictionary).get(
+		node_id, {})
+	var node: Dictionary = raw_node if raw_node is Dictionary else {}
+	legal_candidates.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
+		var left_score := _route_trigger_candidate_score(
+			route_id, node_id, node, left)
+		var right_score := _route_trigger_candidate_score(
+			route_id, node_id, node, right)
+		if left_score != right_score:
+			return left_score > right_score
+		return str(left.get("id", "")) < str(right.get("id", "")))
+	var selected: Dictionary = legal_candidates.front()
+	return {
+		"preview": selected.get("preview", {}),
+		"selected_candidate_id": str(selected.get("id", "")),
+	}
+
+
+func _route_trigger_candidate_score(
+		route_id: String, node_id: String, node: Dictionary,
+		candidate: Dictionary) -> int:
+	var candidate_id := str(candidate.get("id", ""))
+	var preview: Dictionary = candidate.get("preview", {})
+	var role := _node_role(node_id, node)
+	var terminal_candidate := candidate_id.begins_with("terminal:")
+	var score := 0
+	# A named strategy follows its own causal continuation. Other strategies
+	# explicitly choose the ordinary current-month thread when a terminal union
+	# appears as a fallback. This is stable under candidate JSON reordering.
+	if route_id == role:
+		score += 1_000_000 if terminal_candidate else 0
+	else:
+		score += 1_000_000 if not terminal_candidate else 0
+	# The only authored player-owned union before a terminal binding is the M2
+	# Hyunsu/Cafe choice. Keep the people route on the relationship-forward
+	# Hyunsu branch; fallback strategies explicitly choose the Cafe branch.
+	if node_id == "m2_people":
+		if route_id == "people" and candidate_id == "hyunsu_player_reachout":
+			score += 500_000
+		elif route_id != "people" and candidate_id == "cafe_world_glimpse":
+			score += 500_000
+	if route_id == "fatal_cost":
+		var effects: Dictionary = preview.get("immediate_effects", {})
+		score += -int(round(float(effects.get("money", 0.0)) / 1000.0))
+		score += -int(round(float(effects.get("health", 0.0)))) * 1000
+		score += -int(round(float(effects.get("mental", 0.0)))) * 1000
+	return score
 
 
 func _allocation_role_order(
@@ -431,13 +981,14 @@ func _allocation_role_order(
 				return ["livelihood", "recovery", "advancement", "people"]
 			return ["recovery", "livelihood", "advancement", "people"]
 		"advancement":
-			if _role_has_legal_allocation("advancement", snapshot):
+			if _role_has_legal_allocation(
+					route_id, "advancement", snapshot):
 				return ["advancement", "recovery", "livelihood", "people"]
 			if int(counts["recovery"]) < 1:
 				return ["recovery", "livelihood", "people", "advancement"]
 			return ["livelihood", "recovery", "people", "advancement"]
 		"people":
-			if _role_has_legal_allocation("people", snapshot):
+			if _role_has_legal_allocation(route_id, "people", snapshot):
 				return ["people", "recovery", "livelihood", "advancement"]
 			if int(counts["livelihood"]) < 1:
 				return ["livelihood", "recovery", "advancement", "people"]
@@ -448,7 +999,8 @@ func _allocation_role_order(
 			return (ROUTE_ROLE_ORDER.get(route_id, []) as Array).duplicate()
 
 
-func _role_has_legal_allocation(role: String, snapshot: Dictionary) -> bool:
+func _role_has_legal_allocation(
+		route_id: String, role: String, snapshot: Dictionary) -> bool:
 	var nodes: Dictionary = snapshot.get("nodes", {})
 	for raw_node_id in nodes:
 		var node_id := str(raw_node_id)
@@ -458,10 +1010,11 @@ func _role_has_legal_allocation(role: String, snapshot: Dictionary) -> bool:
 			if not raw_capacity is Dictionary \
 					or bool((raw_capacity as Dictionary).get("consumed", false)):
 				continue
-			var preview := CORE.preview_seoul_cycle_allocation(
+			var selected := _route_allocation_preview(
+				route_id,
 				str((raw_capacity as Dictionary).get("id", "")),
-				node_id, int(snapshot.get("month", 0)))
-			if bool(preview.get("ok", false)):
+				node_id, int(snapshot.get("month", 0)), snapshot)
+			if not selected.is_empty():
 				return true
 	return false
 
@@ -520,6 +1073,22 @@ func _resolve_cycle_entries(route_id: String) -> bool:
 			_expect(false, "%s Week %d could not begin %s %s" % [
 				route_id, int(GameState.turn), pending_kind, bundle_id])
 			return false
+		if pending_kind == "world" and bundle_id == "sns_pressure_night" \
+				and CORE.pending_consequence_id() == "temptation_consequence":
+			var prelude_claim := CORE.claim_scheduled_prelude(bundle_id)
+			if not bool(prelude_claim.get("ok", false)) \
+					or not bool(prelude_claim.get("claimed", false)) \
+					or not _play_active_story(
+						"temptation_consequence", route_id):
+				_expect(false, "%s Week %d could not read SNS prelude" % [
+					route_id, int(GameState.turn)])
+				return false
+			var consumed := CORE.consume_scheduled_prelude(bundle_id)
+			if not bool(consumed.get("ok", false)) \
+					or not bool(consumed.get("consumed", false)):
+				_expect(false, "%s Week %d could not consume SNS prelude" % [
+					route_id, int(GameState.turn)])
+				return false
 		if bundle_id == "demo_collision":
 			var prepared := CORE.prepare_demo_collision()
 			if not bool(prepared.get("ok", false)):
@@ -1086,7 +1655,11 @@ func _assert_locked_numbers() -> void:
 			"cycle balance baselines are not locked; copy only this runner's "
 			+ "production rows into EXPECTED_MONTHS/EXPECTED_MINIMA")
 		return
-	for route_id in ALL_ROUTE_IDS:
+	_assert_locked_route_numbers(ALL_ROUTE_IDS)
+
+
+func _assert_locked_route_numbers(route_ids: Array[String]) -> void:
+	for route_id in route_ids:
 		var result: Dictionary = _results.get(route_id, {})
 		_expect(result.get("months", []) == EXPECTED_MONTHS.get(route_id, []),
 			"%s monthly money/health/mental/employment baseline drifted" % route_id)
@@ -1100,6 +1673,19 @@ func _assert_locked_numbers() -> void:
 		_expect(actual_minima == EXPECTED_MINIMA.get(route_id, {}),
 			"%s run-minimum/death baseline drifted: %s" % [
 				route_id, str(actual_minima)])
+
+
+func _cycle_balance_route_filter() -> String:
+	for argument in OS.get_cmdline_user_args():
+		if not argument.begins_with("--cycle-balance-route="):
+			continue
+		var route_id := argument.trim_prefix(
+			"--cycle-balance-route=").strip_edges()
+		if route_id in ALL_ROUTE_IDS:
+			return route_id
+		_failures.append("unknown cycle-balance route filter: %s" % route_id)
+		return ""
+	return ""
 
 
 func _stop_test_audio() -> void:

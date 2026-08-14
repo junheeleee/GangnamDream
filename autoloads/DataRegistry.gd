@@ -352,6 +352,12 @@ var story_rules_by_event: Dictionary = {}
 var demo_core_loop_v2: Dictionary = {}
 var scene_direction_manifest: Dictionary = {}
 var scene_direction_event_intents_by_id: Dictionary = {}
+## Monotonic generation for consumers that memoize authored-data validation.
+## Runtime content replacement must go through reload() or notify_content_override().
+var content_revision: int = 0
+
+func notify_content_override() -> void:
+	content_revision += 1
 
 ## 한 선택지의 지연 예약을 저장 포맷과 같은 {event_id, delay} 목록으로 정규화한다.
 ## 기존 문자열과 문자열/객체 혼합 배열을 함께 받으며 빈 id는 예약하지 않는다.
@@ -478,6 +484,7 @@ func reload():
 				continue
 			for event_id_variant in event_ids:
 				scene_direction_event_intents_by_id[str(event_id_variant)] = intent
+	content_revision += 1
 
 func find_event(event_id):
 	return events_by_id.get(event_id, {})

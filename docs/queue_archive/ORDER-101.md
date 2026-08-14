@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-101
+# Archived Queue Spec: ORDER-101
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-101 [P0·Chapter 1 W1~8] CH1-A — 온보딩·자기소개서/지원·첫 후속을 한 소유권으로 잇는다
+#### [x] ORDER-101 [P0·Chapter 1 W1~8] CH1-A — 온보딩·자기소개서/지원·첫 후속을 한 소유권으로 잇는다
 
 **사용자 지시 (2026-08-12):** Chapter 1의 완성 단위를 W1~48로 두고 끝까지
 완성한다. ORDER-100이 봉인한 48행 중 첫 8행을 먼저 실제 제품으로 수리하며,
@@ -11,9 +11,48 @@
 **사용자 지시 (2026-08-13):** U01..U20 사람 표본은 W24 제품 완료 뒤 시작한다.
 ORDER-101은 L1/L2를 닫고 다음 배치로 진행하되 그 전에는 사람 GO를 주장하지 않는다.
 
-## 현재 실측과 범위
+## 2026-08-14 L1/L2 완료 판정
 
-현재 제품은 W1~8의 여덟 행을 갖지만, 행 부채 10개와 온보딩 경계의 전역 부채
+- W1~8 여덟 행과 U01..U20 전 판정 단위를 실제 producer → named reader →
+  다음 플레이 동사 → save replay로 전수했다. W1 Send, M1/M2 terminal,
+  플레이어 직접 사람 선택, W5 결과, W8 SNS와 W9 경계를 fresh·구 저장의
+  합법 phase 및 double reload로 검증했다.
+- fresh `story_flashforward` 프롤로그는 11-event closure이며 식사 뒤 Story 지원
+  Send는 0회다. exact legacy preplan만 당시 Send를 한 번 복구한다. 대표 trace는
+  W6 Rain 5건/115분/`+195,500/-9/-3`, W8 player sleep slot과 별도 non-slot SNS
+  세계 사건 1회를 같은 source revision에서 고정했다.
+- 착수 때 예상한 baseline 48과 달리, 핵심 12개를 닫는 공유 exact application
+  helper가 W24 `reader:milestone:w24:completion_application_choice` shadow도
+  실제로 함께 닫았다. 최종 실측은
+  `ROW24 + DEAD8 + ORPHAN7 + AUTO4 + SHADOW1 + CAP1 + DISPLAY1 + FANIN1 = 47`,
+  blocked 3이다. 이는 핵심 12 + 인접 1의 결과이며 다른 debt를 이름만 바꾸거나
+  약화해 맞춘 수치가 아니다.
+- L1 표적 증거는 `CORE_LOOP_V2_FIRST_ENTRY_CHECK_OK`,
+  `CORE_LOOP_V2_CYCLE_CHECK_OK`, `ORDER101_M2_EDGE_CONTRACTS_OK`,
+  `ORDER101_LEGACY_ONLY_OK`,
+  `CORE_LOOP_V2_B_CHECK_OK`, `CORE_LOOP_V2_E_CHECK_OK`와 causal normal/self-test다.
+  W25~48의 24행 공백과 남은 debt 때문에 `--require-complete-chapter-one`은
+  의도대로 RED이며 Chapter 1 완료를 주장하지 않는다.
+- current generic application의 exact weekly는 누락된 presentation receipt를
+  복구할 수 있다. authored identity/status/job과 다른 weekly는 영수증이 없거나
+  그 내용에 맞춰 쓰였어도 권한을 만들지 않고, 이미 진행된 지원 상태도 되돌리지
+  않는다. frozen 040746 schema-2 origin만 구 식별자를 이관하며, current에 한 번
+  정착한 그 legacy receipt의 삭제는 재발급 근거가 아니다.
+- 역사 월결산의 재귀 검증은 exact save/live/authored-data revision 서명 안에서만
+  memoize한다. 계약·event topology·locale projection이 바뀌면 즉시 폐기하고,
+  재귀 cycle은 fail-closed한다. 24주 5경로 production 밸런스는 같은 최종
+  revision에서 오류 없이 약 300초에 끝나 과거의 경로당 장시간 폭증도 닫았다.
+- W9+ 제품 node·Story 본문은 만들지 않았다. U01..U20 사람 L3와 다섯 실제
+  표면의 재미·이해도 판정은 사용자 지시대로 W24 제품 완료 뒤까지 미룬다.
+- 아래 제품 규칙 중 일반화 가능한 W1 Send 소유권·pre/post save·legacy 무소급,
+  세계 클록 exactly-once, 직접 사람 선택, 원자 rollback과 typed receipt 충돌은
+  `docs/CORE_LOOP_V2.md` 정본에 승격했다. U번호, 파일 소유권, 내부 helper/receipt
+  shape와 mutation matrix는 이 완료 사양의 일회성 증거로 보존하고, 최종 파일
+  SHA는 [`WORK_LOG.md`](../WORK_LOG.md)의 2026-08-14 항목이 소유한다.
+
+## 착수 당시 실측과 범위
+
+착수 당시 제품은 W1~8의 여덟 행을 갖지만, 행 부채 10개와 온보딩 경계의 전역 부채
 2개가 남아 있다. 이 오더는 **20단위 = 여덟 행 전수 8 + exact debt 수리 12**를
 한 배치로 소유한다. W9 제품 노드는 만들지 않되 W1~8 producer가 여는 첫 named
 consumer의 도달성까지 증명한다.
@@ -192,17 +231,18 @@ field는 W1~8 producer의 첫 named consumer 경계로만 수정할 수 있다. 
 
 ## L1·L2·L3 증거
 
-### L1 기계
+### L1 기계 — 착수 시 계약과 완료 실측
 
-- causal checker self-test/current, baseline exact 48. 예상 breakdown은
+- 착수 시 causal checker self-test/current 목표는 baseline exact 48이었다. 예상 breakdown은
   `ROW24 + DEAD8 + ORPHAN7 + AUTO4 + SHADOW2 + CAP1 + DISPLAY1 + FANIN1 = 48`,
   `LAYER0`, `UNSCHEDULED0`, blocked 3 불변이다. 다른 debt ID 삭제/이름 변경으로
-  수치를 맞추지 않고 ordinary derivation에서 exact 12개만 사라져야 한다.
-- 기존 등록 회귀 안의 `Order101W1To8Check` 절: 실제 MainGame 입력으로
+  수치를 맞추지 않고 ordinary derivation에서 exact 12개만 사라져야 한다. 완료
+  실측 47과 인접 shadow 1개의 해소는 이 문서의 완료 판정 절이 소유한다.
+- 착수 계획의 W1~8 회귀 범위: 실제 MainGame 입력으로
   back/cancel 무변이, Send 단일
   owner, 품질 0~3+expiry causal A/B, 완료/만료 next surface, W1/W5 consequence,
   두 사람 동시 후보와 JSON order reversal, KO/EN·keyboard/pad W1~8.
-- 기존 등록 회귀 안의 `Order101PersistenceCheck` 절: 아홉 save phase×
+- 착수 계획의 persistence 회귀 범위: 아홉 save phase×
   fresh/legacy, double reload, pre-result restart와 post-result restore의 구분,
   late-failure rollback, post-result durable, selected person identity 보존.
 - Story application write, month-summary-only reader, completed/expired identical
@@ -250,5 +290,5 @@ field는 W1~8 producer의 첫 named consumer 경계로만 수정할 수 있다. 
 
 ## 다음 오더 경계
 
-ORDER-101 L1/L2 완료 시 W1~8 원장·save matrix·이관 L3 모집단을 ORDER-102에
-넘긴다. 사람 판정은 W24 제품 완료 뒤 시작하며 이후 제품은 미리 만들지 않는다.
+ORDER-101 L1/L2 결과인 W1~8 원장·save matrix·이관 L3 모집단은 ORDER-102의
+입력이다. 사람 판정은 W24 제품 완료 뒤 시작하며 이후 제품은 미리 만들지 않는다.

@@ -4,6 +4,7 @@ extends Node
 const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
 const STORY_MODE := preload("res://scenes/StoryMode.gd")
 const FULL_ROUTE_CHECK := preload("res://tools/CoreLoopV2ECheck.gd")
+const ORDER101_FIXTURES := preload("res://tools/CoreLoopV2CycleCheck.gd")
 const FATHER_MEMORY_READER_SPECS := [
 	{
 		"memory": "father_gangnam_words_held_back",
@@ -81,7 +82,7 @@ func _ready() -> void:
 	_check_activity_task_contract()
 	_check_activity_task_long_horizon_envelope()
 	_check_atomic_action_roundtrips()
-	_check_schema_two_action_result_migration()
+	_check_partial_schema_two_action_result_rejected()
 	_check_missing_action_receipt_lazy_recovery()
 	_check_invalid_action_result_recovery()
 	_check_atomic_action_rollback()
@@ -100,11 +101,11 @@ func _ready() -> void:
 			+ "continuation=week12_to_13/roundtrip prerequisites=typed/closed_safe "
 			+ "entries=daeun_jiyeon_father_hyunsu exclusive=romance_entry "
 			+ "relationship=from_to/current_turn_receipt/no_regression "
-			+ "memory=reader_variants/father6_ko_en/exact_wrong/schema2_v1_safe "
+			+ "memory=reader_variants/father6_ko_en/exact_wrong/schema2_partial_rejected "
 			+ "application=submitted/interviewed/no_offer "
 			+ "callback=receipt_superseded/mindset3/v1_truthful/long_preserved "
 			+ "prelude=scheduled_owner/interview+math/story_action/save_once "
-			+ "action=atomic/save_result_once/story_bridge/all_schema_lazy/rollback "
+			+ "action=atomic/save_result_once/story_bridge/schema2_partial_rejected/rollback "
 			+ "activity_task=3_requirements/3_pairs/overreach/save/once/readers/"
 			+ "W24_48_240_survival_cash "
 			+ "boundary_save=single/month3_nonterminal "
@@ -124,77 +125,53 @@ func _check_contract_and_legacy_boundary() -> void:
 		"B runtime contract is not schema 3")
 	_expect(CORE_LOOP.development_cap_week() == 24,
 		"B regression did not inherit the week-24 development cap")
+	var legacy := ORDER101_FIXTURES._order101_legacy_040746_save(6, 9, 8)
+	var raw_state: Dictionary = legacy.get("core_loop_v2_state", {})
+	_expect(CORE_LOOP._legacy_040746_core_state_valid(raw_state, 9, {}) \
+		and CORE_LOOP._legacy_040746_weekly_witnesses_valid(
+			legacy.get("weekly_commitments", []), raw_state, 9),
+		"B legacy boundary fixture was not a strict 040746 Week-Nine save")
 	GameState.start_new_game()
-	GameState.turn = 9
-	GameState.core_loop_v2_state = {
-		"schema": 2,
-		"enabled": true,
-		"prototype_complete": true,
-		"prototype_completed_at_turn": 9,
-		"completed_turns": range(1, 9),
-		"completed_bundles": ["father_first_call"],
-		"relationship_stages": {"father": "met"},
-		"relationship_choice_receipts": {
-			"father_first_call:arc_father_01_call:2:2": true,
-		},
-		"relationship_history": [{
-			"character": "father",
-			"from": "unmet",
-			"to": "met",
-			"bundle_id": "father_first_call",
-			"event_id": "arc_father_01_call",
-			"choice_index": 2,
-			"turn": 2,
-		}],
-		"shown_consequences": ["opening_interview_math"],
-		"shown_consequence_turns": {"opening_interview_math": 2},
-		"player_initiated": [],
-	}
+	GameState.load_from_dict(legacy)
 	_expect(CORE_LOOP.initialize_for_run(),
-		"legacy enabled V2 save did not initialize")
+		"strict 040746 legacy save did not initialize")
 	var migrated: Dictionary = GameState.core_loop_v2_state
 	_expect(int(migrated.get("schema", 0)) == 3 \
+			and not CORE_LOOP.legacy_origin_receipt().is_empty() \
 			and int(migrated.get("completed_through_week", 0)) == 8 \
 			and int(migrated.get("development_cap_week", 0)) == 24,
-		"schema-2 completion did not migrate to completed-through week 8")
-	var migrated_relationship_receipt: Variant = (
-		migrated.get("relationship_choice_receipts", {}) as Dictionary
-	).get("father_first_call:arc_father_01_call:2:2", {})
+		"strict schema-two completion did not migrate through week 8")
 	var migrated_opening_receipt: Variant = (
 		migrated.get("consequence_receipts", {}) as Dictionary
 	).get("opening_interview_math", {})
-	_expect(str((migrated.get(
-			"relationship_stages", {}) as Dictionary).get(
-				"father", "")) == "opening" \
-			and migrated_relationship_receipt is Dictionary \
-			and str((migrated_relationship_receipt as Dictionary).get(
-				"initiative", "")) == "reciprocal" \
-			and str((migrated_relationship_receipt as Dictionary).get(
-				"memory", "")) == "father_call_ended_quickly" \
-			and (migrated.get("relationship_memories", []) as Array).size() == 1 \
-			and str(((migrated.get(
-				"relationship_history", []) as Array)[0] as Dictionary).get(
-					"memory", "")) == "father_call_ended_quickly" \
-			and str(((migrated.get(
-				"relationship_history", []) as Array)[0] as Dictionary).get(
-					"initiative", "")) == "reciprocal" \
+	var migrated_temptation_receipt: Variant = (
+		migrated.get("consequence_receipts", {}) as Dictionary
+	).get("temptation_consequence", {})
+	_expect((migrated.get(
+			"relationship_stages", {}) as Dictionary).is_empty() \
+			and (migrated.get(
+				"relationship_choice_receipts", {}) as Dictionary).is_empty() \
+			and (migrated.get("relationship_memories", []) as Array).is_empty() \
 			and (migrated.get("player_initiated", []) as Array).is_empty() \
 			and migrated_opening_receipt is Dictionary \
 			and str((migrated_opening_receipt as Dictionary).get(
 				"status", "")) == "consumed" \
 			and (migrated_opening_receipt as Dictionary).get(
-				"roots", []) == ["arc_intro_01_meal"],
-		"schema-2 migration invented the new calculation/returned-call history "
-		+ "instead of preserving its interview-only incoming Father call")
+				"roots", []) == ["arc_intro_01_meal"] \
+			and migrated_temptation_receipt is Dictionary \
+			and str((migrated_temptation_receipt as Dictionary).get(
+				"status", "")) == "consumed",
+		"strict schema-two migration changed frozen shown/relationship history")
 	_expect(CORE_LOOP.is_active(),
-		"migrated A1 save did not continue into week 9")
+		"migrated strict save did not continue into week 9")
 	_expect(not CORE_LOOP.is_prototype_complete(),
-		"migrated A1 save was mistaken for a completed 24-week build")
+		"migrated strict save was mistaken for a completed 24-week build")
 	var saved: Dictionary = GameState.serialize()
 	GameState.start_new_game()
 	GameState.load_from_dict(saved)
 	CORE_LOOP.initialize_for_run()
 	_expect(CORE_LOOP.is_active() \
+			and not CORE_LOOP.legacy_origin_receipt().is_empty() \
 			and int(GameState.core_loop_v2_state.get(
 				"completed_through_week", 0)) == 8,
 		"week-9 migration did not survive save/load")
@@ -408,9 +385,9 @@ func _check_typed_visibility() -> void:
 
 	_fresh()
 	GameState.turn = 9
-	_mark_completed("m2_rain_delivery_shift", 6)
+	_install_legacy_delivery_completion(6)
 	_expect(CORE_LOOP.available_offer_ids(3).has("jiyeon_world_meet"),
-		"Jiyeon did not open from the actual delivery route")
+		"Jiyeon did not preserve the schema-two delivery fallback")
 
 	_fresh()
 	GameState.turn = 9
@@ -962,19 +939,20 @@ func _check_father_small_completion_readers(story) -> void:
 				"%s %s did not reach %s through its exact typed receipt" % [
 					language, memory_id, reader_event_id])
 
-			_seed_schema_two_father_memory(spec)
+			_seed_partial_schema_two_father_memory(spec)
 			var migrated_event: Dictionary = DataRegistry.find_event(
 				reader_event_id)
 			var migrated: String = story._resolved_story_description(migrated_event)
-			_expect(CORE_LOOP.has_relationship_memory("father", memory_id) \
-					and migrated.contains(story._fmt(memory_text)),
-				"%s schema-2 exact receipt did not migrate/read %s" % [
+			_expect(CORE_LOOP.legacy_origin_receipt().is_empty() \
+					and not CORE_LOOP.has_relationship_memory("father", memory_id) \
+					and not migrated.contains(story._fmt(memory_text)),
+				"%s partial schema-2 Father state promoted %s" % [
 					language, memory_id])
 
 		_check_father_legacy_flags_do_not_infer_memories(story, language)
 	LocaleManager.set_language(original_language)
 
-func _seed_schema_two_father_memory(spec: Dictionary) -> void:
+func _seed_partial_schema_two_father_memory(spec: Dictionary) -> void:
 	GameState.start_new_game()
 	var producer_turn := int(spec["producer_turn"])
 	GameState.turn = mini(24, producer_turn + 1)
@@ -997,7 +975,7 @@ func _seed_schema_two_father_memory(spec: Dictionary) -> void:
 		"player_initiated": [],
 	}
 	_expect(CORE_LOOP.initialize_for_run(),
-		"schema-2 Father memory fixture did not initialize for %s" \
+		"partial schema-2 Father fixture did not initialize for %s" \
 			% str(spec["memory"]))
 
 func _check_father_legacy_flags_do_not_infer_memories(
@@ -1244,7 +1222,7 @@ func _check_story_scheduled_prelude() -> void:
 					"arc_intro_02_dad_call"),
 			"scheduled opening choice %d lost legacy follow-up suppression" \
 				% choice_index)
-	_expect(CORE_LOOP.note_story_choice("arc_intro_01_meal", 0) \
+	_expect(_apply_and_note_current_story("arc_intro_01_meal", 0) \
 			and CORE_LOOP.application_status(
 				"mirae_industrial_tech") == "interviewed" \
 			and (
@@ -1295,7 +1273,7 @@ func _check_story_scheduled_prelude() -> void:
 				"receipt", {}) as Dictionary).get(
 					"status", "")) == "consumed",
 		"story prelude did not consume exactly once after save/load")
-	_expect(CORE_LOOP.note_story_choice("arc_father_01_call", 0) \
+	_expect(_apply_and_note_current_story("arc_father_01_call", 0) \
 			and CORE_LOOP.complete_active_bundle() == owner_id,
 		"combined story did not close its scheduled owner")
 	_expect(CORE_LOOP.turn_completed() \
@@ -1333,7 +1311,7 @@ func _check_application_transition_chain() -> void:
 			and not bool(CORE_LOOP.consume_scheduled_prelude(
 				owner_id).get("ok", false)),
 		"application consequence consumed before its visible choice")
-	_expect(CORE_LOOP.note_story_choice("v2_mirae_result_message", 0) \
+	_expect(_apply_and_note_current_story("v2_mirae_result_message", 0) \
 			and CORE_LOOP.application_status(
 				"mirae_industrial_tech") == "no_offer",
 		"Mirae result did not transition interviewed to no_offer")
@@ -1360,14 +1338,18 @@ func _check_application_transition_chain() -> void:
 
 	_fresh()
 	_install_plan(3, _month_three_schedule())
-	_mark_completed("m2_seorin_application", 5)
+	_expect(_complete_typed_application_action(
+		"m2_seorin_application", 5),
+		"Seorin result fixture could not produce its typed application receipt")
 	GameState.turn = 9
+	GameState.month = 3
+	GameState.week_of_month = 1
 	owner_id = "m3_hanbit_application"
 	_expect(CORE_LOOP.pending_consequence_id() == "m3_seorin_result_message" \
 			and CORE_LOOP.begin_bundle(owner_id, "schedule") \
 			and bool(CORE_LOOP.claim_scheduled_prelude(
 				owner_id).get("claimed", false)) \
-			and CORE_LOOP.note_story_choice(
+			and _apply_and_note_current_story(
 				"v2_seorin_result_message", 0) \
 			and CORE_LOOP.application_status(
 				"seorin_contract_2026q1") == "no_offer" \
@@ -1380,6 +1362,15 @@ func _check_action_scheduled_prelude() -> void:
 	_fresh()
 	_install_plan(2, _month_two_schedule())
 	_mark_completed("first_temptation_boss", 4)
+	var boss_state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	boss_state["active_bundle"] = "first_temptation_boss"
+	boss_state["active_kind"] = "schedule"
+	boss_state["active_turn"] = 4
+	GameState.core_loop_v2_state = boss_state
+	GameState.turn = 4
+	_expect(_apply_and_note_current_story("arc_temptation_01", 0),
+		"action-prelude fixture could not preserve its exact W4 choice")
+	CORE_LOOP.cancel_active_bundle()
 	GameState.turn = 8
 	var owner_id := "m2_sleep_debt_sunday"
 	_expect(CORE_LOOP.bundle_id_for_turn() == owner_id \
@@ -1405,6 +1396,22 @@ func _check_action_scheduled_prelude() -> void:
 	_expect(str(CORE_LOOP.scheduled_prelude_receipt(
 			owner_id).get("status", "")) == "presented",
 		"mid-action-prelude save lost its presented receipt")
+	var before_unread_consume: Dictionary = GameState.serialize()
+	var unread_consume := CORE_LOOP.consume_scheduled_prelude(owner_id)
+	_expect(not bool(unread_consume.get("ok", true)) \
+			and str(unread_consume.get("error", "")) \
+				== "missing_prelude_story_receipt" \
+			and GameState.serialize() == before_unread_consume,
+		"action prelude consumed before its temptation roots were read")
+	for root_id in CORE_LOOP.resolved_event_roots("temptation_consequence"):
+		var event: Dictionary = DataRegistry.find_event(root_id)
+		var choices: Array = event.get("choices", []) \
+			if event.get("choices", []) is Array else []
+		_expect(not choices.is_empty() \
+				and GameState.apply_choice(event, choices[0] as Dictionary) \
+				and CORE_LOOP.note_story_choice(root_id, 0),
+			"action prelude root %s did not produce its exact story receipt" \
+				% root_id)
 	var consumed := CORE_LOOP.consume_scheduled_prelude(owner_id)
 	_expect(bool(consumed.get("ok", false)) \
 			and bool(consumed.get("consumed", false)) \
@@ -1456,9 +1463,10 @@ func _check_action_receipt_once() -> void:
 		"actual_action_id": "apply",
 		"outcome": {"money": 0.0},
 		"details": {
+			"execution": "application",
 			"application_id": application_id,
 			"status": "submitted",
-			"receipt_number": "QA-HANBIT-09",
+			"job_id": str(config.get("job_id", "")),
 		},
 	}
 	var wrong_pressure := record.duplicate(true)
@@ -1477,7 +1485,7 @@ func _check_action_receipt_once() -> void:
 			and str((receipt.get("config", {}) as Dictionary).get(
 				"execution", "")) == "application" \
 			and str((receipt.get("result_details", {}) as Dictionary).get(
-				"receipt_number", "")) == "QA-HANBIT-09",
+				"job_id", "")) == str(config.get("job_id", "")),
 		"action receipt lost its action, config, or finalized details")
 	var receipt_count := (
 		GameState.core_loop_v2_state.get("action_receipts", {}) as Dictionary
@@ -1923,6 +1931,23 @@ func _check_activity_task_story_reader(outcome_id: String) -> void:
 				event_id, outcome_id])
 	story.free()
 
+func _check_activity_task_story_reader_absent(outcome_id: String) -> void:
+	var story = STORY_MODE.new()
+	var condition_key := "activity_task_outcome:m3_inventory_shift:%s" \
+		% outcome_id
+	for event_id in [
+		"v2_inventory_count_nights", "v2_logistics_class_session"]:
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		var variants: Dictionary = event.get(
+			"description_memory_if_known", {})
+		var guarded_copy := str(variants.get(condition_key, ""))
+		var resolved_copy := story._resolved_story_description(event)
+		_expect(not guarded_copy.is_empty() \
+				and not resolved_copy.contains(story._fmt(guarded_copy)),
+			"%s read rejected partial schema-2 activity outcome %s" % [
+				event_id, outcome_id])
+	story.free()
+
 func _check_atomic_action_roundtrips() -> void:
 	_check_atomic_action_roundtrip("m3_hanbit_application", 9)
 	_check_atomic_action_roundtrip("m3_inventory_shift", 10)
@@ -1955,6 +1980,9 @@ func _check_atomic_action_roundtrip(
 	if execution == "application":
 		details["application_id"] = str(config.get("application_id", ""))
 		details["status"] = str(config.get("status", "submitted"))
+		var job_id := str(config.get("job_id", "")).strip_edges()
+		if not job_id.is_empty():
+			details["job_id"] = job_id
 	else:
 		details["effects"] = effects.duplicate(true)
 	var axis := str(config.get(
@@ -2073,7 +2101,7 @@ func _complete_action_or_story_bundle(bundle_id: String) -> bool:
 	return CORE_LOOP.complete_active_bundle() == bundle_id \
 		and CORE_LOOP.complete_active_bundle().is_empty()
 
-func _check_schema_two_action_result_migration() -> void:
+func _check_partial_schema_two_action_result_rejected() -> void:
 	_fresh()
 	GameState.turn = 10
 	var bundle_id := "m3_inventory_shift"
@@ -2112,34 +2140,21 @@ func _check_schema_two_action_result_migration() -> void:
 	GameState.load_from_dict(old_save)
 	CORE_LOOP.initialize_for_run()
 	var recovered := CORE_LOOP.recover_action_result()
-	var legacy_receipt := CORE_LOOP.action_receipt(bundle_id)
-	var legacy_activity := CORE_LOOP.activity_task_receipt(bundle_id)
-	_expect(not recovered.is_empty() \
-			and not legacy_receipt.is_empty() \
-			and str(recovered.get("action_id", "")) == "side_shift",
-		"schema-2 finalized result did not backfill its action receipt")
-	_expect(str((legacy_receipt.get(
-			"result_details", {}) as Dictionary).get(
-				"execution", "")) == "instant_effect" \
-			and str(legacy_activity.get("legacy_execution", "")) \
-				== "instant_effect" \
-			and str(legacy_activity.get("outcome_id", "")) \
-				== "inventory_legacy_count_marked" \
-			and legacy_activity.get("selected_requirements", []) == [
-				"confirm_actual_count"] \
-			and legacy_activity.get("skipped_requirements", []) \
-				== ["trace_discrepancy", "write_handoff_note"] \
-			and CORE_LOOP.activity_task_receipt_outcome_id(bundle_id) \
-				== "inventory_legacy_count_marked",
-		"schema-2 instant receipt changed in place or invented a modern task pair")
-	_check_activity_task_story_reader("inventory_legacy_count_marked")
+	_expect(CORE_LOOP.legacy_origin_receipt().is_empty() \
+			and recovered.is_empty() \
+			and CORE_LOOP.action_receipt(bundle_id).is_empty() \
+			and CORE_LOOP.activity_task_receipt(bundle_id).is_empty() \
+			and CORE_LOOP.activity_task_receipt_outcome_id(bundle_id).is_empty(),
+		"partial schema-2 action state minted current action authority")
+	_check_activity_task_story_reader_absent(
+		"inventory_legacy_count_marked")
 	_expect(is_equal_approx(float(GameState.money), money_after) \
 			and int(GameState.health) == health_after \
 			and int(GameState.mental) == mental_after \
 			and GameState.weekly_commitments.size() == 1,
 		"schema-2 migration reapplied effects or duplicated its commitment")
-	_expect(_complete_action_or_story_bundle(bundle_id),
-		"schema-2 recovered Continue/story bridge did not complete exactly once")
+	_expect(not _complete_action_or_story_bundle(bundle_id),
+		"partial schema-2 action state completed without admitted origin")
 
 func _check_missing_action_receipt_lazy_recovery() -> void:
 	_fresh()
@@ -2725,6 +2740,90 @@ func _mark_completed(bundle_id: String, turn: int) -> void:
 	state["application_statuses"] = application_statuses
 	GameState.core_loop_v2_state = state
 
+func _install_legacy_delivery_completion(completed_turn: int) -> void:
+	var legacy := ORDER101_FIXTURES._order101_legacy_040746_save(
+		completed_turn, completed_turn, completed_turn)
+	GameState.start_new_game()
+	GameState.load_from_dict(legacy)
+	CORE_LOOP.initialize_for_run(true)
+	var state: Dictionary = GameState.core_loop_v2_state
+	var fallbacks: Dictionary = state.get("legacy_action_fallbacks", {})
+	var migrations: Dictionary = state.get("legacy_migration_receipts", {})
+	_expect(not CORE_LOOP.legacy_origin_receipt().is_empty() \
+		and not (fallbacks.get(
+			"m2_rain_delivery_shift", {}) as Dictionary).is_empty() \
+		and not (migrations.get(
+			"m2_rain_delivery_shift", {}) as Dictionary).is_empty(),
+		"strict 040746 delivery fixture did not mint its origin authority")
+	# Keep the admitted strict save intact. Copying these ledgers into an
+	# unrelated fresh continuation would split their frozen plan identity and
+	# correctly make the authority fail closed on the next normalization.
+
+func _complete_typed_application_action(
+		bundle_id: String, action_turn: int) -> bool:
+	var scene_bundle := CORE_LOOP.bundle(bundle_id)
+	var config: Dictionary = scene_bundle.get("action_config", {}) \
+		if scene_bundle.get("action_config", {}) is Dictionary else {}
+	var action_id := str(scene_bundle.get("action_id", ""))
+	GameState.turn = action_turn
+	GameState.month = CORE_LOOP.month_for_turn(action_turn)
+	GameState.week_of_month = ((action_turn - 1) % 4) + 1
+	if action_id.is_empty() \
+			or not CORE_LOOP.begin_bundle(bundle_id, "schedule") \
+			or not GameState.arm_weekly_commitment({
+				"turn": action_turn,
+				"pressure_id": bundle_id,
+				"pressure_family": str(scene_bundle.get("kind", "career")),
+				"choice_id": action_id,
+				"forgone_ids": [],
+			}):
+		return false
+	var transaction := GameState.finalize_weekly_effect_action(
+		action_id, {}, "money", "youth_center", "", {
+			"execution": str(config.get("execution", "application")),
+			"application_id": str(config.get("application_id", "")),
+			"status": str(config.get("status", "submitted")),
+		})
+	return bool(transaction.get("ok", false)) \
+		and not CORE_LOOP.action_receipt(bundle_id).is_empty() \
+		and CORE_LOOP.complete_active_bundle() == bundle_id
+
+
+func _complete_typed_delivery_action(action_turn: int) -> bool:
+	var prior_turn := int(GameState.turn)
+	var prior_month := int(GameState.month)
+	var prior_week := int(GameState.week_of_month)
+	var prior_ap := int(GameState.action_points)
+	var bundle_id := "m2_rain_delivery_shift"
+	var scene_bundle := CORE_LOOP.bundle(bundle_id)
+	GameState.turn = action_turn
+	GameState.month = CORE_LOOP.month_for_turn(action_turn)
+	GameState.week_of_month = ((action_turn - 1) % 4) + 1
+	var began := CORE_LOOP.begin_bundle(bundle_id, "schedule")
+	var armed := began and GameState.arm_weekly_commitment({
+		"turn": action_turn,
+		"pressure_id": bundle_id,
+		"pressure_family": str(scene_bundle.get("kind", "livelihood")),
+		"choice_id": "side_shift",
+		"forgone_ids": [],
+	})
+	var transaction := GameState.finalize_weekly_effect_action(
+		"side_shift", {"money": 100500, "health": -4},
+		"money", "work", "", {
+			"earned": 100500,
+			"health_delta": -4,
+			"mental_delta": 0,
+		}) if armed else {}
+	var completed := bool(transaction.get("ok", false)) \
+		and not CORE_LOOP.action_receipt(bundle_id).is_empty() \
+		and CORE_LOOP.complete_active_bundle() == bundle_id
+	GameState.turn = prior_turn
+	GameState.month = prior_month
+	GameState.week_of_month = prior_week
+	GameState.action_points = prior_ap
+	return completed
+
+
 func _set_relationship_stage(character: String, stage: String) -> void:
 	var state: Dictionary = GameState.core_loop_v2_state
 	var stages: Dictionary = state.get("relationship_stages", {})
@@ -2761,7 +2860,8 @@ func _install_plan(month_index: int, schedule: Dictionary) -> void:
 
 func _unlock_all_b_entries() -> void:
 	_mark_completed("m1_convenience_trial_shift", 2)
-	_mark_completed("m2_rain_delivery_shift", 6)
+	_expect(_complete_typed_delivery_action(6),
+		"rich B fixture could not produce its typed delivery receipt")
 	_mark_completed("father_first_call", 2)
 	_mark_completed("hyunsu_player_reachout", 5)
 	_set_relationship_stage("father", "opening")
@@ -2788,6 +2888,18 @@ func _unlock_all_b_entries() -> void:
 		},
 	]
 	GameState.core_loop_v2_state = state
+
+func _apply_and_note_current_story(
+		event_id: String, choice_index: int) -> bool:
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	var choices: Array = event.get("choices", []) \
+		if event.get("choices", []) is Array else []
+	return not event.is_empty() \
+		and choice_index >= 0 and choice_index < choices.size() \
+		and GameState.apply_choice(
+			event, choices[choice_index] as Dictionary) \
+		and CORE_LOOP.note_story_choice(event_id, choice_index)
+
 
 func _check_relationship_mapping(
 		bundle_id: String, event_id: String, choice_index: int,

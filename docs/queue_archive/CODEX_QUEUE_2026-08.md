@@ -13,6 +13,13 @@
 
 ## 2026-08
 
+- `[x] ORDER-101` (2026-08-14): W1~8 여덟 행동 행과 온보딩 경계를 단일
+  행동 소유권·실제 다음 동사·save replay로 연결했다. 계획한 핵심 debt 12와
+  공유 exact application helper가 소유하던 W24 shadow 1개까지 함께 닫혀
+  source-exact baseline은 60→47, blocked는 3이다. fresh·040746a legacy의
+  합법 save phase와 double reload, malformed/fractional/duplicate authority의
+  fail-closed를 고정했고 W9+ 제품 노드·새 Story는 0건이다. L1/L2는 완료했으며
+  U01..U20 사람 L3는 W24 제품 완료 뒤 실행한다. [사양](ORDER-101.md)
 - `[x] ORDER-100` (2026-08-12): 완성 단위를 W1~48 Chapter 1 한 해로
   확정하고, 현재 제품의 W1~24 실제 24행과 W25~48 공백 24행을 12개월×네
   행동 가족 전수표와 source-exact machine ledger로 봉인했다. debt 60·blocked 3,

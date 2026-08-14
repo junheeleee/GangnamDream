@@ -91,6 +91,7 @@ TRANSITION_KEYS = {
     "arrival_cue_ko",
     "arrival_cue_en",
     "queue_only",
+    "legacy_only",
 }
 SPEECH_KEYS = {"speakers"}
 SPEAKER_KEYS = {"register_basis", "references", "choice_indices"}
@@ -805,7 +806,11 @@ def main() -> int:
                                     core_loop_v2[key],
                                     f"{owner}.logic.core_loop_v2.{key}",
                                     errors,
-                                    allow_empty=False,
+                                    allow_empty=(
+                                        key == "produces_all"
+                                        and event_id
+                                        == "v2_opening_application_send"
+                                    ),
                                 )
                         required_flags = set(
                             core_loop_v2_lists.get("requires_flags", [])
@@ -1091,6 +1096,12 @@ def main() -> int:
         if not isinstance(queue_only, bool):
             errors.append(f"{owner}: queue_only must be a boolean")
             queue_only = False
+        legacy_only = contract.get("legacy_only", False)
+        if not isinstance(legacy_only, bool):
+            errors.append(f"{owner}: legacy_only must be a boolean")
+            legacy_only = False
+        if legacy_only and not queue_only:
+            errors.append(f"{owner}: legacy_only transitions must be queue_only")
         if queue_only and edge not in demo_transition_edges:
             errors.append(f"{owner}: queue_only edges must be demo coverage targets")
 

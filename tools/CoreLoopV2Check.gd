@@ -196,6 +196,7 @@ func _check_month_one_plan() -> void:
 		"application bundle could not begin")
 	_expect(CORE_LOOP.note_action_commitment(
 			_finalized_action_record("apply", {
+				"execution": "application",
 				"application_id": "mirae_industrial_tech",
 				"status": "submitted",
 			})),
@@ -580,6 +581,7 @@ func _check_delayed_consequences_cross_month() -> void:
 	GameState.turn = 1
 	CORE_LOOP.begin_bundle("m1_mirae_application", "schedule")
 	CORE_LOOP.note_action_commitment(_finalized_action_record("apply", {
+		"execution": "application",
 		"application_id": "mirae_industrial_tech",
 		"status": "submitted",
 	}))
@@ -1629,19 +1631,13 @@ func _check_employed_planner_routines() -> void:
 
 
 func _check_planner_exact_blockers() -> void:
-	GameState.start_new_game()
-	CORE_LOOP.initialize_for_run(true)
+	var exact_authority_ready := _establish_month_three_planner_authority()
+	_expect(exact_authority_ready,
+		"exact-blocker planner could not establish current Month-Three authority")
+	if not exact_authority_ready:
+		return
 	LocaleManager.set_language("en")
 	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
-	state["plans"] = {
-		"1": {
-			"schedule": {},
-			"routines": {"primary": "livelihood", "secondary": "growth"},
-		},
-	}
-	state["completed_bundles"] = ["m2_rain_delivery_shift"]
-	state["completed_bundle_turns"] = {"m2_rain_delivery_shift": 8}
-	GameState.core_loop_v2_state = state
 	var planner = PLANNER.new()
 	add_child(planner)
 	planner.set_anchors_preset(Control.PRESET_TOP_LEFT)
@@ -1704,6 +1700,69 @@ func _check_planner_exact_blockers() -> void:
 		"named-person cap did not show its exact rail blocker")
 	planner.queue_free()
 	await get_tree().process_frame
+
+
+func _establish_month_three_planner_authority() -> bool:
+	# Use the current writers all the way through the Rain shift.  Relabelling a
+	# partial current save as schema two is intentionally rejected by the strict
+	# 040746 origin gate and must never be used as a planner-availability fixture.
+	GameState.start_new_game()
+	if not CORE_LOOP.initialize_for_run(true) \
+			or not bool(CORE_LOOP.commit_plan(
+				1, _month_one_schedule()).get("ok", false)):
+		return false
+	for week in range(1, 5):
+		GameState.turn = week
+		GameState.month = 1
+		GameState.week_of_month = week
+		var bundle_id := CORE_LOOP.bundle_id_for_turn()
+		if not CORE_LOOP.begin_bundle(bundle_id, "schedule"):
+			return false
+		if bundle_id == "father_first_call" \
+				and not CORE_LOOP.note_story_choice(
+					"arc_father_01_call", 0):
+			return false
+		if bundle_id == "hyunsu_first_meet" \
+				and not CORE_LOOP.note_story_choice(
+					"arc_intro_04_hyunsu", 0):
+			return false
+		if not _record_fixture_action(bundle_id) \
+				or CORE_LOOP.complete_active_bundle() != bundle_id:
+			return false
+	GameState.turn = 5
+	GameState.month = 2
+	GameState.week_of_month = 1
+	var month_two_schedule := {
+		"5": "hyunsu_player_reachout",
+		"6": "m2_seorin_application",
+		"7": "m2_rain_delivery_shift",
+		"8": "m2_sleep_debt_sunday",
+	}
+	if not bool(CORE_LOOP.commit_plan(
+			2, month_two_schedule).get("ok", false)):
+		return false
+	for week in range(5, 9):
+		GameState.turn = week
+		GameState.month = 2
+		GameState.week_of_month = week - 4
+		var bundle_id := CORE_LOOP.bundle_id_for_turn()
+		if not CORE_LOOP.begin_bundle(bundle_id, "schedule"):
+			return false
+		if bundle_id == "hyunsu_player_reachout" \
+				and not CORE_LOOP.note_story_choice(
+					"v2_hyunsu_first_study", 0):
+			return false
+		if not _record_fixture_action(bundle_id) \
+				or CORE_LOOP.complete_active_bundle() != bundle_id:
+			return false
+	GameState.turn = 9
+	GameState.month = 3
+	GameState.week_of_month = 1
+	var rain_receipt := CORE_LOOP.action_receipt(
+		"m2_rain_delivery_shift")
+	return not rain_receipt.is_empty() \
+		and str(rain_receipt.get("action_id", "")) == "side_shift" \
+		and CORE_LOOP.has_completed_bundle("m2_rain_delivery_shift")
 
 
 func _check_planner_validation_blockers() -> void:
@@ -2472,6 +2531,29 @@ func _record_fixture_action(bundle_id: String) -> bool:
 	var action_id := str(scene_bundle.get("action_id", ""))
 	if action_id.is_empty():
 		return true
+	# Jiyeon's Month-Three reader now requires the actual typed W7 side-shift
+	# receipt and its matching weekly ledger.  Keep this completion fixture on
+	# the production transaction instead of manufacturing a receipt-shaped row.
+	if bundle_id == "m2_rain_delivery_shift":
+		GameState.restore_ap()
+		if not GameState.arm_weekly_commitment({
+			"turn": int(GameState.turn),
+			"pressure_id": bundle_id,
+			"pressure_family": str(scene_bundle.get("kind", "livelihood")),
+			"choice_id": action_id,
+			"forgone_ids": [],
+		}):
+			return false
+		var transaction := GameState.finalize_weekly_effect_action(
+			action_id, {}, "money", "work", "", {
+				"execution": "side_shift",
+				"effects": {},
+				"axis": "money",
+				"place_id": "work",
+			})
+		return bool(transaction.get("ok", false)) \
+			and CORE_LOOP.note_action_commitment(
+				transaction.get("record", {}) as Dictionary)
 	var config: Dictionary = (
 		(scene_bundle.get("action_config", {}) as Dictionary).duplicate(true)
 		if scene_bundle.get("action_config", {}) is Dictionary else {}
@@ -2479,9 +2561,22 @@ func _record_fixture_action(bundle_id: String) -> bool:
 	var execution := str(config.get("execution", "fixture"))
 	var details: Dictionary = {"execution": execution}
 	if action_id == "apply":
-		details["application_id"] = str(config.get(
-			"application_id", bundle_id.trim_suffix("_application")))
+		details = {"execution": "application"}
+		var application_id := str(config.get(
+			"application_id", "")).strip_edges()
+		if application_id.is_empty() \
+				and bundle_id == "m1_mirae_application":
+			application_id = "mirae_industrial_tech"
+		elif application_id.is_empty():
+			application_id = bundle_id.trim_suffix("_application")
+			var prefix_end := application_id.find("_")
+			if prefix_end > 0:
+				application_id = application_id.substr(prefix_end + 1)
+		details["application_id"] = application_id
 		details["status"] = str(config.get("status", "submitted"))
+		var job_id := str(config.get("job_id", "")).strip_edges()
+		if not job_id.is_empty():
+			details["job_id"] = job_id
 	elif execution == "activity_task":
 		var activity_resolution: Dictionary = (
 			_default_fixture_activity_task_resolution(bundle_id)

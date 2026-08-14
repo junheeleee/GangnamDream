@@ -587,6 +587,17 @@ func _check_v2_fresh_guided_handoff() -> bool:
 			or GameState.serialize() != before_follow_up:
 		_fail("fresh prologue did not stop cleanly before the guided board")
 		return false
+	var before_choice: Dictionary = GameState.serialize().duplicate(true)
+	_story.call("_on_choice", 0)
+	var state_after_choice: Dictionary = GameState.core_loop_v2_state
+	if not bool(_story.get("_pending_after_result")) \
+			or GameState.serialize() == before_choice \
+			or not (
+				state_after_choice.get(
+					"story_choice_receipts", {}) as Dictionary
+			).is_empty():
+		_fail("fresh prologue choice was blocked or minted a V2 owner receipt")
+		return false
 	var initialized := CORE_LOOP.initialize_seoul_cycle(1)
 	if not bool(initialized.get("ok", false)) \
 			or CORE_LOOP.fresh_w1_onboarding_phase() != "board" \

@@ -33,13 +33,14 @@ and English 720p surfaces, controller navigation contracts, all five chapter
 handoffs and zero representative-path scheduler jams. Device tiers, purchases,
 favorites, and phone-hosted finance or leisure are retired; valid legacy
 refurbished-phone receipts receive one idempotent KRW 180,000 migration refund.
-`runtime_default=false` stays locked until one unchanged **W1–48 Chapter One
-RC** has 48 real action rows, no coverage gap or causal debt, the exact W48
-survivor/fatal boundary, and passes measured normal-speed play, physical
-Steam Deck/DualSense input, continuous headphone/laptop/TV A/V review,
-external comprehension and a human desire-to-continue verdict. The former
-75–95-minute W1–24 target remains diagnostic evidence and is not a retail
-unlock condition.
+The demo product boundary is **W1–24 and its W24 CTA**. Its default and public
+package stay locked until one unchanged clean W1–24 `demo_rc` passes the
+24-week product-route regressions, measured normal-speed play, physical Steam
+Deck/DualSense input, continuous headphone/laptop/TV A/V review, external
+comprehension, and a human desire-to-continue verdict. BUILD `2026.08.11.3`
+has the right week boundary but remains a save-recovery checkpoint, not that
+approval. W25–48 and the completion-only W48 gate remain full Chapter One
+construction work; they are not demo release, RC, or human-verdict conditions.
 
 ## Artifact Identity, Save, and Third-Party Notice Gate
 

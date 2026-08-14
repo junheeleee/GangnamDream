@@ -13,7 +13,7 @@
       "commit": "22f1f2acdc0f57641fefb7a855f195814c6c6197",
       "tree": "3aaab2da15adf7f7f4fae998c03f291e2d0ef0fb",
       "manifest_sha256": "96e76eddd5d727e30cd055c5cd7245a5d42985e5b99698eb84df3aa394811519",
-      "note": "BUILD 2026.08.11.3의 clean 저장 복구 체크포인트. macOS 패키지를 실제 사용자 autosave의 격리 복사본과 같은 playtest 저장 이름으로 부팅했고, 원본 hash는 불변이다. Windows·macOS·Linux 산출물과 KO/EN 키보드·패드 24주 입력, 두 해상도 표면은 자동 검증했다. 이 후보는 48주 Chapter 1 완성본이 아니며 동일 저장의 Month 2 진입, 정상 속도 재미·물리 패드·연속 A/V·원어민 게이트는 OPEN이다."
+      "note": "데모 제품 경계는 W1~24 CTA다. BUILD 2026.08.11.3은 clean 저장 복구 체크포인트로, macOS 패키지를 실제 사용자 autosave의 격리 복사본과 같은 playtest 저장 이름으로 부팅했고 원본 hash는 불변이다. Windows·macOS·Linux 산출물과 KO/EN 키보드·패드 24주 입력, 두 해상도 표면은 자동 검증했다. 같은 W1~24 demo_rc의 Month 2 진입, 정상 속도 재미·물리 패드·연속 A/V·원어민 게이트는 OPEN이다. W25~48 Chapter 1은 데모 RC나 사람 판정 조건이 아니다."
     },
     "full_rc": {
       "status": "waiting_rebuild",

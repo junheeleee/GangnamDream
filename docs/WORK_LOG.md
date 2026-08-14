@@ -16,16 +16,53 @@
 > 차례로 옮긴다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
-## 2026-08-12 (Codex — 48주 Chapter 1 범위 L3 승인)
+## 2026-08-14 (Codex — W1~8 행동·후속 인과 L1/L2 완료)
 
-- 사용자의 `단위를 48주로 잡자`와 `챕터1을 완성지어봐`를 ORDER-100의 사람 L3
-  승인으로 판정했다. 완성 단위는 W1~48 한 해이며, 현재 W1~24를 정답처럼
-  늘이는 대신 W1~8부터 8주씩 수리해 W41~48 뒤 같은 RC를 통합 검증한다.
-- ORDER-100은 제품 변경 없이 48행의 구현/공백, exact debt 60, blocked 3과
-  W48 종료 순서를 봉인한 부모 원장으로 완료·보관한다. 이어지는 ORDER-101이
-  W1~8의 exact debt 10과 실제 플레이 후속을 별도 선언 커밋부터 소유한다.
-- 이 승인으로 자동 검사가 재미를 대신하지는 않는다. 각 자식의 L1/L2 뒤
-  플레이어 표면 L3와 최종 48주 RC 사람 판정은 계속 OPEN이다.
+- fresh `story_flashforward`는 11-event 프롤로그 뒤 Story Send 없이 W1로 간다.
+  M1/M2 terminal·직접 사람 선택·W5 결과·W8 SNS·W9 reader를 잇고 주간 slot과
+  세계 클록을 분리했다.
+- `FIRST_SESSION_PACING_OK`: `paths=432 events=14-14 paragraphs=95-96
+  manual_stops=8 direct=6 fast_inputs=198-200 first_meaningful=5
+  fresh_story_send=0 legacy_trigger=1 chapter=1`.
+- genuine 040746a origin과 save phase를 double reload했다. current
+  application은 authored identity/status/job과 정확히 같은 결과만 복구한다.
+  exact weekly의 누락 receipt는 복구하지만, authored 값과 다른 weekly+누락/맞춤
+  receipt·추가 job owner는 권한을 만들거나 `resolved`를 `submitted`로 되돌리지
+  않는다. current에 정착한 legacy receipt 삭제도 재발급하지 않는다.
+- 원장은 W1~24 24행, W25~48 공백 24행이다. 핵심 debt 12와
+  공유 W24 application shadow 1개가 함께 닫혀 baseline은 60→47,
+  `ROW24/DEAD8/ORPHAN7/AUTO4/SHADOW1/CAP1/DISPLAY1/FANIN1`, debt code 8,
+  blocked 3이다. W9+ 제품 node·새 Story는 0건이다.
+- FirstEntry/Cycle/B/C/E와 `ORDER101_M2_EDGE_CONTRACTS_OK`,
+  `ORDER101_LEGACY_ONLY_OK`, causal normal/self-test·strict mutation,
+  `RELEASE_CONTENT_INVENTORY_SELF_TEST_OK cases=13`, release normal,
+  `STORY_CONSISTENCY_AUDIT_OK`, `core_loop_v2_balance_ok`를 통과했다.
+- 최종 제품 freeze는 DemoCore
+  `9c01278a35e1101fd592addba0605a414a0eee8fd62c1af08d2a3919f51307fc`, CycleCheck
+  `4ebfe5e8d87e84100cca638d9bdcbfb1d3e55f5e74ceae472493457315c93203`, MainGame
+  `16a8b5e417dc4bc659a30cc73a9048902bd2d73c21f3daf592c5533739dc822b`, StoryMode
+  `c029918113e2c20c735d6798c839e8e5803113336ddf147bf6602ef3153637b7`, contract
+  `f336f8a60277effc1885e10911d21785add4ad5580135bb1ab3a4c4b509059c3`다.
+- 검증 freeze는 balance
+  `b9f96ed925cce3801fe8c45716f5bab2fb480507fa1cd3069c714bd222cedf86`, first-session
+  `91beb389fc0362e4769d0e5f15ae45e4d1b354ba2f51c500f9b903608f2545a0`, release
+  tool/inventory `969f181885bdcf298e60270ba10fe05d51aae776eeacc90d88de6eb6c296589c` /
+  `d689870aaa22a7a2ee1a2553d48801b573b11eb04c6520f382610e1373ed793e`, story audit
+  `2e7bbcff6f995c597ed31a6f7450295b49c5f04699bfb8020290efce0f8af229`다.
+- 대표 trace의 W6 Rain은 5건/115분/팁 40,500원·`+195,500/-9/-3`, W8은 sleep
+  slot과 별도 SNS 1회다. 5경로 production은 약 300초·오류 0이었다.
+  월별 역사 캐시는 exact state/data revision만 재사용하고 교체·재귀는 폐기/차단한다.
+- complete-chapter-one은 남은 W25~48 gap/debt 때문에 의도대로 RED다. U01..U20
+  사람 L3는 W24 뒤 실행하고 다음 배치는 baseline 47/save matrix로 W9~16부터 연다.
+
+## 2026-08-12 (Codex — 48주 본편 Chapter 1 범위; 2026-08-14 데모 경계 교정)
+
+- `단위를 48주로 잡자`와 `챕터1을 완성지어봐`는 본편 Chapter 1 제작 목표다.
+  최신 `데모는 24주까지야` 지시는 공개 데모를 W1~24·W24 CTA로 고정하며,
+  W25~48을 데모 출시·RC·사람 판정 조건에서 제외한다.
+- ORDER-100은 제품 변경 없이 48행 구현/공백, debt 60, blocked 3과 W48 종료를
+  본편 원장으로 봉인했다. ORDER-101은 W1~8 debt와 실제 플레이 후속을 소유한다.
+- 사람 판정은 clean W1~24 demo_rc를 승인할 뿐 본편 Chapter 1 완성을 승인하지 않는다.
 
 ## 2026-08-12 (Codex — 48주 Chapter 1 인과 원장 L1/L2 완료)
 
@@ -61,8 +98,8 @@
   뒤 승인 변경만 재적용했다. 최종 원장은 복구본과 분리 보관한 검증 경로를 거쳐
   위 hash로 고정됐고 다른 제품 파일은 삭제하지 않았다.
 - 자동 초록은 canon GO가 아니다. 12개월×네 가족 전수표의 범위·공백·수리 순서를
-  사용자가 L3로 판정하기 전 ORDER-100은 `[~]`다. 승인 뒤 ORDER-101의 W1~8부터
-  시작하며, W25~48 구현·W48 종료·동일 clean RC 통합 검증은 ORDER-104~107이 맡는다.
+  사용자 L3로 판정한 뒤 ORDER-101의 W1~8부터 시작한다. 데모는 W9~16·W17~24와
+  clean 24주 RC로 닫고, W25~48 구현·W48 종료는 그 뒤 별도 본편 오더가 맡는다.
 
 ## 2026-08-11 (Codex — 첫 집 플레이 P0 저장 복구·48주 Chapter 1 재착수)
 
@@ -138,7 +175,7 @@
 
 - 아버지 기억 6개를 기존 21주·24주 KO/EN 문단으로 회수하고 갤러리는 당시 기억을 얼렸다. 새 사건·효과·관계 단계는 0이다.
 - 24주 위험 선택은 정확 영수증 2개만 해결하고 중복 기록은 0이며 손상 시 효과 전에 닫힌다. 전수 `readerless=0`이다.
-- KO/EN 네 입력·네 화면, W48/W240, 전체 감사·CI는 초록이고 사람 판정은 OPEN이다.
+- KO/EN 입력·화면, W48/W240 component와 감사·CI는 초록이고 24주 데모 사람 판정은 OPEN이다.
 
 ## 2026-08-11 (Codex — 참조 시스템 44단위 판정)
 

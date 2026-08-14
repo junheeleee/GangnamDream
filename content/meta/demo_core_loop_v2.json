@@ -514,6 +514,51 @@
         "detail_en": "Sort the contacts and unsent words left after failing to make plans last month, without recording a meeting that never happened.",
         "result_ko": "만남을 지어내지 않고, 다음에 연락할 수 있도록 기록만 정리했다.",
         "result_en": "No meeting was invented; the contact record was made usable for another attempt."
+      },
+      "m2_advancement_expired_to_m3_advancement_retry": {
+        "source": {
+          "month": 2,
+          "node": "m2_advancement",
+          "terminal": "expired",
+          "proof_kind": "node_expiry",
+          "proof_id": "m2:m2_advancement"
+        },
+        "target": {
+          "month": 3,
+          "node": "m3_advancement",
+          "bundle": "m3_hanbit_application",
+          "variant_id": "seorin_deadline_missed"
+        },
+        "completion_effects": {},
+        "label_ko": "서린물산 마감 뒤 한빛유통에 다시 지원하기",
+        "label_en": "Apply to Hanbit After Missing Seorin's Deadline",
+        "detail_ko": "서린물산 지원 마감은 놓쳤지만 빈 지원 기록을 덮어 두지 않고 한빛유통 운영지원 공고에 다시 지원한다.",
+        "detail_en": "The Seorin deadline passed, but instead of leaving the application history blank, apply for Hanbit's operations-support opening.",
+        "result_ko": "놓친 지원을 없던 일로 만들지 않고 다음 공고에 다시 지원했다.",
+        "result_en": "The missed application remained part of the record, and the next opening received a real application."
+      },
+      "m2_self_completed_to_m3_self_recovered": {
+        "source": {
+          "month": 2,
+          "node": "m2_self",
+          "terminal": "completed",
+          "proof_kind": "typed_action_receipt",
+          "proof_id": "m2_sleep_debt_sunday",
+          "action_id": "rest"
+        },
+        "target": {
+          "month": 3,
+          "node": "m3_self",
+          "bundle": "m3_room_ledger",
+          "variant_id": "sleep_debt_repaid"
+        },
+        "completion_effects": {},
+        "label_ko": "한 번 푹 쉰 뒤 방의 밀린 일을 정리하기",
+        "label_en": "Sort Out the Room After a Full Day of Rest",
+        "detail_ko": "지난달 실제로 하루를 쉬어 둔 덕분에 영수증과 빨래를 밤새 붙들지 않고 차례대로 정리한다.",
+        "detail_en": "Because a real day of rest happened last month, sort the receipts and laundry in order instead of dragging through the night.",
+        "result_ko": "쉰 기록이 다음 달의 회복 방식까지 이어졌다.",
+        "result_en": "The recorded day of rest changed how recovery carried into the next month."
       }
     },
     "background_routines": {
@@ -865,7 +910,7 @@
           "maximum": 4,
           "events": [
             {"week_index": 1, "bundle_id": "m2_mirae_result_message", "kind": "consequence"},
-            {"week_index": 4, "bundle_id": "temptation_consequence", "kind": "consequence"}
+            {"week_index": 4, "bundle_id": "sns_pressure_night", "kind": "consequence"}
           ]
         }
       },
@@ -1862,6 +1907,14 @@
             "kind": "application_status",
             "application_id": "seorin_contract_2026q1",
             "status": "submitted"
+          },
+          {
+            "kind": "action_receipt",
+            "bundle_id": "m2_seorin_application",
+            "action_id": "apply",
+            "month": 2,
+            "application_id": "seorin_contract_2026q1",
+            "application_status": "submitted"
           }
         ]
       },
@@ -3133,8 +3186,8 @@
       "allowed_weeks": [5, 6, 7, 8],
       "existing_roots": ["arc_intro_03_sns"],
       "characters": [],
-      "initiated_by": "world",
-      "consumes_slot": true,
+      "initiated_by": "system",
+      "consumes_slot": false,
       "offer_ko": "불을 끄고 본 SNS 피드",
       "offer_en": "The Feed in a Dark Room",
       "detail_ko": "잠들기 전, 잘된 사람들의 사진을 끝까지 들여다본다.",
@@ -3243,6 +3296,13 @@
           {
             "kind": "completed_bundle",
             "bundle_id": "m2_rain_delivery_shift"
+          },
+          {
+            "kind": "action_receipt",
+            "bundle_id": "m2_rain_delivery_shift",
+            "action_id": "side_shift",
+            "month": 2,
+            "legacy_completed_bundle_fallback": true
           }
         ]
       },

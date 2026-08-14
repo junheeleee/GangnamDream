@@ -19,7 +19,7 @@ import json
 import re
 import sys
 from dataclasses import dataclass, field
-from itertools import product
+from itertools import combinations, product
 from pathlib import Path
 from typing import Any
 
@@ -37,6 +37,7 @@ GAME_STATE_PATH = ROOT / "autoloads" / "GameState.gd"
 DEMO_CORE_LOOP_PATH = ROOT / "systems" / "DemoCoreLoopV2.gd"
 MAIN_GAME_PATH = ROOT / "scenes" / "MainGame.gd"
 STORY_MODE_PATH = ROOT / "scenes" / "StoryMode.gd"
+ARUBA_GAME_PATH = ROOT / "scenes" / "ArubaGame.gd"
 
 STARTING_CASH = 500_000
 OPENING_SURVIVAL_BUFFER = 300_000
@@ -71,16 +72,17 @@ KERNEL_POLICIES = ("cautious", "hard")
 # It keeps every authored decline with numeric effects selected, then follows
 # the production E-check's causal Hyunsu/Cafe/Sangchul path and unemployed
 # support schedule. The same 22 selected slots and two locked bosses are legal
-# for every routine pair and temptation branch.
+# for every routine pair and temptation branch; the W8 SNS consequence arrives
+# beside that week's player slot through the Month-Two world clock.
 PAIRED_FULL_SCHEDULE = (
     (1, "father_first_call"),
     (2, "hyunsu_first_meet"),
     (3, "m1_phone_off_sunday"),
     (4, "first_temptation_boss"),
     (5, "hyunsu_player_reachout"),
-    (6, "m2_sleep_debt_sunday"),
+    (6, "m2_rain_delivery_shift"),
     (7, "cafe_world_glimpse"),
-    (8, "sns_pressure_night"),
+    (8, "m2_sleep_debt_sunday"),
     (9, "m3_hanbit_application"),
     (10, "m3_empty_saturday"),
     (11, "hyunsu_study_followup"),
@@ -98,6 +100,17 @@ PAIRED_FULL_SCHEDULE = (
     (23, "hyunsu_exam_eve"),
     (24, "demo_collision"),
 )
+PAIRED_WORLD_EVENTS = ((8, "sns_pressure_night"),)
+PAIRED_RAIN_ROUTE_NAMES = (
+    "홍대 치킨",
+    "신촌 피자",
+    "여의도 사무실 야식",
+    "공덕역 카페",
+    "마포 공사장 도시락",
+)
+PAIRED_RAIN_ROUTE_MINUTES = 115
+PAIRED_RAIN_TIP_TOTAL = 40_500
+PAIRED_RAIN_EFFECTS = {"money": 195_500, "health": -9, "mental": -3}
 PAIRED_LOCKED_SLOTS = {4: "first_temptation_boss", 24: "demo_collision"}
 PAIRED_PLAYER_SELECTED_SLOTS = 22
 PAIRED_SNAPSHOT_WEEKS = (4, 8, 12, 16, 20, 24)
@@ -106,9 +119,9 @@ OMITTED_PUBLIC_DELTA_STATS = (
 )
 EXPECTED_PAIRED_PARETO_COUNTS = {
     "deeper_return_path": 648,
-    "deeper_clean_path": 116,
-    "deeper_clean_w24": 582,
-    "deeper_clean_w24_nonpareto": 66,
+    "deeper_clean_path": 64,
+    "deeper_clean_w24": 546,
+    "deeper_clean_w24_nonpareto": 102,
 }
 EXPECTED_PAIRED_W24_CANDIDATES = (
     "father_call",
@@ -129,7 +142,6 @@ PROLOGUE_SEQUENCE = (
     "story_prologue_dad",
     "story_prologue_goal",
     "story_prologue_meal",
-    "story_pressure",
 )
 PROLOGUE_POLICY_EVENTS = (
     ("story_knee_choice", 3, "knee"),
@@ -169,7 +181,6 @@ EXPECTED_PROLOGUE_EFFECTS = {
         {"money": -1_200, "health": 3},
         {"health": -5, "mental": -6},
     ),
-    "story_pressure": ({"intelligence": 2},),
 }
 
 # These are branch-only kernels, not claims about arbitrary full routes. They
@@ -361,6 +372,174 @@ def fail(message: str, errors: list[str]) -> None:
 
 def load_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def paired_rain_delivery_effects(errors: list[str]) -> dict[str, int]:
+    """Derive the controlled W6 result from Aruba's current exact formula."""
+
+    source = ARUBA_GAME_PATH.read_text(encoding="utf-8")
+    main_source = MAIN_GAME_PATH.read_text(encoding="utf-8")
+
+    def const_int(name: str) -> int | None:
+        match = re.search(
+            rf"const\s+{re.escape(name)}\s*:=\s*(-?[\d_]+)", source
+        )
+        return int(match.group(1).replace("_", "")) if match else None
+
+    base_pay = const_int("BASE_PAY")
+    base_health = const_int("BASE_SHIFT_HEALTH_DELTA")
+    time_budget = const_int("DEL_TIME_BUDGET")
+    route_bonus = const_int("DEL_BASE_BONUS")
+    rain_surge = const_int("DEL_RAIN_SURGE_PER_ORDER")
+    constants = (base_pay, base_health, time_budget, route_bonus, rain_surge)
+    if any(value is None for value in constants):
+        fail("paired rain delivery lost an exact Aruba numeric constant", errors)
+        return {}
+
+    orders_match = re.search(
+        r"const DEL_ORDERS_DATA\s*=\s*\[(.*?)\n\]", source, re.DOTALL
+    )
+    order_block = orders_match.group(1) if orders_match else ""
+    route_pattern = re.compile(
+        r'\{"name":\s*"([^"]+)",\s*"name_en":\s*"[^"]+",\s*'
+        r'"time":\s*(\d+),\s*"tip":\s*([\d_]+),'
+    )
+    routes = [
+        {
+            "name": match.group(1),
+            "minutes": int(match.group(2)),
+            "tip": int(match.group(3).replace("_", "")),
+        }
+        for match in route_pattern.finditer(order_block)
+    ]
+    delivery_match = re.search(
+        r"func _del_confirm\(\).*?(?=\nfunc )", source, re.DOTALL
+    )
+    delivery_block = delivery_match.group(0) if delivery_match else ""
+    delivery_formula_tokens = (
+        "delivery_count * DEL_RAIN_SURGE_PER_ORDER",
+        "_earned += tip_total + delivery_count * DEL_BASE_BONUS + surge_total",
+        "_stress_delta += maxi(delivery_count - 2, 0)",
+        "_health_delta -= delivery_count",
+        "if _is_rain_surge_shift() and delivery_count > 0:",
+        "_health_delta -= 1",
+    )
+    delivery_positions = tuple(
+        delivery_block.find(token) for token in delivery_formula_tokens
+    )
+    finish_match = re.search(
+        r"func _on_finish\(\).*?(?=\nfunc )", source, re.DOTALL
+    )
+    finish_block = finish_match.group(0) if finish_match else ""
+    finish_tokens = (
+        "closed.emit(",
+        "_earned,",
+        "_stress_delta,",
+        "BASE_SHIFT_HEALTH_DELTA + _health_delta)",
+    )
+    finish_positions = tuple(finish_block.find(token) for token in finish_tokens)
+    close_match = re.search(
+        r"func _on_aruba_closed\(.*?(?=\nfunc )", main_source, re.DOTALL
+    )
+    close_block = close_match.group(0) if close_match else ""
+    close_tokens = (
+        "var total_health_delta := health_delta",
+        '"money": earned,',
+        '"stress": stress_delta,',
+        '"health": total_health_delta,',
+        "var transaction := GameState.finalize_weekly_effect_action(",
+        '"side_shift", effects, "money", "work", "", action_receipt)',
+    )
+    close_positions = tuple(close_block.find(token) for token in close_tokens)
+    game_state_source = GAME_STATE_PATH.read_text(encoding="utf-8")
+    finalize_match = re.search(
+        r"func finalize_weekly_effect_action\(.*?(?=\nfunc )",
+        game_state_source,
+        re.DOTALL,
+    )
+    finalize_block = finalize_match.group(0) if finalize_match else ""
+    finalize_tokens = ("if not effects.is_empty():", "apply_effects(effects)")
+    finalize_positions = tuple(
+        finalize_block.find(token) for token in finalize_tokens
+    )
+    apply_match = re.search(
+        r"func apply_effects\(.*?(?=\nfunc )", game_state_source, re.DOTALL
+    )
+    apply_block = apply_match.group(0) if apply_match else ""
+    side_shift_match = re.search(
+        r"func _core_loop_v2_open_side_shift\(.*?(?=\nfunc )",
+        main_source,
+        re.DOTALL,
+    )
+    side_shift_block = side_shift_match.group(0) if side_shift_match else ""
+    route_tokens = (
+        'if bundle_id == "m2_rain_delivery_shift":',
+        '"weather": "rain"',
+        '"surge_pay": true',
+        "aruba_game.open(shift_context)",
+    )
+    route_positions = tuple(side_shift_block.find(token) for token in route_tokens)
+    if len(routes) != 6 \
+            or any(position < 0 for position in delivery_positions) \
+            or tuple(sorted(delivery_positions)) != delivery_positions \
+            or 'signal closed(earned: int, stress_delta: int, health_delta: int)' \
+                not in source \
+            or any(position < 0 for position in finish_positions) \
+            or tuple(sorted(finish_positions)) != finish_positions \
+            or "aruba_game.closed.connect(_on_aruba_closed)" not in main_source \
+            or any(position < 0 for position in close_positions) \
+            or tuple(sorted(close_positions)) != close_positions \
+            or any(position < 0 for position in finalize_positions) \
+            or tuple(sorted(finalize_positions)) != finalize_positions \
+            or not re.search(
+                r'"stress":\s*\n?\s*modify_stat\("mental", -int\(value\)\)',
+                apply_block,
+            ) \
+            or any(position < 0 for position in route_positions) \
+            or tuple(sorted(route_positions)) != route_positions:
+        fail("paired rain delivery lost its current runtime formula or route", errors)
+        return {}
+
+    legal: list[dict[str, Any]] = []
+    for route_count in range(1, len(routes) + 1):
+        for selected in combinations(routes, route_count):
+            minutes = sum(int(route["minutes"]) for route in selected)
+            if minutes > int(time_budget):
+                continue
+            tips = sum(int(route["tip"]) for route in selected)
+            earned = int(base_pay) + tips \
+                + route_count * int(route_bonus) \
+                + route_count * int(rain_surge)
+            legal.append({
+                "names": tuple(str(route["name"]) for route in selected),
+                "count": route_count,
+                "minutes": minutes,
+                "tips": tips,
+                "earned": earned,
+            })
+    selected = max(
+        legal,
+        key=lambda candidate: (
+            int(candidate["earned"]), -int(candidate["count"])
+        ),
+        default={},
+    )
+    selected_count = int(selected.get("count", 0))
+    effects = {
+        "money": int(selected.get("earned", 0)),
+        "health": int(base_health) - selected_count - 1,
+        "mental": -max(selected_count - 2, 0),
+    }
+    if tuple(selected.get("names", ())) != PAIRED_RAIN_ROUTE_NAMES \
+            or int(selected.get("minutes", 0)) != PAIRED_RAIN_ROUTE_MINUTES \
+            or int(selected.get("tips", 0)) != PAIRED_RAIN_TIP_TOTAL \
+            or effects != PAIRED_RAIN_EFFECTS:
+        fail(
+            "paired rain delivery deterministic subset or totals drifted: "
+            f"{selected} effects={effects}",
+            errors,
+        )
+    return effects
 
 
 def load_event_catalog(errors: list[str]) -> list[Any]:
@@ -598,25 +777,115 @@ def resolve_fresh_prologue_policies(
     )
     route_block = route_match.group(0) if route_match else ""
     opening_route_tokens = (
+        "DEMO_CORE_LOOP_V2.begin_fresh_w1_onboarding()",
         'GameState.flags["prologue_done"] = true',
         'var prologue_root := "story_arrival"',
         'not GameState.flags.get("story_flashforward_seen", false)',
         'prologue_root = "story_flashforward"',
-        'var opening_queue: Array = [prologue_root]',
-        'DEMO_CORE_LOOP_V2.fresh_preplan_opening_roots()',
-        'opening_queue.append(str(raw_root))',
-        'opening_queue.append("chapter_card_33")',
-        '_go_story_mode(opening_queue)',
+        '_go_story_mode([prologue_root])',
     )
     opening_route_positions = tuple(
         route_block.find(token) for token in opening_route_tokens
     )
     if any(position < 0 for position in opening_route_positions) \
             or tuple(sorted(opening_route_positions)) \
-            != opening_route_positions:
+            != opening_route_positions \
+            or "fresh_preplan_opening_roots()" in route_block \
+            or "opening_queue" in route_block:
         fail(
-            "fresh MainGame route no longer owns flashforward -> arrival -> "
-            "interview/math -> chapter queue",
+            "fresh MainGame route no longer owns onboarding -> optional "
+            "flashforward -> isolated prologue",
+            errors,
+        )
+
+    demo_source = DEMO_CORE_LOOP_PATH.read_text(encoding="utf-8")
+    follow_match = re.search(
+        r"static func opening_follow_up_event\(.*?(?=\nstatic func |\Z)",
+        demo_source,
+        re.DOTALL,
+    )
+    follow_block = follow_match.group(0) if follow_match else ""
+    follow_tokens = (
+        'if event_id != "story_prologue_meal"',
+        'or follow_up_id != "story_pressure"',
+        '== W1_ONBOARDING_ORIGIN',
+        '== "prologue"',
+        "and int(GameState.turn) == 1:",
+        'return ""',
+        "_legacy_preplan_opening_queue_matches(reserved_queue)",
+        "return OPENING_APPLICATION_EVENT_ID",
+    )
+    follow_positions = tuple(follow_block.find(token) for token in follow_tokens)
+    preplan_match = re.search(
+        r"static func fresh_preplan_opening_roots\(.*?"
+        r"(?=\nstatic func |\Z)",
+        demo_source,
+        re.DOTALL,
+    )
+    preplan_block = preplan_match.group(0) if preplan_match else ""
+    legacy_send_match = re.search(
+        r"static func _legacy_preplan_opening_send_available\(.*?"
+        r"(?=\nstatic func |\Z)",
+        demo_source,
+        re.DOTALL,
+    )
+    legacy_send_block = legacy_send_match.group(0) \
+        if legacy_send_match else ""
+    fresh_send_match = re.search(
+        r"func _core_loop_v2_send_fresh_w1_application\(.*?"
+        r"(?=\nfunc )",
+        main_source,
+        re.DOTALL,
+    )
+    fresh_send_block = fresh_send_match.group(0) if fresh_send_match else ""
+    fresh_send_tokens = (
+        "DEMO_CORE_LOOP_V2.finalize_fresh_w1_application(",
+        "_core_loop_v2_autosave_durable_state()",
+        "_core_loop_v2_finish_action_week()",
+    )
+    fresh_send_positions = tuple(
+        fresh_send_block.find(token) for token in fresh_send_tokens
+    )
+    weekly_match = re.search(
+        r"func _core_loop_v2_route_week\(.*?(?=\nfunc )",
+        main_source,
+        re.DOTALL,
+    )
+    weekly_block = weekly_match.group(0) if weekly_match else ""
+    interview_at = weekly_block.find("claim_fresh_w1_opening_interview()")
+    legacy_at = weekly_block.find(
+        "_core_loop_v2_route_preplan_opening_if_pending()", interview_at
+    )
+    chapter_at = weekly_block.find(
+        "_route_opening_chapter_if_pending()", legacy_at
+    )
+    contract = load_json(CONTRACT_PATH)
+    bundles = contract.get("scene_bundles", {}) \
+        if isinstance(contract, dict) else {}
+    opening = bundles.get("opening_interview_math", {}) \
+        if isinstance(bundles, dict) else {}
+    legacy_trigger = opening.get("preplan_trigger", {}) \
+        if isinstance(opening, dict) else {}
+    expected_legacy_trigger = {
+        "event_id": "v2_opening_application_send",
+        "choices": [0],
+        "application_id": "mirae_industrial_tech",
+        "status": "submitted",
+        "legacy_only": True,
+    }
+    if any(position < 0 for position in follow_positions) \
+            or tuple(sorted(follow_positions)) != follow_positions \
+            or '== W1_ONBOARDING_ORIGIN' not in preplan_block \
+            or "return []" not in preplan_block \
+            or 'trigger.get("legacy_only", false) != true' \
+                not in legacy_send_block \
+            or legacy_trigger != expected_legacy_trigger \
+            or any(position < 0 for position in fresh_send_positions) \
+            or tuple(sorted(fresh_send_positions)) != fresh_send_positions \
+            or not 0 <= interview_at < legacy_at < chapter_at:
+        fail(
+            "fresh W1 no longer ends Story after the meal, owns Send as an "
+            "action, and preserves the isolated legacy Story-Send contract",
             errors,
         )
 
@@ -647,7 +916,7 @@ def resolve_fresh_prologue_policies(
             )
         expected_followup = (
             PROLOGUE_SEQUENCE[index + 1]
-            if index + 1 < len(PROLOGUE_SEQUENCE) else ""
+            if index + 1 < len(PROLOGUE_SEQUENCE) else "story_pressure"
         )
         for choice_index, raw_choice in enumerate(raw_choices):
             if not isinstance(raw_choice, dict):
@@ -749,7 +1018,7 @@ def resolve_fresh_prologue_policies(
         "cash": 498_800,
         "health": 68,
         "mental": 64,
-        "intelligence": 57,
+        "intelligence": 55,
         "tint": 4,
         "route_orthodox": 1,
         "route_unorthodox": 0,
@@ -1030,31 +1299,63 @@ def validate_runtime_city_service_prelude(errors: list[str]) -> None:
         re.DOTALL,
     )
     action_block = action_match.group(0) if action_match else ""
-    receipt_at = action_block.find("_action_receipt_from_record(")
-    application_at = action_block.find(
-        'var application_id := str(receipt.get("application_id", ""))',
-        receipt_at,
+    apply_match = re.search(
+        r"static func _apply_action_application_receipt\(.*?"
+        r"(?=\nstatic func |\Z)",
+        source,
+        re.DOTALL,
     )
-    status_at = action_block.find(
+    apply_block = apply_match.group(0) if apply_match else ""
+    application_at = apply_block.find(
+        'var application_id := str(receipt.get("application_id", ""))'
+    )
+    status_at = apply_block.find(
         'var status := str(receipt.get("application_status", ""))',
         application_at,
     )
-    receipt_store_at = action_block.find(
-        'state["action_receipts"][active_id] = receipt',
+    empty_guard_at = apply_block.find(
+        "if application_id.is_empty() or status.is_empty():",
         status_at,
     )
-    store_at = action_block.find(
+    ordinary_guard_at = apply_block.find(
+        'if str(details.get("execution", "")) != "job_hunt_application":',
+        empty_guard_at,
+    )
+    ordinary_store_at = apply_block.find(
         'state["application_statuses"][application_id] = status',
+        ordinary_guard_at,
+    )
+    receipt_at = action_block.find("_action_receipt_from_record(")
+    equality_at = action_block.find(
+        "_terminal_variant_semantically_equal(", receipt_at
+    )
+    existing_apply_at = action_block.find(
+        "_apply_action_application_receipt(state, active_id, existing)",
+        equality_at,
+    )
+    existing_state_store_at = action_block.find(
+        "GameState.core_loop_v2_state = state", existing_apply_at
+    )
+    receipt_store_at = action_block.find(
+        'state["action_receipts"][active_id] = receipt',
+        existing_state_store_at,
+    )
+    apply_at = action_block.find(
+        "_apply_action_application_receipt(state, active_id, receipt)",
         receipt_store_at,
     )
     state_store_at = action_block.find(
-        "GameState.core_loop_v2_state = state", store_at
+        "GameState.core_loop_v2_state = state", apply_at
     )
-    if not 0 <= receipt_at < application_at < status_at \
-            < receipt_store_at < store_at < state_store_at:
+    if not 0 <= application_at < status_at < empty_guard_at \
+            < ordinary_guard_at < ordinary_store_at \
+            or not 0 <= receipt_at < equality_at < existing_apply_at \
+            < existing_state_store_at < receipt_store_at < apply_at \
+            < state_store_at:
         fail(
             "live action receipt no longer persists the Week-17 application "
-            "status used by the city-response prerequisite",
+            "status through the canonical helper used by the city-response "
+            "prerequisite",
             errors,
         )
 
@@ -1620,7 +1921,7 @@ def _resolve_paired_schedule(
     routine_pair: tuple[str, str],
     errors: list[str],
 ) -> dict[int, list[dict[str, Any]]]:
-    """Validate and resolve all 22 selected slots plus both locked bosses."""
+    """Resolve 22 selected slots, two bosses and the non-slot W8 world event."""
 
     raw_bundles = contract.get("scene_bundles", {})
     raw_months = contract.get("months", [])
@@ -1646,6 +1947,39 @@ def _resolve_paired_schedule(
     if len(set(schedule.values())) != E_WEEKS:
         fail("paired schedule must not reuse a bundle across months", errors)
     selected_bundle_ids = set(schedule.values())
+    paired_world_events = dict(PAIRED_WORLD_EVENTS)
+    seoul_cycle = contract.get("seoul_cycle", {})
+    cycle_months = seoul_cycle.get("months", {}) \
+        if isinstance(seoul_cycle, dict) else {}
+    month_two = cycle_months.get("2", {}) \
+        if isinstance(cycle_months, dict) else {}
+    world_clock = month_two.get("world_clock", {}) \
+        if isinstance(month_two, dict) else {}
+    raw_world_events = world_clock.get("events", []) \
+        if isinstance(world_clock, dict) else []
+    expected_sns_world = {
+        "week_index": 4,
+        "bundle_id": "sns_pressure_night",
+        "kind": "consequence",
+    }
+    sns_bundle = raw_bundles.get("sns_pressure_night", {})
+    if not isinstance(raw_world_events, list) \
+            or raw_world_events.count(expected_sns_world) != 1 \
+            or paired_world_events != {8: "sns_pressure_night"} \
+            or schedule.get(8) != "m2_sleep_debt_sunday" \
+            or not isinstance(sns_bundle, dict) \
+            or sns_bundle.get("consumes_slot") is not False \
+            or sns_bundle.get("initiated_by") != "system" \
+            or 8 not in sns_bundle.get("allowed_weeks", []):
+        fail(
+            "paired Week 8 lost its separate player slot or exact non-slot "
+            "SNS world event",
+            errors,
+        )
+    fulfilled_bundle_ids = selected_bundle_ids | set(
+        paired_world_events.values()
+    )
+    rain_delivery_effects = paired_rain_delivery_effects(errors)
     raw_declines = contract.get("decline_outcomes", {})
     effectful_decline_producers: set[str] = set()
     if isinstance(raw_declines, dict):
@@ -1663,7 +1997,7 @@ def _resolve_paired_schedule(
                 if isinstance(effects, dict) and effects:
                     effectful_decline_producers.add(bundle_id)
     missing_effectful_declines = sorted(
-        effectful_decline_producers - selected_bundle_ids
+        effectful_decline_producers - fulfilled_bundle_ids
     )
     if missing_effectful_declines:
         fail(
@@ -1684,6 +2018,7 @@ def _resolve_paired_schedule(
     }
     locked_slots = 0
     selected_slots = 0
+    resolved_world_events: list[tuple[int, str]] = []
     for month_number in range(1, 7):
         month = next(
             (
@@ -1814,6 +2149,16 @@ def _resolve_paired_schedule(
                     # explicit fallback rather than an action_config payload.
                     execution = "rest"
                     action_effects = {"mental": 10, "health": 3}
+                if bundle_id == "m2_rain_delivery_shift":
+                    if str(bundle.get("action_id", "")) != "side_shift" \
+                            or config:
+                        fail(
+                            "paired rain delivery lost its live side-shift "
+                            "executor boundary",
+                            errors,
+                        )
+                    execution = "side_shift"
+                    action_effects = rain_delivery_effects.copy()
                 if execution == "rest" and "recovery" in routine_pair:
                     diminished = config.get("recovery_routine_effects", {})
                     if isinstance(diminished, dict) and diminished:
@@ -1855,6 +2200,34 @@ def _resolve_paired_schedule(
                         config.get("status", "submitted")
                     )
             state["completed"].add(bundle_id)
+            world_bundle_id = paired_world_events.get(week, "")
+            if world_bundle_id:
+                raw_world_bundle = raw_bundles.get(world_bundle_id, {})
+                world_bundle = raw_world_bundle \
+                    if isinstance(raw_world_bundle, dict) else {}
+                world_choices_seen: set[tuple[str, int]] = set()
+                roots = world_bundle.get("existing_roots", []) \
+                    if world_bundle else []
+                if not world_bundle \
+                        or world_bundle.get("consumes_slot") is not False \
+                        or not isinstance(roots, list) or not roots:
+                    fail(
+                        f"paired Week {week} lost non-slot world bundle "
+                        f"{world_bundle_id}",
+                        errors,
+                    )
+                else:
+                    for root_id in roots:
+                        chain_effects, chain_choices = _choice_zero_chain(
+                            str(root_id), events, set(), errors
+                        )
+                        effects_by_week[week].extend(chain_effects)
+                        world_choices_seen.update(chain_choices)
+                    _apply_choice_outcomes(
+                        world_bundle, world_choices_seen, state, errors
+                    )
+                    state["completed"].add(world_bundle_id)
+                    resolved_world_events.append((week, world_bundle_id))
 
     # The selected Week-17 application makes the non-slot city response the
     # only eligible application prelude in Week 23. Production applies its
@@ -2045,6 +2418,13 @@ def _resolve_paired_schedule(
         fail(
             f"paired schedule resolved {selected_slots} selected and "
             f"{locked_slots} locked slots instead of 22+2",
+            errors,
+        )
+    if resolved_world_events != list(PAIRED_WORLD_EVENTS) \
+            or schedule.get(8) == "sns_pressure_night":
+        fail(
+            "paired schedule must resolve SNS exactly once beside the Week-8 "
+            "player slot",
             errors,
         )
     if schedule.get(7) != "cafe_world_glimpse" or event_by_id(
@@ -2499,7 +2879,8 @@ def run_paired_temptation_traces(
                                 )
                             elif week == 8:
                                 # claim_scheduled_prelude() resolves the
-                                # consequence before the scheduled SNS story.
+                                # consequence before the non-slot world SNS;
+                                # the selected W8 recovery is applied below.
                                 ledger.apply_effects(
                                     choice_effects(plan["week_8_choice"])
                                 )
@@ -2608,6 +2989,14 @@ def run_paired_temptation_traces(
         lines.append(
             f"paired_schedule month={month_number} slots={schedule_label}"
         )
+    world_label = ",".join(
+        f"w{week}:{bundle_id}:non_slot"
+        for week, bundle_id in PAIRED_WORLD_EVENTS
+    )
+    lines.append(
+        f"paired_world_events count={len(PAIRED_WORLD_EVENTS)} "
+        f"events={world_label}"
+    )
     representative_control = (
         f"{REPRESENTATIVE_PROLOGUE_POLICY}/livelihood+growth/cautious"
     )

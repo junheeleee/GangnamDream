@@ -5,6 +5,19 @@ extends RefCounted
 const SCHEMA := 3
 const ACTIVITY_TASK_SESSION_SCHEMA := 1
 const DEFAULT_DEVELOPMENT_CAP_WEEK := 12
+## A historical month can recursively validate prerequisite months through
+## terminal candidate proofs. Cache completed sub-results across repeated
+## synchronous reads only while the complete normalized state and every live
+## GameState input used by the validator have the same collision-free Variant
+## encoding. Any mutation changes that signature and clears the cache; an
+## in-progress cycle still fails closed.
+static var _terminal_historical_validation_depth := 0
+static var _terminal_historical_validation_cache: Dictionary = {}
+static var _terminal_historical_validation_in_progress: Dictionary = {}
+static var _terminal_historical_validation_signature := PackedByteArray()
+static var _terminal_historical_validation_initialized := false
+static var _terminal_historical_contract_reference: Variant = null
+static var _terminal_historical_events_reference: Variant = null
 # Compatibility only. New callers must use development_cap_week(), because the
 # internal gate advances 8 → 12 → 16 → 20 → 24 without rewriting this script.
 const PROTOTYPE_MAX_WEEK := DEFAULT_DEVELOPMENT_CAP_WEEK
@@ -73,6 +86,214 @@ const FIRST_BILL_OPENING_ID := "v2_demo_first_bill_opening"
 const FIRST_BILL_DECISION_ID := "v2_demo_first_bill"
 const FIRST_BILL_LEDGER_ID := "v2_demo_first_bill_ledger"
 const FIRST_BILL_REPLAY_SCHEMA := 1
+const LEGACY_040746_ORIGIN_SCHEMA := 1
+const LEGACY_040746_ORIGIN_ID := "demo_core_loop_v2@040746a"
+const LEGACY_040746_SOURCE_SCHEMA := 2
+const LEGACY_040746_PLAN_ORIGIN_SCHEMA := 1
+const LEGACY_040746_PLAN_RECEIPTS_KEY := "legacy_plan_origin_receipts"
+const LEGACY_040746_PLAN_WITNESSES_KEY := "legacy_plan_origin_witnesses"
+const AUTHORITY_LEDGER_SHAPE_POISON_KEY := \
+	"_authority_ledger_shape_poison"
+const AUTHORITY_ABSENCE_DICTIONARY_KEYS := [
+	"completed_bundle_turns", "action_receipts", "application_statuses",
+	"application_transition_receipts", "relationship_choice_receipts",
+	"story_choice_receipts",
+]
+const AUTHORITY_ABSENCE_ARRAY_KEYS := [
+	"completed_bundles", "relationship_history", "relationship_memories",
+]
+const LEGACY_040746_CORE_KEYS := [
+	"schema", "enabled", "plans", "completed_bundle_turns",
+	"shown_consequence_turns", "relationship_stages",
+	"relationship_choice_receipts", "suppressed_followups",
+	"routine_receipts", "month_summaries", "forgone",
+	"completed_turns", "completed_bundles", "shown_consequences",
+	"player_initiated", "pending_declines", "decline_receipts",
+	"relationship_history", "active_bundle", "active_kind",
+	"active_turn", "action_result_ready", "prototype_complete",
+	"prototype_completed_at_turn",
+]
+const LEGACY_040746_PLAN_KEYS := [
+	"schedule", "selected", "routines", "forgone", "planned_turn",
+]
+const LEGACY_040746_MONTH_OFFERS := {
+	1: [
+		"m1_mirae_application", "m1_convenience_trial_shift",
+		"m1_youth_center_resume_clinic", "m1_phone_off_sunday",
+		"father_first_call", "hyunsu_first_meet",
+	],
+	2: [
+		"m2_seorin_application", "m2_rain_delivery_shift",
+		"m2_youth_center_mock_interview", "m2_sleep_debt_sunday",
+		"hyunsu_player_reachout", "cafe_world_glimpse",
+		"sns_pressure_night",
+	],
+}
+const LEGACY_040746_ALLOWED_WEEKS := {
+	"m1_mirae_application": [1],
+	"m1_convenience_trial_shift": [1, 2, 3],
+	"m1_youth_center_resume_clinic": [1, 2, 3],
+	"m1_phone_off_sunday": [1, 2, 3],
+	"father_first_call": [1, 2, 3],
+	"hyunsu_first_meet": [1, 2, 3],
+	"first_temptation_boss": [4],
+	"m2_seorin_application": [5, 6],
+	"m2_rain_delivery_shift": [6, 7],
+	"m2_youth_center_mock_interview": [7],
+	"m2_sleep_debt_sunday": [5, 6, 7, 8],
+	"hyunsu_player_reachout": [5, 6],
+	"cafe_world_glimpse": [6, 7],
+	"sns_pressure_night": [5, 6, 7, 8],
+}
+const LEGACY_040746_DECLINE_IDS := {
+	"m1_mirae_application": "this_posting_expires",
+	"m1_convenience_trial_shift": "cash_buffer_does_not_grow",
+	"m1_youth_center_resume_clinic": "preparation_window_moves_on",
+	"m1_phone_off_sunday": "strain_carries_into_next_commitment",
+	"father_first_call": "father_stops_asking_for_that_month",
+	"hyunsu_first_meet": "the_neighbor_remains_only_a_face",
+	"m2_seorin_application": "seorin_posting_expires",
+	"m2_rain_delivery_shift": "rain_shift_passes",
+	"m2_youth_center_mock_interview": "mock_interview_window_closes",
+	"m2_sleep_debt_sunday": "sleep_debt_rolls_forward",
+	"hyunsu_player_reachout": "hyunsu_studies_alone_and_the_opening_cools",
+	"cafe_world_glimpse": "the_overheard_property_lead_disappears",
+	"sns_pressure_night": "the_comparison_pressure_goes_unexamined",
+}
+const LEGACY_040746_DECLINE_OUTCOMES := {
+	"this_posting_expires": {"producer_bundle": "m1_mirae_application",
+		"consumer_kind": "next_month_message", "visible_month": 2,
+		"message_ko": "미래산업기술 공고가 닫혔다. 같은 자리는 이번 달 돌아오지 않는다.",
+		"message_en": "Mirae's opening closed; the same seat will not return this month."},
+	"cash_buffer_does_not_grow": {"producer_bundle": "m1_convenience_trial_shift",
+		"consumer_kind": "next_month_message", "visible_month": 2,
+		"message_ko": "목요일 대타는 다른 사람에게 갔다. 월세 통장은 비어 있다.",
+		"message_en": "Someone else took Thursday's shift; the rent buffer stayed empty."},
+	"preparation_window_moves_on": {"producer_bundle": "m1_youth_center_resume_clinic",
+		"consumer_kind": "next_month_message", "visible_month": 2,
+		"message_ko": "무료 첨삭 자리가 닫혔다. 다음 예약은 한 달 뒤다.",
+		"message_en": "The free resume review closed; the next booking is a month away."},
+	"strain_carries_into_next_commitment": {"producer_bundle": "m1_phone_off_sunday",
+		"consumer_kind": "next_month_message", "visible_month": 2,
+		"message_ko": "쉬지 못한 피로가 두 번째 달 첫 약속까지 따라왔다.",
+		"message_en": "Missed rest followed him into the first commitment of month two.",
+		"effects": {"health": -2, "mental": -2}},
+	"father_stops_asking_for_that_month": {"producer_bundle": "father_first_call",
+		"consumer_kind": "next_month_message", "visible_month": 2,
+		"message_ko": "아버지는 다시 묻지 않았다. 통화목록의 이름만 아래로 밀렸다.",
+		"message_en": "Father did not ask again; his name slipped down the call log."},
+	"the_neighbor_remains_only_a_face": {"producer_bundle": "hyunsu_first_meet",
+		"consumer_kind": "next_month_message", "visible_month": 2,
+		"message_ko": "새벽 주방의 남자는 이름 없는 이웃으로 남았다.",
+		"message_en": "The man from the late-night kitchen remained a nameless neighbor."},
+	"the_offer_is_answered_or_refused_in_scene": {"producer_bundle": "first_temptation_boss",
+		"consumer_kind": "in_scene_choice", "visible_month": 1,
+		"message_ko": "모르는 번호의 제안은 그날 밤 받거나 거절했다.",
+		"message_en": "The unknown number was answered or refused that night."},
+	"seorin_posting_expires": {"producer_bundle": "m2_seorin_application",
+		"consumer_kind": "terminal_recap", "visible_month": 2,
+		"message_ko": "서린물산 채용 창구가 닫혔다. 보내지 않은 지원서는 남지 않았다.",
+		"message_en": "Seorin's hiring window closed; the unsent application left no trace."},
+	"rain_shift_passes": {"producer_bundle": "m2_rain_delivery_shift",
+		"consumer_kind": "terminal_recap", "visible_month": 2,
+		"message_ko": "비가 그치며 할증 배달도 끝났다. 그날 몫의 현금은 돌아오지 않는다.",
+		"message_en": "The rain and surge shift ended; that evening's cash is gone."},
+	"mock_interview_window_closes": {"producer_bundle": "m2_youth_center_mock_interview",
+		"consumer_kind": "terminal_recap", "visible_month": 2,
+		"message_ko": "마지막 모의면접 자리는 다른 사람에게 갔다. 연습 창구가 닫혔다.",
+		"message_en": "Someone else took the last mock interview; the practice window closed."},
+	"sleep_debt_rolls_forward": {"producer_bundle": "m2_sleep_debt_sunday",
+		"consumer_kind": "terminal_recap", "visible_month": 2,
+		"message_ko": "갚지 못한 잠이 여덟 번째 주 뒤에도 몸에 남았다.",
+		"message_en": "Sleep debt remained in his body after week eight.",
+		"effects": {"health": -2, "mental": -2}},
+	"hyunsu_studies_alone_and_the_opening_cools": {"producer_bundle": "hyunsu_player_reachout",
+		"consumer_kind": "terminal_recap", "visible_month": 2,
+		"message_ko": "메시지가 없는 사이 현수는 혼자 공부했다. 열린 틈은 식었다.",
+		"message_en": "Without a message, Hyunsu studied alone and the opening cooled."},
+	"the_overheard_property_lead_disappears": {"producer_bundle": "cafe_world_glimpse",
+		"consumer_kind": "terminal_recap", "visible_month": 2,
+		"message_ko": "창가의 매물 이야기는 그날 저녁과 함께 사라졌다.",
+		"message_en": "The property lead by the window vanished with that evening."},
+	"the_comparison_pressure_goes_unexamined": {"producer_bundle": "sns_pressure_night",
+		"consumer_kind": "terminal_recap", "visible_month": 2,
+		"message_ko": "이름 붙이지 않은 비교 압박이 밤마다 화면을 다시 켰다.",
+		"message_en": "Unnamed comparison pressure kept relighting the screen at night.",
+		"effects": {"mental": -1}},
+}
+const LEGACY_040746_WEEKLY_REQUIRED_KEYS := [
+	"turn", "pressure_id", "pressure_family", "choice_id", "person_id",
+	"forgone_ids", "actual_action_id", "outcome", "echoed_turn",
+]
+const LEGACY_040746_WEEKLY_OPTIONAL_KEYS := [
+	"source", "scene_background_id", "chapter_intent_id", "return_cost",
+	"details", "forgone_debts", "story_event_id", "story_choice_index",
+	"forgone_choice_indexes", "week_kind", "axis", "consequence_timing",
+]
+const LEGACY_040746_STORY_ROOTS := {
+	"father_first_call": "arc_father_01_call",
+	"hyunsu_first_meet": "arc_intro_04_hyunsu",
+	"first_temptation_boss": "arc_temptation_01",
+	"hyunsu_player_reachout": "v2_hyunsu_player_reachout",
+	"cafe_world_glimpse": "cafe_00",
+	"sns_pressure_night": "arc_intro_03_sns",
+}
+const LEGACY_040746_STORY_CHOICE_COUNTS := {
+	"arc_father_01_call": 3,
+	"arc_intro_04_hyunsu": 2,
+	"arc_temptation_01": 2,
+	"v2_hyunsu_player_reachout": 2,
+	"cafe_00": 3,
+	"arc_intro_03_sns": 3,
+}
+const LEGACY_040746_DELIVERY_BASE_PAY := 90_000
+const LEGACY_040746_DELIVERY_ROUTE_BONUS := 8_000
+const LEGACY_040746_DELIVERY_TIME_BUDGET := 120
+const LEGACY_040746_DELIVERY_ROUTES := [
+	{"time": 18, "tip": 5_000},
+	{"time": 30, "tip": 11_000},
+	{"time": 45, "tip": 18_000},
+	{"time": 25, "tip": 8_000},
+	{"time": 14, "tip": 4_000},
+	{"time": 8, "tip": 2_500},
+]
+const LEGACY_040746_CONVENIENCE_BASE_PAY := 90_000
+# The old convenience shift always used each of these eight customers once,
+# then padded the ten-card queue with two more checkout customers.  Every
+# customer either resolved one authored option or timed out.  Keep the compact
+# (bonus, stress) projection here so legacy admission can validate the exact
+# producer without importing mutable minigame data.
+const LEGACY_040746_CONVENIENCE_OPTIONS := [
+	[[2_000, 0], [-1_000, 1], [0, 2]],
+	[[0, 2], [1_000, 1], [-2_000, 5], [0, 3]],
+	[[5_000, -1], [0, 1], [0, 2]],
+	[[0, 1], [2_000, 0], [-1_000, 2], [0, 2]],
+	[[2_000, 1], [-1_000, 2], [0, 2]],
+	[[1_000, 0], [-500, 1], [0, 2]],
+	[[1_000, 0], [-500, 2], [0, 2]],
+	[[1_000, 0], [0, 0], [0, 2]],
+	[[2_000, 0], [-1_000, 1], [0, 2]],
+	[[2_000, 0], [-1_000, 1], [0, 2]],
+]
+const LEGACY_040746_RELATIONSHIP_OUTCOMES := {
+	"father_first_call": {
+		"event_id": "arc_father_01_call", "character": "father",
+		"initiative": "reciprocal",
+		"choice_stages": {"0": "opening", "1": "opening", "2": "met"},
+	},
+	"hyunsu_first_meet": {
+		"event_id": "arc_intro_04_hyunsu", "character": "hyunsu",
+		"initiative": "world",
+		"choice_stages": {"0": "opening", "1": "opening"},
+	},
+	"hyunsu_player_reachout": {
+		"event_id": "v2_hyunsu_player_reachout", "character": "hyunsu",
+		"initiative": "player",
+		"choice_stages": {
+			"0": "player_reached_out", "1": "player_reached_out",
+		},
+	},
+}
 const FIRST_BILL_FATHER_MEMORY_IDS := [
 	"father_neighbor_detail_checked",
 	"father_called_again_that_evening",
@@ -655,6 +876,10 @@ static func completion_snapshot(trusted_fresh_boundary: bool = false) -> Diction
 	return {
 		"snapshot_schema": 1,
 		"frozen_at_turn": int(GameState.turn),
+		# A completion recap is an immutable boundary projection.  Keep the job
+		# identity that existed at that boundary instead of consulting a later
+		# chapter's live employment state when the recap is reopened.
+		"current_job_id": str(GameState.current_job.get("id", "")),
 		"kept": kept,
 		"cycle_allocations": cycle_allocations,
 		"forgone": forgone,
@@ -736,11 +961,16 @@ static func completion_snapshot(trusted_fresh_boundary: bool = false) -> Diction
 
 static func _completion_snapshot_is_valid(
 		snapshot: Dictionary, cap: int) -> bool:
-	if int(snapshot.get("snapshot_schema", 0)) != 1 \
-			or int(snapshot.get("development_cap_week", 0)) != cap \
-			or int(snapshot.get("completed_through_week", 0)) < cap \
-			or int(snapshot.get("completed_at_turn", 0)) != cap + 1 \
-			or int(snapshot.get("frozen_at_turn", 0)) != cap + 1:
+	if not _terminal_integral_number_matches(
+			snapshot.get("snapshot_schema", null), 1) \
+			or not _terminal_integral_number_matches(
+				snapshot.get("development_cap_week", null), cap) \
+			or not _terminal_integral_number_matches(
+				snapshot.get("completed_through_week", null), cap) \
+			or not _terminal_integral_number_matches(
+				snapshot.get("completed_at_turn", null), cap + 1) \
+			or not _terminal_integral_number_matches(
+				snapshot.get("frozen_at_turn", null), cap + 1):
 		return false
 	for key in [
 		"kept", "cycle_allocations", "forgone", "decline_receipts",
@@ -761,6 +991,12 @@ static func _completion_snapshot_is_valid(
 		if not snapshot.get(key) is Dictionary:
 			return false
 	if not snapshot.get("legacy_boundary_incomplete", false) is bool:
+		return false
+	# Schema-1 snapshots created before this field existed remain readable, but
+	# they cannot prove a job-specific terminal clue.  Fresh snapshots always
+	# carry the field and its type is fail-closed.
+	if snapshot.has("current_job_id") \
+			and not snapshot.get("current_job_id") is String:
 		return false
 	var closing_state: Dictionary = snapshot.get("closing_state", {})
 	for key in ["money", "fixed_expense", "health", "mental"]:
@@ -1719,8 +1955,12 @@ static func _terminal_historical_predicate_met(
 			var bundle_id := str(predicate.get("bundle_id", "")).strip_edges()
 			return {
 				"ok": not bundle_id.is_empty(),
-				"met": _terminal_historical_completed_bundle(
-					state, bundle_id, cut_turn),
+				"met": (_sns_consequence_completion_valid(
+					state, cut_turn) \
+					or _legacy_sns_consequence_completion_valid(
+						state, cut_turn)) if bundle_id == "sns_pressure_night" \
+					else _terminal_historical_completed_bundle(
+						state, bundle_id, cut_turn),
 			}
 		"routine_selected":
 			var track := str(predicate.get("track", "")).strip_edges()
@@ -1729,11 +1969,125 @@ static func _terminal_historical_predicate_met(
 				"met": _terminal_historical_routine_selected(
 					state, track, cut_turn),
 			}
+		"action_receipt":
+			return _terminal_historical_action_receipt_predicate_met(
+				state, predicate, cut_turn)
 		"relationship_at_least", "relationship_stage_is", \
 		"relationship_memory", "player_initiated":
 			return _terminal_historical_relationship_predicate_met(
 				state, predicate, cut_turn)
 	return {"ok": false, "met": false}
+
+## Target-month candidate sets are reconstructed long after the source action
+## may have fallen out of the capped outer weekly ledger.  Rebuild the typed
+## receipt from the closed source month's embedded weekly commitment instead
+## of trusting either the root receipt or today's global weekly rows alone.
+static func _terminal_historical_action_receipt_predicate_met(
+		state: Dictionary, predicate: Dictionary,
+		cut_turn: int) -> Dictionary:
+	var bundle_id := str(predicate.get("bundle_id", "")).strip_edges()
+	var expected_action := str(
+		predicate.get("action_id", "")).strip_edges().to_lower()
+	var raw_month: Variant = predicate.get("month", null)
+	var raw_legacy_fallback: Variant = predicate.get(
+		"legacy_completed_bundle_fallback", false)
+	if bundle_id.is_empty() or expected_action.is_empty() \
+			or not _terminal_integral_number_in_range(raw_month, 1, 12) \
+		or not raw_legacy_fallback is bool:
+		return {"ok": false, "met": false}
+	var source_month := int(raw_month)
+	var raw_receipts: Variant = state.get("action_receipts", {})
+	if not raw_receipts is Dictionary:
+		return {"ok": false, "met": false}
+	var has_action_owner := (raw_receipts as Dictionary).has(bundle_id)
+	var raw_receipt: Variant = (raw_receipts as Dictionary).get(
+		bundle_id, null)
+	if not has_action_owner:
+		var raw_fallbacks: Variant = state.get("legacy_action_fallbacks", {})
+		var raw_fallback: Variant = (raw_fallbacks as Dictionary).get(
+			bundle_id, {}) if raw_fallbacks is Dictionary else {}
+		if not bool(raw_legacy_fallback) or not raw_fallback is Dictionary \
+				or str((raw_fallback as Dictionary).get("bundle_id", "")) \
+					!= bundle_id \
+				or str((raw_fallback as Dictionary).get(
+					"action_id", "")).strip_edges().to_lower() \
+					!= expected_action \
+				or not _terminal_integral_number_matches(
+					(raw_fallback as Dictionary).get("source_schema", null), 2) \
+				or not _terminal_integral_number_in_range(
+					(raw_fallback as Dictionary).get("completed_turn", null),
+					_seoul_cycle_month_start_turn(source_month),
+					_seoul_cycle_month_end_turn(source_month)):
+			return {"ok": true, "met": false}
+		var legacy_turn := int((raw_fallback as Dictionary).get(
+			"completed_turn", 0))
+		var raw_completed_turns: Variant = state.get(
+			"completed_bundle_turns", {})
+		return {
+			"ok": true,
+			"met": legacy_turn < cut_turn \
+				and raw_completed_turns is Dictionary \
+				and _terminal_integral_number_matches(
+					(raw_completed_turns as Dictionary).get(bundle_id, null),
+					legacy_turn) \
+				and _terminal_historical_completed_bundle(
+					state, bundle_id, cut_turn),
+		}
+	var receipt: Dictionary = raw_receipt
+	var raw_turn: Variant = receipt.get("turn", null)
+	if not _terminal_integral_number_in_range(
+			raw_turn, _seoul_cycle_month_start_turn(source_month),
+			_seoul_cycle_month_end_turn(source_month)):
+		return {"ok": true, "met": false}
+	var receipt_turn := int(raw_turn)
+	var raw_completed_turns: Variant = state.get(
+		"completed_bundle_turns", {})
+	if receipt_turn >= cut_turn \
+			or not raw_completed_turns is Dictionary \
+			or not _terminal_integral_number_matches(
+				(raw_completed_turns as Dictionary).get(bundle_id, null),
+				receipt_turn) \
+			or not _terminal_historical_completed_bundle(
+				state, bundle_id, cut_turn):
+		return {"ok": true, "met": false}
+	var authority := _terminal_historical_cycle_summary(
+		state, source_month, cut_turn)
+	if authority.is_empty():
+		return {"ok": true, "met": false}
+	var matching_allocations: Array[Dictionary] = []
+	for raw_allocation in authority.get("allocations", []) as Array:
+		if raw_allocation is Dictionary \
+				and _terminal_integral_number_matches(
+					(raw_allocation as Dictionary).get("turn", null),
+					receipt_turn):
+			matching_allocations.append(raw_allocation as Dictionary)
+	if matching_allocations.size() != 1:
+		return {"ok": true, "met": false}
+	var raw_weekly: Variant = matching_allocations[0].get(
+		"weekly_commitment", {})
+	var commitment := _action_record_for_bundle_from_weekly_commitment(
+		raw_weekly as Dictionary if raw_weekly is Dictionary else {},
+		bundle_id, expected_action, receipt_turn)
+	var scene_bundle := bundle(bundle_id)
+	var expected_receipt := _action_receipt_from_record(
+		bundle_id, scene_bundle, commitment) \
+		if not scene_bundle.is_empty() and not commitment.is_empty() else {}
+	var expected_application_id := str(
+		predicate.get("application_id", "")).strip_edges()
+	var expected_application_status := str(
+		predicate.get("application_status", "")).strip_edges()
+	return {
+		"ok": true,
+		"met": not expected_receipt.is_empty() \
+			and _terminal_variant_semantically_equal(
+				receipt, expected_receipt) \
+			and (expected_application_id.is_empty() \
+				or str(receipt.get("application_id", "")) \
+					== expected_application_id) \
+			and (expected_application_status.is_empty() \
+				or str(receipt.get("application_status", "")) \
+					== expected_application_status),
+	}
 
 ## A target-opening predicate may only read a closed Seoul-cycle month.  The
 ## summary is an immutable transaction projection, not a bag of convenient
@@ -1741,6 +2095,68 @@ static func _terminal_historical_predicate_met(
 ## every week, with the same authored node/capacity identities in the embedded
 ## weekly record and the notebook's kept projection.
 static func _terminal_historical_cycle_summary(
+		state: Dictionary, month_index: int,
+		cut_turn: int) -> Dictionary:
+	var owns_context := _terminal_historical_validation_depth == 0
+	if owns_context:
+		# Registry fixtures replace these dictionaries directly, while production
+		# reloads advance content_revision. Reference replacement is an additional
+		# constant-time invalidation boundary for isolated QA overrides.
+		var authored_reference_changed := \
+			not is_same(DataRegistry.demo_core_loop_v2,
+				_terminal_historical_contract_reference) \
+			or not is_same(DataRegistry.events_by_id,
+				_terminal_historical_events_reference)
+		if authored_reference_changed:
+			_terminal_historical_validation_cache = {}
+			_terminal_historical_contract_reference = \
+				DataRegistry.demo_core_loop_v2
+			_terminal_historical_events_reference = DataRegistry.events_by_id
+			_terminal_historical_validation_initialized = false
+		# Native Variant encoding makes this exact-state comparison linear in C++
+		# instead of recursively walking the large ledger in GDScript for every
+		# public reader. It is an equality token, not a lossy hash.
+		var signature := var_to_bytes([
+			state,
+			int(GameState.turn),
+			str(GameState.player_name),
+			str(LocaleManager.language),
+			GameState.flags,
+			GameState.weekly_commitments,
+			GameState.core_loop_v2_state,
+			DataRegistry.content_revision,
+			LocaleManager.content_revision,
+		])
+		var same_state := _terminal_historical_validation_initialized \
+			and signature == _terminal_historical_validation_signature
+		if not same_state:
+			_terminal_historical_validation_cache = {}
+			_terminal_historical_validation_signature = signature
+			_terminal_historical_validation_initialized = true
+		_terminal_historical_validation_in_progress = {}
+	var cache_key := "%d:%d" % [month_index, cut_turn]
+	_terminal_historical_validation_depth += 1
+	var result: Dictionary = {}
+	var raw_cached: Variant = _terminal_historical_validation_cache.get(
+		cache_key, null)
+	if raw_cached is Dictionary:
+		result = raw_cached as Dictionary
+	elif _terminal_historical_validation_in_progress.has(cache_key):
+		# A same-month cycle cannot be its own provenance.  Fail closed instead
+		# of letting malformed receipt graphs recurse until they exhaust a frame.
+		result = {}
+	else:
+		_terminal_historical_validation_in_progress[cache_key] = true
+		result = _terminal_historical_cycle_summary_uncached(
+			state, month_index, cut_turn)
+		_terminal_historical_validation_in_progress.erase(cache_key)
+		_terminal_historical_validation_cache[cache_key] = result
+	_terminal_historical_validation_depth -= 1
+	if owns_context:
+		_terminal_historical_validation_in_progress = {}
+	return result
+
+static func _terminal_historical_cycle_summary_uncached(
 		state: Dictionary, month_index: int,
 		cut_turn: int) -> Dictionary:
 	var month_start := _seoul_cycle_month_start_turn(month_index)
@@ -1806,7 +2222,7 @@ static func _terminal_historical_cycle_summary(
 	if node_ids != authored_node_ids:
 		return {}
 	var resolved_nodes := _terminal_historical_resolved_nodes(
-		month_index, nodes, raw_authored_nodes as Dictionary)
+		state, month_index, nodes, raw_authored_nodes as Dictionary)
 	if resolved_nodes.is_empty() \
 			or resolved_nodes.size() != authored_node_ids.size():
 		return {}
@@ -1904,7 +2320,7 @@ static func _terminal_historical_cycle_summary(
 ## projection is deliberately gameplay-only: labels may be localized or
 ## polished later without invalidating an old save.
 static func _terminal_historical_resolved_nodes(
-		month_index: int, nodes: Dictionary,
+		state: Dictionary, month_index: int, nodes: Dictionary,
 		authored_nodes: Dictionary) -> Dictionary:
 	var resolved_nodes: Dictionary = {}
 	for raw_node_id in authored_nodes.keys():
@@ -1932,6 +2348,11 @@ static func _terminal_historical_resolved_nodes(
 				return {}
 		if not node.get("fallback_mode", null) is bool:
 			return {}
+		var declares_terminal_binding := \
+			_terminal_node_binding_fields_present(node)
+		var has_terminal_binding := _terminal_node_has_binding(node)
+		if declares_terminal_binding != has_terminal_binding:
+			return {}
 		var candidates := _seoul_cycle_node_trigger_candidates(authored)
 		var resolved_trigger := str(node.get(
 			"resolved_trigger_bundle_id", "")).strip_edges()
@@ -1943,13 +2364,40 @@ static func _terminal_historical_resolved_nodes(
 		elif resolved_trigger.is_empty() and not candidates.is_empty():
 			# Schema-1 summaries written before the explicit field existed can be
 			# read only when their final runtime projection identifies one unique
-			# authored choice. New summaries always carry the field, so deleting it
-			# cannot downgrade them through this compatibility branch.
+			# authored choice. New summaries always carry the field. An explicit
+			# empty value is genuine only for an inert authored node that stayed
+			# locked because no trigger was available; deleting the field or
+			# rewriting gameplay history cannot downgrade through this branch.
 			var raw_authority: Variant = node.get(
 				"historical_node_schema", null)
-			if raw_authority != null \
-					and not _terminal_node_has_binding(node):
-				return {}
+			if raw_authority != null and not has_terminal_binding:
+				var explicit_locked_without_trigger: bool = \
+					node.has("resolved_trigger_bundle_id") \
+					and bool(authored.get("disable_without_trigger", false)) \
+					and str(node.get("status", "")) == "locked" \
+					and int(node.get("progress", -1)) == 0 \
+					and int(node.get("completed_turn", -1)) == 0 \
+					and int(node.get("last_allocation_turn", -1)) == 0 \
+					and int(node.get("expired_turn", -1)) == 0 \
+					and str(node.get("missed_trigger_bundle", "")).is_empty() \
+					and not bool(node.get("fallback_mode", true)) \
+					and node.get("owner", null) == authored.get("owner", null) \
+					and node.get("place", null) == authored.get("place", null) \
+					and node.get("summary_bundle", null) \
+						== authored.get("summary_bundle", null) \
+					and _terminal_integral_number_matches(
+						node.get("threshold", null),
+						maxi(1, int(authored.get("threshold", 1)))) \
+					and _terminal_integral_number_matches(
+						node.get("deadline_week", null),
+						clampi(int(authored.get("deadline_week", 4)), 1, 4))
+				var historical_eligibility := \
+					_terminal_ordinary_candidates_at_target_open(
+						state, authored, month_index)
+				if not explicit_locked_without_trigger \
+						or not bool(historical_eligibility.get("ok", false)) \
+						or not (historical_eligibility.get("ids", []) as Array).is_empty():
+					return {}
 			var missed := str(node.get(
 				"missed_trigger_bundle", "")).strip_edges()
 			if not missed.is_empty():
@@ -1966,7 +2414,7 @@ static func _terminal_historical_resolved_nodes(
 			authored, resolved_trigger, month_index)
 		if resolved.is_empty():
 			return {}
-		if _terminal_node_has_binding(node):
+		if has_terminal_binding:
 			for terminal_key in [
 				"binding_candidate_ids", "ordinary_candidate_ids",
 				"eligible_terminal_route_ids", "terminal_route_bindings",
@@ -2222,11 +2670,21 @@ static func _terminal_historical_node_timelines_valid(
 			resolved) \
 			and node.get("eligible_trigger_bundle_ids", null) is Array \
 			and not (node.get("eligible_trigger_bundle_ids", []) as Array).is_empty()
+		# A terminal-bound union can keep authored ordinary candidates even when
+		# no candidate has been selected yet. Runtime opens that board so the
+		# player may choose one; historical replay must not reinterpret the same
+		# untouched node as locked and reject its authored deadline expiry.
+		var terminal_union_has_ordinary_trigger := _terminal_node_has_binding(node) \
+			and node.get("ordinary_candidate_ids", null) is Array \
+			and not (node.get("ordinary_candidate_ids", []) as Array).is_empty()
 		var initially_locked := bool(resolved.get(
 			"disable_without_trigger", false)) \
 			and str(resolved.get("resolved_trigger_bundle_id", "")).is_empty() \
 			and not empty_terminal_modifier \
-			and not player_has_eligible_trigger
+			and not player_has_eligible_trigger \
+			and not terminal_union_has_ordinary_trigger
+		if initially_locked and not node_allocations.is_empty():
+			return false
 		var should_expire := completion_count == 0 and not initially_locked
 		var raw_expiry: Variant = (
 			raw_expiry_receipts as Dictionary).get(node_id, {})
@@ -2475,11 +2933,24 @@ static func _terminal_historical_resolutions_for_month(
 	for raw_expected_node_id in receipt_bound_nodes.keys():
 		expected_bound_node_ids.append(str(raw_expected_node_id))
 	expected_bound_node_ids.sort()
+	var declared_bound_node_ids: Array[String] = []
+	for raw_declared_node_id in (raw_nodes as Dictionary).keys():
+		var declared_node_id := str(raw_declared_node_id)
+		var raw_declared_node: Variant = (raw_nodes as Dictionary).get(
+			raw_declared_node_id, {})
+		if not raw_declared_node is Dictionary:
+			return {"ok": false, "resolutions": {}}
+		if _terminal_node_binding_fields_present(raw_declared_node as Dictionary):
+			if not _terminal_node_has_binding(raw_declared_node as Dictionary):
+				return {"ok": false, "resolutions": {}}
+			declared_bound_node_ids.append(declared_node_id)
+	declared_bound_node_ids.sort()
 	var actual_bound_node_ids: Array[String] = []
 	for raw_actual_node_id in bound_nodes.keys():
 		actual_bound_node_ids.append(str(raw_actual_node_id))
 	actual_bound_node_ids.sort()
-	if actual_bound_node_ids != expected_bound_node_ids:
+	if declared_bound_node_ids != expected_bound_node_ids \
+			or actual_bound_node_ids != expected_bound_node_ids:
 		return {"ok": false, "resolutions": {}}
 	if bound_nodes.is_empty():
 		return {"ok": not _terminal_target_binding_witness_for_month_present(
@@ -2976,9 +3447,12 @@ static func _terminal_historical_completed_bundle(
 	if not raw_completed is Array or not raw_turns is Dictionary \
 			or (raw_completed as Array).count(bundle_id) != 1:
 		return false
-	var completed_turn := int((raw_turns as Dictionary).get(bundle_id, 0))
-	if completed_turn <= 0 or completed_turn >= cut_turn:
+	var raw_completed_turn: Variant = (raw_turns as Dictionary).get(
+		bundle_id, null)
+	if not _terminal_integral_number_in_range(
+			raw_completed_turn, 1, cut_turn - 1):
 		return false
+	var completed_turn := int(raw_completed_turn)
 	var month_index := month_for_turn(completed_turn)
 	var authority := _terminal_historical_cycle_summary(
 		state, month_index, cut_turn)
@@ -3232,8 +3706,31 @@ static func _terminal_node_with_selected_candidate(
 
 static func _terminal_node_has_binding(node: Dictionary) -> bool:
 	return node.get("binding_candidate_ids", null) is Array \
+		and not (node.get("binding_candidate_ids", []) as Array).is_empty() \
+		and node.get("ordinary_candidate_ids", null) is Array \
 		and node.get("terminal_route_bindings", null) is Dictionary \
-		and node.get("eligible_terminal_route_ids", null) is Array
+		and not (node.get("terminal_route_bindings", {}) as Dictionary).is_empty() \
+		and node.get("eligible_terminal_route_ids", null) is Array \
+		and not (node.get("eligible_terminal_route_ids", []) as Array).is_empty() \
+		and node.get("selected_trigger_candidate_id", null) is String \
+		and node.get("selected_terminal_route_id", null) is String \
+		and node.get("terminal_selection_origin", null) is String \
+		and node.get("terminal_result_ko", null) is String \
+		and node.get("terminal_result_en", null) is String \
+		and node.get("terminal_completion_effects", null) is Dictionary
+
+
+static func _terminal_node_binding_fields_present(node: Dictionary) -> bool:
+	for key in [
+		"binding_candidate_ids", "ordinary_candidate_ids",
+		"eligible_terminal_route_ids", "terminal_route_bindings",
+		"selected_trigger_candidate_id", "selected_terminal_route_id",
+		"terminal_selection_origin", "terminal_result_ko",
+		"terminal_result_en", "terminal_completion_effects",
+	]:
+		if node.has(key):
+			return true
+	return false
 
 static func _terminal_selected_binding(node: Dictionary) -> Dictionary:
 	var route_id := str(node.get(
@@ -3665,6 +4162,10 @@ static func _terminal_source_proof_matches_month_summary(
 			return false
 	else:
 		for player_key in player_identity_keys:
+			if player_key == "selected_trigger_bundle_id" \
+					and _terminal_node_has_binding(summary_node):
+				required_node_keys.append(player_key)
+				continue
 			if summary_node.has(player_key):
 				return false
 	for node_key in required_node_keys:
@@ -3722,6 +4223,9 @@ static func _terminal_source_proof_matches_month_summary(
 	match proof_kind:
 		"typed_action_application":
 			return _terminal_typed_action_proof_matches_state(
+				proof, source, state, source_turn)
+		"typed_action_receipt":
+			return _terminal_action_receipt_proof_matches_state(
 				proof, source, state, source_turn)
 		"relationship_choice":
 			return _terminal_relationship_proof_matches_state(
@@ -3866,6 +4370,14 @@ static func _terminal_node_projection_has_exact_shape(
 		])
 		if not node.get("eligible_trigger_bundle_ids", null) is Array:
 			return false
+	elif node.has("selected_trigger_bundle_id"):
+		# A source node may itself be terminal-bound without being a player
+		# trigger chooser.  Preserve its executable bundle in the frozen proof;
+		# the summary/witness comparison later binds this extra field back to the
+		# exact terminal-bound node and rejects it on ordinary non-bound nodes.
+		if not node.get("selected_trigger_bundle_id", null) is String:
+			return false
+		expected_keys.append("selected_trigger_bundle_id")
 	return _terminal_dictionary_has_exact_keys(node, expected_keys) \
 		and str(node.get("id", "")) == node_id
 
@@ -3873,6 +4385,8 @@ static func _terminal_expected_completion_bundle(source: Dictionary) -> String:
 	match str(source.get("proof_kind", "")):
 		"typed_action_application":
 			return W1_ONBOARDING_BUNDLE_ID
+		"typed_action_receipt":
+			return str(source.get("proof_id", "")).strip_edges()
 		"relationship_choice":
 			return "father_first_call"
 		"selected_trigger":
@@ -3887,11 +4401,13 @@ static func _terminal_completed_bundle_state_valid(
 	if bundle_id.is_empty() or not raw_completed is Array \
 			or not raw_turns is Dictionary \
 			or (raw_completed as Array).count(bundle_id) != 1 \
-			or int((raw_turns as Dictionary).get(bundle_id, 0)) != source_turn:
+			or not _terminal_integral_number_matches(
+				(raw_turns as Dictionary).get(bundle_id, null), source_turn):
 		return false
 	for sibling_id in sibling_ids:
 		if (raw_completed as Array).count(sibling_id) != 0 \
-				or int((raw_turns as Dictionary).get(sibling_id, 0)) != 0:
+				or not _terminal_integral_number_matches(
+					(raw_turns as Dictionary).get(sibling_id, 0), 0):
 			return false
 	return true
 
@@ -4221,6 +4737,13 @@ static func _terminal_effect_snapshot_valid(
 
 static func _terminal_expiry_outcomes_absent(
 		state: Dictionary, node_id: String, source_month: int) -> bool:
+	# Absence is authority only when the current save actually carried each
+	# authority ledger in its declared container type.  `_normalized_state`
+	# replaces malformed values with empty containers for safe ordinary reads;
+	# this durable poison prevents that repair from laundering a scalar/array
+	# into proof that an expired branch had no competing completed outcome.
+	if _authority_absence_shape_poisoned(state):
+		return false
 	var completed: Array = state.get("completed_bundles", []) \
 		if state.get("completed_bundles", []) is Array else []
 	var completed_turns: Dictionary = state.get("completed_bundle_turns", {}) \
@@ -4237,6 +4760,74 @@ static func _terminal_expiry_outcomes_absent(
 				return false
 		"father":
 			forbidden_bundles.append("father_first_call")
+		"m2_advancement":
+			var seorin_bundle := "m2_seorin_application"
+			var seorin_application := "seorin_contract_2026q1"
+			forbidden_bundles.append(seorin_bundle)
+			# Normalization supplies empty maps for malformed save values.  Expiry is
+			# an absence proof, so a scalar/array cannot be laundered into evidence that
+			# Seorin's completed authority was absent in the original current save.
+			var raw_runtime: Variant = GameState.core_loop_v2_state
+			if not raw_runtime is Dictionary:
+				return false
+			for ledger_key in [
+				"action_receipts", "application_statuses",
+				"application_transition_receipts",
+			]:
+				if not (raw_runtime as Dictionary).get(
+						ledger_key, null) is Dictionary:
+					return false
+			var raw_action_receipts: Dictionary = state.get(
+				"action_receipts", {}) as Dictionary
+			if (state.get("application_statuses", {}) as Dictionary).has(
+						seorin_application):
+				return false
+			for raw_action_key in raw_action_receipts.keys():
+				var action_key := str(raw_action_key)
+				var raw_action_receipt: Variant = raw_action_receipts.get(
+					raw_action_key, null)
+				if action_key == seorin_bundle \
+						or (raw_action_receipt is Dictionary \
+							and (str((raw_action_receipt as Dictionary).get(
+								"bundle_id", "")) == seorin_bundle \
+								or str((raw_action_receipt as Dictionary).get(
+									"application_id", "")) == seorin_application)):
+					return false
+			for raw_key in (state.get(
+					"application_transition_receipts", {}) as Dictionary).keys():
+				var key := str(raw_key)
+				var raw_transition: Variant = (state.get(
+					"application_transition_receipts", {}) as Dictionary).get(
+						raw_key, null)
+				if key.begins_with("%s:" % seorin_bundle) \
+						or (raw_transition is Dictionary \
+							and (str((raw_transition as Dictionary).get(
+								"bundle_id", "")) == seorin_bundle \
+								or str((raw_transition as Dictionary).get(
+									"application_id", "")) == seorin_application)):
+					return false
+			for raw_weekly in GameState.weekly_commitments:
+				if not raw_weekly is Dictionary:
+					continue
+				var weekly: Dictionary = raw_weekly
+				var weekly_turn := int(weekly.get("turn", 0))
+				if weekly_turn < _seoul_cycle_month_start_turn(source_month) \
+						or weekly_turn > _seoul_cycle_month_end_turn(source_month):
+					continue
+				if str(weekly.get("pressure_id", "")) == seorin_bundle:
+					return false
+				var raw_details: Variant = weekly.get("details", {})
+				if not raw_details is Dictionary:
+					continue
+				var raw_followups: Variant = (raw_details as Dictionary).get(
+					"action_followups", [])
+				if not raw_followups is Array:
+					continue
+				for raw_followup in raw_followups as Array:
+					if raw_followup is Dictionary \
+							and str((raw_followup as Dictionary).get(
+								"bundle_id", "")) == seorin_bundle:
+						return false
 		"m2_people":
 			forbidden_bundles.append_array([
 				"hyunsu_player_reachout", "cafe_world_glimpse",
@@ -4501,6 +5092,51 @@ static func _terminal_typed_action_proof_matches_state(
 		and int(transition.get("turn", 0)) == source_turn \
 		and int(transition.get("quality", -1)) == expected_quality
 
+static func _terminal_action_receipt_proof_matches_state(
+		proof: Dictionary, source: Dictionary, state: Dictionary,
+		source_turn: int) -> bool:
+	var action_key := str(source.get("proof_id", "")).strip_edges()
+	var expected_action := str(source.get("action_id", "")).strip_edges().to_lower()
+	var raw_action: Variant = state.get("action_receipts", {}).get(
+		action_key, {}) if state.get("action_receipts", {}) is Dictionary else {}
+	if action_key.is_empty() or expected_action.is_empty() \
+			or not raw_action is Dictionary \
+			or not _terminal_variant_semantically_equal(
+				proof.get("action_receipt", null), raw_action) \
+			or str(proof.get("action_receipt_key", "")) \
+				!= "action_receipts.%s" % action_key \
+			or str(proof.get("completed_bundle_turn_key", "")) \
+				!= "completed_bundle_turns.%s" % action_key \
+			or not _terminal_integral_number_matches(
+				proof.get("completed_bundle_turn", null), source_turn) \
+			or not _terminal_completed_bundle_state_valid(
+				state, action_key, source_turn):
+		return false
+	var action: Dictionary = raw_action
+	var details: Dictionary = action.get("result_details", {}) \
+		if action.get("result_details", {}) is Dictionary else {}
+	var raw_allocation: Variant = proof.get("allocation_receipt", {})
+	var raw_weekly: Variant = (raw_allocation as Dictionary).get(
+		"weekly_commitment", {}) if raw_allocation is Dictionary else {}
+	var commitment := _action_record_for_bundle_from_weekly_commitment(
+		raw_weekly as Dictionary if raw_weekly is Dictionary else {},
+		action_key, expected_action, source_turn)
+	var expected_receipt := _action_receipt_from_record(
+		action_key, bundle(action_key), commitment) \
+		if not commitment.is_empty() else {}
+	return _terminal_integral_number_matches(
+			action.get("turn", null), source_turn) \
+		and str(action.get("bundle_id", "")) == action_key \
+		and str(action.get("action_id", "")).strip_edges().to_lower() \
+			== expected_action \
+		and GameState.weekly_commitment_action_matches(
+			expected_action,
+			str(action.get("actual_action_id", "")).strip_edges().to_lower()) \
+		and str(details.get("execution", "")).strip_edges().to_lower() \
+			== expected_action \
+		and not expected_receipt.is_empty() \
+		and _terminal_variant_semantically_equal(action, expected_receipt)
+
 static func _terminal_relationship_proof_matches_state(
 		proof: Dictionary, source: Dictionary, state: Dictionary,
 		source_turn: int) -> bool:
@@ -4606,12 +5242,14 @@ static func _terminal_relationship_bundle_absent_in_month(
 	return true
 
 static func _terminal_dictionary_has_exact_keys(
-		value: Dictionary, expected_keys: Array[String]) -> bool:
+		value: Dictionary, expected_keys: Array) -> bool:
 	var actual: Array[String] = []
 	for raw_key in value:
 		actual.append(str(raw_key))
 	actual.sort()
-	var expected := expected_keys.duplicate()
+	var expected: Array[String] = []
+	for raw_key in expected_keys:
+		expected.append(str(raw_key))
 	expected.sort()
 	return actual == expected
 
@@ -4772,6 +5410,13 @@ static func _terminal_source_proof_has_exact_shape(
 				"action_receipt_key", "action_receipt",
 				"application_transition_receipt_key",
 				"application_transition_receipt",
+			])
+		"typed_action_receipt":
+			expected_keys.append_array([
+				"allocation_receipt_key", "allocation_receipt",
+				"trigger_receipt_key", "trigger_receipt",
+				"action_receipt_key", "action_receipt",
+				"completed_bundle_turn_key", "completed_bundle_turn",
 			])
 		"relationship_choice":
 			expected_keys.append_array([
@@ -6398,8 +7043,9 @@ static func _resolve_seoul_cycle_entry_public(
 			bundle_id, int(GameState.turn)):
 		return true
 	if not active_bundle_id().is_empty() \
-			or int(state["completed_bundle_turns"].get(bundle_id, 0)) \
-				!= int(GameState.turn):
+			or not _terminal_integral_number_matches(
+				state["completed_bundle_turns"].get(bundle_id, null),
+				int(GameState.turn)):
 		return false
 	if not _resolve_seoul_cycle_entry_in_state(
 			state, pending_key, receipt_key, bundle_id,
@@ -6436,9 +7082,12 @@ static func _seoul_cycle_resolved_receipt_matches(
 	var receipt: Dictionary = raw_receipt
 	if str(receipt.get("status", "")) != "resolved" \
 			or str(receipt.get("bundle_id", "")) != bundle_id \
-			or int(receipt.get("turn", 0)) != turn \
-			or int(receipt.get("claimed_turn", 0)) != turn \
-			or int(receipt.get("resolved_turn", 0)) != turn:
+			or not _terminal_integral_number_matches(
+				receipt.get("turn", null), turn) \
+			or not _terminal_integral_number_matches(
+				receipt.get("claimed_turn", null), turn) \
+			or not _terminal_integral_number_matches(
+				receipt.get("resolved_turn", null), turn):
 		return false
 	if pending_key == "pending_trigger":
 		return str(receipt.get("node_id", "")) == receipt_id
@@ -6455,12 +7104,19 @@ static func _resolve_seoul_cycle_entry_in_state(
 	var entry: Dictionary = (raw_entry as Dictionary).duplicate(true)
 	if str(entry.get("status", "")) != "claimed" \
 			or str(entry.get("bundle_id", "")) != bundle_id \
-			or int(entry.get("turn", 0)) != turn:
+			or not _terminal_integral_number_matches(
+				entry.get("turn", null), turn):
 		return false
 	var receipt_id := str(entry.get("node_id", "")) \
 		if pending_key == "pending_trigger" \
 		else _seoul_cycle_world_receipt_id(entry)
 	if receipt_id.is_empty():
+		return false
+	var raw_allocation: Variant = cycle.get(
+		"allocation_receipts", {}).get(str(turn), {}) \
+		if cycle.get("allocation_receipts", {}) is Dictionary else {}
+	if not raw_allocation is Dictionary \
+			or (raw_allocation as Dictionary).is_empty():
 		return false
 	if pending_key == "pending_trigger":
 		var node_id := str(entry.get("node_id", ""))
@@ -6482,6 +7138,14 @@ static func _resolve_seoul_cycle_entry_in_state(
 		"week_index": int(entry.get("week_index", 0)),
 	}):
 		return false
+	# Action triggers append their typed action result before this terminal
+	# completion row. Freeze the final outer weekly record back into the
+	# allocation receipt now, so the closed-month proof remains self-contained
+	# after the capped outer weekly ledger legitimately evicts this turn.
+	var refreshed_weekly := GameState.get_weekly_commitment_for_turn(turn)
+	var allocation: Dictionary = (raw_allocation as Dictionary).duplicate(true)
+	allocation["weekly_commitment"] = refreshed_weekly.duplicate(true)
+	cycle["allocation_receipts"][str(turn)] = allocation
 	entry["status"] = "resolved"
 	entry["resolved_turn"] = turn
 	cycle[receipt_key][receipt_id] = entry.duplicate(true)
@@ -7534,6 +8198,7 @@ static func commit_plan(
 		"forgone": forgone_this_month,
 		"planned_turn": GameState.turn,
 	}
+	_install_legacy_040746_plan_origin(state, month_index)
 	var month_key := str(month_index)
 	if not state["month_opening_snapshots"].has(month_key):
 		state["month_opening_snapshots"][month_key] = {
@@ -7906,6 +8571,9 @@ static func _terminal_completion_topology(
 		return {}
 	var projection := _terminal_node_runtime_projection(
 		node, _seoul_cycle_player_trigger_required(raw_authored as Dictionary))
+	if _terminal_node_has_binding(node):
+		projection["selected_trigger_bundle_id"] = str(node.get(
+			"selected_trigger_bundle_id", "")).strip_edges()
 	if not _terminal_completion_semantics_valid(
 			projection, allocation, trigger, source_month, node_id,
 			expected_bundle, raw_completed_turns as Array,
@@ -7958,6 +8626,9 @@ static func _terminal_expiry_topology(
 		return {}
 	var projection := _terminal_node_runtime_projection(
 		node, _seoul_cycle_player_trigger_required(raw_authored as Dictionary))
+	if _terminal_node_has_binding(node):
+		projection["selected_trigger_bundle_id"] = str(node.get(
+			"selected_trigger_bundle_id", "")).strip_edges()
 	if not _terminal_expiry_semantics_valid(
 			projection, expiry, source_month, node_id,
 			raw_completed_turns as Array, raw_expired_nodes as Array,
@@ -8090,8 +8761,10 @@ static func _terminal_story_choice_receipt(
 			or str(receipt.get("bundle_id", "")) != bundle_id \
 			or str(receipt.get("active_kind", "")) != "schedule" \
 			or str(receipt.get("event_id", "")) != event_id \
-			or int(receipt.get("choice_index", -1)) != choice_index \
-			or int(receipt.get("turn", 0)) != source_turn:
+			or not _terminal_integral_number_matches(
+				receipt.get("choice_index", null), choice_index) \
+			or not _terminal_integral_number_matches(
+				receipt.get("turn", null), source_turn):
 		return {}
 	return {
 		"key": "story_choice_receipts.%s" % receipt_key,
@@ -8105,15 +8778,33 @@ static func _terminal_story_receipts_for_identity(
 	var raw_receipts: Variant = state.get("story_choice_receipts", {})
 	if not raw_receipts is Dictionary:
 		return result
-	for raw_receipt in (raw_receipts as Dictionary).values():
-		if raw_receipt is Dictionary \
-				and str((raw_receipt as Dictionary).get("bundle_id", "")) \
-					== bundle_id \
-				and str((raw_receipt as Dictionary).get("event_id", "")) \
-					== event_id \
-				and int((raw_receipt as Dictionary).get("turn", 0)) \
-					== source_turn:
-			result.append(raw_receipt as Dictionary)
+	var scoped_prefix := "%s:%s:" % [bundle_id, event_id]
+	for raw_key in (raw_receipts as Dictionary).keys():
+		var key := str(raw_key)
+		var raw_receipt: Variant = (raw_receipts as Dictionary).get(raw_key, {})
+		var key_scoped := key.begins_with(scoped_prefix) \
+			and key.ends_with(":%d" % source_turn)
+		var value_scoped := raw_receipt is Dictionary \
+			and str((raw_receipt as Dictionary).get("bundle_id", "")) \
+				== bundle_id \
+			and str((raw_receipt as Dictionary).get("event_id", "")) \
+				== event_id \
+			and _terminal_integral_number_matches(
+				(raw_receipt as Dictionary).get("turn", null), source_turn)
+		if key_scoped != value_scoped:
+			return []
+		if not key_scoped:
+			continue
+		if not raw_receipt is Dictionary:
+			return []
+		var receipt: Dictionary = raw_receipt
+		var raw_choice: Variant = receipt.get("choice_index", null)
+		if not _terminal_integral_number_in_range(raw_choice, 0, 999) \
+				or key != "%s:%s:%d:%d" % [
+					bundle_id, event_id, int(raw_choice), source_turn] \
+				or str(receipt.get("receipt_key", "")) != key:
+			return []
+		result.append(receipt)
 	return result
 
 static func _terminal_selected_story_proof(
@@ -8249,6 +8940,37 @@ static func _terminal_source_proof(
 			proof["application_transition_receipt"] = (
 				transition.duplicate(true))
 			return proof if _terminal_typed_action_proof_matches_state(
+				proof, source, state, source_turn) else {}
+		"typed_action_receipt":
+			var action_key := str(source.get("proof_id", "")).strip_edges()
+			var expected_action := str(
+				source.get("action_id", "")).strip_edges().to_lower()
+			proof = _terminal_completion_topology(
+				state, cycle, node_id, action_key)
+			if proof.is_empty() or action_key.is_empty() \
+					or expected_action.is_empty():
+				return {}
+			var source_turn := int(proof.get("source_turn", 0))
+			var raw_action: Variant = state.get("action_receipts", {}).get(
+				action_key, {}) if state.get(
+					"action_receipts", {}) is Dictionary else {}
+			if not raw_action is Dictionary \
+					or int((raw_action as Dictionary).get("turn", 0)) \
+						!= source_turn \
+					or str((raw_action as Dictionary).get("bundle_id", "")) \
+						!= action_key \
+					or str((raw_action as Dictionary).get(
+						"action_id", "")).strip_edges().to_lower() \
+						!= expected_action \
+					or not _terminal_completed_bundle_state_valid(
+						state, action_key, source_turn):
+				return {}
+			proof["action_receipt_key"] = "action_receipts.%s" % action_key
+			proof["action_receipt"] = (raw_action as Dictionary).duplicate(true)
+			proof["completed_bundle_turn_key"] = (
+				"completed_bundle_turns.%s" % action_key)
+			proof["completed_bundle_turn"] = source_turn
+			return proof if _terminal_action_receipt_proof_matches_state(
 				proof, source, state, source_turn) else {}
 		"relationship_choice":
 			proof = _terminal_completion_topology(
@@ -9590,9 +10312,10 @@ static func acknowledge_action_story_result(
 ## and finalized weekly commitment still describe the same action.
 static func _action_record_for_bundle_from_weekly_commitment(
 		commitment: Dictionary, bundle_id: String,
-		expected_action: String) -> Dictionary:
+		expected_action: String, expected_turn: int = -1) -> Dictionary:
+	var record_turn := int(GameState.turn) if expected_turn < 1 else expected_turn
 	if commitment.is_empty() \
-			or int(commitment.get("turn", -1)) != int(GameState.turn):
+			or int(commitment.get("turn", -1)) != record_turn:
 		return {}
 	if str(commitment.get("pressure_id", "")) == bundle_id:
 		return commitment.duplicate(true)
@@ -9607,12 +10330,15 @@ static func _action_record_for_bundle_from_weekly_commitment(
 	var match_record: Dictionary = {}
 	for raw_followup in cycle_details.get("action_followups", []):
 		if not raw_followup is Dictionary:
-			continue
+			return {}
 		var followup: Dictionary = raw_followup
-		if str(followup.get("bundle_id", "")) != bundle_id \
-				or str(followup.get("action_id", "")).strip_edges().to_lower() \
-					!= expected_action \
-				or int(followup.get("turn", -1)) != int(GameState.turn):
+		var same_owner := str(followup.get("bundle_id", "")) == bundle_id
+		if same_owner and (str(followup.get(
+				"action_id", "")).strip_edges().to_lower() != expected_action \
+				or not _terminal_integral_number_matches(
+					followup.get("turn", null), record_turn)):
+			return {}
+		if not same_owner:
 			continue
 		if not match_record.is_empty():
 			return {}
@@ -9660,6 +10386,12 @@ static func recover_action_result() -> Dictionary:
 				!= expected_action \
 			or not GameState.weekly_commitment_action_matches(
 				expected_action, actual_action):
+		return {}
+	var expected_receipt := _action_receipt_from_record(
+		bundle_id, scene_bundle, commitment)
+	if expected_receipt.is_empty() \
+			or not _terminal_variant_semantically_equal(
+				receipt, expected_receipt):
 		return {}
 	GameState.core_loop_v2_state = state
 	var result := receipt.duplicate(true)
@@ -9914,6 +10646,140 @@ static func legacy_callback_is_superseded(callback_id: String) -> bool:
 		and str((raw_receipt as Dictionary).get(
 			"policy", "")) == "superseded"
 
+## Current generic application actions have one authored company/status owner.
+## A weekly row is durable evidence that the action ran, but its nested details
+## are not allowed to rename that application while a missing result receipt is
+## rebuilt after load.  Legacy schema-two rows are validated by their frozen
+## producer contract instead and intentionally do not enter this helper.
+static func _current_application_action_record_valid(
+		bundle_id: String, scene_bundle: Dictionary,
+		record: Dictionary) -> bool:
+	var expected_action := str(
+		scene_bundle.get("action_id", "")).strip_edges().to_lower()
+	var raw_details: Variant = record.get("details", null)
+	if expected_action != "apply":
+		if not raw_details is Dictionary:
+			return true
+		var non_apply_details: Dictionary = raw_details
+		if str(non_apply_details.get(
+				"execution", "")).strip_edges() == "job_hunt_application":
+			# The nested W1 resume/application producer has its own exact validator
+			# in `_action_receipt_from_record`.
+			return true
+		for forbidden_key in ["application_id", "status", "job_id"]:
+			if non_apply_details.has(forbidden_key):
+				return false
+		return true
+	var config: Dictionary = (
+		(scene_bundle.get("action_config", {}) as Dictionary).duplicate(true)
+		if scene_bundle.get("action_config", {}) is Dictionary else {}
+	)
+	var authored_execution := str(
+		config.get("execution", "")).strip_edges()
+	if authored_execution not in ["", "application"]:
+		return true
+	var application_id := str(
+		config.get("application_id", "")).strip_edges()
+	if application_id.is_empty() \
+			and bundle_id == "m1_mirae_application":
+		application_id = "mirae_industrial_tech"
+	elif application_id.is_empty():
+		application_id = bundle_id.trim_suffix("_application")
+		var prefix_end := application_id.find("_")
+		if prefix_end > 0:
+			application_id = application_id.substr(prefix_end + 1)
+	var status := str(config.get("status", "submitted")).strip_edges()
+	var job_id := str(config.get("job_id", "")).strip_edges()
+	if application_id.is_empty() or status.is_empty() \
+			or not raw_details is Dictionary:
+		return false
+	var details: Dictionary = raw_details
+	var exact_keys: Array[String] = [
+		"execution", "application_id", "status",
+	]
+	if not job_id.is_empty():
+		exact_keys.append("job_id")
+	return _terminal_dictionary_has_exact_keys(details, exact_keys) \
+		and str(details.get("execution", "")) == "application" \
+		and str(details.get("application_id", "")) == application_id \
+		and str(details.get("status", "")) == status \
+		and (job_id.is_empty() \
+			or str(details.get("job_id", "")) == job_id)
+
+## The fresh W1 resume is the one non-apply action allowed to produce an
+## application transition. During the live callback its phase is `minigame`,
+## but load-time recovery is valid only after the same transaction froze the
+## selected Seoul capacity and advanced the owner to `result_committed`.
+static func _current_job_hunt_application_recovery_valid(
+		state: Dictionary, bundle_id: String,
+		receipt: Dictionary) -> bool:
+	var raw_details: Variant = receipt.get("result_details", {})
+	if not raw_details is Dictionary:
+		return false
+	var details: Dictionary = raw_details
+	if str(details.get("execution", "")) != "job_hunt_application":
+		return true
+	var onboarding: Dictionary = state.get(W1_ONBOARDING_STATE_KEY, {})
+	if bundle_id != W1_ONBOARDING_BUNDLE_ID \
+			or str(onboarding.get("phase", "")) != "result_committed" \
+			or GameState.has_pending_weekly_commitment(1):
+		return false
+	var allocations := _terminal_w1_authority_allocations(state)
+	if allocations.size() != 1:
+		return false
+	var allocation: Dictionary = allocations.front()
+	if not _terminal_w1_capacity_identity_valid(
+			state, receipt, allocation):
+		return false
+	var raw_embedded: Variant = allocation.get("weekly_commitment", {})
+	if not raw_embedded is Dictionary:
+		return false
+	var embedded: Dictionary = raw_embedded
+	var outer := GameState.get_weekly_commitment_for_turn(1)
+	var raw_outer_details: Variant = outer.get("details", {})
+	if outer.is_empty() or not raw_outer_details is Dictionary:
+		return false
+	var outer_details: Dictionary = raw_outer_details
+	if str(outer.get("source", "")) != "seoul_cycle" \
+			or str(outer_details.get("execution", "")) != "seoul_cycle":
+		return false
+	for identity_key in [
+		"turn", "pressure_id", "pressure_family", "choice_id", "person_id",
+		"forgone_ids", "axis",
+	]:
+		if not _terminal_variant_semantically_equal(
+				embedded.get(identity_key, null), outer.get(identity_key, null)):
+			return false
+	var embedded_details: Dictionary = embedded.get("details", {}) \
+		if embedded.get("details", {}) is Dictionary else {}
+	var expected_detail_keys: Array[String] = []
+	for raw_key in embedded_details.keys():
+		expected_detail_keys.append(str(raw_key))
+	expected_detail_keys.append("action_followups")
+	if not _terminal_dictionary_has_exact_keys(
+			outer_details, expected_detail_keys):
+		return false
+	for raw_key in embedded_details.keys():
+		if not _terminal_variant_semantically_equal(
+				embedded_details[raw_key], outer_details.get(raw_key, null)):
+			return false
+	var nested := _action_record_for_bundle_from_weekly_commitment(
+		outer, bundle_id, "resume", 1)
+	if nested.is_empty():
+		return false
+	var nested_receipt := _action_receipt_from_record(
+		bundle_id, bundle(bundle_id), nested)
+	return not nested_receipt.is_empty() \
+		and _terminal_variant_semantically_equal(nested_receipt, receipt)
+
+static func _clear_current_w1_application_recovery_authority(
+		state: Dictionary) -> void:
+	state["action_receipts"].erase(W1_ONBOARDING_BUNDLE_ID)
+	state["application_statuses"].erase(W1_ONBOARDING_APPLICATION_ID)
+	state["application_transition_receipts"].erase(
+		"%s:application:1" % W1_ONBOARDING_BUNDLE_ID)
+	state["action_result_ready"] = false
+
 static func _action_receipt_from_record(
 		bundle_id: String, scene_bundle: Dictionary,
 		record: Dictionary) -> Dictionary:
@@ -10054,6 +10920,10 @@ static func _apply_action_application_receipt(
 	var details: Dictionary = receipt.get("result_details", {}) \
 		if receipt.get("result_details", {}) is Dictionary else {}
 	if str(details.get("execution", "")) != "job_hunt_application":
+		var prior_status := str(state["application_statuses"].get(
+			application_id, ""))
+		if prior_status not in ["", status]:
+			return false
 		state["application_statuses"][application_id] = status
 		return true
 	if bundle_id != W1_ONBOARDING_BUNDLE_ID \
@@ -10107,11 +10977,22 @@ static func note_action_commitment(record: Dictionary) -> bool:
 			or not record.get("outcome", {}) is Dictionary:
 		return false
 	var state := _normalized_state(GameState.core_loop_v2_state)
+	if not _current_application_action_record_valid(
+			active_id, active_bundle, record):
+		return false
+	var canonical_receipt := _action_receipt_from_record(
+		active_id, active_bundle, record)
+	if canonical_receipt.is_empty() \
+			or int(canonical_receipt.get("turn", -1)) != int(GameState.turn):
+		return false
 	if state["action_receipts"].has(active_id):
-		var existing: Dictionary = state["action_receipts"][active_id]
-		if int(existing.get("turn", -1)) != int(GameState.turn) \
-				or str(existing.get("action_id", "")) != expected_action:
+		var raw_existing: Variant = state["action_receipts"].get(
+			active_id, null)
+		if not raw_existing is Dictionary \
+				or not _terminal_variant_semantically_equal(
+				raw_existing, canonical_receipt):
 			return false
+		var existing: Dictionary = raw_existing
 		_clear_activity_task_session_for_owner(
 			state, active_id, int(GameState.turn))
 		if not _apply_action_application_receipt(state, active_id, existing):
@@ -10123,10 +11004,7 @@ static func note_action_commitment(record: Dictionary) -> bool:
 		)
 		GameState.core_loop_v2_state = state
 		return true
-	var receipt := _action_receipt_from_record(
-		active_id, active_bundle, record)
-	if receipt.is_empty() or int(receipt.get("turn", -1)) != int(GameState.turn):
-		return false
+	var receipt := canonical_receipt
 	state["action_receipts"][active_id] = receipt
 	_clear_activity_task_session_for_owner(
 		state, active_id, int(GameState.turn))
@@ -10380,6 +11258,16 @@ static func complete_fresh_w1_action_and_claim_interview() -> Dictionary:
 	}
 
 static func complete_active_bundle() -> String:
+	var raw_state: Variant = GameState.core_loop_v2_state
+	if not raw_state is Dictionary:
+		return ""
+	var raw_active_bundle := str((raw_state as Dictionary).get(
+		"active_bundle", "")).strip_edges()
+	if not raw_active_bundle.is_empty() \
+			and not _terminal_integral_number_matches(
+				(raw_state as Dictionary).get("active_turn", null),
+				int(GameState.turn)):
+		return ""
 	var state := _normalized_state(GameState.core_loop_v2_state)
 	var bundle_id := str(state.get("active_bundle", ""))
 	var kind := str(state.get("active_kind", ""))
@@ -10389,10 +11277,28 @@ static func complete_active_bundle() -> String:
 		state, bundle_id, int(GameState.turn))
 	var active_spec := bundle(bundle_id)
 	if kind == "schedule":
+		var legacy_sns_owner := bundle_id == "sns_pressure_night" \
+			and _legacy_sns_schedule_owner_valid(
+				state, int(GameState.turn))
 		var prelude_receipt := _scheduled_prelude_receipt_from_state(
 			state, bundle_id, int(GameState.turn))
+		if prelude_receipt.is_empty() \
+				and _scheduled_prelude_entry_present(
+					state, bundle_id, int(GameState.turn)):
+			return ""
 		if not prelude_receipt.is_empty() \
 				and str(prelude_receipt.get("status", "")) != "consumed":
+			return ""
+		if bundle_id == "sns_pressure_night" \
+				and not _sns_story_receipt_complete(state):
+			return ""
+		if bundle_id == "sns_pressure_night" and not legacy_sns_owner \
+				and (not _terminal_completed_bundle_state_valid(
+						state, "first_temptation_boss", 4) \
+					or prelude_receipt.is_empty() \
+					or str(prelude_receipt.get("consequence_id", "")) \
+						!= "temptation_consequence" \
+					or str(prelude_receipt.get("status", "")) != "consumed"):
 			return ""
 		var relationship_outcomes: Variant = active_spec.get(
 			"relationship_outcomes", [])
@@ -10448,6 +11354,14 @@ static func complete_active_bundle() -> String:
 				):
 			return ""
 	if kind == "consequence":
+		var legacy_active_opening := bundle_id == OPENING_INTERVIEW_BUNDLE_ID \
+			and _legacy_040746_active_source_owner(
+				state, bundle_id, kind, int(GameState.turn))
+		if legacy_active_opening \
+				and _legacy_040746_active_story_choice_from_flags(state) < 0:
+			# A pre-choice old save must replay its one historical root; it cannot
+			# be completed merely because MainGame re-entered the owner.
+			return ""
 		var consequence_application_outcomes: Variant = active_spec.get(
 			"application_outcomes", [])
 		if consequence_application_outcomes is Array \
@@ -10468,12 +11382,15 @@ static func complete_active_bundle() -> String:
 			completion_receipt = (
 				raw_existing_receipt as Dictionary).duplicate(true)
 		else:
+			var completion_roots := resolved_event_roots(bundle_id)
+			if legacy_active_opening:
+				completion_roots = [LEGACY_OPENING_INTERVIEW_ROOT]
 			completion_receipt = {
 				"consequence_id": bundle_id,
 				"scheduled_bundle": "",
 				"turn": int(GameState.turn),
 				"surface_kind": "legacy_separate",
-				"roots": resolved_event_roots(bundle_id),
+				"roots": completion_roots,
 				"presented_turn": int(GameState.turn),
 				"legacy_separate_owner": true,
 			}
@@ -10517,7 +11434,8 @@ static func complete_active_bundle() -> String:
 static func _seoul_cycle_pending_key_for_active(
 		state: Dictionary, bundle_id: String, turn: int) -> String:
 	if str(state.get("active_kind", "")) != "schedule" \
-			or int(state.get("active_turn", 0)) != turn:
+			or not _terminal_integral_number_matches(
+				state.get("active_turn", null), turn):
 		return ""
 	var cycle: Dictionary = state.get(SEOUL_CYCLE_STATE_KEY, {})
 	if cycle.is_empty():
@@ -10529,20 +11447,63 @@ static func _seoul_cycle_pending_key_for_active(
 					== "claimed" \
 				and str((raw_entry as Dictionary).get("bundle_id", "")) \
 					== bundle_id \
-				and int((raw_entry as Dictionary).get("turn", 0)) == turn:
+				and _terminal_integral_number_matches(
+					(raw_entry as Dictionary).get("turn", null), turn):
 			return pending_key
 	return ""
 
 static func _has_current_relationship_receipt(
 		state: Dictionary, bundle_id: String) -> bool:
-	for raw_receipt in state["relationship_choice_receipts"].values():
-		if raw_receipt is Dictionary \
-				and str((raw_receipt as Dictionary).get(
-					"bundle_id", "")) == bundle_id \
-				and int((raw_receipt as Dictionary).get(
-					"turn", -1)) == int(GameState.turn):
-			return true
-	return false
+	var raw_outcomes: Variant = bundle(bundle_id).get(
+		"relationship_outcomes", [])
+	if not raw_outcomes is Array or (raw_outcomes as Array).is_empty():
+		return false
+	var matches := 0
+	var matched_key := ""
+	var authored_events: Array[String] = []
+	for raw_outcome in raw_outcomes as Array:
+		if not raw_outcome is Dictionary:
+			return false
+		var outcome: Dictionary = raw_outcome
+		var event_id := str(outcome.get("event_id", "")).strip_edges()
+		if not event_id.is_empty() and not authored_events.has(event_id):
+			authored_events.append(event_id)
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		var raw_choices: Variant = event.get("choices", [])
+		if event_id.is_empty() or event.is_empty() or not raw_choices is Array:
+			return false
+		var story_owner := _story_choice_transport_owner_id(
+			state, bundle_id, event_id)
+		if story_owner.is_empty():
+			return false
+		for choice_index in range((raw_choices as Array).size()):
+			if not _outcome_choice_matches(outcome, choice_index) \
+					or not _current_story_choice_receipt_valid(
+						state, story_owner,
+						str(state.get("active_kind", "")), event_id,
+						choice_index, int(GameState.turn)):
+				continue
+			var receipt_key := "%s:%s:%d:%d" % [
+				bundle_id, event_id, choice_index, int(GameState.turn)]
+			if not state["relationship_choice_receipts"].has(receipt_key):
+				return false
+			var raw_receipt: Variant = state[
+				"relationship_choice_receipts"].get(receipt_key, null)
+			if not raw_receipt is Dictionary:
+				return false
+			var receipt: Dictionary = raw_receipt
+			var resolved := _relationship_outcome_for_choice(
+				bundle_id, event_id, choice_index, state)
+			if resolved.is_empty() \
+					or not _current_relationship_receipt_valid(
+						state, receipt_key, receipt, resolved):
+				return false
+			matches += 1
+			matched_key = receipt_key
+	return matches == 1 \
+		and _current_outcome_receipt_ledger_census_valid(
+			state, "relationship_choice_receipts", bundle_id,
+			authored_events, int(GameState.turn), matched_key)
 
 static func _is_action_story_bundle(scene_bundle: Dictionary) -> bool:
 	var roots: Variant = scene_bundle.get("existing_roots", [])
@@ -10559,12 +11520,16 @@ static func _has_current_action_story_acknowledgement(
 	if not raw_acknowledgement is Dictionary:
 		return false
 	var acknowledgement: Dictionary = raw_acknowledgement
-	return str(acknowledgement.get("bundle_id", "")) == bundle_id \
+	return _terminal_dictionary_has_exact_keys(acknowledgement, [
+			"bundle_id", "action_id", "turn", "status",
+		]) \
+		and str(acknowledgement.get("bundle_id", "")) == bundle_id \
 		and str(acknowledgement.get(
 			"action_id", "")).strip_edges().to_lower() \
 			== str(scene_bundle.get(
 				"action_id", "")).strip_edges().to_lower() \
-		and int(acknowledgement.get("turn", -1)) == int(GameState.turn) \
+		and _terminal_integral_number_matches(
+			acknowledgement.get("turn", null), int(GameState.turn)) \
 		and str(acknowledgement.get("status", "")) == "acknowledged"
 
 static func _has_current_bundle_story_receipt(
@@ -10572,16 +11537,72 @@ static func _has_current_bundle_story_receipt(
 	var event_ids := _bundle_story_event_ids(bundle_id)
 	if event_ids.is_empty():
 		return false
-	for raw_story_receipt in state["story_choice_receipts"].values():
-		if not raw_story_receipt is Dictionary:
+	var root_ids: Variant = bundle(bundle_id).get("existing_roots", [])
+	if not root_ids is Array or (root_ids as Array).is_empty():
+		return false
+	var current_receipts := 0
+	for raw_key in state["story_choice_receipts"].keys():
+		var key := str(raw_key)
+		var raw_story_receipt: Variant = state["story_choice_receipts"].get(
+			raw_key, null)
+		var key_parts := key.split(":", false)
+		var owner_key := key == bundle_id \
+			or key.begins_with("%s:" % bundle_id)
+		var key_event := str(key_parts[1]) if key_parts.size() >= 2 else ""
+		var key_targets_current := key_parts.size() == 4 \
+			and str(key_parts[3]) == str(int(GameState.turn))
+		var malformed_owner_key := owner_key \
+			and (key_parts.size() != 4 or not event_ids.has(key_event))
+		var key_scoped := owner_key \
+			and (malformed_owner_key or key_targets_current)
+		var value_scoped := raw_story_receipt is Dictionary \
+			and str((raw_story_receipt as Dictionary).get(
+				"bundle_id", "")) == bundle_id \
+			and _terminal_integral_number_matches(
+				(raw_story_receipt as Dictionary).get("turn", null),
+				int(GameState.turn))
+		if not key_scoped and not value_scoped:
 			continue
+		if not raw_story_receipt is Dictionary:
+			return false
 		var receipt: Dictionary = raw_story_receipt
-		if str(receipt.get("bundle_id", "")) == bundle_id \
-				and str(receipt.get("active_kind", "")) == "schedule" \
-				and int(receipt.get("turn", -1)) == int(GameState.turn) \
-				and event_ids.has(str(receipt.get("event_id", ""))):
-			return true
-	return false
+		var event_id := str(receipt.get("event_id", ""))
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		var choices: Variant = event.get("choices", [])
+		var raw_choice: Variant = receipt.get("choice_index", null)
+		if not key_scoped or malformed_owner_key or not value_scoped \
+				or not event_ids.has(event_id) or event.is_empty() \
+				or not choices is Array or (choices as Array).is_empty() \
+				or not _terminal_integral_number_in_range(
+					raw_choice, 0, (choices as Array).size() - 1) \
+				or not _terminal_dictionary_has_exact_keys(receipt, [
+					"receipt_key", "bundle_id", "active_kind", "event_id",
+					"choice_index", "turn",
+				]) \
+				or str(receipt.get("active_kind", "")) != "schedule":
+			return false
+		var expected_key := "%s:%s:%d:%d" % [
+			bundle_id, event_id, int(raw_choice), int(GameState.turn)]
+		if key != expected_key \
+				or str(receipt.get("receipt_key", "")) != expected_key:
+			return false
+		current_receipts += 1
+	# Action-story owners in the current contract have one terminal authored
+	# root and no follow-up chain. Require that exact root, rather than accepting
+	# an arbitrary reachable sibling as proof that StoryMode actually returned.
+	if current_receipts != 1:
+		return false
+	for raw_root in root_ids as Array:
+		var root_id := str(raw_root).strip_edges()
+		var root_receipts := _terminal_story_receipts_for_identity(
+			state, bundle_id, root_id, int(GameState.turn))
+		if root_id.is_empty() or root_receipts.size() != 1 \
+				or not _current_story_choice_receipt_valid(
+					state, bundle_id, "schedule", root_id,
+					int(root_receipts[0].get("choice_index", -1)),
+					int(GameState.turn)):
+			return false
+	return true
 
 static func _bundle_story_event_ids(bundle_id: String) -> Array:
 	var result: Array = []
@@ -10604,16 +11625,357 @@ static func _bundle_story_event_ids(bundle_id: String) -> Array:
 				pending.append(follow_up)
 	return result
 
-static func _has_current_application_receipt(
-		state: Dictionary, bundle_id: String) -> bool:
-	for raw_receipt in state["application_transition_receipts"].values():
+static func _current_story_choice_receipt_valid(
+		state: Dictionary, bundle_id: String, active_kind: String,
+		event_id: String, choice_index: int, target_turn: int) -> bool:
+	var raw_receipts: Variant = state.get("story_choice_receipts", {})
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	var raw_choices: Variant = event.get("choices", [])
+	if not raw_receipts is Dictionary or event.is_empty() \
+			or not raw_choices is Array or choice_index < 0 \
+			or choice_index >= (raw_choices as Array).size() \
+			or not (raw_choices as Array)[choice_index] is Dictionary:
+		return false
+	var choice: Dictionary = (raw_choices as Array)[choice_index]
+	var initiated_character := str(choice.get(
+		"v2_player_initiated_character", "")).strip_edges()
+	var expected_keys := [
+		"receipt_key", "bundle_id", "active_kind", "event_id",
+		"choice_index", "turn",
+	]
+	if not initiated_character.is_empty():
+		expected_keys.append("player_initiated_character")
+	var receipt_key := "%s:%s:%d:%d" % [
+		bundle_id, event_id, choice_index, target_turn]
+	if not (raw_receipts as Dictionary).has(receipt_key):
+		return false
+	var raw_receipt: Variant = (raw_receipts as Dictionary).get(
+		receipt_key, null)
+	if not raw_receipt is Dictionary:
+		return false
+	var receipt: Dictionary = raw_receipt
+	if not _terminal_dictionary_has_exact_keys(receipt, expected_keys) \
+			or str(receipt.get("receipt_key", "")) != receipt_key \
+			or str(receipt.get("bundle_id", "")) != bundle_id \
+			or str(receipt.get("active_kind", "")) != active_kind \
+			or str(receipt.get("event_id", "")) != event_id \
+			or not _terminal_integral_number_matches(
+				receipt.get("choice_index", null), choice_index) \
+			or not _terminal_integral_number_matches(
+				receipt.get("turn", null), target_turn):
+		return false
+	if initiated_character.is_empty():
+		return _current_story_choice_receipt_census_valid(
+			raw_receipts as Dictionary, bundle_id, event_id,
+			target_turn, receipt_key)
+	return str(receipt.get("player_initiated_character", "")) \
+			== initiated_character \
+		and GameState.cast.has(initiated_character) \
+		and state.get("player_initiated", []) is Array \
+		and (state.get("player_initiated", []) as Array).has(
+			initiated_character) \
+		and _current_story_choice_receipt_census_valid(
+			raw_receipts as Dictionary, bundle_id, event_id,
+			target_turn, receipt_key)
+
+static func _current_story_choice_receipt_census_valid(
+		receipts: Dictionary, bundle_id: String, event_id: String,
+		target_turn: int, expected_key: String) -> bool:
+	var base_key := "%s:%s" % [bundle_id, event_id]
+	var matches := 0
+	for raw_key in receipts.keys():
+		var key := str(raw_key)
+		var raw_receipt: Variant = receipts.get(raw_key, null)
+		var parts := key.split(":", false)
+		var grammar_valid := parts.size() == 4 \
+			and str(parts[2]).is_valid_int() \
+			and str(parts[3]).is_valid_int()
+		var owner_event_key := key == base_key \
+			or key.begins_with("%s:" % base_key)
+		var key_scoped := (owner_event_key and (not grammar_valid \
+			or str(parts[3]) == str(target_turn))) \
+			or (grammar_valid \
+				and str(parts[1]) == event_id \
+				and str(parts[3]) == str(target_turn))
+		var value_scoped := raw_receipt is Dictionary \
+			and str((raw_receipt as Dictionary).get("event_id", "")) \
+				== event_id \
+			and _terminal_integral_number_matches(
+				(raw_receipt as Dictionary).get("turn", null), target_turn)
+		if not key_scoped and not value_scoped:
+			continue
+		if not raw_receipt is Dictionary \
+				or not key_scoped or not value_scoped \
+				or key != expected_key \
+				or str((raw_receipt as Dictionary).get(
+					"bundle_id", "")) != bundle_id:
+			return false
+		matches += 1
+	return matches == 1
+
+static func _live_story_owner_event_ids(
+		state: Dictionary, bundle_id: String) -> Array:
+	var result := _bundle_story_event_ids(bundle_id)
+	var prelude := _scheduled_prelude_receipt_from_state(
+		state, bundle_id, int(GameState.turn))
+	var raw_roots: Variant = prelude.get("roots", [])
+	if raw_roots is Array:
+		for raw_root in raw_roots as Array:
+			var root_id := str(raw_root).strip_edges()
+			if not root_id.is_empty() and not result.has(root_id):
+				result.append(root_id)
+	return result
+
+static func _current_story_owner_receipts_valid(
+		state: Dictionary, bundle_id: String,
+		active_kind: String, target_turn: int) -> bool:
+	var raw_receipts: Variant = state.get("story_choice_receipts", {})
+	var event_ids := _live_story_owner_event_ids(state, bundle_id)
+	if not raw_receipts is Dictionary or event_ids.is_empty():
+		return false
+	for raw_key in (raw_receipts as Dictionary).keys():
+		var key := str(raw_key)
+		var raw_receipt: Variant = (raw_receipts as Dictionary).get(
+			raw_key, null)
+		var parts := key.split(":", false)
+		var owner_key := key == bundle_id \
+			or key.begins_with("%s:" % bundle_id)
+		var grammar_valid := parts.size() == 4 \
+			and str(parts[2]).is_valid_int() \
+			and str(parts[3]).is_valid_int()
+		if owner_key and (not grammar_valid \
+				or not event_ids.has(str(parts[1]))):
+			return false
+		var key_current := grammar_valid \
+			and str(parts[3]) == str(target_turn) \
+			and (owner_key or event_ids.has(str(parts[1])))
+		var value_current := raw_receipt is Dictionary \
+			and _terminal_integral_number_matches(
+				(raw_receipt as Dictionary).get("turn", null), target_turn) \
+			and (str((raw_receipt as Dictionary).get(
+				"bundle_id", "")) == bundle_id \
+				or event_ids.has(str((raw_receipt as Dictionary).get(
+					"event_id", ""))))
+		if not key_current and not value_current:
+			continue
+		if not raw_receipt is Dictionary \
+				or not key_current or not value_current:
+			return false
+		var receipt: Dictionary = raw_receipt
+		var event_id := str(receipt.get("event_id", ""))
+		var choice_index := int(receipt.get("choice_index", -1))
+		if str(receipt.get("bundle_id", "")) != bundle_id \
+				or not event_ids.has(event_id) \
+				or not _current_story_choice_receipt_valid(
+					state, bundle_id, active_kind, event_id,
+					choice_index, target_turn):
+			return false
+	return true
+
+static func _current_story_owner_scope_present(
+		state: Dictionary, bundle_id: String, target_turn: int) -> bool:
+	var raw_receipts: Variant = state.get("story_choice_receipts", {})
+	var event_ids := _live_story_owner_event_ids(state, bundle_id)
+	if not raw_receipts is Dictionary:
+		return true
+	for raw_key in (raw_receipts as Dictionary).keys():
+		var key := str(raw_key)
+		var raw_receipt: Variant = (raw_receipts as Dictionary).get(
+			raw_key, null)
+		var parts := key.split(":", false)
+		var owner_key := key == bundle_id \
+			or key.begins_with("%s:" % bundle_id)
+		if owner_key and parts.size() != 4:
+			return true
+		if parts.size() == 4 and str(parts[3]) == str(target_turn) \
+				and (owner_key or event_ids.has(str(parts[1]))):
+			return true
 		if raw_receipt is Dictionary \
-				and str((raw_receipt as Dictionary).get(
+				and _terminal_integral_number_matches(
+					(raw_receipt as Dictionary).get("turn", null), target_turn) \
+				and (str((raw_receipt as Dictionary).get(
 					"bundle_id", "")) == bundle_id \
-				and int((raw_receipt as Dictionary).get(
-					"turn", -1)) == int(GameState.turn):
+					or event_ids.has(str((raw_receipt as Dictionary).get(
+						"event_id", "")))):
 			return true
 	return false
+
+static func _has_current_application_receipt(
+		state: Dictionary, bundle_id: String) -> bool:
+	var scene_bundle := bundle(bundle_id)
+	var raw_outcomes: Variant = scene_bundle.get("application_outcomes", [])
+	if not raw_outcomes is Array or (raw_outcomes as Array).is_empty():
+		return false
+	var matches := 0
+	var matched_key := ""
+	var authored_events: Array[String] = []
+	for raw_outcome in raw_outcomes as Array:
+		if not raw_outcome is Dictionary:
+			return false
+		var outcome: Dictionary = raw_outcome
+		if not _outcome_runtime_applicable(state, bundle_id, outcome):
+			continue
+		var event_id := str(outcome.get("event_id", "")).strip_edges()
+		if not event_id.is_empty() and not authored_events.has(event_id):
+			authored_events.append(event_id)
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		var raw_choices: Variant = event.get("choices", [])
+		if event_id.is_empty() or event.is_empty() or not raw_choices is Array:
+			return false
+		var story_owner := _story_choice_transport_owner_id(
+			state, bundle_id, event_id)
+		if story_owner.is_empty():
+			return false
+		for choice_index in range((raw_choices as Array).size()):
+			if not _outcome_choice_matches(outcome, choice_index) \
+					or not _current_story_choice_receipt_valid(
+						state, story_owner,
+						str(state.get("active_kind", "")), event_id,
+						choice_index, int(GameState.turn)):
+				continue
+			var receipt_key := "%s:%s:%d:%d" % [
+				bundle_id, event_id, choice_index, int(GameState.turn)]
+			if not state["application_transition_receipts"].has(receipt_key):
+				return false
+			var raw_receipt: Variant = state[
+				"application_transition_receipts"].get(receipt_key, null)
+			if not raw_receipt is Dictionary:
+				return false
+			var receipt: Dictionary = raw_receipt
+			var application_id := str(outcome.get(
+				"application_id", "")).strip_edges()
+			var from_status := str(outcome.get("from", "")).strip_edges()
+			var to_status := str(outcome.get("to", "")).strip_edges()
+			if application_id.is_empty() or from_status.is_empty() \
+					or to_status.is_empty() or from_status == to_status \
+					or not _terminal_dictionary_has_exact_keys(receipt, [
+						"receipt_key", "application_id", "from", "to",
+						"bundle_id", "event_id", "choice_index", "turn",
+					]) \
+					or str(receipt.get("receipt_key", "")) != receipt_key \
+					or str(receipt.get("application_id", "")) \
+						!= application_id \
+					or str(receipt.get("from", "")) != from_status \
+					or str(receipt.get("to", "")) != to_status \
+					or str(receipt.get("bundle_id", "")) != bundle_id \
+					or str(receipt.get("event_id", "")) != event_id \
+					or not _terminal_integral_number_matches(
+						receipt.get("choice_index", null), choice_index) \
+					or not _terminal_integral_number_matches(
+						receipt.get("turn", null), int(GameState.turn)) \
+					or str(state["application_statuses"].get(
+						application_id, "")) != to_status:
+				return false
+			matches += 1
+			matched_key = receipt_key
+	return matches == 1 \
+		and _current_outcome_receipt_ledger_census_valid(
+			state, "application_transition_receipts", bundle_id,
+			authored_events, int(GameState.turn), matched_key)
+
+static func _story_choice_transport_owner_id(
+		state: Dictionary, outcome_owner_id: String,
+		event_id: String) -> String:
+	var active_id := str(state.get("active_bundle", "")).strip_edges()
+	var active_turn := int(state.get("active_turn", 0))
+	if active_id.is_empty() or active_turn != int(GameState.turn):
+		return ""
+	if active_id == outcome_owner_id \
+			and _live_story_owner_event_ids(state, active_id).has(event_id):
+		return active_id
+	var prelude := _scheduled_prelude_receipt_from_state(
+		state, active_id, active_turn)
+	var raw_roots: Variant = prelude.get("roots", [])
+	if str(prelude.get("consequence_id", "")) == outcome_owner_id \
+			and raw_roots is Array \
+			and (raw_roots as Array).has(event_id):
+		return active_id
+	return ""
+
+static func _current_outcome_receipt_ledger_census_valid(
+		state: Dictionary, ledger_key: String, bundle_id: String,
+		authored_event_ids: Array[String], target_turn: int,
+		expected_key: String) -> bool:
+	var raw_ledger: Variant = state.get(ledger_key, {})
+	if not raw_ledger is Dictionary or expected_key.is_empty():
+		return false
+	var current_matches := 0
+	for raw_key in (raw_ledger as Dictionary).keys():
+		var key := str(raw_key)
+		var raw_receipt: Variant = (raw_ledger as Dictionary).get(
+			raw_key, null)
+		var key_parts := key.split(":", false)
+		var owner_key := key == bundle_id \
+			or key.begins_with("%s:" % bundle_id)
+		if _current_outcome_receipt_allowed_sibling(
+				state, ledger_key, bundle_id, target_turn,
+				key, raw_receipt):
+			continue
+		if owner_key and (key_parts.size() != 4 \
+				or not authored_event_ids.has(str(key_parts[1])) \
+				or not str(key_parts[2]).is_valid_int() \
+				or not str(key_parts[3]).is_valid_int()):
+			return false
+		var key_current := owner_key and key_parts.size() == 4 \
+			and authored_event_ids.has(str(key_parts[1])) \
+			and str(key_parts[3]) == str(target_turn)
+		var value_current := raw_receipt is Dictionary \
+			and _terminal_integral_number_matches(
+				(raw_receipt as Dictionary).get("turn", null), target_turn) \
+			and (str((raw_receipt as Dictionary).get(
+				"bundle_id", "")) == bundle_id \
+				or authored_event_ids.has(str((raw_receipt as Dictionary).get(
+					"event_id", ""))))
+		if not key_current and not value_current:
+			continue
+		if not raw_receipt is Dictionary \
+				or not key_current or not value_current \
+				or key != expected_key:
+			return false
+		current_matches += 1
+	return current_matches == 1
+
+static func _current_outcome_receipt_allowed_sibling(
+		state: Dictionary, ledger_key: String, bundle_id: String,
+		target_turn: int, key: String, raw_receipt: Variant) -> bool:
+	# The pre-ORDER-101 Story-owned Send is a real first transition, followed in
+	# the same week by the interview transition.  It is the sole legitimate
+	# same-owner sibling in this outcome ledger.  Admit its frozen producer shape
+	# exactly; every unknown event or partial receipt remains a failed census.
+	if ledger_key != "application_transition_receipts" \
+			or bundle_id != OPENING_INTERVIEW_BUNDLE_ID \
+			or target_turn != 1 or not raw_receipt is Dictionary:
+		return false
+	var application_id := _preplan_opening_application_id()
+	var expected_key := "%s:%s:0:1" % [
+		OPENING_INTERVIEW_BUNDLE_ID, OPENING_APPLICATION_EVENT_ID]
+	var receipt: Dictionary = raw_receipt
+	return not application_id.is_empty() \
+		and key == expected_key \
+		and _terminal_dictionary_has_exact_keys(receipt, [
+			"receipt_key", "application_id", "from", "to", "bundle_id",
+			"event_id", "choice_index", "turn", "source",
+		]) \
+		and str(receipt.get("receipt_key", "")) == expected_key \
+		and str(receipt.get("application_id", "")) == application_id \
+		and str(receipt.get("from", "")) == "not_submitted" \
+		and str(receipt.get("to", "")) == "submitted" \
+		and str(receipt.get("bundle_id", "")) \
+			== OPENING_INTERVIEW_BUNDLE_ID \
+		and str(receipt.get("event_id", "")) \
+			== OPENING_APPLICATION_EVENT_ID \
+		and _terminal_integral_number_matches(
+			receipt.get("choice_index", null), 0) \
+		and _terminal_integral_number_matches(receipt.get("turn", null), 1) \
+		and str(receipt.get("source", "")) == "legacy_story_send" \
+		and (state.get(W1_ONBOARDING_STATE_KEY, {}) as Dictionary).is_empty() \
+		and str(state["application_statuses"].get(application_id, "")) \
+			== "interviewed" \
+		and bool(GameState.flags.get("story_job_unlocked", false)) \
+		and bool(GameState.flags.get(
+			"opening_interview_application_sent", false)) \
+		and bool(GameState.flags.get(
+			"opening_preplan_application_sent", false))
 
 static func _selected_choice_requires_outcome_receipt(
 		state: Dictionary, bundle_id: String, outcome_field: String) -> bool:
@@ -10681,21 +12043,58 @@ static func cancel_active_bundle() -> void:
 ## scheduled owner. The receipt is written before StoryMode opens, so a save
 ## inside the prelude cannot replay it or create another foreground owner.
 static func claim_scheduled_prelude(scheduled_bundle: String) -> Dictionary:
+	var raw_state: Variant = GameState.core_loop_v2_state
+	if not raw_state is Dictionary \
+			or not _terminal_integral_number_matches(
+				(raw_state as Dictionary).get("active_turn", null),
+				int(GameState.turn)):
+		return {"ok": false, "error": "scheduled_owner_mismatch"}
 	var state := _normalized_state(GameState.core_loop_v2_state)
 	if scheduled_bundle.is_empty() \
 			or str(state.get("active_bundle", "")) != scheduled_bundle \
 			or str(state.get("active_kind", "")) != "schedule" \
 			or int(state.get("active_turn", 0)) != int(GameState.turn):
 		return {"ok": false, "error": "scheduled_owner_mismatch"}
+	var legacy_sns_owner := scheduled_bundle == "sns_pressure_night" \
+		and _legacy_sns_schedule_owner_valid(state, int(GameState.turn))
+	var strict_sns_owner := scheduled_bundle == "sns_pressure_night" \
+		and int(GameState.turn) == _seoul_cycle_month_end_turn(2) \
+		and not legacy_sns_owner
+	var canonical_temptation_root := ""
+	if strict_sns_owner:
+		canonical_temptation_root = _canonical_w4_temptation_root(state)
+		if not _terminal_completed_bundle_state_valid(
+				state, "first_temptation_boss", 4) \
+				or canonical_temptation_root.is_empty():
+			return {"ok": false, "error": "invalid_prelude_receipt"}
 	var existing := _scheduled_prelude_receipt_from_state(
 		state, scheduled_bundle, int(GameState.turn))
+	if strict_sns_owner \
+			and ((_sns_temptation_claim_material_present(state) \
+					and existing.is_empty()) \
+				or (not existing.is_empty() \
+					and (str(existing.get("consequence_id", "")) \
+							!= "temptation_consequence" \
+						or existing.get("roots", []) \
+							!= [canonical_temptation_root]))):
+		return {"ok": false, "error": "invalid_prelude_receipt"}
 	if not existing.is_empty():
 		return {
 			"ok": true,
 			"claimed": false,
 			"receipt": existing,
 		}
+	if _scheduled_prelude_entry_present(
+			state, scheduled_bundle, int(GameState.turn)):
+		return {"ok": false, "error": "invalid_prelude_receipt"}
+	if legacy_sns_owner:
+		# The old calendar always presented pending consequences as independent
+		# foreground owners before the scheduled story. MainGame preserves that
+		# route explicitly; never relabel one as an attached ORDER-101 prelude.
+		return {"ok": true, "claimed": false, "receipt": {}}
 	var consequence_id := pending_consequence_id()
+	if consequence_id == scheduled_bundle:
+		consequence_id = ""
 	if consequence_id.is_empty():
 		return {"ok": true, "claimed": false, "receipt": {}}
 	var roots := resolved_event_roots(consequence_id)
@@ -10705,6 +12104,10 @@ static func claim_scheduled_prelude(scheduled_bundle: String) -> Dictionary:
 			"error": "missing_consequence_roots",
 			"consequence_id": consequence_id,
 		}
+	if strict_sns_owner \
+			and (consequence_id != "temptation_consequence" \
+				or roots != [canonical_temptation_root]):
+		return {"ok": false, "error": "invalid_prelude_receipt"}
 	var scheduled_spec := bundle(scheduled_bundle)
 	var surface_kind := ""
 	if not str(scheduled_spec.get("action_id", "")).is_empty():
@@ -10750,10 +12153,547 @@ static func scheduled_prelude_receipt(
 	return _scheduled_prelude_receipt_from_state(
 		state, owner, receipt_turn)
 
+static func _story_receipt_prefix_entries_valid(
+		state: Dictionary, bundle_id: String, event_id: String,
+		target_turn: int) -> bool:
+	var raw_receipts: Variant = state.get("story_choice_receipts", {})
+	if not raw_receipts is Dictionary:
+		return false
+	var prefix := "%s:%s:" % [bundle_id, event_id]
+	for raw_key in (raw_receipts as Dictionary).keys():
+		var key := str(raw_key)
+		if key != "%s:%s" % [bundle_id, event_id] \
+				and not key.begins_with(prefix):
+			continue
+		var raw_receipt: Variant = (raw_receipts as Dictionary).get(raw_key, {})
+		if not raw_receipt is Dictionary:
+			return false
+		var receipt: Dictionary = raw_receipt
+		var raw_choice: Variant = receipt.get("choice_index", null)
+		if not _terminal_integral_number_in_range(raw_choice, 0, 999) \
+				or key != "%s:%s:%d:%d" % [
+					bundle_id, event_id, int(raw_choice), target_turn] \
+				or str(receipt.get("receipt_key", "")) != key \
+				or str(receipt.get("bundle_id", "")) != bundle_id \
+				or str(receipt.get("event_id", "")) != event_id \
+				or not _terminal_integral_number_matches(
+					receipt.get("turn", null), target_turn):
+			return false
+	return true
+
+static func _story_receipt_owner_union_valid(
+		state: Dictionary, bundle_id: String,
+		authored_event_ids: Array, target_turn: int,
+		expected_active_kind: String = "") -> bool:
+	var raw_receipts: Variant = state.get("story_choice_receipts", {})
+	if not raw_receipts is Dictionary \
+			or bundle_id.is_empty() or authored_event_ids.is_empty():
+		return false
+	for raw_key in (raw_receipts as Dictionary).keys():
+		var key := str(raw_key)
+		var raw_receipt: Variant = (raw_receipts as Dictionary).get(
+			raw_key, null)
+		var key_parts := key.split(":", false)
+		var key_scoped := key == bundle_id \
+			or key.begins_with("%s:" % bundle_id) \
+			or (key_parts.size() >= 2 \
+				and authored_event_ids.has(str(key_parts[1])))
+		var value_scoped := raw_receipt is Dictionary \
+			and (str((raw_receipt as Dictionary).get(
+				"bundle_id", "")) == bundle_id \
+				or authored_event_ids.has(str((raw_receipt as Dictionary).get(
+					"event_id", ""))))
+		if not key_scoped and not value_scoped:
+			continue
+		if not raw_receipt is Dictionary:
+			return false
+		var receipt: Dictionary = raw_receipt
+		var event_id := str(receipt.get("event_id", ""))
+		var raw_choice: Variant = receipt.get("choice_index", null)
+		if str(receipt.get("bundle_id", "")) != bundle_id \
+				or not authored_event_ids.has(event_id) \
+				or not _terminal_integral_number_in_range(raw_choice, 0, 999) \
+				or not _terminal_integral_number_matches(
+					receipt.get("turn", null), target_turn):
+			return false
+		var expected_key := "%s:%s:%d:%d" % [
+			bundle_id, event_id, int(raw_choice), target_turn]
+		if key != expected_key \
+				or str(receipt.get("receipt_key", "")) != expected_key \
+				or not _terminal_dictionary_has_exact_keys(receipt, [
+					"receipt_key", "bundle_id", "active_kind", "event_id",
+					"choice_index", "turn",
+				]) \
+				or (not expected_active_kind.is_empty() \
+					and str(receipt.get("active_kind", "")) \
+						!= expected_active_kind):
+			return false
+	return true
+
+## The Week-Eight SNS owner carries the temptation fallout as an attached
+## system consequence.  Consuming that attachment without reading both roots
+## would silently erase their effects while still completing the week, so its
+## receipt is authoritative only after each root has one exact current choice.
+static func _scheduled_prelude_story_receipts_complete(
+		state: Dictionary, receipt: Dictionary) -> bool:
+	var consequence_id := str(receipt.get(
+		"consequence_id", "")).strip_edges()
+	if consequence_id != "temptation_consequence":
+		return true
+	var scheduled_bundle := str(receipt.get(
+		"scheduled_bundle", "")).strip_edges()
+	var raw_receipt_turn: Variant = receipt.get("turn", null)
+	if not _terminal_integral_number_in_range(raw_receipt_turn, 1, 240):
+		return false
+	var receipt_turn := int(raw_receipt_turn)
+	var roots: Array = receipt.get("roots", []) \
+		if receipt.get("roots", []) is Array else []
+	var expected_root := _canonical_w4_temptation_root(state)
+	if scheduled_bundle.is_empty() \
+			or expected_root.is_empty() \
+			or roots != [expected_root]:
+		return false
+	var temptation_roots := [
+		"arc_temptation_clean", "arc_temptation_fallout"]
+	var owner_event_union := temptation_roots.duplicate()
+	owner_event_union.append("arc_intro_03_sns")
+	if not _story_receipt_owner_union_valid(
+			state, scheduled_bundle, owner_event_union,
+			receipt_turn, "schedule"):
+		return false
+	for temptation_root in temptation_roots:
+		if not _story_receipt_prefix_entries_valid(
+				state, scheduled_bundle, temptation_root, receipt_turn):
+			return false
+	for raw_story_receipt in state["story_choice_receipts"].values():
+		if not raw_story_receipt is Dictionary:
+			continue
+		var grouped_receipt: Dictionary = raw_story_receipt
+		var grouped_event := str(grouped_receipt.get("event_id", ""))
+		if str(grouped_receipt.get("bundle_id", "")) != scheduled_bundle \
+				or grouped_event not in temptation_roots:
+			continue
+		var grouped_raw_turn: Variant = grouped_receipt.get("turn", null)
+		if not _terminal_integral_number_matches(
+				grouped_raw_turn, receipt_turn) \
+				or not roots.has(grouped_event):
+			return false
+	for raw_root in roots:
+		var root_id := str(raw_root).strip_edges()
+		if not _story_receipt_prefix_entries_valid(
+				state, scheduled_bundle, root_id, receipt_turn):
+			return false
+		var event: Dictionary = DataRegistry.find_event(root_id)
+		var choices: Array = event.get("choices", []) \
+			if event.get("choices", []) is Array else []
+		if root_id.is_empty() or choices.is_empty():
+			return false
+		var matching_receipts := 0
+		for raw_story_key in state["story_choice_receipts"].keys():
+			var raw_story_receipt: Variant = state["story_choice_receipts"].get(
+				raw_story_key, {})
+			if not raw_story_receipt is Dictionary:
+				continue
+			var story_receipt: Dictionary = raw_story_receipt
+			if str(story_receipt.get("bundle_id", "")) != scheduled_bundle \
+					or str(story_receipt.get("event_id", "")) != root_id:
+				continue
+			if not _terminal_integral_number_matches(
+					story_receipt.get("turn", null), receipt_turn):
+				return false
+			var raw_choice_index: Variant = story_receipt.get(
+				"choice_index", null)
+			if not _terminal_integral_number_in_range(
+					raw_choice_index, 0, choices.size() - 1):
+				return false
+			var choice_index := int(raw_choice_index)
+			var expected_key := "%s:%s:%d:%d" % [
+				scheduled_bundle, root_id, choice_index, receipt_turn]
+			matching_receipts += 1
+			if str(raw_story_key) == expected_key \
+					and _terminal_dictionary_has_exact_keys(story_receipt, [
+						"receipt_key", "bundle_id", "active_kind", "event_id",
+						"choice_index", "turn",
+					]) \
+					and str(story_receipt.get("receipt_key", "")) \
+						== expected_key \
+					and str(story_receipt.get("bundle_id", "")) \
+					== scheduled_bundle \
+					and str(story_receipt.get("active_kind", "")) \
+						== "schedule" \
+					and str(story_receipt.get("event_id", "")) == root_id \
+					and _terminal_integral_number_matches(
+						story_receipt.get("turn", null), receipt_turn) \
+					and choice_index >= 0 and choice_index < choices.size():
+				pass
+			else:
+				return false
+		if matching_receipts != 1:
+			return false
+	return true
+
+static func _canonical_w4_temptation_root(state: Dictionary) -> String:
+	var bundle_id := "first_temptation_boss"
+	var event_id := "arc_temptation_01"
+	var raw_story_receipts: Variant = state.get("story_choice_receipts", {})
+	if not raw_story_receipts is Dictionary:
+		return ""
+	if not _story_receipt_prefix_entries_valid(
+			state, bundle_id, event_id, 4):
+		return ""
+	if not _story_receipt_owner_union_valid(
+			state, bundle_id, [event_id], 4, "schedule"):
+		return ""
+	# This boss is a fixed Week-Four producer.  A second same-identity receipt
+	# on any other turn is not harmless history; it is a competing branch source
+	# for the Week-Eight consequence and invalidates the whole authority.
+	for raw_receipt in (raw_story_receipts as Dictionary).values():
+		if raw_receipt is Dictionary \
+				and str((raw_receipt as Dictionary).get("bundle_id", "")) \
+					== bundle_id \
+				and str((raw_receipt as Dictionary).get("event_id", "")) \
+					== event_id \
+				and not _terminal_integral_number_matches(
+					(raw_receipt as Dictionary).get("turn", null), 4):
+			return ""
+	var scoped_receipts := _terminal_story_receipts_for_identity(
+		state, bundle_id, event_id, 4)
+	if scoped_receipts.size() != 1:
+		return ""
+	var matches: Array[int] = []
+	for choice_index in [0, 1]:
+		if not _terminal_story_choice_receipt(
+				state, bundle_id, event_id, choice_index, 4).is_empty():
+			matches.append(choice_index)
+	if matches.size() != 1:
+		return ""
+	var chosen := matches[0]
+	if not _legacy_040746_flag_matches("arc_temptation_seen", true) \
+			or not _legacy_040746_flag_matches(
+				"lent_account", chosen == 1) \
+			or not _legacy_040746_flag_matches(
+				"kept_clean_hands", chosen == 0) \
+			or not _legacy_040746_flag_matches(
+				"crossed_line_early", chosen == 1) \
+			or not _legacy_040746_flag_matches(
+				"gambling_tempted", chosen == 1):
+		return ""
+	return "arc_temptation_fallout" if chosen == 1 \
+		else "arc_temptation_clean"
+
+static func _sns_story_receipt_complete(
+		state: Dictionary, target_turn: int = -1) -> bool:
+	var bundle_id := "sns_pressure_night"
+	var receipt_turn := target_turn if target_turn > 0 else int(GameState.turn)
+	var roots := resolved_event_roots(bundle_id)
+	if roots != ["arc_intro_03_sns"]:
+		return false
+	var root_id := str(roots[0])
+	if not _story_receipt_prefix_entries_valid(
+			state, bundle_id, root_id, receipt_turn):
+		return false
+	var owner_event_union := [
+		root_id, "arc_temptation_clean", "arc_temptation_fallout"]
+	if not _story_receipt_owner_union_valid(
+			state, bundle_id, owner_event_union, receipt_turn, "schedule"):
+		return false
+	var event: Dictionary = DataRegistry.find_event(root_id)
+	var choices: Array = event.get("choices", []) \
+		if event.get("choices", []) is Array else []
+	var matches := 0
+	for raw_key in state["story_choice_receipts"].keys():
+		var raw_receipt: Variant = state["story_choice_receipts"].get(
+			raw_key, {})
+		if not raw_receipt is Dictionary:
+			continue
+		var receipt: Dictionary = raw_receipt
+		var scoped := str(receipt.get("bundle_id", "")) == bundle_id \
+			and str(receipt.get("event_id", "")) == root_id
+		if not scoped:
+			continue
+		if not _terminal_integral_number_matches(
+				receipt.get("turn", null), receipt_turn):
+			return false
+		var raw_choice_index: Variant = receipt.get("choice_index", null)
+		if not _terminal_integral_number_in_range(
+				raw_choice_index, 0, choices.size() - 1):
+			return false
+		var choice_index := int(raw_choice_index)
+		var expected_key := "%s:%s:%d:%d" % [
+			bundle_id, root_id, choice_index, receipt_turn]
+		if str(raw_key) == expected_key \
+				and _terminal_dictionary_has_exact_keys(receipt, [
+					"receipt_key", "bundle_id", "active_kind", "event_id",
+					"choice_index", "turn",
+				]) \
+				and str(receipt.get("receipt_key", "")) == expected_key \
+				and str(receipt.get("bundle_id", "")) == bundle_id \
+				and str(receipt.get("active_kind", "")) == "schedule" \
+				and str(receipt.get("event_id", "")) == root_id \
+				and _terminal_integral_number_matches(
+					receipt.get("turn", null), receipt_turn) \
+				and choice_index >= 0 and choice_index < choices.size():
+			if not _sns_story_choice_flags_valid(choice_index):
+				return false
+			matches += 1
+		else:
+			return false
+	return matches == 1
+
+static func _sns_story_choice_flags_valid(choice_index: int) -> bool:
+	if choice_index not in [0, 1, 2] \
+			or not _legacy_040746_flag_matches("arc_intro_sns_seen", true):
+		return false
+	return _legacy_040746_flag_matches(
+			"deleted_sns", choice_index == 0) \
+		and _legacy_040746_flag_matches(
+			"envy_fuel", choice_index == 1)
+
+static func _sns_consequence_completion_valid(
+		state: Dictionary, cut_turn: int) -> bool:
+	var target_turn := _seoul_cycle_month_end_turn(2)
+	if cut_turn <= target_turn \
+			or not _terminal_completed_bundle_state_valid(
+				state, "sns_pressure_night", target_turn) \
+			or not _terminal_historical_completed_bundle(
+				state, "sns_pressure_night", cut_turn) \
+			or not _sns_story_receipt_complete(state, target_turn):
+		return false
+	var prelude := _scheduled_prelude_receipt_from_state(
+		state, "sns_pressure_night", target_turn)
+	return not prelude.is_empty() \
+		and str(prelude.get("consequence_id", "")) \
+			== "temptation_consequence" \
+		and str(prelude.get("status", "")) == "consumed"
+
+static func _legacy_sns_schedule_owner_valid(
+		state: Dictionary, target_turn: int) -> bool:
+	if target_turn < _seoul_cycle_month_start_turn(2) \
+			or target_turn > _seoul_cycle_month_end_turn(2):
+		return false
+	var origin := _legacy_040746_origin_from_state(state)
+	if origin.is_empty():
+		return false
+	var source_plan := _legacy_040746_plan_origin_from_state(state, 2)
+	if source_plan.is_empty():
+		return false
+	var raw_plans: Variant = state.get("plans", {})
+	var raw_plan: Variant = (raw_plans as Dictionary).get("2", {}) \
+		if raw_plans is Dictionary else {}
+	if not raw_plan is Dictionary or plan_uses_seoul_cycle(raw_plan) \
+			or not _terminal_variant_semantically_equal(raw_plan, source_plan):
+		return false
+	var raw_schedule: Variant = (raw_plan as Dictionary).get("schedule", {})
+	if not raw_schedule is Dictionary \
+			or not _legacy_month_schedule_has_exact_shape(
+				raw_schedule as Dictionary, 2) \
+			or str((raw_schedule as Dictionary).get(str(target_turn), "")) \
+				!= "sns_pressure_night":
+		return false
+	var raw_cycle: Variant = state.get(SEOUL_CYCLE_STATE_KEY, {})
+	return raw_cycle is Dictionary and (raw_cycle as Dictionary).is_empty()
+
+static func _legacy_month_schedule_has_exact_shape(
+		schedule: Dictionary, month_index: int) -> bool:
+	var month := month_spec(month_index)
+	var weeks: Array = month.get("weeks", []) \
+		if month.get("weeks", []) is Array else []
+	var raw_offers: Variant = month.get("offers", [])
+	if weeks.size() != 2 or not raw_offers is Array:
+		return false
+	var first_turn := int(weeks[0])
+	var last_turn := int(weeks[1])
+	if last_turn - first_turn != 3 or schedule.size() != 4:
+		return false
+	var allowed_ids: Array[String] = []
+	for raw_id in raw_offers as Array:
+		var offer_id := str(raw_id).strip_edges()
+		if not offer_id.is_empty() and not allowed_ids.has(offer_id):
+			allowed_ids.append(offer_id)
+	for raw_lock in month.get("locked", []) as Array:
+		if raw_lock is Dictionary:
+			var locked_id := str((raw_lock as Dictionary).get(
+				"bundle", "")).strip_edges()
+			if not locked_id.is_empty() and not allowed_ids.has(locked_id):
+				allowed_ids.append(locked_id)
+	var selected: Array[String] = []
+	for turn in range(first_turn, last_turn + 1):
+		var turn_key := str(turn)
+		if not schedule.has(turn_key):
+			return false
+		var bundle_id := str(schedule.get(turn_key, "")).strip_edges()
+		if bundle_id.is_empty() or not allowed_ids.has(bundle_id) \
+				or selected.has(bundle_id) \
+				or not bundle_allowed_in_week(bundle_id, turn):
+			return false
+		selected.append(bundle_id)
+	return true
+
+static func _legacy_sns_consequence_completion_valid(
+		state: Dictionary, cut_turn: int) -> bool:
+	var raw_turns: Variant = state.get("completed_bundle_turns", {})
+	if not raw_turns is Dictionary:
+		return false
+	var raw_turn: Variant = (raw_turns as Dictionary).get(
+		"sns_pressure_night", null)
+	if not _terminal_integral_number_in_range(
+			raw_turn, _seoul_cycle_month_start_turn(2),
+			_seoul_cycle_month_end_turn(2)):
+		return false
+	var target_turn := int(raw_turn)
+	if target_turn >= cut_turn \
+			or not _legacy_sns_schedule_owner_valid(state, target_turn) \
+			or not _terminal_completed_bundle_state_valid(
+				state, "sns_pressure_night", target_turn):
+		return false
+	if _sns_story_receipt_complete(state, target_turn):
+		return true
+	return _legacy_sns_current_story_authority_absent(state) \
+		and _legacy_040746_sns_completed_origin_valid(state, target_turn)
+
+static func _legacy_sns_current_story_authority_absent(
+		state: Dictionary) -> bool:
+	var raw_receipts: Variant = state.get("story_choice_receipts", null)
+	if not raw_receipts is Dictionary:
+		return false
+	var bundle_id := "sns_pressure_night"
+	var event_id := "arc_intro_03_sns"
+	var base_key := "%s:%s" % [bundle_id, event_id]
+	for raw_key in (raw_receipts as Dictionary).keys():
+		var key := str(raw_key)
+		var raw_receipt: Variant = (raw_receipts as Dictionary).get(
+			raw_key, null)
+		if key == base_key or key.begins_with("%s:" % base_key):
+			return false
+		if raw_receipt is Dictionary \
+				and (str((raw_receipt as Dictionary).get("bundle_id", "")) \
+					== bundle_id \
+				or str((raw_receipt as Dictionary).get("event_id", "")) \
+					== event_id):
+			return false
+	return true
+
+static func _legacy_040746_sns_completed_origin_valid(
+		state: Dictionary, target_turn: int) -> bool:
+	var origin := _legacy_040746_origin_from_state(state)
+	if origin.is_empty() or target_turn < 5 or target_turn > 8:
+		return false
+	var source_core: Dictionary = origin.get("source_core_witness", {}) \
+		if origin.get("source_core_witness", {}) is Dictionary else {}
+	var source_completed: Variant = source_core.get("completed_bundles", null)
+	var source_turns: Variant = source_core.get("completed_bundle_turns", null)
+	var source_plans: Variant = source_core.get("plans", null)
+	var source_plan: Variant = (source_plans as Dictionary).get("2", null) \
+		if source_plans is Dictionary else null
+	var source_schedule: Variant = (source_plan as Dictionary).get(
+		"schedule", null) if source_plan is Dictionary else null
+	return source_completed is Array \
+		and (source_completed as Array).count("sns_pressure_night") == 1 \
+		and source_turns is Dictionary \
+		and _terminal_integral_number_matches(
+			(source_turns as Dictionary).get("sns_pressure_night", null),
+			target_turn) \
+		and source_schedule is Dictionary \
+		and str((source_schedule as Dictionary).get(
+			str(target_turn), "")) == "sns_pressure_night"
+
+static func pending_legacy_separate_consequence_id() -> String:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var scheduled_bundle := bundle_id_for_turn()
+	if scheduled_bundle.is_empty() \
+			or not _legacy_sns_schedule_owner_valid(state, int(GameState.turn)):
+		return ""
+	# A source save that already completed this exact old story owns historical
+	# choice authority. It must never replay the consequence or scheduled roots.
+	if _terminal_completed_bundle_state_valid(
+			state, scheduled_bundle, int(GameState.turn)) \
+			and _legacy_040746_sns_completed_origin_valid(
+				state, int(GameState.turn)):
+		return ""
+	var pending := pending_consequence_id()
+	if pending.is_empty() or pending == scheduled_bundle:
+		return ""
+	return pending
+
+static func _sns_temptation_claim_material_present(state: Dictionary) -> bool:
+	var consequence_id := "temptation_consequence"
+	return (state.get("consequence_receipts", {}) is Dictionary \
+			and (state.get("consequence_receipts", {}) as Dictionary).has(
+				consequence_id)) \
+		or (state.get("shown_consequences", []) is Array \
+			and (state.get("shown_consequences", []) as Array).has(
+				consequence_id)) \
+		or (state.get("shown_consequence_turns", {}) is Dictionary \
+			and (state.get("shown_consequence_turns", {}) as Dictionary).has(
+				consequence_id))
+
+static func _scheduled_prelude_receipt_valid(
+		state: Dictionary, receipt: Dictionary,
+		scheduled_bundle: String, target_turn: int) -> bool:
+	if not _terminal_dictionary_has_exact_keys(receipt, [
+		"consequence_id", "scheduled_bundle", "turn", "status",
+		"surface_kind", "roots", "presented_turn", "consumed_turn",
+		"legacy_separate_owner",
+	]):
+		return false
+	var consequence_id := str(receipt.get(
+		"consequence_id", "")).strip_edges()
+	var status := str(receipt.get("status", "")).strip_edges()
+	var surface_kind := str(receipt.get("surface_kind", "")).strip_edges()
+	var raw_roots: Variant = receipt.get("roots", null)
+	if consequence_id.is_empty() \
+			or str(receipt.get("scheduled_bundle", "")).strip_edges() \
+				!= scheduled_bundle \
+			or not _terminal_integral_number_matches(
+				receipt.get("turn", null), target_turn) \
+			or status not in ["presented", "consumed"] \
+			or surface_kind not in ["story", "action"] \
+			or not raw_roots is Array \
+			or (raw_roots as Array).is_empty() \
+			or not _terminal_integral_number_matches(
+				receipt.get("presented_turn", null), target_turn) \
+			or not receipt.get("legacy_separate_owner", null) is bool \
+			or bool(receipt.get("legacy_separate_owner", true)) \
+			or not _terminal_variant_semantically_equal(
+				raw_roots, resolved_event_roots(consequence_id)):
+		return false
+	if scheduled_bundle == "sns_pressure_night" \
+			and target_turn == _seoul_cycle_month_end_turn(2) \
+			and consequence_id != "temptation_consequence":
+		return false
+	var scheduled_spec := bundle(scheduled_bundle)
+	var expected_surface := ""
+	if not str(scheduled_spec.get("action_id", "")).is_empty():
+		expected_surface = "action"
+	elif scheduled_spec.get("existing_roots", []) is Array \
+			and not (scheduled_spec.get("existing_roots", []) as Array).is_empty():
+		expected_surface = "story"
+	if surface_kind != expected_surface \
+			or not state.get("shown_consequences", []) is Array \
+			or (state.get("shown_consequences", []) as Array).count(
+				consequence_id) != 1 \
+			or not state.get("shown_consequence_turns", {}) is Dictionary \
+			or not _terminal_integral_number_matches(
+				(state.get("shown_consequence_turns", {}) as Dictionary).get(
+					consequence_id, null), target_turn):
+		return false
+	if status == "presented":
+		return _terminal_integral_number_matches(
+			receipt.get("consumed_turn", null), 0)
+	return _terminal_integral_number_matches(
+			receipt.get("consumed_turn", null), target_turn) \
+		and _scheduled_prelude_story_receipts_complete(state, receipt)
+
 ## StoryMode's return consumes the attached prelude. Repeated callbacks return
 ## the same receipt without changing state, applying effects, or opening roots.
 static func consume_scheduled_prelude(
 		scheduled_bundle: String) -> Dictionary:
+	var raw_state: Variant = GameState.core_loop_v2_state
+	if not raw_state is Dictionary \
+			or not _terminal_integral_number_matches(
+				(raw_state as Dictionary).get("active_turn", null),
+				int(GameState.turn)):
+		return {"ok": false, "error": "scheduled_owner_mismatch"}
 	var state := _normalized_state(GameState.core_loop_v2_state)
 	if scheduled_bundle.is_empty() \
 			or str(state.get("active_bundle", "")) != scheduled_bundle \
@@ -10772,6 +12712,8 @@ static func consume_scheduled_prelude(
 		}
 	if str(receipt.get("status", "")) != "presented":
 		return {"ok": false, "error": "invalid_prelude_status"}
+	if not _scheduled_prelude_story_receipts_complete(state, receipt):
+		return {"ok": false, "error": "missing_prelude_story_receipt"}
 	var consequence_id := str(receipt.get("consequence_id", ""))
 	if consequence_id.is_empty():
 		return {"ok": false, "error": "missing_consequence_id"}
@@ -10804,14 +12746,51 @@ static func _scheduled_prelude_receipt_from_state(
 		target_turn: int) -> Dictionary:
 	if scheduled_bundle.is_empty() or target_turn < 1:
 		return {}
+	var expected_consequence_id := "temptation_consequence" \
+		if scheduled_bundle == "sns_pressure_night" \
+		and target_turn == _seoul_cycle_month_end_turn(2) else ""
+	var matching_receipts: Array[Dictionary] = []
+	for raw_key in state["consequence_receipts"].keys():
+		var raw_receipt: Variant = state["consequence_receipts"].get(
+			raw_key, {})
+		if not expected_consequence_id.is_empty() \
+				and (str(raw_key) == expected_consequence_id \
+					or (raw_receipt is Dictionary \
+						and str((raw_receipt as Dictionary).get(
+							"consequence_id", "")) \
+							== expected_consequence_id)) \
+				and (not raw_receipt is Dictionary \
+					or str(raw_key) != expected_consequence_id \
+					or str((raw_receipt as Dictionary).get(
+						"scheduled_bundle", "")) != scheduled_bundle):
+			return {}
+		if not raw_receipt is Dictionary:
+			continue
+		var receipt: Dictionary = raw_receipt
+		if str(receipt.get("scheduled_bundle", "")) != scheduled_bundle:
+			continue
+		if not _terminal_integral_number_matches(
+				receipt.get("turn", null), target_turn):
+			return {}
+		if str(raw_key) != str(receipt.get("consequence_id", "")) \
+				or not _scheduled_prelude_receipt_valid(
+					state, receipt, scheduled_bundle, target_turn):
+			return {}
+		matching_receipts.append(receipt)
+	return matching_receipts[0].duplicate(true) \
+		if matching_receipts.size() == 1 else {}
+
+static func _scheduled_prelude_entry_present(
+		state: Dictionary, scheduled_bundle: String,
+		target_turn: int) -> bool:
 	for raw_receipt in state["consequence_receipts"].values():
 		if raw_receipt is Dictionary \
 				and str((raw_receipt as Dictionary).get(
 					"scheduled_bundle", "")) == scheduled_bundle \
-				and int((raw_receipt as Dictionary).get(
-					"turn", 0)) == target_turn:
-			return (raw_receipt as Dictionary).duplicate(true)
-	return {}
+				and _terminal_integral_number_matches(
+					(raw_receipt as Dictionary).get("turn", null), target_turn):
+			return true
+	return false
 
 static func pending_consequence_id(month_index: int = -1) -> String:
 	var state := _normalized_state(GameState.core_loop_v2_state)
@@ -12169,6 +14148,31 @@ static func story_choice_available(
 ## Week-24 exact callback choices must prove their claimed transport before
 ## StoryMode applies any authored effect. Other story choices retain their
 ## existing availability contract.
+static func story_choice_transaction_required(
+		event_id: String, choice_index: int,
+		reserved_queue: Array = []) -> bool:
+	if not is_active() or event_id.is_empty() or choice_index < 0:
+		return false
+	# The retired Story-owned Send must always stay on the strict transaction
+	# path. Its queue is validated separately by `story_choice_commit_available`;
+	# treating a malformed queue as an ordinary Story choice would be fail-open.
+	if event_id == OPENING_APPLICATION_EVENT_ID:
+		return true
+	# These Week-24 callback roots must never fall through to an ordinary Story
+	# choice when their exact transport receipt is missing or malformed.  The
+	# commit preflight below owns the transport proof and rejects that state.
+	if event_id in EXACT_DEFERRED_CHOICE_ROOTS:
+		return true
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var owner_id := str(state.get("active_bundle", "")).strip_edges()
+	if owner_id.is_empty():
+		# Fresh onboarding deliberately activates V2 before the ordinary prologue.
+		# Those unowned choices keep their normal Story transaction and never mint
+		# a Core Loop receipt.
+		return false
+	return _live_story_owner_event_ids(state, owner_id).has(event_id) \
+		or legacy_active_story_roots().has(event_id)
+
 static func story_choice_commit_available(
 		event_id: String, choice_index: int,
 		reserved_queue: Array = []) -> bool:
@@ -12238,7 +14242,11 @@ static func has_hanbit_employment_provenance(
 	if not raw_expected is Dictionary:
 		return false
 	var expected: Dictionary = raw_expected
-	if str(expected.get("receipt_key", "")) != expected_key \
+	if not _terminal_dictionary_has_exact_keys(expected, [
+			"receipt_key", "application_id", "from", "to", "bundle_id",
+			"event_id", "choice_index", "turn",
+		]) \
+			or str(expected.get("receipt_key", "")) != expected_key \
 			or str(expected.get("application_id", "")) \
 				!= "hanbit_ops_2026q1" \
 			or str(expected.get("from", "")) != "interviewed" \
@@ -12247,27 +14255,183 @@ static func has_hanbit_employment_provenance(
 				!= "m5_hanbit_offer_message" \
 			or str(expected.get("event_id", "")) \
 				!= "v2_hanbit_offer_message" \
-			or int(expected.get("choice_index", -1)) != 0 \
-			or int(expected.get("turn", -1)) != 17:
+			or not _terminal_integral_number_matches(
+				expected.get("choice_index", null), 0) \
+			or not _terminal_integral_number_matches(
+				expected.get("turn", null), 17):
 		return false
 	# A second terminal receipt for the same Week-17 offer can only be damaged
 	# or injected state. Never guess whether acceptance or refusal was real.
 	for raw_key in raw_receipts as Dictionary:
-		var raw_receipt: Variant = (raw_receipts as Dictionary).get(raw_key, {})
-		if not raw_receipt is Dictionary:
-			continue
-		var receipt: Dictionary = raw_receipt
-		var same_terminal_offer: bool = str(receipt.get(
-			"bundle_id", "")) == "m5_hanbit_offer_message" \
-			or str(receipt.get("event_id", "")) \
-				== "v2_hanbit_offer_message" \
-			or (str(receipt.get("application_id", "")) \
-					== "hanbit_ops_2026q1" \
-				and int(receipt.get("turn", -1)) == 17 \
-				and str(receipt.get("to", "")) == "resolved")
-		if same_terminal_offer and str(raw_key) != expected_key:
+		var key := str(raw_key)
+		var raw_receipt: Variant = (raw_receipts as Dictionary).get(
+			raw_key, {})
+		var key_claims_offer := key == "m5_hanbit_offer_message" \
+			or key.begins_with("m5_hanbit_offer_message:") \
+			or key == "v2_hanbit_offer_message" \
+			or key.begins_with("v2_hanbit_offer_message:") \
+			or key == "hanbit_ops_2026q1" \
+			or key.begins_with("hanbit_ops_2026q1:")
+		var value_claims_offer := false
+		if raw_receipt is Dictionary:
+			var receipt: Dictionary = raw_receipt
+			value_claims_offer = str(receipt.get(
+				"bundle_id", "")) == "m5_hanbit_offer_message" \
+				or str(receipt.get("event_id", "")) \
+					== "v2_hanbit_offer_message" \
+				or (str(receipt.get("application_id", "")) \
+						== "hanbit_ops_2026q1" \
+					and str(receipt.get("to", "")) == "resolved")
+		if (key_claims_offer or value_claims_offer) \
+				and key != expected_key:
 			return false
 	return true
+
+## Completion snapshots are projections, not live core-loop save states.  Do
+## not pass them through `_normalized_state`: unknown-schema quarantine would
+## correctly strip their authority maps because snapshots intentionally carry
+## `snapshot_schema` rather than the live `schema` field.  Validate the frozen
+## projection directly and bind the clue to the exact Week-24 candidate and
+## obligation receipt that were archived with it.
+static func completion_snapshot_has_hanbit_employment_provenance(
+		snapshot: Dictionary) -> bool:
+	var cap := development_cap_week()
+	if not _completion_snapshot_is_valid(snapshot, cap) \
+			or bool(snapshot.get("legacy_boundary_incomplete", true)) \
+			or str(snapshot.get("current_job_id", "")) != "job_03" \
+			or str((snapshot.get(
+				"application_statuses", {}) as Dictionary).get(
+					"hanbit_ops_2026q1", "")) != "resolved":
+		return false
+
+	var expected_key := \
+		"m5_hanbit_offer_message:v2_hanbit_offer_message:0:17"
+	var raw_receipts: Variant = snapshot.get(
+		"application_transition_receipts", {})
+	if not raw_receipts is Dictionary \
+			or not (raw_receipts as Dictionary).has(expected_key):
+		return false
+	var raw_expected: Variant = (raw_receipts as Dictionary).get(
+		expected_key, {})
+	if not raw_expected is Dictionary:
+		return false
+	var expected: Dictionary = raw_expected
+	if not _terminal_dictionary_has_exact_keys(expected, [
+			"receipt_key", "application_id", "from", "to", "bundle_id",
+			"event_id", "choice_index", "turn",
+		]) \
+			or str(expected.get("receipt_key", "")) != expected_key \
+			or str(expected.get("application_id", "")) \
+				!= "hanbit_ops_2026q1" \
+			or str(expected.get("from", "")) != "interviewed" \
+			or str(expected.get("to", "")) != "resolved" \
+			or str(expected.get("bundle_id", "")) \
+				!= "m5_hanbit_offer_message" \
+			or str(expected.get("event_id", "")) \
+				!= "v2_hanbit_offer_message" \
+			or not _terminal_integral_number_matches(
+				expected.get("choice_index", null), 0) \
+			or not _terminal_integral_number_matches(
+				expected.get("turn", null), 17):
+		return false
+	for raw_key in raw_receipts as Dictionary:
+		var key := str(raw_key)
+		var raw_receipt: Variant = (raw_receipts as Dictionary).get(
+			raw_key, {})
+		var key_claims_offer := key == "m5_hanbit_offer_message" \
+			or key.begins_with("m5_hanbit_offer_message:") \
+			or key == "v2_hanbit_offer_message" \
+			or key.begins_with("v2_hanbit_offer_message:") \
+			or key == "hanbit_ops_2026q1" \
+			or key.begins_with("hanbit_ops_2026q1:")
+		var value_claims_offer := false
+		if raw_receipt is Dictionary:
+			var receipt: Dictionary = raw_receipt
+			value_claims_offer = str(receipt.get(
+				"bundle_id", "")) == "m5_hanbit_offer_message" \
+				or str(receipt.get("event_id", "")) \
+					== "v2_hanbit_offer_message" \
+				or (str(receipt.get("application_id", "")) \
+						== "hanbit_ops_2026q1" \
+					and str(receipt.get("to", "")) == "resolved")
+		if (key_claims_offer or value_claims_offer) \
+				and key != expected_key:
+			return false
+
+	var raw_context: Variant = snapshot.get("demo_collision_context", {})
+	if not raw_context is Dictionary:
+		return false
+	var context: Dictionary = raw_context
+	if not _terminal_dictionary_has_exact_keys(context, [
+			"bundle_id", "turn", "roots", "candidate_ids", "dirty_source",
+			"dirty_root", "prepared",
+		]) \
+			or str(context.get("bundle_id", "")) != "demo_collision" \
+			or not _terminal_integral_number_matches(
+				context.get("turn", null), 24) \
+			or context.get("prepared", null) != true \
+			or not context.get("roots", null) is Array:
+		return false
+	var roots: Array = context.get("roots", [])
+	var dirty_source := str(context.get("dirty_source", ""))
+	var dirty_root := str(context.get("dirty_root", ""))
+	var expected_roots: Array[String] = []
+	if not dirty_source.is_empty() or not dirty_root.is_empty():
+		if (dirty_source == "callback_escaped_dirty_trace" \
+				and dirty_root == "v2_dirty_trace_initial_call") \
+				or (dirty_source == "fell_to_darkness" \
+				and dirty_root == "v2_dirty_recruiter_week24"):
+			expected_roots.append(dirty_root)
+		else:
+			return false
+	expected_roots.append(FIRST_BILL_OPENING_ID)
+	if roots.has("v2_hyunsu_exam_morning_echo"):
+		expected_roots.append("v2_hyunsu_exam_morning_echo")
+	if roots != expected_roots:
+		return false
+	var candidates := _first_bill_candidate_ids_from_raw(
+		context.get("candidate_ids", []))
+	if candidates.size() < 2 or candidates.size() > 4 \
+			or not candidates.has("father_call") \
+			or not candidates.has("hanbit_month_close"):
+		return false
+	var raw_obligations: Variant = snapshot.get("obligation_receipts", {})
+	if not raw_obligations is Dictionary:
+		return false
+	var raw_obligation: Variant = (raw_obligations as Dictionary).get(
+		"demo_collision", {})
+	if not raw_obligation is Dictionary:
+		return false
+	var obligation: Dictionary = raw_obligation
+	if not _terminal_dictionary_has_exact_keys(obligation, [
+			"bundle_id", "event_id", "turn", "candidate_ids",
+			"selected_obligation_id", "choice_index",
+			"deferred_obligation_ids",
+		]) \
+			or not _terminal_integral_number_matches(
+				obligation.get("turn", null), 24) \
+			or not _terminal_integral_number_in_range(
+				obligation.get("choice_index", null), 0, 7):
+		return false
+	for raw_key in raw_obligations as Dictionary:
+		var key := str(raw_key)
+		var raw_candidate: Variant = (raw_obligations as Dictionary).get(
+			raw_key, {})
+		var key_claims_collision := key == "demo_collision" \
+			or key.begins_with("demo_collision:") \
+			or key == FIRST_BILL_DECISION_ID \
+			or key.begins_with(FIRST_BILL_DECISION_ID + ":")
+		var value_claims_collision := raw_candidate is Dictionary \
+			and (str((raw_candidate as Dictionary).get(
+				"bundle_id", "")) == "demo_collision" \
+				or str((raw_candidate as Dictionary).get(
+					"event_id", "")) == FIRST_BILL_DECISION_ID)
+		if (key_claims_collision or value_claims_collision) \
+				and key != "demo_collision":
+			return false
+	var finale := _first_bill_finale_contract()
+	return not _first_bill_obligation_receipt(
+		snapshot, context, candidates, finale).is_empty()
 
 static func _demo_person_obligation(state: Dictionary) -> String:
 	if has_completed_bundle("daeun_shared_dream") \
@@ -12327,9 +14491,10 @@ static func _consequence_was_presented(
 	if not raw_cycle is Dictionary:
 		return false
 	var cycle: Dictionary = raw_cycle
-	var month := int(cycle.get("month", 0))
-	if month < 1:
+	var raw_month: Variant = cycle.get("month", null)
+	if not _terminal_integral_number_in_range(raw_month, 1, 60):
 		return false
+	var month := int(raw_month)
 	var raw_world_receipts: Variant = cycle.get("world_receipts", {})
 	if not raw_world_receipts is Dictionary:
 		return false
@@ -12339,13 +14504,21 @@ static func _consequence_was_presented(
 		if not raw_world_receipt is Dictionary:
 			continue
 		var world_receipt: Dictionary = raw_world_receipt
-		var turn := int(world_receipt.get("turn", 0))
-		var week_index := int(world_receipt.get("week_index", 0))
+		var raw_turn: Variant = world_receipt.get("turn", null)
+		var raw_week_index: Variant = world_receipt.get("week_index", null)
+		if not _terminal_integral_number_in_range(raw_turn, 1, 240) \
+				or not _terminal_integral_number_in_range(
+					raw_week_index, 1, 4):
+			continue
+		var turn := int(raw_turn)
+		var week_index := int(raw_week_index)
 		if str(world_receipt.get("bundle_id", "")) == consequence_id \
 				and str(world_receipt.get("status", "")) == "resolved" \
 				and str(raw_receipt_key) == str(week_index) \
-				and int(world_receipt.get("claimed_turn", 0)) == turn \
-				and int(world_receipt.get("resolved_turn", 0)) == turn \
+				and _terminal_integral_number_matches(
+					world_receipt.get("claimed_turn", null), turn) \
+				and _terminal_integral_number_matches(
+					world_receipt.get("resolved_turn", null), turn) \
 				and turn == _seoul_cycle_month_start_turn(month) \
 					+ week_index - 1 \
 				and _seoul_cycle_world_bundle_authored_for_week(
@@ -12433,6 +14606,8 @@ static func note_story_choice(
 	# flags were applied before this runtime hook.
 	if claim_preplan_opening_from_trigger(event_id, choice_index):
 		return true
+	var pre_choice_state: Dictionary = \
+		GameState.core_loop_v2_state.duplicate(true)
 	var state := _normalized_state(GameState.core_loop_v2_state)
 	# Expression choices are dialogue-local branches. Validate that the exact
 	# authored choice belongs to the active story owner, then acknowledge it
@@ -12472,6 +14647,7 @@ static func note_story_choice(
 	var story_recorded := _note_generic_story_choice(
 		state, event_id, choice_index)
 	if not story_recorded:
+		GameState.core_loop_v2_state = pre_choice_state
 		return false
 	state = _normalized_state(GameState.core_loop_v2_state)
 	var deferred_recorded := _note_deferred_callback_story_choice(
@@ -12494,13 +14670,13 @@ static func note_story_choice(
 			state = _normalized_state(GameState.core_loop_v2_state)
 	var application_recorded := _note_application_story_choice(
 		state, event_id, choice_index)
-	if expects_deferred and not deferred_recorded:
-		return false
-	if expects_obligation and not obligation_recorded:
-		return false
-	if expects_relationship and not relationship_recorded:
-		return false
-	if expects_application and not application_recorded:
+	if (expects_deferred and not deferred_recorded) \
+			or (expects_obligation and not obligation_recorded) \
+			or (expects_relationship and not relationship_recorded) \
+			or (expects_application and not application_recorded):
+		# Generic and typed receipts are one callback transaction.  A damaged typed
+		# ledger must not leave the generic half behind and poison every later retry.
+		GameState.core_loop_v2_state = pre_choice_state
 		return false
 	return story_recorded
 
@@ -12900,7 +15076,9 @@ static func _note_generic_story_choice(
 	var owner_turn := int(state.get("active_turn", 0))
 	if owner_id.is_empty() or owner_kind not in ["schedule", "consequence"] \
 			or owner_turn != int(GameState.turn) \
-			or event_id.is_empty() or choice_index < 0:
+			or event_id.is_empty() or choice_index < 0 \
+			or not _live_story_owner_event_ids(
+				state, owner_id).has(event_id):
 		return false
 	var event: Dictionary = DataRegistry.find_event(event_id)
 	var choices: Variant = event.get("choices", [])
@@ -12925,31 +15103,27 @@ static func _note_generic_story_choice(
 			state, event_id, choice_index, true)
 	var receipt_key := "%s:%s:%d:%d" % [
 		owner_id, event_id, choice_index, int(GameState.turn)]
-	var raw_existing: Variant = state["story_choice_receipts"].get(
-		receipt_key, {})
-	if raw_existing is Dictionary \
-			and not (raw_existing as Dictionary).is_empty():
-		var existing: Dictionary = (
-			raw_existing as Dictionary).duplicate(true)
-		var exact_match := str(existing.get("bundle_id", "")) == owner_id \
-			and str(existing.get("active_kind", "")) == owner_kind \
-			and str(existing.get("event_id", "")) == event_id \
-			and int(existing.get("choice_index", -1)) == choice_index \
-			and int(existing.get("turn", -1)) == int(GameState.turn)
-		if not exact_match:
+	# A Story callback is a single-choice transaction.  If this owner/event/turn
+	# already has any scoped receipt, only the exact same canonical callback may
+	# be treated as idempotent; never append a second authored choice and leave a
+	# poisoned row behind for the typed relationship/application writer to reject.
+	if _current_story_event_scope_present(
+			state, owner_id, event_id, int(GameState.turn)) \
+			and not state["story_choice_receipts"].has(receipt_key):
+		return false
+	if not _current_story_owner_receipts_valid(
+		state, owner_id, owner_kind, int(GameState.turn)):
+		if _current_story_owner_scope_present(
+				state, owner_id, int(GameState.turn)):
 			return false
-		if not initiated_character.is_empty():
-			var stored_character := str(existing.get(
-				"player_initiated_character", "")).strip_edges()
-			if not stored_character.is_empty() \
-					and stored_character != initiated_character:
-				return false
-			existing["player_initiated_character"] = initiated_character
-			state["story_choice_receipts"][receipt_key] = existing
-			if not state["player_initiated"].has(initiated_character):
-				state["player_initiated"].append(initiated_character)
-			GameState.core_loop_v2_state = state
-		return true
+	if state["story_choice_receipts"].has(receipt_key):
+		# Idempotency is permission to return the exact producer record, never to
+		# repair a scalar, empty, shortened, or key/value-mismatched save row.
+		return _current_story_owner_receipts_valid(
+				state, owner_id, owner_kind, int(GameState.turn)) \
+			and _current_story_choice_receipt_valid(
+			state, owner_id, owner_kind, event_id, choice_index,
+			int(GameState.turn))
 	var receipt := {
 		"receipt_key": receipt_key,
 		"bundle_id": owner_id,
@@ -12965,6 +15139,32 @@ static func _note_generic_story_choice(
 	state["story_choice_receipts"][receipt_key] = receipt
 	GameState.core_loop_v2_state = state
 	return true
+
+static func _current_story_event_scope_present(
+		state: Dictionary, bundle_id: String,
+		event_id: String, target_turn: int) -> bool:
+	var raw_receipts: Variant = state.get("story_choice_receipts", {})
+	if not raw_receipts is Dictionary:
+		return true
+	var base_key := "%s:%s" % [bundle_id, event_id]
+	for raw_key in (raw_receipts as Dictionary).keys():
+		var key := str(raw_key)
+		var raw_receipt: Variant = (raw_receipts as Dictionary).get(
+			raw_key, null)
+		var parts := key.split(":", false)
+		if key == base_key or key.begins_with("%s:" % base_key):
+			if parts.size() != 4 or str(parts[3]) == str(target_turn):
+				return true
+		if parts.size() == 4 and str(parts[1]) == event_id \
+				and str(parts[3]) == str(target_turn):
+			return true
+		if raw_receipt is Dictionary \
+				and str((raw_receipt as Dictionary).get(
+					"event_id", "")) == event_id \
+				and _terminal_integral_number_matches(
+					(raw_receipt as Dictionary).get("turn", null), target_turn):
+			return true
+	return false
 
 static func _note_deferred_callback_story_choice(
 		state: Dictionary, event_id: String, choice_index: int) -> bool:
@@ -13146,8 +15346,6 @@ static func _note_relationship_story_choice(
 		outcome = resolved_outcome
 		var receipt_key := "%s:%s:%d:%d" % [
 			bundle_id, event_id, choice_index, int(GameState.turn)]
-		if state["relationship_choice_receipts"].has(receipt_key):
-			return state["relationship_choice_receipts"][receipt_key] is Dictionary
 		var character_id := str(outcome.get("character", ""))
 		if character_id.is_empty():
 			var characters: Array = scene_bundle.get("characters", [])
@@ -13172,6 +15370,8 @@ static func _note_relationship_story_choice(
 				or target_stage.is_empty() or initiative.is_empty() \
 				or memory.is_empty():
 			return false
+		if state["relationship_choice_receipts"].has(receipt_key):
+			return _has_current_relationship_receipt(state, bundle_id)
 		var current_stage := str(
 			state["relationship_stages"].get(character_id, "unmet"))
 		var allow_already_at_target := bool(
@@ -13246,6 +15446,95 @@ static func _relationship_advanced_in_month(
 			return true
 	return false
 
+static func _current_relationship_receipt_valid(
+		state: Dictionary, receipt_key: String, receipt: Dictionary,
+		outcome: Dictionary) -> bool:
+	if not _terminal_dictionary_has_exact_keys(receipt, [
+			"receipt_key", "character", "from", "to", "initiative",
+			"memory", "bundle_id", "event_id", "choice_index", "turn",
+		]) \
+			or str(receipt.get("receipt_key", "")) != receipt_key \
+			or str(receipt.get("character", "")) \
+				!= str(outcome.get("character", "")) \
+			or str(receipt.get("to", "")) != str(outcome.get("to", "")) \
+			or str(receipt.get("initiative", "")) \
+				!= str(outcome.get("initiative", "")) \
+			or str(receipt.get("memory", "")) \
+				!= str(outcome.get("memory", "")) \
+			or not _terminal_integral_number_matches(
+				receipt.get("choice_index", null),
+				int(receipt.get("choice_index", -1))) \
+			or not _terminal_integral_number_matches(
+				receipt.get("turn", null), int(GameState.turn)):
+		return false
+	var expected_from := str(outcome.get("from", ""))
+	var expected_to := str(outcome.get("to", ""))
+	var actual_from := str(receipt.get("from", ""))
+	var allow_already_at_target := bool(
+		outcome.get("allow_already_at_target", false))
+	if actual_from != expected_from \
+			and not (allow_already_at_target \
+				and actual_from == expected_to):
+		return false
+	var expected_key := "%s:%s:%d:%d" % [
+		str(receipt.get("bundle_id", "")),
+		str(receipt.get("event_id", "")),
+		int(receipt.get("choice_index", -1)), int(GameState.turn)]
+	if receipt_key != expected_key \
+			or str(state["relationship_stages"].get(
+				str(receipt.get("character", "")), "unmet")) \
+				!= str(receipt.get("to", "")):
+		return false
+	var history_matches := 0
+	var memory_matches := 0
+	for raw_history in state["relationship_history"]:
+		if raw_history is Dictionary \
+				and str((raw_history as Dictionary).get(
+					"receipt_key", "")) == receipt_key:
+			if not _terminal_variant_semantically_equal(raw_history, receipt):
+				return false
+			history_matches += 1
+	for raw_memory in state["relationship_memories"]:
+		if raw_memory is Dictionary \
+				and str((raw_memory as Dictionary).get(
+					"receipt_key", "")) == receipt_key:
+			if not _terminal_variant_semantically_equal(raw_memory, receipt):
+				return false
+			memory_matches += 1
+	if history_matches != 1 or memory_matches != 1:
+		return false
+	var character_id := str(receipt.get("character", ""))
+	if str(receipt.get("initiative", "")) == "player" \
+			and not state["player_initiated"].has(character_id):
+		return false
+	for raw_callback_id in outcome.get("supersedes_callbacks", []):
+		var callback_id := str(raw_callback_id).strip_edges()
+		var raw_resolution: Variant = state[
+			"legacy_callback_resolutions"].get(callback_id, null)
+		if callback_id.is_empty() or not raw_resolution is Dictionary:
+			return false
+		var resolution: Dictionary = raw_resolution
+		if not _terminal_dictionary_has_exact_keys(resolution, [
+				"policy", "source_bundle", "source_event_id", "choice_index",
+				"relationship_memory", "replacement_bundle", "turn",
+			]) \
+				or str(resolution.get("policy", "")) != "superseded" \
+				or str(resolution.get("source_bundle", "")) \
+					!= str(receipt.get("bundle_id", "")) \
+				or str(resolution.get("source_event_id", "")) \
+					!= str(receipt.get("event_id", "")) \
+				or not _terminal_integral_number_matches(
+					resolution.get("choice_index", null),
+					int(receipt.get("choice_index", -1))) \
+				or str(resolution.get("relationship_memory", "")) \
+					!= str(receipt.get("memory", "")) \
+				or str(resolution.get("replacement_bundle", "")) \
+					!= str(outcome.get("replacement_bundle", "")) \
+				or not _terminal_integral_number_matches(
+					resolution.get("turn", null), int(GameState.turn)):
+			return false
+	return true
+
 static func _note_application_story_choice(
 		state: Dictionary, event_id: String, choice_index: int) -> bool:
 	var bundle_id := _story_outcome_owner_id(
@@ -13268,9 +15557,6 @@ static func _note_application_story_choice(
 			continue
 		var receipt_key := "%s:%s:%d:%d" % [
 			bundle_id, event_id, choice_index, int(GameState.turn)]
-		if state["application_transition_receipts"].has(receipt_key):
-			return state["application_transition_receipts"][
-				receipt_key] is Dictionary
 		var application_id := str(
 			outcome.get("application_id", "")).strip_edges()
 		var from_status := str(outcome.get("from", "")).strip_edges()
@@ -13278,6 +15564,8 @@ static func _note_application_story_choice(
 		if application_id.is_empty() or from_status.is_empty() \
 				or to_status.is_empty() or from_status == to_status:
 			return false
+		if state["application_transition_receipts"].has(receipt_key):
+			return _has_current_application_receipt(state, bundle_id)
 		var current_status := application_status(application_id)
 		if current_status != from_status:
 			return false
@@ -13419,6 +15707,13 @@ static func _predicate_met(
 			var bundle_id := str(predicate.get("bundle_id", "")).strip_edges()
 			if bundle_id.is_empty() or not has_completed_bundle(bundle_id):
 				return false
+			if bundle_id == "sns_pressure_night":
+				var state := _normalized_state(GameState.core_loop_v2_state)
+				var cut_turn := completed_before_turn \
+					if completed_before_turn > 0 else int(GameState.turn) + 1
+				return _sns_consequence_completion_valid(state, cut_turn) \
+					or _legacy_sns_consequence_completion_valid(
+						state, cut_turn)
 			if completed_before_turn > 0:
 				var state := _normalized_state(GameState.core_loop_v2_state)
 				var completed_turn := int(
@@ -13510,6 +15805,9 @@ static func _predicate_met(
 			return not application_id.is_empty() \
 				and not expected_status.is_empty() \
 				and application_status(application_id) == expected_status
+		"action_receipt":
+			return _action_receipt_predicate_met(
+				predicate, completed_before_turn)
 		"application_status_not_in":
 			var application_id := str(
 				predicate.get("application_id", "")).strip_edges()
@@ -13523,6 +15821,110 @@ static func _predicate_met(
 					return false
 			return true
 	return false
+
+static func _action_receipt_predicate_met(
+		predicate: Dictionary, completed_before_turn: int = -1) -> bool:
+	var bundle_id := str(predicate.get("bundle_id", "")).strip_edges()
+	var expected_action := str(
+		predicate.get("action_id", "")).strip_edges().to_lower()
+	var raw_month: Variant = predicate.get("month", null)
+	var legacy_fallback: Variant = predicate.get(
+		"legacy_completed_bundle_fallback", false)
+	if bundle_id.is_empty() or expected_action.is_empty() \
+			or not _terminal_integral_number_in_range(raw_month, 1, 12) \
+		or not legacy_fallback is bool:
+		return false
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var raw_actions: Variant = state.get("action_receipts", {})
+	if not raw_actions is Dictionary:
+		return false
+	var has_action_owner := (raw_actions as Dictionary).has(bundle_id)
+	var raw_receipt: Variant = (raw_actions as Dictionary).get(bundle_id, null)
+	if not has_action_owner:
+		# Schema-two saves predate typed action receipts. Preserve their existing
+		# completed-bundle unlock only when the authored predicate opts in; never
+		# synthesize a receipt or let a fresh schema-three save use this branch.
+		var raw_legacy: Variant = state.get("legacy_action_fallbacks", {}).get(
+			bundle_id, {}) if state.get(
+				"legacy_action_fallbacks", {}) is Dictionary else {}
+		if not bool(legacy_fallback) or not raw_legacy is Dictionary \
+				or str((raw_legacy as Dictionary).get("bundle_id", "")) \
+					!= bundle_id \
+				or str((raw_legacy as Dictionary).get(
+					"action_id", "")).strip_edges().to_lower() \
+					!= expected_action \
+				or not _terminal_integral_number_matches(
+					(raw_legacy as Dictionary).get("source_schema", null), 2) \
+				or not _terminal_integral_number_in_range(
+					(raw_legacy as Dictionary).get("completed_turn", null),
+					_seoul_cycle_month_start_turn(int(raw_month)),
+					_seoul_cycle_month_end_turn(int(raw_month))) \
+				or not _terminal_completed_bundle_state_valid(
+					state, bundle_id,
+					int((raw_legacy as Dictionary).get("completed_turn", 0))):
+			return false
+		var legacy_turn := int((raw_legacy as Dictionary).get(
+			"completed_turn", 0))
+		return month_for_turn(legacy_turn) == int(raw_month) \
+			and (completed_before_turn <= 0 \
+				or legacy_turn < completed_before_turn)
+	var receipt: Dictionary = raw_receipt
+	var raw_turn: Variant = receipt.get("turn", null)
+	if not _terminal_integral_number_in_range(
+			raw_turn, _seoul_cycle_month_start_turn(int(raw_month)),
+			_seoul_cycle_month_end_turn(int(raw_month))):
+		return false
+	var receipt_turn := int(raw_turn)
+	if completed_before_turn > 0 and receipt_turn >= completed_before_turn:
+		return false
+	var commitment := _exact_live_action_weekly_commitment(
+		bundle_id, expected_action, receipt_turn)
+	var scene_bundle := bundle(bundle_id)
+	var expected_receipt := _action_receipt_from_record(
+		bundle_id, scene_bundle, commitment) if not commitment.is_empty() else {}
+	if scene_bundle.is_empty() or expected_receipt.is_empty() \
+			or not _terminal_variant_semantically_equal(
+				receipt, expected_receipt) \
+			or not _terminal_completed_bundle_state_valid(
+				state, bundle_id, receipt_turn):
+		return false
+	var expected_application_id := str(
+		predicate.get("application_id", "")).strip_edges()
+	var expected_application_status := str(
+		predicate.get("application_status", "")).strip_edges()
+	return (expected_application_id.is_empty() \
+			or str(receipt.get("application_id", "")) \
+				== expected_application_id) \
+		and (expected_application_status.is_empty() \
+			or str(receipt.get("application_status", "")) \
+				== expected_application_status)
+
+static func _exact_live_action_weekly_commitment(
+		bundle_id: String, expected_action: String,
+		receipt_turn: int) -> Dictionary:
+	var matches: Array[Dictionary] = []
+	for raw_weekly in GameState.weekly_commitments:
+		if not raw_weekly is Dictionary:
+			return {}
+		var weekly: Dictionary = raw_weekly
+		var raw_turn: Variant = weekly.get("turn", null)
+		if typeof(raw_turn) in [TYPE_INT, TYPE_FLOAT] \
+				and is_finite(float(raw_turn)) \
+				and int(raw_turn) == receipt_turn \
+				and not _terminal_integral_number_matches(
+					raw_turn, receipt_turn):
+			return {}
+		if not _terminal_integral_number_matches(raw_turn, receipt_turn):
+			continue
+		var candidate := _action_record_for_bundle_from_weekly_commitment(
+			weekly, bundle_id, expected_action, receipt_turn)
+		if not candidate.is_empty():
+			matches.append(candidate)
+		else:
+			# A competing row at the same turn is ambiguous authority, even when
+			# the later array entry happens to be canonical.
+			return {}
+	return matches[0].duplicate(true) if matches.size() == 1 else {}
 
 static func _seoul_cycle_receipts_include_track(
 		raw_receipts: Variant, raw_nodes: Variant,
@@ -15620,13 +18022,1994 @@ static func _validate_w1_onboarding_cycle_override(state: Dictionary) -> void:
 		cycle["nodes"] = nodes
 		state[SEOUL_CYCLE_STATE_KEY] = cycle
 
+static func _legacy_040746_dictionary_has_allowed_keys(
+		value: Dictionary, required_keys: Array,
+		optional_keys: Array = []) -> bool:
+	var allowed: Array[String] = []
+	for raw_key in required_keys:
+		var key := str(raw_key)
+		if key.is_empty() or allowed.has(key) or not value.has(key):
+			return false
+		allowed.append(key)
+	for raw_key in optional_keys:
+		var key := str(raw_key)
+		if not key.is_empty() and not allowed.has(key):
+			allowed.append(key)
+	for raw_key in value.keys():
+		if typeof(raw_key) != TYPE_STRING or str(raw_key) not in allowed:
+			return false
+	return true
+
+static func _legacy_040746_routine_selection_valid(raw_value: Variant) -> bool:
+	if not raw_value is Dictionary:
+		return false
+	var routines: Dictionary = raw_value
+	if not _terminal_dictionary_has_exact_keys(
+			routines, ["primary", "secondary"]):
+		return false
+	var primary := str(routines.get("primary", "")).strip_edges()
+	var secondary := str(routines.get("secondary", "")).strip_edges()
+	return primary in ["livelihood", "growth", "recovery"] \
+		and secondary in ["livelihood", "growth", "recovery"] \
+		and primary != secondary
+
+static func _legacy_040746_plan_valid(
+		raw_plan: Variant, month_index: int,
+		state: Dictionary = {}) -> bool:
+	if not raw_plan is Dictionary \
+			or not _terminal_dictionary_has_exact_keys(
+				raw_plan as Dictionary, LEGACY_040746_PLAN_KEYS):
+		return false
+	var plan: Dictionary = raw_plan
+	var first_turn := _seoul_cycle_month_start_turn(month_index)
+	var last_turn := _seoul_cycle_month_end_turn(month_index)
+	if not _terminal_integral_number_matches(
+			plan.get("planned_turn", null), first_turn) \
+			or not _legacy_040746_routine_selection_valid(
+				plan.get("routines", null)):
+		return false
+	var raw_schedule: Variant = plan.get("schedule", null)
+	var raw_selected: Variant = plan.get("selected", null)
+	var raw_forgone: Variant = plan.get("forgone", null)
+	if not raw_schedule is Dictionary or not raw_selected is Array \
+			or not raw_forgone is Array \
+			or (raw_schedule as Dictionary).size() != 4:
+		return false
+	var schedule: Dictionary = raw_schedule
+	var selected: Array[String] = []
+	for turn in range(first_turn, last_turn + 1):
+		var turn_key := str(turn)
+		if not schedule.has(turn_key):
+			return false
+		var bundle_id := str(schedule.get(turn_key, "")).strip_edges()
+		var raw_allowed: Variant = LEGACY_040746_ALLOWED_WEEKS.get(
+			bundle_id, [])
+		if bundle_id.is_empty() or not raw_allowed is Array \
+				or not (raw_allowed as Array).has(turn) \
+				or selected.has(bundle_id):
+			return false
+		if month_index == 1 and turn == 4 \
+				and bundle_id != "first_temptation_boss":
+			return false
+		if month_index == 1 and turn < 4 \
+				and bundle_id not in LEGACY_040746_MONTH_OFFERS[1]:
+			return false
+		if month_index == 2 \
+				and bundle_id not in LEGACY_040746_MONTH_OFFERS[2]:
+			return false
+		selected.append(bundle_id)
+	if not _terminal_variant_semantically_equal(raw_selected, selected):
+		return false
+	var historically_available: Array = (
+		LEGACY_040746_MONTH_OFFERS[month_index] as Array).duplicate()
+	if month_index == 2:
+		var completed: Array = state.get("completed_bundles", []) \
+			if state.get("completed_bundles", []) is Array else []
+		var stages: Dictionary = state.get("relationship_stages", {}) \
+			if state.get("relationship_stages", {}) is Dictionary else {}
+		if not completed.has("hyunsu_first_meet") \
+				or str(stages.get("hyunsu", "unmet")) == "unmet":
+			historically_available.erase("hyunsu_player_reachout")
+	for selected_bundle in selected:
+		if selected_bundle != "first_temptation_boss" \
+				and selected_bundle not in historically_available:
+			return false
+	var expected_forgone: Array[String] = []
+	for raw_offer_id in historically_available:
+		var offer_id := str(raw_offer_id)
+		if not selected.has(offer_id):
+			expected_forgone.append(offer_id)
+	if (raw_forgone as Array).size() != expected_forgone.size():
+		return false
+	for index in range(expected_forgone.size()):
+		var raw_record: Variant = (raw_forgone as Array)[index]
+		var expected_bundle := expected_forgone[index]
+		if not raw_record is Dictionary \
+				or not _terminal_dictionary_has_exact_keys(
+					raw_record as Dictionary, [
+						"month", "bundle_id", "decline_consequence",
+						"planned_turn",
+					]) \
+				or not _terminal_integral_number_matches(
+					(raw_record as Dictionary).get("month", null), month_index) \
+				or str((raw_record as Dictionary).get("bundle_id", "")) \
+					!= expected_bundle \
+				or str((raw_record as Dictionary).get(
+					"decline_consequence", "")) \
+					!= str(LEGACY_040746_DECLINE_IDS.get(expected_bundle, "")) \
+				or not _terminal_integral_number_matches(
+					(raw_record as Dictionary).get("planned_turn", null),
+					first_turn):
+			return false
+	return true
+
+static func _legacy_040746_completed_topology_valid(
+		state: Dictionary, source_turn: int) -> bool:
+	var raw_plans: Variant = state.get("plans", null)
+	var raw_completed_turns: Variant = state.get("completed_turns", null)
+	var raw_completed_bundles: Variant = state.get("completed_bundles", null)
+	var raw_bundle_turns: Variant = state.get("completed_bundle_turns", null)
+	if not raw_plans is Dictionary or not raw_completed_turns is Array \
+			or not raw_completed_bundles is Array \
+			or not raw_bundle_turns is Dictionary:
+		return false
+	var plan_keys: Array[String] = []
+	for raw_plan_key in (raw_plans as Dictionary).keys():
+		if typeof(raw_plan_key) != TYPE_STRING \
+				or str(raw_plan_key) not in ["1", "2"] \
+				or plan_keys.has(str(raw_plan_key)):
+			return false
+		plan_keys.append(str(raw_plan_key))
+	plan_keys.sort()
+	if plan_keys.has("2") and not plan_keys.has("1"):
+		return false
+	for plan_key in plan_keys:
+		var month_index := int(plan_key)
+		if source_turn < _seoul_cycle_month_start_turn(month_index) \
+				or not _legacy_040746_plan_valid(
+					(raw_plans as Dictionary).get(plan_key, null),
+					month_index, state):
+			return false
+	var completed_turns: Array[int] = []
+	for raw_turn in raw_completed_turns as Array:
+		if not _terminal_integral_number_in_range(raw_turn, 1, 8) \
+				or completed_turns.has(int(raw_turn)):
+			return false
+		completed_turns.append(int(raw_turn))
+	completed_turns.sort()
+	for index in range(completed_turns.size()):
+		if completed_turns[index] != index + 1:
+			return false
+	var last_completed := completed_turns[-1] \
+		if not completed_turns.is_empty() else 0
+	if last_completed > mini(8, source_turn) \
+			or last_completed < maxi(0, source_turn - 1) \
+			or (source_turn == 9 and last_completed != 8):
+		return false
+	var expected_bundles: Array[String] = []
+	var expected_turns: Dictionary = {}
+	for turn in completed_turns:
+		var month_index := month_for_turn(turn)
+		var raw_plan: Variant = (raw_plans as Dictionary).get(
+			str(month_index), null)
+		if not raw_plan is Dictionary:
+			return false
+		var plan: Dictionary = raw_plan
+		var schedule: Dictionary = plan.get("schedule", {})
+		var bundle_id := str(schedule.get(str(turn), "")).strip_edges()
+		if bundle_id.is_empty() or expected_bundles.has(bundle_id):
+			return false
+		expected_bundles.append(bundle_id)
+		expected_turns[bundle_id] = turn
+	return _terminal_variant_semantically_equal(
+			raw_completed_bundles, expected_bundles) \
+		and _terminal_variant_semantically_equal(
+			raw_bundle_turns, expected_turns)
+
+static func _legacy_040746_routine_effect_valid(
+		routine_id: String, effects: Dictionary) -> bool:
+	var candidates: Array = []
+	match routine_id:
+		"livelihood":
+			candidates = [
+				{"money": 70000, "health": -1, "mental": -1},
+				{"work_performance": 1, "mental": -1},
+			]
+		"growth":
+			candidates = [{"intelligence": 1, "mental": -1}]
+		"recovery":
+			candidates = [{"health": 1, "mental": 3}]
+		_:
+			return false
+	for candidate in candidates:
+		if _terminal_variant_semantically_equal(effects, candidate):
+			return true
+	return false
+
+static func _legacy_040746_routine_receipt_valid(
+		receipt: Dictionary, turn: int, plan: Dictionary) -> bool:
+	if not _terminal_dictionary_has_exact_keys(receipt, [
+		"turn", "month", "primary", "secondary", "planned_primary",
+		"planned_secondary", "employment_forced", "units", "effects",
+	]) or not _terminal_integral_number_matches(receipt.get("turn", null), turn) \
+			or not _terminal_integral_number_matches(
+				receipt.get("month", null), month_for_turn(turn)) \
+			or not receipt.get("employment_forced", null) is bool:
+		return false
+	var planned: Dictionary = plan.get("routines", {})
+	var planned_primary := str(planned.get("primary", ""))
+	var planned_secondary := str(planned.get("secondary", ""))
+	var primary := str(receipt.get("primary", ""))
+	var secondary := str(receipt.get("secondary", ""))
+	var forced := bool(receipt.get("employment_forced", false))
+	if str(receipt.get("planned_primary", "")) != planned_primary \
+			or str(receipt.get("planned_secondary", "")) != planned_secondary:
+		return false
+	if forced:
+		if planned_primary == "livelihood" \
+				or primary != "livelihood" or secondary != planned_primary:
+			return false
+	elif primary != planned_primary or secondary != planned_secondary:
+		return false
+	var raw_units: Variant = receipt.get("units", null)
+	var raw_effects: Variant = receipt.get("effects", null)
+	if not raw_units is Array or (raw_units as Array).size() != 2 \
+			or not raw_effects is Dictionary:
+		return false
+	var aggregate: Dictionary = {}
+	for index in range(2):
+		var raw_unit: Variant = (raw_units as Array)[index]
+		var expected_slot := "primary" if index == 0 else "secondary"
+		var expected_routine := primary if index == 0 else secondary
+		if not raw_unit is Dictionary \
+				or not _terminal_dictionary_has_exact_keys(
+					raw_unit as Dictionary, ["slot", "routine_id", "effects"]) \
+				or str((raw_unit as Dictionary).get("slot", "")) \
+					!= expected_slot \
+				or str((raw_unit as Dictionary).get("routine_id", "")) \
+					!= expected_routine \
+				or not (raw_unit as Dictionary).get("effects", null) is Dictionary \
+				or not _legacy_040746_routine_effect_valid(
+					expected_routine,
+					(raw_unit as Dictionary).get("effects", {}) as Dictionary):
+			return false
+		for raw_key in ((raw_unit as Dictionary).get(
+				"effects", {}) as Dictionary).keys():
+			var value: Variant = ((raw_unit as Dictionary).get(
+				"effects", {}) as Dictionary).get(raw_key, null)
+			if typeof(value) not in [TYPE_INT, TYPE_FLOAT] \
+					or not is_finite(float(value)):
+				return false
+			aggregate[str(raw_key)] = float(aggregate.get(
+				str(raw_key), 0.0)) + float(value)
+	return _terminal_variant_semantically_equal(raw_effects, aggregate)
+
+static func _legacy_040746_routine_ledger_valid(
+		state: Dictionary, source_turn: int) -> bool:
+	var raw_receipts: Variant = state.get("routine_receipts", null)
+	var raw_completed: Variant = state.get("completed_turns", null)
+	var raw_plans: Variant = state.get("plans", null)
+	if not raw_receipts is Dictionary or not raw_completed is Array \
+			or not raw_plans is Dictionary:
+		return false
+	var receipt_turns: Array[int] = []
+	for raw_key in (raw_receipts as Dictionary).keys():
+		if typeof(raw_key) != TYPE_STRING \
+				or not str(raw_key).is_valid_int():
+			return false
+		var turn := int(str(raw_key))
+		if turn < 1 or turn > mini(8, source_turn) \
+				or receipt_turns.has(turn):
+			return false
+		var raw_plan: Variant = (raw_plans as Dictionary).get(
+			str(month_for_turn(turn)), null)
+		var raw_receipt: Variant = (raw_receipts as Dictionary).get(
+			raw_key, null)
+		if not raw_plan is Dictionary or not raw_receipt is Dictionary \
+				or not _legacy_040746_routine_receipt_valid(
+					raw_receipt as Dictionary, turn, raw_plan as Dictionary):
+			return false
+		receipt_turns.append(turn)
+	var expected_turns: Array[int] = []
+	for raw_turn in raw_completed as Array:
+		if not _terminal_integral_number_in_range(raw_turn, 1, 8):
+			return false
+		var turn := int(raw_turn)
+		if expected_turns.has(turn):
+			return false
+		expected_turns.append(turn)
+	# The historical route applied this week's background routine before it
+	# opened any foreground owner.  Therefore an in-flight save owns exactly one
+	# current-turn receipt, while a pre-route/plan-commit save owns none.
+	if not str(state.get("active_bundle", "")).strip_edges().is_empty():
+		if source_turn > 8 or expected_turns.has(source_turn):
+			return false
+		expected_turns.append(source_turn)
+	expected_turns.sort()
+	receipt_turns.sort()
+	return receipt_turns == expected_turns
+
+static func _legacy_040746_month_summary_valid(
+		summary: Dictionary, month_index: int, state: Dictionary) -> bool:
+	if not _terminal_dictionary_has_exact_keys(summary, [
+		"month", "before", "after", "fixed_expense", "monthly_income",
+		"kept", "routines", "decline_receipts", "acknowledged",
+		"recorded_turn",
+	]) or not _terminal_integral_number_matches(
+			summary.get("month", null), month_index) \
+			or not summary.get("before", null) is Dictionary \
+			or not summary.get("after", null) is Dictionary \
+			or not summary.get("kept", null) is Array \
+			or not summary.get("decline_receipts", null) is Array \
+			or not summary.get("acknowledged", null) is bool:
+		return false
+	for number_key in ["fixed_expense", "monthly_income"]:
+		var raw_number: Variant = summary.get(number_key, null)
+		if typeof(raw_number) not in [TYPE_INT, TYPE_FLOAT] \
+				or not is_finite(float(raw_number)):
+			return false
+	var before: Dictionary = summary.get("before", {})
+	var after: Dictionary = summary.get("after", {})
+	var snapshot_keys := [
+		"turn", "date", "money", "monthly_income", "fixed_expense",
+		"health", "mental",
+	]
+	if not _terminal_dictionary_has_exact_keys(before, snapshot_keys) \
+			or not _terminal_dictionary_has_exact_keys(after, snapshot_keys) \
+			or not _terminal_integral_number_matches(
+				before.get("turn", null), _seoul_cycle_month_end_turn(month_index)) \
+			or not _terminal_integral_number_matches(
+				after.get("turn", null),
+				_seoul_cycle_month_end_turn(month_index) + 1) \
+			or not before.get("date", null) is String \
+			or not after.get("date", null) is String \
+			or str(before.get("date", "")).is_empty() \
+			or str(after.get("date", "")).is_empty():
+		return false
+	for snapshot in [before, after]:
+		for number_key in [
+			"money", "monthly_income", "fixed_expense", "health", "mental",
+		]:
+			var raw_number: Variant = (snapshot as Dictionary).get(
+				number_key, null)
+			if typeof(raw_number) not in [TYPE_INT, TYPE_FLOAT] \
+					or not is_finite(float(raw_number)):
+				return false
+	if float(summary.get("fixed_expense", 0.0)) \
+			!= float(before.get("fixed_expense", 0.0)) \
+			or float(summary.get("monthly_income", 0.0)) \
+				!= float(before.get("monthly_income", 0.0)):
+		return false
+	var plan: Dictionary = (state.get("plans", {}) as Dictionary).get(
+		str(month_index), {})
+	if not _terminal_variant_semantically_equal(
+			summary.get("routines", null), plan.get("routines", null)):
+		return false
+	var expected_kept: Dictionary = {}
+	var schedule: Dictionary = plan.get("schedule", {})
+	for turn in range(
+			_seoul_cycle_month_start_turn(month_index),
+			_seoul_cycle_month_end_turn(month_index) + 1):
+		var completed_turn_present := false
+		for raw_completed_turn in state.get("completed_turns", []) as Array:
+			if _terminal_integral_number_matches(raw_completed_turn, turn):
+				completed_turn_present = true
+				break
+		if completed_turn_present:
+			expected_kept[str(turn)] = str(schedule.get(str(turn), ""))
+	var raw_kept: Array = summary.get("kept", [])
+	if raw_kept.size() != expected_kept.size():
+		return false
+	var seen_kept: Array[String] = []
+	for raw_kept_row in raw_kept:
+		if not raw_kept_row is Dictionary \
+				or not _terminal_dictionary_has_exact_keys(
+					raw_kept_row as Dictionary, ["week", "bundle_id"]) \
+				or not _terminal_integral_number_in_range(
+					(raw_kept_row as Dictionary).get("week", null),
+					_seoul_cycle_month_start_turn(month_index),
+					_seoul_cycle_month_end_turn(month_index)):
+			return false
+		var week_key := str(int((raw_kept_row as Dictionary).get("week", 0)))
+		if seen_kept.has(week_key) or not expected_kept.has(week_key) \
+				or str((raw_kept_row as Dictionary).get("bundle_id", "")) \
+					!= str(expected_kept.get(week_key, "")):
+			return false
+		seen_kept.append(week_key)
+	var expected_record_turn := _seoul_cycle_month_end_turn(month_index) + 1
+	if not _terminal_integral_number_matches(
+			summary.get("recorded_turn", null), expected_record_turn):
+		return false
+	var expected_declines: Array = []
+	for raw_receipt in state.get("decline_receipts", []) as Array:
+		if raw_receipt is Dictionary \
+				and _terminal_integral_number_matches(
+					(raw_receipt as Dictionary).get("month", null), month_index):
+			expected_declines.append((raw_receipt as Dictionary).duplicate(true))
+	return _terminal_variant_semantically_equal(
+		summary.get("decline_receipts", null), expected_declines)
+
+static func _legacy_040746_summary_ledger_valid(
+		state: Dictionary, source_turn: int) -> bool:
+	var raw_summaries: Variant = state.get("month_summaries", null)
+	if not raw_summaries is Dictionary:
+		return false
+	if source_turn >= 5 and not (raw_summaries as Dictionary).has("1"):
+		return false
+	if source_turn == 9 and not (raw_summaries as Dictionary).has("2"):
+		return false
+	if source_turn < 5 and not (raw_summaries as Dictionary).is_empty():
+		return false
+	for raw_key in (raw_summaries as Dictionary).keys():
+		if typeof(raw_key) != TYPE_STRING \
+				or str(raw_key) not in ["1", "2"] \
+				or (str(raw_key) == "1" and source_turn < 5) \
+				or (str(raw_key) == "2" and source_turn < 9):
+			return false
+		var raw_summary: Variant = (raw_summaries as Dictionary).get(
+			raw_key, null)
+		if not raw_summary is Dictionary \
+				or not _legacy_040746_month_summary_valid(
+					raw_summary as Dictionary, int(raw_key), state):
+			return false
+	if source_turn >= 6 \
+			or ((state.get("plans", {}) as Dictionary).get("2", {}) \
+				is Dictionary \
+			and not ((state.get("plans", {}) as Dictionary).get(
+				"2", {}) as Dictionary).is_empty()):
+		if not bool(((raw_summaries as Dictionary).get(
+			"1", {}) as Dictionary).get("acknowledged", false)):
+			return false
+	# At turn nine, both terminal checkpoints existed in 040746: the completion
+	# modal save kept Month Two unacknowledged, while pressing Done acknowledged
+	# it and autosaved before returning to title.  The bool type is already
+	# frozen by the summary validator; both values are genuine producer phases.
+	return true
+
+static func _legacy_040746_decline_record(
+		forgone: Dictionary, closing_month: int = 0) -> Dictionary:
+	var month_index := int(forgone.get("month", 0))
+	var bundle_id := str(forgone.get("bundle_id", "")).strip_edges()
+	var consequence_id := str(forgone.get(
+		"decline_consequence", "")).strip_edges()
+	var raw_outcome: Variant = LEGACY_040746_DECLINE_OUTCOMES.get(
+		consequence_id, null)
+	var outcome: Dictionary = (raw_outcome as Dictionary).duplicate(true) \
+		if raw_outcome is Dictionary else {}
+	if month_index not in [1, 2] or bundle_id.is_empty() \
+			or consequence_id.is_empty() or outcome.is_empty() \
+			or str(outcome.get("producer_bundle", "")) != bundle_id:
+		return {}
+	var record := {
+		"id": consequence_id,
+		"producer_bundle": bundle_id,
+		"month": month_index,
+		"visible_month": int(outcome.get("visible_month", month_index + 1)),
+		"consumer_kind": str(outcome.get("consumer_kind", "")),
+		"message_ko": str(outcome.get("message_ko", "")),
+		"message_en": str(outcome.get("message_en", "")),
+		"effects": (outcome.get("effects", {}) as Dictionary).duplicate(true) \
+			if outcome.get("effects", {}) is Dictionary else {},
+	}
+	for dispatch_key in [
+		"target_bundle", "consumer_bundle", "matching_bundle",
+		"target_kinds", "consumer_bundles", "fallback",
+		"application_transition",
+	]:
+		if outcome.has(dispatch_key):
+			var value: Variant = outcome.get(dispatch_key, null)
+			record[dispatch_key] = value.duplicate(true) \
+				if value is Dictionary or value is Array else value
+	if closing_month > 0:
+		record["effects_applied"] = (record["effects"] as Dictionary).duplicate(true)
+		record["consumed_turn"] = _seoul_cycle_month_end_turn(closing_month) + 1
+		record["closing_month"] = closing_month
+	return record
+
+static func _legacy_040746_forgone_and_declines_valid(
+		state: Dictionary, source_turn: int) -> bool:
+	var expected_forgone: Array = []
+	var plans: Dictionary = state.get("plans", {})
+	for month_index in [1, 2]:
+		var raw_plan: Variant = plans.get(str(month_index), null)
+		if not raw_plan is Dictionary:
+			continue
+		expected_forgone.append_array((raw_plan as Dictionary).get(
+			"forgone", []) as Array)
+	if not _terminal_variant_semantically_equal(
+			state.get("forgone", null), expected_forgone):
+		return false
+	var raw_pending: Variant = state.get("pending_declines", null)
+	var raw_receipts: Variant = state.get("decline_receipts", null)
+	if not raw_pending is Array or not raw_receipts is Array:
+		return false
+	var expected_pending: Array = []
+	var pending_month := 1 if source_turn <= 4 else 2
+	if source_turn <= 8 and plans.get(str(pending_month), null) is Dictionary:
+		var pending_plan: Dictionary = plans.get(str(pending_month), {})
+		for raw_forgone in pending_plan.get("forgone", []) as Array:
+			var expected := _legacy_040746_decline_record(
+				raw_forgone as Dictionary)
+			if expected.is_empty():
+				return false
+			expected_pending.append(expected)
+	if (raw_pending as Array).size() != expected_pending.size():
+		return false
+	for index in range(expected_pending.size()):
+		var raw_pending_row: Variant = (raw_pending as Array)[index]
+		if not _terminal_variant_semantically_equal(
+				raw_pending_row, expected_pending[index]):
+			return false
+	var expected_receipts: Array = []
+	for closing_month in [1, 2]:
+		if source_turn < _seoul_cycle_month_end_turn(closing_month) + 1:
+			continue
+		var raw_plan: Variant = plans.get(str(closing_month), null)
+		if not raw_plan is Dictionary:
+			return false
+		for raw_forgone in (raw_plan as Dictionary).get("forgone", []) as Array:
+			var expected := _legacy_040746_decline_record(
+				raw_forgone as Dictionary, closing_month)
+			if expected.is_empty():
+				return false
+			expected_receipts.append(expected)
+	if not _terminal_variant_semantically_equal(
+			raw_receipts, expected_receipts):
+		return false
+	return true
+
+static func _legacy_040746_pending_commitment_valid(
+		raw_pending: Variant, state: Dictionary, source_turn: int) -> bool:
+	if not raw_pending is Dictionary \
+			or not _terminal_dictionary_has_exact_keys(
+			raw_pending as Dictionary, [
+				"turn", "pressure_id", "pressure_family", "choice_id",
+				"person_id", "forgone_ids", "baseline",
+			]):
+		return false
+	var pending: Dictionary = raw_pending
+	var active_id := str(state.get("active_bundle", ""))
+	var active_spec := bundle(active_id)
+	var expected_action := str(active_spec.get("action_id", "")).strip_edges()
+	var raw_baseline: Variant = pending.get("baseline", null)
+	if expected_action.is_empty() \
+			or not _terminal_integral_number_matches(
+				pending.get("turn", null), source_turn) \
+			or str(pending.get("pressure_id", "")) != active_id \
+			or str(pending.get("pressure_family", "")) \
+				!= str(active_spec.get("kind", "")) \
+			or str(pending.get("choice_id", "")) != expected_action \
+			or pending.get("person_id", null) != "" \
+			or pending.get("forgone_ids", null) != [] \
+			or not raw_baseline is Dictionary:
+		return false
+	var baseline_keys := [
+		"money", "portfolio", "total_assets", "monthly_income", "health",
+		"mental", "intelligence", "social_skill", "appearance",
+		"investment_skill", "luck", "reputation", "work_performance",
+		"affinity", "job_id", "resume_polished", "interview_practiced",
+	]
+	if not _terminal_dictionary_has_exact_keys(
+			raw_baseline as Dictionary, baseline_keys):
+		return false
+	for number_key in baseline_keys.slice(0, 14):
+		var raw_number: Variant = (raw_baseline as Dictionary).get(
+			number_key, null)
+		if typeof(raw_number) not in [TYPE_INT, TYPE_FLOAT] \
+				or not is_finite(float(raw_number)):
+			return false
+	return (raw_baseline as Dictionary).get("job_id", null) is String \
+		and (raw_baseline as Dictionary).get("resume_polished", null) is bool \
+		and (raw_baseline as Dictionary).get(
+			"interview_practiced", null) is bool
+
+static func _legacy_040746_pending_baseline_matches_current(
+		raw_pending: Variant) -> bool:
+	if not raw_pending is Dictionary or (raw_pending as Dictionary).is_empty():
+		return true
+	var raw_baseline: Variant = (raw_pending as Dictionary).get("baseline", null)
+	if not raw_baseline is Dictionary:
+		return false
+	return _terminal_variant_semantically_equal(
+		raw_baseline, GameState.weekly_commitment_snapshot(""))
+
+static func _legacy_040746_active_and_pending_valid(
+		state: Dictionary, source_turn: int, raw_pending: Variant) -> bool:
+	if not raw_pending is Dictionary:
+		return false
+	var active_id := str(state.get("active_bundle", "")).strip_edges()
+	var active_kind := str(state.get("active_kind", "")).strip_edges()
+	var action_ready: Variant = state.get("action_result_ready", null)
+	if not action_ready is bool:
+		return false
+	if active_id.is_empty():
+		return active_kind.is_empty() \
+			and _terminal_integral_number_matches(
+				state.get("active_turn", null), 0) \
+			and action_ready == false \
+			and (raw_pending as Dictionary).is_empty()
+	if active_kind not in ["schedule", "consequence"] \
+			or not _terminal_integral_number_matches(
+				state.get("active_turn", null), source_turn) \
+			or bundle(active_id).is_empty():
+		return false
+	var completed_turns: Variant = state.get("completed_turns", null)
+	var completed_bundles: Variant = state.get("completed_bundles", null)
+	var completed_bundle_turns: Variant = state.get(
+		"completed_bundle_turns", null)
+	var source_turn_completed := false
+	if completed_turns is Array:
+		for raw_completed_turn in completed_turns as Array:
+			if _terminal_integral_number_matches(
+					raw_completed_turn, source_turn):
+				source_turn_completed = true
+				break
+	if not completed_turns is Array or not completed_bundles is Array \
+			or not completed_bundle_turns is Dictionary \
+			or source_turn_completed \
+			or (completed_bundles as Array).has(active_id) \
+			or (completed_bundle_turns as Dictionary).has(active_id):
+		return false
+	if active_kind == "consequence":
+		var shown: Variant = state.get("shown_consequences", null)
+		var shown_turns: Variant = state.get("shown_consequence_turns", null)
+		var expected_prior := "m1_mirae_application" \
+			if active_id == OPENING_INTERVIEW_BUNDLE_ID \
+			else "first_temptation_boss"
+		var expected_turn := 2 \
+			if active_id == OPENING_INTERVIEW_BUNDLE_ID else 5
+		var expected_prior_turn := 1 \
+			if active_id == OPENING_INTERVIEW_BUNDLE_ID else 4
+		var prior_turn: Variant = (completed_bundle_turns as Dictionary).get(
+			expected_prior, null)
+		var consequence_plan: Variant = (state.get("plans", {}) as Dictionary).get(
+			str(month_for_turn(source_turn)), null)
+		var scheduled_id := str(((consequence_plan as Dictionary).get(
+			"schedule", {}) as Dictionary).get(str(source_turn), "")) \
+			if consequence_plan is Dictionary else ""
+		return shown is Array and shown_turns is Dictionary \
+			and not (shown as Array).has(active_id) \
+			and not (shown_turns as Dictionary).has(active_id) \
+			and source_turn == expected_turn \
+			and (completed_bundles as Array).count(expected_prior) == 1 \
+			and _terminal_integral_number_matches(
+				prior_turn, expected_prior_turn) \
+			and not scheduled_id.is_empty() \
+			and str(bundle(scheduled_id).get("kind", "")) != "boss" \
+			and action_ready == false \
+			and (raw_pending as Dictionary).is_empty() \
+			and active_id in [OPENING_INTERVIEW_BUNDLE_ID,
+				"temptation_consequence"]
+	var raw_plans: Variant = state.get("plans", null)
+	var raw_plan: Variant = (raw_plans as Dictionary).get(
+		str(month_for_turn(source_turn)), null) \
+		if raw_plans is Dictionary else null
+	if not raw_plan is Dictionary \
+			or str(((raw_plan as Dictionary).get(
+				"schedule", {}) as Dictionary).get(str(source_turn), "")) \
+				!= active_id:
+		return false
+	var expected_action := str(bundle(active_id).get(
+		"action_id", "")).strip_edges()
+	if expected_action.is_empty():
+		return action_ready == false and (raw_pending as Dictionary).is_empty()
+	if action_ready:
+		return (raw_pending as Dictionary).is_empty()
+	return _legacy_040746_pending_commitment_valid(
+		raw_pending, state, source_turn)
+
+static func _legacy_040746_relationship_ledgers_valid(
+		state: Dictionary, source_turn: int = 0) -> bool:
+	if source_turn <= 0:
+		source_turn = int(GameState.turn)
+	var raw_stages: Variant = state.get("relationship_stages", null)
+	var raw_choices: Variant = state.get("relationship_choice_receipts", null)
+	var raw_history: Variant = state.get("relationship_history", null)
+	var raw_initiated: Variant = state.get("player_initiated", null)
+	if not raw_stages is Dictionary or not raw_choices is Dictionary \
+			or not raw_history is Array or not raw_initiated is Array:
+		return false
+	var expected_stages: Dictionary = {}
+	var expected_receipts: Dictionary = {}
+	var expected_initiated: Array[String] = []
+	var seen_bundles: Array[String] = []
+	var previous_turn := 0
+	for raw_entry in raw_history as Array:
+		if not raw_entry is Dictionary \
+				or not _terminal_dictionary_has_exact_keys(
+					raw_entry as Dictionary, [
+						"character", "from", "to", "bundle_id", "event_id",
+						"choice_index", "turn",
+					]) \
+				or not _terminal_integral_number_in_range(
+					(raw_entry as Dictionary).get("turn", null), 1,
+					mini(8, source_turn)) \
+				or not _terminal_integral_number_in_range(
+					(raw_entry as Dictionary).get("choice_index", null), 0, 99):
+			return false
+		var entry: Dictionary = raw_entry
+		var turn := int(entry.get("turn", 0))
+		var bundle_id := str(entry.get("bundle_id", "")).strip_edges()
+		var raw_outcome: Variant = LEGACY_040746_RELATIONSHIP_OUTCOMES.get(
+			bundle_id, null)
+		if turn < previous_turn or seen_bundles.has(bundle_id) \
+				or not raw_outcome is Dictionary:
+			return false
+		previous_turn = turn
+		seen_bundles.append(bundle_id)
+		var outcome: Dictionary = raw_outcome
+		var event_id := str(outcome.get("event_id", ""))
+		var character_id := str(outcome.get("character", ""))
+		var choice_index := int(entry.get("choice_index", -1))
+		var raw_choice_stages: Variant = outcome.get("choice_stages", null)
+		var target_stage := str((raw_choice_stages as Dictionary).get(
+			str(choice_index), "")) if raw_choice_stages is Dictionary else ""
+		var current_stage := str(expected_stages.get(character_id, "unmet"))
+		if event_id.is_empty() or character_id.is_empty() \
+				or target_stage.is_empty() \
+				or str(entry.get("event_id", "")) != event_id \
+				or str(entry.get("character", "")) != character_id \
+				or str(entry.get("from", "")) != current_stage \
+				or str(entry.get("to", "")) != target_stage:
+			return false
+		var raw_plan: Variant = (state.get("plans", {}) as Dictionary).get(
+			str(month_for_turn(turn)), null)
+		var scheduled_bundle := str(((raw_plan as Dictionary).get(
+			"schedule", {}) as Dictionary).get(str(turn), "")) \
+			if raw_plan is Dictionary else ""
+		var completed: Variant = state.get("completed_bundles", null)
+		var completed_turns: Variant = state.get(
+			"completed_bundle_turns", null)
+		var completed_authority := completed is Array \
+			and (completed as Array).count(bundle_id) == 1 \
+			and completed_turns is Dictionary \
+			and _terminal_integral_number_matches(
+				(completed_turns as Dictionary).get(bundle_id, null), turn)
+		var active_authority := str(state.get("active_kind", "")) == "schedule" \
+			and str(state.get("active_bundle", "")) == bundle_id \
+			and _terminal_integral_number_matches(
+				state.get("active_turn", null), turn) \
+			and turn == source_turn
+		if scheduled_bundle != bundle_id \
+				or (not completed_authority and not active_authority):
+			return false
+		var receipt_key := "%s:%s:%d:%d" % [
+			bundle_id, event_id, choice_index, turn]
+		if expected_receipts.has(receipt_key):
+			return false
+		expected_receipts[receipt_key] = true
+		expected_stages[character_id] = target_stage
+		if str(outcome.get("initiative", "")) == "player" \
+				and not expected_initiated.has(character_id):
+			expected_initiated.append(character_id)
+	return _terminal_variant_semantically_equal(raw_stages, expected_stages) \
+		and _terminal_variant_semantically_equal(raw_choices, expected_receipts) \
+		and _terminal_variant_semantically_equal(
+			raw_initiated, expected_initiated)
+
+static func _terminal_array_has_integral_turn(
+		raw_turns: Array, expected_turn: int) -> bool:
+	for raw_turn in raw_turns:
+		if _terminal_integral_number_matches(raw_turn, expected_turn):
+			return true
+	return false
+
+static func _legacy_040746_shown_ledgers_valid(
+		state: Dictionary, source_turn: int) -> bool:
+	var raw_shown: Variant = state.get("shown_consequences", null)
+	var raw_turns: Variant = state.get("shown_consequence_turns", null)
+	if not raw_shown is Array or not raw_turns is Dictionary \
+			or (raw_shown as Array).size() != (raw_turns as Dictionary).size():
+		return false
+	var shown: Array[String] = []
+	for raw_id in raw_shown as Array:
+		var consequence_id := str(raw_id).strip_edges()
+		var raw_turn: Variant = (raw_turns as Dictionary).get(
+			consequence_id, null)
+		if consequence_id not in [
+				OPENING_INTERVIEW_BUNDLE_ID, "temptation_consequence"] \
+				or shown.has(consequence_id) \
+				or not _terminal_integral_number_in_range(
+					raw_turn, 1, source_turn):
+			return false
+		shown.append(consequence_id)
+	var completed: Array = state.get("completed_bundles", []) \
+		if state.get("completed_bundles", []) is Array else []
+	var completed_turns: Array = state.get("completed_turns", []) \
+		if state.get("completed_turns", []) is Array else []
+	var completed_bundle_turns: Dictionary = state.get(
+		"completed_bundle_turns", {}) \
+		if state.get("completed_bundle_turns", {}) is Dictionary else {}
+	var mirae_completed := completed.count("m1_mirae_application") == 1 \
+		and _terminal_integral_number_matches(
+			completed_bundle_turns.get("m1_mirae_application", null), 1)
+	var boss_completed := completed.count("first_temptation_boss") == 1
+	var active_bundle := str(state.get("active_bundle", ""))
+	var active_kind := str(state.get("active_kind", ""))
+	var opening_shown := shown.has(OPENING_INTERVIEW_BUNDLE_ID)
+	if opening_shown and (not mirae_completed \
+			or not _terminal_integral_number_matches(
+				(raw_turns as Dictionary).get(
+					OPENING_INTERVIEW_BUNDLE_ID, null), 2)):
+		return false
+	var opening_must_be_shown := mirae_completed \
+		and (source_turn >= 3 \
+			or (source_turn == 2 and active_kind == "schedule" \
+				and not active_bundle.is_empty()) \
+			or _terminal_array_has_integral_turn(completed_turns, 2))
+	if opening_must_be_shown and not opening_shown:
+		return false
+	if not mirae_completed and opening_shown:
+		return false
+	var temptation_must_be_shown := boss_completed \
+		and (source_turn >= 6 \
+			or (source_turn == 5 and active_kind == "schedule" \
+				and not active_bundle.is_empty()) \
+			or _terminal_array_has_integral_turn(completed_turns, 5))
+	if temptation_must_be_shown:
+		if shown.count("temptation_consequence") != 1 \
+				or not _terminal_integral_number_matches(
+					(raw_turns as Dictionary).get(
+						"temptation_consequence", null), 5):
+			return false
+	if shown.has("temptation_consequence") \
+			and (not boss_completed \
+				or not _terminal_integral_number_matches(
+					completed_bundle_turns.get(
+						"first_temptation_boss", null), 4) \
+				or not _terminal_integral_number_matches(
+					(raw_turns as Dictionary).get(
+						"temptation_consequence", null), 5)):
+		return false
+	return true
+
+static func _legacy_040746_core_state_valid(
+		raw_state: Variant, source_turn: int,
+		raw_pending: Variant = {}) -> bool:
+	if not raw_state is Dictionary \
+			or not _terminal_dictionary_has_exact_keys(
+				raw_state as Dictionary, LEGACY_040746_CORE_KEYS) \
+			or not _terminal_integral_number_matches(
+				(raw_state as Dictionary).get("schema", null),
+				LEGACY_040746_SOURCE_SCHEMA) \
+			or (raw_state as Dictionary).get("enabled", null) != true \
+			or source_turn < 1 or source_turn > 9:
+		return false
+	var state: Dictionary = raw_state
+	if not _legacy_040746_completed_topology_valid(state, source_turn) \
+			or not _legacy_040746_routine_ledger_valid(state, source_turn) \
+			or not _legacy_040746_summary_ledger_valid(state, source_turn) \
+			or not _legacy_040746_forgone_and_declines_valid(
+				state, source_turn) \
+			or not _legacy_040746_relationship_ledgers_valid(
+				state, source_turn) \
+			or not _legacy_040746_shown_ledgers_valid(state, source_turn) \
+			or not state.get("suppressed_followups", null) is Dictionary \
+			or not (state.get("suppressed_followups", {}) as Dictionary).is_empty() \
+			or not _legacy_040746_active_and_pending_valid(
+				state, source_turn, raw_pending) \
+			or not state.get("prototype_complete", null) is bool \
+			or not _terminal_integral_number_in_range(
+				state.get("prototype_completed_at_turn", null), 0, 9):
+		return false
+	if source_turn <= 8 and (bool(state.get("prototype_complete", true)) \
+			or not _terminal_integral_number_matches(
+				state.get("prototype_completed_at_turn", null), 0)):
+		return false
+	if source_turn == 9 and (not bool(state.get("prototype_complete", false)) \
+			or not _terminal_integral_number_matches(
+				state.get("prototype_completed_at_turn", null), 9)):
+		return false
+	return true
+
+static func _legacy_040746_numeric_outcome_value_valid(
+		raw_value: Variant) -> bool:
+	return typeof(raw_value) in [TYPE_INT, TYPE_FLOAT] \
+		and is_finite(float(raw_value)) \
+		and float(raw_value) == float(int(raw_value))
+
+static func _legacy_040746_clamped_outcome_delta_valid(
+		outcome: Dictionary, key: String, requested: int) -> bool:
+	if not outcome.has(key):
+		return true
+	var raw_actual: Variant = outcome.get(key, null)
+	if not _legacy_040746_numeric_outcome_value_valid(raw_actual):
+		return false
+	var actual := int(raw_actual)
+	if actual == 0:
+		return false
+	if requested < 0:
+		return actual < 0 and actual >= requested
+	if requested > 0:
+		return actual > 0 and actual <= requested
+	return false
+
+static func _legacy_040746_clamped_outcome_matches_any(
+		outcome: Dictionary, key: String,
+		requested_values: Array) -> bool:
+	if not outcome.has(key):
+		# The public snapshot omitted a delta clamped to zero.
+		return true
+	var raw_actual: Variant = outcome.get(key, null)
+	if not _legacy_040746_numeric_outcome_value_valid(raw_actual):
+		return false
+	var actual := int(raw_actual)
+	if actual == 0:
+		return false
+	for raw_requested in requested_values:
+		var requested := int(raw_requested)
+		if requested < 0 and actual < 0 and actual >= requested:
+			return true
+		if requested > 0 and actual > 0 and actual <= requested:
+			return true
+	return false
+
+static func _legacy_040746_action_weekly_record_valid(
+		record: Dictionary, scheduled_bundle: String,
+		spec: Dictionary, expected_action: String) -> bool:
+	var exact_keys := LEGACY_040746_WEEKLY_REQUIRED_KEYS.duplicate()
+	var details_required := expected_action in [
+		"apply", "side_shift", "resume", "interview",
+	]
+	if details_required:
+		exact_keys.append("details")
+	if not _terminal_dictionary_has_exact_keys(record, exact_keys) \
+			or record.get("person_id", null) != "" \
+			or record.get("forgone_ids", null) != [] \
+			or str(record.get("pressure_id", "")) != scheduled_bundle \
+			or str(record.get("pressure_family", "")) \
+				!= str(spec.get("kind", "")) \
+			or str(record.get("choice_id", "")) != expected_action \
+			or str(record.get("actual_action_id", "")) != expected_action \
+			or not record.get("outcome", null) is Dictionary:
+		return false
+	var outcome: Dictionary = record.get("outcome", {})
+	match expected_action:
+		"apply":
+			var expected_application_id := "mirae_industrial_tech" \
+				if scheduled_bundle == "m1_mirae_application" else "seorin"
+			return scheduled_bundle in [
+				"m1_mirae_application", "m2_seorin_application",
+			] and _terminal_dictionary_has_exact_keys(
+				record.get("details", {}) as Dictionary,
+				["application_id", "status"]) \
+				and str((record.get("details", {}) as Dictionary).get(
+					"application_id", "")) == expected_application_id \
+				and str((record.get("details", {}) as Dictionary).get(
+					"status", "")) == "submitted" \
+				and outcome.is_empty()
+		"rest":
+			if not _legacy_040746_dictionary_has_allowed_keys(
+					outcome, [], ["health", "mental"]):
+				return false
+			return _legacy_040746_clamped_outcome_delta_valid(
+					outcome, "health", 3) \
+				and _legacy_040746_clamped_outcome_delta_valid(
+					outcome, "mental", 10)
+		"resume", "interview":
+			var details: Dictionary = record.get("details", {})
+			if not _terminal_dictionary_has_exact_keys(details, ["quality"]) \
+					or not _terminal_integral_number_in_range(
+						details.get("quality", null), 0, 3):
+				return false
+			var allowed_keys := ["mental"]
+			if expected_action == "resume":
+				allowed_keys.append_array(["intelligence", "resume_polished"])
+			else:
+				allowed_keys.append_array([
+					"social_skill", "luck", "interview_practiced",
+				])
+			if not _legacy_040746_dictionary_has_allowed_keys(
+					outcome, [], allowed_keys):
+				return false
+			for raw_key in outcome.keys():
+				var key := str(raw_key)
+				var value: Variant = outcome.get(raw_key, null)
+				if key in ["resume_polished", "interview_practiced"]:
+					if value != true:
+						return false
+				elif not _legacy_040746_numeric_outcome_value_valid(value):
+					return false
+			var quality := int(details.get("quality", -1))
+			var expected_public: Dictionary = {}
+			if expected_action == "resume":
+				match quality:
+					3:
+						expected_public = {
+							"intelligence": 2, "resume_polished": true,
+						}
+					2:
+						expected_public = {
+							"intelligence": 1, "resume_polished": true,
+						}
+			else:
+				match quality:
+					3:
+						expected_public = {
+							"social_skill": 2, "luck": 1,
+							"interview_practiced": true,
+						}
+					2:
+						expected_public = {
+							"social_skill": 1,
+							"interview_practiced": true,
+						}
+					1:
+						expected_public = {"luck": 1}
+			# Old JobHunt answers changed the hidden stress counter, which in turn
+			# changed public Mental.  Freeze the exact feasible delta set for each
+			# question count and grade; a clamp may shrink it toward zero.
+			var feasible_mental: Array = []
+			if expected_action == "resume":
+				match quality:
+					0: feasible_mental = [-9, -8, -7, -6, -5, -4, -3, -2, -1]
+					1: feasible_mental = [-2, -1, 0, 1]
+					2: feasible_mental = [1, 2, 3]
+					3: feasible_mental = [4]
+			else:
+				match quality:
+					0: feasible_mental = [
+						-11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1,
+					]
+					1: feasible_mental = [-4, -3, -2, -1, 0, 1]
+					2: feasible_mental = [-1, 0, 1, 2, 3]
+					3: feasible_mental = [4, 5]
+			if not _legacy_040746_clamped_outcome_matches_any(
+					outcome, "mental", feasible_mental):
+				return false
+			for key in expected_public.keys():
+				var expected: Variant = expected_public[key]
+				if expected is bool:
+					if outcome.has(key) and outcome.get(key, null) != true:
+						return false
+				elif not _legacy_040746_clamped_outcome_delta_valid(
+						outcome, str(key), int(expected)):
+					return false
+			for key in outcome.keys():
+				if str(key) != "mental" and not expected_public.has(key):
+					return false
+			return true
+		"side_shift":
+			var details: Dictionary = record.get("details", {})
+			if not _terminal_dictionary_has_exact_keys(
+					details, ["earned", "health_delta", "mental_delta"]) \
+					or not _legacy_040746_dictionary_has_allowed_keys(
+						outcome, ["money"], ["health", "mental"]):
+				return false
+			if scheduled_bundle == "m2_rain_delivery_shift":
+				return _legacy_040746_delivery_tuple_valid(details, outcome)
+			return scheduled_bundle == "m1_convenience_trial_shift" \
+				and _legacy_040746_convenience_tuple_valid(details, outcome)
+	return false
+
+static func _legacy_040746_flag_matches(
+		flag_id: String, expected: bool) -> bool:
+	var raw_value: Variant = GameState.flags.get(flag_id, null)
+	if raw_value == null:
+		return not expected
+	return raw_value is bool and bool(raw_value) == expected
+
+static func _legacy_040746_active_story_choice_from_flags(
+		state: Dictionary) -> int:
+	var active_id := str(state.get("active_bundle", "")).strip_edges()
+	var active_kind := str(state.get("active_kind", "")).strip_edges()
+	if active_id == OPENING_INTERVIEW_BUNDLE_ID \
+			and active_kind == "consequence":
+		var seen := _legacy_040746_flag_matches("arc_intro_meal_seen", true)
+		var truth := _legacy_040746_flag_matches("told_truth_interview", true)
+		var lied := _legacy_040746_flag_matches("lied_interview", true)
+		if not seen:
+			return -1 if not truth and not lied else -2
+		if truth == lied:
+			return -2
+		return 0 if truth else 1
+	if active_id == "sns_pressure_night" and active_kind == "schedule":
+		var seen := _legacy_040746_flag_matches("arc_intro_sns_seen", true)
+		var deleted := _legacy_040746_flag_matches("deleted_sns", true)
+		var envy := _legacy_040746_flag_matches("envy_fuel", true)
+		if not seen:
+			return -1 if not deleted and not envy else -2
+		if deleted and envy:
+			return -2
+		return 0 if deleted else (1 if envy else 2)
+	return -1
+
+static func _legacy_040746_active_story_flags_valid(
+		state: Dictionary) -> bool:
+	var active_id := str(state.get("active_bundle", "")).strip_edges()
+	var active_kind := str(state.get("active_kind", "")).strip_edges()
+	if (active_id == OPENING_INTERVIEW_BUNDLE_ID \
+			and active_kind == "consequence") \
+			or (active_id == "sns_pressure_night" and active_kind == "schedule"):
+		if _legacy_040746_active_story_choice_from_flags(state) < -1:
+			return false
+	var shown: Variant = state.get("shown_consequences", [])
+	if shown is Array and (shown as Array).has(OPENING_INTERVIEW_BUNDLE_ID):
+		var opening_matches := 0
+		for choice_index in [0, 1]:
+			var expected_truth: bool = choice_index == 0
+			if _legacy_040746_flag_matches("arc_intro_meal_seen", true) \
+					and _legacy_040746_flag_matches(
+						"told_truth_interview", expected_truth) \
+					and _legacy_040746_flag_matches(
+						"lied_interview", not expected_truth):
+				opening_matches += 1
+		if opening_matches != 1:
+			return false
+	var completed: Variant = state.get("completed_bundles", [])
+	if completed is Array \
+			and (completed as Array).has("sns_pressure_night"):
+		var sns_matches := 0
+		for choice_index in [0, 1, 2]:
+			if _sns_story_choice_flags_valid(choice_index):
+				sns_matches += 1
+		if sns_matches != 1:
+			return false
+	return true
+
+static func _legacy_040746_temptation_story_record_valid(
+		record: Dictionary) -> bool:
+	var choice_index := int(record.get("story_choice_index", -1))
+	var outcome: Dictionary = record.get("outcome", {})
+	if choice_index == 0:
+		if not _legacy_040746_dictionary_has_allowed_keys(
+				outcome, [], ["mental"]) \
+				or not _legacy_040746_clamped_outcome_delta_valid(
+					outcome, "mental", -8):
+			return false
+	elif choice_index == 1:
+		if not _legacy_040746_dictionary_has_allowed_keys(
+				outcome, ["money"], ["mental"]) \
+				or not _terminal_integral_number_matches(
+					outcome.get("money", null), 2_000_000) \
+				or not _legacy_040746_clamped_outcome_delta_valid(
+					outcome, "mental", -16):
+			return false
+	else:
+		return false
+	# These flags were the old durable branch receipt.  Revalidate them on every
+	# schema-three witness load too, so changing only the live branch flags
+	# cannot keep a frozen origin while reversing its authored choice.
+	return _legacy_040746_flag_matches("arc_temptation_seen", true) \
+		and _legacy_040746_flag_matches(
+			"lent_account", choice_index == 1) \
+		and _legacy_040746_flag_matches(
+			"kept_clean_hands", choice_index == 0) \
+		and _legacy_040746_flag_matches(
+			"crossed_line_early", choice_index == 1) \
+		and _legacy_040746_flag_matches(
+			"gambling_tempted", choice_index == 1)
+
+static func _legacy_040746_convenience_tuple_valid(
+		details: Dictionary, outcome: Dictionary) -> bool:
+	for key in ["earned", "health_delta", "mental_delta"]:
+		if not _legacy_040746_numeric_outcome_value_valid(
+				details.get(key, null)):
+			return false
+	if not _legacy_040746_dictionary_has_allowed_keys(
+			outcome, ["money"], ["health", "mental"]):
+		return false
+	var earned := int(details.get("earned", 0))
+	var requested_health := int(details.get("health_delta", 0))
+	var requested_mental := int(details.get("mental_delta", 0))
+	if requested_health != -3:
+		return false
+	var target_bonus := earned - LEGACY_040746_CONVENIENCE_BASE_PAY
+	var target_stress := -requested_mental
+	var reachable := {"0:0": Vector2i.ZERO}
+	for raw_options in LEGACY_040746_CONVENIENCE_OPTIONS:
+		var next: Dictionary = {}
+		for raw_pair in reachable.values():
+			var pair: Vector2i = raw_pair
+			for raw_option in raw_options:
+				var option: Array = raw_option
+				var candidate := Vector2i(
+					pair.x + int(option[0]), pair.y + int(option[1]))
+				next["%d:%d" % [candidate.x, candidate.y]] = candidate
+		reachable = next
+	if not reachable.has("%d:%d" % [target_bonus, target_stress]) \
+			or not _terminal_integral_number_matches(
+				outcome.get("money", null), earned):
+		return false
+	return _legacy_040746_clamped_outcome_delta_valid(
+			outcome, "health", requested_health) \
+		and _legacy_040746_clamped_outcome_delta_valid(
+			outcome, "mental", requested_mental)
+
+static func _legacy_040746_weekly_record_valid(
+		record: Dictionary, state: Dictionary, source_turn: int) -> bool:
+	if not _legacy_040746_dictionary_has_allowed_keys(
+			record, LEGACY_040746_WEEKLY_REQUIRED_KEYS,
+			LEGACY_040746_WEEKLY_OPTIONAL_KEYS) \
+			or not _terminal_integral_number_in_range(
+				record.get("turn", null), 1, source_turn) \
+			or not _terminal_integral_number_in_range(
+				record.get("echoed_turn", null), -1, source_turn) \
+			or not record.get("forgone_ids", null) is Array \
+			or not record.get("outcome", null) is Dictionary:
+		return false
+	var turn := int(record.get("turn", 0))
+	var echoed_turn := int(record.get("echoed_turn", -1))
+	if echoed_turn != -1 \
+			and (echoed_turn <= turn or echoed_turn > source_turn):
+		return false
+	var plan: Dictionary = (state.get("plans", {}) as Dictionary).get(
+		str(month_for_turn(turn)), {})
+	var scheduled_bundle := str((plan.get("schedule", {}) as Dictionary).get(
+		str(turn), ""))
+	var spec := bundle(scheduled_bundle)
+	var expected_action := str(spec.get("action_id", "")).strip_edges()
+	if scheduled_bundle.is_empty() or spec.is_empty():
+		return false
+	var forgone_ids: Array[String] = []
+	for raw_id in record.get("forgone_ids", []) as Array:
+		var forgone_id := str(raw_id).strip_edges()
+		if forgone_id.is_empty() or forgone_ids.has(forgone_id):
+			return false
+		forgone_ids.append(forgone_id)
+	for raw_value in (record.get("outcome", {}) as Dictionary).values():
+		if typeof(raw_value) in [TYPE_INT, TYPE_FLOAT]:
+			if not is_finite(float(raw_value)):
+				return false
+		elif typeof(raw_value) not in [TYPE_BOOL, TYPE_STRING]:
+			return false
+	if not expected_action.is_empty():
+		return _legacy_040746_action_weekly_record_valid(
+			record, scheduled_bundle, spec, expected_action)
+	var expected_event_id := str(LEGACY_040746_STORY_ROOTS.get(
+		scheduled_bundle, ""))
+	var raw_choice_index: Variant = record.get("story_choice_index", null)
+	var choice_count := int(LEGACY_040746_STORY_CHOICE_COUNTS.get(
+		expected_event_id, 0))
+	if expected_event_id.is_empty() \
+			or choice_count <= 0 \
+			or not _terminal_integral_number_in_range(
+				raw_choice_index, 0, choice_count - 1) \
+			or not _terminal_dictionary_has_exact_keys(record, [
+				"turn", "source", "pressure_id", "pressure_family",
+				"choice_id", "actual_action_id", "person_id", "forgone_ids",
+				"story_event_id", "story_choice_index",
+				"forgone_choice_indexes", "week_kind", "axis",
+				"consequence_timing", "outcome", "echoed_turn",
+			]):
+		return false
+	var choice_index := int(raw_choice_index)
+	var raw_forgone_choices: Variant = record.get(
+		"forgone_choice_indexes", null)
+	if not raw_forgone_choices is Array:
+		return false
+	var expected_forgone_choices: Array[int] = []
+	for alternative_index in range(choice_count):
+		if alternative_index != choice_index:
+			expected_forgone_choices.append(alternative_index)
+	var forgone_choices: Array[int] = []
+	for raw_index in raw_forgone_choices as Array:
+		if not _terminal_integral_number_in_range(
+				raw_index, 0, choice_count - 1) \
+				or int(raw_index) == choice_index \
+				or forgone_choices.has(int(raw_index)):
+			return false
+		forgone_choices.append(int(raw_index))
+	return forgone_choices == expected_forgone_choices \
+		and record.get("person_id", null) == "" \
+		and record.get("forgone_ids", null) == [] \
+		and str(record.get("source", "")) == "story_event" \
+		and str(record.get("pressure_family", "")) == "story" \
+		and str(record.get("actual_action_id", "")) == "story_choice" \
+		and str(record.get("story_event_id", "")) == expected_event_id \
+		and str(record.get("pressure_id", "")) \
+			== "story:%s" % expected_event_id \
+		and str(record.get("choice_id", "")) \
+			== "story:%s:%d" % [expected_event_id, choice_index] \
+		and str(record.get("axis", "")) == "money" \
+		and str(record.get("consequence_timing", "")) == "delayed" \
+		and (record.get("week_kind", "decision") \
+			== ("boss" if scheduled_bundle == "first_temptation_boss" \
+			else "decision")) \
+		and (scheduled_bundle != "first_temptation_boss" \
+			or _legacy_040746_temptation_story_record_valid(record))
+
+static func _legacy_040746_weekly_witnesses_valid(
+		raw_weekly: Variant, state: Dictionary, source_turn: int) -> bool:
+	var raw_completed: Variant = state.get("completed_turns", null)
+	if not raw_weekly is Array or not raw_completed is Array:
+		return false
+	var expected_turns: Array[int] = []
+	for raw_turn in raw_completed as Array:
+		if not _terminal_integral_number_in_range(raw_turn, 1, 8):
+			return false
+		var turn := int(raw_turn)
+		var raw_plan: Variant = (state.get("plans", {}) as Dictionary).get(
+			str(month_for_turn(turn)), null)
+		var scheduled_bundle := str(((raw_plan as Dictionary).get(
+			"schedule", {}) as Dictionary).get(str(turn), "")) \
+			if raw_plan is Dictionary else ""
+		var scheduled_spec := bundle(scheduled_bundle)
+		# Old direct actions always finalized a GameState weekly row. Scheduled
+		# Story bundles did not: StoryMode wrote one only for the pacing-owned
+		# W4 temptation boss. Do not invent rows for father/Hyunsu/cafe/SNS.
+		if not str(scheduled_spec.get("action_id", "")).strip_edges().is_empty() \
+				or (turn == 4 and scheduled_bundle == "first_temptation_boss"):
+			expected_turns.append(turn)
+	var active_id := str(state.get("active_bundle", "")).strip_edges()
+	var active_kind := str(state.get("active_kind", "")).strip_edges()
+	var action_ready := bool(state.get("action_result_ready", false))
+	if active_kind == "schedule" and not active_id.is_empty():
+		var active_spec := bundle(active_id)
+		var active_has_row := (
+			not str(active_spec.get("action_id", "")).strip_edges().is_empty()
+				and action_ready)
+		# A W4 mid-Story save can be either before the choice (no row yet) or
+		# after it (the exact pacing-owned row exists, before MainGame returns
+		# and closes the bundle). The row itself is the only old durable phase
+		# discriminator, so accept either state but validate any row in full.
+		if source_turn == 4 and active_id == "first_temptation_boss":
+			for raw_record in raw_weekly as Array:
+				if raw_record is Dictionary \
+						and _terminal_integral_number_matches(
+							(raw_record as Dictionary).get("turn", null),
+							source_turn):
+					active_has_row = true
+					break
+		if active_has_row:
+			expected_turns.append(source_turn)
+	expected_turns.sort()
+	var seen_turns: Array[int] = []
+	for raw_record in raw_weekly as Array:
+		if not raw_record is Dictionary \
+				or not _legacy_040746_weekly_record_valid(
+					raw_record as Dictionary, state, source_turn):
+			return false
+		var turn := int((raw_record as Dictionary).get("turn", 0))
+		if seen_turns.has(turn):
+			return false
+		seen_turns.append(turn)
+	return seen_turns == expected_turns
+
+## The frozen 040746 delivery minigame could only settle a nonempty, unique
+## subset of its six routes inside 120 minutes. Preserve that producer truth
+## instead of accepting merely plausible-looking money or stat deltas.
+static func _legacy_040746_delivery_tuple_valid(
+		details: Dictionary, outcome: Dictionary) -> bool:
+	var raw_earned: Variant = details.get("earned", null)
+	var raw_health: Variant = details.get("health_delta", null)
+	var raw_mental: Variant = details.get("mental_delta", null)
+	if typeof(raw_earned) not in [TYPE_INT, TYPE_FLOAT] \
+			or typeof(raw_health) not in [TYPE_INT, TYPE_FLOAT] \
+			or typeof(raw_mental) not in [TYPE_INT, TYPE_FLOAT] \
+			or not is_finite(float(raw_earned)) \
+			or not is_finite(float(raw_health)) \
+			or not is_finite(float(raw_mental)) \
+			or not _terminal_integral_number_matches(
+				raw_earned, int(raw_earned)) \
+			or not _terminal_integral_number_matches(
+				raw_health, int(raw_health)) \
+			or not _terminal_integral_number_matches(
+				raw_mental, int(raw_mental)):
+		return false
+	var earned := int(raw_earned)
+	var requested_health := int(raw_health)
+	var requested_mental := int(raw_mental)
+	var producer_tuple_found := false
+	for route_mask in range(1, 1 << LEGACY_040746_DELIVERY_ROUTES.size()):
+		var route_count := 0
+		var route_time := 0
+		var route_tips := 0
+		for route_index in range(LEGACY_040746_DELIVERY_ROUTES.size()):
+			if (route_mask & (1 << route_index)) == 0:
+				continue
+			var route: Dictionary = LEGACY_040746_DELIVERY_ROUTES[route_index]
+			route_count += 1
+			route_time += int(route.get("time", 0))
+			route_tips += int(route.get("tip", 0))
+		if route_time > LEGACY_040746_DELIVERY_TIME_BUDGET:
+			continue
+		var expected_earned := LEGACY_040746_DELIVERY_BASE_PAY \
+			+ route_tips \
+			+ route_count * LEGACY_040746_DELIVERY_ROUTE_BONUS
+		if earned == expected_earned \
+				and requested_health == -3 - route_count \
+				and requested_mental == -maxi(route_count - 2, 0):
+			producer_tuple_found = true
+			break
+	if not producer_tuple_found:
+		return false
+	var raw_money: Variant = outcome.get("money", null)
+	if typeof(raw_money) not in [TYPE_INT, TYPE_FLOAT] \
+			or not is_finite(float(raw_money)) \
+			or not _terminal_integral_number_matches(raw_money, earned):
+		return false
+	for pair in [["health", requested_health], ["mental", requested_mental]]:
+		var stat_key := str(pair[0])
+		var requested := int(pair[1])
+		if not outcome.has(stat_key):
+			# The historical outcome ledger omitted zero deltas. A negative
+			# request can also clamp to zero when the source stat was empty.
+			continue
+		var raw_actual: Variant = outcome.get(stat_key, null)
+		if typeof(raw_actual) not in [TYPE_INT, TYPE_FLOAT] \
+				or not is_finite(float(raw_actual)) \
+				or not _terminal_integral_number_matches(
+					raw_actual, int(raw_actual)):
+			return false
+		var actual := int(raw_actual)
+		if requested == 0 or actual >= 0 or actual < requested:
+			return false
+	return true
+
+static func _legacy_040746_rain_weekly_witness(
+		weekly_witnesses: Array, completed_turn: int) -> Dictionary:
+	var matches: Array[Dictionary] = []
+	for raw_record in weekly_witnesses:
+		if not raw_record is Dictionary \
+				or not _terminal_integral_number_matches(
+					(raw_record as Dictionary).get("turn", null),
+					completed_turn):
+			continue
+		var record: Dictionary = raw_record
+		if not _terminal_dictionary_has_exact_keys(record, [
+			"turn", "pressure_id", "pressure_family", "choice_id",
+			"person_id", "forgone_ids", "actual_action_id", "outcome",
+			"details", "echoed_turn",
+		]) or str(record.get("pressure_id", "")) \
+				!= "m2_rain_delivery_shift" \
+				or str(record.get("pressure_family", "")) != "livelihood" \
+				or str(record.get("choice_id", "")) != "side_shift" \
+				or str(record.get("actual_action_id", "")) != "side_shift" \
+				or str(record.get("person_id", "")) != "" \
+				or record.get("forgone_ids", null) != [] \
+				or not record.get("details", null) is Dictionary \
+				or not _terminal_dictionary_has_exact_keys(
+					record.get("details", {}) as Dictionary, [
+						"earned", "health_delta", "mental_delta",
+					]) \
+				or not record.get("outcome", null) is Dictionary \
+				or not _legacy_040746_dictionary_has_allowed_keys(
+					record.get("outcome", {}) as Dictionary,
+					["money"], ["health", "mental"]):
+			continue
+		var details: Dictionary = record.get("details", {})
+		var outcome: Dictionary = record.get("outcome", {})
+		if _legacy_040746_delivery_tuple_valid(details, outcome):
+			matches.append(record.duplicate(true))
+	return matches[0] if matches.size() == 1 else {}
+
+static func _legacy_040746_origin_witness_valid(raw_witness: Variant) -> bool:
+	if not raw_witness is Dictionary \
+			or not _terminal_dictionary_has_exact_keys(
+				raw_witness as Dictionary, [
+					"schema", "origin_id", "source_schema", "target_schema",
+					"source_turn", "source_core_witness",
+					"source_pending_witness", "source_weekly_witnesses",
+				]):
+		return false
+	var witness: Dictionary = raw_witness
+	var raw_source_turn: Variant = witness.get("source_turn", null)
+	if not _terminal_integral_number_matches(
+			witness.get("schema", null), LEGACY_040746_ORIGIN_SCHEMA) \
+			or str(witness.get("origin_id", "")) != LEGACY_040746_ORIGIN_ID \
+			or not _terminal_integral_number_matches(
+				witness.get("source_schema", null),
+				LEGACY_040746_SOURCE_SCHEMA) \
+			or not _terminal_integral_number_matches(
+				witness.get("target_schema", null), SCHEMA) \
+			or not _terminal_integral_number_in_range(raw_source_turn, 1, 9) \
+			or not witness.get("source_pending_witness", null) is Dictionary \
+			or not _legacy_040746_core_state_valid(
+				witness.get("source_core_witness", null), int(raw_source_turn),
+				witness.get("source_pending_witness", null)) \
+			or not _legacy_040746_active_story_flags_valid(
+				witness.get("source_core_witness", {}) as Dictionary):
+		return false
+	return _legacy_040746_weekly_witnesses_valid(
+		witness.get("source_weekly_witnesses", null),
+		witness.get("source_core_witness", {}) as Dictionary,
+		int(raw_source_turn))
+
+static func _legacy_040746_origin_from_state(state: Dictionary) -> Dictionary:
+	var raw_receipts: Variant = state.get("legacy_origin_receipts", null)
+	var raw_witnesses: Variant = state.get("legacy_origin_witnesses", null)
+	if not raw_receipts is Dictionary or not raw_witnesses is Dictionary \
+			or not _terminal_dictionary_has_exact_keys(
+				raw_receipts as Dictionary, [LEGACY_040746_ORIGIN_ID]) \
+			or not _terminal_dictionary_has_exact_keys(
+				raw_witnesses as Dictionary, [LEGACY_040746_ORIGIN_ID]):
+		return {}
+	var raw_receipt: Variant = (raw_receipts as Dictionary).get(
+		LEGACY_040746_ORIGIN_ID, null)
+	var raw_witness: Variant = (raw_witnesses as Dictionary).get(
+		LEGACY_040746_ORIGIN_ID, null)
+	if not _terminal_variant_semantically_equal(raw_receipt, raw_witness) \
+			or not _legacy_040746_origin_witness_valid(raw_receipt):
+		return {}
+	return (raw_receipt as Dictionary).duplicate(true)
+
+static func _legacy_040746_plan_origin_entry(
+		state: Dictionary, month_index: int, raw_plan: Variant) -> Dictionary:
+	if month_index not in [1, 2] or not raw_plan is Dictionary \
+			or not _legacy_040746_plan_valid(
+			raw_plan as Dictionary, month_index, state):
+		return {}
+	var availability: Dictionary = {}
+	if month_index == 2:
+		var completed: Array = state.get("completed_bundles", []) \
+			if state.get("completed_bundles", []) is Array else []
+		var stages: Dictionary = state.get("relationship_stages", {}) \
+			if state.get("relationship_stages", {}) is Dictionary else {}
+		availability["hyunsu_player_reachout"] = \
+			completed.has("hyunsu_first_meet") \
+			and str(stages.get("hyunsu", "unmet")) != "unmet"
+	return {
+		"schema": LEGACY_040746_PLAN_ORIGIN_SCHEMA,
+		"origin_id": LEGACY_040746_ORIGIN_ID,
+		"month": month_index,
+		"planned_turn": _seoul_cycle_month_start_turn(month_index),
+		"availability": availability,
+		"plan": (raw_plan as Dictionary).duplicate(true),
+	}
+
+static func _legacy_040746_plan_origin_entry_valid(
+		state: Dictionary, month_index: int, raw_entry: Variant) -> bool:
+	if not raw_entry is Dictionary \
+			or not _terminal_dictionary_has_exact_keys(
+			raw_entry as Dictionary, [
+				"schema", "origin_id", "month", "planned_turn",
+				"availability", "plan",
+			]) \
+			or not _terminal_integral_number_matches(
+				(raw_entry as Dictionary).get("schema", null),
+				LEGACY_040746_PLAN_ORIGIN_SCHEMA) \
+			or str((raw_entry as Dictionary).get("origin_id", "")) \
+				!= LEGACY_040746_ORIGIN_ID \
+			or not _terminal_integral_number_matches(
+				(raw_entry as Dictionary).get("month", null), month_index) \
+			or not _terminal_integral_number_matches(
+				(raw_entry as Dictionary).get("planned_turn", null),
+				_seoul_cycle_month_start_turn(month_index)):
+		return false
+	var raw_plan: Variant = (raw_entry as Dictionary).get("plan", null)
+	var raw_availability: Variant = (raw_entry as Dictionary).get(
+		"availability", null)
+	var live_plans: Variant = state.get("plans", null)
+	var live_plan: Variant = (live_plans as Dictionary).get(
+		str(month_index), null) if live_plans is Dictionary else null
+	if not raw_plan is Dictionary or not live_plan is Dictionary \
+			or not raw_availability is Dictionary \
+			or not _terminal_variant_semantically_equal(raw_plan, live_plan):
+		return false
+	var reference_state := state.duplicate(true)
+	if month_index == 1:
+		if not (raw_availability as Dictionary).is_empty():
+			return false
+	else:
+		if not _terminal_dictionary_has_exact_keys(
+				raw_availability as Dictionary,
+				["hyunsu_player_reachout"]) \
+				or not (raw_availability as Dictionary).get(
+					"hyunsu_player_reachout", null) is bool:
+			return false
+		var completed: Array = (reference_state.get(
+			"completed_bundles", []) as Array).duplicate()
+		var stages: Dictionary = (reference_state.get(
+			"relationship_stages", {}) as Dictionary).duplicate(true)
+		if bool((raw_availability as Dictionary).get(
+				"hyunsu_player_reachout", false)):
+			if not completed.has("hyunsu_first_meet"):
+				completed.append("hyunsu_first_meet")
+			if str(stages.get("hyunsu", "unmet")) == "unmet":
+				stages["hyunsu"] = "met"
+		else:
+			completed.erase("hyunsu_first_meet")
+			stages["hyunsu"] = "unmet"
+		reference_state["completed_bundles"] = completed
+		reference_state["relationship_stages"] = stages
+	return _legacy_040746_plan_valid(
+		raw_plan as Dictionary, month_index, reference_state)
+
+static func _normalized_legacy_040746_plan_origins(
+		state: Dictionary, origin: Dictionary,
+		source_is_raw_schema_two: bool) -> Dictionary:
+	var result := {"receipts": {}, "witnesses": {}}
+	if origin.is_empty():
+		return result
+	if source_is_raw_schema_two:
+		var source_core: Dictionary = origin.get("source_core_witness", {})
+		var source_plans: Variant = source_core.get("plans", null)
+		if not source_plans is Dictionary:
+			return result
+		for raw_month_key in (source_plans as Dictionary).keys():
+			if typeof(raw_month_key) != TYPE_STRING \
+					or str(raw_month_key) not in ["1", "2"]:
+				return {"receipts": {}, "witnesses": {}}
+			var month_index := int(str(raw_month_key))
+			var entry := _legacy_040746_plan_origin_entry(
+				source_core, month_index,
+				(source_plans as Dictionary).get(raw_month_key, null))
+			if entry.is_empty():
+				return {"receipts": {}, "witnesses": {}}
+			(result["receipts"] as Dictionary)[str(month_index)] = \
+				entry.duplicate(true)
+			(result["witnesses"] as Dictionary)[str(month_index)] = \
+				entry.duplicate(true)
+		return result
+	var raw_receipts: Variant = state.get(LEGACY_040746_PLAN_RECEIPTS_KEY, null)
+	var raw_witnesses: Variant = state.get(LEGACY_040746_PLAN_WITNESSES_KEY, null)
+	if not raw_receipts is Dictionary or not raw_witnesses is Dictionary \
+			or (raw_receipts as Dictionary).size() \
+				!= (raw_witnesses as Dictionary).size():
+		return result
+	var seen: Array[String] = []
+	for raw_month_key in (raw_receipts as Dictionary).keys():
+		if typeof(raw_month_key) != TYPE_STRING \
+				or str(raw_month_key) not in ["1", "2"] \
+				or seen.has(str(raw_month_key)) \
+				or not (raw_witnesses as Dictionary).has(raw_month_key):
+			return {"receipts": {}, "witnesses": {}}
+		var month_key := str(raw_month_key)
+		var raw_receipt: Variant = (raw_receipts as Dictionary).get(
+			raw_month_key, null)
+		var raw_witness: Variant = (raw_witnesses as Dictionary).get(
+			raw_month_key, null)
+		if not _terminal_variant_semantically_equal(raw_receipt, raw_witness) \
+				or not _legacy_040746_plan_origin_entry_valid(
+					state, int(month_key), raw_receipt):
+			return {"receipts": {}, "witnesses": {}}
+		seen.append(month_key)
+		(result["receipts"] as Dictionary)[month_key] = \
+			(raw_receipt as Dictionary).duplicate(true)
+		(result["witnesses"] as Dictionary)[month_key] = \
+			(raw_witness as Dictionary).duplicate(true)
+	for raw_month_key in (raw_witnesses as Dictionary).keys():
+		if typeof(raw_month_key) != TYPE_STRING \
+				or not seen.has(str(raw_month_key)):
+			return {"receipts": {}, "witnesses": {}}
+	return result
+
+static func _legacy_040746_plan_origin_from_state(
+		state: Dictionary, month_index: int) -> Dictionary:
+	if _legacy_040746_origin_from_state(state).is_empty() \
+			or month_index not in [1, 2]:
+		return {}
+	var raw_receipts: Variant = state.get(LEGACY_040746_PLAN_RECEIPTS_KEY, null)
+	var raw_witnesses: Variant = state.get(LEGACY_040746_PLAN_WITNESSES_KEY, null)
+	if not raw_receipts is Dictionary or not raw_witnesses is Dictionary:
+		return {}
+	var month_key := str(month_index)
+	var raw_receipt: Variant = (raw_receipts as Dictionary).get(month_key, null)
+	var raw_witness: Variant = (raw_witnesses as Dictionary).get(month_key, null)
+	if not _terminal_variant_semantically_equal(raw_receipt, raw_witness) \
+			or not _legacy_040746_plan_origin_entry_valid(
+				state, month_index, raw_receipt):
+		return {}
+	return ((raw_receipt as Dictionary).get("plan", {}) as Dictionary).duplicate(true)
+
+static func legacy_plan_origin_receipt(month_index: int) -> Dictionary:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	return _legacy_040746_plan_origin_from_state(state, month_index)
+
+static func _install_legacy_040746_plan_origin(
+		state: Dictionary, month_index: int) -> void:
+	if _legacy_040746_origin_from_state(state).is_empty() \
+			or month_index not in [1, 2]:
+		return
+	var raw_plan: Variant = (state.get("plans", {}) as Dictionary).get(
+		str(month_index), null)
+	var entry := _legacy_040746_plan_origin_entry(
+		state, month_index, raw_plan)
+	if entry.is_empty():
+		return
+	for map_key in [
+		LEGACY_040746_PLAN_RECEIPTS_KEY,
+		LEGACY_040746_PLAN_WITNESSES_KEY,
+	]:
+		if not state.get(map_key, null) is Dictionary:
+			state[map_key] = {}
+		var ledger: Dictionary = state[map_key]
+		var existing: Variant = ledger.get(str(month_index), null)
+		if existing is Dictionary and not (existing as Dictionary).is_empty():
+			return
+		ledger[str(month_index)] = entry.duplicate(true)
+		state[map_key] = ledger
+
+static func _mint_legacy_040746_origin(
+		raw_state: Dictionary, raw_source_schema: Variant,
+		raw_pending: Variant, raw_weekly: Variant) -> Dictionary:
+	if not _terminal_integral_number_matches(
+			raw_source_schema, LEGACY_040746_SOURCE_SCHEMA) \
+			or not raw_pending is Dictionary \
+			or not raw_weekly is Array \
+			or not _legacy_040746_core_state_valid(
+				raw_state, int(GameState.turn), raw_pending) \
+			or not _legacy_040746_weekly_witnesses_valid(
+				raw_weekly, raw_state, int(GameState.turn)) \
+			or not _legacy_040746_pending_baseline_matches_current(raw_pending) \
+			or not _legacy_040746_active_story_flags_valid(raw_state):
+		return {}
+	var witness := {
+		"schema": LEGACY_040746_ORIGIN_SCHEMA,
+		"origin_id": LEGACY_040746_ORIGIN_ID,
+		"source_schema": LEGACY_040746_SOURCE_SCHEMA,
+		"target_schema": SCHEMA,
+		"source_turn": int(GameState.turn),
+		"source_core_witness": raw_state.duplicate(true),
+		"source_pending_witness": (raw_pending as Dictionary).duplicate(true),
+		"source_weekly_witnesses": (raw_weekly as Array).duplicate(true),
+	}
+	return witness if _legacy_040746_origin_witness_valid(witness) else {}
+
+static func _normalized_legacy_action_migration(
+		state: Dictionary, origin: Dictionary,
+		plan_origins: Dictionary = {}) -> Dictionary:
+	var result := {"fallbacks": {}, "receipts": {}}
+	if origin.is_empty():
+		return result
+	var bundle_id := "m2_rain_delivery_shift"
+	var expected_action := "side_shift"
+	var source_core: Dictionary = origin.get("source_core_witness", {})
+	var raw_completed: Variant = source_core.get("completed_bundles", null)
+	var raw_turns: Variant = source_core.get("completed_bundle_turns", null)
+	if not raw_completed is Array or not raw_turns is Dictionary:
+		return result
+	var raw_turn: Variant = (raw_turns as Dictionary).get(bundle_id, null)
+	if (raw_completed as Array).count(bundle_id) != 1 \
+			or not _terminal_integral_number_in_range(raw_turn, 6, 7):
+		return result
+	var completed_turn := int(raw_turn)
+	var raw_plan_receipts: Variant = plan_origins.get("receipts", null)
+	var raw_plan_entry: Variant = (raw_plan_receipts as Dictionary).get(
+		"2", null) if raw_plan_receipts is Dictionary else null
+	if not raw_plan_entry is Dictionary:
+		return result
+	var source_plan: Dictionary = (raw_plan_entry as Dictionary).get(
+		"plan", {}) if (raw_plan_entry as Dictionary).get(
+		"plan", {}) is Dictionary else {}
+	if str((source_plan.get("schedule", {}) as Dictionary).get(
+			str(completed_turn), "")) != bundle_id:
+		return result
+	var source_weekly := _legacy_040746_rain_weekly_witness(
+		origin.get("source_weekly_witnesses", []) as Array, completed_turn)
+	if source_weekly.is_empty():
+		return result
+	var canonical := {
+		"bundle_id": bundle_id,
+		"action_id": expected_action,
+		"completed_turn": completed_turn,
+		"source_schema": LEGACY_040746_SOURCE_SCHEMA,
+	}
+	var canonical_migration := {
+		"schema": 2,
+		"migration_id": "schema2_action_fallback",
+		"origin_id": LEGACY_040746_ORIGIN_ID,
+		"bundle_id": bundle_id,
+		"action_id": expected_action,
+		"completed_turn": completed_turn,
+		"source_schema": LEGACY_040746_SOURCE_SCHEMA,
+		"target_schema": SCHEMA,
+		"source_plan_witness": source_plan.duplicate(true),
+		"source_weekly_witness": source_weekly.duplicate(true),
+	}
+	var source_is_raw_schema_two := _terminal_integral_number_matches(
+		state.get("schema", null), LEGACY_040746_SOURCE_SCHEMA)
+	if not source_is_raw_schema_two:
+		var raw_actions: Variant = state.get("action_receipts", {})
+		var raw_fallbacks: Variant = state.get("legacy_action_fallbacks", {})
+		var raw_migrations: Variant = state.get("legacy_migration_receipts", {})
+		var raw_action: Variant = (raw_actions as Dictionary).get(
+			bundle_id, {}) if raw_actions is Dictionary else null
+		var raw_fallback: Variant = (raw_fallbacks as Dictionary).get(
+			bundle_id, {}) if raw_fallbacks is Dictionary else null
+		var raw_migration: Variant = (raw_migrations as Dictionary).get(
+			bundle_id, {}) if raw_migrations is Dictionary else null
+		var live_completed: Variant = state.get("completed_bundles", [])
+		var live_turns: Variant = state.get("completed_bundle_turns", {})
+		if not raw_actions is Dictionary or not raw_fallbacks is Dictionary \
+				or not raw_migrations is Dictionary \
+				or not live_completed is Array or not live_turns is Dictionary \
+				or (raw_actions as Dictionary).has(bundle_id) \
+				or (live_completed as Array).count(bundle_id) != 1 \
+				or not _terminal_integral_number_matches(
+					(live_turns as Dictionary).get(bundle_id, null),
+					completed_turn) \
+				or not _terminal_variant_semantically_equal(
+					raw_fallback, canonical) \
+				or not _terminal_variant_semantically_equal(
+					raw_migration, canonical_migration):
+			return result
+	(result["fallbacks"] as Dictionary)[bundle_id] = canonical
+	(result["receipts"] as Dictionary)[bundle_id] = canonical_migration
+	return result
+
+static func _normalized_legacy_origin_migration(
+		raw_state: Dictionary, raw_source_schema: Variant,
+		raw_pending: Variant, raw_weekly: Variant) -> Dictionary:
+	var result := {
+		"origin_receipts": {},
+		"origin_witnesses": {},
+		"plan_origin_receipts": {},
+		"plan_origin_witnesses": {},
+		"fallbacks": {},
+		"migration_receipts": {},
+	}
+	var origin: Dictionary = {}
+	if _terminal_integral_number_matches(
+			raw_source_schema, LEGACY_040746_SOURCE_SCHEMA):
+		origin = _mint_legacy_040746_origin(
+			raw_state, raw_source_schema, raw_pending, raw_weekly)
+	elif _terminal_integral_number_matches(raw_source_schema, SCHEMA):
+		origin = _legacy_040746_origin_from_state(raw_state)
+	if origin.is_empty():
+		return result
+	(result["origin_receipts"] as Dictionary)[LEGACY_040746_ORIGIN_ID] = \
+		origin.duplicate(true)
+	(result["origin_witnesses"] as Dictionary)[LEGACY_040746_ORIGIN_ID] = \
+		origin.duplicate(true)
+	var source_is_raw_schema_two := _terminal_integral_number_matches(
+		raw_source_schema, LEGACY_040746_SOURCE_SCHEMA)
+	var plan_origins := _normalized_legacy_040746_plan_origins(
+		raw_state, origin, source_is_raw_schema_two)
+	result["plan_origin_receipts"] = plan_origins["receipts"]
+	result["plan_origin_witnesses"] = plan_origins["witnesses"]
+	var action_migration := _normalized_legacy_action_migration(
+		raw_state, origin, plan_origins)
+	result["fallbacks"] = action_migration["fallbacks"]
+	result["migration_receipts"] = action_migration["receipts"]
+	return result
+
+static func legacy_origin_receipt() -> Dictionary:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	return _legacy_040746_origin_from_state(state)
+
+static func _legacy_040746_active_source_owner(
+		state: Dictionary, bundle_id: String,
+		active_kind: String, turn: int) -> bool:
+	var origin := _legacy_040746_origin_from_state(state)
+	if origin.is_empty():
+		return false
+	var source: Dictionary = origin.get("source_core_witness", {})
+	return str(source.get("active_bundle", "")) == bundle_id \
+		and str(source.get("active_kind", "")) == active_kind \
+		and _terminal_integral_number_matches(
+			source.get("active_turn", null), turn)
+
+## A genuine 040746 save can be captured before an old Story choice.  Expose
+## only that frozen root so MainGame can resume the old surface instead of
+## appending a post-040746 root from today's bundle data.
+static func legacy_active_story_roots() -> Array:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	if not _legacy_040746_active_source_owner(
+			state, OPENING_INTERVIEW_BUNDLE_ID, "consequence", 2):
+		return []
+	var origin := _legacy_040746_origin_from_state(state)
+	var source: Dictionary = origin.get("source_core_witness", {})
+	if _legacy_040746_active_story_choice_from_flags(source) != -1:
+		return []
+	return [LEGACY_OPENING_INTERVIEW_ROOT]
+
+## A 040746 save can also be captured after StoryMode applied the authored
+## choice but before MainGame cleared the owner. The one-time admission step
+## installs exact current receipts from the frozen flags; this query lets the
+## ordinary router finish that owner without replaying the choice or effects.
+static func legacy_active_story_completion_ready() -> bool:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var origin := _legacy_040746_origin_from_state(state)
+	if origin.is_empty():
+		return false
+	var source: Dictionary = origin.get("source_core_witness", {})
+	var bundle_id := str(source.get("active_bundle", "")).strip_edges()
+	var active_kind := str(source.get("active_kind", "")).strip_edges()
+	var turn := int(source.get("active_turn", 0))
+	var choice_index := _legacy_040746_active_story_choice_from_flags(source)
+	if choice_index < 0 \
+			or str(state.get("active_bundle", "")) != bundle_id \
+			or str(state.get("active_kind", "")) != active_kind \
+			or not _terminal_integral_number_matches(
+				state.get("active_turn", null), turn) \
+			or turn != int(GameState.turn):
+		return false
+	if bundle_id == OPENING_INTERVIEW_BUNDLE_ID \
+			and active_kind == "consequence" and turn == 2:
+		return _current_story_choice_receipt_valid(
+			state, bundle_id, active_kind, LEGACY_OPENING_INTERVIEW_ROOT,
+			choice_index, turn) \
+			and _has_current_application_receipt(state, bundle_id)
+	if bundle_id == "sns_pressure_night" \
+			and active_kind == "schedule" and turn in range(5, 9):
+		return _sns_story_receipt_complete(state, turn)
+	return false
+
+static func _install_legacy_040746_active_story_authority(
+		state: Dictionary, origin: Dictionary) -> void:
+	if origin.is_empty():
+		return
+	var source: Dictionary = origin.get("source_core_witness", {})
+	var bundle_id := str(source.get("active_bundle", "")).strip_edges()
+	var active_kind := str(source.get("active_kind", "")).strip_edges()
+	var turn := int(source.get("active_turn", 0))
+	var choice_index := _legacy_040746_active_story_choice_from_flags(source)
+	if choice_index < 0:
+		# The opening application itself is still durable in the old W1 row;
+		# seed only its submitted state so the replayed choice can atomically
+		# write the interview transition through the normal current hook.
+		if bundle_id == OPENING_INTERVIEW_BUNDLE_ID \
+				and active_kind == "consequence":
+			state["application_statuses"]["mirae_industrial_tech"] = \
+				"submitted"
+		return
+	var event_id := ""
+	if bundle_id == OPENING_INTERVIEW_BUNDLE_ID \
+			and active_kind == "consequence" and turn == 2:
+		event_id = LEGACY_OPENING_INTERVIEW_ROOT
+		state["application_statuses"]["mirae_industrial_tech"] = "interviewed"
+	elif bundle_id == "sns_pressure_night" \
+			and active_kind == "schedule" and turn in range(5, 9):
+		event_id = "arc_intro_03_sns"
+	else:
+		return
+	var receipt_key := "%s:%s:%d:%d" % [
+		bundle_id, event_id, choice_index, turn]
+	state["story_choice_receipts"][receipt_key] = {
+		"receipt_key": receipt_key,
+		"bundle_id": bundle_id,
+		"active_kind": active_kind,
+		"event_id": event_id,
+		"choice_index": choice_index,
+		"turn": turn,
+	}
+	if bundle_id == OPENING_INTERVIEW_BUNDLE_ID:
+		state["application_transition_receipts"][receipt_key] = {
+			"receipt_key": receipt_key,
+			"application_id": "mirae_industrial_tech",
+			"from": "submitted",
+			"to": "interviewed",
+			"bundle_id": bundle_id,
+			"event_id": event_id,
+			"choice_index": choice_index,
+			"turn": turn,
+		}
+
 static func _normalized_state(raw_state: Dictionary) -> Dictionary:
 	var state := raw_state.duplicate(true)
-	var source_schema := int(state.get("schema", 1))
+	var raw_source_schema: Variant = state.get("schema", 1)
+	var raw_active_turn: Variant = state.get("active_turn", null)
+	var source_schema := int(raw_source_schema) \
+		if typeof(raw_source_schema) in [TYPE_INT, TYPE_FLOAT] \
+			and is_finite(float(raw_source_schema)) else 1
+	var source_is_exact_schema_two := _terminal_integral_number_matches(
+		raw_source_schema, LEGACY_040746_SOURCE_SCHEMA)
+	var source_is_exact_current := _terminal_integral_number_matches(
+		raw_source_schema, SCHEMA)
+	var authority_shape_poison := _normalized_authority_shape_poison(
+		state, source_is_exact_current)
+	# Legacy authority is admitted before schema-three defaults are inserted.
+	# That ordering is the security boundary: a current save relabelled as schema
+	# two still carries extra keys and can never mint the frozen 040746 witness.
+	var legacy_origin_migration := _normalized_legacy_origin_migration(
+		state, raw_source_schema, GameState.pending_weekly_commitment,
+		GameState.weekly_commitments)
+	if source_is_exact_current and not authority_shape_poison.is_empty():
+		# A witnessed origin cannot survive beside a malformed live authority
+		# container.  Otherwise normalization would turn (for example) a scalar
+		# Story ledger into `{}` and the historical branch would misread it as an
+		# exact absence on this and every later reload.
+		legacy_origin_migration = {
+			"origin_receipts": {}, "origin_witnesses": {},
+			"plan_origin_receipts": {}, "plan_origin_witnesses": {},
+			"fallbacks": {}, "migration_receipts": {},
+		}
+	var raw_origin_receipts: Variant = legacy_origin_migration.get(
+		"origin_receipts", {})
+	var schema_two_origin_admitted := source_is_exact_schema_two \
+		and raw_origin_receipts is Dictionary \
+		and (raw_origin_receipts as Dictionary).has(LEGACY_040746_ORIGIN_ID)
+	var admitted_schema_two_origin: Dictionary = (
+		(raw_origin_receipts as Dictionary).get(
+			LEGACY_040746_ORIGIN_ID, {}) as Dictionary).duplicate(true) \
+		if schema_two_origin_admitted else {}
 	var legacy_prototype_complete := bool(
 		state.get("prototype_complete", false))
 	state["schema"] = SCHEMA
 	state["enabled"] = bool(state.get("enabled", false))
+	state[AUTHORITY_LEDGER_SHAPE_POISON_KEY] = authority_shape_poison
 	for key in [
 		"plans", "completed_bundle_turns", "shown_consequence_turns",
 		"relationship_stages", "relationship_choice_receipts",
@@ -15634,6 +20017,10 @@ static func _normalized_state(raw_state: Dictionary) -> Dictionary:
 		"completion_snapshots",
 		"month_opening_snapshots",
 		"action_receipts", "action_story_acknowledgements",
+		"legacy_origin_receipts", "legacy_origin_witnesses",
+		LEGACY_040746_PLAN_RECEIPTS_KEY,
+		LEGACY_040746_PLAN_WITNESSES_KEY,
+		"legacy_action_fallbacks", "legacy_migration_receipts",
 		"application_statuses", "consequence_receipts",
 		"application_transition_receipts",
 		"terminal_transition_receipts",
@@ -15648,8 +20035,26 @@ static func _normalized_state(raw_state: Dictionary) -> Dictionary:
 	]:
 		if not state.has(key) or not state[key] is Dictionary:
 			state[key] = {}
+	state["legacy_origin_receipts"] = legacy_origin_migration[
+		"origin_receipts"]
+	state["legacy_origin_witnesses"] = legacy_origin_migration[
+		"origin_witnesses"]
+	state[LEGACY_040746_PLAN_RECEIPTS_KEY] = legacy_origin_migration[
+		"plan_origin_receipts"]
+	state[LEGACY_040746_PLAN_WITNESSES_KEY] = legacy_origin_migration[
+		"plan_origin_witnesses"]
+	state["legacy_action_fallbacks"] = legacy_origin_migration["fallbacks"]
+	state["legacy_migration_receipts"] = legacy_origin_migration[
+		"migration_receipts"]
+	if source_is_exact_current and not authority_shape_poison.is_empty():
+		# Poison must be irreversible even if a later hand edit deletes this
+		# internal marker.  Remove every durable terminal authority copy now:
+		# otherwise a normalized save could retain the exact expiry summary and
+		# receipt, lose only the marker on a second edit, and resurrect the route.
+		_quarantine_terminal_authority(state)
 	var terminal_target_witnesses_valid := \
-		_terminal_target_binding_witnesses_globally_valid(state)
+		_terminal_target_binding_witnesses_globally_valid(state) \
+		and authority_shape_poison.is_empty()
 	state[SEOUL_CYCLE_STATE_KEY] = normalize_seoul_cycle_state(
 		state.get(SEOUL_CYCLE_STATE_KEY, {}), state) \
 		if terminal_target_witnesses_valid else {}
@@ -15694,33 +20099,69 @@ static func _normalized_state(raw_state: Dictionary) -> Dictionary:
 		summary["cash_shortfall"] = cash_shortfall_for_money(closing_money)
 		normalized_summaries[str(raw_month_key)] = summary
 	state["month_summaries"] = normalized_summaries
-	for raw_consequence_id in state["shown_consequences"]:
-		var consequence_id := str(raw_consequence_id).strip_edges()
-		if consequence_id.is_empty() \
-				or state["consequence_receipts"].has(consequence_id):
-			continue
-		var historical_roots := resolved_event_roots(consequence_id)
-		# Before this order, every persisted opening_interview_math entry owned
-		# only the interview. The new path writes shown+receipt atomically, so a
-		# shown entry with no receipt is always legacy regardless of save schema.
-		if consequence_id == OPENING_INTERVIEW_BUNDLE_ID:
-			historical_roots = [LEGACY_OPENING_INTERVIEW_ROOT]
-		state["consequence_receipts"][consequence_id] = {
-			"consequence_id": consequence_id,
-			"scheduled_bundle": "",
-			"turn": int(state["shown_consequence_turns"].get(
-				consequence_id, 0)),
-			"status": "consumed",
-			"surface_kind": "legacy_separate",
-			"roots": historical_roots,
-			"presented_turn": int(state["shown_consequence_turns"].get(
-				consequence_id, 0)),
-			"consumed_turn": int(state["shown_consequence_turns"].get(
-				consequence_id, 0)),
-			"legacy_separate_owner": true,
-		}
-	if source_schema <= 2:
+	# Only an exact, admitted 040746 save may create current typed authority.
+	# Schema-three reloads must preserve their already-minted copies exactly;
+	# deleting a receipt is a failed proof, never a request to rebuild it.
+	if schema_two_origin_admitted:
+		for raw_consequence_id in state["shown_consequences"]:
+			var consequence_id := str(raw_consequence_id).strip_edges()
+			if consequence_id.is_empty() \
+					or state["consequence_receipts"].has(consequence_id):
+				continue
+			var historical_roots := resolved_event_roots(consequence_id)
+			if consequence_id == OPENING_INTERVIEW_BUNDLE_ID:
+				historical_roots = [LEGACY_OPENING_INTERVIEW_ROOT]
+			state["consequence_receipts"][consequence_id] = {
+				"consequence_id": consequence_id,
+				"scheduled_bundle": "",
+				"turn": int(state["shown_consequence_turns"].get(
+					consequence_id, 0)),
+				"status": "consumed",
+				"surface_kind": "legacy_separate",
+				"roots": historical_roots,
+				"presented_turn": int(state["shown_consequence_turns"].get(
+					consequence_id, 0)),
+				"consumed_turn": int(state["shown_consequence_turns"].get(
+					consequence_id, 0)),
+				"legacy_separate_owner": true,
+			}
 		_migrate_schema_two_relationship_state(state)
+		_install_legacy_040746_active_story_authority(
+			state, admitted_schema_two_origin)
+	elif not source_is_exact_current:
+		# A fractional/future/otherwise unknown schema may be inspected, but it
+		# cannot smuggle legacy bool ledgers or an in-flight owner into current
+		# typed readers.  Quarantine every authority surface here as well as the
+		# active phase: after this function writes schema three, a later query must
+		# not reinterpret the rejected legacy weekly row as a native current row.
+		for authority_key in [
+			"action_receipts", "action_story_acknowledgements",
+			"application_statuses", "application_transition_receipts",
+			"consequence_receipts", "story_choice_receipts",
+			"obligation_receipts", "deferred_callback_receipts",
+			"future_story_receipts", "future_application_receipts",
+		]:
+			state[authority_key] = {}
+		state["relationship_stages"] = {}
+		state["relationship_choice_receipts"] = {}
+		state["relationship_history"] = []
+		state["relationship_memories"] = []
+		state["player_initiated"] = []
+		state["plans"] = {}
+		state["completed_turns"] = []
+		state["completed_bundles"] = []
+		state["completed_bundle_turns"] = {}
+		state["shown_consequences"] = []
+		state["shown_consequence_turns"] = {}
+		state["active_bundle"] = ""
+		state["active_kind"] = ""
+		state["active_turn"] = 0
+		state["action_result_ready"] = false
+		# Unknown/fractional schemas must not keep a terminal receipt+summary while
+		# the branch above erases the competing completed authority.  Otherwise a
+		# second normalization would reinterpret that sanitized state as current
+		# and resurrect an expiry route.
+		_quarantine_terminal_authority(state)
 	state["active_bundle"] = str(state.get("active_bundle", ""))
 	state["active_kind"] = str(state.get("active_kind", ""))
 	state["active_turn"] = int(state.get("active_turn", 0))
@@ -15730,10 +20171,12 @@ static func _normalized_state(raw_state: Dictionary) -> Dictionary:
 	# are discarded before any action can use them.
 	state["activity_task_session"] = _normalized_activity_task_session(
 		state.get("activity_task_session", {}), state)
-	_recover_finalized_action_state(state, source_schema)
+	_recover_finalized_action_state(
+		state, source_is_exact_current, admitted_schema_two_origin,
+		raw_active_turn)
 	var completed_through := maxi(0, int(
 		state.get("completed_through_week", 0)))
-	if source_schema <= 2 and legacy_prototype_complete:
+	if schema_two_origin_admitted and legacy_prototype_complete:
 		completed_through = maxi(completed_through, 8)
 	state["completed_through_week"] = completed_through
 	state["development_cap_week"] = development_cap_week()
@@ -15744,13 +20187,80 @@ static func _normalized_state(raw_state: Dictionary) -> Dictionary:
 		"completed_at_turn", state.get("prototype_completed_at_turn", 0)))
 	return state
 
+static func _normalized_authority_shape_poison(
+		raw_state: Dictionary, source_is_exact_current: bool) -> Array[String]:
+	var poisoned: Array[String] = []
+	if not source_is_exact_current:
+		return poisoned
+	var allowed: Array[String] = []
+	allowed.append_array(AUTHORITY_ABSENCE_DICTIONARY_KEYS)
+	allowed.append_array(AUTHORITY_ABSENCE_ARRAY_KEYS)
+	var raw_existing: Variant = raw_state.get(
+		AUTHORITY_LEDGER_SHAPE_POISON_KEY, [])
+	if raw_state.has(AUTHORITY_LEDGER_SHAPE_POISON_KEY):
+		if not raw_existing is Array:
+			poisoned.append("marker")
+		else:
+			for raw_key in raw_existing as Array:
+				var key := str(raw_key).strip_edges()
+				if key.is_empty() or not allowed.has(key):
+					if not poisoned.has("marker"):
+						poisoned.append("marker")
+				elif not poisoned.has(key):
+					poisoned.append(key)
+	for key in AUTHORITY_ABSENCE_DICTIONARY_KEYS:
+		if not raw_state.has(key) or not raw_state[key] is Dictionary:
+			if not poisoned.has(key):
+				poisoned.append(key)
+	for key in AUTHORITY_ABSENCE_ARRAY_KEYS:
+		if not raw_state.has(key) or not raw_state[key] is Array:
+			if not poisoned.has(key):
+				poisoned.append(key)
+	poisoned.sort()
+	return poisoned
+
+static func _authority_absence_shape_poisoned(state: Dictionary) -> bool:
+	var raw_poison: Variant = state.get(
+		AUTHORITY_LEDGER_SHAPE_POISON_KEY, null)
+	return not raw_poison is Array or not (raw_poison as Array).is_empty()
+
+static func _clear_terminal_authority_from_month_summaries(
+		state: Dictionary) -> void:
+	var raw_summaries: Variant = state.get("month_summaries", {})
+	if not raw_summaries is Dictionary:
+		return
+	for raw_month_key in (raw_summaries as Dictionary).keys():
+		var raw_summary: Variant = (raw_summaries as Dictionary).get(
+			raw_month_key, null)
+		if not raw_summary is Dictionary:
+			continue
+		var summary: Dictionary = (raw_summary as Dictionary).duplicate(true)
+		for key in [
+			"terminal_source_witnesses", "terminal_transition_resolutions",
+			"historical_cycle_authority",
+		]:
+			summary.erase(key)
+		(raw_summaries as Dictionary)[raw_month_key] = summary
+
+static func _quarantine_terminal_authority(state: Dictionary) -> void:
+	state["terminal_transition_receipts"] = {}
+	state["terminal_transition_resolutions"] = {}
+	state["terminal_target_binding_receipts"] = {}
+	state[SEOUL_CYCLE_STATE_KEY] = {}
+	_clear_terminal_authority_from_month_summaries(state)
+
 static func _recover_finalized_action_state(
-		state: Dictionary, source_schema: int) -> void:
+		state: Dictionary, source_is_exact_current: bool,
+		admitted_schema_two_origin: Dictionary = {},
+		raw_active_turn: Variant = null) -> void:
 	# A finalized same-turn weekly commitment is the durable proof that AP and
 	# effects already ran. Rebuild only the missing presentation receipt when a
 	# signal consumer was disconnected, or when loading a schema-2 result save.
 	# This path never invokes the action executor.
-	if str(state.get("active_kind", "")) != "schedule":
+	var source_is_admitted_schema_two := \
+		not admitted_schema_two_origin.is_empty()
+	if (not source_is_exact_current and not source_is_admitted_schema_two) \
+			or str(state.get("active_kind", "")) != "schedule":
 		return
 	var bundle_id := str(state.get("active_bundle", "")).strip_edges()
 	var scene_bundle := bundle(bundle_id)
@@ -15759,39 +20269,98 @@ static func _recover_finalized_action_state(
 	if bundle_id.is_empty() or expected_action.is_empty():
 		return
 	var active_turn := int(state.get("active_turn", 0))
-	if active_turn < 1 and source_schema <= 2:
-		active_turn = int(GameState.turn)
+	if not _terminal_integral_number_matches(raw_active_turn, active_turn):
+		return
 	state["active_turn"] = active_turn
 	if active_turn < 1 or active_turn != int(GameState.turn) \
 			or (state.get("completed_turns", []) as Array).has(active_turn):
 		return
-	var commitment := _action_record_for_bundle_from_weekly_commitment(
-		GameState.get_weekly_commitment_for_turn(active_turn),
-		bundle_id, expected_action)
+	var commitment: Dictionary = {}
+	var witnessed_legacy_current_commitment := false
+	if source_is_admitted_schema_two:
+		var source_core: Dictionary = admitted_schema_two_origin.get(
+			"source_core_witness", {})
+		var source_turn := int(admitted_schema_two_origin.get("source_turn", 0))
+		var matches: Array[Dictionary] = []
+		for raw_record in admitted_schema_two_origin.get(
+				"source_weekly_witnesses", []) as Array:
+			if raw_record is Dictionary \
+					and _terminal_integral_number_matches(
+						(raw_record as Dictionary).get("turn", null), active_turn) \
+					and str((raw_record as Dictionary).get(
+						"pressure_id", "")) == bundle_id \
+					and _legacy_040746_weekly_record_valid(
+						raw_record as Dictionary, source_core, source_turn):
+				matches.append((raw_record as Dictionary).duplicate(true))
+		if matches.size() == 1:
+			commitment = matches[0]
+	else:
+		commitment = _exact_live_action_weekly_commitment(
+			bundle_id, expected_action, active_turn)
 	if commitment.is_empty():
 		return
+	if source_is_exact_current \
+			and not _current_application_action_record_valid(
+				bundle_id, scene_bundle, commitment):
+		# A schema-two result can be serialized once as current schema with its
+		# immutable origin witness and already-minted receipt. Preserve that exact
+		# pair, but never treat deletion of the receipt as permission to mint the
+		# old application identity again from a now-current weekly row.
+		var origin := _legacy_040746_origin_from_state(state)
+		var source: Dictionary = origin.get(
+			"source_core_witness", {}) if not origin.is_empty() else {}
+		var legacy_matches: Array[Dictionary] = []
+		for raw_record in origin.get(
+				"source_weekly_witnesses", []) as Array:
+			if raw_record is Dictionary \
+					and _terminal_integral_number_matches(
+						(raw_record as Dictionary).get("turn", null),
+						active_turn) \
+					and str((raw_record as Dictionary).get(
+						"pressure_id", "")) == bundle_id \
+					and _legacy_040746_weekly_record_valid(
+						raw_record as Dictionary, source,
+						int(origin.get("source_turn", 0))) \
+					and _terminal_variant_semantically_equal(
+						raw_record, commitment):
+				legacy_matches.append(raw_record as Dictionary)
+		witnessed_legacy_current_commitment = legacy_matches.size() == 1
+		if not witnessed_legacy_current_commitment:
+			state["action_receipts"].erase(bundle_id)
+			state["action_result_ready"] = false
+			return
 	var recovered := _action_receipt_from_record(
 		bundle_id, scene_bundle, commitment)
 	if recovered.is_empty() \
 			or int(recovered.get("turn", -1)) != active_turn \
 			or str(recovered.get("action_id", "")).strip_edges().to_lower() \
 				!= expected_action:
+		state["action_receipts"].erase(bundle_id)
+		state["action_result_ready"] = false
+		return
+	if source_is_exact_current \
+			and not _current_job_hunt_application_recovery_valid(
+				state, bundle_id, recovered):
+		_clear_current_w1_application_recovery_authority(state)
 		return
 	var existing: Variant = state["action_receipts"].get(bundle_id, {})
+	var receipt: Dictionary = recovered
 	if existing is Dictionary and not (existing as Dictionary).is_empty():
-		if int((existing as Dictionary).get("turn", -1)) != active_turn \
-				or str((existing as Dictionary).get(
-					"action_id", "")).strip_edges().to_lower() \
-					!= expected_action:
+		if not _terminal_variant_semantically_equal(existing, recovered):
+			state["action_receipts"].erase(bundle_id)
+			state["action_result_ready"] = false
 			return
-		if not _apply_action_application_receipt(
-				state, bundle_id, existing as Dictionary):
-			return
+		receipt = existing as Dictionary
 	else:
-		state["action_receipts"][bundle_id] = recovered
-	var receipt: Dictionary = state["action_receipts"][bundle_id]
+		if witnessed_legacy_current_commitment:
+			state["action_receipts"].erase(bundle_id)
+			state["action_result_ready"] = false
+			return
 	if not _apply_action_application_receipt(state, bundle_id, receipt):
+		state["action_receipts"].erase(bundle_id)
+		state["action_result_ready"] = false
 		return
+	state["action_receipts"][bundle_id] = receipt
 	state["action_result_ready"] = not (
 		_is_action_story_bundle(scene_bundle)
 		and _has_current_action_story_acknowledgement(state, bundle_id)

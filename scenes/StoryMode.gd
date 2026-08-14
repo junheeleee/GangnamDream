@@ -5353,8 +5353,10 @@ func _on_choice(idx: int):
 		return
 	var expression_choice := GameState.is_expression_choice(choice)
 	var current_event_id := str(_current.get("id", ""))
-	if not _read_only_replay and not expression_choice \
-			and DEMO_CORE_LOOP_V2.is_active() \
+	var v2_choice_transaction := not _read_only_replay and not expression_choice \
+		and DEMO_CORE_LOOP_V2.story_choice_transaction_required(
+			current_event_id, idx, _queue)
+	if v2_choice_transaction \
 			and not DEMO_CORE_LOOP_V2.story_choice_commit_available(
 				current_event_id, idx, _queue):
 		return
@@ -5363,8 +5365,8 @@ func _on_choice(idx: int):
 		and DEMO_CORE_LOOP_V2.is_active() \
 		and current_event_id \
 			== DEMO_CORE_LOOP_V2.OPENING_APPLICATION_EVENT_ID
-	var legacy_opening_snapshot: Dictionary = (
-		GameState.serialize().duplicate(true) if legacy_opening_send else {})
+	var v2_choice_snapshot: Dictionary = (
+		GameState.serialize().duplicate(true) if v2_choice_transaction else {})
 	_stop_story_choice_countdown()
 	if _read_only_replay \
 			and current_event_id == DEMO_CORE_LOOP_V2.FIRST_BILL_DECISION_ID:
@@ -5412,15 +5414,20 @@ func _on_choice(idx: int):
 	if not _read_only_replay:
 		if not GameState.choice_available(_current, choice) \
 				or not GameState.apply_choice(_current, choice):
+			if v2_choice_transaction:
+				GameState.call(
+					"_restore_serialized_snapshot_exact", v2_choice_snapshot)
 			return
-		if not expression_choice and DEMO_CORE_LOOP_V2.is_active():
+		if v2_choice_transaction:
 			var story_recorded := DEMO_CORE_LOOP_V2.note_story_choice(
 				current_event_id, idx, _queue)
-			if legacy_opening_send and not story_recorded:
+			if not story_recorded:
 				GameState.call(
 					"_restore_serialized_snapshot_exact",
-					legacy_opening_snapshot)
+					v2_choice_snapshot)
 				push_error(
+					"Core Loop V2 Story choice lost its exact receipt transaction" \
+					if not legacy_opening_send else \
 					"Legacy opening Send lost its exact application owner")
 				return
 		if not expression_choice:

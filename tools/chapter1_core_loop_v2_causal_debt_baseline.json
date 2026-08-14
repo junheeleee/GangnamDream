@@ -6,10 +6,6 @@
     "row:m6_people:selection_owner"
   ],
   "DEAD_CARD": [
-    "row:m1_father:completed",
-    "row:m1_resume:completed",
-    "row:m2_advancement:completed",
-    "row:m2_people:completed",
     "row:m3_advancement:completed",
     "row:m3_people:completed",
     "row:m4_advancement:completed",
@@ -26,11 +22,6 @@
     "group:w24:story_scene:fanin"
   ],
   "ORPHAN_FACT": [
-    "fact:resume_polished",
-    "receipt:action:m1_youth_center_resume_clinic",
-    "receipt:action:m2_rain_delivery_shift",
-    "receipt:action:m2_seorin_application",
-    "receipt:action:m2_sleep_debt_sunday",
     "receipt:action:m3_hanbit_application",
     "receipt:action:m4_dodam_application",
     "receipt:action:m4_logistics_shift",
@@ -66,13 +57,9 @@
     "slot:m12:self"
   ],
   "SHADOWED_READER": [
-    "reader:m4_certificate_session:inventory_method",
-    "reader:milestone:w24:completion_application_choice"
+    "reader:m4_certificate_session:inventory_method"
   ],
   "UNREACHABLE_CAP": [
     "row:m5_people:declared_cap_2"
-  ],
-  "UNSCHEDULED_CHAIN": [
-    "bundle:sns_pressure_night"
   ]
 }

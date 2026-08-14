@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Validate the Chapter 1 48-slot causal ledger and exact debt snapshot.
 
-The normal mode validates the intentionally incomplete ORDER-100 snapshot.  It
+The normal mode validates the intentionally incomplete ORDER-101 snapshot.  It
 never upgrades a coverage gap to a completion claim.  The stricter completion
 gate is deliberately separate::
 
@@ -338,11 +338,12 @@ assert len(SYNTHETIC_W24_FANIN_RELATIONSHIP_IDS) == 45
 assert len(SYNTHETIC_W24_FIRST_BILL_VALUE_BY_ID) == 8
 assert len(SYNTHETIC_W24_FANIN_RAW_ID_UNIVERSE) == 78
 SYNTHETIC_W24_SUPERSEDED_RECORDS_SHA256 = (
-    "d245c902460bf67259efe7a70ef9f7804a6dc38ac5cc165c3ebd20c06f4eef92")
+    "c5c87beb9a005c4976c37a8ced01b19e629ec6a3d459469d9c8da69c83beaced")
 SYNTHETIC_W24_RETAINED_RECORDS_SHA256 = (
-    "7c01d19a04a17f2325c32f1356e36fb980be6bc2cb2cb7b9f6e43093ca7827fa")
-# The complete fixture makes one separately approved SHADOWED_READER repair
-# to two of the retained records.  This digest locks that exact delta; all
+    "f986a2dba3dfcf915f2b0a02cda635accecbe45af05f4c66a38cdb544aff7843")
+# The complete fixture expands the exact production selected-choice reader
+# into seven separately enumerable synthetic choice/transition alternatives
+# in two retained records.  This digest locks that exact test-only delta; all
 # other retained records remain byte-semantic copies of production.
 SYNTHETIC_W24_REPAIRED_RETAINED_RECORDS_SHA256 = (
     "60bb77d1ee05491ae78778b50cf36a48be8a7e6323a48ce6cb19704157a8dcbe")
@@ -433,16 +434,16 @@ SYNTHETIC_W24_STAGE_TUPLE_DIGESTS = {
 }
 SYNTHETIC_W24_STAGE_TUPLE_MAP_SHA256 = (
     "80e583c047c465474219fe7938f90d0a36ccd28c89e361498bb18b8558e2d451")
-# Production still has the deliberately shadowed generic application helper
-# at the loaded completion cut.  The complete fixture's separately audited
-# seven-way identity repair is the sole permitted old/new tuple delta.
+# Production has the exact selected-choice application helper at the loaded
+# completion cut.  The complete fixture's separately audited seven-way
+# expansion is the sole permitted production/synthetic tuple delta.
 SYNTHETIC_W24_PRODUCTION_STAGE_TUPLE_DIGESTS = {
     **SYNTHETIC_W24_STAGE_TUPLE_DIGESTS,
     "w24:completion_validation:loaded":
-        "9019a6097b87ee1cebd93a25f96d9d407239e06394608f0aaec0d410f7fc8b5d",
+        "da9302b7971f3bb3232079079616574a6d7ae429030bf12a8b423a4769fdb419",
 }
 SYNTHETIC_W24_PRODUCTION_STAGE_TUPLE_MAP_SHA256 = (
-    "364ef3b4cf45f36a8d9e8943875fc834aacd4361d93ce5486d5a3ce8ef670a73")
+    "92ed07ca6dee5dd08a9491731dfcdce6d044c710a4e70231356970b059d08a1f")
 SYNTHETIC_W24_ORIGINAL_OUTPUT_MULTISET_SHA256 = (
     "83488e4f5ddbba5a1627ad217036b2ab38f37e40038a3d7f82eb6fde583fd3d3")
 SYNTHETIC_W24_RAW_CLONE_RECORDS_SHA256 = (
@@ -467,7 +468,7 @@ SYNTHETIC_W24_REPLACEMENT_PROOF_RECORDS_SHA256 = (
 SYNTHETIC_W24_ROW_REFERENCE_CONTRACT_SHA256 = (
     "5c1573b458e4cb8e5fc8ac2b47f60078678cfa4f3c9db6672b3ccf7b6c4821f5")
 SYNTHETIC_W24_PREFIX_REFERENCE_SURFACE_SHA256 = (
-    "540c6fa58b90472b68086e479f9d7affb860512aa5241b1b1e416a485e5ebba2")
+    "5b53205dfb255a0a1bb7b24fc65c59153a85d1b3a0919595533a962db17046f3")
 SYNTHETIC_W24_FIRST_BILL_DECISION_HANDOFF_PREFIX = (
     "handoff:history_summary:w24:v2_demo_first_bill:")
 REGISTRY_ID_FIELDS = {
@@ -529,6 +530,619 @@ ROUTE_CAUSAL_READER_KINDS = {
     "story_milestone",
 }
 NEXT_VERB_READER_KINDS = {"next_verb", "action_unlock"}
+
+# ORDER-101 closes only the first eight rows.  These route IDs are the exact
+# product-side handoff set for those rows; later orders may add other route
+# families without silently changing this contract.
+ORDER101_TERMINAL_ROUTE_IDS_BY_SOURCE = {
+    ("m1_resume", "completed"): {
+        "m1_resume_completed_q0_to_m2_advancement_rewritten",
+        "m1_resume_completed_q1_to_m2_advancement_revised",
+        "m1_resume_completed_q2_to_m2_advancement_polished",
+        "m1_resume_completed_q3_to_m2_advancement_ready",
+    },
+    ("m1_resume", "expired"): {
+        "m1_resume_expired_to_m2_advancement_rebuilt",
+    },
+    ("m1_father", "completed"): {
+        "m1_father_completed_call_ended_quickly_to_m3_quiet_call",
+        "m1_father_completed_future_reassured_to_m3_quiet_call",
+        "m1_father_completed_wellbeing_to_m3_quiet_call",
+    },
+    ("m1_father", "expired"): {
+        "m1_father_expired_to_m2_people_open",
+    },
+    ("m2_advancement", "expired"): {
+        "m2_advancement_expired_to_m3_advancement_retry",
+    },
+    ("m2_people", "completed"): {
+        "m2_people_completed_cafe_to_m4_sangchul",
+        "m2_people_completed_hyunsu_to_m3_followup",
+    },
+    ("m2_people", "expired"): {
+        "m2_people_expired_to_m3_contact_fail_forward",
+    },
+    ("m2_self", "completed"): {
+        "m2_self_completed_to_m3_self_recovered",
+    },
+}
+ORDER101_TERMINAL_READER_ROUTE_IDS = {
+    "reader:next:terminal:m1_resume_to_m2_advancement":
+        ORDER101_TERMINAL_ROUTE_IDS_BY_SOURCE[("m1_resume", "completed")],
+    "reader:next:terminal:m2_self_to_m3_self":
+        ORDER101_TERMINAL_ROUTE_IDS_BY_SOURCE[("m2_self", "completed")],
+}
+ORDER101_TERMINAL_ROUTE_TARGETS = {
+    "m1_resume_completed_q0_to_m2_advancement_rewritten":
+        (2, "m2_advancement", "m2_seorin_application", "resume_rewritten"),
+    "m1_resume_completed_q1_to_m2_advancement_revised":
+        (2, "m2_advancement", "m2_seorin_application", "resume_revised"),
+    "m1_resume_completed_q2_to_m2_advancement_polished":
+        (2, "m2_advancement", "m2_seorin_application", "resume_polished"),
+    "m1_resume_completed_q3_to_m2_advancement_ready":
+        (2, "m2_advancement", "m2_seorin_application", "resume_ready"),
+    "m1_resume_expired_to_m2_advancement_rebuilt":
+        (2, "m2_advancement", "m2_seorin_application", "resume_rebuilt"),
+    "m1_father_completed_call_ended_quickly_to_m3_quiet_call":
+        (3, "m3_people", "father_quiet_call", "father_call_ended_quickly"),
+    "m1_father_completed_future_reassured_to_m3_quiet_call":
+        (3, "m3_people", "father_quiet_call", "father_future_reassured"),
+    "m1_father_completed_wellbeing_to_m3_quiet_call":
+        (3, "m3_people", "father_quiet_call", "father_wellbeing_returned"),
+    "m1_father_expired_to_m2_people_open":
+        (2, "m2_people", "", "father_call_put_off"),
+    "m2_advancement_expired_to_m3_advancement_retry":
+        (3, "m3_advancement", "m3_hanbit_application",
+         "seorin_deadline_missed"),
+    "m2_people_completed_cafe_to_m4_sangchul":
+        (4, "m4_people", "sangchul_world_meet", "cafe_sangchul_lead"),
+    "m2_people_completed_hyunsu_to_m3_followup":
+        (3, "m3_people", "hyunsu_study_followup", "hyunsu_followup"),
+    "m2_people_expired_to_m3_contact_fail_forward":
+        (3, "m3_people", "", "contact_fail_forward"),
+    "m2_self_completed_to_m3_self_recovered":
+        (3, "m3_self", "m3_room_ledger", "sleep_debt_repaid"),
+}
+ORDER101_TERMINAL_ROUTE_EFFECTS = {
+    "m1_resume_completed_q0_to_m2_advancement_rewritten": {"mental": -2},
+    "m1_resume_completed_q1_to_m2_advancement_revised": {"mental": -1},
+    "m1_resume_completed_q2_to_m2_advancement_polished": {"mental": 0},
+    "m1_resume_completed_q3_to_m2_advancement_ready": {"mental": 1},
+    "m1_resume_expired_to_m2_advancement_rebuilt": {"mental": -3},
+    "m1_father_completed_call_ended_quickly_to_m3_quiet_call": {},
+    "m1_father_completed_future_reassured_to_m3_quiet_call": {},
+    "m1_father_completed_wellbeing_to_m3_quiet_call": {},
+    "m1_father_expired_to_m2_people_open": {},
+    "m2_advancement_expired_to_m3_advancement_retry": {},
+    "m2_people_completed_cafe_to_m4_sangchul": {},
+    "m2_people_completed_hyunsu_to_m3_followup": {},
+    "m2_people_expired_to_m3_contact_fail_forward": {},
+    "m2_self_completed_to_m3_self_recovered": {},
+}
+EXPECTED_ACTION_RECEIPT_PREDICATES = {
+    "receipt:action:m2_seorin_application": {
+        "kind": "action_receipt",
+        "bundle_id": "m2_seorin_application",
+        "action_id": "apply",
+        "month": 2,
+        "application_id": "seorin_contract_2026q1",
+        "application_status": "submitted",
+    },
+    "receipt:action:m2_rain_delivery_shift": {
+        "kind": "action_receipt",
+        "bundle_id": "m2_rain_delivery_shift",
+        "action_id": "side_shift",
+        "month": 2,
+        "legacy_completed_bundle_fallback": True,
+    },
+}
+SNS_CONSEQUENCE_READER_ID = "reader:unlock:jaehyuk_world_meet"
+SNS_CONSEQUENCE_PREREQUISITE_POINTER = (
+    "content/meta/demo_core_loop_v2.json#/scene_bundles/"
+    "jaehyuk_world_meet/prerequisites")
+SNS_CONSEQUENCE_AUTHORITY_FACTS = (
+    "receipt:completed:sns_pressure_night",
+)
+SNS_CONSEQUENCE_AUTHORITY_PROOF_IDS = (
+    "proof:runtime:trigger_prerequisites",
+    "proof:data:world_clock:m2_sns_pressure_night",
+    "proof:runtime:world_clock_bundle_resolution",
+    "proof:runtime:bundle_completion",
+    "proof:data:prerequisites:jaehyuk_world_meet",
+    "proof:read:unlock:jaehyuk_world_meet",
+    "proof:runtime:sns_live_predicate_dispatch",
+    "proof:runtime:sns_historical_predicate_dispatch",
+    "proof:runtime:sns_consequence_completion_authority",
+    "proof:runtime:sns_completed_bundle_state_valid",
+    "proof:runtime:sns_historical_world_completion",
+    "proof:runtime:legacy_040746_origin_mint",
+    "proof:runtime:legacy_040746_origin_witness",
+    "proof:runtime:legacy_040746_origin_lookup",
+    "proof:runtime:legacy_040746_origin_migration",
+    "proof:runtime:authority_ledger_shape_poison_normalization",
+    "proof:runtime:authority_absence_shape_poison_gate",
+    "proof:runtime:legacy_040746_schema_two_consumer_admission",
+    "proof:runtime:legacy_040746_active_story_flags",
+    "proof:runtime:legacy_040746_active_story_authority",
+    "proof:runtime:legacy_040746_active_story_completion",
+    "proof:runtime:legacy_040746_active_story_next_verb",
+    "proof:runtime:legacy_040746_temptation_story_record",
+    "proof:runtime:legacy_040746_relationship_ledgers",
+    "proof:runtime:legacy_040746_routine_ledger",
+    "proof:runtime:legacy_040746_shown_ledgers",
+    "proof:runtime:legacy_040746_action_weekly_record",
+    "proof:runtime:legacy_040746_weekly_record_validation",
+    "proof:runtime:legacy_040746_weekly_census",
+    "proof:runtime:legacy_040746_plan_origin_entry",
+    "proof:runtime:legacy_040746_plan_origin_validation",
+    "proof:runtime:legacy_040746_plan_origin_normalization",
+    "proof:runtime:legacy_040746_plan_origin_lookup",
+    "proof:runtime:legacy_040746_plan_origin_install",
+    "proof:runtime:sns_legacy_schedule_isolation",
+    "proof:runtime:sns_legacy_schedule_shape",
+    "proof:runtime:sns_legacy_completion_authority",
+    "proof:runtime:legacy_sns_current_story_authority_absent",
+    "proof:runtime:legacy_040746_sns_completed_origin",
+    "proof:runtime:sns_w4_temptation_root",
+    "proof:runtime:story_receipt_prefix_entries_valid",
+    "proof:runtime:story_receipt_owner_union_valid",
+    "proof:runtime:current_story_event_scope_preflight",
+    "proof:runtime:generic_story_choice_single_transaction",
+    "proof:runtime:story_choice_transaction_rollback",
+    "proof:runtime:story_mode_choice_full_transaction",
+    "proof:runtime:game_state_exact_snapshot_restore",
+    "proof:runtime:sns_story_receipt_identity_set",
+    "proof:runtime:sns_exact_story_choice_receipt",
+    "proof:runtime:sns_story_completion",
+    "proof:runtime:sns_story_choice_flags",
+    "proof:runtime:sns_scheduled_prelude_lookup",
+    "proof:runtime:sns_scheduled_prelude_validation",
+    "proof:runtime:sns_prelude_story_completion",
+)
+SNS_CONSEQUENCE_FACT_PROOF_IDS = {
+    SNS_CONSEQUENCE_AUTHORITY_FACTS[0]: {
+        "proof:read:unlock:jaehyuk_world_meet",
+        "proof:data:prerequisites:jaehyuk_world_meet",
+        "proof:runtime:sns_live_predicate_dispatch",
+        "proof:runtime:sns_historical_predicate_dispatch",
+        "proof:runtime:sns_consequence_completion_authority",
+        "proof:runtime:sns_completed_bundle_state_valid",
+        "proof:runtime:legacy_040746_origin_mint",
+        "proof:runtime:legacy_040746_origin_witness",
+        "proof:runtime:legacy_040746_origin_lookup",
+        "proof:runtime:legacy_040746_origin_migration",
+        "proof:runtime:authority_ledger_shape_poison_normalization",
+        "proof:runtime:authority_absence_shape_poison_gate",
+        "proof:runtime:legacy_040746_schema_two_consumer_admission",
+        "proof:runtime:legacy_040746_active_story_flags",
+        "proof:runtime:legacy_040746_active_story_authority",
+        "proof:runtime:legacy_040746_active_story_completion",
+        "proof:runtime:legacy_040746_active_story_next_verb",
+        "proof:runtime:legacy_040746_temptation_story_record",
+        "proof:runtime:legacy_040746_relationship_ledgers",
+        "proof:runtime:legacy_040746_routine_ledger",
+        "proof:runtime:legacy_040746_shown_ledgers",
+        "proof:runtime:legacy_040746_action_weekly_record",
+        "proof:runtime:legacy_040746_weekly_record_validation",
+        "proof:runtime:legacy_040746_weekly_census",
+        "proof:runtime:legacy_040746_plan_origin_entry",
+        "proof:runtime:legacy_040746_plan_origin_validation",
+        "proof:runtime:legacy_040746_plan_origin_normalization",
+        "proof:runtime:legacy_040746_plan_origin_lookup",
+        "proof:runtime:legacy_040746_plan_origin_install",
+        "proof:runtime:sns_legacy_schedule_isolation",
+        "proof:runtime:sns_legacy_schedule_shape",
+        "proof:runtime:sns_legacy_completion_authority",
+        "proof:runtime:legacy_sns_current_story_authority_absent",
+        "proof:runtime:legacy_040746_sns_completed_origin",
+    },
+}
+M2_ADVANCEMENT_EXPIRY_ABSENCE_PROOF_ID = (
+    "proof:runtime:terminal_expiry_outcomes_absent")
+M2_ADVANCEMENT_EXPIRY_ABSENCE_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_terminal_expiry_outcomes_absent")
+AUTHORITY_SHAPE_POISON_NORMALIZATION_PROOF_ID = (
+    "proof:runtime:authority_ledger_shape_poison_normalization")
+AUTHORITY_SHAPE_POISON_NORMALIZATION_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_normalized_authority_shape_poison")
+AUTHORITY_SHAPE_POISON_GATE_PROOF_ID = (
+    "proof:runtime:authority_absence_shape_poison_gate")
+AUTHORITY_SHAPE_POISON_GATE_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_authority_absence_shape_poisoned")
+TERMINAL_AUTHORITY_QUARANTINE_PROOF_ID = (
+    "proof:runtime:terminal_authority_quarantine")
+TERMINAL_AUTHORITY_QUARANTINE_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_quarantine_terminal_authority")
+TERMINAL_SUMMARY_QUARANTINE_PROOF_ID = (
+    "proof:runtime:terminal_summary_authority_quarantine")
+TERMINAL_SUMMARY_QUARANTINE_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_clear_terminal_authority_from_month_summaries")
+TERMINAL_HISTORICAL_LOCKED_RESOLUTION_PROOF_ID = (
+    "proof:runtime:terminal_historical_locked_resolution")
+TERMINAL_HISTORICAL_LOCKED_RESOLUTION_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_terminal_historical_resolved_nodes")
+TERMINAL_HISTORICAL_TIMELINE_PARITY_PROOF_ID = (
+    "proof:runtime:terminal_historical_timeline_parity")
+TERMINAL_HISTORICAL_TIMELINE_PARITY_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_terminal_historical_node_timelines_valid")
+TERMINAL_HISTORICAL_BINDING_CENSUS_PROOF_ID = (
+    "proof:runtime:terminal_historical_binding_census")
+TERMINAL_HISTORICAL_BINDING_CENSUS_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_terminal_historical_resolutions_for_month")
+TERMINAL_HISTORICAL_CACHE_PROOF_ID = (
+    "proof:runtime:terminal_historical_validation_cache")
+TERMINAL_HISTORICAL_CACHE_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_terminal_historical_cycle_summary")
+AUTHORED_CONTENT_REVISION_PROOF_ID = (
+    "proof:runtime:authored_content_revision")
+AUTHORED_CONTENT_REVISION_POINTER = (
+    "autoloads/DataRegistry.gd::notify_content_override")
+LOCALE_CONTENT_REVISION_PROOF_ID = (
+    "proof:runtime:locale_content_revision")
+LOCALE_CONTENT_REVISION_POINTER = (
+    "autoloads/LocaleManager.gd::refresh_community_packs")
+M2_ADVANCEMENT_EXPIRY_ABSENCE_PROOF_IDS = (
+    M2_ADVANCEMENT_EXPIRY_ABSENCE_PROOF_ID,
+    AUTHORITY_SHAPE_POISON_NORMALIZATION_PROOF_ID,
+    AUTHORITY_SHAPE_POISON_GATE_PROOF_ID,
+    TERMINAL_AUTHORITY_QUARANTINE_PROOF_ID,
+    TERMINAL_SUMMARY_QUARANTINE_PROOF_ID,
+    TERMINAL_HISTORICAL_LOCKED_RESOLUTION_PROOF_ID,
+    TERMINAL_HISTORICAL_TIMELINE_PARITY_PROOF_ID,
+    TERMINAL_HISTORICAL_BINDING_CENSUS_PROOF_ID,
+    TERMINAL_HISTORICAL_CACHE_PROOF_ID,
+    AUTHORED_CONTENT_REVISION_PROOF_ID,
+    LOCALE_CONTENT_REVISION_PROOF_ID,
+)
+CURRENT_STORY_CHOICE_RECEIPT_CENSUS_PROOF_ID = (
+    "proof:runtime:current_story_choice_receipt_census")
+CURRENT_STORY_CHOICE_RECEIPT_CENSUS_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_current_story_choice_receipt_census_valid")
+CURRENT_STORY_EVENT_SCOPE_PROOF_ID = (
+    "proof:runtime:current_story_event_scope_preflight")
+CURRENT_STORY_EVENT_SCOPE_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_current_story_event_scope_present")
+GENERIC_STORY_CHOICE_PRODUCER_PROOF_ID = (
+    "proof:runtime:generic_story_choice_single_transaction")
+GENERIC_STORY_CHOICE_PRODUCER_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_note_generic_story_choice")
+STORY_CHOICE_TRANSACTION_ROLLBACK_PROOF_ID = (
+    "proof:runtime:story_choice_transaction_rollback")
+STORY_CHOICE_TRANSACTION_ROLLBACK_POINTER = (
+    "systems/DemoCoreLoopV2.gd::note_story_choice")
+STORY_MODE_CHOICE_TRANSACTION_PROOF_ID = (
+    "proof:runtime:story_mode_choice_full_transaction")
+STORY_MODE_CHOICE_TRANSACTION_POINTER = "scenes/StoryMode.gd::_on_choice"
+STORY_CHOICE_TRANSACTION_CLASSIFIER_POINTER = (
+    "systems/DemoCoreLoopV2.gd::story_choice_transaction_required")
+STORY_CHOICE_COMMIT_AVAILABLE_POINTER = (
+    "systems/DemoCoreLoopV2.gd::story_choice_commit_available")
+STORY_EXACT_DEFERRED_MATCH_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_exact_deferred_story_choice_matches")
+STORY_LIVE_OWNER_EVENT_IDS_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_live_story_owner_event_ids")
+STORY_BUNDLE_EVENT_IDS_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_bundle_story_event_ids")
+STORY_PLAYBACK_FRESH_PROLOGUE_POINTER = (
+    "tools/StoryPlaybackCheck.gd::_check_v2_fresh_guided_handoff")
+GAME_STATE_EXACT_SNAPSHOT_RESTORE_PROOF_ID = (
+    "proof:runtime:game_state_exact_snapshot_restore")
+GAME_STATE_EXACT_SNAPSHOT_RESTORE_POINTER = (
+    "autoloads/GameState.gd::_restore_serialized_snapshot_exact")
+CURRENT_OUTCOME_LEDGER_CENSUS_PROOF_ID = (
+    "proof:runtime:current_outcome_receipt_ledger_census")
+CURRENT_OUTCOME_LEDGER_CENSUS_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_current_outcome_receipt_ledger_census_valid")
+CURRENT_OUTCOME_ALLOWED_SIBLING_PROOF_ID = (
+    "proof:runtime:current_outcome_receipt_allowed_sibling")
+CURRENT_OUTCOME_ALLOWED_SIBLING_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_current_outcome_receipt_allowed_sibling")
+JIYEON_LEGACY_ACTION_FACT_ID = "receipt:action:m2_rain_delivery_shift"
+JIYEON_LEGACY_ACTION_PROOF_IDS = {
+    "proof:read:unlock:jiyeon_world_meet",
+    "proof:data:prerequisites:jiyeon_world_meet",
+    "proof:runtime:action_receipt_prerequisite",
+    "proof:runtime:exact_live_action_weekly_commitment",
+    "proof:runtime:action_record_from_weekly_commitment",
+    "proof:runtime:historical_action_receipt_prerequisite",
+    "proof:runtime:normalize_core_loop_v2_state",
+    "proof:runtime:legacy_040746_origin_mint",
+    "proof:runtime:legacy_040746_origin_witness",
+    "proof:runtime:legacy_040746_origin_lookup",
+    "proof:runtime:legacy_040746_origin_migration",
+    AUTHORITY_SHAPE_POISON_NORMALIZATION_PROOF_ID,
+    AUTHORITY_SHAPE_POISON_GATE_PROOF_ID,
+    "proof:runtime:legacy_040746_schema_two_consumer_admission",
+    "proof:runtime:legacy_040746_active_story_flags",
+    "proof:runtime:legacy_040746_active_story_authority",
+    "proof:runtime:legacy_040746_temptation_story_record",
+    "proof:runtime:legacy_040746_relationship_ledgers",
+    "proof:runtime:legacy_040746_routine_ledger",
+    "proof:runtime:legacy_040746_shown_ledgers",
+    "proof:runtime:legacy_040746_action_weekly_record",
+    "proof:runtime:legacy_040746_weekly_record_validation",
+    "proof:runtime:legacy_040746_weekly_census",
+    "proof:runtime:legacy_040746_plan_origin_entry",
+    "proof:runtime:legacy_040746_plan_origin_validation",
+    "proof:runtime:legacy_040746_plan_origin_normalization",
+    "proof:runtime:legacy_action_migration",
+    "proof:runtime:legacy_040746_delivery_tuple",
+    "proof:runtime:legacy_040746_rain_weekly_witness",
+}
+LEGACY_040746_SCHEMA_TWO_ADMISSION_PROOF_ID = (
+    "proof:runtime:legacy_040746_schema_two_consumer_admission")
+LEGACY_040746_ACTION_RECOVERY_PROOF_ID = (
+    "proof:runtime:legacy_040746_action_recovery")
+CURRENT_APPLICATION_ACTION_RECORD_PROOF_ID = (
+    "proof:runtime:current_application_action_record_validation")
+CURRENT_APPLICATION_ACTION_RECORD_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_current_application_action_record_valid")
+FRESH_W1_APPLICATION_RECOVERY_GATE_PROOF_ID = (
+    "proof:runtime:fresh_w1_application_recovery_gate")
+FRESH_W1_APPLICATION_RECOVERY_GATE_POINTER = (
+    "systems/DemoCoreLoopV2.gd::"
+    "_current_job_hunt_application_recovery_valid")
+CURRENT_W1_APPLICATION_RECOVERY_CLEAR_POINTER = (
+    "systems/DemoCoreLoopV2.gd::"
+    "_clear_current_w1_application_recovery_authority")
+CURRENT_APPLICATION_RECOVERY_TEST_POINTER = (
+    "tools/CoreLoopV2CycleCheck.gd::"
+    "_check_order101_current_application_recovery_integrity")
+FRESH_W1_APPLICATION_RECOVERY_TEST_POINTER = (
+    "tools/CoreLoopV2CycleCheck.gd::"
+    "_check_order101_fresh_w1_application_contract")
+SEORIN_LEGACY_RECOVERY_FACT_ID = "receipt:action:m2_seorin_application"
+SEORIN_LEGACY_RECOVERY_PROOF_IDS = {
+    LEGACY_040746_SCHEMA_TWO_ADMISSION_PROOF_ID,
+    LEGACY_040746_ACTION_RECOVERY_PROOF_ID,
+    "proof:runtime:legacy_040746_action_weekly_record",
+}
+LEGACY_RELATIONSHIP_READER_IDS = {
+    "reader:next:father_quiet_call",
+    "reader:next:father_quiet_call:future_reassured",
+    "reader:next:father_quiet_call:ended_quickly",
+}
+LEGACY_RELATIONSHIP_MIGRATABLE_FACT_PREFIXES = (
+    "state:relationship:father:",
+    "memory:father:",
+)
+LEGACY_040746_ORIGIN_MINT_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_mint_legacy_040746_origin")
+LEGACY_040746_ORIGIN_WITNESS_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_origin_witness_valid")
+LEGACY_040746_ORIGIN_LOOKUP_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_origin_from_state")
+LEGACY_040746_ORIGIN_MIGRATION_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_normalized_legacy_origin_migration")
+LEGACY_040746_ACTION_MIGRATION_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_normalized_legacy_action_migration")
+LEGACY_040746_RAIN_WEEKLY_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_rain_weekly_witness")
+LEGACY_040746_DELIVERY_TUPLE_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_delivery_tuple_valid")
+LEGACY_040746_CORE_STATE_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_core_state_valid")
+LEGACY_040746_WEEKLY_RECORD_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_weekly_record_valid")
+LEGACY_040746_ACTION_WEEKLY_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_action_weekly_record_valid")
+LEGACY_040746_WEEKLY_SET_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_weekly_witnesses_valid")
+LEGACY_040746_PLAN_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_plan_valid")
+LEGACY_040746_COMPLETED_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_completed_topology_valid")
+LEGACY_040746_SUMMARY_SET_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_summary_ledger_valid")
+LEGACY_040746_PENDING_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_pending_commitment_valid")
+LEGACY_040746_ACTIVE_PENDING_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_active_and_pending_valid")
+LEGACY_040746_RELATIONSHIP_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_relationship_ledgers_valid")
+LEGACY_040746_ROUTINE_LEDGER_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_routine_ledger_valid")
+LEGACY_040746_SHOWN_LEDGER_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_shown_ledgers_valid")
+LEGACY_040746_PLAN_ORIGIN_ENTRY_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_plan_origin_entry")
+LEGACY_040746_PLAN_ORIGIN_VALID_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_plan_origin_entry_valid")
+LEGACY_040746_PLAN_ORIGIN_NORMALIZATION_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_normalized_legacy_040746_plan_origins")
+LEGACY_040746_PLAN_ORIGIN_LOOKUP_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_plan_origin_from_state")
+LEGACY_040746_PLAN_ORIGIN_INSTALL_POINTER = (
+    "systems/DemoCoreLoopV2.gd::commit_plan")
+LEGACY_040746_SNS_COMPLETED_ORIGIN_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_sns_completed_origin_valid")
+LEGACY_040746_SCHEMA_TWO_ADMISSION_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_normalized_state")
+LEGACY_040746_ACTION_RECOVERY_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_recover_finalized_action_state")
+LEGACY_040746_ACTIVE_STORY_CHOICE_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_active_story_choice_from_flags")
+LEGACY_040746_ACTIVE_STORY_FLAGS_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_active_story_flags_valid")
+LEGACY_040746_ACTIVE_STORY_INSTALL_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_install_legacy_040746_active_story_authority")
+LEGACY_040746_ACTIVE_STORY_COMPLETION_POINTER = (
+    "systems/DemoCoreLoopV2.gd::legacy_active_story_completion_ready")
+LEGACY_040746_ACTIVE_STORY_ROUTE_POINTER = (
+    "scenes/MainGame.gd::_core_loop_v2_route_week")
+LEGACY_040746_TEMPTATION_STORY_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_legacy_040746_temptation_story_record_valid")
+LEGACY_SNS_CURRENT_STORY_ABSENT_POINTER = (
+    "systems/DemoCoreLoopV2.gd::"
+    "_legacy_sns_current_story_authority_absent")
+EXACT_LIVE_ACTION_WEEKLY_COMMITMENT_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_exact_live_action_weekly_commitment")
+ACTION_RECORD_FROM_WEEKLY_COMMITMENT_POINTER = (
+    "systems/DemoCoreLoopV2.gd::"
+    "_action_record_for_bundle_from_weekly_commitment")
+EXACT_LIVE_ACTION_WEEKLY_COMMITMENT_MARKERS = (
+    "for raw_weekly in GameState.weekly_commitments",
+    'weekly.get("turn", null)',
+    "typeof(raw_turn) in [TYPE_INT, TYPE_FLOAT]",
+    "is_finite(float(raw_turn))",
+    "int(raw_turn) == receipt_turn",
+    "not _terminal_integral_number_matches(",
+    "raw_turn, receipt_turn",
+    "_action_record_for_bundle_from_weekly_commitment(",
+    "matches.append(candidate)",
+    "A competing row at the same turn is ambiguous authority",
+    "return matches[0].duplicate(true) if matches.size() == 1 else {}",
+)
+ACTION_RECORD_FROM_WEEKLY_COMMITMENT_MARKERS = (
+    'str(followup.get("bundle_id", "")) == bundle_id',
+    'followup.get(\n\t\t\t\t"action_id", "")',
+    "not _terminal_integral_number_matches(",
+    'followup.get("turn", null), record_turn',
+    "if not match_record.is_empty():",
+    '"turn": int(followup.get("turn", -1))',
+    '"pressure_id": bundle_id',
+    '"choice_id": expected_action',
+    '"actual_action_id": str(followup.get("action_id", ""))',
+)
+LEGACY_040746_ORIGIN_MINT_MARKERS = (
+    "_terminal_integral_number_matches(",
+    "raw_source_schema, LEGACY_040746_SOURCE_SCHEMA",
+    "not raw_pending is Dictionary",
+    "not raw_weekly is Array",
+    "_legacy_040746_core_state_valid(",
+    "raw_state, int(GameState.turn), raw_pending",
+    "_legacy_040746_weekly_witnesses_valid(",
+    '"source_core_witness": raw_state.duplicate(true)',
+    '"source_pending_witness": (raw_pending as Dictionary).duplicate(true)',
+    '"source_weekly_witnesses": (raw_weekly as Array).duplicate(true)',
+    "_legacy_040746_active_story_flags_valid(raw_state)",
+    "_legacy_040746_origin_witness_valid(witness)",
+)
+LEGACY_040746_ORIGIN_WITNESS_MARKERS = (
+    '"schema", "origin_id", "source_schema", "target_schema"',
+    '"source_turn", "source_core_witness"',
+    '"source_pending_witness", "source_weekly_witnesses"',
+    "LEGACY_040746_ORIGIN_SCHEMA",
+    "LEGACY_040746_ORIGIN_ID",
+    "LEGACY_040746_SOURCE_SCHEMA",
+    "_terminal_integral_number_in_range(raw_source_turn, 1, 9)",
+    'witness.get("source_pending_witness", null) is Dictionary',
+    "_legacy_040746_core_state_valid(",
+    "_legacy_040746_active_story_flags_valid(",
+    'witness.get("source_core_witness", {}) as Dictionary',
+    "_legacy_040746_weekly_witnesses_valid(",
+)
+LEGACY_040746_ORIGIN_LOOKUP_MARKERS = (
+    'state.get("legacy_origin_receipts", null)',
+    'state.get("legacy_origin_witnesses", null)',
+    "_terminal_dictionary_has_exact_keys(",
+    "[LEGACY_040746_ORIGIN_ID]",
+    "_terminal_variant_semantically_equal(raw_receipt, raw_witness)",
+    "_legacy_040746_origin_witness_valid(raw_receipt)",
+    "duplicate(true)",
+)
+LEGACY_040746_ORIGIN_MIGRATION_MARKERS = (
+    '"origin_receipts": {}',
+    '"origin_witnesses": {}',
+    '"plan_origin_receipts": {}',
+    '"plan_origin_witnesses": {}',
+    '"fallbacks": {}',
+    '"migration_receipts": {}',
+    "_mint_legacy_040746_origin(",
+    "_legacy_040746_origin_from_state(raw_state)",
+    "if origin.is_empty():",
+    "origin.duplicate(true)",
+    "_normalized_legacy_040746_plan_origins(",
+    "_normalized_legacy_action_migration(",
+)
+LEGACY_040746_ACTION_WEEKLY_MARKERS = (
+    "LEGACY_040746_WEEKLY_REQUIRED_KEYS.duplicate()",
+    'expected_action in [\n\t\t"apply", "side_shift", "resume", "interview"',
+    'exact_keys.append("details")',
+    "_terminal_dictionary_has_exact_keys(record, exact_keys)",
+    'record.get("person_id", null) != ""',
+    'record.get("forgone_ids", null) != []',
+    'record.get("pressure_id", "")',
+    'record.get("pressure_family", "")',
+    'record.get("choice_id", "")',
+    'record.get("actual_action_id", "")',
+    'record.get("outcome", null) is Dictionary',
+    'match expected_action:',
+    '"apply":',
+    'scheduled_bundle == "m1_mirae_application" else "seorin"',
+    '["application_id", "status"]',
+    '== expected_application_id',
+    '== "submitted"',
+    'and outcome.is_empty()',
+    '"rest":',
+    '_legacy_040746_clamped_outcome_delta_valid(',
+    '"resume", "interview":',
+    '["quality"]',
+    'details.get("quality", null), 0, 3',
+    '"side_shift":',
+    '["earned", "health_delta", "mental_delta"]',
+    'scheduled_bundle == "m2_rain_delivery_shift"',
+    '_legacy_040746_delivery_tuple_valid(details, outcome)',
+)
+LEGACY_040746_ACTION_MIGRATION_MARKERS = (
+    "if origin.is_empty():",
+    'bundle_id := "m2_rain_delivery_shift"',
+    'expected_action := "side_shift"',
+    'origin.get("source_core_witness", {})',
+    "(raw_completed as Array).count(bundle_id) != 1",
+    "_terminal_integral_number_in_range(raw_turn, 6, 7)",
+    'plan_origins.get("receipts", null)',
+    'raw_plan_entry is Dictionary',
+    'raw_plan_entry as Dictionary).get(\n\t\t"plan", {})',
+    'source_plan.get("schedule", {})',
+    'str(completed_turn), "")) != bundle_id',
+    "_legacy_040746_rain_weekly_witness(",
+    '"origin_id": LEGACY_040746_ORIGIN_ID',
+    '"source_plan_witness": source_plan.duplicate(true)',
+    '"source_weekly_witness": source_weekly.duplicate(true)',
+    'state.get("action_receipts", {})',
+    '(raw_actions as Dictionary).has(bundle_id)',
+    'state.get("legacy_action_fallbacks", {})',
+    'state.get("legacy_migration_receipts", {})',
+    "_terminal_variant_semantically_equal(",
+)
+LEGACY_040746_RAIN_WEEKLY_MARKERS = (
+    "for raw_record in weekly_witnesses:",
+    "_terminal_integral_number_matches(",
+    '"turn", "pressure_id", "pressure_family", "choice_id"',
+    '"person_id", "forgone_ids", "actual_action_id", "outcome"',
+    '"details", "echoed_turn"',
+    '!= "m2_rain_delivery_shift"',
+    '!= "livelihood"',
+    '!= "side_shift"',
+    'record.get("forgone_ids", null) != []',
+    '"earned", "health_delta", "mental_delta"',
+    '["money"], ["health", "mental"]',
+    "_legacy_040746_delivery_tuple_valid(details, outcome)",
+    "matches.size() == 1 else {}",
+)
+LEGACY_040746_DELIVERY_TUPLE_MARKERS = (
+    'details.get("earned", null)',
+    'details.get("health_delta", null)',
+    'details.get("mental_delta", null)',
+    "_terminal_integral_number_matches(",
+    "_terminal_integral_number_matches(\n"
+    "\t\t\t\traw_earned, int(raw_earned))",
+    "for route_mask in range(1, 1 << LEGACY_040746_DELIVERY_ROUTES.size())",
+    "for route_index in range(LEGACY_040746_DELIVERY_ROUTES.size())",
+    "route_time > LEGACY_040746_DELIVERY_TIME_BUDGET",
+    "LEGACY_040746_DELIVERY_BASE_PAY",
+    "route_tips",
+    "route_count * LEGACY_040746_DELIVERY_ROUTE_BONUS",
+    "requested_health == -3 - route_count",
+    "requested_mental == -maxi(route_count - 2, 0)",
+    "if not producer_tuple_found:",
+    'outcome.get("money", null)',
+    "_terminal_integral_number_matches(raw_money, earned)",
+    'for pair in [["health", requested_health], ["mental", requested_mental]]',
+    "if not outcome.has(stat_key):",
+    "if requested == 0 or actual >= 0 or actual < requested:",
+)
 READER_LAYER_BY_KIND = {
     "display": "summary",
     "month_summary": "summary",
@@ -1779,13 +2393,323 @@ _FROZEN_AUDITED_MAPS = _decode_frozen_json(
     top_level_type=dict,
     item_count=12,
 )
-_FROZEN_AUDITED_MAP_COUNTS = {'co_presence': 6, 'co_presence_pointers': 18, 'exclusive': 60, 'exclusive_pointers': 60, 'invocations': 81, 'producers': 81, 'proof_bindings': 1493, 'scenarios': 6, 'stages': 76, 'story_decisions': 91, 'story_inputs': 330, 'story_pointers': 330}
+# ORDER-101 is a deliberately small audited delta over the verified
+# ORDER-100 payload above.  Keeping the changed bindings explicit makes
+# every removed debt reviewable without replacing the stable 597 KB base
+# map or accepting any unreviewed proof-ID widening.
+_ORDER101_REMOVED_PROOF_BINDING_IDS = (
+    'proof:debt:orphan_resume_polished',
+    'proof:debt:unscheduled_sns_pressure',
+    'proof:debt:w24_completion_application_choice',
+    'proof:read:w24_completion_application_any_current_turn',
+)
+_ORDER101_PROOF_BINDING_OVERRIDES = {
+    'proof:co_presence:group_w04_month_summary': 'b911ff8521fb36532a321dbd43e0fba91cb9fcbf45ee2ac9c41102610aa5362f',
+    'proof:co_presence:group_w08_month_summary': '77f0905d9e92793378bc6e4877150583bd817bbaacc7f227f04b4828cd72c492',
+    'proof:co_presence:group_w12_month_summary': '0d11158e91ad42d6bc7c9d4018e77a1de3c9e6748578309b69778e5302cacdde',
+    'proof:co_presence:group_w16_month_summary': 'a92cc748514a76a4f03f31c7ca1865fd2562acc14ac0cbc533d9389e9d710ed3',
+    'proof:co_presence:group_w20_month_summary': 'a2c9cf20cd16c61f38a93d9ac0aeb77612d26b69b356793ec22f70c2f00db49a',
+    'proof:co_presence:group_w24_month_summary': 'ba263620a7c84bbf0058a93bd7daaaab51903edfef0630eba0366f5f65150d66',
+    'proof:contract:months_stop_at_m06': '112ed594744c2a31b27d9d0db4d0ddcf21ed480846e44897dd36621d5dd6bfb4',
+    'proof:data:prerequisites:jiyeon_world_meet': 'f450f08810e886280483d9508f2f0eccb97ec8a5bcecb9f8bf359ac4a117a4a7',
+    'proof:data:prerequisites:m3_seorin_result_message': '321bcf746d58d8a1c7d4403aa142c4050470fc65b5ab11234cc4d25428079f42',
+    'proof:data:terminal_routes:order101': 'f92f27fcd122220934d727b641582fc47d05d09c73e43500de3d01f38f3e4dfe',
+    'proof:data:world_clock:m2_sns_pressure_night': '25b28a70bdc4b762d7e5c28401a580fc319ec5b507ce23c8209eff6ddf3f8857',
+    'proof:debt:dead_card_terminal': '733f1e9d6989aae263d4c93d7a5b8a2e16047ce297132f83cf12515028177caa',
+    'proof:debt:display_only_forgone': '481c710fef880ffbbfaa65fa4e4af45498dd7332f9bda098c07ae3ef453d08d2',
+    'proof:exclusive:group_producer_milestone_w04_first_temptation_boss': 'adf15efccecdecaa470eb4784c5915d38819a54c1908a90356f2d087dce849bf',
+    'proof:exclusive:group_producer_milestone_w04_hyunsu_first_meet': '1bdabe0e8d0dfa0cfcbebfa0ba843d1224654ea283e4d8f72bc3374b64d82e42',
+    'proof:exclusive:group_producer_milestone_w12_seorin_result': '6f03245c70c36bb2299ecdf0df0eed4221d11637146df715ee06ff51179d303d',
+    'proof:exclusive:group_w24_completion_dirty_resolved_fresh': 'e465e4ba5d28a63d9ab6d6c08ee3381af50709aa89496c228c32d22a1b9dc7cc',
+    'proof:exclusive:group_w24_completion_dirty_resolved_loaded': '7b4837b2c7a5b6f68d18bccbeee58fb0cd469b61778ab37c9c5c81fe08cb2029',
+    'proof:exclusive:group_w24_completion_dirty_resolved_reentry': '1c430d6dc830e873d7c98ec51107e32b0ac7797b15639691403a31d3a1edf347',
+    'proof:exclusive:group_w24_first_bill_candidate_set_reentry': '943b9f5337a0e093e1a4e6bbfbe67bef35cfc78b2fda931f8aa1803f5c4076a7',
+    'proof:exclusive:w24_stage_completion_path': 'd86b05003c1460de2098d7f44aeacc07d315020d64dd5feed3410780415ab728',
+    'proof:exclusive:w24_stage_first_bill_choice': 'c61d310856d8c24693531299436f40b5fa37b41ecb580e15bba2759d0e812025',
+    'proof:exclusive:w24_stage_hyunsu_choice': '13c88c09c75363249248b9708d2ce7ecbefd8dafcffbcc193455f32038780fd1',
+    'proof:execution_stage:w04_month_summary': 'a6b991aef04f375a48b4f8c6538ceff7be30fee61fbb5f07e7fe37218375e524',
+    'proof:execution_stage:w04_w03_hyunsu_choice': '7d18d4fd36c74d01bfacb1328c5edd0fb84c429aec168ec1fda2ecc744ed8ef7',
+    'proof:execution_stage:w04_w04_temptation_choice': 'e54788e7e905126ca237bd4c47bdf9a84b70ea18a9481dade194ac8489c96be9',
+    'proof:execution_stage:w08_month_summary': 'c15abe19007841485e63d3b97e6c47da2c97c65ddc2890885cc851ee94125adb',
+    'proof:execution_stage:w08_w05_mirae_choice': '660e40004da74677e910b5d3c8425f17d8b2fcc2ab883b05bbdb0f2f43dd6f52',
+    'proof:execution_stage:w08_w08_temptation_choice': '763f3ee7e7b17e6bde0ed73611cf4cb577de66104676439c0564eb0e14c72317',
+    'proof:execution_stage:w12_month_summary': 'd2573da35184dba5a0a2095e840473c1bbb3c54f779eb8572984566640ced3e2',
+    'proof:execution_stage:w12_w09_seorin_choice': '7ada591e8d595698f6b832544b48cc89b58e614960c2c8526b3a2dd5916db974',
+    'proof:execution_stage:w16_month_summary': '6a0109802218aad2b011c153c57aa5227974e06dac99a5f1da7a05768e270dfb',
+    'proof:execution_stage:w20_month_summary': 'a5e17735bf55d500899812758e73711c6cf05064ef22272a040b61ddacb405ac',
+    'proof:execution_stage:w20_w17_hanbit_choice': '364c0ec45099b0fa0b32715ce20115ac1f02f1a1363c0ac9f32c20fbbc574987',
+    'proof:execution_stage:w24_completion_validation_fresh': 'dab19332804ba0e09fbfb9a4dc59b643c7a1b8d92cb7dcfa1c7d8e84ebc765cf',
+    'proof:execution_stage:w24_completion_validation_loaded': '7063e5402a76268c1a2ca834a2a081425492b58fa25b417041d66a8b56e5a0ba',
+    'proof:execution_stage:w24_completion_validation_reentry': '9590e415bc720c6b4ba6047fd1e47f2b2489eda7bd04a7d5d94e0abd8abba8d2',
+    'proof:execution_stage:w24_cycle_resolution': 'cebb3b59d6621a9d1d3e144a205b8f2401b3de04d91b71d58b5b70a7b1632809',
+    'proof:execution_stage:w24_first_bill_choice_fresh': 'b7bfc3af7dcc12f2c53747a58ec6464f4d0a6cc1cebfe6b52fce2c50b04aef79',
+    'proof:execution_stage:w24_first_bill_choice_reentry': '3ea793fca8b42b9184e51613f3da57565cee412951c674db177d069740d5a51c',
+    'proof:execution_stage:w24_hyunsu_morning_choice_fresh': 'fbc9cc5cb5d02d9830f76400a948f0bbd42856f3d551d29771b3e06fb31e5f45',
+    'proof:execution_stage:w24_hyunsu_morning_choice_loaded': 'f959d1086e4ea0b98095a675024c6b7eea8eca836a7c41423c9ec230a4110f9d',
+    'proof:execution_stage:w24_hyunsu_morning_choice_reentry': 'defab8cb8c2636c67aa02efaa573c4cd0b0e857bce8c3485f5c8d932088df9f2',
+    'proof:execution_stage:w24_month_summary': 'ea84b76e898b89dd92f313956207fe133e48bab078e472a6fadfd4d5339565de',
+    'proof:execution_stage:w24_w21_father_choice': '842e0c4850488da237804a04b407003abe3f0955a58f04b5a4b9a5dbdb831998',
+    'proof:execution_stage:w24_w22_dodam_choice': '8f24a5e3bc621884b815a9d668ae3fb31dc588a877a4545836818fd445b1f594',
+    'proof:execution_stage:w24_w22_gangnam_choice': 'b3bc9a18659cf253516b587e88e1ae1917503e7667d8c3622d1c782bde049e88',
+    'proof:execution_stage:w24_w23_city_choice': '474089398fca63be768405f36430aa685f0587a05bf0152b5a43b401124cfa37',
+    'proof:invocation:w04_first_temptation_choice': 'db9ddcab241039d2ed9de1adca170e14925d521d07b8fed1d9b4387bc74cf732',
+    'proof:invocation:w04_first_temptation_completion': 'b2e4687626b2ac2ed1afbf5c47db9041d64c3a697945c7b1ceacb07e97c5c1a4',
+    'proof:invocation:w04_hyunsu_world_choice': '150daad52718850eb20eea63ffb362031fa14002b295c373d96c3fa2bfdd164d',
+    'proof:invocation:w04_hyunsu_world_completion': '4bf0b38b1cadbe5d8df00c54e54ea5e07c1f273d74e3d772453042365856bc86',
+    'proof:invocation:w04_month_summary': '51546063cfd36096ab54d10884ffbb1d0c3df6da27db1dcc4e5b7113f11abc6b',
+    'proof:invocation:w08_mirae_choice': '9e1308dc8f1d0b0f9f6e538cfcc9a8fd90ab17c3391c8d67020d3a6aea585bc7',
+    'proof:invocation:w08_mirae_completion': 'c458e105d34c05679c8be47287dc9e444d53b0df15f30072f62746a55f4b48b2',
+    'proof:invocation:w08_month_summary': 'a7534068522edb2d4a0191566c1a1a58aa1bfb4a96b54eda56dd731dc2fd68f5',
+    'proof:invocation:w08_temptation_completion': 'be60ea0eb446338f46e88083fd12adf582f946d41afc929009c2acfa17a96b38',
+    'proof:invocation:w12_month_summary': '36b998d1200876d07d34184965a739ff995edb48a466305512333f60fb86cd84',
+    'proof:invocation:w12_seorin_completion': 'f13e3ec23d70a1015cb0e6ce6ce0269d773200972fdb4b1717b109621b10ccc5',
+    'proof:invocation:w12_seorin_result_choice': 'eff3f8a6feb7b89bdce6e7a15b0f378ecc8d2a415a10462591f65be91ed72a51',
+    'proof:invocation:w12_story': '62033cdd6b4fe3ee57339bd00a96e29e68833f3d5030a08e164f9db6c678c7c0',
+    'proof:invocation:w16_month_summary': 'f3dcc996fc74de57d5e5862fce0507b5ca565a1d20d402e5b845bf2e0729c00d',
+    'proof:invocation:w20_hanbit_offer_choice': '41c8bd552bb4b073c36233a538e7ee4a8c3bfd70ef1f974d641e4727b3035312',
+    'proof:invocation:w20_hanbit_offer_completion': '1e0209b82f65fd50acb23c3b57610c61665f3341102e7f20b2ada1b1618a77a2',
+    'proof:invocation:w20_month_summary': 'a560a90dd3028aef6dc7a5125908c31ed5c24577cd929e29994beb56e224331f',
+    'proof:invocation:w24_city_choice': '3a16297dae78d53057b1ce4bcf8f8749c458cfd2d334ae7bdf557f833f3423e0',
+    'proof:invocation:w24_city_completion': '9e4e91526d0dc26333f2f911d3bd2fa27cd42c22a3f5a29b18acdd51ba2b4cc0',
+    'proof:invocation:w24_completion_validation_fresh': '44fd86cac7df5a10b7b882fa6ae0eeb2680e75cad42fff7d1792e97026007ec6',
+    'proof:invocation:w24_completion_validation_loaded': '651beeee73678123a00c40660ce2359e9638f1c998215b968980ee39db5a0b17',
+    'proof:invocation:w24_completion_validation_reentry': '075f706de19eefacc77c6358f9c94f8503c155db61b6afdd48ae1ce76396b490',
+    'proof:invocation:w24_cycle_resolution': '055056f0a5e217b002e7009035b569409dfb69301137f3db81ed30dd739050b7',
+    'proof:invocation:w24_dodam_choice': '00eb13bbe7d57bbe18d26aa1407ec81bba21706f4c17cc4c4536b745ac03b295',
+    'proof:invocation:w24_dodam_completion': '0419491f7b6fb296bbe5c4d17e650251b25e8171d0b91b788ccf0b89fa2ddff2',
+    'proof:invocation:w24_father_health_choice': 'bf95628dfaf841c6fd98fed230ad6c40170e8da342caa6797daf0a5cd41d842f',
+    'proof:invocation:w24_father_health_completion': '938f76f4c83f301e53708b51299a80334b1f5f9e88fdb49ccbc2e4d4c9a97919',
+    'proof:invocation:w24_first_bill_decision_fresh': '35c03420cd96c7d4c611d2f353565e664cd56162aec6c795620a9531808f3666',
+    'proof:invocation:w24_first_bill_decision_reentry': '80a743c1b7f834d944dcf7eece0e7ee7214feb0042de56e470213ad9eea04e65',
+    'proof:invocation:w24_gangnam_choice': '2a8c7b0a0b2fc7a6c4cb9ff75ad810df5ce4664b908aa2a0fa620e0eab19ec44',
+    'proof:invocation:w24_gangnam_completion': '1e4e53f4b86c73db89ff5efe546800a6887c42a7c88b064f67b8782994a2b826',
+    'proof:invocation:w24_hyunsu_morning_choice_fresh': '05d3ea99e515cfbdc1ba74436dc949dcf7567823db056c5b19d7d45063ee5974',
+    'proof:invocation:w24_hyunsu_morning_choice_loaded': '99b575ffc86dd7f045643e93b7cdcb776474182113926420e97f6b03773a4700',
+    'proof:invocation:w24_hyunsu_morning_choice_reentry': 'ac1ded45b649fb177ee176a274612949df4426485f243329ff20dd44240e8e30',
+    'proof:invocation:w24_month_summary': '07ffe4e4ed178916afb03dadbabd3fbf60e5a145d5b8abae5cb03a98767d18fd',
+    'proof:milestone:w12': 'ae432a9619766e23a2ec6c67ac4dc6ba01c80348d7a4a4f43b8dc290eab6006e',
+    'proof:produce:application_transition:m4_hanbit_interview:v2_hanbit_interview:0': '97d5d4e7bf5443dcdf61daca289c05240b377dd35ce97fe35e86505ff80e5793',
+    'proof:produce:application_transition:m4_hanbit_interview:v2_hanbit_interview:1': '240916b49b8bde1933e7310df47d62abb7594040526d990a121a30322f6b5845',
+    'proof:read:action_m1_youth_center_resume_clinic': 'd8ce8c6b84e4a2a30ed4076adc01a6e3786274824977fc390e6c2a58f3110326',
+    'proof:read:action_m2_rain_delivery_shift': 'a4f30631a474eef691fc263af55bfb0d47d0e811f746b241b702ae3bc465bd11',
+    'proof:read:action_m2_seorin_application': '8930358d4c34792df8cec3d9c48e261468cf2b92447f003e78ae116d9dc62661',
+    'proof:read:action_m2_sleep_debt_sunday': '771deb83560a6b15ff8cacf8cdb723871da4f673cb16eea51471b96c44a5917c',
+    'proof:read:action_m3_hanbit_application': '7e23109bd654fd2e8469e417f78b7e51160b711dd9bff86e5d468e1f8e4dc853',
+    'proof:read:action_m4_dodam_application': 'c6a9cee0a7e27ac75972e696d15d6ee8d8ff45df079c7480533765c833a844df',
+    'proof:read:action_m4_logistics_shift': '39753a8c24a0bcf5436f0b686e8d83c5e137d3df6e71da13b34fcebaba212b1e',
+    'proof:read:action_m5_city_service_application': '723c86922e43fdccb970cae211a9357aa06b8b21fb8a2480295d443bff8f79db',
+    'proof:read:action_m6_holiday_night_shift': '48c942d29a899884f6b8d82f52c3a96e3c563cc7f10ca0a78ee9c2f17ba35099',
+    'proof:read:action_m6_no_plans_day': '1730360662bcafbbd4696e38f4d5e283b29fc5d25659be7971489d2c73f6229e',
+    'proof:read:action_m6_public_recruitment': '14474b1bb9a1dd45f1fa35d410a485b562027b0af73d3e8702ca659ea63ba470',
+    'proof:read:milestone_w12_seorin_submitted': '029026f6cfbedea8e0e07d512131982912fd6926bf53ab91c780d8dcdd925f36',
+    'proof:read:milestone_w24_candidate_hanbit': '19c697b34ad2fcfd935b2871f2949f803bb7f29d3fa984903f2531bf5fc43b05',
+    'proof:read:milestone_w24_completion_core_fresh:6799a4e5da': '35a0fe9c9f36454fe4ae0394154f4c0dc602cd46611551d5a1f7a5385d720657',
+    'proof:read:milestone_w24_completion_core_fresh:b356b0921d': '312ba9b2a940af9bb739931150dba4f258d741614b68b317b7fc12fb9b8429ac',
+    'proof:read:milestone_w24_completion_core_loaded:6799a4e5da': '1c505352d815208b773ef4e2faae9baa0e3477e714990bb161f3079d87b12a72',
+    'proof:read:milestone_w24_completion_core_loaded:b356b0921d': '8009b7342ece73e1eea1920423dd750ce679908c73109023e94a1d1dac261ef1',
+    'proof:read:milestone_w24_completion_core_reentry:6799a4e5da': '7781022b7b18503808d12d9f7a05a8f85c25bf1f83c6ff9ffb3fea018a10f09c',
+    'proof:read:milestone_w24_completion_core_reentry:b356b0921d': '9ace42618d72733493bf1f8e33a52067267477960bae6dbf25126712e5a81ec6',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_recruiter_week24_0_fresh:29a99f25c1': '957033c502b10be423214585d87452224ca839a6011dc7a18961e1744122fdc3',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_recruiter_week24_0_fresh:c41f88def9': 'dabd8e160ca8e89f0638147ee7d0145918304cd1e7492e321245d446e52b9653',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_recruiter_week24_0_fresh:f2d87beaea': 'b8c1a71bd42b59d2bb76f1af716bcb3397033ea5b3c1366009ed0e79c659c8e8',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_recruiter_week24_0_loaded:29a99f25c1': '19df57f27850c6725f760aee0c25da26c14528299c003dc51ffd2d0503bea8b8',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_recruiter_week24_0_loaded:c41f88def9': '74248729bc5e4714a7a56b33f001b25fd741f24874178540d6209d9af8ffb8cc',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_recruiter_week24_0_loaded:f2d87beaea': 'c973318016897624fc4eb9c78041dc2f11d34816e77682f5602aafa63a53aed5',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_recruiter_week24_0_reentry:29a99f25c1': '01d458093b70fa1a0b1f44c5f52843a7d74c8515729caccd6a27144bfabfbc75',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_recruiter_week24_0_reentry:c41f88def9': '99d2fcb89bf65368442e8893d583add3995a1fa6d4377e2a250c75b4002cb464',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_recruiter_week24_0_reentry:f2d87beaea': '790d2efddfb85df24a2f99af1f1cbbc6bd03c61ca5c6e2eabde5acac02525cd9',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_recruiter_week24_1_fresh:7406d891eb': 'da02a1b1772f9dc20d1f63533b4c172b740b288f9bc99b001ba74d7f9b8bdbd8',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_recruiter_week24_1_fresh:c41f88def9': 'cace447433678b609e16c7380471d97c2350ae8620d0821f95fbf44e7a371d84',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_recruiter_week24_1_fresh:f2d87beaea': 'be414cb4e63f15d7d0022a9a42ef87924f47c2f5c0e11b0d05a43696ee85e9e6',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_recruiter_week24_1_loaded:7406d891eb': 'ff1394fb01fcf2df928d46eb5cc45fd53c74b07c2745349705500eca596d5a70',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_recruiter_week24_1_loaded:c41f88def9': '83fe498c032d11328b022148a5e2c127e2f7c5416873b5ce2e8428dd8afbaf91',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_recruiter_week24_1_loaded:f2d87beaea': 'f0049cdeb86a9f7050f1a1bfe95805a3070035817c696adfb8edde692c91aa35',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_recruiter_week24_1_reentry:7406d891eb': '6223f9d19de857e0c6631475fc86ca1f53030f83182812f216fee1ac884116f2',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_recruiter_week24_1_reentry:c41f88def9': '22ba78e9738edb1647dee8cc50d00d80880f811f7dbab6c0ae2fd4ecd194722b',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_recruiter_week24_1_reentry:f2d87beaea': '7ae6f10ad11286b62976a2d2ec33d5cd0f70644b6c3aae482296febfc3a262e6',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_trace_initial_call_0_fresh:40579ffc09': '7620afdc102cc8d6e8c859d1dda437ee277ac16391c01fe9d4cef26096813be1',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_trace_initial_call_0_fresh:8db4cb2ef2': '4f2afc4e9bcd0b055d2b349b3c535cbc3cdf312e4e2896cc874845fb62188584',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_trace_initial_call_0_fresh:d3d9b787f7': 'ac9785ad9d668a26d50339a2a03465c46cc76d5f6983ed4565d67fd3a540da09',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_trace_initial_call_0_loaded:40579ffc09': '9e18d267a74ffb179e0b70a094987a87fa4bc244738fa5a6271be608f1b60b94',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_trace_initial_call_0_loaded:8db4cb2ef2': '235676cd878d4ed133db8acbc9d1d063b31e863fb847cb295f8494333f6b1aa5',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_trace_initial_call_0_loaded:d3d9b787f7': 'ef0b851c4617d6b278dceb818dabde4a5356fab92bc3ef3af56a5fb8b4b533e6',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_trace_initial_call_0_reentry:40579ffc09': '7986639ebdeaad00f05d3b5c13f4421e6e90b4276a09c82b5fe80a2ea5298900',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_trace_initial_call_0_reentry:8db4cb2ef2': '93096c807c4824396538a3523ce9f5b6c5421dc2bb578423a32ffb29f58a80f5',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_trace_initial_call_0_reentry:d3d9b787f7': 'ecf5f73e19a90a79d331d3d6fdddda6234e6f59989090f28bf830de135690a45',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_trace_initial_call_1_fresh:40579ffc09': 'bd064c4980017bc2074e3808a3505fc431da6c3f692e3b39de71ea499c907491',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_trace_initial_call_1_fresh:d0293c55ae': '60d9bc29ad7384fee6e26ec854d62920b538b0a3935220dacd9881669b17cfca',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_trace_initial_call_1_fresh:d3d9b787f7': '26efe8aedef28a05eee414bee3adf9022c9d67753aaa6c516957583fe794d666',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_trace_initial_call_1_loaded:40579ffc09': '43092d161ba0c52bbb986d9fd03ce5c75e4f2870a0e0d21c015d76b43b78ea99',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_trace_initial_call_1_loaded:d0293c55ae': 'b1f59a9116f6a795b9879c688f9adadfd5502a75514958b33c2333a61532c10f',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_trace_initial_call_1_loaded:d3d9b787f7': '7eebfe5d66969a311a1362ebaa16899a35a9ef3a10015fd509643a8c6333b1e7',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_trace_initial_call_1_reentry:40579ffc09': '23104bd7f21e7b5e8a48b8a0290975e9a5e228756fb20b17740a2a586e6b03b9',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_trace_initial_call_1_reentry:d0293c55ae': '7d9725f7b393c9519717c25bc0194c28fbe8f0bb4080f6b0738b26f47c32b5ac',
+    'proof:read:milestone_w24_completion_dirty_v2_dirty_trace_initial_call_1_reentry:d3d9b787f7': '68073191cfb8ec48493ec5a03b51c8ae4e0353ed1039ae890113659a4138a871',
+    'proof:read:month_m01_summary': 'cfdbf200ea367188edc42961b3ff7b09c64bb1ef3ea4145a0c7cd8360fd01a40',
+    'proof:read:month_m02_summary': '77d6c7068fe820bac70f635a557eeef72fd0f877507f6a4f6f2f210b13fcbbd0',
+    'proof:read:month_m03_summary': 'be201184b5135f594ed348d3a79f67a2e253bc4172e560b210b87dbbed1781d0',
+    'proof:read:month_m04_summary': '137ca46cba6ae1595991675ea0c40ad8af2b90f35c83e903320115865e790d66',
+    'proof:read:month_m05_summary': '263accaab3c09e5dd0b4a349cc5c60fdaaddb4c0f971cef83e03327c830ffd3b',
+    'proof:read:month_m06_summary': '4614d5e1d0a8cd026b1e16a15ff1b0a300bfba0557644eed2669bf20d9b0d7ea',
+    'proof:read:near_m1_convenience': '471eda52388851ec6ec90c00372a7f3ef940fb500fe79d0c0f24e8c55457269c',
+    'proof:read:near_m1_father': '8285da3307454af1e2c42b7d30b83624603b4bf944bdc21c40c956efdcecfc7e',
+    'proof:read:near_m1_recovery': '2970a472347a722ecccfe5992a02e3d960583a62ea71be2465e4e9a5f35eb848',
+    'proof:read:near_m1_resume': '3afbd92a367907b6ca60d5bb6c06e92163c283e5ca47c7d8244d7406b3ad2ba0',
+    'proof:read:near_m2_advancement': 'd0b47cf537d95f5e359bd5db902c764e5b8f547222d36d11f4999339d8904dfe',
+    'proof:read:near_m2_livelihood': '391756640ecef641721c4fcbb6e0c83ed4d6f1290bf44691cd2b16df14d36849',
+    'proof:read:near_m2_people': 'c3af441b157f285ce686a9a1f5c34f887cfbda99f0b1d4932df3168c1e43e718',
+    'proof:read:near_m2_self': 'd384c06849ed6b51b36e61a4462836080d69db0e0a0bf361d1340d6aea736494',
+    'proof:read:near_m3_advancement': 'aa4383d804d65e8d6f0c7d6a1e4057998c91cdbb35bb2d90f8bc46523211564d',
+    'proof:read:near_m3_livelihood': '092e86609dafae9d6894c321bc9c2bf84096250d9e8553a6120814eff041c0b8',
+    'proof:read:near_m3_people': '33568efd643127e5699d136bfa388666a1b27cea2a9bca09c8d34fb88ba421fb',
+    'proof:read:near_m3_self': '1baf83452a819ef41f770ff86bea7ebe964141c759531771e117a772d7e92cd2',
+    'proof:read:near_m4_advancement': '14eb3b703a45c6314c1a3eb85982280b28610fec79da0585fd3fabdb9aacacbe',
+    'proof:read:near_m4_livelihood': '5259182b8a5823c9096c1a51fbabd91002eee773fa5035ade00ef1d3e134a978',
+    'proof:read:near_m4_people': 'd53f0cc9c4d834affa754d9c3c6b6885bfc03b50b987174e8bb828019c8866ac',
+    'proof:read:near_m4_self': '5ea8b748fcad6792dff24b8a3c286d22b8e9bd4197cfe04ea57c348d312e2a17',
+    'proof:read:near_m5_advancement': 'e692c0844a9841ad7c6000f82afeded5cad05895c265c4d1586147099528fd93',
+    'proof:read:near_m5_livelihood': 'b59ae259bba309e7af6fd3874f710e8b093b0355ce7162e9a558316c6e7fec25',
+    'proof:read:near_m5_people': '24c2500c1ebc80398041e6db05d64bd76e949f77e39096177588467b0e97fe48',
+    'proof:read:near_m5_self': '12174a9fe4839089b78337ce733b88fb60bd65d0c4ecb7496828b138f918bfe3',
+    'proof:read:near_m6_advancement': 'a4650d27545dfd43986f736f2d102fcfdc919227aeef497b0bc6d0be6d243d3a',
+    'proof:read:near_m6_livelihood': '6c1fbbb1bc2a234c4c71221804c19187d44f0831819cf269f7649d76578d64cf',
+    'proof:read:near_m6_people': '8bdb2a4c83f2dee9a333b123972ff6fa5b2422f36ae507cb04433a33042ccfbb',
+    'proof:read:near_m6_self': '64ece58a647af5022267478688f11ffad47121ff32c91f516e5ba861bfaca690',
+    'proof:read:result_m3_seorin': '215a6f91464413f62d40d82dc43f02765b944a27ccab24619efab547c5c6fac1',
+    'proof:read:unlock:jiyeon_world_meet': '97e541645296b7923611ddcb06296bee1abc83de4ef4d81a9fe9084b325c8c1b',
+    'proof:read:w24_completion_application_selected_choice_exact': '9261d14f21cfa92e6deb2a875e3a3cee1e783432095b28c6763a1fd3746aa3b4',
+    'proof:runtime:action_commitment': '6943b6d32bd70f619859a253d0d2b1feb5fbe2d36f517a7ddf59a198940dc74e',
+    'proof:runtime:action_receipt_prerequisite': '3c97b2fc1d561e6b8d727d20343a278aae14879262d4e5b5966beb01e9bfdc2b',
+    'proof:runtime:action_record_from_weekly_commitment': '6bf6639188a7124a18a477826e1720a15b62cfb3e7599e2200e2f00d69a1fea6',
+    'proof:runtime:allocation_commit': '8529afdff9e3ad7857e33c0d1910143dea2d4c1a92cb2d5d528f2f145a5e8de7',
+    'proof:runtime:application_receipt': '76e4c146d7577ad5f0d482feeb2b285a2a7a04e5df292842b00ccdf98c19d69b',
+    'proof:runtime:application_status_not_in': '2266498c0c05d5f4f0498585074d69bad4ee8112a41d996e02e6001f96206e03',
+    'proof:runtime:authored_content_revision': '6eddab0cab7730997960d0c899ae1c46821a66fac0289d325b9eb36ebc1c8864',
+    'proof:runtime:authority_absence_shape_poison_gate': '6819f7e9d0cec3fe612b83a58fa0727b141fdd92231504be4ad4410c39a729f3',
+    'proof:runtime:authority_ledger_shape_poison_normalization': '95cee3accf50e36c6b56f3ce3e66287bf964b2e8e06c6657621dc7bcfa45b702',
+    'proof:runtime:bundle_completion': '0f805241ff6466fb94c7de0f5b029c80c3bb84031fd2cc304e8d105a57ad3084',
+    'proof:runtime:completion_snapshot': 'a54ad719a8cbfecd685fd19e08b5628e30e937d605d0f56d809639de19bfdbf4',
+    'proof:runtime:consequence_bundle_completion': 'b07b99e3d32da60e5b676cae8f0aa43d3a426f17784aac8d090a0f6d21bdb238',
+    'proof:runtime:current_outcome_receipt_allowed_sibling': '1b4452e9eda49b1cc51b9c76ebf1d67fcf814ec3e682bdcf6b1aaf49edf0da9c',
+    'proof:runtime:current_outcome_receipt_ledger_census': '13c4445966e8ad0e466e7a7c15d5ed9ce5ab40afd37653524e2f9affd36bbbab',
+    'proof:runtime:current_application_action_record_validation': 'fb3b3a5c6b28e855aaaab5cfbc923809c10cc03533550a9d476006eddbf31bc3',
+    'proof:runtime:current_story_choice_receipt_census': '19224d5b29875632228dd6ac54a0eaf97a16728aa0b6d2855019f7e92e78dd49',
+    'proof:runtime:current_story_event_scope_preflight': '0ca851b2885666e21c356df5c8e8f5deceb36f582eb5cecec52323506d2ff463',
+    'proof:runtime:demo_collision_completion_validation': '6d391035285e1a10f895205a4a40690d60984394ecb68e9f04062f579adde0b0',
+    'proof:runtime:exact_live_action_weekly_commitment': '5c7137ee5157c91026b18b654b83bbc209fd6656699beaab3f4039f029eab312',
+    'proof:runtime:first_bill_application_choice': '72211f2942652d7873567382626b166e13cfc98261ebc7dc9c6c818146c94ab1',
+    'proof:runtime:fresh_w1_application_owner': 'afbc3b968a09375097964eda17bc6d1166fc922c3ea7233b6ba39af985c59586',
+    'proof:runtime:fresh_w1_application_recovery_gate': 'dc3007e0d96c53087cc852092bd854ec8f294d3f7b1d6875d102f9d7eeac4430',
+    'proof:runtime:game_state_exact_snapshot_restore': 'a5ed9f4f1ff50b774ec68e6c667cc92d1da91efeced20e9b377325001255b357',
+    'proof:runtime:generic_story_choice_receipt': 'f4af70a24df4e6703ee75223676187593de1ca684c6369eef9fdc43a7469e1e5',
+    'proof:runtime:generic_story_choice_single_transaction': '6d7b135c45dad12ae5f2d0ad8bf579f3e124ed13a3a5f4eeed26ac481a361e04',
+    'proof:runtime:historical_action_receipt_prerequisite': 'd7708e87199fd194fb6bbcbb787cae4aee24f62a8b61c38682a1625ee59511c9',
+    'proof:runtime:legacy_040746_action_recovery': 'cb8db7936d0273aa29c7e2e2febd2daf819a9e2c2269c456b1e3cd936abb2b28',
+    'proof:runtime:legacy_040746_action_weekly_record': 'bb8d72bb604cfeb7e348aad5f16f5c80f698d4fe49e13a0c9b9bd34a4b1e5170',
+    'proof:runtime:legacy_040746_active_story_authority': '5ac97bd88583bd944786161ea220fa29f7b3edd74c5de9e321cd741d4bd96772',
+    'proof:runtime:legacy_040746_active_story_completion': '7869403afc253a09a07c04163197e32b0da5a7efd92715a8437ff663658d3d9c',
+    'proof:runtime:legacy_040746_active_story_flags': '1555af9970a3290b6523ced49a5df35a75bbbf2e4c9f7915406a5c911f31f8c8',
+    'proof:runtime:legacy_040746_active_story_next_verb': '898456e362aea15726e2de2ed2d679beb14a1609f012f00a19316207b7ab562b',
+    'proof:runtime:legacy_040746_delivery_tuple': 'aefea9a2bc6b4429018637b2416bc5a845484066bf891f1eea9dac2b40f9c2af',
+    'proof:runtime:legacy_040746_origin_lookup': '1c9478e6a6947203060c0314b1998368d48147aaffbf8a9d1820413c87df934a',
+    'proof:runtime:legacy_040746_origin_migration': 'ab040a0fd6386350b9b8da479575c1ca9c4f9c82f806c8ab8ea9e6e04ffc9d5e',
+    'proof:runtime:legacy_040746_origin_mint': '719aca03e9b8cee5e3d17f5ac21ec34ec9955f1b5d19c33121a8179676cc19b2',
+    'proof:runtime:legacy_040746_origin_witness': 'e28bbd8362890e3386a8f24d845b3d709908a2be73df430bad8e5953fe991c2f',
+    'proof:runtime:legacy_040746_plan_origin_entry': '7514abde50de0bb04ded622257d93f3097972a164a60030fff0bdef6992efb0b',
+    'proof:runtime:legacy_040746_plan_origin_install': 'eb2578e7b67af762c4b5ac531fa21620d555ee01b74866bfd3fb6eb8d0d7d23d',
+    'proof:runtime:legacy_040746_plan_origin_lookup': 'ee5a26ccf9afe51720794b81219360f7f00d03fd846b8407e870d188a2eb6cab',
+    'proof:runtime:legacy_040746_plan_origin_normalization': '233c8d7a034dd4f939d4eab9f3ada67afc61ec37d74872081042e848c1e74450',
+    'proof:runtime:legacy_040746_plan_origin_validation': '4b52fb18471a6058ed40ae46d6bab153b203eab0a8905eb865ccef0c44284f54',
+    'proof:runtime:legacy_040746_rain_weekly_witness': '4ef1a084fa04a3039b85b8ffa77fccf4ed6fbf87407e27cd21259ff932905ad1',
+    'proof:runtime:legacy_040746_relationship_ledgers': '7d8a5bb904e4ffa591d48f2aadb02ef06f801159bdc1ea304e5e37049497fdff',
+    'proof:runtime:legacy_040746_routine_ledger': '56b6ae5f32a8a795590d5adfceedd172affcce9af6a9ed83f7f118b97f3a7bd1',
+    'proof:runtime:legacy_040746_schema_two_consumer_admission': 'c355d01ae29eb67939b0da091397401ff7631082f7655751cf176bb5597dbcfc',
+    'proof:runtime:legacy_040746_shown_ledgers': '280ee18d97dbe217ef157558db30071ae665ef195351924387aaf94b296d98ed',
+    'proof:runtime:legacy_040746_sns_completed_origin': '238558f11e50e3c021dceb5ecef37e0016c655df6472aecbefd64e74506a2b20',
+    'proof:runtime:legacy_040746_temptation_story_record': '7cec2e4ef9eb89ec12677f5801c5fefc2f3b2b35150a83583b57279be0d36738',
+    'proof:runtime:legacy_040746_weekly_census': '27dd0d14bc2675d853e564450466accfcc29b59f75275649bc93237ad73b047e',
+    'proof:runtime:legacy_040746_weekly_record_validation': 'c087f6f52ff57d24e8e6847d69c77362ade356c41e70a245267b3fe679d62545',
+    'proof:runtime:legacy_action_migration': '52130a5f7b86408ba47335bd0c2eab848d3ca8464b6d02ea5e4f5c9b76844025',
+    'proof:runtime:legacy_sns_current_story_authority_absent': '80d4fb75acfedb92f165f18f4e679b62d1f009b4a5fb3ff469e5c6a39969c9d8',
+    'proof:runtime:locked_terminal_exclusion': '2646a5f80553ae0c6d6c775200cf00d2b0414c3bea613f31dbb1a09a0e17abcb',
+    'proof:runtime:locale_content_revision': '778b8e3fbe7349298e6b2ac3cff8f00d1a4944a9b3a712733601eee9c07360d9',
+    'proof:runtime:month:02': '3185cb9d978251ea07bc6eac2a0910dff1bcf2f274905a24d5db3b73851f3e1d',
+    'proof:runtime:month_summary': '9fc2787dd9318be1247a68c45279614e710121c29199343ada1313df86f4cb52',
+    'proof:runtime:normalize_core_loop_v2_state': '066d292d1cbd46c5f4c9762a376796fd127502d57244fe8cd90224888588e104',
+    'proof:runtime:relationship_receipt': 'f084f8c1a1ea2031db0b661b325b3eb216342310e92e457222e32f02a01948a2',
+    'proof:runtime:routine_selected_livelihood_aggregation': 'bed6cf8bb8b93bbfcf94fe545da251cd0d6298e62a14056bbe3fef1dbefda195',
+    'proof:runtime:save_roundtrip_cycle': '208392d997ef31442ca77d6c6d2fa4b7824370836ad3c4a10ed1fea78151b1f0',
+    'proof:runtime:sns_completed_bundle_state_valid': '4ef3e5f3d509c24a28079251ffbeb08238ac812eac1d8dcf6271c36e0ce5e9a5',
+    'proof:runtime:sns_consequence_completion_authority': 'f28620631f68b3795bcde153d51fddc2dc528e0de3b012738669feea2efc0031',
+    'proof:runtime:sns_exact_story_choice_receipt': '41e3325c1bef44183356f502d97779c681e4f778dd46eee90838c20c8b336bed',
+    'proof:runtime:sns_historical_predicate_dispatch': '6d480e810aa4c55928842fe6c292ccf9c16dd6f8e401aedf7bc0b79a23dca722',
+    'proof:runtime:sns_historical_world_completion': '50ea40678b49bacb8f332d9c097ccbb11210f787e3e7cd521a499d0c2da32ec1',
+    'proof:runtime:sns_legacy_completion_authority': 'f1bbd137b51833ef958dbc120f716a96b4f16f0b5315939b184df035c95a1607',
+    'proof:runtime:sns_legacy_schedule_isolation': 'b95321f3df84916af771e6e1dfeb62fe9cc97a324d5cf180eca9c386065df595',
+    'proof:runtime:sns_legacy_schedule_shape': '858ff8432a81442acbae3ac5de4c071682f02e4db2a8f46d7496211efb110a3b',
+    'proof:runtime:sns_live_predicate_dispatch': '3426be6132065c0e23513c7196ca0aefe8ed800bb34c48532de6de8653000201',
+    'proof:runtime:sns_prelude_story_completion': '1c02240c9c0449dbe21b29e69ab329e7c436da4dacf0771c016dc273014206e0',
+    'proof:runtime:sns_scheduled_prelude_lookup': 'a6265d54b88ca1ecbf3affab51c83beb4dbadbd5bce2f8e20a9b0cd8351bf01d',
+    'proof:runtime:sns_scheduled_prelude_validation': 'a1ed5855ef762bb8286e801e0e2a75d0d1f32a2c59ace529658895e02550d8f7',
+    'proof:runtime:sns_story_choice_flags': 'a2211f2e068466938d92c83ba749b8ec411f8178f98c606738e4a465fe8e5f49',
+    'proof:runtime:sns_story_completion': '0a56fc02aa1fd4ccce6d35c0d5a77c34ff34411127c8457fe9f81b9e4d83d355',
+    'proof:runtime:sns_story_receipt_identity_set': 'a4970fb9d3feeea58eeab2910881342ca37752a7a28bcd866fcd8b597b99321c',
+    'proof:runtime:sns_w4_temptation_root': '6ead3da388a7d4e16c6ce20c27e22129cef92d03e1e9cac46a1b81b0cf0691e0',
+    'proof:runtime:story_choice_outcome_dispatch': 'ab432ca4c90afed02ac8f1b9479d6e8d91d85b8c0883b9934dafacf773a24d76',
+    'proof:runtime:story_choice_transaction_rollback': 'e7168d7a78aab23d0bef04f0ae7c1f5155765bde3584e07d46fb8edf4fdccca5',
+    'proof:runtime:story_mode_choice_full_transaction': 'fc486f3cbd3e1263c5777b9015f1c560e305f5350aebe4f7d9c5956ee0e08db1',
+    'proof:runtime:story_receipt_owner_union_valid': 'c1e3bdee75350792b75286cf29fe040c4a96dbefc06296f648816803245ca5b3',
+    'proof:runtime:story_receipt_prefix_entries_valid': '95d626954deeba243bba8f157b9c4f60d7412584eda6f1f44b4d7ebaed795ca5',
+    'proof:runtime:terminal_action_receipt_proof': '3fd2a8b56b1a1d4ca5d75318454c7d720bca33a1cd9fd09d8eb998a38cd2c47a',
+    'proof:runtime:terminal_authority_quarantine': '8cf2cd5c9aae917a77af50163b2eff5ff1c477ea44779ba4fe6d13e7f6b716ec',
+    'proof:runtime:terminal_expiry': 'e2d4e95f8f5decc10b8cc25943a4cd66da08b19c501a246dd440f51c71c76138',
+    'proof:runtime:terminal_expiry_outcomes_absent': '2438c2a6c2aa76498f94a4ac9b7041504659c94f4146ca213e982af00d6dd0c7',
+    'proof:runtime:terminal_historical_binding_census': 'f0cc4589b338d4f4c7428c3735297e9f1d9cfdafd3f6499b070e2624a9430f76',
+    'proof:runtime:terminal_historical_locked_resolution': '92944406227559ccdff4256e80c22d70393a0136485657efd05a29f1b33d8786',
+    'proof:runtime:terminal_historical_timeline_parity': 'bbe3d53691032457a339d0495992f226606434bf887e1228a5bda010153bd389',
+    'proof:runtime:terminal_historical_validation_cache': '87f2eefd1fa74907691304ce5852d4506bc70514dd6a669c688f7abaaa7835f7',
+    'proof:runtime:terminal_source_proof': 'a8028881f76b0ef172fa6203ca41b4a925394cb1f9d6c5de29673a81a1a9b898',
+    'proof:runtime:terminal_summary_authority_quarantine': 'ced6da95f04f72dfb69f848289c885b89236ad95424aba3fe3be99001f9b6384',
+    'proof:runtime:terminal_target_candidates': '8d02c7c7de392ca3676b8b326c28ade342eee44888b8d87969c71fe99dab018d',
+    'proof:runtime:terminal_typed_action_proof': '3337e2d98aa1f89026d5221e5362a5eee4560093013fb0421179d804e8aafef2',
+    'proof:runtime:trigger_prerequisites': '770c8e0ea63279279a7777e720ce51cab489a6a29b07f7fab25a8925c503f926',
+    'proof:runtime:trigger_resolution': '7db9621443ec5d3b058120c914123d6cd39f1dc08e05c22af1744a85063caf24',
+    'proof:runtime:w24_city_world_receipt_transport': '6dc4f8c5afb343c8214eeba58c0f07eb8b1e4425ed92936dbe69f0a66a194b4c',
+    'proof:runtime:w24_completion_cta': 'c6d205505991c9a63edd123cf21487d166aad7c3a41aa1f366b981ccf46df481',
+    'proof:runtime:w24_completion_path_temporal_roles': '04204e9b4a02cf504c82b3f65c7a9bf12c83a9a55dc889d36a4db34134b94305',
+    'proof:runtime:w24_hyunsu_choice_path_roles': 'b4f51e044fc10fc436056f733353f0d9ef681f1f9114711b5a9a18366510365e',
+    'proof:runtime:world_bundle_completion': 'd5fd0b98420c9da755dde1cbdb23ba6bb43aab2c1fbd2efaa9086c1494265251',
+    'proof:runtime:world_bundle_resolution': '5232c4506abc1b830c285597a318406ed6c82784eb163d718a1d126ebc56b444',
+    'proof:runtime:world_clock_bundle_resolution': '4dc739873168cd84774dbe32cc11755205205146e89dc472f7b819155c2d309c',
+}
+for _proof_id in _ORDER101_REMOVED_PROOF_BINDING_IDS:
+    _FROZEN_AUDITED_MAPS["proof_bindings"].pop(_proof_id)
+_FROZEN_AUDITED_MAPS["proof_bindings"].update(
+    _ORDER101_PROOF_BINDING_OVERRIDES)
+_ORDER101_INVOCATION_CONTRACT_OVERRIDES = {
+    'reader:milestone:w24:completion_validation:fresh': 'f0226b81ca161f961526c82d1dd9d8a87d4de3411fdda75c0e1c271759f59d54',
+    'reader:milestone:w24:completion_validation:loaded': '71a40c4050c89fecff25b0d4e22aad83affa4004bdb4cf9a988e736655bdf4d9',
+    'reader:milestone:w24:completion_validation:reentry': '694ab5341705d8dadffe3ebcd062da5736f7df102c93acebebed142c90c9adb9',
+}
+_FROZEN_AUDITED_MAPS["invocations"].update(
+    _ORDER101_INVOCATION_CONTRACT_OVERRIDES)
+_FROZEN_AUDITED_MAPS["story_inputs"][
+    "reader:milestone:w12:seorin_submitted"] = [
+        ["receipt:completed:m2_seorin_application",
+         "receipt:application:seorin_contract_2026q1:submitted",
+         "receipt:action:m2_seorin_application"],
+        ["receipt:completed:m2_seorin_application",
+         "receipt:application:seorin_contract_2026q1:submitted",
+         "receipt:action:m2_seorin_application"],
+        [], [], [], [],
+    ]
+_FROZEN_AUDITED_MAP_COUNTS = {'co_presence': 6, 'co_presence_pointers': 18, 'exclusive': 60, 'exclusive_pointers': 60, 'invocations': 81, 'producers': 81, 'proof_bindings': 1567, 'scenarios': 6, 'stages': 76, 'story_decisions': 91, 'story_inputs': 330, 'story_pointers': 330}
 if (set(_FROZEN_AUDITED_MAPS) != set(_FROZEN_AUDITED_MAP_COUNTS)
         or any(type(_FROZEN_AUDITED_MAPS[key]) is not dict
                or len(_FROZEN_AUDITED_MAPS[key]) != expected_count
                for key, expected_count in
                _FROZEN_AUDITED_MAP_COUNTS.items())):
-    raise ValueError("ORDER-100 frozen audited map shape/count mismatch")
+    raise ValueError("ORDER-101 audited map shape/count mismatch")
 
 EXPECTED_STORY_READER_POINTERS = _FROZEN_AUDITED_MAPS["story_pointers"]
 
@@ -1801,14 +2725,20 @@ EXPECTED_STORY_INPUTS_BY_READER = {
     for reader_id, value in _FROZEN_AUDITED_MAPS["story_inputs"].items()
 }
 
-AUDITED_LEDGER_SEMANTIC_SHA256 = 'becf6d485bbee54895fa0b35d60586e9496d14c73f1bdb8a0ce1cb0caca8dde7'
+AUDITED_LEDGER_SEMANTIC_SHA256 = 'fff8a3422273583bfd9cd53b5901af3c389a28f3159335353c6fe810efb9966a'
 EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "systems/DemoCoreLoopV2.gd":
-        "2a430d9247ec072c89ac90693c74d026273355e88daea81a9b9bcaf02a98d502",
+        "9c01278a35e1101fd592addba0605a414a0eee8fd62c1af08d2a3919f51307fc",
+    "tools/CoreLoopV2CycleCheck.gd":
+        "4ebfe5e8d87e84100cca638d9bdcbfb1d3e55f5e74ceae472493457315c93203",
+    "tools/StoryPlaybackCheck.gd":
+        "b16d80f1f7b9bff0b31513ac315afa92cf3102fb3553f2fee133ad486058b737",
     "autoloads/GameState.gd":
-        "7e7bba4288bcfa75776df06647013aba0072c06ae21cf12e7c33f99dec57b261",
+        "1551af14591255c50ab9a7c253c90a565d05f60050ca88c5034b6c9265d74bf6",
     "autoloads/DataRegistry.gd":
-        "ab29468bccf2aa1151a5f4ceabbef77f1dd99e59c6125ed5d4b49872495899d1",
+        "d442e9af4e45a1011150b31985bcee935e472c0b62b0fdce399218079968473c",
+    "autoloads/LocaleManager.gd":
+        "9417e6b9e241e1d2b9ec7a7668cf4d19fe337ce6719d87e032020fe421ceec9a",
     "autoloads/EventManager.gd":
         "ca2ae4d3710a746f40f311ede93e9b37015b180df5820e95dadd9c8917b66365",
     "autoloads/MetaProgression.gd":
@@ -1818,11 +2748,11 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "systems/BuildFlavor.gd":
         "6264de1c468d5553b73a37d3ea8c5ceb936f6852db7519701f37a2c8bf8aa633",
     "scenes/StoryMode.gd":
-        "78e2656a994feaa1da0fed8b60f2d91229afbaec9d4eda2e337afcc12f6c112f",
+        "c029918113e2c20c735d6798c839e8e5803113336ddf147bf6602ef3153637b7",
     "scenes/StoryMode.tscn":
         "b7688a883323a196e74271c1e76f1d88c91310b3fe1a287cb051b33dd2fb76ca",
     "scenes/MainGame.gd":
-        "516aa042e488fd9419a4993b423401b509169a6b2df9c77342e09be22c064d88",
+        "16a8b5e417dc4bc659a30cc73a9048902bd2d73c21f3daf592c5533739dc822b",
     "scenes/MainGame.tscn":
         "71a9590d43c755fa6b409ee0eb0f1950c6aba4517c64192b83038d22a45d9979",
     "scenes/SeoulCycleBoard.gd":
@@ -1834,7 +2764,11 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "scenes/ArubaGame.gd":
         "97592dfae82323438a8b2d9843dd4c1599f8ff2eb2ace93a6ab35460d153e656",
     "content/meta/demo_core_loop_v2.json":
-        "3e0451c596d3f8d7143acd7ff7a88d9fb42178ab7c90444e3d1be0c93be942da",
+        "f336f8a60277effc1885e10911d21785add4ad5580135bb1ab3a4c4b509059c3",
+    "content/meta/demo_localization_scope.json":
+        "aebd2b3d50b43d25ba49d96065b7a4bf506f38ed88ba6b31747726677aa5fb21",
+    "content/meta/release_content_inventory.json":
+        "d689870aaa22a7a2ee1a2553d48801b573b11eb04c6520f382610e1373ed793e",
     "content/meta/story_rules.json":
         "bb42dd9440abc7a5c5bad728811f80022a74f5cf046e9b1264a393ba159ffac9",
     "content/jobs.json":
@@ -1850,9 +2784,25 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/events/scenario_cafe.json":
         "748fa21586b928419a7e7cf336b7c737ba3f09ecfdddafdbb38bff1698ebbe85",
     "docs/CORE_LOOP_V2.md":
-        "72c67573fd29c45832bb9cac92069caccc2a570929b56e2c13cabf26b2b2364c",
+        "3b2ad299ecd7622b679a093780ec4541758127c0c64697e7868ce65f64f1cbe1",
+    "docs/BALANCE.md":
+        "8994d997b37c83a580ab97e9ab46c2f4b783ebacdef90b44325c03fa071d7cac",
+    "docs/WORK_LOG.md":
+        "6448901d7db72c40b28a7e3844a86d22c9b719cd6ed2cd703a94e51b0afb2d1b",
+    "docs/queue_archive/ORDER-101.md":
+        "732f49ac40efb644a7321cd425160fae9a8123ead11eb2cc7ebc5b238952ee48",
     "docs/CHOICE_CONSEQUENCE_SYSTEM.md":
         "9828896ce8f447c81a0fb9ad949a1ef204d26f4d49072ab2962941d84d7becd5",
+    "tools/core_loop_v2_balance_sim.py":
+        "b9f96ed925cce3801fe8c45716f5bab2fb480507fa1cd3069c714bd222cedf86",
+    "tools/demo_core_loop_v2_audit.py":
+        "22d57420c390d2c6b63b52131ce99b8883b5fab88dc41c10a5eb0b6f74d92cd8",
+    "tools/first_session_pacing_audit.py":
+        "91beb389fc0362e4769d0e5f15ae45e4d1b354ba2f51c500f9b903608f2545a0",
+    "tools/release_content_inventory.py":
+        "969f181885bdcf298e60270ba10fe05d51aae776eeacc90d88de6eb6c296589c",
+    "tools/story_consistency_audit.py":
+        "2e7bbcff6f995c597ed31a6f7450295b49c5f04699bfb8020290efce0f8af229",
 }
 EXPECTED_PROJECT_AUTOLOAD_BINDINGS = {
     "GameState": "autoloads/GameState.gd",
@@ -1867,9 +2817,26 @@ EXPLICIT_TOP_LEVEL_EVIDENCE_PROOF_IDS = {
     'proof:debt:dead_card_terminal',
     'proof:debt:display_only_forgone',
     'proof:debt:orphan_ncs_receipt',
-    'proof:debt:orphan_resume_polished',
+    CURRENT_APPLICATION_ACTION_RECORD_PROOF_ID,
+    FRESH_W1_APPLICATION_RECOVERY_GATE_PROOF_ID,
     'proof:runtime:completion_snapshot',
 }
+COMPLETION_SNAPSHOT_PROOF_ID = "proof:runtime:completion_snapshot"
+COMPLETION_SNAPSHOT_POINTER = (
+    "systems/DemoCoreLoopV2.gd::completion_snapshot")
+COMPLETION_SNAPSHOT_VALIDATION_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_completion_snapshot_is_valid")
+COMPLETION_SNAPSHOT_HANBIT_POINTER = (
+    "systems/DemoCoreLoopV2.gd::"
+    "completion_snapshot_has_hanbit_employment_provenance")
+COMPLETION_SNAPSHOT_LIVE_HANBIT_POINTER = (
+    "systems/DemoCoreLoopV2.gd::has_hanbit_employment_provenance")
+COMPLETION_SNAPSHOT_CANDIDATES_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_first_bill_candidate_ids_from_raw")
+COMPLETION_SNAPSHOT_OBLIGATION_POINTER = (
+    "systems/DemoCoreLoopV2.gd::_first_bill_obligation_receipt")
+COMPLETION_SNAPSHOT_RECAP_POINTER = (
+    "scenes/MainGame.gd::_core_loop_v2_unresolved_recap")
 COMPLETE_STALE_PROOF_IDS = {
     "proof:runtime:completion_snapshot",
     "proof:contract:months_stop_at_m06",
@@ -1955,10 +2922,10 @@ W24_COMPLETION_APPLICATION_READER_ID = (
     "reader:milestone:w24:completion_application_choice")
 W24_COMPLETION_APPLICATION_FACTS = [
     "state:completion_application_required:demo_collision",
-    "receipt:application_transition:demo_collision:any_current_turn",
+    "receipt:application_transition:demo_collision:selected_choice_exact",
 ]
-W24_COMPLETION_APPLICATION_DEBT_PROOF_ID = (
-    "proof:debt:w24_completion_application_choice")
+W24_COMPLETION_APPLICATION_EXACT_PROOF_ID = (
+    "proof:read:w24_completion_application_selected_choice_exact")
 
 EXPECTED_EXCLUSIVE_GROUPS = {
     group_id: (value[0], value[1])
@@ -2425,6 +3392,156 @@ def _validate_save_roundtrip_source_contract(
             f"SAVE_ROUNDTRIP: project autoload binding mismatch {singleton}")
 
 
+def _validate_completion_snapshot_source_contract(
+        proof_records_by_id: dict[str, dict[str, Any]], errors: list[str],
+        cache: dict[Path, Any]) -> None:
+    """Bind the W24 recap to its immutable snapshot, never live normalization."""
+    proof = proof_records_by_id.get(COMPLETION_SNAPSHOT_PROOF_ID, {})
+    if (proof.get("kind") != "source_symbol"
+            or proof.get("pointer") != COMPLETION_SNAPSHOT_POINTER):
+        errors.append("COMPLETION_SNAPSHOT: exact proof pointer mismatch")
+
+    snapshot = _pointer_source_text(COMPLETION_SNAPSHOT_POINTER, cache)
+    validation = _pointer_source_text(
+        COMPLETION_SNAPSHOT_VALIDATION_POINTER, cache)
+    hanbit = _pointer_source_text(COMPLETION_SNAPSHOT_HANBIT_POINTER, cache)
+    live_hanbit = _pointer_source_text(
+        COMPLETION_SNAPSHOT_LIVE_HANBIT_POINTER, cache)
+    candidates = _pointer_source_text(
+        COMPLETION_SNAPSHOT_CANDIDATES_POINTER, cache)
+    obligation = _pointer_source_text(
+        COMPLETION_SNAPSHOT_OBLIGATION_POINTER, cache)
+    recap = _pointer_source_text(COMPLETION_SNAPSHOT_RECAP_POINTER, cache)
+    snapshot_markers = (
+        "_completion_snapshot_is_valid(raw_frozen as Dictionary, cap)",
+        '"current_job_id": str(GameState.current_job.get("id", ""))',
+        '"application_statuses":',
+        'state.get("application_statuses", {}) as Dictionary',
+        '"application_transition_receipts":',
+        'state.get("application_transition_receipts", {}) as Dictionary',
+        '"demo_collision_context":',
+        'state.get("demo_collision_context", {}) as Dictionary',
+        '"obligation_receipts":',
+        'state.get("obligation_receipts", {}) as Dictionary',
+        '"legacy_boundary_incomplete": late_unfrozen_boundary',
+    )
+    validation_markers = (
+        "_terminal_integral_number_matches(",
+        'snapshot.get("snapshot_schema", null), 1',
+        'snapshot.get("development_cap_week", null), cap',
+        'snapshot.get("completed_through_week", null), cap',
+        'snapshot.get("completed_at_turn", null), cap + 1',
+        'snapshot.get("frozen_at_turn", null), cap + 1',
+        '"application_statuses"',
+        '"application_transition_receipts"',
+        '"demo_collision_context"',
+        '"obligation_receipts"',
+        'snapshot.has("current_job_id")',
+        'not snapshot.get("current_job_id") is String',
+    )
+    hanbit_markers = (
+        "_completion_snapshot_is_valid(snapshot, cap)",
+        'snapshot.get("legacy_boundary_incomplete", true)',
+        'snapshot.get("current_job_id", "")',
+        '!= "job_03"',
+        '"application_statuses", {}) as Dictionary',
+        '"hanbit_ops_2026q1", "")) != "resolved"',
+        '"m5_hanbit_offer_message:v2_hanbit_offer_message:0:17"',
+        '"application_transition_receipts", {})',
+        '"receipt_key", "application_id", "from", "to", "bundle_id"',
+        'str(expected.get("from", "")) != "interviewed"',
+        'str(expected.get("to", "")) != "resolved"',
+        'expected.get("choice_index", null), 0',
+        'expected.get("turn", null), 17',
+        'key == "m5_hanbit_offer_message"',
+        'key.begins_with("m5_hanbit_offer_message:")',
+        'key == "v2_hanbit_offer_message"',
+        'key.begins_with("v2_hanbit_offer_message:")',
+        'key == "hanbit_ops_2026q1"',
+        'key.begins_with("hanbit_ops_2026q1:")',
+        "key_claims_offer or value_claims_offer",
+        'snapshot.get("demo_collision_context", {})',
+        'str(context.get("bundle_id", "")) != "demo_collision"',
+        'context.get("turn", null), 24',
+        'context.get("prepared", null) != true',
+        "var expected_roots: Array[String] = []",
+        'dirty_source == "callback_escaped_dirty_trace"',
+        'dirty_root == "v2_dirty_trace_initial_call"',
+        'dirty_source == "fell_to_darkness"',
+        'dirty_root == "v2_dirty_recruiter_week24"',
+        "expected_roots.append(FIRST_BILL_OPENING_ID)",
+        'roots.has("v2_hyunsu_exam_morning_echo")',
+        'expected_roots.append("v2_hyunsu_exam_morning_echo")',
+        "if roots != expected_roots:",
+        'candidates.has("father_call")',
+        'candidates.has("hanbit_month_close")',
+        'snapshot.get("obligation_receipts", {})',
+        'obligation.get("turn", null), 24',
+        'obligation.get("choice_index", null), 0, 7',
+        'key == "demo_collision"',
+        'key.begins_with("demo_collision:")',
+        "key == FIRST_BILL_DECISION_ID",
+        'key.begins_with(FIRST_BILL_DECISION_ID + ":")',
+        "key_claims_collision or value_claims_collision",
+        "_first_bill_obligation_receipt(",
+        "snapshot, context, candidates, finale).is_empty()",
+    )
+    recap_markers = (
+        'hanbit_status == "resolved"',
+        "DEMO_CORE_LOOP_V2.completion_snapshot_has_hanbit_employment_provenance(",
+        "snapshot):",
+        "한빛유통 계약이 얼마나 이어질지는 아직 알 수 없다.",
+        "You still do not know how long the Hanbit contract will last.",
+    )
+    live_hanbit_markers = (
+        'GameState.current_job.get("id", "")',
+        '!= "job_03"',
+        '"hanbit_ops_2026q1", "")) != "resolved"',
+        '"m5_hanbit_offer_message:v2_hanbit_offer_message:0:17"',
+        '_terminal_dictionary_has_exact_keys(expected, [',
+        'expected.get("choice_index", null), 0',
+        'expected.get("turn", null), 17',
+        "key_claims_offer or value_claims_offer",
+    )
+    candidate_markers = (
+        "if not raw_candidates is Array:",
+        'bundle("demo_collision").get(',
+        '"obligation_outcomes", [])',
+        '"selected_obligation_id", ""',
+        "not allowed.has(candidate_id) or candidates.has(candidate_id)",
+        '"father_call", "hanbit_month_close", "city_work_sample"',
+        "if candidates != ordered:",
+    )
+    obligation_markers = (
+        '"receipt_owner", "demo_collision"',
+        '"decision_event", "v2_demo_first_bill"',
+        'state["obligation_receipts"].get(',
+        'str(receipt.get("bundle_id", "")) != receipt_owner',
+        'str(receipt.get("event_id", "")) != decision_event',
+        'int(receipt.get("turn", -1)) != int(context.get("turn", -2))',
+        "(raw_receipt_candidates as Array).size() != candidates.size()",
+        'str((raw_receipt_candidates as Array)[index]) != candidates[index]',
+        "not candidates.has(selected_id)",
+        "_obligation_id_for_choice(",
+        "if candidate_id != selected_id:",
+        "(raw_deferred as Array).size() != expected_deferred.size()",
+        'str((raw_deferred as Array)[index]) != expected_deferred[index]',
+    )
+    if (not all((snapshot, validation, hanbit, live_hanbit, candidates,
+                 obligation, recap))
+            or not all(marker in snapshot for marker in snapshot_markers)
+            or not all(marker in validation for marker in validation_markers)
+            or not all(marker in hanbit for marker in hanbit_markers)
+            or "_normalized_state" in hanbit
+            or "GameState.current_job" in hanbit
+            or not all(marker in live_hanbit
+                       for marker in live_hanbit_markers)
+            or not all(marker in candidates for marker in candidate_markers)
+            or not all(marker in obligation for marker in obligation_markers)
+            or not all(marker in recap for marker in recap_markers)):
+        errors.append("COMPLETION_SNAPSHOT: exact source chain mismatch")
+
+
 def _validate_replay_persistence_source_contract(
         proof_records_by_id: dict[str, dict[str, Any]], errors: list[str],
         cache: dict[Path, Any]) -> None:
@@ -2639,6 +3756,20 @@ def _json_consumer_binds_fact(value: Any, fact_id: str) -> bool:
     """Bind typed prerequisite data to the ledger's stable fact vocabulary."""
     if not isinstance(value, (dict, list)):
         return False
+    if fact_id in EXPECTED_ACTION_RECEIPT_PREDICATES:
+        expected = EXPECTED_ACTION_RECEIPT_PREDICATES[fact_id]
+
+        def contains_exact_predicate(candidate: Any) -> bool:
+            if isinstance(candidate, dict):
+                return (candidate == expected
+                        or any(contains_exact_predicate(child)
+                               for child in candidate.values()))
+            if isinstance(candidate, list):
+                return any(contains_exact_predicate(child)
+                           for child in candidate)
+            return False
+
+        return contains_exact_predicate(value)
     encoded = json.dumps(value, ensure_ascii=False, sort_keys=True)
     parts = fact_id.split(":")
     if fact_id.startswith("receipt:application:") and len(parts) >= 4:
@@ -2683,6 +3814,13 @@ def _prerequisite_predicate_fact(predicate: Any) -> str:
         bundle_id = predicate.get("bundle_id")
         return f"receipt:completed:{bundle_id}" \
             if isinstance(bundle_id, str) and bundle_id else ""
+    if kind == "action_receipt":
+        bundle_id = predicate.get("bundle_id")
+        fact_id = f"receipt:action:{bundle_id}" \
+            if isinstance(bundle_id, str) and bundle_id else ""
+        return fact_id \
+            if predicate == EXPECTED_ACTION_RECEIPT_PREDICATES.get(fact_id) \
+            else ""
     if kind == "application_status":
         application_id = predicate.get("application_id")
         status = predicate.get("status")
@@ -2737,6 +3875,15 @@ def _prerequisite_fact_variants(
     variants = [_prerequisite_predicate_fact(item) for item in raw_any]
     if any(not fact_id for fact_id in common + variants):
         return None
+    # Jaehyuk's authored predicate remains the ordinary completed_bundle DSL,
+    # but the SNS-specific live and historical dispatchers deliberately scope
+    # that predicate to one indivisible W4 -> W8 authority.  Expand the source
+    # fact here so the ledger cannot describe the reader as bare membership.
+    if pointer == SNS_CONSEQUENCE_PREREQUISITE_POINTER:
+        if (common != ["receipt:completed:sns_pressure_night"]
+                or variants):
+            return None
+        return [list(SNS_CONSEQUENCE_AUTHORITY_FACTS)]
     if variants:
         return [[*common, fact_id] for fact_id in variants]
     return [common]
@@ -2759,6 +3906,203 @@ def _expected_scheduled_prerequisite_pointers(
                             for key in ("all", "any"))):
                 result.add(pointer)
     return result
+
+
+def _order101_terminal_routes(
+        cache: dict[Path, Any]) -> dict[str, dict[str, Any]]:
+    """Return the exact W1-W8 terminal route slice, or an empty map on drift."""
+    raw_routes = _json_pointer_value(
+        "content/meta/demo_core_loop_v2.json#/seoul_cycle/terminal_routes",
+        cache)
+    if not isinstance(raw_routes, dict):
+        return {}
+    expected_ids = set().union(
+        *ORDER101_TERMINAL_ROUTE_IDS_BY_SOURCE.values())
+    if not all(isinstance(raw_routes.get(route_id), dict)
+               for route_id in expected_ids):
+        return {}
+    routes = {
+        route_id: raw_routes[route_id]
+        for route_id in expected_ids
+    }
+    source_identity = {
+        "m1_resume": (1, "resume"),
+        "m1_father": (1, "father"),
+        "m2_advancement": (2, "m2_advancement"),
+        "m2_people": (2, "m2_people"),
+        "m2_self": (2, "m2_self"),
+    }
+    for (chain_id, terminal), route_ids in \
+            ORDER101_TERMINAL_ROUTE_IDS_BY_SOURCE.items():
+        month, node_id = source_identity[chain_id]
+        actual_ids = {
+            route_id for route_id, raw_spec in raw_routes.items()
+            if isinstance(raw_spec, dict)
+            and isinstance(raw_spec.get("source"), dict)
+            and raw_spec["source"].get("month") == month
+            and str(raw_spec["source"].get("node", "")) == node_id
+            and str(raw_spec["source"].get("terminal", "")) == terminal
+        }
+        if actual_ids != route_ids:
+            return {}
+        for route_id in route_ids:
+            spec = routes[route_id]
+            source = spec.get("source", {})
+            target = spec.get("target", {})
+            target_month, target_node, target_bundle, target_variant = \
+                ORDER101_TERMINAL_ROUTE_TARGETS[route_id]
+            if (not isinstance(source, dict)
+                    or not isinstance(target, dict)
+                    or target != {
+                        "month": target_month,
+                        "node": target_node,
+                        "bundle": target_bundle,
+                        "variant_id": target_variant,
+                    }
+                    or spec.get("completion_effects")
+                    != ORDER101_TERMINAL_ROUTE_EFFECTS[route_id]):
+                return {}
+
+    resume_quality_by_id = {
+        route_id: int(re.search(r"_q([0-3])_", route_id).group(1))
+        for route_id in
+        ORDER101_TERMINAL_ROUTE_IDS_BY_SOURCE[("m1_resume", "completed")]
+    }
+    for route_id, quality in resume_quality_by_id.items():
+        source = routes[route_id]["source"]
+        if (source != {
+                "month": 1, "node": "resume", "terminal": "completed",
+                "proof_kind": "typed_action_application",
+                "proof_id": "m1_youth_center_resume_clinic:application:1",
+                "quality": quality,
+                }
+                or routes[route_id].get("balance_status")
+                != "first_run_adjustment"):
+            return {}
+    resume_expired = routes[
+        "m1_resume_expired_to_m2_advancement_rebuilt"]
+    if (resume_expired["source"] != {
+            "month": 1, "node": "resume", "terminal": "expired",
+            "proof_kind": "node_expiry", "proof_id": "m1:resume"}
+            or resume_expired.get("balance_status")
+            != "first_run_adjustment"):
+        return {}
+    father_proofs = {
+        "m1_father_completed_wellbeing_to_m3_quiet_call":
+            "father_first_call:arc_father_01_call:0",
+        "m1_father_completed_future_reassured_to_m3_quiet_call":
+            "father_first_call:arc_father_01_call:1",
+        "m1_father_completed_call_ended_quickly_to_m3_quiet_call":
+            "father_first_call:arc_father_01_call:2",
+    }
+    for route_id, proof_id in father_proofs.items():
+        source = routes[route_id]["source"]
+        if source != {
+                "month": 1, "node": "father", "terminal": "completed",
+                "proof_kind": "relationship_choice", "proof_id": proof_id,
+                }:
+            return {}
+    people_proofs = {
+        "m2_people_completed_hyunsu_to_m3_followup":
+            "m2:m2_people:hyunsu_player_reachout",
+        "m2_people_completed_cafe_to_m4_sangchul":
+            "m2:m2_people:cafe_world_glimpse",
+    }
+    for route_id, proof_id in people_proofs.items():
+        source = routes[route_id]["source"]
+        if source != {
+                "month": 2, "node": "m2_people", "terminal": "completed",
+                "proof_kind": "selected_trigger", "proof_id": proof_id,
+                }:
+            return {}
+    self_source = routes[
+        "m2_self_completed_to_m3_self_recovered"]["source"]
+    if self_source != {
+            "month": 2, "node": "m2_self", "terminal": "completed",
+            "proof_kind": "typed_action_receipt",
+            "proof_id": "m2_sleep_debt_sunday", "action_id": "rest"}:
+        return {}
+    expiry_proofs = {
+        "m1_father_expired_to_m2_people_open": (1, "father", "m1:father"),
+        "m2_advancement_expired_to_m3_advancement_retry":
+            (2, "m2_advancement", "m2:m2_advancement"),
+        "m2_people_expired_to_m3_contact_fail_forward":
+            (2, "m2_people", "m2:m2_people"),
+    }
+    for route_id, (month, node_id, proof_id) in expiry_proofs.items():
+        source = routes[route_id]["source"]
+        if source != {
+                "month": month, "node": node_id, "terminal": "expired",
+                "proof_kind": "node_expiry", "proof_id": proof_id,
+                }:
+            return {}
+    return routes
+
+
+def _order101_terminal_route_ids_for(
+        row: dict[str, Any], terminal: str,
+        cache: dict[Path, Any]) -> set[str]:
+    routes = _order101_terminal_routes(cache)
+    expected = ORDER101_TERMINAL_ROUTE_IDS_BY_SOURCE.get(
+        (str(row.get("chain_id", "")), terminal), set())
+    return set(expected) if routes and expected else set()
+
+
+def _terminal_route_target_chain_ids(
+        row: dict[str, Any], terminal: str,
+        rows: list[dict[str, Any]], cache: dict[Path, Any]) -> list[str]:
+    routes = _order101_terminal_routes(cache)
+    route_ids = _order101_terminal_route_ids_for(
+        row, terminal, cache)
+    rows_by_target = {
+        (int(candidate.get("month", 0)), str(candidate.get("node_id", ""))):
+            str(candidate.get("chain_id", ""))
+        for candidate in rows if isinstance(candidate, dict)
+    }
+    targets = {
+        rows_by_target.get((
+            int(routes[route_id]["target"].get("month", 0)),
+            str(routes[route_id]["target"].get("node", ""))), "")
+        for route_id in route_ids
+    }
+    return sorted(target for target in targets if target)
+
+
+def _sns_pressure_world_clock_is_exact(cache: dict[Path, Any]) -> bool:
+    """Require the authored W8 world slot to schedule SNS exactly once."""
+    raw_events = _json_pointer_value(
+        "content/meta/demo_core_loop_v2.json#/seoul_cycle/months/2/"
+        "world_clock/events", cache)
+    if not isinstance(raw_events, list):
+        return False
+    owners = [
+        event for event in raw_events
+        if isinstance(event, dict)
+        and (event.get("bundle_id") == "sns_pressure_night"
+             or (isinstance(event.get("bundle_options"), list)
+                 and "sns_pressure_night" in event["bundle_options"]))
+    ]
+    if owners != [{
+            "week_index": 4,
+            "bundle_id": "sns_pressure_night",
+            "kind": "consequence",
+            }]:
+        return False
+    resolver = _pointer_source_text(
+        "systems/DemoCoreLoopV2.gd::_seoul_cycle_world_event_for_week",
+        cache)
+    authored_guard = _pointer_source_text(
+        "systems/DemoCoreLoopV2.gd::"
+        "_seoul_cycle_world_bundle_authored_for_week", cache)
+    return all(marker in resolver for marker in (
+        'event.get("bundle_id", "")',
+        "_bundle_requirement_met(scene_bundle)",
+        "bundle_allowed_in_week(bundle_id, absolute_turn)",
+        'event["bundle_id"] = bundle_id',
+    )) and all(marker in authored_guard for marker in (
+        '"bundle_id", "")', "authored.has(bundle_id)",
+        "bundle_allowed_in_week(bundle_id, absolute_turn)",
+    ))
 
 
 def _trusted_event_index(cache: dict[Path, Any]) -> dict[str, dict[str, Any]]:
@@ -3135,6 +4479,16 @@ def _fanin_memory_axis(fact_id: str) -> str:
         for suffix in (":true", ":false"):
             if fact_id.endswith(suffix):
                 return fact_id[:-len(suffix)]
+    # These three facts are not independent narrative memories.  One exact
+    # `apply` action receipt atomically owns the bundle completion and its
+    # Seorin application transition, and the prerequisite checker still
+    # validates all three facts separately.  Count that source event once at
+    # the Story fan-in boundary without weakening any reader/proof contract.
+    if fact_id in {
+            "receipt:completed:m2_seorin_application",
+            "receipt:application:seorin_contract_2026q1:submitted",
+            "receipt:action:m2_seorin_application"}:
+        return "input:action:m2_seorin_application:apply:month2:submitted"
     return fact_id
 
 
@@ -3971,19 +5325,19 @@ def _player_required_selection_source_errors(
             "eligible.append(bundle_id)",
             "eligible.sort()")),
         ("systems/DemoCoreLoopV2.gd::preview_seoul_cycle_allocation", (
-            "selected_bundle_id: String = \"\"",
+            "selected_candidate_id: String = \"\"",
             '"eligible_trigger_bundle_ids", [])',
             "eligible_ids.sort()",
             "not eligible_ids.has(requested_trigger)",
             '"error": "invalid_trigger_selection"',
-            "var selection_missing := player_trigger_required",
+            "var selection_missing := terminal_selection_missing",
             '"ok": not selection_missing',
             '"error": "trigger_selection_required" if selection_missing else ""',
             '"selected_trigger_bundle_id": str(node.get(')),
         ("systems/DemoCoreLoopV2.gd::commit_seoul_cycle_allocation", (
-            "selected_bundle_id: String = \"\"",
+            "selected_candidate_id: String = \"\"",
             "preview_seoul_cycle_allocation(",
-            "capacity_id, node_id, month_index, selected_bundle_id)",
+            "capacity_id, node_id, month_index, selected_candidate_id)",
             '"selected_trigger_bundle_id", "")).strip_edges()',
             "selected_trigger_bundle_id.is_empty()",
             "not (raw_eligible_ids as Array).has(",
@@ -4033,7 +5387,7 @@ def _player_required_selection_source_errors(
             "pending_bundle != selected",
             'trigger_receipts',
             "resolved_bundle != selected",
-            "if not migrated_legacy:",
+            "if not migrated_legacy and not selected_empty_terminal:",
             "return false")),
         ("systems/DemoCoreLoopV2.gd::_seoul_cycle_outer_weekly_identity_valid", (
             'var selected := str(node.get(',
@@ -5020,16 +6374,124 @@ def _source_body_binds_fact(pointer: str, body: str, fact_id: str,
                 and "_outcome_runtime_applicable" in requirement_body
                 and "_outcome_choice_matches" in requirement_body)
     if (fact_id ==
-            "receipt:application_transition:demo_collision:any_current_turn"):
+            "receipt:application_transition:demo_collision:selected_choice_exact"):
         receipt_body = _pointer_source_text(
             "systems/DemoCoreLoopV2.gd::_has_current_application_receipt", {})
+        story_body = _pointer_source_text(
+            "systems/DemoCoreLoopV2.gd::_current_story_choice_receipt_valid",
+            {})
+        census_body = _pointer_source_text(
+            CURRENT_STORY_CHOICE_RECEIPT_CENSUS_POINTER, {})
+        event_scope_body = _pointer_source_text(
+            CURRENT_STORY_EVENT_SCOPE_POINTER, {})
+        producer_body = _pointer_source_text(
+            GENERIC_STORY_CHOICE_PRODUCER_POINTER, {})
+        transaction_body = _pointer_source_text(
+            STORY_CHOICE_TRANSACTION_ROLLBACK_POINTER, {})
+        outcome_census_body = _pointer_source_text(
+            CURRENT_OUTCOME_LEDGER_CENSUS_POINTER, {})
+        allowed_sibling_body = _pointer_source_text(
+            CURRENT_OUTCOME_ALLOWED_SIBLING_POINTER, {})
         return (pointer.endswith("::complete_active_bundle")
                 and "_has_current_application_receipt" in body
-                and "application_transition_receipts" in receipt_body
-                and '"bundle_id", ""' in receipt_body
-                and "== bundle_id" in receipt_body
-                and '"turn", -1' in receipt_body
-                and "GameState.turn" in receipt_body)
+                and all(marker in receipt_body for marker in (
+                    'scene_bundle.get("application_outcomes", [])',
+                    "_outcome_runtime_applicable(",
+                    "_outcome_choice_matches(outcome, choice_index)",
+                    "_current_story_choice_receipt_valid(",
+                    'state["application_transition_receipts"].has(',
+                    '"receipt_key", "application_id", "from", "to"',
+                    '"bundle_id", "event_id", "choice_index", "turn"',
+                    'receipt.get("application_id", "")',
+                    'receipt.get("from", "")',
+                    'receipt.get("to", "")',
+                    'receipt.get("bundle_id", "")',
+                    'receipt.get("event_id", "")',
+                    'receipt.get("choice_index", null)',
+                    'receipt.get("turn", null)',
+                    'state["application_statuses"].get(',
+                    "matches == 1",
+                    "_current_outcome_receipt_ledger_census_valid("))
+                and "_current_story_choice_receipt_census_valid(" in
+                    story_body
+                and all(marker in census_body for marker in (
+                    'var base_key := "%s:%s" % [bundle_id, event_id]',
+                    "for raw_key in receipts.keys():",
+                    "var grammar_valid := parts.size() == 4",
+                    "var owner_event_key := key == base_key",
+                    "var key_scoped :=",
+                    "var value_scoped := raw_receipt is Dictionary",
+                    "if not key_scoped and not value_scoped:",
+                    "not key_scoped or not value_scoped",
+                    "key != expected_key",
+                    'get(\n\t\t\t\t\t"bundle_id", "")) != bundle_id',
+                    "return matches == 1"))
+                and all(marker in event_scope_body for marker in (
+                    'var base_key := "%s:%s" % [bundle_id, event_id]',
+                    "for raw_key in (raw_receipts as Dictionary).keys():",
+                    'key == base_key or key.begins_with("%s:" % base_key)',
+                    "parts.size() != 4",
+                    "str(parts[3]) == str(target_turn)",
+                    "str(parts[1]) == event_id",
+                    'get(\n\t\t\t\t\t"event_id", "")) == event_id',
+                    'get("turn", null), target_turn'))
+                and all(marker in producer_body for marker in (
+                    'owner_kind not in ["schedule", "consequence"]',
+                    "owner_turn != int(GameState.turn)",
+                    "not _live_story_owner_event_ids(",
+                    "state, owner_id).has(event_id)",
+                    "_current_story_event_scope_present(",
+                    'state["story_choice_receipts"].has(receipt_key)',
+                    "_current_story_choice_receipt_valid(",
+                    'state["story_choice_receipts"][receipt_key] = receipt'))
+                and all(marker in transaction_body for marker in (
+                    "var pre_choice_state: Dictionary =",
+                    "GameState.core_loop_v2_state.duplicate(true)",
+                    "var story_recorded := _note_generic_story_choice(",
+                    "if not story_recorded:",
+                    "GameState.core_loop_v2_state = pre_choice_state",
+                    "expects_deferred and not deferred_recorded",
+                    "expects_obligation and not obligation_recorded",
+                    "expects_relationship and not relationship_recorded",
+                    "expects_application and not application_recorded"))
+                and _story_choice_core_transaction_valid(transaction_body)
+                and all(marker in outcome_census_body for marker in (
+                    "var raw_ledger: Variant = state.get(ledger_key, {})",
+                    "if not raw_ledger is Dictionary or expected_key.is_empty():",
+                    "for raw_key in (raw_ledger as Dictionary).keys():",
+                    "var owner_key := key == bundle_id",
+                    "_current_outcome_receipt_allowed_sibling(",
+                    "if owner_key and (key_parts.size() != 4",
+                    "not authored_event_ids.has(str(key_parts[1]))",
+                    "var key_current := owner_key and key_parts.size() == 4",
+                    "var value_current := raw_receipt is Dictionary",
+                    'get(\n\t\t\t\t"bundle_id", "")) == bundle_id',
+                    "or authored_event_ids.has(str(",
+                    "if not key_current and not value_current:",
+                    "not raw_receipt is Dictionary",
+                    "or not key_current or not value_current",
+                    "or key != expected_key",
+                    "return current_matches == 1"))
+                and all(marker in allowed_sibling_body for marker in (
+                    'ledger_key != "application_transition_receipts"',
+                    "bundle_id != OPENING_INTERVIEW_BUNDLE_ID",
+                    "target_turn != 1 or not raw_receipt is Dictionary",
+                    "var application_id := _preplan_opening_application_id()",
+                    'OPENING_INTERVIEW_BUNDLE_ID, OPENING_APPLICATION_EVENT_ID',
+                    "_terminal_dictionary_has_exact_keys(receipt, [",
+                    '"receipt_key", "application_id", "from", "to", "bundle_id"',
+                    'str(receipt.get("from", "")) == "not_submitted"',
+                    'str(receipt.get("to", "")) == "submitted"',
+                    'str(receipt.get("source", "")) == "legacy_story_send"',
+                    "state.get(W1_ONBOARDING_STATE_KEY, {})",
+                    '== "interviewed"',
+                    '"story_job_unlocked"',
+                    '"opening_interview_application_sent"',
+                    '"opening_preplan_application_sent"'))
+                and _story_choice_full_state_transaction_valid({
+                    STORY_MODE_CHOICE_TRANSACTION_POINTER,
+                    GAME_STATE_EXACT_SNAPSHOT_RESTORE_POINTER,
+                }, cache))
     if fact_id.startswith("receipt:application:") and len(parts) >= 4:
         if pointer.endswith("::complete_active_bundle"):
             # The completion helper does not join a transition receipt back to
@@ -5111,7 +6573,8 @@ def _source_body_binds_fact(pointer: str, body: str, fact_id: str,
         # the stable fact token, but the runtime receipt key must contain it.
         return (pointer.endswith("::has_hanbit_employment_provenance")
                 and f'"{receipt_key}:' in body
-                and 'get("turn", -1)' in body)
+                and "_terminal_integral_number_matches(" in body
+                and 'expected.get("turn", null)' in body)
     if fact_id.startswith("state:application:") and len(parts) >= 4:
         return ("application_statuses" in body
                 and f'"{parts[2]}"' in body and f'"{parts[3]}"' in body)
@@ -5267,6 +6730,1776 @@ def _source_body_binds_fact(pointer: str, body: str, fact_id: str,
     return False
 
 
+def _terminal_route_reader_binds_fact(
+        reader: dict[str, Any], fact_id: str,
+        proofs: list[dict[str, Any]],
+        supporting_proofs: list[dict[str, Any]],
+        cache: dict[Path, Any]) -> bool:
+    """Bind ORDER-101 route readers to exact data and runtime provenance."""
+    reader_id = str(reader.get("reader_id", ""))
+    expected_route_ids = ORDER101_TERMINAL_READER_ROUTE_IDS.get(reader_id)
+    if not expected_route_ids:
+        return False
+    routes = _order101_terminal_routes(cache)
+    if not routes or not expected_route_ids.issubset(routes):
+        return False
+    allowed_facts = {
+        "reader:next:terminal:m1_resume_to_m2_advancement": {
+            "receipt:completed:m1_youth_center_resume_clinic",
+            "fact:resume_polished",
+            "receipt:action:m1_youth_center_resume_clinic",
+        },
+        "reader:next:terminal:m2_self_to_m3_self": {
+            "receipt:action:m2_sleep_debt_sunday",
+        },
+    }
+    if fact_id not in allowed_facts.get(reader_id, set()):
+        return False
+    all_proof_pointers = {
+        str(proof.get("pointer", ""))
+        for proof in [*proofs, *supporting_proofs]
+        if isinstance(proof.get("pointer"), str)
+    }
+    route_pointer = (
+        "content/meta/demo_core_loop_v2.json#/seoul_cycle/terminal_routes")
+    common_pointers = {
+        route_pointer,
+        "systems/DemoCoreLoopV2.gd::_terminal_source_proof",
+        "systems/DemoCoreLoopV2.gd::terminal_target_candidates",
+    }
+    if (reader.get("runtime_pointer") != route_pointer
+            or route_pointer not in {
+                str(proof.get("pointer", "")) for proof in proofs}
+            or not common_pointers.issubset(all_proof_pointers)):
+        return False
+    source_body = _pointer_source_text(
+        "systems/DemoCoreLoopV2.gd::_terminal_source_proof", cache)
+    target_body = _pointer_source_text(
+        "systems/DemoCoreLoopV2.gd::terminal_target_candidates", cache)
+    if (not all(marker in source_body for marker in (
+                "_terminal_completion_topology(",
+                'source.get("proof_kind", "")'))
+            or not all(marker in target_body for marker in (
+                "_normalized_state(", "_terminal_binding_candidate_records("))):
+        return False
+    if reader_id == \
+            "reader:next:terminal:m1_resume_to_m2_advancement":
+        typed_pointer = (
+            "systems/DemoCoreLoopV2.gd::"
+            "_terminal_typed_action_proof_matches_state")
+        typed_body = _pointer_source_text(typed_pointer, cache)
+        if (typed_pointer not in all_proof_pointers
+                or not all(marker in typed_body for marker in (
+                    'state["action_receipts"].get(action_key',
+                    'action.get("bundle_id", "")',
+                    'details.get("quality", -1)',
+                    'transition.get("source", "")',
+                    '"typed_action_receipt"'))):
+            return False
+        if fact_id == "fact:resume_polished":
+            quality_pointer = "scenes/MainGame.gd::_on_job_hunt_closed"
+            quality_body = _pointer_source_text(quality_pointer, cache)
+            if (quality_pointer not in all_proof_pointers
+                    or "resume_polished" not in quality_body
+                    or "quality" not in quality_body):
+                return False
+        return True
+    action_pointer = (
+        "systems/DemoCoreLoopV2.gd::"
+        "_terminal_action_receipt_proof_matches_state")
+    action_body = _pointer_source_text(action_pointer, cache)
+    return (action_pointer in all_proof_pointers
+            and all(marker in action_body for marker in (
+                'state.get("action_receipts", {}).get(',
+                'source.get("proof_id", "")',
+                'source.get("action_id", "")',
+                'action.get("turn", null)',
+                'action.get("action_id", "")')))
+
+
+def _story_choice_full_state_transaction_valid(
+        all_proof_pointers: set[str], cache: dict[Path, Any]) -> bool:
+    """Bind classified Story effects and typed receipts into one exact commit."""
+    required_pointers = {
+        STORY_MODE_CHOICE_TRANSACTION_POINTER,
+        GAME_STATE_EXACT_SNAPSHOT_RESTORE_POINTER,
+    }
+    if not required_pointers.issubset(all_proof_pointers):
+        return False
+    story_body = _pointer_source_text(
+        STORY_MODE_CHOICE_TRANSACTION_POINTER, cache)
+    restore_body = _pointer_source_text(
+        GAME_STATE_EXACT_SNAPSHOT_RESTORE_POINTER, cache)
+    classifier_body = _pointer_source_text(
+        STORY_CHOICE_TRANSACTION_CLASSIFIER_POINTER, cache)
+    commit_available_body = _pointer_source_text(
+        STORY_CHOICE_COMMIT_AVAILABLE_POINTER, cache)
+    exact_deferred_body = _pointer_source_text(
+        STORY_EXACT_DEFERRED_MATCH_POINTER, cache)
+    live_owner_body = _pointer_source_text(
+        STORY_LIVE_OWNER_EVENT_IDS_POINTER, cache)
+    bundle_events_body = _pointer_source_text(
+        STORY_BUNDLE_EVENT_IDS_POINTER, cache)
+    generic_body = _pointer_source_text(
+        GENERIC_STORY_CHOICE_PRODUCER_POINTER, cache)
+    fresh_prologue_body = _pointer_source_text(
+        STORY_PLAYBACK_FRESH_PROLOGUE_POINTER, cache)
+    if not all((story_body, restore_body, classifier_body,
+                commit_available_body, exact_deferred_body, live_owner_body,
+                bundle_events_body, generic_body, fresh_prologue_body)):
+        return False
+    story_markers = (
+        "var v2_choice_transaction := not _read_only_replay",
+        "and not expression_choice",
+        "and DEMO_CORE_LOOP_V2.story_choice_transaction_required(",
+        "current_event_id, idx, _queue)",
+        "and not DEMO_CORE_LOOP_V2.story_choice_commit_available(",
+        "var v2_choice_snapshot: Dictionary = (",
+        "GameState.serialize().duplicate(true) if v2_choice_transaction",
+        "not GameState.choice_available(_current, choice)",
+        "or not GameState.apply_choice(_current, choice)",
+        '"_restore_serialized_snapshot_exact", v2_choice_snapshot',
+        "var story_recorded := DEMO_CORE_LOOP_V2.note_story_choice(",
+        "if not story_recorded:",
+    )
+    restore_markers = (
+        "load_from_dict(snapshot)",
+        "for raw_key in snapshot:",
+        "var value: Variant = snapshot[raw_key]",
+        "value = value.duplicate(true)",
+        "set(str(raw_key), value)",
+        "stats_changed.emit()",
+    )
+    classifier_markers = (
+        "reserved_queue: Array = []) -> bool:",
+        "if not is_active() or event_id.is_empty() or choice_index < 0:",
+        "if event_id == OPENING_APPLICATION_EVENT_ID:",
+        "if event_id in EXACT_DEFERRED_CHOICE_ROOTS:",
+        'var owner_id := str(state.get("active_bundle", "")).strip_edges()',
+        "if owner_id.is_empty():",
+        "_live_story_owner_event_ids(state, owner_id).has(event_id)",
+        "or legacy_active_story_roots().has(event_id)",
+    )
+    commit_available_markers = (
+        "if event_id == OPENING_APPLICATION_EVENT_ID:",
+        "_legacy_preplan_opening_send_available(",
+        "if event_id not in EXACT_DEFERRED_CHOICE_ROOTS:",
+        "return true",
+        "var state := _normalized_state(GameState.core_loop_v2_state)",
+        "return _exact_deferred_story_choice_matches(",
+        "state, event_id, choice_index, false)",
+    )
+    exact_deferred_markers = (
+        "event_id not in EXACT_DEFERRED_CHOICE_ROOTS",
+        'state.get("active_bundle", "")) != "demo_collision"',
+        'state.get("active_kind", "")) != "schedule"',
+        "int(state.get(\"active_turn\", 0)) != int(GameState.turn)",
+        "int(GameState.turn) != 24",
+        "var context := _validated_demo_collision_context(state)",
+        "if context.is_empty()",
+        'context.get("dirty_root", "")) != event_id',
+        'state["deferred_callback_receipts"].get(',
+        "if source.is_empty() or not raw_receipt is Dictionary:",
+        'receipt.get("source", "")) != source',
+        'receipt.get("root", "")) != event_id',
+        'receipt.get("trigger_turn", -1)) != 24',
+        'receipt.get("claimed_turn", -1)) != int(GameState.turn)',
+        "not raw_synthetic is bool",
+        'if status == "claimed":',
+        'return allow_resolved and status == "resolved"',
+    )
+    generic_owner_markers = (
+        'owner_kind not in ["schedule", "consequence"]',
+        "owner_turn != int(GameState.turn)",
+        "not _live_story_owner_event_ids(",
+        "state, owner_id).has(event_id)",
+    )
+    live_owner_markers = (
+        "var result := _bundle_story_event_ids(bundle_id)",
+        "var prelude := _scheduled_prelude_receipt_from_state(",
+        "state, bundle_id, int(GameState.turn))",
+        'var raw_roots: Variant = prelude.get("roots", [])',
+        "if not root_id.is_empty() and not result.has(root_id):",
+        "result.append(root_id)",
+    )
+    bundle_event_markers = (
+        "var pending: Array = resolved_event_roots(bundle_id)",
+        "while not pending.is_empty():",
+        "var event: Dictionary = DataRegistry.find_event(event_id)",
+        '"follow_up_event", "")).strip_edges()',
+        "if not follow_up.is_empty() and not result.has(follow_up):",
+        "pending.append(follow_up)",
+    )
+    fresh_prologue_markers = (
+        "CORE_LOOP.initialize_for_run(true)",
+        "CORE_LOOP.begin_fresh_w1_onboarding()",
+        'GameState.pending_story_queue = ["story_prologue_meal"]',
+        'str(current.get("id", "")) != "story_prologue_meal"',
+        "var before_choice: Dictionary = GameState.serialize().duplicate(true)",
+        '_story.call("_on_choice", 0)',
+        "var state_after_choice: Dictionary = GameState.core_loop_v2_state",
+        "GameState.serialize() == before_choice",
+        '"story_choice_receipts", {}) as Dictionary',
+        "fresh prologue choice was blocked or minted a V2 owner receipt",
+    )
+    if (not all(marker in story_body for marker in story_markers)
+            or not all(marker in restore_body for marker in restore_markers)
+            or not all(marker in classifier_body
+                       for marker in classifier_markers)
+            or not all(marker in commit_available_body
+                       for marker in commit_available_markers)
+            or not all(marker in exact_deferred_body
+                       for marker in exact_deferred_markers)
+            or not all(marker in generic_body
+                       for marker in generic_owner_markers)
+            or not all(marker in live_owner_body
+                       for marker in live_owner_markers)
+            or not all(marker in bundle_events_body
+                       for marker in bundle_event_markers)
+            or not all(marker in fresh_prologue_body
+                       for marker in fresh_prologue_markers)
+            or story_body.count(
+                '"_restore_serialized_snapshot_exact"') < 2):
+        return False
+    classifier_position = story_body.find(
+        "DEMO_CORE_LOOP_V2.story_choice_transaction_required(")
+    availability_position = story_body.find(
+        "DEMO_CORE_LOOP_V2.story_choice_commit_available(")
+    snapshot_position = story_body.find("var v2_choice_snapshot: Dictionary")
+    apply_position = story_body.find("GameState.apply_choice(_current, choice)")
+    first_restore_position = story_body.find(
+        '"_restore_serialized_snapshot_exact"')
+    note_position = story_body.find(
+        "DEMO_CORE_LOOP_V2.note_story_choice(")
+    second_restore_position = story_body.find(
+        '"_restore_serialized_snapshot_exact"', first_restore_position + 1)
+    legacy_gate_position = classifier_body.find(
+        "if event_id == OPENING_APPLICATION_EVENT_ID:")
+    legacy_true_position = classifier_body.find(
+        "return true", legacy_gate_position)
+    exact_gate_position = classifier_body.find(
+        "if event_id in EXACT_DEFERRED_CHOICE_ROOTS:")
+    exact_true_position = classifier_body.find(
+        "return true", exact_gate_position)
+    owner_position = classifier_body.find(
+        'var owner_id := str(state.get("active_bundle", "")).strip_edges()')
+    unowned_gate_position = classifier_body.find("if owner_id.is_empty():")
+    unowned_false_position = classifier_body.find(
+        "return false", unowned_gate_position)
+    live_owner_position = classifier_body.find(
+        "_live_story_owner_event_ids(state, owner_id).has(event_id)")
+    legacy_owner_position = classifier_body.find(
+        "or legacy_active_story_roots().has(event_id)")
+    commit_exact_gate_position = commit_available_body.find(
+        "if event_id not in EXACT_DEFERRED_CHOICE_ROOTS:")
+    commit_passthrough_position = commit_available_body.find(
+        "return true", commit_exact_gate_position)
+    commit_state_position = commit_available_body.find(
+        "var state := _normalized_state(GameState.core_loop_v2_state)")
+    commit_match_position = commit_available_body.find(
+        "return _exact_deferred_story_choice_matches(")
+    exact_context_position = exact_deferred_body.find(
+        "var context := _validated_demo_collision_context(state)")
+    exact_context_gate_position = exact_deferred_body.find(
+        "if context.is_empty()")
+    exact_receipt_position = exact_deferred_body.find(
+        'state["deferred_callback_receipts"].get(')
+    exact_receipt_gate_position = exact_deferred_body.find(
+        "if source.is_empty() or not raw_receipt is Dictionary:")
+    exact_claimed_position = exact_deferred_body.find(
+        'if status == "claimed":')
+    exact_resolved_position = exact_deferred_body.find(
+        'return allow_resolved and status == "resolved"')
+    live_base_position = live_owner_body.find(
+        "var result := _bundle_story_event_ids(bundle_id)")
+    live_prelude_position = live_owner_body.find(
+        "var prelude := _scheduled_prelude_receipt_from_state(")
+    live_unique_position = live_owner_body.find(
+        "if not root_id.is_empty() and not result.has(root_id):")
+    live_append_position = live_owner_body.find("result.append(root_id)")
+    bundle_root_position = bundle_events_body.find(
+        "var pending: Array = resolved_event_roots(bundle_id)")
+    bundle_event_position = bundle_events_body.find(
+        "var event: Dictionary = DataRegistry.find_event(event_id)")
+    bundle_follow_position = bundle_events_body.find(
+        '"follow_up_event", "")).strip_edges()')
+    bundle_append_position = bundle_events_body.find(
+        "pending.append(follow_up)")
+    fresh_before_position = fresh_prologue_body.find(
+        "var before_choice: Dictionary")
+    fresh_click_position = fresh_prologue_body.find(
+        '_story.call("_on_choice", 0)')
+    fresh_receipt_position = fresh_prologue_body.find(
+        '"story_choice_receipts", {}) as Dictionary')
+    return (
+        0 <= classifier_position < availability_position < snapshot_position
+        < apply_position < first_restore_position < note_position
+        < second_restore_position
+        and 0 <= legacy_gate_position < legacy_true_position
+        < exact_gate_position < exact_true_position < owner_position
+        < unowned_gate_position < unowned_false_position
+        < live_owner_position < legacy_owner_position
+        and 0 <= commit_exact_gate_position < commit_passthrough_position
+        < commit_state_position < commit_match_position
+        and 0 <= exact_context_position < exact_context_gate_position
+        < exact_receipt_position < exact_receipt_gate_position
+        < exact_claimed_position < exact_resolved_position
+        and 0 <= live_base_position < live_prelude_position
+        < live_unique_position < live_append_position
+        and 0 <= bundle_root_position < bundle_event_position
+        < bundle_follow_position < bundle_append_position
+        and 0 <= fresh_before_position < fresh_click_position
+        < fresh_receipt_position
+        and re.search(
+            r"if v2_choice_transaction.*?and not DEMO_CORE_LOOP_V2\."
+            r"story_choice_commit_available\(.*?\):\s+return",
+            story_body, re.DOTALL) is not None
+        and re.search(
+            r"or not GameState\.apply_choice\(_current, choice\):.*?"
+            r"if v2_choice_transaction:.*?"
+            r'"_restore_serialized_snapshot_exact".*?return',
+            story_body, re.DOTALL) is not None
+        and re.search(
+            r"if not story_recorded:.*?"
+            r'"_restore_serialized_snapshot_exact".*?return',
+            story_body, re.DOTALL) is not None
+        and re.search(
+            r"if v2_choice_transaction:\s+var story_recorded := "
+            r"DEMO_CORE_LOOP_V2\.note_story_choice\(",
+            story_body) is not None
+        and re.search(
+            r"if owner_id\.is_empty\(\):.*?return false.*?"
+            r"return _live_story_owner_event_ids\(state, owner_id\)\."
+            r"has\(event_id\).*?or legacy_active_story_roots\(\)\."
+            r"has\(event_id\)",
+            classifier_body, re.DOTALL) is not None
+        and re.search(
+            r"state_after_choice\.get\(\s*"
+            r'"story_choice_receipts", \{\}\) as Dictionary\s*'
+            r"\)\.is_empty\(\)",
+            fresh_prologue_body, re.DOTALL) is not None
+        and restore_body.find("load_from_dict(snapshot)")
+            < restore_body.find("for raw_key in snapshot:")
+            < restore_body.find("set(str(raw_key), value)"))
+
+
+def _story_choice_core_transaction_valid(body: str) -> bool:
+    """Require both generic and typed writer failures to restore core state."""
+    restore = "GameState.core_loop_v2_state = pre_choice_state"
+    if (not body
+            or body.count(restore) != 2
+            or "var pre_choice_state: Dictionary =" not in body
+            or "GameState.core_loop_v2_state.duplicate(true)" not in body):
+        return False
+    snapshot = body.find("var pre_choice_state: Dictionary =")
+    generic_write = body.find("var story_recorded := _note_generic_story_choice(")
+    generic_failure = body.find("if not story_recorded:", generic_write)
+    generic_restore = body.find(restore, generic_failure)
+    generic_return = body.find("return false", generic_restore)
+    typed_failure = body.find("if (expects_deferred", generic_return)
+    typed_restore = body.find(restore, typed_failure)
+    typed_return = body.find("return false", typed_restore)
+    return (0 <= snapshot < generic_write < generic_failure
+            < generic_restore < generic_return < typed_failure
+            < typed_restore < typed_return)
+
+
+def _sns_consequence_authority_reader_binds_fact(
+        reader: dict[str, Any], fact_id: str,
+        proofs: list[dict[str, Any]],
+        supporting_proofs: list[dict[str, Any]],
+        cache: dict[Path, Any]) -> bool:
+    """Bind Jaehyuk to the indivisible exact W4 -> W8 SNS authority."""
+    if (reader.get("reader_id") != SNS_CONSEQUENCE_READER_ID
+            or fact_id not in SNS_CONSEQUENCE_AUTHORITY_FACTS
+            or reader.get("runtime_pointer") !=
+                SNS_CONSEQUENCE_PREREQUISITE_POINTER
+            or reader.get("reads_fact_ids") !=
+                list(SNS_CONSEQUENCE_AUTHORITY_FACTS)
+            or reader.get("history_memory_ids") !=
+                list(SNS_CONSEQUENCE_AUTHORITY_FACTS)
+            or reader.get("runtime_proof_ids") !=
+                list(SNS_CONSEQUENCE_AUTHORITY_PROOF_IDS)):
+        return False
+    direct_proof_ids = {
+        str(proof.get("proof_id", "")) for proof in proofs}
+    if direct_proof_ids != SNS_CONSEQUENCE_FACT_PROOF_IDS[fact_id]:
+        return False
+    all_proof_ids = {
+        str(proof.get("proof_id", ""))
+        for proof in [*proofs, *supporting_proofs]
+    }
+    all_proof_pointers = {
+        str(proof.get("pointer", ""))
+        for proof in [*proofs, *supporting_proofs]
+    }
+    if not set(SNS_CONSEQUENCE_AUTHORITY_PROOF_IDS).issubset(
+            all_proof_ids):
+        return False
+
+    prerequisite = _json_pointer_value(
+        SNS_CONSEQUENCE_PREREQUISITE_POINTER, cache)
+    if (not _json_consumer_binds_fact(
+            prerequisite, "receipt:completed:sns_pressure_night")
+            or not _sns_pressure_world_clock_is_exact(cache)):
+        return False
+
+    pointer_bodies = {
+        name: _pointer_source_text(pointer, cache)
+        for name, pointer in {
+            "requirement":
+                "systems/DemoCoreLoopV2.gd::_bundle_requirement_met",
+            "live": "systems/DemoCoreLoopV2.gd::_predicate_met",
+            "historical_dispatch":
+                "systems/DemoCoreLoopV2.gd::"
+                "_terminal_historical_predicate_met",
+            "authority":
+                "systems/DemoCoreLoopV2.gd::"
+                "_sns_consequence_completion_valid",
+            "completed":
+                "systems/DemoCoreLoopV2.gd::"
+                "_terminal_completed_bundle_state_valid",
+            "historical":
+                "systems/DemoCoreLoopV2.gd::"
+                "_terminal_historical_completed_bundle",
+            "w4_root":
+                "systems/DemoCoreLoopV2.gd::_canonical_w4_temptation_root",
+            "story_prefix":
+                "systems/DemoCoreLoopV2.gd::"
+                "_story_receipt_prefix_entries_valid",
+            "story_owner_union":
+                "systems/DemoCoreLoopV2.gd::"
+                "_story_receipt_owner_union_valid",
+            "story_identity":
+                "systems/DemoCoreLoopV2.gd::"
+                "_terminal_story_receipts_for_identity",
+            "story_choice":
+                "systems/DemoCoreLoopV2.gd::"
+                "_terminal_story_choice_receipt",
+            "sns_story":
+                "systems/DemoCoreLoopV2.gd::_sns_story_receipt_complete",
+            "sns_flags":
+                "systems/DemoCoreLoopV2.gd::_sns_story_choice_flags_valid",
+            "prelude_lookup":
+                "systems/DemoCoreLoopV2.gd::"
+                "_scheduled_prelude_receipt_from_state",
+            "prelude_validation":
+                "systems/DemoCoreLoopV2.gd::_scheduled_prelude_receipt_valid",
+            "prelude_story":
+                "systems/DemoCoreLoopV2.gd::"
+                "_scheduled_prelude_story_receipts_complete",
+            "legacy_owner":
+                "systems/DemoCoreLoopV2.gd::"
+                "_legacy_sns_schedule_owner_valid",
+            "legacy_shape":
+                "systems/DemoCoreLoopV2.gd::"
+                "_legacy_month_schedule_has_exact_shape",
+            "legacy_completion":
+                "systems/DemoCoreLoopV2.gd::"
+                "_legacy_sns_consequence_completion_valid",
+            "normalizer":
+                "systems/DemoCoreLoopV2.gd::_normalized_state",
+            "authority_poison_normalization":
+                AUTHORITY_SHAPE_POISON_NORMALIZATION_POINTER,
+            "authority_poison_gate": AUTHORITY_SHAPE_POISON_GATE_POINTER,
+            "origin_mint": LEGACY_040746_ORIGIN_MINT_POINTER,
+            "origin_witness": LEGACY_040746_ORIGIN_WITNESS_POINTER,
+            "origin_lookup": LEGACY_040746_ORIGIN_LOOKUP_POINTER,
+            "origin_migration": LEGACY_040746_ORIGIN_MIGRATION_POINTER,
+            "origin_core": LEGACY_040746_CORE_STATE_POINTER,
+            "origin_weekly_record": LEGACY_040746_WEEKLY_RECORD_POINTER,
+            "origin_action_weekly": LEGACY_040746_ACTION_WEEKLY_POINTER,
+            "origin_weekly_set": LEGACY_040746_WEEKLY_SET_POINTER,
+            "origin_plan": LEGACY_040746_PLAN_POINTER,
+            "origin_completed": LEGACY_040746_COMPLETED_POINTER,
+            "origin_summary_set": LEGACY_040746_SUMMARY_SET_POINTER,
+            "origin_pending": LEGACY_040746_PENDING_POINTER,
+            "origin_active_pending": LEGACY_040746_ACTIVE_PENDING_POINTER,
+            "origin_relationship": LEGACY_040746_RELATIONSHIP_POINTER,
+            "origin_routine": LEGACY_040746_ROUTINE_LEDGER_POINTER,
+            "origin_shown": LEGACY_040746_SHOWN_LEDGER_POINTER,
+            "active_story_choice": LEGACY_040746_ACTIVE_STORY_CHOICE_POINTER,
+            "active_story_flags": LEGACY_040746_ACTIVE_STORY_FLAGS_POINTER,
+            "temptation_story": LEGACY_040746_TEMPTATION_STORY_POINTER,
+            "active_story_install": LEGACY_040746_ACTIVE_STORY_INSTALL_POINTER,
+            "plan_origin_entry": LEGACY_040746_PLAN_ORIGIN_ENTRY_POINTER,
+            "plan_origin_valid": LEGACY_040746_PLAN_ORIGIN_VALID_POINTER,
+            "plan_origin_normalization":
+                LEGACY_040746_PLAN_ORIGIN_NORMALIZATION_POINTER,
+            "plan_origin_lookup":
+                LEGACY_040746_PLAN_ORIGIN_LOOKUP_POINTER,
+            "plan_origin_install":
+                LEGACY_040746_PLAN_ORIGIN_INSTALL_POINTER,
+            "legacy_sns_completed_origin":
+                LEGACY_040746_SNS_COMPLETED_ORIGIN_POINTER,
+            "legacy_sns_current_absent":
+                LEGACY_SNS_CURRENT_STORY_ABSENT_POINTER,
+        }.items()
+    }
+    if not all(pointer_bodies.values()):
+        return False
+    markers_by_body = {
+        "requirement": (
+            "_predicate_met(", "completed_before_turn"),
+        "live": (
+            '"completed_bundle"',
+            'bundle_id == "sns_pressure_night"',
+            "_sns_consequence_completion_valid(state, cut_turn)",
+            "_legacy_sns_consequence_completion_valid("),
+        "historical_dispatch": (
+            '"completed_bundle"',
+            'bundle_id == "sns_pressure_night"',
+            "_sns_consequence_completion_valid(",
+            "_legacy_sns_consequence_completion_valid(",
+            "_terminal_historical_completed_bundle("),
+        "authority": (
+            "_seoul_cycle_month_end_turn(2)",
+            "cut_turn <= target_turn",
+            "_terminal_completed_bundle_state_valid(",
+            'state, "sns_pressure_night", target_turn',
+            "_terminal_historical_completed_bundle(",
+            "_sns_story_receipt_complete(state, target_turn)",
+            "_scheduled_prelude_receipt_from_state(",
+            '== "temptation_consequence"',
+            '== "consumed"'),
+        "completed": (
+            "(raw_completed as Array).count(bundle_id) != 1",
+            "_terminal_integral_number_matches(",
+            "(raw_turns as Dictionary).get(bundle_id, null), source_turn"),
+        "historical": (
+            "(raw_completed as Array).count(bundle_id) != 1",
+            "_terminal_historical_cycle_summary(",
+            "trigger_matches.size() + world_matches.size() != 1",
+            "same_turn_allocations.size() == 1",
+            "_terminal_dictionary_has_exact_keys(world, [",
+            "_seoul_cycle_resolved_receipt_matches(",
+            "_seoul_cycle_world_bundle_authored_for_week("),
+        "w4_root": (
+            'bundle_id := "first_temptation_boss"',
+            'event_id := "arc_temptation_01"',
+            "_terminal_story_receipts_for_identity(",
+            "scoped_receipts.size() != 1",
+            "_terminal_story_choice_receipt(",
+            "matches.size() != 1",
+            '_legacy_040746_flag_matches("arc_temptation_seen", true)',
+            '"lent_account", chosen == 1',
+            '"kept_clean_hands", chosen == 0',
+            '"crossed_line_early", chosen == 1',
+            '"gambling_tempted", chosen == 1',
+            '"arc_temptation_fallout" if chosen == 1',
+            "_story_receipt_prefix_entries_valid(",
+            "_story_receipt_owner_union_valid("),
+        "story_prefix": (
+            'state.get("story_choice_receipts", {})',
+            'var prefix := "%s:%s:" % [bundle_id, event_id]',
+            "for raw_key in (raw_receipts as Dictionary).keys()",
+            'key != "%s:%s" % [bundle_id, event_id]',
+            "key.begins_with(prefix)",
+            "if not raw_receipt is Dictionary:",
+            'receipt.get("choice_index", null)',
+            "_terminal_integral_number_in_range(raw_choice, 0, 999)",
+            'key != "%s:%s:%d:%d" % [',
+            'receipt.get("receipt_key", "")',
+            'receipt.get("bundle_id", "")',
+            'receipt.get("event_id", "")',
+            "_terminal_integral_number_matches(",
+            'receipt.get("turn", null), target_turn'),
+        "story_owner_union": (
+            'state.get("story_choice_receipts", {})',
+            "bundle_id.is_empty() or authored_event_ids.is_empty()",
+            "for raw_key in (raw_receipts as Dictionary).keys():",
+            'var key_parts := key.split(":", false)',
+            "var key_scoped := key == bundle_id",
+            'key.begins_with("%s:" % bundle_id)',
+            "authored_event_ids.has(str(key_parts[1]))",
+            "var value_scoped := raw_receipt is Dictionary",
+            'get(\n\t\t\t\t"bundle_id", "")) == bundle_id',
+            "or authored_event_ids.has(str(",
+            'get(\n\t\t\t\t\t"event_id", ""))))',
+            "if not key_scoped and not value_scoped:",
+            "if not raw_receipt is Dictionary:",
+            'receipt.get("bundle_id", "")',
+            "not authored_event_ids.has(event_id)",
+            'receipt.get("turn", null), target_turn',
+            'var expected_key := "%s:%s:%d:%d"',
+            'receipt.get("receipt_key", "")',
+            "expected_active_kind.is_empty()",
+            'receipt.get("active_kind", "")',
+        ),
+        "story_identity": (
+            'state.get("story_choice_receipts", {})',
+            "for raw_key in (raw_receipts as Dictionary).keys()",
+            "key.begins_with(scoped_prefix)",
+            "key_scoped != value_scoped",
+            'get("bundle_id", "")',
+            'get("event_id", "")',
+            'get("turn", null)',
+            "result.append(receipt)"),
+        "story_choice": (
+            'state.get("story_choice_receipts", {})',
+            "DataRegistry.find_event(event_id)",
+            'var receipt_key := "%s:%s:%d:%d"',
+            "(raw_story_receipts as Dictionary).get(",
+            "_terminal_dictionary_has_exact_keys(receipt, [",
+            'receipt.get("active_kind", "")',
+            '!= "schedule"',
+            'receipt.get("choice_index", null)',
+            'receipt.get("turn", null)'),
+        "sns_story": (
+            'bundle_id := "sns_pressure_night"',
+            'roots != ["arc_intro_03_sns"]',
+            "state[\"story_choice_receipts\"]",
+            "_terminal_dictionary_has_exact_keys(receipt, [",
+            'receipt.get("active_kind", "")',
+            '== "schedule"',
+            "return matches == 1",
+            "_story_receipt_prefix_entries_valid(",
+            'var owner_event_union := [',
+            'root_id, "arc_temptation_clean", "arc_temptation_fallout"]',
+            "_story_receipt_owner_union_valid(",
+            "_sns_story_choice_flags_valid(choice_index)"),
+        "sns_flags": (
+            "choice_index not in [0, 1, 2]",
+            '_legacy_040746_flag_matches("arc_intro_sns_seen", true)',
+            '"deleted_sns", choice_index == 0',
+            '"envy_fuel", choice_index == 1'),
+        "prelude_lookup": (
+            "state[\"consequence_receipts\"]",
+            'var expected_consequence_id := "temptation_consequence"',
+            'scheduled_bundle == "sns_pressure_night"',
+            "not expected_consequence_id.is_empty()",
+            "str(raw_key) == expected_consequence_id",
+            '"consequence_id", ""',
+            'str(raw_key) != expected_consequence_id',
+            '"scheduled_bundle", ""',
+            '"turn", null',
+            "_scheduled_prelude_receipt_valid(",
+            "matching_receipts.append(receipt)",
+            "matching_receipts.size() == 1 else {}"),
+        "prelude_validation": (
+            "_terminal_dictionary_has_exact_keys(receipt, [",
+            'status not in ["presented", "consumed"]',
+            'scheduled_bundle == "sns_pressure_night"',
+            'consequence_id != "temptation_consequence"',
+            'state.get("shown_consequences", [])',
+            ".count(\n\t\t\t\tconsequence_id) != 1",
+            "_scheduled_prelude_story_receipts_complete(state, receipt)"),
+        "prelude_story": (
+            'consequence_id != "temptation_consequence"',
+            "_canonical_w4_temptation_root(state)",
+            "roots != [expected_root]",
+            '"arc_temptation_clean", "arc_temptation_fallout"',
+            "owner_event_union.append(\"arc_intro_03_sns\")",
+            "_story_receipt_owner_union_valid(",
+            "for temptation_root in temptation_roots:",
+            "_story_receipt_prefix_entries_valid(",
+            "_terminal_dictionary_has_exact_keys(story_receipt, [",
+            'story_receipt.get("active_kind", "")',
+            '== "schedule"',
+            "matching_receipts != 1"),
+        "legacy_owner": (
+            '_seoul_cycle_month_start_turn(2)',
+            '_seoul_cycle_month_end_turn(2)',
+            '_legacy_040746_origin_from_state(state)',
+            'origin.is_empty()',
+            '_legacy_040746_plan_origin_from_state(state, 2)',
+            'source_plan.is_empty()',
+            'state.get("plans", {})',
+            'plan_uses_seoul_cycle(raw_plan)',
+            '(raw_plans as Dictionary).get("2", {})',
+            '_terminal_variant_semantically_equal(raw_plan, source_plan)',
+            '_legacy_month_schedule_has_exact_shape(',
+            '!= "sns_pressure_night"',
+            'state.get(SEOUL_CYCLE_STATE_KEY, {})',
+            '(raw_cycle as Dictionary).is_empty()'),
+        "legacy_shape": (
+            'weeks.size() != 2',
+            'last_turn - first_turn != 3',
+            'schedule.size() != 4',
+            'month.get("offers", [])',
+            'month.get("locked", [])',
+            'selected.has(bundle_id)',
+            'bundle_allowed_in_week(bundle_id, turn)'),
+        "legacy_completion": (
+            '"sns_pressure_night", null',
+            '_seoul_cycle_month_start_turn(2)',
+            '_seoul_cycle_month_end_turn(2)',
+            '_legacy_sns_schedule_owner_valid(state, target_turn)',
+            '_terminal_completed_bundle_state_valid(',
+            '_sns_story_receipt_complete(state, target_turn)',
+            '_legacy_sns_current_story_authority_absent(state)',
+            '_legacy_040746_sns_completed_origin_valid('),
+        "legacy_sns_current_absent": (
+            'state.get("story_choice_receipts", null)',
+            'bundle_id := "sns_pressure_night"',
+            'event_id := "arc_intro_03_sns"',
+            'base_key := "%s:%s" % [bundle_id, event_id]',
+            'for raw_key in (raw_receipts as Dictionary).keys()',
+            'key == base_key or key.begins_with("%s:" % base_key)',
+            'raw_receipt is Dictionary',
+            'get("bundle_id", "")',
+            '== bundle_id',
+            'get("event_id", "")',
+            '== event_id',
+            'return true'),
+        "authority_poison_normalization": (
+            "if not source_is_exact_current:",
+            "allowed.append_array(AUTHORITY_ABSENCE_DICTIONARY_KEYS)",
+            "allowed.append_array(AUTHORITY_ABSENCE_ARRAY_KEYS)",
+            "AUTHORITY_LEDGER_SHAPE_POISON_KEY",
+            "for key in AUTHORITY_ABSENCE_DICTIONARY_KEYS:",
+            "not raw_state[key] is Dictionary",
+            "for key in AUTHORITY_ABSENCE_ARRAY_KEYS:",
+            "not raw_state[key] is Array",
+            "poisoned.sort()",
+            "return poisoned"),
+        "authority_poison_gate": (
+            "AUTHORITY_LEDGER_SHAPE_POISON_KEY",
+            "return not raw_poison is Array",
+            "not (raw_poison as Array).is_empty()"),
+        "legacy_sns_completed_origin": (
+            '_legacy_040746_origin_from_state(state)',
+            'target_turn < 5 or target_turn > 8',
+            'origin.get("source_core_witness", {})',
+            'source_core.get("completed_bundles", null)',
+            'source_core.get("completed_bundle_turns", null)',
+            'source_core.get("plans", null)',
+            '(source_plans as Dictionary).get("2", null)',
+            '(source_plan as Dictionary).get(',
+            '"schedule", null)',
+            '(source_completed as Array).count("sns_pressure_night") == 1',
+            '_terminal_integral_number_matches(',
+            '(source_turns as Dictionary).get("sns_pressure_night", null)',
+            'str((source_schedule as Dictionary).get(',
+            'str(target_turn), "")) == "sns_pressure_night"'),
+        "plan_origin_entry": (
+            'month_index not in [1, 2]',
+            '_legacy_040746_plan_valid(',
+            '"schema": LEGACY_040746_PLAN_ORIGIN_SCHEMA',
+            '"origin_id": LEGACY_040746_ORIGIN_ID',
+            '"month": month_index',
+            '"planned_turn": _seoul_cycle_month_start_turn(month_index)',
+            '"availability": availability',
+            '"plan": (raw_plan as Dictionary).duplicate(true)'),
+        "plan_origin_valid": (
+            '"schema", "origin_id", "month", "planned_turn"',
+            '"availability", "plan"',
+            'LEGACY_040746_PLAN_ORIGIN_SCHEMA',
+            'LEGACY_040746_ORIGIN_ID',
+            '_terminal_variant_semantically_equal(raw_plan, live_plan)',
+            '["hyunsu_player_reachout"]',
+            '_legacy_040746_plan_valid('),
+        "plan_origin_normalization": (
+            'var result := {"receipts": {}, "witnesses": {}}',
+            'if source_is_raw_schema_two:',
+            'origin.get("source_core_witness", {})',
+            '_legacy_040746_plan_origin_entry(',
+            'LEGACY_040746_PLAN_RECEIPTS_KEY',
+            'LEGACY_040746_PLAN_WITNESSES_KEY',
+            '_terminal_variant_semantically_equal(raw_receipt, raw_witness)',
+            '_legacy_040746_plan_origin_entry_valid(',
+            '(result["receipts"] as Dictionary)[month_key]',
+            '(result["witnesses"] as Dictionary)[month_key]'),
+        "plan_origin_lookup": (
+            '_legacy_040746_origin_from_state(state)',
+            'month_index not in [1, 2]',
+            'LEGACY_040746_PLAN_RECEIPTS_KEY',
+            'LEGACY_040746_PLAN_WITNESSES_KEY',
+            '_terminal_variant_semantically_equal(raw_receipt, raw_witness)',
+            '_legacy_040746_plan_origin_entry_valid(',
+            'get("plan", {}) as Dictionary).duplicate(true)'),
+        "plan_origin_install": (
+            'state["plans"][str(month_index)] = {',
+            '_install_legacy_040746_plan_origin(state, month_index)',
+            'GameState.core_loop_v2_state = state'),
+    }
+    marker_contracts_hold = all(
+        all(marker in pointer_bodies[name] for marker in markers)
+        for name, markers in markers_by_body.items())
+    # A malformed choice index on the same owner/root/turn is still a scoped
+    # duplicate.  The resolver must scope identity before validating the
+    # index, then fail closed; validating first and `continue`-ing would let a
+    # canonical receipt coexist with choice 99 or 0.5 and still count as one.
+    prelude_inner = pointer_bodies["prelude_story"].partition(
+        'for raw_story_key in state["story_choice_receipts"].keys():')[2]
+    scoped_identity_position = prelude_inner.find(
+        'story_receipt.get("bundle_id", "")')
+    choice_validation_position = prelude_inner.find(
+        "var raw_choice_index: Variant")
+    invalid_choice_fails_closed = re.search(
+        r"if not _terminal_integral_number_in_range\(\s*"
+        r"raw_choice_index,\s*0,\s*choices\.size\(\) - 1\):\s*"
+        r"return false",
+        prelude_inner, re.DOTALL) is not None
+    story_prefix_scalar_fails_closed = re.search(
+        r"if not raw_receipt is Dictionary:\s*return false",
+        pointer_bodies["story_prefix"], re.DOTALL) is not None
+    story_prefix_mismatch_fails_closed = re.search(
+        r"if not _terminal_integral_number_in_range\(.*?"
+        r"receipt\.get\(\"turn\", null\), target_turn\):\s*"
+        r"return false",
+        pointer_bodies["story_prefix"], re.DOTALL) is not None
+    temptation_census_position = pointer_bodies["prelude_story"].find(
+        "for temptation_root in temptation_roots:")
+    temptation_value_scan_position = pointer_bodies["prelude_story"].find(
+        'for raw_story_receipt in state["story_choice_receipts"].values():')
+    return (marker_contracts_hold
+            and _legacy_040746_origin_contract_valid(pointer_bodies)
+            and _story_choice_full_state_transaction_valid(
+                all_proof_pointers, cache)
+            and 0 <= scoped_identity_position < choice_validation_position
+            and invalid_choice_fails_closed
+            and story_prefix_scalar_fails_closed
+            and story_prefix_mismatch_fails_closed
+            and 0 <= temptation_census_position
+                < temptation_value_scan_position)
+
+
+def _action_receipt_live_weekly_authority_binds(
+        helper_body: str, all_proof_pointers: set[str],
+        cache: dict[Path, Any]) -> bool:
+    """Bind live action predicates to one exact outer+nested weekly owner."""
+    if (EXACT_LIVE_ACTION_WEEKLY_COMMITMENT_POINTER
+            not in all_proof_pointers
+            or ACTION_RECORD_FROM_WEEKLY_COMMITMENT_POINTER
+            not in all_proof_pointers
+            or "_exact_live_action_weekly_commitment(" not in helper_body):
+        return False
+    weekly_body = _pointer_source_text(
+        EXACT_LIVE_ACTION_WEEKLY_COMMITMENT_POINTER, cache)
+    record_body = _pointer_source_text(
+        ACTION_RECORD_FROM_WEEKLY_COMMITMENT_POINTER, cache)
+    if (not all(marker in weekly_body
+                for marker in EXACT_LIVE_ACTION_WEEKLY_COMMITMENT_MARKERS)
+            or not all(marker in record_body
+                       for marker in
+                       ACTION_RECORD_FROM_WEEKLY_COMMITMENT_MARKERS)):
+        return False
+    # A same-turn non-owner row is competing authority, not a row that may be
+    # skipped until reverse-order lookup reaches a canonical owner.
+    competing_row_fails_closed = re.search(
+        r"if not candidate\.is_empty\(\):\s*"
+        r"matches\.append\(candidate\)\s*else:\s*"
+        r"(?:#[^\n]*\n\s*)*return \{\}",
+        weekly_body, re.DOTALL) is not None
+    # A nested follow-up must compare its raw number exactly.  `int(5.5) == 5`
+    # is not an admissible reconstruction of a typed Week-Five receipt.
+    nested_turn_fails_closed = re.search(
+        r"if same_owner and \(.*?"
+        r"or not _terminal_integral_number_matches\(\s*"
+        r"followup\.get\(\"turn\", null\),\s*record_turn\)\):\s*"
+        r"return \{\}",
+        record_body, re.DOTALL) is not None
+    outer_fractional_turn_fails_closed = re.search(
+        r"if typeof\(raw_turn\) in \[TYPE_INT, TYPE_FLOAT\].*?"
+        r"int\(raw_turn\) == receipt_turn\s*\\?\s*"
+        r"and not _terminal_integral_number_matches\(\s*"
+        r"raw_turn, receipt_turn\):\s*return \{\}",
+        weekly_body, re.DOTALL) is not None
+    return (competing_row_fails_closed
+            and nested_turn_fails_closed
+            and outer_fractional_turn_fails_closed)
+
+
+def _legacy_040746_origin_contract_valid(
+        bodies: dict[str, str], *, require_action: bool = False) -> bool:
+    """Bind compatibility to one post-load exact 040746 origin witness.
+
+    ORDER-101 does not own GameState's deserializer, so this contract starts
+    after GameState load.  The exact core Dictionary and the still-authoritative
+    loaded pending/weekly rows are frozen once; current-schema continuations may
+    only copy that witness, never re-mint it from a relabelled current save.
+    """
+    generic_names = {
+        "normalizer", "origin_mint", "origin_witness", "origin_lookup",
+        "origin_migration", "origin_core", "origin_weekly_record",
+        "origin_action_weekly", "origin_weekly_set", "origin_plan",
+        "origin_completed",
+        "origin_summary_set", "origin_pending", "origin_active_pending",
+        "origin_relationship", "origin_routine", "origin_shown",
+        "active_story_choice", "active_story_flags",
+        "temptation_story", "active_story_install",
+        "plan_origin_entry", "plan_origin_valid",
+        "plan_origin_normalization", "plan_origin_lookup",
+        "plan_origin_install", "authority_poison_normalization",
+        "authority_poison_gate",
+    }
+    if not generic_names.issubset(bodies) \
+            or not all(bodies.get(name, "") for name in generic_names):
+        return False
+    if require_action and (not bodies.get("action_migration")
+                           or not bodies.get("rain_weekly")
+                           or not bodies.get("delivery_tuple")):
+        return False
+
+    marker_sets: dict[str, tuple[str, ...]] = {
+        "authority_poison_normalization": (
+            "if not source_is_exact_current:",
+            "allowed.append_array(AUTHORITY_ABSENCE_DICTIONARY_KEYS)",
+            "allowed.append_array(AUTHORITY_ABSENCE_ARRAY_KEYS)",
+            "AUTHORITY_LEDGER_SHAPE_POISON_KEY",
+            "for key in AUTHORITY_ABSENCE_DICTIONARY_KEYS:",
+            "not raw_state[key] is Dictionary",
+            "for key in AUTHORITY_ABSENCE_ARRAY_KEYS:",
+            "not raw_state[key] is Array",
+            "poisoned.sort()",
+            "return poisoned"),
+        "authority_poison_gate": (
+            "AUTHORITY_LEDGER_SHAPE_POISON_KEY",
+            "return not raw_poison is Array",
+            "not (raw_poison as Array).is_empty()"),
+        "origin_mint": LEGACY_040746_ORIGIN_MINT_MARKERS,
+        "origin_witness": LEGACY_040746_ORIGIN_WITNESS_MARKERS,
+        "origin_lookup": LEGACY_040746_ORIGIN_LOOKUP_MARKERS,
+        "origin_migration": LEGACY_040746_ORIGIN_MIGRATION_MARKERS,
+        "normalizer": (
+            "var raw_source_schema: Variant = state.get(\"schema\", 1)",
+            'var raw_active_turn: Variant = state.get("active_turn", null)',
+            "var source_is_exact_schema_two := _terminal_integral_number_matches(",
+            "raw_source_schema, LEGACY_040746_SOURCE_SCHEMA)",
+            "var source_is_exact_current := _terminal_integral_number_matches(",
+            "raw_source_schema, SCHEMA)",
+            "var authority_shape_poison := _normalized_authority_shape_poison(",
+            "state, source_is_exact_current)",
+            "_normalized_legacy_origin_migration(",
+            "state, raw_source_schema, GameState.pending_weekly_commitment",
+            "GameState.weekly_commitments)",
+            "if source_is_exact_current and not authority_shape_poison.is_empty():",
+            'legacy_origin_migration = {',
+            '"origin_receipts": {}, "origin_witnesses": {}',
+            'state["schema"] = SCHEMA',
+            "state[AUTHORITY_LEDGER_SHAPE_POISON_KEY] = authority_shape_poison",
+            'state["legacy_origin_receipts"] = legacy_origin_migration[',
+            'state["legacy_origin_witnesses"] = legacy_origin_migration[',
+            'state[LEGACY_040746_PLAN_RECEIPTS_KEY] = legacy_origin_migration[',
+            'state[LEGACY_040746_PLAN_WITNESSES_KEY] = legacy_origin_migration[',
+            'state["legacy_action_fallbacks"] = legacy_origin_migration[',
+            'state["legacy_migration_receipts"] = legacy_origin_migration[',
+            "and authority_shape_poison.is_empty()",
+            'legacy_origin_migration.get(\n\t\t"origin_receipts", {})',
+            "var schema_two_origin_admitted := source_is_exact_schema_two",
+            "(raw_origin_receipts as Dictionary).has(LEGACY_040746_ORIGIN_ID)",
+            "var admitted_schema_two_origin: Dictionary = (",
+            "if schema_two_origin_admitted else {}",
+            "if schema_two_origin_admitted:",
+            "_migrate_schema_two_relationship_state(state)",
+            "elif not source_is_exact_current:",
+            "for authority_key in [",
+            '"action_receipts", "action_story_acknowledgements"',
+            '"application_statuses", "application_transition_receipts"',
+            'state[authority_key] = {}',
+            'state["relationship_stages"] = {}',
+            'state["relationship_memories"] = []',
+            'state["plans"] = {}',
+            'state["completed_bundles"] = []',
+            'state["shown_consequences"] = []',
+            'state["active_bundle"] = ""',
+            'state["active_turn"] = 0',
+            'state["action_result_ready"] = false',
+            "_recover_finalized_action_state(",
+            "state, source_is_exact_current, admitted_schema_two_origin,",
+            "raw_active_turn)",
+            "if schema_two_origin_admitted and legacy_prototype_complete:",
+            "_install_legacy_040746_active_story_authority(",
+            "state, admitted_schema_two_origin)",
+        ),
+        "origin_core": (
+            "_terminal_dictionary_has_exact_keys(",
+            "LEGACY_040746_CORE_KEYS",
+            "LEGACY_040746_SOURCE_SCHEMA",
+            'get("enabled", null) != true',
+            "source_turn < 1 or source_turn > 9",
+            "_legacy_040746_completed_topology_valid(state, source_turn)",
+            "_legacy_040746_routine_ledger_valid(state, source_turn)",
+            "_legacy_040746_summary_ledger_valid(state, source_turn)",
+            "_legacy_040746_forgone_and_declines_valid(",
+            "_legacy_040746_relationship_ledgers_valid(\n"
+            "\t\t\t\tstate, source_turn)",
+            "_legacy_040746_shown_ledgers_valid(state, source_turn)",
+            'state.get("suppressed_followups", null) is Dictionary',
+            "_legacy_040746_active_and_pending_valid(",
+            'state.get("prototype_complete", null) is bool',
+            'state.get("prototype_completed_at_turn", null)',
+        ),
+        "origin_plan": (
+            "LEGACY_040746_PLAN_KEYS",
+            "_legacy_040746_routine_selection_valid(",
+            "(raw_schedule as Dictionary).size() != 4",
+            "for turn in range(first_turn, last_turn + 1)",
+            "not schedule.has(turn_key)",
+            "LEGACY_040746_ALLOWED_WEEKS.get(",
+            "not (raw_allowed as Array).has(turn)",
+            "selected.has(bundle_id)",
+            'bundle_id != "first_temptation_boss"',
+            "LEGACY_040746_MONTH_OFFERS[1]",
+            "LEGACY_040746_MONTH_OFFERS[2]",
+            "_terminal_variant_semantically_equal(raw_selected, selected)",
+            "LEGACY_040746_DECLINE_IDS.get(expected_bundle, \"\")",
+        ),
+        "origin_completed": (
+            'str(raw_plan_key) not in ["1", "2"]',
+            'plan_keys.has(str(raw_plan_key))',
+            'plan_keys.has("2") and not plan_keys.has("1")',
+            "_legacy_040746_plan_valid(",
+            "source_turn < _seoul_cycle_month_start_turn(month_index)",
+            "_terminal_integral_number_in_range(raw_turn, 1, 8)",
+            "completed_turns.has(int(raw_turn))",
+            "completed_turns[index] != index + 1",
+            "last_completed > mini(8, source_turn)",
+            "last_completed < maxi(0, source_turn - 1)",
+            "source_turn == 9",
+            "expected_bundles.has(bundle_id)",
+            "_terminal_variant_semantically_equal(\n"
+            "\t\t\traw_completed_bundles, expected_bundles)",
+            "_terminal_variant_semantically_equal(\n"
+            "\t\t\traw_bundle_turns, expected_turns)",
+        ),
+        "origin_summary_set": (
+            'state.get("month_summaries", null)',
+            'source_turn >= 5 and not (raw_summaries as Dictionary).has("1")',
+            'source_turn == 9 and not (raw_summaries as Dictionary).has("2")',
+            'source_turn < 5 and not (raw_summaries as Dictionary).is_empty()',
+            'str(raw_key) not in ["1", "2"]',
+            'str(raw_key) == "1" and source_turn < 5',
+            'str(raw_key) == "2" and source_turn < 9',
+            "_legacy_040746_month_summary_valid(",
+        ),
+        "origin_weekly_record": (
+            "_legacy_040746_dictionary_has_allowed_keys(",
+            "LEGACY_040746_WEEKLY_REQUIRED_KEYS",
+            "LEGACY_040746_WEEKLY_OPTIONAL_KEYS",
+            "record.get(\"turn\", null), 1, source_turn",
+            "record.get(\"echoed_turn\", null), -1, source_turn",
+            "echoed_turn <= turn or echoed_turn > source_turn",
+            "record.get(\"forgone_ids\", null) is Array",
+            "record.get(\"outcome\", null) is Dictionary",
+            "_legacy_040746_action_weekly_record_valid(",
+            "LEGACY_040746_STORY_ROOTS.get(",
+            "LEGACY_040746_STORY_CHOICE_COUNTS.get(",
+            "choice_count <= 0",
+            "raw_choice_index, 0, choice_count - 1",
+            "_terminal_dictionary_has_exact_keys(record, [",
+            '"story_event_id", "story_choice_index"',
+            '"forgone_choice_indexes", "week_kind", "axis"',
+            '"consequence_timing", "outcome", "echoed_turn"',
+            "for alternative_index in range(choice_count):",
+            "alternative_index != choice_index",
+            "expected_forgone_choices.append(alternative_index)",
+            "forgone_choices == expected_forgone_choices",
+            'record.get("person_id", null) == ""',
+            'record.get("forgone_ids", null) == []',
+            'str(record.get("source", "")) == "story_event"',
+            'str(record.get("pressure_family", "")) == "story"',
+            'str(record.get("actual_action_id", "")) == "story_choice"',
+            'str(record.get("story_event_id", "")) == expected_event_id',
+            '== "story:%s" % expected_event_id',
+            '== "story:%s:%d" % [expected_event_id, choice_index]',
+            'str(record.get("axis", "")) == "money"',
+            'str(record.get("consequence_timing", "")) == "delayed"',
+            'scheduled_bundle == "first_temptation_boss"',
+        ),
+        "origin_action_weekly": LEGACY_040746_ACTION_WEEKLY_MARKERS,
+        "origin_weekly_set": (
+            'state.get("completed_turns", null)',
+            'var expected_turns: Array[int] = []',
+            'for raw_turn in raw_completed as Array:',
+            '_terminal_integral_number_in_range(raw_turn, 1, 8)',
+            'str(month_for_turn(turn))',
+            'var scheduled_bundle := str(',
+            'var scheduled_spec := bundle(scheduled_bundle)',
+            'scheduled_spec.get("action_id", "")',
+            'turn == 4 and scheduled_bundle == "first_temptation_boss"',
+            'expected_turns.append(turn)',
+            'state.get("action_result_ready", false)',
+            'active_kind == "schedule" and not active_id.is_empty()',
+            'active_spec.get("action_id", "")',
+            'and action_ready',
+            'source_turn == 4 and active_id == "first_temptation_boss"',
+            "for raw_record in raw_weekly as Array:",
+            "raw_record is Dictionary",
+            "_terminal_integral_number_matches(",
+            '(raw_record as Dictionary).get("turn", null)',
+            "source_turn",
+            "active_has_row = true",
+            'expected_turns.append(source_turn)',
+            'expected_turns.sort()',
+            "_legacy_040746_weekly_record_valid(",
+            "seen_turns.has(turn)",
+            "return seen_turns == expected_turns",
+        ),
+        "origin_pending": (
+            "_terminal_dictionary_has_exact_keys(",
+            '"turn", "pressure_id", "pressure_family", "choice_id"',
+            '"person_id", "forgone_ids", "baseline"',
+            'pending.get("turn", null), source_turn',
+            'pending.get("pressure_id", "")',
+            'pending.get("pressure_family", "")',
+            'pending.get("choice_id", "")',
+            'pending.get("forgone_ids", null) != []',
+            "_terminal_dictionary_has_exact_keys(",
+            '"job_id", "resume_polished", "interview_practiced"',
+        ),
+        "origin_active_pending": (
+            'state.get("active_bundle", "")',
+            'state.get("active_kind", "")',
+            'state.get("action_result_ready", null)',
+            "not action_ready is bool",
+            'state.get("active_turn", null), 0',
+            '(raw_pending as Dictionary).is_empty()',
+            'active_kind not in ["schedule", "consequence"]',
+            'state.get("active_turn", null), source_turn',
+            'active_id in [OPENING_INTERVIEW_BUNDLE_ID',
+            '"temptation_consequence"]',
+            'str(((raw_plan as Dictionary).get(',
+            '"schedule", {}) as Dictionary).get(str(source_turn), ""))',
+            "_legacy_040746_pending_commitment_valid(",
+        ),
+        "origin_relationship": (
+            "source_turn = int(GameState.turn)",
+            'state.get("relationship_stages", null)',
+            'state.get("relationship_choice_receipts", null)',
+            'state.get("relationship_history", null)',
+            'state.get("player_initiated", null)',
+            "var expected_stages: Dictionary = {}",
+            "var expected_receipts: Dictionary = {}",
+            "var expected_initiated: Array[String] = []",
+            "for raw_entry in raw_history as Array:",
+            '"character", "from", "to", "bundle_id", "event_id"',
+            '"choice_index", "turn"',
+            "mini(8, source_turn)",
+            "LEGACY_040746_RELATIONSHIP_OUTCOMES.get(",
+            "turn < previous_turn or seen_bundles.has(bundle_id)",
+            'outcome.get("choice_stages", null)',
+            'expected_stages.get(character_id, "unmet")',
+            'entry.get("event_id", "")',
+            'entry.get("character", "")',
+            'entry.get("from", "")',
+            'entry.get("to", "")',
+            'str(month_for_turn(turn))',
+            'schedule", {}) as Dictionary).get(str(turn), "")',
+            '(completed as Array).count(bundle_id) == 1',
+            '(completed_turns as Dictionary).get(bundle_id, null), turn',
+            'str(state.get("active_kind", "")) == "schedule"',
+            'str(state.get("active_bundle", "")) == bundle_id',
+            'state.get("active_turn", null), turn',
+            "turn == source_turn",
+            "scheduled_bundle != bundle_id",
+            "not completed_authority and not active_authority",
+            'var receipt_key := "%s:%s:%d:%d"',
+            "expected_receipts[receipt_key] = true",
+            "expected_stages[character_id] = target_stage",
+            'str(outcome.get("initiative", "")) == "player"',
+            "_terminal_variant_semantically_equal(raw_stages, expected_stages)",
+            "_terminal_variant_semantically_equal(raw_choices, expected_receipts)",
+            "raw_initiated, expected_initiated",
+        ),
+        "origin_routine": (
+            'state.get("routine_receipts", null)',
+            'state.get("completed_turns", null)',
+            'state.get("plans", null)',
+            "for raw_key in (raw_receipts as Dictionary).keys():",
+            "typeof(raw_key) != TYPE_STRING",
+            "not str(raw_key).is_valid_int()",
+            "turn > mini(8, source_turn)",
+            "receipt_turns.has(turn)",
+            "_legacy_040746_routine_receipt_valid(",
+            "for raw_turn in raw_completed as Array:",
+            'if not str(state.get("active_bundle", "")).strip_edges().is_empty():',
+            "source_turn > 8 or expected_turns.has(source_turn)",
+            'state.get("active_bundle", "")',
+            "expected_turns.append(source_turn)",
+            "expected_turns.sort()",
+            "receipt_turns.sort()",
+            "return receipt_turns == expected_turns",
+        ),
+        "origin_shown": (
+            'state.get("shown_consequences", null)',
+            'state.get("shown_consequence_turns", null)',
+            '(raw_shown as Array).size() != (raw_turns as Dictionary).size()',
+            "OPENING_INTERVIEW_BUNDLE_ID",
+            '"temptation_consequence"',
+            "shown.has(consequence_id)",
+            'completed.count("m1_mirae_application") == 1',
+            'completed_bundle_turns.get("m1_mirae_application", null), 1',
+            'completed.count("first_temptation_boss") == 1',
+            "if opening_shown and (not mirae_completed",
+            "OPENING_INTERVIEW_BUNDLE_ID, null), 2",
+            "if opening_must_be_shown and not opening_shown:",
+            'shown.count("temptation_consequence") != 1',
+            '"temptation_consequence", null), 5',
+            'completed_bundle_turns.get(\n\t\t\t\t\t\t"first_temptation_boss", null), 4',
+        ),
+        "active_story_choice": (
+            'state.get("active_bundle", "")',
+            'state.get("active_kind", "")',
+            "OPENING_INTERVIEW_BUNDLE_ID",
+            '"arc_intro_meal_seen"',
+            '"told_truth_interview"',
+            '"lied_interview"',
+            'active_id == "sns_pressure_night"',
+            '"arc_intro_sns_seen"',
+            '"deleted_sns"',
+            '"envy_fuel"',
+            "return -1 if not deleted and not envy else -2",
+            "if deleted and envy:",
+            "return -2",
+        ),
+        "active_story_flags": (
+            "OPENING_INTERVIEW_BUNDLE_ID",
+            'active_id == "sns_pressure_night"',
+            "_legacy_040746_active_story_choice_from_flags(state) < -1",
+            'state.get("shown_consequences", [])',
+            "for choice_index in [0, 1]:",
+            '"arc_intro_meal_seen", true',
+            '"told_truth_interview", expected_truth',
+            '"lied_interview", not expected_truth',
+            "opening_matches != 1",
+            'state.get("completed_bundles", [])',
+            '(completed as Array).has("sns_pressure_night")',
+            "for choice_index in [0, 1, 2]:",
+            "_sns_story_choice_flags_valid(choice_index)",
+            "sns_matches != 1",
+        ),
+        "temptation_story": (
+            'record.get("story_choice_index", -1)',
+            'record.get("outcome", {})',
+            "if choice_index == 0:",
+            'outcome, "mental", -8',
+            "elif choice_index == 1:",
+            'outcome.get("money", null), 2_000_000',
+            'outcome, "mental", -16',
+            '"arc_temptation_seen", true',
+            '"lent_account", choice_index == 1',
+            '"kept_clean_hands", choice_index == 0',
+            '"crossed_line_early", choice_index == 1',
+            '"gambling_tempted", choice_index == 1',
+        ),
+        "active_story_install": (
+            "if origin.is_empty():",
+            'origin.get("source_core_witness", {})',
+            "_legacy_040746_active_story_choice_from_flags(source)",
+            "if choice_index < 0:",
+            "OPENING_INTERVIEW_BUNDLE_ID",
+            'state["application_statuses"]["mirae_industrial_tech"]',
+            'bundle_id == "sns_pressure_night"',
+            'event_id = "arc_intro_03_sns"',
+            'var receipt_key := "%s:%s:%d:%d"',
+            'state["story_choice_receipts"][receipt_key] = {',
+            '"active_kind": active_kind',
+            'state["application_transition_receipts"][receipt_key] = {',
+            '"from": "submitted"',
+            '"to": "interviewed"',
+        ),
+        "plan_origin_entry": (
+            'month_index not in [1, 2]',
+            '_legacy_040746_plan_valid(',
+            '"schema": LEGACY_040746_PLAN_ORIGIN_SCHEMA',
+            '"origin_id": LEGACY_040746_ORIGIN_ID',
+            '"availability": availability',
+            '"plan": (raw_plan as Dictionary).duplicate(true)',
+        ),
+        "plan_origin_valid": (
+            '"schema", "origin_id", "month", "planned_turn"',
+            '"availability", "plan"',
+            "LEGACY_040746_PLAN_ORIGIN_SCHEMA",
+            "LEGACY_040746_ORIGIN_ID",
+            "_terminal_variant_semantically_equal(raw_plan, live_plan)",
+            '["hyunsu_player_reachout"]',
+            "_legacy_040746_plan_valid(",
+        ),
+        "plan_origin_normalization": (
+            'var result := {"receipts": {}, "witnesses": {}}',
+            "if source_is_raw_schema_two:",
+            'origin.get("source_core_witness", {})',
+            "_legacy_040746_plan_origin_entry(",
+            "LEGACY_040746_PLAN_RECEIPTS_KEY",
+            "LEGACY_040746_PLAN_WITNESSES_KEY",
+            "_terminal_variant_semantically_equal(raw_receipt, raw_witness)",
+            "_legacy_040746_plan_origin_entry_valid(",
+        ),
+        "plan_origin_lookup": (
+            "_legacy_040746_origin_from_state(state)",
+            "LEGACY_040746_PLAN_RECEIPTS_KEY",
+            "LEGACY_040746_PLAN_WITNESSES_KEY",
+            "_terminal_variant_semantically_equal(raw_receipt, raw_witness)",
+            "_legacy_040746_plan_origin_entry_valid(",
+            'get("plan", {}) as Dictionary).duplicate(true)',
+        ),
+        "plan_origin_install": (
+            'state["plans"][str(month_index)] = {',
+            "_install_legacy_040746_plan_origin(state, month_index)",
+            "GameState.core_loop_v2_state = state",
+        ),
+    }
+    if require_action:
+        marker_sets["action_migration"] = \
+            LEGACY_040746_ACTION_MIGRATION_MARKERS
+        marker_sets["rain_weekly"] = LEGACY_040746_RAIN_WEEKLY_MARKERS
+        marker_sets["delivery_tuple"] = \
+            LEGACY_040746_DELIVERY_TUPLE_MARKERS
+    if not all(all(marker in bodies[name] for marker in markers)
+               for name, markers in marker_sets.items()):
+        return False
+
+    normalizer = bodies["normalizer"]
+    migration = bodies["origin_migration"]
+    exact_schema_two = normalizer.find(
+        "var source_is_exact_schema_two :=")
+    exact_current = normalizer.find("var source_is_exact_current :=")
+    migration_call = normalizer.find("_normalized_legacy_origin_migration(")
+    origin_receipts_read = normalizer.find(
+        'legacy_origin_migration.get(\n\t\t"origin_receipts", {})',
+        migration_call)
+    admitted_gate = normalizer.find(
+        "var schema_two_origin_admitted :=", origin_receipts_read)
+    admitted_copy = normalizer.find(
+        "var admitted_schema_two_origin: Dictionary", admitted_gate)
+    schema_upgrade = normalizer.find('state["schema"] = SCHEMA')
+    origin_receipts_copy = normalizer.find(
+        'state["legacy_origin_receipts"] = legacy_origin_migration[')
+    origin_witnesses_copy = normalizer.find(
+        'state["legacy_origin_witnesses"] = legacy_origin_migration[')
+    plan_receipts_copy = normalizer.find(
+        'state[LEGACY_040746_PLAN_RECEIPTS_KEY] = legacy_origin_migration[')
+    plan_witnesses_copy = normalizer.find(
+        'state[LEGACY_040746_PLAN_WITNESSES_KEY] = legacy_origin_migration[')
+    fallback_copy = normalizer.find(
+        'state["legacy_action_fallbacks"] = legacy_origin_migration[')
+    migration_receipt_copy = normalizer.find(
+        'state["legacy_migration_receipts"] = legacy_origin_migration[')
+    consumer_gate = normalizer.find(
+        "if schema_two_origin_admitted:", migration_receipt_copy)
+    relationship_migration = normalizer.find(
+        "_migrate_schema_two_relationship_state(state)", consumer_gate)
+    active_story_install = normalizer.find(
+        "_install_legacy_040746_active_story_authority(",
+        relationship_migration)
+    unknown_schema_gate = normalizer.find(
+        "elif not source_is_exact_current:", active_story_install)
+    unknown_schema_clear = normalizer.find(
+        'state["relationship_memories"] = []', unknown_schema_gate)
+    action_recovery = normalizer.find(
+        "_recover_finalized_action_state(", unknown_schema_clear)
+    prototype_lift = normalizer.find(
+        "if schema_two_origin_admitted and legacy_prototype_complete:",
+        action_recovery)
+    if not (0 <= exact_schema_two < exact_current < migration_call
+            < origin_receipts_read < admitted_gate < admitted_copy
+            < schema_upgrade < origin_receipts_copy
+            < origin_witnesses_copy < plan_receipts_copy
+            < plan_witnesses_copy < fallback_copy
+            < migration_receipt_copy < consumer_gate
+            < relationship_migration < active_story_install
+            < unknown_schema_gate
+            < unknown_schema_clear < action_recovery < prototype_lift):
+        return False
+
+    schema_two_branch = migration.find(
+        "if _terminal_integral_number_matches(\n"
+        "\t\t\traw_source_schema, LEGACY_040746_SOURCE_SCHEMA):")
+    mint_call = migration.find("_mint_legacy_040746_origin(",
+                               schema_two_branch)
+    schema_three_branch = migration.find(
+        "elif _terminal_integral_number_matches(raw_source_schema, SCHEMA):")
+    lookup_call = migration.find("_legacy_040746_origin_from_state(raw_state)",
+                                 schema_three_branch)
+    empty_gate = migration.find("if origin.is_empty():", lookup_call)
+    receipt_copy = migration.find(
+        '(result["origin_receipts"] as Dictionary)', empty_gate)
+    witness_copy = migration.find(
+        '(result["origin_witnesses"] as Dictionary)', receipt_copy)
+    plan_call = migration.find("_normalized_legacy_040746_plan_origins(",
+                               witness_copy)
+    plan_receipt_copy = migration.find(
+        'result["plan_origin_receipts"] = plan_origins["receipts"]',
+        plan_call)
+    plan_witness_copy = migration.find(
+        'result["plan_origin_witnesses"] = plan_origins["witnesses"]',
+        plan_receipt_copy)
+    action_call = migration.find("_normalized_legacy_action_migration(",
+                                 plan_witness_copy)
+    if not (0 <= schema_two_branch < mint_call < schema_three_branch
+            < lookup_call < empty_gate < receipt_copy < witness_copy
+            < plan_call < plan_receipt_copy < plan_witness_copy
+            < action_call):
+        return False
+
+    # The witness ledgers are an exact pair; one copy cannot be deleted,
+    # shadowed, or independently edited while retaining compatibility.
+    lookup = bodies["origin_lookup"]
+    if lookup.count("[LEGACY_040746_ORIGIN_ID]") != 2 \
+            or lookup.count("_terminal_dictionary_has_exact_keys(") < 2:
+        return False
+
+    if not require_action:
+        return True
+    action = bodies["action_migration"]
+    raw_branch = action.find("var source_is_raw_schema_two")
+    continuation_branch = action.find("if not source_is_raw_schema_two:",
+                                      raw_branch)
+    live_completed = action.find('state.get("completed_bundles", [])',
+                                 continuation_branch)
+    action_owner_absence = action.find(
+        "(raw_actions as Dictionary).has(bundle_id)", live_completed)
+    fallback_equality = action.find(
+        "raw_fallback, canonical)", action_owner_absence)
+    migration_equality = action.find(
+        "raw_migration, canonical_migration)", fallback_equality)
+    continuation_failure = action.find("return result", migration_equality)
+    result_write = action.find(
+        '(result["fallbacks"] as Dictionary)[bundle_id] = canonical',
+        continuation_branch)
+    return (0 <= raw_branch < continuation_branch < live_completed
+            < action_owner_absence < fallback_equality < migration_equality
+            < continuation_failure < result_write)
+
+
+def _legacy_040746_contract_bodies(
+        cache: dict[Path, Any], *, include_action: bool = False
+        ) -> dict[str, str]:
+    """Load the exact source-symbol bodies that form one origin contract."""
+    pointers = {
+        "normalizer": "systems/DemoCoreLoopV2.gd::_normalized_state",
+        "authority_poison_normalization":
+            AUTHORITY_SHAPE_POISON_NORMALIZATION_POINTER,
+        "authority_poison_gate": AUTHORITY_SHAPE_POISON_GATE_POINTER,
+        "origin_mint": LEGACY_040746_ORIGIN_MINT_POINTER,
+        "origin_witness": LEGACY_040746_ORIGIN_WITNESS_POINTER,
+        "origin_lookup": LEGACY_040746_ORIGIN_LOOKUP_POINTER,
+        "origin_migration": LEGACY_040746_ORIGIN_MIGRATION_POINTER,
+        "origin_core": LEGACY_040746_CORE_STATE_POINTER,
+        "origin_weekly_record": LEGACY_040746_WEEKLY_RECORD_POINTER,
+        "origin_action_weekly": LEGACY_040746_ACTION_WEEKLY_POINTER,
+        "origin_weekly_set": LEGACY_040746_WEEKLY_SET_POINTER,
+        "origin_plan": LEGACY_040746_PLAN_POINTER,
+        "origin_completed": LEGACY_040746_COMPLETED_POINTER,
+        "origin_summary_set": LEGACY_040746_SUMMARY_SET_POINTER,
+        "origin_pending": LEGACY_040746_PENDING_POINTER,
+        "origin_active_pending": LEGACY_040746_ACTIVE_PENDING_POINTER,
+        "origin_relationship": LEGACY_040746_RELATIONSHIP_POINTER,
+        "origin_routine": LEGACY_040746_ROUTINE_LEDGER_POINTER,
+        "origin_shown": LEGACY_040746_SHOWN_LEDGER_POINTER,
+        "active_story_choice": LEGACY_040746_ACTIVE_STORY_CHOICE_POINTER,
+        "active_story_flags": LEGACY_040746_ACTIVE_STORY_FLAGS_POINTER,
+        "temptation_story": LEGACY_040746_TEMPTATION_STORY_POINTER,
+        "active_story_install": LEGACY_040746_ACTIVE_STORY_INSTALL_POINTER,
+        "plan_origin_entry": LEGACY_040746_PLAN_ORIGIN_ENTRY_POINTER,
+        "plan_origin_valid": LEGACY_040746_PLAN_ORIGIN_VALID_POINTER,
+        "plan_origin_normalization":
+            LEGACY_040746_PLAN_ORIGIN_NORMALIZATION_POINTER,
+        "plan_origin_lookup": LEGACY_040746_PLAN_ORIGIN_LOOKUP_POINTER,
+        "plan_origin_install": LEGACY_040746_PLAN_ORIGIN_INSTALL_POINTER,
+    }
+    if include_action:
+        pointers.update({
+            "action_migration": LEGACY_040746_ACTION_MIGRATION_POINTER,
+            "rain_weekly": LEGACY_040746_RAIN_WEEKLY_POINTER,
+            "delivery_tuple": LEGACY_040746_DELIVERY_TUPLE_POINTER,
+        })
+    return {
+        name: _pointer_source_text(pointer, cache)
+        for name, pointer in pointers.items()
+    }
+
+
+def _legacy_040746_action_recovery_contract_valid(
+        normalizer: str, recovery: str) -> bool:
+    """Require current recovery or one admitted frozen schema-two owner."""
+    normalizer_markers = (
+        "_recover_finalized_action_state(",
+        "state, source_is_exact_current, admitted_schema_two_origin,",
+        "raw_active_turn)",
+    )
+    recovery_markers = (
+        "var source_is_admitted_schema_two :=",
+        "not admitted_schema_two_origin.is_empty()",
+        "not source_is_exact_current and not source_is_admitted_schema_two",
+        "_terminal_integral_number_matches(raw_active_turn, active_turn)",
+        "if source_is_admitted_schema_two:",
+        'admitted_schema_two_origin.get(\n\t\t\t"source_core_witness", {})',
+        'admitted_schema_two_origin.get("source_turn", 0)',
+        'admitted_schema_two_origin.get(\n\t\t\t\t"source_weekly_witnesses", [])',
+        '(raw_record as Dictionary).get("turn", null), active_turn',
+        '(raw_record as Dictionary).get(\n\t\t\t\t\t\t"pressure_id", "")) == bundle_id',
+        "_legacy_040746_weekly_record_valid(",
+        "if matches.size() == 1:",
+        "commitment = matches[0]",
+        "else:",
+        "commitment = _exact_live_action_weekly_commitment(",
+        "_action_receipt_from_record(",
+    )
+    if not all(marker in normalizer for marker in normalizer_markers) \
+            or not all(marker in recovery for marker in recovery_markers):
+        return False
+    admitted_branch = recovery.find("if source_is_admitted_schema_two:")
+    source_core = recovery.find('"source_core_witness", {})', admitted_branch)
+    source_weekly = recovery.find('"source_weekly_witnesses", [])', source_core)
+    frozen_validator = recovery.find(
+        "_legacy_040746_weekly_record_valid(", source_weekly)
+    exact_one = recovery.find("if matches.size() == 1:", frozen_validator)
+    current_branch = recovery.find("else:", exact_one)
+    live_exact = recovery.find(
+        "_exact_live_action_weekly_commitment(", current_branch)
+    receipt = recovery.find("_action_receipt_from_record(", live_exact)
+    return (0 <= admitted_branch < source_core < source_weekly
+            < frozen_validator < exact_one < current_branch
+            < live_exact < receipt)
+
+
+def _validate_current_application_recovery_source_contract(
+        proof_records_by_id: dict[str, dict[str, Any]], errors: list[str],
+        cache: dict[Path, Any]) -> None:
+    """Bind current application recovery to exact producers and reload tests."""
+    expected_pointers = {
+        CURRENT_APPLICATION_ACTION_RECORD_PROOF_ID:
+            CURRENT_APPLICATION_ACTION_RECORD_POINTER,
+        FRESH_W1_APPLICATION_RECOVERY_GATE_PROOF_ID:
+            FRESH_W1_APPLICATION_RECOVERY_GATE_POINTER,
+        "proof:runtime:action_commitment":
+            "systems/DemoCoreLoopV2.gd::note_action_commitment",
+        LEGACY_040746_ACTION_RECOVERY_PROOF_ID:
+            LEGACY_040746_ACTION_RECOVERY_POINTER,
+        "proof:runtime:fresh_w1_application_owner":
+            "systems/DemoCoreLoopV2.gd::_apply_action_application_receipt",
+    }
+    for proof_id, pointer in expected_pointers.items():
+        if proof_records_by_id.get(proof_id, {}).get("pointer") != pointer:
+            errors.append(
+                "CURRENT_APPLICATION_RECOVERY: exact proof pointer mismatch "
+                f"{proof_id}")
+
+    validator = _pointer_source_text(
+        CURRENT_APPLICATION_ACTION_RECORD_POINTER, cache)
+    note = _pointer_source_text(
+        "systems/DemoCoreLoopV2.gd::note_action_commitment", cache)
+    apply_receipt = _pointer_source_text(
+        "systems/DemoCoreLoopV2.gd::_apply_action_application_receipt",
+        cache)
+    recovery = _pointer_source_text(
+        LEGACY_040746_ACTION_RECOVERY_POINTER, cache)
+    w1_gate = _pointer_source_text(
+        FRESH_W1_APPLICATION_RECOVERY_GATE_POINTER, cache)
+    w1_clear = _pointer_source_text(
+        CURRENT_W1_APPLICATION_RECOVERY_CLEAR_POINTER, cache)
+    current_test = _pointer_source_text(
+        CURRENT_APPLICATION_RECOVERY_TEST_POINTER, cache)
+    fresh_w1_test = _pointer_source_text(
+        FRESH_W1_APPLICATION_RECOVERY_TEST_POINTER, cache)
+    bodies = (
+        validator, note, apply_receipt, recovery, w1_gate, w1_clear,
+        current_test, fresh_w1_test,
+    )
+    if not all(bodies):
+        errors.append(
+            "CURRENT_APPLICATION_RECOVERY: source symbol missing")
+        return
+
+    validator_markers = (
+        'if expected_action != "apply":',
+        '== "job_hunt_application":',
+        'for forbidden_key in ["application_id", "status", "job_id"]:',
+        "if non_apply_details.has(forbidden_key):",
+        'authored_execution not in ["", "application"]',
+        'var exact_keys: Array[String] = [',
+        '"execution", "application_id", "status",',
+        "if not job_id.is_empty():",
+        'exact_keys.append("job_id")',
+        "_terminal_dictionary_has_exact_keys(details, exact_keys)",
+        'str(details.get("execution", "")) == "application"',
+        'str(details.get("application_id", "")) == application_id',
+        'str(details.get("status", "")) == status',
+        "job_id.is_empty()",
+        'or str(details.get("job_id", "")) == job_id',
+    )
+    if not _markers_are_ordered(validator, validator_markers):
+        errors.append(
+            "CURRENT_APPLICATION_RECOVERY: exact action-row validator "
+            "markers missing")
+
+    note_validator = note.find("_current_application_action_record_valid(")
+    note_receipt = note.find("_action_receipt_from_record(", note_validator)
+    note_existing = note.find(
+        'if state["action_receipts"].has(active_id):', note_receipt)
+    first_apply = note.find(
+        "_apply_action_application_receipt(", note_existing)
+    new_receipt = note.find("var receipt := canonical_receipt", first_apply)
+    local_write = note.find(
+        'state["action_receipts"][active_id] = receipt', new_receipt)
+    second_apply = note.find(
+        "_apply_action_application_receipt(", local_write)
+    final_write = note.rfind("GameState.core_loop_v2_state = state")
+    if not (0 <= note_validator < note_receipt < note_existing < first_apply
+            < new_receipt < local_write < second_apply < final_write):
+        errors.append(
+            "CURRENT_APPLICATION_RECOVERY: producer validation/apply order "
+            "mismatch")
+
+    generic_branch = apply_receipt.find(
+        'if str(details.get("execution", "")) '
+        '!= "job_hunt_application":')
+    first_prior = apply_receipt.find(
+        "var prior_status :=", generic_branch)
+    first_conflict = apply_receipt.find(
+        'if prior_status not in ["", status]:', first_prior)
+    first_status_write = apply_receipt.find(
+        'state["application_statuses"][application_id] = status',
+        first_conflict)
+    typed_owner = apply_receipt.find(
+        "if bundle_id != W1_ONBOARDING_BUNDLE_ID", first_status_write)
+    transition_conflict = apply_receipt.find(
+        "and raw_existing != transition:", typed_owner)
+    second_prior = apply_receipt.find(
+        "var prior_status :=", transition_conflict)
+    second_conflict = apply_receipt.find(
+        'if prior_status not in ["", status]:', second_prior)
+    transition_write = apply_receipt.find(
+        'state["application_transition_receipts"][transition_key]',
+        second_conflict)
+    second_status_write = apply_receipt.find(
+        'state["application_statuses"][application_id] = status',
+        transition_write)
+    if not (0 <= generic_branch < first_prior < first_conflict
+            < first_status_write < typed_owner < transition_conflict
+            < second_prior < second_conflict < transition_write
+            < second_status_write):
+        errors.append(
+            "CURRENT_APPLICATION_RECOVERY: application no-regression order "
+            "mismatch")
+
+    w1_gate_markers = (
+        'str(details.get("execution", "")) != "job_hunt_application"',
+        "bundle_id != W1_ONBOARDING_BUNDLE_ID",
+        'str(onboarding.get("phase", "")) != "result_committed"',
+        "GameState.has_pending_weekly_commitment(1)",
+        "_terminal_w1_authority_allocations(state)",
+        "if allocations.size() != 1:",
+        "_terminal_w1_capacity_identity_valid(",
+        'allocation.get("weekly_commitment", {})',
+        "GameState.get_weekly_commitment_for_turn(1)",
+        'str(outer.get("source", "")) != "seoul_cycle"',
+        'str(outer_details.get("execution", "")) != "seoul_cycle"',
+        '"turn", "pressure_id", "pressure_family", "choice_id", "person_id",',
+        '"forgone_ids", "axis",',
+        'expected_detail_keys.append("action_followups")',
+        "_terminal_dictionary_has_exact_keys(",
+        "_action_record_for_bundle_from_weekly_commitment(",
+        "_action_receipt_from_record(",
+        "_terminal_variant_semantically_equal(nested_receipt, receipt)",
+    )
+    clear_markers = (
+        'state["action_receipts"].erase(W1_ONBOARDING_BUNDLE_ID)',
+        'state["application_statuses"].erase(W1_ONBOARDING_APPLICATION_ID)',
+        'state["application_transition_receipts"].erase(',
+        'state["action_result_ready"] = false',
+    )
+    if (not _markers_are_ordered(w1_gate, w1_gate_markers)
+            or not _markers_are_ordered(w1_clear, clear_markers)):
+        errors.append(
+            "CURRENT_APPLICATION_RECOVERY: fresh-W1 committed/pending "
+            "authority gate markers missing")
+
+    current_validator = recovery.find(
+        "_current_application_action_record_valid(")
+    origin_lookup = recovery.find(
+        "_legacy_040746_origin_from_state(state)", current_validator)
+    legacy_witness = recovery.find(
+        "witnessed_legacy_current_commitment = legacy_matches.size() == 1",
+        origin_lookup)
+    invalid_witness = recovery.find(
+        "if not witnessed_legacy_current_commitment:", legacy_witness)
+    recovered_receipt = recovery.find(
+        "var recovered := _action_receipt_from_record(", invalid_witness)
+    fresh_gate_call = recovery.find(
+        "_current_job_hunt_application_recovery_valid(",
+        recovered_receipt)
+    clear_call = recovery.find(
+        "_clear_current_w1_application_recovery_authority(state)",
+        fresh_gate_call)
+    existing_lookup = recovery.find(
+        'var existing: Variant = state["action_receipts"].get(', clear_call)
+    no_remint = recovery.find(
+        "if witnessed_legacy_current_commitment:", existing_lookup)
+    apply_before_store = recovery.find(
+        "_apply_action_application_receipt(", no_remint)
+    receipt_store = recovery.find(
+        'state["action_receipts"][bundle_id] = receipt',
+        apply_before_store)
+    if not (0 <= current_validator < origin_lookup < legacy_witness
+            < invalid_witness < recovered_receipt < fresh_gate_call
+            < clear_call < existing_lookup < no_remint
+            < apply_before_store < receipt_store):
+        errors.append(
+            "CURRENT_APPLICATION_RECOVERY: reload validation/quarantine "
+            "order mismatch")
+
+    current_test_markers = (
+        "GameState.turn = 17",
+        '"m5_city_service_application", "schedule"',
+        "var valid_roundtrip := exact_save.duplicate(true)",
+        '"identity_missing_receipt"',
+        '"identity_matching_forged_receipt"',
+        '"job_id_missing_receipt"',
+        '"job_id_matching_forged_receipt"',
+        '"current application %s mutation recovered authority on "',
+        '"current application recovery regressed status on reload %d"',
+        'details["job_id"] = "job_04"',
+        '"current Seorin extra job owner recovered on reload %d"',
+        'details["application_id"] = "hanbit_ops_2026q1"',
+        '"current recovery acquired an application on reload %d"',
+    )
+    fresh_test_markers = (
+        "var pre_result_save: Dictionary = GameState.serialize()",
+        "var forged_pre_result: Dictionary =",
+        'forged_onboarding["phase"] = "result_committed"',
+        'forged_state["action_result_ready"] = true',
+        'GameState.has_pending_weekly_commitment(1)',
+        '"pre-result W1 row recovered application authority on reload %d"',
+        "GameState.load_from_dict(pre_result_save)",
+        "var finalized := CORE.finalize_fresh_w1_application(",
+        'CORE.fresh_w1_onboarding_phase() == "result_committed"',
+    )
+    if (not all(marker in current_test for marker in current_test_markers)
+            or current_test.count("for reload_index in range(2):") < 5
+            or not _markers_are_ordered(fresh_w1_test, fresh_test_markers)
+            or fresh_w1_test.count("for reload_index in range(2):") < 1):
+        errors.append(
+            "CURRENT_APPLICATION_RECOVERY: exact double-reload regression "
+            "fixtures missing")
+
+
+def _legacy_relationship_reader_binds_fact(
+        reader: dict[str, Any], fact_id: str,
+        proofs: list[dict[str, Any]], supporting_proofs: list[dict[str, Any]],
+        cache: dict[Path, Any]) -> bool:
+    """Bind schema-two father memories to one admitted exact origin."""
+    if (str(reader.get("reader_id", "")) not in
+            LEGACY_RELATIONSHIP_READER_IDS
+            or not fact_id.startswith(
+                LEGACY_RELATIONSHIP_MIGRATABLE_FACT_PREFIXES)):
+        return False
+    required_ids = {
+        LEGACY_040746_SCHEMA_TWO_ADMISSION_PROOF_ID,
+        "proof:runtime:legacy_040746_relationship_ledgers",
+    }
+    direct_ids = {str(proof.get("proof_id", "")) for proof in proofs}
+    all_proofs = [*proofs, *supporting_proofs]
+    all_ids = {str(proof.get("proof_id", "")) for proof in all_proofs}
+    all_pointers = {
+        str(proof.get("pointer", "")) for proof in all_proofs}
+    prerequisite = _json_pointer_value(
+        str(reader.get("runtime_pointer", "")), cache)
+    bodies = _legacy_040746_contract_bodies(cache)
+    return (
+        required_ids.issubset(direct_ids)
+        and required_ids.issubset(all_ids)
+        and LEGACY_040746_SCHEMA_TWO_ADMISSION_POINTER in all_pointers
+        and LEGACY_040746_RELATIONSHIP_POINTER in all_pointers
+        and _json_consumer_binds_fact(prerequisite, fact_id)
+        and all(bodies.values())
+        and _legacy_040746_origin_contract_valid(bodies)
+    )
+
+
 def _proofs_bind_reader_fact(reader: dict[str, Any], fact_id: str,
                              proofs: list[dict[str, Any]],
                              cache: dict[Path, Any], *,
@@ -5282,6 +8515,20 @@ def _proofs_bind_reader_fact(reader: dict[str, Any], fact_id: str,
     all_proofs = [*proofs, *(supporting_proofs or [])]
     expected_proof_pointer = reader_pointer
 
+    if reader_id in ORDER101_TERMINAL_READER_ROUTE_IDS:
+        return _terminal_route_reader_binds_fact(
+            reader, fact_id, proofs, supporting_proofs or [], cache)
+
+    if (reader_id in LEGACY_RELATIONSHIP_READER_IDS
+            and fact_id.startswith(
+                LEGACY_RELATIONSHIP_MIGRATABLE_FACT_PREFIXES)):
+        return _legacy_relationship_reader_binds_fact(
+            reader, fact_id, proofs, supporting_proofs or [], cache)
+
+    if reader_id == SNS_CONSEQUENCE_READER_ID:
+        return _sns_consequence_authority_reader_binds_fact(
+            reader, fact_id, proofs, supporting_proofs or [], cache)
+
     if reader_id == W24_COMPLETION_APPLICATION_READER_ID:
         expected_pointers_by_fact = {
             "state:completion_application_required:demo_collision": {
@@ -5289,9 +8536,17 @@ def _proofs_bind_reader_fact(reader: dict[str, Any], fact_id: str,
                 "_selected_choice_requires_outcome_receipt",
                 "systems/DemoCoreLoopV2.gd::_outcome_runtime_applicable",
             },
-            "receipt:application_transition:demo_collision:any_current_turn": {
+            "receipt:application_transition:demo_collision:selected_choice_exact": {
                 "systems/DemoCoreLoopV2.gd::"
                 "_has_current_application_receipt",
+                CURRENT_STORY_CHOICE_RECEIPT_CENSUS_POINTER,
+                CURRENT_STORY_EVENT_SCOPE_POINTER,
+                GENERIC_STORY_CHOICE_PRODUCER_POINTER,
+                STORY_CHOICE_TRANSACTION_ROLLBACK_POINTER,
+                STORY_MODE_CHOICE_TRANSACTION_POINTER,
+                GAME_STATE_EXACT_SNAPSHOT_RESTORE_POINTER,
+                CURRENT_OUTCOME_LEDGER_CENSUS_POINTER,
+                CURRENT_OUTCOME_ALLOWED_SIBLING_POINTER,
             },
         }
         expected_pointers = expected_pointers_by_fact.get(fact_id)
@@ -5345,6 +8600,167 @@ def _proofs_bind_reader_fact(reader: dict[str, Any], fact_id: str,
             str(proof.get("pointer", "")) for proof in all_proofs
             if isinstance(proof.get("pointer"), str)}
         if reader_pointer.endswith("/prerequisites"):
+            if fact_id in EXPECTED_ACTION_RECEIPT_PREDICATES:
+                helper_pointer = (
+                    "systems/DemoCoreLoopV2.gd::"
+                    "_action_receipt_predicate_met")
+                helper_body = _pointer_source_text(helper_pointer, cache)
+                dispatch_body = _pointer_source_text(
+                    "systems/DemoCoreLoopV2.gd::_predicate_met", cache)
+                live_owner_census = helper_body.find(
+                    "var has_action_owner := "
+                    "(raw_actions as Dictionary).has(bundle_id)")
+                live_fallback_branch = helper_body.find(
+                    "if not has_action_owner:", live_owner_census)
+                live_owner_census_valid = (
+                    0 <= live_owner_census < live_fallback_branch)
+                legacy_contract_valid = True
+                if fact_id == JIYEON_LEGACY_ACTION_FACT_ID:
+                    direct_proof_ids = {
+                        str(proof.get("proof_id", "")) for proof in proofs}
+                    legacy_bodies = {
+                        "normalizer": _pointer_source_text(
+                            "systems/DemoCoreLoopV2.gd::_normalized_state",
+                            cache),
+                        "authority_poison_normalization":
+                            _pointer_source_text(
+                                AUTHORITY_SHAPE_POISON_NORMALIZATION_POINTER,
+                                cache),
+                        "authority_poison_gate": _pointer_source_text(
+                            AUTHORITY_SHAPE_POISON_GATE_POINTER, cache),
+                        "origin_mint": _pointer_source_text(
+                            LEGACY_040746_ORIGIN_MINT_POINTER, cache),
+                        "origin_witness": _pointer_source_text(
+                            LEGACY_040746_ORIGIN_WITNESS_POINTER, cache),
+                        "origin_lookup": _pointer_source_text(
+                            LEGACY_040746_ORIGIN_LOOKUP_POINTER, cache),
+                        "origin_migration": _pointer_source_text(
+                            LEGACY_040746_ORIGIN_MIGRATION_POINTER, cache),
+                        "origin_core": _pointer_source_text(
+                            LEGACY_040746_CORE_STATE_POINTER, cache),
+                        "origin_weekly_record": _pointer_source_text(
+                            LEGACY_040746_WEEKLY_RECORD_POINTER, cache),
+                        "origin_action_weekly": _pointer_source_text(
+                            LEGACY_040746_ACTION_WEEKLY_POINTER, cache),
+                        "origin_weekly_set": _pointer_source_text(
+                            LEGACY_040746_WEEKLY_SET_POINTER, cache),
+                        "origin_plan": _pointer_source_text(
+                            LEGACY_040746_PLAN_POINTER, cache),
+                        "origin_completed": _pointer_source_text(
+                            LEGACY_040746_COMPLETED_POINTER, cache),
+                        "origin_summary_set": _pointer_source_text(
+                            LEGACY_040746_SUMMARY_SET_POINTER, cache),
+                        "origin_pending": _pointer_source_text(
+                            LEGACY_040746_PENDING_POINTER, cache),
+                        "origin_active_pending": _pointer_source_text(
+                            LEGACY_040746_ACTIVE_PENDING_POINTER, cache),
+                        "origin_relationship": _pointer_source_text(
+                            LEGACY_040746_RELATIONSHIP_POINTER, cache),
+                        "origin_routine": _pointer_source_text(
+                            LEGACY_040746_ROUTINE_LEDGER_POINTER, cache),
+                        "origin_shown": _pointer_source_text(
+                            LEGACY_040746_SHOWN_LEDGER_POINTER, cache),
+                        "active_story_choice": _pointer_source_text(
+                            LEGACY_040746_ACTIVE_STORY_CHOICE_POINTER, cache),
+                        "active_story_flags": _pointer_source_text(
+                            LEGACY_040746_ACTIVE_STORY_FLAGS_POINTER, cache),
+                        "temptation_story": _pointer_source_text(
+                            LEGACY_040746_TEMPTATION_STORY_POINTER, cache),
+                        "active_story_install": _pointer_source_text(
+                            LEGACY_040746_ACTIVE_STORY_INSTALL_POINTER, cache),
+                        "plan_origin_entry": _pointer_source_text(
+                            LEGACY_040746_PLAN_ORIGIN_ENTRY_POINTER, cache),
+                        "plan_origin_valid": _pointer_source_text(
+                            LEGACY_040746_PLAN_ORIGIN_VALID_POINTER, cache),
+                        "plan_origin_normalization": _pointer_source_text(
+                            LEGACY_040746_PLAN_ORIGIN_NORMALIZATION_POINTER,
+                            cache),
+                        "plan_origin_lookup": _pointer_source_text(
+                            LEGACY_040746_PLAN_ORIGIN_LOOKUP_POINTER, cache),
+                        "plan_origin_install": _pointer_source_text(
+                            LEGACY_040746_PLAN_ORIGIN_INSTALL_POINTER, cache),
+                        "action_migration": _pointer_source_text(
+                            LEGACY_040746_ACTION_MIGRATION_POINTER, cache),
+                        "rain_weekly": _pointer_source_text(
+                            LEGACY_040746_RAIN_WEEKLY_POINTER, cache),
+                        "delivery_tuple": _pointer_source_text(
+                            LEGACY_040746_DELIVERY_TUPLE_POINTER, cache),
+                        "historical": _pointer_source_text(
+                            "systems/DemoCoreLoopV2.gd::"
+                            "_terminal_historical_action_receipt_"
+                            "predicate_met", cache),
+                    }
+                    historical_body = legacy_bodies["historical"]
+                    historical_owner_census = historical_body.find(
+                        "var has_action_owner := "
+                        "(raw_receipts as Dictionary).has(bundle_id)")
+                    historical_fallback_branch = historical_body.find(
+                        "if not has_action_owner:",
+                        historical_owner_census)
+                    legacy_contract_valid = (
+                        direct_proof_ids == JIYEON_LEGACY_ACTION_PROOF_IDS
+                        and all(legacy_bodies.values())
+                        and _legacy_040746_origin_contract_valid(
+                            legacy_bodies, require_action=True)
+                        and all(marker in legacy_bodies["historical"]
+                                for marker in (
+                                    'predicate.get(',
+                                    '"legacy_completed_bundle_fallback", '
+                                    'false)',
+                                    'has_action_owner := '
+                                    '(raw_receipts as Dictionary).has('
+                                    'bundle_id)',
+                                    'if not has_action_owner:',
+                                    'state.get("legacy_action_fallbacks", {})',
+                                    'get("source_schema", null), 2',
+                                    "_terminal_historical_completed_bundle("))
+                        and 0 <= historical_owner_census
+                            < historical_fallback_branch)
+                elif fact_id == SEORIN_LEGACY_RECOVERY_FACT_ID:
+                    direct_proof_ids = {
+                        str(proof.get("proof_id", "")) for proof in proofs}
+                    legacy_bodies = _legacy_040746_contract_bodies(cache)
+                    recovery_body = _pointer_source_text(
+                        LEGACY_040746_ACTION_RECOVERY_POINTER, cache)
+                    legacy_contract_valid = (
+                        SEORIN_LEGACY_RECOVERY_PROOF_IDS.issubset(
+                            direct_proof_ids)
+                        and LEGACY_040746_SCHEMA_TWO_ADMISSION_POINTER
+                            in all_proof_pointers
+                        and LEGACY_040746_ACTION_RECOVERY_POINTER
+                            in all_proof_pointers
+                        and LEGACY_040746_ACTION_WEEKLY_POINTER
+                            in all_proof_pointers
+                        and all(legacy_bodies.values())
+                        and _legacy_040746_origin_contract_valid(
+                            legacy_bodies)
+                        and _legacy_040746_action_recovery_contract_valid(
+                            legacy_bodies["normalizer"], recovery_body)
+                    )
+                return (
+                    reader_pointer in proof_pointers
+                    and "systems/DemoCoreLoopV2.gd::_bundle_requirement_met"
+                        in all_proof_pointers
+                    and helper_pointer in all_proof_pointers
+                    and _json_consumer_binds_fact(value, fact_id)
+                    and "_predicate_met" in requirement_body
+                    and '"action_receipt"' in dispatch_body
+                    and "_action_receipt_predicate_met" in dispatch_body
+                    and live_owner_census_valid
+                    and _action_receipt_live_weekly_authority_binds(
+                        helper_body, all_proof_pointers, cache)
+                    and legacy_contract_valid
+                    and all(marker in helper_body for marker in (
+                        'predicate.get("bundle_id", "")',
+                        '"action_id", "")',
+                        'predicate.get("month", null)',
+                        'state.get("action_receipts", {})',
+                        'has_action_owner := '
+                        '(raw_actions as Dictionary).has(bundle_id)',
+                        'if not has_action_owner:',
+                        '"action_id", "")',
+                        'receipt.get("turn", null)',
+                    )))
             return (
                 reader_pointer in proof_pointers
                 and "systems/DemoCoreLoopV2.gd::_bundle_requirement_met"
@@ -5438,6 +8854,470 @@ def _w24_completion_application_identity_is_shadowed(
         '"status"', '"from"', '"to"')
     return real_composite_gate and not any(
         marker in receipt for marker in identity_markers)
+
+
+def _m2_advancement_expiry_absence_contract_valid(
+        cache: dict[Path, Any]) -> bool:
+    """Prove that the expired Seorin route excludes its completed authority."""
+    body = _pointer_source_text(
+        M2_ADVANCEMENT_EXPIRY_ABSENCE_POINTER, cache)
+    normalizer = _pointer_source_text(
+        "systems/DemoCoreLoopV2.gd::_normalized_state", cache)
+    poison = _pointer_source_text(
+        AUTHORITY_SHAPE_POISON_NORMALIZATION_POINTER, cache)
+    poison_gate = _pointer_source_text(
+        AUTHORITY_SHAPE_POISON_GATE_POINTER, cache)
+    terminal_quarantine = _pointer_source_text(
+        TERMINAL_AUTHORITY_QUARANTINE_POINTER, cache)
+    summary_quarantine = _pointer_source_text(
+        TERMINAL_SUMMARY_QUARANTINE_POINTER, cache)
+    try:
+        runtime_source = DEMO_RUNTIME_PATH.read_text(encoding="utf-8")
+    except OSError:
+        runtime_source = ""
+    caller = _pointer_source_text(
+        "systems/DemoCoreLoopV2.gd::_terminal_expiry_semantics_valid",
+        cache)
+    markers = (
+        '"m2_advancement":',
+        'var seorin_bundle := "m2_seorin_application"',
+        'var seorin_application := "seorin_contract_2026q1"',
+        "forbidden_bundles.append(seorin_bundle)",
+        "if _authority_absence_shape_poisoned(state):",
+        "return false",
+        'var raw_action_receipts: Dictionary = state.get(',
+        '"action_receipts", {}) as Dictionary',
+        "for raw_action_key in raw_action_receipts.keys():",
+        "var action_key := str(raw_action_key)",
+        "var raw_action_receipt: Variant = raw_action_receipts.get(",
+        "action_key == seorin_bundle",
+        'raw_action_receipt is Dictionary',
+        '"bundle_id", "")) == seorin_bundle',
+        '"application_id", "")) == seorin_application',
+        'state.get("application_statuses", {})',
+        '"application_transition_receipts"',
+        "for raw_key in (state.get(",
+        'key.begins_with("%s:" % seorin_bundle)',
+        '"bundle_id", "")) == seorin_bundle',
+        '"application_id", "")) == seorin_application',
+        "for raw_weekly in GameState.weekly_commitments:",
+        'weekly.get("pressure_id", "")',
+        '"action_followups", []',
+        '"bundle_id", "")) == seorin_bundle',
+        "completed.count(bundle_id) != 0",
+        "completed_turns.get(bundle_id, 0)",
+    )
+    normalizer_markers = (
+        "var authority_shape_poison := _normalized_authority_shape_poison(",
+        "state, source_is_exact_current)",
+        "if source_is_exact_current and not authority_shape_poison.is_empty():",
+        'legacy_origin_migration = {',
+        "state[AUTHORITY_LEDGER_SHAPE_POISON_KEY] = authority_shape_poison",
+        "and authority_shape_poison.is_empty()",
+    )
+    poison_markers = (
+        "if not source_is_exact_current:",
+        "allowed.append_array(AUTHORITY_ABSENCE_DICTIONARY_KEYS)",
+        "allowed.append_array(AUTHORITY_ABSENCE_ARRAY_KEYS)",
+        "AUTHORITY_LEDGER_SHAPE_POISON_KEY",
+        "for key in AUTHORITY_ABSENCE_DICTIONARY_KEYS:",
+        "not raw_state.has(key) or not raw_state[key] is Dictionary",
+        "for key in AUTHORITY_ABSENCE_ARRAY_KEYS:",
+        "not raw_state.has(key) or not raw_state[key] is Array",
+        "poisoned.sort()",
+    )
+    def const_string_array(name: str) -> tuple[str, ...]:
+        match = re.search(
+            rf"^const\s+{re.escape(name)}\s*:=\s*\[(.*?)^\]",
+            runtime_source, re.MULTILINE | re.DOTALL)
+        if match is None:
+            return ()
+        return tuple(re.findall(r'"([^"]+)"', match.group(1)))
+
+    exact_dictionary_keys = (
+        "completed_bundle_turns", "action_receipts",
+        "application_statuses", "application_transition_receipts",
+        "relationship_choice_receipts", "story_choice_receipts")
+    exact_array_keys = (
+        "completed_bundles", "relationship_history",
+        "relationship_memories")
+    poison_call = normalizer.find(
+        "var authority_shape_poison := _normalized_authority_shape_poison(")
+    origin_migration = normalizer.find(
+        "var legacy_origin_migration :=", poison_call)
+    poison_origin_clear = normalizer.find(
+        "if source_is_exact_current and not authority_shape_poison.is_empty():",
+        origin_migration)
+    poison_install = normalizer.find(
+        "state[AUTHORITY_LEDGER_SHAPE_POISON_KEY] = authority_shape_poison",
+        poison_origin_clear)
+    container_defaults = normalizer.find('for key in [', poison_install)
+    terminal_witness_gate = normalizer.find(
+        "and authority_shape_poison.is_empty()", container_defaults)
+    poison_quarantine_gate = normalizer.find(
+        "if source_is_exact_current and not authority_shape_poison.is_empty():",
+        poison_install)
+    poison_quarantine_call = normalizer.find(
+        "_quarantine_terminal_authority(state)", poison_quarantine_gate)
+    unknown_schema_gate = normalizer.find(
+        "elif not source_is_exact_current:", poison_quarantine_call)
+    unknown_quarantine_call = normalizer.find(
+        "_quarantine_terminal_authority(state)", unknown_schema_gate)
+    absence_gate = body.find("if _authority_absence_shape_poisoned(state):")
+    first_authority_read = body.find(
+        'var completed: Array = state.get("completed_bundles", [])')
+    return (all((body, normalizer, poison, poison_gate,
+                 terminal_quarantine, summary_quarantine,
+                 runtime_source, caller))
+            and all(marker in body for marker in markers)
+            and all(marker in normalizer for marker in normalizer_markers)
+            and all(marker in poison for marker in poison_markers)
+            and all(marker in poison_gate for marker in (
+                "AUTHORITY_LEDGER_SHAPE_POISON_KEY",
+                "return not raw_poison is Array",
+                "not (raw_poison as Array).is_empty()"))
+            and all(marker in terminal_quarantine for marker in (
+                'state["terminal_transition_receipts"] = {}',
+                'state["terminal_transition_resolutions"] = {}',
+                'state["terminal_target_binding_receipts"] = {}',
+                'state[SEOUL_CYCLE_STATE_KEY] = {}',
+                "_clear_terminal_authority_from_month_summaries(state)"))
+            and all(marker in summary_quarantine for marker in (
+                'state.get("month_summaries", {})',
+                "for raw_month_key in (raw_summaries as Dictionary).keys():",
+                '"terminal_source_witnesses", "terminal_transition_resolutions"',
+                '"historical_cycle_authority"',
+                "summary.erase(key)",
+                "(raw_summaries as Dictionary)[raw_month_key] = summary"))
+            and const_string_array("AUTHORITY_ABSENCE_DICTIONARY_KEYS")
+                == exact_dictionary_keys
+            and const_string_array("AUTHORITY_ABSENCE_ARRAY_KEYS")
+                == exact_array_keys
+            and 0 <= poison_call < origin_migration < poison_origin_clear \
+                < poison_install < container_defaults < terminal_witness_gate
+            and 0 <= poison_quarantine_gate < poison_quarantine_call \
+                < terminal_witness_gate < unknown_schema_gate \
+                < unknown_quarantine_call
+            and 0 <= absence_gate < first_authority_read
+            and "_terminal_expiry_outcomes_absent(" in caller
+            and "state, node_id, source_month" in caller)
+
+
+def _terminal_historical_runtime_parity_contract_valid(
+        cache: dict[Path, Any]) -> bool:
+    """Bind historical node replay to the same open/locked runtime meaning."""
+    cycle = _pointer_source_text(
+        "systems/DemoCoreLoopV2.gd::_terminal_historical_cycle_summary",
+        cache)
+    resolved = _pointer_source_text(
+        TERMINAL_HISTORICAL_LOCKED_RESOLUTION_POINTER, cache)
+    timelines = _pointer_source_text(
+        TERMINAL_HISTORICAL_TIMELINE_PARITY_POINTER, cache)
+    resolutions = _pointer_source_text(
+        TERMINAL_HISTORICAL_BINDING_CENSUS_POINTER, cache)
+    binding_shape = _pointer_source_text(
+        "systems/DemoCoreLoopV2.gd::_terminal_node_has_binding", cache)
+    binding_presence = _pointer_source_text(
+        "systems/DemoCoreLoopV2.gd::_terminal_node_binding_fields_present",
+        cache)
+    cycle_markers = (
+        "var resolved_nodes := _terminal_historical_resolved_nodes(",
+        "state, month_index, nodes, raw_authored_nodes as Dictionary)",
+        "if not _terminal_historical_node_timelines_valid(",
+        "state, month_index, allocations, nodes, summary,",
+        "resolved_nodes):",
+    )
+    locked_resolution_markers = (
+        "state: Dictionary, month_index: int, nodes: Dictionary,",
+        "var declares_terminal_binding :=",
+        "_terminal_node_binding_fields_present(node)",
+        "var has_terminal_binding := _terminal_node_has_binding(node)",
+        "if declares_terminal_binding != has_terminal_binding:",
+        "return {}",
+        "elif resolved_trigger.is_empty() and not candidates.is_empty():",
+        "raw_authority != null",
+        "and not has_terminal_binding:",
+        "var explicit_locked_without_trigger: bool =",
+        'node.has("resolved_trigger_bundle_id")',
+        'bool(authored.get("disable_without_trigger", false))',
+        'str(node.get("status", "")) == "locked"',
+        'int(node.get("progress", -1)) == 0',
+        'int(node.get("completed_turn", -1)) == 0',
+        'int(node.get("last_allocation_turn", -1)) == 0',
+        'int(node.get("expired_turn", -1)) == 0',
+        'str(node.get("missed_trigger_bundle", "")).is_empty()',
+        'not bool(node.get("fallback_mode", true))',
+        'node.get("owner", null) == authored.get("owner", null)',
+        'node.get("place", null) == authored.get("place", null)',
+        'node.get("summary_bundle", null)',
+        '== authored.get("summary_bundle", null)',
+        'node.get("threshold", null)',
+        'maxi(1, int(authored.get("threshold", 1)))',
+        'node.get("deadline_week", null)',
+        'clampi(int(authored.get("deadline_week", 4)), 1, 4)',
+        "var historical_eligibility :=",
+        "_terminal_ordinary_candidates_at_target_open(",
+        "state, authored, month_index)",
+        "if not explicit_locked_without_trigger",
+        'not bool(historical_eligibility.get("ok", false))',
+        'not (historical_eligibility.get("ids", []) as Array).is_empty()',
+        "return {}",
+        'var historical_candidate := str(node.get(',
+        '"selected_trigger_candidate_id", "")).strip_edges()',
+        "if historical_candidate.is_empty():",
+        '!= "unselected_union"',
+        'resolved["selected_trigger_bundle_id"] = ""',
+    )
+    timeline_markers = (
+        "if not _terminal_historical_selection_identity_valid(",
+        "node, node_allocations):",
+        "var terminal_union_has_ordinary_trigger := "
+        "_terminal_node_has_binding(node)",
+        'node.get("ordinary_candidate_ids", null) is Array',
+        'not (node.get("ordinary_candidate_ids", []) as Array).is_empty()',
+        "var initially_locked := bool(resolved.get(",
+        '"disable_without_trigger", false))',
+        'str(resolved.get("resolved_trigger_bundle_id", "")).is_empty()',
+        "and not empty_terminal_modifier",
+        "and not player_has_eligible_trigger",
+        "and not terminal_union_has_ordinary_trigger",
+        "if initially_locked and not node_allocations.is_empty():",
+        "return false",
+        "var should_expire := completion_count == 0 and not initially_locked",
+        "or node_expired != should_expire",
+    )
+    resolution_markers = (
+        "var raw_summary: Variant = historical_cycle.get(\"summary\", {})",
+        "var raw_nodes: Variant = historical_cycle.get(\"nodes\", {})",
+        "var raw_allocations: Variant = historical_cycle.get(\"allocations\", [])",
+        'var raw_root: Variant = state.get("terminal_transition_resolutions", {})',
+        "var receipt_bound_result := _terminal_receipt_bound_nodes_for_target(",
+        "if not bool(receipt_bound_result.get(\"ok\", false)):",
+        "var receipt_bound_nodes: Dictionary = receipt_bound_result.get(\"nodes\", {})",
+        "var bound_nodes := _terminal_historical_bound_nodes(",
+        "var expected_bound_node_ids: Array[String] = []",
+        "expected_bound_node_ids.sort()",
+        "var declared_bound_node_ids: Array[String] = []",
+        "if _terminal_node_binding_fields_present(raw_declared_node as Dictionary):",
+        "if not _terminal_node_has_binding(raw_declared_node as Dictionary):",
+        "declared_bound_node_ids.append(declared_node_id)",
+        "declared_bound_node_ids.sort()",
+        "var actual_bound_node_ids: Array[String] = []",
+        "actual_bound_node_ids.sort()",
+        "if declared_bound_node_ids != expected_bound_node_ids",
+        "or actual_bound_node_ids != expected_bound_node_ids:",
+        "if bound_nodes.is_empty():",
+        "not _terminal_target_binding_witness_for_month_present(",
+        "and (raw_summary_resolutions as Dictionary).is_empty()",
+        "var witness: Dictionary = bound_nodes[node_id]",
+        "var raw_bindings: Dictionary = witness.get(\"terminal_route_bindings\", {})",
+        "var expected_bindings: Variant = receipt_bound_nodes.get(node_id, {})",
+        "or not _terminal_variant_semantically_equal(",
+        "raw_bindings, expected_bindings):",
+        "if summary_route_ids != expected_route_ids:",
+    )
+    binding_shape_markers = (
+        'node.get("binding_candidate_ids", null) is Array',
+        'not (node.get("binding_candidate_ids", []) as Array).is_empty()',
+        'node.get("ordinary_candidate_ids", null) is Array',
+        'node.get("terminal_route_bindings", null) is Dictionary',
+        'not (node.get("terminal_route_bindings", {}) as Dictionary).is_empty()',
+        'node.get("eligible_terminal_route_ids", null) is Array',
+        'not (node.get("eligible_terminal_route_ids", []) as Array).is_empty()',
+        'node.get("selected_trigger_candidate_id", null) is String',
+        'node.get("selected_terminal_route_id", null) is String',
+        'node.get("terminal_selection_origin", null) is String',
+        'node.get("terminal_result_ko", null) is String',
+        'node.get("terminal_result_en", null) is String',
+        'node.get("terminal_completion_effects", null) is Dictionary',
+    )
+    binding_presence_markers = (
+        '"binding_candidate_ids", "ordinary_candidate_ids"',
+        '"eligible_terminal_route_ids", "terminal_route_bindings"',
+        '"selected_trigger_candidate_id", "selected_terminal_route_id"',
+        '"terminal_selection_origin", "terminal_result_ko"',
+        '"terminal_result_en", "terminal_completion_effects"',
+        "if node.has(key):",
+        "return true",
+        "return false",
+    )
+    return (all((cycle, resolved, timelines, resolutions,
+                 binding_shape, binding_presence))
+            and cycle.count(
+                "_terminal_historical_cycle_summary_uncached(") == 1
+            and cycle.count(
+                "_terminal_historical_node_timelines_valid(") == 0
+            and _pointer_source_text(
+                "systems/DemoCoreLoopV2.gd::"
+                "_terminal_historical_cycle_summary_uncached", cache).count(
+                    "_terminal_historical_resolved_nodes(") == 1
+            and _pointer_source_text(
+                "systems/DemoCoreLoopV2.gd::"
+                "_terminal_historical_cycle_summary_uncached", cache).count(
+                "_terminal_historical_node_timelines_valid(") == 1
+            and resolved.count(
+                "var explicit_locked_without_trigger: bool =") == 1
+            and resolved.count(
+                "_terminal_ordinary_candidates_at_target_open(") == 1
+            and timelines.count(
+                "var terminal_union_has_ordinary_trigger :=") == 1
+            and timelines.count("var initially_locked :=") == 1
+            and timelines.count(
+                "if initially_locked and not node_allocations.is_empty():")
+                == 1
+            and resolutions.count(
+                "_terminal_receipt_bound_nodes_for_target(") == 1
+            and resolutions.count(
+                "_terminal_historical_bound_nodes(") == 1
+            and all(marker in binding_shape
+                    for marker in binding_shape_markers)
+            and all(marker in binding_presence
+                    for marker in binding_presence_markers)
+            and _markers_are_ordered(
+                _pointer_source_text(
+                    "systems/DemoCoreLoopV2.gd::"
+                    "_terminal_historical_cycle_summary_uncached", cache),
+                cycle_markers)
+            and _markers_are_ordered(resolved, locked_resolution_markers)
+            and _markers_are_ordered(timelines, timeline_markers)
+            and _markers_are_ordered(resolutions, resolution_markers))
+
+
+def _terminal_historical_cache_contract_valid(
+        cache: dict[Path, Any]) -> bool:
+    """Bind historical memoization to every mutable validation input."""
+    body = _pointer_source_text(TERMINAL_HISTORICAL_CACHE_POINTER, cache)
+    authored_revision = _pointer_source_text(
+        AUTHORED_CONTENT_REVISION_POINTER, cache)
+    locale_revision = _pointer_source_text(
+        LOCALE_CONTENT_REVISION_POINTER, cache)
+    try:
+        authored_source = (ROOT / "autoloads/DataRegistry.gd").read_text(
+            encoding="utf-8")
+        locale_source = (ROOT / "autoloads/LocaleManager.gd").read_text(
+            encoding="utf-8")
+    except OSError:
+        return False
+    markers = (
+        "var owns_context := _terminal_historical_validation_depth == 0",
+        "if owns_context:",
+        "var authored_reference_changed :=",
+        "not is_same(DataRegistry.demo_core_loop_v2,",
+        "_terminal_historical_contract_reference)",
+        "or not is_same(DataRegistry.events_by_id,",
+        "_terminal_historical_events_reference)",
+        "if authored_reference_changed:",
+        "_terminal_historical_validation_cache = {}",
+        "_terminal_historical_contract_reference =",
+        "DataRegistry.demo_core_loop_v2",
+        "_terminal_historical_events_reference = DataRegistry.events_by_id",
+        "_terminal_historical_validation_initialized = false",
+        "var signature := var_to_bytes([",
+        "state,",
+        "int(GameState.turn),",
+        "str(GameState.player_name),",
+        "str(LocaleManager.language),",
+        "GameState.flags,",
+        "GameState.weekly_commitments,",
+        "GameState.core_loop_v2_state,",
+        "DataRegistry.content_revision,",
+        "LocaleManager.content_revision,",
+        "])",
+        "var same_state := _terminal_historical_validation_initialized",
+        "and signature == _terminal_historical_validation_signature",
+        "if not same_state:",
+        "_terminal_historical_validation_cache = {}",
+        "_terminal_historical_validation_signature = signature",
+        "_terminal_historical_validation_initialized = true",
+        "_terminal_historical_validation_in_progress = {}",
+        'var cache_key := "%d:%d" % [month_index, cut_turn]',
+        "_terminal_historical_validation_depth += 1",
+        "var raw_cached: Variant = _terminal_historical_validation_cache.get(",
+        "cache_key, null)",
+        "if raw_cached is Dictionary:",
+        "result = raw_cached as Dictionary",
+        "elif _terminal_historical_validation_in_progress.has(cache_key):",
+        "result = {}",
+        "else:",
+        "_terminal_historical_validation_in_progress[cache_key] = true",
+        "result = _terminal_historical_cycle_summary_uncached(",
+        "state, month_index, cut_turn)",
+        "_terminal_historical_validation_in_progress.erase(cache_key)",
+        "_terminal_historical_validation_cache[cache_key] = result",
+        "_terminal_historical_validation_depth -= 1",
+        "if owns_context:",
+        "_terminal_historical_validation_in_progress = {}",
+        "return result",
+    )
+    authored_revision_markers = (
+        "func notify_content_override() -> void:",
+        "content_revision += 1",
+    )
+    locale_revision_markers = (
+        "func refresh_community_packs() -> void:",
+        "_builtin_ui_tables.clear()",
+        "_community_ui_tables.clear()",
+        "_ui_misses.clear()",
+        "_ui_format_errors.clear()",
+        "content_revision += 1",
+    )
+    return (
+        all((body, authored_revision, locale_revision))
+        and body.count("var signature := var_to_bytes([") == 1
+        and body.count(
+            "_terminal_historical_cycle_summary_uncached(") == 1
+        and body.count(
+            "_terminal_historical_validation_in_progress.has(cache_key)") == 1
+        and _markers_are_ordered(body, markers)
+        and _markers_are_ordered(
+            authored_revision, authored_revision_markers)
+        and _markers_are_ordered(locale_revision, locale_revision_markers)
+        and authored_source.count("content_revision += 1") == 2
+        and "func reload():" in authored_source
+        and _markers_are_ordered(authored_source, (
+            "func reload():", "demo_core_loop_v2 = _load_dict(",
+            "content_revision += 1"))
+        and locale_source.count("content_revision += 1") == 3
+        and _markers_are_ordered(locale_source, (
+            "func _get_builtin_ui_table(lang: String) -> Dictionary:",
+            "_builtin_ui_tables[lang] = table", "content_revision += 1"))
+        and _markers_are_ordered(locale_source, (
+            "func _get_community_ui_table(lang: String) -> Dictionary:",
+            "_community_ui_tables[lang] = table", "content_revision += 1")))
+
+
+def _legacy_active_story_next_verb_contract_valid(
+        cache: dict[Path, Any]) -> bool:
+    """Bind post-choice legacy authority to its real MainGame continuation."""
+    ready = _pointer_source_text(
+        LEGACY_040746_ACTIVE_STORY_COMPLETION_POINTER, cache)
+    route = _pointer_source_text(
+        LEGACY_040746_ACTIVE_STORY_ROUTE_POINTER, cache)
+    ready_markers = (
+        "_legacy_040746_origin_from_state(state)",
+        "_legacy_040746_active_story_choice_from_flags(source)",
+        "_current_story_choice_receipt_valid(",
+        'bundle_id == OPENING_INTERVIEW_BUNDLE_ID',
+        'bundle_id == "sns_pressure_night"',
+        "_has_current_application_receipt(state, bundle_id)",
+        "_sns_story_receipt_complete(state, turn)",
+    )
+    route_markers = (
+        "legacy_active_story_roots()",
+        "prepare_story_bundle(",
+        "_go_story_mode(legacy_active_roots)",
+        "if DEMO_CORE_LOOP_V2.legacy_active_story_completion_ready():",
+        "var legacy_active_kind := DEMO_CORE_LOOP_V2.active_kind()",
+        "DEMO_CORE_LOOP_V2.complete_active_bundle()",
+        'if legacy_active_kind == "schedule":',
+        "_core_loop_v2_advance_completed_week()",
+        'call_deferred("_core_loop_v2_route_week")',
+    )
+    roots_pos = route.find("legacy_active_story_roots()")
+    ready_pos = route.find("legacy_active_story_completion_ready()")
+    return (all(marker in ready for marker in ready_markers)
+            and all(marker in route for marker in route_markers)
+            and roots_pos >= 0 and ready_pos > roots_pos)
 
 
 def _w24_has_exact_completion_identity_gate(
@@ -6948,6 +10828,9 @@ def _expected_branch_contracts(
             "runtime_proof_ids": [
                 row_proof, "proof:runtime:allocation_commit"],
         })
+    expired_proofs = [row_proof, "proof:runtime:terminal_expiry"]
+    if chain_id == "m2_advancement":
+        expired_proofs.extend(M2_ADVANCEMENT_EXPIRY_ABSENCE_PROOF_IDS)
     contracts.append({
         "branch_id": f"{chain_id}:expired",
         "outcome_kind": "expired",
@@ -6956,7 +10839,7 @@ def _expected_branch_contracts(
             else f"node_deadline:{chain_id}"],
         "nested_output_group_ids": [],
         "produced_fact_ids": expiry_facts,
-        "runtime_proof_ids": [row_proof, "proof:runtime:terminal_expiry"],
+        "runtime_proof_ids": expired_proofs,
     })
     return contracts
 
@@ -7834,6 +11717,90 @@ def validate(ledger: Any, baseline: Any, *, require_complete: bool = False,
         item.get("proof_id"): item for item in obj.get("runtime_proof_registry", [])
         if isinstance(item, dict) and isinstance(item.get("proof_id"), str)
     }
+    if not synthetic_source_contracts:
+        expiry_absence_proof = proof_records_by_id.get(
+            M2_ADVANCEMENT_EXPIRY_ABSENCE_PROOF_ID, {})
+        authority_poison_proof = proof_records_by_id.get(
+            AUTHORITY_SHAPE_POISON_NORMALIZATION_PROOF_ID, {})
+        authority_poison_gate_proof = proof_records_by_id.get(
+            AUTHORITY_SHAPE_POISON_GATE_PROOF_ID, {})
+        terminal_quarantine_proof = proof_records_by_id.get(
+            TERMINAL_AUTHORITY_QUARANTINE_PROOF_ID, {})
+        terminal_summary_quarantine_proof = proof_records_by_id.get(
+            TERMINAL_SUMMARY_QUARANTINE_PROOF_ID, {})
+        if (expiry_absence_proof.get("kind") != "source_symbol"
+                or expiry_absence_proof.get("pointer") !=
+                    M2_ADVANCEMENT_EXPIRY_ABSENCE_POINTER
+                or authority_poison_proof.get("kind") != "source_symbol"
+                or authority_poison_proof.get("pointer") !=
+                    AUTHORITY_SHAPE_POISON_NORMALIZATION_POINTER
+                or authority_poison_gate_proof.get("kind") != "source_symbol"
+                or authority_poison_gate_proof.get("pointer") !=
+                    AUTHORITY_SHAPE_POISON_GATE_POINTER
+                or terminal_quarantine_proof.get("kind") != "source_symbol"
+                or terminal_quarantine_proof.get("pointer") !=
+                    TERMINAL_AUTHORITY_QUARANTINE_POINTER
+                or terminal_summary_quarantine_proof.get("kind") !=
+                    "source_symbol"
+                or terminal_summary_quarantine_proof.get("pointer") !=
+                    TERMINAL_SUMMARY_QUARANTINE_POINTER
+                or not _m2_advancement_expiry_absence_contract_valid({})):
+            errors.append(
+                "ORDER-101 m2_advancement expiry must reject coexisting "
+                "Seorin completion/action/application authority")
+        historical_locked_proof = proof_records_by_id.get(
+            TERMINAL_HISTORICAL_LOCKED_RESOLUTION_PROOF_ID, {})
+        historical_timeline_proof = proof_records_by_id.get(
+            TERMINAL_HISTORICAL_TIMELINE_PARITY_PROOF_ID, {})
+        historical_binding_census_proof = proof_records_by_id.get(
+            TERMINAL_HISTORICAL_BINDING_CENSUS_PROOF_ID, {})
+        historical_cache_proof = proof_records_by_id.get(
+            TERMINAL_HISTORICAL_CACHE_PROOF_ID, {})
+        authored_revision_proof = proof_records_by_id.get(
+            AUTHORED_CONTENT_REVISION_PROOF_ID, {})
+        locale_revision_proof = proof_records_by_id.get(
+            LOCALE_CONTENT_REVISION_PROOF_ID, {})
+        if (historical_locked_proof.get("kind") != "source_symbol"
+                or historical_locked_proof.get("pointer") !=
+                    TERMINAL_HISTORICAL_LOCKED_RESOLUTION_POINTER
+                or historical_timeline_proof.get("kind") != "source_symbol"
+                or historical_timeline_proof.get("pointer") !=
+                    TERMINAL_HISTORICAL_TIMELINE_PARITY_POINTER
+                or historical_binding_census_proof.get("kind") !=
+                    "source_symbol"
+                or historical_binding_census_proof.get("pointer") !=
+                    TERMINAL_HISTORICAL_BINDING_CENSUS_POINTER
+                or not _terminal_historical_runtime_parity_contract_valid({})):
+            errors.append(
+                "ORDER-101 historical terminal replay must preserve exact "
+                "runtime open/locked/expiry parity")
+        if (historical_cache_proof.get("kind") != "source_symbol"
+                or historical_cache_proof.get("pointer") !=
+                    TERMINAL_HISTORICAL_CACHE_POINTER
+                or authored_revision_proof.get("kind") != "source_symbol"
+                or authored_revision_proof.get("pointer") !=
+                    AUTHORED_CONTENT_REVISION_POINTER
+                or locale_revision_proof.get("kind") != "source_symbol"
+                or locale_revision_proof.get("pointer") !=
+                    LOCALE_CONTENT_REVISION_POINTER
+                or not _terminal_historical_cache_contract_valid({})):
+            errors.append(
+                "ORDER-101 historical validation cache must bind exact state, "
+                "authored/locale revisions, references, and recursion")
+        active_completion_proof = proof_records_by_id.get(
+            "proof:runtime:legacy_040746_active_story_completion", {})
+        active_route_proof = proof_records_by_id.get(
+            "proof:runtime:legacy_040746_active_story_next_verb", {})
+        if (active_completion_proof.get("kind") != "source_symbol"
+                or active_completion_proof.get("pointer") !=
+                    LEGACY_040746_ACTIVE_STORY_COMPLETION_POINTER
+                or active_route_proof.get("kind") != "source_symbol"
+                or active_route_proof.get("pointer") !=
+                    LEGACY_040746_ACTIVE_STORY_ROUTE_POINTER
+                or not _legacy_active_story_next_verb_contract_valid({})):
+            errors.append(
+                "ORDER-101 admitted post-choice legacy Story authority must "
+                "reach its exact MainGame next verb")
     for ref in scope.get("run_origin_runtime_proof_ids", []) \
             if isinstance(scope, dict) else []:
         if ref not in proofs:
@@ -7893,7 +11860,11 @@ def validate(ledger: Any, baseline: Any, *, require_complete: bool = False,
         if check_sources and not self_test_probe:
             _validate_save_roundtrip_source_contract(
                 proof_records_by_id, errors, proof_source_cache)
+            _validate_completion_snapshot_source_contract(
+                proof_records_by_id, errors, proof_source_cache)
             _validate_replay_persistence_source_contract(
+                proof_records_by_id, errors, proof_source_cache)
+            _validate_current_application_recovery_source_contract(
                 proof_records_by_id, errors, proof_source_cache)
 
     milestone_weeks: list[int] = []
@@ -8228,25 +12199,31 @@ def validate(ledger: Any, baseline: Any, *, require_complete: bool = False,
                 if application_reader.get(field) != expected_value:
                     errors.append(
                         f"{application_where}.{field}: W24 completion must "
-                        "record only the generic current-turn application gate")
-            if W24_COMPLETION_APPLICATION_DEBT_PROOF_ID not in set(
+                        "record the exact selected-choice application gate")
+            if W24_COMPLETION_APPLICATION_EXACT_PROOF_ID not in set(
                     application_reader.get("runtime_proof_ids", [])):
                 errors.append(
-                    f"{application_where}: missing application identity-gap proof")
-            debt_proof = proof_records_by_id.get(
-                W24_COMPLETION_APPLICATION_DEBT_PROOF_ID, {})
-            if (debt_proof.get("kind") != "source_symbol"
-                    or debt_proof.get("pointer") !=
+                    f"{application_where}: missing exact application identity proof")
+            exact_proof = proof_records_by_id.get(
+                W24_COMPLETION_APPLICATION_EXACT_PROOF_ID, {})
+            if (exact_proof.get("kind") != "source_symbol"
+                    or exact_proof.get("pointer") !=
                     "systems/DemoCoreLoopV2.gd::"
                     "_has_current_application_receipt"):
                 errors.append(
-                    f"{application_where}: application identity-gap proof "
-                    "must own the generic receipt helper")
-            if not _w24_completion_application_identity_is_shadowed(
+                    f"{application_where}: exact application identity proof "
+                    "must own the receipt helper")
+            exact_fact = W24_COMPLETION_APPLICATION_FACTS[1]
+            if not _source_body_binds_fact(
+                    "systems/DemoCoreLoopV2.gd::complete_active_bundle",
+                    _pointer_source_text(
+                        "systems/DemoCoreLoopV2.gd::complete_active_bundle",
+                        fact_pointer_cache),
+                    exact_fact, W24_COMPLETION_APPLICATION_READER_ID,
                     fact_pointer_cache):
                 errors.append(
-                    f"{application_where}: source no longer matches the "
-                    "audited generic gate/missing identity join")
+                    f"{application_where}: source lacks the exact selected-"
+                    "choice application identity join")
 
     if not synthetic_source_contracts:
         prerequisite_readers_by_pointer: dict[
@@ -8316,8 +12293,9 @@ def validate(ledger: Any, baseline: Any, *, require_complete: bool = False,
         external_reader_ids = {
             "reader:unlock:hyunsu_player_reachout:hyunsu_honest_uncertainty",
             "reader:unlock:hyunsu_player_reachout:hyunsu_declared_dream",
+            "reader:unlock:jaehyuk_world_meet",
         }
-        unscheduled_reader_id = "reader:unlock:jaehyuk_world_meet"
+        sns_reader_id = "reader:unlock:jaehyuk_world_meet"
         routine_reader_id = "reader:unlock:daeun_world_meet"
         months_by_chain = {
             str(row.get("chain_id")): int(row.get("month"))
@@ -8354,8 +12332,7 @@ def validate(ledger: Any, baseline: Any, *, require_complete: bool = False,
             if completed_owner_rows:
                 expected_rows = completed_owner_rows
 
-            if reader_id in external_reader_ids \
-                    or reader_id == unscheduled_reader_id:
+            if reader_id in external_reader_ids:
                 return set()
             if reader_id == routine_reader_id:
                 return {"m1_convenience", "m2_livelihood"}
@@ -8366,7 +12343,7 @@ def validate(ledger: Any, baseline: Any, *, require_complete: bool = False,
             expected_rows = source_owner_rows(reader_id, reader)
 
             proof_ids = reader.get("runtime_proof_ids", [])
-            if reader_id in external_reader_ids:
+            if reader_id in external_reader_ids - {sns_reader_id}:
                 if (reader.get("status") != "active"
                         or not {
                             "proof:data:world_clock:m1_hyunsu_first_meet",
@@ -8376,11 +12353,18 @@ def validate(ledger: Any, baseline: Any, *, require_complete: bool = False,
                         }.issubset(set(proof_ids))):
                     errors.append(
                         f"reader_registry: external world-clock producer contract mismatch {reader_id}")
-            elif reader_id == unscheduled_reader_id:
-                if (reader.get("status") != "blocked_by_unscheduled"
-                        or "proof:debt:unscheduled_sns_pressure" not in proof_ids):
+            elif reader_id == sns_reader_id:
+                if (reader.get("status") != "active"
+                        or reader.get("reads_fact_ids") !=
+                            list(SNS_CONSEQUENCE_AUTHORITY_FACTS)
+                        or reader.get("history_memory_ids") !=
+                            list(SNS_CONSEQUENCE_AUTHORITY_FACTS)
+                        or reader.get("runtime_proof_ids") !=
+                            list(SNS_CONSEQUENCE_AUTHORITY_PROOF_IDS)
+                        or not _sns_pressure_world_clock_is_exact(
+                            fact_pointer_cache)):
                     errors.append(
-                        "reader_registry: unscheduled prerequisite must remain blocked and debt-bound")
+                        "reader_registry: SNS exact W4-W8 authority contract mismatch")
             elif reader_id == routine_reader_id:
                 if (reader.get("reads_fact_ids")
                         != ["fact:routine_selected:livelihood"]
@@ -8414,6 +12398,11 @@ def validate(ledger: Any, baseline: Any, *, require_complete: bool = False,
                 continue
             availability_change_chains.update(
                 source_owner_rows(reader_id, reader))
+        if _order101_terminal_routes(fact_pointer_cache):
+            availability_change_chains.update(
+                chain_id for chain_id, terminal in
+                ORDER101_TERMINAL_ROUTE_IDS_BY_SOURCE
+                if terminal == "expired")
         for row in rows_for_prerequisites:
             chain_id = str(row.get("chain_id", ""))
             expected_change = chain_id in availability_change_chains
@@ -10511,6 +14500,10 @@ def validate(ledger: Any, baseline: Any, *, require_complete: bool = False,
         row.get("chain_id"): row for row in rows
         if isinstance(row, dict) and isinstance(row.get("chain_id"), str)
     }
+    if (not synthetic_source_contracts
+            and not _order101_terminal_routes(mirror_cache)):
+        errors.append(
+            "terminal_routes: exact ORDER-101 W1-W8 route contract mismatch")
     branch_realized_facts_by_id: dict[str, list[frozenset[str]]] = {}
     for row in rows:
         if not isinstance(row, dict):
@@ -10588,11 +14581,34 @@ def validate(ledger: Any, baseline: Any, *, require_complete: bool = False,
         if not synthetic_source_contracts:
             repeatable = row.get("terminal_contract", {}).get(
                 "repeatable_after_completion", False)
-            expected_completed_verbs = [row.get("chain_id")] if repeatable else []
+            completed_route_targets = _terminal_route_target_chain_ids(
+                row, "completed", rows, mirror_cache)
+            expected_completed_verbs = (
+                [row.get("chain_id"), *completed_route_targets]
+                if repeatable else completed_route_targets)
+            if (not expected_completed_verbs
+                    and row.get("chain_id") == "m2_advancement"):
+                result_reader_id = "reader:result:m3_seorin"
+                result_reader = reader_records_by_id.get(
+                    result_reader_id, {})
+                required_facts = {
+                    "receipt:completed:m2_seorin_application",
+                    "receipt:action:m2_seorin_application",
+                }
+                if (result_reader.get("status") == "active"
+                        and result_reader.get("reader_kind") in
+                            NEXT_VERB_READER_KINDS
+                        and required_facts.issubset(
+                            bound_facts_by_reader.get(
+                                result_reader_id, set()))):
+                    expected_completed_verbs = [result_reader_id]
             next_row = row_by_slot.get(
                 (row.get("month", 0) + 1, row.get("slot_owner")))
-            expected_expired_verbs = [next_row.get("chain_id")] \
-                if isinstance(next_row, dict) else []
+            expected_expired_verbs = _terminal_route_target_chain_ids(
+                row, "expired", rows, mirror_cache)
+            if not expected_expired_verbs:
+                expected_expired_verbs = [next_row.get("chain_id")] \
+                    if isinstance(next_row, dict) else []
             if row.get("next_verb_by_terminal", {}).get(
                     "completed") != expected_completed_verbs:
                 errors.append(
@@ -11058,10 +15074,14 @@ def validate(ledger: Any, baseline: Any, *, require_complete: bool = False,
                 receipt in bound_facts_by_reader.get(reader_id, set())
                 for reader_id in declared_reader_ids)
                 for receipt in completed_receipts)
-        for verb in verbs:
-            if verb in chain_ids and verb != row.get("chain_id"):
-                return True
-        return False
+        declared_chain_ids = {
+            verb for verb in verbs
+            if verb in chain_ids and verb != row.get("chain_id")}
+        expected_route_targets = set(_terminal_route_target_chain_ids(
+            row, "completed", rows, mirror_cache))
+        return (bool(expected_route_targets)
+                and declared_chain_ids == expected_route_targets
+                and len(declared_chain_ids) == len(verbs))
 
     dead_ids = sorted(
         f"row:{row.get('chain_id')}:completed" for row in rows
@@ -11161,13 +15181,7 @@ def validate(ledger: Any, baseline: Any, *, require_complete: bool = False,
         errors.append(
             "ROUTE_HARD_LOCK: debt IDs do not equal counters with fewer than two playable alternatives")
 
-    sns_is_scheduled = any(
-        isinstance(row, dict)
-        and "sns_pressure_night" in row.get(
-            "availability", {}).get("trigger_bundle_ids", [])
-        and "sns_pressure_night" in row.get(
-            "availability", {}).get("trigger_windows_by_bundle", {})
-        for row in rows)
+    sns_is_scheduled = _sns_pressure_world_clock_is_exact(mirror_cache)
     unscheduled_ids = [] if sns_is_scheduled else ["bundle:sns_pressure_night"]
     if sorted(by_code.get("UNSCHEDULED_CHAIN", {}).get(
             "debt_ids", [])) != unscheduled_ids:
@@ -15778,8 +19792,7 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
     cases += 1
 
     for code, needle in (
-            ("UNSCHEDULED_CHAIN", "UNSCHEDULED_CHAIN"),
-            ("DISPLAY_ONLY_FORGONE", "DISPLAY_ONLY_FORGONE")):
+            ("DISPLAY_ONLY_FORGONE", "DISPLAY_ONLY_FORGONE"),):
         source_debt = copy.deepcopy(ledger)
         for evaluation in source_debt["evaluation_registry"]:
             if evaluation["error_code"] == code:
@@ -17006,7 +21019,7 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
     preview_pointer = (
         "systems/DemoCoreLoopV2.gd::preview_seoul_cycle_allocation")
     preview_body = _pointer_source_text(preview_pointer, {})
-    selection_marker = "\tvar selection_missing := player_trigger_required \\\n"
+    selection_marker = "\tvar selection_missing := terminal_selection_missing \\\n"
     auto_one = (
         "\tif player_trigger_required and eligible_ids.size() == 1 "
         "and requested_trigger.is_empty():\n"
@@ -17215,22 +21228,1807 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
         SOURCE_TEXT_CACHE[normalize_pointer] = normalize_body
     cases += 1
 
-    # These debts remain honest until Chapter 1 adds real terminal surfaces
-    # and real downstream readers.  Removing only the baseline entry is never
-    # a completion signal.
-    retained_debts = (
-        ("DEAD_CARD", "row:m1_resume:completed"),
-        ("DEAD_CARD", "row:m2_people:completed"),
-        ("ORPHAN_FACT", "fact:resume_polished"),
-        ("ORPHAN_FACT", "receipt:action:m1_youth_center_resume_clinic"),
-    )
-    for debt_code, debt_id in retained_debts:
-        missing_retained_debt = copy.deepcopy(baseline)
-        missing_retained_debt[debt_code].remove(debt_id)
+    # ORDER-101 removes these debts only because the product now owns exact
+    # terminal routes, typed prerequisite readers, and one fixed W8 world-clock
+    # source.  Keep each edge independently fail-closed so a ledger-only edit
+    # cannot preserve the smaller baseline after its product evidence regresses.
+    missing_resume_handoff = copy.deepcopy(ledger)
+    next(row for row in missing_resume_handoff["rows"]
+         if row["chain_id"] == "m1_resume")["next_verb_by_terminal"][
+             "completed"] = []
+    _expect_failure(
+        "M1 resume terminal handoff cannot disappear",
+        missing_resume_handoff, baseline, "source transition mismatch")
+    cases += 1
+
+    missing_people_sibling = copy.deepcopy(ledger)
+    next(row for row in missing_people_sibling["rows"]
+         if row["chain_id"] == "m2_people")["next_verb_by_terminal"][
+             "completed"] = ["m3_people"]
+    _expect_failure(
+        "M2 people terminal sibling cannot disappear",
+        missing_people_sibling, baseline, "source transition mismatch")
+    cases += 1
+
+    missing_self_handoff = copy.deepcopy(ledger)
+    next(row for row in missing_self_handoff["rows"]
+         if row["chain_id"] == "m2_self")["next_verb_by_terminal"][
+             "completed"] = ["m2_self"]
+    _expect_failure(
+        "M2 self repeat cannot hide its M3 recovery handoff",
+        missing_self_handoff, baseline, "source transition mismatch")
+    cases += 1
+
+    terminal_routes_path = ROOT / "content/meta/demo_core_loop_v2.json"
+    terminal_routes_document = copy.deepcopy(
+        _source_json_document(terminal_routes_path, {}))
+    if not isinstance(terminal_routes_document, dict):
+        raise AssertionError("self-test setup: terminal route document missing")
+    mutated_routes = terminal_routes_document["seoul_cycle"][
+        "terminal_routes"]
+    mutated_routes[
+        "m1_resume_completed_q3_to_m2_advancement_ready"][
+            "completion_effects"] = {"mental": -2}
+    mutated_routes[
+        "m2_people_completed_cafe_to_m4_sangchul"]["target"][
+            "variant_id"] = "hyunsu_followup"
+    if _order101_terminal_routes(
+            {terminal_routes_path: terminal_routes_document}):
+        raise AssertionError(
+            "ORDER-101 routes accepted a sibling target/effect swap")
+    cases += 1
+
+    missing_seorin_action = copy.deepcopy(ledger)
+    seorin_reader = next(
+        reader for reader in missing_seorin_action["reader_registry"]
+        if reader["reader_id"] == "reader:result:m3_seorin")
+    seorin_reader["reads_fact_ids"].remove(
+        "receipt:action:m2_seorin_application")
+    seorin_reader["history_memory_ids"].remove(
+        "receipt:action:m2_seorin_application")
+    seorin_reader["read_contracts"] = [
+        contract for contract in seorin_reader["read_contracts"]
+        if contract["fact_id"] != "receipt:action:m2_seorin_application"]
+    _expect_failure(
+        "Seorin result requires the exact typed action receipt",
+        missing_seorin_action, baseline,
+        "source prerequisite contract mismatch")
+    cases += 1
+
+    missing_resume_reader = copy.deepcopy(ledger)
+    missing_resume_reader["reader_registry"] = [
+        reader for reader in missing_resume_reader["reader_registry"]
+        if reader["reader_id"]
+        != "reader:next:terminal:m1_resume_to_m2_advancement"]
+    _expect_failure(
+        "resume terminal reader cannot disappear", missing_resume_reader,
+        baseline,
+        "ORPHAN_FACT m1_resume: missing near reader "
+        "reader:next:terminal:m1_resume_to_m2_advancement")
+    cases += 1
+
+    blocked_sns_reader = copy.deepcopy(ledger)
+    next(reader for reader in blocked_sns_reader["reader_registry"]
+         if reader["reader_id"] == "reader:unlock:jaehyuk_world_meet")[
+             "status"] = "blocked_by_coverage"
+    _expect_failure(
+        "fixed W8 SNS source must retain its active downstream reader",
+        blocked_sns_reader, baseline,
+        "exact scheduled prerequisite pointer set mismatch")
+    cases += 1
+
+    world_clock_path = ROOT / "content/meta/demo_core_loop_v2.json"
+    world_clock_document = copy.deepcopy(
+        _source_json_document(world_clock_path, {}))
+    if not isinstance(world_clock_document, dict):
+        raise AssertionError("self-test setup: world-clock document missing")
+    world_clock_events = world_clock_document["seoul_cycle"]["months"][
+        "2"]["world_clock"]["events"]
+    sns_event = next(
+        event for event in world_clock_events
+        if event.get("bundle_id") == "sns_pressure_night")
+    sns_event["kind"] = "world"
+    if _sns_pressure_world_clock_is_exact(
+            {world_clock_path: world_clock_document}):
+        raise AssertionError(
+            "W8 SNS schedule accepted a slot-consuming kind mutation")
+    cases += 1
+
+    missing_sns_authority_fact = copy.deepcopy(ledger)
+    sns_reader = next(
+        reader for reader in missing_sns_authority_fact["reader_registry"]
+        if reader["reader_id"] == SNS_CONSEQUENCE_READER_ID)
+    sns_reader["reads_fact_ids"] = []
+    sns_reader["history_memory_ids"] = []
+    sns_reader["read_contracts"] = []
+    _expect_failure(
+        "Jaehyuk cannot reduce the SNS authority to bare completion",
+        missing_sns_authority_fact, baseline,
+        "source prerequisite contract mismatch")
+    cases += 1
+
+    sns_authority_pointer = (
+        "systems/DemoCoreLoopV2.gd::_sns_consequence_completion_valid")
+    sns_authority_body = _pointer_source_text(sns_authority_pointer, {})
+    sns_consequence_marker = '== "temptation_consequence"'
+    if sns_consequence_marker not in sns_authority_body:
+        raise AssertionError(
+            "self-test setup: SNS consequence identity marker missing")
+    SOURCE_TEXT_CACHE[sns_authority_pointer] = sns_authority_body.replace(
+        sns_consequence_marker, '== "selftest_sibling_consequence"', 1)
+    try:
         _expect_failure(
-            f"retained debt cannot disappear {debt_id}", ledger,
-            missing_retained_debt, "baseline exact mismatch")
+            "SNS authority rejects a sibling consequence receipt",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:completed:sns_pressure_night")
+    finally:
+        SOURCE_TEXT_CACHE[sns_authority_pointer] = sns_authority_body
+    cases += 1
+
+    sns_w4_pointer = (
+        "systems/DemoCoreLoopV2.gd::_canonical_w4_temptation_root")
+    sns_w4_body = _pointer_source_text(sns_w4_pointer, {})
+    sns_w4_exact_one_marker = "matches.size() != 1"
+    if sns_w4_exact_one_marker not in sns_w4_body:
+        raise AssertionError(
+            "self-test setup: W4 temptation exact-one marker missing")
+    SOURCE_TEXT_CACHE[sns_w4_pointer] = sns_w4_body.replace(
+        sns_w4_exact_one_marker, "matches.size() < 1", 1)
+    try:
+        _expect_failure(
+            "W4 choice must bind exactly one W8 temptation root",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:completed:sns_pressure_night")
+    finally:
+        SOURCE_TEXT_CACHE[sns_w4_pointer] = sns_w4_body
+    cases += 1
+
+    w4_flag_marker = '"lent_account", chosen == 1'
+    if w4_flag_marker not in sns_w4_body:
+        raise AssertionError(
+            "self-test setup: W4 choice-to-flag binding missing")
+    SOURCE_TEXT_CACHE[sns_w4_pointer] = sns_w4_body.replace(
+        w4_flag_marker, '"lent_account", false', 1)
+    try:
+        _expect_failure(
+            "W4 temptation receipt must agree with its exact flag branch",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:completed:sns_pressure_night")
+    finally:
+        SOURCE_TEXT_CACHE[sns_w4_pointer] = sns_w4_body
+    cases += 1
+
+    sns_prelude_story_pointer = (
+        "systems/DemoCoreLoopV2.gd::"
+        "_scheduled_prelude_story_receipts_complete")
+    sns_prelude_story_body = _pointer_source_text(
+        sns_prelude_story_pointer, {})
+    sns_invalid_choice_guard = re.search(
+        r"if not _terminal_integral_number_in_range\(\s*"
+        r"raw_choice_index,\s*0,\s*choices\.size\(\) - 1\):\s*"
+        r"return false",
+        sns_prelude_story_body, re.DOTALL)
+    if sns_invalid_choice_guard is None:
+        raise AssertionError(
+            "self-test setup: W8 invalid-choice duplicate guard missing")
+    weakened_choice_guard = sns_invalid_choice_guard.group(0).replace(
+        "return false", "continue", 1)
+    SOURCE_TEXT_CACHE[sns_prelude_story_pointer] = (
+        sns_prelude_story_body[:sns_invalid_choice_guard.start()]
+        + weakened_choice_guard
+        + sns_prelude_story_body[sns_invalid_choice_guard.end():])
+    try:
+        _expect_failure(
+            "W8 selected root rejects malformed-choice duplicates",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:completed:sns_pressure_night")
+    finally:
+        SOURCE_TEXT_CACHE[sns_prelude_story_pointer] = \
+            sns_prelude_story_body
+    cases += 1
+
+    story_prefix_pointer = (
+        "systems/DemoCoreLoopV2.gd::_story_receipt_prefix_entries_valid")
+    story_prefix_body = _pointer_source_text(story_prefix_pointer, {})
+    story_prefix_scalar_marker = "if not raw_receipt is Dictionary:"
+    if story_prefix_scalar_marker not in story_prefix_body:
+        raise AssertionError(
+            "self-test setup: raw Story prefix scalar guard missing")
+    SOURCE_TEXT_CACHE[story_prefix_pointer] = story_prefix_body.replace(
+        story_prefix_scalar_marker,
+        "if raw_receipt == null:", 1)
+    try:
+        _expect_failure(
+            "W4/W8 Story prefixes reject malformed scalar entries",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:completed:sns_pressure_night")
+    finally:
+        SOURCE_TEXT_CACHE[story_prefix_pointer] = story_prefix_body
+    cases += 1
+
+    story_prefix_base_marker = (
+        'key != "%s:%s" % [bundle_id, event_id]')
+    if story_prefix_base_marker not in story_prefix_body:
+        raise AssertionError(
+            "self-test setup: raw Story base-key guard missing")
+    SOURCE_TEXT_CACHE[story_prefix_pointer] = story_prefix_body.replace(
+        story_prefix_base_marker,
+        'key != "selftest:%s" % event_id', 1)
+    try:
+        _expect_failure(
+            "W4/W8 Story prefixes reject malformed base keys",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:completed:sns_pressure_night")
+    finally:
+        SOURCE_TEXT_CACHE[story_prefix_pointer] = story_prefix_body
+    cases += 1
+
+    story_union_pointer = (
+        "systems/DemoCoreLoopV2.gd::_story_receipt_owner_union_valid")
+    story_union_body = _pointer_source_text(story_union_pointer, {})
+    story_union_value_marker = (
+        'str((raw_receipt as Dictionary).get(\n'
+        '\t\t\t\t"bundle_id", "")) == bundle_id')
+    if story_union_value_marker not in story_union_body:
+        raise AssertionError(
+            "self-test setup: Story owner-union value census missing")
+    SOURCE_TEXT_CACHE[story_union_pointer] = story_union_body.replace(
+        story_union_value_marker, "false", 1)
+    try:
+        _expect_failure(
+            "W8 Story owner union rejects wrong-key values claiming its owner",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:completed:sns_pressure_night")
+    finally:
+        SOURCE_TEXT_CACHE[story_union_pointer] = story_union_body
+    cases += 1
+
+    story_union_event_marker = "or authored_event_ids.has(str("
+    if story_union_event_marker not in story_union_body:
+        raise AssertionError(
+            "self-test setup: Story owner-union event census missing")
+    SOURCE_TEXT_CACHE[story_union_pointer] = story_union_body.replace(
+        story_union_event_marker, "or false and str(", 1)
+    try:
+        _expect_failure(
+            "W8 Story owner union rejects wrong-owner values claiming its event",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:completed:sns_pressure_night")
+    finally:
+        SOURCE_TEXT_CACHE[story_union_pointer] = story_union_body
+    cases += 1
+
+    owner_union_main_marker = (
+        'root_id, "arc_temptation_clean", "arc_temptation_fallout"]')
+    sns_story_pointer = "systems/DemoCoreLoopV2.gd::_sns_story_receipt_complete"
+    sns_story_body = _pointer_source_text(sns_story_pointer, {})
+    if owner_union_main_marker not in sns_story_body:
+        raise AssertionError(
+            "self-test setup: SNS full authored owner union missing")
+    SOURCE_TEXT_CACHE[sns_story_pointer] = sns_story_body.replace(
+        owner_union_main_marker, "root_id]", 1)
+    try:
+        _expect_failure(
+            "SNS main reader censuses its attached temptation siblings",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:completed:sns_pressure_night")
+    finally:
+        SOURCE_TEXT_CACHE[sns_story_pointer] = sns_story_body
+    cases += 1
+
+    sns_flags_pointer = (
+        "systems/DemoCoreLoopV2.gd::_sns_story_choice_flags_valid")
+    sns_flags_body = _pointer_source_text(sns_flags_pointer, {})
+    sns_flag_marker = '"deleted_sns", choice_index == 0'
+    if sns_flag_marker not in sns_flags_body:
+        raise AssertionError(
+            "self-test setup: SNS choice-to-flag binding missing")
+    SOURCE_TEXT_CACHE[sns_flags_pointer] = sns_flags_body.replace(
+        sns_flag_marker, '"deleted_sns", false', 1)
+    try:
+        _expect_failure(
+            "SNS receipt must agree with its exact selected-choice flags",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:completed:sns_pressure_night")
+    finally:
+        SOURCE_TEXT_CACHE[sns_flags_pointer] = sns_flags_body
+    cases += 1
+
+    owner_union_attached_marker = (
+        'owner_event_union.append("arc_intro_03_sns")')
+    if owner_union_attached_marker not in sns_prelude_story_body:
+        raise AssertionError(
+            "self-test setup: temptation census lacks SNS sibling union")
+    SOURCE_TEXT_CACHE[sns_prelude_story_pointer] = (
+        sns_prelude_story_body.replace(
+            owner_union_attached_marker,
+            "pass # selftest omitted SNS owner sibling", 1))
+    try:
+        _expect_failure(
+            "temptation subset first censuses the legitimate SNS main sibling",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:completed:sns_pressure_night")
+    finally:
+        SOURCE_TEXT_CACHE[sns_prelude_story_pointer] = \
+            sns_prelude_story_body
+    cases += 1
+
+    temptation_prefix_loop_marker = (
+        "for temptation_root in temptation_roots:")
+    if temptation_prefix_loop_marker not in sns_prelude_story_body:
+        raise AssertionError(
+            "self-test setup: sibling temptation prefix census missing")
+    SOURCE_TEXT_CACHE[sns_prelude_story_pointer] = (
+        sns_prelude_story_body.replace(
+            temptation_prefix_loop_marker,
+            "for temptation_root in roots:", 1))
+    try:
+        _expect_failure(
+            "W8 Story census includes the nonchosen temptation sibling",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:completed:sns_pressure_night")
+    finally:
+        SOURCE_TEXT_CACHE[sns_prelude_story_pointer] = \
+            sns_prelude_story_body
+    cases += 1
+
+    sns_prelude_lookup_pointer = (
+        "systems/DemoCoreLoopV2.gd::"
+        "_scheduled_prelude_receipt_from_state")
+    sns_prelude_lookup_body = _pointer_source_text(
+        sns_prelude_lookup_pointer, {})
+    expected_consequence_census_marker = (
+        "not expected_consequence_id.is_empty()")
+    if expected_consequence_census_marker not in sns_prelude_lookup_body:
+        raise AssertionError(
+            "self-test setup: prelude consequence identity census missing")
+    SOURCE_TEXT_CACHE[sns_prelude_lookup_pointer] = (
+        sns_prelude_lookup_body.replace(
+            expected_consequence_census_marker, "false", 1))
+    try:
+        _expect_failure(
+            "SNS prelude rejects same-consequence wrong-owner shadows",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:completed:sns_pressure_night")
+    finally:
+        SOURCE_TEXT_CACHE[sns_prelude_lookup_pointer] = \
+            sns_prelude_lookup_body
+    cases += 1
+
+
+    origin_probe_specs = (
+        (
+            "040746 mint rejects a relabelled current schema",
+            LEGACY_040746_ORIGIN_MINT_POINTER,
+            "raw_source_schema, LEGACY_040746_SOURCE_SCHEMA",
+            "raw_source_schema, SCHEMA",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "040746 mint validates its loaded pending row",
+            LEGACY_040746_ORIGIN_MINT_POINTER,
+            "raw_state, int(GameState.turn), raw_pending",
+            "raw_state, int(GameState.turn), {}",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "040746 witness keeps its exact eight-field shape",
+            LEGACY_040746_ORIGIN_WITNESS_POINTER,
+            '"source_pending_witness", "source_weekly_witnesses"',
+            '"source_weekly_witnesses"',
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "schema-three continuation requires two equal origin copies",
+            LEGACY_040746_ORIGIN_LOOKUP_POINTER,
+            "_terminal_variant_semantically_equal(raw_receipt, raw_witness)",
+            "true",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "legacy plan origin keeps its exact six-field shape",
+            LEGACY_040746_PLAN_ORIGIN_VALID_POINTER,
+            '"availability", "plan"',
+            '"plan"',
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "schema-three continuation requires equal plan-origin copies",
+            LEGACY_040746_PLAN_ORIGIN_NORMALIZATION_POINTER,
+            "_terminal_variant_semantically_equal(raw_receipt, raw_witness)",
+            "true",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "continued plan origin must equal the live plan",
+            LEGACY_040746_PLAN_ORIGIN_VALID_POINTER,
+            "_terminal_variant_semantically_equal(raw_plan, live_plan)",
+            "true",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "Month Two plan origin freezes historical availability",
+            LEGACY_040746_PLAN_ORIGIN_VALID_POINTER,
+            '["hyunsu_player_reachout"]',
+            "[]",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "legacy plan is witnessed before commit exposes state",
+            LEGACY_040746_PLAN_ORIGIN_INSTALL_POINTER,
+            "_install_legacy_040746_plan_origin(state, month_index)",
+            "pass # selftest omitted plan origin",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "current saves look up rather than re-mint origin authority",
+            LEGACY_040746_ORIGIN_MIGRATION_POINTER,
+            "origin = _legacy_040746_origin_from_state(raw_state)",
+            "origin = _mint_legacy_040746_origin(\n"
+            "\t\t\traw_state, raw_source_schema, raw_pending, raw_weekly)",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "origin admission precedes schema-three default insertion",
+            "systems/DemoCoreLoopV2.gd::_normalized_state",
+            "_normalized_legacy_origin_migration(",
+            "_selftest_origin_after_defaults(",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "fractional schema cannot enter legacy consumer admission",
+            LEGACY_040746_SCHEMA_TWO_ADMISSION_POINTER,
+            "var source_is_exact_schema_two := _terminal_integral_number_matches(",
+            "var source_is_exact_schema_two := true # selftest",
+            "receipt:action:m2_seorin_application",
+        ),
+        (
+            "legacy consumers require the admitted named origin receipt",
+            LEGACY_040746_SCHEMA_TWO_ADMISSION_POINTER,
+            "var schema_two_origin_admitted := source_is_exact_schema_two",
+            "var schema_two_origin_admitted := true # selftest bypass",
+            "receipt:action:m2_seorin_application",
+        ),
+        (
+            "schema-two relationship migration is admission-gated",
+            LEGACY_040746_SCHEMA_TWO_ADMISSION_POINTER,
+            "if schema_two_origin_admitted:",
+            "if source_is_exact_schema_two:",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "unknown schemas quarantine typed action authority",
+            LEGACY_040746_SCHEMA_TWO_ADMISSION_POINTER,
+            'state[authority_key] = {}',
+            "pass # selftest retained unknown-schema typed authority",
+            "receipt:action:m2_seorin_application",
+        ),
+        (
+            "prototype completion lift is admission-gated",
+            LEGACY_040746_SCHEMA_TWO_ADMISSION_POINTER,
+            "if schema_two_origin_admitted and legacy_prototype_complete:",
+            "if legacy_prototype_complete:",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "legacy action recovery requires current or admitted origin",
+            LEGACY_040746_ACTION_RECOVERY_POINTER,
+            "not source_is_exact_current and not source_is_admitted_schema_two",
+            "false",
+            "receipt:action:m2_seorin_application",
+        ),
+        (
+            "legacy action recovery preserves the raw integral active turn",
+            LEGACY_040746_ACTION_RECOVERY_POINTER,
+            "_terminal_integral_number_matches(raw_active_turn, active_turn)",
+            "true",
+            "receipt:action:m2_seorin_application",
+        ),
+        (
+            "legacy action recovery reads only its frozen weekly witness",
+            LEGACY_040746_ACTION_RECOVERY_POINTER,
+            'admitted_schema_two_origin.get(\n\t\t\t\t"source_weekly_witnesses", [])',
+            "GameState.weekly_commitments",
+            "receipt:action:m2_seorin_application",
+        ),
+        (
+            "legacy action recovery revalidates the frozen producer row",
+            LEGACY_040746_ACTION_RECOVERY_POINTER,
+            "_legacy_040746_weekly_record_valid(",
+            "_selftest_weekly_record_trusted(",
+            "receipt:action:m2_seorin_application",
+        ),
+        (
+            "legacy action recovery requires exactly one frozen row",
+            LEGACY_040746_ACTION_RECOVERY_POINTER,
+            "if matches.size() == 1:",
+            "if not matches.is_empty():",
+            "receipt:action:m2_seorin_application",
+        ),
+        (
+            "origin mint validates active legacy Story flags",
+            LEGACY_040746_ORIGIN_MINT_POINTER,
+            "_legacy_040746_active_story_flags_valid(raw_state)",
+            "true",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "active legacy SNS flags reject contradictory choices",
+            LEGACY_040746_ACTIVE_STORY_CHOICE_POINTER,
+            "if deleted and envy:",
+            "if false:",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "active legacy Story validation keeps its frozen flag decoder",
+            LEGACY_040746_ACTIVE_STORY_FLAGS_POINTER,
+            "_legacy_040746_active_story_choice_from_flags(state) < -1",
+            "true",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "origin witness revalidates frozen Story flags on every reload",
+            LEGACY_040746_ORIGIN_WITNESS_POINTER,
+            "_legacy_040746_active_story_flags_valid(",
+            "_selftest_omitted_source_story_flags(",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "historical SNS origin requires exactly one frozen choice flags tuple",
+            LEGACY_040746_ACTIVE_STORY_FLAGS_POINTER,
+            "if sns_matches != 1:",
+            "if false:",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "legacy Week Four choice one keeps exact frozen money",
+            LEGACY_040746_TEMPTATION_STORY_POINTER,
+            'outcome.get("money", null), 2_000_000',
+            'outcome.get("money", null), int(outcome.get("money", 0))',
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "legacy Week Four choice remains bound to its live flags",
+            LEGACY_040746_TEMPTATION_STORY_POINTER,
+            '"lent_account", choice_index == 1',
+            '"lent_account", false',
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "active legacy Story authority installs only inside admission",
+            LEGACY_040746_SCHEMA_TWO_ADMISSION_POINTER,
+            "_install_legacy_040746_active_story_authority(",
+            "_selftest_install_unadmitted_story_authority(",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "active legacy SNS installs one canonical current Story receipt",
+            LEGACY_040746_ACTIVE_STORY_INSTALL_POINTER,
+            'state["story_choice_receipts"][receipt_key] = {',
+            "pass # selftest omitted active Story receipt\n\tif false: {",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "040746 core keeps the exact historical key census",
+            LEGACY_040746_CORE_STATE_POINTER,
+            "LEGACY_040746_CORE_KEYS",
+            "LEGACY_040746_PLAN_KEYS",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "040746 plan binds selected order to its authored schedule",
+            LEGACY_040746_PLAN_POINTER,
+            "_terminal_variant_semantically_equal(raw_selected, selected)",
+            "true",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "040746 source turn requires every historically closed summary",
+            LEGACY_040746_SUMMARY_SET_POINTER,
+            "_legacy_040746_month_summary_valid(",
+            "_selftest_summary_shape_ignored(",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "loaded weekly origin rows have one exact turn census",
+            LEGACY_040746_WEEKLY_SET_POINTER,
+            "if seen_turns.has(turn):",
+            "if false:",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "completed generic Story bundles own no 040746 weekly row",
+            LEGACY_040746_WEEKLY_SET_POINTER,
+            'not str(scheduled_spec.get("action_id", "")).strip_edges().is_empty()',
+            'not scheduled_bundle.is_empty()',
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "the pacing-owned Week Four boss keeps its sole Story row",
+            LEGACY_040746_WEEKLY_SET_POINTER,
+            'turn == 4 and scheduled_bundle == "first_temptation_boss"',
+            "false",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "an in-flight action owns a row only after result readiness",
+            LEGACY_040746_WEEKLY_SET_POINTER,
+            "and action_ready)",
+            "and true)",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "an active generic Story never gains a weekly row",
+            LEGACY_040746_WEEKLY_SET_POINTER,
+            'source_turn == 4 and active_id == "first_temptation_boss"',
+            'not active_id.is_empty()',
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "an active Week Four boss recognizes its durable post-choice row",
+            LEGACY_040746_WEEKLY_SET_POINTER,
+            "active_has_row = true",
+            "active_has_row = false",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "the frozen Week Four Story row keeps its exact field census",
+            LEGACY_040746_WEEKLY_RECORD_POINTER,
+            "_terminal_dictionary_has_exact_keys(record, [",
+            "_selftest_story_record_keys_ignored(record, [",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "the frozen Week Four Story row lists every unchosen option",
+            LEGACY_040746_WEEKLY_RECORD_POINTER,
+            "forgone_choices == expected_forgone_choices",
+            "true",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "the frozen Week Four Story row keeps money and delayed timing",
+            LEGACY_040746_WEEKLY_RECORD_POINTER,
+            'str(record.get("axis", "")) == "money"',
+            "true",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "legacy weekly rows keep the exact echoed-turn sentinel contract",
+            LEGACY_040746_WEEKLY_RECORD_POINTER,
+            "echoed_turn <= turn or echoed_turn > source_turn",
+            "false",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "legacy action rows keep an exact per-action field census",
+            LEGACY_040746_ACTION_WEEKLY_POINTER,
+            "_terminal_dictionary_has_exact_keys(record, exact_keys)",
+            "true",
+            "receipt:action:m2_seorin_application",
+        ),
+        (
+            "legacy Seorin recovery cannot swap in the current application ID",
+            LEGACY_040746_ACTION_WEEKLY_POINTER,
+            'scheduled_bundle == "m1_mirae_application" else "seorin"',
+            'scheduled_bundle == "m1_mirae_application" '
+            'else "seorin_contract_2026q1"',
+            "receipt:action:m2_seorin_application",
+        ),
+        (
+            "legacy Rain action rows keep the enumerated delivery tuple",
+            LEGACY_040746_ACTION_WEEKLY_POINTER,
+            "_legacy_040746_delivery_tuple_valid(details, outcome)",
+            "true",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "an in-flight legacy owner requires its current routine receipt",
+            LEGACY_040746_ROUTINE_LEDGER_POINTER,
+            'if not str(state.get("active_bundle", "")).strip_edges().is_empty():',
+            "if false:",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "legacy opening consequence requires exact prior Mirae authority",
+            LEGACY_040746_SHOWN_LEDGER_POINTER,
+            'var mirae_completed := completed.count("m1_mirae_application") == 1',
+            "var mirae_completed := true",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "legacy temptation consequence requires exact prior boss authority",
+            LEGACY_040746_SHOWN_LEDGER_POINTER,
+            'var boss_completed := completed.count("first_temptation_boss") == 1',
+            "var boss_completed := true",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "legacy relationship history is bounded by the origin turn",
+            LEGACY_040746_RELATIONSHIP_POINTER,
+            "mini(8, source_turn)",
+            "8",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "legacy relationship history owns its exact source-plan slot",
+            LEGACY_040746_RELATIONSHIP_POINTER,
+            "scheduled_bundle != bundle_id",
+            "scheduled_bundle.is_empty()",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "legacy relationship history requires completed or active authority",
+            LEGACY_040746_RELATIONSHIP_POINTER,
+            "(not completed_authority and not active_authority)",
+            "false",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "legacy relationship receipts use canonical frozen identity keys",
+            LEGACY_040746_RELATIONSHIP_POINTER,
+            'var receipt_key := "%s:%s:%d:%d"',
+            'var receipt_key := str(bundle_id)',
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "legacy relationship ledgers equal their frozen reconstruction",
+            LEGACY_040746_RELATIONSHIP_POINTER,
+            "_terminal_variant_semantically_equal(raw_choices, expected_receipts)",
+            "true",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "Rain fallback remains confined to authored Week 6 or 7",
+            LEGACY_040746_ACTION_MIGRATION_POINTER,
+            "_terminal_integral_number_in_range(raw_turn, 6, 7)",
+            "_terminal_integral_number_in_range(raw_turn, 1, 8)",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "Rain fallback binds the exact source-plan slot",
+            LEGACY_040746_ACTION_MIGRATION_POINTER,
+            'str(completed_turn), "")) != bundle_id',
+            'str(completed_turn), "")) == ""',
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "Rain weekly witness is exactly one loaded row",
+            LEGACY_040746_RAIN_WEEKLY_POINTER,
+            "matches.size() == 1 else {}",
+            "not matches.is_empty() else {}",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "Rain witness requires one frozen producer-reachable tuple",
+            LEGACY_040746_RAIN_WEEKLY_POINTER,
+            "_legacy_040746_delivery_tuple_valid(details, outcome)",
+            "true",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "Rain producer tuples enumerate nonempty route subsets",
+            LEGACY_040746_DELIVERY_TUPLE_POINTER,
+            "for route_mask in range(1, 1 << "
+            "LEGACY_040746_DELIVERY_ROUTES.size())",
+            "for route_mask in range(0, 1 << "
+            "LEGACY_040746_DELIVERY_ROUTES.size())",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "Rain producer tuples obey the frozen time budget",
+            LEGACY_040746_DELIVERY_TUPLE_POINTER,
+            "route_time > LEGACY_040746_DELIVERY_TIME_BUDGET",
+            "false",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "Rain earned amount is integral producer output",
+            LEGACY_040746_DELIVERY_TUPLE_POINTER,
+            "_terminal_integral_number_matches(\n"
+            "\t\t\t\traw_earned, int(raw_earned))",
+            "true",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "Rain health request is bound to route count",
+            LEGACY_040746_DELIVERY_TUPLE_POINTER,
+            "requested_health == -3 - route_count",
+            "true",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "Rain mental request is bound to route count",
+            LEGACY_040746_DELIVERY_TUPLE_POINTER,
+            "requested_mental == -maxi(route_count - 2, 0)",
+            "true",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "Rain explicit zero and impossible clamp deltas fail closed",
+            LEGACY_040746_DELIVERY_TUPLE_POINTER,
+            "requested == 0 or actual >= 0 or actual < requested",
+            "false",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "schema-three Rain fallback must equal the frozen migration",
+            LEGACY_040746_ACTION_MIGRATION_POINTER,
+            "raw_migration, canonical_migration)",
+            "raw_migration, raw_migration)",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+        (
+            "legacy SNS schedule reads the frozen origin witness",
+            "systems/DemoCoreLoopV2.gd::_legacy_sns_schedule_owner_valid",
+            "_legacy_040746_origin_from_state(state)",
+            "{}",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "legacy SNS schedule reads the durable Month Two plan witness",
+            "systems/DemoCoreLoopV2.gd::_legacy_sns_schedule_owner_valid",
+            "_legacy_040746_plan_origin_from_state(state, 2)",
+            "{}",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "legacy SNS live plan equals its frozen source plan",
+            "systems/DemoCoreLoopV2.gd::_legacy_sns_schedule_owner_valid",
+            "_terminal_variant_semantically_equal(raw_plan, source_plan)",
+            "true",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "legacy SNS completion keeps its current Story playback branch",
+            "systems/DemoCoreLoopV2.gd::"
+            "_legacy_sns_consequence_completion_valid",
+            "_sns_story_receipt_complete(state, target_turn)",
+            "true",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "legacy SNS completion keeps its historical source-origin branch",
+            "systems/DemoCoreLoopV2.gd::"
+            "_legacy_sns_consequence_completion_valid",
+            "_legacy_040746_sns_completed_origin_valid(",
+            "false",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "historical SNS is completed in the frozen source core",
+            LEGACY_040746_SNS_COMPLETED_ORIGIN_POINTER,
+            '(source_completed as Array).count("sns_pressure_night") == 1',
+            "false",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "historical SNS source completion has one exact authored turn",
+            LEGACY_040746_SNS_COMPLETED_ORIGIN_POINTER,
+            '(source_turns as Dictionary).get("sns_pressure_night", null)',
+            'null',
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "historical SNS source plan owns the completed turn",
+            LEGACY_040746_SNS_COMPLETED_ORIGIN_POINTER,
+            'str((source_schedule as Dictionary).get(\n'
+            '\t\t\tstr(target_turn), "")) == "sns_pressure_night"',
+            "false",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "historical SNS rejects every current scoped raw key",
+            LEGACY_SNS_CURRENT_STORY_ABSENT_POINTER,
+            'key == base_key or key.begins_with("%s:" % base_key)',
+            "false",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "historical SNS rejects shadow values claiming its identity",
+            LEGACY_SNS_CURRENT_STORY_ABSENT_POINTER,
+            "raw_receipt is Dictionary",
+            "false",
+            "receipt:completed:sns_pressure_night",
+        ),
+        (
+            "Rain migration rejects even an empty typed-owner key",
+            LEGACY_040746_ACTION_MIGRATION_POINTER,
+            "(raw_actions as Dictionary).has(bundle_id)",
+            "false",
+            "receipt:action:m2_rain_delivery_shift",
+        ),
+    )
+    for probe_name, pointer, marker, replacement, fact_id in \
+            origin_probe_specs:
+        body = _pointer_source_text(pointer, {})
+        if marker not in body:
+            raise AssertionError(
+                f"self-test setup: exact-origin marker missing {probe_name}")
+        SOURCE_TEXT_CACHE[pointer] = body.replace(marker, replacement, 1)
+        try:
+            _expect_failure(
+                probe_name, ledger, baseline,
+                f"no runtime proof directly binds fact {fact_id}")
+        finally:
+            SOURCE_TEXT_CACHE[pointer] = body
         cases += 1
+
+    action_helper_pointer = (
+        "systems/DemoCoreLoopV2.gd::_action_receipt_predicate_met")
+    action_helper_body = _pointer_source_text(action_helper_pointer, {})
+    exact_weekly_pointer = EXACT_LIVE_ACTION_WEEKLY_COMMITMENT_POINTER
+    exact_weekly_body = _pointer_source_text(exact_weekly_pointer, {})
+    exact_outer_turn_marker = (
+        "not _terminal_integral_number_matches(\n"
+        "\t\t\t\t\traw_turn, receipt_turn)")
+    if exact_outer_turn_marker not in exact_weekly_body:
+        raise AssertionError(
+            "self-test setup: exact outer weekly turn guard missing")
+    SOURCE_TEXT_CACHE[exact_weekly_pointer] = exact_weekly_body.replace(
+        exact_outer_turn_marker, "false", 1)
+    try:
+        _expect_failure(
+            "typed action reader rejects fractional outer weekly turns",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:action:m2_seorin_application")
+    finally:
+        SOURCE_TEXT_CACHE[exact_weekly_pointer] = exact_weekly_body
+    cases += 1
+
+    exact_candidate_marker = "matches.append(candidate)"
+    if exact_candidate_marker not in exact_weekly_body:
+        raise AssertionError(
+            "self-test setup: exact weekly reconstructed candidate missing")
+    SOURCE_TEXT_CACHE[exact_weekly_pointer] = exact_weekly_body.replace(
+        exact_candidate_marker, "matches.append(weekly)", 1)
+    try:
+        _expect_failure(
+            "typed action reader returns the reconstructed action owner",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:action:m2_seorin_application")
+    finally:
+        SOURCE_TEXT_CACHE[exact_weekly_pointer] = exact_weekly_body
+    cases += 1
+
+    exact_competing_marker = (
+        "# A competing row at the same turn is ambiguous authority")
+    if exact_competing_marker not in exact_weekly_body:
+        raise AssertionError(
+            "self-test setup: competing weekly authority guard missing")
+    exact_competing_return = exact_weekly_body.find(
+        "\t\t\treturn {}", exact_weekly_body.find(exact_competing_marker))
+    if exact_competing_return < 0:
+        raise AssertionError(
+            "self-test setup: competing weekly failure missing")
+    SOURCE_TEXT_CACHE[exact_weekly_pointer] = (
+        exact_weekly_body[:exact_competing_return]
+        + "\t\t\tcontinue"
+        + exact_weekly_body[exact_competing_return + len("\t\t\treturn {}"):])
+    try:
+        _expect_failure(
+            "typed action reader rejects competing same-turn weekly rows",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:action:m2_seorin_application")
+    finally:
+        SOURCE_TEXT_CACHE[exact_weekly_pointer] = exact_weekly_body
+    cases += 1
+
+    expiry_absence_pointer = M2_ADVANCEMENT_EXPIRY_ABSENCE_POINTER
+    expiry_absence_body = _pointer_source_text(expiry_absence_pointer, {})
+    expiry_seorin_marker = '"m2_advancement":'
+    if expiry_seorin_marker not in expiry_absence_body:
+        raise AssertionError(
+            "self-test setup: m2_advancement expiry absence branch missing")
+    SOURCE_TEXT_CACHE[expiry_absence_pointer] = expiry_absence_body.replace(
+        expiry_seorin_marker, '"selftest_m2_advancement":', 1)
+    try:
+        _expect_failure(
+            "expired Seorin route rejects completed/action/application authority",
+            ledger, baseline,
+            "m2_advancement expiry must reject coexisting Seorin")
+    finally:
+        SOURCE_TEXT_CACHE[expiry_absence_pointer] = expiry_absence_body
+    cases += 1
+
+    expiry_action_value_marker = "raw_action_receipt is Dictionary"
+    if expiry_action_value_marker not in expiry_absence_body:
+        raise AssertionError(
+            "self-test setup: Seorin action raw key/value census missing")
+    SOURCE_TEXT_CACHE[expiry_absence_pointer] = expiry_absence_body.replace(
+        expiry_action_value_marker, "false", 1)
+    try:
+        _expect_failure(
+            "expired Seorin route rejects wrong-key action values claiming it",
+            ledger, baseline,
+            "m2_advancement expiry must reject coexisting Seorin")
+    finally:
+        SOURCE_TEXT_CACHE[expiry_absence_pointer] = expiry_absence_body
+    cases += 1
+
+    historical_cycle_pointer = (
+        "systems/DemoCoreLoopV2.gd::"
+        "_terminal_historical_cycle_summary_uncached")
+    historical_cycle_body = _pointer_source_text(
+        historical_cycle_pointer, {})
+    historical_state_handoff_marker = (
+        "state, month_index, nodes, raw_authored_nodes as Dictionary)")
+    if historical_state_handoff_marker not in historical_cycle_body:
+        raise AssertionError(
+            "self-test setup: historical resolver state handoff missing")
+    SOURCE_TEXT_CACHE[historical_cycle_pointer] = historical_cycle_body.replace(
+        historical_state_handoff_marker,
+        "{}, month_index, nodes, raw_authored_nodes as Dictionary)", 1)
+    try:
+        _expect_failure(
+            "historical node resolution receives target-open state authority",
+            ledger, baseline,
+            "historical terminal replay must preserve exact runtime")
+    finally:
+        SOURCE_TEXT_CACHE[historical_cycle_pointer] = historical_cycle_body
+    cases += 1
+
+    historical_locked_pointer = \
+        TERMINAL_HISTORICAL_LOCKED_RESOLUTION_POINTER
+    historical_locked_body = _pointer_source_text(
+        historical_locked_pointer, {})
+    historical_binding_shape_marker = (
+        "if declares_terminal_binding != has_terminal_binding:")
+    if historical_binding_shape_marker not in historical_locked_body:
+        raise AssertionError(
+            "self-test setup: terminal binding presence/shape XOR gate missing")
+    SOURCE_TEXT_CACHE[historical_locked_pointer] = \
+        historical_locked_body.replace(
+            historical_binding_shape_marker,
+            "if false: # selftest admits malformed empty binding fields", 1)
+    try:
+        _expect_failure(
+            "historical fake-empty terminal binding cannot masquerade as locked",
+            ledger, baseline,
+            "historical terminal replay must preserve exact runtime")
+    finally:
+        SOURCE_TEXT_CACHE[historical_locked_pointer] = historical_locked_body
+    cases += 1
+
+    historical_empty_eligibility_marker = (
+        'or not (historical_eligibility.get("ids", []) as Array).is_empty():')
+    if historical_empty_eligibility_marker not in historical_locked_body:
+        raise AssertionError(
+            "self-test setup: historical exact-empty eligibility gate missing")
+    SOURCE_TEXT_CACHE[historical_locked_pointer] = \
+        historical_locked_body.replace(
+            historical_empty_eligibility_marker,
+            "or false: # selftest admits nonempty historical eligibility", 1)
+    try:
+        _expect_failure(
+            "historical explicit-empty trigger rejects eligible authored work",
+            ledger, baseline,
+            "historical terminal replay must preserve exact runtime")
+    finally:
+        SOURCE_TEXT_CACHE[historical_locked_pointer] = historical_locked_body
+    cases += 1
+
+    historical_timeline_pointer = \
+        TERMINAL_HISTORICAL_TIMELINE_PARITY_POINTER
+    historical_timeline_body = _pointer_source_text(
+        historical_timeline_pointer, {})
+    terminal_union_open_marker = (
+        'and not (node.get("ordinary_candidate_ids", []) as Array).is_empty()')
+    if terminal_union_open_marker not in historical_timeline_body:
+        raise AssertionError(
+            "self-test setup: terminal-union ordinary-open gate missing")
+    SOURCE_TEXT_CACHE[historical_timeline_pointer] = \
+        historical_timeline_body.replace(
+            terminal_union_open_marker,
+            "and false # selftest relocks terminal ordinary union", 1)
+    try:
+        _expect_failure(
+            "historical terminal union preserves runtime-open expiry",
+            ledger, baseline,
+            "historical terminal replay must preserve exact runtime")
+    finally:
+        SOURCE_TEXT_CACHE[historical_timeline_pointer] = \
+            historical_timeline_body
+    cases += 1
+
+    locked_allocation_marker = \
+        "if initially_locked and not node_allocations.is_empty():"
+    if locked_allocation_marker not in historical_timeline_body:
+        raise AssertionError(
+            "self-test setup: initially-locked allocation rejection missing")
+    SOURCE_TEXT_CACHE[historical_timeline_pointer] = \
+        historical_timeline_body.replace(
+            locked_allocation_marker,
+            "if false: # selftest lets locked nodes own allocations", 1)
+    try:
+        _expect_failure(
+            "historical initially-locked nodes reject every allocation",
+            ledger, baseline,
+            "historical terminal replay must preserve exact runtime")
+    finally:
+        SOURCE_TEXT_CACHE[historical_timeline_pointer] = \
+            historical_timeline_body
+    cases += 1
+
+    historical_binding_census_pointer = \
+        TERMINAL_HISTORICAL_BINDING_CENSUS_POINTER
+    historical_binding_census_body = _pointer_source_text(
+        historical_binding_census_pointer, {})
+    binding_census_match_marker = \
+        "or actual_bound_node_ids != expected_bound_node_ids:"
+    if binding_census_match_marker not in historical_binding_census_body:
+        raise AssertionError(
+            "self-test setup: historical terminal binding census missing")
+    SOURCE_TEXT_CACHE[historical_binding_census_pointer] = \
+        historical_binding_census_body.replace(
+            binding_census_match_marker,
+            "or false: # selftest admits a typed binding without witness", 1)
+    try:
+        _expect_failure(
+            "historical terminal bindings require declaration/witness/receipt parity",
+            ledger, baseline,
+            "historical terminal replay must preserve exact runtime")
+    finally:
+        SOURCE_TEXT_CACHE[historical_binding_census_pointer] = \
+            historical_binding_census_body
+    cases += 1
+
+    historical_cache_pointer = TERMINAL_HISTORICAL_CACHE_POINTER
+    historical_cache_body = _pointer_source_text(historical_cache_pointer, {})
+    historical_cache_mutations = (
+        (
+            "historical cache signature binds raw weekly authority",
+            "GameState.weekly_commitments,",
+            "{}, # selftest drops weekly authority",
+        ),
+        (
+            "historical cache signature binds authored revision",
+            "DataRegistry.content_revision,",
+            "0, # selftest drops authored revision",
+        ),
+        (
+            "historical cache invalidates replaced authored references",
+            "if authored_reference_changed:",
+            "if false: # selftest keeps cache across reference replacement",
+        ),
+        (
+            "historical cache recursive keys fail closed",
+            "elif _terminal_historical_validation_in_progress.has(cache_key):",
+            "elif false: # selftest permits recursive provenance",
+        ),
+    )
+    for cache_probe_name, cache_marker, cache_replacement in \
+            historical_cache_mutations:
+        if cache_marker not in historical_cache_body:
+            raise AssertionError(
+                "self-test setup: historical cache marker missing "
+                f"{cache_probe_name}")
+        SOURCE_TEXT_CACHE[historical_cache_pointer] = \
+            historical_cache_body.replace(
+                cache_marker, cache_replacement, 1)
+        try:
+            _expect_failure(
+                cache_probe_name, ledger, baseline,
+                "historical validation cache must bind exact state")
+        finally:
+            SOURCE_TEXT_CACHE[historical_cache_pointer] = historical_cache_body
+        cases += 1
+
+    authored_revision_pointer = AUTHORED_CONTENT_REVISION_POINTER
+    authored_revision_body = _pointer_source_text(
+        authored_revision_pointer, {})
+    authored_revision_marker = "content_revision += 1"
+    if authored_revision_marker not in authored_revision_body:
+        raise AssertionError(
+            "self-test setup: authored content revision increment missing")
+    SOURCE_TEXT_CACHE[authored_revision_pointer] = \
+        authored_revision_body.replace(
+            authored_revision_marker,
+            "content_revision += 0 # selftest keeps stale authored cache", 1)
+    try:
+        _expect_failure(
+            "in-place authored override advances cache revision",
+            ledger, baseline,
+            "historical validation cache must bind exact state")
+    finally:
+        SOURCE_TEXT_CACHE[authored_revision_pointer] = authored_revision_body
+    cases += 1
+
+    authority_poison_pointer = AUTHORITY_SHAPE_POISON_NORMALIZATION_POINTER
+    authority_poison_body = _pointer_source_text(authority_poison_pointer, {})
+    authority_dictionary_census_marker = \
+        "for key in AUTHORITY_ABSENCE_DICTIONARY_KEYS:"
+    if authority_dictionary_census_marker not in authority_poison_body:
+        raise AssertionError(
+            "self-test setup: authority Dictionary shape census missing")
+    SOURCE_TEXT_CACHE[authority_poison_pointer] = authority_poison_body.replace(
+        authority_dictionary_census_marker,
+        "for key in []: # selftest skips raw authority Dictionaries", 1)
+    try:
+        _expect_failure(
+            "expiry absence rejects normalized malformed authority ledgers",
+            ledger, baseline,
+            "m2_advancement expiry must reject coexisting Seorin")
+    finally:
+        SOURCE_TEXT_CACHE[authority_poison_pointer] = authority_poison_body
+    cases += 1
+
+    normalizer_pointer = "systems/DemoCoreLoopV2.gd::_normalized_state"
+    normalizer_body = _pointer_source_text(normalizer_pointer, {})
+    durable_poison_marker = \
+        "state[AUTHORITY_LEDGER_SHAPE_POISON_KEY] = authority_shape_poison"
+    if durable_poison_marker not in normalizer_body:
+        raise AssertionError(
+            "self-test setup: durable authority shape poison install missing")
+    SOURCE_TEXT_CACHE[normalizer_pointer] = normalizer_body.replace(
+        durable_poison_marker,
+        "state[AUTHORITY_LEDGER_SHAPE_POISON_KEY] = [] # selftest launders", 1)
+    try:
+        _expect_failure(
+            "authority shape poison survives normalization",
+            ledger, baseline,
+            "m2_advancement expiry must reject coexisting Seorin")
+    finally:
+        SOURCE_TEXT_CACHE[normalizer_pointer] = normalizer_body
+    cases += 1
+
+    terminal_quarantine_pointer = TERMINAL_AUTHORITY_QUARANTINE_POINTER
+    terminal_quarantine_body = _pointer_source_text(
+        terminal_quarantine_pointer, {})
+    terminal_receipt_clear_marker = \
+        'state["terminal_transition_receipts"] = {}'
+    if terminal_receipt_clear_marker not in terminal_quarantine_body:
+        raise AssertionError(
+            "self-test setup: irreversible terminal receipt quarantine missing")
+    SOURCE_TEXT_CACHE[terminal_quarantine_pointer] = (
+        terminal_quarantine_body.replace(
+            terminal_receipt_clear_marker,
+            "pass # selftest retains terminal receipts", 1))
+    try:
+        _expect_failure(
+            "poisoned authority cannot resurrect after marker deletion",
+            ledger, baseline,
+            "m2_advancement expiry must reject coexisting Seorin")
+    finally:
+        SOURCE_TEXT_CACHE[terminal_quarantine_pointer] = \
+            terminal_quarantine_body
+    cases += 1
+
+    unknown_quarantine_marker = "_quarantine_terminal_authority(state)"
+    if normalizer_body.count(unknown_quarantine_marker) < 2:
+        raise AssertionError(
+            "self-test setup: unknown-schema terminal quarantine missing")
+    unknown_quarantine_position = normalizer_body.rfind(
+        unknown_quarantine_marker)
+    SOURCE_TEXT_CACHE[normalizer_pointer] = (
+        normalizer_body[:unknown_quarantine_position]
+        + "pass # selftest retains unknown-schema terminal authority"
+        + normalizer_body[
+            unknown_quarantine_position + len(unknown_quarantine_marker):])
+    try:
+        _expect_failure(
+            "unknown schema cannot retain a terminal expiry route",
+            ledger, baseline,
+            "m2_advancement expiry must reject coexisting Seorin")
+    finally:
+        SOURCE_TEXT_CACHE[normalizer_pointer] = normalizer_body
+    cases += 1
+
+    current_story_census_pointer = \
+        CURRENT_STORY_CHOICE_RECEIPT_CENSUS_POINTER
+    current_story_census_body = _pointer_source_text(
+        current_story_census_pointer, {})
+    current_story_value_marker = \
+        "var value_scoped := raw_receipt is Dictionary"
+    if current_story_value_marker not in current_story_census_body:
+        raise AssertionError(
+            "self-test setup: current Story key/value census missing")
+    SOURCE_TEXT_CACHE[current_story_census_pointer] = (
+        current_story_census_body.replace(
+            current_story_value_marker,
+            "var value_scoped := false and raw_receipt is Dictionary", 1))
+    try:
+        _expect_failure(
+            "current Story receipt rejects shadow values claiming its event",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:application_transition:demo_collision:selected_choice_exact")
+    finally:
+        SOURCE_TEXT_CACHE[current_story_census_pointer] = \
+            current_story_census_body
+    cases += 1
+
+    generic_story_pointer = GENERIC_STORY_CHOICE_PRODUCER_POINTER
+    generic_story_body = _pointer_source_text(generic_story_pointer, {})
+    generic_preflight_marker = "_current_story_event_scope_present("
+    if generic_preflight_marker not in generic_story_body:
+        raise AssertionError(
+            "self-test setup: generic Story competing-choice preflight missing")
+    SOURCE_TEXT_CACHE[generic_story_pointer] = generic_story_body.replace(
+        generic_preflight_marker,
+        "_selftest_story_event_scope_absent(", 1)
+    try:
+        _expect_failure(
+            "generic Story producer rejects sequential competing choices",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:application_transition:demo_collision:selected_choice_exact")
+    finally:
+        SOURCE_TEXT_CACHE[generic_story_pointer] = generic_story_body
+    cases += 1
+
+    generic_owner_marker = "not _live_story_owner_event_ids("
+    if generic_owner_marker not in generic_story_body:
+        raise AssertionError(
+            "self-test setup: generic Story live-owner membership missing")
+    SOURCE_TEXT_CACHE[generic_story_pointer] = generic_story_body.replace(
+        generic_owner_marker, "not _selftest_live_story_owner_event_ids(", 1)
+    try:
+        _expect_failure(
+            "generic Story producer revalidates its live owner event",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:application_transition:demo_collision:selected_choice_exact")
+    finally:
+        SOURCE_TEXT_CACHE[generic_story_pointer] = generic_story_body
+    cases += 1
+
+    story_transaction_pointer = STORY_CHOICE_TRANSACTION_ROLLBACK_POINTER
+    story_transaction_body = _pointer_source_text(
+        story_transaction_pointer, {})
+    story_rollback_marker = \
+        "GameState.core_loop_v2_state = pre_choice_state"
+    if story_transaction_body.count(story_rollback_marker) < 2:
+        raise AssertionError(
+            "self-test setup: typed Story transaction rollback missing")
+    last_rollback = story_transaction_body.rfind(story_rollback_marker)
+    SOURCE_TEXT_CACHE[story_transaction_pointer] = (
+        story_transaction_body[:last_rollback]
+        + "pass # selftest omitted typed Story rollback"
+        + story_transaction_body[last_rollback + len(story_rollback_marker):])
+    try:
+        _expect_failure(
+            "typed Story writer failure restores the pre-choice core state",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:application_transition:demo_collision:selected_choice_exact")
+    finally:
+        SOURCE_TEXT_CACHE[story_transaction_pointer] = \
+            story_transaction_body
+    cases += 1
+
+    story_mode_transaction_pointer = STORY_MODE_CHOICE_TRANSACTION_POINTER
+    story_mode_transaction_body = _pointer_source_text(
+        story_mode_transaction_pointer, {})
+    full_state_rollback_marker = '"_restore_serialized_snapshot_exact"'
+    if story_mode_transaction_body.count(full_state_rollback_marker) < 2:
+        raise AssertionError(
+            "self-test setup: StoryMode full-state rollback calls missing")
+    note_failure_rollback = story_mode_transaction_body.rfind(
+        full_state_rollback_marker)
+    SOURCE_TEXT_CACHE[story_mode_transaction_pointer] = (
+        story_mode_transaction_body[:note_failure_rollback]
+        + '"_selftest_restore_serialized_snapshot_omitted"'
+        + story_mode_transaction_body[
+            note_failure_rollback + len(full_state_rollback_marker):])
+    try:
+        _expect_failure(
+            "StoryMode typed receipt failure rolls back applied effects",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:application_transition:demo_collision:selected_choice_exact")
+    finally:
+        SOURCE_TEXT_CACHE[story_mode_transaction_pointer] = \
+            story_mode_transaction_body
+    cases += 1
+
+    classifier_call_marker = \
+        "DEMO_CORE_LOOP_V2.story_choice_transaction_required("
+    if classifier_call_marker not in story_mode_transaction_body:
+        raise AssertionError(
+            "self-test setup: StoryMode transaction classifier call missing")
+    SOURCE_TEXT_CACHE[story_mode_transaction_pointer] = (
+        story_mode_transaction_body.replace(
+            classifier_call_marker,
+            "DEMO_CORE_LOOP_V2._selftest_transaction_required(", 1))
+    try:
+        _expect_failure(
+            "StoryMode classifies V2 receipt ownership before applying effects",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:application_transition:demo_collision:selected_choice_exact")
+    finally:
+        SOURCE_TEXT_CACHE[story_mode_transaction_pointer] = \
+            story_mode_transaction_body
+    cases += 1
+
+    classifier_pointer = STORY_CHOICE_TRANSACTION_CLASSIFIER_POINTER
+    classifier_body = _pointer_source_text(classifier_pointer, {})
+    classifier_mutations = (
+        ("if event_id == OPENING_APPLICATION_EVENT_ID:",
+         "if false and event_id == OPENING_APPLICATION_EVENT_ID:",
+         "retired Story Send remains on the fail-closed transaction path"),
+        ("if event_id in EXACT_DEFERRED_CHOICE_ROOTS:",
+         "if false and event_id in EXACT_DEFERRED_CHOICE_ROOTS:",
+         "exact deferred roots remain strict with damaged transport"),
+        ("if owner_id.is_empty():",
+         "if false and owner_id.is_empty():",
+         "fresh unowned prologue remains outside V2 receipt transactions"),
+        ("_live_story_owner_event_ids(state, owner_id).has(event_id)",
+         "_selftest_live_story_owner_event_ids(state, owner_id).has(event_id)",
+         "classified Story transaction requires a live owner root"),
+    )
+    for marker, replacement, label in classifier_mutations:
+        if marker not in classifier_body:
+            raise AssertionError(
+                f"self-test setup: Story transaction classifier missing {label}")
+        SOURCE_TEXT_CACHE[classifier_pointer] = classifier_body.replace(
+            marker, replacement, 1)
+        try:
+            _expect_failure(
+                label, ledger, baseline,
+                "no runtime proof directly binds fact "
+                "receipt:application_transition:demo_collision:"
+                "selected_choice_exact")
+        finally:
+            SOURCE_TEXT_CACHE[classifier_pointer] = classifier_body
+        cases += 1
+
+    commit_available_pointer = STORY_CHOICE_COMMIT_AVAILABLE_POINTER
+    commit_available_body = _pointer_source_text(commit_available_pointer, {})
+    commit_match_marker = "return _exact_deferred_story_choice_matches("
+    if commit_match_marker not in commit_available_body:
+        raise AssertionError(
+            "self-test setup: exact deferred commit preflight missing")
+    SOURCE_TEXT_CACHE[commit_available_pointer] = (
+        commit_available_body.replace(
+            commit_match_marker,
+            "return true or _exact_deferred_story_choice_matches(", 1))
+    try:
+        _expect_failure(
+            "exact deferred commit preflight cannot fail open",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:application_transition:demo_collision:selected_choice_exact")
+    finally:
+        SOURCE_TEXT_CACHE[commit_available_pointer] = commit_available_body
+    cases += 1
+
+    exact_deferred_pointer = STORY_EXACT_DEFERRED_MATCH_POINTER
+    exact_deferred_body = _pointer_source_text(exact_deferred_pointer, {})
+    exact_deferred_mutations = (
+        ("if context.is_empty()",
+         "if false and context.is_empty()",
+         "exact deferred preflight rejects missing callback context"),
+        ("if source.is_empty() or not raw_receipt is Dictionary:",
+         "if false and (source.is_empty() "
+         "or not raw_receipt is Dictionary):",
+         "exact deferred preflight rejects malformed callback transport"),
+    )
+    for marker, replacement, label in exact_deferred_mutations:
+        if marker not in exact_deferred_body:
+            raise AssertionError(
+                f"self-test setup: exact deferred matcher missing {label}")
+        SOURCE_TEXT_CACHE[exact_deferred_pointer] = (
+            exact_deferred_body.replace(marker, replacement, 1))
+        try:
+            _expect_failure(
+                label, ledger, baseline,
+                "no runtime proof directly binds fact "
+                "receipt:application_transition:demo_collision:"
+                "selected_choice_exact")
+        finally:
+            SOURCE_TEXT_CACHE[exact_deferred_pointer] = exact_deferred_body
+        cases += 1
+
+    live_owner_pointer = STORY_LIVE_OWNER_EVENT_IDS_POINTER
+    live_owner_body = _pointer_source_text(live_owner_pointer, {})
+    live_prelude_marker = "_scheduled_prelude_receipt_from_state("
+    if live_prelude_marker not in live_owner_body:
+        raise AssertionError(
+            "self-test setup: live Story owner scheduled-prelude roots missing")
+    SOURCE_TEXT_CACHE[live_owner_pointer] = live_owner_body.replace(
+        live_prelude_marker,
+        "_selftest_scheduled_prelude_receipt_from_state(", 1)
+    try:
+        _expect_failure(
+            "active Story owner includes only its admitted prelude roots",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:application_transition:demo_collision:selected_choice_exact")
+    finally:
+        SOURCE_TEXT_CACHE[live_owner_pointer] = live_owner_body
+    cases += 1
+
+    bundle_events_pointer = STORY_BUNDLE_EVENT_IDS_POINTER
+    bundle_events_body = _pointer_source_text(bundle_events_pointer, {})
+    bundle_follow_marker = '"follow_up_event", "")).strip_edges()'
+    if bundle_follow_marker not in bundle_events_body:
+        raise AssertionError(
+            "self-test setup: active Story owner follow-up roots missing")
+    SOURCE_TEXT_CACHE[bundle_events_pointer] = bundle_events_body.replace(
+        bundle_follow_marker,
+        '"_selftest_follow_up_event", "")).strip_edges()', 1)
+    try:
+        _expect_failure(
+            "active Story owner includes its authored follow-up roots",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:application_transition:demo_collision:selected_choice_exact")
+    finally:
+        SOURCE_TEXT_CACHE[bundle_events_pointer] = bundle_events_body
+    cases += 1
+
+    fresh_prologue_pointer = STORY_PLAYBACK_FRESH_PROLOGUE_POINTER
+    fresh_prologue_body = _pointer_source_text(fresh_prologue_pointer, {})
+    fresh_receipt_marker = \
+        '"story_choice_receipts", {}) as Dictionary'
+    if fresh_receipt_marker not in fresh_prologue_body:
+        raise AssertionError(
+            "self-test setup: fresh prologue no-receipt assertion missing")
+    SOURCE_TEXT_CACHE[fresh_prologue_pointer] = fresh_prologue_body.replace(
+        fresh_receipt_marker,
+        '"story_choice_receipts", {"selftest": true}) as Dictionary', 1)
+    try:
+        _expect_failure(
+            "fresh unowned prologue click mints no V2 owner receipt",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:application_transition:demo_collision:selected_choice_exact")
+    finally:
+        SOURCE_TEXT_CACHE[fresh_prologue_pointer] = fresh_prologue_body
+    cases += 1
+
+    exact_restore_pointer = GAME_STATE_EXACT_SNAPSHOT_RESTORE_POINTER
+    exact_restore_body = _pointer_source_text(exact_restore_pointer, {})
+    exact_restore_marker = "set(str(raw_key), value)"
+    if exact_restore_marker not in exact_restore_body:
+        raise AssertionError(
+            "self-test setup: exact serialized snapshot restore missing")
+    SOURCE_TEXT_CACHE[exact_restore_pointer] = exact_restore_body.replace(
+        exact_restore_marker, "pass # selftest omitted exact field restore", 1)
+    try:
+        _expect_failure(
+            "StoryMode rollback restores every serialized field exactly",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:application_transition:demo_collision:selected_choice_exact")
+    finally:
+        SOURCE_TEXT_CACHE[exact_restore_pointer] = exact_restore_body
+    cases += 1
+
+    allowed_sibling_pointer = CURRENT_OUTCOME_ALLOWED_SIBLING_POINTER
+    allowed_sibling_body = _pointer_source_text(allowed_sibling_pointer, {})
+    allowed_sibling_marker = \
+        'str(receipt.get("source", "")) == "legacy_story_send"'
+    if allowed_sibling_marker not in allowed_sibling_body:
+        raise AssertionError(
+            "self-test setup: exact pre-plan Send sibling source missing")
+    SOURCE_TEXT_CACHE[allowed_sibling_pointer] = allowed_sibling_body.replace(
+        allowed_sibling_marker, "true # selftest admits unknown sibling", 1)
+    try:
+        _expect_failure(
+            "application census admits only the exact pre-plan Send sibling",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:application_transition:demo_collision:selected_choice_exact")
+    finally:
+        SOURCE_TEXT_CACHE[allowed_sibling_pointer] = allowed_sibling_body
+    cases += 1
+
+    completion_snapshot_pointer = COMPLETION_SNAPSHOT_POINTER
+    completion_snapshot_body = _pointer_source_text(
+        completion_snapshot_pointer, {})
+    frozen_job_marker = \
+        '"current_job_id": str(GameState.current_job.get("id", ""))'
+    if frozen_job_marker not in completion_snapshot_body:
+        raise AssertionError(
+            "self-test setup: frozen completion job identity missing")
+    SOURCE_TEXT_CACHE[completion_snapshot_pointer] = (
+        completion_snapshot_body.replace(
+            frozen_job_marker, '"current_job_id": ""', 1))
+    try:
+        _expect_failure(
+            "completion recap freezes the boundary employment identity",
+            ledger, baseline,
+            "COMPLETION_SNAPSHOT: exact source chain mismatch")
+    finally:
+        SOURCE_TEXT_CACHE[completion_snapshot_pointer] = \
+            completion_snapshot_body
+    cases += 1
+
+    completion_hanbit_pointer = COMPLETION_SNAPSHOT_HANBIT_POINTER
+    completion_hanbit_body = _pointer_source_text(
+        completion_hanbit_pointer, {})
+    pure_snapshot_marker = "var cap := development_cap_week()"
+    if pure_snapshot_marker not in completion_hanbit_body:
+        raise AssertionError(
+            "self-test setup: pure completion projection validator missing")
+    SOURCE_TEXT_CACHE[completion_hanbit_pointer] = (
+        completion_hanbit_body.replace(
+            pure_snapshot_marker,
+            "var state := _normalized_state(snapshot) # selftest laundering\n"
+            "\tvar cap := development_cap_week()", 1))
+    try:
+        _expect_failure(
+            "completion recap never normalizes its snapshot as live state",
+            ledger, baseline,
+            "COMPLETION_SNAPSHOT: exact source chain mismatch")
+    finally:
+        SOURCE_TEXT_CACHE[completion_hanbit_pointer] = \
+            completion_hanbit_body
+    cases += 1
+
+    frozen_hanbit_job_marker = '!= "job_03"'
+    if frozen_hanbit_job_marker not in completion_hanbit_body:
+        raise AssertionError(
+            "self-test setup: frozen Hanbit job gate missing")
+    SOURCE_TEXT_CACHE[completion_hanbit_pointer] = (
+        completion_hanbit_body.replace(
+            frozen_hanbit_job_marker, '!= "selftest_job"', 1))
+    try:
+        _expect_failure(
+            "completion recap requires the exact frozen Hanbit job",
+            ledger, baseline,
+            "COMPLETION_SNAPSHOT: exact source chain mismatch")
+    finally:
+        SOURCE_TEXT_CACHE[completion_hanbit_pointer] = \
+            completion_hanbit_body
+    cases += 1
+
+    completion_recap_pointer = COMPLETION_SNAPSHOT_RECAP_POINTER
+    completion_recap_body = _pointer_source_text(
+        completion_recap_pointer, {})
+    snapshot_reader_marker = (
+        "DEMO_CORE_LOOP_V2."
+        "completion_snapshot_has_hanbit_employment_provenance(")
+    if snapshot_reader_marker not in completion_recap_body:
+        raise AssertionError(
+            "self-test setup: completion recap projection reader missing")
+    SOURCE_TEXT_CACHE[completion_recap_pointer] = (
+        completion_recap_body.replace(
+            snapshot_reader_marker,
+            "DEMO_CORE_LOOP_V2.has_hanbit_employment_provenance(", 1))
+    try:
+        _expect_failure(
+            "completion recap calls the projection-specific Hanbit reader",
+            ledger, baseline,
+            "COMPLETION_SNAPSHOT: exact source chain mismatch")
+    finally:
+        SOURCE_TEXT_CACHE[completion_recap_pointer] = completion_recap_body
+    cases += 1
+
+    legacy_completion_pointer = LEGACY_040746_ACTIVE_STORY_COMPLETION_POINTER
+    legacy_completion_body = _pointer_source_text(
+        legacy_completion_pointer, {})
+    legacy_completion_marker = "_sns_story_receipt_complete(state, turn)"
+    if legacy_completion_marker not in legacy_completion_body:
+        raise AssertionError(
+            "self-test setup: admitted SNS post-choice completion gate missing")
+    SOURCE_TEXT_CACHE[legacy_completion_pointer] = (
+        legacy_completion_body.replace(
+            legacy_completion_marker, "true", 1))
+    try:
+        _expect_failure(
+            "admitted legacy SNS post-choice requires exact installed receipt",
+            ledger, baseline,
+            "post-choice legacy Story authority must reach its exact MainGame next verb")
+    finally:
+        SOURCE_TEXT_CACHE[legacy_completion_pointer] = legacy_completion_body
+    cases += 1
+
+    legacy_route_pointer = LEGACY_040746_ACTIVE_STORY_ROUTE_POINTER
+    legacy_route_body = _pointer_source_text(legacy_route_pointer, {})
+    legacy_route_marker = \
+        "if DEMO_CORE_LOOP_V2.legacy_active_story_completion_ready():"
+    if legacy_route_marker not in legacy_route_body:
+        raise AssertionError(
+            "self-test setup: admitted legacy post-choice MainGame route missing")
+    SOURCE_TEXT_CACHE[legacy_route_pointer] = legacy_route_body.replace(
+        legacy_route_marker,
+        "if false and DEMO_CORE_LOOP_V2.legacy_active_story_completion_ready():",
+        1)
+    try:
+        _expect_failure(
+            "admitted legacy post-choice owner cannot lose its next verb",
+            ledger, baseline,
+            "post-choice legacy Story authority must reach its exact MainGame next verb")
+    finally:
+        SOURCE_TEXT_CACHE[legacy_route_pointer] = legacy_route_body
+    cases += 1
+
+    action_record_pointer = ACTION_RECORD_FROM_WEEKLY_COMMITMENT_POINTER
+    action_record_body = _pointer_source_text(action_record_pointer, {})
+    nested_exact_turn_marker = (
+        "not _terminal_integral_number_matches(\n"
+        "\t\t\t\t\tfollowup.get(\"turn\", null), record_turn)")
+    if nested_exact_turn_marker not in action_record_body:
+        raise AssertionError(
+            "self-test setup: exact nested follow-up turn guard missing")
+    SOURCE_TEXT_CACHE[action_record_pointer] = action_record_body.replace(
+        nested_exact_turn_marker,
+        'int(followup.get("turn", -1)) != record_turn', 1)
+    try:
+        _expect_failure(
+            "typed action reader rejects fractional nested follow-up turns",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:action:m2_seorin_application")
+    finally:
+        SOURCE_TEXT_CACHE[action_record_pointer] = action_record_body
+    cases += 1
+
+    action_turn_marker = 'receipt.get("turn", null)'
+    if action_turn_marker not in action_helper_body:
+        raise AssertionError(
+            "self-test setup: typed action predicate turn marker missing")
+    SOURCE_TEXT_CACHE[action_helper_pointer] = action_helper_body.replace(
+        action_turn_marker, 'receipt.get("turn", 0)', 1)
+    try:
+        _expect_failure(
+            "typed action prerequisite requires an exact receipt turn",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:action:m2_seorin_application")
+    finally:
+        SOURCE_TEXT_CACHE[action_helper_pointer] = action_helper_body
+    cases += 1
+
+    terminal_action_pointer = (
+        "systems/DemoCoreLoopV2.gd::"
+        "_terminal_action_receipt_proof_matches_state")
+    terminal_action_body = _pointer_source_text(terminal_action_pointer, {})
+    terminal_action_turn_marker = 'action.get("turn", null)'
+    if terminal_action_turn_marker not in terminal_action_body:
+        raise AssertionError(
+            "self-test setup: terminal action proof turn marker missing")
+    SOURCE_TEXT_CACHE[terminal_action_pointer] = terminal_action_body.replace(
+        terminal_action_turn_marker, 'action.get("turn", 0)', 1)
+    try:
+        _expect_failure(
+            "terminal action proof requires the exact saved receipt turn",
+            ledger, baseline,
+            "no runtime proof directly binds fact "
+            "receipt:action:m2_sleep_debt_sunday")
+    finally:
+        SOURCE_TEXT_CACHE[terminal_action_pointer] = terminal_action_body
+    cases += 1
+
+    # The Seorin completion, application transition, and typed action receipt
+    # are three independently validated facts owned by one atomic action.
+    # They may share one fan-in axis, while every near-miss remains distinct.
+    seorin_atomic_axis = (
+        "input:action:m2_seorin_application:apply:month2:submitted")
+    for fact_id in (
+            "receipt:completed:m2_seorin_application",
+            "receipt:application:seorin_contract_2026q1:submitted",
+            "receipt:action:m2_seorin_application"):
+        if _fanin_memory_axis(fact_id) != seorin_atomic_axis:
+            raise AssertionError(
+                "self-test setup: Seorin atomic fan-in axis mismatch")
+    for fact_id in (
+            "receipt:application:seorin_contract_2026q1:no_offer",
+            "receipt:action:m2_seorin_application:apply",
+            "receipt:completed:m3_seorin_result_message"):
+        if _fanin_memory_axis(fact_id) == seorin_atomic_axis:
+            raise AssertionError(
+                "Seorin fan-in canonicalization accepted a near-miss fact")
+    cases += 1
 
     for field, needle in (
             ("branch_ids", "branch IDs do not mirror row contract"),
@@ -17500,6 +23298,8 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
 
     for core_proof_id in (
             "proof:runtime:allocation_commit",
+            CURRENT_APPLICATION_ACTION_RECORD_PROOF_ID,
+            FRESH_W1_APPLICATION_RECOVERY_GATE_PROOF_ID,
             "proof:runtime:terminal_expiry",
             "proof:runtime:first_eligible_person"):
         unrelated_core_proof = copy.deepcopy(ledger)
@@ -17642,7 +23442,7 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
              "missed_contract: source expiry contract mismatch"),
             ("reader_ids", ["reader:month:m02:summary"],
              "missed_contract: source expiry contract mismatch"),
-            ("changes_future_availability", True,
+            ("changes_future_availability", False,
              "missed future-availability source graph mismatch")):
         missed_drift = copy.deepcopy(ledger)
         missed_drift["rows"][0]["missed_contract"][missed_field] = \

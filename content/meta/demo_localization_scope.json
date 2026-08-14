@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-08-11",
+  "updated": "2026-08-14",
   "scope": "Player-visible fresh-start Core Loop V2 surfaces through the 24-week CTA; preparation evidence, not translation or shipping approval.",
   "derivation": {
     "events": "release inventory V2 bundle/spine/runtime closure plus the fresh-start Chapter 1 card; suppressed follow-ups remain suppressed",
@@ -42,8 +42,8 @@
     "automatic_script_conversion": false,
     "body_translation": "held_until_explicit_demo_GO",
     "shipping": false,
-    "static_ui_source_count": 2782,
-    "static_ui_source_keys_sha256": "c2fdbca007086f1eb9152bf76e882692ed7e4f21e5487d65075c63a7f03952bf",
+    "static_ui_source_count": 2792,
+    "static_ui_source_keys_sha256": "e6d002715cfd502952b982bf4d6f89f177621b644639510b4264b2bf6e6cb014",
     "regions": {
       "zh-CN": {
         "source_language": "ko",
@@ -68,10 +68,10 @@
     "legacy_korean_source_keys": 2730,
     "legacy_korean_source_keys_sha256": "b67df90ba814deeac78db1b1bc4836d16596b6b93521e97a34427ae3b2bcb222",
     "current_source_snapshot": {
-      "legacy_pair_call_occurrences": 3257,
-      "post_migration_legacy_pair_call_occurrences": 3220,
-      "legacy_korean_source_keys": 2732,
-      "legacy_korean_source_keys_sha256": "1d1424c3b3d96fa95ca4c7f289e9ab9baa9f79e87cca8e0a37fba3bc3babbf58"
+      "legacy_pair_call_occurrences": 3266,
+      "post_migration_legacy_pair_call_occurrences": 3229,
+      "legacy_korean_source_keys": 2741,
+      "legacy_korean_source_keys_sha256": "f7790efbf6ddedf132398721914195aa1c9c29fd425f3380f508beb0ad540823"
     },
     "multi_english_korean_keys": 107,
     "format_equivalent_keys": 34,
@@ -1024,8 +1024,8 @@
     "status": "resolved",
     "order": "ORDER-97",
     "alias": "LOC-0.5",
-    "raw_candidate_expressions": 55,
-    "migrate_lookup_before_format_calls": 47,
+    "raw_candidate_expressions": 56,
+    "migrate_lookup_before_format_calls": 48,
     "dynamic_pair_readers": 4,
     "branch_selected_literals": 2,
     "locale_money_formatters": 2,
@@ -1033,19 +1033,19 @@
       "scenes/CommitmentTask.gd::_format_money",
       "scenes/SeoulCycleBoard.gd::_format_money"
     ],
-    "migrated_templates": 42,
-    "new_legacy_key_candidates": 41,
+    "migrated_templates": 43,
+    "new_legacy_key_candidates": 42,
     "callsite_distribution": {
       "autoloads/GameState.gd": 4,
       "scenes/ArubaGame.gd": 1,
       "scenes/CommunicationPhone.gd": 3,
       "scenes/CoreLoopPlanner.gd": 13,
-      "scenes/MainGame.gd": 1,
+      "scenes/MainGame.gd": 2,
       "scenes/SeoulCycleBoard.gd": 2,
       "scenes/StartMenu.gd": 16,
       "scenes/StoryMode.gd": 7
     },
-    "candidate_registry_sha256": "2b63cc585c663ee145f51f6c09e3a794222367e628b05612d01856d2b4fd4398",
+    "candidate_registry_sha256": "20453b3c27423f23b88f0a8ad9d0e1c1c5fd86f12393f33034598d59b534f955",
     "candidate_registry": [
       {
         "disposition": "migrate",
@@ -1611,6 +1611,24 @@
         ],
         "ko_newlines": 0,
         "en_newlines": 0,
+        "count": 1
+      },
+      {
+        "disposition": "migrate",
+        "batch": "B",
+        "path": "scenes/MainGame.gd",
+        "function": "_core_loop_v2_send_fresh_w1_application",
+        "ko": "미래산업기술 지원서 전송 완료 (평가 %s)",
+        "en": "Mirae Industrial Tech application sent (Grade %s)",
+        "ko_signature": [
+          "%s"
+        ],
+        "en_signature": [
+          "%s"
+        ],
+        "ko_newlines": 0,
+        "en_newlines": 0,
+        "baseline_legacy_key": false,
         "count": 1
       },
       {
@@ -2196,16 +2214,16 @@
         "legacy_korean_source_keys_sha256": "fa8ebf5990fd812c2811beebec1f6f88eb6c349ba461171e368748839c59ecde"
       },
       "final": {
-        "migrated_calls": 47,
+        "migrated_calls": 48,
         "existing_lookup_before_format_migrations": 2,
         "money_formatter_migrations": 2,
         "localized_argument_calls": 1,
         "migrated_branch_literal_calls": 2,
-        "total_ui_call_occurrences": 3313,
-        "legacy_pair_call_occurrences": 3276,
+        "total_ui_call_occurrences": 3323,
+        "legacy_pair_call_occurrences": 3286,
         "context_call_occurrences": 37,
-        "legacy_korean_source_keys": 2782,
-        "legacy_korean_source_keys_sha256": "c2fdbca007086f1eb9152bf76e882692ed7e4f21e5487d65075c63a7f03952bf"
+        "legacy_korean_source_keys": 2792,
+        "legacy_korean_source_keys_sha256": "e6d002715cfd502952b982bf4d6f89f177621b644639510b4264b2bf6e6cb014"
       }
     },
     "existing_lookup_before_format_calls": 2,
@@ -2258,7 +2276,7 @@
         "count": 1
       }
     ],
-    "note": "The exact registry is the complete 55-expression disposition set. Its two preserved branch calls expand to six stable legacy translation variants; the migrated STEP 3 selector exposes two stable literals; and the locked-week suffix is one separately registered localized argument. The Aruba status parent and GameState year-choice quote were already lookup-before-format, so their target/English argument splits are separate baseline-key provenance migrations and do not alter the raw55 disposition counts or source inventory. Only whole baseline, Batch A, Batch B, or final source phases are valid; missing, extra, stale, or selector-partial rows fail before translation inventory can pass.",
+    "note": "The original raw55 registry remains historical evidence; the fresh W1 application result adds one immediately migrated post-baseline template, for 56 exact expressions. Its two preserved branch calls expand to six stable legacy translation variants; the migrated STEP 3 selector exposes two stable literals; and the locked-week suffix is one separately registered localized argument. The Aruba status parent and GameState year-choice quote were already lookup-before-format, so their target/English argument splits are separate baseline-key provenance migrations. Only whole baseline, Batch A, Batch B, or final source phases are valid; missing, extra, stale, or selector-partial rows fail before translation inventory can pass.",
     "branch_legacy_variant_keys": 6,
     "branch_legacy_variant_occurrences": 6,
     "localized_argument_calls": 1,
@@ -2529,11 +2547,11 @@
         "reason": "장부가 집결 시각을 놓쳐 대타가 넘어간 사실을 회수한다."
       },
       {
-        "source_id": "event::content/events/core_loop_v2_events.json::v2_opening_application_send::choices::[0]::result_text",
+        "source_id": "dynamic::$.scene_bundles.m1_youth_center_resume_clinic.action_config.result_body",
         "literal": "오전 9:14",
         "canonical": "09:14",
         "count": 1,
-        "reason": "지원서가 실제로 전송된 시점을 면접 예약과 분리해 증명한다."
+        "reason": "청년센터에서 실제로 지원서를 전송한 시각을 행동 결과 본문에 보존한다."
       },
       {
         "source_id": "event::content/events/core_loop_v2_events.json::v2_opening_return_math::description",
@@ -2612,27 +2630,27 @@
   "source_contract": {
     "week_1_24_event_count": 60,
     "week_1_24_event_ids_sha256": "d18b1f6e142583bde96fa9068fd0e03d7a14132a09dce89551872258593d1a22",
-    "prologue_event_count": 12,
-    "prologue_event_ids_sha256": "7b783dd4c8f8abdbb7f34219b35d50e9ea00ff221f704301c03dc9b40904dd7f",
+    "prologue_event_count": 11,
+    "prologue_event_ids_sha256": "8b0492fb4092ec80a5c0a53dd302b16fbf918c008559560c56a098d144995913",
     "chapter_event_count": 1,
     "chapter_event_ids_sha256": "d0d8c63ac3d70ac9db0fba6d550fa61f86d906f660c322b87593a639eb18a9a8",
-    "visible_event_count": 73,
-    "visible_event_ids_sha256": "340ea03ac1c6416d53b0ba97c7a74619da81cad81bb069ac3d33d732fcefcdb8",
-    "event_text_count": 471,
-    "event_text_ko_chars": 40100,
-    "event_text_sha256": "d1a15b40c75f76e722f32a51a49cda4407d4fd1208d51e0afcc4abd8edb423a8",
+    "visible_event_count": 72,
+    "visible_event_ids_sha256": "4f06623c859fd557ee1080f6be676e182206b5e26f5ec276390861f89a95159e",
+    "event_text_count": 467,
+    "event_text_ko_chars": 39705,
+    "event_text_sha256": "3a1e56e0ab6d9c7b24f9618f7600b97aab4c4ae02e56fd584be36a338294c3e6",
     "event_owner_counts": {
       "content/events/arc_daeun.json": 1,
       "content/events/arc_events.json": 12,
       "content/events/arc_midgame.json": 1,
       "content/events/chapter_cards.json": 1,
-      "content/events/core_loop_v2_events.json": 37,
+      "content/events/core_loop_v2_events.json": 36,
       "content/events/scenario_cafe.json": 10,
       "content/events/story_events.json": 11
     },
-    "demo_json_pair_occurrences": 462,
-    "demo_json_unique_keys": 436,
-    "demo_json_pairs_sha256": "79455540467dc56b0e9207b9cd4baca19acacfb449af26502c3fa7bb3db1438f",
+    "demo_json_pair_occurrences": 506,
+    "demo_json_unique_keys": 480,
+    "demo_json_pairs_sha256": "6955edad41ffa26943cb11fe3332ef40590f7f4072e5d7e6aba90e75830ea5c9",
     "demo_inline_pair_occurrences": 56,
     "demo_inline_pairs_sha256": "04a2b4b8e81cc82596086eb00c752b8631371f8253d5ab233a3300e82374aa42",
     "opening_pair_occurrences": 6,
@@ -2650,10 +2668,10 @@
       "scenes/MainGame.gd::SIDE_JOB_VIGNETTES_CONVENIENCE": 3
     },
     "activity_gd_pairs_sha256": "4b77f1dab98c5ec7dcd6e602bca2e95196c7cd68fcbd6b6dc367fbd3db14c961",
-    "dynamic_pair_occurrences": 686,
-    "dynamic_unique_keys": 657,
-    "dynamic_pairs_sha256": "653b1969ab008c49bf7207cee7c0b5eb2083cc0c5472efb228a81e3e427a39d5",
-    "dynamic_unique_sha256": "0b483dc3ba79aae2c034d2fb6ec881e0827fba009228298abd2aa99c706dd98b",
+    "dynamic_pair_occurrences": 730,
+    "dynamic_unique_keys": 701,
+    "dynamic_pairs_sha256": "c6fc4356fb7d4523da67c9012ddc84c9a81e093c53fdc01192681842642f37f9",
+    "dynamic_unique_sha256": "7bf0b1d04317d13ad78cbae022e9be4d6a7f2ddef6414cc6febb993088ed3bdf",
     "demo_ending_count": 0,
     "catalog_asset_name_ids": [
       "samsung",

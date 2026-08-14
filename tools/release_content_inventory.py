@@ -343,41 +343,33 @@ def v2_reachable_event_surfaces(
     prologue_block = gd_function_block(
         ROOT / "scenes/MainGame.gd", "_begin_month_story_and_render"
     )
-    direct_prologue_markers = re.findall(
-        r'if\s+not\s+GameState\.flags\.get\('
-        r'"story_flashforward_seen",\s*false\s*\)\s*:\s*'
-        r'_go_story_mode\(\["([^"]+)"\]\)',
+    resume_prologue_markers = re.findall(
+        r'var\s+prologue_root\s*:=\s*"([^"]+)"',
         prologue_block,
     )
-    queued_prologue_markers = re.findall(
+    retail_cold_open_markers = re.findall(
         r'if\s+not\s+GameState\.flags\.get\('
         r'"story_flashforward_seen",\s*false\s*\)\s*:\s*'
         r'prologue_root\s*=\s*"([^"]+)"',
         prologue_block,
     )
-    queue_contract = all((
-        re.search(
-            r'var\s+opening_queue:\s*Array\s*=\s*\[\s*prologue_root\s*\]',
-            prologue_block,
-        ),
-        re.search(
-            r'fresh_preplan_opening_roots\(\)',
-            prologue_block,
-        ),
-        re.search(r'_go_story_mode\(\s*opening_queue\s*\)', prologue_block),
-    ))
-    prologue_markers = direct_prologue_markers
-    if queue_contract:
-        prologue_markers += queued_prologue_markers
     expected_prologue = str(
         ledger["v2_reachability_contract"][
             "fresh_start_prologue_root"
         ]
     ).strip()
-    if prologue_markers != [expected_prologue]:
+    fresh_prologue_contract = all((
+        re.search(r'DEMO_CORE_LOOP_V2\.is_active\(\)', prologue_block),
+        re.search(r'DEMO_CORE_LOOP_V2\.begin_fresh_w1_onboarding\(\)', prologue_block),
+        re.search(r'_go_story_mode\(\s*\[\s*prologue_root\s*\]\s*\)', prologue_block),
+    ))
+    if not fresh_prologue_contract \
+            or retail_cold_open_markers != [expected_prologue] \
+            or resume_prologue_markers != ["story_arrival"]:
         errors.append(
             "V2 fresh-start prologue runtime marker differs from ledger: "
-            f"runtime={prologue_markers} ledger={expected_prologue!r}"
+            f"cold_open={retail_cold_open_markers} "
+            f"resume={resume_prologue_markers} ledger={expected_prologue!r}"
         )
 
     opening = bundles.get("opening_interview_math", {})
@@ -395,6 +387,10 @@ def v2_reachable_event_surfaces(
     replacement_block = gd_function_block(
         ROOT / "systems/DemoCoreLoopV2.gd", "opening_follow_up_event"
     )
+    legacy_queue_block = gd_function_block(
+        ROOT / "systems/DemoCoreLoopV2.gd",
+        "_legacy_preplan_opening_queue_matches",
+    )
     source_match = re.search(r'event_id\s*!=\s*"([^"]+)"', replacement_block)
     target_match = re.search(r'follow_up_id\s*!=\s*"([^"]+)"', replacement_block)
     replacement_source = source_match.group(1) if source_match else ""
@@ -406,16 +402,40 @@ def v2_reachable_event_surfaces(
             "V2 fresh-start replacement must target only "
             "story_prologue_meal->story_pressure"
         )
+    fresh_w1_replacement = re.search(
+        r'if\s+str\(onboarding\.get\(\s*"origin",\s*""\s*\)\)\s*'
+        r'==\s*W1_ONBOARDING_ORIGIN.*?'
+        r'and\s+str\(onboarding\.get\(\s*"phase",\s*""\s*\)\)\s*'
+        r'==\s*"prologue".*?'
+        r'and\s+int\(GameState\.turn\)\s*==\s*1\s*:\s*'
+        r'(?:#[^\n]*\n\s*)*return\s+""',
+        replacement_block,
+        re.S,
+    )
+    if not fresh_w1_replacement:
+        errors.append(
+            "V2 fresh-start replacement must end the ORDER-101 W1 prologue "
+            "without a follow-up event"
+        )
     for marker in (
-        "resolved_event_roots(OPENING_INTERVIEW_BUNDLE_ID)",
-        "reserved_queue.has",
+        "_preplan_opening_base_available(state)",
+        "_legacy_preplan_opening_queue_matches(reserved_queue)",
         "_preplan_opening_trigger()",
         '"story_job_unlocked"',
         '"opening_interview_application_sent"',
     ):
         if marker not in replacement_block:
             errors.append(
-                f"V2 fresh-start replacement lost runtime guard {marker!r}"
+                f"V2 legacy opening replacement lost runtime guard {marker!r}"
+            )
+    for marker in (
+        "resolved_event_roots(OPENING_INTERVIEW_BUNDLE_ID)",
+        "reserved_queue.size()",
+        "reserved_queue[root_index]",
+    ):
+        if marker not in legacy_queue_block:
+            errors.append(
+                f"V2 legacy opening queue check lost runtime guard {marker!r}"
             )
     if not re.search(
         r"return\s+OPENING_APPLICATION_EVENT_ID\s*\\?\s*"
@@ -424,10 +444,10 @@ def v2_reachable_event_surfaces(
         replacement_block,
         re.S,
     ):
-        errors.append("V2 fresh-start replacement lost its trigger return")
+        errors.append("V2 legacy opening replacement lost its trigger return")
     replacements = {
-        (replacement_source, replacement_target): trigger_event_id,
-    } if replacement_source and replacement_target and trigger_event_id else {}
+        (replacement_source, replacement_target): "",
+    } if replacement_source and replacement_target else {}
     prologue = reachable_registered_event_ids(
         {expected_prologue},
         events,
@@ -435,10 +455,29 @@ def v2_reachable_event_surfaces(
         "V2 fresh-start prologue",
         follow_up_replacements=replacements,
     )
-    if "story_pressure" in prologue or trigger_event_id not in prologue:
+    if (
+        "story_prologue_meal" not in prologue
+        or "story_pressure" in prologue
+        or trigger_event_id in prologue
+    ):
         errors.append(
-            "V2 fresh-start prologue must replace story_pressure with "
-            f"{trigger_event_id or '<missing trigger>'}"
+            "V2 fresh-start prologue must end after story_prologue_meal "
+            "without story_pressure or the legacy application preview"
+        )
+    legacy_replacements = {
+        (replacement_source, replacement_target): trigger_event_id,
+    } if replacement_source and replacement_target and trigger_event_id else {}
+    legacy_prologue = reachable_registered_event_ids(
+        {expected_prologue},
+        events,
+        errors,
+        "V2 legacy pre-ORDER-101 prologue",
+        follow_up_replacements=legacy_replacements,
+    )
+    if "story_pressure" in legacy_prologue or trigger_event_id not in legacy_prologue:
+        errors.append(
+            "V2 legacy pre-ORDER-101 prologue must still replace story_pressure "
+            f"with {trigger_event_id or '<missing trigger>'}"
         )
 
     chapter_block = gd_function_block(

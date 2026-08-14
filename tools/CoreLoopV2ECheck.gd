@@ -676,7 +676,9 @@ static func _full_route_play_preplan_opening(
 	if not GameState.apply_choice(
 			trigger_event, trigger_choices[0] as Dictionary) \
 			or not CORE_LOOP.note_story_choice(
-				CORE_LOOP.OPENING_APPLICATION_EVENT_ID, 0):
+				CORE_LOOP.OPENING_APPLICATION_EVENT_ID, 0,
+				CORE_LOOP.resolved_event_roots(
+					CORE_LOOP.OPENING_INTERVIEW_BUNDLE_ID)):
 		errors.append("pre-plan opening could not claim the sent application")
 		return
 	if CORE_LOOP.active_bundle_id() != CORE_LOOP.OPENING_INTERVIEW_BUNDLE_ID \
@@ -779,6 +781,14 @@ static func _full_route_execute_action(
 		if raw_config is Dictionary else {}
 	)
 	var execution := str(config.get("execution", ""))
+	# This 24-week route is the explicit legacy planner compatibility run.  The
+	# current bundle advertises the fresh W1 application executor, but a legacy
+	# planner still owns the ordinary resume minigame and must not mint a second
+	# Mirae application transition.
+	if bundle_id == "m1_youth_center_resume_clinic" \
+			and CORE_LOOP.fresh_w1_onboarding_snapshot().is_empty():
+		execution = "job_hunt_minigame"
+		config = {"execution": execution}
 	var flag_updates: Dictionary = {}
 	var effects: Dictionary = (
 		(config.get("effects", {}) as Dictionary).duplicate(true)
@@ -821,7 +831,9 @@ static func _full_route_execute_action(
 	if execution == "application":
 		details["application_id"] = str(config.get("application_id", ""))
 		details["status"] = str(config.get("status", "submitted"))
-		details["job_id"] = str(config.get("job_id", ""))
+		var job_id := str(config.get("job_id", "")).strip_edges()
+		if not job_id.is_empty():
+			details["job_id"] = job_id
 	else:
 		details["effects"] = effects.duplicate(true)
 		details["axis"] = axis
@@ -1992,6 +2004,11 @@ func _check_hanbit_first_bill_provenance() -> void:
 	_expect(not _hanbit_first_bill_fixture_has_candidate(
 		"job_03", "resolved", {acceptance_key: malformed}),
 		"a malformed acceptance receipt invented Hanbit employment")
+	var fractional := acceptance.duplicate(true)
+	fractional["turn"] = 17.5
+	_expect(not _hanbit_first_bill_fixture_has_candidate(
+		"job_03", "resolved", {acceptance_key: fractional}),
+		"a fractional Hanbit receipt invented employment")
 	_expect(not _hanbit_first_bill_fixture_has_candidate(
 		"job_03", "resolved", {
 			acceptance_key: acceptance,
@@ -3553,6 +3570,93 @@ func _check_actual_weeks_and_terminal_recap() -> void:
 			"한빛유통 계약이 얼마나 이어질지는 아직 알 수 없다.",
 			"You still do not know how long the Hanbit contract will last."),
 	]
+	_expect(CORE_LOOP.completion_snapshot_has_hanbit_employment_provenance(
+			completion_snapshot),
+		"frozen completion snapshot lost exact Hanbit employment provenance")
+	var live_job_backup: Dictionary = GameState.current_job.duplicate(true)
+	GameState.current_job = {"id": "job_01"}
+	_expect(main_game._core_loop_v2_unresolved_recap(
+			completion_snapshot) == expected_actual_unresolved,
+		"later live employment rewrote the frozen Hanbit recap clue")
+	GameState.current_job = live_job_backup
+
+	var missing_job_snapshot := completion_snapshot.duplicate(true)
+	missing_job_snapshot.erase("current_job_id")
+	var wrong_status_snapshot := completion_snapshot.duplicate(true)
+	var wrong_statuses: Dictionary = (
+		wrong_status_snapshot.get(
+			"application_statuses", {}) as Dictionary).duplicate(true)
+	wrong_statuses["hanbit_ops_2026q1"] = "interviewed"
+	wrong_status_snapshot["application_statuses"] = wrong_statuses
+	var sibling_snapshot := completion_snapshot.duplicate(true)
+	var sibling_transitions: Dictionary = (
+		sibling_snapshot.get(
+			"application_transition_receipts", {}) as Dictionary).duplicate(true)
+	var hanbit_transition: Dictionary = (
+		sibling_transitions.get(
+			"m5_hanbit_offer_message:v2_hanbit_offer_message:0:17", {}) \
+			as Dictionary).duplicate(true)
+	sibling_transitions["shadow_hanbit_transition"] = hanbit_transition
+	sibling_snapshot["application_transition_receipts"] = sibling_transitions
+	var missing_candidate_snapshot := completion_snapshot.duplicate(true)
+	var missing_candidate_context: Dictionary = (
+		missing_candidate_snapshot.get(
+			"demo_collision_context", {}) as Dictionary).duplicate(true)
+	var missing_candidate_ids: Array = (
+		missing_candidate_context.get("candidate_ids", []) as Array).duplicate()
+	missing_candidate_ids.erase("hanbit_month_close")
+	missing_candidate_context["candidate_ids"] = missing_candidate_ids
+	missing_candidate_snapshot["demo_collision_context"] = (
+		missing_candidate_context)
+	var unrelated_transition_snapshot := completion_snapshot.duplicate(true)
+	var unrelated_transitions: Dictionary = (
+		unrelated_transition_snapshot.get(
+			"application_transition_receipts", {}) as Dictionary).duplicate(true)
+	unrelated_transitions["unrelated:receipt:0:22"] = {
+		"receipt_key": "unrelated:receipt:0:22",
+		"application_id": "unrelated_application",
+		"from": "submitted",
+		"to": "interviewed",
+		"bundle_id": "unrelated_bundle",
+		"event_id": "unrelated_event",
+		"choice_index": 0,
+		"turn": 22,
+	}
+	unrelated_transition_snapshot["application_transition_receipts"] = (
+		unrelated_transitions)
+	var fractional_header_snapshot := completion_snapshot.duplicate(true)
+	fractional_header_snapshot["frozen_at_turn"] = 25.5
+	var malformed_base_snapshot := completion_snapshot.duplicate(true)
+	var malformed_base_transitions: Dictionary = (
+		malformed_base_snapshot.get(
+			"application_transition_receipts", {}) as Dictionary).duplicate(true)
+	malformed_base_transitions["m5_hanbit_offer_message"] = false
+	malformed_base_snapshot["application_transition_receipts"] = (
+		malformed_base_transitions)
+	var shadow_obligation_snapshot := completion_snapshot.duplicate(true)
+	var shadow_obligations: Dictionary = (
+		shadow_obligation_snapshot.get(
+			"obligation_receipts", {}) as Dictionary).duplicate(true)
+	shadow_obligations["shadow"] = (
+		shadow_obligations.get("demo_collision", {}) as Dictionary).duplicate(true)
+	shadow_obligation_snapshot["obligation_receipts"] = shadow_obligations
+	_expect(not CORE_LOOP.completion_snapshot_has_hanbit_employment_provenance(
+			missing_job_snapshot) \
+		and not CORE_LOOP.completion_snapshot_has_hanbit_employment_provenance(
+			wrong_status_snapshot) \
+		and not CORE_LOOP.completion_snapshot_has_hanbit_employment_provenance(
+			sibling_snapshot) \
+		and not CORE_LOOP.completion_snapshot_has_hanbit_employment_provenance(
+			missing_candidate_snapshot) \
+		and not CORE_LOOP.completion_snapshot_has_hanbit_employment_provenance(
+			fractional_header_snapshot) \
+		and not CORE_LOOP.completion_snapshot_has_hanbit_employment_provenance(
+			malformed_base_snapshot) \
+		and not CORE_LOOP.completion_snapshot_has_hanbit_employment_provenance(
+			shadow_obligation_snapshot) \
+		and CORE_LOOP.completion_snapshot_has_hanbit_employment_provenance(
+			unrelated_transition_snapshot),
+		"Hanbit completion projection accepted stripped/conflicting authority")
 	_expect(main_game._core_loop_v2_unresolved_recap(
 			completion_snapshot) == expected_actual_unresolved,
 		"actual terminal unresolved recap was not the exact Father/Hyunsu/Hanbit set")
@@ -3881,7 +3985,9 @@ func _finish_begun_action(bundle_id: String) -> bool:
 	if execution == "application":
 		details["application_id"] = str(config.get("application_id", ""))
 		details["status"] = str(config.get("status", "submitted"))
-		details["job_id"] = str(config.get("job_id", ""))
+		var job_id := str(config.get("job_id", "")).strip_edges()
+		if not job_id.is_empty():
+			details["job_id"] = job_id
 	else:
 		details["effects"] = effects.duplicate(true)
 		if execution == "instant_effect":

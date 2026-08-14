@@ -5,6 +5,7 @@ extends Node
 
 const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
 const MAIN_GAME_SCENE := preload("res://scenes/MainGame.tscn")
+const STORY_MODE_SCENE := preload("res://scenes/StoryMode.tscn")
 const CHAPTER_EVENT_ID := "chapter_card_33"
 const PRESSURE_EVENT_ID := "story_pressure"
 const APPLICATION_EVENT_ID := "v2_opening_application_send"
@@ -13,6 +14,17 @@ const MATH_EVENT_ID := "v2_opening_return_math"
 const OPENING_BUNDLE_ID := "opening_interview_math"
 const OPENING_ROOTS := [INTERVIEW_EVENT_ID, MATH_EVENT_ID]
 const TUTORIAL_ID := "core_loop_v2"
+const ORDER101_SAVE_PHASES := [
+	"pre_commit",
+	"draft_pre_send",
+	"post_send_pre_story",
+	"story_choice",
+	"story_result",
+	"post_interview_pre_week_close",
+	"week_closed",
+	"w5_result_presented",
+	"consumed",
+]
 
 var _failures: Array[String] = []
 var _underlying_presses := 0
@@ -58,7 +70,8 @@ func _run() -> void:
 			+ "story_writes=0 duplicate_send=0 input_leak=0 save_reshow=0 "
 			+ "save_editable=1 root_east_guard=1 turn_skip_guard=1 "
 			+ "surface_action_guard=tutorial+board "
-			+ "legacy_untouched=1")
+			+ "legacy_untouched=1 "
+			+ "order101_persistence=9x2x2")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -116,6 +129,7 @@ func _check_opening_contracts() -> void:
 	_check_fresh_typed_interview_math_receipts()
 	await _check_saved_preplan_recovery()
 	await _check_legacy_preplan_untouched()
+	await _check_order101_persistence_matrix()
 
 
 func _check_fresh_opening_queue() -> void:
@@ -640,6 +654,785 @@ func _check_legacy_preplan_untouched() -> void:
 	await get_tree().process_frame
 
 
+func _check_order101_persistence_matrix() -> void:
+	var checkpoints: Array[Dictionary] = []
+	checkpoints.append_array(await _build_order101_fresh_checkpoints())
+	checkpoints.append_array(await _build_order101_legacy_checkpoints())
+	var phase_origins: Dictionary = {}
+	var reload_counts: Dictionary = {}
+	for checkpoint in checkpoints:
+		var phase := str(checkpoint.get("phase", ""))
+		var origin := str(checkpoint.get("origin", ""))
+		var key := "%s:%s" % [phase, origin]
+		phase_origins[key] = int(phase_origins.get(key, 0)) + 1
+		for reload_index in range(2):
+			await _reload_order101_checkpoint(checkpoint, reload_index + 1)
+			reload_counts[key] = int(reload_counts.get(key, 0)) + 1
+	var exact_matrix := checkpoints.size() == ORDER101_SAVE_PHASES.size() * 2
+	for phase in ORDER101_SAVE_PHASES:
+		for origin in ["fresh", "legacy"]:
+			var key := "%s:%s" % [phase, origin]
+			exact_matrix = exact_matrix \
+				and int(phase_origins.get(key, 0)) == 1 \
+				and int(reload_counts.get(key, 0)) == 2
+	_expect(exact_matrix,
+		"ORDER-101 persistence did not execute exact 9 phases x fresh/legacy "
+		+ "x two reloads: phases=%s reloads=%s" % [
+			str(phase_origins), str(reload_counts),
+		])
+	SaveManager.clear_loaded_resume_context()
+	GameState.pending_story_queue.clear()
+	GameState.story_return_scene = ""
+
+
+func _build_order101_fresh_checkpoints() -> Array[Dictionary]:
+	var checkpoints: Array[Dictionary] = []
+	_reset_order101_persistence_fixture()
+	var began := CORE_LOOP.begin_fresh_w1_onboarding()
+	var initialized := CORE_LOOP.initialize_seoul_cycle(1)
+	_expect(began and bool(initialized.get("ok", false)),
+		"ORDER-101 fresh persistence fixture could not open the W1 board")
+	if not began or not bool(initialized.get("ok", false)):
+		return checkpoints
+	checkpoints.append(_order101_checkpoint(
+		"pre_commit", "fresh", {}, {
+			"turn": 1,
+			"onboarding_origin": "fresh_order101",
+			"onboarding_phase": "board",
+			"capacity_consumed": 0,
+			"allocation_count": 0,
+			"application_status": "",
+			"action_count": 0,
+			"active_bundle": "",
+		}))
+
+	var minigame_started := _start_fresh_w1_minigame_from_open_board()
+	var before_draft: Dictionary = GameState.serialize().duplicate(true)
+	var draft_accepted := minigame_started \
+		and CORE_LOOP.stage_fresh_w1_application_draft(3, 3)
+	_expect(draft_accepted and GameState.serialize() == before_draft,
+		"ORDER-101 fresh draft fixture persisted its memory-only score")
+	if not draft_accepted:
+		return checkpoints
+	checkpoints.append(_order101_checkpoint(
+		"draft_pre_send", "fresh", {}, {
+			"turn": 1,
+			"onboarding_phase": "minigame",
+			"onboarding_quality": -1,
+			"capacity_consumed": 1,
+			"allocation_count": 1,
+			"pending_weekly": true,
+			"application_status": "",
+			"action_count": 0,
+			"active_bundle": "m1_youth_center_resume_clinic",
+		}))
+
+	var finalized := CORE_LOOP.finalize_fresh_w1_application(2, 2)
+	_expect(bool(finalized.get("ok", false)),
+		"ORDER-101 fresh persistence fixture could not commit Send")
+	if not bool(finalized.get("ok", false)):
+		return checkpoints
+	checkpoints.append(_order101_checkpoint(
+		"post_send_pre_story", "fresh", {}, {
+			"onboarding_phase": "result_committed",
+			"onboarding_quality": 2,
+			"capacity_consumed": 1,
+			"allocation_count": 1,
+			"pending_weekly": false,
+			"weekly_count": 1,
+			"application_status": "submitted",
+			"action_count": 1,
+			"w1_action_quality": 2,
+			"action_result_ready": true,
+			"active_bundle": "m1_youth_center_resume_clinic",
+		}))
+
+	var handoff := CORE_LOOP.complete_fresh_w1_action_and_claim_interview()
+	_expect(bool(handoff.get("ok", false)),
+		"ORDER-101 fresh persistence fixture could not present its interview")
+	if not bool(handoff.get("ok", false)):
+		return checkpoints
+	var interview_phases := await _capture_order101_story_phases(
+		[INTERVIEW_EVENT_ID, MATH_EVENT_ID], 0)
+	if interview_phases.is_empty():
+		return checkpoints
+	checkpoints.append(_order101_checkpoint_from_state(
+		"story_choice", "fresh",
+		interview_phases.get("choice_state", {}),
+		interview_phases.get("choice_context", {}), {
+			"onboarding_phase": "consequence_presented",
+			"application_status": "submitted",
+			"opening_receipt_status": "presented",
+			"opening_choice_count": 0,
+			"w1_completed_count": 1,
+			"active_bundle": OPENING_BUNDLE_ID,
+			"active_kind": "consequence",
+		}))
+	checkpoints.append(_order101_checkpoint_from_state(
+		"story_result", "fresh",
+		interview_phases.get("result_state", {}),
+		interview_phases.get("result_context", {}), {
+			"onboarding_phase": "consequence_presented",
+			"application_status": "interviewed",
+			"opening_receipt_status": "presented",
+			"opening_choice_count": 1,
+			"w1_completed_count": 1,
+			"active_bundle": OPENING_BUNDLE_ID,
+			"active_kind": "consequence",
+		}))
+
+	var math_event: Dictionary = DataRegistry.find_event(MATH_EVENT_ID)
+	var math_choices: Array = math_event.get("choices", [])
+	var math_state: Dictionary = GameState.serialize().duplicate(true)
+	var math_acknowledged := not math_choices.is_empty() \
+		and GameState.apply_choice(math_event, math_choices[0] as Dictionary) \
+		and CORE_LOOP.note_story_choice(MATH_EVENT_ID, 0)
+	_expect(math_acknowledged and GameState.serialize() == math_state,
+		"ORDER-101 fresh math checkpoint was not expression-only")
+	CORE_LOOP.restore_story_bundle_followups()
+	var opening_consumed := math_acknowledged \
+		and CORE_LOOP.complete_active_bundle() == OPENING_BUNDLE_ID
+	_expect(opening_consumed,
+		"ORDER-101 fresh persistence fixture could not consume the interview")
+	if not opening_consumed:
+		return checkpoints
+	checkpoints.append(_order101_checkpoint(
+		"post_interview_pre_week_close", "fresh", {}, {
+			"turn": 1,
+			"onboarding_phase": "consumed",
+			"application_status": "interviewed",
+			"opening_receipt_status": "consumed",
+			"opening_choice_count": 1,
+			"active_bundle": "",
+			"outer_completed_turns": [],
+		}))
+
+	var w1_closed := CORE_LOOP.complete_seoul_cycle_turn(1)
+	_expect(bool(w1_closed.get("ok", false)),
+		"ORDER-101 fresh persistence fixture could not close W1")
+	if not bool(w1_closed.get("ok", false)):
+		return checkpoints
+	checkpoints.append(_order101_checkpoint(
+		"week_closed", "fresh", {}, {
+			"turn": 1,
+			"onboarding_phase": "consumed",
+			"application_status": "interviewed",
+			"opening_receipt_status": "consumed",
+			"outer_completed_turns": [1],
+		}))
+
+	var w5_presented := await _advance_order101_fresh_fixture_to_w5_result()
+	_expect(w5_presented,
+		"ORDER-101 fresh persistence fixture could not present the W5 result")
+	if not w5_presented:
+		return checkpoints
+	var w5_phases := await _capture_order101_story_phases(
+		["v2_mirae_result_message"], 0)
+	if w5_phases.is_empty():
+		return checkpoints
+	checkpoints.append(_order101_checkpoint_from_state(
+		"w5_result_presented", "fresh",
+		w5_phases.get("choice_state", {}),
+		w5_phases.get("choice_context", {}), {
+			"turn": 5,
+			"onboarding_origin": "fresh_order101",
+			"onboarding_phase": "consumed",
+			"application_status": "interviewed",
+			"w5_choice_count": 0,
+			"w5_world_status": "claimed",
+			"active_bundle": "m2_mirae_result_message",
+			"active_kind": "schedule",
+		}))
+	CORE_LOOP.restore_story_bundle_followups()
+	var w5_consumed := CORE_LOOP.complete_active_bundle() \
+		== "m2_mirae_result_message"
+	_expect(w5_consumed,
+		"ORDER-101 fresh persistence fixture could not consume the W5 result")
+	if not w5_consumed:
+		return checkpoints
+	checkpoints.append(_order101_checkpoint(
+		"consumed", "fresh", {}, {
+			"turn": 5,
+			"onboarding_origin": "fresh_order101",
+			"onboarding_phase": "consumed",
+			"application_status": "no_offer",
+			"w5_choice_count": 1,
+			"w5_completed_count": 1,
+			"w5_world_status": "resolved",
+			"active_bundle": "",
+		}))
+	return checkpoints
+
+
+func _build_order101_legacy_checkpoints() -> Array[Dictionary]:
+	var checkpoints: Array[Dictionary] = []
+	_reset_order101_persistence_fixture()
+	var roots := [INTERVIEW_EVENT_ID, MATH_EVENT_ID]
+	var before_send_state: Dictionary = GameState.serialize().duplicate(true)
+	var before_send := await _capture_order101_story_choice(
+		[APPLICATION_EVENT_ID, INTERVIEW_EVENT_ID, MATH_EVENT_ID])
+	if before_send.is_empty():
+		return checkpoints
+	checkpoints.append(_order101_checkpoint_from_state(
+		"pre_commit", "legacy",
+		before_send.get("state", {}), before_send.get("context", {}), {
+			"turn": 1,
+			"onboarding_origin": "",
+			"onboarding_phase": "",
+			"application_status": "",
+			"action_count": 0,
+			"weekly_count": 0,
+			"active_bundle": "",
+		}))
+
+	_reset_order101_persistence_fixture()
+	var legacy_minigame := CORE_LOOP.begin_bundle(
+		"m1_youth_center_resume_clinic", "schedule") \
+		and GameState.arm_weekly_commitment({
+			"turn": 1,
+			"pressure_id": "m1_youth_center_resume_clinic",
+			"pressure_family": "growth",
+			"choice_id": "resume",
+			"forgone_ids": [],
+		})
+	_expect(legacy_minigame,
+		"ORDER-101 legacy mid-minigame fixture could not preserve its owner")
+	if not legacy_minigame:
+		return checkpoints
+	checkpoints.append(_order101_checkpoint(
+		"draft_pre_send", "legacy", {}, {
+			"turn": 1,
+			"onboarding_origin": "",
+			"onboarding_phase": "",
+			"pending_weekly": true,
+			"application_status": "",
+			"action_count": 0,
+			"allocation_count": 0,
+			"active_bundle": "m1_youth_center_resume_clinic",
+			"active_kind": "schedule",
+		}))
+
+	GameState.start_new_game()
+	GameState.load_from_dict(before_send_state)
+	CORE_LOOP.initialize_for_run()
+	var legacy_send_phases := await _capture_order101_story_phases(
+		[APPLICATION_EVENT_ID, INTERVIEW_EVENT_ID, MATH_EVENT_ID], 0)
+	if legacy_send_phases.is_empty():
+		return checkpoints
+	checkpoints.append(_order101_checkpoint_from_state(
+		"post_send_pre_story", "legacy",
+		legacy_send_phases.get("result_state", {}),
+		legacy_send_phases.get("result_context", {}), {
+			"onboarding_origin": "",
+			"application_status": "submitted",
+			"opening_receipt_status": "presented",
+			"action_count": 0,
+			"weekly_count": 0,
+			"active_bundle": OPENING_BUNDLE_ID,
+			"active_kind": "consequence",
+		}))
+
+	var legacy_submitted_state: Dictionary = legacy_send_phases.get(
+		"result_state", {})
+	GameState.start_new_game()
+	GameState.load_from_dict(legacy_submitted_state)
+	CORE_LOOP.initialize_for_run()
+	var legacy_interview_phases := await _capture_order101_story_phases(
+		roots, 0)
+	if legacy_interview_phases.is_empty():
+		return checkpoints
+	checkpoints.append(_order101_checkpoint_from_state(
+		"story_choice", "legacy",
+		legacy_interview_phases.get("choice_state", {}),
+		legacy_interview_phases.get("choice_context", {}), {
+			"onboarding_origin": "",
+			"application_status": "submitted",
+			"opening_receipt_status": "presented",
+			"opening_choice_count": 0,
+			"active_bundle": OPENING_BUNDLE_ID,
+		}))
+	checkpoints.append(_order101_checkpoint_from_state(
+		"story_result", "legacy",
+		legacy_interview_phases.get("result_state", {}),
+		legacy_interview_phases.get("result_context", {}), {
+			"onboarding_origin": "",
+			"application_status": "interviewed",
+			"opening_receipt_status": "presented",
+			"opening_choice_count": 1,
+			"active_bundle": OPENING_BUNDLE_ID,
+		}))
+
+	var math_event: Dictionary = DataRegistry.find_event(MATH_EVENT_ID)
+	var math_choices: Array = math_event.get("choices", [])
+	var before_math: Dictionary = GameState.serialize().duplicate(true)
+	var math_acknowledged := not math_choices.is_empty() \
+		and GameState.apply_choice(math_event, math_choices[0] as Dictionary) \
+		and CORE_LOOP.note_story_choice(MATH_EVENT_ID, 0)
+	_expect(math_acknowledged and GameState.serialize() == before_math,
+		"ORDER-101 legacy math checkpoint changed serialized state")
+	CORE_LOOP.restore_story_bundle_followups()
+	var interview_consumed := math_acknowledged \
+		and CORE_LOOP.complete_active_bundle() == OPENING_BUNDLE_ID
+	_expect(interview_consumed,
+		"ORDER-101 legacy persistence fixture could not consume its interview")
+	if not interview_consumed:
+		return checkpoints
+	checkpoints.append(_order101_checkpoint(
+		"post_interview_pre_week_close", "legacy", {}, {
+			"turn": 1,
+			"onboarding_origin": "",
+			"application_status": "interviewed",
+			"opening_receipt_status": "consumed",
+			"opening_choice_count": 1,
+			"weekly_count": 0,
+			"active_bundle": "",
+		}))
+
+	GameState.advance_calendar()
+	checkpoints.append(_order101_checkpoint(
+		"week_closed", "legacy", {}, {
+			"turn": 2,
+			"onboarding_origin": "",
+			"application_status": "interviewed",
+			"opening_receipt_status": "consumed",
+			"weekly_count": 0,
+			"outer_completed_turns": [],
+		}))
+	while GameState.turn < 5:
+		GameState.advance_calendar()
+	var legacy_w5_began := CORE_LOOP.begin_bundle(
+		"m2_mirae_result_message", "consequence")
+	_expect(legacy_w5_began,
+		"ORDER-101 legacy persistence fixture could not open the W5 result")
+	if not legacy_w5_began:
+		return checkpoints
+	CORE_LOOP.prepare_story_bundle("m2_mirae_result_message")
+	var legacy_w5_phases := await _capture_order101_story_phases(
+		["v2_mirae_result_message"], 0)
+	if legacy_w5_phases.is_empty():
+		return checkpoints
+	checkpoints.append(_order101_checkpoint_from_state(
+		"w5_result_presented", "legacy",
+		legacy_w5_phases.get("choice_state", {}),
+		legacy_w5_phases.get("choice_context", {}), {
+			"turn": 5,
+			"onboarding_origin": "",
+			"application_status": "interviewed",
+			"w5_choice_count": 0,
+			"active_bundle": "m2_mirae_result_message",
+			"active_kind": "consequence",
+			"weekly_count": 0,
+		}))
+	CORE_LOOP.restore_story_bundle_followups()
+	var legacy_w5_consumed := CORE_LOOP.complete_active_bundle() \
+		== "m2_mirae_result_message"
+	_expect(legacy_w5_consumed,
+		"ORDER-101 legacy persistence fixture could not consume the W5 result")
+	if not legacy_w5_consumed:
+		return checkpoints
+	checkpoints.append(_order101_checkpoint(
+		"consumed", "legacy", {}, {
+			"turn": 5,
+			"onboarding_origin": "",
+			"application_status": "no_offer",
+			"w5_choice_count": 1,
+			"w5_consequence_status": "consumed",
+			"w5_completed_count": 0,
+			"active_bundle": "",
+			"weekly_count": 0,
+		}))
+	return checkpoints
+
+
+func _reset_order101_persistence_fixture() -> void:
+	SaveManager.clear_loaded_resume_context()
+	GameState.pending_story_queue.clear()
+	GameState.story_return_scene = ""
+	GameState.start_new_game()
+	CORE_LOOP.initialize_for_run(true)
+	GameState.flags["prologue_done"] = true
+
+
+func _order101_checkpoint(
+		phase: String, origin: String, resume_context: Dictionary,
+		contract: Dictionary) -> Dictionary:
+	return _order101_checkpoint_from_state(
+		phase, origin, GameState.serialize().duplicate(true),
+		resume_context, contract)
+
+
+func _order101_checkpoint_from_state(
+		phase: String, origin: String, state: Dictionary,
+		resume_context: Dictionary, contract: Dictionary) -> Dictionary:
+	var live_state: Dictionary = GameState.serialize().duplicate(true)
+	GameState.start_new_game()
+	GameState.load_from_dict(state.duplicate(true))
+	CORE_LOOP.initialize_for_run()
+	var signature := _order101_persistence_signature()
+	_expect(_order101_signature_contains(signature, contract),
+		"ORDER-101 %s/%s fixture missed its nonvacuous contract: " % [
+			origin, phase,
+		] + "expected=%s actual=%s" % [str(contract), str(signature)])
+	GameState.start_new_game()
+	GameState.load_from_dict(live_state)
+	CORE_LOOP.initialize_for_run()
+	return {
+		"phase": phase,
+		"origin": origin,
+		"state": state.duplicate(true),
+		"resume": resume_context.duplicate(true),
+		"expected_signature": signature,
+		"contract": contract.duplicate(true),
+		"resume_event": str(resume_context.get("event_id", "")),
+		"resume_phase": str(resume_context.get("phase", "")),
+		"resume_queue": (
+			(resume_context.get("queue", []) as Array).duplicate(true)
+			if resume_context.get("queue", []) is Array else []),
+	}
+
+
+func _reload_order101_checkpoint(
+		checkpoint: Dictionary, reload_index: int) -> void:
+	GameState.start_new_game()
+	GameState.load_from_dict(
+		(checkpoint.get("state", {}) as Dictionary).duplicate(true))
+	CORE_LOOP.initialize_for_run()
+	var signature := _order101_persistence_signature()
+	var expected_signature: Dictionary = checkpoint.get(
+		"expected_signature", {})
+	var contract: Dictionary = checkpoint.get("contract", {})
+	var label := "%s/%s reload %d" % [
+		str(checkpoint.get("origin", "")),
+		str(checkpoint.get("phase", "")), reload_index,
+	]
+	_expect(signature == expected_signature \
+			and _order101_signature_contains(signature, contract),
+		("ORDER-101 %s changed AP/capacity/effect/quality/application/choice/"
+		+ "completion identity: expected=%s actual=%s") % [
+			label, str(expected_signature), str(signature),
+		])
+	var resume: Dictionary = checkpoint.get("resume", {})
+	if resume.is_empty():
+		return
+	var restored := await _restore_order101_story_context(resume)
+	_expect(str(restored.get("event_id", "")) \
+			== str(checkpoint.get("resume_event", "")) \
+			and str(restored.get("phase", "")) \
+				== str(checkpoint.get("resume_phase", "")) \
+			and restored.get("queue", []) \
+				== checkpoint.get("resume_queue", []),
+		"ORDER-101 %s did not restore its exact Story event/phase/queue: %s" % [
+			label, str(restored),
+		])
+
+
+func _order101_persistence_signature() -> Dictionary:
+	var state: Dictionary = GameState.core_loop_v2_state
+	var onboarding := CORE_LOOP.fresh_w1_onboarding_snapshot()
+	var cycle := CORE_LOOP.seoul_cycle_snapshot(
+		CORE_LOOP.month_for_turn(GameState.turn))
+	var consumed_capacity := 0
+	for raw_capacity in cycle.get("capacities", []):
+		if raw_capacity is Dictionary \
+				and bool((raw_capacity as Dictionary).get("consumed", false)):
+			consumed_capacity += 1
+	var action_receipts: Dictionary = state.get("action_receipts", {})
+	var w1_action: Dictionary = action_receipts.get(
+		"m1_youth_center_resume_clinic", {})
+	var opening_receipt: Dictionary = (
+		state.get("consequence_receipts", {}) as Dictionary
+	).get(OPENING_BUNDLE_ID, {})
+	var w5_consequence: Dictionary = (
+		state.get("consequence_receipts", {}) as Dictionary
+	).get("m2_mirae_result_message", {})
+	var pending_world: Dictionary = cycle.get("pending_world", {})
+	var w5_world: Dictionary = (
+		cycle.get("world_receipts", {}) as Dictionary).get("1", {})
+	var w5_world_status := str(w5_world.get("status", ""))
+	if w5_world_status.is_empty() \
+			and str(pending_world.get("bundle_id", "")) \
+				== "m2_mirae_result_message":
+		w5_world_status = str(pending_world.get("status", ""))
+	var completed: Array = state.get("completed_bundles", [])
+	return {
+		"turn": int(GameState.turn),
+		"week_of_month": int(GameState.week_of_month),
+		"action_points": int(GameState.action_points),
+		"effect_state": {
+			"money": float(GameState.money),
+			"health": int(GameState.health),
+			"mental": int(GameState.mental),
+			"intelligence": int(GameState.intelligence),
+			"social_skill": int(GameState.social_skill),
+			"reputation": int(GameState.reputation),
+		},
+		"current_job": GameState.current_job.duplicate(true),
+		"onboarding_schema": int(onboarding.get("schema", 0)),
+		"onboarding_origin": str(onboarding.get("origin", "")),
+		"onboarding_phase": str(onboarding.get("phase", "")),
+		"onboarding_quality": int(onboarding.get("quality", -1)),
+		"selected_capacity_id": str(onboarding.get(
+			"selected_capacity_id", "")),
+		"capacity_consumed": consumed_capacity,
+		"allocation_count": (
+			cycle.get("allocation_receipts", {}) as Dictionary).size(),
+		"pending_weekly": GameState.has_pending_weekly_commitment(
+			GameState.turn),
+		"weekly_count": GameState.weekly_commitments.size(),
+		"action_count": action_receipts.size(),
+		"w1_action_quality": int((w1_action.get(
+			"result_details", {}) as Dictionary).get("quality", -1)),
+		"application_status": CORE_LOOP.application_status(
+			"mirae_industrial_tech"),
+		"application_transition_count": (
+			state.get("application_transition_receipts", {}) as Dictionary
+		).size(),
+		"opening_choice_count": _order101_story_choice_count(
+			OPENING_BUNDLE_ID, INTERVIEW_EVENT_ID),
+		"w5_choice_count": _order101_story_choice_count(
+			"m2_mirae_result_message", "v2_mirae_result_message"),
+		"opening_receipt_status": str(opening_receipt.get("status", "")),
+		"w5_consequence_status": str(w5_consequence.get("status", "")),
+		"w5_world_status": w5_world_status,
+		"w1_completed_count": completed.count(
+			"m1_youth_center_resume_clinic"),
+		"w5_completed_count": completed.count("m2_mirae_result_message"),
+		"completed_bundle_count": completed.size(),
+		"outer_completed_turns": (
+			state.get("completed_turns", []) as Array).duplicate(),
+		"active_bundle": CORE_LOOP.active_bundle_id(),
+		"active_kind": CORE_LOOP.active_kind(),
+		"action_result_ready": bool(state.get("action_result_ready", false)),
+	}
+
+
+func _order101_story_choice_count(bundle_id: String, event_id: String) -> int:
+	var count := 0
+	for raw_receipt in (
+			GameState.core_loop_v2_state.get(
+				"story_choice_receipts", {}) as Dictionary).values():
+		if raw_receipt is Dictionary \
+				and str((raw_receipt as Dictionary).get(
+					"bundle_id", "")) == bundle_id \
+				and str((raw_receipt as Dictionary).get(
+					"event_id", "")) == event_id:
+			count += 1
+	return count
+
+
+func _order101_signature_contains(
+		actual: Dictionary, expected: Dictionary) -> bool:
+	for raw_key in expected:
+		var key := str(raw_key)
+		if not actual.has(key) or actual.get(key) != expected.get(raw_key):
+			return false
+	return true
+
+
+func _capture_order101_story_choice(event_queue: Array) -> Dictionary:
+	var phases := await _capture_order101_story_phases(event_queue, -1)
+	if phases.is_empty():
+		return {}
+	return {
+		"state": (phases.get("choice_state", {}) as Dictionary).duplicate(true),
+		"context": (
+			phases.get("choice_context", {}) as Dictionary).duplicate(true),
+	}
+
+
+func _capture_order101_story_phases(
+		event_queue: Array, choice_index: int) -> Dictionary:
+	if event_queue.is_empty():
+		_expect(false, "ORDER-101 Story checkpoint received an empty queue")
+		return {}
+	SaveManager.clear_loaded_resume_context()
+	GameState.pending_story_queue = event_queue.duplicate(true)
+	GameState.story_return_scene = "res://scenes/MainGame.tscn"
+	var story = STORY_MODE_SCENE.instantiate()
+	add_child(story)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_cancel_scene_transition()
+	var target_event := str(event_queue[0])
+	var current_event := str((story.get("_current") as Dictionary).get(
+		"id", ""))
+	if current_event != target_event:
+		_expect(false,
+			"ORDER-101 Story checkpoint loaded %s instead of %s" % [
+				current_event, target_event,
+			])
+		_dispose(story)
+		GameState.pending_story_queue.clear()
+		return {}
+	# This check needs the production save schema and choice transaction, not
+	# StoryMode's visual typing cadence. Put the already-loaded real event at its
+	# stable pre-choice boundary so the fixture cannot run past an event and
+	# replace the test scene while fast-forwarding prose.
+	if bool(story.get("_typing")):
+		story.call("_complete_typing")
+	story.set("_showing_choices", true)
+	var choice_context: Dictionary = story.call("build_save_resume_context")
+	var choice_state: Dictionary = GameState.serialize().duplicate(true)
+	_expect(str(choice_context.get("event_id", "")) == target_event \
+			and str(choice_context.get("phase", "")) == "choices",
+		"ORDER-101 Story choice checkpoint did not use the production resume context")
+	var result := {
+		"choice_state": choice_state,
+		"choice_context": choice_context.duplicate(true),
+	}
+	if choice_index >= 0:
+		story.call("_on_choice", choice_index)
+		await get_tree().process_frame
+		await get_tree().process_frame
+		if bool(story.get("_story_scene_transition_active")):
+			story.call("_finish_story_scene_transition")
+		var result_context: Dictionary = story.call(
+			"build_save_resume_context")
+		var result_state: Dictionary = GameState.serialize().duplicate(true)
+		_expect(str(result_context.get("event_id", "")) == target_event \
+				and str(result_context.get("phase", "")) == "result" \
+				and int(result_context.get(
+					"pending_result_choice_index", -1)) == choice_index,
+			"ORDER-101 Story result checkpoint did not use the production resume context")
+		result["result_state"] = result_state
+		result["result_context"] = result_context.duplicate(true)
+	_dispose(story)
+	GameState.pending_story_queue.clear()
+	_cancel_scene_transition()
+	await get_tree().process_frame
+	return result
+
+
+func _restore_order101_story_context(context: Dictionary) -> Dictionary:
+	SaveManager.clear_loaded_resume_context()
+	SaveManager.set("_loaded_resume_context", context.duplicate(true))
+	var routed_to_story := SaveManager.loaded_scene_path() \
+		== "res://scenes/StoryMode.tscn"
+	var story = STORY_MODE_SCENE.instantiate()
+	add_child(story)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_cancel_scene_transition()
+	if bool(story.get("_story_scene_transition_active")):
+		story.call("_finish_story_scene_transition")
+	var restored_context: Dictionary = story.call(
+		"build_save_resume_context")
+	var restored := {
+		"event_id": str((story.get("_current") as Dictionary).get("id", "")),
+		"phase": str(story.call("_story_resume_phase")),
+		"queue": (
+			(restored_context.get("queue", []) as Array).duplicate(true)
+			if restored_context.get("queue", []) is Array else []),
+		"routed_to_story": routed_to_story,
+	}
+	_dispose(story)
+	SaveManager.clear_loaded_resume_context()
+	_cancel_scene_transition()
+	await get_tree().process_frame
+	_expect(routed_to_story,
+		"ORDER-101 Story checkpoint did not route through StoryMode")
+	return restored
+
+
+func _advance_order101_fresh_fixture_to_w5_result() -> bool:
+	for expected_turn in range(2, 5):
+		GameState.advance_calendar()
+		if int(GameState.turn) != expected_turn:
+			return false
+		var cycle := CORE_LOOP.seoul_cycle_snapshot(1)
+		var capacity_id := _order101_first_unused_capacity(cycle)
+		var committed := CORE_LOOP.commit_seoul_cycle_allocation(
+			capacity_id, "recovery", 1)
+		if capacity_id.is_empty() or not bool(committed.get("ok", false)):
+			return false
+		if not _resolve_order101_cycle_entries():
+			return false
+		if not bool(CORE_LOOP.complete_seoul_cycle_turn(1).get("ok", false)):
+			return false
+	var summary := CORE_LOOP.record_month_summary(1, {}, {})
+	if summary.is_empty():
+		return false
+	GameState.advance_calendar()
+	if int(GameState.turn) != 5:
+		return false
+	var initialized := CORE_LOOP.initialize_seoul_cycle(2)
+	if not bool(initialized.get("ok", false)):
+		return false
+	var month_two := CORE_LOOP.seoul_cycle_snapshot(2)
+	var selected_capacity := ""
+	for raw_capacity in month_two.get("capacities", []):
+		if not raw_capacity is Dictionary:
+			continue
+		var capacity_id := str((raw_capacity as Dictionary).get("id", ""))
+		var preview := CORE_LOOP.preview_seoul_cycle_allocation(
+			capacity_id, "m2_livelihood", 2)
+		if bool(preview.get("ok", false)) \
+				and not bool(preview.get("completed_now", false)):
+			selected_capacity = capacity_id
+			break
+	if selected_capacity.is_empty():
+		return false
+	var allocation := CORE_LOOP.commit_seoul_cycle_allocation(
+		selected_capacity, "m2_livelihood", 2)
+	if not bool(allocation.get("ok", false)) \
+			or not CORE_LOOP.pending_seoul_cycle_trigger().is_empty():
+		return false
+	var pending_world := CORE_LOOP.pending_seoul_cycle_world()
+	var claimed := CORE_LOOP.claim_seoul_cycle_world()
+	return str(pending_world.get("bundle_id", "")) \
+			== "m2_mirae_result_message" \
+		and bool(claimed.get("ok", false)) \
+		and CORE_LOOP.begin_seoul_cycle_world("m2_mirae_result_message")
+
+
+func _order101_first_unused_capacity(cycle: Dictionary) -> String:
+	for raw_capacity in cycle.get("capacities", []):
+		if raw_capacity is Dictionary \
+				and not bool((raw_capacity as Dictionary).get(
+					"consumed", false)):
+			return str((raw_capacity as Dictionary).get("id", ""))
+	return ""
+
+
+func _resolve_order101_cycle_entries() -> bool:
+	for entry_kind in ["trigger", "world"]:
+		var pending := (
+			CORE_LOOP.pending_seoul_cycle_trigger()
+			if entry_kind == "trigger" else
+			CORE_LOOP.pending_seoul_cycle_world())
+		if pending.is_empty():
+			continue
+		var claimed := (
+			CORE_LOOP.claim_seoul_cycle_trigger()
+			if entry_kind == "trigger" else
+			CORE_LOOP.claim_seoul_cycle_world())
+		var bundle_id := str(pending.get("bundle_id", ""))
+		var began := bool(claimed.get("ok", false)) and (
+			CORE_LOOP.begin_seoul_cycle_trigger(bundle_id)
+			if entry_kind == "trigger" else
+			CORE_LOOP.begin_seoul_cycle_world(bundle_id))
+		if not began or not _resolve_order101_active_story(bundle_id):
+			return false
+	return true
+
+
+func _resolve_order101_active_story(bundle_id: String) -> bool:
+	var roots := CORE_LOOP.resolved_event_roots(bundle_id)
+	if roots.is_empty():
+		return false
+	CORE_LOOP.prepare_story_bundle(bundle_id)
+	for raw_event_id in roots:
+		var event_id := str(raw_event_id)
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		var choices: Array = event.get("choices", [])
+		if choices.is_empty() \
+				or not GameState.apply_choice(event, choices[0] as Dictionary) \
+				or not CORE_LOOP.note_story_choice(event_id, 0):
+			return false
+	CORE_LOOP.restore_story_bundle_followups()
+	return CORE_LOOP.complete_active_bundle() == bundle_id
+
+
 func _consume_fresh_w1_consequence_after_actual_send() -> bool:
 	if CORE_LOOP.active_bundle_id() != OPENING_BUNDLE_ID \
 			or CORE_LOOP.active_kind() != "consequence" \
@@ -666,6 +1459,18 @@ func _consume_fresh_w1_consequence_after_actual_send() -> bool:
 
 
 func _present_fresh_w1_interview_from_open_board() -> bool:
+	if not _start_fresh_w1_minigame_from_open_board():
+		return false
+	var transaction := CORE_LOOP.finalize_fresh_w1_application(2, 2)
+	return bool(transaction.get("ok", false)) \
+		and CORE_LOOP.application_status(
+			"mirae_industrial_tech") == "submitted" \
+		and CORE_LOOP.complete_active_bundle() \
+			== "m1_youth_center_resume_clinic" \
+		and CORE_LOOP.claim_fresh_w1_opening_interview()
+
+
+func _start_fresh_w1_minigame_from_open_board() -> bool:
 	var cycle := CORE_LOOP.seoul_cycle_snapshot(1)
 	var capacities: Array = cycle.get("capacities", [])
 	if capacities.is_empty() \
@@ -693,13 +1498,7 @@ func _present_fresh_w1_interview_from_open_board() -> bool:
 		"supplemental_to_seoul_cycle": true,
 	}) or not CORE_LOOP.restart_fresh_w1_minigame():
 		return false
-	var transaction := CORE_LOOP.finalize_fresh_w1_application(2, 2)
-	return bool(transaction.get("ok", false)) \
-		and CORE_LOOP.application_status(
-			"mirae_industrial_tech") == "submitted" \
-		and CORE_LOOP.complete_active_bundle() \
-			== "m1_youth_center_resume_clinic" \
-		and CORE_LOOP.claim_fresh_w1_opening_interview()
+	return true
 
 
 func _check_fresh_and_reentry_flow() -> void:

@@ -15,6 +15,8 @@ var _builtin_ui_tables: Dictionary = {}
 var _community_ui_tables: Dictionary = {}
 var _ui_misses: Dictionary = {}
 var _ui_format_errors: Dictionary = {}
+## Changes whenever a localized default-name projection may change.
+var content_revision: int = 0
 
 # 주인공 기본 이름 — 언어 전환 시 다른 언어 기본값으로 동기화 (커스텀 이름은 보존)
 const DEFAULT_NAME_KO := "김민준"
@@ -429,6 +431,7 @@ func _get_builtin_ui_table(lang: String) -> Dictionary:
 		else:
 			push_warning("Invalid UI locale dictionary: %s" % path)
 	_builtin_ui_tables[lang] = table
+	content_revision += 1
 	return table
 
 func _get_community_ui_table(lang: String) -> Dictionary:
@@ -446,6 +449,7 @@ func _get_community_ui_table(lang: String) -> Dictionary:
 		else:
 			push_warning("Invalid community UI locale dictionary: %s" % community_path)
 	_community_ui_tables[lang] = table
+	content_revision += 1
 	return table
 
 func refresh_community_packs() -> void:
@@ -453,6 +457,7 @@ func refresh_community_packs() -> void:
 	_community_ui_tables.clear()
 	_ui_misses.clear()
 	_ui_format_errors.clear()
+	content_revision += 1
 
 func _record_ui_miss(lang: String, source_text: String) -> void:
 	if not _ui_misses.has(lang):

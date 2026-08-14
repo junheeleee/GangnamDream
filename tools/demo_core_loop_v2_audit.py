@@ -223,6 +223,8 @@ EXPECTED_ORDER101_TERMINAL_SLICE_ROUTE_IDS = {
     "m2_people_completed_hyunsu_to_m3_followup",
     "m2_people_completed_cafe_to_m4_sangchul",
     "m2_people_expired_to_m3_contact_fail_forward",
+    "m2_advancement_expired_to_m3_advancement_retry",
+    "m2_self_completed_to_m3_self_recovered",
 }
 EXPECTED_ORDER101_RESUME_TERMINAL_SLICE_ROUTES = {
     "m1_resume_completed_q3_to_m2_advancement_ready": (
@@ -347,6 +349,37 @@ EXPECTED_ORDER101_NON_RESUME_TERMINAL_SLICE_ROUTES = {
             "variant_id": "contact_fail_forward",
         },
     ),
+    "m2_advancement_expired_to_m3_advancement_retry": (
+        {
+            "month": 2,
+            "node": "m2_advancement",
+            "terminal": "expired",
+            "proof_kind": "node_expiry",
+            "proof_id": "m2:m2_advancement",
+        },
+        {
+            "month": 3,
+            "node": "m3_advancement",
+            "bundle": "m3_hanbit_application",
+            "variant_id": "seorin_deadline_missed",
+        },
+    ),
+    "m2_self_completed_to_m3_self_recovered": (
+        {
+            "month": 2,
+            "node": "m2_self",
+            "terminal": "completed",
+            "proof_kind": "typed_action_receipt",
+            "proof_id": "m2_sleep_debt_sunday",
+            "action_id": "rest",
+        },
+        {
+            "month": 3,
+            "node": "m3_self",
+            "bundle": "m3_room_ledger",
+            "variant_id": "sleep_debt_repaid",
+        },
+    ),
 }
 ALLOWED_PREREQUISITE_GROUPS = {"all", "any"}
 ALLOWED_PREREQUISITE_KINDS = {
@@ -358,6 +391,7 @@ ALLOWED_PREREQUISITE_KINDS = {
     "routine_selected",
     "application_status",
     "application_status_not_in",
+    "action_receipt",
 }
 LEGACY_REQUIREMENT_KEYS = {
     "eligibility",
@@ -611,7 +645,14 @@ EXPECTED_B_PREREQUISITES = {
             {
                 "kind": "completed_bundle",
                 "bundle_id": "m2_rain_delivery_shift",
-            }
+            },
+            {
+                "kind": "action_receipt",
+                "bundle_id": "m2_rain_delivery_shift",
+                "action_id": "side_shift",
+                "month": 2,
+                "legacy_completed_bundle_fallback": True,
+            },
         ]
     },
     "hyunsu_player_reachout": {
@@ -635,6 +676,23 @@ EXPECTED_B_PREREQUISITES = {
                 "memory": "hyunsu_declared_dream",
             },
         ],
+    },
+}
+EXPECTED_ORDER101_ACTION_RECEIPT_PREREQUISITES = {
+    "m3_seorin_result_message": {
+        "kind": "action_receipt",
+        "bundle_id": "m2_seorin_application",
+        "action_id": "apply",
+        "month": 2,
+        "application_id": "seorin_contract_2026q1",
+        "application_status": "submitted",
+    },
+    "jiyeon_world_meet": {
+        "kind": "action_receipt",
+        "bundle_id": "m2_rain_delivery_shift",
+        "action_id": "side_shift",
+        "month": 2,
+        "legacy_completed_bundle_fallback": True,
     },
 }
 EXPECTED_M3_DECLINES = {
@@ -1898,7 +1956,7 @@ def validate_order101_terminal_slice_contract(
     contract: dict[str, Any],
     errors: list[str],
 ) -> None:
-    """Lock the twelve U09/U11/U12/U16 replacement routes in this slice."""
+    """Lock the fourteen ORDER-101 replacement routes implemented to date."""
     seoul_cycle = require_dict(
         contract.get("seoul_cycle"), "seoul_cycle", errors
     )
@@ -1909,7 +1967,7 @@ def validate_order101_terminal_slice_contract(
     )
     if set(routes) != EXPECTED_ORDER101_TERMINAL_SLICE_ROUTE_IDS:
         fail(
-            "seoul_cycle.terminal_routes must contain exactly the twelve "
+            "seoul_cycle.terminal_routes must contain exactly the fourteen "
             "ORDER-101 route IDs; missing="
             f"{sorted(EXPECTED_ORDER101_TERMINAL_SLICE_ROUTE_IDS - set(routes))} "
             f"extra={sorted(set(routes) - EXPECTED_ORDER101_TERMINAL_SLICE_ROUTE_IDS)}",
@@ -2157,6 +2215,8 @@ def validate_order101_terminal_slice_contract(
         "_terminal_historical_completed_bundle",
         "_terminal_historical_routine_selected",
         "_terminal_historical_relationship_predicate_met",
+        "_terminal_action_receipt_proof_matches_state",
+        "_action_receipt_predicate_met",
         "_terminal_target_binding_witness_for_month_present",
         "_terminal_target_binding_witnesses_globally_valid",
         "_terminal_node_with_selected_candidate",
@@ -2536,7 +2596,7 @@ def validate_order101_terminal_slice_contract(
             ),
         ),
         (
-            "_terminal_historical_cycle_summary",
+            "_terminal_historical_cycle_summary_uncached",
             (
                 "_terminal_historical_resolutions_for_month(",
                 'historical_cycle["terminal_transition_resolutions"]',
@@ -3016,6 +3076,52 @@ def fixture_predicate_met(predicate: dict[str, Any], fixture: dict[str, Any]) ->
         return fixture.get("applications", {}).get(
             str(predicate.get("application_id", "")), ""
         ) not in {str(value) for value in predicate.get("statuses", [])}
+    if kind == "action_receipt":
+        bundle_id = str(predicate.get("bundle_id", "")).strip()
+        action_id = str(predicate.get("action_id", "")).strip()
+        month = predicate.get("month")
+        if (
+            not bundle_id
+            or not action_id
+            or not isinstance(month, int)
+            or isinstance(month, bool)
+            or bundle_id not in fixture.get("completed", set())
+        ):
+            return False
+        receipts = fixture.get("action_receipts", {})
+        receipt = receipts.get(bundle_id, {}) if isinstance(receipts, dict) else {}
+        if isinstance(receipt, dict) and receipt:
+            if (
+                str(receipt.get("action_id", "")) != action_id
+                or receipt.get("month") != month
+            ):
+                return False
+            application_id = str(predicate.get("application_id", "")).strip()
+            application_status = str(
+                predicate.get("application_status", "")
+            ).strip()
+            return (
+                not application_id
+                or str(receipt.get("application_id", "")) == application_id
+            ) and (
+                not application_status
+                or str(receipt.get("application_status", ""))
+                == application_status
+            )
+        if predicate.get("legacy_completed_bundle_fallback") is not True:
+            return False
+        legacy_rows = fixture.get("legacy_action_fallbacks", {})
+        legacy = (
+            legacy_rows.get(bundle_id, {})
+            if isinstance(legacy_rows, dict)
+            else {}
+        )
+        return (
+            isinstance(legacy, dict)
+            and bool(legacy)
+            and str(legacy.get("action_id", "")) == action_id
+            and legacy.get("month") == month
+        )
     return False
 
 
@@ -3041,6 +3147,76 @@ def bundle_available_in_fixture(
         (isinstance(all_rows, list) and all_rows)
         or (isinstance(any_rows, list) and any_rows)
     )
+
+
+def validate_action_receipt_fixture_evaluator(errors: list[str]) -> None:
+    application_predicate = {
+        "kind": "action_receipt",
+        "bundle_id": "m2_seorin_application",
+        "action_id": "apply",
+        "month": 2,
+        "application_id": "seorin_contract_2026q1",
+        "application_status": "submitted",
+    }
+    application_fixture = {
+        "completed": {"m2_seorin_application"},
+        "action_receipts": {
+            "m2_seorin_application": {
+                "action_id": "apply",
+                "month": 2,
+                "application_id": "seorin_contract_2026q1",
+                "application_status": "submitted",
+            },
+        },
+    }
+    forged_application = {
+        "completed": {"m2_seorin_application"},
+        "action_receipts": {
+            "m2_seorin_application": {
+                "action_id": "rest",
+                "month": 2,
+                "application_id": "seorin_contract_2026q1",
+                "application_status": "submitted",
+            },
+        },
+    }
+    legacy_predicate = {
+        "kind": "action_receipt",
+        "bundle_id": "m2_rain_delivery_shift",
+        "action_id": "side_shift",
+        "month": 2,
+        "legacy_completed_bundle_fallback": True,
+    }
+    legacy_fixture = {
+        "completed": {"m2_rain_delivery_shift"},
+        "legacy_action_fallbacks": {
+            "m2_rain_delivery_shift": {
+                "action_id": "side_shift",
+                "month": 2,
+            },
+        },
+    }
+    no_opt_in = dict(legacy_predicate)
+    no_opt_in.pop("legacy_completed_bundle_fallback")
+    if (
+        not fixture_predicate_met(application_predicate, application_fixture)
+        or fixture_predicate_met(application_predicate, forged_application)
+        or fixture_predicate_met(
+            application_predicate,
+            {"completed": {"m2_seorin_application"}},
+        )
+        or not fixture_predicate_met(legacy_predicate, legacy_fixture)
+        or fixture_predicate_met(no_opt_in, legacy_fixture)
+        or fixture_predicate_met(
+            legacy_predicate,
+            {**legacy_fixture, "completed": set()},
+        )
+    ):
+        fail(
+            "action_receipt fixture evaluator does not distinguish exact, "
+            "forged, absent, and opted-in legacy receipts",
+            errors,
+        )
 
 
 def validate_korean_player_copy(
@@ -3904,19 +4080,22 @@ def axis_future_predicate_atoms(
     months: list[Any], bundles: dict[str, Any]
 ) -> dict[str, Any]:
     """Return only state atoms that can alter a later selectable offer."""
-    selectable_ids = {
+    predicate_owner_ids = {
         str(bundle_id)
         for raw_month in months
         if isinstance(raw_month, dict)
-        for field in ("offers", "fallback_offers")
+        for field in (
+            "offers", "fallback_offers", "prelude", "conditional_consequences",
+        )
         for bundle_id in raw_month.get(field, [])
     }
     completed: set[str] = set()
+    action_receipts: set[str] = set()
     memory_groups: set[tuple[tuple[str, str], ...]] = set()
     player_initiated: set[str] = set()
     routines: set[str] = set()
     applications: set[str] = set()
-    for bundle_id in sorted(selectable_ids):
+    for bundle_id in sorted(predicate_owner_ids):
         raw_bundle = bundles.get(bundle_id)
         if not isinstance(raw_bundle, dict):
             continue
@@ -3934,6 +4113,8 @@ def axis_future_predicate_atoms(
                 kind = str(raw_row.get("kind", ""))
                 if kind == "completed_bundle":
                     completed.add(str(raw_row.get("bundle_id", "")))
+                elif kind == "action_receipt":
+                    action_receipts.add(str(raw_row.get("bundle_id", "")))
                 elif kind == "relationship_memory":
                     memory = (
                         str(raw_row.get("character", "")),
@@ -3956,6 +4137,7 @@ def axis_future_predicate_atoms(
                 memory_groups.add(tuple(sorted(grouped_memories)))
     return {
         "completed": completed,
+        "action_receipts": action_receipts,
         "memory_groups": tuple(sorted(memory_groups)),
         "player_initiated": player_initiated,
         "routines": routines,
@@ -3966,6 +4148,7 @@ def axis_future_predicate_atoms(
 def axis_initial_causal_state() -> dict[str, Any]:
     return {
         "completed": set(),
+        "action_receipts": {},
         "stages": {},
         "memories": set(),
         "player_initiated": set(),
@@ -3977,6 +4160,11 @@ def axis_initial_causal_state() -> dict[str, Any]:
 def axis_copy_causal_state(state: dict[str, Any]) -> dict[str, Any]:
     return {
         "completed": set(state.get("completed", set())),
+        "action_receipts": {
+            str(bundle_id): dict(receipt)
+            for bundle_id, receipt in state.get("action_receipts", {}).items()
+            if isinstance(receipt, dict)
+        },
         "stages": dict(state.get("stages", {})),
         "memories": set(state.get("memories", set())),
         "player_initiated": set(state.get("player_initiated", set())),
@@ -3995,6 +4183,13 @@ def axis_causal_state_key(
             sorted(
                 set(state.get("completed", set())).intersection(
                     atoms["completed"]
+                )
+            )
+        ),
+        tuple(
+            sorted(
+                set(state.get("action_receipts", {})).intersection(
+                    atoms["action_receipts"]
                 )
             )
         ),
@@ -4062,6 +4257,7 @@ def axis_bundle_changes_future_truth(
     }
     return bool(
         bundle_id in atoms["completed"]
+        or bundle_id in atoms["action_receipts"]
         or bundle.get("relationship_outcomes", [])
         or action_application in atoms["applications"]
         or outcome_applications.intersection(atoms["applications"])
@@ -4081,6 +4277,26 @@ def expand_axis_bundle_causal_states(
     if mark_completed and bundle_id in atoms["completed"]:
         base["completed"].add(bundle_id)
     action_config = bundle.get("action_config", {})
+    if mark_completed and bundle_id in atoms["action_receipts"]:
+        month_match = re.match(r"^m(\d+)_", bundle_id)
+        action_id = str(bundle.get("action_id", "")).strip()
+        if month_match is not None and action_id:
+            action_receipt = {
+                "action_id": action_id,
+                "month": int(month_match.group(1)),
+            }
+            if isinstance(action_config, dict):
+                application_id = str(
+                    action_config.get("application_id", "")
+                ).strip()
+                application_status = str(
+                    action_config.get("status", "")
+                ).strip()
+                if application_id:
+                    action_receipt["application_id"] = application_id
+                if application_status:
+                    action_receipt["application_status"] = application_status
+            base["action_receipts"][bundle_id] = action_receipt
     if isinstance(action_config, dict):
         application_id = str(action_config.get("application_id", "")).strip()
         status = str(action_config.get("status", "")).strip()
@@ -5128,6 +5344,103 @@ def validate_prerequisites(
                     for value in statuses
                 ):
                     fail(f"{owner}.statuses must contain status strings", errors)
+            elif kind == "action_receipt":
+                expected_keys.update({"bundle_id", "action_id", "month"})
+                required_bundle = str(clause.get("bundle_id", "")).strip()
+                expected_action = str(clause.get("action_id", "")).strip()
+                raw_month = clause.get("month")
+                if not required_bundle:
+                    fail(f"{owner}.bundle_id cannot be empty", errors)
+                elif required_bundle not in bundles:
+                    fail(
+                        f"{owner} references missing bundle {required_bundle}",
+                        errors,
+                    )
+                if not expected_action:
+                    fail(f"{owner}.action_id cannot be empty", errors)
+                elif required_bundle in bundles:
+                    producer_action = str(
+                        require_dict(
+                            bundles.get(required_bundle),
+                            f"bundle {required_bundle}",
+                            errors,
+                        ).get("action_id", "")
+                    ).strip()
+                    if producer_action != expected_action:
+                        fail(
+                            f"{owner}.action_id must match {required_bundle} "
+                            f"({producer_action!r}), got {expected_action!r}",
+                            errors,
+                        )
+                if (
+                    not isinstance(raw_month, int)
+                    or isinstance(raw_month, bool)
+                    or raw_month < 1
+                    or raw_month > 12
+                ):
+                    fail(f"{owner}.month must be an integer in 1..12", errors)
+                else:
+                    month_match = re.match(r"^m(\d+)_", required_bundle)
+                    if month_match and int(month_match.group(1)) != raw_month:
+                        fail(
+                            f"{owner}.month does not match producer "
+                            f"{required_bundle}",
+                            errors,
+                        )
+                has_application_id = "application_id" in clause
+                has_application_status = "application_status" in clause
+                if has_application_id != has_application_status:
+                    fail(
+                        f"{owner} must declare application_id and "
+                        "application_status together",
+                        errors,
+                    )
+                if has_application_id:
+                    expected_keys.update(
+                        {"application_id", "application_status"}
+                    )
+                    application_id = str(
+                        clause.get("application_id", "")
+                    ).strip()
+                    application_status = str(
+                        clause.get("application_status", "")
+                    ).strip()
+                    if not application_id or not application_status:
+                        fail(
+                            f"{owner} application identity cannot be empty",
+                            errors,
+                        )
+                    producer = bundles.get(required_bundle, {})
+                    config = (
+                        producer.get("action_config", {})
+                        if isinstance(producer, dict)
+                        else {}
+                    )
+                    if not isinstance(config, dict) or (
+                        str(config.get("application_id", "")).strip()
+                        != application_id
+                        or str(config.get("status", "")).strip()
+                        != application_status
+                    ):
+                        fail(
+                            f"{owner} application identity does not match "
+                            f"{required_bundle}.action_config",
+                            errors,
+                        )
+                if "legacy_completed_bundle_fallback" in clause:
+                    expected_keys.add("legacy_completed_bundle_fallback")
+                    if clause.get("legacy_completed_bundle_fallback") is not True:
+                        fail(
+                            f"{owner}.legacy_completed_bundle_fallback must "
+                            "be true when authored",
+                            errors,
+                        )
+                    if has_application_id:
+                        fail(
+                            f"{owner} cannot combine legacy fallback with "
+                            "application receipt fields",
+                            errors,
+                        )
             unknown_keys = set(clause) - expected_keys
             missing_keys = expected_keys - set(clause)
             if unknown_keys:
@@ -6938,6 +7251,7 @@ def measure_long_tail_readers(
             errors,
         )
     practical_completed_bundle_readers: dict[str, set[str]] = {}
+    typed_action_receipt_readers: dict[str, set[str]] = {}
     for target_id in sorted(scheduled_bundle_ids):
         target_bundle = bundles.get(target_id, {})
         if not isinstance(target_bundle, dict) \
@@ -6953,12 +7267,17 @@ def measure_long_tail_readers(
             if not isinstance(raw_rows, list):
                 continue
             for raw_row in raw_rows:
-                if not isinstance(raw_row, dict) \
-                        or raw_row.get("kind") != "completed_bundle":
+                if not isinstance(raw_row, dict):
                     continue
                 producer_id = str(raw_row.get("bundle_id", "")).strip()
-                if producer_id in practical_actions:
+                if raw_row.get("kind") == "completed_bundle" \
+                        and producer_id in practical_actions:
                     practical_completed_bundle_readers.setdefault(
+                        producer_id, set()
+                    ).add(target_id)
+                elif raw_row.get("kind") == "action_receipt" \
+                        and producer_id in action_bundles:
+                    typed_action_receipt_readers.setdefault(
                         producer_id, set()
                     ).add(target_id)
     expected_practical_completed_readers = {
@@ -6971,8 +7290,21 @@ def measure_long_tail_readers(
             f"{practical_completed_bundle_readers}",
             errors,
         )
+    expected_typed_action_receipt_readers = {
+        "m2_rain_delivery_shift": {"jiyeon_world_meet"},
+        "m2_seorin_application": {"m3_seorin_result_message"},
+    }
+    if typed_action_receipt_readers \
+            != expected_typed_action_receipt_readers:
+        fail(
+            "typed-action story readers drifted: "
+            f"{typed_action_receipt_readers}",
+            errors,
+        )
     practical_causal_story_bundles = (
-        practical_story_bundles | set(practical_completed_bundle_readers)
+        practical_story_bundles
+        | set(practical_completed_bundle_readers)
+        | set(typed_action_receipt_readers).intersection(practical_actions)
     )
     authored_story_receipt_ids: set[str] = set()
     for bundle_id in sorted(practical_story_bundles):
@@ -9133,6 +9465,7 @@ def main() -> int:
     validate_order101_w1_application_contract(contract, errors)
     validate_order101_m2_people_selection_contract(contract, errors)
     validate_order101_terminal_slice_contract(contract, errors)
+    validate_action_receipt_fixture_evaluator(errors)
     validate_order101_month_summary_boundary_contract(errors)
     temptation_bundle = require_dict(
         bundles.get("temptation_consequence"),
@@ -9849,6 +10182,29 @@ def main() -> int:
             fail(
                 f"{bundle_id} typed prerequisites drifted: expected "
                 f"{expected}, got {bundle.get('prerequisites')}",
+                errors,
+            )
+    for bundle_id, expected_row in (
+        EXPECTED_ORDER101_ACTION_RECEIPT_PREREQUISITES.items()
+    ):
+        bundle = require_dict(
+            bundles.get(bundle_id), f"bundle {bundle_id}", errors
+        )
+        prerequisites = bundle.get("prerequisites", {})
+        all_rows = (
+            prerequisites.get("all", [])
+            if isinstance(prerequisites, dict)
+            else []
+        )
+        action_rows = [
+            row
+            for row in all_rows
+            if isinstance(row, dict) and row.get("kind") == "action_receipt"
+        ] if isinstance(all_rows, list) else []
+        if action_rows != [expected_row]:
+            fail(
+                f"{bundle_id} must retain one exact typed action receipt "
+                f"prerequisite: expected {expected_row}, got {action_rows}",
                 errors,
             )
     if str(

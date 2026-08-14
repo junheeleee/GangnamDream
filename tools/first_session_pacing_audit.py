@@ -20,17 +20,18 @@ EXPECTED_OPENING_ROOTS = (
     "arc_intro_01_meal",
     "v2_opening_return_math",
 )
-EXPECTED_OPENING_TRIGGER = {
+EXPECTED_LEGACY_OPENING_TRIGGER = {
     "event_id": "v2_opening_application_send",
     "choices": [0],
     "application_id": "mirae_industrial_tech",
     "status": "submitted",
+    "legacy_only": True,
 }
 EXPECTED_OPENING_SUPPRESSIONS = {"arc_intro_02_dad_call"}
 EXPECTED_FRESH_REPLACEMENT = (
     "story_prologue_meal",
     "story_pressure",
-    "v2_opening_application_send",
+    "",
 )
 CHAPTER_ROOT = "chapter_card_33"
 PLACEHOLDER_CHARS = ".…"
@@ -46,16 +47,21 @@ EXPECTED_FRESH_EVENT_SEQUENCE = (
     "story_prologue_dad",
     "story_prologue_goal",
     "story_prologue_meal",
-    "v2_opening_application_send",
     "arc_intro_01_meal",
     "v2_opening_return_math",
     "chapter_card_33",
 )
 EXPECTED_FRESH_PATHS = 432
-MAX_PARAGRAPHS = 110
-MAX_FAST_INPUTS = 220
-EXPECTED_DIRECT_CONTINUES = 7
+EXPECTED_PARAGRAPH_COUNTS = (95, 96)
+EXPECTED_FAST_INPUT_COUNTS = (198, 200)
+EXPECTED_DIRECT_CONTINUES = 6
 EXPECTED_MANUAL_STORY_STOPS = 8
+EXPECTED_MEANINGFUL_CHOICES = 7
+EXPECTED_FIRST_MEANINGFUL_EVENT = 5
+FORBIDDEN_FRESH_STORY_EVENTS = frozenset({
+    "story_pressure",
+    "v2_opening_application_send",
+})
 
 
 @dataclass(frozen=True)
@@ -169,17 +175,74 @@ def walk_paths(
     return paths
 
 
-def walk_fresh_v2_paths(events: dict[str, dict]) -> list[PathMetrics]:
-    """Follow the exact fresh queue through the chapter card before planning.
+def validate_legacy_preplan_trigger(
+    events: dict[str, dict], trigger: object
+) -> None:
+    """Keep the pre-ORDER-101 Story Send contract exact but fresh-inert."""
+    if not isinstance(trigger, dict):
+        raise ValueError("pre-plan opening trigger must be an object")
+    if set(trigger) != set(EXPECTED_LEGACY_OPENING_TRIGGER):
+        raise ValueError(
+            "pre-plan opening trigger keys drifted: "
+            f"{sorted(trigger)}!={sorted(EXPECTED_LEGACY_OPENING_TRIGGER)}"
+        )
+    if trigger != EXPECTED_LEGACY_OPENING_TRIGGER \
+            or trigger.get("legacy_only") is not True \
+            or not isinstance(trigger.get("event_id"), str) \
+            or not isinstance(trigger.get("application_id"), str) \
+            or not isinstance(trigger.get("status"), str):
+        raise ValueError(
+            "pre-plan legacy-only opening trigger drifted: "
+            f"{trigger}!={EXPECTED_LEGACY_OPENING_TRIGGER}"
+        )
+    choice_indices = trigger.get("choices")
+    if not isinstance(choice_indices, list) \
+            or any(type(index) is not int for index in choice_indices):
+        raise ValueError("pre-plan legacy-only trigger choices must be integer indices")
+    event_id = str(trigger["event_id"])
+    event = events.get(event_id)
+    if not isinstance(event, dict):
+        raise ValueError(f"missing legacy-only pre-plan trigger event: {event_id}")
+    event_choices = event.get("choices")
+    if not isinstance(event_choices, list) or any(
+        index < 0 or index >= len(event_choices) for index in choice_indices
+    ):
+        raise ValueError(
+            f"legacy-only pre-plan trigger choices drifted for {event_id}: "
+            f"{choice_indices}"
+        )
 
-    StoryMode replaces only the legacy app-open follow-up with the V2 scene
-    that actually sends the application. The interview and calculation remain
-    reserved queue roots, so they run after that replaced prologue chain.
+
+def walk_fresh_v2_paths(events: dict[str, dict]) -> list[PathMetrics]:
+    """Collect the exact fresh Story surfaces through the chapter card.
+
+    Fresh ORDER-101 retains the retail flashforward cold open and ends StoryMode
+    after the meal. MainGame owns the actual Send transaction between collector
+    segments; the interview and calculation remain explicit roots before the
+    chapter card. The old Story Send trigger is validated separately above and
+    must remain legacy-only.
     """
     contract = json.loads(DEMO_CONTRACT_PATH.read_text(encoding="utf-8"))
-    bundle = contract.get("scene_bundles", {}).get(PREPLAN_BUNDLE_ID, {})
-    roots = tuple(bundle.get("existing_roots", []))
-    suppressions = set(bundle.get("suppress_follow_up_events", []))
+    if not isinstance(contract, dict):
+        raise ValueError("demo contract must be an object")
+    bundles = contract.get("scene_bundles")
+    if not isinstance(bundles, dict):
+        raise ValueError("demo scene_bundles must be an object")
+    bundle = bundles.get(PREPLAN_BUNDLE_ID)
+    if not isinstance(bundle, dict):
+        raise ValueError(f"missing pre-plan bundle: {PREPLAN_BUNDLE_ID}")
+    raw_roots = bundle.get("existing_roots")
+    raw_suppressions = bundle.get("suppress_follow_up_events")
+    if not isinstance(raw_roots, list) or any(
+        not isinstance(root, str) for root in raw_roots
+    ):
+        raise ValueError("pre-plan opening roots must be an array of strings")
+    if not isinstance(raw_suppressions, list) or any(
+        not isinstance(event_id, str) for event_id in raw_suppressions
+    ):
+        raise ValueError("pre-plan opening suppressions must be an array of strings")
+    roots = tuple(raw_roots)
+    suppressions = set(raw_suppressions)
     trigger = bundle.get("preplan_trigger", {})
     if roots != EXPECTED_OPENING_ROOTS:
         raise ValueError(
@@ -190,16 +253,26 @@ def walk_fresh_v2_paths(events: dict[str, dict]) -> list[PathMetrics]:
             "pre-plan opening suppressions drifted: "
             f"{sorted(suppressions)}!={sorted(EXPECTED_OPENING_SUPPRESSIONS)}"
         )
-    if trigger != EXPECTED_OPENING_TRIGGER:
-        raise ValueError(
-            f"pre-plan opening trigger drifted: {trigger}!={EXPECTED_OPENING_TRIGGER}"
-        )
+    validate_legacy_preplan_trigger(events, trigger)
 
     replacement_source, replacement_target, replacement_event = (
         EXPECTED_FRESH_REPLACEMENT
     )
-    if replacement_event != str(trigger.get("event_id", "")):
-        raise ValueError("fresh prologue replacement no longer matches pre-plan trigger")
+    if replacement_event:
+        raise ValueError("fresh prologue replacement must end without a Story event")
+    source_event = events.get(replacement_source)
+    if not isinstance(source_event, dict):
+        raise ValueError(f"missing fresh replacement source: {replacement_source}")
+    authored_targets = {
+        str(choice.get("follow_up_event", ""))
+        for choice in source_event.get("choices", [])
+        if isinstance(choice, dict)
+    }
+    if replacement_target not in authored_targets:
+        raise ValueError(
+            "fresh replacement no longer closes its authored edge: "
+            f"{replacement_source}->{replacement_target}"
+        )
     paths = walk_paths(
         events,
         START_ID,
@@ -223,6 +296,8 @@ def walk_fresh_v2_paths(events: dict[str, dict]) -> list[PathMetrics]:
     for metrics in paths:
         next_paths.extend(walk_paths(events, CHAPTER_ROOT, metrics))
     paths = next_paths
+    if not paths:
+        raise ValueError("fresh V2 opening collector produced no paths")
     return paths
 
 
@@ -266,9 +341,10 @@ def main() -> int:
     max_events = max(len(path.event_ids) for path in paths)
     manual_story_stops = {path.manual_story_stops for path in paths}
     direct_continues = {path.direct_continues for path in paths}
-    max_fast_inputs = max(path.fast_inputs for path in paths)
-    max_paragraphs = max(path.paragraphs for path in paths)
-    first_meaningful = min(path.first_meaningful_event for path in paths)
+    paragraph_counts = {path.paragraphs for path in paths}
+    fast_input_counts = {path.fast_inputs for path in paths}
+    meaningful_choices = {path.meaningful_choices for path in paths}
+    first_meaningful = {path.first_meaningful_event for path in paths}
     unexpected_sequences = [
         path.event_ids
         for path in paths
@@ -286,10 +362,10 @@ def main() -> int:
             "fresh V2 opening event count drifted: "
             f"{min_events}-{max_events}!={len(EXPECTED_FRESH_EVENT_SEQUENCE)}"
         )
-    if max_paragraphs > MAX_PARAGRAPHS:
+    if paragraph_counts != set(EXPECTED_PARAGRAPH_COUNTS):
         raise ValueError(
-            "fresh V2 opening prose exceeded its pre-plan budget: "
-            f"{max_paragraphs}>{MAX_PARAGRAPHS}"
+            "fresh V2 opening paragraph counts drifted: "
+            f"{sorted(paragraph_counts)}!={list(EXPECTED_PARAGRAPH_COUNTS)}"
         )
     if manual_story_stops != {EXPECTED_MANUAL_STORY_STOPS}:
         raise ValueError(
@@ -301,25 +377,38 @@ def main() -> int:
             f"prologue direct-continue count drifted: "
             f"{sorted(direct_continues)}!={[EXPECTED_DIRECT_CONTINUES]}"
         )
-    if max_fast_inputs > MAX_FAST_INPUTS:
+    if fast_input_counts != set(EXPECTED_FAST_INPUT_COUNTS):
         raise ValueError(
-            "fresh V2 opening fast-forward input budget exceeded: "
-            f"{max_fast_inputs}>{MAX_FAST_INPUTS}"
+            "fresh V2 opening fast-forward input counts drifted: "
+            f"{sorted(fast_input_counts)}!={list(EXPECTED_FAST_INPUT_COUNTS)}"
         )
-    if first_meaningful > 5:
-        raise ValueError(f"first meaningful choice arrives too late: event {first_meaningful}>5")
-    if "story_pressure" in visited or "v2_opening_application_send" not in visited:
+    if meaningful_choices != {EXPECTED_MEANINGFUL_CHOICES}:
         raise ValueError(
-            "fresh V2 opening must replace story_pressure with the actual Send scene"
+            "fresh V2 meaningful-choice count drifted: "
+            f"{sorted(meaningful_choices)}!={[EXPECTED_MEANINGFUL_CHOICES]}"
+        )
+    if first_meaningful != {EXPECTED_FIRST_MEANINGFUL_EVENT}:
+        raise ValueError(
+            "first meaningful choice position drifted: "
+            f"{sorted(first_meaningful)}!={[EXPECTED_FIRST_MEANINGFUL_EVENT]}"
+        )
+    forbidden_visited = sorted(visited & FORBIDDEN_FRESH_STORY_EVENTS)
+    if forbidden_visited:
+        raise ValueError(
+            "fresh V2 opening contains retail/legacy Story events: "
+            f"{forbidden_visited}"
         )
 
     print_pending("pacing")
     print(
         "FIRST_SESSION_PACING_OK "
         f"paths={len(paths)} events={min_events}-{max_events} "
-        f"paragraphs<={max_paragraphs} manual_stops={EXPECTED_MANUAL_STORY_STOPS} "
-        f"direct={EXPECTED_DIRECT_CONTINUES} fast_inputs<={max_fast_inputs} "
-        f"first_meaningful={first_meaningful} replacement=1 chapter=1"
+        f"paragraphs={min(paragraph_counts)}-{max(paragraph_counts)} "
+        f"manual_stops={EXPECTED_MANUAL_STORY_STOPS} "
+        f"direct={EXPECTED_DIRECT_CONTINUES} "
+        f"fast_inputs={min(fast_input_counts)}-{max(fast_input_counts)} "
+        f"first_meaningful={EXPECTED_FIRST_MEANINGFUL_EVENT} "
+        "fresh_story_send=0 legacy_trigger=1 chapter=1"
     )
     return 0
 

@@ -5,11 +5,20 @@ extends Node
 
 const CORE := preload("res://systems/DemoCoreLoopV2.gd")
 const BUILD_FLAVOR := preload("res://systems/BuildFlavor.gd")
-const MAIN_GAME_SCRIPT := preload("res://scenes/MainGame.gd")
-const MAIN_GAME_SCENE := preload("res://scenes/MainGame.tscn")
 const FATHER_EVENT := "arc_father_01_call"
 const HYUNSU_EVENT := "arc_intro_04_hyunsu"
 const TEMPTATION_EVENT := "arc_temptation_01"
+const ORDER101_LEGACY_ORIGIN_ID := "demo_core_loop_v2@040746a"
+const ORDER101_LEGACY_040746_CORE_KEYS := [
+	"schema", "enabled", "plans", "completed_bundle_turns",
+	"shown_consequence_turns", "relationship_stages",
+	"relationship_choice_receipts", "suppressed_followups",
+	"routine_receipts", "month_summaries", "forgone", "completed_turns",
+	"completed_bundles", "shown_consequences", "player_initiated",
+	"pending_declines", "decline_receipts", "relationship_history",
+	"active_bundle", "active_kind", "active_turn", "action_result_ready",
+	"prototype_complete", "prototype_completed_at_turn",
+]
 const ORDER101_TERMINAL_SLICE_ROUTES := {
 	"m1_resume_completed_q3_to_m2_advancement_ready": {
 		"source": {"month": 1, "node": "resume", "terminal": "completed",
@@ -111,10 +120,27 @@ const ORDER101_TERMINAL_SLICE_ROUTES := {
 			"variant_id": "contact_fail_forward"},
 		"completion_effects": {},
 	},
+	"m2_advancement_expired_to_m3_advancement_retry": {
+		"source": {"month": 2, "node": "m2_advancement", "terminal": "expired",
+			"proof_kind": "node_expiry", "proof_id": "m2:m2_advancement"},
+		"target": {"month": 3, "node": "m3_advancement",
+			"bundle": "m3_hanbit_application",
+			"variant_id": "seorin_deadline_missed"},
+		"completion_effects": {},
+	},
+	"m2_self_completed_to_m3_self_recovered": {
+		"source": {"month": 2, "node": "m2_self", "terminal": "completed",
+			"proof_kind": "typed_action_receipt",
+			"proof_id": "m2_sleep_debt_sunday", "action_id": "rest"},
+		"target": {"month": 3, "node": "m3_self",
+			"bundle": "m3_room_ledger", "variant_id": "sleep_debt_repaid"},
+		"completion_effects": {},
+	},
 }
 
 var _failures: Array[String] = []
 var _terminal_source_placeholder_checked := false
+var _order101_u20_owner_ready_save: Dictionary = {}
 
 
 func _ready() -> void:
@@ -122,8 +148,52 @@ func _ready() -> void:
 
 
 func _run() -> void:
+	# Headless route checks open notebook/modal SFX. Keep the pool silent so no
+	# AudioStreamPlayback survives the immediate QA-tree exit.
+	AudioManager.sfx_enabled = false
+	for raw_player in AudioManager.get_children():
+		if raw_player is AudioStreamPlayer:
+			(raw_player as AudioStreamPlayer).stop()
+			(raw_player as AudioStreamPlayer).stream = null
+	BGMPlayer.stop()
+	if OS.get_cmdline_user_args().has("--order101-legacy-only"):
+		var contract_snapshot := DataRegistry.demo_core_loop_v2.duplicate(true)
+		GameState.start_new_game()
+		CORE.initialize_for_run(true)
+		var fresh_saved: Dictionary = GameState.serialize().duplicate(true)
+		_check_order101_m2_rain_legacy_schema2(fresh_saved)
+		_check_order101_u20_legacy_schedule_contract(contract_snapshot)
+		await _check_order101_legacy_active_story_main_routes()
+		if _failures.is_empty():
+			print("ORDER101_LEGACY_ONLY_OK")
+		else:
+			for failure in _failures:
+				push_error("ORDER101 legacy check failed: %s" % failure)
+		get_tree().quit(0 if _failures.is_empty() else 1)
+		return
+	if OS.get_cmdline_user_args().has("--order101-edges-only"):
+		_check_order101_m2_edge_contracts()
+		await _check_order101_storymode_callback_rollback()
+		if _failures.is_empty():
+			print("ORDER101_M2_EDGES_ONLY_OK")
+		else:
+			for failure in _failures:
+				push_error("ORDER101 M2 edges check failed: %s" % failure)
+		get_tree().quit(0 if _failures.is_empty() else 1)
+		return
+	if OS.get_cmdline_user_args().has("--order101-history-only"):
+		_check_order101_historical_inert_locked_nodes()
+		_check_order101_resume_terminal_execution()
+		if _failures.is_empty():
+			print("ORDER101_HISTORICAL_BOUND_ONLY_OK")
+		else:
+			for failure in _failures:
+				push_error("ORDER101 historical locked check failed: %s" % failure)
+		get_tree().quit(0 if _failures.is_empty() else 1)
+		return
 	_check_contract_and_determinism()
 	_check_order101_terminal_slice_spec()
+	_check_order101_historical_inert_locked_nodes()
 	_check_order101_terminal_slice_free_injection_rejected()
 	_check_order101_fresh_w1_application_contract()
 	_check_order101_resume_terminal_source_receipts()
@@ -133,6 +203,9 @@ func _run() -> void:
 	_check_order101_m2_people_selection_contract()
 	_check_order101_m2_people_terminal_source_receipts()
 	_check_order101_m2_people_expiry_target_initialization()
+	_check_order101_m2_edge_contracts()
+	await _check_order101_storymode_callback_rollback()
+	await _check_order101_legacy_active_story_main_routes()
 	await _check_order101_main_result_committed_double_reload()
 	_check_run_generation_provenance()
 	_check_completion_boundary_trust()
@@ -148,7 +221,8 @@ func _run() -> void:
 	if _failures.is_empty():
 		print(
 			"CORE_LOOP_V2_CYCLE_CHECK_OK "
-			+ "terminal_slice=u09_u11_u12_u16/source_receipts_12of12 "
+			+ "terminal_slice=u09_u11_u12_u13_u16_u18/source_receipts_14of14 "
+			+ "m2_edges=u14_u15_u20/action_readers+legacy2+w8_prelude "
 			+ "target_execution=q0_partial+completed/double_reload+ordinary_forgone "
 			+ "target_mutations=capacity/full_coupled/fractional/status/axis/"
 			+ "resolution/pending/resolved/zero_expiry "
@@ -295,7 +369,9 @@ func _check_external_stalled_slot_e2e() -> void:
 		and _weekly_followup_count(4, "first_temptation_boss") == 1,
 		"SaveManager load did not recover the exact stalled player state")
 
-	var main_game: Control = MAIN_GAME_SCENE.instantiate()
+	var main_game_scene := load("res://scenes/MainGame.tscn") as PackedScene
+	var main_game: Control = main_game_scene.instantiate()
+	main_game_scene = null
 	main_game.set_meta("_screenshot_qa_static_surface", true)
 	add_child(main_game)
 	await get_tree().process_frame
@@ -332,7 +408,9 @@ func _check_external_stalled_slot_e2e() -> void:
 		and _weekly_followup_count(4, "first_temptation_boss") == 1,
 		"durable notebook reload lost or duplicated the player's W4 facts")
 
-	var resumed_main: Control = MAIN_GAME_SCENE.instantiate()
+	var resumed_main_scene := load("res://scenes/MainGame.tscn") as PackedScene
+	var resumed_main: Control = resumed_main_scene.instantiate()
+	resumed_main_scene = null
 	resumed_main.set_meta("_screenshot_qa_static_surface", true)
 	add_child(resumed_main)
 	await get_tree().process_frame
@@ -398,6 +476,8 @@ func _check_later_month_world_receipt_idempotency() -> void:
 	_prepare_fresh_cycle_gate()
 	_expect(bool(CORE.initialize_seoul_cycle(1).get("ok", false)),
 		"Month 2 world-receipt fixture could not seed Month 1 ownership")
+	if not _seed_order101_w4_temptation_authority():
+		return
 	GameState.turn = 5
 	GameState.month = 2
 	GameState.week_of_month = 1
@@ -409,33 +489,17 @@ func _check_later_month_world_receipt_idempotency() -> void:
 	GameState.turn = 8
 	GameState.month = 2
 	GameState.week_of_month = 4
-	GameState.weekly_commitments = [{
-		"turn": 8,
-		"source": "seoul_cycle",
-		"choice_id": "m2_world_idempotency_fixture",
-		"details": {
-			"execution": "seoul_cycle",
-			"week_baseline": {"money": float(GameState.money)},
-			"followups": [],
-		},
-	}]
-	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
-	var cycle: Dictionary = state.get("seoul_cycle", {})
-	cycle["pending_world"] = {
-		"kind": "consequence",
-		"node_id": "",
-		"bundle_id": "temptation_consequence",
-		"turn": 8,
-		"week_index": 4,
-		"status": "claimed",
-		"claimed_turn": 8,
-	}
-	state["seoul_cycle"] = cycle
-	state["completed_bundle_turns"]["temptation_consequence"] = 8
-	if not (state["completed_bundles"] as Array).has("temptation_consequence"):
-		state["completed_bundles"].append("temptation_consequence")
-	GameState.core_loop_v2_state = state
-	var first := CORE.resolve_seoul_cycle_world("temptation_consequence")
+	var snapshot_before := CORE.seoul_cycle_snapshot(2)
+	var capacity_id := _unused_capacity(snapshot_before, 0, false)
+	var committed := CORE.commit_seoul_cycle_allocation(
+		capacity_id, "m2_livelihood", 2)
+	_expect(bool(committed.get("ok", false)) \
+		and str((committed.get("pending_world", {}) as Dictionary).get(
+			"bundle_id", "")) == "sns_pressure_night",
+		"Month 2 world-receipt fixture lacked one actual W8 allocation owner")
+	if not bool(committed.get("ok", false)):
+		return
+	var first := _resolve_order101_sns_world()
 	var serialized: Variant = JSON.parse_string(
 		JSON.stringify(GameState.serialize()))
 	_expect(first and serialized is Dictionary,
@@ -445,7 +509,7 @@ func _check_later_month_world_receipt_idempotency() -> void:
 	GameState.start_new_game()
 	GameState.load_from_dict(serialized as Dictionary)
 	CORE.initialize_for_run(true)
-	var second := CORE.resolve_seoul_cycle_world("temptation_consequence")
+	var second := CORE.resolve_seoul_cycle_world("sns_pressure_night")
 	var snapshot := CORE.seoul_cycle_snapshot(2)
 	var world: Dictionary = snapshot.get("world_receipts", {})
 	var followup_count := 0
@@ -457,7 +521,7 @@ func _check_later_month_world_receipt_idempotency() -> void:
 		for raw_followup in details.get("followups", []):
 			if raw_followup is Dictionary \
 					and str((raw_followup as Dictionary).get(
-						"bundle_id", "")) == "temptation_consequence":
+						"bundle_id", "")) == "sns_pressure_night":
 				followup_count += 1
 	_expect(second \
 		and world.has("4") and not world.has("8") \
@@ -558,7 +622,7 @@ func _check_order101_terminal_slice_spec() -> void:
 	var routes: Dictionary = spec.get("terminal_routes", {})
 	_expect(_sorted_strings(routes.keys()) \
 		== _sorted_strings(ORDER101_TERMINAL_SLICE_ROUTES.keys()),
-		"U09/U11/U12/U16 terminal slice route IDs drifted")
+		"U09/U11/U12/U13/U16/U18 terminal slice route IDs drifted")
 	var resume_results_ko: Array[String] = []
 	var resume_results_en: Array[String] = []
 	for route_id in ORDER101_TERMINAL_SLICE_ROUTES:
@@ -620,6 +684,20 @@ func _check_order101_terminal_slice_spec() -> void:
 	_expect(int(month_two_advancement.get("threshold", 0)) == 2 \
 		and _int_values(resume_bundle.get("allowed_weeks", [])) == [5, 6],
 		"resume terminal variants changed M2 threshold or W5-W6 availability")
+	var month_three := CORE.seoul_cycle_month_spec(3)
+	var month_three_nodes: Dictionary = month_three.get("nodes", {})
+	var retry_bundle := CORE.bundle("m3_hanbit_application")
+	var recovered_bundle := CORE.bundle("m3_room_ledger")
+	_expect(str((month_three_nodes.get(
+		"m3_advancement", {}) as Dictionary).get("trigger_bundle", "")) \
+			== "m3_hanbit_application" \
+		and _int_values(retry_bundle.get("allowed_weeks", [])) == [9] \
+		and str((month_three_nodes.get(
+			"m3_self", {}) as Dictionary).get("trigger_bundle", "")) \
+			== "m3_room_ledger" \
+		and _int_values(recovered_bundle.get("allowed_weeks", [])) \
+			== [9, 10, 11, 12],
+		"U13/U18 terminal targets lost their authored Month Three verbs")
 
 
 func _check_order101_terminal_slice_free_injection_rejected() -> void:
@@ -1264,8 +1342,7 @@ func _check_terminal_selected_partial_expiry_lifetime(
 		_advance_to_next_week()
 		if not _commit_m2_terminal_filler():
 			return
-		if turn == 8 and not _resolve_cycle_story_world(
-				"temptation_consequence", "arc_temptation_clean", 0):
+		if turn == 8 and not _resolve_order101_sns_world():
 			return
 		if not bool(CORE.complete_seoul_cycle_turn(2).get("ok", false)):
 			_expect(false,
@@ -1364,7 +1441,9 @@ func _check_terminal_completion_autosave_retry(
 		before_commit.get("core_loop_v2_state", {}) as Dictionary).get(
 			"terminal_transition_resolutions", {})
 	var mental_before := int(GameState.mental)
-	var main_game: Node = MAIN_GAME_SCRIPT.new()
+	var main_game_script := load("res://scenes/MainGame.gd") as Script
+	var main_game: Node = main_game_script.new()
+	main_game_script = null
 	main_game.set_meta("_qa_core_loop_v2_autosave_result", false)
 	main_game.set_meta("_qa_core_loop_v2_autosave_call_count", 0)
 	var failed_commit: Dictionary = main_game.call(
@@ -1437,8 +1516,7 @@ func _check_terminal_completed_historical_resolution(
 		_advance_to_next_week()
 		if not _commit_m2_terminal_filler():
 			return
-		if turn == 8 and not _resolve_cycle_story_world(
-				"temptation_consequence", "arc_temptation_clean", 0):
+		if turn == 8 and not _resolve_order101_sns_world():
 			return
 		if not bool(CORE.complete_seoul_cycle_turn(2).get("ok", false)):
 			_expect(false,
@@ -1468,8 +1546,65 @@ func _check_terminal_completed_historical_resolution(
 		historical_save = GameState.serialize().duplicate(true)
 	_check_terminal_completed_historical_allocation_identity_rejected(
 		historical_save, route_id, expected_resolution)
+	_check_terminal_historical_extra_fake_bound_node(
+		historical_save, 2, route_id)
 	_check_terminal_historical_resolution_mutations(
 		historical_save, 2, route_id, expected_resolution)
+
+
+func _check_terminal_historical_extra_fake_bound_node(
+		historical_save: Dictionary, target_month: int,
+		legitimate_route_id: String) -> void:
+	GameState.start_new_game()
+	GameState.load_from_dict(historical_save.duplicate(true))
+	CORE.initialize_for_run(true)
+	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var cut_turn := target_month * 4 + 1
+	var baseline_history: Dictionary = CORE._terminal_historical_cycle_summary(
+		state, target_month, cut_turn)
+	var baseline_nodes: Dictionary = baseline_history.get("nodes", {})
+	var baseline_resolutions: Dictionary = baseline_history.get(
+		"terminal_transition_resolutions", {})
+	var legitimate_node: Dictionary = baseline_nodes.get(
+		"m2_advancement", {})
+	var extra_node: Dictionary = baseline_nodes.get("m2_self", {})
+	_expect(not baseline_history.is_empty() \
+		and not legitimate_node.is_empty() \
+		and CORE._terminal_node_has_binding(legitimate_node) \
+		and not extra_node.is_empty() \
+		and not CORE._terminal_node_binding_fields_present(extra_node) \
+		and baseline_resolutions.has(legitimate_route_id),
+		"extra-bound-node fixture lacked its legitimate closed target month")
+	if baseline_history.is_empty() or extra_node.is_empty():
+		return
+
+	var fake_route_id := "terminal_forged_extra_m2_self"
+	var forged_nodes: Dictionary = baseline_nodes.duplicate(true)
+	forged_nodes["m2_self"] = _order101_with_full_typed_fake_binding(
+		extra_node, fake_route_id, target_month, "m2_self")
+	var authored_nodes: Dictionary = (
+		CORE.seoul_cycle_month_spec(target_month).get("nodes", {}))
+	var resolved_nodes: Dictionary = CORE._terminal_historical_resolved_nodes(
+		state, target_month, forged_nodes, authored_nodes)
+	var forged_summary: Dictionary = (
+		baseline_history.get("summary", {}) as Dictionary).duplicate(true)
+	forged_summary["node_states"] = forged_nodes
+	var forged_history: Dictionary = baseline_history.duplicate(true)
+	forged_history["summary"] = forged_summary
+	forged_history["nodes"] = forged_nodes
+	forged_history["resolved_nodes"] = resolved_nodes
+	var resolution_check: Dictionary = \
+		CORE._terminal_historical_resolutions_for_month(
+			state, target_month, forged_history)
+	var forged_state: Dictionary = state.duplicate(true)
+	var summaries: Dictionary = forged_state.get("month_summaries", {})
+	summaries[str(target_month)] = forged_summary
+	forged_state["month_summaries"] = summaries
+	_expect(resolved_nodes.size() == authored_nodes.size() \
+		and not bool(resolution_check.get("ok", true)) \
+		and CORE._terminal_historical_cycle_summary(
+			forged_state, target_month, cut_turn).is_empty(),
+		"legitimate closed target month accepted one extra full-typed fake bound node")
 
 
 func _check_terminal_historical_resolution_mutations(
@@ -2688,9 +2823,71 @@ func _check_order101_father_terminal_source_receipts() -> void:
 		_check_father_terminal_mutations_rejected(
 			saved, route_id, frozen, choice_index, source_turn)
 		if choice_index == 0:
+			_check_terminal_historical_cache_authored_invalidation(saved)
 			_check_father_terminal_no_offer_summary_durability(
 				saved, route_id, frozen, source_turn)
 	_check_order101_father_expiry_source_receipt()
+
+
+func _check_terminal_historical_cache_authored_invalidation(
+		saved: Dictionary) -> void:
+	GameState.start_new_game()
+	GameState.load_from_dict(saved.duplicate(true))
+	CORE.initialize_for_run(true)
+	GameState.turn = 5
+	GameState.month = 2
+	GameState.week_of_month = 1
+	var state: Dictionary = GameState.core_loop_v2_state
+	var baseline := CORE._terminal_historical_cycle_summary(state, 1, 5)
+
+	# Replacing the authored contract is a supported isolated-QA boundary. A
+	# cached genuine summary must be checked again against the new node spec, and
+	# restoring the exact original must also clear a cached rejection.
+	var contract_snapshot: Dictionary = DataRegistry.demo_core_loop_v2
+	var dirty_contract: Dictionary = contract_snapshot.duplicate(true)
+	var dirty_cycle: Dictionary = dirty_contract.get("seoul_cycle", {})
+	var dirty_months: Dictionary = dirty_cycle.get("months", {})
+	var dirty_month_one: Dictionary = dirty_months.get("1", {})
+	var dirty_nodes: Dictionary = dirty_month_one.get("nodes", {})
+	var dirty_father: Dictionary = dirty_nodes.get("father", {})
+	dirty_father["threshold"] = int(dirty_father.get("threshold", 1)) + 1
+	dirty_nodes["father"] = dirty_father
+	dirty_month_one["nodes"] = dirty_nodes
+	dirty_months["1"] = dirty_month_one
+	dirty_cycle["months"] = dirty_months
+	dirty_contract["seoul_cycle"] = dirty_cycle
+	DataRegistry.demo_core_loop_v2 = dirty_contract
+	var dirty_node_history := CORE._terminal_historical_cycle_summary(
+		state, 1, 5)
+	DataRegistry.demo_core_loop_v2 = contract_snapshot
+	var restored_node_history := CORE._terminal_historical_cycle_summary(
+		state, 1, 5)
+
+	# In-place event overrides retain the registry Dictionary identity, so they
+	# must use the public revision boundary. Removing the selected event topology
+	# invalidates Father's exact Story/relationship source proof; restoring it
+	# must invalidate the cached empty result as well.
+	var father_event_snapshot: Dictionary = (
+		DataRegistry.events_by_id.get(FATHER_EVENT, {}) as Dictionary).duplicate(
+			true)
+	var dirty_father_event: Dictionary = father_event_snapshot.duplicate(true)
+	dirty_father_event["choices"] = []
+	DataRegistry.events_by_id[FATHER_EVENT] = dirty_father_event
+	DataRegistry.notify_content_override()
+	var dirty_event_history := CORE._terminal_historical_cycle_summary(
+		state, 1, 5)
+	DataRegistry.events_by_id[FATHER_EVENT] = father_event_snapshot
+	DataRegistry.notify_content_override()
+	var restored_event_history := CORE._terminal_historical_cycle_summary(
+		state, 1, 5)
+
+	_expect(not baseline.is_empty() \
+		and dirty_node_history.is_empty() \
+		and not restored_node_history.is_empty() \
+		and dirty_event_history.is_empty() \
+		and not restored_event_history.is_empty(),
+		("historical summary cache ignored an authored node/event mutation " \
+			+ "or retained a cached rejection after exact restoration"))
 
 
 func _check_father_terminal_mutations_rejected(
@@ -3123,8 +3320,7 @@ func _check_terminal_m2_unselected_union_expiry(
 		if turn == 5 and not _resolve_cycle_story_world(
 				"m2_mirae_result_message", "v2_mirae_result_message", 0):
 			return
-		if turn == 8 and not _resolve_cycle_story_world(
-				"temptation_consequence", "arc_temptation_clean", 0):
+		if turn == 8 and not _resolve_order101_sns_world():
 			return
 		if not bool(CORE.complete_seoul_cycle_turn(2).get("ok", false)):
 			_expect(false,
@@ -3182,7 +3378,9 @@ func _check_terminal_m2_unselected_union_expiry(
 			summary_resolutions.get(route_id, {}), expected_people),
 		"mixed M2 terminal expiries were not frozen into exact summary cardinality")
 	var frozen: Dictionary = GameState.serialize().duplicate(true)
-	var main_game: Node = MAIN_GAME_SCRIPT.new()
+	var main_game_script := load("res://scenes/MainGame.gd") as Script
+	var main_game: Node = main_game_script.new()
+	main_game_script = null
 	main_game.set_meta("_qa_core_loop_v2_autosave_result", false)
 	_expect(not bool(main_game.call("_core_loop_v2_autosave_durable_state")) \
 		and not bool(main_game.call("_core_loop_v2_autosave_durable_state")) \
@@ -3262,7 +3460,9 @@ func _check_terminal_incomplete_main_boundary_is_atomic(
 	GameState.start_new_game()
 	GameState.load_from_dict(malformed_save.duplicate(true))
 	CORE.initialize_for_run(true)
-	var main_game: Node = MAIN_GAME_SCRIPT.new()
+	var main_game_script := load("res://scenes/MainGame.gd") as Script
+	var main_game: Node = main_game_script.new()
+	main_game_script = null
 	main_game.set_meta("_screenshot_qa_static_surface", true)
 	main_game.set_meta("_qa_core_loop_v2_autosave_result", true)
 	var original_pending_events: Array = EventManager.pending_events.duplicate(true)
@@ -3333,7 +3533,9 @@ func _check_terminal_preinstalled_summary_blocks_boundary(
 	GameState.start_new_game()
 	GameState.load_from_dict(preinstalled)
 	CORE.initialize_for_run(true)
-	var main_game: Node = MAIN_GAME_SCRIPT.new()
+	var main_game_script := load("res://scenes/MainGame.gd") as Script
+	var main_game: Node = main_game_script.new()
+	main_game_script = null
 	main_game.set_meta("_screenshot_qa_static_surface", true)
 	main_game.set_meta("_qa_core_loop_v2_autosave_result", true)
 	var original_pending_events: Array = EventManager.pending_events.duplicate(true)
@@ -3490,8 +3692,7 @@ func _check_terminal_forgone_historical_resolution(
 		_advance_to_next_week()
 		if not _commit_m2_terminal_filler():
 			return
-		if turn == 8 and not _resolve_cycle_story_world(
-				"temptation_consequence", "arc_temptation_clean", 0):
+		if turn == 8 and not _resolve_order101_sns_world():
 			return
 		if not bool(CORE.complete_seoul_cycle_turn(2).get("ok", false)):
 			_expect(false,
@@ -3693,8 +3894,7 @@ func _check_father_terminal_no_offer_summary_durability(
 		_advance_to_next_week()
 		if not _commit_m2_terminal_filler():
 			return
-		if turn == 8 and not _resolve_cycle_story_world(
-				"temptation_consequence", "arc_temptation_clean", 0):
+		if turn == 8 and not _resolve_order101_sns_world():
 			return
 		if not bool(CORE.complete_seoul_cycle_turn(2).get("ok", false)):
 			_expect(false, "father durability could not close W%d" % turn)
@@ -4450,6 +4650,77 @@ func _check_order101_fresh_w1_application_contract() -> void:
 			"pre-result reload restored a draft score/application instead of " \
 			+ "restarting the minigame")
 
+		if quality == 0:
+			# A syntactically complete nested result is not authority while the
+			# real onboarding owner is still in its pre-result minigame phase.
+			var forged_pre_result: Dictionary = \
+				pre_result_save.duplicate(true)
+			var forged_weekly: Array = forged_pre_result.get(
+				"weekly_commitments", [])
+			var forged_followups := 0
+			for row_index in range(forged_weekly.size()):
+				var raw_row: Variant = forged_weekly[row_index]
+				if not raw_row is Dictionary \
+						or int((raw_row as Dictionary).get("turn", 0)) != 1:
+					continue
+				var row: Dictionary = (raw_row as Dictionary).duplicate(true)
+				var row_details: Dictionary = (
+					row.get("details", {}) as Dictionary).duplicate(true)
+				row_details["action_followups"] = [{
+					"bundle_id": "m1_youth_center_resume_clinic",
+					"action_id": "resume",
+					"turn": 1,
+					"outcome": {},
+					"details": {
+						"execution": "job_hunt_application",
+						"quality": 0,
+						"effects": {"stress": 1},
+						"application_id": "mirae_industrial_tech",
+						"status": "submitted",
+						"onboarding_origin": "fresh_order101",
+						"node_id": "resume",
+						"capacity_id": capacity_id,
+						"capacity_value": capacity_value,
+						"onboarding_completion_override": true,
+					},
+				}]
+				row["details"] = row_details
+				forged_weekly[row_index] = row
+				forged_followups += 1
+			forged_pre_result["weekly_commitments"] = forged_weekly
+			var forged_state: Dictionary = forged_pre_result.get(
+				"core_loop_v2_state", {})
+			var forged_onboarding: Dictionary = forged_state.get(
+				"w1_resume_onboarding", {})
+			forged_onboarding["phase"] = "result_committed"
+			forged_onboarding["quality"] = 0
+			forged_state["w1_resume_onboarding"] = forged_onboarding
+			forged_state["action_result_ready"] = true
+			forged_pre_result["core_loop_v2_state"] = forged_state
+			_expect(forged_followups == 1,
+				"pre-result W1 fixture did not expose one outer weekly owner")
+			for reload_index in range(2):
+				GameState.start_new_game()
+				GameState.load_from_dict(forged_pre_result)
+				CORE.initialize_for_run(true)
+				var rejected_state: Dictionary = GameState.core_loop_v2_state
+				_expect(CORE.action_receipt(
+						"m1_youth_center_resume_clinic").is_empty() \
+					and CORE.application_status(
+						"mirae_industrial_tech").is_empty() \
+					and not (rejected_state.get(
+						"application_transition_receipts", {}) as Dictionary).has(
+							"m1_youth_center_resume_clinic:application:1") \
+					and not CORE.action_result_ready() \
+					and GameState.has_pending_weekly_commitment(1),
+					"pre-result W1 row recovered application authority on reload %d" \
+						% (reload_index + 1))
+				forged_pre_result = GameState.serialize().duplicate(true)
+			# Continue the positive producer from the original pre-result boundary.
+			GameState.start_new_game()
+			GameState.load_from_dict(pre_result_save)
+			CORE.initialize_for_run(true)
+
 		var invalid_pre_state: Dictionary = GameState.serialize().duplicate(true)
 		var invalid_quality := CORE.finalize_fresh_w1_application(1, 4)
 		_expect(not bool(invalid_quality.get("ok", true)) \
@@ -4734,6 +5005,4704 @@ func _check_order101_m2_people_terminal_source_receipts() -> void:
 	DataRegistry.demo_core_loop_v2 = contract_snapshot
 
 
+func _check_order101_m2_edge_contracts() -> void:
+	var contract_snapshot: Dictionary = DataRegistry.demo_core_loop_v2.duplicate(
+		true)
+	_order101_u20_owner_ready_save = {}
+	_check_order101_m2_edge_authored_contract()
+	_check_order101_current_application_recovery_integrity()
+	_check_order101_partial_callback_receipt_collisions()
+	var completed_save := _produce_order101_m2_edge_month(true)
+	if not completed_save.is_empty():
+		_check_order101_m2_completed_edges(
+			completed_save, contract_snapshot)
+	var expired_save := _produce_order101_m2_edge_month(false)
+	if not expired_save.is_empty():
+		_check_order101_m2_advancement_expiry(
+			expired_save, contract_snapshot)
+	if not completed_save.is_empty() and not expired_save.is_empty():
+		_check_order101_completed_seorin_expiry_shadow_rejected(
+			completed_save, expired_save)
+	DataRegistry.demo_core_loop_v2 = contract_snapshot
+	print(
+		"ORDER101_M2_EDGE_CONTRACTS_OK "
+		+ "u13=expiry/hanbit u14=seorin/action/result "
+		+ "u15=rain/action/legacy2 u18=sleep/action/room "
+		+ "u20=w8_sns/temptation_prelude json=source+target/2 "
+		+ "mutations=receipt/expiry/world/legacy")
+
+
+func _check_order101_current_application_recovery_integrity() -> void:
+	# Produce the actual current generic-application row first. The mutations
+	# below change only serialized authority; no synthetic partial state is used
+	# as a positive fixture.
+	_prepare_base_v2()
+	GameState.turn = 17
+	GameState.month = 5
+	GameState.week_of_month = 1
+	var began := CORE.begin_bundle(
+		"m5_city_service_application", "schedule")
+	var armed := began and GameState.arm_weekly_commitment({
+		"turn": 17,
+		"pressure_id": "m5_city_service_application",
+		"pressure_family": "career",
+		"choice_id": "apply",
+		"forgone_ids": [],
+	})
+	var transaction: Dictionary = {}
+	if armed:
+		transaction = GameState.finalize_weekly_effect_action(
+			"apply", {}, "money", "work", "", {
+				"execution": "application",
+				"application_id": "city_facility_ops_2026h1",
+				"status": "submitted",
+				"job_id": "job_03",
+			})
+	var raw_record: Variant = transaction.get("record", {})
+	var noted := bool(transaction.get("ok", false)) \
+		and raw_record is Dictionary \
+		and CORE.note_action_commitment(raw_record as Dictionary)
+	var exact_save: Dictionary = GameState.serialize().duplicate(true)
+	_expect(began and armed and noted \
+		and CORE.action_result_ready() \
+		and CORE.application_status("city_facility_ops_2026h1") \
+			== "submitted" \
+		and not CORE.action_receipt(
+			"m5_city_service_application").is_empty(),
+		"current W17 application fixture did not produce exact authority")
+	if not noted:
+		return
+
+	# A valid current result remains resumable across two reloads.
+	var valid_roundtrip := exact_save.duplicate(true)
+	for reload_index in range(2):
+		GameState.start_new_game()
+		GameState.load_from_dict(valid_roundtrip)
+		CORE.initialize_for_run(true)
+		var recovered := CORE.recover_action_result()
+		_expect(str(recovered.get("bundle_id", "")) \
+			== "m5_city_service_application" \
+			and str(recovered.get("application_id", "")) \
+				== "city_facility_ops_2026h1" \
+			and str(recovered.get("application_status", "")) \
+				== "submitted" \
+			and CORE.application_status("city_facility_ops_2026h1") \
+				== "submitted",
+			"current W17 application failed exact reload %d" \
+				% (reload_index + 1))
+		valid_roundtrip = GameState.serialize().duplicate(true)
+
+	for mutation in [
+		"identity_missing_receipt",
+		"identity_matching_forged_receipt",
+		"job_id_missing_receipt",
+		"job_id_matching_forged_receipt",
+	]:
+		var malformed := exact_save.duplicate(true)
+		var malformed_state: Dictionary = malformed.get(
+			"core_loop_v2_state", {})
+		var action_receipts: Dictionary = malformed_state.get(
+			"action_receipts", {})
+		var exact_receipt: Dictionary = (
+			action_receipts.get(
+				"m5_city_service_application", {}) as Dictionary).duplicate(true)
+		action_receipts.erase("m5_city_service_application")
+		var weekly: Array = malformed.get("weekly_commitments", [])
+		var job_id_only: bool = str(mutation).begins_with("job_id_")
+		var forged_details := (
+			{
+				"execution": "application",
+				"application_id": "city_facility_ops_2026h1",
+				"status": "submitted",
+				"job_id": "job_04",
+			}
+			if job_id_only else {
+				"execution": "application",
+				"application_id": "hanbit_ops_2026q1",
+				"status": "resolved",
+				"job_id": "job_03",
+			}
+		)
+		for row_index in range(weekly.size()):
+			var raw_row: Variant = weekly[row_index]
+			if not raw_row is Dictionary \
+					or str((raw_row as Dictionary).get(
+						"pressure_id", "")) \
+						!= "m5_city_service_application":
+				continue
+			var row: Dictionary = (raw_row as Dictionary).duplicate(true)
+			row["details"] = forged_details.duplicate(true)
+			weekly[row_index] = row
+		malformed["weekly_commitments"] = weekly
+		if str(mutation).ends_with("matching_forged_receipt"):
+			var forged_receipt := exact_receipt.duplicate(true)
+			forged_receipt["application_id"] = str(
+				forged_details["application_id"])
+			forged_receipt["application_status"] = str(
+				forged_details["status"])
+			forged_receipt["result_details"] = forged_details.duplicate(true)
+			action_receipts["m5_city_service_application"] = forged_receipt
+		malformed_state["action_receipts"] = action_receipts
+		malformed["core_loop_v2_state"] = malformed_state
+
+		var roundtrip := malformed
+		for reload_index in range(2):
+			GameState.start_new_game()
+			GameState.load_from_dict(roundtrip)
+			CORE.initialize_for_run(true)
+			var normalized: Dictionary = GameState.core_loop_v2_state
+			_expect(CORE.action_receipt(
+					"m5_city_service_application").is_empty() \
+				and not CORE.action_result_ready() \
+				and not (normalized.get(
+					"application_statuses", {}) as Dictionary).has(
+						"hanbit_ops_2026q1") \
+				and CORE.application_status(
+					"city_facility_ops_2026h1") == "submitted" \
+				and CORE.recover_action_result().is_empty(),
+				("current application %s mutation recovered authority on " \
+					+ "reload %d") % [mutation, reload_index + 1])
+			roundtrip = GameState.serialize().duplicate(true)
+
+	# Even exact authored details cannot regress a later status while rebuilding
+	# a missing result receipt.
+	var conflicting := exact_save.duplicate(true)
+	var conflicting_state: Dictionary = conflicting.get(
+		"core_loop_v2_state", {})
+	(conflicting_state.get("action_receipts", {}) as Dictionary).erase(
+		"m5_city_service_application")
+	(conflicting_state.get("application_statuses", {}) as Dictionary)[
+		"city_facility_ops_2026h1"] = "resolved"
+	conflicting["core_loop_v2_state"] = conflicting_state
+	for reload_index in range(2):
+		GameState.start_new_game()
+		GameState.load_from_dict(conflicting)
+		CORE.initialize_for_run(true)
+		_expect(CORE.action_receipt(
+				"m5_city_service_application").is_empty() \
+			and not CORE.action_result_ready() \
+			and CORE.application_status(
+				"city_facility_ops_2026h1") == "resolved",
+			"current application recovery regressed status on reload %d" \
+				% (reload_index + 1))
+		conflicting = GameState.serialize().duplicate(true)
+
+	# Applications without an authored job ID also have an exact detail shape:
+	# adding a job owner cannot be normalized as the same producer result.
+	_prepare_base_v2()
+	GameState.turn = 5
+	GameState.month = 2
+	GameState.week_of_month = 1
+	var seorin_began := CORE.begin_bundle(
+		"m2_seorin_application", "schedule")
+	var seorin_armed := seorin_began and GameState.arm_weekly_commitment({
+		"turn": 5,
+		"pressure_id": "m2_seorin_application",
+		"pressure_family": "growth",
+		"choice_id": "apply",
+		"forgone_ids": [],
+		"supplemental_to_seoul_cycle": true,
+	})
+	var seorin_transaction: Dictionary = {}
+	if seorin_armed:
+		seorin_transaction = GameState.finalize_weekly_effect_action(
+			"apply", {}, "money", "work", "", {
+				"execution": "application",
+				"application_id": "seorin_contract_2026q1",
+				"status": "submitted",
+			})
+	var seorin_record: Variant = seorin_transaction.get("record", {})
+	var seorin_noted := bool(seorin_transaction.get("ok", false)) \
+		and seorin_record is Dictionary \
+		and CORE.note_action_commitment(seorin_record as Dictionary)
+	_expect(seorin_began and seorin_armed and seorin_noted,
+		"current Seorin application fixture did not produce exact authority")
+	if seorin_noted:
+		var seorin_extra_job: Dictionary = \
+			GameState.serialize().duplicate(true)
+		var seorin_state: Dictionary = seorin_extra_job.get(
+			"core_loop_v2_state", {})
+		(seorin_state.get("action_receipts", {}) as Dictionary).erase(
+			"m2_seorin_application")
+		var seorin_weekly: Array = seorin_extra_job.get(
+			"weekly_commitments", [])
+		for row_index in range(seorin_weekly.size()):
+			var raw_row: Variant = seorin_weekly[row_index]
+			if not raw_row is Dictionary \
+					or str((raw_row as Dictionary).get(
+						"pressure_id", "")) != "m2_seorin_application":
+				continue
+			var row: Dictionary = (raw_row as Dictionary).duplicate(true)
+			var details: Dictionary = (
+				row.get("details", {}) as Dictionary).duplicate(true)
+			details["job_id"] = "job_04"
+			row["details"] = details
+			seorin_weekly[row_index] = row
+		seorin_extra_job["weekly_commitments"] = seorin_weekly
+		seorin_extra_job["core_loop_v2_state"] = seorin_state
+		for reload_index in range(2):
+			GameState.start_new_game()
+			GameState.load_from_dict(seorin_extra_job)
+			CORE.initialize_for_run(true)
+			_expect(CORE.action_receipt(
+					"m2_seorin_application").is_empty() \
+				and not CORE.action_result_ready() \
+				and CORE.application_status(
+					"seorin_contract_2026q1") == "submitted",
+				"current Seorin extra job owner recovered on reload %d" \
+					% (reload_index + 1))
+			seorin_extra_job = GameState.serialize().duplicate(true)
+
+	# A non-application action cannot acquire an application owner through its
+	# serialized result details.
+	_prepare_base_v2()
+	GameState.turn = 8
+	GameState.month = 2
+	GameState.week_of_month = 4
+	var rest_began := CORE.begin_bundle(
+		"m2_sleep_debt_sunday", "schedule")
+	var rest_armed := rest_began and GameState.arm_weekly_commitment({
+		"turn": 8,
+		"pressure_id": "m2_sleep_debt_sunday",
+		"pressure_family": "recovery",
+		"choice_id": "rest",
+		"forgone_ids": [],
+		"supplemental_to_seoul_cycle": true,
+	})
+	var rest_transaction: Dictionary = {}
+	if rest_armed:
+		rest_transaction = GameState.finalize_weekly_effect_action(
+			"rest", {"mental": 10, "health": 3},
+			"human", "home", "", {
+				"execution": "rest",
+				"effects": {"mental": 10, "health": 3},
+				"diminished_by_recovery_routine": false,
+			})
+	var rest_record: Variant = rest_transaction.get("record", {})
+	var rest_noted := bool(rest_transaction.get("ok", false)) \
+		and rest_record is Dictionary \
+		and CORE.note_action_commitment(rest_record as Dictionary)
+	_expect(rest_began and rest_armed and rest_noted,
+		"current recovery fixture did not produce exact authority")
+	if rest_noted:
+		var forged_rest: Dictionary = GameState.serialize().duplicate(true)
+		var forged_rest_state: Dictionary = forged_rest.get(
+			"core_loop_v2_state", {})
+		(forged_rest_state.get("action_receipts", {}) as Dictionary).erase(
+			"m2_sleep_debt_sunday")
+		var rest_weekly: Array = forged_rest.get("weekly_commitments", [])
+		for row_index in range(rest_weekly.size()):
+			var raw_row: Variant = rest_weekly[row_index]
+			if not raw_row is Dictionary \
+					or str((raw_row as Dictionary).get(
+						"pressure_id", "")) != "m2_sleep_debt_sunday":
+				continue
+			var row: Dictionary = (raw_row as Dictionary).duplicate(true)
+			var details: Dictionary = (
+				row.get("details", {}) as Dictionary).duplicate(true)
+			details["application_id"] = "hanbit_ops_2026q1"
+			details["status"] = "resolved"
+			row["details"] = details
+			rest_weekly[row_index] = row
+		forged_rest["weekly_commitments"] = rest_weekly
+		forged_rest["core_loop_v2_state"] = forged_rest_state
+		for reload_index in range(2):
+			GameState.start_new_game()
+			GameState.load_from_dict(forged_rest)
+			CORE.initialize_for_run(true)
+			_expect(CORE.action_receipt(
+					"m2_sleep_debt_sunday").is_empty() \
+				and not CORE.action_result_ready() \
+				and CORE.application_status(
+					"hanbit_ops_2026q1").is_empty(),
+				"current recovery acquired an application on reload %d" \
+					% (reload_index + 1))
+			forged_rest = GameState.serialize().duplicate(true)
+
+
+func _check_order101_partial_callback_receipt_collisions() -> void:
+	# A canonical key is not authority by itself. Pre-existing abbreviated maps
+	# must block the callback transaction and the foreground completion instead
+	# of being treated as an already-written generic/typed receipt.
+	GameState.start_new_game()
+	CORE.initialize_for_run(true)
+	GameState.turn = 2
+	GameState.month = 1
+	GameState.week_of_month = 2
+	var relationship_began := CORE.begin_bundle(
+		"father_first_call", "schedule")
+	var relationship_key := "father_first_call:arc_father_01_call:0:2"
+	var relationship_state: Dictionary = GameState.core_loop_v2_state
+	relationship_state["relationship_choice_receipts"][relationship_key] = {
+		"receipt_key": relationship_key,
+	}
+	GameState.core_loop_v2_state = relationship_state
+	var relationship_before_callback: Dictionary = \
+		GameState.core_loop_v2_state.duplicate(true)
+	var relationship_noted := CORE.note_story_choice(
+		"arc_father_01_call", 0) if relationship_began else false
+	var relationship_after_callback: Dictionary = \
+		GameState.core_loop_v2_state.duplicate(true)
+	var relationship_completed := CORE.complete_active_bundle() \
+		if relationship_began else ""
+	var relationship_after: Dictionary = GameState.core_loop_v2_state
+	_expect(relationship_began and not relationship_noted \
+		and relationship_completed.is_empty() \
+		and (relationship_after.get(
+			"completed_bundles", []) as Array).count(
+				"father_first_call") == 0 \
+		and not (relationship_after.get(
+			"completed_turns", []) as Array).has(2) \
+		and not (relationship_after.get(
+			"completed_bundle_turns", {}) as Dictionary).has(
+				"father_first_call") \
+		and _variant_equal_with_numeric_values(
+			relationship_after_callback, relationship_before_callback) \
+		and JSON.stringify(relationship_after_callback) \
+			== JSON.stringify(relationship_before_callback) \
+		and _variant_equal_with_numeric_values(
+			relationship_after, relationship_before_callback),
+		"partial canonical relationship receipt bypassed callback completion")
+
+	GameState.start_new_game()
+	CORE.initialize_for_run(true)
+	GameState.turn = 2
+	GameState.month = 1
+	GameState.week_of_month = 2
+	var application_state: Dictionary = GameState.core_loop_v2_state
+	application_state["application_statuses"][
+		"mirae_industrial_tech"] = "submitted"
+	GameState.core_loop_v2_state = application_state
+	var application_began := CORE.begin_bundle(
+		"opening_interview_math", "consequence")
+	var application_key := \
+		"opening_interview_math:arc_intro_01_meal:0:2"
+	application_state = GameState.core_loop_v2_state
+	application_state["application_transition_receipts"][application_key] = {
+		"receipt_key": application_key,
+	}
+	GameState.core_loop_v2_state = application_state
+	var application_before_callback: Dictionary = \
+		GameState.core_loop_v2_state.duplicate(true)
+	var application_noted := CORE.note_story_choice(
+		"arc_intro_01_meal", 0) if application_began else false
+	var application_after_callback: Dictionary = \
+		GameState.core_loop_v2_state.duplicate(true)
+	var application_completed := CORE.complete_active_bundle() \
+		if application_began else ""
+	var application_after: Dictionary = GameState.core_loop_v2_state
+	_expect(application_began and not application_noted \
+		and application_completed.is_empty() \
+		and (application_after.get(
+			"completed_bundles", []) as Array).count(
+				"opening_interview_math") == 0 \
+		and not (application_after.get(
+			"completed_turns", []) as Array).has(2) \
+		and not (application_after.get(
+			"completed_bundle_turns", {}) as Dictionary).has(
+				"opening_interview_math") \
+		and _variant_equal_with_numeric_values(
+			application_after_callback, application_before_callback) \
+		and JSON.stringify(application_after_callback) \
+			== JSON.stringify(application_before_callback) \
+		and _variant_equal_with_numeric_values(
+			application_after, application_before_callback),
+		"partial canonical application receipt bypassed callback completion")
+
+	# Even a fully valid current receipt cannot coexist with a second
+	# same-owner identity. The shadow event is outside the authored outcome set;
+	# callbacks and completion must both fail closed instead of selecting the
+	# one valid sibling and ignoring the forged row.
+	GameState.start_new_game()
+	CORE.initialize_for_run(true)
+	GameState.turn = 2
+	GameState.month = 1
+	GameState.week_of_month = 2
+	var relationship_shadow_began := CORE.begin_bundle(
+		"father_first_call", "schedule")
+	var father_event: Dictionary = DataRegistry.find_event(
+		"arc_father_01_call")
+	var father_choices: Array = father_event.get("choices", [])
+	var father_applied := relationship_shadow_began \
+		and not father_choices.is_empty() \
+		and GameState.apply_choice(father_event, father_choices[0] as Dictionary)
+	var father_noted := father_applied \
+		and CORE.note_story_choice("arc_father_01_call", 0)
+	var father_after_q0: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var father_second_noted := CORE.note_story_choice(
+		"arc_father_01_call", 1) if father_noted else true
+	var father_after_second: Dictionary = \
+		GameState.core_loop_v2_state.duplicate(true)
+	_expect(father_noted and not father_second_noted \
+		and _variant_equal_with_numeric_values(
+			father_after_second, father_after_q0) \
+		and JSON.stringify(father_after_second) == JSON.stringify(father_after_q0),
+		"relationship owner accepted or mutated on a sequential second choice")
+	var father_key := "father_first_call:arc_father_01_call:0:2"
+	var father_shadow_key := "father_first_call:shadow_event:0:2"
+	var father_state: Dictionary = GameState.core_loop_v2_state
+	var father_receipt: Dictionary = (father_state.get(
+		"relationship_choice_receipts", {}) as Dictionary).get(father_key, {})
+	var father_shadow := father_receipt.duplicate(true)
+	father_shadow["receipt_key"] = father_shadow_key
+	father_shadow["event_id"] = "shadow_event"
+	father_state["relationship_choice_receipts"][father_shadow_key] = \
+		father_shadow
+	GameState.core_loop_v2_state = father_state
+	var father_renoted := CORE.note_story_choice("arc_father_01_call", 0) \
+		if father_noted else false
+	var father_shadow_completed := CORE.complete_active_bundle() \
+		if father_noted else ""
+	var father_after: Dictionary = GameState.core_loop_v2_state
+	_expect(father_noted and not father_renoted \
+		and father_shadow_completed.is_empty() \
+		and (father_after.get(
+			"completed_bundles", []) as Array).count("father_first_call") == 0 \
+		and not (father_after.get(
+			"completed_bundle_turns", {}) as Dictionary).has(
+				"father_first_call"),
+		"same-owner shadow relationship event bypassed callback completion")
+
+	GameState.start_new_game()
+	CORE.initialize_for_run(true)
+	GameState.turn = 2
+	GameState.month = 1
+	GameState.week_of_month = 2
+	var relationship_sibling_began := CORE.begin_bundle(
+		"father_first_call", "schedule")
+	father_event = DataRegistry.find_event("arc_father_01_call")
+	father_choices = father_event.get("choices", [])
+	father_applied = relationship_sibling_began \
+		and not father_choices.is_empty() \
+		and GameState.apply_choice(father_event, father_choices[0] as Dictionary)
+	father_noted = father_applied \
+		and CORE.note_story_choice("arc_father_01_call", 0)
+	father_state = GameState.core_loop_v2_state
+	var father_story: Dictionary = (father_state.get(
+		"story_choice_receipts", {}) as Dictionary).get(father_key, {})
+	var father_story_sibling_key := "father_first_call:arc_father_01_call:1:2"
+	var father_story_sibling := father_story.duplicate(true)
+	father_story_sibling["receipt_key"] = father_story_sibling_key
+	father_story_sibling["choice_index"] = 1
+	father_state["story_choice_receipts"][father_story_sibling_key] = \
+		father_story_sibling
+	var father_relationship_sibling_key := \
+		"father_first_call:arc_father_01_call:1:2"
+	var father_relationship_sibling: Dictionary = (father_state.get(
+		"relationship_choice_receipts", {}) as Dictionary).get(
+			father_key, {}).duplicate(true)
+	father_relationship_sibling["receipt_key"] = \
+		father_relationship_sibling_key
+	father_relationship_sibling["choice_index"] = 1
+	father_state["relationship_choice_receipts"][
+		father_relationship_sibling_key] = father_relationship_sibling
+	GameState.core_loop_v2_state = father_state
+	var father_sibling_noted := CORE.note_story_choice(
+		"arc_father_01_call", 0) if father_noted else false
+	var father_sibling_completed := CORE.complete_active_bundle() \
+		if father_noted else ""
+	var father_sibling_after: Dictionary = GameState.core_loop_v2_state
+	_expect(father_noted and not father_sibling_noted \
+		and father_sibling_completed.is_empty() \
+		and (father_sibling_after.get(
+			"completed_bundles", []) as Array).count("father_first_call") == 0,
+		"same-event relationship sibling choice bypassed callback completion")
+
+	GameState.start_new_game()
+	CORE.initialize_for_run(true)
+	GameState.turn = 2
+	GameState.month = 1
+	GameState.week_of_month = 2
+	var shadow_application_state: Dictionary = GameState.core_loop_v2_state
+	shadow_application_state["application_statuses"][
+		"mirae_industrial_tech"] = "submitted"
+	GameState.core_loop_v2_state = shadow_application_state
+	var application_shadow_began := CORE.begin_bundle(
+		"opening_interview_math", "consequence")
+	var application_event: Dictionary = DataRegistry.find_event(
+		"arc_intro_01_meal")
+	var application_choices: Array = application_event.get("choices", [])
+	var application_applied := application_shadow_began \
+		and not application_choices.is_empty() \
+		and GameState.apply_choice(
+			application_event, application_choices[0] as Dictionary)
+	var application_initial_noted := application_applied \
+		and CORE.note_story_choice("arc_intro_01_meal", 0)
+	var application_after_q0: Dictionary = \
+		GameState.core_loop_v2_state.duplicate(true)
+	var application_second_noted := CORE.note_story_choice(
+		"arc_intro_01_meal", 1) if application_initial_noted else true
+	var application_after_second: Dictionary = \
+		GameState.core_loop_v2_state.duplicate(true)
+	_expect(application_initial_noted and not application_second_noted \
+		and _variant_equal_with_numeric_values(
+			application_after_second, application_after_q0) \
+		and JSON.stringify(application_after_second) \
+			== JSON.stringify(application_after_q0),
+		"application owner accepted or mutated on a sequential second choice")
+	var canonical_application_key := \
+		"opening_interview_math:arc_intro_01_meal:0:2"
+	var shadow_application_key := \
+		"opening_interview_math:shadow_event:0:2"
+	shadow_application_state = GameState.core_loop_v2_state
+	var application_receipt: Dictionary = (shadow_application_state.get(
+		"application_transition_receipts", {}) as Dictionary).get(
+			canonical_application_key, {})
+	var application_shadow := application_receipt.duplicate(true)
+	application_shadow["receipt_key"] = shadow_application_key
+	application_shadow["event_id"] = "shadow_event"
+	shadow_application_state["application_transition_receipts"][
+		shadow_application_key] = application_shadow
+	GameState.core_loop_v2_state = shadow_application_state
+	var application_renoted := CORE.note_story_choice(
+		"arc_intro_01_meal", 0) if application_initial_noted else false
+	var application_shadow_completed := CORE.complete_active_bundle() \
+		if application_initial_noted else ""
+	var shadow_application_after: Dictionary = GameState.core_loop_v2_state
+	_expect(application_initial_noted and not application_renoted \
+		and application_shadow_completed.is_empty() \
+		and (shadow_application_after.get(
+			"completed_bundles", []) as Array).count(
+				"opening_interview_math") == 0 \
+		and not (shadow_application_after.get(
+			"completed_bundle_turns", {}) as Dictionary).has(
+				"opening_interview_math"),
+		"same-owner shadow application event bypassed callback completion")
+
+	GameState.start_new_game()
+	CORE.initialize_for_run(true)
+	GameState.turn = 2
+	GameState.month = 1
+	GameState.week_of_month = 2
+	shadow_application_state = GameState.core_loop_v2_state
+	shadow_application_state["application_statuses"][
+		"mirae_industrial_tech"] = "submitted"
+	GameState.core_loop_v2_state = shadow_application_state
+	var application_sibling_began := CORE.begin_bundle(
+		"opening_interview_math", "consequence")
+	application_event = DataRegistry.find_event("arc_intro_01_meal")
+	application_choices = application_event.get("choices", [])
+	application_applied = application_sibling_began \
+		and not application_choices.is_empty() \
+		and GameState.apply_choice(
+			application_event, application_choices[0] as Dictionary)
+	application_initial_noted = application_applied \
+		and CORE.note_story_choice("arc_intro_01_meal", 0)
+	shadow_application_state = GameState.core_loop_v2_state
+	var application_story: Dictionary = (shadow_application_state.get(
+		"story_choice_receipts", {}) as Dictionary).get(
+			canonical_application_key, {})
+	var application_story_sibling_key := \
+		"opening_interview_math:arc_intro_01_meal:1:2"
+	var application_story_sibling := application_story.duplicate(true)
+	application_story_sibling["receipt_key"] = application_story_sibling_key
+	application_story_sibling["choice_index"] = 1
+	shadow_application_state["story_choice_receipts"][
+		application_story_sibling_key] = application_story_sibling
+	var application_transition_sibling: Dictionary = (shadow_application_state.get(
+		"application_transition_receipts", {}) as Dictionary).get(
+			canonical_application_key, {}).duplicate(true)
+	application_transition_sibling["receipt_key"] = \
+		application_story_sibling_key
+	application_transition_sibling["choice_index"] = 1
+	shadow_application_state["application_transition_receipts"][
+		application_story_sibling_key] = application_transition_sibling
+	GameState.core_loop_v2_state = shadow_application_state
+	var application_sibling_noted := CORE.note_story_choice(
+		"arc_intro_01_meal", 0) if application_initial_noted else false
+	var application_sibling_completed := CORE.complete_active_bundle() \
+		if application_initial_noted else ""
+	var application_sibling_after: Dictionary = GameState.core_loop_v2_state
+	_expect(application_initial_noted and not application_sibling_noted \
+		and application_sibling_completed.is_empty() \
+		and (application_sibling_after.get(
+			"completed_bundles", []) as Array).count(
+				"opening_interview_math") == 0,
+		"same-event application sibling choice bypassed callback completion")
+
+
+func _check_order101_storymode_callback_rollback() -> void:
+	# Exercise the actual StoryMode transaction boundary, not only the producer
+	# helper. The authored choice applies flags before the typed relationship
+	# writer sees this malformed canonical row; a rejected callback must restore
+	# the full GameState snapshot and leave the choice UI on the same decision.
+	GameState.start_new_game()
+	CORE.initialize_for_run(true)
+	GameState.turn = 2
+	GameState.month = 1
+	GameState.week_of_month = 2
+	var began := CORE.begin_bundle("father_first_call", "schedule")
+	var receipt_key := "father_first_call:arc_father_01_call:0:2"
+	var state: Dictionary = GameState.core_loop_v2_state
+	state["relationship_choice_receipts"][receipt_key] = {
+		"receipt_key": receipt_key,
+	}
+	GameState.core_loop_v2_state = state
+	GameState.pending_story_queue = ["arc_father_01_call"]
+	var story_scene := load("res://scenes/StoryMode.tscn") as PackedScene
+	var story_mode: Control = story_scene.instantiate()
+	story_scene = null
+	add_child(story_mode)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	story_mode.set("_transitioning", false)
+	story_mode.set("_story_scene_transition_active", false)
+	story_mode.set("_showing_choices", true)
+	story_mode.set("_pending_after_result", false)
+	var before: Dictionary = GameState.serialize().duplicate(true)
+	var print_errors_before := Engine.print_error_messages
+	Engine.print_error_messages = false
+	story_mode.call("_on_choice", 0)
+	Engine.print_error_messages = print_errors_before
+	var after: Dictionary = GameState.serialize().duplicate(true)
+	_expect(began \
+		and _variant_equal_with_numeric_values(after, before) \
+		and JSON.stringify(after) == JSON.stringify(before) \
+		and bool(story_mode.get("_showing_choices")) \
+		and not bool(story_mode.get("_pending_after_result")),
+		("StoryMode advanced or retained choice effects after a malformed typed " \
+		+ "relationship callback"))
+	_dispose_durable_gate_main(story_mode)
+	await get_tree().process_frame
+	BGMPlayer.stop()
+
+
+func _check_order101_m2_edge_authored_contract() -> void:
+	var month_two := CORE.seoul_cycle_month_spec(2)
+	var raw_world: Variant = month_two.get("world_clock", {})
+	var world_events: Array = (
+		(raw_world as Dictionary).get("events", [])
+		if raw_world is Dictionary else [])
+	var week_four: Dictionary = {}
+	for raw_event in world_events:
+		if raw_event is Dictionary \
+				and int((raw_event as Dictionary).get("week_index", 0)) == 4:
+			week_four = (raw_event as Dictionary).duplicate(true)
+	var sns_bundle := CORE.bundle("sns_pressure_night")
+	var seorin_bundle := CORE.bundle("m3_seorin_result_message")
+	var jiyeon_bundle := CORE.bundle("jiyeon_world_meet")
+	var seorin_action_predicate := _order101_action_predicate(
+		seorin_bundle, "m2_seorin_application")
+	var rain_action_predicate := _order101_action_predicate(
+		jiyeon_bundle, "m2_rain_delivery_shift")
+	_expect(_sorted_strings(week_four.keys()) \
+			== ["bundle_id", "kind", "week_index"] \
+		and str(week_four.get("bundle_id", "")) == "sns_pressure_night" \
+		and str(week_four.get("kind", "")) == "consequence" \
+		and str(sns_bundle.get("initiated_by", "")) == "system" \
+		and not bool(sns_bundle.get("consumes_slot", true)) \
+		and str(seorin_action_predicate.get("kind", "")) \
+			== "action_receipt" \
+		and str(seorin_action_predicate.get("action_id", "")) == "apply" \
+		and int(seorin_action_predicate.get("month", 0)) == 2 \
+		and str(seorin_action_predicate.get("application_id", "")) \
+			== "seorin_contract_2026q1" \
+		and str(seorin_action_predicate.get("application_status", "")) \
+			== "submitted" \
+		and str(rain_action_predicate.get("kind", "")) \
+			== "action_receipt" \
+		and str(rain_action_predicate.get("action_id", "")) \
+			== "side_shift" \
+		and int(rain_action_predicate.get("month", 0)) == 2 \
+		and bool(rain_action_predicate.get(
+			"legacy_completed_bundle_fallback", false)),
+		"U14/U15/U20 authored producer-reader or fixed W8 topology drifted")
+
+
+func _order101_action_predicate(
+		scene_bundle: Dictionary, producer_bundle: String) -> Dictionary:
+	var raw_prerequisites: Variant = scene_bundle.get("prerequisites", {})
+	if not raw_prerequisites is Dictionary:
+		return {}
+	var raw_all: Variant = (raw_prerequisites as Dictionary).get("all", [])
+	if not raw_all is Array:
+		return {}
+	var found: Dictionary = {}
+	for raw_predicate in raw_all as Array:
+		if raw_predicate is Dictionary \
+				and str((raw_predicate as Dictionary).get("kind", "")) \
+					== "action_receipt" \
+				and str((raw_predicate as Dictionary).get("bundle_id", "")) \
+					== producer_bundle:
+			if not found.is_empty():
+				return {}
+			found = (raw_predicate as Dictionary).duplicate(true)
+	return found
+
+
+func _produce_order101_m2_edge_month(
+		complete_advancement: bool) -> Dictionary:
+	var month_one := _produce_fresh_father_completed_month(0)
+	if month_one.is_empty():
+		return {}
+	_advance_to_next_week()
+	var initialized := CORE.initialize_seoul_cycle(2)
+	_expect(bool(initialized.get("ok", false)),
+		"ORDER-101 M2 edge fixture could not initialize Month Two")
+	if not bool(initialized.get("ok", false)):
+		return {}
+	for turn in range(5, 9):
+		var snapshot := CORE.seoul_cycle_snapshot(2)
+		var committed: Dictionary = {}
+		if complete_advancement:
+			var node_id := (
+				"m2_advancement" if turn == 5
+				else "m2_self" if turn == 7
+				else "m2_livelihood")
+			var minimum := 3 if turn in [5, 7] else 5 if turn == 6 else 0
+			var prefer_high := turn in [6, 7]
+			var capacity_id := _unused_capacity(
+				snapshot, minimum, prefer_high)
+			committed = CORE.commit_seoul_cycle_allocation(
+				capacity_id, node_id, 2)
+		else:
+			var node_id := "m2_self" if turn in [5, 7] else "m2_livelihood"
+			var capacity_id := _unused_capacity(snapshot, 0, true)
+			committed = CORE.commit_seoul_cycle_allocation(
+				capacity_id, node_id, 2)
+		_expect(bool(committed.get("ok", false)),
+			"ORDER-101 M2 edge fixture allocation failed at W%d" % turn)
+		if not bool(committed.get("ok", false)):
+			return {}
+		var pending_trigger: Dictionary = committed.get("pending_trigger", {})
+		if not pending_trigger.is_empty():
+			var trigger_bundle := str(pending_trigger.get("bundle_id", ""))
+			var trigger_ok := (
+				_resolve_order101_application_trigger(trigger_bundle)
+				if trigger_bundle == "m2_seorin_application" else
+				_resolve_cycle_side_shift_trigger(trigger_bundle)
+				if trigger_bundle == "m2_rain_delivery_shift" else
+				_resolve_cycle_recovery_trigger(trigger_bundle)
+				if trigger_bundle == "m2_sleep_debt_sunday" else false)
+			if not trigger_ok:
+				return {}
+		var pending_world: Dictionary = CORE.pending_seoul_cycle_world()
+		if not pending_world.is_empty():
+			var world_bundle := str(pending_world.get("bundle_id", ""))
+			var world_ok := (
+				_resolve_cycle_story_world(
+					world_bundle, "v2_mirae_result_message", 0)
+				if world_bundle == "m2_mirae_result_message" else
+				_resolve_order101_sns_world()
+				if world_bundle == "sns_pressure_night" else false)
+			if not world_ok:
+				return {}
+		var closed := CORE.complete_seoul_cycle_turn(2)
+		_expect(bool(closed.get("ok", false)),
+			"ORDER-101 M2 edge fixture could not close W%d" % turn)
+		if not bool(closed.get("ok", false)):
+			return {}
+		if turn < 8:
+			_advance_to_next_week()
+	var summary := CORE.record_month_summary(2, {}, {})
+	_expect(not summary.is_empty(),
+		"ORDER-101 M2 edge fixture did not freeze Month Two")
+	return GameState.serialize().duplicate(true) \
+		if not summary.is_empty() else {}
+
+
+func _resolve_order101_application_trigger(bundle_id: String) -> bool:
+	var claimed := CORE.claim_seoul_cycle_trigger()
+	var began := bool(claimed.get("ok", false)) \
+		and CORE.begin_seoul_cycle_trigger(bundle_id)
+	var armed := began and GameState.arm_weekly_commitment({
+		"turn": int(GameState.turn),
+		"pressure_id": bundle_id,
+		"pressure_family": "growth",
+		"choice_id": "apply",
+		"forgone_ids": [],
+		"supplemental_to_seoul_cycle": true,
+	})
+	var transaction: Dictionary = {}
+	if armed:
+		transaction = GameState.finalize_weekly_effect_action(
+			"apply", {}, "money", "work", "", {
+				"execution": "application",
+				"application_id": "seorin_contract_2026q1",
+				"status": "submitted",
+			})
+	var action_noted := bool(transaction.get("ok", false)) \
+		and CORE.note_action_commitment(
+			transaction.get("record", {}) as Dictionary)
+	var completed := CORE.complete_active_bundle() if action_noted else ""
+	_expect(began and armed and action_noted and completed == bundle_id,
+		"Seorin trigger did not produce its exact supplemental action receipt")
+	return completed == bundle_id
+
+
+func _seed_order101_w4_temptation_authority(
+		choice_index: int = 0) -> bool:
+	GameState.turn = 4
+	GameState.month = 1
+	GameState.week_of_month = 4
+	var snapshot := CORE.seoul_cycle_snapshot(1)
+	var capacity_id := _unused_capacity(snapshot, 0, false)
+	var committed := CORE.commit_seoul_cycle_allocation(
+		capacity_id, "recovery", 1)
+	var pending: Dictionary = committed.get("pending_world", {})
+	var resolved := bool(committed.get("ok", false)) \
+		and str(pending.get("bundle_id", "")) == "first_temptation_boss" \
+		and _resolve_cycle_story_world(
+			"first_temptation_boss", TEMPTATION_EVENT, choice_index)
+	var state: Dictionary = GameState.core_loop_v2_state
+	var expected_key := "first_temptation_boss:%s:%d:4" % [
+		TEMPTATION_EVENT, choice_index]
+	_expect(resolved \
+		and (state.get("completed_bundles", []) as Array).count(
+			"first_temptation_boss") == 1 \
+		and int((state.get(
+			"completed_bundle_turns", {}) as Dictionary).get(
+				"first_temptation_boss", 0)) == 4 \
+		and (state.get("story_choice_receipts", {}) as Dictionary).has(
+			expected_key) \
+		and bool(GameState.flags.get("lent_account", false)) \
+			== (choice_index == 1),
+		"synthetic M2 fixture lacked canonical W4 temptation authority")
+	return resolved \
+		and (state.get("completed_bundles", []) as Array).count(
+			"first_temptation_boss") == 1 \
+		and (state.get("story_choice_receipts", {}) as Dictionary).has(
+			expected_key)
+
+
+func _resolve_order101_sns_world() -> bool:
+	var claimed := CORE.claim_seoul_cycle_world()
+	var began := bool(claimed.get("ok", false)) \
+		and CORE.begin_seoul_cycle_world("sns_pressure_night")
+	if began:
+		var valid_preclaim: Dictionary = GameState.serialize().duplicate(true)
+		for mutation in [
+			"missing_w4_choice", "fractional_w4_choice",
+			"fractional_active_turn",
+		]:
+			var malformed := valid_preclaim.duplicate(true)
+			var malformed_state: Dictionary = malformed.get(
+				"core_loop_v2_state", {})
+			var story_receipts: Dictionary = malformed_state.get(
+				"story_choice_receipts", {})
+			if mutation == "fractional_active_turn":
+				malformed_state["active_turn"] = 8.5
+			else:
+				for raw_key in story_receipts.keys():
+					var raw_receipt: Variant = story_receipts.get(raw_key, {})
+					if not raw_receipt is Dictionary \
+							or str((raw_receipt as Dictionary).get(
+								"bundle_id", "")) != "first_temptation_boss" \
+							or str((raw_receipt as Dictionary).get(
+								"event_id", "")) != TEMPTATION_EVENT:
+						continue
+					if mutation == "missing_w4_choice":
+						story_receipts.erase(raw_key)
+					else:
+						var forged := (raw_receipt as Dictionary).duplicate(true)
+						forged["choice_index"] = 0.5
+						story_receipts[raw_key] = forged
+					break
+			malformed_state["story_choice_receipts"] = story_receipts
+			malformed["core_loop_v2_state"] = malformed_state
+			GameState.start_new_game()
+			GameState.load_from_dict(malformed)
+			var before_claim: Dictionary = GameState.serialize().duplicate(true)
+			var rejected := CORE.claim_scheduled_prelude(
+				"sns_pressure_night")
+			_expect(not bool(rejected.get("ok", true)) \
+				and str(rejected.get("error", "")) == (
+					"scheduled_owner_mismatch"
+					if mutation == "fractional_active_turn" else
+					"invalid_prelude_receipt") \
+				and GameState.serialize() == before_claim,
+				"W8 SNS claim mutated state with %s authority" % mutation)
+		GameState.start_new_game()
+		GameState.load_from_dict(valid_preclaim)
+		CORE.initialize_for_run(true)
+	var prelude := CORE.claim_scheduled_prelude("sns_pressure_night") \
+		if began else {}
+	var receipt: Dictionary = prelude.get("receipt", {})
+	var roots: Array = receipt.get("roots", []) \
+		if receipt.get("roots", []) is Array else []
+	var prelude_claimed := bool(prelude.get("claimed", false))
+	var exact_prelude := prelude_claimed \
+		and str(receipt.get("consequence_id", "")) \
+			== "temptation_consequence" \
+		and str(receipt.get("scheduled_bundle", "")) \
+			== "sns_pressure_night" \
+		and _sorted_strings(roots) == _sorted_strings(
+			CORE.resolved_event_roots("temptation_consequence"))
+	_expect(began and bool(prelude.get("ok", false)) and exact_prelude,
+		"W8 SNS prelude did not match its fixture authority")
+	if not began or not bool(prelude.get("ok", false)) \
+			or not exact_prelude:
+		return false
+	var before_premature_consume: Dictionary = (
+		GameState.serialize().duplicate(true))
+	var premature_consume := CORE.consume_scheduled_prelude(
+		"sns_pressure_night")
+	_expect(not bool(premature_consume.get("ok", true)) \
+		and str(premature_consume.get("error", "")) \
+			== "missing_prelude_story_receipt" \
+		and GameState.serialize() == before_premature_consume,
+		"W8 SNS prelude consumed before its exact temptation root receipt")
+	for raw_root in roots:
+		_apply_and_note_story(str(raw_root), 0)
+	_apply_and_note_story("arc_intro_03_sns", 0)
+	var coexist_state: Dictionary = GameState.core_loop_v2_state
+	var temptation_key := "sns_pressure_night:%s:0:8" % str(roots[0])
+	var sns_key := "sns_pressure_night:arc_intro_03_sns:0:8"
+	var coexist_stories: Dictionary = coexist_state.get(
+		"story_choice_receipts", {})
+	_expect(roots.size() == 1 \
+		and coexist_stories.has(temptation_key) \
+		and coexist_stories.has(sns_key) \
+		and CORE._scheduled_prelude_story_receipts_complete(
+			coexist_state, receipt),
+		"W8 temptation and SNS receipts did not coexist as exact siblings")
+	var consumed := CORE.consume_scheduled_prelude("sns_pressure_night")
+	if bool(consumed.get("ok", false)) \
+			and _order101_u20_owner_ready_save.is_empty():
+		_order101_u20_owner_ready_save = GameState.serialize().duplicate(true)
+	var completed := CORE.complete_active_bundle() \
+		if bool(consumed.get("ok", false)) else ""
+	_expect(bool(consumed.get("ok", false)) \
+		and str((consumed.get(
+			"receipt", {}) as Dictionary).get("status", "")) == "consumed" \
+		and completed == "sns_pressure_night" \
+		and CORE.pending_seoul_cycle_world().is_empty(),
+		"W8 SNS owner and canonical temptation prelude did not close exactly once")
+	return completed == "sns_pressure_night"
+
+
+func _check_order101_m2_completed_edges(
+		completed_save: Dictionary, contract_snapshot: Dictionary) -> void:
+	var seorin_receipt := CORE.action_receipt("m2_seorin_application")
+	var rain_receipt := CORE.action_receipt("m2_rain_delivery_shift")
+	var sleep_receipt := CORE.action_receipt("m2_sleep_debt_sunday")
+	var sleep_route := "m2_self_completed_to_m3_self_recovered"
+	var sleep_transition := CORE.terminal_transition_receipt(sleep_route)
+	var sleep_proof: Dictionary = sleep_transition.get("source_proof", {})
+	var cycle := CORE.seoul_cycle_snapshot(2)
+	var world_receipt: Dictionary = (
+		cycle.get("world_receipts", {}) as Dictionary).get("4", {})
+	var prelude := CORE.scheduled_prelude_receipt("sns_pressure_night", 8)
+	var completed: Array = GameState.core_loop_v2_state.get(
+		"completed_bundles", [])
+	var completed_turns: Dictionary = GameState.core_loop_v2_state.get(
+		"completed_bundle_turns", {})
+	_expect(str(seorin_receipt.get("action_id", "")) == "apply" \
+		and int(seorin_receipt.get("turn", 0)) == 5 \
+		and str(seorin_receipt.get("application_id", "")) \
+			== "seorin_contract_2026q1" \
+		and str(seorin_receipt.get("application_status", "")) == "submitted" \
+		and CORE._bundle_requirement_met(
+			CORE.bundle("m3_seorin_result_message"), 9) \
+		and str(rain_receipt.get("action_id", "")) == "side_shift" \
+		and int(rain_receipt.get("turn", 0)) == 6 \
+		and CORE._bundle_requirement_met(
+			CORE.bundle("jiyeon_world_meet"), 9) \
+		and str(sleep_receipt.get("action_id", "")) == "rest" \
+		and int(sleep_receipt.get("turn", 0)) == 7 \
+		and str(sleep_transition.get("proof_kind", "")) \
+			== "typed_action_receipt" \
+		and sleep_proof.get("action_receipt", {}) == sleep_receipt \
+		and str(world_receipt.get("bundle_id", "")) \
+			== "sns_pressure_night" \
+		and int(world_receipt.get("turn", 0)) == 8 \
+		and int(world_receipt.get("week_index", 0)) == 4 \
+		and str(world_receipt.get("status", "")) == "resolved" \
+		and str(prelude.get("consequence_id", "")) \
+			== "temptation_consequence" \
+		and str(prelude.get("status", "")) == "consumed" \
+		and completed.count("sns_pressure_night") == 1 \
+		and int(completed_turns.get("sns_pressure_night", 0)) == 8 \
+		and _weekly_followup_count(8, "sns_pressure_night") == 1,
+		"U14/U15/U18/U20 actual M2 producer-reader chain did not close exactly")
+	var reloaded := _check_order101_m2_completed_reload2(
+		completed_save, seorin_receipt, rain_receipt,
+		sleep_receipt, sleep_transition, world_receipt)
+	_check_order101_u20_completion_authority_mutations(
+		_order101_u20_owner_ready_save)
+	_check_order101_m2_action_reader_mutations(reloaded)
+	_check_order101_m2_sleep_route_mutations(
+		reloaded, sleep_route, sleep_transition)
+	_check_order101_m2_world_mutation(reloaded)
+	_check_order101_m2_rain_legacy_schema2(completed_save)
+	_check_order101_u20_legacy_schedule_contract(contract_snapshot)
+	_check_order101_m2_completed_target(
+		reloaded, contract_snapshot, sleep_route, sleep_transition)
+	_check_order101_u20_m4_next_verb(reloaded, contract_snapshot)
+
+
+func _check_order101_u20_completion_authority_mutations(
+		owner_ready_save: Dictionary) -> void:
+	_expect(not owner_ready_save.is_empty(),
+		"U20 completion mutation fixture lacked its consumed-prelude owner")
+	if owner_ready_save.is_empty():
+		return
+	GameState.start_new_game()
+	GameState.load_from_dict(owner_ready_save.duplicate(true))
+	CORE.initialize_for_run(true)
+	var sns_after_q0: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var sns_second_noted := CORE.note_story_choice("arc_intro_03_sns", 1)
+	var sns_after_second: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	_expect(not sns_second_noted \
+		and _variant_equal_with_numeric_values(sns_after_second, sns_after_q0) \
+		and JSON.stringify(sns_after_second) == JSON.stringify(sns_after_q0),
+		"SNS owner accepted or mutated on a sequential second choice")
+	var partial_generic := owner_ready_save.duplicate(true)
+	var partial_generic_state: Dictionary = partial_generic.get(
+		"core_loop_v2_state", {})
+	var partial_generic_key := "sns_pressure_night:arc_intro_03_sns:0:8"
+	partial_generic_state["story_choice_receipts"][partial_generic_key] = {
+		"receipt_key": partial_generic_key,
+	}
+	partial_generic["core_loop_v2_state"] = partial_generic_state
+	GameState.start_new_game()
+	GameState.load_from_dict(partial_generic)
+	CORE.initialize_for_run(true)
+	var generic_noted := CORE.note_story_choice("arc_intro_03_sns", 0)
+	var generic_completed := CORE.complete_active_bundle()
+	var generic_after: Dictionary = GameState.core_loop_v2_state
+	_expect(not generic_noted and generic_completed.is_empty() \
+		and (generic_after.get(
+			"completed_bundles", []) as Array).count(
+				"sns_pressure_night") == 0 \
+		and not (generic_after.get(
+			"completed_turns", []) as Array).has(8) \
+		and not (generic_after.get(
+			"completed_bundle_turns", {}) as Dictionary).has(
+				"sns_pressure_night"),
+		"partial canonical generic receipt bypassed callback completion")
+	var sibling_generic := owner_ready_save.duplicate(true)
+	var sibling_generic_state: Dictionary = sibling_generic.get(
+		"core_loop_v2_state", {})
+	var sibling_generic_key := "sns_pressure_night:arc_intro_03_sns:1:8"
+	sibling_generic_state["story_choice_receipts"][sibling_generic_key] = {
+		"receipt_key": sibling_generic_key,
+		"bundle_id": "sns_pressure_night",
+		"active_kind": "schedule",
+		"event_id": "arc_intro_03_sns",
+		"choice_index": 1,
+		"turn": 8,
+	}
+	sibling_generic["core_loop_v2_state"] = sibling_generic_state
+	GameState.start_new_game()
+	GameState.load_from_dict(sibling_generic)
+	CORE.initialize_for_run(true)
+	var sibling_generic_noted := CORE.note_story_choice(
+		"arc_intro_03_sns", 0)
+	var sibling_generic_completed := CORE.complete_active_bundle()
+	var sibling_generic_after: Dictionary = GameState.core_loop_v2_state
+	_expect(not sibling_generic_noted \
+		and sibling_generic_completed.is_empty() \
+		and (sibling_generic_after.get(
+			"completed_bundles", []) as Array).count(
+				"sns_pressure_night") == 0 \
+		and not (sibling_generic_after.get(
+			"completed_bundle_turns", {}) as Dictionary).has(
+				"sns_pressure_night"),
+		"same-event generic sibling choice bypassed callback completion")
+	var fractional_active := owner_ready_save.duplicate(true)
+	var fractional_state: Dictionary = fractional_active.get(
+		"core_loop_v2_state", {})
+	fractional_state["active_turn"] = 8.5
+	fractional_active["core_loop_v2_state"] = fractional_state
+	GameState.start_new_game()
+	GameState.load_from_dict(fractional_active)
+	var before_fractional_consume: Dictionary = (
+		GameState.serialize().duplicate(true))
+	var fractional_consume := CORE.consume_scheduled_prelude(
+		"sns_pressure_night")
+	_expect(not bool(fractional_consume.get("ok", true)) \
+		and str(fractional_consume.get("error", "")) \
+			== "scheduled_owner_mismatch" \
+		and GameState.serialize() == before_fractional_consume,
+		"U20 SNS consumed with a fractional raw active turn")
+	for mutation in [
+		"missing_boss_membership", "missing_boss_turn",
+		"fractional_boss_turn", "missing_prelude",
+		"missing_temptation_metadata", "blank_scheduled_bundle",
+		"wrong_scheduled_bundle", "fractional_prelude_turn",
+		"fractional_consumed_turn", "wrong_consequence",
+		"missing_temptation_root", "duplicate_temptation_root",
+		"missing_sns_root", "duplicate_sns_root",
+		"fractional_sns_choice", "fractional_sns_turn", "offturn_sns_root",
+		"malformed_key_w4_duplicate", "invalid_w4_choice_99",
+		"fractional_w4_choice", "offturn_w4_boss_receipt",
+		"duplicate_scoped_prelude",
+		"wrong_owner_same_consequence", "base_scalar_w4",
+		"branch_swap", "nonchosen_branch_scalar",
+		"nonchosen_branch_base_scalar",
+		"sns_key_other_event_value", "sns_event_other_bundle_value",
+		"w4_key_other_event_value", "w4_event_other_bundle_value",
+		"prelude_key_value_cross", "prelude_value_owner_cross",
+		"sns_flag_mismatch_q0", "sns_flag_mismatch_q1",
+		"sns_flag_mismatch_q2",
+	]:
+		var malformed := owner_ready_save.duplicate(true)
+		var state: Dictionary = malformed.get("core_loop_v2_state", {})
+		var consequences: Dictionary = state.get("consequence_receipts", {})
+		var story_receipts: Dictionary = state.get("story_choice_receipts", {})
+		var completed_bundles: Array = state.get("completed_bundles", [])
+		var completed_turns: Dictionary = state.get("completed_bundle_turns", {})
+		match mutation:
+			"missing_boss_membership":
+				completed_bundles.erase("first_temptation_boss")
+			"missing_boss_turn":
+				completed_turns.erase("first_temptation_boss")
+			"fractional_boss_turn":
+				completed_turns["first_temptation_boss"] = 4.5
+			"missing_prelude":
+				consequences.erase("temptation_consequence")
+			"missing_temptation_metadata":
+				consequences.erase("temptation_consequence")
+				var shown: Array = state.get("shown_consequences", [])
+				shown.erase("temptation_consequence")
+				state["shown_consequences"] = shown
+				var shown_turns: Dictionary = state.get(
+					"shown_consequence_turns", {})
+				shown_turns.erase("temptation_consequence")
+				state["shown_consequence_turns"] = shown_turns
+			"blank_scheduled_bundle", "wrong_scheduled_bundle", \
+					"fractional_prelude_turn", "fractional_consumed_turn":
+				var forged := (consequences.get(
+					"temptation_consequence", {}) as Dictionary).duplicate(true)
+				if mutation == "blank_scheduled_bundle":
+					forged["scheduled_bundle"] = ""
+				elif mutation == "wrong_scheduled_bundle":
+					forged["scheduled_bundle"] = "m2_mirae_result_message"
+				elif mutation == "fractional_prelude_turn":
+					forged["turn"] = 8.5
+				else:
+					forged["consumed_turn"] = 8.5
+				consequences["temptation_consequence"] = forged
+			"wrong_consequence":
+				var wrong_id := "m2_mirae_result_message"
+				var wrong := (consequences.get(
+					"temptation_consequence", {}) as Dictionary).duplicate(true)
+				consequences.erase("temptation_consequence")
+				wrong["consequence_id"] = wrong_id
+				wrong["roots"] = CORE.resolved_event_roots(wrong_id)
+				consequences[wrong_id] = wrong
+				var shown: Array = state.get("shown_consequences", [])
+				shown.erase("temptation_consequence")
+				if not shown.has(wrong_id):
+					shown.append(wrong_id)
+				state["shown_consequences"] = shown
+				var shown_turns: Dictionary = state.get(
+					"shown_consequence_turns", {})
+				shown_turns.erase("temptation_consequence")
+				shown_turns[wrong_id] = 8
+				state["shown_consequence_turns"] = shown_turns
+			"missing_temptation_root", "missing_sns_root":
+				var target_event := "arc_intro_03_sns" \
+					if mutation == "missing_sns_root" else \
+					str(CORE.resolved_event_roots(
+						"temptation_consequence")[0])
+				for raw_key in story_receipts.keys():
+					var raw_receipt: Variant = story_receipts.get(raw_key, {})
+					if raw_receipt is Dictionary \
+							and str((raw_receipt as Dictionary).get(
+								"bundle_id", "")) == "sns_pressure_night" \
+							and str((raw_receipt as Dictionary).get(
+								"event_id", "")) == target_event:
+						story_receipts.erase(raw_key)
+						break
+			"duplicate_temptation_root", "duplicate_sns_root":
+				var target_event := "arc_intro_03_sns" \
+					if mutation == "duplicate_sns_root" else \
+					str(CORE.resolved_event_roots(
+						"temptation_consequence")[0])
+				var source_receipt: Dictionary = {}
+				for raw_receipt in story_receipts.values():
+					if raw_receipt is Dictionary \
+							and str((raw_receipt as Dictionary).get(
+								"bundle_id", "")) == "sns_pressure_night" \
+							and str((raw_receipt as Dictionary).get(
+								"event_id", "")) == target_event:
+						source_receipt = (raw_receipt as Dictionary).duplicate(true)
+						break
+				var choice_count := int((DataRegistry.find_event(
+					target_event).get("choices", []) as Array).size())
+				var alternate_choice := int(source_receipt.get(
+					"choice_index", 0)) + 1
+				if alternate_choice >= choice_count:
+					alternate_choice = int(source_receipt.get("choice_index", 0))
+				var duplicate_key := "%s:duplicate" % str(
+					source_receipt.get("receipt_key", "")) \
+					if alternate_choice == int(source_receipt.get(
+						"choice_index", 0)) else \
+					"sns_pressure_night:%s:%d:8" % [
+						target_event, alternate_choice]
+				var duplicate := source_receipt.duplicate(true)
+				duplicate["receipt_key"] = duplicate_key
+				duplicate["choice_index"] = alternate_choice
+				story_receipts[duplicate_key] = duplicate
+			"fractional_sns_choice", "fractional_sns_turn":
+				for raw_key in story_receipts.keys():
+					var raw_receipt: Variant = story_receipts.get(raw_key, {})
+					if raw_receipt is Dictionary \
+							and str((raw_receipt as Dictionary).get(
+								"bundle_id", "")) == "sns_pressure_night" \
+							and str((raw_receipt as Dictionary).get(
+								"event_id", "")) == "arc_intro_03_sns":
+						var forged := (raw_receipt as Dictionary).duplicate(true)
+						forged[
+							"choice_index" if mutation == "fractional_sns_choice" \
+							else "turn"] = 0.5 \
+							if mutation == "fractional_sns_choice" else 8.5
+						story_receipts[raw_key] = forged
+						break
+			"offturn_sns_root":
+				for raw_key in story_receipts.keys():
+					var raw_receipt: Variant = story_receipts.get(raw_key, {})
+					if raw_receipt is Dictionary \
+							and str((raw_receipt as Dictionary).get(
+								"bundle_id", "")) == "sns_pressure_night" \
+							and str((raw_receipt as Dictionary).get(
+								"event_id", "")) == "arc_intro_03_sns":
+						var forged := (raw_receipt as Dictionary).duplicate(true)
+						forged["turn"] = 7
+						story_receipts[raw_key] = forged
+						break
+			"malformed_key_w4_duplicate", "invalid_w4_choice_99", \
+					"fractional_w4_choice", "offturn_w4_boss_receipt":
+				var original_key := ""
+				var original: Dictionary = {}
+				for raw_key in story_receipts.keys():
+					var raw_receipt: Variant = story_receipts.get(raw_key, {})
+					if raw_receipt is Dictionary \
+							and str((raw_receipt as Dictionary).get(
+								"bundle_id", "")) == "first_temptation_boss" \
+							and str((raw_receipt as Dictionary).get(
+								"event_id", "")) == TEMPTATION_EVENT:
+						original_key = str(raw_key)
+						original = (raw_receipt as Dictionary).duplicate(true)
+						break
+				if not original.is_empty():
+					var duplicate_key := "%s:malformed_duplicate" % original_key
+					var duplicate := original.duplicate(true)
+					if mutation == "invalid_w4_choice_99":
+						duplicate_key = "first_temptation_boss:%s:99:4" \
+							% TEMPTATION_EVENT
+						duplicate["choice_index"] = 99
+					elif mutation == "fractional_w4_choice":
+						duplicate_key = "first_temptation_boss:%s:0.5:4" \
+							% TEMPTATION_EVENT
+						duplicate["choice_index"] = 0.5
+					elif mutation == "offturn_w4_boss_receipt":
+						duplicate_key = "first_temptation_boss:%s:%d:3" % [
+							TEMPTATION_EVENT,
+							int(original.get("choice_index", 0)),
+						]
+						duplicate["turn"] = 3
+					duplicate["receipt_key"] = duplicate_key
+					story_receipts[duplicate_key] = duplicate
+			"duplicate_scoped_prelude":
+				var original := (consequences.get(
+					"temptation_consequence", {}) as Dictionary).duplicate(true)
+				var duplicate_id := "temptation_consequence_duplicate"
+				var duplicate := original.duplicate(true)
+				duplicate["consequence_id"] = duplicate_id
+				consequences[duplicate_id] = duplicate
+				var shown: Array = state.get("shown_consequences", [])
+				shown.append(duplicate_id)
+				state["shown_consequences"] = shown
+				var shown_turns: Dictionary = state.get(
+					"shown_consequence_turns", {})
+				shown_turns[duplicate_id] = 8
+				state["shown_consequence_turns"] = shown_turns
+			"wrong_owner_same_consequence":
+				var shadow := (consequences.get(
+					"temptation_consequence", {}) as Dictionary).duplicate(true)
+				shadow["scheduled_bundle"] = ""
+				consequences["temptation_consequence_shadow"] = shadow
+			"base_scalar_w4":
+				story_receipts[
+					"first_temptation_boss:%s" % TEMPTATION_EVENT] = false
+			"branch_swap":
+				var prelude := (consequences.get(
+					"temptation_consequence", {}) as Dictionary).duplicate(true)
+				var current_roots: Array = prelude.get("roots", [])
+				var current_root := str(current_roots[0]) \
+					if current_roots.size() == 1 else ""
+				var sibling_root := "arc_temptation_fallout" \
+					if current_root == "arc_temptation_clean" \
+					else "arc_temptation_clean"
+				prelude["roots"] = [sibling_root]
+				consequences["temptation_consequence"] = prelude
+				for raw_key in story_receipts.keys():
+					var raw_receipt: Variant = story_receipts.get(raw_key, {})
+					if raw_receipt is Dictionary \
+							and str((raw_receipt as Dictionary).get(
+								"bundle_id", "")) == "sns_pressure_night" \
+							and str((raw_receipt as Dictionary).get(
+								"event_id", "")) == current_root:
+						story_receipts.erase(raw_key)
+						break
+				var sibling_key := "sns_pressure_night:%s:0:8" % sibling_root
+				story_receipts[sibling_key] = {
+					"receipt_key": sibling_key,
+					"bundle_id": "sns_pressure_night",
+					"active_kind": "schedule",
+					"event_id": sibling_root,
+					"choice_index": 0,
+					"turn": 8,
+				}
+				var flags: Dictionary = malformed.get("flags", {})
+				flags["lent_account"] = sibling_root == "arc_temptation_fallout"
+				malformed["flags"] = flags
+			"nonchosen_branch_scalar", "nonchosen_branch_base_scalar":
+				var current_root := str((consequences.get(
+					"temptation_consequence", {}) as Dictionary).get(
+						"roots", [""])[0])
+				var sibling_root := "arc_temptation_fallout" \
+					if current_root == "arc_temptation_clean" \
+					else "arc_temptation_clean"
+				var sibling_key := "sns_pressure_night:%s" % sibling_root
+				if mutation == "nonchosen_branch_scalar":
+					sibling_key += ":0:8"
+				story_receipts[sibling_key] = false
+			"sns_key_other_event_value":
+				var cross_key := "sns_pressure_night:arc_intro_03_sns:1:8"
+				story_receipts[cross_key] = {
+					"receipt_key": cross_key,
+					"bundle_id": "sns_pressure_night",
+					"active_kind": "schedule",
+					"event_id": str(CORE.resolved_event_roots(
+						"temptation_consequence")[0]),
+					"choice_index": 1,
+					"turn": 8,
+				}
+			"sns_event_other_bundle_value":
+				var cross_key := "shadow_owner:arc_intro_03_sns:0:8"
+				story_receipts[cross_key] = {
+					"receipt_key": cross_key,
+					"bundle_id": "shadow_owner",
+					"active_kind": "schedule",
+					"event_id": "arc_intro_03_sns",
+					"choice_index": 0,
+					"turn": 8,
+				}
+			"w4_key_other_event_value":
+				var cross_key := "first_temptation_boss:%s:1:4" \
+					% TEMPTATION_EVENT
+				story_receipts[cross_key] = {
+					"receipt_key": cross_key,
+					"bundle_id": "first_temptation_boss",
+					"active_kind": "schedule",
+					"event_id": "arc_intro_03_sns",
+					"choice_index": 1,
+					"turn": 4,
+				}
+			"w4_event_other_bundle_value":
+				var cross_key := "shadow_owner:%s:0:4" % TEMPTATION_EVENT
+				story_receipts[cross_key] = {
+					"receipt_key": cross_key,
+					"bundle_id": "shadow_owner",
+					"active_kind": "schedule",
+					"event_id": TEMPTATION_EVENT,
+					"choice_index": 0,
+					"turn": 4,
+				}
+			"prelude_key_value_cross":
+				var shadow := (consequences.get(
+					"temptation_consequence", {}) as Dictionary).duplicate(true)
+				consequences["temptation_consequence:shadow"] = shadow
+			"prelude_value_owner_cross":
+				var cross := (consequences.get(
+					"temptation_consequence", {}) as Dictionary).duplicate(true)
+				cross["scheduled_bundle"] = "shadow_owner"
+				consequences["temptation_consequence"] = cross
+			"sns_flag_mismatch_q0", "sns_flag_mismatch_q1", \
+					"sns_flag_mismatch_q2":
+				var choice_index := int(mutation.trim_prefix(
+					"sns_flag_mismatch_q"))
+				for raw_key in story_receipts.keys():
+					var raw_receipt: Variant = story_receipts.get(raw_key, {})
+					if raw_receipt is Dictionary \
+							and str((raw_receipt as Dictionary).get(
+								"bundle_id", "")) == "sns_pressure_night" \
+							and str((raw_receipt as Dictionary).get(
+								"event_id", "")) == "arc_intro_03_sns":
+						story_receipts.erase(raw_key)
+						break
+				var choice_key := "sns_pressure_night:arc_intro_03_sns:%d:8" \
+					% choice_index
+				story_receipts[choice_key] = {
+					"receipt_key": choice_key,
+					"bundle_id": "sns_pressure_night",
+					"active_kind": "schedule",
+					"event_id": "arc_intro_03_sns",
+					"choice_index": choice_index,
+					"turn": 8,
+				}
+				var flags: Dictionary = malformed.get("flags", {})
+				flags["arc_intro_sns_seen"] = true
+				# Rotate each receipt onto a different authored live flag branch.
+				if choice_index == 0:
+					flags["deleted_sns"] = false
+					flags["envy_fuel"] = true
+				elif choice_index == 1:
+					flags["deleted_sns"] = false
+					flags["envy_fuel"] = false
+				else:
+					flags["deleted_sns"] = true
+					flags["envy_fuel"] = false
+				malformed["flags"] = flags
+		state["completed_bundles"] = completed_bundles
+		state["completed_bundle_turns"] = completed_turns
+		state["consequence_receipts"] = consequences
+		state["story_choice_receipts"] = story_receipts
+		malformed["core_loop_v2_state"] = state
+		GameState.start_new_game()
+		GameState.load_from_dict(malformed)
+		CORE.initialize_for_run(true)
+		var before_attempt: Dictionary = GameState.serialize().duplicate(true)
+		var completed := CORE.complete_active_bundle()
+		_expect(completed.is_empty() \
+			and CORE.active_bundle_id() == "sns_pressure_night" \
+			and not CORE.pending_seoul_cycle_world().is_empty() \
+			and not CORE._bundle_requirement_met(
+				CORE.bundle("jaehyuk_world_meet"), 9) \
+			and GameState.serialize() == before_attempt,
+			"U20 SNS completion accepted %s authority" % mutation)
+
+
+func _check_order101_u20_m4_next_verb(
+		saved: Dictionary, contract_snapshot: Dictionary) -> void:
+	DataRegistry.demo_core_loop_v2 = contract_snapshot.duplicate(true)
+	GameState.start_new_game()
+	GameState.load_from_dict(saved.duplicate(true))
+	CORE.initialize_for_run(true)
+	_advance_to_next_week()
+	var initialized := CORE.initialize_seoul_cycle(3)
+	_expect(bool(initialized.get("ok", false)),
+		"U20 actual chain could not initialize intervening Month Three")
+	if not bool(initialized.get("ok", false)):
+		return
+	for turn in range(9, 13):
+		var snapshot := CORE.seoul_cycle_snapshot(3)
+		var capacity_id := _unused_capacity(
+			snapshot, 0, turn == 10)
+		var committed: Dictionary
+		if turn in [9, 10]:
+			committed = CORE.commit_seoul_cycle_allocation(
+				capacity_id, "m3_people", 3, "jiyeon_world_meet")
+		else:
+			committed = CORE.commit_seoul_cycle_allocation(
+				capacity_id, "m3_livelihood", 3)
+		_expect(bool(committed.get("ok", false)),
+			"U20 actual chain allocation failed at W%d" % turn)
+		if not bool(committed.get("ok", false)):
+			return
+		var pending_trigger: Dictionary = committed.get("pending_trigger", {})
+		if not pending_trigger.is_empty():
+			var trigger_bundle := str(pending_trigger.get("bundle_id", ""))
+			var trigger_ok := (
+				_resolve_order101_jiyeon_world_meet()
+				if trigger_bundle == "jiyeon_world_meet" else
+				_resolve_cycle_side_shift_trigger(trigger_bundle)
+				if trigger_bundle == "m3_inventory_shift" else false)
+			if not trigger_ok:
+				_expect(false,
+					"U20 actual chain could not resolve its W%d trigger" % turn)
+				return
+		var pending_world := CORE.pending_seoul_cycle_world()
+		if not pending_world.is_empty() \
+				and (str(pending_world.get("bundle_id", "")) \
+					!= "m3_seorin_result_message" \
+					or not _resolve_cycle_story_world(
+						"m3_seorin_result_message", "v2_seorin_result_message", 0)):
+			_expect(false,
+				"U20 actual chain could not resolve its W%d world beat" % turn)
+			return
+		var closed := CORE.complete_seoul_cycle_turn(3)
+		_expect(bool(closed.get("ok", false)),
+			"U20 actual chain could not close W%d" % turn)
+		if not bool(closed.get("ok", false)):
+			return
+		if turn < 12:
+			_advance_to_next_week()
+	var month_three_summary := CORE.record_month_summary(3, {}, {})
+	_expect(not month_three_summary.is_empty(),
+		"U20 actual chain could not freeze intervening Month Three")
+	if month_three_summary.is_empty():
+		return
+	_advance_to_next_week()
+	var month_four := CORE.initialize_seoul_cycle(4)
+	var snapshot_four := CORE.seoul_cycle_snapshot(4)
+	var people_node: Dictionary = (
+		snapshot_four.get("nodes", {}) as Dictionary).get("m4_people", {})
+	var authored_people: Dictionary = (CORE.seoul_cycle_month_spec(4).get(
+		"nodes", {}) as Dictionary).get("m4_people", {})
+	var available_candidates := CORE.available_offer_ids(4)
+	_expect(bool(month_four.get("ok", false)) \
+		and bool(snapshot_four.get("active", false)) \
+		and not people_node.is_empty() \
+		and available_candidates.has("jaehyuk_world_meet") \
+		and (CORE._seoul_cycle_node_trigger_candidates(
+			authored_people)).has("jaehyuk_world_meet") \
+		and CORE._bundle_requirement_met(
+			CORE.bundle("jaehyuk_world_meet"), 13),
+		"U20 W8 SNS did not expose Jaehyuk's actual Month Four next verb")
+	var roundtrip: Dictionary = GameState.serialize().duplicate(true)
+	for reload_index in range(2):
+		var parsed: Variant = JSON.parse_string(JSON.stringify(roundtrip))
+		_expect(parsed is Dictionary,
+			"U20 M4 target JSON reload %d could not parse" % [reload_index + 1])
+		if not parsed is Dictionary:
+			return
+		GameState.start_new_game()
+		GameState.load_from_dict(parsed as Dictionary)
+		CORE.initialize_for_run(true)
+		var reloaded_node: Dictionary = (
+			CORE.seoul_cycle_snapshot(4).get("nodes", {}) as Dictionary).get(
+				"m4_people", {})
+		_expect(not reloaded_node.is_empty() \
+			and CORE.available_offer_ids(4).has("jaehyuk_world_meet") \
+			and CORE._bundle_requirement_met(
+				CORE.bundle("jaehyuk_world_meet"), 13),
+			"U20 Jaehyuk next verb drifted on JSON reload %d" \
+				% [reload_index + 1])
+		roundtrip = GameState.serialize().duplicate(true)
+
+
+func _check_order101_m2_completed_reload2(
+		saved: Dictionary, seorin_receipt: Dictionary,
+		rain_receipt: Dictionary, sleep_receipt: Dictionary,
+		sleep_transition: Dictionary, world_receipt: Dictionary) -> Dictionary:
+	var roundtrip := saved.duplicate(true)
+	for reload_index in range(2):
+		var parsed: Variant = JSON.parse_string(JSON.stringify(roundtrip))
+		_expect(parsed is Dictionary,
+			"ORDER-101 M2 completed JSON reload %d could not parse" \
+				% [reload_index + 1])
+		if not parsed is Dictionary:
+			break
+		GameState.start_new_game()
+		GameState.load_from_dict(parsed as Dictionary)
+		CORE.initialize_for_run(true)
+		var cycle := CORE.seoul_cycle_snapshot(2)
+		_expect(_variant_equal_with_numeric_values(
+			CORE.action_receipt("m2_seorin_application"), seorin_receipt) \
+			and _variant_equal_with_numeric_values(
+				CORE.action_receipt("m2_rain_delivery_shift"), rain_receipt) \
+			and _variant_equal_with_numeric_values(
+				CORE.action_receipt("m2_sleep_debt_sunday"), sleep_receipt) \
+			and _variant_equal_with_numeric_values(
+				CORE.terminal_transition_receipt(
+					"m2_self_completed_to_m3_self_recovered"),
+				sleep_transition) \
+			and _variant_equal_with_numeric_values(
+				(cycle.get("world_receipts", {}) as Dictionary).get("4", {}),
+				world_receipt) \
+			and CORE._bundle_requirement_met(
+				CORE.bundle("m3_seorin_result_message"), 9) \
+			and CORE._bundle_requirement_met(
+				CORE.bundle("jiyeon_world_meet"), 9),
+			"ORDER-101 M2 completed chain drifted on JSON reload %d" \
+				% [reload_index + 1])
+		roundtrip = GameState.serialize().duplicate(true)
+	return roundtrip
+
+
+func _check_order101_m2_action_reader_mutations(saved: Dictionary) -> void:
+	for mutation in [
+		["m2_seorin_application", "m3_seorin_result_message"],
+		["m2_rain_delivery_shift", "jiyeon_world_meet"],
+	]:
+		var malformed := saved.duplicate(true)
+		var state: Dictionary = malformed.get("core_loop_v2_state", {})
+		(state.get("action_receipts", {}) as Dictionary).erase(str(mutation[0]))
+		state["schema"] = 3
+		state["legacy_action_fallbacks"] = {}
+		malformed["core_loop_v2_state"] = state
+		var parsed: Variant = JSON.parse_string(JSON.stringify(malformed))
+		_expect(parsed is Dictionary,
+			"M2 action-reader mutation did not survive JSON")
+		if not parsed is Dictionary:
+			continue
+		GameState.start_new_game()
+		GameState.load_from_dict(parsed as Dictionary)
+		CORE.initialize_for_run(true)
+		_expect(CORE.action_receipt(str(mutation[0])).is_empty() \
+			and not CORE._bundle_requirement_met(
+				CORE.bundle(str(mutation[1])), 9),
+			"schema-three reader accepted completed/application state without " \
+				+ "its exact %s action receipt" % str(mutation[0]))
+
+	for mutation in [
+		["m2_seorin_application", "m3_seorin_result_message", 5],
+		["m2_rain_delivery_shift", "jiyeon_world_meet", 6],
+	]:
+		for tamper in ["outer_fractional", "nested_fractional", "duplicate_owner"]:
+			var malformed := saved.duplicate(true)
+			var weeklies: Array = malformed.get("weekly_commitments", [])
+			for index in range(weeklies.size()):
+				var raw_weekly: Variant = weeklies[index]
+				if not raw_weekly is Dictionary \
+						or int((raw_weekly as Dictionary).get("turn", -1)) \
+							!= int(mutation[2]):
+					continue
+				var weekly := (raw_weekly as Dictionary).duplicate(true)
+				if tamper == "outer_fractional":
+					weekly["turn"] = float(mutation[2]) + 0.5
+				elif tamper == "nested_fractional":
+					var details: Dictionary = weekly.get("details", {})
+					var followups: Array = details.get("action_followups", [])
+					for followup_index in range(followups.size()):
+						var raw_followup: Variant = followups[followup_index]
+						if raw_followup is Dictionary \
+								and str((raw_followup as Dictionary).get(
+									"bundle_id", "")) == str(mutation[0]):
+							var followup := (
+								raw_followup as Dictionary).duplicate(true)
+							followup["turn"] = float(mutation[2]) + 0.5
+							followups[followup_index] = followup
+							details["action_followups"] = followups
+							weekly["details"] = details
+							break
+				else:
+					var duplicate := weekly.duplicate(true)
+					duplicate["choice_id"] = "not_the_authored_action"
+					weeklies.insert(index, duplicate)
+				weeklies[index if tamper != "duplicate_owner" else index + 1] = weekly
+				break
+			malformed["weekly_commitments"] = weeklies
+			GameState.start_new_game()
+			GameState.load_from_dict(malformed)
+			_expect(not CORE._bundle_requirement_met(
+				CORE.bundle(str(mutation[1])), 9),
+				"%s action reader accepted %s weekly authority" % [
+					str(mutation[0]), tamper])
+
+
+func _check_order101_m2_sleep_route_mutations(
+		saved: Dictionary, route_id: String,
+		frozen_receipt: Dictionary) -> void:
+	var missing_action := saved.duplicate(true)
+	var missing_state: Dictionary = missing_action.get(
+		"core_loop_v2_state", {})
+	(missing_state.get("action_receipts", {}) as Dictionary).erase(
+		"m2_sleep_debt_sunday")
+	missing_action["core_loop_v2_state"] = missing_state
+	_assert_terminal_reader_empty_after_load(
+		missing_action, route_id,
+		"U18 terminal route survived deletion of its exact rest action receipt")
+	for field_path in [
+		["source_proof", "action_receipt", "actual_action_id"],
+		["source_proof", "action_receipt", "result_details", "execution"],
+		["source_proof", "completed_bundle_turn"],
+	]:
+		var malformed := saved.duplicate(true)
+		var state: Dictionary = malformed.get("core_loop_v2_state", {})
+		var receipts: Dictionary = state.get(
+			"terminal_transition_receipts", {})
+		var receipt := frozen_receipt.duplicate(true)
+		_set_nested_terminal_mutation(receipt, field_path, 0)
+		receipts[route_id] = receipt
+		state["terminal_transition_receipts"] = receipts
+		malformed["core_loop_v2_state"] = state
+		_assert_terminal_reader_empty_after_load(
+			malformed, route_id,
+			"U18 terminal route accepted mutation %s" % str(field_path))
+
+
+func _check_order101_m2_world_mutation(saved: Dictionary) -> void:
+	var malformed := saved.duplicate(true)
+	var state: Dictionary = malformed.get("core_loop_v2_state", {})
+	var cycle: Dictionary = state.get("seoul_cycle", {})
+	var world_receipts: Dictionary = cycle.get("world_receipts", {})
+	var world: Dictionary = world_receipts.get("4", {})
+	world["bundle_id"] = "temptation_consequence"
+	world_receipts["4"] = world
+	cycle["world_receipts"] = world_receipts
+	state["seoul_cycle"] = cycle
+	malformed["core_loop_v2_state"] = state
+	GameState.start_new_game()
+	GameState.load_from_dict(malformed)
+	CORE.initialize_for_run(true)
+	_expect(not CORE._consequence_was_presented(
+		GameState.core_loop_v2_state, "sns_pressure_night") \
+		and not CORE._seoul_cycle_world_bundle_authored_for_week(
+			2, 4, "temptation_consequence"),
+		"U20 accepted a mutated W8 receipt as proof of the fixed SNS owner")
+
+
+static func _order101_legacy_040746_decline_id(bundle_id: String) -> String:
+	match bundle_id:
+		"m1_mirae_application":
+			return "this_posting_expires"
+		"m1_convenience_trial_shift":
+			return "cash_buffer_does_not_grow"
+		"m1_youth_center_resume_clinic":
+			return "preparation_window_moves_on"
+		"m1_phone_off_sunday":
+			return "strain_carries_into_next_commitment"
+		"father_first_call":
+			return "father_stops_asking_for_that_month"
+		"hyunsu_first_meet":
+			return "the_neighbor_remains_only_a_face"
+		"m2_seorin_application":
+			return "seorin_posting_expires"
+		"m2_rain_delivery_shift":
+			return "rain_shift_passes"
+		"m2_youth_center_mock_interview":
+			return "mock_interview_window_closes"
+		"m2_sleep_debt_sunday":
+			return "sleep_debt_rolls_forward"
+		"hyunsu_player_reachout":
+			return "hyunsu_studies_alone_and_the_opening_cools"
+		"cafe_world_glimpse":
+			return "the_overheard_property_lead_disappears"
+		"sns_pressure_night":
+			return "the_comparison_pressure_goes_unexamined"
+	return ""
+
+
+static func _order101_legacy_040746_forgone_record(
+		month_index: int, bundle_id: String) -> Dictionary:
+	return {
+		"month": month_index,
+		"bundle_id": bundle_id,
+		"decline_consequence":
+			_order101_legacy_040746_decline_id(bundle_id),
+		"planned_turn": 1 if month_index == 1 else 5,
+	}
+
+
+static func _order101_legacy_040746_plan(
+		month_index: int, rain_turn: int, sns_turn: int = 8) -> Dictionary:
+	var schedule: Dictionary = {}
+	var offers: Array[String] = []
+	if month_index == 1:
+		schedule = {
+			# CoreLoopPlanner installed the locked boss slot before player picks.
+			# Dictionary order was durable in 040746 and drove summary kept order.
+			"4": "first_temptation_boss",
+			"1": "m1_mirae_application",
+			"2": "m1_convenience_trial_shift",
+			"3": "m1_phone_off_sunday",
+		}
+		offers = [
+			"m1_mirae_application", "m1_convenience_trial_shift",
+			"m1_youth_center_resume_clinic", "m1_phone_off_sunday",
+			"father_first_call", "hyunsu_first_meet",
+		]
+	else:
+		match sns_turn:
+			5:
+				schedule = {
+					"5": "sns_pressure_night",
+					"6": "m2_seorin_application",
+					"7": "m2_youth_center_mock_interview",
+					"8": "m2_sleep_debt_sunday",
+				}
+			6:
+				schedule = {
+					"5": "m2_seorin_application",
+					"6": "sns_pressure_night",
+					"7": "m2_youth_center_mock_interview",
+					"8": "m2_sleep_debt_sunday",
+				}
+			7:
+				schedule = {
+					"5": "m2_seorin_application",
+					"6": "m2_rain_delivery_shift",
+					"7": "sns_pressure_night",
+					"8": "m2_sleep_debt_sunday",
+				}
+			_:
+				match rain_turn:
+					6:
+						schedule = {
+							"5": "m2_seorin_application",
+							"6": "m2_rain_delivery_shift",
+							"7": "m2_sleep_debt_sunday",
+							"8": "sns_pressure_night",
+						}
+					7:
+						schedule = {
+							"5": "m2_seorin_application",
+							"6": "m2_sleep_debt_sunday",
+							"7": "m2_rain_delivery_shift",
+							"8": "sns_pressure_night",
+						}
+					_:
+						schedule = {
+							"5": "m2_seorin_application",
+							"6": "m2_sleep_debt_sunday",
+							"7": "m2_youth_center_mock_interview",
+							"8": "sns_pressure_night",
+						}
+		offers = [
+			"m2_seorin_application", "m2_rain_delivery_shift",
+			"m2_youth_center_mock_interview", "m2_sleep_debt_sunday",
+			# M1 did not meet Hyunsu, so this producer never offered the
+			# requirement-gated player-reachout entry in Month Two.
+			"cafe_world_glimpse",
+			"sns_pressure_night",
+		]
+	var first_turn := 1 if month_index == 1 else 5
+	var selected: Array[String] = []
+	for turn in range(first_turn, first_turn + 4):
+		selected.append(str(schedule.get(str(turn), "")))
+	var forgone: Array = []
+	for bundle_id in offers:
+		if not selected.has(bundle_id):
+			forgone.append(_order101_legacy_040746_forgone_record(
+				month_index, bundle_id))
+	return {
+		"schedule": schedule,
+		"selected": selected,
+		"routines": {"primary": "growth", "secondary": "livelihood"},
+		"forgone": forgone,
+		"planned_turn": first_turn,
+	}
+
+
+static func _order101_legacy_040746_pending_decline(
+		record: Dictionary) -> Dictionary:
+	var bundle_id := str(record.get("bundle_id", ""))
+	var consequence_id := str(record.get("decline_consequence", ""))
+	var messages: Dictionary = {
+		"rain_shift_passes": [
+			"비가 그치며 할증 배달도 끝났다. 그날 몫의 현금은 돌아오지 않는다.",
+			"The rain and surge shift ended; that evening's cash is gone.",
+		],
+		"mock_interview_window_closes": [
+			"마지막 모의면접 자리는 다른 사람에게 갔다. 연습 창구가 닫혔다.",
+			"Someone else took the last mock interview; the practice window closed.",
+		],
+		"sleep_debt_rolls_forward": [
+			"갚지 못한 잠이 여덟 번째 주 뒤에도 몸에 남았다.",
+			"Sleep debt remained in his body after week eight.",
+		],
+		"hyunsu_studies_alone_and_the_opening_cools": [
+			"메시지가 없는 사이 현수는 혼자 공부했다. 열린 틈은 식었다.",
+			"Without a message, Hyunsu studied alone and the opening cooled.",
+		],
+		"the_overheard_property_lead_disappears": [
+			"창가의 매물 이야기는 그날 저녁과 함께 사라졌다.",
+			"The property lead by the window vanished with that evening.",
+		],
+		"the_comparison_pressure_goes_unexamined": [
+			"이름 붙이지 않은 비교 압박이 밤마다 화면을 다시 켰다.",
+			"Unnamed comparison pressure kept relighting the screen at night.",
+		],
+		"seorin_posting_expires": [
+			"서린물산 채용 창구가 닫혔다. 보내지 않은 지원서는 남지 않았다.",
+			"Seorin's hiring window closed; the unsent application left no trace.",
+		],
+	}
+	var localized: Array = messages.get(consequence_id, ["", ""])
+	var effects: Dictionary = {}
+	if consequence_id == "sleep_debt_rolls_forward":
+		effects = {"health": -2, "mental": -2}
+	return {
+		"id": consequence_id,
+		"producer_bundle": bundle_id,
+		"month": 2,
+		"visible_month": 2,
+		"consumer_kind": "terminal_recap",
+		"message_ko": str(localized[0]),
+		"message_en": str(localized[1]),
+		"effects": effects,
+	}
+
+
+static func _order101_legacy_040746_pending_from_m1_forgone(
+		record: Dictionary) -> Dictionary:
+	var pending := _order101_legacy_040746_decline_receipt(record)
+	pending.erase("effects_applied")
+	pending.erase("consumed_turn")
+	pending.erase("closing_month")
+	return pending
+
+
+static func _order101_legacy_040746_decline_receipt(
+		record: Dictionary) -> Dictionary:
+	var bundle_id := str(record.get("bundle_id", ""))
+	var consequence_id := str(record.get("decline_consequence", ""))
+	var messages: Dictionary = {
+		"preparation_window_moves_on": [
+			"무료 첨삭 자리가 닫혔다. 다음 예약은 한 달 뒤다.",
+			"The free resume review closed; the next booking is a month away.",
+		],
+		"strain_carries_into_next_commitment": [
+			"쉬지 못한 피로가 두 번째 달 첫 약속까지 따라왔다.",
+			"Missed rest followed him into the first commitment of month two.",
+		],
+		"father_stops_asking_for_that_month": [
+			"아버지는 다시 묻지 않았다. 통화목록의 이름만 아래로 밀렸다.",
+			"Father did not ask again; his name slipped down the call log.",
+		],
+		"the_neighbor_remains_only_a_face": [
+			"새벽 주방의 남자는 이름 없는 이웃으로 남았다.",
+			"The man from the late-night kitchen remained a nameless neighbor.",
+		],
+	}
+	var localized: Array = messages.get(consequence_id, ["", ""])
+	var effects: Dictionary = {}
+	if consequence_id == "strain_carries_into_next_commitment":
+		effects = {"health": -2, "mental": -2}
+	var receipt := {
+		"id": consequence_id,
+		"producer_bundle": bundle_id,
+		"month": 1,
+		"visible_month": 2,
+		"consumer_kind": "next_month_message",
+		"message_ko": str(localized[0]),
+		"message_en": str(localized[1]),
+		"effects": effects,
+		"consumed_turn": 5,
+		"closing_month": 1,
+		"effects_applied": effects.duplicate(true),
+	}
+	return receipt
+
+
+static func _order101_legacy_040746_final_decline(
+		record: Dictionary, month_index: int) -> Dictionary:
+	if month_index == 1:
+		return _order101_legacy_040746_decline_receipt(record)
+	var receipt := _order101_legacy_040746_pending_decline(record)
+	receipt["effects_applied"] = (
+		receipt.get("effects", {}) as Dictionary).duplicate(true)
+	receipt["consumed_turn"] = 9
+	receipt["closing_month"] = 2
+	return receipt
+
+
+static func _order101_legacy_040746_routine_receipt(
+		turn: int) -> Dictionary:
+	var growth := {"intelligence": 1, "mental": -1}
+	var livelihood := {"money": 70000, "health": -1, "mental": -1}
+	return {
+		"turn": turn,
+		"month": CORE.month_for_turn(turn),
+		"primary": "growth",
+		"secondary": "livelihood",
+		"planned_primary": "growth",
+		"planned_secondary": "livelihood",
+		"employment_forced": false,
+		"units": [
+			{"slot": "primary", "routine_id": "growth",
+				"effects": growth},
+			{"slot": "secondary", "routine_id": "livelihood",
+				"effects": livelihood},
+		],
+		"effects": {
+			"intelligence": 1.0,
+			"mental": -2.0,
+			"money": 70000.0,
+			"health": -1.0,
+		},
+	}
+
+
+static func _order101_legacy_040746_action_id(bundle_id: String) -> String:
+	match bundle_id:
+		"m1_mirae_application", "m2_seorin_application":
+			return "apply"
+		"m1_convenience_trial_shift", "m2_rain_delivery_shift":
+			return "side_shift"
+		"m1_youth_center_resume_clinic":
+			return "resume"
+		"m1_phone_off_sunday", "m2_sleep_debt_sunday":
+			return "rest"
+		"m2_youth_center_mock_interview":
+			return "interview"
+	return ""
+
+
+static func _order101_legacy_040746_action_family(
+		bundle_id: String) -> String:
+	match bundle_id:
+		"m1_mirae_application", "m1_youth_center_resume_clinic", \
+				"m2_seorin_application":
+			return "career"
+		"m1_convenience_trial_shift", "m2_rain_delivery_shift":
+			return "livelihood"
+		"m1_phone_off_sunday", "m2_sleep_debt_sunday":
+			return "recovery"
+		"m2_youth_center_mock_interview":
+			return "growth"
+	return ""
+
+
+static func _order101_legacy_040746_weekly_record(
+		turn: int, bundle_id: String) -> Dictionary:
+	var action_id := _order101_legacy_040746_action_id(bundle_id)
+	if not action_id.is_empty():
+		var record := {
+			"turn": turn,
+			"pressure_id": bundle_id,
+			"pressure_family":
+				_order101_legacy_040746_action_family(bundle_id),
+			"choice_id": action_id,
+			"person_id": "",
+			"forgone_ids": [],
+			"actual_action_id": action_id,
+			"outcome": {},
+			"echoed_turn": -1,
+		}
+		if bundle_id == "m2_rain_delivery_shift":
+			record["outcome"] = {
+				"money": 100500,
+				"health": -4,
+			}
+			record["details"] = {
+				# One historical Mapo lunchbox delivery: base 90,000,
+				# tip 2,500, route bonus 8,000, and one delivery of strain.
+				"earned": 100500,
+				"health_delta": -4,
+				"mental_delta": 0,
+			}
+		elif bundle_id == "m1_mirae_application":
+			record["details"] = {
+				"application_id": "mirae_industrial_tech",
+				"status": "submitted",
+			}
+		elif bundle_id == "m2_seorin_application":
+			record["details"] = {
+				"application_id": "seorin",
+				"status": "submitted",
+			}
+		elif bundle_id == "m1_convenience_trial_shift":
+			# Ten historical Aruba timeouts: base pay only, with the fixed
+			# physical cost and accumulated stress projected into Mental.
+			record["outcome"] = {
+				"money": 90000,
+				"health": -3,
+				"mental": -21,
+			}
+			record["details"] = {
+				"earned": 90000,
+				"health_delta": -3,
+				"mental_delta": -21,
+			}
+		elif bundle_id in [
+			"m1_phone_off_sunday", "m2_sleep_debt_sunday",
+		]:
+			record["outcome"] = {"health": 3, "mental": 10}
+		elif bundle_id in [
+			"m1_youth_center_resume_clinic",
+			"m2_youth_center_mock_interview",
+		]:
+			# Reachable 040746 Grade-C mixes reduced stress by one: resume
+			# [3,3,1,0], interview [3,1,1,1,1]. The hidden-stat bridge
+			# projected that as Mental +1 in the public weekly outcome.
+			record["details"] = {"quality": 1}
+			record["outcome"] = {"mental": 1}
+			if action_id == "interview":
+				record["outcome"]["luck"] = 1
+		return record
+	var event_id := "arc_temptation_01"
+	if bundle_id == "hyunsu_first_meet":
+		event_id = "arc_intro_04_hyunsu"
+	elif bundle_id == "sns_pressure_night":
+		event_id = "arc_intro_03_sns"
+	var story_outcome: Dictionary = {}
+	if bundle_id == "first_temptation_boss":
+		story_outcome = {"mental": -8}
+	elif bundle_id == "hyunsu_first_meet":
+		story_outcome = {"mental": 8, "social_skill": 3}
+	elif bundle_id == "sns_pressure_night":
+		story_outcome = {"mental": 13}
+	return {
+		"turn": turn,
+		"source": "story_event",
+		"pressure_id": "story:%s" % event_id,
+		"pressure_family": "story",
+		"choice_id": "story:%s:0" % event_id,
+		"person_id": "",
+		"forgone_ids": [],
+		"actual_action_id": "story_choice",
+		"outcome": story_outcome,
+		"echoed_turn": -1,
+		"story_event_id": event_id,
+		"story_choice_index": 0,
+		"forgone_choice_indexes": [1] \
+			if bundle_id == "first_temptation_boss" else (
+				[1, 2] if bundle_id == "sns_pressure_night" else []),
+		"week_kind": "boss" \
+			if bundle_id == "first_temptation_boss" else "decision",
+		"axis": "money" \
+			if bundle_id == "first_temptation_boss" else "",
+		"consequence_timing": "delayed" \
+			if bundle_id == "first_temptation_boss" else "immediate",
+	}
+
+
+static func _order101_legacy_040746_month_summary(
+		month_index: int, plans: Dictionary,
+		completed_turns: Array) -> Dictionary:
+	var plan: Dictionary = plans.get(str(month_index), {})
+	var kept: Array = []
+	var first_turn := 1 if month_index == 1 else 5
+	# record_month_summary iterated the stored Dictionary directly in 040746.
+	for raw_turn in (plan.get("schedule", {}) as Dictionary).keys():
+		var turn := int(raw_turn)
+		if completed_turns.has(turn):
+			kept.append({
+				"week": turn,
+				"bundle_id": str(
+					(plan.get("schedule", {}) as Dictionary).get(
+						str(turn), "")),
+			})
+	var decline_receipts: Array = []
+	for raw_record in plan.get("forgone", []) as Array:
+		decline_receipts.append(
+			_order101_legacy_040746_final_decline(
+				raw_record as Dictionary, month_index))
+	var before := {
+		"turn": first_turn + 3,
+		"date": "040746a:m%d:before" % month_index,
+		"money": 0.0,
+		"monthly_income": 0.0,
+		"fixed_expense": 0.0,
+		"health": 100,
+		"mental": 100,
+	}
+	var after := before.duplicate(true)
+	after["turn"] = first_turn + 4
+	after["date"] = "040746a:m%d:after" % month_index
+	return {
+		"month": month_index,
+		"before": before,
+		"after": after,
+		"fixed_expense": 0.0,
+		"monthly_income": 0.0,
+		"kept": kept,
+		"routines": (plan.get("routines", {}) as Dictionary).duplicate(true),
+		"decline_receipts": decline_receipts,
+		"acknowledged": month_index == 1,
+		"recorded_turn": first_turn + 4,
+	}
+
+
+static func _order101_legacy_040746_core_state(
+		rain_turn: int, source_turn: int,
+		completed_through_turn: int, sns_turn: int = 8) -> Dictionary:
+	var plans := {
+		"1": _order101_legacy_040746_plan(1, rain_turn),
+		"2": _order101_legacy_040746_plan(2, rain_turn, sns_turn),
+	}
+	var completed_turns: Array = []
+	var completed_bundles: Array = []
+	var completed_bundle_turns: Dictionary = {}
+	var routine_receipts: Dictionary = {}
+	for turn in range(1, completed_through_turn + 1):
+		var plan: Dictionary = plans.get(str(CORE.month_for_turn(turn)), {})
+		var bundle_id := str(
+			(plan.get("schedule", {}) as Dictionary).get(str(turn), ""))
+		completed_turns.append(turn)
+		completed_bundles.append(bundle_id)
+		completed_bundle_turns[bundle_id] = turn
+		routine_receipts[str(turn)] = \
+			_order101_legacy_040746_routine_receipt(turn)
+	var forgone: Array = []
+	for month_index in [1, 2]:
+		forgone.append_array(
+			(plans[str(month_index)].get("forgone", []) as Array).duplicate(true))
+	var pending_declines: Array = []
+	if source_turn <= 8:
+		for raw_record in plans["2"].get("forgone", []) as Array:
+			pending_declines.append(
+				_order101_legacy_040746_pending_decline(
+					raw_record as Dictionary))
+	var summaries := {
+		"1": _order101_legacy_040746_month_summary(
+			1, plans, completed_turns),
+	}
+	if source_turn >= 9:
+		summaries["2"] = _order101_legacy_040746_month_summary(
+			2, plans, completed_turns)
+	var decline_receipts: Array = []
+	for month_index in [1, 2]:
+		if source_turn < (5 if month_index == 1 else 9):
+			continue
+		for raw_record in plans[str(month_index)].get("forgone", []) as Array:
+			decline_receipts.append(
+				_order101_legacy_040746_final_decline(
+					raw_record as Dictionary, month_index))
+	var shown_consequences: Array = []
+	var shown_consequence_turns: Dictionary = {}
+	# The submitted W1 Mirae application always surfaced its separate interview
+	# consequence at W2 before the scheduled W2 owner.
+	if completed_through_turn >= 2:
+		shown_consequences.append("opening_interview_math")
+		shown_consequence_turns["opening_interview_math"] = 2
+	# On the historical route W5 first played the consequence of the locked W4
+	# temptation, then returned to the scheduled W5 owner in the same week.
+	if completed_through_turn >= 5:
+		shown_consequences.append("temptation_consequence")
+		shown_consequence_turns["temptation_consequence"] = 5
+	return {
+		"schema": 2,
+		"enabled": true,
+		"plans": plans,
+		"completed_bundle_turns": completed_bundle_turns,
+		"shown_consequence_turns": shown_consequence_turns,
+		"relationship_stages": {},
+		"relationship_choice_receipts": {},
+		"suppressed_followups": {},
+		"routine_receipts": routine_receipts,
+		"month_summaries": summaries,
+		"forgone": forgone,
+		"completed_turns": completed_turns,
+		"completed_bundles": completed_bundles,
+		"shown_consequences": shown_consequences,
+		"player_initiated": [],
+		"pending_declines": pending_declines,
+		"decline_receipts": decline_receipts,
+		"relationship_history": [],
+		"active_bundle": "",
+		"active_kind": "",
+		"active_turn": 0,
+		"action_result_ready": false,
+		"prototype_complete": source_turn == 9,
+		"prototype_completed_at_turn": 9 if source_turn == 9 else 0,
+	}
+
+
+static func _order101_legacy_040746_save(
+		rain_turn: int, source_turn: int,
+		completed_through_turn: int, sns_turn: int = 8) -> Dictionary:
+	GameState.start_new_game()
+	var state := _order101_legacy_040746_core_state(
+		rain_turn, source_turn, completed_through_turn, sns_turn)
+	var weekly: Array = []
+	for turn in range(1, completed_through_turn + 1):
+		var plan: Dictionary = (state.get("plans", {}) as Dictionary).get(
+			str(CORE.month_for_turn(turn)), {})
+		var bundle_id := str(
+			(plan.get("schedule", {}) as Dictionary).get(str(turn), ""))
+		# The old action executor always finalized a weekly commitment. StoryMode
+		# only did so for an EventManager pacing owner; among Weeks 1-8 that was
+		# the locked W4 temptation, never a generic scheduled story bundle.
+		if not _order101_legacy_040746_action_id(bundle_id).is_empty() \
+				or bundle_id == "first_temptation_boss":
+			weekly.append(_order101_legacy_040746_weekly_record(
+				turn, bundle_id))
+	var saved: Dictionary = GameState.serialize().duplicate(true)
+	if completed_through_turn >= 1:
+		var flags: Dictionary = saved.get("flags", {})
+		flags["opening_interview_application_sent"] = true
+		flags["opening_interview_application_turn"] = 1
+		if completed_through_turn >= 2:
+			# The W2 opening consequence has already returned from StoryMode. Use
+			# authored choice zero as this fixture's deterministic historical branch.
+			flags["arc_intro_meal_seen"] = true
+			flags["told_truth_interview"] = true
+			flags["lied_interview"] = false
+			GameState.flags["arc_intro_meal_seen"] = true
+			GameState.flags["told_truth_interview"] = true
+			GameState.flags["lied_interview"] = false
+		if completed_through_turn >= 4:
+			# Historical W4 choice zero wrote this exact clean-hands branch.
+			flags["arc_temptation_seen"] = true
+			flags["kept_clean_hands"] = true
+			flags["lent_account"] = false
+			GameState.flags["arc_temptation_seen"] = true
+			GameState.flags["kept_clean_hands"] = true
+			GameState.flags["lent_account"] = false
+		var month_two_plan: Dictionary = (state.get(
+			"plans", {}) as Dictionary).get("2", {})
+		var sns_completed := sns_turn in range(5, 9) \
+			and completed_through_turn >= sns_turn \
+			and str((month_two_plan.get(
+				"schedule", {}) as Dictionary).get(str(sns_turn), "")) \
+				== "sns_pressure_night"
+		if sns_completed:
+			# Historical SNS choice zero wrote the seen+deleted branch.
+			flags["arc_intro_sns_seen"] = true
+			flags["deleted_sns"] = true
+			flags["envy_fuel"] = false
+			GameState.flags["arc_intro_sns_seen"] = true
+			GameState.flags["deleted_sns"] = true
+			GameState.flags["envy_fuel"] = false
+		saved["flags"] = flags
+	saved["turn"] = source_turn
+	saved["month"] = CORE.month_for_turn(source_turn)
+	saved["week_of_month"] = ((source_turn - 1) % 4) + 1
+	saved["core_loop_v2_state"] = state
+	saved["pending_weekly_commitment"] = {}
+	saved["weekly_commitments"] = weekly
+	return saved
+
+
+static func _order101_legacy_040746_origin_only_save() -> Dictionary:
+	GameState.start_new_game()
+	var state := {
+		"schema": 2,
+		"enabled": true,
+		"plans": {},
+		"completed_bundle_turns": {},
+		"shown_consequence_turns": {},
+		"relationship_stages": {},
+		"relationship_choice_receipts": {},
+		"suppressed_followups": {},
+		"routine_receipts": {},
+		"month_summaries": {},
+		"forgone": [],
+		"completed_turns": [],
+		"completed_bundles": [],
+		"shown_consequences": [],
+		"player_initiated": [],
+		"pending_declines": [],
+		"decline_receipts": [],
+		"relationship_history": [],
+		"active_bundle": "",
+		"active_kind": "",
+		"active_turn": 0,
+		"action_result_ready": false,
+		"prototype_complete": false,
+		"prototype_completed_at_turn": 0,
+	}
+	var saved: Dictionary = GameState.serialize().duplicate(true)
+	saved["turn"] = 1
+	saved["month"] = 1
+	saved["week_of_month"] = 1
+	saved["core_loop_v2_state"] = state
+	saved["pending_weekly_commitment"] = {}
+	saved["weekly_commitments"] = []
+	return saved
+
+
+static func _order101_legacy_040746_inflight_save(
+		result_ready: bool) -> Dictionary:
+	var template := _order101_legacy_040746_origin_only_save()
+	GameState.apply_effects({
+		"intelligence": 1,
+		"mental": -2,
+		"money": 70000,
+		"health": -1,
+	})
+	var baseline := GameState.weekly_commitment_snapshot()
+	var plan := _order101_legacy_040746_plan(1, 0)
+	var pending_declines: Array = []
+	for raw_record in plan.get("forgone", []) as Array:
+		pending_declines.append(
+			_order101_legacy_040746_pending_from_m1_forgone(
+				raw_record as Dictionary))
+	var state: Dictionary = (
+		template.get("core_loop_v2_state", {}) as Dictionary).duplicate(true)
+	state["plans"] = {"1": plan}
+	state["forgone"] = (plan.get("forgone", []) as Array).duplicate(true)
+	state["pending_declines"] = pending_declines
+	state["routine_receipts"] = {
+		"1": _order101_legacy_040746_routine_receipt(1),
+	}
+	state["active_bundle"] = "m1_mirae_application"
+	state["active_kind"] = "schedule"
+	state["active_turn"] = 1
+	state["action_result_ready"] = result_ready
+	var pending := {}
+	var weekly: Array = []
+	if result_ready:
+		GameState.flags["opening_interview_application_sent"] = true
+		GameState.flags["opening_interview_application_turn"] = 1
+		weekly.append(_order101_legacy_040746_weekly_record(
+			1, "m1_mirae_application"))
+	else:
+		pending = {
+			"turn": 1,
+			"pressure_id": "m1_mirae_application",
+			"pressure_family": "career",
+			"choice_id": "apply",
+			"person_id": "",
+			"forgone_ids": [],
+			"baseline": baseline,
+		}
+	var saved: Dictionary = GameState.serialize().duplicate(true)
+	saved["turn"] = 1
+	saved["month"] = 1
+	saved["week_of_month"] = 1
+	saved["core_loop_v2_state"] = state
+	saved["pending_weekly_commitment"] = pending
+	saved["weekly_commitments"] = weekly
+	return saved
+
+
+static func _order101_legacy_040746_seorin_result_ready_save() -> Dictionary:
+	var saved := _order101_legacy_040746_save(0, 5, 4)
+	var state: Dictionary = saved.get("core_loop_v2_state", {})
+	(state.get("routine_receipts", {}) as Dictionary)["5"] = \
+		_order101_legacy_040746_routine_receipt(5)
+	state["shown_consequences"] = [
+		"opening_interview_math", "temptation_consequence",
+	]
+	state["shown_consequence_turns"] = {
+		"opening_interview_math": 2,
+		"temptation_consequence": 5,
+	}
+	state["active_bundle"] = "m2_seorin_application"
+	state["active_kind"] = "schedule"
+	state["active_turn"] = 5
+	state["action_result_ready"] = true
+	var weekly: Array = saved.get("weekly_commitments", [])
+	weekly.append(_order101_legacy_040746_weekly_record(
+		5, "m2_seorin_application"))
+	var flags: Dictionary = saved.get("flags", {})
+	flags["core_loop_seorin_application_sent"] = true
+	flags["core_loop_seorin_application_turn"] = 5
+	saved["flags"] = flags
+	saved["core_loop_v2_state"] = state
+	saved["pending_weekly_commitment"] = {}
+	saved["weekly_commitments"] = weekly
+	return saved
+
+
+static func _order101_legacy_040746_active_opening_save(
+		choice_index: int = -1) -> Dictionary:
+	var saved := _order101_legacy_040746_inflight_save(true)
+	var state: Dictionary = saved.get("core_loop_v2_state", {})
+	state["completed_turns"] = [1]
+	state["completed_bundles"] = ["m1_mirae_application"]
+	state["completed_bundle_turns"] = {"m1_mirae_application": 1}
+	(state.get("routine_receipts", {}) as Dictionary)["2"] = \
+		_order101_legacy_040746_routine_receipt(2)
+	state["active_bundle"] = "opening_interview_math"
+	state["active_kind"] = "consequence"
+	state["active_turn"] = 2
+	state["action_result_ready"] = false
+	state["shown_consequences"] = []
+	state["shown_consequence_turns"] = {}
+	saved["turn"] = 2
+	saved["month"] = 1
+	saved["week_of_month"] = 2
+	saved["core_loop_v2_state"] = state
+	saved["pending_weekly_commitment"] = {}
+	var flags: Dictionary = saved.get("flags", {})
+	flags.erase("arc_intro_meal_seen")
+	flags.erase("told_truth_interview")
+	flags.erase("lied_interview")
+	if choice_index in [0, 1]:
+		flags["arc_intro_meal_seen"] = true
+		flags[
+			"told_truth_interview" if choice_index == 0 \
+			else "lied_interview"] = true
+	saved["flags"] = flags
+	return saved
+
+
+static func _order101_legacy_040746_active_sns_postchoice_save() -> Dictionary:
+	var saved := _order101_legacy_040746_save(0, 8, 7)
+	var state: Dictionary = saved.get("core_loop_v2_state", {})
+	(state.get("routine_receipts", {}) as Dictionary)["8"] = \
+		_order101_legacy_040746_routine_receipt(8)
+	state["active_bundle"] = "sns_pressure_night"
+	state["active_kind"] = "schedule"
+	state["active_turn"] = 8
+	state["action_result_ready"] = false
+	saved["core_loop_v2_state"] = state
+	var flags: Dictionary = saved.get("flags", {})
+	flags["arc_intro_sns_seen"] = true
+	flags["deleted_sns"] = true
+	flags.erase("envy_fuel")
+	saved["flags"] = flags
+	saved["pending_weekly_commitment"] = {}
+	return saved
+
+
+func _check_order101_legacy_schema2_recovery_gates() -> void:
+	var valid_result := _order101_legacy_040746_seorin_result_ready_save()
+	var raw_state: Dictionary = valid_result.get("core_loop_v2_state", {})
+	var raw_weekly: Array = valid_result.get("weekly_commitments", [])
+	_expect(CORE._legacy_040746_core_state_valid(raw_state, 5, {}) \
+		and CORE._legacy_040746_weekly_witnesses_valid(
+			raw_weekly, raw_state, 5),
+		"W5 040746 Seorin result-ready fixture failed strict admission")
+
+	# The admitted schema-two result receives one frozen receipt on upgrade and
+	# remains resumable. Once that current receipt is deleted, later reloads must
+	# preserve the origin witness without treating it as a remint request.
+	var legacy_roundtrip := valid_result.duplicate(true)
+	for reload_index in range(2):
+		var parsed: Variant = JSON.parse_string(JSON.stringify(legacy_roundtrip))
+		_expect(parsed is Dictionary,
+			"W5 040746 Seorin positive reload %d could not parse" \
+				% (reload_index + 1))
+		if not parsed is Dictionary:
+			return
+		GameState.start_new_game()
+		GameState.load_from_dict(parsed as Dictionary)
+		CORE.initialize_for_run(true)
+		var receipt := CORE.action_receipt("m2_seorin_application")
+		var recovered := CORE.recover_action_result()
+		_expect(not CORE.legacy_origin_receipt().is_empty() \
+			and str(receipt.get("application_id", "")) == "seorin" \
+			and str(receipt.get("application_status", "")) == "submitted" \
+			and CORE.application_status("seorin") == "submitted" \
+			and CORE.action_result_ready() \
+			and str(recovered.get("bundle_id", "")) \
+				== "m2_seorin_application",
+			"W5 040746 Seorin authority changed on positive reload %d" \
+				% (reload_index + 1))
+		legacy_roundtrip = GameState.serialize().duplicate(true)
+
+	var deleted_current := legacy_roundtrip.duplicate(true)
+	var deleted_state: Dictionary = deleted_current.get(
+		"core_loop_v2_state", {})
+	(deleted_state.get("action_receipts", {}) as Dictionary).erase(
+		"m2_seorin_application")
+	deleted_state["action_result_ready"] = true
+	deleted_current["core_loop_v2_state"] = deleted_state
+	for reload_index in range(2):
+		var parsed: Variant = JSON.parse_string(JSON.stringify(deleted_current))
+		_expect(parsed is Dictionary,
+			"W5 witnessed Seorin deletion reload %d could not parse" \
+				% (reload_index + 1))
+		if not parsed is Dictionary:
+			return
+		GameState.start_new_game()
+		GameState.load_from_dict(parsed as Dictionary)
+		CORE.initialize_for_run(true)
+		_expect(not CORE.legacy_origin_receipt().is_empty() \
+			and CORE.action_receipt(
+				"m2_seorin_application").is_empty() \
+			and not CORE.action_result_ready() \
+			and CORE.recover_action_result().is_empty() \
+			and CORE.application_status("seorin") == "submitted",
+			"W5 witnessed Seorin deletion recovered a result on reload %d" \
+				% (reload_index + 1))
+		deleted_current = GameState.serialize().duplicate(true)
+
+	var wrong_application := valid_result.duplicate(true)
+	var wrong_rows: Array = wrong_application.get("weekly_commitments", [])
+	for row_index in range(wrong_rows.size()):
+		var raw_row: Variant = wrong_rows[row_index]
+		if not raw_row is Dictionary \
+				or str((raw_row as Dictionary).get("pressure_id", "")) \
+					!= "m2_seorin_application":
+			continue
+		var row: Dictionary = (raw_row as Dictionary).duplicate(true)
+		var details: Dictionary = (
+			row.get("details", {}) as Dictionary).duplicate(true)
+		details["application_id"] = "seorin_contract_2026q1"
+		row["details"] = details
+		wrong_rows[row_index] = row
+	wrong_application["weekly_commitments"] = wrong_rows
+	GameState.start_new_game()
+	GameState.load_from_dict(wrong_application)
+	CORE.initialize_for_run(true)
+	_expect(CORE.legacy_origin_receipt().is_empty() \
+		and CORE.action_receipt("m2_seorin_application").is_empty() \
+		and CORE.application_status("seorin_contract_2026q1").is_empty() \
+		and (GameState.core_loop_v2_state.get(
+			"consequence_receipts", {}) as Dictionary).is_empty() \
+		and not CORE._bundle_requirement_met(
+			CORE.bundle("m3_seorin_result_message"), 9),
+		"invalid schema-two Seorin details bypassed origin-gated recovery")
+
+	var extra_action_key := valid_result.duplicate(true)
+	var extra_rows: Array = extra_action_key.get("weekly_commitments", [])
+	for row_index in range(extra_rows.size()):
+		var raw_row: Variant = extra_rows[row_index]
+		if not raw_row is Dictionary \
+				or str((raw_row as Dictionary).get("pressure_id", "")) \
+					!= "m2_seorin_application":
+			continue
+		var row: Dictionary = (raw_row as Dictionary).duplicate(true)
+		row["source"] = "story_event"
+		extra_rows[row_index] = row
+	extra_action_key["weekly_commitments"] = extra_rows
+	GameState.start_new_game()
+	GameState.load_from_dict(extra_action_key)
+	CORE.initialize_for_run(true)
+	_expect(CORE.legacy_origin_receipt().is_empty() \
+		and CORE.action_receipt("m2_seorin_application").is_empty() \
+		and CORE.application_status("seorin_contract_2026q1").is_empty() \
+		and not CORE._bundle_requirement_met(
+			CORE.bundle("m3_seorin_result_message"), 9),
+		"schema-two Seorin action row accepted a story-only optional key")
+
+	var forged_relationship := _order101_legacy_040746_origin_only_save()
+	var forged_state: Dictionary = forged_relationship.get(
+		"core_loop_v2_state", {})
+	var forged_key := "father_first_call:arc_father_01_call:1:3"
+	forged_state["relationship_stages"] = {"father": "opening"}
+	forged_state["relationship_choice_receipts"] = {forged_key: true}
+	forged_state["relationship_history"] = [{
+		"character": "father",
+		"from": "unmet",
+		"to": "opening",
+		"bundle_id": "father_first_call",
+		"event_id": "arc_father_01_call",
+		"choice_index": 1,
+		"turn": 3,
+	}]
+	forged_relationship["core_loop_v2_state"] = forged_state
+	GameState.start_new_game()
+	GameState.load_from_dict(forged_relationship)
+	CORE.initialize_for_run(true)
+	var normalized_father: Dictionary = GameState.core_loop_v2_state
+	_expect(CORE.legacy_origin_receipt().is_empty() \
+		and (normalized_father.get(
+			"relationship_choice_receipts", {}) as Dictionary).is_empty() \
+		and (normalized_father.get(
+			"relationship_memories", []) as Array).is_empty() \
+		and (normalized_father.get(
+			"player_initiated", []) as Array).is_empty() \
+		and (normalized_father.get(
+			"consequence_receipts", {}) as Dictionary).is_empty() \
+		and not CORE.has_relationship_memory(
+			"father", "father_future_reassured") \
+		and not CORE._bundle_requirement_met(
+			CORE.bundle("father_quiet_call"), 13),
+		"future schema-two Father ledger bypassed origin-gated migration")
+
+	var fractional_hybrid := valid_result.duplicate(true)
+	var fractional_state: Dictionary = fractional_hybrid.get(
+		"core_loop_v2_state", {})
+	fractional_state["schema"] = 2.5
+	fractional_state["prototype_complete"] = true
+	fractional_state["prototype_completed_at_turn"] = 9
+	fractional_state["relationship_stages"] = {"father": "opening"}
+	fractional_state["relationship_choice_receipts"] = {forged_key: true}
+	fractional_state["relationship_history"] = [{
+		"character": "father",
+		"from": "unmet",
+		"to": "opening",
+		"bundle_id": "father_first_call",
+		"event_id": "arc_father_01_call",
+		"choice_index": 1,
+		"turn": 3,
+	}]
+	fractional_hybrid["core_loop_v2_state"] = fractional_state
+	GameState.start_new_game()
+	GameState.load_from_dict(fractional_hybrid)
+	CORE.initialize_for_run(true)
+	var normalized_fractional: Dictionary = GameState.core_loop_v2_state
+	_expect(CORE.legacy_origin_receipt().is_empty() \
+		and CORE.action_receipt("m2_seorin_application").is_empty() \
+		and CORE.application_status("seorin_contract_2026q1").is_empty() \
+		and (normalized_fractional.get(
+			"relationship_choice_receipts", {}) as Dictionary).is_empty() \
+		and (normalized_fractional.get(
+			"relationship_memories", []) as Array).is_empty() \
+		and (normalized_fractional.get(
+			"player_initiated", []) as Array).is_empty() \
+		and (normalized_fractional.get(
+			"consequence_receipts", {}) as Dictionary).is_empty() \
+		and int(normalized_fractional.get("completed_through_week", 0)) == 0 \
+		and not bool(normalized_fractional.get("prototype_complete", true)) \
+		and not CORE._bundle_requirement_met(
+			CORE.bundle("m3_seorin_result_message"), 9) \
+		and not CORE._bundle_requirement_met(
+			CORE.bundle("father_quiet_call"), 13),
+		"fractional schema promoted action, relationship, or prototype authority")
+
+
+func _check_order101_legacy_shown_and_routine_gates() -> void:
+	var pre_w5 := _order101_legacy_040746_save(0, 5, 4)
+	var pre_w5_state: Dictionary = pre_w5.get("core_loop_v2_state", {})
+	_expect(CORE._legacy_040746_core_state_valid(pre_w5_state, 5, {}) \
+		and pre_w5_state.get("shown_consequences", []) \
+			== ["opening_interview_math"] \
+		and int((pre_w5_state.get(
+			"shown_consequence_turns", {}) as Dictionary).get(
+				"opening_interview_math", 0)) == 2,
+		"pre-W5 040746 fixture lacked its exact W2 opening consequence")
+	for mutation in ["late_opening", "premature_temptation"]:
+		var malformed := pre_w5.duplicate(true)
+		var malformed_state: Dictionary = malformed.get(
+			"core_loop_v2_state", {})
+		var shown: Array = malformed_state.get("shown_consequences", [])
+		var shown_turns: Dictionary = malformed_state.get(
+			"shown_consequence_turns", {})
+		if mutation == "late_opening":
+			shown_turns["opening_interview_math"] = 3
+		else:
+			shown.append("temptation_consequence")
+			shown_turns["temptation_consequence"] = 4
+		malformed_state["shown_consequences"] = shown
+		malformed_state["shown_consequence_turns"] = shown_turns
+		malformed["core_loop_v2_state"] = malformed_state
+		GameState.start_new_game()
+		GameState.load_from_dict(malformed)
+		CORE.initialize_for_run(true)
+		var normalized: Dictionary = GameState.core_loop_v2_state
+		_expect(CORE.legacy_origin_receipt().is_empty() \
+			and (normalized.get(
+				"consequence_receipts", {}) as Dictionary).is_empty(),
+			"%s shown ledger minted legacy consequence authority" % mutation)
+
+	# Even a structurally tiny invalid legacy core must not turn a future shown
+	# marker into a current typed receipt. Fractional schema is not schema two.
+	for raw_schema in [2, 2.5]:
+		var injected := _order101_legacy_040746_origin_only_save()
+		var injected_state: Dictionary = injected.get(
+			"core_loop_v2_state", {})
+		injected_state["schema"] = raw_schema
+		injected_state["shown_consequences"] = ["temptation_consequence"]
+		injected_state["shown_consequence_turns"] = {
+			"temptation_consequence": 5,
+		}
+		injected["core_loop_v2_state"] = injected_state
+		GameState.start_new_game()
+		GameState.load_from_dict(injected)
+		CORE.initialize_for_run(true)
+		var normalized_injected: Dictionary = GameState.core_loop_v2_state
+		_expect(CORE.legacy_origin_receipt().is_empty() \
+			and (normalized_injected.get(
+				"consequence_receipts", {}) as Dictionary).is_empty(),
+			"schema %s future shown marker synthesized a typed receipt" \
+				% str(raw_schema))
+
+	var result_ready := _order101_legacy_040746_seorin_result_ready_save()
+	for mutation in ["missing_active_routine", "active_empty_extra_routine"]:
+		var malformed := (result_ready if mutation == "missing_active_routine" \
+			else pre_w5).duplicate(true)
+		var malformed_state: Dictionary = malformed.get(
+			"core_loop_v2_state", {})
+		var routines: Dictionary = malformed_state.get("routine_receipts", {})
+		if mutation == "missing_active_routine":
+			routines.erase("5")
+		else:
+			routines["5"] = _order101_legacy_040746_routine_receipt(5)
+		malformed_state["routine_receipts"] = routines
+		malformed["core_loop_v2_state"] = malformed_state
+		GameState.start_new_game()
+		GameState.load_from_dict(malformed)
+		CORE.initialize_for_run(true)
+		var normalized: Dictionary = GameState.core_loop_v2_state
+		_expect(CORE.legacy_origin_receipt().is_empty() \
+			and (normalized.get(
+				"consequence_receipts", {}) as Dictionary).is_empty(),
+			"%s routine ledger minted legacy authority" % mutation)
+
+	# Genuine raw schema two may mint each historical consequence receipt once.
+	# A witnessed schema-three save must never reconstruct a deleted typed copy.
+	GameState.start_new_game()
+	GameState.load_from_dict(result_ready)
+	CORE.initialize_for_run(true)
+	var witnessed: Dictionary = GameState.serialize().duplicate(true)
+	var witnessed_state: Dictionary = witnessed.get("core_loop_v2_state", {})
+	var witnessed_receipts: Dictionary = witnessed_state.get(
+		"consequence_receipts", {})
+	_expect(not CORE.legacy_origin_receipt().is_empty() \
+		and witnessed_receipts.has("opening_interview_math") \
+		and witnessed_receipts.has("temptation_consequence"),
+		"genuine schema-two shown ledgers did not mint typed receipts once")
+	witnessed_receipts.erase("temptation_consequence")
+	witnessed_state["consequence_receipts"] = witnessed_receipts
+	witnessed["core_loop_v2_state"] = witnessed_state
+	GameState.start_new_game()
+	GameState.load_from_dict(witnessed)
+	CORE.initialize_for_run(true)
+	var normalized_witnessed: Dictionary = GameState.core_loop_v2_state
+	_expect(not (normalized_witnessed.get(
+			"consequence_receipts", {}) as Dictionary).has(
+				"temptation_consequence") \
+		and not CORE._consequence_was_presented(
+			normalized_witnessed, "temptation_consequence"),
+		"schema-three reload repaired a deleted consequence receipt")
+
+
+func _check_order101_legacy_active_opening_resume() -> void:
+	var prechoice := _order101_legacy_040746_active_opening_save()
+	var raw_state: Dictionary = prechoice.get("core_loop_v2_state", {})
+	var raw_weekly: Array = prechoice.get("weekly_commitments", [])
+	_expect(CORE._legacy_040746_core_state_valid(raw_state, 2, {}) \
+		and CORE._legacy_040746_weekly_witnesses_valid(
+			raw_weekly, raw_state, 2) \
+		and str(raw_state.get("active_bundle", "")) \
+			== "opening_interview_math" \
+		and (raw_state.get("shown_consequences", []) as Array).is_empty(),
+		"active W2 opening consequence fixture failed strict admission")
+	for mutation in [
+		"seen_without_choice", "both_choices", "choice_without_seen",
+	]:
+		var malformed := prechoice.duplicate(true)
+		var flags: Dictionary = malformed.get("flags", {})
+		match mutation:
+			"seen_without_choice":
+				flags["arc_intro_meal_seen"] = true
+			"both_choices":
+				flags["arc_intro_meal_seen"] = true
+				flags["told_truth_interview"] = true
+				flags["lied_interview"] = true
+			"choice_without_seen":
+				flags["told_truth_interview"] = true
+		malformed["flags"] = flags
+		GameState.start_new_game()
+		GameState.load_from_dict(malformed)
+		CORE.initialize_for_run(true)
+		var malformed_state: Dictionary = GameState.core_loop_v2_state
+		_expect(CORE.legacy_origin_receipt().is_empty() \
+			and (malformed_state.get(
+				"story_choice_receipts", {}) as Dictionary).is_empty() \
+			and (malformed_state.get(
+				"application_transition_receipts", {}) as Dictionary).is_empty() \
+			and CORE.complete_active_bundle().is_empty(),
+			"active legacy opening accepted %s" % mutation)
+
+	# A save made before the old interview choice must replay that one historical
+	# root. It cannot consume the consequence until the returning Story callback
+	# creates the ordinary current choice and application receipts.
+	GameState.start_new_game()
+	GameState.load_from_dict(prechoice)
+	CORE.initialize_for_run(true)
+	var prechoice_state: Dictionary = GameState.core_loop_v2_state
+	_expect(not CORE.legacy_origin_receipt().is_empty() \
+		and CORE.active_bundle_id() == "opening_interview_math" \
+		and CORE.active_kind() == "consequence" \
+		and CORE.legacy_active_story_roots() == ["arc_intro_01_meal"] \
+		and (prechoice_state.get(
+			"story_choice_receipts", {}) as Dictionary).is_empty() \
+		and (prechoice_state.get(
+			"application_transition_receipts", {}) as Dictionary).is_empty() \
+		and CORE.complete_active_bundle().is_empty(),
+		"active legacy W2 opening consequence did not resume")
+	var opening_event: Dictionary = DataRegistry.find_event(
+		"arc_intro_01_meal")
+	var opening_choices: Array = opening_event.get("choices", [])
+	var applied_old_choice := not opening_event.is_empty() \
+		and not opening_choices.is_empty() \
+		and GameState.apply_choice(
+			opening_event, opening_choices[0] as Dictionary)
+	var replayed_old_root := applied_old_choice \
+		and CORE.note_story_choice("arc_intro_01_meal", 0)
+	var replay_state: Dictionary = GameState.core_loop_v2_state
+	var replay_key := "opening_interview_math:arc_intro_01_meal:0:2"
+	var replay_story: Dictionary = (replay_state.get(
+		"story_choice_receipts", {}) as Dictionary).get(replay_key, {})
+	var replay_transition: Dictionary = (replay_state.get(
+		"application_transition_receipts", {}) as Dictionary).get(
+			replay_key, {})
+	_expect(replayed_old_root \
+		and CORE.legacy_active_story_roots().is_empty() \
+		and _sorted_strings(replay_story.keys()) == [
+			"active_kind", "bundle_id", "choice_index", "event_id",
+			"receipt_key", "turn",
+		] \
+		and str(replay_story.get("active_kind", "")) == "consequence" \
+		and int(replay_story.get("choice_index", -1)) == 0 \
+		and str(replay_transition.get("application_id", "")) \
+			== "mirae_industrial_tech" \
+		and str(replay_transition.get("from", "")) == "submitted" \
+		and str(replay_transition.get("to", "")) == "interviewed" \
+		and str((replay_state.get(
+			"application_statuses", {}) as Dictionary).get(
+				"mirae_industrial_tech", "")) == "interviewed",
+		"active legacy opening did not replay its exact old root")
+	var replay_completed := CORE.complete_active_bundle()
+	var replay_completed_state: Dictionary = GameState.core_loop_v2_state
+	var replay_consequence: Dictionary = (replay_completed_state.get(
+		"consequence_receipts", {}) as Dictionary).get(
+			"opening_interview_math", {})
+	_expect(replay_completed == "opening_interview_math" \
+		and str(replay_consequence.get("status", "")) == "consumed" \
+		and replay_consequence.get("roots", []) == ["arc_intro_01_meal"] \
+		and bool(replay_consequence.get("legacy_separate_owner", false)) \
+		and not (replay_consequence.get("roots", []) as Array).has(
+			"v2_opening_return_math"),
+		"active 040746 opening replay invented a current-only result root")
+
+	# Saves after either authored choice already contain the old flag effects.
+	# Admission translates exactly one branch into typed receipts once, before
+	# allowing completion; it must not replay or guess a choice.
+	for choice_index in [0, 1]:
+		var postchoice := _order101_legacy_040746_active_opening_save(
+			choice_index)
+		GameState.start_new_game()
+		GameState.load_from_dict(postchoice)
+		CORE.initialize_for_run(true)
+		var state: Dictionary = GameState.core_loop_v2_state
+		var expected_key := "opening_interview_math:arc_intro_01_meal:%d:2" \
+			% choice_index
+		var story: Dictionary = (state.get(
+			"story_choice_receipts", {}) as Dictionary).get(expected_key, {})
+		var transition: Dictionary = (state.get(
+			"application_transition_receipts", {}) as Dictionary).get(
+				expected_key, {})
+		_expect(not CORE.legacy_origin_receipt().is_empty() \
+			and CORE.legacy_active_story_roots().is_empty() \
+			and (state.get(
+				"story_choice_receipts", {}) as Dictionary).size() == 1 \
+			and int(story.get("choice_index", -1)) == choice_index \
+			and str(story.get("event_id", "")) == "arc_intro_01_meal" \
+			and str(transition.get("application_id", "")) \
+				== "mirae_industrial_tech" \
+			and str(transition.get("from", "")) == "submitted" \
+			and str(transition.get("to", "")) == "interviewed" \
+			and str((state.get(
+				"application_statuses", {}) as Dictionary).get(
+					"mirae_industrial_tech", "")) == "interviewed",
+			"active legacy opening choice %d did not mint deterministic proof" \
+				% choice_index)
+		var completed := CORE.complete_active_bundle()
+		state = GameState.core_loop_v2_state
+		var receipt: Dictionary = (state.get(
+			"consequence_receipts", {}) as Dictionary).get(
+				"opening_interview_math", {})
+		_expect(completed == "opening_interview_math" \
+			and receipt.get("roots", []) == ["arc_intro_01_meal"] \
+			and str(receipt.get("status", "")) == "consumed" \
+			and not (receipt.get("roots", []) as Array).has(
+				"v2_opening_return_math"),
+			"active legacy opening choice %d did not complete exactly" \
+				% choice_index)
+		var intact: Dictionary = GameState.serialize().duplicate(true)
+		var roundtrip := intact.duplicate(true)
+		for reload_index in range(2):
+			var parsed: Variant = JSON.parse_string(JSON.stringify(roundtrip))
+			_expect(parsed is Dictionary,
+				"active legacy opening choice %d reload %d could not parse" \
+					% [choice_index, reload_index + 1])
+			if not parsed is Dictionary:
+				break
+			GameState.start_new_game()
+			GameState.load_from_dict(parsed as Dictionary)
+			CORE.initialize_for_run(true)
+			var reloaded_state: Dictionary = GameState.core_loop_v2_state
+			var reloaded: Dictionary = (reloaded_state.get(
+				"consequence_receipts", {}) as Dictionary).get(
+					"opening_interview_math", {})
+			_expect(reloaded.get("roots", []) == ["arc_intro_01_meal"] \
+				and str(reloaded.get("status", "")) == "consumed" \
+				and (reloaded_state.get(
+					"story_choice_receipts", {}) as Dictionary).has(
+						expected_key),
+				"legacy opening choice %d authority changed on reload %d" \
+					% [choice_index, reload_index + 1])
+			roundtrip = GameState.serialize().duplicate(true)
+
+		# A schema-three authority deletion is tamper, not a migration request.
+		var deleted := intact.duplicate(true)
+		var deleted_state: Dictionary = deleted.get("core_loop_v2_state", {})
+		(deleted_state.get(
+			"story_choice_receipts", {}) as Dictionary).erase(expected_key)
+		deleted["core_loop_v2_state"] = deleted_state
+		GameState.start_new_game()
+		GameState.load_from_dict(deleted)
+		CORE.initialize_for_run(true)
+		var normalized_deleted: Dictionary = GameState.core_loop_v2_state
+		_expect(not (normalized_deleted.get(
+			"story_choice_receipts", {}) as Dictionary).has(expected_key) \
+			and CORE.complete_active_bundle().is_empty(),
+			"schema-three reload reminted deleted opening choice %d" \
+				% choice_index)
+
+
+func _check_order101_legacy_inflight_origins() -> void:
+	for result_ready in [false, true]:
+		var legacy := _order101_legacy_040746_inflight_save(result_ready)
+		var raw_state: Dictionary = legacy.get("core_loop_v2_state", {})
+		var raw_pending: Dictionary = legacy.get(
+			"pending_weekly_commitment", {})
+		var raw_weekly: Array = legacy.get("weekly_commitments", [])
+		var expected_plan: Dictionary = (
+			raw_state.get("plans", {}) as Dictionary).get("1", {})
+		_expect(_sorted_strings(raw_state.keys()) \
+				== _sorted_strings(ORDER101_LEGACY_040746_CORE_KEYS) \
+			and str(raw_state.get("active_bundle", "")) \
+				== "m1_mirae_application" \
+			and str(raw_state.get("active_kind", "")) == "schedule" \
+			and int(raw_state.get("active_turn", 0)) == 1 \
+			and bool(raw_state.get("action_result_ready", false)) \
+				== result_ready \
+			and raw_pending.is_empty() == result_ready \
+			and raw_weekly.is_empty() != result_ready,
+			"W1 040746 %s fixture did not preserve its active transaction" \
+				% ("result-ready" if result_ready else "pending"))
+		_expect(CORE._legacy_040746_core_state_valid(
+			raw_state, 1, raw_pending),
+			"W1 040746 %s core failed strict admission" \
+				% ("result-ready" if result_ready else "pending"))
+		_expect(CORE._legacy_040746_weekly_witnesses_valid(
+			raw_weekly, raw_state, 1),
+			"W1 040746 %s weekly ledger failed strict admission" \
+				% ("result-ready" if result_ready else "pending"))
+		var roundtrip := legacy
+		for reload_index in range(2):
+			var parsed: Variant = JSON.parse_string(JSON.stringify(roundtrip))
+			_expect(parsed is Dictionary,
+				"W1 040746 %s reload %d could not parse" % [
+					"result-ready" if result_ready else "pending",
+					reload_index + 1,
+				])
+			if not parsed is Dictionary:
+				return
+			GameState.start_new_game()
+			GameState.load_from_dict(parsed as Dictionary)
+			CORE.initialize_for_run(true)
+			var origin := CORE.legacy_origin_receipt()
+			var source_core: Dictionary = origin.get(
+				"source_core_witness", {})
+			_expect(not origin.is_empty() \
+				and int(origin.get("source_turn", 0)) == 1 \
+				and bool(source_core.get("action_result_ready", false)) \
+					== result_ready \
+				and str(source_core.get("active_bundle", "")) \
+					== "m1_mirae_application" \
+				and _variant_equal_with_numeric_values(
+					origin.get("source_pending_witness", {}), raw_pending) \
+				and _variant_equal_with_numeric_values(
+					origin.get("source_weekly_witnesses", []), raw_weekly) \
+				and _variant_equal_with_numeric_values(
+					CORE.legacy_plan_origin_receipt(1), expected_plan),
+				"W1 040746 %s origin failed reload %d" % [
+					"result-ready" if result_ready else "pending",
+					reload_index + 1,
+				])
+			roundtrip = GameState.serialize().duplicate(true)
+
+
+func _check_order101_legacy_plan_origin_extension() -> void:
+	var legacy := _order101_legacy_040746_origin_only_save()
+	var raw_state: Dictionary = legacy.get("core_loop_v2_state", {})
+	_expect(_sorted_strings(raw_state.keys()) \
+			== _sorted_strings(ORDER101_LEGACY_040746_CORE_KEYS),
+		"legacy plan-origin fixture did not keep the exact 24-key core")
+	var forged_relationship := legacy.duplicate(true)
+	var forged_state: Dictionary = forged_relationship.get(
+		"core_loop_v2_state", {})
+	var forged_key := "father_first_call:arc_father_01_call:1:3"
+	forged_state["relationship_stages"] = {"father": "opening"}
+	forged_state["relationship_choice_receipts"] = {forged_key: true}
+	forged_state["relationship_history"] = [{
+		"character": "father",
+		"from": "unmet",
+		"to": "opening",
+		"bundle_id": "father_first_call",
+		"event_id": "arc_father_01_call",
+		"choice_index": 1,
+		"turn": 3,
+	}]
+	forged_relationship["core_loop_v2_state"] = forged_state
+	GameState.start_new_game()
+	GameState.load_from_dict(forged_relationship)
+	CORE.initialize_for_run(true)
+	_expect(CORE.legacy_origin_receipt().is_empty(),
+		"W1 040746 origin accepted a future unscheduled relationship receipt")
+	GameState.start_new_game()
+	GameState.load_from_dict(legacy)
+	CORE.initialize_for_run(true)
+	_expect(not CORE.legacy_origin_receipt().is_empty() \
+		and CORE.legacy_plan_origin_receipt(1).is_empty() \
+		and CORE.legacy_plan_origin_receipt(2).is_empty(),
+		"W1 040746 origin-only save did not mint without a plan")
+
+	var m1_plan := _order101_legacy_040746_plan(1, 0)
+	var m1_commit := CORE.commit_plan(
+		1, m1_plan.get("schedule", {}), m1_plan.get("routines", {}))
+	var m1_origin := CORE.legacy_plan_origin_receipt(1)
+	_expect(bool(m1_commit.get("ok", false)) \
+		and _variant_equal_with_numeric_values(m1_origin, m1_plan) \
+		and not CORE.legacy_origin_receipt().is_empty(),
+		"early 040746 origin did not freeze its later Month-One plan")
+
+	GameState.turn = 5
+	GameState.month = 2
+	GameState.week_of_month = 1
+	var m2_plan := _order101_legacy_040746_plan(2, 0)
+	var m2_commit := CORE.commit_plan(
+		2, m2_plan.get("schedule", {}), m2_plan.get("routines", {}))
+	var m2_origin := CORE.legacy_plan_origin_receipt(2)
+	_expect(bool(m2_commit.get("ok", false)) \
+		and _variant_equal_with_numeric_values(m2_origin, m2_plan) \
+		and not CORE.legacy_origin_receipt().is_empty(),
+		"early 040746 origin did not freeze its later Month-Two plan")
+
+	var continued_save: Dictionary = GameState.serialize().duplicate(true)
+	var continued_state: Dictionary = continued_save.get(
+		"core_loop_v2_state", {})
+	var plan_receipts: Dictionary = continued_state.get(
+		"legacy_plan_origin_receipts", {})
+	var plan_witnesses: Dictionary = continued_state.get(
+		"legacy_plan_origin_witnesses", {})
+	for month_index in [1, 2]:
+		var key := str(month_index)
+		var entry: Dictionary = plan_receipts.get(key, {})
+		var expected_plan := m1_plan if month_index == 1 else m2_plan
+		var expected_availability := {} \
+			if month_index == 1 else {"hyunsu_player_reachout": false}
+		_expect(_sorted_strings(entry.keys()) == _sorted_strings([
+				"schema", "origin_id", "month", "planned_turn",
+				"availability", "plan",
+			]) \
+			and int(entry.get("schema", 0)) == 1 \
+			and str(entry.get("origin_id", "")) \
+				== ORDER101_LEGACY_ORIGIN_ID \
+			and int(entry.get("month", 0)) == month_index \
+			and int(entry.get("planned_turn", 0)) \
+				== (1 if month_index == 1 else 5) \
+			and _variant_equal_with_numeric_values(
+				entry.get("availability", {}), expected_availability) \
+			and _variant_equal_with_numeric_values(
+				entry.get("plan", {}), expected_plan) \
+			and _variant_equal_with_numeric_values(
+				plan_witnesses.get(key, {}), entry),
+			"legacy Month-%d plan-origin copies were not exact" % month_index)
+
+	var parsed: Variant = JSON.parse_string(JSON.stringify(continued_save))
+	_expect(parsed is Dictionary,
+		"legacy plan-origin continuation did not cross JSON")
+	if parsed is Dictionary:
+		GameState.start_new_game()
+		GameState.load_from_dict(parsed as Dictionary)
+		CORE.initialize_for_run(true)
+		_expect(not CORE.legacy_origin_receipt().is_empty() \
+			and _variant_equal_with_numeric_values(
+				CORE.legacy_plan_origin_receipt(1), m1_plan) \
+			and _variant_equal_with_numeric_values(
+				CORE.legacy_plan_origin_receipt(2), m2_plan),
+			"legacy origin/plan extensions failed their continuation reload")
+
+
+func _check_order101_legacy_completed_sns() -> void:
+	for sns_turn in [5, 6, 7]:
+		var rain_turn := 6 if sns_turn == 7 else 0
+		var legacy := _order101_legacy_040746_save(
+			rain_turn, sns_turn, sns_turn, sns_turn)
+		var raw_state: Dictionary = legacy.get("core_loop_v2_state", {})
+		var raw_weekly: Array = legacy.get("weekly_commitments", [])
+		var sns_rows: Array[Dictionary] = []
+		for raw_record in raw_weekly:
+			if raw_record is Dictionary \
+					and str((raw_record as Dictionary).get(
+						"pressure_id", "")) == "story:arc_intro_03_sns":
+				sns_rows.append((raw_record as Dictionary).duplicate(true))
+		var raw_plan: Dictionary = (
+			raw_state.get("plans", {}) as Dictionary).get("2", {})
+		_expect(sns_rows.is_empty() \
+			and str((raw_plan.get("schedule", {}) as Dictionary).get(
+				str(sns_turn), "")) == "sns_pressure_night" \
+			and (raw_state.get("completed_bundles", []) as Array).count(
+				"sns_pressure_night") == 1 \
+			and int((raw_state.get(
+				"completed_bundle_turns", {}) as Dictionary).get(
+					"sns_pressure_night", 0)) == sns_turn,
+			("historical W%d SNS fixture did not use exact plan/completion " \
+			+ "authority without a fabricated weekly row") % sns_turn)
+		_expect(CORE._legacy_040746_core_state_valid(raw_state, sns_turn) \
+			and CORE._legacy_040746_weekly_witnesses_valid(
+				raw_weekly, raw_state, sns_turn),
+			"historical W%d SNS fixture failed strict admission" % sns_turn)
+		var roundtrip := legacy
+		for reload_index in range(2):
+			var parsed: Variant = JSON.parse_string(JSON.stringify(roundtrip))
+			_expect(parsed is Dictionary,
+				"historical W%d SNS reload %d could not parse" \
+					% [sns_turn, reload_index + 1])
+			if not parsed is Dictionary:
+				return
+			GameState.start_new_game()
+			GameState.load_from_dict(parsed as Dictionary)
+			CORE.initialize_for_run(true)
+			var state: Dictionary = GameState.core_loop_v2_state
+			_expect(not CORE.legacy_origin_receipt().is_empty() \
+				and not CORE.legacy_plan_origin_receipt(2).is_empty() \
+				and (state.get(
+					"story_choice_receipts", {}) as Dictionary).is_empty() \
+				and CORE._legacy_sns_consequence_completion_valid(state, 13) \
+				and CORE._bundle_requirement_met(
+					CORE.bundle("jaehyuk_world_meet"), 13),
+					"historical W%d SNS authority failed reload %d" \
+						% [sns_turn, reload_index + 1])
+			roundtrip = GameState.serialize().duplicate(true)
+
+		var malformed_story_ledger := roundtrip.duplicate(true)
+		var malformed_story_state: Dictionary = malformed_story_ledger.get(
+			"core_loop_v2_state", {})
+		malformed_story_state["story_choice_receipts"] = false
+		malformed_story_ledger["core_loop_v2_state"] = malformed_story_state
+		GameState.start_new_game()
+		GameState.load_from_dict(malformed_story_ledger)
+		CORE.initialize_for_run(true)
+		var rejected_story_ledger: Dictionary = GameState.core_loop_v2_state
+		_expect(CORE.legacy_origin_receipt().is_empty() \
+			and not CORE._legacy_sns_consequence_completion_valid(
+				rejected_story_ledger, 13) \
+			and not CORE._bundle_requirement_met(
+				CORE.bundle("jaehyuk_world_meet"), 13),
+			"historical W%d SNS laundered a scalar story ledger" % sns_turn)
+
+		var fabricated := legacy.duplicate(true)
+		var fabricated_weekly: Array = fabricated.get(
+			"weekly_commitments", [])
+		fabricated_weekly.append(_order101_legacy_040746_weekly_record(
+			sns_turn, "sns_pressure_night"))
+		fabricated["weekly_commitments"] = fabricated_weekly
+		GameState.start_new_game()
+		GameState.load_from_dict(fabricated)
+		CORE.initialize_for_run(true)
+		_expect(CORE.legacy_origin_receipt().is_empty() \
+			and not CORE._legacy_sns_consequence_completion_valid(
+				GameState.core_loop_v2_state, 13) \
+			and not CORE._bundle_requirement_met(
+				CORE.bundle("jaehyuk_world_meet"), 13),
+				"fabricated W%d generic SNS weekly row minted historical authority" \
+					% sns_turn)
+
+		# Completed legacy SNS authority includes the old durable branch flags.
+		# Missing `seen` or two simultaneous branch flags are not a choice and must
+		# fail both raw schema-two admission and schema-three witness replay.
+		for flag_mutation in ["seen_missing", "seen_false", "both_branches"]:
+			var malformed_flags := legacy.duplicate(true)
+			var raw_flags: Dictionary = malformed_flags.get("flags", {})
+			if flag_mutation == "seen_missing":
+				raw_flags.erase("arc_intro_sns_seen")
+			elif flag_mutation == "seen_false":
+				raw_flags["arc_intro_sns_seen"] = false
+			else:
+				raw_flags["arc_intro_sns_seen"] = true
+				raw_flags["deleted_sns"] = true
+				raw_flags["envy_fuel"] = true
+			malformed_flags["flags"] = raw_flags
+			GameState.start_new_game()
+			GameState.load_from_dict(malformed_flags)
+			CORE.initialize_for_run(true)
+			var rejected_raw: Dictionary = GameState.core_loop_v2_state
+			_expect(CORE.legacy_origin_receipt().is_empty() \
+				and not CORE._legacy_sns_consequence_completion_valid(
+					rejected_raw, 13) \
+				and not CORE._bundle_requirement_met(
+					CORE.bundle("jaehyuk_world_meet"), 13),
+				"historical W%d SNS raw flags accepted %s" % [
+					sns_turn, flag_mutation])
+
+			GameState.start_new_game()
+			GameState.load_from_dict(legacy.duplicate(true))
+			CORE.initialize_for_run(true)
+			var witnessed: Dictionary = GameState.serialize().duplicate(true)
+			var witnessed_flags: Dictionary = witnessed.get("flags", {})
+			if flag_mutation == "seen_missing":
+				witnessed_flags.erase("arc_intro_sns_seen")
+			elif flag_mutation == "seen_false":
+				witnessed_flags["arc_intro_sns_seen"] = false
+			else:
+				witnessed_flags["arc_intro_sns_seen"] = true
+				witnessed_flags["deleted_sns"] = true
+				witnessed_flags["envy_fuel"] = true
+			witnessed["flags"] = witnessed_flags
+			GameState.start_new_game()
+			GameState.load_from_dict(witnessed)
+			CORE.initialize_for_run(true)
+			var rejected_witness: Dictionary = GameState.core_loop_v2_state
+			_expect(CORE.legacy_origin_receipt().is_empty() \
+				and not CORE._legacy_sns_consequence_completion_valid(
+					rejected_witness, 13) \
+				and not CORE._bundle_requirement_met(
+					CORE.bundle("jaehyuk_world_meet"), 13),
+				"historical W%d SNS witnessed flags accepted %s" % [
+					sns_turn, flag_mutation])
+
+		var stale_active := legacy.duplicate(true)
+		var stale_state: Dictionary = stale_active.get(
+			"core_loop_v2_state", {})
+		stale_state["active_bundle"] = "sns_pressure_night"
+		stale_state["active_kind"] = "schedule"
+		stale_state["active_turn"] = sns_turn
+		stale_state["action_result_ready"] = false
+		stale_active["core_loop_v2_state"] = stale_state
+		GameState.start_new_game()
+		GameState.load_from_dict(stale_active)
+		CORE.initialize_for_run(true)
+		_expect(CORE.legacy_origin_receipt().is_empty() \
+			and not CORE._legacy_sns_consequence_completion_valid(
+				GameState.core_loop_v2_state, 13) \
+			and not CORE._bundle_requirement_met(
+				CORE.bundle("jaehyuk_world_meet"), 13),
+			"historical W%d SNS accepted stale active/completed overlap" \
+				% sns_turn)
+
+
+func _check_order101_legacy_active_sns_postchoice_resume() -> void:
+	var legacy := _order101_legacy_040746_active_sns_postchoice_save()
+	var raw_state: Dictionary = legacy.get("core_loop_v2_state", {})
+	var raw_weekly: Array = legacy.get("weekly_commitments", [])
+	_expect(CORE._legacy_040746_core_state_valid(raw_state, 8, {}) \
+		and CORE._legacy_040746_weekly_witnesses_valid(
+			raw_weekly, raw_state, 8) \
+		and str(raw_state.get("active_bundle", "")) == "sns_pressure_night" \
+		and not raw_state.has("story_choice_receipts"),
+		"active post-choice W8 SNS fixture failed strict 040746 admission")
+	for mutation in ["ambiguous_choice_flags", "deleted_without_seen"]:
+		var malformed := legacy.duplicate(true)
+		var flags: Dictionary = malformed.get("flags", {})
+		if mutation == "ambiguous_choice_flags":
+			flags["envy_fuel"] = true
+		else:
+			flags["arc_intro_sns_seen"] = false
+		malformed["flags"] = flags
+		GameState.start_new_game()
+		GameState.load_from_dict(malformed)
+		CORE.initialize_for_run(true)
+		_expect(CORE.legacy_origin_receipt().is_empty() \
+			and (GameState.core_loop_v2_state.get(
+				"story_choice_receipts", {}) as Dictionary).is_empty() \
+			and not CORE._bundle_requirement_met(
+				CORE.bundle("jaehyuk_world_meet"), 13),
+			"active legacy SNS accepted %s" % mutation)
+
+	var choice_two := legacy.duplicate(true)
+	var choice_two_flags: Dictionary = choice_two.get("flags", {})
+	choice_two_flags.erase("deleted_sns")
+	choice_two_flags.erase("envy_fuel")
+	choice_two["flags"] = choice_two_flags
+	GameState.start_new_game()
+	GameState.load_from_dict(choice_two)
+	CORE.initialize_for_run(true)
+	var choice_two_completed := CORE.complete_active_bundle()
+	var choice_two_state: Dictionary = GameState.core_loop_v2_state
+	var choice_two_stories: Dictionary = choice_two_state.get(
+		"story_choice_receipts", {})
+	var choice_two_key := "sns_pressure_night:arc_intro_03_sns:2:8"
+	_expect(not CORE.legacy_origin_receipt().is_empty() \
+		and choice_two_completed == "sns_pressure_night" \
+		and choice_two_stories.size() == 1 \
+		and choice_two_stories.has(choice_two_key) \
+		and CORE._bundle_requirement_met(
+			CORE.bundle("jaehyuk_world_meet"), 13),
+		"active legacy SNS choice-two flags did not resume deterministically")
+
+	GameState.start_new_game()
+	GameState.load_from_dict(legacy)
+	CORE.initialize_for_run(true)
+	_expect(not CORE.legacy_origin_receipt().is_empty() \
+		and CORE.active_bundle_id() == "sns_pressure_night" \
+		and CORE.active_kind() == "schedule",
+		"active legacy W8 SNS post-choice save did not resume")
+	var completed := CORE.complete_active_bundle()
+	var state: Dictionary = GameState.core_loop_v2_state
+	var stories: Dictionary = state.get("story_choice_receipts", {})
+	var expected_key := "sns_pressure_night:arc_intro_03_sns:0:8"
+	var receipt: Dictionary = stories.get(expected_key, {})
+	_expect(completed == "sns_pressure_night" \
+		and stories.size() == 1 \
+		and int(receipt.get("choice_index", -1)) == 0 \
+		and str(receipt.get("event_id", "")) == "arc_intro_03_sns" \
+		and CORE._sns_story_receipt_complete(state, 8) \
+		and CORE._legacy_sns_consequence_completion_valid(state, 13) \
+		and CORE._bundle_requirement_met(
+			CORE.bundle("jaehyuk_world_meet"), 13),
+		"active 040746 SNS post-choice resume stranded or invented its choice")
+	if completed == "sns_pressure_night":
+		var deleted_receipt_save: Dictionary = GameState.serialize().duplicate(
+			true)
+		var deleted_state: Dictionary = deleted_receipt_save.get(
+			"core_loop_v2_state", {})
+		(deleted_state.get(
+			"story_choice_receipts", {}) as Dictionary).erase(expected_key)
+		deleted_receipt_save["core_loop_v2_state"] = deleted_state
+		GameState.start_new_game()
+		GameState.load_from_dict(deleted_receipt_save)
+		CORE.initialize_for_run(true)
+		var normalized_deleted: Dictionary = GameState.core_loop_v2_state
+		_expect((normalized_deleted.get(
+				"story_choice_receipts", {}) as Dictionary).is_empty() \
+			and not CORE._legacy_sns_consequence_completion_valid(
+				normalized_deleted, 13) \
+			and not CORE._bundle_requirement_met(
+				CORE.bundle("jaehyuk_world_meet"), 13),
+			"schema-three reload reminted a deleted legacy SNS receipt")
+		# Restore the intact completion for the positive double-reload below.
+		GameState.start_new_game()
+		GameState.load_from_dict(JSON.parse_string(JSON.stringify(
+			legacy)) as Dictionary)
+		CORE.initialize_for_run(true)
+		completed = CORE.complete_active_bundle()
+		state = GameState.core_loop_v2_state
+		stories = state.get("story_choice_receipts", {})
+	var roundtrip: Dictionary = GameState.serialize().duplicate(true)
+	for reload_index in range(2):
+		var parsed: Variant = JSON.parse_string(JSON.stringify(roundtrip))
+		_expect(parsed is Dictionary,
+			"active legacy SNS completion reload %d could not parse" \
+				% [reload_index + 1])
+		if not parsed is Dictionary:
+			return
+		GameState.start_new_game()
+		GameState.load_from_dict(parsed as Dictionary)
+		CORE.initialize_for_run(true)
+		state = GameState.core_loop_v2_state
+		stories = state.get("story_choice_receipts", {})
+		_expect(stories.size() == 1 and stories.has(expected_key) \
+			and CORE._legacy_sns_consequence_completion_valid(state, 13) \
+			and CORE._bundle_requirement_met(
+				CORE.bundle("jaehyuk_world_meet"), 13),
+			"active legacy SNS authority drifted on reload %d" \
+				% [reload_index + 1])
+		roundtrip = GameState.serialize().duplicate(true)
+
+
+func _check_order101_legacy_active_story_main_routes() -> void:
+	# A pre-choice 040746 opening save must expose the frozen old scene as the
+	# actual next verb. Static MainGame keeps the durable StoryMode handoff queue
+	# in memory so this test can inspect it without replacing the QA scene.
+	GameState.start_new_game()
+	GameState.pending_story_queue = []
+	GameState.load_from_dict(_order101_legacy_040746_active_opening_save())
+	CORE.initialize_for_run(true)
+	var main_game: Control = await _spawn_durable_gate_main(true)
+	main_game.call("_core_loop_v2_route_week")
+	for _frame in range(3):
+		await get_tree().process_frame
+	_expect(GameState.pending_story_queue == ["arc_intro_01_meal"] \
+		and CORE.active_bundle_id() == "opening_interview_math" \
+		and CORE.active_kind() == "consequence" \
+		and CORE.legacy_active_story_roots() == ["arc_intro_01_meal"],
+		"MainGame did not route a pre-choice 040746 opening to its old root")
+	_dispose_durable_gate_main(main_game)
+	await get_tree().process_frame
+
+	# A post-choice opening already owns exact current story/application proof.
+	# MainGame must consume it once and continue into the old Week-Two scheduled
+	# action instead of replaying the interview or leaving a dead active owner.
+	for choice_index in [0, 1]:
+		GameState.start_new_game()
+		GameState.pending_story_queue = []
+		GameState.load_from_dict(
+			_order101_legacy_040746_active_opening_save(choice_index))
+		CORE.initialize_for_run(true)
+		_expect(CORE.legacy_active_story_completion_ready(),
+			"post-choice 040746 opening %d lacked route-ready proof" \
+				% choice_index)
+		main_game = await _spawn_durable_gate_main(true)
+		main_game.call("_core_loop_v2_route_week")
+		for _frame in range(5):
+			await get_tree().process_frame
+		var opening_state: Dictionary = GameState.core_loop_v2_state
+		var opening_receipt: Dictionary = (opening_state.get(
+			"consequence_receipts", {}) as Dictionary).get(
+				"opening_interview_math", {})
+		var pending: Dictionary = GameState.pending_weekly_commitment
+		_expect((opening_state.get(
+				"completed_bundles", []) as Array).count(
+					"opening_interview_math") == 0 \
+			and (opening_state.get(
+				"shown_consequences", []) as Array).count(
+					"opening_interview_math") == 1 \
+			and str(opening_receipt.get("status", "")) == "consumed" \
+			and opening_receipt.get("roots", []) == ["arc_intro_01_meal"] \
+			and GameState.pending_story_queue.is_empty() \
+			and CORE.active_bundle_id() == "m1_convenience_trial_shift" \
+			and str(pending.get("pressure_id", "")) \
+				== "m1_convenience_trial_shift" \
+			and bool(main_game.get("_minigame_overlay_active")),
+			("MainGame did not consume post-choice 040746 opening %d and " \
+			+ "continue to its Week-Two action") % choice_index)
+		_dispose_durable_gate_main(main_game)
+		await get_tree().process_frame
+
+	# The equivalent Week-Eight SNS save is a scheduled owner. Its actual next
+	# verb is the Month-Two notebook after the admitted choice closes the week.
+	GameState.start_new_game()
+	GameState.pending_story_queue = []
+	GameState.load_from_dict(
+		_order101_legacy_040746_active_sns_postchoice_save())
+	CORE.initialize_for_run(true)
+	_expect(CORE.legacy_active_story_completion_ready(),
+		"post-choice 040746 SNS lacked route-ready proof")
+	main_game = await _spawn_durable_gate_main(true)
+	main_game.call("_core_loop_v2_route_week")
+	for _frame in range(5):
+		await get_tree().process_frame
+	var sns_state: Dictionary = GameState.core_loop_v2_state
+	var sns_summary := CORE.month_summary(2)
+	var modal := main_game.get("modal_layer") as Control
+	_expect((sns_state.get("completed_bundles", []) as Array).count(
+			"sns_pressure_night") == 1 \
+		and CORE.turn_completed(8) \
+		and CORE.active_bundle_id().is_empty() \
+		and int(GameState.turn) == 9 \
+		and not sns_summary.is_empty() \
+		and not bool(sns_summary.get("acknowledged", true)) \
+		and is_instance_valid(modal) and modal.visible \
+		and str(main_game.get("_modal_kind")) \
+			== "core_loop_v2_month_summary",
+		"MainGame did not close post-choice 040746 SNS into the Month-Two notebook")
+	_dispose_durable_gate_main(main_game)
+	await get_tree().process_frame
+
+
+func _check_order101_u20_legacy_schedule_contract(
+		contract_snapshot: Dictionary) -> void:
+	DataRegistry.demo_core_loop_v2 = contract_snapshot.duplicate(true)
+	_check_order101_legacy_completed_sns()
+	_check_order101_legacy_active_sns_postchoice_resume()
+	var legacy := _order101_legacy_040746_save(0, 8, 7)
+	var raw_state: Dictionary = legacy.get("core_loop_v2_state", {})
+	_expect(_sorted_strings(raw_state.keys()) \
+			== _sorted_strings(ORDER101_LEGACY_040746_CORE_KEYS) \
+		and not (raw_state.get(
+			"completed_bundles", []) as Array).has(
+				"m2_rain_delivery_shift") \
+		and raw_state.get("shown_consequences", []) \
+			== ["opening_interview_math", "temptation_consequence"] \
+		and int((raw_state.get(
+			"shown_consequence_turns", {}) as Dictionary).get(
+				"opening_interview_math", 0)) == 2 \
+		and int((raw_state.get(
+			"shown_consequence_turns", {}) as Dictionary).get(
+				"temptation_consequence", 0)) == 5 \
+		and str((((raw_state.get("plans", {}) as Dictionary).get(
+			"2", {}) as Dictionary).get(
+				"schedule", {}) as Dictionary).get("8", "")) \
+			== "sns_pressure_night",
+		"U20 generic 040746 fixture was not a bare pre-W8 authored plan")
+	GameState.start_new_game()
+	GameState.load_from_dict(legacy.duplicate(true))
+	CORE.initialize_for_run(true)
+	var origin := CORE.legacy_origin_receipt()
+	var began := CORE.begin_bundle("sns_pressure_night", "schedule")
+	var claim := CORE.claim_scheduled_prelude("sns_pressure_night") \
+		if began else {}
+	_expect(not origin.is_empty() \
+		and (GameState.core_loop_v2_state.get(
+			"legacy_action_fallbacks", {}) as Dictionary).is_empty() \
+		and CORE._legacy_sns_schedule_owner_valid(
+			GameState.core_loop_v2_state, 8) \
+		and began and bool(claim.get("ok", false)) \
+		and not bool(claim.get("claimed", true)) \
+		and (claim.get("receipt", {}) as Dictionary).is_empty() \
+		and CORE.scheduled_prelude_receipt(
+			"sns_pressure_night", 8).is_empty(),
+		"U20 witnessed legacy W8 owner did not begin as standalone SNS")
+	if not began or not bool(claim.get("ok", false)):
+		return
+	_apply_and_note_story("arc_intro_03_sns", 0)
+	var completed := CORE.complete_active_bundle()
+	var completed_save: Dictionary = GameState.serialize().duplicate(true)
+	_expect(completed == "sns_pressure_night" \
+		and CORE._legacy_sns_consequence_completion_valid(
+			GameState.core_loop_v2_state, 13) \
+		and CORE._bundle_requirement_met(
+			CORE.bundle("jaehyuk_world_meet"), 13),
+		"U20 witnessed legacy plan did not earn SNS authority at current runtime")
+	for reload_index in range(2):
+		var parsed: Variant = JSON.parse_string(JSON.stringify(completed_save))
+		_expect(parsed is Dictionary,
+			"U20 witnessed legacy SNS reload %d could not parse" \
+				% [reload_index + 1])
+		if not parsed is Dictionary:
+			return
+		GameState.start_new_game()
+		GameState.load_from_dict(parsed as Dictionary)
+		CORE.initialize_for_run(true)
+		_expect(not CORE.legacy_origin_receipt().is_empty(),
+			"U20 witnessed legacy origin failed reload %d" \
+				% [reload_index + 1])
+		_expect(CORE._legacy_sns_schedule_owner_valid(
+			GameState.core_loop_v2_state, 8),
+			"U20 witnessed legacy schedule owner failed reload %d" \
+				% [reload_index + 1])
+		_expect(CORE._sns_story_receipt_complete(
+			GameState.core_loop_v2_state, 8),
+			"U20 actual current SNS receipt failed reload %d" \
+				% [reload_index + 1])
+		_expect(CORE._legacy_sns_consequence_completion_valid(
+				GameState.core_loop_v2_state, 13),
+			"U20 witnessed legacy SNS consequence failed reload %d" \
+				% [reload_index + 1])
+		_expect(CORE._bundle_requirement_met(
+				CORE.bundle("jaehyuk_world_meet"), 13),
+			"U20 witnessed legacy SNS did not unlock Jaehyuk reload %d" \
+				% [reload_index + 1])
+		completed_save = GameState.serialize().duplicate(true)
+
+	var sns_key := "sns_pressure_night:arc_intro_03_sns:0:8"
+	var completed_state: Dictionary = completed_save.get(
+		"core_loop_v2_state", {})
+	var completed_stories: Dictionary = completed_state.get(
+		"story_choice_receipts", {})
+	var sns_receipt: Dictionary = (completed_stories.get(
+		sns_key, {}) as Dictionary).duplicate(true)
+	_expect(not sns_receipt.is_empty(),
+		"U20 witnessed legacy SNS fixture lacked its actual choice receipt")
+	for mutation in ["duplicate", "sibling_choice", "offturn"]:
+		if sns_receipt.is_empty():
+			break
+		var malformed := completed_save.duplicate(true)
+		var malformed_state: Dictionary = malformed.get(
+			"core_loop_v2_state", {})
+		var stories: Dictionary = malformed_state.get(
+			"story_choice_receipts", {})
+		match mutation:
+			"duplicate":
+				stories["%s:duplicate" % sns_key] = sns_receipt.duplicate(true)
+			"sibling_choice":
+				var sibling := sns_receipt.duplicate(true)
+				var sibling_key := "sns_pressure_night:arc_intro_03_sns:1:8"
+				sibling["receipt_key"] = sibling_key
+				sibling["choice_index"] = 1
+				stories[sibling_key] = sibling
+			"offturn":
+				var offturn := sns_receipt.duplicate(true)
+				var offturn_key := "sns_pressure_night:arc_intro_03_sns:0:7"
+				offturn["receipt_key"] = offturn_key
+				offturn["turn"] = 7
+				stories.erase(sns_key)
+				stories[offturn_key] = offturn
+		malformed_state["story_choice_receipts"] = stories
+		malformed["core_loop_v2_state"] = malformed_state
+		GameState.start_new_game()
+		GameState.load_from_dict(malformed)
+		CORE.initialize_for_run(true)
+		_expect(not CORE._legacy_sns_consequence_completion_valid(
+			GameState.core_loop_v2_state, 13) \
+			and not CORE._bundle_requirement_met(
+				CORE.bundle("jaehyuk_world_meet"), 13),
+			"U20 %s current SNS receipt earned Jaehyuk authority" % mutation)
+
+func _check_order101_legacy_terminal_acknowledgement() -> void:
+	# 040746 saved both sides of the final modal: the first autosave kept the
+	# Month-Two summary open, while Done acknowledged it before the final save.
+	for acknowledged in [false, true]:
+		var legacy := _order101_legacy_040746_save(0, 9, 8)
+		var raw_state: Dictionary = legacy.get("core_loop_v2_state", {})
+		var summaries: Dictionary = raw_state.get("month_summaries", {})
+		var month_two: Dictionary = summaries.get("2", {})
+		month_two["acknowledged"] = acknowledged
+		summaries["2"] = month_two
+		raw_state["month_summaries"] = summaries
+		legacy["core_loop_v2_state"] = raw_state
+		_expect(CORE._legacy_040746_core_state_valid(raw_state, 9, {}) \
+			and CORE._legacy_040746_weekly_witnesses_valid(
+				legacy.get("weekly_commitments", []), raw_state, 9),
+			"terminal 040746 acknowledged=%s fixture failed admission" \
+				% str(acknowledged))
+		GameState.start_new_game()
+		GameState.load_from_dict(legacy)
+		CORE.initialize_for_run(true)
+		var normalized: Dictionary = GameState.core_loop_v2_state
+		_expect(not CORE.legacy_origin_receipt().is_empty() \
+			and bool(((normalized.get(
+				"month_summaries", {}) as Dictionary).get(
+					"2", {}) as Dictionary).get(
+						"acknowledged", not acknowledged)) == acknowledged,
+			"terminal 040746 acknowledged=%s state did not upgrade" \
+				% str(acknowledged))
+		var roundtrip: Dictionary = GameState.serialize().duplicate(true)
+		for reload_index in range(2):
+			var parsed: Variant = JSON.parse_string(JSON.stringify(roundtrip))
+			_expect(parsed is Dictionary,
+				"terminal acknowledged=%s reload %d could not parse" \
+					% [str(acknowledged), reload_index + 1])
+			if not parsed is Dictionary:
+				break
+			GameState.start_new_game()
+			GameState.load_from_dict(parsed as Dictionary)
+			CORE.initialize_for_run(true)
+			var reloaded: Dictionary = GameState.core_loop_v2_state
+			_expect(not CORE.legacy_origin_receipt().is_empty() \
+				and bool(((reloaded.get(
+					"month_summaries", {}) as Dictionary).get(
+						"2", {}) as Dictionary).get(
+							"acknowledged", not acknowledged)) == acknowledged,
+				"terminal acknowledged=%s drifted on reload %d" \
+					% [str(acknowledged), reload_index + 1])
+			roundtrip = GameState.serialize().duplicate(true)
+
+
+func _check_order101_m2_rain_legacy_schema2(
+		fresh_saved: Dictionary) -> void:
+	_check_order101_legacy_schema2_recovery_gates()
+	_check_order101_legacy_shown_and_routine_gates()
+	_check_order101_legacy_active_opening_resume()
+	_check_order101_legacy_inflight_origins()
+	_check_order101_legacy_plan_origin_extension()
+	_check_order101_legacy_terminal_acknowledgement()
+	var upgraded_by_turn: Dictionary = {}
+	for rain_turn in [6, 7]:
+		var legacy := _order101_legacy_040746_save(
+			rain_turn, rain_turn, rain_turn)
+		var raw_state: Dictionary = legacy.get("core_loop_v2_state", {})
+		var raw_plan: Dictionary = (
+			raw_state.get("plans", {}) as Dictionary).get("2", {})
+		var raw_weekly: Array = legacy.get("weekly_commitments", [])
+		var rain_rows: Array = []
+		for raw_record in raw_weekly:
+			if raw_record is Dictionary \
+					and str((raw_record as Dictionary).get(
+						"pressure_id", "")) == "m2_rain_delivery_shift":
+				rain_rows.append((raw_record as Dictionary).duplicate(true))
+		_expect(_sorted_strings(raw_state.keys()) \
+				== _sorted_strings(ORDER101_LEGACY_040746_CORE_KEYS) \
+			and _sorted_strings(raw_plan.keys()) == _sorted_strings([
+				"schedule", "selected", "routines", "forgone",
+				"planned_turn",
+			]) \
+			and str((raw_plan.get("schedule", {}) as Dictionary).get(
+				str(rain_turn), "")) == "m2_rain_delivery_shift" \
+			and rain_rows.size() == 1 \
+			and raw_state.get("shown_consequences", []) \
+				== ["opening_interview_math", "temptation_consequence"] \
+			and int((raw_state.get(
+				"shown_consequence_turns", {}) as Dictionary).get(
+					"opening_interview_math", 0)) == 2 \
+			and int((raw_state.get(
+				"shown_consequence_turns", {}) as Dictionary).get(
+					"temptation_consequence", 0)) == 5 \
+			and (legacy.get(
+				"pending_weekly_commitment", {}) as Dictionary).is_empty(),
+			"U15 W%d fixture was not an exact 040746 Rain completion" \
+				% rain_turn)
+		_expect(CORE._legacy_040746_core_state_valid(raw_state, rain_turn),
+			"U15 W%d raw 040746 core witness failed admission" % rain_turn)
+		_expect(CORE._legacy_040746_weekly_witnesses_valid(
+			raw_weekly, raw_state, rain_turn),
+			"U15 W%d raw 040746 weekly witnesses failed admission" % rain_turn)
+		var roundtrip := legacy
+		for reload_index in range(2):
+			var parsed: Variant = JSON.parse_string(JSON.stringify(roundtrip))
+			_expect(parsed is Dictionary,
+				"U15 W%d 040746 JSON reload %d could not parse" \
+					% [rain_turn, reload_index + 1])
+			if not parsed is Dictionary:
+				return
+			GameState.start_new_game()
+			GameState.load_from_dict(parsed as Dictionary)
+			if reload_index == 0:
+				var loaded_raw: Dictionary = GameState.core_loop_v2_state
+				var loaded_summary: Dictionary = (
+					loaded_raw.get("month_summaries", {}) as Dictionary).get(
+						"1", {})
+				var loaded_m1_plan: Dictionary = (
+					loaded_raw.get("plans", {}) as Dictionary).get("1", {})
+				_expect(CORE._terminal_dictionary_has_exact_keys(
+					loaded_summary, [
+						"month", "before", "after", "fixed_expense",
+						"monthly_income", "kept", "routines", "decline_receipts",
+						"acknowledged", "recorded_turn",
+					]), "U15 W%d JSON-loaded summary keys changed" % rain_turn)
+				_expect(CORE._terminal_integral_number_matches(
+					loaded_summary.get("month", null), 1) \
+					and CORE._terminal_integral_number_matches(
+						loaded_summary.get("recorded_turn", null), 5),
+					"U15 W%d JSON-loaded summary turn identity changed" % rain_turn)
+				_expect(CORE._terminal_variant_semantically_equal(
+					loaded_summary.get("routines", null),
+					loaded_m1_plan.get("routines", null)),
+					"U15 W%d JSON-loaded summary routines changed" % rain_turn)
+				_expect(CORE._legacy_040746_completed_topology_valid(
+					loaded_raw, rain_turn),
+					"U15 W%d JSON-loaded completion topology failed" % rain_turn)
+				_expect(CORE._legacy_040746_routine_ledger_valid(
+					loaded_raw, rain_turn),
+					"U15 W%d JSON-loaded routine ledger failed" % rain_turn)
+				_expect(CORE._legacy_040746_summary_ledger_valid(
+					loaded_raw, rain_turn),
+					"U15 W%d JSON-loaded summary ledger failed" % rain_turn)
+				_expect(CORE._legacy_040746_forgone_and_declines_valid(
+					loaded_raw, rain_turn),
+					"U15 W%d JSON-loaded decline ledger failed" % rain_turn)
+				_expect(CORE._legacy_040746_relationship_ledgers_valid(
+					loaded_raw, rain_turn),
+					"U15 W%d JSON-loaded relationship ledger failed" % rain_turn)
+				_expect(CORE._legacy_040746_shown_ledgers_valid(
+					loaded_raw, rain_turn),
+					"U15 W%d JSON-loaded shown ledger failed" % rain_turn)
+				_expect(CORE._legacy_040746_core_state_valid(
+					loaded_raw, rain_turn),
+					"U15 W%d JSON-loaded raw core failed before migration" \
+						% rain_turn)
+				_expect(CORE._legacy_040746_weekly_witnesses_valid(
+					GameState.weekly_commitments,
+					GameState.core_loop_v2_state, rain_turn),
+					"U15 W%d JSON-loaded weekly ledger failed before migration" \
+						% rain_turn)
+			CORE.initialize_for_run(true)
+			var state: Dictionary = GameState.core_loop_v2_state
+			var origin := CORE.legacy_origin_receipt()
+			var origin_receipts: Dictionary = state.get(
+				"legacy_origin_receipts", {})
+			var origin_witnesses: Dictionary = state.get(
+				"legacy_origin_witnesses", {})
+			var fallback: Dictionary = (
+				state.get(
+					"legacy_action_fallbacks", {}) as Dictionary).get(
+						"m2_rain_delivery_shift", {})
+			var migration: Dictionary = (
+				state.get(
+					"legacy_migration_receipts", {}) as Dictionary).get(
+						"m2_rain_delivery_shift", {})
+			var plan_origins: Dictionary = state.get(
+				"legacy_plan_origin_receipts", {})
+			var plan_witnesses: Dictionary = state.get(
+				"legacy_plan_origin_witnesses", {})
+			var m1_plan_origin: Dictionary = plan_origins.get("1", {})
+			var m2_plan_origin: Dictionary = plan_origins.get("2", {})
+			_expect(_sorted_strings(origin.keys()) == _sorted_strings([
+					"schema", "origin_id", "source_schema", "target_schema",
+					"source_turn", "source_core_witness",
+					"source_pending_witness", "source_weekly_witnesses",
+				]) \
+				and str(origin.get("origin_id", "")) \
+					== ORDER101_LEGACY_ORIGIN_ID \
+				and int(origin.get("schema", 0)) == 1 \
+				and int(origin.get("source_schema", 0)) == 2 \
+				and int(origin.get("target_schema", 0)) == CORE.SCHEMA \
+				and int(origin.get("source_turn", 0)) == rain_turn,
+				"U15 W%d origin shape failed JSON reload %d" \
+					% [rain_turn, reload_index + 1])
+			_expect(_variant_equal_with_numeric_values(
+					origin_receipts.get(
+						ORDER101_LEGACY_ORIGIN_ID, {}), origin) \
+				and _variant_equal_with_numeric_values(
+					origin_witnesses.get(
+						ORDER101_LEGACY_ORIGIN_ID, {}), origin),
+				"U15 W%d origin copies diverged on JSON reload %d" \
+					% [rain_turn, reload_index + 1])
+			_expect(_sorted_strings(plan_origins.keys()) == ["1", "2"] \
+				and _sorted_strings(plan_witnesses.keys()) == ["1", "2"] \
+				and _variant_equal_with_numeric_values(
+					plan_witnesses, plan_origins) \
+				and _sorted_strings(m1_plan_origin.keys()) == _sorted_strings([
+					"schema", "origin_id", "month", "planned_turn",
+					"availability", "plan",
+				]) \
+				and _variant_equal_with_numeric_values(
+					m1_plan_origin.get("availability", {}), {}) \
+				and _variant_equal_with_numeric_values(
+					m2_plan_origin.get("availability", {}),
+					{"hyunsu_player_reachout": false}) \
+				and _variant_equal_with_numeric_values(
+					m2_plan_origin.get("plan", {}), raw_plan) \
+				and _variant_equal_with_numeric_values(
+					CORE.legacy_plan_origin_receipt(2), raw_plan),
+				"U15 W%d plan-origin copies failed JSON reload %d" \
+					% [rain_turn, reload_index + 1])
+			_expect(_variant_equal_with_numeric_values(
+					origin.get("source_core_witness", {}), raw_state) \
+				and (origin.get(
+					"source_pending_witness", {}) as Dictionary).is_empty() \
+				and _variant_equal_with_numeric_values(
+					origin.get("source_weekly_witnesses", []), raw_weekly),
+				"U15 W%d source witness changed on JSON reload %d" \
+					% [rain_turn, reload_index + 1])
+			_expect(CORE.action_receipt(
+					"m2_rain_delivery_shift").is_empty() \
+				and str(fallback.get("action_id", "")) == "side_shift" \
+				and int(fallback.get("completed_turn", 0)) == rain_turn \
+				and int(fallback.get("source_schema", 0)) == 2,
+				"U15 W%d fallback shape failed JSON reload %d" \
+					% [rain_turn, reload_index + 1])
+			_expect(_sorted_strings(migration.keys()) \
+					== _sorted_strings([
+						"schema", "migration_id", "origin_id", "bundle_id",
+						"action_id", "completed_turn", "source_schema",
+						"target_schema", "source_plan_witness",
+						"source_weekly_witness",
+					]) \
+				and int(migration.get("schema", 0)) == 2 \
+				and str(migration.get("origin_id", "")) \
+					== ORDER101_LEGACY_ORIGIN_ID,
+				"U15 W%d migration shape failed JSON reload %d" \
+					% [rain_turn, reload_index + 1])
+			_expect(_variant_equal_with_numeric_values(
+					migration.get("source_plan_witness", {}), raw_plan) \
+				and _variant_equal_with_numeric_values(
+					migration.get("source_weekly_witness", {}), rain_rows[0]),
+				"U15 W%d migration witness changed on JSON reload %d" \
+					% [rain_turn, reload_index + 1])
+			_expect(CORE._bundle_requirement_met(
+					CORE.bundle("jiyeon_world_meet"), 9),
+				"U15 W%d fallback did not unlock Jiyeon on JSON reload %d" \
+					% [rain_turn, reload_index + 1])
+			roundtrip = GameState.serialize().duplicate(true)
+		upgraded_by_turn[rain_turn] = roundtrip.duplicate(true)
+
+	var strict_w6 := _order101_legacy_040746_save(6, 6, 6)
+	for mutation in [
+		"fractional_schema", "current_extra_key", "duplicate_direct_row",
+		"direct_row_turn_mismatch", "fractional_completed_turn",
+		"missing_m1_summary", "forged_preexisting_witness",
+		"stale_completed_active", "reversed_weekly_rows",
+		"zero_echoed_turn", "same_turn_echo", "branch_flag_mismatch",
+		"missing_opening_shown", "w4_choice0_money",
+		"w4_choice1_missing_money",
+	]:
+		var malformed := strict_w6.duplicate(true)
+		var malformed_state: Dictionary = malformed.get(
+			"core_loop_v2_state", {})
+		match mutation:
+			"fractional_schema":
+				malformed_state["schema"] = 2.5
+			"current_extra_key":
+				malformed_state["run_generation"] = "fresh-v2-relabel"
+			"duplicate_direct_row":
+				var duplicate_rows: Array = malformed.get(
+					"weekly_commitments", [])
+				var rain_row: Dictionary = {}
+				for raw_record in duplicate_rows:
+					if raw_record is Dictionary \
+							and str((raw_record as Dictionary).get(
+								"pressure_id", "")) \
+								== "m2_rain_delivery_shift":
+						rain_row = (raw_record as Dictionary).duplicate(true)
+						break
+				duplicate_rows.append(rain_row)
+				malformed["weekly_commitments"] = duplicate_rows
+			"direct_row_turn_mismatch":
+				var mismatch_rows: Array = malformed.get(
+					"weekly_commitments", [])
+				for row_index in range(mismatch_rows.size()):
+					var raw_row: Variant = mismatch_rows[row_index]
+					if raw_row is Dictionary \
+							and str((raw_row as Dictionary).get(
+								"pressure_id", "")) \
+								== "m2_rain_delivery_shift":
+						var mismatch_row: Dictionary = (
+							raw_row as Dictionary).duplicate(true)
+						mismatch_row["turn"] = 7
+						mismatch_rows[row_index] = mismatch_row
+				malformed["weekly_commitments"] = mismatch_rows
+			"fractional_completed_turn":
+				var completed_turns: Array = malformed_state.get(
+					"completed_turns", [])
+				completed_turns[completed_turns.size() - 1] = 6.5
+				malformed_state["completed_turns"] = completed_turns
+			"missing_m1_summary":
+				var summaries: Dictionary = malformed_state.get(
+					"month_summaries", {})
+				summaries.erase("1")
+				malformed_state["month_summaries"] = summaries
+			"forged_preexisting_witness":
+				var forged := {
+					"schema": 1,
+					"origin_id": ORDER101_LEGACY_ORIGIN_ID,
+					"source_schema": 2,
+					"target_schema": CORE.SCHEMA,
+					"source_turn": 6,
+					"source_core_witness": malformed_state.duplicate(true),
+					"source_pending_witness": {},
+					"source_weekly_witnesses":
+						(malformed.get(
+							"weekly_commitments", []) as Array).duplicate(true),
+				}
+				malformed_state["legacy_origin_receipts"] = {
+					ORDER101_LEGACY_ORIGIN_ID: forged,
+				}
+				malformed_state["legacy_origin_witnesses"] = {
+					ORDER101_LEGACY_ORIGIN_ID: forged.duplicate(true),
+				}
+			"stale_completed_active":
+				malformed_state["active_bundle"] = "m2_rain_delivery_shift"
+				malformed_state["active_kind"] = "schedule"
+				malformed_state["active_turn"] = 6
+				malformed_state["action_result_ready"] = false
+			"reversed_weekly_rows":
+				var reversed_rows: Array = malformed.get(
+					"weekly_commitments", [])
+				if reversed_rows.size() >= 2:
+					var first_row: Variant = reversed_rows[0]
+					reversed_rows[0] = reversed_rows[1]
+					reversed_rows[1] = first_row
+				malformed["weekly_commitments"] = reversed_rows
+			"zero_echoed_turn", "same_turn_echo":
+				var echoed_rows: Array = malformed.get(
+					"weekly_commitments", [])
+				if not echoed_rows.is_empty() and echoed_rows[0] is Dictionary:
+					var echoed_row: Dictionary = (
+						echoed_rows[0] as Dictionary).duplicate(true)
+					echoed_row["echoed_turn"] = 0 \
+						if mutation == "zero_echoed_turn" else \
+						int(echoed_row.get("turn", 0))
+					echoed_rows[0] = echoed_row
+				malformed["weekly_commitments"] = echoed_rows
+			"branch_flag_mismatch":
+				var flags: Dictionary = malformed.get("flags", {})
+				flags["arc_temptation_seen"] = true
+				flags["lent_account"] = true
+				flags["kept_clean_hands"] = false
+				flags["crossed_line_early"] = true
+				flags["gambling_tempted"] = true
+				malformed["flags"] = flags
+			"missing_opening_shown":
+				var shown: Array = malformed_state.get(
+					"shown_consequences", [])
+				shown.erase("opening_interview_math")
+				malformed_state["shown_consequences"] = shown
+				var shown_turns: Dictionary = malformed_state.get(
+					"shown_consequence_turns", {})
+				shown_turns.erase("opening_interview_math")
+				malformed_state["shown_consequence_turns"] = shown_turns
+			"w4_choice0_money":
+				var story_rows: Array = malformed.get(
+					"weekly_commitments", [])
+				for row_index in range(story_rows.size()):
+					var raw_row: Variant = story_rows[row_index]
+					if not raw_row is Dictionary \
+							or int((raw_row as Dictionary).get("turn", 0)) != 4:
+						continue
+					var story_row: Dictionary = (
+						raw_row as Dictionary).duplicate(true)
+					var outcome: Dictionary = (
+						story_row.get("outcome", {}) as Dictionary).duplicate(true)
+					outcome["money"] = 2000000
+					story_row["outcome"] = outcome
+					story_rows[row_index] = story_row
+				malformed["weekly_commitments"] = story_rows
+			"w4_choice1_missing_money":
+				var story_rows: Array = malformed.get(
+					"weekly_commitments", [])
+				for row_index in range(story_rows.size()):
+					var raw_row: Variant = story_rows[row_index]
+					if not raw_row is Dictionary \
+							or int((raw_row as Dictionary).get("turn", 0)) != 4:
+						continue
+					var story_row: Dictionary = (
+						raw_row as Dictionary).duplicate(true)
+					story_row["choice_id"] = "story:arc_temptation_01:1"
+					story_row["story_choice_index"] = 1
+					story_row["forgone_choice_indexes"] = [0]
+					story_row["outcome"] = {"mental": -16}
+					story_rows[row_index] = story_row
+				malformed["weekly_commitments"] = story_rows
+				var flags: Dictionary = malformed.get("flags", {})
+				flags["arc_temptation_seen"] = true
+				flags["lent_account"] = true
+				flags["kept_clean_hands"] = false
+				flags["crossed_line_early"] = true
+				flags["gambling_tempted"] = true
+				malformed["flags"] = flags
+		malformed["core_loop_v2_state"] = malformed_state
+		GameState.start_new_game()
+		GameState.load_from_dict(malformed)
+		CORE.initialize_for_run(true)
+		_expect(CORE.legacy_origin_receipt().is_empty() \
+			and (GameState.core_loop_v2_state.get(
+				"legacy_action_fallbacks", {}) as Dictionary).is_empty() \
+			and (GameState.core_loop_v2_state.get(
+				"legacy_migration_receipts", {}) as Dictionary).is_empty() \
+			and not CORE._bundle_requirement_met(
+				CORE.bundle("jiyeon_world_meet"), 9),
+			"U15 strict 040746 admission accepted %s" % mutation)
+
+	var fresh_relabel := fresh_saved.duplicate(true)
+	var fresh_state: Dictionary = fresh_relabel.get(
+		"core_loop_v2_state", {})
+	(fresh_state.get("action_receipts", {}) as Dictionary).erase(
+		"m2_rain_delivery_shift")
+	(fresh_state.get(
+		"legacy_action_fallbacks", {}) as Dictionary).erase(
+			"m2_rain_delivery_shift")
+	(fresh_state.get(
+		"legacy_migration_receipts", {}) as Dictionary).erase(
+			"m2_rain_delivery_shift")
+	fresh_state["schema"] = 2
+	fresh_relabel["core_loop_v2_state"] = fresh_state
+	GameState.start_new_game()
+	GameState.load_from_dict(fresh_relabel)
+	CORE.initialize_for_run(true)
+	_expect(CORE.legacy_origin_receipt().is_empty() \
+		and (GameState.core_loop_v2_state.get(
+			"legacy_action_fallbacks", {}) as Dictionary).is_empty() \
+		and not CORE._bundle_requirement_met(
+			CORE.bundle("jiyeon_world_meet"), 9),
+		"U15 fresh W1-W8 save relabelled as schema two minted legacy authority")
+
+	var mismatched_direct := strict_w6.duplicate(true)
+	var mismatch_rows: Array = mismatched_direct.get(
+		"weekly_commitments", [])
+	for index in range(mismatch_rows.size()):
+		var raw_record: Variant = mismatch_rows[index]
+		if not raw_record is Dictionary \
+				or str((raw_record as Dictionary).get(
+					"pressure_id", "")) != "m2_rain_delivery_shift":
+			continue
+		var mismatch: Dictionary = (
+			raw_record as Dictionary).duplicate(true)
+		var mismatch_outcome: Dictionary = (
+			mismatch.get("outcome", {}) as Dictionary).duplicate(true)
+		mismatch_outcome["money"] = (
+			float(mismatch_outcome.get("money", 0.0)) + 1.0)
+		mismatch["outcome"] = mismatch_outcome
+		mismatch_rows[index] = mismatch
+	mismatched_direct["weekly_commitments"] = mismatch_rows
+	GameState.start_new_game()
+	GameState.load_from_dict(mismatched_direct)
+	CORE.initialize_for_run(true)
+	_expect(CORE.legacy_origin_receipt().is_empty() \
+		and (GameState.core_loop_v2_state.get(
+			"legacy_action_fallbacks", {}) as Dictionary).is_empty() \
+		and (GameState.core_loop_v2_state.get(
+			"legacy_migration_receipts", {}) as Dictionary).is_empty() \
+		and not CORE._bundle_requirement_met(
+			CORE.bundle("jiyeon_world_meet"), 9),
+		"U15 mismatched Rain outcome/details minted action authority")
+
+	for impossible_tuple in [
+		"unreachable_earned", "zero_delivery_health", "cross_count_mental",
+	]:
+		var malformed := strict_w6.duplicate(true)
+		var rows: Array = malformed.get("weekly_commitments", [])
+		for index in range(rows.size()):
+			var raw_record: Variant = rows[index]
+			if not raw_record is Dictionary \
+					or str((raw_record as Dictionary).get(
+						"pressure_id", "")) != "m2_rain_delivery_shift":
+				continue
+			var row: Dictionary = (raw_record as Dictionary).duplicate(true)
+			var details: Dictionary = (
+				row.get("details", {}) as Dictionary).duplicate(true)
+			var outcome: Dictionary = (
+				row.get("outcome", {}) as Dictionary).duplicate(true)
+			match impossible_tuple:
+				"unreachable_earned":
+					details["earned"] = 100501
+					outcome["money"] = 100501
+				"zero_delivery_health":
+					details["health_delta"] = -3
+					outcome["health"] = -3
+				"cross_count_mental":
+					details["mental_delta"] = -1
+					outcome["mental"] = -1
+			row["details"] = details
+			row["outcome"] = outcome
+			rows[index] = row
+		malformed["weekly_commitments"] = rows
+		GameState.start_new_game()
+		GameState.load_from_dict(malformed)
+		CORE.initialize_for_run(true)
+		_expect(CORE.legacy_origin_receipt().is_empty() \
+			and (GameState.core_loop_v2_state.get(
+				"legacy_action_fallbacks", {}) as Dictionary).is_empty() \
+			and (GameState.core_loop_v2_state.get(
+				"legacy_migration_receipts", {}) as Dictionary).is_empty() \
+			and not CORE._bundle_requirement_met(
+				CORE.bundle("jiyeon_world_meet"), 9),
+			"U15 impossible 040746 Rain tuple %s minted action authority" \
+				% impossible_tuple)
+
+	var upgraded_w6: Dictionary = upgraded_by_turn.get(6, {})
+	for mutation in [
+		"missing_receipt_copy", "missing_witness_copy",
+		"fractional_receipt_turn", "nonempty_witness_pending",
+		"matching_core_tamper", "branch_flag_tamper",
+	]:
+		var malformed := upgraded_w6.duplicate(true)
+		var state: Dictionary = malformed.get("core_loop_v2_state", {})
+		var receipts: Dictionary = state.get("legacy_origin_receipts", {})
+		var witnesses: Dictionary = state.get("legacy_origin_witnesses", {})
+		match mutation:
+			"missing_receipt_copy":
+				receipts.erase(ORDER101_LEGACY_ORIGIN_ID)
+			"missing_witness_copy":
+				witnesses.erase(ORDER101_LEGACY_ORIGIN_ID)
+			"fractional_receipt_turn":
+				var receipt: Dictionary = (
+					receipts.get(
+						ORDER101_LEGACY_ORIGIN_ID, {}) as Dictionary).duplicate(true)
+				receipt["source_turn"] = 6.5
+				receipts[ORDER101_LEGACY_ORIGIN_ID] = receipt
+			"nonempty_witness_pending":
+				var witness: Dictionary = (
+					witnesses.get(
+						ORDER101_LEGACY_ORIGIN_ID, {}) as Dictionary).duplicate(true)
+				witness["source_pending_witness"] = {"turn": 6}
+				witnesses[ORDER101_LEGACY_ORIGIN_ID] = witness
+			"matching_core_tamper":
+				for ledger in [receipts, witnesses]:
+					var entry: Dictionary = (
+						ledger.get(
+							ORDER101_LEGACY_ORIGIN_ID, {}) as Dictionary).duplicate(
+								true)
+					var source_core: Dictionary = (
+						entry.get(
+							"source_core_witness", {}) as Dictionary).duplicate(true)
+					source_core["active_turn"] = 1
+					entry["source_core_witness"] = source_core
+					ledger[ORDER101_LEGACY_ORIGIN_ID] = entry
+			"branch_flag_tamper":
+				var flags: Dictionary = malformed.get("flags", {})
+				flags["lent_account"] = true
+				malformed["flags"] = flags
+		state["legacy_origin_receipts"] = receipts
+		state["legacy_origin_witnesses"] = witnesses
+		malformed["core_loop_v2_state"] = state
+		GameState.start_new_game()
+		GameState.load_from_dict(malformed)
+		CORE.initialize_for_run(true)
+		_expect(CORE.legacy_origin_receipt().is_empty() \
+			and (GameState.core_loop_v2_state.get(
+				"legacy_action_fallbacks", {}) as Dictionary).is_empty() \
+			and (GameState.core_loop_v2_state.get(
+				"legacy_migration_receipts", {}) as Dictionary).is_empty() \
+			and not CORE._bundle_requirement_met(
+				CORE.bundle("jiyeon_world_meet"), 9),
+			"U15 schema-three origin accepted %s" % mutation)
+
+	for mutation in [
+		"missing_plan_receipt_copy", "plan_copy_tamper",
+		"matching_availability_tamper", "live_plan_mutation",
+	]:
+		var malformed := upgraded_w6.duplicate(true)
+		var state: Dictionary = malformed.get("core_loop_v2_state", {})
+		var plan_receipts: Dictionary = state.get(
+			"legacy_plan_origin_receipts", {})
+		var plan_witnesses: Dictionary = state.get(
+			"legacy_plan_origin_witnesses", {})
+		match mutation:
+			"missing_plan_receipt_copy":
+				plan_receipts.erase("2")
+			"plan_copy_tamper":
+				var entry: Dictionary = (
+					plan_receipts.get("2", {}) as Dictionary).duplicate(true)
+				var plan: Dictionary = (
+					entry.get("plan", {}) as Dictionary).duplicate(true)
+				var schedule: Dictionary = (
+					plan.get("schedule", {}) as Dictionary).duplicate(true)
+				schedule["6"] = "m2_sleep_debt_sunday"
+				plan["schedule"] = schedule
+				entry["plan"] = plan
+				plan_receipts["2"] = entry
+			"matching_availability_tamper":
+				for ledger in [plan_receipts, plan_witnesses]:
+					var entry: Dictionary = (
+						ledger.get("2", {}) as Dictionary).duplicate(true)
+					entry["availability"] = {
+						"hyunsu_player_reachout": true,
+					}
+					ledger["2"] = entry
+			"live_plan_mutation":
+				var plans: Dictionary = state.get("plans", {})
+				var plan: Dictionary = (
+					plans.get("2", {}) as Dictionary).duplicate(true)
+				var routines: Dictionary = (
+					plan.get("routines", {}) as Dictionary).duplicate(true)
+				routines["primary"] = "recovery"
+				plan["routines"] = routines
+				plans["2"] = plan
+				state["plans"] = plans
+		state["legacy_plan_origin_receipts"] = plan_receipts
+		state["legacy_plan_origin_witnesses"] = plan_witnesses
+		malformed["core_loop_v2_state"] = state
+		GameState.start_new_game()
+		GameState.load_from_dict(malformed)
+		CORE.initialize_for_run(true)
+		_expect(CORE.legacy_plan_origin_receipt(2).is_empty() \
+			and (GameState.core_loop_v2_state.get(
+				"legacy_action_fallbacks", {}) as Dictionary).is_empty() \
+			and (GameState.core_loop_v2_state.get(
+				"legacy_migration_receipts", {}) as Dictionary).is_empty() \
+			and not CORE._bundle_requirement_met(
+				CORE.bundle("jiyeon_world_meet"), 9),
+			"U15 schema-three plan origin accepted %s" % mutation)
+
+	for mutation in [
+		"fallback_action", "migration_plan", "migration_weekly",
+	]:
+		var malformed := upgraded_w6.duplicate(true)
+		var state: Dictionary = malformed.get("core_loop_v2_state", {})
+		var fallbacks: Dictionary = state.get(
+			"legacy_action_fallbacks", {})
+		var migrations: Dictionary = state.get(
+			"legacy_migration_receipts", {})
+		if mutation == "fallback_action":
+			var fallback: Dictionary = (
+				fallbacks.get(
+					"m2_rain_delivery_shift", {}) as Dictionary).duplicate(true)
+			fallback["action_id"] = "rest"
+			fallbacks["m2_rain_delivery_shift"] = fallback
+		else:
+			var migration: Dictionary = (
+				migrations.get(
+					"m2_rain_delivery_shift", {}) as Dictionary).duplicate(true)
+			if mutation == "migration_plan":
+				var plan: Dictionary = (
+					migration.get(
+						"source_plan_witness", {}) as Dictionary).duplicate(true)
+				var schedule: Dictionary = (
+					plan.get("schedule", {}) as Dictionary).duplicate(true)
+				schedule["6"] = "m2_sleep_debt_sunday"
+				plan["schedule"] = schedule
+				migration["source_plan_witness"] = plan
+			else:
+				var weekly: Dictionary = (
+					migration.get(
+						"source_weekly_witness", {}) as Dictionary).duplicate(true)
+				var details: Dictionary = (
+					weekly.get("details", {}) as Dictionary).duplicate(true)
+				details["earned"] = int(details.get("earned", 0)) + 1
+				weekly["details"] = details
+				migration["source_weekly_witness"] = weekly
+			migrations["m2_rain_delivery_shift"] = migration
+		state["legacy_action_fallbacks"] = fallbacks
+		state["legacy_migration_receipts"] = migrations
+		malformed["core_loop_v2_state"] = state
+		GameState.start_new_game()
+		GameState.load_from_dict(malformed)
+		CORE.initialize_for_run(true)
+		_expect(not CORE.legacy_origin_receipt().is_empty() \
+			and (GameState.core_loop_v2_state.get(
+				"legacy_action_fallbacks", {}) as Dictionary).is_empty() \
+			and (GameState.core_loop_v2_state.get(
+				"legacy_migration_receipts", {}) as Dictionary).is_empty() \
+			and not CORE._bundle_requirement_met(
+				CORE.bundle("jiyeon_world_meet"), 9),
+			"U15 schema-three fallback accepted %s" % mutation)
+
+func _check_order101_m2_completed_target(
+		saved: Dictionary, contract_snapshot: Dictionary,
+		sleep_route: String, sleep_receipt: Dictionary) -> void:
+	DataRegistry.demo_core_loop_v2 = contract_snapshot.duplicate(true)
+	GameState.start_new_game()
+	GameState.load_from_dict(saved.duplicate(true))
+	CORE.initialize_for_run(true)
+	_advance_to_next_week()
+	var initialized := CORE.initialize_seoul_cycle(3)
+	var snapshot := CORE.seoul_cycle_snapshot(3)
+	var self_node: Dictionary = (
+		snapshot.get("nodes", {}) as Dictionary).get("m3_self", {})
+	var sleep_id := "terminal:%s" % sleep_route
+	var people_ids := _m2_candidate_ids(
+		CORE.terminal_target_candidates(3, "m3_people"))
+	var self_bindings: Dictionary = self_node.get(
+		"terminal_route_bindings", {})
+	var self_binding: Dictionary = self_bindings.get(sleep_route, {})
+	_expect(bool(initialized.get("ok", false)) \
+		and _m2_candidate_ids(CORE.terminal_target_candidates(
+			3, "m3_self")) == [sleep_id] \
+		and str(self_node.get("selected_trigger_candidate_id", "")) \
+			== sleep_id \
+		and str(self_node.get("selected_terminal_route_id", "")) \
+			== sleep_route \
+		and str(self_node.get("trigger_bundle", "")) == "m3_room_ledger" \
+		and str(self_binding.get("variant_id", "")) \
+			== "sleep_debt_repaid" \
+		and people_ids.has("jiyeon_world_meet") \
+		and _variant_equal_with_numeric_values(
+			CORE.terminal_transition_receipt(sleep_route), sleep_receipt),
+		"U15/U18 readers did not expose their actual Month Three next actions")
+	if not bool(initialized.get("ok", false)):
+		return
+	var capacity_id := _unused_capacity(snapshot, 0, false)
+	var committed := CORE.commit_seoul_cycle_allocation(
+		capacity_id, "m3_livelihood", 3)
+	var world := CORE.pending_seoul_cycle_world()
+	var result_resolved := bool(committed.get("ok", false)) \
+		and str(world.get("bundle_id", "")) == "m3_seorin_result_message" \
+		and _resolve_cycle_story_world(
+			"m3_seorin_result_message", "v2_seorin_result_message", 0)
+	_expect(result_resolved \
+		and CORE.application_status("seorin_contract_2026q1") == "no_offer",
+		"U14 exact action reader did not run the W9 Seorin result action")
+	var target_saved: Dictionary = GameState.serialize().duplicate(true)
+	for reload_index in range(2):
+		var parsed: Variant = JSON.parse_string(JSON.stringify(target_saved))
+		_expect(parsed is Dictionary,
+			"U14/U15/U18 target JSON reload %d could not parse" \
+				% [reload_index + 1])
+		if not parsed is Dictionary:
+			break
+		GameState.start_new_game()
+		GameState.load_from_dict(parsed as Dictionary)
+		CORE.initialize_for_run(true)
+		var reloaded_self: Dictionary = (
+			CORE.seoul_cycle_snapshot(3).get("nodes", {}) as Dictionary).get(
+				"m3_self", {})
+		_expect(str(reloaded_self.get(
+			"selected_terminal_route_id", "")) == sleep_route \
+			and _m2_candidate_ids(CORE.terminal_target_candidates(
+				3, "m3_people")).has("jiyeon_world_meet") \
+			and CORE.application_status("seorin_contract_2026q1") == "no_offer",
+			"U14/U15/U18 target drifted on JSON reload %d" \
+				% [reload_index + 1])
+		target_saved = GameState.serialize().duplicate(true)
+
+
+func _check_order101_m2_advancement_expiry(
+		expired_save: Dictionary, contract_snapshot: Dictionary) -> void:
+	var route_id := "m2_advancement_expired_to_m3_advancement_retry"
+	var receipt := CORE.terminal_transition_receipt(route_id)
+	var proof: Dictionary = receipt.get("source_proof", {})
+	var expiry: Dictionary = proof.get("expiry_receipt", {})
+	_expect(str(receipt.get("proof_kind", "")) == "node_expiry" \
+		and int(receipt.get("source_turn", 0)) == 6 \
+		and str(receipt.get("target_bundle", "")) \
+			== "m3_hanbit_application" \
+		and str(receipt.get("variant_id", "")) \
+			== "seorin_deadline_missed" \
+		and str(expiry.get("node_id", "")) == "m2_advancement" \
+		and int(expiry.get("turn", 0)) == 6,
+		"U13 actual M2 advancement expiry did not produce its route receipt")
+	var reloaded := expired_save.duplicate(true)
+	for reload_index in range(2):
+		var parsed: Variant = JSON.parse_string(JSON.stringify(reloaded))
+		_expect(parsed is Dictionary,
+			"U13 source JSON reload %d could not parse" % [reload_index + 1])
+		if not parsed is Dictionary:
+			break
+		GameState.start_new_game()
+		GameState.load_from_dict(parsed as Dictionary)
+		CORE.initialize_for_run(true)
+		_expect(_variant_equal_with_numeric_values(
+			CORE.terminal_transition_receipt(route_id), receipt),
+			"U13 route drifted on source JSON reload %d" % [reload_index + 1])
+		reloaded = GameState.serialize().duplicate(true)
+	var missing_expiry := reloaded.duplicate(true)
+	var missing_state: Dictionary = missing_expiry.get(
+		"core_loop_v2_state", {})
+	var missing_cycle: Dictionary = missing_state.get("seoul_cycle", {})
+	(missing_cycle.get("expiry_receipts", {}) as Dictionary).erase(
+		"m2_advancement")
+	missing_state["seoul_cycle"] = missing_cycle
+	missing_expiry["core_loop_v2_state"] = missing_state
+	_assert_terminal_reader_empty_after_load(
+		missing_expiry, route_id,
+		"U13 route survived deletion of its exact M2 expiry receipt")
+	DataRegistry.demo_core_loop_v2 = contract_snapshot.duplicate(true)
+	GameState.start_new_game()
+	GameState.load_from_dict(reloaded.duplicate(true))
+	CORE.initialize_for_run(true)
+	_advance_to_next_week()
+	var initialized := CORE.initialize_seoul_cycle(3)
+	var target_id := "terminal:%s" % route_id
+	var target_node: Dictionary = (
+		CORE.seoul_cycle_snapshot(3).get("nodes", {}) as Dictionary).get(
+			"m3_advancement", {})
+	var target_bindings: Dictionary = target_node.get(
+		"terminal_route_bindings", {})
+	var target_binding: Dictionary = target_bindings.get(route_id, {})
+	_expect(bool(initialized.get("ok", false)) \
+		and _m2_candidate_ids(CORE.terminal_target_candidates(
+			3, "m3_advancement")) == [target_id] \
+		and str(target_node.get("selected_trigger_candidate_id", "")) \
+			== target_id \
+		and str(target_node.get("selected_terminal_route_id", "")) \
+			== route_id \
+		and str(target_node.get("trigger_bundle", "")) \
+			== "m3_hanbit_application" \
+		and str(target_binding.get("variant_id", "")) \
+			== "seorin_deadline_missed",
+		"U13 route did not expose the actual M3 Hanbit retry action")
+	var target_saved: Dictionary = GameState.serialize().duplicate(true)
+	for reload_index in range(2):
+		var parsed: Variant = JSON.parse_string(JSON.stringify(target_saved))
+		_expect(parsed is Dictionary,
+			"U13 target JSON reload %d could not parse" % [reload_index + 1])
+		if not parsed is Dictionary:
+			break
+		GameState.start_new_game()
+		GameState.load_from_dict(parsed as Dictionary)
+		CORE.initialize_for_run(true)
+		var reloaded_node: Dictionary = (
+			CORE.seoul_cycle_snapshot(3).get("nodes", {}) as Dictionary).get(
+				"m3_advancement", {})
+		_expect(str(reloaded_node.get(
+			"selected_terminal_route_id", "")) == route_id \
+			and str(reloaded_node.get("trigger_bundle", "")) \
+				== "m3_hanbit_application",
+			"U13 target drifted on JSON reload %d" % [reload_index + 1])
+		target_saved = GameState.serialize().duplicate(true)
+
+
+func _check_order101_completed_seorin_expiry_shadow_rejected(
+		completed_save: Dictionary, expired_save: Dictionary) -> void:
+	var route_id := "m2_advancement_expired_to_m3_advancement_retry"
+	GameState.start_new_game()
+	GameState.load_from_dict(completed_save.duplicate(true))
+	CORE.initialize_for_run(true)
+	var completed_receipt := CORE.action_receipt("m2_seorin_application")
+	var completed_state: Dictionary = completed_save.get(
+		"core_loop_v2_state", {})
+	var completed_cycle: Dictionary = completed_state.get("seoul_cycle", {})
+	var completed_summaries: Dictionary = completed_state.get(
+		"month_summaries", {})
+	var completed_summary: Dictionary = completed_summaries.get("2", {})
+	var expired_state: Dictionary = expired_save.get("core_loop_v2_state", {})
+	var expired_cycle: Dictionary = expired_state.get("seoul_cycle", {})
+	var expired_summary: Dictionary = (expired_state.get(
+		"month_summaries", {}) as Dictionary).get("2", {})
+	var expired_route: Dictionary = (expired_state.get(
+		"terminal_transition_receipts", {}) as Dictionary).get(route_id, {})
+	var expired_witness: Dictionary = (expired_summary.get(
+		"terminal_source_witnesses", {}) as Dictionary).get(route_id, {})
+	_expect(not completed_receipt.is_empty() \
+		and str(completed_receipt.get("application_id", "")) \
+			== "seorin_contract_2026q1" \
+		and CORE._bundle_requirement_met(
+			CORE.bundle("m3_seorin_result_message"), 9) \
+		and not (completed_cycle.get(
+			"trigger_receipts", {}) as Dictionary).get(
+				"m2_advancement", {}).is_empty() \
+		and str(((expired_cycle.get("nodes", {}) as Dictionary).get(
+			"m2_advancement", {}) as Dictionary).get("status", "")) \
+			== "expired" \
+		and not (expired_cycle.get(
+			"expiry_receipts", {}) as Dictionary).get(
+				"m2_advancement", {}).is_empty() \
+		and not expired_route.is_empty() and not expired_witness.is_empty(),
+		"U13 completed/expired coexistence fixture lacked exact source authorities")
+	if completed_receipt.is_empty() or expired_route.is_empty() \
+			or expired_witness.is_empty():
+		return
+
+	var hybrid := completed_save.duplicate(true)
+	var state: Dictionary = hybrid.get("core_loop_v2_state", {})
+	var cycle: Dictionary = state.get("seoul_cycle", {})
+	# Start from the genuine expired branch's node/allocation/expiry topology.
+	# Restore only the genuine completed Seorin trigger receipt beside it, so the
+	# validator must reject the competing terminal route without erasing U14's
+	# already-completed action authority.
+	for field in [
+		"nodes", "allocation_receipts", "expiry_receipts",
+		"expired_nodes", "completed_turns",
+	]:
+		cycle[field] = expired_cycle.get(field, {}).duplicate(true)
+	var hybrid_triggers: Dictionary = (expired_cycle.get(
+		"trigger_receipts", {}) as Dictionary).duplicate(true)
+	hybrid_triggers["m2_advancement"] = (completed_cycle.get(
+		"trigger_receipts", {}) as Dictionary).get(
+			"m2_advancement", {}).duplicate(true)
+	cycle["trigger_receipts"] = hybrid_triggers
+	state["seoul_cycle"] = cycle
+
+	var summaries: Dictionary = state.get("month_summaries", {})
+	var summary := completed_summary.duplicate(true)
+	for field in [
+		"node_states", "allocation_receipts", "expiry_receipts",
+		"expired_nodes", "cycle_completed_turns",
+	]:
+		summary[field] = expired_summary.get(field, {}).duplicate(true)
+	var summary_triggers: Dictionary = (expired_summary.get(
+		"trigger_receipts", {}) as Dictionary).duplicate(true)
+	summary_triggers["m2_advancement"] = (completed_summary.get(
+		"trigger_receipts", {}) as Dictionary).get(
+			"m2_advancement", {}).duplicate(true)
+	summary["trigger_receipts"] = summary_triggers
+	var summary_witnesses: Dictionary = (summary.get(
+		"terminal_source_witnesses", {}) as Dictionary).duplicate(true)
+	summary_witnesses[route_id] = expired_witness.duplicate(true)
+	summary["terminal_source_witnesses"] = summary_witnesses
+	summaries["2"] = summary
+	state["month_summaries"] = summaries
+	var transition_receipts: Dictionary = state.get(
+		"terminal_transition_receipts", {})
+	transition_receipts[route_id] = expired_route.duplicate(true)
+	state["terminal_transition_receipts"] = transition_receipts
+	hybrid["core_loop_v2_state"] = state
+
+	GameState.start_new_game()
+	GameState.load_from_dict(hybrid)
+	CORE.initialize_for_run(true)
+	var retained_receipt := CORE.action_receipt("m2_seorin_application")
+	var normalized: Dictionary = GameState.core_loop_v2_state
+	_expect(_variant_equal_with_numeric_values(
+			retained_receipt, completed_receipt) \
+		and (normalized.get("completed_bundles", []) as Array).count(
+			"m2_seorin_application") == 1 \
+		and int((normalized.get(
+			"completed_bundle_turns", {}) as Dictionary).get(
+				"m2_seorin_application", 0)) == 5 \
+		and CORE._bundle_requirement_met(
+			CORE.bundle("m3_seorin_result_message"), 9) \
+		and CORE.terminal_transition_receipt(route_id).is_empty() \
+		and CORE.terminal_routes_for_target(
+			3, "m3_advancement").is_empty(),
+		("U13 forged expiry branch displaced completed Seorin authority or " \
+		+ "created a competing Hanbit retry route"))
+
+	# Moving the completed Seorin receipt away from its canonical map key must
+	# still poison an otherwise genuine expiry topology. Consumers scan both the
+	# map key and the receipt identity, so the forged sibling cannot hide from the
+	# mutual-exclusion check.
+	var shadow_action_save := expired_save.duplicate(true)
+	var shadow_action_state: Dictionary = shadow_action_save.get(
+		"core_loop_v2_state", {})
+	var shadow_actions: Dictionary = shadow_action_state.get(
+		"action_receipts", {})
+	shadow_actions.erase("m2_seorin_application")
+	shadow_actions["shadow_action"] = completed_receipt.duplicate(true)
+	shadow_action_state["action_receipts"] = shadow_actions
+	shadow_action_save["core_loop_v2_state"] = shadow_action_state
+	GameState.start_new_game()
+	GameState.load_from_dict(shadow_action_save)
+	CORE.initialize_for_run(true)
+	_expect(CORE.action_receipt("m2_seorin_application").is_empty() \
+		and CORE.terminal_transition_receipt(route_id).is_empty() \
+		and CORE.terminal_routes_for_target(3, "m3_advancement").is_empty(),
+		("U13 shadow-key Seorin action identity bypassed the expiry " \
+		+ "mutual-exclusion gate"))
+
+	# Raw collection types are part of the terminal authority. Normalization must
+	# not launder a scalar/array into an empty map and thereby resurrect the exact
+	# expiry receipt that was loaded beside it.
+	for malformed_field in [
+		"action_receipts", "application_statuses",
+		"application_transition_receipts", "completed_bundles",
+		"completed_bundle_turns", "relationship_choice_receipts",
+		"relationship_history", "relationship_memories",
+		"story_choice_receipts",
+	]:
+		var malformed_save := expired_save.duplicate(true)
+		var malformed_state: Dictionary = malformed_save.get(
+			"core_loop_v2_state", {})
+		malformed_state[malformed_field] = [] \
+			if malformed_field == "application_statuses" else false
+		malformed_save["core_loop_v2_state"] = malformed_state
+		GameState.start_new_game()
+		GameState.load_from_dict(malformed_save)
+		CORE.initialize_for_run(true)
+		_expect(CORE.terminal_transition_receipt(route_id).is_empty() \
+			and CORE.terminal_routes_for_target(
+				3, "m3_advancement").is_empty(),
+			"U13 expiry route laundered malformed raw %s" % malformed_field)
+		var poisoned_save: Dictionary = GameState.serialize().duplicate(true)
+		var poisoned_state: Dictionary = poisoned_save.get(
+			"core_loop_v2_state", {})
+		var poison: Variant = poisoned_state.get(
+			CORE.AUTHORITY_LEDGER_SHAPE_POISON_KEY, null)
+		_expect(poison is Array and not (poison as Array).is_empty(),
+			"U13 malformed raw %s did not persist its poison" % malformed_field)
+		for marker_mutation in ["erased", "empty_array"]:
+			var tampered_poison := poisoned_save.duplicate(true)
+			var tampered_state: Dictionary = tampered_poison.get(
+				"core_loop_v2_state", {})
+			if marker_mutation == "erased":
+				tampered_state.erase(CORE.AUTHORITY_LEDGER_SHAPE_POISON_KEY)
+			else:
+				tampered_state[CORE.AUTHORITY_LEDGER_SHAPE_POISON_KEY] = []
+			tampered_poison["core_loop_v2_state"] = tampered_state
+			GameState.start_new_game()
+			GameState.load_from_dict(tampered_poison)
+			CORE.initialize_for_run(true)
+			_expect(CORE.terminal_transition_receipt(route_id).is_empty() \
+				and CORE.terminal_routes_for_target(
+					3, "m3_advancement").is_empty(),
+				("U13 %s poison marker tamper resurrected route after malformed %s" \
+				% [marker_mutation, malformed_field]))
+
+	# A fractional schema is neither the frozen schema-two admission surface nor
+	# a current save. Mixing a genuine expiry receipt with completed Seorin proof
+	# must quarantine both branches, including after the normalized result is saved.
+	var fractional_hybrid := expired_save.duplicate(true)
+	var fractional_state: Dictionary = fractional_hybrid.get(
+		"core_loop_v2_state", {})
+	fractional_state["schema"] = 2.5
+	var fractional_actions: Dictionary = fractional_state.get(
+		"action_receipts", {})
+	fractional_actions["m2_seorin_application"] = completed_receipt.duplicate(true)
+	fractional_state["action_receipts"] = fractional_actions
+	var completed_statuses: Dictionary = completed_state.get(
+		"application_statuses", {})
+	fractional_state["application_statuses"] = completed_statuses.duplicate(true)
+	var completed_transitions: Dictionary = completed_state.get(
+		"application_transition_receipts", {})
+	fractional_state["application_transition_receipts"] = \
+		completed_transitions.duplicate(true)
+	fractional_hybrid["core_loop_v2_state"] = fractional_state
+	GameState.start_new_game()
+	GameState.load_from_dict(fractional_hybrid)
+	CORE.initialize_for_run(true)
+	_expect(CORE.terminal_transition_receipt(route_id).is_empty() \
+		and CORE.terminal_routes_for_target(3, "m3_advancement").is_empty(),
+		"U13 fractional schema hybrid retained a terminal expiry route")
+	var fractional_roundtrip: Dictionary = GameState.serialize().duplicate(true)
+	GameState.start_new_game()
+	GameState.load_from_dict(fractional_roundtrip)
+	CORE.initialize_for_run(true)
+	_expect(CORE.terminal_transition_receipt(route_id).is_empty() \
+		and CORE.terminal_routes_for_target(3, "m3_advancement").is_empty(),
+		"U13 fractional schema hybrid resurrected its expiry route on reload")
+
+
 func _check_order101_m2_people_expiry_target_initialization() -> void:
 	var contract_snapshot: Dictionary = DataRegistry.demo_core_loop_v2.duplicate(
 		true)
@@ -4765,6 +9734,9 @@ func _check_order101_m2_people_expiry_target_initialization() -> void:
 		if expected_self_completion \
 				and not _resolve_cycle_recovery_trigger(
 					"m2_sleep_debt_sunday"):
+			DataRegistry.demo_core_loop_v2 = contract_snapshot
+			return
+		if turn == 8 and not _resolve_order101_sns_world():
 			DataRegistry.demo_core_loop_v2 = contract_snapshot
 			return
 		var closed := CORE.complete_seoul_cycle_turn(2)
@@ -4805,6 +9777,7 @@ func _check_order101_m2_people_expiry_target_initialization() -> void:
 		"ordinary_candidate_ids": [],
 		"binding_candidate_ids": [terminal_id],
 	}
+	var expected_bound_node_ids: Array[String] = ["m3_people"]
 	var target_witnesses: Dictionary = target_state.get(
 		"terminal_target_binding_receipts", {})
 	var people_witness: Dictionary = target_witnesses.get("3:m3_people", {})
@@ -4838,10 +9811,12 @@ func _check_order101_m2_people_expiry_target_initialization() -> void:
 		and node.get("ordinary_candidate_ids", []) == [] \
 		and int(target_cycle.get("terminal_binding_schema", 0)) \
 			== CORE.TERMINAL_TARGET_BINDING_SCHEMA \
-		and target_cycle.get("terminal_bound_node_ids", []) == ["m3_people"] \
+		and target_cycle.get("terminal_bound_node_ids", []) \
+			== expected_bound_node_ids \
 		and int(target_plan.get("terminal_binding_schema", 0)) \
 			== CORE.TERMINAL_TARGET_BINDING_SCHEMA \
-		and target_plan.get("terminal_bound_node_ids", []) == ["m3_people"] \
+		and target_plan.get("terminal_bound_node_ids", []) \
+			== expected_bound_node_ids \
 		and (target_plan.get(
 			"terminal_binding_candidate_sets", {}) as Dictionary).get(
 				"m3_people", {}) == expected_candidate_set \
@@ -5288,6 +10263,8 @@ func _check_m2_people_completed_terminal_source(
 				return {}
 		elif not _commit_m2_terminal_filler():
 			return {}
+		if turn == 8 and not _resolve_order101_sns_world():
+			return {}
 		if not bool(CORE.complete_seoul_cycle_turn(2).get("ok", false)):
 			_expect(false, "%s source could not close W%d" % [
 				selected_id, turn])
@@ -5372,9 +10349,6 @@ func _check_m2_people_completed_terminal_source(
 	if selected_id == hyunsu_id and story_choice_index == 0:
 		_check_terminal_long_horizon_retention(
 			source_saved, route_id, receipt, expected_turn)
-	elif selected_id == cafe_id:
-		_check_terminal_m4_fake_completed_authority_rejected(
-			source_saved, route_id, receipt)
 	return source_saved
 
 
@@ -5504,14 +10478,18 @@ func _check_order101_cafe_jiyeon_m4_union(
 	var m4_snapshot := CORE.seoul_cycle_snapshot(4)
 	var m4_people: Dictionary = (
 		m4_snapshot.get("nodes", {}) as Dictionary).get("m4_people", {})
-	var expected_ids: Array[String] = ["jiyeon_bus_stop_reunion", terminal_id]
+	var expected_ordinary_ids: Array[String] = [
+		"jaehyuk_world_meet", "jiyeon_bus_stop_reunion",
+	]
+	var expected_ids: Array[String] = expected_ordinary_ids.duplicate()
+	expected_ids.append(terminal_id)
 	var candidate_ids := _m2_candidate_ids(
 		CORE.terminal_target_candidates(4, "m4_people"))
 	_expect(bool(month_four.get("ok", false)) \
 		and bool(m4_snapshot.get("active", false)) \
 		and candidate_ids == expected_ids \
 		and m4_people.get("ordinary_candidate_ids", []) \
-			== ["jiyeon_bus_stop_reunion"] \
+			== expected_ordinary_ids \
 		and _sorted_strings(m4_people.get("binding_candidate_ids", [])) \
 			== expected_ids \
 		and str(m4_people.get("selected_trigger_candidate_id", "")).is_empty() \
@@ -5520,7 +10498,7 @@ func _check_order101_cafe_jiyeon_m4_union(
 			== "unselected_union" \
 		and str(m4_people.get("trigger_bundle", "")).is_empty() \
 		and CORE.terminal_transition_receipt(cafe_route) == cafe_receipt,
-		"M4 board did not expose both delayed Sangchul and actual Jiyeon verbs")
+		"M4 board did not expose Jaehyuk, Jiyeon, and delayed Sangchul verbs")
 	var saved: Dictionary = GameState.serialize().duplicate(true)
 	for reload_index in range(2):
 		GameState.start_new_game()
@@ -5537,7 +10515,7 @@ func _check_order101_cafe_jiyeon_m4_union(
 		_expect(bool(reloaded_snapshot.get("active", false)) \
 			and reloaded_ids == expected_ids \
 			and reloaded_node.get("ordinary_candidate_ids", []) \
-				== ["jiyeon_bus_stop_reunion"] \
+				== expected_ordinary_ids \
 			and str(reloaded_node.get(
 				"terminal_selection_origin", "")) == "unselected_union" \
 			and reloaded_receipt == cafe_receipt,
@@ -5580,6 +10558,8 @@ func _check_m2_people_expired_terminal_source(
 				"%s expiry fixture did not create one legal partial allocation" \
 					% partial_selected_id)
 		elif not _commit_m2_terminal_filler():
+			return
+		if turn == 8 and not _resolve_order101_sns_world():
 			return
 		if not bool(CORE.complete_seoul_cycle_turn(2).get("ok", false)):
 			_expect(false, "M2 people expiry source could not close W%d" % turn)
@@ -5961,91 +10941,6 @@ func _check_terminal_summary_only_fractional_turn_rejected(
 		and CORE.terminal_transition_resolution(route_id).is_empty() \
 		and GameState.serialize() == before_retry,
 		"summary-only coupled fractional completed_turn escaped target conflict")
-
-
-func _check_terminal_m4_fake_completed_authority_rejected(
-		source_saved: Dictionary, route_id: String,
-		source_receipt: Dictionary) -> void:
-	var initialized_save: Dictionary = source_saved.duplicate(true)
-	var source_state: Dictionary = initialized_save.get(
-		"core_loop_v2_state", {})
-	_expect(not (source_state.get("completed_bundles", []) as Array).has(
-		"sns_pressure_night") \
-		and not (source_state.get("completed_bundle_turns", {}) as Dictionary).has(
-			"sns_pressure_night") \
-		and (source_state.get("terminal_transition_receipts", {}) as Dictionary) \
-			.get(route_id, {}) == source_receipt,
-		"fake-completion fixture already had SNS authority or lost Cafe source")
-	GameState.start_new_game()
-	GameState.load_from_dict(initialized_save.duplicate(true))
-	CORE.initialize_for_run(true)
-	GameState.turn = 9
-	GameState.month = 3
-	GameState.week_of_month = 1
-	var month_three := CORE.initialize_seoul_cycle(3)
-	_expect(bool(month_three.get("ok", false)),
-		"fake-completion fixture could not initialize intervening M3")
-	if not bool(month_three.get("ok", false)):
-		return
-	GameState.turn = 13
-	GameState.month = 4
-	GameState.week_of_month = 1
-	var month_four := CORE.initialize_seoul_cycle(4)
-	_expect(bool(month_four.get("ok", false)) \
-		and _m2_candidate_ids(CORE.terminal_target_candidates(
-			4, "m4_people")).has(
-				"terminal:m2_people_completed_cafe_to_m4_sangchul") \
-		and not _m2_candidate_ids(CORE.terminal_target_candidates(
-			4, "m4_people")).has("jaehyuk_world_meet"),
-		"fake-completion fixture did not reach M4 with Jaehyuk absent")
-	if not bool(month_four.get("ok", false)):
-		return
-	var malformed: Dictionary = GameState.serialize().duplicate(true)
-	var state: Dictionary = malformed.get("core_loop_v2_state", {})
-	var completed: Array = state.get("completed_bundles", [])
-	var completed_turns: Dictionary = state.get("completed_bundle_turns", {})
-	completed.append("sns_pressure_night")
-	completed_turns["sns_pressure_night"] = 6
-	state["completed_bundles"] = completed
-	state["completed_bundle_turns"] = completed_turns
-	var summaries: Dictionary = state.get("month_summaries", {})
-	var month_two: Dictionary = summaries.get("2", {})
-	var world_receipts: Dictionary = month_two.get("world_receipts", {})
-	world_receipts["fake_sns"] = {
-		"bundle_id": "sns_pressure_night",
-		"status": "resolved",
-		"turn": 6,
-	}
-	month_two["world_receipts"] = world_receipts
-	summaries["2"] = month_two
-	state["month_summaries"] = summaries
-	_expect((state.get("terminal_transition_receipts", {}) as Dictionary).get(
-		route_id, {}) == source_receipt \
-		and completed.count("sns_pressure_night") == 1 \
-		and int(completed_turns.get("sns_pressure_night", 0)) == 6 \
-		and world_receipts.has("fake_sns"),
-		"fake-completion attack changed Cafe source or lacked forged authority")
-	var source_only: Dictionary = malformed.duplicate(true)
-	source_only["core_loop_v2_state"] = state.duplicate(true)
-	_expect_terminal_source_survives_auxiliary_forgery(
-		source_only, route_id, source_receipt, "minimal SNS world completion")
-	if not _inject_terminal_ordinary_candidate_across_target_surfaces(
-			state, 4, "m4_people", "jaehyuk_world_meet"):
-		_expect(false, "fake-completion attack could not expand M4 surfaces")
-		return
-	malformed["core_loop_v2_state"] = state
-	GameState.start_new_game()
-	GameState.load_from_dict(malformed)
-	CORE.initialize_for_run(true)
-	var before_retry: Dictionary = GameState.serialize().duplicate(true)
-	var retried := CORE.initialize_seoul_cycle(4)
-	_expect(not bool(CORE.seoul_cycle_snapshot(4).get("active", true)) \
-		and CORE.terminal_target_candidates(4, "m4_people").is_empty() \
-		and not bool(retried.get("ok", true)) \
-		and str(retried.get("error", "")) == "terminal_binding_conflict" \
-		and CORE.terminal_transition_resolution(route_id).is_empty() \
-		and GameState.serialize() == before_retry,
-		"minimal fake SNS completion forged historical Jaehyuk eligibility")
 
 
 func _resolve_m2_people_selected_story(
@@ -6599,21 +11494,40 @@ func _check_m2_people_choice_roundtrip(
 	var sibling_weekly_save := saved.duplicate(true)
 	var sibling_weekly: Array = sibling_weekly_save.get(
 		"weekly_commitments", [])
-	if not sibling_weekly.is_empty() and sibling_weekly[0] is Dictionary:
+	var sibling_row_found := false
+	for index in range(sibling_weekly.size()):
+		var raw_sibling_record: Variant = sibling_weekly[index]
+		if not raw_sibling_record is Dictionary:
+			continue
 		var sibling_record: Dictionary = (
-			sibling_weekly[0] as Dictionary).duplicate(true)
-		var sibling_details: Dictionary = sibling_record.get(
-			"details", {}).duplicate(true)
+			raw_sibling_record as Dictionary).duplicate(true)
+		var raw_sibling_details: Variant = sibling_record.get("details", {})
+		if int(sibling_record.get("turn", 0)) != 5 \
+				or not raw_sibling_details is Dictionary \
+				or str((raw_sibling_details as Dictionary).get(
+					"node_id", "")) != "m2_people":
+			continue
+		var sibling_details: Dictionary = (
+			raw_sibling_details as Dictionary).duplicate(true)
 		sibling_details["selected_trigger_bundle_id"] = hyunsu_id
 		sibling_record["details"] = sibling_details
-		sibling_weekly[0] = sibling_record
-		sibling_weekly_save["weekly_commitments"] = sibling_weekly
+		sibling_weekly[index] = sibling_record
+		sibling_row_found = true
+		break
+	_expect(sibling_row_found,
+		"M2 people sibling fixture could not find its W5 outer ledger row")
+	sibling_weekly_save["weekly_commitments"] = sibling_weekly
 	GameState.start_new_game()
 	GameState.load_from_dict(sibling_weekly_save)
 	CORE.initialize_for_run(true)
 	_expect((GameState.core_loop_v2_state.get(
 		"seoul_cycle", {}) as Dictionary).is_empty(),
 		"top-level weekly ledger accepted a sibling people branch on load")
+	var expected_weekly: Array = saved.get(
+		"weekly_commitments", []).duplicate(true)
+	_expect(_m2_people_weekly_census_valid(
+		expected_weekly, cafe_id, true),
+		"M2 people source fixture lacked its exact W4+W5 weekly census")
 	for reload_index in range(2):
 		GameState.start_new_game()
 		GameState.load_from_dict(saved.duplicate(true))
@@ -6621,10 +11535,11 @@ func _check_m2_people_choice_roundtrip(
 		var reloaded := CORE.seoul_cycle_snapshot(2)
 		_expect(_m2_people_choice_identity(reloaded) == expected_identity \
 			and (reloaded.get("allocation_receipts", {}) as Dictionary).size() == 1 \
-			and GameState.weekly_commitments.size() == 1,
+			and GameState.weekly_commitments == expected_weekly,
 			"M2 people choice drifted or duplicated on reload %d" \
 				% [reload_index + 1])
 		saved = GameState.serialize().duplicate(true)
+		expected_weekly = saved.get("weekly_commitments", []).duplicate(true)
 
 	_expect(bool(CORE.complete_seoul_cycle_turn(2).get("ok", false)),
 		"partial Cafe week could not close after double reload")
@@ -6690,6 +11605,11 @@ func _check_m2_people_legacy_resolution(
 	state["seoul_cycle"] = legacy_cycle
 	GameState.core_loop_v2_state = state
 	var legacy_save: Dictionary = GameState.serialize().duplicate(true)
+	var expected_legacy_weekly: Array = legacy_save.get(
+		"weekly_commitments", []).duplicate(true)
+	_expect(_m2_people_weekly_census_valid(
+		expected_legacy_weekly, "", false),
+		"legacy people source fixture lacked its exact W4-only weekly census")
 	GameState.start_new_game()
 	GameState.load_from_dict(legacy_save)
 	CORE.initialize_for_run(true)
@@ -6700,7 +11620,7 @@ func _check_m2_people_legacy_resolution(
 		and str(loaded_node.get("trigger_bundle", "")) == cafe_id \
 		and (loaded.get("allocation_receipts", {}) as Dictionary).is_empty() \
 		and (loaded.get("trigger_receipts", {}) as Dictionary).is_empty() \
-		and GameState.weekly_commitments.is_empty(),
+		and GameState.weekly_commitments == expected_legacy_weekly,
 		"legacy people trigger did not survive load exactly once")
 	var malformed := migrated.duplicate(true)
 	var malformed_nodes: Dictionary = malformed.get("nodes", {})
@@ -7061,12 +11981,17 @@ func _check_m2_people_pending_shape_rejections(
 func _prepare_m2_people_fixture(
 		contract_snapshot: Dictionary, trigger_options: Array,
 		hyunsu_eligible: bool) -> Dictionary:
+	_prepare_fresh_cycle_gate()
+	# Locale initialization may reload DataRegistry. Install the bounded contract
+	# fixture only after that reset so candidate cardinality is deterministic.
 	DataRegistry.demo_core_loop_v2 = _m2_people_contract_fixture(
 		contract_snapshot, trigger_options)
-	_prepare_fresh_cycle_gate()
 	var month_one := CORE.initialize_seoul_cycle(1)
 	_expect(bool(month_one.get("ok", false)),
 		"M2 people fixture could not establish Month One cycle provenance")
+	if not bool(month_one.get("ok", false)) \
+			or not _seed_order101_w4_temptation_authority():
+		return {}
 	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
 	var applications: Dictionary = state.get("application_statuses", {})
 	applications.erase("mirae_industrial_tech")
@@ -7143,6 +12068,52 @@ func _m2_candidate_copy_complete(raw_candidates: Array) -> bool:
 			if str((raw_candidate as Dictionary).get(key, "")).strip_edges().is_empty():
 				return false
 	return true
+
+
+func _m2_people_weekly_census_valid(
+		raw_records: Variant, expected_selected: String,
+		include_people_turn: bool) -> bool:
+	if not raw_records is Array:
+		return false
+	var expected_turns: Array = [4, 5] if include_people_turn else [4]
+	if (raw_records as Array).size() != expected_turns.size():
+		return false
+	var seen_turns: Array[int] = []
+	for raw_record in raw_records as Array:
+		if not raw_record is Dictionary:
+			return false
+		var record: Dictionary = raw_record
+		var raw_details: Variant = record.get("details", {})
+		if not raw_details is Dictionary \
+				or str(record.get("source", "")) != "seoul_cycle":
+			return false
+		var details: Dictionary = raw_details
+		var turn := int(record.get("turn", 0))
+		if seen_turns.has(turn):
+			return false
+		seen_turns.append(turn)
+		if turn == 4:
+			if str(record.get("pressure_id", "")) != "seoul_cycle:m1:w4" \
+					or str(record.get("choice_id", "")) != "rest" \
+					or int(details.get("month", 0)) != 1 \
+					or int(details.get("week_index", 0)) != 4 \
+					or str(details.get("node_id", "")) != "recovery" \
+					or not str(details.get(
+						"selected_trigger_bundle_id", "")).is_empty():
+				return false
+		elif turn == 5 and include_people_turn:
+			if str(record.get("pressure_id", "")) != "seoul_cycle:m2:w1" \
+					or str(record.get("choice_id", "")) != "contact" \
+					or int(details.get("month", 0)) != 2 \
+					or int(details.get("week_index", 0)) != 1 \
+					or str(details.get("node_id", "")) != "m2_people" \
+					or str(details.get(
+						"selected_trigger_bundle_id", "")) != expected_selected:
+				return false
+		else:
+			return false
+	seen_turns.sort()
+	return seen_turns == expected_turns
 
 
 func _m2_people_choice_identity(raw_cycle: Dictionary) -> Dictionary:
@@ -7428,7 +12399,9 @@ func _check_run_generation_provenance() -> void:
 
 func _check_durable_save_retry_boundaries() -> void:
 	_prepare_fresh_cycle_gate()
-	var main_game: Node = MAIN_GAME_SCRIPT.new()
+	var main_game_script := load("res://scenes/MainGame.gd") as Script
+	var main_game: Node = main_game_script.new()
+	main_game_script = null
 	main_game.set_meta("_qa_core_loop_v2_autosave_result", false)
 	var before_initialization: Dictionary = GameState.serialize().duplicate(true)
 	var failed_initialization: Dictionary = main_game.call(
@@ -7766,14 +12739,18 @@ func _check_durable_month_gates_ui() -> void:
 	GameState.flags["chapter_33_seen"] = true
 	GameState.flags["tutorial_shown"] = true
 	var before: Dictionary = CORE.month_opening_snapshot(1)
-	var after := {
-		"money": float(GameState.money),
-		"health": int(GameState.health),
-		"mental": int(GameState.mental),
-	}
 	var main_game: Control = await _spawn_durable_gate_main(false)
+	_expect(CORE.can_record_month_summary(1),
+		"month gate fixture could not preflight its actual W4 boundary")
+	# Match the production boundary: validate at W4, roll the shared economy and
+	# calendar to W5, resolve due declines, then freeze the notebook.
+	main_game.call("_run_month_end_transition", false, false)
+	CORE.process_due_decline_outcomes(1)
+	GameState.check_game_over()
+	var after: Dictionary = main_game.call("_core_loop_v2_economy_snapshot")
 	var summary: Dictionary = CORE.record_month_summary(1, before, after)
-	_expect(not before.is_empty() \
+	_expect(not before.is_empty() and int(GameState.turn) == 5 \
+		and int(GameState.month) == 2 and int(GameState.week_of_month) == 1 \
 		and not summary.is_empty() \
 		and (summary.get("allocation_receipts", []) as Array).size() == 4 \
 		and (summary.get("cycle_completed_turns", []) as Array) == [1, 2, 3, 4] \
@@ -7857,7 +12834,9 @@ func _check_durable_month_gates_ui() -> void:
 
 
 func _spawn_durable_gate_main(autosave_result: bool) -> Control:
-	var main_game: Control = MAIN_GAME_SCENE.instantiate()
+	var main_game_scene := load("res://scenes/MainGame.tscn") as PackedScene
+	var main_game: Control = main_game_scene.instantiate()
+	main_game_scene = null
 	main_game.set_meta("_screenshot_qa_static_surface", true)
 	main_game.set_meta("_qa_core_loop_v2_autosave_result", autosave_result)
 	main_game.set_meta("_qa_core_loop_v2_autosave_call_count", 0)
@@ -9222,6 +14201,323 @@ func _check_order101_closed_summary_expiry_authority(
 		post_expiry["core_loop_v2_state"] = post_state
 		_check_order101_historical_expiry_mutation_rejected(
 			post_expiry, "allocation after a coupled earlier node expiry")
+
+
+func _check_order101_historical_inert_locked_nodes() -> void:
+	_prepare_base_v2()
+	GameState.turn = 17
+	GameState.month = 5
+	GameState.week_of_month = 1
+	var source_state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var month_five_spec: Dictionary = CORE.seoul_cycle_month_spec(5)
+	var month_five_authored: Dictionary = month_five_spec.get("nodes", {})
+	var month_five_runtime: Dictionary = CORE._new_seoul_cycle_state(5)
+	var month_five_nodes := _order101_historical_node_states(
+		month_five_runtime)
+	var people_node: Dictionary = month_five_nodes.get("m5_people", {})
+	var people_authored: Dictionary = month_five_authored.get("m5_people", {})
+	var opening_candidates: Dictionary = \
+		CORE._terminal_ordinary_candidates_at_target_open(
+			source_state, people_authored, 5)
+	var resolved_baseline: Dictionary = \
+		CORE._terminal_historical_resolved_nodes(
+			source_state, 5, month_five_nodes, month_five_authored)
+	_expect(not month_five_runtime.is_empty() \
+		and month_five_nodes.size() == 4 \
+		and bool(opening_candidates.get("ok", false)) \
+		and (opening_candidates.get("ids", []) as Array).is_empty() \
+		and str(people_node.get("status", "")) == "locked" \
+		and people_node.has("resolved_trigger_bundle_id") \
+		and str(people_node.get("resolved_trigger_bundle_id", "")).is_empty() \
+		and int(people_node.get("progress", -1)) == 0 \
+		and int(people_node.get("last_allocation_turn", -1)) == 0 \
+		and int(people_node.get("completed_turn", -1)) == 0 \
+		and int(people_node.get("expired_turn", -1)) == 0 \
+		and str(people_node.get("missed_trigger_bundle", "")).is_empty() \
+		and not bool(people_node.get("fallback_mode", true)) \
+		and resolved_baseline.size() == month_five_authored.size(),
+		"genuine Month-Five unavailable People node lost its exact inert locked history")
+
+	var missing_resolved: Dictionary = month_five_nodes.duplicate(true)
+	var missing_node: Dictionary = (
+		missing_resolved.get("m5_people", {}) as Dictionary).duplicate(true)
+	missing_node.erase("resolved_trigger_bundle_id")
+	missing_resolved["m5_people"] = missing_node
+	_order101_expect_historical_nodes_rejected(
+		source_state, 5, missing_resolved, month_five_authored,
+		"deleted explicit-empty trigger identity")
+
+	var forged_history: Dictionary = month_five_nodes.duplicate(true)
+	var history_node: Dictionary = (
+		forged_history.get("m5_people", {}) as Dictionary).duplicate(true)
+	history_node["progress"] = 1
+	history_node["last_allocation_turn"] = 17
+	forged_history["m5_people"] = history_node
+	_order101_expect_historical_nodes_rejected(
+		source_state, 5, forged_history, month_five_authored,
+		"explicit-empty locked node with allocation history")
+
+	for malformed_status in ["open", "expired"]:
+		var wrong_status: Dictionary = month_five_nodes.duplicate(true)
+		var status_node: Dictionary = (
+			wrong_status.get("m5_people", {}) as Dictionary).duplicate(true)
+		status_node["status"] = malformed_status
+		if malformed_status == "expired":
+			status_node["expired_turn"] = 20
+		wrong_status["m5_people"] = status_node
+		_order101_expect_historical_nodes_rejected(
+			source_state, 5, wrong_status, month_five_authored,
+			"explicit-empty node rewritten %s" % malformed_status)
+
+	var forged_fallback: Dictionary = month_five_nodes.duplicate(true)
+	var fallback_node: Dictionary = (
+		forged_fallback.get("m5_people", {}) as Dictionary).duplicate(true)
+	fallback_node["fallback_mode"] = true
+	forged_fallback["m5_people"] = fallback_node
+	_order101_expect_historical_nodes_rejected(
+		source_state, 5, forged_fallback, month_five_authored,
+		"explicit-empty node rewritten as fallback")
+
+	# Empty container presence is not a binding.  This exact fake shape used to
+	# enter the terminal branch and bypass the unavailable-at-opening proof.
+	var forged_binding: Dictionary = month_five_nodes.duplicate(true)
+	var binding_node: Dictionary = (
+		forged_binding.get("m5_people", {}) as Dictionary).duplicate(true)
+	binding_node["binding_candidate_ids"] = []
+	binding_node["ordinary_candidate_ids"] = []
+	binding_node["eligible_terminal_route_ids"] = []
+	binding_node["terminal_route_bindings"] = {}
+	binding_node["selected_trigger_bundle_id"] = ""
+	binding_node["selected_trigger_candidate_id"] = ""
+	binding_node["selected_terminal_route_id"] = ""
+	binding_node["terminal_selection_origin"] = "unselected_union"
+	binding_node["terminal_result_ko"] = ""
+	binding_node["terminal_result_en"] = ""
+	binding_node["terminal_completion_effects"] = {}
+	binding_node["summary_bundle"] = ""
+	forged_binding["m5_people"] = binding_node
+	_order101_expect_historical_nodes_rejected(
+		source_state, 5, forged_binding, month_five_authored,
+		"explicit-empty node with fake terminal binding containers")
+
+	# A fully typed fake is allowed through the node projection on purpose: the
+	# historical resolution census must still require both a real source receipt
+	# and its exact target witness instead of treating typed fields as authority.
+	var fake_route_id := "terminal_forged_m5_people"
+	var full_fake_nodes: Dictionary = month_five_nodes.duplicate(true)
+	full_fake_nodes["m5_people"] = _order101_with_full_typed_fake_binding(
+		people_node, fake_route_id, 5, "m5_people")
+	var full_fake_resolved: Dictionary = \
+		CORE._terminal_historical_resolved_nodes(
+			source_state, 5, full_fake_nodes, month_five_authored)
+	var full_fake_history := {
+		"summary": {"terminal_transition_resolutions": {}},
+		"nodes": full_fake_nodes,
+		"resolved_nodes": full_fake_resolved,
+		"allocations": [],
+	}
+	var no_witness_result: Dictionary = \
+		CORE._terminal_historical_resolutions_for_month(
+			source_state, 5, full_fake_history)
+	_expect(full_fake_resolved.size() == month_five_authored.size() \
+		and not (source_state.get(
+			"terminal_transition_receipts", {}) as Dictionary).has(fake_route_id) \
+		and not bool(no_witness_result.get("ok", true)),
+		"full-typed fake binding without a source receipt/witness became historical authority")
+
+	# Couple the same forgery across plan and witness.  Both copies are exact in
+	# isolation, but no source receipt exists to explain why this target is bound.
+	var coupled_state: Dictionary = source_state.duplicate(true)
+	var coupled_node: Dictionary = full_fake_nodes.get("m5_people", {})
+	var coupled_bindings: Dictionary = coupled_node.get(
+		"terminal_route_bindings", {})
+	var coupled_candidates: Array = coupled_node.get(
+		"binding_candidate_ids", [])
+	var coupled_ordinary: Array = coupled_node.get(
+		"ordinary_candidate_ids", [])
+	var plans: Dictionary = coupled_state.get("plans", {})
+	var node_ids: Array[String] = []
+	for raw_node_id in month_five_authored.keys():
+		node_ids.append(str(raw_node_id))
+	node_ids.sort()
+	plans["5"] = {
+		"planning_mode": CORE.SEOUL_CYCLE_MODE,
+		"cycle_schema": CORE.SEOUL_CYCLE_SCHEMA,
+		"month": 5,
+		"node_ids": node_ids,
+		"schedule": {},
+		"selected": [],
+		"routines": {},
+		"forgone": [],
+		"planned_turn": 17,
+		"terminal_binding_schema": CORE.TERMINAL_TARGET_BINDING_SCHEMA,
+		"terminal_bound_node_ids": ["m5_people"],
+		"terminal_binding_candidate_sets": {
+			"m5_people": {
+				"ordinary_candidate_ids": coupled_ordinary.duplicate(),
+				"binding_candidate_ids": coupled_candidates.duplicate(),
+			},
+		},
+	}
+	coupled_state["plans"] = plans
+	var witnesses: Dictionary = coupled_state.get(
+		"terminal_target_binding_receipts", {})
+	witnesses["5:m5_people"] = {
+		"schema": CORE.TERMINAL_TARGET_BINDING_SCHEMA,
+		"target_month": 5,
+		"target_node": "m5_people",
+		"ordinary_candidate_ids": coupled_ordinary.duplicate(),
+		"binding_candidate_ids": coupled_candidates.duplicate(),
+		"terminal_route_bindings": coupled_bindings.duplicate(true),
+		"ordinary_eligibility": {
+			"schema": CORE.TERMINAL_TARGET_BINDING_SCHEMA,
+			"cut_turn": 17,
+			"eligible_authored_candidate_ids": [],
+		},
+	}
+	coupled_state["terminal_target_binding_receipts"] = witnesses
+	var coupled_bound_nodes: Dictionary = CORE._terminal_historical_bound_nodes(
+		coupled_state, 5, full_fake_nodes)
+	var coupled_result: Dictionary = \
+		CORE._terminal_historical_resolutions_for_month(
+			coupled_state, 5, full_fake_history)
+	_expect(coupled_bound_nodes.keys() == ["m5_people"] \
+		and not CORE._terminal_target_binding_witnesses_globally_valid(
+			coupled_state) \
+		and not bool(coupled_result.get("ok", true)),
+		"coupled fake plan/witness without a source receipt became historical authority")
+
+	GameState.turn = 13
+	GameState.month = 4
+	GameState.week_of_month = 1
+	var month_four_authored: Dictionary = (
+		CORE.seoul_cycle_month_spec(4).get("nodes", {}))
+	var month_four_nodes := _order101_historical_node_states(
+		CORE._new_seoul_cycle_state(4))
+	var empty_fallback: Dictionary = month_four_nodes.duplicate(true)
+	var advancement_node: Dictionary = (
+		empty_fallback.get("m4_advancement", {}) as Dictionary).duplicate(true)
+	advancement_node["resolved_trigger_bundle_id"] = ""
+	advancement_node["status"] = "locked"
+	advancement_node["progress"] = 0
+	advancement_node["completed_turn"] = 0
+	advancement_node["last_allocation_turn"] = 0
+	advancement_node["expired_turn"] = 0
+	advancement_node["featured_status"] = ""
+	advancement_node["missed_trigger_bundle"] = ""
+	advancement_node["fallback_mode"] = false
+	empty_fallback["m4_advancement"] = advancement_node
+	_order101_expect_historical_nodes_rejected(
+		source_state, 4, empty_fallback, month_four_authored,
+		"Month-Four unconditional career fallback rewritten empty and locked")
+
+
+func _order101_historical_node_states(cycle: Dictionary) -> Dictionary:
+	var result: Dictionary = {}
+	var raw_nodes: Variant = cycle.get("nodes", {})
+	if not raw_nodes is Dictionary:
+		return result
+	for raw_node_id in (raw_nodes as Dictionary).keys():
+		var node_id := str(raw_node_id)
+		var raw_node: Variant = (raw_nodes as Dictionary).get(raw_node_id, {})
+		if node_id.is_empty() or not raw_node is Dictionary:
+			return {}
+		var node: Dictionary = raw_node
+		var resolved_trigger := str(node.get(
+			"selected_trigger_bundle_id", "")).strip_edges() \
+			if CORE._seoul_cycle_player_trigger_required(node) \
+			else str(node.get("trigger_bundle", "")).strip_edges()
+		if resolved_trigger.is_empty():
+			resolved_trigger = str(node.get(
+				"missed_trigger_bundle", "")).strip_edges()
+		var action_id := str(node.get(
+			"commitment_action_id",
+			CORE._seoul_cycle_default_action_id(str(node.get("owner", "")))
+		)).strip_edges().to_lower()
+		var axis := str(node.get(
+			"axis", "money" if action_id == "side_shift" else "human"
+		)).strip_edges().to_lower()
+		var person_id := str(node.get("owner", "")).strip_edges() \
+			if action_id == "contact" \
+			and str(node.get("owner", "")).strip_edges() != "people" else ""
+		result[node_id] = {
+			"historical_node_schema": CORE.TERMINAL_HISTORICAL_CYCLE_SCHEMA,
+			"id": node_id,
+			"owner": str(node.get("owner", "")),
+			"place": str(node.get("place", "")),
+			"summary_bundle": str(node.get("summary_bundle", "")),
+			"label_ko": str(node.get("label_ko", "")),
+			"label_en": str(node.get("label_en", "")),
+			"progress": int(node.get("progress", 0)),
+			"threshold": int(node.get("threshold", 1)),
+			"status": str(node.get("status", "open")),
+			"deadline_week": int(node.get("deadline_week", 4)),
+			"completed_turn": int(node.get("completed_turn", 0)),
+			"last_allocation_turn": int(node.get("last_allocation_turn", 0)),
+			"expired_turn": int(node.get("expired_turn", 0)),
+			"featured_status": str(node.get("featured_status", "")),
+			"missed_trigger_bundle": str(node.get(
+				"missed_trigger_bundle", "")),
+			"fallback_mode": bool(node.get("fallback_mode", false)),
+			"resolved_trigger_bundle_id": resolved_trigger,
+			"commitment_action_id": action_id,
+			"axis": axis,
+			"person_id": person_id,
+		}
+	return result
+
+
+func _order101_with_full_typed_fake_binding(
+		source_node: Dictionary, route_id: String,
+		target_month: int, target_node: String) -> Dictionary:
+	var node: Dictionary = source_node.duplicate(true)
+	var candidate_id := "terminal:%s" % route_id
+	var target_bundle := str(node.get(
+		"resolved_trigger_bundle_id",
+		node.get("summary_bundle", ""))).strip_edges()
+	node["binding_candidate_ids"] = [candidate_id]
+	node["ordinary_candidate_ids"] = []
+	node["eligible_terminal_route_ids"] = [route_id]
+	node["terminal_route_bindings"] = {
+		route_id: {
+			"schema": CORE.TERMINAL_TARGET_BINDING_SCHEMA,
+			"route_id": route_id,
+			"variant_id": "forged_terminal_variant",
+			"source_month": maxi(1, target_month - 1),
+			"source_node": "forged_source_node",
+			"source_terminal": "completed",
+			"source_turn": maxi(1, (target_month - 1) * 4),
+			"proof_kind": "node_expiry",
+			"proof_id": "forged_source_proof",
+			"target_month": target_month,
+			"target_node": target_node,
+			"target_bundle": target_bundle,
+			"completion_effects": {},
+			"label_ko": "위조 경로",
+			"label_en": "Forged route",
+			"detail_ko": "위조 상세",
+			"detail_en": "Forged detail",
+			"result_ko": "위조 결과",
+			"result_en": "Forged result",
+		},
+	}
+	node["selected_trigger_bundle_id"] = ""
+	node["selected_trigger_candidate_id"] = ""
+	node["selected_terminal_route_id"] = ""
+	node["terminal_selection_origin"] = "unselected_union"
+	node["terminal_result_ko"] = ""
+	node["terminal_result_en"] = ""
+	node["terminal_completion_effects"] = {}
+	node["summary_bundle"] = ""
+	return node
+
+
+func _order101_expect_historical_nodes_rejected(
+		state: Dictionary, month_index: int, nodes: Dictionary,
+		authored_nodes: Dictionary, label: String) -> void:
+	_expect(CORE._terminal_historical_resolved_nodes(
+		state, month_index, nodes, authored_nodes).is_empty(),
+		"historical node authority accepted %s" % label)
 
 
 func _check_order101_completed_trigger_expiry_coexistence(

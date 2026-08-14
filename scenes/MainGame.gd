@@ -564,6 +564,24 @@ func _core_loop_v2_route_week() -> void:
 		_core_loop_v2_begin_story_bundle(
 			DEMO_CORE_LOOP_V2.active_bundle_id(), "schedule")
 		return
+	var legacy_active_roots := DEMO_CORE_LOOP_V2.legacy_active_story_roots()
+	if not legacy_active_roots.is_empty():
+		DEMO_CORE_LOOP_V2.prepare_story_bundle(
+			DEMO_CORE_LOOP_V2.active_bundle_id())
+		_go_story_mode(legacy_active_roots)
+		return
+	if DEMO_CORE_LOOP_V2.legacy_active_story_completion_ready():
+		var legacy_active_kind := DEMO_CORE_LOOP_V2.active_kind()
+		if DEMO_CORE_LOOP_V2.complete_active_bundle().is_empty():
+			push_error(
+				"Legacy Core Loop V2 story result lost its admitted receipt")
+			return
+		if legacy_active_kind == "schedule":
+			_core_loop_v2_advance_completed_week()
+		else:
+			_refresh_all()
+			call_deferred("_core_loop_v2_route_week")
+		return
 	if DEMO_CORE_LOOP_V2.fresh_w1_onboarding_phase() == "action_completed":
 		if not DEMO_CORE_LOOP_V2.claim_fresh_w1_opening_interview():
 			push_error("Fresh W1 application lost its interview handoff")
@@ -604,6 +622,12 @@ func _core_loop_v2_route_week() -> void:
 	if bool(routine_result.get("applied", false)):
 		_core_loop_v2_log_routine_receipt(
 			routine_result.get("receipt", {}) as Dictionary)
+	var legacy_separate_consequence := \
+		DEMO_CORE_LOOP_V2.pending_legacy_separate_consequence_id()
+	if not legacy_separate_consequence.is_empty():
+		_core_loop_v2_begin_story_bundle(
+			legacy_separate_consequence, "consequence")
+		return
 	var bundle_id := DEMO_CORE_LOOP_V2.bundle_id_for_turn()
 	var scene_bundle := DEMO_CORE_LOOP_V2.bundle(bundle_id)
 	if bundle_id.is_empty() or scene_bundle.is_empty():
@@ -736,6 +760,21 @@ func _core_loop_v2_begin_seoul_cycle_owner(
 	if not begun:
 		push_error("Seoul cycle owner conflict: %s" % bundle_id)
 		return
+	if world_owner and bundle_id == "sns_pressure_night":
+		var prelude_result := DEMO_CORE_LOOP_V2.claim_scheduled_prelude(bundle_id)
+		if not bool(prelude_result.get("ok", false)):
+			push_error("Seoul cycle owner could not attach its prelude: %s" % str(
+				prelude_result.get("error", "unknown")))
+			return
+		if bool(prelude_result.get("claimed", false)):
+			_core_loop_v2_play_scheduled_prelude(
+				bundle_id, prelude_result.get("receipt", {}) as Dictionary)
+			return
+		var prelude_receipt: Dictionary = prelude_result.get("receipt", {})
+		if not prelude_receipt.is_empty() \
+				and str(prelude_receipt.get("status", "")) == "presented":
+			push_warning("Seoul cycle owner prelude is still active in StoryMode")
+			return
 	if not str(scene_bundle.get("action_id", "")).strip_edges().is_empty():
 		_core_loop_v2_begin_action_bundle(bundle_id, scene_bundle)
 		return
@@ -2377,7 +2416,7 @@ func _core_loop_v2_unresolved_recap(snapshot: Dictionary) -> Array[String]:
 			"한빛유통 면접 결과는 아직 오지 않았다.",
 			"Hanbit's interview result has not arrived yet."))
 	elif hanbit_status == "resolved" \
-			and DEMO_CORE_LOOP_V2.has_hanbit_employment_provenance(
+			and DEMO_CORE_LOOP_V2.completion_snapshot_has_hanbit_employment_provenance(
 				snapshot):
 		unresolved.append(_tr(
 			"한빛유통 계약이 얼마나 이어질지는 아직 알 수 없다.",
@@ -17249,10 +17288,11 @@ func _core_loop_v2_send_fresh_w1_application(send_button: Button) -> void:
 		return
 	_fresh_w1_application_draft.clear()
 	GameState.add_tendency("career", 1)
-	GameState.add_log(_tr(
-		"미래산업기술 지원서 전송 완료 (평가 %s)" % ["D", "C", "B", "A"][quality],
-		"Mirae Industrial Tech application sent (Grade %s)" % ["D", "C", "B", "A"][quality]),
-		"event")
+	var grade: String = str(["D", "C", "B", "A"][quality])
+	GameState.add_log(LocaleManager.ui_format(
+		"미래산업기술 지원서 전송 완료 (평가 %s)",
+		"Mirae Industrial Tech application sent (Grade %s)",
+		grade, grade), "event")
 	GameState.stats_changed.emit()
 	_refresh_all()
 	# The result transaction becomes durable before interview Story ownership.
