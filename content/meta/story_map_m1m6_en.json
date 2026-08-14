@@ -1,0 +1,261 @@
+{
+  "schema_version": 1,
+  "locale": "en",
+  "ui_copy": {
+    "ui.title": "SIX MONTHS OF PROMISES",
+    "ui.subtitle": "Choose what Minjun protects — and what he must let go.",
+    "ui.language_toggle": "한국어",
+    "ui.home.eyebrow": "ISOLATED PLAYTEST · M01–M06",
+    "ui.home.title": "Six months. One promise you refuse to drop.",
+    "ui.home.body": "Each month, choose one protected promise. If last month left margin on the same axis, you may carry one more alongside it. Everything else reaches its stated consequence.",
+    "ui.home.continue": "CONTINUE",
+    "ui.home.new": "START NEW",
+    "ui.home.restart": "RESTART",
+    "ui.home.restart_confirm": "PRESS AGAIN TO ERASE THIS PLAYTEST SAVE",
+    "ui.home.no_save": "No playtest autosave yet.",
+    "ui.home.saved_month": "Autosave ready · Month {month}",
+    "ui.home.autosave": "Only this six-month playtest is saved. Retail and 24-week saves are never opened.",
+    "ui.month.eyebrow": "MONTH {month} OF 6",
+    "ui.month.prompt": "What will you protect this month?",
+    "ui.month.contract": "THIS MONTH",
+    "ui.month.deadline": "DEADLINE",
+    "ui.month.margin.none": "No margin carried · choose one protected promise",
+    "ui.month.margin.available": "{axis} margin available · one {axis_lower} promise may be added",
+    "ui.month.selection.none": "Protected promise not chosen",
+    "ui.month.selection.protected": "PROTECTED · {label}",
+    "ui.month.selection.optional": "ALONGSIDE · {label}",
+    "ui.card.due": "DUE · WEEK {week}",
+    "ui.card.keep": "KEEP · {preview}",
+    "ui.card.miss": "MISS · {preview}",
+    "ui.card.protected_badge": "PROTECTED",
+    "ui.card.optional_badge": "ALONGSIDE",
+    "ui.detail.eyebrow": "FOCUSED PROMISE",
+    "ui.detail.empty": "Move focus to a promise to inspect it.",
+    "ui.detail.protected_action": "MAKE PROTECTED",
+    "ui.detail.protected_remove": "REMOVE PROTECTED",
+    "ui.detail.optional_action": "ADD ALONGSIDE",
+    "ui.detail.optional_remove": "REMOVE ALONGSIDE",
+    "ui.detail.optional_no_primary": "Choose the protected promise first.",
+    "ui.detail.optional_same_card": "The same promise cannot fill both roles.",
+    "ui.detail.optional_no_margin": "No carried margin is available this month.",
+    "ui.detail.optional_mismatch": "{margin} margin cannot add a {card_axis} promise.",
+    "ui.detail.optional_spends": "Adding it spends this month's {axis_lower} margin. It is not refunded.",
+    "ui.detail.single_margin": "Keeping only this protected promise can create {axis_lower} margin next month.",
+    "ui.detail.repay_pressure": "Keeping it repays pressure carried from last month. It creates no new margin.",
+    "ui.detail.repay_deferred": "Keeping it repays a promise deferred from last month. It creates no new margin.",
+    "ui.detail.double_no_margin": "Keeping two promises spends the carried margin and creates no new margin.",
+    "ui.detail.deferred_once": "If missed, it returns once next month. Missing it again closes that door.",
+    "ui.detail.expired": "If missed, this specific door or pressure takes effect now.",
+    "ui.action.confirm": "BEGIN MONTH WITH THIS CHOICE",
+    "ui.action.confirm_disabled": "CHOOSE THE PROTECTED PROMISE",
+    "ui.action.undo": "UNDO LATEST ROLE",
+    "ui.action.back_home": "HOME",
+    "ui.controls": "ARROWS / D-PAD · MOVE    ENTER / SOUTH · CONFIRM    ESC / EAST · UNDO",
+    "ui.status.primary_set": "Protected promise set. You may now inspect an eligible second promise.",
+    "ui.status.primary_replaced": "Protected promise changed explicitly.",
+    "ui.status.optional_set": "Alongside promise set. The carried margin will be spent on confirmation.",
+    "ui.status.optional_removed": "Alongside promise removed. The margin is still available until confirmation.",
+    "ui.status.primary_removed": "Protected promise removed. Alongside was cleared with it.",
+    "ui.status.invalid": "That role is not available for this promise.",
+    "ui.result.eyebrow": "MONTH {month} CLOSED",
+    "ui.result.title": "What you kept — and what moved on without you",
+    "ui.result.protected": "PROTECTED",
+    "ui.result.optional": "ALONGSIDE",
+    "ui.result.completed": "KEPT",
+    "ui.result.missed": "LEFT BEHIND",
+    "ui.result.margin": "NEXT MONTH'S MARGIN",
+    "ui.result.burdens": "BURDEN CARRIED FORWARD",
+    "ui.result.closed": "DOORS CLOSED",
+    "ui.result.none": "None",
+    "ui.result.margin.none": "No margin carries forward.",
+    "ui.result.margin.axis": "{axis} margin carries into next month.",
+    "ui.result.margin.run_complete": "Six-month sample complete · {axis} margin is recorded, but there is no playable next month in this sample.",
+    "ui.result.deferred": "Returns once next month · {label}",
+    "ui.result.expired": "Closed or became pressure · {label}",
+    "ui.result.next": "GO TO MONTH {month}",
+    "ui.result.recap": "VIEW SIX-MONTH RECAP",
+    "ui.result.autosaved": "AUTOSAVED · six-month playtest only",
+    "ui.recap.eyebrow": "M01–M06 COMPLETE",
+    "ui.recap.title": "Six months of choices",
+    "ui.recap.body": "This is not a score. It is the route made by what you protected, what margin let you carry, and which doors you allowed to close.",
+    "ui.recap.month": "M{month} · {label}",
+    "ui.recap.protected": "Protected · {label}",
+    "ui.recap.optional": "Alongside · {label}",
+    "ui.recap.no_optional": "Alongside · None",
+    "ui.recap.deferred": "Deferred once · {labels}",
+    "ui.recap.closed": "Closed · {labels}",
+    "ui.recap.restart": "PLAY ANOTHER ROUTE",
+    "ui.recap.home": "RETURN HOME"
+  },
+  "axis_copy": {
+    "cash": {"label": "CASH", "lower": "cash"},
+    "health": {"label": "BODY", "lower": "body"},
+    "trust": {"label": "TRUST", "lower": "trust"}
+  },
+  "source_copy": {
+    "pressure": "PRESSURE",
+    "opportunity": "OPPORTUNITY",
+    "person_promise": "PERSONAL PROMISE"
+  },
+  "month_copy": {
+    "M01": {
+      "design_label": "The First Line",
+      "contract": {
+        "pressure": "500,000 won in cash and surviving the first month",
+        "opportunity": "The first application and an entry into legitimate work",
+        "person_promise": "Do not turn Dad's and Hyunsu's arrival into schedule filler",
+        "deadline": "The borrowed-account offer in W4 can only be answered this month"
+      }
+    },
+    "M02": {
+      "design_label": "The Face of the First Choice",
+      "contract": {
+        "pressure": "The result of the first choice and the cost of staying afloat",
+        "opportunity": "A second attempt to reach out to Hyunsu first",
+        "person_promise": "Do not bury rejection and acceptance under the same sentence",
+        "deadline": "The world event in W8 returns only once before month-end"
+      }
+    },
+    "M03": {
+      "design_label": "People in the Same City",
+      "contract": {
+        "pressure": "Finding time to seek people out while earning money",
+        "opportunity": "The first real crossing with Daeun or Jiyeon",
+        "person_promise": "After a chance meeting, progress opens only when the player spends time",
+        "deadline": "The first meeting can happen only along this month's route through the city"
+      }
+    },
+    "M04": {
+      "design_label": "Coffee Still Warm",
+      "contract": {
+        "pressure": "Rent and a job result arrive at the same time",
+        "opportunity": "Sangchul's first coffee and a door to money",
+        "person_promise": "Sangchul must not look like a villain at the first meeting",
+        "deadline": "The first meeting opens only on the actual room-viewing route"
+      }
+    },
+    "M05": {
+      "design_label": "The One Who Waits",
+      "contract": {
+        "pressure": "A work decision and someone met earlier demand the same time",
+        "opportunity": "An ordinary reunion with Jaehyuk or a second crossing with an existing connection",
+        "person_promise": "Jaehyuk is not offering an investment or guarantee yet",
+        "deadline": "Anyone not sought out again this month leaves a cost to re-enter"
+      }
+    },
+    "M06": {
+      "design_label": "The First Bill Comes Due",
+      "contract": {
+        "pressure": "Work, people, and family deadlines collide on one Friday",
+        "opportunity": "Choose one promise to keep",
+        "person_promise": "Even unchosen promises retain their source and expiry",
+        "deadline": "After Friday of W24, none of these deadlines can move to next week"
+      }
+    }
+  },
+  "commitment_copy": {
+    "m01_survival_shift": {
+      "label": "Finish enough shifts to cover the first month's rent and food.",
+      "completed_preview": "Secure this month's survival floor and prepare a cash choice for next month.",
+      "missed_preview": "A cash gap for next month's rent and food remains as pressure."
+    },
+    "m01_legal_application": {
+      "label": "Submit the first legitimate application and finish preparing for the interview.",
+      "completed_preview": "Open the hiring result in M04 and a path into legitimate work.",
+      "missed_preview": "This posting and its hiring-result window close."
+    },
+    "m01_father_call": {
+      "label": "Call Dad first and ask how he is this week.",
+      "completed_preview": "Keep the early family contact and prepare a trust choice for next month.",
+      "missed_preview": "It returns once in M02 as a call-back debt; miss it again and the early contact cools."
+    },
+    "m02_close_account_risk": {
+      "label": "Check and contain the account risk and cash gap left by the first illegal offer.",
+      "completed_preview": "Seal the account risk. If this month repays the prior cash gap, it creates no new margin.",
+      "missed_preview": "A financial scar and cash pressure remain for next month."
+    },
+    "m02_hyunsu_first_promise": {
+      "label": "Show up for the first study promise made with Hyunsu and hold your place beside him.",
+      "completed_preview": "Open the first shared-study path with Hyunsu, one not built on money.",
+      "missed_preview": "Hyunsu's early path closes; only a later reunion remains."
+    },
+    "m02_return_father_call": {
+      "label": "Call Dad back the same day after his short message.",
+      "completed_preview": "Repay last month's call-back debt, but create no new margin from it.",
+      "missed_preview": "Missing him a second time lets the early family contact go cold."
+    },
+    "m03_cover_deposit_gap": {
+      "label": "Confirm the deposit shortfall and remaining lodging days before notice to leave.",
+      "completed_preview": "Secure a housing floor. If this repairs last month's financial scar, it creates no new margin.",
+      "missed_preview": "Emergency lodging and more expensive housing pressure arrive in M04."
+    },
+    "m03_daeun_return": {
+      "label": "Return to the convenience store at dawn and ask Daeun her name.",
+      "completed_preview": "Open Daeun's immediate entry scene and the relationship path that follows.",
+      "missed_preview": "Daeun's immediate entry door closes this time."
+    },
+    "m03_jiyeon_answer": {
+      "label": "Answer Jiyeon's offer to compensate you after the bicycle accident.",
+      "completed_preview": "Open Jiyeon's immediate entry scene and the relationship path that follows.",
+      "missed_preview": "This window to answer Jiyeon directly closes."
+    },
+    "m04_answer_job_result": {
+      "label": "Answer the hiring result and confirm the first day of work.",
+      "completed_preview": "Confirm the first legitimate workday and a stable-income path.",
+      "missed_preview": "This hiring result and first-day window close."
+    },
+    "m04_independent_room_view": {
+      "label": "Visit one room you booked yourself and check the deposit and monthly rent.",
+      "completed_preview": "Get an independent housing quote. If this repairs last month's housing pressure, it creates no new margin.",
+      "missed_preview": "The booked listing and its quote window close."
+    },
+    "m04_sangchul_office_coffee": {
+      "label": "Ask Sangchul the real room price in his office and stay until the coffee cools.",
+      "completed_preview": "Open the warmer early path where Sangchul is a person before he is a deal.",
+      "missed_preview": "The warm first meeting closes; his M06 contact comes only as a cold field deal."
+    },
+    "m05_job_result": {
+      "label": "Settle one next step for your current livelihood: start date, shift, or another application.",
+      "completed_preview": "Confirm a current livelihood line that does not duplicate the M04 hiring result.",
+      "missed_preview": "The current livelihood line breaks, making the cash choice in M06 more urgent."
+    },
+    "m05_jaehyuk_reunion": {
+      "label": "Keep the street-stall reunion with Jaehyuk where money is not discussed.",
+      "completed_preview": "Preserve the plain friendship with Jaehyuk from before money entered it.",
+      "missed_preview": "The ordinary reunion closes; a later meeting will sit closer to a transaction."
+    },
+    "m05_second_crossing": {
+      "label": "Contact the person you protected in M03 and arrange a second meeting.",
+      "label_by_actor": {
+        "daeun": "Contact Daeun first and arrange a second meeting.",
+        "jiyeon": "Contact Jiyeon first and arrange a second meeting."
+      },
+      "completed_preview": "Make an M06 date with the person protected in M03 and advance that relationship.",
+      "missed_preview": "The M06 date with that same person returns once as a relationship debt."
+    },
+    "m06_work_deadline": {
+      "label": "Submit the hiring or livelihood deadline paperwork yourself before 6:30 p.m. Friday.",
+      "completed_preview": "Meet this work deadline, first repairing any livelihood break carried from last month.",
+      "missed_preview": "The current legitimate-work door and the next income opportunity close."
+    },
+    "m06_sangchul_door": {
+      "label": "Check the field address from Sangchul's side and arrive there that same Friday.",
+      "completed_preview": "Answer this money and field offer, whether or not the earlier connection was warm.",
+      "missed_preview": "This field invitation and the introducer's door close."
+    },
+    "m06_family_signal": {
+      "label": "Call Dad at the agreed time after the pharmacy-bag signal.",
+      "completed_preview": "Hear Dad's health warning in time and open a path to family care.",
+      "missed_preview": "Lose the right to know in time and this family-health window."
+    },
+    "m06_person_date": {
+      "label": "Go on the Friday date with the same person recorded in the M05 promise.",
+      "label_by_actor": {
+        "daeun": "Go on the Friday date promised with Daeun in M05.",
+        "jiyeon": "Go on the Friday date promised with Jiyeon in M05."
+      },
+      "completed_preview": "Keep the date with the person chosen in M05 and establish the early relationship stage.",
+      "missed_preview": "This date and the early relationship stage with that person close."
+    }
+  }
+}

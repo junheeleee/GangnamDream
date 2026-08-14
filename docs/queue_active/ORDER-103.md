@@ -56,11 +56,11 @@
 `docs/queue_archive/ORDER-102.md`, `docs/queue_archive/CODEX_QUEUE_2026-08.md`,
 `docs/WORK_LOG.md`.
 
-**제품·표면:** `systems/StoryMapMonthlyRuntime.gd`,
-`tools/StoryMapM1M6Playtest.gd`, `tools/StoryMapM1M6Playtest.tscn`,
+**제품·표면:** `systems/StoryMapMonthlyRuntime.gd`와 `.gd.uid`,
+`tools/StoryMapM1M6Playtest.gd`와 `.gd.uid`, `tools/StoryMapM1M6Playtest.tscn`,
 `content/meta/story_map_m1m6_en.json`.
 
-**표적 검사:** `tools/StoryMapM1M6Check.gd`, `tools/StoryMapM1M6Check.tscn`,
+**표적 검사:** `tools/StoryMapM1M6Check.gd`와 `.gd.uid`, `tools/StoryMapM1M6Check.tscn`,
 `tools/audit_scope.json`, `tools/audit_select.py`.
 
 `content/meta/story_map.json`은 ORDER-102에서 봉인한 입력으로 읽기만 한다. 위에
@@ -83,6 +83,20 @@
 `주력과 함께의 차이를 이해했는가`, `항상 둘째가 정답처럼 느껴지는가`,
 `한 번은 실제로 무엇을 버릴지 고민했는가`, `닫힌 문이 벌점이 아니라 자기 경로로
 느껴지는가`를 판정한다. 이 합격 전에는 기존 24주 판에 이관하지 않는다.
+
+## 현재 증거 (2026-08-15)
+
+- **L1 기계 완료:** 전용 검사는 M01~M06 완주, 같은 축 여유, 둘째 무환급,
+  부담 상환, 미룸 1회, M03→M05→M06 인물, 저장 왕복, 재확정 무변경과 UI
+  흐름을 5초 이내에 검증한다. 결과는 `months=6 margin=4 deferred=2 actor=2
+  save=2 ui=1`이다.
+- **L2 자가 완료:** KO/EN, 960×600·1280×800에서 선택·결과·회고를 직접
+  렌더하고 여섯 달을 완주했다. M03 다은 주력+지연 함께에서 다은 focus가
+  M05·M06까지 이어지고 완료 저장의 이어하기가 회고로 복귀한다.
+- 체험판은 별도 프로젝트·전용 자동저장만 사용한다. 기존 `project.godot`, 메뉴,
+  24주 런타임, `GameState`·`SaveManager`와 retail/V2 저장은 수정하지 않았다.
+- **L3 대기:** Apple Silicon macOS 파일을 사용자가 정상 속도로 플레이해 위 네
+  질문을 판정하기 전까지 상태는 `[~]`이며, 기존 데모 이관도 시작하지 않는다.
 
 ## 규범 판정
 

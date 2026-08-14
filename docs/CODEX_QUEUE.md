@@ -59,7 +59,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-103 · M01~M06 월간 약속을 직접 고르는 독립 체험판을 만든다 | [103](queue_active/ORDER-103.md) | 착수 — 기존 24주·저장과 격리한 6개월 주력/함께 플레이 표본 |
+| 1 | [~] | ORDER-103 · M01~M06 월간 약속을 직접 고르는 독립 체험판을 만든다 | [103](queue_active/ORDER-103.md) | L1/L2 완료 — 격리 macOS 체험판에서 사용자 정상 속도 재미 판정 대기 |
 | 2 | [~] | ORDER-99 · SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | [99](queue_active/ORDER-99.md) | BUILD 2026.08.11.3 발급·격리 실제 저장 L1/L2 완료 — 사용자 동일 저장의 1월 수첩→2월 보드 확인 대기 |
 | 3 | [~] | ORDER-97 · LOC-0.5 값을 끼우기 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | 착수 — preformat 후보 55개를 전수 분류하고 정확 47호출만 lookup→format 순서로 바꿔 JA/ZH의 영구 EN fallback을 제거 |
 | 4 | [~] | ORDER-98 · PAD-1 포커스 레일을 의미 버튼으로 줄인다 | [98](queue_active/ORDER-98.md) | 구현·L1/L2 완료, demo_rc active — 집 플레이·물리 패드 Batch A/B L3 대기 |

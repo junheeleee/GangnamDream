@@ -29,7 +29,7 @@
         "docs/CONTEXT_INDEX.md",
         "docs/DECISIONS.md",
         "docs/context_manifest.json",
-        "docs/queue_active/ORDER-102.md",
+        "docs/queue_archive/ORDER-102.md",
         "tools/audit_scope.json",
         "tools/audit_select.py",
         "tools/narrative_spine_audit.py",
@@ -42,6 +42,46 @@
         "tools/story_map_strategy_sim.py --self-test"
       ],
       "why": "월 배치만 바뀌면 240주 런타임 대신 지도·5장 정합만 검사한다"
+    },
+    {
+      "id": "story-map-m1m6-runtime",
+      "paths": [
+        "systems/StoryMapMonthlyRuntime.gd",
+        "systems/StoryMapMonthlyRuntime.gd.uid",
+        "tools/StoryMapM1M6Playtest.gd",
+        "tools/StoryMapM1M6Playtest.gd.uid",
+        "tools/StoryMapM1M6Playtest.tscn",
+        "content/meta/story_map_m1m6_en.json",
+        "tools/StoryMapM1M6Check.gd",
+        "tools/StoryMapM1M6Check.gd.uid",
+        "tools/StoryMapM1M6Check.tscn",
+        "tools/audit_scope.json"
+      ],
+      "owned_paths": [
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/WORK_LOG.md",
+        "docs/queue_active/ORDER-103.md",
+        "docs/queue_archive/ORDER-102.md",
+        "docs/queue_archive/CODEX_QUEUE_2026-08.md",
+        "systems/StoryMapMonthlyRuntime.gd",
+        "systems/StoryMapMonthlyRuntime.gd.uid",
+        "tools/StoryMapM1M6Playtest.gd",
+        "tools/StoryMapM1M6Playtest.gd.uid",
+        "tools/StoryMapM1M6Playtest.tscn",
+        "content/meta/story_map_m1m6_en.json",
+        "tools/StoryMapM1M6Check.gd",
+        "tools/StoryMapM1M6Check.gd.uid",
+        "tools/StoryMapM1M6Check.tscn",
+        "tools/audit_scope.json",
+        "tools/audit_select.py"
+      ],
+      "tools": [
+        "tools/story_map_audit.py",
+        "tools/story_map_strategy_sim.py --self-test",
+        "tools/StoryMapM1M6Check.tscn"
+      ],
+      "why": "독립 M01~M06 런타임만 5초 이내 검사하고 기존 24주·240주 경로는 실행하지 않는다"
     }
   ],
   "checks": [
@@ -154,6 +194,22 @@
       "paths": [
         "content/meta/story_map.json",
         "tools/story_map_strategy_sim.py"
+      ]
+    },
+    {
+      "tool": "tools/StoryMapM1M6Check.tscn",
+      "godot": true,
+      "why": "독립 M01~M06 주력/함께·같은 축 여유·한 번의 미룸·저장·UI 역할 계약",
+      "paths": [
+        "systems/StoryMapMonthlyRuntime.gd",
+        "systems/StoryMapMonthlyRuntime.gd.uid",
+        "tools/StoryMapM1M6Playtest.gd",
+        "tools/StoryMapM1M6Playtest.gd.uid",
+        "tools/StoryMapM1M6Playtest.tscn",
+        "content/meta/story_map_m1m6_en.json",
+        "tools/StoryMapM1M6Check.gd",
+        "tools/StoryMapM1M6Check.gd.uid",
+        "tools/StoryMapM1M6Check.tscn"
       ]
     },
     {
