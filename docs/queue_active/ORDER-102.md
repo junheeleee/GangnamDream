@@ -25,7 +25,8 @@
 1. 정확히 M01~M60, 주차 1~240, 장별 12개월을 한 `story_map`에 선언한다.
 2. 각 월은 질문·압력·기회·사람 약속·기한·처리(K/M/E/N)를 소유한다.
 3. 기존 이벤트와 아직 쓸 장면을 `existing`/`planned`로 구분해 없는 콘텐츠를
-   구현 완료처럼 세지 않는다.
+   구현 완료처럼 세지 않는다. 기존 장면도 `mapped`/`needs_rule`로 갈라 아직
+   `story_rules` 이관이 필요한 장면을 숨기지 않는다.
 4. 표현·기억·결정 중 장기 저장할 것만 reads/writes로 선언한다.
 5. 장기 결정 enum은 7개로 닫고 다른 장기 flag 발명을 거부한다.
 6. 챕터 carryover는 정확히 네 슬롯만 허용한다.
@@ -46,8 +47,9 @@
 
 **선언 3:** `CLAUDE.md`, `docs/CODEX_QUEUE.md`, 이 사양.
 
-**정본·검사 8:** `content/meta/story_map.json`,
+**정본·검사 9:** `content/meta/story_map.json`,
 `tools/story_map_audit.py`, `content/meta/narrative_spine.json`,
+`content/meta/story_rules.json`,
 `docs/CHOICE_CONSEQUENCE_SYSTEM.md`, `docs/DECISIONS.md`,
 `docs/CONTEXT_INDEX.md`, `docs/context_manifest.json`,
 `tools/audit_select.py`(영향 선택 연결이 필요할 때만).
@@ -61,6 +63,8 @@
 - M01·M35·M55 세 단면의 reads/writes/forgone 및 참가자 계약 GREEN.
 - 장기 결정 7개, carryover 슬롯 4개, 장면 입력 상한 위반 0.
 - existing event ID 누락 0, planned ID가 기존 구현처럼 오인되는 경우 0.
+- existing beat의 `mapped`/`needs_rule` 분류가 실제 `story_rules` 존재 여부와
+  정확히 같고, 장기 결정·carryover fact 11개는 `story_rules.fact_types`가 소유.
 - `story_map_audit.py` 정상·독립 negative self-test·JSON duplicate-key·diff-check
   GREEN, 목표 실행시간 15초 이하.
 - 240주 전체 Godot 감사와 거대 causal self-test는 실행하지 않는다.
