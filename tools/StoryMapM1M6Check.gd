@@ -43,7 +43,76 @@ const PROTECTED_PRODUCT_PATHS := [
 	"scenes/CoreLoopV2Completion.gd",
 ]
 
+# The player overlay deliberately no longer owns these author-only English
+# strings.  Keep the rejected surface here as a regression fixture so moving
+# the same copy under a new UI key cannot bypass the structural overlay check.
+const LEGACY_EN_PRECHOICE_FORBIDDEN := [
+	"The borrowed-account offer in W4 can only be answered this month",
+	"500,000 won in cash and surviving the first month",
+	"The first application and an entry into legitimate work",
+	"Do not turn Dad's and Hyunsu's arrival into schedule filler",
+	"The world event in W8 returns only once before month-end",
+	"The result of the first choice and the cost of staying afloat",
+	"A second attempt to reach out to Hyunsu first",
+	"Do not bury rejection and acceptance under the same sentence",
+	"The first meeting can happen only along this month's route through the city",
+	"Finding time to seek people out while earning money",
+	"The first real crossing with Daeun or Jiyeon",
+	"After a chance meeting, progress opens only when the player spends time",
+	"The first meeting opens only on the actual room-viewing route",
+	"Rent and a job result arrive at the same time",
+	"Sangchul's first coffee and a door to money",
+	"Sangchul must not look like a villain at the first meeting",
+	"Anyone not sought out again this month leaves a cost to re-enter",
+	"A work decision and someone met earlier demand the same time",
+	"An ordinary reunion with Jaehyuk or a second crossing with an existing connection",
+	"Jaehyuk is not offering an investment or guarantee yet",
+	"After Friday of W24, none of these deadlines can move to next week",
+	"Work, people, and family deadlines collide on one Friday",
+	"Choose one promise to keep",
+	"Even unchosen promises retain their source and expiry",
+	"Secure this month's survival floor and prepare a cash choice for next month.",
+	"A cash gap for next month's rent and food remains as pressure.",
+	"Open the hiring result in M04 and a path into legitimate work.",
+	"This posting and its hiring-result window close.",
+	"Keep the early family contact and prepare a trust choice for next month.",
+	"It returns once in M02 as a call-back debt; miss it again and the early contact cools.",
+	"Seal the account risk. If this month repays the prior cash gap, it creates no new margin.",
+	"A financial scar and cash pressure remain for next month.",
+	"Open the first shared-study path with Hyunsu, one not built on money.",
+	"Hyunsu's early path closes; only a later reunion remains.",
+	"Repay last month's call-back debt, but create no new margin from it.",
+	"Missing him a second time lets the early family contact go cold.",
+	"Secure a housing floor. If this repairs last month's financial scar, it creates no new margin.",
+	"Emergency lodging and more expensive housing pressure arrive in M04.",
+	"Open Daeun's immediate entry scene and the relationship path that follows.",
+	"Daeun's immediate entry door closes this time.",
+	"Open Jiyeon's immediate entry scene and the relationship path that follows.",
+	"This window to answer Jiyeon directly closes.",
+	"Confirm the first legitimate workday and a stable-income path.",
+	"This hiring result and first-day window close.",
+	"Get an independent housing quote. If this repairs last month's housing pressure, it creates no new margin.",
+	"The booked listing and its quote window close.",
+	"Open the warmer early path where Sangchul is a person before he is a deal.",
+	"The warm first meeting closes; his M06 contact comes only as a cold field deal.",
+	"Confirm a current livelihood line that does not duplicate the M04 hiring result.",
+	"The current livelihood line breaks, making the cash choice in M06 more urgent.",
+	"Preserve the plain friendship with Jaehyuk from before money entered it.",
+	"The ordinary reunion closes; a later meeting will sit closer to a transaction.",
+	"Make an M06 date with the person protected in M03 and advance that relationship.",
+	"The M06 date with that same person returns once as a relationship debt.",
+	"Meet this work deadline, first repairing any livelihood break carried from last month.",
+	"The current legitimate-work door and the next income opportunity close.",
+	"Answer this money and field offer, whether or not the earlier connection was warm.",
+	"This field invitation and the introducer's door close.",
+	"Hear Dad's health warning in time and open a path to family care.",
+	"Lose the right to know in time and this family-health window.",
+	"Keep the date with the person chosen in M05 and establish the early relationship stage.",
+	"This date and the early relationship stage with that person close.",
+]
+
 var _failures: Array[String] = []
+var _disclosure_coverage: Dictionary = {}
 
 
 func _ready() -> void:
@@ -54,10 +123,11 @@ func _run() -> void:
 	_check_owned_resources_exist()
 	_check_isolated_save_surface()
 	_check_scope_isolation()
+	_check_player_overlay_boundary()
 	_check_runtime_contracts()
 	await _check_ui_flow()
 	if _failures.is_empty():
-		print("STORY_MAP_M1M6_CHECK_OK months=6 margin=4 deferred=2 actor=2 save=2 ui=1")
+		print("STORY_MAP_M1M6_CHECK_OK months=6 margin=4 deferred=2 actor=2 save=2 ui=1 disclosure=2")
 	else:
 		for failure in _failures:
 			push_error("STORY_MAP_M1M6_CHECK: %s" % failure)
@@ -112,6 +182,43 @@ func _check_scope_isolation() -> void:
 	for protected_path in PROTECTED_PRODUCT_PATHS:
 		_expect(not owned.has(protected_path),
 			"runtime lane owns protected product file %s" % protected_path)
+
+
+func _check_player_overlay_boundary() -> void:
+	var raw_overlay: Variant = JSON.parse_string(_read_text(EN_OVERLAY_PATH))
+	_expect(raw_overlay is Dictionary, "English player overlay did not parse")
+	if not raw_overlay is Dictionary:
+		return
+	var overlay := raw_overlay as Dictionary
+	var month_copy: Variant = overlay.get("month_copy", {})
+	_expect(month_copy is Dictionary, "English month copy is not a dictionary")
+	if month_copy is Dictionary:
+		for month_id in (month_copy as Dictionary):
+			var entry: Variant = (month_copy as Dictionary).get(month_id, {})
+			if not entry is Dictionary:
+				_expect(false, "English month %s copy is not a dictionary" % month_id)
+				continue
+			var keys: Array = (entry as Dictionary).keys()
+			keys.sort()
+			_expect(keys == ["design_label"],
+				"English month %s exposes author contract or future deadline" % month_id)
+	var commitment_copy: Variant = overlay.get("commitment_copy", {})
+	_expect(commitment_copy is Dictionary, "English commitment copy is not a dictionary")
+	if commitment_copy is Dictionary:
+		for commitment_id in (commitment_copy as Dictionary):
+			var entry: Variant = (commitment_copy as Dictionary).get(commitment_id, {})
+			if not entry is Dictionary:
+				_expect(false, "English commitment %s copy is not a dictionary" % commitment_id)
+				continue
+			for key in (entry as Dictionary).keys():
+				_expect(str(key) in ["label", "label_by_actor"],
+					"English commitment %s exposes prewritten outcome %s" % [commitment_id, key])
+	var ui_copy: Variant = overlay.get("ui_copy", {})
+	_expect(ui_copy is Dictionary, "English UI copy is not a dictionary")
+	if ui_copy is Dictionary:
+		for stale_key in ["ui.card.keep", "ui.card.miss", "ui.month.deadline"]:
+			_expect(not (ui_copy as Dictionary).has(stale_key),
+				"English UI restored exact pre-choice outcome key %s" % stale_key)
 
 
 func _check_runtime_contracts() -> void:
@@ -248,6 +355,7 @@ func _check_ui_flow() -> void:
 		["m06_person_date", ""],
 	]
 	for index in range(months.size()):
+		_check_prechoice_disclosure(playtest, index + 1)
 		var row: Array = months[index]
 		_expect(bool(playtest.call("qa_set_role", "protected", row[0])),
 			"UI could not set protected role in M%02d" % (index + 1))
@@ -273,6 +381,246 @@ func _check_ui_flow() -> void:
 	_expect(str(playtest.call("qa_screen")) == "recap", "finished continue did not restore recap")
 	_remove_file(save_path)
 	playtest.queue_free()
+	await get_tree().process_frame
+	await _check_conditional_disclosure_routes()
+	_check_disclosure_coverage()
+
+
+func _check_prechoice_disclosure(playtest: Node, month: int) -> void:
+	_expect(str(playtest.call("qa_screen")) == "selection",
+		"M%02d disclosure check did not start on selection" % month)
+	var raw_map: Variant = JSON.parse_string(_read_text(STORY_MAP_PATH))
+	_expect(raw_map is Dictionary, "story_map did not parse for disclosure check")
+	if not raw_map is Dictionary:
+		return
+	var month_data := _story_month(raw_map as Dictionary, month)
+	_expect(not month_data.is_empty(), "M%02d is missing from story_map" % month)
+	if month_data.is_empty():
+		return
+	for language in ["ko", "en"]:
+		_expect(bool(playtest.call("qa_set_language", language)),
+			"UI could not switch to %s for M%02d" % [language, month])
+		for raw_card in month_data.get("commitments", []):
+			if not raw_card is Dictionary:
+				continue
+			var card := raw_card as Dictionary
+			var commitment_id := str(card.get("id", ""))
+			if not bool(playtest.call("qa_focus_commitment", commitment_id)):
+				continue
+			_assert_prechoice_copy_boundary(
+				playtest, month_data, month, language, commitment_id, "unassigned")
+			_mark_disclosure_coverage(commitment_id, language, "unassigned")
+			_expect(bool(playtest.call("qa_set_role", "protected", commitment_id)),
+				"M%02d %s could not protect %s for disclosure check" % [
+					month, language, commitment_id])
+			_assert_prechoice_copy_boundary(
+				playtest, month_data, month, language, commitment_id, "protected")
+			_mark_disclosure_coverage(commitment_id, language, "protected")
+			_expect(bool(playtest.call("qa_clear_role", "protected")),
+				"M%02d %s could not clear protected %s" % [
+					month, language, commitment_id])
+			var optional_primary := _optional_primary_for(playtest, month_data, card)
+			if not optional_primary.is_empty():
+				_expect(bool(playtest.call("qa_set_role", "protected", optional_primary)),
+					"M%02d %s could not prepare optional check for %s" % [
+						month, language, commitment_id])
+				_expect(bool(playtest.call("qa_set_role", "optional_second", commitment_id)),
+					"M%02d %s could not add optional %s" % [
+						month, language, commitment_id])
+				_assert_prechoice_copy_boundary(
+					playtest, month_data, month, language, commitment_id, "optional_second")
+				_mark_disclosure_coverage(commitment_id, language, "optional_second")
+				_expect(bool(playtest.call("qa_clear_role", "protected")),
+					"M%02d %s could not clear optional setup for %s" % [
+						month, language, commitment_id])
+	_expect(bool(playtest.call("qa_set_language", "ko")),
+		"UI could not restore Korean after M%02d disclosure check" % month)
+
+
+func _assert_prechoice_copy_boundary(
+	playtest: Node,
+	month_data: Dictionary,
+	month: int,
+	language: String,
+	commitment_id: String,
+	role_state: String,
+) -> void:
+	var visible := str(playtest.call("qa_visible_text"))
+	var contract: Variant = month_data.get("contract", {})
+	if contract is Dictionary:
+		for field in ["deadline", "pressure", "opportunity", "person_promise"]:
+			var author_copy := str((contract as Dictionary).get(field, ""))
+			_expect(author_copy.is_empty() or not visible.contains(author_copy),
+				"M%02d %s %s/%s exposed author contract %s" % [
+					month, language, commitment_id, role_state, field])
+	for raw_card in month_data.get("commitments", []):
+		if not raw_card is Dictionary:
+			continue
+		var author_id := str((raw_card as Dictionary).get("id", ""))
+		var strategy: Variant = (raw_card as Dictionary).get("strategy", {})
+		if not strategy is Dictionary:
+			continue
+		for outcome in ["completed", "missed"]:
+			var outcome_data: Variant = (strategy as Dictionary).get(outcome, {})
+			var preview := str((outcome_data as Dictionary).get("preview", "")) \
+				if outcome_data is Dictionary else ""
+			_expect(preview.is_empty() or not visible.contains(preview),
+				"M%02d %s %s/%s exposed %s outcome for %s" % [
+					month, language, commitment_id, role_state, outcome, author_id])
+	if language == "en":
+		for forbidden_copy in LEGACY_EN_PRECHOICE_FORBIDDEN:
+			_expect(not visible.contains(str(forbidden_copy)),
+				"M%02d EN %s/%s restored rejected author/outcome copy" % [
+					month, commitment_id, role_state])
+	var focused := _story_card(month_data, commitment_id)
+	var safe_copy := ""
+	if language == "ko":
+		safe_copy = "미룸 · 다음 달 한 번" \
+			if str(focused.get("miss", "expired")) == "deferred" \
+			else "기한 · 이번 달에 끝남"
+	else:
+		safe_copy = "DEFER · MAY RETURN ONCE" \
+			if str(focused.get("miss", "expired")) == "deferred" \
+			else "WINDOW · ENDS THIS MONTH"
+	_expect(visible.contains(safe_copy),
+		"M%02d %s %s/%s omitted its safe deadline rule" % [
+			month, language, commitment_id, role_state])
+
+
+func _optional_primary_for(
+	playtest: Node,
+	month_data: Dictionary,
+	optional_card: Dictionary,
+) -> String:
+	var snapshot: Variant = playtest.call("qa_snapshot")
+	if not snapshot is Dictionary:
+		return ""
+	var margin_axis := str((snapshot as Dictionary).get("margin_axis", ""))
+	if margin_axis.is_empty() or margin_axis != str(optional_card.get("axis", "")):
+		return ""
+	var optional_id := str(optional_card.get("id", ""))
+	for raw_card in month_data.get("commitments", []):
+		if not raw_card is Dictionary:
+			continue
+		var candidate_id := str((raw_card as Dictionary).get("id", ""))
+		if candidate_id != optional_id \
+				and bool(playtest.call("qa_focus_commitment", candidate_id)):
+			return candidate_id
+	return ""
+
+
+func _story_card(month_data: Dictionary, commitment_id: String) -> Dictionary:
+	for raw_card in month_data.get("commitments", []):
+		if raw_card is Dictionary \
+				and str((raw_card as Dictionary).get("id", "")) == commitment_id:
+			return (raw_card as Dictionary).duplicate(true)
+	return {}
+
+
+func _story_month(root: Dictionary, month: int) -> Dictionary:
+	for raw_chapter in root.get("chapters", []):
+		if not raw_chapter is Dictionary:
+			continue
+		for raw_month in (raw_chapter as Dictionary).get("months", []):
+			if raw_month is Dictionary and int((raw_month as Dictionary).get("month", 0)) == month:
+				return (raw_month as Dictionary).duplicate(true)
+	return {}
+
+
+func _check_conditional_disclosure_routes() -> void:
+	await _check_conditional_disclosure_route(
+		["m01_survival_shift"], 2, "m02_return_father_call")
+	await _check_conditional_disclosure_route(
+		["m01_legal_application", "m02_close_account_risk", "m03_cover_deposit_gap"],
+		4,
+		"m04_answer_job_result",
+	)
+
+
+func _check_conditional_disclosure_route(
+	prefix: Array,
+	target_month: int,
+	required_commitment_id: String,
+) -> void:
+	var playtest: Node = PLAYTEST_SCENE.instantiate()
+	add_child(playtest)
+	await get_tree().process_frame
+	if not playtest.has_method("qa_start_new_run"):
+		_expect(false, "conditional disclosure playtest has no QA surface")
+		playtest.queue_free()
+		await get_tree().process_frame
+		return
+	var save_path := str(playtest.call("qa_autosave_path"))
+	_remove_file(save_path)
+	var route_ok := bool(playtest.call("qa_start_new_run"))
+	_expect(route_ok,
+		"conditional disclosure route to M%02d could not start" % target_month)
+	for commitment_id in prefix:
+		if not route_ok:
+			break
+		route_ok = bool(playtest.call("qa_set_role", "protected", commitment_id))
+		_expect(route_ok,
+			"conditional disclosure route could not protect %s" % commitment_id)
+		if not route_ok:
+			break
+		var result: Variant = playtest.call("qa_commit_month")
+		route_ok = result is Dictionary and not (result as Dictionary).is_empty()
+		_expect(route_ok,
+			"conditional disclosure route could not commit %s" % commitment_id)
+		if not route_ok:
+			break
+		route_ok = bool(playtest.call("qa_advance"))
+		_expect(route_ok,
+			"conditional disclosure route could not advance after %s" % commitment_id)
+	if route_ok:
+		_expect(str(playtest.call("qa_screen")) == "selection",
+			"conditional disclosure route did not reach M%02d selection" % target_month)
+		_expect(bool(playtest.call("qa_focus_commitment", required_commitment_id)),
+			"conditional disclosure route did not expose %s" % required_commitment_id)
+		_check_prechoice_disclosure(playtest, target_month)
+	_remove_file(save_path)
+	playtest.queue_free()
+	await get_tree().process_frame
+
+
+func _mark_disclosure_coverage(
+	commitment_id: String,
+	language: String,
+	role_state: String,
+) -> void:
+	var key := "%s|%s" % [commitment_id, language]
+	var states: Array = _disclosure_coverage.get(key, [])
+	if not role_state in states:
+		states.append(role_state)
+	_disclosure_coverage[key] = states
+
+
+func _check_disclosure_coverage() -> void:
+	var raw_map: Variant = JSON.parse_string(_read_text(STORY_MAP_PATH))
+	_expect(raw_map is Dictionary, "story_map did not parse for disclosure coverage")
+	if not raw_map is Dictionary:
+		return
+	var optional_counts := {"ko": 0, "en": 0}
+	for month in range(1, 7):
+		var month_data := _story_month(raw_map as Dictionary, month)
+		for raw_card in month_data.get("commitments", []):
+			if not raw_card is Dictionary:
+				continue
+			var commitment_id := str((raw_card as Dictionary).get("id", ""))
+			for language in ["ko", "en"]:
+				var states: Array = _disclosure_coverage.get(
+					"%s|%s" % [commitment_id, language], [])
+				_expect(states.has("unassigned"),
+					"%s %s never checked before role assignment" % [
+						commitment_id, language])
+				_expect(states.has("protected"),
+					"%s %s never checked after role assignment" % [
+						commitment_id, language])
+				if states.has("optional_second"):
+					optional_counts[language] = int(optional_counts[language]) + 1
+	for language in ["ko", "en"]:
+		_expect(int(optional_counts[language]) > 0,
+			"%s disclosure never checked after alongside role assignment" % language)
 
 
 func _resolve(

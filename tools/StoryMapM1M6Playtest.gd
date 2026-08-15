@@ -124,6 +124,20 @@ func qa_autosave_path() -> String:
 	return AUTOSAVE_PATH
 
 
+func qa_set_language(language: String) -> bool:
+	if language not in ["ko", "en"]:
+		return false
+	_language = language
+	_refresh_current_screen()
+	return true
+
+
+func qa_visible_text() -> String:
+	var lines := PackedStringArray()
+	_collect_visible_text(self, lines)
+	return "\n".join(lines)
+
+
 func _initialize_runtime() -> bool:
 	_runtime = MONTHLY_RUNTIME.new()
 	if _runtime == null:
@@ -229,7 +243,7 @@ func _show_home() -> void:
 	column.add_child(hero)
 	var body_copy := _label(_t(
 		"ui.home.body",
-		"매달 주력 약속 하나를 고릅니다. 지난달 같은 색 여유가 있다면 하나를 함께 지킬 수 있습니다. 나머지는 카드에 적힌 결과로 이어집니다."
+		"매달 주력 약속 하나를 고릅니다. 같은 축 여유가 있다면 하나를 함께 지킬 수 있습니다. 선택 전에는 행동·마감·미룸 가능 여부만 알 수 있습니다."
 	), 16 if not _compact else 14, COLOR_TEXT)
 	body_copy.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body_copy.custom_minimum_size.y = 76 if not _compact else 66
@@ -380,8 +394,10 @@ func _rebuild_selection_screen() -> void:
 	prompt_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	month_row.add_child(prompt_column)
 	prompt_column.add_child(_label(_t("ui.month.prompt", "이번 달, 무엇을 끝까지 지킬까?"), 18 if not _compact else 16, COLOR_TEXT, true))
-	var contract := _month_contract_deadline(month)
-	var contract_label := _label(_format(_t("ui.month.deadline", "마감"), {}) + " · " + contract, 12 if _compact else 13, COLOR_DIM)
+	var contract_label := _label(_t(
+		"ui.month.known_information",
+		"행동·축·마감과 미룸 가능 여부만 미리 알 수 있습니다."
+	), 12 if _compact else 13, COLOR_DIM)
 	contract_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	prompt_column.add_child(contract_label)
 	var margin_label := _label(_margin_copy(), 13 if _compact else 14, _axis_color(_margin_axis()), true)
@@ -946,13 +962,10 @@ func _detail_copy(card: Dictionary) -> String:
 		_t("ui.card.due", "마감 · {week}주차"),
 		{"week": int(card.get("due_week", 0))}
 	))
-	lines.append(_format(
-		_t("ui.card.keep", "지키면 · {preview}"),
-		{"preview": _commitment_preview(commitment_id, "completed", card)}
-	))
-	lines.append(_format(
-		_t("ui.card.miss", "놓치면 · {preview}"),
-		{"preview": _commitment_preview(commitment_id, "missed", card)}
+	lines.append(_choice_window_detail(card))
+	lines.append(_t(
+		"ui.detail.unknown_outcome",
+		"그 뒤의 변화는 실제로 일어날 때 드러납니다."
 	))
 	return "\n".join(lines)
 
@@ -965,14 +978,31 @@ func _card_button_text(card: Dictionary) -> String:
 		badge = "[%s] " % _t("ui.card.protected_badge", "주력")
 	elif str(selection.get("optional_second", "")) == commitment_id:
 		badge = "[%s] " % _t("ui.card.optional_badge", "함께")
-	return "%s%s · %s\n%s\n%s\n%s" % [
+	return "%s%s · %s\n%s\n%s" % [
 		badge,
 		_axis_label(str(card.get("axis", ""))),
 		_format(_t("ui.card.due", "마감 · {week}주차"), {"week": int(card.get("due_week", 0))}),
 		_commitment_label(commitment_id),
-		_format(_t("ui.card.keep", "지키면 · {preview}"), {"preview": _commitment_preview(commitment_id, "completed", card)}),
-		_format(_t("ui.card.miss", "놓치면 · {preview}"), {"preview": _commitment_preview(commitment_id, "missed", card)})
+		_choice_window_badge(card)
 	]
+
+
+func _choice_window_badge(card: Dictionary) -> String:
+	if str(card.get("miss", "expired")) == "deferred":
+		return _t("ui.card.window.deferred", "미룸 · 다음 달 한 번")
+	return _t("ui.card.window.expired", "기한 · 이번 달에 끝남")
+
+
+func _choice_window_detail(card: Dictionary) -> String:
+	if str(card.get("miss", "expired")) == "deferred":
+		return _t(
+			"ui.detail.window.deferred",
+			"미룸 · 놓치면 다음 달 선택으로 한 번 돌아옵니다."
+		)
+	return _t(
+		"ui.detail.window.expired",
+		"기한 · 이번 달이 지나면 이 약속은 되돌릴 수 없습니다."
+	)
 
 
 func _selection_copy() -> String:
@@ -1025,11 +1055,16 @@ func _add_missed_result(column: VBoxContainer, item: Dictionary) -> void:
 	var commitment_id := str(item.get("id", item.get("commitment_id", "")))
 	var state := str(item.get("state", "expired"))
 	var color := COLOR_CASH if state == "deferred" else COLOR_DIM
-	var badge := _t("ui.detail.deferred_once", "다음 달 한 번 돌아옴") if state == "deferred" else _t("ui.detail.expired", "이번 문 또는 압력이 적용됨")
-	var copy := "%s\n%s\n%s" % [
+	var badge := _t(
+		"ui.result.deferred_status",
+		"다음 달 선택으로 한 번 돌아옵니다."
+	) if state == "deferred" else _t(
+		"ui.result.expired_status",
+		"이번 약속은 지나갔습니다."
+	)
+	var copy := "%s\n%s" % [
 		_commitment_label(commitment_id),
-		badge,
-		_commitment_preview(commitment_id, "missed", _card_from_anywhere(commitment_id))
+		badge
 	]
 	var label := _label(copy, 12 if _compact else 13, color)
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -1383,22 +1418,6 @@ func _month_label(month: int) -> String:
 	return "M%02d" % month
 
 
-func _month_contract_deadline(month: int) -> String:
-	if _language == "en":
-		var entry: Variant = _overlay.get("month_copy", {}).get("M%02d" % month, {})
-		if entry is Dictionary:
-			var contract: Variant = (entry as Dictionary).get("contract", {})
-			if contract is Dictionary:
-				return str((contract as Dictionary).get("deadline", ""))
-	if _runtime != null and _runtime.has_method("month_data"):
-		var month_data: Variant = _runtime.call("month_data", month)
-		if month_data is Dictionary:
-			var contract_value: Variant = (month_data as Dictionary).get("contract", {})
-			if contract_value is Dictionary:
-				return str((contract_value as Dictionary).get("deadline", ""))
-	return ""
-
-
 func _commitment_label(commitment_id: String) -> String:
 	if commitment_id.is_empty():
 		return _t("ui.result.none", "없음")
@@ -1443,19 +1462,6 @@ func _focus_actor_for_commitment(commitment_id: String) -> String:
 			var actors: Variant = (receipt as Dictionary).get("actors", {})
 			if actors is Dictionary:
 				return str((actors as Dictionary).get("person", ""))
-	return ""
-
-
-func _commitment_preview(commitment_id: String, outcome: String, card: Dictionary) -> String:
-	if _language == "en":
-		var entry: Variant = _overlay.get("commitment_copy", {}).get(commitment_id, {})
-		if entry is Dictionary:
-			return str((entry as Dictionary).get("%s_preview" % outcome, ""))
-	var strategy: Variant = card.get("strategy", {})
-	if strategy is Dictionary:
-		var outcome_value: Variant = (strategy as Dictionary).get(outcome, {})
-		if outcome_value is Dictionary:
-			return str((outcome_value as Dictionary).get("preview", ""))
 	return ""
 
 
@@ -1586,6 +1592,15 @@ func _clear_body() -> void:
 	for child in _body.get_children():
 		_body.remove_child(child)
 		child.queue_free()
+
+
+func _collect_visible_text(node: Node, lines: PackedStringArray) -> void:
+	if node is Label and (node as Label).is_visible_in_tree():
+		lines.append((node as Label).text)
+	elif node is Button and (node as Button).is_visible_in_tree():
+		lines.append((node as Button).text)
+	for child in node.get_children():
+		_collect_visible_text(child, lines)
 
 
 func _label(text_value: String, font_size: int, color: Color, bold: bool = false) -> Label:
