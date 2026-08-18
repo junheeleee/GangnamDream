@@ -294,6 +294,20 @@ def main() -> int:
         print("NARRATIVE_SPINE_AUDIT_ERROR root must be an object")
         return 1
     planned_events, planned_relocations = collect_planned_events(story_map, errors)
+    authored_story_events: set[tuple[int, str]] = set()
+    for chapter in story_map.get("chapters", []) if isinstance(story_map, dict) else []:
+        if not isinstance(chapter, dict):
+            continue
+        chapter_number = int(chapter.get("chapter", 0))
+        for month in chapter.get("months", []):
+            if not isinstance(month, dict):
+                continue
+            for beat in month.get("beats", []):
+                if not isinstance(beat, dict) or beat.get("work") == "NEW":
+                    continue
+                event_id = str(beat.get("root", ""))
+                if event_id in ko_ids and event_id in en_ids:
+                    authored_story_events.add((chapter_number, event_id))
 
     central_question = str(spine.get("central_question", "")).strip()
     if len(central_question) < 20:
@@ -411,12 +425,20 @@ def main() -> int:
             else:
                 fail(errors, f"character {character_id} planned anchor has invalid mode: {mode}")
         required_ensemble_anchor = required_ensemble_anchors.get(character_id)
-        if required_ensemble_anchor and required_ensemble_anchor not in planned_pairs:
-            fail(
-                errors,
-                f"character {character_id} must plan chapter 5 ensemble anchor "
-                "arc_y5_three_in_room",
-            )
+        if required_ensemble_anchor:
+            if required_ensemble_anchor in authored_story_events:
+                if required_ensemble_anchor[1] not in anchors:
+                    fail(
+                        errors,
+                        f"character {character_id} must own authored chapter 5 ensemble "
+                        "anchor arc_y5_three_in_room",
+                    )
+            elif required_ensemble_anchor not in planned_pairs:
+                fail(
+                    errors,
+                    f"character {character_id} must plan chapter 5 ensemble anchor "
+                    "arc_y5_three_in_room",
+                )
         required_relocation = required_character_relocations.get(character_id)
         if required_relocation and required_relocation not in relocation_pairs:
             fail(

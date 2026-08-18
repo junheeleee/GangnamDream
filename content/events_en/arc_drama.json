@@ -137,19 +137,19 @@
   {
     "id": "arc_sangchul_confrontation",
     "title": "The Question",
-    "description": "For a month, Minjun did nothing.\nHe still met Sangchul. Talked like usual. Charts, markets, strategy for next month.\n\nThen today, he reached his limit.\n\nHe set his coffee down and spoke.\n\"Sangchul. Do you know a man named Park Sang-jin?\"",
+    "description": "A month.\nFor a month, Minjun did nothing. He kept meeting Sangchul and sitting as usual. Charts, markets, next month's strategy. Sangchul smiled; Minjun smiled back, knowing what face that smile belonged to.\n\nToday Sangchul pushed over another printed chart. \"You're quieter than last time. Sick?\"\n\n\"No.\"\n\nThe lie came too quickly. Sangchul's finger stopped on the page, then moved again. Minjun could not tell whether this was the reaction of a man who knew nothing, or one who had been waiting.\n\nThe coffee went cold. Coffee swallowed with knowledge tasted a little more bitter every time. The sentence Minjun had rehearsed a hundred times reached his throat. Swallow it once more and another month would pass.\n\nHe covered the chart and set down the cup without a sound.\n\n\"Sangchul.\"\n\nSangchul looked up.\n\n\"Do you know Park Sang-jin?\"",
     "choices": [
       {
         "text": "Waited for Sangchul's reaction",
-        "result_text": "Sangchul's hand stopped.\n\nHe didn't deny it. He didn't pretend to be surprised.\nHe just — went quiet for a moment.\n\n\"...How did you find out?\""
+        "result_text": "Sangchul's hand stopped.\n\nHe did not deny it or perform surprise. He let go of the cup handle and leaned back.\n\n\"...How did you find out?\"\n\nMinjun did not answer. This time, he would not fill the silence first. Sangchul took one sip of cold coffee, then set the cup precisely in the center of its empty saucer."
       },
       {
         "text": "\"Forget it.\" (He took it back)",
-        "result_text": "Something shifted in Sangchul's eyes the instant Minjun took the words back.\n\nHe didn't say, \"All right.\" He didn't say, \"I don't know him.\"\n\nIt was the face of a man who already knew how much Minjun knew."
+        "result_text": "Something shifted in Sangchul's eyes the instant Minjun took the words back.\n\nHe did not say, \"All right.\" He did not say, \"I don't know him.\" Instead, he folded the chart in half and turned it toward Minjun.\n\n\"You put that name on the table. I can't put it back for you.\"\n\nIt was the face of a man who already knew how much Minjun knew. The folded chart stood between them like a low wall."
       },
       {
         "text": "(He got up and left)",
-        "result_text": "The chair legs scraped briefly against the floor. Minjun left the finished bill and the cold cup behind.\n\nSangchul called his name from across the café.\n\nMinjun pushed through the glass door. He hadn't looked back — not yet."
+        "result_text": "The chair legs scraped briefly against the floor. Minjun rose, leaving the paid bill, the cold cup, and the covered chart behind.\n\n\"Minjun.\" Sangchul called. Minjun pushed through the glass door before the next words came.\n\nCold air struck his face. Just before the door closed, both cups remained visible in the same frame."
       }
     ],
     "description_if_known": {
@@ -431,7 +431,7 @@
   {
     "id": "arc_final_week",
     "title": "The Last Week",
-    "description": "Seven days until the 38th birthday.\n\nFive years ending.\n\nWhether the goal was reached or not — five years passed anyway.\nThe person with 500,000 won in the bank made it here.\n\n{name} looked at who they'd become and thought:\n\nIf the person from five years ago saw who this is now — what would they say?",
+    "description": "Seven days until his thirty-eighth birthday. Whether the goal had been reached or not, the five years were ending.\n\n{name} opened the bank balance from the day he first arrived in Seoul. Five hundred thousand won. Below it ran five years of messages: requests to borrow money, questions about whether he had eaten, promises to wait, and messages saying the waiting was over.\n\nA new message arrived under one of those names.\n\n‘So what are you doing the week after the five years end?’\n\n{name} looked out the window without answering. He had plenty to say to the person he had been five years earlier. But the person across the screen did not need a verdict. They needed an answer about next week.\n\nTheir time would continue after the final week. {name} closed the balance and placed the cursor in the empty reply box.",
     "description_memory_if_known": {
       "m4_housing_priority_runway": "At the housing consultation in the first year, {name} decided that any room he chose had to leave him usable cash after the move. Five years later, his room and his balance together showed how well he had kept that answer.",
       "m4_housing_priority_privacy": "In the first year, he had made “Can I close the door and be alone?” his first question when looking at a room. In the final week, he saw that having solitude and ending up alone were not the same thing.",
@@ -439,22 +439,22 @@
     },
     "choices": [
       {
-        "text": "\"You did well.\" Even if it wasn't enough.",
-        "result_text": "The person from five years ago — didn't know getting this far was possible.\n\nRegardless of whether the goal was reached, getting here was something that person never expected.\n\n\"Good job.\" {name} said it inwardly, to himself.\nNo one heard it. Still needed to be said."
+        "text": "Tell the first person who comes to mind, \"We held on. Let's eat together next week.\"",
+        "result_text": "{name} decided not to hide from the person across the screen the words he had meant for himself.\n\n‘We held on. Me too. Want to eat together the week after the five years end?’\n\nThere was no mention of whether the goal had been reached. He read the sentence once and pressed send. Only the sent time appeared beneath the bubble. {name} did not turn the phone facedown. The cursor blinked beside the still-empty reply box."
       },
       {
-        "text": "\"Is this all?\" Could have done better.",
-        "result_text": "Not wrong. There were moments that could have been seized better.\n\nBut if every one of those moments had been seized — would this be the same person?\n\n{name} didn't know the answer.\nProbably still wouldn't know five more years from now."
+        "text": "Offer the apology that has been postponed, before asking for next week",
+        "result_text": "Before naming anything worth celebrating, {name} wrote about one moment in the past five years when that person had been left waiting alone. No defense followed.\n\n‘I was wrong not to answer then. I'm not sending this to demand a reply. May I contact you again sometime next week, when you're ready?’\n\n{name} sent the apology without deleting it. No typing indicator appeared. The screen held the sent words, the time, and the blank space beneath them."
       },
       {
-        "text": "\"I'm glad you didn't give up here.\"",
-        "result_text": "Five years ago, there were moments of wanting to quit in that goshiwon room.\n\nEvery moment needed a reason. Sometimes there wasn't one. Kept going anyway.\n\n\"I'm glad you didn't give up here.\"\n\nThose words were also something the current {name} needed."
+        "text": "Do not hide the gratitude; state tonight's distance and the next contact time",
+        "result_text": "‘Thank you for waiting this far. I need to be alone tonight. I'll contact you again tomorrow at eight.’\n\n{name} chose not to perform a steady face at the finish. He asked for distance, but wrote the time of the next call with his own hand.\n\nHe sent the sentence and put the phone on its charger. There was no reply yet. After the light went out, the sent time remained visible in the dark for a while."
       }
     ],
     "description_if_known": {
-      "final_signature_owned": "Seven days until his thirty-eighth birthday.\n\nThe ink in the three syllables of 'Kim Minjun' was still wet on the final page of the ledger.\nAbove it remained the names of the people he had owed, pushed away, and held on to over five years.\n\n{name} asked the person who had first arrived in Seoul a question:\n\nCould you accept the choices made under this name?",
-      "final_signature_collateral": "Seven days until his thirty-eighth birthday.\n\nArrows ran from every name he had written in the ledger a few days earlier.\nThey all pointed to one number: three billion won.\n\n{name} wondered whether the person from five years ago would recognize this face.\nThe goal was closer, but the names were beginning to look like collateral.",
-      "final_signature_people": "Seven days until his thirty-eighth birthday.\n\nA few days earlier, he had written people's names on the ledger's final page before adding his signature.\nHis father. The people who had shared a meal with him. Those who left. Those who stayed.\n\n{name} did not write that he had come this far alone.\nThe question left for the final week was not a number, but whose name he would stand beside.",
+      "final_signature_owned": "Seven days until his thirty-eighth birthday.\n\nThe ink in the three syllables of 'Kim Minjun' was still wet on the final page of the ledger.\nAbove it remained the names of the people he had owed, pushed away, and held on to over five years.\n\n{name} asked the person who had first arrived in Seoul a question:\n\nCould you accept the choices made under this name?\n\n{name} opened a conversation he had left unanswered sometime in the past five years. A long blank followed the last message. In the reply box he typed only, ‘The week after the five years end...’ The cursor blinked beside the send button.",
+      "final_signature_collateral": "Seven days until his thirty-eighth birthday.\n\nArrows ran from every name he had written in the ledger a few days earlier.\nThey all pointed to one number: three billion won.\n\n{name} wondered whether the person from five years ago would recognize this face.\nThe goal was closer, but the names were beginning to look like collateral.\n\n{name} looked away from the ledger and opened a conversation he had left unanswered sometime in the past five years. No new message had arrived first. In the reply box he typed only, ‘The week after the five years end...’ The send button remained untouched.",
+      "final_signature_people": "Seven days until his thirty-eighth birthday.\n\nA few days earlier, he had written people's names on the ledger's final page before adding his signature.\nHis father. The people who had shared a meal with him. Those who left. Those who stayed.\n\n{name} did not write that he had come this far alone.\nThe question left for the final week was not a number, but whose name he would stand beside.\n\nFrom those names, {name} opened one conversation he had left unanswered sometime in the past five years. Beneath the last message he typed, ‘The week after the five years end...’ An empty reply box and the send button glowed side by side.",
       "final_all_in_won": "Seven days until the 38th birthday.\n\nFive years ending.\n\nWhether the goal was reached or not — five years passed anyway.\nThe person with 500,000 won in the bank made it here.\n\n{name} looked at who they'd become and thought:\n\nIf the person from five years ago saw who this is now — what would they say?\n\nHe bet everything on the last hand — and won.\nThe tremor in his hands in that moment, the person from five years ago could never have imagined.",
       "final_all_in_lost": "Seven days until the 38th birthday.\n\nFive years ending.\n\nWhether the goal was reached or not — five years passed anyway.\nThe person with 500,000 won in the bank made it here.\n\n{name} looked at who they'd become and thought:\n\nIf the person from five years ago saw who this is now — what would they say?\n\nHe bet everything on the last hand — and lost.\nAnd yet, strangely, he wasn't ashamed before the person from five years ago.\nThere are things only the ones who bet ever learn.",
       "final_last_bet_won": "Seven days until the 38th birthday.\n\nFive years ending.\n\nWhether the goal was reached or not — five years passed anyway.\nThe person with 500,000 won in the bank made it here.\n\n{name} looked at who they'd become and thought:\n\nIf the person from five years ago saw who this is now — what would they say?\n\nThe one who guarded moved once, at the very end — and it landed.\nA hand that had only ever calculated, learning something in the final week.",

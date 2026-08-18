@@ -13,7 +13,9 @@
 1. 60개월 표만 있고 실제 장면이 없으면 지워도 체감이 같다. 특히 4·5장 고유
    경로는 실제 KO/EN 원고가 절반 이하라 후반 관계 폭발과 완결이 존재하지 않는다.
 2. 다시 M01~M06만 다듬으면 이미 반복한 24주 편중을 재현한다. 첫 배치는 M01의
-   첫 선, 각 장의 결정·보스, Ch4 청구서, Ch5 이름·서명까지 한 줄로 관통한다.
+   첫 선, 각 장의 결정·보스, Ch4 청구서, Ch5 이름·서명까지 처음과 끝의 기준
+   장면을 함께 쓴다. 단, 서로 다른 관계 경로의 장면을 한 실행선인 것처럼
+   주장하지 않는다.
 3. 도달 라우팅까지 같은 배치에 넣으면 원고 판단과 시스템 결함이 섞인다. 이번에는
    사건 원고와 선택의 인과만 쓰고 `EXPAND/needs_rule`로 정직하게 표시한다. 실제
    스케줄·StoryLedger·엔딩 라우팅은 다음 이관 오더가 소유한다.
@@ -39,7 +41,9 @@
 17. M55 `arc_y5_three_in_room` — 제안자·검토자·보호 대상이 실제 같은 방에 모인다.
 18. M55 `arc_y5_three_in_room_decision` — 역할이 겹친 사람의 이해충돌까지 확정한다.
 19. M57 `arc_y5_name_on_line` — 누구의 이름과 시간을 담보로 쓸지 최종 사실로 남긴다.
-20. M58 `arc_y5_people_verdict` — 숫자가 아닌 사람들의 반응으로 그 값을 보여 준다.
+20. M58 `arc_y5_people_verdict` — 무연애 경로에서 현수·민서의 서로 다른 판정으로
+    이름 사용의 값을 보여 준다. 다은 기준 경로의 M58은 기존
+    `arc_daeun_final_choice`를 재사용한다.
 21. M60 `arc_final_countdown` — 5년의 선택을 마지막 서명 한 줄에 회수한다.
 22. M60 `arc_final_week` — 목표 달성 여부와 별개로 남은 사람의 이후를 보여 준다.
 
@@ -48,6 +52,16 @@
 쓴다. 선택은 요약 태도 3개가 아니라 서로 다른 것을 지키고 놓치게 한다. 그달의
 선택된 약속 또는 직전 receipt가 첫 문장·참석자·부재·선택지 중 최소 하나에
 드러나야 하며, 장기 결정은 기존 7개를 늘리지 않는다.
+
+이번 22단위는 하나의 실행 가능한 세로 루트가 아니라 **기준 경로 원고와 대체
+경로 앵커 묶음**이다. Ch4 기준 경로는 다은·상철·아버지가 실제로 충돌하고,
+Ch5 기준 경로는 상철이 가져와 검토한 계약, 재혁의 보증 부탁, 다은의 이름이
+같은 회의실에서 부딪친다.
+`arc_y5_people_verdict`는 별도의 무연애 경로에서 현수·민서가 만나는 장면이다.
+M55 기준 원고에서 상철은 제안자와 검토자를 함께 맡지만 다은·재혁과는 다른
+사람이다. 지연·무연애·전원 분리·다른 배우 합류 같은 조합은 이 공용문으로 덮지
+않고 각자의 NEW fallback으로 남긴다. 따라서 `needs_rule`인 기준 원고도 이 정확한
+출연 조합 외에는 라우팅하지 않는다.
 
 ## 원고 원칙
 
@@ -63,14 +77,17 @@
 ## 정확한 파일 소유권
 
 **선언·마감:** `CLAUDE.md`, `docs/CODEX_QUEUE.md`, 이 사양,
-`docs/WORK_LOG.md`.
+`docs/WORK_LOG.md`. 부팅 예산을 지키기 위한 원문 이동만
+`docs/history/WORK_LOG_2026-08-04.md`가 함께 소유한다.
 
 **KO/EN 원고:** `content/events/arc_events.json`, `content/events/arc_midgame.json`,
 `content/events/arc_year_close.json`, `content/events/arc_drama.json`,
 `content/events/arc_chapter_themes.json`, `content/events/arc_pre_ending.json`과
 동일 이름의 `content/events_en/` 6파일.
 
-**월간 상태:** `content/meta/story_map.json`. `content/meta/narrative_spine.json`과
+**월간 상태:** `content/meta/story_map.json`. `tools/story_map_audit.py`는 기준
+출연진 분리로 낡은 단일 self-test fixture 하나를 같은 의미의 fallback fixture로
+옮기는 정합만 소유한다. `content/meta/narrative_spine.json`과
 `tools/narrative_spine_audit.py`는 새 M55 회의를 `planned`에서 실제 Ch5
 anchor/reader로 승격하는 정합만 소유한다. `content/meta/story_rules.json`은
 결정 생산자·독자를 정확히 결속할 때만 수정한다.
@@ -84,8 +101,22 @@ anchor/reader로 승격하는 정합만 소유한다. `content/meta/story_rules.
 - 신규 base root만 `EXPAND/needs_rule`, 미집필 fallback은 `NEW/planned`로 남는다.
 - 선택 결과가 장기 결정 7개를 늘리거나 독자 없는 영구 flag를 만들지 않는다.
 - JSON duplicate-key, `story_map_audit`, 한영 coverage, story consistency,
-  바뀐 파일용 `audit_select`, `git diff --check`만 실행한다.
+  `audit_select --list`로 영향 목록 확인, `git diff --check`만 실행한다.
 - 전체 감사·240주 시뮬레이션·Godot 장시간 검사는 실행하지 않는다.
+
+## 2026-08-18 L1/L2 결과
+
+- 22개 기준 root와 M60 미접수 보조 root 1개를 KO/EN에 작성했다. 기존 11개
+  root는 텍스트 외 게임 구조를 보존했고, 신규 12개 root는 실제 원고가 있는
+  `EXPAND/needs_rule`로 승격했다. 미집필 배우·결과 조합은 NEW로 남겼다.
+- Ch4 기준은 다은·상철·아버지, Ch5 기준은 상철의 제안·검토 이해충돌,
+  재혁의 보증 요청, 다은의 이름이다. M58은 별도 무연애 현수·민서 장면이다.
+  접수·미실행·미접수와 다른 명의 결과는 서로의 문장을 재사용하지 않는다.
+- `story_map` 일반/자가 75건, narrative spine, 한영 coverage, story consistency,
+  말투, 정점 장면 32개, 14 JSON strict parse, 22+1 root 구조 계약과 diff 검사가
+  통과했다. 전체 감사·240주·Godot는 실행하지 않았다.
+- L3는 사용자가 돌아온 뒤 무작위 3개를 읽어 판정한다. 그 전에도 최신 직접
+  지시에 따라 다음 20개 원고 배치는 별도 작은 사양과 선언 커밋으로 계속한다.
 
 ## 사람 판정
 

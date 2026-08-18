@@ -312,20 +312,20 @@
   {
     "id": "arc_jaehyuk_04a_ghost",
     "title": "No Answer",
-    "description": "Settlement day. {name} reached out to Jaehyuk.\n\nNo Read receipt. The call rang out and disconnected. His KakaoTalk profile picture was gone.\n\nOn the third night, {name} searched the company Jaehyuk had named. The first result was an investment-fraud victims' forum. The name at the top of the board was Choi Jaehyuk.\n\nThe hotel lounge before the transfer came back: documents and a drink between them, and Jaehyuk saying, \"We lived and died together in there.\" The name on the screen and the voice in the memory belonged to the same man.",
+    "description": "On settlement day, the only thing growing in Jaehyuk's chat was the row of question marks {name} had sent. No Read receipt appeared. Calls rang out and disconnected; the profile photo and status line vanished.\n\nOn the third night, {name} searched the company name. The first result was an investment-fraud victims' forum. A pinned post said, \"Do not delete contracts or transfer records.\" Beneath it was the name being reported: Choi Jaehyuk.\n\n{name} took out the application copy from the hotel lounge. His own signature was on the last page, Jaehyuk's name in the introducer box. He opened the old PDF of Father's guarantee from the bottom of the drawer. Different documents, but the same rectangular space where someone who trusted another person surrendered his name.\n\nA forum message arrived: \"If it's the same man, send the records first.\" What {name} wanted to ask Jaehyuk and the time already lost by strangers now occupied the same screen.",
     "choices": [
       {
-        "text": "Read the victims' posts from the beginning.",
-        "result_text": "{name} opened the first post. The join date, the amount lost, and the way its author knew Jaehyuk were all different. The opening sentence was disturbingly familiar."
+        "text": "Preserve the application and read the victims' posts first — postpone Jaehyuk's explanation",
+        "result_text": "{name} muted Jaehyuk's chat and renamed both PDFs by date. He opened the first victim's post. The join date and amount were different. The opening sentence was disturbingly familiar."
       },
       {
-        "text": "Leave Jaehyuk one last voice message.",
-        "result_text": "{name} pressed Call again. After the ringing stopped, the recording prompt sounded. This time, he did not hang up."
+        "text": "Leave Jaehyuk one last voice message — postpone checking the records",
+        "result_text": "{name} pressed Call again. After the ringing came the recording prompt. \"Jaehyuk. Forget the money. Tell me yourself what you put in front of me that night.\" He stayed on the line until the message sent."
       }
     ],
     "description_if_known": {
-      "felt_jaehyuk_kindness": "Settlement day. {name} reached out to Jaehyuk.\n\nNo Read receipt. The call rang out and disconnected. His KakaoTalk profile picture was gone.\n\nOn the third night, {name} searched the company Jaehyuk had named. The first result was an investment-fraud victims' forum. The name at the top of the board was Choi Jaehyuk.\n\nThe hotel lounge before the transfer came back: documents and a drink between them, and Jaehyuk saying, \"We lived and died together in there.\"\n\nThen came the business card he had offered, claiming he knew an HR manager. \"We're practically family, aren't we?\" Had that kindness been part of the method too, or had the kindness been the one real thing? Not being able to tell was the most frightening part.",
-      "asked_partial_return": "Settlement day. {name} reached out to Jaehyuk.\n\nNo Read receipt. The call rang out and disconnected. His KakaoTalk profile picture was gone.\n\nOn the third night, {name} searched the company Jaehyuk had named. The first result was an investment-fraud victims' forum. The name at the top of the board was Choi Jaehyuk.\n\nThe hotel lounge before the transfer came back. When {name} had asked for even part of the money early, Jaehyuk had smiled. \"Next month. I mean it.\" The name on the screen and that smile belonged to the same man."
+      "felt_jaehyuk_kindness": "On settlement day, the only thing growing in Jaehyuk's chat was the row of question marks {name} had sent. No Read receipt appeared. Calls rang out and disconnected; the profile photo and status line vanished.\n\nOn the third night, a search for the company brought up an investment-fraud victims' forum. The reported name was Choi Jaehyuk. A pinned post warned visitors not to delete contracts or transfer records.\n\n{name} opened the hotel application beside the old PDF of Father's guarantee. His signature, Jaehyuk's name, and Father's faded signature sat inside nearly identical boxes. Then he remembered Jaehyuk offering the HR manager's card. \"We're not strangers, are we?\"\n\nCalling every kindness part of the scheme would make anger easy. Believing the kindness was real would make closing the screen easy. With neither answer proven, the victims' message and Jaehyuk's empty chat remained lit together.",
+      "asked_partial_return": "On settlement day, the only thing growing in Jaehyuk's chat was the row of question marks {name} had sent. No Read receipt appeared. Calls rang out and disconnected; the profile photo vanished.\n\nOn the third night, a search for the company brought up an investment-fraud victims' forum. The reported name was Choi Jaehyuk. A pinned post warned visitors not to delete contracts or transfer records.\n\nThe day {name} asked for even part of his money back, Jaehyuk looked away for a beat and smiled. \"Next month. I mean it.\" {name} believed him and put the application copy in a drawer. Now its last page showed his own signature and Jaehyuk's name. Beside it, Father's old guarantee held the same kind of space for the person who would carry the responsibility.\n\nA forum message arrived: \"If it's the same man, send the records first.\" {name} had to choose between waiting one more month and reading the words of people who already had."
     }
   },
   {
@@ -449,15 +449,15 @@
   {
     "id": "arc_temptation_01",
     "title": "Easy Money",
-    "description": "The goshiwon, 2 a.m. Rent comes out of the account next week. One look at the balance and the first thing out of him is a sigh.{v2_month_one_episode_echo}\n\nA text from an unknown number.\n\"Lend us just your bankbook and debit card — two million on the spot. You don't have to do anything.\nOne month, that's all. Zero risk. Contact us only if you're in a tight spot.\"\n\n{name} knows what that is. A burner bank account — an account lent out so voice-phishing money can be laundered through it.\nSomeone else's stolen money would pass through his account.\n\nTwo million won. Just over three months of rent.\nHis finger hovers over the reply.",
+    "description": "The goshiwon, 2 a.m. At the top of the phone was a text canceling this week's overnight loading shift. On the desk lay a reminder for next week's 650,000-won rent transfer. One look at the balance brought the sigh first.{v2_month_one_episode_echo}\n\nAn unknown number texted.\n\"Lend us your bankbook and debit card. Two million on the spot. You do nothing. One month, zero risk.\"\n\nWhen {name} did not answer, another line arrived.\n\"Decide tonight and you'll have it within an hour. Delete this chat.\"\n\nHe knew the job: a mule account. Doing nothing meant lending out his name and account while other people's money moved through it.\n\nTwo million won would cover three months of rent and the overdue utilities. Beneath the rent reminder, the final receipt from Father's debt repayment still showed at the edge. The cursor blinked in the reply box.",
     "choices": [
       {
-        "text": "Block the number and put the phone face down",
-      "result_text": "{name} blocks the number and flips the phone face-down.\nThe two million won never arrives, and rent day keeps approaching.\n\nHe remembers the six years he spent repaying debt caused by his father's bad loan guarantee. {name} picks up the phone again and looks for work he can take the next day."
+        "text": "Block the number — accept the rent bill and tomorrow's labor",
+        "result_text": "The chat vanished when {name} tapped Block. The two million won did not arrive, and rent day did not move.\n\nHe called the foreman who had canceled the shift. \"If a spot opens tomorrow morning, call me.\" After a pause, the foreman told him to be there at 4:20.\n\nWith the phone facedown, the repayment receipt and rent reminder came back into view. {name} set the alarm for 4:20 a.m."
       },
       {
-        "text": "Hand over the bankbook, card, and PIN for 2,000,000 won cash",
-        "result_text": "His reply brings a subway-locker number. {name} seals the bankbook and debit card in an envelope, leaves it in the locker, and sends the requested PIN by text.\n\nAn hour later, an envelope holding two million won in cash waits in the same locker. Back in his room, {name} counts the bills instead of checking the account history."
+        "text": "Hand over the bankbook, card, and PIN — take 2,000,000 won tonight",
+        "result_text": "His reply brought a subway-locker number. {name} sealed the bankbook and debit card in an envelope and sent the PIN. The answer came at once: \"Do not open the account from now on.\"\n\nAn hour later, two million won in cash waited in the same locker. Back in the room, {name} circled the rent reminder. He entered the amount in his notebook, then stopped with the pen at the source column."
       }
     ]
   },
@@ -877,23 +877,23 @@
   {
     "id": "arc_father_04_visit",
     "title": "Changwon",
-    "description": "On the night he calculated the salary ceiling, two screens sat side by side on {name}'s phone: a contract waiting in Seoul and a message from his mother with Changwon Sungsim Hospital, Room 301.\n\nHe took the first KTX down. The third-floor hallway smelled of disinfectant. Through the narrow window beside the door, Father sat on the bed looking out at low buildings and factory smokestacks.\n\nThin hands. Hands that had gripped factory floors his whole life. Shoulders more hunched. Hair more white.\n\nWhen {name} put a hand on the door handle, the phone in his pocket buzzed again. Sangchul's mirror, the salary ceiling, and numbers that needed an answer today overlapped on one screen.\n\nIt had taken two hours to get here. Opening one door would take a second.\n\nFather had not turned around yet.",
+    "description": "Holding on to Mother's text — \"Changwon Sungsim Hospital, Room 301. He's stable now\" — {name} took the first KTX south. As the train reached Daejeon, a contact he had met through Sangchul also wrote: \"A seat opened tonight. You can come straight back to Seoul, right?\"\n\nThe third-floor corridor smelled of disinfectant. Through the narrow window, Father sat at the edge of the bed and asked a nurse, \"Can I go back to the factory Monday?\" She shook her head before she answered. Father said nothing and looked toward the smokestacks outside.\n\nThe hands that had worked a factory floor all his life kept smoothing the blanket even here. When {name} touched the handle, the phone buzzed again. \"Please answer by seven.\"\n\nThe trip from Seoul had taken two hours. Opening the door would take one second. Father still did not know his son was there.",
     "choices": [
       {
-        "text": "\"It's not your fault, Dad.\" — first time saying those words",
-        "result_text": "The room was quiet.\n\n{name} sat in the chair beside the bed.\nFather looked toward the window. Changwon sky. Low buildings.\n\nNo words.\n\"Did you eat?\" \"I ate.\" \"When do you get out?\" \"Next week probably.\" \"I see.\"\n\nThis is what father and son conversation looks like.\nFor six years, while paying off the debt in Seoul, {name} never once asked.\nWhy he'd signed the guarantee. Whether he regretted it. Whether he'd wanted to say thank you.\n\n{name} thought: I'll ask later.\nBut how much 'later' is left — no one knows."
+        "text": "Open the door and say, \"It wasn't all your fault\" — bring up the past tonight",
+        "result_text": "When the door opened, Father spoke first. \"What did you come all this way for? Seoul keeps you busy.\"\n\n{name} sat beside the bed. \"It wasn't all your fault.\" Father's hand stopped on the blanket. \"I put down the seal. It was my fault.\" \"I paid that debt. That's why I'm telling you not to end it by blaming yourself alone.\"\n\nFather looked out the window for a long time. Neither sorry nor thank you came easily. The seven o'clock alert appeared, and {name} silenced it.\n\nAfter a while, Father peeled a tangerine and held out half. They each took one side without saying more."
       },
       {
-        "text": "\"When I make it to Gangnam, you're the first person I'll bring.\"",
-        "result_text": "Father said \"I'm sorry.\"\n\n{name} didn't know what to say.\n'It's okay' is a lie. Six years of repayment.\n'I'm sorry too' doesn't fit. There was nothing to be sorry for.\n\nSo he just stayed.\n\nFather's thin hand. Bent shoulders.\nThe hand that gripped factory floors for a lifetime lay on top of the blanket.\n\n{name} placed his hand over his father's.\nWithout words.\n\nOutside, the Changwon sun began to set."
+        "text": "Open the door and say, \"When I reach Gangnam, you're coming first\" — offer a promise instead of the past",
+        "result_text": "Father pushed himself upright when the door opened. \"Why did you come all the way here?\"\n\nBefore putting down his bag, {name} said, \"When I reach Gangnam, you're the first person I'm bringing.\" Father frowned. \"Find yourself a place first. Don't throw promises around.\" \"If I don't make that promise, I don't think I'll get there.\"\n\nOnly much later did Father say, \"I'm sorry.\" {name} did not say it was all right. Six years could not be erased. He put his hand over Father's thin one instead.\n\nThe notification that the Seoul meeting had begun went dark, and the Changwon sunset reached their knuckles."
       },
       {
-        "text": "Can't say anything — just sit beside him",
-        "result_text": "There was so much to say, and none of it came out.\nJust sat down beside him. Dad didn't speak either.\n\nTwo hours like that.\nLater, {name} would understand that was the best way."
+        "text": "Go in and sit beside him without an explanation — leave him the time",
+        "result_text": "When the door opened, Father pointed with his chin at the empty chair. \"Eat?\" \"I did. You?\" \"Yeah.\"\n\nNeither of them found the next sentence. {name} poured water; Father accepted the paper cup. The messages from Seoul stopped after seven.\n\nThe two cups remained side by side on the bedside table until {name} stood two hours later. Father's was not even half empty."
       },
       {
-        "text": "Grip the phone and turn away — fail to open the door again",
-        "result_text": "{name} let go of the door handle.\n\nJust before the elevator closed, a message arrived from Mother: 'Did you get there?'\n{name} typed, 'Something came up at work,' then deleted it. No reply was sent.\n\nA ticket back to Seoul was booked. Father never knew his son had made it as far as the other side of the door.\nOnly {name} knew. That was why it stayed."
+        "text": "Return to the introduction in Seoul — leave the hospital door closed",
+        "result_text": "{name} let go of the handle and replied, \"I'm coming.\" The contact said eight o'clock would still work.\n\nJust before the elevator closed, Mother wrote, \"Did you get there?\" {name} typed, \"Something came up,\" then erased it. As he booked a ticket to Seoul, the hospital window receded to the end of the corridor.\n\nAt Seoul Station, he reached into his coat. The unused hospital visitor sticker adhered to his fingertip."
       }
     ]
   },

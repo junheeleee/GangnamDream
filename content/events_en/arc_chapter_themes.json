@@ -135,5 +135,100 @@
         "result_text": "He wanted to be judged on merit alone. Knowing it was a naive wish. {name} decided to build his skills first. The doors could be knocked on later."
       }
     ]
+  },
+  {
+    "id": "arc_y4_three_promises",
+    "title": "Three Places, One Weekend",
+    "description": "Saturday, four in the afternoon. {name} had moved his plans with Daeun to the same room as Sangchul's contract review. Daeun arrived with two canned coffees from the convenience store where they first met. She placed one before {name} but kept her cardigan on.\n\nSangchul stirred instant coffee in a paper cup. \"Didn't know you'd be looking too, Daeun.\"\n\n\"I didn't come to look at papers. Today was for Minjun and me.\"\n\nThe phone buzzed. Father. When the call stopped, a voice message arrived: ‘I'm done at the hospital. If you're busy, forget it.’\n\nSangchul opened the contract. \"No stamp today, and it goes to someone else. Opportunities don't wait for people's circumstances.\"\n\nDaeun's thumb slowly dented the side of the can. \"Then how long are people supposed to wait for an opportunity's circumstances?\"\n\nThe contract, the crushed can, and Father's name remained on one table.",
+    "choices": [
+      {
+        "text": "Stay with Sangchul and finish the contract review",
+        "result_text": "{name} turned the phone facedown and pulled over the first page.\n\nDaeun looked at the canned coffee in front of him. \"Then at least don't say you kept both promises.\" Hands in her cardigan pockets, she opened the door.\n\nSangchul did not stop her. He moved Daeun's can aside and circled one figure. After the door closed, Father's voice message remained unplayed."
+      },
+      {
+        "text": "Close Sangchul's contract and return to the plans with Daeun",
+        "result_text": "{name} pushed the contract toward Sangchul. \"We're done for today.\"\n\nSangchul sipped his coffee. \"Even if it goes to the next person?\"\n\nDaeun undid one cardigan button but did not smile. \"Don't turn this into something you did because of me. You're going back to a promise you made, Minjun.\"\n\nPaper turned behind them in the hall. Another missed call from Father appeared on the phone."
+      },
+      {
+        "text": "Apologize to Daeun and Sangchul, then call Father back",
+        "result_text": "\"Both of you, give me a minute. I need to call Father first.\"\n\n{name} stepped into the hall without asking either person to wait. Father answered on the second ring.\n\n\"Why did you call again? Are you hurt?\"\n\"I'm not hurt. Just wanted to hear your voice once.\"\n\nBeyond the glass, Sangchul checked his watch while Daeun sat in the empty chair, pressing the dent out of the can. {name} stayed on the line until Father's breathing settled."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_body_witness",
+    "title": "Daeun at Two A.M.",
+    "description": "At two in the morning, the bell rang three times. Daeun called from outside. \"Minjun, it's me. Open the door.\" A convenience-store bag hung from one hand; the other held the unanswered call screen.\n\n{name} tried to rise from the laptop and sank back down. His fingers shook and the words on the screen doubled. He still said he was fine.\n\n\"What part of this is fine? You can barely finish a sentence.\"\n\"I just need to send the file.\"\n\"Not the work. Tell me where it hurts.\"\n\nWhen the door cracked open, Daeun's eyes stopped on the sweat-soaked shirt and the overturned cup. Her hand rose, then stopped before touching him.\n\n\"Can I come in? Can I hold your arm?\"\n\nSeventeen minutes until the upload deadline. Twenty until the night clinic closed intake. Daeun stayed on the threshold and waited for an answer.",
+    "choices": [
+      {
+        "text": "Open the door and tell Daeun, \"Please come in.\"",
+        "result_text": "When {name} nodded, Daeun came in. She did not unplug the laptop. She took water from the bag and opened the cap first.\n\n\"What do you need me to do right now?\"\n\"Stay. And if I say I'm fine again, don't believe me.\"\n\nOnly then did Daeun place a hand beneath {name}'s elbow. The open door stayed that way for a long while."
+      },
+      {
+        "text": "Keep the door shut and ask Daeun to wait until the deadline",
+        "result_text": "\"Seventeen minutes. I'll send it and open the door.\"\n\nInstead of answering, Daeun set the bag outside. A message appeared: ‘I'll leave the water here.’\n\n{name} sent the file with shaking hands. When the upload completed and the door opened, Daeun was sitting against the hallway wall. She rose without anger, straightening the crumpled bag handles. That face stayed longer than any accusation."
+      },
+      {
+        "text": "Close the laptop and go to the night clinic with Daeun",
+        "result_text": "{name} saved the file and shut the screen.\n\nDaeun set his shoes in front of his feet. \"Let's go. Slowly.\"\n\nShe waited until the shoes were on, then asked again. \"Can you lean on me?\"\n\n{name} lifted an arm. The weight divided between them. Bottles in Daeun's plastic bag knocked softly together with every step."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_family_partner_collision",
+    "title": "A Future at the Same Table",
+    "description": "{name} and Daeun entered the restaurant Father had chosen. Three bowls of soup arrived, but no one picked up a spoon. Father's factory-hardened fingers slowly rolled the spoon handle.\n\n\"Daeun, are you staying in Seoul to fit Minjun's plan?\"\n\nDaeun set down her water glass. \"That makes me sound like someone attached to Minjun's plan, Father.\"\n\n{name} tried to step in. Daeun showed an open palm. \"Minjun, let me answer for myself.\"\n\nFather kept his eyes lowered. \"Even at a hospital door, he decides alone and tells no one. I'm asking because I fear he'll keep doing it after someone shares his life.\"\n\n\"That scares me too, Father,\" Daeun said. \"He left me outside the door at two in the morning and decided he was fine for both of us.\"\n\nFather and Daeun looked at {name} together. The steam had nearly vanished from the soup.",
+    "choices": [
+      {
+        "text": "Tell Father, \"I want to keep going with Daeun. I want to hear her answer too.\"",
+        "result_text": "Father started to speak, but Daeun looked at {name} first.\n\n\"I'll give my own answer. But asking while I'm here—that part is right.\"\n\nDaeun told Father about her mother's small restaurant, the years she had saved in Seoul, why she could not leave, and why she still might. {name} did not edit her answer. When Father released his spoon, Daeun stirred the cooling soup once."
+      },
+      {
+        "text": "Settle Father's hospital issue first and postpone the future with Daeun",
+        "result_text": "\"Let's finish Father's hospital issue today. We'll talk about us later.\"\n\nDaeun gave a short laugh. \"I'm later again, Minjun.\"\n\nFather said, \"That isn't what I meant,\" but Daeun gathered her cardigan. At the door she told {name}, \"Call when later has a date.\" The soup in front of Daeun remained untouched."
+      },
+      {
+        "text": "Tell Daeun she does not have to carry Father's expectations",
+        "result_text": "\"You don't have to carry my family, Daeun. We can stop here.\"\n\nDaeun's face hardened. \"That isn't consideration. It's another decision you made alone.\"\n\nFather opened the hand around his spoon. {name} had no answer. Daeun pushed back her chair, stood, and bowed to both men. After the door closed, one of the three place settings was cleared away."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_borrowed_name",
+    "title": "The Blank for a Name",
+    "description": "Sangchul placed a new document beneath the table showing the financing gap. Only the box marked ‘co-obligor’ was blank.\n\n\"Put Daeun's name here and the scale stays intact. If you're going forward together, you look at the same ledger.\"\n\nDaeun pulled the original document closer. \"Looking at it together means I pay directly if something goes wrong, doesn't it?\"\n\nSangchul capped the pen. \"That is unlikely. Look how far Minjun has already come.\"\n\n\"I asked what I would be responsible for, not how likely it is.\"\n\n{name} had already read the early-repayment clause and joint-liability language on the back. Sangchul pushed aside his cold instant coffee. \"The name has to be decided today. You two can handle the explanation privately.\"\n\nDaeun did not touch the pen. \"No. You brought the document, sir. Read the original here. Tell me what you want to do with my name.\"",
+    "choices": [
+      {
+        "text": "Use no name but his own. Recalculate at the scale it can carry.",
+        "result_text": "{name} placed a hand over the blank. \"Daeun's name stays out. Give me the largest version that works under mine alone.\"\n\nSangchul bit the inside of his lip once and cut the number nearly in half. Daeun set down the pen. \"I won't thank you. That was where the line should have been.\"\n\nAll three looked at the smaller figure. No hand returned to the blank name box."
+      },
+      {
+        "text": "Make Sangchul write every liability down and give Daeun one night",
+        "result_text": "{name} asked Sangchul to read the back page aloud. Early exit, joint liability, the worst case—each line went onto a separate sheet.\n\nDaeun did not fold it. \"I'm not signing today. If I choose this, I'll call tomorrow. Because I decided, not because Minjun asked.\"\n\nSangchul penciled tomorrow's date beside the empty box. Daeun put a complete copy of the original into her bag."
+      },
+      {
+        "text": "Cover the unfavorable page and ask Daeun to sign if she trusts him",
+        "result_text": "{name} slid the appendix beneath the contract. \"I'll take responsibility. You only have to trust me.\"\n\nDaeun asked, \"You've shown me everything, Minjun?\"\n\nWhen {name} said yes, Sangchul turned toward the window. After a long pause, Daeun signed her name. The hand that set down the pen did not move back toward {name}. When Sangchul stacked both copies, the corner of the hidden page slipped out again."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_bill_night",
+    "title": "The Night the Bills Arrived",
+    "description": "11:47 p.m. A payment link from the hospital office in Changwon blinked in the corner of the laptop. {name} stood braced against the sink. The tremor had climbed from his fingertips into his arm, but he searched for the payment password first.\n\nThe bell rang. Daeun stood outside with the document envelope she had carried from Sangchul's office days earlier. One look at his face and she said, \"Sit down, Minjun. That is not a face that gets to say it's fine again.\"\n\nFather's fifth call arrived. As {name} tried to turn it away, the voice message played on speaker.\n\n‘Minjun, did the hospital office contact you? Don't send money. Tomorrow I'll—’\n\nThe message broke behind a cough.\n\nDaeun looked from the envelope, to the shaking hand, to Father's name. \"Don't decide the order alone again. My name is in that document. This is your body. And your father is the one calling.\"\n\nThe payment window showed thirteen minutes left. Daeun kept her cardigan on and waited for an answer.",
+    "choices": [
+      {
+        "text": "Pay Father's hospital bill first. Do what can be done in thirteen minutes.",
+        "result_text": "{name} stayed on his feet and entered the transfer password. Daeun said nothing until the payment-complete message appeared.\n\n\"Done. Now talk to me.\"\n\"About what?\"\n\"Start with whether you want me here tonight.\"\n\nFather did not call again. Daeun pulled over an empty chair without taking off her cardigan. The completion notice was the brightest thing in the room."
+      },
+      {
+        "text": "Close Father's payment window and ask Daeun for help reaching the night clinic",
+        "result_text": "\"Daeun, come to the hospital with me.\"\n\nShe set down Sangchul's document envelope. Instead of grabbing {name}'s arm, she asked, \"Can I hold your shoulder? Can you walk?\"\n\n{name} nodded and they moved toward the door. Father's payment window stayed open on the laptop; his voice message stayed on the phone. Daeun placed the house key on top of the shoe cabinet."
+      },
+      {
+        "text": "Call Father back on speaker and tell the whole truth in front of Daeun",
+        "result_text": "Father answered on the first ring.\n\n\"Why are you at the hospital? What happened?\"\n\"It's nothing. What's wrong with your voice?\"\n\n{name} admitted the shaking body, the hospital payment link, and Daeun standing nearby. Daeun did not interrupt. She found the charger and plugged in the phone. Between the breathing of three people, the call timer advanced one block at a time."
+      }
+    ]
   }
 ]

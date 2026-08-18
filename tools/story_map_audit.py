@@ -3194,9 +3194,19 @@ def run_self_test(
         ),
         "not read by its owner branch",
     )
-    case("in_person_actor_requires_selection", lambda x: month(x, 42)["beats"][0]
-         ["role_bindings"]["partner"].update({"source": {"kind": "available_commitment",
-         "commitment_id": "m42_bring_partner_to_table"}}), "needs selected provenance")
+    def make_family_actor_available(data: dict[str, Any]) -> None:
+        beat = month(data, 42)["beats"][0]
+        family_only = next(
+            row for row in beat["coverage"]["fallbacks"]
+            if row["root"] == "arc_y4_family_commitment_none"
+        )
+        family_only["role_bindings"]["family_member"]["source"] = {
+            "kind": "available_commitment",
+            "commitment_id": "m42_face_family_member",
+        }
+
+    case("in_person_actor_requires_selection", make_family_actor_available,
+         "needs selected provenance")
     case(
         "m52_document_uses_available_actor",
         lambda x: month(x, 52)["beats"][0]["coverage"]["fallbacks"][-1]["role_bindings"].update({"final_proposer": {"kind": "literal", "actor_id": "sangchul"}}),
@@ -3207,7 +3217,7 @@ def run_self_test(
         beat["distinct_roles"] = beat.pop("coalesce_roles")
 
     case("coalesced_roles_cannot_be_promoted_distinct", promote_coalesced_room,
-         "coalesced actor roles require coalesce policy")
+         "distinct roles resolve to same actor")
     case("actor_output_policy_xor", lambda x: month(x, 50)["beats"][0]["actor_outputs"]
          ["memory.m50_protection_context"].update({"all_distinct": [["protected_person", "reviewer"]]}),
          "exactly one actor role policy")
@@ -3235,7 +3245,7 @@ def run_self_test(
     case(
         "scene_union_read_cannot_supply_binding_owner",
         bind_from_other_scene_beat_read,
-        "not read by its owner branch",
+        "base role_bindings owner must be exactly one beat",
     )
 
     def erase_fallback_role_bindings(data: dict[str, Any]) -> None:
@@ -3291,14 +3301,15 @@ def run_self_test(
     )
 
     def create_actor_output_cycle(data: dict[str, Any]) -> None:
-        role = month(data, 52)["beats"][0]["actor_outputs"][
+        roles = month(data, 52)["beats"][0]["actor_outputs"][
             "memory.m52_final_offer"
-        ]["roles"]["protected_person"]
-        role.update({
+        ]["roles"]
+        roles["protected_person"] = {
+            "kind": "receipt_actor",
             "source_type": "memory",
             "source_id": "memory.m52_final_offer",
             "actor_role": "protected_person",
-        })
+        }
 
     case("actor_output_cycle", create_actor_output_cycle, "actor output cycle")
 

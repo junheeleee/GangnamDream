@@ -86,14 +86,10 @@
         "arc_sangchul_human",
         "arc_sangchul_deduction",
         "arc_sangchul_confrontation",
-        "arc_sangchul_reckoning"
+        "arc_sangchul_reckoning",
+        "arc_y5_three_in_room"
       ],
-      "planned_anchors": [
-        {
-          "chapter": 5,
-          "event": "arc_y5_three_in_room"
-        }
-      ]
+      "planned_anchors": []
     },
     {
       "id": "jaehyuk",
@@ -108,13 +104,10 @@
         "arc_jaehyuk_01_reunion",
         "arc_jaehyuk_01b_real_face",
         "arc_jaehyuk_03_pitch",
-        "arc_jaehyuk_04a_ghost"
+        "arc_jaehyuk_04a_ghost",
+        "arc_y5_three_in_room"
       ],
       "planned_anchors": [
-        {
-          "chapter": 5,
-          "event": "arc_y5_three_in_room"
-        },
         {
           "chapter": 5,
           "event": "arc_jaehyuk_mirror",
@@ -260,14 +253,13 @@
         {
           "chapter": 3,
           "event": "arc_sangchul_confrontation"
-        }
-      ],
-      "planned_readers": [
+        },
         {
           "chapter": 5,
           "event": "arc_y5_three_in_room"
         }
-      ]
+      ],
+      "planned_readers": []
     },
     {
       "id": "screen_number",

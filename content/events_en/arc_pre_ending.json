@@ -48,16 +48,134 @@
     ]
   },
   {
+    "id": "arc_y5_final_offer",
+    "title": "Page Seven",
+    "description": "Sangchul arrived before the appointed time. A seven-page offer and two paper cups sat on the meeting-room table. He pushed the less-cold cup toward {name} and tapped the figure on page one.\n\n\"You made it all the way to the end. Lock this today and 3 billion won becomes a number we can discuss.\"\n\nPage seven held a blank marked CONSENTING PARTY'S NAME. The addendum beneath it borrowed Daeun's name in exchange for priority over her weekends and nights. When {name} pulled the staple, the tablet in his bag briefly lit up with his father's old guarantee PDF. The two documents hid the scope of liability in sentences of the same shape.\n\n\"Does Daeun know?\"\nSangchul swallowed cold coffee. \"She'll sign for herself. You explain it.\"\n\nHe pushed over the calculator. The figure was close to the goal. Daeun's blank name field was directly under his fingertip.",
+    "choices": [
+      {
+        "text": "Set Father's guarantee PDF beside it. Ask whether Sangchul can review his own offer.",
+        "result_text": "{name} opened his father's guarantee PDF beside the offer. The two name fields shared one screen.\n\n\"Can the person who brought the deal review it too?\"\n\nSangchul did not pick up the red pen. \"If I read my own contract for you, that isn't verification. You hear my word twice. Bring both documents to the old office. I can at least tell you where my interests collide.\"\n\n{name} said he would give no answer today. Sangchul left the calculator where it was. Its blinking display and the cold coffee remained on the table."
+      },
+      {
+        "text": "Cover Daeun's name field. Ask what terms remain without her name.",
+        "result_text": "{name} covered Daeun's name field with a memo slip.\n\"How far does this go without her name?\"\n\nSangchul asked, \"Do you really have to take it out now?\" but finally turned the calculator around. With every deleted line, the figure stepped lower. The goal moved farther away, but so did the name the contract had meant to borrow in secret.\n\nWhile the printer released the new figure, Sangchul never touched the cold coffee."
+      },
+      {
+        "text": "Take the addendum to Daeun first.",
+        "result_text": "{name} packed the papers with the signature field blank. Behind him, Sangchul called out.\n\"The deadline is today.\"\n\n\"So is Daeun's time to read it.\"\n\nBeside the café's closing checklist, Daeun opened the page bearing her name before the page of figures. Her finger stopped on WEEKENDS AND NIGHTS.\n\"Tell me what I'm lending you first, Minjun. Is it my name or all the time after it? I decide after that.\""
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_final_door",
+    "title": "The Owner of the Cold Coffee",
+    "description": "The old office door did not open on the first push. When {name} leaned a shoulder into it, Sangchul kicked a pile of mail clear from the other side. Two paper cups stood on the desk. A skin had formed over one coffee.\n\n\"You made it all the way to the end.\"\n\n{name} set Jaehyuk's guarantee PDF beside the final offer. Sangchul looked at the name fields before the amounts.\n\n\"The papers didn't lie back when your father signed either. Nobody read what their words meant between people.\"\n\"Read these with me.\"\n\nSangchul swallowed a mouthful of cold coffee.\n\"If I make the offer and review it too, that's not verification. That's my word repeated. If you still want my time, you decide where to spend it.\"\n\nHe placed a red pen between the documents.",
+    "choices": [
+      {
+        "text": "Ask him to circle only the single most dangerous clause.",
+        "result_text": "Sangchul drew one line from the scope of liability in the guarantee PDF to the name field in the offer. The red circle was small, but it held both pages in its bite.\n\n\"If you can't explain this, you can't sign. Not to me. Not to that person.\"\n\n{name} took back the pen. Sangchul said nothing more and slid his own coffee farther from {name}."
+      },
+      {
+        "text": "Ask whether the terms would change with Sangchul's name in the field.",
+        "result_text": "Sangchul did not smile. He laid his business card over the blank, then took it away.\n\"Would my name make it safe? Or just make it easier because you'd owe someone else?\"\n\n{name} had no answer. Sangchul folded the card in half and dropped it into the wastebasket. Between the two cold coffees, the name field remained empty."
+      },
+      {
+        "text": "Fold the papers and ask exactly how much of his time the review took.",
+        "result_text": "\"Forty minutes.\" Sangchul answered without checking a clock.\n\n{name} wrote the time on the cover. He did not offer money or promise a next meeting.\n\nAt the door, Sangchul held out a fresh paper cup. Its lid was closed and the coffee was still hot. {name} accepted it, but opened the door with his own hand."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_three_in_room",
+    "title": "Four at the Table",
+    "description": "Four people sat inside the glass meeting room. Sangchul had the offer he had brought and a red pen. Jaehyuk had his own guarantee PDF. Daeun had a copy opened to the field for her name. Only {name} had a calculator in front of him.\n\nSangchul opened the returns table. \"Lock it today and these are the terms. But don't call it safe just because I reviewed the deal I brought.\" He left the red pen down. Jaehyuk's knee bounced under the table. \"Minjun, my guarantee is clean. We get through this one together.\"\n\nDaeun peeled the sleeve from a paper cup gone cold and laid it across the name field. \"You two finished the whole conversation with my name before I even answered.\"\n\nSangchul looked at Jaehyuk. Jaehyuk looked at {name}. Daeun let neither man choose where she looked. The wall clock cut the time left before the transfer deadline into small pieces.",
+    "choices": [
+      {
+        "text": "Open the main contract, addendum, and name field all at once.",
+        "result_text": "{name} pulled the staple and laid the offer, addendum, and Jaehyuk's guarantee PDF in one row. Sangchul read the offer amount aloud. Jaehyuk read the term of his liability. Daeun pulled the last page closer and read CONSENTING PARTY'S NAME, then PRIORITY OVER WEEKENDS AND NIGHTS.\n\n\"Why are these two sentences on different pages?\" Daeun asked. Sangchul finally picked up the red pen and connected them. Jaehyuk's knee stopped bouncing. {name} turned off the calculator."
+      },
+      {
+        "text": "Give Sangchul the first question.",
+        "result_text": "Sangchul laid Jaehyuk's guarantee PDF over the offer.\n\"If Daeun's name comes out, does the deal fail, does your liability grow, or does my share shrink? Pick one.\"\n\nJaehyuk's hand stopped above the calculator. \"You brought the deal too.\"\n\n\"Which is why my answer can't be verification. I'm asking for yours.\" Sangchul set the red pen down. Daeun did not watch the two of them. She watched {name}, asking with her eyes who had postponed answering her."
+      },
+      {
+        "text": "Hand the contract to Daeun first.",
+        "result_text": "Daeun read from the last page backward: the field for her name, the term of liability, the date she could withdraw.\n\n\"Minjun, which parts do I actually get to choose? Does not using my name count?\"\n\nBefore {name} could answer, Jaehyuk put down the pen. Sangchul took out a blank sheet and placed it before Daeun. \"Of course it does. Write every term in your own hand.\" The first record of the meeting was Daeun's question, not the projected return."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_three_in_room_decision",
+    "title": "Who Owns the Line",
+    "description": "9:47 p.m. The corners of the papers before the four of them had worn in different directions.\n\nSangchul spoke first. \"The limit drops without Daeun's name. Those are the terms I brought. But a red line from me doesn't make them safe.\" Jaehyuk pressed his guarantee PDF flat with one palm. \"Minjun, my name is on the line too. You aren't the only one using somebody else's.\"\n\nDaeun ignored the figure and looked at {name}. \"I'm not asking how much you make. I'm asking how far you meant to use my name and my time before you asked me.\"\n\n{name} opened the transfer-lock screen. Thirteen minutes remained. Sangchul put down the red pen. For the first time, Jaehyuk took his hand off the calculator. There was one blank on the page and three people waiting for an answer.",
+    "choices": [
+      {
+        "text": "Remove that name and recalculate the smaller terms.",
+        "result_text": "{name} drew a diagonal line across Daeun's name field. Sangchul read out the smaller limit. Jaehyuk read again the sentence that expanded his guarantee.\n\nDaeun left her copy open on the table. \"At least this line never required me to draw it.\"\n\nSangchul wrote down the new figure but did not add the word safe. The original blank still showed faintly through the diagonal line."
+      },
+      {
+        "text": "Postpone the decision. Let the consenting person write the limits and deadline.",
+        "result_text": "The transfer alert sounded once. {name} turned the screen facedown.\n\nDaeun wrote the permitted scope and an end date in her own hand. At the bottom she added, I DO NOT CONSENT BEYOND THESE TERMS. Sangchul listed the clauses he had not verified below it. Jaehyuk stood holding his guarantee PDF, unable to fold it. No one took an original. Each of the four left with only a copy."
+      },
+      {
+        "text": "Declare the review finished and resume signing on the original terms.",
+        "result_text": "When {name} released the transfer lock, the figures began moving again. Sangchul pushed the offer toward him but said, \"Reading it isn't consent from me.\"\n\nJaehyuk swallowed a breath of relief and slid his guarantee PDF beneath the contract. Daeun did not take the pen. She tucked away her copy. \"My name is still inside my answer.\"\n\nNo one stormed out. That made the second hand and the distance between the four of them sound even louder."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_name_on_line",
+    "title": "Filing Number 227",
+    "description": "A cord tethered the blue pen to the filing counter. The clerk looked from the contract to the identity copy, then covered Daeun's name field with one finger.\n\n{name} opened every original message and signed sheet that remained from the day he first showed Daeun Sangchul's offer. Any request for explanation or refusal she had actually sent was still on the screen. If she had written a scope and deadline, her hand remained on the original. An unanswered question had produced no message; an unwritten limit had produced no signature.\n\nThe clerk separated phone from paper. \"A conversation cannot replace the scope of consent. Without a handwritten scope and deadline, obtain new confirmation or recalculate in your own name.\"\n\nAn old identity copy in a separate envelope was not current consent. A smaller estimate in {name}'s name alone was also in the bag. The number display chimed. \"Which document are you filing?\"",
+    "choices": [
+      {
+        "text": "Honor the refusal that exists—or the consent that never arrived—and withdraw.",
+        "result_text": "The clerk checked the refusal if one actually remained, or the absence of consent if none did. WITHDRAWN landed in the upper-right corner of the application. {name} heard the refunded fee and the fact that today's window would not reopen.\n\nOn the returned sheet, the red word was larger than the name he had meant to borrow. {name} placed the blank or refusal unfolded at the front of the file. He sent Daeun one photograph showing the stamp and one sentence: I did not file it today."
+      },
+      {
+        "text": "Send Daeun the original again. Do not file until her own scope and deadline return.",
+        "result_text": "From a chair beside the counter, {name} sent one image containing both the name field and the addendum. Daeun did not reply with permission to write for her. She returned one sheet bearing the permitted scope and end date in her own hand. At the bottom: I DO NOT CONSENT BEYOND THESE TERMS. HAN DAEUN.\n\nThe clerk checked her hand and date, then ruled through every field outside that scope. {name} added not one mark. Even after the filing stamp landed, a clear clip kept the consent sheet separate, dividing what Daeun had permitted from what she had not."
+      },
+      {
+        "text": "Fill the field from an old identity copy that is not current consent.",
+        "result_text": "{name} copied Daeun's name and number from the old sheet. The clerk asked once whether this copy recorded consent to the current scope and deadline.\n\n\"The document exists.\"\n\nThe answer did not meet the question, but the stamp came down. No new sentence appeared in the original message thread while the ink dried. The crease along the copy refused to flatten. {name} turned the empty chat facedown and put the filed copy deep inside his bag."
+      },
+      {
+        "text": "Reduce the scale and switch to the estimate in his name alone.",
+        "result_text": "The new limit fell farther from the goal. While the clerk printed the smaller figure, {name} removed every item bearing Daeun's name from the filing and wrote NOT APPLICABLE in the consenting-party field.\n\nHis name appeared only once on the filed page. He messaged Daeun: I did not use your name. No reply came at once. The thinner contract kept slipping inside the folder, with no other signature to hold it in place."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_people_verdict",
+    "title": "Two People Read His Name",
+    "description": "At 11:18 p.m., Hyunsu and Minseo sat at the same café table. The first sheet in the clear folder bore filing number 227. The deal had been reduced. NOT APPLICABLE filled the consenting-party field, and {name}'s name appeared once on the signature line.\n\nHyunsu looked at {name}'s face before the paper. \"Hyung, remember the first night we ate ramyeon in the goshiwon hall? Whatever work you did, you still sat there with me. Don't just tell me you used only your name. Tell me how you reached this contract.\"\n\nMinseo set the smaller limit beside the liability term. \"You're farther from the goal, and the liability ends here. Using only your name doesn't make the choice safe by itself. It does make clear where the bill returns.\"\n\nSangchul called. RESUME SIGNING AT THE ORIGINAL LIMIT filled the screen. Neither Hyunsu nor Minseo turned the phone facedown for him.",
+    "choices": [
+      {
+        "text": "Hand over the filed copy. Offer no defense until both have finished reading.",
+        "result_text": "Hyunsu slowly compared filing number 227 with {name}'s signature. Minseo read the smaller limit and liability term, marking only the lines whose figures were correct.\n\n{name} stayed silent through three rings of the phone. Hyunsu handed the last page to Minseo. After reading even NOT APPLICABLE, she returned the folder to the center.\n\"Hyung, talk about you now, not the paper,\" Hyunsu said. Minseo put down her pen and waited for {name}'s answer."
+      },
+      {
+        "text": "Take out amendment and cancellation forms. Ask what can still be repaired.",
+        "result_text": "{name} placed the blank forms beside the filed copy.\n\"I can't erase the choice I made. Tell me which line I can still stop or change.\"\n\nHyunsu did not pick up the pen. \"If I choose your goal for you, using only your name stops meaning anything.\" Minseo touched only the cancellation deadline and liability term. \"Procedure can still stop these two. One signature means one signer, not one affected person.\" They left only the lines {name} could still choose."
+      },
+      {
+        "text": "Take the call and leave to resume the signing.",
+        "result_text": "{name} told Sangchul, \"I'm coming.\" Neither Hyunsu nor Minseo tried to stop him.\n\nAs he pushed back his chair, the edge of the papers lifted in the draft. Hyunsu pressed them flat with his palm. \"Hyung, even on the first night, the ramyeon went cold before the goal did.\" Minseo closed the returns table. \"The question after arrival doesn't disappear. Leaving now only makes it more exact.\"\n\nAfter {name} closed the door, two cold cups and two sheets closed for different reasons remained on the table."
+      }
+    ]
+  },
+  {
     "id": "arc_final_countdown",
     "title": "The Last Signature",
-    "description": "Seven days remained until his thirty-eighth birthday. {name} reopened the notebook in which he had first written down the 3-billion-won goal.\n\nThe first page held 500,000 won and 3 billion won. Beneath them, the amounts, dates, and names that had actually entered his life over five years overlapped in different handwriting. Things he had never done and people he had never reached remained as blank spaces.\n\nEvery page turned in a voice calling his name. \"Minjun-ah.\" \"Minjun.\" \"Mr. Kim.\" \"Hyung.\" The name stayed the same; each voice made it a different person.\n\nOnly one line remained blank on the last page. He had once thought it was a sentence to write after reaching the goal. Now he saw a signature line.\n\nWhose name would he put beneath all the names and time he had borrowed over five years?\n\n{name} lifted the pen. There would be no next week left for an excuse after this choice.",
+    "description": "Seven days remained until his thirty-eighth birthday. {name} reopened the notebook in which he had first written the 3-billion-won goal.\n\nThe first page held 500,000 won and 3 billion won. Beneath them, amounts, dates, and names overlapped in different handwriting. The final-year filed copy was tucked among the pages: filing number 227, a red date stamp, NOT APPLICABLE in the consenting-party field, and {name}'s name once on the signature line. Behind it was an execution notice printed with the completed transfer time. No other signature appeared, but a coffee ring, Sangchul's red line, and a corner someone had held flat remained.\n\nEvery page turned in a voice. \"Minjun-ah.\" \"Minjun.\" \"Mr. Kim.\" \"Hyung.\" Each voice made the same name a different person.\n\nOnly one line remained blank on the last page. {name} opened the executed filing beside it and lifted the pen. There would be no next week left for an excuse after this choice.",
     "description_memory_if_known": {
       "m3_ledger_reasons_named": "The reasons written beside the figures on that first March page returned as people's names on the final page.",
       "m3_ledger_totals_only": "He reconciled the total first, as he had that first March. The names on the final page fit no column."
     },
     "description_if_moral": {
-      "black": "Seven days remained until his thirty-eighth birthday. The asset figure flashed gold on the screen as {name} reopened the notebook in which he had first written down the 3-billion-won goal.\n\nThe first page held 500,000 won and 3 billion won. Beneath them, the rates of return and loss, amounts, dates, and names that had actually entered his life over five years crowded together. Even the blank spaces left by things he had never done and people he had never reached looked like losses.\n\nEvery page turned in a voice. \"Minjun-ah.\" \"Minjun.\" \"Mr. Kim.\" \"Hyung.\" Yet as the number on the screen brightened, the voices receded into footnotes.\n\nOnly one line remained blank on the last page. It looked like the signature line for the owner of the result.\n\nThe ledger already showed whose names and time had become leverage. All that remained was to name who owned the outcome.\n\n{name} lifted the pen. There was no one left to pass the cost to after this choice.",
-      "white": "Seven days remained until his thirty-eighth birthday. {name} reopened the notebook in which he had first written down the 3-billion-won goal. The paper was worn, its corners layered with years of handwriting and stains.\n\nThe first page held 500,000 won and 3 billion won. Beneath them, the amounts, dates, and names that had actually entered his life over five years overlapped in different handwriting. Things he had never done and people he had never reached remained as blank spaces.\n\nEvery page turned in a voice. \"Minjun-ah.\" \"Minjun.\" \"Mr. Kim.\" \"Hyung.\" The name stayed the same, but he had never walked alone.\n\nOnly one line remained blank on the last page. He had once thought it was a sentence to write after reaching the goal. Now he saw a signature line.\n\nWhere would he place responsibility for his choices without erasing the names that had kept him human?\n\n{name} lifted the pen. The last signature could not be a lie that he had come alone. It had to be a promise not to evade his share."
+      "black": "Seven days remained until his thirty-eighth birthday. The asset figure flashed gold as {name} reopened the notebook in which he had first written the 3-billion-won goal.\n\nThe final-year paper bearing filing number 227 held {name}'s name once. The consenting-party field read NOT APPLICABLE, and the completed transfer time was attached behind it. A coffee ring, Sangchul's red line, and other people's review time remained without their signatures. {name} placed even that time between the columns for return and loss.\n\nEvery page turned in a voice. \"Minjun-ah.\" \"Minjun.\" \"Mr. Kim.\" \"Hyung.\" As the number brightened, the voices receded into footnotes.\n\nThe last blank line looked like a signature field for the owner of the outcome. His was the only name on the filing. Now even what that name had gained could enter one column.\n\n{name} lifted the pen. There was no one left to pass the cost to after this choice.",
+      "white": "Seven days remained until his thirty-eighth birthday. {name} reopened the notebook in which he had first written the 3-billion-won goal. The paper was worn, its corners layered with years of handwriting and stains.\n\nThe final-year paper bearing filing number 227 held {name}'s name once. The consenting-party field read NOT APPLICABLE, and the completed transfer time was attached behind it. No other signature appeared, but a coffee ring, Sangchul's red line, and a corner someone had held flat remained.\n\nEvery page turned in a voice. \"Minjun-ah.\" \"Minjun.\" \"Mr. Kim.\" \"Hyung.\" The name stayed the same, but he had never walked alone.\n\nOnly one line remained blank on the last page, a place to claim his share without erasing borrowed time.\n\n{name} opened the executed filing beside it and lifted the pen. His single name would not become the lie that he had arrived alone."
     },
     "choices": [
       {
@@ -66,7 +184,7 @@
           "black": "Leave only his name. An outcome has one owner.",
           "white": "Write his name without erasing the time he borrowed."
         },
-        "result_text": "{name} wrote his three-syllable name on the blank line. The strokes shook less than he expected.\n\nHe did not erase the names on the earlier pages. This did not mean they had never helped; it meant the choices made with their help were still his responsibility.\n\nWhen he set down the pen, the notebook closed for the first time. Whatever the result, the owner of the last signature was clear."
+        "result_text": "{name} placed the filed copy and execution notice side by side with the notebook. The filing already bore only his name. On the notebook's last line, he slowly wrote the same three syllables.\n\nHe did not erase the names on the earlier pages. This was not a signature denying their help. It kept the choice executed with that help under his own name.\n\nWhen he set down the pen, the red filing stamp, black name, and completed transfer time remained in one frame."
       },
       {
         "text": "Price even the names he borrowed. Push once more for the goal.",
@@ -74,7 +192,7 @@
           "black": "Names are capital too. Use every remaining value.",
           "white": "Write down the cost of what he borrowed, then push once more."
         },
-        "result_text": "{name} wrote what he had gained and lost beside the names of Father, Sangchul, Jaehyuk, Daeun, and Jiyeon. Every arrow pointed toward 3 billion won.\n\nAs names moved into columns of return and cost, the ledger became more exact and the notebook looked strangely empty. The pen pressed a groove into the paper.\n\nHe signed his own name large on the last line. It was the signature of someone choosing to push once more."
+        "result_text": "{name} moved Sangchul's review time, Jaehyuk's guarantee, Hyunsu's night, and Minseo's advice into the columns for return and cost. The filed copy bore only his name, but once he wrote what every earlier name had gained and lost, every arrow pointed toward 3 billion won.\n\nThe ledger grew more exact. Their voices shrank between the figures. {name} marked them as new collateral and signed his own name large on the last line.\n\nThe pen pressed through the execution notice and left the same stroke on the page beneath."
       },
       {
         "text": "Write the names of the people who called him back to himself.",
@@ -82,7 +200,26 @@
           "black": "List the remaining contacts in the order they must be settled.",
           "white": "Write the names that kept calling him back as a person."
         },
-        "result_text": "{name} wrote the names of the people who had called him above the last line. There were not many, which made every character clear.\n\nHe signed his own name beneath them. It was not a claim that he had finished alone, but a promise not to turn these people into figures.\n\nMoney could be counted on the final day. A name had to be spoken while someone could still answer."
+        "result_text": "{name} turned off the assets screen and flipped the filed copy over. On the blank back, with the red stamp hidden, he wrote the names of the people who had called him back to himself. He wrote his own name last.\n\nIt was not a signature claiming he had executed the deal alone. It was a sentence refusing to let a choice under his name erase their time.\n\n{name} opened the contact for someone who could still answer and spoke the first name on the page aloud."
+      }
+    ]
+  },
+  {
+    "id": "arc_final_countdown_not_executed",
+    "title": "The Last Page Without a Stamp",
+    "description": "Seven days remained until his thirty-eighth birthday. {name} opened the final-year application beside the notebook in which he had first written the 3-billion-won goal.\n\nThe paper had no filing number and no date stamp. The consenting-party field and signature line were blank. No transfer-completion notice had arrived. Only the meeting-room coffee ring, Sangchul's red line, and the corner someone had held flat remained. {name} had seen the decision. He had carried the papers and still never returned to the counter. After the deadline, he brought the blank original home.\n\nEvery page of the notebook turned in a voice. \"Minjun-ah.\" \"Minjun.\" \"Mr. Kim.\" \"Hyung.\" Not executing the choice did not return the time those voices had spent.\n\nOnly one line remained blank on the final page. Beside the unstamped application, {name} lifted the pen.",
+    "choices": [
+      {
+        "text": "Write NOT FILED and today's date on the blank application.",
+        "result_text": "{name} left the signature line empty. At the top of the application, in his own hand, he wrote NOT FILED and today's date.\n\nThe words did not erase the decision. They kept responsibility for not executing it inside his own time. On the notebook's last line, he wrote his name small. There was no stamp, but the person who had carried the blank paper home was clear."
+      },
+      {
+        "text": "Enter the missed filing window and every remaining blank in the ledger.",
+        "result_text": "{name} entered the deadline and the unfiled amount in the loss column. Beside the figures he left Sangchul's review time, Jaehyuk's guarantee PDF, and the time Daeun had spent reading the name field.\n\nThe blank application weighed less than the ledger, but it moved first whenever he closed the pages. Unable to write a new target, {name} pressed only his name into the final line."
+      },
+      {
+        "text": "Write on the back the names of the people who called him back to himself.",
+        "result_text": "{name} turned over the unfiled application. On the side without a stamp, he wrote the names of the people who had called him back to himself, one by one, and placed his own name last.\n\nIt was neither a declaration that he had abandoned the goal nor an excuse that he had stayed clean alone. It refused to leave as blanks the people who had spent this unexecuted night with him. {name} spoke the first name that could still answer."
       }
     ]
   }
