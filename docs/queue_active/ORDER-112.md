@@ -27,7 +27,7 @@
 
 | # | 월 | 신규 root | 선택 | 실제 사건 |
 |---:|---:|---|---:|---|
-| 1 | 49 | `arc_y5_contract_cover_career` | 3 | 현 직장의 `신규사업 TF 책임자 발령·성과급 환수 부속합의 C0`를 처음 연다. |
+| 1 | 49 | `arc_y5_contract_cover_career` | 3 | 현 직장의 `신규사업 TF 책임자 발령·교육비 환수 부속합의 C0`를 처음 연다. |
 | 2 | 49 | `arc_y5_contract_reviewer_delivery_minseo_career` | 3 | C0 전체를 민서에게 보내고 숨길 수 있었던 한 사실을 먼저 공개한다. |
 | 3 | 50 | `arc_y5_protection_boundary_hyunsu_career` | 3 | 현수 이름을 외부 수치 검토자 칸에 쓰지 말라고 회사에 요청하고 즉시 손실 하나를 받는다. |
 | 4 | 51 | `arc_y5_minseo_goal_cost_career` | 3 | 민서가 C0의 환수 상한·종료일과 민준의 현재 생활 비용을 함께 읽는다. |
@@ -98,8 +98,8 @@
 - M60은 `m60_sign_own_answer`만 완료한다. `take_key_or_return_documents`,
   `face_remaining_person`, `answer_father_trace` 완료를 발명하지 않는다. final-week는
   commitment가 아니라 M59의 실제 Hyunsu 대화에 묶인 outbound aftermath다.
-- exact downstream은 M55의 책임수당 축소 C2, M57 self-only C2, M58에서 현수 말을
-  끝까지 듣는 C1, M59 career 서명 C1을 읽는다. 다른 선택은 각자의 author-only
+- exact downstream은 M55 decision choice 1에서 만든 document C2, M57 self-only
+  choice 2, M58에서 현수 말을 끝까지 듣는 choice 1, M59 career 서명 choice 1을 읽는다. 다른 선택은 각자의 author-only
   endpoint이며 이 downstream에 합치지 않는다.
 
 ## 장면·선택 원칙
@@ -151,7 +151,7 @@
 ## 완료 증거
 
 - exact 신규 16 roots·43 choices/locale, 기존 object changed/removed 0.
-- 신규 KO description 300~800자, KO author-only metadata
+- 신규 KO·EN description 300~800자, KO author-only metadata
   (`weight:0`, `hidden:true`, `conditions.min_turn:9999`), 신규
   flags/effects/follow_up/writer 0. EN은 text-only overlay다.
 - strict duplicate-key JSON, duplicate ID 0, KO/EN field별 choice·placeholder parity,
@@ -172,3 +172,23 @@
   새 중복 승격 없음.
 - 정확한 16 root ID·C0~C3 숫자·배우 tuple·파일·선택 trace는 이 배치에만 유효한
   일회성 작업 지시다.
+
+## 실행 결과 (2026-08-18)
+
+- KO·EN 신규 16 roots·43 choices를 집필했다. reference 세로줄은 M55 decision
+  choice 1의 월 책임수당 30만원 C2, M57 choice 2 self-only 접수, M58 choice 1
+  현수 판정, M59 choice 1 career 실행만 이어받는다.
+- C0→C1→C2→C3의 문서 ID·해시·수당·교육비 환수 종료일·`NOT USED`·`SELF ONLY`,
+  접수·전달·실행 시각, 새 배지와 옛 배지 반환 확인표를 장면 사이에 보존했다.
+  M55 공개 수정 지시와 M57 실제 접수, M59 실행과 별도 사본 전달, M60 sign-only와
+  final-week 선발신을 서로 다른 사건으로 유지했다.
+- 선언 `9734831` 대비 지정 8개 사건 파일의 기존 objects changed/removed 0이며,
+  story map·story rules·35 endings와 5 locale ending 파일은 byte-exact다. 신규 KO는
+  author-only이고 state mutation·writer·follow-up이 0, EN은 text-only overlay다.
+- exact 16/43, strict duplicate-key JSON, KO·EN description 300~800, choice·placeholder,
+  EN/i18n coverage 1742/1742·35/35, story consistency, speech register, story-map normal·
+  76 self-test, exact structured diff와 `git diff --check`가 통과했다. 전체 감사·240주·
+  Godot는 사양대로 생략했다.
+- 독립 두 낭독은 종이 수량, C0~C3 영어 용어, 선택별 `NOT USED`, 선취된 30만원,
+  미생산 시각과 배우·물건·현재 손실을 전수 재검해 P0/P1 0 GO를 냈다. L3는 사용자
+  무작위 3개이며 그 전에는 JA·zh-CN·zh-TW 번역 원문으로 잠그지 않는다.

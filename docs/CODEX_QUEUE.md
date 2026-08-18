@@ -59,7 +59,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-112 · 마지막 해 career 실제 세로줄 | [112](queue_active/ORDER-112.md) | 16/43 집필·독립 L2 진행 |
+| 1 | [~] | ORDER-112 · 마지막 해 career 실제 세로줄 | [112](queue_active/ORDER-112.md) | 16/43 L1·독립 L2 GO — L3 보류 |
 | 2 | [~] | ORDER-111 · 지연·생존 / 무연애·미실행 두 세로줄 | [111](queue_active/ORDER-111.md) | 24/58 L1·L2 GO — L3 보류 |
 | 3 | [~] | ORDER-110 · M49~M60 기준 세로줄 | [110](queue_active/ORDER-110.md) | 20/51 L1·L2 GO — L3 보류 |
 | 4 | [~] | ORDER-109 · M34 반복·보고체·시계 도입 보정 | [109](queue_active/ORDER-109.md) | 16 roots L1·L2 GO — L3 보류 |

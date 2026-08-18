@@ -123,5 +123,43 @@
         "result_text": "{name} drew one line between the clinic form and the family-call entry. Daeun did not nod; she wrote ‘tell me before’ in the people box.\n\n“Explaining after you collapse isn't protecting something together. Let me know before you stop too.”\n\nNeither of them folded the paper until the blue ink dried. The calculator screen went dark first."
       }
     ]
+  },
+  {
+    "id": "arc_y5_minseo_goal_cost_career",
+    "title": "A Table Longer Than the Allowance",
+    "description": "At 11:30 Saturday morning, Minseo placed TF-12-C0 beside this month's automatic-payment list, opened by {name}. C0 showed the 450,000 won monthly lead-duty allowance, the six-million-won training repayment for leaving before twelve months, and its end date. The living-cost categories and total faced {name}; Minseo's finger stopped at the heading.\n\nShe turned on her calculator and entered C0's end date first. “This isn't about earning another 450,000 won. You carry six million won until this date. Where can your present life hold it?”\n\nMinseo turned the calculator toward {name} and divided the company's date from his living-cost list with one finger. The two tables did not overlap. “Show me one cost I don't know.”",
+    "choices": [
+      {
+        "text": "Show the total of this month's automatic payments without hiding it",
+        "result_text": "{name} turned the list toward Minseo with housing, phone, and regular expenses visible. She aligned three monthly withdrawal dates with C0's payday.\n\n“The allowance is one line. Your living costs leave on several dates. First see whether you can withstand the allowance arriving a month late.”\n\nLess of his present life could remain private. Three dates—not an answer—remained on the paper."
+      },
+      {
+        "text": "Ask her to identify the exact date the repayment obligation ends",
+        "result_text": "Minseo counted twelve months from the proposed effective date and boxed the repayment end date. She drew different lines beneath the day before and the day after.\n\n“One day changes what six million won means. Remember this date before the appointment date.”\n\n{name} copied the end date into his calendar. The claim that he could leave whenever he wanted disappeared; only the possibility of being held until that date remained."
+      },
+      {
+        "text": "Put twelve months of allowance and six million won in the same calculator",
+        "result_text": "Minseo left 5.4 million won—450,000 multiplied by twelve—and the six-million-won repayment on the same display. The gap was 600,000 won.\n\n“Even the full allowance is smaller than the price of leaving early. Write separately what life this role supports and what life it binds.”\n\nThe calculator stayed on. In a table meant to show more income, {name} saw the number that would fall short first if he left."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_after_goal_hyunsu_career",
+    "title": "What to Ask Before a Name",
+    "description": "At 8:05 Sunday evening, in the soup shop by their old goshiwon, {name} left C0 in his bag. He set down his phone. “When I saw the external reviewer field, your name came to mind. I didn't use it, and I told the company not to.”\n\nHyunsu set down his spoon and waited for the steam to sink. “Hyung, before you say you didn't use it, tell me why you needed my name.” {name} explained how an outside name cut approval from fifteen business days to five. Hyunsu kept looking at those ten days.\n\n“Then what will you protect after the appointment? In your life, not in my name.”\n\n{name} kept his calendar closed and looked between Hyunsu's work schedule, water glass, and overturned phone. One question about how Hyunsu protected his work remained in his mouth—the one that hurt most to ask now.",
+    "choices": [
+      {
+        "text": "Ask how he protects an evening he will not sell to the office",
+        "result_text": "Hyunsu opened his work schedule and pointed to one block from the previous month. “I don't protect a day perfectly. But when I lose an evening, I don't pretend I repaid it by spending next week's time on someone.”\n\nWhen {name} asked, “Then what about me?” Hyunsu closed the screen. “You have to clear your own calendar, hyung.”\n\nThe shape of one empty evening remained between the bowls. Hyunsu's hand stopped beside his water glass instead of reaching for {name}'s calendar."
+      },
+      {
+        "text": "Ask how he survives without putting his name on figures he could not verify",
+        "result_text": "Hyunsu wiped a ring of water from the rim of his glass. “I don't put my name on figures I couldn't verify, even if it means I don't get the assignment. But I explain the part I did verify to the end.”\n\n“Would you have refused this one too?”\n\n“If you'd asked me first.” Hyunsu's answer was short. The unasked time remained on the table longer than the name he had not used."
+      },
+      {
+        "text": "Ask how not to turn a person into collateral on a day money is tight",
+        "result_text": "Hyunsu turned the water glass half a circle, then pointed at {name}'s phone. “Don't send the request first. Send the situation: how much is urgent, why it's me, and whether there's room for me to say no.”\n\nAfter a moment, he added, “And don't ask me to write the refusal for you too.”\n\nOnly the ceiling light reflected in the black phone screen. One sentence that would have made Hyunsu supervise the boundary was erased before it entered the field."
+      }
+    ]
   }
 ]

@@ -1403,5 +1403,62 @@
         "result_text": "Jiyeon held the pages so the empty name field and PRIORITY ACCESS TO WEEKENDS AND NIGHTS fit in one photograph. “Ask Minseo why these belong in the same contract.”\n\n{name} sent the photograph with the reviewer designation. Only a sent time remained. Shared time had been exposed before the financial ceiling, while the reason the joint-liability field existed moved to the next question."
       }
     ]
+  },
+  {
+    "id": "arc_y5_contract_cover_career",
+    "title": "The Blank That Lasts Twelve Months",
+    "description": "At 8:37 Monday morning, a document entered the company inbox: NEW-BUSINESS TF LEAD APPOINTMENT AND TRAINING-COST CLAWBACK ADDENDUM C0. Its number was TF-12-C0; its file hash ended in 8F2C71A0. {name} downloaded the original, not the preview.\n\nThe appointment lasted twelve months and paid a monthly lead-duty allowance of 450,000 won. Leaving early meant repaying six million won in company-funded training costs. The external numerical reviewer field was blank. The line below said that entering an outside name reduced approval from fifteen business days to five.\n\nThe team lead's desk was empty. The open document and the chill of the office remained at the monitor. Before the better title, {name} chose which line to verify with his own hand.",
+    "choices": [
+      {
+        "text": "Calculate 450,000 won a month and six million won on the same line",
+        "result_text": "{name} multiplied the 450,000 won monthly allowance by twelve and wrote 5.4 million won. Below it he wrote the six-million-won training repayment for leaving early. The repayment exceeded a full year's allowance by 600,000 won.\n\nHe copied the document number and hash beside the equation. Appointment remained at the top of the screen; the first thing in his notebook was the number that made leaving harder."
+      },
+      {
+        "text": "Overlay the twelve-month end date and both approval periods on the calendar",
+        "result_text": "{name} marked twelve months from the proposed effective date, then colored fifteen and five business days differently. One outside name saved ten days by remaining inside the document.\n\nA long line crossed into the next quarter of the calendar. He saved it with the C0 original without erasing the end date. A faster appointment by ten days and a twelve-month bind fit on one screen."
+      },
+      {
+        "text": "Save the blank reviewer field beside the acceleration clause",
+        "result_text": "{name} captured the blank external numerical reviewer field beside the line reading FIFTEEN BUSINESS DAYS TO FIVE. He did not press the button for entering a name.\n\nThe file properties still showed TF-12-C0 and 8F2C71A0. The blank belonged to no one yet, but the company's demand for a person's name as the price of ten days was no longer fine print."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_contract_reviewer_delivery_minseo_career",
+    "title": "C0 Without a Page Cut Away",
+    "description": "At 9:14 Wednesday night, {name} placed the TF-12-C0 original in his chat with Minseo. The send panel showed its number, 8F2C71A0, and full page count. Every preview remained in sequence: 450,000 won a month, the six-million-won repayment for leaving before twelve months, the blank external numerical reviewer field, and the final line reducing fifteen business days to five for an outside name.\n\nOnly the first message was blank. Writing that he feared six million won exposed that he was already reading the exit clause first. Writing that Hyunsu's name had occurred to him exposed a calculation he had not acted on. Writing that 450,000 won made him want the appointment quickly exposed the pressure of his current life. The original was attached. {name} sent one fact he could have hidden first.",
+    "choices": [
+      {
+        "text": "Say first that the six-million-won repayment clause frightens him most",
+        "result_text": "{name} wrote, ‘Please look at the six million won triggered by leaving before twelve months first. It is the line I most wanted to hide,’ and sent the entire C0 original. At 9:16 p.m., one completed file transfer and its hash remained in the chat.\n\nOnly the send time sat beneath the bubble; the read-receipt space was blank. His sentence about looking for the exit even while considering advancement lay before the uncut document under his own name."
+      },
+      {
+        "text": "Say first that Hyunsu's name occurred to him, but he did not enter it",
+        "result_text": "{name} wrote, ‘The external reviewer field made me think of Hyunsu. I have not entered his name or asked him,’ and sent it with the entire original. The send time was 9:17 p.m.\n\nThe field remained blank, but his thinking had not been. The screen held no Hyunsu contact card—only the two sentences {name} had volunteered and the C0 hash."
+      },
+      {
+        "text": "Say first that 450,000 won a month makes him want the appointment quickly",
+        "result_text": "{name} wrote, ‘An extra 450,000 won a month is not small to me now, so I want this appointment quickly,’ and sent the full C0 original. At 9:18 p.m., the sentence settled beneath the document number and file hash.\n\nBefore asking for a cold reading of the terms, he had exposed why he wanted them. {name}'s overturned screen held only the send time and an empty input field."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_protection_boundary_hyunsu_career",
+    "title": "A Name Worth Ten Days",
+    "description": "At 4:20 the following Tuesday, the current team lead put TF-12-C0's external numerical reviewer field on the meeting-room screen. It was still blank. “An outside name lets us reduce approval review to five business days. Without one, it stays at fifteen.” The team lead's hands rested away from the keyboard while the cursor blinked before the blank.\n\nHyunsu existed in {name}'s contacts, not in the document. His chat stayed closed; only the company's change-request field was open. Hiding the reason spent trust with the team lead. Revealing it placed a private relationship in company records. Locking the field spent today's approval time. As he barred Hyunsu's name from candidacy, {name} chose what to surrender before the ten days.",
+    "choices": [
+      {
+        "text": "Give no reason and request that no outside name, including Hyunsu's, be used",
+        "result_text": "{name} entered, ‘External numerical reviewer: NOT USED. Do not enter Hyunsu's name or any other outside individual's name.’ The team lead asked why once. {name} answered only, “I will keep it under my responsibility.”\n\nThe change receipt and the standard fifteen-business-day review appeared. The private reason stayed private, but the team lead's question remained. Ten gray days lengthened on the schedule."
+      },
+      {
+        "text": "Disclose that Hyunsu is someone he knows and request his exclusion as a conflict",
+        "result_text": "{name} said, “Hyunsu is someone I know personally. Please don't use his name to accelerate approval.” The team lead entered the sentence without shortening it in C0's conflict note.\n\nNOT USED filled the reviewer field, and approval returned to fifteen business days. The boundary had an explanation, but Hyunsu's private connection became one line in the company record. The team lead closed the screen only after saving it."
+      },
+      {
+        "text": "Ask to lock the external reviewer field and preserve its change history",
+        "result_text": "After saying not to use Hyunsu's name, {name} asked to lock the external reviewer field itself. The team lead answered, “Then file a change statement, and today's approval cutoff will pass.” {name} signed the statement with his own name.\n\nThe lock remained, and approval became fifteen business days. Two hours had passed when he left the meeting room. No one could quietly restore a name, but one block of work meant for today had moved with it."
+      }
+    ]
   }
 ]
