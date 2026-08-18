@@ -146,7 +146,7 @@
 `content/events/arc_h2_beats.json`, `content/events/arc_drama.json`,
 `content/events/arc_year_close.json`.
 
-**EN 원고:** 위와 같은 이름의 `content/events_en/` 3파일.
+**EN 원고:** 위와 같은 이름의 `content/events_en/` 4파일.
 
 **분기 상태:** `content/meta/story_map.json`에서 이번 배치로 실제 생긴 기존 fallback
 root의 `NEW/planned → EXPAND/needs_rule` lifecycle만 정렬한다. selector·cast·decision·
