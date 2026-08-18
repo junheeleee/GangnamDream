@@ -1,8 +1,24 @@
-# Active Queue Spec: ORDER-114
+# Archived Queue Spec: ORDER-114
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-114 [P0·구조] 마지막 해 두 reference 세로줄의 exact routing 계약을 기계 판독형으로 고정한다
+#### [x] ORDER-114 [P0·구조] 마지막 해 두 reference 세로줄의 exact routing 계약을 기계 판독형으로 고정한다
+
+**완료 (2026-08-18):** career·startup 두 경로의 32 roots·86 choices를
+`activation: reference_only`, `reachability_claim: false`, `runtime_owner: null`인
+기계 판독 계약으로 고정했다. 배우·문서 계보·월별 선택·20개 terminal 손실·M59
+원자 거래·M60/final-week handoff를 기록했고 현재 runtime consumer는 0이다.
+보호 35파일과 86 objects, root 32개 의미 digest, 살아남은 continuation 분기만 읽는
+producer graph를 감사한다. 직접 감사와 84개 음성 변이, story-map 표적 차선 6개,
+독립 재현 18건이 모두 통과해 P0/P1 0이다. runtime·save·story map·rules·events·
+endings는 바꾸지 않았으며 live 승격은 후속 R1·R2가 소유한다.
+
+**정본 승격:** 계속 유효한 두 reference 계약은
+`content/meta/year5_reference_routes.json`, 그 거부 조건은
+`tools/year5_reference_route_audit.py`, 검사 라우팅은 `tools/audit_scope.json`과
+`tools/audit.sh`, 문서 분류는 `docs/context_manifest.json`과
+`docs/CONTEXT_INDEX.md`가 소유한다. 이 사양의 baseline commit·파일 소유권·20단위·
+검사 명령은 일회성 작업 지시다.
 
 **사용자 지시 (2026-08-18):** “이제 이어서 작업해.” career와 startup 원고를 바로
 노출하지 않는다. 현재 제품에는 M49~M60 production dispatcher·typed durable ledger·

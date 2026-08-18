@@ -59,6 +59,7 @@
     ],
     "monthly_story_map": [
       "content/meta/story_map.json",
+      "content/meta/year5_reference_routes.json",
       "docs/CHOICE_CONSEQUENCE_SYSTEM.md"
     ],
     "weekly_loop": [
@@ -159,6 +160,7 @@
         "docs/STORY_CONSISTENCY_SYSTEM.md",
         "content/meta/narrative_spine.json",
         "content/meta/story_map.json",
+        "content/meta/year5_reference_routes.json",
         "content/meta/story_rules.json"
       ],
       "conditional": [
@@ -173,6 +175,7 @@
     "gameplay_balance": {
       "required": [
         "content/meta/story_map.json",
+        "content/meta/year5_reference_routes.json",
         "docs/CHOICE_CONSEQUENCE_SYSTEM.md",
         "docs/CORE_LOOP_V2.md",
         "content/meta/chapter1_core_loop_v2_causal_ledger.json",

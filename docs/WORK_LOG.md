@@ -18,6 +18,20 @@
 > 차례로 옮긴다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-18 (Codex — 마지막 해 두 reference 경로 exact 계약·감사)
+
+- career·startup 신규 원고 32 roots·86 choices의 exact 배우, 문서 C0→C3·
+  h0→h3, 월별 선택·여력, continuation/terminal/complete, future M59 거래와
+  M60/final-week handoff를 `content/meta/year5_reference_routes.json`에 고정했다.
+- 계약은 `reference_only`, 도달 주장 없음, runtime owner·consumer 0이다. 현재 없는
+  M48 typed actor/margin, M53 만료 소유자, M56→M57 여력 생산자와 live ledger·router·
+  save·성공 엔딩 유예를 blocker로 남겨 반쪽 구현을 제품 경로로 오인하지 않게 했다.
+- 감사기는 보호 35파일·86 objects, 32 root 의미 digest, 20 terminal 전체 write,
+  continuation-only producer graph, 직업 11종·배우·문서·원자 거래 위치를 강제한다.
+  직접 감사 2/32/86/0, 음성 self-test 84건, story-map 차선 6/6, 독립 재현 18건,
+  context·queue·scope·diff가 통과했고 P0/P1 0이다. runtime·save·story map·rules·
+  events·endings·기존 원고는 바꾸지 않았으며 full audit·240주·Godot는 생략했다.
+
 ## 2026-08-18 (Codex — 창업 20%·32억원 staged 인수 세로줄 16개 L1/L2)
 
 - 300만원 공동창업→지분 20%→기업가치 160억원→32억원 단일 엑싯 정본을 따라,

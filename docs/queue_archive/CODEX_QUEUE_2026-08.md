@@ -13,6 +13,12 @@
 
 ## 2026-08
 
+- `[x] ORDER-114` (2026-08-18): 마지막 해 career·startup 32 roots·86 choices의
+  배우·문서 계보·월간 여력·terminal 손실·future transaction/finale handoff를
+  `reference_only` 기계 계약으로 고정했다. runtime consumer 0과 보호 35파일을
+  강제하고 84개 음성 변이 및 독립 재현 18건을 거부했다. runtime·save·story map·
+  events·endings는 불변이며 live 이관은 후속 R1·R2로 분리했다.
+  [사양](ORDER-114.md), [계약](../../content/meta/year5_reference_routes.json)
 - `[x] ORDER-102` (2026-08-15): 60개월 월간 정본과 M01·M35·M55 세로 단면을
   만들고, M01~M06의 주력 하나·같은 축 여유 둘째·한 번의 미룸·특정 문 닫힘을
   4,509개 합법 경로로 검증했다. 18개 Pareto 결과에서 다섯 제한 정책의

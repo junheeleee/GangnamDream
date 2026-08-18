@@ -17,12 +17,15 @@
       "id": "story-map",
       "paths": [
         "content/meta/story_map.json",
+        "content/meta/year5_reference_routes.json",
+        "tools/year5_reference_route_audit.py",
         "tools/story_map_strategy_sim.py"
       ],
       "owned_paths": [
         "CLAUDE.md",
         "content/meta/narrative_spine.json",
         "content/meta/story_map.json",
+        "content/meta/year5_reference_routes.json",
         "content/meta/story_rules.json",
         "docs/CHOICE_CONSEQUENCE_SYSTEM.md",
         "docs/CODEX_QUEUE.md",
@@ -32,14 +35,17 @@
         "docs/queue_archive/ORDER-102.md",
         "tools/audit_scope.json",
         "tools/audit_select.py",
+        "tools/audit.sh",
         "tools/narrative_spine_audit.py",
         "tools/story_map_audit.py",
-        "tools/story_map_strategy_sim.py"
+        "tools/story_map_strategy_sim.py",
+        "tools/year5_reference_route_audit.py"
       ],
       "tools": [
         "tools/story_map_audit.py",
         "tools/narrative_spine_audit.py",
-        "tools/story_map_strategy_sim.py --self-test"
+        "tools/story_map_strategy_sim.py --self-test",
+        "tools/year5_reference_route_audit.py --self-test"
       ],
       "why": "월 배치만 바뀌면 240주 런타임 대신 지도·5장 정합만 검사한다"
     },
@@ -82,6 +88,7 @@
       "tools": [
         "tools/story_map_audit.py",
         "tools/story_map_strategy_sim.py --self-test",
+        "tools/year5_reference_route_audit.py --self-test",
         "tools/StoryMapM1M6Check.tscn"
       ],
       "why": "독립 M01~M06 런타임만 5초 이내 검사하고 기존 24주·240주 경로는 실행하지 않는다"
@@ -199,6 +206,49 @@
       "paths": [
         "content/meta/story_map.json",
         "tools/story_map_strategy_sim.py"
+      ]
+    },
+    {
+      "tool": "tools/year5_reference_route_audit.py --self-test",
+      "why": "마지막 해 career·startup exact route를 reference-only·non-live로 고정하고 배우·문서·선택·월간 여력·보호 hash 변이를 거부한다",
+      "paths": [
+        "content/meta/narrative_spine.json",
+        "content/meta/story_map.json",
+        "content/meta/story_rules.json",
+        "systems/StoryMapMonthlyRuntime.gd",
+        "autoloads/GameState.gd",
+        "autoloads/EventManager.gd",
+        "autoloads/SaveManager.gd",
+        "scenes/MainGame.gd",
+        "scenes/StoryMode.gd",
+        "systems/EndingSystem.gd",
+        "content/endings.json",
+        "content/endings_en.json",
+        "content/endings_ja.json",
+        "content/endings_zh-CN.json",
+        "content/endings_zh-TW.json",
+        "content/events/arc_midgame.json",
+        "content/events/arc_new_characters.json",
+        "content/events/arc_pre_ending.json",
+        "content/events/arc_drama.json",
+        "content/events_en/arc_midgame.json",
+        "content/events_en/arc_new_characters.json",
+        "content/events_en/arc_pre_ending.json",
+        "content/events_en/arc_drama.json",
+        "content/events/life_events.json",
+        "content/events_en/life_events.json",
+        "content/events/drama_events.json",
+        "content/events_en/drama_events.json",
+        "content/events/callback_events_2.json",
+        "content/events_en/callback_events_2.json",
+        "content/events/callback_events_16.json",
+        "content/events_en/callback_events_16.json",
+        "content/events/callback_events_19.json",
+        "content/events_en/callback_events_19.json",
+        "content/events/callback_events_20.json",
+        "content/events_en/callback_events_20.json",
+        "content/meta/year5_reference_routes.json",
+        "tools/year5_reference_route_audit.py"
       ]
     },
     {

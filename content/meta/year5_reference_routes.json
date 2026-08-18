@@ -1,0 +1,1048 @@
+{
+  "schema_version": 1,
+  "manifest_id": "year5_reference_routes_v1",
+  "declaration_commit": "2c0ec23122ce7718439ad352c2d0e55915398e9f",
+  "protected_baseline_commit": "e27ff7e69990fee16aef5f11913c0d3db56d58f3",
+  "choice_index_base": 0,
+  "activation": "reference_only",
+  "reachability_claim": false,
+  "runtime_owner": null,
+  "scope": {
+    "months": [49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60],
+    "route_ids": [
+      "career_reference_v1",
+      "startup_acquisition_reference_v1"
+    ],
+    "expected_route_count": 2,
+    "expected_root_count_per_route": 16,
+    "expected_choice_count_per_route": 43,
+    "expected_root_count_total": 32,
+    "expected_choice_count_total": 86,
+    "excluded_economic_paths": ["investment"],
+    "excluded_reference_families": ["property", "ORDER-111 alternate routes"],
+    "live_split": {
+      "r1": {
+        "months": [49, 50, 51, 52, 53, 54, 55],
+        "activation_after_completion": false,
+        "owns": ["durable ledger", "actor binding", "typed selectors"]
+      },
+      "r2": {
+        "months": [57, 58, 59, 60],
+        "activation_after_completion": true,
+        "owns": ["terminal routing", "atomic transactions", "finale hold and release"]
+      }
+    }
+  },
+  "receipt_types": {
+    "route_lock": "durable exact M49 route selection; no silent priority",
+    "actor_binding": "durable actor id plus provenance and invalidation checks",
+    "document_version": "document id, version, fields and hash suffix produced before any reader",
+    "scene_choice": "root id and zero-based choice index, written once",
+    "commitment_completion": "exact monthly commitment id and axis",
+    "margin": "typed one-action carry margin with producer, consumer and expiry owner",
+    "transaction": "idempotent event+choice+route economic transition",
+    "finale_state": "none, pending or ready; success is held until final-week completion"
+  },
+  "actor_registry": {
+    "career_reference_v1": {
+      "bindings": {
+        "proposer": {
+          "actor_id": "boss",
+          "source": "compatible_current_job.canonical_boss_role",
+          "required": true
+        },
+        "counterparty": {
+          "actor_id": "boss",
+          "source": "same_binding_as:proposer",
+          "required": true
+        },
+        "reviewer": {
+          "actor_id": "minseo",
+          "source": "literal_actor:minseo",
+          "required": true
+        },
+        "protected": {
+          "actor_id": "hyunsu",
+          "source": "future_typed_receipt:m48_tell_surviving_person.actor",
+          "required": true
+        },
+        "affected": {
+          "actor_id": "hyunsu",
+          "source": "same_binding_as:protected",
+          "required": true
+        },
+        "primary_witness": {
+          "actor_id": "hyunsu",
+          "source": "same_binding_as:protected",
+          "required": true
+        }
+      },
+      "distinct_role_groups": [
+        ["proposer", "counterparty"],
+        ["reviewer"],
+        ["protected", "affected", "primary_witness"]
+      ],
+      "invalidations": [
+        "player quit the bound job",
+        "current job is not in compatible_job_ids",
+        "M48 remaining-person actor receipt is absent or is not hyunsu"
+      ],
+      "surface_aliases_not_actor_ids": ["team_lead"]
+    },
+    "startup_acquisition_reference_v1": {
+      "bindings": {
+        "proposer": {
+          "actor_id": "acquirer_lead",
+          "source": "route_scene_receipt:arc_y5_startup_offer_c0",
+          "required": true
+        },
+        "counterparty": {
+          "actor_id": "acquirer_lead",
+          "source": "same_binding_as:proposer",
+          "required": true
+        },
+        "reviewer": {
+          "actor_id": "minseo",
+          "source": "literal_actor:minseo",
+          "required": true
+        },
+        "protected": {
+          "actor_id": "startup_cofounder",
+          "source": "future_typed_receipt:startup_founded.cofounder_actor",
+          "required": true
+        },
+        "affected": {
+          "actor_id": "startup_cofounder",
+          "source": "same_binding_as:protected",
+          "required": true
+        },
+        "primary_witness": {
+          "actor_id": "startup_cofounder",
+          "source": "same_binding_as:protected",
+          "required": true
+        }
+      },
+      "distinct_role_groups": [
+        ["proposer", "counterparty"],
+        ["reviewer"],
+        ["protected", "affected", "primary_witness"]
+      ],
+      "invalidations": [
+        "startup founding receipt or cofounder binding is absent",
+        "startup_exit, startup_partial_exit, startup_going_solo or joined_startup is present",
+        "legacy acquisition offer has already been consumed or declined"
+      ],
+      "inference_forbidden": ["romance enum", "display name", "legacy save without durable mode"]
+    }
+  },
+  "routes": [
+    {
+      "route_id": "career_reference_v1",
+      "economic_path": "career",
+      "partner": "none",
+      "entry": {
+        "required_economic_path": "career",
+        "compatible_job_ids": [
+          "job_03", "job_04", "job_05", "job_06", "job_07", "job_08",
+          "job_09", "job_10", "job_12", "job_14", "job_15"
+        ],
+        "required_future_receipts": [
+          "m48_tell_surviving_person.actor=hyunsu",
+          "m48_tell_surviving_person.margin.axis=trust",
+          "m49_route_selected=career_reference_v1"
+        ],
+        "route_lock": {
+          "producer_month": 49,
+          "value": "career_reference_v1",
+          "silent_priority": false
+        }
+      },
+      "exclusions": [
+        "partner is not none",
+        "player quit the bound job",
+        "incompatible current job",
+        "M48 actor or trust-margin provenance mismatch"
+      ],
+      "actors": {
+        "registry_ref": "career_reference_v1",
+        "required_roles": ["proposer", "counterparty", "reviewer", "protected", "affected", "primary_witness"]
+      },
+      "document_lineage": {
+        "lineage_id": "career_tf_clawback",
+        "versions": [
+          {
+            "version": "C0",
+            "document_id": "TF-12-C0",
+            "hash": "8F2C71A0",
+            "title_ko": "신규사업 TF 책임자 발령·교육비 환수 부속합의 C0",
+            "title_en": "NEW-BUSINESS TF LEAD APPOINTMENT AND TRAINING-COST CLAWBACK ADDENDUM C0",
+            "fields": {
+              "term_months": 12,
+              "monthly_allowance_krw": 450000,
+              "early_exit_training_clawback_krw": 6000000,
+              "external_reviewer": null,
+              "approval_business_days_without_external_name": 15,
+              "approval_business_days_with_external_name": 5
+            },
+            "producer_root": "arc_y5_contract_cover_career"
+          },
+          {
+            "version": "C1",
+            "document_id": null,
+            "hash": null,
+            "fields": {
+              "appointment_delay_business_days": 10,
+              "monthly_allowance_krw": 300000,
+              "tf_budget_change_percent": -20,
+              "selected": false,
+              "signed": false
+            },
+            "producer_root": "arc_y5_final_offer_career_boss"
+          },
+          {
+            "version": "C2",
+            "document_id": "TF-C2-SELF",
+            "hash": null,
+            "fields": {
+              "monthly_allowance_krw": 300000,
+              "clawback_term_months": 12,
+              "clawback_end_date_rule": "execution_effective_at_plus_12_months",
+              "external_reviewer": "NOT USED",
+              "signature_scope": "SELF ONLY",
+              "filed": true
+            },
+            "draft_producer": {"root_id": "arc_y5_three_in_room_decision_career", "choice_index": 0},
+            "filing_producer": {"root_id": "arc_y5_name_on_line_career_self", "choice_index": 1}
+          },
+          {
+            "version": "C3",
+            "document_id": "TF-C3-EXEC",
+            "hash": null,
+            "fields": {
+              "setup_deposit_krw": 300000,
+              "monthly_allowance_krw": 300000,
+              "execution_effective_at": "transaction_committed_turn",
+              "clawback_term_months": 12,
+              "clawback_end_date_rule": "execution_effective_at_plus_12_months",
+              "external_reviewer": "NOT USED",
+              "signature_scope": "SELF ONLY",
+              "active_badge": "new_tf_badge",
+              "old_badge_return_confirmed": true,
+              "executed": true
+            },
+            "producer_root": "arc_y5_contract_execution_career",
+            "producer_choice_index": 0
+          }
+        ]
+      },
+      "months": [
+        {"month": 49, "incoming_margin": {"axis": "trust", "producer": "future:m48_tell_surviving_person"}, "selected_commitments": ["m49_open_path_contract", "m49_choose_reviewer"], "outgoing_margin": null, "fallback_owner": null, "unresolved": ["M48 actor and same-axis margin typed producer"], "root_order": ["arc_y5_contract_cover_career", "arc_y5_contract_reviewer_delivery_minseo_career"]},
+        {"month": 50, "incoming_margin": null, "selected_commitments": ["m50_draw_name_boundary"], "outgoing_margin": {"axis": "trust", "producer": "m50_draw_name_boundary"}, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_protection_boundary_hyunsu_career"]},
+        {"month": 51, "incoming_margin": {"axis": "trust", "producer": "m50_draw_name_boundary"}, "selected_commitments": ["m51_hear_minseo", "m51_ask_after_goal"], "outgoing_margin": null, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_minseo_goal_cost_career", "arc_y5_after_goal_hyunsu_career"]},
+        {"month": 52, "incoming_margin": null, "selected_commitments": ["m52_hear_live_proposer"], "outgoing_margin": {"axis": "cash", "producer": "m52_hear_live_proposer"}, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_final_offer_career_boss"]},
+        {"month": 53, "incoming_margin": {"axis": "cash", "producer": "m52_hear_live_proposer"}, "selected_commitments": [], "outgoing_margin": null, "fallback_owner": "generic_month_loop", "unresolved": ["margin expiry owner"], "root_order": []},
+        {"month": 54, "incoming_margin": null, "selected_commitments": ["m54_hear_chosen_reviewer"], "outgoing_margin": {"axis": "trust", "producer": "m54_hear_chosen_reviewer"}, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_career_reviewer_receipt_minseo"]},
+        {"month": 55, "incoming_margin": {"axis": "trust", "producer": "m54_hear_chosen_reviewer"}, "selected_commitments": ["m55_disclose_all_terms", "m55_let_reviewer_question"], "outgoing_margin": null, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_three_in_room_career", "arc_y5_three_in_room_decision_career"]},
+        {"month": 56, "incoming_margin": null, "selected_commitments": [], "outgoing_margin": null, "fallback_owner": "family_route_pass_through", "unresolved": ["M57 same-axis margin producer"], "root_order": []},
+        {"month": 57, "incoming_margin": {"axis": "trust", "producer": "unresolved:M56"}, "selected_commitments": ["m57_file_name_decision", "m57_deliver_filed_copy"], "outgoing_margin": null, "fallback_owner": null, "unresolved": ["incoming margin producer"], "root_order": ["arc_y5_name_on_line_career_self", "arc_y5_name_copy_delivered_hyunsu_career"]},
+        {"month": 58, "incoming_margin": null, "selected_commitments": ["m58_hear_primary_witness"], "outgoing_margin": {"axis": "trust", "producer": "m58_hear_primary_witness"}, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_people_verdict_career_hyunsu"]},
+        {"month": 59, "incoming_margin": {"axis": "trust", "producer": "m58_hear_primary_witness"}, "selected_commitments": ["m59_execute_contract_result", "m59_deliver_result_to_affected_person"], "outgoing_margin": null, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_contract_execution_career", "arc_y5_contract_result_delivered_hyunsu_career"]},
+        {"month": 60, "incoming_margin": null, "selected_commitments": ["m60_sign_own_answer"], "outgoing_margin": null, "fallback_owner": null, "unresolved": [], "root_order": ["arc_final_countdown_career_executed", "arc_y5_final_week_hyunsu_career_outbound"]}
+      ],
+      "roots": [
+        {
+          "id": "arc_y5_contract_cover_career",
+          "ko_file": "content/events/arc_midgame.json",
+          "en_file": "content/events_en/arc_midgame.json",
+          "month": 49,
+          "order": 1,
+          "choice_count": 3,
+          "requirements": ["career entry valid", "future M48 actor+trust-margin receipt", "m49 route lock=career_reference_v1"],
+          "actor_roles": ["proposer", "reviewer", "protected"],
+          "document_reads": [],
+          "common_writes": ["document:C0", "commitment:m49_open_path_contract:cash"],
+          "choice_partitions": {"continuation": [0, 1, 2], "terminal": [], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "career_m49_cover_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_contract_cover_career:0"]},
+            {"index": 1, "outcome_id": "career_m49_cover_1", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_contract_cover_career:1"]},
+            {"index": 2, "outcome_id": "career_m49_cover_2", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_contract_cover_career:2"]}
+          ]
+        },
+        {
+          "id": "arc_y5_contract_reviewer_delivery_minseo_career",
+          "ko_file": "content/events/arc_midgame.json",
+          "en_file": "content/events_en/arc_midgame.json",
+          "month": 49,
+          "order": 2,
+          "choice_count": 3,
+          "requirements": ["document:C0"],
+          "actor_roles": ["reviewer"],
+          "document_reads": ["C0"],
+          "common_writes": ["commitment:m49_choose_reviewer:trust", "receipt:C0_delivered_to_minseo"],
+          "choice_partitions": {"continuation": [0, 1, 2], "terminal": [], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "career_m49_delivery_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_contract_reviewer_delivery_minseo_career:0"]},
+            {"index": 1, "outcome_id": "career_m49_delivery_1", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_contract_reviewer_delivery_minseo_career:1"]},
+            {"index": 2, "outcome_id": "career_m49_delivery_2", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_contract_reviewer_delivery_minseo_career:2"]}
+          ]
+        },
+        {
+          "id": "arc_y5_protection_boundary_hyunsu_career",
+          "ko_file": "content/events/arc_midgame.json",
+          "en_file": "content/events_en/arc_midgame.json",
+          "month": 50,
+          "order": 1,
+          "choice_count": 3,
+          "requirements": ["receipt:C0_delivered_to_minseo", "actor:hyunsu"],
+          "actor_roles": ["protected", "affected"],
+          "document_reads": ["C0"],
+          "common_writes": ["commitment:m50_draw_name_boundary:trust", "receipt:career_name_boundary_drawn"],
+          "choice_partitions": {"continuation": [0, 1, 2], "terminal": [], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "career_m50_boundary_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_protection_boundary_hyunsu_career:0"]},
+            {"index": 1, "outcome_id": "career_m50_boundary_1", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_protection_boundary_hyunsu_career:1"]},
+            {"index": 2, "outcome_id": "career_m50_boundary_2", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_protection_boundary_hyunsu_career:2"]}
+          ]
+        },
+        {
+          "id": "arc_y5_minseo_goal_cost_career",
+          "ko_file": "content/events/arc_new_characters.json",
+          "en_file": "content/events_en/arc_new_characters.json",
+          "month": 51,
+          "order": 1,
+          "choice_count": 3,
+          "requirements": ["document:C0", "receipt:career_name_boundary_drawn", "margin:m50_draw_name_boundary:trust"],
+          "actor_roles": ["reviewer"],
+          "document_reads": ["C0"],
+          "common_writes": ["commitment:m51_hear_minseo:trust"],
+          "choice_partitions": {"continuation": [0, 1, 2], "terminal": [], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "career_m51_minseo_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_minseo_goal_cost_career:0"]},
+            {"index": 1, "outcome_id": "career_m51_minseo_1", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_minseo_goal_cost_career:1"]},
+            {"index": 2, "outcome_id": "career_m51_minseo_2", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_minseo_goal_cost_career:2"]}
+          ]
+        },
+        {
+          "id": "arc_y5_after_goal_hyunsu_career",
+          "ko_file": "content/events/arc_new_characters.json",
+          "en_file": "content/events_en/arc_new_characters.json",
+          "month": 51,
+          "order": 2,
+          "choice_count": 3,
+          "requirements": ["document:C0", "receipt:career_name_boundary_drawn", "commitment:m51_hear_minseo:trust", "actor:hyunsu"],
+          "actor_roles": ["protected"],
+          "document_reads": ["C0"],
+          "common_writes": ["commitment:m51_ask_after_goal:trust"],
+          "choice_partitions": {"continuation": [0, 1, 2], "terminal": [], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "career_m51_hyunsu_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_after_goal_hyunsu_career:0"]},
+            {"index": 1, "outcome_id": "career_m51_hyunsu_1", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_after_goal_hyunsu_career:1"]},
+            {"index": 2, "outcome_id": "career_m51_hyunsu_2", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_after_goal_hyunsu_career:2"]}
+          ]
+        },
+        {
+          "id": "arc_y5_final_offer_career_boss",
+          "ko_file": "content/events/arc_pre_ending.json",
+          "en_file": "content/events_en/arc_pre_ending.json",
+          "month": 52,
+          "order": 1,
+          "choice_count": 3,
+          "requirements": ["document:C0", "receipt:career_name_boundary_drawn", "actor:boss"],
+          "actor_roles": ["proposer", "counterparty"],
+          "document_reads": ["C0"],
+          "common_writes": ["document:C1", "commitment:m52_hear_live_proposer:cash", "receipt:career_final_offer_heard"],
+          "choice_partitions": {"continuation": [0, 1, 2], "terminal": [], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "career_m52_offer_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_final_offer_career_boss:0"]},
+            {"index": 1, "outcome_id": "career_m52_offer_1", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_final_offer_career_boss:1"]},
+            {"index": 2, "outcome_id": "career_m52_offer_2", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_final_offer_career_boss:2"]}
+          ]
+        },
+        {
+          "id": "arc_y5_career_reviewer_receipt_minseo",
+          "ko_file": "content/events/arc_pre_ending.json",
+          "en_file": "content/events_en/arc_pre_ending.json",
+          "month": 54,
+          "order": 1,
+          "choice_count": 1,
+          "requirements": ["receipt:career_final_offer_heard", "actor:minseo"],
+          "actor_roles": ["reviewer"],
+          "document_reads": ["C1"],
+          "common_writes": ["commitment:m54_hear_chosen_reviewer:trust", "receipt:career_reviewer_current_markings"],
+          "choice_partitions": {"continuation": [0], "terminal": [], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "career_m54_reviewer_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_career_reviewer_receipt_minseo:0"]}
+          ]
+        },
+        {
+          "id": "arc_y5_three_in_room_career",
+          "ko_file": "content/events/arc_pre_ending.json",
+          "en_file": "content/events_en/arc_pre_ending.json",
+          "month": 55,
+          "order": 1,
+          "choice_count": 3,
+          "requirements": ["receipt:career_reviewer_current_markings", "actors:boss,minseo,hyunsu"],
+          "actor_roles": ["proposer", "reviewer", "protected"],
+          "document_reads": ["C1"],
+          "common_writes": ["commitment:m55_disclose_all_terms:trust", "receipt:career_three_in_room_opened"],
+          "choice_partitions": {"continuation": [0, 1, 2], "terminal": [], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "career_m55_room_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_three_in_room_career:0"]},
+            {"index": 1, "outcome_id": "career_m55_room_1", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_three_in_room_career:1"]},
+            {"index": 2, "outcome_id": "career_m55_room_2", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_three_in_room_career:2"]}
+          ]
+        },
+        {
+          "id": "arc_y5_three_in_room_decision_career",
+          "ko_file": "content/events/arc_pre_ending.json",
+          "en_file": "content/events_en/arc_pre_ending.json",
+          "month": 55,
+          "order": 2,
+          "choice_count": 3,
+          "requirements": ["receipt:career_three_in_room_opened"],
+          "actor_roles": ["proposer", "reviewer", "protected"],
+          "document_reads": ["C1"],
+          "common_writes": ["commitment:m55_let_reviewer_question:trust"],
+          "choice_partitions": {"continuation": [0], "terminal": [1, 2], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "career_m55_decision_continue", "flow": "continuation", "requirements": [], "writes": ["document:C2:draft:self_only", "scene_choice:arc_y5_three_in_room_decision_career:0"]},
+            {"index": 1, "outcome_id": "career_m55_decision_terminal_1", "flow": "terminal", "requirements": [], "writes": ["terminal_state:appointment_delayed_10_business_days", "route_terminal:career:m55:1", "scene_choice:arc_y5_three_in_room_decision_career:1"]},
+            {"index": 2, "outcome_id": "career_m55_decision_terminal_2", "flow": "terminal", "requirements": [], "writes": ["terminal_state:tf_budget_minus_20_percent", "route_terminal:career:m55:2", "scene_choice:arc_y5_three_in_room_decision_career:2"]}
+          ]
+        },
+        {
+          "id": "arc_y5_name_on_line_career_self",
+          "ko_file": "content/events/arc_pre_ending.json",
+          "en_file": "content/events_en/arc_pre_ending.json",
+          "month": 57,
+          "order": 1,
+          "choice_count": 4,
+          "requirements": ["document:C2:draft:self_only", "future margin:M56"],
+          "actor_roles": [],
+          "document_reads": ["C2"],
+          "common_writes": ["commitment:m57_file_name_decision:cash"],
+          "choice_partitions": {"continuation": [1], "terminal": [0, 2, 3], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "career_m57_file_terminal_0", "flow": "terminal", "requirements": [], "writes": ["terminal_state:c2_withdrawn", "route_terminal:career:m57:0", "scene_choice:arc_y5_name_on_line_career_self:0"]},
+            {"index": 1, "outcome_id": "career_m57_file_continue", "flow": "continuation", "requirements": [], "writes": ["document:C2:filed:TF-C2-SELF", "scene_choice:arc_y5_name_on_line_career_self:1"]},
+            {"index": 2, "outcome_id": "career_m57_file_terminal_2", "flow": "terminal", "requirements": [], "writes": ["terminal_state:external_reviewer_pending_verification", "route_terminal:career:m57:2", "scene_choice:arc_y5_name_on_line_career_self:2"]},
+            {"index": 3, "outcome_id": "career_m57_file_terminal_3", "flow": "terminal", "requirements": [], "writes": ["terminal_state:c2_unfiled_held", "route_terminal:career:m57:3", "scene_choice:arc_y5_name_on_line_career_self:3"]}
+          ]
+        },
+        {
+          "id": "arc_y5_name_copy_delivered_hyunsu_career",
+          "ko_file": "content/events/arc_pre_ending.json",
+          "en_file": "content/events_en/arc_pre_ending.json",
+          "month": 57,
+          "order": 2,
+          "choice_count": 1,
+          "requirements": ["document:C2:filed:TF-C2-SELF", "actor:hyunsu"],
+          "actor_roles": ["protected"],
+          "document_reads": ["C2"],
+          "common_writes": ["commitment:m57_deliver_filed_copy:trust", "receipt:C2_copy_delivered_to_hyunsu"],
+          "choice_partitions": {"continuation": [0], "terminal": [], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "career_m57_delivery_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_name_copy_delivered_hyunsu_career:0"]}
+          ]
+        },
+        {
+          "id": "arc_y5_people_verdict_career_hyunsu",
+          "ko_file": "content/events/arc_pre_ending.json",
+          "en_file": "content/events_en/arc_pre_ending.json",
+          "month": 58,
+          "order": 1,
+          "choice_count": 3,
+          "requirements": ["receipt:C2_copy_delivered_to_hyunsu"],
+          "actor_roles": ["primary_witness"],
+          "document_reads": ["C2"],
+          "common_writes": ["commitment:m58_hear_primary_witness:trust"],
+          "choice_partitions": {"continuation": [0], "terminal": [1, 2], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "career_m58_listen_continue", "flow": "continuation", "requirements": [], "writes": ["receipt:career_primary_witness_heard", "scene_choice:arc_y5_people_verdict_career_hyunsu:0"]},
+            {"index": 1, "outcome_id": "career_m58_terminal_1", "flow": "terminal", "requirements": [], "writes": ["terminal_state:result_first_conversation_shortened", "route_terminal:career:m58:1", "scene_choice:arc_y5_people_verdict_career_hyunsu:1"]},
+            {"index": 2, "outcome_id": "career_m58_terminal_2", "flow": "terminal", "requirements": [], "writes": ["terminal_state:player_must_write_boundary", "route_terminal:career:m58:2", "scene_choice:arc_y5_people_verdict_career_hyunsu:2"]}
+          ]
+        },
+        {
+          "id": "arc_y5_contract_execution_career",
+          "ko_file": "content/events/arc_pre_ending.json",
+          "en_file": "content/events_en/arc_pre_ending.json",
+          "month": 59,
+          "order": 1,
+          "choice_count": 3,
+          "requirements": ["receipt:career_primary_witness_heard", "document:C2:filed:TF-C2-SELF"],
+          "actor_roles": ["proposer", "counterparty"],
+          "document_reads": ["C2"],
+          "common_writes": ["commitment:m59_execute_contract_result:cash"],
+          "choice_partitions": {"continuation": [0], "terminal": [1, 2], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "career_m59_execute_continue", "flow": "continuation", "requirements": [], "writes": ["transaction:tx.career_reference_v1.m59.choice_0", "document:C3:executed:TF-C3-EXEC", "finale_state:pending", "scene_choice:arc_y5_contract_execution_career:0"]},
+            {"index": 1, "outcome_id": "career_m59_execute_terminal_1", "flow": "terminal", "requirements": [], "writes": ["terminal_state:offer_rejected_unexecuted", "terminal_document:C2:rejected_unexecuted", "route_terminal:career:m59:1", "scene_choice:arc_y5_contract_execution_career:1"]},
+            {"index": 2, "outcome_id": "career_m59_execute_terminal_2", "flow": "terminal", "requirements": [], "writes": ["terminal_state:resigned_settled_badge_returned_c2_unexecuted", "job_transition:quit_bound_current_job", "badge:bound_job_badge_returned", "cash:settlement_from_runtime_document", "terminal_document:C2:unexecuted_due_to_resignation", "route_terminal:career:m59:2", "scene_choice:arc_y5_contract_execution_career:2"]}
+          ]
+        },
+        {
+          "id": "arc_y5_contract_result_delivered_hyunsu_career",
+          "ko_file": "content/events/arc_pre_ending.json",
+          "en_file": "content/events_en/arc_pre_ending.json",
+          "month": 59,
+          "order": 2,
+          "choice_count": 1,
+          "requirements": ["transaction:tx.career_reference_v1.m59.choice_0", "document:C3"],
+          "actor_roles": ["primary_witness"],
+          "document_reads": ["C3"],
+          "common_writes": ["commitment:m59_deliver_result_to_affected_person:trust", "receipt:C3_copy_delivered_to_hyunsu"],
+          "choice_partitions": {"continuation": [0], "terminal": [], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "career_m59_delivery_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_contract_result_delivered_hyunsu_career:0"]}
+          ]
+        },
+        {
+          "id": "arc_final_countdown_career_executed",
+          "ko_file": "content/events/arc_pre_ending.json",
+          "en_file": "content/events_en/arc_pre_ending.json",
+          "month": 60,
+          "order": 1,
+          "choice_count": 3,
+          "requirements": ["receipt:C3_copy_delivered_to_hyunsu", "finale_state:pending"],
+          "actor_roles": ["primary_witness"],
+          "document_reads": ["C3"],
+          "common_writes": ["commitment:m60_sign_own_answer:trust", "receipt:arc_final_countdown_career_executed_completed"],
+          "choice_partitions": {"continuation": [0, 1, 2], "terminal": [], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "career_m60_countdown_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_final_countdown_career_executed:0"]},
+            {"index": 1, "outcome_id": "career_m60_countdown_1", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_final_countdown_career_executed:1"]},
+            {"index": 2, "outcome_id": "career_m60_countdown_2", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_final_countdown_career_executed:2"]}
+          ]
+        },
+        {
+          "id": "arc_y5_final_week_hyunsu_career_outbound",
+          "ko_file": "content/events/arc_drama.json",
+          "en_file": "content/events_en/arc_drama.json",
+          "month": 60,
+          "order": 2,
+          "choice_count": 3,
+          "requirements": ["receipt:arc_final_countdown_career_executed_completed", "actor:hyunsu", "finale_state:pending"],
+          "actor_roles": ["primary_witness"],
+          "document_reads": ["C3"],
+          "common_writes": [],
+          "choice_partitions": {"continuation": [], "terminal": [], "complete": [0, 1, 2]},
+          "choices": [
+            {"index": 0, "outcome_id": "career_final_week_complete_0", "flow": "complete", "requirements": [], "writes": ["finale_state:ready", "scene_choice:arc_y5_final_week_hyunsu_career_outbound:0"]},
+            {"index": 1, "outcome_id": "career_final_week_complete_1", "flow": "complete", "requirements": [], "writes": ["finale_state:ready", "scene_choice:arc_y5_final_week_hyunsu_career_outbound:1"]},
+            {"index": 2, "outcome_id": "career_final_week_complete_2", "flow": "complete", "requirements": [], "writes": ["finale_state:ready", "scene_choice:arc_y5_final_week_hyunsu_career_outbound:2"]}
+          ]
+        }
+      ],
+      "planned_transaction": {
+        "transaction_id": "tx.career_reference_v1.m59.choice_0",
+        "trigger": {"root_id": "arc_y5_contract_execution_career", "choice_index": 0},
+        "idempotency": "apply once; replay and save/load re-entry are successful no-ops",
+        "atomic_writes": {
+          "cash_delta_krw": 300000,
+          "document_version": "C3",
+          "execution_effective_at": "committed_turn",
+          "job_transition": {
+            "kind": "same_employer_role_change",
+            "from": "bound_current_job",
+            "to": "new_business_tf_lead",
+            "to_is_surface_role_not_actor_id": true,
+            "preserve_bound_job_id": true,
+            "monthly_income_delta_krw": 300000,
+            "apply_together": ["current_job", "monthly_income", "flags.has_job"],
+            "runtime_owner": null
+          },
+          "active_badge": "new_tf_badge",
+          "old_badge_return_confirmed": true,
+          "finale_state": "pending"
+        },
+        "other_choices_effect": "zero effect on this reference transaction only; terminal choice-specific writes remain authoritative"
+      },
+      "finale_handoff": {
+        "failure_endings": "immediate canonical evaluation",
+        "success_endings": "held while finale_state=pending",
+        "release": "final-week complete writes finale_state=ready; connected MainGame listener invokes canonical check_game_over once"
+      },
+      "legacy_exclusions": []
+    },
+    {
+      "route_id": "startup_acquisition_reference_v1",
+      "economic_path": "startup",
+      "partner": "none",
+      "entry": {
+        "required_economic_path": "startup",
+        "required_origin_receipt": {
+          "flag": "startup_founded",
+          "initial_cash_delta_krw": -3000000,
+          "initial_equity_basis_points": 2000,
+          "cofounder_actor_required": true
+        },
+        "required_absent_flags": ["startup_exit", "startup_partial_exit", "startup_going_solo", "joined_startup"],
+        "required_future_receipts": [
+          "m48_tell_surviving_person.actor=startup_cofounder",
+          "m48_tell_surviving_person.margin.axis=trust",
+          "m49_route_selected=startup_acquisition_reference_v1"
+        ],
+        "route_lock": {"producer_month": 49, "value": "startup_acquisition_reference_v1", "silent_priority": false},
+        "legacy_save_policy": "fail_closed_without_durable_mode"
+      },
+      "exclusions": [
+        "partner is not none",
+        "startup_exit",
+        "startup_partial_exit",
+        "startup_going_solo",
+        "joined_startup",
+        "legacy startup acquisition offer already consumed or declined",
+        "M48 actor or trust-margin provenance mismatch"
+      ],
+      "actors": {
+        "registry_ref": "startup_acquisition_reference_v1",
+        "required_roles": ["proposer", "counterparty", "reviewer", "protected", "affected", "primary_witness"]
+      },
+      "document_lineage": {
+        "lineage_id": "SA-20",
+        "versions": [
+          {
+            "version": "h0",
+            "document_id": "SA-20",
+            "hash": "A6E8",
+            "title_ko": "주식 20% 인수 비구속 의향서",
+            "title_en": "NON-BINDING LOI FOR ACQUISITION OF 20% EQUITY",
+            "issued_at": "Jan 8 09:40",
+            "expires_after_days": 7,
+            "fields": {"valuation_krw": 16000000000, "equity_basis_points": 2000, "price_krw": 3200000000, "joint_warranty": null, "team_annex_date": null, "service_annex_date": null, "signed": false, "paid": false, "transferred": false},
+            "producer_root": "arc_y5_startup_offer_c0"
+          },
+          {
+            "version": "h1",
+            "document_id": "SA-20",
+            "hash": "91B4",
+            "fields": {
+              "price_krw": 3200000000,
+              "packages": {
+                "time": {"player_months": 12, "team_months": 12, "service_months": 12},
+                "product": {"player_days": 90, "team_months": 12, "service_days": 90},
+                "people": {"player_days": 90, "team_days": 90, "service_months": 12}
+              }
+            },
+            "producer_root": "arc_y5_startup_final_offer_acquirer"
+          },
+          {
+            "version": "h2",
+            "document_id": "SA-20",
+            "hash": "D772",
+            "fields": {"selected_package": "time", "cofounder_warranty": "NOT USED", "signature_pages": "SEPARATE SELLER PAGES", "player_months": 12, "team_months": 12, "service_months": 12},
+            "draft_producer": {"root_id": "arc_y5_startup_three_in_room_decision", "choice_index": 0},
+            "filing_producer": {"root_id": "arc_y5_startup_c2_sign_self", "choice_index": 0},
+            "filed_copy_delivery_producer": {"root_id": "arc_y5_startup_c2_copy_delivered_cofounder", "choice_index": 0}
+          },
+          {
+            "version": "h3",
+            "document_id": "SA-20",
+            "hash": "5C20",
+            "fields": {"price_krw": 3200000000, "equity_basis_points_before": 2000, "equity_basis_points_after": 0, "seal_and_admin_token_transferred": true, "account_shutdown": true, "transition_badge_active": true, "periods_started": true, "executed": true},
+            "execution_producer": {"root_id": "arc_y5_startup_contract_execution_c3", "choice_index": 0},
+            "result_delivery_producer": {"root_id": "arc_y5_startup_c3_copy_delivered_cofounder", "choice_index": 0}
+          }
+        ]
+      },
+      "months": [
+        {"month": 49, "incoming_margin": {"axis": "trust", "producer": "future:m48_tell_surviving_person"}, "selected_commitments": ["m49_open_path_contract", "m49_choose_reviewer"], "outgoing_margin": null, "fallback_owner": null, "unresolved": ["M48 actor and same-axis margin typed producer"], "root_order": ["arc_y5_startup_offer_c0", "arc_y5_startup_c0_reviewer_delivery_minseo"]},
+        {"month": 50, "incoming_margin": null, "selected_commitments": ["m50_draw_name_boundary"], "outgoing_margin": {"axis": "trust", "producer": "m50_draw_name_boundary"}, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_startup_boundary_cofounder"]},
+        {"month": 51, "incoming_margin": {"axis": "trust", "producer": "m50_draw_name_boundary"}, "selected_commitments": ["m51_hear_minseo", "m51_ask_after_goal"], "outgoing_margin": null, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_startup_minseo_goal_cost", "arc_y5_startup_after_goal_cofounder"]},
+        {"month": 52, "incoming_margin": null, "selected_commitments": ["m52_hear_live_proposer"], "outgoing_margin": {"axis": "cash", "producer": "m52_hear_live_proposer"}, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_startup_final_offer_acquirer"]},
+        {"month": 53, "incoming_margin": {"axis": "cash", "producer": "m52_hear_live_proposer"}, "selected_commitments": [], "outgoing_margin": null, "fallback_owner": "generic_month_loop", "unresolved": ["margin expiry owner"], "root_order": []},
+        {"month": 54, "incoming_margin": null, "selected_commitments": ["m54_hear_chosen_reviewer"], "outgoing_margin": {"axis": "trust", "producer": "m54_hear_chosen_reviewer"}, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_startup_reviewer_receipt_minseo"]},
+        {"month": 55, "incoming_margin": {"axis": "trust", "producer": "m54_hear_chosen_reviewer"}, "selected_commitments": ["m55_disclose_all_terms", "m55_let_reviewer_question"], "outgoing_margin": null, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_startup_three_in_room", "arc_y5_startup_three_in_room_decision"]},
+        {"month": 56, "incoming_margin": null, "selected_commitments": [], "outgoing_margin": null, "fallback_owner": "family_route_pass_through", "unresolved": ["M57 same-axis margin producer"], "root_order": []},
+        {"month": 57, "incoming_margin": {"axis": "trust", "producer": "unresolved:M56"}, "selected_commitments": ["m57_file_name_decision", "m57_deliver_filed_copy"], "outgoing_margin": null, "fallback_owner": null, "unresolved": ["incoming margin producer"], "root_order": ["arc_y5_startup_c2_sign_self", "arc_y5_startup_c2_copy_delivered_cofounder"]},
+        {"month": 58, "incoming_margin": null, "selected_commitments": ["m58_hear_primary_witness"], "outgoing_margin": {"axis": "trust", "producer": "m58_hear_primary_witness"}, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_startup_people_verdict_cofounder"]},
+        {"month": 59, "incoming_margin": {"axis": "trust", "producer": "m58_hear_primary_witness"}, "selected_commitments": ["m59_execute_contract_result", "m59_deliver_result_to_affected_person"], "outgoing_margin": null, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_startup_contract_execution_c3", "arc_y5_startup_c3_copy_delivered_cofounder"]},
+        {"month": 60, "incoming_margin": null, "selected_commitments": ["m60_sign_own_answer"], "outgoing_margin": null, "fallback_owner": null, "unresolved": [], "root_order": ["arc_final_countdown_startup_executed", "arc_y5_final_week_startup_after_acquisition"]}
+      ],
+      "roots": [
+        {
+          "id": "arc_y5_startup_offer_c0", "ko_file": "content/events/arc_midgame.json", "en_file": "content/events_en/arc_midgame.json", "month": 49, "order": 1, "choice_count": 3,
+          "requirements": ["startup entry valid", "future M48 actor+trust-margin receipt", "m49 route lock=startup_acquisition_reference_v1"], "actor_roles": ["proposer", "protected"], "document_reads": [], "common_writes": ["actor_binding:acquirer_lead", "document:h0:A6E8", "commitment:m49_open_path_contract:cash"],
+          "choice_partitions": {"continuation": [0, 1, 2], "terminal": [], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "startup_m49_c0_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_startup_offer_c0:0"]},
+            {"index": 1, "outcome_id": "startup_m49_c0_1", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_startup_offer_c0:1"]},
+            {"index": 2, "outcome_id": "startup_m49_c0_2", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_startup_offer_c0:2"]}
+          ]
+        },
+        {
+          "id": "arc_y5_startup_c0_reviewer_delivery_minseo", "ko_file": "content/events/arc_midgame.json", "en_file": "content/events_en/arc_midgame.json", "month": 49, "order": 2, "choice_count": 1,
+          "requirements": ["document:h0:A6E8"], "actor_roles": ["reviewer"], "document_reads": ["h0"], "common_writes": ["commitment:m49_choose_reviewer:trust", "receipt:h0_delivered_to_minseo"],
+          "choice_partitions": {"continuation": [0], "terminal": [], "complete": []},
+          "choices": [{"index": 0, "outcome_id": "startup_m49_delivery_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_startup_c0_reviewer_delivery_minseo:0"]}]
+        },
+        {
+          "id": "arc_y5_startup_boundary_cofounder", "ko_file": "content/events/arc_midgame.json", "en_file": "content/events_en/arc_midgame.json", "month": 50, "order": 1, "choice_count": 4,
+          "requirements": ["document:h0:A6E8", "receipt:h0_delivered_to_minseo", "actor:startup_cofounder"], "actor_roles": ["protected", "affected"], "document_reads": ["h0"], "common_writes": ["commitment:m50_draw_name_boundary:trust"],
+          "choice_partitions": {"continuation": [0, 1, 2], "terminal": [3], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "startup_m50_boundary_0", "flow": "continuation", "requirements": [], "writes": ["receipt:startup_boundary_0", "scene_choice:arc_y5_startup_boundary_cofounder:0"]},
+            {"index": 1, "outcome_id": "startup_m50_boundary_1", "flow": "continuation", "requirements": [], "writes": ["receipt:startup_boundary_1", "scene_choice:arc_y5_startup_boundary_cofounder:1"]},
+            {"index": 2, "outcome_id": "startup_m50_boundary_2", "flow": "continuation", "requirements": [], "writes": ["receipt:startup_boundary_2", "scene_choice:arc_y5_startup_boundary_cofounder:2"]},
+            {"index": 3, "outcome_id": "startup_m50_boundary_terminal", "flow": "terminal", "requirements": [], "writes": ["terminal_state:joint_warranty_rejected_no_extension", "route_terminal:startup:m50:3", "scene_choice:arc_y5_startup_boundary_cofounder:3"]}
+          ]
+        },
+        {
+          "id": "arc_y5_startup_minseo_goal_cost", "ko_file": "content/events/arc_new_characters.json", "en_file": "content/events_en/arc_new_characters.json", "month": 51, "order": 1, "choice_count": 3,
+          "requirements": ["document:h0:A6E8", "receipt:startup_boundary_0|1|2", "margin:m50_draw_name_boundary:trust"], "actor_roles": ["reviewer"], "document_reads": ["h0"], "common_writes": ["commitment:m51_hear_minseo:trust"],
+          "choice_partitions": {"continuation": [0, 1, 2], "terminal": [], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "startup_m51_minseo_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_startup_minseo_goal_cost:0"]},
+            {"index": 1, "outcome_id": "startup_m51_minseo_1", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_startup_minseo_goal_cost:1"]},
+            {"index": 2, "outcome_id": "startup_m51_minseo_2", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_startup_minseo_goal_cost:2"]}
+          ]
+        },
+        {
+          "id": "arc_y5_startup_after_goal_cofounder", "ko_file": "content/events/arc_new_characters.json", "en_file": "content/events_en/arc_new_characters.json", "month": 51, "order": 2, "choice_count": 3,
+          "requirements": ["document:h0:A6E8", "receipt:startup_boundary_0|1|2", "commitment:m51_hear_minseo:trust", "actor:startup_cofounder"], "actor_roles": ["protected"], "document_reads": ["h0"], "common_writes": ["commitment:m51_ask_after_goal:trust"],
+          "choice_partitions": {"continuation": [0, 1, 2], "terminal": [], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "startup_m51_cofounder_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_startup_after_goal_cofounder:0"]},
+            {"index": 1, "outcome_id": "startup_m51_cofounder_1", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_startup_after_goal_cofounder:1"]},
+            {"index": 2, "outcome_id": "startup_m51_cofounder_2", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_startup_after_goal_cofounder:2"]}
+          ]
+        },
+        {
+          "id": "arc_y5_startup_final_offer_acquirer", "ko_file": "content/events/arc_pre_ending.json", "en_file": "content/events_en/arc_pre_ending.json", "month": 52, "order": 1, "choice_count": 4,
+          "requirements": ["document:h0:A6E8", "receipt:startup_boundary_0|1|2", "actor:acquirer_lead"], "actor_roles": ["proposer", "counterparty"], "document_reads": ["h0"], "common_writes": ["document:h1:91B4", "commitment:m52_hear_live_proposer:cash"],
+          "choice_partitions": {"continuation": [0, 1, 2], "terminal": [3], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "startup_m52_offer_0", "flow": "continuation", "requirements": [], "writes": ["receipt:startup_offer_package_time_seen", "scene_choice:arc_y5_startup_final_offer_acquirer:0"]},
+            {"index": 1, "outcome_id": "startup_m52_offer_1", "flow": "continuation", "requirements": [], "writes": ["receipt:startup_offer_package_product_seen", "scene_choice:arc_y5_startup_final_offer_acquirer:1"]},
+            {"index": 2, "outcome_id": "startup_m52_offer_2", "flow": "continuation", "requirements": [], "writes": ["receipt:startup_offer_package_people_seen", "scene_choice:arc_y5_startup_final_offer_acquirer:2"]},
+            {"index": 3, "outcome_id": "startup_m52_offer_terminal", "flow": "terminal", "requirements": [], "writes": ["terminal_state:discussion_ended_no_draft_received", "route_terminal:startup:m52:3", "scene_choice:arc_y5_startup_final_offer_acquirer:3"]}
+          ]
+        },
+        {
+          "id": "arc_y5_startup_reviewer_receipt_minseo", "ko_file": "content/events/arc_pre_ending.json", "en_file": "content/events_en/arc_pre_ending.json", "month": 54, "order": 1, "choice_count": 1,
+          "requirements": ["document:h1:91B4"], "actor_roles": ["reviewer"], "document_reads": ["h1"], "common_writes": ["commitment:m54_hear_chosen_reviewer:trust", "receipt:startup_reviewer_current_markings"],
+          "choice_partitions": {"continuation": [0], "terminal": [], "complete": []},
+          "choices": [{"index": 0, "outcome_id": "startup_m54_reviewer_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_startup_reviewer_receipt_minseo:0"]}]
+        },
+        {
+          "id": "arc_y5_startup_three_in_room", "ko_file": "content/events/arc_pre_ending.json", "en_file": "content/events_en/arc_pre_ending.json", "month": 55, "order": 1, "choice_count": 3,
+          "requirements": ["document:h1:91B4", "actors:acquirer_lead,minseo,startup_cofounder"], "actor_roles": ["proposer", "reviewer", "protected"], "document_reads": ["h1"], "common_writes": ["commitment:m55_disclose_all_terms:trust", "receipt:startup_three_in_room_opened"],
+          "choice_partitions": {"continuation": [0, 1, 2], "terminal": [], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "startup_m55_room_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_startup_three_in_room:0"]},
+            {"index": 1, "outcome_id": "startup_m55_room_1", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_startup_three_in_room:1"]},
+            {"index": 2, "outcome_id": "startup_m55_room_2", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_startup_three_in_room:2"]}
+          ]
+        },
+        {
+          "id": "arc_y5_startup_three_in_room_decision", "ko_file": "content/events/arc_pre_ending.json", "en_file": "content/events_en/arc_pre_ending.json", "month": 55, "order": 2, "choice_count": 3,
+          "requirements": ["receipt:startup_three_in_room_opened"], "actor_roles": ["proposer", "reviewer", "protected"], "document_reads": ["h1"], "common_writes": ["commitment:m55_let_reviewer_question:trust"],
+          "choice_partitions": {"continuation": [0], "terminal": [1, 2], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "startup_m55_decision_continue", "flow": "continuation", "requirements": [], "writes": ["document:h2:D772:draft", "scene_choice:arc_y5_startup_three_in_room_decision:0"]},
+            {"index": 1, "outcome_id": "startup_m55_decision_terminal_1", "flow": "terminal", "requirements": [], "writes": ["terminal_state:product_package_draft_unsigned", "route_terminal:startup:m55:1", "scene_choice:arc_y5_startup_three_in_room_decision:1"]},
+            {"index": 2, "outcome_id": "startup_m55_decision_terminal_2", "flow": "terminal", "requirements": [], "writes": ["terminal_state:people_package_draft_unsigned", "route_terminal:startup:m55:2", "scene_choice:arc_y5_startup_three_in_room_decision:2"]}
+          ]
+        },
+        {
+          "id": "arc_y5_startup_c2_sign_self", "ko_file": "content/events/arc_pre_ending.json", "en_file": "content/events_en/arc_pre_ending.json", "month": 57, "order": 1, "choice_count": 4,
+          "requirements": ["document:h2:D772:draft", "future margin:M56"], "actor_roles": ["counterparty"], "document_reads": ["h2"], "common_writes": ["commitment:m57_file_name_decision:cash"],
+          "choice_partitions": {"continuation": [0], "terminal": [1, 2, 3], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "startup_m57_file_continue", "flow": "continuation", "requirements": [], "writes": ["document:h2:D772:filed", "receipt:conditional_seller_filing", "scene_choice:arc_y5_startup_c2_sign_self:0"]},
+            {"index": 1, "outcome_id": "startup_m57_file_terminal_1", "flow": "terminal", "requirements": [], "writes": ["terminal_state:date_mismatch_rework", "route_terminal:startup:m57:1", "scene_choice:arc_y5_startup_c2_sign_self:1"]},
+            {"index": 2, "outcome_id": "startup_m57_file_terminal_2", "flow": "terminal", "requirements": [], "writes": ["terminal_state:deferred_48h", "route_terminal:startup:m57:2", "scene_choice:arc_y5_startup_c2_sign_self:2"]},
+            {"index": 3, "outcome_id": "startup_m57_file_terminal_3", "flow": "terminal", "requirements": [], "writes": ["terminal_state:withdrawn_20pct_retained", "route_terminal:startup:m57:3", "scene_choice:arc_y5_startup_c2_sign_self:3"]}
+          ]
+        },
+        {
+          "id": "arc_y5_startup_c2_copy_delivered_cofounder", "ko_file": "content/events/arc_pre_ending.json", "en_file": "content/events_en/arc_pre_ending.json", "month": 57, "order": 2, "choice_count": 1,
+          "requirements": ["document:h2:D772:filed", "actor:startup_cofounder"], "actor_roles": ["protected"], "document_reads": ["h2"], "common_writes": ["commitment:m57_deliver_filed_copy:trust", "receipt:h2_copy_delivered_to_cofounder"],
+          "choice_partitions": {"continuation": [0], "terminal": [], "complete": []},
+          "choices": [{"index": 0, "outcome_id": "startup_m57_delivery_0", "flow": "continuation", "requirements": [], "writes": ["receipt:cofounder_separate_seller_page_returned", "scene_choice:arc_y5_startup_c2_copy_delivered_cofounder:0"]}]
+        },
+        {
+          "id": "arc_y5_startup_people_verdict_cofounder", "ko_file": "content/events/arc_pre_ending.json", "en_file": "content/events_en/arc_pre_ending.json", "month": 58, "order": 1, "choice_count": 3,
+          "requirements": ["receipt:h2_copy_delivered_to_cofounder"], "actor_roles": ["primary_witness"], "document_reads": ["h2"], "common_writes": ["commitment:m58_hear_primary_witness:trust"],
+          "choice_partitions": {"continuation": [0], "terminal": [1, 2], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "startup_m58_listen_continue", "flow": "continuation", "requirements": [], "writes": ["receipt:startup_primary_witness_heard", "scene_choice:arc_y5_startup_people_verdict_cofounder:0"]},
+            {"index": 1, "outcome_id": "startup_m58_terminal_1", "flow": "terminal", "requirements": [], "writes": ["terminal_state:notice_assigned_acquirer", "route_terminal:startup:m58:1", "scene_choice:arc_y5_startup_people_verdict_cofounder:1"]},
+            {"index": 2, "outcome_id": "startup_m58_terminal_2", "flow": "terminal", "requirements": [], "writes": ["terminal_state:joint_explanation_required", "route_terminal:startup:m58:2", "scene_choice:arc_y5_startup_people_verdict_cofounder:2"]}
+          ]
+        },
+        {
+          "id": "arc_y5_startup_contract_execution_c3", "ko_file": "content/events/arc_pre_ending.json", "en_file": "content/events_en/arc_pre_ending.json", "month": 59, "order": 1, "choice_count": 3,
+          "requirements": ["receipt:startup_primary_witness_heard", "receipt:cofounder_separate_seller_page_returned", "document:h2:D772:filed"], "actor_roles": ["proposer", "counterparty"], "document_reads": ["h2"], "common_writes": ["commitment:m59_execute_contract_result:cash"],
+          "choice_partitions": {"continuation": [0], "terminal": [1, 2], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "startup_m59_execute_continue", "flow": "continuation", "requirements": [], "writes": ["transaction:tx.startup_acquisition_reference_v1.m59.choice_0.sa20_5c20", "document:h3:5C20:executed", "finale_state:pending", "scene_choice:arc_y5_startup_contract_execution_c3:0"]},
+            {"index": 1, "outcome_id": "startup_m59_execute_terminal_1", "flow": "terminal", "requirements": [], "writes": ["terminal_state:closing_stopped_date_mismatch", "route_terminal:startup:m59:1", "scene_choice:arc_y5_startup_contract_execution_c3:1"]},
+            {"index": 2, "outcome_id": "startup_m59_execute_terminal_2", "flow": "terminal", "requirements": [], "writes": ["terminal_state:sale_cancelled_20pct_retained", "route_terminal:startup:m59:2", "scene_choice:arc_y5_startup_contract_execution_c3:2"]}
+          ]
+        },
+        {
+          "id": "arc_y5_startup_c3_copy_delivered_cofounder", "ko_file": "content/events/arc_pre_ending.json", "en_file": "content/events_en/arc_pre_ending.json", "month": 59, "order": 2, "choice_count": 1,
+          "requirements": ["transaction:tx.startup_acquisition_reference_v1.m59.choice_0.sa20_5c20", "document:h3:5C20"], "actor_roles": ["primary_witness"], "document_reads": ["h3"], "common_writes": ["commitment:m59_deliver_result_to_affected_person:trust", "receipt:h3_copy_delivered_to_cofounder"],
+          "choice_partitions": {"continuation": [0], "terminal": [], "complete": []},
+          "choices": [{"index": 0, "outcome_id": "startup_m59_delivery_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_startup_c3_copy_delivered_cofounder:0"]}]
+        },
+        {
+          "id": "arc_final_countdown_startup_executed", "ko_file": "content/events/arc_pre_ending.json", "en_file": "content/events_en/arc_pre_ending.json", "month": 60, "order": 1, "choice_count": 3,
+          "requirements": ["receipt:h3_copy_delivered_to_cofounder", "finale_state:pending"], "actor_roles": ["primary_witness"], "document_reads": ["h3"], "common_writes": ["commitment:m60_sign_own_answer:trust", "receipt:arc_final_countdown_startup_executed_completed"],
+          "choice_partitions": {"continuation": [0, 1, 2], "terminal": [], "complete": []},
+          "choices": [
+            {"index": 0, "outcome_id": "startup_m60_countdown_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_final_countdown_startup_executed:0"]},
+            {"index": 1, "outcome_id": "startup_m60_countdown_1", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_final_countdown_startup_executed:1"]},
+            {"index": 2, "outcome_id": "startup_m60_countdown_2", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_final_countdown_startup_executed:2"]}
+          ]
+        },
+        {
+          "id": "arc_y5_final_week_startup_after_acquisition", "ko_file": "content/events/arc_drama.json", "en_file": "content/events_en/arc_drama.json", "month": 60, "order": 2, "choice_count": 3,
+          "requirements": ["receipt:arc_final_countdown_startup_executed_completed", "receipt:h3_copy_delivered_to_cofounder", "actor:startup_cofounder", "finale_state:pending"], "actor_roles": ["primary_witness"], "document_reads": ["h3"], "common_writes": [],
+          "choice_partitions": {"continuation": [], "terminal": [], "complete": [0, 1, 2]},
+          "choices": [
+            {"index": 0, "outcome_id": "startup_final_week_complete_0", "flow": "complete", "requirements": [], "writes": ["finale_state:ready", "scene_choice:arc_y5_final_week_startup_after_acquisition:0"]},
+            {"index": 1, "outcome_id": "startup_final_week_complete_1", "flow": "complete", "requirements": [], "writes": ["finale_state:ready", "scene_choice:arc_y5_final_week_startup_after_acquisition:1"]},
+            {"index": 2, "outcome_id": "startup_final_week_complete_2", "flow": "complete", "requirements": [], "writes": ["finale_state:ready", "scene_choice:arc_y5_final_week_startup_after_acquisition:2"]}
+          ]
+        }
+      ],
+      "planned_transaction": {
+        "transaction_id": "tx.startup_acquisition_reference_v1.m59.choice_0.sa20_5c20",
+        "trigger": {"root_id": "arc_y5_startup_contract_execution_c3", "choice_index": 0},
+        "idempotency": "apply once; replay and save/load re-entry are successful no-ops",
+        "atomic_writes": {"cash_delta_krw": 3200000000, "equity_basis_points_before": 2000, "equity_basis_points_after": 0, "document_version": "h3", "flag": "startup_exit", "finale_state": "pending"},
+        "separate_required_delivery_receipt": "arc_y5_startup_c3_copy_delivered_cofounder:0",
+        "other_choices_effect": "zero effect on this reference transaction only; terminal choice-specific writes remain authoritative"
+      },
+      "finale_handoff": {
+        "failure_endings": "immediate canonical evaluation",
+        "success_endings": "held while finale_state=pending",
+        "release": "final-week complete writes finale_state=ready; connected MainGame listener invokes canonical check_game_over once",
+        "legacy_without_ledger": "immediate canonical evaluation"
+      },
+      "legacy_exclusions": [
+        {"id": "startup_acquisition_offer", "reason": "legacy immediate acquisition and finish path; never infer staged state"},
+        {"id": "drama_startup_acquisition", "reason": "legacy 80M joined_startup path; never merge with SA-20"},
+        {"flag": "startup_partial_exit", "reason": "mutually exclusive ownership path"},
+        {"flag": "startup_going_solo", "reason": "mutually exclusive ownership path"}
+      ]
+    }
+  ],
+  "planned_runtime": {
+    "current_consumer_count": 0,
+    "activation_preconditions": [
+      "R1 and R2 complete",
+      "all unresolved blockers closed",
+      "durable typed receipts and route lock exist",
+      "terminal routing, atomic transactions and finale handoff pass self-test"
+    ],
+    "production_dispatcher": null,
+    "save_ledger_owner": null
+  },
+  "unresolved_blockers": [
+    {
+      "id": "m48_actor_and_margin_producer",
+      "month": 48,
+      "problem": "m48_tell_surviving_person has no typed actor slot/output or typed trust-margin output",
+      "required_resolution": "persist exact remaining-person actor and same-axis margin before M49 entry"
+    },
+    {
+      "id": "startup_cofounder_actor_producer",
+      "month": null,
+      "problem": "startup_opportunity currently writes startup_founded and money only; it has no typed cofounder actor output",
+      "required_resolution": "R1 must add a new-run founding hook and a fail-closed migration policy for legacy saves"
+    },
+    {
+      "id": "m53_margin_expiry_owner",
+      "month": 53,
+      "problem": "generic fallback owns the month but route margin expiry has no durable owner",
+      "required_resolution": "define expiry without inventing a Jaehyuk guarantee outcome"
+    },
+    {
+      "id": "m56_m57_margin_producer",
+      "month": 56,
+      "problem": "family pass-through has no actual same-axis producer for the two M57 route actions",
+      "required_resolution": "add a typed margin producer without merging economic actors into the father scene"
+    },
+    {
+      "id": "live_infrastructure",
+      "month": null,
+      "problem": "no production dispatcher, durable route ledger, idempotent transaction owner or success-ending hold exists",
+      "required_resolution": "implement R1 then R2 while activation remains disabled until the complete audit passes"
+    }
+  ],
+  "protected_hashes": {
+    "algorithm": "sha256",
+    "canonicalization": {
+      "object_encoding": "UTF-8 JSON",
+      "sort_keys": true,
+      "separators": [",", ":"],
+      "ensure_ascii": false
+    },
+    "files": {
+      "content/meta/story_map.json": "6f1547798b1576da65cb8767bafee74769d856349c11f9da276633167919a54e",
+      "content/meta/story_rules.json": "edd7d26b0e91ea309ff9b9818fb6df2ab37ba247fad060c5039c9d08f9f31bc8",
+      "content/meta/narrative_spine.json": "dc06f7a36f69e7c6d9141bd63e9e034846f22fabf5ba1417feebdc7992a261dc",
+      "systems/StoryMapMonthlyRuntime.gd": "d905d967bd7c91213ba125d2e1925ea29bc7b05e1ff8587cdb4f0efd4a69adec",
+      "autoloads/GameState.gd": "1551af14591255c50ab9a7c253c90a565d05f60050ca88c5034b6c9265d74bf6",
+      "autoloads/EventManager.gd": "ca2ae4d3710a746f40f311ede93e9b37015b180df5820e95dadd9c8917b66365",
+      "autoloads/SaveManager.gd": "6bfdb3850dcc3a5541a65ffdcf3cecada3c2fbc7d55b872f9ef41253e94bff71",
+      "scenes/MainGame.gd": "16a8b5e417dc4bc659a30cc73a9048902bd2d73c21f3daf592c5533739dc822b",
+      "scenes/StoryMode.gd": "c029918113e2c20c735d6798c839e8e5803113336ddf147bf6602ef3153637b7",
+      "systems/EndingSystem.gd": "df4f3453ad93f39c4bbd2fe5f1554b6a16790eddad16150b22490cfdc2523a0a",
+      "content/endings.json": "c6be3c96f3f44533abcb2f675c43c6b961e183ba796287dda0d7f83530900bc4",
+      "content/endings_en.json": "125983adbe4d9089898c6cfa1f6bfac1797c9c9b3257327801e798bdc2506945",
+      "content/endings_ja.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "content/endings_zh-CN.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "content/endings_zh-TW.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "content/events/arc_midgame.json": "289e6e1ef6c8e7618af449dedf2e13b53074430166906a91a4e647a05d4403ab",
+      "content/events_en/arc_midgame.json": "fa805d8f73cebe8f08114ce3e0eb9c87f1cd203b838eeab18cf4859c03cff915",
+      "content/events/arc_new_characters.json": "5a2480da9db1e895a843e770aa27abe99fd9410de82ad78711617508fba82553",
+      "content/events_en/arc_new_characters.json": "0c0cd17983787e74ccd1058ef4d975cc10c5243d429029e0597c16c642fcf284",
+      "content/events/arc_pre_ending.json": "c2b12c7f42bcf509f49439940812ac27f3d20d4537f63a4fd3ffe6b5c1182c62",
+      "content/events_en/arc_pre_ending.json": "2b8bd1d2d1a92515bd778cd6e1b24084ab597f2a808dff0815d32d25661f5b13",
+      "content/events/arc_drama.json": "663e42c961550926fd31be38821e56fe831ccccbfb1ea8ce02d6c97d50420531",
+      "content/events_en/arc_drama.json": "b467862e501a5c2e06591e0f3e87d4f040d6ecaf9c94d7bb9c189114866cfa3f",
+      "content/events/life_events.json": "626f3d02178b4f5e561f0bda5d5cbe29e76c5bb667893b25fb963baff73d94a3",
+      "content/events_en/life_events.json": "0d004df9b94beef974740561806ed8e5f293c7d6db9535cb4a8208f796e9db55",
+      "content/events/drama_events.json": "77cf5d2d5a5ec8ce6a35b45d024fcf2f1294b39a94cffc8e8c3bc466b6cc7f68",
+      "content/events_en/drama_events.json": "db25cf2fa44cc719e53ac1d00d4becb3dab125eac87ccf6a835e95d3df7b3add",
+      "content/events/callback_events_16.json": "37e91c5a367d8d5819b7f2cc7149b1aa3cd6e6288d6490b9cbc6d76bb11fb244",
+      "content/events_en/callback_events_16.json": "1dc792a0b203dce809af7d88a7158c72dc67e21897ec3d422332fbaa8464ab5c",
+      "content/events/callback_events_2.json": "d851ea85eca56095a61d1bf58fd7a35f980ad0eaf0c2f5a79948512f343e6248",
+      "content/events_en/callback_events_2.json": "25a571b12cee88de4e64f0c481de28d3045503c1781edecd59d387f3d499efd2",
+      "content/events/callback_events_19.json": "c4ed38d9e3e96730f38b72b0730422add6044a014e2d0e3c3c390ff1a2600ca5",
+      "content/events_en/callback_events_19.json": "5c7b73be086511467a014b78d030d06d5b9671519e6072ce3a51edaa2409d1f0",
+      "content/events/callback_events_20.json": "0419fd75541b6b19ae98356d9c29f07c2ff175e44105d2a100930c69f33c9408",
+      "content/events_en/callback_events_20.json": "148e6abc6868d3395a10a4732a630a78a390fb8cf237bb97415e5270b101a4d0"
+    },
+    "objects": [
+      {"locale":"ko","file":"content/events/arc_midgame.json","id":"arc_y5_contract_cover_career","sha256":"8a53e5352253687229636e3d9e1dfcfa5b7b933e955e80758c47e91c3bfbf8d3"},
+      {"locale":"ko","file":"content/events/arc_midgame.json","id":"arc_y5_contract_reviewer_delivery_minseo_career","sha256":"de36abcd2d2a6600dfbf16d57e88fca4c2d44b0e8872be2d021d66c9ea1f0730"},
+      {"locale":"ko","file":"content/events/arc_midgame.json","id":"arc_y5_protection_boundary_hyunsu_career","sha256":"7eb76231e23f571f3728fda33c658d416bf3f5fc442e29886570d1a524cf334a"},
+      {"locale":"ko","file":"content/events/arc_new_characters.json","id":"arc_y5_minseo_goal_cost_career","sha256":"db3856d299a1f25837a250b131efbf9dc1286444d71476baba929210c63d3e3e"},
+      {"locale":"ko","file":"content/events/arc_new_characters.json","id":"arc_y5_after_goal_hyunsu_career","sha256":"67360c31ba51e675682dfbb68613f119998aed4bc5c8a9a3bfbe3ed2c68b33eb"},
+      {"locale":"ko","file":"content/events/arc_pre_ending.json","id":"arc_y5_final_offer_career_boss","sha256":"3d5a5bc8b5a88f90f12ca9a7e2e20f9acc41d5a22a4d4e2b0715021662d8a2b8"},
+      {"locale":"ko","file":"content/events/arc_pre_ending.json","id":"arc_y5_career_reviewer_receipt_minseo","sha256":"63e4a19188b3c14b18d471b1635664b8c1b8ac3ca07ea3f5ad114a1393c623be"},
+      {"locale":"ko","file":"content/events/arc_pre_ending.json","id":"arc_y5_three_in_room_career","sha256":"7e91d46aa7702fba74b37a1eaa89271da38671c2094c0a3569df891b77400886"},
+      {"locale":"ko","file":"content/events/arc_pre_ending.json","id":"arc_y5_three_in_room_decision_career","sha256":"3619ac6090e6c326295b6122a4e48aff4109fc25ffdc092d30bcb284156eafa5"},
+      {"locale":"ko","file":"content/events/arc_pre_ending.json","id":"arc_y5_name_on_line_career_self","sha256":"1296084e6909e8df2ba01ebccae25c6e0091d3a97c46fe6d665aaeeb1dc21931"},
+      {"locale":"ko","file":"content/events/arc_pre_ending.json","id":"arc_y5_name_copy_delivered_hyunsu_career","sha256":"a6fd2c9df1a6dbb74cdf656c9a79eb0bc986f8cd04e21e488a78f3ac97613899"},
+      {"locale":"ko","file":"content/events/arc_pre_ending.json","id":"arc_y5_people_verdict_career_hyunsu","sha256":"11b0744970eee2b325d0a5c21d2f2937057902d4a5b46ee0f624a508ef461975"},
+      {"locale":"ko","file":"content/events/arc_pre_ending.json","id":"arc_y5_contract_execution_career","sha256":"d790962b8a104f40eefba39a6b7e176a74f03ad8b080268b01302b71f720aec3"},
+      {"locale":"ko","file":"content/events/arc_pre_ending.json","id":"arc_y5_contract_result_delivered_hyunsu_career","sha256":"37278912a637ac418d2f22ac44f0ef0ae91dd9ad512aa52edaf358e79d0277b0"},
+      {"locale":"ko","file":"content/events/arc_pre_ending.json","id":"arc_final_countdown_career_executed","sha256":"c38e7d2c43b2c48d5af3d367100c809320b3390142b2e597626933b1ad5fafc2"},
+      {"locale":"ko","file":"content/events/arc_drama.json","id":"arc_y5_final_week_hyunsu_career_outbound","sha256":"679b12ad9b21d9cd1f01dd68299e22fd36f57591bdca5ffaf14c4a439b63349d"},
+      {"locale":"ko","file":"content/events/arc_midgame.json","id":"arc_y5_startup_offer_c0","sha256":"0543b31c0873e933810420235fc0f001df367835a6f8e028e73492b1973f2f7b"},
+      {"locale":"ko","file":"content/events/arc_midgame.json","id":"arc_y5_startup_c0_reviewer_delivery_minseo","sha256":"6587d6f4de029da95369b31bf0b9a8eddc33b9fc8c5e926ab3e52c7fa549e350"},
+      {"locale":"ko","file":"content/events/arc_midgame.json","id":"arc_y5_startup_boundary_cofounder","sha256":"199661765d35413c5c283c89a4dd3f420563b253f9c171e955fa6c2f93b556d7"},
+      {"locale":"ko","file":"content/events/arc_new_characters.json","id":"arc_y5_startup_minseo_goal_cost","sha256":"c537fb4251feaeb9398b1baa84b6e35e146be3448b82deece4a06ef90dd81e0b"},
+      {"locale":"ko","file":"content/events/arc_new_characters.json","id":"arc_y5_startup_after_goal_cofounder","sha256":"3379221c5160509bc6d0396cd9a402bfc777b93524df58cb9161782a112980c6"},
+      {"locale":"ko","file":"content/events/arc_pre_ending.json","id":"arc_y5_startup_final_offer_acquirer","sha256":"1b6c04bf7d0e9f769c8bb26240a224403cdcbbaecf5d7ee00dfc37dc075d5773"},
+      {"locale":"ko","file":"content/events/arc_pre_ending.json","id":"arc_y5_startup_reviewer_receipt_minseo","sha256":"26aff08ba2da1e1fd0e523d7c7eacd9ac764c5edcc349d25b75fb17f4a5dadf3"},
+      {"locale":"ko","file":"content/events/arc_pre_ending.json","id":"arc_y5_startup_three_in_room","sha256":"2d5b7da76ff167c472e0795dcf0a30b80163a331ad1a57cd6a8bb6dd05a08f36"},
+      {"locale":"ko","file":"content/events/arc_pre_ending.json","id":"arc_y5_startup_three_in_room_decision","sha256":"7ee2e3cc1e7b244829ffe811e525d58962709a90a0ff701e0efca52006bc07af"},
+      {"locale":"ko","file":"content/events/arc_pre_ending.json","id":"arc_y5_startup_c2_sign_self","sha256":"4c7bde1aea92c0a88b355a96a7a97da8a5c7da876fcdd5bc514f15f0d3222c14"},
+      {"locale":"ko","file":"content/events/arc_pre_ending.json","id":"arc_y5_startup_c2_copy_delivered_cofounder","sha256":"cf27ad69002bf162c87b8e47c1b5180b80ab2ac8ef78968cb9cd7d9a590ce7f8"},
+      {"locale":"ko","file":"content/events/arc_pre_ending.json","id":"arc_y5_startup_people_verdict_cofounder","sha256":"0588a79f632e5d6bf527c074ce07fb7166e9190250041cb7435e39a328c8fee6"},
+      {"locale":"ko","file":"content/events/arc_pre_ending.json","id":"arc_y5_startup_contract_execution_c3","sha256":"7e696749a6679d4dbf41f450cb10cb6b6b05aa337465f8f03475df017a6a3b9b"},
+      {"locale":"ko","file":"content/events/arc_pre_ending.json","id":"arc_y5_startup_c3_copy_delivered_cofounder","sha256":"98c9de206055aa6680f48f8bf26452c021de73bb5022e7866655dc39b06fefbb"},
+      {"locale":"ko","file":"content/events/arc_pre_ending.json","id":"arc_final_countdown_startup_executed","sha256":"0951bb4d405267678acdb5c1d6503734a96a3c07e070c9574156039a28f8edfd"},
+      {"locale":"ko","file":"content/events/arc_drama.json","id":"arc_y5_final_week_startup_after_acquisition","sha256":"5cbea9ba046722c6b53f74b65a5f0c31d8dc4b1e27286addadd46bef39ccefcb"},
+      {"locale":"ko","file":"content/events/life_events.json","id":"startup_opportunity","sha256":"c52ccf4bb788bbfbd29dd874287ffc86b0458e59297dfafbabf45dc1081b176e"},
+      {"locale":"ko","file":"content/events/life_events.json","id":"startup_acquisition_offer","sha256":"a0a781b1bf1cd9c5e0220fd235c95386c2d490b7f3aa622b8127db64d72e75c4"},
+      {"locale":"ko","file":"content/events/drama_events.json","id":"drama_startup_acquisition","sha256":"f7e4b9a2cc09c097355f53fa62049706cc5525d49d86a40c4847a009ff4951ce"},
+      {"locale":"ko","file":"content/events/callback_events_16.json","id":"callback_startup_partial_exit_echo","sha256":"bc324f267604301803923096561e82726ac86cd9801db15ab4b200ca38f26d3f"},
+      {"locale":"ko","file":"content/events/callback_events_2.json","id":"callback_startup_going_solo_result","sha256":"3320de40bb892db9b36b4f2d69a37f7876aed72d11d1cd8ce641fee4276cb0c3"},
+      {"locale":"ko","file":"content/events/callback_events_19.json","id":"callback_startup_going_solo_echo","sha256":"07bac4e72fe2d244cca891e3579f4f7d63fe32cd21e7fcaf2da64dbf8e3015c5"},
+      {"locale":"en","file":"content/events_en/arc_midgame.json","id":"arc_y5_contract_cover_career","sha256":"c9434cb65abd9a17e1a978ad7846eb2d8277a9d4d570702fbb120839cc8036cd"},
+      {"locale":"en","file":"content/events_en/arc_midgame.json","id":"arc_y5_contract_reviewer_delivery_minseo_career","sha256":"117c5b25c486fa804350de5eef8b26dde56a659ce87d292e37b91e7bcb8a01c1"},
+      {"locale":"en","file":"content/events_en/arc_midgame.json","id":"arc_y5_protection_boundary_hyunsu_career","sha256":"d47e7fe4d4ec89b099b1ac74417be5d1de5054abd844a67cafda9452796e53e2"},
+      {"locale":"en","file":"content/events_en/arc_new_characters.json","id":"arc_y5_minseo_goal_cost_career","sha256":"ab9a0a8fdd301c9fd6d193fb8557843ac4ee6b63bdc77c725722940661d2731f"},
+      {"locale":"en","file":"content/events_en/arc_new_characters.json","id":"arc_y5_after_goal_hyunsu_career","sha256":"58b2c860ee783e3562aca4cb1b2fff9a61c42e21da649fb01e8146e7582fd57f"},
+      {"locale":"en","file":"content/events_en/arc_pre_ending.json","id":"arc_y5_final_offer_career_boss","sha256":"55c651012abeba1304db684e7bca640d442c4d620d0a01c6e86083a7c7216993"},
+      {"locale":"en","file":"content/events_en/arc_pre_ending.json","id":"arc_y5_career_reviewer_receipt_minseo","sha256":"7e9e601566ccb2f24873aff57b23c982571a272687fae8a7cb2672de5b2cba24"},
+      {"locale":"en","file":"content/events_en/arc_pre_ending.json","id":"arc_y5_three_in_room_career","sha256":"db4403dbef6c09de0959fc0ef31039eaf39c581a0632991e9e69b0d89baf1fb0"},
+      {"locale":"en","file":"content/events_en/arc_pre_ending.json","id":"arc_y5_three_in_room_decision_career","sha256":"44f7a411d900008bc535393c79614044c34f4de19f56e328704adad1328e2199"},
+      {"locale":"en","file":"content/events_en/arc_pre_ending.json","id":"arc_y5_name_on_line_career_self","sha256":"0fb3359719320ef7bfecfb19a55018c4b44e7ccfb759268e9ba5e793152d7be0"},
+      {"locale":"en","file":"content/events_en/arc_pre_ending.json","id":"arc_y5_name_copy_delivered_hyunsu_career","sha256":"f7880715f481d8eb9bdfaa4e17d8a9ada6f89f4e08c3caedc7d4cd43410e8744"},
+      {"locale":"en","file":"content/events_en/arc_pre_ending.json","id":"arc_y5_people_verdict_career_hyunsu","sha256":"7412933bae631286fa720b54ba76c686de448d08b12f9a18ffb01c5dfbc84239"},
+      {"locale":"en","file":"content/events_en/arc_pre_ending.json","id":"arc_y5_contract_execution_career","sha256":"1ab26568cef7912d6270917fa45b4548ead2bfb8b366c7f19ff9f5d73451de2e"},
+      {"locale":"en","file":"content/events_en/arc_pre_ending.json","id":"arc_y5_contract_result_delivered_hyunsu_career","sha256":"cf651d1ee533e1a9d252b8b0b9eb3b530560e2d6ad6d063eb9b2ddc40a444f3e"},
+      {"locale":"en","file":"content/events_en/arc_pre_ending.json","id":"arc_final_countdown_career_executed","sha256":"6a3aa84848f87faba1d60ddbed60fdff50a49c9f9cf6735580765f9570e92679"},
+      {"locale":"en","file":"content/events_en/arc_drama.json","id":"arc_y5_final_week_hyunsu_career_outbound","sha256":"15cdc2e3863539ef6de0caae1e2bd6e41384130c3012516c0aa2e15cba35d1cb"},
+      {"locale":"en","file":"content/events_en/arc_midgame.json","id":"arc_y5_startup_offer_c0","sha256":"cb203cab0c5fade2218520ec12398f63636bd17dd670ea380c46d2544049d01c"},
+      {"locale":"en","file":"content/events_en/arc_midgame.json","id":"arc_y5_startup_c0_reviewer_delivery_minseo","sha256":"18f277eed68baef2beba3fe5f4a6864d5b4be6fe9de3cc6bba4959e94a9428bc"},
+      {"locale":"en","file":"content/events_en/arc_midgame.json","id":"arc_y5_startup_boundary_cofounder","sha256":"803e92932fe1fae1c17a519e2d457ea22622635e94b0391c1ecb87323c50cee5"},
+      {"locale":"en","file":"content/events_en/arc_new_characters.json","id":"arc_y5_startup_minseo_goal_cost","sha256":"47151de8216c973bfd24121d4b3b22b0c5d7b7860a8f7c151297ecb62e8c66c2"},
+      {"locale":"en","file":"content/events_en/arc_new_characters.json","id":"arc_y5_startup_after_goal_cofounder","sha256":"1ad1331f93c825768de1e12f15451e89dffa4103f2bdb306e350d0910460d5a2"},
+      {"locale":"en","file":"content/events_en/arc_pre_ending.json","id":"arc_y5_startup_final_offer_acquirer","sha256":"dad717f9e8de5f4915a28408e74c801843b274b0331028bc6ea97bc26f7bc50a"},
+      {"locale":"en","file":"content/events_en/arc_pre_ending.json","id":"arc_y5_startup_reviewer_receipt_minseo","sha256":"20e65d52a2a3f8ee679f119338ec18240123ad03b9c4a5a996a204b1869d6d14"},
+      {"locale":"en","file":"content/events_en/arc_pre_ending.json","id":"arc_y5_startup_three_in_room","sha256":"03350736f5e56426848e81f32af5c0f5523d32f384438351efca0dc341b03a68"},
+      {"locale":"en","file":"content/events_en/arc_pre_ending.json","id":"arc_y5_startup_three_in_room_decision","sha256":"1c7de4a0df8b37aa40245a12a174774f8eaa11fcbe3378606389d72dd4320876"},
+      {"locale":"en","file":"content/events_en/arc_pre_ending.json","id":"arc_y5_startup_c2_sign_self","sha256":"cdcf35cdb61bc9e18d1b8f7a363c9a7065b27e967a4aa746a84f53a2f86778d3"},
+      {"locale":"en","file":"content/events_en/arc_pre_ending.json","id":"arc_y5_startup_c2_copy_delivered_cofounder","sha256":"81b4650355f3bea8536ce69473005ccc9f461c52b31ca781f957c432002d0bb4"},
+      {"locale":"en","file":"content/events_en/arc_pre_ending.json","id":"arc_y5_startup_people_verdict_cofounder","sha256":"1be737b8fe5b5477fd97fc2a9a03f24692dd3b961c7f8cd7639f0f09b52a3858"},
+      {"locale":"en","file":"content/events_en/arc_pre_ending.json","id":"arc_y5_startup_contract_execution_c3","sha256":"9b24e66cc0c42057ac293bf067b7218302080f6e0436c452bf259ddd1f31bf7a"},
+      {"locale":"en","file":"content/events_en/arc_pre_ending.json","id":"arc_y5_startup_c3_copy_delivered_cofounder","sha256":"97c15767cba3af995eb02a6d148813fded18edf20d2cc2e03c7c2b129f079f9f"},
+      {"locale":"en","file":"content/events_en/arc_pre_ending.json","id":"arc_final_countdown_startup_executed","sha256":"c8fa2328350576d307932015b58813ff684fdda4c9b0203bfbf07f0f46ed342b"},
+      {"locale":"en","file":"content/events_en/arc_drama.json","id":"arc_y5_final_week_startup_after_acquisition","sha256":"01726b123e961a0b4011de61df5e81670f0efd165949e625ee5c39b7dbadd475"},
+      {"locale":"en","file":"content/events_en/life_events.json","id":"startup_opportunity","sha256":"b01cc750f4bc419a1cd4d21c56f4e027a44e6c922f979e6afeef345ce0245b6f"},
+      {"locale":"en","file":"content/events_en/life_events.json","id":"startup_acquisition_offer","sha256":"8c3c90a9a0acc85da2045fb8a0eafa00fb601f5de6d455eaae83f2c0b73c101c"},
+      {"locale":"en","file":"content/events_en/drama_events.json","id":"drama_startup_acquisition","sha256":"3ccbcfc3e03c4f0820295f0fcb39cf77e89e6bfdf25500452ed4ae724a56042b"},
+      {"locale":"en","file":"content/events_en/callback_events_16.json","id":"callback_startup_partial_exit_echo","sha256":"187b24a3e9f3e9a8e8e390375bee9b7e6352e127f353ea867aa3619c601b7646"},
+      {"locale":"en","file":"content/events_en/callback_events_2.json","id":"callback_startup_going_solo_result","sha256":"68dfb9b9bf4ae97355ae4ab50e079b615ba06f8883bcdc70ec070272a2f41572"},
+      {"locale":"en","file":"content/events_en/callback_events_19.json","id":"callback_startup_going_solo_echo","sha256":"42b9a902f99480bd100b6edb589029a8c226c48d2298c4a3c3174acad6289989"},
+      {"locale":"ko","file":"content/events/drama_events.json","id":"drama_startup_offer","sha256":"b7860789a1cb3ecc415fe9866f0661f506d05477fa662d8d790fb1e65c1ad7da"},
+      {"locale":"ko","file":"content/events/drama_events.json","id":"startup_team_conflict","sha256":"ae886ab61b19f32d27c5845f27b6fc24fc160db3b06ecad273e65ee69cda2929"},
+      {"locale":"ko","file":"content/events/callback_events_2.json","id":"callback_startup_grind_result","sha256":"33908c85bf043ad1a0e9a3d8737285bed486ec5712d71a434933493eb4b2ff82"},
+      {"locale":"ko","file":"content/events/callback_events_20.json","id":"callback_startup_exit_echo","sha256":"7282a24ad81a2af9df52adbcbc6731d646be8d0c0379f13e0d6fc31a9f60978c"},
+      {"locale":"ko","file":"content/events/callback_events_20.json","id":"callback_startup_founded_echo","sha256":"8992637719a603294cf785248f184e874a4d38c0a06d5b57fbc6e63a84f2de55"},
+      {"locale":"en","file":"content/events_en/drama_events.json","id":"drama_startup_offer","sha256":"e9be860b0d79201d8390920a515b803377e0a16462732f6a6f04fa80c22af85e"},
+      {"locale":"en","file":"content/events_en/drama_events.json","id":"startup_team_conflict","sha256":"0088c63dadc33cbafa5cf068ea0c8ed3573cef33a24f620035b79229b97d7d11"},
+      {"locale":"en","file":"content/events_en/callback_events_2.json","id":"callback_startup_grind_result","sha256":"28f77c43a80e2cac086cb7f8851073fb096f1b43f4600c4d878dadab29c7027b"},
+      {"locale":"en","file":"content/events_en/callback_events_20.json","id":"callback_startup_exit_echo","sha256":"fe934f09cb41d409e9524a7726a397253debac92e1fa2d3c98ada304d14f3317"},
+      {"locale":"en","file":"content/events_en/callback_events_20.json","id":"callback_startup_founded_echo","sha256":"be5a76d7055bc37aa2bdd3c3260e8f72ba3ae40fdac58222a7d038b9486c343f"}
+    ],
+    "runtime_consumers": {
+      "expected_count": 0,
+      "forbidden_root_ids": [
+        "arc_y5_contract_cover_career",
+        "arc_y5_contract_reviewer_delivery_minseo_career",
+        "arc_y5_protection_boundary_hyunsu_career",
+        "arc_y5_minseo_goal_cost_career",
+        "arc_y5_after_goal_hyunsu_career",
+        "arc_y5_final_offer_career_boss",
+        "arc_y5_career_reviewer_receipt_minseo",
+        "arc_y5_three_in_room_career",
+        "arc_y5_three_in_room_decision_career",
+        "arc_y5_name_on_line_career_self",
+        "arc_y5_name_copy_delivered_hyunsu_career",
+        "arc_y5_people_verdict_career_hyunsu",
+        "arc_y5_contract_execution_career",
+        "arc_y5_contract_result_delivered_hyunsu_career",
+        "arc_final_countdown_career_executed",
+        "arc_y5_final_week_hyunsu_career_outbound",
+        "arc_y5_startup_offer_c0",
+        "arc_y5_startup_c0_reviewer_delivery_minseo",
+        "arc_y5_startup_boundary_cofounder",
+        "arc_y5_startup_minseo_goal_cost",
+        "arc_y5_startup_after_goal_cofounder",
+        "arc_y5_startup_final_offer_acquirer",
+        "arc_y5_startup_reviewer_receipt_minseo",
+        "arc_y5_startup_three_in_room",
+        "arc_y5_startup_three_in_room_decision",
+        "arc_y5_startup_c2_sign_self",
+        "arc_y5_startup_c2_copy_delivered_cofounder",
+        "arc_y5_startup_people_verdict_cofounder",
+        "arc_y5_startup_contract_execution_c3",
+        "arc_y5_startup_c3_copy_delivered_cofounder",
+        "arc_final_countdown_startup_executed",
+        "arc_y5_final_week_startup_after_acquisition"
+      ]
+    }
+  }
+}
