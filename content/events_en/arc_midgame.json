@@ -1460,5 +1460,58 @@
         "result_text": "After saying not to use Hyunsu's name, {name} asked to lock the external reviewer field itself. The team lead answered, “Then file a change statement, and today's approval cutoff will pass.” {name} signed the statement with his own name.\n\nThe lock remained, and approval became fifteen business days. Two hours had passed when he left the meeting room. No one could quietly restore a name, but one block of work meant for today had moved with it."
       }
     ]
+  },
+  {
+    "id": "arc_y5_startup_offer_c0",
+    "title": "The First Page of Seven Days",
+    "description": "On Friday morning, the startup office printer released a thin stack. Its cover read NON-BINDING LOI FOR ACQUISITION OF 20% EQUITY, SA-20, JAN 8, 9:40 A.M. VERSION, with a hash ending A6E8. It expired after seven days.\n\nThe first page joined a KRW 16 billion valuation, {name}'s twenty-percent stake, and a proposed KRW 3.2 billion price. Behind it sat a blank joint-seller warranty, a team-employment annex, and an existing-service handover annex. Both end dates were blank, as were every signature, payment, and share-transfer time.\n\nAs the printer cooled, three lines carried different weight: the arithmetic behind KRW 3.2 billion, the name the warranty blank awaited, and the clauses carrying the team and service across. Before turning the page, {name} chose one to verify first.",
+    "choices": [
+      {
+        "text": "Write out how twenty percent of KRW 16 billion becomes KRW 3.2 billion",
+        "result_text": "{name} multiplied the KRW 16 billion valuation by twenty percent and wrote KRW 3.2 billion. The figure matched the letter, but his account showed no acquisition payment.\n\nHe copied the deal number and A6E8 beneath the equation. The proposed price existed only on paper; the signature and transfer times remained blank. Seven days began shrinking on his calendar."
+      },
+      {
+        "text": "Compare the blank joint-seller warranty with the seller signature page",
+        "result_text": "The joint-seller warranty held neither a name nor a signature. A separate seller page sat beneath the first page describing {name}'s twenty-percent stake. He opened both and kept his pencil away from the blank.\n\nNothing said whose name would accelerate review. Between two pages with the same hash, his signature for selling his stake remained separate from a signature that would bind someone else beside him."
+      },
+      {
+        "text": "Read the blank end dates in the team and service annexes first",
+        "result_text": "{name} placed the team-employment succession annex beside the existing-service handover annex. The people and service were listed, but both end-date fields were blank.\n\nTwo tables beneath KRW 3.2 billion waited without saying how long money would carry people and product. He captured the empty date fields and stored them with the letter. The filename still ended in A6E8."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_startup_c0_reviewer_delivery_minseo",
+    "title": "The Original Without a Fold",
+    "description": "At 7:10 that evening, {name} sat across from Minseo by the cafe window with a clear folder under his hand. He had removed nothing from the NON-BINDING LOI FOR ACQUISITION OF 20% EQUITY, from its first page through the team-employment and existing-service annexes. Deal SA-20, JAN 8, 9:40 A.M. VERSION, and hash ending A6E8 matched on the cover and his phone's file properties.\n\nThe gray pencil before Minseo remained capped. Beneath the plastic ran the KRW 16 billion valuation, twenty-percent stake, proposed KRW 3.2 billion price, blank joint-seller warranty, and two blank end dates. Before explaining what she should inspect, {name} wanted to preserve the time he handed over the whole original.",
+    "choices": [
+      {
+        "text": "Hand over the full original and record only its receipt time",
+        "result_text": "{name} slid the clear folder toward Minseo and entered SA-20 and 7:12 p.m. in his delivery record. She matched A6E8 on the first page to the hash on his screen, then wrote only the same time in the receipt field.\n\nThe gray pencil stayed capped. No line gained a verification mark. One uncut original and two matching times remained on the table."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_startup_boundary_cofounder",
+    "title": "The Blank Called Joint",
+    "description": "The following month, on Monday afternoon, the acquirer reopened the joint-seller warranty revision panel. SA-20, JAN 8, 9:40 A.M. VERSION, and A6E8 remained above it; the seven-day bar for this revision request had passed halfway. The co-founder's name appeared in the founding shareholder register, not this warranty field.\n\n{name} meant to request separate pages for each seller's stake and responsibility. That could stop the fast joint review. Taking more onto his page meant supplying more proof for his twenty percent. Revising the team and service annexes alone removed the co-founder's voice. Rejecting the clause surrendered the remaining review window.\n\nThe co-founder's chat stayed closed. Only the revision panel was open, asking which cost {name} would attach to keeping that name out.",
+    "choices": [
+      {
+        "text": "Request separate seller signature pages instead of a joint warranty",
+        "result_text": "{name} entered JOINT-SELLER WARRANTY: NOT USED and REQUEST SEPARATE SELLER SIGNATURE PAGES. When he submitted it, today's review slot grayed out and the status changed to REDRAFT REQUESTED.\n\nThe co-founder's name did not enter the blank. The seven-day bar did not stop, either. Where the next document might have arrived today, only the revision-request time remained."
+      },
+      {
+        "text": "Offer a sole warranty only for his twenty-percent stake and his records",
+        "result_text": "{name} requested a sole signature page limited to his twenty-percent stake and the records he had uploaded. The portal opened three separate slots for the shareholder register, deposit ledger, and voting record.\n\nHe had not used the co-founder's name, but three bundles of proof now converged beneath his own. Before choosing the first file, he read every new upload field under his name."
+      },
+      {
+        "text": "Keep the name blank but let his answer alone revise the team and service annexes",
+        "result_text": "{name} left the joint warranty blank and asked that his comments alone be applied first to the team-employment and service-handover annexes. A gray label appeared above both: SELLER COMMENT: {name} ONLY.\n\nHe stopped the co-founder's name from entering the warranty, but advanced the clauses about people and product without that voice. The closed chat and open annexes remained on one screen."
+      },
+      {
+        "text": "Reject the joint warranty and make no request to extend the seven days",
+        "result_text": "{name} marked the joint-seller warranty UNACCEPTABLE and left the extension field blank. The portal kept the proposed KRW 3.2 billion price visible and enlarged the remaining expiration time.\n\nHe had refused to use a name without sending a sentence that held the deal open. The rejection mark, shrinking time, and KRW 0 in acquisition proceeds remained side by side."
+      }
+    ]
   }
 ]

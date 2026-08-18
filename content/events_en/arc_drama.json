@@ -768,5 +768,24 @@
         "result_text": "{name} wrote, ‘I want to read the first week's figures alone again, then rest. I'll call you first tomorrow at eight.’ The message ended at the call time; the paperclip count was zero.\n\nAfter sending it, he turned the phone over. The folded old-badge return-completed slip shifted once inside the drawer. Before the screen went dark, only his sent time and next call time remained in his own bubble."
       }
     ]
+  },
+  {
+    "id": "arc_y5_final_week_startup_after_acquisition",
+    "title": "One Line Beneath the New Logo",
+    "description": "On the first Monday after the acquisition, a new logo covered the office door. Four screw holes from the old sign remained outside it. {name} entered with his transition badge and opened the team briefing sheet beside the new organization chart.\n\nThe named-team appendix kept the cofounder's current role for twelve months. The chart moved the same name to TRANSITION ADVISOR. “Employment continues,” the acquisition lead said. “Use this chart today.” The cofounder set their nameplate between the documents. “Staying employed and continuing my work aren't the same thing.”\n\nThe team would arrive in eighteen minutes. {name} had signed up to brief them. He could correct the role, open with a recorded objection, or return that line to the person whose name it held.",
+    "choices": [
+      {
+        "text": "Attach the appendix beside the chart and demand correction of the wrong role",
+        "result_text": "{name} struck through TRANSITION ADVISOR and copied the appendix's current role beside it. The acquisition lead erased eighteen minutes from the start sheet and stamped BEGIN AFTER ROLE REVIEW.\n\nThe door through which the team would enter remained closed. The cofounder set the removed nameplate over the corrected line. {name}'s transition time paid first in the delayed meeting, while the original chart and correction request remained side by side."
+      },
+      {
+        "text": "Attach the role objection and open today's briefing as scheduled",
+        "result_text": "{name} wrote DOES NOT MATCH APPENDIX — NOT AGREED beside the new role, then added his name and the current time. The acquisition lead opened the meeting-room door without removing the objection.\n\nThe cofounder left the TRANSITION ADVISOR nameplate on the table instead of wearing it. Chairs filled one by one. The first screen showed the new chart and objection together, and {name} began the briefing without hiding either line."
+      },
+      {
+        "text": "Turn both role sheets and the pen toward the cofounder, returning the decision",
+        "result_text": "{name} placed the appendix and new chart side by side before the cofounder, then removed his hands. The cofounder crossed out TRANSITION ADVISOR, wrote the original role, and initialed the line.\n\nThe acquisition lead filed the revised page under PARTY CONFIRMATION — REVIEW PENDING. The cofounder's name stood beside the original role; only a deletion line remained over TRANSITION ADVISOR. The briefing clock kept running, and the pen stayed before its last user."
+      }
+    ]
   }
 ]

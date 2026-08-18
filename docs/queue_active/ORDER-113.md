@@ -113,6 +113,8 @@
 - exact downstream은 M55 시간 손실 choice 1, M57 self-only 조건부 접수 choice 1,
   M58 민준이 팀 공지 책임을 지고 공동창업자 말을 끝까지 듣는 reference choice,
   M59 일치 실행 choice 1만 읽는다. 다른 선택은 각자의 author-only endpoint다.
+- M50·M52는 각각 choices 1~3만 다음 reference 단계로 가며, 공동보증과 인수 논의를
+  닫는 choice 4는 각자의 author-only terminal endpoint다.
 
 ## 장면·선택 원칙
 
@@ -192,3 +194,19 @@
   추측하지 않는다`, `마지막 서명 뒤 ending을 판정한다`는 기존 정본이 이미 소유한다.
 - 정확한 16 root ID·문서 버전·세 package 기간·배우 tuple·파일·선택 trace는 이
   배치에만 유효한 일회성 작업 지시다.
+
+## 실행 결과 (2026-08-18)
+
+- KO·EN 신규 16 roots·43 choices를 집필했다. h0 `A6E8`→h1 `91B4`→h2 `D772`→
+  h3 `5C20`과 160억원·20%·32억원을 보존하고, M59 reference에서만 돈·지분이 한 번
+  움직이는 장면으로 닫았다.
+- M50의 새 7일 수정창과 M51 다음 달을 분리하고, M52 지배 선택을 전환근무표 질문으로
+  좁혔다. 공동창업자는 h2 별도 seller page에 직접 서명·반송하며, 그 receipt가 도착한
+  뒤에만 h3가 실행된다. C2 접수와 C3 실행, 두 사본 전달 시각도 분리했다.
+- 선언 `a212882` 대비 지정 8파일 기존 object changed/removed 0이다. startup legacy,
+  story map·rules·runtime, 35 endings·5 locale 파일은 byte-exact이며 신규 KO는
+  author-only·state mutation 0, EN은 text-only다.
+- exact 16/43, strict JSON, description 300~800, choice·placeholder, EN strict
+  1758/1758·35/35, 서사·말투·random pool, story-map normal·76 self-test, context·queue·
+  diff-check가 통과했다. 독립 두 낭독은 P0/P1 0 GO다. 전체·240주·Godot는 생략했고,
+  L3 전 JA·zh-CN·zh-TW 번역과 live reachability를 주장하지 않는다.

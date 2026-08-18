@@ -59,7 +59,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-113 · 창업 | [113](queue_active/ORDER-113.md) | 준비 |
+| 1 | [~] | ORDER-113 · 창업 | [113](queue_active/ORDER-113.md) | 16/43 L1·독립 L2 GO — L3 보류 |
 | 2 | [~] | ORDER-112 · 마지막 해 career 실제 세로줄 | [112](queue_active/ORDER-112.md) | 16/43 L1·독립 L2 GO — L3 보류 |
 | 3 | [~] | ORDER-111 · 지연·생존 / 무연애·미실행 두 세로줄 | [111](queue_active/ORDER-111.md) | 24/58 L1·L2 GO — L3 보류 |
 | 4 | [~] | ORDER-110 · M49~M60 기준 세로줄 | [110](queue_active/ORDER-110.md) | 20/51 L1·L2 GO — L3 보류 |
@@ -134,7 +134,7 @@ git diff --check
 - ORDER-109는 exact 16 roots의 사건 JSON·한영·말투·서사 정합만 검사하며 story map·런타임·240주·전체 감사를 실행하지 않는다.
 - ORDER-111은 exact 24 신규 roots·story-map lifecycle 9쌍·한영·말투·서사 정합만 검사하며 엔딩·런타임·240주·전체 감사를 실행하지 않는다.
 - ORDER-112는 exact career 16 roots·한영·말투·서사·기존 원고/맵/엔딩 불변만 검사하며 런타임·240주·전체 감사를 생략한다.
-- ORDER-113은 16 roots·불변만 검사하며 장시간 검사를 생략한다.
+- ORDER-113은 16 roots·불변 표적만 검사한다.
 - 카피·번역 변경은 해당 언어 감사, 화면 변경은 해당 ScreenshotQA 범위만 더한다.
 - `./tools/audit.sh`와 240주 검사는 활성 사양이 공통 스키마·스케줄러·엔딩을
   바꾸거나 챕터 승인·demo/full RC를 판정할 때만 실행한다.

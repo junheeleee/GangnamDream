@@ -12,12 +12,12 @@
 | 상품 정의 | **"나는 민준이다. 이번 달 누구에게 시간을 쓰고, 무엇을 놓칠지 정한다. 다음 달에는 그 대가를 산다."** 240주를 카드 목록이 아니라 한 편의 소설·영화처럼 인과·장면·연기·전환·여운으로 겪는다. 플레이어를 구경꾼으로 부르거나 숨은 도덕 점수를 설명하지 않는다. |
 | 현재 범위 | 1턴=1주, 240주(5년), **데모 제품 범위는 1~24주이며 W24 CTA에서 끝난다.** 본편 Chapter 1 제작 단위는 1~48주 한 해지만 25~48주는 아직 기존 폴백이며, 월간 정본 승인 전에는 완성 코어로 세지 않는다. 숫자 여력 4장을 돌려 쓰는 화면은 최종 코어가 아니다. 루틴은 자동으로 이어지고, 매달 실제 약속·기회·위기 중 무엇을 지키고 놓칠지 고르는 한 문법을 쓴다. W1~24 V2의 저장·영수증·월말 결산·원자적 선택은 이관 기준선으로 보존하고, 뒤 범위는 60개월 맵을 따라 장별로 옮긴다. |
 | 품질 게이트 | [`docs/MASTER_RELEASE_AUDIT.md`](docs/MASTER_RELEASE_AUDIT.md). 콘텐츠 수량보다 블랙박스 플레이, 한영 패리티, 패드 과업, 사람 기억·전환 증거로 판정한다. |
-| 최근 완료 | 마지막 해 career 경로를 현 팀장의 TF 발령 부속합의 C0부터 민서 검토, 현수의 외부 수치 검토자 이름과 `NOT USED`, self-only C2 접수, C3 직책 실행, 마지막 선발신까지 신규 16 roots·43 choices로 완주했다. 기존 사건·story map·story rules·35 endings는 불변이며, C0→C3 문서와 boss/minseo/hyunsu 배우, 한영·서사·말투·story-map 76 self-test와 독립 두 낭독이 P0/P1 0이다. |
-| 바로 다음 | startup 인수 경로를 비구속 C0→세 손실 C1→조건부 self-only C2→20%·32억원 1회 실행 C3→인수 뒤 첫 주로 이어지는 신규 16 roots·43 choices로 쓴다. 기존 즉시 `startup_exit`, career, story map·runtime, 35 endings는 건드리지 않는다. |
+| 최근 완료 | startup 경로를 160억원·민준 20%=32억원 비구속 의향서부터 시간/제품/사람 세 손실, 공동창업자 별도 seller 동의, 조건부 접수, 32억원·20% 단일 실행, 인수 뒤 첫 직무 충돌까지 신규 16 roots·43 choices로 완주했다. 기존 즉시 `startup_exit`, career, story map·rules·runtime·35 endings는 불변이며 독립 두 낭독이 P0/P1 0이다. |
+| 바로 다음 | career·startup author-only 원고를 M49~M60 typed receipt와 exact selector에 이관한다. 먼저 legacy 즉시 startup 인수를 staged 경로와 상호배제하고, M59 거래를 1회 원자 처리하되 성공 종결은 M60·final-week 뒤까지 유예하는 최소 routing 사양을 만든다. |
 | 열려 있는 사람 게이트 | 정본은 [`docs/human_gates.json`](docs/human_gates.json), 출력은 [`STATUS.md`](docs/STATUS.md)다. **개수 상한이 없다.** 사용자 L3는 W24 뒤 시작한다. BUILD `.3`의 이해도·기억·정상 속도 24주·A/V·패드 판정은 W1~24 demo_rc의 게이트다. GO여도 데모만 승인하며 W25~48이나 본편 Chapter 1 완성을 승인하지 않는다. 데모 GO는 48주 RC/완주를 기다리지 않는다. `month_one_episode_v1` 표본은 구 저장 호환용이다. 지역별 미완료 번역 게이트는 각 언어 주장과 4개국어 공개 데모를 막되 KO/EN 후보 검증은 막지 않는다. **초록불은 계약을 지켰다는 뜻이지 좋다는 뜻이 아니다.** |
-| 그다음 | career·startup의 M49/M50/M52/M55/M57/M59/M60 typed receipt를 exact routing에 이관하고, staged startup에서 legacy 즉시 인수를 격리해 M60·final-week 뒤 전용 `startup_exit`로 닫는다. 그 뒤 35 endings와 `finish_run` 순서를 별도 배치에서 판정한다. 사용자가 각 원고 표본을 통과시키기 전 JA·zh-CN·zh-TW 번역은 시작하지 않는다. 240주 감사는 RC에서만 실행한다. 순서는 [`CODEX_QUEUE.md`](docs/CODEX_QUEUE.md)가 소유한다. |
+| 그다음 | exact routing 뒤 35 endings와 `finish_run` 순서를 별도 배치에서 판정한다. staged startup은 M60·final-week 뒤 기존 전용 `startup_exit` ID·CG·보상으로 닫되 서명·입금을 반복하지 않는다. 사용자가 원고 표본을 통과시키기 전 JA·zh-CN·zh-TW 번역은 시작하지 않는다. 240주 감사는 RC에서만 실행한다. 순서는 [`CODEX_QUEUE.md`](docs/CODEX_QUEUE.md)가 소유한다. |
 | 자산 조달 | **외주 0원.** 인물 디자인·작곡·UI 아트·유료 서체를 사지 않고 Codex와 무료 라이선스(임베딩이 허용된 OFL·CC0 등)로만 만든다. 인력·구매를 전제한 계획을 세우지 않는다. 생성 자산의 결함은 품질이 아니라 평균성이므로 동일 후처리·고정 서명·채택률로 이긴다. 정본은 `docs/DECISIONS.md` 2026-07-30 항목이 소유한다. |
-| 마지막 갱신 | 2026-08-18 (Codex: startup staged 인수 16개 선언, KO·EN 집필 착수) |
+| 마지막 갱신 | 2026-08-18 (Codex: startup staged 인수 16/43 L1·독립 L2 GO, exact routing 설계로 이관) |
 
 사용자가 새 지시를 주면 그것이 위 순서보다 우선한다.
 

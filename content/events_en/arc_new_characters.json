@@ -161,5 +161,43 @@
         "result_text": "Hyunsu turned the water glass half a circle, then pointed at {name}'s phone. “Don't send the request first. Send the situation: how much is urgent, why it's me, and whether there's room for me to say no.”\n\nAfter a moment, he added, “And don't ask me to write the refusal for you too.”\n\nOnly the ceiling light reflected in the black phone screen. One sentence that would have made Hyunsu supervise the boundary was erased before it entered the field."
       }
     ]
+  },
+  {
+    "id": "arc_y5_startup_minseo_goal_cost",
+    "title": "A Calculator Holding Zero",
+    "description": "The following month, Minseo set the NON-BINDING LOI FOR ACQUISITION OF 20% EQUITY beside a calculator. On the left sat the KRW 16 billion valuation, twenty-percent stake, and proposed KRW 3.2 billion price. On the right, acquisition proceeds received read KRW 0. Deal SA-20 and hash ending A6E8 matched.\n\nMinseo opened the team-employment and existing-service annexes, then pointed to three fields including {name}'s transition end date. All were blank. “KRW 3.2 billion is on the offer. The money that moved is here.” The calculator flickered when she pressed zero.\n\n“I can't give you the legal answer. I can separate whose time each empty date spends.” She laid her gray pencil between the calculator and the three end-date fields.",
+    "choices": [
+      {
+        "text": "Put KRW 16 billion, twenty percent, KRW 3.2 billion, and today's KRW 0 on one line",
+        "result_text": "Minseo wrote KRW 16 BILLION × 20% = KRW 3.2 BILLION, then CURRENT ACQUISITION PROCEEDS: KRW 0 beneath it. She drew no arrow between the proposed price and his balance.\n\n“A correct calculation and money arriving are different events.” She turned the calculator toward {name}. KRW 3.2 billion and zero remained lit on separate lines."
+      },
+      {
+        "text": "Ask her to mark the field where his transition obligation ends",
+        "result_text": "Minseo boxed {name}'s transition end-date field and wrote NO DATE. She separated the two blank fields for signing and payment beside it.\n\n“Without an end to the transition, you can't count the time after KRW 3.2 billion.” The gray box reached the first page before any person's name. {name} could not transfer the blank end date into his phone calendar."
+      },
+      {
+        "text": "Ask her not to combine the team's end date with the service's end date",
+        "result_text": "Minseo gave the two blank end dates different marks: a vertical line for team employment, a horizontal one for service handover.\n\n“The time the team remains and the time the service continues are not the same sentence.” The first page bearing KRW 3.2 billion lay between the annexes. {name} photographed the two blanks separately so one date could not cover both."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_startup_after_goal_cofounder",
+    "title": "What Remains After KRW 3.2 Billion",
+    "description": "That night, after the last teammate left, the co-founder kept three customer issues on the meeting-room whiteboard. {name} placed SA-20 on the table. “When I saw the joint-seller warranty, I thought using your name could make this faster. I didn't enter it. For now, I've only sent my answer keeping your name out of the warranty field.”\n\nThe co-founder capped the marker. “If not using it ends the story, why tell me now?” The first page bearing KRW 16 billion, twenty percent, and KRW 3.2 billion lay between them. The signature under A6E8 was blank.\n\n{name} wanted to ask what remained after the money: the product, the team, or the person who had started beside him. Asking all three at once would bury every answer. He began with the one thing he was most afraid to lose now.",
+    "choices": [
+      {
+        "text": "Ask which moment in the product they still want to see through after KRW 3.2 billion",
+        "result_text": "The co-founder circled one payment error among the three customer issues. “I want to see whether this person faces the same error next month. That comes before the company name changing.”\n\nWhen {name} asked about transition time, the co-founder tapped the blank end date. “Set that date first. Talk about staying afterward.” One unerased customer issue remained on the board longer than the acquisition paper."
+      },
+      {
+        "text": "Ask who should tell the team first about KRW 3.2 billion and the acquisition terms",
+        "result_text": "Without taking down the shift board, the co-founder said, “You tell them first that you considered putting my name in the warranty. We tell them about KRW 3.2 billion together.”\n\n“Why do I say mine alone?”\n\n“The person who thought it says it first.” The co-founder did not open the team chat. The order of speakers returned to {name}, and his phone's input field stayed blank."
+      },
+      {
+        "text": "Ask what relationship they want to preserve after handing over the company",
+        "result_text": "The co-founder set down the marker and looked at {name}. “Don't use that question to make me say sell or stay for you.”\n\nA finger stopped between their two signatures in the founding shareholder register. “First finish telling me why you needed my name. Then ask whether we remain.”\n\nThe two signatures stayed on the old paper. The joint-warranty field in the new letter remained blank."
+      }
+    ]
   }
 ]
