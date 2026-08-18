@@ -55,9 +55,10 @@
 8. M42 `arc_y4_family_partner_collision_jiyeon` — face+bring 완료, 지연+아버지.
    날짜·사실 정정권 / 가족비용과 연인비용 동시 공개 / 지연의 동의 범위를 먼저
    확정해 아버지의 미래 질문을 막기로 다은판과 다른 계급·경계 언어를 쓴다.
-9. M42 `arc_y4_family_commitment_none` — family만 완료, partner 없음.
-   파트너가 없는 이유를 자기 책임으로 말하기 / 병실 문 사실만 답하고 연애 질문은
-   거절하기 / 식탁에 오느라 잃은 유급시간을 금액까지 공개하기를 가른다.
+9. M42 `arc_y4_family_commitment_none` — family만 완료, partner는 식탁에 미동석.
+   파트너를 데려오지 않은 이유를 자기 책임으로 말하기 / 병실 문 사실만 답하고 관계
+   질문은 거절하기 / 식탁을 위해 비운 토요일 시간과 교통비를 공개하기를 가른다.
+   관계 자체의 부재나 미선택 유급업무의 손실은 단정하지 않는다.
 10. M42 `arc_y4_family_table_missed` — face+bring 모두 미선택인 실제 부재.
     가족에게 변명 없는 불참 한 줄 / 이어졌던 사람에게 놓친 시각 한 줄 / 둘 다
     보내지 않고 두 만료를 장부에 적기를 가르며 존재하지 않는 식탁·동석자를 만들지 않는다.
@@ -90,8 +91,9 @@
     세 타임스탬프 검증 / 가족 음성 비공개+계약 책임 공개 / 결정을 대신하지 말고
     곁에만 있어 달라 하기로 지연의 통제와 민준의 의존을 충돌시킨다.
 19. M46 `arc_y4_network_bill` — partner 없음 + father contact 하나 완료인 기준.
-    열린 청구·미처리 몸 신호를 완료로 세탁하지 않고, 아버지에게 무엇을 말할지 /
-    아무에게도 보내지 않을 기록 / 현재 약관·청구·연락 화면 중 무엇을 보존할지 가른다.
+    기존 2택을 보존하고 열린 청구·미처리 몸 신호를 완료로 세탁하지 않는다. 실제
+    통화에서 아버지에게 현재 몸과 청구 중 한 사실을 공개하기 / 가족 음성은 닫고
+    현재 약관·청구·연락 시각만 개인 기록으로 보존하기를 가른다.
 
 20. M47 `arc_father_passing_hospital_room` — final contact=present. 실제 병실에 도착한
     뒤 기존 1택 안에서 접촉 허락을 묻고, 보증 당시 하지 못한 한 문장을 말한 뒤,
@@ -156,11 +158,12 @@ JSON object로 보존한다. `story_rules`, DataRegistry, 런타임·UI·저장�
 
 ## 완료 증거
 
-- [ ] 정확히 25개 root·71개 choices/locale가 KO/EN에 존재하고 ID·선택 순서·
+- [ ] 정확히 25개 root·70개 choices/locale가 KO/EN에 존재하고 ID·선택 순서·
   placeholder 의미가 대응한다.
 - [ ] 기존 10개 root는 선택 수를 포함한 텍스트 외 gameplay skeleton이 선언 commit과
   동일하다. 특히 `arc_father_call_on_ktx` 2택, `arc_father_passing` 2택,
-  `arc_father_passing_hospital_room` 1택을 3택으로 부풀리지 않는다. 신규 15개는
+  `arc_father_passing_hospital_room` 1택, `arc_y4_network_bill` 2택을 3택으로
+  부풀리지 않는다. 신규 15개는
   각 3택, `weight:0`, `hidden:true`, `min_turn:9999`, writer/effect/flag/follow-up 0이다.
 - [ ] 신규 KO description은 300~800자이고, 각 선택은 현재 행동·즉시 손실·인물 반응이
   서로 달라 어느 하나가 다른 선택을 공짜로 포함하지 않는다.
