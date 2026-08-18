@@ -551,5 +551,24 @@
         "result_text": "{name} couldn't bring himself to call. What to say, what to lead with in twenty-three seconds — he didn't know. The thought that he would do it after reaching Seoul became convincing one more time.\n\nThe screen went dark on its own. In the black glass, his own face was faintly reflected.\n\n{name} closed his eyes. The wheels crossed the rail joints in a steady rhythm. The train still had a long way left to go."
       }
     ]
+  },
+  {
+    "id": "arc_y3_truth_unproven",
+    "title": "Leaving the Name Blank",
+    "description": "At 6:38 Wednesday evening, {name} opened Father's old guarantee PDF beside Jaehyuk's application and the search result for Han PD Construction. The signature boxes looked alike; the Mapo dates and addresses were close. But the article identified the introducer only as Mr. Im, and the court and bank fields he had tried to verify still held no full name.\n\nSangchul's old office had been nearby. Nearby was not proof. One extra letter would turn inference into accusation.\n\nSangchul's chat was still empty. Seven tomorrow evening was open on the calendar. {name}'s task was not to name a culprit. It was to state, once, what he had verified, what remained blank, and when he would ask in person.",
+    "choices": [
+      {
+        "text": "Send verified facts and blanks separately, then give him the seven o'clock meeting time",
+        "result_text": "{name} split the message into two paragraphs.\n\n‘The signature boxes in the guarantee and application look alike, and the Mapo dates and addresses are close. I have not verified the introducer's full name or a link between the cases. I will ask you in person tomorrow at seven.’\n\nSent at 6:46. He attached no copies. Sangchul had a night to prepare, but the chat gave equal weight to what {name} knew and what he did not."
+      },
+      {
+        "text": "Send the verified pages and ask for a one-sentence answer",
+        "result_text": "{name} attached two screens after hiding resident numbers and account details.\n\n‘Were you the introducer named in this record? Please answer only yes or no. I will bring the current copies tomorrow at seven.’\n\nThe screens could not be taken back. They created a common record that would be harder to deny later, but also gave Sangchul time to study every page and every place {name} had covered."
+      },
+      {
+        "text": "Send no evidence, only the blank and the meeting time",
+        "result_text": "‘There is one introducer's name I could not verify. I will bring the current records and ask you in person tomorrow at seven.’\n\n{name} sent only those two sentences. Neither Sangchul's name nor a case number entered the chat. He kept the pages from leaving his hands, but a notice with no explanation sounded closer to a warning than a question.\n\nThe brown envelope and sent time remained. The chat held none of the reason behind the question."
+      }
+    ]
   }
 ]

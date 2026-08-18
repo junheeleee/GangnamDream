@@ -106,5 +106,24 @@
         "result_text": "\"Let's talk when I get there. It still feels too far away.\"\n\nDaeun replied after a pause. \"Okay. Just don't spend too long calculating by yourself.\" It was neither a promise to wait nor an attempt to hurry him.\n\n{name} did not save the café photograph. The empty window seat remained in his mind anyway."
       }
     ]
+  },
+  {
+    "id": "arc_y3_daeun_hometown_departure",
+    "title": "The Return Ticket Was Blank",
+    "description": "At 6:38 Saturday morning, Daeun's bus home moved to the top of the terminal board. At her feet stood a small suitcase; in her hand, the same two sheets they had studied before. Beside the hometown mart interview, she had added her mother's hospital time. Her phone held only an outbound ticket. The return date was blank.\n\n\"I'm taking this bus. I'm not deciding today whether I come back.\"\n\nDaeun looked at {name} longer than at the board. \"Thank you for coming, Minjun. But I won't decide for you whether you're seeing me off or coming with me.\"\n\nBoarding began. One seat remained, and no next call had been set. The choice was not Daeun's final address, but how much of this departure he would take responsibility for now.",
+    "choices": [
+      {
+        "text": "Buy the last seat. Each of them can decide on a return ticket later",
+        "result_text": "{name} paid for the last seat on the same bus and skipped the screen asking for a return date.\n\nDaeun checked the ticket. \"Coming with me doesn't mean you get to decide my answer.\"\n\n\"I won't. I'll only see what you see today.\"\n\nTheir tickets showed the same departure time and different seat numbers. When the gate closed, the Seoul morning slid behind the bus window. Neither of them had a ticket back."
+      },
+      {
+        "text": "Stay in Seoul, but write down tonight's call time now",
+        "result_text": "Under Daeun's notes, {name} wrote: 8:30 tonight. After the hospital appointment and mart interview, whichever of them called first, the other would answer.\n\nDaeun folded the page. \"Don't tell me it went well just to make me feel better. I won't do that either.\"\n\nThe bus door shut. {name} was not in the seat beside Daeun; he remained on the platform. One square in both their calendars was no longer empty."
+      },
+      {
+        "text": "Make no next appointment. Let Daeun contact him after she decides",
+        "result_text": "{name} left the return field blank. He typed, \"I'll wait, so call me,\" then erased it.\n\nDaeun saw the screen and nodded. \"Then don't say you'll wait either. When I contact you, listen to what I actually say.\"\n\nHe carried her suitcase as far as the luggage bay. After the doors closed and the bus pulled away, the platform held only a conversation with no next time."
+      }
+    ]
   }
 ]

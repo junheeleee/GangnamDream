@@ -308,6 +308,82 @@
     ]
   },
   {
+    "id": "arc_y3_father_after_visit_document",
+    "title": "The Same Boxes in Two Documents",
+    "description": "On Monday night after returning from Changwon, {name} opened Father's final repayment confirmation beside the investment contract under review. One listed the creditor, debtor, old address, case number, and guarantee duty. The other listed the offering company, account holder, current address, and principal-loss clause.\n\nThough written years apart, both gave similar boxes to names, addresses, and the person left holding a loss. Tonight he had already chosen to compare them and finish one sheet. He could align names and addresses, place the guarantee and loss clauses side by side, or mark only what each document confirmed and left blank. Either way, both documents would remain open and one comparison would be complete.",
+    "choices": [
+      {
+        "text": "Compare every name and address by its role in the two documents",
+        "result_text": "{name} copied the creditor, debtor, and old address from the repayment confirmation into the left column. On the right, he copied the offering company, account holder, and current address exactly as printed in the investment contract.\n\nNo name or address visibly matched. He wrote not ‘no connection,’ but ‘no match confirmed in the documents.’ The name-and-address table was complete. The difference between the guarantee and loss clauses remained unclassified on the second line."
+      },
+      {
+        "text": "Place the guarantee obligation and principal-loss clause against each other, sentence by sentence",
+        "result_text": "The guarantee language made the guarantor carry any amount the principal debtor failed to repay. The investment clause assigned loss of principal to the subscriber and denied any guarantee by the offering company.\n\n{name} wrote ‘Who holds the final loss?’ beneath each sentence. The role names differed, but both documents confirmed that the loss did not vanish outside the contract. The clause comparison was complete. He did not mark whether any names or addresses were connected."
+      },
+      {
+        "text": "Use color to separate only what the two documents confirm from what they do not",
+        "result_text": "{name} marked the case number, seal, and address on the repayment confirmation in blue. On the investment contract he marked the company name, account holder, and loss clause. The unlisted introducer, missing return calculation, and unproven link between the addresses went into gray boxes labeled UNCONFIRMED.\n\nNo theory entered the comparison sheet. One page now held only the differences and blanks the two documents actually proved. The connection remained unknown, but today's comparison made the limits of that knowledge exact."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_father_avoidance_document",
+    "title": "Begin with the Avoidance",
+    "description": "On Friday evening, Father's name appeared and {name} turned the phone facedown. An eighteen-second voice message remained. A registered envelope with a Changwon postmark had arrived the same day, Father's name in the sender field and heavy paper inside.\n\nSince staying away from the hospital, he had not contacted Father first. Tonight he had already chosen to end that avoidance with an actual outgoing contact. He could listen and call, read only the first page and message a source question with the admission, or leave both unopened while sending the time of his next call. Each path had to state that he had avoided the hospital and leave a real sent or outgoing-call time, not another silence.",
+    "choices": [
+      {
+        "text": "Listen to the entire message, then call and ask why Father sent it now",
+        "result_text": "\"Minjun. I sent an envelope. Call after you read it.\" Father paused for one breath, then ended the recording. {name} called immediately. When the signal went unanswered, he left a voicemail.\n\n\"I want to ask why you sent it now. Staying away from the hospital was me avoiding it. I'll call again.\" The outgoing time and question entered the call log. The envelope remained sealed, and no answer was guaranteed."
+      },
+      {
+        "text": "Open only the first page, then message the source question and admit the avoidance",
+        "result_text": "{name} removed only the first page. He confirmed the title—Final Repayment Confirmation—and the case number, leaving the rest folded inside.\n\nHe wrote to Father: ‘I saw the first page. I want to ask where you took this document from. I was avoiding things when I stayed away from the hospital.’ The sent time remained. He did not play the audio or turn a read receipt or reply into a fact."
+      },
+      {
+        "text": "Leave both unopened and message the admission and exact time of the next call",
+        "result_text": "Leaving the envelope and audio untouched, {name} wrote: ‘Staying away from the hospital was me avoiding it. I can't open the document or message tonight. I will call Sunday at eight. If that time is difficult, please send only a text.’\n\nThe message was sent, and Sunday at eight entered the calendar. He inspected neither item and did not claim Father had read or accepted the time."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_jaehyuk_no_contact",
+    "title": "The Last Outgoing Message",
+    "description": "The registered letter containing {name}'s questions for Jaehyuk returned after a week, stamped UNDELIVERABLE—RECIPIENT UNKNOWN. His personal number gave a powered-off message before voicemail, and their last chat line still showed no read receipt.\n\nThe hotel application carried a company address, but nothing proved it could reach Jaehyuk. None of the three channels promised an answer. Tonight he had already chosen to send one final answer as a friend and close that door, stating that any further contact must use formal channels. The only choice left was where the sentence would remain: voicemail, the unread chat with the returned-envelope photo, or new registered mail.",
+    "choices": [
+      {
+        "text": "Leave the confirmed facts and contact boundary in the powered-off number's voicemail",
+        "result_text": "After the signal came the recording prompt. {name} said, \"Jaehyuk. The letter I sent to your address came back, and this number doesn't connect. That's all I've confirmed. This ends the calls I make as your friend. If anything remains, use a formal channel.\"\n\nThe end tone left an outgoing time and twenty-four seconds in the call log. His voice exposed even its tremor. Nothing confirmed that Jaehyuk would ever hear that mailbox."
+      },
+      {
+        "text": "Send a photo of the returned envelope and the final sentence in the unread chat",
+        "result_text": "{name} photographed the envelope with both RECIPIENT UNKNOWN and his sender field visible. Beneath it he wrote: ‘This came back. I won't contact you under the name of friendship again. Leave anything necessary through a formal channel.’\n\nThe sent time appeared. No read receipt followed. The image exposed part of his own address, and Jaehyuk might never see it. This was the last sentence he left in their chat as a friend."
+      },
+      {
+        "text": "Send one short final answer by registered mail to the company address on the application",
+        "result_text": "{name} wrote one new page: ‘My earlier letter was returned as recipient unknown. I am leaving only what I have confirmed. This ends my personal contact with Choi Jaehyuk as a friend. Any necessary communication must arrive as a formal document.’\n\nHe registered a new envelope to the company address on the application. Postage and acceptance time appeared on the receipt, along with a tracking number. When he left the post office, he still did not know whether this envelope would arrive."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_jaehyuk_pitch_questions",
+    "title": "Twenty-Three Minutes",
+    "description": "At 8:37 Tuesday night, Jaehyuk set a four-page application, a projected-return sheet, and a deposit-account copy on the hotel-lounge table. Triple the principal appeared only on the projection. The account holder differed from the offering company, while Jaehyuk's name was already in the introducer box.\n\nA server warned that the table was reserved from nine. Jaehyuk squared the coaster. \"{name}, pick one question. I'll answer it all the way.\"\n\n{name} separated the pages again. Why was triple absent from the original? How was the recipient related to the company? Why did Jaehyuk need a friend's name now? Twenty-three minutes left time to finish one answer; the other two would remain on the table.",
+    "choices": [
+      {
+        "text": "Ask until he explains why ‘triple the principal’ is absent from the original contract",
+        "result_text": "Jaehyuk placed the projected-return sheet beside the application. \"Triple is an estimate based on last quarter. We can't put it in the original as a guaranteed return.\"\n\nWhen {name} asked for the calculation, Jaehyuk showed one settlement sheet listing only a total and a period. The payer field was blank. At 8:58, the server cleared the glasses. He had heard why triple was missing, but not who held the account or what Jaehyuk gained from the introducer count."
+      },
+      {
+        "text": "Ask until he explains how the account holder is related to the company on the application",
+        "result_text": "Jaehyuk pulled a one-page collection-services agreement from behind the account copy. \"This company receives it first and passes it to the offering company. It's just a different payment window.\" The two companies had different representatives, and the settlement-cycle field was blank.\n\n{name} pointed to the blank. Jaehyuk answered, \"It varies by deal.\" By the time that sentence was copied into the margin, it was 8:59. He had one page establishing the receiving relationship, but no answer about the triple return or why a friend's name was needed."
+      },
+      {
+        "text": "Ask until Jaehyuk explains why he needs a friend's name now",
+        "result_text": "Jaehyuk kept one finger on the introducer box and turned his pen cap for a long time. \"I need enough applications under my name to receive the next allocation. I don't just need your money. I need one person I brought in.\"\n\nWhen {name} asked, \"So why me?\" Jaehyuk did not mention the army. He said, \"I can't put down a stranger's name.\" The server set out the nine-o'clock reservation sign. He had explained why the name mattered. The blanks in the return sheet and receiving-company record remained."
+      }
+    ]
+  },
+  {
     "id": "arc_jaehyuk_03_pitch",
     "title": "The Offer",
     "description": "Jaehyuk called a meeting. Hotel lounge.\n\n\"I'll be straight with you. {name}, this is just for you.\nSomething big came in. Triple the principal. But the window closes this week.\"\n\nHe leans forward. Voice drops.\n\n\"You want Gangnam, right? How long will that take on a salary? At our age, there's no answer in a paycheck.\nYou trust me, right? We lived and died together in there.\"\n\nTriple the principal. This week only.\nBoth sentences landed at the same time.",

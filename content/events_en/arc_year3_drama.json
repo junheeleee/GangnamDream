@@ -214,5 +214,214 @@
         "result_text": "Said nothing.\n\nJiyeon smiled and stood up. \"See you again.\"\n\n{name} sat there. The gap between 'not being honest' and 'lying' — narrower than expected."
       }
     ]
+  },
+  {
+    "id": "arc_y3_jiyeon_departure_platform",
+    "title": "Twelve Minutes Before Departure",
+    "description": "Twelve minutes before the Busan train departed, {name} stepped onto the platform at Seoul Station. Jiyeon stood beneath the seat number on the departure board, one hand around the handle of a small suitcase. The one-way ticket he had seen in a photograph trembled inside a clear sleeve, now a real piece of paper.\n\n\"I didn't think you would actually come, Minjun.\"\n\nJiyeon smiled, but did not let go of the suitcase. Her plan to open a brokerage in Busan under her own name was already set. So was the look saying she would not wait for anyone to ask her to remain in Seoul. The boarding announcement urged them on. Between them stood one bag and one sentence still unspoken. Words might hold her feet for a moment; they could not change the direction printed on the ticket.",
+    "choices": [
+      {
+        "text": "\"I want to ask you not to go. I'm not ready to let you leave.\"",
+        "result_text": "Jiyeon's hand stopped on the suitcase handle. She listened to the end, then spoke quietly. \"I did want to hear that. But I still have to go. If I stay, I think I may blame you for it someday.\"\n\nWhen the doors opened, Jiyeon took the first step back. {name} had finally brought his hidden feeling into the open, but he could not use it to make her surrender something bearing her own name. Their eyes held until the doors closed between them."
+      },
+      {
+        "text": "\"Take care. Congratulations on beginning something under your own name.\"",
+        "result_text": "Jiyeon smiled half a beat late. \"Thank you. I think I'll remember that for a long time.\"\n\n{name} carried the suitcase across the boarding line and released it at once. He attached neither a plea nor a future promise. Jiyeon bowed once from inside the train. He had sent her off properly. In exchange, one sentence that belonged to this moment alone stayed behind on the platform."
+      },
+      {
+        "text": "\"I won't answer now. I'll tell you when you come back.\"",
+        "result_text": "Jiyeon looked at the board, then at {name}. \"Then there is no answer today.\" Her voice remained courteous, leaving no opening to revise what he had said.\n\nThe conductor gestured beside the door. Jiyeon pulled her suitcase aboard. She did not promise to return, and {name} did not promise to wait. Once the train began to move, only the postponed answer remained in his mouth as a complete sentence."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_relationship_departure_unattached",
+    "title": "The Empty Platform",
+    "description": "At 9:12 p.m., {name} stood alone at the far end of a transfer platform in Seoul Station. Eleven minutes remained until the next train. He had come to see no one off, and no one was waiting for him. Then Father called from Changwon.\n\n\"Minjun. About that debt. There was a man named Park Sang-jin. A real-estate man named Lim in Gangnam introduced him and said he could be trusted.\"\n\nFather paused behind the unfinished name. A platform announcement reported the approaching train; a television murmured through the phone from Changwon. On a night with no departing lover to claim this stretch of time, a family sentence ten years late arrived instead. The question was no longer whom to call, but how much to hear from the person already connected.",
+    "choices": [
+      {
+        "text": "\"Do you remember any more of that man's name?\" — let the train go and ask",
+        "result_text": "Over the sound of opening doors, Father answered. \"It was Lim. I'm sure of the family name, but I can't remember the rest now.\"\n\n{name} did not move from the boarding line. The doors closed, leaving only the train's wind. The next connection was forty minutes away, and the blank in the name remained. What he could write down exactly was the limit of Father's memory: the surname Lim."
+      },
+      {
+        "text": "\"Why are you telling me only now?\" — hear the rest",
+        "result_text": "After a long pause, Father said, \"You had already paid it all. Telling you felt like putting one more thing on your back. But I thought you should know.\"\n\nThe train arrived and departed while neither man ended the call. {name} did not learn the introducer's full name, but for the first time he heard why Father had kept silent. The train's red tail lights and a late apology receded together beyond the platform."
+      },
+      {
+        "text": "Board without interrupting and hear Father to the end",
+        "result_text": "{name} crossed the doors just before they closed, but did not end the call. After a long breath Father said, \"I just thought I had to tell you now. I'm sorry, son.\"\n\n{name} kept the phone to his ear until there were no more words. He made the connection and heard the confession to its end. The chance to ask the introducer's full name, or why Father had waited, passed in the noise of the train. The call log kept three minutes and seventeen seconds."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_cost_after_reported",
+    "title": "The Blank After the Filing Number",
+    "description": "A date and filing number were stamped across the top of the report receipt. Beneath them, the inventory listed Father's paid-in-full certificate, the old article PDF, and the closed brokerage registry {name} had submitted. One page proved what he had reported.\n\nNo new sentence had appeared beneath Sangchul's contact since the café. Today's task was neither to report him again nor to ask another favor. {name} still had to tell Sangchul directly that the report had been filed and define the boundary for later contact. Legal channels only, one written factual correction, or no direct contact outside an intermediary would close different amounts of the relationship. He placed the receipt, phone, and empty registered-mail envelope side by side.",
+    "choices": [
+      {
+        "text": "Send the filing number with, ‘I will no longer accept personal contact’",
+        "result_text": "{name} copied the filing number and wrote that any later communication must use a channel that preserved a record of the report. A sent time appeared in the chat. He closed it without waiting for a read mark or reply.\n\nThe notice remained exact. Sangchul's reaction did not. Beside the receipt, the only new trace was the fact that even the sentence ending their relationship had used their old personal chat one final time."
+      },
+      {
+        "text": "Record, ‘If the filing contains a factual error, send one written correction. I will not take an explanatory call’",
+        "result_text": "After the connection tone ended, {name} stated that the report was filed and allowed one factual correction in a twenty-three-second recording. He sent it without adding a farewell.\n\nThe door for explanations closed; one narrow door for correcting the record remained. Whether that correction was needed was still unknown. He neither waited nor checked for Sangchul's answer. The call log held only the time and file length."
+      },
+      {
+        "text": "Formally refuse every direct contact outside a designated intermediary",
+        "result_text": "{name} wrote the filing number and designated intermediary, then signed a refusal of calls, texts, and meetings. He placed only the notice in the registered envelope and obtained a postal stamp. He did not send the evidence copies.\n\nA tracking number cost postage and half a day. It also closed the path for Sangchul to correct a fact directly. No apology or final greeting entered the letter; his reaction remained outside it."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_cost_after_forgiven",
+    "title": "Between Forgiveness and the Record",
+    "description": "Accepting Sangchul's apology removed nothing from the drawer. Father's paid-in-full certificate with its red stamp, the article printout carrying the case number, and the closed registry naming Lim Sangchul as proprietor remained. Setting down hatred was not the same as destroying the evidence materials.\n\nThe boundary {name} would deliver today had to keep those facts distinct. Accepting the apology would not be withdrawn; the current records would remain. Written business only, personal greetings without money or introductions, or no contact except formal factual correction were different forms of forgiveness. None restored the old relationship by itself or guaranteed an answer from Sangchul.",
+    "choices": [
+      {
+        "text": "Send, ‘I accept the apology and will keep the current records. Send only written business contact’",
+        "result_text": "{name} sent the two sentences without revising them. Accepting the apology, preserving the evidence, and leaving one business channel stood together in the chat. He did not check whether Sangchul had read it.\n\nWork could continue on the record; personal greetings closed. Words left unsaid while forgiving Sangchul were pushed outside the boundary. The screen he closed without checking did not return to its old warmth."
+      },
+      {
+        "text": "Record, ‘I won't block personal greetings. But money, introductions, and business favors end here’",
+        "result_text": "{name} first said he accepted the apology and would keep the current records, then drew a line between a personal greeting and any favor involving money. The recording lasted forty-one seconds; even the hesitation crossed to Sangchul.\n\nA narrow human path remained. So did the burden of deciding later what counted as a greeting. He did not check for an answer. The voice file and three evidence materials stayed in their places."
+      },
+      {
+        "text": "Send the evidence list with, ‘Except to correct a verifiable fact, do not contact me even formally’",
+        "result_text": "{name} listed the document titles and reasons for keeping them without sending the evidence materials. He added that forgiveness did not mean destroying records or restoring the relationship, and that only a verifiable factual correction would be accepted.\n\nThe room for interpretation became smallest. Personal greetings and business contact closed together, and private forgiveness hardened into administrative prose. Sangchul's reaction did not enter the delivery confirmation."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_cost_after_leveraged",
+    "title": "The Introducer Field",
+    "description": "After he said he would use Sangchul's network, the first terms sheet arrived: priority review, a lower referral fee, and a consultation slot held open this week. The same source repeated beside every favorable term. ‘Introducer: Lim Sangchul.’ The conditions already existed on paper.\n\nToday's task was not to choose those terms again. {name} had to tell Sangchul directly that he would not hide having used the man's name, and had to define the boundary of that introduction. Would it end with this one sheet? Would every later term have to be written? Would he disclose the source wherever the introduction was used? The sheet would not change; only the scope of the notice could.",
+    "choices": [
+      {
+        "text": "Send, ‘I will use this terms sheet only. I will accept no further introductions’",
+        "result_text": "{name} photographed the introducer field and sent it with the sentence. One screen now showed when and how far he had used Sangchul's name. He checked neither a read mark nor a reply.\n\nThe boundary closed at its narrowest point. What remained was the possibility that today's priority review and lower fee would still look like a debt owed to Sangchul. Neither the sheet nor the message could be erased from the same folder."
+      },
+      {
+        "text": "Leave a voice message: ‘I won't deny using it. Put every later term in writing’",
+        "result_text": "{name} began by admitting that he had used Sangchul's name, then said he would accept no verbal introduction or off-record request. Sending the recording left a time and file length behind.\n\nOwning the act in his own voice meant he could not hide the words he chose. He did not check for Sangchul's reaction. The favorable terms sheet and the uncomfortable voice file occupied the same screen."
+      },
+      {
+        "text": "Formally notify Sangchul that the source will be disclosed wherever the introduction is used",
+        "result_text": "{name} attached the terms sheet bearing ‘Introducer: Lim Sangchul’ and wrote that he would disclose the source in every place where the name was used. He sent the notice through formal email without requesting a reply.\n\nThe room to hide became smallest. So did the room to use doors Sangchul opened quietly and off the record. The favorable conditions remained; the lost trust stayed outside the document as silence."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_cost_after_repaid",
+    "title": "The Amount Returned",
+    "description": "Father's old account history carried one line: sender, ‘Lim Sangchul,’ followed by the returned amount. It matched the debt {name} had spent six years paying before receiving the final paid-in-full stamp. The bank preserved when the money arrived and who sent it.\n\nNothing below explained Father's lost time or the six years his son had emptied into repayment. Today's boundary was not another decision about accepting the money. The amount was confirmed; private debt had not ended with it. {name} had to tell Sangchul directly what contact would remain: close today's exchange, limit everything to writing, or allow only documents concerning Father's case. He placed a copy of the transaction record beside the phone and notice form.",
+    "choices": [
+      {
+        "text": "Send the transaction image with, ‘The amount is confirmed. I am ending contact for today’",
+        "result_text": "{name} attached a photograph showing the sender and amount while masking the account number. The confirmation and the boundary closing today's conversation shared one sent time.\n\nThe channel was not severed completely, but no room remained today for another apology or offer from Sangchul. He did not check for a reply. The returned number and the sent boundary occupied one screen."
+      },
+      {
+        "text": "Record, ‘The amount is closed. The lost time is not. Contact me only in writing’",
+        "result_text": "{name} placed the transaction record before him and sent those two sentences as a voice message. He acknowledged the number while drawing a line around what it could not settle. After sending the file, he did not wait for an answer.\n\nOnly the door for written contact remained. Private calls closed with it. The recording preserved even the long breath after the final word, a mark harder to erase than the bank statement."
+      },
+      {
+        "text": "Formally allow only written contact concerning Father's case",
+        "result_text": "{name} attached a copy of the transaction record to a notice limiting future contact to documents about Father's case. He signed it and sent it through formal email, saving only the delivery confirmation and requesting no reply.\n\nThe clearest boundary pushed every possible private final word outside administrative prose. The money had returned. Of the relationship, only one category of writing remained."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_cost_after_buried",
+    "title": "The Record Left Buried",
+    "description": "He had told Sangchul he would leave the truth buried. The records did not bury themselves. Father's paid-in-full certificate, the article printout, and the closed registry remained bundled on the desk. Lim Sangchul's name remained in the contact list. Paper and screen both proved that ignorance could not be restored.\n\nToday {name} had to tell Sangchul directly how far the café's silence extended. He would not reopen Park Sang-jin's name, but Sangchul could not treat that silence as permission for unrecorded introductions or private requests. A short text, a voice message, or a signed notice would give the silence a different shape. None would destroy the records or choose the truth again.",
+    "choices": [
+      {
+        "text": "Send, ‘I won't ask about Park Sang-jin again. Keep every later contact on the record’",
+        "result_text": "{name} sent the two sentences and captured the time. His choice not to ask now had a form that could reach Sangchul directly. He checked neither a read mark nor a reply.\n\nThe boundary became clear. The excuse of not knowing became harder. The phone now preserved a sentence saying he knew and chose to cover it, while the three records remained open on the desk."
+      },
+      {
+        "text": "Read the same boundary aloud and add that he will accept no off-record favor",
+        "result_text": "{name} paused at Park Sang-jin's name but finished the recording. He sent ‘I will not ask’ and ‘I will accept no private favor’ in one file, then did not wait for an answer.\n\nA trembling boundary reached Sangchul instead of paper. Using his voice meant the silence was no longer total. Beneath the sent file remained the blank space of a screen closed without checking for a reply."
+      },
+      {
+        "text": "Send the office a one-page boundary notice listing the evidence",
+        "result_text": "{name} listed only the three document titles and attached no copies. He signed, ‘Records will be preserved; the past will not be reopened; future contact must be formal and written,’ then sent it.\n\nThe silence became its hardest document. In exchange, something once known only between two men left one line in the office inbox. He did not check for Sangchul's reaction, and the evidence materials remained on {name}'s desk."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_cost_after_distanced",
+    "title": "The Boundary in a Closed Chat",
+    "description": "After {name} turned away from Sangchul, their chat fell to the bottom of the phone. Above the last message, old times and the name Lim Sangchul remained exactly where they had been. He did not erase that record. Ending a relationship was different from pretending that nothing had passed between them.\n\nWhat remained today was not another meeting or deal, but direct notice of the boundary around a broken relationship. Would written factual corrections remain possible? Would his private number close while Sangchul's office channel remained? Would every direct contact outside an intermediary end? None restored the relationship, but each closed a different amount and left a different record. {name} opened the old chat beside a blank notice.",
+    "choices": [
+      {
+        "text": "Write, ‘Direct meetings and personal contact end here. Send any factual correction in writing’",
+        "result_text": "{name} sent the two sentences at the bottom of their old chat. A new time appeared beneath Sangchul's name. He checked neither a read mark nor a reply.\n\nA narrow written path for correcting facts remained; meetings and personal greetings closed. Ending the relationship required lifting the chat he had abandoned back to the top one last time, and that trace remained too."
+      },
+      {
+        "text": "Record, ‘Do not contact my private number. Send necessary notices only through the office's official channel’",
+        "result_text": "{name} recorded that he would not accept contact on his private number and that any necessary notice must use the office's official channel. He sent the voice message, checked only its time, and closed the screen.\n\nHis private number moved outside the boundary while one formal path for factual notices remained. Using his own voice one final time cost him the distance of written prose; the file length preserved that cost. He did not check for Sangchul's reaction."
+      },
+      {
+        "text": "Formally refuse meetings, calls, and texts outside a designated intermediary",
+        "result_text": "{name} wrote a one-page notice reading, ‘Delivery only through an intermediary; all other direct contact refused,’ and sent it through Sangchul's office's official channel. He attached no old messages or records and saved only the sent time.\n\nDirect contact closed at its widest. Even a factual correction would now have to pass through the intermediary. The private opening for an apology or final greeting closed too, but one page preserved exactly what he had refused."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_truth_heard_by_father",
+    "title": "The Choice Father Heard",
+    "description": "When Father answered, {name} did not begin by asking how he was. He named Park Sang-jin, repeated that Sangchul had introduced and vouched for him, described Sangchul's reaction in the café, and said exactly what answer he had given there. He neither softened nor shortened the words he had spoken in the café.\n\nThe television went silent in Changwon. Father did not interrupt. Even after the last sentence, he said nothing for a long time. Then he asked quietly, \"So are you all right now?\"\n\nIt was not a question about whether {name} had done right or wrong. On his desk lay whatever paper the choice had left. On the line waited the man whose guarantee had begun the debt. Only the focus of the explanation remained to be chosen.",
+    "choices": [
+      {
+        "text": "Explain the records and his actions in chronological order",
+        "result_text": "{name} recited everything, from the case number on the paid-in-full certificate to the record now in his hands. Father listened to the end. \"Trusting that man was my part,\" he said. \"Don't turn your choice into another piece of my debt.\"\n\nThe facts lay precisely between them. {name} never managed to say he had been afraid. The call became orderly, but his son's voice remained as dry as a report."
+      },
+      {
+        "text": "\"What I did after that was my choice. I won't make excuses.\"",
+        "result_text": "Father drew a short breath. \"Right. If you chose it, you have to look at it.\" After a pause he added, \"That doesn't mean you have to look alone.\"\n\n{name} did not use Sangchul or the debt as an excuse. In taking responsibility back into his own sentence, he also gave up the chance to say why he had chosen that way. They remained connected in silence for a while."
+      },
+      {
+        "text": "\"When you wrote your name in the guarantor field, what did Sangchul say?\"",
+        "result_text": "Father was silent a long time. \"He said Park Sang-jin could be trusted. Said I only had to fill in the guarantor field.\" His voice fell. \"I suppose I wanted to believe him too.\"\n\n{name} pictured the paper at the other end of the line. He finally recovered the sentence spoken over the guarantee, but the words meant to explain his own choice stopped before it. After the call ended, ‘only the guarantor field’ remained in the room."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_truth_heard_by_hyunsu",
+    "title": "The Copies Hyunsu Opened",
+    "description": "At a corner table in the café, Hyunsu aligned the copies {name} had handed him from the first page: the case number on the paid-in-full certificate, Park Sang-jin in the article, and Lim Sangchul in the closed registry. {name} had already told him what Sangchul said in the café and what answer he gave. The facts now lay before Hyunsu and could not be redirected to someone else.\n\nHyunsu stared at the papers before speaking. \"Hyung, so that man knew who you were from the beginning?\" When {name} nodded, Hyunsu's fingertips stopped. \"This isn't something that ends because the numbers match.\"\n\nIt was neither comfort nor a verdict. Copies and cooling coffee remained between them. He now had to decide how much of the burden to place in Hyunsu's hands.",
+    "choices": [
+      {
+        "text": "Add nothing and let him review every number and original line",
+        "result_text": "While matching dates, Hyunsu underlined the redacted final-digit field in the article. \"This part has to stay unknown, hyung. You can't write it as if it matches.\"\n\n{name} erased one overconfident line from his notes. The record became more honest. For a while, however, they sat not as friends but as reviewer and submitter. Hyunsu's first question received no emotional answer."
+      },
+      {
+        "text": "Before the documents, tell his friend why he brought the story here",
+        "result_text": "{name} said he was not asking Hyunsu to judge. He simply did not want to be the only person who knew. Hyunsu folded the copies and set them down. \"Then I won't ask whether you did the right thing. I'll ask whether you're all right now.\"\n\nThe numerical review remained unfinished. Hyunsu looked at {name} instead of the paper. Time for arranging facts and time for remaining friends exchanged places."
+      },
+      {
+        "text": "\"Just hear me. Don't contact Sangchul or investigate further.\"",
+        "result_text": "Hyunsu bit his lip, then slid the copies back toward {name}. \"All right. I won't move without your permission. But don't make it into something that never happened, hyung.\"\n\nThe boundary became exact. So did the loss of any investigation or call Hyunsu might have shared. {name} gathered the copies again while Hyunsu, empty-handed, held only his coffee cup."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_truth_heard_by_none",
+    "title": "The Unsent Sentence",
+    "description": "Late that night, after the month's appointments and alerts had all gone quiet, {name} sat alone at the desk in his current room. An unsent sentence remained open on the laptop: ‘I need to tell you about Sangchul.’ The recipient field was blank. The fact that no one had heard him this month was visible as one empty box.\n\nBeside it lay a personal clear folder holding the paid-in-full certificate and a folded copy of the article. It was not a copy being filed anywhere, nor an envelope promised to anyone. Each past hour already carried its mark on the calendar; none could be taken back and spent on a different act. Only the aftermath of being unheard remained: save the dated statement, seal the personal copy without a destination, or erase the draft and keep one question for later.",
+    "choices": [
+      {
+        "text": "Keep the unsent statement in his notebook with the date",
+        "result_text": "{name} copied down the answer he had given Sangchul and what frightened him now. At the bottom he added the date and, ‘Heard by no one.’\n\nThe sequence of the case and his own words remained. A recipient never appeared. When he closed the notebook, the loss became clearer: recording something exactly and telling it to another person were not the same act."
+      },
+      {
+        "text": "Seal the personal copies in an envelope with no destination",
+        "result_text": "{name} ordered the paid-in-full certificate and article copy, then placed them in an envelope. On the front he wrote only today's date and ‘personal copies.’ He added no recipient.\n\nThe pages could no longer scatter, but the choice inside them reached no human voice. Once the envelope closed, the unsent sentence remained open on the screen and the room's silence grew more solid."
+      },
+      {
+        "text": "Delete the draft and leave only ‘Who can I say this in front of?’ on the calendar",
+        "result_text": "{name} erased the long statement and emptied the trash. In the next blank space on the calendar he wrote only, ‘Who can I say this in front of?’ He attached neither a person's name nor a time.\n\nThe question remained; today's exact words disappeared. No one having heard him remained true as well. In the dark screen, his face overlapped faintly with a question that had no one waiting for it."
+      }
+    ]
   }
 ]

@@ -201,6 +201,42 @@
     ]
   },
   {
+    "id": "arc_y3_father_deferred_call",
+    "title": "A Call Before the Blank",
+    "background": "current_housing",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "chapter3",
+      "father",
+      "author_only"
+    ],
+    "cooldown": 9999,
+    "description": "At 8:12 on Sunday evening, {name} reopened the comparison sheet he had completed that week before dialing Father. It placed the names, addresses, and guarantee clauses from Father's repayment papers and the current contract in the same order. Confirmed text was black. Only the route by which Father's document had first arrived remained blank.\n\nFather answered on the third ring. “Yeah. Have you eaten?” After one exchange about the weather in Seoul and Changwon, he asked, “That why you called?”\n\nThree sentences sat side by side in {name}'s notes: ‘Who brought it first?’ ‘I put off visiting all weekend.’ ‘Next Sunday, eight.’ He had already compared the papers and chosen this call to ask about the source. What remained was which sentence would carry the question into the open.",
+    "choices": [
+      {
+        "text": "Ask the source first: “Who brought this guarantee paper to you?”",
+        "result_text": "“This guarantee paper. Who brought it to you first?”\n\nFather did not answer for a while. “Someone I was introduced to brought it. Can't remember the name now.” Then, more quietly, “Why are you looking for that?”\n\n{name} wrote ‘person who was introduced—name unverified’ in the blank. The source narrowed by one step. He still did not say that he had put off the hospital visit all weekend."
+      },
+      {
+        "text": "Before the question, admit that he put off the hospital visit all weekend",
+        "result_text": "“Dad. Last weekend, I said I'd visit, then put it off until the weekend was over.”\n\nOne long breath crossed the line. “I see.” Father said only that. He did not ask why {name} had postponed it.\n\n{name} offered no excuse. The call log now held the time during which both men knew what had happened. The comparison sheet remained blank because he never asked where the document had come from."
+      },
+      {
+        "text": "If now is difficult, set next Sunday at eight to ask again",
+        "result_text": "“If it's hard to talk now, I'll call next Sunday at eight. Have the document open then.”\n\nAfter a pause, Father repeated, “Eight.” {name} entered the document's filename beside Father's name in the calendar.\n\nHe learned no source tonight. What remained beside the ended-call screen was the exact date and time when he would ask for the answer again."
+      }
+    ]
+  },
+  {
     "id": "arc_late_game_push",
     "title": "Twelve-Week Check",
     "description": "Three months had passed since the final year began.\n\n{name} printed the order history and spread it across the desk. There were two more red lines than green ones. One square remained before the loss limit written in the notebook.\n\nThe first train passed outside. The question was not how the story ended. It was whether to spend that final square today.",
@@ -273,6 +309,41 @@
       {
         "text": "Message asking to get at least part of it back.",
         "result_text": "\"Why all of a sudden? Don't you trust me?\" Jaehyuk's reply came back in five minutes.\n\nThat fast reply — somehow made it worse."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_jaehyuk_waiting_screen",
+    "title": "The 1 Left on the Screen",
+    "background": "current_housing",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "jaehyuk",
+      "author_only"
+    ],
+    "cooldown": 9999,
+    "description": "At 11:38 p.m., {name} opened three screens on his phone. His 7:14 message to Jaehyuk — ‘Can you talk tonight? I need to check something’ — still showed the small unread 1. Above it was Jaehyuk's unopened nineteen-page ‘Terms_Final.pdf.’ A deposit-account copy from the hotel listed the bank, account number, and recipient, but not how it connected to the terms.\n\nTwenty-two minutes remained before midnight. {name} had chosen to send one final question with that deadline now. He still had to decide whether to ask about Jaehyuk's intent, demand the source details, or say he would request an independent review. Whichever he chose would be the final question sent.",
+    "choices": [
+      {
+        "text": "Ask by midnight only whether Jaehyuk intends to keep explaining the transaction",
+        "result_text": "{name} sent, ‘Do you intend to keep explaining this transaction? Answer only that by midnight tonight.’ The sent time read 11:39 p.m.\n\nHe showed neither the terms nor the deposit-account copy to anyone else. The question also stayed between the two of them. But the issuer, original link, and recipient's relationship all remained outside this last sentence."
+      },
+      {
+        "text": "Demand the issuer, original link, and recipient's relationship together by midnight",
+        "result_text": "{name} sent, ‘Can you provide the issuer of these terms, the original link, and the recipient's relationship exactly as written by midnight?’ For the first time, the document name and account name occupied the same bubble.\n\nAll three items and the deadline remained in the 11:40 p.m. sent record. He had not opened the material to a third person, but this sentence left less room for their chat to slide back into casual greetings."
+      },
+      {
+        "text": "Say he will request an independent review, then ask Jaehyuk to identify errors by midnight",
+        "result_text": "{name} sent Jaehyuk, ‘I'm going to request an independent review of this material. Which facts are wrong? Identify them precisely by midnight.’\n\nThe sent record held both the notice of outside review and the reply deadline. The material still remained between the two of them, but the possibility of keeping the conversation private disappeared with the final question."
       }
     ]
   },
@@ -932,6 +1003,43 @@
       {
         "text": "Called dad",
         "result_text": "\"Getting along okay?\" Dad asked. Said yes. It wasn't a lie.\n\nHis voice sounded a little older. That stayed with {name}."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_birthday_father_call",
+    "title": "The Voice Before Midnight",
+    "background": "current_housing",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "chapter3",
+      "father",
+      "birthday",
+      "author_only"
+    ],
+    "cooldown": 9999,
+    "description": "At 11:47 on his birthday night, the call {name} placed connected on the third ring. “What. Birthday's almost over.” A caught breath followed Father's first words. ‘Happy birthday’ on a screen and the voice reaching him now were not the same sentence.\n\n“Have you eaten?”\n“I did. You?”\n\nThe clock above the call left thirteen minutes before midnight. A photograph of the repayment confirmation remained open on the desk, with a question mark beside the issuing office. {name} could ask first about Father's voice tonight, bring out the remaining document question now, or close the file and give the last minutes of thirty-five only to the call. The call had already begun. What remained was what he would listen for first.",
+    "choices": [
+      {
+        "text": "“What's wrong with your voice?” Ask about Father tonight first",
+        "result_text": "“What's wrong with your voice? You're not sick, are you?”\n\n“I'm not sick. Just haven't talked much today.” Father took a drink of water. When he answered again, his voice had loosened from the first words.\n\n{name} left the document open and listened through Father's breaths and short replies. The call ended at six minutes and twenty-one seconds. The question mark beside the issuing office remained."
+      },
+      {
+        "text": "Ask one sentence now about who issued the repayment confirmation",
+        "result_text": "“Dad, after the last payment, where did you get this repayment confirmation?”\n\n“The court issued it.” Father paused. “You called on your birthday to ask about that paper?”\n\n{name} replaced the question mark beside ISSUING OFFICE with COURT. One confirmed field remained, but neither man found his way back to the birthday before the call ended at 11:54."
+      },
+      {
+        "text": "Close the document and say, “Don't hang up until midnight”",
+        "result_text": "{name} closed the repayment confirmation. “I won't ask about that tonight. Just don't hang up until midnight.”\n\nFather asked about dinner again without asking why. When the answer ended, neither man made another sentence. As the clock changed to 12:00, Father said, “It's midnight. Get some sleep now.”\n\nThe call log read twelve minutes and forty-one seconds. The document's question mark remained, and the final minutes of thirty-five passed with Father still on the line."
       }
     ]
   },
