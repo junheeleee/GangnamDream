@@ -127,7 +127,9 @@
 - 기존 `arc_father_call_on_ktx`와 memory/number follow-up 체인,
   `arc_father_passing`·`arc_father_passing_hospital_room`, `arc_year4_close`는 이번
   exact receipt 원고의 gameplay skeleton과 양립하지 않으므로 전체 object를 선언
-  commit과 동일하게 보존한다. 새 8개 author-only root만 이번 판정 단위로 센다.
+  commit과 동일하게 보존한다. 새 8개는 **reference-only author-only 원고**로 이번
+  판정 단위에는 세되 story_map lifecycle·도달·실행 완료 주장에서는 제외한다. 후속
+  routing 오더가 legacy root 교체와 exact receipt selector 등록부터 소유한다.
 - M45의 ask receipt는 검토 계속 의향만 보장한다. 자필 동의·서명·접수는 M55/M57이
   실제로 생산하기 전까지 쓰지 않는다.
 - M46은 월간 same-axis 규칙상 가능한 exact set만 쓴다. 다은·지연 기준은 trust축
@@ -169,7 +171,9 @@ JSON object로 보존한다. `story_rules`, DataRegistry, 런타임·UI·저장�
   follow-up object도 전체 object가 선언 commit과 동일하다.
 - [ ] 신규 KO description은 300~800자이고, 각 선택은 현재 행동·즉시 손실·인물 반응이
   서로 달라 어느 하나가 다른 선택을 공짜로 포함하지 않는다.
-- [ ] M39/M41/M42/M44/M45/M46/M47/M48의 exact actor·selected receipt 표와 원고가 일치한다.
+- [ ] M39/M41/M42/M45/M46의 현재 story_map exact actor·selected receipt 표와 원고가
+  일치한다. M44/M47/M48 신규 8개는 ORDER의 reference selector와 원고가 일치하며,
+  map 도달성 검증 대상이 아님을 별도 표기한다.
 - [ ] M01~M36 기존 root object가 선언 commit과 동일하다.
 - [ ] strict duplicate-key JSON, story-map normal/self-test, 한영 coverage, story consistency,
   speech register, exact-scope contract, `audit_select --list`, `git diff --check`를 통과한다.
