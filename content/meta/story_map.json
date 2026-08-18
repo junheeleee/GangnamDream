@@ -592,9 +592,9 @@
                 "axis": "route.m09.relationship_reentry",
                 "base_values": ["daeun"],
                 "fallbacks": [
-                  {"values": ["jiyeon"], "root": "arc_y1_jiyeon_relationship_reentry", "work": "NEW", "rule_status": "planned", "channel": "in_person", "cast": ["player", "jiyeon"], "reads": {"memories": ["memory.m05_first_priority"], "decision": null, "carryovers": []}, "forgone": ["다은과 현수의 이번 재진입"]},
-                  {"values": ["hyunsu"], "root": "arc_y1_hyunsu_relationship_reentry", "work": "NEW", "rule_status": "planned", "channel": "message", "cast": ["player", "hyunsu"], "reads": {"memories": ["memory.m05_first_priority"], "decision": null, "carryovers": []}, "forgone": ["다은과 지연의 이번 재진입"]},
-                  {"values": ["*"], "root": "arc_y1_relationship_reentry_none", "work": "NEW", "rule_status": "planned", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m05_first_priority"], "decision": null, "carryovers": []}, "forgone": ["이번 달 먼저 찾을 관계"]}
+                  {"values": ["jiyeon"], "root": "arc_y1_jiyeon_relationship_reentry", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "jiyeon"], "reads": {"memories": ["memory.m05_first_priority"], "decision": null, "carryovers": []}, "forgone": ["다은과 현수의 이번 재진입"]},
+                  {"values": ["hyunsu"], "root": "arc_y1_hyunsu_relationship_reentry", "work": "EXPAND", "rule_status": "needs_rule", "channel": "message", "cast": ["player", "hyunsu"], "reads": {"memories": ["memory.m05_first_priority"], "decision": null, "carryovers": []}, "forgone": ["다은과 지연의 이번 재진입"]},
+                  {"values": ["*"], "root": "arc_y1_relationship_reentry_none", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m05_first_priority"], "decision": null, "carryovers": []}, "forgone": ["이번 달 먼저 찾을 관계"]}
                 ]
               },
               "forgone": ["먼저 찾지 않은 사람의 즉시 재회"]
@@ -989,9 +989,9 @@
                 "axis": "route.m20.chosen_door",
                 "base_values": ["sangchul"],
                 "fallbacks": [
-                  {"values": ["jiyeon"], "root": "arc_y2_jiyeon_chosen_door", "work": "NEW", "rule_status": "planned", "channel": "in_person", "cast": ["player", "jiyeon"], "reads": {"memories": ["memory.m17_favor_price", "memory.m19_hyunsu_new_path"], "decision": null, "carryovers": []}, "forgone": ["상철과 카지노의 이번 문"]},
-                  {"values": ["casino"], "root": "arc_y2_casino_chosen_door", "work": "NEW", "rule_status": "planned", "channel": "in_person", "cast": ["player", "sangchul"], "reads": {"memories": ["memory.m17_favor_price", "memory.m19_hyunsu_new_path"], "decision": null, "carryovers": []}, "forgone": ["상철과 지연의 이번 문"]},
-                  {"values": ["*"], "root": "arc_y2_chosen_door_none", "work": "NEW", "rule_status": "planned", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m17_favor_price", "memory.m19_hyunsu_new_path"], "decision": null, "carryovers": []}, "forgone": ["이번 달 실제로 들어갈 문"]}
+                  {"values": ["jiyeon"], "root": "arc_y2_jiyeon_chosen_door", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "jiyeon"], "reads": {"memories": ["memory.m17_favor_price", "memory.m19_hyunsu_new_path"], "decision": null, "carryovers": []}, "forgone": ["상철과 카지노의 이번 문"]},
+                  {"values": ["casino"], "root": "arc_y2_casino_chosen_door", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "sangchul"], "reads": {"memories": ["memory.m17_favor_price", "memory.m19_hyunsu_new_path"], "decision": null, "carryovers": []}, "forgone": ["상철과 지연의 이번 문"]},
+                  {"values": ["*"], "root": "arc_y2_chosen_door_none", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m17_favor_price", "memory.m19_hyunsu_new_path"], "decision": null, "carryovers": []}, "forgone": ["이번 달 실제로 들어갈 문"]}
                 ]
               },
               "forgone": ["다른 네트워크의 이번 창", "혼자 버는 안전"]
@@ -1082,8 +1082,8 @@
                   {
                     "values": ["*"],
                     "root": "arc_y2_relationship_fork_unattached",
-                    "work": "NEW",
-                    "rule_status": "planned",
+                    "work": "EXPAND",
+                    "rule_status": "needs_rule",
                     "channel": "internal",
                     "cast": ["player"],
                     "reads": {"memories": ["memory.m15_first_priority"], "decision": null, "carryovers": []},
@@ -1223,8 +1223,8 @@
                   {
                     "values": ["avoided"],
                     "root": "arc_y3_father_avoidance_document",
-                    "work": "NEW",
-                    "rule_status": "planned",
+                    "work": "EXPAND",
+                    "rule_status": "needs_rule",
                     "channel": "internal",
                     "cast": ["player"],
                     "reads": {"memories": [], "decision": "story.father_hospital_door", "carryovers": ["boss_choice", "protected_commitment"]},
@@ -1347,7 +1347,7 @@
                 "base_values": ["jiyeon_departure"],
                 "fallbacks": [
                   {"values": ["daeun_continues"], "root": "arc_daeun_year3_together", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "daeun"], "reads": {"memories": ["memory.m09_relationship_reentry"], "decision": null, "carryovers": []}, "forgone": ["지연과 나누지 못한 늦은 말"]},
-                  {"values": ["*"], "root": "arc_y3_relationship_departure_unattached", "work": "NEW", "rule_status": "planned", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m09_relationship_reentry"], "decision": null, "carryovers": []}, "forgone": ["이어진 관계의 작별 장면"]}
+                  {"values": ["*"], "root": "arc_y3_relationship_departure_unattached", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m09_relationship_reentry"], "decision": null, "carryovers": []}, "forgone": ["이어진 관계의 작별 장면"]}
                 ]
               },
               "forgone": ["떠나기 전 마지막 대화"]
@@ -1426,7 +1426,7 @@
                 "base_values": ["ghosted"],
                 "fallbacks": [
                   {"values": ["countered"], "root": "arc_jaehyuk_04b_counter", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "jaehyuk"], "reads": {"memories": ["memory.m27_jaehyuk_pitch"], "decision": "story.first_illegal_offer", "carryovers": []}, "forgone": ["재혁을 놓친 채 서류만 추적하는 길"]},
-                  {"values": ["*"], "root": "arc_y3_jaehyuk_no_contact", "work": "NEW", "rule_status": "planned", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m27_jaehyuk_pitch"], "decision": "story.first_illegal_offer", "carryovers": []}, "forgone": ["재혁의 직접 반응을 확인할 기회"]}
+                  {"values": ["*"], "root": "arc_y3_jaehyuk_no_contact", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m27_jaehyuk_pitch"], "decision": "story.first_illegal_offer", "carryovers": []}, "forgone": ["재혁의 직접 반응을 확인할 기회"]}
                 ]
               },
               "forgone": ["친구로 돌아갈 가능성", "피해자의 신뢰"]
@@ -1505,7 +1505,7 @@
                 "base_values": ["records_match"],
                 "fallbacks": [
                   {"values": ["father_confession"], "root": "arc_father_06_confession", "work": "EXPAND", "rule_status": "mapped", "channel": "in_person", "cast": ["player", "father"], "reads": {"memories": ["memory.m04_cold_coffee", "memory.m30_same_signature"], "decision": null, "carryovers": []}, "forgone": []},
-                  {"values": ["*"], "root": "arc_y3_truth_unproven", "work": "NEW", "rule_status": "planned", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m04_cold_coffee", "memory.m30_same_signature"], "decision": null, "carryovers": []}, "forgone": []}
+                  {"values": ["*"], "root": "arc_y3_truth_unproven", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m04_cold_coffee", "memory.m30_same_signature"], "decision": null, "carryovers": []}, "forgone": []}
                 ]
               },
               "forgone": []
@@ -1632,8 +1632,8 @@
                 "axis": "route.m35.selected_listener",
                 "base_values": ["father"],
                 "fallbacks": [
-                  {"values": ["hyunsu"], "root": "arc_y3_truth_heard_by_hyunsu", "work": "NEW", "rule_status": "planned", "channel": "in_person", "cast": ["player", "@truth_listener"], "role_bindings": {"truth_listener": {"kind": "literal", "actor_id": "hyunsu"}}, "distinct_roles": ["@truth_listener"], "reads": {"memories": ["memory.m23_hospital_door", "memory.m34_network_after_truth"], "decision": "story.sangchul_truth_resolution", "carryovers": []}, "forgone": ["아버지에게 먼저 말할 기회"]},
-                  {"values": ["*"], "root": "arc_y3_truth_heard_by_none", "work": "NEW", "rule_status": "planned", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m23_hospital_door", "memory.m34_network_after_truth"], "decision": "story.sangchul_truth_resolution", "carryovers": []}, "forgone": ["이번 달 진실을 들을 사람"]}
+                  {"values": ["hyunsu"], "root": "arc_y3_truth_heard_by_hyunsu", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "@truth_listener"], "role_bindings": {"truth_listener": {"kind": "literal", "actor_id": "hyunsu"}}, "distinct_roles": ["@truth_listener"], "reads": {"memories": ["memory.m23_hospital_door", "memory.m34_network_after_truth"], "decision": "story.sangchul_truth_resolution", "carryovers": []}, "forgone": ["아버지에게 먼저 말할 기회"]},
+                  {"values": ["*"], "root": "arc_y3_truth_heard_by_none", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m23_hospital_door", "memory.m34_network_after_truth"], "decision": "story.sangchul_truth_resolution", "carryovers": []}, "forgone": ["이번 달 진실을 들을 사람"]}
                 ]
               },
               "forgone": ["먼저 말하지 않은 사람의 증언"]

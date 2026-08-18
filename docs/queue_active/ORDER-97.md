@@ -27,36 +27,37 @@ JA/ZH가 해당 key를 가질 수 없고 EN fallback이 영구적으로 남는�
 
 ## 고정 전수 원장과 두 배치
 
-착수 실측의 raw 후보 55개를 정확히 다음 네 종류로 분류한다.
+착수 실측의 raw 후보 55개에 W1 지원서 완료 표면 한 건이 추가되어, 현재 정본은
+raw 후보 56개를 정확히 다음 네 종류로 분류한다.
 
-- **이동 47호출 / 42템플릿:** lookup 전에 값을 끼우는 player-facing UI.
+- **이동 48호출 / 43템플릿:** lookup 전에 값을 끼우는 player-facing UI.
 - **동적 pair reader 4:** 이미 별도 KO/EN 데이터의 완성값을 읽으므로 이동 금지.
 - **branch-selected literal 2:** 분기 뒤 정적 문자열을 고르며 preformat 결함이 아님.
 - **locale money formatter 2:** `SeoulCycleBoard::_format_money`와
-  `CommitmentTask::_format_money`은 47개 template 호출에 섞지 않고, 정확한
+  `CommitmentTask::_format_money`은 48개 template 호출에 섞지 않고, 정확한
   1원 단위·부호·쉼표를 보존하는 LocaleManager 소유 formatter 하나로 합친다.
 
-47호출의 파일별 정확한 수는 `GameState 4 + MainGame 1 +
+48호출의 파일별 정확한 수는 `GameState 4 + MainGame 2 +
 CommunicationPhone 3 + ArubaGame 1 + StartMenu 16 + StoryMode 7 +
-SeoulCycleBoard 2 + CoreLoopPlanner 13 = 47`이다. Batch A의 첫 단위는
-manifest에 path·함수·KO/EN 템플릿·placeholder signature·count와 위 55개
+SeoulCycleBoard 2 + CoreLoopPlanner 13 = 48`이다. Batch A의 첫 단위는
+manifest에 path·함수·KO/EN 템플릿·placeholder signature·count와 위 56개
 전수 disposition을 exact registry로 먼저 기록한다. 그 registry가 완성되기 전에는
 제품 호출을 옮기지 않는다. unclassified·duplicate·stale·편의상 추가한 호출은 실패다.
 
 - **배치 A 23단위:** `StartMenu 16 + StoryMode 7`. 시작·기록·설정·장면 표면을
   실제 gallery/story 화면과 함께 닫는다.
-- **배치 B 24단위:** 나머지 `4+1+3+1+2+13=24`와 별도 money formatter 두
+- **배치 B 25단위:** 나머지 `4+2+3+1+2+13=25`와 별도 money formatter 두
   owner를 함께 닫는다. 서울 보드의 날짜·남은 여력·정확 원화와 재고조사 수당을
   실제 core-loop 화면에서 확인한다.
 
-42템플릿 중 기존 `슬롯 %d` 한 개를 제외한 41개가 새 legacy key 후보다.
+43템플릿 중 기존 `슬롯 %d` 한 개를 제외한 42개가 새 legacy key 후보다.
 첫 collector 뒤 branch-selected literal의 6개 안정 key, planner의 고정 일정·STEP3
 상태 key와 기존 lookup-before-format 경계를 숨기지 않도록 원장을 확장했다. 최종
-실측은 `total 3,310 = legacy lookup 3,273 + context 37`, 한국어 legacy key
-2,780, JA `legacy 2,780/2,780 + context 30/30 = 2,810/2,810`이다. raw 후보
-55개의 disposition은 그대로이며, 그 밖의 기존 안전 호출을 provenance 때문에
+실측은 `total 3,323 = legacy lookup 3,286 + context 37`, 한국어 legacy key
+2,792, JA `legacy 2,792/2,792 + context 30/30 = 2,822/2,822`이다. raw 후보
+56개의 disposition은 그대로이며, 그 밖의 기존 안전 호출을 provenance 때문에
 `ui_format`으로 옮긴 2건(Aruba 상태 문장·연도 선택 회상)은 supplemental 원장으로
-분리한다. 따라서 런타임 `ui_format`은 49호출이고, KO/EN 인자가 다른 경로 15건도
+분리한다. 따라서 런타임 `ui_format`은 50호출이고, KO/EN 인자가 다른 경로 15건도
 별도 exact 원장으로 잠근다.
 
 ## lookup·format 계약
@@ -154,6 +155,19 @@ Pretendard, 한자는 fallback Noto Sans JP로 갈린 것과, variable Noto의 �
 - 기존 ‘포맷과 무관한 UI 리팩터링 비범위’에는 이 확인된 단일 P1 수리만
   예외이며, 카드 재설계·맵 폭 변경·스크롤 추가·다른 연출 변경으로 넓히지 않는다.
 
+## 2026-08-18 현재 소스 정합
+
+- lookup→format 구현과 L1/L2는 완료됐다. 현재 원장은
+  `56=48+4+2+2`, 43템플릿, 런타임 `ui_format` 50호출,
+  `3,323=3,286+37`, legacy 2,792키로 다시 수집돼 self-test를 통과한다.
+- M01~M06 원고 수정 뒤 낡았던 데모 원문 계약을 현재 `72사건·467본문·701동적·
+  4자산`으로 갱신했다. 이 숫자는 번역 완료가 아니라 번역할 정본의 현재 범위다.
+- 기존 active `demo_rc`는 이 후속 소스보다 오래됐다. ORDER-97을 닫으려면 현재
+  소스에서 후보를 다시 발급한 뒤 Batch A 23표면과 Batch B 25표면에서 사용자가
+  각각 임의 3개를 판정해야 한다. 자동 검사는 이 두 L3를 대신하지 않는다.
+- 사건·엔딩·중국어 본문 번역은 여전히 이 오더의 비범위다. 빈 중국어 UI와
+  JA/ZH 엔딩 overlay는 누락 산출물이 아니라 별도 번역 승인을 기다리는 skeleton이다.
+
 ## 비범위
 
 - JA·zh-CN·zh-TW 사건 본문·동적 UI·엔딩·catalog 번역과 `--allow-body` 해제
@@ -164,26 +178,26 @@ Pretendard, 한자는 fallback Noto Sans JP로 갈린 것과, variable Noto의 �
 
 ## 검증·완료 조건
 
-- 전수 원장 `55 = migrate 47 + dynamic reader 4 + branch literal 2 + money
-  formatter 2`, 잔여 preformat lookup 0, 47 owner count exact를 증명한다. 두
+- 전수 원장 `56 = migrate 48 + dynamic reader 4 + branch literal 2 + money
+  formatter 2`, 잔여 preformat lookup 0, 48 owner count exact를 증명한다. 두
   money formatter는 locale owner 하나를 공유하고 KO/EN byte exact와
   JA/zh-CN/zh-TW unit·부호·쉼표를 표적 검사한다.
-- supplemental lookup-before-format 2건, 전체 runtime `ui_format` 49건,
+- supplemental lookup-before-format 2건, 전체 runtime `ui_format` 50건,
   target/English argument provenance 15건을 exact registry와 self-test로 잠근다.
 - collector의 실제 total/legacy/context/key/hash와 JA/ZH 분모를 manifest·정본에
   승격한다. 예상값을 맞추려고 호출이나 template을 임의로 합치지 않는다.
 - API는 KO/EN byte 동일, built-in/community hit, legacy fallback, miss→EN,
   template miss dedupe·refresh, placeholder mismatch fail-closed를 증명한다.
 - JA inventory/self-test/UI audit, ZH skeleton/self-test, I18n/ModLayer,
-  demo `471/657/4/0`·body hold·shipping KO/EN, 전체 audit·EN coverage·diff를 통과한다.
+  demo `467/701/4/0`·body hold·shipping KO/EN, 전체 audit·EN coverage·diff를 통과한다.
 - 실제 JA `core-loop-v2`, `gallery`, `story-en`, `i18n-layout`을 1280×800에서
   확인하고 서울 보드의 `WEEK`, `MONTHLY CAPACITY LEFT`, `won` 잔류를 0으로
   만든다. KO/EN 두 해상도 surface도 같은 리비전에서 다시 돈다.
 - `FontRoutingCheck`를 전체 감사와 변경 파일 selector에 등록하고 JA
   `i18n-layout`과 실제 core-loop/gallery/story 표면에서 가나·한자 굵기 혼합,
   잘림, 줄바꿈 회귀가 없음을 같은 최종 리비전으로 다시 확인한다.
-- L2는 42개 JA template을 한국어 문맥·placeholder와 전수 대조한다. L3는
-  23단위 Batch A와 24단위 Batch B에서 각각 사용자가 임의 3개 실제 표면을 보고
+- L2는 43개 JA template을 한국어 문맥·placeholder와 전수 대조한다. L3는
+  23단위 Batch A와 25단위 Batch B에서 각각 사용자가 임의 3개 실제 표면을 보고
   하나라도 틀리면 해당
   배치 전량을 반려한다. 자동 초록은 원어민·4개국어 shipping GO가 아니다.
 - 지속 lookup/format 규칙을 정본에 승격하고, 두 배치의 호출 목록·실행 로그는

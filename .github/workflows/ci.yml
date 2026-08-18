@@ -19,6 +19,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: story_map_audit.py (60개월 지도·원고 정합 + 변조 회귀)
+        run: python3 tools/story_map_audit.py --self-test
       - name: audit.py (정적 감사 7종)
         run: python3 tools/audit.py
       - name: balance_check.py (밸런스 밴드)

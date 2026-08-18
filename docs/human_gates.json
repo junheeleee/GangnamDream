@@ -632,7 +632,7 @@
       "id": "order97_ui_format_batch_a_random_three",
       "domain": "localization",
       "gate": "ORDER-97 Batch A 실제 UI 임의 3표면 대조",
-      "why": "템플릿·인자·키 수 자동 검사는 lookup provenance를 증명하지만 시작·기록·설정·장면 화면의 최종 문맥과 값이 사람에게 맞게 읽히는지는 실제 후보 표면을 봐야 한다. active demo_rc는 발급됐지만 사람 판정 증거는 아직 없다.",
+      "why": "템플릿·인자·키 수 자동 검사는 lookup provenance를 증명하지만 시작·기록·설정·장면 화면의 최종 문맥과 값이 사람에게 맞게 읽히는지는 실제 후보 표면을 봐야 한다. 현재 소스가 active demo_rc 뒤로 전진했으므로 최신 후보 재발급과 사람 판정이 모두 필요하다.",
       "owner": "ORDER-97",
       "state": "open",
       "scope": {
@@ -646,7 +646,7 @@
       "sample": {
         "cohort": "order97_batch_a_ui_format_random_three",
         "requirements": [
-          "같은 active demo_rc와 ORDER-97 exact registry에서 사용자가 서로 다른 실제 표면 3개를 임의 선택",
+          "현재 소스로 다시 발급한 같은 demo_rc와 ORDER-97 exact registry에서 사용자가 서로 다른 실제 표면 3개를 임의 선택",
           "각 표면의 KO와 EN 최종 문자열이 migration 전 authored byte와 같은지 대조",
           "일본어 사전 hit가 안정 템플릿과 대상 인자를 쓰며 영어 fallback이나 교차 언어 금액을 남기지 않는지 실제 화면에서 확인",
           "같은 최종 demo_rc의 JA StartMenu·gallery·Story·i18n-layout에서 가나·한자·일본어 문장부호가 한 Noto Sans JP 굵기로 읽히고 줄바꿈·잘림이 없는지 확인",
@@ -664,7 +664,7 @@
       "id": "order97_ui_format_batch_b_random_three",
       "domain": "localization",
       "gate": "ORDER-97 Batch B 실제 UI 임의 3표면 대조",
-      "why": "정적 원장은 남은 호출과 돈 formatter의 소유권을 증명하지만 계획판·연락폰·배달·재고조사 표면의 최종 문맥, 복수형, 고정 일정과 돈 단위는 같은 후보의 실제 화면에서 사람이 확인해야 한다. active demo_rc는 발급됐지만 사람 판정 증거는 아직 없다.",
+      "why": "정적 원장은 남은 호출과 돈 formatter의 소유권을 증명하지만 계획판·연락폰·배달·재고조사 표면의 최종 문맥, 복수형, 고정 일정과 돈 단위는 같은 후보의 실제 화면에서 사람이 확인해야 한다. W1 지원서 완료 표면이 active demo_rc 뒤에 추가돼 최신 후보 재발급과 사람 판정이 모두 필요하다.",
       "owner": "ORDER-97",
       "state": "open",
       "scope": {
@@ -672,17 +672,17 @@
           "order97-close",
           "claim:ja-demo"
         ],
-        "content": "Batch B의 GameState 4·MainGame 1·CommunicationPhone 3·ArubaGame 1·SeoulCycleBoard 2·CoreLoopPlanner 13, 총 24개 lookup-before-format 이동 표면"
+        "content": "Batch B의 GameState 4·MainGame 2·CommunicationPhone 3·ArubaGame 1·SeoulCycleBoard 2·CoreLoopPlanner 13, 총 25개 lookup-before-format 이동 표면"
       },
       "revision": "demo_rc",
       "sample": {
         "cohort": "order97_batch_b_ui_format_random_three",
         "requirements": [
-          "같은 active demo_rc와 ORDER-97 exact registry에서 사용자가 서로 다른 실제 표면 3개를 임의 선택",
+          "현재 소스로 다시 발급한 같은 demo_rc와 ORDER-97 exact registry에서 사용자가 서로 다른 실제 표면 3개를 임의 선택",
           "각 표면의 KO와 EN 최종 문자열이 migration 전 authored byte와 같은지 대조",
           "일본어 사전 hit와 영어 fallback의 인자 provenance, placeholder 결과, 고정 일정·복수형·원화 의미를 실제 화면에서 확인",
           "같은 최종 demo_rc의 JA core-loop 계획판·서울 보드·연락폰·i18n-layout에서 가나·한자·일본어 문장부호가 한 Noto Sans JP 굵기로 읽히고 줄바꿈·잘림이 없는지 확인",
-          "세 표면 중 하나라도 틀리면 표본만 고치지 않고 Batch B 24호출을 전량 재검토"
+          "세 표면 중 하나라도 틀리면 표본만 고치지 않고 Batch B 25호출을 전량 재검토"
         ]
       },
       "acceptance": [

@@ -1708,8 +1708,10 @@ def validate_commitment_causality(
                                 explicit_values.update(
                                     value for value in values if isinstance(value, str)
                                 )
-                        if fallback.get("work") != "NEW" or fallback.get("rule_status") != "planned":
-                            errors.append(f"{reader_owner}.effect.axis: non-base focus variants must be NEW planned")
+                        # Root lifecycle is checked below against the actual KO/EN and
+                        # story-rule inventories. A focus variant starts NEW/planned,
+                        # then becomes an existing EXPAND/needs_rule (or mapped) root
+                        # as soon as its manuscript and routing are authored.
                     if explicit_values != source_values or wildcard_count != 1:
                         errors.append(
                             f"{reader_owner}.effect.axis: focus coverage must exactly match source values plus one fallback"
@@ -3087,6 +3089,13 @@ def run_self_test(
         "implemented_root_marked_new",
         lambda x: month(x, 1)["beats"][0].update({"work": "NEW", "rule_status": "planned"}),
         "already exists",
+    )
+    case(
+        "implemented_focus_fallback_marked_new",
+        lambda x: month(x, 9)["beats"][0]["coverage"]["fallbacks"][0].update(
+            {"work": "NEW", "rule_status": "planned"}
+        ),
+        "NEW fallback must be absent and planned",
     )
     case_rules(
         "decision_enum_drift",

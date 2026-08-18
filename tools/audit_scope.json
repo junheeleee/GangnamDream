@@ -185,6 +185,8 @@
       "tool": "tools/story_map_audit.py",
       "why": "60개월 배치·기억 생산자/독자·장간 carryover·M01/M35/M55 세로 단면",
       "paths": [
+        "content/events/**",
+        "content/events_en/**",
         "content/meta/story_map.json",
         "content/meta/story_rules.json",
         "content/meta/narrative_spine.json",

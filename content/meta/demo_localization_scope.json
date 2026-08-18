@@ -2637,8 +2637,8 @@
     "visible_event_count": 72,
     "visible_event_ids_sha256": "4f06623c859fd557ee1080f6be676e182206b5e26f5ec276390861f89a95159e",
     "event_text_count": 467,
-    "event_text_ko_chars": 39705,
-    "event_text_sha256": "3a1e56e0ab6d9c7b24f9618f7600b97aab4c4ae02e56fd584be36a338294c3e6",
+    "event_text_ko_chars": 40742,
+    "event_text_sha256": "1c4f22902ffc1f58a4f7cfc3a97901fba4fe1f3f22bce87942a26389056da5aa",
     "event_owner_counts": {
       "content/events/arc_daeun.json": 1,
       "content/events/arc_events.json": 12,

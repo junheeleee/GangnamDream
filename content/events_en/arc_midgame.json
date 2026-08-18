@@ -203,23 +203,6 @@
   {
     "id": "arc_y3_father_deferred_call",
     "title": "A Call Before the Blank",
-    "background": "current_housing",
-    "portrait": "player_tired",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": true,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "arc",
-      "chapter3",
-      "father",
-      "author_only"
-    ],
-    "cooldown": 9999,
     "description": "At 8:12 on Sunday evening, {name} reopened the comparison sheet he had completed that week before dialing Father. It placed the names, addresses, and guarantee clauses from Father's repayment papers and the current contract in the same order. Confirmed text was black. Only the route by which Father's document had first arrived remained blank.\n\nFather answered on the third ring. “Yeah. Have you eaten?” After one exchange about the weather in Seoul and Changwon, he asked, “That why you called?”\n\nThree sentences sat side by side in {name}'s notes: ‘Who brought it first?’ ‘I put off visiting all weekend.’ ‘Next Sunday, eight.’ He had already compared the papers and chosen this call to ask about the source. What remained was which sentence would carry the question into the open.",
     "choices": [
       {
@@ -315,22 +298,6 @@
   {
     "id": "arc_y3_jaehyuk_waiting_screen",
     "title": "The 1 Left on the Screen",
-    "background": "current_housing",
-    "portrait": "player_tired",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": true,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "arc",
-      "jaehyuk",
-      "author_only"
-    ],
-    "cooldown": 9999,
     "description": "At 11:38 p.m., {name} opened three screens on his phone. His 7:14 message to Jaehyuk — ‘Can you talk tonight? I need to check something’ — still showed the small unread 1. Above it was Jaehyuk's unopened nineteen-page ‘Terms_Final.pdf.’ A deposit-account copy from the hotel listed the bank, account number, and recipient, but not how it connected to the terms.\n\nTwenty-two minutes remained before midnight. {name} had chosen to send one final question with that deadline now. He still had to decide whether to ask about Jaehyuk's intent, demand the source details, or say he would request an independent review. Whichever he chose would be the final question sent.",
     "choices": [
       {
@@ -1009,24 +976,6 @@
   {
     "id": "arc_y3_birthday_father_call",
     "title": "The Voice Before Midnight",
-    "background": "current_housing",
-    "portrait": "player_tired",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": true,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "arc",
-      "chapter3",
-      "father",
-      "birthday",
-      "author_only"
-    ],
-    "cooldown": 9999,
     "description": "At 11:47 on his birthday night, the call {name} placed connected on the third ring. “What. Birthday's almost over.” A caught breath followed Father's first words. ‘Happy birthday’ on a screen and the voice reaching him now were not the same sentence.\n\n“Have you eaten?”\n“I did. You?”\n\nThe clock above the call left thirteen minutes before midnight. A photograph of the repayment confirmation remained open on the desk, with a question mark beside the issuing office. {name} could ask first about Father's voice tonight, bring out the remaining document question now, or close the file and give the last minutes of thirty-five only to the call. The call had already begun. What remained was what he would listen for first.",
     "choices": [
       {
