@@ -466,24 +466,157 @@
     "title": "The Place It Passed Through",
     "choices": [
       {
-        "text": "Let out a long breath. I go my own way",
-        "result_text": "{name} lets out a long breath.\n\nHis name is not in the news chyron. He checks the block list and sets the phone down."
+        "text": "Check the signed-in devices and transfer limit again, then take the remaining night shifts",
+        "result_text": "{name} changed his password and lowered the daily transfer limit. The device list showed only the phone in his hand, and the recruiter's number was still sitting at the bottom of the block list.\n\nWhen he called the foreman, only the Thursday and Saturday predawn slots remained that week. {name} took both. After the call, he wrote the new shift times beside the rent reminder. The two million won he had refused had become two more mornings of labor and a balance that was still short."
       }
     ],
-  "description": "A month later, at night, he is watching the news in the room where he currently lives when a chyron scrolls past.\n\n'Burner-account recruitment ring arrested — dozens of account holders charged. Up to five years in prison or a fine of 30 million won.'\n\nThat night, the number he blocked comes back to him.\nSo does the offer of two million won he turned down.\n\nHe lies there a long while with the screen gone dark. If he had handed over his bankbook and debit card, he might now be waiting for a call from the police.\n\n{name} opens the block list, then closes it."
+  "description": "Several weeks after refusing the first offer, {name} came back to his room from a 4:20 a.m. loading shift. When he took off his gloves, the blister in his palm had split. His banking app showed the rent transfer due in three days and, first of all, the balance it could not cover. He opened the security alert and checked the signed-in devices. His own phone was the only one listed.\n\nA news chyron reported the arrest of a mule-account recruitment ring. {name} scrolled all the way down his block list to make sure that number was still there. Keeping his account had not paid the rent for him. The two million won had never arrived. What remained were two open night shifts that week and a transfer limit he needed to reset. Then the foreman texted: 'Another spot opened tonight.'"
   },
   {
     "id": "arc_temptation_fallout",
     "title": "A Return Request on the Account He Lent Out",
-    "description": "A month later, out in the rain, the bank's fraud-response team calls.\n\"A request has been filed to recover 30 million won in fraud proceeds transferred to an account in your name. The police may contact you as well.\"\n\nIt is the account {name} lent out.\nSomeone's entire savings passed through it.\n\nThe next day, the recruiter texts from another number.\n\"Clean work. Bring me a few more accounts and\nI'll pay another million apiece. You're already in this anyway.\"",
+    "description": "Some time later, out in the rain, the bank's fraud-response team called. The employee read out the times when thirty million won had entered and left the account in {name}'s name, then asked by the end of the day whether he would consent to return an initial 1.5 million won through the victim-funds process. Consent required his ID and a visit to a branch. The account was already frozen.\n\nThe date of the two-million-won payment he had first received and the time of the return request now sat together in the call record. Before the call had ended, a text from a different number covered the top of the screen.\n\n\"Clean work. Bring three more accounts, one million each. Your name is already on the list anyway.\"\n\nThe bank asked when he could authorize the return. The recruiter sent a subway-locker number. Both records stayed on the same screen.",
     "choices": [
       {
-      "text": "Block every recruiter number and agree to return 1.5 million won of what he received",
-      "result_text": "{name} scrapes together 1.5 million won from the two million he received and authorizes the bank's victim-fund return process. He closes the account he lent out and blocks every number used by the recruiter.\n\nOf the payment he received, five hundred thousand won remains unreturned. His balance falls close to the floor again, and he does not sleep for days.\nHe cannot know whether the bank will ask for more information or the police will call first."
+      "text": "Go to the branch, sign the 1.5-million-won return authorization, and close the account and numbers",
+      "result_text": "{name} handed his rain-soaked ID across the counter and signed the authorization to return 1.5 million won. While the teller stamped it received, he blocked each number the recruiter had used and filed to close the account he had lent out.\n\nThe receipt recorded his consent to return 1.5 million won and noted that further verification remained. His wallet held the closure receipt and the case officer's card. Outside the bank, the recruiter's last locker number was still visible in the blocked-notification log."
       },
       {
-      "text": "Refuse the return request, hand over three bankbook-and-card sets, and take 3,000,000 won in cash",
-      "result_text": "{name} declines the bank's return request and replies to the recruiter.\n\"I can get three.\"\n\nOver the next three days, he collects bankbooks and debit cards from three people. {name} puts all three sets in the subway locker the recruiter names and texts over the three PINs.\n\nAn hour later, an envelope holding three million won in cash waits in the same locker. {name} takes the envelope.\nEven after that, the recruiter keeps texting other people's names and account numbers in the same format. The bank's request remains in the case record; the recruiter's next demand remains in the inbox."
+      "text": "Refuse the return request and put three bankbook-and-card sets in the locker",
+      "result_text": "{name} told the bank employee he would not consent, then texted the recruiter: \"I can get three.\" Three days later, he put three sets of bankbooks and debit cards bearing other people's names into a subway locker and sent the three PINs.\n\nAn hour later, an envelope holding three million won in cash waited in the same compartment. As {name} took it out, another name and account number arrived on his phone. The banking app retained the rejected-return record; his inbox retained the next locker address."
+      }
+    ]
+  },
+  {
+    "id": "arc_y1_jiyeon_second_crossing",
+    "title": "Twenty Minutes Beyond Compensation",
+    "description": "Even after the accident settlement was over, Han Jiyeon's name remained in {name}'s chat list. He rewrote the message three times to keep compensation and the bicycle out of it, then contacted her first. 'This has nothing to do with what happened before. I would like to see you again briefly. I will wait across from that street at seven on Friday.'\n\nHer reply came fifteen minutes later. 'I can spare twenty minutes.' The standby list for the weekend loading shift {name} could have taken at that hour filled without him. On Friday, the black sedan stopped across the road, and Jiyeon crossed alone. She checked her watch once and folded her umbrella.\n\n\"If this isn't about compensation, I want to hear why you asked to see me again. Within twenty minutes.\"",
+    "choices": [
+      {
+        "text": "\"I contacted you because I was curious about Han Jiyeon, not about that day.\"",
+        "result_text": "Jiyeon did not smile right away. Instead, they stepped into a small café across the road. She set a timer on her phone, placed it on the table, and asked first about {name}'s work and why he had come to Seoul. Her questions were short, but she did not let gaps in his answers pass.\n\nWhen the twenty-minute alarm sounded, she turned it off and stood. \"This time is open next Friday too. Then you can ask the questions.\" The date went into the calendar. The closed loading-shift list stayed closed."
+      },
+      {
+        "text": "\"Instead of sitting in the car, would you walk one block with me?\"",
+        "result_text": "Jiyeon glanced back at the sedan across the road, then opened her umbrella again. \"One block.\" They avoided the alley where the accident had happened and walked along the main road. She said her driver had the day off and she had driven herself. {name} said he still had not repaired the bicycle.\n\nAt the end of the block, Jiyeon stopped. \"Next Friday, let's sit down and talk. Same time, at a café nearby.\" After she returned to the car, one exact date remained beneath the empty umbrella."
+      },
+      {
+        "text": "\"I'm sorry I asked so late. Let me buy dinner next Friday.\"",
+        "result_text": "Jiyeon's gaze moved once between {name}'s worn cuff and the restaurant sign across the street. \"If you're turning accident money into dinner money, I'm not coming.\"\n\n\"That isn't what I mean.\"\n\nAfter a silence, she opened her own calendar. \"Then we pay separately. Next Friday at seven.\" She sent him a location. On {name}'s screen, the closed work roster and the first dinner appointment he had set sat one above the other."
+      }
+    ]
+  },
+  {
+    "id": "arc_y1_jiyeon_first_bill_date",
+    "title": "The First Check",
+    "description": "On Friday evening, {name} reached the small restaurant he and Jiyeon had chosen before seven. Jiyeon also arrived alone on time and chose a table inside rather than by the window. After they ordered, a late alert surfaced on his phone: 'Work documents due 6:30 p.m.' A reply beneath it said this round would accept nothing unless he had appeared at the counter by that time.\n\nJiyeon did not ask what the alert said. She pushed the water glass toward {name}, then looked once from his eyes moving over the menu prices to the phone that would not go dark. She folded her napkin into a precise rectangle.\n\n\"Don't explain what you gave up to come here. I want to talk to the person who came today. Just don't leave your mind somewhere else while you sit here.\" The first plate arrived. The closed counter's timestamp remained on the screen.",
+    "choices": [
+      {
+        "text": "Turn the phone facedown and ask first about Jiyeon's ordinary day",
+        "result_text": "When {name} asked, \"How did you spend today?\" Jiyeon stopped her chopsticks as if the question had surprised her. Instead of naming her company or family, she talked about a proposal rejected that morning and the lunch she had skipped. {name} told her about a torn glove at the loading dock.\n\nWhen the check came, they each paid their exact share. Outside, Jiyeon said, \"That was a decent question tonight,\" and walked toward the car first. The reply from the closed work counter still waited on the facedown phone."
+      },
+      {
+        "text": "\"The truth is, I missed a 6:30 deadline. I still chose to come tonight.\"",
+        "result_text": "Jiyeon did not offer comfort first. \"Don't say you missed it because of me. {name} is the one who decided to come.\" Her voice was cool, but she did not leave. She asked why both the deadline and this promise had been pushed to the same day.\n\n{name} explained the shape of his week without making an excuse. At the register, Jiyeon paid only her share. \"Next time, don't offer what you missed as though it were a gift.\" Her words outside were composed. Only two empty plates remained at the table."
+      },
+      {
+        "text": "\"I will leave at nine. I want to set the boundary I can actually keep tonight.\"",
+        "result_text": "Jiyeon checked her watch. \"Setting the time before a meeting isn't bad. At least it means you won't vanish.\" They agreed to ask only one thing each before then. Jiyeon asked what {name} was truly looking at whenever he said Gangnam.\n\nAt nine, {name} set the check between them and paid his share first. Jiyeon paid her share at once. They parted at the exact time they had named, each carrying one question that had not been asked."
+      }
+    ]
+  },
+  {
+    "id": "arc_y1_jiyeon_relationship_reentry",
+    "title": "The Answer Left Waiting",
+      "description": "After their last meeting, the conversation with Jiyeon had stopped at one message {name} never answered. Several weeks later, on a Saturday in the ninth month, he contacted her first. 'I want to answer properly for what I brushed aside then. May I tell you in person?'\n\nJiyeon replied, 'If you know what it was you postponed,' and sent the address of a small café she chose. She sat in front of an empty glass she had not ordered. When {name} arrived, she pointed to the chair across from her instead of commenting on the delay. At that hour, other chats still held half-written lines and records of answers he had postponed, each with its own time.\n\n\"I didn't come just to hear a pleasant answer. I came to see whether the person who showed up late knows what he made wait.\" Jiyeon did not look away.",
+    "choices": [
+      {
+        "text": "\"Even without the accident, I would have been curious about Han Jiyeon.\"",
+        "result_text": "For a while, Jiyeon only touched the rim of the glass. \"That would have been easier to hear that day.\" Then she ordered coffee for the first time. {name} explained why he had been curious, and she named what had frustrated her, one sentence at a time.\n\nOutside the café, Jiyeon did not set the next appointment first. She only said, \"Don't make me wait for your reply this time.\" Beneath the finished conversation with her, other chat records where he had postponed an answer remained in {name}'s chat list."
+      },
+      {
+        "text": "\"It is also true that I was curious about the world you live in. I wanted to hide that.\"",
+        "result_text": "Jiyeon's hand left the glass. \"At least you aren't using the same word for me and my background now.\" She asked him to separate what she had received from her family name from what she had chosen herself. {name} also separated his desire for Gangnam from his reason for seeing Jiyeon again.\n\nThey reached no shared conclusion and each took a separate check. At the door, Jiyeon said, \"An honest answer isn't necessarily a comfortable one.\" Even so, she did not turn away first."
+      },
+      {
+        "text": "\"I won't dress up a late answer. Today I should apologize first.\"",
+        "result_text": "{name} named the day he had postponed his answer and the message he had read without replying to. Jiyeon let the apology reach its end without interrupting. \"Accepting an apology doesn't erase the question.\"\n\n\"I know.\"\n\nShe stood without ordering coffee, but stopped at the door and looked back. \"The next time you have an answer, say it before it becomes late.\" The glass stayed empty. One short sentence remained between them."
+      }
+    ]
+  },
+  {
+    "id": "arc_y1_jaehyuk_open_door",
+    "title": "The Workplace After the Drinks",
+    "description": "Half a year after they met again over drinks for the first time in ten years, Jaehyuk sent an evening address. 'Hey, all we did that night was talk about the old days. This time I'll show you where I work, not where I live.' {name} arrived at a small shared office where departed workers had left cups and delivery boxes behind. Jaehyuk tapped his badge to open the door, then showed him the desk he actually used and a stack of overtime meal coupons.\n\nBeside the monitor lay a morning call sheet and a contract envelope stamped RETURNED. Jaehyuk turned the envelope facedown to hide the company name.\n\n\"Minjun, this isn't me telling you to put money into anything. I'm not even in a position to say that. We talked enough about the army at the pojangmacha. Today, look at what I do here and ask me about it. Felt like all I did that night was show off.\"\n\nOn the phone, the time for Sangchul's site visit and the closing alert for the current-job review passed one after the other.",
+    "choices": [
+      {
+        "text": "\"So what do you actually do here all day?\"",
+        "result_text": "As if he had been waiting to be asked, Jaehyuk pulled over a chair and laid out a morning call sheet, returned contract envelopes, and overtime meal coupons. He talked longer about being rejected by clients and chewed out by his team lead than about any success.\n\n\"Nothing special. I swipe in scared every day too.\" Jaehyuk laughed. They split convenience-store rice triangles and left before the last bus. {name}'s screen held the two missed times alongside the company's main number, written down by Jaehyuk himself."
+      },
+      {
+        "text": "Point to the returned contract envelope and ask, \"Why did this come back?\"",
+        "result_text": "Jaehyuk rubbed the return stamp with his thumb. \"They said I led with the explanation too hard. I did the same thing when we almost missed the bus back from leave—ran first, thought later.\"\n\n\"We ran together that time.\" At {name}'s answer, Jaehyuk gave a short laugh. He showed whom he had called after the envelope came back and what he had revised, one item at a time. He never mentioned investments or returns. When they parted, he only said, \"Next time, let's go to your workplace and ask what you do there.\" Inside the locked office, the returned envelope and overtime meal coupons remained beside the monitor."
+      },
+      {
+        "text": "\"This is enough for tonight. Even with all our history, let's learn each other again slowly.\"",
+        "result_text": "Jaehyuk pouted and said, \"You were this regulation-minded in the army too,\" but followed him to the exit. He started to hand over a business card, stopped, and wrote only the company switchboard and his extension on a memo.\n\n\"Fine. Check it yourself and call if you're curious. Don't come just because you trust me.\" {name} folded the memo into his wallet and left before overtime ended. Jaehyuk could not quite hide that it stung, but he did not hold the door."
+      }
+    ]
+  },
+  {
+    "id": "arc_y1_sangchul_open_door",
+    "title": "The Address and the Introducer",
+    "description": "The map pin Sangchul sent did not lead to a Gangnam tower. It led to a two-story shop waiting to be demolished. When {name} arrived at the agreed time, Sangchul was matching the shutter number to the registered address. Instead of the paper cup from his office, he carried a folded site plan. {name} asked before he greeted him.\n\n\"Who introduced this property, and who receives the fee if I enter?\"\n\nSangchul narrowed his eyes, then opened the back of the plan. \"You checked the address first. Now you've earned the right to talk money.\" He drew lines between the owner's agent, the on-site broker, and his own office. Only the fee box at the end remained blank.\n\n\"You can't trust it just because I say it's good. But if you cut every person out and read only paper, you'll grow old at the door in Seoul. You decide how far to verify.\" The current-job review and Jaehyuk's appointment had already passed.",
+    "choices": [
+      {
+        "text": "Call the on-site broker directly and ask again about the referral chain and fee",
+        "result_text": "{name} called the number Sangchul had written and put it on speaker. The on-site broker named the owner's agent and his own share, then said Sangchul's referral fee had not yet been agreed. Sangchul did not add a word beside him.\n\nAfter the call, he wrote 'undecided' in the blank. \"You checked it in front of me. Good. Next time, check my words the same way.\" {name} took a photo of the plan with the call time visible. Sangchul folded the original again."
+      },
+      {
+        "text": "\"When the introducer and fee are settled, write them on this paper yourself.\"",
+        "result_text": "Sangchul gave a brief laugh and capped the pen. \"Start by avoiding anyone who writes down an unsettled thing as settled.\" He did not force an answer into the blank. He wrote only his own name and the date checked beneath the plan.\n\n{name} added the date he had received it. At the shutter, they each photographed the same sheet before parting. There was no investment promise and no contract. What remained on record was exactly who had not yet named a price."
+      },
+      {
+        "text": "Take only the address and registry details, and do not go inside tonight",
+        "result_text": "{name} verified that the building number matched the registered address, then returned the plan. \"I'll decide after I see more about the introducer and the amount.\"\n\nSangchul did not press him. \"Good. Rushing in just because a door opens becomes a habit too.\" He put the shutter key into his pocket. The light inside never came on as they left the alley. {name} carried away only a photo of the address and an empty fee box."
+      }
+    ]
+  },
+  {
+    "id": "arc_y1_current_route_open_door",
+    "title": "The Interview at the Slow Door",
+    "description": "In the meeting room at {name}'s current workplace, his attendance record, last quarter's duty sheet, and a contract extension lay in a row. The interviewer noted his low absence count and precise handover notes, then separated two pages. One was an extension in the same role. The other was a candidate form for a shift lead responsible for both the roster and the people on it. The lead role meant more work, but pay and authority would not be settled until final approval.\n\n\"You don't have to sign today. But leave us which one you want to examine.\"\n\nThe next shift began beyond the glass door. Alerts carrying Sangchul's site map and Jaehyuk's office-entry instructions piled up on the phone, then passed their appointment times. None of the papers promised fast money. They placed the dates he had already worked and the next contract period before an empty signature line.",
+    "choices": [
+      {
+        "text": "Ask them to separate the shift lead's duties, pay, and authority in writing",
+        "result_text": "{name} underlined 'increased responsibility' and asked, one by one, how many people he would manage, what he could approve, and when the pay would be fixed. Beside each item the interviewer could not answer, they wrote a confirmation date and signed it.\n\n{name} left the candidate form and took only a copy. The next shift was already working when he entered the corridor. Sangchul's and Jaehyuk's times were gone, but his bag held one page separating what had been promised from what had not."
+      },
+      {
+        "text": "Mark that he wants to review an extension in the same role",
+        "result_text": "{name} read the worksite and term aloud, then dated the review-interest box. Calling it \"a road that leaves a record even when it moves slowly,\" the interviewer handed him a copy. The lead-candidate form moved to the other side of the table.\n\nBy the time he left the meeting room, Jaehyuk's entry window had ended too. {name} changed into work clothes for the next shift. In his pocket was an unsigned extension folded in half."
+      },
+      {
+        "text": "Sign neither offer and request only a certificate of employment",
+        "result_text": "Without pressing him for a reason, the interviewer handed over an application for an employment certificate. {name} checked the work period and listed duties, then signed it. The extension and lead-candidate forms were taken back.\n\nOutside the building, Sangchul's map pin and Jaehyuk's entry instructions were both gray notifications. {name} had not chosen to remain deeper inside the current door, but he carried the time he had spent there away on one receipt."
+      }
+    ]
+  },
+  {
+    "id": "arc_y1_open_door_none",
+    "title": "Every Time Already Passed",
+    "description": "Three times remained side by side on that week's calendar: the current-job extension review at six on Monday, Sangchul's site address at seven on Wednesday, and Jaehyuk's office-entry appointment at eight on Friday. {name} reached none of them on time. While he finished other work, answers left waiting pushed each promise into the next one.\n\nAt 9:43 on Friday night, he finally went to the last map pin Sangchul had sent. The shop at the address had its shutter down, and only the corner of a lease notice lifted in the wind. Pressing the call button brought no sound from inside. On his phone, 'review ended,' 'site check ended,' and 'entry window ended' sat in three different chats.\n\nOnly in front of the empty address did he see the shape of three doors closing in one week. All he could still send were late words.",
+    "choices": [
+      {
+        "text": "Tell the current workplace why he was late and ask for another review without hiding it",
+        "result_text": "{name} left his name, the appointment he had missed, and two times he could return in the voicemail. He did not demand an extension or promotion. He only asked whether an interview was still possible.\n\nWhen he ended the call, the recording showed 9:51 p.m. No reply came. Sangchul's empty address remained before him, and an unsent sentence to Jaehyuk remained on the screen."
+      },
+      {
+        "text": "Send Sangchul and Jaehyuk one separate sentence of apology for each missed appointment",
+        "result_text": "To Sangchul, he wrote, 'I missed the site time. I won't ask for another proposal before checking this one.' To Jaehyuk: 'I said I'd see your workplace and failed to come. I'm sorry.' He did not copy the same apology.\n\nSangchul's chat showed only Read. Much later, Jaehyuk replied, 'So you're alive. Got it.' The shutter did not open. The two chats retained short records at two different temperatures."
+      },
+      {
+        "text": "Write the three times and addresses in his notebook, and send nothing tonight",
+        "result_text": "{name} copied the three calendar alerts into his notebook. He added neither someone to blame nor a request for another chance. When he erased the three phone drafts, the screen went quiet.\n\nHe photographed the shutter number and the empty call button, then left the alley. He had entered none of the doors that week. Beneath the three past times in the notebook, only the time he had actually arrived—9:43—remained on a fourth line."
       }
     ]
   },

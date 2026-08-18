@@ -61,6 +61,45 @@
     ]
   },
   {
+    "id": "arc_y1_hyunsu_result_fail_after_move",
+    "title": "Three Notifications on One Screen",
+    "description": "At 5:42 on Friday afternoon, a text came from the broker. \"The lease is signed and the deposit is confirmed. We'll hand you the key on the agreed date.\" Two minutes later, a message from Hyunsu covered the screen where the money for the new room had gone.\n\n\"Hyung, I didn't pass.\"\n\nThen came a request to cover a paid shift that weekend. The reply was due at six. {name} looked at the amount once and sent, \"I can't do this weekend.\"\n\nBy night, there was no sound from the shared kitchen or Hyunsu's room. Carrying a convenience-store bag with two drinks, {name} stopped outside the door at the end of the hall. Only a thin line of desk-lamp light slipped underneath, falling across an exam book inside. The deposit, Hyunsu's message, and the shift he had given up still shared one phone screen.",
+    "description_memory_if_known": {
+      "relationship_memory:hyunsu:hyunsu_exam_eve_one_problem": "Before turning down the weekend shift, {name} reopened the problem photo they had reviewed on the final Sunday before the exam. Hyunsu had said he would finish that one problem and sleep.",
+      "relationship_memory:hyunsu:hyunsu_exam_eve_rest_protected": "Before turning down the weekend shift, {name} remembered Hyunsu's answer the night before the exam: \"I'll set my alarm and lie down. You sleep too, hyung.\" Today's failure message sat directly below it.",
+      "future_story_source:hyunsu_exam_2026:hyunsu_exam_eve_unanswered": "On the final Sunday before the exam, {name} had not answered Hyunsu's problem photo. Today, in place of that unanswered night, the first thing he sent was a refusal of the weekend shift."
+    },
+    "choices": [
+      {
+        "text": "Knock, then wait until he answers",
+        "result_text": "Only after the third knock did footsteps move inside. Hyunsu opened the door a hand's width. His eyes were swollen, and the exam book on the floor still lay open to the page he had studied.\n\n{name} prepared no consolation. He only took one drink from the bag. Hyunsu opened the door a little farther and accepted it.\n\n\"Aren't you going to say anything, hyung?\"\n\"I didn't come to find the right words today.\"\n\nThe two cans opened almost together. Neither of them mentioned the next exam after that sound."
+      },
+      {
+        "text": "Hang the bag on the handle and text that he does not have to answer",
+        "result_text": "{name} did not knock. He looped the bag over the door handle and sent a message. \"I left this outside. You don't have to answer. Be alone tonight.\"\n\nThe unread mark remained as the screen went dark. {name} walked down the stairs. His phone buzzed once when he reached the floor below, but he did not take it out.\n\nAt the end of the hall, only the closed door and the white handles of the convenience-store bag remained."
+      }
+    ]
+  },
+  {
+    "id": "arc_y1_hyunsu_relationship_reentry",
+    "title": "The Empty Cup Space",
+    "description": "At 11:18 on Friday night, after {name} transferred the first rent for his new room, Hyunsu sent a photo. It showed the shelf in their old goshiwon's shared kitchen. The square where {name}'s cup used to sit was empty. Hyunsu's face appeared nowhere in the image.\n\n\"It feels strange without your cup, hyung. Does the new place feel like somewhere a person can live?\"\n\nThree minutes later, another bubble appeared. \"I still haven't closed the box with my exam books. I don't know what I'll do yet, either. You don't have to answer.\"\n\n{name} sat against the floor of the new room and watched the screen. There was traffic outside the window, but no sound of ramyeon water boiling next door. Above the reply box remained the final exchange from the day Hyunsu said he had failed. Hyunsu had not come to this room. All that lay between them now was one photo and a blinking cursor.",
+    "choices": [
+      {
+        "text": "Send a photo of the new room and admit he is still adjusting too",
+        "result_text": "{name} framed the unpacked boxes and his cup on the floor in one shot. \"I don't know if it's fit for a person yet. I'm making it into somewhere I can live. I don't know yet either.\"\n\nAfter the sent mark appeared, Hyunsu's three typing dots came and went. A moment later, one line arrived: \"It looks like your room, hyung.\" The two photos sat one above the other in the chat."
+      },
+      {
+        "text": "Instead of offering a solution, ask whether he ate today",
+        "result_text": "\"You can close the box tomorrow. What did you eat today?\"\n\nThe answer came quickly. \"Ramyeon. The water boiled over, so I cleaned the kitchen.\"\n\n{name} sent one laughing icon. The conversation continued for a few more lines without mentioning careers or exams. Hyunsu's last bubble read, \"You should eat something too, hyung.\""
+      },
+      {
+        "text": "Say he cannot write properly now, and give a time for tomorrow's reply",
+        "result_text": "Instead of the advice he had typed and erased, {name} sent, \"I can't answer this properly now. I'll write again tomorrow at ten in the morning.\"\n\nThe unread mark vanished at once, but no reply came. {name} put Hyunsu's name in the alarm title. After the screen locked, the number 10 A.M. stayed in his head."
+      }
+    ]
+  },
+  {
     "id": "hyunsu_pivot",
     "title": "Hyunsu's New Direction",
     "description": "Hyunsu called and said, \"I'm packing. Could you come by for a minute?\" {name} went to Hyunsu's goshiwon. Hyunsu stopped packing long enough to open the door.\n\nHe was done with the civil service exam, he said. He'd prepare for a job instead. His major had been accounting; he'd start over on that road.\n\nInside the box, four years of exam books were stacked in neat rows. He wasn't throwing them out — he was packing them. \"If I sell them used, the next person can use them.\" One by one, Hyunsu laid the worn-cornered books in straight.\n\n\"It's not farther, and it's not closer. It's just a different road.\"\n\n{name} turned those words over for a long time. It was a sentence you could hold up against your own road, too.",

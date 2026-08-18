@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-08-14 03:02 UTC · dd264ba2`
+> 생성 시각 · 커밋: `2026-08-18 03:00 UTC · f5247150`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -65,10 +65,10 @@
 
 | 지표 | 값 | 뜻 |
 |---|---:|---|
-| 사건 | 1,603 | KR 이벤트 전체 |
-| 선택 2+ 사건 | 1,497 | 판정 대상 |
-| 체인(장면) | 66 | 2링크 이상 |
-| 연출 보유 사건 | 161 | 전체의 10% |
+| 사건 | 1,628 | KR 이벤트 전체 |
+| 선택 2+ 사건 | 1,522 | 판정 대상 |
+| 체인(장면) | 68 | 2링크 이상 |
+| 연출 보유 사건 | 161 | 전체의 9% |
 | 정답 선택 | 415 | 선택 2+ 사건의 27% |
 | 테마 우회 | 2,116 | UIStyle 밖 override |
 | 수동 스타일 | 260 | StyleBoxFlat 직접 생성 |
@@ -84,6 +84,9 @@
 
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
+| `ORDER-105` | M02~M12의 빈 장면과 중복 장면 20개를 실제 원고로 고친다 | 진행 | 20개 L1/L2·독립 P0/P1 0 완료 — 사용자 무작위 3개 L3 보류 |
+| `ORDER-104` | 처음부터 완결까지 22개 핵심 장면의 실제 원고를 쓴다 | 진행 | 22개+미접수 결말 1개 L1/L2 완료 — 사용자 무작위 3개 L3 보류 |
+| `ORDER-103` | M01~M06 월간 약속을 직접 고르는 독립 체험판을 만든다 | 진행 | .2 L1/L2 완료 — 사용자 외출 중 L3 보류 |
 | `ORDER-99` | SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | 진행 | BUILD 2026.08.11.3 발급·격리 실제 저장 L1/L2 완료 — 사용자 동일 저장의 1월 수첩→2월 보드 확인 대기 |
 | `ORDER-97` | LOC-0.5 값을 끼우기 전에 UI 템플릿을 번역 | 진행 | 착수 — preformat 후보 55개를 전수 분류하고 정확 47호출만 lookup→format 순서로 바꿔 JA/ZH의 영구 EN fallback을 제거 |
 | `ORDER-98` | PAD-1 포커스 레일을 의미 버튼으로 줄인다 | 진행 | 구현·L1/L2 완료, demo_rc active — 집 플레이·물리 패드 Batch A/B L3 대기 |
@@ -463,7 +466,7 @@ flowchart TD
   v2_demo_first_bill -->|"도시시설운영단 작업표를 제출한다"| v2_demo_first_bill_ledger
   v2_demo_first_bill -->|"다은이 일하는 편의점에 가서 식사를 묻는다"| v2_demo_first_bill_ledger
   v2_demo_first_bill -->|"재혁에게 먼저 이번 주 안부를 보낸다"| v2_demo_first_bill_ledger
-  v2_demo_first_bill -->|"내 방에서 이번 달 지출 장부를 맞춘다"| v2_demo_first_bill_ledger
+  v2_demo_first_bill -->|"상철이 준 빈 메모지에 이번 달 지출을 맞춘다"| v2_demo_first_bill_ledger
   v2_demo_first_bill -->|"오늘 밤 급한 유급 일을 잡는다"| v2_demo_first_bill_ledger
   v2_demo_first_bill -->|"알람만 맞추고 침대에 눕는다"| v2_demo_first_bill_ledger
 ```

@@ -15,24 +15,43 @@
     ]
   },
   {
+    "id": "arc_y1_daeun_second_crossing",
+    "title": "6:10 A.M.",
+    "description": "At 1:13 on Saturday morning, {name} sent the first message.\n\n\"Daeun, want to get breakfast after your shift this week? I'll wait for you.\"\n\nHer answer was as short as a barcode. \"6:10. Thirty minutes, that's all. If you're late, I'm leaving.\"\n\nAt 6:06, {name} was already seated in a twenty-four-hour gimbap shop two blocks from the convenience store. Daeun came in wearing a gray hoodie, slipping her night-shift name tag into its pocket. Without a register between them, she seemed unsure where to put her hands.\n\n\"You really did get here first.\"\n\"I was the one who made the appointment.\"\n\nAs the menu lay between them, a new work schedule lit up {name}'s phone. It asked for an answer by 6:30. Daeun saw the light and checked the wall clock. Their thirty minutes rested on the table as if they had not begun yet.",
+    "choices": [
+      {
+          "text": "Settle the work schedule first, then spend whatever time remains together",
+          "result_text": "{name} traded messages about start times and shift conditions. By the time the confirmation arrived, the wall clock read 6:24.\n\nDaeun unfolded the menu she had put away. \"You weren't late, exactly. But this is pretty close to not showing up, {name}.\"\n\n{name} had secured the shift and lost the time it took to order. For the few minutes left, they shared two cartons of convenience-store milk instead of a hot bowl of soup."
+      },
+      {
+        "text": "Say it first: \"I asked because I wanted to see you\"",
+        "result_text": "Daeun's hand stopped over her water glass. \"You're supposed to say things like that after we order, {name}. It's less startling.\"\n\nIt was not a refusal. She hid reddening ears behind the strings of her hood and pointed to two rolls of gimbap and one bowl of udon. At 6:30, the face-down phone buzzed once and the work standby list closed. An empty plate settled between them."
+      },
+      {
+        "text": "Let Daeun choose the food and what they talk about first",
+        "result_text": "\"Udon first, then. It tastes awful cold. We can talk after.\"\n\nDaeun chose what she wanted, not simply the cheapest thing on the menu. After the order slip went to the kitchen, the 6:30 alert appeared and the unanswered work slot went to someone else. {name} turned the phone facedown. Everything they had not asked stayed there until the steam rose."
+      }
+    ]
+  },
+  {
     "id": "arc_daeun_02_regular",
-    "title": "Regular",
-    "description": "She has {name}'s order memorized now. Triangle kimbap, sometimes cup ramyeon.\nThe late-night convenience store has become a small world just for the two of them.\nTonight, out of nowhere, she says something.\n\"I'm saving up to bring my mom here. She's alone back in the countryside.\nI knew Seoul was expensive, but... not like this.\"\n\nA life carrying the same weight as {name}'s — and it had been right there behind the counter all along.",
+    "title": "Forty Minutes Outside the Store",
+    "description": "At four on Sunday afternoon, Daeun was just ending her shift when {name} opened the convenience-store door. Another clerk took the register. Daeun pulled on a faded navy cardigan and placed tofu and eggs with discount stickers in her grocery bag. Today she was no longer the clerk, and {name} had not yet chosen anything to buy.\n\n\"It feels strange seeing you away from the counter, {name}.\"\n\nBeside the red chairs outside, Daeun checked the arrival time for her bus. A notice for this month's housing payment remained on {name}'s phone. Beyond the store sign, a path followed the stream. If he said nothing now, Daeun would carry her bag to the stop. {name} had to decide how to ask for her time.",
     "description_memory_if_known": {
-      "relationship_memory:daeun:daeun_tuesday_checkin_kept": "Before dawn on Tuesday of Week 21, {name} remembered what he had said and came back to the store. Because he had kept that one promise, this conversation did not begin by accident."
+      "relationship_memory:daeun:daeun_tuesday_checkin_kept": "Before dawn last Tuesday, {name} had actually come at the time he named. That was why Daeun did not dismiss today's question as a courtesy. She looked up from the bus schedule."
     },
     "choices": [
       {
-        "text": "Genuinely cheer her on — and pitch in when you can",
-        "result_text": "{name} helped carry her bags sometimes, and left a warm drink now and then.\nNothing big — but they'd become people who understood each other's exhaustion.\nDeep in debt himself — and yet, this warmth was something {name} didn't want to give up.\nThat night, staring at the goshiwon ceiling, her laugh surfaced out of nowhere. He didn't bother asking himself why."
+        "text": "Ask her to have dinner nearby now that her shift is over — spend more of today with her",
+        "result_text": "When {name} said, \"Dinner is on me,\" Daeun hesitated as if she too had seen the housing-payment notice. Then she set the boundary first. \"Nowhere expensive.\"\n\nThey sat by the steamed-up window of a small bunsik shop. Daeun talked about the nights when sleep still would not come after her shift. {name} did not add an answer; he listened to the end. The bill stayed pinned under a water glass. One bus had already passed."
       },
       {
-        "text": "Keep a polite distance — you can barely afford yourself",
-        "result_text": "{name} stayed warm, but never let things go deeper.\nShe noticed the boundary too and took a small step back.\nCaring costs something — and {name} couldn't afford the bill right now.\nWhether that was wise restraint or lonely avoidance, he couldn't say."
+        "text": "Ask her to walk for forty minutes, then keep the next obligation",
+        "result_text": "Daeun closed the bus screen. \"Forty minutes works. I already finished my shopping.\" {name} set an alarm and pointed toward the stream.\n\nWhen it sounded, he stopped without making an excuse. \"I have to end it here today.\"\n\nInstead of saying she was disappointed, Daeun adjusted the handles of her grocery bag. \"Precise, aren't you? Still better than disappearing without a word.\" They parted at the corner where the convenience-store light returned."
       },
       {
-        "text": "Come out with it — tell her about the 3 billion won Gangnam dream",
-        "result_text": "The words came out. For the first time, in front of this person."
+        "text": "Open the notebook and ask whether he may explain why he wrote down 3 billion won and Gangnam",
+        "result_text": "{name} opened his worn notebook. Three billion won. Five years. Gangnam. Daeun studied the grooves pressed into the paper longer than the numbers themselves.\n\n\"I don't think this is a story we can finish before my bus arrives. Come to the store tonight. Tell me then why it has to be Gangnam.\"\n\nThat night, {name} waited outside the convenience-store doors with the notebook in his pocket until the customers thinned. His prepared answer and the true one split apart on opposite sides of the glass."
       }
     ]
   },

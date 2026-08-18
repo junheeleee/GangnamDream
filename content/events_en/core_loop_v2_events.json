@@ -484,7 +484,7 @@
   {
     "id": "v2_demo_first_bill_opening",
     "title": "The First Bill",
-    "description": "At 5:52 p.m. on Friday, June 26, {name} sits down at the desk in his room with the banking app open beside his notebook.\n\n{cash_position}. This month's housing cost of {expense}, along with any loan interest, has not left the account yet; any pay still due has not arrived either.\n\n{v2_first_bill_body}\n\n{v2_first_bill_trace}\n\n{v2_first_bill_evidence}\n\nHe has not chosen anything yet. First, he decides what to look at again.",
+    "description": "At 5:52 p.m. on Friday, June 26, {name} sits down at the desk in his room with the banking app open beside his notebook.\n\n{cash_position}. This month's housing cost of {expense}, along with any loan interest, has not left the account yet; any pay still due has not arrived either.\n\n{v2_first_bill_body}\n\n{v2_first_bill_trace}\n\n{v2_first_bill_evidence}\n\nEach line holds a record he can check now and the time it will take today. Whichever line he reads first, the times on the others keep moving. None is circled yet. {name} decides what to look at first.",
     "description_memory_if_known": {
       "relationship_memory:father:father_neighbor_detail_checked": "The notebook still holds the two dates confirmed with Mr. Choi and the words “pharmacy bag.”",
       "relationship_memory:father:father_called_again_that_evening": "The notebook holds the morning text and, on the next line, the time he called again that evening.",
@@ -493,26 +493,26 @@
     "choices": [
       {
         "text": "Read Father's last message again",
-        "result_text": "{name} opens the short message from Father.\n\n“I'm fine. Don't worry about it.”\n\nThere is no diagnosis and no hospital name. The call button sits directly below the message."
+        "result_text": "{name} opens the short message from Father.\n\n“I'm fine. Don't worry about it.”\n\nThere is no name of the medicine and no mention of where he went. The call button sits directly below the message. The clock at the top of the screen turns to 5:53."
       },
       {
         "text": "Subtract this month's fixed costs from the balance",
-        "result_text": "{name} subtracts each fixed cost from the balance and copies the amount on the screen onto the first line of the notebook.\n\n{v2_first_bill_after_bills}"
+        "result_text": "{name} subtracts each fixed cost from the balance. Beside the rent, transit, and every charge that has yet to leave the account, he writes its date. He copies the final number onto the first line of the notebook.\n\n{v2_first_bill_after_bills}\n\nThe arithmetic is finished. The names and deadlines farther down the page remain."
       },
       {
         "text": "Check his wrists and back",
-        "result_text": "{name} slowly opens and closes his hands, then lifts his back away from the chair.\n\nHe checks his wrists and back for strain. Whatever he chooses tonight, they will have to bear it."
+        "result_text": "{name} slowly opens and closes his hands, then lifts his back away from the chair. Without rushing, he checks his wrists and back for any distinct pain.\n\nThe work in the notebook has not moved. Whatever he chooses tonight, this is the body that will have to finish it."
       }
     ]
   },
   {
     "id": "v2_demo_first_bill",
     "title": "The First Bill",
-    "description": "{name} writes down only the things he can still do now.\n\n{v2_first_bill_tradeoffs}\n\nOnce a deadline passes, that task can no longer be completed tonight. Finishing any of the other tasks involving people, money, or rest will also leave no time for the others. He cannot start everything and finish nothing. He has to choose one task and complete it.\n\n{name} decides which line to circle.",
+    "description": "{name} leaves in the notebook only what he can start and finish tonight.\n\n{v2_first_bill_tradeoffs}\n\nEach line names an action he can complete and the time when he must let it go. While he finishes one, the times on the rest keep moving. He cannot touch everything and complete nothing.\n\n{name} circles exactly one line.",
     "choices": [
       {
         "text": "Call Father again",
-        "result_text": "{name} calls Father. After several rings, his father answers.\n\n“Yeah?”\n“I just wanted to hear your voice. Have you eaten?”\n“I did. Take care of yourself.”\n\nWhen {name} brings up the hospital, Father asks whether the room is cold. Neither answers the question the other one asked. Long silences pass between talk of dinner, the weather, and buses to Changwon.\n\n{name}: “I'll call again Monday evening.”\nFather: “If you want.”\n\nAfter the call, {name} writes “Father” in Monday's space in the notebook."
+        "result_text": "{name} calls Father. After several rings, his father answers.\n\n“Yeah?”\n“I just wanted to hear your voice. Have you eaten?”\n“I did. Take care of yourself.”\n\nWhen {name} brings up the pharmacy bag, Father asks whether the room is cold. Neither answers the question the other one asked. Long silences pass between talk of dinner, the weather, and buses to Changwon.\n\n{name}: “I'll call again Monday evening.”\nFather: “If you want.”\n\nAfter the call, {name} writes “Father” in Monday's space in the notebook. Beneath the call's end time, deadlines on the other lines have already passed."
       },
       {
         "text": "Finish Hanbit Distribution's month-end discrepancy sheet",
@@ -531,8 +531,8 @@
         "result_text": "{name}: “I'm done for today. How was your week?”\n\nJaehyuk says he is still out. At first, all he sends is, “Same as always.” When {name} goes first with one thing he finished and one thing he postponed, Jaehyuk writes a long message about something he got wrong on the way home.\n\nThe replies stop and start between subway transfers and dinner. {name} types an easy joke, deletes it, and names what he postponed without dressing it up. Investment and money never come up.\n\nAfter ten, Jaehyuk writes.\n\n“Next time, let's each say one thing we did right too.”"
       },
       {
-        "text": "Reconcile this month's expense ledger at home",
-        "result_text": "{name} spreads receipts across the desk where he lives now. He lists rent, food, transit, and phone payments by date. The first total does not match the card history, so he works down every line again.\n\nThe missing entries are two meals paid in cash and a transit-card top-up. Instead of filling the amounts from memory, he finds the receipts and the reload record and places each beside its date. Only on the third calculation does the notebook match the amount that left the account.\n\nAfter nine, he draws two lines beneath the total on the first page. Sangchul's business card stays in the drawer."
+        "text": "Balance this month's spending on the blank sheet Sangchul gave him",
+        "result_text": "{name} opens the blank sheet Sangchul gave him and lists rent, food, transit, and phone payments by date. Sangchul's business card stays in the drawer. The advice remains on the page: before asking about another person's name or the next door, find out where his own money went.\n\nThe first total does not match the card history. He finds two cash meals and a transit-card reload and attaches each record. On the third calculation, the figures finally match. Every reason for the smaller balance is now in his own handwriting.\n\nAfter nine, {name} draws two lines beneath the total. On one he records what will leave again next month. On the other he writes the calls and deadlines he missed while reconciling it tonight."
       },
       {
         "text": "Take urgent paid work tonight",

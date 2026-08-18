@@ -29,21 +29,28 @@
 5. M06 `v2_demo_first_bill_opening` — M02 결과와 M05 주력 인물이 첫 장에 남는다.
 6. M06 `v2_demo_first_bill` — 실제로 끝낸 일과 그 밤 놓친 일을 함께 적는다.
 7. M06 `arc_y1_jiyeon_first_bill_date` — 지연과의 첫 데이트 문턱.
-8. M07 `hyunsu_result_fail` — 계약금 알림과 현수의 실패 문자가 같은 주말에 온다.
+8. M07 `arc_y1_hyunsu_result_fail_after_move` — 계약금 알림과 현수의 실패 문자가
+   같은 주말에 온다. 기존 `hyunsu_result_fail`은 이사·근무 포기를 보장하지 않아
+   원고를 덮지 않고 그대로 보존한다.
 9. M08 `arc_goshiwon_goodbye` — 방을 다시 고르지 않고 포장·작별·이사로 간다.
 10. M09 `arc_daeun_02_regular` — 다은에게 먼저 연락한 경로만 실제 도착한다.
 11. M09 `arc_y1_jiyeon_relationship_reentry` — 지연에게 미뤄 둔 답을 먼저 말한다.
-12. M09 `arc_y1_hyunsu_relationship_reentry` — 현수는 메시지 상대이며 동석하지 않는다.
+12. M09 `arc_y1_hyunsu_relationship_reentry` — M07 이사 계약과 M09 첫 방값을 실제로
+    끝낸 현수 경로. 현수는 메시지 상대이며 동석하지 않는다.
 13. M09 `arc_y1_relationship_reentry_none` — 보내지 않은 초안과 빈 주말을 남긴다.
-14. M10 `arc_y1_new_room_first_month` — 이사 첫날이 아니라 첫 공과금이 온 한 달 뒤.
+14. M10 `arc_y1_new_room_first_month` — 이사와 첫 공과금 납부를 실제로 끝낸 경로의
+    한 달 뒤. 이사 첫날을 다시 재생하지 않는다.
 15. M11 `arc_y1_jaehyuk_open_door` — M05 재회를 기억한 채 투자 전의 일터 문을 연다.
 16. M11 `arc_y1_sangchul_open_door` — 지정 주소에서 소개인·수수료를 직접 묻는다.
 17. M11 `arc_y1_current_route_open_door` — 느린 합법 경로의 연장·승급 면담.
 18. M11 `arc_y1_open_door_none` — 세 문을 모두 놓친 실제 빈 주소와 지난 시각.
-19. M12 `arc_year1_close` — M12 이체·통화·도착과 네 carryover를 실제 사물로 잠근다.
+19. M12 `arc_year1_close` — 모든 런에서 참인 연말 결산을 두고, 실제 M12 receipt는
+    조건부 기억에서만 사물로 회수한다.
 20. M12 `arc_y1_close_hyunsu_call` — 아버지 대사를 복사하지 않은 현수 연말 통화.
 
-각 단위는 300~800자 규모의 핵심 교환과 2~4개의 서로 다른 선택을 갖는다.
+신규 단위는 300~800자 규모의 핵심 교환과 2~4개의 서로 다른 선택을 갖는다.
+기존 `v2_demo_first_bill`은 저장·선택 identity 때문에 기존 8개 선택을 그대로
+보존하고 각 결과를 한 원고 단위로 함께 판정한다.
 선택 전에는 먼 결과를 설명하지 않고 지금 도착한 사람·문서·마감만 보여 준다.
 선택된 약속 또는 완료·미룸·만료 receipt는 첫 문장·참석자·부재·선택지 중 하나에
 드러나야 한다. 다은·지연, 상철·재혁, 아버지·현수의 원고를 서로 바꿔 쓰지 않는다.
@@ -54,10 +61,16 @@
 - `arc_goshiwon_goodbye → arc_housing_new_life`는 같은 이사 체인의 즉시 후속으로
   보존한다. M10은 `첫날 밤`이 아니라 `새 방의 첫 공과금`이다.
 - M05 재혁 장면은 첫 재회이고 M11은 그 재회를 기억한 두 번째 문이다.
+- `arc_y1_hyunsu_result_fail_after_move`는 `m07_sign_move_contract=completed`와
+  `m07_take_weekend_shift=expired`를 함께 읽는 경로만 연다. 이사와 주말 근무를
+  모두 지킨 경로에 근무 포기 문장을 재사용하지 않는다.
 - M09의 다은·지연·현수·아무도 없음은 네 실제 경로이며 이름 언급만 바꾼 공용문이
   아니다. 현수 메시지를 실제 동석처럼 쓰지 않는다.
-- M12는 장기 결정 7개를 늘리지 않는다. 네 carryover의 구체 receipt를 장면에
-  보여 주되 정확한 다음 장 결과를 선택 전에 공개하지 않는다.
+- 현수 M09 원고는 `m07_sign_move_contract`와 `m09_settle_new_room` 완료를 함께
+  요구하고, M10 원고는 첫 공과금 완료 receipt를 요구한다. author-only 원고를
+  이관할 때 이 복합 조건 없이 관계 selector 하나로만 열지 않는다.
+- M12는 장기 결정 7개를 늘리지 않는다. 구체 receipt는 실제 조건부 기억에서만
+  보여 주고, 네 carryover의 정확한 다음 장 결과를 선택 전에 공개하지 않는다.
 
 ## 정확한 파일 소유권
 
@@ -74,14 +87,17 @@
 수정하지 않는다. 기존 root는 title/description/choice text/result 같은 텍스트만
 바꾸고 ID·조건·선택 수·순서·효과·flag·follow-up을 보존한다. 신규 root는
 `weight:0`, `hidden:true`, `min_turn:9999`, 신규 영구 flag/effect/follow-up 0이다.
+따라서 최종 분류는 기존 텍스트 확장 7개와 신규 author-only 13개다.
 
 ## 완료 증거
 
-- 20개 root KO/EN 존재, 선택 수·순서·placeholder 의미 패리티.
-- 기존 8개 root의 텍스트 외 게임 구조가 선언 commit과 byte-equivalent.
-- 신규 12개 root의 author-only metadata와 신규 writer flag 0.
+- **L1/L2 완료:** 20개 root KO/EN 존재, 선택 수·순서·placeholder 의미 패리티.
+- 기존 7개 root의 텍스트 외 게임 구조가 선언 commit과 byte-equivalent다.
+- 신규 13개 root의 author-only metadata와 신규 writer flag 0이다.
 - strict JSON, 한영 coverage, story consistency, speech register,
-  `audit_select --list`, `git diff --check`만 실행한다.
+  `audit_select --list`, `git diff --check`가 통과했다.
+- 독립 최신 바이트 검토는 선택하지 않은 행동·사물·인물 발명, 경로별 공간·시간
+  점프, 안전한 지배 선택을 다시 읽고 `P0=0 / P1=0`으로 판정했다.
 - 전체 감사·240주 시뮬레이션·Godot 장시간 검사는 실행하지 않는다.
 
 ## 사람 판정

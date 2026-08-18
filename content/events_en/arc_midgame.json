@@ -157,23 +157,23 @@
   {
     "id": "arc_goshiwon_goodbye",
     "title": "Leaving the Goshiwon",
-    "description": "There was no need for a moving truck. Clothes, a laptop, and a few books filled two boxes. Carrying them one at a time, {name} made a final trip down the goshiwon hallway.\n\nPeeling wallpaper. The shared refrigerator's motor. Detergent mingled with instant ramyeon. Light still spilled from beneath Hyunsu's door. Even on the day he left, the corridor looked exactly as it always had.\n\nThe manager took his key at the foot of the stairs. A small piece of metal vanished from his palm.\n\n\"Live well.\" Behind those words, the door that had been his closed quietly.",
+    "description": "There was no need for a moving truck. Papers bearing the new address sat inside his laptop bag, and the key he had been given was in his pocket. His clothes and books filled two boxes. There was no room left to choose. Today's work was to empty this address and carry the boxes to the new one.\n\nCarrying them one at a time, {name} made a final trip down the goshiwon hallway: peeling wallpaper, the shared refrigerator's motor, detergent mingled with instant ramyeon. A faint light still slipped beneath the lit room next door.\n\nThe manager took the goshiwon key at the foot of the stairs. As one small piece of metal left his palm, the new key pressed against his thigh.\n\n\"Live well.\" Behind those words, the door that had been his closed quietly.",
     "choices": [
       {
         "text": "\"Thank you for everything.\" Keep it brief, and leave.",
-        "result_text": "\"Thank you for everything.\"\n\n{name} carried the boxes downstairs, their corners pressing into his forearms as the fluorescent light broke and returned at every landing.\n\nWhen the entrance shut behind him, the air seemed to open wide. It did not smell good: exhaust and wet asphalt. Still, there was no ceiling over it.\n\nHe shifted the boxes and walked on. He never looked back, but heard the automatic door close all the way to the end of the block."
+        "result_text": "\"Thank you for everything.\"\n\n{name} carried the boxes downstairs, their corners pressing into his forearms as the fluorescent light broke and returned at every landing.\n\nWhen the entrance shut behind him, exhaust and wet asphalt rushed in. It did not smell good, but there was no ceiling above it.\n\nHe checked the papers bearing the new address and shifted the boxes in his arms. He never looked back, but the sound of the automatic door followed him all the way to the bus stop."
       },
       {
-        "text": "Knock on Hyunsu's door before leaving.",
-        "result_text": "Hyunsu opened the door after a long pause. One earbud was still in, his eyes bloodshot; a lecture kept playing inside the tiny room.\n\n\"Hyung, you're really leaving?\"\n\"Yeah.\"\n\nHyunsu looked at the boxes, then at {name}. \"Call me when things work out. No, even if they don't.\" Embarrassed by his own sincerity, he fiddled with the earbud cord.\n\nThe lecture resumed as {name} walked away. The farewell stayed clear even after the door closed."
+        "text": "Knock on the lit neighboring door before leaving.",
+        "result_text": "The neighbor who opened the door after a long pause was Hyunsu. One earbud was still in, his eyes bloodshot; a lecture kept playing inside the tiny room.\n\n\"Hyung, you're really leaving?\"\n\"Yeah. The boxes are packed. I'm leaving today.\"\n\nHyunsu looked at the boxes, then at {name}. \"Call me when things work out. No, even if they don't.\" Embarrassed by his own sincerity, he fiddled with the earbud cord.\n\nThe lecture resumed as {name} went downstairs. The new key struck the railing once inside his pocket. The farewell stayed clear even after the door closed."
       },
       {
         "text": "Stop at the end of the hallway. Think about the time spent here.",
-        "result_text": "At the end of the hall, {name} stopped and counted the months: the first night he cried, ramyeon with Hyunsu at dawn, mornings spent reopening the same salary alert. They were not years he could honestly call good.\n\nThe wallpaper had peeled, the room had been narrow, and summer brought its own smell. Memory did not preserve those years by their conditions alone.\n\nHe touched the handle of what had been his room, then let go. When he picked up the boxes again, the hallway looked longer than it had a moment before."
+        "result_text": "At the end of the hall, {name} stopped and counted the months: the first night he cried, dawns spent heating ramyeon water in the shared kitchen, mornings spent reopening the balance in his banking app. They were not times he could honestly call good.\n\nThe wallpaper had peeled, the room had been narrow, and summer brought its own smell. Memory did not preserve that time by its conditions alone.\n\nHe touched the handle of what had been his room, then checked that the papers for the new address inside his laptop bag had not folded. When he lifted the boxes and walked toward the address already written there, the hallway looked longer than it had a moment before."
       }
     ],
     "description_if_known": {
-      "wants_out_of_gosiwon": "There was no need for a moving truck. Clothes, a laptop, and a few books filled two boxes. Carrying them one at a time, {name} made a final trip down the goshiwon hallway.\n\nPeeling wallpaper. The shared refrigerator's motor. Detergent mingled with instant ramyeon. Light still spilled from beneath Hyunsu's door.\n\nWhen the manager took his key, a small piece of metal vanished from his palm. \"Live well.\"\n\nOnly after mastering thirty months of life here had he admitted, for the first time, that he wanted out. These two boxes were that sentence coming due."
+      "wants_out_of_gosiwon": "There was no need for a moving truck. Clothes, a laptop, and a few books filled two boxes. Carrying them one at a time, {name} made a final trip down the goshiwon hallway.\n\nPeeling wallpaper. The shared refrigerator's motor. Detergent mingled with instant ramyeon. Light still spilled from beneath the lit room next door.\n\nWhen the manager took his key, a small piece of metal vanished from his palm. \"Live well.\"\n\nOnly after mastering thirty months of life here had he admitted, for the first time, that he wanted out. These two boxes were that sentence coming due."
     }
   },
   {
@@ -1173,6 +1173,44 @@
       {
       "text": "Urgency could become fuel.",
       "result_text": "Some days, urgency became energy.\n\n{name} hoped this would be one of them."
+      }
+    ]
+  },
+  {
+    "id": "arc_y1_relationship_reentry_none",
+    "title": "A Saturday Never Sent",
+    "description": "On the third Saturday of September, the new room held neither the sound of a washing machine nor a television. Three unsent lines remained in Notes on {name}'s phone: \"Want to meet after your shift?\" \"I never answered you then.\" \"The room I moved into is all right.\" He had moved none of them into an actual conversation.\n\nHe had contacted no one first this month. There was no sent time and nowhere to arrive. Saturday's calendar square was blank. At 8:47 p.m., only a delivery-app discount appeared at the top of the screen. A motorcycle passed down the alley, its sound slipping through the window frame. {name} lowered the screen brightness, opened the Notes list again, and looked between it and the empty calendar.",
+    "choices": [
+      {
+        "text": "Delete all three messages",
+        "result_text": "{name} opened each note and erased the words from the end. When the last \"all right\" disappeared, only a cursor remained on the empty page.\n\nAfter the screen went dark, his thumb pressed the blank space at the bottom once more. It made no sound."
+      },
+      {
+        "text": "Leave the messages as drafts, unsent",
+        "result_text": "{name} closed Notes without sending a word. No notification count changed. Only three saved drafts remained in the list.\n\nOn the calendar, he wrote only \"Contact.\" The spaces for a name and time beneath it remained blank."
+      },
+      {
+        "text": "Leave the phone and go to the laundromat",
+        "result_text": "{name} carried a bag of laundry to the end of the alley. Behind round windows, strangers' shirts and towels turned together. The plastic chair across from him was empty.\n\nSaturday was nearly over when the dryer stopped. The folded clothes were warm. Back in the room, there were no new messages on the phone."
+      }
+    ]
+  },
+  {
+    "id": "arc_y1_new_room_first_month",
+    "title": "The First Utility Bill",
+      "description": "At 7:12 p.m., one month after the move, confirmation arrived that the first electric bill had been paid. {name} unfolded the notice that had been wedged beneath the door and set it beside the transfer receipt. It was the first price attached to a full month in this room.\n\nOn the calendar where {name} had redrawn his commute and mealtimes, only the first three days bore check marks. The last box and unfamiliar ceiling from move-in night were already behind him. The room now smelled of dry towels and carried the marks of a month's living. The light above the sink blinked once, and the refrigerator motor started again. {name} wrote the payment time in the calendar margin.",
+    "choices": [
+      {
+        "text": "Tape the transfer receipt above the desk",
+        "result_text": "{name} wrote the amount beneath the rent date and taped the receipt to the wall. When one corner lifted, he pressed it down with his thumbnail for a long time.\n\nHe copied the same amount into next month's square. This was no longer the new room. It was his current address, with a price due every month."
+      },
+      {
+        "text": "Send Father one line saying the room works fine",
+          "result_text": "{name} took a photo that showed both the boiler light and the bill. He wrote, \"The electricity works. The room isn't cold.\"\n\nAfter a while, Father replied, \"Good.\" That one word remained beneath the room photo. {name} put the phone face down on the bill."
+      },
+      {
+        "text": "Rewrite the abandoned routine from the current time onward",
+        "result_text": "{name} did not fill the missed squares with late check marks. Starting with the next blank, he wrote tonight's dinner, tomorrow's alarm, and one period of rest this week.\n\nWhen he set down the pen, the refrigerator motor stopped. A brief silence belonging only to his room arrived, something he could never have heard in the goshiwon."
       }
     ]
   }
