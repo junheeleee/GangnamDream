@@ -59,11 +59,12 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-104 · 처음부터 완결까지 22개 핵심 장면의 실제 원고를 쓴다 | [104](queue_active/ORDER-104.md) | 22개+미접수 결말 1개 L1/L2 완료 — 사용자 무작위 3개 L3 보류, 다음 원고 배치 선언 준비 |
-| 2 | [~] | ORDER-103 · M01~M06 월간 약속을 직접 고르는 독립 체험판을 만든다 | [103](queue_active/ORDER-103.md) | `.2` L1/L2 완료 — 사용자 외출 중 L3 보류 |
-| 3 | [~] | ORDER-99 · SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | [99](queue_active/ORDER-99.md) | BUILD 2026.08.11.3 발급·격리 실제 저장 L1/L2 완료 — 사용자 동일 저장의 1월 수첩→2월 보드 확인 대기 |
-| 4 | [~] | ORDER-97 · LOC-0.5 값을 끼우기 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | 착수 — preformat 후보 55개를 전수 분류하고 정확 47호출만 lookup→format 순서로 바꿔 JA/ZH의 영구 EN fallback을 제거 |
-| 5 | [~] | ORDER-98 · PAD-1 포커스 레일을 의미 버튼으로 줄인다 | [98](queue_active/ORDER-98.md) | 구현·L1/L2 완료, demo_rc active — 집 플레이·물리 패드 Batch A/B L3 대기 |
+| 1 | [~] | ORDER-105 · M02~M12의 빈 장면과 중복 장면 20개를 실제 원고로 고친다 | [105](queue_active/ORDER-105.md) | 착수 — 첫해 월 순서·인물별 도착·선택의 현재 손실을 KO/EN으로 집필 |
+| 2 | [~] | ORDER-104 · 처음부터 완결까지 22개 핵심 장면의 실제 원고를 쓴다 | [104](queue_active/ORDER-104.md) | 22개+미접수 결말 1개 L1/L2 완료 — 사용자 무작위 3개 L3 보류 |
+| 3 | [~] | ORDER-103 · M01~M06 월간 약속을 직접 고르는 독립 체험판을 만든다 | [103](queue_active/ORDER-103.md) | `.2` L1/L2 완료 — 사용자 외출 중 L3 보류 |
+| 4 | [~] | ORDER-99 · SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | [99](queue_active/ORDER-99.md) | BUILD 2026.08.11.3 발급·격리 실제 저장 L1/L2 완료 — 사용자 동일 저장의 1월 수첩→2월 보드 확인 대기 |
+| 5 | [~] | ORDER-97 · LOC-0.5 값을 끼우기 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | 착수 — preformat 후보 55개를 전수 분류하고 정확 47호출만 lookup→format 순서로 바꿔 JA/ZH의 영구 EN fallback을 제거 |
+| 6 | [~] | ORDER-98 · PAD-1 포커스 레일을 의미 버튼으로 줄인다 | [98](queue_active/ORDER-98.md) | 구현·L1/L2 완료, demo_rc active — 집 플레이·물리 패드 Batch A/B L3 대기 |
 
 ### 남은 데모 출시선
 
