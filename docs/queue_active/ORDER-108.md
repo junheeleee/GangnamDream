@@ -121,7 +121,9 @@
 - M39의 father+deal / father+romance / romance-only / father-only 네 조합은 이번 배치
   밖 planned fallback이다. 이번 3개 원고로 route하면 안 된다.
 - M41의 다은·지연·현수는 서로 다른 root다. `@nearest_person` 하나로 배우 이름만
-  치환해 장소·호칭·몸짓을 재사용하지 않는다.
+  치환해 장소·호칭·몸짓을 재사용하지 않는다. 현재 map의 generic
+  `arc_y4_body_witness_other_actor`는 계속 `NEW/planned`로 남기고, 신규 지연·현수
+  두 root는 후속 selector split 전까지 reference-only author-only다.
 - M44는 서울에서 창원 방향의 열차다. 서울행 좌석, 이미 창원중앙역을 떠난 뒤의
   창원 병원 15분, ‘마지막일지도’ 같은 미래 지식을 쓰지 않는다.
 - 기존 `arc_father_call_on_ktx`와 memory/number follow-up 체인,
@@ -171,9 +173,9 @@ JSON object로 보존한다. `story_rules`, DataRegistry, 런타임·UI·저장�
   follow-up object도 전체 object가 선언 commit과 동일하다.
 - [ ] 신규 KO description은 300~800자이고, 각 선택은 현재 행동·즉시 손실·인물 반응이
   서로 달라 어느 하나가 다른 선택을 공짜로 포함하지 않는다.
-- [ ] M39/M41/M42/M45/M46의 현재 story_map exact actor·selected receipt 표와 원고가
-  일치한다. M44/M47/M48 신규 8개는 ORDER의 reference selector와 원고가 일치하며,
-  map 도달성 검증 대상이 아님을 별도 표기한다.
+- [ ] M39/M42/M45/M46과 M41 다은 base의 현재 story_map exact actor·selected receipt
+  표와 원고가 일치한다. M41 지연·현수 2개와 M44/M47/M48 신규 8개는 ORDER의
+  reference selector와 원고가 일치하며, map 도달성 검증 대상이 아님을 별도 표기한다.
 - [ ] M01~M36 기존 root object가 선언 commit과 동일하다.
 - [ ] strict duplicate-key JSON, story-map normal/self-test, 한영 coverage, story consistency,
   speech register, exact-scope contract, `audit_select --list`, `git diff --check`를 통과한다.
