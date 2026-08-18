@@ -66,5 +66,62 @@
       "contacted_minseo": "Gangnam was still far off. The number hadn't filled.\n\nAnd then Minseo reached out.\n\"How are you holding up? Almost there?\"\n\nMinjun answered honestly. Still far. Maybe he wouldn't make it at all.\n\nMinseo was quiet a moment, then said,\n\"Remember what I told you? To prepare for when the goal disappears.\"\n\"...Yeah.\"\n\"Here's the thing — even if you don't reach the goal, you need that same preparation. The one who arrives and the one who doesn't. In the end the question left over is the same.\"\n\"What question?\"\n\"Whether that goal was ever really yours.\"\n\nIt was Minjun who had reached out first, using that business card.\nNot because he had a question — because he needed someone to ask.",
       "thought_about_after": "Gangnam was still far off. The number hadn't filled.\n\nAnd then Minseo reached out.\n\"How are you holding up? Almost there?\"\n\nMinjun answered honestly. Still far. Maybe he wouldn't make it at all.\n\nMinseo was quiet a moment, then said,\n\"Remember what I told you? To prepare for when the goal disappears.\"\n\"...Yeah.\"\n\"Here's the thing — even if you don't reach the goal, you need that same preparation. The one who arrives and the one who doesn't. In the end the question left over is the same.\"\n\"What question?\"\n\"Whether that goal was ever really yours.\"\n\nOnce, after something Minseo said, he'd thought about 'after arrival' for the first time.\nPeople who have thought about it and people who haven't — they look at different things from the same finish line."
     }
+  },
+  {
+    "id": "arc_y5_minseo_goal_cost_reference",
+    "title": "The Cost Sheet After Arrival",
+    "description": "At 11:30 Saturday morning, Minseo entered the cafe near the seminar at the time {name} had arranged. In {name}'s bag, the R4-SELF contract and the clinic copy from the previous day shared one clear folder. Minseo offered neither congratulations nor consolation. She turned her calculator facedown and asked,\n\n“The contract has a loss cap. How much of your day can you lose before you stop?”\n\n{name} began to explain whether he had reached the goal, then closed his mouth. Minseo drew three boxes on a napkin—money, body, people—and pushed it over while they were still blank. “Not your balance. Write one price you've already paid.” As the foam sank in his coffee, {name} chose one box he could no longer keep hidden.",
+    "choices": [
+      {
+        "text": "Place the fourteen-day sleep record he had with him in the body box",
+        "result_text": "{name} unfolded the fourteen-day sleep record he had with him and turned its daily sleep columns toward Minseo. She did not enter the figures into her calculator.\n\n“That's principal, not yield. If the principal is wearing away while you count only returns, the ledger is lying.”\n\n{name} folded the sleep record again. The crease ran through the body box, leaving only dates and sleep times on the sheet."
+      },
+      {
+        "text": "Place the R4-SELF he had opened with Daeun in the people box, turned to the weekend-and-night clause",
+        "result_text": "{name} took out the R4-SELF he had opened with Daeun and set it down with the weekend-and-night clause visible. Minseo read the sentence containing those two words slowly.\n\n“That's not time spent on a person. It's a contract spending the time that belonged to one. Those use different arithmetic.”\n\nMinseo did not say Daeun's name aloud. The cafe light narrowed over the words weekend and night."
+      },
+      {
+        "text": "Write the 70 million won gap in the money box",
+        "result_text": "{name} wrote 70 million won in the money box and added the Friday deadline. Minseo asked, “When you fill that figure, what goes in the next blank?”\n\n{name} had no immediate answer. Minseo left the napkin open beneath her cup. Only the money box was dark with ink; the body and people boxes remained empty at the edge of the coffee ring."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_burnout_check_reference",
+    "title": "The Sheet Before a Diagnosis",
+    "description": "At 9:20 Friday morning, {name} sat in the family-medicine exam room he had booked. On the desk lay fourteen days of sleep records, a blank form for the times his hand trembled, and a blood-pressure slip. The doctor looked at {name}'s hands before the monitor and capped the pen.\n\n“I won't name this from one screen. Choose the information we must not leave out: sleep, tremors, or the hours you worked.”\n\nA registration band was already fastened around {name}'s wrist. He had to slide one set of records across without hiding it. A queue number sounded once in the corridor, and fluorescent light spread over the still-empty diagnosis field.",
+    "choices": [
+      {
+        "text": "Hand over all fourteen days of sleep records with the dates visible",
+        "result_text": "{name} handed over all fourteen days instead of selecting only the nights he slept well. The doctor circled the nights below four hours and left a field beside them for follow-up.\n\nNo diagnosis was added. The stamped copy held only dense rows of sleep and waking times. {name} folded it in half and placed it in the clear folder."
+      },
+      {
+        "text": "Show the hand-tremor videos with their timestamps",
+        "result_text": "{name} played three videos of his hand trembling around a water bottle, keeping each timestamp visible. The doctor paused the images to ask about caffeine and meal intervals, leaving unanswered fields blank.\n\nInstead of a confirmed name, three observation times entered the form. When the phone went dark, a steady hand appeared briefly in the black glass."
+      },
+      {
+        "text": "Open the contract calendar and the hours actually worked",
+        "result_text": "{name} hid the income figures and contract names, then showed the start and finish times from the last four weeks. The doctor marked the blocks past midnight and the missing meals in different colors.\n\n“You don't have to discuss the money. We do need the hours your body worked.”\n\nThe clinic copy held time without amounts. Neither color skipped a single week."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_after_goal_daeun",
+    "title": "Not Whatever Day Is Left",
+    "description": "At 7:40 Sunday evening, {name} unfolded the napkin on which Minseo had drawn three boxes. Only the box he had chosen before Minseo held one trace—a figure, the folded sleep record, or the open weekend-and-night clause; the other two remained blank. Pressing the space between the three boxes with one finger, {name} asked,\n\n“After three billion won, what kind of day should we still protect together?”\n\nDaeun did not answer at once. She turned her phone facedown and pulled the weekend-and-night clause from R4-SELF beside the napkin.\n\n“Minjun, don't give me time left after you've counted all the money. Tell me what time is mine from the beginning. Then I'll tell you what I would give up for it.”\n\nThe question had already been asked. {name} had to take one real boundary from the calendar.",
+    "choices": [
+      {
+        "text": "Say one evening a week will take no contract calls",
+        "result_text": "{name} pointed to one Thursday evening. Daeun did not begin by believing the word every.\n\n“Leave this Thursday open first. If you don't keep it, don't stop at saying you were busy. Tell me what you chose instead.”\n\n{name} drew a slash through the contract-alert block after seven. No number showed the money lost, but two hours that could not be sold appeared on the calendar for the first time."
+      },
+      {
+        "text": "Say one Sunday a month will be blocked first, not left over",
+        "result_text": "{name} circled the first Sunday of the next month. Daeun opened her schedule to the same date but did not mark the promise complete.\n\n“I don't want a day you meet me because it happened to remain. If you leave it open first, I'll check what I would have to clear that day too.”\n\nThe same date glowed on both screens. Daeun set her phone facedown beside the napkin instead of marking anything complete."
+      },
+      {
+        "text": "Say a call about health or family will stop the calculation first",
+        "result_text": "{name} drew one line between the clinic form and the family-call entry. Daeun did not nod; she wrote ‘tell me before’ in the people box.\n\n“Explaining after you collapse isn't protecting something together. Let me know before you stop too.”\n\nNeither of them folded the paper until the blue ink dried. The calculator screen went dark first."
+      }
+    ]
   }
 ]

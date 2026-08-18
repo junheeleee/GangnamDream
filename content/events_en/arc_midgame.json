@@ -1308,5 +1308,81 @@
         "result_text": "{name} transfers money to the hospital account Mother sent and writes, “I can't come during this admission.” He does not turn the reason for the money and the reason for his absence into the same sentence.\n\nOnce the transfer receipt is saved, he closes the KTX search. The room number moves higher in Mother's chat. Instead of the hospital door, he holds a receipt bearing the recipient's name and the send time."
       }
     ]
+  },
+  {
+    "id": "arc_y5_contract_cover_investment",
+    "title": "A Name on Page Eighteen",
+    "description": "At 8:42 Monday morning, the original file labeled GD-P25-R3 arrived in the electronic contract box. {name} downloaded all eighteen pages. The first listed a purchase price of 2.58 billion won and a 258 million won deposit. Page eleven set a 320 million won equity-loss cap, followed in small type by costs excluded from that cap.\n\nOn the last page, the proposed jointly liable party field already read Kim Daeun. There was no signature. The deposit deadline was Friday at 3 p.m., and the gap against the available balance was 70 million won. {name} reduced the zoom until the three figures and one name fit on the same screen. Only warm glass lay beneath his fingers.",
+    "choices": [
+      {
+        "text": "Copy the purchase price, deposit, and current gap onto one line",
+        "result_text": "{name} wrote down 2.58 billion won, 258 million won, and the 70 million won gap in order. Beneath them, he added that the Friday deposit would remain short unless he touched money reserved for existing obligations.\n\nOnce every figure was written, the blank looked sharper than before. His pen stopped beside the shortfall while the time left before the deposit deadline kept shrinking on-screen."
+      },
+      {
+        "text": "Open and read only the exceptions to the loss cap",
+        "result_text": "{name} enlarged the fine print beneath the bold 320 million won figure. Dispute costs and early-recovery fees sat outside the cap. The largest number on the page was not the true edge of the loss.\n\nHe underlined both exceptions and saved one screenshot. The bold ceiling and the small exceptions glowed at different sizes inside the same image."
+      },
+      {
+        "text": "Keep Daeun's name field and the unsigned line in the same image",
+        "result_text": "{name} enlarged the last page and saved the typed name with the empty signature line. Not one character had been written by Daeun. The file properties showed only the R3 revision time and the author account.\n\nHe noted, ‘No confirmation from the named party.’ He did not send a removal request yet. The cursor blinked steadily over the white signature line."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_contract_reviewer_delivery_sangchul",
+    "title": "The Uncut File",
+    "description": "At 9:16 Wednesday night, {name} staged the GD-P25-R3 original in his chat with Sangchul: eighteen pages, 6.4 megabytes. He attached no summary and no cropped image hiding the name field. The preview included the purchase price, loss cap, and the final page bearing Daeun's name.\n\nOnly one line remained blank beneath the send button. Leading with the 70 million won gap would expose his weakness. Leading with joint liability would expose a name he had not yet discussed with Daeun. Leading with Friday at 3 p.m. would tell Sangchul who was desperate. Once the file could no longer be reduced, {name} chose which fact would become the first sentence.",
+    "choices": [
+      {
+        "text": "Send the full original with the 70 million won gap in the first line",
+        "result_text": "{name} wrote, ‘The current gap is 70 million won. Please start there,’ and sent all eighteen pages. At 9:18, the screen recorded one file sent.\n\nThere was no room left to hide his balance. Sangchul had not answered; only the shortfall {name} chose to expose remained at the bottom of the chat."
+      },
+      {
+        "text": "Send the full original and flag the joint-liability language first",
+        "result_text": "{name} wrote, ‘Please read the name field on the last page with the liability range on page eleven,’ then sent the original. The transfer record showed that no page had been cut.\n\nThere was no indication that Sangchul had read it. The time Daeun's name had remained in the draft passed into the chat along with the revision history."
+      },
+      {
+        "text": "Send the full original and lead with the Friday 3 p.m. deadline",
+        "result_text": "{name} wrote, ‘The deposit deadline is Friday at 3 p.m.,’ and transmitted the whole file. The timestamp beside its name read 9:19.\n\nNow the other side knew who was short on time. He added no line demanding an answer. A Friday calendar alert vibrated once above the chat he had left open."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_final_push_deadline_investment",
+    "title": "The Six O'Clock Answer",
+    "description": "At 4:12 the following Monday, the closing manager on an existing acquisition-advisory job demanded an answer. The final fee was 18 million won. Delivering the reconciled material by midnight kept the terms intact. Disclosing the 70 million won gap allowed a request for one more day. A third closing sheet reduced the fee to 12 million won in exchange for providing no additional joint-liability material.\n\nThe response window ended at 6 p.m. R3 was already open behind it. At six, the thing that would close was not the contract but this reply field. {name} set the clear folder holding R3 beside the keyboard and moved one of the three sentences into the actual reply field.",
+    "choices": [
+      {
+        "text": "Disclose the gap and request one more day",
+        "result_text": "{name} entered the 70 million won gap and the single day he needed, then sent the extension request. A receipt time of 4:37 appeared, but no approval did.\n\nA chance to buy time had placed his cash position in the other side's hands. The monitor held an unanswered request number on one side and the unchanged shortfall on the other."
+      },
+      {
+        "text": "Keep the current terms and commit to the midnight delivery",
+        "result_text": "{name} accepted the current terms and opened the submission window due before midnight. Once travel and a meal were removed from the seven hours left, only six working hours remained.\n\nThe 18 million won fee did not shrink. Instead, every open block that evening turned into a file number. The phone lit and went dark several times beneath the clear folder."
+      },
+      {
+        "text": "Refuse the added liability material and close at the lower fee",
+        "result_text": "{name} wrote that he would provide no additional joint-liability material and selected the 12 million won closing sheet. The expected fee fell by 6 million won when the response was recorded.\n\nThe price of withholding another person's name became a number immediately. Only the reduced fee and the 4:41 submission time remained side by side."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_protection_boundary_daeun",
+    "title": "Where Her Name Was Removed",
+    "description": "At 8:10 Saturday night, {name} opened a clear folder at the last window table in a cafe. The final page of R3 contained ‘Kim Daeun.’ The same field in R4-SELF, revised after the removal request, was blank. Without her name, the financing ceiling had fallen from 1.18 billion won to 760 million won. The 420 million won difference lay at the center of the table.\n\nDaeun looked first at her unsigned name, then at the blank. She set a blue mechanical pencil between the two documents.\n\n“Minjun, am I supposed to thank you for taking it out? Why didn't you tell me when it went in?”\n\n{name} could not answer with the word protection. Only the order in which he exposed the removed name and the lost figure remained.",
+    "choices": [
+      {
+        "text": "Read the lost 420 million won aloud first",
+        "result_text": "{name} read the old ceiling, the new ceiling, and the difference in order. Daeun drew a short line beneath 420 million won.\n\n“Don't say it like that was the price of my name. If it's money you gave up, tell me in your own words why you gave it up.”\n\n{name} could not erase the figure. The blue line remained under it, and the empty name field looked whiter beside it."
+      },
+      {
+        "text": "Show the original draft time beside the removal-request time",
+        "result_text": "{name} placed the R3 authoring time beside the time he requested the removal. Daeun traced the time between them with one finger.\n\n“Keeping me safe and deciding without me aren't the same. During that time, I didn't even know where my name was.”\n\n{name} looked up without turning off the screen. The corners of the two versions sat misaligned inside the clear folder."
+      },
+      {
+        "text": "Open the weekend-and-night clause beside the name field",
+        "result_text": "{name} unfolded the addendum promising priority access to weekends and nights. Daeun studied that sentence longer than the blank name field.\n\n“My name is gone. But if all your nights are in here, this contract is still spending my time too.”\n\nWith the blue pencil, Daeun drew a vertical line between ‘nights’ and ‘priority.’ The paper did not tear; only the sentence split in two."
+      }
+    ]
   }
 ]

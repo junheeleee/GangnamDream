@@ -431,7 +431,7 @@
   {
     "id": "arc_final_week",
     "title": "The Last Week",
-    "description": "Seven days until his thirty-eighth birthday. Whether the goal had been reached or not, the five years were ending.\n\n{name} opened the bank balance from the day he first arrived in Seoul. Five hundred thousand won. Below it ran five years of messages: requests to borrow money, questions about whether he had eaten, promises to wait, and messages saying the waiting was over.\n\nA new message arrived under one of those names.\n\n‘So what are you doing the week after the five years end?’\n\n{name} looked out the window without answering. He had plenty to say to the person he had been five years earlier. But the person across the screen did not need a verdict. They needed an answer about next week.\n\nTheir time would continue after the final week. {name} closed the balance and placed the cursor in the empty reply box.",
+    "description": "Seven days remained before his thirty-eighth birthday. Reached or not, the goal could not stop the five years ending.\n\n{name} opened the bank balance from his first day in Seoul: five hundred thousand won. Below ran five years of messages—requests for money, questions about meals, promises to wait, and notices that waiting was over.\n\n{name} opened a conversation where he and one person still in his life had traded real words. No new bubble or question waited below the last message. He was the one asking about next week.\n\nHe had plenty to tell his five-years-younger self. But now he needed no verdict, only an action sent first into this conversation. {name} closed the balance and placed the cursor in the empty message box.",
     "description_memory_if_known": {
       "m4_housing_priority_runway": "At the housing consultation in the first year, {name} decided that any room he chose had to leave him usable cash after the move. Five years later, his room and his balance together showed how well he had kept that answer.",
       "m4_housing_priority_privacy": "In the first year, he had made “Can I close the door and be alone?” his first question when looking at a room. In the final week, he saw that having solitude and ending up alone were not the same thing.",
@@ -439,16 +439,16 @@
     },
     "choices": [
       {
-        "text": "Tell the first person who comes to mind, \"We held on. Let's eat together next week.\"",
-        "result_text": "{name} decided not to hide from the person across the screen the words he had meant for himself.\n\n‘We held on. Me too. Want to eat together the week after the five years end?’\n\nThere was no mention of whether the goal had been reached. He read the sentence once and pressed send. Only the sent time appeared beneath the bubble. {name} did not turn the phone facedown. The cursor blinked beside the still-empty reply box."
+        "text": "Acknowledge how they both held on, then be the first to suggest a meal next week",
+        "result_text": "{name} decided not to hide from the person across the screen the words he had meant for himself.\n\nHe first recognized the time the other person had endured, then added that he had held on too. At the end, he asked whether there was a day they could share a meal in the week after the five years ended.\n\nHe did not mention whether he had reached the goal. He read the sentence once and pressed send. Only the sent time appeared beneath his bubble. Nothing yet filled the space below it."
       },
       {
-        "text": "Offer the apology that has been postponed, before asking for next week",
-        "result_text": "Before naming anything worth celebrating, {name} wrote about one moment in the past five years when that person had been left waiting alone. No defense followed.\n\n‘I was wrong not to answer then. I'm not sending this to demand a reply. May I contact you again sometime next week, when you're ready?’\n\n{name} sent the apology without deleting it. No typing indicator appeared. The screen held the sent words, the time, and the blank space beneath them."
+        "text": "Send the delayed apology before asking for next week",
+        "result_text": "Before naming anything worth celebrating, {name} wrote about leaving that person's last words unanswered. No defense followed.\n\nHe wrote that failing to answer had been his fault and that the apology was not a demand for a reply. At the end, he asked whether he could contact them again sometime next week, when they were ready.\n\n{name} sent the apology without deleting it. The screen held the words he had sent, the time, and the space beneath them still unfilled."
       },
       {
-        "text": "Do not hide the gratitude; state tonight's distance and the next contact time",
-        "result_text": "‘Thank you for waiting this far. I need to be alone tonight. I'll contact you again tomorrow at eight.’\n\n{name} chose not to perform a steady face at the finish. He asked for distance, but wrote the time of the next call with his own hand.\n\nHe sent the sentence and put the phone on its charger. There was no reply yet. After the light went out, the sent time remained visible in the dark for a while."
+        "text": "Send his gratitude, the distance he needs tonight, and the next contact time",
+        "result_text": "{name} wrote his gratitude for the words the other person had left, his need to be alone tonight, and the exact time—eight tomorrow evening—when he would contact them again.\n\nHe chose not to perform a steady face at the finish. He asked for distance, but wrote the next contact time with his own hand.\n\nHe sent the sentence and set the phone on its charger. After the light went out, the time beneath his own message remained visible in the dark for a while."
       }
     ],
     "description_if_known": {
@@ -664,6 +664,52 @@
         "text": "Finish the unsent sentence, but do not send it",
         "result_text": "{name} finished the line: \"Dad, that day and today, I decided first without you.\" He added the time and moved his hand away from send.\n\nThe sentence was complete but did not reach Father. What {name} had meant to say remained. The place for a response from the person who might hear it was blank for now."
       }
+    ]
+  },
+  {
+    "id": "arc_y5_jaehyuk_guarantee_request_reference",
+    "title": "The Night the Guarantee PDF Arrived",
+    "description": "Jaehyuk's long-silent chat rose to the top with one file notification. Its preview held the title GUARANTEE REQUEST, a debtor field, and an empty guarantor signature line on the same screen. A short message sat beneath the file.\n\n“Minjun, look at this before we talk. I'll tell you all of why I came back to you now.”\n\n{name} did not open the signing screen. He wrote no refusal either. The immediate task was not to answer the request, but to preserve the words and time in which it had arrived. Sangchul's seven-page offer and the identical copy sent to Daeun already sat beside each other in Downloads. This PDF needed its own locked folder, merged with neither. The message box remained empty while the attachment icon stayed blue.",
+    "choices": [
+      {"text": "Move the original request and PDF into a separate folder and preserve their arrival time", "result_text": "{name} placed Jaehyuk's message and attachment in the same locked folder. He added only the received date and time to the filename, no verdict such as safe or fraud.\n\nInside the folder, the request sat above the empty signature line. No message bubble of his own appeared in the chat. When he closed the screen, the download bar vanished and one lock symbol remained beside the new PDF."}
+    ]
+  },
+  {
+    "id": "arc_y5_jaehyuk_return_call_reference",
+    "title": "The Call About Why He Returned",
+    "description": "The call {name} placed connected on the third ring. Traffic and a hastily swallowed breath overlapped on Jaehyuk's end.\n\n“I did run. I was one of the people trapped at first. But the debt stayed under my name, and the old crowd started avoiding my calls. I thought if I finished this document, I could start again. That's why I thought of you.”\n\nJaehyuk carried his mixture of excuse and circumstance to the end. {name} did not interrupt. Beneath the call screen, the archived PDF remained open. Its debtor field, separate lines for the total and guarantee limit, and the first message using a friend's name each raised a different question. Asking all three at once would leave none heard through. {name} chose the first question he would finish.",
+    "choices": [
+      {"text": "Ask first for the name in the debtor field and Jaehyuk's relationship to it", "result_text": "“What is your relationship to the name in the debtor field?”\n\nJaehyuk read the corporate name once, then stopped. “I'm not listed as the borrower. My name is tied to the guarantee side too.”\n\n{name} wrote his explanation beside the field. He did not reach the total or why Jaehyuk had chosen him. When the call fell quiet, the long name in the debtor box seemed darker on the screen."},
+      {"text": "Have him read where the total and the guarantee liability part ways", "result_text": "“Not the total. Read exactly what you would be liable for.”\n\nJaehyuk first said the figures were the same, then reopened the PDF. After a pause, he read the total and the guarantee cap separately. The two lines did not end in the same place.\n\n{name} marked their different endings. The debtor relationship and the reason for choosing a friend's name stayed beyond this question. Only the sound of Jaehyuk turning pages moved between the figures."},
+      {"text": "Ask why he chose a friend's name instead of anyone else's", "result_text": "“Why me? Not the document—the reason you chose my name.”\n\nJaehyuk gave a short laugh and stopped. “In the army, you were the one who stayed to the end. Even after I went under, your name still felt like it did then.”\n\nFriend was both an answer and material for the request. {name} copied the sentence into the call note. The debtor and guarantee-limit questions remained open, but his own name looked heavier on the screen."}
+    ]
+  },
+  {
+    "id": "arc_y5_jaehyuk_father_document_reference",
+    "title": "The Same Fields on Two Documents",
+    "description": "Jaehyuk's PDF remained open after the call. {name} took the copy of Father's old guarantee document from his private files. One was a gray scan of paper long kept folded; the other was a white PDF received today.\n\nTheir eras and typefaces differed. Yet both placed a guarantor's name after the debtor and pushed the fine print defining liability onto the next page. Father's document carried a signature that had long since set. The line waiting for him on Jaehyuk's file was still empty.\n\n{name} did not merge the files. An old failure would not decide today's request for him. Instead, he would align only the name fields and liability clauses so that what matched—and what remained blank—could be seen at once.",
+    "choices": [
+      {"text": "Align the name fields and liability clauses in a separate comparison copy", "result_text": "{name} set the guarantor field on Father's document level with the empty signature line in Jaehyuk's PDF. On the next screen he marked only where each liability clause began and ended.\n\nHe added neither conclusion nor arrow. Father's settled name remained on the left; his own empty field remained on the right. The cursor blinked once between them and stopped."}
+    ]
+  },
+  {
+    "id": "arc_y5_guarantee_protected_show_daeun",
+    "title": "The Guarantee Request Before Daeun",
+    "description": "Across the laptop, Daeun read Jaehyuk's original request, the verified guarantee scope, and the comparison with Father's document. None of the files carried {name}'s signature yet.\n\n“Mr. Minjun, you didn't call me just to leave proof that you showed me, did you?”\n\n{name} kept all three screens open. He still had to choose what to move forward first. Starting with money pushed aside who had made the request and why. Starting with names exposed Jaehyuk's and Father's circumstances to Daeun. Starting with the arrival time meant accounting for the hours he had held the file alone before discussing the paper.\n\nDaeun did not choose for him. She withdrew her hand from the laptop. “Show me what you most want to hide first. Then I can read the rest with my own eyes.”",
+    "choices": [
+      {"text": "Open with the total and guarantee scope, showing the size of the money first", "result_text": "{name} enlarged the total and the line where guarantee liability ended. Daeun read both figures, then placed one finger in the gap between them.\n\n“Did Jaehyuk tell you this difference, or did it appear only after you asked?”\n\n{name} distinguished what Jaehyuk had volunteered from the line verified directly in the PDF. The shape of the money was clear. The reason for choosing a friend's name and the time he had kept the file alone remained on the screens behind it. Daeun did not look away from the figures."},
+      {"text": "Open with Jaehyuk's and Father's name fields and show the repeated structure", "result_text": "{name} brought the comparison forward. Daeun looked from Father's name on the left to the empty field on the right, then read the original request in which Jaehyuk had called him by name.\n\n“If you stop at saying they look alike, the people become fields again. Your name is still blank, correct?”\n\n{name} showed her the blank. Two men's circumstances were now exposed; the numerical difference and the hours he had held the file remained behind them."},
+      {"text": "Disclose first the time between the file's arrival and showing it to Daeun", "result_text": "{name} read the received time, the call time, and the time he opened the file before Daeun. He stated without defense why he had held it alone between those moments.\n\nDaeun did not immediately say it was all right. “Was my name beside this request during those hours too?”\n\n{name} reopened all three screens. The withheld time was exposed, but judgment over the amount and names had not been handed to Daeun. Three timestamps and one empty signature line remained in the room."}
+    ]
+  },
+  {
+    "id": "arc_y5_jaehyuk_guarantee_decision_reference",
+    "title": "The Act Left in the Guarantee Field",
+    "description": "Three actions remained open: Jaehyuk's message box, the e-signature button on the guarantee PDF, and Block in the contact menu. The time Daeun saw the request and the comparison with Father's document stayed beside them.\n\nJaehyuk's last sentence on the call was brief. “Minjun, decide. Just don't pretend you never saw it.”\n\nRefusal would leave the signature blank and the channel open. Signing would put his name and authentication time in the empty field. Blocking would send a boundary against further contact about this request, then close the channel. None determined Jaehyuk's response or the guarantee's future. What could move now was a sentence, a signature, or the block control.",
+    "choices": [
+      {"text": "Send Jaehyuk a refusal to guarantee while leaving the contact channel open", "result_text": "{name} wrote, ‘I will not sign this guarantee. Do not put my name on this document,’ and sent it. The signature line remained blank, and the conversation stayed open.\n\nOnly a sent time appeared beneath his bubble. The place for Jaehyuk's response remained as it was, but the refusal could no longer be mistaken for silence. The call button remained at one edge of the screen; the signature button went untouched."},
+      {"text": "Enter his name in the electronic-signature field and complete authentication", "result_text": "{name} read the guarantee scope once more from top to bottom, then entered his name in the electronic-signature field. When authentication finished, black letters filled the blank and the signing time appeared automatically.\n\nHe sent no new sentence in Jaehyuk's chat. The screen held only the completed-authentication mark, the liability scope, and his name. The field that had let light through before Daeun no longer did."},
+      {"text": "Tell Jaehyuk not to contact him again about this guarantee, then block him", "result_text": "{name} wrote, ‘Do not contact me again about this document or guarantee request.’ After the sent time appeared, he selected Block in the contact menu.\n\nThe chat preserved every earlier word while closing its input. The PDF signature line stayed blank, and the call button disappeared. A short block notice appeared at the bottom; Jaehyuk's familiar voice and request remained above it."}
     ]
   }
 ]

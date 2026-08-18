@@ -375,5 +375,15 @@
         "result_text": "{name} erased the long statement and emptied the trash. In the next blank space on the calendar he wrote only, ‘Who can I say this in front of?’ He attached neither a person's name nor a time.\n\nThe question remained; today's exact words disappeared. No one having heard him remained true as well. In the dark screen, his face overlapped faintly with a question that had no one waiting for it."
       }
     ]
+  },
+  {
+    "id": "arc_y5_father_trace_passed_called",
+    "title": "The Last Call Beside the Medicine Bag",
+    "description": "The phone lit beside the folded medicine bag. The call history held the date and duration of Father's last connected call. There was no recording; the only voice {name} could hear again was his memory of Father's first word: “Minjun.”\n\nBeside it lay the copy bearing Daeun's handwritten scope and deadline from the four-person meeting, with Father's old guarantee comparison beneath. One page defined how far its owner's name could be used; the other held a name already set inside someone else's request.\n\nThe calendar stayed closed. The call history held only a date and duration; the folded medicine bag carried no diagnosis or sentence that could settle what followed. In this room, he could only choose one sentence to leave in his own voice before the connected-call record and two documents.",
+    "choices": [
+      {"text": "Say, “This time I read the liability before the guarantor field”", "result_text": "“This time I did not write a name first. I read where the liability ended.”\n\n{name}'s voice fell between the medicine bag and the phone. No praise and no rebuke returned.\n\nHe placed the comparison with Jaehyuk's PDF beside Father's document instead of over it. Between the two guarantor fields remained a space wide enough for one finger."},
+      {"text": "Place Daeun's handwritten limit beside Father's signature and admit what was never asked", "result_text": "{name} aligned Daeun's sentence—I DO NOT CONSENT BEYOND THESE TERMS—with Father's settled signature.\n\n“Back then, I looked at how urgent the request was before asking whose name was being borrowed. I should have asked first.”\n\nThe sentence could not persuade a photograph. Daeun's hand and Father's signature remained on the same desk without touching. The folded corner of the medicine bag rose between them."},
+      {"text": "Close the documents and read aloud only the date and duration of the last call", "result_text": "{name} closed the comparison and handwritten copy in turn. He read the date and call duration from the screen once each.\n\n“I answered that call.”\n\nHe added no explanation. This time, the chance to say how he had handled another person's name folded away as well. On the darkened screen, only the white medicine bag and {name}'s lips showed faintly."}
+    ]
   }
 ]

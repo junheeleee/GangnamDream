@@ -222,5 +222,99 @@
         "result_text": "{name} turned over the unfiled application. On the side without a stamp, he wrote the names of the people who had called him back to himself, one by one, and placed his own name last.\n\nIt was neither a declaration that he had abandoned the goal nor an excuse that he had stayed clean alone. It refused to leave as blanks the people who had spent this unexecuted night with him. {name} spoke the first name that could still answer."
       }
     ]
+  },
+  {
+    "id": "arc_y5_final_offer_reference_delivery",
+    "title": "The Same Seven Pages",
+    "description": "The copier outside the meeting room held the same seven pages twice. {name} flattened every sticky note and folded corner in Sangchul's proposal, then scanned the addendum into the same file. He did not hide the final page bearing Daeun's name field.\n\nOne send window held Sangchul's name; the other held Daeun's conversation. If the proposer and the person whose name might be used received different versions, even the order of the words could later be replaced by money's account of them. {name} compared the page counts and file hashes.\n\nAs the copier cooled, only the two blue send buttons remained. Neither window showed a read mark yet.",
+    "choices": [
+      {
+        "text": "Compare both files through the final page, then send the same original in order.",
+        "result_text": "After confirming page 7 of 7, {name} sent the file to Sangchul, then the identical file to Daeun two minutes later. To Sangchul he added, 'Record that the proposer and reviewer are the same person.' To Daeun: 'I did not remove the page with your name.'\n\nNo answer appeared. The same filename and two sent times remained beneath the message bubbles. {name} did not slide a blank cover sheet between them."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_sangchul_review_receipt",
+    "title": "A Copy of the Red Circle",
+    "description": "On the landing outside the old office, {name} reopened the two documents Sangchul had returned. The red circle joined the guarantee PDF's liability clause to the proposal's consenting-party field; separate the pages, and only half remained on each. No time had been written on the cover. The copier downstairs was already dark.\n\nA paper cup struck the bin behind the door, but Sangchul did not come out again. {name} needed one frame to hold both the dangerous clause and the fact that the man who had identified it was also the proposer.\n\nThe camera square caught both pages and the current capture time. The red line stayed unbroken at the center of the screen.",
+    "choices": [
+      {
+        "text": "Align both pages and preserve the red circle and current capture time in one frame.",
+        "result_text": "{name} did not tape the guarantee PDF to the proposal. To leave no claim that he had altered the originals, he photographed the pages together, then each original separately.\n\nHe named the file PROPOSER REVIEW — RISK CLAUSE, not SANGCHUL REVIEW. When the stairwell light went out, only the red line and capture time remained bright on the screen."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_room_consent_receipt",
+    "title": "The Clear Clip",
+    "description": "Even after the meeting ended, Daeun's handwritten sheet was not attached to the contract. In black ink it held the permitted scope, its end date, and the sentence, 'I do not consent beyond this range.' Sangchul's unverified clauses appeared below in a different hand. Jaehyuk's guarantee PDF lay in a separate stack.\n\nDaeun picked up a clear clip. 'Don't merge them, Minjun. This isn't part of the contract. It records exactly how far I spoke.'\n\n{name} matched the page counts on the four copies. One original remained at the center of the table, the rounded back of the clip catching the ceiling light.",
+    "choices": [
+      {
+        "text": "Keep the handwritten original separate from the contract, preserved by its own clip and capture time.",
+        "result_text": "{name} wrote the same time at the lower-right corner of Daeun's sheet and on the contract cover, but did not staple them together. Daeun checked the photograph herself with every handwritten line visible. Sangchul initialed only beside the clauses he had not verified. No one added a signature to Jaehyuk's PDF.\n\nAfter four copies disappeared into four bags, one clear clip remained on the empty table, holding the distance between the original and the contract exactly as it was."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_name_on_line_daeun_routed",
+    "title": "Daeun Beside the Blue Pen",
+    "description": "The blue pen at the filing counter was tethered by a short metal chain. Daeun did not stand on {name}'s side. From across the clerk's desk, she looked between her handwritten scope and the contract's name field.\n\n'Minjun, what I wrote ends here.' She pressed a nail beneath the end date. 'Having this sheet doesn't mean you can move my name anywhere you want.'\n\nThe clerk placed yellow tabs on three clauses outside that scope. An old identity copy waited in a separate envelope; in the bag was the smaller estimate with every Daeun document removed. Ticket 227 chimed again. Beside the blue pen, the withdrawal stamp, filing stamp, and blank consenting-party field stood in a row.",
+    "choices": [
+      {
+        "text": "Acknowledge the clauses beyond her scope and withdraw today's filing.",
+        "result_text": "{name} did not pick up the blue pen. The clerk stamped WITHDRAWN at the upper-right corner and read out the filing window that would not reopen today and the fee that would not be refunded.\n\nDaeun did not thank him. She returned her handwritten original to its clear folder. 'Not filing was your choice too. I won't make it clean for you.' Until the red letters dried, they held opposite edges of the same sheet."
+      },
+      {
+        "text": "File only within Daeun's handwritten scope and strike every other field.",
+        "result_text": "The clerk verified Daeun's handwriting and date, then ruled through the three clauses outside her scope. {name} heard the lower limit created by those lines and signed the application in his own name. Daeun signed once in the consenting-party field, matching the original.\n\nEven after the filing stamp fell, the original and contract remained separate. The rounded back of the clear clip protruded between the copies bearing number 227."
+      },
+      {
+        "text": "Attach the old identity copy and electronically submit even the fields Daeun did not write.",
+        "result_text": "{name} attached the old identity copy and entered the name fields beyond Daeun's scope. When the clerk asked, 'Was this portion also approved today?' {name} answered, 'The identity document is here.' The answer was not the question.\n\nInstead of a final stamp, the clerk marked IDENTITY VERIFICATION HOLD and issued a provisional filing number. Daeun pulled out her handwritten original. 'You filed even the lines where I wrote no.' She did not take the provisional copy. Only the tethered blue pen slowly returned at the edge of the counter."
+      },
+      {
+        "text": "Remove every Daeun document and switch to the smaller estimate under his name alone.",
+        "result_text": "The new limit stood farther from the goal. {name} removed Daeun's handwritten original and identity copy from the filing stack and wrote NOT APPLICABLE in the consenting-party field. His name appeared once on the signature line.\n\nWhile the clerk stamped filing number 227, Daeun read the reduced figure to the end. 'That number is yours now too. Not using my name isn't the same as not using my time.' Each of them took one copy of the thinner filing."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_people_verdict_daeun_routed",
+    "title": "The Consent Sheet He Did Not Use",
+    "description": "Filing number 227 and the unused consent sheet lay side by side on the small table behind the convenience store. The filed copy said NOT APPLICABLE in the consenting-party field and bore {name}'s name once. Daeun's handwritten scope remained untouched in a separate folder.\n\nDaeun spoke first. 'I checked that you didn't use my name. That doesn't mean you didn't use my time. The evenings I cleared to read this. The time I waited in that room with four people.'\n\nHyunsu looked at {name}, not the filing. 'Hyung, signing alone doesn't mean you got here alone.' Sangchul's call buzzed without ringing. Neither Daeun nor Hyunsu turned the screen over for him.",
+    "choices": [
+      {
+        "text": "Place both the filed copy and unused consent sheet before them, and listen to the end.",
+        "result_text": "Daeun read the scope and date she had actually written, then read NOT APPLICABLE on the filed copy. Hyunsu left one finger's width between the two sheets.\n\n{name} offered no defense until Sangchul's vibration died three times. 'You gave back the name you didn't use,' Daeun said. 'Now talk about the time you did.' Hyunsu turned the filed copy toward {name} without closing the gap."
+      },
+      {
+        "text": "Take out the amendment and cancellation forms. Find only the lines he can still undo.",
+        "result_text": "{name} spread the blank cancellation form without covering the filed copy. Daeun placed a finger on the cancellation deadline; Hyunsu placed his on the same-day delivery deadline. Neither chose for him.\n\n'Stopping here costs the fee and today's window,' Daeun said. 'That's the contract's price, not the price of my forgiveness.' {name} copied both times into his notebook."
+      },
+      {
+        "text": "Take Sangchul's call and return to the execution counter.",
+        "result_text": "{name} told Sangchul, 'I'm coming,' and gathered the filed copy. Daeun kept her handwritten original in her own folder. Hyunsu pushed the abandoned chair back under the table. Neither blocked the door.\n\n'Minjun.' Daeun called his name, but did not choose the next sentence for him. As the automatic door closed, filing number 227 flashed in the glass. The unused consent sheet remained at the table."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_contract_execution_property",
+    "title": "Where the Money Moved",
+    "description": "The real-estate office printer swallowed the self-filed copy bearing number 227 and returned it. The consenting-party field said NOT APPLICABLE, and the limit was lower than the first proposal. Sangchul stood by the wall rather than sit on the seller's side.\n\nThe broker laid out a balance-transfer screen, a cancellation confirmation, and an assignment approval. 'Only one of these can move today. Completion sends the balance. Cancellation burns part of the deposit. Assignment moves both the settlement and the remaining liability.'\n\nSangchul spoke briefly. 'I brought the road. The money still moves under your hand.' None of the three signature fields yet bore {name}'s name.",
+    "choices": [
+      {
+        "text": "Send the balance under his own-name filing and take the execution notice.",
+        "result_text": "{name} read the recipient and amount aloud, then pressed transfer. The bank tone sounded once, and the broker stamped BALANCE PERFORMED on the contract. The key remained sealed until the registry check.\n\nThe execution notice bore filing number 227, the completed transfer time, and {name}'s name alone. Sangchul checked the recipient field once more instead of offering congratulations. {name} lifted the warm sheet from the printer himself."
+      },
+      {
+        "text": "Cancel the contract, accept the forfeited portion of the deposit, and receive the original cancellation confirmation.",
+        "result_text": "{name} closed the transfer screen and signed the cancellation confirmation in his own name. The broker read out the refund and the portion of the deposit that would disappear. Sangchul did not offer to bargain it down.\n\nThe stamped cancellation original and refund receipt entered a clear folder. The key envelope returned to the seller's drawer. Some money remained in {name}'s account; the contract kept today's date, which would not reopen."
+      },
+      {
+        "text": "Assign the purchase right and document the settlement and remaining liability.",
+        "result_text": "{name} verified the new assignee and settlement figure, then signed the assignment approval. After fees and the price difference, the broker sent the balance to {name}'s account and marked one liability clause that survived the transfer.\n\n'Getting out is still execution,' Sangchul said. Instead of answering, {name} clipped the settlement receipt to the surviving liability clause. The unopened key envelope moved to the far side of the desk."
+      }
+    ]
   }
 ]

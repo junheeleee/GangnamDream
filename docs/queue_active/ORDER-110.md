@@ -71,7 +71,8 @@
 13. `arc_y5_jaehyuk_guarantee_decision_reference` — 거절, 실제 서명, 명시적 차단을 정확한
     행동으로 수행한다. 선택문과 결과가 다르게 움직이지 않고 재혁의 답장을 보장하지 않는다. 3.
 14. `arc_y5_sangchul_review_receipt` — `arc_sangchul_final_door`에서 빨간 원으로 묶인 위험
-    조항과 상철이 쓴 40분을 한 장에 남기는 1개 진행 동작이다.
+    조항과 현재 촬영 시각을 한 장에 남기는 1개 진행 동작이다. 다른 선택의 ‘40분’을
+    합치지 않는다.
 15. `arc_y5_room_consent_receipt` — `arc_y5_three_in_room_decision`의 자필 범위·기한·범위 밖
     거절 원본을 별도 클립으로 보존한다. 새 동의를 다시 묻지 않는 1개 진행 동작이다.
 
@@ -166,7 +167,22 @@
   이미 `CLAUDE.md`와 `docs/CHOICE_CONSEQUENCE_SYSTEM.md`가 소유한다. 새 중복 승격 없음.
 - 정확한 20 root 목록·파일·검사·기준 출연진은 이 배치에서만 유효한 일회성 지시다.
 
+## 실행 결과 (2026-08-18)
+
+- 신규 author-only 19개와 기존 `arc_final_week` 텍스트만 변경했다. locale당 20 roots·
+  51 choices이며, 모든 비대상 object와 보호 원고 16개, `arc_final_week` 조건부 지문·
+  효과·플래그·비텍스트 구조는 선언 commit `dcb7c27`과 동일하다.
+- 계약 원문 → 상철 전달 → 다은 보호선 → 진료·민서·다은 → 재혁 보증 → 상철 검토 →
+  네 사람 자필 범위 → 아버지 흔적 → 자기 명의 227 접수 → 다은·현수 판결 → 실제 이체 →
+  마지막 주 선발신을 한 줄로 낭독했다. 독립 L2는 P0/P1 0으로 판정했다.
+- 상호배타 선택의 receipt를 합치던 수면·파란 선·통화 질문, 보장되지 않은 다은의 가게
+  폐점, 아버지 메타 보고체, `arc_final_week`의 배우별 말끝과 선행 대화방 전제를 모두
+  실제 공통 물성 또는 배우 중립 행동으로 낮췄다.
+- strict duplicate-key JSON, exact structured diff, EN/i18n 1702/1702, story consistency,
+  speech register, story-map normal·76 self-test, context/queue와 `git diff --check`가 통과했다.
+  전체 감사·240주·Godot는 사양대로 실행하지 않았다. 신규 19개는 후속 이관 전까지
+  실제 도달을 주장하지 않는다.
+
 ## 사람 판정
 
-이번 배치는 L1 정합과 L2 독립 낭독까지 진행한다. 사용자 L3 전에는 번역 원문으로
-잠그지 않는다.
+L1 정합과 L2 독립 낭독은 완료됐다. 사용자 L3 전에는 번역 원문으로 잠그지 않는다.
