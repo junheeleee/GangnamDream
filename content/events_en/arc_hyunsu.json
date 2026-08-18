@@ -112,16 +112,16 @@
   },
   {
     "id": "hyunsu_reunion_later",
-    "title": "A Message from Hyunsu",
-    "description": "That evening, his phone gave a short buzz. Hyunsu.\n\n\"Hyung, I got hired at an accounting firm.\"\n\nA photo followed. Hyunsu in a navy suit, holding a new business card. The awkward angle and smile made it obvious someone else had told him to pose.\n\n{name}'s finger stopped over the reply box. Congratulations was easy. There was something else he wanted to look at first.",
+    "title": "The Face Before the Card",
+    "description": "At 9:18 that evening, the phone gave a short tremor against the desk. Hyunsu.\n\n\"Hyung, I got a job. At an accounting firm. It still doesn't feel real.\"\n\nA photo followed: navy suit, shirt buttoned to the throat, a new business card held too close to the lens. Hyunsu was smiling under the fluorescent light, but his shoulders were drawn high. Before the title on the card, {name} saw the face of someone who still tried to make himself smaller in case his happiness inconvenienced anyone.\n\n{name} typed Congratulations, then erased it. Praising only the result might press all the years before it into one neat line. He could ask about the face in the photograph, or begin with what he had failed to say outside Hyunsu's door on the day the result came. The cursor kept blinking in the same place.",
     "choices": [
       {
-        "text": "Look at Hyunsu's face before the card",
-        "result_text": "He zoomed in. Before the crisp business card, he saw the same awkward smile above it."
+        "text": "Ask about Hyunsu's face before offering congratulations",
+        "result_text": "{name} enlarged the photo and typed, \"I can't read the card, but why does your face look so stiff?\"\n\nThe three typing dots appeared at once. The tidy title slipped beyond the edge of the screen, leaving the familiar smile beneath his thumb."
       },
       {
-        "text": "Remember the days outside his door before the new job",
-        "result_text": "Instead of congratulations, he typed the first line about the day neither of them had forgotten."
+        "text": "Begin with the first line about that day outside his door",
+        "result_text": "{name} erased Congratulations and began with the sentence he had long postponed. \"Hyunsu, there's something I couldn't say outside your door that day.\"\n\nThe read mark appeared first. No answer yet, but the sentence occupied more of the screen than the business card in the photograph."
       }
     ]
   },

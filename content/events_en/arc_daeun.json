@@ -86,6 +86,25 @@
     ]
   },
   {
+    "id": "arc_y2_daeun_relationship_fork",
+    "title": "Two Addresses",
+    "description": "At 6:42 a.m., Daeun removed her convenience-store badge. Beside it she laid two sheets, creased from a night of folding. One listed a month of Seoul rent, transit, and night shifts. The other showed the first bus home and the terms for a steady job at the hometown mart.\n\n\"Mom is ill, and a stable position opened at the mart. If I go back, I can work days and stay near her. I can't tell whether Seoul is still my dream or I'm only afraid to go home.\"\n\nDaeun pushed both sheets toward {name} without asking him to make her stay. \"Don't ask which place is easier, Minjun. Neither one is. Look at what Seoul costs and what I would leave behind at home.\"\n\nThe first commuter bus passed beyond the automatic doors. Neither address was crossed out.",
+    "choices": [
+      {
+        "text": "Divide the cost of staying in Seoul between them",
+        "result_text": "{name} took out his housing notice and placed it beside Daeun's Seoul budget. Under the figures he drew two columns: \"Daeun alone\" and \"what we can carry together.\"\n\nDaeun slid the calculator toward him. \"Don't just write half. This plan has to survive the days you're too busy to be here.\"\n\nThey added travel time and days off beside the rent. The promise to endure together took one sentence; the table required the entire page."
+      },
+      {
+        "text": "Go with Daeun to her hometown first this weekend",
+        "result_text": "{name} opened the bus app and selected the first departure.\n\n\"If you come with me, won't we have to decide there?\"\n\n\"No. First I'll look and listen. We decide after that.\"\n\nAfter a long pause, Daeun circled Saturday. She did not fold the Seoul budget or throw away the page for home. Only the open hours of that weekend were closed first, under both their names."
+      },
+      {
+        "text": "Do not ask her to wait; listen to the choice she makes",
+        "result_text": "{name} turned both sheets back toward her. \"I won't ask you to stay because of me. I'll listen to the answer you choose.\"\n\nDaeun did not thank him. \"Don't say it like you're sending me somewhere easier. I lose something if I go home too. This weekend I'll go down alone and see Mom and the mart job first. I'll decide about the room in Seoul after that.\"\n\nWhen {name} nodded, she folded both pages. They stood at the automatic doors without writing another appointment. The first bus stopped outside, and Daeun gestured for him to board before her."
+      }
+    ]
+  },
+  {
     "id": "arc_daeun_03b_date",
     "title": "First Time Out",
     "description": "She asked: \"Want to go somewhere with me today?\"\n\nFirst time. Daeun outside the convenience store.\n\nThey ended up at a nearby tent bar — pojangmacha.\nOne bottle of soju. One serving of kimchi pancake.\n\nShe was different away from the counter.\nA little more relaxed. A little more laughing.\n\nHe said \"they should sell triangular kimbap here\" and she burst out laughing.\nA real laugh.",

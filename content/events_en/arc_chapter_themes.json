@@ -120,19 +120,209 @@
   {
     "id": "arc_34_doors_open",
     "title": "Doors Are Opened by People",
-    "description": "The business cards from the room Sangchul had opened were stacked across {name}'s desk. Each held a person's name, a company, and numbers he could never have reached alone.\n\nOpportunity did not come only through job postings. Someone introduced someone, you were called to a certain table, a piece of information slipped out over drinks.\n\nA year ago, {name} knew no one, so he thought there were no opportunities. The truth was that no one had been standing at the doors.\n\nNow a few doors were coming into view. And there was always someone standing in front of each one.",
+    "description": "Nine at night. Only folding chairs remained in the common meeting room after a free public briefing. No one had invited {name} personally. Near the exit, strangers checked the schedule and exchanged contact details while the organizer gathered a few blank visitor cards.\n\n{name} held only the public schedule and one card with no name on it. Opportunity clearly moved through people, but no one he met tonight could yet be called an opportunity.\n\nThe elevator was about to close. The organizer had shouldered their bag, and the ride home was enough time to finish the file he had postponed. {name} had one move left to make.",
     "choices": [
       {
-        "text": "Went out to meet people, actively",
-        "result_text": "He was the shy type, but {name} started handing out cards. It was awkward. Still — he now knew a door only opens if you knock."
+        "text": "Tell the three people by the elevator his name first",
+        "result_text": "{name} held the closing door and introduced himself and his work. Two people shared their contact details; another named the next public session. The earlier train left without him, and the file in his bag remained unfinished."
       },
       {
-        "text": "Meet people, but drew a line at using them",
-        "result_text": "Using people as tools for opportunity is easy. {name} decided not to cross that line. Even reaching Gangnam, he didn't want to climb a staircase made of people."
+        "text": "Ask the organizer for the admission rules and costs first",
+        "result_text": "The organizer wrote down which meetings were public, which were paid, and who chose the attendees. The elevator closed during the explanation. No contacts were gained, but the conditions for entering were now on paper."
       },
       {
-        "text": "Going through people still felt uncomfortable",
-        "result_text": "He wanted to be judged on merit alone. Knowing it was a naive wish. {name} decided to build his skills first. The doors could be knocked on later."
+        "text": "Return the visitor card and go prepare alone",
+        "result_text": "{name} returned the blank card and headed for the station. No new contact entered his phone. On the train, however, he finished the last page of the postponed file. Whether tonight's seat would open again remained unknown."
+      }
+    ]
+  },
+  {
+    "id": "arc_y2_money_structure",
+    "title": "The Source of the First Repayment",
+    "description": "At 11:21 p.m., {name} opened the repayment screen for one amount carried over from last month. The original amount, the first installment due tonight, and the balance that would remain occupied separate lines. One fee, however, was labeled only ‘processing.’\n\nSending the agreed amount before midnight would keep the first deadline. Asking again could reveal who received which money, but the transfer window might close while he waited. Sending only principal would leave a reason on record, along with an unpaid mark.\n\nThe cursor waited in the transfer memo. The word repayment could not close both the source of the amount and the responsibility still left behind.",
+    "choices": [
+      {
+        "text": "Have them read out principal, fees, and balance before sending the agreed first amount",
+        "result_text": "{name} called the listed contact and asked for all three lines to be read aloud. After confirming who received the processing fee and what balance would remain, he transferred only the agreed first installment.\n\nThe completion time was four minutes after midnight. The call record and transfer receipt stayed together, but the first installment now carried a late mark. The first deadline passed while he secured the source of the explanation."
+      },
+      {
+        "text": "Keep the deadline first and name the source and installment in the transfer memo",
+        "result_text": "{name} sent the displayed first installment and wrote the original transaction and ‘installment one’ in the memo. The completion mark appeared before midnight.\n\nHe still did not know who received the processing fee. He attached the receipt to last month's ledger without erasing the line whose explanation remained blank."
+      },
+      {
+        "text": "Send principal without the processing fee and leave a written objection",
+        "result_text": "{name} transferred the agreed principal portion and wrote, ‘I will review the processing fee when I receive its basis.’ A principal receipt appeared, but the account status stayed ‘partially unpaid.’\n\nThe other side left only a read mark. {name} recorded the reduced balance and the unresolved fee in the same ledger box."
+      }
+    ]
+  },
+  {
+    "id": "arc_y2_bank_limit_review",
+    "title": "The Small Print on the Limit Sheet",
+    "description": "At 4:40 p.m., the printer at the bank desk pushed out a preliminary limit estimate. The number at the top was larger than {name} had expected. Below it, smaller lines listed rate changes, income verification, and reasons for rejection.\n\nThe banker highlighted the preliminary maximum. “This estimates what may be approved. It is neither what you can carry nor an official limit.” The monthly payment looked manageable against current income. The box for one month of reduced income was still blank.\n\nTwelve minutes remained. {name} could use them for a risk worksheet, lower his own ceiling and receive an official sheet, or take an official sheet at the preliminary maximum.",
+    "choices": [
+      {
+        "text": "Add rejection conditions and the payment after an income drop",
+        "result_text": "The banker printed a separate risk worksheet with three lines: job loss, reduced income, and a higher rate. The payment beneath the preliminary maximum changed three times.\n\n{name} circled the amount in the worst month. The appointment ended before an official limit sheet could be issued. He left without the large number, but the first point of failure now existed on paper."
+      },
+      {
+        "text": "Recalculate using only what his own current income can repay",
+        "result_text": "{name} asked the banker to recalculate from his currently verified income and the amount he could still repay after one reduced-income month. The new limit fell sharply below the first number.\n\nThe banker placed both sheets side by side. {name} dated the smaller one. The amount he could be responsible for became clearer than the amount he could obtain."
+      },
+      {
+        "text": "Take the official maximum-limit sheet but do not apply today",
+        "result_text": "{name} had an official limit sheet issued at the preliminary maximum and signed only the explanation acknowledgment. He left the application blank. The banker highlighted the sheet's validity date once more.\n\nHe left with a document he could use immediately, but without the risk worksheet. No money had entered the account. Only the deadline for deciding again was clear."
+      }
+    ]
+  },
+  {
+    "id": "arc_y2_sangchul_source_review",
+    "title": "Across from the Introducer",
+    "description": "At 5:03 p.m., {name}, Sangchul, and an introducer he had never met sat across from one another in Sangchul's office. The page on the table printed only the projected return in bold. The boxes for the source of the money and the recipient of the introduction fee were empty.\n\nSangchul pushed over a cup of cold instant coffee. “If you write every name first, the good seats are already gone. You enter by judging the person.” The introducer pinned down the corner of the sheet but did not offer a name.\n\nFifteen minutes remained before the next appointment. Asking about the source, forcing the costs onto paper, or stopping at the blank terms would each leave a different loss.",
+    "choices": [
+      {
+        "text": "Make both men write their names and identify who supplies the money",
+        "result_text": "{name} pointed to the two blank boxes. The introducer produced a card; Sangchul wrote only the funding company's name. The pen stopped when {name} asked for the individual behind it.\n\nThe next appointment time passed. The answer was incomplete, but the paper and card now showed exactly who had refused to write a name."
+      },
+      {
+        "text": "Have them itemize the introduction fee and every later charge",
+        "result_text": "The introducer first called it ‘customary.’ When {name} pushed over a blank page, the man separated an opening fee, materials, and a success charge. Sangchul stirred the cold coffee.\n\nBy the time three cost lines and their billing dates existed, the time to leave for the next address had passed. The cost sheet remained, but the individual funder's name was still blank, and that day's next door had closed."
+      },
+      {
+        "text": "Say there will be no next meeting without written terms",
+        "result_text": "{name} left the sheet unfolded at the center of the table. “I won't go to the next address while those boxes are blank.”\n\nThe introducer stood first. Sangchul did not stop him. No next address arrived from this meeting. What remained on {name}'s phone was a photograph of the blank boxes and the time the man left."
+      }
+    ]
+  },
+  {
+    "id": "arc_y2_sangchul_chosen_door",
+    "title": "The Name Behind the Card",
+    "description": "A temporary site office occupied the second floor of a shopping block marked for demolition. Redevelopment plans covered the walls; zone passes and hard hats lay across folding tables. Before the attendees, Sangchul rested a hand lightly on {name}'s shoulder.\n\n\"I brought this man.\"\n\nThe introducer column already read ‘Lim Sangchul’ beside {name}'s name. Nothing stated what the visit would demand later or whether the next seat carried a charge. The site coordinator said the elevator would leave soon with a small group for one zone. Sangchul fanned three passes in one hand.\n\n\"Questions come after you get inside.\"\n\n{name} had to decide whether to demand terms first, narrow the visit, or stop at an unwritten condition.",
+    "choices": [
+      {
+        "text": "Ask about the introducer and costs in front of everyone",
+        "result_text": "{name} pointed to the attendance sheet and asked them to write down who introduced whom and which later costs could arise. While the coordinator added two lines, the elevator left. The terms remained on paper; the first site walk did not."
+      },
+      {
+        "text": "Accept one person's pass for one zone only",
+        "result_text": "{name} chose one coordinator and one zone to inspect. Sangchul collected the other two passes. The broad introduction disappeared, but who he was meeting and where they were going stayed clear to the end."
+      },
+      {
+        "text": "Return the pass unless the terms are written down",
+        "result_text": "When Sangchul did not answer, {name} placed the pass back on the table and asked for ‘entry declined because terms were not disclosed’ to be written beside his name. The coordinator added the reason to the visit record and let him photograph that line.\n\nThe safety briefing began and the group moved through the inner door. {name} lost the site walk, but kept one record showing that he had not entered under unexplained terms."
+      }
+    ]
+  },
+  {
+    "id": "arc_y2_jiyeon_chosen_door",
+    "title": "Under Her Name",
+    "description": "At the entrance to a private Gangnam housing briefing, the clerk checked the list twice and could not find {name}. Jiyeon showed the invitation on her phone, and the clerk took out one wristband.\n\n\"We can register him as one guest accompanying Han Jiyeon.\"\n\nThe desk screen displayed ‘Han Jiyeon — one guest’ first. Jiyeon did not sign for him. She pushed the pen toward {name}.\n\n\"I opened this door, Minjun. You decide what you say inside. Just don't pretend my name was never used to bring you here.\"\n\nEight minutes remained before the first session. {name} could reintroduce himself under his own name, ask what Jiyeon's family would expect to hear, or leave the wristband and keep only the conversation between them.",
+    "choices": [
+      {
+        "text": "Erase the guest label and explain his own name and work",
+        "result_text": "Before accepting the wristband, {name} asked the clerk to remove the guest label. The first entry line began moving while he explained his name and work from the beginning. The clerk issued a separate waiting number. He missed the first session, but the next-session list carried his own name. Jiyeon waited beside the empty desk without rushing him."
+      },
+      {
+        "text": "Ask what Jiyeon's family would expect before going in",
+        "result_text": "Jiyeon darkened her screen. \"Father doesn't know yet. When he does, he'll ask why you came here, Minjun.\" They did not rehearse an answer. The first session passed while the wristband stayed on the counter."
+      },
+      {
+        "text": "Decline the wristband and talk with Jiyeon outside",
+        "result_text": "{name} returned the guest wristband and moved to a bench beyond the lobby. He missed the presentation. When he asked why she had used her name, Jiyeon answered, \"I hated rooms filled only with Father's choices. If you came in, at least one person there would be someone I chose.\""
+      }
+    ]
+  },
+  {
+    "id": "arc_y2_casino_chosen_door",
+    "title": "At the Casino Door",
+    "description": "At the Jeongseon casino entrance, the shuttle attendant opened the reservation list. Beside {name}'s name was ‘Lim Sangchul's party,’ but Sangchul had gone in ahead and did not answer his phone. The attendant handed over a temporary pass and pointed to a table number inside.\n\n\"Your group has already exchanged its cash. They're starting soon.\"\n\nBeyond the glass, people addressed one another by industry and title. Entering without asking who shared the table could settle the relationship before the money moved. Across the lobby stood the cashier and the lockers. The last shuttle to Seoul would leave in thirty minutes. {name} could not keep the pass, all the cash he brought, and the ride home at once.",
+    "choices": [
+      {
+        "text": "Ask for the names and relationships at the table before entering",
+        "result_text": "The attendant reopened the list and identified three people and each connection to Sangchul. During the explanation, one reserved seat went to another guest. {name} remained outside with the pass, while every bill he brought stayed untouched."
+      },
+      {
+        "text": "Keep only the cash he can afford to lose and lock away the rest",
+        "result_text": "{name} took out only the amount set in advance and locked the wallet and remaining cash away. On the exchange receipt, he wrote the number at which he would stop. The door opened, but the locker key kept its weight in his pocket."
+      },
+      {
+        "text": "Return the pass and take the last shuttle to Seoul",
+        "result_text": "{name} gave the pass back and crossed to the bus bay. He sent Sangchul one line: \"I'm not going in tonight.\" The cash stayed folded. When the bus door closed, the casino lights began to recede."
+      }
+    ]
+  },
+  {
+    "id": "arc_y2_chosen_door_none",
+    "title": "A Time Already Past",
+    "description": "At 11:43 p.m., one calendar alert had faded gray. It held the address and visit time for the one place {name} could actually have reached today. No arrival record carried his name.\n\nThe person who sent the address had left one short message: ‘Today's session has ended.’ Beneath it sat the end time and confirmation number for the paid shift {name} had kept instead. One side of the screen held an address he had not reached; the other held work he had actually finished on the same date.\n\nChoosing no door had still spent the day. Now he had to decide how to record the missed promise: apologize directly, keep the address and time as an open record, or keep only the completed shift and close the contact route too.",
+    "choices": [
+      {
+        "text": "Contact one person and apologize for not going today",
+        "result_text": "{name} named that place and time and apologized without an excuse. The only reply was, \"Today's session has ended.\" No new date followed. At least one ignored conversation moved from the bottom of the screen to the top."
+      },
+      {
+        "text": "Record the missed address, time, and ‘did not arrive’",
+        "result_text": "{name} wrote ‘did not arrive’ beside that address and time. A blank that was neither profit nor expense became a record for the first time. No message went out, and the completed-shift confirmation remained on its separate line."
+      },
+      {
+      "text": "Keep only the completed shift and close the missed address and contact thread in the archive",
+      "result_text": "{name} attached only the paid-shift confirmation to the ledger. He moved the gray address notice and its conversation into an archive labeled ‘Closed Doors’ and removed them from the first screen.\n\nWhat he had missed on the day he protected his income survived only in the archive title. This month's record kept neither an address to revisit nor an open thread in which to apologize."
+      }
+    ]
+  },
+  {
+    "id": "arc_y2_open_door_cost",
+    "title": "The Introduction's Second Bill",
+    "description": "At 11:36 p.m., the itemized bill for last month's redevelopment visit filled the payment screen. The travel charge, materials, the one zone {name} had actually entered, and the coordinator's name all matched. The last line, ‘network management,’ named neither the work nor its recipient.\n\nPaying in full before midnight would avoid an overdue mark. Calling the coordinator could verify some items, but the deadline might pass while he waited. Removing the unexplained line would cost less and leave an objection on record, along with an open balance.\n\n{name} matched the pass number to the invoice and pressed the transfer amount again. One door had returned as three separate charges.",
+    "choices": [
+      {
+        "text": "Have the coordinator read each item and pay only the verified charges",
+        "result_text": "{name} called the site coordinator and matched the dates for travel and materials one by one. Midnight passed during the explanation of the management fee, but he transferred the two verified amounts.\n\nThe bill remained ‘partially paid.’ Beside the call record, two explained lines and one line without a basis stayed visibly separate."
+      },
+      {
+        "text": "Pay in full before the deadline and preserve the original invoice",
+        "result_text": "{name} paid all three items and stored the completion screen beside the original invoice. It was eleven minutes before midnight.\n\nNo overdue mark appeared. The meaning of ‘network management’ remained blank, however. The payment closed; the question moved behind the receipt."
+      },
+      {
+        "text": "Remove the unexplained fee and send the rest with a written objection",
+        "result_text": "{name} paid only travel and materials and wrote, ‘Please identify the service and recipient for the management fee.’ The coordinator read it without replying.\n\nOnly the verified amount left the account. One unpaid line remained on the invoice, and {name} captured it together with the written objection."
+      }
+    ]
+  },
+  {
+    "id": "arc_y2_open_door_cost_explanation",
+    "title": "Before the Person Who Waited",
+    "description": "At 9:18 p.m. in the express-bus terminal, the coordinator from last month's site sat across from {name}. Their review appointment had begun thirty-eight minutes earlier; the coffee in the paper cup had gone cold. The coordinator opened no new materials.\n\n“If you couldn't make the agreed time, did you at least know whose name held the seat?”\n\nOn {name}'s phone, Sangchul's address, the time he had read it, and the record of the other work he had actually finished remained separate. Showing everything would explain the delay and hand over another person's name. Naming only his own choice would preserve responsibility and conceal part of the cause. Apologizing without asking for another date would return the power to reopen the relationship to the person who had waited.",
+    "choices": [
+      {
+        "text": "Show Sangchul's address and the actual times, then explain from the beginning",
+        "result_text": "{name} placed the phone on the table and showed Sangchul's address, the time he had seen it, and the order in which the delay happened. The coordinator paused at Sangchul's name.\n\n“Now I know why. I'll decide whether to contact you for another review.” No new date was set. The explanation and the time spent waiting remained beside the cold coffee."
+      },
+      {
+        "text": "Leave out other names and say only what he chose first",
+        "result_text": "{name} did not open anyone else's message. “I finished something else first, and I also failed to warn you in time.”\n\nThe coordinator asked for no further reason and wrote ‘thirty-eight minutes late’ on the appointment sheet. One name stayed private; an empty part of the explanation stayed too. No new date was offered."
+      },
+      {
+        "text": "Apologize without asking for another date",
+        "result_text": "{name} named the late time and the waiting he had caused, then apologized without an excuse. “Whether we meet again should be your decision.”\n\nThe coordinator threw away the paper cup and stood. No answer and no new appointment remained. On the terminal bench, only {name} and the original meeting time were left."
+      }
+    ]
+  },
+  {
+    "id": "arc_y2_open_door_cost_cancel_repeat",
+    "title": "How Far to Erase the Next Seat",
+    "description": "At 8:50 p.m., Sangchul sent the address and seat number for the next private dinner. Beneath ‘the same people as last time,’ the reply deadline sat ten minutes away. {name}'s calendar already held one more repeating invitation at the same hour.\n\nCanceling only tonight would leave the channel open. Asking to be removed from the invitation list could also cut off the next proposal. Refusing every seat until written terms arrived would close the door and leave a reason on record.\n\nNo typing indicator appeared in Sangchul's chat. After ‘I can't come,’ {name} had to decide in his own words how much else to close.",
+    "choices": [
+      {
+        "text": "Cancel only this seat and say he will review future proposals separately",
+        "result_text": "{name} named the date and seat number and declined only this invitation. Sangchul replied, “Understood. We'll look at the next one separately.”\n\nA strike appeared through tonight's address. The conversation and the route for another proposal remained open; only one seat had closed."
+      },
+      {
+        "text": "Ask for his name to be removed from the repeating invitation list",
+        "result_text": "{name} asked to be removed not only from tonight's seat but from the list that kept bringing the same group together. Sangchul read it at once and did not answer for a long time.\n\nAfter the deadline, four words arrived: “I'll do that, then.” The address disappeared, and no next date stayed pinned above the conversation."
+      },
+      {
+        "text": "Refuse every seat until the terms arrive in writing",
+        "result_text": "{name} asked for the introducer, fees, and attendance terms in writing and said he would not attend tonight or any later seat before receiving them.\n\nSangchul replied, “You've grown fond of paper.” The address vanished from the calendar, but no document arrived. The reason for canceling and an empty attachment box remained on the same screen."
       }
     ]
   },

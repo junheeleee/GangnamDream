@@ -717,7 +717,7 @@
             "deadline": "새해 첫 달에 지킬 약속을 정해야 한다"
           },
           "commitments": [
-            {"id": "m13_return_to_person", "source": "person_promise", "axis": "trust", "label": "첫해에 기다리게 한 사람과 잡은 새해 첫 약속에 도착한다", "due_week": 49, "miss": "expired", "after": null},
+            {"id": "m13_return_to_person", "source": "person_promise", "axis": "trust", "label": "첫해에 기다리게 한 실제 사람 한 명에게 먼저 연락해 새해 첫 주의 구체 시각을 제안한다", "due_week": 49, "miss": "expired", "after": null},
             {"id": "m13_clear_old_cost", "source": "pressure", "axis": "cash", "label": "첫해에서 넘어온 미납 한 건을 갚거나 빌린 물건을 돌려준다", "due_week": 50, "miss": "deferred", "after": null},
             {"id": "m13_use_boss_opening", "source": "opportunity", "axis": "cash", "label": "첫해 보스에서 남긴 한 현장 또는 면담에 실제 들어간다", "due_week": 52, "miss": "expired", "after": null}
           ],

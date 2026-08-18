@@ -219,6 +219,25 @@
     ]
   },
   {
+    "id": "arc_y2_jiyeon_relationship_fork",
+    "title": "Affection and Access",
+    "description": "On a weeknight, Jiyeon's private room held two water glasses and one envelope. Inside was a guest pass for next week's closed gathering, its guest line blank beneath the Hansung Construction name.\n\n\"You'll meet people there whom you couldn't easily meet alone. Everyone will know I introduced you.\"\n\nJiyeon pushed the pass toward {name}. She neither hid it nor pretended it was not a favor. \"I've kept seeing you because I like you. But doors like this follow anyone beside me. Calling affection and access perfectly separate would be a lie.\"\n\nShe laid a pen across the blank line. \"I don't want to decide which one keeps you beside me. Tonight, don't accept them as the same thing.\"\n\nA server asked through the door if they were ready to order. Jiyeon did not answer. She looked at {name}.",
+    "choices": [
+      {
+        "text": "Leave his name off the guest list, but keep tonight's conversation",
+        "result_text": "{name} pushed the pass toward Jiyeon. \"I won't take the introduction. But I don't want to pretend that erases why I came here tonight.\"\n\nJiyeon drew one diagonal line through the empty field. \"Someone saying he'll meet me without the door is rarer than you think.\"\n\nShe returned the pass to its envelope but did not leave the table. Beside the sealed envelope, they chose dinner for the first time without discussing the gathering."
+      },
+      {
+        "text": "Ask who expects what, then accept this one invitation",
+        "result_text": "Before touching the pen, {name} asked, \"Who is inviting me, what do they expect, and how far will your name be used?\"\n\nJiyeon named the host, the reason for attending, and the calls likely to follow an introduction. She softened nothing. {name} wrote each answer on the back of the pass, then added one line at the bottom: This time only.\n\nJiyeon indicated the blank field. \"Now you decide whether you still want to go, {name}.\" {name} wrote his own name and handed the pass into the registration tray. The time of this one acceptance remained on the page."
+      },
+      {
+        "text": "Say he cannot separate affection from access right now",
+        "result_text": "{name} left the envelope open. \"Right now, I can't promise I'm seeing you separately from this invitation. I don't want to keep meeting you that way.\"\n\nJiyeon's fingers left the water glass. \"Then at least don't turn me into a test you have to pass.\"\n\n\"I won't.\"\n\nShe collected the pass and divided the bill between them. A small empty plate replaced the blank name line between their hands. Neither wrote down another appointment."
+      }
+    ]
+  },
+  {
     "id": "arc_jiyeon_03b_lunch",
     "title": "Her World",
     "description": "A few days later, Jiyeon contacted {name} again. This time, she asked him to join her for lunch.\n\nShe took {name} to a Korean restaurant in Cheongdam. Lunch set: 40,000 won.\n\n{name} opened the menu, closed it, opened it again, closed it.\n\nShe pretended not to notice. Or really didn't.\nAfter ordering she said:\n\n\"I'm interested in investing, actually. I've been studying because of my father's company, but no one around me is into this stuff. It gets frustrating.\"\n\n{name} thought for a moment.\nWhat exactly did this person want? It was impossible to tell.",

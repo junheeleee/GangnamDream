@@ -379,22 +379,22 @@
   {
     "id": "arc_father_medication",
     "title": "The Name of the Medication",
-    "description": "At seven in the evening, {name}'s phone gave a short buzz in a subway transfer corridor. It was his mother.\n\n\"Your father started taking medication. He says it's nothing serious. Don't worry.\"\n\n{name} read it twice. What medication? Since when? What had the doctor said? His father always removed the important details first when telling people not to worry, and his mother seemed to have copied the habit word for word.\n\nNo one in Changwon was asking anything of {name} through the screen. There was only the instruction not to worry and a blinking reply cursor. When a family says \"nothing serious\" before anyone has asked, it usually means someone is already afraid.",
+    "description": "At seven in the evening, {name}'s phone gave a short buzz in a subway transfer corridor. It was his mother.\n\n\"Your father started taking medication. He says it's nothing serious. Don't worry.\"\n\n{name} read it twice. What medication? Since when? What had the doctor said? His father always removed the important details first when telling people not to worry, and his mother seemed to have copied the habit word for word.\n\nNo one in Changwon was asking anything of him through the screen. There was only the instruction not to worry and a blinking reply cursor. When a family says \"nothing serious\" before anyone has asked, it usually means someone is already afraid.",
     "description_if_known": {
-      "arc_daeun_fork_seen": "Three days after answering Daeun's question about leaving Seoul, {name}'s phone gave a short buzz in a subway transfer corridor at seven in the evening. It was his mother.\n\n\"Your father started taking medication. He says it's nothing serious. Don't worry.\"\n\n{name} read it twice. What medication? Since when? What had the doctor said? His father always removed the important details first when telling people not to worry, and his mother seemed to have copied the habit word for word.\n\nThree days ago, someone standing in front of him had asked whether to leave Seoul. Now someone in Changwon asked nothing from inside a screen. The reply cursor blinked. When a family says \"nothing serious\" before anyone has asked, it usually means someone is already afraid."
+      "arc_daeun_fork_seen": "Daeun's question about leaving Seoul is still visible in the chat list when the phone gives a short buzz in the subway transfer corridor. It is his mother.\n\n\"Your father started taking medication. He says it's nothing serious. Don't worry.\"\n\n{name} reads it twice. What medication? Since when? What did the doctor say? His father always removes the important details first when telling people not to worry, and his mother seems to have copied the habit word for word.\n\nThe person who asked whether to leave Seoul waited for an answer. The person in Changwon asks nothing. The reply cursor blinks. When a family says \"nothing serious\" before anyone has asked, it usually means someone is already afraid."
     },
     "choices": [
       {
-        "text": "Called his father directly.",
-      "result_text": "{name} stepped to the edge of the corridor and called at once.\n\n\"I'm fine. It's only blood pressure medication.\" Before {name} could ask, his father quickly gave the name and dosage. His voice sounded ordinary, but the pauses between breaths were short.\n\nWhen {name} asked about the hospital, his father laughed. \"I said it's nothing.\" The laugh was so precisely casual that it made things worse.\n\nAfter the call, {name} wrote down the medication's name. He could not clear the unfamiliar word from the screen before the next train passed."
+      "text": "Step aside in the corridor and call Father directly",
+      "result_text": "{name} steps out of the flow of people and calls Father. “I saw Mom's message. Read me the medication packet first.” Paper rustles on the other end.\n\n“Is that what you need?” Father reads the name and directions one character at a time. When {name} asks again, he pauses for breath and says only, “They told me to take it, so I take it.”\n\n{name} lets one train pass while copying the words into Notes. When the call ends, the medication name and the time of his next call remain on the same screen."
       },
       {
-        "text": "Replied to his mother with \"Okay\" and let it go.",
-      "result_text": "He replied, \"Okay. Make sure he takes it,\" and closed the chat. There were still errands to finish and overdue numbers to sort out. He told himself he had no room to hold his father's medication too.\n\nWhen the train arrived, the crowd carried him inside. Two stops later, it occurred to him that he had never asked what the medication was.\n\nThe phone stayed silent in his pocket, but the short reply he had sent his mother kept returning until he reached home."
+      "text": "Reply only to Mother: “Okay. Make sure he takes it.”",
+      "result_text": "{name} writes, “Okay. Make sure he takes it,” and sends it only to Mother. He erases the question about the medication just before pressing Send.\n\nWhen the train arrives, he joins the crowd. Two stops later, only Mother's read receipt has appeared. He never opens Father's chat.\n\nBy the time he reaches home, he has learned nothing new. Only the timestamp of his short answer remains in the family chat."
       },
       {
-        "text": "Said he'd come down on the weekend.",
-        "result_text": "When {name} said he would visit that weekend, his father protested that it was too far. He was already waiting at the station when {name} arrived. He seemed to walk more slowly than before, yet still took the bag from his hand.\n\nAt home, the table held too many side dishes for three people. The pill bottle sat beside a water glass, an old family photograph propped next to it.\n\nHis father kept insisting it was nothing. {name} ate a second bowl of rice. He never said aloud that he was glad he had come."
+      "text": "Book the first weekend train and send the arrival time",
+        "result_text": "{name} books the first weekend train and sends the arrival time. The fare notification appears as the round trip to Changwon enters his weekend calendar.\n\nFather replies only, “Meet me outside the station.” When {name} arrives that weekend, Father waits beyond the gate and takes his bag first. His steps are shorter than before, but he does not hurry.\n\nAt home, the medication packet sits beside a water glass. {name} checks its name and directions himself, then chooses the return train at the table."
       }
     ]
   },
@@ -487,23 +487,23 @@
   },
   {
     "id": "arc_sangchul_human",
-    "title": "Sangchul's Name",
-    "description": "Sangchul bought dinner.\n\nA nice Korean beef restaurant. Had a glass of soju together. For the first time, Sangchul brought up a memory from when he was young.\n\nA seaside town in Chungcheong. A father who worked the docks. Night school. The first time he bought an apartment in his early thirties — he cried alone.\n\nHe'd never told any of this before.\n\nBut — when the story jumped from night school to Gangnam, a dozen-odd years in between were simply missing.\n{name} didn't ask about the gap. Not then.",
+    "title": "The Missing Years",
+    "description": "The day Sangchul offers dinner, a paid replacement shift appears on {name}'s phone for the same hours. The reply deadline is 8:00 p.m. At the door of the Korean beef restaurant, he turns off the screen and goes inside.\n\nSangchul leaves his soju glass empty while talking about a seaside town in Chungcheong, a father who worked the docks, and night school. When he bought his first apartment in his early thirties, he says, he cried alone in the empty room.\n\nThe sentence after night school is the apartment. More than a decade between them has no names or work in it. At 7:58, the paid-shift alert lights again. Sangchul turns the empty glass once beneath his finger.\n\n“Which part are you curious about?”",
     "description_if_known": {
-      "sangchul_truth_known": "Sangchul brought up his hometown.\nA father who worked the docks. Night school. Crying alone the first time he bought an apartment.\n\nMinjun listened.\nIf this were a lie — that would have been easier.\nIt wasn't a lie. That made it lonelier.\n\nFrom poverty to Gangnam. Someone who climbed that road by stepping on others was now sitting across from him, telling the story of the young man who cried the day he first owned something."
+      "sangchul_truth_known": "The day Sangchul offers dinner, a paid replacement shift appears on {name}'s phone for the same hours. The reply deadline is 8:00 p.m. Sangchul empties his soju glass while talking about the Chungcheong coast, his father on the docks, night school, and crying alone on the day he bought his first apartment.\n\n{name} knows the story is not a lie. That makes the gap of more than a decade between night school and the apartment—and the names and addresses he has already verified—more distinct. At 7:58, the paid-shift alert lights again.\n\nSangchul turns the empty glass under one finger. “Knowing all that, which part are you curious about?”"
     },
     "choices": [
       {
-        "text": "\"I started from something similar.\" — shared the connection.",
-        "result_text": "Sangchul looked at him for a moment. \"That's why you stood out to me.\" Poured another round. For the first time that night, Sangchul felt like a person, not just a mentor."
+        "text": "Say, “I started somewhere similar,” and ask what frightened him then",
+        "result_text": "Sangchul lifts the bottle, then sets it down. “At first, everyone looks alike. Having no money isn't the first fear. It's waking up to the same tomorrow.” He says that even after wiring the balance on his first apartment, he could not rise from the empty floor for a long time.\n\n{name} pushes his glass aside instead of answering. At eight, the paid shift changes to CLOSED. One cold piece of meat and the years Sangchul still has not described remain on the table."
       },
       {
-        "text": "Listened quietly.",
-        "result_text": "Didn't need to say anything. Just listened. Sangchul finished his glass. \"I've been rambling about old times.\" Smiled and stood up."
+        "text": "Ask, “What did you do between night school and the first apartment?”",
+        "result_text": "Sangchul's thumb wipes once through the condensation on his glass. “Worked. Followed people around. Got introductions. Made introductions.” He names two addresses and several jobs, leaving out who stood beside him.\n\n{name} does not guess at the missing names. As the eight o'clock alert changes to CLOSED, Sangchul sets the empty glass upright. The gap has not narrowed, but its beginning is visible."
       },
       {
-        "text": "\"How much was that apartment worth?\" — steered it toward investing",
-        "result_text": "Sangchul paused, then laughed. \"That's what you're curious about?\" Told him the price. The mood shifted back to business. That was actually more comfortable."
+        "text": "Ask, “How much was the first apartment?” and retreat into prices",
+        "result_text": "Sangchul pauses, then writes the exact purchase price and the old loan ratio on a napkin. “This number is easy to ask about.” The missing years move outside the edge of the paper.\n\n{name} copies the calculation into his phone. While he does, the paid-shift reply window closes. When he stands, he carries three lines of figures and one question gone cold."
       }
     ]
   },
@@ -749,25 +749,25 @@
   },
   {
     "id": "arc_year_one_mark",
-    "title": "One Year",
-    "description": "Exactly one year since the plan was set.\n\n{name} sat beside the window of his current room and looked back over twelve months. People still hurried past, and Seoul moved as if nothing had happened. The only thing that seemed to have changed was the number in the account.\n\nBut if that number had changed, then the person who spent a year chasing it had changed a little too.",
+  "title": "The First-Year Ledger",
+  "description": "After midnight on New Year's Day, {name} spreads the first year's bank records, calendar, and chat list across the desk in his current room. Reduced to a total, the year fits on one line. But beside the income are predawn hours and deadlines, and beside every open door is either a person who reached out or someone he left waiting.\n\nOn a blank notebook page, he writes only two possible headings: “What I finished alone” and “What people opened for me.” He has not drawn a dividing line or copied a single name yet.\n\nThe first week of the new calendar is still blank. There is room to write one person he will contact first and one time when he will do it.",
     "description_memory_if_known": {
-      "m4_housing_priority_runway": "The April worksheet still had “Cash available after the move” underlined. Now that the first year was over, {name} put housing costs and his balance on the same screen.",
-      "m4_housing_priority_privacy": "Beside the April worksheet he had written, “Where does the noise stop?” Looking back over the year, he saw that quiet hours belonged beside housing costs even though they never appeared in his account.",
-      "m4_housing_priority_time": "The April worksheet still had a box for “Round-trip time.” Across a full year of figures, even the travel hours missing from the bank statement looked like a cost."
+    "m4_housing_priority_runway": "After midnight on New Year's Day, {name} lays the first year's bank records beside the April housing worksheet. “Cash available after the move” is still underlined. On a blank notebook page, he writes only two possible headings: “What I finished alone” and “What people opened for me.” He has copied neither the dividing line nor any source. With housing costs and the balance on the same screen, the first week of the year has room for one person he will contact first and one time when he will do it.",
+    "m4_housing_priority_privacy": "After midnight on New Year's Day, {name} sets the first year's bank records beside the April housing worksheet. The note “Where does the noise stop?” is still there. On a blank notebook page, he writes only two possible headings: “What I finished alone” and “What people opened for me.” Quiet hours and people's names have not been copied into either column. The first week of the year still has room for one person he will contact first and one time when he will do it.",
+    "m4_housing_priority_time": "After midnight on New Year's Day, {name} opens the first year's bank records beside the April housing worksheet. The “Round-trip time” box holds a number absent from every bank statement. On a blank notebook page, he prepares only two possible headings: “What I finished alone” and “What people opened for me.” He has not copied the travel hours or any name yet. The first week of the year still has room for one person he will contact first and one time when he will do it."
     },
     "choices": [
       {
-        "text": "Compile a year's worth of records. Verify in numbers how far I've come.",
-        "result_text": "Wrote it all down in a notebook. Income, expenses, investments, failures. Numbers don't lie. He was definitely moving forward."
+      "text": "Split the page between what I made alone and what people opened for me",
+      "result_text": "{name} writes paid bills, submitted documents, and days endured on the left. On the right, he writes only the names he can place and the doors those people opened. Equal totals can have different sources.\n\nA blank remains at the end of the right-hand column. He does not fill it with a guess. He folds the first-year ledger with the space intact."
       },
       {
-        "text": "Just let it pass. Counting anniversaries is a luxury.",
-        "result_text": "Just crossed midnight without doing anything. That's also a choice."
+      "text": "Settle only the numerical total and leave people's names outside the ledger",
+      "result_text": "{name} adds only the payments, deposits, and remaining balance, then records the time after midnight beneath the total. He excludes people's names and the hours they waited. The figures balance at once.\n\nHe closes the ledger without opening the chat list. The first year's money is settled. Who opened which door remains outside the book."
       },
       {
-        "text": "Need to push harder. Year one was just the warmup.",
-        "result_text": "Picked up the phone. Things to study, things to research, things to act on. The list got longer. Good sign."
+      "text": "Prepare one person, one time, and the message he will send in the new calendar",
+      "result_text": "{name} scans the chat list and chooses one actual person. He finds a time he can keep in the first week of the year and writes the name and time into the calendar.\n\nIn the message box, he drafts, “Could we talk for a moment this week?” He does not press send. One calendar space and one unsent sentence now wait for the moment when he actually makes contact."
       }
     ]
   },
@@ -900,19 +900,19 @@
   {
     "id": "arc_year_one_half",
     "title": "One and a Half Years",
-    "description": "A year and a half since Minjun came to Seoul.\n\nHe had started at thirty-three with 500,000 won in the bank. Now he was thirty-four.\n\nReaching for a canned coffee at the convenience store, a thought passed through him: still in Seoul. Gangnam was still far. Whether the room he lived in had changed or not, the city had left a different set of instincts in his body than on the first day.\n\nThe phrase \"a year and a half\" felt strangely heavy.",
+    "description": "Eighteen months into living in Seoul, {name} reaches for a canned coffee in a convenience-store refrigerator, then rubs his wrist. His body chooses the fastest transfer stairs, the awnings that keep off rain, and the restaurants that stay lit late before he has to think. Whether his room has changed or not, Seoul has entered his habits before it has become an address.\n\nThe next month's default schedule is waiting to be copied on his phone. Leaving it alone preserves the pace. Changing one block alters projected income or review time. Closing it for tonight leaves one unfinished line where it is.\n\nHolding the cold can, {name} has to make one of the three actions real.",
     "choices": [
       {
-        "text": "Sat on the steps with the coffee. The direction was visible.",
-      "result_text": "A room more familiar than the first one. An account better than the first month. Yet his body had changed before the numbers did.\n\nWithout thinking, his feet knew which transfer stairs were fastest and which alleys stayed lit after midnight. Seoul was still strange. His life in it was already becoming instinct."
+        "text": "Write that the pace stays, then copy the next month's schedule unchanged",
+        "result_text": "{name} presses KEEP and copies the next month. The income blocks and travel times carry over unchanged. The open squares remain in the same places too.\n\nHe sits on the convenience-store steps and checks the first alarm. His body already knows this pace. That does not mean it knows what keeping it will cost."
       },
       {
-        "text": "Took a sip. The pace had to change.",
-        "result_text": "He was cold about it. At the current pace, it would not happen. Something would have to shift in a major way. The method had to change, even if not tonight."
+        "text": "Delete one income block and make review time the new default",
+        "result_text": "{name} deletes one income block from next month and replaces it with a repeating appointment: “Review contracts and numbers.” The projected-income total drops at once.\n\nOn the back of the coffee receipt, he writes only the first item he will examine. The goal has not changed. The first action next month's calendar demands has."
       },
       {
-        "text": "Just drank the canned coffee. Didn't want to think.",
-        "result_text": "Cold and sweet. The convenience store lights were bright. That was enough for one night."
+        "text": "Close the schedule for today and turn off tomorrow's first alarm",
+        "result_text": "{name} closes the schedule and disables the first alarm for tomorrow. He does not add a late check to the unfinished line.\n\nHe buys water instead of canned coffee and drinks it slowly. Beneath the convenience-store lights, he leaves every screen closed for a while. Today's blank remains only as a record that he stopped."
       }
     ]
   },
@@ -1126,36 +1126,36 @@
   {
     "id": "arc_34_routine_trap",
     "title": "The Routine Trap",
-    "description": "The alarm rang at 6:40. Before opening his eyes, {name} knew exactly where to reach to silence it.\n\nThe same tuna-mayo triangle kimbap. The second subway door in the same car. Right foot first when it opened.\n\nThat morning, while throwing away the wrapper, he noticed the expiration stamp sat in the same place as last week's.\n\n{name} stopped in front of the turnstile. The person behind him stepped around his shoulder.",
-    "description_orthodox": "The alarm rang at 6:40. Before opening his eyes, {name} knew exactly where to reach to silence it.\n\nSecond subway door. Eleven minutes to his first appointment. One lap of the stairs after lunch. The same check marks multiplied in Notes.\n\nThat morning, he checked the first line but could not remember what he had written beside it yesterday.\n\n{name} sat on a platform bench and traced the past week's marks with one finger.",
-    "description_unorthodox": "The alarm rang at 6:40. His hand moved before his eyes opened.\n\nSame convenience store, same triangle kimbap, same subway door. The clerk knew he needed no bag before he spoke.\n\nYesterday's ad reflected in the train window. His face overlapped the model's smiling mouth.\n\n{name} stood up one stop before his usual station.",
+    "description": "On Monday night, {name} overlays the next four weeks on one calendar. The blocks that produce income are already set to repeat. Travel, meals, and sleep have been pushed into the white space between them. One promised call has been marked “later” three times in a row.\n\nThe alarm is set for 6:40 a.m. The last block ends at 11:10 p.m. Copying the schedule unchanged will let it take his body and other people's time first for another month.\n\nOnly two actions remain beneath Copy: keep the grid and protect one block first, or actually delete one repeating income block.",
+    "description_orthodox": "On Monday night, {name} opens the next four weeks. Eleven minutes to the first trip, one lap of the stairs after lunch, income at the same hours. The checks are precise, but meals and sleep fit only where something else leaves room. A promised call has been marked “later” three times in a row.\n\nThe alarm is set for 6:40 a.m. The last block ends at 11:10 p.m. The precise grid is taking his body and other people's time first.\n\nBefore copying another month, he must protect one block or actually delete one repeating income block.",
+    "description_unorthodox": "On Monday night, {name} overlays four weeks of mismatched colors. The places and jobs change, but every open square attracts another income block. Meals and sleep move last. A chat he meant to answer holds the same “Running late today” three times in a row.\n\nA routine has formed without fixed work. The earliest alarm and latest block take his body and other people's time first.\n\nTo copy another month, he must protect one block or actually delete one repeating income block.",
     "choices": [
       {
-        "text": "Add one small thing inside the routine.",
-        "result_text": "{name} kept the alarm where it was and cleared fifteen minutes before leaving.\n\nOn the first day, he read one notebook page while his tea cooled. On the third, a new number appeared beneath the same sentence.\n\nA week later, seven short lines marked the calendar."
+        "text": "Keep the repeating grid, but lock one block for a person and my body first",
+        "result_text": "{name} marks one Thursday-night block as “Cannot move.” He declines the extra appointment layered over it, then sends a call time to one chat he has left waiting after a meal.\n\nThe rest of the repeating grid remains. A gray square appears in the projected-income table. For the first time, the calendar marks time protected first rather than time left over."
       },
       {
-        "text": "Deliberately change what has become familiar.",
-      "result_text": "{name} got off at the next station and climbed an unfamiliar exit.\n\nThe stairs were longer than expected. The smell of baking bread reached into the alley. His first appointment started four minutes late.\n\nThat evening, he wrote the alley's name on the back of the receipt."
+        "text": "Delete the latest repeating income block starting next week",
+      "result_text": "{name} selects the latest repeating block and presses “Delete from next week.” The confirmation appears twice. He deletes it twice.\n\nThe projected-income total drops by one line. In the space it leaves, he writes sleep and the call he still has not returned. The empty outline of the deleted block remains on next week's calendar."
       }
     ],
     "description_if_known": {
-      "set_morning_routine": "The alarm rang at 6:40. Before opening his eyes, {name} knew exactly where to reach to silence it.\n\nThe same tuna-mayo triangle kimbap. The second subway door in the same car. Right foot first when it opened.\n\nA year ago, the notebook had read, '7 AM tomorrow.' He had drawn a small line beside it for every day he kept the promise.\n\n{name} looked at the crowded marks and stopped his pen over today's square. The page recorded how often he had kept it, but not how far it had taken him."
+      "set_morning_routine": "On Monday night, {name} opens the next four weeks beside last year's notebook. Small lines crowd the space beside “7 AM tomorrow,” one for every day he kept it. Meals and sleep have still been pushed into leftover squares, and a promised call has been marked “later” three times.\n\nThe alarm remains set for 6:40 a.m. The last repeating block ends at 11:10 p.m. A calendar full of proof that he kept going is taking his body and other people's time first.\n\nBefore copying another month, he must protect one block or actually delete one repeating income block."
     }
   },
   {
     "id": "arc_34_parents_visit",
     "title": "Mom and Dad Come to Seoul",
-    "description": "The business cards from the room Sangchul had opened were stacked across the desk. Three people had answered; more had read the messages and moved on. The day one of them offered {name} a seat on Saturday night, Father called.\n\n\"We're coming to Seoul this week. Your mother too.\"\n\"What for?\"\n\"Does a father need a reason to see his son?\"\n\nAt Seoul Station on Saturday, Father looked first at the phone that would not stop vibrating. \"If you're busy, we'll just eat.\" Mother adjusted the bag of side dishes. \"After dinner, let's have tea where you live.\"\n\nAt the mouth of the alley, the contact confirmed the evening seat. Left led to the reserved restaurant and the station; right led to {name}'s room. Father stopped first. \"You don't have to show us if you don't want to.\" Even his permission offered a way out.",
-    "description_low_mental": "The day his parents said they were coming to Seoul, {name} pushed the business cards, medicine packets, and unwashed clothes on the desk into one drawer. There was nowhere to put the face of a man who had not slept.\n\nAt Seoul Station, Father asked instead of greeting him, \"Are you sleeping at all?\" \"I sleep.\" \"With that face?\" Mother pretended not to hear and handed over the bag of side dishes. It took both hands to hold.\n\nThen a contact introduced through Sangchul confirmed a seat for that evening. Father saw the screen. \"If you're busy, we'll just eat.\" Mother said, \"We should at least see where you live.\"\n\nAt the alley, the restaurant and the room lay in different directions. Saying he was holding up and showing them how he held up were different things.",
+    "description": "On the Saturday his parents come to Seoul, their train arrives at Seoul Station at five. Their return ticket to Changwon is for 9:10 that night.\n\n“We're coming to Seoul Saturday. Your mother too.”\n“What for?”\n“Do I need a reason to see your face?”\n\nAt Seoul Station, Father checks the return ticket before anything else. Mother hands {name} a bag of side dishes. “After dinner, let us see where you live for a minute.”\n\nIt is past six when the food arrives near the station. To visit the room and make the train, they have to pay and leave now. Staying at the table gives the three of them a longer dinner, but his parents will once again leave without seeing the door where he lives. Father puts down his chopsticks. “You decide. The train won't wait.”",
+    "description_low_mental": "On the Saturday his parents come to Seoul, their train arrives at five and their return ticket to Changwon is for 9:10 that night. {name} pushes the laundry in his room to one side. There is nowhere to put the face of a man who has not slept.\n\nAt the station, Father asks instead of greeting him, “Are you sleeping?” “I am.” Father studies his face longer than the answer. Mother hands him a bag of side dishes heavy enough for both hands.\n\nAt the restaurant, Mother says she wants to see his room. To visit it and make the train, they have to pay and leave now. If they stay at the table, his parents will once again return to Changwon knowing only the station and restaurant. Father lays the return ticket on the table. “You decide whether we eat longer or see where you live.”",
     "choices": [
       {
-        "text": "Turn toward the restaurant and part at the station — hide the room and keep the evening seat",
-        "result_text": "{name} turned left. At the restaurant, Mother kept placing meat on the grill. Every time {name} checked the time, Father touched his water glass. \"You said you're busy. Eat slowly.\" \"I'm not busy.\" All three pretended to believe it.\n\nAt the station, Father entered the gate first. \"Go. Seoul traffic won't wait for you.\" {name} turned back before their train departed and headed to the evening meeting.\n\nIn the taxi, the side-dish bag Mother had pressed into his hands tipped over. The lids stayed shut, but the smell of sesame oil escaped."
+        "text": "Stay at the table, finish dinner, and do not show them the room",
+        "result_text": "{name} orders another stew and turns his phone facedown. Mother places meat on his plate. Father starts the story of the Changwon factory again from the beginning.\n\nAt the gate, Father pushes the side-dish bag toward {name}. “We'll see the address next time.” While his parents tap their tickets, he never says where the room is.\n\nAfter the train leaves, sesame oil slips through the closed lids when he lifts the bag. Dinner lasted longer. The Seoul his parents know still ends at the station and restaurant."
       },
       {
-        "text": "Bring them to the room — miss the evening seat and stop hiding how he lives",
-        "result_text": "{name} turned into the right-hand alley and told the contact he could not make it. When the door opened, Mother paused, then put the side dishes in the refrigerator and began wiping whatever she could reach.\n\nFather looked from the damp window to the business cards on the desk. \"You know all these people?\" \"Not yet. I'm getting to know them.\" \"Knowing a lot of people doesn't make them all yours.\" He asked nothing more.\n\nThe three of them sat around the narrow desk. Between three paper cups, the unanswered meeting notification quietly went dark."
+        "text": "Cut dinner short and take them to his current room",
+        "result_text": "{name} packs the remaining food and heads to his current room with his parents. Mother keeps the side-dish bag on her knees during the ride. Father checks the return-train time twice.\n\nWhen the door opens, Mother asks where to put the side dishes. Father removes his shoes and looks slowly around the room. “So this is where you live.” He adds neither judgment nor comfort.\n\nThe three drink a brief cup of tea from paper cups on the desk. The words they did not finish over dinner remain. His parents save the room's address in their message for the trip home."
       }
     ]
   },
@@ -1211,6 +1211,44 @@
       {
         "text": "Rewrite the abandoned routine from the current time onward",
         "result_text": "{name} did not fill the missed squares with late check marks. Starting with the next blank, he wrote tonight's dinner, tomorrow's alarm, and one period of rest this week.\n\nWhen he set down the pen, the refrigerator motor stopped. A brief silence belonging only to his room arrived, something he could never have heard in the goshiwon."
+      }
+    ]
+  },
+  {
+    "id": "arc_y2_relationship_fork_unattached",
+    "title": "Writing the Renewal Alone",
+    "description": "At 5:34 p.m. on Friday, {name} places the renewal notice beside the first lease he signed for his current room. The new rent is higher, and the new end date sits one year away. The landlord wants an answer by six.\n\nThere is one signature box. With no one else to decide or compare for him, he has to price the cost of keeping this address against the cost of moving again. Accepting a year preserves the room and reduces what he can spend each month. Asking for a shorter term changes the deposit. Refusing means beginning another room search tonight.\n\n{name} touches the new rent and the remaining cash with the tip of his pen. In twenty-six minutes, the thing he has to protect is not a relationship but his address for the next season.",
+    "choices": [
+      {
+        "text": "Accept the higher rent and sign a one-year renewal",
+        "result_text": "{name} rereads the new rent and end date, then signs the one-year renewal. The landlord confirms it at 5:49.\n\nThe address stays. In the first line of his notebook, {name} writes the amount he will have to cut each month. Filling one empty signature box fixes the cost of the next twelve months with it."
+      },
+      {
+        "text": "Ask for six months and compare the larger deposit",
+        "result_text": "{name} asks for six months instead of a year. The landlord keeps the rent unchanged but answers with a larger deposit.\n\n{name} places the account balance beside the added deposit and signs the shorter term. Freedom to move will return sooner; the cash available now becomes trapped in the room instead."
+      },
+      {
+        "text": "Decline renewal and set the move-out inspection now",
+        "result_text": "{name} declines the renewal and sets an inspection date with the landlord. At 6:02, the time by which the room has to be empty enters his calendar.\n\nHe avoids the higher rent and fixes the end of this address at the same time. The unsigned renewal and next month's schedule with no new address remain side by side on the desk."
+      }
+    ]
+  },
+  {
+    "id": "arc_y2_hospital_door",
+    "title": "The Weekend of the Changwon Hospital Room",
+    "description": "On Friday night, a photo from Mother shows the ward and room number at a Changwon hospital. Father is on his third day as an inpatient, with his discharge to be reviewed Monday afternoon. Father has sent nothing.\n\nThe KTX screen still offers the first train Saturday and a ticket arriving Monday morning. Going Saturday spends the weekend at the hospital. Going Monday leaves {name}'s own arrival two days later. Sending only money to the hospital account requires no ticket, but it also means not opening the room during this admission.\n\nMother's last line says, “If you're coming, just tell me the date.” {name} puts his ID into a bag, then takes it out again. The decision now is not whether some other promise counts as complete, but when his body will reach Father's hospital room.",
+    "choices": [
+      {
+        "text": "Buy the first KTX on Saturday and open the hospital-room door this weekend",
+          "result_text": "{name} buys the first KTX seat and sends Mother the arrival time. The open hours on the weekend calendar fill with Changwon travel and hospital visiting time.\n\nWhen he opens the room on Saturday morning, Father turns from the bed by the window. “You came.” {name} takes the ID and ticket from his pocket and sets them on the bedside cabinet. The time he opened the door during this admission remains with those two objects."
+      },
+      {
+        "text": "Buy a Monday-morning arrival ticket and send Mother the date",
+        "result_text": "{name} buys a ticket arriving in Changwon on Monday morning and sends it to Mother. “I'll go straight to the room then,” he writes, adding the exact train number.\n\nMother's read receipt appears, but no reply follows. The hospital door stays closed through the weekend. The screen holds the Monday ticket, the room number, and an arrival postponed by two days."
+      },
+      {
+        "text": "Send money toward the hospital bill and say he cannot come during this admission",
+        "result_text": "{name} transfers money to the hospital account Mother sent and writes, “I can't come during this admission.” He does not turn the reason for the money and the reason for his absence into the same sentence.\n\nOnce the transfer receipt is saved, he closes the KTX search. The room number moves higher in Mother's chat. Instead of the hospital door, he holds a receipt bearing the recipient's name and the send time."
       }
     ]
   }
