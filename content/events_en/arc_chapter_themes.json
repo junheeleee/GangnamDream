@@ -329,95 +329,323 @@
   {
     "id": "arc_y4_three_promises",
     "title": "Three Places, One Weekend",
-    "description": "Saturday, four in the afternoon. {name} had moved his plans with Daeun to the same room as Sangchul's contract review. Daeun arrived with two canned coffees from the convenience store where they first met. She placed one before {name} but kept her cardigan on.\n\nSangchul stirred instant coffee in a paper cup. \"Didn't know you'd be looking too, Daeun.\"\n\n\"I didn't come to look at papers. Today was for Minjun and me.\"\n\nThe phone buzzed. Father. When the call stopped, a voice message arrived: ‘I'm done at the hospital. If you're busy, forget it.’\n\nSangchul opened the contract. \"No stamp today, and it goes to someone else. Opportunities don't wait for people's circumstances.\"\n\nDaeun's thumb slowly dented the side of the can. \"Then how long are people supposed to wait for an opportunity's circumstances?\"\n\nThe contract, the crushed can, and Father's name remained on one table.",
+    "description": "Saturday, four in the afternoon. {name} had arrived for his plans with Daeun and Sangchul's contract review. Daeun set down two canned coffees from the convenience store where they first met. Sangchul wrote one hour on the meeting sheet, then opened the source terms beside the financing-gap table.\n\n\"Didn't expect you to read the terms too, Daeun.\"\n\nShe folded one cardigan cuff. \"I came to be beside Minjun. That doesn't mean he gave me the questions.\"\n\nA voice message from Father arrived: ‘Hospital's done. If you're busy, forget it.’ The unselected weekend promise already carried a time that had passed.\n\nSangchul laid his watch beside the papers. \"The review has started. Decide what gets exposed first.\" Daeun left the dent in her can. The terms, the gap, and Father's name reflected in the glass tabletop.",
     "choices": [
       {
-        "text": "Stay with Sangchul and finish the contract review",
-        "result_text": "{name} turned the phone facedown and pulled over the first page.\n\nDaeun looked at the canned coffee in front of him. \"Then at least don't say you kept both promises.\" Hands in her cardigan pockets, she opened the door.\n\nSangchul did not stop her. He moved Daeun's can aside and circled one figure. After the door closed, Father's voice message remained unplayed."
+        "text": "Give Daeun the right to choose the risk clauses",
+        "result_text": "{name} placed the highlighter before Daeun. \"Choose the first three lines we read.\"\n\nShe marked early recovery, joint liability, and an unexplained fee. Sangchul began the first line, then turned his watch facedown. \"Hand over the questions too, and we won't finish the figures today.\"\n\nThey got three meanings and lost twenty-one minutes of negotiation. Only Daeun's yellow lines remained on the terms."
       },
       {
-        "text": "Close Sangchul's contract and return to the plans with Daeun",
-        "result_text": "{name} pushed the contract toward Sangchul. \"We're done for today.\"\n\nSangchul sipped his coffee. \"Even if it goes to the next person?\"\n\nDaeun undid one cardigan button but did not smile. \"Don't turn this into something you did because of me. You're going back to a promise you made, Minjun.\"\n\nPaper turned behind them in the hall. Another missed call from Father appeared on the phone."
+        "text": "Expose the financing gap before anything else",
+        "result_text": "{name} turned the gap table around before the terms. He pointed to what his money could not cover and the amount needed by next month.\n\nDaeun read it twice and took her hand off the can. \"So this was the part you didn't want me to see, not the clauses.\" Sangchul leaned back without a word.\n\nThe review continued, but a private fact about their means now lay before Sangchul too. One corner of the table darkened in cold coffee."
       },
       {
-        "text": "Apologize to Daeun and Sangchul, then call Father back",
-        "result_text": "\"Both of you, give me a minute. I need to call Father first.\"\n\n{name} stepped into the hall without asking either person to wait. Father answered on the second ring.\n\n\"Why did you call again? Are you hurt?\"\n\"I'm not hurt. Just wanted to hear your voice once.\"\n\nBeyond the glass, Sangchul checked his watch while Daeun sat in the empty chair, pressing the dent out of the can. {name} stayed on the line until Father's breathing settled."
+        "text": "Acknowledge the missed promise to Father before both of them",
+        "result_text": "{name} did not play the message. He turned its timestamp toward them. \"I didn't choose the hospital promise today, and I missed it. I won't rename that as being busy.\"\n\nSangchul put his watch back on. \"Family business doesn't need to enter the minutes.\" Daeun answered softly, \"Minjun chose to enter it.\"\n\nThe review clock kept running. One private line {name} had hidden occupied the first blank in the minutes."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_three_promises_jiyeon_and_deal",
+    "title": "The Right to Correct",
+    "description": "Saturday, four in the afternoon. {name} entered Sangchul's review room at the time promised to Jiyeon. She removed her watch and set it on the table, then compared the company name on the source terms with the issuer on the gap table.\n\nSangchul stirred instant coffee. \"I don't need the details between you two. Let's stay with the numbers.\"\n\n\"The names attached to numbers are facts too, sir.\" Without smiling, Jiyeon tapped one incorrect title. \"Separate sales language from contract language.\"\n\nA missed notice from Father's finished appointment remained on {name}'s phone. The lost hour, the review clock, and his plans with Jiyeon occupied one frame. Sangchul started the timer. Jiyeon kept the papers open and asked which fact they would expose together first.",
+    "choices": [
+      {
+        "text": "Give Jiyeon the first question",
+        "result_text": "{name} moved his notes aside. \"Choose the first question, Jiyeon.\"\n\nShe asked when liability ended, not how profits began. Sangchul redirected twice; she repeated the same question with only the date changed. The third answer finally produced one termination condition.\n\nThey had an answer and sixteen minutes left. Jiyeon capped her pen. \"The questions didn't consume the time. Avoiding them twice did.\""
+      },
+      {
+        "text": "Put the gap and his own funds before Jiyeon",
+        "result_text": "{name} turned the gap table toward Jiyeon without covering his own-funds column. Sangchul began, \"You two can look at that privately—\" but Jiyeon left it in place.\n\n\"Don't speak as if my money fills this.\" She wrote one question mark beside the gap.\n\n{name} could no longer hide his means from Sangchul. All three gazes stopped on the same empty column."
+      },
+      {
+        "text": "Stop where fact and sales language split",
+        "result_text": "{name} covered the phrase ‘safely secured.’ \"We don't read past this line until it has a source.\"\n\nSangchul pointed to the timer. \"Then this is where today's review time ends.\" Jiyeon closed the document and wrote down the closing time in her own notebook.\n\nNothing was approved and the remaining negotiation window was gone. Jiyeon's exact timestamp remained on the folded terms."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_three_promises_deal_only",
+    "title": "A Witness Through the Speaker",
+    "description": "{name} sat alone with the deal lead. The family appointment was now a gray calendar square; there had never been a romance appointment. He had arrived on time for the selected investment review. The lead set a document bag on the empty chair and opened the terms.\n\nHyunsu's voice message waited on the phone. Asked to check only the dates and labels in the material, Hyunsu had separated what he could see from what he did not know. The lead lowered a paper cup at the sight of the play button.\n\n\"Bring a friend in and your weakness comes with him. You know that, right?\"\n\nHyunsu's name sat above 1:12. Playing everything would expose {name}'s circumstances; quoting facts alone could hide who checked them. One notice from the missed family promise waited silently below.",
+    "choices": [
+      {
+        "text": "Play Hyunsu's whole message, including the weakness",
+        "result_text": "{name} switched on the speaker. After the dates, Hyunsu also said why {name} seemed pressed to accept the terms. The deal lead began taking notes from that hesitation before the factual difference.\n\nThe discrepancy was clear when the message ended, and so was {name}'s pressure. The lead moved the paper cup onto the empty chair."
+      },
+      {
+        "text": "Read only the dates and labels Hyunsu verified",
+        "result_text": "{name} did not play the audio. He read the two labels and dates Hyunsu had checked. \"I won't name the person today. This is the limit of the verification.\"\n\nThe deal lead asked for the source three times, stopping the reading each time. Hyunsu's name stayed private; the verification carried only half its weight. The unplayed waveform remained on-screen."
+      },
+      {
+        "text": "Name Hyunsu and state the exact limit of his check",
+        "result_text": "{name} showed the message header instead of pressing play. \"Hyunsu Kim checked only the dates and labels. I did not ask for judgment or investment.\"\n\nThe deal lead wrote Hyunsu into the meeting notes. {name} immediately added the limit, but a third party's name had already entered the record. The audio stayed unheard; only the exposure cost remained in ink."
       }
     ]
   },
   {
     "id": "arc_y4_body_witness",
     "title": "Daeun at Two A.M.",
-    "description": "At two in the morning, the bell rang three times. Daeun called from outside. \"Minjun, it's me. Open the door.\" A convenience-store bag hung from one hand; the other held the unanswered call screen.\n\n{name} tried to rise from the laptop and sank back down. His fingers shook and the words on the screen doubled. He still said he was fine.\n\n\"What part of this is fine? You can barely finish a sentence.\"\n\"I just need to send the file.\"\n\"Not the work. Tell me where it hurts.\"\n\nWhen the door cracked open, Daeun's eyes stopped on the sweat-soaked shirt and the overturned cup. Her hand rose, then stopped before touching him.\n\n\"Can I come in? Can I hold your arm?\"\n\nSeventeen minutes until the upload deadline. Twenty until the night clinic closed intake. Daeun stayed on the threshold and waited for an answer.",
+    "description": "At two in the morning, {name} opened the door fully after the third ring. Daeun stepped one foot across the threshold, still holding a convenience-store bag. She took in the sweat-soaked shirt, the overturned cup, and the shaking hand without touching him.\n\n\"Minjun, don't call what I'm seeing fine.\"\n\nWhen {name} braced against the wall, Daeun's hand rose and stopped in the air. \"Can I hold your arm? Or should I stay here?\"\n\nThe laptop showed the timestamp when the symptoms began beside an unopened help screen. Daeun did not power it off or contact anyone for him. She opened a water bottle and left it by the threshold. The corridor light went dark and bright through the open door. He could no longer hide the shaking; he could still decide how much care to place in her hands.",
     "choices": [
       {
-        "text": "Open the door and tell Daeun, \"Please come in.\"",
-        "result_text": "When {name} nodded, Daeun came in. She did not unplug the laptop. She took water from the bag and opened the cap first.\n\n\"What do you need me to do right now?\"\n\"Stay. And if I say I'm fine again, don't believe me.\"\n\nOnly then did Daeun place a hand beneath {name}'s elbow. The open door stayed that way for a long while."
+        "text": "Give Daeun permission to hold his arm",
+        "result_text": "\"Below the elbow. Don't pull me up at once.\"\n\nDaeun touched only the place {name} named. The warmth through his shirt made the shaking more visible. She asked slowly, as if counting, \"How many minutes has the dizziness lasted?\"\n\nHe lost the dignity of standing alone. Daeun did not move an inch beyond the permission he gave."
       },
       {
-        "text": "Keep the door shut and ask Daeun to wait until the deadline",
-        "result_text": "\"Seventeen minutes. I'll send it and open the door.\"\n\nInstead of answering, Daeun set the bag outside. A message appeared: ‘I'll leave the water here.’\n\n{name} sent the file with shaking hands. When the upload completed and the door opened, Daeun was sitting against the hallway wall. She rose without anger, straightening the crumpled bag handles. That face stayed longer than any accusation."
+        "text": "Show only the timestamp and screen, refusing touch",
+        "result_text": "{name} turned the laptop toward her. \"My hands started shaking at 1:42. You can see the screen, but please don't touch me.\"\n\nDaeun lowered her hand and read only the work log and the title of the unopened help page. \"All right. Then I won't accept the word fine from you right now either.\"\n\nHe surrendered the private timestamp and kept the boundary of touch. Daeun placed both hands beside the opened bottle."
       },
       {
-        "text": "Close the laptop and go to the night clinic with Daeun",
-        "result_text": "{name} saved the file and shut the screen.\n\nDaeun set his shoes in front of his feet. \"Let's go. Slowly.\"\n\nShe waited until the shoes were on, then asked again. \"Can you lean on me?\"\n\n{name} lifted an arm. The weight divided between them. Bottles in Daeun's plastic bag knocked softly together with every step."
+        "text": "Ask Daeun directly to remain at the threshold",
+        "result_text": "\"Don't come farther in. Stay there while I settle my breathing. If I need more, I'll ask first.\"\n\nDaeun sat on the threshold with the bag on her knees. She made no call and pressed no clock on him. {name} leaned against the wall and counted his breaths from one.\n\nThe request for help carried into the hall. The open door and one step of distance remained between them."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_body_witness_jiyeon",
+    "title": "Half a Second at the Threshold",
+    "description": "At two in the morning, Jiyeon checked the entryway clock before greeting {name}. Her coat was fastened as neatly as ever, and her phone already held the time she arrived. \"Minjun, answer briefly from here. When did this start?\"\n\n{name}'s hand slipped from the door handle. Jiyeon stepped forward by reflex and stopped exactly. Half a second to reach out, half a second to draw back.\n\n\"I should ask before I touch you.\" Her voice stayed level, though the last syllable split slightly.\n\nAn unbroken cup and spilled water lay on the floor; the screen held the onset time. Jiyeon contacted no one and stood just inside the open door. A person who wanted to put everything in order and one who wanted nothing seen now shared the same threshold.",
+    "choices": [
+      {
+        "text": "State the onset time and allow Jiyeon to hold his wrist",
+        "result_text": "{name} gave the exact time and held out his wrist. \"You may. I still decide what happens next.\"\n\nJiyeon used two fingers and watched the second hand. She asked nothing else while counting, then recorded only the time.\n\nThe body's measure passed to her; the decision did not. One stroke beneath her neat writing trembled."
+      },
+      {
+        "text": "Show the screen and ask her not to touch him",
+        "result_text": "{name} turned over the work log and symptom timestamp. \"You can see this much. Please don't touch me.\"\n\nJiyeon nodded and stepped back. \"Understood. I'll separate what I know from what I'm guessing too.\"\n\nHis work hours and shaking were exposed; no touch occurred. Jiyeon's hand clenched only inside her coat pocket."
+      },
+      {
+        "text": "Ask her to stay without deciding for him",
+        "result_text": "\"Don't call or organize anything for me. Stay here until I can speak.\"\n\nJiyeon closed her notes and sat on the entryway floor. \"All right. But the time you spend not speaking is still something I witnessed.\"\n\nThe controlling hand rested empty on her knee. {name} had asked for help, and only the arrival time remained in their silence."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_body_witness_hyunsu",
+    "title": "Hyung, Leave the Door Open",
+    "description": "At two in the morning, Hyunsu reached the open door and caught his breath against the corridor rail. He held convenience-store water and a charging cable. \"Hyung, can I come in? I can stay here too.\"\n\n{name} moved only his lips. His fingertips shook; a tight line ran from his left temple into his neck. Hyunsu did not cover it with a joke as he once might have in the goshiwon. He looked at the clock and overturned cup, took out his phone, then set it down without waking the screen.\n\n\"Tell me when it started and where it feels wrong. I won't say I handled it for you.\"\n\nThe door was already open. Hyunsu waited one step outside for what {name} would hand over: the boundary between leaning on a friend and the shame of explaining his own body.",
+    "choices": [
+      {
+        "text": "Give the exact onset time and location of the pain",
+        "result_text": "{name} checked the clock and stated the time and location in separate sentences. Hyunsu copied them into his phone without adding a guess.\n\n\"I wrote exactly what you said, hyung. Nothing else.\"\n\nThe coordinates of the body passed into a friend's hand while the lock screen stayed private. No blank remained between Hyunsu's two lines."
+      },
+      {
+        "text": "Hand Hyunsu the unlocked phone",
+        "result_text": "{name} unlocked the phone and held it out on the call screen. \"Only what we need. Don't open the other chats.\"\n\nHyunsu took it in both hands and lowered the brightness. \"Understood. I won't go farther than you said.\"\n\nThe means of contact and a door into private life passed together. Hyunsu's thumb stopped at the edge without pressing a name."
+      },
+      {
+        "text": "Leave the door open and ask him to watch from one step away",
+        "result_text": "\"Don't come in. Watch from there until I can move.\"\n\nHyunsu stepped back toward the rail and put down the water. \"Call and I'll come right in. If you don't, I'll stay here.\"\n\n{name} kept the distance but could no longer say he was alone. Whenever the corridor sensor went dark, Hyunsu moved one foot to bring the light back."
       }
     ]
   },
   {
     "id": "arc_y4_family_partner_collision",
     "title": "A Future at the Same Table",
-    "description": "{name} and Daeun entered the restaurant Father had chosen. Three bowls of soup arrived, but no one picked up a spoon. Father's factory-hardened fingers slowly rolled the spoon handle.\n\n\"Daeun, are you staying in Seoul to fit Minjun's plan?\"\n\nDaeun set down her water glass. \"That makes me sound like someone attached to Minjun's plan, Father.\"\n\n{name} tried to step in. Daeun showed an open palm. \"Minjun, let me answer for myself.\"\n\nFather kept his eyes lowered. \"Even at a hospital door, he decides alone and tells no one. I'm asking because I fear he'll keep doing it after someone shares his life.\"\n\n\"That scares me too, Father,\" Daeun said. \"He left me outside the door at two in the morning and decided he was fine for both of us.\"\n\nFather and Daeun looked at {name} together. The steam had nearly vanished from the soup.",
+    "description": "{name} and Daeun arrived together at the restaurant Father chose. Three bowls of soup waited, but no one lifted a spoon. Father's factory-hardened fingers rolled the handle slowly.\n\n\"Daeun, will you keep living in Seoul to fit Minjun's plan?\"\n\nDaeun set down her glass. \"That makes me sound attached to his plan, Father.\"\n\nWhen {name} tried to step in, she raised a palm. \"Minjun, let me answer.\"\n\nFather looked into his soup. \"At a hospital door and at the door to his own body, he tries to decide alone. I fear he'll do it even with someone beside him.\"\n\nDaeun folded one cardigan cuff, remembering the door opened before dawn. \"I fear the conclusion coming first too. But don't decide my answer for me.\"\n\nBoth looked at {name}. The steam above the soup was almost gone.",
     "choices": [
       {
-        "text": "Tell Father, \"I want to keep going with Daeun. I want to hear her answer too.\"",
-        "result_text": "Father started to speak, but Daeun looked at {name} first.\n\n\"I'll give my own answer. But asking while I'm here—that part is right.\"\n\nDaeun told Father about her mother's small restaurant, the years she had saved in Seoul, why she could not leave, and why she still might. {name} did not edit her answer. When Father released his spoon, Daeun stirred the cooling soup once."
+        "text": "Ask Father to say what frightens him first",
+        "result_text": "{name} turned toward Father instead of answering. \"Don't tell us how I should live yet. Tell me what you're afraid of.\"\n\nFather put down the spoon. \"I'm afraid you'll believe money means you no longer owe people an explanation.\"\n\nDaeun did not interrupt. Father's pride lowered, and fear rather than advice entered the space between the bowls."
       },
       {
-        "text": "Settle Father's hospital issue first and postpone the future with Daeun",
-        "result_text": "\"Let's finish Father's hospital issue today. We'll talk about us later.\"\n\nDaeun gave a short laugh. \"I'm later again, Minjun.\"\n\nFather said, \"That isn't what I meant,\" but Daeun gathered her cardigan. At the door she told {name}, \"Call when later has a date.\" The soup in front of Daeun remained untouched."
+        "text": "Acknowledge the hospital-door choice without making it noble",
+        "result_text": "{name} read what he had done at that door exactly as it remained in the record. Whether it was a visit, a delay, or avoidance, he did not rename it as being for Father.\n\nFather asked, \"And you're telling me now?\" Daeun watched {name}. \"At least this time you said it before both of us.\"\n\nThe shame remained and the fact did not hide. Ceiling light lay white on the cooling soup."
       },
       {
-        "text": "Tell Daeun she does not have to carry Father's expectations",
-        "result_text": "\"You don't have to carry my family, Daeun. We can stop here.\"\n\nDaeun's face hardened. \"That isn't consideration. It's another decision you made alone.\"\n\nFather opened the hand around his spoon. {name} had no answer. Daeun pushed back her chair, stood, and bowed to both men. After the door closed, one of the three place settings was cleared away."
+        "text": "Ask Daeun's boundary before Father's expectations",
+        "result_text": "{name} asked Daeun, \"Which questions do you want to answer here? I won't decide first.\"\n\nShe turned the glass once. \"My work and family plans. I won't answer whether we combine money or where we live today.\" Father's mouth tightened.\n\n{name} repeated the boundary aloud. Father's expectations were cut short; Daeun's place setting remained."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_family_partner_collision_jiyeon",
+    "title": "Three People's Right to Correct",
+    "description": "{name} and Jiyeon reached the restaurant Father had chosen three minutes early. She hung her coat and aligned the three water glasses. Father closed the menu. \"If you're staying in Seoul, are you two planning to live together?\"\n\nJiyeon did not smile. \"We have not decided that I will stay or promised one home. We came to say which costs we will not hide, Father.\"\n\nFather's brow rose. \"Those are very tidy words. People don't live by a table.\"\n\n\"That is why facts and expectations need separate columns.\" Jiyeon wrote ‘hospital, Seoul, relationship’ on a napkin. No one had said what happened at the hospital door, and no future had been agreed. The three had reached the same table without deciding who could correct the questions.",
+    "choices": [
+      {
+        "text": "Give Jiyeon the right to correct dates and facts",
+        "result_text": "{name} told Father, \"If I say it wrong, let Jiyeon correct me immediately.\"\n\nBeside cohabitation, moving, and shared money, Jiyeon drew blanks where no agreement existed. Father stopped twice and began his sentence again.\n\nThe table slowed. {name} lost the room to polish the story. More blanks than answers remained on the napkin."
+      },
+      {
+        "text": "Expose family cost and romance cost in the same terms",
+        "result_text": "{name} named the time withheld from Father and the time postponed with Jiyeon without placing them on different scales. \"Both are costs I made. I won't use one to excuse the other.\"\n\nFather set down his chopsticks. \"You put family and romance on one line?\" Jiyeon did not erase the sentence.\n\nThe family hierarchy shook, and {name} lost the dignity of avoiding comparison. Both water glasses trembled at once."
+      },
+      {
+        "text": "Set Jiyeon's consent boundary before Father's future questions",
+        "result_text": "{name} asked Jiyeon first, \"How far may we answer tonight?\"\n\n\"Current costs and the hospital door. Not marriage, a home, or a name.\" Father swallowed the question he had prepared.\n\n{name} drew a line beneath the three words. Father's curiosity remained; Jiyeon's scope was confirmed in public. One pair of chopsticks stayed wrapped."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_family_commitment_none",
+    "title": "Soup Set for Two",
+    "description": "Saturday evening, {name} arrived alone at a restaurant promised to an actual family member. Two bowls of soup and two sets of dishes waited; no coat hung on the empty chair. He had not selected the action of bringing a partner. That proved neither that there was no relationship nor that anyone had refused.\n\nThe relative filled the glasses. \"You came alone. Am I not hearing about the person beside you in Seoul today?\"\n\n{name} turned his phone facedown. The round-trip time and fare were visible; no other commitment's completion or loss could be known here.\n\n\"I want to know why you came alone, not why somebody isn't here.\" Steam from the two bowls met in the center. {name} had to own only the choice to come alone, without making another person's absence an excuse.",
+    "choices": [
+      {
+        "text": "Say coming without a partner was his own choice",
+        "result_text": "\"I chose to come alone today. I won't say the other person refused.\"\n\nThe relative lowered the glass. \"Then those aren't words you agreed on together either.\" {name} said no.\n\nHe owned the absence without gaining a right to explain the relationship. No name was attached to the empty chair."
+      },
+      {
+        "text": "Answer only the hospital-door fact and refuse relationship questions",
+        "result_text": "{name} described what he had done at the hospital door only to the recorded limit. When the relative asked again about the person beside him, he shook his head. \"I won't discuss them while they're absent.\"\n\nThe relative said, \"Not even with me?\" but stopped. One factual line opened and the relationship door stayed shut. Oil slowly set on the soup."
+      },
+      {
+        "text": "Show the Saturday time and fare spent on this table",
+        "result_text": "{name} read the departure time and round-trip fare from the receipt. \"This is the time and money I cleared for today. I won't invent another job I lost.\"\n\nThe relative listened longer to the last sentence than the amount. \"Then eat before you go.\"\n\nTime and money were verified; exaggerating another sacrifice was closed off. The receipt lay unfolded between the bowls."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_family_table_missed",
+    "title": "The Table Never Set",
+    "description": "Saturday night, two finished times remained gray in {name}'s calendar. He had selected neither facing family nor bringing a partner to the table. No restaurant soup, opposite chair, or attendee's expression therefore existed.\n\nHis phone held an unfinished line to family—‘I won't make it today’—and the passed time that a companion's place would have required him to explain. The record did not name the partner or include what they exchanged that day.\n\n{name} opened the monthly ledger at his empty desk. Neither commitment had a completion mark. An excuse might reach one relative while leaving the other absence untouched. Sending nothing would avoid inventing a person and make the silence part of his record. The monitor clock kept adding minutes beyond both promises.",
+    "choices": [
+      {
+        "text": "Send family one line of absence without an excuse",
+        "result_text": "{name} deleted every reason and sent only: ‘I did not come to today's appointment. I'm sorry I did not say so earlier.’\n\nHe did not check for a read mark or reply. One line reached family; no person was attached to the other expiration. The sent time appeared beneath the gray appointment."
+      },
+      {
+        "text": "Record only the times when both places passed",
+        "result_text": "{name} entered the family appointment and the companion-action deadline separately. He wrote no imagined sentence about who might have been there. The unsent family draft remained on his phone.\n\nNo explanation reached anyone; only the dates became exact. The same word, ‘incomplete,’ ended both lines. The pen marks were heavy without a name."
+      },
+      {
+        "text": "Send no draft and confirm both expirations as they are",
+        "result_text": "{name} deleted the message and copied both expiration times into the ledger. He added neither ‘busy’ nor ‘next time.’\n\nNo reaction was created and no late apology opened. When the phone went dark, only two gray squares remained in the room."
       }
     ]
   },
   {
     "id": "arc_y4_borrowed_name",
     "title": "The Blank for a Name",
-    "description": "Sangchul placed a new document beneath the table showing the financing gap. Only the box marked ‘co-obligor’ was blank.\n\n\"Put Daeun's name here and the scale stays intact. If you're going forward together, you look at the same ledger.\"\n\nDaeun pulled the original document closer. \"Looking at it together means I pay directly if something goes wrong, doesn't it?\"\n\nSangchul capped the pen. \"That is unlikely. Look how far Minjun has already come.\"\n\n\"I asked what I would be responsible for, not how likely it is.\"\n\n{name} had already read the early-repayment clause and joint-liability language on the back. Sangchul pushed aside his cold instant coffee. \"The name has to be decided today. You two can handle the explanation privately.\"\n\nDaeun did not touch the pen. \"No. You brought the document, sir. Read the original here. Tell me what you want to do with my name.\"",
+    "description": "Sangchul placed the review terms beneath the financing gap they had already measured. The proposed co-obligor box was blank; the next page showed the lower ceiling available under {name}'s name alone. Daeun pulled both pages toward her.\n\n\"Daeun's name preserves the scale. We aren't asking for it today, only whether you will keep reviewing.\"\n\nShe moved between early recovery and joint liability. \"Show me where I can refuse and the full range I would carry. Don't tell me it is unlikely.\"\n\n{name} had disclosed the terms and could ask only for willingness to continue. No signature, consent, or filing had occurred. Sangchul pushed away his cold coffee. Daeun left the pen untouched and asked who would choose the questions and which number would be exposed first.",
     "choices": [
       {
-        "text": "Use no name but his own. Recalculate at the scale it can carry.",
-        "result_text": "{name} placed a hand over the blank. \"Daeun's name stays out. Give me the largest version that works under mine alone.\"\n\nSangchul bit the inside of his lip once and cut the number nearly in half. Daeun set down the pen. \"I won't thank you. That was where the line should have been.\"\n\nAll three looked at the smaller figure. No hand returned to the blank name box."
+        "text": "Give Daeun the right to mark the refusal clauses",
+        "result_text": "{name} put the highlighter before Daeun. \"Choose the clauses where review must stop.\"\n\nShe marked changes to guarantee scope, early recovery, and added costs. Sangchul began explaining the first; his prepared return table slid aside.\n\n{name} lost control of the order and Daeun drew her own line. No name or signature appeared in the yellow marks."
       },
       {
-        "text": "Make Sangchul write every liability down and give Daeun one night",
-        "result_text": "{name} asked Sangchul to read the back page aloud. Early exit, joint liability, the worst case—each line went onto a separate sheet.\n\nDaeun did not fold it. \"I'm not signing today. If I choose this, I'll call tomorrow. Because I decided, not because Minjun asked.\"\n\nSangchul penciled tomorrow's date beside the empty box. Daeun put a complete copy of the original into her bag."
+        "text": "Make Sangchul read the joint-liability language verbatim",
+        "result_text": "{name} covered the summary and asked Sangchul to read the liability paragraph from the start. He included ‘maximum’ and ‘exceptions.’\n\nDaeun asked, \"Why was this one sentence when you explained it?\" Sangchul did not answer at once.\n\nThey heard the scope, and the couple's private finances opened in the same room. Only the terms remained spread beside the cold coffee."
       },
       {
-        "text": "Cover the unfavorable page and ask Daeun to sign if she trusts him",
-        "result_text": "{name} slid the appendix beneath the contract. \"I'll take responsibility. You only have to trust me.\"\n\nDaeun asked, \"You've shown me everything, Minjun?\"\n\nWhen {name} said yes, Sangchul turned toward the window. After a long pause, Daeun signed her name. The hand that set down the pen did not move back toward {name}. When Sangchul stacked both copies, the corner of the hidden page slipped out again."
+        "text": "Reveal his lower solo ceiling and ask only whether to keep reviewing",
+        "result_text": "{name} read aloud the ceiling possible under his name alone. \"This number is mine. Today I am asking only whether you want to keep reading these terms.\"\n\nDaeun studied the smaller figure without folding a corner. \"I'll make a question list. Any answer comes after that.\"\n\nThe reduced scale lay exposed and only the review window remained. The box stayed blank."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_borrowed_name_jiyeon",
+    "title": "A Deadline Before the Name",
+    "description": "Sangchul placed the financing-gap table and joint-liability review copy before Jiyeon. The lower ceiling under {name}'s name alone had already been measured. Jiyeon checked page numbers and issue times without touching the blank name box.\n\n\"We need no signature today, only whether to continue reviewing,\" {name} said.\n\nSangchul smiled. \"There isn't time to read every condition before an answer. Let's take the important ones.\"\n\nJiyeon centered the copy. \"Who decides importance? The person borrowing a name and the person lending one won't rank it the same way.\" Her honorifics stayed precise; the pen cap closed sharply.\n\nThere was no signature, consent, or filing. What remained was the question order, {name}'s actual ceiling, and the right not to answer today.",
+    "choices": [
+      {
+        "text": "Give Jiyeon the first question and the right to correct",
+        "result_text": "{name} turned his list facedown. \"Choose the first question and correct anything wrong.\"\n\nJiyeon asked when joint liability began. Each time Sangchul said ‘roughly,’ she pointed back to the date in the terms.\n\nHalf the review time disappeared and control passed to Jiyeon. Three dates, not a name, occupied the blank."
+      },
+      {
+        "text": "Expose his solo ceiling and financing gap first",
+        "result_text": "{name} put the lower ceiling and remaining gap on one screen. \"I won't ask you to continue while hiding this difference.\"\n\nJiyeon read it. \"Then call my name a separate risk, not the solution.\" Sangchul's smile vanished.\n\nThe weakness opened before both of them and one sales phrase was crossed out. The gap remained."
+      },
+      {
+        "text": "Refuse an answer today and set only a copy-and-question deadline",
+        "result_text": "{name} gave Jiyeon the review copy and asked only when questions would arrive. She wrote seven tomorrow evening. \"I'll send questions then. I am not answering whether I continue.\"\n\nSangchul warned that today's window would shrink. {name} did not press her. Current negotiation time was lost; only the copy and deadline entered Jiyeon's bag."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_borrowed_name_self",
+    "title": "The Co-Obligor Box Left Blank",
+    "description": "Before the deal lead, {name} finished measuring the ceiling and gap under his name alone. The co-obligor box remained blank, and no other person's name entered the room today. The document could not say whether that came from consent not chosen or from having no relationship whose name could be borrowed.\n\nThe lead pushed over the calculator. \"One other name restores the original scale. It doesn't have to be a lover.\"\n\n{name} looked at the blank. Saying there was no name to borrow would fully expose his weak funding. Deleting the box would reveal the higher price. Taking only the review copy could close today's window. The lead laid the pen flat. \"If it isn't a name, decide how much you will give up.\"",
+    "choices": [
+      {
+        "text": "State that he brought no name to borrow today",
+        "result_text": "\"There is no name to borrow for this contract today. Don't write another person down as a possibility.\"\n\nThe deal lead wrote ‘solo’ beside the box and pulled back the gap table. {name}'s weakness opened without declaring any relationship absent.\n\nOnly his name and the lower number remained."
+      },
+      {
+        "text": "Delete the co-obligor box and ask its price",
+        "result_text": "{name} struck through the box. \"What happens to the rate and ceiling if this field does not exist?\"\n\nThe deal lead produced new figures: higher cost, lower ceiling. \"That's the price of going alone.\"\n\nAnother person's name stayed safe and the scale was lost. The old number showed faintly beneath the deletion."
+      },
+      {
+        "text": "Take only the review copy and leave without an answer",
+        "result_text": "{name} took the unsigned review copy. \"I answer neither the name nor the scale today.\"\n\nThe deal lead opened the door without promising the current terms would remain. {name} surrendered no name and left the window where it stood.\n\nUnder the corridor light, the blank box was unnaturally white."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_borrowed_name_document_gap",
+    "title": "A Blank Among the Records",
+    "description": "A public terms page, the deal lead's summary, and {name}'s own calculation notes lay together on his desk. All three were currently visible, yet they disagreed about who joint liability covered, its maximum amount, and when it ended.\n\nThe public page showed only the liability heading, its scope folded inside a menu. The summary said a name would preserve the terms without saying whose name or what liability. His own name box stayed blank wherever the material failed to agree.\n\n{name} split the available facts from the unknowns. An official inquiry window remained open beside them. He could record why he refused the blank, ask for the scope of the liability language, or state that the mismatched records were why he would not proceed.",
+    "choices": [
+      {
+        "text": "Write the refusal reason beside the blank in his own notes",
+        "result_text": "{name} wrote ‘scope inconsistent; affected person's consent unconfirmed.’ He added no page number or seal missing from the available records.\n\nThe reason was clear, but no record reached the other side. A date and the three source labels remained beside the hand-drawn box."
+      },
+      {
+        "text": "Ask the official channel for the scope of joint liability",
+        "result_text": "{name} submitted only three questions: who it applied to, maximum exposure, and termination conditions. He did not quote the deal lead's summary as fact.\n\nOnly the submission time was confirmed immediately; the three mismatched records remained. Three gaps in his knowledge were exposed, and he invented no document for the empty attachment field."
+      },
+      {
+        "text": "Leave only a non-proceeding reason and close the question draft",
+        "result_text": "{name} wrote: ‘I will not proceed while the available records disagree about the liability language and named party.’ He added no claim about receiving or returning any particular document.\n\nThe open inquiry window closed, taking the extra-question draft with it. Beneath the sent line there was no new file and no signature."
       }
     ]
   },
   {
     "id": "arc_y4_bill_night",
     "title": "The Night the Bills Arrived",
-    "description": "11:47 p.m. A payment link from the hospital office in Changwon blinked in the corner of the laptop. {name} stood braced against the sink. The tremor had climbed from his fingertips into his arm, but he searched for the payment password first.\n\nThe bell rang. Daeun stood outside with the document envelope she had carried from Sangchul's office days earlier. One look at his face and she said, \"Sit down, Minjun. That is not a face that gets to say it's fine again.\"\n\nFather's fifth call arrived. As {name} tried to turn it away, the voice message played on speaker.\n\n‘Minjun, did the hospital office contact you? Don't send money. Tomorrow I'll—’\n\nThe message broke behind a cough.\n\nDaeun looked from the envelope, to the shaking hand, to Father's name. \"Don't decide the order alone again. My name is in that document. This is your body. And your father is the one calling.\"\n\nThe payment window showed thirteen minutes left. Daeun kept her cardigan on and waited for an answer.",
+    "description": "At 11:47 p.m., the Changwon hospital payment window remained open and the tremor in {name}'s fingers had not stopped. The bill was unpaid and no help had been sought for his body. Tonight he had answered Father and let Daeun in when she arrived as promised.\n\nFather said through the call, \"Minjun, hear me out first.\" {name} kept the phone to his ear and looked at Daeun. She placed the review envelope from Sangchul's office on the table without taking off her cardigan.\n\n\"Ask whether I may hear the family call, whether we open this envelope now, or what you want me to witness,\" she said.\n\nDaeun touched neither the payment button nor the help screen. Father's breathing, the sealed envelope, and the shaking hand shared one room, but no unselected action became completed by implication.",
     "choices": [
       {
-        "text": "Pay Father's hospital bill first. Do what can be done in thirteen minutes.",
-        "result_text": "{name} stayed on his feet and entered the transfer password. Daeun said nothing until the payment-complete message appeared.\n\n\"Done. Now talk to me.\"\n\"About what?\"\n\"Start with whether you want me here tonight.\"\n\nFather did not call again. Daeun pulled over an empty chair without taking off her cardigan. The completion notice was the brightest thing in the room."
+        "text": "Ask Daeun whether the call may go on speaker",
+        "result_text": "{name} stopped over the speaker icon. \"May you hear this? If not, I'll finish outside.\"\n\nWhen Daeun nodded, Father's voice entered the room. \"Don't send the money first. Hear me out.\" Daeun did not interrupt.\n\nThe privacy of the family call opened; no payment confirmation appeared. Only the speaker icon stayed blue."
       },
       {
-        "text": "Close Father's payment window and ask Daeun for help reaching the night clinic",
-        "result_text": "\"Daeun, come to the hospital with me.\"\n\nShe set down Sangchul's document envelope. Instead of grabbing {name}'s arm, she asked, \"Can I hold your shoulder? Can you walk?\"\n\n{name} nodded and they moved toward the door. Father's payment window stayed open on the laptop; his voice message stayed on the phone. Daeun placed the house key on top of the shoe cabinet."
+        "text": "Hear Father privately, then open the name-review copy to Daeun",
+        "result_text": "{name} kept the call off speaker and heard Father to the end. \"All right. Tonight I'll listen.\" After hanging up, he opened the envelope before Daeun.\n\n\"Nothing is signed. These are the terms we were reviewing for responsibility.\" Daeun opened only the joint-liability paragraph. \"Then this is all we read tonight.\"\n\nThe family voice stayed private and the contract weakness opened. The bill and help screens remained untouched."
       },
       {
-        "text": "Call Father back on speaker and tell the whole truth in front of Daeun",
-        "result_text": "Father answered on the first ring.\n\n\"Why are you at the hospital? What happened?\"\n\"It's nothing. What's wrong with your voice?\"\n\n{name} admitted the shaking body, the hospital payment link, and Daeun standing nearby. Daeun did not interrupt. She found the charger and plugged in the phone. Between the breathing of three people, the call timer advanced one block at a time."
+        "text": "Let Daeun ask what she is supposed to witness",
+        "result_text": "{name} heard Father to the end and set down the phone. \"Ask what you need to confirm tonight. I won't choose the order for you.\"\n\nDaeun chose no payment or clinic. \"Answer three things: is the bill unpaid, is the shaking continuing, and is the envelope still unsigned?\" {name} answered yes to each.\n\nThree incomplete facts were visible without handing her the decision. The three screens stayed lit side by side."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_bill_night_jiyeon",
+    "title": "Three Timestamps",
+    "description": "At 11:47 p.m., a payment record opened with its issuer and processing status visible. At 11:51, {name} recorded the tremor in a work note. At 11:56, Jiyeon arrived after his message and stepped inside. Father's name and the running call time showed on the phone.\n\nJiyeon copied the three times without removing her coat. \"I won't combine the facts. The family call record, the contract-review record, and the body signal are different matters.\"\n\nFather said, \"Minjun, are you listening?\" Jiyeon asked for neither the speaker nor the contract record. When {name} started to say he was fine, her breath caught half a second late. \"I won't decide for you. Separate what you are hiding.\" The three times were visible; each record kept its current status.",
+    "choices": [
+      {
+        "text": "Verify all three timestamps with Jiyeon",
+        "result_text": "{name} showed the payment record, work note, and entry record in order. Jiyeon read 11:47, 11:51, and 11:56, marking each source differently.\n\nFather ended with, \"Hear me out first.\" Jiyeon recorded that sentence beside the call time.\n\nThree pieces of privacy opened, and no record changed its processing status. Only three source-labeled check marks remained."
+      },
+      {
+        "text": "Keep Father's voice private and open only the contract liability",
+        "result_text": "{name} heard Father privately and finished the call. He did not share the audio, opening only the joint-liability language in the contract record currently available.\n\n\"I'll own the family words. Help me read my responsibility here.\" Jiyeon checked only the visible timestamp, source label, and liability language.\n\nFamily privacy held and the contract weakness opened. The payment record and body note kept their current status."
+      },
+      {
+        "text": "Ask her to stay until the call ends without processing the open records",
+        "result_text": "\"Don't process these records for me. Stay until Father finishes.\"\n\nJiyeon closed her notes and sat on the chair's edge. Father completed one sentence: \"Slow your breathing first.\" She did not interrupt.\n\n{name} admitted dependence, and all three records kept their current status. Jiyeon's grip on her coat button loosened half a second late."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_bill_night_unattached",
+    "title": "One Call and Open Screens",
+    "description": "At 11:47 p.m., the payment page opened. At 11:51, a note about shaking fingers was saved. At 11:55, {name} answered Father. No partner was present, and he had selected neither paying the bill nor seeking help for his body.\n\n\"Minjun, are you listening? Hear me out first.\" A television and the sound of a closing door overlapped faintly behind Father's voice. {name} braced against the sink with the phone to his ear. One side of the laptop held the on-screen issuer and amount; the other held the untreated body signal.\n\nThe contact was already completed. Within the call, {name} could disclose the body signal, read the screen's source and amount, or conceal both and keep only the three times in a private record. None of those choices became a payment or clinic arrival.",
+    "choices": [
+      {
+        "text": "Tell Father the current body signal",
+        "result_text": "{name} said his hands were shaking and his vision had briefly doubled. He did not read the bill.\n\nAfter a breath, Father finished: \"Sit down and hear me out first.\" {name} did not cut the sentence short.\n\nHis bodily privacy opened; no help had yet been requested. A shaking line remained beside the 11:55 call record."
+      },
+      {
+        "text": "Read the bill's issuer and amount exactly",
+        "result_text": "{name} read the issuing office and every digit on-screen. He did not mention the tremor.\n\nFather completed one sentence: \"Don't send that money first. Read the items again.\" {name} followed the item names without adding an answer.\n\nThe money problem opened and the body signal stayed alone. His hand never reached the payment button."
+      },
+      {
+        "text": "Hide both and keep the three times in a private record",
+        "result_text": "{name} said only, \"I'm listening.\" Father finished, \"It's late in Seoul too. Slow your breathing.\"\n\nAfter the call, {name} wrote: 11:47 bill, 11:51 body signal, 11:55 call. He left the source and symptom blank.\n\nPrivacy held and no bill closed. Only three times remained on the black screen."
       }
     ]
   }

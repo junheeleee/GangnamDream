@@ -3207,7 +3207,7 @@ def run_self_test(
         beat = month(data, 42)["beats"][0]
         family_only = next(
             row for row in beat["coverage"]["fallbacks"]
-            if row["root"] == "arc_y4_family_commitment_none"
+            if row.get("values") == ["family_only"]
         )
         family_only["role_bindings"]["family_member"]["source"] = {
             "kind": "available_commitment",

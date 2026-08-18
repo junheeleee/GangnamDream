@@ -59,7 +59,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-108 · M39~M48의 세 약속·몸의 목격자·빌린 이름·마지막 연락을 세 사람 경로의 실제 원고 25개로 푼다 | [108](queue_active/ORDER-108.md) | 착수 — KO/EN 6파일·story_map root lifecycle만 소유 |
+| 1 | [~] | ORDER-108 · M39~M48의 세 약속·몸의 목격자·빌린 이름·마지막 연락을 세 사람 경로의 실제 원고 25개로 푼다 | [108](queue_active/ORDER-108.md) | 25 roots·75 choices/locale L1/L2, 독립 P0/P1 0 완료 — 복합 selector 원고 reference-only, 사용자 무작위 3개 L3 보류 |
 | 2 | [~] | ORDER-107 · M25~M36의 아버지 기록·재혁 피치·관계 이탈·상철 진실 후속 20개를 실제 원고로 푼다 | [107](queue_active/ORDER-107.md) | 신규 20 roots·60 choices/locale L1/L2, 독립 P0/P1 0 완료 — 사용자 무작위 3개 L3 보류 |
 | 3 | [~] | ORDER-106 · M13~M24의 압축 연쇄와 빈 경로 24개를 실제 원고로 푼다 | [106](queue_active/ORDER-106.md) | 24 roots·70 choices/locale L1/L2, 독립 P0/P1 0 완료 — 사용자 무작위 3개 L3 보류 |
 | 4 | [~] | ORDER-105 · M02~M12의 빈 장면과 중복 장면 20개를 실제 원고로 고친다 | [105](queue_active/ORDER-105.md) | 20개 L1/L2·독립 P0/P1 0 완료 — 사용자 무작위 3개 L3 보류 |
@@ -125,7 +125,7 @@ git diff --check
 - ORDER-105는 사건 JSON·한영·말투·서사 정합만 검사하며 런타임·240주·전체 감사를 실행하지 않는다.
 - ORDER-106은 사건 JSON·한영·말투·서사 정합만 검사하며 런타임·240주·전체 감사를 실행하지 않는다.
 - ORDER-107은 사건 JSON·한영·말투·서사 정합만 검사하며 런타임·240주·전체 감사를 실행하지 않는다.
-- ORDER-108은 사건 JSON·story-map root lifecycle·한영·말투·서사 정합만 검사하며 런타임·240주·전체 감사를 실행하지 않는다.
+- ORDER-108은 사건 JSON·story-map authored/reference 분리·한영·말투·서사 정합만 검사하며 런타임·240주·전체 감사를 실행하지 않는다.
 - 카피·번역 변경은 해당 언어 감사, 화면 변경은 해당 ScreenshotQA 범위만 더한다.
 - `./tools/audit.sh`와 240주 검사는 활성 사양이 공통 스키마·스케줄러·엔딩을
   바꾸거나 챕터 승인·demo/full RC를 판정할 때만 실행한다.

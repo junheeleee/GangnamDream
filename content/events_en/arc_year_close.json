@@ -197,5 +197,62 @@
         "result_text": "{name} switched off the screen with Hyunsu's call log still open and closed the notebook. Beneath its four headings remained one call time and only the records already written there.\n\nThe last page curled upward by degrees. Even after the countdown, the unwritten spaces stayed as they were."
       }
     ]
+  },
+  {
+    "id": "arc_y4_year_close_daeun",
+    "title": "Show the Blank First",
+    "description": "The cafe had played its year-end closing announcement twice, but Daeun still sat across from {name} in her coat. On the table lay the record of how contact with Dad did or did not occur, a family bill bearing a name, and the notice for a physical follow-up. Completed items had times; undone ones had blanks. No record stood in for another blank.\n\n{name} opened the final year's calendar. Money already occupied several squares. Daeun looked at the empty ones first.\n\n\"Minjun, don't tell me you'll keep everything. That only makes me the person who has to check again. Tell me one thing you won't postpone, and what keeping it will stop you from doing.\"\n\nBefore Daeun, {name} had to name one boundary among the three records to protect first in the final year.",
+    "choices": [
+      {
+        "text": "Say that time set with Daeun is reserved first, not taken from whatever remains",
+        "result_text": "{name} crossed off one evening and said no money task would be written over it. He did not promise to answer every sudden call outside that time.\n\nDaeun did not smile. \"Don't put my time on the opposite side of your goal. If you can't come, tell me before I have to wait.\"\n\nOne square stayed open, and the pleasant promise to always be there was closed."
+      },
+      {
+        "text": "Fix the physical follow-up first and do not hide how much it slows the goal",
+        "result_text": "{name} copied the time from the follow-up notice into the calendar and pushed one money task away from each side of it.\n\nDaeun said, \"Don't turn it into a promise you need me to verify. It has to be an appointment you keep in your own name, Minjun.\"\n\nThe path of handing his care to Daeun closed. The calendar showed the goal slowing in plain view."
+      },
+      {
+        "text": "Show the family bill and a firm limit, but refuse to cover it with someone else's name",
+        "result_text": "{name} turned the family bill toward Daeun without hiding its name or amount. He said he would not conceal it, but neither would he substitute Daeun's name or time.\n\nDaeun read it and pushed it back. \"Don't only tell me you paid. Tell me when it arrived and when you saw it.\"\n\nOne quick name to fill the gap disappeared. In return, he had to answer for the bill's arrival time too."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_year_close_jiyeon",
+    "title": "A Calendar That Can Be Corrected",
+    "description": "By the cafe window, Jiyeon aligned the corners of three records: the record of how contact with Dad did or did not occur, the name on a family bill, and the notice for a physical follow-up. Completed records bore completion times; missed ones held blanks. She did not cover both with the same stack.\n\nWhen {name} opened the final year's calendar, Jiyeon left a narrow margin beside the money schedule.\n\n\"I can't verify 'I'll do my best.' I never agreed to that wording either. Tell me what you will protect first. Then write what that choice delays on the same line, so I can correct any false facts.\"\n\n{name} had to surrender either speed or appearances and lock one boundary among the three records first.",
+    "choices": [
+      {
+        "text": "Lock their agreed time first and refuse extra promises he cannot keep",
+        "result_text": "{name} marked the time they had agreed on before anything else. Alongside the promise to keep it, he said he could not accept every request beyond it.\n\nJiyeon redrew the line with a ruler. \"Don't use my name as collateral for time. If you cannot keep it, correct the record before passing the loss to me.\"\n\nTheir time became clear, and the inflated promise to come whenever needed disappeared."
+      },
+      {
+        "text": "Fix the physical follow-up first and disclose the lower pace it gives the goal",
+        "result_text": "{name} wrote the time that had to remain open beside the physical follow-up, then placed the delayed money task on the same line.\n\nJiyeon checked the figures once. \"Don't calculate your body as an asset with no cost. This delay belongs in the plan if you want it to be accurate.\"\n\nThe speed gained by pretending not to hurt disappeared. A figure Jiyeon could correct remained."
+      },
+      {
+        "text": "Stop treating the family bill as hidden debt and disclose both its text and a response limit",
+        "result_text": "{name} placed the family bill and the limit he could bear on one screen. He said he would not fill the shortfall with Jiyeon's name or their relationship.\n\nJiyeon pointed to the date. \"The amount alone is only half. When you learned about it and when you answered are terms of the debt too.\"\n\nThere was less room to hide his finances, and no room to exempt the family problem as merely private."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_year_close_unattached",
+    "title": "Start With What You Cannot Do",
+    "description": "Hyunsu did not act as if he had come to celebrate success. At a late-night soup shop, he read the records {name} offered in order: the record of how contact with Dad did or did not occur, a bill bearing a family name, and a physical follow-up notice. Finished and unfinished things carried different marks.\n\n\"Why show me this, hyung?\"\n\"To tell you what I'll protect first next year.\"\n\"Then don't say you'll do everything. Start with what you can't do. I'm not here to audit your success ledger.\"\n\nSteam sank over the stone bowl. Without using Hyunsu as a reward or an accountant, {name} had to name one boundary for the final year and the thing he would no longer promise because of it.",
+    "choices": [
+      {
+        "text": "Reserve one evening for people, but do not promise to answer every call",
+        "result_text": "{name} said he would leave one evening open to see someone. He did not say missed time could later be repaid in one lump like money.\n\nHyunsu set down his spoon. \"Don't use that evening like debt repayment either. If you act nice even on nights you don't want to come, you'll disappear again.\"\n\nOne open space appeared. The promise to be good to everyone closed."
+      },
+      {
+        "text": "Promise no more night work until the physical follow-up is kept",
+        "result_text": "{name} said he would place no night work around the physical follow-up. He did not hide how far that would push the goal schedule.\n\n\"Don't report back to prove you went,\" Hyunsu said. \"It's your body. Why make me the supervisor?\"\n\nThe excuse of handing it to Hyunsu disappeared. Responsibility for his body and the slower numbers both stayed with {name}."
+      },
+      {
+        "text": "Disclose the family bill, but refuse to promise that he will repay all of it",
+        "result_text": "{name} named the person on the family bill and when it arrived. He said he would neither cover it with another person's name nor promise to repay the whole thing for them.\n\nHyunsu closed the bill. \"Don't act as if paying ends it. The calls you missed and the seats you left empty stay too.\"\n\nThe heroic sentence that solved everything disappeared. What remained was a present boundary stating how far he could not be responsible."
+      }
+    ]
   }
 ]

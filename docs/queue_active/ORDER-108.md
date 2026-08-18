@@ -116,36 +116,19 @@
 
 ## 시간·경로 불변
 
-- 모든 장면은 위에 적은 exact selected/completed/missed receipt 한 조합의 reference다.
-  다른 조합은 같은 산문에 억지로 합치지 않고 `NEW/planned`로 남긴다.
-- M39의 father+deal / father+romance / romance-only / father-only 네 조합은 이번 배치
-  밖 planned fallback이다. 이번 3개 원고로 route하면 안 된다.
-- M41의 다은·지연·현수는 서로 다른 root다. `@nearest_person` 하나로 배우 이름만
-  치환해 장소·호칭·몸짓을 재사용하지 않는다. 현재 map의 generic
-  `arc_y4_body_witness_other_actor`는 계속 `NEW/planned`로 남기고, 신규 지연·현수
-  두 root는 후속 selector split 전까지 reference-only author-only다.
-- M44는 서울에서 창원 방향의 열차다. 서울행 좌석, 이미 창원중앙역을 떠난 뒤의
-  창원 병원 15분, ‘마지막일지도’ 같은 미래 지식을 쓰지 않는다.
-- 기존 `arc_father_call_on_ktx`와 memory/number follow-up 체인,
-  `arc_father_passing`·`arc_father_passing_hospital_room`, `arc_year4_close`는 이번
-  exact receipt 원고의 gameplay skeleton과 양립하지 않으므로 전체 object를 선언
-  commit과 동일하게 보존한다. 새 8개는 **reference-only author-only 원고**로 이번
-  판정 단위에는 세되 story_map lifecycle·도달·실행 완료 주장에서는 제외한다. 후속
-  routing 오더가 legacy root 교체와 exact receipt selector 등록부터 소유한다.
-- M45의 ask receipt는 검토 계속 의향만 보장한다. 자필 동의·서명·접수는 M55/M57이
-  실제로 생산하기 전까지 쓰지 않는다.
-- M46은 월간 same-axis 규칙상 가능한 exact set만 쓴다. 다은·지연 기준은 trust축
-  father+partner 두 완료, 무연애 기준은 father contact 하나 완료다. cash/health
-  commitment는 화면·청구서에 남아도 완료로 만들지 않는다.
-- 기존 `arc_y4_network_bill`은 internal 명함 장면과 tint·flag를 가진 legacy object라
-  원격 아버지 통화 reference로 개작하지 않는다. 전체 object를 선언 commit과 동일하게
-  보존하고, 신규 unattached root는 후속 selector split 전까지 reference-only author-only다.
-- M47은 `father.life`와 `story.father_final_contact`를 분리한다. 선택 전에 죽음을
-  사실상 알려 한 선택을 지배시키지 않고, present/called/missed를 장면 안에서 다시 고르지 않는다.
-- M48은 completed/missed receipt를 먼저 목록화한 뒤 실제 있는 것만 선택 표면에 둔다는
-  후속 selector 계약을 전제한다. 장면 산문은 미래의 성공·엔딩·관계 용서를 보장하지 않는다.
-- 다은은 끝까지 `민준씨`와 존댓말을 쓴다. 지연은 실제 romance stage가 말을 놓게 한
-  경로에서만 반말·`오빠`를 쓰며, 이번 author-only 기준은 상호 존댓말로 쓴다.
+- 모든 장면은 적힌 exact receipt 한 조합만 쓴다. 현재 map에 직접 결속한 authored
+  prose는 generic-safe한 M39 deal-only(unattached), M42 family-missed(partnered),
+  M45 self(partnered) 세 개뿐이다.
+- Daeun/Jiyeon+Sangchul actor gate가 필요한 M39·M45, witness/father decision이 필요한
+  M41·M42, selected set·bill source·M45 terminal의 복합 gate가 필요한 M46은 authored
+  prose를 reference-only로 보존하고 mapped root를 `NEW/planned`로 둔다. partnered /
+  unattached가 갈리는 M39·M42·M45도 별도 placeholder로 분리한다.
+- M44/M47/M48 신규 8개도 reference-only다. 기존 KTX follow-up, father passing,
+  `arc_year4_close`, `arc_y4_network_bill` object는 선언 commit과 동일하게 보존한다.
+- M44는 서울→창원, M47은 `father.life`와 final contact를 분리한다. M45 ask는 검토
+  의향만 보장하고, M46 미선택 cash/health를 완료하지 않으며, M48은 미래 성공·용서·
+  생사를 보장하지 않는다.
+- 다은은 `민준씨`+존댓말, 지연은 이번 reference에서 상호 존댓말을 유지한다.
 
 ## 파일 소유권
 
@@ -157,9 +140,15 @@
 
 **EN 원고:** 위와 같은 이름의 `content/events_en/` 3파일.
 
-**분기 상태:** `content/meta/story_map.json`에서 이번 배치로 실제 생긴 기존 fallback
-root의 `NEW/planned → EXPAND/needs_rule` lifecycle만 정렬한다. selector·cast·decision·
-commitment·장기 fact·런타임 dispatch는 수정하지 않는다.
+**분기 상태:** `content/meta/story_map.json`에서 실제 집필돼 current selector가 정직한
+fallback lifecycle은 `EXPAND/needs_rule`로 정렬한다. availability가 다른 M39/M42/M45
+selected set은 authored root와 `NEW/planned` placeholder로 분할하고, exact composite
+receipt가 아직 없는 M41/M42 일부/M45 document-gap/M46은 authored prose를
+reference-only로 격리한 뒤 mapped root를 `NEW/planned` placeholder로 둔다.
+decision·commitment·장기 fact·런타임 dispatch는 수정하지 않는다. 이 분할을 따라가는
+validator self-test 한 곳은 root 이름 대신 안정된 coverage value를 찾도록 갱신한다.
+
+**검사 정합:** `tools/story_map_audit.py`의 M42 actor-provenance self-test lookup 한 곳.
 
 위 원고 파일에 함께 들어 있는 M01~M36 기존 root object는 선언 commit과 byte-equivalent
 JSON object로 보존한다. `story_rules`, DataRegistry, 런타임·UI·저장·밸런스·자산은
@@ -167,22 +156,25 @@ JSON object로 보존한다. `story_rules`, DataRegistry, 런타임·UI·저장�
 
 ## 완료 증거
 
-- [ ] 정확히 25개 root·75개 choices/locale가 KO/EN에 존재하고 ID·선택 순서·
+- [x] 정확히 25개 root·75개 choices/locale가 KO/EN에 존재하고 ID·선택 순서·
   placeholder 의미가 대응한다.
-- [ ] 기존 5개 root는 선택 수를 포함한 텍스트 외 gameplay skeleton이 선언 commit과
-  동일하고, 신규 20개는 각 3택, `weight:0`, `hidden:true`, `min_turn:9999`,
+- [x] 기존 5개 root는 선택 수를 포함한 텍스트 외 gameplay skeleton이 선언 commit과
+  동일하고, 신규 20개는 각 3택, `weight:0`, `hidden:true`, `conditions.min_turn:9999`,
   writer/effect/flag/follow-up 0이다. 배치 밖 기존 M44/M46 network/M47/M48 legacy
   5 root와 그 follow-up object도 전체 object가 선언 commit과 동일하다.
-- [ ] 신규 KO description은 300~800자이고, 각 선택은 현재 행동·즉시 손실·인물 반응이
+- [x] 신규 KO description은 300~800자이고, 각 선택은 현재 행동·즉시 손실·인물 반응이
   서로 달라 어느 하나가 다른 선택을 공짜로 포함하지 않는다.
-- [ ] M39/M42/M45/M46과 M41 다은 base의 현재 story_map exact actor·selected receipt
-  표와 원고가 일치한다. M41 지연·현수 2개, M46 unattached 1개, M44/M47/M48 신규
-  8개는 ORDER의 reference selector와 원고가 일치하며, map 도달성 검증 대상이
+- [x] M39 deal-only/M42 family-missed/M45 self의 current selector가 정직한 authored
+  roots는 exact actor·selected receipt 표와 원고가 일치한다. M39 Daeun/Jiyeon+
+  Sangchul 및 partnered deal-only, M42 Daeun/Jiyeon/family-only와 unattached 2종,
+  M45 Daeun/Jiyeon+Sangchul·unattached·document-gap, M41 3종, M46 3종,
+  M44/M47/M48 8종은 ORDER의 reference selector와 원고가 일치하며,
+  `NEW/planned` routed placeholder 또는 reference-only로 map 도달성 검증 대상이
   아님을 별도 표기한다.
-- [ ] M01~M36 기존 root object가 선언 commit과 동일하다.
-- [ ] strict duplicate-key JSON, story-map normal/self-test, 한영 coverage, story consistency,
+- [x] M01~M36 기존 root object가 선언 commit과 동일하다.
+- [x] strict duplicate-key JSON, story-map normal/self-test, 한영 coverage, story consistency,
   speech register, exact-scope contract, `audit_select --list`, `git diff --check`를 통과한다.
-- [ ] 독립 L2 최신 바이트 낭독에서 선택 지배·선취·공간 점프·거짓 배우·미래
+- [x] 독립 L2 최신 바이트 낭독에서 선택 지배·선취·공간 점프·거짓 배우·미래
   스포일러 P0/P1 0, GO를 받는다.
 - [ ] L3는 사용자가 돌아온 뒤 무작위 3개를 읽어 판정한다.
 - 전체 감사·240주 시뮬레이션·Godot 장시간 검사는 실행하지 않는다.

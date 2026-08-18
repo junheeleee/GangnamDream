@@ -570,5 +570,100 @@
         "result_text": "‘There is one introducer's name I could not verify. I will bring the current records and ask you in person tomorrow at seven.’\n\n{name} sent only those two sentences. Neither Sangchul's name nor a case number entered the chat. He kept the pages from leaving his hands, but a notice with no explanation sounded closer to a warning than a question.\n\nThe brown envelope and sent time remained. The chat held none of the reason behind the question."
       }
     ]
+  },
+  {
+    "id": "arc_y4_father_call_answered_on_ktx",
+    "title": "Twenty-Three Seconds Toward Changwon",
+    "description": "The Changwon-bound KTX climbed onto the Han River bridge after leaving Seoul Station. The water bottle on the tray trembled at every rail joint. Father's call had been connected for twenty-three seconds.\n\n\"You on the train?\"\n\"Yes.\"\n\nA carriage announcement filled the pause. From Father's end came cloth shifting and a short breath. Once, each would have waited for the other to hang up. Today the arrival time was visible, and the decision {name} had made alone about whether to make or postpone the hospital visit had not vanished.\n\n\"Say it if you have something to say,\" Father said. \"I'm listening.\" The call kept running, but {name} could give only one thing the whole of his attention.",
+    "choices": [
+      {
+        "text": "Ask how Father's body feels now, and do not interrupt before the answer ends",
+        "result_text": "\"What hurts most right now?\"\n\nFather did not answer at once. As the train left the bridge, he said, \"A little short of breath today.\" {name} did not say it was fine or tell him what to do.\n\nListening to one answer left no room for the explanation {name} had prepared. In return, he heard exactly where Father's breathing shortened."
+      },
+      {
+        "text": "Admit that he decided on the hospital visit alone",
+        "result_text": "\"I decided alone whether to go to the hospital, whether to postpone it, even whom to tell.\"\n\nSomething rang softly against Father's bed rail. After a long pause, he said only, \"All right.\" Forgiveness or acknowledgment—{name} could not tell.\n\nHe swallowed the excuse. The arrival time did not change, but the face he could have saved until then was already gone."
+      },
+      {
+        "text": "Give the Changwon arrival time to the exact minute",
+        "result_text": "\"I arrive at Changwon Station at 8:12. I'll tell you as soon as I get off.\"\n\nFather repeated, \"Eight twelve,\" slowly. A number, not a feeling, became the clearest thing on the call screen.\n\n{name} left Father's condition and the hospital visit unspoken. He gave Father an exact present time to hold, and accepted that missing it would leave no excuse to hide behind."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_father_call_missed_on_ktx",
+    "title": "What to Leave on the Dark Screen",
+    "description": "The Changwon-bound KTX pushed past the lights outside Seoul. Only after boarding did {name} turn over the phone he had left on silent. One missed call from Father sat beside the train's arrival time. The call button was directly below it, but this record already belonged to a call he had not answered.\n\nHis photos still held the screen from a twenty-three-second call years ago. His notes held a half-written line to someone in his present, left unsent. Neither could replace the missed call. Calling now would turn the action he had missed into a different one.\n\n{name} moved his hand away from the button. Instead, he would preserve one of the three records so he could not later improve the story of what he had failed to do.",
+    "choices": [
+      {
+        "text": "Attach today's date to the old twenty-three-second screen and preserve it",
+        "result_text": "{name} copied the old screen and added today's date and train number to its filename. The old silence and today's missed call entered the same folder.\n\nNot one word of a present conversation appeared. What remained was proof that the two silences were not one event. The arrival time and the unsent line slipped out of view."
+      },
+      {
+        "text": "Save the missed-call time and Changwon arrival time in one image",
+        "result_text": "With the train app beside the call log, the time he had failed to answer and the time he would arrive fit on one screen. {name} saved it.\n\nThe numbers were exact. Why Father had called remained blank. While he kept time as evidence without calling back, the place for speech stayed empty."
+      },
+      {
+        "text": "Finish the unsent line in his notes, but do not send it",
+        "result_text": "{name} completed the line: \"I'm on my way to Changwon. I failed to send you this today.\" He added the intended recipient and the time, then kept the send window closed.\n\nAnother chance to tell the person in the present passed. The original unsent line remained, preventing him from later claiming that he had sent it."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_father_final_contact_present",
+    "title": "Counting the Same Breath",
+    "description": "The hospital window was open the width of a palm. Late rain and antiseptic met above the bed. {name} had actually reached the room and pulled up a chair. Tape marks crossed Father's hand, and the fingers outside the blanket looked thinner than they had when he worked at the factory.\n\n\"You came.\"\n\"Yes.\"\n\nFather asked nothing else. Arriving did not erase the time before it or decide what came next. Beside the bed were only a hand whose permission could still be asked, one sentence left unsaid when they spoke of the guarantee, and breathing that would not keep a schedule.\n\n{name} sat at the edge of the chair, close enough for Father to notice whatever he chose.",
+    "choices": [
+      {
+        "text": "Ask Father for permission before holding his hand",
+        "result_text": "\"Can I hold your hand?\"\n\nFather opened his eyes, looked once at {name}, and turned his hand slightly. {name} rested his palm on only the space offered. He did not call it cold or tighten his grip.\n\nThe prepared sentence went unsaid while he asked permission. What remained was Father's present answer: he did not pull his fingers away."
+      },
+      {
+        "text": "Say the one honest sentence he withheld when Father signed the guarantee",
+        "result_text": "\"When you signed the guarantee, I knew something was wrong and pretended I didn't.\"\n\nFather's gaze lowered slowly from the ceiling. \"Don't come now and say you'll settle it all with money.\"\n\nThat sentence closed the path to ending this as a number. {name} could not continue his explanation. He had to receive Father's answer without revising it."
+      },
+      {
+        "text": "Add no words and count Father's breaths with him",
+        "result_text": "{name} folded his fingers over his knee. One, two, three. The seventh breath came late; the eighth ran long.\n\n\"What are you counting?\"\n\"I'm just here.\"\n\nHe did not explain. His questions and the guarantee remained untouched, but for those few minutes he did not force Father's breathing to match his schedule."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_father_final_contact_called",
+    "title": "One Connected Sentence",
+    "description": "The call was connected. {name} stood at the window, holding the phone in both hands. Beyond Father's voice came the wheels of a hospital cart, then a short breath. The call timer grew; the distance to Changwon did not shrink.\n\n\"Minjun.\"\n\"Yes, Dad.\"\n\n{name} had three things available: admitting that he had decided on the hospital visit alone, stating that he could not arrive today, or leaving his explanations aside and hearing one sentence of Father's to the end. He could do all three without hanging up, but then he would fill the time with his own voice again.\n\nWhile Father gathered breath, {name} chose one.",
+    "choices": [
+      {
+        "text": "Admit that he decided alone whether to make or postpone the hospital visit",
+        "result_text": "\"I decided alone whether to go to the hospital or postpone it. I didn't ask you.\"\n\nFather did not answer immediately. Only after the cart wheels receded did he say, \"Yes. You did.\"\n\n{name} added no explanation. The call continued, but the old choice could no longer be covered by saying he had been busy."
+      },
+      {
+        "text": "State plainly that he cannot reach Changwon today",
+        "result_text": "\"I can't reach Changwon today. I'm still in Seoul.\"\n\nFather said, very quietly, \"I understand.\" {name} did not cover it with a new promise.\n\nThe truth removed any false arrival time Father might wait for. It also turned the distance between them from a number into Father's brief answer."
+      },
+      {
+        "text": "Offer no defense and hear one sentence Father chooses to the end",
+        "result_text": "{name} said only, \"Go ahead.\"\n\nAfter taking two breaths, Father said, \"Don't hang up today. Stay a while.\"\n\n{name} asked nothing and explained nothing. His prepared words moved aside as the call timer grew. One sentence Father had chosen remained unbroken between them."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_father_final_contact_missed",
+    "title": "The Exact Time He Did Not Reach",
+    "description": "Father's name and the time {name} had failed to answer remained on the phone. There was no call duration. {name} neither left for Changwon nor called again to turn the missed action into another one.\n\nA short ward message said, \"The patient is not available for calls at present.\" Nothing beyond that sentence had been confirmed. In the notes app, a line beginning \"Dad\" stopped halfway through a word.\n\n{name} did not possess a story about three absences or a fourth call. He had one time on a screen, one fact confirmed by the ward, and one sentence never sent. He would copy one into his notebook so a better excuse could not replace it later.",
+    "choices": [
+      {
+        "text": "Copy only the date and time of the missed call into the notebook",
+        "result_text": "{name} copied the caller name, date, and time exactly. He added neither cause nor guess. The line was too short to fill even half the page.\n\nIn preserving the exact time, he left the voice and content he might have heard blank in this record. The space did not shrink when he lifted the pen."
+      },
+      {
+        "text": "Record only the ward's confirmed sentence inside quotation marks",
+        "result_text": "\"The patient is not available for calls at present.\"\n\n{name} copied the message through its final period. He wrote neither critical nor fine.\n\nHe invented no future beyond what was known, but Father's voice was replaced by an institution's sentence. On the page, a person narrowed into one status line."
+      },
+      {
+        "text": "Finish the unsent sentence, but do not send it",
+        "result_text": "{name} finished the line: \"Dad, that day and today, I decided first without you.\" He added the time and moved his hand away from send.\n\nThe sentence was complete but did not reach Father. What {name} had meant to say remained. The place for a response from the person who might hear it was blank for now."
+      }
+    ]
   }
 ]
