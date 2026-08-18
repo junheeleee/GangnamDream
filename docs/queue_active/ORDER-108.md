@@ -63,10 +63,10 @@
     가족에게 변명 없는 불참 한 줄 / 이어졌던 사람에게 놓친 시각 한 줄 / 둘 다
     보내지 않고 두 만료를 장부에 적기를 가르며 존재하지 않는 식탁·동석자를 만들지 않는다.
 
-11. M44 `arc_father_call_on_ktx` — fatherward KTX 승차 + 23초 통화 응답 완료.
-    기존 2택을 보존해 현재 몸 상태를 직접 묻고 끝까지 듣기 / 병실 문을 피한 사실과
-    정확한 도착 시각을 한 문장으로 인정하기를 가른다. 아버지의 죽음이나 ‘마지막’임을
-    선택 전에 단정하지 않는다.
+11. M44 `arc_y4_father_call_answered_on_ktx` — fatherward KTX 승차 + 23초 통화
+    응답 완료. 현재 몸 상태를 직접 묻고 끝까지 듣기 / 병실 문을 피한 사실 인정 /
+    정확한 도착 시각 말하기를 가른다. 아버지의 죽음이나 ‘마지막’임을 선택 전에
+    단정하지 않는다.
 12. M44 `arc_y4_father_call_missed_on_ktx` — 승차 완료 + 통화 미응답.
     다시 전화해 commitment를 재실행하지 않고, 꺼진 화면의 23초·도착 예정 시각·
     현재 사람에게 보내지 못한 문장 중 무엇을 물질 기록으로 남길지 고른다.
@@ -95,13 +95,12 @@
     통화에서 아버지에게 현재 몸과 청구 중 한 사실을 공개하기 / 가족 음성은 닫고
     현재 약관·청구·연락 시각만 개인 기록으로 보존하기를 가른다.
 
-20. M47 `arc_father_passing_hospital_room` — final contact=present. 실제 병실에 도착한
-    뒤 기존 1택 안에서 접촉 허락을 묻고, 보증 당시 하지 못한 한 문장을 말한 뒤,
-    대답을 재촉하지 않고 호흡을 함께 센다. 방문을 생존 보상으로 만들지 않고 선택 전
-    사망을 알리지 않는다.
-21. M47 `arc_father_passing` — final contact=called. 실제 연결된 마지막 통화 안에서
-    기존 2택을 보존해 병실 문과 현재 도착 불가 사실을 먼저 인정하기 / 변명하지 않고
-    아버지의 한 문장을 끝까지 듣기를 가른다. 기차·거래를 다시 선택하지 않는다.
+20. M47 `arc_y4_father_final_contact_present` — final contact=present. 실제 병실에
+    도착한 뒤 손을 잡아도 되는지 묻기 / 보증 당시 하지 못한 한 문장 말하기 / 말없이
+    호흡을 함께 세기를 가른다. 방문을 생존 보상으로 만들지 않고 선택 전 사망을 알리지 않는다.
+21. M47 `arc_y4_father_final_contact_called` — final contact=called. 실제 연결된 마지막
+    통화 안에서 병실 문 인정 / 현재 도착 불가 사실 말하기 / 변명하지 않고 아버지의
+    한 문장을 끝까지 듣기를 가른다. 기차·거래를 다시 선택하지 않는다.
 22. M47 `arc_y4_father_final_contact_missed` — final contact=missed. 도착·통화를
     재실행하지 않고 부재중 시각 / 간호사에게 확인한 사실 / 보내지 못한 마지막 문장 중
     하나를 기록하며, 보장 없는 ‘세 번 미방문·네 번째 전화’를 발명하지 않는다.
@@ -111,7 +110,7 @@
     중 마지막 해에 먼저 보호할 한 경계를 말하되 존재하지 않는 완료를 발명하지 않는다.
 24. M48 `arc_y4_year_close_jiyeon` — 같은 delivery actor=지연. 선택의 사실은 같아도
     지연의 계급 감각·정정권·도도의 균열로 전혀 다른 마지막 해 대화를 쓴다.
-25. M48 `arc_year4_close` — 무연애 기준 surviving actor=현수. 현수는 성공의 보상이나
+25. M48 `arc_y4_year_close_unattached` — 무연애 기준 surviving actor=현수. 현수는 성공의 보상이나
     회계 도구가 아니라, 실제 마지막 연락과 몸·청구 receipt를 들은 뒤 민준이 약속할 수
     없는 범위를 되묻는 사람이다. 세 결과는 마지막 해 carryover 후보를 현재 말로 닫는다.
 
@@ -125,6 +124,10 @@
   치환해 장소·호칭·몸짓을 재사용하지 않는다.
 - M44는 서울에서 창원 방향의 열차다. 서울행 좌석, 이미 창원중앙역을 떠난 뒤의
   창원 병원 15분, ‘마지막일지도’ 같은 미래 지식을 쓰지 않는다.
+- 기존 `arc_father_call_on_ktx`와 memory/number follow-up 체인,
+  `arc_father_passing`·`arc_father_passing_hospital_room`, `arc_year4_close`는 이번
+  exact receipt 원고의 gameplay skeleton과 양립하지 않으므로 전체 object를 선언
+  commit과 동일하게 보존한다. 새 8개 author-only root만 이번 판정 단위로 센다.
 - M45의 ask receipt는 검토 계속 의향만 보장한다. 자필 동의·서명·접수는 M55/M57이
   실제로 생산하기 전까지 쓰지 않는다.
 - M46은 월간 same-axis 규칙상 가능한 exact set만 쓴다. 다은·지연 기준은 trust축
@@ -158,13 +161,12 @@ JSON object로 보존한다. `story_rules`, DataRegistry, 런타임·UI·저장�
 
 ## 완료 증거
 
-- [ ] 정확히 25개 root·70개 choices/locale가 KO/EN에 존재하고 ID·선택 순서·
+- [ ] 정확히 25개 root·74개 choices/locale가 KO/EN에 존재하고 ID·선택 순서·
   placeholder 의미가 대응한다.
-- [ ] 기존 10개 root는 선택 수를 포함한 텍스트 외 gameplay skeleton이 선언 commit과
-  동일하다. 특히 `arc_father_call_on_ktx` 2택, `arc_father_passing` 2택,
-  `arc_father_passing_hospital_room` 1택, `arc_y4_network_bill` 2택을 3택으로
-  부풀리지 않는다. 신규 15개는
-  각 3택, `weight:0`, `hidden:true`, `min_turn:9999`, writer/effect/flag/follow-up 0이다.
+- [ ] 기존 6개 root는 선택 수를 포함한 텍스트 외 gameplay skeleton이 선언 commit과
+  동일하고, 신규 19개는 각 3택, `weight:0`, `hidden:true`, `min_turn:9999`,
+  writer/effect/flag/follow-up 0이다. 배치 밖 기존 M44/M47/M48 legacy 4 root와 그
+  follow-up object도 전체 object가 선언 commit과 동일하다.
 - [ ] 신규 KO description은 300~800자이고, 각 선택은 현재 행동·즉시 손실·인물 반응이
   서로 달라 어느 하나가 다른 선택을 공짜로 포함하지 않는다.
 - [ ] M39/M41/M42/M44/M45/M46/M47/M48의 exact actor·selected receipt 표와 원고가 일치한다.
