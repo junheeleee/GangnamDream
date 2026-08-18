@@ -139,7 +139,8 @@
 `docs/WORK_LOG.md`, 생성 문서 `docs/STATUS.md`.
 
 **KO 원고:** `content/events/arc_chapter_themes.json`,
-`content/events/arc_drama.json`, `content/events/arc_year_close.json`.
+`content/events/arc_h2_beats.json`, `content/events/arc_drama.json`,
+`content/events/arc_year_close.json`.
 
 **EN 원고:** 위와 같은 이름의 `content/events_en/` 3파일.
 
@@ -153,10 +154,12 @@ JSON object로 보존한다. `story_rules`, DataRegistry, 런타임·UI·저장�
 
 ## 완료 증거
 
-- [ ] 정확히 25개 root·75개 choices/locale가 KO/EN에 존재하고 ID·선택 순서·
+- [ ] 정확히 25개 root·71개 choices/locale가 KO/EN에 존재하고 ID·선택 순서·
   placeholder 의미가 대응한다.
-- [ ] 기존 10개 root는 텍스트 외 gameplay skeleton이 선언 commit과 동일하고,
-  신규 15개는 `weight:0`, `hidden:true`, `min_turn:9999`, writer/effect/flag/follow-up 0이다.
+- [ ] 기존 10개 root는 선택 수를 포함한 텍스트 외 gameplay skeleton이 선언 commit과
+  동일하다. 특히 `arc_father_call_on_ktx` 2택, `arc_father_passing` 2택,
+  `arc_father_passing_hospital_room` 1택을 3택으로 부풀리지 않는다. 신규 15개는
+  각 3택, `weight:0`, `hidden:true`, `min_turn:9999`, writer/effect/flag/follow-up 0이다.
 - [ ] 신규 KO description은 300~800자이고, 각 선택은 현재 행동·즉시 손실·인물 반응이
   서로 달라 어느 하나가 다른 선택을 공짜로 포함하지 않는다.
 - [ ] M39/M41/M42/M44/M45/M46/M47/M48의 exact actor·selected receipt 표와 원고가 일치한다.
