@@ -385,5 +385,43 @@
       {"text": "Place Daeun's handwritten limit beside Father's signature and admit what was never asked", "result_text": "{name} aligned Daeun's sentence—I DO NOT CONSENT BEYOND THESE TERMS—with Father's settled signature.\n\n“Back then, I looked at how urgent the request was before asking whose name was being borrowed. I should have asked first.”\n\nThe sentence could not persuade a photograph. Daeun's hand and Father's signature remained on the same desk without touching. The folded corner of the medicine bag rose between them."},
       {"text": "Close the documents and read aloud only the date and duration of the last call", "result_text": "{name} closed the comparison and handwritten copy in turn. He read the date and call duration from the screen once each.\n\n“I answered that call.”\n\nHe added no explanation. This time, the chance to say how he had handled another person's name folded away as well. On the darkened screen, only the white medicine bag and {name}'s lips showed faintly."}
     ]
+  },
+  {
+    "id": "arc_y5_father_trace_alive_called",
+    "title": "A Call Between Two Names",
+    "description": "At 11:18 p.m., the call {name} placed connected on the third ring. A television quieted in Changwon. Father said, “Minjun, what brings you this late?”\n\nOn the desk lay Jiyeon's limited-consent copy, carrying the boundary she wrote herself and Minseo's review mark, beside Father's old guarantee. One name had a written end to its liability. The older signature had hardened inside years when no one asked where liability ended.\n\n“I'm looking at your document beside the consent I received today.”\n\nFather was quiet, then said, “All right. You called first, so say it one thing at a time.” {name} swallowed the greeting he had prepared. One question remained to be finished between the two pages.",
+    "choices": [
+      {
+        "text": "Read Jiyeon's liability boundary and ask whether Father saw his own",
+        "result_text": "{name} read Jiyeon's line first: I DO NOT CONSENT BEYOND THIS SCOPE. “When you signed, did you see where your liability ended?”\n\nSomething rasped on Father's end, like paper turning. “Back then I didn't look for the ending. I heard that someone was desperate first.”\n\n{name} did not copy that sentence into the margin of Jiyeon's consent. Today's boundary had become clear; whom Father had seen first remained only inside the call."
+      },
+      {
+        "text": "Read the names on the old guarantee and ask why Father did not ask first",
+        "result_text": "{name} read the debtor's name above Father's signature, then the guarantor field. “Did you ask why their debt had to become yours?”\n\nFather breathed out once. “I didn't. Did you ask her first today?”\n\nThe question returned unchanged. {name} pressed a finger to Jiyeon's handwritten boundary. He had received one answer from Father and lost his remaining room to evade his own."
+      },
+      {
+        "text": "Admit he nearly began with Jiyeon's name and ask Father only to listen",
+        "result_text": "“I calculated with Jiyeon's name before asking her. This time she wrote the limit herself.”\n\n{name} kept the two sentences in that order and added no defense. Father said, “All right. I'm listening now. Don't add more than what you actually did.”\n\nOnly the sound of a page turning continued through the receiver. On the desk, Jiyeon's boundary and Father's old signature heard the same voice without touching."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_father_trace_passed_missed",
+    "title": "Zero Seconds, No Answer",
+    "description": "Father's name remained in Contacts after his death. When {name} opened the details of the last outgoing attempt, the date sat above NO ANSWER — 0:00. There was no voice to hear and no recording that explained why the call had not connected.\n\nBeside the phone lay the folded medicine bag, printed only with dosing times, and a copy of Father's old guarantee. Beneath them rested {name}'s self-name draft after Daeun had written her refusal and removed her own name. One object held a contact that never connected; the other held a document not yet filed even after another name was removed.\n\nThe date, zero seconds, and medicine bag said no more than that. He could only decide how to leave those three verified things together now.",
+    "choices": [
+      {
+        "text": "Copy the last outgoing date and 0:00 onto the back of his self-name draft",
+        "result_text": "{name} copied the date and 0:00 from the screen onto the back of the draft without changing a character. Beneath them he wrote only NO ANSWER.\n\nWhy Father could not answer, and what he might have said, remained blank. The page waiting for his own name had gained one heavier line, but that line did not become a final conversation."
+      },
+      {
+        "text": "Record only the fact that the call never connected in his own voice",
+        "result_text": "{name} opened a new voice memo. “The last call I placed never connected. Its duration was zero seconds. Today I'm looking at a document that removes another person's name and leaves mine.”\n\nHe stopped there. The file held no voice from Father, only his breathing and the refrigerator in the room. The record grew exact; the person it could not reach grew clearer."
+      },
+      {
+        "text": "Photograph only the medicine bag and call screen, adding no explanation",
+        "result_text": "{name} captured the call log, photographed the folded medicine bag's dosing times, and placed the two images side by side. The last outgoing date, 0:00, and dosing times fit in one image; he gave it only the date as its title.\n\nThe old guarantee and self-name draft stayed on the desk outside the frame. The white medicine bag and black zero filled the image; today's name fields remained beyond the lens."
+      }
+    ]
   }
 ]

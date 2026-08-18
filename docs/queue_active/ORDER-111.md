@@ -74,8 +74,9 @@
     판결을 byte-exact로 재사용한다. 새 원고가 아니다. 기존 3 choices.
 22. `arc_y5_contract_not_executed_notice` — M59. 실행 commitment 미선택 뒤 상철에게
     무이체·미실행을 먼저 통보하고 열린 원본과 발신 시각을 남긴다. 뒤늦은 실행 0. 1.
-23. `arc_y5_returned_documents_hyunsu` — M60. 열쇠 대신 접수본·미실행 통지·돌려받은
-    원본을 현수 앞에 놓고, 현수가 사람을 담보로 잡지 않은 시간으로 읽는다. 1.
+23. `arc_y5_returned_documents_hyunsu` — M60. 열쇠 대신 접수본·미실행 발신 기록·아직
+    돌려줘야 할 원본을 반환 준비 봉투와 함께 현수 앞에 놓고, 현수가 사람을 담보로
+    잡지 않은 시간으로 읽는다. 반환 완료나 상대 응답은 발명하지 않는다. 1.
 24. `arc_final_countdown_filed_not_executed` — M60. 접수는 했지만 돈과 계약은 움직이지
     않은 상태의 마지막 서명. 실행 성공이나 완전한 무접수를 발명하지 않는다. 3.
 25. `arc_y5_final_week_hyunsu_outbound` — M60 aftermath. 현수와 실제 말을 주고받은
@@ -85,11 +86,22 @@
 
 - A 배우 tuple: `proposer=sangchul`, `counterparty=sangchul`, `reviewer=minseo`,
   `protected_person=jiyeon`, `guarantee_party=jaehyuk`. `partner=jiyeon`,
-  `father.life=alive`, M57 reference outcome=`consensual_filed`, M59 reference
-  outcome=`executed + delivered`일 때만 세로줄을 그대로 읽는다.
+  `father.life=alive`, M55 opening은 빈 종이와 미확인 세 칸을 함께 남긴 C3,
+  decision은 책임 상한과 그 끝나는 날짜를 함께 남긴 C1,
+  M57 reference outcome=`consensual_filed`, M58은 실행 창구로 돌아가는 C3,
+  M59 reference outcome=`executed + delivered`일 때만 세로줄을 그대로 읽는다. M55 C2는
+  독립 검토가 끝나기 전의 조건부 동의이고 C3은 사본 범위만 남기므로 이번 M57로
+  내려가지 않으며, 각각 후속 receipt 전까지 author-only 끝점이다.
 - B 배우 tuple: `proposer=reviewer=counterparty=sangchul`, `protected_person=daeun`,
   `guarantee=blocked`. `partner=none`, `father.life=passed`, final contact=`missed`,
-  M57 reference outcome=`self_filed`, M59 outcome=`not_executed`일 때만 읽는다.
+  M55 opening은 제안·미확인 표시를 두 색으로 남긴 C1, decision은 낮아진 자기 명의
+  한도와 보증 칸 `사용하지 않음`을 남긴 C1, M56은 약봉지와 0초를 별도 사진으로
+  남긴 C3,
+  M57 reference outcome=`self_filed`, M58은 현수·민서의 말을 끝까지 듣는 C1,
+  M59 outcome=`not_executed`일 때만 읽는다. M55 C2/C3은 별도 사본 상태를 남기므로 이번
+  공통 receipt와 M57로 내려가지 않고, M58 C2/C3도 이번 미실행 downstream으로 내려가지
+  않는다. M56 C1은 자기 명의 초안 뒷면에 통화 기록을 쓰므로 공식 접수본으로 내려가지
+  않고, C2도 별도 음성 메모 끝점으로 남는다.
 - 두 경로의 다른 선택 결과는 이번 downstream 원고가 덮지 않는다. 신규 원고는
   author-only reference이고 StoryLedger·dispatch·finish_run 승격을 주장하지 않는다.
 
@@ -179,6 +191,25 @@
   소유한다. 새 중복 승격 없음.
 - 정확한 25 incident 목록·파일·배우 tuple·검사는 이 배치에만 유효한 일회성 지시다.
 
+## 실행 결과 (2026-08-18)
+
+- 신규 author-only 24 roots·58 choices/locale를 추가했다. 보호된 기존
+  `arc_y5_people_verdict` 3 choices까지 포함하면 두 세로줄은 25 incidents·61 choices다.
+  선언 commit `a0da872`의 기존 사건 294 objects와 35 endings·5개 locale ending 파일은
+  그대로이며, story map은 지정 9 fallback의 lifecycle 18 leaf만 바뀌었다.
+- A는 M55 opening C3→decision C1→M57 제한 접수 C2→M58 실행 창구 C3→M59 실제
+  이체 C1·원본 전달→M60 실행 확인 사본·선발신으로, B는 M55 opening C1→decision C1→
+  M56 별도 합성 사진 C3→M57 자기 명의 접수 C2→M58 현수·민서 낭독 C1→M59
+  미실행 통지→M60 반환 준비·선발신으로 exact하게 읽는다. 다른 선택은 이 downstream에
+  합치지 않고 각 author-only 끝점으로 남겼다.
+- 독립 두 낭독에서 원본/사본, `NOT USED`, 다은 거절, 미수신 메시지, 민서 성씨,
+  동적 플레이어명, 계약 보고체와 한영 의미를 보정한 뒤 P0/P1 0 GO를 받았다.
+- strict duplicate-key JSON, exact structured diff, EN/i18n 1726/1726, story consistency,
+  speech register, story-map normal·76 self-test, context/queue와 `git diff --check`가
+  통과했다. 전체 감사·240주·Godot는 사양대로 실행하지 않았다. 신규 24개와 lifecycle
+  표시는 후속 exact routing 전까지 실제 도달을 주장하지 않는다.
+
 ## 사람 판정
 
-L1/L2 뒤에도 사용자 L3 전에는 JA·zh-CN·zh-TW 번역 원문으로 잠그지 않는다.
+L1 정합과 독립 L2 두 번은 완료됐다. 사용자 무작위 3개 L3 전에는
+JA·zh-CN·zh-TW 번역 원문으로 잠그지 않는다.

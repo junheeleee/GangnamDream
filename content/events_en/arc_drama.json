@@ -711,5 +711,43 @@
       {"text": "Enter his name in the electronic-signature field and complete authentication", "result_text": "{name} read the guarantee scope once more from top to bottom, then entered his name in the electronic-signature field. When authentication finished, black letters filled the blank and the signing time appeared automatically.\n\nHe sent no new sentence in Jaehyuk's chat. The screen held only the completed-authentication mark, the liability scope, and his name. The field that had let light through before Daeun no longer did."},
       {"text": "Tell Jaehyuk not to contact him again about this guarantee, then block him", "result_text": "{name} wrote, ‘Do not contact me again about this document or guarantee request.’ After the sent time appeared, he selected Block in the contact menu.\n\nThe chat preserved every earlier word while closing its input. The PDF signature line stayed blank, and the call button disappeared. A short block notice appeared at the bottom; Jaehyuk's familiar voice and request remained above it."}
     ]
+  },
+  {
+    "id": "arc_y5_final_week_jiyeon_outbound",
+    "title": "Reaching Out to Jiyeon First",
+    "description": "At 12:11 a.m. Tuesday of the final week, {name} set the key envelope and execution copy on his desk, then opened the conversation he had shared with Jiyeon. The screen held only their earlier words.\n\nWhat Jiyeon had said before the broker returned: ‘On the next document, don't make my place before waiting for my answer.’ Her voice returned in {name}'s handwriting in the execution copy's margin.\n\nThe time {name} had postponed answering stretched above the input box. He touched it without posting the goal figure or a key photograph. Rather than wait for Jiyeon to decide the relationship, he would send one present act: a meal, an overdue apology, or the distance he needed and his next contact time.",
+    "choices": [
+      {
+        "text": "Propose a date and place for dinner next week",
+        "result_text": "{name} wrote, ‘I would like to have dinner with you next Sunday at seven, near the office where we first opened the papers. Please tell me later if another day is better.’\n\nHe added nothing about reaching the goal or sharing the key. When he sent it, 12:16 appeared beneath his bubble. He had offered one concrete table; the apology he had postponed remained outside the message box."
+      },
+      {
+        "text": "Apologize first for waiting on her answer only after calculating with her name",
+        "result_text": "‘I calculated the place your name could occupy before I waited for your answer. I am sorry. This apology is not a demand for a reply.’\n\n{name} sent the sentence without shortening it. No read mark or new bubble appeared. Beside the execution copy, the apology gained a real time, while where they might meet next week remained unset."
+      },
+      {
+        "text": "Send the distance he needs tonight and the time he will contact her again",
+        "result_text": "{name} sent, ‘I want to read this executed copy alone again tonight. I will call you first tomorrow at eight thirty.’ He placed the time of his own action after the request for distance.\n\nJust before he turned the phone over, only the sent time remained beneath his own bubble. Metal shifted inside the key envelope when the phone went face down. Tonight's silence and the next contact time sat inside the same bubble."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_final_week_hyunsu_outbound",
+    "title": "Reaching Out to Hyunsu First",
+    "description": "After leaving Hyunsu, {name} spread his self-filed copy, non-execution notice, and seven pages to return across the floor. A round mark from the cafe water glass occupied the place where a key might have been.\n\nHyunsu's voice from the cafe returned over the water ring. ‘Hyung, not using a person as collateral doesn't erase how long people waited.’ At the bottom of their conversation were dates and times they had exchanged; {name}'s input box was blank.\n\nHe searched for their old goshiwon soup place, then erased the name. Rather than call non-execution victory or defeat, he could offer a specific meal, send a late apology, or state the distance he needed and his next call time. He would not wait for Hyunsu to ask again.",
+    "choices": [
+      {
+        "text": "Send a date and time for the soup place near the old goshiwon",
+        "result_text": "{name} sent, ‘This Saturday at one, let's eat at that soup place near the goshiwon. I'll be there first.’\n\nHe did not add a long explanation for leaving the contract unexecuted. Only the sent time appeared; the space below remained blank. He had offered an actual seat over a bowl of soup, while how long he had made Hyunsu wait remained unsaid."
+      },
+      {
+        "text": "Apologize first for hearing Hyunsu's words too late",
+        "result_text": "‘When you told me to see the time people spent without becoming collateral, I should have answered. I'm sorry I erased the waiting like a number.’\n\n{name} added that the apology was late and sent it. Only a sent time appeared beneath the bubble. The apology gained a time distinct from the non-execution notice, but it did not manufacture a place where they would meet next."
+      },
+      {
+        "text": "Send the distance he needs tonight and the time he will call again",
+        "result_text": "{name} wrote, ‘I want to close the papers and be alone tonight. I'll call you first tomorrow at eight.’ He did not ask Hyunsu to understand.\n\nAfter sending it, he turned the phone over. The seven pages still to return remained on the floor. Before the screen went dark, one next time remained in his own message bubble."
+      }
+    ]
   }
 ]

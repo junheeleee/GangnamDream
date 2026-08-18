@@ -1384,5 +1384,24 @@
         "result_text": "{name} unfolded the addendum promising priority access to weekends and nights. Daeun studied that sentence longer than the blank name field.\n\n“My name is gone. But if all your nights are in here, this contract is still spending my time too.”\n\nWith the blue pencil, Daeun drew a vertical line between ‘nights’ and ‘priority.’ The paper did not tear; only the sentence split in two."
       }
     ]
+  },
+  {
+    "id": "arc_y5_protection_context_jiyeon_reference",
+    "title": "Before a Name Entered the Field",
+    "description": "After the shutter came down at Jiyeon's Seoul office, {name} opened the initial contract on the folding table. The JOINTLY LIABLE PARTY field was blank; a review note beside it said only, ‘Han Jiyeon may be included.’ No name or signature had entered the document, yet the field already looked as though it were waiting for a person.\n\nJiyeon pressed a nail to the note, then covered the blank with a sticky tab.\n\n“Oppa, if my name could go there, I see it first. Minseo reviews it. We can't let Sangchul explain Sangchul's own paper and call that a review.”\n\n“I understand,” {name} said, opening the copy for Minseo. Jiyeon wrote LEE MINSEO in the independent-reviewer box. The question was no longer whether to seek her consent, but which hidden cost of the blank would lead the review.",
+    "choices": [
+      {
+        "text": "Ask first why the joint-liability field exists",
+        "result_text": "Jiyeon boxed the blank and wrote, ‘Why is a person's field needed before the price or scope is fixed?’ {name} sent that page with the reviewer designation to Minseo.\n\nNo answer appeared beneath the sent time. But the reason a person's name had been raised for a deal's convenience was now the first question. The liability cap and weekend clause remained unmarked in the same copy."
+      },
+      {
+        "text": "Mark the maximum liability her name could carry",
+        "result_text": "{name} aligned the joint-liability field with the liability-cap clause. Jiyeon drew a blue question mark on the blank limit and wrote, ‘If my name enters, where does my part end?’\n\nHe sent both pages with the reviewer designation to Minseo. The number came first; why it had to be Jiyeon, and who would take her nights, remained outside the opening question."
+      },
+      {
+        "text": "Send the name field beside the weekend-and-night clause",
+        "result_text": "Jiyeon held the pages so the empty name field and PRIORITY ACCESS TO WEEKENDS AND NIGHTS fit in one photograph. “Ask Minseo why these belong in the same contract.”\n\n{name} sent the photograph with the reviewer designation. Only a sent time remained. Shared time had been exposed before the financial ceiling, while the reason the joint-liability field existed moved to the next question."
+      }
+    ]
   }
 ]

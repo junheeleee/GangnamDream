@@ -16,6 +16,23 @@
 > 차례로 옮긴다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-18 (Codex — 마지막 해 두 세로줄 L1/L2)
+
+- 지연·아버지 생존·제한 동의 명의·property 실행과 무연애·재혁 차단·다은 거절·
+  자기 명의 접수·미실행을 M50부터 마지막 선발신까지 신규 author-only 24 roots·
+  58 choices/locale로 이어 썼다. 보호 `arc_y5_people_verdict`까지 두 세로줄은
+  25 incidents·61 choices다.
+- A는 빈 종이와 회색 세 칸, 책임 상한·끝날짜, 제한 접수본, 실행 확인 원본·사본,
+  지연 앞 열쇠와 선발신을 이어받는다. B는 다은 거절 원본, `해당 없음`·`사용하지 않음`,
+  아버지 미연결 0초 합성 사진, 접수번호 227, 미실행 통지, 반환 준비 봉투와 현수
+  선발신을 이어받는다. 각 downstream은 실제로 맞는 upstream choice 하나만 읽는다.
+- 독립 두 낭독에서 미수신 메시지, 원본/사본 회귀, 선택 receipt 합침, 이름
+  하드코딩, 민서 성씨, 계약 보고체를 찾아 물성으로 교정했다. 신규 24개 밖의 기존 사건
+  294 objects와 35 endings·5 locale ending 파일은 선언 `a0da872`와 동일하다.
+- exact 24/58, strict JSON, EN/i18n 1726/1726, 서사·말투, story-map normal·76 self-test,
+  context/queue·diff가 통과했고 독립 L2는 P0/P1 0 GO다. 전체·240주·Godot는 생략했다.
+  신규 원고는 후속 exact routing 전 reference-only이며 L3는 사용자 무작위 3개다.
+
 ## 2026-08-18 (Codex — M49~M60 마지막 해 기준 경로 20사건 L1/L2)
 
 - 투자/property·상철 제안/검토·다은 보호·재혁 보증·아버지 별세/통화·자기 명의
