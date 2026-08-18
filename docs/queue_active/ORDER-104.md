@@ -70,7 +70,9 @@
 `content/events/arc_chapter_themes.json`, `content/events/arc_pre_ending.json`과
 동일 이름의 `content/events_en/` 6파일.
 
-**월간 상태:** `content/meta/story_map.json`. `content/meta/story_rules.json`은
+**월간 상태:** `content/meta/story_map.json`. `content/meta/narrative_spine.json`과
+`tools/narrative_spine_audit.py`는 새 M55 회의를 `planned`에서 실제 Ch5
+anchor/reader로 승격하는 정합만 소유한다. `content/meta/story_rules.json`은
 결정 생산자·독자를 정확히 결속할 때만 수정한다.
 
 그 밖의 런타임·UI·저장·밸런스·빌드·자산·번역 파일과 `project.godot`은 수정하지
