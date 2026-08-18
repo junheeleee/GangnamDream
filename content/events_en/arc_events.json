@@ -333,15 +333,15 @@
     "choices": [
       {
         "text": "Listen to the entire message, then call and ask why Father sent it now",
-        "result_text": "\"Minjun. I sent an envelope. Call after you read it.\" Father paused for one breath, then ended the recording. {name} called immediately. When the signal went unanswered, he left a voicemail.\n\n\"I want to ask why you sent it now. Staying away from the hospital was me avoiding it. I'll call again.\" The outgoing time and question entered the call log. The envelope remained sealed, and no answer was guaranteed."
+        "result_text": "\"Minjun. I sent an envelope. Call after you read it.\" Father paused for one breath, then ended the recording. {name} called immediately. When the signal went unanswered, he left a voicemail.\n\n\"I want to ask why you sent it now. Staying away from the hospital was me avoiding it. I'll call again.\" The outgoing time and question entered the call log. The envelope remained sealed; beneath the outgoing time, the call log showed only the voicemail mark."
       },
       {
         "text": "Open only the first page, then message the source question and admit the avoidance",
-        "result_text": "{name} removed only the first page. He confirmed the title—Final Repayment Confirmation—and the case number, leaving the rest folded inside.\n\nHe wrote to Father: ‘I saw the first page. I want to ask where you took this document from. I was avoiding things when I stayed away from the hospital.’ The sent time remained. He did not play the audio or turn a read receipt or reply into a fact."
+        "result_text": "{name} removed only the first page. He confirmed the title—Final Repayment Confirmation—and the case number, leaving the rest folded inside.\n\nHe wrote to Father: ‘I saw the first page. I want to ask where you took this document from. I was avoiding things when I stayed away from the hospital.’ The sent time remained. The play triangle stayed untouched as he set the phone face down on the folded envelope."
       },
       {
         "text": "Leave both unopened and message the admission and exact time of the next call",
-        "result_text": "Leaving the envelope and audio untouched, {name} wrote: ‘Staying away from the hospital was me avoiding it. I can't open the document or message tonight. I will call Sunday at eight. If that time is difficult, please send only a text.’\n\nThe message was sent, and Sunday at eight entered the calendar. He inspected neither item and did not claim Father had read or accepted the time."
+        "result_text": "Leaving the envelope and audio untouched, {name} wrote: ‘Staying away from the hospital was me avoiding it. I can't open the document or message tonight. I will call Sunday at eight. If that time is difficult, please send only a text.’\n\nThe message was sent, and Sunday at eight entered the calendar. Beside the closed envelope, only “Sunday, 8:00 p.m.” glowed blue in the calendar."
       }
     ]
   },

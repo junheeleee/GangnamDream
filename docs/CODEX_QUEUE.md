@@ -59,9 +59,9 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-109 · M34 여섯 결말을 여섯 사건으로 다시 쓰고 계약 보고체·시계형 도입을 산문으로 되돌린다 | [109](queue_active/ORDER-109.md) | 착수 선언 — exact 16 roots·KO/EN 10파일, 정점 8편·story map·런타임 불변 |
+| 1 | [~] | ORDER-109 · M34 여섯 결말을 여섯 사건으로 다시 쓰고 계약 보고체·시계형 도입을 산문으로 되돌린다 | [109](queue_active/ORDER-109.md) | exact 16 roots L1/L2·독립 P0/P1 0 완료 — 정점 8편 불변, 사용자 무작위 3개 L3 보류 |
 | 2 | [~] | ORDER-108 · M39~M48의 세 약속·몸의 목격자·빌린 이름·마지막 연락을 세 사람 경로의 실제 원고 25개로 푼다 | [108](queue_active/ORDER-108.md) | 25 roots·75 choices/locale L1/L2, 독립 P0/P1 0 완료 — 복합 selector 원고 reference-only, 사용자 무작위 3개 L3 보류 |
-| 3 | [~] | ORDER-107 · M25~M36의 아버지 기록·재혁 피치·관계 이탈·상철 진실 후속 20개를 실제 원고로 푼다 | [107](queue_active/ORDER-107.md) | 신규 20 roots·60 choices/locale L1/L2, 독립 P0/P1 0 완료 — 사용자 무작위 3개 L3 보류 |
+| 3 | [~] | ORDER-107 · M25~M36의 아버지 기록·재혁 피치·관계 이탈·상철 진실 후속 20개를 실제 원고로 푼다 | [107](queue_active/ORDER-107.md) | 신규 20 roots·48 choices/locale L1/L2, 독립 P0/P1 0 완료 — 사용자 무작위 3개 L3 보류 |
 | 4 | [~] | ORDER-106 · M13~M24의 압축 연쇄와 빈 경로 24개를 실제 원고로 푼다 | [106](queue_active/ORDER-106.md) | 24 roots·70 choices/locale L1/L2, 독립 P0/P1 0 완료 — 사용자 무작위 3개 L3 보류 |
 | 5 | [~] | ORDER-105 · M02~M12의 빈 장면과 중복 장면 20개를 실제 원고로 고친다 | [105](queue_active/ORDER-105.md) | 20개 L1/L2·독립 P0/P1 0 완료 — 사용자 무작위 3개 L3 보류 |
 | 6 | [~] | ORDER-104 · 처음부터 완결까지 22개 핵심 장면의 실제 원고를 쓴다 | [104](queue_active/ORDER-104.md) | 22개+미접수 결말 1개 L1/L2 완료 — 사용자 무작위 3개 L3 보류 |

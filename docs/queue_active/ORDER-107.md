@@ -45,18 +45,18 @@
     미읽음 대화방 / 회사 주소 등기 중 한 채널로 발신하고 친구 연락을 닫는다.
 11. M32 `arc_y3_truth_unproven` — 기록이 모자란 경로에서 선택한 상철 통보를 확인된
     사실과 빈칸 / 가린 사본 / 증거 없는 대면 시각 중 하나로 실제 전송한다.
-12. M34 `arc_y3_cost_after_reported` — 신고 뒤 선택한 경계 통보를 법적 채널·서면·전화
-    중 하나로 끝내며 접수번호와 상철의 부재가 남긴 현재 비용을 회수한다.
-13. M34 `arc_y3_cost_after_forgiven` — 용서 뒤 선택한 경계 통보를 끝내며, 원본 보존과
-    다시 예전처럼 기대지 않는 범위를 분리한다.
-14. M34 `arc_y3_cost_after_leveraged` — 진실을 협상에 쓴 뒤에도 출처·조건·마지막 사용
-    범위를 상철에게 직접 통보하고 얻은 조건과 잃은 신뢰를 함께 남긴다.
-15. M34 `arc_y3_cost_after_repaid` — 변제 뒤 돈의 종료와 관계의 종료가 같은지 다른지를
-    상철에게 실제 통보하며 닫힌 금액과 닫히지 않은 말을 나눈다.
-16. M34 `arc_y3_cost_after_buried` — 묻은 기록을 다시 캐지 않되 앞으로 이름을 쓸 범위와
-    연락 경계를 상철에게 지금 통보한다.
-17. M34 `arc_y3_cost_after_distanced` — 끊은 관계에서 남은 공식 전달 채널과 직접 연락 금지
-    범위를 상철에게 지금 통보한다.
+12. M34 `arc_y3_cost_after_reported` — 신고를 끝낸 뒤 경찰서 참고인 출석 통지가 다시
+    시간을 청구한다. 접수번호와 대기번호가 붙은 종이를 들고 조사실 앞에 앉는다.
+13. M34 `arc_y3_cost_after_forgiven` — 용서 뒤 상철과 처음 다시 마주 앉아 식은 커피를
+    마신다. 사과를 받은 것과 예전 거래 방식으로 돌아가는 것은 다르다.
+14. M34 `arc_y3_cost_after_leveraged` — 실제 상담 접수대에서 `소개자: 임상철`이 찍힌
+    우대 배지와 일반 수수료표를 함께 받는다. 얻은 이익의 출처가 몸에 달린다.
+15. M34 `arc_y3_cost_after_repaid` — 상철의 입금 거래내역과 아버지의 오래된 완납확인서를
+    은행 발급기 불빛 아래 겹친다. 맞는 금액과 돌아오지 않는 시간이 갈린다.
+16. M34 `arc_y3_cost_after_buried` — 정식 명단에는 없고 `임상철 소개`만 찍힌 좌석표를
+    받는다. 묻은 진실이 기록 없는 호의를 허락한 것처럼 쓰인다.
+17. M34 `arc_y3_cost_after_distanced` — 현재 주소 관리실에 상철 사무소가 직접 맡긴
+    무표기 봉투가 도착한다. 끊은 관계가 매일 드나드는 생활공간까지 들어온다.
 18. M35 `arc_y3_truth_heard_by_father` — 아버지가 실제로 들은 경로. 설명 / 변명하지
     않고 책임 인정 / 묻지 못한 보증 한 줄을 되묻기를 아버지의 반응과 함께 쓴다.
 19. M35 `arc_y3_truth_heard_by_hyunsu` — 현수가 실제로 들은 경로. 숫자 원문 / 친구로서
@@ -65,9 +65,10 @@
     밤에 미전송 진술 / 개인 사본 / 다음에 물을 한 문장 중 무엇을 남길지 스스로 정한다.
 
 기존 active root는 텍스트까지 선언 commit과 동일하게 보존한다. 신규 20개는 KO
-description 300~800자, 2~4개의 서로
-다른 선택, `weight:0`, `hidden:true`, `min_turn:9999`, 신규 영구 writer/effect/flag/
-follow-up 0을 지킨다. 선택 전에는 미래의 득실을 설명하지 않고 현재 도착한 사람·
+description 300~800자를 지키며, 14개는 2~4개의 서로 다른 선택을 갖는다. M34 여섯
+terminal은 후속 문학 보정에서 새 결정을 묻지 않는 단일 consequence delivery로 바뀌어
+각 1개의 진행 동작만 둔다. 모두 `weight:0`, `hidden:true`, `min_turn:9999`, 신규 영구
+writer/effect/flag/follow-up 0을 지킨다. 선택 전에는 미래의 득실을 설명하지 않고 현재 도착한 사람·
 문서·시각만 보여 준다. 선택 뒤에는 지금 얻은 것과 바로 잃은 것 중 적어도 하나를
 대사·행동·물건으로 회수한다.
 
@@ -85,8 +86,10 @@ follow-up 0을 지킨다. 선택 전에는 미래의 득실을 설명하지 않�
 - 모든 신규 root는 한 개의 selected commitment 또는 그 완료 뒤의 consequence를 정확히
   읽는다. 장면의 2~4개 선택은 그 행동을 모두 완료하거나 완료 뒤의 태도만 가르며, 월초에
   이미 고른 다른 commitment를 다시 고르거나 완료·실패로 덮어쓰지 않는다.
-- M34 여섯 root는 모두 `m34_set_sangchul_boundary`를 선택한 경로의 terminal별 delivery다.
-  거래 마감·독립 검토를 대신 선택하지 않고, 세 갈래 모두 상철에게 경계를 실제 통보한다.
+- M34 여섯 root는 모두 `m34_set_sangchul_boundary`를 선택한 경로의 terminal별 consequence
+  delivery다. 문자·음성·공식 통지 중 전달 채널을 다시 고르지 않고, 신고 뒤 참고인 출석,
+  용서 뒤 첫 대면, 우대 배지, 돌아온 입금, 명단 밖 좌석, 생활공간에 도착한 봉투처럼
+  각 terminal에서만 벌어지는 사건 하나를 단일 진행 동작으로 끝까지 통과한다.
 - M28 세 사람 갈래는 각각 `m28_reach_jiyeon`, `m28_keep_daeun_family_departure`,
   `m28_answer_father_confession`을 선택한 경로만 읽는다. 미선택 갈래는 별도 planned
   fallback이며 이 원고가 거짓 도착·통화를 만들지 않는다.
@@ -113,12 +116,13 @@ author-only root의 실제 selected receipt dispatch는 별도 이관 오더가 
 
 ## 완료 증거
 
-- [x] 정확히 20개 root·60개 choices/locale가 KO/EN에 존재하고 ID·선택 순서·
+- [x] 정확히 20개 root·48개 choices/locale가 KO/EN에 존재하고 ID·선택 순서·
   placeholder 의미가 대응한다.
 - [x] 선언 당시 존재한 active root는 텍스트를 포함한 전체 object가 선언 commit
   `28cfaa7`과 동일하다.
 - [x] 신규 20개 root가 KO/EN 300~800자·metadata·writer 0 계약을 지킨다.
-- [x] M34 여섯 terminal과 M35 세 listener가 서로 다른 현재 물건·목소리·즉시 손실을 갖는다.
+- [x] M34 여섯 terminal은 서로 다른 사건·장소·주요 물건을 갖고, M35 세 listener는
+  서로 다른 현재 물건·목소리·즉시 손실을 갖는다.
 - [x] strict duplicate-key JSON, 한영 coverage, story consistency, speech register,
   exact-scope contract, `audit_select --list`, `git diff --check`를 통과한다.
 - [x] 독립 L2 최신 바이트 낭독에서 선택 지배·선취·공간 점프·거짓 배우·미래

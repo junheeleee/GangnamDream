@@ -158,6 +158,8 @@ flag/effect/follow-up 0이다. 최종 분류는 기존 텍스트 확장 9개와 
   신규 writer/effect/flag/follow-up은 0이다.
 - [x] strict duplicate-key JSON, 한영 coverage, story consistency, speech register,
   exact-scope contract, `audit_select --list`, `git diff --check`가 통과했다.
+- [x] 후속 문학 보정에서 숫자 시각으로 시작하던 신규 9편은 사람·냄새·종이·화면으로
+  첫 문장을 열고, 기존 정확한 시각은 두 번째 문장에 9/9 보존했다. 선택·결과·게임 구조는 불변이다.
 - [x] 두 번의 독립 최신 바이트 낭독에서 P0/P1 0, L2 GO를 받았다.
 - [ ] L3는 사용자가 돌아온 뒤 무작위 3개를 읽어 판정한다.
 - 전체 감사·240주 시뮬레이션·Godot 장시간 검사는 실행하지 않았다.

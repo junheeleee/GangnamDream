@@ -139,7 +139,7 @@
   {
     "id": "arc_y2_money_structure",
     "title": "The Source of the First Repayment",
-    "description": "At 11:21 p.m., {name} opened the repayment screen for one amount carried over from last month. The original amount, the first installment due tonight, and the balance that would remain occupied separate lines. One fee, however, was labeled only ‘processing.’\n\nSending the agreed amount before midnight would keep the first deadline. Asking again could reveal who received which money, but the transfer window might close while he waited. Sending only principal would leave a reason on record, along with an unpaid mark.\n\nThe cursor waited in the transfer memo. The word repayment could not close both the source of the amount and the responsibility still left behind.",
+    "description": "Only the label ‘processing fee’ had lost its recipient on the repayment screen. At 11:21 p.m., {name} read the original amount, the first installment due tonight, and the balance that would remain on separate lines for one amount carried over from last month.\n\nSending the agreed amount before midnight would keep the first deadline. Asking again could reveal who received which money, but the transfer window might close while he waited. Sending only principal would leave a reason on record, along with an unpaid mark.\n\nThe cursor waited in the transfer memo. The word repayment could not close both the source of the amount and the responsibility still left behind.",
     "choices": [
       {
         "text": "Have them read out principal, fees, and balance before sending the agreed first amount",
@@ -158,7 +158,7 @@
   {
     "id": "arc_y2_bank_limit_review",
     "title": "The Small Print on the Limit Sheet",
-    "description": "At 4:40 p.m., the printer at the bank desk pushed out a preliminary limit estimate. The number at the top was larger than {name} had expected. Below it, smaller lines listed rate changes, income verification, and reasons for rejection.\n\nThe banker highlighted the preliminary maximum. “This estimates what may be approved. It is neither what you can carry nor an official limit.” The monthly payment looked manageable against current income. The box for one month of reduced income was still blank.\n\nTwelve minutes remained. {name} could use them for a risk worksheet, lower his own ceiling and receive an official sheet, or take an official sheet at the preliminary maximum.",
+    "description": "The preliminary limit estimate was still warm from the printer, and its small type smelled of toner. At 4:40 p.m., {name} read the larger-than-expected number at the top of the bank sheet and the rate changes, income checks, and rejection conditions below it.\n\nThe banker highlighted the preliminary maximum. “This estimates what may be approved. It is neither what you can carry nor an official limit.” The monthly payment looked manageable against current income. The box for one month of reduced income was still blank.\n\nTwelve minutes remained. {name} could use them for a risk worksheet, lower his own ceiling and receive an official sheet, or take an official sheet at the preliminary maximum.",
     "choices": [
       {
         "text": "Add rejection conditions and the payment after an income drop",
@@ -177,7 +177,7 @@
   {
     "id": "arc_y2_sangchul_source_review",
     "title": "Across from the Introducer",
-    "description": "At 5:03 p.m., {name}, Sangchul, and an introducer he had never met sat across from one another in Sangchul's office. The page on the table printed only the projected return in bold. The boxes for the source of the money and the recipient of the introduction fee were empty.\n\nSangchul pushed over a cup of cold instant coffee. “If you write every name first, the good seats are already gone. You enter by judging the person.” The introducer pinned down the corner of the sheet but did not offer a name.\n\nFifteen minutes remained before the next appointment. Asking about the source, forcing the costs onto paper, or stopping at the blank terms would each leave a different loss.",
+    "description": "The unfamiliar introducer's fingernail tapped the empty recipient box twice. At 5:03 p.m. in Sangchul's office, {name}, Sangchul, and the introducer faced one another across a sheet with only the projected return in bold and blanks for the source of the money and the introduction-fee recipient.\n\nSangchul pushed over a cup of cold instant coffee. “If you write every name first, the good seats are already gone. You enter by judging the person.” The introducer pinned down the corner of the sheet but did not offer a name.\n\nFifteen minutes remained before the next appointment. Asking about the source, forcing the costs onto paper, or stopping at the blank terms would each leave a different loss.",
     "choices": [
       {
         "text": "Make both men write their names and identify who supplies the money",
@@ -253,7 +253,7 @@
   {
     "id": "arc_y2_chosen_door_none",
     "title": "A Time Already Past",
-    "description": "At 11:43 p.m., one calendar alert had faded gray. It held the address and visit time for the one place {name} could actually have reached today. No arrival record carried his name.\n\nThe person who sent the address had left one short message: ‘Today's session has ended.’ Beneath it sat the end time and confirmation number for the paid shift {name} had kept instead. One side of the screen held an address he had not reached; the other held work he had actually finished on the same date.\n\nChoosing no door had still spent the day. Now he had to decide how to record the missed promise: apologize directly, keep the address and time as an open record, or keep only the completed shift and close the contact route too.",
+    "description": "One address remained inside a calendar alert that had faded gray. At 11:43 p.m., its visit time still marked the one place {name} could actually have reached today, but no arrival record carried his name.\n\nThe person who sent the address had left one short message: ‘Today's session has ended.’ Beneath it sat the end time and confirmation number for the paid shift {name} had kept instead. One side of the screen held an address he had not reached; the other held work he had actually finished on the same date.\n\nChoosing no door had still spent the day. Now he had to decide how to record the missed promise: apologize directly, keep the address and time as an open record, or keep only the completed shift and close the contact route too.",
     "choices": [
       {
         "text": "Contact one person and apologize for not going today",
@@ -272,7 +272,7 @@
   {
     "id": "arc_y2_open_door_cost",
     "title": "The Introduction's Second Bill",
-    "description": "At 11:36 p.m., the itemized bill for last month's redevelopment visit filled the payment screen. The travel charge, materials, the one zone {name} had actually entered, and the coordinator's name all matched. The last line, ‘network management,’ named neither the work nor its recipient.\n\nPaying in full before midnight would avoid an overdue mark. Calling the coordinator could verify some items, but the deadline might pass while he waited. Removing the unexplained line would cost less and leave an objection on record, along with an open balance.\n\n{name} matched the pass number to the invoice and pressed the transfer amount again. One door had returned as three separate charges.",
+    "description": "Only the coordinator field beside ‘network management’ was blank on the itemized bill. At 11:36 p.m., the payment screen showed last month's redevelopment travel and materials charges; the one zone {name} had actually entered and the other coordinator name on the bill both matched.\n\nPaying in full before midnight would avoid an overdue mark. Calling the coordinator could verify some items, but the deadline might pass while he waited. Removing the unexplained line would cost less and leave an objection on record, along with an open balance.\n\n{name} matched the pass number to the invoice and pressed the transfer amount again. One door had returned as three separate charges.",
     "choices": [
       {
         "text": "Have the coordinator read each item and pay only the verified charges",
@@ -291,7 +291,7 @@
   {
     "id": "arc_y2_open_door_cost_explanation",
     "title": "Before the Person Who Waited",
-    "description": "At 9:18 p.m. in the express-bus terminal, the coordinator from last month's site sat across from {name}. Their review appointment had begun thirty-eight minutes earlier; the coffee in the paper cup had gone cold. The coordinator opened no new materials.\n\n“If you couldn't make the agreed time, did you at least know whose name held the seat?”\n\nOn {name}'s phone, Sangchul's address, the time he had read it, and the record of the other work he had actually finished remained separate. Showing everything would explain the delay and hand over another person's name. Naming only his own choice would preserve responsibility and conceal part of the cause. Apologizing without asking for another date would return the power to reopen the relationship to the person who had waited.",
+    "description": "The coordinator from last month's site left the new materials closed, a cold paper cup between them. At 9:18 p.m., when {name} sat across from him in the express-bus terminal, their review appointment was already thirty-eight minutes late.\n\n“If you couldn't make the agreed time, did you at least know whose name held the seat?”\n\nOn {name}'s phone, Sangchul's address, the time he had read it, and the record of the other work he had actually finished remained separate. Showing everything would explain the delay and hand over another person's name. Naming only his own choice would preserve responsibility and conceal part of the cause. Apologizing without asking for another date would return the power to reopen the relationship to the person who had waited.",
     "choices": [
       {
         "text": "Show Sangchul's address and the actual times, then explain from the beginning",
@@ -310,7 +310,7 @@
   {
     "id": "arc_y2_open_door_cost_cancel_repeat",
     "title": "How Far to Erase the Next Seat",
-    "description": "At 8:50 p.m., Sangchul sent the address and seat number for the next private dinner. Beneath ‘the same people as last time,’ the reply deadline sat ten minutes away. {name}'s calendar already held one more repeating invitation at the same hour.\n\nCanceling only tonight would leave the channel open. Asking to be removed from the invitation list could also cut off the next proposal. Refusing every seat until written terms arrived would close the door and leave a reason on record.\n\nNo typing indicator appeared in Sangchul's chat. After ‘I can't come,’ {name} had to decide in his own words how much else to close.",
+    "description": "Beneath the seat number Sangchul had sent, one more line read, ‘the same people as last time.’ At 8:50 p.m., the address for the next private dinner and the ten minutes left before the reply deadline shared one screen, while {name}'s calendar already held another repeating invitation at the same hour.\n\nCanceling only tonight would leave the channel open. Asking to be removed from the invitation list could also cut off the next proposal. Refusing every seat until written terms arrived would close the door and leave a reason on record.\n\nNo typing indicator appeared in Sangchul's chat. After ‘I can't come,’ {name} had to decide in his own words how much else to close.",
     "choices": [
       {
         "text": "Cancel only this seat and say he will review future proposals separately",

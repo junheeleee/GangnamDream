@@ -47,10 +47,12 @@ effects/flags/follow-up/writer를 만들지 않는다. 한 개뿐인 choice는 �
 
 ### B. ORDER-107 계약 보고체 1 root
 
-7. `arc_y3_father_avoidance_document` — C2의 ‘읽음이나 답장을 사실로 만들지 않았다’를
+7. `arc_y3_father_avoidance_document` — C1의 ‘답은 보장되지 않았다’를 봉인된 봉투와
+   발신 시각 아래 음성 사서함 표시로, C2의 ‘읽음이나 답장을 사실로 만들지 않았다’를
    눌리지 않은 재생 삼각형과 봉투 위에 엎어진 휴대폰으로, C3의 ‘아버지가 읽거나
    받아들였다고 쓰지 않았다’를 닫힌 봉투 옆 파란 `일요일 8시` 달력 칸으로 바꾼다.
-   선택 수·행동·즉시 손실·구조는 그대로다.
+   선택 수·행동·즉시 손실·구조는 그대로다. 최초 집계 밖에 있던 C1까지 포함하면
+   실제 제거 대상은 20문장이다.
 
 M34의 같은 보고체 17문장은 A의 전면 재작성에서 자연히 사라져야 한다. 전체 KO/EN에서
 `읽음/답장/반응을 확인하지 않았다`, `turn ... into a fact`, `did not check/wait for a
@@ -84,14 +86,14 @@ reply/reaction` 같은 계약 보고 패턴을 다시 세어, 목표 root 안 �
 
 ## 완료 증거
 
-- [ ] exact 16 roots만 바뀌고 대상 밖 object drift 0.
-- [ ] M34 6 roots가 각 1 choice이며 여섯 장면의 사건·장소·주요 물건이 서로 다르다.
-- [ ] M34 6 roots와 father avoidance의 계약 보고체 패턴이 KO/EN 모두 0.
-- [ ] ORDER-106 9 roots는 숫자 시각 시작 0, 같은 시각 정보 보존 9/9.
-- [ ] M34 신규 KO description 300~800자, KO/EN choice·placeholder·의미 대응.
-- [ ] strict duplicate-key JSON, EN coverage, story consistency, speech register,
+- [x] exact 16 roots만 바뀌고 대상 밖 object drift 0.
+- [x] M34 6 roots가 각 1 choice이며 여섯 장면의 사건·장소·주요 물건이 서로 다르다.
+- [x] M34 6 roots와 father avoidance의 계약 보고체 패턴이 KO/EN 모두 0.
+- [x] ORDER-106 9 roots는 숫자 시각 시작 0, 같은 시각 정보 보존 9/9.
+- [x] M34 신규 KO description 300~800자, KO/EN choice·placeholder·의미 대응.
+- [x] strict duplicate-key JSON, EN coverage, story consistency, speech register,
   context/queue, exact scope, `git diff --check` 통과.
-- [ ] 독립 L2에서 반복 장면·설계 설명 누출·가짜 선택·시간/공간 점프·KO/EN P0/P1 0.
+- [x] 독립 L2에서 반복 장면·설계 설명 누출·가짜 선택·시간/공간 점프·KO/EN P0/P1 0.
 - [ ] 기존 ORDER-106/107 사람 L3는 그대로 보류하며, 사용자가 돌아오면 보정본을 포함해
   각 배치 무작위 3개를 판정한다.
 
