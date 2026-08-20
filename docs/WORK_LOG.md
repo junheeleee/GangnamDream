@@ -18,6 +18,25 @@
 > 차례로 옮긴다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-20 (Codex — 마지막 해 career topology 사람 L3 후보)
+
+- 사람 판정의 세 지적을 재현했다. ORDER-110~113 플레이어 표면의 코드형 토큰은
+  KO 89회/25 roots, EN 108회/29 roots로 합계 197회였고, ORDER-112·113은 16/43,
+  R1a 구간은 9/25가 기능·순서까지 1:1이었다. 86 choices 중 실제 결정은 43뿐이었다.
+- ORDER-112·113은 L3 구조 반려, R1a는 reference-only 동결로 구분했다. R1a의
+  topology 가정은 폐기하되 typed receipt·원자 쓰기·immutable history·idempotent
+  replay 원칙만 보존했고 R1b는 HOLD했다.
+- career v2는 실제 한빛유통 연속 재직 `job_03`만 받는다. 월급날 당직폰을 시작과
+  끝에 두고, 세 번의 전환 검증 지급과 상사에게서 빌린 근태 원천확정권을 거쳐
+  유지·반납·사직으로 갈라진다. 16개 사건 중 실제 결정은 6개, 결과·연결·종착은
+  10개다. 나머지 10직업은 이 구조로 fallback하지 않는다.
+- M56 아버지 흔적은 필사·녹음·촬영을 버리고, 같은 오후 마지막 창원행과 기존
+  유급 마감 중 무엇을 잃을지 고르는 2택으로 바꿨다. 두 갈래 모두 자기 명의 초안은
+  미접수로 두어 M57의 실제 접수 결정을 선취하지 않는다.
+- 독립 canon·choice·static L2에서 시간축, actor, 권한 소유, 외부 인물의 미결정,
+  terminal, startup 비이식성을 반복 수리했다. 사건·계약·kernel·runtime·save·endings는
+  수정하지 않았으며 다음은 사람 L3다. 전체 감사·240주·엔딩 검사는 실행하지 않았다.
+
 ## 2026-08-20 (Codex — 마지막 해 R1a 비활성 계약 커널)
 
 - career·startup M49~M55의 18 roots·50 choices를 caller가 주입한 Dictionary만으로

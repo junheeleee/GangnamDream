@@ -59,7 +59,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-116 · career 결말 구조 재설계 | [116](queue_active/ORDER-116.md) | 17단위 topology 설계 중 — 원고·R1b 동결 |
+| 1 | [~] | ORDER-116 · career 결말 구조 재설계 | [116](queue_active/ORDER-116.md) | 17단위 L2 GO — 사람 L3 대기, 원고·R1b 동결 |
 | 2 | [~] | ORDER-113 · 창업 | [113](queue_active/ORDER-113.md) | 16/43 L3 구조 반려 — career 재설계 뒤 별도 topology 필요 |
 | 3 | [~] | ORDER-112 · career 세로줄 | [112](queue_active/ORDER-112.md) | 16/43 L3 구조 반려 — ORDER-116으로 재설계 |
 | 4 | [~] | ORDER-111 · 마지막 해 대체 세로줄 | [111](queue_active/ORDER-111.md) | 24/58 L1·L2 GO — 선택층·코드 표면 후속 보정 대기 |
