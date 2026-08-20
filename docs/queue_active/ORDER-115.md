@@ -93,6 +93,7 @@ manifest·route·root literal도 내장하지 않고 caller가 건넨 Dictionary
 - `begin_route(state, entry_snapshot, m48_receipt, explicit_route_lock)`
 - `next_step(state)`
 - `commit_choice(state, root_id, choice_index)`
+- `commit_external_receipt(state, blocker_id, receipt)`
 - `normalize_state(raw_history)`
 - `snapshot(state)`
 
@@ -102,6 +103,8 @@ manifest·route·root literal도 내장하지 않고 caller가 건넨 Dictionary
 같은 exact callback replay는 성공 no-op이고 다른 choice·payload·순서 재적용은 실패한다.
 반면 persisted history 안의 중복 row는 normalize에서 손상으로 거부한다.
 M53 owner와 M48/founding/reviewer custody가 unresolved인 한 정상 trace는 해당 blocker에서 멈춘다.
+`commit_external_receipt`는 manifest에 선언된 blocker schema/source와 맞는 synthetic fixture만
+받으며 언제나 `dispatch_allowed:false`다. raw history를 직접 고쳐 blocker를 건너뛰지 않는다.
 
 ## 파일 소유권
 
