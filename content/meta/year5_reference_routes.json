@@ -1,8 +1,8 @@
 {
-  "schema_version": 1,
-  "manifest_id": "year5_reference_routes_v1",
-  "declaration_commit": "2c0ec23122ce7718439ad352c2d0e55915398e9f",
-  "protected_baseline_commit": "e27ff7e69990fee16aef5f11913c0d3db56d58f3",
+  "schema_version": 2,
+  "manifest_id": "year5_reference_routes_v2",
+  "declaration_commit": "89d218233b271e9a60a761d2c0bcce1c235ba703",
+  "protected_baseline_commit": "b73d374ac79c480926abbe1d0381e87b7aba19a0",
   "choice_index_base": 0,
   "activation": "reference_only",
   "reachability_claim": false,
@@ -21,10 +21,15 @@
     "excluded_economic_paths": ["investment"],
     "excluded_reference_families": ["property", "ORDER-111 alternate routes"],
     "live_split": {
-      "r1": {
+      "r1a": {
         "months": [49, 50, 51, 52, 53, 54, 55],
         "activation_after_completion": false,
-        "owns": ["durable ledger", "actor binding", "typed selectors"]
+        "owns": ["contract correction", "dormant pure kernel", "QA injection only"]
+      },
+      "r1b": {
+        "months": [49, 50, 51, 52, 53, 54, 55],
+        "activation_after_completion": false,
+        "owns": ["durable ledger", "producer hooks", "dispatcher and route-lock UI"]
       },
       "r2": {
         "months": [57, 58, 59, 60],
@@ -37,43 +42,350 @@
     "route_lock": "durable exact M49 route selection; no silent priority",
     "actor_binding": "durable actor id plus provenance and invalidation checks",
     "document_version": "document id, version, fields and hash suffix produced before any reader",
+    "document_custody": "holder and exact transfer receipt, independent from document version existence",
+    "entry_ingress": "future typed entry evidence; flags, cast and legacy saves are never substitutes",
+    "external_handoff": "QA-only synthetic receipt for an unresolved product owner or custody producer",
     "scene_choice": "root id and zero-based choice index, written once",
     "commitment_completion": "exact monthly commitment id and axis",
     "margin": "typed one-action carry margin with producer, consumer and expiry owner",
     "transaction": "idempotent event+choice+route economic transition",
     "finale_state": "none, pending or ready; success is held until final-week completion"
   },
+  "r1a_contract": {
+    "lifecycle": {
+      "name": "dormant_contract_kernel",
+      "activation_after_completion": false,
+      "reference_only": true,
+      "reachability_claim": false,
+      "dispatch_allowed": false,
+      "runtime_owner": null,
+      "save_adapter": null,
+      "product_consumer_count": 0,
+      "qa_injection_consumer_count": 1,
+      "qa_injection_owner": "tools/Year5ReferenceRouteR1Check.gd",
+      "kernel_owner": "systems/Year5ReferenceRouteKernel.gd"
+    },
+    "composition": {
+      "root_source": "routes[*].roots selected by route root_ids",
+      "effective_writes_order": ["common_writes", "choice.writes"],
+      "atomic": true,
+      "partial_writes_allowed": false,
+      "exact_callback_replay": "success_noop",
+      "different_choice_payload_or_order_replay": "reject",
+      "persisted_duplicate_history_row": "reject",
+      "derived_state_source": "immutable_history",
+      "route_selection_policy": "explicit_lock_required_no_silent_priority"
+    },
+    "ingress_receipts": {
+      "partner_none": {
+        "implemented_in_product": false,
+        "blocker_id": "partner_none_decision_producer",
+        "required_by_routes": ["career_reference_v1", "startup_acquisition_reference_v1"],
+        "receipt_schema": {
+          "exact_keys": ["receipt_type", "decision_id", "partner"],
+          "constants": {
+            "receipt_type": "relationship_decision",
+            "decision_id": "partner_none",
+            "partner": "none"
+          }
+        },
+        "inference_forbidden": ["cast", "flags", "romance enum", "display name"]
+      },
+      "m48_actor_trust": {
+        "implemented_in_product": false,
+        "blocker_id": "m48_actor_and_margin_producer",
+        "required_by_routes": ["career_reference_v1", "startup_acquisition_reference_v1"],
+        "receipt_schema": {
+          "exact_keys": ["receipt_type", "route_id", "producer_month", "producer_root_id", "producer_choice_index", "actor_id", "axis", "expires_after_month"],
+          "constants": {
+            "receipt_type": "m48_actor_trust_margin",
+            "producer_month": 48,
+            "producer_root_id": "arc_year4_close",
+            "axis": "trust",
+            "expires_after_month": 49
+          },
+          "allowed_values": {
+            "producer_choice_index": [0, 1, 2]
+          },
+          "route_constants": {
+            "career_reference_v1": {"actor_id": "hyunsu"},
+            "startup_acquisition_reference_v1": {"actor_id": "startup_cofounder"}
+          }
+        }
+      },
+      "startup_founding": {
+        "implemented_in_product": false,
+        "blocker_id": "startup_cofounder_actor_producer",
+        "required_by_routes": ["startup_acquisition_reference_v1"],
+        "receipt_schema": {
+          "exact_keys": ["receipt_type", "producer_event_id", "producer_choice_index", "initial_cash_delta_krw", "initial_equity_basis_points", "cofounder_actor_id"],
+          "constants": {
+            "receipt_type": "startup_founding",
+            "producer_event_id": "startup_opportunity",
+            "producer_choice_index": 0,
+            "initial_cash_delta_krw": -3000000,
+            "initial_equity_basis_points": 2000,
+            "cofounder_actor_id": "startup_cofounder"
+          }
+        },
+        "inference_forbidden": ["startup_founded flag", "money delta", "legacy save"]
+      },
+      "route_lock": {
+        "implemented_in_product": false,
+        "blocker_id": "m49_route_lock_producer",
+        "required_by_routes": ["career_reference_v1", "startup_acquisition_reference_v1"],
+        "receipt_schema": {
+          "exact_keys": ["receipt_type", "producer_month", "route_id", "explicit"],
+          "constants": {
+            "receipt_type": "route_lock",
+            "producer_month": 49,
+            "explicit": true
+          },
+          "allowed_values": {
+            "route_id": ["career_reference_v1", "startup_acquisition_reference_v1"]
+          }
+        }
+      }
+    },
+    "external_blockers": {
+      "career_m53_external_handoff": {
+        "route_id": "career_reference_v1",
+        "after_month": 52,
+        "before_month": 54,
+        "implemented_in_product": false,
+        "synthetic_fixture_only": true,
+        "receipt_schema": {
+          "exact_keys": ["receipt_type", "blocker_id", "route_id", "month", "source_kind", "outcome_writes"],
+          "constants": {
+            "receipt_type": "external_month_handoff",
+            "blocker_id": "career_m53_external_handoff",
+            "route_id": "career_reference_v1",
+            "month": 53,
+            "source_kind": "synthetic_future_fixture",
+            "outcome_writes": []
+          }
+        }
+      },
+      "career_c1_reviewer_handoff": {
+        "route_id": "career_reference_v1",
+        "after_root_id": "arc_y5_final_offer_career_boss",
+        "before_root_id": "arc_y5_career_reviewer_receipt_minseo",
+        "implemented_in_product": false,
+        "synthetic_fixture_only": true,
+        "receipt_schema": {
+          "exact_keys": ["receipt_type", "blocker_id", "route_id", "document_version", "document_id", "document_hash", "from_holder", "to_holder", "source_kind"],
+          "constants": {
+            "receipt_type": "document_custody_handoff",
+            "blocker_id": "career_c1_reviewer_handoff",
+            "route_id": "career_reference_v1",
+            "document_version": "C1",
+            "document_id": null,
+            "document_hash": null,
+            "from_holder": "player",
+            "to_holder": "minseo",
+            "source_kind": "synthetic_future_fixture"
+          }
+        }
+      },
+      "startup_m53_external_handoff": {
+        "route_id": "startup_acquisition_reference_v1",
+        "after_month": 52,
+        "before_month": 54,
+        "implemented_in_product": false,
+        "synthetic_fixture_only": true,
+        "receipt_schema": {
+          "exact_keys": ["receipt_type", "blocker_id", "route_id", "month", "source_kind", "outcome_writes"],
+          "constants": {
+            "receipt_type": "external_month_handoff",
+            "blocker_id": "startup_m53_external_handoff",
+            "route_id": "startup_acquisition_reference_v1",
+            "month": 53,
+            "source_kind": "synthetic_future_fixture",
+            "outcome_writes": []
+          }
+        }
+      },
+      "startup_h1_reviewer_handoff": {
+        "route_id": "startup_acquisition_reference_v1",
+        "after_root_id": "arc_y5_startup_final_offer_acquirer",
+        "before_root_id": "arc_y5_startup_reviewer_receipt_minseo",
+        "implemented_in_product": false,
+        "synthetic_fixture_only": true,
+        "receipt_schema": {
+          "exact_keys": ["receipt_type", "blocker_id", "route_id", "document_version", "document_id", "document_hash", "from_holder", "to_holder", "source_kind"],
+          "constants": {
+            "receipt_type": "document_custody_handoff",
+            "blocker_id": "startup_h1_reviewer_handoff",
+            "route_id": "startup_acquisition_reference_v1",
+            "document_version": "h1",
+            "document_id": "SA-20",
+            "document_hash": "91B4",
+            "from_holder": "acquirer_lead",
+            "to_holder": "minseo",
+            "source_kind": "synthetic_future_fixture"
+          }
+        }
+      }
+    },
+    "routes": {
+      "career_reference_v1": {
+        "root_ids": [
+          "arc_y5_contract_cover_career",
+          "arc_y5_contract_reviewer_delivery_minseo_career",
+          "arc_y5_protection_boundary_hyunsu_career",
+          "arc_y5_minseo_goal_cost_career",
+          "arc_y5_after_goal_hyunsu_career",
+          "arc_y5_final_offer_career_boss",
+          "arc_y5_career_reviewer_receipt_minseo",
+          "arc_y5_three_in_room_career",
+          "arc_y5_three_in_room_decision_career"
+        ],
+        "root_count": 9,
+        "choice_count": 25,
+        "entry_receipt_ids": ["partner_none", "m48_actor_trust", "route_lock"],
+        "m53_blocker_id": "career_m53_external_handoff",
+        "m54_blocker_id": "career_c1_reviewer_handoff",
+        "required_route_roles": {
+          "arc_y5_contract_cover_career": ["proposer", "reviewer", "protected"],
+          "arc_y5_contract_reviewer_delivery_minseo_career": ["reviewer"],
+          "arc_y5_protection_boundary_hyunsu_career": ["protected", "affected"],
+          "arc_y5_minseo_goal_cost_career": ["reviewer"],
+          "arc_y5_after_goal_hyunsu_career": ["protected"],
+          "arc_y5_final_offer_career_boss": ["proposer", "counterparty"],
+          "arc_y5_career_reviewer_receipt_minseo": ["reviewer"],
+          "arc_y5_three_in_room_career": ["proposer", "reviewer", "protected"],
+          "arc_y5_three_in_room_decision_career": ["proposer", "reviewer", "protected"]
+        },
+        "scene_actor_roles": {
+          "arc_y5_contract_cover_career": [],
+          "arc_y5_contract_reviewer_delivery_minseo_career": ["reviewer"],
+          "arc_y5_protection_boundary_hyunsu_career": ["protected", "affected"],
+          "arc_y5_minseo_goal_cost_career": ["reviewer"],
+          "arc_y5_after_goal_hyunsu_career": ["protected"],
+          "arc_y5_final_offer_career_boss": ["proposer", "counterparty"],
+          "arc_y5_career_reviewer_receipt_minseo": ["reviewer"],
+          "arc_y5_three_in_room_career": ["proposer", "reviewer", "protected"],
+          "arc_y5_three_in_room_decision_career": ["proposer", "reviewer", "protected"]
+        },
+        "document_custody": {
+          "C0": {
+            "document_id": "TF-12-C0",
+            "document_hash": "8F2C71A0",
+            "producer_root_id": "arc_y5_contract_cover_career",
+            "initial_holder": "player",
+            "reviewer_delivery_root_id": "arc_y5_contract_reviewer_delivery_minseo_career",
+            "reviewer_delivery_receipt": "receipt:C0_delivered_to_minseo"
+          },
+          "C1": {
+            "document_id": null,
+            "document_hash": null,
+            "producer_root_id": "arc_y5_final_offer_career_boss",
+            "initial_holder": "player",
+            "reviewer_handoff_blocker_id": "career_c1_reviewer_handoff"
+          }
+        }
+      },
+      "startup_acquisition_reference_v1": {
+        "root_ids": [
+          "arc_y5_startup_offer_c0",
+          "arc_y5_startup_c0_reviewer_delivery_minseo",
+          "arc_y5_startup_boundary_cofounder",
+          "arc_y5_startup_minseo_goal_cost",
+          "arc_y5_startup_after_goal_cofounder",
+          "arc_y5_startup_final_offer_acquirer",
+          "arc_y5_startup_reviewer_receipt_minseo",
+          "arc_y5_startup_three_in_room",
+          "arc_y5_startup_three_in_room_decision"
+        ],
+        "root_count": 9,
+        "choice_count": 25,
+        "entry_receipt_ids": ["partner_none", "m48_actor_trust", "startup_founding", "route_lock"],
+        "m53_blocker_id": "startup_m53_external_handoff",
+        "m54_blocker_id": "startup_h1_reviewer_handoff",
+        "required_route_roles": {
+          "arc_y5_startup_offer_c0": ["proposer", "protected"],
+          "arc_y5_startup_c0_reviewer_delivery_minseo": ["reviewer"],
+          "arc_y5_startup_boundary_cofounder": ["protected", "affected"],
+          "arc_y5_startup_minseo_goal_cost": ["reviewer"],
+          "arc_y5_startup_after_goal_cofounder": ["protected"],
+          "arc_y5_startup_final_offer_acquirer": ["proposer", "counterparty"],
+          "arc_y5_startup_reviewer_receipt_minseo": ["reviewer"],
+          "arc_y5_startup_three_in_room": ["proposer", "reviewer", "protected"],
+          "arc_y5_startup_three_in_room_decision": ["proposer", "reviewer", "protected"]
+        },
+        "scene_actor_roles": {
+          "arc_y5_startup_offer_c0": [],
+          "arc_y5_startup_c0_reviewer_delivery_minseo": ["reviewer"],
+          "arc_y5_startup_boundary_cofounder": ["protected", "affected"],
+          "arc_y5_startup_minseo_goal_cost": ["reviewer"],
+          "arc_y5_startup_after_goal_cofounder": ["protected"],
+          "arc_y5_startup_final_offer_acquirer": ["proposer", "counterparty"],
+          "arc_y5_startup_reviewer_receipt_minseo": ["reviewer"],
+          "arc_y5_startup_three_in_room": ["proposer", "reviewer", "protected"],
+          "arc_y5_startup_three_in_room_decision": ["proposer", "reviewer", "protected"]
+        },
+        "document_custody": {
+          "h0": {
+            "document_id": "SA-20",
+            "document_hash": "A6E8",
+            "producer_root_id": "arc_y5_startup_offer_c0",
+            "initial_holder": "player",
+            "reviewer_delivery_root_id": "arc_y5_startup_c0_reviewer_delivery_minseo",
+            "reviewer_delivery_receipt": "receipt:h0_delivered_to_minseo"
+          },
+          "h1": {
+            "document_id": "SA-20",
+            "document_hash": "91B4",
+            "producer_root_id": "arc_y5_startup_final_offer_acquirer",
+            "producer_choice_indices": [0, 1, 2],
+            "terminal_choice_indices": [3],
+            "initial_holder": "acquirer_lead",
+            "reviewer_handoff_blocker_id": "startup_h1_reviewer_handoff"
+          }
+        }
+      }
+    }
+  },
   "actor_registry": {
     "career_reference_v1": {
       "bindings": {
         "proposer": {
           "actor_id": "boss",
-          "source": "compatible_current_job.canonical_boss_role",
+          "source": {
+            "kind": "compatible_current_job_snapshot",
+            "job_id_ref": "entry_snapshot.current_job.id",
+            "has_job_ref": "entry_snapshot.flags.has_job",
+            "required_has_job": true,
+            "compatible_job_ids_ref": "route.entry.compatible_job_ids",
+            "bound_job_id_field": "bound_job_id",
+            "literal_actor_id": "boss",
+            "invalidate_if_job_changes": true
+          },
           "required": true
         },
         "counterparty": {
           "actor_id": "boss",
-          "source": "same_binding_as:proposer",
+          "source": {"kind": "same_binding_as", "role": "proposer"},
           "required": true
         },
         "reviewer": {
           "actor_id": "minseo",
-          "source": "literal_actor:minseo",
+          "source": {"kind": "literal_actor", "actor_id": "minseo"},
           "required": true
         },
         "protected": {
           "actor_id": "hyunsu",
-          "source": "future_typed_receipt:m48_tell_surviving_person.actor",
+          "source": {"kind": "future_typed_receipt", "receipt_id": "m48_actor_trust", "field": "actor_id"},
           "required": true
         },
         "affected": {
           "actor_id": "hyunsu",
-          "source": "same_binding_as:protected",
+          "source": {"kind": "same_binding_as", "role": "protected"},
           "required": true
         },
         "primary_witness": {
           "actor_id": "hyunsu",
-          "source": "same_binding_as:protected",
+          "source": {"kind": "same_binding_as", "role": "protected"},
           "required": true
         }
       },
@@ -83,8 +395,9 @@
         ["protected", "affected", "primary_witness"]
       ],
       "invalidations": [
-        "player quit the bound job",
-        "current job is not in compatible_job_ids",
+        "flags.has_job is false",
+        "current_job.id differs from bound_job_id",
+        "current_job.id is not in compatible_job_ids",
         "M48 remaining-person actor receipt is absent or is not hyunsu"
       ],
       "surface_aliases_not_actor_ids": ["team_lead"]
@@ -93,32 +406,38 @@
       "bindings": {
         "proposer": {
           "actor_id": "acquirer_lead",
-          "source": "route_scene_receipt:arc_y5_startup_offer_c0",
+          "source": {
+            "kind": "scene_actor_confirmation",
+            "producer_root_id": "arc_y5_startup_final_offer_acquirer",
+            "producer_month": 52,
+            "role_handle": "proposer",
+            "literal_actor_id": "acquirer_lead"
+          },
           "required": true
         },
         "counterparty": {
           "actor_id": "acquirer_lead",
-          "source": "same_binding_as:proposer",
+          "source": {"kind": "same_binding_as", "role": "proposer"},
           "required": true
         },
         "reviewer": {
           "actor_id": "minseo",
-          "source": "literal_actor:minseo",
+          "source": {"kind": "literal_actor", "actor_id": "minseo"},
           "required": true
         },
         "protected": {
           "actor_id": "startup_cofounder",
-          "source": "future_typed_receipt:startup_founded.cofounder_actor",
+          "source": {"kind": "future_typed_receipt", "receipt_id": "startup_founding", "field": "cofounder_actor_id"},
           "required": true
         },
         "affected": {
           "actor_id": "startup_cofounder",
-          "source": "same_binding_as:protected",
+          "source": {"kind": "same_binding_as", "role": "protected"},
           "required": true
         },
         "primary_witness": {
           "actor_id": "startup_cofounder",
-          "source": "same_binding_as:protected",
+          "source": {"kind": "same_binding_as", "role": "protected"},
           "required": true
         }
       },
@@ -128,7 +447,7 @@
         ["protected", "affected", "primary_witness"]
       ],
       "invalidations": [
-        "startup founding receipt or cofounder binding is absent",
+        "typed startup founding receipt or cofounder binding is absent",
         "startup_exit, startup_partial_exit, startup_going_solo or joined_startup is present",
         "legacy acquisition offer has already been consumed or declined"
       ],
@@ -146,14 +465,18 @@
           "job_03", "job_04", "job_05", "job_06", "job_07", "job_08",
           "job_09", "job_10", "job_12", "job_14", "job_15"
         ],
-        "required_future_receipts": [
-          "m48_tell_surviving_person.actor=hyunsu",
-          "m48_tell_surviving_person.margin.axis=trust",
-          "m49_route_selected=career_reference_v1"
-        ],
+        "required_job_snapshot": {
+          "flags_has_job": true,
+          "bind_literal_actor_id": "boss",
+          "persist_bound_job_id": true,
+          "invalidate_on_bound_job_change_or_quit": true
+        },
+        "required_ingress_receipt_ids": ["partner_none", "m48_actor_trust", "route_lock"],
         "route_lock": {
+          "receipt_type": "route_lock",
           "producer_month": 49,
           "value": "career_reference_v1",
+          "explicit": true,
           "silent_priority": false
         }
       },
@@ -236,12 +559,12 @@
         ]
       },
       "months": [
-        {"month": 49, "incoming_margin": {"axis": "trust", "producer": "future:m48_tell_surviving_person"}, "selected_commitments": ["m49_open_path_contract", "m49_choose_reviewer"], "outgoing_margin": null, "fallback_owner": null, "unresolved": ["M48 actor and same-axis margin typed producer"], "root_order": ["arc_y5_contract_cover_career", "arc_y5_contract_reviewer_delivery_minseo_career"]},
+        {"month": 49, "incoming_margin": {"axis": "trust", "producer": "future:m48_tell_surviving_person"}, "selected_commitments": ["m49_open_path_contract", "m49_choose_reviewer"], "outgoing_margin": null, "fallback_owner": null, "unresolved": ["partner-none typed decision producer", "M48 actor and same-axis margin typed producer", "M49 explicit route-lock producer"], "root_order": ["arc_y5_contract_cover_career", "arc_y5_contract_reviewer_delivery_minseo_career"]},
         {"month": 50, "incoming_margin": null, "selected_commitments": ["m50_draw_name_boundary"], "outgoing_margin": {"axis": "trust", "producer": "m50_draw_name_boundary"}, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_protection_boundary_hyunsu_career"]},
         {"month": 51, "incoming_margin": {"axis": "trust", "producer": "m50_draw_name_boundary"}, "selected_commitments": ["m51_hear_minseo", "m51_ask_after_goal"], "outgoing_margin": null, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_minseo_goal_cost_career", "arc_y5_after_goal_hyunsu_career"]},
         {"month": 52, "incoming_margin": null, "selected_commitments": ["m52_hear_live_proposer"], "outgoing_margin": {"axis": "cash", "producer": "m52_hear_live_proposer"}, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_final_offer_career_boss"]},
-        {"month": 53, "incoming_margin": {"axis": "cash", "producer": "m52_hear_live_proposer"}, "selected_commitments": [], "outgoing_margin": null, "fallback_owner": "generic_month_loop", "unresolved": ["margin expiry owner"], "root_order": []},
-        {"month": 54, "incoming_margin": null, "selected_commitments": ["m54_hear_chosen_reviewer"], "outgoing_margin": {"axis": "trust", "producer": "m54_hear_chosen_reviewer"}, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_career_reviewer_receipt_minseo"]},
+        {"month": 53, "incoming_margin": {"axis": "cash", "producer": "m52_hear_live_proposer"}, "selected_commitments": [], "outgoing_margin": null, "fallback_owner": {"kind": "external_blocker", "blocker_id": "career_m53_external_handoff", "story_map_reference": {"month": 53, "beat_id": "m53_jaehyuk_guarantee", "root_id": "arc_jaehyuk_mirror", "rule_status": "needs_rule"}, "product_owner": null, "forbidden_inferences": ["Jaehyuk guarantee outcome", "PDF result", "cash-margin expiry"]}, "unresolved": ["product owner absent; synthetic future fixture is QA-only"], "root_order": []},
+        {"month": 54, "incoming_margin": null, "selected_commitments": ["m54_hear_chosen_reviewer"], "outgoing_margin": {"axis": "trust", "producer": "m54_hear_chosen_reviewer"}, "fallback_owner": null, "unresolved": ["career C1 reviewer custody handoff producer"], "root_order": ["arc_y5_career_reviewer_receipt_minseo"]},
         {"month": 55, "incoming_margin": {"axis": "trust", "producer": "m54_hear_chosen_reviewer"}, "selected_commitments": ["m55_disclose_all_terms", "m55_let_reviewer_question"], "outgoing_margin": null, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_three_in_room_career", "arc_y5_three_in_room_decision_career"]},
         {"month": 56, "incoming_margin": null, "selected_commitments": [], "outgoing_margin": null, "fallback_owner": "family_route_pass_through", "unresolved": ["M57 same-axis margin producer"], "root_order": []},
         {"month": 57, "incoming_margin": {"axis": "trust", "producer": "unresolved:M56"}, "selected_commitments": ["m57_file_name_decision", "m57_deliver_filed_copy"], "outgoing_margin": null, "fallback_owner": null, "unresolved": ["incoming margin producer"], "root_order": ["arc_y5_name_on_line_career_self", "arc_y5_name_copy_delivered_hyunsu_career"]},
@@ -350,7 +673,7 @@
           "requirements": ["document:C0", "receipt:career_name_boundary_drawn", "actor:boss"],
           "actor_roles": ["proposer", "counterparty"],
           "document_reads": ["C0"],
-          "common_writes": ["document:C1", "commitment:m52_hear_live_proposer:cash", "receipt:career_final_offer_heard"],
+          "common_writes": ["actor_confirmation:boss:proposer", "document:C1", "document_holder:C1:player", "commitment:m52_hear_live_proposer:cash", "receipt:career_final_offer_heard"],
           "choice_partitions": {"continuation": [0, 1, 2], "terminal": [], "complete": []},
           "choices": [
             {"index": 0, "outcome_id": "career_m52_offer_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_final_offer_career_boss:0"]},
@@ -365,10 +688,10 @@
           "month": 54,
           "order": 1,
           "choice_count": 1,
-          "requirements": ["receipt:career_final_offer_heard", "actor:minseo"],
+          "requirements": ["receipt:career_final_offer_heard", "external_receipt:career_c1_reviewer_handoff", "actor:minseo"],
           "actor_roles": ["reviewer"],
           "document_reads": ["C1"],
-          "common_writes": ["commitment:m54_hear_chosen_reviewer:trust", "receipt:career_reviewer_current_markings"],
+          "common_writes": ["commitment:m54_hear_chosen_reviewer:trust", "receipt:career_reviewer_current_markings", "document_holder:C1:player"],
           "choice_partitions": {"continuation": [0], "terminal": [], "complete": []},
           "choices": [
             {"index": 0, "outcome_id": "career_m54_reviewer_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_career_reviewer_receipt_minseo:0"]}
@@ -381,7 +704,7 @@
           "month": 55,
           "order": 1,
           "choice_count": 3,
-          "requirements": ["receipt:career_reviewer_current_markings", "actors:boss,minseo,hyunsu"],
+          "requirements": ["receipt:career_reviewer_current_markings", "document_holder:C1:player", "actors:boss,minseo,hyunsu"],
           "actor_roles": ["proposer", "reviewer", "protected"],
           "document_reads": ["C1"],
           "common_writes": ["commitment:m55_disclose_all_terms:trust", "receipt:career_three_in_room_opened"],
@@ -571,19 +894,9 @@
       "partner": "none",
       "entry": {
         "required_economic_path": "startup",
-        "required_origin_receipt": {
-          "flag": "startup_founded",
-          "initial_cash_delta_krw": -3000000,
-          "initial_equity_basis_points": 2000,
-          "cofounder_actor_required": true
-        },
+        "required_ingress_receipt_ids": ["partner_none", "m48_actor_trust", "startup_founding", "route_lock"],
         "required_absent_flags": ["startup_exit", "startup_partial_exit", "startup_going_solo", "joined_startup"],
-        "required_future_receipts": [
-          "m48_tell_surviving_person.actor=startup_cofounder",
-          "m48_tell_surviving_person.margin.axis=trust",
-          "m49_route_selected=startup_acquisition_reference_v1"
-        ],
-        "route_lock": {"producer_month": 49, "value": "startup_acquisition_reference_v1", "silent_priority": false},
+        "route_lock": {"receipt_type": "route_lock", "producer_month": 49, "value": "startup_acquisition_reference_v1", "explicit": true, "silent_priority": false},
         "legacy_save_policy": "fail_closed_without_durable_mode"
       },
       "exclusions": [
@@ -647,12 +960,12 @@
         ]
       },
       "months": [
-        {"month": 49, "incoming_margin": {"axis": "trust", "producer": "future:m48_tell_surviving_person"}, "selected_commitments": ["m49_open_path_contract", "m49_choose_reviewer"], "outgoing_margin": null, "fallback_owner": null, "unresolved": ["M48 actor and same-axis margin typed producer"], "root_order": ["arc_y5_startup_offer_c0", "arc_y5_startup_c0_reviewer_delivery_minseo"]},
+        {"month": 49, "incoming_margin": {"axis": "trust", "producer": "future:m48_tell_surviving_person"}, "selected_commitments": ["m49_open_path_contract", "m49_choose_reviewer"], "outgoing_margin": null, "fallback_owner": null, "unresolved": ["partner-none typed decision producer", "M48 actor and same-axis margin typed producer", "startup founding typed cofounder/equity producer", "M49 explicit route-lock producer"], "root_order": ["arc_y5_startup_offer_c0", "arc_y5_startup_c0_reviewer_delivery_minseo"]},
         {"month": 50, "incoming_margin": null, "selected_commitments": ["m50_draw_name_boundary"], "outgoing_margin": {"axis": "trust", "producer": "m50_draw_name_boundary"}, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_startup_boundary_cofounder"]},
         {"month": 51, "incoming_margin": {"axis": "trust", "producer": "m50_draw_name_boundary"}, "selected_commitments": ["m51_hear_minseo", "m51_ask_after_goal"], "outgoing_margin": null, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_startup_minseo_goal_cost", "arc_y5_startup_after_goal_cofounder"]},
         {"month": 52, "incoming_margin": null, "selected_commitments": ["m52_hear_live_proposer"], "outgoing_margin": {"axis": "cash", "producer": "m52_hear_live_proposer"}, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_startup_final_offer_acquirer"]},
-        {"month": 53, "incoming_margin": {"axis": "cash", "producer": "m52_hear_live_proposer"}, "selected_commitments": [], "outgoing_margin": null, "fallback_owner": "generic_month_loop", "unresolved": ["margin expiry owner"], "root_order": []},
-        {"month": 54, "incoming_margin": null, "selected_commitments": ["m54_hear_chosen_reviewer"], "outgoing_margin": {"axis": "trust", "producer": "m54_hear_chosen_reviewer"}, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_startup_reviewer_receipt_minseo"]},
+        {"month": 53, "incoming_margin": {"axis": "cash", "producer": "m52_hear_live_proposer"}, "selected_commitments": [], "outgoing_margin": null, "fallback_owner": {"kind": "external_blocker", "blocker_id": "startup_m53_external_handoff", "story_map_reference": {"month": 53, "beat_id": "m53_jaehyuk_guarantee", "root_id": "arc_jaehyuk_mirror", "rule_status": "needs_rule"}, "product_owner": null, "forbidden_inferences": ["Jaehyuk guarantee outcome", "PDF result", "cash-margin expiry"]}, "unresolved": ["product owner absent; synthetic future fixture is QA-only"], "root_order": []},
+        {"month": 54, "incoming_margin": null, "selected_commitments": ["m54_hear_chosen_reviewer"], "outgoing_margin": {"axis": "trust", "producer": "m54_hear_chosen_reviewer"}, "fallback_owner": null, "unresolved": ["startup h1 reviewer custody handoff producer"], "root_order": ["arc_y5_startup_reviewer_receipt_minseo"]},
         {"month": 55, "incoming_margin": {"axis": "trust", "producer": "m54_hear_chosen_reviewer"}, "selected_commitments": ["m55_disclose_all_terms", "m55_let_reviewer_question"], "outgoing_margin": null, "fallback_owner": null, "unresolved": [], "root_order": ["arc_y5_startup_three_in_room", "arc_y5_startup_three_in_room_decision"]},
         {"month": 56, "incoming_margin": null, "selected_commitments": [], "outgoing_margin": null, "fallback_owner": "family_route_pass_through", "unresolved": ["M57 same-axis margin producer"], "root_order": []},
         {"month": 57, "incoming_margin": {"axis": "trust", "producer": "unresolved:M56"}, "selected_commitments": ["m57_file_name_decision", "m57_deliver_filed_copy"], "outgoing_margin": null, "fallback_owner": null, "unresolved": ["incoming margin producer"], "root_order": ["arc_y5_startup_c2_sign_self", "arc_y5_startup_c2_copy_delivered_cofounder"]},
@@ -663,7 +976,7 @@
       "roots": [
         {
           "id": "arc_y5_startup_offer_c0", "ko_file": "content/events/arc_midgame.json", "en_file": "content/events_en/arc_midgame.json", "month": 49, "order": 1, "choice_count": 3,
-          "requirements": ["startup entry valid", "future M48 actor+trust-margin receipt", "m49 route lock=startup_acquisition_reference_v1"], "actor_roles": ["proposer", "protected"], "document_reads": [], "common_writes": ["actor_binding:acquirer_lead", "document:h0:A6E8", "commitment:m49_open_path_contract:cash"],
+          "requirements": ["startup entry valid", "future M48 actor+trust-margin receipt", "m49 route lock=startup_acquisition_reference_v1"], "actor_roles": ["proposer", "protected"], "document_reads": [], "common_writes": ["document:h0:A6E8", "commitment:m49_open_path_contract:cash"],
           "choice_partitions": {"continuation": [0, 1, 2], "terminal": [], "complete": []},
           "choices": [
             {"index": 0, "outcome_id": "startup_m49_c0_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_startup_offer_c0:0"]},
@@ -710,24 +1023,24 @@
         },
         {
           "id": "arc_y5_startup_final_offer_acquirer", "ko_file": "content/events/arc_pre_ending.json", "en_file": "content/events_en/arc_pre_ending.json", "month": 52, "order": 1, "choice_count": 4,
-          "requirements": ["document:h0:A6E8", "receipt:startup_boundary_0|1|2", "actor:acquirer_lead"], "actor_roles": ["proposer", "counterparty"], "document_reads": ["h0"], "common_writes": ["document:h1:91B4", "commitment:m52_hear_live_proposer:cash"],
+          "requirements": ["document:h0:A6E8", "receipt:startup_boundary_0|1|2", "actor:acquirer_lead"], "actor_roles": ["proposer", "counterparty"], "document_reads": ["h0"], "common_writes": ["actor_confirmation:acquirer_lead:proposer", "commitment:m52_hear_live_proposer:cash"],
           "choice_partitions": {"continuation": [0, 1, 2], "terminal": [3], "complete": []},
           "choices": [
-            {"index": 0, "outcome_id": "startup_m52_offer_0", "flow": "continuation", "requirements": [], "writes": ["receipt:startup_offer_package_time_seen", "scene_choice:arc_y5_startup_final_offer_acquirer:0"]},
-            {"index": 1, "outcome_id": "startup_m52_offer_1", "flow": "continuation", "requirements": [], "writes": ["receipt:startup_offer_package_product_seen", "scene_choice:arc_y5_startup_final_offer_acquirer:1"]},
-            {"index": 2, "outcome_id": "startup_m52_offer_2", "flow": "continuation", "requirements": [], "writes": ["receipt:startup_offer_package_people_seen", "scene_choice:arc_y5_startup_final_offer_acquirer:2"]},
+            {"index": 0, "outcome_id": "startup_m52_offer_0", "flow": "continuation", "requirements": [], "writes": ["document:h1:91B4", "document_holder:h1:acquirer_lead", "receipt:startup_offer_package_time_seen", "scene_choice:arc_y5_startup_final_offer_acquirer:0"]},
+            {"index": 1, "outcome_id": "startup_m52_offer_1", "flow": "continuation", "requirements": [], "writes": ["document:h1:91B4", "document_holder:h1:acquirer_lead", "receipt:startup_offer_package_product_seen", "scene_choice:arc_y5_startup_final_offer_acquirer:1"]},
+            {"index": 2, "outcome_id": "startup_m52_offer_2", "flow": "continuation", "requirements": [], "writes": ["document:h1:91B4", "document_holder:h1:acquirer_lead", "receipt:startup_offer_package_people_seen", "scene_choice:arc_y5_startup_final_offer_acquirer:2"]},
             {"index": 3, "outcome_id": "startup_m52_offer_terminal", "flow": "terminal", "requirements": [], "writes": ["terminal_state:discussion_ended_no_draft_received", "route_terminal:startup:m52:3", "scene_choice:arc_y5_startup_final_offer_acquirer:3"]}
           ]
         },
         {
           "id": "arc_y5_startup_reviewer_receipt_minseo", "ko_file": "content/events/arc_pre_ending.json", "en_file": "content/events_en/arc_pre_ending.json", "month": 54, "order": 1, "choice_count": 1,
-          "requirements": ["document:h1:91B4"], "actor_roles": ["reviewer"], "document_reads": ["h1"], "common_writes": ["commitment:m54_hear_chosen_reviewer:trust", "receipt:startup_reviewer_current_markings"],
+          "requirements": ["document:h1:91B4", "external_receipt:startup_h1_reviewer_handoff"], "actor_roles": ["reviewer"], "document_reads": ["h1"], "common_writes": ["commitment:m54_hear_chosen_reviewer:trust", "receipt:startup_reviewer_current_markings", "document_holder:h1:player"],
           "choice_partitions": {"continuation": [0], "terminal": [], "complete": []},
           "choices": [{"index": 0, "outcome_id": "startup_m54_reviewer_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_startup_reviewer_receipt_minseo:0"]}]
         },
         {
           "id": "arc_y5_startup_three_in_room", "ko_file": "content/events/arc_pre_ending.json", "en_file": "content/events_en/arc_pre_ending.json", "month": 55, "order": 1, "choice_count": 3,
-          "requirements": ["document:h1:91B4", "actors:acquirer_lead,minseo,startup_cofounder"], "actor_roles": ["proposer", "reviewer", "protected"], "document_reads": ["h1"], "common_writes": ["commitment:m55_disclose_all_terms:trust", "receipt:startup_three_in_room_opened"],
+          "requirements": ["document:h1:91B4", "document_holder:h1:player", "actors:acquirer_lead,minseo,startup_cofounder"], "actor_roles": ["proposer", "reviewer", "protected"], "document_reads": ["h1"], "common_writes": ["commitment:m55_disclose_all_terms:trust", "receipt:startup_three_in_room_opened"],
           "choice_partitions": {"continuation": [0, 1, 2], "terminal": [], "complete": []},
           "choices": [
             {"index": 0, "outcome_id": "startup_m55_room_0", "flow": "continuation", "requirements": [], "writes": ["scene_choice:arc_y5_startup_three_in_room:0"]},
@@ -832,9 +1145,11 @@
     }
   ],
   "planned_runtime": {
-    "current_consumer_count": 0,
+    "current_product_consumer_count": 0,
+    "current_qa_injection_consumer_count": 1,
+    "dormant_kernel_owner": "systems/Year5ReferenceRouteKernel.gd",
     "activation_preconditions": [
-      "R1 and R2 complete",
+      "R1b and R2 complete",
       "all unresolved blockers closed",
       "durable typed receipts and route lock exist",
       "terminal routing, atomic transactions and finale handoff pass self-test"
@@ -843,6 +1158,12 @@
     "save_ledger_owner": null
   },
   "unresolved_blockers": [
+    {
+      "id": "partner_none_decision_producer",
+      "month": null,
+      "problem": "partner none has no future typed relationship-decision receipt producer",
+      "required_resolution": "persist an explicit relationship decision; never infer it from cast, flags or romance state"
+    },
     {
       "id": "m48_actor_and_margin_producer",
       "month": 48,
@@ -853,13 +1174,37 @@
       "id": "startup_cofounder_actor_producer",
       "month": null,
       "problem": "startup_opportunity currently writes startup_founded and money only; it has no typed cofounder actor output",
-      "required_resolution": "R1 must add a new-run founding hook and a fail-closed migration policy for legacy saves"
+      "required_resolution": "R1b must add the exact startup_opportunity choice-0 typed 3M, 2000bp and cofounder receipt; legacy saves fail closed"
     },
     {
-      "id": "m53_margin_expiry_owner",
+      "id": "m49_route_lock_producer",
+      "month": 49,
+      "problem": "there is no product producer for an explicit typed route lock",
+      "required_resolution": "R1b must persist one explicit route selection and reject dual-eligible silent priority"
+    },
+    {
+      "id": "career_m53_external_handoff",
       "month": 53,
-      "problem": "generic fallback owns the month but route margin expiry has no durable owner",
-      "required_resolution": "define expiry without inventing a Jaehyuk guarantee outcome"
+      "problem": "story map references arc_jaehyuk_mirror, but no product owner advances the career route through M53",
+      "required_resolution": "add a real career-route owner without inventing Jaehyuk/PDF outcomes or cash-margin expiry"
+    },
+    {
+      "id": "startup_m53_external_handoff",
+      "month": 53,
+      "problem": "story map references arc_jaehyuk_mirror, but no product owner advances the startup route through M53",
+      "required_resolution": "add a real startup-route owner without inventing Jaehyuk/PDF outcomes or cash-margin expiry"
+    },
+    {
+      "id": "career_c1_reviewer_handoff",
+      "month": 54,
+      "problem": "career C1 is held by player after M52 and has no product custody transfer to Minseo",
+      "required_resolution": "persist exact player-to-minseo C1 custody receipt before the M54 reader"
+    },
+    {
+      "id": "startup_h1_reviewer_handoff",
+      "month": 54,
+      "problem": "startup h1 is held by acquirer after M52 choices 0-2 and has no product custody transfer to Minseo",
+      "required_resolution": "persist exact acquirer-to-minseo SA-20 h1/91B4 custody receipt before the M54 reader"
     },
     {
       "id": "m56_m57_margin_producer",
@@ -870,8 +1215,8 @@
     {
       "id": "live_infrastructure",
       "month": null,
-      "problem": "no production dispatcher, durable route ledger, idempotent transaction owner or success-ending hold exists",
-      "required_resolution": "implement R1 then R2 while activation remains disabled until the complete audit passes"
+      "problem": "no production dispatcher, durable route ledger, ingress producer, idempotent transaction owner or success-ending hold exists",
+      "required_resolution": "implement R1b then R2 while activation remains disabled until the complete audit passes"
     }
   ],
   "protected_hashes": {
@@ -883,6 +1228,8 @@
       "ensure_ascii": false
     },
     "files": {
+      "content/jobs.json": "d1a3ed8ba3f2839954d0b15266bff4f7a0d1317d78c503bd2422aa87b7210f84",
+      "project.godot": "78e98d7bdc1349570df6f2cc7ca6cbb11d4fc5451f5bbfdd338561653c7380c5",
       "content/meta/story_map.json": "6f1547798b1576da65cb8767bafee74769d856349c11f9da276633167919a54e",
       "content/meta/story_rules.json": "edd7d26b0e91ea309ff9b9818fb6df2ab37ba247fad060c5039c9d08f9f31bc8",
       "content/meta/narrative_spine.json": "dc06f7a36f69e7c6d9141bd63e9e034846f22fabf5ba1417feebdc7992a261dc",
@@ -1009,6 +1356,13 @@
     ],
     "runtime_consumers": {
       "expected_count": 0,
+      "qa_injection": {
+        "expected_count": 1,
+        "owner": "tools/Year5ReferenceRouteR1Check.gd",
+        "kernel_path": "systems/Year5ReferenceRouteKernel.gd",
+        "contract_source": "caller_injected_dictionary",
+        "production": false
+      },
       "forbidden_root_ids": [
         "arc_y5_contract_cover_career",
         "arc_y5_contract_reviewer_delivery_minseo_career",

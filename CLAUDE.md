@@ -12,12 +12,12 @@
 | 상품 정의 | **"나는 민준이다. 이번 달 누구에게 시간을 쓰고, 무엇을 놓칠지 정한다. 다음 달에는 그 대가를 산다."** 240주를 카드 목록이 아니라 한 편의 소설·영화처럼 인과·장면·연기·전환·여운으로 겪는다. 플레이어를 구경꾼으로 부르거나 숨은 도덕 점수를 설명하지 않는다. |
 | 현재 범위 | 1턴=1주, 240주(5년), **데모 제품 범위는 1~24주이며 W24 CTA에서 끝난다.** 본편 Chapter 1 제작 단위는 1~48주 한 해지만 25~48주는 아직 기존 폴백이며, 월간 정본 승인 전에는 완성 코어로 세지 않는다. 숫자 여력 4장을 돌려 쓰는 화면은 최종 코어가 아니다. 루틴은 자동으로 이어지고, 매달 실제 약속·기회·위기 중 무엇을 지키고 놓칠지 고르는 한 문법을 쓴다. W1~24 V2의 저장·영수증·월말 결산·원자적 선택은 이관 기준선으로 보존하고, 뒤 범위는 60개월 맵을 따라 장별로 옮긴다. |
 | 품질 게이트 | [`docs/MASTER_RELEASE_AUDIT.md`](docs/MASTER_RELEASE_AUDIT.md). 콘텐츠 수량보다 블랙박스 플레이, 한영 패리티, 패드 과업, 사람 기억·전환 증거로 판정한다. |
-| 최근 완료 | 마지막 해 career·startup 32 roots·86 choices의 배우·문서 계보·선택·월간 여력·future transaction을 기계 판독 계약으로 고정했다. `reference_only`·도달 주장 없음·runtime consumer 0이며, 보호 35파일과 84개 음성 변이를 독립 재감사해 P0/P1 0이다. |
-| 바로 다음 | ORDER-115 R1a에서 마지막 해 exact 계약의 actor·custody·terminal·M53 handoff P1을 교정하고, M49~M55 입력을 파일·GameState 없이 재생하는 dormant kernel을 만든다. 제품 도달·저장 연결은 하지 않는다. ORDER-104~113 원고는 사용자 무작위 3편 L3를 계속 기다린다. |
+| 최근 완료 | 마지막 해 career·startup M49~M55의 18 roots·50 choices를 파일·GameState 없이 재생하는 R1a pure dormant kernel을 만들었다. exact typed ingress·role/scene actor·문서 custody·M53 handoff·margin·terminal·immutable history를 100개 manifest 음성·241개 Godot 음성으로 잠갔고 P0/P1 0이다. `reference_only`, product consumer·dispatch 0은 유지한다. |
+| 바로 다음 | ORDER-104~113 원고의 사용자 무작위 3편 L3를 기다린다. 제품 연결은 새 R1b 오더에서 partner/M48/founding/M53/custody의 실제 producer를 먼저 닫고 GameState·save adapter를 함께 붙여야 하며, 그 전에는 이번 kernel을 도달 가능·저장 가능하다고 부르지 않는다. |
 | 열려 있는 사람 게이트 | 정본은 [`docs/human_gates.json`](docs/human_gates.json), 출력은 [`STATUS.md`](docs/STATUS.md)다. **개수 상한이 없다.** 사용자 L3는 W24 뒤 시작한다. BUILD `.3`의 이해도·기억·정상 속도 24주·A/V·패드 판정은 W1~24 demo_rc의 게이트다. GO여도 데모만 승인하며 W25~48이나 본편 Chapter 1 완성을 승인하지 않는다. 데모 GO는 48주 RC/완주를 기다리지 않는다. `month_one_episode_v1` 표본은 구 저장 호환용이다. 지역별 미완료 번역 게이트는 각 언어 주장과 4개국어 공개 데모를 막되 KO/EN 후보 검증은 막지 않는다. **초록불은 계약을 지켰다는 뜻이지 좋다는 뜻이 아니다.** |
 | 그다음 | exact routing 뒤 35 endings와 `finish_run` 순서를 별도 배치에서 판정한다. staged startup은 M60·final-week 뒤 기존 전용 `startup_exit` ID·CG·보상으로 닫되 서명·입금을 반복하지 않는다. 사용자가 원고 표본을 통과시키기 전 JA·zh-CN·zh-TW 번역은 시작하지 않는다. 240주 감사는 RC에서만 실행한다. 순서는 [`CODEX_QUEUE.md`](docs/CODEX_QUEUE.md)가 소유한다. |
 | 자산 조달 | **외주 0원.** 인물 디자인·작곡·UI 아트·유료 서체를 사지 않고 Codex와 무료 라이선스(임베딩이 허용된 OFL·CC0 등)로만 만든다. 인력·구매를 전제한 계획을 세우지 않는다. 생성 자산의 결함은 품질이 아니라 평균성이므로 동일 후처리·고정 서명·채택률로 이긴다. 정본은 `docs/DECISIONS.md` 2026-07-30 항목이 소유한다. |
-| 마지막 갱신 | 2026-08-20 (Codex: ORDER-115 R1a dormant contract kernel 선언, 제품 활성·저장 연결 보류) |
+| 마지막 갱신 | 2026-08-20 (Codex: ORDER-115 R1a dormant contract kernel 완료, 제품 활성·저장 연결은 후속 R1b로 보류) |
 
 사용자가 새 지시를 주면 그것이 위 순서보다 우선한다.
 

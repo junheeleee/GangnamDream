@@ -60,6 +60,7 @@
     "monthly_story_map": [
       "content/meta/story_map.json",
       "content/meta/year5_reference_routes.json",
+      "systems/Year5ReferenceRouteKernel.gd",
       "docs/CHOICE_CONSEQUENCE_SYSTEM.md"
     ],
     "weekly_loop": [
@@ -176,6 +177,7 @@
       "required": [
         "content/meta/story_map.json",
         "content/meta/year5_reference_routes.json",
+        "systems/Year5ReferenceRouteKernel.gd",
         "docs/CHOICE_CONSEQUENCE_SYSTEM.md",
         "docs/CORE_LOOP_V2.md",
         "content/meta/chapter1_core_loop_v2_causal_ledger.json",

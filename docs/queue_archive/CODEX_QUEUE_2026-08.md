@@ -13,6 +13,12 @@
 
 ## 2026-08
 
+- `[x] ORDER-115` (2026-08-20): career·startup M49~M55의 18 roots·50 choices를
+  파일·GameState 없이 재생하는 pure dormant kernel을 만들었다. typed ingress,
+  role handle과 실제 actor, 문서 custody, M53 handoff, margin·terminal·immutable history를
+  분리했고 매니페스트 음성 100건·Godot 음성 241건·story-map 차선 7개가 통과했다.
+  lifecycle은 계속 `reference_only`, product consumer·dispatch 0이며 save/UI/live 연결은
+  후속 R1b·R2로 분리했다. [사양](ORDER-115.md)
 - `[x] ORDER-114` (2026-08-18): 마지막 해 career·startup 32 roots·86 choices의
   배우·문서 계보·월간 여력·terminal 손실·future transaction/finale handoff를
   `reference_only` 기계 계약으로 고정했다. runtime consumer 0과 보호 35파일을

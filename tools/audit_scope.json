@@ -18,6 +18,11 @@
       "paths": [
         "content/meta/story_map.json",
         "content/meta/year5_reference_routes.json",
+        "systems/Year5ReferenceRouteKernel.gd",
+        "systems/Year5ReferenceRouteKernel.gd.uid",
+        "tools/Year5ReferenceRouteR1Check.gd",
+        "tools/Year5ReferenceRouteR1Check.gd.uid",
+        "tools/Year5ReferenceRouteR1Check.tscn",
         "tools/year5_reference_route_audit.py",
         "tools/story_map_strategy_sim.py"
       ],
@@ -31,21 +36,30 @@
         "docs/CODEX_QUEUE.md",
         "docs/CONTEXT_INDEX.md",
         "docs/DECISIONS.md",
+        "docs/STATUS.md",
+        "docs/WORK_LOG.md",
         "docs/context_manifest.json",
+        "docs/queue_active/ORDER-115.md",
         "docs/queue_archive/ORDER-102.md",
+        "systems/Year5ReferenceRouteKernel.gd",
+        "systems/Year5ReferenceRouteKernel.gd.uid",
         "tools/audit_scope.json",
         "tools/audit_select.py",
         "tools/audit.sh",
         "tools/narrative_spine_audit.py",
         "tools/story_map_audit.py",
         "tools/story_map_strategy_sim.py",
+        "tools/Year5ReferenceRouteR1Check.gd",
+        "tools/Year5ReferenceRouteR1Check.gd.uid",
+        "tools/Year5ReferenceRouteR1Check.tscn",
         "tools/year5_reference_route_audit.py"
       ],
       "tools": [
         "tools/story_map_audit.py",
         "tools/narrative_spine_audit.py",
         "tools/story_map_strategy_sim.py --self-test",
-        "tools/year5_reference_route_audit.py --self-test"
+        "tools/year5_reference_route_audit.py --self-test",
+        "tools/Year5ReferenceRouteR1Check.tscn"
       ],
       "why": "월 배치만 바뀌면 240주 런타임 대신 지도·5장 정합만 검사한다"
     },
@@ -215,7 +229,11 @@
         "content/meta/narrative_spine.json",
         "content/meta/story_map.json",
         "content/meta/story_rules.json",
+        "content/jobs.json",
+        "project.godot",
         "systems/StoryMapMonthlyRuntime.gd",
+        "systems/Year5ReferenceRouteKernel.gd",
+        "systems/Year5ReferenceRouteKernel.gd.uid",
         "autoloads/GameState.gd",
         "autoloads/EventManager.gd",
         "autoloads/SaveManager.gd",
@@ -248,7 +266,24 @@
         "content/events/callback_events_20.json",
         "content/events_en/callback_events_20.json",
         "content/meta/year5_reference_routes.json",
-        "tools/year5_reference_route_audit.py"
+        "tools/year5_reference_route_audit.py",
+        "tools/Year5ReferenceRouteR1Check.gd",
+        "tools/Year5ReferenceRouteR1Check.gd.uid",
+        "tools/Year5ReferenceRouteR1Check.tscn"
+      ]
+    },
+    {
+      "tool": "tools/Year5ReferenceRouteR1Check.tscn",
+      "godot": true,
+      "why": "마지막 해 M49~M55 reference 계약을 제품 상태와 분리된 pure dormant kernel로 재생하고 actor·custody·margin·terminal·blocker 음성 변이를 거부한다",
+      "paths": [
+        "content/meta/year5_reference_routes.json",
+        "systems/Year5ReferenceRouteKernel.gd",
+        "systems/Year5ReferenceRouteKernel.gd.uid",
+        "tools/year5_reference_route_audit.py",
+        "tools/Year5ReferenceRouteR1Check.gd",
+        "tools/Year5ReferenceRouteR1Check.gd.uid",
+        "tools/Year5ReferenceRouteR1Check.tscn"
       ]
     },
     {

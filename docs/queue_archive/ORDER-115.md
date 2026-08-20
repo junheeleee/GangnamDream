@@ -1,8 +1,23 @@
-# Active Queue Spec: ORDER-115
+# Archived Queue Spec: ORDER-115
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-115 [P0·구조] 마지막 해 R1a 비활성 계약 커널을 만든다
+#### [x] ORDER-115 [P0·구조] 마지막 해 R1a 비활성 계약 커널을 만든다
+
+**완료 (2026-08-20):** career·startup M49~M55의 18 roots·50 choices를 파일·
+GameState 없이 재생하는 pure dormant kernel을 만들었다. exact partner/M48/founding/
+route-lock ingress, document role handle과 실제 scene actor, C0/C1·h0/h1 custody,
+M53 external handoff, 월간 margin, terminal·exact replay, immutable history를 분리했다.
+매니페스트 음성 100건과 Godot 음성 241건, story-map 차선 7개, 독립 재감사가
+모두 통과해 P0/P1 0이다. 보호 37파일은 byte-exact이며 lifecycle은 계속
+`reference_only`, product consumer 0, QA injection consumer 1, dispatch 0이다.
+
+**정본 승격:** 계속 유효한 계약은 `content/meta/year5_reference_routes.json`, pure
+reducer API는 `systems/Year5ReferenceRouteKernel.gd`, exact 거부 조건은
+`tools/year5_reference_route_audit.py`와 `tools/Year5ReferenceRouteR1Check.gd`가
+소유한다. GameState·save·product ingress·M53 owner·UI/dispatcher를 연결하는 R1b와
+M57~M60 transaction/finale의 R2는 별도 오더다. 이 사양의 baseline·20단위·파일
+소유권·검사 명령은 일회성 작업 지시다.
 
 **착수 (2026-08-20):** ORDER-114의 career·startup exact reference 계약을 다시 읽은 결과,
 live 저장·라우팅보다 먼저 닫아야 할 계약 P1 여섯 건이 확인됐다. 이번 배치는 그 계약을

@@ -59,21 +59,20 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-115 · R1a 비활성 계약 커널 | [115](queue_active/ORDER-115.md) | 선언 — reference-only·제품 활성 OFF |
-| 2 | [~] | ORDER-113 · 창업 | [113](queue_active/ORDER-113.md) | 16/43 L1·L2 GO — L3 보류 |
-| 3 | [~] | ORDER-112 · career 세로줄 | [112](queue_active/ORDER-112.md) | 16/43 L1·L2 GO — L3 보류 |
-| 4 | [~] | ORDER-111 · 마지막 해 대체 세로줄 | [111](queue_active/ORDER-111.md) | 24/58 L1·L2 GO — L3 보류 |
-| 5 | [~] | ORDER-110 · 마지막 해 기준 세로줄 | [110](queue_active/ORDER-110.md) | 20/51 L1·L2 GO — L3 보류 |
-| 6 | [~] | ORDER-109 · M34 반복·보고체·시계 도입 보정 | [109](queue_active/ORDER-109.md) | 16 roots L1·L2 GO — L3 보류 |
-| 7 | [~] | ORDER-108 · M39~M48 실제 원고 | [108](queue_active/ORDER-108.md) | 25/75 L1·L2 GO — L3 보류 |
-| 8 | [~] | ORDER-107 · M25~M36 후속 원고 | [107](queue_active/ORDER-107.md) | 20/48 L1/L2 GO — L3 보류 |
-| 9 | [~] | ORDER-106 · M13~M24 실제 원고 | [106](queue_active/ORDER-106.md) | 24/70 L1/L2 GO — L3 보류 |
-| 10 | [~] | ORDER-105 · M02~M12 실제 원고 | [105](queue_active/ORDER-105.md) | 20 roots L1/L2 GO — L3 보류 |
-| 11 | [~] | ORDER-104 · 핵심 장면 원고 | [104](queue_active/ORDER-104.md) | 23 roots L1/L2 — L3 보류 |
-| 12 | [~] | ORDER-103 · M01~M06 월간 약속을 직접 고르는 독립 체험판을 만든다 | [103](queue_active/ORDER-103.md) | `.2` L1/L2 — L3 보류 |
-| 13 | [~] | ORDER-99 · SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | [99](queue_active/ORDER-99.md) | BUILD `.3` L1/L2 — 사용자 저장 확인 대기 |
-| 14 | [~] | ORDER-97 · LOC-0.5 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | L1/L2 — 최신 후보·A/B 각 3표면 L3 대기 |
-| 15 | [~] | ORDER-98 · PAD-1 포커스 레일을 의미 버튼으로 줄인다 | [98](queue_active/ORDER-98.md) | L1/L2 — 집 플레이·물리 패드 L3 대기 |
+| 1 | [~] | ORDER-113 · 창업 | [113](queue_active/ORDER-113.md) | 16/43 L1·L2 GO — L3 보류 |
+| 2 | [~] | ORDER-112 · career 세로줄 | [112](queue_active/ORDER-112.md) | 16/43 L1·L2 GO — L3 보류 |
+| 3 | [~] | ORDER-111 · 마지막 해 대체 세로줄 | [111](queue_active/ORDER-111.md) | 24/58 L1·L2 GO — L3 보류 |
+| 4 | [~] | ORDER-110 · 마지막 해 기준 세로줄 | [110](queue_active/ORDER-110.md) | 20/51 L1·L2 GO — L3 보류 |
+| 5 | [~] | ORDER-109 · M34 반복·보고체·시계 도입 보정 | [109](queue_active/ORDER-109.md) | 16 roots L1·L2 GO — L3 보류 |
+| 6 | [~] | ORDER-108 · M39~M48 실제 원고 | [108](queue_active/ORDER-108.md) | 25/75 L1·L2 GO — L3 보류 |
+| 7 | [~] | ORDER-107 · M25~M36 후속 원고 | [107](queue_active/ORDER-107.md) | 20/48 L1/L2 GO — L3 보류 |
+| 8 | [~] | ORDER-106 · M13~M24 실제 원고 | [106](queue_active/ORDER-106.md) | 24/70 L1/L2 GO — L3 보류 |
+| 9 | [~] | ORDER-105 · M02~M12 실제 원고 | [105](queue_active/ORDER-105.md) | 20 roots L1/L2 GO — L3 보류 |
+| 10 | [~] | ORDER-104 · 핵심 장면 원고 | [104](queue_active/ORDER-104.md) | 23 roots L1/L2 — L3 보류 |
+| 11 | [~] | ORDER-103 · M01~M06 월간 약속을 직접 고르는 독립 체험판을 만든다 | [103](queue_active/ORDER-103.md) | `.2` L1/L2 — L3 보류 |
+| 12 | [~] | ORDER-99 · SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | [99](queue_active/ORDER-99.md) | BUILD `.3` L1/L2 — 사용자 저장 확인 대기 |
+| 13 | [~] | ORDER-97 · LOC-0.5 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | L1/L2 — 최신 후보·A/B 각 3표면 L3 대기 |
+| 14 | [~] | ORDER-98 · PAD-1 포커스 레일을 의미 버튼으로 줄인다 | [98](queue_active/ORDER-98.md) | L1/L2 — 집 플레이·물리 패드 L3 대기 |
 
 ### 남은 데모 출시선
 

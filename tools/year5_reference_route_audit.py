@@ -2,9 +2,9 @@
 """Audit the non-live Year-5 career/startup reference-route contract.
 
 The manifest is deliberately stricter than a prose design note.  It freezes two
-author-only traces while production routing, durable ledgers, transactions, and
-ending deferral are still absent.  A passing audit therefore means
-"machine-readable reference", never "playable".
+author-only traces and a caller-injected dormant reducer while production
+routing, durable ledgers, transactions, and ending deferral are still absent.
+A passing audit therefore means "dormant contract kernel", never "playable".
 """
 
 from __future__ import annotations
@@ -25,14 +25,18 @@ from typing import Any, Callable, Iterable, Iterator
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "content" / "meta" / "year5_reference_routes.json"
+KERNEL_RELATIVE_PATH = "systems/Year5ReferenceRouteKernel.gd"
+KERNEL_CLASS_TOKEN = "Year5ReferenceRouteKernel"
+QA_INJECTION_RELATIVE_PATH = "tools/Year5ReferenceRouteR1Check.gd"
 EVENT_DIRS = {
     "ko": ROOT / "content" / "events",
     "en": ROOT / "content" / "events_en",
 }
 
-EXPECTED_DECLARATION = "2c0ec23122ce7718439ad352c2d0e55915398e9f"
-EXPECTED_BASELINE = "e27ff7e69990fee16aef5f11913c0d3db56d58f3"
-EXPECTED_MANIFEST_ID = "year5_reference_routes_v1"
+EXPECTED_DECLARATION = "89d218233b271e9a60a761d2c0bcce1c235ba703"
+EXPECTED_BASELINE = "b73d374ac79c480926abbe1d0381e87b7aba19a0"
+EXPECTED_MANIFEST_ID = "year5_reference_routes_v2"
+LEGACY_MANIFEST_IDS = ("year5_reference_routes_v1",)
 EXPECTED_ROUTE_IDS = (
     "career_reference_v1",
     "startup_acquisition_reference_v1",
@@ -49,6 +53,7 @@ TOP_LEVEL_KEYS = {
     "runtime_owner",
     "scope",
     "receipt_types",
+    "r1a_contract",
     "actor_registry",
     "routes",
     "planned_runtime",
@@ -102,7 +107,7 @@ PROTECTED_HASH_KEYS = {
     "runtime_consumers",
 }
 PROTECTED_OBJECT_KEYS = {"locale", "file", "id", "sha256"}
-RUNTIME_CONSUMER_KEYS = {"expected_count", "forbidden_root_ids"}
+RUNTIME_CONSUMER_KEYS = {"expected_count", "qa_injection", "forbidden_root_ids"}
 SCOPE_KEYS = {
     "months",
     "route_ids",
@@ -119,6 +124,9 @@ RECEIPT_TYPE_KEYS = {
     "route_lock",
     "actor_binding",
     "document_version",
+    "document_custody",
+    "entry_ingress",
+    "external_handoff",
     "scene_choice",
     "commitment_completion",
     "margin",
@@ -146,6 +154,8 @@ STATEFUL_CHOICE_KEYS = {
 STATEFUL_EVENT_KEYS = STATEFUL_CHOICE_KEYS | {"writer", "follow_up"}
 
 MANDATORY_PROTECTED_FILES = {
+    "content/jobs.json",
+    "project.godot",
     "content/meta/story_map.json",
     "content/meta/story_rules.json",
     "autoloads/EventManager.gd",
@@ -233,6 +243,24 @@ ROUTE_ROOTS = {
     "career_reference_v1": CAREER_ROOTS,
     "startup_acquisition_reference_v1": STARTUP_ROOTS,
 }
+R1A_ROOTS = {
+    route_id: roots[:9]
+    for route_id, roots in ROUTE_ROOTS.items()
+}
+EXPECTED_R1A_CONTRACT_SHA256 = "f4929ad915db417d716f5b62119cf6ab6f32d50026f4a62ed2e80859fb322014"
+EXPECTED_UNRESOLVED_BLOCKERS_SHA256 = "a19cc8ae531c97d92ceb87e0310f8abcf590ec51b280eda6e0eb68c1e6e71bb8"
+EXPECTED_UNRESOLVED_BLOCKER_IDS = (
+    "partner_none_decision_producer",
+    "m48_actor_and_margin_producer",
+    "startup_cofounder_actor_producer",
+    "m49_route_lock_producer",
+    "career_m53_external_handoff",
+    "startup_m53_external_handoff",
+    "career_c1_reviewer_handoff",
+    "startup_h1_reviewer_handoff",
+    "m56_m57_margin_producer",
+    "live_infrastructure",
+)
 ALL_TARGET_IDS = tuple(spec.event_id for roots in ROUTE_ROOTS.values() for spec in roots)
 ALL_TARGET_ID_SET = set(ALL_TARGET_IDS)
 LEGACY_PROTECTED_IDS = (
@@ -270,20 +298,43 @@ EXPECTED_ACTORS = {
 
 EXPECTED_ACTOR_SOURCES = {
     "career_reference_v1": {
-        "proposer": "compatible_current_job.canonical_boss_role",
-        "counterparty": "same_binding_as:proposer",
-        "reviewer": "literal_actor:minseo",
-        "protected": "future_typed_receipt:m48_tell_surviving_person.actor",
-        "affected": "same_binding_as:protected",
-        "primary_witness": "same_binding_as:protected",
+        "proposer": {
+            "kind": "compatible_current_job_snapshot",
+            "job_id_ref": "entry_snapshot.current_job.id",
+            "has_job_ref": "entry_snapshot.flags.has_job",
+            "required_has_job": True,
+            "compatible_job_ids_ref": "route.entry.compatible_job_ids",
+            "bound_job_id_field": "bound_job_id",
+            "literal_actor_id": "boss",
+            "invalidate_if_job_changes": True,
+        },
+        "counterparty": {"kind": "same_binding_as", "role": "proposer"},
+        "reviewer": {"kind": "literal_actor", "actor_id": "minseo"},
+        "protected": {
+            "kind": "future_typed_receipt",
+            "receipt_id": "m48_actor_trust",
+            "field": "actor_id",
+        },
+        "affected": {"kind": "same_binding_as", "role": "protected"},
+        "primary_witness": {"kind": "same_binding_as", "role": "protected"},
     },
     "startup_acquisition_reference_v1": {
-        "proposer": "route_scene_receipt:arc_y5_startup_offer_c0",
-        "counterparty": "same_binding_as:proposer",
-        "reviewer": "literal_actor:minseo",
-        "protected": "future_typed_receipt:startup_founded.cofounder_actor",
-        "affected": "same_binding_as:protected",
-        "primary_witness": "same_binding_as:protected",
+        "proposer": {
+            "kind": "scene_actor_confirmation",
+            "producer_root_id": "arc_y5_startup_final_offer_acquirer",
+            "producer_month": 52,
+            "role_handle": "proposer",
+            "literal_actor_id": "acquirer_lead",
+        },
+        "counterparty": {"kind": "same_binding_as", "role": "proposer"},
+        "reviewer": {"kind": "literal_actor", "actor_id": "minseo"},
+        "protected": {
+            "kind": "future_typed_receipt",
+            "receipt_id": "startup_founding",
+            "field": "cofounder_actor_id",
+        },
+        "affected": {"kind": "same_binding_as", "role": "protected"},
+        "primary_witness": {"kind": "same_binding_as", "role": "protected"},
     },
 }
 
@@ -294,12 +345,13 @@ EXPECTED_DISTINCT_ROLE_GROUPS = [
 ]
 EXPECTED_INVALIDATIONS = {
     "career_reference_v1": [
-        "player quit the bound job",
-        "current job is not in compatible_job_ids",
+        "flags.has_job is false",
+        "current_job.id differs from bound_job_id",
+        "current_job.id is not in compatible_job_ids",
         "M48 remaining-person actor receipt is absent or is not hyunsu",
     ],
     "startup_acquisition_reference_v1": [
-        "startup founding receipt or cofounder binding is absent",
+        "typed startup founding receipt or cofounder binding is absent",
         "startup_exit, startup_partial_exit, startup_going_solo or joined_startup is present",
         "legacy acquisition offer has already been consumed or declined",
     ],
@@ -333,10 +385,15 @@ EXPECTED_SCOPE = {
     "excluded_economic_paths": ["investment"],
     "excluded_reference_families": ["property", "ORDER-111 alternate routes"],
     "live_split": {
-        "r1": {
+        "r1a": {
             "months": [49, 50, 51, 52, 53, 54, 55],
             "activation_after_completion": False,
-            "owns": ["durable ledger", "actor binding", "typed selectors"],
+            "owns": ["contract correction", "dormant pure kernel", "QA injection only"],
+        },
+        "r1b": {
+            "months": [49, 50, 51, 52, 53, 54, 55],
+            "activation_after_completion": False,
+            "owns": ["durable ledger", "producer hooks", "dispatcher and route-lock UI"],
         },
         "r2": {
             "months": [57, 58, 59, 60],
@@ -351,9 +408,11 @@ EXPECTED_SCOPE = {
 }
 
 EXPECTED_PLANNED_RUNTIME = {
-    "current_consumer_count": 0,
+    "current_product_consumer_count": 0,
+    "current_qa_injection_consumer_count": 1,
+    "dormant_kernel_owner": "systems/Year5ReferenceRouteKernel.gd",
     "activation_preconditions": [
-        "R1 and R2 complete",
+        "R1b and R2 complete",
         "all unresolved blockers closed",
         "durable typed receipts and route lock exist",
         "terminal routing, atomic transactions and finale handoff pass self-test",
@@ -378,39 +437,37 @@ EXPECTED_ROUTE_ENTRIES = {
             "job_14",
             "job_15",
         ],
-        "required_future_receipts": [
-            "m48_tell_surviving_person.actor=hyunsu",
-            "m48_tell_surviving_person.margin.axis=trust",
-            "m49_route_selected=career_reference_v1",
-        ],
+        "required_job_snapshot": {
+            "flags_has_job": True,
+            "bind_literal_actor_id": "boss",
+            "persist_bound_job_id": True,
+            "invalidate_on_bound_job_change_or_quit": True,
+        },
+        "required_ingress_receipt_ids": ["partner_none", "m48_actor_trust", "route_lock"],
         "route_lock": {
+            "receipt_type": "route_lock",
             "producer_month": 49,
             "value": "career_reference_v1",
+            "explicit": True,
             "silent_priority": False,
         },
     },
     "startup_acquisition_reference_v1": {
         "required_economic_path": "startup",
-        "required_origin_receipt": {
-            "flag": "startup_founded",
-            "initial_cash_delta_krw": -3000000,
-            "initial_equity_basis_points": 2000,
-            "cofounder_actor_required": True,
-        },
+        "required_ingress_receipt_ids": [
+            "partner_none", "m48_actor_trust", "startup_founding", "route_lock"
+        ],
         "required_absent_flags": [
             "startup_exit",
             "startup_partial_exit",
             "startup_going_solo",
             "joined_startup",
         ],
-        "required_future_receipts": [
-            "m48_tell_surviving_person.actor=startup_cofounder",
-            "m48_tell_surviving_person.margin.axis=trust",
-            "m49_route_selected=startup_acquisition_reference_v1",
-        ],
         "route_lock": {
+            "receipt_type": "route_lock",
             "producer_month": 49,
             "value": "startup_acquisition_reference_v1",
+            "explicit": True,
             "silent_priority": False,
         },
         "legacy_save_policy": "fail_closed_without_durable_mode",
@@ -505,9 +562,9 @@ EXPECTED_ROOT_SEMANTIC_DIGESTS = {
     "arc_y5_protection_boundary_hyunsu_career": "233f286f4ff6795899a37706a4a4871bf15026ac16d623ac26cadd1c1efdee31",
     "arc_y5_minseo_goal_cost_career": "24643075b233a318cdc9477d3905201711239c4788f5008e51f8c246610af617",
     "arc_y5_after_goal_hyunsu_career": "ec0198814a1ccd9b6599b9c68729015fb2ccdcc328abdb72849783a45f22c39b",
-    "arc_y5_final_offer_career_boss": "26dbcce87dbec51798ed6241a5d7176c4ae5eb8ca37109ab4d992e4c8fc2cae9",
-    "arc_y5_career_reviewer_receipt_minseo": "21bb548e277008ca1241ac5fb2a30911a8331d2e4d73f5b8d16ec6be5024cd97",
-    "arc_y5_three_in_room_career": "175d9d39ce859e8d842b71e2ccfbbcce6aa87b9f862f9890e6aa4f1f45346109",
+    "arc_y5_final_offer_career_boss": "265d6e1b2eceac84e2476d316e4e7c894125f1783f999061f56136bf6a681e9e",
+    "arc_y5_career_reviewer_receipt_minseo": "3f7bf728edc5fe81e36f168ba11f54d191641acb73985ce83b779a7645f4a7a0",
+    "arc_y5_three_in_room_career": "9d6b0efab12d5c91fa18ee08aa7d5bfbd5d0f52d6ee6168942404d597ee85224",
     "arc_y5_three_in_room_decision_career": "4d90c9fadc2fc6eddbeb62e93a31fccbad5839a510a5a6c48b9bf03c281e6f51",
     "arc_y5_name_on_line_career_self": "bf1361e04557438e89334c4619613337bad6660a3c0d37cdaaa94d92a50652d3",
     "arc_y5_name_copy_delivered_hyunsu_career": "1366ba281dd461fb23395eed770efc1afd6cab9b36c40779383a2d13808eb561",
@@ -516,14 +573,14 @@ EXPECTED_ROOT_SEMANTIC_DIGESTS = {
     "arc_y5_contract_result_delivered_hyunsu_career": "a7c47b9ba6dc6954b3c8707c12b1f913923f8ff0c7091bf73684871aca7b671a",
     "arc_final_countdown_career_executed": "25fda3757fe86625be02cb3202ddd5b6f1262849b5b1c0f851978a60b8f9cee0",
     "arc_y5_final_week_hyunsu_career_outbound": "e1c164327b1789cb880c82f44593534d6d0db91ce172d28d09d380add1680374",
-    "arc_y5_startup_offer_c0": "fc8fc53acafb6135c31ef40ebf93e763b34f9b85fcd5fd9f27b2b92c55ff1dfc",
+    "arc_y5_startup_offer_c0": "0b84256b7832b6c8e24b983f4b64ca7b2da07db26a7003f8d2f25f40351e0796",
     "arc_y5_startup_c0_reviewer_delivery_minseo": "0ac58cc0229abb3318d3003c8e8aee32865075f8f761d9f9f133ca8a65047a86",
     "arc_y5_startup_boundary_cofounder": "bce199090f274b61fcba82a710670a5f2f9aa240b7d2e5add5f7f0971663d07b",
     "arc_y5_startup_minseo_goal_cost": "15820342278bbef6e479ff9c72592783d3bcb77f681d058871e46afa8f3495cf",
     "arc_y5_startup_after_goal_cofounder": "572373318ee2ddd76759178458dd57a779391705e26cb6b90e819de170ae6f2c",
-    "arc_y5_startup_final_offer_acquirer": "54189b2d7e6c16c3e0479f34b1163d7a3468d4313945dad2944591ebfa957ce2",
-    "arc_y5_startup_reviewer_receipt_minseo": "735dc9d2f06a03fb346c0d9b43755a5ae0e210bdb138add44b20a25941cbc3b3",
-    "arc_y5_startup_three_in_room": "a4e38a47231199990779a7dad1a13a58582822d2d62dc5a335db8c201913cf66",
+    "arc_y5_startup_final_offer_acquirer": "0dc06f0b947409d3b8c982276adcf38076378751ef66f9c37baf55eb21ca8cd4",
+    "arc_y5_startup_reviewer_receipt_minseo": "c8f24c77193c0d5925de3e1ba673572d4332176c9d0263db0aede77c9896af44",
+    "arc_y5_startup_three_in_room": "50939df9c6d1d93c77811a047c236da29dde17eff2660f7707a62429d14bc495",
     "arc_y5_startup_three_in_room_decision": "193c5075d50d22d57bf9ec3b26484152129fc2fc44c3a13ffd2147d042d04df4",
     "arc_y5_startup_c2_sign_self": "dfaf04b154ad4c0085e315529de2666282c18a8e4c506a7387ca6dfedb045e74",
     "arc_y5_startup_c2_copy_delivered_cofounder": "7f699a68022581cd6c0def0a7b2c4600185dc5bee7be1c33179810f5871b1e2a",
@@ -917,16 +974,16 @@ RUNTIME_FORBIDDEN_TOKENS = (
     *ALL_TARGET_IDS,
     MANIFEST_PATH.relative_to(ROOT).as_posix(),
     EXPECTED_MANIFEST_ID,
+    *LEGACY_MANIFEST_IDS,
     *EXPECTED_ROUTE_IDS,
+    KERNEL_RELATIVE_PATH,
+    KERNEL_CLASS_TOKEN,
 )
 
 # These are causal receipts, not prose summaries.  A downstream root may add
 # more local requirements/writes, but it may not abbreviate or omit these exact
 # upstream facts.
 REQUIRED_ROOT_TOKENS: dict[str, dict[str, list[str]]] = {
-    "arc_y5_startup_offer_c0": {
-        "common_writes": ["actor_binding:acquirer_lead"],
-    },
     "arc_y5_protection_boundary_hyunsu_career": {
         "common_writes": ["receipt:career_name_boundary_drawn"],
     },
@@ -940,7 +997,18 @@ REQUIRED_ROOT_TOKENS: dict[str, dict[str, list[str]]] = {
     },
     "arc_y5_final_offer_career_boss": {
         "requirements": ["document:C0", "receipt:career_name_boundary_drawn"],
-        "common_writes": ["document:C1"],
+        "common_writes": [
+            "actor_confirmation:boss:proposer",
+            "document:C1",
+            "document_holder:C1:player",
+        ],
+    },
+    "arc_y5_career_reviewer_receipt_minseo": {
+        "requirements": ["external_receipt:career_c1_reviewer_handoff"],
+        "common_writes": ["document_holder:C1:player"],
+    },
+    "arc_y5_three_in_room_career": {
+        "requirements": ["document_holder:C1:player"],
     },
     "arc_y5_name_on_line_career_self": {
         "requirements": ["document:C2:draft:self_only"],
@@ -983,7 +1051,14 @@ REQUIRED_ROOT_TOKENS: dict[str, dict[str, list[str]]] = {
             "receipt:startup_boundary_0|1|2",
             "actor:acquirer_lead",
         ],
-        "common_writes": ["document:h1:91B4"],
+        "common_writes": ["actor_confirmation:acquirer_lead:proposer"],
+    },
+    "arc_y5_startup_reviewer_receipt_minseo": {
+        "requirements": ["external_receipt:startup_h1_reviewer_handoff"],
+        "common_writes": ["document_holder:h1:player"],
+    },
+    "arc_y5_startup_three_in_room": {
+        "requirements": ["document_holder:h1:player"],
     },
     "arc_y5_startup_c2_sign_self": {
         "requirements": ["document:h2:D772:draft"],
@@ -1022,6 +1097,11 @@ REQUIRED_ROOT_TOKENS: dict[str, dict[str, list[str]]] = {
 }
 
 REQUIRED_CHOICE_WRITES: dict[str, dict[int, list[str]]] = {
+    "arc_y5_startup_final_offer_acquirer": {
+        0: ["document:h1:91B4", "document_holder:h1:acquirer_lead"],
+        1: ["document:h1:91B4", "document_holder:h1:acquirer_lead"],
+        2: ["document:h1:91B4", "document_holder:h1:acquirer_lead"],
+    },
     "arc_y5_three_in_room_decision_career": {
         0: ["document:C2:draft:self_only"],
     },
@@ -1132,7 +1212,7 @@ EXPECTED_MARGINS = {
 HEX_64 = re.compile(r"^[0-9a-f]{64}$")
 MONTH_RE = re.compile(r"^M?(\d+)$", re.IGNORECASE)
 TEXT_SUFFIXES = {".gd", ".tscn", ".tres", ".godot", ".cfg", ".json"}
-SKIP_SCAN_DIRS = {".git", ".codex", "docs", "tools", "tests", "test", "reports"}
+SKIP_SCAN_DIRS = {".git", ".codex", ".godot", "docs", "tools", "tests", "test", "reports"}
 
 
 class DuplicateKeyError(ValueError):
@@ -1297,6 +1377,8 @@ def production_runtime_sources(errors: list[str]) -> list[tuple[str, str]]:
         rel = relative.as_posix()
         if rel == MANIFEST_PATH.relative_to(ROOT).as_posix():
             continue
+        if rel == KERNEL_RELATIVE_PATH:
+            continue
         if rel.startswith("content/events/") or rel.startswith("content/events_en/"):
             try:
                 payload = load_json(path)
@@ -1402,12 +1484,317 @@ def route_map(manifest: dict[str, Any]) -> dict[str, dict[str, Any]]:
     }
 
 
+def validate_r1a_contract(
+    manifest: dict[str, Any],
+    routes: dict[str, dict[str, Any]],
+    errors: list[str],
+) -> None:
+    """Validate the dormant M49-M55 contract and its raw-root cross references."""
+    contract = manifest.get("r1a_contract")
+    if not exact_keys(
+        contract,
+        {"lifecycle", "composition", "ingress_receipts", "external_blockers", "routes"},
+        "manifest.r1a_contract",
+        errors,
+    ):
+        return
+    assert isinstance(contract, dict)
+    if canonical_json_sha256(contract) != EXPECTED_R1A_CONTRACT_SHA256:
+        errors.append("manifest.r1a_contract: exact dormant contract digest mismatch")
+
+    lifecycle = contract.get("lifecycle")
+    expected_lifecycle = {
+        "name": "dormant_contract_kernel",
+        "activation_after_completion": False,
+        "reference_only": True,
+        "reachability_claim": False,
+        "dispatch_allowed": False,
+        "runtime_owner": None,
+        "save_adapter": None,
+        "product_consumer_count": 0,
+        "qa_injection_consumer_count": 1,
+        "qa_injection_owner": "tools/Year5ReferenceRouteR1Check.gd",
+        "kernel_owner": "systems/Year5ReferenceRouteKernel.gd",
+    }
+    if lifecycle != expected_lifecycle:
+        errors.append("manifest.r1a_contract.lifecycle: exact dormant/product0/QA1 lifecycle mismatch")
+
+    composition = contract.get("composition")
+    expected_composition = {
+        "root_source": "routes[*].roots selected by route root_ids",
+        "effective_writes_order": ["common_writes", "choice.writes"],
+        "atomic": True,
+        "partial_writes_allowed": False,
+        "exact_callback_replay": "success_noop",
+        "different_choice_payload_or_order_replay": "reject",
+        "persisted_duplicate_history_row": "reject",
+        "derived_state_source": "immutable_history",
+        "route_selection_policy": "explicit_lock_required_no_silent_priority",
+    }
+    if composition != expected_composition:
+        errors.append("manifest.r1a_contract.composition: exact common+choice atomic history contract mismatch")
+
+    ingress = contract.get("ingress_receipts")
+    if not isinstance(ingress, dict) or list(ingress) != [
+        "partner_none", "m48_actor_trust", "startup_founding", "route_lock"
+    ]:
+        errors.append("manifest.r1a_contract.ingress_receipts: exact ordered four-receipt registry required")
+        ingress = {}
+    partner = ingress.get("partner_none", {}) if isinstance(ingress, dict) else {}
+    if not isinstance(partner, dict) or partner.get("implemented_in_product") is not False:
+        errors.append("manifest.r1a_contract.ingress_receipts.partner_none: must remain a future product blocker")
+    if isinstance(partner, dict):
+        schema = partner.get("receipt_schema", {})
+        if schema != {
+            "exact_keys": ["receipt_type", "decision_id", "partner"],
+            "constants": {
+                "receipt_type": "relationship_decision",
+                "decision_id": "partner_none",
+                "partner": "none",
+            },
+        }:
+            errors.append("manifest.r1a_contract.ingress_receipts.partner_none: exact typed decision schema mismatch")
+        forbidden = partner.get("inference_forbidden", [])
+        if forbidden != ["cast", "flags", "romance enum", "display name"]:
+            errors.append("manifest.r1a_contract.ingress_receipts.partner_none: cast/flags inference must be forbidden")
+
+    m48 = ingress.get("m48_actor_trust", {}) if isinstance(ingress, dict) else {}
+    m48_schema = m48.get("receipt_schema", {}) if isinstance(m48, dict) else {}
+    m48_constants = m48_schema.get("constants", {}) if isinstance(m48_schema, dict) else {}
+    if not isinstance(m48, dict) or m48.get("implemented_in_product") is not False:
+        errors.append("manifest.r1a_contract.ingress_receipts.m48_actor_trust: product producer must remain false")
+    if m48_constants != {
+        "receipt_type": "m48_actor_trust_margin",
+        "producer_month": 48,
+        "producer_root_id": "arc_year4_close",
+        "axis": "trust",
+        "expires_after_month": 49,
+    }:
+        errors.append("manifest.r1a_contract.ingress_receipts.m48_actor_trust: exact month/root/axis/expiry mismatch")
+    if isinstance(m48_schema, dict):
+        if m48_schema.get("exact_keys") != [
+            "receipt_type", "route_id", "producer_month", "producer_root_id",
+            "producer_choice_index", "actor_id", "axis", "expires_after_month",
+        ]:
+            errors.append("manifest.r1a_contract.ingress_receipts.m48_actor_trust: exact receipt keys mismatch")
+        if m48_schema.get("allowed_values") != {"producer_choice_index": [0, 1, 2]}:
+            errors.append("manifest.r1a_contract.ingress_receipts.m48_actor_trust: exact producer choice domain mismatch")
+        if m48_schema.get("route_constants") != {
+            "career_reference_v1": {"actor_id": "hyunsu"},
+            "startup_acquisition_reference_v1": {"actor_id": "startup_cofounder"},
+        }:
+            errors.append("manifest.r1a_contract.ingress_receipts.m48_actor_trust: exact route actor mismatch")
+
+    founding = ingress.get("startup_founding", {}) if isinstance(ingress, dict) else {}
+    founding_constants = (
+        founding.get("receipt_schema", {}).get("constants", {})
+        if isinstance(founding, dict) and isinstance(founding.get("receipt_schema"), dict)
+        else {}
+    )
+    if not isinstance(founding, dict) or founding.get("implemented_in_product") is not False:
+        errors.append("manifest.r1a_contract.ingress_receipts.startup_founding: product producer must remain false")
+    if founding_constants != {
+        "receipt_type": "startup_founding",
+        "producer_event_id": "startup_opportunity",
+        "producer_choice_index": 0,
+        "initial_cash_delta_krw": -3000000,
+        "initial_equity_basis_points": 2000,
+        "cofounder_actor_id": "startup_cofounder",
+    }:
+        errors.append("manifest.r1a_contract.ingress_receipts.startup_founding: exact event/choice/3M/2000bp/cofounder mismatch")
+    if isinstance(founding, dict) and founding.get("inference_forbidden") != [
+        "startup_founded flag", "money delta", "legacy save"
+    ]:
+        errors.append("manifest.r1a_contract.ingress_receipts.startup_founding: legacy flag/money inference must be forbidden")
+
+    route_lock = ingress.get("route_lock", {}) if isinstance(ingress, dict) else {}
+    lock_schema = route_lock.get("receipt_schema", {}) if isinstance(route_lock, dict) else {}
+    if not isinstance(route_lock, dict) or route_lock.get("implemented_in_product") is not False:
+        errors.append("manifest.r1a_contract.ingress_receipts.route_lock: product producer must remain false")
+    if not isinstance(lock_schema, dict) or lock_schema.get("constants") != {
+        "receipt_type": "route_lock", "producer_month": 49, "explicit": True
+    } or lock_schema.get("allowed_values") != {"route_id": list(EXPECTED_ROUTE_IDS)}:
+        errors.append("manifest.r1a_contract.ingress_receipts.route_lock: exact explicit M49 lock schema mismatch")
+
+    unresolved_rows = manifest.get("unresolved_blockers", [])
+    unresolved_ids = {
+        str(row.get("id", ""))
+        for row in unresolved_rows
+        if isinstance(row, dict)
+    } if isinstance(unresolved_rows, list) else set()
+    for ingress_id in ("partner_none", "m48_actor_trust", "startup_founding", "route_lock"):
+        row = ingress.get(ingress_id, {}) if isinstance(ingress, dict) else {}
+        blocker_id = row.get("blocker_id") if isinstance(row, dict) else None
+        if not isinstance(blocker_id, str) or blocker_id not in unresolved_ids:
+            errors.append(f"manifest.r1a_contract.ingress_receipts.{ingress_id}: blocker_id must resolve to unresolved_blockers")
+
+    blockers = contract.get("external_blockers")
+    expected_blocker_ids = [
+        "career_m53_external_handoff", "career_c1_reviewer_handoff",
+        "startup_m53_external_handoff", "startup_h1_reviewer_handoff",
+    ]
+    if not isinstance(blockers, dict) or list(blockers) != expected_blocker_ids:
+        errors.append("manifest.r1a_contract.external_blockers: exact ordered M53/custody blocker registry required")
+        blockers = {}
+    for blocker_id in expected_blocker_ids:
+        if blocker_id not in unresolved_ids:
+            errors.append(f"manifest.r1a_contract.external_blockers.{blocker_id}: must resolve to unresolved_blockers")
+        blocker = blockers.get(blocker_id, {}) if isinstance(blockers, dict) else {}
+        if not isinstance(blocker, dict):
+            errors.append(f"manifest.r1a_contract.external_blockers.{blocker_id}: must be an object")
+            continue
+        if blocker.get("implemented_in_product") is not False or blocker.get("synthetic_fixture_only") is not True:
+            errors.append(f"manifest.r1a_contract.external_blockers.{blocker_id}: must be unresolved and QA-fixture-only")
+        schema = blocker.get("receipt_schema")
+        if not isinstance(schema, dict) or set(schema) != {"exact_keys", "constants"}:
+            errors.append(f"manifest.r1a_contract.external_blockers.{blocker_id}.receipt_schema: exact schema object required")
+            continue
+        constants = schema.get("constants")
+        if not isinstance(constants, dict) or list(constants) != schema.get("exact_keys"):
+            errors.append(f"manifest.r1a_contract.external_blockers.{blocker_id}.receipt_schema: exact_keys must match constants in order")
+            continue
+        if constants.get("blocker_id") != blocker_id or constants.get("source_kind") != "synthetic_future_fixture":
+            errors.append(f"manifest.r1a_contract.external_blockers.{blocker_id}: exact blocker/source constants mismatch")
+        if blocker_id.endswith("m53_external_handoff"):
+            if constants.get("receipt_type") != "external_month_handoff" or constants.get("month") != 53 or constants.get("outcome_writes") != []:
+                errors.append(f"manifest.r1a_contract.external_blockers.{blocker_id}: M53 must not forge outcome writes")
+        else:
+            expected_custody = {
+                "career_c1_reviewer_handoff": {
+                    "route_id": "career_reference_v1",
+                    "document_version": "C1",
+                    "document_id": None,
+                    "document_hash": None,
+                    "from_holder": "player",
+                    "to_holder": "minseo",
+                },
+                "startup_h1_reviewer_handoff": {
+                    "route_id": "startup_acquisition_reference_v1",
+                    "document_version": "h1",
+                    "document_id": "SA-20",
+                    "document_hash": "91B4",
+                    "from_holder": "acquirer_lead",
+                    "to_holder": "minseo",
+                },
+            }[blocker_id]
+            if constants.get("receipt_type") != "document_custody_handoff" or any(
+                constants.get(key) != value for key, value in expected_custody.items()
+            ):
+                errors.append(f"manifest.r1a_contract.external_blockers.{blocker_id}: exact reviewer custody receipt required")
+
+    segment_contracts = contract.get("routes")
+    if not isinstance(segment_contracts, dict) or list(segment_contracts) != list(EXPECTED_ROUTE_IDS):
+        errors.append("manifest.r1a_contract.routes: exact ordered two-route segment registry required")
+        return
+    total_roots = 0
+    total_choices = 0
+    for route_id in EXPECTED_ROUTE_IDS:
+        segment = segment_contracts.get(route_id)
+        if not exact_keys(
+            segment,
+            {
+                "root_ids", "root_count", "choice_count", "entry_receipt_ids",
+                "m53_blocker_id", "m54_blocker_id", "required_route_roles",
+                "scene_actor_roles", "document_custody",
+            },
+            f"manifest.r1a_contract.routes[{route_id}]",
+            errors,
+        ):
+            continue
+        assert isinstance(segment, dict)
+        specs = R1A_ROOTS[route_id]
+        expected_ids = [spec.event_id for spec in specs]
+        if segment.get("root_ids") != expected_ids or segment.get("root_count") != 9:
+            errors.append(f"manifest.r1a_contract.routes[{route_id}]: exact nine-root M49-M55 order mismatch")
+        expected_choice_count = sum(spec.choice_count for spec in specs)
+        if segment.get("choice_count") != expected_choice_count or expected_choice_count != 25:
+            errors.append(f"manifest.r1a_contract.routes[{route_id}]: exact 25-choice count mismatch")
+        total_roots += int(segment.get("root_count", 0)) if isinstance(segment.get("root_count"), int) else 0
+        total_choices += int(segment.get("choice_count", 0)) if isinstance(segment.get("choice_count"), int) else 0
+        expected_entry_ids = ["partner_none", "m48_actor_trust", "route_lock"]
+        if route_id == "startup_acquisition_reference_v1":
+            expected_entry_ids.insert(2, "startup_founding")
+        if segment.get("entry_receipt_ids") != expected_entry_ids:
+            errors.append(f"manifest.r1a_contract.routes[{route_id}].entry_receipt_ids: exact fail-closed ingress mismatch")
+
+        route = routes.get(route_id, {})
+        roots_by_id = {
+            str(root.get("id", "")): root
+            for root in route.get("roots", [])
+            if isinstance(root, dict)
+        }
+        required_roles = segment.get("required_route_roles")
+        scene_roles = segment.get("scene_actor_roles")
+        expected_required = {root_id: EXPECTED_ACTOR_ROLES[root_id] for root_id in expected_ids}
+        expected_scene = copy.deepcopy(expected_required)
+        expected_scene[expected_ids[0]] = []
+        if required_roles != expected_required:
+            errors.append(f"manifest.r1a_contract.routes[{route_id}].required_route_roles: exact role-handle map mismatch")
+        if scene_roles != expected_scene:
+            errors.append(f"manifest.r1a_contract.routes[{route_id}].scene_actor_roles: exact physical-scene actor map mismatch")
+        if isinstance(required_roles, dict) and isinstance(scene_roles, dict):
+            if required_roles.get(expected_ids[0]) == scene_roles.get(expected_ids[0]):
+                errors.append(f"manifest.r1a_contract.routes[{route_id}]: M49 cover role handles must not imply scene actors")
+        for root_id in expected_ids:
+            root = roots_by_id.get(root_id, {})
+            if root.get("actor_roles") != expected_required[root_id]:
+                errors.append(f"manifest.r1a_contract.routes[{route_id}].required_route_roles: raw root role-handle mismatch for {root_id}")
+
+        raw_entry_ids = route.get("entry", {}).get("required_ingress_receipt_ids")
+        if raw_entry_ids != expected_entry_ids:
+            errors.append(f"manifest.r1a_contract.routes[{route_id}].entry_receipt_ids: raw route entry mismatch")
+        m53_id = segment.get("m53_blocker_id")
+        m54_id = segment.get("m54_blocker_id")
+        if m53_id not in blockers or m54_id not in blockers:
+            errors.append(f"manifest.r1a_contract.routes[{route_id}]: blocker reference is missing")
+        m53 = month_row(route, 53) or {}
+        if not isinstance(m53.get("fallback_owner"), dict) or m53["fallback_owner"].get("blocker_id") != m53_id:
+            errors.append(f"manifest.r1a_contract.routes[{route_id}]: M53 fallback/blocker cross-reference mismatch")
+        m54_root = roots_by_id.get(expected_ids[6], {})
+        if f"external_receipt:{m54_id}" not in m54_root.get("requirements", []):
+            errors.append(f"manifest.r1a_contract.routes[{route_id}]: M54 read requires exact reviewer custody receipt")
+
+    if total_roots != 18 or total_choices != 50:
+        errors.append(f"manifest.r1a_contract: expected exact 18 roots/50 choices, got {total_roots}/{total_choices}")
+
+    career_roots = {
+        root.get("id"): root for root in routes.get("career_reference_v1", {}).get("roots", [])
+        if isinstance(root, dict)
+    }
+    career_m52 = career_roots.get("arc_y5_final_offer_career_boss", {})
+    for token in ("actor_confirmation:boss:proposer", "document:C1", "document_holder:C1:player"):
+        if token not in career_m52.get("common_writes", []):
+            errors.append(f"manifest.r1a_contract: career M52 missing exact actor/document/custody write {token!r}")
+
+    startup_roots = {
+        root.get("id"): root for root in routes.get("startup_acquisition_reference_v1", {}).get("roots", [])
+        if isinstance(root, dict)
+    }
+    startup_m49 = startup_roots.get("arc_y5_startup_offer_c0", {})
+    if any(str(write).startswith("actor_binding:acquirer_lead") for write in startup_m49.get("common_writes", [])):
+        errors.append("manifest.r1a_contract: startup acquirer must not be bound by the M49 document-cover root")
+    startup_m52 = startup_roots.get("arc_y5_startup_final_offer_acquirer", {})
+    common = startup_m52.get("common_writes", [])
+    if "document:h1:91B4" in common or "document_holder:h1:acquirer_lead" in common:
+        errors.append("manifest.r1a_contract: startup M52 h1/custody must not leak through common_writes")
+    choices = startup_m52.get("choices", [])
+    if isinstance(choices, list) and len(choices) == 4:
+        for choice_index in (0, 1, 2):
+            writes = choices[choice_index].get("writes", {}) if isinstance(choices[choice_index], dict) else {}
+            for token in ("document:h1:91B4", "document_holder:h1:acquirer_lead"):
+                if token not in writes:
+                    errors.append(f"manifest.r1a_contract: startup M52 choice {choice_index} missing {token!r}")
+        terminal_effective = [*common, *choices[3].get("writes", [])]
+        if any(str(write).startswith(("document:h1", "document_holder:h1")) for write in terminal_effective):
+            errors.append("manifest.r1a_contract: startup M52 C4 terminal must produce zero h1/custody")
+
+
 def validate_surface(manifest: Any, errors: list[str]) -> dict[str, dict[str, Any]]:
     if not exact_keys(manifest, TOP_LEVEL_KEYS, "manifest", errors):
         return {}
     assert isinstance(manifest, dict)
-    if manifest.get("schema_version") != 1:
-        errors.append("manifest.schema_version: expected integer 1")
+    if manifest.get("schema_version") != 2:
+        errors.append("manifest.schema_version: expected integer 2")
     if manifest.get("manifest_id") != EXPECTED_MANIFEST_ID:
         errors.append(f"manifest.manifest_id: expected {EXPECTED_MANIFEST_ID!r}")
     declaration = str(manifest.get("declaration_commit", ""))
@@ -1453,6 +1840,16 @@ def validate_surface(manifest: Any, errors: list[str]) -> dict[str, dict[str, An
     blockers = manifest.get("unresolved_blockers")
     if not isinstance(blockers, (list, dict)) or not blockers:
         errors.append("manifest.unresolved_blockers: must preserve unresolved blockers")
+    elif isinstance(blockers, list):
+        blocker_ids = [str(row.get("id", "")) for row in blockers if isinstance(row, dict)]
+        if len(blocker_ids) != len(blockers) or any(not blocker_id for blocker_id in blocker_ids):
+            errors.append("manifest.unresolved_blockers: every row needs a non-empty id")
+        if len(blocker_ids) != len(set(blocker_ids)):
+            errors.append("manifest.unresolved_blockers: duplicate blocker id")
+        if blocker_ids != list(EXPECTED_UNRESOLVED_BLOCKER_IDS):
+            errors.append("manifest.unresolved_blockers: exact ordered blocker registry mismatch")
+        if canonical_json_sha256(blockers) != EXPECTED_UNRESOLVED_BLOCKERS_SHA256:
+            errors.append("manifest.unresolved_blockers: exact blocker problem/resolution digest mismatch")
 
     routes = manifest.get("routes")
     if not isinstance(routes, list):
@@ -1505,19 +1902,24 @@ def validate_route_shape(
                 {
                     "required_economic_path",
                     "compatible_job_ids",
-                    "required_future_receipts",
+                    "required_job_snapshot",
+                    "required_ingress_receipt_ids",
                     "route_lock",
                 },
                 f"{owner}.entry",
                 errors,
             )
-            expected_receipts = [
-                "m48_tell_surviving_person.actor=hyunsu",
-                "m48_tell_surviving_person.margin.axis=trust",
-                "m49_route_selected=career_reference_v1",
-            ]
-            if entry.get("required_future_receipts") != expected_receipts:
-                errors.append(f"{owner}.entry.required_future_receipts: exact career provenance mismatch")
+            if entry.get("required_ingress_receipt_ids") != [
+                "partner_none", "m48_actor_trust", "route_lock"
+            ]:
+                errors.append(f"{owner}.entry.required_ingress_receipt_ids: exact career provenance mismatch")
+            if entry.get("required_job_snapshot") != {
+                "flags_has_job": True,
+                "bind_literal_actor_id": "boss",
+                "persist_bound_job_id": True,
+                "invalidate_on_bound_job_change_or_quit": True,
+            }:
+                errors.append(f"{owner}.entry.required_job_snapshot: exact has-job/bound-job contract mismatch")
             jobs = entry.get("compatible_job_ids")
             if not isinstance(jobs, list) or not jobs or len(jobs) != len(set(jobs)):
                 errors.append(f"{owner}.entry.compatible_job_ids: unique non-empty canonical jobs required")
@@ -1526,22 +1928,18 @@ def validate_route_shape(
                 entry,
                 {
                     "required_economic_path",
-                    "required_origin_receipt",
+                    "required_ingress_receipt_ids",
                     "required_absent_flags",
-                    "required_future_receipts",
                     "route_lock",
                     "legacy_save_policy",
                 },
                 f"{owner}.entry",
                 errors,
             )
-            if entry.get("required_origin_receipt") != {
-                "flag": "startup_founded",
-                "initial_cash_delta_krw": -3000000,
-                "initial_equity_basis_points": 2000,
-                "cofounder_actor_required": True,
-            }:
-                errors.append(f"{owner}.entry.required_origin_receipt: exact 3M/20% founding receipt required")
+            if entry.get("required_ingress_receipt_ids") != [
+                "partner_none", "m48_actor_trust", "startup_founding", "route_lock"
+            ]:
+                errors.append(f"{owner}.entry.required_ingress_receipt_ids: exact startup provenance mismatch")
             if entry.get("required_absent_flags") != [
                 "startup_exit",
                 "startup_partial_exit",
@@ -1549,21 +1947,16 @@ def validate_route_shape(
                 "joined_startup",
             ]:
                 errors.append(f"{owner}.entry.required_absent_flags: exact mutual exclusions required")
-            expected_receipts = [
-                "m48_tell_surviving_person.actor=startup_cofounder",
-                "m48_tell_surviving_person.margin.axis=trust",
-                "m49_route_selected=startup_acquisition_reference_v1",
-            ]
-            if entry.get("required_future_receipts") != expected_receipts:
-                errors.append(f"{owner}.entry.required_future_receipts: exact startup provenance mismatch")
             if entry.get("legacy_save_policy") != "fail_closed_without_durable_mode":
                 errors.append(f"{owner}.entry.legacy_save_policy: must fail closed")
         if entry.get("required_economic_path") != expected_path:
             errors.append(f"{owner}.entry.required_economic_path: expected {expected_path!r}")
         route_lock = entry.get("route_lock")
         if route_lock != {
+            "receipt_type": "route_lock",
             "producer_month": 49,
             "value": route_id,
+            "explicit": True,
             "silent_priority": False,
         }:
             errors.append(f"{owner}.entry.route_lock: exact M49 explicit selection required")
@@ -1673,25 +2066,54 @@ def validate_actors(
     entry_text = flattened(route.get("entry"))
     if route_id == "career_reference_v1":
         for token, label in (
-            ("canonical", "boss canonical job-role source"),
+            ("compatible_current_job_snapshot", "boss compatible-job snapshot source"),
+            ("flags.has_job", "boss has-job source"),
+            ("bound_job_id", "bound-job invalidation source"),
             ("literal", "Minseo literal source"),
             ("m48", "Hyunsu M48 receipt source"),
             ("hyunsu", "Hyunsu source"),
         ):
             if token not in actor_text:
                 errors.append(f"{owner}.actors: missing {label}")
-        for token in ("career", "m48", "hyunsu"):
+        for token in ("career", "m48", "partner_none", "has_job"):
             if token not in entry_text:
                 errors.append(f"{owner}.entry: missing {token!r} entry provenance")
+        try:
+            jobs_payload = load_json(ROOT / "content" / "jobs.json")
+        except (OSError, ValueError) as exc:
+            errors.append(f"{owner}.entry.compatible_job_ids: cannot load canonical jobs ({exc})")
+            jobs_payload = []
+        canonical_job_ids = {
+            str(row.get("id", ""))
+            for row in jobs_payload
+            if isinstance(jobs_payload, list) and isinstance(row, dict)
+        }
+        compatible_job_ids = route.get("entry", {}).get("compatible_job_ids", [])
+        if not isinstance(compatible_job_ids, list) or any(
+            job_id not in canonical_job_ids for job_id in compatible_job_ids
+        ):
+            errors.append(f"{owner}.entry.compatible_job_ids: every bound job must exist in content/jobs.json")
+        try:
+            job_system_text = (ROOT / "systems" / "JobSystem.gd").read_text(encoding="utf-8")
+        except (OSError, UnicodeDecodeError) as exc:
+            errors.append(f"{owner}.actors: cannot inspect flags.has_job lifecycle ({exc})")
+        else:
+            for producer_token in (
+                'GameState.flags["has_job"] = true',
+                'GameState.flags.erase("has_job")',
+            ):
+                if producer_token not in job_system_text:
+                    errors.append(f"{owner}.actors: flags.has_job lifecycle producer missing {producer_token!r}")
     else:
         for token, label in (
             ("literal", "Minseo literal source"),
-            ("c0", "acquirer lead C0 source"),
+            ("52", "acquirer lead live-scene month"),
+            ("final_offer_acquirer", "acquirer lead live-scene root"),
             ("found", "cofounder founding source"),
         ):
             if token not in actor_text:
                 errors.append(f"{owner}.actors: missing {label}")
-        for token in ("startup_founded", "20", "startup_exit", "startup_partial_exit", "startup_going_solo", "joined_startup"):
+        for token in ("startup_founding", "partner_none", "startup_exit", "startup_partial_exit", "startup_going_solo", "joined_startup"):
             if token not in entry_text:
                 errors.append(f"{owner}.entry: missing {token!r} entry gate")
 
@@ -1742,11 +2164,29 @@ def validate_months(route_id: str, route: dict[str, Any], errors: list[str]) -> 
         incoming = flattened(m49.get("incoming_margin"))
         if "trust" not in incoming:
             errors.append(f"{owner}.M49: incoming M48 margin axis must be trust")
+        expected_m49_unresolved = [
+            "partner-none typed decision producer",
+            "M48 actor and same-axis margin typed producer",
+        ]
+        if route_id == "startup_acquisition_reference_v1":
+            expected_m49_unresolved.append("startup founding typed cofounder/equity producer")
+        expected_m49_unresolved.append("M49 explicit route-lock producer")
+        if m49.get("unresolved") != expected_m49_unresolved:
+            errors.append(f"{owner}.M49: exact unresolved ingress producer list mismatch")
 
     for month, token in ((50, "trust"), (52, "cash"), (54, "trust")):
         row = month_row(route, month)
         if row is None or token not in flattened(row.get("outgoing_margin")):
             errors.append(f"{owner}.M{month}: outgoing margin must produce {token}")
+
+    m54 = month_row(route, 54)
+    expected_m54_unresolved = [
+        "career C1 reviewer custody handoff producer"
+        if route_id == "career_reference_v1"
+        else "startup h1 reviewer custody handoff producer"
+    ]
+    if m54 is None or m54.get("unresolved") != expected_m54_unresolved:
+        errors.append(f"{owner}.M54: exact unresolved reviewer custody producer must be declared")
 
     for month in (49, 51, 55, 57, 59):
         row = month_row(route, month)
@@ -1762,14 +2202,39 @@ def validate_months(route_id: str, route: dict[str, Any], errors: list[str]) -> 
     if m53 is None:
         errors.append(f"{owner}.M53: missing month row")
     else:
-        if m53.get("fallback_owner") != "generic_month_loop":
-            errors.append(f"{owner}.M53: fallback_owner must be generic_month_loop")
-        if not m53.get("unresolved"):
-            errors.append(f"{owner}.M53: margin-expiry owner must remain unresolved")
+        blocker_id = (
+            "career_m53_external_handoff"
+            if route_id == "career_reference_v1"
+            else "startup_m53_external_handoff"
+        )
+        expected_fallback = {
+            "kind": "external_blocker",
+            "blocker_id": blocker_id,
+            "story_map_reference": {
+                "month": 53,
+                "beat_id": "m53_jaehyuk_guarantee",
+                "root_id": "arc_jaehyuk_mirror",
+                "rule_status": "needs_rule",
+            },
+            "product_owner": None,
+            "forbidden_inferences": [
+                "Jaehyuk guarantee outcome", "PDF result", "cash-margin expiry"
+            ],
+        }
+        if m53.get("fallback_owner") != expected_fallback:
+            errors.append(f"{owner}.M53: exact structured external-blocker fallback mismatch")
+        if m53.get("unresolved") != [
+            "product owner absent; synthetic future fixture is QA-only"
+        ]:
+            errors.append(f"{owner}.M53: product owner must remain unresolved and QA-only")
         if m53.get("root_order") != []:
             errors.append(f"{owner}.M53: route root_order must stay empty")
-        if "jaehyuk" in flattened(m53) or "guarantee" in flattened(m53):
-            errors.append(f"{owner}.M53: must not invent a Jaehyuk guarantee action")
+        fallback = m53.get("fallback_owner")
+        if isinstance(fallback, dict):
+            if fallback.get("product_owner") is not None:
+                errors.append(f"{owner}.M53: product_owner must remain null")
+            if any(key in fallback for key in ("writes", "margin_expiry", "guarantee_outcome")):
+                errors.append(f"{owner}.M53: must not invent Jaehyuk/PDF/margin writes")
 
     m56 = month_row(route, 56)
     if m56 is None:
@@ -1889,6 +2354,13 @@ def validate_roots(
             if not isinstance(choice.get("writes"), list) or not choice.get("writes"):
                 errors.append(f"{choice_label}.writes: terminal/continuation choices need durable receipts")
             writes = choice.get("writes", []) if isinstance(choice.get("writes"), list) else []
+            common_writes = row.get("common_writes", [])
+            effective_writes = [
+                *(common_writes if isinstance(common_writes, list) else []),
+                *writes,
+            ]
+            if len(effective_writes) != len(set(effective_writes)):
+                errors.append(f"{choice_label}.effective_writes: common+choice writes must be unique and atomic")
             expected_scene_choice = f"scene_choice:{spec.event_id}:{choice_index}"
             scene_choice_writes = [
                 write for write in writes if str(write).startswith("scene_choice:")
@@ -1925,10 +2397,10 @@ def validate_roots(
                         f"expected={expected_terminal_writes!r} got={writes!r}"
                     )
                 if any(
-                    str(write).startswith(("document:", "transaction:", "finale_state:"))
-                    for write in writes
+                    str(write).startswith(("document:", "document_holder:", "transaction:", "finale_state:"))
+                    for write in effective_writes
                 ):
-                    errors.append(f"{choice_label}.writes: terminal must not continue document/transaction/finale")
+                    errors.append(f"{choice_label}.effective_writes: terminal must not continue document/transaction/finale")
             elif any(str(write).startswith("terminal_state:") for write in writes):
                 errors.append(f"{choice_label}.writes: nonterminal choice must not write terminal_state")
             if expected_flow == "complete" and "finale_state:ready" not in writes:
@@ -2458,7 +2930,9 @@ def validate_transactions_and_finale(
     if not exact_keys(
         planned_runtime,
         {
-            "current_consumer_count",
+            "current_product_consumer_count",
+            "current_qa_injection_consumer_count",
+            "dormant_kernel_owner",
             "activation_preconditions",
             "production_dispatcher",
             "save_ledger_owner",
@@ -2470,14 +2944,16 @@ def validate_transactions_and_finale(
     assert isinstance(planned_runtime, dict)
     if planned_runtime != EXPECTED_PLANNED_RUNTIME:
         errors.append("manifest.planned_runtime: exact activation preconditions mismatch")
-    if planned_runtime.get("current_consumer_count") != 0:
-        errors.append("manifest.planned_runtime.current_consumer_count: must be 0")
+    if planned_runtime.get("current_product_consumer_count") != 0:
+        errors.append("manifest.planned_runtime.current_product_consumer_count: must be 0")
+    if planned_runtime.get("current_qa_injection_consumer_count") != 1:
+        errors.append("manifest.planned_runtime.current_qa_injection_consumer_count: must be 1")
     if planned_runtime.get("production_dispatcher") is not None:
         errors.append("manifest.planned_runtime.production_dispatcher: must be null")
     if planned_runtime.get("save_ledger_owner") is not None:
         errors.append("manifest.planned_runtime.save_ledger_owner: must be null")
     planned_text = flattened(planned_runtime)
-    for token in ("r1", "r2"):
+    for token in ("r1b", "r2"):
         if token not in planned_text:
             errors.append(f"manifest.planned_runtime: missing future-only contract {token!r}")
 
@@ -2529,6 +3005,45 @@ def scan_runtime_consumers(
     return consumers
 
 
+def validate_kernel_boundary(errors: list[str]) -> None:
+    path = ROOT / KERNEL_RELATIVE_PATH
+    if not path.is_file():
+        errors.append(f"{KERNEL_RELATIVE_PATH}: dormant kernel file is missing")
+        return
+    try:
+        text = path.read_text(encoding="utf-8")
+    except (OSError, UnicodeDecodeError) as exc:
+        errors.append(f"{KERNEL_RELATIVE_PATH}: cannot read dormant kernel ({exc})")
+        return
+    if not re.search(r"(?m)^extends\s+RefCounted\s*$", text):
+        errors.append(f"{KERNEL_RELATIVE_PATH}: kernel must extend RefCounted")
+    required_functions = (
+        "configure", "initial_state", "begin_route", "next_step", "commit_choice",
+        "commit_external_receipt", "normalize_state", "snapshot",
+    )
+    for function_name in required_functions:
+        if not re.search(rf"(?m)^func\s+{re.escape(function_name)}\s*\(", text):
+            errors.append(f"{KERNEL_RELATIVE_PATH}: missing required pure API {function_name}()")
+    forbidden_literals = (
+        MANIFEST_PATH.relative_to(ROOT).as_posix(), EXPECTED_MANIFEST_ID,
+        *EXPECTED_ROUTE_IDS, *ALL_TARGET_IDS,
+    )
+    for token in forbidden_literals:
+        if token in text:
+            errors.append(f"{KERNEL_RELATIVE_PATH}: injected-only kernel contains forbidden route/root/path literal {token!r}")
+    for token in (
+        "GameState", "SaveManager", "EventManager", "MainGame", "StoryMode",
+        "EndingSystem", "FileAccess", "DirAccess", "ResourceLoader", "res://",
+        "load(", "preload(", "queue_event", "trigger_event", "change_scene",
+    ):
+        if token in text:
+            errors.append(f"{KERNEL_RELATIVE_PATH}: dormant kernel contains forbidden product/I-O token {token!r}")
+    if '"dispatch_allowed": true' in text or "'dispatch_allowed': true" in text:
+        errors.append(f"{KERNEL_RELATIVE_PATH}: dispatch_allowed must never be true")
+    if text.count('"dispatch_allowed": false') < 2:
+        errors.append(f"{KERNEL_RELATIVE_PATH}: every next kind must expose dispatch_allowed=false")
+
+
 def validate_protected_hashes(
     manifest: dict[str, Any],
     context: AuditContext,
@@ -2559,7 +3074,7 @@ def validate_protected_hashes(
     extra_files = sorted(set(files) - EXPECTED_PROTECTED_FILES)
     if missing_files or extra_files:
         errors.append(
-            "manifest.protected_hashes.files: exact 35-file baseline set mismatch "
+            "manifest.protected_hashes.files: exact 37-file baseline set mismatch "
             f"missing={missing_files} extra={extra_files}"
         )
     for relative, expected_hash in files.items():
@@ -2671,6 +3186,32 @@ def validate_protected_hashes(
     assert isinstance(runtime, dict)
     if runtime.get("expected_count") != 0:
         errors.append("manifest.protected_hashes.runtime_consumers.expected_count: must be 0")
+    if runtime.get("qa_injection") != {
+        "expected_count": 1,
+        "owner": "tools/Year5ReferenceRouteR1Check.gd",
+        "kernel_path": "systems/Year5ReferenceRouteKernel.gd",
+        "contract_source": "caller_injected_dictionary",
+        "production": False,
+    }:
+        errors.append("manifest.protected_hashes.runtime_consumers.qa_injection: exact QA-only consumer contract mismatch")
+    qa_consumers: list[str] = []
+    for qa_path in sorted((ROOT / "tools").rglob("*.gd")):
+        try:
+            qa_text = qa_path.read_text(encoding="utf-8")
+        except (OSError, UnicodeDecodeError) as exc:
+            errors.append(f"{qa_path.relative_to(ROOT).as_posix()}: cannot scan QA consumer ({exc})")
+            continue
+        if KERNEL_RELATIVE_PATH in qa_text or KERNEL_CLASS_TOKEN in qa_text:
+            qa_consumers.append(qa_path.relative_to(ROOT).as_posix())
+    if qa_consumers != [QA_INJECTION_RELATIVE_PATH]:
+        errors.append(
+            "QA injection consumer count must be exactly 1 and owned by "
+            f"{QA_INJECTION_RELATIVE_PATH}; found {qa_consumers}"
+        )
+    else:
+        qa_text = (ROOT / QA_INJECTION_RELATIVE_PATH).read_text(encoding="utf-8")
+        if MANIFEST_PATH.relative_to(ROOT).as_posix() not in qa_text:
+            errors.append("QA injection consumer must load the exact year5 reference manifest")
     forbidden = runtime.get("forbidden_root_ids")
     if forbidden != list(ALL_TARGET_IDS):
         errors.append("manifest.protected_hashes.runtime_consumers.forbidden_root_ids: exact 32-root order mismatch")
@@ -2694,6 +3235,7 @@ def validate_manifest(
     outcome_ids: set[str] = set()
     root_total = 0
     choice_total = 0
+    validate_r1a_contract(manifest, routes, errors)
     for route_id in EXPECTED_ROUTE_IDS:
         route = routes.get(route_id)
         if route is None:
@@ -2723,7 +3265,7 @@ def validate_manifest(
 
     validate_transactions_and_finale(manifest, routes, errors)
     blocker_text = flattened(manifest.get("unresolved_blockers"))
-    for token in ("m48", "m53", "m56", "margin"):
+    for token in ("partner_none", "m48", "m49_route_lock", "m53", "m56", "margin"):
         if token not in blocker_text:
             errors.append(f"manifest.unresolved_blockers: missing unresolved {token!r} blocker")
     if "live_infrastructure" not in blocker_text and "production dispatcher" not in blocker_text:
@@ -2732,13 +3274,30 @@ def validate_manifest(
         errors.append(
             "manifest.unresolved_blockers: startup cofounder actor must remain a future typed producer blocker"
         )
+    for blocker_id in ("career_c1_reviewer_handoff", "startup_h1_reviewer_handoff"):
+        if blocker_id not in blocker_text:
+            errors.append(f"manifest.unresolved_blockers: missing reviewer custody blocker {blocker_id!r}")
+    validate_kernel_boundary(errors)
     validate_protected_hashes(manifest, context, errors, extra_runtime_sources)
     consumers = scan_runtime_consumers(context, extra_runtime_sources)
+    r1a_routes = manifest.get("r1a_contract", {}).get("routes", {})
+    r1a_root_total = sum(
+        row.get("root_count", 0)
+        for row in r1a_routes.values()
+        if isinstance(r1a_routes, dict) and isinstance(row, dict) and isinstance(row.get("root_count"), int)
+    ) if isinstance(r1a_routes, dict) else 0
+    r1a_choice_total = sum(
+        row.get("choice_count", 0)
+        for row in r1a_routes.values()
+        if isinstance(row, dict) and isinstance(row.get("choice_count"), int)
+    ) if isinstance(r1a_routes, dict) else 0
     return errors, {
         "routes": len(routes),
         "roots": root_total,
         "choices": choice_total,
         "consumers": len(consumers),
+        "r1a_roots": r1a_root_total,
+        "r1a_choices": r1a_choice_total,
     }
 
 
@@ -2848,7 +3407,7 @@ def run_self_test(manifest: dict[str, Any], context: AuditContext) -> tuple[list
         month_row(route_map(data)["startup_acquisition_reference_v1"], 56)["unresolved"] = False  # type: ignore[index]
 
     cases.append(("m48_margin_missing", missing_m48, "actual M48 receipt"))
-    cases.append(("m53_falsely_resolved", resolve_m53, "M53: margin-expiry owner must remain unresolved"))
+    cases.append(("m53_falsely_resolved", resolve_m53, "M53: product owner must remain unresolved"))
     cases.append(("m56_falsely_resolved", resolve_m56, "M56: M57 margin producer must remain unresolved"))
 
     def property_tuple(data: dict[str, Any]) -> None:
@@ -3046,8 +3605,8 @@ def run_self_test(manifest: dict[str, Any], context: AuditContext) -> tuple[list
 
     def acquirer_binding_producer_removed(data: dict[str, Any]) -> None:
         route = route_map(data)["startup_acquisition_reference_v1"]
-        root = next(row for row in route["roots"] if row["id"] == "arc_y5_startup_offer_c0")
-        root["common_writes"].remove("actor_binding:acquirer_lead")
+        root = next(row for row in route["roots"] if row["id"] == "arc_y5_startup_final_offer_acquirer")
+        root["common_writes"].remove("actor_confirmation:acquirer_lead:proposer")
 
     def acquirer_binding_reader_removed(data: dict[str, Any]) -> None:
         route = route_map(data)["startup_acquisition_reference_v1"]
@@ -3098,7 +3657,7 @@ def run_self_test(manifest: dict[str, Any], context: AuditContext) -> tuple[list
         data["scope"]["excluded_reference_families"] = ["property"]
 
     def r1_activation_reversed(data: dict[str, Any]) -> None:
-        data["scope"]["live_split"]["r1"]["activation_after_completion"] = True
+        data["scope"]["live_split"]["r1a"]["activation_after_completion"] = True
 
     def terminal_state_changed(data: dict[str, Any]) -> None:
         route = route_map(data)["startup_acquisition_reference_v1"]
@@ -3261,7 +3820,7 @@ def run_self_test(manifest: dict[str, Any], context: AuditContext) -> tuple[list
             ("excluded_family_removed", excluded_family_removed, "exact excluded paths/families"),
             ("r1_activation_reversed", r1_activation_reversed, "exact excluded paths/families"),
             ("terminal_state_changed", terminal_state_changed, "exact semantic terminal state"),
-            ("protected_file_deleted", protected_file_deleted, "exact 35-file baseline set mismatch"),
+            ("protected_file_deleted", protected_file_deleted, "exact 37-file baseline set mismatch"),
             ("duplicate_critical_write", duplicate_critical_write, "exact occurrence mismatch"),
             ("common_critical_write", common_critical_write_added, "critical write must belong to its exact choice"),
             ("finale_handoff_reversed", finale_handoff_reversed, "exact failure/hold/release"),
@@ -3282,6 +3841,92 @@ def run_self_test(manifest: dict[str, Any], context: AuditContext) -> tuple[list
             ("m49_early_actor_binding_added", m49_early_actor_binding_added, "canonical semantic digest mismatch"),
             ("m49_early_startup_exit_added", m49_early_startup_exit_added, "canonical semantic digest mismatch"),
             ("m49_early_cash_added", m49_early_cash_added, "canonical semantic digest mismatch"),
+        ]
+    )
+
+    def r1a_activation_enabled(data: dict[str, Any]) -> None:
+        data["r1a_contract"]["lifecycle"]["activation_after_completion"] = True
+
+    def partner_ingress_removed(data: dict[str, Any]) -> None:
+        data["r1a_contract"]["routes"]["career_reference_v1"]["entry_receipt_ids"].remove(
+            "partner_none"
+        )
+
+    def qa_injection_count_zero(data: dict[str, Any]) -> None:
+        data["protected_hashes"]["runtime_consumers"]["qa_injection"]["expected_count"] = 0
+
+    def fake_canonical_boss_source(data: dict[str, Any]) -> None:
+        data["actor_registry"]["career_reference_v1"]["bindings"]["proposer"][
+            "source"
+        ] = "compatible_current_job.canonical_boss_role"
+
+    def incomplete_m48_receipt(data: dict[str, Any]) -> None:
+        schema = data["r1a_contract"]["ingress_receipts"]["m48_actor_trust"][
+            "receipt_schema"
+        ]
+        schema["exact_keys"].remove("producer_choice_index")
+
+    def cofounder_inferred_from_existing_state(data: dict[str, Any]) -> None:
+        data["r1a_contract"]["ingress_receipts"]["startup_founding"][
+            "implemented_in_product"
+        ] = True
+
+    def cover_role_handle_made_scene_actor(data: dict[str, Any]) -> None:
+        route_contract = data["r1a_contract"]["routes"]["startup_acquisition_reference_v1"]
+        route_contract["scene_actor_roles"]["arc_y5_startup_offer_c0"] = [
+            "proposer", "protected"
+        ]
+
+    def startup_c4_common_h1_leak(data: dict[str, Any]) -> None:
+        root = root_with_id(
+            data, "startup_acquisition_reference_v1", "arc_y5_startup_final_offer_acquirer"
+        )
+        root["common_writes"].append("document:h1:91B4")
+
+    def startup_c4_choice_h1_leak(data: dict[str, Any]) -> None:
+        root = root_with_id(
+            data, "startup_acquisition_reference_v1", "arc_y5_startup_final_offer_acquirer"
+        )
+        root["choices"][3]["writes"].append("document_holder:h1:acquirer_lead")
+
+    def career_reviewer_custody_removed(data: dict[str, Any]) -> None:
+        root = root_with_id(
+            data, "career_reference_v1", "arc_y5_career_reviewer_receipt_minseo"
+        )
+        root["requirements"].remove("external_receipt:career_c1_reviewer_handoff")
+
+    def startup_reviewer_custody_wrong_holder(data: dict[str, Any]) -> None:
+        constants = data["r1a_contract"]["external_blockers"][
+            "startup_h1_reviewer_handoff"
+        ]["receipt_schema"]["constants"]
+        constants["from_holder"] = "player"
+
+    def m53_product_owner_forged(data: dict[str, Any]) -> None:
+        row = month_row(route_map(data)["career_reference_v1"], 53)
+        assert row is not None
+        row["fallback_owner"]["product_owner"] = "generic_month_loop"
+
+    def m53_guarantee_outcome_forged(data: dict[str, Any]) -> None:
+        constants = data["r1a_contract"]["external_blockers"][
+            "startup_m53_external_handoff"
+        ]["receipt_schema"]["constants"]
+        constants["outcome_writes"] = ["story.jaehyuk_guarantee_resolution=vouched"]
+
+    cases.extend(
+        [
+            ("r1a_activation_enabled", r1a_activation_enabled, "exact dormant/product0/QA1 lifecycle"),
+            ("qa_injection_count_zero", qa_injection_count_zero, "exact QA-only consumer contract"),
+            ("partner_ingress_removed", partner_ingress_removed, "exact fail-closed ingress"),
+            ("fake_canonical_boss_source", fake_canonical_boss_source, "exact provenance mismatch"),
+            ("incomplete_m48_receipt", incomplete_m48_receipt, "exact receipt keys mismatch"),
+            ("cofounder_inferred_from_existing_state", cofounder_inferred_from_existing_state, "product producer must remain false"),
+            ("cover_role_handle_made_scene_actor", cover_role_handle_made_scene_actor, "exact physical-scene actor map"),
+            ("startup_c4_common_h1_leak", startup_c4_common_h1_leak, "h1/custody must not leak through common_writes"),
+            ("startup_c4_choice_h1_leak", startup_c4_choice_h1_leak, "C4 terminal must produce zero h1/custody"),
+            ("career_reviewer_custody_removed", career_reviewer_custody_removed, "M54 read requires exact reviewer custody receipt"),
+            ("startup_reviewer_custody_wrong_holder", startup_reviewer_custody_wrong_holder, "exact reviewer custody receipt required"),
+            ("m53_product_owner_forged", m53_product_owner_forged, "exact structured external-blocker fallback"),
+            ("m53_guarantee_outcome_forged", m53_guarantee_outcome_forged, "M53 must not forge outcome writes"),
         ]
     )
 
@@ -3325,8 +3970,11 @@ def run_self_test(manifest: dict[str, Any], context: AuditContext) -> tuple[list
 
     for label, forbidden_token in (
         ("runtime_manifest_id", EXPECTED_MANIFEST_ID),
+        ("runtime_legacy_manifest_id", LEGACY_MANIFEST_IDS[0]),
         ("runtime_career_route_id", EXPECTED_ROUTE_IDS[0]),
         ("runtime_startup_route_id", EXPECTED_ROUTE_IDS[1]),
+        ("runtime_kernel_path", KERNEL_RELATIVE_PATH),
+        ("runtime_kernel_class", KERNEL_CLASS_TOKEN),
     ):
         case_count += 1
         errors, _ = validate_manifest(
@@ -3372,14 +4020,16 @@ def main() -> int:
         print(
             "YEAR5_REFERENCE_ROUTE_SELF_TEST_OK "
             f"cases={cases} routes={stats['routes']} roots={stats['roots']} "
-            f"choices={stats['choices']} runtime_consumers={stats['consumers']}"
+            f"choices={stats['choices']} r1a_roots={stats['r1a_roots']} "
+            f"r1a_choices={stats['r1a_choices']} product_consumers={stats['consumers']} qa_consumers=1"
         )
         return 0
 
     print(
         "YEAR5_REFERENCE_ROUTE_OK "
         f"routes={stats['routes']} roots={stats['roots']} choices={stats['choices']} "
-        f"runtime_consumers={stats['consumers']} activation=reference_only"
+        f"r1a_roots={stats['r1a_roots']} r1a_choices={stats['r1a_choices']} "
+        f"product_consumers={stats['consumers']} qa_consumers=1 activation=reference_only"
     )
     return 0
 
