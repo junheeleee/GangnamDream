@@ -1,4 +1,4 @@
-# CODEX_QUEUE 2026-08 완료 이력
+# CODEX_QUEUE 2026-08 완료·반려 이력
 
 > `docs/CODEX_QUEUE.md`의 `완료 이력` 절을 2026-08-04에 여기로 내렸다.
 > **현재 우선순위와 상태는 `docs/CODEX_QUEUE.md`의 `실행 오더 인덱스`가 소유한다.**
@@ -10,9 +10,37 @@
 > 4,411 bytes로 문서의 34%였다. `context_manifest.json:11`이 2026-07-31에
 > 이미 *"압축이 아니라 완료 오더를 `queue_archive/`로 내린다"*고 처방해 둔 것을
 > 실행한 것이다. 근거는 `docs/DECISIONS.md` 2026-08-04.
+>
+> `[x]`는 합격·완료, `[!]`는 해당 시도 반려 후 복구 오더로 이관됐음을 뜻한다.
 
 ## 2026-08
 
+- `[!] ORDER-113` (2026-08-21, **원고 전량 반려·미완료**): seed 9821 표본 3편이
+  인물 목소리·현재 손실·여운 세 축 모두 미달했다. startup 16편과 코드형 산문은
+  ORDER-118로 전면 재설계하고 R1b는 HOLD한다. 판정: Claude(사용자 위임), 사용자
+  최종 GO는 OPEN. [사양](ORDER-113.md)
+- `[!] ORDER-112` (2026-08-21, **부분 반려·미완료**):
+  `arc_y5_after_goal_hyunsu_career`만 보존하고 나머지 15편을 ORDER-117에서 전수
+  재판정한다. 판정: Claude(사용자 위임), 사용자 최종 GO는 OPEN. [사양](ORDER-112.md)
+- `[x] ORDER-111` (2026-08-21): 지연의 요구가 마지막 주 선택마다 다른 포기를
+  만드는 표본을 근거로 위임 L3 합격. 사용자 최종 GO는 OPEN. [사양](ORDER-111.md)
+- `[x] ORDER-110` (2026-08-21): 친구라는 말이 답이면서 부탁의 재료가 되는 재혁
+  통화 표본을 근거로 위임 L3 합격. 사용자 최종 GO는 OPEN. [사양](ORDER-110.md)
+- `[!] ORDER-109` (2026-08-21, **조건부 반려·미완료**): M34 수리는 통과했으나
+  `arc_y2_money_structure` 한 편은 사람 없는 순열이라 ORDER-117로 이관했다.
+  판정: Claude(사용자 위임), 사용자 최종 GO는 OPEN. [사양](ORDER-109.md)
+- `[x] ORDER-108` (2026-08-21): 돈 뒤에도 사람에게 설명해야 한다는 아버지 대사
+  표본을 근거로 위임 L3 합격. 사용자 최종 GO는 OPEN. [사양](ORDER-108.md)
+- `[!] ORDER-107` (2026-08-21, **조건부 반려·미완료**):
+  `arc_y3_father_after_visit_document` 한 편만 기록 방식에 머물러 ORDER-117로
+  이관했다. 판정: Claude(사용자 위임), 사용자 최종 GO는 OPEN. [사양](ORDER-107.md)
+- `[x] ORDER-106` (2026-08-21): 송금 이유와 못 가는 이유를 한 문장으로 합치지
+  않은 병원 문 표본을 근거로 위임 L3 합격. 사용자 최종 GO는 OPEN. [사양](ORDER-106.md)
+- `[x] ORDER-105` (2026-08-21): 좋았다고 부르기 어려운 시간과 그 조건대로만
+  남지 않는 기억의 고시원 작별 표본을 근거로 위임 L3 합격. 사용자 최종 GO는 OPEN.
+  [사양](ORDER-105.md)
+- `[x] ORDER-104` (2026-08-21): 다은이 문턱에서 허락을 묻는 몸의 목격자 표본을
+  근거로 위임 L3 합격. 사용자 최종 GO는 OPEN. [사양](ORDER-104.md)
 - `[x] ORDER-115` (2026-08-20): career·startup M49~M55의 18 roots·50 choices를
   파일·GameState 없이 재생하는 pure dormant kernel을 만들었다. typed ingress,
   role handle과 실제 actor, 문서 custody, M53 handoff, margin·terminal·immutable history를

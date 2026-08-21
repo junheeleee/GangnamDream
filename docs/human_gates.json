@@ -1,9 +1,10 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "_comment": [
     "자동으로 잴 수 없는 판정의 단일 원장. tools/human_gates.py가 읽는다.",
     "open과 waiting_rebuild는 정상 개발 상태다. 자동 검사가 사람 판정을 대신하지 않는다.",
     "done은 active 후보의 commit/tree/manifest와 일치하는 구조화 evidence가 있어야 한다.",
+    "delegated_reviews는 사용자 위임 판정 이력이며 open을 닫지 않는다. done evidence는 authority=user_final, decided_by=user여야 한다.",
     "새 게이트나 합격 수치를 여기서 발명하지 않는다. 기존 정본과 오더의 계약만 옮긴다.",
     "owner는 active/backlog/archive 중 하나에 실재하는 오더 사양이어야 한다."
   ],
@@ -811,6 +812,288 @@
         "의미 반전·누락·한글 누출·번역투가 출시 표면에 없음",
         "원어민이 자연스러운 일본어 출시본으로 GO"
       ]
+    },
+    {
+      "id": "full_prose_order104_user_final_go",
+      "domain": "narrative",
+      "gate": "ORDER-104 핵심 장면 원고 사용자 최종 서명",
+      "why": "Claude의 위임 표본 판정은 작품성 판단을 제공하지만 정본을 최종 승인하는 사용자의 서명을 대신하지 않는다.",
+      "owner": "ORDER-104",
+      "state": "open",
+      "scope": {
+        "blocks": ["full"],
+        "content": "ORDER-104 핵심 장면 원고 22편의 정본 승격"
+      },
+      "revision": "full_rc",
+      "sample": {
+        "cohort": "order104_seed9821_random_three",
+        "requirements": [
+          "803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 22편",
+          "seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음",
+          "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
+        ]
+      },
+      "acceptance": ["사용자가 Claude 위임 합격을 명시적으로 최종 GO하거나 뒤집어 재판정 범위를 정함"],
+      "delegated_reviews": [{
+        "decided_at": "2026-08-21",
+        "decided_by": "Claude(사용자 위임)",
+        "authority": "user_delegated",
+        "verdict": "GO",
+        "commit": "803a372d4314d58d9ee03038bca3897bc2e18630",
+        "tree": "f95a8dc44dcd61d8c09eef0d487436833c64d721",
+        "sample": {"seed": 9821, "population": 22, "size": 3},
+        "disposition": {"mode": "none", "roots": []},
+        "record": "판정: Claude(사용자 위임) — 합격. arc_y4_body_witness에서 다은이 문턱에 멈춰 허락을 묻는 행동을 근거로 삼음."
+      }]
+    },
+    {
+      "id": "full_prose_order105_user_final_go",
+      "domain": "narrative",
+      "gate": "ORDER-105 M02~M12 원고 사용자 최종 서명",
+      "why": "Claude의 위임 표본 판정은 작품성 판단을 제공하지만 정본을 최종 승인하는 사용자의 서명을 대신하지 않는다.",
+      "owner": "ORDER-105",
+      "state": "open",
+      "scope": {"blocks": ["full"], "content": "ORDER-105 M02~M12 원고 20편의 정본 승격"},
+      "revision": "full_rc",
+      "sample": {
+        "cohort": "order105_seed9821_random_three",
+        "requirements": [
+          "803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 20편",
+          "seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음",
+          "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
+        ]
+      },
+      "acceptance": ["사용자가 Claude 위임 합격을 명시적으로 최종 GO하거나 뒤집어 재판정 범위를 정함"],
+      "delegated_reviews": [{
+        "decided_at": "2026-08-21", "decided_by": "Claude(사용자 위임)", "authority": "user_delegated",
+        "verdict": "GO", "commit": "803a372d4314d58d9ee03038bca3897bc2e18630",
+        "tree": "f95a8dc44dcd61d8c09eef0d487436833c64d721",
+        "sample": {"seed": 9821, "population": 20, "size": 3},
+        "disposition": {"mode": "none", "roots": []},
+        "record": "판정: Claude(사용자 위임) — 합격. arc_goshiwon_goodbye의 좋았다고 부르기 어려운 시간과 조건대로만 남지 않는 기억을 근거로 삼음."
+      }]
+    },
+    {
+      "id": "full_prose_order106_user_final_go",
+      "domain": "narrative",
+      "gate": "ORDER-106 M13~M24 원고 사용자 최종 서명",
+      "why": "Claude의 위임 표본 판정은 작품성 판단을 제공하지만 정본을 최종 승인하는 사용자의 서명을 대신하지 않는다.",
+      "owner": "ORDER-106", "state": "open",
+      "scope": {"blocks": ["full"], "content": "ORDER-106 M13~M24 원고 24편의 정본 승격"},
+      "revision": "full_rc",
+      "sample": {
+        "cohort": "order106_seed9821_random_three",
+        "requirements": [
+          "803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 24편",
+          "seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음",
+          "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
+        ]
+      },
+      "acceptance": ["사용자가 Claude 위임 합격을 명시적으로 최종 GO하거나 뒤집어 재판정 범위를 정함"],
+      "delegated_reviews": [{
+        "decided_at": "2026-08-21", "decided_by": "Claude(사용자 위임)", "authority": "user_delegated",
+        "verdict": "GO", "commit": "803a372d4314d58d9ee03038bca3897bc2e18630",
+        "tree": "f95a8dc44dcd61d8c09eef0d487436833c64d721",
+        "sample": {"seed": 9821, "population": 24, "size": 3},
+        "disposition": {"mode": "none", "roots": []},
+        "record": "판정: Claude(사용자 위임) — 합격. arc_y2_hospital_door가 송금 이유와 못 가는 이유를 한 문장으로 합치지 않은 점을 근거로 삼음."
+      }]
+    },
+    {
+      "id": "full_prose_order107_user_final_go",
+      "domain": "narrative",
+      "gate": "ORDER-107 M25~M36 원고 사용자 최종 서명",
+      "why": "한 편의 조건부 반려를 수리해도 사용자 최종 서명 전에는 정본 승격이 아니다.",
+      "owner": "ORDER-107", "state": "open",
+      "scope": {"blocks": ["full"], "content": "ORDER-107 원고 20편과 지목 장면의 재작성"},
+      "revision": "full_rc",
+      "sample": {
+        "cohort": "order107_seed9821_random_three",
+        "requirements": [
+          "803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 20편",
+          "seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음",
+          "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
+        ]
+      },
+      "acceptance": [
+        "arc_y3_father_after_visit_document를 사람·현재 손실·여운이 있는 사건으로 재작성",
+        "재작성본을 직접 재판정한 뒤 사용자가 최종 GO"
+      ],
+      "delegated_reviews": [{
+        "decided_at": "2026-08-21", "decided_by": "Claude(사용자 위임)", "authority": "user_delegated",
+        "verdict": "CONDITIONAL", "commit": "803a372d4314d58d9ee03038bca3897bc2e18630",
+        "tree": "f95a8dc44dcd61d8c09eef0d487436833c64d721",
+        "sample": {"seed": 9821, "population": 20, "size": 3},
+        "disposition": {"mode": "only", "roots": ["arc_y3_father_after_visit_document"]},
+        "record": "판정: Claude(사용자 위임) — 조건부. 아버지가 없는 아버지 장면이며 세 선택이 대조·색칠이라는 기록 방식에 머묾."
+      }]
+    },
+    {
+      "id": "full_prose_order108_user_final_go",
+      "domain": "narrative",
+      "gate": "ORDER-108 M39~M48 원고 사용자 최종 서명",
+      "why": "Claude의 위임 표본 판정은 작품성 판단을 제공하지만 정본을 최종 승인하는 사용자의 서명을 대신하지 않는다.",
+      "owner": "ORDER-108", "state": "open",
+      "scope": {"blocks": ["full"], "content": "ORDER-108 M39~M48 원고 25편의 정본 승격"},
+      "revision": "full_rc",
+      "sample": {
+        "cohort": "order108_seed9821_random_three",
+        "requirements": [
+          "803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 25편",
+          "seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음",
+          "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
+        ]
+      },
+      "acceptance": ["사용자가 Claude 위임 합격을 명시적으로 최종 GO하거나 뒤집어 재판정 범위를 정함"],
+      "delegated_reviews": [{
+        "decided_at": "2026-08-21", "decided_by": "Claude(사용자 위임)", "authority": "user_delegated",
+        "verdict": "GO", "commit": "803a372d4314d58d9ee03038bca3897bc2e18630",
+        "tree": "f95a8dc44dcd61d8c09eef0d487436833c64d721",
+        "sample": {"seed": 9821, "population": 25, "size": 3},
+        "disposition": {"mode": "none", "roots": []},
+        "record": "판정: Claude(사용자 위임) — 합격. arc_y4_family_partner_collision에서 돈 뒤에는 사람에게 설명하지 않아도 된다고 믿을까 두렵다는 아버지의 말을 근거로 삼음."
+      }]
+    },
+    {
+      "id": "full_prose_order109_user_final_go",
+      "domain": "narrative",
+      "gate": "ORDER-109 반복·보고체·시계 도입 보정 사용자 최종 서명",
+      "why": "M34 수리는 통과했지만 한 장면의 조건부 반려가 남았고 사용자 최종 서명도 열려 있다.",
+      "owner": "ORDER-109", "state": "open",
+      "scope": {"blocks": ["full"], "content": "ORDER-109 보정 16편과 지목 장면의 재작성"},
+      "revision": "full_rc",
+      "sample": {
+        "cohort": "order109_seed9821_random_three",
+        "requirements": [
+          "803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 16편",
+          "seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음",
+          "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
+        ]
+      },
+      "acceptance": [
+        "arc_y2_money_structure에 실제 사람과 그 사람에게서 잃는 것을 넣어 재작성",
+        "재작성본을 직접 재판정한 뒤 사용자가 최종 GO"
+      ],
+      "delegated_reviews": [{
+        "decided_at": "2026-08-21", "decided_by": "Claude(사용자 위임)", "authority": "user_delegated",
+        "verdict": "CONDITIONAL", "commit": "803a372d4314d58d9ee03038bca3897bc2e18630",
+        "tree": "f95a8dc44dcd61d8c09eef0d487436833c64d721",
+        "sample": {"seed": 9821, "population": 16, "size": 3},
+        "disposition": {"mode": "only", "roots": ["arc_y2_money_structure"]},
+        "record": "판정: Claude(사용자 위임) — 조건부. M34 수리는 통과했지만 arc_y2_money_structure는 시각을 뒤로 민 채 사람 없는 기한·설명·미납 순열을 유지함."
+      }]
+    },
+    {
+      "id": "full_prose_order110_user_final_go",
+      "domain": "narrative",
+      "gate": "ORDER-110 마지막 해 기준 세로줄 사용자 최종 서명",
+      "why": "Claude의 위임 표본 판정은 작품성 판단을 제공하지만 정본을 최종 승인하는 사용자의 서명을 대신하지 않는다.",
+      "owner": "ORDER-110", "state": "open",
+      "scope": {"blocks": ["full"], "content": "ORDER-110 마지막 해 기준 세로줄 20편의 정본 승격"},
+      "revision": "full_rc",
+      "sample": {
+        "cohort": "order110_seed9821_random_three",
+        "requirements": [
+          "803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 20편",
+          "seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음",
+          "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
+        ]
+      },
+      "acceptance": ["사용자가 Claude 위임 합격을 명시적으로 최종 GO하거나 뒤집어 재판정 범위를 정함"],
+      "delegated_reviews": [{
+        "decided_at": "2026-08-21", "decided_by": "Claude(사용자 위임)", "authority": "user_delegated",
+        "verdict": "GO", "commit": "803a372d4314d58d9ee03038bca3897bc2e18630",
+        "tree": "f95a8dc44dcd61d8c09eef0d487436833c64d721",
+        "sample": {"seed": 9821, "population": 20, "size": 3},
+        "disposition": {"mode": "none", "roots": []},
+        "record": "판정: Claude(사용자 위임) — 합격. arc_y5_jaehyuk_return_call_reference의 친구라는 말이 답이면서 부탁의 재료가 되는 양면성을 근거로 삼음."
+      }]
+    },
+    {
+      "id": "full_prose_order111_user_final_go",
+      "domain": "narrative",
+      "gate": "ORDER-111 마지막 해 대체 세로줄 사용자 최종 서명",
+      "why": "Claude의 위임 표본 판정은 작품성 판단을 제공하지만 정본을 최종 승인하는 사용자의 서명을 대신하지 않는다.",
+      "owner": "ORDER-111", "state": "open",
+      "scope": {"blocks": ["full"], "content": "ORDER-111 신규 마지막 해 대체 세로줄 24편의 정본 승격"},
+      "revision": "full_rc",
+      "sample": {
+        "cohort": "order111_seed9821_random_three",
+        "requirements": [
+          "803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 24편",
+          "seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음",
+          "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
+        ]
+      },
+      "acceptance": ["사용자가 Claude 위임 합격을 명시적으로 최종 GO하거나 뒤집어 재판정 범위를 정함"],
+      "delegated_reviews": [{
+        "decided_at": "2026-08-21", "decided_by": "Claude(사용자 위임)", "authority": "user_delegated",
+        "verdict": "GO", "commit": "803a372d4314d58d9ee03038bca3897bc2e18630",
+        "tree": "f95a8dc44dcd61d8c09eef0d487436833c64d721",
+        "sample": {"seed": 9821, "population": 24, "size": 3},
+        "disposition": {"mode": "none", "roots": []},
+        "record": "판정: Claude(사용자 위임) — 합격. arc_y5_final_week_jiyeon_outbound가 앞 장면의 지연 요구를 이월해 세 선택이 각각 다른 것을 포기하게 한 점을 근거로 삼음."
+      }]
+    },
+    {
+      "id": "full_prose_order112_user_final_go",
+      "domain": "narrative",
+      "gate": "ORDER-112 career 세로줄 사용자 최종 서명",
+      "why": "한 편만 보존하고 나머지 15편을 재판정해야 하며 사용자 최종 서명 전에는 정본 승격이 아니다.",
+      "owner": "ORDER-112", "state": "open",
+      "scope": {"blocks": ["full", "year5-r1b"], "content": "ORDER-112 career 16편 중 보존 1편과 재판정 15편"},
+      "revision": "full_rc",
+      "sample": {
+        "cohort": "order112_seed9821_random_three",
+        "requirements": [
+          "803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 16편",
+          "seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음",
+          "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
+        ]
+      },
+      "acceptance": [
+        "arc_y5_after_goal_hyunsu_career는 byte-exact 보존",
+        "나머지 15편 전수 재판정과 필요한 재작성 완료",
+        "사용자가 최종 GO"
+      ],
+      "delegated_reviews": [{
+        "decided_at": "2026-08-21", "decided_by": "Claude(사용자 위임)", "authority": "user_delegated",
+        "verdict": "PARTIAL_REJECT", "commit": "803a372d4314d58d9ee03038bca3897bc2e18630",
+        "tree": "f95a8dc44dcd61d8c09eef0d487436833c64d721",
+        "sample": {"seed": 9821, "population": 16, "size": 3},
+        "disposition": {"mode": "all_except", "roots": ["arc_y5_after_goal_hyunsu_career"]},
+        "record": "판정: Claude(사용자 위임) — 부분 반려. 현수 장면 1편은 보존하고 나머지 15편을 재판정; 두 delivery 표본은 사본·시각 저장에 머물러 미달."
+      }]
+    },
+    {
+      "id": "full_prose_order113_user_final_go",
+      "domain": "narrative",
+      "gate": "ORDER-113 startup 세로줄 사용자 최종 서명",
+      "why": "표본 세 편이 모두 목소리·현재 손실·여운에 미달해 전체 구조를 다시 설계해야 하며 R1b도 그때까지 열 수 없다.",
+      "owner": "ORDER-113", "state": "open",
+      "scope": {"blocks": ["full", "year5-r1b"], "content": "ORDER-113 startup 16편 전면 재설계와 코드 토큰 제거"},
+      "revision": "full_rc",
+      "sample": {
+        "cohort": "order113_seed9821_random_three",
+        "requirements": [
+          "803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 16편",
+          "seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음",
+          "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
+        ]
+      },
+      "acceptance": [
+        "career와 다른 끝맺음으로 startup 16편 전면 재설계",
+        "플레이어 노출 코드 토큰을 상태 데이터로 내리고 산문에서 제거",
+        "새 16편 무작위 3편 재판정과 사용자 최종 GO"
+      ],
+      "delegated_reviews": [{
+        "decided_at": "2026-08-21", "decided_by": "Claude(사용자 위임)", "authority": "user_delegated",
+        "verdict": "REJECT", "commit": "803a372d4314d58d9ee03038bca3897bc2e18630",
+        "tree": "f95a8dc44dcd61d8c09eef0d487436833c64d721",
+        "sample": {"seed": 9821, "population": 16, "size": 3},
+        "disposition": {"mode": "all", "roots": []},
+        "record": "판정: Claude(사용자 위임) — 전량 반려. arc_final_countdown_startup_executed를 포함한 표본이 사람의 마지막 선택이 아니라 서식 기입으로 끝남."
+      }]
     }
   ]
 }

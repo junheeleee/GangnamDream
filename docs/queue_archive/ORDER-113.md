@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-113
+# Archived Queue Spec: ORDER-113
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-113 [P0·서사] 창업 20%·32억원 인수를 한 문서와 공동창업자의 비용으로 완주한다
+#### [!] ORDER-113 [전량 반려] startup 16편을 사람·시간 중심으로 다시 설계한다
 
 **사용자 지시 (2026-08-18):** “이제 이어서 작업해.” 빈칸 수가 아니라 실제 사건에서
 출발한다. 기존 즉시 `startup_exit`는 보존하고, M49~M60의 검토·경계·조건부 접수·
@@ -183,8 +183,8 @@
 - 독립 L2는 h0→h1→h2→h3 계보, 같은 hash 사본 수, 160억원·20%·32억원 1회,
   acquirer/minseo/cofounder 배우, 월간 여유, C2 접수와 C3 실행 분리, 세 손실의
   비지배성, final-week 실제 사건, 먼 결과·계약 보고체를 처음부터 끝까지 판정한다.
-- L3는 사용자가 무작위 3개를 읽어 하나라도 창업·손실·공동창업자 목소리·여운이
-  약하면 신규 16개를 전량 재검토한다. L3 전 JA·zh-CN·zh-TW 번역 원문으로 잠그지 않는다.
+- Claude 위임 L3는 seed 9821 무작위 3편으로 완료했고 전량 반려됐다. 사용자 최종
+  GO와 JA·zh-CN·zh-TW 원문 잠금은 새 16편·새 계약 뒤까지 OPEN이다.
 
 ## 정본·일회성 판정
 
@@ -210,3 +210,14 @@
   1758/1758·35/35, 서사·말투·random pool, story-map normal·76 self-test, context·queue·
   diff-check가 통과했다. 독립 두 낭독은 P0/P1 0 GO다. 전체·240주·Godot는 생략했고,
   L3 전 JA·zh-CN·zh-TW 번역과 live reachability를 주장하지 않는다.
+
+## 2026-08-21 L3 판정
+
+- 방법: 모집단 16편에서 seed 9821 무작위 3편. 세 판정축은 동일하다.
+- **판정: Claude(사용자 위임) — 전량 반려.** 표본 세 편 모두 목소리·현재
+  손실·여운이 미달했다. `arc_final_countdown_startup_executed`가 5년의 마지막을
+  팀 설명 날짜·당직표·계정 인계표 기입으로 끝내는 것이 결정적 근거다.
+- 16 roots의 9칸 절차 골격과 43 choices는 보호 대상이 아니다. 공동창업자·팀·고객의
+  사람과 시간을 중심으로 끝나는 방식을 다시 설계한다. 플레이어 산문의 `NOT USED`,
+  `SELF ONLY`, 문서 코드·해시도 상태 데이터로 내린다. 복구는 ORDER-118이 소유한다.
+- **사용자 최종 GO: 미서명(OPEN).** R1b는 새 원고와 새 계약 전까지 HOLD다.

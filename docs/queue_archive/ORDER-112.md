@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-112
+# Archived Queue Spec: ORDER-112
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-112 [P0·서사 원고] 마지막 해의 career 경로를 한 직장·한 문서·한 사람의 비용으로 완주한다
+#### [!] ORDER-112 [부분 반려] 강한 현수 장면을 보존하고 나머지 15편을 재판정한다
 
 **사용자 지시 (2026-08-18):** “이제 이어서 작업해.” 빈 fallback 수를 늘리는 대신,
 현재 실제 삶에서 벌어지는 한 사건이 다음 달의 종이와 사람을 바꾸는 세로줄을 먼저
@@ -162,8 +162,8 @@
 - 독립 L2는 C0→C1→C2→C3 문서 버전과 boss/minseo/hyunsu 배우, 월간 선택 여유,
   M55 공개 약속→M57 접수, M57/M59 전달 분리, 현수 장면 반복, 선택 receipt 합치기,
   먼 결과·계약 보고체를 처음부터 끝까지 판정한다.
-- L3는 사용자가 무작위 3개를 읽어 하나라도 실제 직장·손실·인물 목소리·여운이
-  약하면 신규 16개를 전량 재검토한다. L3 전 JA·zh-CN·zh-TW 번역 원문으로 잠그지 않는다.
+- Claude 위임 L3는 seed 9821 무작위 3편으로 완료했고 부분 반려됐다. 사용자 최종
+  GO와 JA·zh-CN·zh-TW 원문 잠금은 복구·재판정 뒤까지 OPEN이다.
 
 ## 정본·일회성 판정
 
@@ -190,5 +190,16 @@
   76 self-test, exact structured diff와 `git diff --check`가 통과했다. 전체 감사·240주·
   Godot는 사양대로 생략했다.
 - 독립 두 낭독은 종이 수량, C0~C3 영어 용어, 선택별 `NOT USED`, 선취된 30만원,
-  미생산 시각과 배우·물건·현재 손실을 전수 재검해 P0/P1 0 GO를 냈다. L3는 사용자
-  무작위 3개이며 그 전에는 JA·zh-CN·zh-TW 번역 원문으로 잠그지 않는다.
+  미생산 시각과 배우·물건·현재 손실을 전수 재검해 P0/P1 0 GO를 냈다. 이후 Claude
+  위임 L3에서 부분 반려됐으므로 JA·zh-CN·zh-TW 번역 원문으로 잠그지 않는다.
+
+## 2026-08-21 L3 판정
+
+- 방법: 모집단 16편에서 seed 9821 무작위 3편. 세 판정축은 동일하다.
+- **판정: Claude(사용자 위임) — 부분 반려.**
+  `arc_y5_after_goal_hyunsu_career`는 byte-exact 보존한다. 나머지 15편은 전수
+  재판정하며, `arc_y5_name_copy_delivered_hyunsu_career`와
+  `arc_y5_contract_result_delivered_hyunsu_career`는 필수 재작성한다.
+- 사본을 가방에 넣고 전달 시각을 저장하는 사무 동작을, 그 장면에서만 가능한
+  현수의 행동과 민준이 지금 잃는 것으로 바꾼다. 복구는 ORDER-117이 소유한다.
+- **사용자 최종 GO: 미서명(OPEN).**

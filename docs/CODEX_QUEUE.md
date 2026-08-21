@@ -59,20 +59,12 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-113 · 창업 | [113](queue_active/ORDER-113.md) | 16/43 L1·L2 GO — L3 보류 |
-| 2 | [~] | ORDER-112 · career 세로줄 | [112](queue_active/ORDER-112.md) | 16/43 L1·L2 GO — L3 보류 |
-| 3 | [~] | ORDER-111 · 마지막 해 대체 세로줄 | [111](queue_active/ORDER-111.md) | 24/58 L1·L2 GO — L3 보류 |
-| 4 | [~] | ORDER-110 · 마지막 해 기준 세로줄 | [110](queue_active/ORDER-110.md) | 20/51 L1·L2 GO — L3 보류 |
-| 5 | [~] | ORDER-109 · M34 반복·보고체·시계 도입 보정 | [109](queue_active/ORDER-109.md) | 16 roots L1·L2 GO — L3 보류 |
-| 6 | [~] | ORDER-108 · M39~M48 실제 원고 | [108](queue_active/ORDER-108.md) | 25/75 L1·L2 GO — L3 보류 |
-| 7 | [~] | ORDER-107 · M25~M36 후속 원고 | [107](queue_active/ORDER-107.md) | 20/48 L1/L2 GO — L3 보류 |
-| 8 | [~] | ORDER-106 · M13~M24 실제 원고 | [106](queue_active/ORDER-106.md) | 24/70 L1/L2 GO — L3 보류 |
-| 9 | [~] | ORDER-105 · M02~M12 실제 원고 | [105](queue_active/ORDER-105.md) | 20 roots L1/L2 GO — L3 보류 |
-| 10 | [~] | ORDER-104 · 핵심 장면 원고 | [104](queue_active/ORDER-104.md) | 23 roots L1/L2 — L3 보류 |
-| 11 | [~] | ORDER-103 · M01~M06 월간 약속을 직접 고르는 독립 체험판을 만든다 | [103](queue_active/ORDER-103.md) | 이미지 장면 카드·호버/포커스 L1/L2 GO · 월 마감 보존 · 사용자 L3 대기 |
-| 12 | [~] | ORDER-99 · SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | [99](queue_active/ORDER-99.md) | BUILD `.3` L1/L2 — 사용자 저장 확인 대기 |
-| 13 | [~] | ORDER-97 · LOC-0.5 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | L1/L2 — 최신 후보·A/B 각 3표면 L3 대기 |
-| 14 | [~] | ORDER-98 · PAD-1 포커스 레일을 의미 버튼으로 줄인다 | [98](queue_active/ORDER-98.md) | L1/L2 — 집 플레이·물리 패드 L3 대기 |
+| 1 | [ ] | ORDER-118 · startup 전면 재설계·코드 토큰 제거 | [118](queue_active/ORDER-118.md) | Claude(사용자 위임) 전량 반려 복구 · R1b HOLD |
+| 2 | [ ] | ORDER-117 · 107/109 국소 수리·career 15편 재판정 | [117](queue_active/ORDER-117.md) | Claude(사용자 위임) 조건부·부분 반려 복구 |
+| 3 | [~] | ORDER-103 · M01~M06 월간 약속을 직접 고르는 독립 체험판을 만든다 | [103](queue_active/ORDER-103.md) | 이미지 장면 카드·호버/포커스 L1/L2 GO · 월 마감 보존 · 사용자 L3 대기 |
+| 4 | [~] | ORDER-99 · SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | [99](queue_active/ORDER-99.md) | BUILD `.3` L1/L2 — 사용자 저장 확인 대기 |
+| 5 | [~] | ORDER-97 · LOC-0.5 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | L1/L2 — 최신 후보·A/B 각 3표면 L3 대기 |
+| 6 | [~] | ORDER-98 · PAD-1 포커스 레일을 의미 버튼으로 줄인다 | [98](queue_active/ORDER-98.md) | L1/L2 — 집 플레이·물리 패드 L3 대기 |
 
 ### 남은 데모 출시선
 
@@ -111,11 +103,12 @@ W9~24 수리와 clean demo_rc를 작은 자식 오더로 다시 연다. W25~48�
   [`human_gates.json`](human_gates.json)만 소유한다. 실행 큐에 사람 게이트 전용
   가짜 오더를 남기지 않는다.
 
-### 완료 이력
+### 완료·반려 이력
 
 **정본은 [`queue_archive/CODEX_QUEUE_2026-08.md`](queue_archive/CODEX_QUEUE_2026-08.md)다**
 (그 이전은 [2026-07 스냅샷](queue_archive/CODEX_QUEUE_2026-07.md)).
-완료 항목은 여기 쌓지 않고 그리로 내린다 — **예산이 모자라면 압축이 아니라 이동이다.**
+완료 항목과 복구 오더로 이관한 반려 시도는 여기 쌓지 않고 그리로 내린다 —
+**예산이 모자라면 압축이 아니라 이동이다.**
 
 - 상세 작업 결과는 [WORK_LOG.md](WORK_LOG.md), 사용자 노트와 라운드 판정은
   [DEMO_FIXLOG.md](DEMO_FIXLOG.md), 설계 결정은 [DECISIONS.md](DECISIONS.md)가 정본이다.
@@ -126,15 +119,10 @@ python3 tools/audit_select.py -- <변경 파일...>
 git diff --check
 ```
 - ORDER-103은 전용 M01~M06 표적 차선만 쓰며 기존 24주·240주 검사를 실행하지 않는다.
-- ORDER-104는 사건 JSON·서사 정본·한영 정합만 검사하며 런타임·240주·전체 감사를 실행하지 않는다.
-- ORDER-105는 사건 JSON·한영·말투·서사 정합만 검사하며 런타임·240주·전체 감사를 실행하지 않는다.
-- ORDER-106은 사건 JSON·한영·말투·서사 정합만 검사하며 런타임·240주·전체 감사를 실행하지 않는다.
-- ORDER-107은 사건 JSON·한영·말투·서사 정합만 검사하며 런타임·240주·전체 감사를 실행하지 않는다.
-- ORDER-108은 사건 JSON·story-map authored/reference 분리·한영·말투·서사 정합만 검사하며 런타임·240주·전체 감사를 실행하지 않는다.
-- ORDER-109는 exact 16 roots의 사건 JSON·한영·말투·서사 정합만 검사하며 story map·런타임·240주·전체 감사를 실행하지 않는다.
-- ORDER-111은 exact 24 신규 roots·story-map lifecycle 9쌍·한영·말투·서사 정합만 검사하며 엔딩·런타임·240주·전체 감사를 실행하지 않는다.
-- ORDER-112는 exact career 16 roots·한영·말투·서사·기존 원고/맵/엔딩 불변만 검사하며 런타임·240주·전체 감사를 생략한다.
-- ORDER-113은 16 roots·불변 표적만 검사한다.
+- ORDER-118은 startup 16편·코드 토큰 표면·invalidated 계약만 검사한다. R1b·save·
+  dispatcher·transaction·ending·JA/ZH는 건드리지 않고 전체 감사·240주를 생략한다.
+- ORDER-117은 지목 2편과 career 15편·보존 1편만 검사하며 story map·계약·runtime·
+  save·ending을 byte-exact로 둔다.
 - 카피·번역 변경은 해당 언어 감사, 화면 변경은 해당 ScreenshotQA 범위만 더한다.
 - `./tools/audit.sh`와 240주 검사는 활성 사양이 공통 스키마·스케줄러·엔딩을
   바꾸거나 챕터 승인·demo/full RC를 판정할 때만 실행한다.

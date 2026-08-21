@@ -1,6 +1,6 @@
 # Gangnam Dream Context Index
 
-Updated: 2026-08-18
+Updated: 2026-08-21
 
 이 문서는 “무엇이 정본인가”를 다시 설명하는 바이블이 아니라, 작업에 필요한 정본만 고르는 라우터다. 상세 규칙은 아래 소유 문서 한 곳에만 둔다. 기계 판독 버전은 `docs/context_manifest.json`이다.
 
@@ -31,7 +31,7 @@ Updated: 2026-08-18
 | 상품 정체성·현재 상태 | `CLAUDE.md` | 현재 목표와 불변 규칙. 실행 우선순위·상태는 `CODEX_QUEUE.md`만 소유 |
 | 세계·인물·5장 서사 | `docs/STORY_BIBLE.md`, `docs/CANON_MAP.md` | 의도된 이야기와 세계 사실 |
 | 60개월 배치·분기 예산 | `content/meta/story_map.json`, `docs/CHOICE_CONSEQUENCE_SYSTEM.md` | M01~M60의 실제 후보 2~4개·기한, 장면 전체 기억+carryover 2와 결정 1 상한, branch별 실제 참가자 receipt binding, KEEP/MOVE/EXPAND/NEW 상태 |
-| 마지막 해 exact reference 경로 | `content/meta/year5_reference_routes.json`, `systems/Year5ReferenceRouteKernel.gd` | career·startup의 기계 판독 계약과 Dictionary-injected dormant reducer. `reference_only`이며 현재 non-live·비도달이고 production story map·save·dispatcher 승격을 주장하지 않음 |
+| 마지막 해 reference 경로 | `content/meta/year5_reference_routes.json`, `systems/Year5ReferenceRouteKernel.gd` | pure dormant reducer는 보존하되 기존 career·startup 9+9 주입 계약은 Claude 위임 L3로 `invalidated`다. 새 원고·새 계약 전 R1b 금지, non-live·비도달·product consumer 0 |
 | 현재 W1~24 주간 구현 | `docs/CORE_LOOP_V2.md`, `content/meta/chapter1_core_loop_v2_causal_ledger.json`, `content/meta/demo_core_loop_v2.json`, `docs/AP_REDESIGN.md`, `docs/GAME_RECOMPOSITION_PLAN.md` | 기존 데모 런타임·저장 이관 기준선·48주 gap 증거. 최종 월간 코어의 분기 정본이 아님 |
 | 참조 시스템 판정 | `docs/REFERENCE_SYSTEM_VERDICTS.md` | 외부 참조 구조의 채택·보류·폐기, 기존 여력·노드·클록·영수증 부착 경계 |
 | 선택·5장 결과 | `docs/CHOICE_CONSEQUENCE_SYSTEM.md` | 표현·기억·결정 선택, 영수증·사실·반복 패턴, 챕터 간 스노우볼과 엔딩 입력 |

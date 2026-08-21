@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-104
+# Archived Queue Spec: ORDER-104
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-104 [P0·서사 원고] 처음부터 완결까지 22개 핵심 장면의 실제 원고를 쓴다
+#### [x] ORDER-104 [P0·서사 원고] 처음부터 완결까지 22개 핵심 장면의 실제 원고를 쓴다
 
 **사용자 지시 (2026-08-18):** “내가 지금 밖이라 확인해볼 수 없어. 일단
 스토리랑 지문, 선택지에 모든 시간을 할애해 처음부터 완결까지.” 사용자가 돌아올
@@ -115,10 +115,21 @@ anchor/reader로 승격하는 정합만 소유한다. `content/meta/story_rules.
 - `story_map` 일반/자가 75건, narrative spine, 한영 coverage, story consistency,
   말투, 정점 장면 32개, 14 JSON strict parse, 22+1 root 구조 계약과 diff 검사가
   통과했다. 전체 감사·240주·Godot는 실행하지 않았다.
-- L3는 사용자가 돌아온 뒤 무작위 3개를 읽어 판정한다. 그 전에도 최신 직접
-  지시에 따라 다음 20개 원고 배치는 별도 작은 사양과 선언 커밋으로 계속한다.
+- Claude 위임 L3는 seed 9821 무작위 3편 낭독으로 완료했다. 정본 서명인 사용자
+  최종 GO는 `docs/human_gates.json`에서 OPEN으로 유지한다.
 
-## 사람 판정
+## 2026-08-21 L3 판정
 
-이번 배치는 L1 정합과 L2 낭독까지 진행한다. 사용자가 돌아오면 22개 중 무작위
-3개를 읽어 하나라도 인물 목소리·선택의 손실·여운이 약하면 전량 반려한다.
+- 방법: 이 오더의 22개 판정 단위 모집단에서 seed 9821 무작위 3편. 별도 M60
+  미접수 보조 root는 모집단에 합치지 않았다. 축은 인물 목소리 / 지금 잃는 것 /
+  다음을 기다리게 하는 여운.
+- **판정: Claude(사용자 위임) — 합격.** Claude 판정 요약은
+  `arc_y4_body_witness`에서 다은이 문턱에 멈춰 허락을 묻는 행동이다.
+- **사용자 최종 GO: 미서명(OPEN).** 위임 판정과 정본 서명을 합치지 않는다.
+
+## 정본·일회성 판정
+
+- 새 정본 승격 없음. 배우·선행조건 발명 금지와 현재 손실·먼 결과 비노출은
+  `CLAUDE.md`, `docs/STORY_CONSISTENCY_SYSTEM.md`,
+  `docs/CHOICE_CONSEQUENCE_SYSTEM.md`가 이미 소유한다.
+- 정확한 root 목록·배우 조합·파일 범위·검사는 이 오더만의 일회성 지시다.

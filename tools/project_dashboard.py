@@ -656,6 +656,51 @@ def human_gate_acceptance(gate: dict, separator: str = " · ") -> str:
     return separator.join(str(value) for value in acceptance if value) or "합격 기준 미기록"
 
 
+def human_gate_delegated_label(review: dict) -> str:
+    verdict = str(review.get("verdict", ""))
+    disposition = review.get("disposition", {})
+    roots = disposition.get("roots", []) if isinstance(disposition, dict) else []
+    root_text = ", ".join(str(root) for root in roots) if isinstance(roots, list) else ""
+    if verdict == "GO":
+        return "합격"
+    if verdict == "CONDITIONAL":
+        return f"조건부 · 재작성: {root_text}"
+    if verdict == "PARTIAL_REJECT":
+        return f"부분 반려 · 보존: {root_text} · 나머지 재판정"
+    if verdict == "REJECT":
+        return "전량 반려"
+    return "판정 오류"
+
+
+def human_gate_delegated_review(gate: dict) -> str:
+    reviews = gate.get("delegated_reviews", [])
+    if not isinstance(reviews, list) or not reviews or not isinstance(reviews[-1], dict):
+        return ""
+    review = reviews[-1]
+    label = human_gate_delegated_label(review)
+    record = str(review.get("record", "")).strip()
+    record_line = f"<br><sub>{md_escape(record)}</sub>" if record else ""
+    return (
+        f"<br><strong>판정: Claude(사용자 위임) — {md_escape(label)}</strong>"
+        f"{record_line}<br><sub>정본 서명: 사용자 최종 GO 대기</sub>"
+    )
+
+
+def human_gate_delegated_review_html(gate: dict) -> str:
+    reviews = gate.get("delegated_reviews", [])
+    if not isinstance(reviews, list) or not reviews or not isinstance(reviews[-1], dict):
+        return ""
+    review = reviews[-1]
+    label = html.escape(human_gate_delegated_label(review))
+    record = str(review.get("record", "")).strip()
+    record_line = f'<br><span style="color:var(--faint)">{html.escape(record)}</span>' if record else ""
+    return (
+        f"<br><strong>판정: Claude(사용자 위임) — {label}</strong>"
+        f"{record_line}<br><span style=\"color:var(--faint)\">"
+        "정본 서명: 사용자 최종 GO 대기</span>"
+    )
+
+
 def markdown() -> str:
     """GitHub이 그대로 렌더하는 현황 문서.
 
@@ -716,6 +761,7 @@ def markdown() -> str:
         verdict = (
             f"**{md_escape(g.get('gate', '이름 없음'))}**<br>"
             f"<sub>{md_escape(g.get('why', ''))}</sub>"
+            f"{human_gate_delegated_review(g)}"
         )
         sample = md_escape(human_gate_sample(g, "<br>"))
         acceptance = md_escape(human_gate_acceptance(g, "<br>"))
@@ -913,7 +959,8 @@ def build() -> str:
     human_gate_rows = "".join(
         f'<tr><td>{html.escape(human_gate_scope(gate))}</td>'
         f'<td><strong>{html.escape(str(gate.get("gate", "이름 없음")))}</strong><br>'
-        f'<span style="color:var(--faint)">{html.escape(str(gate.get("why", "")))}</span></td>'
+        f'<span style="color:var(--faint)">{html.escape(str(gate.get("why", "")))}</span>'
+        f'{human_gate_delegated_review_html(gate)}</td>'
         f'<td><span class="pill {"run" if "ACTIVE" in human_gate_candidate(gate_ledger, gate) else "todo"}">'
         f'{html.escape(human_gate_candidate(gate_ledger, gate))}</span></td>'
         f'<td>{html.escape(human_gate_sample(gate)).replace(" · ", "<br>")}</td>'

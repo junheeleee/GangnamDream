@@ -27,12 +27,19 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 LEDGER = ROOT / "docs/human_gates.json"
 QUEUE = ROOT / "docs/CODEX_QUEUE.md"
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 CANDIDATE_STATES = {"waiting_rebuild", "active"}
 COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 ORDER_RE = re.compile(r"^(?:ORDER|USER)-[\w]+$")
+DELEGATED_VERDICTS = {"GO", "CONDITIONAL", "PARTIAL_REJECT", "REJECT"}
+DELEGATED_DISPOSITIONS = {
+    "GO": ("none", False),
+    "CONDITIONAL": ("only", True),
+    "PARTIAL_REJECT": ("all_except", True),
+    "REJECT": ("all", False),
+}
 
 
 class LedgerValidationError(ValueError):
@@ -173,7 +180,7 @@ def validate_ledger(ledger: Any) -> list[str]:
         "id", "domain", "gate", "why", "owner", "state",
         "scope", "revision", "sample", "acceptance",
     }
-    allowed_gate_fields = required_gate_fields | {"evidence"}
+    allowed_gate_fields = required_gate_fields | {"delegated_reviews", "evidence"}
     for index, gate in enumerate(gates):
         if not isinstance(gate, dict):
             errors.append(f"gates[{index}] must be an object")
@@ -234,6 +241,81 @@ def validate_ledger(ledger: Any) -> list[str]:
         if not _nonempty_strings(gate.get("acceptance")):
             errors.append(f"{prefix}.acceptance must be a non-empty text array")
 
+        delegated_reviews = gate.get("delegated_reviews", [])
+        if not isinstance(delegated_reviews, list):
+            errors.append(f"{prefix}.delegated_reviews must be an array when present")
+            delegated_reviews = []
+        for review_index, review in enumerate(delegated_reviews):
+            review_prefix = f"{prefix}.delegated_reviews[{review_index}]"
+            if not isinstance(review, dict):
+                errors.append(f"{review_prefix} must be an object")
+                continue
+            review_fields = {
+                "decided_at", "decided_by", "authority", "verdict", "commit", "tree",
+                "sample", "disposition", "record",
+            }
+            missing_review = sorted(review_fields - review.keys())
+            unknown_review = sorted(review.keys() - review_fields)
+            if missing_review:
+                errors.append(f"{review_prefix} missing fields: {', '.join(missing_review)}")
+            if unknown_review:
+                errors.append(f"{review_prefix} unknown fields: {', '.join(unknown_review)}")
+            if not isinstance(review.get("decided_at"), str) or not DATE_RE.fullmatch(
+                review.get("decided_at", "")
+            ):
+                errors.append(f"{review_prefix}.decided_at must be YYYY-MM-DD")
+            for field in ("decided_by", "record"):
+                if not isinstance(review.get(field), str) or not review.get(field, "").strip():
+                    errors.append(f"{review_prefix}.{field} must be non-empty text")
+            if review.get("authority") != "user_delegated":
+                errors.append(f"{review_prefix}.authority must be user_delegated")
+            verdict = review.get("verdict")
+            if verdict not in DELEGATED_VERDICTS:
+                errors.append(
+                    f"{review_prefix}.verdict must be one of {sorted(DELEGATED_VERDICTS)}"
+                )
+            for field in ("commit", "tree"):
+                value = review.get(field)
+                if not isinstance(value, str) or not COMMIT_RE.fullmatch(value):
+                    errors.append(f"{review_prefix}.{field} must be a full lowercase Git hash")
+            review_sample = review.get("sample")
+            if not isinstance(review_sample, dict) or set(review_sample) != {
+                "seed", "population", "size",
+            }:
+                errors.append(f"{review_prefix}.sample requires seed, population and size")
+            else:
+                for field in ("seed", "population", "size"):
+                    value = review_sample.get(field)
+                    if type(value) is not int or value < 0:
+                        errors.append(f"{review_prefix}.sample.{field} must be a non-negative integer")
+                population = review_sample.get("population")
+                size = review_sample.get("size")
+                if type(population) is int and type(size) is int and (
+                    population < 1 or size < 1 or size > population
+                ):
+                    errors.append(f"{review_prefix}.sample size must fit its population")
+            disposition = review.get("disposition")
+            if not isinstance(disposition, dict) or set(disposition) != {"mode", "roots"}:
+                errors.append(f"{review_prefix}.disposition requires mode and roots")
+            elif verdict in DELEGATED_DISPOSITIONS:
+                expected_mode, needs_roots = DELEGATED_DISPOSITIONS[verdict]
+                roots = disposition.get("roots")
+                if disposition.get("mode") != expected_mode:
+                    errors.append(
+                        f"{review_prefix}.disposition.mode must be {expected_mode} for {verdict}"
+                    )
+                if not isinstance(roots, list) or any(
+                    not isinstance(root, str) or not root.strip() for root in roots
+                ):
+                    errors.append(f"{review_prefix}.disposition.roots must be a text array")
+                elif len(roots) != len(set(roots)):
+                    errors.append(f"{review_prefix}.disposition.roots contains duplicates")
+                elif needs_roots != bool(roots):
+                    need = "non-empty" if needs_roots else "empty"
+                    errors.append(
+                        f"{review_prefix}.disposition.roots must be {need} for {verdict}"
+                    )
+
         evidence = gate.get("evidence")
         if state == "open" and evidence is not None:
             errors.append(f"{prefix}: open gate must not carry completion evidence")
@@ -243,7 +325,7 @@ def validate_ledger(ledger: Any) -> list[str]:
             errors.append(f"{prefix}: done gate requires structured evidence")
             continue
         evidence_fields = {
-            "decided_at", "decided_by", "verdict", "commit", "tree",
+            "decided_at", "decided_by", "authority", "verdict", "commit", "tree",
             "manifest_sha256", "record",
         }
         missing_evidence = sorted(evidence_fields - evidence.keys())
@@ -259,6 +341,10 @@ def validate_ledger(ledger: Any) -> list[str]:
         for field in ("decided_by", "record"):
             if not isinstance(evidence.get(field), str) or not evidence.get(field, "").strip():
                 errors.append(f"{prefix}.evidence.{field} must be non-empty text")
+        if evidence.get("decided_by") != "user":
+            errors.append(f"{prefix}.evidence.decided_by must be user")
+        if evidence.get("authority") != "user_final":
+            errors.append(f"{prefix}.evidence.authority must be user_final")
         if evidence.get("verdict") != "GO":
             errors.append(f"{prefix}.evidence.verdict must be GO")
         if not isinstance(candidate, dict) or candidate.get("status") != "active":
@@ -315,6 +401,33 @@ def _scope_label(gate: dict) -> str:
     return f"{', '.join(scope.get('blocks', []))} · {scope.get('content', '')}"
 
 
+def _delegated_review_lines(gate: dict) -> list[str]:
+    reviews = gate.get("delegated_reviews", [])
+    if not isinstance(reviews, list) or not reviews:
+        return []
+    review = reviews[-1]
+    if not isinstance(review, dict):
+        return []
+    verdict = str(review.get("verdict", ""))
+    disposition = review.get("disposition", {})
+    roots = disposition.get("roots", []) if isinstance(disposition, dict) else []
+    root_text = ", ".join(roots) if isinstance(roots, list) else ""
+    if verdict == "GO":
+        label = "합격"
+    elif verdict == "CONDITIONAL":
+        label = f"조건부 · 재작성: {root_text}"
+    elif verdict == "PARTIAL_REJECT":
+        label = f"부분 반려 · 보존: {root_text} · 나머지 재판정"
+    elif verdict == "REJECT":
+        label = "전량 반려"
+    else:
+        label = "판정 오류"
+    return [
+        f"판정: Claude(사용자 위임) — {label}",
+        "정본 서명: 사용자 최종 GO 대기",
+    ]
+
+
 def print_pending(domain: str, indent: str = "  ") -> None:
     """검사 도구가 자기 도메인 몫을 찍는다. 아무것도 판정하지 않는다."""
     ledger = load_ledger() or {}
@@ -327,6 +440,8 @@ def print_pending(domain: str, indent: str = "  ") -> None:
             f"{indent}  · {gate.get('gate', '<이름 없음>')}  "
             f"[{gate.get('owner', '?')} · {_candidate_label(ledger, gate)}]"
         )
+        for line in _delegated_review_lines(gate):
+            print(f"{indent}    {line}")
 
 
 def main() -> int:
@@ -368,6 +483,8 @@ def main() -> int:
             print(f"    · {gate['gate']}  [{gate['owner']}]")
             print(f"      범위 — {_scope_label(gate)}")
             print(f"      후보 — {_candidate_label(ledger, gate)}")
+            for line in _delegated_review_lines(gate):
+                print(f"      {line}")
             sample = gate["sample"]
             print(f"      표본 — {sample['cohort']}: {' / '.join(sample['requirements'])}")
             for acceptance in gate["acceptance"]:
@@ -380,7 +497,23 @@ def main() -> int:
         1 for candidate in ledger["release_candidates"].values()
         if candidate.get("status") == "waiting_rebuild"
     )
-    print(f"\nHUMAN_GATES_OK open={open_count} done={done} total={len(gates)}")
+    delegated = [
+        gate["delegated_reviews"][-1]
+        for gate in gates
+        if isinstance(gate.get("delegated_reviews"), list) and gate["delegated_reviews"]
+    ]
+    delegated_counts = {
+        verdict: sum(1 for review in delegated if review.get("verdict") == verdict)
+        for verdict in sorted(DELEGATED_VERDICTS)
+    }
+    print(
+        f"\nHUMAN_GATES_OK open={open_count} done={done} total={len(gates)} "
+        f"delegated_reviewed={len(delegated)}"
+    )
+    print(
+        "  delegated_verdicts="
+        + ",".join(f"{key}:{value}" for key, value in delegated_counts.items())
+    )
     print(f"  canonical_candidates_waiting_rebuild={waiting}")
     print("  이 도구는 아무것도 통과시키지 않는다. 초록불은 계약을 지켰다는 뜻이지")
     print("  좋다는 뜻이 아니다.")

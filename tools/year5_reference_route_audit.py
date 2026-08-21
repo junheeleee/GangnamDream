@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-"""Audit the non-live Year-5 career/startup reference-route contract.
+"""Audit the non-live Year-5 career/startup reference-route evidence.
 
-The manifest is deliberately stricter than a prose design note.  It freezes two
-author-only traces and a caller-injected dormant reducer while production
-routing, durable ledgers, transactions, and ending deferral are still absent.
-A passing audit therefore means "dormant contract kernel", never "playable".
+The delegated L3 verdict invalidated the old 9+9 literary topology.  The
+manifest now keeps that topology and its prose hashes only as a rejected
+snapshot while continuing to freeze legacy objects, protected runtime bytes,
+product-consumer zero, and the caller-injected dormant reducer.  A passing
+audit therefore means "invalidated evidence is safely dormant", never
+"playable" or "ready for R1b".
 """
 
 from __future__ import annotations
@@ -41,6 +43,7 @@ EXPECTED_ROUTE_IDS = (
     "career_reference_v1",
     "startup_acquisition_reference_v1",
 )
+INVALIDATED_CONTRACT_STATUS = "invalidated_by_delegated_l3"
 
 TOP_LEVEL_KEYS = {
     "schema_version",
@@ -194,6 +197,16 @@ EXPECTED_PROTECTED_FILES = MANDATORY_PROTECTED_FILES | {
     "content/events_en/drama_events.json",
     "content/events_en/life_events.json",
 }
+REJECTED_PROSE_FILES = {
+    "content/events/arc_drama.json",
+    "content/events/arc_midgame.json",
+    "content/events/arc_new_characters.json",
+    "content/events/arc_pre_ending.json",
+    "content/events_en/arc_drama.json",
+    "content/events_en/arc_midgame.json",
+    "content/events_en/arc_new_characters.json",
+    "content/events_en/arc_pre_ending.json",
+}
 
 
 @dataclass(frozen=True)
@@ -247,9 +260,36 @@ R1A_ROOTS = {
     route_id: roots[:9]
     for route_id, roots in ROUTE_ROOTS.items()
 }
-EXPECTED_R1A_CONTRACT_SHA256 = "f4929ad915db417d716f5b62119cf6ab6f32d50026f4a62ed2e80859fb322014"
-EXPECTED_UNRESOLVED_BLOCKERS_SHA256 = "a19cc8ae531c97d92ceb87e0310f8abcf590ec51b280eda6e0eb68c1e6e71bb8"
+EXPECTED_REJECTED_R1A_CONTRACT_SHA256 = "f4929ad915db417d716f5b62119cf6ab6f32d50026f4a62ed2e80859fb322014"
+EXPECTED_REJECTED_ROUTE_MANIFEST_SHA256 = "0eb8bcefa0d167e5be29571260a2849bd389a4b7aaebbf0a55991d979635882f"
+EXPECTED_REJECTED_PROSE_FILE_HASHES_SHA256 = "be104f89aed0b6661800df939398c2bb0d26108bd202a5718c417fdbcea282df"
+EXPECTED_REJECTED_PROSE_OBJECT_HASHES_SHA256 = "17b6dae7997a75fbcc4fd0f7a71f0602720fa60efa2b612921d090ccb0336e14"
+R1A_REJECTED_PAYLOAD_KEYS = (
+    "lifecycle",
+    "composition",
+    "ingress_receipts",
+    "external_blockers",
+    "routes",
+)
+EXPECTED_REJECTED_SNAPSHOT = {
+    "judged_by": "Claude(사용자 위임)",
+    "source_commit": "803a372d4314d58d9ee03038bca3897bc2e18630",
+    "source_tree": "f95a8dc44dcd61d8c09eef0d487436833c64d721",
+    "reason": "ORDER-112 partial reject and ORDER-113 full reject invalidate the 9+9 literary topology",
+    "rejected_contract_sha256": EXPECTED_REJECTED_R1A_CONTRACT_SHA256,
+    "rejected_route_manifest_sha256": EXPECTED_REJECTED_ROUTE_MANIFEST_SHA256,
+    "contract_route_count": 2,
+    "contract_root_count": 18,
+    "contract_choice_count": 50,
+    "prose_file_count": 8,
+    "prose_file_hashes_sha256": EXPECTED_REJECTED_PROSE_FILE_HASHES_SHA256,
+    "prose_object_count": 64,
+    "prose_object_hashes_sha256": EXPECTED_REJECTED_PROSE_OBJECT_HASHES_SHA256,
+    "hash_semantics": "historical rejected evidence only; not current prose guards",
+}
+EXPECTED_UNRESOLVED_BLOCKERS_SHA256 = "50cb52705867689350a98085417417c619685bf598803d0db22d7d2f2a31798d"
 EXPECTED_UNRESOLVED_BLOCKER_IDS = (
+    "order112_113_l3_topology_rejected",
     "partner_none_decision_producer",
     "m48_actor_and_margin_producer",
     "startup_cofounder_actor_producer",
@@ -411,7 +451,12 @@ EXPECTED_PLANNED_RUNTIME = {
     "current_product_consumer_count": 0,
     "current_qa_injection_consumer_count": 1,
     "dormant_kernel_owner": "systems/Year5ReferenceRouteKernel.gd",
+    "literary_topology_status": "invalidated_by_delegated_l3",
+    "r1b_allowed": False,
+    "replacement_contract": None,
     "activation_preconditions": [
+        "ORDER-112 and ORDER-113 replacement prose receives a new delegated L3 review",
+        "a separate contract order replaces the rejected 9+9 topology",
         "R1b and R2 complete",
         "all unresolved blockers closed",
         "durable typed receipts and route lock exist",
@@ -1484,12 +1529,122 @@ def route_map(manifest: dict[str, Any]) -> dict[str, dict[str, Any]]:
     }
 
 
+def contract_is_invalidated(manifest: dict[str, Any]) -> bool:
+    contract = manifest.get("r1a_contract")
+    return (
+        isinstance(contract, dict)
+        and contract.get("contract_status") == INVALIDATED_CONTRACT_STATUS
+    )
+
+
+def validate_invalidated_r1a_contract(
+    manifest: dict[str, Any],
+    contract: dict[str, Any],
+    errors: list[str],
+) -> None:
+    """Keep rejected evidence immutable without binding it to current prose."""
+    if not exact_keys(
+        contract,
+        {
+            "contract_status",
+            "usable_for_r1b",
+            "replacement_contract",
+            "rejected_snapshot",
+            *R1A_REJECTED_PAYLOAD_KEYS,
+        },
+        "manifest.r1a_contract",
+        errors,
+    ):
+        return
+    if contract.get("contract_status") != INVALIDATED_CONTRACT_STATUS:
+        errors.append("manifest.r1a_contract.contract_status: rejected contract must remain invalidated")
+    if contract.get("usable_for_r1b") is not False:
+        errors.append("manifest.r1a_contract.usable_for_r1b: rejected contract must remain false")
+    if contract.get("replacement_contract") is not None:
+        errors.append("manifest.r1a_contract.replacement_contract: must remain null until a separate contract order")
+
+    snapshot = contract.get("rejected_snapshot")
+    if snapshot != EXPECTED_REJECTED_SNAPSHOT:
+        errors.append("manifest.r1a_contract.rejected_snapshot: exact delegated-L3 rejected snapshot mismatch")
+
+    rejected_payload = {
+        key: contract.get(key)
+        for key in R1A_REJECTED_PAYLOAD_KEYS
+    }
+    if canonical_json_sha256(rejected_payload) != EXPECTED_REJECTED_R1A_CONTRACT_SHA256:
+        errors.append("manifest.r1a_contract.rejected_snapshot: rejected 9+9 contract digest mismatch")
+    if canonical_json_sha256(manifest.get("routes")) != EXPECTED_REJECTED_ROUTE_MANIFEST_SHA256:
+        errors.append("manifest.r1a_contract.rejected_snapshot: rejected route-manifest digest mismatch")
+
+    protected = manifest.get("protected_hashes", {})
+    protected_files = protected.get("files", {}) if isinstance(protected, dict) else {}
+    rejected_file_hashes = {
+        path: digest
+        for path, digest in protected_files.items()
+        if path in REJECTED_PROSE_FILES
+    } if isinstance(protected_files, dict) else {}
+    if (
+        len(rejected_file_hashes) != 8
+        or canonical_json_sha256(rejected_file_hashes)
+        != EXPECTED_REJECTED_PROSE_FILE_HASHES_SHA256
+    ):
+        errors.append("manifest.r1a_contract.rejected_snapshot: rejected prose-file hash snapshot mismatch")
+
+    protected_objects = protected.get("objects", []) if isinstance(protected, dict) else []
+    rejected_objects = [
+        row for row in protected_objects
+        if isinstance(row, dict) and row.get("id") in ALL_TARGET_ID_SET
+    ] if isinstance(protected_objects, list) else []
+    if (
+        len(rejected_objects) != 64
+        or canonical_json_sha256(rejected_objects)
+        != EXPECTED_REJECTED_PROSE_OBJECT_HASHES_SHA256
+    ):
+        errors.append("manifest.r1a_contract.rejected_snapshot: rejected 64-object prose hash snapshot mismatch")
+
+    lifecycle = contract.get("lifecycle")
+    if not isinstance(lifecycle, dict):
+        errors.append("manifest.r1a_contract.lifecycle: exact dormant/product0/QA1 lifecycle mismatch")
+        return
+    if lifecycle.get("activation_after_completion") is not False:
+        errors.append("manifest.r1a_contract.lifecycle.activation_after_completion: must remain false")
+    if lifecycle.get("reference_only") is not True or lifecycle.get("reachability_claim") is not False:
+        errors.append("manifest.r1a_contract.lifecycle: rejected contract must remain reference-only and unreachable")
+    if lifecycle.get("dispatch_allowed") is not False:
+        errors.append("manifest.r1a_contract.lifecycle.dispatch_allowed: must remain false")
+    if lifecycle.get("product_consumer_count") != 0:
+        errors.append("manifest.r1a_contract.lifecycle.product_consumer_count: must remain 0")
+    if lifecycle.get("runtime_owner") is not None or lifecycle.get("save_adapter") is not None:
+        errors.append("manifest.r1a_contract.lifecycle: runtime/save owners must remain null")
+    if lifecycle.get("kernel_owner") != KERNEL_RELATIVE_PATH:
+        errors.append("manifest.r1a_contract.lifecycle.kernel_owner: dormant kernel owner mismatch")
+
+
 def validate_r1a_contract(
     manifest: dict[str, Any],
     routes: dict[str, dict[str, Any]],
     errors: list[str],
 ) -> None:
-    """Validate the dormant M49-M55 contract and its raw-root cross references."""
+    """Require the delegated-L3 invalidation declaration on the current manifest."""
+    contract = manifest.get("r1a_contract")
+    if not isinstance(contract, dict):
+        errors.append("manifest.r1a_contract: must be an object")
+        return
+    if contract.get("contract_status") != INVALIDATED_CONTRACT_STATUS:
+        errors.append(
+            "manifest.r1a_contract.contract_status: rejected contract must remain "
+            f"{INVALIDATED_CONTRACT_STATUS!r}"
+        )
+        return
+    validate_invalidated_r1a_contract(manifest, contract, errors)
+
+
+def validate_legacy_r1a_contract(
+    manifest: dict[str, Any],
+    routes: dict[str, dict[str, Any]],
+    errors: list[str],
+) -> None:
+    """Archived validator for the pre-verdict contract; not called in invalidated mode."""
     contract = manifest.get("r1a_contract")
     if not exact_keys(
         contract,
@@ -1499,7 +1654,7 @@ def validate_r1a_contract(
     ):
         return
     assert isinstance(contract, dict)
-    if canonical_json_sha256(contract) != EXPECTED_R1A_CONTRACT_SHA256:
+    if canonical_json_sha256(contract) != EXPECTED_REJECTED_R1A_CONTRACT_SHA256:
         errors.append("manifest.r1a_contract: exact dormant contract digest mismatch")
 
     lifecycle = contract.get("lifecycle")
@@ -2933,6 +3088,9 @@ def validate_transactions_and_finale(
             "current_product_consumer_count",
             "current_qa_injection_consumer_count",
             "dormant_kernel_owner",
+            "literary_topology_status",
+            "r1b_allowed",
+            "replacement_contract",
             "activation_preconditions",
             "production_dispatcher",
             "save_ledger_owner",
@@ -2956,6 +3114,45 @@ def validate_transactions_and_finale(
     for token in ("r1b", "r2"):
         if token not in planned_text:
             errors.append(f"manifest.planned_runtime: missing future-only contract {token!r}")
+
+
+def validate_invalidated_runtime(manifest: dict[str, Any], errors: list[str]) -> None:
+    """Enforce the fail-closed runtime boundary without accepting old topology."""
+    planned_runtime = manifest.get("planned_runtime")
+    if not exact_keys(
+        planned_runtime,
+        {
+            "current_product_consumer_count",
+            "current_qa_injection_consumer_count",
+            "dormant_kernel_owner",
+            "literary_topology_status",
+            "r1b_allowed",
+            "replacement_contract",
+            "activation_preconditions",
+            "production_dispatcher",
+            "save_ledger_owner",
+        },
+        "manifest.planned_runtime",
+        errors,
+    ):
+        return
+    assert isinstance(planned_runtime, dict)
+    if planned_runtime != EXPECTED_PLANNED_RUNTIME:
+        errors.append("manifest.planned_runtime: exact invalidated/R1b-HOLD contract mismatch")
+    if planned_runtime.get("literary_topology_status") != INVALIDATED_CONTRACT_STATUS:
+        errors.append("manifest.planned_runtime.literary_topology_status: must remain invalidated")
+    if planned_runtime.get("r1b_allowed") is not False:
+        errors.append("manifest.planned_runtime.r1b_allowed: rejected topology must keep R1b disabled")
+    if planned_runtime.get("replacement_contract") is not None:
+        errors.append("manifest.planned_runtime.replacement_contract: must remain null")
+    if planned_runtime.get("current_product_consumer_count") != 0:
+        errors.append("manifest.planned_runtime.current_product_consumer_count: must remain 0")
+    if planned_runtime.get("current_qa_injection_consumer_count") != 1:
+        errors.append("manifest.planned_runtime.current_qa_injection_consumer_count: must remain 1")
+    if planned_runtime.get("production_dispatcher") is not None:
+        errors.append("manifest.planned_runtime.production_dispatcher: must remain null")
+    if planned_runtime.get("save_ledger_owner") is not None:
+        errors.append("manifest.planned_runtime.save_ledger_owner: must remain null")
 
 
 @functools.lru_cache(maxsize=None)
@@ -3074,16 +3271,21 @@ def validate_protected_hashes(
     extra_files = sorted(set(files) - EXPECTED_PROTECTED_FILES)
     if missing_files or extra_files:
         errors.append(
-            "manifest.protected_hashes.files: exact 37-file baseline set mismatch "
+            "manifest.protected_hashes.files: exact 29 current + 8 rejected-snapshot file set mismatch "
             f"missing={missing_files} extra={extra_files}"
         )
     for relative, expected_hash in files.items():
         owner = f"manifest.protected_hashes.files[{relative!r}]"
-        path = safe_relative_path(relative, owner, errors)
-        if path is None:
-            continue
         if not isinstance(expected_hash, str) or not HEX_64.fullmatch(expected_hash):
             errors.append(f"{owner}: invalid sha256")
+            continue
+        if relative in REJECTED_PROSE_FILES:
+            # These eight hashes describe the rejected 803a372 prose snapshot.
+            # They are intentionally not compared with current working-tree
+            # prose, which ORDER-117/118 must be able to replace.
+            continue
+        path = safe_relative_path(relative, owner, errors)
+        if path is None:
             continue
         if not path.is_file():
             errors.append(f"{owner}: protected file is missing")
@@ -3122,6 +3324,10 @@ def validate_protected_hashes(
         if not HEX_64.fullmatch(expected_hash):
             errors.append(f"{owner}.sha256: invalid sha256")
             continue
+        if event_id in ALL_TARGET_ID_SET:
+            # The 64 KO/EN rows are an immutable historical registry, checked
+            # by rejected_snapshot digest above, not guards on replacement prose.
+            continue
         path = safe_relative_path(relative, f"{owner}.file", errors)
         if path is None or not path.is_file():
             errors.append(f"{owner}: protected object file is missing")
@@ -3145,12 +3351,15 @@ def validate_protected_hashes(
         if canonical_json_sha256(baseline_rows[0]) != expected_hash:
             errors.append(f"{owner}: manifest object hash does not match baseline")
 
-    required_target_objects: set[tuple[str, str, str]] = set()
-    for locale in ("ko", "en"):
-        for event_id in ALL_TARGET_IDS:
-            matches = context.event_indexes[locale].get(event_id, [])
-            if len(matches) == 1:
-                required_target_objects.add((locale, matches[0].path, event_id))
+    rejected_snapshot_objects = {
+        (
+            str(row.get("locale", "")),
+            str(row.get("file", "")),
+            str(row.get("id", "")),
+        )
+        for row in objects
+        if isinstance(row, dict) and row.get("id") in ALL_TARGET_ID_SET
+    }
     required_legacy_objects: set[tuple[str, str, str]] = set()
     for locale in ("ko", "en"):
         for event_id in LEGACY_PROTECTED_IDS:
@@ -3162,22 +3371,23 @@ def validate_protected_hashes(
                 )
             else:
                 required_legacy_objects.add((locale, matches[0].path, event_id))
-    required_objects = required_target_objects | required_legacy_objects
+    required_objects = rejected_snapshot_objects | required_legacy_objects
     missing_target_objects = sorted(required_objects - object_keys)
     extra_objects = sorted(object_keys - required_objects)
     if missing_target_objects:
         errors.append(
-            "manifest.protected_hashes.objects: missing target/legacy KO/EN canonical hashes "
+            "manifest.protected_hashes.objects: missing rejected-snapshot/legacy KO/EN hashes "
             f"{missing_target_objects[:8]} (missing={len(missing_target_objects)})"
         )
     if extra_objects:
         errors.append(
-            "manifest.protected_hashes.objects: exact protected set is 64 target + "
+            "manifest.protected_hashes.objects: exact registry is 64 rejected snapshot + "
             f"22 legacy objects; extras={extra_objects[:8]} (extra={len(extra_objects)})"
         )
     if len(object_keys) != 86:
         errors.append(
-            f"manifest.protected_hashes.objects: expected exact 86 objects, got {len(object_keys)}"
+            "manifest.protected_hashes.objects: expected exact 64 rejected snapshot + "
+            f"22 protected legacy objects, got {len(object_keys)}"
         )
 
     runtime = protected.get("runtime_consumers")
@@ -3236,35 +3446,54 @@ def validate_manifest(
     root_total = 0
     choice_total = 0
     validate_r1a_contract(manifest, routes, errors)
-    for route_id in EXPECTED_ROUTE_IDS:
-        route = routes.get(route_id)
-        if route is None:
-            errors.append(f"manifest.routes: missing {route_id}")
-            continue
-        roots, roots_by_id = validate_route_shape(route_id, route, errors)
-        root_total += len(roots)
-        choice_total += sum(
-            int(row.get("choice_count", 0))
-            for row in roots
-            if isinstance(row, dict) and isinstance(row.get("choice_count"), int)
-        )
-        validate_actors(manifest, route_id, route, errors)
-        validate_months(route_id, route, errors)
-        validate_roots(route_id, route, roots, roots_by_id, context, outcome_ids, errors)
-        validate_prior_producers(route_id, roots, errors)
-        validate_document_lineage(route_id, route, errors)
+    invalidated = contract_is_invalidated(manifest)
+    if invalidated:
+        # Counts below are descriptive rejected-snapshot statistics only.  The
+        # old route topology and event prose are deliberately not revalidated
+        # as a current contract after delegated L3 rejection.
+        for route in routes.values():
+            roots = route.get("roots", []) if isinstance(route, dict) else []
+            if not isinstance(roots, list):
+                continue
+            root_total += len(roots)
+            choice_total += sum(
+                int(row.get("choice_count", 0))
+                for row in roots
+                if isinstance(row, dict) and isinstance(row.get("choice_count"), int)
+            )
+        validate_invalidated_runtime(manifest, errors)
+    else:
+        for route_id in EXPECTED_ROUTE_IDS:
+            route = routes.get(route_id)
+            if route is None:
+                errors.append(f"manifest.routes: missing {route_id}")
+                continue
+            roots, roots_by_id = validate_route_shape(route_id, route, errors)
+            root_total += len(roots)
+            choice_total += sum(
+                int(row.get("choice_count", 0))
+                for row in roots
+                if isinstance(row, dict) and isinstance(row.get("choice_count"), int)
+            )
+            validate_actors(manifest, route_id, route, errors)
+            validate_months(route_id, route, errors)
+            validate_roots(route_id, route, roots, roots_by_id, context, outcome_ids, errors)
+            validate_prior_producers(route_id, roots, errors)
+            validate_document_lineage(route_id, route, errors)
 
-    if root_total != 32:
-        errors.append(f"manifest: expected exactly 32 roots, got {root_total}")
-    if choice_total != 86:
-        errors.append(f"manifest: expected exactly 86 choices, got {choice_total}")
-    if len(outcome_ids) != 86:
-        errors.append(f"manifest: expected 86 unique outcome IDs, got {len(outcome_ids)}")
-    if set(routes) != set(EXPECTED_ROUTE_IDS):
-        errors.append("manifest: route scope must contain career/startup only")
+        if root_total != 32:
+            errors.append(f"manifest: expected exactly 32 roots, got {root_total}")
+        if choice_total != 86:
+            errors.append(f"manifest: expected exactly 86 choices, got {choice_total}")
+        if len(outcome_ids) != 86:
+            errors.append(f"manifest: expected 86 unique outcome IDs, got {len(outcome_ids)}")
+        if set(routes) != set(EXPECTED_ROUTE_IDS):
+            errors.append("manifest: route scope must contain career/startup only")
 
-    validate_transactions_and_finale(manifest, routes, errors)
+        validate_transactions_and_finale(manifest, routes, errors)
     blocker_text = flattened(manifest.get("unresolved_blockers"))
+    if "order112_113_l3_topology_rejected" not in blocker_text:
+        errors.append("manifest.unresolved_blockers: rejected literary topology must block R1b")
     for token in ("partner_none", "m48", "m49_route_lock", "m53", "m56", "margin"):
         if token not in blocker_text:
             errors.append(f"manifest.unresolved_blockers: missing unresolved {token!r} blocker")
@@ -3361,7 +3590,186 @@ def first_terminal_root(route: dict[str, Any]) -> dict[str, Any]:
     raise ValueError("no terminal root")
 
 
+def run_invalidated_self_test(
+    manifest: dict[str, Any],
+    context: AuditContext,
+) -> tuple[list[str], int]:
+    """Negative tests for the fail-closed invalidated-contract mode."""
+    failures: list[str] = []
+    base_errors, _ = validate_manifest(manifest, context)
+    if base_errors:
+        return [f"baseline manifest is not valid: {base_errors[:8]}"], 0
+
+    cases: list[tuple[str, Callable[[dict[str, Any]], None], str]] = []
+    cases.append((
+        "reachability_true",
+        lambda data: data.__setitem__("reachability_claim", True),
+        "reachability_claim",
+    ))
+    cases.append((
+        "activation_mapped",
+        lambda data: data.__setitem__("activation", "mapped"),
+        "reference_only",
+    ))
+    cases.append((
+        "contract_status_reenabled",
+        lambda data: data["r1a_contract"].__setitem__("contract_status", "active"),
+        "contract_status",
+    ))
+
+    def contract_invalidation_declaration_removed(data: dict[str, Any]) -> None:
+        for key in (
+            "contract_status",
+            "usable_for_r1b",
+            "replacement_contract",
+            "rejected_snapshot",
+        ):
+            del data["r1a_contract"][key]
+
+    cases.append((
+        "contract_invalidation_declaration_removed",
+        contract_invalidation_declaration_removed,
+        "contract_status",
+    ))
+    cases.append((
+        "contract_usable_for_r1b",
+        lambda data: data["r1a_contract"].__setitem__("usable_for_r1b", True),
+        "usable_for_r1b",
+    ))
+    cases.append((
+        "contract_replacement_forged",
+        lambda data: data["r1a_contract"].__setitem__("replacement_contract", {}),
+        "replacement_contract",
+    ))
+    cases.append((
+        "planned_r1b_enabled",
+        lambda data: data["planned_runtime"].__setitem__("r1b_allowed", True),
+        "r1b_allowed",
+    ))
+    cases.append((
+        "planned_replacement_forged",
+        lambda data: data["planned_runtime"].__setitem__("replacement_contract", {}),
+        "replacement_contract",
+    ))
+    cases.append((
+        "lifecycle_product_consumer_added",
+        lambda data: data["r1a_contract"]["lifecycle"].__setitem__("product_consumer_count", 1),
+        "product_consumer_count",
+    ))
+    cases.append((
+        "lifecycle_dispatch_enabled",
+        lambda data: data["r1a_contract"]["lifecycle"].__setitem__("dispatch_allowed", True),
+        "dispatch_allowed",
+    ))
+    cases.append((
+        "planned_product_consumer_added",
+        lambda data: data["planned_runtime"].__setitem__("current_product_consumer_count", 1),
+        "current_product_consumer_count",
+    ))
+    cases.append((
+        "planned_dispatcher_added",
+        lambda data: data["planned_runtime"].__setitem__("production_dispatcher", "EventManager"),
+        "production_dispatcher",
+    ))
+    cases.append((
+        "runtime_consumer_count_added",
+        lambda data: data["protected_hashes"]["runtime_consumers"].__setitem__("expected_count", 1),
+        "expected_count",
+    ))
+
+    def rejected_contract_route_changed(data: dict[str, Any]) -> None:
+        data["r1a_contract"]["routes"]["career_reference_v1"]["root_count"] = 8
+
+    def rejected_route_manifest_changed(data: dict[str, Any]) -> None:
+        route_map(data)["startup_acquisition_reference_v1"]["roots"][0]["choice_count"] = 99
+
+    def rejected_prose_file_hash_changed(data: dict[str, Any]) -> None:
+        data["protected_hashes"]["files"]["content/events/arc_midgame.json"] = "0" * 64
+
+    def rejected_prose_object_hash_changed(data: dict[str, Any]) -> None:
+        row = next(
+            row for row in data["protected_hashes"]["objects"]
+            if row["id"] in ALL_TARGET_ID_SET
+        )
+        row["sha256"] = "0" * 64
+
+    def legacy_object_hash_changed(data: dict[str, Any]) -> None:
+        row = next(
+            row for row in data["protected_hashes"]["objects"]
+            if row["id"] in LEGACY_PROTECTED_IDS
+        )
+        row["sha256"] = "0" * 64
+
+    def protected_runtime_hash_changed(data: dict[str, Any]) -> None:
+        data["protected_hashes"]["files"]["systems/StoryMapMonthlyRuntime.gd"] = "0" * 64
+
+    cases.extend(
+        [
+            ("rejected_contract_route_changed", rejected_contract_route_changed, "rejected 9+9 contract digest"),
+            ("rejected_route_manifest_changed", rejected_route_manifest_changed, "rejected route-manifest digest"),
+            ("rejected_prose_file_hash_changed", rejected_prose_file_hash_changed, "rejected prose-file hash snapshot"),
+            ("rejected_prose_object_hash_changed", rejected_prose_object_hash_changed, "rejected 64-object prose hash snapshot"),
+            ("legacy_object_hash_changed", legacy_object_hash_changed, "working-tree canonical object hash drifted"),
+            ("protected_runtime_hash_changed", protected_runtime_hash_changed, "working-tree byte hash drifted"),
+        ]
+    )
+
+    for label, mutate, fragment in cases:
+        expect_failure(label, manifest, context, mutate, fragment, failures)
+    case_count = len(cases)
+
+    case_count += 1
+    replacement_context = copy.deepcopy(context)
+    replacement_record = replacement_context.event_indexes["ko"][ALL_TARGET_IDS[0]][0]
+    replacement_record.row["title"] = "replacement prose is intentionally not hash-bound"
+    replacement_errors, _ = validate_manifest(
+        copy.deepcopy(manifest),
+        replacement_context,
+    )
+    if replacement_errors:
+        failures.append(
+            "replacement_prose: invalidated audit still binds current target prose "
+            f"errors={replacement_errors[:4]}"
+        )
+
+    case_count += 1
+    with tempfile.TemporaryDirectory(prefix="year5-route-invalidated-audit-") as temporary:
+        probe = Path(temporary) / "RuntimeConsumer.gd"
+        probe_text = f'const ILLEGAL_ROOT = "{ALL_TARGET_IDS[0]}"\n'
+        probe.write_text(probe_text, encoding="utf-8")
+        errors, _ = validate_manifest(
+            copy.deepcopy(manifest),
+            context,
+            extra_runtime_sources=[(str(probe), probe_text)],
+        )
+        if not any("production runtime consumer count must be 0" in error for error in errors):
+            failures.append("runtime_consumer: temporary product dispatch was accepted")
+
+    case_count += 1
+    loader_probe = 'var reference_routes = load("res://content/meta/year5_reference_routes.json")\n'
+    errors, _ = validate_manifest(
+        copy.deepcopy(manifest),
+        context,
+        extra_runtime_sources=[("RuntimeManifestLoader.gd", loader_probe)],
+    )
+    if not any("production runtime consumer count must be 0" in error for error in errors):
+        failures.append("runtime_manifest_loader: product manifest dispatch was accepted")
+
+    case_count += 1
+    try:
+        strict_loads('{"schema_version":1,"schema_version":2}', "self-test duplicate key")
+    except ValueError as exc:
+        if "duplicate JSON key" not in str(exc):
+            failures.append(f"duplicate_json_key: wrong rejection {exc}")
+    else:
+        failures.append("duplicate_json_key: strict loader accepted a duplicate key")
+
+    return failures, case_count
+
+
 def run_self_test(manifest: dict[str, Any], context: AuditContext) -> tuple[list[str], int]:
+    if contract_is_invalidated(manifest):
+        return run_invalidated_self_test(manifest, context)
     failures: list[str] = []
     case_count = 0
     base_errors, _ = validate_manifest(manifest, context)
@@ -3807,6 +4215,9 @@ def run_self_test(manifest: dict[str, Any], context: AuditContext) -> tuple[list
         root = root_with_id(data, "startup_acquisition_reference_v1", "arc_y5_startup_offer_c0")
         root["common_writes"].append("cash_delta_krw:3200000000")
 
+    def rejected_topology_r1b_enabled(data: dict[str, Any]) -> None:
+        data["planned_runtime"]["r1b_allowed"] = True
+
     cases.extend(
         [
             ("actor_roles_empty", actor_roles_emptied, "expected exact roles"),
@@ -3841,6 +4252,7 @@ def run_self_test(manifest: dict[str, Any], context: AuditContext) -> tuple[list
             ("m49_early_actor_binding_added", m49_early_actor_binding_added, "canonical semantic digest mismatch"),
             ("m49_early_startup_exit_added", m49_early_startup_exit_added, "canonical semantic digest mismatch"),
             ("m49_early_cash_added", m49_early_cash_added, "canonical semantic digest mismatch"),
+            ("rejected_topology_r1b_enabled", rejected_topology_r1b_enabled, "exact activation preconditions mismatch"),
         ]
     )
 
@@ -4019,17 +4431,21 @@ def main() -> int:
             return 1
         print(
             "YEAR5_REFERENCE_ROUTE_SELF_TEST_OK "
-            f"cases={cases} routes={stats['routes']} roots={stats['roots']} "
-            f"choices={stats['choices']} r1a_roots={stats['r1a_roots']} "
-            f"r1a_choices={stats['r1a_choices']} product_consumers={stats['consumers']} qa_consumers=1"
+            f"cases={cases} rejected_snapshot_routes={stats['routes']} "
+            f"rejected_snapshot_roots={stats['roots']} rejected_snapshot_choices={stats['choices']} "
+            f"rejected_r1a_roots={stats['r1a_roots']} rejected_r1a_choices={stats['r1a_choices']} "
+            f"product_consumers={stats['consumers']} "
+            "qa_consumers=1 topology=invalidated r1b_allowed=false"
         )
         return 0
 
     print(
         "YEAR5_REFERENCE_ROUTE_OK "
-        f"routes={stats['routes']} roots={stats['roots']} choices={stats['choices']} "
-        f"r1a_roots={stats['r1a_roots']} r1a_choices={stats['r1a_choices']} "
-        f"product_consumers={stats['consumers']} qa_consumers=1 activation=reference_only"
+        f"rejected_snapshot_routes={stats['routes']} rejected_snapshot_roots={stats['roots']} "
+        f"rejected_snapshot_choices={stats['choices']} rejected_r1a_roots={stats['r1a_roots']} "
+        f"rejected_r1a_choices={stats['r1a_choices']} "
+        f"product_consumers={stats['consumers']} qa_consumers=1 activation=reference_only "
+        "topology=invalidated r1b_allowed=false"
     )
     return 0
 

@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-109
+# Archived Queue Spec: ORDER-109
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-109 [P0·문학 보정] M34 여섯 결말을 여섯 사건으로 다시 쓰고, 계약 보고체와 시계형 도입을 산문으로 되돌린다
+#### [!] ORDER-109 [조건부 반려] M34 수리는 보존하고 사람 없는 시계 장면 1편을 다시 쓴다
 
 **사용자 전달 전수 낭독 (2026-08-18):** M01~M36 원고 87편의 산문·인물 목소리·
 감각은 합격선 이상이다. 그러나 M34 여섯 terminal은 모두 문자/음성/공식 통지의
@@ -94,11 +94,14 @@ reply/reaction` 같은 계약 보고 패턴을 다시 세어, 목표 root 안 �
 - [x] strict duplicate-key JSON, EN coverage, story consistency, speech register,
   context/queue, exact scope, `git diff --check` 통과.
 - [x] 독립 L2에서 반복 장면·설계 설명 누출·가짜 선택·시간/공간 점프·KO/EN P0/P1 0.
-- [ ] 기존 ORDER-106/107 사람 L3는 그대로 보류하며, 사용자가 돌아오면 보정본을 포함해
-  각 배치 무작위 3개를 판정한다.
+- [!] Claude 위임 L3에서 M34 수리는 통과하고 시계 장면 1편이 조건부 반려됐다.
+  사용자 최종 GO는 OPEN이다.
 
-## 사람 판정
+## 2026-08-21 L3 판정
 
-M34 여섯 편을 연달아 읽어도 같은 우체국을 여섯 번 방문한 느낌이 없어야 한다.
-한 편이라도 terminal 이름만 바꾼 같은 장면이거나, 계약 준수를 화자가 해설하거나,
-시각 도입을 사물 문장으로 단순 앞치환만 해 리듬이 그대로면 이 보정 배치를 반려한다.
+- 방법: 모집단 16편에서 seed 9821 무작위 3편. 세 판정축은 동일하다.
+- **판정: Claude(사용자 위임) — 조건부.** M34 여섯 결말 수리는 통과했다.
+  `arc_y2_money_structure`만 다시 쓴다. 시각을 두 번째 문장으로 옮겼지만 선택은
+  여전히 사람 없는 기한·설명·미납 순열이다.
+- 원 오더의 집필·검토는 종료하고 국소 복구를 ORDER-117로 이관한다.
+- **사용자 최종 GO: 미서명(OPEN).**

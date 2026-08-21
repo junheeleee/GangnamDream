@@ -52,6 +52,25 @@
     "finale_state": "none, pending or ready; success is held until final-week completion"
   },
   "r1a_contract": {
+    "contract_status": "invalidated_by_delegated_l3",
+    "usable_for_r1b": false,
+    "replacement_contract": null,
+    "rejected_snapshot": {
+      "judged_by": "Claude(사용자 위임)",
+      "source_commit": "803a372d4314d58d9ee03038bca3897bc2e18630",
+      "source_tree": "f95a8dc44dcd61d8c09eef0d487436833c64d721",
+      "reason": "ORDER-112 partial reject and ORDER-113 full reject invalidate the 9+9 literary topology",
+      "rejected_contract_sha256": "f4929ad915db417d716f5b62119cf6ab6f32d50026f4a62ed2e80859fb322014",
+      "rejected_route_manifest_sha256": "0eb8bcefa0d167e5be29571260a2849bd389a4b7aaebbf0a55991d979635882f",
+      "contract_route_count": 2,
+      "contract_root_count": 18,
+      "contract_choice_count": 50,
+      "prose_file_count": 8,
+      "prose_file_hashes_sha256": "be104f89aed0b6661800df939398c2bb0d26108bd202a5718c417fdbcea282df",
+      "prose_object_count": 64,
+      "prose_object_hashes_sha256": "17b6dae7997a75fbcc4fd0f7a71f0602720fa60efa2b612921d090ccb0336e14",
+      "hash_semantics": "historical rejected evidence only; not current prose guards"
+    },
     "lifecycle": {
       "name": "dormant_contract_kernel",
       "activation_after_completion": false,
@@ -1148,7 +1167,12 @@
     "current_product_consumer_count": 0,
     "current_qa_injection_consumer_count": 1,
     "dormant_kernel_owner": "systems/Year5ReferenceRouteKernel.gd",
+    "literary_topology_status": "invalidated_by_delegated_l3",
+    "r1b_allowed": false,
+    "replacement_contract": null,
     "activation_preconditions": [
+      "ORDER-112 and ORDER-113 replacement prose receives a new delegated L3 review",
+      "a separate contract order replaces the rejected 9+9 topology",
       "R1b and R2 complete",
       "all unresolved blockers closed",
       "durable typed receipts and route lock exist",
@@ -1158,6 +1182,12 @@
     "save_ledger_owner": null
   },
   "unresolved_blockers": [
+    {
+      "id": "order112_113_l3_topology_rejected",
+      "month": null,
+      "problem": "delegated L3 rejected the startup topology and all but one career root; the dormant 9+9 R1a contract describes rejected prose structure",
+      "required_resolution": "redesign ORDER-113, re-evaluate ORDER-112 except the preserved Hyunsu root, obtain a new delegated L3 review, then replace this contract in a separate order before R1b"
+    },
     {
       "id": "partner_none_decision_producer",
       "month": null,
