@@ -11,11 +11,14 @@
 **착수 선언 (2026-08-21):** 사용자 증거 기준은
 `921edf7e7eb04b5034bb3b788249875630619887`, 구현 기준은
 `1220b294e69a11aa34c680790f02f9ccbec0e8c3`이다. 아래 런타임·QA 파일은 두
-리비전 사이 byte-exact다. 만지는 파일은 정확히 다음 14개뿐이며
+리비전 사이 byte-exact다. 착수 후 literal-localizer 전수 스캔에서 같은 누출이
+`ArubaGame` 결과와 `JobSystem` 지원 준비 문구에도 5건 확인되었고, 이어진 L2에서
+literal 밖 동적 조립으로 같은 수치를 만드는 `StoryMode` 결과 경로도 확인됐다.
+만지는 파일은 정확히 다음 17개뿐이며
 `project.godot`은 수정·스테이징하지 않는다.
 
-- `scenes/MainGame.gd`, `scenes/JobHuntMiniGame.gd`
-- `autoloads/GameState.gd`, `systems/InvestmentSystem.gd`
+- `scenes/MainGame.gd`, `scenes/StoryMode.gd`, `scenes/JobHuntMiniGame.gd`, `scenes/ArubaGame.gd`
+- `autoloads/GameState.gd`, `systems/InvestmentSystem.gd`, `systems/JobSystem.gd`
 - `tools/ScreenshotQA.gd`, `tools/player_surface_language_audit.py`
 - `tools/audit.sh`, `tools/audit_scope.json`
 - `CLAUDE.md`, `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-119.md`
@@ -59,9 +62,11 @@ assertion은 새 표면 계약에 맞추지만 하네스 구조 수리는 별도
 9. investment_skill 30/50/70 토스트를 시장에서 보이는 변화로 교체.
 10. intelligence 30/50/70 토스트를 읽는 방식·눈에 들어오는 단서 변화로 교체.
 11. social_skill 30/50/70 토스트를 이름을 부르고 자리를 내주는 사람 행동으로 교체.
-12. MainGame의 나머지 결과·월 위기·성향·직업 표면에 남은 동일 금지어를 자연화.
+12. MainGame·StoryMode의 나머지 결과·월 위기·성향·직업 표면과 동적 조립 경로에
+    남은 동일 금지어를 자연화.
 13. JobHuntMiniGame의 A–D 평가 표면을 면접관/지원서의 관측 가능한 반응으로 교체.
-14. GameState와 InvestmentSystem의 localized log에 남은 스탯 delta·배수 언어 제거.
+14. GameState·InvestmentSystem·ArubaGame·JobSystem의 localized 결과/log에 남은
+    스탯 delta·배수 언어 제거.
 15. `이번 주  ...`, `기척  ...`의 구분자를 ` · `로 고쳐 이중 공백 제거.
 16. 데모 종료 `WHAT REMAINS`에서 현재 직업을 장면이 아닌 항목으로 분리.
 17. GameState에 네 배타적 주차 분류를 reset/serialize/load 가능한 상태로 기록.
