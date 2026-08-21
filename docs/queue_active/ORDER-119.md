@@ -26,8 +26,10 @@ authored-result-only 표면에 맞춘다. 네 갈래 주차 원장의 다섯 정
 변이 self-test도 폐기 전 호출 수를 코드에 고정하고 있어, 검사의 강도를 낮추지 않고 새
 원장 exact 값으로 갱신한다. 결과·저장 소유 파일의 바이트가 바뀌면서 Chapter 1 인과
 원장의 source snapshot과 직접 runtime-proof binding도 낡았으므로, 사건·부채 의미는
-바꾸지 않고 현재 후보의 위치·해시·semantic digest만 다시 고정한다. 만지는 파일은
-정확히 다음 27개뿐이며
+바꾸지 않고 현재 후보의 위치·해시·semantic digest만 다시 고정한다. dormant year5
+감사기는 현재 제품 보호 해시뿐 아니라 보호 기준 커밋도 고정하므로, 반려된 R1a
+snapshot은 그대로 둔 채 먼저 만든 구현 커밋을 새 current-file 기준으로 읽도록
+갱신한다. 만지는 파일은 정확히 다음 28개뿐이며
 `project.godot`은 수정·스테이징하지 않는다.
 
 - `scenes/MainGame.gd`, `scenes/StoryMode.gd`, `scenes/JobHuntMiniGame.gd`, `scenes/ArubaGame.gd`
@@ -37,6 +39,7 @@ authored-result-only 표면에 맞춘다. 네 갈래 주차 원장의 다섯 정
 - `tools/player_surface_language_audit.py`, `tools/demo_localization_scope.py`
 - `tools/ja_translation_pipeline.py`
 - `tools/chapter1_core_loop_v2_causal_ledger_check.py`
+- `tools/year5_reference_route_audit.py`
 - `tools/audit.sh`, `tools/audit_scope.json`
 - `content/meta/demo_localization_scope.json`, `content/meta/year5_reference_routes.json`, `locale/ui_ja.json`
 - `content/meta/chapter1_core_loop_v2_causal_ledger.json`
