@@ -18,8 +18,12 @@ literal 밖 동적 조립으로 같은 수치를 만드는 `StoryMode` 결과 �
 `StoryPlaybackCheck`, 데모 번역 범위 검사도 폐기된 결과 함수·카드를 계속 요구하는
 계약 충돌이 드러났다. 숨은 카드나 빈 호환 함수를 되살리지 않고 세 검사를 새
 authored-result-only 표면에 맞춘다. 네 갈래 주차 원장의 다섯 정수 필드는 기존
-저장 손상 진단에도 등록해 타입 오류 전 백업 복구 경계를 유지한다. 만지는 파일은
-정확히 다음 21개뿐이며
+저장 손상 진단에도 등록해 타입 오류 전 백업 복구 경계를 유지한다. 결과 카드와
+동적 등급 문구를 폐기한 뒤 기존 번역 원장이 제거된 호출을 계속 요구하는 것도
+확인됐다. 죽은 결과 함수를 되살리지 않고 번역 원장과 현재 JA 키를 새 정적 산문
+표면에 맞춘다. 같은 변경이 dormant year5 경계의 보호 파일 해시도 바꾸므로, 현재
+런타임 의미를 건드리지 않고 그 보호 해시만 새 후보 바이트에 맞춘다. 만지는 파일은
+정확히 다음 24개뿐이며
 `project.godot`은 수정·스테이징하지 않는다.
 
 - `scenes/MainGame.gd`, `scenes/StoryMode.gd`, `scenes/JobHuntMiniGame.gd`, `scenes/ArubaGame.gd`
@@ -28,6 +32,7 @@ authored-result-only 표면에 맞춘다. 네 갈래 주차 원장의 다섯 정
 - `tools/ScreenshotQA.gd`, `tools/TextMaterialCheck.gd`, `tools/StoryPlaybackCheck.gd`
 - `tools/player_surface_language_audit.py`, `tools/demo_localization_scope.py`
 - `tools/audit.sh`, `tools/audit_scope.json`
+- `content/meta/demo_localization_scope.json`, `content/meta/year5_reference_routes.json`, `locale/ui_ja.json`
 - `CLAUDE.md`, `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-119.md`
 - `docs/WORK_LOG.md`, `docs/STATUS.md`, `docs/DECISIONS.md`
 
