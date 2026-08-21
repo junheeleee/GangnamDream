@@ -1066,25 +1066,25 @@
       }]
     },
     {
-      "id": "full_prose_order113_user_final_go",
+      "id": "full_prose_order118_user_final_go",
       "domain": "narrative",
-      "gate": "ORDER-113 startup 세로줄 사용자 최종 서명",
-      "why": "표본 세 편이 모두 목소리·현재 손실·여운에 미달해 전체 구조를 다시 설계해야 하며 R1b도 그때까지 열 수 없다.",
-      "owner": "ORDER-113", "state": "open",
-      "scope": {"blocks": ["full", "year5-r1b"], "content": "ORDER-113 startup 16편 전면 재설계와 코드 토큰 제거"},
+      "gate": "ORDER-118 startup 재설계 사용자 최종 서명",
+      "why": "사람·시간 중심의 새 16편은 L1/L2를 통과했지만 위임 낭독과 사용자 최종 GO 전에는 정본 승격도 R1b도 열 수 없다.",
+      "owner": "ORDER-118", "state": "open",
+      "scope": {"blocks": ["full", "year5-r1b"], "content": "ORDER-118 startup 16편 재설계와 마지막 해 코드 토큰 제거 후보"},
       "revision": "full_rc",
       "sample": {
-        "cohort": "order113_seed9821_random_three",
+        "cohort": "order118_seed9821_random_three",
         "requirements": [
-          "803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 16편",
-          "seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음",
+          "후보 f425b812d72664c2baeeb746aa6ce0b5f6299c0f / tree 4c0a659e972140660ae6d75968fcffef0c081cee의 새 startup 모집단 16편",
+          "seed 9821 무작위 3편; 판정자가 실제 추출 알고리즘과 root 3개를 판정 기록에 명시",
           "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
         ]
       },
       "acceptance": [
-        "career와 다른 끝맺음으로 startup 16편 전면 재설계",
-        "플레이어 노출 코드 토큰을 상태 데이터로 내리고 산문에서 제거",
-        "새 16편 무작위 3편 재판정과 사용자 최종 GO"
+        "career와 다른 끝맺음·기록 방식 아닌 선택·사람의 현재 비용에 위임 낭독 GO",
+        "플레이어 노출 코드 토큰 0과 R1b 비활성 경계 유지",
+        "새 16편 무작위 3편의 Claude(사용자 위임) 판정 뒤 사용자 최종 GO"
       ],
       "delegated_reviews": [{
         "decided_at": "2026-08-21", "decided_by": "Claude(사용자 위임)", "authority": "user_delegated",

@@ -9,6 +9,16 @@
   loans, mods, 24→48-week ledgers, and the 240-week convergence model share the same gate.
 
 ## Unreleased
+- Prepared a source-only replacement for the rejected startup final-year prose without
+  making it reachable. Six decisions now move through a live customer failure, the unnamed
+  cofounder and team, the actual sale of Minjun's 20% stake for KRW 3.2 billion, and three
+  mutually exclusive final-evening commitments; ten single-action bridges preserve the
+  human cost between them. The Korean and English candidate contains 16 scenes and 27
+  choices per locale, and adjacent Year-Five prose no longer exposes internal document IDs,
+  version labels, hashes, or code formatting. The historical 9+9 kernel contract remains
+  invalidated, with product consumers and dispatch at zero. Delegated three-scene reading
+  and the user's separate final approval remain open before any replacement contract or R1b
+  wiring.
 - Introduced an isolated fresh-start Month-One episode prototype without changing
   Months Two through Six or old committed/in-progress Month-One saves. Instead of
   manually filling four weeks and confirming two routines, the player chooses an

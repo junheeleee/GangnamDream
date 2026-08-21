@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-08-21 04:03 UTC · d3165902`
+> 생성 시각 · 커밋: `2026-08-21 05:16 UTC · f425b812`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -54,7 +54,7 @@
 | full · ORDER-110 마지막 해 기준 세로줄 20편의 정본 승격 | **ORDER-110 마지막 해 기준 세로줄 사용자 최종 서명**<br><sub>Claude의 위임 표본 판정은 작품성 판단을 제공하지만 정본을 최종 승인하는 사용자의 서명을 대신하지 않는다.</sub><br><strong>판정: Claude(사용자 위임) — 합격</strong><br><sub>판정: Claude(사용자 위임) — 합격. arc_y5_jaehyuk_return_call_reference의 친구라는 말이 답이면서 부탁의 재료가 되는 양면성을 근거로 삼음.</sub><br><sub>정본 서명: 사용자 최종 GO 대기</sub> | `full_rc · REBUILD 대기` | order110_seed9821_random_three<br>803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 20편<br>seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음<br>인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축 | 사용자가 Claude 위임 합격을 명시적으로 최종 GO하거나 뒤집어 재판정 범위를 정함 | `ORDER-110` |
 | full · ORDER-111 신규 마지막 해 대체 세로줄 24편의 정본 승격 | **ORDER-111 마지막 해 대체 세로줄 사용자 최종 서명**<br><sub>Claude의 위임 표본 판정은 작품성 판단을 제공하지만 정본을 최종 승인하는 사용자의 서명을 대신하지 않는다.</sub><br><strong>판정: Claude(사용자 위임) — 합격</strong><br><sub>판정: Claude(사용자 위임) — 합격. arc_y5_final_week_jiyeon_outbound가 앞 장면의 지연 요구를 이월해 세 선택이 각각 다른 것을 포기하게 한 점을 근거로 삼음.</sub><br><sub>정본 서명: 사용자 최종 GO 대기</sub> | `full_rc · REBUILD 대기` | order111_seed9821_random_three<br>803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 24편<br>seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음<br>인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축 | 사용자가 Claude 위임 합격을 명시적으로 최종 GO하거나 뒤집어 재판정 범위를 정함 | `ORDER-111` |
 | full, year5-r1b · ORDER-112 career 16편 중 보존 1편과 재판정 15편 | **ORDER-112 career 세로줄 사용자 최종 서명**<br><sub>한 편만 보존하고 나머지 15편을 재판정해야 하며 사용자 최종 서명 전에는 정본 승격이 아니다.</sub><br><strong>판정: Claude(사용자 위임) — 부분 반려 · 보존: arc_y5_after_goal_hyunsu_career · 나머지 재판정</strong><br><sub>판정: Claude(사용자 위임) — 부분 반려. 현수 장면 1편은 보존하고 나머지 15편을 재판정; 두 delivery 표본은 사본·시각 저장에 머물러 미달.</sub><br><sub>정본 서명: 사용자 최종 GO 대기</sub> | `full_rc · REBUILD 대기` | order112_seed9821_random_three<br>803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 16편<br>seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음<br>인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축 | arc_y5_after_goal_hyunsu_career는 byte-exact 보존<br>나머지 15편 전수 재판정과 필요한 재작성 완료<br>사용자가 최종 GO | `ORDER-112` |
-| full, year5-r1b · ORDER-113 startup 16편 전면 재설계와 코드 토큰 제거 | **ORDER-113 startup 세로줄 사용자 최종 서명**<br><sub>표본 세 편이 모두 목소리·현재 손실·여운에 미달해 전체 구조를 다시 설계해야 하며 R1b도 그때까지 열 수 없다.</sub><br><strong>판정: Claude(사용자 위임) — 전량 반려</strong><br><sub>판정: Claude(사용자 위임) — 전량 반려. arc_final_countdown_startup_executed를 포함한 표본이 사람의 마지막 선택이 아니라 서식 기입으로 끝남.</sub><br><sub>정본 서명: 사용자 최종 GO 대기</sub> | `full_rc · REBUILD 대기` | order113_seed9821_random_three<br>803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 16편<br>seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음<br>인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축 | career와 다른 끝맺음으로 startup 16편 전면 재설계<br>플레이어 노출 코드 토큰을 상태 데이터로 내리고 산문에서 제거<br>새 16편 무작위 3편 재판정과 사용자 최종 GO | `ORDER-113` |
+| full, year5-r1b · ORDER-118 startup 16편 재설계와 마지막 해 코드 토큰 제거 후보 | **ORDER-118 startup 재설계 사용자 최종 서명**<br><sub>사람·시간 중심의 새 16편은 L1/L2를 통과했지만 위임 낭독과 사용자 최종 GO 전에는 정본 승격도 R1b도 열 수 없다.</sub><br><strong>판정: Claude(사용자 위임) — 전량 반려</strong><br><sub>판정: Claude(사용자 위임) — 전량 반려. arc_final_countdown_startup_executed를 포함한 표본이 사람의 마지막 선택이 아니라 서식 기입으로 끝남.</sub><br><sub>정본 서명: 사용자 최종 GO 대기</sub> | `full_rc · REBUILD 대기` | order118_seed9821_random_three<br>후보 f425b812d72664c2baeeb746aa6ce0b5f6299c0f / tree 4c0a659e972140660ae6d75968fcffef0c081cee의 새 startup 모집단 16편<br>seed 9821 무작위 3편; 판정자가 실제 추출 알고리즘과 root 3개를 판정 기록에 명시<br>인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축 | career와 다른 끝맺음·기록 방식 아닌 선택·사람의 현재 비용에 위임 낭독 GO<br>플레이어 노출 코드 토큰 0과 R1b 비활성 경계 유지<br>새 16편 무작위 3편의 Claude(사용자 위임) 판정 뒤 사용자 최종 GO | `ORDER-118` |
 | order97-close, claim:ja-demo · Batch A의 StartMenu 16호출과 StoryMode 7호출, 총 23개 lookup-before-format 이동 표면 | **ORDER-97 Batch A 실제 UI 임의 3표면 대조**<br><sub>템플릿·인자·키 수 자동 검사는 lookup provenance를 증명하지만 시작·기록·설정·장면 화면의 최종 문맥과 값이 사람에게 맞게 읽히는지는 실제 후보 표면을 봐야 한다. 현재 소스가 active demo_rc 뒤로 전진했으므로 최신 후보 재발급과 사람 판정이 모두 필요하다.</sub> | `demo_rc · ACTIVE 22f1f2ac / manifest 96e76edd` | order97_batch_a_ui_format_random_three<br>현재 소스로 다시 발급한 같은 demo_rc와 ORDER-97 exact registry에서 사용자가 서로 다른 실제 표면 3개를 임의 선택<br>각 표면의 KO와 EN 최종 문자열이 migration 전 authored byte와 같은지 대조<br>일본어 사전 hit가 안정 템플릿과 대상 인자를 쓰며 영어 fallback이나 교차 언어 금액을 남기지 않는지 실제 화면에서 확인<br>같은 최종 demo_rc의 JA StartMenu·gallery·Story·i18n-layout에서 가나·한자·일본어 문장부호가 한 Noto Sans JP 굵기로 읽히고 줄바꿈·잘림이 없는지 확인<br>세 표면 중 하나라도 틀리면 표본만 고치지 않고 Batch A 23호출을 전량 재검토 | 세 실제 표면 모두 올바른 일본어 문맥·값·placeholder·줄바꿈으로 읽힘<br>JA 가나·한자·일본어 문장부호의 획 굵기와 정렬이 한 서체 역할로 보이고 잘림이 없음<br>KO/EN authored bytes와 숫자·날짜·금액 의미가 보존됨<br>사용자가 Batch A에 최종 GO | `ORDER-97` |
 | order97-close, claim:ja-demo · Batch B의 GameState 4·MainGame 2·CommunicationPhone 3·ArubaGame 1·SeoulCycleBoard 2·CoreLoopPlanner 13, 총 25개 lookup-before-format 이동 표면 | **ORDER-97 Batch B 실제 UI 임의 3표면 대조**<br><sub>정적 원장은 남은 호출과 돈 formatter의 소유권을 증명하지만 계획판·연락폰·배달·재고조사 표면의 최종 문맥, 복수형, 고정 일정과 돈 단위는 같은 후보의 실제 화면에서 사람이 확인해야 한다. W1 지원서 완료 표면이 active demo_rc 뒤에 추가돼 최신 후보 재발급과 사람 판정이 모두 필요하다.</sub> | `demo_rc · ACTIVE 22f1f2ac / manifest 96e76edd` | order97_batch_b_ui_format_random_three<br>현재 소스로 다시 발급한 같은 demo_rc와 ORDER-97 exact registry에서 사용자가 서로 다른 실제 표면 3개를 임의 선택<br>각 표면의 KO와 EN 최종 문자열이 migration 전 authored byte와 같은지 대조<br>일본어 사전 hit와 영어 fallback의 인자 provenance, placeholder 결과, 고정 일정·복수형·원화 의미를 실제 화면에서 확인<br>같은 최종 demo_rc의 JA core-loop 계획판·서울 보드·연락폰·i18n-layout에서 가나·한자·일본어 문장부호가 한 Noto Sans JP 굵기로 읽히고 줄바꿈·잘림이 없는지 확인<br>세 표면 중 하나라도 틀리면 표본만 고치지 않고 Batch B 25호출을 전량 재검토 | 세 실제 표면 모두 올바른 일본어 문맥·값·placeholder·줄바꿈으로 읽힘<br>JA 가나·한자·일본어 문장부호의 획 굵기와 정렬이 한 서체 역할로 보이고 잘림이 없음<br>KO/EN authored bytes와 정확 원화의 숫자·부호·쉼표·단위 의미가 보존됨<br>사용자가 Batch B에 최종 GO | `ORDER-97` |
 | order98-close, claim:controller · Batch A 15단위의 title/archive/save/completion/MainGame/Story 페이지·탭·화면 도구와 세 브랜드 글리프 | **ORDER-98 Batch A 의미 입력 임의 3표면 실기기 대조**<br><sub>자동 입력은 action·edge·상태 불변을 증명하지만, 처음 잡은 사람이 포커스 레일을 훑지 않고 L1/R1과 L2/R2의 역할을 바로 읽는지는 실제 손으로 판정해야 한다.</sub> | `demo_rc · ACTIVE 22f1f2ac / manifest 96e76edd` | order98_semantic_controller_batch_a_random_three<br>같은 active demo_rc와 ORDER-98 Batch A 15단위 원장에서 사용자가 서로 다른 실제 표면 3개를 임의 선택<br>실제 Steam Deck·DualSense·Switch Pro 중 해당 표면의 표시 글리프와 일치하는 패드로 정상 속도 수행<br>D-pad·ABXY·L1/R1·L2/R2 안내만 보고 코드·마우스·키보드 없이 핵심 행동을 첫 시도에 완료<br>한 표면이라도 잘못된 trigger 방향·숨은 확정·포커스 소실·12회 초과 왕복이면 표본만 고치지 않고 Batch A 15단위를 전량 재검토 | 세 표면 모두 L1/R1은 sibling group, L2/R2는 이전/다음 페이지 또는 감소/증가로 즉시 읽힘<br>확정·저장·불러오기·진행·종료가 trigger로 실행되거나 모달 뒤로 누수되는 경우 0<br>현재 장치 글리프·화면 동사·실제 입력이 일치하고 사용자 최종 GO | `ORDER-98` |
@@ -76,7 +76,7 @@
 | 지표 | 값 | 뜻 |
 |---|---:|---|
 | 사건 | 1,758 | KR 이벤트 전체 |
-| 선택 2+ 사건 | 1,626 | 판정 대상 |
+| 선택 2+ 사건 | 1,620 | 판정 대상 |
 | 체인(장면) | 68 | 2링크 이상 |
 | 연출 보유 사건 | 161 | 전체의 9% |
 | 정답 선택 | 415 | 선택 2+ 사건의 25% |
@@ -86,7 +86,7 @@
 | 팔레트 밖 색 | 681 | 정본 12색 대비 |
 | 진입점 없는 스크립트 | 2 | 래칫 |
 | 서명 알려진 결함 | 5 | 악화만 실패 |
-| 1링크·무연출 사건 | 69 | 독립 노출 재검토 |
+| 1링크·무연출 사건 | 75 | 독립 노출 재검토 |
 
 ## 오더
 
@@ -94,7 +94,7 @@
 
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
-| `ORDER-118` | startup 전면 재설계·코드 토큰 제거 | 미착수 | Claude(사용자 위임) 전량 반려 복구 · R1b HOLD |
+| `ORDER-118` | startup 전면 재설계·코드 토큰 제거 | 진행 | L1/L2 GO · 16편/27선택·코드 토큰 0 · seed 9821 3편 Claude(사용자 위임) L3 대기 · 사용자 최종 GO OPEN · R1b HOLD |
 | `ORDER-117` | 107/109 국소 수리·career 15편 재판정 | 미착수 | Claude(사용자 위임) 조건부·부분 반려 복구 |
 | `ORDER-103` | M01~M06 월간 약속을 직접 고르는 독립 체험판을 만든다 | 진행 | 이미지 장면 카드·호버/포커스 L1/L2 GO · 월 마감 보존 · 사용자 L3 대기 |
 | `ORDER-99` | SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | 진행 | BUILD .3 L1/L2 — 사용자 저장 확인 대기 |

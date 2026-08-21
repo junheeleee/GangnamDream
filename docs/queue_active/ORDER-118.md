@@ -167,6 +167,11 @@ EndingSystem·StoryMapMonthlyRuntime, 5개 언어 endings, startup legacy object
 - 이 오더가 끝나도 R1b는 자동으로 열리지 않는다. 새 career/startup 원고 판정 뒤
   별도 계약 오더가 replacement contract를 만들고 사용자가 범위를 확인해야 한다.
 
+**구현 후보 (2026-08-21):** `f425b812` / tree `4c0a659e`. KO/EN 각 16 roots·
+27 choices, strict player token 0, product consumer·dispatch 0이다. 표적 L1과 독립
+L2는 P0/P1 0이며, 오더는 seed 9821 Claude(사용자 위임) 3편과 사용자 최종 GO를
+기다리는 `[~]` 상태다. R1b와 replacement contract는 계속 HOLD다.
+
 ## 정본·일회성 판정
 
 - 플레이어 산문에 내부 상태·route·hash를 노출하지 않는 규칙은 `CLAUDE.md`가 이미
