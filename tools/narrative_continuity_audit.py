@@ -76,6 +76,8 @@ class SceneMetric:
     max_decisions: int
     min_dialogue: int
     max_dialogue: int
+    min_chars: int
+    max_chars: int
 
 
 def load_events() -> dict[str, dict[str, Any]]:
@@ -106,6 +108,11 @@ def dialogue_count(value: Any) -> int:
         + len(re.findall(r"“[^”\n]+”", text))
         + len(re.findall(r"「[^」\n]+」", text))
     )
+
+
+def prose_char_count(value: Any) -> int:
+    """Count authored characters without normalizing the source prose."""
+    return len(str(value or ""))
 
 
 def followups(event: dict[str, Any]) -> list[str]:
@@ -165,10 +172,22 @@ def scene_metric(
         raise ValueError(f"choices must be an array: {event_id}")
     base_panels = paragraph_count(event.get("description"))
     base_dialogue = dialogue_count(event.get("description"))
+    base_chars = prose_char_count(event.get("description"))
     decision = int(len(choices) > 1)
 
     if not choices:
-        metric = SceneMetric(1, 1, base_panels, base_panels, 0, 0, base_dialogue, base_dialogue)
+        metric = SceneMetric(
+            1,
+            1,
+            base_panels,
+            base_panels,
+            0,
+            0,
+            base_dialogue,
+            base_dialogue,
+            base_chars,
+            base_chars,
+        )
         memo[event_id] = metric
         return metric
 
@@ -178,6 +197,11 @@ def scene_metric(
             raise ValueError(f"choice must be an object: {event_id}")
         result_panels = 1 + paragraph_count(choice.get("result_text"))
         result_dialogue = dialogue_count(choice.get("result_text"))
+        branch_chars = (
+            base_chars
+            + prose_char_count(choice.get("text"))
+            + prose_char_count(choice.get("result_text"))
+        )
         target = str(choice.get("follow_up_event", "")).strip()
         if target:
             child = scene_metric(target, events, memo, stack + (event_id,))
@@ -190,6 +214,8 @@ def scene_metric(
                 decision + child.max_decisions,
                 base_dialogue + result_dialogue + child.min_dialogue,
                 base_dialogue + result_dialogue + child.max_dialogue,
+                branch_chars + child.min_chars,
+                branch_chars + child.max_chars,
             ))
         else:
             branches.append(SceneMetric(
@@ -201,6 +227,8 @@ def scene_metric(
                 decision,
                 base_dialogue + result_dialogue,
                 base_dialogue + result_dialogue,
+                branch_chars,
+                branch_chars,
             ))
 
     metric = SceneMetric(
@@ -212,6 +240,8 @@ def scene_metric(
         max(item.max_decisions for item in branches),
         min(item.min_dialogue for item in branches),
         max(item.max_dialogue for item in branches),
+        min(item.min_chars for item in branches),
+        max(item.max_chars for item in branches),
     )
     memo[event_id] = metric
     return metric
@@ -302,8 +332,89 @@ def peak_members(events: dict[str, dict[str, Any]]) -> set[str]:
     return result
 
 
-def is_short_standalone(metric: SceneMetric) -> bool:
+def has_micro_scene_shape(metric: SceneMetric) -> bool:
     return metric.max_links == 1 and metric.max_panels <= 6 and metric.max_dialogue <= 1
+
+
+def is_short_standalone(metric: SceneMetric) -> bool:
+    return has_micro_scene_shape(metric) and metric.max_chars <= 420
+
+
+def _paragraph_fixture(total_chars: int, panels: int = 6) -> str:
+    separator_chars = (panels - 1) * 2
+    if total_chars <= separator_chars:
+        raise ValueError("fixture character count is too small for its panels")
+    prose_chars = total_chars - separator_chars
+    base, remainder = divmod(prose_chars, panels)
+    return "\n\n".join(
+        "가" * (base + int(index < remainder))
+        for index in range(panels)
+    )
+
+
+def run_self_test() -> None:
+    boundary_events = {
+        "micro_420": {
+            "id": "micro_420",
+            "description": _paragraph_fixture(420),
+            "choices": [],
+        },
+        "substantial_421": {
+            "id": "substantial_421",
+            "description": _paragraph_fixture(421),
+            "choices": [],
+        },
+    }
+    memo: dict[str, SceneMetric] = {}
+    micro = scene_metric("micro_420", boundary_events, memo)
+    substantial = scene_metric("substantial_421", boundary_events, memo)
+    if micro.max_chars != 420 or not is_short_standalone(micro):
+        raise AssertionError("420-character six-panel fixture must remain a micro-scene")
+    if substantial.max_chars != 421 or is_short_standalone(substantial):
+        raise AssertionError("421-character six-panel fixture must not be a micro-scene")
+
+    branch_events = {
+        "branch_root": {
+            "id": "branch_root",
+            "description": "가" * 100,
+            "choices": [
+                {"text": "나" * 10, "result_text": "다" * 20},
+                {
+                    "text": "라" * 11,
+                    "result_text": "마" * 21,
+                    "follow_up_event": "branch_child",
+                },
+            ],
+        },
+        "branch_child": {
+            "id": "branch_child",
+            "description": "바" * 50,
+            "choices": [],
+        },
+    }
+    branch = scene_metric("branch_root", branch_events, {})
+    if (branch.min_chars, branch.max_chars) != (130, 182):
+        raise AssertionError(
+            "branch character range must include description, choice, result, and child prose"
+        )
+    if (branch.min_links, branch.max_links) != (1, 2):
+        raise AssertionError("branch fixture link range drifted")
+
+    mixed_boundary_events = {
+        "mixed_boundary": {
+            "id": "mixed_boundary",
+            "description": "가" * 400,
+            "choices": [
+                {"text": "나" * 10, "result_text": "다" * 10},
+                {"text": "라" * 10, "result_text": "마" * 11},
+            ],
+        },
+    }
+    mixed_boundary = scene_metric("mixed_boundary", mixed_boundary_events, {})
+    if (mixed_boundary.min_chars, mixed_boundary.max_chars) != (420, 421):
+        raise AssertionError("mixed branch fixture must retain its 420..421 range")
+    if is_short_standalone(mixed_boundary):
+        raise AssertionError("one 421-character branch must keep the scene out of micro")
 
 
 def build_report() -> dict[str, Any]:
@@ -381,6 +492,7 @@ def build_report() -> dict[str, Any]:
     for path_name, firelog in paths.items():
         chapter_rows: list[dict[str, Any]] = []
         path_micro: list[dict[str, Any]] = []
+        path_substantial_single: list[dict[str, Any]] = []
         ordered = sorted(firelog.items())
         threads = [story_thread(events[event_id]) for _, event_id in ordered]
 
@@ -401,6 +513,8 @@ def build_report() -> dict[str, Any]:
             links_max = 0
             decisions_min = 0
             decisions_max = 0
+            chars_min = 0
+            chars_max = 0
             switches = 0
             previous_thread = ""
 
@@ -413,6 +527,8 @@ def build_report() -> dict[str, Any]:
                 links_max += metric.max_links
                 decisions_min += metric.min_decisions
                 decisions_max += metric.max_decisions
+                chars_min += metric.min_chars
+                chars_max += metric.max_chars
                 single_link += int(metric.max_links == 1)
                 chained += int(metric.max_links > 1)
                 peak_roots += int(event_id in peaks)
@@ -430,7 +546,20 @@ def build_report() -> dict[str, Any]:
                 isolated_here = short_here and thread not in {before, after}
                 isolated += int(isolated_here)
                 if isolated_here:
-                    path_micro.append({"week": week, "event": event_id, "thread": thread})
+                    path_micro.append({
+                        "week": week,
+                        "event": event_id,
+                        "thread": thread,
+                        "min_chars": metric.min_chars,
+                        "max_chars": metric.max_chars,
+                    })
+                if has_micro_scene_shape(metric) and metric.max_chars > 420:
+                    path_substantial_single.append({
+                        "week": week,
+                        "event": event_id,
+                        "min_chars": metric.min_chars,
+                        "max_chars": metric.max_chars,
+                    })
 
             chapter_rows.append({
                 "chapter": chapter,
@@ -449,6 +578,8 @@ def build_report() -> dict[str, Any]:
                 "links_max": links_max,
                 "decisions_min": decisions_min,
                 "decisions_max": decisions_max,
+                "chars_min": chars_min,
+                "chars_max": chars_max,
                 "thread_switches": switches,
             })
 
@@ -456,6 +587,7 @@ def build_report() -> dict[str, Any]:
             "name": path_name,
             "chapters": chapter_rows,
             "isolated_micro_scenes": path_micro,
+            "substantial_single_scenes": path_substantial_single,
         })
 
     ratchet_errors: list[str] = []
@@ -542,11 +674,23 @@ def print_text(report: dict[str, Any]) -> None:
                 "peaks={peak_roots} short={short_standalone} "
                 "isolated={isolated_micro} panels={panels_min}-{panels_max} "
                 "links={links_min}-{links_max} decisions={decisions_min}-{decisions_max} "
-                "switches={thread_switches}".format(**row)
+                "chars={chars_min}-{chars_max} switches={thread_switches}".format(**row)
             )
         micro = path["isolated_micro_scenes"]
-        preview = ",".join(f"t{item['week']}:{item['event']}" for item in micro[:16])
+        preview = ",".join(
+            f"t{item['week']}:{item['event']}:{item['min_chars']}-{item['max_chars']}"
+            for item in micro[:16]
+        )
         print(f"  ISOLATED_MICRO count={len(micro)} sample={preview or 'none'}")
+        substantial = path["substantial_single_scenes"]
+        substantial_preview = ",".join(
+            f"t{item['week']}:{item['event']}:{item['min_chars']}-{item['max_chars']}"
+            for item in substantial[:16]
+        )
+        print(
+            "  SUBSTANTIAL_SINGLE "
+            f"count={len(substantial)} sample={substantial_preview or 'none'}"
+        )
     print_pending("narrative")
     print("NARRATIVE_CONTINUITY_AUDIT_OK")
 
@@ -554,7 +698,19 @@ def print_text(report: dict[str, Any]) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--json", action="store_true", help="print the ledger as JSON")
+    parser.add_argument("--self-test", action="store_true", help="run boundary fixtures")
     args = parser.parse_args()
+    if args.self_test:
+        try:
+            run_self_test()
+        except (AssertionError, ValueError) as exc:
+            print(f"NARRATIVE_CONTINUITY_SELF_TEST_FAIL {exc}", file=sys.stderr)
+            return 1
+        print(
+            "NARRATIVE_CONTINUITY_SELF_TEST_OK "
+            "cases=5 boundary=420/421 mixed=420-421"
+        )
+        return 0
     try:
         report = build_report()
     except (OSError, ValueError, json.JSONDecodeError, subprocess.CalledProcessError) as exc:

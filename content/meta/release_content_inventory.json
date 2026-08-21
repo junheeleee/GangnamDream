@@ -534,7 +534,7 @@
         "categories": ["crime"], "tags": ["crime", "illegal"],
         "tokens_ko": ["대포통장", "보이스피싱", "사기", "횡령", "절도", "내부자거래", "폰지", "공범", "돈세탁", "검거"],
         "tokens_en": ["money mule", "voice phishing", "fraud", "embezz", "theft", "insider trading", "ponzi", "accomplice", "money laundering", "arrested"],
-        "expected_event_count": 70, "expected_file_count": 40, "expected_ids_sha256": "e1bf5d669b6ca98117da9ff22117a0f723263db564eb7d74e2b0cbe55852b5b6", "expected_content_sha256": "562880f77a96ac8a5f84ffcb019319b0bcbff40d6cf9690629032dae54451744"
+        "expected_event_count": 70, "expected_file_count": 40, "expected_ids_sha256": "e1bf5d669b6ca98117da9ff22117a0f723263db564eb7d74e2b0cbe55852b5b6", "expected_content_sha256": "9c864ae29d38432fb0dbff6bc6dd21cc60e9a0f88be01c7bab521961fca76552"
       },
       "facts": [
         {

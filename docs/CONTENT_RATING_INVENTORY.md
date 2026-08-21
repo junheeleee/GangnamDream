@@ -40,7 +40,7 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 | 폭력성 | 18 / 15 | `1d403db1107800e1e7c4a8d9d78c08361a840c6901fd8e93de83e609bf585a70` | `ca092987894afe0f87d3cd9d17234c77a666f56c6d7bdb631f3d6b3ba3bb2be8` | mild |
 | 공포 | 143 / 51 | `211c3c760cf2f66d61e9bc540cd11003cc05ad46eb59d4d1d97a348eb135c29f` | `a6c47724480ed1fdf2368624219db6af96e782b6551dbec0c4962d1562433432` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `fc1a0465f31a6a2df2deb4559825e67c7f762fa2ebfdbaa45ae63e2fb75131c3` | mild |
-| 범죄 | 70 / 40 | `e1bf5d669b6ca98117da9ff22117a0f723263db564eb7d74e2b0cbe55852b5b6` | `562880f77a96ac8a5f84ffcb019319b0bcbff40d6cf9690629032dae54451744` | moderate, strong |
+| 범죄 | 70 / 40 | `e1bf5d669b6ca98117da9ff22117a0f723263db564eb7d74e2b0cbe55852b5b6` | `9c864ae29d38432fb0dbff6bc6dd21cc60e9a0f88be01c7bab521961fca76552` | moderate, strong |
 | 음주·흡연·약물 | 76 / 37 | `80c9979ea846e60401fc8c1f996c2dbe1f76518998d68e8c361d8fa823298946` | `01b962138dff14d29506a0c8feed46e7ea9eaed7c502d2c06c14edd85f29ae02` | moderate, mild |
 | 생성형 AI | 기술 축 | — | — | disclosure_required, none |
 | 온라인 기능 | 기술 축 | — | — | none, external_link_only |

@@ -1,6 +1,6 @@
 extends Control
 ## Standalone M01-M06 monthly-promise playtest.
-## This scene intentionally has no dependency on project autoloads or existing game saves.
+## This scene shares the project UIStyle vocabulary but not gameplay state or saves.
 
 signal screen_changed(screen_name: String)
 signal selection_changed(selection: Dictionary)
@@ -37,25 +37,25 @@ const PROMISE_SCENE_PATHS := {
 	"m06_person_date": "res://assets/backgrounds/cafe_seoul.png",
 }
 
-const COLOR_BG := Color("#07090c")
-const COLOR_PANEL := Color("#10141a")
-const COLOR_PANEL_ALT := Color("#171c23")
-const COLOR_BORDER := Color("#4e5865")
-const COLOR_TEXT := Color("#e7ebf0")
-const COLOR_DIM := Color("#929ba7")
-const COLOR_ACCENT := Color("#d8c38d")
-const COLOR_CASH := Color("#d5a45f")
-const COLOR_HEALTH := Color("#78b99a")
-const COLOR_TRUST := Color("#d58b91")
-const COLOR_DANGER := Color("#c97878")
-const COLOR_OK := Color("#78b99a")
-const COLOR_NOTE := Color("#10141af5")
-const COLOR_NOTE_FOCUS := Color("#1b212afa")
-const COLOR_NOTE_SELECTED := Color("#222831fa")
-const COLOR_NOTE_INK := Color("#edf0f4")
-const COLOR_NOTE_DIM := Color("#a1a9b4")
-const COLOR_NOTE_EDGE := Color("#454e5a")
-const COLOR_NOTE_TRACE := Color("#d8c38d")
+var COLOR_BG := Color(UIStyle.C_BG_BASE)
+var COLOR_PANEL := Color(UIStyle.C_BG_PANEL)
+var COLOR_PANEL_ALT := Color(UIStyle.C_BG_PANEL_ALT)
+var COLOR_BORDER := Color(UIStyle.C_BORDER_ACCENT)
+var COLOR_TEXT := Color(UIStyle.C_TEXT_PRIMARY)
+var COLOR_DIM := Color(UIStyle.C_TEXT_SECONDARY)
+var COLOR_ACCENT := Color(UIStyle.C_ACCENT_BLUE)
+var COLOR_CASH := Color(UIStyle.C_ACCENT_GOLD)
+var COLOR_HEALTH := Color(UIStyle.C_ACCENT_GREEN)
+var COLOR_TRUST := Color(UIStyle.C_ACCENT_RED).lightened(0.28)
+var COLOR_DANGER := Color(UIStyle.C_ACCENT_RED).darkened(0.14)
+var COLOR_OK := Color(UIStyle.C_ACCENT_GREEN)
+var COLOR_NOTE := Color(UIStyle.C_BG_PANEL, 0.96)
+var COLOR_NOTE_FOCUS := Color(UIStyle.C_BG_PANEL_ALT, 0.98)
+var COLOR_NOTE_SELECTED := Color(UIStyle.C_BORDER_SUBTLE, 0.98)
+var COLOR_NOTE_INK := Color(UIStyle.C_TEXT_PRIMARY).lightened(0.03)
+var COLOR_NOTE_DIM := Color(UIStyle.C_TEXT_SECONDARY)
+var COLOR_NOTE_EDGE := Color(UIStyle.C_BORDER_ACCENT).lightened(0.18)
+var COLOR_NOTE_TRACE := Color(UIStyle.C_ACCENT_BLUE).lightened(0.10)
 
 var _runtime: Variant
 var _runtime_state: Dictionary = {}
@@ -319,7 +319,7 @@ func _build_shell() -> void:
 
 	var veil := ColorRect.new()
 	veil.name = "WorldVeil"
-	veil.color = Color("#05070a9c")
+	veil.color = Color(UIStyle.C_BG_BASE, 0.61)
 	veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	veil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(veil)
@@ -330,17 +330,17 @@ func _build_shell() -> void:
 	_apply_page_margins()
 
 	var page_column := VBoxContainer.new()
-	page_column.add_theme_constant_override("separation", 10 if _compact else 14)
+	UIStyle.override_constant(page_column, "separation", 10 if _compact else 14)
 	_page.add_child(page_column)
 
 	var header := HBoxContainer.new()
 	header.custom_minimum_size.y = 48 if _compact else 58
-	header.add_theme_constant_override("separation", 8)
+	UIStyle.override_constant(header, "separation", 8)
 	page_column.add_child(header)
 
 	var title_column := VBoxContainer.new()
 	title_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title_column.add_theme_constant_override("separation", 0)
+	UIStyle.override_constant(title_column, "separation", 0)
 	header.add_child(title_column)
 	_header_title = _label("", 19 if _compact else 23, COLOR_TEXT, true)
 	title_column.add_child(_header_title)
@@ -407,16 +407,16 @@ func _show_home() -> void:
 	_body.add_child(center)
 	var panel := PanelContainer.new()
 	panel.custom_minimum_size = Vector2(720 if not _compact else 620, 390 if not _compact else 350)
-	panel.add_theme_stylebox_override("panel", _panel_style(COLOR_PANEL, COLOR_BORDER, 1, 12))
+	UIStyle.override_stylebox(panel, "panel", _panel_style(COLOR_PANEL, COLOR_BORDER, 1, 12))
 	center.add_child(panel)
 	var margin := MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", 28 if not _compact else 20)
-	margin.add_theme_constant_override("margin_right", 28 if not _compact else 20)
-	margin.add_theme_constant_override("margin_top", 24 if not _compact else 18)
-	margin.add_theme_constant_override("margin_bottom", 24 if not _compact else 18)
+	UIStyle.override_constant(margin, "margin_left", 28 if not _compact else 20)
+	UIStyle.override_constant(margin, "margin_right", 28 if not _compact else 20)
+	UIStyle.override_constant(margin, "margin_top", 24 if not _compact else 18)
+	UIStyle.override_constant(margin, "margin_bottom", 24 if not _compact else 18)
 	panel.add_child(margin)
 	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 14 if not _compact else 10)
+	UIStyle.override_constant(column, "separation", 14 if not _compact else 10)
 	margin.add_child(column)
 	column.add_child(_label(_t("ui.home.eyebrow", "독립 체험판 · M01–M06"), 13, COLOR_ACCENT, true))
 	var hero := _label(_t("ui.home.title", "여섯 달, 끝까지 놓지 않을 한 약속."), 28 if not _compact else 23, COLOR_TEXT, true)
@@ -444,7 +444,7 @@ func _show_home() -> void:
 		column.add_child(error_label)
 
 	var actions := HBoxContainer.new()
-	actions.add_theme_constant_override("separation", 10)
+	UIStyle.override_constant(actions, "separation", 10)
 	column.add_child(actions)
 	var continue_button := _button(_t("ui.home.continue", "이어하기"), true)
 	continue_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -558,22 +558,24 @@ func _rebuild_selection_screen() -> void:
 	var root := VBoxContainer.new()
 	root.name = "PromiseDesk"
 	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	root.add_theme_constant_override("separation", 7 if _compact else 10)
+	UIStyle.override_constant(root, "separation", 7 if _compact else 10)
 	_body.add_child(root)
 
 	var month_strip := PanelContainer.new()
 	month_strip.name = "MonthPromptSlip"
-	month_strip.add_theme_stylebox_override(
-		"panel", _panel_style(Color("#0b0e12dc"), Color("#a9976e88"), 1, 2))
+	UIStyle.override_stylebox(month_strip,
+		"panel", _panel_style(
+			Color(UIStyle.C_BG_PANEL, 0.86),
+			Color(UIStyle.C_ACCENT_BLUE, 0.53), 1, 2))
 	root.add_child(month_strip)
 	var month_margin := MarginContainer.new()
-	month_margin.add_theme_constant_override("margin_left", 12)
-	month_margin.add_theme_constant_override("margin_right", 12)
-	month_margin.add_theme_constant_override("margin_top", 7)
-	month_margin.add_theme_constant_override("margin_bottom", 7)
+	UIStyle.override_constant(month_margin, "margin_left", 12)
+	UIStyle.override_constant(month_margin, "margin_right", 12)
+	UIStyle.override_constant(month_margin, "margin_top", 7)
+	UIStyle.override_constant(month_margin, "margin_bottom", 7)
 	month_strip.add_child(month_margin)
 	var month_row := HBoxContainer.new()
-	month_row.add_theme_constant_override("separation", 14)
+	UIStyle.override_constant(month_row, "separation", 14)
 	month_margin.add_child(month_row)
 	var prompt_column := VBoxContainer.new()
 	prompt_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -594,20 +596,20 @@ func _rebuild_selection_screen() -> void:
 	var main_row := HBoxContainer.new()
 	main_row.name = "DeskWorkspace"
 	main_row.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	main_row.add_theme_constant_override("separation", 14 if _compact else 22)
+	UIStyle.override_constant(main_row, "separation", 14 if _compact else 22)
 	root.add_child(main_row)
 
 	var card_column := VBoxContainer.new()
 	card_column.name = "PromiseNotes"
 	card_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	card_column.size_flags_stretch_ratio = 1.55
-	card_column.add_theme_constant_override("separation", 8 if _compact else 10)
+	UIStyle.override_constant(card_column, "separation", 8 if _compact else 10)
 	main_row.add_child(card_column)
 	var note_rows := VBoxContainer.new()
 	note_rows.name = "PromiseNoteRows"
 	note_rows.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	note_rows.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	note_rows.add_theme_constant_override("separation", 3 if _compact else 5)
+	UIStyle.override_constant(note_rows, "separation", 3 if _compact else 5)
 	card_column.add_child(note_rows)
 	var current_row: HBoxContainer
 	var card_index := 0
@@ -620,7 +622,7 @@ func _rebuild_selection_screen() -> void:
 			current_row.name = "PromiseNoteRow%d" % (card_index / 2 + 1)
 			current_row.size_flags_vertical = Control.SIZE_EXPAND_FILL
 			current_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			current_row.add_theme_constant_override("separation", 8 if _compact else 12)
+			UIStyle.override_constant(current_row, "separation", 8 if _compact else 12)
 			note_rows.add_child(current_row)
 		var card: Dictionary = raw_card
 		var card_note := _create_card_button(card)
@@ -635,14 +637,14 @@ func _rebuild_selection_screen() -> void:
 	var detail_panel := PanelContainer.new()
 	detail_panel.name = "PromiseMemoRibbon"
 	detail_panel.custom_minimum_size.y = 72 if _compact else 86
-	detail_panel.add_theme_stylebox_override(
-		"panel", _panel_style(Color("#0c1016ee"), COLOR_NOTE_EDGE, 1, 2))
+	UIStyle.override_stylebox(detail_panel,
+		"panel", _panel_style(Color(UIStyle.C_BG_PANEL, 0.93), COLOR_NOTE_EDGE, 1, 2))
 	card_column.add_child(detail_panel)
 	var detail_margin := MarginContainer.new()
-	detail_margin.add_theme_constant_override("margin_left", 14 if _compact else 18)
-	detail_margin.add_theme_constant_override("margin_right", 14 if _compact else 18)
-	detail_margin.add_theme_constant_override("margin_top", 8 if _compact else 10)
-	detail_margin.add_theme_constant_override("margin_bottom", 8 if _compact else 10)
+	UIStyle.override_constant(detail_margin, "margin_left", 14 if _compact else 18)
+	UIStyle.override_constant(detail_margin, "margin_right", 14 if _compact else 18)
+	UIStyle.override_constant(detail_margin, "margin_top", 8 if _compact else 10)
+	UIStyle.override_constant(detail_margin, "margin_bottom", 8 if _compact else 10)
 	detail_panel.add_child(detail_margin)
 	_detail_label = _label("", 12 if _compact else 14, COLOR_TEXT)
 	_detail_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -654,7 +656,7 @@ func _rebuild_selection_screen() -> void:
 	pocket_column.custom_minimum_size.x = 230 if _compact else 300
 	pocket_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	pocket_column.size_flags_stretch_ratio = 0.78
-	pocket_column.add_theme_constant_override("separation", 8 if _compact else 12)
+	UIStyle.override_constant(pocket_column, "separation", 8 if _compact else 12)
 	main_row.add_child(pocket_column)
 
 	_protected_button = _button("", false)
@@ -693,7 +695,7 @@ func _rebuild_selection_screen() -> void:
 	action_spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	pocket_column.add_child(action_spacer)
 	var action_row := HBoxContainer.new()
-	action_row.add_theme_constant_override("separation", 8)
+	UIStyle.override_constant(action_row, "separation", 8)
 	pocket_column.add_child(action_row)
 	_undo_button = _button(_t("ui.action.undo", "최근 역할 취소"), false)
 	_undo_button.pressed.connect(_undo_latest)
@@ -778,12 +780,12 @@ func _create_card_button(card: Dictionary) -> Control:
 	scene.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	scene.texture = load(scene_path)
 	scene.material = _promise_scene_grade_material()
-	scene.modulate = Color(0.76, 0.79, 0.83, 1.0)
+	scene.modulate = Color(UIStyle.C_TEXT_SECONDARY).darkened(0.16)
 	button.add_child(scene)
 
 	var scene_veil := ColorRect.new()
 	scene_veil.name = "PromiseSceneVeil"
-	scene_veil.color = Color("#05070aba")
+	scene_veil.color = Color(UIStyle.C_BG_BASE, 0.73)
 	scene_veil.modulate.a = 0.78
 	scene_veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	scene_veil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -791,7 +793,7 @@ func _create_card_button(card: Dictionary) -> Control:
 
 	var text_bed := ColorRect.new()
 	text_bed.name = "PromiseTextBed"
-	text_bed.color = Color("#080b0ed4")
+	text_bed.color = Color(UIStyle.C_BG_PANEL, 0.83)
 	text_bed.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	text_bed.anchor_top = 0.45
 	text_bed.anchor_right = 1.0
@@ -800,7 +802,7 @@ func _create_card_button(card: Dictionary) -> Control:
 
 	var side_contact := ColorRect.new()
 	side_contact.name = "InkContact"
-	side_contact.color = Color("#d8c38d42")
+	side_contact.color = Color(UIStyle.C_ACCENT_BLUE, 0.26)
 	side_contact.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	side_contact.anchor_bottom = 1.0
 	side_contact.offset_right = 2.0
@@ -819,19 +821,19 @@ func _create_card_button(card: Dictionary) -> Control:
 	var margin := MarginContainer.new()
 	margin.name = "DecisionContent"
 	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	margin.add_theme_constant_override("margin_left", 12 if _compact else 15)
-	margin.add_theme_constant_override("margin_right", 12 if _compact else 15)
-	margin.add_theme_constant_override("margin_top", 9 if _compact else 12)
-	margin.add_theme_constant_override("margin_bottom", 9 if _compact else 11)
+	UIStyle.override_constant(margin, "margin_left", 12 if _compact else 15)
+	UIStyle.override_constant(margin, "margin_right", 12 if _compact else 15)
+	UIStyle.override_constant(margin, "margin_top", 9 if _compact else 12)
+	UIStyle.override_constant(margin, "margin_bottom", 9 if _compact else 11)
 	button.add_child(margin)
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var column := VBoxContainer.new()
 	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	column.add_theme_constant_override("separation", 5 if _compact else 7)
+	UIStyle.override_constant(column, "separation", 5 if _compact else 7)
 	margin.add_child(column)
 	var header := HBoxContainer.new()
 	header.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	header.add_theme_constant_override("separation", 6)
+	UIStyle.override_constant(header, "separation", 6)
 	column.add_child(header)
 	var icon := TextureRect.new()
 	icon.name = "AxisIcon"
@@ -857,7 +859,7 @@ func _create_card_button(card: Dictionary) -> Control:
 	action_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	column.add_child(action_label)
 	var rule := HSeparator.new()
-	rule.modulate = Color("#77818d42")
+	rule.modulate = Color(UIStyle.C_TEXT_MUTED, 0.26)
 	rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	column.add_child(rule)
 	var bottom := HBoxContainer.new()
@@ -953,9 +955,9 @@ func _animate_note_motion(
 	var target_trace_alpha := 0.96 if active else (0.72 if selected else 0.24)
 	var target_scene_scale := Vector2.ONE \
 		if _reduce_motion or not active else Vector2.ONE * 1.018
-	var target_scene_modulate := Color(0.98, 0.99, 1.0, 1.0) \
-		if active else (Color(0.86, 0.88, 0.91, 1.0) \
-		if selected else Color(0.76, 0.79, 0.83, 1.0))
+	var target_scene_modulate := Color(UIStyle.C_TEXT_PRIMARY).lightened(0.04) \
+		if active else (Color(UIStyle.C_TEXT_SECONDARY).lightened(0.08) \
+		if selected else Color(UIStyle.C_TEXT_SECONDARY).darkened(0.16))
 	var target_scene_veil_alpha := 0.46 if active else (0.62 if selected else 0.78)
 	button.z_index = 10 if active else (4 if selected else 0)
 	var trace := button.find_child("InkTrace", true, false) as ColorRect
@@ -1020,7 +1022,8 @@ func _add_role_contact(button: Button, protected_slot: bool) -> void:
 	var contact := ColorRect.new()
 	contact.name = "RoleContact"
 	contact.set_meta("m1m6_role_contact", true)
-	contact.color = COLOR_NOTE_TRACE if protected_slot else Color("#89919b")
+	contact.color = COLOR_NOTE_TRACE \
+		if protected_slot else Color(UIStyle.C_TEXT_SECONDARY).darkened(0.12)
 	contact.modulate.a = 0.82 if protected_slot else 0.52
 	contact.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	contact.anchor_bottom = 1.0
@@ -1232,7 +1235,7 @@ func _show_result() -> void:
 
 	var root := VBoxContainer.new()
 	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	root.add_theme_constant_override("separation", 10)
+	UIStyle.override_constant(root, "separation", 10)
 	_body.add_child(root)
 	var title_row := HBoxContainer.new()
 	root.add_child(title_row)
@@ -1243,7 +1246,7 @@ func _show_result() -> void:
 
 	var columns := HBoxContainer.new()
 	columns.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	columns.add_theme_constant_override("separation", 10 if _compact else 14)
+	UIStyle.override_constant(columns, "separation", 10 if _compact else 14)
 	root.add_child(columns)
 	var kept_panel := _result_panel(_t("ui.result.completed", "지킴"), COLOR_OK)
 	kept_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -1344,7 +1347,7 @@ func _show_recap() -> void:
 
 	var root := VBoxContainer.new()
 	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	root.add_theme_constant_override("separation", 8 if _compact else 12)
+	UIStyle.override_constant(root, "separation", 8 if _compact else 12)
 	_body.add_child(root)
 	var body_copy := _label(_t(
 		"ui.recap.body",
@@ -1356,8 +1359,8 @@ func _show_recap() -> void:
 	var grid := GridContainer.new()
 	grid.columns = 2
 	grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	grid.add_theme_constant_override("h_separation", 8 if _compact else 10)
-	grid.add_theme_constant_override("v_separation", 8 if _compact else 10)
+	UIStyle.override_constant(grid, "h_separation", 8 if _compact else 10)
+	UIStyle.override_constant(grid, "v_separation", 8 if _compact else 10)
 	root.add_child(grid)
 	var entries := _recap_entries()
 	for month in range(1, 7):
@@ -1366,7 +1369,7 @@ func _show_recap() -> void:
 
 	var actions := HBoxContainer.new()
 	actions.alignment = BoxContainer.ALIGNMENT_END
-	actions.add_theme_constant_override("separation", 10)
+	UIStyle.override_constant(actions, "separation", 10)
 	root.add_child(actions)
 	var home_button := _button(_t("ui.recap.home", "처음 화면으로"), false)
 	home_button.pressed.connect(_show_home)
@@ -1392,15 +1395,15 @@ func _recap_card(month: int, entry: Dictionary) -> PanelContainer:
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	panel.custom_minimum_size.y = 92 if _compact else 112
-	panel.add_theme_stylebox_override("panel", _panel_style(COLOR_PANEL, COLOR_BORDER, 1, 7))
+	UIStyle.override_stylebox(panel, "panel", _panel_style(COLOR_PANEL, COLOR_BORDER, 1, 7))
 	var margin := MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", 12)
-	margin.add_theme_constant_override("margin_right", 12)
-	margin.add_theme_constant_override("margin_top", 8)
-	margin.add_theme_constant_override("margin_bottom", 8)
+	UIStyle.override_constant(margin, "margin_left", 12)
+	UIStyle.override_constant(margin, "margin_right", 12)
+	UIStyle.override_constant(margin, "margin_top", 8)
+	UIStyle.override_constant(margin, "margin_bottom", 8)
 	panel.add_child(margin)
 	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 3)
+	UIStyle.override_constant(column, "separation", 3)
 	margin.add_child(column)
 	column.add_child(_label(_format(
 		_t("ui.recap.month", "M{month} · {label}"),
@@ -1473,7 +1476,7 @@ func _refresh_role_actions(card: Dictionary) -> void:
 	_apply_pocket_style(_protected_button, not protected_id.is_empty(), true)
 	_apply_pocket_style(_optional_button, not optional_id.is_empty(), false)
 	_role_notice_label.text = _role_notice(card, block_reason)
-	_role_notice_label.add_theme_color_override(
+	UIStyle.override_color(_role_notice_label,
 		"font_color",
 		COLOR_DANGER if not block_reason.is_empty() else _axis_color(str(card.get("axis", "")))
 	)
@@ -1712,15 +1715,15 @@ func _add_missed_result(column: VBoxContainer, item: Dictionary) -> void:
 
 func _result_panel(title: String, color: Color) -> PanelContainer:
 	var panel := PanelContainer.new()
-	panel.add_theme_stylebox_override("panel", _panel_style(COLOR_PANEL, color.darkened(0.28), 1, 8))
+	UIStyle.override_stylebox(panel, "panel", _panel_style(COLOR_PANEL, color.darkened(0.28), 1, 8))
 	var margin := MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", 14)
-	margin.add_theme_constant_override("margin_right", 14)
-	margin.add_theme_constant_override("margin_top", 12)
-	margin.add_theme_constant_override("margin_bottom", 12)
+	UIStyle.override_constant(margin, "margin_left", 14)
+	UIStyle.override_constant(margin, "margin_right", 14)
+	UIStyle.override_constant(margin, "margin_top", 12)
+	UIStyle.override_constant(margin, "margin_bottom", 12)
 	panel.add_child(margin)
 	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
+	UIStyle.override_constant(column, "separation", 8)
 	margin.add_child(column)
 	column.add_child(_label(title, 13, color, true))
 	panel.set_meta("content", column)
@@ -1777,8 +1780,8 @@ func _animate_note_to_slot(commitment_id: String, slot: String) -> void:
 	ghost.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	ghost.position = source.global_position
 	ghost.size = source.size
-	ghost.modulate = Color(1, 1, 1, 0.90)
-	ghost.add_theme_stylebox_override(
+	ghost.modulate = Color(UIStyle.C_TEXT_PRIMARY, 0.90)
+	UIStyle.override_stylebox(ghost,
 		"panel", _note_style(COLOR_NOTE_SELECTED, COLOR_NOTE_TRACE, 2, 2))
 	var contact := ColorRect.new()
 	contact.color = COLOR_NOTE_TRACE
@@ -2376,11 +2379,12 @@ func _focused_meta_value(meta_key: StringName) -> String:
 func _label(text_value: String, font_size: int, color: Color, bold: bool = false) -> Label:
 	var label := Label.new()
 	label.text = text_value
-	label.add_theme_font_size_override("font_size", font_size)
-	label.add_theme_color_override("font_color", color)
+	UIStyle.override_font_size(label, "font_size", font_size)
+	UIStyle.override_color(label, "font_color", color)
 	if bold:
-		label.add_theme_constant_override("outline_size", 1)
-		label.add_theme_color_override("font_outline_color", Color("#00000066"))
+		UIStyle.override_constant(label, "outline_size", 1)
+		UIStyle.override_color(
+			label, "font_outline_color", Color(UIStyle.C_BG_BASE, 0.40))
 	return label
 
 
@@ -2389,7 +2393,7 @@ func _button(text_value: String, filled: bool) -> Button:
 	button.text = text_value
 	button.focus_mode = Control.FOCUS_ALL
 	button.custom_minimum_size.y = 46
-	button.add_theme_font_size_override("font_size", 13 if _compact else 15)
+	UIStyle.override_font_size(button, "font_size", 13 if _compact else 15)
 	button.mouse_entered.connect(_focus_control.bind(button))
 	_apply_button_style(button, filled, COLOR_ACCENT if filled else COLOR_BORDER)
 	return button
@@ -2420,54 +2424,62 @@ func _apply_button_style(button: Button, filled: bool, border: Color) -> void:
 	if not is_instance_valid(button):
 		return
 	var bg := COLOR_PANEL_ALT if filled else COLOR_PANEL
-	button.add_theme_stylebox_override("normal", _panel_style(bg, border, 2 if filled else 1, 6))
-	button.add_theme_stylebox_override("hover", _panel_style(bg.lightened(0.06), COLOR_ACCENT, 2, 6))
-	button.add_theme_stylebox_override("focus", _panel_style(bg.lightened(0.08), COLOR_ACCENT, 3, 6))
-	button.add_theme_stylebox_override("pressed", _panel_style(bg.lightened(0.10), COLOR_ACCENT, 3, 6))
-	button.add_theme_stylebox_override("disabled", _panel_style(Color("#0e1217"), Color("#343b45"), 1, 6))
-	button.add_theme_color_override("font_color", COLOR_TEXT)
-	button.add_theme_color_override("font_hover_color", COLOR_TEXT)
-	button.add_theme_color_override("font_focus_color", COLOR_TEXT)
-	button.add_theme_color_override("font_pressed_color", COLOR_TEXT)
-	button.add_theme_color_override("font_disabled_color", Color("#737b86"))
+	UIStyle.override_stylebox(button, "normal", _panel_style(bg, border, 2 if filled else 1, 6))
+	UIStyle.override_stylebox(button, "hover", _panel_style(bg.lightened(0.06), COLOR_ACCENT, 2, 6))
+	UIStyle.override_stylebox(button, "focus", _panel_style(bg.lightened(0.08), COLOR_ACCENT, 3, 6))
+	UIStyle.override_stylebox(button, "pressed", _panel_style(bg.lightened(0.10), COLOR_ACCENT, 3, 6))
+	UIStyle.override_stylebox(button, "disabled", _panel_style(
+		Color(UIStyle.C_BTN_DISABLED), Color(UIStyle.C_BORDER_SUBTLE), 1, 6))
+	UIStyle.override_color(button, "font_color", COLOR_TEXT)
+	UIStyle.override_color(button, "font_hover_color", COLOR_TEXT)
+	UIStyle.override_color(button, "font_focus_color", COLOR_TEXT)
+	UIStyle.override_color(button, "font_pressed_color", COLOR_TEXT)
+	UIStyle.override_color(
+		button, "font_disabled_color",
+		Color(UIStyle.C_TEXT_MUTED).lightened(0.12))
 
 
 func _apply_note_style(button: Button, selected: bool) -> void:
 	if not is_instance_valid(button):
 		return
 	var surface := COLOR_NOTE_SELECTED if selected else COLOR_NOTE
-	button.add_theme_stylebox_override(
+	UIStyle.override_stylebox(button,
 		"normal", _note_style(surface, COLOR_NOTE_TRACE if selected else COLOR_NOTE_EDGE, 2 if selected else 1, 1))
-	button.add_theme_stylebox_override(
+	UIStyle.override_stylebox(button,
 		"hover", _note_style(COLOR_NOTE_FOCUS, COLOR_NOTE_TRACE, 2, 2))
-	button.add_theme_stylebox_override(
+	UIStyle.override_stylebox(button,
 		"focus", _note_style(COLOR_NOTE_FOCUS, COLOR_NOTE_TRACE, 2, 2))
-	button.add_theme_stylebox_override(
-		"pressed", _note_style(Color("#0d1116fa"), COLOR_NOTE_TRACE, 2, 0))
-	button.add_theme_stylebox_override(
-		"disabled", _note_style(Color("#0b0e12d8"), Color("#343b45"), 1, 0))
+	UIStyle.override_stylebox(button,
+		"pressed", _note_style(Color(UIStyle.C_BG_PANEL, 0.98), COLOR_NOTE_TRACE, 2, 0))
+	UIStyle.override_stylebox(button,
+		"disabled", _note_style(
+			Color(UIStyle.C_BG_PANEL, 0.85), Color(UIStyle.C_BORDER_SUBTLE), 1, 0))
 	for color_name in ["font_color", "font_hover_color", "font_focus_color", "font_pressed_color"]:
-		button.add_theme_color_override(color_name, Color.TRANSPARENT)
+		UIStyle.override_color(button, color_name, Color.TRANSPARENT)
 
 
 func _apply_pocket_style(button: Button, occupied: bool, protected_slot: bool) -> void:
 	if not is_instance_valid(button):
 		return
-	var edge := COLOR_ACCENT if protected_slot else Color("#aaa49a")
-	var base := Color("#191d24f0") if occupied else Color("#0b0e13e2")
-	button.add_theme_stylebox_override(
+	var edge := COLOR_ACCENT if protected_slot else Color(UIStyle.C_TEXT_SECONDARY)
+	var base := Color(UIStyle.C_BG_PANEL_ALT, 0.94) \
+		if occupied else Color(UIStyle.C_BG_PANEL, 0.89)
+	UIStyle.override_stylebox(button,
 		"normal", _panel_style(base, edge.darkened(0.32), 2 if occupied else 1, 1))
-	button.add_theme_stylebox_override("hover", _panel_style(base.lightened(0.05), edge, 2, 2))
-	button.add_theme_stylebox_override("focus", _panel_style(base.lightened(0.07), COLOR_ACCENT, 2, 2))
-	button.add_theme_stylebox_override("pressed", _panel_style(base.lightened(0.10), COLOR_ACCENT, 2, 1))
-	button.add_theme_stylebox_override(
-		"disabled", _panel_style(Color("#0b0c0dd0"), Color("#6d6b6680"), 1, 2))
-	button.add_theme_color_override("font_color", COLOR_TEXT)
-	button.add_theme_color_override("font_hover_color", COLOR_TEXT)
-	button.add_theme_color_override("font_focus_color", COLOR_TEXT)
-	button.add_theme_color_override("font_pressed_color", COLOR_TEXT)
-	button.add_theme_color_override("font_disabled_color", Color("#9a9b98"))
-	button.add_theme_font_size_override("font_size", 13 if _compact else 15)
+	UIStyle.override_stylebox(button, "hover", _panel_style(base.lightened(0.05), edge, 2, 2))
+	UIStyle.override_stylebox(button, "focus", _panel_style(base.lightened(0.07), COLOR_ACCENT, 2, 2))
+	UIStyle.override_stylebox(button, "pressed", _panel_style(base.lightened(0.10), COLOR_ACCENT, 2, 1))
+	UIStyle.override_stylebox(button,
+		"disabled", _panel_style(
+			Color(UIStyle.C_BG_BASE, 0.82), Color(UIStyle.C_TEXT_MUTED, 0.50), 1, 2))
+	UIStyle.override_color(button, "font_color", COLOR_TEXT)
+	UIStyle.override_color(button, "font_hover_color", COLOR_TEXT)
+	UIStyle.override_color(button, "font_focus_color", COLOR_TEXT)
+	UIStyle.override_color(button, "font_pressed_color", COLOR_TEXT)
+	UIStyle.override_color(
+		button, "font_disabled_color",
+		Color(UIStyle.C_TEXT_SECONDARY).darkened(0.05))
+	UIStyle.override_font_size(button, "font_size", 13 if _compact else 15)
 
 
 func _note_style(
@@ -2476,9 +2488,7 @@ func _note_style(
 	border_width: int,
 	shadow_depth: int,
 ) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = bg
-	style.border_color = border
+	var style := UIStyle.panel_style(bg.to_html(), border.to_html(), 1)
 	style.set_border_width_all(border_width)
 	style.set_corner_radius_all(1)
 	style.content_margin_left = 8
@@ -2486,16 +2496,14 @@ func _note_style(
 	style.content_margin_top = 7
 	style.content_margin_bottom = 7
 	if shadow_depth > 0:
-		style.shadow_color = Color("#020303a8")
+		style.shadow_color = Color(UIStyle.C_BG_BASE, 0.66)
 		style.shadow_size = shadow_depth
 		style.shadow_offset = Vector2(0, shadow_depth)
 	return style
 
 
 func _panel_style(bg: Color, border: Color, border_width: int, radius: int) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = bg
-	style.border_color = border
+	var style := UIStyle.panel_style(bg.to_html(), border.to_html(), radius)
 	style.set_border_width_all(border_width)
 	style.set_corner_radius_all(radius)
 	style.content_margin_left = 12
@@ -2525,10 +2533,10 @@ func _apply_page_margins() -> void:
 		return
 	var horizontal := 14 if _compact else 24
 	var vertical := 10 if _compact else 18
-	_page.add_theme_constant_override("margin_left", horizontal)
-	_page.add_theme_constant_override("margin_right", horizontal)
-	_page.add_theme_constant_override("margin_top", vertical)
-	_page.add_theme_constant_override("margin_bottom", vertical)
+	UIStyle.override_constant(_page, "margin_left", horizontal)
+	UIStyle.override_constant(_page, "margin_right", horizontal)
+	UIStyle.override_constant(_page, "margin_top", vertical)
+	UIStyle.override_constant(_page, "margin_bottom", vertical)
 
 
 func _is_compact_layout() -> bool:

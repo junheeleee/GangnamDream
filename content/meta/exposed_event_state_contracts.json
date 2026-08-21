@@ -96,9 +96,7 @@
       "location"
     ],
     "arc_34_doors_open": [
-      "employment",
-      "location",
-      "relationship"
+      "location"
     ],
     "arc_34_money_attracts_money": [
       "location",
@@ -442,7 +440,6 @@
       "relationship"
     ],
     "arc_father_04_visit": [
-      "employment",
       "father_life",
       "location",
       "relationship"
@@ -514,7 +511,6 @@
       "location"
     ],
     "arc_final_countdown": [
-      "father_life",
       "location",
       "relationship"
     ],
@@ -644,6 +640,7 @@
     ],
     "arc_jaehyuk_04a_ghost": [
       "employment",
+      "father_life",
       "housing",
       "location",
       "relationship"
@@ -1201,14 +1198,12 @@
       "relationship"
     ],
     "arc_year1_close": [
-      "employment",
       "father_life",
       "housing",
       "location",
       "relationship"
     ],
     "arc_year2_close": [
-      "father_life",
       "location",
       "relationship"
     ],
@@ -1729,6 +1724,7 @@
       "relationship"
     ],
     "hyunsu_reunion_later": [
+      "employment",
       "housing",
       "location",
       "relationship"

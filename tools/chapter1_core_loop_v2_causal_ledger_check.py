@@ -2696,6 +2696,13 @@ _ORDER119_PROOF_BINDING_OVERRIDES = {
 }
 _FROZEN_AUDITED_MAPS["proof_bindings"].update(
     _ORDER119_PROOF_BINDING_OVERRIDES)
+_ORDER122_PROOF_BINDING_OVERRIDES = {
+    'proof:data:story_event:arc_temptation_01': '8e1e14656e6331d7c764fca8c4811ce0a934bc0c678d9a6606cd2bdec9d73c4c',
+    'proof:data:story_event:arc_temptation_clean': '4f607034e0e2e4e5a8af5beb6b231faebb2e033cafc53cc6d5cf5f3419d3dd7c',
+    'proof:data:w08_temptation_choice_flags': 'f0bfc2259381895d20174cf78f099412135a869cd9b552ad86dc49dc6ba5b686',
+}
+_FROZEN_AUDITED_MAPS["proof_bindings"].update(
+    _ORDER122_PROOF_BINDING_OVERRIDES)
 _ORDER101_INVOCATION_CONTRACT_OVERRIDES = {
     'reader:milestone:w24:completion_validation:fresh': 'f0226b81ca161f961526c82d1dd9d8a87d4de3411fdda75c0e1c271759f59d54',
     'reader:milestone:w24:completion_validation:loaded': '71a40c4050c89fecff25b0d4e22aad83affa4004bdb4cf9a988e736655bdf4d9',
@@ -2776,15 +2783,15 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/meta/demo_core_loop_v2.json":
         "f336f8a60277effc1885e10911d21785add4ad5580135bb1ab3a4c4b509059c3",
     "content/meta/demo_localization_scope.json":
-        "bc4a321ff83cf10881fb4dd61869f42a28dec40783a87b25b3649b6918e92af2",
+        "08ce2baf912dd7e4db3d6f068f0c7bd168d532697b1f2212f6b467cad50e3766",
     "content/meta/release_content_inventory.json":
-        "e13fc2120209c174c3cd697dd4d1243758ae353a30ba235fe807e66339ab2ee0",
+        "c6c10aceea5fa3b46a59a1b933317dd9a1981cb7ce5fa4544c4803739cd5cebc",
     "content/meta/story_rules.json":
         "edd7d26b0e91ea309ff9b9818fb6df2ab37ba247fad060c5039c9d08f9f31bc8",
     "content/jobs.json":
         "d1a3ed8ba3f2839954d0b15266bff4f7a0d1317d78c503bd2422aa87b7210f84",
     "content/events/arc_events.json":
-        "bec7d99e7322086672f18245fe2b0aac2a86c36c77fab802ba75e046cbed5e0d",
+        "c429b30dbe4ba3665e381c446c1945aedbfaf4ad27de7b7ab16e6b71ce3a7744",
     "content/events/core_loop_v2_events.json":
         "a30227ba75430679caca5e6e9e1bac03c45519917d3d80d46e3904f4dee425db",
     "content/events/arc_daeun.json":
@@ -2806,7 +2813,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "tools/core_loop_v2_balance_sim.py":
         "b9f96ed925cce3801fe8c45716f5bab2fb480507fa1cd3069c714bd222cedf86",
     "tools/demo_core_loop_v2_audit.py":
-        "22d57420c390d2c6b63b52131ce99b8883b5fab88dc41c10a5eb0b6f74d92cd8",
+        "f75c1ecc369b46220a9dd8780415daf582c9625f719c5a0a0b609a49ee871ab5",
     "tools/first_session_pacing_audit.py":
         "91beb389fc0362e4769d0e5f15ae45e4d1b354ba2f51c500f9b903608f2545a0",
     "tools/release_content_inventory.py":

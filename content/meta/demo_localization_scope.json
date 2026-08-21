@@ -2498,6 +2498,27 @@
     "scope": "Only exact Korean clock mentions on the derived 24-week event and dynamic player surface; durations and counts are not clock mentions.",
     "minute_precision_allowlist": [
       {
+        "source_id": "event::content/events/arc_events.json::arc_temptation_01::choices::[0]::result_text",
+        "literal": "4시 20분",
+        "canonical": "04:20",
+        "count": 1,
+        "reason": "거절 뒤 실제로 잡은 다음 새벽 상하차의 출근 시각을 보존한다."
+      },
+      {
+        "source_id": "event::content/events/arc_events.json::arc_temptation_01::choices::[0]::result_text",
+        "literal": "04:20",
+        "canonical": "04:20",
+        "count": 1,
+        "reason": "반장이 말한 출근 시각을 휴대폰 알람 표기로 같은 장면에서 확인한다."
+      },
+      {
+        "source_id": "event::content/events/arc_events.json::arc_temptation_clean::description",
+        "literal": "새벽 4시 20분",
+        "canonical": "04:20",
+        "count": 1,
+        "reason": "후속 장면이 거절 뒤 이어진 실제 새벽 상하차를 같은 시각으로 회수한다."
+      },
+      {
         "source_id": "event::content/events/core_loop_v2_events.json::v2_demo_first_bill_opening::description",
         "literal": "17:52",
         "canonical": "17:52",
@@ -2637,8 +2658,8 @@
     "visible_event_count": 72,
     "visible_event_ids_sha256": "4f06623c859fd557ee1080f6be676e182206b5e26f5ec276390861f89a95159e",
     "event_text_count": 467,
-    "event_text_ko_chars": 40742,
-    "event_text_sha256": "1c4f22902ffc1f58a4f7cfc3a97901fba4fe1f3f22bce87942a26389056da5aa",
+    "event_text_ko_chars": 40767,
+    "event_text_sha256": "f6b2fc837269a7bba45dfe39a2ae2376381bee70f03c8656c1073cc74cc8d433",
     "event_owner_counts": {
       "content/events/arc_daeun.json": 1,
       "content/events/arc_events.json": 12,

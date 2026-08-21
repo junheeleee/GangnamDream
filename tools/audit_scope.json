@@ -64,6 +64,22 @@
       "why": "월 배치만 바뀌면 240주 런타임 대신 지도·5장 정합만 검사한다"
     },
     {
+      "id": "story-map-m1m6-surface",
+      "paths": [
+        "tools/StoryMapM1M6Playtest.gd"
+      ],
+      "owned_paths": [
+        "tools/StoryMapM1M6Playtest.gd"
+      ],
+      "tools": [
+        "tools/story_map_audit.py",
+        "tools/story_map_strategy_sim.py --self-test",
+        "tools/StoryMapM1M6Check.tscn",
+        "tools/surface_coherence_audit.py"
+      ],
+      "why": "M01~M06 화면 구현 변경은 독립 체험 계약과 공용 표면 래칫을 함께 검사한다"
+    },
+    {
       "id": "story-map-m1m6-runtime",
       "paths": [
         "systems/StoryMapMonthlyRuntime.gd",
@@ -75,8 +91,7 @@
         "content/meta/story_map_m1m6_en.json",
         "tools/StoryMapM1M6Check.gd",
         "tools/StoryMapM1M6Check.gd.uid",
-        "tools/StoryMapM1M6Check.tscn",
-        "tools/audit_scope.json"
+        "tools/StoryMapM1M6Check.tscn"
       ],
       "owned_paths": [
         "CLAUDE.md",
@@ -372,7 +387,15 @@
       "why": "장편 연속성·챕터 밀도·고립 단편",
       "paths": [
         "content/events/**",
-        "content/meta/narrative_spine.json"
+        "content/meta/narrative_spine.json",
+        "tools/narrative_continuity_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/narrative_continuity_audit.py --self-test",
+      "why": "장편 연속성 420/421자·분기 최대값 경계 자체 검사",
+      "paths": [
+        "tools/narrative_continuity_audit.py"
       ]
     },
     {
@@ -551,7 +574,15 @@
       "why": "240주 페이싱",
       "paths": [
         "content/events/**",
-        "content/meta/narrative_spine.json"
+        "content/meta/narrative_spine.json",
+        "tools/full_run_pacing_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/full_run_pacing_audit.py --self-test",
+      "why": "두 시간 crossing 구성요소·W96 year-close 단일 예외 자체 검사",
+      "paths": [
+        "tools/full_run_pacing_audit.py"
       ]
     },
     {
@@ -1171,7 +1202,9 @@
       "paths": [
         "assets/scene_direction_manifest.json",
         "scenes/StoryMode.gd",
-        "autoloads/SceneTransition.gd"
+        "autoloads/SceneTransition.gd",
+        "tools/SceneDirectionCheck.gd",
+        "tools/SceneDirectionCheck.tscn"
       ]
     },
     {
@@ -1601,6 +1634,7 @@
         "autoloads/**",
         "scenes/**",
         "systems/**",
+        "tools/StoryMapM1M6Playtest.gd",
         "tools/surface_coherence_audit.py",
         "content/themes/**",
         "*.theme",

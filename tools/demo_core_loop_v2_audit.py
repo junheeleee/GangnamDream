@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import sys
@@ -22,6 +23,36 @@ CORE_V2_EVENTS_EN_PATH = (
 )
 STORY_RULES_PATH = ROOT / "content" / "meta" / "story_rules.json"
 HANGUL_RE = re.compile(r"[가-힣]")
+
+EXPECTED_FIRST_BILL_KO_SENTENCE = (
+    "각 줄에는 끝내야 할 동작과 그 일을 놓아야 하는 시각이 적혀 있었다."
+)
+EXPECTED_FIRST_BILL_EN_SENTENCE = (
+    "Each line names an action he can complete and the time when he must let it go."
+)
+EXPECTED_TEMPTATION_KO_ARITHMETIC = (
+    "200만원에서 월세 65만원씩 석 달치 195만원을 빼면 5만원이 남는다. "
+    "밀린 공과금까지 막기에는 모자랐다."
+)
+EXPECTED_TEMPTATION_EN_ARITHMETIC = (
+    "Three months of 650,000-won rent came to 1.95 million won. "
+    "From the two million, 50,000 won would remain—not enough for the overdue utilities."
+)
+EXPECTED_TEMPTATION_KO_REJECT_TEXT = (
+    "번호를 차단한다 — 월세와 내일의 노동을 감수한다"
+)
+EXPECTED_TEMPTATION_KO_REJECT_RESULT_PREFIX = (
+    "차단 버튼을 누르자 대화창이 사라졌다."
+)
+EXPECTED_TEMPTATION_KO_ACCEPT_TEXT = (
+    "통장·카드·비밀번호를 넘긴다 — 오늘 현금 200만원을 받는다"
+)
+EXPECTED_TEMPTATION_EN_REJECT_TEXT = (
+    "Block the number — accept the rent bill and tomorrow's labor"
+)
+EXPECTED_TEMPTATION_EN_REJECT_RESULT_PREFIX = (
+    "The chat vanished when {name} tapped Block."
+)
 
 EXPECTED_PLANNER_WORKFLOW_STEPS = ["schedule", "routines", "review"]
 EXPECTED_PLANNER_INFO_ACTIONS = ["status", "people"]
@@ -8309,8 +8340,174 @@ def measure_long_tail_readers(
     return lines
 
 
-def main() -> int:
+def order122_first_bill_copy_errors(
+    ko_description: str, en_description: str,
+) -> list[str]:
     errors: list[str] = []
+    if EXPECTED_FIRST_BILL_KO_SENTENCE not in ko_description:
+        errors.append(
+            "First Bill Korean decision must retain the authored action/deadline sentence"
+        )
+    if EXPECTED_FIRST_BILL_EN_SENTENCE not in en_description:
+        errors.append(
+            "First Bill English decision must retain the authored action/deadline sentence"
+        )
+    if any(
+        stale in ko_description
+        for stale in (
+            "오후 6시까지인 두 마감",
+            "오늘 다시 고를 수 없었다",
+            "마감이 있는 일은 정해진 시각을 넘기는 순간 놓치게 된다.",
+        )
+    ) or any(
+        stale in en_description
+        for stale in (
+            "two six-o'clock deadlines",
+            "will be gone once its time passes tonight",
+            "Once a deadline passes, that task can no longer be completed tonight.",
+        )
+    ):
+        errors.append(
+            "First Bill decision cannot restore a fixed live-candidate count or stale deadline summary"
+        )
+    return errors
+
+
+def order122_temptation_copy_errors(
+    ko_description: str,
+    en_description: str,
+    ko_reject_text: str,
+    ko_reject_result: str,
+    en_reject_text: str,
+    en_reject_result: str,
+) -> list[str]:
+    errors: list[str] = []
+    if EXPECTED_TEMPTATION_KO_ARITHMETIC not in ko_description:
+        errors.append(
+            "Korean temptation must state 2000000-650000*3=50000 and insufficient overdue utilities"
+        )
+    if EXPECTED_TEMPTATION_EN_ARITHMETIC not in en_description:
+        errors.append(
+            "English temptation must state 2000000-650000*3=50000 and insufficient overdue utilities"
+        )
+    if (
+        "200만원이면 월세 석 달과 밀린 공과금을 막을 수 있다."
+        in ko_description
+        or "Two million won would cover three months of rent and the overdue utilities."
+        in en_description
+    ):
+        errors.append(
+            "temptation copy cannot claim that the two million also covers overdue utilities"
+        )
+    if ko_reject_text != EXPECTED_TEMPTATION_KO_REJECT_TEXT:
+        errors.append("Korean Week-4 refusal action drifted")
+    if not ko_reject_result.startswith(
+        EXPECTED_TEMPTATION_KO_REJECT_RESULT_PREFIX
+    ):
+        errors.append("Korean Week-4 refusal result prefix drifted")
+    if en_reject_text != EXPECTED_TEMPTATION_EN_REJECT_TEXT:
+        errors.append("English Week-4 refusal action drifted")
+    if not en_reject_result.startswith(
+        EXPECTED_TEMPTATION_EN_REJECT_RESULT_PREFIX
+    ):
+        errors.append("English Week-4 refusal result prefix drifted")
+    return errors
+
+
+def run_order122_copy_self_test() -> list[str]:
+    failures: list[str] = []
+    cases = 1
+    first_bill = {
+        "ko_description": EXPECTED_FIRST_BILL_KO_SENTENCE,
+        "en_description": EXPECTED_FIRST_BILL_EN_SENTENCE,
+    }
+    if order122_first_bill_copy_errors(**first_bill):
+        failures.append("valid First Bill copy fixture was rejected")
+    for field, mutation in (
+        (
+            "ko_description",
+            "마감이 있는 일은 정해진 시각을 넘기는 순간 놓치게 된다.",
+        ),
+        (
+            "en_description",
+            "Once a deadline passes, that task can no longer be completed tonight.",
+        ),
+    ):
+        cases += 1
+        candidate = dict(first_bill)
+        candidate[field] = mutation
+        if not order122_first_bill_copy_errors(**candidate):
+            failures.append(f"First Bill mutation passed: {field}")
+
+    temptation = {
+        "ko_description": EXPECTED_TEMPTATION_KO_ARITHMETIC,
+        "en_description": EXPECTED_TEMPTATION_EN_ARITHMETIC,
+        "ko_reject_text": EXPECTED_TEMPTATION_KO_REJECT_TEXT,
+        "ko_reject_result": EXPECTED_TEMPTATION_KO_REJECT_RESULT_PREFIX,
+        "en_reject_text": EXPECTED_TEMPTATION_EN_REJECT_TEXT,
+        "en_reject_result": EXPECTED_TEMPTATION_EN_REJECT_RESULT_PREFIX,
+    }
+    cases += 1
+    if order122_temptation_copy_errors(**temptation):
+        failures.append("valid Week-4 temptation copy fixture was rejected")
+    for field, mutation in (
+        (
+            "ko_description",
+            EXPECTED_TEMPTATION_KO_ARITHMETIC.replace("195만원", "165만원"),
+        ),
+        (
+            "ko_description",
+            EXPECTED_TEMPTATION_KO_ARITHMETIC.replace(
+                "빼면 5만원", "빼면 50만원"
+            ),
+        ),
+        (
+            "ko_description",
+            EXPECTED_TEMPTATION_KO_ARITHMETIC.replace("모자랐다", "충분했다"),
+        ),
+        (
+            "en_description",
+            EXPECTED_TEMPTATION_EN_ARITHMETIC.replace("1.95", "1.85"),
+        ),
+        (
+            "en_description",
+            EXPECTED_TEMPTATION_EN_ARITHMETIC.replace(
+                "two million, 50,000", "two million, 500,000"
+            ),
+        ),
+        (
+            "en_description",
+            EXPECTED_TEMPTATION_EN_ARITHMETIC.replace("not enough", "enough"),
+        ),
+        ("ko_reject_text", "번호를 차단하고 휴대폰을 엎어놨다"),
+        (
+            "ko_reject_result",
+            "{name}은 번호를 차단하고 휴대폰을 엎어놨다.",
+        ),
+        ("en_reject_text", "Block the number and put the phone face down"),
+        (
+            "en_reject_result",
+            "{name} blocks the number and flips the phone face-down.",
+        ),
+    ):
+        cases += 1
+        candidate = dict(temptation)
+        candidate[field] = mutation
+        if not order122_temptation_copy_errors(**candidate):
+            failures.append(f"Week-4 temptation mutation passed: {field}={mutation!r}")
+
+    if not failures:
+        print(f"CORE_LOOP_V2_ORDER122_SELF_TEST_OK cases={cases}")
+    return failures
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--self-test", action="store_true")
+    args = parser.parse_args()
+    errors: list[str] = []
+    if args.self_test:
+        errors.extend(run_order122_copy_self_test())
     try:
         contract = load_contract_without_duplicate_keys()
     except (OSError, json.JSONDecodeError, ValueError) as exc:
@@ -11504,31 +11701,10 @@ def main() -> int:
     en_decision_description = str(
         english_core.get(decision_id, {}).get("description", "")
     )
-    if (
-        "마감이 있는 일은 정해진 시각을 넘기는 순간 놓치게 된다."
-        not in ko_decision_description
-        or any(
-            stale in ko_decision_description
-            for stale in (
-                "오후 6시까지인 두 마감",
-                "오늘 다시 고를 수 없었다",
-            )
-        )
-        or "Once a deadline passes, that task can no longer be completed tonight."
-        not in en_decision_description
-        or any(
-            stale in en_decision_description
-            for stale in (
-                "two six-o'clock deadlines",
-                "will be gone once its time passes tonight",
-            )
-        )
+    for message in order122_first_bill_copy_errors(
+        ko_decision_description, en_decision_description
     ):
-        fail(
-            "First Bill decision must describe deadline pressure without "
-            "inventing a fixed number of live deadline candidates",
-            errors,
-        )
+        fail(message, errors)
     ko_token_surface = json.dumps(
         finale_events + [
             registered_events.get("v2_hyunsu_exam_morning_echo", {})
@@ -12044,10 +12220,10 @@ def main() -> int:
         errors,
     )
     temptation_description = str(temptation_event.get("description", ""))
-    if "월세만 따지면 석 달" not in temptation_description:
+    if EXPECTED_TEMPTATION_KO_ARITHMETIC not in temptation_description:
         fail(
-            "The KRW 2,000,000 temptation must equal just over three "
-            "KRW 650,000 rents",
+            "The Korean KRW 2,000,000 temptation must lock three KRW "
+            "650,000 rents, KRW 50,000 remaining, and insufficient utilities",
             errors,
         )
     if temptation_description.count("{v2_month_one_episode_echo}") != 1:
@@ -12058,16 +12234,16 @@ def main() -> int:
     if (
         len(temptation_choices) != 2
         or temptation_reject.get("text")
-        != "번호를 차단하고 휴대폰을 엎어놨다"
+        != EXPECTED_TEMPTATION_KO_REJECT_TEXT
         or temptation_reject.get("effects") != {"mental": -8, "tint": 5}
         or set(temptation_reject.get("flags", []))
         != {"arc_temptation_seen", "kept_clean_hands"}
         or temptation_reject.get("route") != "orthodox"
         or not str(temptation_reject.get("result_text", "")).startswith(
-            "{name}은 번호를 차단하고 휴대폰을 엎어놨다."
+            EXPECTED_TEMPTATION_KO_REJECT_RESULT_PREFIX
         )
         or temptation_accept.get("text")
-        != "통장·체크카드와 비밀번호를 넘기고 현금 200만원을 받는다"
+        != EXPECTED_TEMPTATION_KO_ACCEPT_TEXT
         or temptation_accept.get("effects")
         != {"money": 2_000_000, "mental": -16, "tint": -10}
         or set(temptation_accept.get("flags", []))
@@ -12257,8 +12433,12 @@ def main() -> int:
     english_temptation_description = str(
         english_temptation.get("description", "")
     )
-    if "three months of rent" not in english_temptation_description:
-        fail("English temptation copy must use the three-rent calculation", errors)
+    if EXPECTED_TEMPTATION_EN_ARITHMETIC not in english_temptation_description:
+        fail(
+            "English temptation copy must lock three KRW 650,000 rents, "
+            "KRW 50,000 remaining, and insufficient utilities",
+            errors,
+        )
     if english_temptation_description.count("{v2_month_one_episode_echo}") != 1:
         fail(
             "the English Week-4 temptation must mirror the Month-One echo token",
@@ -12277,9 +12457,9 @@ def main() -> int:
     if (
         len(english_temptation_choices) != len(temptation_choices)
         or english_temptation_reject.get("text")
-        != "Block the number and put the phone face down"
+        != EXPECTED_TEMPTATION_EN_REJECT_TEXT
         or not str(english_temptation_reject.get("result_text", "")).startswith(
-            "{name} blocks the number and flips the phone face-down."
+            EXPECTED_TEMPTATION_EN_REJECT_RESULT_PREFIX
         )
     ):
         fail(
@@ -12287,6 +12467,15 @@ def main() -> int:
             "action without judging the other choice",
             errors,
         )
+    for message in order122_temptation_copy_errors(
+        temptation_description,
+        english_temptation_description,
+        str(temptation_reject.get("text", "")),
+        str(temptation_reject.get("result_text", "")),
+        str(english_temptation_reject.get("text", "")),
+        str(english_temptation_reject.get("result_text", "")),
+    ):
+        fail(message, errors)
     english_fallout = require_dict(
         english_events.get("arc_temptation_fallout"),
         "English arc_temptation_fallout",
