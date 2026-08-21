@@ -208,6 +208,32 @@ REJECTED_PROSE_FILES = {
     "content/events_en/arc_pre_ending.json",
 }
 
+# ORDER-118 replaces the rejected startup prose and removes internal document
+# tokens from the adjacent Year-5 prose surface.  This is deliberately a prose
+# candidate guard, not a replacement routing contract: R1b remains disabled.
+ORDER118_BASELINE = "1f6026302f3f6d3e22d3df75c953efb2029bffe2"
+ORDER118_EVENT_FILES = {
+    "ko": (
+        "content/events/arc_midgame.json",
+        "content/events/arc_new_characters.json",
+        "content/events/arc_pre_ending.json",
+        "content/events/arc_drama.json",
+    ),
+    "en": (
+        "content/events_en/arc_midgame.json",
+        "content/events_en/arc_new_characters.json",
+        "content/events_en/arc_pre_ending.json",
+        "content/events_en/arc_drama.json",
+    ),
+}
+ORDER118_STRICT_TOKEN = re.compile(
+    r"(?<![A-Za-z])(?:NOT USED|SELF ONLY)(?![A-Za-z])"
+    r"|(?<![A-Za-z0-9-])(?:TF-[A-Z0-9]+(?:-[A-Z0-9]+)*|SA-[0-9]+|(?:C|h)[0-9]+)(?![A-Za-z0-9-])"
+    r"|(?<![A-Za-z0-9])(?=[A-F0-9]{4,8}(?![A-Za-z0-9]))(?=[A-F0-9]*[A-F])(?=[A-F0-9]*[0-9])[A-F0-9]{4,8}"
+    r"|해시|(?i:hash)"
+)
+ORDER118_PLACEHOLDER = re.compile(r"\{[A-Za-z_][A-Za-z0-9_]*\}")
+
 
 @dataclass(frozen=True)
 class RootSpec:
@@ -252,6 +278,64 @@ STARTUP_ROOTS = (
     RootSpec("arc_final_countdown_startup_executed", 60, 3),
     RootSpec("arc_y5_final_week_startup_after_acquisition", 60, 3),
 )
+
+ORDER118_STARTUP_ROOTS = (
+    RootSpec("arc_y5_startup_offer_c0", 49, 1),
+    RootSpec("arc_y5_startup_c0_reviewer_delivery_minseo", 49, 1),
+    RootSpec("arc_y5_startup_boundary_cofounder", 50, 3),
+    RootSpec("arc_y5_startup_minseo_goal_cost", 51, 1),
+    RootSpec("arc_y5_startup_after_goal_cofounder", 51, 3),
+    RootSpec("arc_y5_startup_final_offer_acquirer", 52, 3),
+    RootSpec("arc_y5_startup_reviewer_receipt_minseo", 54, 1),
+    RootSpec("arc_y5_startup_three_in_room", 55, 1),
+    RootSpec("arc_y5_startup_three_in_room_decision", 55, 3),
+    RootSpec("arc_y5_startup_c2_sign_self", 57, 1),
+    RootSpec("arc_y5_startup_c2_copy_delivered_cofounder", 57, 1),
+    RootSpec("arc_y5_startup_people_verdict_cofounder", 58, 1),
+    RootSpec("arc_y5_startup_contract_execution_c3", 59, 2),
+    RootSpec("arc_y5_startup_c3_copy_delivered_cofounder", 59, 1),
+    RootSpec("arc_final_countdown_startup_executed", 60, 3),
+    RootSpec("arc_y5_final_week_startup_after_acquisition", 60, 1),
+)
+ORDER118_STARTUP_CHOICE_COUNTS = {
+    spec.event_id: spec.choice_count for spec in ORDER118_STARTUP_ROOTS
+}
+ORDER118_STARTUP_IDS = set(ORDER118_STARTUP_CHOICE_COUNTS)
+
+ORDER118_KO_ALLOWED_IDS = {
+    "arc_y5_contract_cover_career",
+    "arc_y5_contract_reviewer_delivery_minseo_career",
+    "arc_y5_protection_boundary_hyunsu_career",
+    "arc_y5_minseo_goal_cost_career",
+    "arc_y5_after_goal_hyunsu_career",
+    "arc_y5_final_offer_reference_delivery",
+    "arc_y5_final_offer_jiyeon_reference",
+    "arc_y5_three_in_room_decision_other_actor",
+    "arc_y5_room_consent_receipt_jiyeon",
+    "arc_y5_final_offer_career_boss",
+    "arc_y5_career_reviewer_receipt_minseo",
+    "arc_y5_three_in_room_career",
+    "arc_y5_three_in_room_decision_career",
+    "arc_y5_name_on_line_career_self",
+    "arc_y5_name_copy_delivered_hyunsu_career",
+    "arc_y5_people_verdict_career_hyunsu",
+    "arc_y5_contract_execution_career",
+    "arc_y5_contract_result_delivered_hyunsu_career",
+    "arc_final_countdown_career_executed",
+    "arc_y5_final_week_hyunsu_career_outbound",
+    *ORDER118_STARTUP_IDS,
+}
+ORDER118_EN_ALLOWED_IDS = {
+    *ORDER118_KO_ALLOWED_IDS,
+    "arc_y5_three_in_room_decision_blocked_review",
+    "arc_y5_room_consent_receipt_blocked_review",
+    "arc_y5_name_on_line_self",
+    "arc_y5_name_copy_not_delivered_self",
+}
+ORDER118_ALLOWED_IDS = {
+    "ko": ORDER118_KO_ALLOWED_IDS,
+    "en": ORDER118_EN_ALLOWED_IDS,
+}
 ROUTE_ROOTS = {
     "career_reference_v1": CAREER_ROOTS,
     "startup_acquisition_reference_v1": STARTUP_ROOTS,
@@ -3177,6 +3261,182 @@ def object_from_payload(payload: Any, event_id: str) -> list[dict[str, Any]]:
     return [row for row in rows if isinstance(row, dict) and str(row.get("id", "")) == event_id]
 
 
+def order118_visible_leaves(event: dict[str, Any]) -> Iterator[tuple[str, Any]]:
+    yield "title", event.get("title")
+    yield "description", event.get("description")
+    choices = event.get("choices")
+    if not isinstance(choices, list):
+        yield "choices", choices
+        return
+    for index, choice in enumerate(choices):
+        if not isinstance(choice, dict):
+            yield f"choices[{index}]", choice
+            continue
+        yield f"choices[{index}].text", choice.get("text")
+        yield f"choices[{index}].result_text", choice.get("result_text")
+
+
+def order118_nonprose_shape(event: dict[str, Any], *, replace_choices: bool) -> Any:
+    candidate = copy.deepcopy(event)
+    candidate.pop("title", None)
+    candidate.pop("description", None)
+    if replace_choices:
+        candidate.pop("choices", None)
+        return candidate
+    choices = candidate.get("choices")
+    if isinstance(choices, list):
+        for choice in choices:
+            if isinstance(choice, dict):
+                choice.pop("text", None)
+                choice.pop("result_text", None)
+    return candidate
+
+
+def validate_order118_prose_candidate(
+    context: AuditContext,
+    errors: list[str],
+) -> dict[str, int]:
+    """Guard the non-live ORDER-118 prose delta without reviving old routes."""
+    changed: dict[str, set[str]] = {"ko": set(), "en": set()}
+    token_count = 0
+    startup_choice_count = 0
+    for locale, relative_paths in ORDER118_EVENT_FILES.items():
+        allowed = ORDER118_ALLOWED_IDS[locale]
+        for relative in relative_paths:
+            owner = f"ORDER-118:{locale}:{relative}"
+            path = ROOT / relative
+            try:
+                current_payload = load_json(path)
+                baseline_payload = strict_loads(
+                    git_blob(ORDER118_BASELINE, relative).decode("utf-8"),
+                    f"{ORDER118_BASELINE}:{relative}",
+                )
+            except (OSError, UnicodeDecodeError, ValueError) as exc:
+                errors.append(f"{owner}: cannot load current/baseline prose ({exc})")
+                continue
+            disk_current_rows = event_rows(current_payload, owner, errors)
+            baseline_rows = event_rows(baseline_payload, f"{owner}:baseline", errors)
+            current_ids = [str(row.get("id", "")) for row in disk_current_rows]
+            baseline_ids = [str(row.get("id", "")) for row in baseline_rows]
+            if current_ids != baseline_ids:
+                errors.append(f"{owner}: event ID/order drift outside the prose rewrite")
+                continue
+            if len(current_ids) != len(set(current_ids)):
+                errors.append(f"{owner}: duplicate event ID")
+                continue
+
+            current_rows: list[dict[str, Any]] = []
+            for event_id in baseline_ids:
+                matches = [
+                    record.row
+                    for record in context.event_indexes[locale].get(event_id, [])
+                    if record.path == relative
+                ]
+                if len(matches) != 1:
+                    errors.append(
+                        f"{owner}:{event_id}: expected one current context object, got {len(matches)}"
+                    )
+                    current_rows = disk_current_rows
+                    break
+                current_rows.append(matches[0])
+
+            for current, baseline in zip(current_rows, baseline_rows):
+                event_id = str(current.get("id", ""))
+                label = f"{owner}:{event_id}"
+                is_allowed = event_id in allowed
+                is_changed = canonical_json_sha256(current) != canonical_json_sha256(baseline)
+                if is_changed:
+                    changed[locale].add(event_id)
+                if not is_allowed:
+                    if is_changed:
+                        errors.append(f"{label}: non-target event object changed")
+                elif not is_changed:
+                    errors.append(f"{label}: declared prose target was not rewritten")
+
+                if is_allowed:
+                    startup = event_id in ORDER118_STARTUP_IDS
+                    current_shape = order118_nonprose_shape(current, replace_choices=startup)
+                    baseline_shape = order118_nonprose_shape(baseline, replace_choices=startup)
+                    if current_shape != baseline_shape:
+                        errors.append(f"{label}: metadata/non-prose structure drifted")
+                    choices = current.get("choices")
+                    if not isinstance(choices, list):
+                        errors.append(f"{label}: choices must remain an array")
+                    elif startup:
+                        expected_count = ORDER118_STARTUP_CHOICE_COUNTS[event_id]
+                        if len(choices) != expected_count:
+                            errors.append(
+                                f"{label}: expected ORDER-118 choice count {expected_count}, got {len(choices)}"
+                            )
+                        startup_choice_count += len(choices)
+                        description = current.get("description")
+                        if not isinstance(description, str) or not 300 <= len(description) <= 800:
+                            errors.append(f"{label}: startup description must be 300-800 characters")
+                        for index, choice in enumerate(choices):
+                            if not isinstance(choice, dict) or set(choice) != {"text", "result_text"}:
+                                errors.append(f"{label}: choice {index} must remain text-only")
+                            elif not str(choice.get("text", "")).strip() or not str(choice.get("result_text", "")).strip():
+                                errors.append(f"{label}: choice {index} has empty prose")
+
+                for field, value in order118_visible_leaves(current):
+                    if not isinstance(value, str):
+                        errors.append(f"{label}:{field}: player-visible prose must be a string")
+                        continue
+                    matches = list(ORDER118_STRICT_TOKEN.finditer(value))
+                    token_count += len(matches)
+                    for match in matches[:4]:
+                        errors.append(
+                            f"{label}:{field}: internal document token remains {match.group(0)!r}"
+                        )
+                    if "`" in value:
+                        errors.append(f"{label}:{field}: code-markup backtick remains in player prose")
+
+    for event_id in sorted(ORDER118_EN_ALLOWED_IDS):
+        ko_matches = context.event_indexes["ko"].get(event_id, [])
+        en_matches = context.event_indexes["en"].get(event_id, [])
+        if len(ko_matches) != 1 or len(en_matches) != 1:
+            errors.append(
+                f"ORDER-118:{event_id}: KO/EN placeholder source must resolve once "
+                f"(ko={len(ko_matches)} en={len(en_matches)})"
+            )
+            continue
+        ko_leaves = dict(order118_visible_leaves(ko_matches[0].row))
+        en_leaves = dict(order118_visible_leaves(en_matches[0].row))
+        if set(ko_leaves) != set(en_leaves):
+            errors.append(f"ORDER-118:{event_id}: KO/EN player-field structure mismatch")
+            continue
+        for field in sorted(ko_leaves):
+            ko_value = ko_leaves[field]
+            en_value = en_leaves[field]
+            if not isinstance(ko_value, str) or not isinstance(en_value, str):
+                continue
+            ko_placeholders = ORDER118_PLACEHOLDER.findall(ko_value)
+            en_placeholders = ORDER118_PLACEHOLDER.findall(en_value)
+            if ko_placeholders != en_placeholders:
+                errors.append(
+                    f"ORDER-118:{event_id}:{field}: KO/EN placeholder parity mismatch "
+                    f"ko={ko_placeholders} en={en_placeholders}"
+                )
+
+    for locale, allowed in ORDER118_ALLOWED_IDS.items():
+        if changed[locale] != allowed:
+            missing = sorted(allowed - changed[locale])
+            extra = sorted(changed[locale] - allowed)
+            errors.append(
+                f"ORDER-118:{locale}: exact changed-object set mismatch missing={missing[:8]} extra={extra[:8]}"
+            )
+    if startup_choice_count != 54:
+        errors.append(
+            "ORDER-118: expected exact 16 roots/27 choices in each locale "
+            f"(54 localized choices), got {startup_choice_count}"
+        )
+    return {
+        "order118_roots": len(ORDER118_STARTUP_ROOTS),
+        "order118_choices": startup_choice_count // 2,
+        "order118_tokens": token_count,
+    }
+
+
 def safe_relative_path(raw: Any, owner: str, errors: list[str]) -> Path | None:
     if not isinstance(raw, str) or not raw or Path(raw).is_absolute():
         errors.append(f"{owner}: must be a non-empty repository-relative path")
@@ -3445,6 +3705,7 @@ def validate_manifest(
     outcome_ids: set[str] = set()
     root_total = 0
     choice_total = 0
+    order118_stats = {"order118_roots": 0, "order118_choices": 0, "order118_tokens": 0}
     validate_r1a_contract(manifest, routes, errors)
     invalidated = contract_is_invalidated(manifest)
     if invalidated:
@@ -3462,6 +3723,7 @@ def validate_manifest(
                 if isinstance(row, dict) and isinstance(row.get("choice_count"), int)
             )
         validate_invalidated_runtime(manifest, errors)
+        order118_stats = validate_order118_prose_candidate(context, errors)
     else:
         for route_id in EXPECTED_ROUTE_IDS:
             route = routes.get(route_id)
@@ -3527,6 +3789,7 @@ def validate_manifest(
         "consumers": len(consumers),
         "r1a_roots": r1a_root_total,
         "r1a_choices": r1a_choice_total,
+        **order118_stats,
     }
 
 
@@ -3543,6 +3806,24 @@ def expect_failure(
     errors, _ = validate_manifest(candidate, context)
     if not any(expected_fragment in error for error in errors):
         failures.append(f"{label}: mutation was not rejected by {expected_fragment!r}; errors={errors[:4]}")
+
+
+def expect_context_failure(
+    label: str,
+    manifest: dict[str, Any],
+    context: AuditContext,
+    mutate: Callable[[AuditContext], None],
+    expected_fragment: str,
+    failures: list[str],
+) -> None:
+    candidate = copy.deepcopy(context)
+    mutate(candidate)
+    errors, _ = validate_manifest(copy.deepcopy(manifest), candidate)
+    if not any(expected_fragment in error for error in errors):
+        failures.append(
+            f"{label}: context mutation was not rejected by {expected_fragment!r}; "
+            f"errors={errors[:4]}"
+        )
 
 
 def actor_binding_container(route: dict[str, Any], role: str) -> tuple[Any, Any] | None:
@@ -3718,10 +3999,71 @@ def run_invalidated_self_test(
         expect_failure(label, manifest, context, mutate, fragment, failures)
     case_count = len(cases)
 
+    def candidate_record(candidate: AuditContext, locale: str, event_id: str) -> dict[str, Any]:
+        return candidate.event_indexes[locale][event_id][0].row
+
+    def order118_token_injected(candidate: AuditContext) -> None:
+        candidate_record(candidate, "ko", ORDER118_STARTUP_ROOTS[0].event_id)["title"] += " NOT USED"
+
+    def order118_version_token_injected(candidate: AuditContext) -> None:
+        candidate_record(candidate, "ko", ORDER118_STARTUP_ROOTS[0].event_id)["title"] += " C4"
+
+    def order118_deal_token_injected(candidate: AuditContext) -> None:
+        candidate_record(candidate, "en", ORDER118_STARTUP_ROOTS[0].event_id)["title"] += " SA-21"
+
+    def order118_document_id_injected(candidate: AuditContext) -> None:
+        candidate_record(candidate, "en", ORDER118_STARTUP_ROOTS[0].event_id)["title"] += " TF-C4-SELF"
+
+    def order118_backtick_injected(candidate: AuditContext) -> None:
+        candidate_record(candidate, "ko", ORDER118_STARTUP_ROOTS[0].event_id)["title"] += " `제안`"
+
+    def order118_placeholder_removed(candidate: AuditContext) -> None:
+        event = candidate_record(candidate, "en", ORDER118_STARTUP_ROOTS[0].event_id)
+        event["description"] = str(event["description"]).replace("{name}", "Minjun", 1)
+
+    def order118_choice_added(candidate: AuditContext) -> None:
+        event = candidate_record(candidate, "en", ORDER118_STARTUP_ROOTS[0].event_id)
+        event["choices"].append({"text": "Wait", "result_text": "Wait."})
+
+    def order118_short_description(candidate: AuditContext) -> None:
+        candidate_record(candidate, "ko", ORDER118_STARTUP_ROOTS[1].event_id)["description"] = "짧다."
+
+    def order118_state_write_added(candidate: AuditContext) -> None:
+        candidate_record(candidate, "ko", ORDER118_STARTUP_ROOTS[2].event_id)["effects"] = {"money": 1}
+
+    def order118_nonstartup_metadata_changed(candidate: AuditContext) -> None:
+        candidate_record(candidate, "ko", "arc_y5_contract_cover_career")["category"] = "story"
+
+    def order118_non_target_changed(candidate: AuditContext) -> None:
+        for records in candidate.event_indexes["ko"].values():
+            for record in records:
+                if (
+                    record.path == "content/events/arc_midgame.json"
+                    and str(record.row.get("id", "")) not in ORDER118_KO_ALLOWED_IDS
+                ):
+                    record.row["title"] = str(record.row.get("title", "")) + " 변조"
+                    return
+
+    for label, mutate, fragment in (
+        ("order118_player_token", order118_token_injected, "internal document token remains"),
+        ("order118_version_token", order118_version_token_injected, "internal document token remains"),
+        ("order118_deal_token", order118_deal_token_injected, "internal document token remains"),
+        ("order118_document_id", order118_document_id_injected, "internal document token remains"),
+        ("order118_backtick", order118_backtick_injected, "code-markup backtick remains"),
+        ("order118_placeholder", order118_placeholder_removed, "placeholder parity mismatch"),
+        ("order118_choice_count", order118_choice_added, "expected ORDER-118 choice count"),
+        ("order118_description_length", order118_short_description, "300-800 characters"),
+        ("order118_state_write", order118_state_write_added, "metadata/non-prose structure drifted"),
+        ("order118_nonstartup_metadata", order118_nonstartup_metadata_changed, "metadata/non-prose structure drifted"),
+        ("order118_non_target", order118_non_target_changed, "non-target event object changed"),
+    ):
+        case_count += 1
+        expect_context_failure(label, manifest, context, mutate, fragment, failures)
+
     case_count += 1
     replacement_context = copy.deepcopy(context)
     replacement_record = replacement_context.event_indexes["ko"][ALL_TARGET_IDS[0]][0]
-    replacement_record.row["title"] = "replacement prose is intentionally not hash-bound"
+    replacement_record.row["title"] = "replacement prose intentionally remains unbound"
     replacement_errors, _ = validate_manifest(
         copy.deepcopy(manifest),
         replacement_context,
@@ -4434,6 +4776,8 @@ def main() -> int:
             f"cases={cases} rejected_snapshot_routes={stats['routes']} "
             f"rejected_snapshot_roots={stats['roots']} rejected_snapshot_choices={stats['choices']} "
             f"rejected_r1a_roots={stats['r1a_roots']} rejected_r1a_choices={stats['r1a_choices']} "
+            f"order118_roots={stats['order118_roots']} order118_choices={stats['order118_choices']} "
+            f"order118_tokens={stats['order118_tokens']} "
             f"product_consumers={stats['consumers']} "
             "qa_consumers=1 topology=invalidated r1b_allowed=false"
         )
@@ -4444,6 +4788,8 @@ def main() -> int:
         f"rejected_snapshot_routes={stats['routes']} rejected_snapshot_roots={stats['roots']} "
         f"rejected_snapshot_choices={stats['choices']} rejected_r1a_roots={stats['r1a_roots']} "
         f"rejected_r1a_choices={stats['r1a_choices']} "
+        f"order118_roots={stats['order118_roots']} order118_choices={stats['order118_choices']} "
+        f"order118_tokens={stats['order118_tokens']} "
         f"product_consumers={stats['consumers']} qa_consumers=1 activation=reference_only "
         "topology=invalidated r1b_allowed=false"
     )

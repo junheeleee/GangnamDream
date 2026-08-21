@@ -1407,53 +1407,53 @@
   {
     "id": "arc_y5_contract_cover_career",
     "title": "The Blank That Lasts Twelve Months",
-    "description": "At 8:37 Monday morning, a document entered the company inbox: NEW-BUSINESS TF LEAD APPOINTMENT AND TRAINING-COST CLAWBACK ADDENDUM C0. Its number was TF-12-C0; its file hash ended in 8F2C71A0. {name} downloaded the original, not the preview.\n\nThe appointment lasted twelve months and paid a monthly lead-duty allowance of 450,000 won. Leaving early meant repaying six million won in company-funded training costs. The external numerical reviewer field was blank. The line below said that entering an outside name reduced approval from fifteen business days to five.\n\nThe team lead's desk was empty. The open document and the chill of the office remained at the monitor. Before the better title, {name} chose which line to verify with his own hand.",
+    "description": "At 8:37 Monday morning, the new-business task-force lead appointment and training-cost clawback addendum entered the company inbox. The inbox identified it as the first assignment proposal and showed its full page count. {name} downloaded the original, not the preview.\n\nThe appointment lasted twelve months and paid a monthly lead-duty allowance of 450,000 won. Leaving early meant repaying six million won in company-funded training costs. The external numerical reviewer field was blank. The line below said that entering an outside name reduced approval from fifteen business days to five.\n\nThe team lead's desk was empty. The open document and the chill of the office remained at the monitor. Before the better title, {name} chose which line to verify with his own hand.",
     "choices": [
       {
         "text": "Calculate 450,000 won a month and six million won on the same line",
-        "result_text": "{name} multiplied the 450,000 won monthly allowance by twelve and wrote 5.4 million won. Below it he wrote the six-million-won training repayment for leaving early. The repayment exceeded a full year's allowance by 600,000 won.\n\nHe copied the document number and hash beside the equation. Appointment remained at the top of the screen; the first thing in his notebook was the number that made leaving harder."
+        "result_text": "{name} multiplied the 450,000 won monthly allowance by twelve and wrote 5.4 million won. Below it he wrote the six-million-won training repayment for leaving early. The repayment exceeded a full year's allowance by 600,000 won.\n\nHe copied the first proposal's title and download time beside the equation. Appointment remained at the top of the screen; the first thing in his notebook was the number that made leaving harder."
       },
       {
         "text": "Overlay the twelve-month end date and both approval periods on the calendar",
-        "result_text": "{name} marked twelve months from the proposed effective date, then colored fifteen and five business days differently. One outside name saved ten days by remaining inside the document.\n\nA long line crossed into the next quarter of the calendar. He saved it with the C0 original without erasing the end date. A faster appointment by ten days and a twelve-month bind fit on one screen."
+        "result_text": "{name} marked twelve months from the proposed effective date, then colored fifteen and five business days differently. One outside name saved ten days by remaining inside the document.\n\nA long line crossed into the next quarter of the calendar. He saved it with the first proposal's original without erasing the end date. A faster appointment by ten days and a twelve-month bind fit on one screen."
       },
       {
         "text": "Save the blank reviewer field beside the acceleration clause",
-        "result_text": "{name} captured the blank external numerical reviewer field beside the line reading FIFTEEN BUSINESS DAYS TO FIVE. He did not press the button for entering a name.\n\nThe file properties still showed TF-12-C0 and 8F2C71A0. The blank belonged to no one yet, but the company's demand for a person's name as the price of ten days was no longer fine print."
+        "result_text": "{name} captured the blank external numerical reviewer field beside the line reading FIFTEEN BUSINESS DAYS TO FIVE. He did not press the button for entering a name.\n\nThe file properties still identified it as the original he had first downloaded. The blank belonged to no one yet, but the company's demand for a person's name as the price of ten days was no longer fine print."
       }
     ]
   },
   {
     "id": "arc_y5_contract_reviewer_delivery_minseo_career",
-    "title": "C0 Without a Page Cut Away",
-    "description": "At 9:14 Wednesday night, {name} placed the TF-12-C0 original in his chat with Minseo. The send panel showed its number, 8F2C71A0, and full page count. Every preview remained in sequence: 450,000 won a month, the six-million-won repayment for leaving before twelve months, the blank external numerical reviewer field, and the final line reducing fifteen business days to five for an outside name.\n\nOnly the first message was blank. Writing that he feared six million won exposed that he was already reading the exit clause first. Writing that Hyunsu's name had occurred to him exposed a calculation he had not acted on. Writing that 450,000 won made him want the appointment quickly exposed the pressure of his current life. The original was attached. {name} sent one fact he could have hidden first.",
+    "title": "The First Proposal Without a Page Cut Away",
+    "description": "At 9:14 Wednesday night, {name} placed the first assignment proposal's original in his chat with Minseo. The panel showed its title and full page count. Every preview remained in sequence: 450,000 won a month, the six-million-won repayment for leaving before twelve months, the blank external numerical reviewer field, and the final line reducing fifteen business days to five for an outside name.\n\nThe first message was blank. Writing that he feared six million won exposed that he was already reading the exit clause first. Writing that Hyunsu's name had occurred to him exposed a calculation he had not acted on. Writing that 450,000 won made him want the appointment quickly exposed the pressure of his current life. The original was attached. {name} sent one fact he could have hidden first.",
     "choices": [
       {
         "text": "Say first that the six-million-won repayment clause frightens him most",
-        "result_text": "{name} wrote, ‘Please look at the six million won triggered by leaving before twelve months first. It is the line I most wanted to hide,’ and sent the entire C0 original. At 9:16 p.m., one completed file transfer and its hash remained in the chat.\n\nOnly the send time sat beneath the bubble; the read-receipt space was blank. His sentence about looking for the exit even while considering advancement lay before the uncut document under his own name."
+        "result_text": "{name} wrote, ‘Please look at the six million won triggered by leaving before twelve months first. It is the line I most wanted to hide,’ and sent the entire first proposal. At 9:16 p.m., the chat showed that one complete file had arrived.\n\nOnly the send time sat beneath the bubble; the read-receipt space was blank. His sentence about looking for the exit even while considering advancement lay before the uncut document under his own name."
       },
       {
         "text": "Say first that Hyunsu's name occurred to him, but he did not enter it",
-        "result_text": "{name} wrote, ‘The external reviewer field made me think of Hyunsu. I have not entered his name or asked him,’ and sent it with the entire original. The send time was 9:17 p.m.\n\nThe field remained blank, but his thinking had not been. The screen held no Hyunsu contact card—only the two sentences {name} had volunteered and the C0 hash."
+        "result_text": "{name} wrote, ‘The external reviewer field made me think of Hyunsu. I have not entered his name or asked him,’ and sent it with the entire original. The send time was 9:17 p.m.\n\nThe field remained blank, but his thinking had not been. The screen held no Hyunsu contact card—only the two sentences {name} had volunteered and the first proposal, unchanged from when he attached it."
       },
       {
         "text": "Say first that 450,000 won a month makes him want the appointment quickly",
-        "result_text": "{name} wrote, ‘An extra 450,000 won a month is not small to me now, so I want this appointment quickly,’ and sent the full C0 original. At 9:18 p.m., the sentence settled beneath the document number and file hash.\n\nBefore asking for a cold reading of the terms, he had exposed why he wanted them. {name}'s overturned screen held only the send time and an empty input field."
+        "result_text": "{name} wrote, ‘An extra 450,000 won a month is not small to me now, so I want this appointment quickly,’ and sent the full first proposal. At 9:18 p.m., the sentence settled beneath the file name.\n\nBefore asking for a cold reading of the terms, he had exposed why he wanted them. {name}'s overturned screen held only the send time and an empty input field."
       }
     ]
   },
   {
     "id": "arc_y5_protection_boundary_hyunsu_career",
     "title": "A Name Worth Ten Days",
-    "description": "At 4:20 the following Tuesday, the current team lead put TF-12-C0's external numerical reviewer field on the meeting-room screen. It was still blank. “An outside name lets us reduce approval review to five business days. Without one, it stays at fifteen.” The team lead's hands rested away from the keyboard while the cursor blinked before the blank.\n\nHyunsu existed in {name}'s contacts, not in the document. His chat stayed closed; only the company's change-request field was open. Hiding the reason spent trust with the team lead. Revealing it placed a private relationship in company records. Locking the field spent today's approval time. As he barred Hyunsu's name from candidacy, {name} chose what to surrender before the ten days.",
+    "description": "At 4:20 the following Tuesday, the current team lead put the first assignment proposal's external numerical reviewer field on the meeting-room screen. It was still blank. “An outside name lets us reduce approval review to five business days. Without one, it stays at fifteen.” The team lead's hands rested away from the keyboard while the cursor blinked before the blank.\n\nHyunsu existed in {name}'s contacts, not in the document. His chat stayed closed; only the company's change-request field was open. Hiding the reason spent trust with the team lead. Revealing it placed a private relationship in company records. Locking the field spent today's approval time. As he barred Hyunsu's name from candidacy, {name} chose what to surrender before the ten days.",
     "choices": [
       {
         "text": "Give no reason and request that no outside name, including Hyunsu's, be used",
-        "result_text": "{name} entered, ‘External numerical reviewer: NOT USED. Do not enter Hyunsu's name or any other outside individual's name.’ The team lead asked why once. {name} answered only, “I will keep it under my responsibility.”\n\nThe change receipt and the standard fifteen-business-day review appeared. The private reason stayed private, but the team lead's question remained. Ten gray days lengthened on the schedule."
+        "result_text": "{name} entered, ‘We will use no external numerical reviewer. Do not enter Hyunsu's name or any other outside individual's name.’ The team lead asked why once. {name} answered only, “I will keep it under my responsibility.”\n\nThe change receipt and the standard fifteen-business-day review appeared. The private reason stayed private, but the team lead's question remained. Ten gray days lengthened on the schedule."
       },
       {
         "text": "Disclose that Hyunsu is someone he knows and request his exclusion as a conflict",
-        "result_text": "{name} said, “Hyunsu is someone I know personally. Please don't use his name to accelerate approval.” The team lead entered the sentence without shortening it in C0's conflict note.\n\nNOT USED filled the reviewer field, and approval returned to fifteen business days. The boundary had an explanation, but Hyunsu's private connection became one line in the company record. The team lead closed the screen only after saving it."
+        "result_text": "{name} said, “Hyunsu is someone I know personally. Please don't use his name to accelerate approval.” The team lead entered the sentence without shortening it in the first proposal's conflict note.\n\nThe reviewer field now said that no outside reviewer would be used, and approval returned to fifteen business days. The boundary had an explanation, but Hyunsu's private connection became one line in the company record. The team lead closed the screen only after saving it."
       },
       {
         "text": "Ask to lock the external reviewer field and preserve its change history",
@@ -1463,54 +1463,42 @@
   },
   {
     "id": "arc_y5_startup_offer_c0",
-    "title": "The First Page of Seven Days",
-    "description": "On Friday morning, the startup office printer released a thin stack. Its cover read NON-BINDING LOI FOR ACQUISITION OF 20% EQUITY, SA-20, JAN 8, 9:40 A.M. VERSION, with a hash ending A6E8. It expired after seven days.\n\nThe first page joined a KRW 16 billion valuation, {name}'s twenty-percent stake, and a proposed KRW 3.2 billion price. Behind it sat a blank joint-seller warranty, a team-employment annex, and an existing-service handover annex. Both end dates were blank, as were every signature, payment, and share-transfer time.\n\nAs the printer cooled, three lines carried different weight: the arithmetic behind KRW 3.2 billion, the name the warranty blank awaited, and the clauses carrying the team and service across. Before turning the page, {name} chose one to verify first.",
+    "title": "A Ring Beyond the Offer",
+    "description": "On Friday evening, failure alerts spread down one side of the startup office monitors. The co-founder said the acquirer valued the company at KRW 16 billion and had offered KRW 3.2 billion for {name}'s twenty-percent stake. They had not imagined that number on the day {name} put in KRW 3 million and said he would start with the co-founder. As the team looked toward the offer between them, {name}'s phone rang again. The screen showed Sujin, a current customer who had been reporting the same failure. The acquirer was waiting for an answer, and the team was waiting to see whom the founders would face first. “You're taking it, right?” the co-founder asked. The offer stayed on paper while Sujin's time was already being lost.",
     "choices": [
       {
-        "text": "Write out how twenty percent of KRW 16 billion becomes KRW 3.2 billion",
-        "result_text": "{name} multiplied the KRW 16 billion valuation by twenty percent and wrote KRW 3.2 billion. The figure matched the letter, but his account showed no acquisition payment.\n\nHe copied the deal number and A6E8 beneath the equation. The proposed price existed only on paper; the signature and transfer times remained blank. Seven days began shrinking on his calendar."
-      },
-      {
-        "text": "Compare the blank joint-seller warranty with the seller signature page",
-        "result_text": "The joint-seller warranty held neither a name nor a signature. A separate seller page sat beneath the first page describing {name}'s twenty-percent stake. He opened both and kept his pencil away from the blank.\n\nNothing said whose name would accelerate review. Between two pages with the same hash, his signature for selling his stake remained separate from a signature that would bind someone else beside him."
-      },
-      {
-        "text": "Read the blank end dates in the team and service annexes first",
-        "result_text": "{name} placed the team-employment succession annex beside the existing-service handover annex. The people and service were listed, but both end-date fields were blank.\n\nTwo tables beneath KRW 3.2 billion waited without saying how long money would carry people and product. He captured the empty date fields and stored them with the letter. The filename still ended in A6E8."
+        "text": "Turn the offer face-down and answer Sujin with the co-founder and team listening",
+        "result_text": "{name} turned the offer face-down so KRW 3.2 billion disappeared and switched on the speaker. “Sujin, I'm listening.” She described when the login had dropped and which screen had failed again. The team returned to their monitors, and the co-founder told the acquirer to wait.\n\nThey still had not found the cause, and Sujin did not say the service was fine. Everyone listened for her next words until another missed call from the acquirer appeared. The time Minseo had agreed to meet at the cafe was drawing just as close."
       }
     ]
   },
   {
     "id": "arc_y5_startup_c0_reviewer_delivery_minseo",
-    "title": "The Original Without a Fold",
-    "description": "At 7:10 that evening, {name} sat across from Minseo by the cafe window with a clear folder under his hand. He had removed nothing from the NON-BINDING LOI FOR ACQUISITION OF 20% EQUITY, from its first page through the team-employment and existing-service annexes. Deal SA-20, JAN 8, 9:40 A.M. VERSION, and hash ending A6E8 matched on the cover and his phone's file properties.\n\nThe gray pencil before Minseo remained capped. Beneath the plastic ran the KRW 16 billion valuation, twenty-percent stake, proposed KRW 3.2 billion price, blank joint-seller warranty, and two blank end dates. Before explaining what she should inspect, {name} wanted to preserve the time he handed over the whole original.",
+    "title": "The Untouched Second Cup",
+    "description": "The cafe had announced closing time before {name} arrived. Sujin's service was working for now, though the same failure could return, and one of the two drinks Minseo had ordered was already cold. As {name} began to mention KRW 3.2 billion, a voice message from the co-founder arrived. “The customer is stable for now. The team is still waiting. Don't come back with only the price.” Minseo listened without telling him to sell or stay. “KRW 3.2 billion may be the goal you've chased. But who is giving up tonight to get you there? That's the life the number leaves out.” She returned the decision to {name}. “If I choose it for you, you'll bring me back tomorrow.” A worker began stacking chairs for the second time.",
     "choices": [
       {
-        "text": "Hand over the full original and record only its receipt time",
-        "result_text": "{name} slid the clear folder toward Minseo and entered SA-20 and 7:12 p.m. in his delivery record. She matched A6E8 on the first page to the hash on his screen, then wrote only the same time in the receipt field.\n\nThe gray pencil stayed capped. No line gained a verification mark. One uncut original and two matching times remained on the table."
+        "text": "Leave the untouched second cup and return to the office",
+        "result_text": "{name} stood without touching the drink Minseo had saved for him. She did not ask about the place they had meant to visit or the meal they had meant to share. She only said, “Next time, don't come for an answer. Come tell me what you answered.”\n\nWhen the door closed, their promised evening remained beside the cold cup. No more messages came from the co-founder on the way back. Only the office light where the team waited stayed on at the end of the alley."
       }
     ]
   },
   {
     "id": "arc_y5_startup_boundary_cofounder",
-    "title": "The Blank Called Joint",
-    "description": "The following month, on Monday afternoon, the acquirer reopened the joint-seller warranty revision panel. SA-20, JAN 8, 9:40 A.M. VERSION, and A6E8 remained above it; the seven-day bar for this revision request had passed halfway. The co-founder's name appeared in the founding shareholder register, not this warranty field.\n\n{name} meant to request separate pages for each seller's stake and responsibility. That could stop the fast joint review. Taking more onto his page meant supplying more proof for his twenty percent. Revising the team and service annexes alone removed the co-founder's voice. Rejecting the clause surrendered the remaining review window.\n\nThe co-founder's chat stayed closed. Only the revision panel was open, asking which cost {name} would attach to keeping that name out.",
+    "title": "The People Left at the Door",
+    "description": "Late at the office, the team learned that the acquirer's name had circulated in the meeting room before anyone spoke to them. People stopped at the door with their coats on. Looking toward the window, the co-founder told {name}, “Don't cast me as the one you protected, then make me face the team for you.” The acquirer wanted both founders on a call shortly and would not hold the time for long. Calling the team back could cost that meeting and the remaining secrecy. If {name} stayed while the co-founder took the call alone, he would lose control of his own terms and leave one person carrying both voices. If both founders went, the team would go home unanswered. Whom they faced first had become the cost they were choosing.",
     "choices": [
       {
-        "text": "Request separate seller signature pages instead of a joint warranty",
-        "result_text": "{name} entered JOINT-SELLER WARRANTY: NOT USED and REQUEST SEPARATE SELLER SIGNATURE PAGES. When he submitted it, today's review slot grayed out and the status changed to REDRAFT REQUESTED.\n\nThe co-founder's name did not enter the blank. The seven-day bar did not stop, either. Where the next document might have arrived today, only the revision-request time remained."
+        "text": "Call the team back and explain everything together from the beginning",
+        "result_text": "Instead of stopping people at the door, {name} set the meeting-room chairs back out. The co-founder sat beside him, not across from him. They took turns explaining that an acquisition offer had arrived and that neither had decided what to do.\n\nQuestions continued past the acquirer's call slot, and the request for secrecy could no longer mean the same thing. The team's faces did not soften. Still, no one had hidden behind the other while speaking tonight."
       },
       {
-        "text": "Offer a sole warranty only for his twenty-percent stake and his records",
-        "result_text": "{name} requested a sole signature page limited to his twenty-percent stake and the records he had uploaded. The portal opened three separate slots for the shareholder register, deposit ledger, and voting record.\n\nHe had not used the co-founder's name, but three bundles of proof now converged beneath his own. Before choosing the first file, he read every new upload field under his name."
+        "text": "Stay with the team and send the co-founder alone to the acquirer call",
+        "result_text": "{name} asked the team to sit while the co-founder took the call. He heard fragments of the co-founder's voice through the closed meeting-room door, but not which conditions the acquirer was changing. {name} answered the team's questions only as far as he knew.\n\nThey were not left alone, but {name} missed the first discussion of his own stake and future role. The co-founder carried both founders' voices alone. After the call, one expression could not show everything it had cost."
       },
       {
-        "text": "Keep the name blank but let his answer alone revise the team and service annexes",
-        "result_text": "{name} left the joint warranty blank and asked that his comments alone be applied first to the team-employment and service-handover annexes. A gray label appeared above both: SELLER COMMENT: {name} ONLY.\n\nHe stopped the co-founder's name from entering the warranty, but advanced the clauses about people and product without that voice. The closed chat and open annexes remained on one screen."
-      },
-      {
-        "text": "Reject the joint warranty and make no request to extend the seven days",
-        "result_text": "{name} marked the joint-seller warranty UNACCEPTABLE and left the extension field blank. The portal kept the proposed KRW 3.2 billion price visible and enlarged the remaining expiration time.\n\nHe had refused to use a name without sending a sentence that held the deal open. The rejection mark, shrinking time, and KRW 0 in acquisition proceeds remained side by side."
+        "text": "Go to the acquirer together and send the team home unanswered",
+        "result_text": "{name} said he could not answer tonight and left with the co-founder. The people at the door folded their questions and scattered toward the elevator. With the acquirer, both founders heard the price and future roles in the same room.\n\nWhen they returned, the office was dark and no one had spoken first in the team chat. “Tomorrow, you go first,” the co-founder said. They kept the fast meeting, but the years in which the team trusted the founders to speak first had not remained untouched."
       }
     ]
   }

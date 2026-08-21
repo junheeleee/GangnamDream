@@ -753,7 +753,7 @@
   {
     "id": "arc_y5_final_week_hyunsu_career_outbound",
     "title": "The Message After Reconciling the First Week's Figures",
-    "description": "The new badge clicked against the drawer. On Friday of his first week as task-force lead, {name} was last in the office. One cell in the supervisor's revenue forecast pulled from the wrong month—the kind of screen that tempted him to open Hyunsu's chat and send it.\n\n{name} matched ledger figures to receipts from the first line. Near midnight he fixed the reference and left PREPARED AND RECONCILED: {name} in the history, NOT USED in the external numerical reviewer field. Restaurant lights were dark when he tapped the badge at the door.\n\nHe locked the file and opened Hyunsu's chat. The paperclip field was empty. He could send first: a specific meal, an overdue apology, or tonight's distance and his next call time.",
+    "description": "The new badge clicked against the drawer. On Friday of his first week as task-force lead, {name} was last in the office. One cell in the supervisor's revenue forecast pulled from the wrong month—the kind of screen that tempted him to open Hyunsu's chat and send it.\n\n{name} matched ledger figures to receipts from the first line. Near midnight he fixed the reference. The record showed only that he had reconciled it himself without borrowing anyone's name. Restaurant lights were dark when he tapped the badge at the door.\n\nHe locked the file and opened Hyunsu's chat. The paperclip field was empty. He could send first: a specific meal, an overdue apology, or tonight's distance and his next call time.",
     "choices": [
       {
         "text": "Send a date and time for the soup place near the old goshiwon",
@@ -761,7 +761,7 @@
       },
       {
         "text": "Apologize first for calculating Hyunsu's professional name as a shortcut",
-        "result_text": "‘I first calculated that using your name would save ten days. I meant to ask later what liability it would leave you with. I'm sorry.’\n\n{name} ended the message at the period and sent it. Only the sent time appeared, and the input field went empty again. NOT USED in the locked forecast and the apology bubble remained on separate screens."
+        "result_text": "‘I first calculated that using your name would save ten days. I meant to ask later what liability it would leave you with. I'm sorry.’\n\n{name} ended the message at the period and sent it. Only the sent time appeared, and the input field went empty again. The forecast he had reconciled without borrowing anyone's name and the apology bubble remained on separate screens."
       },
       {
         "text": "Send the distance he needs tonight and the time he will call again",
@@ -771,20 +771,12 @@
   },
   {
     "id": "arc_y5_final_week_startup_after_acquisition",
-    "title": "One Line Beneath the New Logo",
-    "description": "On the first Monday after the acquisition, a new logo covered the office door. Four screw holes from the old sign remained outside it. {name} entered with his transition badge and opened the team briefing sheet beside the new organization chart.\n\nThe named-team appendix kept the cofounder's current role for twelve months. The chart moved the same name to TRANSITION ADVISOR. “Employment continues,” the acquisition lead said. “Use this chart today.” The cofounder set their nameplate between the documents. “Staying employed and continuing my work aren't the same thing.”\n\nThe team would arrive in eighteen minutes. {name} had signed up to brief them. He could correct the role, open with a recorded objection, or return that line to the person whose name it held.",
+    "title": "The Last Screw on the First Monday",
+    "description": "On acquisition's first Monday, one screw remained below the new logo. Friday held three commitments: the team's last independent dinner, the night at Sujin’s workplace, and the first post-acquisition transition gathering. {name} kept one and missed two. Paper cups left by the team sat stacked in the dark meeting room. Sujin's message remained: “Someone answered Friday. Who do I call next Monday?”\n\nA ribbon brought by the buyer marked the transition seat. The acquisition lead paused. “Whichever seat you chose, don't repay the other two by rushing people today.” The cofounder, who had stayed through the first Monday, crouched at the door and took out a screwdriver. “We know where you were. The other places don't disappear.” Before the team arrived, one screw remained among those traces.",
     "choices": [
       {
-        "text": "Attach the appendix beside the chart and demand correction of the wrong role",
-        "result_text": "{name} struck through TRANSITION ADVISOR and copied the appendix's current role beside it. The acquisition lead erased eighteen minutes from the start sheet and stamped BEGIN AFTER ROLE REVIEW.\n\nThe door through which the team would enter remained closed. The cofounder set the removed nameplate over the corrected line. {name}'s transition time paid first in the delayed meeting, while the original chart and correction request remained side by side."
-      },
-      {
-        "text": "Attach the role objection and open today's briefing as scheduled",
-        "result_text": "{name} wrote DOES NOT MATCH APPENDIX — NOT AGREED beside the new role, then added his name and the current time. The acquisition lead opened the meeting-room door without removing the objection.\n\nThe cofounder left the TRANSITION ADVISOR nameplate on the table instead of wearing it. Chairs filled one by one. The first screen showed the new chart and objection together, and {name} began the briefing without hiding either line."
-      },
-      {
-        "text": "Turn both role sheets and the pen toward the cofounder, returning the decision",
-        "result_text": "{name} placed the appendix and new chart side by side before the cofounder, then removed his hands. The cofounder crossed out TRANSITION ADVISOR, wrote the original role, and initialed the line.\n\nThe acquisition lead filed the revised page under PARTY CONFIRMATION — REVIEW PENDING. The cofounder's name stood beside the original role; only a deletion line remained over TRANSITION ADVISOR. The briefing clock kept running, and the pen stayed before its last user."
+        "text": "Before the team arrives, remove the old sign's last screw with the cofounder",
+        "result_text": "{name} knelt beside the cofounder and held the sign's corner. Each time the cofounder turned the screwdriver half a turn, {name} steadied it. When the last screw came free, they lowered the old sign to the floor.\n\nThe elevator stopped, and the team's voices drew closer down the hall. A bare hole showed beneath the new logo, while Sujin's question remained paused at the end of the playback bar. The cofounder placed the screw on an open palm. They stood and faced the first Monday's door together."
       }
     ]
   }

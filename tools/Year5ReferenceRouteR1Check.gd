@@ -16,13 +16,14 @@ func _ready() -> void:
 	_manifest = _read_manifest()
 	_expect(not _manifest.is_empty(), "manifest loads")
 	if not _manifest.is_empty():
+		_run_invalidation_boundary()
 		_run_route_trace(CAREER_ROUTE)
 		_run_route_trace(STARTUP_ROUTE)
 		_run_terminal_contract()
 		_run_entry_rejections()
 		_run_kernel_rejections()
 	if _failures.is_empty():
-		print("YEAR5_REFERENCE_ROUTE_R1_CHECK_OK checks=%d routes=2 roots=18 choices=50 dispatch=0" % _checks)
+		print("YEAR5_REFERENCE_ROUTE_R1_CHECK_OK checks=%d routes=2 roots=18 choices=50 topology=historical_invalidated r1b_allowed=false dispatch=0" % _checks)
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -36,6 +37,76 @@ func _read_manifest() -> Dictionary:
 		return {}
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(MANIFEST_PATH))
 	return (parsed as Dictionary).duplicate(true) if parsed is Dictionary else {}
+
+
+func _run_invalidation_boundary() -> void:
+	_expect(str(_manifest.get("activation", "")) == "reference_only",
+		"manifest remains reference_only")
+	_expect(_is_exact_bool(_manifest.get("reachability_claim"), false),
+		"manifest keeps reachability false")
+	_expect(_manifest.get("runtime_owner") == null,
+		"manifest keeps runtime owner null")
+	var contract: Dictionary = _manifest.get("r1a_contract", {}) as Dictionary
+	_expect(str(contract.get("contract_status", "")) == "invalidated_by_delegated_l3",
+		"R1a literary topology is historical invalidated evidence")
+	_expect(_is_exact_bool(contract.get("usable_for_r1b"), false),
+		"invalidated R1a is not usable for R1b")
+	_expect(contract.get("replacement_contract") == null,
+		"no replacement route contract is installed")
+	var lifecycle: Dictionary = contract.get("lifecycle", {}) as Dictionary
+	_expect(str(lifecycle.get("name", "")) == "dormant_contract_kernel",
+		"R1a lifecycle remains dormant contract kernel")
+	_expect(_is_exact_bool(lifecycle.get("activation_after_completion"), false),
+		"R1a lifecycle cannot activate after completion")
+	_expect(_is_exact_bool(lifecycle.get("reference_only"), true),
+		"R1a lifecycle remains reference only")
+	_expect(_is_exact_bool(lifecycle.get("reachability_claim"), false),
+		"R1a lifecycle makes no reachability claim")
+	_expect(_is_exact_bool(lifecycle.get("dispatch_allowed"), false),
+		"R1a lifecycle keeps dispatch disabled")
+	var lifecycle_product_consumers: Variant = lifecycle.get("product_consumer_count")
+	_expect(_is_exact_json_integer(lifecycle_product_consumers, 0),
+		"R1a lifecycle keeps product consumer count zero")
+	var lifecycle_qa_consumers: Variant = lifecycle.get("qa_injection_consumer_count")
+	_expect(_is_exact_json_integer(lifecycle_qa_consumers, 1),
+		"R1a lifecycle keeps one QA-only consumer")
+	_expect(str(lifecycle.get("qa_injection_owner", "")) == "tools/Year5ReferenceRouteR1Check.gd",
+		"R1a lifecycle keeps the exact QA-only owner")
+	_expect(str(lifecycle.get("kernel_owner", "")) == "systems/Year5ReferenceRouteKernel.gd",
+		"R1a lifecycle keeps the pure kernel owner")
+	_expect(lifecycle.get("runtime_owner") == null,
+		"R1a lifecycle keeps runtime owner null")
+	_expect(lifecycle.get("save_adapter") == null,
+		"R1a lifecycle keeps save adapter null")
+	var planned: Dictionary = _manifest.get("planned_runtime", {}) as Dictionary
+	_expect(str(planned.get("literary_topology_status", "")) == "invalidated_by_delegated_l3",
+		"planned runtime records the rejected literary topology")
+	_expect(_is_exact_bool(planned.get("r1b_allowed"), false),
+		"planned runtime keeps R1b disabled")
+	_expect(planned.get("replacement_contract") == null,
+		"planned runtime has no replacement contract")
+	var planned_product_consumers: Variant = planned.get("current_product_consumer_count")
+	_expect(_is_exact_json_integer(planned_product_consumers, 0),
+		"planned runtime keeps product consumer count zero")
+	var planned_qa_consumers: Variant = planned.get("current_qa_injection_consumer_count")
+	_expect(_is_exact_json_integer(planned_qa_consumers, 1),
+		"planned runtime keeps one QA-only consumer")
+	_expect(str(planned.get("dormant_kernel_owner", "")) == "systems/Year5ReferenceRouteKernel.gd",
+		"planned runtime keeps the dormant kernel owner")
+	_expect(planned.get("production_dispatcher") == null,
+		"planned runtime keeps production dispatcher null")
+	_expect(planned.get("save_ledger_owner") == null,
+		"planned runtime keeps save ledger owner null")
+
+
+func _is_exact_bool(value: Variant, expected: bool) -> bool:
+	return value is bool and value == expected
+
+
+func _is_exact_json_integer(value: Variant, expected: int) -> bool:
+	if not (value is int or value is float):
+		return false
+	return float(value) == float(expected)
 
 
 func _run_route_trace(route_id: String) -> void:

@@ -127,11 +127,11 @@
   {
     "id": "arc_y5_minseo_goal_cost_career",
     "title": "A Table Longer Than the Allowance",
-    "description": "At 11:30 Saturday morning, Minseo placed TF-12-C0 beside this month's automatic-payment list, opened by {name}. C0 showed the 450,000 won monthly lead-duty allowance, the six-million-won training repayment for leaving before twelve months, and its end date. The living-cost categories and total faced {name}; Minseo's finger stopped at the heading.\n\nShe turned on her calculator and entered C0's end date first. “This isn't about earning another 450,000 won. You carry six million won until this date. Where can your present life hold it?”\n\nMinseo turned the calculator toward {name} and divided the company's date from his living-cost list with one finger. The two tables did not overlap. “Show me one cost I don't know.”",
+    "description": "At 11:30 Saturday morning, Minseo placed the first assignment proposal beside this month's automatic-payment list, opened by {name}. The first proposal showed the 450,000 won monthly lead-duty allowance, the six-million-won training repayment for leaving before twelve months, and its end date. The living-cost categories and total faced {name}; Minseo's finger stopped at the heading.\n\nShe turned on her calculator and entered the first proposal's end date. “This isn't about earning another 450,000 won. You carry six million won until this date. Where can your present life hold it?”\n\nMinseo turned the calculator toward {name} and divided the company's date from his living-cost list with one finger. The two tables did not overlap. “Show me one cost I don't know.”",
     "choices": [
       {
         "text": "Show the total of this month's automatic payments without hiding it",
-        "result_text": "{name} turned the list toward Minseo with housing, phone, and regular expenses visible. She aligned three monthly withdrawal dates with C0's payday.\n\n“The allowance is one line. Your living costs leave on several dates. First see whether you can withstand the allowance arriving a month late.”\n\nLess of his present life could remain private. Three dates—not an answer—remained on the paper."
+        "result_text": "{name} turned the list toward Minseo with housing, phone, and regular expenses visible. She aligned three monthly withdrawal dates with the first proposal's payday.\n\n“The allowance is one line. Your living costs leave on several dates. First see whether you can withstand the allowance arriving a month late.”\n\nLess of his present life could remain private. Three dates—not an answer—remained on the paper."
       },
       {
         "text": "Ask her to identify the exact date the repayment obligation ends",
@@ -146,7 +146,7 @@
   {
     "id": "arc_y5_after_goal_hyunsu_career",
     "title": "What to Ask Before a Name",
-    "description": "At 8:05 Sunday evening, in the soup shop by their old goshiwon, {name} left C0 in his bag. He set down his phone. “When I saw the external reviewer field, your name came to mind. I didn't use it, and I told the company not to.”\n\nHyunsu set down his spoon and waited for the steam to sink. “Hyung, before you say you didn't use it, tell me why you needed my name.” {name} explained how an outside name cut approval from fifteen business days to five. Hyunsu kept looking at those ten days.\n\n“Then what will you protect after the appointment? In your life, not in my name.”\n\n{name} kept his calendar closed and looked between Hyunsu's work schedule, water glass, and overturned phone. One question about how Hyunsu protected his work remained in his mouth—the one that hurt most to ask now.",
+    "description": "At 8:05 Sunday evening, in the soup shop by their old goshiwon, {name} left the first proposal in his bag. He set down his phone. “When I saw the external reviewer field, your name came to mind. I didn't use it, and I told the company not to.”\n\nHyunsu set down his spoon and waited for the steam to sink. “Hyung, before you say you didn't use it, tell me why you needed my name.” {name} explained how an outside name cut approval from fifteen business days to five. Hyunsu kept looking at those ten days.\n\n“Then what will you protect after the appointment? In your life, not in my name.”\n\n{name} kept his calendar closed and looked between Hyunsu's work schedule, water glass, and overturned phone. One question about how Hyunsu protected his work stayed in his mouth—the hardest to ask now.",
     "choices": [
       {
         "text": "Ask how he protects an evening he will not sell to the office",
@@ -164,39 +164,31 @@
   },
   {
     "id": "arc_y5_startup_minseo_goal_cost",
-    "title": "A Calculator Holding Zero",
-    "description": "The following month, Minseo set the NON-BINDING LOI FOR ACQUISITION OF 20% EQUITY beside a calculator. On the left sat the KRW 16 billion valuation, twenty-percent stake, and proposed KRW 3.2 billion price. On the right, acquisition proceeds received read KRW 0. Deal SA-20 and hash ending A6E8 matched.\n\nMinseo opened the team-employment and existing-service annexes, then pointed to three fields including {name}'s transition end date. All were blank. “KRW 3.2 billion is on the offer. The money that moved is here.” The calculator flickered when she pressed zero.\n\n“I can't give you the legal answer. I can separate whose time each empty date spends.” She laid her gray pencil between the calculator and the three end-date fields.",
+    "title": "A Lunch Going Cold",
+    "description": "Months later, {name} met Minseo for a late lunch and spoke about the acquisition that still had not ended. He said KRW 3.2 billion would reach a goal he had chased for years, but she did not check the arithmetic for him. Then Sujin called. When {name} said Minseo was there, Sujin paused and gave permission first: “It's okay if I'm on speaker.” She asked only, “I don't care what the company is called, but it will still work Monday, right?” Minseo looked at the cooling soup. “KRW 3.2 billion is the goal, you said. Who is giving up time to answer this call today?” She made clear she would not supply the legal or personal answer. As their lunch time ended, the acquirer called too.",
     "choices": [
       {
-        "text": "Put KRW 16 billion, twenty percent, KRW 3.2 billion, and today's KRW 0 on one line",
-        "result_text": "Minseo wrote KRW 16 BILLION × 20% = KRW 3.2 BILLION, then CURRENT ACQUISITION PROCEEDS: KRW 0 beneath it. She drew no arrow between the proposed price and his balance.\n\n“A correct calculation and money arriving are different events.” She turned the calculator toward {name}. KRW 3.2 billion and zero remained lit on separate lines."
-      },
-      {
-        "text": "Ask her to mark the field where his transition obligation ends",
-        "result_text": "Minseo boxed {name}'s transition end-date field and wrote NO DATE. She separated the two blank fields for signing and payment beside it.\n\n“Without an end to the transition, you can't count the time after KRW 3.2 billion.” The gray box reached the first page before any person's name. {name} could not transfer the blank end date into his phone calendar."
-      },
-      {
-        "text": "Ask her not to combine the team's end date with the service's end date",
-        "result_text": "Minseo gave the two blank end dates different marks: a vertical line for team employment, a horizontal one for service handover.\n\n“The time the team remains and the time the service continues are not the same sentence.” The first page bearing KRW 3.2 billion lay between the annexes. {name} photographed the two blanks separately so one date could not cover both."
+        "text": "End lunch early and keep listening to Sujin before answering the acquirer",
+        "result_text": "{name} silenced the acquirer's call and asked which part of Monday frightened Sujin most. She said they would know only after logging in that morning and did not press him for a guarantee. Minseo paid for her untouched food and picked up her bag.\n\n“I didn't choose today's answer,” she said before leaving. Their lunch and her time would not return, and Sujin's worry had not vanished after one call. {name} sent the co-founder a short message asking to meet again that night."
       }
     ]
   },
   {
     "id": "arc_y5_startup_after_goal_cofounder",
-    "title": "What Remains After KRW 3.2 Billion",
-    "description": "That night, after the last teammate left, the co-founder kept three customer issues on the meeting-room whiteboard. {name} placed SA-20 on the table. “When I saw the joint-seller warranty, I thought using your name could make this faster. I didn't enter it. For now, I've only sent my answer keeping your name out of the warranty field.”\n\nThe co-founder capped the marker. “If not using it ends the story, why tell me now?” The first page bearing KRW 16 billion, twenty percent, and KRW 3.2 billion lay between them. The signature under A6E8 was blank.\n\n{name} wanted to ask what remained after the money: the product, the team, or the person who had started beside him. Asking all three at once would bury every answer. He began with the one thing he was most afraid to lose now.",
+    "title": "The Night the Coats Came Off Again",
+    "description": "That night, just as the last teammate reached the door with a bag, Sujin called again. “It worked earlier, but it stopped again.” The co-founder froze halfway through zipping a coat and looked at {name}. An important meeting with the acquirer waited the next morning, and this was the only night the founders could prepare together. The co-founder nodded toward the people at the door. “If you stay, it costs your sleep. If we both go, we lose our only time to talk alone. If you stay in the meeting room, those people have to take their coats off again.” Sujin would see whose night kept the service alive. No one could promise the failure would end.",
     "choices": [
       {
-        "text": "Ask which moment in the product they still want to see through after KRW 3.2 billion",
-        "result_text": "The co-founder circled one payment error among the three customer issues. “I want to see whether this person faces the same error next month. That comes before the company name changing.”\n\nWhen {name} asked about transition time, the co-founder tapped the blank end date. “Set that date first. Talk about staying afterward.” One unerased customer issue remained on the board longer than the acquisition paper."
+        "text": "Take the night support alone and send the co-founder and team home",
+        "result_text": "{name} told the co-founder to zip the coat and told the team not to return. Alone, he followed Sujin's screen past midnight and watched the same failure appear once more. “You're still there,” she said, but she did not say everything was fine.\n\nThe questions the co-founder had left for tomorrow stayed unopened. {name}'s sleep and preparation time passed into the customer's night, and he never promised it would be solved by morning."
       },
       {
-        "text": "Ask who should tell the team first about KRW 3.2 billion and the acquisition terms",
-        "result_text": "Without taking down the shift board, the co-founder said, “You tell them first that you considered putting my name in the warranty. We tell them about KRW 3.2 billion together.”\n\n“Why do I say mine alone?”\n\n“The person who thought it says it first.” The co-founder did not open the team chat. The order of speakers returned to {name}, and his phone's input field stayed blank."
+        "text": "Go to Sujin together and send the whole team home",
+        "result_text": "{name} and the co-founder sent the team home and went to Sujin. The acquirer kept asking for material for tomorrow, but neither opened a laptop on the way. Seeing the same failure beside Sujin made only one thing clearer: it did not have a single cause.\n\nThey protected the team's night, but lost both their preparation and the last private hours in which the two founders could speak about what would come if the company changed hands. Only the customer's words remained on the trip back."
       },
       {
-        "text": "Ask what relationship they want to preserve after handing over the company",
-        "result_text": "The co-founder set down the marker and looked at {name}. “Don't use that question to make me say sell or stay for you.”\n\nA finger stopped between their two signatures in the founding shareholder register. “First finish telling me why you needed my name. Then ask whether we remain.”\n\nThe two signatures stayed on the old paper. The joint-warranty field in the new letter remained blank."
+        "text": "Prepare for the acquirer while the co-founder and team take the night",
+        "result_text": "{name} stayed in the meeting room while the co-founder and team took off their coats again. Short questions and keyboards carried through the call with Sujin all night. {name} prepared what he would say to the acquirer and learned only in the morning what else had happened to the customer.\n\nOn the next call, Sujin said the co-founder's name and the team's names first. The acquisition preparation survived, and so did the memory of {name}'s absence. The cost of holding the failure came out of other people's sleep."
       }
     ]
   }
