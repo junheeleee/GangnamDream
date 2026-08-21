@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-08-14",
+  "updated": "2026-08-21",
   "scope": "Player-visible fresh-start Core Loop V2 surfaces through the 24-week CTA; preparation evidence, not translation or shipping approval.",
   "derivation": {
     "events": "release inventory V2 bundle/spine/runtime closure plus the fresh-start Chapter 1 card; suppressed follow-ups remain suppressed",
@@ -42,8 +42,8 @@
     "automatic_script_conversion": false,
     "body_translation": "held_until_explicit_demo_GO",
     "shipping": false,
-    "static_ui_source_count": 2792,
-    "static_ui_source_keys_sha256": "e6d002715cfd502952b982bf4d6f89f177621b644639510b4264b2bf6e6cb014",
+    "static_ui_source_count": 2818,
+    "static_ui_source_keys_sha256": "2fdaf8dd436d71fcb2a5fd5334ac71a4cf82052b00a15d3fd18e73a79d786f60",
     "regions": {
       "zh-CN": {
         "source_language": "ko",
@@ -68,17 +68,17 @@
     "legacy_korean_source_keys": 2730,
     "legacy_korean_source_keys_sha256": "b67df90ba814deeac78db1b1bc4836d16596b6b93521e97a34427ae3b2bcb222",
     "current_source_snapshot": {
-      "legacy_pair_call_occurrences": 3266,
-      "post_migration_legacy_pair_call_occurrences": 3229,
-      "legacy_korean_source_keys": 2741,
-      "legacy_korean_source_keys_sha256": "f7790efbf6ddedf132398721914195aa1c9c29fd425f3380f508beb0ad540823"
+      "legacy_pair_call_occurrences": 3263,
+      "post_migration_legacy_pair_call_occurrences": 3228,
+      "legacy_korean_source_keys": 2768,
+      "legacy_korean_source_keys_sha256": "c77c3c14610036fa1173c26b8aa1735d44d9e59e4480ffa65eb49f986ce2311f"
     },
-    "multi_english_korean_keys": 107,
-    "format_equivalent_keys": 34,
-    "shared_translation_keys": 45,
-    "context_split_korean_keys": 28,
-    "planned_context_ids": 30,
-    "planned_context_callsite_migrations": 37,
+    "multi_english_korean_keys": 100,
+    "format_equivalent_keys": 29,
+    "shared_translation_keys": 44,
+    "context_split_korean_keys": 27,
+    "planned_context_ids": 29,
+    "planned_context_callsite_migrations": 35,
     "collision_partition": {
       "format_equivalent": {
         "고시원": [
@@ -105,6 +105,10 @@
           "MESSAGE",
           "Message"
         ],
+        "몸": [
+          "BODY",
+          "Body"
+        ],
         "무료": [
           "FREE",
           "Free"
@@ -121,13 +125,13 @@
           "PEOPLE",
           "People"
         ],
-        "사회성": [
-          "SOCIAL",
-          "Social"
-        ],
         "선택 결과": [
           "CHOICE RESULT",
           "Choice Result"
+        ],
+        "성장": [
+          "GROWTH",
+          "Growth"
         ],
         "시간의 기록": [
           "THE TIME LEDGER",
@@ -149,10 +153,6 @@
           "Apartment jeonse",
           "apartment (jeonse)"
         ],
-        "업무성과": [
-          "PERFORMANCE",
-          "Performance"
-        ],
         "연인": [
           "Partner",
           "partner"
@@ -161,25 +161,9 @@
           "VIDEO CALL",
           "Video call"
         ],
-        "외모": [
-          "APPEARANCE",
-          "Appearance"
-        ],
-        "운": [
-          "LUCK",
-          "Luck"
-        ],
-        "월수입": [
-          "MONTHLY INCOME",
-          "Monthly Income"
-        ],
         "정선 카지노": [
           "Jeongseon Casino",
           "Jeongseon casino"
-        ],
-        "정신": [
-          "MENTAL",
-          "Mental"
         ],
         "정신력": [
           "MENTAL",
@@ -204,10 +188,6 @@
         "타이 — 베팅 환불": [
           "PUSH — bet returned",
           "Push — bet returned"
-        ],
-        "평판": [
-          "REPUTATION",
-          "Reputation"
         ],
         "현금": [
           "CASH",
@@ -334,10 +314,6 @@
           "EDIT PLAN",
           "FIX SCHEDULE"
         ],
-        "자금 +%s": [
-          "Funds +%s",
-          "Money +%s"
-        ],
         "자동 저장에 실패했다. 시작 화면으로 나가기 전에 다시 시도해 주세요.": [
           "Autosave failed. Please retry before returning to the title screen.",
           "Autosave failed. Please try again before returning to the title screen."
@@ -384,7 +360,6 @@
           "To Invest Screen"
         ],
         "투자감각": [
-          "INVESTING",
           "Invest Skill",
           "Investing"
         ],
@@ -421,7 +396,6 @@
         "기록": [
           "ARCHIVE",
           "Archive",
-          "LOG",
           "Log",
           "Record"
         ],
@@ -476,11 +450,6 @@
           "Settings",
           "Setup"
         ],
-        "성장": [
-          "GAIN",
-          "GROWTH",
-          "Growth"
-        ],
         "연락": [
           "CONTACTS",
           "PHONE"
@@ -494,7 +463,6 @@
           "Previous"
         ],
         "인연": [
-          "BOND",
           "Bond",
           "Connection",
           "the relationship"
@@ -516,7 +484,6 @@
           "Watch"
         ],
         "지력": [
-          "INTELLIGENCE",
           "Intelligence",
           "Skill"
         ],
@@ -884,27 +851,6 @@
         ]
       },
       {
-        "id": "ui.result.gain_badge",
-        "ko": "성장",
-        "allowed_en": [
-          "GAIN"
-        ],
-        "callsites": [
-          {
-            "path": "scenes/MainGame.gd",
-            "function": "_ap_result_tone_label",
-            "en": "GAIN",
-            "count": 1
-          },
-          {
-            "path": "scenes/StoryMode.gd",
-            "function": "_story_result_tone_label",
-            "en": "GAIN",
-            "count": 1
-          }
-        ]
-      },
-      {
         "id": "ui.job.entry_tier",
         "ko": "입문",
         "allowed_en": [
@@ -1017,15 +963,15 @@
         ]
       }
     ],
-    "note": "The ORDER-96 3,254-call/2,730-key context baseline remains immutable historical evidence. current_source_snapshot records later non-parameterized static UI copy without rewriting that baseline; the locked 30 context IDs still own the same 37 product calls. JA/zh-CN/zh-TW body translation remains held until a separate approved demo translation order explicitly enables --allow-body."
+    "note": "The ORDER-96 3,254-call/2,730-key context baseline remains immutable historical evidence. current_source_snapshot records later non-parameterized static UI copy without rewriting that baseline; the current 29 context IDs own 35 product calls. JA/zh-CN/zh-TW body translation remains held until a separate approved demo translation order explicitly enables --allow-body."
   },
   "ui_parameterized_template_plan": {
     "schema_version": 2,
     "status": "resolved",
     "order": "ORDER-97",
     "alias": "LOC-0.5",
-    "raw_candidate_expressions": 56,
-    "migrate_lookup_before_format_calls": 48,
+    "raw_candidate_expressions": 55,
+    "migrate_lookup_before_format_calls": 47,
     "dynamic_pair_readers": 4,
     "branch_selected_literals": 2,
     "locale_money_formatters": 2,
@@ -1033,19 +979,19 @@
       "scenes/CommitmentTask.gd::_format_money",
       "scenes/SeoulCycleBoard.gd::_format_money"
     ],
-    "migrated_templates": 43,
-    "new_legacy_key_candidates": 42,
+    "migrated_templates": 42,
+    "new_legacy_key_candidates": 41,
     "callsite_distribution": {
       "autoloads/GameState.gd": 4,
       "scenes/ArubaGame.gd": 1,
       "scenes/CommunicationPhone.gd": 3,
       "scenes/CoreLoopPlanner.gd": 13,
-      "scenes/MainGame.gd": 2,
+      "scenes/MainGame.gd": 1,
       "scenes/SeoulCycleBoard.gd": 2,
       "scenes/StartMenu.gd": 16,
       "scenes/StoryMode.gd": 7
     },
-    "candidate_registry_sha256": "20453b3c27423f23b88f0a8ad9d0e1c1c5fd86f12393f33034598d59b534f955",
+    "candidate_registry_sha256": "2b63cc585c663ee145f51f6c09e3a794222367e628b05612d01856d2b4fd4398",
     "candidate_registry": [
       {
         "disposition": "migrate",
@@ -1611,24 +1557,6 @@
         ],
         "ko_newlines": 0,
         "en_newlines": 0,
-        "count": 1
-      },
-      {
-        "disposition": "migrate",
-        "batch": "B",
-        "path": "scenes/MainGame.gd",
-        "function": "_core_loop_v2_send_fresh_w1_application",
-        "ko": "미래산업기술 지원서 전송 완료 (평가 %s)",
-        "en": "Mirae Industrial Tech application sent (Grade %s)",
-        "ko_signature": [
-          "%s"
-        ],
-        "en_signature": [
-          "%s"
-        ],
-        "ko_newlines": 0,
-        "en_newlines": 0,
-        "baseline_legacy_key": false,
         "count": 1
       },
       {
@@ -2214,16 +2142,16 @@
         "legacy_korean_source_keys_sha256": "fa8ebf5990fd812c2811beebec1f6f88eb6c349ba461171e368748839c59ecde"
       },
       "final": {
-        "migrated_calls": 48,
+        "migrated_calls": 47,
         "existing_lookup_before_format_migrations": 2,
         "money_formatter_migrations": 2,
         "localized_argument_calls": 1,
         "migrated_branch_literal_calls": 2,
-        "total_ui_call_occurrences": 3323,
-        "legacy_pair_call_occurrences": 3286,
-        "context_call_occurrences": 37,
-        "legacy_korean_source_keys": 2792,
-        "legacy_korean_source_keys_sha256": "e6d002715cfd502952b982bf4d6f89f177621b644639510b4264b2bf6e6cb014"
+        "total_ui_call_occurrences": 3319,
+        "legacy_pair_call_occurrences": 3284,
+        "context_call_occurrences": 35,
+        "legacy_korean_source_keys": 2818,
+        "legacy_korean_source_keys_sha256": "2fdaf8dd436d71fcb2a5fd5334ac71a4cf82052b00a15d3fd18e73a79d786f60"
       }
     },
     "existing_lookup_before_format_calls": 2,
@@ -2276,7 +2204,7 @@
         "count": 1
       }
     ],
-    "note": "The original raw55 registry remains historical evidence; the fresh W1 application result adds one immediately migrated post-baseline template, for 56 exact expressions. Its two preserved branch calls expand to six stable legacy translation variants; the migrated STEP 3 selector exposes two stable literals; and the locked-week suffix is one separately registered localized argument. The Aruba status parent and GameState year-choice quote were already lookup-before-format, so their target/English argument splits are separate baseline-key provenance migrations. Only whole baseline, Batch A, Batch B, or final source phases are valid; missing, extra, stale, or selector-partial rows fail before translation inventory can pass.",
+    "note": "The exact registry is the complete current 55-expression disposition set. Its two preserved branch calls expand to six stable legacy translation variants; the migrated STEP 3 selector exposes two stable literals; and the locked-week suffix is one separately registered localized argument. The Aruba status parent and GameState year-choice quote were already lookup-before-format, so their target/English argument splits are separate baseline-key provenance migrations. Only whole baseline, Batch A, Batch B, or final source phases are valid; missing, extra, stale, or selector-partial rows fail before translation inventory can pass.",
     "branch_legacy_variant_keys": 6,
     "branch_legacy_variant_occurrences": 6,
     "localized_argument_calls": 1,

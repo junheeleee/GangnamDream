@@ -6233,7 +6233,7 @@ func _collect_start_menu_nodes(node: Node, targets: Array[Node]) -> void:
 		else:
 			_collect_start_menu_nodes(child, targets)
 
-func _shot_story_event(event_id: String, shot_name: String, lang: String = "", settle_time: float = 1.1, finish_first_paragraph: bool = false, show_choices: bool = false, select_choice: int = -1, advance_paragraphs: int = 0, suppress_cg: bool = false, advance_result_paragraphs: int = 0, expected_result_first: String = "", expected_result_last: String = "") -> void:
+func _shot_story_event(event_id: String, shot_name: String, lang: String = "", settle_time: float = 1.1, finish_first_paragraph: bool = false, show_choices: bool = false, select_choice: int = -1, advance_paragraphs: int = 0, suppress_cg: bool = false, advance_result_paragraphs: int = 0) -> void:
 	if not lang.is_empty():
 		_set_qa_language(lang)
 		_prepare_main_game_state()
@@ -6320,8 +6320,10 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 					else:
 						story._on_advance()
 					await _settle(0.16)
-	if not expected_result_first.is_empty():
-		_assert_story_result_attention(story, expected_result_first, expected_result_last)
+	if should_finish_result:
+		_assert_authored_story_result_surface(story, event_id, select_choice)
+		if _qa_failed:
+			return
 	var expected_event_ambience := {
 		"amb_wallet_00": "rain",
 		"kx_street_food": "street",
@@ -7545,6 +7547,7 @@ func _run_demo_input_route(
 	var full_ending_id := ""
 	var ending_pages_seen: Array[int] = []
 	var ending_finale_captured := false
+	var full_time_ledger_captured := false
 	var last_reported_turn := 0
 	var ap_choice_attempts: Dictionary = {}
 	var route_input_counts: Dictionary = {}
@@ -7822,6 +7825,10 @@ func _run_demo_input_route(
 						_fail("Echo week %d did not name the chosen and closed paths: count=%d record=%s." % [
 							beat_turn, echo_count, exact_record])
 						return
+					if not _assert_player_surface_prose_blocks(
+						exact_record, "Echo week %d (%s)" % [beat_turn, lang]):
+						MetaProgression.data = original_meta
+						return
 					exact_echo_beats += 1
 				if first_beat_observation and beat_kind in ["decision", "boss"] \
 						and GameState.has_story_weekly_commitment(beat_turn):
@@ -7829,6 +7836,10 @@ func _run_demo_input_route(
 					if story_record.is_empty() or _collect_control_text(auto_beat).findn(story_record) < 0:
 						MetaProgression.data = original_meta
 						_fail("Story-owned week %d did not render its chosen and unchosen paths." % beat_turn)
+						return
+					if not _assert_player_surface_prose_blocks(
+						story_record, "Story receipt week %d (%s)" % [beat_turn, lang]):
+						MetaProgression.data = original_meta
 						return
 					await _save("%s_%s_%s_story_commitment_week_%02d" % [
 						route_label.to_lower(), lang, input_mode, beat_turn], 0.42)
@@ -7949,6 +7960,15 @@ func _run_demo_input_route(
 						await _save("full_%s_%s_input_run_final_%s" % [
 							lang, input_mode, full_ending_id], 0.0)
 						ending_finale_captured = true
+					if ending_page == 3 and not full_time_ledger_captured:
+						if not _assert_time_ledger_week_classification(
+							modal, GameState.RUN_TURN_LIMIT,
+							"Full route ending Time Ledger (%s/%s)" % [lang, input_mode]):
+							MetaProgression.data = original_meta
+							return
+						await _save("full_%s_%s_input_run_time_ledger_%s" % [
+							lang, input_mode, full_ending_id], 0.0)
+						full_time_ledger_captured = true
 					if ending_page >= ending_page_count - 1:
 						await _save("full_%s_%s_input_run_record_%s" % [
 							lang, input_mode, full_ending_id], 0.0)
@@ -7995,6 +8015,15 @@ func _run_demo_input_route(
 					if is_instance_valid(toast_layer) and toast_layer.get_child_count() > 0:
 						MetaProgression.data = original_meta
 						_fail("Demo ending retained transient notification toasts.")
+						return
+					if not _assert_demo_ending_job_separation(
+						modal, "Demo ending (%s/%s)" % [lang, input_mode]):
+						MetaProgression.data = original_meta
+						return
+					if not _assert_time_ledger_week_classification(
+						modal, GameState.DEMO_TURN_LIMIT,
+						"Demo ending (%s/%s)" % [lang, input_mode]):
+						MetaProgression.data = original_meta
 						return
 					await _save("demo_%s_%s_input_run_final" % [lang, input_mode])
 					completed = true
@@ -8174,6 +8203,10 @@ func _run_demo_input_route(
 		if ending_pages_seen != [0, 1, 2, 3, 4, 5]:
 			MetaProgression.data = original_meta
 			_fail("Full input route did not traverse the six-stage ending sequence: %s." % ending_pages_seen)
+			return
+		if not full_time_ledger_captured:
+			MetaProgression.data = original_meta
+			_fail("Full input route did not validate and capture ending page 3 Time Ledger.")
 			return
 		if GameState.turn < GameState.RUN_TURN_LIMIT:
 			MetaProgression.data = original_meta
@@ -14769,6 +14802,257 @@ func _collect_control_text(node: Node) -> String:
 		result += _collect_control_text(child)
 	return result
 
+func _player_surface_forbidden_match(text: String) -> String:
+	var normalized := text.strip_edges()
+	var upper := normalized.to_upper()
+	for literal in [
+		"택한 것 ·", "실제 결과", "그 주에 놓친 길", "남은 웨이브",
+		"지난 선택 ·", "닫힌 길 ·", "후속 ·", "해금", "웨이브",
+		"CHOSEN ·", "ACTUAL RESULT", "NOT CHOSEN THAT WEEK",
+		"REMAINING WAVE", "LAST CHOICE ·", "CLOSED PATHS ·",
+		"LATER ·", "UNLOCKED",
+	]:
+		if upper.find(str(literal).to_upper()) >= 0:
+			return str(literal)
+	var patterns := [
+		r"(?i)(정신|건강|지력|사회성|외모|투자감각|운|평판|업무성과|호감)\s*[+-]\s*\d",
+		r"(?i)(MENTAL|HEALTH|INTELLIGENCE|SOCIAL|APPEARANCE|INVESTING|LUCK|REPUTATION|PERFORMANCE|AFFINITY)\s*[+-]\s*\d",
+		r"\d+\s*배\s*(상승|강화)",
+		r"(?i)\bx\d+\b",
+		r"평가\s*[A-D](?:\b|$)",
+		r"(?i)GRADE\s*[A-D](?:\b|$)",
+	]
+	for pattern in patterns:
+		var matcher := RegEx.new()
+		if matcher.compile(str(pattern)) == OK and matcher.search(normalized) != null:
+			return str(pattern)
+	return ""
+
+func _player_surface_sentence_count(text: String) -> int:
+	var count := 0
+	var previous_terminal := false
+	for index in range(text.length()):
+		var character := text.substr(index, 1)
+		var terminal := character in [".", "!", "?", "。", "！", "？"]
+		if terminal and not previous_terminal:
+			count += 1
+		previous_terminal = terminal
+	return maxi(1, count) if not text.strip_edges().is_empty() else 0
+
+func _assert_player_surface_prose(text: String, context: String) -> bool:
+	var prose := text.strip_edges()
+	if prose.is_empty():
+		_fail("%s exposed no consequence prose." % context)
+		return false
+	var sentence_count := _player_surface_sentence_count(prose)
+	if sentence_count < 1 or sentence_count > 3:
+		_fail("%s exposed %d sentences instead of canonical 1..3: %s" % [
+			context, sentence_count, prose])
+		return false
+	var forbidden := _player_surface_forbidden_match(prose)
+	if not forbidden.is_empty():
+		_fail("%s exposed forbidden player-surface copy %s: %s" % [
+			context, forbidden, prose])
+		return false
+	return true
+
+func _assert_player_surface_prose_blocks(text: String, context: String) -> bool:
+	var blocks := text.split("\n\n", false)
+	if blocks.is_empty():
+		_fail("%s exposed no consequence prose blocks." % context)
+		return false
+	for index in range(blocks.size()):
+		if not _assert_player_surface_prose(
+			str(blocks[index]), "%s block %d" % [context, index + 1]):
+			return false
+	return true
+
+func _assert_commitment_receipt_control(
+		root: Node, canonical_prose: String, context: String) -> bool:
+	var body := _find_meta_control(root, "commitment_receipt_body")
+	if not is_instance_valid(body):
+		_fail("%s has no commitment receipt body metadata." % context)
+		return false
+	var meta_prose := str(body.get_meta("commitment_receipt_prose", "")).strip_edges()
+	if meta_prose.is_empty():
+		var owner := _find_meta_control(root, "commitment_receipt_prose")
+		if is_instance_valid(owner):
+			meta_prose = str(owner.get_meta(
+				"commitment_receipt_prose", "")).strip_edges()
+	if meta_prose != canonical_prose.strip_edges():
+		_fail("%s receipt metadata drifted from canonical prose: meta=%s canonical=%s" % [
+			context, meta_prose, canonical_prose])
+		return false
+	if body is Label:
+		var label := body as Label
+		if label.clip_text \
+				or label.autowrap_mode == TextServer.AUTOWRAP_OFF \
+				or label.text_overrun_behavior == TextServer.OVERRUN_TRIM_ELLIPSIS:
+			_fail("%s receipt body clips or trims instead of wrapping." % context)
+			return false
+	var visible_text := _collect_control_text(root)
+	if visible_text.find(canonical_prose) < 0:
+		_fail("%s did not render its canonical receipt prose: %s" % [
+			context, visible_text])
+		return false
+	return _assert_player_surface_prose(canonical_prose, context)
+
+func _assert_player_surface_delimiters(root: Node, context: String) -> bool:
+	var surface_text := _collect_control_text(root)
+	for retired in ["이번 주  ", "기척  ", "THIS WEEK  ", "IN THE AIR  "]:
+		if surface_text.find(str(retired)) >= 0:
+			_fail("%s retained a double-space surface delimiter %s." % [
+				context, retired])
+			return false
+	var weekly_delimiter := _tr("이번 주 · ", "THIS WEEK · ")
+	if surface_text.find(weekly_delimiter) < 0:
+		_fail("%s did not render the explicit weekly delimiter %s." % [
+			context, weekly_delimiter])
+		return false
+	if is_instance_valid(_mg) and _mg.has_method("_upcoming_arc_foreshadow_line"):
+		var upcoming := str(_mg.call("_upcoming_arc_foreshadow_line")).strip_edges()
+		var omen_delimiter := _tr("기척 · ", "IN THE AIR · ")
+		if not upcoming.is_empty() and surface_text.find(omen_delimiter + upcoming) < 0:
+			_fail("%s did not render the explicit omen delimiter for %s." % [
+				context, upcoming])
+			return false
+	return true
+
+func _text_occurrence_count(text: String, needle: String) -> int:
+	if needle.is_empty():
+		return 0
+	var count := 0
+	var offset := 0
+	while offset < text.length():
+		var found := text.find(needle, offset)
+		if found < 0:
+			break
+		count += 1
+		offset = found + needle.length()
+	return count
+
+func _assert_demo_ending_job_separation(root: Node, context: String) -> bool:
+	var job_metric := _find_meta_control(root, "demo_ending_job_metric")
+	var story_echo := _find_meta_control(root, "demo_ending_story_echo")
+	if not is_instance_valid(job_metric) or not is_instance_valid(story_echo):
+		_fail("%s lost its separate job metric or WHAT REMAINS surface." % context)
+		return false
+	var job_name := GameState.get_job_display_name() \
+		if not GameState.current_job.is_empty() else _tr("무직", "Unemployed")
+	var metric_text := _collect_control_text(job_metric)
+	var story_text := _collect_control_text(story_echo)
+	var all_text := _collect_control_text(root)
+	if metric_text.find(job_name) < 0:
+		_fail("%s job metric did not show %s." % [context, job_name])
+		return false
+	if story_text.find(job_name) >= 0 \
+			or story_text.find(_tr("현재 직업:", "Current work:")) >= 0:
+		_fail("%s repeated the current job inside WHAT REMAINS: %s." % [
+			context, story_text])
+		return false
+	if _text_occurrence_count(all_text, job_name) != 1:
+		_fail("%s exposed current job %s times instead of once: %s." % [
+			context, _text_occurrence_count(all_text, job_name), job_name])
+		return false
+	for retired in ["현재 직업:", "Current work:"]:
+		if all_text.find(retired) >= 0:
+			_fail("%s retained the job-as-story label %s." % [context, retired])
+			return false
+	return true
+
+func _assert_time_ledger_week_classification(
+		root: Node, expected_weeks: int, context: String) -> bool:
+	var ledger := _find_visible_meta_control(root, "qa_surface", "time_ledger")
+	if not is_instance_valid(ledger):
+		_fail("%s has no visible time-ledger surface." % context)
+		return false
+	var raw_counts: Variant = ledger.get_meta("week_classification_counts", {})
+	if not raw_counts is Dictionary:
+		_fail("%s has no exclusive week-classification metadata." % context)
+		return false
+	var counts: Dictionary = raw_counts
+	var four_way_total := 0
+	for key in ["money_only", "human_only", "both", "neither"]:
+		if not counts.has(key) or int(counts.get(key, -1)) < 0:
+			_fail("%s has an invalid %s count: %s." % [context, key, counts])
+			return false
+		four_way_total += int(counts[key])
+	var unclassified := int(counts.get("unclassified", -1))
+	var meta_total := int(ledger.get_meta("week_classification_total", -1))
+	var meta_expected := int(ledger.get_meta("week_classification_expected", -1))
+	if unclassified != 0 or four_way_total != expected_weeks \
+			or meta_total != four_way_total or meta_expected != expected_weeks:
+		_fail("%s week classifications do not close exactly at %d: counts=%s total=%d expected=%d." % [
+			context, expected_weeks, counts, meta_total, meta_expected])
+		return false
+	var ledger_text := _collect_control_text(ledger)
+	for label in [
+		_tr("돈만", "Money only"),
+		_tr("사람만", "People only"),
+		_tr("둘 다", "Both"),
+		_tr("어느 쪽도 아님", "Neither"),
+	]:
+		if ledger_text.find(label) < 0:
+			_fail("%s did not render its %s week category." % [context, label])
+			return false
+	for retired in [
+		_tr("돈을 택한 주", "Weeks choosing money"),
+		_tr("사람을 택한 주", "Weeks choosing people"),
+		_tr("같은 주에 두 흔적이 함께 남을 수 있다.", "A week can leave both marks."),
+	]:
+		if ledger_text.find(retired) >= 0:
+			_fail("%s retained the overlapping two-axis ledger copy: %s." % [
+				context, retired])
+			return false
+	return true
+
+func _assert_time_ledger_legacy_classification(
+		root: Node, expected_counts: Dictionary,
+		expected_weeks: int, context: String) -> bool:
+	var ledger := _find_visible_meta_control(root, "qa_surface", "time_ledger")
+	if not is_instance_valid(ledger):
+		_fail("%s has no visible legacy time-ledger surface." % context)
+		return false
+	var raw_counts: Variant = ledger.get_meta("week_classification_counts", {})
+	if not raw_counts is Dictionary:
+		_fail("%s has no legacy classification metadata." % context)
+		return false
+	var counts: Dictionary = raw_counts
+	var classified_total := 0
+	for key in ["money_only", "human_only", "both", "neither"]:
+		var expected_value := int(expected_counts.get(key, -1))
+		if int(counts.get(key, -2)) != expected_value or expected_value < 0:
+			_fail("%s legacy %s count drifted: expected=%d actual=%s." % [
+				context, key, expected_value, counts])
+			return false
+		classified_total += expected_value
+	var expected_unclassified := expected_weeks - classified_total
+	if expected_unclassified <= 0 \
+			or int(counts.get("unclassified", -1)) != expected_unclassified \
+			or int(ledger.get_meta("week_classification_total", -1)) != classified_total \
+			or int(ledger.get_meta("week_classification_expected", -1)) != expected_weeks:
+		_fail("%s legacy weeks were invented or hidden: counts=%s total=%s expected=%s." % [
+			context, counts,
+			ledger.get_meta("week_classification_total", -1),
+			ledger.get_meta("week_classification_expected", -1)])
+		return false
+	var ledger_text := _collect_control_text(ledger)
+	var honest_copy := _tr(
+		"이전 저장의 {n}주는 어느 칸이었는지 되살릴 수 없다.",
+		"An older save left {n} weeks that cannot be classified."
+	).format({"n": expected_unclassified})
+	if ledger_text.find(honest_copy) < 0:
+		_fail("%s did not visibly disclose its %d unclassified weeks: %s." % [
+			context, expected_unclassified, ledger_text])
+		return false
+	var fresh_copy := _tr(
+		"네 칸을 합치면 살아온 주 수가 된다.",
+		"Together, the four columns equal the weeks lived.")
+	if ledger_text.find(fresh_copy) >= 0:
+		_fail("%s falsely presented an incomplete legacy ledger as complete." % context)
+		return false
+	return true
+
 func _contains_hangul(text: String) -> bool:
 	for index in range(text.length()):
 		var codepoint := text.unicode_at(index)
@@ -15179,57 +15463,77 @@ func _shot_story_moral_surfaces(lang: String = "en", prefix: String = "story_mor
 		GameState.moral_tint = float(data[0])
 		await _shot_story_event("arc_y2_worn_face", prefix + "05_choices_" + str(data[1]), "", 0.45, true, true)
 	for data in [
-		[-80.0, "06_result_black", "money", "cast:sangchul"],
-		[0.0, "07_result_gray", "money", "mental"],
-		[80.0, "08_result_white", "cast:sangchul", "money"],
+		[-80.0, "06_result_black"],
+		[0.0, "07_result_gray"],
+		[80.0, "08_result_white"],
 	]:
 		_prepare_main_game_state()
 		GameState.moral_tint = float(data[0])
 		await _shot_story_event(
 			"arc_sangchul_known_offer", prefix + str(data[1]), "", 0.45,
-			true, true, 0, 0, false, 0, str(data[2]), str(data[3]))
+			true, true, 0)
 	GameState.moral_tint = 0.0
 
-func _assert_story_result_attention(story: Node, expected_first: String, expected_last: String) -> void:
+func _assert_authored_story_result_surface(
+		story: Node, event_id: String, requested_choice_index: int) -> void:
 	var card := story.find_child("StoryResultRecord", true, false)
-	if card == null:
-		_fail("Story result attention QA could not find StoryResultRecord.")
+	var retained_card: Variant = story.get("_result_record_card")
+	if card != null or (retained_card is Node and is_instance_valid(retained_card)):
+		_fail("%s choice %d exposed the retired StoryResultRecord." % [
+			event_id, requested_choice_index])
 		return
-	var grid := card.find_child("StoryResultGrid", true, false)
-	if grid == null or grid.get_child_count() == 0:
-		_fail("Story result attention QA could not find populated StoryResultGrid.")
+	var toast_layer := story.get("_toast_layer") as Control
+	if is_instance_valid(toast_layer) and toast_layer.get_child_count() != 0:
+		_fail("%s choice %d exposed mechanical change/cast toasts beside authored prose." % [
+			event_id, requested_choice_index])
 		return
-	var first_badge := grid.get_child(0) as Control
-	var last_badge := grid.get_child(grid.get_child_count() - 1) as Control
-	var actual_first := str(first_badge.get_meta("attention_key", ""))
-	var actual_last := str(last_badge.get_meta("attention_key", ""))
-	if actual_first != expected_first:
-		_fail("Story result attention expected first '%s', got '%s'." % [expected_first, actual_first])
-	if not expected_last.is_empty() and actual_last != expected_last:
-		_fail("Story result attention expected last '%s', got '%s'." % [expected_last, actual_last])
-	if GameState.moral_stage() != 0 and first_badge.modulate.a <= last_badge.modulate.a:
-		_fail("Story result attention did not keep the first-noticed consequence visually dominant.")
-	if GameState.moral_stage() < 0:
-		_assert_story_result_counterweight_reserve(story)
-
-func _assert_story_result_counterweight_reserve(story: Node) -> void:
-	var dense_disp := {
-		"money": 2_000_000,
-		"monthly_income": 300_000,
-		"investment_skill": 4,
-		"work_performance": 5,
-		"reputation": 3,
-		"mental": -9,
-	}
-	var cast_items := [{"id": "father", "affinity": -6}]
-	var black_items: Array = story._story_result_visible_items(
-		story._story_result_ordered_items(dense_disp, cast_items, -2), -2, 4)
-	var white_items: Array = story._story_result_visible_items(
-		story._story_result_ordered_items(dense_disp, cast_items, 2), 2, 4)
-	if not black_items.any(func(item): return str(item.get("attention_kind", "")) == "human"):
-		_fail("Black result hierarchy erased every human consequence from a dense result.")
-	if not white_items.any(func(item): return str(item.get("attention_kind", "")) == "economic"):
-		_fail("White result hierarchy erased every economic consequence from a dense result.")
+	if not bool(story.get("_pending_after_result")):
+		var source_event: Dictionary = DataRegistry.find_event(event_id)
+		var source_choices: Array = source_event.get("choices", [])
+		var source_has_result := requested_choice_index >= 0 \
+			and requested_choice_index < source_choices.size() \
+			and not str((source_choices[requested_choice_index] as Dictionary).get(
+				"result_text", "")).strip_edges().is_empty()
+		if source_has_result:
+			_fail("%s choice %d did not remain on its authored result prose." % [
+				event_id, requested_choice_index])
+		return
+	var choice_index := int(story.get("_pending_result_choice_index"))
+	var current: Variant = story.get("_current")
+	var choices: Array = current.get("choices", []) if current is Dictionary else []
+	if choice_index < 0 or choice_index >= choices.size():
+		_fail("%s choice %d has no active authored result choice." % [
+			event_id, requested_choice_index])
+		return
+	var choice: Dictionary = choices[choice_index]
+	var authored_result := str(story.call("_fmt", str(choice.get("result_text", "")))).strip_edges()
+	if authored_result.is_empty():
+		_fail("%s choice %d exposed a result phase without authored result_text." % [
+			event_id, choice_index])
+		return
+	var phase_result := str(story.call("_current_story_phase_text")).strip_edges()
+	if phase_result != authored_result:
+		_fail("%s choice %d result phase drifted from authored result_text." % [
+			event_id, choice_index])
+		return
+	var paragraphs: Array = story.get("_paragraphs")
+	var paragraph_index := int(story.get("_para_index"))
+	var body := story.get("_body_lbl") as RichTextLabel
+	if not is_instance_valid(body) or not body.is_visible_in_tree() \
+			or paragraph_index < 0 or paragraph_index >= paragraphs.size():
+		_fail("%s choice %d has no visible authored result paragraph." % [
+			event_id, choice_index])
+		return
+	var expected_page := str(paragraphs[paragraph_index]).strip_edges()
+	var rendered_page := body.text.strip_edges()
+	if expected_page.is_empty() or rendered_page != expected_page:
+		_fail("%s choice %d did not render its active authored result paragraph." % [
+			event_id, choice_index])
+		return
+	var forbidden := _player_surface_forbidden_match(authored_result)
+	if not forbidden.is_empty():
+		_fail("%s choice %d authored result exposed forbidden player-surface copy %s: %s" % [
+			event_id, choice_index, forbidden, authored_result])
 
 func _shot_moral_anchor_surfaces(lang: String = "en", prefix: String = "moral_anchors_en_") -> void:
 	_set_qa_language(lang)
@@ -18738,6 +19042,9 @@ func _shot_ap_act_surfaces(lang: String = "en", prefix: String = "ap_act_en_") -
 	if _qa_failed:
 		return
 	await _assert_ap_result_lifecycle(lang, prefix)
+	if _qa_failed:
+		return
+	await _assert_weekly_commitment_player_surface_contract(lang, prefix)
 
 func _assert_contextual_contact_location(prefix: String) -> void:
 	GameState.turn = 3
@@ -18793,6 +19100,7 @@ func _assert_contextual_contact_location(prefix: String) -> void:
 func _assert_ap_result_lifecycle(lang: String, prefix: String) -> void:
 	_seed_ap_act_state(1, lang)
 	GameState.flags["arc_intro_meal_seen"] = true
+	GameState.flags["chapter_intent_id"] = "protect_cash"
 	GameState.week_of_month = 4
 	GameState.current_job = {"id": "job_03", "name": _tr("사무직", "Office Worker"), "tier": 2}
 	GameState.monthly_income = 0.0
@@ -18864,12 +19172,15 @@ func _assert_ap_result_lifecycle(lang: String, prefix: String) -> void:
 		_fail("Saving result did not preserve its actual cash outcome: %s." % outcome)
 		return
 	var commit_layer := _mg.get("_ap_commit_layer") as Control
-	var result_surface_text := _collect_control_text(_mg.get("choice_box") as Control)
-	if result_surface_text.findn(_tr("현금", "CASH")) < 0 \
-			or result_surface_text.findn(_tr("닫힌 길", "CLOSED PATHS")) < 0:
-		_fail("Scene-first result did not display actual cash and closed paths: %s." % result_surface_text)
+	if not _mg.has_method("_weekly_commitment_receipt_prose"):
+		_fail("Scene-first result has no canonical commitment prose owner.")
 		return
+	var canonical_prose := str(
+		_mg.call("_weekly_commitment_receipt_prose", commitment)).strip_edges()
 	var choice_root := _mg.get("choice_box") as Control
+	if not _assert_commitment_receipt_control(
+			choice_root, canonical_prose, "scene-first weekly result (%s)" % lang):
+		return
 	var confirm_btn := _find_first_enabled_button(choice_root) if choice_root != null else null
 	if confirm_btn == null or confirm_btn.text != _tr("다음 주로", "Continue"):
 		_fail("Saving action result is missing its confirmation button in %s." % lang)
@@ -18891,6 +19202,401 @@ func _assert_ap_result_lifecycle(lang: String, prefix: String) -> void:
 		_fail("Weekly commitment overlay remained over the closed-week surface.")
 		return
 	await _save(prefix + "07_week_closed_focus", 0.05)
+
+func _clear_player_surface_toasts() -> void:
+	var toast_container := _mg.get("_toast_container") as Control
+	if not is_instance_valid(toast_container):
+		return
+	for child in toast_container.get_children().duplicate():
+		child.free()
+	await get_tree().process_frame
+
+func _assert_threshold_player_surface_contract(lang: String) -> bool:
+	var seen_messages: Dictionary = {}
+	for stat_name in ["investment_skill", "intelligence", "social_skill"]:
+		for threshold in [30, 50, 70]:
+			await _clear_player_surface_toasts()
+			_mg.call("_on_stat_threshold_crossed", stat_name, threshold)
+			await get_tree().process_frame
+			var toast_container := _mg.get("_toast_container") as Control
+			var message := _collect_control_text(toast_container).strip_edges() \
+					if is_instance_valid(toast_container) else ""
+			var context := "%s threshold %s/%d" % [lang, stat_name, threshold]
+			if not _assert_player_surface_prose(message, context):
+				return false
+			if seen_messages.has(message):
+				_fail("Threshold observations collapsed into duplicate copy in %s: %s" % [
+					lang, message])
+				return false
+			seen_messages[message] = "%s/%d" % [stat_name, threshold]
+	if seen_messages.size() != 9:
+		_fail("%s threshold QA sampled %d messages instead of nine." % [
+			lang, seen_messages.size()])
+		return false
+	await _clear_player_surface_toasts()
+	return true
+
+func _clear_choice_box_immediately() -> Control:
+	var choice_root := _mg.get("choice_box") as Control
+	if not is_instance_valid(choice_root):
+		return null
+	for child in choice_root.get_children().duplicate():
+		child.free()
+	return choice_root
+
+func _assert_delimiter_player_surface_contract(lang: String) -> bool:
+	GameState.turn = 1
+	GameState.year = 2026
+	GameState.month = 1
+	GameState.week_of_month = 1
+	GameState.action_points = GameState.max_action_points
+	var choice_root := _clear_choice_box_immediately()
+	if not is_instance_valid(choice_root):
+		_fail("%s delimiter fixture has no choice surface." % lang)
+		return false
+	var upcoming := str(_mg.call("_upcoming_arc_foreshadow_line")).strip_edges()
+	if upcoming.is_empty():
+		_fail("%s C1 delimiter fixture did not produce an omen line." % lang)
+		return false
+	_mg.call(
+		"_render_week_focus_panel", GameState.action_points, 0.0,
+		GameState.get_total_asset_value(), false, "", "#b9bec7")
+	await get_tree().process_frame
+	return _assert_player_surface_delimiters(
+		choice_root, "%s C1 weekly/omen delimiter fixture" % lang)
+
+func _assert_full_time_ledger_classification_fixture(
+		lang: String, prefix: String) -> bool:
+	GameState.turn = GameState.RUN_TURN_LIMIT + 1
+	GameState.money_only_weeks_total = 90
+	GameState.human_only_weeks_total = 60
+	GameState.both_axes_weeks_total = 50
+	GameState.unmarked_weeks_total = 40
+	GameState.classified_weeks_total = GameState.RUN_TURN_LIMIT
+	var choice_root := _clear_choice_box_immediately()
+	if not is_instance_valid(choice_root):
+		_fail("%s full-ledger fixture has no choice surface." % lang)
+		return false
+	var ledger := _mg.call(
+		"_build_time_ledger_card", _tr("5년의 기록", "A Five-Year Record"), "", false) \
+		as PanelContainer
+	if not is_instance_valid(ledger):
+		_fail("%s full-ledger fixture could not build its record surface." % lang)
+		return false
+	choice_root.add_child(ledger)
+	await get_tree().process_frame
+	if not _assert_time_ledger_week_classification(
+		choice_root, GameState.RUN_TURN_LIMIT,
+		"%s full-ending turn-241 ledger fixture" % lang):
+		return false
+
+	GameState.money_only_weeks_total = 70
+	GameState.human_only_weeks_total = 50
+	GameState.both_axes_weeks_total = 40
+	GameState.unmarked_weeks_total = 40
+	GameState.classified_weeks_total = 200
+	choice_root = _clear_choice_box_immediately()
+	var legacy_ledger := _mg.call(
+		"_build_time_ledger_card", _tr("5년의 기록", "A Five-Year Record"), "", false) \
+		as PanelContainer
+	if not is_instance_valid(legacy_ledger):
+		_fail("%s legacy full-ledger fixture could not build its record surface." % lang)
+		return false
+	choice_root.add_child(legacy_ledger)
+	await get_tree().process_frame
+	if not _assert_time_ledger_legacy_classification(
+		choice_root,
+		{"money_only": 70, "human_only": 50, "both": 40, "neither": 40},
+		GameState.RUN_TURN_LIMIT, "%s legacy full-ending ledger fixture" % lang):
+		return false
+	await _save(prefix + "10_legacy_unclassified_ledger", 0.02)
+	return true
+
+func _classification_state_matches(
+		money_only: int, human_only: int, both: int,
+		neither: int, total: int) -> bool:
+	return GameState.money_only_weeks_total == money_only \
+		and GameState.human_only_weeks_total == human_only \
+		and GameState.both_axes_weeks_total == both \
+		and GameState.unmarked_weeks_total == neither \
+		and GameState.classified_weeks_total == total
+
+func _assert_week_classification_state_lifecycle(lang: String) -> bool:
+	var original: Dictionary = GameState.serialize().duplicate(true)
+	var failure := ""
+	GameState.start_new_game()
+	if not _classification_state_matches(0, 0, 0, 0, 0):
+		failure = "start_new_game did not reset all five classification fields"
+	if failure.is_empty():
+		GameState.money_only_weeks_total = 2
+		GameState.human_only_weeks_total = 3
+		GameState.both_axes_weeks_total = 5
+		GameState.unmarked_weeks_total = 7
+		GameState.classified_weeks_total = 999
+		var saved: Dictionary = GameState.serialize().duplicate(true)
+		for field in [
+			"money_only_weeks_total", "human_only_weeks_total",
+			"both_axes_weeks_total", "unmarked_weeks_total",
+			"classified_weeks_total",
+		]:
+			var corrupted: Dictionary = saved.duplicate(true)
+			corrupted[field] = "not-an-integer"
+			var diagnostic := str(SaveManager.call(
+				"_save_state_field_diagnostic", corrupted))
+			if diagnostic != "%s:expected_finite_integer" % field:
+				failure = "save diagnostic accepted corrupt %s" % field
+				break
+		GameState.money_only_weeks_total = 41
+		GameState.human_only_weeks_total = 42
+		GameState.both_axes_weeks_total = 43
+		GameState.unmarked_weeks_total = 44
+		GameState.classified_weeks_total = 170
+		GameState.load_from_dict(saved)
+		if not _classification_state_matches(2, 3, 5, 7, 17):
+			failure = "serialize/load did not restore four buckets and recompute their sum"
+		if failure.is_empty():
+			var legacy: Dictionary = saved.duplicate(true)
+			for key in [
+				"money_only_weeks_total", "human_only_weeks_total",
+				"both_axes_weeks_total", "unmarked_weeks_total",
+				"classified_weeks_total",
+			]:
+				legacy.erase(key)
+			GameState.money_only_weeks_total = 51
+			GameState.human_only_weeks_total = 52
+			GameState.both_axes_weeks_total = 53
+			GameState.unmarked_weeks_total = 54
+			GameState.classified_weeks_total = 210
+			GameState.load_from_dict(legacy)
+			if not _classification_state_matches(0, 0, 0, 0, 0):
+				failure = "legacy load invented or retained exclusive week history"
+			else:
+				GameState.action_axis_this_week = {"money": 1, "human": 1}
+				GameState.finalize_action_axis_week()
+				if not _classification_state_matches(0, 0, 1, 0, 1):
+					failure = "first post-legacy finalized week did not add exactly the both bucket"
+	GameState.load_from_dict(original)
+	if not failure.is_empty():
+		_fail("%s C4 classification state lifecycle failed: %s." % [lang, failure])
+		return false
+	return true
+
+func _assert_story_forgone_action_only_fixture(
+		event_id: String, expected_action: String,
+		forbidden_fragments: Array, lang: String) -> bool:
+	var record := {
+		"turn": 4,
+		"source": "story_event",
+		"pressure_id": "story:%s" % event_id,
+		"pressure_family": "story",
+		"choice_id": "story:%s:0" % event_id,
+		"actual_action_id": "story_choice",
+		"story_event_id": event_id,
+		"story_choice_index": 0,
+		"forgone_choice_indexes": [1],
+		"consequence_timing": "immediate",
+	}
+	var forgone := str(
+		_mg.call("_weekly_commitment_forgone_labels", record)).strip_edges()
+	if forgone != expected_action:
+		_fail("%s %s forgone action was not reduced to its first action: expected=%s actual=%s." % [
+			lang, event_id, expected_action, forgone])
+		return false
+	for fragment in forbidden_fragments:
+		if forgone.findn(str(fragment)) >= 0:
+			_fail("%s %s forgone action retained a second sentence or quantity %s: %s." % [
+				lang, event_id, fragment, forgone])
+			return false
+	var canonical := str(
+		_mg.call("_weekly_commitment_receipt_prose", record)).strip_edges()
+	if canonical.find(expected_action) < 0:
+		_fail("%s %s canonical prose lost its action-only forgone path: %s." % [
+			lang, event_id, canonical])
+		return false
+	return _assert_player_surface_prose(
+		canonical, "%s %s action-only canonical receipt" % [lang, event_id])
+
+func _assert_father_quiet_call_forgone_fixture(lang: String) -> bool:
+	var event_id := "arc_father_quiet_call"
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	var choices: Array = event.get("choices", [])
+	if choices.size() != 3:
+		_fail("%s W16 father call fixture could not load its three authored choices." % lang)
+		return false
+	var record := {
+		"turn": 16,
+		"source": "story_event",
+		"pressure_id": "story:%s" % event_id,
+		"pressure_family": "story",
+		"choice_id": "story:%s:0" % event_id,
+		"actual_action_id": "story_choice",
+		"person_id": "father",
+		"story_event_id": event_id,
+		"story_choice_index": 0,
+		"forgone_choice_indexes": [1, 2],
+		"consequence_timing": "immediate",
+	}
+	var forgone := str(
+		_mg.call("_weekly_commitment_forgone_labels", record)).strip_edges()
+	var question_action := _tr(
+		"\"아버지, 요즘 어때요\"", "\"Dad, how have you been\"")
+	if forgone.find(question_action) < 0:
+		_fail("%s W16 father call forgone path lost its quoted question action: %s." % [
+			lang, forgone])
+		return false
+	if forgone.find("?") >= 0 or forgone.find("？") >= 0:
+		_fail("%s W16 father call kept terminal question punctuation inside its receipt wrapper: %s." % [
+			lang, forgone])
+		return false
+	var canonical := str(
+		_mg.call("_weekly_commitment_receipt_prose", record)).strip_edges()
+	if canonical.find(question_action) < 0:
+		_fail("%s W16 father call canonical prose lost its question action: %s." % [
+			lang, canonical])
+		return false
+	if not _assert_player_surface_prose(
+		canonical, "%s W16 father call canonical receipt" % lang):
+		return false
+	for leaked in [
+		_tr("정신 +", "MENTAL +"), _tr("호감 +", "AFFINITY +"),
+		"+5", "-1", "+2", "+4",
+	]:
+		if canonical.findn(str(leaked)) >= 0:
+			_fail("%s W16 father call receipt leaked stat/reward copy %s: %s." % [
+				lang, leaked, canonical])
+			return false
+	return true
+
+func _assert_weekly_commitment_player_surface_contract(
+		lang: String, prefix: String) -> void:
+	await _dispose_main_game()
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	GameState.turn = 16
+	GameState.month = 4
+	GameState.week_of_month = 4
+	await _boot_main_game()
+	if not _mg.has_method("_weekly_commitment_receipt_prose"):
+		_fail("Weekly commitment surfaces have no canonical prose owner.")
+		return
+	if not _assert_week_classification_state_lifecycle(lang):
+		return
+
+	var record := {
+		"turn": 15,
+		"source": "weekly_action",
+		"pressure_id": "condition",
+		"pressure_family": "health",
+		"choice_id": "rest",
+		"actual_action_id": "rest",
+		"person_id": "father",
+		"forgone_ids": ["side_shift", "contact"],
+		"outcome": {
+			"health": 3.0,
+			"mental": 8.0,
+			"affinity": 2.0,
+		},
+		"details": {},
+		"echoed_turn": -1,
+	}
+	var canonical := str(
+		_mg.call("_weekly_commitment_receipt_prose", record)).strip_edges()
+	if not _assert_player_surface_prose(canonical, "%s canonical weekly receipt" % lang):
+		return
+	var echo_record := str(
+		_mg.call("_weekly_commitment_echo_record", record)).strip_edges()
+	var echo_sentence := str(
+		_mg.call("_weekly_commitment_echo_sentence", [record])).strip_edges()
+	var recent_sentence := str(
+		_mg.call("_demo_director_recent_action_line", [record])).strip_edges()
+	if echo_record != canonical or echo_sentence != canonical \
+			or recent_sentence != canonical:
+		_fail("A1/A2 weekly receipt paths drifted from canonical prose in %s: canonical=%s record=%s sentence=%s recent=%s" % [
+			lang, canonical, echo_record, echo_sentence, recent_sentence])
+		return
+
+	var story_record := {
+		"turn": 4,
+		"source": "story_event",
+		"pressure_id": "story:arc_temptation_01",
+		"pressure_family": "story",
+		"choice_id": "story:arc_temptation_01:0",
+		"actual_action_id": "story_choice",
+		"person_id": "father",
+		"story_event_id": "arc_temptation_01",
+		"story_choice_index": 0,
+		"forgone_choice_indexes": [1],
+		"consequence_timing": "immediate",
+		"outcome": {"mental": -8.0, "affinity": 2.0},
+	}
+	var forgone_only := str(
+		_mg.call("_weekly_commitment_forgone_labels", story_record)).strip_edges()
+	var expected_forgone := _tr(
+		"통장·카드·비밀번호를 넘긴다",
+		"Hand over the bankbook, card, and PIN")
+	if forgone_only != expected_forgone \
+			or forgone_only.find("200만원") >= 0 \
+			or forgone_only.findn("2,000,000 won") >= 0 \
+			or forgone_only.findn("two million") >= 0:
+		_fail("Forgone story path retained its exact reward in %s: %s" % [
+			lang, forgone_only])
+		return
+	if not _assert_story_forgone_action_only_fixture(
+		"arc_ch1_startup_first_idea",
+		_tr(
+			"터무니없는 것도 포함해서 일단 다 적었다",
+			"Just write everything down"),
+		[_tr("14개", "judge later"), _tr("두 번째", "fourteen")], lang):
+		return
+	if not _assert_story_forgone_action_only_fixture(
+		"arc_ch1_theme_network_first",
+		_tr("집에 오면서 찝찝했다", "Felt uneasy walking home"),
+		[_tr("여기서 뭘 얻으려 했나", "what was I trying to get")], lang):
+		return
+	if not _assert_father_quiet_call_forgone_fixture(lang):
+		return
+
+	_mg.call("_render_demo_director_beat", "echo", {}, [], [record])
+	await _settle(0.12)
+	var echo_beat := _find_visible_meta_control(_mg, "demo_week_kind", "echo")
+	if not is_instance_valid(echo_beat) \
+			or str(echo_beat.get_meta("commitment_echo_record", "")).strip_edges() != canonical \
+			or _collect_control_text(echo_beat).find(canonical) < 0:
+		_fail("A1 Echo metadata or surface drifted from canonical prose in %s." % lang)
+		return
+	if not _assert_player_surface_prose(
+			str(echo_beat.get_meta("commitment_echo_record", "")),
+			"%s A1 Echo" % lang):
+		return
+	await _save(prefix + "08_receipt_echo_prose", 0.02)
+
+	_mg.call("_render_scene_commitment_result", record)
+	await _settle(0.12)
+	var choice_root := _mg.get("choice_box") as Control
+	if not _assert_commitment_receipt_control(
+			choice_root, canonical, "%s A3 scene-first result" % lang):
+		return
+
+	var presentation := record.duplicate(true)
+	presentation["receipt_prose"] = canonical
+	_mg.call("_hide_ap_action_commit")
+	_mg.call("_show_ap_action_commit",
+		_tr("오늘은 멈춘다", "Stop for Today"), "rest", "#9aa4b8", false,
+		null, presentation)
+	await _settle(0.12)
+	var commit_layer := _mg.get("_ap_commit_layer") as Control
+	if not _assert_commitment_receipt_control(
+			commit_layer, canonical, "%s A4 commitment overlay" % lang):
+		return
+	await _save(prefix + "09_receipt_overlay_wrap", 0.02)
+	_mg.call("_hide_ap_action_commit")
+
+	if not await _assert_threshold_player_surface_contract(lang):
+		return
+	if not await _assert_delimiter_player_surface_contract(lang):
+		return
+	if not await _assert_full_time_ledger_classification_fixture(lang, prefix):
+		return
 
 func _find_demo_pressure_frame(node: Node) -> Control:
 	if node is Control and (bool(node.get_meta("demo_pressure_frame", false)) \
@@ -19151,21 +19857,37 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 	_mg.call("_render_demo_director_beat", "echo", {"money": true, "human": false}, [],
 		[application_commitment])
 	await _settle(0.35)
+	var application_canonical := str(
+		_mg.call("_weekly_commitment_receipt_prose", application_commitment)).strip_edges()
+	if not _assert_player_surface_prose(
+		application_canonical, "%s application Echo" % lang):
+		return
 	var application_echo_text := _collect_control_text(_mg)
-	var expected_application := _tr("지원", "Application")
 	var unexpected_rest := _tr("오늘은 멈춘다", "Stop for Today")
-	var expected_closed := _tr("지원서 다듬기", "Refine the Application")
-	var expected_hired := _tr("취업 · {job}", "HIRED · {job}").format({"job": ""})
-	var expected_wave := _tr("남은 파장", "REMAINING WAVE")
 	var expected_continue := "%s  ›" % _tr("다음 주로", "Continue")
-	if application_echo_text.findn(expected_application) < 0 \
-			or application_echo_text.findn(expected_closed) < 0 \
-			or application_echo_text.findn(_tr("실제 결과", "ACTUAL RESULT")) < 0 \
-			or application_echo_text.findn(expected_hired) < 0 \
-			or application_echo_text.findn(expected_wave) < 0 \
+	var application_beat := _find_visible_meta_control(_mg, "demo_week_kind", "echo")
+	var application_record := str(
+		application_beat.get_meta("commitment_echo_record", "")).strip_edges() \
+		if is_instance_valid(application_beat) else ""
+	var application_forgone := str(
+		_mg.call("_weekly_commitment_forgone_labels", application_commitment)).strip_edges()
+	var application_job_name := GameState.get_job_display_name(
+		DataRegistry.get_job("job_01"))
+	if not is_instance_valid(application_beat) \
+			or application_record != application_canonical \
+			or application_echo_text.find(application_canonical) < 0 \
+			or application_canonical.find(application_job_name) < 0 \
+			or application_forgone.is_empty() \
+			or application_canonical.find(application_forgone) < 0 \
 			or application_echo_text.findn(expected_continue) < 0 \
 			or application_echo_text.findn(unexpected_rest) >= 0:
-		_fail("Application echo surface did not preserve its exact cause in %s." % lang)
+		_fail("Application Echo drifted from its canonical prose in %s: canonical=%s meta=%s forgone=%s." % [
+			lang, application_canonical, application_record, application_forgone])
+		return
+	var application_forbidden := _player_surface_forbidden_match(application_record)
+	if not application_forbidden.is_empty():
+		_fail("Application Echo exposed forbidden copy %s in %s: %s." % [
+			application_forbidden, lang, application_record])
 		return
 	if lang == "ja" and application_echo_text.findn("Convenience Store Night Shift") >= 0:
 		_fail("Japanese application Echo retained the English job-name fallback.")
@@ -19180,7 +19902,6 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 			_fail("Application echo exposed retired internal copy in %s: %s" % [
 				lang, forbidden_copy])
 			return
-	var application_beat := _find_visible_meta_control(_mg, "demo_week_kind", "echo")
 	var application_confirm := _find_visible_meta_control(
 		_mg, "demo_beat_confirm", true)
 	if not is_instance_valid(application_confirm):
@@ -19214,19 +19935,27 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 	_mg.call("_render_demo_director_beat", "echo", {"money": false, "human": true}, [],
 		[rest_commitment])
 	await _settle(0.35)
-	var rest_echo_text := _collect_control_text(_mg)
-	if rest_echo_text.findn(unexpected_rest) < 0 \
-			or rest_echo_text.findn(_tr("정신", "MENTAL")) < 0 \
-			or rest_echo_text.findn(_tr(
-				"1~3주 · 회복 효과가 이어지고 일정의 무리가 줄어든다",
-				"1–3W · recovery carries over and the schedule eases")) < 0 \
-			or rest_echo_text.findn(expected_application) >= 0:
-		_fail("Rest echo surface collapsed into the application path in %s." % lang)
+	var rest_canonical := str(
+		_mg.call("_weekly_commitment_receipt_prose", rest_commitment)).strip_edges()
+	if not _assert_player_surface_prose(rest_canonical, "%s rest Echo" % lang):
 		return
+	var rest_echo_text := _collect_control_text(_mg)
 	var rest_beat := _find_visible_meta_control(_mg, "demo_week_kind", "echo")
-	if int(rest_beat.get_meta("commitment_echo_count", 0)) != 1 \
-			or str(rest_beat.get_meta("commitment_echo_record", "")).is_empty():
-		_fail("Rest Echo card lost its weekly commitment metadata in %s." % lang)
+	var rest_record := str(rest_beat.get_meta(
+		"commitment_echo_record", "")).strip_edges() \
+		if is_instance_valid(rest_beat) else ""
+	var rest_forgone := str(
+		_mg.call("_weekly_commitment_forgone_labels", rest_commitment)).strip_edges()
+	if not is_instance_valid(rest_beat) \
+			or int(rest_beat.get_meta("commitment_echo_count", 0)) != 1 \
+			or rest_record != rest_canonical \
+			or rest_echo_text.find(rest_canonical) < 0 \
+			or rest_forgone.is_empty() \
+			or rest_canonical.find(rest_forgone) < 0 \
+			or rest_echo_text.findn(unexpected_rest) >= 0 \
+			or rest_echo_text.find(application_canonical) >= 0:
+		_fail("Rest Echo card drifted from its canonical weekly prose in %s: canonical=%s meta=%s forgone=%s." % [
+			lang, rest_canonical, rest_record, rest_forgone])
 		return
 	_assert_control_in_tv_safe_area(rest_beat, "rest echo beat")
 	await _save(prefix + "04_rest_echo")
@@ -20181,8 +20910,13 @@ func _shot_demo_loop_surfaces(lang: String, prefix: String) -> void:
 	GameState.turn = GameState.DEMO_TURN_LIMIT + 1
 	GameState.month = 7
 	GameState.week_of_month = 1
-	GameState.money_weeks_total = 16
-	GameState.human_weeks_total = 6
+	GameState.money_only_weeks_total = 10
+	GameState.human_only_weeks_total = 6
+	GameState.both_axes_weeks_total = 5
+	GameState.unmarked_weeks_total = 3
+	GameState.classified_weeks_total = GameState.DEMO_TURN_LIMIT
+	GameState.money_weeks_total = 15
+	GameState.human_weeks_total = 11
 	GameState.grind_streak_weeks = 3
 	GameState.contact_counts = {"daeun": 2}
 	GameState.last_contact_turn = {"daeun": 18}
@@ -20211,6 +20945,12 @@ func _shot_demo_loop_surfaces(lang: String, prefix: String) -> void:
 	await _settle(0.9)
 	_assert_modal_no_vertical_overflow("demo ending")
 	_assert_demo_ending_boundary_copy()
+	var demo_modal := _mg.get("modal_layer") as Control
+	if not _assert_demo_ending_job_separation(demo_modal, "demo ending fixture"):
+		return
+	if not _assert_time_ledger_week_classification(
+		demo_modal, GameState.DEMO_TURN_LIMIT, "demo ending fixture"):
+		return
 	await _save(prefix + "04_demo_ending_cta")
 
 func _assert_demo_ending_boundary_copy() -> void:
@@ -20807,7 +21547,9 @@ func _seed_info_panel_state(lang: String = "ko") -> void:
 	GameState.run_theme = "steady_climb"
 	if not bool(GameState.flags.get("_qa_surface_logs_seeded", false)):
 		GameState.flags["_qa_surface_logs_seeded"] = true
-		GameState.add_log(_tr("💼 알바 시프트 수입 8만원 (건강 62→58, 정신력 -3)", "💼 Gig shift income KRW 80K [urgent] (Health 62→58, Mental -3)"), "event")
+		GameState.add_log(_tr(
+			"💼 알바 시프트가 끝난 뒤 입금 알림이 왔다. 신발을 벗자 발바닥이 욱신거렸다.",
+			"💼 The deposit notice arrived after the gig shift. His feet throbbed when he took off his shoes."), "event")
 		GameState.add_log(_tr("📈 투자 → KOSPI ETF 매수 50만원", "📈 Invest → bought KOSPI ETF KRW 500K"), "trade")
 		GameState.add_log(_tr("습관이 굳어진다 — 버티는 사람", "A pattern emerges — steady climber"), "system")
 

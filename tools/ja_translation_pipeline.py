@@ -124,6 +124,7 @@ ORDER96_HISTORICAL_UI_BASELINE = {
         "b67df90ba814deeac78db1b1bc4836d16596b6b93521e97a34427ae3b2bcb222"
     ),
 }
+ORDER96_HISTORICAL_CONTEXT_CALLS = 37
 HANGUL = re.compile(r"[\u1100-\u11ff\u3130-\u318f\uac00-\ud7a3]")
 JAPANESE = re.compile(r"[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff]")
 PLACEHOLDER = re.compile(
@@ -2178,11 +2179,11 @@ def validate_ui_context_contract(
     historical_baseline_calls = contract.get("legacy_pair_call_occurrences")
     if isinstance(historical_baseline_calls, int) \
             and historical_completed_legacy \
-            != historical_baseline_calls - planned_calls:
+            != historical_baseline_calls - ORDER96_HISTORICAL_CONTEXT_CALLS:
         errors.append(
             "manifest: historical post-migration legacy calls "
             f"{historical_completed_legacy!r} != "
-            f"{historical_baseline_calls-planned_calls}"
+            f"{historical_baseline_calls-ORDER96_HISTORICAL_CONTEXT_CALLS}"
         )
     completed_legacy = current_snapshot.get(
         "post_migration_legacy_pair_call_occurrences"
@@ -2260,7 +2261,7 @@ def validate_ui_context_contract(
             - len(split_literal_calls) != baseline_calls \
             or context_calls or migrated_ids:
         errors.append(
-            "source: implemented=false requires the untouched 0/37 state "
+            f"source: implemented=false requires the untouched 0/{planned_calls} state "
             f"legacy={len(legacy_api_calls) + len(existing_format_calls) - len(supplemental_calls) - len(split_literal_calls)}/"
             f"{baseline_calls} "
             f"context={len(context_calls)}/0 ids={migrated_ids}/0"
@@ -2293,7 +2294,7 @@ def build_ui_context_layers(
 ) -> tuple[
     tuple[Entry, ...], dict[str, Any], tuple[Entry, ...], dict[str, Any]
 ]:
-    """Build all 30 planned rows, then the observed subset used for generation."""
+    """Build all planned rows, then the observed subset used for generation."""
     call_rows = tuple(calls)
     _partition, registry = _ui_contract_rows(contract, [])
     planned_context_entries: list[Entry] = []
@@ -3249,14 +3250,14 @@ def main() -> int:
             1 for entry in ui_inventory.legacy_entries
             if entry.format_template
         )
-        if formatted_ui_entries != 45:
+        if formatted_ui_entries != 44:
             failures.append(
                 "actual UI formatted-template tagging drifted: "
-                f"{formatted_ui_entries} != 45"
+                f"{formatted_ui_entries} != 44"
             )
         cases += 1
         implementation_complete = bool(ui_inventory.stats.get("implemented"))
-        expected_observed_context = 30 if implementation_complete else 0
+        expected_observed_context = 29 if implementation_complete else 0
         parameter_phase = str(
             ui_inventory.stats.get("parameter_observed_phase", "")
         )
@@ -3269,7 +3270,7 @@ def main() -> int:
         )
         if len(ui_inventory.entries) != expected_legacy_entries \
                 + expected_observed_context \
-                or len(ui_inventory.planned_context_entries) != 30 \
+                or len(ui_inventory.planned_context_entries) != 29 \
                 or len(ui_inventory.observed_context_entries) \
                 != expected_observed_context:
             failures.append(
@@ -3280,11 +3281,11 @@ def main() -> int:
             )
         cases += 1
         exact_parameter_stats = {
-            "source_calls": 3323,
-            "legacy_calls": 3286,
-            "format_calls": 50,
-            "parameter_raw_candidates": 56,
-            "parameter_migrate_calls": 48,
+            "source_calls": 3319,
+            "legacy_calls": 3284,
+            "format_calls": 49,
+            "parameter_raw_candidates": 55,
+            "parameter_migrate_calls": 47,
             "parameter_existing_lookup_before_format_migrations": 2,
             "parameter_argument_provenance_calls": 15,
             "parameter_existing_lookup_before_format_provenance_calls": 2,
@@ -3373,9 +3374,9 @@ def main() -> int:
         completed_errors, completed_stats = validate_ui_context_contract(
             completed_calls, completed_contract, parameter_contract
         )
-        if completed_errors or completed_stats.get("context_calls") != 37:
+        if completed_errors or completed_stats.get("context_calls") != 35:
             failures.append(
-                "completed 37-call migration fixture failed: "
+                "completed 35-call migration fixture failed: "
                 f"stats={completed_stats} errors={completed_errors}"
             )
         (
@@ -3384,10 +3385,10 @@ def main() -> int:
             completed_observed_entries,
             _completed_observed_blueprint,
         ) = build_ui_context_layers(completed_calls, completed_contract)
-        if len(completed_planned_entries) != 30 \
-                or len(completed_observed_entries) != 30:
+        if len(completed_planned_entries) != 29 \
+                or len(completed_observed_entries) != 29:
             failures.append(
-                "completed generation did not select exactly 30 observed rows: "
+                "completed generation did not select exactly 29 observed rows: "
                 f"planned={len(completed_planned_entries)} "
                 f"observed={len(completed_observed_entries)}"
             )
@@ -3445,8 +3446,8 @@ def main() -> int:
         single_errors, single_stats = validate_ui_context_contract(
             single_id_calls, ui_contract
         )
-        expected_single_contexts = 36 if implementation_complete else 1
-        expected_single_ids = 29 if implementation_complete else 1
+        expected_single_contexts = 34 if implementation_complete else 1
+        expected_single_ids = 28 if implementation_complete else 1
         expected_single_error = (
             "implemented context migration is incomplete"
             if implementation_complete else

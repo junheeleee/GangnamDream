@@ -225,7 +225,13 @@ func buy_asset_leveraged(asset_id: String, amount_krw: float) -> Dictionary:
 		}
 	GameState.add_settled_cash(-cash_committed)
 	GameState.modify_stat("investment_skill", 1)
-	GameState.add_log(LocaleManager.ui("⚡ 레버리지 매수: %s ×2배 포지션 (%s)", "⚡ Leveraged buy: %s x2 position (%s)") % [asset.get("name", asset_id), GameState.format_money(cash_committed * 2.0)], "trade")
+	GameState.add_log(LocaleManager.ui(
+		"⚡ 레버리지 매수: {asset}에 {cash}을 투입해 두 배 규모의 포지션을 열었다.",
+		"⚡ Leveraged buy: Committed {cash} to {asset} and opened a position twice that size."
+	).format({
+		"asset": asset.get("name", asset_id),
+		"cash": GameState.format_money(cash_committed),
+	}), "trade")
 	trade_executed.emit(asset_id, "leverage_buy", quantity, current_price)
 	portfolio_updated.emit()
 	return {
@@ -247,7 +253,7 @@ func _check_margin_calls():
 		var current_price = float(GameState.market_prices.get(asset_id, 0.0))
 		var position_value = float(holding.get("quantity", 0.0)) * current_price
 		var total_exposure = leveraged_amount * 2.0
-		# 마진콜: 포지션 가치가 원금 35% 이하로 하락 시 강제 청산
+		# 마진콜: 포지션 가치가 전체 노출액의 35% 아래로 하락 시 강제 청산
 		if position_value < total_exposure * 0.35:
 			var liquidation_value := GameState.settle_cash(position_value * 0.85)
 			if liquidation_value >= 1.0:
