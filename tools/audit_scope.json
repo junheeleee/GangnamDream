@@ -1338,6 +1338,7 @@
       "paths": [
         "assets/scene_audio_manifest.json",
         "content/events/**",
+        "content/events_en/**",
         "content/meta/event_lifecycle.json",
         "tools/event_lifecycle.py"
       ]

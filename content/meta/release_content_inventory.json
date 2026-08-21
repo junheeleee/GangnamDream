@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-08-05",
+  "updated": "2026-08-22",
   "scope": "Factual release-content evidence for the current source and uploaded package; not a rating or legal opinion.",
   "decision_boundary": {
     "final_age_rating": "user_required",

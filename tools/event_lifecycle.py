@@ -161,6 +161,16 @@ def _quoted_literal_ingress(
     return evidence
 
 
+def _lifecycle_manifest_load_errors(text: str, location: str) -> list[str]:
+    manifest_path = LEDGER_RELATIVE_PATH.as_posix()
+    if manifest_path not in text:
+        return []
+    return [
+        f"{location}: product source references the non-runtime lifecycle ledger "
+        f"{manifest_path}"
+    ]
+
+
 def _thought_ingress(raw: Any, candidates: set[str]) -> list[IngressEvidence]:
     evidence: list[IngressEvidence] = []
     if not isinstance(raw, list):
@@ -197,6 +207,23 @@ def _demo_ingress(raw: Any, candidates: set[str]) -> list[IngressEvidence]:
                     "demo_existing_root",
                     "content/meta/demo_core_loop_v2.json."
                     f"scene_bundles.{bundle_id}.existing_roots[{index}]",
+                ))
+
+    for owner_key, evidence_kind in (
+        ("future_story_contracts", "demo_future_story_result"),
+        ("post_demo_application_contracts", "demo_application_result"),
+    ):
+        contracts = raw.get(owner_key, {}) if isinstance(raw, dict) else {}
+        if not isinstance(contracts, dict):
+            continue
+        for contract_id, spec in contracts.items():
+            target = spec.get("result_event") if isinstance(spec, dict) else None
+            if isinstance(target, str) and target in candidates:
+                evidence.append(IngressEvidence(
+                    target,
+                    evidence_kind,
+                    "content/meta/demo_core_loop_v2.json."
+                    f"{owner_key}.{contract_id}.result_event",
                 ))
     return evidence
 
@@ -362,6 +389,9 @@ def collect_lifecycle_inputs(root: Path | str = ROOT) -> LifecycleInputs:
             except OSError as exc:
                 errors.append(f"{path.relative_to(repo)}: cannot scan product code: {exc}")
                 continue
+            errors.extend(_lifecycle_manifest_load_errors(
+                text, path.relative_to(repo).as_posix()
+            ))
             explicit.extend(_quoted_literal_ingress(
                 text, candidates, path.relative_to(repo).as_posix()
             ))
@@ -771,6 +801,16 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
         ("demo root", _demo_ingress({
             "scene_bundles": {"demo": {"existing_roots": [target]}}
         }, {target})),
+        ("demo future result", _demo_ingress({
+            "future_story_contracts": {
+                "future": {"result_event": target},
+            },
+        }, {target})),
+        ("demo application result", _demo_ingress({
+            "post_demo_application_contracts": {
+                "application": {"result_event": target},
+            },
+        }, {target})),
         ("director root", _director_ingress({
             "content_diet": {"foreground_event_ids": [target]}
         }, {target})),
@@ -787,6 +827,20 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
             bool(evidence) and target in report.ingress_conflict_ids
             and target not in report.exempt_ids,
         )
+
+    manifest_load_errors = _lifecycle_manifest_load_errors(
+        'var ledger = load("res://content/meta/event_lifecycle.json")',
+        "systems/SyntheticLifecycleLoader.gd",
+    )
+    report = evaluate_author_only(replace(
+        inputs,
+        load_errors=inputs.load_errors + tuple(manifest_load_errors),
+    ))
+    require(
+        "product lifecycle manifest load",
+        bool(manifest_load_errors)
+        and any("non-runtime lifecycle ledger" in error for error in report.errors),
+    )
 
     immediate = EventEdge(
         active, target, "follow_up_event", "synthetic.active.follow_up_event"
