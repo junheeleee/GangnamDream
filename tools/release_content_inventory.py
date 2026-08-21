@@ -28,6 +28,8 @@ import zipfile
 from pathlib import Path, PurePosixPath
 from typing import Any
 
+from event_lifecycle import audit_author_only
+
 
 ROOT = Path(__file__).resolve().parents[1]
 LEDGER_PATH = ROOT / "content/meta/release_content_inventory.json"
@@ -714,6 +716,26 @@ def validate_corpus(
             errors.append(f"corpus {key}: observed {value!r} != ledger {corpus.get(key)!r}")
     if set(ko_events) != set(en_events):
         errors.append(f"KO/EN event id mismatch count={len(set(ko_events) ^ set(en_events))}")
+
+    lifecycle = audit_author_only(ROOT)
+    errors.extend(f"event lifecycle: {message}" for message in lifecycle.errors)
+    if lifecycle.packaged_event_ids != frozenset(ko_events):
+        errors.append(
+            "event lifecycle packaged corpus differs from release corpus: "
+            f"delta={len(lifecycle.packaged_event_ids ^ frozenset(ko_events))}"
+        )
+    lifecycle_observed = {
+        "shipping_ko_events": len(lifecycle.product_event_ids),
+        "shipping_en_events": len(lifecycle.product_event_ids),
+        "shipping_event_ids_sha256": sha_lines(sorted(lifecycle.product_event_ids)),
+        "author_only_events": len(lifecycle.exempt_ids),
+        "author_only_event_ids_sha256": sha_lines(sorted(lifecycle.exempt_ids)),
+    }
+    for key, value in lifecycle_observed.items():
+        if corpus.get(key) != value:
+            errors.append(
+                f"corpus {key}: observed {value!r} != ledger {corpus.get(key)!r}"
+            )
     ending_ids_by_locale: dict[str, list[str]] = {}
     endings_by_locale: dict[str, dict[str, dict[str, Any]]] = {}
     for locale, path_key, expected_key in (
@@ -1153,6 +1175,7 @@ def render_report(
         "## 현재 코퍼스",
         "",
         f"- KO/EN 사건: 각각 {corpus['ko_event_files']}파일 · {corpus['ko_events']}건, ID 일치",
+        f"- 패키지 사건: {corpus['ko_events']}건 · 현재 shipping 사건: {corpus['shipping_ko_events']}건 · author-only reference 원고: {corpus['author_only_events']}건",
         f"- KO/EN 엔딩: 각각 {corpus['ko_endings']}건",
         f"- 활성 스토리 이미지: {corpus['active_art_assets']}장 · source raster: {corpus['source_raster_assets']}장",
         f"- 게임 pack 대상 raster: {corpus['packaged_raster_assets']}장 · ImageRegistry 외부 pack 대상: {corpus['registry_external_packaged_raster_assets']}장",
@@ -1554,6 +1577,16 @@ def self_test(ledger: dict[str, Any]) -> list[str]:
             "self-test v2_chapter_contract: mutation was not rejected: "
             f"{reachability_errors}"
         )
+
+    changed = copy.deepcopy(ledger)
+    changed["corpus_contract"]["shipping_ko_events"] += 1
+    corpus_errors: list[str] = []
+    validate_corpus(changed, corpus_errors)
+    if not any("corpus shipping_ko_events" in message for message in corpus_errors):
+        failures.append(
+            "self-test lifecycle_shipping_count: mutation was not rejected: "
+            f"{corpus_errors}"
+        )
     return failures
 
 
@@ -1574,7 +1607,7 @@ def main() -> int:
                 for failure in failures:
                     print(f"  ERROR: {failure}")
                 return 1
-            print("RELEASE_CONTENT_INVENTORY_SELF_TEST_OK cases=13")
+            print("RELEASE_CONTENT_INVENTORY_SELF_TEST_OK cases=14")
             return 0
 
         errors, fingerprints = validate_source(ledger)
@@ -1638,7 +1671,9 @@ def main() -> int:
         print(
             "RELEASE_CONTENT_INVENTORY_OK "
             f"presets={ledger['export_contract']['preset_count']} "
-            f"events_ko_en={ledger['corpus_contract']['ko_events']}/{ledger['corpus_contract']['en_events']} "
+            f"packaged_events={ledger['corpus_contract']['ko_events']} "
+            f"shipping_events={ledger['corpus_contract']['shipping_ko_events']} "
+            f"author_only={ledger['corpus_contract']['author_only_events']} "
             f"axes={len(ledger['content_axes'])} network_apis=0 decisions=user_required"
         )
         return 0

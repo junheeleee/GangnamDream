@@ -27,6 +27,7 @@ from typing import Any, Callable, Iterable, Iterator
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "content" / "meta" / "year5_reference_routes.json"
+EVENT_LIFECYCLE_RELATIVE_PATH = "content/meta/event_lifecycle.json"
 KERNEL_RELATIVE_PATH = "systems/Year5ReferenceRouteKernel.gd"
 KERNEL_CLASS_TOKEN = "Year5ReferenceRouteKernel"
 QA_INJECTION_RELATIVE_PATH = "tools/Year5ReferenceRouteR1Check.gd"
@@ -1105,6 +1106,7 @@ RUNTIME_FORBIDDEN_TOKENS = (
     EXPECTED_MANIFEST_ID,
     *LEGACY_MANIFEST_IDS,
     *EXPECTED_ROUTE_IDS,
+    EVENT_LIFECYCLE_RELATIVE_PATH,
     KERNEL_RELATIVE_PATH,
     KERNEL_CLASS_TOKEN,
 )
@@ -1505,6 +1507,8 @@ def production_runtime_sources(errors: list[str]) -> list[tuple[str, str]]:
             continue
         rel = relative.as_posix()
         if rel == MANIFEST_PATH.relative_to(ROOT).as_posix():
+            continue
+        if rel == EVENT_LIFECYCLE_RELATIVE_PATH:
             continue
         if rel == KERNEL_RELATIVE_PATH:
             continue
@@ -4098,6 +4102,20 @@ def run_invalidated_self_test(
         failures.append("runtime_manifest_loader: product manifest dispatch was accepted")
 
     case_count += 1
+    lifecycle_loader_probe = (
+        'var lifecycle = load("res://content/meta/event_lifecycle.json")\n'
+    )
+    errors, _ = validate_manifest(
+        copy.deepcopy(manifest),
+        context,
+        extra_runtime_sources=[("RuntimeLifecycleLoader.gd", lifecycle_loader_probe)],
+    )
+    if not any("production runtime consumer count must be 0" in error for error in errors):
+        failures.append(
+            "runtime_lifecycle_loader: product lifecycle dispatch was accepted"
+        )
+
+    case_count += 1
     try:
         strict_loads('{"schema_version":1,"schema_version":2}', "self-test duplicate key")
     except ValueError as exc:
@@ -4721,6 +4739,20 @@ def run_self_test(manifest: dict[str, Any], context: AuditContext) -> tuple[list
     )
     if not any("production runtime consumer count must be 0" in error for error in errors):
         failures.append("runtime_manifest_loader: generic manifest loader was accepted")
+
+    case_count += 1
+    lifecycle_loader_probe = (
+        'var lifecycle = load("res://content/meta/event_lifecycle.json")\n'
+    )
+    errors, _ = validate_manifest(
+        copy.deepcopy(manifest),
+        context,
+        extra_runtime_sources=[("RuntimeLifecycleLoader.gd", lifecycle_loader_probe)],
+    )
+    if not any("production runtime consumer count must be 0" in error for error in errors):
+        failures.append(
+            "runtime_lifecycle_loader: product lifecycle dispatch was accepted"
+        )
 
     for label, forbidden_token in (
         ("runtime_manifest_id", EXPECTED_MANIFEST_ID),

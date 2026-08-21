@@ -20,12 +20,13 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 
 ## 현재 코퍼스
 
-- KO/EN 사건: 각각 127파일 · 1603건, ID 일치
+- KO/EN 사건: 각각 127파일 · 1758건, ID 일치
+- 패키지 사건: 1758건 · 현재 shipping 사건: 1603건 · author-only reference 원고: 155건
 - KO/EN 엔딩: 각각 35건
-- 활성 스토리 이미지: 249장 · source raster: 295장
-- 게임 pack 대상 raster: 287장 · ImageRegistry 외부 pack 대상: 38장
+- 활성 스토리 이미지: 249장 · source raster: 304장
+- 게임 pack 대상 raster: 296장 · ImageRegistry 외부 pack 대상: 47장
 - `.gdignore` source-only 상점 스크린샷: 8장 · 출처 원장 오디오: 139개
-- 사건 ID SHA-256: `e1d39c574a37d24deda7ed3c7849a362bc37d0d0e09487fda66d75c57d7da1eb`
+- 사건 ID SHA-256: `0c934fde26f81511016298e932495eb47cc7f2ebf15de4af722584635e1abdf0`
 - KO/EN 엔딩 본문 SHA-256: `32ea94755971c459f74f5a3bae80151a077c9eb781277fee7fda58879b1045f1`
 
 후보 fingerprint는 표현의 최종 등급이 아니라 검토 코퍼스가 조용히 바뀌는 것을
@@ -34,35 +35,36 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 
 | 축 | 후보 사건/파일 | ID SHA-256 | KO/EN 본문 SHA-256 | 최고 사실 강도 |
 |---|---:|---|---|---|
-| 사행성·도박 | 137 / 44 | `a45013427ccac88331771025ce95d725c46ab35a4cecce2e0aa56c21571f581e` | `2b0ca94a9170cc6c69dfc652dcd18869e7345a520facf7192f56e6de7a10fdf5` | strong, moderate |
-| 선정성·성적 내용 | 118 / 25 | `cf4f957a1974afe110f23454250738e058bee25ed0b7ab93617196deae2a2919` | `d94ce0d87f3061a10e629d95f9486b7333dbd8e483e42973dab4ddbd39380dca` | moderate, mild |
-| 폭력성 | 15 / 14 | `987dc15a9f106cf5b203bc8e3cce30efb6376339399a8727ca327bdfe53c0686` | `c4ce292896383a0bbee0f8af1266725608cccfb6a26c131da80f581e5e8e8461` | mild |
-| 공포 | 134 / 49 | `f7b72c4ea39f178218442263fff2f99b432b7eb45206f8f284bc1601ae9cdf79` | `c62f601ec62e60b5e4f687747cd498e543123e9bd890a9c88299c6d6919a2474` | moderate |
+| 사행성·도박 | 137 / 43 | `e324a22a603bda179d3be12bee23fb8e8af3134e9cab56e953416e42d02bba7b` | `6794322ebffc6ac582ce21a675c19c9b3a4c7388b7350f1dc6e9779967c84f0a` | strong, moderate |
+| 선정성·성적 내용 | 121 / 25 | `ba24d3b45e98bc31d2e2aaf9afed41b18c76fc15e38d573d5628a9eb7f45228c` | `bb836a012fc7da231ab208cb6ee98008ba171d95d268285973c67b97e86ade38` | moderate, mild |
+| 폭력성 | 18 / 15 | `1d403db1107800e1e7c4a8d9d78c08361a840c6901fd8e93de83e609bf585a70` | `ca092987894afe0f87d3cd9d17234c77a666f56c6d7bdb631f3d6b3ba3bb2be8` | mild |
+| 공포 | 143 / 51 | `211c3c760cf2f66d61e9bc540cd11003cc05ad46eb59d4d1d97a348eb135c29f` | `a6c47724480ed1fdf2368624219db6af96e782b6551dbec0c4962d1562433432` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `fc1a0465f31a6a2df2deb4559825e67c7f762fa2ebfdbaa45ae63e2fb75131c3` | mild |
-| 범죄 | 65 / 39 | `1a3d735204cc987995fad412784cfbec1a6b19abb0815ff3a757a7c71880126d` | `5ffa464dc83ce17bdc7d9048622a7ca088a1e26059b33be8704934b9a44cb84d` | moderate, strong |
-| 음주·흡연·약물 | 74 / 37 | `06dd74856e8789110acfefdfe18d49994a305a17f10bb67824b001ecc4a30ea1` | `fa7f246058c79df8e623294f52220acbf11f6708df4ce085553fbb2b9a7e8a39` | moderate, mild |
+| 범죄 | 70 / 40 | `e1bf5d669b6ca98117da9ff22117a0f723263db564eb7d74e2b0cbe55852b5b6` | `562880f77a96ac8a5f84ffcb019319b0bcbff40d6cf9690629032dae54451744` | moderate, strong |
+| 음주·흡연·약물 | 76 / 37 | `80c9979ea846e60401fc8c1f996c2dbe1f76518998d68e8c361d8fa823298946` | `01b962138dff14d29506a0c8feed46e7ea9eaed7c502d2c06c14edd85f29ae02` | moderate, mild |
 | 생성형 AI | 기술 축 | — | — | disclosure_required, none |
 | 온라인 기능 | 기술 축 | — | — | none, external_link_only |
 
 명시 검토한 검색 오탐(후보 해시에는 남겨 검색 규칙 변화도 드러낸다):
 - 폭력성: `amb_coin_00`, `arc_35_unorthodox_weight`, `arc_daeun_first_night`, `arc_sangchul_confrontation`, `arc_year3_close`, `cafe_bluff_caught`, `callback_ignored_hyunsu_warning_echo`, `callback_recommitted_to_job_echo`, `inv_portfolio_review`, `job_colleague_conflict`, `kx_coin_noraebang`, `startup_team_conflict`, `story_knee_choice`, `story_knee_witness`
 
-## ImageRegistry 외부 source raster 46장
+## ImageRegistry 외부 source raster 55장
 
 `all_resources`라 ImageRegistry 외부 구버전·마케팅·UI raster 중
-38장도 게임 pack 대상이다. 나머지 8장 상점 스크린샷은 `.gdignore` 아래 source-only라 게임 pack에는 없다.
-전체 46장은 원본·접촉표로 에이전트 시각 검토했지만 최종 사람 판정은
+47장도 게임 pack 대상이다. 나머지 8장 상점 스크린샷은 `.gdignore` 아래 source-only라 게임 pack에는 없다.
+전체 55장은 원본·접촉표로 에이전트 시각 검토했지만 최종 사람 판정은
 여전히 `user_required`다. 실제 pack 검사는 대상 raster의 각 `.import`가 가리키는 `.ctex`까지 확인한다.
 
-- 경로 SHA-256: `157172a3740c174bbe760a2b05c64b90d85200cb86e255b82f2986323c36edd8`
-- 경로+파일 SHA-256: `cbc320040a266c5ca1608573f5a1de9a8d315e15f9f402401590953f98aef1ef`
-- 실제 pack 대상 외부 raster 경로 SHA-256: `22a525adba3f70d8e0c45a4d2990bc131024eabd8d1b3a2c5585979b8708ddb2`
-- 실제 pack 대상 외부 raster 경로+파일 SHA-256: `92d0ef9b1fe2aeb068475a270ae70342cfc8553f6503c180aa9f82e63c320f35`
+- 경로 SHA-256: `07c8cf2168ef7c139a1a283506f8228b414a846230ed74123f999545699c4f43`
+- 경로+파일 SHA-256: `e3603753f07d425102aa3fdec0245fffbd1690c8d35521fea5df6f7ef41e4785`
+- 실제 pack 대상 외부 raster 경로 SHA-256: `e08977c4cb6a19f4ed801ffb88a74721725bfebdfeea351eed6e1458a7d53d1f`
+- 실제 pack 대상 외부 raster 경로+파일 SHA-256: `e62104d47939ffdd34c324ab124a7cd24501a5c4c9f720b035aeec3446cdd9e7`
 - `.gdignore` source-only 경로 SHA-256: `f53a4433d398f59a1f71b77af81a840587083f9eca7a7d89ba4d6b1e46dfb2a4`
 - `story_and_legacy` 14장 · 게임 pack 포함 — 원본 해상도와 접촉표에서 나체·성행위·가시적 혈흔/고어·자해·흡연·불법 약물 묘사는 확인되지 않았다. 이전 수영복, 경제적 절망/도박 회복, 상처가 보이지 않는 충돌 구도는 축별 사실에 따로 기록했으며 최종 사용자 검토가 남는다.
 - `packaged_marketing` 10장 · 게임 pack 포함 — 패키지에 들어가는 키아트·캡슐·로고에는 별도로 누락된 더 강한 시각 표현이 확인되지 않았으며 최종 사용자 검토가 남는다.
 - `source_only_store_screenshots` 8장 · source-only / 게임 pack 제외 — Steam 마케팅 스크린샷 8장은 assets/store/screenshots/.gdignore 아래라 게임 pack에는 없다. 이미 기록한 대포통장 선택, Moral dark 분위기, 해변 데이트, 엔딩 요약을 되풀이하며 더 강한 누락 표현은 확인되지 않았다. 상점 사용과 최종 사용자 검토는 별도 게이트다.
 - `ui` 14장 · 게임 pack 포함 — UI에는 카드·칩·말 실루엣·시장 캔들·도박 행동 atlas가 있다. 폰 기종 구매는 종료됐고 flagship 셸만 세로 연락폰에 사용하며 starter/refurbished 셸은 all_resources pack의 출처 보존용 미사용 자산이다. 실제 현금 구매/환전이나 성적·약물·폭력 묘사는 확인되지 않았으며 최종 사용자 검토가 남는다.
+- `m1m6_promise_cards` 9장 · 게임 pack 포함 — M01~M06 약속 선택판의 9개 장면 카드는 인물·브랜드·읽을 수 있는 문구·선택 결과를 선취하지 않는 무인 물성 장면이다. 생성 원본·해상도·해시는 ART_AI_AUDIT에서 확인했으며 최종 사용자 표면 판정은 별도 게이트다.
 
 ## 축별 실제 표현과 세 범위
 
