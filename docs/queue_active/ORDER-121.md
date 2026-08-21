@@ -52,7 +52,7 @@ exact-scope CI 복구 오더가 소유한다. ORDER-119도 전체 audit와 GitHu
 14. release tool/ledger와 기존 사건 source를 읽는 Chapter 1 ledger/checker만 현재 바이트에 재고정한다.
 15. exact-scope lane과 helper self-test를 등록하고 정적 GitHub job의 story-map/audit/balance를 모두 green으로 만든다.
 
-## 파일 소유권 — 정확히 24개
+## 파일 소유권 — 정확히 25개
 
 - `content/meta/event_lifecycle.json`
 - `tools/event_lifecycle.py`
@@ -68,6 +68,7 @@ exact-scope CI 복구 오더가 소유한다. ORDER-119도 전체 audit와 GitHu
 - `assets/scene_audio_manifest.json`
 - `tools/audit.sh`
 - `tools/audit_scope.json`
+- `tools/year5_reference_route_audit.py`
 - `systems/Year5ReferenceRouteKernel.gd`
 - `content/meta/chapter1_core_loop_v2_causal_ledger.json`
 - `tools/chapter1_core_loop_v2_causal_ledger_check.py`
@@ -80,8 +81,13 @@ exact-scope CI 복구 오더가 소유한다. ORDER-119도 전체 audit와 GitHu
 - `docs/STATUS.md`
 
 `project.godot`, KO/EN 사건 파일, 원고 문구, effects/flags/follow-up, 밸런스,
-`tools/debt_baseline.json`, story map, year5 manifest/audit, runtime dispatcher와
+`tools/debt_baseline.json`, story map, year5 manifest, runtime dispatcher와
 save는 범위 밖이다.
+
+**범위 보정 (2026-08-22):** exact 155 ID를 소유하는 새 lifecycle 원장을 기존
+Year 5 감사기가 제품 consumer로 오인한다. ID를 숨기지 않고, 감사기가 이 정확한
+비실행 원장만 제외하면서 제품 코드의 원장 로드는 계속 거부하도록
+`tools/year5_reference_route_audit.py` 한 파일을 구현 전에 범위에 추가했다.
 
 ## 완료·판정
 
