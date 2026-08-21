@@ -2,7 +2,14 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-118 [P0·서사/계약] 반려된 startup 마지막 해를 사람과 시간으로 전면 재설계한다
+#### [~] ORDER-118 [P0·서사/계약] 반려된 startup 마지막 해를 사람과 시간으로 전면 재설계한다
+
+**착수 (2026-08-21):** 만지는 파일은 KO/EN
+`arc_midgame.json`, `arc_new_characters.json`, `arc_pre_ending.json`,
+`arc_drama.json`, `content/meta/year5_reference_routes.json`,
+`tools/year5_reference_route_audit.py`, `tools/Year5ReferenceRouteR1Check.gd`,
+그리고 이 오더의 큐·상태·작업 기록으로 한정한다. R1b·저장·dispatcher·transaction·
+ending은 계속 동결한다.
 
 **판정 근거 (2026-08-21):** `판정: Claude(사용자 위임) — ORDER-113 전량 반려`.
 사용자 최종 GO는 OPEN이다. 원문 revision은 `803a372d4314d58d9ee03038bca3897bc2e18630`,
