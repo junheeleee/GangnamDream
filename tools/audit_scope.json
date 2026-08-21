@@ -1544,6 +1544,20 @@
       ]
     },
     {
+      "tool": "tools/player_surface_language_audit.py --self-test",
+      "why": "플레이어 표면의 스탯 증감·해금·배수·웨이브·등급 시스템 언어와 함수/패턴 예외를 기준선 0으로 검사",
+      "paths": [
+        "autoloads/**",
+        "scenes/**",
+        "systems/**",
+        "ui_components/**",
+        "tools/player_surface_language_audit.py",
+        "tools/ScreenshotQA.gd",
+        "tools/audit.sh",
+        "tools/audit_scope.json"
+      ]
+    },
+    {
       "tool": "tools/surface_coherence_audit.py",
       "why": "화면 언어 분열의 정량 흔적(이모지·수동 스타일·테마 우회·팔레트 밖 색). 래칫",
       "paths": [
