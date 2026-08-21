@@ -45420,7 +45420,7 @@
     {
       "proof_id": "proof:data:w08_temptation_choice_flags",
       "kind": "json_pointer",
-      "pointer": "content/events/arc_events.json#/25/choices",
+      "pointer": "content/events/arc_events.json#/30/choices",
       "assertion": "first_temptation_boss choice index 1 authors state:flag:lent_account while choice index 0 authors kept_clean_hands, binding the later temptation_consequence route to the exact earlier Story choice."
     },
     {
@@ -46320,7 +46320,7 @@
     {
       "proof_id": "proof:data:story_event:arc_father_01_call",
       "kind": "json_pointer",
-      "pointer": "content/events/arc_events.json#/47",
+      "pointer": "content/events/arc_events.json#/59",
       "assertion": "arc_father_01_call authors exact reachable non-expression choice indexes [0, 1, 2]; each variant effect token resolves to this event's exact choice field/value."
     },
     {
@@ -46722,13 +46722,13 @@
     {
       "proof_id": "proof:data:story_event:arc_temptation_clean",
       "kind": "json_pointer",
-      "pointer": "content/events/arc_events.json#/26",
+      "pointer": "content/events/arc_events.json#/31",
       "assertion": "arc_temptation_clean authors the exact non-expression choice effects, flags, deferred fields, job fields, and choice count consumed by its milestone producer variants."
     },
     {
       "proof_id": "proof:data:story_event:arc_temptation_fallout",
       "kind": "json_pointer",
-      "pointer": "content/events/arc_events.json#/27",
+      "pointer": "content/events/arc_events.json#/32",
       "assertion": "arc_temptation_fallout authors the exact non-expression choice effects, flags, deferred fields, job fields, and choice count consumed by its milestone producer variants."
     },
     {
@@ -46920,7 +46920,7 @@
     {
       "proof_id": "proof:data:story_event:arc_temptation_01",
       "kind": "json_pointer",
-      "pointer": "content/events/arc_events.json#/25",
+      "pointer": "content/events/arc_events.json#/30",
       "assertion": "arc_temptation_01 authors exact two choices, stats/tint, flags, and orthodox/unorthodox route point."
     },
     {

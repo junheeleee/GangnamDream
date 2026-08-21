@@ -2686,6 +2686,16 @@ for _proof_id in _ORDER101_REMOVED_PROOF_BINDING_IDS:
     _FROZEN_AUDITED_MAPS["proof_bindings"].pop(_proof_id)
 _FROZEN_AUDITED_MAPS["proof_bindings"].update(
     _ORDER101_PROOF_BINDING_OVERRIDES)
+_ORDER119_PROOF_BINDING_OVERRIDES = {
+    'proof:data:story_event:arc_father_01_call': '1c673dc3dc0b8b1c3321227961fa00e4e196a5c79685cd5f49146ce14e3565b1',
+    'proof:data:story_event:arc_temptation_01': 'f83095074b7cece840d37809bc943ae20e2338bdf2c5590c4132b8eaa28942e1',
+    'proof:data:story_event:arc_temptation_clean': 'd09356158d417e1cfb56ec0a7dcaa27db519f2e03782ff6a0ca12e3d36d4768c',
+    'proof:data:story_event:arc_temptation_fallout': 'f4ef8d817be9260528f768b0e3126c0464757ca7939eabdc4be83d6740248e75',
+    'proof:data:story_event:v2_demo_first_bill': '959d89857d7c49aceede7ee6cffbc92a0197c3ac11b65de7081da9764e60cd8c',
+    'proof:data:w08_temptation_choice_flags': '95fb7f79970438b1884c5738afdf2ffabd440cb4c11ad3d7acfe9b022298756b',
+}
+_FROZEN_AUDITED_MAPS["proof_bindings"].update(
+    _ORDER119_PROOF_BINDING_OVERRIDES)
 _ORDER101_INVOCATION_CONTRACT_OVERRIDES = {
     'reader:milestone:w24:completion_validation:fresh': 'f0226b81ca161f961526c82d1dd9d8a87d4de3411fdda75c0e1c271759f59d54',
     'reader:milestone:w24:completion_validation:loaded': '71a40c4050c89fecff25b0d4e22aad83affa4004bdb4cf9a988e736655bdf4d9',
@@ -2725,7 +2735,7 @@ EXPECTED_STORY_INPUTS_BY_READER = {
     for reader_id, value in _FROZEN_AUDITED_MAPS["story_inputs"].items()
 }
 
-AUDITED_LEDGER_SEMANTIC_SHA256 = 'fff8a3422273583bfd9cd53b5901af3c389a28f3159335353c6fe810efb9966a'
+AUDITED_LEDGER_SEMANTIC_SHA256 = 'dde49afc201affa1bc252631fd02a815f422974b40e6c5c183e7fa38f7f3e283'
 EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "systems/DemoCoreLoopV2.gd":
         "9c01278a35e1101fd592addba0605a414a0eee8fd62c1af08d2a3919f51307fc",
@@ -2766,21 +2776,21 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/meta/demo_core_loop_v2.json":
         "f336f8a60277effc1885e10911d21785add4ad5580135bb1ab3a4c4b509059c3",
     "content/meta/demo_localization_scope.json":
-        "aebd2b3d50b43d25ba49d96065b7a4bf506f38ed88ba6b31747726677aa5fb21",
+        "bc4a321ff83cf10881fb4dd61869f42a28dec40783a87b25b3649b6918e92af2",
     "content/meta/release_content_inventory.json":
-        "d689870aaa22a7a2ee1a2553d48801b573b11eb04c6520f382610e1373ed793e",
+        "e13fc2120209c174c3cd697dd4d1243758ae353a30ba235fe807e66339ab2ee0",
     "content/meta/story_rules.json":
-        "bb42dd9440abc7a5c5bad728811f80022a74f5cf046e9b1264a393ba159ffac9",
+        "edd7d26b0e91ea309ff9b9818fb6df2ab37ba247fad060c5039c9d08f9f31bc8",
     "content/jobs.json":
         "d1a3ed8ba3f2839954d0b15266bff4f7a0d1317d78c503bd2422aa87b7210f84",
     "content/events/arc_events.json":
-        "2aa354cd23d03ffba1d051cfe9a3a87c566034944fcb339537996c0dfd27c6b0",
+        "bec7d99e7322086672f18245fe2b0aac2a86c36c77fab802ba75e046cbed5e0d",
     "content/events/core_loop_v2_events.json":
-        "3f2baf08ce6748deba1760599ff324d3b2f8aeb3710bf69b3b19f56bae0ea0a3",
+        "a30227ba75430679caca5e6e9e1bac03c45519917d3d80d46e3904f4dee425db",
     "content/events/arc_daeun.json":
-        "ecba76211ff1b803a44eba429751173e6be65af4ee9472d8ecd79385a51a7e99",
+        "29a1f84fa411d03660f6e2283f3302a5f1f7c9b264a923c916b4484e9699748d",
     "content/events/arc_midgame.json":
-        "beb6251800d9105b332eb6e8ab102820f75b3e9d7f68547c046b8017f72d188a",
+        "2dc392d05de082b84e07a72de4cce9b67ff0bbd2b24437a0ca7f525fa3d8b08f",
     "content/events/scenario_cafe.json":
         "748fa21586b928419a7e7cf336b7c737ba3f09ecfdddafdbb38bff1698ebbe85",
     "docs/CORE_LOOP_V2.md":
@@ -2788,11 +2798,11 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "docs/BALANCE.md":
         "8994d997b37c83a580ab97e9ab46c2f4b783ebacdef90b44325c03fa071d7cac",
     "docs/WORK_LOG.md":
-        "6448901d7db72c40b28a7e3844a86d22c9b719cd6ed2cd703a94e51b0afb2d1b",
+        "bee91c01d8dedd18f9b0852a4e284877881ed6043da32dbf752e5fd5b5e487e1",
     "docs/queue_archive/ORDER-101.md":
         "732f49ac40efb644a7321cd425160fae9a8123ead11eb2cc7ebc5b238952ee48",
     "docs/CHOICE_CONSEQUENCE_SYSTEM.md":
-        "9828896ce8f447c81a0fb9ad949a1ef204d26f4d49072ab2962941d84d7becd5",
+        "8bebca9953e93decdc0ed8f34b1ce4190a144a2bfb1943f439519f3593e61f72",
     "tools/core_loop_v2_balance_sim.py":
         "b9f96ed925cce3801fe8c45716f5bab2fb480507fa1cd3069c714bd222cedf86",
     "tools/demo_core_loop_v2_audit.py":
@@ -2800,7 +2810,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "tools/first_session_pacing_audit.py":
         "91beb389fc0362e4769d0e5f15ae45e4d1b354ba2f51c500f9b903608f2545a0",
     "tools/release_content_inventory.py":
-        "969f181885bdcf298e60270ba10fe05d51aae776eeacc90d88de6eb6c296589c",
+        "2563a8f4ecef128e6a6ecbb4377374fd4e40b0e1080a81ba12144913f0dba4d1",
     "tools/story_consistency_audit.py":
         "2e7bbcff6f995c597ed31a6f7450295b49c5f04699bfb8020290efce0f8af229",
 }
@@ -8775,7 +8785,7 @@ def _proofs_bind_reader_fact(reader: dict[str, Any], fact_id: str,
         return False
 
     if reader_id == "reader:milestone:w08:temptation_route":
-        choice_pointer = "content/events/arc_events.json#/25/choices"
+        choice_pointer = "content/events/arc_events.json#/30/choices"
         choices = _json_pointer_value(choice_pointer, cache)
         choice_proof_present = any(
             proof.get("pointer") == choice_pointer for proof in all_proofs)
