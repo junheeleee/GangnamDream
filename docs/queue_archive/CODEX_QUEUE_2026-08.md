@@ -15,6 +15,16 @@
 
 ## 2026-08
 
+- `[x] ORDER-122` (2026-08-22): ORDER-121 뒤 남은 surface, narrative continuity,
+  full-run pacing, demo prose, exposed state, CoreLoop V2, scene-direction runtime
+  일곱 플래그의 실제 소유자를 의미 축소 없이 고쳤다. surface는
+  `260/2112/681`, continuity는 A/B Chapter 2 isolated `0`, 2시간 crossing은
+  A W97/B W96 exact scene, written clock은 `0`, direction 모집단은 shipping
+  1,603편이다. release `1758/1603/155`와 Chapter 1 `24/48`·debt 8·blocked 3을
+  보존했고 Godot StoryMap/Direction/Compile 및 독립 L2 P0/P1 0을 확인했다.
+  같은 최종 바이트의 전체 audit failure flag 0 확인을 완료 정본 조건으로 두며,
+  통과 뒤 ORDER-119 마감을 재개하되 사용자 최종 GO는 OPEN이다.
+  [사양](ORDER-122.md)
 - `[x] ORDER-121` (2026-08-22): packaged 1,758편을 shipping 1,603편과
   author-only 155편으로 분리하고 exact metadata 155·제품 ingress 0을 증명했다.
   baseline을 올리지 않고 `audit.py` ERROR 0·inert 0을 회복했으며 release inventory는

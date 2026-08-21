@@ -19,6 +19,31 @@
 > 차례로 옮긴다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-22 (Codex — 전체 감사 잔여 7플래그 exact-scope 복구)
+
+- 기준 `e53689ca58ef3fdc6e6fa9d2c67c7b4ca82975b4`에서 구현
+  `5729b14af5f36af15a57cb21b8332e871224061f`(tree
+  `4a77c593aa7a51cf4c08fd4a8071c7942365a20f`)로 surface, narrative continuity,
+  full-run pacing, demo prose, exposed state, CoreLoop V2, scene-direction runtime의
+  일곱 소유자를 수리했다. baseline·debt·project·manifest·gameplay metadata를
+  완화하지 않았고 허용한 사건 산문은 exact 네 leaf뿐이다.
+- surface는 StyleBox `260` / direct theme override `2112` / private color `681`,
+  continuity는 A/B Chapter 2 isolated `0`과 branch `420/421` 경계, fixed-model
+  2시간 crossing은 A W97 `modeled_random_foreground` / B W96
+  `arc_year2_close`의 exact scene component다. demo prose written clock은 `0`,
+  exposed-state는 domain `+2/-6`, CoreLoop V2 음성 검사는 `14`, direction runtime은
+  shipping `1603`으로 통과했다.
+- release는 packaged `1758` / shipping `1603` / author-only `155`, Chapter 1은
+  authoritative `24/48` / debt code `8` / blocked evaluation `3`을 보존했다.
+  Godot StoryMap/Direction/Compile이 통과했고 독립 L2 최종 판정은 P0/P1 `0`이다.
+  `docs/QA_CHECKLIST.md`에는 branch 420/421, W96 exact-scene crossing, shipping
+  direction fail-closed, reachable exact-minute permission을 정본 승격했다.
+- 정확한 roots·edges·occurrences·domains·commit/tree·25단위·22파일은 일회성
+  증거다. 이 마감 후보는 closure와 STATUS를 포함한 같은 최종 바이트에서 root가
+  전체 `tools/audit.sh` failure flag `0`을 확인한 경우에만 완료 정본이며, 실패하면
+  ORDER-122를 미완료로 되돌린다. ORDER-119는 그 green 뒤 마감을 재개하고 사용자
+  최종 GO는 계속 OPEN이다.
+
 ## 2026-08-22 (Codex — author-only 생명주기와 shipping corpus 분리)
 
 - 구현 `f7b9f6e53be1e06201b52360935593d372cb1ebb`(tree

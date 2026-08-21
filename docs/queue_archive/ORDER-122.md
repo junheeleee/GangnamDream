@@ -1,8 +1,46 @@
-# Active Queue Spec: ORDER-122
+# Archived Queue Spec: ORDER-122
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-122 [P0·CI/회귀] ORDER-119 전체 감사 잔여 7플래그를 의미 축소 없이 닫는다
+#### [x] ORDER-122 [P0·CI/회귀] ORDER-119 전체 감사 잔여 7플래그를 의미 축소 없이 닫는다
+
+**완료 (2026-08-22):** 기준
+`e53689ca58ef3fdc6e6fa9d2c67c7b4ca82975b4`에서 구현
+`5729b14af5f36af15a57cb21b8332e871224061f`(tree
+`4a77c593aa7a51cf4c08fd4a8071c7942365a20f`)로 현재 OPEN 7플래그의
+실제 소유자를 고쳤다. baseline·부채를 올리거나 검사를 약화하지 않았다.
+
+- surface는 StyleBox `260`, direct theme override `2112`, private color `681`이다.
+- narrative continuity는 A/B Chapter 2의 isolated scene이 각각 `0`이고,
+  모든 branch의 `420/421` 문자 경계를 fail-closed로 잠갔다.
+- fixed-model 2시간 crossing은 A가 W97 `modeled_random_foreground`, B가 W96
+  `arc_year2_close`이며 둘 다 scene component 자체의 crossing으로 기록된다.
+- demo prose의 written clock은 `0`이고, 도달한 숫자 시각 세 occurrence만 exact
+  permission으로 남겼다. exposed-state 계약은 두 domain 추가·여섯 stale domain
+  제거 후 두 번째 생성 diff가 `0`이다.
+- CoreLoop V2 음성 검사는 `14`, direction runtime 모집단은 shipping `1603`이다.
+  release 원장은 packaged `1758` / shipping `1603` / author-only `155`를 유지한다.
+- Chapter 1 snapshot은 authoritative `24/48`, debt code `8`, blocked evaluation
+  `3`을 그대로 보고한다. Godot StoryMap/Direction/Compile과 독립 L2가 통과했고
+  최종 독립 판정은 P0/P1 `0`이다.
+
+**정본 승격:** 계속 유효한 네 규칙을 `docs/QA_CHECKLIST.md`에 승격했다.
+isolated micro-scene은 모든 authored branch가 `420`자 이하여야 하고 `421`자는
+거부한다. W96 예외는 `arc_year2_close`의 scene component 자체가 2시간 경계를
+넘을 때뿐이며 cadence/summary를 빌리지 않는다. 런타임 장면 방향 검사는 manifest의
+shipping ID만 모집단으로 삼되 unknown과 shipping 미분류는 fail-closed한다. 숫자
+시각 허용은 도달 source path·localized literal·canonical time·exact count·reason을
+모두 선언하고 missing/stale/duplicate/count drift와 written-clock 우회를 거부한다.
+
+**일회성:** 정확한 continuity 두 root, author-only direction 두 edge, 시각 세
+occurrence, exposed-state 추가 두 domain·제거 여섯 domain, 허용 prose 네 leaf,
+위 기준/구현/tree ID, 25단위와 22파일 목록은 이 복구의 증거이며 전역 규칙이 아니다.
+사용자 사람 판정은 대신하지 않았고 ORDER-119의 사용자 최종 GO는 계속 OPEN이다.
+
+**최종 전체 감사 판정:** 이 `[x]`는 closure 문서와 생성 STATUS까지 포함한 같은
+최종 바이트에서 root가 `tools/audit.sh` failure flag `0`을 확인한 경우에만 완료
+정본으로 채택한다. 하나라도 남으면 ORDER-122를 미완료로 되돌리고 ORDER-119
+마감을 재개하지 않는다.
 
 **착수 선언 (2026-08-22):** 구현 기준은 ORDER-121 closure인
 `e53689ca58ef3fdc6e6fa9d2c67c7b4ca82975b4`다. ORDER-119의 제품 수리를 넓히지
@@ -252,7 +290,7 @@ release inventory와 content-rating 보고서는 source hash만 현재 바이트
 
 - shipping manifest를 런타임 방향 검사의 모집단으로 쓰고 unknown/shipping
   미분류를 fail-closed로 거부하는 규칙, 420자 micro 경계, W96 year-close의
-  정확한 보고, clock permission의 도달 occurrence 계약은 완료 시
-  `docs/QA_CHECKLIST.md`의 기존 해당 절에만 승격 후보로 판정한다.
+  정확한 scene crossing, clock permission의 도달 occurrence 계약은
+  `docs/QA_CHECKLIST.md`의 해당 절에 승격했다.
 - 정확한 두 continuity root, 두 direction edge, 세 시계 occurrence, 두 exposed
   domain, f7/e536 commit과 수치, 25단위와 22파일은 이 수리의 일회성 증거다.
