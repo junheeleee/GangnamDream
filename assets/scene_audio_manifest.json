@@ -1217,7 +1217,7 @@
     "arc_father_04_visit": {"ambience": "hospital", "music": {"key": "grief", "start_paragraph": 3}},
     "arc_36_trust_crack": {"ambience": "street", "suppress_music": true},
     "arc_36_unexpected_hand": {"ambience": "cafe", "music": {"key": "intimate", "start_paragraph": 0}},
-    "arc_final_countdown": {"ambience": "street", "music": {"key": "reckoning", "start_paragraph": 4}},
+    "arc_final_countdown": {"ambience": "street", "music": {"key": "reckoning", "start_paragraph": 3}},
     "arc_final_week": {"ambience": "street", "music": {"key": "reckoning", "start_paragraph": 0}},
     "arc_father_legacy": {"ambience": "current_housing", "music": {"key": "grief", "start_paragraph": 1}},
     "arc_daeun_first_night": {"ambience": "rain_room", "music": {"key": "intimate", "start_paragraph": 0}},

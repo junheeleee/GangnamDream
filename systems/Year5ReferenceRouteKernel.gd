@@ -611,7 +611,7 @@ func _resolve_actors(bindings: Dictionary, groups: Array, context: Dictionary) -
 func _check_rules(rules: Array, context: Dictionary) -> Dictionary:
 	for raw_rule in rules:
 		var rule: Dictionary = raw_rule
-		var found := _lookup(context.get(str(rule["source"])), rule["path"])
+		var found: Dictionary = _lookup(context.get(str(rule["source"])), rule["path"])
 		var op := str(rule["op"])
 		var passed := false
 		if op == "exists":
@@ -631,7 +631,7 @@ func _check_rules(rules: Array, context: Dictionary) -> Dictionary:
 		elif op == "falsy":
 			passed = bool(found["found"]) and not bool(found["value"])
 		elif op == "equals_path":
-			var other := _lookup(context.get(str(rule["other_source"])), rule["other_path"])
+			var other: Dictionary = _lookup(context.get(str(rule["other_source"])), rule["other_path"])
 			passed = bool(found["found"]) and bool(other["found"]) and _same(found["value"], other["value"])
 		elif op == "unconsumed":
 			var rule_path: Array = rule["path"]
@@ -719,7 +719,7 @@ func _resolve_template(value: Variant, context: Dictionary) -> Dictionary:
 		if _has_exact_keys(source, ["$source", "path"]):
 			if str(source["$source"]) not in RULE_SOURCES or not source["path"] is Array:
 				return _fail("write_conflict", "A write source is invalid.")
-			var found := _lookup(context.get(str(source["$source"])), source["path"])
+			var found: Dictionary = _lookup(context.get(str(source["$source"])), source["path"])
 			if not bool(found["found"]):
 				return _fail("write_conflict", "A write source value is missing.")
 			return _ok({"value": _copy(found["value"])})
