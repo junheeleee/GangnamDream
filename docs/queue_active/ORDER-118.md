@@ -79,6 +79,13 @@ matcher와 803a372 재현 수치를 먼저 고정하고, 차이가 나면 추정
 만든다. 상태값·opaque ID는 데이터에만 두고, 필요한 자연어는 `첫 제안서`, `수정안`,
 `조건부 접수본`, `실행 확인서`처럼 쓴다.
 
+**착수 실측:** player-visible matcher는 네 KO/EN 파일의 각 object에서
+`title`, `description`, 모든 `choices[].text`, `choices[].result_text`만 이어 붙인 뒤
+`NOT USED|SELF ONLY|TF-C2-SELF|TF-C3-EXEC|SA-20|A6E8|91B4|D772|5C20`의 exact
+literal occurrence를 센다. 현재 원문은 KO 89회/25편, EN 108회/29편, 합계
+197회다. 178은 KO 89회를 양언어 동일하다고 두 배 한 값으로 재현되며 실제 EN
+표면과 다르므로, 완료 기준은 위 matcher의 양언어 합계 0이다.
+
 ## 파일 소유권
 
 - `content/events/{arc_midgame,arc_new_characters,arc_pre_ending,arc_drama}.json`
