@@ -186,11 +186,7 @@
       "v2_dirty_recruiter_week24->v2_demo_first_bill_opening",
       "v2_demo_first_bill_opening->v2_demo_first_bill",
       "v2_demo_first_bill->v2_demo_first_bill_ledger",
-      "v2_demo_first_bill_ledger->v2_hyunsu_exam_morning_echo",
-      "arc_year1_close->arc_year1_scene",
-      "arc_year2_close->arc_year2_scene",
-      "arc_year3_close->arc_year3_scene",
-      "arc_year4_close->arc_year4_scene"
+      "v2_demo_first_bill_ledger->v2_hyunsu_exam_morning_echo"
     ]
   },
   "transition_contracts": {
@@ -639,30 +635,6 @@
       "mode": "same_location",
       "from_location": "current_housing",
       "to_location": "current_housing"
-    },
-    "arc_year1_close->arc_year1_scene": {
-      "mode": "same_location",
-      "from_location": "current_housing",
-      "to_location": "current_housing",
-      "queue_only": true
-    },
-    "arc_year2_close->arc_year2_scene": {
-      "mode": "same_location",
-      "from_location": "year2_winter_street_night",
-      "to_location": "year2_winter_street_night",
-      "queue_only": true
-    },
-    "arc_year3_close->arc_year3_scene": {
-      "mode": "same_location",
-      "from_location": "year3_hangang_winter_night",
-      "to_location": "year3_hangang_winter_night",
-      "queue_only": true
-    },
-    "arc_year4_close->arc_year4_scene": {
-      "mode": "same_location",
-      "from_location": "year4_winter_rooftop",
-      "to_location": "year4_winter_rooftop",
-      "queue_only": true
     }
   },
   "events": {
