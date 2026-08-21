@@ -10,6 +10,7 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
+from event_lifecycle import audit_author_only
 from full_run_audio_audit import (
     event_surface,
     grouped_intents as grouped_audio_intents,
@@ -347,13 +348,22 @@ def main() -> int:
         direction = load_json(DIRECTION_PATH)
         audio = load_json(AUDIO_PATH)
         director = load_json(DIRECTOR_PATH)
-        events = load_events()
+        all_events = load_events()
+        lifecycle = audit_author_only(ROOT)
+        events = {
+            event_id: event
+            for event_id, event in all_events.items()
+            if event_id in lifecycle.product_event_ids
+        }
         paths = run_arc_paths()
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"FULL_RUN_DIRECTION_AUDIT_FAIL {exc}", file=sys.stderr)
         return 1
 
     direction_intents, errors = flatten_direction_intents(direction)
+    errors.extend(
+        f"author-only lifecycle: {message}" for message in lifecycle.errors
+    )
     errors.extend(validate_manifest(direction, events, direction_intents))
     audio_intents = grouped_audio_intents(audio)
     reports: dict[str, list[dict[str, Any]]] = {}

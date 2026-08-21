@@ -9,6 +9,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from event_lifecycle import audit_author_only
 from event_schedule import deferred_follow_ups, deferred_target_ids
 
 
@@ -828,7 +829,8 @@ def validate_manifest(manifest: dict[str, Any], events: list[dict[str, Any]]) ->
 def main() -> int:
     try:
         manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
-        events = load_registered_events()
+        registered_events = load_registered_events()
+        lifecycle = audit_author_only(ROOT)
     except (OSError, ValueError, RuntimeError) as exc:
         fail(str(exc))
         return 1
@@ -836,7 +838,25 @@ def main() -> int:
         fail("manifest root must be an object")
         return 1
 
+    lifecycle_errors = [
+        f"author-only lifecycle: {message}" for message in lifecycle.errors
+    ]
+    registered_ids = {str(event["id"]) for event in registered_events}
+    if registered_ids != set(lifecycle.packaged_event_ids):
+        missing = sorted(set(lifecycle.packaged_event_ids) - registered_ids)
+        extra = sorted(registered_ids - set(lifecycle.packaged_event_ids))
+        lifecycle_errors.append(
+            "registered/package event IDs differ: "
+            f"missing={missing[:8]} extra={extra[:8]}"
+        )
+    events = [
+        event
+        for event in registered_events
+        if str(event["id"]) in lifecycle.product_event_ids
+    ]
+
     errors = validate_manifest(manifest, events)
+    errors.extend(lifecycle_errors)
     catalog_random = [event for event in events if is_catalog_random(event)]
     direct_targets = follow_up_targets(events)
     directed_random = [

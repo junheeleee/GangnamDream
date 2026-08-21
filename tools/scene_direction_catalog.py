@@ -18,6 +18,8 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
+from event_lifecycle import audit_author_only
+
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "assets" / "scene_direction_manifest.json"
@@ -600,8 +602,21 @@ def ending_contracts() -> dict[str, dict[str, Any]]:
     return output
 
 
-def build_manifest() -> dict[str, Any]:
-    events = load_events(EVENT_DIR)
+def build_manifest(
+    events: dict[str, dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    if events is None:
+        all_events = load_events(EVENT_DIR)
+        lifecycle = audit_author_only(ROOT)
+        if lifecycle.errors:
+            raise ValueError(
+                "author-only lifecycle: " + "; ".join(lifecycle.errors)
+            )
+        events = {
+            event_id: event
+            for event_id, event in all_events.items()
+            if event_id in lifecycle.product_event_ids
+        }
     presentations = story_presentations()
     visuals = visual_contract_index()
     surfaces = {
@@ -631,12 +646,27 @@ def build_manifest() -> dict[str, Any]:
 
 def validate(manifest: dict[str, Any]) -> list[str]:
     errors: list[str] = []
-    events = load_events(EVENT_DIR)
-    events_en = load_events(EVENT_EN_DIR)
-    if set(events) != set(events_en):
+    all_events = load_events(EVENT_DIR)
+    all_events_en = load_events(EVENT_EN_DIR)
+    lifecycle = audit_author_only(ROOT)
+    errors.extend(
+        f"author-only lifecycle: {message}" for message in lifecycle.errors
+    )
+    if set(all_events) != set(all_events_en):
         errors.append("Korean and English event IDs differ")
 
-    expected = build_manifest()
+    events = {
+        event_id: event
+        for event_id, event in all_events.items()
+        if event_id in lifecycle.product_event_ids
+    }
+    events_en = {
+        event_id: event
+        for event_id, event in all_events_en.items()
+        if event_id in lifecycle.product_event_ids
+    }
+
+    expected = build_manifest(events)
     if manifest != expected:
         errors.append(
             "scene direction manifest is stale; run "
@@ -728,8 +758,8 @@ def validate(manifest: dict[str, Any]) -> list[str]:
     if endings != ending_contracts():
         errors.append("ending finale contracts are incomplete or stale")
 
-    for event_id in sorted(set(events) & set(events_en)):
-        ko, en = events[event_id], events_en[event_id]
+    for event_id in sorted(set(all_events) & set(all_events_en)):
+        ko, en = all_events[event_id], all_events_en[event_id]
         for field in (
             "background",
             "paragraph_backgrounds",

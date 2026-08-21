@@ -13,6 +13,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from event_lifecycle import audit_author_only
+
 
 ROOT = Path(__file__).resolve().parents[1]
 EVENT_DIR = ROOT / "content" / "events"
@@ -57,11 +59,21 @@ def main() -> int:
 
     errors: list[str] = []
     try:
-        events = load_events()
+        all_events = load_events()
+        lifecycle = audit_author_only(ROOT)
         manifest = load_json(MANIFEST)
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"EVENT_VISUAL_CONTRACT_FAIL {exc}")
         return 1
+
+    errors.extend(
+        f"author-only lifecycle: {message}" for message in lifecycle.errors
+    )
+    events = {
+        event_id: event
+        for event_id, event in all_events.items()
+        if event_id in lifecycle.product_event_ids
+    }
 
     contracts = manifest.get("contracts", [])
     debt = manifest.get("known_debt", [])
@@ -74,7 +86,7 @@ def main() -> int:
             errors.append(f"duplicate or empty contract id: {event_id!r}")
             continue
         contract_ids.add(event_id)
-        event = events.get(event_id)
+        event = all_events.get(event_id)
         if event is None:
             errors.append(f"contract references missing event: {event_id}")
             continue
@@ -197,7 +209,7 @@ def main() -> int:
             errors.append(f"duplicate or empty debt id: {event_id!r}")
             continue
         debt_ids.add(event_id)
-        if event_id not in events:
+        if event_id not in all_events:
             errors.append(f"known debt references missing event: {event_id}")
         if not issue:
             errors.append(f"known debt has no issue text: {event_id}")

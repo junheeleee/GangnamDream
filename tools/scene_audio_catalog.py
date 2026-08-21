@@ -16,6 +16,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from event_lifecycle import audit_author_only
+
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "assets" / "scene_audio_manifest.json"
@@ -147,16 +149,36 @@ def write_intents(
 
 def validate(manifest: dict[str, Any], write: bool) -> list[str]:
     errors: list[str] = []
-    events = load_events(EVENT_DIR)
-    events_en = load_events(EVENT_EN_DIR)
-    if set(events) != set(events_en):
-        missing_en = sorted(set(events) - set(events_en))
-        stale_en = sorted(set(events_en) - set(events))
+    all_events = load_events(EVENT_DIR)
+    all_events_en = load_events(EVENT_EN_DIR)
+    lifecycle = audit_author_only(ROOT)
+    errors.extend(
+        f"author-only lifecycle: {message}" for message in lifecycle.errors
+    )
+    if set(all_events) != set(all_events_en):
+        missing_en = sorted(set(all_events) - set(all_events_en))
+        stale_en = sorted(set(all_events_en) - set(all_events))
         if missing_en:
             errors.append("English event catalog missing: " + ", ".join(missing_en))
         if stale_en:
             errors.append("English event catalog stale: " + ", ".join(stale_en))
 
+    events = {
+        event_id: event
+        for event_id, event in all_events.items()
+        if event_id in lifecycle.product_event_ids
+    }
+    events_en = {
+        event_id: event
+        for event_id, event in all_events_en.items()
+        if event_id in lifecycle.product_event_ids
+    }
+
+    # Never regenerate the shipping manifest from a lifecycle/parity-invalid
+    # source corpus. Invalid declarations remain product events by design, but
+    # accepting that enlarged set here would overwrite the reviewed contract.
+    if write and errors:
+        return errors
     if write:
         write_intents(manifest, events)
         manifest = load_json(MANIFEST_PATH)
@@ -218,9 +240,9 @@ def validate(manifest: dict[str, Any], write: bool) -> list[str]:
             if not cg_id or cg_id not in cg_contracts:
                 errors.append(f"{event_id}: CG-contract intent has no contracted CG")
 
-    for event_id in sorted(set(events) & set(events_en)):
-        ko = events[event_id]
-        en = events_en[event_id]
+    for event_id in sorted(set(all_events) & set(all_events_en)):
+        ko = all_events[event_id]
+        en = all_events_en[event_id]
         for field in ("background", "cg"):
             if field in en and en.get(field) != ko.get(field):
                 errors.append(
