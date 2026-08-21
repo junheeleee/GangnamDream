@@ -126,20 +126,20 @@
   },
   {
     "id": "arc_y5_minseo_goal_cost_career",
-    "title": "A Table Longer Than the Allowance",
-    "description": "At 11:30 Saturday morning, Minseo placed the first assignment proposal beside this month's automatic-payment list, opened by {name}. The first proposal showed the 450,000 won monthly lead-duty allowance, the six-million-won training repayment for leaving before twelve months, and its end date. The living-cost categories and total faced {name}; Minseo's finger stopped at the heading.\n\nShe turned on her calculator and entered the first proposal's end date. “This isn't about earning another 450,000 won. You carry six million won until this date. Where can your present life hold it?”\n\nMinseo turned the calculator toward {name} and divided the company's date from his living-cost list with one finger. The two tables did not overlap. “Show me one cost I don't know.”",
+    "title": "An Evening That Cannot Be Returned",
+    "description": "At 11:30 Saturday morning, Minseo set a thirty-minute alarm at the cafe. She had made time on her way to pick up her child. When {name} opened the appointment proposal, she read the 450,000 won monthly allowance and six-million-won training repayment once, then covered it.\n\n“When I was reaching Gangnam, I counted only money. The first thing I lost was walking home with my child. Buying the apartment later didn't return that time.” Hearing that {name} would meet Hyunsu tomorrow, Minseo looked at the empty chair.\n\n“Name one evening that will remain after the title disappears in twelve months. Not time the company permits. Time you will personally refuse to surrender.” Twenty-two minutes remained. Protecting one person's time meant losing another's expectation or authority.",
     "choices": [
       {
-        "text": "Show the total of this month's automatic payments without hiding it",
-        "result_text": "{name} turned the list toward Minseo with housing, phone, and regular expenses visible. She aligned three monthly withdrawal dates with the first proposal's payday.\n\n“The allowance is one line. Your living costs leave on several dates. First see whether you can withstand the allowance arriving a month late.”\n\nLess of his present life could remain private. Three dates—not an answer—remained on the paper."
+        "text": "Call the team lead and say one weekday evening is not available to the job",
+        "result_text": "Without leaving the cafe, {name} called the team lead. “Wednesday evenings are outside the team schedule. If that's the condition, choose another lead.”\n\nThe team lead stayed quiet for a long time, then said he needed someone who would give that time too. The appointment would be reconsidered Monday. Minseo did not praise him. “Now you also have to keep whoever belongs in that evening.” The first proposal remained with {name}; the team lead's expectation cooled, and this week's answer window remained with the company."
       },
       {
-        "text": "Ask her to identify the exact date the repayment obligation ends",
-        "result_text": "Minseo counted twelve months from the proposed effective date and boxed the repayment end date. She drew different lines beneath the day before and the day after.\n\n“One day changes what six million won means. Remember this date before the appointment date.”\n\n{name} copied the end date into his calendar. The claim that he could leave whenever he wanted disappeared; only the possibility of being held until that date remained."
+        "text": "Tell Minseo to leave on time and carry this decision alone",
+        "result_text": "Before Minseo's alarm could ring, {name} put the proposal in his bag. “Go. I won't ask you to make today's answer for me.”\n\nMinseo stood. “If you can choose when I'm absent, {name}, that is your life. Just don't use ‘I chose alone’ as an excuse later.” She called her child as she left the cafe. Her evening was protected, but {name} still had not named the time he would keep from the company. The empty chair and his coffee, not yet cold, waited for that answer."
       },
       {
-        "text": "Put twelve months of allowance and six million won in the same calculator",
-        "result_text": "Minseo left 5.4 million won—450,000 multiplied by twelve—and the six-million-won repayment on the same display. The gap was 600,000 won.\n\n“Even the full allowance is smaller than the price of leaving early. Write separately what life this role supports and what life it binds.”\n\nThe calculator stayed on. In a table meant to show more income, {name} saw the number that would fall short first if he left."
+        "text": "Leave with Minseo and call Hyunsu to promise he will arrive first tomorrow",
+        "result_text": "{name} stood with Minseo before her alarm. Outside the cafe, he called Hyunsu and said he would already be at the soup shop when Hyunsu arrived tomorrow.\n\nHyunsu paused. “Getting there first isn't the answer, hyung. You need something to ask first.” When the call ended, Minseo walked toward her waiting child. {name} looked at the bus stop toward the office in the opposite direction and did not go. He had given up more advice today and the team lead's recommendation for the week, but tomorrow he could arrive before one person's evening was spent waiting for him."
       }
     ]
   },

@@ -138,20 +138,20 @@
   },
   {
     "id": "arc_y2_money_structure",
-    "title": "The Source of the First Repayment",
-    "description": "Only the label ‘processing fee’ had lost its recipient on the repayment screen. At 11:21 p.m., {name} read the original amount, the first installment due tonight, and the balance that would remain on separate lines for one amount carried over from last month.\n\nSending the agreed amount before midnight would keep the first deadline. Asking again could reveal who received which money, but the transfer window might close while he waited. Sending only principal would leave a reason on record, along with an unpaid mark.\n\nThe cursor waited in the transfer memo. The word repayment could not close both the source of the amount and the responsibility still left behind.",
+    "title": "My Turn to Call First",
+    "description": "The first payment on last month's debt is due tonight. {name} calls the recipient named on the receipt before opening the transfer screen. The other person skips the greeting. \"Do I have to ask first again today?\"\n\nThe promised amount is larger than what he can send. Emptying next week's living-cost account would cover the gap. To the person on the call, the past month is not three lines of figures. It is nights spent leaving the phone faceup, time taken from another promise, and the humiliation of asking first again.\n\n{name} moves his hand away from Send. He can ask what that person postponed and listen, admit the shortage before he is asked, or empty next week's living money, send the promise, and stay until the anger is finished. Repayment begins with who speaks first, not the receipt.",
     "choices": [
       {
-        "text": "Have them read out principal, fees, and balance before sending the agreed first amount",
-        "result_text": "{name} called the listed contact and asked for all three lines to be read aloud. After confirming who received the processing fee and what balance would remain, he transferred only the agreed first installment.\n\nThe completion time was four minutes after midnight. The call record and transfer receipt stayed together, but the first installment now carried a late mark. The first deadline passed while he secured the source of the explanation."
+        "text": "Ask what that person had to postpone, then listen to the end",
+        "result_text": "\"What did you have to put off because of this money?\"\n\nThe other person gives a short laugh. \"You're asking that now. I had someone I needed to call first today. I missed that call waiting for yours.\" They never say who it was or what they meant to say. {name} offers no defense and listens through the silence that follows.\n\nThe first payment goes through only after the date changes. The other person confirms it without saying thank you. \"Next time, call before I have to ask.\" When the screen goes dark, that order remains ahead of the next payment."
       },
       {
-        "text": "Keep the deadline first and name the source and installment in the transfer memo",
-        "result_text": "{name} sent the displayed first installment and wrote the original transaction and ‘installment one’ in the memo. The completion mark appeared before midnight.\n\nHe still did not know who received the processing fee. He attached the receipt to last month's ledger without erasing the line whose explanation remained blank."
+        "text": "Say how much he cannot cover before being asked",
+        "result_text": "\"I can't send all of it tonight. This is what I can send now.\"\n\nThe other person does not ask for the figure again. \"You should've said that yesterday. The money being short lasted less than wondering whether you'd disappeared.\" With no defense left to add, {name} transfers what he can.\n\nThe other person chooses the time of the next call. {name} accepts it before checking his own calendar. His ears are still hot after they hang up. If he does not call first next time, money will not be the only thing missing."
       },
       {
-        "text": "Send principal without the processing fee and leave a written objection",
-        "result_text": "{name} transferred the agreed principal portion and wrote, ‘I will review the processing fee when I receive its basis.’ A principal receipt appeared, but the account status stayed ‘partially unpaid.’\n\nThe other side left only a read mark. {name} recorded the reduced balance and the unresolved fee in the same ledger box."
+        "text": "Empty next week's living money, send the promise, and stay until they hang up",
+        "result_text": "{name} empties the account reserved for next week's living costs into the repayment account and makes up the promised amount. Even after the transfer alert sounds, he does not end the call. The other person says nothing for a while. Then the voice comes back low. \"The money's here. But if you're going to send a receipt and vanish again, I'll spend another whole day waiting for your call.\"\n\n{name} says sorry once and waits through every place where the other person stops. By the time the call ends, little sleep remains before his first alarm. The debt is smaller, but food and transit next week face an empty account. Who calls first next time is still unpaid."
       }
     ]
   },

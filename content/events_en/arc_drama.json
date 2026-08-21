@@ -752,20 +752,20 @@
   },
   {
     "id": "arc_y5_final_week_hyunsu_career_outbound",
-    "title": "The Message After Reconciling the First Week's Figures",
-    "description": "The new badge clicked against the drawer. On Friday of his first week as task-force lead, {name} was last in the office. One cell in the supervisor's revenue forecast pulled from the wrong month—the kind of screen that tempted him to open Hyunsu's chat and send it.\n\n{name} matched ledger figures to receipts from the first line. Near midnight he fixed the reference. The record showed only that he had reconciled it himself without borrowing anyone's name. Restaurant lights were dark when he tapped the badge at the door.\n\nHe locked the file and opened Hyunsu's chat. The paperclip field was empty. He could send first: a specific meal, an overdue apology, or tonight's distance and his next call time.",
+    "title": "The Call to a Junior's Sister",
+    "description": "At 5:42 p.m. on his first Friday as lead, the partner company still had not sent the answer needed for next week's launch. A junior raised his phone. His sister worked there; one question after her shift could keep Monday on schedule. The team lead told {name} to decide.\n\nHyunsu arrived outside the office. {name} had asked to meet face-to-face after work. Hearing the situation through the open door, he spoke to {name}, not the junior. “Hyung, whose work is making him call his sister?”\n\nBlocking the call would cost the schedule and first evaluation. Allowing it would spend the sister's standing at work. Returning authority to the team lead could protect both names but end the role in its first week. Hyunsu did not choose for him.",
     "choices": [
       {
-        "text": "Send a date and time for the soup place near the old goshiwon",
-        "result_text": "{name} sent, ‘This Saturday at one, let's eat at that soup place near the goshiwon. I'll be there first.’ The attachment count beside the bubble was zero.\n\nA sent time appeared beneath his bubble, followed by empty screen. The person who had spent dinner reconciling the figures offered the place for their next meal first. Why he had once seen Hyunsu's name as a shortcut remained beyond the short message."
+        "text": "Send the junior home, block the call, and carry the weekend until the official answer arrives",
+        "result_text": "{name} told the junior to put away the phone and go home. He told the team lead to delay Monday and leave both possible plans to him for the weekend. The team lead said the reason for the delay would remain in his first-week evaluation.\n\nHyunsu did not suggest leaving together. “This time you spent your weekend instead of someone else's family. Next time, stop it inside company time.” He entered the elevator alone. In the empty office, {name} began with the names of the people he would have to apologize to Monday. The role remained; his first weekend and the quick success did not."
       },
       {
-        "text": "Apologize first for calculating Hyunsu's professional name as a shortcut",
-        "result_text": "‘I first calculated that using your name would save ten days. I meant to ask later what liability it would leave you with. I'm sorry.’\n\n{name} ended the message at the period and sent it. Only the sent time appeared, and the input field went empty again. The forecast he had reconciled without borrowing anyone's name and the apology bubble remained on separate screens."
+        "text": "Have the junior get his sister's answer and keep Monday on schedule",
+        "result_text": "The junior stepped into the hallway and called his sister. He returned with the needed answer but did not look up. “She said not to contact her about company work again.” The team lead confirmed Monday's launch, and {name}'s first-week result survived.\n\nHyunsu never entered the meeting room. Passing {name}, he said only, “The name changed, hyung.” After the elevator closed, the junior placed his phone facedown on the desk. The schedule had opened. The path for that employee to mention his family at work had closed."
       },
       {
-        "text": "Send the distance he needs tonight and the time he will call again",
-        "result_text": "{name} wrote, ‘I want to read the first week's figures alone again, then rest. I'll call you first tomorrow at eight.’ The message ended at the call time; the paperclip count was zero.\n\nAfter sending it, he turned the phone over. The folded old-badge return-completed slip shifted once inside the drawer. Before the screen went dark, only his sent time and next call time remained in his own bubble."
+        "text": "Refuse authority that begins with a call to someone's family and return it to the team lead",
+        "result_text": "{name} placed the new access card before the team lead. “If this call is the first decision of the role, I won't hold the authority.” The team lead sent the junior home and agreed to wait for the official answer. He also made clear that the appointment and recommendation ended here.\n\nHyunsu walked only as far as the crosswalk. He offered no praise. “Don't say you stepped down for me. It was work you said you couldn't do.” When the light changed, they crossed in different directions. The junior's family and the weekend remained protected. The door meant to open for {name} on Monday closed inside the company."
       }
     ]
   },
