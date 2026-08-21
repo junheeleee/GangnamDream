@@ -1,8 +1,50 @@
-# Active Queue Spec: ORDER-123
+# Archived Queue Spec: ORDER-123
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-123 [P0·CI/입력] W9 다중 약속 선택판의 3~4개 후보를 보존해 24주 입력 정지를 복구한다
+#### [x] ORDER-123 [P0·CI/입력] W9 다중 약속 선택판의 3~4개 후보를 보존해 24주 입력 정지를 복구한다
+
+**완료 (2026-08-22):** 기준
+`680e5f6bdcc9223b45143ca6224f7eb112809c6e`에서 구현
+`4177cd281d7be2c4084a294fd1aa3cbb89b15709`(tree
+`fc836ca142471c6520ba6f489e500ef1fc35d1dc`)으로 W9의 합법적인 세
+후보를 모두 보존했다. Board는 현재 도달 최대치 4를 이름 있는
+상한으로 소유하고 5 이상·잘못된 record·빈/중복 ID·KO/EN 결손·
+candidate/bundle/route/variant cross-wire를 fail-closed한다.
+
+- terminal candidate ID, authored bundle, route, variant를 서로 다른 계보로
+  유지했다. W9에서 `terminal:m2_people_completed_hyunsu_to_m3_followup`을
+  선택한 뒤 `hyunsu_study_followup`과 `v2_hyunsu_study_followup`으로
+  이어졌다.
+- 960×600에서 후보 목록만 두 행 높이로 scroll하고 설명·진전·
+  deadline·Commit은 고정했다. 0~4개, KO/EN, keyboard/gamepad,
+  960×600/1280×800 보드 행렬과 화면 행렬 4개가 통과했다.
+- KO/EN × keyboard/gamepad 24주 실입력 4개가 각각 24개 배치,
+  W24 고정 snapshot, save/load, title return으로 완주했다.
+- 첫 전체 감사의 실패 5개는 제품 회귀가 아니라 Year5 보호 해시 1개와
+  동일한 Board 안내 lookup `+1`에서 파생된 JA/ZH 원장 4개였다. 범위를
+  19파일로 확장한 `284307e` 뒤 `49942f7`에서 잠금값만 갱신했고,
+  Year5 direct/self-test/R1 266, JA 68, ZH 251, demo localization 16,
+  Chapter direct가 통과했다.
+- `DemoCoreLoopV2`, KO/EN 사건, 실행 meta, 후보 생산/정렬, 효과, 저장
+  schema, 밸런스, Chapter ledger JSON은 기준과 byte-exact다. 독립 L2
+  제품·QA·범위 판정은 P0/P1 `0`이다.
+
+**정본 승격:** 계속 유효한 규칙은 `docs/QA_CHECKLIST.md`의 Core Loop V2
+Weeks 9–12 gate가 소유한다. 후보 0개 lock, ordinary 1개 명시 선택,
+source-bound terminal 단독의 기존 `terminal_auto`, canonical 2~4개 보존,
+최대 4·malformed fail-closed, terminal identity 분리, 960×600 두 행 scroll·
+Commit 노출을 그 절에 승격했다.
+
+**일회성:** W9 exact 세 ID, `d86a5f1e`·`9e6d1557`·`780c10a1`
+계보, 기준/구현/scope/repair commit·tree, 행렬 산출물 경로, 20단위·
+19파일은 이 복구의 증거이며 전역 제품 규칙이 아니다. ORDER-119 사용자
+최종 GO는 계속 OPEN이다.
+
+**최종 전체 감사 판정:** 이 `[x]`는 archive·queue·WORK_LOG·생성 STATUS를
+포함한 같은 최종 바이트에서 root가 `tools/audit.sh` failure flag `0`과
+원격 CI green을 확인한 경우에만 완료 정본으로 채택한다. 하나라도
+실패하면 ORDER-123을 미완료로 되돌린다.
 
 **착수 선언 (2026-08-22):** 구현 기준은 ORDER-122 closure
 `680e5f6bdcc9223b45143ca6224f7eb112809c6e`다. 원격 run

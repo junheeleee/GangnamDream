@@ -19,6 +19,36 @@
 > 차례로 옮긴다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-22 (Codex — W9 다중 약속 선택·24주 입력 복구)
+
+- 기준 `680e5f6bdcc9223b45143ca6224f7eb112809c6e`에서 구현
+  `4177cd281d7be2c4084a294fd1aa3cbb89b15709`(tree
+  `fc836ca142471c6520ba6f489e500ef1fc35d1dc`)으로 W9의 ordinary
+  `daeun_world_meet`, Father terminal, Hyunsu terminal 세 후보를 모두
+  보존했다. Board 상한은 현재 reachable max 4이며 5+,
+  malformed record, 빈/중복 ID, KO/EN 결손, identity cross-wire는
+  fail-closed한다.
+- terminal candidate ID·authored bundle·route·variant를 분리했고,
+  960×600에서 후보만 두 행 scroll로 보이며 설명·진전·deadline·
+  Commit은 고정했다. W9의 Hyunsu terminal은 실제
+  `hyunsu_study_followup` 번들과 `v2_hyunsu_study_followup` 장면으로
+  연결됐다.
+- KO/EN × keyboard/gamepad 24주 4개는 각각 24 allocations, W24 frozen
+  snapshot, save/load, autosave, title return으로 완주했다. KO/EN ×
+  1280×800/960×600 화면 4개, Board 0~4개 입력/해상도 행렬,
+  Compile 65, Cycle 24/48/240 horizon, demo ORDER-123 음성 10,
+  독립 L2 P0/P1 `0`을 확인했다.
+- 첫 전체 감사는 제품·컴파일·밸런스·런타임을 통과하고 Year5 보호 해시
+  1개와 Board 안내 lookup `+1`에서 파생된 JA/ZH 원장 4개만 실패했다.
+  `284307e`가 범위를 19파일로 확장했고 `49942f7`은 잠금 4파일과
+  Chapter source hash만 갱신했다. Year5 direct/self-test/R1 266,
+  JA 68, ZH 251, demo localization 16, Chapter direct가 통과했다.
+- `DemoCoreLoopV2`, GameState, KO/EN 사건, 실행 meta, 효과, 저장 schema,
+  밸런스, Chapter ledger JSON은 기준과 byte-exact다. exact W9 IDs,
+  유입 commit 계보, 20단위·19파일·산출물 경로는 일회성 증거이며,
+  지속 규칙은 `docs/QA_CHECKLIST.md`의 Weeks 9–12 gate에 승격했다.
+  ORDER-119 사용자 최종 GO는 계속 OPEN이다.
+
 ## 2026-08-22 (Codex — 전체 감사 잔여 7플래그 exact-scope 복구)
 
 - 기준 `e53689ca58ef3fdc6e6fa9d2c67c7b4ca82975b4`에서 구현
