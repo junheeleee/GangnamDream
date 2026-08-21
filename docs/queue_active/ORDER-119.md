@@ -22,8 +22,9 @@ authored-result-only 표면에 맞춘다. 네 갈래 주차 원장의 다섯 정
 동적 등급 문구를 폐기한 뒤 기존 번역 원장이 제거된 호출을 계속 요구하는 것도
 확인됐다. 죽은 결과 함수를 되살리지 않고 번역 원장과 현재 JA 키를 새 정적 산문
 표면에 맞춘다. 같은 변경이 dormant year5 경계의 보호 파일 해시도 바꾸므로, 현재
-런타임 의미를 건드리지 않고 그 보호 해시만 새 후보 바이트에 맞춘다. 만지는 파일은
-정확히 다음 24개뿐이며
+런타임 의미를 건드리지 않고 그 보호 해시만 새 후보 바이트에 맞춘다. 일본어 파이프라인의
+변이 self-test도 폐기 전 호출 수를 코드에 고정하고 있어, 검사의 강도를 낮추지 않고 새
+원장 exact 값으로 갱신한다. 만지는 파일은 정확히 다음 25개뿐이며
 `project.godot`은 수정·스테이징하지 않는다.
 
 - `scenes/MainGame.gd`, `scenes/StoryMode.gd`, `scenes/JobHuntMiniGame.gd`, `scenes/ArubaGame.gd`
@@ -31,6 +32,7 @@ authored-result-only 표면에 맞춘다. 네 갈래 주차 원장의 다섯 정
 - `systems/InvestmentSystem.gd`, `systems/JobSystem.gd`
 - `tools/ScreenshotQA.gd`, `tools/TextMaterialCheck.gd`, `tools/StoryPlaybackCheck.gd`
 - `tools/player_surface_language_audit.py`, `tools/demo_localization_scope.py`
+- `tools/ja_translation_pipeline.py`
 - `tools/audit.sh`, `tools/audit_scope.json`
 - `content/meta/demo_localization_scope.json`, `content/meta/year5_reference_routes.json`, `locale/ui_ja.json`
 - `CLAUDE.md`, `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-119.md`
