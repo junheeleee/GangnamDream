@@ -102,7 +102,6 @@
       "tools": [
         "tools/story_map_audit.py",
         "tools/story_map_strategy_sim.py --self-test",
-        "tools/year5_reference_route_audit.py --self-test",
         "tools/StoryMapM1M6Check.tscn"
       ],
       "why": "독립 M01~M06 런타임만 5초 이내 검사하고 기존 24주·240주 경로는 실행하지 않는다"

@@ -343,6 +343,8 @@ func _check_ui_flow() -> void:
 		"playtest autosave path is not isolated")
 	_remove_file(save_path)
 	_expect(bool(playtest.call("qa_start_new_run")), "UI could not start a new run")
+	await _check_note_activation_focus(playtest)
+	await _check_header_restart_confirmation(playtest)
 	_expect(not bool(playtest.call(
 		"qa_set_role", "optional_second", "m01_legal_application")),
 		"UI accepted M01 alongside before protected")
@@ -355,6 +357,8 @@ func _check_ui_flow() -> void:
 		["m06_person_date", ""],
 	]
 	for index in range(months.size()):
+		await get_tree().process_frame
+		_check_selection_visual_contract(playtest, index + 1)
 		_check_prechoice_disclosure(playtest, index + 1)
 		var row: Array = months[index]
 		_expect(bool(playtest.call("qa_set_role", "protected", row[0])),
@@ -384,6 +388,183 @@ func _check_ui_flow() -> void:
 	await get_tree().process_frame
 	await _check_conditional_disclosure_routes()
 	_check_disclosure_coverage()
+
+
+func _check_note_activation_focus(playtest: Node) -> void:
+	await get_tree().process_frame
+	var snapshot: Variant = playtest.call("qa_snapshot")
+	var cards: Variant = (snapshot as Dictionary).get("cards", []) \
+		if snapshot is Dictionary else []
+	_expect(cards is Array and not (cards as Array).is_empty(),
+		"selection has no promise note to activate")
+	if not cards is Array or (cards as Array).is_empty():
+		return
+	var first_card: Variant = (cards as Array)[0]
+	var commitment_id := str((first_card as Dictionary).get("id", "")) \
+		if first_card is Dictionary else ""
+	var note := _find_button_with_meta(
+		playtest, "m1m6_commitment_id", commitment_id)
+	_expect(is_instance_valid(note), "selection note input control is missing")
+	if not is_instance_valid(note):
+		return
+	var selection_before: Dictionary = ((snapshot as Dictionary).get(
+		"selection", {}) as Dictionary).duplicate(true)
+	note.grab_focus()
+	note.emit_signal("pressed")
+	await get_tree().process_frame
+	var visual: Variant = playtest.call("qa_visual_contract")
+	_expect(visual is Dictionary \
+			and str((visual as Dictionary).get("focus_role_slot", "")) == "protected",
+		"first South/Enter on a promise note did not move to its explicit role pocket")
+	var after: Variant = playtest.call("qa_snapshot")
+	var selection_after: Dictionary = ((after as Dictionary).get(
+		"selection", {}) as Dictionary).duplicate(true) \
+		if after is Dictionary else {}
+	_expect(selection_after == selection_before,
+		"activating a promise note assigned a role before the role pocket was confirmed")
+
+
+func _check_header_restart_confirmation(playtest: Node) -> void:
+	var restart := _find_button_with_meta(playtest, "m1m6_restart", "true")
+	_expect(is_instance_valid(restart), "selection header restart control is missing")
+	if not is_instance_valid(restart):
+		return
+	var before: Variant = playtest.call("qa_visual_contract")
+	var short_text := str((before as Dictionary).get("restart_text", "")) \
+		if before is Dictionary else ""
+	restart.emit_signal("pressed")
+	await get_tree().process_frame
+	var after: Variant = playtest.call("qa_visual_contract")
+	_expect(after is Dictionary and bool((after as Dictionary).get("restart_armed", false)),
+		"selection restart did not enter its confirmation state")
+	_expect(after is Dictionary \
+			and str((after as Dictionary).get("restart_text", "")) == short_text,
+		"selection restart put destructive confirmation copy inside the narrow header button")
+	_expect(after is Dictionary \
+			and bool((after as Dictionary).get("restart_warning_in_footer", false)),
+		"selection restart did not move destructive confirmation copy to the wide footer")
+	var snapshot: Variant = playtest.call("qa_snapshot")
+	var cards: Variant = (snapshot as Dictionary).get("cards", []) \
+		if snapshot is Dictionary else []
+	if cards is Array and not (cards as Array).is_empty():
+		var same_card: Variant = (cards as Array)[0]
+		var same_id := str((same_card as Dictionary).get("id", "")) \
+			if same_card is Dictionary else ""
+		var same_note := _find_button_with_meta(
+			playtest, "m1m6_commitment_id", same_id)
+		_expect(is_instance_valid(same_note),
+			"selection could not return to its current note after restart confirmation")
+		if is_instance_valid(same_note):
+			same_note.grab_focus()
+			await get_tree().process_frame
+			var cancelled: Variant = playtest.call("qa_visual_contract")
+			_expect(cancelled is Dictionary \
+					and not bool((cancelled as Dictionary).get("restart_armed", true)),
+				"selection interaction left a hidden destructive restart confirmation armed")
+			_expect(cancelled is Dictionary \
+					and not bool((cancelled as Dictionary).get(
+						"restart_warning_in_footer", true)),
+				"selection interaction did not clear the restart confirmation warning")
+
+
+func _check_selection_visual_contract(playtest: Node, month: int) -> void:
+	_expect(playtest.has_method("qa_visual_contract"),
+		"selection has no visual QA contract")
+	if not playtest.has_method("qa_visual_contract"):
+		return
+	var visual: Variant = playtest.call("qa_visual_contract")
+	_expect(visual is Dictionary, "selection visual contract is not a dictionary")
+	if not visual is Dictionary:
+		return
+	var contract := visual as Dictionary
+	_expect(str(contract.get("mode", "")) == "desk_promises_v1",
+		"selection restored the dashboard visual mode")
+	_expect(int(contract.get("world_background", 0)) == 1,
+		"selection does not have exactly one goshiwon world background")
+	_expect(contract.get("role_slots", []) == ["optional_second", "protected"],
+		"selection does not have the exact protected/alongside pockets")
+	_expect(int(contract.get("scroll_containers", -1)) == 0,
+		"selection introduced a scroll container")
+	_expect(int(contract.get("legacy_inspectors", -1)) == 0,
+		"selection restored a legacy inspector")
+	_expect(int(contract.get("detail_ribbons", 0)) == 1,
+		"selection does not have exactly one focused-note ribbon")
+	_expect(bool(contract.get("confirm_present", false)),
+		"selection does not have the month commit control")
+	var snapshot: Variant = playtest.call("qa_snapshot")
+	var expected_note_count := 0
+	if snapshot is Dictionary:
+		var cards: Variant = (snapshot as Dictionary).get("cards", [])
+		expected_note_count = cards.size() if cards is Array else 0
+	var note_ids: Variant = contract.get("note_ids", [])
+	_expect(note_ids is Array and (note_ids as Array).size() == expected_note_count,
+		"M%02d promise-note count does not match available commitments" % month)
+	var viewport_size := _vector2_from_array(contract.get("viewport_size", []))
+	var all_rects: Array[Rect2] = []
+	for rect_value in (contract.get("note_rects", {}) as Dictionary).values():
+		var rect := _rect2_from_array(rect_value)
+		all_rects.append(rect)
+		_expect(_rect_is_inside(rect, viewport_size),
+			"M%02d promise note is clipped outside the viewport" % month)
+		_expect(rect.size.x >= 40.0 and rect.size.y >= 40.0,
+			"M%02d promise note is below the minimum input target" % month)
+	for rect_value in (contract.get("role_rects", {}) as Dictionary).values():
+		var rect := _rect2_from_array(rect_value)
+		all_rects.append(rect)
+		_expect(_rect_is_inside(rect, viewport_size),
+			"M%02d role pocket is clipped outside the viewport" % month)
+		_expect(rect.size.x >= 40.0 and rect.size.y >= 40.0,
+			"M%02d role pocket is below the minimum input target" % month)
+	var confirm_rect := _rect2_from_array(contract.get("confirm_rect", []))
+	_expect(_rect_is_inside(confirm_rect, viewport_size),
+		"M%02d month commit control is clipped outside the viewport" % month)
+	_expect(confirm_rect.size.x >= 40.0 and confirm_rect.size.y >= 40.0,
+		"M%02d month commit control is below the minimum input target" % month)
+	for left in range(all_rects.size()):
+		for right in range(left + 1, all_rects.size()):
+			_expect(not all_rects[left].intersects(all_rects[right]),
+				"M%02d promise notes or role pockets overlap" % month)
+
+
+func _find_button_with_meta(
+	node: Node,
+	meta_key: StringName,
+	expected_value: String,
+) -> Button:
+	if node is Button and node.has_meta(meta_key) \
+			and str(node.get_meta(meta_key)) == expected_value:
+		return node as Button
+	for child in node.get_children():
+		var found := _find_button_with_meta(child, meta_key, expected_value)
+		if is_instance_valid(found):
+			return found
+	return null
+
+
+func _vector2_from_array(value: Variant) -> Vector2:
+	if not value is Array or (value as Array).size() != 2:
+		return Vector2.ZERO
+	return Vector2(float((value as Array)[0]), float((value as Array)[1]))
+
+
+func _rect2_from_array(value: Variant) -> Rect2:
+	if not value is Array or (value as Array).size() != 4:
+		return Rect2()
+	return Rect2(
+		float((value as Array)[0]),
+		float((value as Array)[1]),
+		float((value as Array)[2]),
+		float((value as Array)[3]),
+	)
+
+
+func _rect_is_inside(rect: Rect2, viewport_size: Vector2) -> bool:
+	if rect.size.x <= 0.0 or rect.size.y <= 0.0 or viewport_size == Vector2.ZERO:
+		return false
+	return rect.position.x >= -0.5 \
+		and rect.position.y >= -0.5 \
+		and rect.end.x <= viewport_size.x + 0.5 \
+		and rect.end.y <= viewport_size.y + 0.5
 
 
 func _check_prechoice_disclosure(playtest: Node, month: int) -> void:

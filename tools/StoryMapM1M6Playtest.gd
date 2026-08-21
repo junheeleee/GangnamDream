@@ -11,6 +11,10 @@ const STORY_MAP_PATH := "res://content/meta/story_map.json"
 const EN_OVERLAY_PATH := "res://content/meta/story_map_m1m6_en.json"
 const AUTOSAVE_PATH := "user://story_map_m1m6_playtest_autosave.json"
 const SAVE_SCHEMA_VERSION := 1
+const WORLD_BACKGROUND_PATH := "res://assets/backgrounds/goshiwon_room.png"
+const WORLD_GRADE_SHADER_PATH := "res://assets/shaders/background_grade.gdshader"
+const PAPER_SFX_PATH := "res://assets/audio/sfx_paper_handle.wav"
+const STAMP_SFX_PATH := "res://assets/audio/sfx_document_stamp.wav"
 
 const COLOR_BG := Color("#07090c")
 const COLOR_PANEL := Color("#10141a")
@@ -24,6 +28,11 @@ const COLOR_HEALTH := Color("#78b99a")
 const COLOR_TRUST := Color("#d58b91")
 const COLOR_DANGER := Color("#c97878")
 const COLOR_OK := Color("#78b99a")
+const COLOR_PAPER := Color("#d7d0c1")
+const COLOR_PAPER_FOCUS := Color("#eee7d8")
+const COLOR_PAPER_INK := Color("#20242a")
+const COLOR_PAPER_DIM := Color("#60656c")
+const COLOR_PAPER_EDGE := Color("#80796d")
 
 var _runtime: Variant
 var _runtime_state: Dictionary = {}
@@ -58,6 +67,9 @@ var _undo_button: Button
 var _detail_label: Label
 var _role_notice_label: Label
 var _selection_label: Label
+var _fx_layer: Control
+var _paper_player: AudioStreamPlayer
+var _stamp_player: AudioStreamPlayer
 
 
 func _ready() -> void:
@@ -71,6 +83,11 @@ func _ready() -> void:
 	if not _initialize_runtime():
 		_runtime_error = "월간 체험 런타임을 열 수 없습니다."
 	_show_home()
+
+
+func _exit_tree() -> void:
+	_release_feedback_player(_paper_player)
+	_release_feedback_player(_stamp_player)
 
 
 func qa_start_new_run() -> bool:
@@ -95,17 +112,17 @@ func qa_set_role(slot: String, commitment_id: String) -> bool:
 	if _card_from_id(commitment_id).is_empty():
 		return false
 	_focused_commitment_id = commitment_id
-	return _set_role(slot, commitment_id)
+	return _set_role(slot, commitment_id, false)
 
 
 func qa_clear_role(slot: String) -> bool:
 	if slot not in ["protected", "optional_second"]:
 		return false
-	return _clear_role(slot)
+	return _clear_role(slot, false)
 
 
 func qa_commit_month() -> Dictionary:
-	return _commit_current_month()
+	return _commit_current_month(false)
 
 
 func qa_advance() -> bool:
@@ -138,6 +155,47 @@ func qa_visible_text() -> String:
 	return "\n".join(lines)
 
 
+func qa_visual_contract() -> Dictionary:
+	var note_ids: Array[String] = []
+	var note_rects: Dictionary = {}
+	for commitment_id in _card_buttons:
+		var button: Button = _card_buttons[commitment_id]
+		if is_instance_valid(button) and button.has_meta("m1m6_commitment_id"):
+			var note_id := str(button.get_meta("m1m6_commitment_id"))
+			note_ids.append(note_id)
+			note_rects[note_id] = _control_rect_array(button)
+	note_ids.sort()
+	var role_slots: Array[String] = []
+	var role_rects: Dictionary = {}
+	for button in [_protected_button, _optional_button]:
+		if is_instance_valid(button) and button.has_meta("m1m6_role_slot"):
+			var slot := str(button.get_meta("m1m6_role_slot"))
+			role_slots.append(slot)
+			role_rects[slot] = _control_rect_array(button)
+	role_slots.sort()
+	return {
+		"mode": str(get_meta("story_map_m1m6_visual_mode", "")),
+		"world_background": _count_meta_nodes(self, "m1m6_world_background"),
+		"note_ids": note_ids,
+		"note_rects": note_rects,
+		"role_slots": role_slots,
+		"role_rects": role_rects,
+		"scroll_containers": _count_class_nodes(self, "ScrollContainer"),
+		"legacy_inspectors": _count_meta_nodes(self, "m1m6_legacy_inspector"),
+		"detail_ribbons": _count_named_nodes(self, "PromiseMemoRibbon"),
+		"confirm_present": is_instance_valid(_confirm_button) \
+			and bool(_confirm_button.get_meta("m1m6_commit", false)),
+		"confirm_rect": _control_rect_array(_confirm_button),
+		"restart_armed": _restart_armed,
+		"restart_text": _restart_button.text if is_instance_valid(_restart_button) else "",
+		"restart_warning_in_footer": is_instance_valid(_footer) \
+			and _footer.text == _t("ui.home.restart_confirm", "한 번 더 눌러 처음부터"),
+		"focus_role_slot": _focused_meta_value("m1m6_role_slot"),
+		"focus_commitment_id": _focused_meta_value("m1m6_commitment_id"),
+		"viewport_size": [get_viewport_rect().size.x, get_viewport_rect().size.y],
+	}
+
+
 func _initialize_runtime() -> bool:
 	_runtime = MONTHLY_RUNTIME.new()
 	if _runtime == null:
@@ -155,11 +213,40 @@ func _initialize_runtime() -> bool:
 
 
 func _build_shell() -> void:
-	var background := ColorRect.new()
-	background.color = COLOR_BG
+	set_meta("story_map_m1m6_visual_mode", "desk_promises_v1")
+	var background := TextureRect.new()
+	background.name = "GoshiwonWorld"
+	background.set_meta("m1m6_world_background", true)
 	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	var source_texture: Texture2D = load(WORLD_BACKGROUND_PATH)
+	if source_texture != null:
+		var crop := AtlasTexture.new()
+		crop.atlas = source_texture
+		crop.region = Rect2(427, 267, 853, 533)
+		background.texture = crop
+	var grade_shader: Shader = load(WORLD_GRADE_SHADER_PATH)
+	if grade_shader != null:
+		var grade := ShaderMaterial.new()
+		grade.shader = grade_shader
+		grade.set_shader_parameter("desaturation", 0.58)
+		grade.set_shader_parameter("brightness", 0.78)
+		grade.set_shader_parameter("contrast", 0.98)
+		grade.set_shader_parameter("grain_amount", 0.018)
+		grade.set_shader_parameter("ink_bleed", 0.045)
+		grade.set_shader_parameter("paper_fade", 0.018)
+		grade.set_shader_parameter("edge_burn", 0.10)
+		background.material = grade
 	add_child(background)
+
+	var veil := ColorRect.new()
+	veil.name = "WorldVeil"
+	veil.color = Color("#05070a9c")
+	veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	veil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(veil)
 
 	_page = MarginContainer.new()
 	_page.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -190,6 +277,7 @@ func _build_shell() -> void:
 	header.add_child(_home_button)
 	_restart_button = _button("", false)
 	_restart_button.visible = false
+	_restart_button.set_meta("m1m6_restart", true)
 	_restart_button.pressed.connect(_on_restart_pressed)
 	header.add_child(_restart_button)
 	_language_button = _button("", false)
@@ -205,10 +293,27 @@ func _build_shell() -> void:
 	_body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	page_column.add_child(_body)
 
-	_footer = _label("", 12 if _compact else 13, COLOR_DIM)
+	_footer = _label("", 12 if _compact else 14, COLOR_DIM)
 	_footer.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_footer.custom_minimum_size.y = 20
 	page_column.add_child(_footer)
+
+	_fx_layer = Control.new()
+	_fx_layer.name = "PromiseFX"
+	_fx_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_fx_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(_fx_layer)
+
+	_paper_player = AudioStreamPlayer.new()
+	_paper_player.name = "PaperHandlePlayer"
+	_paper_player.stream = load(PAPER_SFX_PATH)
+	_paper_player.volume_db = -8.0
+	add_child(_paper_player)
+	_stamp_player = AudioStreamPlayer.new()
+	_stamp_player.name = "PromiseStampPlayer"
+	_stamp_player.stream = load(STAMP_SFX_PATH)
+	_stamp_player.volume_db = -7.0
+	add_child(_stamp_player)
 
 
 func _show_home() -> void:
@@ -303,7 +408,8 @@ func _on_home_new_pressed(button: Button, save_exists: bool) -> void:
 func _on_restart_pressed() -> void:
 	if not _restart_armed:
 		_restart_armed = true
-		_restart_button.text = _t("ui.home.restart_confirm", "한 번 더 눌러 처음부터")
+		_restart_button.text = _t("ui.home.restart", "처음부터")
+		_footer.text = _t("ui.home.restart_confirm", "한 번 더 눌러 처음부터")
 		_apply_button_style(_restart_button, true, COLOR_DANGER)
 		return
 	_start_new_run(true)
@@ -374,12 +480,15 @@ func _rebuild_selection_screen() -> void:
 	_header_subtitle.text = _month_label(month)
 
 	var root := VBoxContainer.new()
+	root.name = "PromiseDesk"
 	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	root.add_theme_constant_override("separation", 8 if _compact else 12)
+	root.add_theme_constant_override("separation", 7 if _compact else 10)
 	_body.add_child(root)
 
 	var month_strip := PanelContainer.new()
-	month_strip.add_theme_stylebox_override("panel", _panel_style(COLOR_PANEL, COLOR_BORDER, 1, 7))
+	month_strip.name = "MonthPromptSlip"
+	month_strip.add_theme_stylebox_override(
+		"panel", _panel_style(Color("#0b0e12dc"), Color("#a9976e88"), 1, 2))
 	root.add_child(month_strip)
 	var month_margin := MarginContainer.new()
 	month_margin.add_theme_constant_override("margin_left", 12)
@@ -397,7 +506,7 @@ func _rebuild_selection_screen() -> void:
 	var contract_label := _label(_t(
 		"ui.month.known_information",
 		"행동·축·마감과 미룸 가능 여부만 미리 알 수 있습니다."
-	), 12 if _compact else 13, COLOR_DIM)
+	), 12 if _compact else 14, COLOR_DIM)
 	contract_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	prompt_column.add_child(contract_label)
 	var margin_label := _label(_margin_copy(), 13 if _compact else 14, _axis_color(_margin_axis()), true)
@@ -407,85 +516,116 @@ func _rebuild_selection_screen() -> void:
 	month_row.add_child(margin_label)
 
 	var main_row := HBoxContainer.new()
+	main_row.name = "DeskWorkspace"
 	main_row.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	main_row.add_theme_constant_override("separation", 10 if _compact else 14)
+	main_row.add_theme_constant_override("separation", 14 if _compact else 22)
 	root.add_child(main_row)
 
 	var card_column := VBoxContainer.new()
+	card_column.name = "PromiseNotes"
 	card_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	card_column.size_flags_stretch_ratio = 1.65
-	card_column.add_theme_constant_override("separation", 6)
+	card_column.size_flags_stretch_ratio = 1.55
+	card_column.add_theme_constant_override("separation", 8 if _compact else 10)
 	main_row.add_child(card_column)
-	var card_grid := GridContainer.new()
-	card_grid.columns = 2
-	card_grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	card_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	card_grid.add_theme_constant_override("h_separation", 8 if _compact else 10)
-	card_grid.add_theme_constant_override("v_separation", 8 if _compact else 10)
-	card_column.add_child(card_grid)
-	for raw_card in _cards():
+	var note_rows := VBoxContainer.new()
+	note_rows.name = "PromiseNoteRows"
+	note_rows.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	note_rows.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	note_rows.add_theme_constant_override("separation", 3 if _compact else 5)
+	card_column.add_child(note_rows)
+	var current_row: HBoxContainer
+	var card_index := 0
+	var cards := _cards()
+	for raw_card in cards:
 		if not raw_card is Dictionary:
 			continue
+		if card_index % 2 == 0:
+			current_row = HBoxContainer.new()
+			current_row.name = "PromiseNoteRow%d" % (card_index / 2 + 1)
+			current_row.size_flags_vertical = Control.SIZE_EXPAND_FILL
+			current_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			current_row.add_theme_constant_override("separation", 8 if _compact else 12)
+			note_rows.add_child(current_row)
 		var card: Dictionary = raw_card
-		var card_button := _create_card_button(card)
-		card_grid.add_child(card_button)
+		var card_note := _create_card_button(card)
+		current_row.add_child(card_note)
+		card_index += 1
+	if card_index % 2 == 1 and is_instance_valid(current_row):
+		var empty_place := Control.new()
+		empty_place.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		empty_place.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		current_row.add_child(empty_place)
 
 	var detail_panel := PanelContainer.new()
-	detail_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	detail_panel.size_flags_stretch_ratio = 1.0
-	detail_panel.add_theme_stylebox_override("panel", _panel_style(COLOR_PANEL_ALT, COLOR_BORDER, 1, 8))
-	main_row.add_child(detail_panel)
+	detail_panel.name = "PromiseMemoRibbon"
+	detail_panel.custom_minimum_size.y = 72 if _compact else 86
+	detail_panel.add_theme_stylebox_override(
+		"panel", _paper_style(COLOR_PAPER.darkened(0.035), COLOR_PAPER_EDGE, 1, false))
+	card_column.add_child(detail_panel)
 	var detail_margin := MarginContainer.new()
 	detail_margin.add_theme_constant_override("margin_left", 14 if _compact else 18)
 	detail_margin.add_theme_constant_override("margin_right", 14 if _compact else 18)
-	detail_margin.add_theme_constant_override("margin_top", 12 if _compact else 16)
-	detail_margin.add_theme_constant_override("margin_bottom", 12 if _compact else 16)
+	detail_margin.add_theme_constant_override("margin_top", 8 if _compact else 10)
+	detail_margin.add_theme_constant_override("margin_bottom", 8 if _compact else 10)
 	detail_panel.add_child(detail_margin)
-	var detail_column := VBoxContainer.new()
-	detail_column.add_theme_constant_override("separation", 7 if _compact else 10)
-	detail_margin.add_child(detail_column)
-	detail_column.add_child(_label(_t("ui.detail.eyebrow", "살펴보는 약속"), 12, COLOR_ACCENT, true))
-	_detail_label = _label("", 14 if _compact else 15, COLOR_TEXT)
+	_detail_label = _label("", 12 if _compact else 14, COLOR_PAPER_INK)
 	_detail_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_detail_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	detail_column.add_child(_detail_label)
-	_role_notice_label = _label("", 12 if _compact else 13, COLOR_DIM)
-	_role_notice_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_role_notice_label.custom_minimum_size.y = 36 if _compact else 44
-	detail_column.add_child(_role_notice_label)
+	_detail_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	detail_margin.add_child(_detail_label)
 
-	var role_row := HBoxContainer.new()
-	role_row.add_theme_constant_override("separation", 8)
-	detail_column.add_child(role_row)
-	_protected_button = _button("", true)
+	var pocket_column := VBoxContainer.new()
+	pocket_column.name = "PromisePockets"
+	pocket_column.custom_minimum_size.x = 230 if _compact else 300
+	pocket_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pocket_column.size_flags_stretch_ratio = 0.78
+	pocket_column.add_theme_constant_override("separation", 8 if _compact else 12)
+	main_row.add_child(pocket_column)
+
+	_protected_button = _button("", false)
+	_protected_button.name = "ProtectedPocket"
+	_protected_button.set_meta("m1m6_role_slot", "protected")
+	_protected_button.custom_minimum_size.y = 92 if _compact else 114
 	_protected_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_protected_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	_protected_button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_protected_button.pressed.connect(_on_protected_action)
-	role_row.add_child(_protected_button)
+	pocket_column.add_child(_protected_button)
 	_optional_button = _button("", false)
+	_optional_button.name = "OptionalPocket"
+	_optional_button.set_meta("m1m6_role_slot", "optional_second")
+	_optional_button.custom_minimum_size.y = 92 if _compact else 114
 	_optional_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_optional_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	_optional_button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_optional_button.pressed.connect(_on_optional_action)
-	role_row.add_child(_optional_button)
+	pocket_column.add_child(_optional_button)
 
-	var divider := HSeparator.new()
-	divider.modulate = COLOR_BORDER
-	detail_column.add_child(divider)
-	_selection_label = _label("", 12 if _compact else 13, COLOR_TEXT)
-	_selection_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_selection_label.custom_minimum_size.y = 44 if _compact else 52
-	detail_column.add_child(_selection_label)
+	_role_notice_label = _label("", 12 if _compact else 14, COLOR_TEXT)
+	_role_notice_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_role_notice_label.custom_minimum_size.y = 58 if _compact else 72
+	pocket_column.add_child(_role_notice_label)
+
+	_selection_label = _label("", 12 if _compact else 14, COLOR_TEXT)
+	_selection_label.visible = false
+	pocket_column.add_child(_selection_label)
+	var action_spacer := Control.new()
+	action_spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	action_spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	pocket_column.add_child(action_spacer)
 	var action_row := HBoxContainer.new()
 	action_row.add_theme_constant_override("separation", 8)
-	detail_column.add_child(action_row)
+	pocket_column.add_child(action_row)
 	_undo_button = _button(_t("ui.action.undo", "최근 역할 취소"), false)
 	_undo_button.pressed.connect(_undo_latest)
 	action_row.add_child(_undo_button)
 	_confirm_button = _button("", true)
+	_confirm_button.name = "CommitMonth"
+	_confirm_button.set_meta("m1m6_commit", true)
 	_confirm_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_confirm_button.pressed.connect(_commit_current_month)
 	action_row.add_child(_confirm_button)
 
 	_refresh_selection_screen()
-	_connect_card_focus_neighbors()
 	var focus_button: Button = _card_buttons.get(_focused_commitment_id)
 	if is_instance_valid(focus_button):
 		call_deferred("_safe_grab_focus", focus_button)
@@ -498,8 +638,7 @@ func _refresh_selection_screen() -> void:
 	for commitment_id in _card_buttons:
 		var button: Button = _card_buttons[commitment_id]
 		var card := _card_from_id(str(commitment_id))
-		button.text = _card_button_text(card)
-		_apply_button_style(button, _is_selected(str(commitment_id)), _axis_color(str(card.get("axis", ""))))
+		_refresh_note_button(button, card)
 	var focused := _card_from_id(_focused_commitment_id)
 	if focused.is_empty():
 		_detail_label.text = _t("ui.detail.empty", "약속에 포커스를 옮기면 자세히 볼 수 있습니다.")
@@ -522,30 +661,120 @@ func _refresh_selection_screen() -> void:
 		"ui.controls",
 		"방향키 / D패드 · 이동    Enter / 남쪽 버튼 · 확인    Esc / 동쪽 버튼 · 되돌리기"
 	)
+	_connect_card_focus_neighbors()
 	_update_selection_metadata()
 
 
-func _create_card_button(card: Dictionary) -> Button:
-	var button := _button(_card_button_text(card), false)
-	button.custom_minimum_size.y = 142 if _compact else 166
+func _create_card_button(card: Dictionary) -> Control:
+	var wrapper := MarginContainer.new()
+	wrapper.name = "PromiseNoteSlot_%d" % (_card_buttons.size() + 1)
+	wrapper.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	wrapper.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var note_index := _card_buttons.size()
+	var stagger: int = int([0, 6, 5, 0][note_index % 4]) if not _compact else 0
+	wrapper.add_theme_constant_override("margin_top", stagger)
+	wrapper.add_theme_constant_override("margin_bottom", 6 - stagger if not _compact else 0)
+
+	var button := _button("", false)
+	button.name = "PromiseNote_%s" % str(card.get("id", ""))
+	button.set_meta("m1m6_commitment_id", str(card.get("id", "")))
+	button.custom_minimum_size.y = 122 if _compact else 150
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
-	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	button.add_theme_font_size_override("font_size", 12 if _compact else 13)
+	wrapper.add_child(button)
+
+	var margin := MarginContainer.new()
+	margin.name = "PaperContent"
+	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	margin.add_theme_constant_override("margin_left", 12 if _compact else 15)
+	margin.add_theme_constant_override("margin_right", 12 if _compact else 15)
+	margin.add_theme_constant_override("margin_top", 9 if _compact else 12)
+	margin.add_theme_constant_override("margin_bottom", 9 if _compact else 11)
+	button.add_child(margin)
+	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var column := VBoxContainer.new()
+	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	column.add_theme_constant_override("separation", 4 if _compact else 6)
+	margin.add_child(column)
+	var tape := ColorRect.new()
+	tape.name = "PaperTape"
+	tape.color = Color("#b8aa8b70")
+	tape.custom_minimum_size.y = 3
+	tape.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	column.add_child(tape)
+	var header := HBoxContainer.new()
+	header.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	header.add_theme_constant_override("separation", 6)
+	column.add_child(header)
+	var icon := TextureRect.new()
+	icon.name = "AxisIcon"
+	icon.custom_minimum_size = Vector2(18 if _compact else 21, 18 if _compact else 21)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	icon.modulate = COLOR_PAPER_INK
+	header.add_child(icon)
+	var axis_label := _label("", 12 if _compact else 14, COLOR_PAPER_INK, true)
+	axis_label.name = "AxisLabel"
+	header.add_child(axis_label)
+	var header_spacer := Control.new()
+	header_spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	header_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(header_spacer)
+	var due_label := _label("", 12 if _compact else 14, COLOR_PAPER_DIM, true)
+	due_label.name = "DueLabel"
+	header.add_child(due_label)
+	var action_label := _label("", 14 if _compact else 16, COLOR_PAPER_INK, true)
+	action_label.name = "ActionLabel"
+	action_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	action_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	column.add_child(action_label)
+	var rule := HSeparator.new()
+	rule.modulate = Color("#6d665a42")
+	rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	column.add_child(rule)
+	var bottom := HBoxContainer.new()
+	bottom.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	column.add_child(bottom)
+	var window_label := _label("", 12 if _compact else 14, COLOR_PAPER_DIM)
+	window_label.name = "WindowLabel"
+	window_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	window_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	bottom.add_child(window_label)
+	var role_badge := _label("", 12 if _compact else 14, COLOR_PAPER_INK, true)
+	role_badge.name = "RoleBadge"
+	role_badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	bottom.add_child(role_badge)
 	var commitment_id := str(card.get("id", ""))
 	button.focus_entered.connect(_focus_commitment.bind(commitment_id))
-	button.pressed.connect(_focus_commitment.bind(commitment_id))
+	button.pressed.connect(_activate_note.bind(commitment_id))
 	_card_buttons[commitment_id] = button
-	return button
+	_refresh_note_button(button, card)
+	return wrapper
 
 
 func _focus_commitment(commitment_id: String) -> void:
+	_cancel_restart_arm()
 	if _focused_commitment_id == commitment_id:
 		return
 	_focused_commitment_id = commitment_id
 	_refresh_selection_screen()
 	_connect_card_focus_neighbors()
+
+
+func _activate_note(commitment_id: String) -> void:
+	_focus_commitment(commitment_id)
+	var selection := _selection()
+	var protected_id := str(selection.get("protected", ""))
+	var optional_id := str(selection.get("optional_second", ""))
+	var target := _protected_button
+	if optional_id == commitment_id:
+		target = _optional_button
+	elif not protected_id.is_empty() and protected_id != commitment_id \
+			and is_instance_valid(_optional_button) and not _optional_button.disabled:
+		target = _optional_button
+	_safe_grab_focus(target)
 
 
 func _on_protected_action() -> void:
@@ -568,7 +797,8 @@ func _on_optional_action() -> void:
 		_set_role("optional_second", _focused_commitment_id)
 
 
-func _set_role(slot: String, commitment_id: String) -> bool:
+func _set_role(slot: String, commitment_id: String, play_feedback: bool = true) -> bool:
+	_cancel_restart_arm()
 	if slot == "optional_second":
 		var reason := _optional_block_reason(_card_from_id(commitment_id))
 		if not reason.is_empty():
@@ -605,10 +835,14 @@ func _set_role(slot: String, commitment_id: String) -> bool:
 		_status_fallback = "함께 약속을 정했습니다. 확인하면 이번 달 여유를 씁니다."
 	selection_changed.emit(after.duplicate(true))
 	_refresh_selection_screen()
+	if play_feedback:
+		_play_paper_feedback()
+		_animate_note_to_slot(commitment_id, slot)
 	return true
 
 
-func _clear_role(slot: String) -> bool:
+func _clear_role(slot: String, play_feedback: bool = true) -> bool:
+	_cancel_restart_arm()
 	var before := _selection()
 	if str(before.get(slot, "")).is_empty():
 		return false
@@ -620,10 +854,13 @@ func _clear_role(slot: String) -> bool:
 	_status_fallback = "주력을 지웠고 함께 약속도 같이 비웠습니다." if slot == "protected" else "함께 약속을 지웠습니다. 확인 전까지 여유는 남아 있습니다."
 	selection_changed.emit(_selection().duplicate(true))
 	_refresh_selection_screen()
+	if play_feedback:
+		_play_paper_feedback()
 	return true
 
 
 func _undo_latest() -> void:
+	_cancel_restart_arm()
 	var selection := _selection()
 	if not str(selection.get("optional_second", "")).is_empty():
 		_clear_role("optional_second")
@@ -631,7 +868,8 @@ func _undo_latest() -> void:
 		_clear_role("protected")
 
 
-func _commit_current_month() -> Dictionary:
+func _commit_current_month(play_feedback: bool = true) -> Dictionary:
+	_cancel_restart_arm()
 	if str(_selection().get("protected", "")).is_empty():
 		return {}
 	var selection := _selection()
@@ -651,6 +889,8 @@ func _commit_current_month() -> Dictionary:
 	_result = (response_dict.get("result", {}) as Dictionary).duplicate(true)
 	_snapshot = _runtime_snapshot()
 	_write_autosave()
+	if play_feedback:
+		_play_stamp_feedback()
 	month_committed.emit(_result.duplicate(true))
 	_show_result()
 	return _result.duplicate(true)
@@ -884,17 +1124,31 @@ func _refresh_role_actions(card: Dictionary) -> void:
 	var selection := _selection()
 	var is_protected := str(selection.get("protected", "")) == commitment_id
 	var is_optional := str(selection.get("optional_second", "")) == commitment_id
-	_protected_button.text = _t(
+	var protected_id := str(selection.get("protected", ""))
+	var optional_id := str(selection.get("optional_second", ""))
+	var protected_line := _format(_t(
+		"ui.month.selection.protected",
+		"주력 · {label}"
+	), {"label": _commitment_label(protected_id)})
+	var optional_line := _format(_t(
+		"ui.month.selection.optional",
+		"함께 · {label}"
+	), {"label": _commitment_label(optional_id)})
+	var protected_action := _t(
 		"ui.detail.protected_remove" if is_protected else "ui.detail.protected_action",
 		"주력에서 빼기" if is_protected else "주력으로 지키기"
 	)
-	_optional_button.text = _t(
+	var optional_action := _t(
 		"ui.detail.optional_remove" if is_optional else "ui.detail.optional_action",
 		"함께에서 빼기" if is_optional else "함께 지키기"
 	)
+	_protected_button.text = "%s\n%s" % [protected_line, protected_action]
+	_optional_button.text = "%s\n%s" % [optional_line, optional_action]
 	_set_button_enabled(_protected_button, true)
 	var block_reason := "" if is_optional else _optional_block_reason(card)
 	_set_button_enabled(_optional_button, is_optional or block_reason.is_empty())
+	_apply_pocket_style(_protected_button, not protected_id.is_empty(), true)
+	_apply_pocket_style(_optional_button, not optional_id.is_empty(), false)
 	_role_notice_label.text = _role_notice(card, block_reason)
 	_role_notice_label.add_theme_color_override(
 		"font_color",
@@ -955,18 +1209,13 @@ func _role_notice(card: Dictionary, block_reason: String) -> String:
 func _detail_copy(card: Dictionary) -> String:
 	var commitment_id := str(card.get("id", ""))
 	var lines := PackedStringArray()
-	lines.append("%s · %s" % [_axis_label(str(card.get("axis", ""))), _source_label(str(card.get("source", "")))])
+	lines.append("%s · %s · %s" % [
+		_axis_label(str(card.get("axis", ""))),
+		_source_label(str(card.get("source", ""))),
+		_format(_t("ui.card.due", "마감 · {week}주차"), {"week": int(card.get("due_week", 0))}),
+	])
 	lines.append(_commitment_label(commitment_id))
-	lines.append("")
-	lines.append(_format(
-		_t("ui.card.due", "마감 · {week}주차"),
-		{"week": int(card.get("due_week", 0))}
-	))
 	lines.append(_choice_window_detail(card))
-	lines.append(_t(
-		"ui.detail.unknown_outcome",
-		"그 뒤의 변화는 실제로 일어날 때 드러납니다."
-	))
 	return "\n".join(lines)
 
 
@@ -985,6 +1234,50 @@ func _card_button_text(card: Dictionary) -> String:
 		_commitment_label(commitment_id),
 		_choice_window_badge(card)
 	]
+
+
+func _refresh_note_button(button: Button, card: Dictionary) -> void:
+	if not is_instance_valid(button) or card.is_empty():
+		return
+	var axis := str(card.get("axis", ""))
+	var commitment_id := str(card.get("id", ""))
+	var icon := button.find_child("AxisIcon", true, false) as TextureRect
+	if is_instance_valid(icon):
+		icon.texture = load(_axis_icon_path(axis))
+		icon.modulate = COLOR_PAPER_INK
+	var axis_label := button.find_child("AxisLabel", true, false) as Label
+	if is_instance_valid(axis_label):
+		axis_label.text = _axis_label(axis)
+	var due_label := button.find_child("DueLabel", true, false) as Label
+	if is_instance_valid(due_label):
+		due_label.text = _format(
+			_t("ui.card.due", "마감 · {week}주차"),
+			{"week": int(card.get("due_week", 0))}
+		)
+	var action_label := button.find_child("ActionLabel", true, false) as Label
+	if is_instance_valid(action_label):
+		action_label.text = _commitment_label(commitment_id)
+	var window_label := button.find_child("WindowLabel", true, false) as Label
+	if is_instance_valid(window_label):
+		window_label.text = _choice_window_badge(card)
+	var role_badge := button.find_child("RoleBadge", true, false) as Label
+	if is_instance_valid(role_badge):
+		var selection := _selection()
+		if str(selection.get("protected", "")) == commitment_id:
+			role_badge.text = _t("ui.card.protected_badge", "주력")
+		elif str(selection.get("optional_second", "")) == commitment_id:
+			role_badge.text = _t("ui.card.optional_badge", "함께")
+		else:
+			role_badge.text = ""
+	_apply_note_style(button, _is_selected(commitment_id))
+
+
+func _axis_icon_path(axis: String) -> String:
+	match axis:
+		"cash": return "res://assets/ui/icons/icon_money.svg"
+		"health": return "res://assets/ui/icons/icon_health.svg"
+		"trust": return "res://assets/ui/icons/icon_relationship.svg"
+	return "res://assets/ui/icons/icon_info.svg"
 
 
 func _choice_window_badge(card: Dictionary) -> String:
@@ -1114,12 +1407,73 @@ func _connect_card_focus_neighbors() -> void:
 	if is_instance_valid(focused_button) and is_instance_valid(_protected_button):
 		_set_focus_neighbor(_protected_button, SIDE_LEFT, focused_button)
 		_set_focus_neighbor(_optional_button, SIDE_LEFT, focused_button)
-	_set_focus_neighbor(_protected_button, SIDE_BOTTOM, _optional_button)
-	_set_focus_neighbor(_optional_button, SIDE_TOP, _protected_button)
-	_set_focus_neighbor(_optional_button, SIDE_BOTTOM, _confirm_button)
-	_set_focus_neighbor(_confirm_button, SIDE_TOP, _optional_button)
+	if is_instance_valid(_optional_button) and _optional_button.focus_mode != Control.FOCUS_NONE:
+		_set_focus_neighbor(_protected_button, SIDE_BOTTOM, _optional_button)
+		_set_focus_neighbor(_optional_button, SIDE_TOP, _protected_button)
+		_set_focus_neighbor(_optional_button, SIDE_BOTTOM, _confirm_button)
+		_set_focus_neighbor(_confirm_button, SIDE_TOP, _optional_button)
+	else:
+		_set_focus_neighbor(_protected_button, SIDE_BOTTOM, _confirm_button)
+		_set_focus_neighbor(_confirm_button, SIDE_TOP, _protected_button)
 	_set_focus_neighbor(_confirm_button, SIDE_LEFT, _undo_button)
 	_set_focus_neighbor(_undo_button, SIDE_RIGHT, _confirm_button)
+
+
+func _animate_note_to_slot(commitment_id: String, slot: String) -> void:
+	if not is_instance_valid(_fx_layer) or _screen != "selection":
+		return
+	var source: Button = _card_buttons.get(commitment_id)
+	var target: Button = _protected_button if slot == "protected" else _optional_button
+	if not is_instance_valid(source) or not is_instance_valid(target):
+		return
+	var ghost := Panel.new()
+	ghost.name = "MovingPromisePaper"
+	ghost.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	ghost.position = source.global_position
+	ghost.size = source.size
+	ghost.modulate = Color(1, 1, 1, 0.88)
+	ghost.add_theme_stylebox_override(
+		"panel", _paper_style(COLOR_PAPER_FOCUS, COLOR_ACCENT, 2, true))
+	_fx_layer.add_child(ghost)
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.set_trans(Tween.TRANS_QUAD)
+	tween.set_ease(Tween.EASE_OUT)
+	tween.tween_property(ghost, "position", target.global_position, 0.17)
+	tween.tween_property(ghost, "size", target.size, 0.17)
+	tween.tween_property(ghost, "modulate:a", 0.0, 0.17)
+	tween.chain().tween_callback(ghost.queue_free)
+
+
+func _play_paper_feedback() -> void:
+	if is_instance_valid(_paper_player) and _paper_player.stream != null:
+		_paper_player.play()
+
+
+func _play_stamp_feedback() -> void:
+	if is_instance_valid(_stamp_player) and _stamp_player.stream != null:
+		_stamp_player.play()
+
+
+func _release_feedback_player(player: AudioStreamPlayer) -> void:
+	if not is_instance_valid(player):
+		return
+	player.stop()
+	player.stream = null
+
+
+func _cancel_restart_arm() -> void:
+	if not _restart_armed:
+		return
+	_restart_armed = false
+	if is_instance_valid(_restart_button):
+		_restart_button.text = _t("ui.home.restart", "처음부터")
+		_apply_button_style(_restart_button, false, COLOR_BORDER)
+	if _screen == "selection" and is_instance_valid(_footer):
+		_footer.text = _status_copy() if not _status_key.is_empty() else _t(
+			"ui.controls",
+			"방향키 / D패드 · 이동    Enter / 남쪽 버튼 · 확인    Esc / 동쪽 버튼 · 되돌리기"
+		)
 
 
 func _set_focus_neighbor(from: Control, side: Side, to: Control) -> void:
@@ -1592,6 +1946,10 @@ func _clear_body() -> void:
 	for child in _body.get_children():
 		_body.remove_child(child)
 		child.queue_free()
+	if is_instance_valid(_fx_layer):
+		for child in _fx_layer.get_children():
+			_fx_layer.remove_child(child)
+			child.queue_free()
 
 
 func _collect_visible_text(node: Node, lines: PackedStringArray) -> void:
@@ -1601,6 +1959,45 @@ func _collect_visible_text(node: Node, lines: PackedStringArray) -> void:
 		lines.append((node as Button).text)
 	for child in node.get_children():
 		_collect_visible_text(child, lines)
+
+
+func _count_meta_nodes(node: Node, meta_key: String) -> int:
+	var count := 1 if node.has_meta(meta_key) else 0
+	for child in node.get_children():
+		count += _count_meta_nodes(child, meta_key)
+	return count
+
+
+func _count_class_nodes(node: Node, class_name_value: String) -> int:
+	var count := 1 if node.is_class(class_name_value) else 0
+	for child in node.get_children():
+		count += _count_class_nodes(child, class_name_value)
+	return count
+
+
+func _count_named_nodes(node: Node, node_name: String) -> int:
+	var count := 1 if str(node.name) == node_name else 0
+	for child in node.get_children():
+		count += _count_named_nodes(child, node_name)
+	return count
+
+
+func _control_rect_array(control: Control) -> Array[float]:
+	if not is_instance_valid(control):
+		return []
+	return [
+		control.global_position.x,
+		control.global_position.y,
+		control.size.x,
+		control.size.y,
+	]
+
+
+func _focused_meta_value(meta_key: StringName) -> String:
+	var owner := get_viewport().gui_get_focus_owner()
+	if not is_instance_valid(owner) or not owner.has_meta(meta_key):
+		return ""
+	return str(owner.get_meta(meta_key))
 
 
 func _label(text_value: String, font_size: int, color: Color, bold: bool = false) -> Label:
@@ -1618,8 +2015,8 @@ func _button(text_value: String, filled: bool) -> Button:
 	var button := Button.new()
 	button.text = text_value
 	button.focus_mode = Control.FOCUS_ALL
-	button.custom_minimum_size.y = 40 if _compact else 44
-	button.add_theme_font_size_override("font_size", 13 if _compact else 14)
+	button.custom_minimum_size.y = 46
+	button.add_theme_font_size_override("font_size", 13 if _compact else 15)
 	button.mouse_entered.connect(_focus_control.bind(button))
 	_apply_button_style(button, filled, COLOR_ACCENT if filled else COLOR_BORDER)
 	return button
@@ -1660,6 +2057,65 @@ func _apply_button_style(button: Button, filled: bool, border: Color) -> void:
 	button.add_theme_color_override("font_focus_color", COLOR_TEXT)
 	button.add_theme_color_override("font_pressed_color", COLOR_TEXT)
 	button.add_theme_color_override("font_disabled_color", Color("#737b86"))
+
+
+func _apply_note_style(button: Button, selected: bool) -> void:
+	if not is_instance_valid(button):
+		return
+	var paper := COLOR_PAPER_FOCUS if selected else COLOR_PAPER
+	button.add_theme_stylebox_override(
+		"normal", _paper_style(paper, COLOR_ACCENT if selected else COLOR_PAPER_EDGE, 2 if selected else 1, true))
+	button.add_theme_stylebox_override(
+		"hover", _paper_style(COLOR_PAPER_FOCUS, COLOR_ACCENT, 2, true))
+	button.add_theme_stylebox_override(
+		"focus", _paper_style(COLOR_PAPER_FOCUS, COLOR_ACCENT, 3, true))
+	button.add_theme_stylebox_override(
+		"pressed", _paper_style(COLOR_PAPER.darkened(0.05), COLOR_ACCENT, 3, true))
+	button.add_theme_stylebox_override(
+		"disabled", _paper_style(COLOR_PAPER.darkened(0.20), COLOR_PAPER_EDGE.darkened(0.2), 1, false))
+	for color_name in ["font_color", "font_hover_color", "font_focus_color", "font_pressed_color"]:
+		button.add_theme_color_override(color_name, Color.TRANSPARENT)
+
+
+func _apply_pocket_style(button: Button, occupied: bool, protected_slot: bool) -> void:
+	if not is_instance_valid(button):
+		return
+	var edge := COLOR_ACCENT if protected_slot else Color("#aaa49a")
+	var base := Color("#171611e8") if occupied else Color("#0d0e0fd4")
+	button.add_theme_stylebox_override("normal", _panel_style(base, edge.darkened(0.18), 2, 2))
+	button.add_theme_stylebox_override("hover", _panel_style(base.lightened(0.05), edge, 2, 2))
+	button.add_theme_stylebox_override("focus", _panel_style(base.lightened(0.07), COLOR_ACCENT, 3, 2))
+	button.add_theme_stylebox_override("pressed", _panel_style(base.lightened(0.10), COLOR_ACCENT, 3, 2))
+	button.add_theme_stylebox_override(
+		"disabled", _panel_style(Color("#0b0c0dd0"), Color("#6d6b6680"), 1, 2))
+	button.add_theme_color_override("font_color", COLOR_TEXT)
+	button.add_theme_color_override("font_hover_color", COLOR_TEXT)
+	button.add_theme_color_override("font_focus_color", COLOR_TEXT)
+	button.add_theme_color_override("font_pressed_color", COLOR_TEXT)
+	button.add_theme_color_override("font_disabled_color", Color("#9a9b98"))
+	button.add_theme_font_size_override("font_size", 13 if _compact else 15)
+
+
+func _paper_style(
+	bg: Color,
+	border: Color,
+	border_width: int,
+	with_shadow: bool,
+) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = bg
+	style.border_color = border
+	style.set_border_width_all(border_width)
+	style.set_corner_radius_all(2)
+	style.content_margin_left = 8
+	style.content_margin_right = 8
+	style.content_margin_top = 7
+	style.content_margin_bottom = 7
+	if with_shadow:
+		style.shadow_color = Color("#02030347")
+		style.shadow_size = 6
+		style.shadow_offset = Vector2(0, 5)
+	return style
 
 
 func _panel_style(bg: Color, border: Color, border_width: int, radius: int) -> StyleBoxFlat:
