@@ -15,6 +15,14 @@
 
 ## 2026-08
 
+- `[x] ORDER-121` (2026-08-22): packaged 1,758편을 shipping 1,603편과
+  author-only 155편으로 분리하고 exact metadata 155·제품 ingress 0을 증명했다.
+  baseline을 올리지 않고 `audit.py` ERROR 0·inert 0을 회복했으며 release inventory는
+  package 전체를 계속 센다. kernel/audio/Chapter 1 proof drift를 최소수리했고
+  [정적 CI job](https://github.com/junheeleee/GangnamDream/actions/runs/32499196077)이
+  통과했다. 같은 기준 전체 audit는 8개 실패를 검출했고, STATUS 재생성으로 하나를
+  해소한 뒤 나머지 7개를 OPEN으로 넘겼다.
+  [사양](ORDER-121.md)
 - `[!] ORDER-113` (2026-08-21, **원고 전량 반려·미완료**): seed 9821 표본 3편이
   인물 목소리·현재 손실·여운 세 축 모두 미달했다. startup 16편과 코드형 산문은
   ORDER-118로 전면 재설계하고 R1b는 HOLD한다. 판정: Claude(사용자 위임), 사용자

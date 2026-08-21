@@ -1,8 +1,40 @@
-# Active Queue Spec: ORDER-121
+# Archived Queue Spec: ORDER-121
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-121 [P0·CI/생명주기] author-only 원고와 shipping corpus를 기계적으로 분리한다
+#### [x] ORDER-121 [P0·CI/생명주기] author-only 원고와 shipping corpus를 기계적으로 분리한다
+
+**완료 (2026-08-22):** 사건 1,758편을 shipping 1,603편과 현재 비도달
+author-only 155편으로 분리했다. `event_lifecycle` 원장은 tagged 127편과 ledger-only
+28편을 exact하게 소유하고, 숫자형 `weight=0`, `hidden=true`, 정확한
+`conditions={min_turn:9999}` 및 제품 ingress 0을 모두 만족한 155편만 dead/inert
+감사에서 제외한다. `debt_baseline`은 0이며 `audit.py`는 ERROR 0·inert 0이다.
+event director와 visual/audio/direction 소비자는 shipping 1,603편을 유지하고,
+release inventory는 packaged 1,758편을 심의 대상으로 계속 센다.
+
+Year5 kernel의 Dictionary 추론 세 곳, `arc_final_countdown` 음악 시작 문단 4→3,
+Chapter 1 source/proof snapshot을 현재 바이트에 맞췄다. lifecycle 27변이, release
+14변이, year5 35변이·Godot 266검사, Chapter 1 472변이와
+[정적 CI job](https://github.com/junheeleee/GangnamDream/actions/runs/32499196077)의
+story map·정적 감사·밸런스 단계가 모두 통과했다. 사건 JSON·산문·효과·저장·화면은
+바꾸지 않아 새 사람 판정은 만들지 않았다.
+
+**정본 승격:** 계속 유효한 생명주기 규칙은 `CLAUDE.md`의 데이터와 현지화 절,
+exact ID·활성화 계약은 `content/meta/event_lifecycle.json`, metadata·제품 진입
+거부는 `tools/event_lifecycle.py`가 소유한다. packaged/shipping 사실은
+`content/meta/release_content_inventory.json`과 생성 보고서가 소유한다. 정확한
+155/28/158 수치, 기준 commit, 15단위, 파일 소유권과 검사 명령은 일회성 증거다.
+
+**남은 경계:** 구현 기준 `f7b9f6e`의 전체 `audit.sh`는 rc 1이며, 확인된 실패
+플래그는 `NARRATIVE_CONTINUITY_EXIT`, `FULL_RUN_PACING_EXIT`,
+`DEMO_PROSE_STYLE_EXIT`, `EXPOSED_STATE_EXIT`, `CORE_LOOP_V2_EXIT`,
+`SURFACE_COHERENCE_EXIT`, `STATUS_DOC_EXIT`, `SCENE_DIRECTION_RUNTIME_EXIT` 여덟
+개다. direction runtime의 미분류 edge는
+`arc_y5_three_in_room→arc_y5_three_in_room_decision`과
+`arc_final_countdown_not_executed→arc_final_week` 두 개다. `STATUS_DOC_EXIT`는
+이 closeout의 재생성으로 해소했으며, 현재 OPEN 7개는 별도 exact-scope 복구와 ORDER-119
+마감 전까지 OPEN으로 넘긴다. 이 전체 감사에서 leverage roundtrip 실패는 재현되지
+않았으므로 확인된 잔여에 넣지 않는다.
 
 **착수 선언 (2026-08-22):** GitHub Actions run `32490647155`와 같은 리비전의
 로컬 감사를 비교했다. ORDER-119 전후의 `audit.py` 출력은 byte-exact이고,
@@ -100,7 +132,8 @@ Year 5 감사기가 제품 consumer로 오인한다. ID를 숨기지 않고, 감
   같은 commit에서 모두 green이어야 한다.
 - L2: declared/exempt/product-ingress가 `155/155/0`, packaged/shipping이
   `1758/1603`, live inert baseline이 0인지 독립 재검한다. 모든 사건 JSON과 기존
-  audio/visual/direction manifest는 기준 commit과 byte-exact여야 한다.
+  visual/direction manifest는 기준 commit과 byte-exact이며, audio manifest는 승인된
+  `arc_final_countdown` 시작 문단 4→3 한 줄 외에 byte-exact여야 한다.
 - 이 배치가 전체 `audit.sh` green을 뜻하지 않는다. 남은 실패 목록과 기준 commit을
   완료 기록에 그대로 넘기며, 그 후속 복구와 ORDER-119 closure 전까지 CI 전체는 OPEN이다.
 

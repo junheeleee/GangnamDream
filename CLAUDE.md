@@ -12,12 +12,12 @@
 | 상품 정의 | **"나는 민준이다. 이번 달 누구에게 시간을 쓰고, 무엇을 놓칠지 정한다. 다음 달에는 그 대가를 산다."** 240주를 카드 목록이 아니라 한 편의 소설·영화처럼 인과·장면·연기·전환·여운으로 겪는다. 플레이어를 구경꾼으로 부르거나 숨은 도덕 점수를 설명하지 않는다. |
 | 현재 범위 | 1턴=1주, 240주(5년), **데모 제품 범위는 1~24주이며 W24 CTA에서 끝난다.** 본편 Chapter 1 제작 단위는 1~48주 한 해지만 25~48주는 아직 기존 폴백이며, 월간 정본 승인 전에는 완성 코어로 세지 않는다. 숫자 여력 4장을 돌려 쓰는 화면은 최종 코어가 아니다. 루틴은 자동으로 이어지고, 매달 실제 약속·기회·위기 중 무엇을 지키고 놓칠지 고르는 한 문법을 쓴다. W1~24 V2의 저장·영수증·월말 결산·원자적 선택은 이관 기준선으로 보존하고, 뒤 범위는 60개월 맵을 따라 장별로 옮긴다. |
 | 품질 게이트 | [`docs/MASTER_RELEASE_AUDIT.md`](docs/MASTER_RELEASE_AUDIT.md). 콘텐츠 수량보다 블랙박스 플레이, 한영 패리티, 패드 과업, 사람 기억·전환 증거로 판정한다. |
-| 최근 완료 | ORDER-117 구현 후보에서 107/109 지목 2편과 career 14편을 재작성하고 `after_goal`·`people_verdict` 2편을 exact 보존했다. KO/EN 16개 변경 root는 L1/L2 P0/P1 0·코드 토큰 0이며 Claude 재판정과 사용자 최종 GO는 OPEN이다. ORDER-118도 L3 대기 상태다. |
-| 바로 다음 | 먼저 ORDER-118 새 16편의 seed 9821 무작위 3편, 이어 ORDER-117의 107/109 새 2편 직접·career 15편 전수를 `Claude(사용자 위임)`으로 재판정한다. 사용자 최종 GO는 각각 별도 OPEN이고 새 replacement contract 전까지 R1b는 HOLD다. |
+| 최근 완료 | ORDER-121에서 사건 1,758편을 shipping 1,603편과 author-only 155편으로 분리하고 제품 진입 0·inert 기준선 0·정적 CI green을 증명했다. |
+| 바로 다음 | ORDER-119의 남은 전체 감사 7개 플래그를 별도 정확 범위로 닫고, 통과한 KO/EN 24주·KO 240주 후보를 마감한다. |
 | 열려 있는 사람 게이트 | 정본은 [`docs/human_gates.json`](docs/human_gates.json), 출력은 [`STATUS.md`](docs/STATUS.md)다. **개수 상한이 없다.** `delegated_reviews`는 Claude의 사용자 위임 판정 이력일 뿐 게이트를 닫지 않으며, `done`은 사용자 최종 GO만 가능하다. BUILD `.3`의 24주 게이트와 지역별 원어민 게이트도 계속 OPEN이다. **초록불은 계약을 지켰다는 뜻이지 좋다는 뜻이 아니다.** |
 | 그다음 | 새 career/startup 원고 L3 뒤 별도 계약 오더가 dormant R1a를 교체한다. 그 전에는 R1b·R2·JA/ZH 번역·ending 라우팅을 시작하지 않는다. 순서는 [`CODEX_QUEUE.md`](docs/CODEX_QUEUE.md)가 소유한다. |
 | 자산 조달 | **외주 0원.** 인물 디자인·작곡·UI 아트·유료 서체를 사지 않고 Codex와 무료 라이선스(임베딩이 허용된 OFL·CC0 등)로만 만든다. 인력·구매를 전제한 계획을 세우지 않는다. 생성 자산의 결함은 품질이 아니라 평균성이므로 동일 후처리·고정 서명·채택률로 이긴다. 정본은 `docs/DECISIONS.md` 2026-07-30 항목이 소유한다. |
-| 마지막 갱신 | 2026-08-21 (Codex: ORDER-117 18단위 L1/L2 후보·Claude 재판정/사용자 GO OPEN·R1b HOLD) |
+| 마지막 갱신 | 2026-08-22 (Codex: ORDER-121 author-only 생명주기·shipping corpus·정적 CI 복구 완료) |
 
 사용자가 새 지시를 주면 그것이 위 순서보다 우선한다.
 
@@ -89,6 +89,11 @@
 
 - KR 사건은 `content/events/`, EN은 `content/events_en/`의 text-only 오버레이다. gameplay key는 KR에만 둔다.
 - 새 플래그는 생산자와 실제 독자를 함께 가져야 한다. write-only·inert 기준선은 0이다.
+- 사건 생명주기는 `content/meta/event_lifecycle.json`이 소유한다. `author_only`는
+  package에는 있으나 제품에서 비도달인 reference 원고다. 숫자형 `weight=0`·
+  `hidden=true`·정확한 `conditions={min_turn:9999}`·제품 진입 0일 때만 dead/inert
+  감사에서 제외한다. 활성화할 때는 원장과 태그(있다면)에서 빼고 실제 ingress
+  계약을 함께 갱신한다.
 - 유저 표면 문자열은 `_tr(ko, en)`을 사용한다. 영어 표면에 한글이 새면 출시 차단이다.
 - EN 통화는 `billion/million won`, 라면은 `ramyeon`, 문맥으로 못 푸는 한국어 명사만 첫 등장에 짧게 설명한다.
 - 선택적 가상화 원칙: 서울·강남·전세·정선·카카오톡·코스피는 실명, 변동 자산·기업·단지는 투명 아날로그를 쓴다. 기존 asset/event id는 저장 호환 때문에 바꾸지 않는다.

@@ -19,6 +19,30 @@
 > 차례로 옮긴다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-22 (Codex — author-only 생명주기와 shipping corpus 분리)
+
+- 구현 `f7b9f6e53be1e06201b52360935593d372cb1ebb`(tree
+  `3f7687f5acac752ba024d91f2ae9bb4ca68deeee`)에서 packaged 1,758 / shipping
+  1,603 / author-only 155를 분리했다. tagged 127과 ledger-only 28의 exact 원장을
+  만들고 weight/hidden/min_turn metadata와 제품 ingress 0을 함께 만족한 155편만
+  dead/inert 감사에서 제외했다. `debt_baseline`은 올리지 않았고 `audit.py`는
+  ERROR 0·inert 0이다.
+- event director와 visual/audio/direction catalog는 shipping 1,603을 유지한다.
+  release inventory/report는 packaged 1,758을 계속 심의 대상으로 세며, author-only를
+  출시 package에서 지우거나 기존 manifest를 1,758로 부풀리지 않았다.
+- Year5 kernel Dictionary 3곳, `arc_final_countdown` cue 4→3, Chapter 1 source/proof
+  snapshot을 최소수리했다. lifecycle 27변이, release 14변이, year5 35변이·Godot
+  266검사, Chapter 1 472변이와
+  [정적 CI job](https://github.com/junheeleee/GangnamDream/actions/runs/32499196077)의
+  story map·정적 감사·밸런스가 통과했다. 독립 L2 최종 판정은 P0/P1 0이다.
+- 같은 구현의 전체 `audit.sh`는 rc 1이다. 확인된 잔여는 narrative continuity,
+  full-run pacing, demo prose, exposed state, CoreLoopV2, surface coherence, stale STATUS,
+  scene-direction runtime 여덟 플래그다. direction의 미분류 edge는
+  `arc_y5_three_in_room→arc_y5_three_in_room_decision`과
+  `arc_final_countdown_not_executed→arc_final_week`이다. STATUS는 이 closeout에서
+  재생성해 해소했고, 현재 OPEN 7개는 별도 exact-scope 복구와 ORDER-119 마감 전까지
+  넘긴다. leverage roundtrip 실패는 이번 전체 감사에서 재현되지 않았다.
+
 ## 2026-08-21 (Codex — ORDER-117 국소 수리·career 전수 판정 L1/L2 후보)
 
 - 구현 후보 `e32c69b32acfbf6c5f1ced13cc88bf85ac5df563`(tree
