@@ -909,7 +909,7 @@
       "id": "full_prose_order107_user_final_go",
       "domain": "narrative",
       "gate": "ORDER-107 M25~M36 원고 사용자 최종 서명",
-      "why": "한 편의 조건부 반려를 수리해도 사용자 최종 서명 전에는 정본 승격이 아니다.",
+      "why": "ORDER-117 구현 후보가 지목 장면을 수리했지만 Claude의 직접 재판정과 사용자 최종 서명 전에는 정본 승격이 아니다.",
       "owner": "ORDER-107", "state": "open",
       "scope": {"blocks": ["full"], "content": "ORDER-107 원고 20편과 지목 장면의 재작성"},
       "revision": "full_rc",
@@ -920,12 +920,14 @@
           "seed 9821 추출 1/3: arc_y3_father_after_visit_document — 두 문서의 같은 칸 [신규] 미달; ORDER-117 대상",
           "seed 9821 추출 2/3: arc_y3_truth_heard_by_none — 전송하지 않은 문장 [신규] 합격",
           "seed 9821 추출 3/3: arc_y3_cost_after_repaid — 두 장의 날짜 [신규] 합격",
-          "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
+          "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축",
+          "ORDER-117 후보 e32c69b32acfbf6c5f1ced13cc88bf85ac5df563 / tree a6f0a4050862e717d7eb4b365b557bcc5a409e3f의 arc_y3_father_after_visit_document 재작성본을 기존 seed 표본으로 대체하지 않고 같은 세 축으로 직접 재판정"
         ]
       },
       "acceptance": [
-        "arc_y3_father_after_visit_document를 사람·현재 손실·여운이 있는 사건으로 재작성",
-        "재작성본을 직접 재판정한 뒤 사용자가 최종 GO"
+        "새 장면이 아버지의 현재 목소리·부자 사이 현재 손실·다음 여운을 모두 가짐",
+        "Claude(사용자 위임)가 재작성본을 직접 재판정해 GO",
+        "사용자가 ORDER-107에 최종 GO"
       ],
       "delegated_reviews": [{
         "decided_at": "2026-08-21", "decided_by": "Claude(사용자 위임)", "authority": "user_delegated",
@@ -968,7 +970,7 @@
       "id": "full_prose_order109_user_final_go",
       "domain": "narrative",
       "gate": "ORDER-109 반복·보고체·시계 도입 보정 사용자 최종 서명",
-      "why": "M34 수리는 통과했지만 한 장면의 조건부 반려가 남았고 사용자 최종 서명도 열려 있다.",
+      "why": "ORDER-117 구현 후보가 지목 장면을 수리했지만 Claude의 직접 재판정과 사용자 최종 서명 전에는 정본 승격이 아니다.",
       "owner": "ORDER-109", "state": "open",
       "scope": {"blocks": ["full"], "content": "ORDER-109 보정 16편과 지목 장면의 재작성"},
       "revision": "full_rc",
@@ -979,12 +981,14 @@
           "seed 9821 추출 1/3: arc_y3_cost_after_distanced — 관리실의 무표기 봉투 [개작] 합격; M34 수리 확인",
           "seed 9821 추출 2/3: arc_y2_money_structure — 첫 상환액의 출처 [개작] 미달; ORDER-117 대상",
           "seed 9821 추출 3/3: arc_y3_cost_after_forgiven — 식은 커피의 거리 [개작] 합격; M34 수리 확인",
-          "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
+          "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축",
+          "ORDER-117 후보 e32c69b32acfbf6c5f1ced13cc88bf85ac5df563 / tree a6f0a4050862e717d7eb4b365b557bcc5a409e3f의 arc_y2_money_structure 재작성본을 기존 seed 표본으로 대체하지 않고 같은 세 축으로 직접 재판정"
         ]
       },
       "acceptance": [
-        "arc_y2_money_structure에 실제 사람과 그 사람에게서 잃는 것을 넣어 재작성",
-        "재작성본을 직접 재판정한 뒤 사용자가 최종 GO"
+        "새 장면이 실제 상대의 목소리·현재 손실·다음 여운을 모두 가지며 non-live 분기에 임의 인물을 만들지 않음",
+        "Claude(사용자 위임)가 재작성본을 직접 재판정해 GO",
+        "사용자가 ORDER-109에 최종 GO"
       ],
       "delegated_reviews": [{
         "decided_at": "2026-08-21", "decided_by": "Claude(사용자 위임)", "authority": "user_delegated",
@@ -1055,7 +1059,7 @@
       "id": "full_prose_order112_user_final_go",
       "domain": "narrative",
       "gate": "ORDER-112 career 세로줄 사용자 최종 서명",
-      "why": "한 편만 보존하고 나머지 15편을 재판정해야 하며 사용자 최종 서명 전에는 정본 승격이 아니다.",
+      "why": "ORDER-117 구현 후보가 after_goal 1편을 잠그고 나머지 15편을 L2 전수 판정해 14편을 재작성·people_verdict 1편을 유지했지만, Claude의 15편 전수 재판정과 사용자 최종 서명 전에는 정본 승격이 아니다.",
       "owner": "ORDER-112", "state": "open",
       "scope": {"blocks": ["full", "year5-r1b"], "content": "ORDER-112 career 16편 중 보존 1편과 재판정 15편"},
       "revision": "full_rc",
@@ -1066,13 +1070,17 @@
           "seed 9821 추출 1/3: arc_y5_after_goal_hyunsu_career — 이름보다 먼저 물을 것 [신규] 합격; 보존 대상",
           "seed 9821 추출 2/3: arc_y5_contract_result_delivered_hyunsu_career — 실행본을 건넨 시각 [신규] 미달; 코드 토큰 4",
           "seed 9821 추출 3/3: arc_y5_name_copy_delivered_hyunsu_career — 회전문 앞의 두 번째 사본 [신규] 미달; 코드 토큰 6",
-          "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
+          "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축",
+          "ORDER-117 후보 e32c69b32acfbf6c5f1ced13cc88bf85ac5df563 / tree a6f0a4050862e717d7eb4b365b557bcc5a409e3f의 career 모집단 16편",
+          "arc_y5_after_goal_hyunsu_career는 KO 0f813ff0292bb46f1e03cac8fbf66e79d807f88d7238a0c671a04782e32bc923 / EN 875b9e909f882712bf380b265c593327208599834bf339fc7d3acbe97fed2982 byte-exact 보존",
+          "arc_y5_people_verdict_career_hyunsu를 포함한 나머지 15편 전수 낭독; 무작위 3편으로 대체하지 않음"
         ]
       },
       "acceptance": [
-        "arc_y5_after_goal_hyunsu_career는 byte-exact 보존",
-        "나머지 15편 전수 재판정과 필요한 재작성 완료",
-        "사용자가 최종 GO"
+        "arc_y5_after_goal_hyunsu_career KO/EN object가 위 SHA로 exact 보존됨",
+        "Claude(사용자 위임)가 나머지 15편 각각을 세 축 모두 GO로 판정",
+        "사용자가 ORDER-112에 최종 GO",
+        "이 GO만으로 R1b를 열지 않고 별도 replacement contract 전까지 HOLD"
       ],
       "delegated_reviews": [{
         "decided_at": "2026-08-21", "decided_by": "Claude(사용자 위임)", "authority": "user_delegated",

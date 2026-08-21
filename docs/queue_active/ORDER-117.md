@@ -36,9 +36,12 @@ runtime/save/UI/balance/endings·JA/ZH는 byte-exact다.
 2. `arc_y2_money_structure` 재작성. `open_debt`의 실제 counterparty receipt가 있을
    때만 그 사람을 불러오고, 사람 없는 기한·설명·미납 순열을 폐기한다. 실제 상대가
    없는 selector에서는 non-live로 남기며 임의 인물을 만들지 않는다.
-3. `arc_y5_after_goal_hyunsu_career` 보존 잠금.
-   KO object SHA-256 `67360c31ba51e675682dfbb68613f119998aed4bc5c8a9a3bfbe3ed2c68b33eb`,
-   EN object SHA-256 `58b2c860ee783e3562aca4cb1b2fff9a61c42e21da649fb01e8146e7582fd57f`.
+3. `arc_y5_after_goal_hyunsu_career` 보존 잠금. 기존 803a 원문 SHA를 옮긴
+   선언은 오류이며, 선언 계보 `8a1436629fa2ca589d76a4cf52d1b465aa81b0b3`와
+   구현 직전 기준 `921edf7e7eb04b5034bb3b788249875630619887`의 현재 자연화
+   object가 보존 정본이다.
+   KO object SHA-256 `0f813ff0292bb46f1e03cac8fbf66e79d807f88d7238a0c671a04782e32bc923`,
+   EN object SHA-256 `875b9e909f882712bf380b265c593327208599834bf339fc7d3acbe97fed2982`.
 4. `arc_y5_contract_cover_career`
 5. `arc_y5_contract_reviewer_delivery_minseo_career`
 6. `arc_y5_protection_boundary_hyunsu_career`
@@ -79,6 +82,16 @@ balance/endings, ORDER-104~111의 비대상 원고, JA/zh-CN/zh-TW.
 - L3: 107·109의 새 두 편은 반드시 직접 재판정한다. career는 15편 전수 판정을
   무작위 3편으로 대체하지 않는다. 기록은 `Claude(사용자 위임)`이며 사용자 최종
   GO와 구분한다.
+
+**구현 후보 (2026-08-21):** `e32c69b3` / tree `a6f0a405`. 18단위를 전수 판정해
+1·2·4~13·15~18의 16 roots를 KO/EN 함께 재작성했고, 3번
+`arc_y5_after_goal_hyunsu_career`와 14번
+`arc_y5_people_verdict_career_hyunsu`는 exact 보존했다. people verdict의 보존
+SHA-256은 KO `5f335f4807593d585eac1648aefa803c48936d8478dcb558c4d28ba882e23f5d`,
+EN `d72c1485544b0819dd5aa67fac1e747ce8c7734fbc4858ad11d2dbf57096ed4a`다.
+대상 metadata·choice count·placeholder는 exact, description은 300~800,
+플레이어 노출 code-token/backtick은 0이며 L1/L2 P0/P1은 0이다. Claude의 지목
+2편 직접·career 15편 전수 재판정과 사용자 최종 GO는 OPEN이고 R1b는 HOLD다.
 
 ## 정본·일회성 판정
 

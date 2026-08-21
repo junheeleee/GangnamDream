@@ -60,7 +60,7 @@
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
 | 1 | [~] | ORDER-118 · startup 전면 재설계·코드 토큰 제거 | [118](queue_active/ORDER-118.md) | L1/L2 GO · 16편/27선택·코드 토큰 0 · seed 9821 3편 Claude(사용자 위임) L3 대기 · 사용자 최종 GO OPEN · R1b HOLD |
-| 2 | [~] | ORDER-117 · 107/109 국소 수리·career 15편 재판정 | [117](queue_active/ORDER-117.md) | 착수 · 18단위 exact scope 선언 · 사용자 최종 GO OPEN · R1b HOLD |
+| 2 | [~] | ORDER-117 · 107/109 국소 수리·career 15편 재판정 | [117](queue_active/ORDER-117.md) | L1/L2 GO · 18단위 전수·16 roots 재작성·after_goal/people_verdict exact 보존·코드 토큰 0 · 107/109 새 2편 직접+career 15편 Claude(사용자 위임) 전수 L3 대기 · 사용자 최종 GO OPEN · R1b HOLD |
 | 3 | [~] | ORDER-103 · M01~M06 월간 약속을 직접 고르는 독립 체험판을 만든다 | [103](queue_active/ORDER-103.md) | 이미지 장면 카드·호버/포커스 L1/L2 GO · 월 마감 보존 · 사용자 L3 대기 |
 | 4 | [~] | ORDER-99 · SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | [99](queue_active/ORDER-99.md) | BUILD `.3` L1/L2 — 사용자 저장 확인 대기 |
 | 5 | [~] | ORDER-97 · LOC-0.5 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | L1/L2 — 최신 후보·A/B 각 3표면 L3 대기 |

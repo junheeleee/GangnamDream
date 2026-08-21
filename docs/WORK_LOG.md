@@ -19,6 +19,24 @@
 > 차례로 옮긴다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-21 (Codex — ORDER-117 국소 수리·career 전수 판정 L1/L2 후보)
+
+- 구현 후보 `e32c69b32acfbf6c5f1ced13cc88bf85ac5df563`(tree
+  `a6f0a4050862e717d7eb4b365b557bcc5a409e3f`)에서 107/109 지목 2편과 career
+  15편을 세 축으로 전수 판정했다. 지목 2편과 career 14편을 재작성해 KO/EN 각각
+  exact changed roots는 16개이며, 비대상 object·metadata·choice count는 기준
+  `921edf7e7eb04b5034bb3b788249875630619887`과 exact다.
+- `arc_y5_after_goal_hyunsu_career`는 KO
+  `0f813ff0292bb46f1e03cac8fbf66e79d807f88d7238a0c671a04782e32bc923`, EN
+  `875b9e909f882712bf380b265c593327208599834bf339fc7d3acbe97fed2982`로 보존했고,
+  `arc_y5_people_verdict_career_hyunsu`도 baseline exact다. description은 KO
+  394~525자·EN 691~799자, 한영 leaf·placeholder parity exact, generalized
+  code-token/backtick은 0이다.
+- year5 direct/self-test 34, EN coverage, story consistency, speech register,
+  random-pool hygiene와 diff 검사가 통과했고 독립 L2 후 최종 P0/P1은 0이다.
+  ORDER-117은 `[~]`로 두며 Claude의 지목 2편 직접·career 15편 전수 재판정과
+  사용자 최종 GO는 OPEN, R1b는 HOLD다.
+
 ## 2026-08-21 (Codex — ORDER-118 startup 마지막 해 재설계 L1/L2 후보)
 
 - 구현 후보 `f425b812d72664c2baeeb746aa6ce0b5f6299c0f`(tree
