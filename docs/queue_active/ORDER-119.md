@@ -24,7 +24,10 @@ authored-result-only 표면에 맞춘다. 네 갈래 주차 원장의 다섯 정
 표면에 맞춘다. 같은 변경이 dormant year5 경계의 보호 파일 해시도 바꾸므로, 현재
 런타임 의미를 건드리지 않고 그 보호 해시만 새 후보 바이트에 맞춘다. 일본어 파이프라인의
 변이 self-test도 폐기 전 호출 수를 코드에 고정하고 있어, 검사의 강도를 낮추지 않고 새
-원장 exact 값으로 갱신한다. 만지는 파일은 정확히 다음 25개뿐이며
+원장 exact 값으로 갱신한다. 결과·저장 소유 파일의 바이트가 바뀌면서 Chapter 1 인과
+원장의 source snapshot과 직접 runtime-proof binding도 낡았으므로, 사건·부채 의미는
+바꾸지 않고 현재 후보의 위치·해시·semantic digest만 다시 고정한다. 만지는 파일은
+정확히 다음 27개뿐이며
 `project.godot`은 수정·스테이징하지 않는다.
 
 - `scenes/MainGame.gd`, `scenes/StoryMode.gd`, `scenes/JobHuntMiniGame.gd`, `scenes/ArubaGame.gd`
@@ -33,8 +36,10 @@ authored-result-only 표면에 맞춘다. 네 갈래 주차 원장의 다섯 정
 - `tools/ScreenshotQA.gd`, `tools/TextMaterialCheck.gd`, `tools/StoryPlaybackCheck.gd`
 - `tools/player_surface_language_audit.py`, `tools/demo_localization_scope.py`
 - `tools/ja_translation_pipeline.py`
+- `tools/chapter1_core_loop_v2_causal_ledger_check.py`
 - `tools/audit.sh`, `tools/audit_scope.json`
 - `content/meta/demo_localization_scope.json`, `content/meta/year5_reference_routes.json`, `locale/ui_ja.json`
+- `content/meta/chapter1_core_loop_v2_causal_ledger.json`
 - `CLAUDE.md`, `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-119.md`
 - `docs/WORK_LOG.md`, `docs/STATUS.md`, `docs/DECISIONS.md`
 
