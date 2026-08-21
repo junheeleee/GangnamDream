@@ -17,11 +17,14 @@ literal 밖 동적 조립으로 같은 수치를 만드는 `StoryMode` 결과 �
 `StoryMode`의 기계식 결과 카드를 폐기하자 기존 `TextMaterialCheck`와
 `StoryPlaybackCheck`, 데모 번역 범위 검사도 폐기된 결과 함수·카드를 계속 요구하는
 계약 충돌이 드러났다. 숨은 카드나 빈 호환 함수를 되살리지 않고 세 검사를 새
-authored-result-only 표면에 맞춘다. 만지는 파일은 정확히 다음 20개뿐이며
+authored-result-only 표면에 맞춘다. 네 갈래 주차 원장의 다섯 정수 필드는 기존
+저장 손상 진단에도 등록해 타입 오류 전 백업 복구 경계를 유지한다. 만지는 파일은
+정확히 다음 21개뿐이며
 `project.godot`은 수정·스테이징하지 않는다.
 
 - `scenes/MainGame.gd`, `scenes/StoryMode.gd`, `scenes/JobHuntMiniGame.gd`, `scenes/ArubaGame.gd`
-- `autoloads/GameState.gd`, `systems/InvestmentSystem.gd`, `systems/JobSystem.gd`
+- `autoloads/GameState.gd`, `autoloads/SaveManager.gd`
+- `systems/InvestmentSystem.gd`, `systems/JobSystem.gd`
 - `tools/ScreenshotQA.gd`, `tools/TextMaterialCheck.gd`, `tools/StoryPlaybackCheck.gd`
 - `tools/player_surface_language_audit.py`, `tools/demo_localization_scope.py`
 - `tools/audit.sh`, `tools/audit_scope.json`
