@@ -29,7 +29,11 @@ authored-result-only 표면에 맞춘다. 네 갈래 주차 원장의 다섯 정
 바꾸지 않고 현재 후보의 위치·해시·semantic digest만 다시 고정한다. dormant year5
 감사기는 현재 제품 보호 해시뿐 아니라 보호 기준 커밋도 고정하므로, 반려된 R1a
 snapshot은 그대로 둔 채 먼저 만든 구현 커밋을 새 current-file 기준으로 읽도록
-갱신한다. 만지는 파일은 정확히 다음 28개뿐이며
+갱신한다. 실제 KO 240주 직렬 실행에서는 W48 `arc_year1_close` 뒤 런타임이 자동으로
+붙이는 `arc_year1_scene` 전환이 원장에 없어 안전 검사가 중단됐다. 제품 진행 정지가
+아니며, 같은 구조의 1~4년차 연말 큐 연결 네 곳을 기존 장면과 같은 장소 안의
+`same_location` 전환으로 명시하고 생성 매니페스트를 다시 고정한다. 만지는 파일은
+정확히 다음 30개뿐이며
 `project.godot`은 수정·스테이징하지 않는다.
 
 - `scenes/MainGame.gd`, `scenes/StoryMode.gd`, `scenes/JobHuntMiniGame.gd`, `scenes/ArubaGame.gd`
@@ -43,11 +47,12 @@ snapshot은 그대로 둔 채 먼저 만든 구현 커밋을 새 current-file �
 - `tools/audit.sh`, `tools/audit_scope.json`
 - `content/meta/demo_localization_scope.json`, `content/meta/year5_reference_routes.json`, `locale/ui_ja.json`
 - `content/meta/chapter1_core_loop_v2_causal_ledger.json`
+- `content/meta/story_rules.json`, `assets/scene_direction_manifest.json`
 - `CLAUDE.md`, `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-119.md`
 - `docs/WORK_LOG.md`, `docs/STATUS.md`, `docs/DECISIONS.md`
 
 `docs/DECISIONS.md`는 기존 정본으로 설명되지 않는 새 규칙이 실제로 생길 때만
-수정한다. 사건 원고·밸런스·story map·save manager·ending·에셋·현지화 JSON과
+수정한다. 사건 원고·밸런스·story map·save manager·ending·위 두 파일 밖의 에셋·현지화 JSON과
 `content/meta/demo_core_loop_v2.json`의 `runtime_default`는 범위 밖이다.
 
 ## 착수 전 멈춤 진단
