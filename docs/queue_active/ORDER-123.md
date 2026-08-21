@@ -42,8 +42,9 @@ byte-exact이며, 선행 audit red가 사라져 처음 실제입력 단계까지
   키와 preview identity가 정확히 같을 때만 Board에 건넨다.
 - compact 화면은 후보 목록만 최대 두 행 높이의 세로 scroll 영역으로 만들고,
   포커스 후보를 자동으로 보이게 한다. 설명·진전·deadline·Commit은 고정해 숨기지 않는다.
-- 0개는 노드를 잠그고, 1개도 자동 선택하지 않으며, 2~4개는 canonical lexical order로
-  전부 남긴다. South가 명시 선택하고 East는 commit 전 선택만 되돌리며 상태를 쓰지 않는다.
+- 0개는 노드를 잠근다. ordinary 후보 1개도 South로 명시 선택하고, source-bound terminal
+  후보가 단독으로 남은 경우에만 기존 `terminal_auto`를 보존한다. 2~4개는 canonical lexical
+  order로 전부 남긴다. East는 commit 전 선택만 되돌리며 상태를 쓰지 않는다.
 - ScreenshotQA 실제입력은 desired bundle이 terminal binding으로 치환됐으면 candidate
   record의 `bundle_id`로 찾아 record `id`를 누른다. receipt에서 candidate/bundle/route를
   각각 대조하고 하나로 간주하지 않는다.
@@ -56,12 +57,14 @@ byte-exact이며, 선행 audit red가 사라져 처음 실제입력 단계까지
   실행한다. 3개는 실패한 W9 exact IDs, 4개는 reachable M3 union을 쓴다.
 - 3개에서는 Hyunsu terminal을, 4개에서는 마지막 후보를 raw 방향키/패드로 찾아
   candidate/bundle/route tuple, 선택 preview, Commit, emit, state-byte neutrality를 확인한다.
-- 5개, missing/wrong `selected_trigger_candidate_id`, sibling substitution,
-  candidate/bundle/route cross-wire는 open 또는 Commit을 fail-closed하고 emit/state 변화 0이다.
+- 5개, raw record type·KO/EN label/detail 결손, missing/wrong
+  `selected_trigger_candidate_id`, sibling substitution, candidate/bundle/route cross-wire는
+  open 또는 Commit을 fail-closed하고 emit/state 변화 0이다.
 - compact에서 후보 scroll viewport·focused button·trailing rows·Commit rect가 모두
   Board 안에 있고 `seoul_cycle_preview_layout_clearance >= 0`; label ellipsis와 잘림이 없다.
 - `CoreLoopV2CycleCheck`는 current W9 exact 3개와 reachable legal max 4를 producer에서
-  고정하고 5개·terminal identity 변이를 거부한다.
+  고정하고 재구성할 수 없는 fifth state·terminal identity 변이를 거부한다. Board의 실제
+  5-record 상한은 ScreenshotQA와 static demo audit가 따로 증명한다.
 - `demo_core_loop_v2_audit.py`는 Board declared max와 현재 data/terminal-union 최대치를
   대조해 max2 회귀와 unbounded 완화를 거부한다. `audit_scope`는 Board 변경이 이 검사의
   direct+self-test를 반드시 선택하도록 한다.

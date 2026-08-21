@@ -2881,44 +2881,15 @@ func _shot_core_loop_v2_fresh_month_one_cycle(
 	GameState.flags["chapter_33_seen"] = true
 	GameState.flags["tutorial_shown"] = true
 	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
-	if not bool(core_loop.initialize_for_run(true)):
+	if not bool(core_loop.initialize_for_run(true)) \
+			or not bool(core_loop.begin_fresh_w1_onboarding()):
 		_fail("Core Loop V2 fresh Seoul Cycle fixture could not initialize.")
-		return
-	var send_event: Dictionary = DataRegistry.find_event(
-		core_loop.OPENING_APPLICATION_EVENT_ID)
-	var send_choices: Array = send_event.get("choices", [])
-	var interview: Dictionary = DataRegistry.find_event("arc_intro_01_meal")
-	var interview_choices: Array = interview.get("choices", [])
-	var calculation: Dictionary = DataRegistry.find_event(
-		"v2_opening_return_math")
-	var calculation_choices: Array = calculation.get("choices", [])
-	if send_choices.size() != 1 or interview_choices.size() != 2 \
-			or calculation_choices.size() != 2 \
-			or not GameState.apply_choice(
-				send_event, send_choices[0] as Dictionary) \
-			or not core_loop.note_story_choice(
-				core_loop.OPENING_APPLICATION_EVENT_ID, 0):
-		_fail("Core Loop V2 fresh Seoul Cycle fixture could not commit Send.")
-		return
-	core_loop.prepare_story_bundle(core_loop.OPENING_INTERVIEW_BUNDLE_ID)
-	if not GameState.apply_choice(
-			interview, interview_choices[0] as Dictionary) \
-			or not core_loop.note_story_choice("arc_intro_01_meal", 0) \
-			or not GameState.apply_choice(
-				calculation, calculation_choices[0] as Dictionary) \
-			or not core_loop.note_story_choice(
-				"v2_opening_return_math", 0):
-		_fail("Core Loop V2 fresh Seoul Cycle fixture could not finish its opening.")
-		return
-	core_loop.restore_story_bundle_followups()
-	if core_loop.complete_active_bundle() \
-			!= core_loop.OPENING_INTERVIEW_BUNDLE_ID:
-		_fail("Core Loop V2 fresh Seoul Cycle fixture could not consume its opening.")
 		return
 
 	var initialized: Dictionary = core_loop.initialize_seoul_cycle(1)
 	if not bool(initialized.get("ok", false)) \
-			or not core_loop.plan_uses_seoul_cycle(core_loop.plan_for_month(1)):
+			or not core_loop.plan_uses_seoul_cycle(core_loop.plan_for_month(1)) \
+			or core_loop.fresh_w1_onboarding_phase() != "board":
 		_fail("Core Loop V2 fresh Month One did not initialize Seoul Cycle: %s." % [
 			str(initialized)])
 		return
@@ -2944,40 +2915,40 @@ func _shot_core_loop_v2_fresh_month_one_cycle(
 		return
 	var capacity_id := str((capacities[0] as Dictionary).get("id", ""))
 	var capacity_button := capacity_buttons.get(capacity_id) as Button
-	var recovery_button := node_buttons.get("recovery") as Button
-	if not is_instance_valid(capacity_button) or not is_instance_valid(recovery_button):
-		_fail("Fresh Seoul Cycle cannot reach its first capacity and recovery node.")
+	var resume_button := node_buttons.get("resume") as Button
+	if not is_instance_valid(capacity_button) or not is_instance_valid(resume_button):
+		_fail("Fresh Seoul Cycle cannot reach its first capacity and resume node.")
 		return
 	capacity_button.pressed.emit()
 	await _settle(0.08)
-	recovery_button.grab_focus()
+	resume_button.grab_focus()
 	await get_tree().process_frame
 	if not _assert_seoul_cycle_preview_full_label(
-			board, "recovery", lang):
+			board, "resume", lang):
 		return
 	var expected_preview: Dictionary = core_loop.preview_seoul_cycle_allocation(
-		capacity_id, "recovery", 1)
+		capacity_id, "resume", 1)
 	if str(board.get_meta("seoul_cycle_selected_die_id", "")) != capacity_id \
 			or not str(board.get_meta("seoul_cycle_selected_node_id", "")).is_empty() \
-			or str(board.get_meta("seoul_cycle_focus_id", "")) != "recovery" \
+			or str(board.get_meta("seoul_cycle_focus_id", "")) != "resume" \
 			or int(board.get_meta("seoul_cycle_preview_progress_delta", 0)) \
 				!= int(expected_preview.get("progress_gain", -1)):
 		_fail("Seoul Cycle focus changed selection or previewed a different gain.")
 		return
 	await _save(prefix + "10f_seoul_cycle_capacity_preview", 0.05)
-	recovery_button.pressed.emit()
+	resume_button.pressed.emit()
 	await _settle(0.10)
 	var commit_button := board.get("_commit_button") as Button
 	if not is_instance_valid(commit_button) or commit_button.disabled \
-			or str(board.get_meta("seoul_cycle_selected_node_id", "")) != "recovery":
+			or str(board.get_meta("seoul_cycle_selected_node_id", "")) != "resume":
 		_fail("Seoul Cycle exact preview did not unlock one explicit commit action.")
 		return
 	await _save(prefix + "10g_seoul_cycle_ready", 0.05)
 
 	var commit_result: Dictionary = core_loop.commit_seoul_cycle_allocation(
-		capacity_id, "recovery", 1)
+		capacity_id, "resume", 1)
 	if not bool(commit_result.get("ok", false)):
-		_fail("Seoul Cycle recovery allocation could not commit for after-state capture.")
+		_fail("Seoul Cycle resume allocation could not commit for after-state capture.")
 		return
 	board.refresh(_mg._core_loop_v2_cycle_surface_snapshot())
 	await _settle(0.16)
@@ -3123,8 +3094,22 @@ func _assert_seoul_cycle_board_surface(
 			_fail("Core Loop V2 %s card %s still ellipsizes its short label: text=%.1fpx slot=%.1fpx." % [
 				context, node_id, title_width, title.size.x])
 			return false
-	if not board.find_children("*", "ScrollContainer", true, false).is_empty():
-		_fail("Core Loop V2 %s introduced a scroll surface on the decision board." % context)
+	var scroll_surfaces := board.find_children(
+		"*", "ScrollContainer", true, false)
+	var candidate_scroll := board.get("_trigger_candidate_scroll") \
+		as ScrollContainer
+	var candidate_panel := board.get("_trigger_candidate_panel") as Control
+	if scroll_surfaces.size() != 1 \
+			or not is_instance_valid(candidate_scroll) \
+			or scroll_surfaces[0] != candidate_scroll \
+			or not bool(candidate_scroll.get_meta(
+				"seoul_cycle_trigger_candidate_scroll", false)):
+		_fail("Core Loop V2 %s exposed an unexpected decision-board scroll surface." % context)
+		return false
+	if not is_instance_valid(candidate_panel) \
+			or candidate_panel.visible \
+			or candidate_scroll.size != Vector2.ZERO:
+		_fail("Core Loop V2 %s showed the candidate-only scroll surface without candidates." % context)
 		return false
 	var surface_text := _collect_control_text(board)
 	var remaining_capacity := int(board.get_meta(
@@ -3366,7 +3351,7 @@ func _shot_first_bill_finale_surfaces(lang: String, prefix: String) -> void:
 	var expression_markers := [
 		_tr("“괜찮으니까 신경 쓰지 마라.”", "“I'm fine. Don't worry about it.”"),
 		_tr("현재 잔액", "Subtracting this month's fixed costs"),
-		_tr("손목과 허리 어디가 당기는지", "He checks his wrists and back for strain"),
+		_tr("손목과 허리에 뚜렷한 통증이 있는지", "checks his wrists and back for any distinct pain"),
 	]
 	for expression_index in range(3):
 		if not _prepare_first_bill_fixture("career_daeun"):
@@ -9264,6 +9249,8 @@ func _run_core_loop_v2_input_route(
 	var w1_job_hunt_answers := 0
 	var w1_job_hunt_review_inputs := 0
 	var w1_send_inputs := 0
+	var hyunsu_terminal_allocation_week := 0
+	var hyunsu_followup_story_week := 0
 
 	for _step in range(50000):
 		await get_tree().create_timer(0.012).timeout
@@ -9319,6 +9306,12 @@ func _run_core_loop_v2_input_route(
 				if event_id == "arc_temptation_01" and int(GameState.turn) == 4:
 					story_record["seoul_cycle_echo"] = str(
 						core_loop.month_one_episode_echo())
+				if event_id == "v2_hyunsu_study_followup":
+					if hyunsu_followup_story_week != 0 \
+							or int(GameState.turn) != 9:
+						_fail("Hyunsu's terminal-bound study follow-up did not open exactly once in Week 9.")
+						return false
+					hyunsu_followup_story_week = int(GameState.turn)
 				story_sequence.append(story_record)
 				print("CORE_LOOP_V2_INPUT_STORY device=%s week=%d id=%s" % [
 					input_mode, int(GameState.turn), event_id])
@@ -9624,7 +9617,8 @@ func _run_core_loop_v2_input_route(
 				var node_id := _seoul_cycle_input_node_for_turn(
 					core_loop, cycle_snapshot, int(GameState.turn), cycle_path)
 				var capacity_id := _seoul_cycle_input_capacity_for_turn(
-					cycle_snapshot, int(GameState.turn), cycle_path, node_id)
+					core_loop, cycle_snapshot, int(GameState.turn),
+					cycle_path, node_id)
 				var capacity_button := _find_visible_meta_value_button(
 					cycle_board, "seoul_cycle_die_id", capacity_id)
 				var node_button := _find_visible_meta_value_button(
@@ -9654,8 +9648,11 @@ func _run_core_loop_v2_input_route(
 							"seoul_cycle_selected_node_id", "")) != node_id:
 					_fail("Week %d node selection did not expose one commit target." % GameState.turn)
 					return false
-				var selected_trigger_id := _seoul_cycle_input_trigger_for_node(
-					cycle_snapshot, node_id)
+				var trigger_selection := \
+					_seoul_cycle_input_trigger_selection(
+						core_loop, cycle_snapshot, node_id)
+				var selected_trigger_id := str(trigger_selection.get(
+					"candidate_id", ""))
 				if bool(cycle_board.get_meta(
 						"seoul_cycle_trigger_selection_required", false)):
 					if selected_trigger_id.is_empty():
@@ -9691,6 +9688,32 @@ func _run_core_loop_v2_input_route(
 							or get_viewport().gui_get_focus_owner() != commit_button:
 						_fail("Week %d raw people choice did not unlock exact Commit." % GameState.turn)
 						return false
+				var selected_preview: Dictionary = cycle_board.call(
+					"_preview_for", capacity_id, node_id)
+				var expected_trigger_candidate_id := str(selected_preview.get(
+					"selected_trigger_candidate_id", "")).strip_edges()
+				var expected_trigger_bundle_id := str(selected_preview.get(
+					"selected_trigger_bundle_id", "")).strip_edges()
+				var expected_trigger_route_id := str(selected_preview.get(
+					"selected_terminal_route_id", "")).strip_edges()
+				if not selected_trigger_id.is_empty():
+					var preview_identity := expected_trigger_candidate_id \
+						if not expected_trigger_candidate_id.is_empty() \
+						else expected_trigger_bundle_id
+					if preview_identity != selected_trigger_id \
+							or expected_trigger_bundle_id != str(
+								trigger_selection.get("bundle_id", "")) \
+							or expected_trigger_route_id != str(
+								trigger_selection.get("route_id", "")):
+						_fail("Week %d people preview cross-wired candidate=%s/%s bundle=%s/%s route=%s/%s." % [
+							GameState.turn,
+							preview_identity, selected_trigger_id,
+							expected_trigger_bundle_id,
+							str(trigger_selection.get("bundle_id", "")),
+							expected_trigger_route_id,
+							str(trigger_selection.get("route_id", "")),
+						])
+						return false
 				if not cycle_cancel_checked:
 					await _send_seoul_cycle_cancel(input_mode)
 					if str(cycle_board.get_meta(
@@ -9721,23 +9744,54 @@ func _run_core_loop_v2_input_route(
 				var receipt: Dictionary = (after_allocation.get(
 					"allocation_receipts", {}) as Dictionary).get(
 					str(turn_before_commit), {})
+				var receipt_details: Dictionary = (receipt.get(
+					"weekly_commitment", {}) as Dictionary).get("details", {})
 				if str(receipt.get("capacity_id", "")) != capacity_id \
 						or str(receipt.get("node_id", "")) != node_id \
 						or int(receipt.get("turn", 0)) != turn_before_commit \
 						or (not selected_trigger_id.is_empty() \
 							and (str(receipt.get(
-								"selected_trigger_bundle_id", "")) \
-									!= selected_trigger_id \
-								or str(((receipt.get(
-									"weekly_commitment", {}) as Dictionary).get(
-										"details", {}) as Dictionary).get(
-											"selected_trigger_bundle_id", "")) \
-									!= selected_trigger_id)):
+								"selected_trigger_candidate_id", "")) \
+									!= expected_trigger_candidate_id \
+								or str(receipt.get(
+									"selected_trigger_bundle_id", "")) \
+									!= expected_trigger_bundle_id \
+								or str(receipt.get(
+									"selected_terminal_route_id", "")) \
+									!= expected_trigger_route_id \
+								or str(receipt_details.get(
+									"selected_trigger_candidate_id", "")) \
+									!= expected_trigger_candidate_id \
+								or str(receipt_details.get(
+									"selected_trigger_bundle_id", "")) \
+									!= expected_trigger_bundle_id \
+								or str(receipt_details.get(
+									"selected_terminal_route_id", "")) \
+									!= expected_trigger_route_id)):
 					_fail("Week %d board commit did not persist its exact allocation receipt." % turn_before_commit)
 					return false
+				if turn_before_commit == 9:
+					var expected_w9_route := \
+						"m2_people_completed_hyunsu_to_m3_followup"
+					if selected_trigger_id != "terminal:%s" % expected_w9_route \
+							or expected_trigger_candidate_id \
+								!= selected_trigger_id \
+							or expected_trigger_bundle_id \
+								!= "hyunsu_study_followup" \
+							or expected_trigger_route_id != expected_w9_route:
+						_fail("Week 9 did not choose the source-bound Hyunsu candidate/bundle/route tuple: node=%s candidate=%s receipt_candidate=%s bundle=%s route=%s." % [
+							node_id, selected_trigger_id,
+							expected_trigger_candidate_id,
+							expected_trigger_bundle_id,
+							expected_trigger_route_id,
+						])
+						return false
+					hyunsu_terminal_allocation_week = turn_before_commit
 				if not selected_trigger_id.is_empty():
-					print("CORE_LOOP_V2_PEOPLE_MAIN_INPUT_OK device=%s lang=%s week=%d selected=%s signal=3arg durable=1" % [
-						input_mode, lang, turn_before_commit, selected_trigger_id])
+					print("CORE_LOOP_V2_PEOPLE_MAIN_INPUT_OK device=%s lang=%s week=%d candidate=%s bundle=%s route=%s signal=3arg durable=1" % [
+						input_mode, lang, turn_before_commit,
+						selected_trigger_id, expected_trigger_bundle_id,
+						expected_trigger_route_id])
 				print("CORE_LOOP_V2_CYCLE_INPUT device=%s lang=%s month=%d week=%d node=%s capacity=%s value=%d" % [
 					input_mode, lang, cycle_month, turn_before_commit, node_id, capacity_id,
 					int(receipt.get("capacity_value", 0))])
@@ -10255,6 +10309,10 @@ func _run_core_loop_v2_input_route(
 				return false
 			if not _assert_core_loop_v2_input_purity(input_mode):
 				return false
+			if hyunsu_terminal_allocation_week != 9 \
+					or hyunsu_followup_story_week != 9:
+				_fail("Core Loop V2 did not carry the Week-9 Hyunsu terminal candidate into its exact story root.")
+				return false
 			print("CORE_LOOP_V2_INPUT_OK device=%s lang=%s weeks=24 plans=6 cycle_allocations=%d offer_intents=%d week_commits=%d side_shift_inputs=%d commitment_task_inputs=%d commitment_task_completions=%d tutorial=3 locked_node=1 trigger_expiry=audited w22_world_barrier=1 first_bill=1/1/1 hyunsu=1 autosave=1 title_return=1 mixed=0 story_events=%d keyboard_events=%d mouse_events=%d gamepad_events=%d semantic_events=%d unknown_events=%d saves=%d" % [
 				input_mode, lang, cycle_allocations, offer_intents, week_commits,
 				side_shift_inputs, commitment_task_inputs,
@@ -10457,256 +10515,451 @@ func _assert_seoul_cycle_people_choice_board(
 		input_mode: String, lang: String) -> bool:
 	var candidate_sets: Array = [
 		[],
-		[_m2_people_board_candidate("cafe_world_glimpse")],
+		[_m2_people_board_candidate("daeun_world_meet")],
 		[
-			_m2_people_board_candidate("hyunsu_player_reachout"),
-			_m2_people_board_candidate("cafe_world_glimpse"),
+			_m2_people_board_candidate("daeun_world_meet"),
+			_m2_people_board_candidate(
+				"terminal:m1_father_completed_wellbeing_to_m3_quiet_call"),
+		],
+		[
+			_m2_people_board_candidate(
+				"terminal:m2_people_completed_hyunsu_to_m3_followup"),
+			_m2_people_board_candidate("daeun_world_meet"),
+			_m2_people_board_candidate(
+				"terminal:m1_father_completed_wellbeing_to_m3_quiet_call"),
+		],
+		[
+			_m2_people_board_candidate(
+				"terminal:m2_people_completed_hyunsu_to_m3_followup"),
+			_m2_people_board_candidate("jiyeon_world_meet"),
+			_m2_people_board_candidate(
+				"terminal:m1_father_completed_wellbeing_to_m3_quiet_call"),
+			_m2_people_board_candidate("daeun_world_meet"),
 		],
 	]
 	var original_viewport_size := get_window().size
-	get_window().size = Vector2i(960, 600)
-	await get_tree().process_frame
-	for candidate_count in range(candidate_sets.size()):
-		var board_script = load("res://scenes/SeoulCycleBoard.gd")
-		var board := board_script.new() as Control
-		var emitted: Array[Dictionary] = []
-		board.connect("allocation_requested", func(
-				capacity_id: String, node_id: String,
-				selected_bundle_id: String) -> void:
-			emitted.append({
-				"capacity_id": capacity_id,
-				"node_id": node_id,
-				"selected_bundle_id": selected_bundle_id,
-			})
-		)
-		add_child(board)
-		var state_before: Dictionary = GameState.serialize().duplicate(true)
-		var snapshot := _m2_people_board_snapshot(candidate_sets[candidate_count])
-		if not bool(board.call("open", snapshot, false)):
-			_fail("M2 people Board fixture with %d candidates did not open." % candidate_count)
-			remove_child(board)
-			board.free()
-			return false
+	for viewport_size in [Vector2i(960, 600), Vector2i(1280, 800)]:
+		get_window().size = viewport_size
 		await get_tree().process_frame
-		await get_tree().process_frame
-		var capacity_button := _find_visible_meta_value_button(
-			board, "seoul_cycle_die_id", "qa_capacity_1")
-		var people_button := _find_visible_meta_value_button(
-			board, "seoul_cycle_node_id", "m2_people")
-		if capacity_button == null or people_button == null:
-			_fail("M2 people Board fixture lost its capacity or people node.")
-			board.call("close")
-			remove_child(board)
-			board.free()
-			return false
-		await _activate_route_control(capacity_button, input_mode)
-		if candidate_count == 0:
-			if not people_button.disabled \
-					or people_button.focus_mode != Control.FOCUS_NONE \
-					or int(board.get_meta(
-						"seoul_cycle_trigger_candidate_count", -1)) != 0 \
-					or not emitted.is_empty() \
-					or GameState.serialize() != state_before:
-				_fail("M2 people Board did not lock its zero-candidate fixture without mutation.")
-				board.call("close")
-				remove_child(board)
-				board.free()
+		for candidate_count in range(candidate_sets.size()):
+			if not await _assert_seoul_cycle_people_choice_case(
+					candidate_sets[candidate_count], candidate_count,
+					viewport_size, input_mode, lang):
+				get_window().size = original_viewport_size
+				await get_tree().process_frame
 				return false
-			board.call("close")
-			remove_child(board)
-			board.free()
-			await get_tree().process_frame
-			continue
-
-		await _activate_route_control(people_button, input_mode)
-		var commit_button := board.get("_commit_button") as Button
-		var candidate_ids: Array = board.get_meta(
-			"seoul_cycle_trigger_candidate_ids", [])
-		var expected_ids := ["cafe_world_glimpse"] if candidate_count == 1 else [
-			"cafe_world_glimpse", "hyunsu_player_reachout"]
-		if candidate_ids != expected_ids \
-				or not bool(board.get_meta(
-					"seoul_cycle_trigger_selection_required", false)) \
-				or not bool(board.get_meta(
-					"seoul_cycle_trigger_candidate_panel_visible", false)) \
-				or not str(board.get_meta(
-					"seoul_cycle_selected_trigger_bundle_id", "")).is_empty() \
-				or not is_instance_valid(commit_button) or not commit_button.disabled:
-			_fail("M2 people Board auto-selected or misordered its %d candidates: %s." % [
-				candidate_count, str(candidate_ids)])
-			board.call("close")
-			remove_child(board)
-			board.free()
-			return false
-		if candidate_count == 2:
-			var panel_height := float(board.get_meta(
-				"seoul_cycle_trigger_candidate_panel_height", 0.0))
-			var viewport_rect := Rect2(Vector2.ZERO, board.size)
-			var commit_rect := commit_button.get_global_rect()
-			if panel_height <= 0.0 or not commit_button.is_visible_in_tree() \
-					or not viewport_rect.encloses(commit_rect):
-				_fail("M2 two-candidate panel clipped or displaced Commit at 960x600: panel=%.1f board=%s commit=%s." % [
-					panel_height, str(board.size), str(commit_rect)])
-				board.call("close")
-				remove_child(board)
-				board.free()
-				return false
-		var first_candidate := _find_visible_meta_value_button(
-			board, "seoul_cycle_trigger_candidate_id", expected_ids[0])
-		if first_candidate == null or get_viewport().gui_get_focus_owner() != first_candidate:
-			_fail("M2 people Board did not focus its canonical first candidate.")
-			board.call("close")
-			remove_child(board)
-			board.free()
-			return false
-		for candidate_id in expected_ids:
-			var candidate_button := _find_visible_meta_value_button(
-				board, "seoul_cycle_trigger_candidate_id", candidate_id)
-			var candidate_record := _m2_people_board_candidate(candidate_id)
-			var expected_text := str(candidate_record.get(
-				"label_en" if lang == "en" else "label_ko", ""))
-			if candidate_button == null \
-					or candidate_button.text != expected_text \
-					or (lang == "en" and _contains_hangul(candidate_button.text)):
-				_fail("M2 people candidate %s lost its %s player label." % [
-					candidate_id, lang])
-				board.call("close")
-				remove_child(board)
-				board.free()
-				return false
-
-		if candidate_count == 1:
-			# East before a choice returns to the node, and East after a choice
-			# removes only that uncommitted choice. Neither path may emit a commit.
-			await _send_seoul_cycle_cancel(input_mode)
-			if not str(board.get_meta(
-					"seoul_cycle_selected_node_id", "")).is_empty() \
-					or not emitted.is_empty():
-				_fail("M2 one-candidate East path committed or retained its node.")
-				board.call("close")
-				remove_child(board)
-				board.free()
-				return false
-			await _activate_route_control(people_button, input_mode)
-			await _send_route_input(input_mode)
-			await _send_seoul_cycle_cancel(input_mode)
-			if not str(board.get_meta(
-					"seoul_cycle_selected_trigger_bundle_id", "")).is_empty() \
-					or str(board.get_meta(
-						"seoul_cycle_selected_node_id", "")) != "m2_people" \
-					or not emitted.is_empty():
-				_fail("M2 one-candidate East path did not undo only the thread choice.")
-				board.call("close")
-				remove_child(board)
-				board.free()
-				return false
-			await _send_route_input(input_mode)
-		else:
-			if input_mode == "gamepad":
-				await _send_route_raw_gamepad_button(JOY_BUTTON_DPAD_DOWN)
-			else:
-				await _send_route_key(KEY_DOWN)
-			var second_candidate := _find_visible_meta_value_button(
-				board, "seoul_cycle_trigger_candidate_id", expected_ids[1])
-			if second_candidate == null \
-					or get_viewport().gui_get_focus_owner() != second_candidate:
-				_fail("M2 raw Down did not reach the non-first people candidate.")
-				board.call("close")
-				remove_child(board)
-				board.free()
-				return false
-			await _send_route_input(input_mode)
-
-		var expected_choice: String = (
-			expected_ids[0] if candidate_count == 1 else expected_ids[1]
-		)
-		var selected_preview: Dictionary = board.call(
-			"_preview_for", "qa_capacity_1", "m2_people")
-		var selected_record := _m2_people_board_candidate(expected_choice)
-		var expected_threshold := 2
-		var expected_deadline := 2 \
-			if expected_choice == "hyunsu_player_reachout" else 3
-		var expected_after_progress := 2 \
-			if expected_choice == "hyunsu_player_reachout" else 1
-		if str(board.get_meta(
-				"seoul_cycle_selected_trigger_bundle_id", "")) != expected_choice \
-				or commit_button.disabled \
-				or get_viewport().gui_get_focus_owner() != commit_button \
-				or not bool(selected_preview.get("valid", false)) \
-				or str(selected_preview.get(
-					"selected_trigger_bundle_id", "")) != expected_choice \
-				or int(selected_preview.get("threshold", 0)) \
-					!= expected_threshold \
-				or int(selected_preview.get("deadline_week", 0)) \
-					!= expected_deadline \
-				or int(selected_preview.get("progress_after", -1)) \
-					!= expected_after_progress \
-				or int(board.get_meta(
-					"seoul_cycle_preview_after_progress", -1)) \
-					!= expected_after_progress \
-				or int(board.get_meta(
-					"seoul_cycle_preview_deadline_week", -1)) \
-					!= expected_deadline \
-				or bool(board.get_meta(
-					"seoul_cycle_preview_completed_now", false)) \
-					!= (expected_after_progress >= expected_threshold) \
-				or str(board.get_meta(
-					"seoul_cycle_preview_selected_trigger_bundle_id", "")) \
-					!= expected_choice \
-				or str(board.get("_preview_effect_label").text).find(str(
-					selected_record.get(
-						"label_en" if lang == "en" else "label_ko", ""))) < 0:
-			_fail("M2 people raw choice did not unlock the exact commit target.")
-			board.call("close")
-			remove_child(board)
-			board.free()
-			return false
-		await _send_route_input(input_mode)
-		if emitted != [{
-			"capacity_id": "qa_capacity_1",
-			"node_id": "m2_people",
-			"selected_bundle_id": expected_choice,
-		}] or GameState.serialize() != state_before:
-			_fail("M2 people Board emitted anything except its explicit selected identity: %s." % [
-				str(emitted)])
-			board.set("_allocation_in_flight", false)
-			board.call("close")
-			remove_child(board)
-			board.free()
-			return false
-		board.set("_allocation_in_flight", false)
-		board.call("close")
-		remove_child(board)
-		board.free()
-		await get_tree().process_frame
 	if not await _assert_seoul_cycle_people_variant_rejections(input_mode):
+		get_window().size = original_viewport_size
+		await get_tree().process_frame
 		return false
 	get_window().size = original_viewport_size
 	await get_tree().process_frame
-	print("CORE_LOOP_V2_PEOPLE_BOARD_OK device=%s lang=%s candidates=0/1/2 explicit=1 cancel=state_free order=canonical nonfirst=committed layout=960x600" % [
+	print("CORE_LOOP_V2_PEOPLE_BOARD_OK device=%s lang=%s candidates=0/1/2/3/4 ordinary_single=explicit cancel=state_free order=canonical terminal_tuple=separate scroll=focus-visible layout=960x600+1280x800 negatives=5+raw+locale+cross-wire" % [
 		input_mode, lang])
 	return true
 
 
+func _assert_seoul_cycle_people_choice_case(
+		raw_candidates: Array, candidate_count: int,
+		viewport_size: Vector2i, input_mode: String, lang: String) -> bool:
+	var board_script = load("res://scenes/SeoulCycleBoard.gd")
+	var board := board_script.new() as Control
+	var emitted: Array[Dictionary] = []
+	board.connect("allocation_requested", func(
+			capacity_id: String, node_id: String,
+			selected_candidate_id: String) -> void:
+		emitted.append({
+			"capacity_id": capacity_id,
+			"node_id": node_id,
+			"selected_candidate_id": selected_candidate_id,
+		})
+	)
+	add_child(board)
+	var state_before: Dictionary = GameState.serialize().duplicate(true)
+	var snapshot := _m2_people_board_snapshot(raw_candidates)
+	if not bool(board.call("open", snapshot, false)):
+		_fail("People Board fixture with %d candidates did not open at %s." % [
+			candidate_count, str(viewport_size)])
+		remove_child(board)
+		board.free()
+		return false
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var capacity_button := _find_visible_meta_value_button(
+		board, "seoul_cycle_die_id", "qa_capacity_1")
+	var people_button := _find_visible_meta_value_button(
+		board, "seoul_cycle_node_id", "m2_people")
+	if capacity_button == null or people_button == null:
+		_fail("People Board fixture lost its capacity or people node.")
+		_seoul_cycle_people_board_dispose(board)
+		return false
+	await _activate_route_control(capacity_button, input_mode)
+	if candidate_count == 0:
+		if not people_button.disabled \
+				or people_button.focus_mode != Control.FOCUS_NONE \
+				or int(board.get_meta(
+					"seoul_cycle_trigger_candidate_count", -1)) != 0 \
+				or not emitted.is_empty() \
+				or GameState.serialize() != state_before:
+			_fail("People Board did not lock its zero-candidate fixture without mutation.")
+			_seoul_cycle_people_board_dispose(board)
+			return false
+		_seoul_cycle_people_board_dispose(board)
+		await get_tree().process_frame
+		return true
+
+	await _activate_route_control(people_button, input_mode)
+	await get_tree().process_frame
+	var commit_button := board.get("_commit_button") as Button
+	var candidate_ids: Array = board.get_meta(
+		"seoul_cycle_trigger_candidate_ids", [])
+	var expected_ids: Array[String] = []
+	for raw_candidate in raw_candidates:
+		if raw_candidate is Dictionary:
+			expected_ids.append(str((raw_candidate as Dictionary).get("id", "")))
+	expected_ids.sort()
+	if candidate_ids != expected_ids \
+			or int(board.get_meta(
+				"seoul_cycle_trigger_candidate_max", -1)) != 4 \
+			or not bool(board.get_meta(
+				"seoul_cycle_trigger_selection_required", false)) \
+			or not bool(board.get_meta(
+				"seoul_cycle_trigger_candidate_panel_visible", false)) \
+			or not str(board.get_meta(
+				"seoul_cycle_selected_trigger_bundle_id", "")).is_empty() \
+			or not is_instance_valid(commit_button) or not commit_button.disabled:
+		_fail("People Board auto-selected, misordered, or widened its %d candidates: %s." % [
+			candidate_count, str(candidate_ids)])
+		_seoul_cycle_people_board_dispose(board)
+		return false
+	var board_rect := board.get_global_rect()
+	var commit_rect := commit_button.get_global_rect()
+	var scroll_rect: Variant = board.get_meta(
+		"seoul_cycle_trigger_candidate_scroll_viewport_rect", Rect2())
+	var layout_clearance := float(board.get_meta(
+		"seoul_cycle_preview_layout_clearance", -1.0))
+	var scroll_expected := candidate_count > 2
+	if not scroll_rect is Rect2 \
+			or (scroll_rect as Rect2).size.x <= 0.0 \
+			or (scroll_rect as Rect2).size.y <= 0.0 \
+			or not board_rect.encloses(scroll_rect as Rect2) \
+			or not board_rect.encloses(commit_rect) \
+			or not commit_button.is_visible_in_tree() \
+			or layout_clearance < 0.0 \
+			or bool(board.get_meta(
+				"seoul_cycle_trigger_candidate_scroll_vertical", false)) \
+					!= scroll_expected:
+		_fail("People Board layout overflowed at %s with %d candidates: board=%s scroll=%s commit=%s clearance=%.1f." % [
+			str(viewport_size), candidate_count, str(board_rect),
+			str(scroll_rect), str(commit_rect), layout_clearance])
+		_seoul_cycle_people_board_dispose(board)
+		return false
+	var first_candidate := _find_visible_meta_value_button(
+		board, "seoul_cycle_trigger_candidate_id", expected_ids[0])
+	if first_candidate == null \
+			or get_viewport().gui_get_focus_owner() != first_candidate:
+		_fail("People Board did not focus its canonical first candidate.")
+		_seoul_cycle_people_board_dispose(board)
+		return false
+	for candidate_id in expected_ids:
+		var candidate_button := _find_visible_meta_value_button(
+			board, "seoul_cycle_trigger_candidate_id", candidate_id)
+		var candidate_record := _m2_people_board_candidate(candidate_id)
+		var expected_text := str(candidate_record.get(
+			"label_en" if lang == "en" else "label_ko", ""))
+		if candidate_button == null \
+				or candidate_button.text != expected_text \
+				or candidate_button.text_overrun_behavior \
+					!= TextServer.OVERRUN_NO_TRIMMING \
+				or (lang == "en" and _contains_hangul(candidate_button.text)):
+			_fail("People candidate %s lost or trimmed its %s player label." % [
+				candidate_id, lang])
+			_seoul_cycle_people_board_dispose(board)
+			return false
+
+	# East before selection returns to the node rail; reopening must preserve
+	# every candidate and zero serialized state.
+	await _send_seoul_cycle_cancel(input_mode)
+	if not str(board.get_meta(
+			"seoul_cycle_selected_node_id", "")).is_empty() \
+			or not emitted.is_empty() or GameState.serialize() != state_before:
+		_fail("People Board East-before-choice mutated state or retained its node.")
+		_seoul_cycle_people_board_dispose(board)
+		return false
+	await _activate_route_control(people_button, input_mode)
+	await get_tree().process_frame
+
+	var expected_choice := expected_ids[-1]
+	var expected_button := _find_visible_meta_value_button(
+		board, "seoul_cycle_trigger_candidate_id", expected_choice)
+	for candidate_index in range(1, expected_ids.size()):
+		if input_mode == "gamepad":
+			await _send_route_raw_gamepad_button(JOY_BUTTON_DPAD_DOWN)
+		else:
+			await _send_route_key(KEY_DOWN)
+		await get_tree().process_frame
+		var focused_button := get_viewport().gui_get_focus_owner() as Button
+		if focused_button == null \
+				or str(focused_button.get_meta(
+					"seoul_cycle_trigger_candidate_id", "")) \
+						!= expected_ids[candidate_index]:
+			_fail("People raw Down traversal missed candidate %d/%d." % [
+				candidate_index + 1, expected_ids.size()])
+			_seoul_cycle_people_board_dispose(board)
+			return false
+		var focused_rect := focused_button.get_global_rect()
+		var current_scroll_rect: Rect2 = board.get_meta(
+			"seoul_cycle_trigger_candidate_scroll_viewport_rect", Rect2())
+		if not current_scroll_rect.encloses(focused_rect):
+			_fail("People candidate focus did not scroll into view: focus=%s viewport=%s." % [
+				str(focused_rect), str(current_scroll_rect)])
+			_seoul_cycle_people_board_dispose(board)
+			return false
+	if candidate_count >= 3:
+		await _save("core_loop_v2_people_%s_%s_%dx%d_%dc" % [
+			lang, input_mode, viewport_size.x, viewport_size.y,
+			candidate_count], 0.02)
+		if _qa_failed:
+			_seoul_cycle_people_board_dispose(board)
+			return false
+	if expected_button == null \
+			or get_viewport().gui_get_focus_owner() != expected_button:
+		_fail("People Board did not reach its explicit trailing candidate.")
+		_seoul_cycle_people_board_dispose(board)
+		return false
+	await _send_route_input(input_mode)
+	var selected_preview: Dictionary = board.call(
+		"_preview_for", "qa_capacity_1", "m2_people")
+	var selected_record := _m2_people_board_candidate(expected_choice)
+	var expected_bundle_id := str(selected_record.get("bundle_id", ""))
+	var expected_route_id := str(selected_record.get("route_id", ""))
+	var preview_candidate_id := str(selected_preview.get(
+		"selected_trigger_candidate_id", "")).strip_edges()
+	if preview_candidate_id.is_empty():
+		preview_candidate_id = str(selected_preview.get(
+			"selected_trigger_bundle_id", "")).strip_edges()
+	var expected_after_progress := int(selected_record.get(
+		"qa_progress_after", 1))
+	var expected_deadline := int(selected_record.get("qa_deadline_week", 4))
+	if str(board.get_meta(
+			"seoul_cycle_selected_trigger_bundle_id", "")) != expected_choice \
+			or commit_button.disabled \
+			or get_viewport().gui_get_focus_owner() != commit_button \
+			or not bool(selected_preview.get("valid", false)) \
+			or preview_candidate_id != expected_choice \
+			or str(selected_preview.get(
+				"selected_trigger_bundle_id", "")) != expected_bundle_id \
+			or str(selected_preview.get(
+				"selected_terminal_route_id", "")) != expected_route_id \
+			or int(selected_preview.get("threshold", 0)) != 2 \
+			or int(selected_preview.get("deadline_week", 0)) \
+				!= expected_deadline \
+			or int(selected_preview.get("progress_after", -1)) \
+				!= expected_after_progress \
+			or int(board.get_meta(
+				"seoul_cycle_preview_after_progress", -1)) \
+				!= expected_after_progress \
+			or int(board.get_meta(
+				"seoul_cycle_preview_deadline_week", -1)) != expected_deadline \
+			or str(board.get_meta(
+				"seoul_cycle_preview_selected_trigger_candidate_id", "")) \
+				!= expected_choice \
+			or str(board.get("_preview_effect_label").text).find(str(
+				selected_record.get(
+					"label_en" if lang == "en" else "label_ko", ""))) < 0:
+		_fail("People raw choice did not preserve its candidate/bundle/route tuple.")
+		_seoul_cycle_people_board_dispose(board)
+		return false
+	# East after selection removes only the local candidate. Select it again;
+	# neither path can write model state or emit a transaction.
+	await _send_seoul_cycle_cancel(input_mode)
+	if not str(board.get_meta(
+			"seoul_cycle_selected_trigger_bundle_id", "")).is_empty() \
+			or str(board.get_meta(
+				"seoul_cycle_selected_node_id", "")) != "m2_people" \
+			or not emitted.is_empty() or GameState.serialize() != state_before:
+		_fail("People East-after-choice did not undo only the local candidate.")
+		_seoul_cycle_people_board_dispose(board)
+		return false
+	await _activate_route_control(expected_button, input_mode)
+	await _activate_route_control(commit_button, input_mode)
+	if emitted != [{
+		"capacity_id": "qa_capacity_1",
+		"node_id": "m2_people",
+		"selected_candidate_id": expected_choice,
+	}] or GameState.serialize() != state_before:
+		_fail("People Board emitted anything except its explicit candidate record identity: %s." % [
+			str(emitted)])
+		board.set("_allocation_in_flight", false)
+		_seoul_cycle_people_board_dispose(board)
+		return false
+	board.set("_allocation_in_flight", false)
+	_seoul_cycle_people_board_dispose(board)
+	await get_tree().process_frame
+	return true
+
+
+func _seoul_cycle_people_board_dispose(board: Control) -> void:
+	if not is_instance_valid(board):
+		return
+	board.call("close")
+	remove_child(board)
+	board.free()
+
+
 func _assert_seoul_cycle_people_variant_rejections(input_mode: String) -> bool:
-	for malformed_kind in ["missing", "mismatched"]:
-		var snapshot := _m2_people_board_snapshot([
-			_m2_people_board_candidate("hyunsu_player_reachout"),
-			_m2_people_board_candidate("cafe_world_glimpse"),
-		])
+	var father_id := \
+		"terminal:m1_father_completed_wellbeing_to_m3_quiet_call"
+	var hyunsu_id := \
+		"terminal:m2_people_completed_hyunsu_to_m3_followup"
+	var legal_four := [
+		_m2_people_board_candidate("daeun_world_meet"),
+		_m2_people_board_candidate("jiyeon_world_meet"),
+		_m2_people_board_candidate(father_id),
+		_m2_people_board_candidate(hyunsu_id),
+	]
+	var oversize := legal_four.duplicate(true)
+	oversize.append(_m2_people_board_candidate("qa_fifth_world_meet"))
+	var oversize_board = load("res://scenes/SeoulCycleBoard.gd").new() as Control
+	add_child(oversize_board)
+	var oversize_state: Dictionary = GameState.serialize().duplicate(true)
+	if bool(oversize_board.call(
+			"open", _m2_people_board_snapshot(oversize), false)) \
+			or str(oversize_board.get_meta(
+				"seoul_cycle_contract_error", "")).find("at most 4") < 0 \
+			or GameState.serialize() != oversize_state:
+		_fail("People Board accepted five candidates or changed state on rejection.")
+		_seoul_cycle_people_board_dispose(oversize_board)
+		return false
+	remove_child(oversize_board)
+	oversize_board.free()
+
+	for malformed_record_kind in [
+		"non_dictionary", "missing_id_with_bundle", "duplicate_id",
+		"missing_label_ko", "missing_label_en",
+		"missing_detail_ko", "missing_detail_en",
+	]:
+		var malformed_records: Array = legal_four.duplicate(true)
+		var expected_error_fragment := "localized label/detail"
+		if malformed_record_kind == "non_dictionary":
+			malformed_records[0] = "not-a-candidate-record"
+			expected_error_fragment = "must be a Dictionary"
+		elif malformed_record_kind == "duplicate_id":
+			var duplicate_record: Dictionary = (
+				malformed_records[1] as Dictionary).duplicate(true)
+			duplicate_record["id"] = str(
+				(malformed_records[0] as Dictionary).get("id", ""))
+			malformed_records[1] = duplicate_record
+			expected_error_fragment = "ids must be non-empty and unique"
+		else:
+			var malformed_record: Dictionary = (
+				malformed_records[0] as Dictionary).duplicate(true)
+			if malformed_record_kind == "missing_id_with_bundle":
+				malformed_record.erase("id")
+				expected_error_fragment = "ids must be non-empty"
+			else:
+				malformed_record.erase(
+					malformed_record_kind.trim_prefix("missing_"))
+			malformed_records[0] = malformed_record
+		var malformed_record_board = load(
+			"res://scenes/SeoulCycleBoard.gd").new() as Control
+		add_child(malformed_record_board)
+		var malformed_record_state: Dictionary = \
+			GameState.serialize().duplicate(true)
+		if bool(malformed_record_board.call(
+				"open", _m2_people_board_snapshot(malformed_records), false)) \
+				or str(malformed_record_board.get_meta(
+					"seoul_cycle_contract_error", "")).find(
+						expected_error_fragment) < 0 \
+				or GameState.serialize() != malformed_record_state:
+			_fail("People Board accepted malformed candidate record %s or changed state." % \
+				malformed_record_kind)
+			_seoul_cycle_people_board_dispose(malformed_record_board)
+			return false
+		remove_child(malformed_record_board)
+		malformed_record_board.free()
+
+	var missing_list_snapshot := _m2_people_board_snapshot(legal_four)
+	var missing_list_previews: Dictionary = missing_list_snapshot.get(
+		"previews", {})
+	var missing_list_row: Dictionary = missing_list_previews.get(
+		"qa_capacity_1", {})
+	var missing_list_preview: Dictionary = missing_list_row.get(
+		"m2_people", {})
+	missing_list_preview.erase("trigger_candidates")
+	missing_list_row["m2_people"] = missing_list_preview
+	missing_list_previews["qa_capacity_1"] = missing_list_row
+	missing_list_snapshot["previews"] = missing_list_previews
+	var missing_list_board = load(
+		"res://scenes/SeoulCycleBoard.gd").new() as Control
+	add_child(missing_list_board)
+	var missing_list_state: Dictionary = GameState.serialize().duplicate(true)
+	if bool(missing_list_board.call("open", missing_list_snapshot, false)) \
+			or str(missing_list_board.get_meta(
+				"seoul_cycle_contract_error", "")).find(
+					"must declare trigger_candidates") < 0 \
+			or GameState.serialize() != missing_list_state:
+		_fail("People Board accepted a required preview without its candidate list or changed state.")
+		_seoul_cycle_people_board_dispose(missing_list_board)
+		return false
+	remove_child(missing_list_board)
+	missing_list_board.free()
+
+	var scalar_list_snapshot := _m2_people_board_snapshot(legal_four)
+	var scalar_list_previews: Dictionary = scalar_list_snapshot.get(
+		"previews", {})
+	var scalar_list_row: Dictionary = scalar_list_previews.get(
+		"qa_capacity_1", {})
+	var scalar_list_preview: Dictionary = scalar_list_row.get(
+		"m2_people", {})
+	scalar_list_preview["trigger_candidates"] = "not-an-array"
+	scalar_list_row["m2_people"] = scalar_list_preview
+	scalar_list_previews["qa_capacity_1"] = scalar_list_row
+	scalar_list_snapshot["previews"] = scalar_list_previews
+	var scalar_list_board = load(
+		"res://scenes/SeoulCycleBoard.gd").new() as Control
+	add_child(scalar_list_board)
+	var scalar_list_state: Dictionary = GameState.serialize().duplicate(true)
+	if bool(scalar_list_board.call("open", scalar_list_snapshot, false)) \
+			or str(scalar_list_board.get_meta(
+				"seoul_cycle_contract_error", "")).find(
+					"must be an Array") < 0 \
+			or GameState.serialize() != scalar_list_state:
+		_fail("People Board accepted a scalar candidate list or changed state.")
+		_seoul_cycle_people_board_dispose(scalar_list_board)
+		return false
+	remove_child(scalar_list_board)
+	scalar_list_board.free()
+
+	for malformed_kind in [
+		"missing_variant", "missing_candidate", "candidate_cross_wire",
+		"bundle_cross_wire", "route_cross_wire", "variant_cross_wire",
+	]:
+		var snapshot := _m2_people_board_snapshot(legal_four)
 		var previews: Dictionary = snapshot.get("previews", {})
 		var row: Dictionary = previews.get("qa_capacity_1", {})
 		var base_preview: Dictionary = row.get("m2_people", {})
 		var variants: Dictionary = base_preview.get(
 			"trigger_candidate_previews", {})
-		if malformed_kind == "missing":
-			variants.erase("cafe_world_glimpse")
+		if malformed_kind == "missing_variant":
+			variants.erase(hyunsu_id)
 		else:
-			var mismatched: Dictionary = variants.get(
-				"cafe_world_glimpse", {})
-			mismatched["selected_trigger_bundle_id"] = \
-				"hyunsu_player_reachout"
-			variants["cafe_world_glimpse"] = mismatched
+			var mismatched: Dictionary = variants.get(hyunsu_id, {})
+			match malformed_kind:
+				"missing_candidate":
+					mismatched.erase("selected_trigger_candidate_id")
+				"candidate_cross_wire":
+					mismatched["selected_trigger_candidate_id"] = father_id
+				"bundle_cross_wire":
+					mismatched["selected_trigger_bundle_id"] = \
+						"father_quiet_call"
+				"route_cross_wire":
+					mismatched["selected_terminal_route_id"] = \
+						father_id.trim_prefix("terminal:")
+				"variant_cross_wire":
+					mismatched["terminal_variant_id"] = \
+						"father_wellbeing_returned"
+			variants[hyunsu_id] = mismatched
 		base_preview["trigger_candidate_previews"] = variants
 		row["m2_people"] = base_preview
 		previews["qa_capacity_1"] = row
@@ -10721,8 +10974,9 @@ func _assert_seoul_cycle_people_variant_rejections(input_mode: String) -> bool:
 			emitted.append([capacity_id, node_id, selected_bundle_id])
 		)
 		add_child(board)
+		var state_before: Dictionary = GameState.serialize().duplicate(true)
 		if not bool(board.call("open", snapshot, false)):
-			_fail("M2 malformed %s variant fixture did not open." % malformed_kind)
+			_fail("People malformed %s variant fixture did not open." % malformed_kind)
 			remove_child(board)
 			board.free()
 			return false
@@ -10734,10 +10988,10 @@ func _assert_seoul_cycle_people_variant_rejections(input_mode: String) -> bool:
 			board, "seoul_cycle_node_id", "m2_people")
 		await _activate_route_control(capacity_button, input_mode)
 		await _activate_route_control(people_button, input_mode)
-		var cafe_button := _find_visible_meta_value_button(
+		var target_button := _find_visible_meta_value_button(
 			board, "seoul_cycle_trigger_candidate_id",
-			"cafe_world_glimpse")
-		await _activate_route_control(cafe_button, input_mode)
+			hyunsu_id)
+		await _activate_route_control(target_button, input_mode)
 		var commit_button := board.get("_commit_button") as Button
 		var selected_preview: Dictionary = board.call(
 			"_preview_for", "qa_capacity_1", "m2_people")
@@ -10745,15 +10999,16 @@ func _assert_seoul_cycle_people_variant_rejections(input_mode: String) -> bool:
 				or bool(selected_preview.get("valid", true)) \
 				or str(selected_preview.get("error", "")) \
 					!= "invalid_trigger_selection" \
-				or not emitted.is_empty():
-			_fail("M2 malformed %s candidate variant unlocked Commit." % malformed_kind)
+				or not emitted.is_empty() \
+				or GameState.serialize() != state_before:
+			_fail("People malformed %s candidate variant unlocked Commit or changed state." % malformed_kind)
 			board.call("close")
 			remove_child(board)
 			board.free()
 			return false
 		await _send_route_input(input_mode)
 		if not emitted.is_empty():
-			_fail("M2 malformed %s candidate variant emitted allocation." % malformed_kind)
+			_fail("People malformed %s candidate variant emitted allocation." % malformed_kind)
 			board.call("close")
 			remove_child(board)
 			board.free()
@@ -10766,21 +11021,101 @@ func _assert_seoul_cycle_people_variant_rejections(input_mode: String) -> bool:
 
 
 func _m2_people_board_candidate(bundle_id: String) -> Dictionary:
-	if bundle_id == "hyunsu_player_reachout":
-		return {
-			"id": bundle_id,
-			"label_ko": "현수에게 먼저 메시지",
-			"label_en": "Message Hyunsu First",
-			"detail_ko": "공용 주방에서 만난 현수에게 먼저 연락한다.",
-			"detail_en": "Contact Hyunsu first after meeting in the shared kitchen.",
-		}
-	return {
-		"id": "cafe_world_glimpse",
-		"label_ko": "카페 옆자리 통화",
-		"label_en": "The Call at the Next Café Table",
-		"detail_ko": "카페에서 옆자리 남자의 통화를 듣는다.",
-		"detail_en": "Hear the call from the man at the next café table.",
-	}
+	match bundle_id:
+		"daeun_world_meet":
+			return {
+				"id": bundle_id,
+				"kind": "bundle",
+				"bundle_id": bundle_id,
+				"route_id": "",
+				"variant_id": "",
+				"label_ko": "새벽 편의점의 계산대",
+				"label_en": "The Dawn Convenience Store Counter",
+				"detail_ko": "생활비를 벌려고 단기 일을 이어가던 달, 잠이 오지 않은 새벽에 24시간 편의점에 들어가 계산대 직원과 처음 말을 섞는다.",
+				"detail_en": "During a month of short-term work for living expenses, enter a 24-hour store before dawn when sleep won't come and speak with the clerk for the first time.",
+				"completion_effects": {},
+				"source": {},
+				"qa_progress_after": 1,
+				"qa_deadline_week": 4,
+			}
+		"jiyeon_world_meet":
+			return {
+				"id": bundle_id,
+				"kind": "bundle",
+				"bundle_id": bundle_id,
+				"route_id": "",
+				"variant_id": "",
+				"label_ko": "신촌 골목의 검은 세단",
+				"label_en": "The Black Sedan on a Sinchon Side Street",
+				"detail_ko": "교통비를 아끼려고 중고 자전거로 비 오는 신촌 골목을 지나다 검은 세단에 부딪히고, 운전석의 낯선 여성과 처음 마주한다.",
+				"detail_en": "While riding a used bicycle through a rainy Sinchon side street to save transit fare, collide with a black sedan and first face the stranger behind the wheel.",
+				"completion_effects": {},
+				"source": {},
+				"qa_progress_after": 1,
+				"qa_deadline_week": 3,
+			}
+		"terminal:m1_father_completed_wellbeing_to_m3_quiet_call":
+			return {
+				"id": bundle_id,
+				"kind": "terminal",
+				"bundle_id": "father_quiet_call",
+				"route_id": bundle_id.trim_prefix("terminal:"),
+				"variant_id": "father_wellbeing_returned",
+				"label_ko": "아버지의 안부를 다시 묻는 일요일",
+				"label_en": "Ask Father How He Is Again on Sunday",
+				"detail_ko": "첫 통화에서 되물었던 안부를 기억하고 이번에는 내가 먼저 다시 전화한다.",
+				"detail_en": "Remember asking after Father in the first call and be the one to call again this Sunday.",
+				"completion_effects": {},
+				"source": {
+					"month": 1,
+					"node": "father",
+					"terminal": "completed",
+					"turn": 3,
+					"proof_kind": "relationship_choice",
+					"proof_id": "father_first_call:arc_father_01_call:0",
+				},
+				"qa_progress_after": 2,
+				"qa_deadline_week": 4,
+			}
+		"terminal:m2_people_completed_hyunsu_to_m3_followup":
+			return {
+				"id": bundle_id,
+				"kind": "terminal",
+				"bundle_id": "hyunsu_study_followup",
+				"route_id": bundle_id.trim_prefix("terminal:"),
+				"variant_id": "hyunsu_followup",
+				"label_ko": "현수가 먼저 제안한 다음 공부 시간",
+				"label_en": "Hyunsu Suggests the Next Study Hour",
+				"detail_ko": "먼저 함께 공부하자고 연락한 뒤, 이번에는 현수가 같은 시간에 다시 공부하자고 한다.",
+				"detail_en": "After reaching out to study together first, hear Hyunsu suggest another hour at the same time.",
+				"completion_effects": {},
+				"source": {
+					"month": 2,
+					"node": "m2_people",
+					"terminal": "completed",
+					"turn": 5,
+					"proof_kind": "selected_trigger",
+					"proof_id": "m2:m2_people:hyunsu_player_reachout",
+				},
+				"qa_progress_after": 2,
+				"qa_deadline_week": 3,
+			}
+		_:
+			return {
+				"id": bundle_id,
+				"kind": "bundle",
+				"bundle_id": bundle_id,
+				"route_id": "",
+				"variant_id": "",
+				"label_ko": "다섯 번째 약속",
+				"label_en": "A Fifth Promise",
+				"detail_ko": "이 선택판의 이름 있는 네 후보 상한을 넘기는 검사 전용 약속이다.",
+				"detail_en": "A QA-only promise beyond this board's named four-candidate limit.",
+				"completion_effects": {},
+				"source": {},
+				"qa_progress_after": 1,
+				"qa_deadline_week": 4,
+			}
 
 
 func _m2_people_board_snapshot(raw_candidates: Array) -> Dictionary:
@@ -10795,20 +11130,33 @@ func _m2_people_board_snapshot(raw_candidates: Array) -> Dictionary:
 			3, "밀린 잠 보충", "Catch Up on Sleep", "고시원 방", "Gosiwon Room", true),
 	}
 	var candidates: Array = raw_candidates.duplicate(true)
+	var terminal_union := false
+	for raw_candidate in candidates:
+		if raw_candidate is Dictionary \
+				and str((raw_candidate as Dictionary).get(
+					"id", "")).begins_with("terminal:"):
+			terminal_union = true
+			break
 	var previews: Dictionary = {}
 	for capacity_index in range(1, 5):
 		var capacity_id := "qa_capacity_%d" % capacity_index
 		var candidate_previews: Dictionary = {}
 		for raw_candidate in candidates:
-			var candidate_id := str((raw_candidate as Dictionary).get("id", "")) \
-				if raw_candidate is Dictionary else ""
+			var candidate_record: Dictionary = raw_candidate \
+				if raw_candidate is Dictionary else {}
+			var candidate_id := str(candidate_record.get("id", ""))
 			if candidate_id.is_empty():
 				continue
 			var candidate_threshold := 2
-			var candidate_deadline := 2 \
-				if candidate_id == "hyunsu_player_reachout" else 3
-			var candidate_progress := 2 \
-				if candidate_id == "hyunsu_player_reachout" else 1
+			var candidate_deadline := int(candidate_record.get(
+				"qa_deadline_week", 4))
+			var candidate_progress := int(candidate_record.get(
+				"qa_progress_after", 1))
+			var candidate_bundle_id := str(candidate_record.get(
+				"bundle_id", candidate_id))
+			var candidate_route_id := str(candidate_record.get("route_id", ""))
+			var candidate_variant_id := str(candidate_record.get(
+				"variant_id", ""))
 			candidate_previews[candidate_id] = {
 				"ok": true,
 				"valid": true,
@@ -10822,10 +11170,18 @@ func _m2_people_board_snapshot(raw_candidates: Array) -> Dictionary:
 				"deadline_week": candidate_deadline,
 				"immediate_effects": {},
 				"trigger_selection_required": false,
+				"terminal_route_required": terminal_union,
+				"terminal_selection_required": false,
 				"trigger_candidates": candidates.duplicate(true),
-				"selected_trigger_bundle_id": candidate_id,
+				"selected_trigger_candidate_id": candidate_id \
+					if terminal_union else "",
+				"selected_trigger_bundle_id": candidate_bundle_id,
+				"selected_terminal_route_id": candidate_route_id \
+					if terminal_union else "",
+				"terminal_variant_id": candidate_variant_id \
+					if terminal_union else "",
 				"completed_now": candidate_progress >= candidate_threshold,
-				"trigger_bundle": candidate_id \
+				"trigger_bundle": candidate_bundle_id \
 					if candidate_progress >= candidate_threshold else "",
 			}
 		previews[capacity_id] = {
@@ -10842,13 +11198,15 @@ func _m2_people_board_snapshot(raw_candidates: Array) -> Dictionary:
 				"deadline_week": 3,
 				"immediate_effects": {},
 				"trigger_selection_required": true,
+				"terminal_route_required": terminal_union,
+				"terminal_selection_required": terminal_union,
 				"trigger_candidates": candidates.duplicate(true),
 				"trigger_candidate_previews": candidate_previews,
 			},
 		}
 	return {
-		"month": 2,
-		"turn": 5,
+		"month": 3,
+		"turn": 9,
 		"week_of_month": 1,
 		"money": 500000.0,
 		"health": 70,
@@ -10917,6 +11275,19 @@ func _seoul_cycle_input_node_for_turn(
 			candidates.append(preferred_node_id)
 	else:
 		var wanted: Array = CORE_LOOP_V2_INPUT_PLANS.get(month_index, [])
+		# The release route must exercise the exact source-bound choice that
+		# exposed this CI failure. Hanbit and Hyunsu both close around Week 9;
+		# choose the reciprocal Hyunsu record first here and prove the resulting
+		# relationship route instead of silently falling back to the career node.
+		if cycle_path == "integrated" and month_index == 3 and turn == 9:
+			var hyunsu_w9 := _seoul_cycle_input_terminal_candidate_for_bundle(
+				core_loop, month_index, "m3_people",
+				"hyunsu_study_followup")
+			var people_node: Dictionary = nodes.get("m3_people", {})
+			if not hyunsu_w9.is_empty() \
+					and str(people_node.get("status", "open")) \
+						not in ["completed", "expired", "locked"]:
+				candidates.append("m3_people")
 		# Later months present the same four-node board, but each authored node may
 		# resolve one of several causal offers. Preserve the release route's ordered
 		# priorities, then accept only a capacity/node pair the production preview
@@ -10930,8 +11301,12 @@ func _seoul_cycle_input_node_for_turn(
 				var eligible_ids: Array = node.get(
 					"eligible_trigger_bundle_ids", []) \
 					if node.get("eligible_trigger_bundle_ids", []) is Array else []
+				var terminal_selection := \
+					_seoul_cycle_input_terminal_candidate_for_bundle(
+						core_loop, month_index, node_id, bundle_id)
 				if (str(node.get("trigger_bundle", "")) == bundle_id \
-						or eligible_ids.has(bundle_id)) \
+						or eligible_ids.has(bundle_id) \
+						or not terminal_selection.is_empty()) \
 						and str(node.get("status", "open")) \
 							not in ["completed", "expired", "locked"] \
 						and not candidates.has(node_id):
@@ -10960,41 +11335,120 @@ func _seoul_cycle_input_node_for_turn(
 				candidates.append(node_id)
 	for node_id in candidates:
 		var capacity_id := _seoul_cycle_input_capacity_for_turn(
-			snapshot, turn, cycle_path, node_id)
+			core_loop, snapshot, turn, cycle_path, node_id)
 		if capacity_id.is_empty():
 			continue
 		var preview: Dictionary = core_loop.preview_seoul_cycle_allocation(
 			capacity_id, node_id, month_index,
-			_seoul_cycle_input_trigger_for_node(snapshot, node_id))
+			_seoul_cycle_input_trigger_for_node(
+				core_loop, snapshot, node_id))
 		if bool(preview.get("ok", false)):
 			return node_id
+		if turn == 9:
+			print("CORE_LOOP_V2_W9_NODE_REJECT node=%s capacity=%s candidate=%s error=%s" % [
+				node_id, capacity_id,
+				_seoul_cycle_input_trigger_for_node(
+					core_loop, snapshot, node_id),
+				str(preview.get("error", "unknown")),
+			])
 	return ""
 
 
 func _seoul_cycle_input_trigger_for_node(
-		snapshot: Dictionary, node_id: String) -> String:
+		core_loop: Variant, snapshot: Dictionary, node_id: String) -> String:
+	return str(_seoul_cycle_input_trigger_selection(
+		core_loop, snapshot, node_id).get("candidate_id", ""))
+
+
+func _seoul_cycle_input_trigger_selection(
+		core_loop: Variant, snapshot: Dictionary,
+		node_id: String) -> Dictionary:
 	var raw_node: Variant = (snapshot.get("nodes", {}) as Dictionary).get(
 		node_id, {})
 	if not raw_node is Dictionary:
-		return ""
+		return {}
 	var node: Dictionary = raw_node
+	var month_index := int(snapshot.get("month", 1))
+	var terminal_candidates: Array[Dictionary] = []
+	if core_loop != null:
+		terminal_candidates.assign(core_loop.terminal_target_candidates(
+			month_index, node_id))
+	if not terminal_candidates.is_empty():
+		var persisted_candidate_id := str(node.get(
+			"selected_trigger_candidate_id", "")).strip_edges()
+		if not persisted_candidate_id.is_empty():
+			for candidate in terminal_candidates:
+				if str(candidate.get("id", "")).strip_edges() \
+						== persisted_candidate_id:
+					return _seoul_cycle_input_trigger_record(candidate)
+			return {}
+		# The route plan names authored bundles, while a source-bound terminal
+		# choice is addressed by its candidate-record identity. Resolve through
+		# `bundle_id`, then send the record `id`; route IDs never stand in for
+		# either identity.
+		for raw_wanted in CORE_LOOP_V2_INPUT_PLANS.get(month_index, []):
+			var wanted_bundle_id := str(raw_wanted).strip_edges()
+			var resolved := _seoul_cycle_input_terminal_candidate_for_bundle(
+				core_loop, month_index, node_id, wanted_bundle_id)
+			if not resolved.is_empty():
+				return resolved
+		return {}
 	var selected_id := str(node.get(
 		"selected_trigger_bundle_id", "")).strip_edges()
 	if not selected_id.is_empty():
-		return selected_id
+		return {
+			"candidate_id": selected_id,
+			"bundle_id": selected_id,
+			"route_id": "",
+		}
 	var raw_eligible: Variant = node.get("eligible_trigger_bundle_ids", [])
 	if not raw_eligible is Array:
-		return ""
-	var month_index := int(snapshot.get("month", 1))
+		return {}
 	for raw_wanted in CORE_LOOP_V2_INPUT_PLANS.get(month_index, []):
 		var wanted_id := str(raw_wanted).strip_edges()
 		if (raw_eligible as Array).has(wanted_id):
-			return wanted_id
-	return ""
+			return {
+				"candidate_id": wanted_id,
+				"bundle_id": wanted_id,
+				"route_id": "",
+			}
+	return {}
+
+
+func _seoul_cycle_input_terminal_candidate_for_bundle(
+		core_loop: Variant, month_index: int, node_id: String,
+		wanted_bundle_id: String) -> Dictionary:
+	if core_loop == null:
+		return {}
+	for raw_candidate in core_loop.terminal_target_candidates(
+			month_index, node_id):
+		if not raw_candidate is Dictionary:
+			continue
+		var candidate: Dictionary = raw_candidate
+		if str(candidate.get("bundle_id", "")).strip_edges() \
+				== wanted_bundle_id.strip_edges():
+			return _seoul_cycle_input_trigger_record(candidate)
+	return {}
+
+
+func _seoul_cycle_input_trigger_record(candidate: Dictionary) -> Dictionary:
+	var candidate_id := str(candidate.get("id", "")).strip_edges()
+	var bundle_id := str(candidate.get("bundle_id", "")).strip_edges()
+	var route_id := str(candidate.get("route_id", "")).strip_edges()
+	if candidate_id.is_empty() or bundle_id.is_empty() \
+			or (route_id.is_empty() and candidate_id != bundle_id) \
+			or (not route_id.is_empty() \
+				and candidate_id != "terminal:%s" % route_id):
+		return {}
+	return {
+		"candidate_id": candidate_id,
+		"bundle_id": bundle_id,
+		"route_id": route_id,
+	}
 
 
 func _seoul_cycle_input_capacity_for_turn(
-		snapshot: Dictionary, turn: int, cycle_path: String,
+		core_loop: Variant, snapshot: Dictionary, turn: int, cycle_path: String,
 		node_id: String = "") -> String:
 	var available: Array[Dictionary] = []
 	for raw_capacity in snapshot.get("capacities", []):
@@ -11010,7 +11464,9 @@ func _seoul_cycle_input_capacity_for_turn(
 	if int(snapshot.get("month", 1)) > 1:
 		var node: Dictionary = (snapshot.get("nodes", {}) as Dictionary).get(
 			node_id, {})
-		prefer_high = not str(node.get("trigger_bundle", "")).is_empty()
+		prefer_high = not str(node.get("trigger_bundle", "")).is_empty() \
+			or not _seoul_cycle_input_trigger_selection(
+				core_loop, snapshot, node_id).is_empty()
 	elif cycle_path in ["livelihood", "people"]:
 		prefer_high = turn == 2
 	elif cycle_path == "recovery":
@@ -13214,10 +13670,32 @@ func _assert_core_loop_v2_input_completion(
 			or int(state.get("prototype_completed_at_turn", 0)) != 25:
 		_fail("Core Loop V2 terminal markers do not describe one Week-24 to Turn-25 boundary.")
 		return false
-	if str(GameState.current_job.get("id", "")) != "job_03" \
-			or not bool(core_loop.has_hanbit_employment_provenance()):
-		_fail("Core Loop V2 completion lost the exact Week-17 Hanbit acceptance provenance.")
-		return false
+	var w9_hyunsu_positions := _core_loop_v2_story_positions(
+		story_sequence, "v2_hyunsu_study_followup")
+	var exact_w9_hyunsu_route := w9_hyunsu_positions.size() == 1 \
+		and int(story_sequence[w9_hyunsu_positions[0]].get("turn", 0)) == 9
+	if exact_w9_hyunsu_route:
+		var applications: Dictionary = state.get("application_statuses", {})
+		var hanbit_transitions: Array[Dictionary] = []
+		for raw_transition in (state.get(
+				"application_transition_receipts", {}) as Dictionary).values():
+			if raw_transition is Dictionary \
+					and str((raw_transition as Dictionary).get(
+						"application_id", "")) == "hanbit_ops_2026q1":
+				hanbit_transitions.append(raw_transition as Dictionary)
+		if not GameState.current_job.is_empty() \
+				or bool(core_loop.has_hanbit_employment_provenance()) \
+				or applications.has("hanbit_ops_2026q1") \
+				or not hanbit_transitions.is_empty():
+			_fail("Week-9 Hyunsu route fabricated a Hanbit application, transition, or job: job=%s applications=%s transitions=%s." % [
+				str(GameState.current_job), str(applications),
+				str(hanbit_transitions)])
+			return false
+	else:
+		if str(GameState.current_job.get("id", "")) != "job_03" \
+				or not bool(core_loop.has_hanbit_employment_provenance()):
+			_fail("Core Loop V2 completion lost the exact Week-17 Hanbit acceptance provenance.")
+			return false
 	var required_opening := [
 		"story_flashforward", "story_arrival", "story_knee_door",
 		"story_knee_witness", "story_knee_choice",
@@ -13399,9 +13877,22 @@ func _assert_core_loop_v2_input_completion(
 				]:
 			_fail("Core Loop V2 expression choice created a durable story receipt.")
 			return false
-	var expected_candidates := [
+	var expected_candidates: Array[String] = [
 		"father_call", "hanbit_month_close", "city_work_sample", "body_rest",
 	]
+	var expected_deferred_candidates: Array[String] = [
+		"father_call", "hanbit_month_close", "city_work_sample",
+	]
+	if exact_w9_hyunsu_route:
+		# One Seoul Cycle allocation owns Week 9. Choosing the authored Hyunsu
+		# terminal route therefore leaves the exact-week Hanbit application
+		# unopened, so the First Bill collision offers paid work in its place.
+		expected_candidates = [
+			"father_call", "city_work_sample", "urgent_paid_shift", "body_rest",
+		]
+		expected_deferred_candidates = [
+			"father_call", "city_work_sample", "urgent_paid_shift",
+		]
 	var expected_collision_roots := ["v2_demo_first_bill_opening"]
 	if has_hyunsu_morning:
 		expected_collision_roots.append("v2_hyunsu_exam_morning_echo")
@@ -13412,7 +13903,7 @@ func _assert_core_loop_v2_input_completion(
 			or not str(collision_context.get("dirty_source", "")).is_empty() \
 			or not str(collision_context.get("dirty_root", "")).is_empty() \
 			or not bool(collision_context.get("prepared", false)):
-		_fail("Core Loop V2 First Bill candidate context drifted from the clean hired route: expected_roots=%s expected_candidates=%s actual=%s." % [
+		_fail("Core Loop V2 First Bill candidate context drifted from the selected Week-9 route: expected_roots=%s expected_candidates=%s actual=%s." % [
 			str(expected_collision_roots), str(expected_candidates),
 			str(collision_context)])
 		return false
@@ -13428,15 +13919,15 @@ func _assert_core_loop_v2_input_completion(
 			or str(obligation.get("bundle_id", "")) != "demo_collision" \
 			or str(obligation.get("event_id", "")) != "v2_demo_first_bill" \
 			or obligation.get("candidate_ids", []) != expected_candidates \
-			or obligation.get("deferred_obligation_ids", []) != [
-				"father_call", "hanbit_month_close", "city_work_sample"]:
+			or obligation.get("deferred_obligation_ids", []) \
+				!= expected_deferred_candidates:
 		_fail("Core Loop V2 First Bill did not select body_rest at original index 7 in Week 24.")
 		return false
 	if not bool(core_loop.obligation_receipt_matches(
 			"demo_collision", "body_rest", "selected")):
 		_fail("Core Loop V2 First Bill selected obligation is not publicly readable.")
 		return false
-	for deferred_id in ["father_call", "hanbit_month_close", "city_work_sample"]:
+	for deferred_id in expected_deferred_candidates:
 		if not bool(core_loop.obligation_receipt_matches(
 				"demo_collision", deferred_id, "deferred")):
 			_fail("Core Loop V2 deferred obligation is not publicly readable: %s." % deferred_id)
@@ -13548,6 +14039,11 @@ func _assert_core_loop_v2_input_completion(
 			return false
 	var saved_state: Dictionary = saved_state_raw
 	var saved_v2_raw: Variant = saved_state.get("core_loop_v2_state", {})
+	var saved_job_id := str((saved_state.get(
+		"current_job", {}) as Dictionary).get("id", ""))
+	var saved_job_matches_route := (
+		saved_job_id.is_empty() if exact_w9_hyunsu_route \
+		else saved_job_id == "job_03")
 	if int(saved_state.get("turn", 0)) != 25 \
 			or int(saved_state.get("month", 0)) != 7 \
 			or int(saved_state.get("week_of_month", 0)) != 1 \
@@ -13565,8 +14061,7 @@ func _assert_core_loop_v2_input_completion(
 				"routine_receipts", {}) as Dictionary).size() != 24 \
 			or ((saved_v2_raw as Dictionary).get(
 				"month_summaries", {}) as Dictionary).size() != 6 \
-			or str((saved_state.get("current_job", {}) as Dictionary).get(
-				"id", "")) != "job_03":
+			or not saved_job_matches_route:
 		_fail("Core Loop V2 terminal autosave does not contain the live completion boundary.")
 		return false
 	var saved_v2: Dictionary = saved_v2_raw

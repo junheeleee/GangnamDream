@@ -452,7 +452,16 @@
         "systems/DemoCoreLoopV2.gd",
         "scenes/CoreLoopPlanner.gd",
         "scenes/MainGame.gd",
+        "scenes/SeoulCycleBoard.gd",
         "scenes/StoryMode.gd",
+        "tools/demo_core_loop_v2_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/demo_core_loop_v2_audit.py --self-test",
+      "why": "서울 사이클 후보 상한 4·현재 terminal-union 최대 4와 max2/unbounded/max5 변이 거부 자체 검사",
+      "paths": [
+        "scenes/SeoulCycleBoard.gd",
         "tools/demo_core_loop_v2_audit.py"
       ]
     },

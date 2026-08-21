@@ -903,10 +903,16 @@ func _core_loop_v2_cycle_surface_snapshot(
 								DEMO_CORE_LOOP_V2.preview_seoul_cycle_allocation(
 									capacity_id, str(node_id), -1,
 									candidate_id)
+							var preview_candidate_id := str(
+								candidate_preview.get(
+									"selected_trigger_candidate_id", "")) \
+									.strip_edges()
+							if preview_candidate_id.is_empty():
+								preview_candidate_id = str(candidate_preview.get(
+									"selected_trigger_bundle_id", "")) \
+									.strip_edges()
 							if bool(candidate_preview.get("ok", false)) \
-									and str(candidate_preview.get(
-										"selected_trigger_bundle_id", "")) \
-										== candidate_id:
+									and preview_candidate_id == candidate_id:
 								candidate_previews[candidate_id] = \
 									candidate_preview
 				preview["trigger_candidate_previews"] = candidate_previews
@@ -1242,14 +1248,14 @@ func _on_core_loop_v2_episode_committed(
 
 func _on_seoul_cycle_allocation_requested(
 		capacity_id: String, node_id: String,
-		selected_bundle_id: String = "") -> void:
+		selected_candidate_id: String = "") -> void:
 	if _seoul_cycle_allocation_in_flight \
 			or not is_instance_valid(_seoul_cycle_board) \
 			or not _seoul_cycle_board.visible:
 		return
 	_seoul_cycle_allocation_in_flight = true
 	var result := _core_loop_v2_commit_seoul_cycle_allocation_durably(
-		capacity_id, node_id, selected_bundle_id)
+		capacity_id, node_id, selected_candidate_id)
 	if not bool(result.get("ok", false)):
 		if str(result.get("error", "")) == "autosave_failed" \
 				and bool(result.get("state_committed", false)):
@@ -1292,9 +1298,9 @@ func _core_loop_v2_initialize_seoul_cycle_durably(
 
 func _core_loop_v2_commit_seoul_cycle_allocation_durably(
 		capacity_id: String, node_id: String,
-		selected_bundle_id: String = "") -> Dictionary:
+		selected_candidate_id: String = "") -> Dictionary:
 	var result: Dictionary = DEMO_CORE_LOOP_V2.commit_seoul_cycle_allocation(
-		capacity_id, node_id, -1, selected_bundle_id)
+		capacity_id, node_id, -1, selected_candidate_id)
 	if not bool(result.get("ok", false)):
 		return result
 	# Effects, the spent capacity, the weekly ledger, and pending scene owners

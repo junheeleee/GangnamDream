@@ -9,6 +9,17 @@ const FATHER_EVENT := "arc_father_01_call"
 const HYUNSU_EVENT := "arc_intro_04_hyunsu"
 const TEMPTATION_EVENT := "arc_temptation_01"
 const ORDER101_LEGACY_ORIGIN_ID := "demo_core_loop_v2@040746a"
+const ORDER123_CURRENT_W9_CANDIDATE_IDS := [
+	"daeun_world_meet",
+	"terminal:m1_father_completed_wellbeing_to_m3_quiet_call",
+	"terminal:m2_people_completed_hyunsu_to_m3_followup",
+]
+const ORDER123_REACHABLE_MAX_CANDIDATE_IDS := [
+	"daeun_world_meet",
+	"jiyeon_world_meet",
+	"terminal:m1_father_completed_wellbeing_to_m3_quiet_call",
+	"terminal:m2_people_completed_hyunsu_to_m3_followup",
+]
 const ORDER101_LEGACY_040746_CORE_KEYS := [
 	"schema", "enabled", "plans", "completed_bundle_turns",
 	"shown_consequence_turns", "relationship_stages",
@@ -156,6 +167,15 @@ func _run() -> void:
 			(raw_player as AudioStreamPlayer).stop()
 			(raw_player as AudioStreamPlayer).stream = null
 	BGMPlayer.stop()
+	if OS.get_cmdline_user_args().has("--order123-candidates-only"):
+		_check_order123_w9_trigger_candidate_boundaries()
+		if _failures.is_empty():
+			print("ORDER123_CANDIDATES_ONLY_OK")
+		else:
+			for failure in _failures:
+				push_error("ORDER123 candidate check failed: %s" % failure)
+		get_tree().quit(0 if _failures.is_empty() else 1)
+		return
 	if OS.get_cmdline_user_args().has("--order101-legacy-only"):
 		var contract_snapshot := DataRegistry.demo_core_loop_v2.duplicate(true)
 		GameState.start_new_game()
@@ -202,6 +222,7 @@ func _run() -> void:
 	_check_order101_father_terminal_source_receipts()
 	_check_order101_m2_people_selection_contract()
 	_check_order101_m2_people_terminal_source_receipts()
+	_check_order123_w9_trigger_candidate_boundaries()
 	_check_order101_m2_people_expiry_target_initialization()
 	_check_order101_m2_edge_contracts()
 	await _check_order101_storymode_callback_rollback()
@@ -247,6 +268,7 @@ func _run() -> void:
 			+ "routine=absorbed/zero/idempotent livelihood=allocated_70000 "
 			+ "livelihood_trigger=resolved/no_expiry/w4_repeat "
 			+ "conditional_trigger=initialize/normalize/save_roundtrip/m6_daeun+hyunsu "
+			+ "candidate_union=w9_exact3/reachable_max4/fifth_state_unreconstructable "
 			+ "city_world_proof=valid/malformed_excluded "
 			+ "durability=init/allocation/week/month-summary/month-ack/frozen-retry "
 			+ "completion_boundary=fresh_exact/turn25_legacy_receipt_exact/save_roundtrip "
@@ -5003,6 +5025,321 @@ func _check_order101_m2_people_terminal_source_receipts() -> void:
 	_check_m2_people_expired_terminal_source(
 		contract_snapshot, "cafe_world_glimpse")
 	DataRegistry.demo_core_loop_v2 = contract_snapshot
+
+
+func _check_order123_w9_trigger_candidate_boundaries() -> void:
+	var contract_snapshot: Dictionary = DataRegistry.demo_core_loop_v2.duplicate(
+		true)
+	var max_four_save: Dictionary = {}
+	for include_rain_shift in [false, true]:
+		DataRegistry.demo_core_loop_v2 = contract_snapshot.duplicate(true)
+		var fixture := _produce_order123_w9_union(include_rain_shift)
+		var snapshot: Dictionary = fixture.get("snapshot", {})
+		var candidates: Array = fixture.get("candidates", [])
+		var node: Dictionary = (
+			snapshot.get("nodes", {}) as Dictionary).get("m3_people", {})
+		var candidate_ids := _m2_candidate_ids(candidates)
+		var expected_ids: Array = (
+			ORDER123_REACHABLE_MAX_CANDIDATE_IDS
+			if include_rain_shift else ORDER123_CURRENT_W9_CANDIDATE_IDS)
+		var expected_ordinary_ids: Array = (
+			["daeun_world_meet", "jiyeon_world_meet"]
+			if include_rain_shift else ["daeun_world_meet"])
+		var father_route := \
+			"m1_father_completed_wellbeing_to_m3_quiet_call"
+		var hyunsu_route := \
+			"m2_people_completed_hyunsu_to_m3_followup"
+		var father_id := "terminal:%s" % father_route
+		var hyunsu_id := "terminal:%s" % hyunsu_route
+		var father_candidate := _order123_candidate_record(
+			candidates, father_id)
+		var hyunsu_candidate := _order123_candidate_record(
+			candidates, hyunsu_id)
+		var daeun_candidate := _order123_candidate_record(
+			candidates, "daeun_world_meet")
+		var jiyeon_candidate := _order123_candidate_record(
+			candidates, "jiyeon_world_meet")
+		_expect(not fixture.is_empty() \
+			and bool(snapshot.get("active", false)) \
+			and int(snapshot.get("month", 0)) == 3 \
+			and int(GameState.turn) == 9 \
+			and candidate_ids == expected_ids \
+			and _sorted_strings(node.get("binding_candidate_ids", [])) \
+				== expected_ids \
+			and node.get("ordinary_candidate_ids", []) \
+				== expected_ordinary_ids \
+			and _sorted_strings(node.get(
+				"eligible_terminal_route_ids", [])) \
+				== [father_route, hyunsu_route] \
+			and str(node.get("selected_trigger_candidate_id", "")).is_empty() \
+			and str(node.get("selected_trigger_bundle_id", "")).is_empty() \
+			and str(node.get("selected_terminal_route_id", "")).is_empty() \
+			and str(node.get("terminal_selection_origin", "")) \
+				== "unselected_union",
+			("ORDER-123 %s producer candidate arrays drifted: ids=%s " \
+			+ "binding=%s ordinary=%s routes=%s turn=%d origin=%s") % [
+				("max-four" if include_rain_shift else "current-three"),
+				str(candidate_ids), str(node.get("binding_candidate_ids", [])),
+				str(node.get("ordinary_candidate_ids", [])),
+				str(node.get("eligible_terminal_route_ids", [])),
+				int(GameState.turn), str(node.get("terminal_selection_origin", "")),
+			])
+		_expect(_m2_candidate_copy_complete(candidates),
+			("ORDER-123 %s candidate copy was incomplete" \
+			% ("max-four" if include_rain_shift else "current-three")))
+		_expect(str(daeun_candidate.get("kind", "")) == "bundle" \
+			and str(daeun_candidate.get("bundle_id", "")) \
+				== "daeun_world_meet" \
+			and str(father_candidate.get("kind", "")) == "terminal" \
+			and str(father_candidate.get("bundle_id", "")) \
+				== "father_quiet_call" \
+			and str(father_candidate.get("route_id", "")) == father_route \
+			and str(father_candidate.get("variant_id", "")) \
+				== "father_wellbeing_returned" \
+			and str(hyunsu_candidate.get("kind", "")) == "terminal" \
+			and str(hyunsu_candidate.get("bundle_id", "")) \
+				== "hyunsu_study_followup" \
+			and str(hyunsu_candidate.get("route_id", "")) == hyunsu_route \
+			and str(hyunsu_candidate.get("variant_id", "")) \
+				== "hyunsu_followup" \
+			and (not include_rain_shift \
+				or (str(jiyeon_candidate.get("kind", "")) == "bundle" \
+					and str(jiyeon_candidate.get("bundle_id", "")) \
+						== "jiyeon_world_meet")),
+			("ORDER-123 %s candidate identity drifted: daeun=%s father=%s " \
+			+ "hyunsu=%s jiyeon=%s") % [
+				("max-four" if include_rain_shift else "current-three"),
+				JSON.stringify(daeun_candidate), JSON.stringify(father_candidate),
+				JSON.stringify(hyunsu_candidate), JSON.stringify(jiyeon_candidate),
+			])
+		if fixture.is_empty() or candidate_ids != expected_ids:
+			continue
+		var capacity_id := _unused_capacity(snapshot, 0, true)
+		var before_preview: Dictionary = GameState.serialize().duplicate(true)
+		var selected_preview := CORE.preview_seoul_cycle_allocation(
+			capacity_id, "m3_people", 3, hyunsu_id)
+		_expect(bool(selected_preview.get("ok", false)) \
+			and str(selected_preview.get(
+				"selected_trigger_candidate_id", "")) == hyunsu_id \
+			and str(selected_preview.get(
+				"selected_trigger_bundle_id", "")) \
+				== "hyunsu_study_followup" \
+			and str(selected_preview.get(
+				"selected_terminal_route_id", "")) == hyunsu_route \
+			and str(selected_preview.get("terminal_variant_id", "")) \
+				== "hyunsu_followup" \
+			and _m2_candidate_ids(selected_preview.get(
+				"trigger_candidates", [])) == expected_ids \
+			and GameState.serialize() == before_preview,
+			"ORDER-123 W9 Hyunsu terminal preview changed identity or state")
+		if include_rain_shift:
+			max_four_save = fixture.get("save", {}).duplicate(true)
+	_expect(not max_four_save.is_empty(),
+		"ORDER-123 legal max-four producer fixture was not saved")
+	if not max_four_save.is_empty():
+		_check_order123_forged_fifth_state_rejected(max_four_save)
+	DataRegistry.demo_core_loop_v2 = contract_snapshot
+	print(
+		"ORDER123_W9_TRIGGER_CANDIDATES_OK "
+		+ "current=3 exact_ids=1 reachable_max=4 terminal_identity=2 "
+		+ "preview=state_free fifth_state=unreconstructable_rejected")
+
+
+func _produce_order123_w9_union(include_rain_shift: bool) -> Dictionary:
+	var father_source := _produce_fresh_father_completed_month(0)
+	var father_route := "m1_father_completed_wellbeing_to_m3_quiet_call"
+	var hyunsu_route := "m2_people_completed_hyunsu_to_m3_followup"
+	var father_receipt := CORE.terminal_transition_receipt(father_route)
+	_expect(not father_source.is_empty() and not father_receipt.is_empty(),
+		"ORDER-123 producer lacked the actual W2 Father terminal receipt")
+	if father_source.is_empty() or father_receipt.is_empty():
+		return {}
+	_advance_to_next_week()
+	var initialized := CORE.initialize_seoul_cycle(2)
+	_expect(bool(initialized.get("ok", false)),
+		"ORDER-123 producer could not initialize Month Two")
+	if not bool(initialized.get("ok", false)):
+		return {}
+	for turn in range(5, 9):
+		var committed_ok := false
+		if turn == 5:
+			var snapshot := CORE.seoul_cycle_snapshot(2)
+			var capacity_id := _unused_capacity(snapshot, 3, true)
+			var committed := CORE.commit_seoul_cycle_allocation(
+				capacity_id, "m2_people", 2, "hyunsu_player_reachout")
+			committed_ok = bool(committed.get("ok", false)) \
+				and bool(committed.get("completed_now", false)) \
+				and _resolve_m2_people_selected_story(
+					"hyunsu_player_reachout", 0)
+		elif include_rain_shift:
+			committed_ok = _commit_m2_terminal_filler()
+		elif turn == 6:
+			# Match the CI route: one livelihood allocation records the durable
+			# routine, but its value stays below the Rain Shift threshold. That
+			# makes Daeun ordinary-eligible at W9 without also opening Jiyeon.
+			var snapshot := CORE.seoul_cycle_snapshot(2)
+			var capacity_id := _unused_capacity(snapshot, 0, false)
+			var committed := CORE.commit_seoul_cycle_allocation(
+				capacity_id, "m2_livelihood", 2)
+			committed_ok = bool(committed.get("ok", false)) \
+				and not bool(committed.get("completed_now", true)) \
+				and (committed.get(
+					"pending_trigger", {}) as Dictionary).is_empty()
+		else:
+			var snapshot := CORE.seoul_cycle_snapshot(2)
+			var capacity_id := _unused_capacity(snapshot, 0, true)
+			var committed := CORE.commit_seoul_cycle_allocation(
+				capacity_id, "m2_self", 2)
+			committed_ok = bool(committed.get("ok", false))
+			var pending: Dictionary = committed.get("pending_trigger", {})
+			if committed_ok and not pending.is_empty():
+				committed_ok = str(pending.get("bundle_id", "")) \
+					== "m2_sleep_debt_sunday" \
+					and _resolve_cycle_recovery_trigger(
+						"m2_sleep_debt_sunday")
+		_expect(committed_ok,
+			"ORDER-123 producer allocation failed at W%d" % turn)
+		if not committed_ok:
+			return {}
+		if turn == 5 and not _resolve_cycle_story_world(
+				"m2_mirae_result_message", "v2_mirae_result_message", 0):
+			return {}
+		if turn == 8 and not _resolve_order101_sns_world():
+			return {}
+		var closed := CORE.complete_seoul_cycle_turn(2)
+		_expect(bool(closed.get("ok", false)),
+			"ORDER-123 producer could not close W%d" % turn)
+		if not bool(closed.get("ok", false)):
+			return {}
+		if turn < 8:
+			_advance_to_next_week()
+	var summary := CORE.record_month_summary(2, {}, {})
+	var hyunsu_receipt := CORE.terminal_transition_receipt(hyunsu_route)
+	_expect(not summary.is_empty() and not hyunsu_receipt.is_empty() \
+		and CORE.terminal_transition_receipt(father_route) == father_receipt,
+		"ORDER-123 producer did not freeze both source-bound terminal receipts")
+	if summary.is_empty() or hyunsu_receipt.is_empty():
+		return {}
+	_advance_to_next_week()
+	var month_three := CORE.initialize_seoul_cycle(3)
+	var snapshot := CORE.seoul_cycle_snapshot(3)
+	var candidates := CORE.terminal_target_candidates(3, "m3_people")
+	_expect(bool(month_three.get("ok", false)),
+		"ORDER-123 producer could not initialize W9")
+	if not bool(month_three.get("ok", false)):
+		return {}
+	return {
+		"snapshot": snapshot,
+		"candidates": candidates,
+		"save": GameState.serialize().duplicate(true),
+	}
+
+
+func _order123_candidate_record(
+		raw_candidates: Array, candidate_id: String) -> Dictionary:
+	for raw_candidate in raw_candidates:
+		if raw_candidate is Dictionary \
+				and str((raw_candidate as Dictionary).get("id", "")) \
+					== candidate_id:
+			return (raw_candidate as Dictionary).duplicate(true)
+	return {}
+
+
+func _check_order123_forged_fifth_state_rejected(
+		max_four_save: Dictionary) -> void:
+	var forged_id := "forged_fifth_candidate"
+	GameState.start_new_game()
+	GameState.load_from_dict(max_four_save.duplicate(true))
+	CORE.initialize_for_run(true)
+	var baseline_state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var baseline_cycle: Dictionary = baseline_state.get("seoul_cycle", {})
+	var baseline_snapshot := CORE.seoul_cycle_snapshot(3)
+	var capacity_id := _unused_capacity(baseline_snapshot, 0, true)
+	var before_invalid: Dictionary = GameState.serialize().duplicate(true)
+	var invalid_preview := CORE.preview_seoul_cycle_allocation(
+		capacity_id, "m3_people", 3, forged_id)
+	_expect(not bool(invalid_preview.get("ok", true)) \
+		and str(invalid_preview.get("error", "")) \
+			== "invalid_terminal_selection" \
+		and GameState.serialize() == before_invalid,
+		"ORDER-123 accepted an unknown requested candidate")
+
+	var one_sided_cycle := baseline_cycle.duplicate(true)
+	var one_sided_nodes: Dictionary = one_sided_cycle.get("nodes", {})
+	var one_sided_node: Dictionary = one_sided_nodes.get("m3_people", {})
+	var one_sided_ids: Array = one_sided_node.get(
+		"binding_candidate_ids", []).duplicate()
+	one_sided_ids.append(forged_id)
+	one_sided_ids.sort()
+	one_sided_node["binding_candidate_ids"] = one_sided_ids
+	one_sided_nodes["m3_people"] = one_sided_node
+	one_sided_cycle["nodes"] = one_sided_nodes
+	var one_sided_outer := baseline_state.duplicate(true)
+	one_sided_outer["seoul_cycle"] = one_sided_cycle
+	_expect(CORE.normalize_seoul_cycle_state(
+		one_sided_cycle, one_sided_outer).is_empty(),
+		"ORDER-123 normalization accepted a one-sided unknown candidate")
+
+	var malformed := max_four_save.duplicate(true)
+	var state: Dictionary = malformed.get("core_loop_v2_state", {})
+	var cycle: Dictionary = state.get("seoul_cycle", {})
+	var nodes: Dictionary = cycle.get("nodes", {})
+	var node: Dictionary = nodes.get("m3_people", {})
+	for field in [
+		"eligible_trigger_bundle_ids", "ordinary_candidate_ids",
+		"binding_candidate_ids",
+	]:
+		var ids: Array = node.get(field, []).duplicate()
+		ids.append(forged_id)
+		ids.sort()
+		node[field] = ids
+	nodes["m3_people"] = node
+	cycle["nodes"] = nodes
+	state["seoul_cycle"] = cycle
+	var plans: Dictionary = state.get("plans", {})
+	var plan: Dictionary = plans.get("3", {})
+	var candidate_sets: Dictionary = plan.get(
+		"terminal_binding_candidate_sets", {})
+	var candidate_set: Dictionary = candidate_sets.get("m3_people", {})
+	for field in ["ordinary_candidate_ids", "binding_candidate_ids"]:
+		var ids: Array = candidate_set.get(field, []).duplicate()
+		ids.append(forged_id)
+		ids.sort()
+		candidate_set[field] = ids
+	candidate_sets["m3_people"] = candidate_set
+	plan["terminal_binding_candidate_sets"] = candidate_sets
+	plans["3"] = plan
+	state["plans"] = plans
+	var witnesses: Dictionary = state.get(
+		"terminal_target_binding_receipts", {})
+	var witness: Dictionary = witnesses.get("3:m3_people", {})
+	for field in ["ordinary_candidate_ids", "binding_candidate_ids"]:
+		var ids: Array = witness.get(field, []).duplicate()
+		ids.append(forged_id)
+		ids.sort()
+		witness[field] = ids
+	var eligibility: Dictionary = witness.get("ordinary_eligibility", {})
+	var eligible_ids: Array = eligibility.get(
+		"eligible_authored_candidate_ids", []).duplicate()
+	eligible_ids.append(forged_id)
+	eligible_ids.sort()
+	eligibility["eligible_authored_candidate_ids"] = eligible_ids
+	witness["ordinary_eligibility"] = eligibility
+	witnesses["3:m3_people"] = witness
+	state["terminal_target_binding_receipts"] = witnesses
+	malformed["core_loop_v2_state"] = state
+
+	GameState.start_new_game()
+	GameState.load_from_dict(malformed)
+	CORE.initialize_for_run(true)
+	var before_retry: Dictionary = GameState.serialize().duplicate(true)
+	var retried := CORE.initialize_seoul_cycle(3)
+	_expect(not bool(CORE.seoul_cycle_snapshot(3).get("active", true)) \
+		and CORE.terminal_target_candidates(3, "m3_people").is_empty() \
+		and not bool(retried.get("ok", true)) \
+		and str(retried.get("error", "")) == "terminal_binding_conflict" \
+		and GameState.serialize() == before_retry,
+		"ORDER-123 coupled unreconstructable fifth state escaped fail-closed recovery")
 
 
 func _check_order101_m2_edge_contracts() -> void:

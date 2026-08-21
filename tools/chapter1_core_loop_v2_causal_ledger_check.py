@@ -2744,10 +2744,12 @@ EXPECTED_STORY_INPUTS_BY_READER = {
 
 AUDITED_LEDGER_SEMANTIC_SHA256 = 'dde49afc201affa1bc252631fd02a815f422974b40e6c5c183e7fa38f7f3e283'
 EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
+	"content/meta/chapter1_core_loop_v2_causal_ledger.json":
+		"69762ce470b2e466a67440d9562a01cef1ea032352840c4fd8a43be7a3ef05a0",
     "systems/DemoCoreLoopV2.gd":
         "9c01278a35e1101fd592addba0605a414a0eee8fd62c1af08d2a3919f51307fc",
     "tools/CoreLoopV2CycleCheck.gd":
-        "4ebfe5e8d87e84100cca638d9bdcbfb1d3e55f5e74ceae472493457315c93203",
+		"b375fbe1c5afa97dc0abe0d54a9ecf70d5041caf63675ba6d43a04d5aeb69520",
     "tools/StoryPlaybackCheck.gd":
         "b16d80f1f7b9bff0b31513ac315afa92cf3102fb3553f2fee133ad486058b737",
     "autoloads/GameState.gd":
@@ -2769,11 +2771,11 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "scenes/StoryMode.tscn":
         "b7688a883323a196e74271c1e76f1d88c91310b3fe1a287cb051b33dd2fb76ca",
     "scenes/MainGame.gd":
-        "16a8b5e417dc4bc659a30cc73a9048902bd2d73c21f3daf592c5533739dc822b",
+		"5ce4048215696adc1a5fda42d75a76b71f3132d283c4c89db286e6ceac0569e3",
     "scenes/MainGame.tscn":
         "71a9590d43c755fa6b409ee0eb0f1950c6aba4517c64192b83038d22a45d9979",
     "scenes/SeoulCycleBoard.gd":
-        "13897840203692b1dbcc392b9df8beef425530b6912da3952b823949a58cb15c",
+		"78e0bbdc1bf1378e051a18412ba667e69025cb588741b233493f26ad95b61507",
     "scenes/CommitmentTask.gd":
         "bae7b92139eaf8d4e112b870eb11dfb1fefa0a35d1d4f37a7bfa9df7e665af8b",
     "scenes/JobHuntMiniGame.gd":
@@ -2813,7 +2815,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "tools/core_loop_v2_balance_sim.py":
         "b9f96ed925cce3801fe8c45716f5bab2fb480507fa1cd3069c714bd222cedf86",
     "tools/demo_core_loop_v2_audit.py":
-        "f75c1ecc369b46220a9dd8780415daf582c9625f719c5a0a0b609a49ee871ab5",
+		"c4ec7660b453321687023109090c767f07bf2641dc634378a5d9a71b5a2227b3",
     "tools/first_session_pacing_audit.py":
         "91beb389fc0362e4769d0e5f15ae45e4d1b354ba2f51c500f9b903608f2545a0",
     "tools/release_content_inventory.py":
@@ -5423,10 +5425,14 @@ def _player_required_selection_source_errors(
             "DEMO_CORE_LOOP_V2.preview_seoul_cycle_allocation(",
             "capacity_id, str(node_id), -1,",
             "candidate_id)",
-            'candidate_preview.get("ok", false)',
+            "var preview_candidate_id := str(",
             'candidate_preview.get(',
+            '"selected_trigger_candidate_id", ""))',
+            "if preview_candidate_id.is_empty():",
+            "preview_candidate_id = str(candidate_preview.get(",
             '"selected_trigger_bundle_id", ""))',
-            "== candidate_id",
+            'candidate_preview.get("ok", false)',
+            "preview_candidate_id == candidate_id",
             "candidate_previews[candidate_id] =",
             'preview["trigger_candidate_previews"] = candidate_previews')),
         ("scenes/SeoulCycleBoard.gd::_refresh_trigger_candidate_surface", (
@@ -5439,28 +5445,51 @@ def _player_required_selection_source_errors(
             "_trigger_candidate_records.has(candidate_id)",
             "_selected_trigger_bundle_id = candidate_id")),
         ("scenes/SeoulCycleBoard.gd::_selected_trigger_preview", (
+            "var normalized_base := _normalized_preview(",
             "_selected_trigger_bundle_id.is_empty()",
             'base_preview.get(',
             '"trigger_candidate_previews", {})',
             'raw_variants as Dictionary).get(',
             "_selected_trigger_bundle_id, {})",
-            'variant.get(',
-            '"selected_trigger_bundle_id", ""))',
-            "== _selected_trigger_bundle_id",
+            "var variant := _normalized_preview(",
+            '_trigger_preview_matches_selected_candidate(variant)',
+            'variant["trigger_selection_required"] = true',
+            'variant["trigger_candidates"] = normalized_base.get(',
             'rejected["ok"] = false',
             'rejected["valid"] = false',
             'rejected["error"] = "invalid_trigger_selection"')),
+        ("scenes/SeoulCycleBoard.gd::_trigger_preview_selected_candidate_id", (
+            'preview.get(',
+            '"selected_trigger_candidate_id", "")).strip_edges()',
+            "if not terminal_candidate_id.is_empty():",
+            "return terminal_candidate_id",
+            'preview.get("selected_trigger_bundle_id", "")).strip_edges()')),
+        ("scenes/SeoulCycleBoard.gd::_trigger_preview_matches_selected_candidate", (
+            "var candidate_id := _trigger_preview_selected_candidate_id(preview)",
+            "candidate_id != _selected_trigger_bundle_id",
+            "not _trigger_candidate_records.has(candidate_id)",
+            "var candidate: Dictionary = _trigger_candidate_records.get(",
+            'candidate.get(',
+            '"bundle_id", candidate_id)).strip_edges()',
+            'candidate.get("route_id", "")).strip_edges()',
+            'candidate.get("variant_id", "")).strip_edges()',
+            'preview.get("selected_trigger_bundle_id", "")).strip_edges()',
+            "== expected_bundle_id",
+            'preview.get("selected_terminal_route_id", "")).strip_edges()',
+            "== expected_route_id",
+            'preview.get("terminal_variant_id", "")).strip_edges()',
+            "== expected_variant_id")),
         ("scenes/SeoulCycleBoard.gd::_on_commit_pressed", (
             "_trigger_selection_required(preview)",
             "not _selected_trigger_candidate_is_valid()",
             "allocation_requested.emit(",
             "_selected_die_id, _selected_node_id, _selected_trigger_bundle_id")),
         ("scenes/MainGame.gd::_on_seoul_cycle_allocation_requested", (
-            "selected_bundle_id: String = \"\"",
-            "capacity_id, node_id, selected_bundle_id")),
+            "selected_candidate_id: String = \"\"",
+            "capacity_id, node_id, selected_candidate_id")),
         ("scenes/MainGame.gd::_core_loop_v2_commit_seoul_cycle_allocation_durably", (
-            "selected_bundle_id: String = \"\"",
-            "capacity_id, node_id, -1, selected_bundle_id")),
+            "selected_candidate_id: String = \"\"",
+            "capacity_id, node_id, -1, selected_candidate_id")),
     )
     for pointer, markers in contracts:
         body = _pointer_source_text(pointer, cache)

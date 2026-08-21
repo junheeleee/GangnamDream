@@ -7,7 +7,7 @@ import argparse
 import json
 import re
 import sys
-from itertools import combinations
+from itertools import combinations, product
 from pathlib import Path
 from typing import Any
 
@@ -17,12 +17,26 @@ CONTRACT_PATH = ROOT / "content" / "meta" / "demo_core_loop_v2.json"
 NARRATIVE_SPINE_PATH = ROOT / "content" / "meta" / "narrative_spine.json"
 REGISTRY_PATH = ROOT / "autoloads" / "DataRegistry.gd"
 DEMO_CORE_LOOP_PATH = ROOT / "systems" / "DemoCoreLoopV2.gd"
+SEOUL_CYCLE_BOARD_PATH = ROOT / "scenes" / "SeoulCycleBoard.gd"
 CORE_V2_EVENTS_PATH = ROOT / "content" / "events" / "core_loop_v2_events.json"
 CORE_V2_EVENTS_EN_PATH = (
     ROOT / "content" / "events_en" / "core_loop_v2_events.json"
 )
 STORY_RULES_PATH = ROOT / "content" / "meta" / "story_rules.json"
 HANGUL_RE = re.compile(r"[가-힣]")
+
+SEOUL_CYCLE_TRIGGER_CANDIDATE_MAX = 4
+EXPECTED_ORDER123_W9_CANDIDATE_IDS = [
+    "daeun_world_meet",
+    "terminal:m1_father_completed_wellbeing_to_m3_quiet_call",
+    "terminal:m2_people_completed_hyunsu_to_m3_followup",
+]
+EXPECTED_ORDER123_REACHABLE_MAX_CANDIDATE_IDS = [
+    "daeun_world_meet",
+    "jiyeon_world_meet",
+    "terminal:m1_father_completed_wellbeing_to_m3_quiet_call",
+    "terminal:m2_people_completed_hyunsu_to_m3_followup",
+]
 
 EXPECTED_FIRST_BILL_KO_SENTENCE = (
     "각 줄에는 끝내야 할 동작과 그 일을 놓아야 하는 시각이 적혀 있었다."
@@ -8340,6 +8354,468 @@ def measure_long_tail_readers(
     return lines
 
 
+def _order123_authored_trigger_ids(node: dict[str, Any]) -> list[str]:
+    candidate_ids: list[str] = []
+    raw_options = node.get("trigger_options", [])
+    if isinstance(raw_options, list):
+        for raw_candidate_id in raw_options:
+            candidate_id = str(raw_candidate_id).strip()
+            if candidate_id and candidate_id not in candidate_ids:
+                candidate_ids.append(candidate_id)
+    for field in ("trigger_bundle", "fallback_trigger_bundle"):
+        candidate_id = str(node.get(field, "")).strip()
+        if candidate_id and candidate_id not in candidate_ids:
+            candidate_ids.append(candidate_id)
+    return candidate_ids
+
+
+def _order123_cycle_node(
+    seoul_cycle: dict[str, Any], month: int, node_id: str,
+) -> dict[str, Any]:
+    months = seoul_cycle.get("months", {})
+    if not isinstance(months, dict):
+        return {}
+    month_spec = months.get(str(month), {})
+    if not isinstance(month_spec, dict):
+        return {}
+    nodes = month_spec.get("nodes", {})
+    if not isinstance(nodes, dict):
+        return {}
+    node = nodes.get(node_id, {})
+    return node if isinstance(node, dict) else {}
+
+
+def _order123_completed_bundle_dependencies(raw_value: Any) -> set[str]:
+    dependencies: set[str] = set()
+    if isinstance(raw_value, dict):
+        if raw_value.get("kind") == "completed_bundle":
+            bundle_id = str(raw_value.get("bundle_id", "")).strip()
+            if bundle_id:
+                dependencies.add(bundle_id)
+        for child in raw_value.values():
+            dependencies.update(_order123_completed_bundle_dependencies(child))
+    elif isinstance(raw_value, list):
+        for child in raw_value:
+            dependencies.update(_order123_completed_bundle_dependencies(child))
+    return dependencies
+
+
+def _order123_exact_relationship_stages(raw_value: Any) -> dict[str, str]:
+    stages: dict[str, str] = {}
+    if isinstance(raw_value, dict):
+        if raw_value.get("kind") == "relationship_stage_is":
+            character = str(raw_value.get("character", "")).strip()
+            stage = str(raw_value.get("stage", "")).strip()
+            if character and stage:
+                stages[character] = stage
+        for child in raw_value.values():
+            stages.update(_order123_exact_relationship_stages(child))
+    elif isinstance(raw_value, list):
+        for child in raw_value:
+            stages.update(_order123_exact_relationship_stages(child))
+    return stages
+
+
+def _order123_max_compatible_ordinary_count(
+    candidate_ids: set[str], bundles: dict[str, Any],
+) -> int:
+    ordered_ids = sorted(candidate_ids)
+    for size in range(len(ordered_ids), -1, -1):
+        for selected_ids in combinations(ordered_ids, size):
+            selected_stages: dict[str, str] = {}
+            compatible = True
+            for candidate_id in selected_ids:
+                candidate = bundles.get(candidate_id, {})
+                prerequisites = (
+                    candidate.get("prerequisites", {})
+                    if isinstance(candidate, dict)
+                    else {}
+                )
+                for character, stage in _order123_exact_relationship_stages(
+                    prerequisites
+                ).items():
+                    if (
+                        character in selected_stages
+                        and selected_stages[character] != stage
+                    ):
+                        compatible = False
+                        break
+                    selected_stages[character] = stage
+                if not compatible:
+                    break
+            if compatible:
+                return size
+    return 0
+
+
+def _order123_reachable_terminal_union_max(
+    contract: dict[str, Any],
+) -> int:
+    """Conservatively enumerate current authored/terminal candidate unions.
+
+    One source node can produce only one terminal route. A completed route
+    replaces its authored target bundle with a source-bound candidate. An
+    expired source cannot simultaneously satisfy target prerequisites that
+    require one of that source node's completed trigger bundles.
+    """
+    seoul_cycle = contract.get("seoul_cycle", {})
+    bundles = contract.get("scene_bundles", {})
+    if not isinstance(seoul_cycle, dict) or not isinstance(bundles, dict):
+        return -1
+    months = seoul_cycle.get("months", {})
+    routes = seoul_cycle.get("terminal_routes", {})
+    if not isinstance(months, dict) or not isinstance(routes, dict):
+        return -1
+
+    maximum = 0
+    for raw_month, raw_month_spec in months.items():
+        if not isinstance(raw_month_spec, dict):
+            continue
+        try:
+            month = int(str(raw_month))
+        except ValueError:
+            continue
+        nodes = raw_month_spec.get("nodes", {})
+        if not isinstance(nodes, dict):
+            continue
+        for raw_node_id, raw_node in nodes.items():
+            if not isinstance(raw_node, dict):
+                continue
+            node_id = str(raw_node_id)
+            authored_ids = _order123_authored_trigger_ids(raw_node)
+            maximum = max(
+                maximum,
+                _order123_max_compatible_ordinary_count(
+                    set(authored_ids), bundles
+                ),
+            )
+
+            source_groups: dict[tuple[int, str], list[tuple[str, dict[str, Any]]]] = {}
+            for raw_route_id, raw_route in routes.items():
+                if not isinstance(raw_route, dict):
+                    continue
+                target = raw_route.get("target", {})
+                source = raw_route.get("source", {})
+                if not isinstance(target, dict) or not isinstance(source, dict):
+                    continue
+                if (
+                    int(target.get("month", 0)) != month
+                    or str(target.get("node", "")) != node_id
+                ):
+                    continue
+                source_key = (
+                    int(source.get("month", 0)),
+                    str(source.get("node", "")),
+                )
+                source_groups.setdefault(source_key, []).append(
+                    (str(raw_route_id), raw_route)
+                )
+
+            choices: list[list[tuple[str, dict[str, Any]] | None]] = []
+            for group in source_groups.values():
+                choices.append([None, *group])
+            for selected_routes in product(*choices) if choices else [()]:
+                ordinary_ids = set(authored_ids)
+                terminal_ids: set[str] = set()
+                for selected_route in selected_routes:
+                    if selected_route is None:
+                        continue
+                    route_id, route = selected_route
+                    target = route.get("target", {})
+                    source = route.get("source", {})
+                    if not isinstance(target, dict) or not isinstance(source, dict):
+                        continue
+                    target_bundle = str(target.get("bundle", "")).strip()
+                    if target_bundle:
+                        ordinary_ids.discard(target_bundle)
+                    elif source.get("terminal") == "expired":
+                        source_node = _order123_cycle_node(
+                            seoul_cycle,
+                            int(source.get("month", 0)),
+                            str(source.get("node", "")),
+                        )
+                        source_trigger_ids = set(
+                            _order123_authored_trigger_ids(source_node)
+                        )
+                        for candidate_id in list(ordinary_ids):
+                            candidate = bundles.get(candidate_id, {})
+                            prerequisites = (
+                                candidate.get("prerequisites", {})
+                                if isinstance(candidate, dict)
+                                else {}
+                            )
+                            if (
+                                _order123_completed_bundle_dependencies(
+                                    prerequisites
+                                )
+                                & source_trigger_ids
+                            ):
+                                ordinary_ids.discard(candidate_id)
+                    terminal_ids.add(f"terminal:{route_id}")
+                maximum = max(
+                    maximum,
+                    _order123_max_compatible_ordinary_count(
+                        ordinary_ids, bundles
+                    ) + len(terminal_ids),
+                )
+    return maximum
+
+
+def order123_trigger_candidate_contract_errors(
+    board_source: str, contract: dict[str, Any],
+) -> list[str]:
+    errors: list[str] = []
+    declared_match = re.search(
+        r"(?m)^const MAX_TRIGGER_CANDIDATES\s*:=\s*(-?\d+)\s*$",
+        board_source,
+    )
+    declared_max = int(declared_match.group(1)) if declared_match else -1
+    if declared_max != SEOUL_CYCLE_TRIGGER_CANDIDATE_MAX:
+        errors.append(
+            "SeoulCycleBoard MAX_TRIGGER_CANDIDATES must be declared as exact 4"
+        )
+    if not re.search(
+        r"if\s+candidates\.size\(\)\s*>\s*MAX_TRIGGER_CANDIDATES\s*:",
+        board_source,
+    ):
+        errors.append(
+            "SeoulCycleBoard must fail closed above its named trigger-candidate maximum"
+        )
+
+    seoul_cycle = contract.get("seoul_cycle", {})
+    if not isinstance(seoul_cycle, dict):
+        errors.append("ORDER-123 terminal-union measurement has no seoul_cycle")
+        return errors
+    month_three_people = _order123_cycle_node(seoul_cycle, 3, "m3_people")
+    authored_ids = _order123_authored_trigger_ids(month_three_people)
+    expected_authored_ids = [
+        "jiyeon_world_meet",
+        "daeun_world_meet",
+        "hyunsu_study_followup",
+        "father_quiet_call",
+    ]
+    if authored_ids != expected_authored_ids:
+        errors.append(
+            "M3 people authored candidate order must remain the exact four-current union"
+        )
+
+    routes = seoul_cycle.get("terminal_routes", {})
+    if not isinstance(routes, dict):
+        errors.append("ORDER-123 terminal-union measurement has no terminal routes")
+        return errors
+    route_ids = [
+        "m1_father_completed_wellbeing_to_m3_quiet_call",
+        "m2_people_completed_hyunsu_to_m3_followup",
+    ]
+    selected_groups: set[tuple[int, str]] = set()
+    candidate_ids = set(authored_ids)
+    for route_id in route_ids:
+        route = routes.get(route_id, {})
+        if not isinstance(route, dict):
+            errors.append(f"ORDER-123 terminal-union route is missing: {route_id}")
+            continue
+        source = route.get("source", {})
+        target = route.get("target", {})
+        if not isinstance(source, dict) or not isinstance(target, dict):
+            errors.append(f"ORDER-123 terminal-union route is malformed: {route_id}")
+            continue
+        source_group = (
+            int(source.get("month", 0)), str(source.get("node", ""))
+        )
+        if source_group in selected_groups:
+            errors.append("ORDER-123 max-four fixture reused one terminal source node")
+        selected_groups.add(source_group)
+        if (
+            int(target.get("month", 0)) != 3
+            or str(target.get("node", "")) != "m3_people"
+        ):
+            errors.append(f"ORDER-123 route escaped the M3 people target: {route_id}")
+            continue
+        candidate_ids.discard(str(target.get("bundle", "")).strip())
+        candidate_ids.add(f"terminal:{route_id}")
+    if sorted(candidate_ids) != EXPECTED_ORDER123_REACHABLE_MAX_CANDIDATE_IDS:
+        errors.append(
+            "ORDER-123 legal max-four producer union drifted: "
+            f"{sorted(candidate_ids)!r}"
+        )
+    current_w9_ids = sorted(candidate_ids - {"jiyeon_world_meet"})
+    if current_w9_ids != EXPECTED_ORDER123_W9_CANDIDATE_IDS:
+        errors.append(
+            "ORDER-123 current W9 three-candidate identity drifted: "
+            f"{current_w9_ids!r}"
+        )
+
+    reachable_max = _order123_reachable_terminal_union_max(contract)
+    if reachable_max != SEOUL_CYCLE_TRIGGER_CANDIDATE_MAX:
+        errors.append(
+            "current authored/terminal union maximum must remain exact 4; "
+            f"got {reachable_max}"
+        )
+    if declared_max >= 0 and reachable_max > declared_max:
+        errors.append(
+            "SeoulCycleBoard declared maximum is below the reachable terminal union"
+        )
+    return errors
+
+
+def run_order123_trigger_candidate_self_test() -> list[str]:
+    failures: list[str] = []
+    cases = 1
+    board_source = """
+const MAX_TRIGGER_CANDIDATES := 4
+func _trigger_candidate_contract_error(candidates: Array) -> String:
+    if candidates.size() > MAX_TRIGGER_CANDIDATES:
+        return "overflow"
+    return ""
+"""
+    fixture: dict[str, Any] = {
+        "scene_bundles": {
+            "jiyeon_world_meet": {"prerequisites": {}},
+            "daeun_world_meet": {"prerequisites": {}},
+            "hyunsu_study_followup": {
+                "prerequisites": {
+                    "all": [{
+                        "kind": "completed_bundle",
+                        "bundle_id": "hyunsu_player_reachout",
+                    }]
+                }
+            },
+            "father_quiet_call": {"prerequisites": {}},
+        },
+        "seoul_cycle": {
+            "months": {
+                "1": {"nodes": {"father": {
+                    "trigger_bundle": "father_first_call",
+                }}},
+                "2": {"nodes": {"m2_people": {
+                    "trigger_options": [
+                        "hyunsu_player_reachout", "cafe_world_glimpse",
+                    ],
+                }}},
+                "3": {"nodes": {"m3_people": {
+                    "trigger_options": [
+                        "jiyeon_world_meet", "daeun_world_meet",
+                        "hyunsu_study_followup", "father_quiet_call",
+                    ],
+                }}},
+            },
+            "terminal_routes": {
+                "m1_father_completed_wellbeing_to_m3_quiet_call": {
+                    "source": {"month": 1, "node": "father",
+                               "terminal": "completed"},
+                    "target": {"month": 3, "node": "m3_people",
+                               "bundle": "father_quiet_call"},
+                },
+                "m2_people_completed_hyunsu_to_m3_followup": {
+                    "source": {"month": 2, "node": "m2_people",
+                               "terminal": "completed"},
+                    "target": {"month": 3, "node": "m3_people",
+                               "bundle": "hyunsu_study_followup"},
+                },
+            },
+        },
+    }
+    if order123_trigger_candidate_contract_errors(board_source, fixture):
+        failures.append("valid ORDER-123 max-four fixture was rejected")
+
+    # Lock the derivation itself, not only the production answer. A constant
+    # `return 4` must fail these smaller unions even though it can pass the
+    # current-data assertion above.
+    cases += 1
+    lower_union = json.loads(json.dumps(fixture))
+    lower_union["seoul_cycle"]["months"]["3"]["nodes"]["m3_people"][
+        "trigger_options"
+    ].remove("daeun_world_meet")
+    if _order123_reachable_terminal_union_max(lower_union) != 3:
+        failures.append("ORDER-123 lower three-candidate union derived incorrectly")
+
+    incompatible = json.loads(json.dumps(fixture))
+    for index, bundle_id in enumerate((
+        "jiyeon_world_meet", "daeun_world_meet",
+        "hyunsu_study_followup", "father_quiet_call",
+    )):
+        incompatible["scene_bundles"][bundle_id]["prerequisites"] = {
+            "kind": "relationship_stage_is",
+            "character": "qa_shared_relationship",
+            "stage": f"stage_{index}",
+        }
+    cases += 1
+    if _order123_reachable_terminal_union_max(incompatible) != 3:
+        failures.append("ORDER-123 independent terminal source groups were collapsed")
+    same_source = json.loads(json.dumps(incompatible))
+    same_source["seoul_cycle"]["terminal_routes"][
+        "m2_people_completed_hyunsu_to_m3_followup"
+    ]["source"] = {
+        "month": 1, "node": "father", "terminal": "completed",
+    }
+    cases += 1
+    if _order123_reachable_terminal_union_max(same_source) != 2:
+        failures.append("ORDER-123 same-source terminal routes were counted together")
+
+    expired_dependency: dict[str, Any] = {
+        "scene_bundles": {
+            "dependent": {"prerequisites": {
+                "kind": "completed_bundle", "bundle_id": "seed",
+            }},
+            "other": {"prerequisites": {}},
+        },
+        "seoul_cycle": {
+            "months": {
+                "1": {"nodes": {"source": {"trigger_bundle": "seed"}}},
+                "3": {"nodes": {"m3_people": {
+                    "trigger_options": ["dependent", "other"],
+                }}},
+            },
+            "terminal_routes": {
+                "expired_source_to_m3": {
+                    "source": {
+                        "month": 1, "node": "source", "terminal": "expired",
+                    },
+                    "target": {"month": 3, "node": "m3_people", "bundle": ""},
+                },
+            },
+        },
+    }
+    cases += 1
+    if _order123_reachable_terminal_union_max(expired_dependency) != 2:
+        failures.append("ORDER-123 expired source dependency was not removed")
+    unrelated_dependency = json.loads(json.dumps(expired_dependency))
+    unrelated_dependency["scene_bundles"]["dependent"]["prerequisites"][
+        "bundle_id"
+    ] = "unrelated"
+    cases += 1
+    if _order123_reachable_terminal_union_max(unrelated_dependency) != 3:
+        failures.append("ORDER-123 unrelated expiry dependency was over-filtered")
+
+    source_mutations = (
+        ("max_two", board_source.replace(
+            "MAX_TRIGGER_CANDIDATES := 4", "MAX_TRIGGER_CANDIDATES := 2")),
+        ("unbounded", board_source.replace(
+            "candidates.size() > MAX_TRIGGER_CANDIDATES", "false")),
+        ("max_five", board_source.replace(
+            "MAX_TRIGGER_CANDIDATES := 4", "MAX_TRIGGER_CANDIDATES := 5")),
+    )
+    for label, mutated_source in source_mutations:
+        cases += 1
+        if not order123_trigger_candidate_contract_errors(
+            mutated_source, fixture
+        ):
+            failures.append(f"ORDER-123 Board mutation passed: {label}")
+
+    cases += 1
+    fifth = json.loads(json.dumps(fixture))
+    fifth["scene_bundles"]["forged_fifth"] = {"prerequisites": {}}
+    fifth["seoul_cycle"]["months"]["3"]["nodes"]["m3_people"][
+        "trigger_options"
+    ].append("forged_fifth")
+    if not order123_trigger_candidate_contract_errors(board_source, fifth):
+        failures.append("ORDER-123 fifth reachable candidate mutation passed")
+
+    if not failures:
+        print(f"CORE_LOOP_V2_ORDER123_SELF_TEST_OK cases={cases}")
+    return failures
+
+
 def order122_first_bill_copy_errors(
     ko_description: str, en_description: str,
 ) -> list[str]:
@@ -8506,6 +8982,9 @@ def main() -> int:
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args()
     errors: list[str] = []
+    # This small mutation suite is part of the direct audit because audit.sh
+    # invokes the direct route. Keep --self-test for the broader copy suite.
+    errors.extend(run_order123_trigger_candidate_self_test())
     if args.self_test:
         errors.extend(run_order122_copy_self_test())
     try:
@@ -9086,9 +9565,7 @@ def main() -> int:
         fail("Seoul Cycle world clock must own exactly W3 Hyunsu and W4 temptation", errors)
 
     try:
-        seoul_board_source = (ROOT / "scenes/SeoulCycleBoard.gd").read_text(
-            encoding="utf-8"
-        )
+        seoul_board_source = SEOUL_CYCLE_BOARD_PATH.read_text(encoding="utf-8")
         completion_source = (ROOT / "scenes/CoreLoopV2Completion.gd").read_text(
             encoding="utf-8"
         )
@@ -9106,6 +9583,11 @@ def main() -> int:
         vignette_source = ""
         main_game_cycle_source = ""
         demo_cycle_source = ""
+    errors.extend(
+        order123_trigger_candidate_contract_errors(
+            seoul_board_source, contract
+        )
+    )
     for token in (
         "signal allocation_requested(",
         'set_meta("seoul_cycle_snapshot_contract", "seoul_cycle_v1")',
@@ -12596,6 +13078,11 @@ def main() -> int:
             print(f"ERROR core loop v2: {message}")
         return 1
 
+    print(
+        "seoul_cycle_trigger_candidates board_max=4 "
+        "reachable_terminal_union_max=4 current_w9=3 "
+        "overflow=fail_closed"
+    )
     print(
         "seoul_cycle_surface months=6 capacity=4 nodes=24 allocations=24 "
         f"world_events={cycle_world_total} horizon=1..24/no_month7 "
