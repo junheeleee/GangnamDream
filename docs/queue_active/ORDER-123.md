@@ -22,6 +22,14 @@ ORDER-119 기준과 ORDER-122 후보의 producer·Board·MainGame·ScreenshotQA�
 byte-exact이며, 선행 audit red가 사라져 처음 실제입력 단계까지 도달하면서 드러난
 기존 ORDER-101 통합 부채다. 후보를 둘로 자르거나 콘텐츠를 바꾸지 않는다.
 
+**감사 파생 잠금 보강 (2026-08-22):** 구현 freeze
+`4177cd281d7be2c4084a294fd1aa3cbb89b15709`의 첫 전체 감사에서 제품·
+컴파일·밸런스·런타임은 통과했고, 새 `MainGame.gd` 바이트를 아직 가리키지
+않는 Year5 보호 해시 1건과 Board의 새 fail-closed 안내 `_tr` 1회가
+지역화 source occurrence 원장에 반영되지 않은 파생 실패 4건만 남았다.
+제품 문구·번역 키·JA 번역·route/R1b 의미는 바꾸지 않고 이 exact 잠금만
+소유 범위에 추가한다.
+
 ## 깊이 3문
 
 1. 왜 상한을 3으로만 올리지 않는가? M3 people은 Jiyeon·Daeun ordinary 둘과
@@ -50,6 +58,11 @@ byte-exact이며, 선행 audit red가 사라져 처음 실제입력 단계까지
   각각 대조하고 하나로 간주하지 않는다.
 - `DemoCoreLoopV2`·KO/EN 사건·`demo_core_loop_v2.json`·효과·밸런스·저장 schema·
   후보 생산/정렬·terminal receipt는 byte-exact다.
+- Year5 보호 기준은 구현 freeze `4177cd281d7be2c4084a294fd1aa3cbb89b15709`와
+  그 commit의 `MainGame.gd` SHA-256만 가리키며 route·object digest·R1b
+  activation은 바꾸지 않는다.
+- 지역화 원장은 동일한 KO/EN 안내 lookup의 occurrence `+1`만 기록한다.
+  unique source key/hash, 번역 문자열, JA/ZH coverage와 shipping 상태는 바꾸지 않는다.
 
 ## L1 기계 증거
 
@@ -70,6 +83,8 @@ byte-exact이며, 선행 audit red가 사라져 처음 실제입력 단계까지
   direct+self-test를 반드시 선택하도록 한다.
 - Compile, Chapter causal direct+self-test, CoreLoop cycle, KO gamepad 24주,
   EN keyboard 24주, surface matrix, `audit_select`, context/queue/dashboard/diff를 통과한다.
+- Year5 direct+self-test/R1 Godot, JA UI/pipeline self-test, ZH direct+self-test,
+  demo localization direct+self-test가 파생 잠금 갱신 뒤 통과한다.
 - 최종 closure까지 포함한 같은 바이트에서 `./tools/audit.sh`와 원격 CI가 green이어야 한다.
 
 ## L2 재독
@@ -78,9 +93,10 @@ byte-exact이며, 선행 audit red가 사라져 처음 실제입력 단계까지
 - 960×600 KO/EN 캡처에서 세 번째·네 번째 항목, 설명, 진전, Commit을 직접 본다.
 - ordinary/terminal 선택 각각에서 candidate ID, authored bundle, terminal route, variant,
   영수증과 다음 장면이 서로 바뀌지 않았는지 전수 재독한다.
-- 기준 대비 사건·meta·DemoCoreLoop·효과·저장·밸런스 byte 불변과 변경 파일 밖 drift 0을 확인한다.
+- 기준 대비 사건·실행 meta·DemoCoreLoop·효과·저장·밸런스 byte 불변과 변경 파일 밖
+  drift 0을 확인한다. 예외는 아래에 선언한 Year5/localization 파생 잠금 필드뿐이다.
 
-## 배치 — 정확히 18단위
+## 배치 — 정확히 20단위
 
 1. 선언·큐·부팅 상태를 기준 commit과 실패 run에 고정한다.
 2. W9 세 후보의 producer·Board·MainGame·입력 계보를 exact fixture로 고정한다.
@@ -97,11 +113,13 @@ byte-exact이며, 선행 audit red가 사라져 처음 실제입력 단계까지
 13. CoreLoop producer의 W9 exact 3·reachable max4·max5 음성을 고정한다.
 14. static demo audit와 audit selection의 Board 상한 계약을 고정한다.
 15. KO/EN × 입력 × 해상도 matrix를 실행하고 compact 이미지를 재독한다.
-16. KO gamepad·EN keyboard 24주와 full audit를 같은 freeze에서 실행한다.
-17. Chapter source/proof hash와 WORK_LOG 최종 hash만 새 바이트에 재잠근다.
-18. 지속 규칙 승격·archive·STATUS·원격 CI green 뒤 더 쓰지 않는다.
+16. KO gamepad·EN keyboard 24주와 첫 full audit를 같은 freeze에서 실행한다.
+17. 구현 commit과 MainGame 해시를 Year5 보호 기준·감사 상수에 재잠근다.
+18. Board 안내 lookup `+1`의 source occurrence만 localization manifest·JA self-test에 재잠근다.
+19. Chapter source/proof hash와 WORK_LOG 최종 hash만 새 바이트에 재잠근다.
+20. 지속 규칙 승격·archive·STATUS·최종 full audit·원격 CI green 뒤 더 쓰지 않는다.
 
-## 파일 소유권 — 정확히 15개
+## 파일 소유권 — 정확히 19개
 
 1. `scenes/MainGame.gd`
 2. `scenes/SeoulCycleBoard.gd`
@@ -111,18 +129,23 @@ byte-exact이며, 선행 audit red가 사라져 처음 실제입력 단계까지
 6. `tools/audit_scope.json`
 7. `tools/chapter1_core_loop_v2_causal_ledger_check.py`
 8. `docs/QA_CHECKLIST.md`
-9. `CLAUDE.md`
-10. `docs/CODEX_QUEUE.md`
-11. `docs/queue_active/ORDER-123.md`
-12. `docs/queue_archive/ORDER-123.md`
-13. `docs/queue_archive/CODEX_QUEUE_2026-08.md`
-14. `docs/WORK_LOG.md`
-15. `docs/STATUS.md`
+9. `content/meta/year5_reference_routes.json`
+10. `tools/year5_reference_route_audit.py`
+11. `content/meta/demo_localization_scope.json`
+12. `tools/ja_translation_pipeline.py`
+13. `CLAUDE.md`
+14. `docs/CODEX_QUEUE.md`
+15. `docs/queue_active/ORDER-123.md`
+16. `docs/queue_archive/ORDER-123.md`
+17. `docs/queue_archive/CODEX_QUEUE_2026-08.md`
+18. `docs/WORK_LOG.md`
+19. `docs/STATUS.md`
 
 `content/meta/chapter1_core_loop_v2_causal_ledger.json`은 direct 검사로 byte-exact를
 증명한다. 실제 semantic digest가 바뀌는 예외가 확인될 때만 먼저 scope를 확장한다.
-`project.godot`, 사건 JSON, `systems/DemoCoreLoopV2.gd`, meta manifest, 저장·밸런스,
-release/year5 원장과 asset manifest는 수정·스테이징하지 않는다.
+`project.godot`, 사건 JSON, `systems/DemoCoreLoopV2.gd`, 다른 meta manifest, 저장·밸런스,
+release 원장과 asset manifest는 수정·스테이징하지 않는다. 위 Year5/localization
+원장은 지목한 baseline/hash/count 필드만 바꾸고 나머지는 byte-exact로 보존한다.
 
 ## 증거 양식
 
