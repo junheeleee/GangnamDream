@@ -14,12 +14,16 @@
 리비전 사이 byte-exact다. 착수 후 literal-localizer 전수 스캔에서 같은 누출이
 `ArubaGame` 결과와 `JobSystem` 지원 준비 문구에도 5건 확인되었고, 이어진 L2에서
 literal 밖 동적 조립으로 같은 수치를 만드는 `StoryMode` 결과 경로도 확인됐다.
-만지는 파일은 정확히 다음 17개뿐이며
+`StoryMode`의 기계식 결과 카드를 폐기하자 기존 `TextMaterialCheck`와
+`StoryPlaybackCheck`가 그 카드를 계속 요구하는 계약 충돌도 드러났다. 숨은 카드를
+되살리지 않고 두 검사를 새 authored-result-only 표면에 맞춘다. 만지는 파일은
+정확히 다음 19개뿐이며
 `project.godot`은 수정·스테이징하지 않는다.
 
 - `scenes/MainGame.gd`, `scenes/StoryMode.gd`, `scenes/JobHuntMiniGame.gd`, `scenes/ArubaGame.gd`
 - `autoloads/GameState.gd`, `systems/InvestmentSystem.gd`, `systems/JobSystem.gd`
-- `tools/ScreenshotQA.gd`, `tools/player_surface_language_audit.py`
+- `tools/ScreenshotQA.gd`, `tools/TextMaterialCheck.gd`, `tools/StoryPlaybackCheck.gd`
+- `tools/player_surface_language_audit.py`
 - `tools/audit.sh`, `tools/audit_scope.json`
 - `CLAUDE.md`, `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-119.md`
 - `docs/WORK_LOG.md`, `docs/STATUS.md`, `docs/DECISIONS.md`
