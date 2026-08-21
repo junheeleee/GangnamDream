@@ -16,6 +16,7 @@ ERROR가 하나라도 있으면 exit code 1.  WARNING은 통과(코드 0)하되 
 """
 import json, os, re, sys, glob
 
+from event_lifecycle import audit_author_only
 from event_schedule import DeferredFollowUpError, deferred_follow_ups
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -1108,7 +1109,7 @@ def check_cast_visual_years():
 #    어디서도 호출 안 되는 이벤트. 작성됐지만 영원히 안 뜨는 죽은 콘텐츠.
 #    (← 난개발로 구버전 아크가 신버전으로 교체되며 안 지워진 잔재)
 # ══════════════════════════════════════════════════════════════
-def check_dead_arc_events():
+def check_dead_arc_events(author_only_exempt=frozenset()):
     # GD 코드 전체 텍스트 (id 문자열 참조 탐색용)
     code = ""
     for d in GD_DIRS:
@@ -1177,6 +1178,8 @@ def check_dead_arc_events():
             pass
     for eid, p in trigger_only:
         if not eid:
+            continue
+        if eid in author_only_exempt:
             continue
         if ('"%s"' % eid) in code or eid in follow_targets:
             continue
@@ -1346,7 +1349,7 @@ def _choice_is_inert(ch):
         return False
     return True
 
-def check_structural_debt():
+def check_structural_debt(author_only_exempt=frozenset()):
     # 1) write-only 플래그: set되지만 코드/조건 어디서도 안 읽힘
     game_sets, reads = _gather_game_flags()
     write_only = sorted(f for f in game_sets if f not in reads)
@@ -1361,6 +1364,8 @@ def check_structural_debt():
             if not isinstance(ev, dict):
                 continue
             chs = ev.get("choices", []) or []
+            if ev.get("id") in author_only_exempt:
+                continue
             if len(chs) >= 2 and all(_choice_is_inert(c) for c in chs):
                 inert.append(ev.get("id", "?"))
     metrics = {"write_only_flags": len(write_only), "inert_events": len(inert)}
@@ -1570,6 +1575,9 @@ def check_dik_shadowing():
 
 def main():
     print(C.BOLD + "═══ 강남드림 정적 감사 ═══" + C.Z)
+    lifecycle = audit_author_only(ROOT)
+    for message in lifecycle.errors:
+        err("author-only lifecycle: %s" % message)
     check_gdscript()
     check_deprecated()
     check_events()
@@ -1580,9 +1588,9 @@ def main():
     check_event_keys()
     check_cast_stages()
     check_cast_visual_years()
-    check_dead_arc_events()
+    check_dead_arc_events(lifecycle.exempt_ids)
     check_dead_cast_branches()
-    check_structural_debt()
+    check_structural_debt(lifecycle.exempt_ids)
     check_dik_shadowing()
     check_en_conditions()
     check_en_content_no_hangul()

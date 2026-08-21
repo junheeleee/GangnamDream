@@ -116,6 +116,42 @@
   ],
   "checks": [
     {
+      "tool": "tools/event_lifecycle.py",
+      "why": "packaged 1758과 shipping 1603의 author-only 생명주기·제품 진입 분리",
+      "paths": [
+        "content/meta/event_lifecycle.json",
+        "content/meta/thoughts.json",
+        "content/meta/demo_core_loop_v2.json",
+        "content/meta/event_director.json",
+        "content/meta/release_content_inventory.json",
+        "content/events/**",
+        "autoloads/**",
+        "scenes/**",
+        "systems/**",
+        "ui_components/**",
+        "tools/event_lifecycle.py",
+        "tools/event_schedule.py"
+      ]
+    },
+    {
+      "tool": "tools/event_lifecycle.py --self-test",
+      "why": "author-only 메타·ledger·제품 진입 변이 거부 자체 검사",
+      "paths": [
+        "content/meta/event_lifecycle.json",
+        "content/meta/thoughts.json",
+        "content/meta/demo_core_loop_v2.json",
+        "content/meta/event_director.json",
+        "content/meta/release_content_inventory.json",
+        "content/events/**",
+        "autoloads/**",
+        "scenes/**",
+        "systems/**",
+        "ui_components/**",
+        "tools/event_lifecycle.py",
+        "tools/event_schedule.py"
+      ]
+    },
+    {
       "tool": "tools/audit.py",
       "why": "사건·플래그·직렬화 정합 7종. 콘텐츠와 런타임 상태의 공통 기반",
       "paths": [
@@ -123,7 +159,8 @@
         "autoloads/**",
         "systems/**",
         "scenes/**",
-        "tools/audit.py"
+        "tools/audit.py",
+        "tools/event_lifecycle.py"
       ]
     },
     {
@@ -151,6 +188,7 @@
         "content/meta/demo_core_loop_v2.json",
         "content/meta/event_director.json",
         "content/meta/narrative_spine.json",
+        "content/meta/event_lifecycle.json",
         "content/meta/release_content_inventory.json",
         "assets/**",
         "autoloads/**",
@@ -162,6 +200,7 @@
         "docs/DECISIONS.md",
         "docs/STEAM_PAGE.md",
         "tools/build_sample_audio_assets.py",
+        "tools/event_lifecycle.py",
         "tools/release_content_inventory.py"
       ]
     },
@@ -235,6 +274,7 @@
         "content/meta/narrative_spine.json",
         "content/meta/story_map.json",
         "content/meta/story_rules.json",
+        "content/meta/event_lifecycle.json",
         "content/jobs.json",
         "project.godot",
         "systems/StoryMapMonthlyRuntime.gd",
@@ -359,7 +399,9 @@
       "why": "디렉터 풀·콜백 도달성·체인",
       "paths": [
         "content/events/**",
-        "content/meta/event_director.json"
+        "content/meta/event_director.json",
+        "content/meta/event_lifecycle.json",
+        "tools/event_lifecycle.py"
       ]
     },
     {
@@ -738,7 +780,9 @@
       "paths": [
         "assets/event_visual_contracts.json",
         "assets/**",
-        "content/events/**"
+        "content/events/**",
+        "content/meta/event_lifecycle.json",
+        "tools/event_lifecycle.py"
       ]
     },
     {
@@ -799,10 +843,12 @@
         "content/events/**",
         "content/events_en/**",
         "content/endings.json",
+        "content/meta/event_lifecycle.json",
         "content/meta/story_rules.json",
         "autoloads/ImageRegistry.gd",
         "docs/SCENE_DIRECTION.md",
-        "tools/scene_direction_catalog.py"
+        "tools/scene_direction_catalog.py",
+        "tools/event_lifecycle.py"
       ]
     },
     {
@@ -1291,7 +1337,9 @@
       "why": "장면 오디오 카탈로그",
       "paths": [
         "assets/scene_audio_manifest.json",
-        "content/events/**"
+        "content/events/**",
+        "content/meta/event_lifecycle.json",
+        "tools/event_lifecycle.py"
       ]
     },
     {
@@ -1308,7 +1356,9 @@
       "why": "240주 연출 경로",
       "paths": [
         "assets/scene_direction_manifest.json",
-        "content/events/**"
+        "content/events/**",
+        "content/meta/event_lifecycle.json",
+        "tools/event_lifecycle.py"
       ]
     },
     {
