@@ -822,14 +822,16 @@
       "state": "open",
       "scope": {
         "blocks": ["full"],
-        "content": "ORDER-104 핵심 장면 원고 22편의 정본 승격"
+        "content": "ORDER-104 핵심 장면 원고 23편의 정본 승격"
       },
       "revision": "full_rc",
       "sample": {
         "cohort": "order104_seed9821_random_three",
         "requirements": [
-          "803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 22편",
-          "seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음",
+          "803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 23편",
+          "seed 9821 추출 1/3: arc_y4_body_witness — 새벽 두 시의 다은 [신규] 합격",
+          "seed 9821 추출 2/3: arc_final_countdown_not_executed — 도장 없는 마지막 장 [신규] 합격",
+          "seed 9821 추출 3/3: arc_jaehyuk_04a_ghost — 연락 두절 [개작] 합격",
           "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
         ]
       },
@@ -841,7 +843,7 @@
         "verdict": "GO",
         "commit": "803a372d4314d58d9ee03038bca3897bc2e18630",
         "tree": "f95a8dc44dcd61d8c09eef0d487436833c64d721",
-        "sample": {"seed": 9821, "population": 22, "size": 3},
+        "sample": {"seed": 9821, "population": 23, "size": 3},
         "disposition": {"mode": "none", "roots": []},
         "record": "판정: Claude(사용자 위임) — 합격. arc_y4_body_witness에서 다은이 문턱에 멈춰 허락을 묻는 행동을 근거로 삼음."
       }]
@@ -859,7 +861,9 @@
         "cohort": "order105_seed9821_random_three",
         "requirements": [
           "803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 20편",
-          "seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음",
+          "seed 9821 추출 1/3: arc_temptation_fallout — 빌려준 계좌의 반환 요청 [개작] 합격",
+          "seed 9821 추출 2/3: arc_y1_sangchul_open_door — 주소와 소개인 [신규] 합격",
+          "seed 9821 추출 3/3: arc_goshiwon_goodbye — 고시원을 나오는 날 [개작] 합격",
           "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
         ]
       },
@@ -885,7 +889,9 @@
         "cohort": "order106_seed9821_random_three",
         "requirements": [
           "803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 24편",
-          "seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음",
+          "seed 9821 추출 1/3: arc_y2_casino_chosen_door — 카지노 문 앞에서 [신규] 합격",
+          "seed 9821 추출 2/3: arc_y2_hospital_door — 창원 병실의 주말 [신규] 합격",
+          "seed 9821 추출 3/3: arc_34_routine_trap — 루틴의 덫 [개작] 합격",
           "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
         ]
       },
@@ -911,7 +917,9 @@
         "cohort": "order107_seed9821_random_three",
         "requirements": [
           "803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 20편",
-          "seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음",
+          "seed 9821 추출 1/3: arc_y3_father_after_visit_document — 두 문서의 같은 칸 [신규] 미달; ORDER-117 대상",
+          "seed 9821 추출 2/3: arc_y3_truth_heard_by_none — 전송하지 않은 문장 [신규] 합격",
+          "seed 9821 추출 3/3: arc_y3_cost_after_repaid — 두 장의 날짜 [신규] 합격",
           "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
         ]
       },
@@ -940,7 +948,9 @@
         "cohort": "order108_seed9821_random_three",
         "requirements": [
           "803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 25편",
-          "seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음",
+          "seed 9821 추출 1/3: arc_y4_year_close_daeun — 빈칸을 먼저 보여 주는 밤 [신규] 합격",
+          "seed 9821 추출 2/3: arc_y4_bill_night_unattached — 한 통화와 열린 화면들 [신규] 합격",
+          "seed 9821 추출 3/3: arc_y4_family_partner_collision — 같은 식탁의 미래 [개작] 합격",
           "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
         ]
       },
@@ -966,7 +976,9 @@
         "cohort": "order109_seed9821_random_three",
         "requirements": [
           "803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 16편",
-          "seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음",
+          "seed 9821 추출 1/3: arc_y3_cost_after_distanced — 관리실의 무표기 봉투 [개작] 합격; M34 수리 확인",
+          "seed 9821 추출 2/3: arc_y2_money_structure — 첫 상환액의 출처 [개작] 미달; ORDER-117 대상",
+          "seed 9821 추출 3/3: arc_y3_cost_after_forgiven — 식은 커피의 거리 [개작] 합격; M34 수리 확인",
           "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
         ]
       },
@@ -995,7 +1007,9 @@
         "cohort": "order110_seed9821_random_three",
         "requirements": [
           "803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 20편",
-          "seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음",
+          "seed 9821 추출 1/3: arc_y5_sangchul_review_receipt — 빨간 원의 사본 [신규] 합격",
+          "seed 9821 추출 2/3: arc_y5_final_offer_reference_delivery — 같은 일곱 장 [신규] 합격",
+          "seed 9821 추출 3/3: arc_y5_jaehyuk_return_call_reference — 돌아온 이유를 듣는 통화 [신규] 합격; 정점급",
           "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
         ]
       },
@@ -1021,7 +1035,9 @@
         "cohort": "order111_seed9821_random_three",
         "requirements": [
           "803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 24편",
-          "seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음",
+          "seed 9821 추출 1/3: arc_y5_final_week_jiyeon_outbound — 지연에게 먼저 보낸 말 [신규] 합격",
+          "seed 9821 추출 2/3: arc_final_countdown_other_filing_executed — 두 이름이 남은 마지막 장 [신규] 합격",
+          "seed 9821 추출 3/3: arc_y5_name_copy_delivered_jiyeon — 지연 손에 간 접수 사본 [신규] 합격",
           "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
         ]
       },
@@ -1047,7 +1063,9 @@
         "cohort": "order112_seed9821_random_three",
         "requirements": [
           "803a372d4314d58d9ee03038bca3897bc2e18630 원문 모집단 16편",
-          "seed 9821 무작위 3편; 전체 추출 root 목록은 전달되지 않아 추정하지 않음",
+          "seed 9821 추출 1/3: arc_y5_after_goal_hyunsu_career — 이름보다 먼저 물을 것 [신규] 합격; 보존 대상",
+          "seed 9821 추출 2/3: arc_y5_contract_result_delivered_hyunsu_career — 실행본을 건넨 시각 [신규] 미달; 코드 토큰 4",
+          "seed 9821 추출 3/3: arc_y5_name_copy_delivered_hyunsu_career — 회전문 앞의 두 번째 사본 [신규] 미달; 코드 토큰 6",
           "인물 목소리·지금 잃는 것·다음을 기다리게 하는 여운 세 축"
         ]
       },
@@ -1092,7 +1110,7 @@
         "tree": "f95a8dc44dcd61d8c09eef0d487436833c64d721",
         "sample": {"seed": 9821, "population": 16, "size": 3},
         "disposition": {"mode": "all", "roots": []},
-        "record": "판정: Claude(사용자 위임) — 전량 반려. arc_final_countdown_startup_executed를 포함한 표본이 사람의 마지막 선택이 아니라 서식 기입으로 끝남."
+        "record": "판정: Claude(사용자 위임) — 전량 반려. seed 9821 추출 3편은 arc_y5_startup_c2_sign_self — 종결 전 창구의 네 상태 [신규] 미달·코드 토큰 13; arc_y5_startup_contract_execution_c3 — 32억원 앞의 세 묶음 [신규] 미달·코드 토큰 10; arc_final_countdown_startup_executed — 전환 출입증 옆의 첫 주 책임표 [신규] 미달·코드 토큰 7. 세 표본 모두 사람의 마지막 선택이 아니라 서식 기입으로 끝남."
       }]
     }
   ]
