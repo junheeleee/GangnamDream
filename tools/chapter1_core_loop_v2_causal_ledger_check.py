@@ -2785,7 +2785,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/meta/demo_core_loop_v2.json":
         "f336f8a60277effc1885e10911d21785add4ad5580135bb1ab3a4c4b509059c3",
     "content/meta/demo_localization_scope.json":
-        "08ce2baf912dd7e4db3d6f068f0c7bd168d532697b1f2212f6b467cad50e3766",
+        "1f7a701a24f51001a881ee7bb92e52e49c70e9be40bbb59ec8eec590bfc5efe9",
     "content/meta/release_content_inventory.json":
         "c6c10aceea5fa3b46a59a1b933317dd9a1981cb7ce5fa4544c4803739cd5cebc",
     "content/meta/story_rules.json":

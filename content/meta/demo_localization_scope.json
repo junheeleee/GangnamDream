@@ -68,8 +68,8 @@
     "legacy_korean_source_keys": 2730,
     "legacy_korean_source_keys_sha256": "b67df90ba814deeac78db1b1bc4836d16596b6b93521e97a34427ae3b2bcb222",
     "current_source_snapshot": {
-      "legacy_pair_call_occurrences": 3266,
-      "post_migration_legacy_pair_call_occurrences": 3229,
+      "legacy_pair_call_occurrences": 3267,
+      "post_migration_legacy_pair_call_occurrences": 3230,
       "legacy_korean_source_keys": 2741,
       "legacy_korean_source_keys_sha256": "f7790efbf6ddedf132398721914195aa1c9c29fd425f3380f508beb0ad540823"
     },
@@ -2219,8 +2219,8 @@
         "money_formatter_migrations": 2,
         "localized_argument_calls": 1,
         "migrated_branch_literal_calls": 2,
-        "total_ui_call_occurrences": 3323,
-        "legacy_pair_call_occurrences": 3286,
+        "total_ui_call_occurrences": 3324,
+        "legacy_pair_call_occurrences": 3287,
         "context_call_occurrences": 37,
         "legacy_korean_source_keys": 2792,
         "legacy_korean_source_keys_sha256": "e6d002715cfd502952b982bf4d6f89f177621b644639510b4264b2bf6e6cb014"
