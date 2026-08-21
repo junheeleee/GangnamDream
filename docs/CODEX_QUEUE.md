@@ -69,7 +69,7 @@
 | 8 | [~] | ORDER-106 · M13~M24 실제 원고 | [106](queue_active/ORDER-106.md) | 24/70 L1/L2 GO — L3 보류 |
 | 9 | [~] | ORDER-105 · M02~M12 실제 원고 | [105](queue_active/ORDER-105.md) | 20 roots L1/L2 GO — L3 보류 |
 | 10 | [~] | ORDER-104 · 핵심 장면 원고 | [104](queue_active/ORDER-104.md) | 23 roots L1/L2 — L3 보류 |
-| 11 | [~] | ORDER-103 · M01~M06 월간 약속을 직접 고르는 독립 체험판을 만든다 | [103](queue_active/ORDER-103.md) | 게임 장면형 선택판 L1/L2 GO · 월 마감 보존 · 사용자 L3 대기 |
+| 11 | [~] | ORDER-103 · M01~M06 월간 약속을 직접 고르는 독립 체험판을 만든다 | [103](queue_active/ORDER-103.md) | 이미지 장면 카드·호버/포커스 L1/L2 GO · 월 마감 보존 · 사용자 L3 대기 |
 | 12 | [~] | ORDER-99 · SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | [99](queue_active/ORDER-99.md) | BUILD `.3` L1/L2 — 사용자 저장 확인 대기 |
 | 13 | [~] | ORDER-97 · LOC-0.5 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | L1/L2 — 최신 후보·A/B 각 3표면 L3 대기 |
 | 14 | [~] | ORDER-98 · PAD-1 포커스 레일을 의미 버튼으로 줄인다 | [98](queue_active/ORDER-98.md) | L1/L2 — 집 플레이·물리 패드 L3 대기 |

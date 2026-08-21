@@ -28,8 +28,27 @@ Updated on 2026-07-17 for Hyunsu's dedicated old-goshiwon-alley gukbap reunion b
 Updated on 2026-07-24 for the seven-person `y1`/`y3`/`y5` cast-time axis and the dedicated Stable Success ending CG.
 Updated on 2026-08-04 for the 24-week first-bill desk close-up and Minjun's fixed year-one decision portrait.
 Updated on 2026-08-04 for the Month-4 housing-welfare counselor's transparent B-scene portrait.
+Updated on 2026-08-21 for the M01-M06 authored promise-card scene set.
 
 ## Use These Assets
+
+### M01-M06 Promise Selection Scenes
+
+- `assets/ui/m1m6_promises/{survival_shift,father_call,account_risk,job_result_notice,family_signal,room_viewing,livelihood_next,work_deadline,sangchul_field_door}.png`
+  - Authored, person-free `Gangnam Ink` scenes for the isolated M01-M06
+    promise-selection surface.
+  - These are decision-state images, not result CGs: no readable copy, brand,
+    actor, acceptance/rejection, completed contract, answered call, or future
+    route outcome is baked into the pixels.
+  - `father_call` may serve both the first call and its exact callback because
+    both cards own the same unresolved action. Other semantic reuse requires a
+    new continuity review.
+  - Runtime presentation is full-bleed under a dark ink veil. Hover/focus may
+    clear the veil and push the image by at most 1.8%; the image never owns
+    focus, state, story IDs, or save data.
+  - All generated and reused scenes pass through the same
+    `gangnam_ink_card_v1` desaturation/ink/paper grade. Do not bake a second
+    per-card color grade or use saturation to imply choice value.
 
 ### 24-Week First Bill
 

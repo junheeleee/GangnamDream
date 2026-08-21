@@ -28,6 +28,27 @@ const FORBIDDEN_RUNTIME_TOKENS := [
 ]
 
 const DEDICATED_SAVE_PREFIX := "user://story_map_m1m6"
+const EXPECTED_PROMISE_SCENE_PATHS := {
+	"m01_survival_shift": "res://assets/ui/m1m6_promises/survival_shift.png",
+	"m01_legal_application": "res://assets/ui/job_hunt/resume_writing_strip.png",
+	"m01_father_call": "res://assets/ui/m1m6_promises/father_call.png",
+	"m02_close_account_risk": "res://assets/ui/m1m6_promises/account_risk.png",
+	"m02_hyunsu_first_promise": "res://assets/backgrounds/goshiwon_shared_kitchen.png",
+	"m02_return_father_call": "res://assets/ui/m1m6_promises/father_call.png",
+	"m03_cover_deposit_gap": "res://assets/backgrounds/goshiwon_hallway.png",
+	"m03_daeun_return": "res://assets/backgrounds/convenience_store_night_v2.png",
+	"m03_jiyeon_answer": "res://assets/backgrounds/seoul_rainy_street.png",
+	"m04_answer_job_result": "res://assets/ui/m1m6_promises/job_result_notice.png",
+	"m04_independent_room_view": "res://assets/ui/m1m6_promises/room_viewing.png",
+	"m04_sangchul_office_coffee": "res://assets/backgrounds/realestate_office.png",
+	"m05_job_result": "res://assets/ui/m1m6_promises/livelihood_next.png",
+	"m05_jaehyuk_reunion": "res://assets/backgrounds/pojangmacha.png",
+	"m05_second_crossing": "res://assets/backgrounds/open_chat_screen.png",
+	"m06_work_deadline": "res://assets/ui/m1m6_promises/work_deadline.png",
+	"m06_sangchul_door": "res://assets/ui/m1m6_promises/sangchul_field_door.png",
+	"m06_family_signal": "res://assets/ui/m1m6_promises/family_signal.png",
+	"m06_person_date": "res://assets/backgrounds/cafe_seoul.png",
+}
 const EXPECTED_LANE_TOOLS := [
 	"tools/story_map_audit.py",
 	"tools/story_map_strategy_sim.py --self-test",
@@ -344,6 +365,7 @@ func _check_ui_flow() -> void:
 	_remove_file(save_path)
 	_expect(bool(playtest.call("qa_start_new_run")), "UI could not start a new run")
 	await _check_note_activation_focus(playtest)
+	await _check_note_gamefeel(playtest)
 	await _check_header_restart_confirmation(playtest)
 	_expect(not bool(playtest.call(
 		"qa_set_role", "optional_second", "m01_legal_application")),
@@ -424,6 +446,99 @@ func _check_note_activation_focus(playtest: Node) -> void:
 		"activating a promise note assigned a role before the role pocket was confirmed")
 
 
+func _check_note_gamefeel(playtest: Node) -> void:
+	var snapshot: Variant = playtest.call("qa_snapshot")
+	var cards: Variant = (snapshot as Dictionary).get("cards", []) \
+		if snapshot is Dictionary else []
+	_expect(cards is Array and (cards as Array).size() >= 2,
+		"selection needs at least two notes for hover/focus gamefeel QA")
+	if not cards is Array or (cards as Array).size() < 2:
+		return
+	var first_id := str(((cards as Array)[0] as Dictionary).get("id", ""))
+	var second_id := str(((cards as Array)[1] as Dictionary).get("id", ""))
+	var first := _find_button_with_meta(playtest, "m1m6_commitment_id", first_id)
+	var second := _find_button_with_meta(playtest, "m1m6_commitment_id", second_id)
+	_expect(is_instance_valid(first) and is_instance_valid(second),
+		"selection hover/focus gamefeel controls are missing")
+	if not is_instance_valid(first) or not is_instance_valid(second):
+		return
+	var rest_contract: Variant = playtest.call("qa_visual_contract")
+	var rest_motion := _note_motion_entry(rest_contract, first_id)
+	var hit_rect_before := Rect2(first.position, first.size)
+	first.emit_signal("mouse_entered")
+	await get_tree().create_timer(0.16).timeout
+	var focused_contract: Variant = playtest.call("qa_visual_contract")
+	var focused_motion := _note_motion_entry(focused_contract, first_id)
+	_expect(first.has_focus(), "mouse hover did not move semantic focus to its note")
+	_expect(float((focused_motion.get("scale", [0.0, 0.0]) as Array)[0]) > 1.004,
+		"hover/focus did not visibly lift the promise note")
+	_expect(float(focused_motion.get("trace_scale_x", 0.0)) >= 0.95,
+		"hover/focus did not complete the restrained ink trace")
+	_expect(float((focused_motion.get("scene_scale", [0.0, 0.0]) as Array)[0]) >= 1.015,
+		"hover/focus did not push into the promise scene")
+	_expect(float(focused_motion.get("scene_luminance", 0.0)) \
+			> float(rest_motion.get("scene_luminance", 1.0)),
+		"hover/focus did not clear the promise scene image")
+	_expect(float(focused_motion.get("scene_veil_alpha", 1.0)) \
+			< float(rest_motion.get("scene_veil_alpha", 0.0)),
+		"hover/focus did not draw back the promise scene ink veil")
+	_expect(Rect2(first.position, first.size) == hit_rect_before,
+		"hover animation changed the promise-note input rectangle")
+
+	first.emit_signal("button_down")
+	await get_tree().create_timer(0.07).timeout
+	var pressed_contract: Variant = playtest.call("qa_visual_contract")
+	var pressed_motion := _note_motion_entry(pressed_contract, first_id)
+	_expect(is_equal_approx(float(pressed_motion.get("content_offset_y", -1.0)), 1.0),
+		"pressed promise note did not move content exactly one pixel")
+	_expect(float((pressed_motion.get("scale", [1.0, 1.0]) as Array)[0]) <= 0.997,
+		"pressed promise note did not collapse its raised surface")
+	first.emit_signal("button_up")
+	await get_tree().create_timer(0.14).timeout
+
+	second.emit_signal("mouse_entered")
+	await get_tree().create_timer(0.14).timeout
+	var moved_contract: Variant = playtest.call("qa_visual_contract")
+	var first_rest := _note_motion_entry(moved_contract, first_id)
+	var second_focus := _note_motion_entry(moved_contract, second_id)
+	_expect(float((first_rest.get("scale", [0.0, 0.0]) as Array)[0]) <= 1.001,
+		"previous hover note did not settle when focus moved")
+	_expect(float((second_focus.get("scale", [0.0, 0.0]) as Array)[0]) > 1.004,
+		"next hover note did not receive the same focus lift")
+
+	_expect(bool(playtest.call("qa_set_reduce_motion", true)),
+		"playtest could not enable reduced-motion QA")
+	await get_tree().process_frame
+	var reduced_contract: Variant = playtest.call("qa_visual_contract")
+	var reduced_motion := _note_motion_entry(reduced_contract, second_id)
+	_expect(is_equal_approx(float((reduced_motion.get("scale", [0.0, 0.0]) as Array)[0]), 1.0),
+		"reduced motion did not remove note scale travel")
+	_expect(is_equal_approx(float((reduced_motion.get(
+		"scene_scale", [0.0, 0.0]) as Array)[0]), 1.0),
+		"reduced motion did not remove promise-scene zoom")
+	_expect(float(reduced_motion.get("trace_scale_x", 0.0)) >= 0.95,
+		"reduced motion removed the visible focus trace")
+	second.emit_signal("button_down")
+	await get_tree().process_frame
+	var reduced_pressed: Variant = playtest.call("qa_visual_contract")
+	_expect(is_equal_approx(float(_note_motion_entry(
+		reduced_pressed, second_id).get("content_offset_y", -1.0)), 1.0),
+		"reduced motion removed the one-pixel pressed feedback")
+	second.emit_signal("button_up")
+	_expect(bool(playtest.call("qa_set_reduce_motion", false)),
+		"playtest could not restore normal motion after QA")
+
+
+func _note_motion_entry(contract: Variant, commitment_id: String) -> Dictionary:
+	if not contract is Dictionary:
+		return {}
+	var entries: Variant = (contract as Dictionary).get("note_motion", {})
+	if not entries is Dictionary:
+		return {}
+	var entry: Variant = (entries as Dictionary).get(commitment_id, {})
+	return (entry as Dictionary).duplicate(true) if entry is Dictionary else {}
+
+
 func _check_header_restart_confirmation(playtest: Node) -> void:
 	var restart := _find_button_with_meta(playtest, "m1m6_restart", "true")
 	_expect(is_instance_valid(restart), "selection header restart control is missing")
@@ -477,8 +592,10 @@ func _check_selection_visual_contract(playtest: Node, month: int) -> void:
 	if not visual is Dictionary:
 		return
 	var contract := visual as Dictionary
-	_expect(str(contract.get("mode", "")) == "desk_promises_v1",
+	_expect(str(contract.get("mode", "")) == "gangnam_ink_scene_decisions_v3",
 		"selection restored the dashboard visual mode")
+	_expect(str(contract.get("material", "")) == "cinematic_scene_card",
+		"selection lost the cinematic scene-card material")
 	_expect(int(contract.get("world_background", 0)) == 1,
 		"selection does not have exactly one goshiwon world background")
 	_expect(contract.get("role_slots", []) == ["optional_second", "protected"],
@@ -499,7 +616,39 @@ func _check_selection_visual_contract(playtest: Node, month: int) -> void:
 	var note_ids: Variant = contract.get("note_ids", [])
 	_expect(note_ids is Array and (note_ids as Array).size() == expected_note_count,
 		"M%02d promise-note count does not match available commitments" % month)
+	_expect(int(contract.get("hover_fx_notes", 0)) == expected_note_count,
+		"M%02d promise notes do not all own the hover/focus effect" % month)
+	_expect(int(contract.get("scene_strips", 0)) == expected_note_count,
+		"M%02d promise notes do not each own one scene image" % month)
+	_expect(int(contract.get("paper_tape_nodes", -1)) == 0,
+		"M%02d restored the rejected sticky-note tape" % month)
 	var viewport_size := _vector2_from_array(contract.get("viewport_size", []))
+	for commitment_id in (contract.get("note_motion", {}) as Dictionary):
+		var raw_motion: Variant = (contract.get("note_motion", {}) as Dictionary)[commitment_id]
+		if not raw_motion is Dictionary:
+			continue
+		var motion := raw_motion as Dictionary
+		_expect(float(motion.get("normal_luminance", 1.0)) < 0.22,
+			"M%02d promise note restored a bright post-it surface" % month)
+		_expect(str(motion.get("scene_path", "")).begins_with("res://assets/") \
+				and str(motion.get("scene_path", "")).ends_with(".png"),
+			"M%02d promise note does not use an authored raster scene" % month)
+		_expect(EXPECTED_PROMISE_SCENE_PATHS.has(str(commitment_id)) \
+				and str(motion.get("scene_path", "")) \
+					== str(EXPECTED_PROMISE_SCENE_PATHS.get(str(commitment_id), "")),
+			"M%02d promise note uses a non-canonical or result-spoiling scene" % month)
+		_expect(str(motion.get("scene_grade", "")) == "gangnam_ink_card_v1",
+			"M%02d promise note lost the shared Gangnam Ink scene grade" % month)
+		var texture_size := _vector2_from_array(motion.get("scene_texture_size", []))
+		_expect(texture_size.x > 0.0 and texture_size.y > 0.0,
+			"M%02d promise note scene image did not load" % month)
+		_expect(int(motion.get("normal_shadow", -1)) == 1,
+			"M%02d promise note rest depth is not one pixel" % month)
+		_expect(int(motion.get("hover_shadow", -1)) <= 2 \
+				and int(motion.get("focus_shadow", -1)) <= 2,
+			"M%02d promise note hover/focus depth exceeds two pixels" % month)
+		_expect(_rect_is_inside(_rect2_from_array(motion.get("visual_aabb", [])), viewport_size),
+			"M%02d promise-note hover surface is clipped outside the viewport" % month)
 	var all_rects: Array[Rect2] = []
 	for rect_value in (contract.get("note_rects", {}) as Dictionary).values():
 		var rect := _rect2_from_array(rect_value)

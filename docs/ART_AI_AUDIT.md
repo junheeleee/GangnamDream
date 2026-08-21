@@ -24,6 +24,33 @@
 - 글자 게이트: 전경 핵심 소품에는 판독을 요구하는 AI 글자가 없다. 투자 차트·포장지·책등의 작은 표식은 언어처럼 읽히지 않는 비서사 질감이며, 실제 UI 카피를 대신하지 않는다.
 - 최종 판정: **FAIL 0 / PENDING 0**. 비활성 원화는 향후 다시 등록할 때 새 감사 대상이 된다.
 
+### M01-M06 독립 선택판 UI 장면
+
+아래 9장은 `ImageRegistry` 출시 인벤토리 249장에는 포함하지 않는 독립 체험판
+직접 로드 자산이다. 원본 해상도와 KO/EN 960x600·1280x800 실제 카드 크롭을
+별도로 확인했다. 선택 전 표면이므로 인물, 판독 문자, 상표, 합격/거절, 계약 완료,
+통화 응답, 미래 관계 결과가 없는지를 `PASS-S` 기준으로 판정했다.
+
+| Asset | Size | Hash | Result | Evidence |
+|---|---:|---|:---:|---|
+| `assets/ui/m1m6_promises/survival_shift.png` | 1536x640 | `6a30225fa029` | PASS-S | 무인 서비스 카운터·앞치마·기록지·영수 프린터만 있고 고용주·임금·성과가 없다. |
+| `assets/ui/m1m6_promises/father_call.png` | 1536x640 | `152b1c1398a4` | PASS-S | 정본 고시원 방향, 휴대폰 1대, 무응답·질환·화자 선취 0. |
+| `assets/ui/m1m6_promises/account_risk.png` | 1536x640 | `ecaef851aac9` | PASS-S | 무문자 서류·봉투·계산기·꺼진 휴대폰만 있고 잔액·승인·거래 화면이 없다. |
+| `assets/ui/m1m6_promises/job_result_notice.png` | 1536x640 | `c412ebc82981` | PASS-S | 창·스카이라인 없는 고시원 호환 책상에 중립 알림광·닫힌 지원 폴더만 있고 합격/거절 색·기호·직장이 없다. |
+| `assets/ui/m1m6_promises/family_signal.png` | 1536x640 | `f65e06106852` | PASS-S | 정본 고시원 방향, 휴대폰·접힌 무문자 약봉지 1개, 진단·사망·응답 선취 0. |
+| `assets/ui/m1m6_promises/room_viewing.png` | 1536x1024 | `6b15ee9304b4` | PASS-S | 낡은 빈 방·줄자·열쇠만 있고 계약·입주·주거 성공이 없다. |
+| `assets/ui/m1m6_promises/livelihood_next.png` | 1536x1024 | `ad495cd2d2b8` | PASS-S | 무인 직원 통로·작업화·빈 보드·폴더만 있고 채용·복귀 결과가 없다. |
+| `assets/ui/m1m6_promises/work_deadline.png` | 1536x1024 | `6ea9fa5cf911` | PASS-S | 무문자 봉투·무눈금 시계·카드·펜만 있고 제출 결과가 없다. |
+| `assets/ui/m1m6_promises/sangchul_field_door.png` | 1536x1024 | `28eb6c9dbeee` | PASS-S | 무인 현장 입구·흐린 쪽지·장갑만 있고 만남·거래·위험 결과가 없다. |
+
+프롬프트와 생성 원본은 `assets/IMAGE_PROMPTS.md`, 사용 범위와 재사용 금지는
+`assets/ASSET_INDEX.md`가 소유한다. 체험판이 제품 경로로 승격되면 이 9장을
+출시 인벤토리와 해시 게이트에 편입해 다시 감사한다.
+
+서로 다른 생성 배치의 표면 차이는 카드 런타임의 공통
+`gangnam_ink_card_v1` 그레이드로 정리한다. 이는 명도·채도·종이 결·잉크 번짐만
+통일하며 장면의 인물·문자·결과 정보를 새로 만들지 않는다.
+
 ### 이번 수리 이력
 
 - 모드: OpenAI 내장 ImageGen 이미지 편집.

@@ -429,6 +429,193 @@ sips -z 768 512
 
 ---
 
+## 2026-08-21 M01-M06 약속 선택 장면
+
+아래 9개 이미지는 Codex built-in ImageGen으로 각각 별도 생성했다. 외부 사진이나
+실존 인물 레퍼런스는 사용하지 않았다. 모두 선택 전 표면이므로 인물·브랜드·
+판독 가능한 문자·합격/거절·계약/통화 완료·미래 결과를 넣지 않았다.
+
+### survival_shift.png
+
+- **최종 경로**: `assets/ui/m1m6_promises/survival_shift.png`
+- **생성 원본**: `/Users/junheelee/.codex/generated_images/01a02209-4def-7c32-8e37-423453fd117f/exec-6857bd3b-18a6-4acf-9049-fc253291e3ac.png`
+- **최종 프롬프트**:
+
+```text
+Use case: stylized-concept
+Asset type: M01-M06 promise-card scene strip — neutral survival shift
+Primary request: An empty, modest late-night Korean service-work counter that communicates taking a survival shift without identifying any specific job or employer.
+Scene/backdrop: A cramped anonymous back counter in contemporary Seoul at night, with a plain dark apron hanging from one hook, an unbranded timecard resting partly under the apron, and a small receipt printer on a worn laminate-and-stainless counter. The workspace is functional, humble, and quiet; no storefront signage and no recognizable chain layout.
+Subject: The apron, timecard, and receipt printer form one clear still-life silhouette; nothing indicates whether the shift succeeds or what it pays.
+Style/medium: Gangnam Ink visual language: desaturated Korean visual-novel/manhwa realism, concrete gray and charcoal palette, matte paper grain, subtle ink-wash contour, restrained cinematic lighting, quiet Seoul social-reality mood; contemporary illustrated environment, not a photograph.
+Composition/framing: Wide horizontal UI-card scene, crop-safe at approximately 2.4:1. Props grouped left-of-center with layered counter depth; the right third falls into clean charcoal negative space suitable for white interface copy. No UI frame.
+Lighting/mood: One tired cool fluorescent practical with a restrained warm spill from outside frame; low-key but readable.
+Constraints: no people, no hands, no faces, no human silhouettes; no readable text, numbers, logos, brands, signage, price labels, UI, borders, title, or watermark; no future result, wage, success, or failure; no glossy mobile-game colors; no photoreal DSLR look.
+Avoid: convenience-store-specific floor plan, restaurant food, hotel bell, corporate office, luxury props, cash, coins, celebratory lighting, sepia.
+```
+
+### father_call.png
+
+- **최종 경로**: `assets/ui/m1m6_promises/father_call.png`
+- **생성 원본**: `/Users/junheelee/.codex/generated_images/01a02209-4def-7c32-8e37-423453fd117f/exec-fe16c322-f949-4c9a-93e0-a82027e4fd4f.png`
+- **최종 프롬프트**:
+
+```text
+Use case: stylized-concept
+Asset type: M01-M06 promise-card scene strip — father voice call
+Primary request: A phone waiting for an ordinary scheduled voice call on Minjun's cramped goshiwon desk, with no person present and no response shown.
+Scene/backdrop: The canonical economic starting-point language of a tiny Sinchon goshiwon: worn gray-beige wall, low desk at the foot of a narrow bed, black task lamp, a small high frosted ventilation window only, and a narrow sliver of bedding. One unbranded phone lies on the desk with a soft ordinary call glow; its screen contains only indistinct abstract light shapes, no caller identity.
+Subject: The waiting phone under the task lamp; the empty room carries distance and responsibility without implying illness, death, reconciliation, or an answered call.
+Style/medium: Gangnam Ink visual language: desaturated Korean visual-novel/manhwa realism, concrete gray and charcoal palette, matte paper grain, subtle ink-wash contour, restrained cinematic lighting, quiet Seoul social-reality mood; contemporary illustrated environment, not a photograph.
+Composition/framing: Wide horizontal UI-card scene, crop-safe at approximately 2.4:1. Phone and lamp occupy the left-center foreground; the right third is restrained dark negative space for white interface copy. No UI frame.
+Lighting/mood: Late-night cool room tone, soft phone glow, quiet and unresolved.
+Constraints: no people, hands, faces, portraits, reflections, or human silhouettes; no pharmacy packet, medicine, hospital object, diagnosis clue, family photograph, large skyline window, trading workstation, readable text, numbers, caller name, logos, brands, UI, borders, title, or watermark; no answered-call icon; no future result; no glossy mobile-game colors; no photoreal DSLR look.
+Avoid: dramatic emergency red, funeral implication, warm reunion image, split screen, multiple phones, luxury furniture, sepia.
+```
+
+### account_risk.png
+
+- **최종 경로**: `assets/ui/m1m6_promises/account_risk.png`
+- **생성 원본**: `/Users/junheelee/.codex/generated_images/01a02209-4def-7c32-8e37-423453fd117f/exec-d17cf328-6c89-4f4d-b9c7-1538737331c4.png`
+- **최종 프롬프트**:
+
+```text
+Use case: stylized-concept
+Asset type: M01-M06 promise-card scene strip — account-risk check
+Primary request: A tense but neutral account-risk review still life before a decision, not a trading scene and not an outcome.
+Scene/backdrop: A modest cramped Seoul room desk with one unbranded phone beside a plain sealed bank envelope, a basic calculator whose keys and display show no legible numbers, and several account-freeze review sheets represented only by blank blocks, lines, and a single clipped corner. No official seal or institution identity.
+Subject: Phone, envelope, calculator, and paperwork form a practical risk-check workspace; the account state and outcome remain hidden.
+Style/medium: Gangnam Ink visual language: desaturated Korean visual-novel/manhwa realism, concrete gray and charcoal palette, matte paper grain, subtle ink-wash contour, restrained cinematic lighting, quiet Seoul social-reality mood; contemporary illustrated still life, not a photograph.
+Composition/framing: Wide horizontal UI-card scene, crop-safe at approximately 2.4:1. The paperwork diagonals and calculator sit left-of-center; an empty charcoal desk plane and shadow create clean negative space on the right for white interface copy. No UI frame.
+Lighting/mood: Restrained cool desk light, procedural tension, sober and unresolved.
+Constraints: no people, hands, faces, human silhouettes, readable text, numbers, account balance, currency symbol, logo, bank brand, government seal, signature, stamp, UI, borders, title, or watermark; no result, approval, rejection, success, or failure; no glossy mobile-game colors; no photoreal DSLR look.
+Avoid: stock charts, candlesticks, trading app, cryptocurrency, coins, banknotes, money bundles, laptop trading station, luxury desk, emergency red, sepia.
+```
+
+### job_result_notice.png
+
+- **최종 경로**: `assets/ui/m1m6_promises/job_result_notice.png`
+- **초기 생성 원본(폐기)**: `/Users/junheelee/.codex/generated_images/01a02209-4def-7c32-8e37-423453fd117f/exec-586dfd44-aa2c-4eb7-a45b-c2bfa6127038.png`
+- **최종 교정 원본**: `/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-716b2946-ed84-4b48-9c4a-894de528e9d2.png`
+- **스타일 참조**: `assets/ui/m1m6_promises/work_deadline.png`
+- **최종 프롬프트**:
+
+```text
+Edit the FIRST image only. Preserve its neutral pre-result still life: one unbranded phone showing only an abstract pale notification rectangle, one closed worn application folder with blank papers, and one pen. Remove the large window, curtains, skyline, and any identifiable study-room location; replace them with a close, windowless, worn charcoal wall and desk so the setting remains canon-neutral and compatible with a cramped Sinchon goshiwon. Use the SECOND image only as the exact visual-style reference: clearly illustrated Korean adult manhwa/VN linework, dry ink contours, matte paper grain, controlled gray-beige painterly fill, restrained cinematic light, not photoreal, not 3D. Keep a wide horizontal composition with the props readable and generous dark negative space. No people, hands, faces, silhouettes, readable text, numbers, letters, checkmark, cross, colored acceptance/rejection cue, logos, brands, UI, border, title, watermark, employer, job outcome, celebration, or future result.
+```
+
+### family_signal.png
+
+- **최종 경로**: `assets/ui/m1m6_promises/family_signal.png`
+- **생성 원본**: `/Users/junheelee/.codex/generated_images/01a02209-4def-7c32-8e37-423453fd117f/exec-760fa66a-8a26-4308-9baa-34ea03b253fb.png`
+- **최종 프롬프트**:
+
+```text
+Use case: stylized-concept
+Asset type: M01-M06 promise-card scene strip — family signal
+Primary request: A distinct appointed-call moment on Minjun's cramped goshiwon desk, marked by an ordinary folded pharmacy paper packet beside the phone, without showing any person, answered call, or medical diagnosis.
+Scene/backdrop: The same economic class language as a tiny Sinchon goshiwon but in a tighter alternate desk angle: worn wall, edge of a black task lamp base, low desk at the foot of a narrow bed, and only a faint high frosted ventilation-window glow. One unbranded phone rests beside one small, folded, plain pharmacy paper packet with no printing; the phone has a quiet neutral call glow made only of abstract light.
+Subject: The phone and folded paper packet create a restrained family-health signal at the exact moment before a scheduled call; they do not identify a condition, medicine, caller, or result.
+Style/medium: Gangnam Ink visual language: desaturated Korean visual-novel/manhwa realism, concrete gray and charcoal palette, matte paper grain, subtle ink-wash contour, restrained cinematic lighting, quiet Seoul social-reality mood; contemporary illustrated environment, not a photograph.
+Composition/framing: Wide horizontal UI-card scene, crop-safe at approximately 2.4:1. The folded packet and phone form a compact foreground group left-of-center; the right third is clean charcoal negative space for white interface copy. No UI frame.
+Lighting/mood: Cool late-night room tone, faint neutral phone glow, contained worry without melodrama.
+Constraints: no people, hands, faces, portraits, reflections, or human silhouettes; no answered-call symbol, caller image, hospital equipment, pill bottle, loose pills, syringe, medical chart, diagnosis clue, emergency condition, death implication, readable text, numbers, pharmacy logo, brand, prescription label, UI, borders, title, or watermark; no future result; no glossy mobile-game colors; no photoreal DSLR look.
+Avoid: duplicating the father-call composition, open medicine packaging, dramatic red alarm, funeral mood, family photo, large skyline window, luxury room, sepia.
+```
+
+### room_viewing.png
+
+- **최종 경로**: `assets/ui/m1m6_promises/room_viewing.png`
+- **생성 원본**: `/Users/junheelee/.codex/generated_images/01a02209-ac54-7c02-bfa9-246a021351c6/exec-d28e5175-b00b-4af1-b387-bb25445a1f91.png`
+- **최종 프롬프트**:
+
+```text
+Use case: stylized-concept
+Asset type: M01-M06 promise-card scene strip for the Gangnam Dream game UI
+Primary request: an early cheap-room viewing scene: a visibly modest, narrow, empty Korean one-room rental, adjacent in feeling to a goshiwon but clearly an unfurnished room being considered; a simple measuring tape and one plain key rest on the worn threshold; the scene must convey inspection and uncertainty only, never a completed contract or housing success
+Scene/backdrop: cramped Seoul rental interior with a narrow doorway, scuffed floor, plain wall, small high window or weak ceiling light, no personal belongings
+Subject: empty room, measuring tape, key on the threshold
+Style/medium: Gangnam Ink visual language; desaturated Korean visual-novel/manhwa realism; charcoal and concrete-gray palette; matte paper grain; subtle ink-wash contours; restrained cinematic illustration, not photoreal DSLR
+Composition/framing: wide horizontal 3:2 UI-card scene; low eye-level from the doorway; strong readable silhouette at thumbnail size; keep substantial dark negative space suitable for white UI copy overlay; no decorative UI border or frame
+Lighting/mood: cool restrained evening light, quiet Seoul social-reality mood, modest and unresolved
+Materials/textures: worn vinyl floor, chipped paint, brushed metal key, cloth measuring tape, subtle print grain
+Constraints: no people, no hands, no faces, no readable text, no readable numbers, no logos, no brands, no watermark, no UI, no contract papers, no celebratory cue, no future result, no property success implication
+Avoid: glossy mobile-game colors, cozy luxury, bright real-estate marketing photography, neon cyberpunk, exaggerated anime, staged glamour, legible signage
+```
+
+### livelihood_next.png
+
+- **최종 경로**: `assets/ui/m1m6_promises/livelihood_next.png`
+- **생성 원본**: `/Users/junheelee/.codex/generated_images/01a02209-ac54-7c02-bfa9-246a021351c6/exec-751e031f-91c8-4ba3-8c68-3fc387eb9eb4.png`
+- **최종 프롬프트**:
+
+```text
+Use case: stylized-concept
+Asset type: M01-M06 promise-card scene strip for the Gangnam Dream game UI
+Primary request: a livelihood-next-step scene that remains deliberately ambiguous among taking another shift, going back to work, or submitting another application: an empty Korean staff locker corridor with worn work shoes, a plain unlabeled application folder, and a shift board whose paper is entirely blank and unreadable; no outcome is shown
+Scene/backdrop: modest employee back corridor in Seoul, narrow metal lockers, scuffed linoleum, a dim service-door light
+Subject: empty staff passage, practical work shoes, closed plain application folder, blank shift board
+Style/medium: Gangnam Ink visual language; desaturated Korean visual-novel/manhwa realism; charcoal and concrete-gray palette; matte paper grain; subtle ink-wash contours; restrained cinematic illustration, not photoreal DSLR
+Composition/framing: wide horizontal 3:2 UI-card scene; corridor perspective; objects readable at thumbnail size; preserve substantial dark negative space for white UI copy overlay; no decorative UI border or frame
+Lighting/mood: subdued fluorescent spill and faint cool daylight, quiet Seoul social-reality mood, unresolved but practical
+Materials/textures: scratched painted steel, worn rubber soles, kraft-paper folder, soft paper grain
+Constraints: no people, no hands, no faces, no silhouettes, no readable text, no readable numbers, no logos, no brands, no watermark, no UI, no job acceptance, no completed application, no future result
+Avoid: glossy mobile-game colors, triumphant employment imagery, corporate office luxury, celebratory cue, neon cyberpunk, exaggerated anime, legible schedules or signage
+```
+
+### work_deadline.png
+
+- **최종 경로**: `assets/ui/m1m6_promises/work_deadline.png`
+- **생성 원본**: `/Users/junheelee/.codex/generated_images/01a02209-ac54-7c02-bfa9-246a021351c6/exec-4ae9fd89-8c00-48a8-b287-aed5132ca03d.png`
+- **최종 프롬프트**:
+
+```text
+Use case: stylized-concept
+Asset type: M01-M06 promise-card scene strip for the Gangnam Dream game UI
+Primary request: a Friday work-deadline still life: one plain sealed submission envelope, a generic round wall clock suggesting late afternoon through its hands but with a completely blank face and no digits or tick labels, a generic unbranded transit card, and a pen on a worn desk; the scene shows time pressure and the act of submitting only, never a job result
+Scene/backdrop: modest shared-workspace desk in Seoul near the end of a gray weekday, anonymous wall behind it
+Subject: blank submission envelope, blank-face late-afternoon clock, plain transit card, pen
+Style/medium: Gangnam Ink visual language; desaturated Korean visual-novel/manhwa realism; charcoal and concrete-gray palette; matte paper grain; subtle ink-wash contours; restrained cinematic illustration, not photoreal DSLR
+Composition/framing: wide horizontal 3:2 UI-card scene; slightly oblique tabletop view with the clock high in frame; all props readable at thumbnail size; preserve substantial dark negative space for white UI copy overlay; no decorative UI border or frame
+Lighting/mood: muted late-afternoon window light crossing a worn desk, quiet Seoul social-reality mood, controlled urgency without melodrama
+Materials/textures: creased kraft paper, scratched laminate, matte plastic transit card, used ballpoint pen, print grain
+Constraints: no people, no hands, no faces, no readable text, no readable numbers, no digits or tick labels on clock, no logos, no brands, no watermark, no UI, no acceptance or rejection, no completed career outcome, no future result
+Avoid: glossy mobile-game colors, celebratory office imagery, success stamp, checkmark, notification screen, smartphone display, neon cyberpunk, exaggerated anime, legible documents
+```
+
+### sangchul_field_door.png
+
+- **최종 경로**: `assets/ui/m1m6_promises/sangchul_field_door.png`
+- **생성 원본**: `/Users/junheelee/.codex/generated_images/01a02209-ac54-7c02-bfa9-246a021351c6/exec-53301f40-f83c-47ff-b6f8-6b01ee84b2cb.png`
+- **최종 프롬프트**:
+
+```text
+Use case: stylized-concept
+Asset type: M01-M06 promise-card scene strip for the Gangnam Dream game UI
+Primary request: Sangchul's field-address scene: an anonymous aging Korean mixed-use building entrance at the edge of a narrow Seoul alley, with a small folded address note whose marks are entirely blurred and unreadable and a pair of used work gloves resting near the threshold; the scene represents arriving at an uncertain field address, not a meeting, deal, or result
+Scene/backdrop: modest older neighborhood commercial-residential alley, concrete stair entrance, weathered metal door, utility pipes, muted street edge
+Subject: empty building entrance, unreadable folded address note, used work gloves
+Style/medium: Gangnam Ink visual language; desaturated Korean visual-novel/manhwa realism; charcoal and concrete-gray palette; matte paper grain; subtle ink-wash contours; restrained cinematic illustration, not photoreal DSLR
+Composition/framing: wide horizontal 3:2 UI-card scene; oblique alley view aimed at the entrance; props readable at thumbnail size; preserve substantial dark negative space for white UI copy overlay; no decorative UI border or frame
+Lighting/mood: cloudy late-day light with one restrained warm entrance spill, quiet Seoul social-reality mood, cautious and unresolved
+Materials/textures: aged concrete, scratched metal, faded paint, fabric work gloves, folded paper, subtle print grain
+Constraints: no people, no hands, no faces, no silhouettes, no readable text, no readable numbers, no address digits, no logos, no brands, no watermark, no UI, no handshake, no contract, no sale, no business success, no future result
+Avoid: glossy mobile-game colors, noir crime danger, horror, luxury redevelopment, celebratory cue, neon cyberpunk, exaggerated anime, legible building or street signage
+```
+
+### 후처리와 검수
+
+- `survival_shift`, `father_call`, `account_risk`, `job_result_notice`,
+  `family_signal`은 각각 최종 생성·교정 원본을 1536x640 RGB로 정규화했다.
+  `father_call`과 `family_signal`만 정본 고시원의 침대=왼쪽·책상=오른쪽을
+  맞추기 위해 수평 반전했다.
+- 나머지 4장은 생성 원본과 동일한 1536x1024 RGB PNG다.
+- 아홉 장 모두 원본 해상도에서 인물·판독 문자·상표·결과 선취가 없음을 확인하고,
+  Godot 4.6.2의 KO/EN 960x600·1280x800 M01/M06 실제 선택판에서 cover 크롭,
+  잉크막, 포커스 확대, 텍스트 가독성을 확인했다.
+
+---
+
 ## 2026-07-25 고시원 공용 주방 정합 배경
 
 - **최종 경로**: `assets/backgrounds/goshiwon_shared_kitchen.png`

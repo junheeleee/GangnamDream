@@ -15,6 +15,27 @@ const WORLD_BACKGROUND_PATH := "res://assets/backgrounds/goshiwon_room.png"
 const WORLD_GRADE_SHADER_PATH := "res://assets/shaders/background_grade.gdshader"
 const PAPER_SFX_PATH := "res://assets/audio/sfx_paper_handle.wav"
 const STAMP_SFX_PATH := "res://assets/audio/sfx_document_stamp.wav"
+const PROMISE_SCENE_PATHS := {
+	"m01_survival_shift": "res://assets/ui/m1m6_promises/survival_shift.png",
+	"m01_legal_application": "res://assets/ui/job_hunt/resume_writing_strip.png",
+	"m01_father_call": "res://assets/ui/m1m6_promises/father_call.png",
+	"m02_close_account_risk": "res://assets/ui/m1m6_promises/account_risk.png",
+	"m02_hyunsu_first_promise": "res://assets/backgrounds/goshiwon_shared_kitchen.png",
+	"m02_return_father_call": "res://assets/ui/m1m6_promises/father_call.png",
+	"m03_cover_deposit_gap": "res://assets/backgrounds/goshiwon_hallway.png",
+	"m03_daeun_return": "res://assets/backgrounds/convenience_store_night_v2.png",
+	"m03_jiyeon_answer": "res://assets/backgrounds/seoul_rainy_street.png",
+	"m04_answer_job_result": "res://assets/ui/m1m6_promises/job_result_notice.png",
+	"m04_independent_room_view": "res://assets/ui/m1m6_promises/room_viewing.png",
+	"m04_sangchul_office_coffee": "res://assets/backgrounds/realestate_office.png",
+	"m05_job_result": "res://assets/ui/m1m6_promises/livelihood_next.png",
+	"m05_jaehyuk_reunion": "res://assets/backgrounds/pojangmacha.png",
+	"m05_second_crossing": "res://assets/backgrounds/open_chat_screen.png",
+	"m06_work_deadline": "res://assets/ui/m1m6_promises/work_deadline.png",
+	"m06_sangchul_door": "res://assets/ui/m1m6_promises/sangchul_field_door.png",
+	"m06_family_signal": "res://assets/ui/m1m6_promises/family_signal.png",
+	"m06_person_date": "res://assets/backgrounds/cafe_seoul.png",
+}
 
 const COLOR_BG := Color("#07090c")
 const COLOR_PANEL := Color("#10141a")
@@ -28,11 +49,13 @@ const COLOR_HEALTH := Color("#78b99a")
 const COLOR_TRUST := Color("#d58b91")
 const COLOR_DANGER := Color("#c97878")
 const COLOR_OK := Color("#78b99a")
-const COLOR_PAPER := Color("#d7d0c1")
-const COLOR_PAPER_FOCUS := Color("#eee7d8")
-const COLOR_PAPER_INK := Color("#20242a")
-const COLOR_PAPER_DIM := Color("#60656c")
-const COLOR_PAPER_EDGE := Color("#80796d")
+const COLOR_NOTE := Color("#10141af5")
+const COLOR_NOTE_FOCUS := Color("#1b212afa")
+const COLOR_NOTE_SELECTED := Color("#222831fa")
+const COLOR_NOTE_INK := Color("#edf0f4")
+const COLOR_NOTE_DIM := Color("#a1a9b4")
+const COLOR_NOTE_EDGE := Color("#454e5a")
+const COLOR_NOTE_TRACE := Color("#d8c38d")
 
 var _runtime: Variant
 var _runtime_state: Dictionary = {}
@@ -50,6 +73,9 @@ var _restart_armed := false
 var _compact := false
 var _resize_refresh_queued := false
 var _runtime_error := ""
+var _reduce_motion := false
+var _note_motion_tweens: Dictionary = {}
+var _selection_motion_tweens: Dictionary = {}
 
 var _page: MarginContainer
 var _header_title: Label
@@ -75,6 +101,7 @@ var _stamp_player: AudioStreamPlayer
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	set_process_unhandled_input(true)
+	_reduce_motion = OS.get_cmdline_user_args().has("--reduce-motion")
 	set_meta("story_map_m1m6_playtest", true)
 	_overlay = _read_json_dictionary(EN_OVERLAY_PATH)
 	_compact = _is_compact_layout()
@@ -149,6 +176,16 @@ func qa_set_language(language: String) -> bool:
 	return true
 
 
+func qa_set_reduce_motion(enabled: bool) -> bool:
+	_reduce_motion = enabled
+	for commitment_id in _card_buttons:
+		_sync_note_motion(str(commitment_id), false)
+	for button in [_protected_button, _optional_button, _undo_button, _confirm_button]:
+		if is_instance_valid(button):
+			_animate_selection_control(button, button.has_focus())
+	return true
+
+
 func qa_visible_text() -> String:
 	var lines := PackedStringArray()
 	_collect_visible_text(self, lines)
@@ -158,12 +195,45 @@ func qa_visible_text() -> String:
 func qa_visual_contract() -> Dictionary:
 	var note_ids: Array[String] = []
 	var note_rects: Dictionary = {}
+	var note_motion: Dictionary = {}
 	for commitment_id in _card_buttons:
 		var button: Button = _card_buttons[commitment_id]
 		if is_instance_valid(button) and button.has_meta("m1m6_commitment_id"):
 			var note_id := str(button.get_meta("m1m6_commitment_id"))
 			note_ids.append(note_id)
 			note_rects[note_id] = _control_rect_array(button)
+			var trace := button.find_child("InkTrace", true, false) as ColorRect
+			var scene := button.find_child("PromiseScene", true, false) as TextureRect
+			var scene_veil := button.find_child("PromiseSceneVeil", true, false) as ColorRect
+			var content := button.find_child("DecisionContent", true, false) as Control
+			var normal_style := button.get_theme_stylebox("normal") as StyleBoxFlat
+			var hover_style := button.get_theme_stylebox("hover") as StyleBoxFlat
+			var focus_style := button.get_theme_stylebox("focus") as StyleBoxFlat
+			note_motion[note_id] = {
+				"scale": [button.scale.x, button.scale.y],
+				"rotation": button.rotation,
+				"visual_aabb": _control_visual_aabb_array(button),
+				"trace_scale_x": trace.scale.x if is_instance_valid(trace) else -1.0,
+				"trace_alpha": trace.modulate.a if is_instance_valid(trace) else -1.0,
+				"scene_path": str(scene.get_meta("m1m6_scene_path", "")) \
+					if is_instance_valid(scene) else "",
+				"scene_grade": str(scene.get_meta("m1m6_scene_grade", "")) \
+					if is_instance_valid(scene) else "",
+				"scene_scale": [scene.scale.x, scene.scale.y] \
+					if is_instance_valid(scene) else [],
+				"scene_luminance": scene.modulate.get_luminance() \
+					if is_instance_valid(scene) else -1.0,
+				"scene_texture_size": [scene.texture.get_width(), scene.texture.get_height()] \
+					if is_instance_valid(scene) and scene.texture != null else [],
+				"scene_veil_alpha": scene_veil.modulate.a \
+					if is_instance_valid(scene_veil) else -1.0,
+				"content_offset_y": content.position.y if is_instance_valid(content) else -1.0,
+				"normal_luminance": normal_style.bg_color.get_luminance() \
+					if is_instance_valid(normal_style) else 1.0,
+				"normal_shadow": normal_style.shadow_size if is_instance_valid(normal_style) else -1,
+				"hover_shadow": hover_style.shadow_size if is_instance_valid(hover_style) else -1,
+				"focus_shadow": focus_style.shadow_size if is_instance_valid(focus_style) else -1,
+			}
 	note_ids.sort()
 	var role_slots: Array[String] = []
 	var role_rects: Dictionary = {}
@@ -175,9 +245,15 @@ func qa_visual_contract() -> Dictionary:
 	role_slots.sort()
 	return {
 		"mode": str(get_meta("story_map_m1m6_visual_mode", "")),
+		"material": "cinematic_scene_card",
 		"world_background": _count_meta_nodes(self, "m1m6_world_background"),
 		"note_ids": note_ids,
 		"note_rects": note_rects,
+		"note_motion": note_motion,
+		"hover_fx_notes": _count_meta_nodes(self, "m1m6_hover_fx"),
+		"scene_strips": _count_meta_nodes(self, "m1m6_scene_strip"),
+		"paper_tape_nodes": _count_named_nodes(self, "PaperTape"),
+		"reduce_motion": _reduce_motion,
 		"role_slots": role_slots,
 		"role_rects": role_rects,
 		"scroll_containers": _count_class_nodes(self, "ScrollContainer"),
@@ -213,7 +289,7 @@ func _initialize_runtime() -> bool:
 
 
 func _build_shell() -> void:
-	set_meta("story_map_m1m6_visual_mode", "desk_promises_v1")
+	set_meta("story_map_m1m6_visual_mode", "gangnam_ink_scene_decisions_v3")
 	var background := TextureRect.new()
 	background.name = "GoshiwonWorld"
 	background.set_meta("m1m6_world_background", true)
@@ -560,7 +636,7 @@ func _rebuild_selection_screen() -> void:
 	detail_panel.name = "PromiseMemoRibbon"
 	detail_panel.custom_minimum_size.y = 72 if _compact else 86
 	detail_panel.add_theme_stylebox_override(
-		"panel", _paper_style(COLOR_PAPER.darkened(0.035), COLOR_PAPER_EDGE, 1, false))
+		"panel", _panel_style(Color("#0c1016ee"), COLOR_NOTE_EDGE, 1, 2))
 	card_column.add_child(detail_panel)
 	var detail_margin := MarginContainer.new()
 	detail_margin.add_theme_constant_override("margin_left", 14 if _compact else 18)
@@ -568,7 +644,7 @@ func _rebuild_selection_screen() -> void:
 	detail_margin.add_theme_constant_override("margin_top", 8 if _compact else 10)
 	detail_margin.add_theme_constant_override("margin_bottom", 8 if _compact else 10)
 	detail_panel.add_child(detail_margin)
-	_detail_label = _label("", 12 if _compact else 14, COLOR_PAPER_INK)
+	_detail_label = _label("", 12 if _compact else 14, COLOR_TEXT)
 	_detail_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_detail_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	detail_margin.add_child(_detail_label)
@@ -589,6 +665,8 @@ func _rebuild_selection_screen() -> void:
 	_protected_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	_protected_button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_protected_button.pressed.connect(_on_protected_action)
+	_add_role_contact(_protected_button, true)
+	_bind_selection_control_motion(_protected_button)
 	pocket_column.add_child(_protected_button)
 	_optional_button = _button("", false)
 	_optional_button.name = "OptionalPocket"
@@ -598,6 +676,8 @@ func _rebuild_selection_screen() -> void:
 	_optional_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	_optional_button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_optional_button.pressed.connect(_on_optional_action)
+	_add_role_contact(_optional_button, false)
+	_bind_selection_control_motion(_optional_button)
 	pocket_column.add_child(_optional_button)
 
 	_role_notice_label = _label("", 12 if _compact else 14, COLOR_TEXT)
@@ -617,12 +697,14 @@ func _rebuild_selection_screen() -> void:
 	pocket_column.add_child(action_row)
 	_undo_button = _button(_t("ui.action.undo", "최근 역할 취소"), false)
 	_undo_button.pressed.connect(_undo_latest)
+	_bind_selection_control_motion(_undo_button)
 	action_row.add_child(_undo_button)
 	_confirm_button = _button("", true)
 	_confirm_button.name = "CommitMonth"
 	_confirm_button.set_meta("m1m6_commit", true)
 	_confirm_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_confirm_button.pressed.connect(_commit_current_month)
+	_bind_selection_control_motion(_confirm_button)
 	action_row.add_child(_confirm_button)
 
 	_refresh_selection_screen()
@@ -670,22 +752,72 @@ func _create_card_button(card: Dictionary) -> Control:
 	wrapper.name = "PromiseNoteSlot_%d" % (_card_buttons.size() + 1)
 	wrapper.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	wrapper.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	var note_index := _card_buttons.size()
-	var stagger: int = int([0, 6, 5, 0][note_index % 4]) if not _compact else 0
-	wrapper.add_theme_constant_override("margin_top", stagger)
-	wrapper.add_theme_constant_override("margin_bottom", 6 - stagger if not _compact else 0)
 
 	var button := _button("", false)
 	button.name = "PromiseNote_%s" % str(card.get("id", ""))
 	button.set_meta("m1m6_commitment_id", str(card.get("id", "")))
+	button.set_meta("m1m6_hover_fx", true)
+	button.set_meta("m1m6_note_material", "cinematic_scene_card")
 	button.custom_minimum_size.y = 122 if _compact else 150
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	button.clip_contents = true
 	wrapper.add_child(button)
 
+	var commitment_id := str(card.get("id", ""))
+	var scene_path := _promise_scene_path(commitment_id)
+	var scene := TextureRect.new()
+	scene.name = "PromiseScene"
+	scene.set_meta("m1m6_scene_strip", commitment_id)
+	scene.set_meta("m1m6_scene_path", scene_path)
+	scene.set_meta("m1m6_scene_grade", "gangnam_ink_card_v1")
+	scene.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	scene.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	scene.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	scene.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	scene.texture = load(scene_path)
+	scene.material = _promise_scene_grade_material()
+	scene.modulate = Color(0.76, 0.79, 0.83, 1.0)
+	button.add_child(scene)
+
+	var scene_veil := ColorRect.new()
+	scene_veil.name = "PromiseSceneVeil"
+	scene_veil.color = Color("#05070aba")
+	scene_veil.modulate.a = 0.78
+	scene_veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	scene_veil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	button.add_child(scene_veil)
+
+	var text_bed := ColorRect.new()
+	text_bed.name = "PromiseTextBed"
+	text_bed.color = Color("#080b0ed4")
+	text_bed.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	text_bed.anchor_top = 0.45
+	text_bed.anchor_right = 1.0
+	text_bed.anchor_bottom = 1.0
+	button.add_child(text_bed)
+
+	var side_contact := ColorRect.new()
+	side_contact.name = "InkContact"
+	side_contact.color = Color("#d8c38d42")
+	side_contact.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	side_contact.anchor_bottom = 1.0
+	side_contact.offset_right = 2.0
+	button.add_child(side_contact)
+
+	var trace := ColorRect.new()
+	trace.name = "InkTrace"
+	trace.color = COLOR_NOTE_TRACE
+	trace.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	trace.anchor_right = 1.0
+	trace.offset_bottom = 2.0
+	trace.scale = Vector2(0.20, 1.0)
+	trace.modulate.a = 0.24
+	button.add_child(trace)
+
 	var margin := MarginContainer.new()
-	margin.name = "PaperContent"
+	margin.name = "DecisionContent"
 	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	margin.add_theme_constant_override("margin_left", 12 if _compact else 15)
 	margin.add_theme_constant_override("margin_right", 12 if _compact else 15)
@@ -695,14 +827,8 @@ func _create_card_button(card: Dictionary) -> Control:
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var column := VBoxContainer.new()
 	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	column.add_theme_constant_override("separation", 4 if _compact else 6)
+	column.add_theme_constant_override("separation", 5 if _compact else 7)
 	margin.add_child(column)
-	var tape := ColorRect.new()
-	tape.name = "PaperTape"
-	tape.color = Color("#b8aa8b70")
-	tape.custom_minimum_size.y = 3
-	tape.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	column.add_child(tape)
 	var header := HBoxContainer.new()
 	header.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	header.add_theme_constant_override("separation", 6)
@@ -713,45 +839,242 @@ func _create_card_button(card: Dictionary) -> Control:
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	icon.modulate = COLOR_PAPER_INK
+	icon.modulate = COLOR_NOTE_INK
 	header.add_child(icon)
-	var axis_label := _label("", 12 if _compact else 14, COLOR_PAPER_INK, true)
+	var axis_label := _label("", 12 if _compact else 14, COLOR_NOTE_INK, true)
 	axis_label.name = "AxisLabel"
 	header.add_child(axis_label)
 	var header_spacer := Control.new()
 	header_spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	header_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(header_spacer)
-	var due_label := _label("", 12 if _compact else 14, COLOR_PAPER_DIM, true)
+	var due_label := _label("", 12 if _compact else 14, COLOR_NOTE_DIM, true)
 	due_label.name = "DueLabel"
 	header.add_child(due_label)
-	var action_label := _label("", 14 if _compact else 16, COLOR_PAPER_INK, true)
+	var action_label := _label("", 14 if _compact else 16, COLOR_NOTE_INK, true)
 	action_label.name = "ActionLabel"
 	action_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	action_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	column.add_child(action_label)
 	var rule := HSeparator.new()
-	rule.modulate = Color("#6d665a42")
+	rule.modulate = Color("#77818d42")
 	rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	column.add_child(rule)
 	var bottom := HBoxContainer.new()
 	bottom.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	column.add_child(bottom)
-	var window_label := _label("", 12 if _compact else 14, COLOR_PAPER_DIM)
+	var window_label := _label("", 12 if _compact else 14, COLOR_NOTE_DIM)
 	window_label.name = "WindowLabel"
 	window_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	window_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	bottom.add_child(window_label)
-	var role_badge := _label("", 12 if _compact else 14, COLOR_PAPER_INK, true)
+	var role_badge := _label("", 12 if _compact else 14, COLOR_NOTE_TRACE, true)
 	role_badge.name = "RoleBadge"
 	role_badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	bottom.add_child(role_badge)
-	var commitment_id := str(card.get("id", ""))
-	button.focus_entered.connect(_focus_commitment.bind(commitment_id))
+	button.focus_entered.connect(_on_note_focus_entered.bind(commitment_id))
+	button.focus_exited.connect(_on_note_focus_exited.bind(commitment_id))
+	button.button_down.connect(_on_note_button_down.bind(commitment_id))
+	button.button_up.connect(_on_note_button_up.bind(commitment_id))
 	button.pressed.connect(_activate_note.bind(commitment_id))
+	button.resized.connect(_update_note_pivot.bind(button))
 	_card_buttons[commitment_id] = button
 	_refresh_note_button(button, card)
+	call_deferred("_update_note_pivot", button)
+	call_deferred("_sync_note_motion", commitment_id, false)
 	return wrapper
+
+
+func _on_note_focus_entered(commitment_id: String) -> void:
+	_focus_commitment(commitment_id)
+	_animate_note_motion(commitment_id, true)
+
+
+func _on_note_focus_exited(commitment_id: String) -> void:
+	_animate_note_motion(commitment_id, false)
+
+
+func _on_note_button_down(commitment_id: String) -> void:
+	var button: Button = _card_buttons.get(commitment_id)
+	if not is_instance_valid(button):
+		return
+	_kill_note_motion_tween(commitment_id)
+	var content := button.find_child("DecisionContent", true, false) as Control
+	button.pivot_offset = button.size * 0.5
+	button.z_index = 12
+	if _reduce_motion:
+		button.scale = Vector2.ONE
+		if is_instance_valid(content):
+			content.position.y = 1.0
+		return
+	var tween := create_tween()
+	tween.bind_node(button)
+	tween.set_parallel(true)
+	tween.set_trans(Tween.TRANS_QUAD)
+	tween.set_ease(Tween.EASE_OUT)
+	tween.tween_property(button, "scale", Vector2.ONE * 0.996, 0.055)
+	if is_instance_valid(content):
+		tween.tween_property(content, "position:y", 1.0, 0.055)
+	_note_motion_tweens[commitment_id] = tween
+
+
+func _on_note_button_up(commitment_id: String) -> void:
+	var button: Button = _card_buttons.get(commitment_id)
+	if not is_instance_valid(button):
+		return
+	var content := button.find_child("DecisionContent", true, false) as Control
+	if is_instance_valid(content):
+		content.position.y = 0.0
+	_sync_note_motion(commitment_id, true)
+
+
+func _sync_note_motion(commitment_id: String, animated: bool = true) -> void:
+	var button: Button = _card_buttons.get(commitment_id)
+	if not is_instance_valid(button):
+		return
+	_animate_note_motion(commitment_id, button.has_focus(), animated)
+
+
+func _animate_note_motion(
+	commitment_id: String,
+	active: bool,
+	animated: bool = true,
+) -> void:
+	var button: Button = _card_buttons.get(commitment_id)
+	if not is_instance_valid(button):
+		return
+	_kill_note_motion_tween(commitment_id)
+	_update_note_pivot(button)
+	var selected := _is_selected(commitment_id)
+	var active_scale := 1.006 if _compact else 1.010
+	var target_scale := Vector2.ONE \
+		if _reduce_motion or not active else Vector2.ONE * active_scale
+	var target_trace_scale := 1.0 if active else (0.64 if selected else 0.20)
+	var target_trace_alpha := 0.96 if active else (0.72 if selected else 0.24)
+	var target_scene_scale := Vector2.ONE \
+		if _reduce_motion or not active else Vector2.ONE * 1.018
+	var target_scene_modulate := Color(0.98, 0.99, 1.0, 1.0) \
+		if active else (Color(0.86, 0.88, 0.91, 1.0) \
+		if selected else Color(0.76, 0.79, 0.83, 1.0))
+	var target_scene_veil_alpha := 0.46 if active else (0.62 if selected else 0.78)
+	button.z_index = 10 if active else (4 if selected else 0)
+	var trace := button.find_child("InkTrace", true, false) as ColorRect
+	var scene := button.find_child("PromiseScene", true, false) as TextureRect
+	var scene_veil := button.find_child("PromiseSceneVeil", true, false) as ColorRect
+	if _reduce_motion or not animated:
+		button.scale = target_scale
+		if is_instance_valid(trace):
+			trace.scale.x = target_trace_scale
+			trace.modulate.a = target_trace_alpha
+		if is_instance_valid(scene):
+			scene.scale = target_scene_scale
+			scene.modulate = target_scene_modulate
+		if is_instance_valid(scene_veil):
+			scene_veil.modulate.a = target_scene_veil_alpha
+		return
+	var tween := create_tween()
+	tween.bind_node(button)
+	tween.set_parallel(true)
+	tween.set_trans(Tween.TRANS_CUBIC)
+	tween.set_ease(Tween.EASE_OUT)
+	var duration := 0.12 if active else 0.09
+	tween.tween_property(button, "scale", target_scale, duration)
+	if is_instance_valid(trace):
+		tween.tween_property(trace, "scale:x", target_trace_scale, 0.14 if active else duration)
+		tween.tween_property(trace, "modulate:a", target_trace_alpha, duration)
+	if is_instance_valid(scene):
+		tween.tween_property(scene, "scale", target_scene_scale, duration)
+		tween.tween_property(scene, "modulate", target_scene_modulate, duration)
+	if is_instance_valid(scene_veil):
+		tween.tween_property(scene_veil, "modulate:a", target_scene_veil_alpha, duration)
+	_note_motion_tweens[commitment_id] = tween
+
+
+func _update_note_pivot(button: Button) -> void:
+	if is_instance_valid(button):
+		button.pivot_offset = button.size * 0.5
+		var scene := button.find_child("PromiseScene", true, false) as TextureRect
+		if is_instance_valid(scene):
+			scene.pivot_offset = scene.size * 0.5
+
+
+func _kill_note_motion_tween(commitment_id: String) -> void:
+	var prior: Variant = _note_motion_tweens.get(commitment_id)
+	if is_instance_valid(prior):
+		(prior as Tween).kill()
+	_note_motion_tweens.erase(commitment_id)
+
+
+func _clear_note_motion() -> void:
+	for commitment_id in _note_motion_tweens.keys():
+		_kill_note_motion_tween(str(commitment_id))
+	_note_motion_tweens.clear()
+	for key in _selection_motion_tweens.keys():
+		var tween: Variant = _selection_motion_tweens.get(key)
+		if is_instance_valid(tween):
+			(tween as Tween).kill()
+	_selection_motion_tweens.clear()
+
+
+func _add_role_contact(button: Button, protected_slot: bool) -> void:
+	var contact := ColorRect.new()
+	contact.name = "RoleContact"
+	contact.set_meta("m1m6_role_contact", true)
+	contact.color = COLOR_NOTE_TRACE if protected_slot else Color("#89919b")
+	contact.modulate.a = 0.82 if protected_slot else 0.52
+	contact.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	contact.anchor_bottom = 1.0
+	contact.offset_right = 3.0 if protected_slot else 2.0
+	button.add_child(contact)
+
+
+func _bind_selection_control_motion(button: Button) -> void:
+	button.focus_entered.connect(_animate_selection_control.bind(button, true))
+	button.focus_exited.connect(_animate_selection_control.bind(button, false))
+	button.button_down.connect(_press_selection_control.bind(button))
+	button.button_up.connect(_animate_selection_control.bind(button, true))
+
+
+func _animate_selection_control(button: Button, active: bool) -> void:
+	if not is_instance_valid(button):
+		return
+	var key := button.get_instance_id()
+	var prior: Variant = _selection_motion_tweens.get(key)
+	if is_instance_valid(prior):
+		(prior as Tween).kill()
+	_selection_motion_tweens.erase(key)
+	button.pivot_offset = button.size * 0.5
+	var target := Vector2.ONE if _reduce_motion or not active else Vector2.ONE * 1.004
+	button.z_index = 6 if active else 0
+	if _reduce_motion:
+		button.scale = target
+		return
+	var tween := create_tween()
+	tween.bind_node(button)
+	tween.set_trans(Tween.TRANS_CUBIC)
+	tween.set_ease(Tween.EASE_OUT)
+	tween.tween_property(button, "scale", target, 0.09)
+	_selection_motion_tweens[key] = tween
+
+
+func _press_selection_control(button: Button) -> void:
+	if not is_instance_valid(button) or button.disabled:
+		return
+	var key := button.get_instance_id()
+	var prior: Variant = _selection_motion_tweens.get(key)
+	if is_instance_valid(prior):
+		(prior as Tween).kill()
+	_selection_motion_tweens.erase(key)
+	button.pivot_offset = button.size * 0.5
+	if _reduce_motion:
+		button.scale = Vector2.ONE
+		return
+	var tween := create_tween()
+	tween.bind_node(button)
+	tween.set_trans(Tween.TRANS_QUAD)
+	tween.set_ease(Tween.EASE_OUT)
+	tween.tween_property(button, "scale", Vector2.ONE * 0.997, 0.055)
+	_selection_motion_tweens[key] = tween
 
 
 func _focus_commitment(commitment_id: String) -> void:
@@ -1244,7 +1567,7 @@ func _refresh_note_button(button: Button, card: Dictionary) -> void:
 	var icon := button.find_child("AxisIcon", true, false) as TextureRect
 	if is_instance_valid(icon):
 		icon.texture = load(_axis_icon_path(axis))
-		icon.modulate = COLOR_PAPER_INK
+		icon.modulate = COLOR_NOTE_INK
 	var axis_label := button.find_child("AxisLabel", true, false) as Label
 	if is_instance_valid(axis_label):
 		axis_label.text = _axis_label(axis)
@@ -1270,6 +1593,7 @@ func _refresh_note_button(button: Button, card: Dictionary) -> void:
 		else:
 			role_badge.text = ""
 	_apply_note_style(button, _is_selected(commitment_id))
+	call_deferred("_sync_note_motion", commitment_id, true)
 
 
 func _axis_icon_path(axis: String) -> String:
@@ -1278,6 +1602,28 @@ func _axis_icon_path(axis: String) -> String:
 		"health": return "res://assets/ui/icons/icon_health.svg"
 		"trust": return "res://assets/ui/icons/icon_relationship.svg"
 	return "res://assets/ui/icons/icon_info.svg"
+
+
+func _promise_scene_path(commitment_id: String) -> String:
+	return str(PROMISE_SCENE_PATHS.get(commitment_id, WORLD_BACKGROUND_PATH))
+
+
+func _promise_scene_grade_material() -> ShaderMaterial:
+	var material := ShaderMaterial.new()
+	var shader: Shader = load(WORLD_GRADE_SHADER_PATH)
+	if shader == null:
+		return material
+	material.shader = shader
+	material.set_shader_parameter("desaturation", 0.72)
+	material.set_shader_parameter("brightness", 0.96)
+	material.set_shader_parameter("contrast", 1.04)
+	material.set_shader_parameter("grain_amount", 0.028)
+	material.set_shader_parameter("ink_bleed", 0.10)
+	material.set_shader_parameter("paper_fade", 0.018)
+	material.set_shader_parameter("edge_burn", 0.08)
+	material.set_shader_parameter("print_screen", 0.026)
+	material.set_shader_parameter("tone_quantize", 0.18)
+	return material
 
 
 func _choice_window_badge(card: Dictionary) -> String:
@@ -1420,7 +1766,7 @@ func _connect_card_focus_neighbors() -> void:
 
 
 func _animate_note_to_slot(commitment_id: String, slot: String) -> void:
-	if not is_instance_valid(_fx_layer) or _screen != "selection":
+	if _reduce_motion or not is_instance_valid(_fx_layer) or _screen != "selection":
 		return
 	var source: Button = _card_buttons.get(commitment_id)
 	var target: Button = _protected_button if slot == "protected" else _optional_button
@@ -1431,17 +1777,23 @@ func _animate_note_to_slot(commitment_id: String, slot: String) -> void:
 	ghost.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	ghost.position = source.global_position
 	ghost.size = source.size
-	ghost.modulate = Color(1, 1, 1, 0.88)
+	ghost.modulate = Color(1, 1, 1, 0.90)
 	ghost.add_theme_stylebox_override(
-		"panel", _paper_style(COLOR_PAPER_FOCUS, COLOR_ACCENT, 2, true))
+		"panel", _note_style(COLOR_NOTE_SELECTED, COLOR_NOTE_TRACE, 2, 2))
+	var contact := ColorRect.new()
+	contact.color = COLOR_NOTE_TRACE
+	contact.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	contact.anchor_right = 1.0
+	contact.offset_bottom = 2.0
+	ghost.add_child(contact)
 	_fx_layer.add_child(ghost)
 	var tween := create_tween()
 	tween.set_parallel(true)
 	tween.set_trans(Tween.TRANS_QUAD)
 	tween.set_ease(Tween.EASE_OUT)
-	tween.tween_property(ghost, "position", target.global_position, 0.17)
-	tween.tween_property(ghost, "size", target.size, 0.17)
-	tween.tween_property(ghost, "modulate:a", 0.0, 0.17)
+	tween.tween_property(ghost, "position", target.global_position, 0.18)
+	tween.tween_property(ghost, "size", target.size, 0.18)
+	tween.tween_property(ghost, "modulate:a", 0.0, 0.18)
 	tween.chain().tween_callback(ghost.queue_free)
 
 
@@ -1943,6 +2295,7 @@ func _string_array(value: Variant) -> Array[String]:
 
 
 func _clear_body() -> void:
+	_clear_note_motion()
 	for child in _body.get_children():
 		_body.remove_child(child)
 		child.queue_free()
@@ -1991,6 +2344,26 @@ func _control_rect_array(control: Control) -> Array[float]:
 		control.size.x,
 		control.size.y,
 	]
+
+
+func _control_visual_aabb_array(control: Control) -> Array[float]:
+	if not is_instance_valid(control):
+		return []
+	var transform := control.get_global_transform_with_canvas()
+	var points := [
+		transform * Vector2.ZERO,
+		transform * Vector2(control.size.x, 0.0),
+		transform * control.size,
+		transform * Vector2(0.0, control.size.y),
+	]
+	var minimum: Vector2 = points[0]
+	var maximum: Vector2 = points[0]
+	for point in points:
+		minimum.x = minf(minimum.x, point.x)
+		minimum.y = minf(minimum.y, point.y)
+		maximum.x = maxf(maximum.x, point.x)
+		maximum.y = maxf(maximum.y, point.y)
+	return [minimum.x, minimum.y, maximum.x - minimum.x, maximum.y - minimum.y]
 
 
 func _focused_meta_value(meta_key: StringName) -> String:
@@ -2062,17 +2435,17 @@ func _apply_button_style(button: Button, filled: bool, border: Color) -> void:
 func _apply_note_style(button: Button, selected: bool) -> void:
 	if not is_instance_valid(button):
 		return
-	var paper := COLOR_PAPER_FOCUS if selected else COLOR_PAPER
+	var surface := COLOR_NOTE_SELECTED if selected else COLOR_NOTE
 	button.add_theme_stylebox_override(
-		"normal", _paper_style(paper, COLOR_ACCENT if selected else COLOR_PAPER_EDGE, 2 if selected else 1, true))
+		"normal", _note_style(surface, COLOR_NOTE_TRACE if selected else COLOR_NOTE_EDGE, 2 if selected else 1, 1))
 	button.add_theme_stylebox_override(
-		"hover", _paper_style(COLOR_PAPER_FOCUS, COLOR_ACCENT, 2, true))
+		"hover", _note_style(COLOR_NOTE_FOCUS, COLOR_NOTE_TRACE, 2, 2))
 	button.add_theme_stylebox_override(
-		"focus", _paper_style(COLOR_PAPER_FOCUS, COLOR_ACCENT, 3, true))
+		"focus", _note_style(COLOR_NOTE_FOCUS, COLOR_NOTE_TRACE, 2, 2))
 	button.add_theme_stylebox_override(
-		"pressed", _paper_style(COLOR_PAPER.darkened(0.05), COLOR_ACCENT, 3, true))
+		"pressed", _note_style(Color("#0d1116fa"), COLOR_NOTE_TRACE, 2, 0))
 	button.add_theme_stylebox_override(
-		"disabled", _paper_style(COLOR_PAPER.darkened(0.20), COLOR_PAPER_EDGE.darkened(0.2), 1, false))
+		"disabled", _note_style(Color("#0b0e12d8"), Color("#343b45"), 1, 0))
 	for color_name in ["font_color", "font_hover_color", "font_focus_color", "font_pressed_color"]:
 		button.add_theme_color_override(color_name, Color.TRANSPARENT)
 
@@ -2081,11 +2454,12 @@ func _apply_pocket_style(button: Button, occupied: bool, protected_slot: bool) -
 	if not is_instance_valid(button):
 		return
 	var edge := COLOR_ACCENT if protected_slot else Color("#aaa49a")
-	var base := Color("#171611e8") if occupied else Color("#0d0e0fd4")
-	button.add_theme_stylebox_override("normal", _panel_style(base, edge.darkened(0.18), 2, 2))
+	var base := Color("#191d24f0") if occupied else Color("#0b0e13e2")
+	button.add_theme_stylebox_override(
+		"normal", _panel_style(base, edge.darkened(0.32), 2 if occupied else 1, 1))
 	button.add_theme_stylebox_override("hover", _panel_style(base.lightened(0.05), edge, 2, 2))
-	button.add_theme_stylebox_override("focus", _panel_style(base.lightened(0.07), COLOR_ACCENT, 3, 2))
-	button.add_theme_stylebox_override("pressed", _panel_style(base.lightened(0.10), COLOR_ACCENT, 3, 2))
+	button.add_theme_stylebox_override("focus", _panel_style(base.lightened(0.07), COLOR_ACCENT, 2, 2))
+	button.add_theme_stylebox_override("pressed", _panel_style(base.lightened(0.10), COLOR_ACCENT, 2, 1))
 	button.add_theme_stylebox_override(
 		"disabled", _panel_style(Color("#0b0c0dd0"), Color("#6d6b6680"), 1, 2))
 	button.add_theme_color_override("font_color", COLOR_TEXT)
@@ -2096,25 +2470,25 @@ func _apply_pocket_style(button: Button, occupied: bool, protected_slot: bool) -
 	button.add_theme_font_size_override("font_size", 13 if _compact else 15)
 
 
-func _paper_style(
+func _note_style(
 	bg: Color,
 	border: Color,
 	border_width: int,
-	with_shadow: bool,
+	shadow_depth: int,
 ) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
 	style.bg_color = bg
 	style.border_color = border
 	style.set_border_width_all(border_width)
-	style.set_corner_radius_all(2)
+	style.set_corner_radius_all(1)
 	style.content_margin_left = 8
 	style.content_margin_right = 8
 	style.content_margin_top = 7
 	style.content_margin_bottom = 7
-	if with_shadow:
-		style.shadow_color = Color("#02030347")
-		style.shadow_size = 6
-		style.shadow_offset = Vector2(0, 5)
+	if shadow_depth > 0:
+		style.shadow_color = Color("#020303a8")
+		style.shadow_size = shadow_depth
+		style.shadow_offset = Vector2(0, shadow_depth)
 	return style
 
 

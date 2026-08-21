@@ -65,7 +65,10 @@
 
 **제품·표면:** `systems/StoryMapMonthlyRuntime.gd`와 `.gd.uid`,
 `tools/StoryMapM1M6Playtest.gd`와 `.gd.uid`, `tools/StoryMapM1M6Playtest.tscn`,
-`content/meta/story_map_m1m6_en.json`.
+`content/meta/story_map_m1m6_en.json`, `assets/ui/m1m6_promises/*.png`.
+
+**시각 정본·출처:** `docs/UI_ART_DIRECTION.md`, `assets/ASSET_INDEX.md`,
+`assets/IMAGE_PROMPTS.md`, `docs/ART_AI_AUDIT.md`.
 
 **표적 검사:** `tools/StoryMapM1M6Check.gd`와 `.gd.uid`, `tools/StoryMapM1M6Check.tscn`,
 `tools/audit_scope.json`, `tools/audit_select.py`.
@@ -113,9 +116,9 @@
   진행률·정보창·제출 버튼이 한 달의 선택보다 업무 대시보드처럼 읽힌다.
 - 구형 24주 빌드에서 처음 드러난 결함이지만 현행 M01~M06 독립 체험판도 같은
   텍스트 카드·우측 inspector 문법을 쓰므로 이 체험판의 사람 게이트를 다시 연다.
-- 데이터·주력/함께·여유·미룸·자동저장 계약은 바꾸지 않는다. 고시원 책상과
-  약속 쪽지, 두 개의 약속 자리, 선택·취소·확정의 물성 피드백으로 표현층만
-  다시 만든다. 결과 스포일러와 내부 토큰은 계속 숨긴다.
+- 데이터·주력/함께·여유·미룸·자동저장 계약은 바꾸지 않는다. 고시원 배경과
+  약속별 무인 장면 이미지, 두 개의 약속 자리, 선택·취소·확정의 물성 피드백으로
+  표현층만 다시 만든다. 결과 스포일러와 내부 토큰은 계속 숨긴다.
 - **착수 파일:** `tools/StoryMapM1M6Playtest.gd`,
   `tools/StoryMapM1M6Check.gd`, `docs/queue_active/ORDER-103.md`,
   `docs/CODEX_QUEUE.md`, 마감 시 `CLAUDE.md`, `docs/WORK_LOG.md`,
@@ -124,16 +127,22 @@
   기존 6개월 결과의 byte-equivalence, 그리고 새 화면에 대한 사용자 L3 재판정이다.
 - 처음 실행한 `BUILD 2026.08.10.1`은 현행 체험판보다 오래된 후보였다. 그 앱을
   제품 후보로 고치지 않고, 정본 `StoryMapM1M6Playtest` 선택 화면만 다시 만들었다.
-- 고시원 방을 실제 배경으로 두고, 3~4개 약속을 밝은 종이 쪽지로 펼쳤다. 카드를
-  누르면 자동 배정하지 않고 `주력` 또는 가능한 `함께` 자리로 포커스를 옮긴 뒤
-  두 번째 확인으로 역할을 정한다. 쪽지 이동·도장과 기존 종이/도장 효과음은 상태
-  변경 뒤에만 재생한다.
+- 고시원 방을 실제 배경으로 두고 19개 약속을 9개 신규 무인 장면과 9개 안전한
+  기존 장소 자산에 연결했다. 밝은 포스트잇·빈 카드·결과를 선취하는 면접/계약
+  이미지는 쓰지 않는다. 카드를 누르면 자동 배정하지 않고 `주력` 또는 가능한
+  `함께` 자리로 포커스를 옮긴 뒤 두 번째 확인으로 역할을 정한다.
+- 마우스 호버와 패드 포커스는 같은 2px 이하 들림, 1.8% 장면 push-in, 잉크막
+  걷힘, 상단 잉크선으로 읽힌다. 확인은 55ms·1px 눌림이며 hover에는 효과음·진동이
+  없다. `Reduce Motion`은 이동/확대만 끄고 테두리·명도·눌림을 남긴다.
 - 사용자 후속 판정 “월 마감 지금 괜찮아”에 따라 결과·회고의 레이아웃·문구·계산은
   바꾸지 않았다. 선택 확정 뒤 도장음과 공통 고시원 배경만 이어진다.
 - KO/EN 960×600·1280×800 실렌더에서 잘림·겹침·스크롤 0, 첫 South/Enter의
   역할 포켓 이동과 자동 배정 0, 짧은 재시작 버튼/하단 확인 문구, 46px 입력 높이,
   여섯 달 결과·전용 저장을 확인했다. 제품 런타임·스토리 맵·기존 저장·프로젝트
   설정은 선언 기준과 byte-exact다.
+- 사용자 요청인 전체 UI 통일은 이 선택판을 L3 기준 표면으로 먼저 판정한 뒤
+  공용 토큰/장면 스트립→첫인상·StoryMode→반복 선택→MainGame 순으로 이관한다.
+  사용자 승인 월 마감·회고는 마지막 별도 배치 전까지 동결한다.
 - 전용 M01~M06 차선은 무관한 마지막 해 self-test를 제외한 5개 표적 검사로 다시
   5초 이내를 지킨다. 기계·독립 L2는 GO지만 사용자 L3 전이므로 ORDER는 `[~]`다.
 
