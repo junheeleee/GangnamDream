@@ -2,10 +2,22 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-117 [P0·서사] ORDER-107·109의 지목 장면을 고치고 career 15편을 전수 재판정한다
+#### [~] ORDER-117 [P0·서사] ORDER-107·109의 지목 장면을 고치고 career 15편을 전수 재판정한다
 
 **판정 근거 (2026-08-21):** `판정: Claude(사용자 위임)`. ORDER-107·109는 각
 1편 조건부, ORDER-112는 1편 보존·15편 재판정이다. 사용자 최종 GO는 OPEN이다.
+
+**착수 선언 (2026-08-21):** 기준 `8a1436629fa2ca589d76a4cf52d1b465aa81b0b3`.
+만지는 파일은 아래 18개뿐이다.
+
+- `content/events/{arc_events,arc_chapter_themes,arc_midgame,arc_new_characters,arc_pre_ending,arc_drama}.json`
+- `content/events_en/`의 같은 6파일
+- `CLAUDE.md`, `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-117.md`,
+  `docs/WORK_LOG.md`, `docs/STATUS.md`, `docs/human_gates.json`
+
+`docs/human_gates.json`은 새 후보와 위임 판정을 사용자 최종 GO와 분리해 기록할 때만
+수정한다. 위 목록 밖의 사건·story map/rules/spine·reference manifest/audit/kernel·
+runtime/save/UI/balance/endings·JA/ZH는 byte-exact다.
 
 ## 깊이 3문
 
