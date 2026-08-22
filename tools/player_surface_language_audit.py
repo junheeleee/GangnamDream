@@ -183,6 +183,26 @@ RAW_TITLE_RULES: tuple[Rule, ...] = (
         "en",
     ),
     Rule(
+        "raw_hidden_life_count_ko",
+        re.compile(
+            r"(?:자유시간\s*\d+\s*회|관계\s*\d+\s*명(?:\s*이상)?|"
+            r"관계\s*없이\s*\d+\s*턴)"
+        ),
+        "Korean hidden tendency/relationship count in title copy",
+        "ko",
+    ),
+    Rule(
+        "raw_hidden_life_count_en",
+        re.compile(
+            r"(?:\bused\s+free\s+time\s+\d+\s+times?\b|"
+            r"\bbuilt\s+\w+\s+or\s+more\s+relationships?\b|"
+            r"\blasted\s+\d+\s+turns?\s+without\s+relationships?\b)",
+            re.IGNORECASE,
+        ),
+        "English hidden tendency/relationship count in title copy",
+        "en",
+    ),
+    Rule(
         "raw_rank_path_ko",
         re.compile(
             r"(?:상위\s*0\.1\s*%|0\.1\s*%\s*(?:의\s*)?"
@@ -880,7 +900,11 @@ def _raw_title_array_entries(
         errors.extend(_validate_direct_raw_title_fields(
             path, source, entry_start, owner, language, fields,
             ("id", "name", "desc")))
-        title_id = fields.get("id", ("", entry_start))[0].strip()
+        title_id = fields.get("id", ("", entry_start))[0]
+        if title_id and title_id != title_id.strip():
+            errors.append(_raw_title_parse_error(
+                path, source, fields["id"][1], owner, language,
+                "ALL_TITLES id has surrounding whitespace"))
         if title_id:
             if title_id in ids:
                 errors.append(_raw_title_parse_error(
@@ -956,7 +980,14 @@ def _raw_title_map_entries(
         errors.extend(_validate_direct_raw_title_fields(
             path, source, value_start, owner, language, fields,
             ("name", "desc")))
-        title_id = title_id.strip()
+        if "id" in fields:
+            errors.append(_raw_title_parse_error(
+                path, source, fields["id"][1], owner, language,
+                "TITLE_EN entry must not override its outer id"))
+        if title_id and title_id != title_id.strip():
+            errors.append(_raw_title_parse_error(
+                path, source, id_start, owner, language,
+                "TITLE_EN id has surrounding whitespace"))
         if not title_id:
             errors.append(_raw_title_parse_error(
                 path, source, id_start, owner, language,
@@ -2349,6 +2380,24 @@ def run_self_test() -> tuple[list[str], int]:
         {"raw_route_count_en", "raw_route_count_ko"}, RAW_TITLE_PATH,
     )
     expect_rules(
+        "raw hidden life counters",
+        raw_title_source(
+            ko_desc="자유시간 10회. 한강을 걸었다.",
+            en_desc="Used free time 10 times. You walked by the river.",
+        ),
+        {"raw_hidden_life_count_en", "raw_hidden_life_count_ko"},
+        RAW_TITLE_PATH,
+    )
+    expect_rules(
+        "raw hidden relationship counters",
+        raw_title_source(
+            ko_desc="관계 없이 30턴을 버텼다.",
+            en_desc="Built five or more relationships.",
+        ),
+        {"raw_hidden_life_count_en", "raw_hidden_life_count_ko"},
+        RAW_TITLE_PATH,
+    )
+    expect_rules(
         "raw computed rank path",
         raw_title_source(
             ko_desc="화면이 하얗게 빛나던 0.1%의 길.",
@@ -2396,6 +2445,22 @@ def run_self_test() -> tuple[list[str], int]:
         "raw KO EN id parity fails closed",
         raw_title_source().replace(
             "'raw_title_00': {'name':", "'raw_title_other': {'name':", 1),
+        {"raw_title_parse_error"}, RAW_TITLE_PATH,
+    )
+    expect_rules(
+        "raw whitespace id fails closed",
+        raw_title_source().replace("'id':'raw_title_00'", "'id':' raw_title_00'", 1),
+        {"raw_title_parse_error"}, RAW_TITLE_PATH,
+    )
+    expect_rules(
+        "raw English whitespace id fails closed",
+        raw_title_source().replace(
+            "'raw_title_00': {'name':", "'raw_title_00 ': {'name':", 1),
+        {"raw_title_parse_error"}, RAW_TITLE_PATH,
+    )
+    expect_rules(
+        "raw English inner id override fails closed",
+        raw_title_source(en_extra=", 'id':'raw_title_other'"),
         {"raw_title_parse_error"}, RAW_TITLE_PATH,
     )
     expect_rules(

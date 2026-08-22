@@ -1036,12 +1036,16 @@ func _ready() -> void:
 	if scope == QA_SCOPE_TITLE_EN:
 		var lang := _qa_language("en")
 		await _shot_title_collection_surface(lang, "title_en_" if lang == "en" else "title_ko_")
+		if _qa_failed:
+			return
 		print("SCREENSHOT_QA_DONE scope=title-en lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_TUTORIAL_EN:
 		var lang := _qa_language("en")
 		await _shot_tutorial_surfaces(lang, "tutorial_en_" if lang == "en" else "tutorial_ko_")
+		if _qa_failed:
+			return
 		print("SCREENSHOT_QA_DONE scope=tutorial-en lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
@@ -20951,6 +20955,9 @@ func _shot_title_collection_surface(lang: String = "en", prefix: String = "title
 		"dangerous_dreamer",
 		"my_own_way",
 		"stress_survivor",
+		"free_spirit",
+		"social_king_title",
+		"loner_title",
 		"five_runs_title",
 		"ten_runs_title",
 		"clean_run_title",
@@ -21014,6 +21021,24 @@ func _shot_title_collection_surface(lang: String = "en", prefix: String = "title
 					"마음이 버티기 어려웠던 밤이 지나고도, 다음 아침은 왔다.",
 					"A night when it was hard to hold yourself together passed, and the next morning still came."),
 			],
+			"free_spirit": [
+				_tr("비어 있던 오후", "An Afternoon of Your Own"),
+				_tr(
+					"한강과 편의점, 오래 걷던 길에서 누구의 일정도 아닌 시간을 보냈다.",
+					"By the Han River, at convenience stores, and on long walks, you spent time that belonged to no one else's schedule."),
+			],
+			"social_king_title": [
+				_tr("낯익은 자리들", "Familiar Seats"),
+				_tr(
+					"서울 곳곳에 먼저 인사를 건네고 자리를 내어 주는 사람들이 생겼다.",
+					"Around Seoul, people began greeting you first and making room when you arrived."),
+			],
+			"loner_title": [
+				_tr("혼자 걷는 저녁", "Evenings Walked Alone"),
+				_tr(
+					"연락할 이름이 떠오르지 않는 저녁에도, 혼자 걷는 길은 어느새 익숙해졌다.",
+					"Even on evenings when no one came to mind to call, walking alone had become familiar."),
+			],
 			"five_runs_title": [
 				_tr("다섯 번의 인생", "Five Lives"),
 				_tr(
@@ -21060,6 +21085,9 @@ func _shot_title_collection_surface(lang: String = "en", prefix: String = "title
 			"비정석 행동 20회", "20 unorthodox moves",
 			"정석도 비정석도 각 10회", "10 orthodox and 10 unorthodox",
 			"정신력이 15 이하", "Mental fell to 15",
+			"자유시간 10회", "Used free time 10 times",
+			"관계 5명 이상", "Built five or more relationships",
+			"관계 없이 30턴", "Lasted 30 turns without relationships",
 			"5번의 런", "Completed five runs",
 			"10번의 런", "Ten runs",
 			"청렴런", "clean run", "인맥런", "network run",
