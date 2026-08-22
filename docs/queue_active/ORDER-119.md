@@ -45,9 +45,19 @@ tooltip, `TutorialOverlay`의 경마 설명에 남았고, wrapper 밖
 ScreenshotQA는 세 wrapper의 교체 문구와 대표 칭호의 KO/EN 표면을 고정한다. 이는 이미
 선언한 게임 전체 플레이어 표면 계약에서 빠진 도달 소스를 보정하는 것이며 새 시스템·
 엔딩 라우팅·밸런스를 추가하지 않는다. `MetaProgression.gd`의 whole-file Chapter 1
-source lock은 구현 뒤 의미 변경 없이 새 바이트에만 다시 고정한다. 따라서 만지는 파일은
-정확히 다음 34개뿐이며
+source lock은 구현 뒤 의미 변경 없이 새 바이트에만 다시 고정한다. 이 보정 시점의 범위는
+아래 34개였으며
 `project.godot`은 수정·스테이징하지 않는다.
+
+**감사 후 범위 보정 (2026-08-22):** 같은 후보의 첫 전체 감사에서 제품 산문과 내부
+상태는 정합하지만 `ImmersionLoopCheck`가 폐기된 정산표·정확 수치 문구 여섯 곳을 계속
+정답으로 요구했고, 영어 한글 감사기는 실제 표면이 아니라 MainGame의 기본
+`run_theme` 저장 ID 비교 두 줄을 누출로 오인했다. 제품 기록의 exact asset·금액·세션·
+관계·시장 변동 검증은 보존하고, 몰입 검사는 새 1~3문장 산문과 옛 헤더·부호 수치 0을
+검사한다. 영어 감사기는 MainGame의 정확한 내부 ID 비교 한 줄 형태만 허용하고 같은 줄의
+추가 누출·다른 변수·표면값은 거부하는 self-test를 전체 감사와 표적 선택에 등록한다.
+따라서 `tools/ImmersionLoopCheck.gd`와 `tools/english_hangul_audit.py`를 추가한 최종
+소유 범위는 **정확히 36개**다. 아래 기존 34개와 이 두 파일 밖은 건드리지 않는다.
 
 - `scenes/MainGame.gd`, `scenes/StoryMode.gd`, `scenes/JobHuntMiniGame.gd`, `scenes/ArubaGame.gd`
 - `scenes/SeoulCycleBoard.gd`, `scenes/StartMenu.gd`, `scenes/TutorialOverlay.gd`
@@ -55,6 +65,7 @@ source lock은 구현 뒤 의미 변경 없이 새 바이트에만 다시 고정
 - `systems/InvestmentSystem.gd`, `systems/JobSystem.gd`
 - `tools/ScreenshotQA.gd`, `tools/TextMaterialCheck.gd`, `tools/StoryPlaybackCheck.gd`
 - `tools/player_surface_language_audit.py`, `tools/demo_localization_scope.py`
+- `tools/english_hangul_audit.py`, `tools/ImmersionLoopCheck.gd`
 - `tools/ja_translation_pipeline.py`
 - `tools/chapter1_core_loop_v2_causal_ledger_check.py`
 - `tools/year5_reference_route_audit.py`
