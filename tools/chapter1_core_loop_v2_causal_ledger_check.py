@@ -2766,7 +2766,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "autoloads/EventManager.gd":
         "ca2ae4d3710a746f40f311ede93e9b37015b180df5820e95dadd9c8917b66365",
     "autoloads/MetaProgression.gd":
-        "42445144bc107a963f54011460effeee5a2bc89204aac2fb44cecbc87378b2ca",
+        "9c1cd716a9c6a1af838c31973005d5514ec11ea92a85b092170df6c31dd37b1e",
     "autoloads/SaveManager.gd":
         "67f20478f4ede9cf3902f02eab06a945ddbf1a348e86b71a34108de0c1d87645",
     "systems/BuildFlavor.gd":
@@ -2776,11 +2776,11 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "scenes/StoryMode.tscn":
         "b7688a883323a196e74271c1e76f1d88c91310b3fe1a287cb051b33dd2fb76ca",
     "scenes/MainGame.gd":
-		"ffb86b8044ca50f61facebc760e9d6e35e7fc4e9f4a8c847e56ac4177fae78f4",
+		"586cda9fc8322d9e3154bfc11e200920da7ddceed1ad031517223888ceb4dffc",
     "scenes/MainGame.tscn":
         "71a9590d43c755fa6b409ee0eb0f1950c6aba4517c64192b83038d22a45d9979",
     "scenes/SeoulCycleBoard.gd":
-		"78e0bbdc1bf1378e051a18412ba667e69025cb588741b233493f26ad95b61507",
+		"cd116239ac374753d40e77c757215bdfb588f3bdd913a9b01a401890db43dc37",
     "scenes/CommitmentTask.gd":
         "bae7b92139eaf8d4e112b870eb11dfb1fefa0a35d1d4f37a7bfa9df7e665af8b",
     "scenes/JobHuntMiniGame.gd":
@@ -2790,7 +2790,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/meta/demo_core_loop_v2.json":
         "f336f8a60277effc1885e10911d21785add4ad5580135bb1ab3a4c4b509059c3",
     "content/meta/demo_localization_scope.json":
-        "0a6d77e28cbbdc6bdd9b758908eafa03a92445860a29e23df470dbe2e53c5b74",
+		"4fe743a4ee5fcf341b7feaed9d2e9a776268bd70607dbb564c1899c5a9bb9d26",
     "content/meta/release_content_inventory.json":
         "c6c10aceea5fa3b46a59a1b933317dd9a1981cb7ce5fa4544c4803739cd5cebc",
     "content/meta/story_rules.json":
@@ -3703,7 +3703,8 @@ def _validate_qualitative_result_surface_source_contract(
             '_tr("살던 곳", "Home")',
             'str(body_metric.get("value", ""))',
             'str(nights_metric.get("value", ""))',
-            '_tr("최종 나이", "Final Age")',
+            '_tr("나이", "Age")',
+            '_tr("%d세", "%d") % GameState.age',
             '_tr("살아낸 시간", "Time Lived")',
             'grid.set_meta("ending_record_facts", true)',
         ),
@@ -3716,7 +3717,7 @@ def _validate_qualitative_result_surface_source_contract(
             'elif GameState.investment_skill >= 25:',
             '"가격표 너머의 위험을 살피기 시작했다"',
             '"Began looking past the price tag to the risk"',
-            '_tr("이번 런 발자취", "This Run\'s Footsteps")',
+            '_tr("5년의 발자취", "Footsteps Across Five Years")',
         ),
         "scenes/MainGame.gd::_ending_playstyle": (
             '_tr("다시 볼 기록", "Records to Revisit")',
