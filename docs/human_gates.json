@@ -11,10 +11,10 @@
   "release_candidates": {
     "demo_rc": {
       "status": "active",
-      "commit": "22f1f2acdc0f57641fefb7a855f195814c6c6197",
-      "tree": "3aaab2da15adf7f7f4fae998c03f291e2d0ef0fb",
-      "manifest_sha256": "96e76eddd5d727e30cd055c5cd7245a5d42985e5b99698eb84df3aa394811519",
-      "note": "데모 제품 경계는 W1~24 CTA다. BUILD 2026.08.11.3은 clean 저장 복구 체크포인트로, macOS 패키지를 실제 사용자 autosave의 격리 복사본과 같은 playtest 저장 이름으로 부팅했고 원본 hash는 불변이다. Windows·macOS·Linux 산출물과 KO/EN 키보드·패드 24주 입력, 두 해상도 표면은 자동 검증했다. 같은 W1~24 demo_rc의 Month 2 진입, 정상 속도 재미·물리 패드·연속 A/V·원어민 게이트는 OPEN이다. W25~48 Chapter 1은 데모 RC나 사람 판정 조건이 아니다."
+      "commit": "ebc58a839d64d8810b9da5548c20e58bc43c9e30",
+      "tree": "f978a22525b678ef83619dc50094a6dada75f190",
+      "manifest_sha256": "8a34920038962a4ba0885ad6189d92dc6d3c3ee2780020f3894938d380613177",
+      "note": "데모 제품 경계는 W1~24 CTA다. BUILD 2026.08.22.1은 clean revision ebc58a839d64d8810b9da5548c20e58bc43c9e30 / tree f978a22525b678ef83619dc50094a6dada75f190의 Windows·macOS·Linux V2 playtest 후보다. 같은 후보의 full audit·KO/EN 24주·KO 240주와 package identity/manifest 검증, macOS native no-arg smoke가 PASS했다. 자동 증거는 사용자 최종 GO를 대신하지 않는다. demo_rc의 사람·실기기·연속 A/V·원어민 게이트는 OPEN이고, 고정 order99_build_3_rc와 waiting_rebuild order103_rc 및 두 사용자 게이트도 그대로 OPEN이다. W25~48 Chapter 1은 데모 RC나 사람 판정 조건이 아니다."
     },
     "order99_build_3_rc": {
       "status": "active",
@@ -647,7 +647,7 @@
       "id": "order97_ui_format_batch_a_random_three",
       "domain": "localization",
       "gate": "ORDER-97 Batch A 실제 UI 임의 3표면 대조",
-      "why": "템플릿·인자·키 수 자동 검사는 lookup provenance를 증명하지만 시작·기록·설정·장면 화면의 최종 문맥과 값이 사람에게 맞게 읽히는지는 실제 후보 표면을 봐야 한다. 현재 소스가 active demo_rc 뒤로 전진했으므로 최신 후보 재발급과 사람 판정이 모두 필요하다.",
+      "why": "템플릿·인자·키 수 자동 검사는 lookup provenance를 증명하지만 시작·기록·설정·장면 화면의 최종 문맥과 값이 사람에게 맞게 읽히는지는 실제 후보 표면을 봐야 한다. 최신 demo_rc는 발급됐고 사람 판정만 남는다.",
       "owner": "ORDER-97",
       "state": "open",
       "scope": {
@@ -679,7 +679,7 @@
       "id": "order97_ui_format_batch_b_random_three",
       "domain": "localization",
       "gate": "ORDER-97 Batch B 실제 UI 임의 3표면 대조",
-      "why": "정적 원장은 남은 호출과 돈 formatter의 소유권을 증명하지만 계획판·연락폰·배달·재고조사 표면의 최종 문맥, 복수형, 고정 일정과 돈 단위는 같은 후보의 실제 화면에서 사람이 확인해야 한다. W1 지원서 완료 표면이 active demo_rc 뒤에 추가돼 최신 후보 재발급과 사람 판정이 모두 필요하다.",
+      "why": "정적 원장은 남은 호출과 돈 formatter의 소유권을 증명하지만 계획판·연락폰·배달·재고조사 표면의 최종 문맥, 복수형, 고정 일정과 돈 단위는 같은 후보의 실제 화면에서 사람이 확인해야 한다. 최신 demo_rc는 발급됐고 사람 판정만 남는다.",
       "owner": "ORDER-97",
       "state": "open",
       "scope": {

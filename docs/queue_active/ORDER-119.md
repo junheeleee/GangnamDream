@@ -56,8 +56,16 @@ source lock은 구현 뒤 의미 변경 없이 새 바이트에만 다시 고정
 관계·시장 변동 검증은 보존하고, 몰입 검사는 새 1~3문장 산문과 옛 헤더·부호 수치 0을
 검사한다. 영어 감사기는 MainGame의 정확한 내부 ID 비교 한 줄 형태만 허용하고 같은 줄의
 추가 누출·다른 변수·표면값은 거부하는 self-test를 전체 감사와 표적 선택에 등록한다.
-따라서 `tools/ImmersionLoopCheck.gd`와 `tools/english_hangul_audit.py`를 추가한 최종
+따라서 `tools/ImmersionLoopCheck.gd`와 `tools/english_hangul_audit.py`를 추가한 제품·QA
 소유 범위는 **정확히 36개**다. 아래 기존 34개와 이 두 파일 밖은 건드리지 않는다.
+
+**패키지 마감 범위 보정 (2026-08-22):** 제품·QA 36파일은 그대로다. exact clean
+후보 발급만 위해 `systems/BuildInfo.gd`의 BUILD_ID 한 줄과 후보 등록 정본
+`docs/human_gates.json`의 `release_candidates.demo_rc` 네 값(commit/tree/manifest/note)과
+ORDER-97 A/B의 낡은 재발급 대기 설명 두 문장을 package/closeout metadata로 추가
+소유한다. 최종 소유는 정확히 38경로다. 고정
+`order99_build_3_rc`, waiting `order103_rc`, 두 연결 gate와 모든 사람 판정
+state/evidence/delegated review는 바꾸지 않는다.
 
 - `scenes/MainGame.gd`, `scenes/StoryMode.gd`, `scenes/JobHuntMiniGame.gd`, `scenes/ArubaGame.gd`
 - `scenes/SeoulCycleBoard.gd`, `scenes/StartMenu.gd`, `scenes/TutorialOverlay.gd`
@@ -97,12 +105,20 @@ source lock은 구현 뒤 의미 변경 없이 새 바이트에만 다시 고정
   Hanseong Electronics 영문도 관찰 산문으로 고쳤다. 그 MainGame copy 변경으로
   파생된 lock만 `48ad65a`가 Year5에, `2581cb9`가 Chapter 1 source/proof에
   다시 잠갔다. 둘 다 첫 full audit의 failure flag가 아니다.
-- Compile 65, Immersion, English direct/self-test 10, Year5 direct/self-test 35/R1 266,
-  audit-scope verify는 green이다. Chapter 1 self-test 472는 첫 full audit에서 PASS했고,
-  `2581cb9` 현재 바이트에서는 direct만 다시 PASS했다. 그러나 이것은 표적
-  증거일 뿐이다. `STATUS.md`는 아직 재생성하지 않았고, 같은 최종 후보의
-  full audit, 직렬 KO 24주·EN 24주·KO 240주, package 발급·검증도 대기
-  중이다. ORDER-119는 `[~]`, 사용자 최종 GO는 `OPEN`을 유지한다.
+- exact clean `ebc58a839d64d8810b9da5548c20e58bc43c9e30` / tree
+  `f978a22525b678ef83619dc50094a6dada75f190`에서 full audit failure flag `0`,
+  KO gamepad·EN keyboard 각 24주 `CORE_LOOP_V2_INPUT_OK`, KO gamepad 240주
+  `FULL_INPUT_RUN_OK weeks=240 events=240 ending=with_daeun`가 통과했다.
+- BUILD `2026.08.22.1`의 Windows·macOS·Linux V2 playtest를 발급했다. manifest
+  SHA-256은 `8a34920038962a4ba0885ad6189d92dc6d3c3ee2780020f3894938d380613177`,
+  artifact SHA-256은 Windows `515bc3c94a96f3874d681f409bbe0863734f44aced95d2e45b82c77e720d2ad7`,
+  macOS `065ab253645f1a3975fefa2de837174e6dbdb5e0d8ad9bfdd5b9836cdd015a75`,
+  Linux `9ed556ef1b23a575848056a6f68672d1485c24c1fa6097fd049d59f2cbd00f7d`다.
+  macOS native no-arg는 언어 선택→JUNPAC→24주 시작·설정·콘텐츠 안내→도입 장면,
+  `PLAYTEST_RELEASE_ENTRY_READY`와 정상 종료 `0`을 확인했다.
+- 이 후보를 active `demo_rc`로 등록했다. 자동 증거는 사람 판정을 대신하지 않으므로
+  ORDER-119는 `[~]`, 사용자 최종 GO는 `OPEN`이다. 고정 BUILD `.3` ORDER-99와
+  별도 ORDER-103 실행 후보·사람 게이트도 그대로 OPEN이다.
 
 ## 착수 전 멈춤 진단
 

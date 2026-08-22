@@ -19,15 +19,19 @@
 > 차례로 옮긴다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
-## 2026-08-22 (Codex — ORDER-119 첫 full audit 3플래그 분해·QA exact 수리 후보)
+## 2026-08-22 (Codex — ORDER-119 exact clean 기계·패키지 후보)
 
-- 첫 full audit 3 flags는 `EN_HANGUL_EXIT`·`IMMERSION_EXIT`·`STATUS_DOC_EXIT`다.
-  앞의 두 QA는 `f093421`→`35b5aca`로 exact 수리했고 stale STATUS는 최종
-  같은 바이트 생성 때까지 남겼다. Year5는 첫 감사 green이었으며, 후속 MainGame
-  copy의 derived lock만 `48ad65a`·`2581cb9`에서 Year5·Chapter 1에 다시 잠갔다.
-- Compile/Immersion/EN self-test/Year5 35·266은 targeted green이다. Chapter self-test
-  472는 첫 audit PASS, 현재 `2581cb9`는 direct PASS만 확인했다. STATUS·최종
-  full audit·직렬 KO/EN 24주·KO 240주·package가 대기이므로 `[~]`/GO `OPEN`이다.
+- exact clean `ebc58a839d64d8810b9da5548c20e58bc43c9e30` / tree
+  `f978a22525b678ef83619dc50094a6dada75f190`에서 full audit failure flag `0`,
+  KO gamepad·EN keyboard 각 24주 `CORE_LOOP_V2_INPUT_OK`, KO gamepad 240주
+  `FULL_INPUT_RUN_OK weeks=240 events=240 ending=with_daeun`를 확인했다.
+- BUILD `2026.08.22.1`의 Windows·macOS·Linux V2 playtest를 발급했고 manifest
+  SHA-256은 `8a34920038962a4ba0885ad6189d92dc6d3c3ee2780020f3894938d380613177`다.
+  macOS native no-arg smoke도 `PLAYTEST_RELEASE_ENTRY_READY`와 정상 종료 `0`을 확인했다.
+  세 artifact SHA와 clean source identity는 manifest가 소유한다.
+- 이 후보를 active `demo_rc`로 등록했다. 자동 증거는 사람 판정을 대신하지 않으므로
+  ORDER-119는 `[~]`, 사용자 최종 GO는 `OPEN`이다. 고정 BUILD `.3` ORDER-99 저장
+  게이트와 별도 ORDER-103 실행 후보·사용자 게이트도 바꾸지 않았다.
 
 ## 2026-08-22 (Codex — ORDER-123 원격 24주 입력 시간 예산 복구)
 
