@@ -434,11 +434,11 @@ func _loc_dict(data: Dictionary, key: String, fallback := "") -> String:
 
 func _run_theme_display(theme_id: String) -> String:
 	match theme_id:
-		"자유런": return _tr("자유런", "Free Run")
-		"투자런": return _tr("투자런", "Investment Run")
-		"인맥런": return _tr("인맥런", "Network Run")
-		"청렴런": return _tr("청렴런", "Clean Run")
-		"성실런": return _tr("성실런", "Diligent Run")
+		"자유런": return _tr("자유 선택", "Open Choice")
+		"투자런": return _tr("투자 중심", "Investment Focus")
+		"인맥런": return _tr("인연 중심", "People First")
+		"청렴런": return _tr("원칙 우선", "Principles First")
+		"성실런": return _tr("꾸준한 생활", "Steady Life")
 	return theme_id
 
 ## StoryMode 복귀 후: 같은 턴에 이어질 스토리가 더 있으면 다시 StoryMode로,
@@ -1969,7 +1969,7 @@ func _core_loop_v2_completion_cycle_allocation_names(
 		elif bool(record.get("repeat_allocation", false)):
 			line = _tr(
 				"%d주 · %s — 여력 %d, 완료 뒤 추가 실행",
-				"W%d · %s — capacity %d, additional run after completion") % [
+				"W%d · %s — capacity %d, another action after completion") % [
 				absolute_week, label, int(record.get("capacity_value", 0))]
 		else:
 			line = _tr(
@@ -2097,7 +2097,7 @@ func _core_loop_v2_cycle_allocation_names(summary: Dictionary) -> Array[String]:
 		elif bool(receipt.get("repeat_allocation", false)):
 			names.append(_tr(
 				"%d주 · %s — 여력 %d, 완료 뒤 추가 실행",
-				"W%d · %s — capacity %d, additional run after completion") % [
+				"W%d · %s — capacity %d, another action after completion") % [
 				absolute_week, node_label,
 				int(receipt.get("capacity_value", 0)),
 			])
@@ -2632,10 +2632,10 @@ func _core_loop_v2_completion_hero_copy(
 			"body_en": "The deposit remains. So does the cost paid by his body and other promises.",
 		},
 		"body_rest": {
-			"title_ko": "몸을 눕히고 오늘을 멈췄다.",
-			"title_en": "He lay down and stopped the day.",
+			"title_ko": "오늘은 멈추고 몸을 쉬게 했다.",
+			"title_en": "He called it a day and let his body rest.",
 			"body_ko": "잠은 조금 돌려받았다. 미룬 연락과 서류는 아침까지 사라지지 않았다.",
-			"body_en": "He recovered some sleep. The calls and papers he deferred survived the night.",
+			"body_en": "He got some sleep. The calls and paperwork he put off were still waiting in the morning.",
 		},
 	}
 	var raw_copy: Variant = copy_by_id.get(selected_id, {})
@@ -9495,17 +9495,17 @@ func _refresh_arc_box() -> void:
 			c_box.add_child(_wrap_label(str(c.get("text", "")), 12, "#9aa888"))
 			arc_box.add_child(c_card)
 
-	# 런 테마 표시
-	arc_box.add_child(_info_section_title(_tr("런 정보", "Run Info"), "#5a9ac8"))
+	# 시작할 때 고른 방식과 난이도를 사실로만 표시한다.
+	arc_box.add_child(_info_section_title(_tr("시작 조건", "Starting Conditions"), "#5a9ac8"))
 	var theme_id: String = GameState.run_theme
 	var run_card: PanelContainer = _info_card("#5a9ac8", "#0d1018")
 	var run_box: VBoxContainer = VBoxContainer.new()
 	run_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	run_box.add_theme_constant_override("separation", 6)
 	run_card.add_child(run_box)
-	# 기본값(자유런)은 내부 시스템명이라 표면에 노출하지 않는다 — 특수 런 테마일 때만 표시
-	if theme_id != _tr("자유런", "자유런"):
-		run_box.add_child(_wrap_label(_tr("테마: %s", "Theme: %s") % _run_theme_display(theme_id), 14, "#8fb6d8"))
+	# 기본값은 내부 식별자라 표면에 노출하지 않는다. 다른 방식을 골랐을 때만 적는다.
+	if theme_id != "자유런":
+		run_box.add_child(_wrap_label(_tr("선택한 방식: %s", "Chosen Approach: %s") % _run_theme_display(theme_id), 14, "#8fb6d8"))
 	# 마스터리 표시
 	var mg_line: String = ""
 	var mg_names := {
@@ -20112,14 +20112,14 @@ func _ending_build_ledger_page() -> void:
 		_tr("평가 대신, 이 5년이 어디에 남았는지만 적는다.",
 			"No verdict. Only where these five years left their marks."))
 	_ending_time_ledger(page, _ending_id, _ending_data)
-	_ending_add_navigation(page, _tr("런 기록", "Run Record"), _ending_show_page.bind(4), true)
+	_ending_add_navigation(page, _tr("마지막 장", "The Last Page"), _ending_show_page.bind(4), true)
 
 func _ending_build_record_page() -> void:
 	var page := _ending_page_root("ending_record")
 	_ending_add_page_heading(
 		page, _tr("기록 II · 마지막 장", "RECORD II · LAST PAGE"),
 		_fmt(str(_ending_data.get("title", _ending_id))),
-		_ending_percentile_line())
+		_ending_record_observation())
 	_ending_stat_grid(page)
 	_ending_milestones(page)
 	_ending_playstyle(page)
@@ -20154,7 +20154,7 @@ func _ending_build_collection_page() -> void:
 	back_btn.custom_minimum_size = Vector2(150, 46)
 	back_btn.pressed.connect(_ending_show_page.bind(4))
 	actions.add_child(back_btn)
-	var restart_btn := _button(_tr("새 런 시작", "New Run"), "#172a22")
+	var restart_btn := _button(_tr("다시 시작", "Begin Again"), "#172a22")
 	restart_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	restart_btn.pressed.connect(func(): _after_ending_exit(_restart_run))
 	actions.add_child(restart_btn)
@@ -20165,9 +20165,9 @@ func _ending_build_collection_page() -> void:
 	restart_btn.call_deferred("grab_focus")
 
 func _ending_add_unlocks(parent: VBoxContainer) -> void:
-	parent.add_child(_label(_tr("이번 런 해금", "UNLOCKED THIS RUN"), 12, "#aab3bf"))
+	parent.add_child(_label(_tr("새로 열린 기록", "NEWLY OPENED RECORDS"), 12, "#aab3bf"))
 	if _ending_new_achievements.is_empty() and _ending_new_titles.is_empty():
-		parent.add_child(_wrap_label(_tr("새 해금 없음", "No new unlocks"), 12, "#697386"))
+		parent.add_child(_wrap_label(_tr("새로 열린 기록 없음", "No newly opened records"), 12, "#697386"))
 	for achievement_id in _ending_new_achievements:
 		parent.add_child(_wrap_label(
 			_tr("업적: %s", "Achievement: %s") % _achievement_display_name(str(achievement_id)),
@@ -20183,9 +20183,9 @@ func _ending_add_unlocks(parent: VBoxContainer) -> void:
 	details.add_theme_constant_override("separation", 4)
 	parent.add_child(details)
 	var theme_id := str(GameState.run_theme)
-	if theme_id != _tr("자유런", "자유런"):
+	if theme_id != "자유런":
 		details.add_child(_wrap_label(
-			_tr("런 테마: %s", "Run Theme: %s") % _run_theme_display(theme_id), 11, "#7d9a90"))
+			_tr("선택한 방식: %s", "Chosen Approach: %s") % _run_theme_display(theme_id), 11, "#7d9a90"))
 	if str(GameState.difficulty) != _tr("현실", "현실"):
 		details.add_child(_wrap_label(_tr("난이도: %s", "Difficulty: %s") %
 			str(GameState.get_difficulty_data().get("name", GameState.difficulty)), 11, "#9a8f7d"))
@@ -20660,7 +20660,7 @@ func _ending_card_signal_line(ending_id: String, grade: String = "?") -> String:
 		"C":
 			return _tr("전설은 아니었다. 하지만 이 결말도 한 사람의 생활이다.", "Not a legend. Still, this ending is someone's life.")
 		"F":
-			return _tr("이번 런은 여기서 멈춘다. 남은 것은 대가의 기록이다.", "This run stops here. What remains is the record of its cost.")
+			return _tr("이 삶은 여기서 멈춘다. 남은 것은 대가의 기록이다.", "This life stops here. What remains is the record of its cost.")
 		_:
 			return _tr("도시는 이 결말에 아직 이름을 붙이지 못했다.", "The city does not quite know how to name this ending.")
 
@@ -20969,22 +20969,14 @@ func _time_ledger_contact_record(reference_turn: int = -1) -> Dictionary:
 	}
 
 func _ending_run_summary(ending_id: String) -> String:
-	var route_diff := GameState.route_orthodox - GameState.route_unorthodox
 	var f = GameState.flags
-	var is_orthodox = route_diff >= 7
-	var is_unorthodox = route_diff <= -7
 	match ending_id:
 		"gangnam_dream_white":
 			return _tr("30억에 도착한 뒤에도 자기 손을 돌아봤다. 사람으로 남으려 한 강남입성.", "Reached ₩3B and still looked back at what those hands had done. Made it to Gangnam still trying to remain human.")
 		"gangnam_dream":
-			if is_orthodox:
-				return _tr("착실하게 살아온 청년이 마침내 강남에 입성했다", "A young man who lived diligently finally made it into Gangnam.")
-			elif is_unorthodox:
-				return _tr("아무도 믿지 않았던 아웃사이더가 강남의 문을 열었다", "An outsider no one believed in opened the door to Gangnam.")
-			elif f.get("startup_exit", false):
+			if f.get("startup_exit", false):
 				return _tr("작은 아이디어 하나가 강남드림으로 이어졌다", "One small idea led all the way to the Gangnam Dream.")
-			else:
-				return _tr("5년의 고군분투 끝에 강남드림을 이뤘다", "After five years of struggle, the Gangnam Dream came true.")
+			return _tr("5년의 고군분투 끝에 강남드림을 이뤘다", "After five years of struggle, the Gangnam Dream came true.")
 		"instant_legend":
 			return _tr("고시원 백수가 첫해에 30억을 만들었다 — 아무도 믿지 않을 것이다", "A jobless goshiwon dweller made 3 billion won in the first year — no one will believe it.")
 		"burnout":
@@ -20994,10 +20986,7 @@ func _ending_run_summary(ending_id: String) -> String:
 		"bankruptcy":
 			return _tr("순자산 마이너스 1억. 몇 번을 다시 눌러도 답은 같았다.", "Net worth below negative 100 million won. Every recalculation gave the same answer.")
 		"stable_success":
-			if is_orthodox:
-				return _tr("강남은 아니었지만 흔들리지 않는 삶을 쌓았다", "Not Gangnam, but he built a life that doesn't waver.")
-			else:
-				return _tr("파란만장했지만 결국 자기만의 안정을 찾았다", "Turbulent, but in the end he found his own stability.")
+			return _tr("강남은 아니었지만 흔들리지 않는 삶을 쌓았다", "Not Gangnam, but he built a life that does not waver.")
 		"ordinary_life":
 			if f.get("daeun_divorced", false):
 				return _tr("다은을 밀어내고도 강남에 닿지 못했다. 남은 것은 그 선택의 기록이었다.", "He pushed Daeun away and still missed Gangnam. What remained was the record of that choice.")
@@ -21242,12 +21231,12 @@ func _run_card_text(ending_id: String) -> String:
 	var total_events = DataRegistry.events.size()
 	var seen = GameState.events_seen
 	var lines: PackedStringArray = PackedStringArray()
-	lines.append(_tr("[강남드림 런 결과]", "[Gangnam Dream Run Result]"))
+	lines.append(_tr("[강남드림 마지막 기록]", "[Gangnam Dream Final Record]"))
 	lines.append("━━━━━━━━━━━━━━━━━━")
 	lines.append(_tr("플레이어: %s  |  33세 → %d세  |  %d개월", "Player: %s  |  age 33 → %d  |  %d months") % [GameState.player_name, GameState.age, (GameState.age - 33) * 12 + GameState.month])
 	lines.append(_tr("최종 자산: %s  (목표 달성률 %d%%)", "Final Assets: %s  (Goal %d%%)") % [GameState.format_money(total), pct])
 	lines.append(_tr("마지막 거처: %s", "Last Home: %s") % housing_name)
-	lines.append(_tr("이번 런 이벤트: %d / %d개", "Events This Run: %d / %d") % [seen, total_events])
+	lines.append(_tr("만난 사건: %d / %d개", "Events Seen: %d / %d") % [seen, total_events])
 	if GameState.difficulty != _tr("현실", "현실"):
 		lines.append(_tr("난이도: %s", "Difficulty: %s") % str(GameState.get_difficulty_data().get("name", GameState.difficulty)))
 	lines.append(_tr("엔딩: \"%s\"", "Ending: \"%s\"") % ending_title)
@@ -21278,10 +21267,10 @@ func _ending_next_run_hints(parent: Control):
 	var seen = GameState.events_seen
 	var hints: Array = []
 
-	hints.append(_tr("이번 런에서 못 본 이벤트가 %d개 더 있습니다.", "There are %d more events you didn't see this run.") % (total_events - seen))
+	hints.append(_tr("아직 만나지 못한 이야기가 %d개 더 있습니다.", "%d more stories remain unseen.") % (total_events - seen))
 
 	if not f.get("arc_jiyeon_crash_seen", false):
-		hints.append(_tr("이번 런에서 한지연을 만나지 못했습니다.", "You didn't meet Jiyeon this run."))
+		hints.append(_tr("이번 삶에서 한지연을 만나지 못했습니다.", "You did not meet Jiyeon this time."))
 	elif not f.get("arc_jiyeon_truth_seen", false):
 		hints.append(_tr("한지연의 진실을 끝까지 보지 못했습니다.", "You didn't see Jiyeon's truth to the end."))
 
@@ -21314,28 +21303,16 @@ func _ending_next_run_hints(parent: Control):
 	sep.add_theme_color_override("color", Color("#252535"))
 	parent.add_child(sep)
 	parent.add_child(_label(
-			_tr("다음 런에서", "Next Run"), 13,
+			_tr("다시 시작한다면", "If You Begin Again"), 13,
 			_moral_hex(_moral_text_accent(Color("#b8c1cc"), 0.03))))
 	for i in range(mini(3, hints.size())):
 		parent.add_child(_wrap_label(str(hints[i]), 12, "#5a7090"))
 
-## 같은 조건으로 5년을 산 사람들 중 상위 몇 %인지 — 30억 실패를 '정상'으로 리프레이밍
-func _ending_percentile_line() -> String:
-	var total = GameState.get_total_asset_value()
-	var pct: int
-	if total >= 3_000_000_000.0:   pct = 1
-	elif total >= 1_500_000_000.0: pct = 3
-	elif total >= 800_000_000.0:   pct = 6
-	elif total >= 400_000_000.0:   pct = 12
-	elif total >= 200_000_000.0:   pct = 22
-	elif total >= 100_000_000.0:   pct = 35
-	elif total >= 50_000_000.0:    pct = 50
-	elif total >= 20_000_000.0:    pct = 65
-	elif total >= 0.0:             pct = 80
-	else:                          pct = 95
-	if pct <= 1:
-		return _tr("같은 50만원으로 시작한 사람들 중 상위 1% — 강남드림은 원래 이런 확률이었다.", "Top 1% among those who started with the same KRW 500K — the Gangnam Dream was always these odds.")
-	return _tr("같은 50만원으로 시작한 사람들 중 상위 %d%% — 강남 입성은 상위 1%%의 일이다.", "Top %d%% among those who started with the same KRW 500K — entering Gangnam is a top-1%% feat.") % pct
+## 마지막 장에는 계산된 순위나 확률 대신 실제 출발점과 살아낸 시간만 남긴다.
+func _ending_record_observation() -> String:
+	return _tr(
+		"서울에 들고 온 50만원과 지난 5년의 선택이 이 마지막 장에 함께 남았다.",
+		"The 500,000 won he brought to Seoul and the choices he made over five years now share this final page.")
 
 func _ending_stat_grid(parent: Control):
 	var total = GameState.get_total_asset_value()
@@ -21361,7 +21338,7 @@ func _ending_stat_grid(parent: Control):
 		[str(nights_metric.get("label", "")),
 			str(nights_metric.get("value", "")),
 			str(nights_metric.get("accent", "#9aa1b3"))],
-		[_tr("최종 나이", "Final Age"), _tr("%d세", "age %d") % GameState.age, "#aab3c5"],
+		[_tr("나이", "Age"), _tr("%d세", "%d") % GameState.age, "#aab3c5"],
 		[_tr("살아낸 시간", "Time Lived"),
 			_tr("%d주", "%d weeks") % GameState.turn, "#5a6075"],
 	]
@@ -21424,7 +21401,7 @@ func _ending_milestones(parent: Control):
 	var ms_sep = HSeparator.new()
 	ms_sep.add_theme_color_override("color", Color("#252535"))
 	parent.add_child(ms_sep)
-	parent.add_child(_label(_tr("이번 런 발자취", "This Run's Footsteps"), 12, "#5a6075"))
+	parent.add_child(_label(_tr("5년의 발자취", "Footsteps Across Five Years"), 12, "#5a6075"))
 	for m in milestones:
 		parent.add_child(_wrap_label("  · %s" % m, 12, "#7a8496"))
 
@@ -22793,7 +22770,7 @@ func _open_title_collection():
 				perk_parts.append("%s %+d" % [stat_display.get(str(stat), str(stat)), amount])
 		if not perk_parts.is_empty():
 			modal_body.add_child(_wrap_label(
-				_tr("다음 런 시작 보너스:  ", "Next Run Start Bonus:  ") + " · ".join(perk_parts), 12, "#dce5ee"))
+				_tr("다음 시작 보너스:  ", "Next Start Bonus:  ") + " · ".join(perk_parts), 12, "#dce5ee"))
 
 	var rare_colors = {"common": "#8892a4", "uncommon": "#b8c0cc", "rare": "#dce5ee", "legendary": "#f8fbff"}
 	var rare_labels = {

@@ -388,7 +388,7 @@ func _core_loop_v2_completion_expected_allocation_line(
 	if bool(record.get("repeat_allocation", false)):
 		return _tr(
 			"%d주 · %s — 여력 %d, 완료 뒤 추가 실행",
-			"W%d · %s — capacity %d, additional run after completion") % [
+			"W%d · %s — capacity %d, another action after completion") % [
 				absolute_week, label, int(record.get("capacity_value", 0))]
 	return _tr(
 		"%d주 · %s — 여력 %d, 진행 +%d칸",
@@ -12998,6 +12998,18 @@ func _assert_core_loop_v2_completion_hero(
 			hero_title.text if is_instance_valid(hero_title) else "missing",
 			hero_body.text if is_instance_valid(hero_body) else "missing"])
 		return false
+	if selected_id == "body_rest":
+		var expected_rest_title := _tr(
+			"오늘은 멈추고 몸을 쉬게 했다.",
+			"He called it a day and let his body rest.")
+		var expected_rest_body := _tr(
+			"잠은 조금 돌려받았다. 미룬 연락과 서류는 아침까지 사라지지 않았다.",
+			"He got some sleep. The calls and paperwork he put off were still waiting in the morning.")
+		if str(hero.get("title", "")) != expected_rest_title \
+				or str(hero.get("body", "")) != expected_rest_body:
+			_fail("Core Loop V2 body-rest receipt lost its natural authored copy: %s." % [
+				str(hero)])
+			return false
 	return true
 
 
@@ -22393,6 +22405,7 @@ func _shot_exact_ending_cg(
 
 func _shot_representative_ending_sequence(prefix: String) -> void:
 	_seed_ending_state("with_daeun")
+	_assert_ending_summary_route_invariant()
 	_mg.call("_show_ending", "with_daeun")
 	await _settle(0.8)
 	var page_names := ["finale", "credits", "people", "ledger", "record", "collection"]
@@ -22402,6 +22415,32 @@ func _shot_representative_ending_sequence(prefix: String) -> void:
 			await _settle(0.45)
 		_assert_ending_page_contract(page_index)
 		await _save(prefix + str(page_names[page_index]))
+
+func _assert_ending_summary_route_invariant() -> void:
+	if not is_instance_valid(_mg) or not _mg.has_method("_ending_run_summary"):
+		_fail("Ending summary route-invariance check could not reach MainGame.")
+		return
+	var original_orthodox := GameState.route_orthodox
+	var original_unorthodox := GameState.route_unorthodox
+	var had_startup_exit := GameState.flags.has("startup_exit")
+	var original_startup_exit: Variant = GameState.flags.get("startup_exit")
+	GameState.flags["startup_exit"] = false
+	for ending_id in ["gangnam_dream", "stable_success"]:
+		GameState.route_orthodox = 12
+		GameState.route_unorthodox = 0
+		var orthodox_text := str(_mg.call("_ending_run_summary", ending_id))
+		GameState.route_orthodox = 0
+		GameState.route_unorthodox = 12
+		var unorthodox_text := str(_mg.call("_ending_run_summary", ending_id))
+		if orthodox_text != unorthodox_text:
+			_fail("Ending %s changed its life summary from a hidden route classifier: %s / %s." % [
+				ending_id, orthodox_text, unorthodox_text])
+	GameState.route_orthodox = original_orthodox
+	GameState.route_unorthodox = original_unorthodox
+	if had_startup_exit:
+		GameState.flags["startup_exit"] = original_startup_exit
+	else:
+		GameState.flags.erase("startup_exit")
 
 func _assert_ending_finale_contract(ending_id: String, game: Node = null) -> void:
 	var root := game if is_instance_valid(game) else _mg
@@ -22468,11 +22507,28 @@ func _assert_ending_page_contract(page_index: int, game: Node = null) -> void:
 			"플레이 스타일 진단", "Playstyle Diagnosis",
 			"투자 고수 레벨 달성", "Reached expert investor level",
 			"투자 중수 달성", "Reached intermediate investor level",
+			"이번 런 발자취", "This Run's Footsteps",
 		]:
 			if str(forbidden_verdict) in record_page_text:
 				_fail("Ending record restored a hidden system verdict: %s." % [
 					str(forbidden_verdict)])
 				return
+		var ranked_verdict := RegEx.new()
+		ranked_verdict.compile(r"(?i)(?:상위\s*\d+\s*%|top(?:\s+|-)?\d+\s*%)")
+		if ranked_verdict.search(record_page_text) != null:
+			_fail("Ending record restored a computed rank verdict: %s." % [
+				record_page_text])
+			return
+		var expected_record_observation := _tr(
+			"서울에 들고 온 50만원과 지난 5년의 선택이 이 마지막 장에 함께 남았다.",
+			"The 500,000 won he brought to Seoul and the choices he made over five years now share this final page.")
+		var expected_footsteps := _tr(
+			"5년의 발자취", "Footsteps Across Five Years")
+		if expected_record_observation not in record_page_text \
+				or expected_footsteps not in record_page_text:
+			_fail("Ending record lost its factual observation/footsteps copy: %s." % [
+				record_page_text])
+			return
 		var facts := _find_visible_meta_control(
 			surface, "ending_record_facts", true)
 		if not is_instance_valid(facts):
@@ -22512,6 +22568,14 @@ func _assert_ending_page_contract(page_index: int, game: Node = null) -> void:
 				_fail("Ending record observable result %s exposed no prose: %s." % [
 					expected_label, fact_values[label_index]])
 				return
+		var expected_age_label := _tr("나이", "Age")
+		var expected_age_value := _tr("%d세", "%d") % GameState.age
+		var age_index := fact_labels.find(expected_age_label)
+		if age_index < 0 or age_index >= fact_values.size() \
+				or fact_values[age_index] != expected_age_value:
+			_fail("Ending record age fact is duplicated or mislabeled: labels=%s values=%s." % [
+				str(fact_labels), str(fact_values)])
+			return
 		var facts_text := _collect_control_text(facts)
 		for forbidden_value in [
 			"%d / 100" % GameState.health,

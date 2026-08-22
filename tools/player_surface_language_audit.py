@@ -1062,10 +1062,57 @@ def _structural_violations(path: str, source: str) -> list[Violation]:
                     r"[\"'](?:Score|Reputation|Health|Mental)[\"']|"
                     r"[\"'][^\"'\n]*%[-+0-9.*]*d\s*/\s*100[^\"'\n]*[\"']")),
             ),
+            "_ending_record_observation": (
+                ("ending_ranked_verdict", re.compile(
+                    r"GameState\.get_total_asset_value\s*\(|\bpct\b|"
+                    r"percentile|상위\s*(?:%|\d)|\bTop\s*(?:%|\d)|top-\d",
+                    re.IGNORECASE)),
+            ),
+            "_ending_run_summary": (
+                ("ending_hidden_route_verdict", re.compile(
+                    r"GameState\.route_(?:orthodox|unorthodox)|\broute_diff\b|"
+                    r"\bis_(?:orthodox|unorthodox)\b|get_playstyle_label\s*\(")),
+                ("ending_run_jargon", re.compile(
+                    r"_tr\s*\(\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']"
+                    r"\s*,\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']")),
+            ),
+            "_ending_build_ledger_page": (
+                ("ending_run_jargon", re.compile(
+                    r"_tr\s*\(\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']"
+                    r"\s*,\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']")),
+            ),
+            "_ending_build_collection_page": (
+                ("ending_run_jargon", re.compile(
+                    r"_tr\s*\(\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']"
+                    r"\s*,\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']")),
+            ),
             "_ending_milestones": (
                 ("ending_system_milestone", re.compile(
                     r"최고\s*티어|Top-tier|투자\s*(?:고수|중수)|"
                     r"(?:expert|intermediate)\s+investor", re.IGNORECASE)),
+                ("ending_run_jargon", re.compile(
+                    r"_tr\s*\(\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']"
+                    r"\s*,\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']")),
+            ),
+            "_ending_add_unlocks": (
+                ("ending_run_jargon", re.compile(
+                    r"_tr\s*\(\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']"
+                    r"\s*,\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']")),
+            ),
+            "_run_card_text": (
+                ("ending_run_jargon", re.compile(
+                    r"_tr\s*\(\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']"
+                    r"\s*,\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']")),
+            ),
+            "_ending_next_run_hints": (
+                ("ending_run_jargon", re.compile(
+                    r"_tr\s*\(\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']"
+                    r"\s*,\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']")),
+            ),
+            "_ending_card_signal_line": (
+                ("ending_run_jargon", re.compile(
+                    r"_tr\s*\(\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']"
+                    r"\s*,\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']")),
             ),
             "_ending_playstyle": (
                 ("ending_hidden_playstyle", re.compile(
@@ -1400,6 +1447,26 @@ def run_self_test() -> tuple[list[str], int]:
         'func _ending_milestones(parent):\n'
         ' return _tr("투자 고수 레벨 달성", "Reached expert investor level")\n',
         {"ending_system_milestone"}, "scenes/MainGame.gd",
+    )
+    expect_rules(
+        "ending computed rank verdict",
+        'func _ending_record_observation():\n'
+        ' var pct = int(GameState.get_total_asset_value())\n'
+        ' return _tr("상위 %d%%", "Top %d%%") % pct\n',
+        {"ending_ranked_verdict"}, "scenes/MainGame.gd",
+    )
+    expect_rules(
+        "ending hidden route verdict",
+        'func _ending_run_summary(ending_id):\n'
+        ' var route_diff = GameState.route_orthodox - GameState.route_unorthodox\n'
+        ' return str(route_diff)\n',
+        {"ending_hidden_route_verdict"}, "scenes/MainGame.gd",
+    )
+    expect_rules(
+        "ending internal run jargon",
+        'func _ending_milestones(parent):\n'
+        ' return _tr("이번 런 발자취", "This Run Footsteps")\n',
+        {"ending_run_jargon"}, "scenes/MainGame.gd",
     )
     expect_rules(
         "observational result copy remains legal",
