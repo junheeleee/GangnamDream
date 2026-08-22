@@ -1241,19 +1241,23 @@ func _show_result() -> void:
 		Color("#3dba6a") if _earned >= BASE_PAY else Color("#e85d5d"))
 	_content_vb.add_child(earn_lbl)
 
-	var stat_row := HBoxContainer.new()
+	var stat_row := VBoxContainer.new()
 	stat_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	stat_row.add_theme_constant_override("separation", 16)
+	stat_row.add_theme_constant_override("separation", 4)
 	_content_vb.add_child(stat_row)
 	var total_health_delta := BASE_SHIFT_HEALTH_DELTA + _health_delta
 	if _stress_delta != 0:
-		stat_row.add_child(_mini_lbl(
-			LocaleManager.ui("정신력 %+d", "Mental %+d") % (-_stress_delta),
-			"#e85d5d" if _stress_delta > 0 else "#3dba6a"))
+		var stress_trace := _mini_lbl(
+			_shift_stress_result_prose(_stress_delta),
+			"#e85d5d" if _stress_delta > 0 else "#3dba6a")
+		stress_trace.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		stat_row.add_child(stress_trace)
 	if total_health_delta != 0:
-		stat_row.add_child(_mini_lbl(
-			LocaleManager.ui("건강 %+d", "Health %+d") % total_health_delta,
-			"#e85d5d" if total_health_delta < 0 else "#3dba6a"))
+		var health_trace := _mini_lbl(
+			_shift_health_result_prose(total_health_delta),
+			"#e85d5d" if total_health_delta < 0 else "#3dba6a")
+		health_trace.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		stat_row.add_child(health_trace)
 
 	var ok_btn := _make_btn(LocaleManager.ui("퇴근하기", "Clock Out"), "#0e3a2a", 15)
 	ok_btn.custom_minimum_size = Vector2(0, 46)
@@ -1269,6 +1273,24 @@ func _on_finish() -> void:
 		_earned,
 		_stress_delta,
 		BASE_SHIFT_HEALTH_DELTA + _health_delta)
+
+func _shift_stress_result_prose(stress_delta: int) -> String:
+	if stress_delta > 0:
+		return LocaleManager.ui(
+			"퇴근 뒤에도 손끝의 긴장이 풀리지 않았다.",
+			"Even after clocking out, the tension did not leave his hands.")
+	return LocaleManager.ui(
+		"문을 나설 때는 굳었던 어깨가 조금 풀려 있었다.",
+		"By the time he stepped outside, the tightness in his shoulders had eased.")
+
+func _shift_health_result_prose(health_delta: int) -> String:
+	if health_delta < 0:
+		return LocaleManager.ui(
+			"계단을 내려갈 때마다 다리가 한 박자 늦게 따라왔다.",
+			"His legs lagged a beat behind on every step down the stairs.")
+	return LocaleManager.ui(
+		"퇴근길에는 굳었던 걸음이 조금씩 풀렸다.",
+		"On the way home, his stiff stride gradually loosened.")
 
 # ── 헬퍼 ─────────────────────────────────────────────────────────
 func _customer_tag(customer: Dictionary) -> String:

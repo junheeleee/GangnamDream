@@ -414,6 +414,18 @@ func _localized_pair(
 	var english := str(data.get(english_key, fallback))
 	return LocaleManager.ui(korean, english)
 
+func _vignette_commitment_details(
+		vignette: Dictionary, extra: Dictionary = {}) -> Dictionary:
+	var details := extra.duplicate(true)
+	var korean := str(vignette.get("t", "")).strip_edges()
+	var english := str(vignette.get("et", "")).strip_edges()
+	# A durable receipt must survive an in-game language switch. Keep both authored
+	# surfaces in the record; a one-language snapshot would leak the old locale.
+	if not korean.is_empty() and not english.is_empty():
+		details["receipt_prose_ko"] = korean
+		details["receipt_prose_en"] = english
+	return details
+
 func _quote_ui(text: String) -> String:
 	return "\"%s\"" % text if LocaleManager.is_english() else "「%s」" % text
 
@@ -1262,8 +1274,8 @@ func _on_seoul_cycle_allocation_requested(
 			_seoul_cycle_board.refresh(
 				_core_loop_v2_cycle_surface_snapshot())
 			_seoul_cycle_board.show_error(_tr(
-				"자동 저장에 실패했습니다. 배치는 고정했지만 다음 장면으로 넘어가지 않습니다.",
-				"Autosave failed. The allocation is locked, but the game will not proceed."))
+				"자동 저장에 실패했습니다. 배치는 고정했지만 다음 주로 넘어가지 않습니다.",
+				"Autosave failed. The allocation is locked, but the next week will not open."))
 			_core_loop_v2_open_seoul_cycle_save_retry_gate(
 				"allocation",
 				DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn))
@@ -2766,6 +2778,45 @@ func _core_loop_v2_completion_financial_rung_label(
 				"다음 자산 구간", "Next asset milestone")))
 	return _tr("기록되지 않음", "Not recorded")
 
+func _core_loop_v2_condition_metric(
+		kind: String, raw_value: Variant, note: String) -> Dictionary:
+	var label := _tr("몸", "BODY") if kind == "body" else _tr("밤", "NIGHTS")
+	var accent := "#91a6a2" if kind == "body" else "#9aa1b3"
+	if not (raw_value is int or raw_value is float):
+		return {
+			"label": label,
+			"value": LocaleManager.ui_context(
+				"ui.completion.unrecorded_value", "기록 없음", "NOT RECORDED"),
+			"note": note,
+			"accent": accent,
+		}
+	var value := int(raw_value)
+	var observation := ""
+	if kind == "body":
+		if value >= 70:
+			observation = _tr("숨이 고르게 돌아왔다", "Breathing settled")
+		elif value >= 45:
+			observation = _tr("하루 끝엔 몸이 무거웠다", "Heavy by day's end")
+		elif value >= 25:
+			observation = _tr("계단에서 숨이 찼다", "Short of breath")
+		else:
+			observation = _tr("잠 뒤에도 떨림이 남았다", "Trembling after sleep")
+	else:
+		if value >= 70:
+			observation = _tr("잠이 제때 왔다", "Sleep came on time")
+		elif value >= 45:
+			observation = _tr("생각은 남아도 잠은 왔다", "Sleep came despite thoughts")
+		elif value >= 25:
+			observation = _tr("생각이 오래 남았다", "Thoughts lingered")
+		else:
+			observation = _tr("새벽까지 잠이 오지 않았다", "Awake until dawn")
+	return {
+		"label": label,
+		"value": observation,
+		"note": note,
+		"accent": accent,
+	}
+
 func _core_loop_v2_completion_boundary_copy(
 		cap_week: int, persist_new_boundary: bool,
 		autosave_succeeded: bool) -> String:
@@ -2822,9 +2873,7 @@ func _core_loop_v2_completion_view_model(
 	var fixed_raw: Variant = closing_state.get("fixed_expense")
 	var fixed_is_known := fixed_raw is int or fixed_raw is float
 	var health_raw: Variant = closing_state.get("health")
-	var health_is_known := health_raw is int or health_raw is float
 	var mental_raw: Variant = closing_state.get("mental")
-	var mental_is_known := mental_raw is int or mental_raw is float
 	var cash_metric: Dictionary = (
 		_core_loop_v2_cash_metric(
 			float(money_raw),
@@ -2859,6 +2908,12 @@ func _core_loop_v2_completion_view_model(
 			"Open threads at Week 24 cannot be recovered from this older save.")]
 		if legacy_boundary_incomplete else
 		_core_loop_v2_unresolved_recap(snapshot))
+	var condition_note := _tr(
+		"%d개월 끝의 흔적", "TRACE AT MONTH %d CLOSE") % completed_months
+	var body_metric := _core_loop_v2_condition_metric(
+		"body", health_raw, condition_note)
+	var nights_metric := _core_loop_v2_condition_metric(
+		"nights", mental_raw, condition_note)
 	var completion_background_path := str(closing_state.get(
 		"background_path", "")).strip_edges()
 	if completion_background_path.is_empty():
@@ -2968,28 +3023,16 @@ func _core_loop_v2_completion_view_model(
 				"accent": "#a98b88",
 			},
 			{
-				"label": _tr("건강", "HEALTH"),
-				"value": (
-					"%d / 100" % int(health_raw)
-					if health_is_known else
-					LocaleManager.ui_context(
-						"ui.completion.unrecorded_value", "기록 없음", "NOT RECORDED")),
-				"note": (
-					_tr("%d개월 종료", "AT MONTH %d CLOSE") % completed_months
-					if health_is_known else missing_boundary_note),
-				"accent": "#91a6a2",
+				"label": str(body_metric.get("label", "")),
+				"value": str(body_metric.get("value", "")),
+				"note": str(body_metric.get("note", "")),
+				"accent": str(body_metric.get("accent", "#91a6a2")),
 			},
 			{
-				"label": _tr("정신력", "MENTAL"),
-				"value": (
-					"%d / 100" % int(mental_raw)
-					if mental_is_known else
-					LocaleManager.ui_context(
-						"ui.completion.unrecorded_value", "기록 없음", "NOT RECORDED")),
-				"note": (
-					_tr("%d개월 종료", "AT MONTH %d CLOSE") % completed_months
-					if mental_is_known else missing_boundary_note),
-				"accent": "#9aa1b3",
+				"label": str(nights_metric.get("label", "")),
+				"value": str(nights_metric.get("value", "")),
+				"note": str(nights_metric.get("note", "")),
+				"accent": str(nights_metric.get("accent", "#9aa1b3")),
 			},
 			{
 				"label": _tr("다음 재정 목표", "NEXT MONEY GOAL"),
@@ -3188,8 +3231,8 @@ func _core_loop_v2_show_completion(
 	modal_body.add_theme_constant_override("separation", 9)
 
 	var intro := _wrap_label(_tr(
-		"%d주 동안 무엇을 했고 무엇을 놓쳤는지 돌아본다. 현재 잔액과 건강, 마음 상태도 함께 확인한다.",
-		"Look back at what you did and what you missed over %d weeks. You can also check your current balance, health, and state of mind."
+		"%d주 동안 무엇을 했고 무엇을 놓쳤는지 돌아본다. 남은 돈과 몸에 밴 흔적도 함께 확인한다.",
+		"Look back at what you did and what you missed over %d weeks. The money left and the traces carried by the body are here too."
 		) % cap_week,
 		12, "#aeb8c6")
 	intro.set_meta("core_loop_v2_recap_intro", true)
@@ -3242,12 +3285,26 @@ func _core_loop_v2_show_completion(
 		GameState.format_money(float(final_month_summary.get(
 			"fixed_expense", GameState.get_monthly_required_cash()))),
 		_tr("%d번째 달", "Month %d") % completed_months, "#a98b88"))
+	var legacy_condition_note := _tr(
+		"%d개월 끝의 흔적", "TRACE AT MONTH %d CLOSE") % completed_months
+	var legacy_closing_raw: Variant = snapshot.get("closing_state", {})
+	var legacy_closing: Dictionary = (
+		legacy_closing_raw as Dictionary
+		if legacy_closing_raw is Dictionary else {})
+	var legacy_body_metric := _core_loop_v2_condition_metric(
+		"body", legacy_closing.get("health"), legacy_condition_note)
+	var legacy_nights_metric := _core_loop_v2_condition_metric(
+		"nights", legacy_closing.get("mental"), legacy_condition_note)
 	condition_grid.add_child(_month_summary_metric_card(
-		_tr("건강", "Health"), "%d / 100" % GameState.health,
-		_tr("현재 건강", "Current health"), "#91a6a2"))
+		str(legacy_body_metric.get("label", "")),
+		str(legacy_body_metric.get("value", "")),
+		str(legacy_body_metric.get("note", "")),
+		str(legacy_body_metric.get("accent", "#91a6a2")), true))
 	condition_grid.add_child(_month_summary_metric_card(
-		_tr("정신력", "Mental"), "%d / 100" % GameState.mental,
-		_tr("현재 정신력", "Current mental"), "#9aa1b3"))
+		str(legacy_nights_metric.get("label", "")),
+		str(legacy_nights_metric.get("value", "")),
+		str(legacy_nights_metric.get("note", "")),
+		str(legacy_nights_metric.get("accent", "#9aa1b3")), true))
 	condition_grid.add_child(_month_summary_metric_card(
 		_tr("다음 재정 목표", "Next Financial Goal"), str(rung.get("label", "")),
 		_tr("달성까지 %s", "%s to go") % GameState.format_money(
@@ -3699,12 +3756,22 @@ func _core_loop_v2_show_month_summary(
 		_tr("고정비", "Fixed Cost"),
 		GameState.format_money(float(summary.get("fixed_expense", 0.0))),
 		_tr("월세·이자", "Rent and interest"), "#a98b88"))
+	var month_condition_note := _tr(
+		"이번 달 끝의 흔적", "TRACE AT MONTH-END")
+	var month_body_metric := _core_loop_v2_condition_metric(
+		"body", after.get("health"), month_condition_note)
+	var month_nights_metric := _core_loop_v2_condition_metric(
+		"nights", after.get("mental"), month_condition_note)
 	metric_grid.add_child(_month_summary_metric_card(
-		_tr("건강", "Health"), "%d / 100" % int(after.get("health", 0)),
-		_tr("월말 건강", "Health at month-end"), "#91a6a2"))
+		str(month_body_metric.get("label", "")),
+		str(month_body_metric.get("value", "")),
+		str(month_body_metric.get("note", "")),
+		str(month_body_metric.get("accent", "#91a6a2")), true))
 	metric_grid.add_child(_month_summary_metric_card(
-		_tr("정신력", "Mental"), "%d / 100" % int(after.get("mental", 0)),
-		_tr("월말 정신력", "Mental at month-end"), "#9aa1b3"))
+		str(month_nights_metric.get("label", "")),
+		str(month_nights_metric.get("value", "")),
+		str(month_nights_metric.get("note", "")),
+		str(month_nights_metric.get("accent", "#9aa1b3")), true))
 
 	var path_grid := GridContainer.new()
 	path_grid.columns = 2
@@ -4789,11 +4856,9 @@ func _show_ap_action_commit(title: String, icon_id: String, accent: String,
 	panel.anchor_bottom = 0.31
 	panel.offset_left = -350 if is_weekly_commitment else -235
 	panel.offset_right = 350 if is_weekly_commitment else 235
-	panel.offset_top = -76 if is_weekly_commitment else -42
-	panel.offset_bottom = 76 if is_weekly_commitment else 42
-	panel.pivot_offset = Vector2(350, 76) if is_weekly_commitment else Vector2(235, 42)
-	if is_weekly_commitment:
-		panel.set_meta("commitment_outcome", str(commitment.get("outcome_text", "")))
+	panel.offset_top = -94 if is_weekly_commitment else -42
+	panel.offset_bottom = 94 if is_weekly_commitment else 42
+	panel.pivot_offset = Vector2(350, 94) if is_weekly_commitment else Vector2(235, 42)
 	panel.modulate.a = 0.0
 	panel.scale = Vector2(0.965, 0.965)
 	var style := StyleBoxFlat.new()
@@ -4862,18 +4927,14 @@ func _show_ap_action_commit(title: String, icon_id: String, accent: String,
 	UIStyle.apply_ink_text_depth(title_lbl, "state")
 	text_col.add_child(title_lbl)
 	if is_weekly_commitment:
-		var outcome_text := str(commitment.get("outcome_text", ""))
-		var forgone_text := str(commitment.get("forgone_labels", ""))
-		var later_text := str(commitment.get("later", ""))
-		for detail_text in [
-			_tr("실제 결과 · {value}", "ACTUAL RESULT · {value}").format({"value": outcome_text}),
-			_tr("닫힌 길 · {value}", "CLOSED PATHS · {value}").format({"value": forgone_text}),
-			_tr("후속 · {value}", "LATER · {value}").format({"value": later_text}),
-		]:
-			var detail := _label(str(detail_text), 10, "#aeb7c2")
+		var receipt_prose := str(commitment.get("receipt_prose", "")).strip_edges()
+		if not receipt_prose.is_empty():
+			panel.set_meta("commitment_receipt_prose", receipt_prose)
+			var detail := _wrap_label(receipt_prose, 11, "#aeb7c2")
+			detail.set_meta("commitment_receipt_body", true)
 			detail.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			detail.clip_text = true
-			detail.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+			detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			detail.clip_text = false
 			text_col.add_child(detail)
 
 	var badge := PanelContainer.new()
@@ -4906,7 +4967,11 @@ func _show_ap_action_commit(title: String, icon_id: String, accent: String,
 	_ap_commit_tween.tween_property(panel, "modulate:a", 1.0, 0.08).set_trans(Tween.TRANS_SINE)
 	_ap_commit_tween.parallel().tween_property(panel, "scale", Vector2.ONE, 0.12) \
 			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	_ap_commit_tween.tween_interval(0.82 if is_weekly_commitment else 0.22)
+	var receipt_hold_seconds := 0.22
+	if is_weekly_commitment:
+		var prose_length := str(panel.get_meta("commitment_receipt_prose", "")).length()
+		receipt_hold_seconds = clampf(2.8 + float(prose_length) / 55.0, 3.2, 6.0)
+	_ap_commit_tween.tween_interval(receipt_hold_seconds)
 	_ap_commit_tween.tween_property(panel, "modulate:a", 0.0, 0.18).set_trans(Tween.TRANS_SINE)
 	_ap_commit_tween.parallel().tween_property(panel, "scale", Vector2(1.018, 1.018), 0.18) \
 			.set_trans(Tween.TRANS_SINE)
@@ -5765,7 +5830,7 @@ func _show_tutorial() -> void:
 	modal_body.add_child(intro_lbl)
 	modal_body.add_child(_tutorial_card("goal", _tr("목표", "Goal"), _tr("자산 30억. 시간은 60개월뿐입니다.", "KRW 3B in assets. Gangnam is the status symbol. You have only 60 months."), "#f0b429"))
 	modal_body.add_child(_tutorial_card("ap", _tr("행동", "Actions"), _tr("매주 AP로 구직, 투자, 자기계발, 휴식, 미니게임을 선택합니다.", "Each week, spend AP on Job Hunt, Invest, Self-Dev, Rest, or mini-games."), "#5b9cf6"))
-	modal_body.add_child(_tutorial_card("invest", _tr("방향", "Approach"), _tr("안정 루트는 느리지만 버팁니다. 속도 루트는 빠르지만 한 번에 무너질 수 있습니다.", "The steady route is slow but durable. The fast route is quick but can collapse in one blow."), "#00c896"))
+	modal_body.add_child(_tutorial_card("invest", _tr("방향", "Approach"), _tr("안정적인 방법은 느리지만 버팁니다. 빠른 방법은 앞서가지만 한 번에 무너질 수 있습니다.", "A steady method is slow but durable. A fast method moves ahead quickly but can collapse in one blow."), "#00c896"))
 	modal_body.add_child(_tutorial_card(
 		"health",
 		LocaleManager.ui_context("ui.tutorial.danger", "위험", "Danger"),
@@ -7773,7 +7838,7 @@ func _roll_monthly_crisis() -> Dictionary:
 		match bonus_type:
 			0:
 				return {"type": "bonus_ap", "title": _tr("탄력 받은 한 주", "A Week on a Roll"),
-					"desc": _tr("컨디션이 최고다. 이번 주 행동력 +1 보너스!", "You're in top form. +1 Action Point this week!"), "color": "#00c896"}
+					"desc": _tr("아침부터 몸이 가벼웠다. 이번 주에는 한 가지 일을 더 끝낼 수 있다.", "His body felt light from the morning. There is room to finish one more thing this week."), "color": "#00c896"}
 			1:
 				var amt = float(randi_range(200_000, 600_000))
 				return {"type": "bonus_income", "title": _tr("뜻밖의 수입", "Unexpected Income"),
@@ -7790,14 +7855,14 @@ func _roll_monthly_crisis() -> Dictionary:
 				"desc": _tr("갑작스럽게 %s이 빠져나갔다.", "Suddenly %s went out.") % GameState.format_money(amt), "amount": amt, "color": "#ff4444"}
 		elif crisis_type < 0.55:
 			return {"type": "ap_penalty", "title": _tr("여유 없는 달", "A Tight Month"),
-				"desc": _tr("갑작스러운 사정으로 이번 달 행동력이 1 줄어든다.", "Unexpected circumstances cut your Action Points by 1 this month."), "color": "#f0b429"}
+				"desc": _tr("갑작스러운 일이 하루를 가져갔다. 이번 달에는 하려던 일 하나를 내려놓아야 한다.", "An unexpected demand took a day away. One planned task will have to be left undone this month."), "color": "#f0b429"}
 		elif crisis_type < 0.75:
 			return {"type": "market_shock", "title": _tr("시장 충격", "Market Shock"),
 				"desc": _tr("외부 충격으로 시장이 흔들렸다. 이번 달 투자 위험 대폭 상승.", "An external shock rattled the market. Investment risk spikes sharply this month."), "color": "#ff4444"}
 		else:
 			var hp_dmg = randi_range(8, 18)
 			return {"type": "health_crisis", "title": _tr("몸의 경고", "Body Warning"),
-				"desc": _tr("갑자기 몸이 안 좋아졌다. 건강 -%d, 정신력 -12.", "Your body suddenly broke down. Health -%d, Mental -12.") % hp_dmg, "hp": hp_dmg, "color": "#ef4444"}
+				"desc": _tr("몸이 갑자기 말을 듣지 않았다. 잠을 자도 손끝의 떨림과 무거운 숨이 남았다.", "His body suddenly stopped cooperating. Sleep did not clear the trembling hands or the heavy breath."), "hp": hp_dmg, "color": "#ef4444"}
 	return {}
 
 func _apply_monthly_event(ev: Dictionary):
@@ -7844,27 +7909,27 @@ func _apply_monthly_event(ev: Dictionary):
 			_show_toast("%s — %s" % [title, desc], color)
 			GameState.add_log(desc, "system")
 
-# ── RPG: 스탯 임계값 해금 알림 ──────────────────────────────────────────
+# ── 쌓인 능력이 세계를 다르게 보이게 하는 순간 ───────────────────────
 
 func _on_stat_threshold_crossed(stat_name: String, threshold: int):
-	var unlock_msgs = {
+	var threshold_moments = {
 		"investment_skill": {
-			30: _tr("레버리지 투자 해금. 2배 포지션으로 고수익을 노릴 수 있다.", "Leverage Investing unlocked. Go for high returns with 2x positions."),
-			50: _tr("시장 분석(무료 행동) 해금. 매달 시장 방향을 미리 읽어라.", "Market Analysis (free action) unlocked. Read the market direction ahead each month."),
-			70: _tr("선물 매매 해금. 극한의 투자가가 되었다.", "Futures Trading unlocked. You've become an extreme investor."),
+			30: _tr("주문창을 다시 보니, 수익보다 먼저 투입 현금으로 열리는 두 배 포지션의 크기가 눈에 들어왔다.", "Looking at the order screen again, the size of the 2x position opened with the committed cash stood out before the possible gain."),
+			50: _tr("같은 차트에서 어제 지나친 거래량과 오늘의 빈 구간이 함께 보였다.", "On the same chart, yesterday's overlooked volume and today's empty range came into view together."),
+			70: _tr("상승 주문을 보기 전에 반대쪽 주문창에서 빠져나올 자리를 먼저 찾았다.", "Before looking at the upside order, he found the exit on the other side of the book."),
 		},
 		"intelligence": {
-			30: _tr("심화 독서 해금. 독서 효과가 2배로 강화된다.", "Deep Reading unlocked. Reading effects are doubled."),
-			50: _tr("재무제표 분석 해금. 투자 결정에 정확도가 올라간다.", "Financial Statement Analysis unlocked. Your investment decisions get more accurate."),
-			70: _tr("데이터 드리븐 투자 해금. 시장 예측 정확도 최고 수준.", "Data-Driven Investing unlocked. Top-tier market prediction accuracy."),
+			30: _tr("두 번째로 읽자 문장 사이에서 빠진 근거가 먼저 걸렸다.", "On the second reading, the missing reason between two sentences caught his eye first."),
+			50: _tr("숫자표를 펼치자 이익보다 현금이 어디서 들어와 어디로 나갔는지가 먼저 보였다.", "With the figures open, the path of cash in and out appeared before the profit line."),
+			70: _tr("예측을 적기 전에, 그 예측이 틀릴 자리를 빈칸으로 남겨 두었다.", "Before writing the forecast, he left a blank for where it could be wrong."),
 		},
 		"social_skill": {
-			30: _tr("관계 강화 효과 상승. 인맥활동 보너스가 커진다.", "Relationship effects boosted. Networking bonuses grow larger."),
-			50: _tr("VIP 인맥 해금. 사회성 3배 상승, 대형 관계 이벤트 접근 가능.", "VIP Connections unlocked. Social x3, access to major relationship events."),
-			70: _tr("엘리트 서클 해금. 최상위 직군 이벤트와 네트워크에 접근한다.", "Elite Circle unlocked. Access to top-tier career events and networks."),
+			30: _tr("먼저 안부를 묻는 사람이 하나씩 늘기 시작했다.", "More people began asking how he was before getting to business."),
+			50: _tr("낯선 모임에서 누군가 가방을 치우고 옆 의자를 내주었다.", "At an unfamiliar gathering, someone moved a bag and offered the next chair."),
+			70: _tr("소개가 끊기기 전에, 맞은편 사람이 다음에 만날 이름을 먼저 적어 주었다.", "Before the introduction ended, the person across the table wrote down the next name to meet."),
 		},
 	}
-	var stat_msg = unlock_msgs.get(stat_name, {})
+	var stat_msg = threshold_moments.get(stat_name, {})
 	if stat_msg.has(threshold):
 		var msg = stat_msg[threshold]
 		_show_toast(msg, Color("#f0b429"))
@@ -7888,34 +7953,26 @@ func _present_tendency_realization(kind: String):
 		_pending_tendency_kind = kind
 		return
 	_pending_tendency_kind = ""
-	var tname: String = GameState.tendency_name(kind)
-	var desc: String = GameState.tendency_desc(kind)
 	var accent: String = {"career": "#b8ad8a", "invest": "#8bb6a1", "found": "#aaa0bf"}.get(kind, "#b8ad8a")
 	var passive: String = {
-		"career": _tr("업무 성과 +12, 사회성 +3 — 승진과 신용이 너의 무기가 된다.", "Work Performance +12, Social +3 — promotions and credit become your weapons."),
-		"invest": _tr("투자 감각 +6, 지력 +2 — 시장이 한층 선명하게 보인다.", "Investing +6, Intelligence +2 — the market comes into sharper focus."),
-		"found":  _tr("운 +3, 지력 +2 — 창업가의 촉이 열렸다.", "Luck +3, Intelligence +2 — a founder's instinct has awakened."),
+		"career": _tr("해야 할 일이 겹치면 무엇부터 끝낼지 먼저 정하게 됐다.", "When tasks piled up, you began deciding what had to be finished first."),
+		"invest": _tr("가격보다 먼저 위험이 걸리는 지점이 눈에 들어오기 시작했다.", "The points where risk could catch you began to stand out before the price itself."),
+		"found":  _tr("빈칸을 보면 누가 먼저 손을 움직여야 하는지 떠오르기 시작했다.", "When you saw an empty space, you began to know whose hands needed to move first."),
 	}.get(kind, "")
-	_open_modal(_tr("습관이 굳어진다", "A Pattern Emerges"))
+	_open_modal(_tr("습관이 굳어진다", "A Habit Takes Hold"))
 	if modal_panel:
 		modal_panel.custom_minimum_size = Vector2(760, 360)
 		modal_panel.offset_top = -180
 		modal_panel.offset_bottom = 180
 	if modal_scroll:
 		modal_scroll.custom_minimum_size = Vector2(0, 230)
-	modal_body.add_child(_label(_tr("어느새 너는 — %s의 길로 움직이고 있다.", "Without noticing, you have begun moving toward the %s path.") % tname, 21, "#ffffff"))
-	modal_body.add_child(_wrap_label(desc, 14, "#aab3c5"))
-	var sep := HSeparator.new()
-	sep.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(sep)
 	modal_body.add_child(_wrap_label(passive, 14, accent))
-	modal_body.add_child(_wrap_label(_tr("이 길이 옳은지는 아무도 모른다. 다만 같은 선택을 반복할수록, 선택도 너를 닮아간다.", "No one knows if this path is right. But the more you repeat a choice, the more your choices begin to resemble you."), 13, "#7a8496"))
 	var continue_btn := _primary_cta_button(_tr("계속  ›", "Continue  ›"))
 	continue_btn.pressed.connect(_close_modal)
 	continue_btn.call_deferred("grab_focus")
 	modal_body.add_child(continue_btn)
 	AudioManager.play("housing_up")
-	GameState.add_log(_tr("습관이 굳어진다 — %s. %s", "A pattern emerges — %s. %s") % [tname, passive], "system")
+	GameState.add_log(passive, "system")
 
 ## 월말 처리 파이프라인 — 정상 "다음 주"(월말)와 몽타주가 공유한다.
 ## 경제/월처리 + 월말 결산 모달까지. 동작은 기존 _on_next_month 월말 분기와 동일.
@@ -8520,7 +8577,8 @@ func _refresh_all():
 	var ap = GameState.action_points
 	top_labels["ap"].text = _ap_status_text()
 	if top_labels.has("ap_chip"):
-		(top_labels["ap_chip"] as Control).visible = not DEMO_CORE_LOOP_V2.requested()
+		(top_labels["ap_chip"] as Control).visible = not DEMO_CORE_LOOP_V2.requested() \
+				and not _scene_first_surface_active
 	if is_instance_valid(_planner_button):
 		_planner_button.text = _tr("일정", "Plan")
 		_planner_button.tooltip_text = _tr(
@@ -8544,8 +8602,6 @@ func _refresh_all():
 			player_name_label.text = "%s\n%s" % [GameState.player_name, job_name]
 		if title_label:
 			var ttl := _quote_ui(GameState.get_current_title())
-			if not GameState.get_dominant_tendency().is_empty():
-				ttl += "\n· %s ·" % GameState.get_tendency_label()
 			title_label.text = ttl
 
 	stat_labels["job"].text = GameState.get_job_display_name()
@@ -8632,40 +8688,10 @@ func _choice_effects_preview(choice: Dictionary) -> String:
 		return ""
 	return "  ".join(parts)
 
-func _show_effects_float(effects: Dictionary):
-	# merge "stress" into "mental" for display (stress removed as user-visible stat)
-	var merged: Dictionary = {}
-	for k in effects:
-		if k == "stress":
-			merged["mental"] = int(merged.get("mental", 0)) - int(effects[k])
-		elif k == "mental":
-			merged["mental"] = int(merged.get("mental", 0)) + int(effects[k])
-		else:
-			merged[k] = effects[k]
-	var idx = 0
-	for key in merged:
-		var val = int(merged[key])
-		if val == 0 or key not in _STAT_KR:
-			continue
-		var label_kr = _tr(_STAT_KR[key], _STAT_EN[key])
-		var sign = "+" if val > 0 else ""
-		var text: String
-		if key == "money":
-			text = "%s%s" % [sign, GameState.format_money(float(val))]
-		else:
-			text = "%s%d %s" % [sign, val, label_kr]
-		var is_good: bool
-		if key == "addiction_tendency":
-			is_good = val < 0
-		elif key == "money":
-			is_good = val > 0
-		else:
-			is_good = val > 0
-		var color = Color("#34d399") if is_good else Color("#ff6b6b")
-		if key == "money":
-			color = Color("#f0b429")
-		_spawn_float(text, color, idx)
-		idx += 1
+func _show_effects_float(_effects: Dictionary):
+	# 결과 수치는 상태에만 남긴다. 플레이어 표면은 각 행동이 소유한
+	# authored vignette/story prose가 맡는다.
+	pass
 
 func _play_choice_feedback(effects: Dictionary, choice: Dictionary):
 	AudioManager.play("choice_made")
@@ -9210,23 +9236,22 @@ func _render_sidebars():
 		item_content.add_theme_constant_override("separation", 6)
 		item_row.add_child(item_content)
 		var inv_name: String = _gift_display_name(item_id) if str(item.get("category", "")) == "gift" else str(item.get("name", _tr("아이템", "Item")))
-		var item_label: Label = _label("%s x%d" % [inv_name, item.get("quantity", 1)], 15, "#e8eaf0")
+		var item_label: Label = _label(_tr("%s · %d개", "%s · %d held") % [
+			inv_name, item.get("quantity", 1)], 15, "#e8eaf0")
 		if _font_bold:
 			item_label.add_theme_font_override("font", _font_bold)
 		item_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		item_content.add_child(item_label)
 		var has_immediate: bool = not item.get("effects", {}).is_empty()
 		var effect_parts: Array = []
-		for k in item.get("effects", {}):
-			var v: int = int(item["effects"][k])
-			var sign: String = "+" if v >= 0 else ""
-			effect_parts.append("%s %s%d" % [_stat_name(k), sign, v])
-		for k in item.get("passive_effects", {}):
-			var v2: int = int(item["passive_effects"][k])
-			var sign2: String = "+" if v2 >= 0 else ""
-			effect_parts.append(_tr("매달 %s %s%d", "monthly %s %s%d") % [_stat_name(k), sign2, v2])
+		var use_observation := _inventory_effect_observation(item, false)
+		if not use_observation.is_empty():
+			effect_parts.append(use_observation)
+		var passive_observation := _inventory_effect_observation(item, true)
+		if not passive_observation.is_empty():
+			effect_parts.append(passive_observation)
 		if not effect_parts.is_empty():
-			item_content.add_child(_wrap_label(", ".join(effect_parts), 13, _info_signal_hex("#fbbf24")))
+			item_content.add_child(_wrap_label(" ".join(effect_parts), 13, _info_signal_hex("#fbbf24")))
 		if has_immediate:
 			var use_btn = _small_button(_tr("사용 AP 1", "Use AP 1"), "#0f766e")
 			if GameState.action_points <= 0:
@@ -9243,6 +9268,17 @@ func _render_sidebars():
 
 	_refresh_arc_box()
 
+func _inventory_effect_observation(item: Dictionary, passive: bool) -> String:
+	# A stat delta cannot tell us which deposit, conversation, or night occurred.
+	# Items may surface an effect only when their data owns both authored locales.
+	var korean_key := "passive_prose_ko" if passive else "use_prose_ko"
+	var english_key := "passive_prose_en" if passive else "use_prose_en"
+	var korean := str(item.get(korean_key, "")).strip_edges()
+	var english := str(item.get(english_key, "")).strip_edges()
+	if korean.is_empty() or english.is_empty():
+		return ""
+	return _tr(korean, english)
+
 func _on_start_thought(thought_id: String) -> void:
 	if GameState.start_thought(thought_id):
 		_refresh_arc_box()
@@ -9253,6 +9289,13 @@ func _refresh_arc_box() -> void:
 	arc_box.add_child(_info_section_title(_tr("스토리 아크", "Story Arcs"), "#86e4c0"))
 	var f: Dictionary = GameState.flags
 	var t: int = GameState.turn
+	var repeated_habit_label: String = {
+		"career": _tr("일이 겹치면 먼저 끝낼 것을 정함", "Chooses what to finish first when tasks pile up"),
+		"invest": _tr("가격보다 위험이 걸리는 지점을 먼저 봄", "Looks for risk points before the price"),
+		"found": _tr("빈칸을 보면 먼저 움직일 사람을 정함", "Decides who moves first when work is unclaimed"),
+	}.get(GameState.tendency_realized, _tr(
+		"같은 일을 거듭해 순서를 익히는 중",
+		"Learning what comes first by repeating the same work"))
 
 	# ── 아크 정의: {name, icon, stages: [{label, done_flag, hint}], done_flag} ──
 	var arcs := [
@@ -9339,15 +9382,15 @@ func _refresh_arc_box() -> void:
 			"hint": _tr("19개월차 이후 자동 등장", "Auto-appears after month 19") if not f.get("arc_jaehyuk_reunion_seen", false) else "",
 		},
 		{
-			"name": _tr("성향 자각 & 전문화", "Tendency Awareness & Specialization"),
+			"name": _tr("반복한 일과 다음 제안", "Repeated Work & the Next Offer"),
 			"icon": "⭐",
 			"active": not GameState.tendency_realized.is_empty() or f.get("pending_spec_career", false) or f.get("pending_spec_invest", false) or f.get("pending_spec_found", false),
 			"done": f.has("spec_elite") or f.has("spec_social_climber") or f.has("spec_quant") or f.has("spec_speculator") or f.has("spec_tech_founder") or f.has("spec_social_entrepreneur"),
 			"stages": [
-				{"label": _tr("성향 누적 중", "Tendency Building"), "done": not GameState.tendency_realized.is_empty()},
-				{"label": _tr("전문화 선택", "Specialization Choice"), "done": f.has("spec_elite") or f.has("spec_social_climber") or f.has("spec_quant") or f.has("spec_speculator") or f.has("spec_tech_founder") or f.has("spec_social_entrepreneur")},
+				{"label": repeated_habit_label, "done": not GameState.tendency_realized.is_empty()},
+				{"label": _tr("익숙해진 방식에 맞는 제안을 고름", "Chose an offer that fit the familiar method"), "done": f.has("spec_elite") or f.has("spec_social_climber") or f.has("spec_quant") or f.has("spec_speculator") or f.has("spec_tech_founder") or f.has("spec_social_entrepreneur")},
 			],
-			"hint": _tr("직장 전문화는 누적 근무 12개월 이후, 투자/창업은 성향 자각 후 발동", "Career specialization requires 12 worked months; Invest/Startup unlock after realization"),
+			"hint": _tr("한 직장에서 12개월을 채우거나 같은 투자·창업 일을 거듭하면 다음 제안이 옵니다.", "Complete 12 months at one job, or keep returning to the same investing or startup work, and the next offer will arrive."),
 		},
 	]
 
@@ -9463,9 +9506,6 @@ func _refresh_arc_box() -> void:
 	# 기본값(자유런)은 내부 시스템명이라 표면에 노출하지 않는다 — 특수 런 테마일 때만 표시
 	if theme_id != _tr("자유런", "자유런"):
 		run_box.add_child(_wrap_label(_tr("테마: %s", "Theme: %s") % _run_theme_display(theme_id), 14, "#8fb6d8"))
-	var tendency_lbl := GameState.get_tendency_label()
-	if not tendency_lbl.is_empty():
-		run_box.add_child(_wrap_label(_tr("성향: %s", "Leaning: %s") % tendency_lbl, 14, "#8fb6d8"))
 	# 마스터리 표시
 	var mg_line: String = ""
 	var mg_names := {
@@ -9711,24 +9751,19 @@ func _render_scene_commitment_result(record: Dictionary) -> void:
 func _append_scene_commitment_ledger(record: Dictionary) -> void:
 	if record.is_empty():
 		return
-	var person_id := str(record.get("person_id", ""))
-	var choice_id := str(record.get("choice_id", ""))
 	var divider := ColorRect.new()
 	divider.custom_minimum_size = Vector2(0, 1)
 	divider.color = Color("#9ca5b0", 0.34)
 	divider.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	choice_box.add_child(divider)
-	for detail in [
-		[_tr("실제 결과", "ACTUAL RESULT"), _weekly_commitment_outcome_text(record), "#e4e9ef"],
-		[_tr("그 주에 놓친 길", "NOT CHOSEN THAT WEEK"), _weekly_commitment_forgone_labels(record), "#b7bec7"],
-		[_tr("남은 웨이브", "REMAINING WAVE"), _weekly_commitment_later_text(record), "#929ba7"],
-	]:
-		var value := str(detail[1]).strip_edges()
-		if value.is_empty():
-			continue
-		var label := _wrap_label("%s  ·  %s" % [str(detail[0]), value], 13, str(detail[2]))
-		label.set_meta("moral_role", "hint_text")
-		choice_box.add_child(label)
+	var receipt_prose := _weekly_commitment_receipt_prose(record)
+	if receipt_prose.is_empty():
+		return
+	var label := _wrap_label(receipt_prose, 13, "#d4dae2")
+	label.set_meta("moral_role", "hint_text")
+	label.set_meta("commitment_receipt_body", true)
+	label.set_meta("commitment_receipt_prose", receipt_prose)
+	choice_box.add_child(label)
 
 func _ap_recent_action_line() -> String:
 	if turn_action_log.is_empty():
@@ -10003,9 +10038,9 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	box.add_child(bottom)
 
 	var focus_text := _tr("먼저 위험 신호를 줄인다.", "Stabilize the immediate risk first.") if has_warning else _clean_focus_text(_recommend_action())
-	var focus_prefix := _tr("지금  ", "NOW  ")
+	var focus_prefix := _tr("지금 · ", "NOW · ")
 	if not demo_pressure.is_empty():
-		focus_prefix = _tr("이번 주  ", "THIS WEEK  ")
+		focus_prefix = _tr("이번 주 · ", "THIS WEEK · ")
 		focus_text = "%s · %s" % [str(demo_pressure.get("title", "")), str(demo_pressure.get("question", ""))]
 	elif not hint_text.is_empty():
 		focus_text = _clean_focus_text(hint_text)
@@ -10022,11 +10057,11 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	var stakes_text: String
 	var upcoming := _upcoming_arc_foreshadow_line()
 	if not demo_pressure.is_empty() and not upcoming.is_empty():
-		stakes_text = _tr("기척  %s", "IN THE AIR  %s") % upcoming
+		stakes_text = _tr("기척 · %s", "IN THE AIR · %s") % upcoming
 	elif not demo_pressure.is_empty():
 		stakes_text = str(demo_pressure.get("detail", ""))
 	elif not upcoming.is_empty():
-		stakes_text = _tr("기척  %s", "IN THE AIR  %s") % upcoming
+		stakes_text = _tr("기척 · %s", "IN THE AIR · %s") % upcoming
 	elif not str(people.get("id", "")).is_empty():
 		stakes_text = _tr("곁  {name} · {detail}", "BESIDE YOU  {name} · {detail}").format({
 			"name": str(people.get("name", "")),
@@ -10513,16 +10548,16 @@ func _recommend_action() -> String:
 
 	# ── 투자감각 미성숙 ──
 	if inv_skill < 10 and total >= 3_000_000:
-		return _tr("자기계발(투자)  →  투자감각 %d. 공부 AP로 투자 지식을 먼저 쌓으세요", "Self-Dev (Invest)  →  Investing %d. Build investment knowledge with study AP first") % inv_skill
+		return _tr("자기계발(투자)  →  주문서의 수수료와 빠져나올 가격을 먼저 읽는 연습부터", "Self-Dev (Invest)  →  Practice reading the fee and exit price on the order ticket first")
 
 	# ── 인맥 미개척 ──
 	if social < 15 and not f.get("entered_network", false) and me >= 10:
-		return _tr("사교력  →  상철 네트워크(사교 AP)가 투자·직업·이벤트 경로를 엽니다", "Social  →  Sangchul's network (social AP) opens invest/job/event paths")
+		return _tr("사교력  →  상철과의 다음 만남이 투자·직업의 새 기회로 이어집니다", "Social  →  The next meeting with Sangchul can lead to new investment and job opportunities")
 
 	# ── 투자 준비 완료 ──
 	if total > 10_000_000 and inv_skill >= 15:
 		if not f.get("arc_invest_guidance_seen", false):
-			return _tr("투자  →  투자감각 %d, 자산 %s — 상철에게 투자 가이드를 받아보세요", "Invest  →  Investing %d, assets %s — get an investment guide from Sangchul") % [inv_skill, GameState.format_money(total)]
+			return _tr("투자  →  상철에게 종목표의 수수료와 빠져나올 자리를 함께 짚어 달라고 해 보세요", "Invest  →  Ask Sangchul to walk you through the fee and exit on an order sheet")
 		return _tr("투자  →  자산 %s, 포트폴리오를 분산하면 위험이 줄어듭니다", "Invest  →  Assets %s, diversifying your portfolio reduces risk") % GameState.format_money(total)
 
 	# ── 지력 부족 ──
@@ -10533,9 +10568,9 @@ func _recommend_action() -> String:
 	if me >= 48:
 		var remaining: int = maxi(0, (38 - GameState.age) * 12 - GameState.month + 1)
 		if total < 1_000_000_000:
-			return _tr("남은 %d개월  →  투자 레버리지나 고수익 루트가 필요한 시점입니다", "%d months left  →  Time for investment leverage or a high-yield route") % remaining
+			return _tr("남은 %d개월  →  투자 레버리지나 고수익 방법이 필요한 시점입니다", "%d months left  →  Time for investment leverage or another high-yield method") % remaining
 		if total < 3_000_000_000:
-			return _tr("남은 %d개월  →  30억까지 %s. 지금 루트를 유지하면 보입니다", "%d months left  →  %s to KRW 3B. Stay on course and it's in reach") % [remaining, GameState.format_money(3_000_000_000.0 - total)]
+			return _tr("남은 %d개월  →  30억까지 %s. 지금 방식을 유지하면 보입니다", "%d months left  →  %s to KRW 3B. Keep your current approach and it's in reach") % [remaining, GameState.format_money(3_000_000_000.0 - total)]
 
 	if total < 1_000_000:
 		return _tr("구직활동  →  자산 %s. 수입부터 늘려야 합니다", "Job Hunt  →  Assets %s. You need to grow income first") % GameState.format_money(total)
@@ -11083,8 +11118,8 @@ func _weekly_commitment_settlement_label(record: Dictionary) -> String:
 				})
 			"leverage_buy":
 				return _tr(
-					"{asset} 2배 매수 · 원금 {amount} · 노출 {exposure}",
-					"{asset} 2X BUY · cash {amount} · exposure {exposure}"
+					"{asset} 2배 매수 · 투입 현금 {amount} · 포지션 규모 {exposure}",
+					"{asset} 2X BUY · committed cash {amount} · position size {exposure}"
 				).format({
 					"asset": asset_name,
 					"amount": GameState.format_money(float(details.get("amount", 0.0))),
@@ -11113,103 +11148,205 @@ func _weekly_commitment_settlement_label(record: Dictionary) -> String:
 		})
 	return ""
 
-func _weekly_commitment_outcome_text(record: Dictionary) -> String:
-	var outcome: Dictionary = record.get("outcome", {})
-	var details: Dictionary = record.get("details", {})
-	var labels: Array[String] = []
-	var settlement_label := _weekly_commitment_settlement_label(record)
-	if not settlement_label.is_empty():
-		labels.append(settlement_label)
-	var return_cost_text := _weekly_commitment_return_cost_text(
-		record.get("return_cost", {}) as Dictionary)
-	if not return_cost_text.is_empty():
-		labels.append(_tr(
-			"미뤄 둔 대가 · {cost}",
-			"DELAYED COST · {cost}"
-		).format({"cost": return_cost_text}))
-	var job_id := str(outcome.get("job_id", details.get("job_id", "")))
-	if not job_id.is_empty():
-		var job: Dictionary = DataRegistry.get_job(job_id)
-		labels.append(_tr("취업 · {job}", "HIRED · {job}").format({
-			"job": GameState.get_job_display_name(job),
-		}))
-	var actual_action_id := str(record.get("actual_action_id", ""))
-	if actual_action_id in ["resume", "interview"] and details.has("quality"):
-		var quality: int = clampi(int(details.get("quality", 0)), 0, 3)
-		var grade: String = str(["D", "C", "B", "A"][quality])
-		labels.append(_tr("평가 {grade}", "GRADE {grade}").format({"grade": grade}))
-	if bool(outcome.get("resume_polished", false)):
-		labels.append(_tr("지원서 완성", "RESUME READY"))
-	if bool(outcome.get("interview_practiced", false)):
-		labels.append(_tr("면접 준비 완료", "INTERVIEW READY"))
+func _job_hunt_quality_result(is_resume: bool, quality: int) -> String:
+	var level := clampi(quality, 0, 3)
+	if is_resume:
+		return [
+			_tr("첫 장을 넘기기 전에 지우고 다시 쓸 문장이 더 많이 보였다.", "Before turning the first page, more lines needed rewriting than keeping."),
+			_tr("빈칸은 메웠지만 두 번째 장에서 다시 손이 멈췄다.", "The blanks were filled, but his hand stopped again on the second page."),
+			_tr("지원서는 끝까지 읽을 수 있는 모양을 갖췄고, 고칠 문장 몇 개가 남았다.", "The application could now be read to the end, with a few sentences still needing work."),
+			_tr("첫 문장과 마지막 경력이 한 사람의 이야기로 이어졌다.", "The first sentence and the last job now read like one person's story."),
+		][level]
+	return [
+		_tr("첫 질문 뒤에 준비한 문장이 끊겼고, 빈 의자만 오래 보였다.", "The prepared lines broke after the first question, and the empty chair held his gaze."),
+		_tr("마지막 답은 끝까지 갔지만, 문을 나선 뒤 한 문장이 계속 걸렸다.", "The last answer reached its end, though one sentence followed him out the door."),
+		_tr("면접관은 다음 질문 전에 지원서를 한 번 더 넘겨봤다.", "Before the next question, the interviewer turned through the application once more."),
+		_tr("면접관은 종이를 덮지 않고 다음 출근 가능 날짜를 물었다.", "The interviewer left the papers open and asked when he could start."),
+	][level]
 
-	var ordered_stats := [
-		["money", _tr("현금", "CASH"), true],
-		["portfolio", _tr("투자자산", "INVESTED"), true],
-		["monthly_income", _tr("월수입", "MONTHLY INCOME"), true],
-		["health", _tr("건강", "HEALTH"), false],
-		["mental", _tr("정신", "MENTAL"), false],
-		["intelligence", _tr("지력", "INTELLIGENCE"), false],
-		["social_skill", _tr("사회성", "SOCIAL"), false],
-		["appearance", _tr("외모", "APPEARANCE"), false],
-		["investment_skill", _tr("투자감각", "INVESTING"), false],
-		["luck", _tr("운", "LUCK"), false],
-		["reputation", _tr("평판", "REPUTATION"), false],
-		["work_performance", _tr("업무성과", "PERFORMANCE"), false],
-	]
-	for stat_info in ordered_stats:
-		if labels.size() >= 3:
-			break
-		var key := str(stat_info[0])
-		var delta := float(outcome.get(key, 0.0))
-		if absf(delta) < 0.001:
-			continue
-		var formatted := _weekly_commitment_signed_money(delta) \
-			if bool(stat_info[2]) else _weekly_commitment_signed_number(delta)
-		labels.append("%s %s" % [str(stat_info[1]), formatted])
-	if labels.size() < 3:
-		var affinity_delta := float(outcome.get("affinity", 0.0))
-		if absf(affinity_delta) >= 0.001:
+func _weekly_commitment_authored_detail_text(details: Dictionary) -> String:
+	var korean := str(details.get("receipt_prose_ko", "")).strip_edges()
+	var english := str(details.get("receipt_prose_en", "")).strip_edges()
+	if korean.is_empty() or english.is_empty():
+		return ""
+	return _tr(korean, english)
+
+func _weekly_commitment_outcome_text(record: Dictionary) -> String:
+	if GameState.is_story_weekly_commitment_record(record):
+		var event: Dictionary = DataRegistry.find_event(str(record.get("story_event_id", "")))
+		var choices: Array = event.get("choices", [])
+		var choice_index := int(record.get("story_choice_index", -1))
+		if choice_index >= 0 and choice_index < choices.size():
+			var authored_result := GameState.format_event_text(
+				str((choices[choice_index] as Dictionary).get("result_text", "")))
+			var excerpt := _weekly_commitment_first_sentence(authored_result)
+			if not excerpt.is_empty():
+				return excerpt
+
+	var details: Dictionary = record.get("details", {}) \
+		if record.get("details", {}) is Dictionary else {}
+	var authored_detail := _weekly_commitment_authored_detail_text(details)
+	if not authored_detail.is_empty():
+		return authored_detail
+	var outcome: Dictionary = record.get("outcome", {}) \
+		if record.get("outcome", {}) is Dictionary else {}
+	var actual_action_id := str(record.get(
+		"actual_action_id", record.get("choice_id", ""))).strip_edges().to_lower()
+	var quality: int = clampi(int(details.get("quality", 1)), 0, 3)
+	match actual_action_id:
+		"apply":
+			var job_id := str(outcome.get("job_id", details.get("job_id", "")))
+			if not job_id.is_empty():
+				return _tr(
+					"{job} 지원이 받아들여졌고, 첫 출근을 준비하게 됐다.",
+					"The application to {job} was accepted, and preparations for the first day began."
+				).format({"job": GameState.get_job_display_name(DataRegistry.get_job(job_id))})
+			return _tr(
+				"지원서는 접수됐다. 답이 올 때까지 달력의 다음 칸은 비어 있다.",
+				"The application went in. The next square on the calendar stays blank until an answer comes."
+			)
+		"resume":
+			return _job_hunt_quality_result(true, quality)
+		"interview":
+			return _job_hunt_quality_result(false, quality)
+		"side_shift":
+			return _tr(
+				"근무가 끝난 뒤 입금 알림이 왔다. 신발을 벗자 발바닥이 먼저 욱신거렸다.",
+				"The deposit notice arrived after the shift. His feet began throbbing as soon as his shoes came off."
+			)
+		"save":
+			return _tr(
+				"평소라면 빠져나갔을 돈 일부가 통장에 남았다.",
+				"Some of the money that would usually have gone out stayed in the account."
+			)
+		"rest":
+			return _tr(
+				"그 주에는 하던 일을 멈추고 몸이 원하는 쪽에 시간을 내주었다.",
+				"That week, he stopped working and gave the time to what his body needed."
+			)
+		"study", "study_read", "study_exercise", "study_meditation", "study_invest":
+			return _tr(
+				"그 주에는 고른 공부나 훈련 하나를 끝까지 붙들었다.",
+				"That week, he stayed with one chosen course of study or training."
+			)
+		"contact":
 			var person_id := str(record.get("person_id", ""))
 			var person_name := str(ImageRegistry.get_person_info(person_id).get(
-				"name", _tr("인연", "BOND")))
-			labels.append(_tr("{name} 호감 {delta}", "{name} AFFINITY {delta}").format({
-				"name": person_name,
-				"delta": _weekly_commitment_signed_number(affinity_delta),
-			}))
-	if labels.is_empty():
-		return _tr("선택한 행동을 끝냈다", "The chosen action was completed")
-	return " · ".join(labels)
+				"name", _tr("그 사람", "the other person")))
+			return _contact_result_text(
+				person_name, str(details.get("contact_channel", "check_in")))
+		"invest_buy":
+			return _tr(
+				"매수 주문이 체결됐다. 다음 장이 열릴 때까지 돈은 그 자산에 묶였다.",
+				"The buy order filled. The money stayed tied to that asset until the next market close."
+			)
+		"invest_sell":
+			return _tr(
+				"매도 대금이 통장으로 돌아왔다. 그 거래의 줄은 그날로 닫혔다.",
+				"The sale proceeds returned to the account. That trade's line closed for the day."
+			)
+		"invest_leverage", "leverage_buy":
+			return _tr(
+				"원금보다 큰 포지션이 열렸다. 가격이 흔들릴 때마다 담보가 먼저 줄어든다.",
+				"A position larger than the cash behind it opened. Every price swing now reaches the collateral first."
+			)
+		"gamble_racetrack", "gamble_holdem", "gamble_scalping", "gamble_casino":
+			return _tr(
+				"세션을 끝내고 자리에서 일어났다. 결과는 통장과 그곳에 쓴 시간에 함께 남았다.",
+				"He ended the session and stood up. The result remained in both the account and the time spent there."
+			)
+	return _tr(
+		"한 주를 그 일에 썼다. 끝난 뒤에는 손에 남은 것과 비어 버린 시간이 함께 보였다.",
+		"He gave the week to it. When it was over, what remained in his hands and the emptied time were both visible."
+	)
+
+func _weekly_commitment_first_sentence(text: String) -> String:
+	var cleaned := " ".join(text.replace("\n", " ").split(" ", false)).strip_edges()
+	if cleaned.is_empty():
+		return ""
+	var stop := -1
+	for marker in [". ", "? ", "! ", ".\" ", "?\" ", "!\" "]:
+		var found := cleaned.find(marker)
+		if found >= 0 and (stop < 0 or found < stop):
+			stop = found + marker.length() - 1
+	if stop >= 0:
+		return cleaned.substr(0, stop + 1).strip_edges()
+	return cleaned
+
+func _weekly_commitment_return_cost_prose(record: Dictionary) -> String:
+	var raw_cost: Variant = record.get("return_cost", {})
+	if not raw_cost is Dictionary or (raw_cost as Dictionary).is_empty():
+		return ""
+	var cost: Dictionary = raw_cost
+	match str(cost.get("kind", "")):
+		"relationship_cooling":
+			return _tr(
+				"늦어진 연락 앞에서는 지난 시간이 먼저 보였다.",
+				"At the delayed call, the time already lost was the first thing visible."
+			)
+		"accumulated_fatigue":
+			return _tr(
+				"미뤄 둔 잠이 한꺼번에 밀려와, 눈을 감아도 몸이 바로 풀리지 않았다.",
+				"The sleep put off for weeks arrived all at once, and closing his eyes did not loosen his body right away."
+			)
+		"application_delay":
+			return _tr(
+				"미뤄 둔 지원 창구 하나는 이미 닫혀 있었다.",
+				"One application window he had postponed was already closed."
+			)
+		"restart_friction":
+			return _tr(
+				"다시 시작하는 첫 문장은 평소보다 오래 걸렸다.",
+				"The first line after starting again took longer than usual."
+			)
+		"market_moved":
+			return _tr(
+				"기다리는 동안 시장 화면은 이미 다른 자리로 움직였다.",
+				"While he waited, the market screen had already moved somewhere else."
+			)
+		"missed_shifts":
+			return _tr(
+				"지나간 근무표의 빈칸은 다시 돌아오지 않았다.",
+				"The blank in the old shift roster did not come back."
+			)
+		"missed_savings":
+			return _tr(
+				"줄이지 못한 지출은 이미 통장에서 빠져나간 뒤였다.",
+				"The spending left uncut had already left the account."
+			)
+	return ""
+
+func _weekly_commitment_receipt_prose(record: Dictionary) -> String:
+	var sentences: Array[String] = []
+	# 각 조각이 실제 한 문장이 되게 정규화한다. 배열 항목 수만 세면 두 문장짜리
+	# outcome + forgone + later가 네 문장으로 새어 나갈 수 있다.
+	var outcome := _weekly_commitment_first_sentence(
+		_weekly_commitment_outcome_text(record)).strip_edges()
+	if not outcome.is_empty():
+		sentences.append(outcome)
+	var forgone := _weekly_commitment_forgone_labels(record).strip_edges()
+	if not forgone.is_empty():
+		sentences.append(_tr(
+			"그 주에는 다른 길로 갈 시간이 남지 않았다: {choices}.",
+			"That week left no time for the other paths: {choices}."
+		).format({"choices": forgone}))
+	var return_cost := _weekly_commitment_return_cost_prose(record)
+	var later := _weekly_commitment_later_text(record).strip_edges()
+	if not return_cost.is_empty():
+		sentences.append(return_cost)
+	elif not later.is_empty():
+		sentences.append(later)
+	while sentences.size() > 3:
+		sentences.pop_back()
+	return " ".join(sentences)
 
 func _weekly_commitment_echo_record(record: Dictionary) -> String:
-	var person_id := str(record.get("person_id", ""))
-	var choice_id := str(record.get("choice_id", ""))
-	var chosen := _weekly_commitment_chosen_label(record)
-	var forgone := _weekly_commitment_forgone_labels(record)
-	var later := _weekly_commitment_later_text(record)
-	return _tr(
-		"택한 것 · {chosen}\n실제 결과 · {outcome}\n그 주에 놓친 길 · {forgone}\n남은 웨이브 · {later}",
-		"CHOSEN · {chosen}\nACTUAL RESULT · {outcome}\nNOT CHOSEN THAT WEEK · {forgone}\nREMAINING WAVE · {later}"
-	).format({
-		"chosen": chosen,
-		"outcome": _weekly_commitment_outcome_text(record),
-		"forgone": forgone,
-		"later": later,
-	})
+	return _weekly_commitment_receipt_prose(record)
 
 func _weekly_commitment_echo_sentence(records: Array) -> String:
 	if records.is_empty() or not records.back() is Dictionary:
 		return ""
-	var record: Dictionary = records.back()
-	return _tr(
-		"지난 선택 · {chosen}. 실제 결과 · {outcome}. 그 주에 놓친 길 · {forgone}. {later}",
-		"LAST CHOICE · {chosen}. ACTUAL RESULT · {outcome}. NOT CHOSEN THAT WEEK · {forgone}. {later}"
-	).format({
-		"chosen": _weekly_commitment_chosen_label(record),
-		"outcome": _weekly_commitment_outcome_text(record),
-		"forgone": _weekly_commitment_forgone_labels(record),
-		"later": _weekly_commitment_later_text(record),
-	})
+	return _weekly_commitment_receipt_prose(records.back() as Dictionary)
 
 func _demo_director_recent_action_line(commitment_echoes: Array = []) -> String:
 	var resolved_commitments := commitment_echoes
@@ -11367,7 +11504,7 @@ func _render_demo_director_beat(
 	var title_text := _tr("이번 주에 고른 일의 결과", "Result of This Week's Choice") \
 			if is_story_commitment else (_tr("지난 선택의 결과가 돌아왔다", "A Past Choice Has Returned") \
 			if is_echo and not commitment_echoes.is_empty() \
-			else _tr("이전 선택이 다음 장면으로 이어졌다", "An Earlier Choice Reached the Next Scene"))
+			else _tr("이전 선택이 오늘의 일로 돌아왔다", "An Earlier Choice Returned in What Happened Today"))
 	var title := _label(title_text, 18, "#edf1f5")
 	if _font_bold:
 		title.add_theme_font_override("font", _font_bold)
@@ -11873,7 +12010,7 @@ func _demo_action_spec(action_id: String, person_id: String = "") -> Dictionary:
 		"gamble":
 			return {
 				"title": _tr("승부를 건다", "Stake It"),
-				"subtitle": _tr("열린 장소 하나에서 실제 세션을 끝낸다", "Finish a real session at one unlocked venue"),
+				"subtitle": _tr("갈 수 있는 장소 하나에서 실제 세션을 끝낸다", "Finish a real session at one available venue"),
 				"icon": "casino", "accent": "#8a4f66", "fn": "_open_cat_gambling",
 			}
 	return {}
@@ -12320,7 +12457,7 @@ func _build_first_month_horizon_strip() -> Control:
 		},
 		{
 			"key": _tr("03 · 그다음", "03 · NEXT"),
-			"value": _tr("경로가 열림", "Route forming") if route_open else _tr("내 경로 만들기", "Build a route"),
+			"value": _tr("선택지가 늘어남", "More choices available") if route_open else _tr("내 방식 만들기", "Build your approach"),
 			"state": "done" if route_open else "pending",
 		},
 	]
@@ -12835,8 +12972,10 @@ func _weekly_commitment_chosen_label(record: Dictionary) -> String:
 func _weekly_commitment_later_text(record: Dictionary) -> String:
 	if GameState.is_story_weekly_commitment_record(record):
 		if str(record.get("consequence_timing", "immediate")) == "delayed":
-			return _tr("아직 도착하지 않았다", "It has not arrived yet")
-		return _tr("이미 그 주의 방향을 바꿨다", "It already changed the course of that week")
+			return _tr("아직 아무 일도 일어나지 않았다.", "Nothing has happened yet.")
+		return _tr(
+			"그날의 대답은 이미 되돌릴 수 없는 말이 되었다.",
+			"That day's answer had already become something he could not take back.")
 	var details: Dictionary = record.get("details", {})
 	var trade := str(details.get("trade", ""))
 	var asset_id := str(details.get("asset_id", ""))
@@ -12845,30 +12984,47 @@ func _weekly_commitment_later_text(record: Dictionary) -> String:
 		match trade:
 			"buy":
 				return _tr(
-					"다음 시장 결산부터 {asset} 가격이 내 자산을 움직인다",
-					"From the next market close, {asset} moves with my assets"
+					"다음 장이 열릴 때부터 {asset}의 움직임이 통장 밖 돈을 흔든다.",
+					"From the next market close, {asset}'s movement reaches the money outside the account."
 				).format({"asset": asset_name})
 			"sell":
-				return _tr(
-					"실현손익 {profit}이 현금으로 남았다",
-					"Realized P/L {profit} remains in cash"
-				).format({
-					"profit": _weekly_commitment_signed_money(float(details.get("profit", 0.0))),
-				})
+				return _tr("매도 대금은 통장에 남고, 그 거래는 닫혔다.", "The sale proceeds remain in the account, and that trade is closed.")
 			"leverage_buy":
 				return _tr(
-					"다음 결산에도 2배 노출과 강제청산 위험이 남는다",
-					"Double exposure and liquidation risk remain at the next close"
+					"다음 장에서도 원금보다 큰 포지션과 강제청산 위험이 남는다.",
+					"At the next close, the position is still larger than its cash and still carries liquidation risk."
 				)
 	if int(details.get("rounds", 0)) > 0 and details.has("session_net"):
 		return _tr(
-			"세션 순손익 {net}과 그곳에 쓴 시간이 다음 주에 남는다",
-			"Session net {net}, and the time spent there, remain next week"
-		).format({
-			"net": _weekly_commitment_signed_money(float(details.get("session_net", 0.0))),
-		})
-	return str(_weekly_commitment_preview(
-		str(record.get("choice_id", "")), str(record.get("person_id", ""))).get("later", ""))
+			"그곳에 남긴 돈과 시간은 다음 주에도 통장과 몸에서 함께 보인다.",
+			"The money and time left there remain visible in both the account and the body next week."
+		)
+	return _tr("그 선택의 흔적은 다음 주에도 자리를 차지한다.", "The trace of that choice still takes up space next week.")
+
+func _weekly_commitment_action_only(text: String) -> String:
+	var cleaned := " ".join(text.replace("\n", " ").split(" ", false)).strip_edges()
+	# 선택 뒤에는 선택지의 행동명만 남긴다. 대시·가운뎃점 뒤의 보상과
+	# 두 번째 문장에 적힌 결과/수량은 선택 전 카드에만 속한다.
+	for separator in [" — ", " – ", " -- ", " · "]:
+		var split_at := cleaned.find(separator)
+		if split_at > 0:
+			cleaned = cleaned.substr(0, split_at).strip_edges()
+			break
+	for opener in [" (", " （"]:
+		var bracket_at := cleaned.find(opener)
+		if bracket_at > 0:
+			cleaned = cleaned.substr(0, bracket_at).strip_edges()
+			break
+	cleaned = _weekly_commitment_first_sentence(cleaned).strip_edges()
+	# 인용형 행동명은 종결부호가 닫는 따옴표 안에 있다. 영수증 문장 안에
+	# 그대로 넣으면 하나의 놓친 행동이 별도 문장으로 다시 세어진다.
+	var closing_quote := ""
+	if not cleaned.is_empty() and cleaned.right(1) in ["\"", "'", "”", "’"]:
+		closing_quote = cleaned.right(1)
+		cleaned = cleaned.substr(0, cleaned.length() - 1).strip_edges()
+	while not cleaned.is_empty() and cleaned.right(1) in [".", "!", "?", "。", "！", "？"]:
+		cleaned = cleaned.substr(0, cleaned.length() - 1).strip_edges()
+	return cleaned + closing_quote
 
 func _weekly_commitment_forgone_labels(record: Dictionary) -> String:
 	var labels: Array[String] = []
@@ -12878,9 +13034,9 @@ func _weekly_commitment_forgone_labels(record: Dictionary) -> String:
 		for raw_node in cycle_details.get("forgone_nodes", []):
 			if not raw_node is Dictionary:
 				continue
-			var label := _tr(
+			var label := _weekly_commitment_action_only(_tr(
 				str((raw_node as Dictionary).get("label_ko", "")),
-				str((raw_node as Dictionary).get("label_en", "")))
+				str((raw_node as Dictionary).get("label_en", ""))))
 			if not label.is_empty() and not labels.has(label):
 				labels.append(label)
 		return " / ".join(labels)
@@ -12890,13 +13046,15 @@ func _weekly_commitment_forgone_labels(record: Dictionary) -> String:
 		for raw_index in record.get("forgone_choice_indexes", []):
 			var choice_index := int(raw_index)
 			if choice_index >= 0 and choice_index < choices.size():
-				var text: String = GameState.format_event_text(str(choices[choice_index].get("text", "")))
+				var text: String = _weekly_commitment_action_only(GameState.format_event_text(
+					str(choices[choice_index].get("text", ""))))
 				if not text.is_empty() and not labels.has(text):
 					labels.append(text)
 		return " / ".join(labels)
 	var person_id := str(record.get("person_id", ""))
 	for raw_id in record.get("forgone_ids", []):
-		var label := _weekly_commitment_action_label(str(raw_id), person_id)
+		var label := _weekly_commitment_action_only(
+			_weekly_commitment_action_label(str(raw_id), person_id))
 		if not label.is_empty() and not labels.has(label):
 			labels.append(label)
 	return " / ".join(labels)
@@ -12921,9 +13079,7 @@ func _on_weekly_commitment_finalized(record: Dictionary) -> void:
 	if _scene_first_week_enabled() or _scene_first_surface_active:
 		return
 	var presentation := record.duplicate(true)
-	presentation["outcome_text"] = _weekly_commitment_outcome_text(record)
-	presentation["later"] = _weekly_commitment_later_text(record)
-	presentation["forgone_labels"] = _weekly_commitment_forgone_labels(record)
+	presentation["receipt_prose"] = _weekly_commitment_receipt_prose(record)
 	_show_ap_action_commit(
 		str(spec.get("title", action_id)),
 		str(spec.get("icon", "calendar")),
@@ -13009,27 +13165,27 @@ func _ap_action_preview(fn_name: String, icon_id: String) -> String:
 		"_ap_contact_person":
 			return _tr("낮은 위험 · AP 1 · 정신 +5 · 스트레스 -3 · 관계 +4 · 1~3주: 인연", "LOW · AP 1 · Mental +5 · Stress -3 · Bond +4 · 1–3W: relationship")
 		"_open_cat_people":
-			return _tr("웨이브  관계와 다음 장면이 달라진다", "ECHO  Bonds and later scenes can change")
+			return _tr("이후  관계와 다음 만남이 달라진다", "AFTERWARD  Bonds and later meetings can change")
 		"_open_cat_gambling":
 			return _tr("높은 위험 · 현금 손실 · 즉시 결과 · 1~3주: 중독과 통제 비용", "HIGH · Cash loss · Instant result · 1–3W: addiction and control cost")
 		"_open_racetrack", "_open_holdem", "_open_scalping", "_open_jeongseon_casino":
-			return _tr("높은 위험 · AP 1 · 현금 손실 가능 · 즉시 결과 · 1~3주 웨이브", "HIGH · AP 1 · Cash loss possible · Instant result · 1–3W echo")
+			return _tr("높은 위험 · AP 1 · 현금 손실 가능 · 즉시 결과 · 1~3주 뒤에도 남음", "HIGH · AP 1 · Cash loss possible · Instant result · lingers for 1–3W")
 		"_open_routine_modal":
 			return _tr("시간  조용한 주를 최대 4주 압축", "TIME  Compress up to four quiet weeks")
 		"_ap_date":
-			return _tr("웨이브  관계 · 둘만의 장면", "ECHO  Relationship · a scene together")
+			return _tr("이후  관계 · 둘이 보내는 시간", "AFTERWARD  Relationship · time together")
 		"_open_cat_life":
 			return _tr("무료  주거와 생활을 정리한다", "FREE  Manage housing and daily life")
 	match icon_id:
 		"job":
-			return _tr("웨이브  경력과 월수입", "ECHO  Career and monthly income")
+			return _tr("이후  경력과 월수입", "AFTERWARD  Career and monthly income")
 		"money":
-			return _tr("웨이브  이번 달 현금흐름", "ECHO  This month's cashflow")
+			return _tr("이후  이번 달 현금흐름", "AFTERWARD  This month's cashflow")
 		"people":
-			return _tr("웨이브  관계와 이후의 선택", "ECHO  Bonds and later choices")
+			return _tr("이후  관계와 다음 선택", "AFTERWARD  Bonds and later choices")
 		"casino":
 			return _tr("위험  현금과 통제력", "RISK  Cash and control")
-	return _tr("웨이브  이번 주 이후에 남는다", "ECHO  Carries beyond this week")
+	return _tr("이후  이번 주가 지나도 남는다", "AFTERWARD  Carries beyond this week")
 
 func _make_ap_board_card(title: String, subtitle: String, icon_id: String,
 		accent: String, disabled: bool, free_action: bool, forced_badge: String,
@@ -14306,7 +14462,7 @@ func _open_cat_money():
 	else:
 		modal_body.add_child(_wrap_label(_tr("잠금: 투자는 첫 월급을 받은 뒤 가능하다.", "Locked: investing unlocks after your first paycheck."), 12, "#5a5a6a"))
 	var shift_pay := _side_shift_base_pay()
-	var side_label := _tr("%s  —  %s+ (건강-3, 정신력 변동)", "%s  —  %s+ (Health -3, Mental varies)") % [
+	var side_label := _tr("%s  —  %s+ (끝난 뒤 몸이 무거워진다)", "%s  —  %s+ (the body carries the shift afterward)") % [
 		_side_shift_title(), GameState.format_money(float(shift_pay))]
 	_cat_modal_button(side_label, "#3a8a5a", "_ap_side_job")
 	_cat_modal_button(_tr("저축/절약  —  이번 달 지출을 줄인다", "Save/cut back  —  trim this month's spending"), "#3a6ea8", "_ap_save_money")
@@ -14360,6 +14516,75 @@ func _people_current_page_id() -> String:
 	_people_page_idx = clampi(_people_page_idx, 0, pages.size() - 1)
 	return str(pages[_people_page_idx].get("id", "cast"))
 
+func _contact_channel_id(person_id: String, affinity: int) -> String:
+	match person_id:
+		"father":
+			return "call"
+		"sangchul":
+			return "drink"
+		"jiyeon", "daeun":
+			return "meet" if affinity >= 50 else "check_in"
+		"jaehyuk":
+			if bool(GameState.flags.get("jaehyuk_scammed", false)):
+				return "failed_call"
+			if bool(GameState.flags.get("jaehyuk_partnered", false)) \
+					or bool(GameState.flags.get("hyunsu_warned", false)):
+				return "call"
+			return "meet"
+	return "check_in"
+
+func _contact_channel_verb(person_id: String, channel: String) -> String:
+	match channel:
+		"call":
+			return _tr("전화드리기", "Call") if person_id == "father" \
+				else _tr("전화하기", "Call")
+		"failed_call":
+			return _tr("전화 걸어보기", "Try calling")
+		"drink":
+			return _tr("한 잔 하기", "Grab a drink")
+		"meet":
+			return _tr("만나기", "Meet up")
+	return _tr("안부 묻기", "Check in")
+
+func _contact_result_text(person_name: String, channel: String) -> String:
+	match channel:
+		"call":
+			return _tr(
+				"통화를 마친 뒤에도 {name}의 이름이 화면에 남았다.",
+				"After the call ended, {name}'s name stayed on my screen."
+			).format({"name": person_name})
+		"failed_call":
+			return _tr(
+				"연결되지 않는다는 안내가 끝난 뒤에도 {name}의 번호가 화면에 남았다.",
+				"After the recorded message ended, {name}'s number stayed on my screen."
+			).format({"name": person_name})
+		"drink":
+			return _tr(
+				"자리에서 일어난 뒤에도 {name}의 마지막 말이 오래 남았다.",
+				"After we left the table, {name}'s last words stayed with me."
+			).format({"name": person_name})
+		"meet":
+			return _tr(
+				"헤어진 뒤에도 {name}의 말이 오래 남았다.",
+				"After we parted, {name}'s words stayed with me."
+			).format({"name": person_name})
+	return _tr(
+		"이야기를 마친 뒤에도 {name}이 오래 마음에 남았다.",
+		"After we spoke, {name} stayed on my mind."
+	).format({"name": person_name})
+
+func _contact_action_log_text(person_name: String, channel: String) -> String:
+	match channel:
+		"call":
+			return _tr("✓ %s에게 전화했다", "✓ Called %s") % person_name
+		"failed_call":
+			return _tr("✓ %s에게 전화를 걸어봤다", "✓ Tried calling %s") % person_name
+		"drink":
+			return _tr("✓ %s와 한 잔 했다", "✓ Had a drink with %s") % person_name
+		"meet":
+			return _tr("✓ %s를 만났다", "✓ Met %s") % person_name
+	return _tr("✓ %s의 안부를 물었다", "✓ Checked in with %s") % person_name
+
 func _people_actions_for_page(page_id: String) -> Array:
 	var actions: Array = []
 	if page_id == "cast":
@@ -14384,15 +14609,8 @@ func _people_actions_for_page(page_id: String) -> Array:
 					"disabled": true,
 				})
 				continue
-			var verb := _tr("연락하기", "Reach out")
-			if pid in ["jiyeon", "daeun"]:
-				verb = _tr("만나기", "Meet up") if aff >= 50 else _tr("안부 묻기", "Check in")
-			elif pid == "sangchul":
-				verb = _tr("한 잔 하기", "Grab a drink")
-			elif pid == "father":
-				verb = _tr("전화드리기", "Call")
-			elif pid == "jaehyuk":
-				verb = _tr("만나기", "Meet up")
+			var contact_channel := _contact_channel_id(pid, aff)
+			var verb := _contact_channel_verb(pid, contact_channel)
 			var warmth: String = _relationship_warmth_label(aff)
 			actions.append({
 				"title": "%s · %s" % [verb, pname],
@@ -14913,32 +15131,52 @@ func _study_progress_label(study_type: int, n: int) -> String:
 
 ## 임계 보상 (AP_REDESIGN 루틴 심화 ③) — 독서 10권째/운동 12주차 특별 비네트 1회.
 ## 연애 중이면 파트너 반응 한 줄 크로스오버(호칭 정본: 다은 "민준씨"+존댓말 / 지연 "오빠"+반말).
-func _study_threshold_special(study_type: int, n: int) -> String:
+func _study_threshold_special(study_type: int, n: int) -> Dictionary:
 	var f = GameState.flags
 	var pid := _romance_partner_id()
 	if study_type == 0 and n >= 10 and not f.get("study_read_10_seen", false):
 		GameState.flags["study_read_10_seen"] = true
-		var body := _tr("열 권째 책을 덮었다. 첫 권을 펼치던 날엔 몰랐던 단어들이, 이제 문장 사이에서 아는 얼굴을 한다.\n읽은 게 다 어디로 갔는지는 몰라도, 없어지지 않았다는 건 안다.",
-			"Closed the tenth book. Words that meant nothing the day the first one opened now show familiar faces between the sentences.\nWhere it all went, who knows — but it didn't disappear. That much is certain.")
+		var body := {
+			"t": "열 권째 책을 덮었다. 첫 권을 펼치던 날엔 몰랐던 단어들이, 이제 문장 사이에서 아는 얼굴을 한다.\n읽은 게 다 어디로 갔는지는 몰라도, 없어지지 않았다는 건 안다.",
+			"et": "Closed the tenth book. Words that meant nothing the day the first one opened now show familiar faces between the sentences.\nWhere it all went, who knows — but it didn't disappear. That much is certain.",
+		}
 		if pid == "daeun":
-			body += _tr("\n\n다은이 가방에 꽂힌 책을 보더니 웃었다. \"민준씨가 뭘 읽는지, 요즘 나도 궁금해요.\"",
-				"\n\nDaeun spotted the book in his bag and smiled. \"What you're reading, Minjun — these days I'm curious too.\"")
+			var daeun_book_reaction := {
+				"t": "다은이 가방에 꽂힌 책을 보더니 웃었다. \"민준씨가 뭘 읽는지, 요즘 나도 궁금해요.\"",
+				"et": "Daeun spotted the book in his bag and smiled. \"What you're reading, Minjun — these days I'm curious too.\"",
+			}
+			body["t"] += "\n\n" + str(daeun_book_reaction["t"])
+			body["et"] += "\n\n" + str(daeun_book_reaction["et"])
 		elif pid == "jiyeon":
-			body += _tr("\n\n지연이 책 제목을 힐끔 봤다. \"오빠 가방에 책 있는 거, 나 다 봤어. …다음 건 내가 골라줄까?\"",
-				"\n\nJiyeon glanced at the title. \"I've seen the books in your bag, oppa. ...Want me to pick the next one?\"")
+			var jiyeon_book_reaction := {
+				"t": "지연이 책 제목을 힐끔 봤다. \"오빠 가방에 책 있는 거, 나 다 봤어. …다음 건 내가 골라줄까?\"",
+				"et": "Jiyeon glanced at the title. \"I've seen the books in your bag, oppa. ...Want me to pick the next one?\"",
+			}
+			body["t"] += "\n\n" + str(jiyeon_book_reaction["t"])
+			body["et"] += "\n\n" + str(jiyeon_book_reaction["et"])
 		return body
 	if study_type == 1 and n >= 12 and not f.get("study_exercise_12_seen", false):
 		GameState.flags["study_exercise_12_seen"] = true
-		var body := _tr("12주째. 이제는 안 가면 몸이 먼저 이상하다고 말한다.\n시간이 몸에 쌓이는 걸, 처음으로 눈으로 봤다.",
-			"Week twelve. Now the body is the first to complain on the days he skips.\nFor the first time, time piling up inside a body was something he could see.")
+		var body := {
+			"t": "12주째. 이제는 안 가면 몸이 먼저 이상하다고 말한다.\n시간이 몸에 쌓이는 걸, 처음으로 눈으로 봤다.",
+			"et": "Week twelve. Now the body is the first to complain on the days he skips.\nFor the first time, time piling up inside a body was something he could see.",
+		}
 		if pid == "daeun":
-			body += _tr("\n\n다은이 마주 앉다가 말했다. \"민준씨, 얼굴 좋아졌어요.\"",
-				"\n\nSitting down across from him, Daeun said, \"Minjun, you look healthier these days.\"")
+			var daeun_exercise_reaction := {
+				"t": "다은이 마주 앉다가 말했다. \"민준씨, 얼굴 좋아졌어요.\"",
+				"et": "Sitting down across from him, Daeun said, \"Minjun, you look healthier these days.\"",
+			}
+			body["t"] += "\n\n" + str(daeun_exercise_reaction["t"])
+			body["et"] += "\n\n" + str(daeun_exercise_reaction["et"])
 		elif pid == "jiyeon":
-			body += _tr("\n\n지연이 지나가듯 말했다. \"오빠, 요즘 어깨가 좀 달라졌다?\"",
-				"\n\nJiyeon said it in passing. \"Oppa, your shoulders look different lately?\"")
+			var jiyeon_exercise_reaction := {
+				"t": "지연이 지나가듯 말했다. \"오빠, 요즘 어깨가 좀 달라졌다?\"",
+				"et": "Jiyeon said it in passing. \"Oppa, your shoulders look different lately?\"",
+			}
+			body["t"] += "\n\n" + str(jiyeon_exercise_reaction["t"])
+			body["et"] += "\n\n" + str(jiyeon_exercise_reaction["et"])
 		return body
-	return ""
+	return {}
 
 ## 실제 실행 — 1 AP + 축 등록 1회 + 누적 카운트 + 비네트. (모달 선택 후 진입)
 func _ap_study_commit(study_type: int) -> void:
@@ -14966,11 +15204,12 @@ func _ap_study_commit(study_type: int) -> void:
 	GameState.add_tendency("invest" if study_type == 3 else "career", 1)
 	GameState.register_action_axis(
 		study_axis, "river" if study_type == 1 else "home", study_action_id)
-	GameState.finalize_weekly_commitment(study_action_id, "", {"study_type": study_type})
-	var flavor: String = _localized_pair(v)
-	var special: String = _study_threshold_special(study_type, n)
-	if special != "":
-		flavor = special
+	var special: Dictionary = _study_threshold_special(study_type, n)
+	var receipt_vignette: Dictionary = special if not special.is_empty() else v
+	GameState.finalize_weekly_commitment(
+		study_action_id, "", _vignette_commitment_details(
+			receipt_vignette, {"study_type": study_type}))
+	var flavor: String = _localized_pair(receipt_vignette)
 	var title: String = _study_progress_label(study_type, n)
 	GameState.add_log(title + " — " + flavor, "event")
 	_show_vignette(title, flavor, eff, "#5a6ea8")
@@ -15092,8 +15331,10 @@ func _on_aruba_closed(earned: int, stress_delta: int, health_delta: int) -> void
 	if not bool(GameState.core_loop_v2_state.get("enabled", false)):
 		GameState.add_tendency("found", 1)
 	var shift_title := _side_shift_title(side_shift_job_id)
-	GameState.add_log(_tr("💼 %s 수입 %s (건강 %d→%d, 정신력 %+d)", "💼 %s income %s (Health %d→%d, Mental %+d)") % [
-		shift_title, GameState.format_money(float(earned)), health_before, GameState.health, -stress_delta], "job")
+	GameState.add_log(_tr(
+		"💼 %s에서 %s을 벌었다. 근무가 끝난 뒤 신발을 벗자 몸이 먼저 무거워졌다.",
+		"💼 %s paid %s. After the shift, the body felt the weight before the shoes were off."
+	) % [shift_title, GameState.format_money(float(earned))], "job")
 	var mood := ""
 	if str(shift_receipt.get("weather", "")) == "rain" \
 			and int(shift_receipt.get("surge_total", 0)) > 0:
@@ -15136,7 +15377,8 @@ func _ap_save_money():
 	var scene: String = _localized_pair(_sv)
 	GameState.add_log(_tr("💰 절약 — %s", "💰 Saving — %s") % scene, "event")
 	GameState.register_action_axis("money", "store", "save")
-	GameState.finalize_weekly_commitment("save", "", {"saved": saved})
+	GameState.finalize_weekly_commitment(
+		"save", "", _vignette_commitment_details(_sv, {"saved": saved}))
 	_show_vignette(LocaleManager.ui_context(
 		"ui.saving.activity_title", "절약", "Saving"), scene + (_tr("\n\n%s 절약했다.", "\n\nSaved %s.") % GameState.format_money(saved)),
 		{"money": saved, "stress": 2}, "#4a7a5a")
@@ -15822,15 +16064,19 @@ func _montage_record_card(weeks: int, asset_d: int, health_d: int, mental_d: int
 		_tr("총자산 변화", "Total asset change"),
 		"#00c896" if asset_d >= 0 else "#ff6b6b"))
 	grid.add_child(_month_summary_metric_card(
-		_tr("건강", "Health"),
-		"%s%d" % ["+" if health_d >= 0 else "", health_d],
-		_tr("몸 상태", "Body"),
-		"#00c896" if health_d >= 0 else "#ff6b6b"))
+		_tr("몸", "Body"),
+		_tr("숨이 전보다 편해졌다.", "Breathing came easier.") if health_d > 0 else (
+			_tr("숨이 전보다 빨리 찼다.", "Breath came sooner.") if health_d < 0 else
+			_tr("몸은 전과 비슷했다.", "The body felt much the same.")),
+		_tr("지나간 주의 흔적", "Trace of the weeks"),
+		"#00c896" if health_d >= 0 else "#ff6b6b", true))
 	grid.add_child(_month_summary_metric_card(
-		_tr("정신", "Mental"),
-		"%s%d" % ["+" if mental_d >= 0 else "", mental_d],
-		_tr("마음 상태", "Mind"),
-		"#00c896" if mental_d >= 0 else "#ff6b6b"))
+		_tr("밤", "Nights"),
+		_tr("잠이 조금 편하게 왔다.", "Sleep came more easily.") if mental_d > 0 else (
+			_tr("잠들기 전 생각이 오래 남았다.", "Thoughts lingered before sleep.") if mental_d < 0 else
+			_tr("잠은 평소와 비슷하게 왔다.", "Sleep came at about the usual time.")),
+		_tr("지나간 주의 흔적", "Trace of the weeks"),
+		"#00c896" if mental_d >= 0 else "#ff6b6b", true))
 
 	var notebook_line := _wrap_label(_notebook_ritual_line(), 12, "#9da4ad")
 	notebook_line.set_meta("moral_role", "choice_subtitle")
@@ -16105,7 +16351,8 @@ func _ap_contact_person(person_id: String):
 	var info: Dictionary = ImageRegistry.PERSON_INFO.get(person_id, {})
 	var pname: String = str(ImageRegistry.get_person_info(person_id).get("name", info.get("name", _tr("인연", "Connection"))))
 	var accent: String = str(info.get("color", "#db2777"))
-	var mental_before = GameState.mental
+	var affinity_before := GameState.get_cast_affinity(person_id)
+	var contact_channel := _contact_channel_id(person_id, affinity_before)
 	GameState.modify_stat("mental", 5)
 	GameState.modify_hidden_stat("stress", -3)
 	GameState.apply_cast_effect(person_id, {"affinity": 4})
@@ -16114,13 +16361,14 @@ func _ap_contact_person(person_id: String):
 	# 인물별 결과 텍스트 — 스토리 진행/관계 상태에 반응한다
 	var flavor := _contact_flavor(person_id, aff)
 
-	var msg = _tr("%s — 정신 %d→%d, 호감도 %d", "%s — Mental %d→%d, Affinity %d") % [pname, mental_before, GameState.mental, aff]
-	GameState.add_log(msg + " / " + flavor, "relationship")
-	turn_action_log.append("✓ " + msg)
+	var msg := _contact_result_text(pname, contact_channel)
+	GameState.add_log(msg + (" " + flavor if not flavor.is_empty() else ""), "relationship")
+	turn_action_log.append(_contact_action_log_text(pname, contact_channel))
 	GameState.register_action_axis(
 		"human", "store" if person_id == "daeun" else ("home" if person_id == "father" else "city"),
 		"contact", person_id)
-	GameState.finalize_weekly_commitment("contact", person_id)
+	GameState.finalize_weekly_commitment(
+		"contact", person_id, {"contact_channel": contact_channel})
 	GameState.stats_changed.emit()
 	_refresh_all()
 	# A-1: 모달 닫고 스토리 영역에 인물 리액션 표시
@@ -16731,7 +16979,8 @@ func _ap_vignette(title: String, pool: Array, color: String, place_id: String = 
 	turn_action_log.append("✓ " + title + " — " + flavor.substr(0, 22))
 	GameState.add_log(title + " — " + flavor, "event")
 	GameState.register_action_axis("human", place_id, action_id)   # 자기계발·휴식 = 자기 돌봄
-	GameState.finalize_weekly_commitment(action_id)
+	GameState.finalize_weekly_commitment(
+		action_id, "", _vignette_commitment_details(v))
 	GameState.stats_changed.emit()
 	_show_vignette(title, flavor, eff, color)
 
@@ -16745,7 +16994,6 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 	_apply_event_bg_path(vignette_bg)
 	_set_scene_ambience_for_background(vignette_bg, title, body)
 	event_title.text = title
-	var disp: Dictionary = _ap_result_display_effects(eff)
 	_type_text(_fmt(body), 50.0)
 
 	var commitment := GameState.get_weekly_commitment_for_turn(GameState.turn)
@@ -16754,22 +17002,10 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 		DEMO_CORE_LOOP_V2.is_active()
 		and DEMO_CORE_LOOP_V2.action_result_ready()
 	)
-	if core_loop_v2_result:
-		# The V2 calendar owns the consequence layer. Repeating the legacy AP
-		# ledger here turns a prose scene back into a management dashboard.
-		pass
-	elif scene_result:
+	if scene_result:
 		_append_scene_commitment_ledger(commitment)
-	else:
-		var result_card: Control = _ap_result_feedback_card(disp, color)
-		if result_card:
-			result_card.modulate.a = 0.0
-			result_card.scale = Vector2(0.992, 0.992)
-			choice_box.add_child(result_card)
-			var card_tw := create_tween()
-			card_tw.tween_interval(0.10)
-			card_tw.tween_property(result_card, "modulate:a", 1.0, 0.18).set_trans(Tween.TRANS_SINE)
-			card_tw.parallel().tween_property(result_card, "scale", Vector2.ONE, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	# Every vignette already owns an authored body. An effects dictionary cannot
+	# author a second call, handoff, seat, or night without inventing an event.
 
 	var btn_row := HBoxContainer.new()
 	btn_row.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -16817,243 +17053,15 @@ func _ap_result_display_effects(eff: Dictionary) -> Dictionary:
 func _result_effect_is_visible(key: String) -> bool:
 	return key not in ["tint", "route_orthodox", "route_unorthodox"]
 
-func _ap_result_feedback_card(disp: Dictionary, accent_hex: String) -> Control:
-	var card := PanelContainer.new()
-	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color("#090c11", 0.96)
-	style.border_color = _moral_signal_color(Color(accent_hex), 0.22)
-	style.set_border_width_all(1)
-	style.border_width_left = 4
-	style.set_corner_radius_all(7)
-	style.content_margin_left = 13
-	style.content_margin_right = 13
-	style.content_margin_top = 10
-	style.content_margin_bottom = 10
-	card.add_theme_stylebox_override("panel", style)
+func _ap_result_feedback_card(_disp: Dictionary, _accent_hex: String) -> Control:
+	# Effects remain state only. Result prose must come from the action that happened.
+	return null
 
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 8)
-	card.add_child(box)
-
-	var top := HBoxContainer.new()
-	top.add_theme_constant_override("separation", 10)
-	box.add_child(top)
-	var overline := _label(_tr("행동 결과", "ACTION RESULT"), 10, "#6f7888")
-	overline.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	top.add_child(overline)
-	var tone := _ap_result_tone_label(disp)
-	var tone_lbl := _label(str(tone["label"]), 11, str(tone["color"]))
-	tone_lbl.custom_minimum_size = Vector2(110, 0)
-	tone_lbl.clip_text = false
-	tone_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	if _font_bold:
-		tone_lbl.add_theme_font_override("font", _font_bold)
-	top.add_child(tone_lbl)
-
-	var grid := GridContainer.new()
-	grid.columns = 3
-	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	grid.add_theme_constant_override("h_separation", 8)
-	grid.add_theme_constant_override("v_separation", 8)
-	box.add_child(grid)
-
-	var added := 0
-	for key in _ap_result_effect_order(disp):
-		var val: int = int(disp.get(key, 0))
-		if val == 0:
-			continue
-		grid.add_child(_ap_result_effect_badge(key, val))
-		added += 1
-	if added == 0:
-		grid.add_child(_wrap_label(_tr("눈에 띄는 변화는 없었다.", "No visible stat change."), 12, "#8f98aa"))
-	return card
-
-func _ap_result_tone_label(disp: Dictionary) -> Dictionary:
-	var positive := 0
-	var negative := 0
-	for key in disp:
-		var val: int = int(disp[key])
-		if val > 0:
-			positive += 1
-		elif val < 0:
-			negative += 1
-	if positive > 0 and negative > 0:
-		return {"label": _tr("대가 있음", "TRADE-OFF"), "color": "#c8d0df"}
-	if negative > 0:
-		return {"label": _tr("손실", "COST"), "color": "#ff8a8a"}
-	if positive > 0:
-		return {"label": LocaleManager.ui_context(
-			"ui.result.gain_badge", "성장", "GAIN"), "color": "#7ee0b2"}
-	return {"label": _tr("기록", "LOG"), "color": "#8f98aa"}
-
-func _ap_result_effect_order(disp: Dictionary) -> Array[String]:
-	var order: Array[String] = [
-		"money", "health", "mental", "intelligence", "investment_skill",
-		"social_skill", "appearance", "luck", "reputation", "addiction_tendency"
-	]
-	for key in disp.keys():
-		var key_str: String = str(key)
-		if not order.has(key_str):
-			order.append(key_str)
-	return order
-
-func _ap_result_effect_badge(key: String, val: int) -> Control:
-	var badge := PanelContainer.new()
-	badge.custom_minimum_size = Vector2(0, 50)
-	badge.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var accent := _ap_result_effect_color(key, val)
-	var st := StyleBoxFlat.new()
-	st.bg_color = Color("#0d1017", 0.96)
-	st.border_color = _moral_signal_color(Color(accent), 0.18)
-	st.set_border_width_all(1)
-	st.set_corner_radius_all(6)
-	st.content_margin_left = 10
-	st.content_margin_right = 10
-	st.content_margin_top = 7
-	st.content_margin_bottom = 7
-	badge.add_theme_stylebox_override("panel", st)
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 2)
-	badge.add_child(box)
-	box.add_child(_label(str(_stat_name(key)).to_upper(), 10, "#6f7888"))
-	var value_text := _ap_result_effect_value(key, val)
-	var value_lbl := _label(value_text, 14, accent)
-	value_lbl.clip_text = false
-	if _font_bold:
-		value_lbl.add_theme_font_override("font", _font_bold)
-	box.add_child(value_lbl)
-	return badge
-
-func _ap_result_effect_color(key: String, val: int) -> String:
-	if key in ["addiction_tendency", "gambling_tendency"]:
-		return "#ff8a8a" if val > 0 else "#7ee0b2"
-	if val < 0:
-		return "#ff8a8a"
-	if key == "money":
-		return "#f0c56a"
-	if key == "reputation":
-		return "#b8c7d9"
-	return "#7ee0b2"
-
-func _ap_result_effect_value(key: String, val: int) -> String:
-	if key in ["money", "monthly_income"]:
-		if val >= 0:
-			return "+%s" % GameState.format_money(float(val))
-		return "-%s" % GameState.format_money(absf(float(val)))
-	var sign := "+" if val > 0 else ""
-	return "%s%d" % [sign, val]
-
-func _story_result_feedback_card(effects: Dictionary, selected_choice: Dictionary) -> Control:
-	var disp: Dictionary = _ap_result_display_effects(effects)
-	var cast_effects: Dictionary = selected_choice.get("cast_effects", {})
-	var visible_cast := _story_result_visible_cast_effects(cast_effects)
-	if disp.is_empty() and visible_cast.is_empty():
-		return null
-	var card := PanelContainer.new()
-	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color("#080a0f", 0.94)
-	style.border_color = _moral_signal_color(Color("#7f8896"), 0.18)
-	style.set_border_width_all(1)
-	style.border_width_left = 4
-	style.set_corner_radius_all(6)
-	style.content_margin_left = 13
-	style.content_margin_right = 13
-	style.content_margin_top = 10
-	style.content_margin_bottom = 10
-	card.add_theme_stylebox_override("panel", style)
-
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 8)
-	card.add_child(box)
-
-	var top := HBoxContainer.new()
-	top.add_theme_constant_override("separation", 10)
-	box.add_child(top)
-	var overline := _label(_tr("선택 기록", "CHOICE RESULT"), 10, "#6f7888")
-	overline.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	top.add_child(overline)
-	var tone := _ap_result_tone_label(disp)
-	var tone_lbl := _label(str(tone["label"]), 11, str(tone["color"]))
-	tone_lbl.custom_minimum_size = Vector2(110, 0)
-	tone_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	tone_lbl.clip_text = false
-	if _font_bold:
-		tone_lbl.add_theme_font_override("font", _font_bold)
-	top.add_child(tone_lbl)
-
-	var grid := GridContainer.new()
-	grid.columns = 3
-	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	grid.add_theme_constant_override("h_separation", 8)
-	grid.add_theme_constant_override("v_separation", 8)
-	box.add_child(grid)
-	var added := 0
-	for key in _ap_result_effect_order(disp):
-		var val: int = int(disp.get(key, 0))
-		if val == 0:
-			continue
-		grid.add_child(_ap_result_effect_badge(key, val))
-		added += 1
-		if added >= 6:
-			break
-	for cast_item in visible_cast:
-		grid.add_child(_story_result_cast_badge(str(cast_item["id"]), int(cast_item["affinity"])))
-		added += 1
-		if added >= 6:
-			break
-	if added == 0:
-		grid.add_child(_wrap_label(_tr("눈에 띄는 변화는 없었다.", "No visible stat change."), 12, "#8f98aa"))
-	return card
-
-func _story_result_visible_cast_effects(_cast_effects: Dictionary) -> Array:
-	# 관계는 수치 공략표가 아니라 이후의 말투·행동·장면으로 읽힌다.
-	return []
-
-func _story_result_cast_badge(pid: String, affinity_delta: int) -> Control:
-	var badge := PanelContainer.new()
-	badge.custom_minimum_size = Vector2(0, 50)
-	badge.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var accent := "#c8b6e6" if affinity_delta > 0 else "#ff8a8a"
-	var st := StyleBoxFlat.new()
-	st.bg_color = Color("#0d1017", 0.96)
-	st.border_color = _moral_signal_color(Color(accent), 0.16)
-	st.set_border_width_all(1)
-	st.set_corner_radius_all(6)
-	st.content_margin_left = 10
-	st.content_margin_right = 10
-	st.content_margin_top = 7
-	st.content_margin_bottom = 7
-	badge.add_theme_stylebox_override("panel", st)
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 2)
-	badge.add_child(box)
-	box.add_child(_label(_story_result_cast_name(pid).to_upper(), 10, "#6f7888"))
-	var sign := "+" if affinity_delta > 0 else ""
-	var value_lbl := _label(_tr("호감도 ", "Affinity ") + "%s%d" % [sign, affinity_delta], 14, accent)
-	value_lbl.clip_text = false
-	if _font_bold:
-		value_lbl.add_theme_font_override("font", _font_bold)
-	box.add_child(value_lbl)
-	return badge
-
-func _story_result_cast_name(pid: String) -> String:
-	match pid:
-		"father":
-			return _tr("아버지", "Father")
-		"jiyeon":
-			return _tr("한지연", "Han Jiyeon")
-		"daeun":
-			return _tr("김다은", "Kim Daeun")
-		"jaehyuk":
-			return _tr("최재혁", "Choi Jaehyuk")
-		"sangchul":
-			return _tr("임상철", "Im Sangchul")
-		"hyunsu":
-			return _tr("현수", "Hyunsu")
-		_:
-			return pid
+func _story_result_feedback_card(
+		_effects: Dictionary, _selected_choice: Dictionary) -> Control:
+	# Story choices already own authored result_text. A generic effect card would
+	# invent a second event (a call, a door, a handoff) that the manuscript never wrote.
+	return null
 
 func _get_bg_for_vignette(title: String, body: String, eff: Dictionary) -> String:
 	var lower_title := title.to_lower()
@@ -17174,59 +17182,36 @@ func _on_job_hunt_closed(stress_delta: int, quality: int) -> void:
 	var action_id := "resume" if is_resume else "interview"
 	var effects := {"stress": stress_delta}
 	var flag_updates: Dictionary = {}
-	var result_log := ""
+	var result_log := _job_hunt_quality_result(is_resume, quality)
 	if is_resume:
 		match quality:
 			3:
 				effects["intelligence"] = 2
 				flag_updates["resume_polished"] = true
-				result_log = _tr(
-					"자기소개서 작성 완료 (평가 A) — 지력 +2",
-					"Resume complete (Grade A) — Intelligence +2, resume complete")
 			2:
 				effects["intelligence"] = 1
 				flag_updates["resume_polished"] = true
-				result_log = _tr(
-					"자기소개서 작성 완료 (평가 B) — 지력 +1",
-					"Resume complete (Grade B) — Intelligence +1, resume complete")
-			1:
-				result_log = _tr(
-					"자기소개서 작성 완료 (평가 C) — 보완이 필요하다",
-					"Resume complete (Grade C) — needs polish")
-			0:
-				result_log = _tr(
-					"자기소개서 작성 실패 (평가 D)",
-					"Resume failed (Grade D)")
 	else:
 		match quality:
 			3:
 				effects["social_skill"] = 2
 				effects["luck"] = 1
 				flag_updates["interview_practiced"] = true
-				result_log = _tr(
-					"모의 면접 완료 (평가 A) — 사회성 +2, 운 +1",
-					"Mock interview complete (Grade A) — Social +2, Luck +1")
 			2:
 				effects["social_skill"] = 1
 				flag_updates["interview_practiced"] = true
-				result_log = _tr(
-					"모의 면접 완료 (평가 B) — 사회성 +1",
-					"Mock interview complete (Grade B) — Social +1")
 			1:
 				effects["luck"] = 1
-				result_log = _tr(
-					"모의 면접 완료 (평가 C) — 운 +1",
-					"Mock interview complete (Grade C) — Luck +1")
-			0:
-				result_log = _tr(
-					"모의 면접 실패 (평가 D)",
-					"Mock interview failed (Grade D)")
 
-	var mental_delta: int = -int(effects.get("stress", 0))
-	if mental_delta != 0:
+	var preparation_strain: int = int(effects.get("stress", 0))
+	if preparation_strain > 0:
 		result_log += _tr(
-			" — 정신력 %+d",
-			" — Mental %+d") % mental_delta
+			" 끝난 뒤에도 어깨가 오래 굳어 있었다.",
+			" His shoulders stayed tight long after it ended.")
+	elif preparation_strain < 0:
+		result_log += _tr(
+			" 마지막 답을 다시 말할 때는 숨이 조금 고르게 나왔다.",
+			" By the last answer, his breathing had steadied a little.")
 
 	if GameState.has_pending_weekly_commitment(GameState.turn):
 		var transaction := GameState.finalize_weekly_effect_action(
@@ -17267,8 +17252,8 @@ func _core_loop_v2_open_fresh_w1_send_confirmation() -> void:
 		"fresh_w1_application_send")
 	modal_layer.set_meta("fresh_w1_application_send", true)
 	modal_body.add_child(_wrap_label(_tr(
-		"고쳐 쓴 자기소개서 네 문항을 미래산업기술 지원서에 첨부했습니다. 보내기 전 마지막 확인입니다. 평가가 낮아도 지원서는 전송되며 결과는 그 선택에서 이어집니다.",
-		"The four revised cover-letter answers are attached to the Mirae Industrial Tech application. This is the final review. Even a weak draft will be sent, and the story will continue from that choice."),
+		"고쳐 쓴 자기소개서 네 문항을 미래산업기술 지원서에 첨부했습니다. 보내기 전 마지막 확인입니다. 문장이 매끄럽지 않아도 지원서는 지금 보이는 네 문항 그대로 회사에 전송됩니다.",
+		"The four revised cover-letter answers are attached to the Mirae Industrial Tech application. This is the final review. Even if the sentences are rough, these four answers will be sent to the company exactly as shown."),
 		14, "#d9dee5"))
 	var send_button := _primary_cta_button(_tr(
 		"지원서 보내기  ›", "Send Application  ›"))
@@ -17294,11 +17279,9 @@ func _core_loop_v2_send_fresh_w1_application(send_button: Button) -> void:
 		return
 	_fresh_w1_application_draft.clear()
 	GameState.add_tendency("career", 1)
-	var grade: String = str(["D", "C", "B", "A"][quality])
-	GameState.add_log(LocaleManager.ui_format(
-		"미래산업기술 지원서 전송 완료 (평가 %s)",
-		"Mirae Industrial Tech application sent (Grade %s)",
-		grade, grade), "event")
+	GameState.add_log(_tr(
+		"미래산업기술 지원서가 전송됐다. 네 문항이 접수 화면에 남았다.",
+		"The Mirae Industrial Tech application was sent. All four answers remained on the receipt screen."), "event")
 	GameState.stats_changed.emit()
 	_refresh_all()
 	# The result transaction becomes durable before interview Story ownership.
@@ -17339,11 +17322,14 @@ func _ap_deep_study():
 	if not GameState.spend_ap():
 		return
 	GameState.register_action_axis("money", "home", "study_read")
-	var int_before = GameState.intelligence
 	GameState.modify_stat("intelligence", 8)
 	AudioManager.play("stat_up")
-	turn_action_log.append(_tr("✓ 심화 독서 → 지력 %d→%d", "✓ Deep Reading → Intelligence %d→%d") % [int_before, GameState.intelligence])
-	_show_toast(_tr("심화 독서 — 지력 %d → %d", "Deep Reading — Intelligence %d → %d") % [int_before, GameState.intelligence], Color("#1d4ed8"))
+	turn_action_log.append(_tr(
+		"✓ 심화 독서 — 두 번째로 읽자 빠진 근거가 먼저 보였다",
+		"✓ Deep Reading — the missing reason appeared on the second reading"))
+	_show_toast(_tr(
+		"두 번째로 읽자 빠진 근거가 먼저 보였다.",
+		"On the second reading, the missing reason appeared first."), Color("#1d4ed8"))
 	_render_ap_actions()
 	_refresh_all()
 
@@ -17362,7 +17348,7 @@ func _ap_market_analysis():
 	var sep = HSeparator.new(); sep.add_theme_color_override("color", Color("#252535")); modal_body.add_child(sep)
 	modal_body.add_child(_label(_tr("현재 시장 상황", "Current Market"), 16, "#e8eaf0"))
 	var cycle_kr = {"bull": _tr("상승장", "Bull"), "bear": _tr("하락장", "Bear"), "neutral": _tr("횡보", "Flat")}.get(cycle, cycle)
-	modal_body.add_child(_wrap_label(_tr("시장 국면: %s  |  공포/탐욕: %d/100  |  폭락 위험도: %.0f%%", "Market phase: %s  |  Fear/Greed: %d/100  |  Crash risk: %.0f%%") % [cycle_kr, fg, crash_risk * 100.0], 14, "#f0b429"))
+	modal_body.add_child(_wrap_label(_tr("시장 국면: %s  |  공포/탐욕: %d/100", "Market phase: %s  |  Fear/Greed: %d/100") % [cycle_kr, fg], 14, "#f0b429"))
 	var sep2 = HSeparator.new(); sep2.add_theme_color_override("color", Color("#252535")); modal_body.add_child(sep2)
 	modal_body.add_child(_label(_tr("다음 달 예측", "Next Month Forecast"), 15, "#c9a227"))
 	modal_body.add_child(_wrap_label(forecast, 15, "#e8eaf0"))
@@ -17383,7 +17369,7 @@ func _open_leverage_investments():
 		_tr("2배 포지션", "2x Position"),
 		"leverage",
 		"#ef4444",
-		_tr("고위험 거래. 수익도 2배, 손실도 2배. 포지션 가치가 원금의 35% 이하로 하락하면 강제 청산됩니다.", "High-risk trade. Gains and losses both 2x. Position is force-liquidated if value drops below 35% of principal.")))
+		_tr("고위험 거래. 수익도 2배, 손실도 2배. 포지션 가치가 노출액의 35% 아래로 떨어지면 강제 청산됩니다.", "High-risk trade. Gains and losses both 2x. The position is force-liquidated if its value falls below 35% of exposure.")))
 	modal_body.add_child(_wrap_label(_tr("%s — 매수 실행 시 1 소비", "%s — buying costs 1") % _ap_status_text(),
 		12, "#00c896" if ap_now > 0 else "#ff4444"))
 	var sep = HSeparator.new(); sep.add_theme_color_override("color", Color("#252535")); modal_body.add_child(sep)
@@ -17453,8 +17439,6 @@ func _ap_vip_network():
 	if not GameState.spend_ap():
 		return
 	GameState.register_action_axis("money", "city", "vip_network")
-	var soc_before = GameState.social_skill
-	var rep_before = GameState.reputation
 	GameState.modify_stat("social_skill", 3)
 	GameState.modify_hidden_stat("reputation", 2)
 	var rel_names: Array = []
@@ -17463,10 +17447,23 @@ func _ap_vip_network():
 		rel["affection"] = clamp(aff_before + 15, 0, 100)
 		rel["trust"] = clamp(int(rel.get("trust", 30)) + 8, 0, 100)
 		rel_names.append(str(rel.get("name", "?")))
-	var rel_str = " · ".join(rel_names.slice(0, 3)) if not rel_names.is_empty() else _tr("인맥 없음", "No contacts")
-	GameState.add_log(_tr("VIP 인맥: 사회성 %d→%d, 평판 %d→%d (%s)", "VIP Networking: Social %d→%d, Reputation %d→%d (%s)") % [soc_before, GameState.social_skill, rep_before, GameState.reputation, rel_str], "relationship")
-	turn_action_log.append(_tr("✓ VIP 인맥 → 사회성 %d→%d, 평판+2", "✓ VIP Networking → Social %d→%d, Reputation +2") % [soc_before, GameState.social_skill])
-	_show_toast(_tr("VIP 인맥 — 사회성 %d→%d, 모든 관계 친밀도 +15", "VIP Networking — Social %d→%d, all relations affection +15") % [soc_before, GameState.social_skill], Color("#a855f7"))
+	if rel_names.is_empty():
+		GameState.add_log(_tr(
+			"VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+			"Among unfamiliar faces at the VIP gathering, I introduced myself first. As I left, one person asked about meeting again."
+		), "relationship")
+	else:
+		var rel_str := " · ".join(rel_names.slice(0, 3))
+		GameState.add_log(_tr(
+			"VIP 모임에서 먼저 이름을 불러 준 사람들이 생겼다. 그 자리에 있던 사람: %s.",
+			"At the VIP gathering, people began greeting me by name. People there: %s."
+		) % rel_str, "relationship")
+	turn_action_log.append(_tr(
+		"✓ VIP 모임 — 먼저 인사하고 자리를 내주는 사람이 늘었다.",
+		"✓ VIP gathering — more people greeted me first and made room."))
+	_show_toast(_tr(
+		"VIP 모임 — 다음 약속을 먼저 건네는 사람이 생겼다.",
+		"VIP gathering — someone offered the next invitation first."), Color("#a855f7"))
 	GameState.stats_changed.emit()
 	_render_ap_actions()
 	_refresh_all()
@@ -17839,9 +17836,23 @@ func _build_job_card(job: Dictionary) -> Control:
 	salary_lbl.custom_minimum_size = Vector2(130, 0)
 	header.add_child(salary_lbl)
 
-	var stress_val := int(job.get("stress_per_month", 5))
 	var req_str := _job_requirements_string(job)
-	var meta_line := _tr("정신력 -%d/월 · 조건: %s", "Mental -%d/mo · Req: %s") % [int(stress_val / 2), req_str]
+	var stress_val := int(job.get("stress_per_month", 5))
+	var strain_text := _tr(
+		"퇴근 뒤 저녁이 비교적 남는 자리",
+		"Work that usually leaves most of the evening intact")
+	if stress_val >= 7:
+		strain_text = _tr(
+			"퇴근 뒤에도 일이 오래 남는 자리",
+			"Work that often follows you past quitting time")
+	elif stress_val >= 4:
+		strain_text = _tr(
+			"퇴근 뒤 회복할 시간이 필요한 자리",
+			"Work that regularly takes recovery time after hours")
+	var meta_line := _tr("{strain} · 조건: {requirements}", "{strain} · Requirements: {requirements}").format({
+		"strain": strain_text,
+		"requirements": req_str,
+	})
 	box.add_child(_wrap_label(meta_line, 12, "#9aa4b8" if can_apply else "#64748b"))
 
 	var desc := str(job.get("description", "")).replace("\n", " ")
@@ -17987,7 +17998,8 @@ func _build_investment_market_board() -> Control:
 	if _font_bold:
 		cycle_lbl.add_theme_font_override("font", _font_bold)
 	regime.add_child(cycle_lbl)
-	regime.add_child(_label(_tr("크래시 리스크 %.0f%%", "Crash risk %.0f%%") % (crash_risk * 100.0), 12, "#a8b3c7"))
+	var crash_warning := _tr("급락 경보 켜짐", "Sharp-drop alert") if crash_risk > 0.08 else _tr("급락 경보 없음", "No sharp-drop alert")
+	regime.add_child(_label(crash_warning, 12, "#a8b3c7"))
 
 	var gauge := Control.new()
 	gauge.custom_minimum_size = Vector2(210, 68)
@@ -18225,8 +18237,8 @@ func _render_investment_assets_page() -> void:
 		"#5b9cf6"))
 	if GameState.mental < 70:
 		_invest_page_body.add_child(_wrap_label(
-			_tr("현재 정신력이 낮아 매수 수수료가 기본 0.3%보다 높습니다. 추가분은 최대 20%p이며, 매도 수수료는 0.5%입니다.",
-			"Low Mental currently raises the 0.3% buy fee. The surcharge is capped at 20 percentage points; the sell fee is 0.5%."),
+			_tr("컨디션이 나쁠수록 매수 비용이 기본 0.3%보다 높아질 수 있습니다. 매도 수수료는 0.5%입니다.",
+			"Poorer condition can raise the buy cost above the 0.3% base fee. The sell fee is 0.5%."),
 			12, "#f0b429"))
 	var visible_count := mini(2, rows.size())
 	var start_idx := clampi(_invest_pad_asset_idx - 1, 0, maxi(0, rows.size() - visible_count))
@@ -18319,7 +18331,7 @@ func _render_investment_bank_page() -> void:
 		_invest_page_body.add_child(lev_btn)
 	else:
 		_invest_page_body.add_child(_wrap_label(
-			_tr("레버리지 잠금 — 투자감각 30 필요 (현재 %d)", "Leverage locked — Investing 30 required (current %d)") % GameState.investment_skill,
+			_tr("2배 포지션 창구는 아직 주문을 받지 않습니다. 손실 경고와 빠져나올 가격이 먼저 보일 때까지 주문서를 더 읽어 보세요.", "The 2x-position desk is not accepting an order yet. Read more order tickets until the loss warning and exit price stand out first."),
 			12, "#64748b"))
 
 func _build_investment_empty_card(text: String, accent: String) -> Control:
@@ -18555,13 +18567,13 @@ func _open_first_investment_guide() -> void:
 		"#f0b429", "invest", _tr("변동", "RISK"), 64.0)
 	_cat_modal_status_card(
 		_tr("거래 수수료", "Trading Fee"),
-		_tr("매수는 기본 0.3%이며 정신력 70 미만이면 최대 20%p가 추가됩니다. 매도는 0.5%가 차감됩니다.",
-		"Buys cost 0.3%, plus up to 20 percentage points when Mental is below 70. Sells cost 0.5%."),
+		_tr("매수 기본 수수료는 0.3%입니다. 컨디션이 나쁠수록 매수 비용이 높아질 수 있고, 매도 수수료는 0.5%입니다.",
+		"The base buy fee is 0.3%. Poorer condition can raise the buy cost, and the sell fee is 0.5%."),
 		"#a7b0c2", "money", _tr("비용", "COST"), 64.0)
 	_cat_modal_status_card(
 		_tr("레버리지", "Leverage"),
-		_tr("수익·손실 모두 2배입니다. 가치가 원금의 35% 아래면 강제 청산됩니다.",
-		"Gains and losses are 2x. Forced liquidation below 35% of principal."),
+		_tr("수익·손실 모두 2배입니다. 포지션 가치가 노출액의 35% 아래로 떨어지면 강제 청산됩니다.",
+		"Gains and losses are 2x. The position is force-liquidated if its value falls below 35% of exposure."),
 		"#ef7070", "leverage", LocaleManager.ui_context(
 			"ui.investment.warning_badge", "주의", "WARN"), 64.0)
 	var open_btn := _icon_button(_tr("투자 데스크 열기", "Open Investment Desk"), "invest", "#183a2b")
@@ -19562,10 +19574,6 @@ func _show_demo_ending():
 		story_lines.append(_tr("한지연 씨를 우연히 만났다. 다른 세계의 사람이 자꾸 머릿속에 남았다.", "You met Jiyeon by chance. A woman from another world stayed on your mind."))
 	elif f.get("arc_sangchul_met_seen", false):
 		story_lines.append(_tr("임상철이라는 사람을 만났다. 그가 보는 세계가 조금 보이기 시작했다.", "You met Im Sangchul. His world began to come into focus."))
-	if GameState.current_job.is_empty():
-		story_lines.append(_tr("직장은 아직 없다. 그게 지금 가장 큰 과제다.", "Still no job. That remains the immediate problem."))
-	else:
-		story_lines.append(_tr("현재 직업: %s.", "Current work: %s.") % GameState.get_job_display_name())
 	if story_lines.is_empty():
 		story_lines.append(_tr("6개월 동안 선택한 것들이 아직 이름 없는 기록으로 남았다.", "Six months of choices remain in a record without a name."))
 
@@ -19604,7 +19612,13 @@ func _show_demo_ending():
 	var metrics := HBoxContainer.new()
 	metrics.add_theme_constant_override("separation", 8)
 	modal_body.add_child(metrics)
-	metrics.add_child(_demo_record_metric(_tr("현재", "Current"), GameState.get_job_display_name() if not GameState.current_job.is_empty() else _tr("무직", "Unemployed"), _tr("생활 기반", "Life base"), "#9aa4b8"))
+	var job_metric := _demo_record_metric(
+		_tr("현재", "Current"),
+		GameState.get_job_display_name() if not GameState.current_job.is_empty() else _tr("무직", "Unemployed"),
+		_tr("생활 기반", "Life base"),
+		"#9aa4b8")
+	job_metric.set_meta("demo_ending_job_metric", true)
+	metrics.add_child(job_metric)
 	metrics.add_child(_demo_record_metric(_tr("총자산", "Assets"), GameState.format_money(total_assets), _tr("6개월 결과", "6-month result"), asset_color))
 	metrics.add_child(_demo_record_metric(_tr("남은 거리", "Distance"), GameState.format_money(maxf(0.0, 3_000_000_000.0 - total_assets)), _tr("강남까지", "To Gangnam"), "#aeb8c8"))
 
@@ -19614,6 +19628,7 @@ func _show_demo_ending():
 	var echo := PanelContainer.new()
 	echo.set_meta("moral_role", "info_card")
 	echo.set_meta("moral_accent", "#9aa4b8")
+	echo.set_meta("demo_ending_story_echo", true)
 	var echo_style := StyleBoxFlat.new()
 	echo_style.bg_color = Color("#0b0d12", 0.94)
 	echo_style.border_color = Color("#404752", 0.78)
@@ -20101,13 +20116,11 @@ func _ending_build_ledger_page() -> void:
 
 func _ending_build_record_page() -> void:
 	var page := _ending_page_root("ending_record")
-	var grade := str(_ending_data.get("grade", "?"))
 	_ending_add_page_heading(
-		page, _tr("기록 II · 등급 %s", "RECORD II · GRADE %s") % grade,
+		page, _tr("기록 II · 마지막 장", "RECORD II · LAST PAGE"),
 		_fmt(str(_ending_data.get("title", _ending_id))),
 		_ending_percentile_line())
 	_ending_stat_grid(page)
-	_ending_route_bar(page)
 	_ending_milestones(page)
 	_ending_playstyle(page)
 	_ending_add_navigation(page, _tr("마지막 기록", "Final Record"), _ending_show_page.bind(5), true)
@@ -20436,32 +20449,10 @@ func _add_ending_mood_card(parent: Control, ending: Dictionary, ending_id: Strin
 	title_col.add_child(title_lbl)
 	title_col.add_child(_wrap_label(_ending_card_signal_line(ending_id, str(ending.get("grade", "?"))), 13, _moral_hex(_moral_text_accent(Color("#aeb7c2"), 0.03))))
 
-	var grade_box := PanelContainer.new()
-	grade_box.custom_minimum_size = Vector2(128, 82)
-	var grade_st := StyleBoxFlat.new()
-	grade_st.bg_color = Color(1, 1, 1, 0.045).lerp(Color(0, 0, 0, 0.16), black)
-	grade_st.border_color = accent
-	grade_st.set_border_width_all(1)
-	grade_st.set_corner_radius_all(6)
-	grade_st.content_margin_left = 12
-	grade_st.content_margin_right = 12
-	grade_st.content_margin_top = 10
-	grade_st.content_margin_bottom = 10
-	grade_box.add_theme_stylebox_override("panel", grade_st)
-	header.add_child(grade_box)
-	var grade_col := VBoxContainer.new()
-	grade_col.alignment = BoxContainer.ALIGNMENT_CENTER
-	grade_box.add_child(grade_col)
-	grade_col.add_child(_label(_tr("등급", "GRADE"), 10, "#7f8896"))
-	var grade_lbl: Label = _label(str(ending.get("grade", "?")), 28, _moral_hex(accent))
-	grade_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	grade_col.add_child(grade_lbl)
-
 	var meta_row := HBoxContainer.new()
 	meta_row.add_theme_constant_override("separation", 8)
 	box.add_child(meta_row)
 	_add_ending_card_chip(meta_row, _tr("마지막 거처", "Last Home"), _ending_last_home_label(), "#cbd5df")
-	_add_ending_card_chip(meta_row, _tr("경로", "Path"), _ending_card_route_label(), "#aeb7c2")
 	_add_ending_card_chip(meta_row, _tr("최종 자산", "Final Assets"), GameState.format_money(GameState.get_total_asset_value()), "#d9ffe8" if stage <= -1 else "#cbd5df")
 
 	var bars := HBoxContainer.new()
@@ -20470,8 +20461,6 @@ func _add_ending_mood_card(parent: Control, ending: Dictionary, ending_id: Strin
 	box.add_child(bars)
 	var goal_fill := clampf(GameState.get_total_asset_value() / GameState.GANGNAM_TARGET, 0.02, 1.0)
 	_add_ending_card_bar(bars, goal_fill, accent)
-	_add_ending_card_bar(bars, clampf(float(GameState.health) / 100.0, 0.0, 1.0), Color("#7d8794"))
-	_add_ending_card_bar(bars, clampf(float(GameState.mental) / 100.0, 0.0, 1.0), Color("#9aa3ad"))
 
 func _add_ending_card_scene(parent: Control, ending_id: String, accent: Color, black: float, white: float) -> void:
 	var scene := Panel.new()
@@ -20640,13 +20629,6 @@ func _ending_last_home_label() -> String:
 		_:
 			return str(GameState.housing)
 
-func _ending_card_route_label() -> String:
-	var raw := GameState.get_route_identity()
-	raw = raw.replace("📍 ", "").replace("🏆 ", "").replace("📘 ", "").replace("⚖️ ", "").replace("🌊 ", "")
-	if raw == _tr("방향 없음", "No Direction"):
-		return _tr("아직 고정되지 않은 길", "Unfixed path")
-	return raw
-
 func _ending_plain_text(text: String) -> String:
 	var cleaned := text
 	for token in ["👨‍🦳", "👩", "💜", "☕", "🏢", "📱", "🎓", "📖", "💡", "🔍", "📈", "✨", "💼", "🏠", "🏙️", "🚀", "🎬", "🏛️", "📊", "💰", "🏆", "❤️", "🧠", "⭐", "🎂", "📅"]:
@@ -20746,12 +20728,28 @@ func _build_time_ledger_card(record_title: String, grade: String, is_demo: bool)
 	var accent: Color = _moral_gray_accent(Color("#dce5ee"), palette, 0.05)
 	var money_color: Color = _moral_gray_accent(Color("#858d98"), palette, 0.02)
 	var people_color: Color = _moral_gray_accent(Color("#dce5ee"), palette, 0.04)
-	var money_weeks: int = GameState.money_weeks_total
-	var human_weeks: int = GameState.human_weeks_total
-	var record_turn: int = mini(int(GameState.turn), GameState.DEMO_TURN_LIMIT) if is_demo else int(GameState.turn)
+	# 데모 결산은 W24 화면에서 닫히지만, 본편 결산은 마지막 주를 정산한 뒤
+	# 달력이 다음 turn으로 넘어가며 열린다. 따라서 본편은 완료한 주(turn-1)를 쓴다.
+	var record_turn: int = mini(int(GameState.turn), GameState.DEMO_TURN_LIMIT) \
+		if is_demo else mini(maxi(0, int(GameState.turn) - 1), GameState.RUN_TURN_LIMIT)
+	var money_only_weeks: int = GameState.money_only_weeks_total
+	var human_only_weeks: int = GameState.human_only_weeks_total
+	var both_weeks: int = GameState.both_axes_weeks_total
+	var neither_weeks: int = GameState.unmarked_weeks_total
+	var classified_weeks: int = money_only_weeks + human_only_weeks + both_weeks + neither_weeks
+	var unclassified_weeks: int = maxi(0, record_turn - classified_weeks)
 
 	var card := PanelContainer.new()
 	card.set_meta("qa_surface", "time_ledger")
+	card.set_meta("week_classification_counts", {
+		"money_only": money_only_weeks,
+		"human_only": human_only_weeks,
+		"both": both_weeks,
+		"neither": neither_weeks,
+		"unclassified": unclassified_weeks,
+	})
+	card.set_meta("week_classification_total", classified_weeks)
+	card.set_meta("week_classification_expected", record_turn)
 	card.set_meta("moral_role", "info_card")
 	card.set_meta("moral_accent", _moral_hex(accent))
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -20794,7 +20792,7 @@ func _build_time_ledger_card(record_title: String, grade: String, is_demo: bool)
 	elif grade.is_empty():
 		stamp_text = _tr("5년의 기록", "FIVE-YEAR RECORD")
 	else:
-		stamp_text = _tr("최종 기록 · 등급 %s", "FINAL RECORD · GRADE %s") % grade
+		stamp_text = _tr("최종 기록", "FINAL RECORD")
 	var stamp := _label(stamp_text, 11, _moral_hex(accent))
 	stamp.custom_minimum_size = Vector2(210, 0)
 	stamp.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
@@ -20825,17 +20823,24 @@ func _build_time_ledger_card(record_title: String, grade: String, is_demo: bool)
 	body.add_child(time_col)
 	time_col.add_child(_label(_tr("선택의 흔적", "CHOICE PATTERN"), 10, "#707987"))
 	var time_metrics := HBoxContainer.new()
-	time_metrics.add_theme_constant_override("separation", 22)
+	time_metrics.add_theme_constant_override("separation", 10)
 	time_col.add_child(time_metrics)
 	time_metrics.add_child(_time_ledger_metric(
-		_tr("돈을 택한 주", "Weeks choosing money"), str(money_weeks), _tr("주", "weeks"), money_color))
+		_tr("돈만", "Money only"), str(money_only_weeks), _tr("주", "weeks"), money_color))
 	time_metrics.add_child(_time_ledger_metric(
-		_tr("사람을 택한 주", "Weeks choosing people"), str(human_weeks), _tr("주", "weeks"), people_color))
-	time_col.add_child(_time_ledger_dual_bars(
-		money_weeks, human_weeks, record_turn, money_color, people_color))
-	time_col.add_child(_label(
-		_tr("같은 주에 두 흔적이 함께 남을 수 있다.", "A week can leave both marks."),
-		9, "#68717e"))
+		_tr("사람만", "People only"), str(human_only_weeks), _tr("주", "weeks"), people_color))
+	time_metrics.add_child(_time_ledger_metric(
+		_tr("둘 다", "Both"), str(both_weeks), _tr("주", "weeks"), accent))
+	time_metrics.add_child(_time_ledger_metric(
+		_tr("어느 쪽도 아님", "Neither"), str(neither_weeks), _tr("주", "weeks"), Color("#737b87")))
+	if unclassified_weeks > 0:
+		time_col.add_child(_label(
+			_tr("이전 저장의 {n}주는 어느 칸이었는지 되살릴 수 없다.", "An older save left {n} weeks that cannot be classified.").format({"n": unclassified_weeks}),
+			9, "#68717e"))
+	else:
+		time_col.add_child(_label(
+			_tr("네 칸을 합치면 살아온 주 수가 된다.", "Together, the four columns equal the weeks lived."),
+			9, "#68717e"))
 
 	var divider := VSeparator.new()
 	divider.add_theme_color_override("color", Color(accent.r, accent.g, accent.b, 0.20))
@@ -21030,7 +21035,7 @@ func _ending_run_summary(ending_id: String) -> String:
 		"early_retirement":
 			return _tr("충분히 벌었다. 더 이상 돈을 위해 아침을 팔지 않기로 했다.", "He earned enough. He decided to stop selling his mornings for money.")
 		"balanced_life":
-			return _tr("정석도 비정석도 아닌 나만의 균형 — 그게 가장 어려운 길이었다", "Neither orthodox nor unorthodox, but my own balance — the hardest path of all.")
+			return _tr("돈만 세지도, 사람만 세지도 않은 생활을 끝까지 만들었다.", "He built a life that made room for both money and people.")
 		"orthodox_hollow":
 			return _tr("성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.", "He succeeded. But if asked why, he has no answer.")
 		"late_call":
@@ -21232,12 +21237,8 @@ func _run_card_text(ending_id: String) -> String:
 		"villa": _tr("빌라 전세", "villa (jeonse)"), "apartment": _tr("아파트 전세", "apartment (jeonse)")
 	}
 	var housing_name = housing_labels.get(GameState.housing, GameState.housing)
-	var o = GameState.route_orthodox
-	var u = GameState.route_unorthodox
-	var route_id = GameState.get_route_identity()
 	var ending = EndingSystem.get_ending(ending_id)
 	var ending_title = str(ending.get("title", ending_id))
-	var ending_grade = str(ending.get("grade", "?"))
 	var total_events = DataRegistry.events.size()
 	var seen = GameState.events_seen
 	var lines: PackedStringArray = PackedStringArray()
@@ -21246,11 +21247,10 @@ func _run_card_text(ending_id: String) -> String:
 	lines.append(_tr("플레이어: %s  |  33세 → %d세  |  %d개월", "Player: %s  |  age 33 → %d  |  %d months") % [GameState.player_name, GameState.age, (GameState.age - 33) * 12 + GameState.month])
 	lines.append(_tr("최종 자산: %s  (목표 달성률 %d%%)", "Final Assets: %s  (Goal %d%%)") % [GameState.format_money(total), pct])
 	lines.append(_tr("마지막 거처: %s", "Last Home: %s") % housing_name)
-	lines.append(_tr("경로: 정석 %d회 / 비정석 %d회  →  %s", "Path: Orthodox %d / Unorthodox %d  →  %s") % [o, u, route_id])
 	lines.append(_tr("이번 런 이벤트: %d / %d개", "Events This Run: %d / %d") % [seen, total_events])
 	if GameState.difficulty != _tr("현실", "현실"):
 		lines.append(_tr("난이도: %s", "Difficulty: %s") % str(GameState.get_difficulty_data().get("name", GameState.difficulty)))
-	lines.append(_tr("엔딩: \"%s\"  (등급 %s)", "Ending: \"%s\"  (Grade %s)") % [ending_title, ending_grade])
+	lines.append(_tr("엔딩: \"%s\"", "Ending: \"%s\"") % ending_title)
 	lines.append("━━━━━━━━━━━━━━━━━━")
 	lines.append(_tr("#강남드림 #GangnamDream", "#GangnamDream"))
 	return "\n".join(lines)
@@ -21280,13 +21280,6 @@ func _ending_next_run_hints(parent: Control):
 
 	hints.append(_tr("이번 런에서 못 본 이벤트가 %d개 더 있습니다.", "There are %d more events you didn't see this run.") % (total_events - seen))
 
-	var o = GameState.route_orthodox
-	var u = GameState.route_unorthodox
-	if o > u + 10:
-		hints.append(_tr("비정석 루트를 선택했다면 어떤 강남이었을까요?", "What kind of Gangnam would it have been on the unorthodox route?"))
-	elif u > o + 10:
-		hints.append(_tr("정석 루트로만 살았다면 어떤 결말이 됐을까요?", "What ending would you get living only the orthodox route?"))
-
 	if not f.get("arc_jiyeon_crash_seen", false):
 		hints.append(_tr("이번 런에서 한지연을 만나지 못했습니다.", "You didn't meet Jiyeon this run."))
 	elif not f.get("arc_jiyeon_truth_seen", false):
@@ -21296,11 +21289,11 @@ func _ending_next_run_hints(parent: Control):
 		hints.append(_tr("아버지 아크를 아직 시작하지 않았습니다.", "You haven't started Father's arc yet."))
 
 	if not f.get("startup_launched", false) and not f.get("creator_started", false):
-		hints.append(_tr("창업·크리에이터 루트, 둘 다 아직 가보지 않으셨네요.", "You haven't tried either the startup or creator route yet."))
+		hints.append(_tr("창업과 크리에이터 이야기, 둘 다 아직 만나지 못했습니다.", "You have not seen either the startup or creator story yet."))
 	elif not f.get("startup_launched", false):
-		hints.append(_tr("창업 루트 — 아이디어 하나로 엑싯까지, 아직 미탐험입니다.", "The startup route — one idea to an exit — still unexplored."))
+		hints.append(_tr("창업 이야기 — 아이디어 하나로 엑싯까지, 아직 만나지 못했습니다.", "The startup story—from one idea to an exit—remains unseen."))
 	elif not f.get("creator_started", false):
-		hints.append(_tr("크리에이터 루트 — 구독자 100만의 이야기, 아직 미탐험입니다.", "The creator route — the one-million-subscriber story — still unexplored."))
+		hints.append(_tr("크리에이터 이야기 — 구독자 100만까지, 아직 만나지 못했습니다.", "The creator story—to one million subscribers—remains unseen."))
 
 	if total < 1_000_000_000.0 and GameState.investment_skill < 50:
 		hints.append(_tr("투자 기술을 먼저 키웠다면 결과가 달랐을까요?", "Would the result differ if you grew your investing skill first?"))
@@ -21346,23 +21339,35 @@ func _ending_percentile_line() -> String:
 
 func _ending_stat_grid(parent: Control):
 	var total = GameState.get_total_asset_value()
-	var score = EndingSystem.get_score()
 	var reward_col := _moral_hex(_moral_text_accent(Color("#f0b429"), 0.05))
 	var good_col := _moral_hex(_moral_text_accent(Color("#34d399"), 0.04))
-	var mental_col := _moral_hex(_moral_text_accent(Color("#c9a227"), 0.03))
+	var condition_note := _tr("5년 끝의 흔적", "TRACE AT YEAR FIVE")
+	var body_metric := _core_loop_v2_condition_metric(
+		"body", GameState.health, condition_note)
+	var nights_metric := _core_loop_v2_condition_metric(
+		"nights", GameState.mental, condition_note)
+	var job_value := (
+		GameState.get_job_display_name()
+		if not GameState.current_job.is_empty() else
+		_tr("다음 일을 찾는 중", "Between jobs"))
 	var stats = [
 		[_tr("최종 자산", "Final Assets"), GameState.format_money(total), reward_col],
-		[_tr("점수", "Score"), _tr("%d점", "%d pts") % score, good_col],
-		[_tr("건강", "Health"), "%d / 100" % GameState.health,
-			"#ef4444" if GameState.health <= 45 else good_col],
-		[_tr("정신력", "Mental"), "%d / 100" % GameState.mental,
-			"#ef4444" if GameState.mental <= 45 else mental_col],
-		[_tr("명성", "Reputation"), "%d" % GameState.reputation, reward_col],
+		[_tr("마지막 일", "Final Work"), job_value, good_col],
+		[_tr("살던 곳", "Home"),
+			GameState.get_housing_display_name(GameState.housing), "#aab3c5"],
+		[str(body_metric.get("label", "")),
+			str(body_metric.get("value", "")),
+			str(body_metric.get("accent", "#91a6a2"))],
+		[str(nights_metric.get("label", "")),
+			str(nights_metric.get("value", "")),
+			str(nights_metric.get("accent", "#9aa1b3"))],
 		[_tr("최종 나이", "Final Age"), _tr("%d세", "age %d") % GameState.age, "#aab3c5"],
-		[_tr("총 턴", "Total Turns"), _tr("%d턴", "%d turns") % GameState.turn, "#5a6075"],
+		[_tr("살아낸 시간", "Time Lived"),
+			_tr("%d주", "%d weeks") % GameState.turn, "#5a6075"],
 	]
 	var grid = GridContainer.new()
 	grid.columns = 2
+	grid.set_meta("ending_record_facts", true)
 	grid.add_theme_constant_override("h_separation", 16)
 	grid.add_theme_constant_override("v_separation", 5)
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -21383,66 +21388,12 @@ func _ending_stat_grid(parent: Control):
 		value_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		cell.add_child(value_lbl)
 
-func _ending_route_bar(parent: Control):
-	var o = GameState.route_orthodox
-	var u = GameState.route_unorthodox
-	if o + u == 0:
-		return
-	var route_sep = HSeparator.new()
-	route_sep.add_theme_color_override("color", Color("#252535"))
-	parent.add_child(route_sep)
-	var info_row = HBoxContainer.new()
-	info_row.add_theme_constant_override("separation", 8)
-	parent.add_child(info_row)
-	var id_lbl = _label(_ending_card_route_label(), 13, _moral_hex(_moral_text_accent(Color("#c8a060"), 0.04)))
-	id_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	info_row.add_child(id_lbl)
-	var orthodox_label := _label(
-			_tr("정석 %d", "Orthodox %d") % o, 11,
-			_moral_hex(_moral_text_accent(Color("#c3cbd5"), 0.03)))
-	orthodox_label.custom_minimum_size = Vector2(104, 0)
-	orthodox_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	orthodox_label.clip_text = false
-	info_row.add_child(orthodox_label)
-	info_row.add_child(_label(" / ", 11, "#727b88"))
-	var unorthodox_label := _label(
-			_tr("비정석 %d", "Unorthodox %d") % u, 11,
-			_moral_hex(_moral_text_accent(Color("#aeb7c2"), 0.02)))
-	unorthodox_label.custom_minimum_size = Vector2(118, 0)
-	unorthodox_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	unorthodox_label.clip_text = false
-	info_row.add_child(unorthodox_label)
-	var bar_bg = PanelContainer.new()
-	bar_bg.custom_minimum_size = Vector2(0, 10)
-	bar_bg.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var bar_row = HBoxContainer.new()
-	bar_row.add_theme_constant_override("separation", 0)
-	bar_bg.add_child(bar_row)
-	parent.add_child(bar_bg)
-	var o_ratio = float(o) / float(o + u)
-	var o_bar = ColorRect.new()
-	o_bar.color = _moral_gray_accent(Color("#3a5a9a"), _moral_ui_palette(), 0.03)
-	o_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	o_bar.size_flags_stretch_ratio = o_ratio
-	bar_row.add_child(o_bar)
-	var u_bar = ColorRect.new()
-	u_bar.color = _moral_gray_accent(Color("#8a4a1a"), _moral_ui_palette())
-	u_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	u_bar.size_flags_stretch_ratio = 1.0 - o_ratio
-	bar_row.add_child(u_bar)
-
 func _ending_milestones(parent: Control):
 	var f = GameState.flags
 	var milestones: Array = []
 	var job_name: String = GameState.get_job_display_name() if not GameState.current_job.is_empty() else ""
-	var job_tier: int = int(GameState.current_job.get("tier", 0))
 	if not job_name.is_empty():
-		if job_tier >= 4:
-			milestones.append(_tr("최고 티어 직장 달성: %s", "Top-tier job reached: %s") % job_name)
-		elif job_tier >= 3:
-			milestones.append(_tr("중견 직장인: %s", "Mid-career professional: %s") % job_name)
-		else:
-			milestones.append(_tr("직장: %s", "Job: %s") % job_name)
+		milestones.append(_tr("마지막 일: %s", "Final work: %s") % job_name)
 	var housing_labels = {
 		"oneroom": _tr("원룸 이사 성공", "Moved into a one-room"),
 		"apartment": _tr("아파트 입성", "Entered an apartment"),
@@ -21459,9 +21410,13 @@ func _ending_milestones(parent: Control):
 	elif f.get("creator_started", false):
 		milestones.append(_tr("크리에이터 활동 시작", "Started creator activity"))
 	if GameState.investment_skill >= 50:
-		milestones.append(_tr("투자 고수 레벨 달성", "Reached expert investor level"))
+		milestones.append(_tr(
+			"숫자를 보고도 거래를 서두르지 않았다",
+			"Read the numbers without rushing into a trade"))
 	elif GameState.investment_skill >= 25:
-		milestones.append(_tr("투자 중수 달성", "Reached intermediate investor level"))
+		milestones.append(_tr(
+			"가격표 너머의 위험을 살피기 시작했다",
+			"Began looking past the price tag to the risk"))
 	if f.get("political_candidate", false):
 		milestones.append(_tr("정계 진출", "Entered politics"))
 	if milestones.is_empty():
@@ -21474,12 +21429,12 @@ func _ending_milestones(parent: Control):
 		parent.add_child(_wrap_label("  · %s" % m, 12, "#7a8496"))
 
 func _ending_playstyle(parent: Control):
-	# 플레이 스타일 한 줄 진단 (분석요소) — "어떻게 살았는가"의 거울
+	# Meta archive progress and factual asset history remain visible here. Hidden
+	# route/tendency/stat classifiers never become a verdict on the player's life.
 	var ps_sep = HSeparator.new()
 	ps_sep.add_theme_color_override("color", Color("#252535"))
 	parent.add_child(ps_sep)
-	parent.add_child(_label(_tr("플레이 스타일 진단", "Playstyle Diagnosis"), 12, "#5a6075"))
-	parent.add_child(_wrap_label("  %s" % GameState.get_playstyle_label(), 14, _moral_hex(_moral_text_accent(Color("#c8a060"), 0.04))))
+	parent.add_child(_label(_tr("다시 볼 기록", "Records to Revisit"), 12, "#5a6075"))
 	# 엔딩 도감 진행도 — 컴플리션 후크
 	var coll: Dictionary = MetaProgression.get_ending_collection_progress()
 	var coll_found: int = int(coll.get("found", 0))
@@ -21573,15 +21528,20 @@ func _show_month_summary(snap: Dictionary):
 	if not snap["actions"].is_empty():
 		modal_body.add_child(_month_summary_action_card(snap["actions"]))
 
-	# ── 스탯 변화 (한 줄) ─────────────────────────
-	var stat_parts: Array = []
-	var stat_map = [["health", _tr("건강", "Health")], ["mental", _tr("정신력", "Mental")]]
-	for pair in stat_map:
-		if GameState.get(pair[0]) != int(snap.get(pair[0] + "_before", GameState.get(pair[0]))):
-			var d = GameState.get(pair[0]) - int(snap[pair[0] + "_before"])
-			stat_parts.append("%s %s%d" % [pair[1], "+" if d > 0 else "", d])
-	if not stat_parts.is_empty():
-		modal_body.add_child(_wrap_label(_tr("스탯  ", "Stats  ") + "  ".join(stat_parts), 12, "#5a6075"))
+	# 이 달의 몸과 마음은 부호 숫자가 아니라 실제로 느껴지는 변화로 남긴다.
+	var month_observations: Array[String] = []
+	var health_before: int = int(snap.get("health_before", GameState.health))
+	var mental_before: int = int(snap.get("mental_before", GameState.mental))
+	if GameState.health < health_before:
+		month_observations.append(_tr("계단을 오를 때 숨이 지난달보다 먼저 찼다.", "On the stairs, his breath ran short sooner than last month."))
+	elif GameState.health > health_before:
+		month_observations.append(_tr("아침에 일어날 때 몸이 지난달보다 덜 굳어 있었다.", "In the morning, his body felt less stiff than it had last month."))
+	if GameState.mental < mental_before:
+		month_observations.append(_tr("불을 끈 뒤에도 잠이 바로 오지 않는 밤이 늘었다.", "More nights passed with sleep refusing to come after the light went out."))
+	elif GameState.mental > mental_before:
+		month_observations.append(_tr("방 안의 작은 소리들이 다시 하나씩 들리기 시작했다.", "The room's smaller sounds began returning one by one."))
+	if not month_observations.is_empty():
+		modal_body.add_child(_wrap_label(" ".join(month_observations), 12, "#5a6075"))
 
 	# ── 이 달의 축 배분 (몽타주 프리뷰) — 돈에 몇 주, 사람에게 몇 주 ─────
 	var mw: int = GameState.last_month_money_weeks
@@ -21605,7 +21565,7 @@ func _show_month_summary(snap: Dictionary):
 		warn_div.add_theme_color_override("color", Color("#cc0000"))
 		modal_body.add_child(warn_div)
 		modal_body.add_child(_wrap_label(
-			_tr("중독 위험 단계 — 매달 정신력 -2가 추가로 빠지고 있습니다. 도박을 즉시 중단하세요.", "Addiction danger level — you're losing an extra -2 Mental each month. Stop gambling immediately."), 13, "#ff4444"))
+			_tr("이번 달에는 잠과 식사가 눈에 띄게 무너졌다. 도박을 즉시 중단하세요.", "This month, sleep and meals visibly began to fall apart. Stop gambling now."), 13, "#ff4444"))
 		var warn_div2 = HSeparator.new()
 		warn_div2.add_theme_color_override("color", Color("#cc0000"))
 		modal_body.add_child(warn_div2)
@@ -21729,15 +21689,22 @@ func _month_summary_result_card(grade: Dictionary, net: float, net_color: String
 	result_col.add_child(remaining_hint)
 	return card
 
-func _month_summary_metric_card(title: String, value: String, hint: String, accent: String) -> Control:
+func _month_summary_metric_card(
+		title: String, value: String, hint: String, accent: String,
+		wrap_value: bool = false) -> Control:
 	var card := _info_card(accent, "#090c11")
-	card.custom_minimum_size = Vector2(0, 68)
+	card.custom_minimum_size = Vector2(0, 88 if wrap_value else 68)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 3)
 	card.add_child(box)
 	box.add_child(_label(title.to_upper(), 10, "#5f6878"))
-	var value_lbl := _label(value, 15, _moral_hex(_moral_text_accent(Color(accent), 0.02)))
+	var value_lbl := _wrap_label(
+		value, 15, _moral_hex(_moral_text_accent(Color(accent), 0.02))) \
+		if wrap_value else _label(
+			value, 15, _moral_hex(_moral_text_accent(Color(accent), 0.02)))
 	value_lbl.clip_text = false
+	if wrap_value:
+		value_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	if _font_bold:
 		value_lbl.add_theme_font_override("font", _font_bold)
 	UIStyle.apply_ink_text_depth(value_lbl, "state")
@@ -22426,23 +22393,23 @@ func _stat_name(key):
 func _rel_effect_hint(type_str: String, affection: int, trust: int) -> String:
 	match type_str:
 		"romantic":
-			if affection >= 80: return _tr("매달 정신력 +6, 생활비 분담 기회", "+6 Mental/month, chance to split living costs")
-			elif affection >= 60: return _tr("매달 정신력 +3", "+3 Mental/month")
-			else: return _tr("매달 정신력 +1", "+1 Mental/month")
+			if affection >= 80: return _tr("힘든 밤과 생활비를 함께 상의하는 사이", "Someone who shares hard nights and talks through living costs")
+			elif affection >= 60: return _tr("지친 날 먼저 안부를 묻는 사이", "Someone who asks first on exhausting days")
+			else: return _tr("가끔 먼저 연락이 오는 사이", "Someone who sometimes reaches out first")
 		"mentor":
-			if affection >= 75 and trust >= 60: return _tr("매달 투자감각 +1, 지력 +1, 투자 인사이트 수익", "+1 Investing, +1 Intelligence/month, investment insight gains")
-			elif affection >= 55: return _tr("매달 투자감각/지력 성장 기회", "Monthly chance to grow Investing/Intelligence")
-			else: return _tr("매달 지력 성장 기회", "Monthly chance to grow Intelligence")
+			if affection >= 75 and trust >= 60: return _tr("다음 투자를 함께 읽고 이유까지 묻는 사람", "Someone who reads the next investment with you and asks why")
+			elif affection >= 55: return _tr("공부한 내용을 다시 물어볼 수 있는 사람", "Someone you can ask about what you have studied")
+			else: return _tr("읽어 볼 것을 가끔 건네는 사람", "Someone who occasionally sends something worth reading")
 		"business":
-			if affection >= 75 and trust >= 70: return _tr("매달 평판 +2, 수익 공유 기회", "+2 Reputation/month, profit-sharing chance")
-			elif affection >= 55: return _tr("매달 평판 +1, 소액 수익 기회", "+1 Reputation/month, small income chance")
-			else: return _tr("매달 평판 성장 기회", "Monthly chance to grow Reputation")
+			if affection >= 75 and trust >= 70: return _tr("이름을 걸고 수익 기회를 함께 검토하는 사이", "Someone willing to put a name beside yours on an opportunity")
+			elif affection >= 55: return _tr("작은 일거리를 먼저 묻는 사이", "Someone who asks you first about a small piece of work")
+			else: return _tr("새 소식을 가끔 건네는 사이", "Someone who occasionally passes along a lead")
 		"family":
-			if affection >= 70: return _tr("매달 정신력 +4, 위기 시 지원금", "+4 Mental/month, support funds in crisis")
-			elif affection >= 50: return _tr("매달 정신력 +2", "+2 Mental/month")
+			if affection >= 70: return _tr("위기 때 먼저 전화하고 실제 비용도 함께 드는 가족", "Family who call first in a crisis and share its real cost")
+			elif affection >= 50: return _tr("말이 끊겨도 전화를 바로 끊지 않는 가족", "Family who do not hang up when the words run out")
 		"friends":
-			if affection >= 70: return _tr("매달 정신력 +3, 사회성 성장 기회", "+3 Mental/month, chance to grow Social")
-			elif affection >= 50: return _tr("매달 정신력 +1, 사회성 성장 기회", "+1 Mental/month, chance to grow Social")
+			if affection >= 70: return _tr("먼저 연락하고 새로운 자리에 함께 가는 친구", "A friend who reaches out first and goes somewhere new with you")
+			elif affection >= 50: return _tr("늦은 답장도 기다려 주는 친구", "A friend who waits through a late reply")
 	return ""
 
 func _hint_box() -> StyleBoxFlat:
@@ -22705,7 +22672,7 @@ func _get_month_advice() -> String:
 		return _tr("🏠 %s으로 이사할 자금이 생겼습니다 (현금 %s). 이사하면 정신력 패시브가 개선돼요!", "🏠 You can afford to move to a %s (cash %s). Moving improves your passive Mental pressure.") % [
 			GameState.get_housing_name(next_id), GameState.format_money(GameState.money)]
 	if GameState.investment_skill < 20 and GameState.get_total_asset_value() > 2_000_000.0 and GameState.turn > 4:
-		return _tr("투자감각이 아직 낮습니다 (%d). [재테크 공부]로 올리면 투자 수익률이 올라갑니다.", "Your investing sense is still low (%d). Study finance to improve investment returns.") % GameState.investment_skill
+		return _tr("주문서를 펼치면 수수료와 빠져나올 가격보다 예상 수익에 먼저 눈이 갑니다. [재테크 공부]에서 주문서를 더 읽어 보세요.", "When you open an order ticket, the possible gain catches your eye before the fee and exit price. Read more tickets in [Study Finance].")
 	if not GameState.current_job.is_empty():
 		var tenure = GameState.job_tenure
 		var promo_count = int(GameState.current_job.get("promotion_count", 0))
@@ -22878,14 +22845,14 @@ func _open_title_collection():
 const GLOSSARY_BANK := [
 	{"term": "신용등급", "term_en": "Credit Grade", "desc": "1~10등급 (낮을수록 좋음). 직장·근속·소득·자산이 올리고 부채 비율·잔고 위기가 깎는다. 대출 한도와 금리를 결정한다.", "desc_en": "A 1-10 grade where lower is better. Jobs, tenure, income, and assets improve it; debt ratio and cash crises damage it. It determines loan limits and interest rates."},
 	{"term": "변동금리", "term_en": "Variable Rate", "desc": "매달 달라질 수 있는 금리. 신용등급이 떨어지면 이미 빌린 대출의 이자도 같이 오른다. 이 게임의 모든 대출은 변동금리다.", "desc_en": "An interest rate that can change every month. If your credit grade worsens, existing loan interest rises too. All loans in this game use variable rates."},
-	{"term": "레버리지", "term_en": "Leverage", "desc": "빌린 돈으로 더 큰 금액을 투자하는 것. 수익이 배로 나지만 손실도 배로 커진다. '레버리지 투자' 탭에서 2배 레버리지를 쓸 수 있다.", "desc_en": "Investing a larger amount with borrowed money. Gains multiply, but losses multiply too. The Leverage tab allows 2x leverage."},
-	{"term": "마진콜", "term_en": "Margin Call", "desc": "레버리지 투자에서 원금 대비 손실이 65% 이상 나면 강제 전량 청산. 원금의 35% 이하로 떨어지는 순간 자동 발동된다.", "desc_en": "Forced liquidation when a leveraged position loses 65% or more of principal. It triggers automatically once value falls below 35% of principal."},
+	{"term": "레버리지", "term_en": "Leverage", "desc": "투입 현금으로 두 배 규모의 포지션을 여는 거래. 가격이 움직일 때 수익과 손실의 폭도 두 배로 커진다. '레버리지 투자' 탭에서 2배 포지션을 열 수 있다.", "desc_en": "A trade that opens a position twice the committed cash. Price moves have twice the effect on gains and losses. The Leverage tab opens 2x positions."},
+	{"term": "마진콜", "term_en": "Margin Call", "desc": "레버리지 포지션 가치가 노출액의 35% 아래로 떨어지면 강제 전량 청산된다.", "desc_en": "A leveraged position is fully liquidated once its value falls below 35% of exposure."},
 ]
 const GLOSSARY_INVEST := [
 	{"term": "포트폴리오", "term_en": "Portfolio", "desc": "내가 보유한 모든 자산의 구성. 여러 자산에 나눠 투자하면 한 종목이 폭락해도 전체 타격이 줄어든다.", "desc_en": "The mix of all assets you own. Diversifying across assets reduces the damage if one position crashes."},
 	{"term": "배당률", "term_en": "Dividend Yield", "desc": "자산 보유 중 정기적으로 지급받는 수익 비율. 리츠(월배당)·배당주(분기배당)는 보유만 해도 현금이 들어온다.", "desc_en": "The periodic income rate paid while holding an asset. REITs and dividend stocks generate cash just by being held."},
 	{"term": "레버리지 ETF", "term_en": "Leveraged ETF", "desc": "지수 움직임의 2~3배로 등락하는 고위험 상품. 상승 시 3배 수익이지만 하락 시 3배 손실, 장기 보유 시 복리 손실이 누적된다.", "desc_en": "A high-risk product that moves 2-3x an index. It can triple gains on rises, but also triple losses, and compounding decay can hurt long holds."},
-	{"term": "마진콜", "term_en": "Margin Call", "desc": "레버리지 투자 시 원금의 35% 이하로 떨어지면 강제 청산. 단기 급락으로도 전액 손실 가능.", "desc_en": "Forced liquidation when a leveraged position falls below 35% of principal. A short crash can wipe out the entire position."},
+	{"term": "마진콜", "term_en": "Margin Call", "desc": "레버리지 포지션 가치가 노출액의 35% 아래로 떨어지면 강제 청산된다. 단기 급락으로도 전액 손실이 날 수 있다.", "desc_en": "A leveraged position is force-liquidated if its value falls below 35% of exposure. A short crash can still wipe out the position."},
 	{"term": "공포/탐욕 지수", "term_en": "Fear/Greed Index", "desc": "시장 분위기를 0~100으로 나타낸 지표. 30 이하(공포)일 때 사고 70 이상(탐욕)일 때 팔면 수익 확률이 높다.", "desc_en": "A 0-100 market sentiment indicator. Buying under 30 fear and selling over 70 greed improves your odds."},
 	{"term": "하우스엣지", "term_en": "House Edge", "desc": "카지노가 장기적으로 가져가는 수익 비율. 바카라 1.06%, 블랙잭 0.5%, 룰렛 2.70%. 장기로 플레이할수록 이 비율만큼 손실이 쌓인다.", "desc_en": "The casino's long-term advantage. Baccarat 1.06%, blackjack 0.5%, roulette 2.70%. The longer you play, the more this edge accumulates against you."},
 	{"term": "RTP", "term_en": "RTP", "desc": "Return To Player. 장기 플레이 시 플레이어에게 돌아가는 비율. 슬롯 RTP 90%면 100만원 투입 시 이론상 90만원 반환. 단기 결과는 크게 벗어날 수 있다.", "desc_en": "Return To Player. The long-term percentage returned to players. If slot RTP is 90%, KRW 1M wagered theoretically returns KRW 900K, though short-term results can swing wildly."},

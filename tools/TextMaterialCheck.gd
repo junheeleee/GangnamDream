@@ -16,7 +16,7 @@ func _run() -> void:
 	await _check_story_materials()
 	await _stop_audio()
 	if _failures.is_empty():
-		print("TEXT_MATERIAL_CHECK_OK text_depth=1 surface_depth=2 body_shadow=0 press_travel=1 motion_ms=55")
+		print("TEXT_MATERIAL_CHECK_OK text_depth=1 surface_depth=2 body_shadow=0 result_card=0 press_travel=1 motion_ms=55")
 		call_deferred("_quit", 0)
 		return
 	for failure in _failures:
@@ -122,19 +122,15 @@ func _check_story_materials() -> void:
 			"StoryMode choice label lost its 1px ink depth")
 		first_choice.free()
 
-	story.call("_show_story_result_record", {"effects": {"money": 100000}, "cast_effects": {}})
-	var result_card := story.get("_result_record_card") as PanelContainer
-	_expect(result_card != null, "StoryMode choice result did not create a state card")
-	if result_card != null:
-		var result_style := result_card.get_theme_stylebox("panel") as StyleBoxFlat
-		_expect(result_style != null and result_style.shadow_size == 1 \
-			and result_style.shadow_offset == Vector2(0, 1),
-			"StoryMode result card escaped the 1px material contract")
-		var state_depth_count := 0
-		for node in result_card.find_children("*", "Label", true, false):
-			if str(node.get_meta("ink_text_role", "")) == "state":
-				state_depth_count += 1
-		_expect(state_depth_count >= 1, "StoryMode result values lost their state depth role")
+	story.call("_show_story_result_record", {
+		"result_text": "The authored result remains in the story panel.",
+		"effects": {"money": 100000},
+		"cast_effects": {"father": {"affinity": 2}},
+	})
+	_expect(story.get("_result_record_card") == null,
+		"StoryMode recreated the retired mechanical result card")
+	_expect(body != null and _is_body_shadow_clear(body),
+		"authored result prose lost the shadow-free body material")
 
 	story.free()
 	await get_tree().process_frame

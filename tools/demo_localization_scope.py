@@ -126,7 +126,6 @@ ROUTE_FUNCTIONS: dict[str, tuple[str, ...]] = {
     ),
     "scenes/StoryMode.gd": (
         "_story_money",
-        "_story_result_value_text",
         "_stat_display_name",
     ),
     "systems/DemoCoreLoopV2.gd": ("_first_bill_localized_player_name",),

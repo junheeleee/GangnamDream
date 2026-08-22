@@ -550,19 +550,31 @@ func _on_choose(choice_idx: int) -> void:
 	var feedback_color: String
 	match score:
 		3:
-			feedback_text = LocaleManager.ui("평가 양호 — 설득력 있는 답변입니다.", "Strong answer — clear and credible.")
+			feedback_text = LocaleManager.ui(
+				"구체적인 내용 하나가 문장의 앞뒤를 붙들었다.",
+				"One concrete detail held the sentence together."
+			) if _mode == Mode.RESUME else LocaleManager.ui(
+				"면접관의 펜이 움직였고, 메모 한 줄이 남았다.",
+				"The interviewer's pen moved, leaving one line of notes."
+			)
 			feedback_color = COL_GOOD
 			_stress_delta -= 1
 		1:
-			feedback_text = LocaleManager.ui("평가 보통 — 무난한 답변입니다.", "Acceptable answer — safe, not memorable.")
+			feedback_text = LocaleManager.ui(
+				"문장을 끝까지 적었지만 다음 줄로 넘어가는 손이 빨랐다.",
+				"He finished the sentence, but his hand moved on too quickly."
+			) if _mode == Mode.RESUME else LocaleManager.ui(
+				"면접관이 한 번 고개를 끄덕였다.",
+				"The interviewer nodded once."
+			)
 			feedback_color = COL_TEXT_DIM
 		_:
 			feedback_text = LocaleManager.ui(
-				"평가 미흡 — 내용의 설득력이 부족합니다.",
-				"Weak answer — the writing is not convincing."
+				"첫 문장 뒤에 근거가 따라오지 않았다.",
+				"No evidence followed the first sentence."
 			) if _mode == Mode.RESUME else LocaleManager.ui(
-				"평가 미흡 — 면접관의 표정이 굳었다.",
-				"Weak answer — the interviewer goes still."
+				"면접관의 표정이 굳었다.",
+				"The interviewer's expression tightened."
 			)
 			feedback_color = COL_BAD
 			_stress_delta += 1
@@ -603,24 +615,36 @@ func _show_result() -> void:
 	var max_score: int = questions.size() * 3
 	var ratio: float = float(_total_score) / float(max_score)
 	var quality: int
-	var grade_text: String
+	var reaction_text: String
 	var grade_color: String
 
 	if ratio >= 0.85:
 		quality = 3
-		grade_text = LocaleManager.ui("평가 A", "Grade A")
+		reaction_text = LocaleManager.ui(
+			"첫 장으로 돌아간 원고", "Back to the First Page") \
+			if _mode == Mode.RESUME else LocaleManager.ui(
+				"마지막 답 뒤 이어진 질문", "A Question After the Last Answer")
 		grade_color = COL_ACCENT
 	elif ratio >= 0.6:
 		quality = 2
-		grade_text = LocaleManager.ui("평가 B", "Grade B")
+		reaction_text = LocaleManager.ui(
+			"멈춰 다시 읽은 줄", "The Line He Read Again") \
+			if _mode == Mode.RESUME else LocaleManager.ui(
+				"메모가 남은 면접", "Notes Left on the Page")
 		grade_color = COL_GOOD
 	elif ratio >= 0.35:
 		quality = 1
-		grade_text = LocaleManager.ui("평가 C", "Grade C")
+		reaction_text = LocaleManager.ui(
+			"끝까지 쓴 한 장", "A Page Written to the End") \
+			if _mode == Mode.RESUME else LocaleManager.ui(
+				"예정된 마지막 질문", "The Scheduled Final Question")
 		grade_color = COL_TEXT_DIM
 	else:
 		quality = 0
-		grade_text = LocaleManager.ui("평가 D", "Grade D")
+		reaction_text = LocaleManager.ui(
+			"다시 고칠 표시가 많은 초안", "A Draft Full of Revision Marks") \
+			if _mode == Mode.RESUME else LocaleManager.ui(
+				"일찍 닫힌 수첩", "The Notebook Closed Early")
 		grade_color = COL_BAD
 
 	AudioManager.play("money_gain" if quality >= 2 else ("click" if quality == 1 else "money_loss"))
@@ -636,15 +660,8 @@ func _show_result() -> void:
 	grade_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	grade_lbl.add_theme_font_size_override("font_size", 24)
 	grade_lbl.add_theme_color_override("font_color", Color(grade_color))
-	grade_lbl.text = grade_text
+	grade_lbl.text = reaction_text
 	_content_vb.add_child(grade_lbl)
-
-	var score_lbl := Label.new()
-	score_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	score_lbl.add_theme_font_size_override("font_size", 12)
-	score_lbl.add_theme_color_override("font_color", Color(COL_TEXT_FAINT))
-	score_lbl.text = LocaleManager.ui("점수 %d / %d", "Score %d / %d") % [_total_score, max_score]
-	_content_vb.add_child(score_lbl)
 
 	# 결과에 따른 설명
 	var desc_lbl := Label.new()
@@ -654,27 +671,43 @@ func _show_result() -> void:
 	match quality:
 		3:
 			if _mode == Mode.RESUME:
-				desc_lbl.text = LocaleManager.ui("채용 담당자의 눈에 띌 만한 자기소개서다. 지력이 올랐다.", "This resume could catch a recruiter's eye. Intelligence improved.")
+				desc_lbl.text = LocaleManager.ui(
+					"첫 장으로 돌아가 경력 문장을 한 번 더 고쳤다.",
+					"He returned to the first page and revised the experience line once more.")
 			else:
-				desc_lbl.text = LocaleManager.ui("압박에도 흔들리지 않았다. 면접 스킬이 확실히 올랐다.", "You stayed steady under pressure. Your interview skill clearly improved.")
+				desc_lbl.text = LocaleManager.ui(
+					"면접관이 정해 둔 시간을 넘겨 다음 질문을 꺼냈다.",
+					"The interviewer went past the scheduled time and asked another question.")
 		2:
 			if _mode == Mode.RESUME:
-				desc_lbl.text = LocaleManager.ui("부족하진 않다. 서류 통과 가능성이 생겼다.", "It is not bad. You now have a chance to pass screening.")
+				desc_lbl.text = LocaleManager.ui(
+					"경력 문장 옆에 고쳐 쓸 표시 하나가 남았다.",
+					"One mark remained beside the experience line for another revision.")
 			else:
-				desc_lbl.text = LocaleManager.ui("잘 했지만 아쉬운 부분도 있었다. 연습이 됐다.", "You did well, though parts were rough. Good practice.")
+				desc_lbl.text = LocaleManager.ui(
+					"면접관은 답변 하나를 적고 마지막 질문까지 이어 갔다.",
+					"The interviewer wrote down one answer and continued through the final question.")
 		1:
 			if _mode == Mode.RESUME:
-				desc_lbl.text = LocaleManager.ui("평범한 자기소개서다. 통과할 수도, 안 될 수도 있다.", "It is an ordinary resume. It might pass, or it might not.")
+				desc_lbl.text = LocaleManager.ui(
+					"마지막 줄까지 썼지만 접힌 모서리나 메모는 남지 않았다.",
+					"He reached the last line, but left no folded corner or note.")
 			else:
-				desc_lbl.text = LocaleManager.ui("실수가 있었다. 그래도 경험이 됐다.", "You made mistakes, but it still counted as experience.")
+				desc_lbl.text = LocaleManager.ui(
+					"면접관은 고개를 한 번 끄덕인 뒤 예정된 질문만 마쳤다.",
+					"The interviewer nodded once, then finished only the questions already prepared.")
 		_:
 			if _mode == Mode.RESUME:
-				desc_lbl.text = LocaleManager.ui("솔직히 이 자기소개서로는 서류도 힘들다. 다시 써야 한다.", "Honestly, this resume will struggle to pass screening. Rewrite it.")
+				desc_lbl.text = LocaleManager.ui(
+					"끝까지 썼지만 네 답 옆에는 근거를 다시 채울 표시가 남았다.",
+					"He reached the end, but each answer still carried a mark where evidence had to be added.")
 			else:
-				desc_lbl.text = LocaleManager.ui("면접이 많이 힘들었다. 정신이 많이 소모됐다.", "The interview was rough. It drained you mentally.")
+				desc_lbl.text = LocaleManager.ui(
+					"면접관은 수첩을 먼저 닫았고, 방 안의 침묵이 길어졌다.",
+					"The interviewer closed the notebook first, and the silence in the room lengthened.")
 	_content_vb.add_child(desc_lbl)
 
-	# 스트레스 표시
+	# 수치는 내부 결과로만 넘기고, 화면에는 방을 나온 몸의 반응만 남긴다.
 	var final_stress_delta := _final_stress_delta(quality)
 	if final_stress_delta != 0:
 		var stat_lbl := Label.new()
@@ -682,8 +715,22 @@ func _show_result() -> void:
 		stat_lbl.add_theme_font_size_override("font_size", 11)
 		stat_lbl.add_theme_color_override("font_color",
 			Color(COL_BAD) if final_stress_delta > 0 else Color(COL_GOOD))
-		stat_lbl.text = LocaleManager.ui(
-			"정신력 %+d", "Mental %+d") % (-final_stress_delta)
+		if _mode == Mode.RESUME:
+			stat_lbl.text = LocaleManager.ui(
+				"화면을 닫고도 어깨의 힘이 오래 빠지지 않았다.",
+				"Even after closing the document, his shoulders stayed tight."
+			) if final_stress_delta > 0 else LocaleManager.ui(
+				"마지막 문장을 저장하자 막혔던 숨이 조금 풀렸다.",
+				"Saving the last sentence finally eased the breath he had been holding."
+			)
+		else:
+			stat_lbl.text = LocaleManager.ui(
+				"문을 닫고 나와도 어깨의 힘이 오래 빠지지 않았다.",
+				"Even after the door closed behind him, his shoulders stayed tight."
+			) if final_stress_delta > 0 else LocaleManager.ui(
+				"밖으로 나오자 막혔던 숨이 조금 풀렸다.",
+				"Outside, the breath he had been holding finally eased."
+			)
 		_content_vb.add_child(stat_lbl)
 
 	var result_cta := LocaleManager.ui(

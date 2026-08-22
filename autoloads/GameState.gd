@@ -141,6 +141,13 @@ var max_action_points = 2
 var grind_streak_weeks: int = 0   # 연속 그라인드-only 주
 var money_weeks_total: int = 0    # 통계: 돈축을 쓴 주
 var human_weeks_total: int = 0    # 통계: 사람축을 챙긴 주
+# 두 기존 합계는 한 주에 함께 오를 수 있다. 아래 원장은 도입 이후의 주만
+# 네 갈래로 한 번씩 분류해, 이전 세이브의 겹침이나 공백을 추정하지 않는다.
+var money_only_weeks_total: int = 0
+var human_only_weeks_total: int = 0
+var both_axes_weeks_total: int = 0
+var unmarked_weeks_total: int = 0
+var classified_weeks_total: int = 0
 var loop_tint_spent: float = 0.0  # 루프 드립으로 깎은 tint 누적 (상한 -20)
 # ── 몽타주 시간 압축 (docs/AP_REDESIGN.md Phase B) ──
 # week_routine: 루틴 슬롯 2개 — "study"/"rest"/"save"/"network". 몽타주가 이 배분대로 주를 흘려보낸다.
@@ -437,6 +444,11 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	grind_streak_weeks = 0
 	money_weeks_total = 0
 	human_weeks_total = 0
+	money_only_weeks_total = 0
+	human_only_weeks_total = 0
+	both_axes_weeks_total = 0
+	unmarked_weeks_total = 0
+	classified_weeks_total = 0
 	loop_tint_spent = 0.0
 	week_routine = []
 	month_money_weeks = 0
@@ -513,10 +525,10 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 		flags["is_repeat_run"] = true
 	if _prev_runs >= 4:
 		flags["is_veteran_run"] = true
-	add_log(LocaleManager.ui("새 런 시작: %s / 출발점: %s", "New run: %s / Start: %s") % [
-		_localized_route_label(chosen_route),
-		_localized_profile_label(starting_profile)
-	], "system")
+	add_log(LocaleManager.ui(
+		"다시 시작한 아침. 출발점은 %s였다.",
+		"Another beginning. He started out %s.") %
+		_localized_profile_label(starting_profile), "system")
 	stats_changed.emit()
 	run_started.emit()
 	moral_tint_changed.emit(moral_tint_norm(), moral_stage())  # Codex 초기 시각 상태 설정
@@ -527,35 +539,50 @@ func _apply_title_perks():
 	if bonus.is_empty():
 		return
 	var parts: PackedStringArray = PackedStringArray()
-	var stat_kr = {
-		"investment_skill": "투자감각", "intelligence": "지력", "social_skill": "사교력",
-		"luck": "운", "mental": "정신력", "money": "자금",
-	}
-	var stat_en = {
-		"investment_skill": "Investing", "intelligence": "Intelligence", "social_skill": "Social",
-		"luck": "Luck", "mental": "Mental", "money": "Funds",
-	}
 	for stat in bonus:
 		var amount = int(bonus[stat])
 		if amount == 0:
 			continue
 		match str(stat):
-			"money":            _add_money_silent(float(amount))
-			"investment_skill": investment_skill += amount
-			"intelligence":     intelligence += amount
-			"social_skill":     social_skill += amount
-			"stress":           mental = clampi(mental - amount, 0, 100)
-			"luck":             luck += amount
-			"mental":           mental = clampi(mental + amount, 0, 100)
-		if str(stat) == "money":
-			parts.append(LocaleManager.ui("자금 +%s", "Funds +%s") % format_money(float(amount)))
-		else:
-			var stat_label: String = str((stat_en if LocaleManager.is_english() else stat_kr).get(str(stat), str(stat)))
-			parts.append("%s %+d" % [stat_label, amount])
+			"money":
+				_add_money_silent(float(amount))
+				parts.append(LocaleManager.ui(
+					"이전 삶에서 남긴 자금이 통장에 보태졌다.",
+					"Money carried over from an earlier life appeared in the account."))
+			"investment_skill":
+				investment_skill += amount
+				parts.append(LocaleManager.ui(
+					"예전 시장에서 익힌 감각이 손끝에 먼저 돌아왔다.",
+					"A feel learned in earlier markets returned to his fingertips."))
+			"intelligence":
+				intelligence += amount
+				parts.append(LocaleManager.ui(
+					"전에 익힌 생각의 순서가 이번에도 낯설지 않았다.",
+					"The way he had learned to think before did not feel unfamiliar this time."))
+			"social_skill":
+				social_skill += amount
+				parts.append(LocaleManager.ui(
+					"처음 보는 얼굴 사이에서도 말문이 조금 빨리 트였다.",
+					"Among unfamiliar faces, conversation came a little sooner."))
+			"stress":
+				mental = clampi(mental - amount, 0, 100)
+				parts.append(LocaleManager.ui(
+					"첫날의 숨이 전보다 가볍게 이어졌다.",
+					"The first day's breathing came a little easier than before."))
+			"luck":
+				luck += amount
+				parts.append(LocaleManager.ui(
+					"낯선 우연 하나가 먼저 자리를 내주는 기분이었다.",
+					"It felt as if one small coincidence had made room for him."))
+			"mental":
+				mental = clampi(mental + amount, 0, 100)
+				parts.append(LocaleManager.ui(
+					"다시 시작하는 아침에도 숨이 고르게 이어졌다.",
+					"Even on the morning of another beginning, his breathing stayed even."))
 	if not parts.is_empty():
 		add_log(LocaleManager.ui(
-			"🏆 칭호 보너스: %s  (수집한 칭호가 힘이 된다)",
-			"🏆 Title bonus: %s  (collected titles give you strength)"
+			"🏆 이전 삶에서 익힌 것이 따라왔다. %s",
+			"🏆 Something learned in an earlier life returned. %s"
 		) % " · ".join(parts), "system")
 
 func _localized_route_label(route: String) -> String:
@@ -573,7 +600,8 @@ func _localized_profile_label(profile: String) -> String:
 	if not LocaleManager.is_english():
 		return profile
 	var labels := {
-		"백수": "Unemployed",
+		"백수": "unemployed",
+		"알바": "working part-time",
 	}
 	return str(labels.get(profile, profile))
 
@@ -707,8 +735,8 @@ func _roll_run_theme():
 	var a = label_map.get(pool[0], pool[0])
 	var b = label_map.get(pool[1], pool[1])
 	add_log(LocaleManager.ui(
-		"🎲 이번 런 테마: [%s + %s] — 관련 이벤트가 더 자주 등장합니다.",
-		"🎲 Run Theme: [%s + %s] — related events will appear more often."
+		"이번에는 %s와 %s에 얽힌 소식이 유난히 먼저 눈에 들어왔다.",
+		"This time, news tied to %s and %s caught his eye first."
 	) % [a, b], "system")
 
 func _apply_run_theme(theme: String) -> void:
@@ -720,18 +748,27 @@ func _apply_run_theme(theme: String) -> void:
 			run_theme_categories = ["investment", "finance"]
 			investment_skill += 5
 			flags["theme_invest_run"] = true
-			add_log(LocaleManager.ui("📈 [투자런] 시작 — 투자·재정 이벤트가 집중 등장합니다. 투자감각 +5.", "📈 [Investment Run] begins — investment and finance events appear more often. Investing +5."), "system")
+			add_log(LocaleManager.ui(
+				"📈 차트를 읽던 감각이 남아 있어, 이번에는 투자와 재정의 소식이 먼저 눈에 들어온다.",
+				"📈 His feel for charts remained; this time, market and money news caught his eye first."),
+				"system")
 		"인맥런":
 			run_theme_categories = ["social", "relationship"]
 			social_skill += 10
 			flags["theme_network_run"] = true
-			add_log(LocaleManager.ui("🤝 [인맥런] 시작 — 사회·관계 이벤트가 집중 등장합니다. 사교력 +10.", "🤝 [Network Run] begins — social and relationship events appear more often. Social +10."), "system")
+			add_log(LocaleManager.ui(
+				"🤝 아는 사람들의 이름을 더듬어 보니, 이번에는 먼저 건넬 말이 떠올랐다.",
+				"🤝 As he recalled familiar names, the first words to offer came more easily this time."),
+				"system")
 		"청렴런":
 			run_theme_categories = ["jobs", "health"]
 			reputation += 10
 			flags["theme_clean_run"] = true
 			flags["no_gambling"] = true   # EventManager가 gambling 카테고리 이벤트 차단
-			add_log(LocaleManager.ui("✨ [청렴런] 시작 — 도박 이벤트 없음. 평판 +10. 정직하게만 30억.", "✨ [Clean Run] begins — no gambling events. Reputation +10. Reach KRW 3B honestly."), "system")
+			add_log(LocaleManager.ui(
+				"✨ 도박판에서 손을 떼기로 했다. 이번에는 일과 몸을 지키는 길만 본다.",
+				"✨ He chose to stay away from gambling. This time, he would keep his eyes on work and his own health."),
+				"system")
 		_:
 			_roll_run_theme()
 
@@ -2536,6 +2573,17 @@ func finalize_action_axis_week() -> void:
 	var money_count := int(action_axis_this_week.get("money", 0))
 	var human_count := int(action_axis_this_week.get("human", 0))
 	_remember_action_week(money_count, human_count)
+	var used_money := money_count > 0
+	var used_human := human_count > 0
+	if used_money and used_human:
+		both_axes_weeks_total += 1
+	elif used_money:
+		money_only_weeks_total += 1
+	elif used_human:
+		human_only_weeks_total += 1
+	else:
+		unmarked_weeks_total += 1
+	classified_weeks_total += 1
 	if money_count > 0:
 		money_weeks_total += 1
 		month_money_weeks += 1
@@ -3303,6 +3351,11 @@ func serialize():
 		"grind_streak_weeks": grind_streak_weeks,
 		"money_weeks_total": money_weeks_total,
 		"human_weeks_total": human_weeks_total,
+		"money_only_weeks_total": money_only_weeks_total,
+		"human_only_weeks_total": human_only_weeks_total,
+		"both_axes_weeks_total": both_axes_weeks_total,
+		"unmarked_weeks_total": unmarked_weeks_total,
+		"classified_weeks_total": classified_weeks_total,
 		"loop_tint_spent": loop_tint_spent,
 		"week_routine": week_routine,
 		"month_money_weeks": month_money_weeks,
@@ -3374,6 +3427,8 @@ func load_from_dict(data):
 		"job_tenure", "work_performance",
 		"action_points", "max_action_points", "tutorial_step",
 		"grind_streak_weeks", "money_weeks_total", "human_weeks_total",
+		"money_only_weeks_total", "human_only_weeks_total",
+		"both_axes_weeks_total", "unmarked_weeks_total", "classified_weeks_total",
 		"month_money_weeks", "month_human_weeks",
 		"last_month_money_weeks", "last_month_human_weeks",
 		"route_orthodox", "route_unorthodox", "events_seen",
@@ -3417,6 +3472,22 @@ func load_from_dict(data):
 	# 구버전 세이브 호환 — AP 행동 축
 	if typeof(action_axis_this_week) != TYPE_DICTIONARY or action_axis_this_week.is_empty():
 		action_axis_this_week = {"money": 0, "human": 0}
+	# 이 원장이 생기기 전 저장에는 네 갈래의 교집합을 복원할 자료가 없다.
+	# 기존 money/human 합계를 억지로 쪼개지 않고, 로드 이후 끝나는 주부터 기록한다.
+	if not data.has("classified_weeks_total"):
+		money_only_weeks_total = 0
+		human_only_weeks_total = 0
+		both_axes_weeks_total = 0
+		unmarked_weeks_total = 0
+		classified_weeks_total = 0
+	else:
+		money_only_weeks_total = maxi(0, int(data.get("money_only_weeks_total", 0)))
+		human_only_weeks_total = maxi(0, int(data.get("human_only_weeks_total", 0)))
+		both_axes_weeks_total = maxi(0, int(data.get("both_axes_weeks_total", 0)))
+		unmarked_weeks_total = maxi(0, int(data.get("unmarked_weeks_total", 0)))
+		# 저장값이 일부만 남아도 네 배타 카운터의 합을 정본으로 삼는다.
+		classified_weeks_total = money_only_weeks_total + human_only_weeks_total \
+			+ both_axes_weeks_total + unmarked_weeks_total
 	if not data.has("action_places_this_week") or typeof(action_places_this_week) != TYPE_DICTIONARY:
 		action_places_this_week = {}
 	if not data.has("action_records_this_week") or typeof(action_records_this_week) != TYPE_ARRAY:

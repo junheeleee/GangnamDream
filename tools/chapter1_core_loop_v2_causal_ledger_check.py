@@ -2693,6 +2693,11 @@ _ORDER119_PROOF_BINDING_OVERRIDES = {
     'proof:data:story_event:arc_temptation_fallout': 'f4ef8d817be9260528f768b0e3126c0464757ca7939eabdc4be83d6740248e75',
     'proof:data:story_event:v2_demo_first_bill': '959d89857d7c49aceede7ee6cffbc92a0197c3ac11b65de7081da9764e60cd8c',
     'proof:data:w08_temptation_choice_flags': '95fb7f79970438b1884c5738afdf2ffabd440cb4c11ad3d7acfe9b022298756b',
+    'proof:runtime:aruba_result_emit': '21eacfed18195cd6a23b5f02901b3917ae17da9cdc51cc108b51911885e98dad',
+    'proof:runtime:aruba_side_shift_result': '8b1a60934fc783e7d924454e0a46843cca3e94456cbc0622c30ebed0b369dd5c',
+    'proof:runtime:load_core_loop_v2_state': '61c5047a65be466894c2db961edbf13a32ca01e603836e0326fc14892f275b81',
+    'proof:runtime:resume_quality_outcome': '44b9c5217fde41c624dcdbcc9aff4b9cf8c7e0a2627c89af04d0bf8521cefe91',
+    'proof:runtime:serialize_core_loop_v2_state': 'e367bd2c5edccd45c6c0f22c23bbafd4161d9828a5469d9e4b3c6561ba0cfc34',
 }
 _FROZEN_AUDITED_MAPS["proof_bindings"].update(
     _ORDER119_PROOF_BINDING_OVERRIDES)
@@ -2751,9 +2756,9 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "tools/CoreLoopV2CycleCheck.gd":
 		"b375fbe1c5afa97dc0abe0d54a9ecf70d5041caf63675ba6d43a04d5aeb69520",
     "tools/StoryPlaybackCheck.gd":
-        "b16d80f1f7b9bff0b31513ac315afa92cf3102fb3553f2fee133ad486058b737",
+        "63bd0149a32d6418ad9bd29a378e348560acce93a8b95833f7bb4ed9d8b7a185",
     "autoloads/GameState.gd":
-        "1551af14591255c50ab9a7c253c90a565d05f60050ca88c5034b6c9265d74bf6",
+        "54bb9af74c5a1405ff9a23c97b49e90a13950960f07f0cf4b330a27389c8a5f4",
     "autoloads/DataRegistry.gd":
         "d442e9af4e45a1011150b31985bcee935e472c0b62b0fdce399218079968473c",
     "autoloads/LocaleManager.gd":
@@ -2763,15 +2768,15 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "autoloads/MetaProgression.gd":
         "42445144bc107a963f54011460effeee5a2bc89204aac2fb44cecbc87378b2ca",
     "autoloads/SaveManager.gd":
-        "6bfdb3850dcc3a5541a65ffdcf3cecada3c2fbc7d55b872f9ef41253e94bff71",
+        "67f20478f4ede9cf3902f02eab06a945ddbf1a348e86b71a34108de0c1d87645",
     "systems/BuildFlavor.gd":
         "6264de1c468d5553b73a37d3ea8c5ceb936f6852db7519701f37a2c8bf8aa633",
     "scenes/StoryMode.gd":
-        "c029918113e2c20c735d6798c839e8e5803113336ddf147bf6602ef3153637b7",
+        "591ebb3603598847a978c8489c005b11e811efdcfa0ef0af40c5d66cc959e446",
     "scenes/StoryMode.tscn":
         "b7688a883323a196e74271c1e76f1d88c91310b3fe1a287cb051b33dd2fb76ca",
     "scenes/MainGame.gd":
-		"5ce4048215696adc1a5fda42d75a76b71f3132d283c4c89db286e6ceac0569e3",
+		"ffb86b8044ca50f61facebc760e9d6e35e7fc4e9f4a8c847e56ac4177fae78f4",
     "scenes/MainGame.tscn":
         "71a9590d43c755fa6b409ee0eb0f1950c6aba4517c64192b83038d22a45d9979",
     "scenes/SeoulCycleBoard.gd":
@@ -2779,17 +2784,17 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "scenes/CommitmentTask.gd":
         "bae7b92139eaf8d4e112b870eb11dfb1fefa0a35d1d4f37a7bfa9df7e665af8b",
     "scenes/JobHuntMiniGame.gd":
-        "a5be4ada99abb44f9772d85917ee56fdac0cb7f1517e05c84ca7f38f082d17c4",
+        "d737a4fcda1619dab86a3da89a726a385d1b4751002217616c9b366917301d4b",
     "scenes/ArubaGame.gd":
-        "97592dfae82323438a8b2d9843dd4c1599f8ff2eb2ace93a6ab35460d153e656",
+        "058aa08f6963f8a68d98a6eb643ead0e3d4881df834658bc5a44168ffd3bb05e",
     "content/meta/demo_core_loop_v2.json":
         "f336f8a60277effc1885e10911d21785add4ad5580135bb1ab3a4c4b509059c3",
     "content/meta/demo_localization_scope.json":
-        "1f7a701a24f51001a881ee7bb92e52e49c70e9be40bbb59ec8eec590bfc5efe9",
+        "0a6d77e28cbbdc6bdd9b758908eafa03a92445860a29e23df470dbe2e53c5b74",
     "content/meta/release_content_inventory.json":
         "c6c10aceea5fa3b46a59a1b933317dd9a1981cb7ce5fa4544c4803739cd5cebc",
     "content/meta/story_rules.json":
-        "edd7d26b0e91ea309ff9b9818fb6df2ab37ba247fad060c5039c9d08f9f31bc8",
+        "88299abcc93f530913fc9161c35729f4202693121cdfbcddd9797c6eefe666f5",
     "content/jobs.json":
         "d1a3ed8ba3f2839954d0b15266bff4f7a0d1317d78c503bd2422aa87b7210f84",
     "content/events/arc_events.json":
@@ -3628,6 +3633,144 @@ def _markers_are_ordered(body: str, markers: tuple[str, ...]) -> bool:
         if cursor < 0:
             return False
     return True
+
+
+def _validate_qualitative_result_surface_source_contract(
+        errors: list[str], cache: dict[Path, Any]) -> None:
+    """Keep result screens observational while exact state stays internal."""
+    marker_contracts = {
+        "scenes/MainGame.gd::_core_loop_v2_condition_metric": (
+            'var label := _tr("몸", "BODY") if kind == "body" else '
+            '_tr("밤", "NIGHTS")',
+            "if not (raw_value is int or raw_value is float):",
+            '"ui.completion.unrecorded_value", "기록 없음", '
+            '"NOT RECORDED"',
+            "var value := int(raw_value)",
+            'observation = _tr("숨이 고르게 돌아왔다", '
+            '"Breathing settled")',
+            'observation = _tr("하루 끝엔 몸이 무거웠다", '
+            '"Heavy by day\'s end")',
+            'observation = _tr("계단에서 숨이 찼다", "Short of breath")',
+            'observation = _tr("잠 뒤에도 떨림이 남았다", '
+            '"Trembling after sleep")',
+            'observation = _tr("잠이 제때 왔다", "Sleep came on time")',
+            'observation = _tr("생각은 남아도 잠은 왔다", '
+            '"Sleep came despite thoughts")',
+            'observation = _tr("생각이 오래 남았다", "Thoughts lingered")',
+            'observation = _tr("새벽까지 잠이 오지 않았다", '
+            '"Awake until dawn")',
+            '"value": observation',
+        ),
+        "scenes/MainGame.gd::_core_loop_v2_completion_view_model": (
+            'snapshot.get("closing_state", {})',
+            'var health_raw: Variant = closing_state.get("health")',
+            'var mental_raw: Variant = closing_state.get("mental")',
+            'var body_metric := _core_loop_v2_condition_metric(',
+            '"body", health_raw, condition_note)',
+            'var nights_metric := _core_loop_v2_condition_metric(',
+            '"nights", mental_raw, condition_note)',
+            '"label": str(body_metric.get("label", ""))',
+            '"value": str(body_metric.get("value", ""))',
+            '"label": str(nights_metric.get("label", ""))',
+            '"value": str(nights_metric.get("value", ""))',
+        ),
+        "scenes/MainGame.gd::_core_loop_v2_show_completion": (
+            'var legacy_closing_raw: Variant = snapshot.get('
+            '"closing_state", {})',
+            'var legacy_body_metric := _core_loop_v2_condition_metric(',
+            '"body", legacy_closing.get("health"), legacy_condition_note)',
+            'var legacy_nights_metric := _core_loop_v2_condition_metric(',
+            '"nights", legacy_closing.get("mental"), legacy_condition_note)',
+            'str(legacy_body_metric.get("value", ""))',
+            'str(legacy_nights_metric.get("value", ""))',
+        ),
+        "scenes/MainGame.gd::_core_loop_v2_show_month_summary": (
+            'var after: Dictionary = summary.get("after", {})',
+            'var month_body_metric := _core_loop_v2_condition_metric(',
+            '"body", after.get("health"), month_condition_note)',
+            'var month_nights_metric := _core_loop_v2_condition_metric(',
+            '"nights", after.get("mental"), month_condition_note)',
+            'str(month_body_metric.get("value", ""))',
+            'str(month_nights_metric.get("value", ""))',
+        ),
+        "scenes/MainGame.gd::_ending_stat_grid": (
+            'var body_metric := _core_loop_v2_condition_metric(',
+            '"body", GameState.health, condition_note)',
+            'var nights_metric := _core_loop_v2_condition_metric(',
+            '"nights", GameState.mental, condition_note)',
+            '_tr("최종 자산", "Final Assets")',
+            '_tr("마지막 일", "Final Work")',
+            '_tr("살던 곳", "Home")',
+            'str(body_metric.get("value", ""))',
+            'str(nights_metric.get("value", ""))',
+            '_tr("최종 나이", "Final Age")',
+            '_tr("살아낸 시간", "Time Lived")',
+            'grid.set_meta("ending_record_facts", true)',
+        ),
+        "scenes/MainGame.gd::_ending_milestones": (
+            'var job_name: String = GameState.get_job_display_name()',
+            '_tr("마지막 일: %s", "Final work: %s") % job_name',
+            'if GameState.investment_skill >= 50:',
+            '"숫자를 보고도 거래를 서두르지 않았다"',
+            '"Read the numbers without rushing into a trade"',
+            'elif GameState.investment_skill >= 25:',
+            '"가격표 너머의 위험을 살피기 시작했다"',
+            '"Began looking past the price tag to the risk"',
+            '_tr("이번 런 발자취", "This Run\'s Footsteps")',
+        ),
+        "scenes/MainGame.gd::_ending_playstyle": (
+            '_tr("다시 볼 기록", "Records to Revisit")',
+            'MetaProgression.get_ending_collection_progress()',
+            'var peak: float = float(GameState.peak_asset)',
+            'var final_total: float = GameState.get_total_asset_value()',
+            'var kept_pct: int = int(round(clampf(',
+            'GameState.format_money(peak), kept_pct',
+        ),
+        "scenes/MainGame.gd::_add_ending_mood_card": (
+            '_add_ending_card_chip(meta_row, _tr("마지막 거처", '
+            '"Last Home")',
+            '_add_ending_card_chip(meta_row, _tr("최종 자산", '
+            '"Final Assets")',
+            'var goal_fill := clampf(GameState.get_total_asset_value() / '
+            'GameState.GANGNAM_TARGET',
+            '_add_ending_card_bar(bars, goal_fill, accent)',
+        ),
+    }
+    forbidden_contracts = {
+        "scenes/MainGame.gd::_core_loop_v2_condition_metric": (
+            '"value": value', "str(value)", "%d / 100"),
+        "scenes/MainGame.gd::_core_loop_v2_completion_view_model": (
+            "GameState.health", "GameState.mental", "%d / 100",
+            '_tr("건강",', '_tr("정신력",', 'str(health_raw)',
+            'str(mental_raw)'),
+        "scenes/MainGame.gd::_core_loop_v2_show_completion": (
+            "GameState.health", "GameState.mental", "%d / 100",
+            '_tr("건강",', '_tr("정신력",'),
+        "scenes/MainGame.gd::_core_loop_v2_show_month_summary": (
+            "%d / 100", '_tr("건강",', '_tr("정신력",'),
+        "scenes/MainGame.gd::_ending_stat_grid": (
+            "EndingSystem.get_score", 'GameState.reputation', "%d / 100",
+            '_tr("점수",', '_tr("건강",', '_tr("정신력",',
+            '_tr("명성",'),
+        "scenes/MainGame.gd::_ending_milestones": (
+            'current_job.get("tier"', "최고 티어", "Top-tier",
+            "투자 고수", "투자 중수", "expert investor",
+            "intermediate investor"),
+        "scenes/MainGame.gd::_ending_playstyle": (
+            "GameState.get_playstyle_label", "GameState.get_route_identity",
+            "GameState.route_orthodox", "GameState.route_unorthodox",
+            "플레이 스타일 진단", "Playstyle Diagnosis"),
+        "scenes/MainGame.gd::_add_ending_mood_card": (
+            "GameState.health", "GameState.mental"),
+    }
+    for pointer, markers in marker_contracts.items():
+        body = _pointer_source_text(pointer, cache)
+        forbidden = forbidden_contracts[pointer]
+        if (not body or not _markers_are_ordered(body, markers)
+                or any(marker in body for marker in forbidden)):
+            errors.append(
+                "QUALITATIVE_RESULT: exact source markers mismatch "
+                f"{pointer}")
 
 
 def _validate_w48_completion_source_contract(
@@ -11908,6 +12051,8 @@ def validate(ledger: Any, baseline: Any, *, require_complete: bool = False,
                 proof_records_by_id, errors, proof_source_cache)
             _validate_completion_snapshot_source_contract(
                 proof_records_by_id, errors, proof_source_cache)
+            _validate_qualitative_result_surface_source_contract(
+                errors, proof_source_cache)
             _validate_replay_persistence_source_contract(
                 proof_records_by_id, errors, proof_source_cache)
             _validate_current_application_recovery_source_contract(

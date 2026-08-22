@@ -136,10 +136,9 @@ func _check_story_text_pagination() -> bool:
 				_fail("%s story page %d still overflows the dialogue panel" % [
 					size_level, page_index])
 				return false
-	if not (_story.call("_story_result_visible_cast_effects", {
-		"jiyeon": {"affinity": 5},
-	}) as Array).is_empty():
-		_fail("StoryMode exposed exact relationship deltas")
+	_story.call("_show_story_result_record", choices[0])
+	if _story.get("_result_record_card") != null:
+		_fail("StoryMode recreated a mechanical result card over authored prose")
 		return false
 	_story.call("_set_story_text_size", original_size)
 	return true

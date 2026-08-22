@@ -21,10 +21,12 @@ func apply_for_job(job_id):
 	GameState.flags["has_job"] = true
 	# 취업 준비 보너스: 이력서 완성 +10, 면접 연습 +7
 	var prep_bonus = 0
-	if GameState.flags.get("resume_polished", false):
+	var used_resume_prep := bool(GameState.flags.get("resume_polished", false))
+	var used_interview_prep := bool(GameState.flags.get("interview_practiced", false))
+	if used_resume_prep:
 		prep_bonus += 10
 		GameState.flags.erase("resume_polished")
-	if GameState.flags.get("interview_practiced", false):
+	if used_interview_prep:
 		prep_bonus += 7
 		GameState.flags.erase("interview_practiced")
 	# 외모 보정: 첫인상이 좋으면 업무 스타트 유리
@@ -38,7 +40,19 @@ func apply_for_job(job_id):
 	var job_tier: int = int(job.get("tier", 1))
 	if job_tier > int(GameState.flags.get("max_job_tier", 0)):
 		GameState.flags["max_job_tier"] = job_tier
-	var prep_log = (LocaleManager.ui(" (준비 보너스 업무능력 +%d)", " (prep bonus work performance +%d)") % prep_bonus) if prep_bonus > 0 else ""
+	var prep_log := ""
+	if used_resume_prep and used_interview_prep:
+		prep_log = LocaleManager.ui(
+			". 준비해 간 서류와 답변은 채용 자리에서도 그대로 쓰였다.",
+			". The documents and answers prepared beforehand were used again during hiring.")
+	elif used_resume_prep:
+		prep_log = LocaleManager.ui(
+			". 준비해 간 서류는 채용 자리에서도 그대로 쓰였다.",
+			". The documents prepared beforehand were used again during hiring.")
+	elif used_interview_prep:
+		prep_log = LocaleManager.ui(
+			". 연습해 둔 답변은 채용 자리에서도 그대로 쓰였다.",
+			". The answers rehearsed beforehand were used again during hiring.")
 	GameState.add_log(LocaleManager.ui("%s 취업. 월급 %s%s", "Hired at %s. Salary %s%s") % [GameState.get_job_display_name(job), GameState.format_money(job.get("base_salary", 0.0)), prep_log], "job")
 	job_changed.emit(job)
 	return {"success": true, "message": LocaleManager.ui("취업 완료", "Hired")}
