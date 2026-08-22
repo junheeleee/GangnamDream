@@ -5122,7 +5122,7 @@ func _assert_core_loop_v2_debug_entry(lang: String) -> void:
 		_order97_expected(
 			lang,
 			"현재 열린 1~%d주 월간 약속 구조를 별도 저장 상태로 시작합니다." % cap_week,
-			"Start the currently available Weeks 1–%d monthly-commitment slice in a separate run state." % cap_week,
+			"Start the currently available Weeks 1–%d monthly-commitment slice with separate test save data." % cap_week,
 			"現在プレイできる第1～%d週の「月ごとの約束」を、別のセーブデータで開始します。" % cap_week)
 	if test_button.text != expected_test_label:
 		_fail("DEBUG Core Loop V2 entry does not name the twenty-four-week slice: %s." % [
@@ -10582,6 +10582,20 @@ func _assert_seoul_cycle_people_choice_board(
 				await get_tree().process_frame
 				return false
 	if not await _assert_seoul_cycle_people_variant_rejections(input_mode):
+		get_window().size = original_viewport_size
+		await get_tree().process_frame
+		return false
+	var copy_board = load("res://scenes/SeoulCycleBoard.gd").new()
+	var repeat_copy := str(copy_board.call(
+		"_repeat_allocation_progress_line", 2, 2))
+	var expected_repeat_copy := _tr(
+		"완료 뒤 추가 실행 · 클록 2/2 유지",
+		"ANOTHER ACTION AFTER COMPLETION · CLOCK HOLDS 2/2")
+	copy_board.free()
+	if repeat_copy != expected_repeat_copy \
+			or "ADDITIONAL RUN" in repeat_copy.to_upper():
+		_fail("People Board restored internal run jargon in its repeat-allocation copy: %s." % [
+			repeat_copy])
 		get_window().size = original_viewport_size
 		await get_tree().process_frame
 		return false
@@ -20930,13 +20944,18 @@ func _shot_title_collection_surface(lang: String = "en", prefix: String = "title
 	_prepare_main_game_state()
 	_seed_portfolio()
 	MetaProgression.data["unlocked_titles"] = [
-		"gosiwon_survivor",
-		"first_move",
-		"apartment_life",
-		"first_paycheck",
-		"first_investment",
+		"invest_master_title",
 		"steady_youth",
-		"father_peace_title",
+		"elite_course",
+		"outsider_title",
+		"dangerous_dreamer",
+		"my_own_way",
+		"stress_survivor",
+		"five_runs_title",
+		"ten_runs_title",
+		"clean_run_title",
+		"network_run_title",
+		"white_gangnam_title",
 	]
 	await _boot_main_game()
 	_mg.current_event = {}
@@ -20947,7 +20966,120 @@ func _shot_title_collection_surface(lang: String = "en", prefix: String = "title
 	if _mg.has_method("_open_title_collection"):
 		_mg._open_title_collection()
 		await _settle(0.8)
+		var title_modal := _mg.get("modal_panel") as Control
+		if not is_instance_valid(title_modal):
+			_fail("Title collection did not expose its player-facing modal.")
+			return
+		var title_text := _collect_control_text(title_modal)
+		var expected_titles := {
+			"invest_master_title": [
+				_tr("닫힌 노트북", "The Closed Laptop"),
+				_tr(
+					"새벽 시장을 지켜보다 스스로 정한 때에 화면을 닫을 수 있게 됐다.",
+					"After watching the market before dawn, you learned to close the screen at the moment you had set for yourself."),
+			],
+			"steady_youth": [
+				_tr("놓인 계단", "The Stairs Already There"),
+				_tr(
+					"낯선 지름길보다 이미 놓인 계단을 골라, 한 걸음씩 올라왔다.",
+					"You kept choosing the stairs already there over unfamiliar shortcuts, one step at a time."),
+			],
+			"elite_course": [
+				_tr("오래 오른 계단", "The Long Climb"),
+				_tr(
+					"같은 계단을 오래 올랐다. 익숙해진 풍경만큼 지나친 갈림길도 남았다.",
+					"You stayed on the same staircase for a long time. The view grew familiar, and some turnoffs slipped behind you."),
+			],
+			"outsider_title": [
+				_tr("다른 출구", "Another Exit"),
+				_tr(
+					"사람들이 몰린 방향에서 벗어나, 다른 출구를 여러 번 골랐다.",
+					"More than once, you stepped away from the crowd and chose another exit."),
+			],
+			"dangerous_dreamer": [
+				_tr("지도 밖의 길", "Beyond the Map"),
+				_tr(
+					"지도에 없는 길을 오래 걸었다. 발밑이 흔들린 날에도 방향을 쉽게 바꾸지 않았다.",
+					"You stayed on roads the map did not show, even on days when the ground felt uncertain."),
+			],
+			"my_own_way": [
+				_tr("두 길 사이", "Between Two Roads"),
+				_tr(
+					"이미 놓인 길과 지도 밖의 길을 오갔다. 어느 한쪽만으로는 이 5년을 설명할 수 없다.",
+					"You moved between the road already laid out and the road beyond the map. Neither one alone explains these five years."),
+			],
+			"stress_survivor": [
+				_tr("다음 아침", "The Next Morning"),
+				_tr(
+					"마음이 버티기 어려웠던 밤이 지나고도, 다음 아침은 왔다.",
+					"A night when it was hard to hold yourself together passed, and the next morning still came."),
+			],
+			"five_runs_title": [
+				_tr("다섯 번의 인생", "Five Lives"),
+				_tr(
+					"다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.",
+					"Lived five lives all the way through. Each one was different."),
+			],
+			"ten_runs_title": [
+				_tr("열 번의 인생", "Ten Lives"),
+				_tr(
+					"열 번을 살았다. 이제 이 도시의 반복되는 얼굴이 보이기 시작한다.",
+					"Lived ten lives. The city's recurring patterns are starting to show."),
+			],
+			"clean_run_title": [
+				_tr("청렴한 강남행", "Clean Road to Gangnam"),
+				_tr(
+					"도박 없이 30억에 도달했다. 이 도시에서 끝까지 원칙을 지켰다.",
+					"Reached 3 billion won without gambling and held to your principles in this city."),
+			],
+			"network_run_title": [
+				_tr("서울 인맥왕", "Seoul Network King"),
+				_tr(
+					"맺어 온 인연을 따라 강남에 들어섰다. 결국 사람이 가장 큰 자산이었다.",
+					"The people you came to know opened the way into Gangnam. In the end, people were the greatest asset."),
+			],
+			"white_gangnam_title": [
+				_tr("수첩의 다음 장", "The Notebook's Next Page"),
+				_tr(
+					"30억과 강남의 등기를 손에 쥔 뒤, 하지 않았던 일들을 돌아보며 오래된 수첩의 다음 장을 폈다.",
+					"With 3 billion won and a Gangnam deed in hand, you looked back on what you had refused to do and opened the old notebook to its next page."),
+			],
+		}
+		for raw_title_id in expected_titles:
+			var expected_pair: Array = expected_titles.get(raw_title_id, [])
+			for expected_copy in expected_pair:
+				if str(expected_copy) not in title_text:
+					_fail("Title collection lost the exact observational copy for %s: %s." % [
+						raw_title_id, str(expected_copy)])
+					return
+		for forbidden_copy in [
+			"투자 감각 70", "Investment sense 70",
+			"정석 선택 10회", "10 orthodox choices",
+			"정석 행동 20회", "20 orthodox choices",
+			"비정석 선택 10회", "10 unorthodox choices",
+			"비정석 행동 20회", "20 unorthodox moves",
+			"정석도 비정석도 각 10회", "10 orthodox and 10 unorthodox",
+			"정신력이 15 이하", "Mental fell to 15",
+			"5번의 런", "Completed five runs",
+			"10번의 런", "Ten runs",
+			"청렴런", "clean run", "인맥런", "network run",
+			"0.1%의 길", "The 0.1% path",
+		]:
+			if str(forbidden_copy).to_lower() in title_text.to_lower():
+				_fail("Title collection restored a hidden classifier/stat/run verdict: %s." % [
+					str(forbidden_copy)])
+				return
 		await _save(prefix + "01_title_collection")
+		var title_scroll := _mg.get("modal_scroll") as ScrollContainer
+		if not is_instance_valid(title_scroll):
+			_fail("Title collection lost its scroll owner.")
+			return
+		var title_scroll_bar := title_scroll.get_v_scroll_bar()
+		for scroll_step in [[0.46, "02_title_collection_middle"], [0.82, "03_title_collection_late"]]:
+			title_scroll.scroll_vertical = int(
+				float(title_scroll_bar.max_value) * float(scroll_step[0]))
+			await _settle(0.25)
+			await _save(prefix + str(scroll_step[1]))
 	else:
 		print("SKIP title collection (no _open_title_collection)")
 
@@ -20974,6 +21106,7 @@ func _shot_tutorial_surfaces(lang: String = "en", prefix: String = "tutorial_en_
 	])
 	await _capture_tutorial(parent_control, "baccarat", [0], [prefix + "04_baccarat"])
 	await _capture_tutorial(parent_control, "slot", [0], [prefix + "05_slot"])
+	await _capture_tutorial(parent_control, "racetrack", [0], [prefix + "06_racetrack"])
 
 func _capture_tutorial(parent_control: Control, game_id: String, slide_indices: Array, shot_names: Array) -> void:
 	_remove_nodes_by_script("res://scenes/TutorialOverlay.gd")
@@ -20987,6 +21120,16 @@ func _capture_tutorial(parent_control: Control, game_id: String, slide_indices: 
 		if overlay.has_method("_show_slide"):
 			overlay.call("_show_slide", int(slide_indices[i]))
 		await _settle(0.2)
+		if game_id == "racetrack" and int(slide_indices[i]) == 0:
+			var tutorial_text := _collect_control_text(overlay)
+			var expected_odds_copy := _tr(
+				"높은 배당 = 이길 확률 낮지만 대박 가능!",
+				"Higher odds mean a lower chance of winning, but a bigger payout.")
+			if expected_odds_copy not in tutorial_text \
+					or "swing a run" in tutorial_text.to_lower():
+				_fail("Racetrack tutorial restored internal run jargon or lost its outcome copy: %s." % [
+					tutorial_text])
+				return
 		await _save(str(shot_names[i]), 0.1)
 	_remove_nodes_by_script("res://scenes/TutorialOverlay.gd")
 	await _settle(0.2)

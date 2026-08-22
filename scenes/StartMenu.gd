@@ -590,7 +590,7 @@ func _build_ui():
 				core_loop_cap_week, core_loop_cap_week), true)
 		core_loop_v2_btn.tooltip_text = LocaleManager.ui_format(
 			"현재 열린 1~%d주 월간 약속 구조를 별도 저장 상태로 시작합니다.",
-			"Start the currently available Weeks 1–%d monthly-commitment slice in a separate run state.",
+			"Start the currently available Weeks 1–%d monthly-commitment slice with separate test save data.",
 			core_loop_cap_week, core_loop_cap_week)
 		core_loop_v2_btn.set_meta("core_loop_v2_test_entry", true)
 		core_loop_v2_btn.set_meta("build_entry_kind", "core_loop_v2_debug")

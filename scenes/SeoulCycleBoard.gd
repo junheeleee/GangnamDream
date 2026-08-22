@@ -913,10 +913,8 @@ func _refresh_preview() -> void:
 			"REGULAR ACTION AFTER MISSED CHANCE · CLOCK HOLDS %d/%d") % [
 			current_progress, target]
 	elif bool(preview.get("repeat_allocation", false)):
-		_preview_progress_label.text = _tr(
-			"완료 뒤 추가 실행 · 클록 %d/%d 유지",
-			"ADDITIONAL RUN AFTER COMPLETION · CLOCK HOLDS %d/%d") % [
-			current_progress, target]
+		_preview_progress_label.text = _repeat_allocation_progress_line(
+			current_progress, target)
 	else:
 		_preview_progress_label.text = _tr(
 			"진전 +%d칸  ·  %d/%d → %d/%d",
@@ -958,6 +956,13 @@ func _refresh_preview() -> void:
 	set_meta("seoul_cycle_preview_selected_trigger_candidate_id",
 		_trigger_preview_selected_candidate_id(preview))
 	_refresh_preview_geometry_if_ready()
+
+
+func _repeat_allocation_progress_line(current_progress: int, target: int) -> String:
+	return _tr(
+		"완료 뒤 추가 실행 · 클록 %d/%d 유지",
+		"ANOTHER ACTION AFTER COMPLETION · CLOCK HOLDS %d/%d") % [
+		current_progress, target]
 
 
 func _refresh_preview_geometry_if_ready() -> void:

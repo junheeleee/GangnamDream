@@ -50,6 +50,16 @@ class Rule:
     name: str
     pattern: re.Pattern[str]
     description: str
+    language: str = ""
+
+
+KO_RUN_JARGON_RE = re.compile(
+    r"(?:자유|투자|인맥|청렴|성실)런"
+    r"|(?<![0-9A-Za-z가-힣_])런"
+    r"(?:을|를|은|는|이|가|의|도|만|과|와|마다|에서|으로|부터|까지)?"
+    r"(?![0-9A-Za-z가-힣_])"
+)
+EN_RUN_JARGON_RE = re.compile(r"\bruns?\b", re.IGNORECASE)
 
 
 RULES: tuple[Rule, ...] = (
@@ -102,6 +112,94 @@ RULES: tuple[Rule, ...] = (
         "grade_en", re.compile(r"\bGRADE\s*[A-D]\b", re.IGNORECASE),
         "English letter grade",
     ),
+    Rule(
+        "run_jargon_ko", KO_RUN_JARGON_RE,
+        "Korean run-system jargon",
+        "ko",
+    ),
+    Rule(
+        "run_jargon_en", EN_RUN_JARGON_RE,
+        "English run-system jargon",
+        "en",
+    ),
+)
+
+
+RAW_TITLE_RULES: tuple[Rule, ...] = (
+    Rule(
+        "raw_run_jargon_ko", KO_RUN_JARGON_RE,
+        "Korean run-system jargon in title copy",
+        "ko",
+    ),
+    Rule(
+        "raw_run_jargon_en", EN_RUN_JARGON_RE,
+        "English run-system jargon in title copy",
+        "en",
+    ),
+    Rule(
+        "raw_stat_threshold_ko",
+        re.compile(
+            r"(?<![0-9A-Za-z가-힣_])"
+            r"(?:정신(?:력)?|건강|지력|사회성|사교력|외모|"
+            r"투자\s*감각|운|평판|업무\s*성과|호감(?:도)?)"
+            r"(?:이|가|은|는)?\s*(?:수치\s*)?\d+(?:\.\d+)?"
+            r"(?:\s*(?:이하|이상|미만|초과))?"
+        ),
+        "Korean exact stat threshold in title copy",
+        "ko",
+    ),
+    Rule(
+        "raw_stat_threshold_en",
+        re.compile(
+            r"\b(?:mental|health|intelligence|social(?:\s+skill)?|appearance|"
+            r"invest(?:ing|ment)(?:\s+(?:sense|skill))?|luck|reputation|"
+            r"work\s+performance|performance|affinity)\b"
+            r"(?:\s+(?:fell|rose|dropped|climbed))?(?:\s+to)?\s*:?\s*"
+            r"\d+(?:\.\d+)?(?:\s+or\s+(?:below|above))?",
+            re.IGNORECASE,
+        ),
+        "English exact stat threshold in title copy",
+        "en",
+    ),
+    Rule(
+        "raw_route_count_ko",
+        re.compile(
+            r"(?<![0-9A-Za-z가-힣_])(?:정석|비정석)(?:도)?"
+            r"(?:\s*(?:선택|행동))?(?:\s*(?:각|합계))?\s*\d+\s*회"
+        ),
+        "Korean orthodox/unorthodox route count in title copy",
+        "ko",
+    ),
+    Rule(
+        "raw_route_count_en",
+        re.compile(
+            r"(?:\b(?:made|logged|chose|completed)\s+(?:at\s+least\s+)?"
+            r"\d+\s+(?:orthodox|unorthodox)\b|"
+            r"\b(?:orthodox|unorthodox)\b.{0,24}\b\d+\b|"
+            r"\b\d+\b.{0,24}\b(?:orthodox|unorthodox)\b)",
+            re.IGNORECASE,
+        ),
+        "English orthodox/unorthodox route count in title copy",
+        "en",
+    ),
+    Rule(
+        "raw_rank_path_ko",
+        re.compile(
+            r"(?:상위\s*0\.1\s*%|0\.1\s*%\s*(?:의\s*)?"
+            r"(?:길|경로|순위|등수|상위))"
+        ),
+        "Korean computed 0.1% path/rank in title copy",
+        "ko",
+    ),
+    Rule(
+        "raw_rank_path_en",
+        re.compile(
+            r"(?:\btop\s*0\.1\s*%|\b0\.1\s*%\s*(?:path|rank|percentile)\b)",
+            re.IGNORECASE,
+        ),
+        "English computed 0.1% path/rank in title copy",
+        "en",
+    ),
 )
 
 
@@ -111,6 +209,7 @@ class AllowRule:
     function: str
     rule: str
     reason: str
+    exact_text: str = ""
 
 
 # Exceptions are pattern-specific.  A title function may say "unlocked", but
@@ -161,6 +260,24 @@ ALLOWLIST: tuple[AllowRule, ...] = (
     AllowRule(
         "scenes/BlackjackTable.gd", "_render_game", "multiplier_en",
         "blackjack double-down wager multiplier",
+    ),
+    # These are ordinary English uses of "run", not the retired play-session
+    # system term.  Match the full current literal so the exception cannot
+    # silently cover a second, unrelated run phrase in the same function.
+    AllowRule(
+        "scenes/JeongseonCasino.gd", "_show_casino_glossary",
+        "run_jargon_en", "casino RTP time horizon",
+        "Return To Player. If a slot has 90% RTP, KRW 1,000,000 wagered "
+        "returns KRW 900,000 in theory over the long run. Short-term results "
+        "can swing wildly.",
+    ),
+    AllowRule(
+        "scenes/MainGame.gd", "_side_shift_title", "run_jargon_en",
+        "ordinary delivery route noun", "Extra delivery run",
+    ),
+    AllowRule(
+        "scenes/MainGame.gd", "_rel_effect_hint", "run_jargon_en",
+        "ordinary phrasal verb", "Family who do not hang up when the words run out",
     ),
     # Exact costs are intentionally honest before a choice.  Only stat-delta
     # rules are exempt: unlock/WAVE/grade copy remains forbidden here.
@@ -251,10 +368,11 @@ ALLOWLIST: tuple[AllowRule, ...] = (
     ),
 )
 
-ALLOW_INDEX = {
-    (entry.path, entry.function, entry.rule): entry.reason
-    for entry in ALLOWLIST
-}
+ALLOW_INDEX: dict[tuple[str, str, str], tuple[AllowRule, ...]] = {}
+for _allow_entry in ALLOWLIST:
+    _allow_key = (
+        _allow_entry.path, _allow_entry.function, _allow_entry.rule)
+    ALLOW_INDEX[_allow_key] = ALLOW_INDEX.get(_allow_key, ()) + (_allow_entry,)
 
 
 @dataclass(frozen=True)
@@ -475,16 +593,494 @@ def extract_surface_literals(
     return surfaces, errors, call_count
 
 
-def _literal_violations(surfaces: list[SurfaceLiteral]) -> list[Violation]:
+RAW_TITLE_PATH = "autoloads/MetaProgression.gd"
+RAW_TITLE_BLOCKS: tuple[tuple[str, re.Pattern[str], str], ...] = (
+    (
+        "ALL_TITLES",
+        re.compile(r"(?m)^\s*const\s+ALL_TITLES\s*(?::=|=)\s*\["),
+        "ko",
+    ),
+    (
+        "TITLE_EN",
+        re.compile(r"(?m)^\s*const\s+TITLE_EN\s*(?::=|=)\s*\{"),
+        "en",
+    ),
+)
+RAW_TITLE_FIELDS = frozenset(("name", "desc"))
+RAW_TITLE_ENTRY_FIELDS = frozenset(("id", "name", "desc"))
+RAW_TITLE_EXPECTED_ENTRIES = 50
+
+
+def _balanced_region_end(source: str, opening: int) -> int:
+    """Return the end of one bracketed GDScript literal, ignoring text."""
+    openers = {"(": ")", "[": "]", "{": "}"}
+    closers = {value: key for key, value in openers.items()}
+    if opening >= len(source) or source[opening] not in openers:
+        raise ValueError("raw title block has no opening delimiter")
+    stack: list[str] = []
+    quote = ""
+    escaped = False
+    in_comment = False
+    for index in range(opening, len(source)):
+        character = source[index]
+        if in_comment:
+            if character == "\n":
+                in_comment = False
+            continue
+        if quote:
+            if escaped:
+                escaped = False
+            elif character == "\\":
+                escaped = True
+            elif character == quote:
+                quote = ""
+            continue
+        if character == "#":
+            in_comment = True
+        elif character in ("\"", "'"):
+            quote = character
+        elif character in openers:
+            stack.append(character)
+        elif character in closers:
+            if not stack or stack[-1] != closers[character]:
+                raise ValueError("raw title block has mismatched delimiters")
+            stack.pop()
+            if not stack:
+                return index + 1
+    raise ValueError("unterminated raw title block")
+
+
+def _string_token_at(source: str, start: int, limit: int) -> tuple[str, int]:
+    """Decode exactly one quoted GDScript token used by the title catalog."""
+    if start >= limit or source[start] not in ("\"", "'"):
+        raise ValueError("raw title field is not a string literal")
+    quote = source[start]
+    index = start + 1
+    escaped = False
+    while index < limit:
+        character = source[index]
+        if escaped:
+            escaped = False
+        elif character == "\\":
+            escaped = True
+        elif character == quote:
+            index += 1
+            break
+        index += 1
+    else:
+        raise ValueError("unterminated raw title string")
+    try:
+        value = ast.literal_eval(source[start:index])
+    except (SyntaxError, ValueError) as exc:
+        raise ValueError("invalid raw title string") from exc
+    if not isinstance(value, str):
+        raise ValueError("raw title field is not text")
+    return value, index
+
+
+def _skip_raw_layout(source: str, start: int, limit: int) -> int:
+    """Skip whitespace and GDScript comments between a key and its value."""
+    index = start
+    while index < limit:
+        if source[index].isspace():
+            index += 1
+            continue
+        if source[index] == "#":
+            newline = source.find("\n", index + 1, limit)
+            return limit if newline < 0 else _skip_raw_layout(
+                source, newline + 1, limit)
+        break
+    return index
+
+
+def _raw_title_parse_error(
+    path: str, source: str, offset: int, owner: str, language: str,
+    message: str,
+) -> Violation:
+    return Violation(
+        path, source.count("\n", 0, max(0, offset)) + 1,
+        owner, "raw_title_parse_error", language, message,
+    )
+
+
+def _raw_scalar_end(source: str, start: int, limit: int) -> int:
+    """Skip a non-container value until its direct dictionary delimiter."""
+    index = start
+    stack: list[str] = []
+    openers = {"(": ")", "[": "]", "{": "}"}
+    closers = {value: key for key, value in openers.items()}
+    quote = ""
+    escaped = False
+    in_comment = False
+    while index < limit:
+        character = source[index]
+        if in_comment:
+            if character == "\n":
+                in_comment = False
+            index += 1
+            continue
+        if quote:
+            if escaped:
+                escaped = False
+            elif character == "\\":
+                escaped = True
+            elif character == quote:
+                quote = ""
+            index += 1
+            continue
+        if character == "#":
+            in_comment = True
+        elif character in ("\"", "'"):
+            quote = character
+        elif character in openers:
+            stack.append(character)
+        elif character in closers:
+            if not stack:
+                break
+            if stack[-1] != closers[character]:
+                raise ValueError("raw title value has mismatched delimiters")
+            stack.pop()
+        elif character == "," and not stack:
+            break
+        index += 1
+    if not source[start:index].strip():
+        raise ValueError("raw title field has no value")
+    return index
+
+
+def _direct_raw_title_fields(
+    path: str, source: str, opening: int, end: int,
+    owner: str, language: str,
+) -> tuple[dict[str, tuple[str, int]], list[Violation]]:
+    """Parse direct string fields from one title dictionary only."""
+    fields: dict[str, tuple[str, int]] = {}
+    errors: list[Violation] = []
+    index = opening + 1
+    inner_limit = end - 1
+    while True:
+        index = _skip_raw_layout(source, index, inner_limit)
+        if index >= inner_limit:
+            break
+        key_start = index
+        try:
+            key, key_end = _string_token_at(source, key_start, inner_limit)
+        except ValueError as exc:
+            errors.append(_raw_title_parse_error(
+                path, source, key_start, owner, language, str(exc)))
+            break
+        cursor = _skip_raw_layout(source, key_end, inner_limit)
+        if cursor >= inner_limit or source[cursor] != ":":
+            errors.append(_raw_title_parse_error(
+                path, source, cursor, owner, language,
+                "raw title dictionary key has no colon"))
+            break
+        value_start = _skip_raw_layout(source, cursor + 1, inner_limit)
+        if value_start >= inner_limit:
+            errors.append(_raw_title_parse_error(
+                path, source, value_start, owner, language,
+                "raw title dictionary key has no value"))
+            break
+
+        value_is_string = source[value_start] in ("\"", "'")
+        value = ""
+        try:
+            if value_is_string:
+                value, value_end = _string_token_at(
+                    source, value_start, inner_limit)
+            elif source[value_start] in "([{":
+                value_end = _balanced_region_end(source, value_start)
+                if value_end > inner_limit:
+                    raise ValueError("raw title nested value escapes its entry")
+            else:
+                value_end = _raw_scalar_end(
+                    source, value_start, inner_limit)
+        except ValueError as exc:
+            errors.append(_raw_title_parse_error(
+                path, source, value_start, owner, language, str(exc)))
+            break
+
+        if key in RAW_TITLE_ENTRY_FIELDS:
+            if not value_is_string:
+                errors.append(_raw_title_parse_error(
+                    path, source, value_start, owner, language,
+                    f"direct {key} field is not a string literal"))
+            elif key in fields:
+                errors.append(_raw_title_parse_error(
+                    path, source, key_start, owner, language,
+                    f"duplicate direct {key} field"))
+            else:
+                fields[key] = (value, value_start)
+
+        cursor = _skip_raw_layout(source, value_end, inner_limit)
+        if cursor >= inner_limit:
+            break
+        if source[cursor] != ",":
+            errors.append(_raw_title_parse_error(
+                path, source, cursor, owner, language,
+                "raw title dictionary fields are not comma-separated"))
+            break
+        index = cursor + 1
+    return fields, errors
+
+
+def _validate_direct_raw_title_fields(
+    path: str, source: str, entry_offset: int, owner: str, language: str,
+    fields: dict[str, tuple[str, int]], required: tuple[str, ...],
+) -> list[Violation]:
+    errors: list[Violation] = []
+    for field in required:
+        if field not in fields:
+            errors.append(_raw_title_parse_error(
+                path, source, entry_offset, owner, language,
+                f"raw title entry is missing direct {field}"))
+            continue
+        value, value_offset = fields[field]
+        if not value.strip():
+            errors.append(_raw_title_parse_error(
+                path, source, value_offset, owner, language,
+                f"raw title entry has empty direct {field}"))
+    return errors
+
+
+def _raw_title_array_entries(
+    path: str, source: str, opening: int, end: int, language: str,
+) -> tuple[
+    list[tuple[str, int, dict[str, tuple[str, int]]]], list[Violation],
+]:
+    owner = "<ALL_TITLES>"
+    entries: list[tuple[str, int, dict[str, tuple[str, int]]]] = []
+    errors: list[Violation] = []
+    ids: set[str] = set()
+    index = opening + 1
+    inner_limit = end - 1
+    while True:
+        index = _skip_raw_layout(source, index, inner_limit)
+        if index >= inner_limit:
+            break
+        if source[index] != "{":
+            errors.append(_raw_title_parse_error(
+                path, source, index, owner, language,
+                "ALL_TITLES contains a non-dictionary entry"))
+            break
+        entry_start = index
+        try:
+            entry_end = _balanced_region_end(source, entry_start)
+        except ValueError as exc:
+            errors.append(_raw_title_parse_error(
+                path, source, entry_start, owner, language, str(exc)))
+            break
+        if entry_end > inner_limit:
+            errors.append(_raw_title_parse_error(
+                path, source, entry_start, owner, language,
+                "ALL_TITLES entry escapes its catalog"))
+            break
+        fields, field_errors = _direct_raw_title_fields(
+            path, source, entry_start, entry_end, owner, language)
+        errors.extend(field_errors)
+        errors.extend(_validate_direct_raw_title_fields(
+            path, source, entry_start, owner, language, fields,
+            ("id", "name", "desc")))
+        title_id = fields.get("id", ("", entry_start))[0].strip()
+        if title_id:
+            if title_id in ids:
+                errors.append(_raw_title_parse_error(
+                    path, source, fields["id"][1], owner, language,
+                    f"duplicate ALL_TITLES id {title_id}"))
+            ids.add(title_id)
+        entries.append((title_id, entry_start, fields))
+        cursor = _skip_raw_layout(source, entry_end, inner_limit)
+        if cursor >= inner_limit:
+            break
+        if source[cursor] != ",":
+            errors.append(_raw_title_parse_error(
+                path, source, cursor, owner, language,
+                "ALL_TITLES entries are not comma-separated"))
+            break
+        index = cursor + 1
+    if len(entries) != RAW_TITLE_EXPECTED_ENTRIES:
+        errors.append(_raw_title_parse_error(
+            path, source, opening, owner, language,
+            f"ALL_TITLES expected exactly {RAW_TITLE_EXPECTED_ENTRIES} "
+            f"entries, found {len(entries)}"))
+    return entries, errors
+
+
+def _raw_title_map_entries(
+    path: str, source: str, opening: int, end: int, language: str,
+) -> tuple[
+    list[tuple[str, int, dict[str, tuple[str, int]]]], list[Violation],
+]:
+    owner = "<TITLE_EN>"
+    entries: list[tuple[str, int, dict[str, tuple[str, int]]]] = []
+    errors: list[Violation] = []
+    ids: set[str] = set()
+    index = opening + 1
+    inner_limit = end - 1
+    while True:
+        index = _skip_raw_layout(source, index, inner_limit)
+        if index >= inner_limit:
+            break
+        id_start = index
+        try:
+            title_id, id_end = _string_token_at(source, id_start, inner_limit)
+        except ValueError as exc:
+            errors.append(_raw_title_parse_error(
+                path, source, id_start, owner, language, str(exc)))
+            break
+        cursor = _skip_raw_layout(source, id_end, inner_limit)
+        if cursor >= inner_limit or source[cursor] != ":":
+            errors.append(_raw_title_parse_error(
+                path, source, cursor, owner, language,
+                "TITLE_EN id has no dictionary value"))
+            break
+        value_start = _skip_raw_layout(source, cursor + 1, inner_limit)
+        if value_start >= inner_limit or source[value_start] != "{":
+            errors.append(_raw_title_parse_error(
+                path, source, value_start, owner, language,
+                "TITLE_EN entry is not a direct dictionary"))
+            break
+        try:
+            entry_end = _balanced_region_end(source, value_start)
+        except ValueError as exc:
+            errors.append(_raw_title_parse_error(
+                path, source, value_start, owner, language, str(exc)))
+            break
+        if entry_end > inner_limit:
+            errors.append(_raw_title_parse_error(
+                path, source, value_start, owner, language,
+                "TITLE_EN entry escapes its catalog"))
+            break
+        fields, field_errors = _direct_raw_title_fields(
+            path, source, value_start, entry_end, owner, language)
+        errors.extend(field_errors)
+        errors.extend(_validate_direct_raw_title_fields(
+            path, source, value_start, owner, language, fields,
+            ("name", "desc")))
+        title_id = title_id.strip()
+        if not title_id:
+            errors.append(_raw_title_parse_error(
+                path, source, id_start, owner, language,
+                "TITLE_EN has an empty id"))
+        elif title_id in ids:
+            errors.append(_raw_title_parse_error(
+                path, source, id_start, owner, language,
+                f"duplicate TITLE_EN id {title_id}"))
+        ids.add(title_id)
+        entries.append((title_id, id_start, fields))
+        cursor = _skip_raw_layout(source, entry_end, inner_limit)
+        if cursor >= inner_limit:
+            break
+        if source[cursor] != ",":
+            errors.append(_raw_title_parse_error(
+                path, source, cursor, owner, language,
+                "TITLE_EN entries are not comma-separated"))
+            break
+        index = cursor + 1
+    if len(entries) != RAW_TITLE_EXPECTED_ENTRIES:
+        errors.append(_raw_title_parse_error(
+            path, source, opening, owner, language,
+            f"TITLE_EN expected exactly {RAW_TITLE_EXPECTED_ENTRIES} "
+            f"entries, found {len(entries)}"))
+    return entries, errors
+
+
+def extract_raw_title_literals(
+    path: str, source: str,
+) -> tuple[list[SurfaceLiteral], list[Violation]]:
+    """Collect only player-visible MetaProgression title names/descriptions.
+
+    IDs, category/internal keys, conditions, and run-history implementation are
+    deliberately outside these two balanced constant blocks and two fields.
+    Missing or malformed expected blocks fail closed instead of returning a
+    false-green empty inventory.
+    """
+    if path != RAW_TITLE_PATH:
+        return [], []
+    surfaces: list[SurfaceLiteral] = []
+    errors: list[Violation] = []
+    regions: dict[str, tuple[int, int, str]] = {}
+    for block_name, marker, language in RAW_TITLE_BLOCKS:
+        match = marker.search(source)
+        if match is None:
+            errors.append(Violation(
+                path, 1, f"<{block_name}>", "raw_title_parse_error",
+                language, f"missing {block_name} catalog",
+            ))
+            continue
+        opening = match.end() - 1
+        try:
+            end = _balanced_region_end(source, opening)
+        except ValueError as exc:
+            errors.append(Violation(
+                path, source.count("\n", 0, opening) + 1,
+                f"<{block_name}>", "raw_title_parse_error", language,
+                str(exc),
+            ))
+            continue
+        regions[block_name] = (opening, end, language)
+
+    ko_entries: list[tuple[str, int, dict[str, tuple[str, int]]]] = []
+    en_entries: list[tuple[str, int, dict[str, tuple[str, int]]]] = []
+    if "ALL_TITLES" in regions:
+        opening, end, language = regions["ALL_TITLES"]
+        ko_entries, block_errors = _raw_title_array_entries(
+            path, source, opening, end, language)
+        errors.extend(block_errors)
+    if "TITLE_EN" in regions:
+        opening, end, language = regions["TITLE_EN"]
+        en_entries, block_errors = _raw_title_map_entries(
+            path, source, opening, end, language)
+        errors.extend(block_errors)
+
+    if "ALL_TITLES" in regions and "TITLE_EN" in regions:
+        ko_ids = {title_id for title_id, _offset, _fields in ko_entries if title_id}
+        en_ids = {title_id for title_id, _offset, _fields in en_entries if title_id}
+        if ko_ids != en_ids:
+            opening, _end, language = regions["TITLE_EN"]
+            errors.append(_raw_title_parse_error(
+                path, source, opening, "<TITLE_EN>", language,
+                "raw title KO/EN id parity mismatch: "
+                f"missing_en={sorted(ko_ids - en_ids)} "
+                f"extra_en={sorted(en_ids - ko_ids)}"))
+
+    for block_name, language, entries in (
+        ("ALL_TITLES", "ko", ko_entries),
+        ("TITLE_EN", "en", en_entries),
+    ):
+        for _title_id, _entry_offset, fields in entries:
+            for field in RAW_TITLE_FIELDS:
+                if field not in fields:
+                    continue
+                value, value_start = fields[field]
+                surfaces.append(SurfaceLiteral(
+                    path, source.count("\n", 0, value_start) + 1,
+                    f"<{block_name}.{field}>", block_name, language, value,
+                ))
+    return surfaces, errors
+
+
+def _rule_violations(
+    surfaces: list[SurfaceLiteral], rules: tuple[Rule, ...],
+) -> list[Violation]:
     violations: list[Violation] = []
     for surface in surfaces:
-        for rule in RULES:
+        for rule in rules:
+            if rule.language and rule.language != surface.language:
+                continue
             if rule.pattern.search(surface.text):
                 violations.append(Violation(
                     surface.path, surface.line, surface.function, rule.name,
                     surface.language, surface.text,
                 ))
     return violations
+
+
+def _literal_violations(surfaces: list[SurfaceLiteral]) -> list[Violation]:
+    return _rule_violations(surfaces, RULES)
+
+
+def _raw_title_violations(surfaces: list[SurfaceLiteral]) -> list[Violation]:
+    return _rule_violations(surfaces, RAW_TITLE_RULES)
 
 
 def _function_bodies(source: str) -> dict[str, tuple[int, str]]:
@@ -1072,47 +1668,11 @@ def _structural_violations(path: str, source: str) -> list[Violation]:
                 ("ending_hidden_route_verdict", re.compile(
                     r"GameState\.route_(?:orthodox|unorthodox)|\broute_diff\b|"
                     r"\bis_(?:orthodox|unorthodox)\b|get_playstyle_label\s*\(")),
-                ("ending_run_jargon", re.compile(
-                    r"_tr\s*\(\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']"
-                    r"\s*,\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']")),
-            ),
-            "_ending_build_ledger_page": (
-                ("ending_run_jargon", re.compile(
-                    r"_tr\s*\(\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']"
-                    r"\s*,\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']")),
-            ),
-            "_ending_build_collection_page": (
-                ("ending_run_jargon", re.compile(
-                    r"_tr\s*\(\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']"
-                    r"\s*,\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']")),
             ),
             "_ending_milestones": (
                 ("ending_system_milestone", re.compile(
                     r"최고\s*티어|Top-tier|투자\s*(?:고수|중수)|"
                     r"(?:expert|intermediate)\s+investor", re.IGNORECASE)),
-                ("ending_run_jargon", re.compile(
-                    r"_tr\s*\(\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']"
-                    r"\s*,\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']")),
-            ),
-            "_ending_add_unlocks": (
-                ("ending_run_jargon", re.compile(
-                    r"_tr\s*\(\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']"
-                    r"\s*,\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']")),
-            ),
-            "_run_card_text": (
-                ("ending_run_jargon", re.compile(
-                    r"_tr\s*\(\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']"
-                    r"\s*,\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']")),
-            ),
-            "_ending_next_run_hints": (
-                ("ending_run_jargon", re.compile(
-                    r"_tr\s*\(\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']"
-                    r"\s*,\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']")),
-            ),
-            "_ending_card_signal_line": (
-                ("ending_run_jargon", re.compile(
-                    r"_tr\s*\(\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']"
-                    r"\s*,\s*[\"'][^\"'\n]*(?:런|Run|run)[^\"'\n]*[\"']")),
             ),
             "_ending_playstyle": (
                 ("ending_hidden_playstyle", re.compile(
@@ -1189,11 +1749,14 @@ def _structural_violations(path: str, source: str) -> list[Violation]:
 
 def scan_source(
     path: str, source: str,
-) -> tuple[list[Violation], list[Violation], int, int]:
+) -> tuple[list[Violation], list[Violation], int, int, int]:
     surfaces, errors, calls = extract_surface_literals(path, source)
+    raw_surfaces, raw_errors = extract_raw_title_literals(path, source)
     observed = (
         errors
+        + raw_errors
         + _literal_violations(surfaces)
+        + _raw_title_violations(raw_surfaces)
         + _structural_violations(path, source)
         + _generic_dynamic_violations(path, source)
     )
@@ -1201,11 +1764,16 @@ def scan_source(
     blocked: list[Violation] = []
     for violation in observed:
         key = (violation.path, violation.function, violation.rule)
-        if key in ALLOW_INDEX:
+        exemptions = ALLOW_INDEX.get(key, ())
+        if any(
+            not exemption.exact_text
+            or exemption.exact_text == violation.text
+            for exemption in exemptions
+        ):
             allowed.append(violation)
         else:
             blocked.append(violation)
-    return blocked, allowed, calls, len(surfaces)
+    return blocked, allowed, calls, len(surfaces), len(raw_surfaces)
 
 
 def repository_targets() -> list[Path]:
@@ -1217,24 +1785,31 @@ def repository_targets() -> list[Path]:
     return sorted(targets)
 
 
-def audit_repository() -> tuple[list[Violation], int, int, int, int]:
+def audit_repository() -> tuple[list[Violation], int, int, int, int, int]:
     blocked: list[Violation] = []
     allowed_count = 0
     calls = 0
     literals = 0
+    raw_title_literals = 0
     targets = repository_targets()
     for target in targets:
         relative = str(target.relative_to(ROOT))
         source = target.read_text(encoding="utf-8", errors="strict")
-        source_blocked, source_allowed, source_calls, source_literals = scan_source(
-            relative, source)
+        (
+            source_blocked, source_allowed, source_calls, source_literals,
+            source_raw_title_literals,
+        ) = scan_source(relative, source)
         blocked.extend(source_blocked)
         allowed_count += len(source_allowed)
         calls += source_calls
         literals += source_literals
+        raw_title_literals += source_raw_title_literals
     blocked.sort(key=lambda row: (
         row.path, row.line, row.function, row.rule, row.language, row.text))
-    return blocked, allowed_count, len(targets), calls, literals
+    return (
+        blocked, allowed_count, len(targets), calls, literals,
+        raw_title_literals,
+    )
 
 
 def run_self_test() -> tuple[list[str], int]:
@@ -1247,10 +1822,39 @@ def run_self_test() -> tuple[list[str], int]:
     ) -> None:
         nonlocal cases
         cases += 1
-        blocked, _allowed, _calls, _literals = scan_source(path, source)
+        blocked, _allowed, _calls, _literals, _raw_literals = scan_source(
+            path, source)
         actual = {row.rule for row in blocked}
         if actual != expected:
             failures.append(f"{label}: expected={sorted(expected)} actual={sorted(actual)}")
+
+    def raw_title_source(
+        *, ko_name: str = "조용한 이름", ko_desc: str = "조용한 설명.",
+        en_name: str = "Quiet Name", en_desc: str = "A quiet description.",
+        ko_extra: str = "", en_extra: str = "",
+    ) -> str:
+        ko_entries: list[str] = []
+        en_entries: list[str] = []
+        for index in range(RAW_TITLE_EXPECTED_ENTRIES):
+            title_id = f"raw_title_{index:02d}"
+            entry_ko_name = ko_name if index == 0 else f"조용한 이름 {index}"
+            entry_ko_desc = ko_desc if index == 0 else f"조용한 설명 {index}."
+            entry_en_name = en_name if index == 0 else f"Quiet Name {index}"
+            entry_en_desc = en_desc if index == 0 else f"A quiet description {index}."
+            entry_ko_extra = ko_extra if index == 0 else ""
+            entry_en_extra = en_extra if index == 0 else ""
+            ko_entries.append(
+                f" {{'id':{title_id!r}, 'name':{entry_ko_name!r}, "
+                f"'desc':{entry_ko_desc!r}, 'condition':'5번의 런'"
+                f"{entry_ko_extra}}}")
+            en_entries.append(
+                f" {title_id!r}: {{'name':{entry_en_name!r}, "
+                f"'desc':{entry_en_desc!r}, 'condition':'Complete five runs'"
+                f"{entry_en_extra}}}")
+        return (
+            "const ALL_TITLES := [\n" + ",\n".join(ko_entries) + "\n]\n"
+            "const TITLE_EN := {\n" + ",\n".join(en_entries) + "\n}\n"
+        )
 
     expect_rules(
         "Korean stat", 'func show():\n return _tr("정신 -8", "quiet night")\n',
@@ -1337,6 +1941,45 @@ def run_self_test() -> tuple[list[str], int]:
     expect_rules(
         "ordinary double cost", 'func show():\n return _tr("교통비 2배", "Twice the fare")\n',
         set(),
+    )
+    expect_rules(
+        "English-only run jargon",
+        'func show():\n return _tr("새로운 삶", "A new run begins")\n',
+        {"run_jargon_en"},
+    )
+    expect_rules(
+        "Korean standalone run jargon",
+        'func show():\n return _tr("이번 런을 마쳤다", "This life ended")\n',
+        {"run_jargon_ko"},
+    )
+    expect_rules(
+        "Korean theme-suffix run jargon",
+        'func show():\n return _tr("청렴런 기록", "A principled record")\n',
+        {"run_jargon_ko"},
+    )
+    expect_rules(
+        "casino long-run natural context",
+        'func _show_casino_glossary():\n return _tr("장기 환수율", '
+        '"Return To Player. If a slot has 90% RTP, KRW 1,000,000 wagered '
+        'returns KRW 900,000 in theory over the long run. Short-term results '
+        'can swing wildly.")\n',
+        set(), "scenes/JeongseonCasino.gd",
+    )
+    expect_rules(
+        "delivery-run natural context",
+        'func _side_shift_title():\n return _tr("추가 배달", "Extra delivery run")\n',
+        set(), "scenes/MainGame.gd",
+    )
+    expect_rules(
+        "words-run-out natural context",
+        'func _rel_effect_hint():\n return _tr("말이 끊겨도 전화를 바로 끊지 않는 가족", '
+        '"Family who do not hang up when the words run out")\n',
+        set(), "scenes/MainGame.gd",
+    )
+    expect_rules(
+        "exact run allowlist does not exempt sibling copy",
+        'func _side_shift_title():\n return _tr("다음 삶", "Another run")\n',
+        {"run_jargon_en"}, "scenes/MainGame.gd",
     )
     expect_rules(
         "title allowlist",
@@ -1466,7 +2109,7 @@ def run_self_test() -> tuple[list[str], int]:
         "ending internal run jargon",
         'func _ending_milestones(parent):\n'
         ' return _tr("이번 런 발자취", "This Run Footsteps")\n',
-        {"ending_run_jargon"}, "scenes/MainGame.gd",
+        {"run_jargon_en", "run_jargon_ko"}, "scenes/MainGame.gd",
     )
     expect_rules(
         "observational result copy remains legal",
@@ -1670,6 +2313,100 @@ def run_self_test() -> tuple[list[str], int]:
         {"retired_a4_receipt"}, "scenes/MainGame.gd",
     )
     expect_rules(
+        "raw Korean title description run jargon",
+        raw_title_source(ko_desc="이번 런을 끝까지 마쳤다."),
+        {"raw_run_jargon_ko"}, RAW_TITLE_PATH,
+    )
+    expect_rules(
+        "raw Korean title name run jargon",
+        raw_title_source(ko_name="청렴런 완주자"),
+        {"raw_run_jargon_ko"}, RAW_TITLE_PATH,
+    )
+    expect_rules(
+        "raw English title description run jargon",
+        raw_title_source(en_desc="Completed five runs in Seoul."),
+        {"raw_run_jargon_en"}, RAW_TITLE_PATH,
+    )
+    expect_rules(
+        "raw English title name run jargon",
+        raw_title_source(en_name="Clean Run"),
+        {"raw_run_jargon_en"}, RAW_TITLE_PATH,
+    )
+    expect_rules(
+        "raw exact stat thresholds",
+        raw_title_source(
+            ko_desc="투자 감각 70. 시장이 다르게 보였다.",
+            en_desc="Investment sense 70. The market looked different.",
+        ),
+        {"raw_stat_threshold_en", "raw_stat_threshold_ko"}, RAW_TITLE_PATH,
+    )
+    expect_rules(
+        "raw orthodox route counts",
+        raw_title_source(
+            ko_desc="정석도 비정석도 각 10회 이상.",
+            en_desc="Made at least 10 orthodox and 10 unorthodox choices.",
+        ),
+        {"raw_route_count_en", "raw_route_count_ko"}, RAW_TITLE_PATH,
+    )
+    expect_rules(
+        "raw computed rank path",
+        raw_title_source(
+            ko_desc="화면이 하얗게 빛나던 0.1%의 길.",
+            en_desc="Remember the white screen. The 0.1% path.",
+        ),
+        {"raw_rank_path_en", "raw_rank_path_ko"}, RAW_TITLE_PATH,
+    )
+    expect_rules(
+        "raw internal ids conditions and run-theme logic ignored",
+        raw_title_source()
+        + 'func _condition(run):\n'
+        + ' return run.get("run_theme", "") == "청렴런"\n',
+        set(), RAW_TITLE_PATH,
+    )
+    expect_rules(
+        "raw honest roulette house odds",
+        raw_title_source(
+            ko_desc="룰렛 15스핀 이상. 하우스엣지 2.7%는 알지만 멈출 수 없다.",
+            en_desc=("Spun roulette 15 or more times. You know the 2.7% "
+                     "house edge and still cannot stop."),
+        ),
+        set(), RAW_TITLE_PATH,
+    )
+    expect_rules(
+        "raw empty catalogs fail closed",
+        "const ALL_TITLES := []\nconst TITLE_EN := {}\n",
+        {"raw_title_parse_error"}, RAW_TITLE_PATH,
+    )
+    expect_rules(
+        "raw missing catalog fails closed",
+        "const ALL_TITLES := []\n",
+        {"raw_title_parse_error"}, RAW_TITLE_PATH,
+    )
+    expect_rules(
+        "raw missing direct field fails closed",
+        raw_title_source().replace("'desc':", "'detail':", 1),
+        {"raw_title_parse_error"}, RAW_TITLE_PATH,
+    )
+    expect_rules(
+        "raw empty id fails closed",
+        raw_title_source().replace("'id':'raw_title_00'", "'id':''", 1),
+        {"raw_title_parse_error"}, RAW_TITLE_PATH,
+    )
+    expect_rules(
+        "raw KO EN id parity fails closed",
+        raw_title_source().replace(
+            "'raw_title_00': {'name':", "'raw_title_other': {'name':", 1),
+        {"raw_title_parse_error"}, RAW_TITLE_PATH,
+    )
+    expect_rules(
+        "raw nested internal title-like fields ignored",
+        raw_title_source(
+            ko_extra=", 'metadata': {'name':'청렴런', 'desc':'투자 감각 70'}",
+            en_extra=", 'metadata': {'name':'Clean Run', 'desc':'Mental 15'}",
+        ),
+        set(), RAW_TITLE_PATH,
+    )
+    expect_rules(
         "malformed localized call",
         'func show():\n return _tr("해금", "Unlocked"\n',
         {"parse_error"},
@@ -1698,7 +2435,9 @@ def main() -> int:
             failures.extend(self_test_failures)
 
     try:
-        violations, allowed, files, calls, literals = audit_repository()
+        (
+            violations, allowed, files, calls, literals, raw_title_literals,
+        ) = audit_repository()
     except (OSError, UnicodeError) as exc:
         print(f"PLAYER_SURFACE_LANGUAGE_AUDIT_FAIL read_error={exc}")
         return 1
@@ -1706,6 +2445,7 @@ def main() -> int:
     print(
         "PLAYER_SURFACE_LANGUAGE "
         f"files={files} localized_calls={calls} literals={literals} "
+        f"raw_title_literals={raw_title_literals} "
         f"allowed={allowed} violations={len(violations)}"
     )
     if violations:

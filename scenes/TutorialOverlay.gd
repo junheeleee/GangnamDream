@@ -406,7 +406,7 @@ static func _get_slides(game_id: String) -> Array:
 					+ "[b]Reading form[/b]\n"
 					+ "  More stars mean stronger recent performance\n"
 					+ "  Lower odds mean higher public confidence\n"
-					+ "  Higher odds are risky, but can swing a run\n\n"
+					+ "  Higher odds mean a lower chance of winning, but a bigger payout.\n\n"
 					+ "[b]Bet types[/b]\n"
 					+ "  Win: pick the winner\n"
 					+ "  Place / Exacta style bets use multiple horses\n\n"
