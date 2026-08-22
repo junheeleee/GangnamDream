@@ -19,6 +19,17 @@
 > 차례로 옮긴다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-22 (Codex — ORDER-123 원격 24주 입력 시간 예산 재개)
+
+- closure `814f84b647aef8e351b7e5df727fe092309781ea`의 원격 run
+  `32537893833`은 정적 job과 전체 `audit.sh`를 통과했다. KO PlayStation도
+  Board 행렬, W9 exact terminal tuple, `v2_hyunsu_study_followup`을 통과하고
+  W15까지 진행했으나 workflow의 420초 상한에 정확히 닿아 exit `124`로 끝났다.
+- 종료 1.66초 전에도 W15 장면을 출력했고 engine/script/QA failure는 `0`이라
+  제품 정지가 아니다. ORDER-123을 `[~]`로 되돌리고 소유 범위를 20파일로
+  늘려 KO/EN 두 step의 유한 상한만 `420→1200`으로 고정한다. 제품·콘텐츠·
+  입력 QA·runner는 바꾸지 않으며 새 원격 CI green 전에는 완료로 채택하지 않는다.
+
 ## 2026-08-22 (Codex — W9 다중 약속 선택·24주 입력 복구)
 
 - 기준 `680e5f6bdcc9223b45143ca6224f7eb112809c6e`에서 구현

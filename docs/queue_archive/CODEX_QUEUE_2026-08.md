@@ -15,16 +15,6 @@
 
 ## 2026-08
 
-- `[x] ORDER-123` (2026-08-22): W9에 도달하는 ordinary 1개와 terminal
-  2개를 잘라내지 않고, 현재 reachable max 4와 5+ fail-closed를 Board·
-  MainGame·입력·정적 계약에 맞춰 복구했다. candidate/bundle/route/variant는
-  분리했고 960×600의 후보 목록만 두 행 scroll로 만들었다.
-  KO/EN × keyboard/gamepad 24주 4개와 KO/EN × 960/1280 화면 4개,
-  Cycle/Compile/demo/Chapter 표적 게이트, 독립 L2 P0/P1 0을 확인했다.
-  첫 full audit의 Year5·JA/ZH 파생 잠금 5개는 scope/repair commit으로
-  재잠갔으며, 최종 완료는 같은 closure 바이트의 전체 audit failure flag 0·
-  원격 CI green을 조건으로 한다. ORDER-119 사용자 GO는 OPEN이다.
-  [사양](ORDER-123.md)
 - `[x] ORDER-122` (2026-08-22): ORDER-121 뒤 남은 surface, narrative continuity,
   full-run pacing, demo prose, exposed state, CoreLoop V2, scene-direction runtime
   일곱 플래그의 실제 소유자를 의미 축소 없이 고쳤다. surface는

@@ -1,10 +1,18 @@
-# Archived Queue Spec: ORDER-123
+# Active Queue Spec: ORDER-123
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [x] ORDER-123 [P0·CI/입력] W9 다중 약속 선택판의 3~4개 후보를 보존해 24주 입력 정지를 복구한다
+#### [~] ORDER-123 [P0·CI/입력] W9 다중 약속 선택판의 3~4개 후보를 보존해 24주 입력 정지를 복구한다
 
-**완료 (2026-08-22):** 기준
+**원격 CI 재개 (2026-08-22):** closure `814f84b647aef8e351b7e5df727fe092309781ea`의
+run [`32537893833`](https://github.com/junheeleee/GangnamDream/actions/runs/32537893833)은
+정적 job과 전체 `audit.sh`를 통과했다. KO PlayStation 실제입력도 Board 행렬,
+W9의 exact terminal candidate/bundle/route, `v2_hyunsu_study_followup`을 통과하고
+W15까지 계속 진행했지만 workflow의 420초 상한에 정확히 닿아 exit `124`로 끝났다.
+제품 정지나 assertion 실패가 아니라 원격 software renderer의 시간 예산 부족이므로,
+KO/EN 두 24주 step의 유한 상한만 1200초로 올리고 같은 원격 경로를 다시 완주한다.
+
+**로컬 완료 후보 (2026-08-22):** 기준
 `680e5f6bdcc9223b45143ca6224f7eb112809c6e`에서 구현
 `4177cd281d7be2c4084a294fd1aa3cbb89b15709`(tree
 `fc836ca142471c6520ba6f489e500ef1fc35d1dc`)으로 W9의 합법적인 세
@@ -37,14 +45,13 @@ source-bound terminal 단독의 기존 `terminal_auto`, canonical 2~4개 보존,
 Commit 노출을 그 절에 승격했다.
 
 **일회성:** W9 exact 세 ID, `d86a5f1e`·`9e6d1557`·`780c10a1`
-계보, 기준/구현/scope/repair commit·tree, 행렬 산출물 경로, 20단위·
-19파일은 이 복구의 증거이며 전역 제품 규칙이 아니다. ORDER-119 사용자
+계보, 기준/구현/scope/repair commit·tree, 행렬 산출물 경로, 21단위·
+20파일은 이 복구의 증거이며 전역 제품 규칙이 아니다. ORDER-119 사용자
 최종 GO는 계속 OPEN이다.
 
-**최종 전체 감사 판정:** 이 `[x]`는 archive·queue·WORK_LOG·생성 STATUS를
-포함한 같은 최종 바이트에서 root가 `tools/audit.sh` failure flag `0`과
-원격 CI green을 확인한 경우에만 완료 정본으로 채택한다. 하나라도
-실패하면 ORDER-123을 미완료로 되돌린다.
+**최종 채택 조건:** archive·queue·WORK_LOG·생성 STATUS를 포함한 같은 최종
+바이트에서 root가 `tools/audit.sh` failure flag `0`과 새 원격 CI green을 확인한
+경우에만 `[x]` 완료 정본으로 채택한다.
 
 **착수 선언 (2026-08-22):** 구현 기준은 ORDER-122 closure
 `680e5f6bdcc9223b45143ca6224f7eb112809c6e`다. 원격 run
@@ -105,6 +112,9 @@ byte-exact이며, 선행 audit red가 사라져 처음 실제입력 단계까지
   activation은 바꾸지 않는다.
 - 지역화 원장은 동일한 KO/EN 안내 lookup의 occurrence `+1`만 기록한다.
   unique source key/hash, 번역 문자열, JA/ZH coverage와 shipping 상태는 바꾸지 않는다.
+- workflow는 KO gamepad·EN keyboard 24주 step의
+  `GANGNAM_QA_TIMEOUT_SECONDS`만 `420→1200`으로 바꾼다. command, mode, 언어,
+  입력 장치, 렌더러, artifact, 후속 SimRun/SmokeRace와 다른 workflow 필드는 byte-exact다.
 
 ## L1 기계 증거
 
@@ -127,6 +137,8 @@ byte-exact이며, 선행 audit red가 사라져 처음 실제입력 단계까지
   EN keyboard 24주, surface matrix, `audit_select`, context/queue/dashboard/diff를 통과한다.
 - Year5 direct+self-test/R1 Godot, JA UI/pipeline self-test, ZH direct+self-test,
   demo localization direct+self-test가 파생 잠금 갱신 뒤 통과한다.
+- 실패 run에서 W9 경로 통과·W15 진행·420초 exit 124를 대조하고, 새 원격 run에서
+  KO gamepad와 EN keyboard가 각각 1200초 안에 W24 완료 marker를 남기는지 확인한다.
 - 최종 closure까지 포함한 같은 바이트에서 `./tools/audit.sh`와 원격 CI가 green이어야 한다.
 
 ## L2 재독
@@ -138,7 +150,7 @@ byte-exact이며, 선행 audit red가 사라져 처음 실제입력 단계까지
 - 기준 대비 사건·실행 meta·DemoCoreLoop·효과·저장·밸런스 byte 불변과 변경 파일 밖
   drift 0을 확인한다. 예외는 아래에 선언한 Year5/localization 파생 잠금 필드뿐이다.
 
-## 배치 — 정확히 20단위
+## 배치 — 정확히 21단위
 
 1. 선언·큐·부팅 상태를 기준 commit과 실패 run에 고정한다.
 2. W9 세 후보의 producer·Board·MainGame·입력 계보를 exact fixture로 고정한다.
@@ -159,9 +171,10 @@ byte-exact이며, 선행 audit red가 사라져 처음 실제입력 단계까지
 17. 구현 commit과 MainGame 해시를 Year5 보호 기준·감사 상수에 재잠근다.
 18. Board 안내 lookup `+1`의 source occurrence만 localization manifest·JA self-test에 재잠근다.
 19. Chapter source/proof hash와 WORK_LOG 최종 hash만 새 바이트에 재잠근다.
-20. 지속 규칙 승격·archive·STATUS·최종 full audit·원격 CI green 뒤 더 쓰지 않는다.
+20. KO/EN 원격 입력 step의 420초 상한만 1200초로 늘리고 exit 124 회귀를 닫는다.
+21. 지속 규칙 승격·archive·STATUS·최종 full audit·원격 CI green 뒤 더 쓰지 않는다.
 
-## 파일 소유권 — 정확히 19개
+## 파일 소유권 — 정확히 20개
 
 1. `scenes/MainGame.gd`
 2. `scenes/SeoulCycleBoard.gd`
@@ -175,19 +188,21 @@ byte-exact이며, 선행 audit red가 사라져 처음 실제입력 단계까지
 10. `tools/year5_reference_route_audit.py`
 11. `content/meta/demo_localization_scope.json`
 12. `tools/ja_translation_pipeline.py`
-13. `CLAUDE.md`
-14. `docs/CODEX_QUEUE.md`
-15. `docs/queue_active/ORDER-123.md`
-16. `docs/queue_archive/ORDER-123.md`
-17. `docs/queue_archive/CODEX_QUEUE_2026-08.md`
-18. `docs/WORK_LOG.md`
-19. `docs/STATUS.md`
+13. `.github/workflows/ci.yml`
+14. `CLAUDE.md`
+15. `docs/CODEX_QUEUE.md`
+16. `docs/queue_active/ORDER-123.md`
+17. `docs/queue_archive/ORDER-123.md`
+18. `docs/queue_archive/CODEX_QUEUE_2026-08.md`
+19. `docs/WORK_LOG.md`
+20. `docs/STATUS.md`
 
 `content/meta/chapter1_core_loop_v2_causal_ledger.json`은 direct 검사로 byte-exact를
 증명한다. 실제 semantic digest가 바뀌는 예외가 확인될 때만 먼저 scope를 확장한다.
 `project.godot`, 사건 JSON, `systems/DemoCoreLoopV2.gd`, 다른 meta manifest, 저장·밸런스,
 release 원장과 asset manifest는 수정·스테이징하지 않는다. 위 Year5/localization
 원장은 지목한 baseline/hash/count 필드만 바꾸고 나머지는 byte-exact로 보존한다.
+workflow는 위 두 timeout scalar 외 byte-exact로 보존한다.
 
 ## 증거 양식
 

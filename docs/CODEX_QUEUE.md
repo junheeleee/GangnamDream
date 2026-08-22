@@ -59,13 +59,14 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-119 · 게임 전체 플레이어 표면에서 스탯·시스템 언어 제거 | [119](queue_active/ORDER-119.md) | 구현·KO/EN 24주·KO 240주·정적 CI·ORDER-123 KO/EN 24주·최종 full audit 완료 · 원격 CI green 뒤 마감 재개 · 사용자 최종 GO OPEN |
-| 2 | [~] | ORDER-118 · startup 전면 재설계·코드 토큰 제거 | [118](queue_active/ORDER-118.md) | L1/L2 GO · 16편/27선택·코드 토큰 0 · seed 9821 3편 Claude(사용자 위임) L3 대기 · 사용자 최종 GO OPEN · R1b HOLD |
-| 3 | [~] | ORDER-117 · 107/109 국소 수리·career 15편 재판정 | [117](queue_active/ORDER-117.md) | L1/L2 GO · 18단위 전수·16 roots 재작성·after_goal/people_verdict exact 보존·코드 토큰 0 · 107/109 새 2편 직접+career 15편 Claude(사용자 위임) 전수 L3 대기 · 사용자 최종 GO OPEN · R1b HOLD |
-| 4 | [~] | ORDER-103 · M01~M06 월간 약속을 직접 고르는 독립 체험판을 만든다 | [103](queue_active/ORDER-103.md) | 이미지 장면 카드·호버/포커스 L1/L2 GO · 월 마감 보존 · 사용자 L3 대기 |
-| 5 | [~] | ORDER-99 · SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | [99](queue_active/ORDER-99.md) | BUILD `.3` L1/L2 — 사용자 저장 확인 대기 |
-| 6 | [~] | ORDER-97 · LOC-0.5 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | L1/L2 — 최신 후보·A/B 각 3표면 L3 대기 |
-| 7 | [~] | ORDER-98 · PAD-1 포커스 레일을 의미 버튼으로 줄인다 | [98](queue_active/ORDER-98.md) | L1/L2 — 집 플레이·물리 패드 L3 대기 |
+| 1 | [~] | ORDER-123 · W9 다중 약속 선택판의 3~4개 후보를 보존해 24주 입력 정지를 복구한다 | [123](queue_active/ORDER-123.md) | 제품·로컬 full audit GO · 원격 KO가 W9 경로 통과 뒤 W15에서 420초 timeout(exit 124) · KO/EN 1200초 상한·원격 CI green 대기 |
+| 2 | [~] | ORDER-119 · 게임 전체 플레이어 표면에서 스탯·시스템 언어 제거 | [119](queue_active/ORDER-119.md) | 구현·KO/EN 24주·KO 240주·정적 CI·ORDER-123 KO/EN 24주·최종 full audit 완료 · ORDER-123 원격 CI green 뒤 마감 재개 · 사용자 최종 GO OPEN |
+| 3 | [~] | ORDER-118 · startup 전면 재설계·코드 토큰 제거 | [118](queue_active/ORDER-118.md) | L1/L2 GO · 16편/27선택·코드 토큰 0 · seed 9821 3편 Claude(사용자 위임) L3 대기 · 사용자 최종 GO OPEN · R1b HOLD |
+| 4 | [~] | ORDER-117 · 107/109 국소 수리·career 15편 재판정 | [117](queue_active/ORDER-117.md) | L1/L2 GO · 18단위 전수·16 roots 재작성·after_goal/people_verdict exact 보존·코드 토큰 0 · 107/109 새 2편 직접+career 15편 Claude(사용자 위임) 전수 L3 대기 · 사용자 최종 GO OPEN · R1b HOLD |
+| 5 | [~] | ORDER-103 · M01~M06 월간 약속을 직접 고르는 독립 체험판을 만든다 | [103](queue_active/ORDER-103.md) | 이미지 장면 카드·호버/포커스 L1/L2 GO · 월 마감 보존 · 사용자 L3 대기 |
+| 6 | [~] | ORDER-99 · SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | [99](queue_active/ORDER-99.md) | BUILD `.3` L1/L2 — 사용자 저장 확인 대기 |
+| 7 | [~] | ORDER-97 · LOC-0.5 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | L1/L2 — 최신 후보·A/B 각 3표면 L3 대기 |
+| 8 | [~] | ORDER-98 · PAD-1 포커스 레일을 의미 버튼으로 줄인다 | [98](queue_active/ORDER-98.md) | L1/L2 — 집 플레이·물리 패드 L3 대기 |
 
 ### 남은 데모 출시선
 
