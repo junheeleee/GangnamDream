@@ -32,12 +32,26 @@ snapshot은 그대로 둔 채 먼저 만든 구현 커밋을 새 current-file �
 갱신한다. 실제 KO 240주 직렬 실행에서는 W48 `arc_year1_close` 뒤 런타임이 자동으로
 붙이는 `arc_year1_scene` 전환이 원장에 없어 안전 검사가 중단됐다. 제품 진행 정지가
 아니며, 같은 구조의 1~4년차 연말 큐 연결 네 곳을 기존 장면과 같은 장소 안의
-`same_location` 전환으로 명시하고 생성 매니페스트를 다시 고정한다. 만지는 파일은
-정확히 다음 30개뿐이며
+`same_location` 전환으로 명시하고 생성 매니페스트를 다시 고정한다.
+
+**범위 보정 (2026-08-22):** 후속 전역 플레이어 표면 L2에서 localized wrapper 안의
+영어 `run`이 `SeoulCycleBoard`의 완료 뒤 행동, `StartMenu`의 V2 테스트 진입
+tooltip, `TutorialOverlay`의 경마 설명에 남았고, wrapper 밖
+`MetaProgression.ALL_TITLES[*]`와 `TITLE_EN[*]`의 실제 칭호 이름·설명에도 내부
+런 횟수·런 테마뿐 아니라 숨은 성향 횟수, 정확한 스탯 임계, 계산된 확률 판정이
+노출되는 것이 확인됐다. 내부 저장 호환 ID, `run_theme` 키·값, 칭호 해금 조건과
+보너스 계산은 보존하고 세 wrapper와 도달 가능한 KO/EN 칭호 표면만 세계 안 문장으로
+고친다. 전역 표면 감사는 localized wrapper와 raw title `name`·`desc`를 함께 검사하고,
+ScreenshotQA는 세 wrapper의 교체 문구와 대표 칭호의 KO/EN 표면을 고정한다. 이는 이미
+선언한 게임 전체 플레이어 표면 계약에서 빠진 도달 소스를 보정하는 것이며 새 시스템·
+엔딩 라우팅·밸런스를 추가하지 않는다. `MetaProgression.gd`의 whole-file Chapter 1
+source lock은 구현 뒤 의미 변경 없이 새 바이트에만 다시 고정한다. 따라서 만지는 파일은
+정확히 다음 34개뿐이며
 `project.godot`은 수정·스테이징하지 않는다.
 
 - `scenes/MainGame.gd`, `scenes/StoryMode.gd`, `scenes/JobHuntMiniGame.gd`, `scenes/ArubaGame.gd`
-- `autoloads/GameState.gd`, `autoloads/SaveManager.gd`
+- `scenes/SeoulCycleBoard.gd`, `scenes/StartMenu.gd`, `scenes/TutorialOverlay.gd`
+- `autoloads/GameState.gd`, `autoloads/SaveManager.gd`, `autoloads/MetaProgression.gd`
 - `systems/InvestmentSystem.gd`, `systems/JobSystem.gd`
 - `tools/ScreenshotQA.gd`, `tools/TextMaterialCheck.gd`, `tools/StoryPlaybackCheck.gd`
 - `tools/player_surface_language_audit.py`, `tools/demo_localization_scope.py`
@@ -52,7 +66,10 @@ snapshot은 그대로 둔 채 먼저 만든 구현 커밋을 새 current-file �
 - `docs/WORK_LOG.md`, `docs/STATUS.md`, `docs/DECISIONS.md`
 
 `docs/DECISIONS.md`는 기존 정본으로 설명되지 않는 새 규칙이 실제로 생길 때만
-수정한다. 사건 원고·밸런스·story map·save manager·ending·위 두 파일 밖의 에셋·현지화 JSON과
+수정한다. 사건 원고·밸런스·story map·저장 스키마와 저장 라우팅 의미,
+`finish_run` 및 엔딩 선택·발생·라우팅 조건·`content/endings.json`, 내부
+`*_run_title` ID·`run_theme` 키와 값·칭호 해금 조건·보너스 계산, 목록에 명시한
+파일 밖의 에셋·현지화 JSON과
 `content/meta/demo_core_loop_v2.json`의 `runtime_default`는 범위 밖이다.
 
 ## 착수 전 멈춤 진단
@@ -90,7 +107,10 @@ assertion은 새 표면 계약에 맞추지만 하네스 구조 수리는 별도
 10. intelligence 30/50/70 토스트를 읽는 방식·눈에 들어오는 단서 변화로 교체.
 11. social_skill 30/50/70 토스트를 이름을 부르고 자리를 내주는 사람 행동으로 교체.
 12. MainGame·StoryMode의 나머지 결과·월 위기·성향·직업 표면과 동적 조립 경로에
-    남은 동일 금지어를 자연화.
+    남은 동일 금지어를 자연화한다. SeoulCycleBoard·StartMenu·TutorialOverlay의
+    플레이어용 wrapper에 남은 시스템 의미의 영어 `run` 세 곳과 MetaProgression의
+    실제 칭호 이름·설명에 남은 런 횟수·런 테마·숨은 성향 횟수·정확한 스탯 임계·
+    계산된 확률 판정도 자연화하되 내부 ID·run_theme·해금 조건은 바꾸지 않는다.
 13. JobHuntMiniGame의 A–D 평가 표면을 면접관/지원서의 관측 가능한 반응으로 교체.
 14. GameState·InvestmentSystem·ArubaGame·JobSystem의 localized 결과/log에 남은
     스탯 delta·배수 언어 제거.
@@ -100,20 +120,28 @@ assertion은 새 표면 계약에 맞추지만 하네스 구조 수리는 별도
 18. 6개월·5년 시간 원장에 네 분류와 합계를 표시하고 구 저장의 미분류 과거를 정직하게
     표시. 새 24주 경로 합은 정확히 24여야 한다.
 19. `player_surface_language_audit.py --self-test`를 추가. `_tr`와 LocaleManager의
-    플레이어 문구에서 스탯+부호숫자, 해금/unlocked, 배수/xN, wave, grade A–D를 0으로
-    잠근다. 함수·패턴 단위 allowlist는 칭호/업적, 정선 카지노, 선택 전 3단만 사유와
-    함께 허용하며 파일 전체 예외는 금지한다.
-20. ScreenshotQA가 A1~A4, threshold, C1~C4, KO/EN 금지어 0과 24주 합을 검사하도록
-    갱신하고 실제 KO/EN demo-experience·KO full-gamepad 화면을 직렬 캡처한다.
+    플레이어 문구에서 스탯+부호숫자, 해금/unlocked, 배수/xN, wave, grade A–D와
+    시스템 의미의 독립 영어 `run/runs`·한국어 런 테마 토큰을 0으로 잠근다.
+    `MetaProgression.ALL_TITLES[*].name`·`desc`와 `TITLE_EN[*].name`·`desc`만 raw
+    player field로 추가 수집하고 ID·조건·run_theme 값은 검사 대상에서 제외한다.
+    `long run`, `delivery run`, `words run out` 세 자연 문맥만 함수·패턴 단위로
+    허용하며 파일 전체 예외는 금지한다.
+20. ScreenshotQA가 A1~A4, threshold, C1~C4, KO/EN 금지어 0과 24주 합에 더해
+    SeoulCycleBoard의 완료 뒤 행동, StartMenu의 테스트 저장 tooltip,
+    TutorialOverlay의 경마 설명, 대표 칭호 이름·설명의 이전 문구 0·새 KO/EN exact
+    문구를 검사하도록 갱신한다. 실제 KO/EN demo-experience, KO/EN title-en,
+    KO full-gamepad 화면은 서로 다른 HOME/XDG/OUT에서 직렬 캡처한다.
 
 ## 완료·판정
 
-- L1: 새 lint self-test, context, audit scope verify, 전체 `audit.sh`, EN coverage,
-  diff-check. GameState 새 상태는 새 게임·serialize/load·구 저장을 검사한다.
+- L1: 새 lint self-test, raw title name/desc 수집 변이, Godot compile, context,
+  audit scope verify, 전체 `audit.sh`, EN coverage, diff-check. GameState 새 상태는
+  새 게임·serialize/load·구 저장을 검사한다.
 - L2: 네 영수증 경로가 같은 1~3문장을 쓰고 선택 후 forgone 수치가 0인지 직접 재독.
-  9개 threshold와 나머지 전역 매치를 KO/EN으로 전수 확인한다.
-- L3 증거: 1280×800 KO/EN demo-experience와 KO PlayStation full-gamepad 실렌더.
-  스탯 숫자·해금·배수·wave·grade가 화면에 0이고 W24/240주 종착을 확인한다.
+  9개 threshold와 세 wrapper·도달 칭호 표면을 KO/EN으로 전수 확인하고 내부 ID·
+  run_theme·해금 조건·보너스 계산이 보존됐는지 확인한다.
+- L3 후보 증거: 1280×800 KO/EN demo-experience, KO PlayStation full-gamepad,
+  1280×800 KO/EN 칭호 도감 실렌더. 자동 캡처는 사용자 최종 GO를 대신하지 않는다.
 
 ## 정본·일회성 판정
 
