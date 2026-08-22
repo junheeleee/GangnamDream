@@ -605,7 +605,17 @@
         "systems/**",
         "autoloads/**",
         "ui_components/**",
-        "tools/*.gd"
+        "tools/*.gd",
+        "tools/english_hangul_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/english_hangul_audit.py --self-test",
+      "why": "영어 표면 한글 누출 감사기의 ui_format·내부 저장 ID 예외 fail-closed 자체 검사",
+      "paths": [
+        "tools/english_hangul_audit.py",
+        "tools/audit.sh",
+        "tools/audit_scope.json"
       ]
     },
     {
@@ -1531,7 +1541,9 @@
       "why": "주간 루프 몰입",
       "paths": [
         "scenes/MainGame.gd",
-        "systems/**"
+        "systems/**",
+        "tools/ImmersionLoopCheck.gd",
+        "tools/ImmersionLoopCheck.tscn"
       ]
     },
     {

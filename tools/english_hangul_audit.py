@@ -442,6 +442,7 @@ def internal_only_runtime_line(target: str, line: str) -> bool:
             "lower_body.find(" in line
             or "lower_title.find(" in line
             or 'for cat in ["주거"' in line
+            or line.strip() == 'if theme_id != "자유런":'
         )
     if target == "autoloads/GameState.gd":
         return (
@@ -599,12 +600,34 @@ func valid() -> String:
         )
         if bad_spans or not bad_issues:
             failures.append(f"{label} ui_format was incorrectly accepted")
+
+    internal_id_cases = {
+        "exact": ('scenes/MainGame.gd', 'if theme_id != "자유런":', True),
+        "inline_leak": (
+            'scenes/MainGame.gd',
+            'if theme_id != "자유런": print("실제 누출")',
+            False,
+        ),
+        "wrong_variable": (
+            'scenes/MainGame.gd', 'if visible_theme != "자유런":', False
+        ),
+        "surface_value": (
+            'scenes/MainGame.gd', 'if theme_id != "자유 선택":', False
+        ),
+    }
+    for label, (target, line, expected) in internal_id_cases.items():
+        observed_safe = internal_only_runtime_line(target, line)
+        if observed_safe != expected:
+            failures.append(
+                f"{label} internal-ID line expected safe={expected}, "
+                f"observed safe={observed_safe}"
+            )
     if failures:
         print("ENGLISH_HANGUL_SELF_TEST_FAILED")
         for failure in failures:
             print(f"  {failure}")
         return 1
-    print("ENGLISH_HANGUL_SELF_TEST_OK cases=6")
+    print("ENGLISH_HANGUL_SELF_TEST_OK cases=10")
     return 0
 
 
@@ -612,7 +635,11 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--content-only", action="store_true", help="only fail on English JSON content")
     parser.add_argument("--max-lines", type=int, default=12, help="sample lines per runtime file")
-    parser.add_argument("--self-test", action="store_true", help="exercise ui_format parser fail-closed cases")
+    parser.add_argument(
+        "--self-test",
+        action="store_true",
+        help="exercise ui_format parser and internal-ID fail-closed cases",
+    )
     args = parser.parse_args()
 
     if args.self_test:

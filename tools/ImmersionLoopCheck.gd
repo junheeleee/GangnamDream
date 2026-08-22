@@ -294,9 +294,17 @@ func _check_weekly_commitment_contract() -> void:
 			or int(outcome.get("investment_skill", 0)) != 1:
 		_fail("weekly commitment lost its actual public outcome: %s" % outcome)
 	var invest_surface := str(game.call("_weekly_commitment_outcome_text", record))
-	if not invest_surface.contains("한성전자") or not invest_surface.contains("체결가") \
-			or not invest_surface.contains("10만원"):
-		_fail("investment settlement did not name the exact asset, fill, and amount: %s" % invest_surface)
+	_expect_surface_exact(
+		invest_surface,
+		"매수 주문이 체결됐다. 다음 장이 열릴 때까지 돈은 그 자산에 묶였다.",
+		[
+			"택한 것 ·", "실제 결과 ·", "그 주에 놓친 길 ·", "남은 웨이브 ·",
+			"지난 선택 ·", "남은 메아리",
+			"체결가", "10만원", "100,000", "100000", "70,000", "70000",
+			"현금 +", "현금 -", "투자자산 +", "투자자산 -",
+			"투자감각 +", "투자감각 -", "+1",
+		],
+		"investment outcome prose")
 	if GameState.arm_weekly_commitment(game.call("_weekly_commitment_payload", pressure, "study")):
 		_fail("a second commitment was accepted in the same week")
 
@@ -312,15 +320,18 @@ func _check_weekly_commitment_contract() -> void:
 	LocaleManager.language = "en"
 	DataRegistry.reload()
 	var echo_record := str(game.call("_demo_director_recent_action_record", unresolved))
-	if echo_record.findn("chosen") < 0 or echo_record.findn("not chosen that week") < 0 \
-			or echo_record.findn("actual result") < 0 or echo_record.findn("cash") < 0 \
-			or echo_record.findn("market") < 0 or echo_record.findn("hanseong") < 0 \
-			or echo_record.findn("buy") < 0 or echo_record.findn("remaining wave") < 0 \
-			or echo_record.findn("remaining echo") >= 0 or _contains_hangul(echo_record):
-		_fail("weekly commitment echo did not name the choice, outcome, and paths not chosen that week: %s" % echo_record)
-	var forbidden := echo_record.to_lower()
-	if forbidden.contains("moral") or forbidden.contains("route"):
-		_fail("weekly commitment echo exposed a hidden system: %s" % echo_record)
+	_expect_surface_exact(
+		echo_record,
+		"The buy order filled. That week left no time for the other paths: Build One Thing / Reach Out to Kim Daeun. At the next market close, the value of the money tied up in Hanseong Electronics will move with its price.",
+		[
+			"chosen ·", "last choice ·", "not chosen that week ·",
+			"actual result ·", "remaining wave ·", "remaining echo",
+			"cash +", "cash -", "invested +", "invested -", "investing +", "investing -",
+			"100,000", "100000",
+			"70,000", "70000", "+1", "moral", "route",
+		],
+		"investment Echo prose",
+		true)
 	if GameState.consume_weekly_commitment_echoes(2).size() != 1 \
 			or not GameState.consume_weekly_commitment_echoes(2).is_empty():
 		_fail("weekly commitment echo was not consumed exactly once")
@@ -371,19 +382,34 @@ func _check_weekly_commitment_contract() -> void:
 		_fail("gambling commitment lost the actual action or cash result: %s" % gamble_record)
 	LocaleManager.language = "en"
 	var gamble_surface := str(game.call("_weekly_commitment_outcome_text", gamble_record))
-	if gamble_surface.findn("scalping") < 0 or gamble_surface.findn("1 session") < 0 \
-			or gamble_surface.findn("4 trades") < 0 or gamble_surface.findn("net") < 0 \
-			or _contains_hangul(gamble_surface):
-		_fail("English gambling settlement is not concrete or language-clean: %s" % gamble_surface)
+	_expect_surface_exact(
+		gamble_surface,
+		"He ended the session and stood up. The result remained in both the account and the time spent there.",
+		[
+			"chosen ·", "last choice ·", "not chosen that week ·",
+			"actual result ·", "remaining wave ·", "remaining echo",
+			"cash +", "cash -", "scalping", "1 session", "4 trades", "net ",
+			"-250", "250,000", "250000",
+		],
+		"gambling outcome prose",
+		true)
 	var gamble_saved: Dictionary = GameState.serialize()
 	GameState.start_new_game()
 	GameState.load_from_dict(gamble_saved)
 	GameState.turn = 81
 	var gamble_echo := str(game.call(
 		"_weekly_commitment_echo_record", GameState.get_unresolved_weekly_commitments(1)[0]))
-	if gamble_echo.findn("scalping") < 0 or gamble_echo.findn("4 trades") < 0 \
-			or gamble_echo.findn("-250") < 0 or _contains_hangul(gamble_echo):
-		_fail("saved gambling settlement was not recalled exactly in Echo: %s" % gamble_echo)
+	_expect_surface_exact(
+		gamble_echo,
+		"He ended the session and stood up. That week left no time for the other paths: Put Money in Motion / Cut Back. The money and time left there remain visible in both the account and the body next week.",
+		[
+			"chosen ·", "last choice ·", "not chosen that week ·",
+			"actual result ·", "remaining wave ·", "remaining echo",
+			"cash +", "cash -", "scalping", "1 session", "4 trades", "net ",
+			"-250", "250,000", "250000",
+		],
+		"gambling Echo prose",
+		true)
 	scalping.free()
 	game.free()
 
@@ -456,8 +482,15 @@ func _check_forgone_path_contract() -> void:
 	if not GameState.get_forgone_path_return("contact", "daeun").is_empty():
 		_fail("resolved relationship debt remained active")
 	var contact_echo := str(game.call("_weekly_commitment_echo_record", contact_record))
-	if contact_echo.findn("미뤄 둔 대가") < 0 or contact_echo.findn("다은") < 0:
-		_fail("relationship Echo did not recall the delayed cost: %s" % contact_echo)
+	_expect_surface_exact(
+		contact_echo,
+		"이야기를 마친 뒤에도 김다은이 오래 마음에 남았다. 그 주에는 다른 길로 갈 시간이 남지 않았다: 하나를 쌓는다 / 지출을 깎는다. 늦어진 연락 앞에서는 지난 시간이 먼저 보였다.",
+		[
+			"택한 것 ·", "지난 선택 ·", "미뤄 둔 대가 ·", "실제 결과 ·",
+			"그 주에 놓친 길 ·", "남은 웨이브 ·", "남은 메아리",
+			"호감 +", "호감 -", "-1", "+3", "정신 +", "정신 -",
+		],
+		"relationship Echo prose")
 
 	# One recovery week cannot erase every week that was repeatedly deferred, and
 	# a late application starts the next job with measurable catch-up work.
@@ -578,9 +611,17 @@ func _check_forgone_path_contract() -> void:
 	LocaleManager.language = "en"
 	DataRegistry.reload()
 	var market_echo_en := str(game.call("_weekly_commitment_echo_record", market_record))
-	if market_echo_en.findn("delayed cost") < 0 or market_echo_en.findn("25.0%") < 0 \
-			or _contains_hangul(market_echo_en):
-		_fail("English market Echo lost or mistranslated the actual missed window: %s" % market_echo_en)
+	_expect_surface_exact(
+		market_echo_en,
+		"The buy order filled. That week left no time for the other paths: Cut Back / Stake It. While he waited, the market screen had already moved somewhere else.",
+		[
+			"chosen ·", "last choice ·", "not chosen that week ·",
+			"actual result ·", "delayed cost ·", "remaining wave ·",
+			"remaining echo", "25.0%", "+25", "12w", "cash +", "cash -",
+			"invested +", "invested -", "investing +", "investing -",
+		],
+		"market Echo prose",
+		true)
 
 	LocaleManager.language = language_before
 	DataRegistry.reload()
@@ -1383,6 +1424,22 @@ func _contains_hangul(text: String) -> bool:
 	var regex := RegEx.new()
 	regex.compile("[가-힣]")
 	return regex.search(text) != null
+
+func _expect_surface_exact(
+		actual: String,
+		expected: String,
+		forbidden_tokens: Array,
+		context: String,
+		require_english := false) -> void:
+	if actual != expected:
+		_fail("%s changed:\nexpected=%s\nactual=%s" % [context, expected, actual])
+	var normalized := actual.to_lower()
+	for raw_token in forbidden_tokens:
+		var token := str(raw_token).to_lower()
+		if not token.is_empty() and normalized.contains(token):
+			_fail("%s exposed retired system detail '%s': %s" % [context, raw_token, actual])
+	if require_english and _contains_hangul(actual):
+		_fail("%s leaked Hangul: %s" % [context, actual])
 
 func _expect_close(actual: float, expected: float, message: String, epsilon: float = 0.0001) -> void:
 	if absf(actual - expected) > epsilon:

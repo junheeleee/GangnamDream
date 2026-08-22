@@ -12985,7 +12985,7 @@ func _weekly_commitment_later_text(record: Dictionary) -> String:
 			"buy":
 				return _tr(
 					"다음 장이 열릴 때부터 {asset}의 움직임이 통장 밖 돈을 흔든다.",
-					"From the next market close, {asset}'s movement reaches the money outside the account."
+					"At the next market close, the value of the money tied up in {asset} will move with its price."
 				).format({"asset": asset_name})
 			"sell":
 				return _tr("매도 대금은 통장에 남고, 그 거래는 닫혔다.", "The sale proceeds remain in the account, and that trade is closed.")
