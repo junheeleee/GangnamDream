@@ -16,6 +16,12 @@ ending은 계속 동결한다.
 표본은 seed 9821 무작위 3편이며 인물 목소리 / 지금 잃는 것 / 다음을 기다리게 하는
 여운 세 축을 모두 보았다.
 
+**재판정 (2026-08-22):** 구현 후보 `f425b812`의 사양 1..16 exact root 순서에
+CPython `random.Random(9821).sample(roots, 3)`을 적용한 fresh #11/#2/#3을
+Claude(사용자 위임)가 낭독해 3편×3축 모두 GO했다. 이 판정은 역사적 반려를
+덮지 않고 사용자 최종 GO도 대신하지 않는다. 상세 이력은
+`docs/human_gates.json`이 소유하며 R1b는 계속 HOLD다.
+
 ## 깊이 3문
 
 1. 기존 16편은 career와 같은 `표지→검토자→경계→방→접수→사본→실행→사본→서명`
@@ -169,8 +175,9 @@ EndingSystem·StoryMapMonthlyRuntime, 5개 언어 endings, startup legacy object
 
 **구현 후보 (2026-08-21):** `f425b812` / tree `4c0a659e`. KO/EN 각 16 roots·
 27 choices, strict player token 0, product consumer·dispatch 0이다. 표적 L1과 독립
-L2는 P0/P1 0이며, 오더는 seed 9821 Claude(사용자 위임) 3편과 사용자 최종 GO를
-기다리는 `[~]` 상태다. R1b와 replacement contract는 계속 HOLD다.
+L2는 P0/P1 0이며, fresh seed 9821 Claude(사용자 위임) 3편은 GO다. 오더는
+사용자 최종 GO를 기다리는 `[~]` 상태이며 R1b와 replacement contract는 계속
+HOLD다.
 
 ## 정본·일회성 판정
 

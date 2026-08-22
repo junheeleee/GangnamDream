@@ -83,6 +83,27 @@ source lock은 구현 뒤 의미 변경 없이 새 바이트에만 다시 고정
 파일 밖의 에셋·현지화 JSON과
 `content/meta/demo_core_loop_v2.json`의 `runtime_default`는 범위 밖이다.
 
+## 현재 기계 증거 (2026-08-22)
+
+- 첫 전체 `audit.sh`의 failure flag는 정확히 `EN_HANGUL_EXIT`,
+  `IMMERSION_EXIT`, `STATUS_DOC_EXIT` 세 개였다. `ImmersionLoopCheck`가 폐기된
+  정산표 문구 6개를 요구했고, 영어 한글 감사는 `run_theme` 내부 저장 ID
+  비교 2줄을 표면 누출로 오탐했으며, 생성 `STATUS.md`는 최종 바이트보다
+  낡았다. Year5는 이 첫 감사에서 green이었다.
+- 범위 보정 `f093421` 뒤 `35b5aca`는 asset·금액·세션·관계·시장 상태
+  assertion을 보존하면서 최종 6개 산문 exact·옛 헤더·부호 수치·퍼센트·
+  세션 수치 0을 검사하게 고쳤다. 내부 ID 예외는 정확한 한 줄만 통과하고
+  10개 self-test fixture가 인라인 누출·다른 변수·표면값을 거부한다. 어색한
+  Hanseong Electronics 영문도 관찰 산문으로 고쳤다. 그 MainGame copy 변경으로
+  파생된 lock만 `48ad65a`가 Year5에, `2581cb9`가 Chapter 1 source/proof에
+  다시 잠갔다. 둘 다 첫 full audit의 failure flag가 아니다.
+- Compile 65, Immersion, English direct/self-test 10, Year5 direct/self-test 35/R1 266,
+  audit-scope verify는 green이다. Chapter 1 self-test 472는 첫 full audit에서 PASS했고,
+  `2581cb9` 현재 바이트에서는 direct만 다시 PASS했다. 그러나 이것은 표적
+  증거일 뿐이다. `STATUS.md`는 아직 재생성하지 않았고, 같은 최종 후보의
+  full audit, 직렬 KO 24주·EN 24주·KO 240주, package 발급·검증도 대기
+  중이다. ORDER-119는 `[~]`, 사용자 최종 GO는 `OPEN`을 유지한다.
+
 ## 착수 전 멈춤 진단
 
 최신 기준·Godot 4.6.2·빈 HOME/XDG/사용자 데이터에서 KO demo-experience를 단독

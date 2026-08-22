@@ -19,6 +19,16 @@
 > 차례로 옮긴다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-22 (Codex — ORDER-119 첫 full audit 3플래그 분해·QA exact 수리 후보)
+
+- 첫 full audit 3 flags는 `EN_HANGUL_EXIT`·`IMMERSION_EXIT`·`STATUS_DOC_EXIT`다.
+  앞의 두 QA는 `f093421`→`35b5aca`로 exact 수리했고 stale STATUS는 최종
+  같은 바이트 생성 때까지 남겼다. Year5는 첫 감사 green이었으며, 후속 MainGame
+  copy의 derived lock만 `48ad65a`·`2581cb9`에서 Year5·Chapter 1에 다시 잠갔다.
+- Compile/Immersion/EN self-test/Year5 35·266은 targeted green이다. Chapter self-test
+  472는 첫 audit PASS, 현재 `2581cb9`는 direct PASS만 확인했다. STATUS·최종
+  full audit·직렬 KO/EN 24주·KO 240주·package가 대기이므로 `[~]`/GO `OPEN`이다.
+
 ## 2026-08-22 (Codex — ORDER-123 원격 24주 입력 시간 예산 복구)
 
 - closure `814f84b647aef8e351b7e5df727fe092309781ea`의 원격 run

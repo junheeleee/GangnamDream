@@ -4,8 +4,10 @@
 
 #### [~] ORDER-117 [P0·서사] ORDER-107·109의 지목 장면을 고치고 career 15편을 전수 재판정한다
 
-**판정 근거 (2026-08-21):** `판정: Claude(사용자 위임)`. ORDER-107·109는 각
-1편 조건부, ORDER-112는 1편 보존·15편 재판정이다. 사용자 최종 GO는 OPEN이다.
+**판정 근거 (2026-08-22):** `판정: Claude(사용자 위임)`. 구현 후보에서
+ORDER-107·109의 수리 1편을 각각 직접 1/1, ORDER-112의 보존 1편을 제외한
+career 15편을 15/15 전수 재판정해 세 축 모두 GO했다. 사용자 최종 GO는
+OPEN이고 R1b는 HOLD다. 상세 이력은 `docs/human_gates.json`이 소유한다.
 
 **착수 선언 (2026-08-21):** 기준 `8a1436629fa2ca589d76a4cf52d1b465aa81b0b3`.
 만지는 파일은 아래 18개뿐이다.
@@ -91,7 +93,8 @@ SHA-256은 KO `5f335f4807593d585eac1648aefa803c48936d8478dcb558c4d28ba882e23f5d`
 EN `d72c1485544b0819dd5aa67fac1e747ce8c7734fbc4858ad11d2dbf57096ed4a`다.
 대상 metadata·choice count·placeholder는 exact, description은 300~800,
 플레이어 노출 code-token/backtick은 0이며 L1/L2 P0/P1은 0이다. Claude의 지목
-2편 직접·career 15편 전수 재판정과 사용자 최종 GO는 OPEN이고 R1b는 HOLD다.
+2편 직접·career 15편 전수 재판정은 GO다. 사용자 최종 GO는 OPEN이고 R1b는
+HOLD다.
 
 ## 정본·일회성 판정
 
