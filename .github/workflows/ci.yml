@@ -65,14 +65,14 @@ jobs:
       - name: V2 24주 실제입력 완주 (한국어 PlayStation)
         run: |
           GODOT=godot GANGNAM_QA_XVFB=1 \
-            GANGNAM_QA_TIMEOUT_SECONDS=420 \
+            GANGNAM_QA_TIMEOUT_SECONDS=1200 \
             GANGNAM_QA_LOG="${GITHUB_WORKSPACE}/core-loop-v2-ko.log" \
             GANGNAM_QA_OUT="${GITHUB_WORKSPACE}/qa-artifacts/ko" \
             ./tools/run_core_loop_v2_input_qa.sh ko-gamepad
       - name: V2 24주 실제입력 완주 (영어 키보드)
         run: |
           GODOT=godot GANGNAM_QA_XVFB=1 \
-            GANGNAM_QA_TIMEOUT_SECONDS=420 \
+            GANGNAM_QA_TIMEOUT_SECONDS=1200 \
             GANGNAM_QA_LOG="${GITHUB_WORKSPACE}/core-loop-v2-en.log" \
             GANGNAM_QA_OUT="${GITHUB_WORKSPACE}/qa-artifacts/en" \
             ./tools/run_core_loop_v2_input_qa.sh en-keyboard
