@@ -15,6 +15,14 @@
 
 ## 2026-08
 
+- `[x] ORDER-123` (2026-08-22): W9의 ordinary 1개와 terminal 2개를
+  자르지 않고 reachable max 4·5+ fail-closed, 분리된 candidate/bundle/route/
+  variant, 960×600 두 행 scroll로 복구했다. KO/EN × keyboard/gamepad 24주
+  4개와 화면 4개, L2 P0/P1 0, 같은 closure 바이트의 local full audit를
+  통과했다. 첫 원격 closure는 W9 수정 경로를 통과하고 W15까지 진행한 뒤
+  420초 wrapper timeout(exit 124)으로 끝나, 제품·runner는 그대로 두고 KO/EN
+  step의 유한 상한만 1200초로 고쳤다. 최종 완료는 새 원격 CI 전체 green을
+  조건으로 하며 ORDER-119 사용자 GO는 OPEN이다. [사양](ORDER-123.md)
 - `[x] ORDER-122` (2026-08-22): ORDER-121 뒤 남은 surface, narrative continuity,
   full-run pacing, demo prose, exposed state, CoreLoop V2, scene-direction runtime
   일곱 플래그의 실제 소유자를 의미 축소 없이 고쳤다. surface는

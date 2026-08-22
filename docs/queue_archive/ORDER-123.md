@@ -1,18 +1,20 @@
-# Active Queue Spec: ORDER-123
+# Archived Queue Spec: ORDER-123
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-123 [P0·CI/입력] W9 다중 약속 선택판의 3~4개 후보를 보존해 24주 입력 정지를 복구한다
+#### [x] ORDER-123 [P0·CI/입력] W9 다중 약속 선택판의 3~4개 후보를 보존해 24주 입력 정지를 복구한다
 
-**원격 CI 재개 (2026-08-22):** closure `814f84b647aef8e351b7e5df727fe092309781ea`의
+**원격 CI 실패와 시간 예산 수리 (2026-08-22):** closure `814f84b647aef8e351b7e5df727fe092309781ea`의
 run [`32537893833`](https://github.com/junheeleee/GangnamDream/actions/runs/32537893833)은
 정적 job과 전체 `audit.sh`를 통과했다. KO PlayStation 실제입력도 Board 행렬,
 W9의 exact terminal candidate/bundle/route, `v2_hyunsu_study_followup`을 통과하고
 W15까지 계속 진행했지만 workflow의 420초 상한에 정확히 닿아 exit `124`로 끝났다.
 제품 정지나 assertion 실패가 아니라 원격 software renderer의 시간 예산 부족이므로,
-KO/EN 두 24주 step의 유한 상한만 1200초로 올리고 같은 원격 경로를 다시 완주한다.
+scope `65fbcf2` 뒤 구현 `79f1e0db2878a1c1d8c380a478d2503c545c6af2`
+(tree `dea843ec197a456388d60801166f0baea26e1321`)에서 KO/EN 두 24주 step의
+유한 상한만 1200초로 올렸다. runner·제품·QA 바이트는 바꾸지 않았다.
 
-**로컬 완료 후보 (2026-08-22):** 기준
+**완료 (2026-08-22):** 기준
 `680e5f6bdcc9223b45143ca6224f7eb112809c6e`에서 구현
 `4177cd281d7be2c4084a294fd1aa3cbb89b15709`(tree
 `fc836ca142471c6520ba6f489e500ef1fc35d1dc`)으로 W9의 합법적인 세
