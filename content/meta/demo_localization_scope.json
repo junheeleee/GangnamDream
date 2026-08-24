@@ -2641,8 +2641,8 @@
   },
   "strict_gate": {
     "automated_requires": [
-      "73 exact event overlays and 471 translated text leaves",
-      "657 dynamic lookup keys and four visible market asset names",
+      "72 exact event overlays and 467 translated text leaves",
+      "701 dynamic lookup keys and four visible market asset names",
       "exact choice count/order and text-only overlay fields",
       "placeholder, paragraph, terminology, and Korean-won preservation",
       "separate Korean-source Simplified and Traditional script validation without automatic conversion",

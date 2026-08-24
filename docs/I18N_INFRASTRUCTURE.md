@@ -16,9 +16,9 @@ but their dictionaries and body overlays remain empty.
 |---|---|---|---|---|
 | `ko` | Shipping, source | Inline source | `content/events/` | `content/endings.json` |
 | `en` | Shipping, strict | Inline fallback | `content/events_en/` | `content/endings_en.json` |
-| `ja` | Prepared beta, hidden | legacy 2,792/2,792; context 30/30 (2,822/2,822 total) | 1/1,663 full; 1/72 demo | 0/35 full; 0 required by demo |
-| `zh-CN` | Prepared, hidden; font blocked | legacy 0/2,792; context 0/30 | 0/1,663 full; 0/72 demo | 0/35 full; 0 required by demo |
-| `zh-TW` | Prepared, hidden; font blocked | legacy 0/2,792; context 0/30 | 0/1,663 full; 0/72 demo | 0/35 full; 0 required by demo |
+| `ja` | Prepared beta, hidden | legacy 2,816/2,816; context 29/29 (2,845/2,845 total) | 1/1,603 full shipping; 1/72 demo | 0/35 full; 0 required by demo |
+| `zh-CN` | Prepared, hidden; font blocked | legacy 0/2,816; context 0/29 | 0/1,603 full shipping; 0/72 demo | 0/35 full; 0 required by demo |
+| `zh-TW` | Prepared, hidden; font blocked | legacy 0/2,816; context 0/29 | 0/1,603 full shipping; 0/72 demo | 0/35 full; 0 required by demo |
 
 `LocaleManager.SHIPPING_LANGUAGES` is the player-facing allowlist. Adding a
 language to `SUPPORTED_LANGUAGES` is not permission to expose it in the first-run
@@ -42,9 +42,9 @@ non-Korean language. The source text is a content identifier for this layer, so
 changing Korean UI copy after translation freeze requires moving the matching
 dictionary key in the same commit.
 
-Only the 28 Korean keys whose call sites have genuinely different meanings use
+Only the current 27 Korean keys whose call sites have genuinely different meanings use
 the additional `LocaleManager.ui_context(context_id, korean, english)` API. The
-30 stable context IDs remain flat top-level string keys in the same
+29 reached context IDs remain flat top-level string keys in the same
 `ui_<code>.json`; they are not gameplay IDs and do not introduce a second file
 format. Korean and English return their supplied arguments byte-for-byte. A
 prepared language resolves in this exact order:
@@ -68,17 +68,20 @@ sites carried more than one English value. Thirty-four were formatting-only, 45
 could share one target translation after an explicit semantic allowlist, and 28
 required 30 stable context IDs across 37 call sites. At that revision the
 historical inventory was `3,217 legacy + 37 context` calls and 2,730 legacy
-Korean keys. The manifest still owns that exact partition and each context row's
-ID, Korean source, allowed English variants, owner function, and call count.
+Korean keys. The dated ORDER-96 audit evidence owns that exact historical
+partition. The active manifest owns only the currently reached context rows,
+including each surviving ID, Korean source, allowed English variants, owner
+function, and call count; it does not rewrite the historical snapshot.
 
-ORDER-97 adds a separate parameterized-template contract without reopening those
-30 context IDs. Its migration revision measured `3,310 calls = 3,273 legacy +
+ORDER-97 adds a separate parameterized-template contract without reopening the
+historical context meanings. Its migration revision measured `3,310 calls = 3,273 legacy +
 37 context` and 2,780 unique legacy Korean keys. Later W1 and controller surfaces
-extended the registered inventory without changing those context IDs. The current
-measured inventory is exactly `3,323 calls = 3,286 legacy + 37 context`, with
-2,792 unique legacy Korean keys. Japanese owns all
-`2,792 legacy + 30 context = 2,822` rows; both Chinese skeletons remain
-`legacy 0/2,792 + context 0/30`.
+and the later removal of three superseded context call sites changed the reached
+inventory without changing the surviving meanings. The current measured inventory
+is exactly `3,311 calls = 3,277 legacy + 34 context`, with 2,816 unique legacy
+Korean keys and 29 reached context IDs. Japanese owns all
+`2,816 legacy + 29 context = 2,845` rows; both Chinese skeletons remain
+`legacy 0/2,816 + context 0/29`.
 
 `LocaleManager.ui_format(ko_template, en_template, ko_args, en_args)` performs a
 stable legacy-template lookup before inserting values. Korean and English each
@@ -100,13 +103,13 @@ sides can produce an English parent with Japanese or Chinese content. The
 collector locks exactly 15 raw-migration argument-provenance rows in addition to
 the templates.
 
-The current registry is `56 raw candidates = 48 migrated
-lookup-before-format calls / 43 templates + 4 dynamic pair readers + 2
+The current registry is `55 raw candidates = 47 migrated
+lookup-before-format calls / 42 templates + 4 dynamic pair readers + 2
 branch-selected literals + 2 locale money formatters`. Two pre-existing calls
 were outside that raw-55 set because their template lookup order was already
 correct: the Aruba status parent and GameState's year-choice quote. ORDER-97
 separately split their target and English argument provenance. Runtime therefore
-contains exactly 50 `ui_format` calls: the 48 raw migrations plus those two
+contains exactly 49 `ui_format` calls: the 47 raw migrations plus those two
 supplemental existing calls. Registry validation rejects missing, extra,
 duplicate, stale, or selector-partial path/function/template/signature/count rows
 rather than adjusting the expected inventory.
@@ -222,14 +225,14 @@ the complete event-ID hash so a content change cannot silently leave the
 translation plan stale.
 
 Current prepared coverage is deliberately incomplete. Static UI is a separate
-claim surface: a Chinese demo cannot ship with its 2,792 current UI keys falling
+claim surface: a Chinese demo cannot ship with its 2,816 current UI keys falling
 back to English even after the event body is complete.
 
 | Locale | Static UI | Events | Event text leaves | Dynamic keys | Demo catalog |
 |---|---:|---:|---:|---:|---:|
-| `ja` | legacy 2,792/2,792; context 30/30 | 1/72 | 8/467 | 9/701 | 0/4 |
-| `zh-CN` | legacy 0/2,792; context 0/30 | 0/72 | 0/467 | 0/701 | 0/4 |
-| `zh-TW` | legacy 0/2,792; context 0/30 | 0/72 | 0/467 | 0/701 | 0/4 |
+| `ja` | legacy 2,816/2,816; context 29/29 | 1/72 | 8/467 | 9/701 | 0/4 |
+| `zh-CN` | legacy 0/2,816; context 0/29 | 0/72 | 0/467 | 0/701 | 0/4 |
+| `zh-TW` | legacy 0/2,816; context 0/29 | 0/72 | 0/467 | 0/701 | 0/4 |
 
 Skeleton mode verifies this scope, existing rows, fallback paths, and the hidden
 shipping state without pretending missing prose is complete. Per-language
@@ -237,12 +240,12 @@ shipping state without pretending missing prose is complete. Per-language
 keys, 4/4 catalog names, and zero direct English bypasses. It is expected to fail
 until an approved body-translation wave is finished. Japanese has the required
 terminology and source-shape validator now. `zh_translation_audit.py --strict`
-adds 2,792/2,792 legacy UI keys and 30/30 context IDs, separate
+adds 2,816/2,816 legacy UI keys and 29/29 context IDs, separate
 Simplified/Traditional script and
 terminology, Korean-won semantics, romanized-name locks, and a project-owned
 regional font route. It cannot certify one region from the other region's text.
 The narrow manifest-locked dynamic lookup routes currently report zero direct
-English bypasses. A broader production-runtime scan separately reports 14
+English bypasses. A broader production-runtime scan separately reports 13
 legacy `is_english()` branches and an AUTO reading-rate route that omits both
 Chinese locales; Chinese strict mode intentionally fails on those blockers.
 
@@ -340,17 +343,21 @@ godot --rendering-driver opengl3 --resolution 1280x800 \
 ```
 
 The default full-game coverage command keeps English strict and prepared locales
-in skeleton mode. `ja_translation_audit.py --scope ui` requires all 2,792 legacy
-UI keys and all 30 context IDs. It also
+in skeleton mode. Its current strict collector scans all 1,758 packaged event
+descriptions and 35 endings: 1,603 shipping events plus 155 author-only events.
+That pass contains the 1,603-event shipping release claim but is not the same
+denominator. `ja_translation_audit.py --scope ui` requires all 2,816 legacy
+UI keys and all 29 reached context IDs. It also
 requires exact placeholder/newline parity, zero Hangul or yen conversion,
-canonical names and casino terms, and no lock/unlock polarity reversal. The two
-source collectors must agree on the exact `34 + 45 + 28` partition and keep the
-planned 30-ID/37-call registry separate from the observed migration count. The
+canonical names and casino terms, and no lock/unlock polarity reversal. The
+dated ORDER-96 ledger preserves the historical `34 + 45 + 28` partition; the two
+current source collectors lock only the reached `29 + 44 + 27` partition and
+29-ID/34-call registry. The
 runtime check proves alias normalization, five-layer context lookup,
 provenance-preserving community refresh, UI miss logging, English
 event/ending/catalog fallback, locale money labels, and bundled glyph coverage.
-The parameterized registry additionally locks the raw `56 = 48 + 4 + 2 + 2`
-disposition, the two supplemental existing calls, 50 runtime `ui_format` calls,
+The parameterized registry additionally locks the raw `55 = 47 + 4 + 2 + 2`
+disposition, the two supplemental existing calls, 49 runtime `ui_format` calls,
 the two exact-money owners, 15 argument-provenance rows, and raw duplicate-key
 rejection.
 
@@ -360,16 +367,18 @@ leaves, 701 dynamic keys, four catalog names, and no ending: 1,172 unique demo
 translation sources in total. Demo generation exits
 with `BODY_TRANSLATION_HELD` unless `--allow-body` is passed after the approved
 24-week source text is declared final; it merges those rows without deleting
-existing static UI or out-of-demo translations. Full `events`, `endings`,
-`catalog`, and `all` scopes do not accept that demo-text freeze and require the
-separate `--allow-full-body` gate.
+existing static UI or out-of-demo translations. Every full-body scope requires
+the separate `--allow-full-body` gate and does not accept that demo-text freeze.
+The event-bearing `events` and `all` scopes collect the complete 1,758-event
+packaged corpus (1,603 shipping + 155 author-only); `endings` and `catalog`
+collect only their own full targets.
 The source-hash cache lives under `.git` so generated drafts do not become release
 assets.
 
 `zh_translation_audit.py` reads both regions from the Korean source independently.
 Its normal mode reports the empty skeleton and both blocked font routes without
-claiming completion. Its region-specific strict mode requires 2,792/2,792 legacy
-UI keys and 30/30 context IDs, the exact 72/467/701/4 demo body (1,172 unique demo translation sources),
+claiming completion. Its region-specific strict mode requires 2,816/2,816 legacy
+UI keys and 29/29 context IDs, the exact 72/467/701/4 demo body (1,172 unique demo translation sources),
 zero direct English bypasses, every
 context-unambiguous wrong-region character in the pinned OpenCC 1.3.1 classifier
 set (4,093 for `zh-CN`, 3,804 for `zh-TW`), project-locked regional terms,
@@ -403,7 +412,7 @@ held because the playable demo is still being revised. The Japanese
 UI dictionary remains a hidden beta and is not a shipping-language promise.
 ORDER-97's L3 screen review is also still open: the user must select three actual
 Batch A surfaces and three actual Batch B surfaces from the same candidate, and
-one failure rejects the corresponding whole 23- or 25-call batch. Inventory,
+one failure rejects the corresponding whole 23- or 24-call batch. Inventory,
 template, or screenshot automation does not supply that evidence.
 Once the approved 24-week source text is declared final, the remaining wave requires:
 
@@ -418,7 +427,7 @@ Once the approved 24-week source text is declared final, the remaining wave requ
    translationese, and causal meaning are human gates rather than key counts.
 
 The Japanese demo claim and the eventual full-game Japanese release claim are
-separate. Passing the demo gate does not satisfy 1,663-event/35-ending full-game
+separate. Passing the demo gate does not satisfy 1,603-event/35-ending full-game
 coverage. Passing the current UI/font gates alone must never add `ja` to
 `SHIPPING_LANGUAGES` or Steam metadata. The Japanese demo gate also blocks the
 combined four-language public demo, while Korean/English development candidates
@@ -435,7 +444,7 @@ and validator together.
 
 Before either Chinese demo claim, that region requires:
 
-1. 2,792/2,792 legacy UI keys, 30/30 context IDs, and strict parity for all 72 demo events, 467 event
+1. 2,816/2,816 legacy UI keys, 29/29 context IDs, and strict parity for all 72 demo events, 467 event
    leaves, 701 dynamic keys, and four catalog names: 1,172 unique demo translation
    sources in total; no ending is fabricated.
 2. Zero Hangul, kana, untranslated English prose, direct English bypass, wrong-
@@ -454,6 +463,6 @@ layout. Each gate blocks its regional claim and the combined four-language demo
 release. Korean/English development candidates may still be tested before
 translation is complete, but the public demo cannot ship until Japanese,
 Simplified Chinese, and Traditional Chinese claims all pass. A demo approval
-never authorizes the 1,663-event/35-ending full-game Chinese release or adds a
+never authorizes the 1,603-event/35-ending full-game Chinese release or adds a
 language to `SHIPPING_LANGUAGES` or Steam metadata before the prepared release
 wiring is complete.

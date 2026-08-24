@@ -21,6 +21,15 @@
 > 차례로 옮긴다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-24 (Codex — ORDER-97 active 후보 분모 정합)
+
+- active `demo_rc`의 실제 collector를 다시 읽어 UI `2,845=legacy 2,816+context
+  29`, 호출 `3,311=3,277+34`, parameter `55/47/42/49`, 데모
+  `72사건/467본문/730동적회/701고유/4자산`으로 live 정본·사람 게이트를 맞췄다.
+  BUILD `.1` exact commit에서도 재현했다. 1,758 packaged/1,603 shipping과
+  ORDER-86 exact·ORDER-88 중간/current delta를 분리하고 역사 snapshot·후보 바이트는 보존했다.
+  Godot 종료코드만 보던 selector도 성공 마커·오류 로그를 함께 검사하게 막았다.
+
 ## 2026-08-24 (Codex — ORDER-119 사람 게이트 등록 복구)
 
 - 이미 명시된 ORDER-119 L3 실렌더·사용자 최종 GO가 `human_gates.json`에 빠진

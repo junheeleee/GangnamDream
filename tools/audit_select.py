@@ -28,11 +28,21 @@ import shlex
 import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SCOPE = ROOT / "tools" / "audit_scope.json"
 AUDIT_SH = ROOT / "tools" / "audit.sh"
+GODOT_SUCCESS_RE = re.compile(r"(?m)^[A-Z][A-Z0-9_]*_OK(?:\s|$)")
+GODOT_FATAL_RE = re.compile(
+    r"SCRIPT ERROR|Parse Error|Compile Error|Failed to load script|\bERROR:",
+    re.IGNORECASE,
+)
+GODOT_ALLOWED_ERROR_RE = re.compile(
+    r"ERROR:\s+[0-9]+ resources still in use at exit",
+    re.IGNORECASE,
+)
 
 
 def load_scope() -> dict:
@@ -133,6 +143,41 @@ def audit_sh_tools() -> set[str]:
     return found
 
 
+def godot_failure_reason(exit_status: int, output: str) -> str | None:
+    if exit_status != 0:
+        return f"Godot 종료코드 {exit_status}"
+    if not GODOT_SUCCESS_RE.search(output):
+        return "Godot 성공 마커 없음"
+    fatal_lines = [
+        line for line in output.splitlines()
+        if GODOT_FATAL_RE.search(line) and not GODOT_ALLOWED_ERROR_RE.search(line)
+    ]
+    if fatal_lines:
+        return f"Godot 오류 출력 감지: {fatal_lines[0].strip()}"
+    return None
+
+
+def godot_guard_self_test() -> bool:
+    cases = (
+        (0, "SYNTHETIC_CHECK_OK", True),
+        (0, "Godot Engine", False),
+        (0, "SYNTHETIC_CHECK_OK\nSCRIPT ERROR: late failure", False),
+        (0, "SYNTHETIC_CHECK_OK\nERROR: late failure", False),
+        (7, "SYNTHETIC_CHECK_OK", False),
+        (0, "SYNTHETIC_CHECK_OK\nERROR: 2 resources still in use at exit", True),
+    )
+    for exit_status, output, expected in cases:
+        passed = godot_failure_reason(exit_status, output) is None
+        if passed != expected:
+            print(
+                "AUDIT_SELECT_GODOT_GUARD_FAIL "
+                f"exit={exit_status} expected={int(expected)} output={output!r}"
+            )
+            return False
+    print(f"AUDIT_SELECT_GODOT_GUARD_OK cases={len(cases)}")
+    return True
+
+
 def run_check(check: dict, godot: str | None) -> int:
     tool = check["tool"]
     parts = shlex.split(tool)
@@ -141,11 +186,23 @@ def run_check(check: dict, godot: str | None) -> int:
     if check.get("godot") and not godot:
         print(f"  ⚠ {tool} — Godot 없음, 건너뜀")
         return 0
+    godot_log_path: Path | None = None
     if tool_path.endswith(".tscn"):
         if not godot:
             print(f"  ⚠ {tool} — Godot 없음, 건너뜀")
             return 0
-        cmd = [godot, "--headless", "--quit-after", "3600", f"res://{tool_path}"]
+        log_fd, log_name = tempfile.mkstemp(prefix="gangnam-audit-select-", suffix=".log")
+        os.close(log_fd)
+        godot_log_path = Path(log_name)
+        cmd = [
+            godot,
+            "--headless",
+            "--quit-after",
+            "3600",
+            "--log-file",
+            str(godot_log_path),
+            f"res://{tool_path}",
+        ]
         scene_args = check.get("args", [])
         if scene_args:
             cmd.extend(["--", *scene_args])
@@ -165,9 +222,26 @@ def run_check(check: dict, godot: str | None) -> int:
     proc = subprocess.run(
         cmd, cwd=ROOT, capture_output=True, text=True,
         check=False, env=child_env)
-    tail = (proc.stdout or proc.stderr).strip().splitlines()
+    displayed_output = "\n".join(
+        part for part in (proc.stdout, proc.stderr) if part
+    )
+    log_output = ""
+    if godot_log_path is not None:
+        try:
+            log_output = godot_log_path.read_text(encoding="utf-8", errors="replace")
+        finally:
+            godot_log_path.unlink(missing_ok=True)
+    combined_output = "\n".join(
+        part for part in (displayed_output, log_output) if part
+    )
+    tail = displayed_output.strip().splitlines()
     for line in tail[-3:]:
         print(f"    {line}")
+    if tool_path.endswith(".tscn"):
+        reason = godot_failure_reason(proc.returncode, combined_output)
+        if reason is not None:
+            print(f"  ✗ {tool} 실패 — {reason}")
+            return 1
     if proc.returncode != 0:
         print(f"  ✗ {tool} 실패 (exit {proc.returncode})")
     return proc.returncode
@@ -189,6 +263,7 @@ def main() -> int:
         parser.error("--lane은 --base 또는 직접 파일 목록과 함께 쓸 수 없다")
 
     if args.verify:
+        guard_ok = godot_guard_self_test()
         missing = sorted(audit_sh_tools() - registered_tools(scope))
         stale = sorted(registered_tools(scope) - audit_sh_tools())
         for tool in missing:
@@ -196,8 +271,11 @@ def main() -> int:
         for tool in stale:
             if (ROOT / tool).exists():
                 print(f"EXTRA   {tool} — scope에 있으나 audit.sh가 부르지 않음")
-        if missing:
-            print(f"AUDIT_SCOPE_VERIFY_FAIL missing={len(missing)}")
+        if missing or not guard_ok:
+            print(
+                "AUDIT_SCOPE_VERIFY_FAIL "
+                f"missing={len(missing)} godot_guard={int(guard_ok)}"
+            )
             return 1
         print(f"AUDIT_SCOPE_VERIFY_OK registered={len(registered_tools(scope))}")
         return 0

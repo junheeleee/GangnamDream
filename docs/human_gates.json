@@ -596,13 +596,14 @@
         "blocks": [
           "demo-release"
         ],
-        "content": "P-10의 공통 영어 수단 1단위·주요 화자→청자 12단위·기능 화자와 단역 8단위·73사건/686동적 호출·657고유키 전수 교차 검토 1단위로 구성된 22단위 원장"
+        "content": "P-10의 ORDER-86 exact 22단위 원장(72사건/447본문·543동적 호출/536고유키·활동 147), ORDER-88 중간 snapshot(73/471·686/657), active demo_rc 실측(72/467·730/701) 사이의 set/hash delta 전수 재대조"
       },
       "revision": "demo_rc",
       "sample": {
         "cohort": "demo_en_voice_random_three",
         "requirements": [
-          "같은 demo_rc와 ORDER-86 전수 원장에서 사용자가 임의의 서로 다른 3단위를 고름",
+          "ORDER-86 exact 모집단·ORDER-88 중간 snapshot·active demo_rc 실측의 set/hash delta를 고정하고 모든 새·변경 사건·동적 표면·활동 대사를 active 22단위 원장에 전수 재대조한 증거",
+          "같은 demo_rc와 delta가 반영된 active 22단위 전수 원장에서 사용자가 임의의 서로 다른 3단위를 고름",
           "영어 원어민 또는 준원어민이 화자 이름을 가리고 관계 단계와 목소리의 차이를 설명",
           "한국어 정본과 함께 의미·함축·관계 거리·숫자·날짜를 직접 대조",
           "세 단위 중 하나라도 번역투·평탄화·과장된 호칭이면 표본만 고치지 않고 22단위를 전량 재검토"
@@ -687,7 +688,7 @@
           "order97-close",
           "claim:ja-demo"
         ],
-        "content": "Batch B의 GameState 4·MainGame 2·CommunicationPhone 3·ArubaGame 1·SeoulCycleBoard 2·CoreLoopPlanner 13, 총 25개 lookup-before-format 이동 표면"
+        "content": "Batch B의 GameState 4·MainGame 1·CommunicationPhone 3·ArubaGame 1·SeoulCycleBoard 2·CoreLoopPlanner 13, 총 24개 lookup-before-format 이동 표면"
       },
       "revision": "demo_rc",
       "sample": {
@@ -697,7 +698,7 @@
           "각 표면의 KO와 EN 최종 문자열이 migration 전 authored byte와 같은지 대조",
           "일본어 사전 hit와 영어 fallback의 인자 provenance, placeholder 결과, 고정 일정·복수형·원화 의미를 실제 화면에서 확인",
           "같은 최종 demo_rc의 JA core-loop 계획판·서울 보드·연락폰·i18n-layout에서 가나·한자·일본어 문장부호가 한 Noto Sans JP 굵기로 읽히고 줄바꿈·잘림이 없는지 확인",
-          "세 표면 중 하나라도 틀리면 표본만 고치지 않고 Batch B 25호출을 전량 재검토"
+          "세 표면 중 하나라도 틀리면 표본만 고치지 않고 Batch B 24호출을 전량 재검토"
         ]
       },
       "acceptance": [
@@ -726,9 +727,9 @@
         "cohort": "ja_demo_native_context_review",
         "requirements": [
           "게임 문맥과 한국어를 함께 이해하는 일본어 원어민 검수자",
-          "같은 demo_rc에서 ja_translation_audit.py --scope ui 및 --scope demo --strict PASS: legacy UI 2,782/2,782·context UI 30/30(총 UI 2,812/2,812)·73사건·471본문·657동적·4자산",
+          "같은 demo_rc에서 ja_translation_audit.py --scope ui 및 --scope demo --strict PASS: legacy UI 2,816/2,816·context UI 29/29(총 UI 2,845/2,845)·72사건·467본문·701동적·4자산",
           "같은 demo_rc를 새 세이브로 시작해 24주와 CTA까지 정상 속도로 독해",
-          "한 경로에 나오지 않은 합법 도달 73개 사건과 모든 선택·결과를 한국어 정본과 직접 대조"
+          "한 경로에 나오지 않은 합법 도달 72개 사건과 모든 선택·결과를 한국어 정본과 직접 대조"
         ]
       },
       "acceptance": [
@@ -756,9 +757,9 @@
         "cohort": "zh_cn_demo_native_context_review",
         "requirements": [
           "한국어와 게임 문맥을 함께 이해하는 중국 본토 원어민 검수자",
-          "해당 demo_rc에서 zh_translation_audit.py --lang zh-CN --strict PASS: legacy UI 2,782/2,782·context UI 30/30·73사건·471본문·657동적·4자산과 프로젝트 소유 SC 글꼴 준비 완료",
+          "해당 demo_rc에서 zh_translation_audit.py --lang zh-CN --strict PASS: legacy UI 2,816/2,816·context UI 29/29·72사건·467본문·701동적·4자산과 프로젝트 소유 SC 글꼴 준비 완료",
           "같은 demo_rc를 새 세이브로 시작해 24주와 CTA까지 정상 속도로 독해",
-          "한 경로에 나오지 않은 합법 도달 73개 사건과 모든 선택·결과를 한국어 정본과 직접 대조",
+          "한 경로에 나오지 않은 합법 도달 72개 사건과 모든 선택·결과를 한국어 정본과 직접 대조",
           "SC 글꼴이 JP 공유 한자보다 먼저 선택되는 실제 화면을 Windows·macOS·Linux/Steam Deck에서 확인"
         ]
       },
@@ -788,9 +789,9 @@
         "cohort": "zh_tw_demo_native_context_review",
         "requirements": [
           "한국어와 게임 문맥을 함께 이해하는 대만 원어민 검수자",
-          "해당 demo_rc에서 zh_translation_audit.py --lang zh-TW --strict PASS: legacy UI 2,782/2,782·context UI 30/30·73사건·471본문·657동적·4자산과 프로젝트 소유 TC 글꼴 준비 완료",
+          "해당 demo_rc에서 zh_translation_audit.py --lang zh-TW --strict PASS: legacy UI 2,816/2,816·context UI 29/29·72사건·467본문·701동적·4자산과 프로젝트 소유 TC 글꼴 준비 완료",
           "같은 demo_rc를 새 세이브로 시작해 24주와 CTA까지 정상 속도로 독해",
-          "한 경로에 나오지 않은 합법 도달 73개 사건과 모든 선택·결과를 한국어 정본과 직접 대조",
+          "한 경로에 나오지 않은 합법 도달 72개 사건과 모든 선택·결과를 한국어 정본과 직접 대조",
           "TC 글꼴이 JP 공유 한자보다 먼저 선택되는 실제 화면을 Windows·macOS·Linux/Steam Deck에서 확인"
         ]
       },
