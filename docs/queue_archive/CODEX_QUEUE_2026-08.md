@@ -15,6 +15,12 @@
 
 ## 2026-08
 
+- `[!] ORDER-103` (2026-08-24, **사용자 NO-GO·미완료**): M01~M06의
+  `주력/함께`·같은 축 여유·미룸을 직접 고르는 독립 체험판은 기계·패키지 L2를
+  통과했지만, 사용자가 “게임스토리상에서 선택지로 충분”하다고 판정하고 매달
+  행동 계층 제거를 확정했다. exact BUILD `2026.08.24.1`과 해시는 반려 증거로
+  보존하고 사람 후보에서는 내린다. 실제 StoryMode 선택과 자동 시간·경제만
+  남기는 복구 표본은 ORDER-124가 소유한다. [사양](ORDER-103.md)
 - `[x] ORDER-123` (2026-08-22): W9의 ordinary 1개와 terminal 2개를
   자르지 않고 reachable max 4·5+ fail-closed, 분리된 candidate/bundle/route/
   variant, 960×600 두 행 scroll로 복구했다. KO/EN × keyboard/gamepad 24주

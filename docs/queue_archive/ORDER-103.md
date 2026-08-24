@@ -1,8 +1,26 @@
-# Active Queue Spec: ORDER-103
+# Archived Queue Spec: ORDER-103
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-103 [P0·플레이 표본] M01~M06 월간 약속을 직접 고르는 독립 체험판을 만든다
+#### [!] ORDER-103 [P0·플레이 표본] M01~M06 월간 약속 선택판 — 사용자 NO-GO, ORDER-124로 이관
+
+## 2026-08-24 사용자 최종 판정 — NO-GO
+
+- 사용자 판정: “별로인거같아. 그냥 게임스토리상에서 선택지로 충분해보여.
+  아예 매달 행동을 빼버릴까?” 이후 제거 방향에 “응”으로 확정했다.
+- 반려 범위는 카드의 색·배치가 아니라 `주력/함께`, 같은 축 여유, 미룸과
+  매달 반복되는 별도 행동 선택 계층 전체다. 이름만 바꾼 월간 행동판으로
+  재시도하지 않는다.
+- exact 후보 `GangnamDream-ORDER103-M01M06-ChoicePlaytest` BUILD
+  `2026.08.24.1`, source `20ec3fb04f5068846518f28e4123e1fabfa73e34`, tree
+  `79cf4bd95899a44fa353bd68212f266a2b4fba09`, manifest SHA-256
+  `8e22703a2ac9fc1ee92188f3519e82704271a4a4f204556c4b162f271357503d`, ZIP
+  SHA-256 `8e6a7d7930c25ec71f2a6a45ec8ac8ea7f52ae8af9a1b34d17cc63d9310fd930`는
+  반려된 실험의 재현 증거로 보존한다. 사람 판정 후보로 계속 노출하지 않는다.
+- 후속 `ORDER-124`는 실제 스토리 장면 안의 선택만 플레이어 입력으로 남기고,
+  시간·월세·생활 압박은 자동으로 흐르는 M01~M06 독립 후보를 만든다. 기존
+  제품 진입·저장과 반려 후보 소스는 새 후보의 사용자 GO 전까지 byte-exact로
+  격리한다.
 
 **실행 후보 범위 보정 (2026-08-24 사용자 승인):** BUILD `2026.08.22.1`의
 active `demo_rc`는 기존 숫자 여력 네 장을 쓰는 W1~24 `seoul_cycle_v1`

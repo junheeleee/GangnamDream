@@ -62,7 +62,7 @@
 | 1 | [~] | ORDER-119 · 게임 전체 플레이어 표면에서 스탯·시스템 언어 제거 | [119](queue_active/ORDER-119.md) | 제품·QA 36파일+package metadata 2파일 · exact clean full audit·KO/EN 24주·KO 240주·BUILD `2026.08.22.1` 3플랫폼 package·macOS native smoke green · active `demo_rc` 등록 · 사용자 최종 GO OPEN |
 | 2 | [~] | ORDER-118 · startup 전면 재설계·코드 토큰 제거 | [118](queue_active/ORDER-118.md) | L1/L2 GO · 16편/27선택·코드 토큰 0 · fresh seed 9821 #11/#2/#3 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |
 | 3 | [~] | ORDER-117 · 107/109 국소 수리·career 15편 재판정 | [117](queue_active/ORDER-117.md) | L1/L2 GO · 18단위 전수·16 roots 재작성·after_goal/people_verdict exact 보존·코드 토큰 0 · 107/109 각 1/1+career 15/15 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |
-| 4 | [~] | ORDER-103 · M01~M06 월간 약속을 직접 고르는 독립 체험판을 만든다 | [103](queue_active/ORDER-103.md) | BUILD `2026.08.24.1` 전용 macOS `order103_rc` active · 무인자 진입·KO/EN·저장 재개·격리 L2 GO · 지금 사용자 L3 |
+| 4 | [~] | ORDER-124 · 월간 행동판 없이 스토리 선택만으로 M01~M06을 잇는다 | [124](queue_active/ORDER-124.md) | ORDER-103 사용자 NO-GO 반영 · 실제 StoryMode·자동 시간/경제 독립 후보 구현 중 |
 | 5 | [~] | ORDER-99 · SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | [99](queue_active/ORDER-99.md) | BUILD `.3` L1/L2 — 사용자 저장 확인 대기 |
 | 6 | [~] | ORDER-97 · LOC-0.5 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | L1/L2 — 최신 후보·A/B 각 3표면 L3 대기 |
 | 7 | [~] | ORDER-98 · PAD-1 포커스 레일을 의미 버튼으로 줄인다 | [98](queue_active/ORDER-98.md) | L1/L2 — 집 플레이·물리 패드 L3 대기 |
@@ -119,7 +119,7 @@ W9~24 수리와 clean demo_rc를 작은 자식 오더로 다시 연다. W25~48�
 python3 tools/audit_select.py -- <변경 파일...>
 git diff --check
 ```
-- ORDER-103은 전용 M01~M06 표적 차선만 쓰며 기존 24주·240주 검사를 실행하지 않는다.
+- ORDER-124는 전용 M01~M06 스토리 선택 차선만 쓰며 기존 24주·240주 검사를 실행하지 않는다.
 - ORDER-118은 startup 16편·코드 토큰 표면·invalidated 계약만 검사한다. R1b·save·
   dispatcher·transaction·ending·JA/ZH는 건드리지 않고 전체 감사·240주를 생략한다.
 - ORDER-117은 지목 2편과 career 15편·보존 1편만 검사하며 story map·계약·runtime·

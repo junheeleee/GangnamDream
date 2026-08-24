@@ -14,7 +14,7 @@
       "commit": "ebc58a839d64d8810b9da5548c20e58bc43c9e30",
       "tree": "f978a22525b678ef83619dc50094a6dada75f190",
       "manifest_sha256": "8a34920038962a4ba0885ad6189d92dc6d3c3ee2780020f3894938d380613177",
-      "note": "데모 제품 경계는 W1~24 CTA다. BUILD 2026.08.22.1은 숫자 여력 네 장을 쓰는 `서울의 네 주` 기준선이며 ORDER-103 M01~M06 선택판이 아니다. clean revision ebc58a839d64d8810b9da5548c20e58bc43c9e30 / tree f978a22525b678ef83619dc50094a6dada75f190의 Windows·macOS·Linux V2 playtest 후보고, 같은 후보의 full audit·KO/EN 24주·KO 240주와 package identity/manifest 검증, macOS native no-arg smoke가 PASS했다. 자동 증거는 사용자 최종 GO를 대신하지 않는다. demo_rc의 사람·실기기·연속 A/V·원어민 게이트와 고정 order99_build_3_rc의 사용자 게이트는 OPEN이다. 독립 active order103_rc와 그 사용자 게이트도 별도 OPEN이며 서로 대신하지 않는다. W25~48 Chapter 1은 데모 RC나 사람 판정 조건이 아니다."
+      "note": "데모 제품 경계는 W1~24 CTA다. BUILD 2026.08.22.1은 숫자 여력 네 장을 쓰는 `서울의 네 주` 기준선이다. clean revision ebc58a839d64d8810b9da5548c20e58bc43c9e30 / tree f978a22525b678ef83619dc50094a6dada75f190의 Windows·macOS·Linux V2 playtest 후보고, 같은 후보의 full audit·KO/EN 24주·KO 240주와 package identity/manifest 검증, macOS native no-arg smoke가 PASS했다. 자동 증거는 사용자 최종 GO를 대신하지 않는다. demo_rc의 사람·실기기·연속 A/V·원어민 게이트와 고정 order99_build_3_rc의 사용자 게이트는 OPEN이다. ORDER-103의 독립 월간 선택판은 사용자 NO-GO로 퇴역했고, 후속 ORDER-124 후보는 별도 재빌드 중이다. W25~48 Chapter 1은 데모 RC나 사람 판정 조건이 아니다."
     },
     "order99_build_3_rc": {
       "status": "active",
@@ -23,12 +23,12 @@
       "manifest_sha256": "96e76eddd5d727e30cd055c5cd7245a5d42985e5b99698eb84df3aa394811519",
       "note": "ORDER-99 BUILD 2026.08.11.3 사용자 저장 복구 확인만 소유하는 고정 후보다. 최신 공개 데모 후보가 아니며 demo_rc가 새 빌드로 이동해도 이 저장 게이트의 revision은 바꾸지 않는다."
     },
-    "order103_rc": {
-      "status": "active",
-      "commit": "20ec3fb04f5068846518f28e4123e1fabfa73e34",
-      "tree": "79cf4bd95899a44fa353bd68212f266a2b4fba09",
-      "manifest_sha256": "8e22703a2ac9fc1ee92188f3519e82704271a4a4f204556c4b162f271357503d",
-      "note": "ORDER-103 독립 M01~M06 선택판의 전용 macOS 후보 `GangnamDream-ORDER103-M01M06-ChoicePlaytest`, BUILD 2026.08.24.1이다. exact clean revision 20ec3fb04f5068846518f28e4123e1fabfa73e34 / tree 79cf4bd95899a44fa353bd68212f266a2b4fba09에서 생성했고 ZIP SHA-256은 8e6a7d7930c25ec71f2a6a45ec8ac8ea7f52ae8af9a1b34d17cc63d9310fd930이다. 표적 검사, KO 1280×800·EN 960×600 package flow, M02·회고 저장 재개, 무인자 전용 장면 진입, ad-hoc codesign, manifest/app/ZIP 해시, 제품 설정·retail/V2 저장 격리가 PASS했다. 자동 입력은 합성 증거이며 실제 조작감·재미·최종 GO를 대신하지 않는다. 기존 demo_rc는 숫자 여력 W1~W24 기준선이므로 이 판정에 사용하지 않는다. 사용자 L3는 OPEN이다."
+    "order124_rc": {
+      "status": "waiting_rebuild",
+      "commit": null,
+      "tree": null,
+      "manifest_sha256": null,
+      "note": "ORDER-103 사용자 NO-GO를 반영해 월간 행동판 없이 실제 StoryMode 선택과 자동 시간·경제만 쓰는 M01~M06 전용 macOS 후보를 재빌드 중이다. exact candidate가 L1/L2와 저장 격리를 통과하기 전에는 사람 판정에 사용하지 않는다."
     },
     "full_rc": {
       "status": "waiting_rebuild",
@@ -854,30 +854,30 @@
       ]
     },
     {
-      "id": "order103_m1_m6_choice_playtest_user_final_go",
+      "id": "order124_m1_m6_story_choice_playtest_user_final_go",
       "domain": "gameplay",
-      "gate": "ORDER-103 M01~M06 약속 선택판 사용자 재판정",
-      "why": "자동 검사는 여섯 달의 주력·함께·여유·미룸·저장과 입력을 증명한다. 장면 카드가 업무 대시보드가 아니라 실제로 무엇을 지키고 버릴지 고민하는 게임으로 읽히는지는 사용자가 직접 판정해야 한다.",
-      "owner": "ORDER-103",
+      "gate": "ORDER-124 M01~M06 스토리 선택 전용 구조 사용자 판정",
+      "why": "자동 검사는 실제 StoryMode 선택, 자동 시간·경제, 저장 격리를 증명한다. 월간 행동판 없이도 선택과 대가가 게임으로 읽히는지는 사용자가 직접 판정해야 한다.",
+      "owner": "ORDER-124",
       "state": "open",
       "scope": {
-        "blocks": ["order103-close", "demo"],
-        "content": "최신 정본 StoryMapM1M6Playtest의 고시원 배경·약속 장면 카드·주력/함께 역할 선택으로 M01~M06을 완주하는 독립 체험판"
+        "blocks": ["order124-close", "story-only-product-migration"],
+        "content": "월간 행동판 없이 실제 StoryMode 선택과 자동 네 주·월세·생활 압박만으로 M01~M06을 완주하는 독립 체험판"
       },
-      "revision": "order103_rc",
+      "revision": "order124_rc",
       "sample": {
-        "cohort": "order103_m1_m6_reworked_choice_surface",
+        "cohort": "order124_m1_m6_story_choice_only",
         "requirements": [
-          "active order103_rc의 전용 앱 `GangnamDream-ORDER103-M01M06-ChoicePlaytest`, BUILD 2026.08.24.1에서만 KO 또는 EN, 960×600 또는 1280×800로 새 시작. 숫자 여력 네 장의 기존 demo_rc는 사용하지 않음",
-          "마우스·키보드·실제 패드 중 하나로 M01~M06의 주력과 가능한 함께를 직접 배정하고 결과·회고까지 정상 독해",
-          "가장 고민한 달, 버린 약속, 닫힌 문, 항상 둘째가 정답처럼 느껴졌는지를 유도 문구 없이 말함"
+          "active order124_rc의 전용 앱 `GangnamDream-ORDER124-M01M06-StoryChoicePlaytest`에서만 새 시작. 반려 ORDER-103 앱과 기존 demo_rc는 사용하지 않음",
+          "마우스·키보드·실제 패드 중 하나로 M01~M06의 실제 StoryMode 문장과 선택을 정상 속도로 완주",
+          "장면 사이 시간감, M01→M02 대가, M06에서 포기한 일을 유도 문구 없이 말함"
         ]
       },
       "acceptance": [
-        "주력과 함께의 역할을 이해하고 첫 확인이 자동 배정이 아니라 역할 자리 이동으로 읽힘",
-        "한 번 이상 실제로 무엇을 버릴지 고민하며 함께가 항상 정답처럼 느껴지지 않음",
-        "닫힌 문이 숨은 벌점이 아니라 자기 경로의 결과로 읽히고 선택 전 미래 결과 스포일러가 없음",
-        "장면 카드가 업무 대시보드가 아니라 게임으로 읽히며 사용자가 ORDER-103에 최종 GO한 뒤에만 기존 24주 판 이관을 시작함"
+        "월간 행동판이 없어도 실제 장면 안에서 선택하고 있다는 감각이 있음",
+        "M01 선택의 M02 생활 대가와 M06에서 하나만 끝내는 포기가 자연스럽게 읽힘",
+        "장면 사이 자동 시간·경제가 너무 빠르거나 별도 관리 화면처럼 느껴지지 않음",
+        "사용자가 ORDER-124에 최종 GO한 뒤에만 본편의 반복 월간·주간 행동 진입 제거를 시작함"
       ]
     },
     {
