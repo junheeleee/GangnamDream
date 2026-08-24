@@ -127,6 +127,37 @@
         "tools/StoryMapM1M6Check.tscn"
       ],
       "why": "독립 M01~M06 런타임만 5초 이내 검사하고 기존 24주·240주 경로는 실행하지 않는다"
+    },
+    {
+      "id": "order103-macos-package",
+      "paths": [
+        "docs/BUILD_PIPELINE.md",
+        "tools/build_order103_macos.sh",
+        "tools/order103_package_audit.py",
+        "tools/order103_export",
+        "tools/order103_export/",
+        "tools/order103_export/**",
+        "tools/audit_scope.json"
+      ],
+      "owned_paths": [
+        "docs/BUILD_PIPELINE.md",
+        "tools/build_order103_macos.sh",
+        "tools/order103_package_audit.py",
+        "tools/order103_export",
+        "tools/order103_export/",
+        "tools/order103_export/project.godot",
+        "tools/order103_export/export_presets.cfg",
+        "tools/order103_export/Entry.tscn",
+        "tools/order103_export/Entry.gd",
+        "tools/order103_export/AudioManagerStub.gd",
+        "tools/order103_export/resources.txt",
+        "tools/audit_scope.json"
+      ],
+      "tools": [
+        "tools/order103_package_audit.py --self-test",
+        "tools/StoryMapM1M6Check.tscn"
+      ],
+      "why": "ORDER-103 전용 wrapper·payload·manifest 계약만 검사하고 기존 24주·240주 경로는 실행하지 않는다"
     }
   ],
   "checks": [
@@ -362,6 +393,17 @@
         "tools/StoryMapM1M6Check.gd",
         "tools/StoryMapM1M6Check.gd.uid",
         "tools/StoryMapM1M6Check.tscn"
+      ]
+    },
+    {
+      "tool": "tools/order103_package_audit.py --self-test",
+      "why": "ORDER-103 전용 macOS wrapper의 진입 scene·빌드 표식·저장 격리·payload·manifest 계약 자체 검사",
+      "paths": [
+        "docs/BUILD_PIPELINE.md",
+        "tools/build_order103_macos.sh",
+        "tools/order103_package_audit.py",
+        "tools/order103_export/**",
+        "tools/audit_scope.json"
       ]
     },
     {

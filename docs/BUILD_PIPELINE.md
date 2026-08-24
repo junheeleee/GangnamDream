@@ -155,6 +155,60 @@ sed -n '1,10p' build/playtest/MANIFEST.sha256
 shasum -a 256 build/playtest/MANIFEST.sha256
 ```
 
+## ORDER-103 전용 M01–M06 선택판 후보
+
+ORDER-103 사람 판정에는 기존 `demo_rc`를 쓰지 않는다. `demo_rc`는 숫자 여력
+네 장을 쓰는 W1–W24 `서울의 네 주` 기준선이며 ORDER-103 장면 카드·`주력/함께`
+선택판이 아니다. 전용 후보의 앱·ZIP 이름은
+`GangnamDream-ORDER103-M01M06-ChoicePlaytest`로 고정하고, 창 안에도
+`ORDER-103 · M01–M06 · BUILD 2026.08.24.1` 표식을 노출한다.
+
+후보는 제품 `project.godot`, 제품 `export_presets.cfg`, 시작 화면, 24주 runtime,
+retail/V2 저장을 바꾸지 않는다. 대신 clean source commit을 저장소 밖 임시 staging에
+풀고 `tools/order103_export/`의 최소 wrapper와 `resources.txt`에 열거한 M01–M06
+payload만 복사해 native macOS 앱을 만든다. Finder에서 인자 없이 열면
+`tools/StoryMapM1M6Playtest.tscn`만 즉시 표시한다.
+
+```bash
+GODOT=/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot \
+  ./tools/build_order103_macos.sh \
+  --source "$(git rev-parse HEAD)" \
+  --build-id 2026.08.24.1
+```
+
+생성기는 dirty source를 거부하고 다음 파일을 만든다.
+
+- `build/order103/macos/GangnamDream-ORDER103-M01M06-ChoicePlaytest.zip`
+- `build/order103/MANIFEST.json`
+- `build/order103/MANIFEST.sha256`
+
+`MANIFEST.json`은 profile `order103_m1m6_playtest`, build ID, flavor
+`story_map_m1m6_playtest`, namespace `story_map_m1m6_playtest_v1`, save schema,
+source commit/tree/clean 상태, exact Godot 버전, main scene, bundle ID, custom user-data
+이름, payload·launcher·app·ZIP SHA-256, 생성 UTC, codesign 결과, 표적 검사와
+package smoke marker를 기록한다. `MANIFEST.sha256`은 manifest 자체의 SHA-256이다.
+
+전용 사용자 데이터 이름은 `GangnamDream_ORDER103_M01M06_v1`이며 이 후보는
+`story_map_m1m6_playtest_autosave.json`만 직접 쓴다. 제품용 retail/V2 저장 경로를
+탐색·복사·이전·삭제하지 않는다. 발급 전후 제품 저장의 바이트가 같고, 전용 경로에
+예상하지 않은 save JSON이 없는지 확인한다.
+
+자동 L2는 같은 clean source에서 다음만 검사한다.
+
+1. 현행 `story-map-m1m6-runtime` 표적 검사
+2. 1280×800 KO와 960×600 EN packaged flow
+3. 첫 확인은 역할 자리로 포커스만 이동하고 두 번째 확인에서만 배정
+4. 자동 배정 0, 내부 스크롤 0, 카드·역할 자리·확정 버튼 잘림/겹침 0
+5. M01 종료·재실행 뒤 M02 이어하기와 M06 종료·재실행 뒤 회고 이어하기
+6. 무인자 native 실행이 Splash/StartMenu/`서울의 네 주`가 아닌 전용 홈으로 진입
+7. ad-hoc codesign과 manifest/app/ZIP 해시 재검증
+
+자동 L2는 마우스 hover signal, 실제 Enter key event, D-pad/South/East mapping과
+gamepad semantic action을 재생한다. 이는 물리 기기 증거가 아니다. 위 package L2가
+green이면 `order103_rc`를 사람 판정용 `active` 후보로 등록하고, 실제 마우스·키보드·
+물리 패드 조작감은 사용자의 L3에서 닫는다. 이 후보에 24주·240주 검사를 실행하거나
+그 결과를 전용 L2 증거로 재사용하지 않는다.
+
 ## 4. 자동 스모크
 
 ### 계약 스모크
