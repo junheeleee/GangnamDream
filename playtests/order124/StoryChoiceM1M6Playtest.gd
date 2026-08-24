@@ -258,6 +258,8 @@ func qa_start_contract() -> Dictionary:
 	return {
 		"difficulty": START_DIFFICULTY,
 		"profile": START_PROFILE,
+		"run_theme": "자유런",
+		"run_theme_categories": [],
 		"health_floor": START_HEALTH_FLOOR,
 		"mental_floor": START_MENTAL_FLOOR,
 		"monthly_recovery_health": MONTHLY_RECOVERY_HEALTH,
@@ -287,6 +289,11 @@ func qa_set_auto_launch(enabled: bool) -> bool:
 func _start_new_run() -> bool:
 	GameState.start_new_game(
 		"김민준", "지방_상경", "직장형", START_PROFILE, "자유런", START_DIFFICULTY)
+	# This candidate schedules every story scene explicitly. Remove the random
+	# free-run category hint so the product's legacy-save inference cannot
+	# reinterpret a legitimate "자유런" save as a themed run on reload.
+	GameState.run_theme = "자유런"
+	GameState.run_theme_categories = []
 	GameState.health = maxi(GameState.health, START_HEALTH_FLOOR)
 	GameState.mental = maxi(GameState.mental, START_MENTAL_FLOOR)
 	GameState.flags["order124_story_playtest_contract"] = true

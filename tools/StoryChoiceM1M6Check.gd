@@ -205,6 +205,8 @@ func _check_start_contract(controller: Node) -> void:
 	var expected := {
 		"difficulty": "드라마",
 		"profile": "알바",
+		"run_theme": "자유런",
+		"run_theme_categories": [],
 		"health_floor": 70,
 		"mental_floor": 72,
 		"monthly_recovery_health": 1,
@@ -237,6 +239,9 @@ func _start_and_check_m1_route(
 			and bool((started_state.get("flags", {}) as Dictionary).get(
 				"part_time_worker", false)),
 		"%s route did not use the declared Drama + part-time baseline" % expected_route)
+	_expect(str(started_state.get("run_theme", "")) == "자유런"
+			and (started_state.get("run_theme_categories", []) as Array).is_empty(),
+		"%s route did not neutralize random run-theme routing" % expected_route)
 	_expect(int(started_state.get("health", 0)) >= 70
 			and int(started_state.get("mental", 0)) >= 72,
 		"%s route started below its health/mental survival floor" % expected_route)
@@ -317,7 +322,8 @@ func _check_save_roundtrip(controller: Node) -> Node:
 	var close: Dictionary = controller.call("qa_close_month", 1)
 	_check_close_result(close, 1)
 	_check_zero_commitments(controller, "M01 close")
-	var expected := _canonical(controller.call("qa_session_snapshot"))
+	var expected_snapshot: Dictionary = controller.call("qa_session_snapshot")
+	var expected := _canonical(expected_snapshot)
 	var save_path := str(controller.call("qa_autosave_path"))
 	_expect(FileAccess.file_exists(save_path),
 		"M01 close did not write the isolated autosave")
@@ -328,10 +334,18 @@ func _check_save_roundtrip(controller: Node) -> Node:
 		return null
 	_expect(bool(resumed.call("qa_continue_run")),
 		"isolated M01 autosave did not continue")
-	var resumed_snapshot := _canonical(resumed.call("qa_session_snapshot"))
+	var actual_snapshot: Dictionary = resumed.call("qa_session_snapshot")
+	var resumed_snapshot := _canonical(actual_snapshot)
+	var roundtrip_differences: Array[String] = []
+	if resumed_snapshot != expected:
+		_collect_value_differences(
+			_normalize_numbers(expected_snapshot),
+			_normalize_numbers(actual_snapshot),
+			"snapshot", roundtrip_differences)
 	_expect(resumed_snapshot == expected,
-		"isolated autosave changed the session on roundtrip (expected=%s actual=%s)" % [
-			expected.sha256_text(), resumed_snapshot.sha256_text()])
+		"isolated autosave changed the session on roundtrip (expected=%s actual=%s diff=%s)" % [
+			expected.sha256_text(), resumed_snapshot.sha256_text(),
+			" | ".join(PackedStringArray(roundtrip_differences))])
 	var before_repeat := _canonical(resumed.call("qa_session_snapshot"))
 	var repeated: Dictionary = resumed.call("qa_repeat_last_close")
 	_expect(not bool(repeated.get("closed", true))
@@ -691,6 +705,49 @@ func _normalize_numbers(value: Variant) -> Variant:
 	if value is float and is_equal_approx(float(value), round(float(value))):
 		return int(round(float(value)))
 	return value
+
+
+func _collect_value_differences(
+		expected: Variant, actual: Variant, path: String,
+		differences: Array[String]) -> void:
+	if differences.size() >= 12:
+		return
+	if typeof(expected) != typeof(actual):
+		differences.append("%s type %s != %s" % [
+			path, type_string(typeof(expected)), type_string(typeof(actual))])
+		return
+	if expected is Dictionary:
+		var keys: Array = (expected as Dictionary).keys()
+		for key in (actual as Dictionary).keys():
+			if key not in keys:
+				keys.append(key)
+		keys.sort_custom(func(a, b): return str(a) < str(b))
+		for key in keys:
+			if differences.size() >= 12:
+				return
+			if not (expected as Dictionary).has(key):
+				differences.append("%s.%s only_actual=%s" % [
+					path, key, str((actual as Dictionary).get(key))])
+			elif not (actual as Dictionary).has(key):
+				differences.append("%s.%s only_expected=%s" % [
+					path, key, str((expected as Dictionary).get(key))])
+			else:
+				_collect_value_differences(
+					(expected as Dictionary)[key], (actual as Dictionary)[key],
+					"%s.%s" % [path, key], differences)
+		return
+	if expected is Array:
+		if (expected as Array).size() != (actual as Array).size():
+			differences.append("%s size %d != %d" % [
+				path, (expected as Array).size(), (actual as Array).size()])
+			return
+		for index in range((expected as Array).size()):
+			_collect_value_differences(
+				(expected as Array)[index], (actual as Array)[index],
+				"%s[%d]" % [path, index], differences)
+		return
+	if expected != actual:
+		differences.append("%s %s != %s" % [path, str(expected), str(actual)])
 
 
 func _string_array(value: Variant) -> Array[String]:
