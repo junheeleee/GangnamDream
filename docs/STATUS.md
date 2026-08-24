@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-08-24 10:15 UTC · 900270e8`
+> 생성 시각 · 커밋: `2026-08-24 10:17 UTC · 9bd66432`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -97,13 +97,14 @@
 
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
+| `ORDER-125` | 사람 최종 판정을 묶을 clean 240주 full_rc 발급 | 진행 | BUILD 2026.08.24.4 provenance·세 native 플랫폼 aggregate manifest·full audit·KO/EN 240주·macOS smoke 대기 · R1b dormant · 사람 gate 전부 OPEN |
 | `ORDER-119` | 게임 전체 플레이어 표면에서 스탯·시스템 언어 제거 | 진행 | 제품·QA 36파일+package metadata 2파일 · exact clean full audit·KO/EN 24주·KO 240주·BUILD 2026.08.22.1 3플랫폼 package·macOS native smoke green · active demo_rc 등록 · 사용자 최종 GO OPEN |
 | `ORDER-118` | startup 전면 재설계·코드 토큰 제거 | 진행 | L1/L2 GO · 16편/27선택·코드 토큰 0 · fresh seed 9821 #11/#2/#3 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |
 | `ORDER-117` | 107/109 국소 수리·career 15편 재판정 | 진행 | L1/L2 GO · 18단위 전수·16 roots 재작성·after_goal/people_verdict exact 보존·코드 토큰 0 · 107/109 각 1/1+career 15/15 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |
 | `ORDER-124` | 월간 행동판 없이 스토리 선택만으로 M01~M06을 잇는다 | 진행 | BUILD 2026.08.24.3 macOS order124_rc active (23f0bd9) · M01/M06 복귀 overlay·input clear · 기존 M03·8주·정산 2·선택 2 저장 resume · StoryMode 6개월/24주·정산 6·월간 행동판 0 L1/L2 GO · 사용자 L3 OPEN · 본편 이관 HOLD · 엔진 AP 삭제 비승인 |
 | `ORDER-99` | SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | 진행 | BUILD .3 L1/L2 — 사용자 저장 확인 대기 |
 | `ORDER-97` | LOC-0.5 전에 UI 템플릿을 번역 | 진행 | L1/L2 — 최신 후보·A/B 각 3표면 L3 대기 |
-| `ORDER-98` | PAD-1 포커스 레일을 의미 버튼으로 줄인다 | 진행 | L1/L2 — 집 플레이·물리 패드 L3 대기 |
+| `ORDER-98` | PAD-1 포커스 레일을 의미 버튼으로 줄인다 | 진행 | active demo_rc exact full/surface·입력·컨트롤러·오디오 L1/L2 PASS · 물리 패드 A/B 각 3표면 L3 OPEN |
 
 ## 다섯 장 — 무엇을 열고 무엇을 닫는가
 
