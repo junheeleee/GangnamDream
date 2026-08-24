@@ -27,8 +27,10 @@ staging의 고유 `application/config/custom_user_dir_name`이 만든 전용 사
 `tools/order103_export/AudioManagerStub.gd`, `tools/order103_export/resources.txt`,
 `tools/order103_package_audit.py`, `tools/audit_scope.json`을 추가 소유한다. 후보 등록·
 마감 문서로 `docs/human_gates.json`, `docs/STATUS.md`, `CLAUDE.md`,
-`docs/CODEX_QUEUE.md`, `docs/BUILD_PIPELINE.md`, 이 사양, `docs/WORK_LOG.md`만 추가
-소유한다. 먼저 이 사양과 큐만 선언 커밋하고, source-backed 앱의 KO/EN·
+`docs/CODEX_QUEUE.md`, `docs/BUILD_PIPELINE.md`, 이 사양, `docs/WORK_LOG.md`를 추가
+소유한다. 등록 기록으로 부팅 예산을 넘길 때의 byte-exact 역사 분리는
+`docs/history/WORK_LOG_2026-08-12.md`만 추가 소유한다. 먼저 이 사양과 큐만 선언
+커밋하고, source-backed 앱의 KO/EN·
 960×600·1280×800·마우스·키보드·패드·저장 재개 L2와 no-argument native smoke가 끝나기 전에는
 `release_candidates.order103_rc`를 `active`로 바꾸지 않는다. 기존 24주·240주
 검사는 이 후보의 증거로 실행하거나 인용하지 않는다.
@@ -122,6 +124,31 @@ staging의 고유 `application/config/custom_user_dir_name`이 만든 전용 사
 `주력과 함께의 차이를 이해했는가`, `항상 둘째가 정답처럼 느껴지는가`,
 `한 번은 실제로 무엇을 버릴지 고민했는가`, `닫힌 문이 벌점이 아니라 자기 경로로
 느껴지는가`를 판정한다. 이 합격 전에는 기존 24주 판에 이관하지 않는다.
+
+## 2026-08-24 전용 macOS 후보 발급 · 사용자 플레이 가능
+
+- 사람 판정용 active `order103_rc`는
+  `GangnamDream-ORDER103-M01M06-ChoicePlaytest`, BUILD `2026.08.24.1`이다.
+  exact clean source는 commit `20ec3fb04f5068846518f28e4123e1fabfa73e34`,
+  tree `79cf4bd95899a44fa353bd68212f266a2b4fba09`다. 기존 active `demo_rc`는
+  숫자 여력 네 장의 W1~W24 기준선이라 이 사람 판정에 쓰지 않는다.
+- manifest SHA-256은
+  `8e22703a2ac9fc1ee92188f3519e82704271a4a4f204556c4b162f271357503d`, ZIP
+  SHA-256은 `8e6a7d7930c25ec71f2a6a45ec8ac8ea7f52ae8af9a1b34d17cc63d9310fd930`,
+  app tree SHA-256은
+  `89ba5642040b91cfdebb7277aa761d3daa0618922058d62fc73934bd75cfe560`다.
+- Finder 무인자 실행은 Splash·StartMenu·`서울의 네 주`를 거치지 않고 전용 홈으로
+  진입한다. KO 1280×800·EN 960×600의 첫 확인 역할 포커스, 둘째 확인 배정,
+  자동 배정 0, 잘림·스크롤 0, M02·회고 저장 재개를 패키지에서 확인했다.
+  ad-hoc codesign, manifest/app/ZIP 해시와 제품 설정 7파일·기존 retail/V2 저장
+  19파일의 전후 byte-exact 격리도 통과했다.
+- 표적 차선만 실행했고 기존 24주·240주 검사는 이 후보의 증거로 실행하거나
+  인용하지 않았다. 자동 마우스·키보드·패드 검사는 합성 L2이며 물리 패드나 재미를
+  대신하지 않는다. 따라서 ORDER-103은 `[~]`, 사용자 최종 GO는 `OPEN`이다.
+- 등록 뒤 `docs/WORK_LOG.md` 부팅 예산을 지키기 위해 가장 오래된 2026-08-12
+  인과 원장 항목을 역사 파일로 옮겼다. 이동 전후 본문 SHA-256은 모두
+  `06598f02094bcde7a191de6d3ea5721fd46a12c5705e8f32c0203a70cebe5c49`로 같고
+  제품·후보 바이트에는 영향이 없다.
 
 ## 현재 증거 (2026-08-15)
 

@@ -209,6 +209,27 @@ green이면 `order103_rc`를 사람 판정용 `active` 후보로 등록하고, �
 물리 패드 조작감은 사용자의 L3에서 닫는다. 이 후보에 24주·240주 검사를 실행하거나
 그 결과를 전용 L2 증거로 재사용하지 않는다.
 
+### 현재 ORDER-103 플레이 후보 (2026-08-24, 사용자 판정 OPEN)
+
+BUILD `2026.08.24.1`은 exact clean revision
+`20ec3fb04f5068846518f28e4123e1fabfa73e34`, tree
+`79cf4bd95899a44fa353bd68212f266a2b4fba09`에서 생성했다. 앱·ZIP은
+`build/order103/macos/GangnamDream-ORDER103-M01M06-ChoicePlaytest.app`과
+`.zip`이며 ZIP SHA-256은
+`8e6a7d7930c25ec71f2a6a45ec8ac8ea7f52ae8af9a1b34d17cc63d9310fd930`다.
+manifest 파일 SHA-256은
+`8e22703a2ac9fc1ee92188f3519e82704271a4a4f204556c4b162f271357503d`, app tree
+SHA-256은 `89ba5642040b91cfdebb7277aa761d3daa0618922058d62fc73934bd75cfe560`,
+launcher SHA-256은
+`b9e049e47f2eaf8d3f39aa0f934b2f8422bdf2803696a07cbe423ba0c1d91530`다.
+
+표적 검사와 package audit, KO 1280×800·EN 960×600 flow, M02·회고 저장 재개,
+무인자 전용 홈 진입, ad-hoc codesign, manifest/app/ZIP 재검산, 제품 설정 7파일과
+기존 retail/V2 저장 19파일의 격리가 PASS했다. 창 하단 표식은
+`ORDER-103 · M01–M06 · BUILD 2026.08.24.1`이다. `order103_rc`는 active지만
+자동 입력은 합성 L2이므로 실제 조작감·무엇을 버릴지 고민되는지·최종 GO는 사용자
+L3에서만 닫는다. 숫자 여력 W1~W24 `demo_rc`는 이 판정의 실행 파일이 아니다.
+
 ## 4. 자동 스모크
 
 ### 계약 스모크

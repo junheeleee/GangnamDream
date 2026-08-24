@@ -14,7 +14,7 @@
       "commit": "ebc58a839d64d8810b9da5548c20e58bc43c9e30",
       "tree": "f978a22525b678ef83619dc50094a6dada75f190",
       "manifest_sha256": "8a34920038962a4ba0885ad6189d92dc6d3c3ee2780020f3894938d380613177",
-      "note": "데모 제품 경계는 W1~24 CTA다. BUILD 2026.08.22.1은 clean revision ebc58a839d64d8810b9da5548c20e58bc43c9e30 / tree f978a22525b678ef83619dc50094a6dada75f190의 Windows·macOS·Linux V2 playtest 후보다. 같은 후보의 full audit·KO/EN 24주·KO 240주와 package identity/manifest 검증, macOS native no-arg smoke가 PASS했다. 자동 증거는 사용자 최종 GO를 대신하지 않는다. demo_rc의 사람·실기기·연속 A/V·원어민 게이트는 OPEN이고, 고정 order99_build_3_rc와 waiting_rebuild order103_rc 및 두 사용자 게이트도 그대로 OPEN이다. W25~48 Chapter 1은 데모 RC나 사람 판정 조건이 아니다."
+      "note": "데모 제품 경계는 W1~24 CTA다. BUILD 2026.08.22.1은 숫자 여력 네 장을 쓰는 `서울의 네 주` 기준선이며 ORDER-103 M01~M06 선택판이 아니다. clean revision ebc58a839d64d8810b9da5548c20e58bc43c9e30 / tree f978a22525b678ef83619dc50094a6dada75f190의 Windows·macOS·Linux V2 playtest 후보고, 같은 후보의 full audit·KO/EN 24주·KO 240주와 package identity/manifest 검증, macOS native no-arg smoke가 PASS했다. 자동 증거는 사용자 최종 GO를 대신하지 않는다. demo_rc의 사람·실기기·연속 A/V·원어민 게이트와 고정 order99_build_3_rc의 사용자 게이트는 OPEN이다. 독립 active order103_rc와 그 사용자 게이트도 별도 OPEN이며 서로 대신하지 않는다. W25~48 Chapter 1은 데모 RC나 사람 판정 조건이 아니다."
     },
     "order99_build_3_rc": {
       "status": "active",
@@ -24,11 +24,11 @@
       "note": "ORDER-99 BUILD 2026.08.11.3 사용자 저장 복구 확인만 소유하는 고정 후보다. 최신 공개 데모 후보가 아니며 demo_rc가 새 빌드로 이동해도 이 저장 게이트의 revision은 바꾸지 않는다."
     },
     "order103_rc": {
-      "status": "waiting_rebuild",
-      "commit": null,
-      "tree": null,
-      "manifest_sha256": null,
-      "note": "ORDER-103 독립 M01~M06 선택판의 사용자 실행 후보는 아직 발급되지 않았다. source floor 5729b14af5f36af15a57cb21b8332e871224061f / tree 4a77c593aa7a51cf4c08fd4a8071c7942365a20f의 Playtest 바이트는 현재 HEAD와 같지만 일반 demo_rc export에는 tools 장면이 포함되지 않는다."
+      "status": "active",
+      "commit": "20ec3fb04f5068846518f28e4123e1fabfa73e34",
+      "tree": "79cf4bd95899a44fa353bd68212f266a2b4fba09",
+      "manifest_sha256": "8e22703a2ac9fc1ee92188f3519e82704271a4a4f204556c4b162f271357503d",
+      "note": "ORDER-103 독립 M01~M06 선택판의 전용 macOS 후보 `GangnamDream-ORDER103-M01M06-ChoicePlaytest`, BUILD 2026.08.24.1이다. exact clean revision 20ec3fb04f5068846518f28e4123e1fabfa73e34 / tree 79cf4bd95899a44fa353bd68212f266a2b4fba09에서 생성했고 ZIP SHA-256은 8e6a7d7930c25ec71f2a6a45ec8ac8ea7f52ae8af9a1b34d17cc63d9310fd930이다. 표적 검사, KO 1280×800·EN 960×600 package flow, M02·회고 저장 재개, 무인자 전용 장면 진입, ad-hoc codesign, manifest/app/ZIP 해시, 제품 설정·retail/V2 저장 격리가 PASS했다. 자동 입력은 합성 증거이며 실제 조작감·재미·최종 GO를 대신하지 않는다. 기존 demo_rc는 숫자 여력 W1~W24 기준선이므로 이 판정에 사용하지 않는다. 사용자 L3는 OPEN이다."
     },
     "full_rc": {
       "status": "waiting_rebuild",
@@ -868,7 +868,7 @@
       "sample": {
         "cohort": "order103_m1_m6_reworked_choice_surface",
         "requirements": [
-          "현재 order103_rc는 재빌드 대기다. source floor 5729b14af5f36af15a57cb21b8332e871224061f 이후의 최신 정본 독립 장면을 포함한 전용 후보가 발급된 뒤에만 KO 또는 EN, 960×600 또는 1280×800로 새 시작",
+          "active order103_rc의 전용 앱 `GangnamDream-ORDER103-M01M06-ChoicePlaytest`, BUILD 2026.08.24.1에서만 KO 또는 EN, 960×600 또는 1280×800로 새 시작. 숫자 여력 네 장의 기존 demo_rc는 사용하지 않음",
           "마우스·키보드·실제 패드 중 하나로 M01~M06의 주력과 가능한 함께를 직접 배정하고 결과·회고까지 정상 독해",
           "가장 고민한 달, 버린 약속, 닫힌 문, 항상 둘째가 정답처럼 느껴졌는지를 유도 문구 없이 말함"
         ]

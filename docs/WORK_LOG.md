@@ -10,6 +10,7 @@
 > [`history/WORK_LOG_2026-08-05.md`](history/WORK_LOG_2026-08-05.md),
 > [`history/WORK_LOG_2026-08-10.md`](history/WORK_LOG_2026-08-10.md),
 > [`history/WORK_LOG_2026-08-11.md`](history/WORK_LOG_2026-08-11.md),
+> [`history/WORK_LOG_2026-08-12.md`](history/WORK_LOG_2026-08-12.md),
 > [`history/WORK_LOG_2026-07-31.md`](history/WORK_LOG_2026-07-31.md),
 > [`history/WORK_LOG_2026-07-30.md`](history/WORK_LOG_2026-07-30.md),
 > [`history/WORK_LOG_2026-07-29.md`](history/WORK_LOG_2026-07-29.md),
@@ -18,6 +19,26 @@
 > [`history/WORK_LOG_2026-07-25.md`](history/WORK_LOG_2026-07-25.md)로
 > 차례로 옮긴다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
+
+## 2026-08-24 (Codex — ORDER-103 전용 M01~M06 macOS 후보)
+
+- 숫자 여력 네 장의 W1~W24 active `demo_rc`와 장면 카드·`주력/함께` M01~M06
+  선택판이 섞여 안내된 원인을 확인했다. 일반 제품 export에는 tools 체험 장면이
+  포함되지 않았으므로 ORDER-103만 여는 전용 앱
+  `GangnamDream-ORDER103-M01M06-ChoicePlaytest`를 발급했다.
+- BUILD `2026.08.24.1`은 exact clean source
+  `20ec3fb04f5068846518f28e4123e1fabfa73e34` / tree
+  `79cf4bd95899a44fa353bd68212f266a2b4fba09`다. manifest SHA-256은
+  `8e22703a2ac9fc1ee92188f3519e82704271a4a4f204556c4b162f271357503d`, ZIP은
+  `8e6a7d7930c25ec71f2a6a45ec8ac8ea7f52ae8af9a1b34d17cc63d9310fd930`다.
+- 표적 검사, KO 1280×800·EN 960×600 package flow, 첫 확인 역할 포커스·둘째 확인
+  배정, 자동 배정/잘림/스크롤 0, M02·회고 저장 재개, Finder 무인자 전용 홈 진입,
+  ad-hoc codesign과 manifest/app/ZIP 재검산을 통과했다. 제품 설정 7파일과 기존
+  retail/V2 저장 19파일은 후보 생성 전후 byte-exact다. 24주·240주 검사는 이
+  후보의 증거로 실행하거나 인용하지 않았다.
+- `order103_rc`만 active로 등록했다. 자동 입력은 합성 L2라 물리 패드·재미·최종
+  GO를 대신하지 않으므로 ORDER-103은 `[~]`, 사용자 L3는 `OPEN`이다. 기존
+  `demo_rc`, 고정 BUILD `.3`, full 후보의 identity와 상태는 바꾸지 않았다.
 
 ## 2026-08-22 (Codex — ORDER-119 exact clean 기계·패키지 후보)
 
@@ -473,40 +494,3 @@
 - ORDER-100은 제품 변경 없이 48행 구현/공백, debt 60, blocked 3과 W48 종료를
   본편 원장으로 봉인했다. ORDER-101은 W1~8 debt와 실제 플레이 후속을 소유한다.
 - 사람 판정은 clean W1~24 demo_rc를 승인할 뿐 본편 Chapter 1 완성을 승인하지 않는다.
-
-## 2026-08-12 (Codex — 48주 Chapter 1 인과 원장 L1/L2 완료)
-
-- 사용자의 최신 지시대로 완성 단위를 W1~24 진단판에서 W1~48 Chapter 1 한
-  해로 바꿨다. W1~24는 현재 제품의 audited prefix, W25~48 기존 AP는 제품
-  증거가 아닌 coverage gap이다. 제품 코드·스토리·수치·세이브는 바꾸지 않았다.
-- 사람 정본은 주간 행동=시간·비용·진전·포기, 생활 빌드=`쌓인 이력 → 지금
-  가능한 일`, Story=별도 장면의 표현·기억·결정으로 소유권을 나눴다. 세 층은
-  이름 있는 receipt와 실제 runtime reader로만 연결하고 새 XP·스킬 포인트나
-  48개 조합별 장면으로 흉내 내지 않는다.
-- 최종 machine ledger는 target 48 중 rows 24·gap 24, readers 420,
-  read contracts 1,132, milestones 12, invocations 80, execution stages 75,
-  co-presence groups 17, runtime proofs 1,493을 기록한다. row conditional variants
-  94/groups 48, milestone producers 198/groups 52, counterfactuals 24,
-  replay witnesses 3, evaluations 15다. 없는 W25~48 producer·reader는 발명하지 않았다.
-- exact baseline은 evaluated code 10개의 stable debt 60개다: ROW 24, DEAD 12,
-  ORPHAN 12, AUTO 5, SHADOW 2, CAP·UNSCHEDULED·DISPLAY·LAYER·FANIN 각 1.
-  full-scope 3개는 coverage로 blocked이며 0건으로 가장하지 않는다.
-- W24 fresh·reentry·Story save 복귀의 역할, 210 source scenarios, 51,977 feasible
-  tuple, 78개 역사/결정 입력의 두 역사 축+한 결정 도메인 압축을 source-exact하게
-  잠갔다. 독립 공격이 찾아낸 row→Story summary 세탁, reader+proof 동시 relabel,
-  build-family 삽입도 exact 53+6 row refs, replacement readers 402/proofs 395
-  전체 레코드 고정으로 닫았다.
-- checker `a70d9f9cf026ca438a90a5f1479306e7bff6147bcbf8ce8df6388eec8f6b1f17`,
-  ledger `deade081b2d14d19d7893e12e5c141f55b976b2cc22cebbf5b4602f3ce5affa5`,
-  baseline `9c4d736ffa17e39133e22399b9ee956ebeb021ed9bc6d1141815a388ab44a2bd`를
-  독립 재검증했다. normal은 gap 25~48/debt codes 10/blocked 3을 정직하게 보고하고,
-  self-test 305건이 통과했다. Python-only synthetic complete는 rows48·debt `{}`로
-  gate의 양성 경로만 증명하며 제품 완성 주장이 아니다. 전체 audit·Godot compile·
-  EN coverage도 통과했다.
-- macOS 대소문자 비구분 임시 경로 정리 중 원장 파일이 지워진 사고가 있었지만,
-  Codex session JSONL의 삭제 직전 payload를 byte-exact 복구·별도 snapshot 대조한
-  뒤 승인 변경만 재적용했다. 최종 원장은 복구본과 분리 보관한 검증 경로를 거쳐
-  위 hash로 고정됐고 다른 제품 파일은 삭제하지 않았다.
-- 자동 초록은 canon GO가 아니다. 12개월×네 가족 전수표의 범위·공백·수리 순서를
-  사용자 L3로 판정한 뒤 ORDER-101의 W1~8부터 시작한다. 데모는 W9~16·W17~24와
-  clean 24주 RC로 닫고, W25~48 구현·W48 종료는 그 뒤 별도 본편 오더가 맡는다.

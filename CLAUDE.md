@@ -12,12 +12,12 @@
 | 상품 정의 | **"나는 민준이다. 이번 달 누구에게 시간을 쓰고, 무엇을 놓칠지 정한다. 다음 달에는 그 대가를 산다."** 240주를 카드 목록이 아니라 한 편의 소설·영화처럼 인과·장면·연기·전환·여운으로 겪는다. 플레이어를 구경꾼으로 부르거나 숨은 도덕 점수를 설명하지 않는다. |
 | 현재 범위 | 1턴=1주, 240주(5년), **데모 제품 범위는 1~24주이며 W24 CTA에서 끝난다.** 본편 Chapter 1 제작 단위는 1~48주 한 해지만 25~48주는 아직 기존 폴백이며, 월간 정본 승인 전에는 완성 코어로 세지 않는다. 숫자 여력 4장을 돌려 쓰는 화면은 최종 코어가 아니다. 루틴은 자동으로 이어지고, 매달 실제 약속·기회·위기 중 무엇을 지키고 놓칠지 고르는 한 문법을 쓴다. W1~24 V2의 저장·영수증·월말 결산·원자적 선택은 이관 기준선으로 보존하고, 뒤 범위는 60개월 맵을 따라 장별로 옮긴다. |
 | 품질 게이트 | [`docs/MASTER_RELEASE_AUDIT.md`](docs/MASTER_RELEASE_AUDIT.md). 콘텐츠 수량보다 블랙박스 플레이, 한영 패리티, 패드 과업, 사람 기억·전환 증거로 판정한다. |
-| 최근 완료 | ORDER-119 제품·QA 후보의 full audit, KO/EN 24주, KO 240주가 exact clean `ebc58a8`에서 통과했다. BUILD `2026.08.22.1` 3플랫폼 V2 playtest와 macOS native no-arg smoke도 green이며 이 후보를 active `demo_rc`로 등록했다. |
-| 바로 다음 | ORDER-119는 기계·패키지 증거가 green이지만 사용자 최종 GO가 남아 `[~]`다. active `demo_rc`에서 정상 속도 재미·물리 패드·연속 A/V·원어민 표면을 판정하고, 다른 서사·밸런스·R1b 범위는 넓히지 않는다. |
-| 열려 있는 사람 게이트 | 정본은 [`docs/human_gates.json`](docs/human_gates.json), 출력은 [`STATUS.md`](docs/STATUS.md)다. **개수 상한이 없다.** `delegated_reviews`는 Claude의 사용자 위임 판정 이력일 뿐 게이트를 닫지 않으며, `done`은 사용자 최종 GO만 가능하다. 새 BUILD `.1`의 사람 게이트, 고정 BUILD `.3` 저장 복구 게이트, 별도 ORDER-103 실행 후보와 지역별 원어민 게이트도 계속 OPEN이다. **초록불은 계약을 지켰다는 뜻이지 좋다는 뜻이 아니다.** |
+| 최근 완료 | ORDER-103 전용 macOS `GangnamDream-ORDER103-M01M06-ChoicePlaytest` BUILD `2026.08.24.1`을 clean `20ec3fb`에서 발급했다. 무인자 전용 진입, KO/EN·두 해상도, 입력 의미, M02·회고 저장 재개, codesign·해시·저장 격리 L2가 green이며 `order103_rc`가 active다. BUILD `2026.08.22.1` active `demo_rc`는 숫자 여력 W1~W24 기준선으로 별도 보존한다. |
+| 바로 다음 | 사용자가 BUILD `2026.08.24.1` 전용 ORDER-103 앱에서 M01~M06을 직접 플레이하고 주력/함께, 버린 약속, 닫힌 문, 둘째 선택의 정답감과 게임다운지를 판정한다. 숫자 여력 네 장의 `demo_rc`를 이 판정에 쓰지 않는다. 사용자 최종 GO 전에는 기존 24주 판 이관이나 새 범위를 시작하지 않는다. |
+| 열려 있는 사람 게이트 | 정본은 [`docs/human_gates.json`](docs/human_gates.json), 출력은 [`STATUS.md`](docs/STATUS.md)다. **개수 상한이 없다.** `delegated_reviews`는 Claude의 사용자 위임 판정 이력일 뿐 게이트를 닫지 않으며, `done`은 사용자 최종 GO만 가능하다. active ORDER-103 후보의 사용자 L3, BUILD `.1` 데모 사람 게이트, 고정 BUILD `.3` 저장 복구, 지역별 원어민 게이트가 계속 OPEN이다. **초록불은 계약을 지켰다는 뜻이지 좋다는 뜻이 아니다.** |
 | 그다음 | career/startup 원고의 사용자 최종 GO와 별도 replacement contract 전에는 R1b·R2·JA/ZH 번역·ending 라우팅을 시작하지 않는다. 순서는 [`CODEX_QUEUE.md`](docs/CODEX_QUEUE.md)가 소유한다. |
 | 자산 조달 | **외주 0원.** 인물 디자인·작곡·UI 아트·유료 서체를 사지 않고 Codex와 무료 라이선스(임베딩이 허용된 OFL·CC0 등)로만 만든다. 인력·구매를 전제한 계획을 세우지 않는다. 생성 자산의 결함은 품질이 아니라 평균성이므로 동일 후처리·고정 서명·채택률로 이긴다. 정본은 `docs/DECISIONS.md` 2026-07-30 항목이 소유한다. |
-| 마지막 갱신 | 2026-08-22 (Codex: ORDER-119 exact clean 자동 완주·3플랫폼 playtest 후보 등록, 사용자 GO 대기) |
+| 마지막 갱신 | 2026-08-24 (Codex: ORDER-103 전용 M01~M06 macOS 후보 발급·격리 L2 통과, 사용자 플레이 대기) |
 
 사용자가 새 지시를 주면 그것이 위 순서보다 우선한다.
 
