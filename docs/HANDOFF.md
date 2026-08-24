@@ -10,9 +10,12 @@
 - 본편 Chapter 1 제작 단위는 W1~48 한 해지만 데모 제품 범위는 W1~24이며
   W24 CTA에서 끝난다. ORDER-100의 48슬롯 인과 원장과 W25~48 공백은 본편
   제작 사실이고 데모 출시·RC·사람 판정의 조건이 아니다.
-- BUILD `2026.08.11.3`은 사용자의 W4 교착 저장을 살린 W1~24 audited-prefix
-  체크포인트다. 데모 경계는 맞지만 아직 같은 demo_rc의 사람·플랫폼 GO가 없어
-  공개 승인본이 아니다. W25~48 legacy 폴백은 본편 Chapter 1 완성으로 세지 않는다.
+- active 내부 `demo_rc`는 BUILD `2026.08.22.1`, exact `ebc58a839d64d8810b9da5548c20e58bc43c9e30`
+  / tree `f978a22525b678ef83619dc50094a6dada75f190`다. BUILD `2026.08.11.2` / `573606`은
+  역사 후보, BUILD `2026.08.11.3`은 ORDER-99 저장 복구 전용 고정 후보다.
+- StoryMode 선택만 쓰는 BUILD `2026.08.24.3`은 별도 active `order124_rc`다.
+  사용자 L3 전에는 story-first 본편 이관이 `HOLD`이며 `demo_rc`나 저장 호환 AP
+  엔진의 삭제 승인으로 해석하지 않는다.
 - P-4의 제품 bridge는 실제 W1~24 demo-flavor 저장→W24 CTA→정식판 W25다.
   현재 playtest 저장은 격리돼 있으므로 이 별도 이월·출시 게이트는 OPEN이다.
 - 최종 연령 등급·삭제·export filter와 실제 사람 GO는 계속 사용자 소유다.
@@ -34,11 +37,15 @@
 
 - `BUILD_PIPELINE.md`의 `e849a6a` 외부 RC는 V2 이전 역사 빌드다. 새 표본이나
   출시 GO에 재사용하지 않는다.
-- 최종 demo_rc는 W1~24의 모든 P0가 main에 들어간 뒤 clean worktree에서 발급한다.
-  정확한 commit/tree/manifest/플랫폼 해시 전에는 후보 리비전을 지어 쓰지 않는다.
+- active 내부 `demo_rc`의 manifest는
+  `8a34920038962a4ba0885ad6189d92dc6d3c3ee2780020f3894938d380613177`다. exact detached
+  재검증은 full/surface matrix와 ORDER-98의 다섯 runtime marker를 통과했고,
+  InputMatrix의 계약상 허용된 리소스 3개 종료 noise 밖 금지 오류는 0이다.
+- 외부 30분 package/session 묶음은 미발급이다. 내부 후보 등록이나 자동 PASS를
+  외부 모집·출시 GO로 바꾸지 않으며, 후속 후보는 새 exact identity로만 교체한다.
 - 외부 30분 이해도, 정상 속도 W1~24 완주, 연속 A/V, 물리 패드는 같은 demo_rc의
-  서로 다른 판정이다. `.3`의 자동 package·도달성 PASS가 이 중 하나도 대신하지
-  않는다. W25~48은 이 판정 뒤 별도 본편 제품선이다.
+  서로 다른 `OPEN` 판정이다. BUILD `2026.08.11.3` 저장 복구와 BUILD
+  `2026.08.24.3` 스토리 후보의 자동 PASS도 이를 대신하지 않는다.
 
 ## 다음 세션 복귀
 

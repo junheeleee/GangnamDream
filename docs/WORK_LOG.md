@@ -1,25 +1,25 @@
 # Gangnam Dream Work Log
 
-> 최신 작업만 이 파일에 역순으로 기록한다. 2026-05-16부터 2026-07-24 USER-P0M까지의 원문은
-> [`history/WORK_LOG_2026-05-16_to_2026-07-24.md`](history/WORK_LOG_2026-05-16_to_2026-07-24.md)에 손실 없이 보존했다.
-> 2026-08-14·2026-08-10·2026-08-05·2026-08-04의 오래된 항목, 2026-08-03·2026-07-31의 오래된 항목,
-> 2026-07-30의 오래된 V2 C/D/E 항목,
-> 2026-07-29 이전 항목은 날짜별 보관본인
-> [`history/WORK_LOG_2026-08-14.md`](history/WORK_LOG_2026-08-14.md),
-> [`history/WORK_LOG_2026-08-03.md`](history/WORK_LOG_2026-08-03.md),
-> [`history/WORK_LOG_2026-08-04.md`](history/WORK_LOG_2026-08-04.md),
-> [`history/WORK_LOG_2026-08-05.md`](history/WORK_LOG_2026-08-05.md),
-> [`history/WORK_LOG_2026-08-10.md`](history/WORK_LOG_2026-08-10.md),
-> [`history/WORK_LOG_2026-08-11.md`](history/WORK_LOG_2026-08-11.md),
-> [`history/WORK_LOG_2026-08-12.md`](history/WORK_LOG_2026-08-12.md),
-> [`history/WORK_LOG_2026-07-31.md`](history/WORK_LOG_2026-07-31.md),
-> [`history/WORK_LOG_2026-07-30.md`](history/WORK_LOG_2026-07-30.md),
-> [`history/WORK_LOG_2026-07-29.md`](history/WORK_LOG_2026-07-29.md),
-> [`history/WORK_LOG_2026-07-27.md`](history/WORK_LOG_2026-07-27.md)와
-> [`history/WORK_LOG_2026-07-26.md`](history/WORK_LOG_2026-07-26.md),
-> [`history/WORK_LOG_2026-07-25.md`](history/WORK_LOG_2026-07-25.md)로
-> 차례로 옮긴다.
+> 최신 작업만 역순으로 기록한다. 2026-07-24 이전 원문은
+> [`5/16~7/24`](history/WORK_LOG_2026-05-16_to_2026-07-24.md), 이후 날짜별 보관본은
+> [`8/14`](history/WORK_LOG_2026-08-14.md), [`8/12`](history/WORK_LOG_2026-08-12.md),
+> [`8/11`](history/WORK_LOG_2026-08-11.md), [`8/10`](history/WORK_LOG_2026-08-10.md),
+> [`8/5`](history/WORK_LOG_2026-08-05.md), [`8/4`](history/WORK_LOG_2026-08-04.md),
+> [`8/3`](history/WORK_LOG_2026-08-03.md), [`7/31`](history/WORK_LOG_2026-07-31.md),
+> [`7/30`](history/WORK_LOG_2026-07-30.md), [`7/29`](history/WORK_LOG_2026-07-29.md),
+> [`7/27`](history/WORK_LOG_2026-07-27.md), [`7/26`](history/WORK_LOG_2026-07-26.md),
+> [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
+
+## 2026-08-24 (Codex — ORDER-98 active demo_rc 정본 재결합)
+
+- BUILD `2026.08.11.2` / `573606`은 역사 후보로 보존하고 BUILD `2026.08.22.1` /
+  exact `ebc58a839d64d8810b9da5548c20e58bc43c9e30`을 active 내부 `demo_rc`로 맞췄다.
+  detached 재검증에서 full/surface matrix와 ORDER-98 runtime marker 5종이 PASS했고,
+  InputMatrix의 허용된 리소스 3개 종료 noise 밖 금지 오류는 0이다. 증거는
+  `build/qa/order98-demo-rc-rebind`와 `BUILD_PIPELINE.md`의 로그 해시가 소유한다.
+- BUILD `.11.3` 저장 복구, active `demo_rc`, BUILD `.24.3` `order124_rc`를 분리했다.
+  물리 패드·사람 L3와 외부 30분 package는 `OPEN`, story-first 이관은 `HOLD`다.
 
 ## 2026-08-24 (Codex — ORDER-97 active 후보 분모 정합)
 

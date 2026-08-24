@@ -165,11 +165,9 @@ manifest가 ORDER-97의 3,310/3,273/2,780에 머문 것을 확인했다. 위 7�
 추가 소유권으로 먼저 선언한 뒤, 낡은 패드 힌트 8행을 현재 힌트로 교체하고
 새 정적 UI 3행을 더해 JA `2,782/2,782 + context 30/30`을 복구한다.
 
-오늘 집 테스트에 넘길 clean 후보가 직전 `2026.08.11.1` 패키지와 같은 화면·
-저장 메타 식별자를 재사용하지 않도록 `BuildInfo.BUILD_ID`를
-`2026.08.11.2`로 발급한다. 이 변경은 게임 규칙이나 저장 호환 키가 아니라
-패키지 provenance이며, 최종 입력·표면 매트릭스와 빌드 매니페스트는 이 식별자를
-포함한 같은 clean revision에 묶는다.
+2026-08-11 집 테스트 후보는 직전 `.1`과 식별자를 재사용하지 않도록
+`BuildInfo.BUILD_ID`를 `2026.08.11.2`로 발급했다. 이는 아래 역사 후보의
+provenance이며 현재 active `demo_rc` 식별자가 아니다.
 
 ## 비범위
 
@@ -204,7 +202,7 @@ manifest가 ORDER-97의 3,310/3,273/2,780에 머문 것을 확인했다. 위 7�
   전량을 다시 연다. 같은 30분 구간에서 일상 진동이 거슬리거나 의미 pulse를 서로
   구별하지 못하거나 off 상태에서 한 번이라도 울리면 촉각 배치도 전량 다시 연다.
 
-## 2026-08-11 구현 체크포인트 — L1/L2 완료, L3 OPEN
+## 2026-08-11 역사 체크포인트 — BUILD .2 L1/L2, 당시 L3 OPEN
 
 - 공용 trigger action·세 브랜드 글리프·press/release/reconnect gate와 title,
   Story, MainGame, 완료 화면의 페이지·설정·포커스 복귀를 구현했다. 8개 직접
@@ -214,23 +212,27 @@ manifest가 ORDER-97의 3,310/3,273/2,780에 머문 것을 확인했다. 위 7�
   동시 stack 중복 0·OFF/0% 즉시 정지를 잠갔다. 현재 UI 원장은
   `3,313 = legacy 3,276 + context 37`, legacy 2,782키이며 JA는
   `2,782/2,782 + context 30/30`이다.
-- L1/L2 증거: `CONTROLLER_SEMANTIC_CHECK_OK ... reconnect_gate=2 ...`,
-  `INPUT_MATRIX_CHECK_OK ... major_routes=8 modal_routes=8 boundary_routes=16
-  invalid_routes=8 ...`, `GAME_AUDIO_RUNTIME_OK ... haptics=12
-  unused_profiles=0 direct_scene_raw=0 vibration_roundtrip=1 boundary_clamp=8
-  same_stack=3`, 전체 `audit.sh`, KO/EN×keyboard/gamepad 24주 4경로와
-  KO/EN×1280×800/960×600 4표면을 빌드 식별자를 포함한 같은 최종 revision에서
-  다시 봉인했다.
-- **L3 OPEN:** clean `demo_rc`는 commit `5736061916626a193dab4fd044ef44813938c4f7`,
+- 당시 L1/L2는 의미 입력·입력 매트릭스·오디오 marker와 전체 감사, KO/EN
+  full/surface matrix를 같은 revision에서 봉인했다. 역사 후보는 commit
+  `5736061916626a193dab4fd044ef44813938c4f7`,
   tree `c996b98369fe9df6eeb2a76b04a306b69d218e04`, manifest SHA-256
   `9cecaede2e51fd4401d336c0567dc86e96c862767cf134e0cb82c2174380fb56`로
-  발급했다. macOS 패키지는 타이틀·24주 시작·설정 진입까지 실제 실행했고,
-  Windows와 Linux/Steam Deck는 산출물 생성만 확인했다. 사용자가 집에서 서울
-  보드를 처음 정상 속도로 플레이하고 Batch A 임의 3표면과 Batch B 임의 3게임의
-  물리 패드 방향·도달성·진동 피로를 판정하기 전에는 이 오더를 `[x]`로 닫거나
-  자동 증거를 재미 GO로 부르지 않는다.
+  발급했다. 현재는 역사 증거이며 새 표본·현재 PASS에 재사용하지 않는다.
 - **승격:** `docs/CONTROLLER_UX_STRATEGY.md`, `docs/INPUT_MATRIX.md`,
   `docs/AUDIO_QA.md`, `docs/SCENE_DIRECTION.md`, `docs/QA_CHECKLIST.md`,
   `docs/human_gates.json`, 현지화 정본 4문서와 manifest/JA 사전.
-- **일회성:** 정확 파일 소유권, 두 15단위 배치 목록, 변경 revision의 수치 원장,
-  검사 명령·로그·패키지 식별자 발급 절차.
+
+## 2026-08-24 active demo_rc 재검증 — L1/L2 PASS, L3 OPEN
+
+- active `demo_rc`는 BUILD `2026.08.22.1`, exact clean
+  `ebc58a839d64d8810b9da5548c20e58bc43c9e30` / tree
+  `f978a22525b678ef83619dc50094a6dada75f190`, manifest
+  `8a34920038962a4ba0885ad6189d92dc6d3c3ee2780020f3894938d380613177`다.
+  세 artifact SHA는 `docs/BUILD_PIPELINE.md`가 소유한다.
+- detached exact revision에서 full/surface matrix와 InputMatrix·Controller·GameAudio·
+  DemoBuild·PlaytestFlavor exact marker가 PASS했다. 금지 오류는 0이며 InputMatrix의
+  계약상 허용된 `ERROR: 3 resources still in use at exit`만 teardown noise로 남았다.
+  증거 root의 `VERIFICATION.md` SHA-256은
+  `daec538d25952e375d6967d597f64b59c80a0e331eeb05f497acb06141ed5017`다.
+- 자동 증거는 실제 물리 패드 방향·도달성·진동 피로와 사람 재미 판정을 대신하지
+  않는다. Batch A 임의 3표면·Batch B 임의 3게임의 L3는 `OPEN`이고 `[x]` 금지다.

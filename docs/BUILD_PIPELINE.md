@@ -479,7 +479,7 @@ Windows/macOS/Linux artifact SHA-256은 각각
 `8e325325e0b3b1502d3b38ddf3c7931ac48aa092ffce5dc8d6d57589016acee0`다.
 이는 exact artifact provenance일 뿐 최종 V2 demo RC나 출시 GO가 아니다.
 
-### 현재 V2 집 플레이 후보 (2026-08-11, 사람 판정 OPEN)
+### 역사 V2 집 플레이 후보 (2026-08-11, superseded)
 
 BUILD `2026.08.11.2`는 clean revision
 `5736061916626a193dab4fd044ef44813938c4f7`, tree
@@ -488,9 +488,43 @@ manifest 파일 SHA-256은
 `9cecaede2e51fd4401d336c0567dc86e96c862767cf134e0cb82c2174380fb56`다.
 macOS 패키지는 일반 앱 실행으로 타이틀, `Start 24-Week Demo`, 설정의 진동
 ON/OFF·강도까지 실제 확인했다. Windows와 Linux/Steam Deck는 생성·해시만
-확인했으므로 각 플랫폼 실행 주장은 아직 OPEN이다. `human_gates.json`의
-`demo_rc`는 이 provenance로 active지만 정상 속도 재미, 물리 패드, 연속 A/V,
-외부 독해와 원어민 판정은 모두 OPEN이며 출시 GO가 아니다.
+확인했다. 이 provenance는 당시 후보의 역사 증거로 보존하지만 BUILD
+`2026.08.22.1`이 active `demo_rc`를 이어받았으므로 새 표본·현재 PASS·출시 GO에
+재사용하지 않는다.
+
+### 현재 내부 V2 demo_rc (2026-08-22, 자동 재검증 PASS·사람 판정 OPEN)
+
+BUILD `2026.08.22.1`은 exact clean revision
+`ebc58a839d64d8810b9da5548c20e58bc43c9e30`, tree
+`f978a22525b678ef83619dc50094a6dada75f190`의 active 내부 `demo_rc`다. manifest
+SHA-256은 `8a34920038962a4ba0885ad6189d92dc6d3c3ee2780020f3894938d380613177`,
+artifact SHA-256은 Windows
+`515bc3c94a96f3874d681f409bbe0863734f44aced95d2e45b82c77e720d2ad7`, macOS ZIP
+`065ab253645f1a3975fefa2de837174e6dbdb5e0d8ad9bfdd5b9836cdd015a75`, Linux
+`9ed556ef1b23a575848056a6f68672d1485c24c1fa6097fd049d59f2cbd00f7`다.
+
+2026-08-24 별도 clean detached checkout에서 full-matrix
+`CORE_LOOP_V2_FULL_MATRIX_OK ... cases=4`, surface-matrix
+`CORE_LOOP_V2_SURFACE_MATRIX_OK ... cases=4`, `INPUT_MATRIX_CHECK_OK`,
+`CONTROLLER_SEMANTIC_CHECK_OK`, `GAME_AUDIO_RUNTIME_OK`, `DEMO_BUILD_CHECK_OK`,
+`PLAYTEST_FLAVOR_CHECK_OK` exact marker와 종료코드 0을 다시 확인했다. 금지된 엔진·
+스크립트·파싱·컴파일·리소스 오류는 0이다. InputMatrix 종료의
+`ERROR: 3 resources still in use at exit` 한 줄만 `audit.sh`가 명시적으로 허용하는
+teardown noise이며 다른 `ERROR:`의 허용 근거가 아니다.
+
+증거 root는 `build/qa/order98-demo-rc-rebind`이고 durable receipt
+`VERIFICATION.md` SHA-256은
+`daec538d25952e375d6967d597f64b59c80a0e331eeb05f497acb06141ed5017`다. 로그 SHA-256은 import
+`2beaa11e4ec48401b975968dd21799afe20246ebd58fdc78ce13cc4d9d3bc7d5`, InputMatrix
+`8025d4164971d9334d51b8c94ea53dba7666ab21e2a720c8c0dedce6dd5fea59`, Controller
+`4c6e7f105738eef9b7a196de132ab5e7ede34b873905ba984d541fa602f6820d`, GameAudio
+`3163c548e390a2dc7b0f3f4738d939e5b6238e1cb34e3994ab880ba69234eb78`, DemoBuild
+`cc1276a2aec0dddadf3804fb824cede92307ce2fc5904419a0392863c53cecb2`, PlaytestFlavor
+`983b5b5e611da090891fa963ecf49eb91788a4593eeca55dd9e57b73d0c9256a`다.
+
+이는 자동 L1/L2와 내부 후보 identity만 다시 묶는다. Windows·Linux/Steam Deck
+native 실행, 실제 물리 패드 Batch A 3표면·Batch B 3게임, 정상 속도 W1~24,
+연속 A/V·외부 독해·원어민·재미 판정은 계속 `OPEN`이며 출시 GO가 아니다.
 
 ### 외부 정상 독해 RC 게이트 (2026-07-21)
 
@@ -503,10 +537,10 @@ ON/OFF·강도까지 실제 확인했다. Windows와 Linux/Steam Deck는 생성�
 | Aggregator fixtures | PASS | 10건: 준비/미달/NO-GO/P0/중복/혼합/점수/enum/망설임 저표본·필수 원문 |
 | Human evidence | OPEN | 같은 RC 10명, EN 3명, 경험 양 군, 구체 계획 70% 필요 |
 
-**현재 V2 외부 표본 RC는 미발급이다.** Core Loop V2 출시 블로커가 main에
-합쳐진 뒤 clean worktree의 `playtest`가 만든 commit/tree/manifest/플랫폼 해시를
-`human_gates.json` 후보 레지스트리에 등록하기 전에는 외부 세션을 모집하지 않는다.
-같은 해시끼리 모였더라도 현재 후보와 다르면 `playtest_report.py`가 거부해야 한다.
+**외부 30분 표본 package/session 묶음은 아직 미발급이다.** 위 active 내부
+`demo_rc` 등록은 자동 재검증과 집 플레이 기준선을 뜻할 뿐 외부 모집 승인이 아니다.
+외부 세션에는 같은 candidate의 package hash와 session schema를 별도로 봉인해야
+하며, 다른 후보의 해시는 `playtest_report.py`가 거부해야 한다.
 
 **RETIRED — 역사 증거만 보존, 새 세션·현 출시 판정에 사용 금지.** ORDER-43
 본편 오디오 자동 확산 RC의 소스 revision은

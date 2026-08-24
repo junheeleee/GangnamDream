@@ -14,7 +14,7 @@
       "commit": "ebc58a839d64d8810b9da5548c20e58bc43c9e30",
       "tree": "f978a22525b678ef83619dc50094a6dada75f190",
       "manifest_sha256": "8a34920038962a4ba0885ad6189d92dc6d3c3ee2780020f3894938d380613177",
-      "note": "데모 제품 경계는 W1~24 CTA다. BUILD 2026.08.22.1은 숫자 여력 네 장을 쓰는 `서울의 네 주` 기준선이다. clean revision ebc58a839d64d8810b9da5548c20e58bc43c9e30 / tree f978a22525b678ef83619dc50094a6dada75f190의 Windows·macOS·Linux V2 playtest 후보고, 같은 후보의 full audit·KO/EN 24주·KO 240주와 package identity/manifest 검증, macOS native no-arg smoke가 PASS했다. 자동 증거는 사용자 최종 GO를 대신하지 않는다. demo_rc의 사람·실기기·연속 A/V·원어민 게이트와 고정 order99_build_3_rc의 사용자 게이트는 OPEN이다. ORDER-103의 독립 월간 선택판은 사용자 NO-GO로 퇴역했고, 스토리 선택 전용 BUILD 2026.08.24.3은 별도 active `order124_rc`이며 `demo_rc`를 대신하지 않는다. W25~48 Chapter 1은 데모 RC나 사람 판정 조건이 아니다."
+      "note": "데모 제품 경계는 W1~24 CTA다. BUILD 2026.08.22.1은 숫자 여력 네 장을 쓰는 `서울의 네 주` active 내부 demo_rc다. exact clean revision ebc58a839d64d8810b9da5548c20e58bc43c9e30 / tree f978a22525b678ef83619dc50094a6dada75f190, manifest 8a34920038962a4ba0885ad6189d92dc6d3c3ee2780020f3894938d380613177와 세 artifact hash를 BUILD_PIPELINE이 소유한다. exact detached 재검증에서 full/surface matrix와 InputMatrix·Controller·GameAudio·DemoBuild·PlaytestFlavor marker가 PASS했고, InputMatrix의 계약상 허용된 리소스 3개 종료 noise 밖 금지 오류는 0이다. 증거 root는 build/qa/order98-demo-rc-rebind다. BUILD 2026.08.11.2 / 573606은 역사 후보이고 order99 BUILD .3 저장 게이트는 별도 고정이다. 자동 증거는 사람·실기기·연속 A/V·원어민·출시 GO를 대신하지 않으며 외부 30분 package/session은 미발급이다. BUILD 2026.08.24.3은 별도 active order124_rc이고 story-first 본편 이관은 HOLD다."
     },
     "order99_build_3_rc": {
       "status": "active",
