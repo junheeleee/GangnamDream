@@ -129,6 +129,19 @@
       "why": "독립 M01~M06 런타임만 5초 이내 검사하고 기존 24주·240주 경로는 실행하지 않는다"
     },
     {
+      "id": "audit-scope-routing",
+      "paths": [
+        "tools/audit_scope.json"
+      ],
+      "owned_paths": [
+        "tools/audit_scope.json"
+      ],
+      "tools": [
+        "tools/audit_select.py --verify"
+      ],
+      "why": "감사 범위 선언만 바뀌면 폐기된 후보 검사를 대신 고르지 않고 등록 정합만 확인한다"
+    },
+    {
       "id": "order103-macos-package",
       "paths": [
         "docs/BUILD_PIPELINE.md",
@@ -158,6 +171,78 @@
         "tools/StoryMapM1M6Check.tscn"
       ],
       "why": "ORDER-103 전용 wrapper·payload·manifest 계약만 검사하고 기존 24주·240주 경로는 실행하지 않는다"
+    },
+    {
+      "id": "story-choice-m1m6-runtime",
+      "paths": [
+        "playtests/order124/StoryChoiceM1M6Playtest.gd",
+        "playtests/order124/StoryChoiceM1M6Playtest.gd.uid",
+        "playtests/order124/StoryChoiceM1M6Playtest.tscn",
+        "tools/StoryChoiceM1M6Check.gd",
+        "tools/StoryChoiceM1M6Check.gd.uid",
+        "tools/StoryChoiceM1M6Check.tscn",
+        "tools/audit_scope.json"
+      ],
+      "owned_paths": [
+        "playtests/order124/StoryChoiceM1M6Playtest.gd",
+        "playtests/order124/StoryChoiceM1M6Playtest.gd.uid",
+        "playtests/order124/StoryChoiceM1M6Playtest.tscn",
+        "tools/StoryChoiceM1M6Check.gd",
+        "tools/StoryChoiceM1M6Check.gd.uid",
+        "tools/StoryChoiceM1M6Check.tscn",
+        "tools/audit_scope.json"
+      ],
+      "tools": [
+        "tools/StoryChoiceM1M6Check.tscn"
+      ],
+      "why": "ORDER-124 스토리 선택 전용 M01~M06만 검사하고 기존 월간 행동·24주·240주 경로는 실행하지 않는다"
+    },
+    {
+      "id": "order124-macos-package",
+      "paths": [
+        "tools/build_order124_macos.sh",
+        "tools/order124_package_audit.py",
+        "tools/audit_scope.json"
+      ],
+      "owned_paths": [
+        "tools/build_order124_macos.sh",
+        "tools/order124_package_audit.py",
+        "tools/audit_scope.json"
+      ],
+      "tools": [
+        "tools/order124_package_audit.py --self-test"
+      ],
+      "why": "ORDER-124 macOS 빌더와 패키지 감사 계약만 검사하고 기존 후보 빌드·24주·240주 경로는 실행하지 않는다"
+    },
+    {
+      "id": "order124-story-choice-candidate",
+      "paths": [
+        "playtests/order124/StoryChoiceM1M6Playtest.gd",
+        "playtests/order124/StoryChoiceM1M6Playtest.gd.uid",
+        "playtests/order124/StoryChoiceM1M6Playtest.tscn",
+        "tools/StoryChoiceM1M6Check.gd",
+        "tools/StoryChoiceM1M6Check.gd.uid",
+        "tools/StoryChoiceM1M6Check.tscn",
+        "tools/build_order124_macos.sh",
+        "tools/order124_package_audit.py",
+        "tools/audit_scope.json"
+      ],
+      "owned_paths": [
+        "playtests/order124/StoryChoiceM1M6Playtest.gd",
+        "playtests/order124/StoryChoiceM1M6Playtest.gd.uid",
+        "playtests/order124/StoryChoiceM1M6Playtest.tscn",
+        "tools/StoryChoiceM1M6Check.gd",
+        "tools/StoryChoiceM1M6Check.gd.uid",
+        "tools/StoryChoiceM1M6Check.tscn",
+        "tools/build_order124_macos.sh",
+        "tools/order124_package_audit.py",
+        "tools/audit_scope.json"
+      ],
+      "tools": [
+        "tools/StoryChoiceM1M6Check.tscn",
+        "tools/order124_package_audit.py --self-test"
+      ],
+      "why": "ORDER-124 후보의 런타임과 패키지 계약만 함께 검사하고 기존 후보·24주·240주·전체 감사는 실행하지 않는다"
     }
   ],
   "checks": [
@@ -393,6 +478,29 @@
         "tools/StoryMapM1M6Check.gd",
         "tools/StoryMapM1M6Check.gd.uid",
         "tools/StoryMapM1M6Check.tscn"
+      ]
+    },
+    {
+      "tool": "tools/StoryChoiceM1M6Check.tscn",
+      "godot": true,
+      "why": "ORDER-124 스토리 선택 전용 M01~M06의 분기·정산·격리 저장·월간 행동 부재 계약",
+      "paths": [
+        "playtests/order124/StoryChoiceM1M6Playtest.gd",
+        "playtests/order124/StoryChoiceM1M6Playtest.gd.uid",
+        "playtests/order124/StoryChoiceM1M6Playtest.tscn",
+        "tools/StoryChoiceM1M6Check.gd",
+        "tools/StoryChoiceM1M6Check.gd.uid",
+        "tools/StoryChoiceM1M6Check.tscn",
+        "tools/audit_scope.json"
+      ]
+    },
+    {
+      "tool": "tools/order124_package_audit.py --self-test",
+      "why": "ORDER-124 macOS 후보의 전용 진입·빌드 표식·저장 격리·payload·manifest 계약 자체 검사",
+      "paths": [
+        "tools/build_order124_macos.sh",
+        "tools/order124_package_audit.py",
+        "tools/audit_scope.json"
       ]
     },
     {
