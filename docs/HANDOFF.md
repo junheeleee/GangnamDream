@@ -16,6 +16,12 @@
 - StoryMode 선택만 쓰는 BUILD `2026.08.24.3`은 별도 active `order124_rc`다.
   사용자 L3 전에는 story-first 본편 이관이 `HOLD`이며 `demo_rc`나 저장 호환 AP
   엔진의 삭제 승인으로 해석하지 않는다.
+- active 240주 `full_rc`는 BUILD `2026.08.24.5`, exact
+  `6c91e11c128c4535f5c5852845b0e7309947e162` / tree
+  `da15e65977849ab8bf912f3612fa9fd511eee99d`, manifest
+  `1cef15ff75eba4e04b45d6d672ce53c8c9365d3d5a3840c51467c49a75178c8a`다.
+  세 플랫폼·전체 감사·KO/EN 240주·장별 저장·pack/고지·R1b 비도달은 PASS지만
+  원고·A/V·실기기·원어민·재미·출시 GO는 모두 사람 판정으로 남는다.
 - P-4의 제품 bridge는 실제 W1~24 demo-flavor 저장→W24 CTA→정식판 W25다.
   현재 playtest 저장은 격리돼 있으므로 이 별도 이월·출시 게이트는 OPEN이다.
 - 최종 연령 등급·삭제·export filter와 실제 사람 GO는 계속 사용자 소유다.
@@ -41,6 +47,12 @@
   `8a34920038962a4ba0885ad6189d92dc6d3c3ee2780020f3894938d380613177`다. exact detached
   재검증은 full/surface matrix와 ORDER-98의 다섯 runtime marker를 통과했고,
   InputMatrix의 계약상 허용된 리소스 3개 종료 noise 밖 금지 오류는 0이다.
+- active `full_rc` artifact SHA-256은 Windows
+  `b8d3f11f2e3655884360c52514030c988f04d425e58e56762180ca39e22bf0d5`, macOS ZIP
+  `878fddb3d7fd81e88a812cfd2781c0c265b5e724a54938cad6f1fce10be99800`, Linux
+  `759af7dd214ae2ce9fa5741fa66ba380a535cfde1ec20fd8e1d705c53e506a49`다.
+  durable 자동 증거는 `build/qa/order125-full-rc/2026.08.24.5`에 있고 BUILD
+  `.4`는 stale causal snapshot 3건 때문에 후보로 등록하지 않았다.
 - 외부 30분 package/session 묶음은 미발급이다. 내부 후보 등록이나 자동 PASS를
   외부 모집·출시 GO로 바꾸지 않으며, 후속 후보는 새 exact identity로만 교체한다.
 - 외부 30분 이해도, 정상 속도 W1~24 완주, 연속 A/V, 물리 패드는 같은 demo_rc의

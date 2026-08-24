@@ -1,8 +1,10 @@
 # Gangnam Dream Work Log
 
 > 최신 작업만 역순으로 기록한다. 2026-07-24 이전 원문은
-> [`5/16~7/24`](history/WORK_LOG_2026-05-16_to_2026-07-24.md), 이후 날짜별 보관본은
-> [`8/14`](history/WORK_LOG_2026-08-14.md), [`8/12`](history/WORK_LOG_2026-08-12.md),
+> [`5/16~7/24`](history/WORK_LOG_2026-05-16_to_2026-07-24.md), 보관본은
+> [`8/18`](history/WORK_LOG_2026-08-18.md), [`8/15`](history/WORK_LOG_2026-08-15.md),
+> [`8/14`](history/WORK_LOG_2026-08-14.md),
+> [`8/12`](history/WORK_LOG_2026-08-12.md),
 > [`8/11`](history/WORK_LOG_2026-08-11.md), [`8/10`](history/WORK_LOG_2026-08-10.md),
 > [`8/5`](history/WORK_LOG_2026-08-05.md), [`8/4`](history/WORK_LOG_2026-08-04.md),
 > [`8/3`](history/WORK_LOG_2026-08-03.md), [`7/31`](history/WORK_LOG_2026-07-31.md),
@@ -10,6 +12,28 @@
 > [`7/27`](history/WORK_LOG_2026-07-27.md), [`7/26`](history/WORK_LOG_2026-07-26.md),
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
+
+## 2026-08-24 (Codex — ORDER-125 clean 240주 full_rc BUILD .5)
+
+- BUILD `.4`는 fresh 전체 감사에서 causal source snapshot 3건이 stale이라 후보로
+  등록하지 않았다. 누적 증거 원장 `WORK_LOG.md`를 source trust key에서 빼고 승인된
+  `demo_localization_scope.json`·`CHOICE_CONSEQUENCE_SYSTEM.md` hash와 두 selector의
+  exact input을 정렬했다. 인과 ledger 의미·런타임·AP 저장 호환은 바꾸지 않았다.
+- BUILD `2026.08.24.5`는 exact clean
+  `6c91e11c128c4535f5c5852845b0e7309947e162` / tree
+  `da15e65977849ab8bf912f3612fa9fd511eee99d`다. manifest SHA-256은
+  `1cef15ff75eba4e04b45d6d672ce53c8c9365d3d5a3840c51467c49a75178c8a`, artifact는
+  Windows `b8d3f11f...`, macOS ZIP `878fddb3...`, Linux `759af7dd...`다.
+- fresh 전체 감사와 KO PlayStation·EN Xbox 각 240주 의미 입력, 장별 저장 5개,
+  full/V2 pack inventory·제3자 고지, R1b direct/self/runtime 비도달을 통과했다.
+  세 240주 런의 금지 오류는 0이고 두 marker run은 keyboard/mouse 0,
+  `ending=with_daeun`이다. 증거는 `build/qa/order125-full-rc/2026.08.24.5`가 소유한다.
+- macOS 빈 HOME 무인자 first-run 생존과 동일 package의 preseed StartMenu movie
+  캡처를 분리해 기록했다. 화면은 BUILD `.5`를 보이고 probe는 exit 0이며, 실제
+  retail/V2 33파일의 전후 checksum manifest는 byte-exact다.
+- `full_rc`만 active로 바꾸고 full 사람 gate 12개는 OPEN/evidence 없음으로 뒀다.
+  ORDER-124 story-first 플레이 판정과 본편 이관, 저장 호환 AP 엔진 삭제는 별도이며
+  자동 완주를 재미나 출시 GO로 기록하지 않았다.
 
 ## 2026-08-24 (Codex — ORDER-98 active demo_rc 정본 재결합)
 
@@ -485,32 +509,3 @@
 - 20/20 한영 선택·placeholder, strict JSON, coverage·서사·말투, 변경 범위와
   diff 검사가 통과했고 독립 최신 바이트 판정은 P0/P1 0이다. 전체·240주·Godot는
   생략했다. L3는 사용자 무작위 3개 낭독이며, 다음 집필은 M13~M24다.
-
-## 2026-08-18 (Codex — 처음부터 완결까지 핵심 원고 1차 배치 L1/L2)
-
-- M01 첫 불법 제안부터 M60 마지막 서명·후일담까지 22개 기준 장면과 미접수
-  결말 1개를 KO/EN으로 썼다. Ch4는 다은·상철·아버지가 실제 같은 시간에
-  충돌하고, Ch5는 상철의 제안·검토 이해충돌, 재혁의 보증, 다은의 이름을 한
-  회의실에 모았다. 무연애 M58은 현수·민서의 서로 다른 판정으로 분리했다.
-- 접수·미실행·미접수와 다른 배우 조합은 공용 가정문으로 덮지 않고 정확한
-  기준 원고 또는 NEW fallback으로 나눴다. 기존 11개 root의 게임 구조와 장기
-  결정 7개는 불변이고 신규 영구 flag는 0이다.
-- 60개월 지도·자가 75건, narrative spine, 한영·말투·서사 정합, 정점 장면
-  32개, strict JSON과 22+1 구조 계약이 통과했다. 전체/240주/Godot는 생략했다.
-  L3는 사용자 무작위 3개 판정이며, 다음은 M02~M12 20개 원고다.
-
-## 2026-08-15 (Codex — M01~M06 독립 월간 선택 체험판 L1/L2·스포일러 제거)
-
-- 60개월 정본 중 첫 여섯 달만 읽는 독립 런타임과 화면을 만들었다. 플레이어는
-  클릭 순서가 아니라 `주력` 하나와, 전월의 같은 축 여유가 있을 때만 가능한
-  `함께` 하나를 명시한다. 미룸은 한 번 돌아온 뒤 만료되고, M03의 주력 인물은
-  M05·M06까지 같은 사람으로 이어진다.
-- 1차판의 `지키면/놓치면` 정확한 미래 설명은 사용자 판정으로 반려됐다. `.2`는
-  선택 전에 행동·축·마감·한 번 미룸/그달 만료만 보여 주고, 이름 있는 사건·관계
-  변화는 실제 도착할 때 밝힌다. 월 결과도 이미 일어난 지킴·미룸·만료만 확인한다.
-- 전용 Godot 검사는 `STORY_MAP_M1M6_CHECK_OK months=6 margin=4 deferred=2
-  actor=2 save=2 ui=1 disclosure=2`로 KO/EN 선택 전 노출도 함께 막는다. KO/EN
-  960×600·1280×800 렌더와 M01→M06 완주를 확인했고 24주·240주 감사는 생략했다.
-- 스포일러 제거 Apple Silicon 체험본은 28,796,088바이트, SHA-256
-  `f324cac9dd7927abc9c7fbb8c07af65b2c5ea2ddb0bf5b9497c70953b4c7e37d`다.
-  기계 GREEN은 재미 GO가 아니므로 ORDER-103은 사용자 정상 속도 판정까지 `[~]`다.

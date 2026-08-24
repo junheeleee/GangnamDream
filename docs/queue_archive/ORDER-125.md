@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-125
+# Archived Queue Spec: ORDER-125
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-125 [P0·패키징] 사람 최종 판정을 묶을 clean 240주 full_rc를 발급한다
+#### [x] ORDER-125 [P0·패키징] 사람 최종 판정을 묶을 clean 240주 full_rc를 발급한다
 
 **착수 선언 (2026-08-24):** 기준은 ORDER-98 active 후보 재결합 closure
 `9bd6643222740432641d4ff09972bffa27235ccc`, tree
@@ -60,8 +60,9 @@ selector의 exact 경로 목록을 함께 수리한 뒤 다음 미사용 BUILD `
    검사한다.
 6. `full-rc`로 Windows·macOS·Linux를 export하고 aggregate manifest 자체와
    artifact 세 개를 독립 재해시한다.
-7. macOS ZIP을 풀어 ad-hoc 서명·bundle·실행 파일을 확인하고 격리 HOME에서
-   무인자 부팅한다. 실제 플레이어 저장은 읽거나 쓰지 않는다.
+7. macOS ZIP을 풀어 ad-hoc 서명·bundle·실행 파일을 확인한다. 격리 HOME의
+   무인자 first-run 생존과 같은 package의 StartMenu 캡처를 분리해 증명하며,
+   실제 플레이어 저장은 쓰지 않고 전후 checksum만 읽는다.
 8. `human_gates.json`의 `full_rc`만 active exact commit/tree/manifest로 등록한다.
    기존 full gate 12개는 모두 `open`, evidence 없음으로 둔다.
 9. R1b reference route audit direct/self-test/runtime으로 `historical_invalidated`,
@@ -119,8 +120,9 @@ source trust key로 다시 받을 수 없고, 고정한 모든 source path가 �
   누락·비정상 종료·스크립트/파싱/컴파일 오류를 계속 거부한다.
 - Windows EXE·macOS ZIP·Linux 실행 파일과 aggregate manifest가 exact 같은
   commit/tree를 가리키며 해시 재검산 PASS.
-- macOS 무인자 격리 smoke가 StartMenu까지 도달하고 retail 사용자 데이터 전후
-  해시가 같다.
+- macOS 무인자 격리 first-run이 필수 언어 게이트에서 생존하고, 동일 binary/PCK의
+  preseed 진단 캡처가 StartMenu와 BUILD `.5`를 보인다. 두 실행을 하나의 무인자
+  StartMenu 증거라고 부르지 않으며 retail 사용자 데이터 전후 해시는 같다.
 - `full_rc`는 active가 되지만 사람 gate 12개, 원고 사용자 최종 서명, A/V·패드·
   원어민·재미 판정은 OPEN이다.
 - 변경 파일 밖 drift 0, dashboard/context/queue/human/audit selection/diff PASS.
@@ -138,3 +140,25 @@ ORDER-124 BUILD `2026.08.24.3`의 story-first 구조 판정은 별도 후보에�
 clean source·고유 BUILD_ID·aggregate manifest·exact 후보에 사람 evidence를 묶는
 규칙은 기존 `BUILD_PIPELINE.md`와 `human_gates.json` 계약의 적용이다. BUILD 번호,
 기준 commit, artifact 경로·해시, 격리 로그는 이 오더에서만 유효한 일회성 증거다.
+
+## 완료 기록 (2026-08-24)
+
+- exact candidate: `6c91e11c128c4535f5c5852845b0e7309947e162` / tree
+  `da15e65977849ab8bf912f3612fa9fd511eee99d`, BUILD `2026.08.24.5`.
+- aggregate manifest SHA-256:
+  `1cef15ff75eba4e04b45d6d672ce53c8c9365d3d5a3840c51467c49a75178c8a`.
+- Windows·macOS·Linux artifact 재해시, fresh 전체 감사, KO PlayStation·EN Xbox
+  240주 의미 입력, chapter slot 6~10, full/V2 pack inventory·고지와 R1b
+  direct/self/runtime이 모두 PASS했다. durable 증거는
+  `build/qa/order125-full-rc/2026.08.24.5`에 있다.
+- 빈 HOME의 무인자 앱은 필수 언어 게이트에서 생존했고, 동일 package의 별도
+  진단 캡처는 StartMenu의 `BUILD 2026.08.24.5`를 1280×800 PNG로 남겼다. 이 둘을
+  합쳐 무인자 StartMenu 도달이라고 과장하지 않는다. 실제 retail/V2 33파일은
+  전후 checksum manifest가 byte-exact다.
+- BUILD `.4`와 manifest 경로를 잘못 잡은 첫 로컬 재검산은 반려 증거로 보존했다.
+  제품 결함으로 승격하거나 성공 증거에서 숨기지 않는다.
+- 승격: clean full RC·aggregate manifest 계약과 exact 후보 증거는
+  `docs/BUILD_PIPELINE.md`와 `docs/human_gates.json`에 반영했다.
+- 일회성: BUILD 번호·commit/tree·artifact와 로그 해시, 임시 worktree 경로.
+- 사람 판정: full gate 12개는 모두 `open`, evidence 없음이다. ORDER-124 구조
+  판정과 본편 story-first 이관, 저장 호환 AP 엔진 삭제는 이 완료에 포함되지 않는다.

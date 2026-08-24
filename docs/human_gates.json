@@ -31,11 +31,11 @@
       "note": "월간 행동판 없이 실제 StoryMode 선택과 자동 시간·경제만 쓰는 M01~M06 전용 macOS BUILD 2026.08.24.3이다. ZIP SHA-256 b66d72ce97f1d36e7902ccc79a1062e61e6627aa4aa12cdea5eb84f53c362431, app tree SHA-256 275f536ad1cf70b138ecda1350ef539fd20de43c904796fe59bada0ff3f194ee다. M01·M06 StoryMode 복귀 뒤 overlay와 input이 clear이고, 기존 BUILD .2의 M03·8주·정산 2회·선택 2개·phase story 저장을 그대로 이어 transition에 도달했다. L1/L2와 저장 격리는 통과했고 사용자 L3는 OPEN, 본편 이관은 HOLD다. 이 후보의 플레이 표면에서 반복 행동판을 제거한 결정이며 저장 호환 AP 데이터·엔진 코드 삭제 GO가 아니다."
     },
     "full_rc": {
-      "status": "waiting_rebuild",
-      "commit": null,
-      "tree": null,
-      "manifest_sha256": null,
-      "note": "240주 정식판 사람 판정을 묶을 clean full RC가 아직 발급되지 않았다."
+      "status": "active",
+      "commit": "6c91e11c128c4535f5c5852845b0e7309947e162",
+      "tree": "da15e65977849ab8bf912f3612fa9fd511eee99d",
+      "manifest_sha256": "1cef15ff75eba4e04b45d6d672ce53c8c9365d3d5a3840c51467c49a75178c8a",
+      "note": "BUILD 2026.08.24.5 clean 240주 정식판 후보가 active다. Windows b8d3f11f2e3655884360c52514030c988f04d425e58e56762180ca39e22bf0d5, macOS ZIP 878fddb3d7fd81e88a812cfd2781c0c265b5e724a54938cad6f1fce10be99800, Linux 759af7dd214ae2ce9fa5741fa66ba380a535cfde1ec20fd8e1d705c53e506a49다. fresh 전체 감사, KO PlayStation·EN Xbox 240주 의미 입력, chapter 저장 5개, full pack·제3자 고지, R1b 비도달을 같은 exact source에서 통과했다. 자동 L1/L2는 원고·A/V·물리 패드·원어민·재미·출시 GO를 대신하지 않으며 full gate 12개는 모두 OPEN이다. ORDER-124 story-first 구조 판정과 AP 엔진 삭제 여부는 별도다."
     }
   },
   "gates": [

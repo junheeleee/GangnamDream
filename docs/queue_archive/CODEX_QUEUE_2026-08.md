@@ -15,6 +15,15 @@
 
 ## 2026-08
 
+- `[x] ORDER-125` (2026-08-24): BUILD `.4`의 stale causal source snapshot
+  3건을 숨기지 않고 폐기한 뒤, 누적 `WORK_LOG`를 source trust key에서 제외하고
+  승인된 두 source hash와 두 audit selector를 정렬했다. exact clean
+  `6c91e11c128c4535f5c5852845b0e7309947e162` / tree
+  `da15e65977849ab8bf912f3612fa9fd511eee99d`에서 BUILD `2026.08.24.5` 세 플랫폼,
+  fresh 전체 감사, KO PlayStation·EN Xbox 240주, 장별 저장 5개, full/V2 pack,
+  제3자 고지와 R1b 비도달을 통과해 `full_rc`를 active로 등록했다. 자동 L1/L2는
+  사람 gate 12개나 ORDER-124 구조 판정·AP 삭제 GO를 닫지 않는다.
+  [사양](ORDER-125.md)
 - `[!] ORDER-103` (2026-08-24, **사용자 NO-GO·미완료**): M01~M06의
   `주력/함께`·같은 축 여유·미룸을 직접 고르는 독립 체험판은 기계·패키지 L2를
   통과했지만, 사용자가 “게임스토리상에서 선택지로 충분”하다고 판정하고 매달

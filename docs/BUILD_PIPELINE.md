@@ -155,6 +155,43 @@ sed -n '1,10p' build/playtest/MANIFEST.sha256
 shasum -a 256 build/playtest/MANIFEST.sha256
 ```
 
+## 현재 240주 full_rc BUILD 2026.08.24.5 (2026-08-24, 사람 판정 OPEN)
+
+BUILD `.4`는 clean 세 플랫폼 export 뒤 fresh 전체 감사가 stale causal source
+snapshot 3건을 잡아 후보로 등록하지 않았다. 누적 `WORK_LOG.md`를 source trust
+key로 쓰지 않고 승인된 두 문서 hash와 causal audit selector를 정렬한 exact clean
+revision `6c91e11c128c4535f5c5852845b0e7309947e162`, tree
+`da15e65977849ab8bf912f3612fa9fd511eee99d`에서 다음 미사용 ID `.5`를 처음부터
+다시 만들었다. gameplay·ledger·AP 저장 호환은 이 수리에서 바뀌지 않았다.
+
+`build/order125/2026.08.24.5`의 aggregate manifest SHA-256은
+`1cef15ff75eba4e04b45d6d672ce53c8c9365d3d5a3840c51467c49a75178c8a`다.
+
+| 산출물 | 바이트 | SHA-256 |
+|---|---:|---|
+| Windows EXE | 443,470,984 | `b8d3f11f2e3655884360c52514030c988f04d425e58e56762180ca39e22bf0d5` |
+| macOS ZIP | 390,665,610 | `878fddb3d7fd81e88a812cfd2781c0c265b5e724a54938cad6f1fce10be99800` |
+| Linux/Deck | 409,889,432 | `759af7dd214ae2ce9fa5741fa66ba380a535cfde1ec20fd8e1d705c53e506a49` |
+
+fresh `.godot` 없는 detached worktree의 import와 전체 `audit.sh`가 exit 0,
+`✅ 감사 통과` 1회, `COMPILE_CHECK_OK total=66`을 남겼다. allowlist가 명시한
+종료 자원 noise 5줄 밖 금지 오류는 0이다. KO PlayStation과 EN Xbox 의미 입력은
+각각 `FULL_DIRECTION_RUNTIME_OK`·`FULL_INPUT_RUN_OK` 1회, 240주,
+`ending=with_daeun`, keyboard/mouse 0으로 끝났고, 별도 KO writer는 chapter
+slot 6~10을 생성했다. full/V2 pack은 각 1,462 entries로 unzip·release inventory·
+제3자 고지를 통과했다. R1b direct/self/runtime은 `product_consumers=0`,
+`historical_invalidated`, `r1b_allowed=false`, `dispatch=0`을 재확인했다.
+
+macOS app은 ad-hoc codesign과 x86_64+arm64 universal bundle 검사를 통과했다.
+빈 HOME의 무인자 first-run은 필수 언어 게이트에서 생존했고, 같은 binary/PCK의
+preseed 진단 movie probe는 StartMenu와 화면의 BUILD `.5`를 1280×800 PNG로
+캡처한 뒤 exit 0이었다. 둘을 하나의 무인자 StartMenu 증거로 부르지 않는다.
+실제 retail/V2 33파일의 전후 checksum manifest는 byte-exact다. 자동 증거 root는
+`build/qa/order125-full-rc/2026.08.24.5`다. 이 후보를
+`full_rc` active로 등록했지만 원고·A/V·실제 물리 패드·원어민·정상 속도·재미와
+출시 GO를 자동으로 닫지 않는다. ORDER-124 story-first 후보와 AP 삭제 판정도
+별도다.
+
 ## ORDER-103 전용 M01–M06 선택판 후보
 
 ORDER-103 사람 판정에는 기존 `demo_rc`를 쓰지 않는다. `demo_rc`는 숫자 여력
