@@ -54,7 +54,7 @@
 ## 배치 B — 격리 macOS 후보와 판정 8단위
 
 1. 앱 이름은 `GangnamDream-ORDER124-M01M06-StoryChoicePlaytest`, BUILD는
-   `2026.08.24.2`, 후보 키는 `order124_rc`로 고정한다.
+   `2026.08.24.3`, 후보 키는 `order124_rc`로 고정한다.
 2. Finder 무인자 실행은 Splash·StartMenu·MainGame·ORDER-103 선택판을 거치지
    않고 새 전용 홈으로 직접 들어간다.
 3. staging에서만 `run/main_scene`과 custom user-data 이름을 덮고 제품
@@ -106,6 +106,8 @@
   행동 선택·commitment 영수증은 0이다.
 - M03~M05에서 만난 인물과 실제 선택 결과가 M06 후보·회고에 남는다.
 - 장면 전후 저장 왕복은 같은 달을 중복 정산하지 않고 기존 저장은 byte-exact다.
+- M01 뒤 전환막과 M06 뒤 회고로 복귀할 때 검은 cover와 입력 차단이
+  모두 풀리며, 정산 실패는 빈 화면 대신 남은 장면 재개 또는 홈으로 복구한다.
 - KO/EN 두 해상도에서 `주력/함께/여력`과 행동판 UI 노출 0, 잘림·겹침 0이다.
 - 표적 Godot 검사와 package audit만 실행한다. 기존 24주·240주·전체 감사는 이
   격리 후보의 증거로 실행하거나 인용하지 않는다.
@@ -124,27 +126,48 @@
 제품 방향은 `docs/CHOICE_CONSEQUENCE_SYSTEM.md`에 승격한다. 후보 이름·BUILD·
 격리 저장·검사 명령은 이 오더에서만 유효한 일회성 지시다.
 
-## 2026-08-24 전용 macOS 후보 발급 · 사용자 플레이 가능
+## BUILD 2026.08.24.2 · 검은 전환막 NO-GO와 보존
+
+- BUILD `2026.08.24.2`는 exact source
+  `e9aff5f06c2e3ec3708426156074674a56a4c3f6`, tree
+  `ad4d88a6aed68a79074f6f8e3204bf0474f6dbc4`, manifest
+  `87f3491f7e526762203a83eb4ed25bbbba79981f7dc3ec812d49cdd955db1194`, ZIP
+  `626196d6a74f50373ddc3e6d0cb8b3a502f052d4436f308361d8b82d3ab45a75`, app tree
+  `c21d5ba71c5516465849cc7596d48ed430a4fc903eeeb7033340d36e5afb6a85`다.
+- 사용자는 M02 뒤 장면 사이에 검은 화면을 발견했다. `StoryMode`가
+  `SceneTransition.go()`로 복귀하며 만든 opaque cover를 후보 controller가
+  fade-in하지 않아, 6초 전환 카드가 검정 뒤에 숨고 M06 회고는 영구히
+  가려질 수 있었다. 기존 검사는 실제 StoryMode 복귀를 건너뛰 이 결함을
+  잡지 못했다.
+- 이 BUILD는 기술 NO-GO로 active 후보에서 내렸다. 앱 사본을 새 플레이에
+  쓰지 않고, manifest/checksum/ZIP을
+  `build/order124/archive/2026.08.24.2`에 비교 근거로 보존한다. 이 판정은
+  AP 행동의 복원 GO나 스토리 선택 구조의 재미 GO가 아니다.
+
+## BUILD 2026.08.24.3 · 현재 macOS 후보 · 사용자 판정 OPEN
 
 - active `order124_rc`는
   `GangnamDream-ORDER124-M01M06-StoryChoicePlaytest`, BUILD
-  `2026.08.24.2`다. exact source는
-  `e9aff5f06c2e3ec3708426156074674a56a4c3f6`, tree는
-  `ad4d88a6aed68a79074f6f8e3204bf0474f6dbc4`다.
+  `2026.08.24.3`다. exact source는
+  `23f0bd9b7a56a352c9234f95870a98dbf5c728e9`, tree는
+  `2dcfb0e465f2981b8058ccc03605fa98fca3f746`다.
 - manifest SHA-256은
-  `87f3491f7e526762203a83eb4ed25bbbba79981f7dc3ec812d49cdd955db1194`,
-  ZIP은 `626196d6a74f50373ddc3e6d0cb8b3a502f052d4436f308361d8b82d3ab45a75`,
-  app tree는 `c21d5ba71c5516465849cc7596d48ed430a4fc903eeeb7033340d36e5afb6a85`다.
-- 표적 검사는
-  `STORY_CHOICE_M1M6_CHECK_OK months=6 weeks=24 settlements=6 commitments=0 routes=2 save=1 m6=1`,
-  패키지는 `ORDER124_PACKAGE_AUDIT_SELF_TEST_OK checks=26`과
-  `ORDER124_PACKAGE_AUDIT_OK`를 통과했다. 무인자 진입, ad-hoc codesign,
-  KO 1280×800·EN 960×600 packaged smoke와 홈·전환·회고 캡처도 통과했다.
-- 최종 패키지에서 실제 StoryMode를 열어 KO 960×600·EN 1280×800 선택 버튼을
-  Enter로 확정했다. KO는 M01 clean 선택과 M02 결과 뒤 M03까지 도달했고 전용
-  저장은 8주·정산 2회·월간 commitment 0을 기록했다.
-- 제품 설정, retail/V2 저장, 기존 `demo_rc`, 반려 ORDER-103 앱·저장·산출물은
-  불변이며 최종 QA 뒤 후보 사용자 디렉터리는 다시 없는 상태다. 이 후보에는
-  기존 24주·240주·전체 감사를 실행하거나 인용하지 않았다.
-- L1/L2는 닫혔지만 재미 판정은 아니다. 사용자가 M01~M06을 정상 속도로 끝내는
-  L3와 본편 이관 GO가 열려 있으므로 ORDER-124 상태는 `[~]`를 유지한다.
+  `721c9021236c158432be0b3ae47ebcd785f4e4f461b4b05d709b0d71384ca148`, ZIP은
+  `b66d72ce97f1d36e7902ccc79a1062e61e6627aa4aa12cdea5eb84f53c362431`, app tree는
+  `275f536ad1cf70b138ecda1350ef539fd20de43c904796fe59bada0ff3f194ee`다.
+- 표적 marker
+  `STORY_CHOICE_M1M6_CHECK_OK months=6 weeks=24 settlements=6 commitments=0 routes=2 save=1 m6=1 returns=2 overlay=1`가 M01 전환과 M06 회고의 실제
+  복귀 표면을 둘 다 검사했다. 패키지 M01 복귀는
+  `ORDER124_RETURN_SMOKE_OK build=2026.08.24.3 screen=transition month=2 overlay=clear input=clear choices=1 settlements=1`을 남겼다. package self-test
+  `checks=38`과 `ORDER124_PACKAGE_AUDIT_OK`도 통과했다.
+- BUILD `.2`에서 생긴 사용자 저장 SHA-256
+  `fe1d0a0011a1a8d447ce7d46494f2454b3b09ee7c8e2f6596d827a6cd8db734b`는
+  `phase=story`, M03, 8주, 정산 2회, 선택 2개다. 최종 패키지가 이 저장을
+  변경하지 않고
+  `ORDER124_RESUME_SMOKE_OK build=2026.08.24.3 month=3 weeks=8 settlements=2 choices=2 phase=story screen=transition overlay=clear input=clear`로 이어하는 것을 확인했다.
+- 제품 `project.godot`·`export_presets.cfg`, retail/V2, `demo_rc`, 반려
+  ORDER-103 앱·저장·산출물, BUILD `.2` archive, ORDER-124 사용자
+  디렉터리는 패키지 검사 전후 byte-exact다.
+- L1/L2는 닫혔지만 재미 판정은 아니다. 사용자 L3와 본편 이관 GO는
+  OPEN/HOLD이며 ORDER-124는 `[~]`를 유지한다. 기존 24주·240주·전체 감사는
+  이 격리 후보에 실행하거나 인용하지 않았다.

@@ -2,9 +2,10 @@
 
 > 최신 작업만 이 파일에 역순으로 기록한다. 2026-05-16부터 2026-07-24 USER-P0M까지의 원문은
 > [`history/WORK_LOG_2026-05-16_to_2026-07-24.md`](history/WORK_LOG_2026-05-16_to_2026-07-24.md)에 손실 없이 보존했다.
-> 2026-08-10·2026-08-05·2026-08-04의 오래된 항목, 2026-08-03·2026-07-31의 오래된 항목,
+> 2026-08-14·2026-08-10·2026-08-05·2026-08-04의 오래된 항목, 2026-08-03·2026-07-31의 오래된 항목,
 > 2026-07-30의 오래된 V2 C/D/E 항목,
 > 2026-07-29 이전 항목은 날짜별 보관본인
+> [`history/WORK_LOG_2026-08-14.md`](history/WORK_LOG_2026-08-14.md),
 > [`history/WORK_LOG_2026-08-03.md`](history/WORK_LOG_2026-08-03.md),
 > [`history/WORK_LOG_2026-08-04.md`](history/WORK_LOG_2026-08-04.md),
 > [`history/WORK_LOG_2026-08-05.md`](history/WORK_LOG_2026-08-05.md),
@@ -19,6 +20,40 @@
 > [`history/WORK_LOG_2026-07-25.md`](history/WORK_LOG_2026-07-25.md)로
 > 차례로 옮긴다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
+
+## 2026-08-24 (Codex — ORDER-124 검은 장면 복귀 수리 BUILD .3)
+
+- 사용자가 BUILD `.2`에서 “중간에 그냥 검은화면뭔데”라고 보고했다. 저장·크래시가
+  아니라 `StoryMode`가 `SceneTransition.go(ret)`로 완전 불투명 전환막을 남긴 뒤
+  ORDER-124 목적 장면이 `fade_in()`을 호출하지 않은 결함이었다. M01~M05는 다음
+  장면이 6초 뒤 우연히 막을 걷었지만 M06 회고는 영구 검정이 될 수 있었다.
+- 후보 controller가 StoryMode 복귀 UI를 만든 뒤 전환막과 입력 차단을 반드시
+  해제하도록 고쳤다. 정산 실패도 빈 shell에 머물지 않고 남은 장면 전환 또는
+  오류 홈을 보인다. 표적 검사는 M01 전환과 M06 회고의 실제 복귀 상태를 각각
+  재현해 `returns=2 overlay=1`을 확인한다.
+- BUILD `2026.08.24.3` source
+  `23f0bd9b7a56a352c9234f95870a98dbf5c728e9` / tree
+  `2dcfb0e465f2981b8058ccc03605fa98fca3f746`, manifest
+  `721c9021236c158432be0b3ae47ebcd785f4e4f461b4b05d709b0d71384ca148`, ZIP
+  `b66d72ce97f1d36e7902ccc79a1062e61e6627aa4aa12cdea5eb84f53c362431`, app tree
+  `275f536ad1cf70b138ecda1350ef539fd20de43c904796fe59bada0ff3f194ee`다.
+- package self-test `checks=38`, final audit·ad-hoc codesign, KO 1280×800·EN
+  960×600 smoke와 캡처가 통과했다. 패키지의 실제 왕복은
+  `ORDER124_RETURN_SMOKE_OK ... screen=transition month=2 overlay=clear input=clear`,
+  기존 저장 복귀는 `ORDER124_RESUME_SMOKE_OK ... month=3 weeks=8 settlements=2
+  choices=2 phase=story screen=transition overlay=clear input=clear`를 남겼다.
+- 사용자의 `.2` 저장 SHA-256
+  `fe1d0a0011a1a8d447ce7d46494f2454b3b09ee7c8e2f6596d827a6cd8db734b`와 전용
+  디렉터리 tree `b54d6515e45742298104cc44774508e8d53701debc3be7b9ed5d84bf72c0b5e8`는
+  빌드 전후 byte-exact다. 별도 복구본도
+  `GangnamDream_ORDER124_SaveBackups/pre-build-2026.08.24.3`에 보존했다.
+  retail meta SHA `fc46cc3a40d7813beffc7ed6db969bd55218ee60de66ba313235a99e2072577d`,
+  제품 설정, `demo_rc`, ORDER-103 저장·산출물도 불변이다.
+- 결함 있는 `.2` manifest·checksum·ZIP은
+  `build/order124/archive/2026.08.24.2`에 보존하고 active 후보에서 내렸다.
+  `.3` 기술 후보는 플레이 가능하지만 재미 L3와 본편 이관은 OPEN/HOLD다. AP·시간·
+  경제 내부를 지금 삭제한 것이 아니며 플레이어 앞의 별도 월간 행동 선택층만 이
+  표본에서 사용하지 않는다. 24주·240주·전체 감사는 실행하거나 인용하지 않았다.
 
 ## 2026-08-24 (Codex — 월간 행동 없는 M01~M06 후보)
 
@@ -463,51 +498,3 @@
 - 스포일러 제거 Apple Silicon 체험본은 28,796,088바이트, SHA-256
   `f324cac9dd7927abc9c7fbb8c07af65b2c5ea2ddb0bf5b9497c70953b4c7e37d`다.
   기계 GREEN은 재미 GO가 아니므로 ORDER-103은 사용자 정상 속도 판정까지 `[~]`다.
-
-## 2026-08-14 (Codex — W1~8 행동·후속 인과 L1/L2 완료)
-
-- fresh `story_flashforward`는 11-event 프롤로그 뒤 Story Send 없이 W1로 간다.
-  M1/M2 terminal·직접 사람 선택·W5 결과·W8 SNS·W9 reader를 잇고 주간 slot과
-  세계 클록을 분리했다.
-- `FIRST_SESSION_PACING_OK`: `paths=432 events=14-14 paragraphs=95-96
-  manual_stops=8 direct=6 fast_inputs=198-200 first_meaningful=5
-  fresh_story_send=0 legacy_trigger=1 chapter=1`.
-- genuine 040746a origin과 save phase를 double reload했다. current
-  application은 authored identity/status/job과 정확히 같은 결과만 복구한다.
-  exact weekly의 누락 receipt는 복구하지만, authored 값과 다른 weekly+누락/맞춤
-  receipt·추가 job owner는 권한을 만들거나 `resolved`를 `submitted`로 되돌리지
-  않는다. current에 정착한 legacy receipt 삭제도 재발급하지 않는다.
-- 원장은 W1~24 24행, W25~48 공백 24행이다. 핵심 debt 12와
-  공유 W24 application shadow 1개가 함께 닫혀 baseline은 60→47,
-  `ROW24/DEAD8/ORPHAN7/AUTO4/SHADOW1/CAP1/DISPLAY1/FANIN1`, debt code 8,
-  blocked 3이다. W9+ 제품 node·새 Story는 0건이다.
-- FirstEntry/Cycle/B/C/E와 `ORDER101_M2_EDGE_CONTRACTS_OK`,
-  `ORDER101_LEGACY_ONLY_OK`, causal normal/self-test·strict mutation,
-  `RELEASE_CONTENT_INVENTORY_SELF_TEST_OK cases=13`, release normal,
-  `STORY_CONSISTENCY_AUDIT_OK`, `core_loop_v2_balance_ok`를 통과했다.
-- 최종 제품 freeze는 DemoCore
-  `9c01278a35e1101fd592addba0605a414a0eee8fd62c1af08d2a3919f51307fc`, CycleCheck
-  `4ebfe5e8d87e84100cca638d9bdcbfb1d3e55f5e74ceae472493457315c93203`, MainGame
-  `16a8b5e417dc4bc659a30cc73a9048902bd2d73c21f3daf592c5533739dc822b`, StoryMode
-  `c029918113e2c20c735d6798c839e8e5803113336ddf147bf6602ef3153637b7`, contract
-  `f336f8a60277effc1885e10911d21785add4ad5580135bb1ab3a4c4b509059c3`다.
-- 검증 freeze는 balance
-  `b9f96ed925cce3801fe8c45716f5bab2fb480507fa1cd3069c714bd222cedf86`, first-session
-  `91beb389fc0362e4769d0e5f15ae45e4d1b354ba2f51c500f9b903608f2545a0`, release
-  tool/inventory `969f181885bdcf298e60270ba10fe05d51aae776eeacc90d88de6eb6c296589c` /
-  `d689870aaa22a7a2ee1a2553d48801b573b11eb04c6520f382610e1373ed793e`, story audit
-  `2e7bbcff6f995c597ed31a6f7450295b49c5f04699bfb8020290efce0f8af229`다.
-- 대표 trace의 W6 Rain은 5건/115분/팁 40,500원·`+195,500/-9/-3`, W8은 sleep
-  slot과 별도 SNS 1회다. 5경로 production은 약 300초·오류 0이었다.
-  월별 역사 캐시는 exact state/data revision만 재사용하고 교체·재귀는 폐기/차단한다.
-- complete-chapter-one은 남은 W25~48 gap/debt 때문에 의도대로 RED다. U01..U20
-  사람 L3는 W24 뒤 실행하고 다음 배치는 baseline 47/save matrix로 W9~16부터 연다.
-
-## 2026-08-12 (Codex — 48주 본편 Chapter 1 범위; 2026-08-14 데모 경계 교정)
-
-- `단위를 48주로 잡자`와 `챕터1을 완성지어봐`는 본편 Chapter 1 제작 목표다.
-  최신 `데모는 24주까지야` 지시는 공개 데모를 W1~24·W24 CTA로 고정하며,
-  W25~48을 데모 출시·RC·사람 판정 조건에서 제외한다.
-- ORDER-100은 제품 변경 없이 48행 구현/공백, debt 60, blocked 3과 W48 종료를
-  본편 원장으로 봉인했다. ORDER-101은 W1~8 debt와 실제 플레이 후속을 소유한다.
-- 사람 판정은 clean W1~24 demo_rc를 승인할 뿐 본편 Chapter 1 완성을 승인하지 않는다.

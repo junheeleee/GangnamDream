@@ -14,7 +14,7 @@
       "commit": "ebc58a839d64d8810b9da5548c20e58bc43c9e30",
       "tree": "f978a22525b678ef83619dc50094a6dada75f190",
       "manifest_sha256": "8a34920038962a4ba0885ad6189d92dc6d3c3ee2780020f3894938d380613177",
-      "note": "데모 제품 경계는 W1~24 CTA다. BUILD 2026.08.22.1은 숫자 여력 네 장을 쓰는 `서울의 네 주` 기준선이다. clean revision ebc58a839d64d8810b9da5548c20e58bc43c9e30 / tree f978a22525b678ef83619dc50094a6dada75f190의 Windows·macOS·Linux V2 playtest 후보고, 같은 후보의 full audit·KO/EN 24주·KO 240주와 package identity/manifest 검증, macOS native no-arg smoke가 PASS했다. 자동 증거는 사용자 최종 GO를 대신하지 않는다. demo_rc의 사람·실기기·연속 A/V·원어민 게이트와 고정 order99_build_3_rc의 사용자 게이트는 OPEN이다. ORDER-103의 독립 월간 선택판은 사용자 NO-GO로 퇴역했고, 스토리 선택 전용 BUILD 2026.08.24.2는 별도 active `order124_rc`이며 `demo_rc`를 대신하지 않는다. W25~48 Chapter 1은 데모 RC나 사람 판정 조건이 아니다."
+      "note": "데모 제품 경계는 W1~24 CTA다. BUILD 2026.08.22.1은 숫자 여력 네 장을 쓰는 `서울의 네 주` 기준선이다. clean revision ebc58a839d64d8810b9da5548c20e58bc43c9e30 / tree f978a22525b678ef83619dc50094a6dada75f190의 Windows·macOS·Linux V2 playtest 후보고, 같은 후보의 full audit·KO/EN 24주·KO 240주와 package identity/manifest 검증, macOS native no-arg smoke가 PASS했다. 자동 증거는 사용자 최종 GO를 대신하지 않는다. demo_rc의 사람·실기기·연속 A/V·원어민 게이트와 고정 order99_build_3_rc의 사용자 게이트는 OPEN이다. ORDER-103의 독립 월간 선택판은 사용자 NO-GO로 퇴역했고, 스토리 선택 전용 BUILD 2026.08.24.3은 별도 active `order124_rc`이며 `demo_rc`를 대신하지 않는다. W25~48 Chapter 1은 데모 RC나 사람 판정 조건이 아니다."
     },
     "order99_build_3_rc": {
       "status": "active",
@@ -25,10 +25,10 @@
     },
     "order124_rc": {
       "status": "active",
-      "commit": "e9aff5f06c2e3ec3708426156074674a56a4c3f6",
-      "tree": "ad4d88a6aed68a79074f6f8e3204bf0474f6dbc4",
-      "manifest_sha256": "87f3491f7e526762203a83eb4ed25bbbba79981f7dc3ec812d49cdd955db1194",
-      "note": "월간 행동판 없이 실제 StoryMode 선택과 자동 시간·경제만 쓰는 M01~M06 전용 macOS BUILD 2026.08.24.2다. ZIP SHA-256 626196d6a74f50373ddc3e6d0cb8b3a502f052d4436f308361d8b82d3ab45a75, app tree SHA-256 c21d5ba71c5516465849cc7596d48ed430a4fc903eeeb7033340d36e5afb6a85다. L1/L2와 저장 격리는 통과했고 사람 재미 판정은 OPEN이다."
+      "commit": "23f0bd9b7a56a352c9234f95870a98dbf5c728e9",
+      "tree": "2dcfb0e465f2981b8058ccc03605fa98fca3f746",
+      "manifest_sha256": "721c9021236c158432be0b3ae47ebcd785f4e4f461b4b05d709b0d71384ca148",
+      "note": "월간 행동판 없이 실제 StoryMode 선택과 자동 시간·경제만 쓰는 M01~M06 전용 macOS BUILD 2026.08.24.3이다. ZIP SHA-256 b66d72ce97f1d36e7902ccc79a1062e61e6627aa4aa12cdea5eb84f53c362431, app tree SHA-256 275f536ad1cf70b138ecda1350ef539fd20de43c904796fe59bada0ff3f194ee다. M01·M06 StoryMode 복귀 뒤 overlay와 input이 clear이고, 기존 BUILD .2의 M03·8주·정산 2회·선택 2개·phase story 저장을 그대로 이어 transition에 도달했다. L1/L2와 저장 격리는 통과했고 사용자 L3는 OPEN, 본편 이관은 HOLD다. 이 후보의 플레이 표면에서 반복 행동판을 제거한 결정이며 저장 호환 AP 데이터·엔진 코드 삭제 GO가 아니다."
     },
     "full_rc": {
       "status": "waiting_rebuild",
@@ -857,7 +857,7 @@
       "id": "order124_m1_m6_story_choice_playtest_user_final_go",
       "domain": "gameplay",
       "gate": "ORDER-124 M01~M06 스토리 선택 전용 구조 사용자 판정",
-      "why": "표적 검사는 자동 시간·경제와 저장 격리를, 최종 패키지 실측은 실제 StoryMode 선택을 증명한다. 월간 행동판 없이도 선택과 대가가 게임으로 읽히는지는 사용자가 직접 판정해야 한다.",
+      "why": "BUILD 2026.08.24.3 자동 증거는 자동 시간·경제·저장 격리와 M01 전환·M06 회고 복귀의 overlay/input 해제, 기존 M03 저장 이어하기까지 증명한다. 월간 행동판 없이도 선택과 대가가 게임으로 읽히는 재미는 증명하지 못하므로 사용자가 직접 판정해야 한다.",
       "owner": "ORDER-124",
       "state": "open",
       "scope": {
@@ -868,7 +868,7 @@
       "sample": {
         "cohort": "order124_m1_m6_story_choice_only",
         "requirements": [
-          "active order124_rc의 전용 앱 `GangnamDream-ORDER124-M01M06-StoryChoicePlaytest`에서만 새 시작. 반려 ORDER-103 앱과 기존 demo_rc는 사용하지 않음",
+          "active order124_rc BUILD 2026.08.24.3의 전용 앱 `GangnamDream-ORDER124-M01M06-StoryChoicePlaytest`에서 새로 시작하거나, package smoke로 검증된 기존 M03·8주·정산 2회·선택 2개·phase story 저장을 이어하기. 반려 BUILD .2·ORDER-103 앱과 기존 demo_rc는 사용하지 않음",
           "마우스·키보드·실제 패드 중 하나로 M01~M06의 실제 StoryMode 문장과 선택을 정상 속도로 완주",
           "장면 사이 시간감, M01→M02 대가, M06에서 포기한 일을 유도 문구 없이 말함"
         ]
@@ -877,7 +877,7 @@
         "월간 행동판이 없어도 실제 장면 안에서 선택하고 있다는 감각이 있음",
         "M01 선택의 M02 생활 대가와 M06에서 하나만 끝내는 포기가 자연스럽게 읽힘",
         "장면 사이 자동 시간·경제가 너무 빠르거나 별도 관리 화면처럼 느껴지지 않음",
-        "사용자가 ORDER-124에 최종 GO한 뒤에만 본편의 반복 월간·주간 행동 진입 제거를 시작함"
+        "사용자가 ORDER-124에 최종 GO한 뒤에만 별도 제품 이관 오더에서 본편 플레이 표면의 반복 월간·주간 행동 진입 제거를 시작하며, 저장 호환 AP 데이터·엔진 코드 삭제는 별도 승인 없이는 하지 않음"
       ]
     },
     {

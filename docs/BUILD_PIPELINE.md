@@ -242,7 +242,7 @@ W1~W24 `demo_rc`도 스토리 선택 전용 판정의 실행 파일이 아니다
 GODOT=/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot \
   ./tools/build_order124_macos.sh \
   --source HEAD \
-  --build-id 2026.08.24.2
+  --build-id 2026.08.24.3
 ```
 
 생성기는 dirty source와 Godot `4.6.2.stable.official.71f334935`가 아닌 엔진을
@@ -258,17 +258,21 @@ profile은 `order124_m1m6_story_choice`, flavor는
 `res://playtests/order124/StoryChoiceM1M6Playtest.tscn`이다. 전용 사용자 데이터는
 `GangnamDream_ORDER124_StoryChoice_v1`, 후보 저장은
 `user://story_choice_m1m6_playtest_save.json` 하나다. 빌드는 후보 경로의 기존
-상태를 snapshot/복원하고 retail/V2, `demo_rc`, 반려 ORDER-103, 제품 설정과 다른
-산출물의 전후 해시를 비교한다.
+상태를 snapshot/복원하고 retail/V2, `demo_rc`, 반려 ORDER-103, 제품 설정,
+BUILD `.2` archive와 다른 산출물의 전후 해시를 비교한다. 기존 후보 저장이
+있으면 복사본을 최종 앱으로 열어 이어하기 계약을 검증한 뒤 원본 디렉터리를
+byte-exact로 복원한다.
 
 자동 L1/L2는 전용 `story-choice-m1m6-runtime` 검사, 무인자 전용 홈 진입,
 KO 1280×800·EN 960×600 package smoke, ad-hoc codesign, 앱과 ZIP 내부 app tree,
-launcher·PCK·source contract와 manifest를 검증한다. 패키지의 홈·전환·회고는
-두 언어·두 목표 크기로 캡처하고, 실제 `StoryMode` 선택은 최종 앱에서 직접
-입력으로 확인한다. 이 후보에는 기존 24주·240주·전체 감사를 실행하거나 인용하지
-않는다.
+launcher·PCK·source contract와 manifest를 검증한다. M01 전환과 M06 회고는
+실제 StoryMode 복귀 경계에서 cover alpha·입력 차단 해제를 검사하고,
+패키지 M01 복귀 smoke는 실제 `SceneTransition.go()` 페이드아웃과 장면
+재로드를 거친다. 패키지의 홈·전환·회고는 두 언어·두 목표 크기로
+캡처하고, 실제 `StoryMode` 선택은 최종 앱에서 직접 입력으로 확인한다. 이
+후보에는 기존 24주·240주·전체 감사를 실행하거나 인용하지 않는다.
 
-### 현재 ORDER-124 플레이 후보 (2026-08-24, 사용자 판정 OPEN)
+### 이전 ORDER-124 BUILD 2026.08.24.2 · 검은 전환막 NO-GO
 
 BUILD `2026.08.24.2`는 exact clean revision
 `e9aff5f06c2e3ec3708426156074674a56a4c3f6`, tree
@@ -284,8 +288,41 @@ BUILD `2026.08.24.2`는 exact clean revision
 package self-test `checks=26`과 최종 audit가 PASS했다. packaged recap은 M06까지,
 KO 960×600·EN 1280×800 실제 StoryMode 키보드 선택은 선택 버튼·결과 적용을
 확인했다. KO 실제 경로는 M01 clean과 M02 결과 뒤 M03, 8주·정산 2회·commitment
-0 저장까지 도달했다. `order124_rc`는 active지만 재미와 본편 이관은 사용자의
-M01~M06 정상 속도 L3에서만 닫는다.
+0 저장까지 도달했다. 그러나 `StoryMode`가 후보 controller로 돌아올 때
+opaque `SceneTransition` cover를 걷지 않아 장면 사이가 검게 가려졌고 M06
+회고는 영구히 가려질 수 있었다. 이 BUILD는 기술 NO-GO로 superseded했다.
+기존 manifest/checksum/ZIP은 `build/order124/archive/2026.08.24.2`에 남겼고,
+archive 전체 SHA-256
+`84b5f16dac820fd946240bf72519dea155f1ff49e1724a72aed5d35664916d41`를 후속 빌드
+전후 동일하게 보존한다.
+
+### 현재 ORDER-124 BUILD 2026.08.24.3 (2026-08-24, 사용자 판정 OPEN)
+
+BUILD `2026.08.24.3`은 exact clean revision
+`23f0bd9b7a56a352c9234f95870a98dbf5c728e9`, tree
+`2dcfb0e465f2981b8058ccc03605fa98fca3f746`에서 생성했다. manifest SHA-256은
+`721c9021236c158432be0b3ae47ebcd785f4e4f461b4b05d709b0d71384ca148`, ZIP은
+`b66d72ce97f1d36e7902ccc79a1062e61e6627aa4aa12cdea5eb84f53c362431`, app tree는
+`275f536ad1cf70b138ecda1350ef539fd20de43c904796fe59bada0ff3f194ee`, launcher는
+`2f3b5301c99c78567123b3cf0575ed49c6d1ffb28c8033e213c5a1fdcf259e9e`, PCK는
+`d89a005cd4313aae68140951d1c1067e5c46d0cc28aff2cd6e03871ec10546e0`다.
+
+표적 marker는
+`STORY_CHOICE_M1M6_CHECK_OK months=6 weeks=24 settlements=6 commitments=0 routes=2 save=1 m6=1 returns=2 overlay=1`이다. M01 전환과 M06 회고의 실제 복귀 후 cover·입력이 둘 다
+해제되며, 패키지 M01 실제 복귀는
+`ORDER124_RETURN_SMOKE_OK build=2026.08.24.3 screen=transition month=2 overlay=clear input=clear choices=1 settlements=1`로 확인했다. package self-test `checks=38`과 최종
+`ORDER124_PACKAGE_AUDIT_OK`도 PASS했다.
+
+BUILD `.2`의 사용자 저장 SHA-256
+`fe1d0a0011a1a8d447ce7d46494f2454b3b09ee7c8e2f6596d827a6cd8db734b`는
+`phase=story`, M03, 8주, 정산 2회, 선택 2개 상태다. 최종 `.3` 앱은 복사본을
+`ORDER124_RESUME_SMOKE_OK build=2026.08.24.3 month=3 weeks=8 settlements=2 choices=2 phase=story screen=transition overlay=clear input=clear`로 열었고 원본 저장을 변경하지 않았다.
+
+제품 `project.godot`·`export_presets.cfg`, retail/V2, `demo_rc`, 반려
+ORDER-103 앱·저장·산출물, BUILD `.2` archive, ORDER-124 사용자 디렉터리는
+패키지 검사 전후 byte-exact다. `order124_rc`는 active지만 사용자 L3와 본편
+이관은 OPEN/HOLD다. 이 격리 후보에 기존 24주·240주·전체 감사를 실행하거나
+인용하지 않았다.
 
 ## 4. 자동 스모크
 
