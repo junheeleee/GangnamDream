@@ -4,7 +4,7 @@ extends Control
 signal screen_changed(screen_name: String)
 
 const PROFILE := "order124_m1m6_story_choice"
-const BUILD_ID := "2026.08.24.2"
+const BUILD_ID := "2026.08.24.3"
 const SAVE_SCHEMA := 1
 const SAVE_PATH := "user://story_choice_m1m6_playtest_save.json"
 const STORY_SCENE := "res://scenes/StoryMode.tscn"
@@ -104,12 +104,23 @@ func _ready() -> void:
 		if _load_session(false):
 			# The in-memory GameState owns the just-completed StoryMode choices.
 			_collect_current_month_choices()
-			_close_month(int(_session.get("current_month", 1)))
+			var close_result := _close_month(int(_session.get("current_month", 1)))
+			if not bool(close_result.get("closed", false)):
+				_recover_failed_story_return(close_result)
 		else:
-			_show_home()
+			_show_home(_t(
+				"돌아온 장면의 저장 기록을 열 수 없습니다.",
+				"The returning scene's playtest record could not be opened."))
+		# StoryMode returns behind SceneTransition's fully opaque cover. This
+		# candidate owns the destination scene, so it must also uncover it.
+		SceneTransition.fade_in()
 	else:
 		_show_home()
-	if args.has("--order124-smoke"):
+	if args.has("--order124-return-smoke"):
+		call_deferred("_run_return_smoke")
+	elif args.has("--order124-resume-smoke"):
+		call_deferred("_run_resume_smoke")
+	elif args.has("--order124-smoke"):
 		call_deferred("_run_smoke")
 	elif not _screenshot_path.is_empty():
 		call_deferred("_capture_requested_screen")
@@ -279,6 +290,32 @@ func qa_user_data_contract() -> Dictionary:
 	}
 
 
+func qa_transition_overlay_state() -> Dictionary:
+	var overlay: Variant = SceneTransition.get("_overlay")
+	return {
+		"alpha": float(SceneTransition.get("_transition_alpha")),
+		"blocks_input": overlay is Control \
+			and (overlay as Control).mouse_filter == Control.MOUSE_FILTER_STOP,
+	}
+
+
+func qa_prepare_story_return(choice_index: int) -> bool:
+	# Reproduce StoryMode's ownership boundary for focused checks: the checkpoint
+	# stays in phase=story while the applied choice lives in GameState memory.
+	if _session.is_empty() or str(_session.get("phase", "")) != "transition":
+		return false
+	var story_checkpoint := _session.duplicate(true)
+	story_checkpoint["phase"] = "story"
+	var result := qa_choose_current(choice_index)
+	if not bool(result.get("applied", false)):
+		return false
+	_session = story_checkpoint
+	if not _save_session():
+		return false
+	GameState.returning_from_story = true
+	return true
+
+
 func qa_set_auto_launch(enabled: bool) -> bool:
 	_auto_launch_enabled = enabled
 	if not enabled:
@@ -330,6 +367,32 @@ func _continue_run() -> bool:
 		"recap": _show_recap()
 		_: _show_transition()
 	return true
+
+
+func _recover_failed_story_return(result: Dictionary) -> void:
+	var reason := str(result.get("reason", "unknown"))
+	match reason:
+		"awaiting_choices":
+			# A partial/older checkpoint can safely re-enter only the still-missing
+			# authored scene. Persist collected receipts before showing it.
+			_session["phase"] = "transition"
+			if _save_session():
+				_show_transition(_t(
+					"끝나지 않은 장면부터 다시 이어갑니다.",
+					"Continuing from the unfinished scene."))
+			else:
+				_show_home(_t(
+					"장면 복귀 기록을 저장하지 못했습니다.",
+					"The returning scene record could not be saved."))
+		"already_closed":
+			if qa_current_month() > 6 or str(_session.get("phase", "")) == "recap":
+				_show_recap()
+			else:
+				_show_transition()
+		_:
+			_show_home(_t(
+				"장면 뒤 달을 넘기지 못했습니다. 저장 기록은 유지되었습니다.",
+				"The month could not advance after the scene. The saved record was kept."))
 
 
 func _launch_story() -> void:
@@ -1089,6 +1152,93 @@ func _isolated_user_data_configured() -> bool:
 		return true
 	return OS.get_environment("ORDER124_ALLOW_ISOLATED_QA") == "1" \
 		and configured_name.begins_with("GangnamDream_ORDER124_RuntimeQA_")
+
+
+func _run_return_smoke() -> void:
+	_auto_launch_enabled = false
+	_cancel_transition_auto_launch()
+	AudioManager.sfx_enabled = false
+	if get_tree().has_meta("order124_return_smoke_verify"):
+		get_tree().remove_meta("order124_return_smoke_verify")
+		await get_tree().create_timer(0.70).timeout
+		var overlay := qa_transition_overlay_state()
+		var snapshot := qa_session_snapshot()
+		var choices: Array = snapshot.get("choices", [])
+		var settlements: Array = snapshot.get("settlements", [])
+		var passed := qa_screen() == "transition" \
+			and qa_current_month() == 2 \
+			and int(snapshot.get("elapsed_weeks", -1)) == 4 \
+			and int(snapshot.get("monthly_pressure_count", -1)) == 1 \
+			and choices.size() == 1 and settlements.size() == 1 \
+			and float(overlay.get("alpha", 1.0)) <= 0.01 \
+			and not bool(overlay.get("blocks_input", true))
+		if passed:
+			print("ORDER124_RETURN_SMOKE_OK build=%s screen=transition month=2 overlay=clear input=clear choices=1 settlements=1" % BUILD_ID)
+			_stop_smoke_audio()
+			get_tree().quit(0)
+			return
+		push_error("ORDER124_RETURN_SMOKE: return contract failed screen=%s month=%d snapshot=%s overlay=%s" % [
+			qa_screen(), qa_current_month(), snapshot, overlay])
+		_stop_smoke_audio()
+		get_tree().quit(1)
+		return
+
+	if not qa_start_new_run() or not qa_prepare_story_return(0):
+		push_error("ORDER124_RETURN_SMOKE: could not prepare M01 story return")
+		_stop_smoke_audio()
+		get_tree().quit(1)
+		return
+	get_tree().set_meta("order124_return_smoke_verify", true)
+	# Use the real fade-out and scene reload so the packaged check covers the
+	# exact contract that produced BUILD .2's black screen.
+	SceneTransition.go(SELF_SCENE)
+
+
+func _run_resume_smoke() -> void:
+	_auto_launch_enabled = false
+	_cancel_transition_auto_launch()
+	AudioManager.sfx_enabled = false
+	var saved := _read_session()
+	var saved_canonical := JSON.stringify(saved, "", true)
+	var failures: Array[String] = []
+	if saved.is_empty():
+		failures.append("missing_save")
+	var saved_phase := str(saved.get("phase", ""))
+	if saved_phase not in ["story", "transition", "recap"]:
+		failures.append("phase")
+	if not qa_continue_run():
+		failures.append("continue")
+	var snapshot := qa_session_snapshot()
+	var settlements: Array = snapshot.get("settlements", [])
+	var choices: Array = snapshot.get("choices", [])
+	var closed: Array = snapshot.get("closed_months", [])
+	var month := int(snapshot.get("current_month", 0))
+	var weeks := int(snapshot.get("elapsed_weeks", -1))
+	var settlement_count := int(snapshot.get("monthly_pressure_count", -1))
+	var expected_screen := "recap" if saved_phase == "recap" else "transition"
+	if month < 1 or month > 7: failures.append("month")
+	if weeks != closed.size() * 4: failures.append("weeks")
+	if settlement_count != closed.size() or settlements.size() != closed.size():
+		failures.append("settlements")
+	if qa_screen() != expected_screen: failures.append("screen")
+	if JSON.stringify(_read_session(), "", true) != saved_canonical:
+		failures.append("save_mutated")
+	var overlay := qa_transition_overlay_state()
+	if float(overlay.get("alpha", 1.0)) > 0.01:
+		failures.append("overlay")
+	if bool(overlay.get("blocks_input", true)):
+		failures.append("input")
+	if failures.is_empty():
+		print("ORDER124_RESUME_SMOKE_OK build=%s month=%d weeks=%d settlements=%d choices=%d phase=%s screen=%s overlay=clear input=clear" % [
+			BUILD_ID, month, weeks, settlement_count, choices.size(),
+			saved_phase, qa_screen()])
+		_stop_smoke_audio()
+		get_tree().quit(0)
+		return
+	for failure in failures:
+		push_error("ORDER124_RESUME_SMOKE: %s" % failure)
+	_stop_smoke_audio()
+	get_tree().quit(1)
 
 
 func _run_smoke() -> void:

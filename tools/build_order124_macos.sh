@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-readonly EXPECTED_BUILD_ID="2026.08.24.2"
+readonly EXPECTED_BUILD_ID="2026.08.24.3"
 readonly EXPECTED_GODOT="4.6.2.stable.official.71f334935"
 readonly PROFILE="order124_m1m6_story_choice"
 readonly PRESET_NAME="ORDER-124 M01-M06 Story Choice Playtest"
@@ -12,16 +12,19 @@ readonly BUNDLE_ID="dev.junheelee.gangnamdream.order124storychoice"
 readonly ENTRY_SCENE="res://playtests/order124/StoryChoiceM1M6Playtest.tscn"
 readonly CHECK_SCENE="res://tools/StoryChoiceM1M6Check.tscn"
 readonly CUSTOM_USER_DIR="GangnamDream_ORDER124_StoryChoice_v1"
+readonly CANDIDATE_SAVE_NAME="story_choice_m1m6_playtest_save.json"
 readonly APP_REL="build/order124/macos/GangnamDream-ORDER124-M01M06-StoryChoicePlaytest.app"
 readonly ZIP_REL="build/order124/macos/GangnamDream-ORDER124-M01M06-StoryChoicePlaytest.zip"
 readonly MANIFEST_REL="build/order124/MANIFEST.json"
 readonly CHECKSUM_REL="build/order124/MANIFEST.sha256"
-readonly TARGET_MARKER="STORY_CHOICE_M1M6_CHECK_OK months=6 weeks=24 settlements=6 commitments=0 routes=2 save=1 m6=1"
+readonly TARGET_MARKER="STORY_CHOICE_M1M6_CHECK_OK months=6 weeks=24 settlements=6 commitments=0 routes=2 save=1 m6=1 returns=2 overlay=1"
 readonly NATIVE_MARKER_PREFIX="ORDER124_NATIVE_ENTRY_OK"
 readonly SMOKE_MARKER_PREFIX="ORDER124_WRAPPER_SMOKE_OK"
+readonly RETURN_MARKER_PREFIX="ORDER124_RETURN_SMOKE_OK"
+readonly RESUME_MARKER_PREFIX="ORDER124_RESUME_SMOKE_OK"
 
 usage() {
-  echo "usage: GODOT=/path/to/Godot $0 [--source <commit>] --build-id 2026.08.24.2" >&2
+  echo "usage: GODOT=/path/to/Godot $0 [--source <commit>] --build-id 2026.08.24.3" >&2
 }
 
 SOURCE_REF="HEAD"
@@ -93,6 +96,17 @@ if [[ "$GODOT_VERSION" != "$EXPECTED_GODOT" ]]; then
   exit 1
 fi
 
+ORDER124_BUILD2_ARCHIVE="$PROJECT_DIR/build/order124/archive/2026.08.24.2"
+if [[ ! -d "$ORDER124_BUILD2_ARCHIVE" ]]; then
+  echo "ORDER124_BUILD_FAIL: preserved BUILD 2026.08.24.2 archive is missing" >&2
+  exit 1
+fi
+ORDER124_BUILD2_ARCHIVE_FILES="$(find "$ORDER124_BUILD2_ARCHIVE" -type f | wc -l | tr -d ' ')"
+if [[ "$ORDER124_BUILD2_ARCHIVE_FILES" -lt 3 ]]; then
+  echo "ORDER124_BUILD_FAIL: preserved BUILD 2026.08.24.2 archive is incomplete" >&2
+  exit 1
+fi
+
 TEMP_PARENT="${TMPDIR:-/tmp}"
 case "$(cd "$TEMP_PARENT" 2>/dev/null && pwd -P || true)" in
   "$PROJECT_DIR"|"$PROJECT_DIR"/*) TEMP_PARENT="/tmp" ;;
@@ -117,6 +131,9 @@ NATIVE_LOG="$WORK_DIR/native.log"
 NATIVE_PROBE="$WORK_DIR/native-entry.marker"
 KO_LOG="$WORK_DIR/smoke-ko.log"
 EN_LOG="$WORK_DIR/smoke-en.log"
+RETURN_LOG="$WORK_DIR/return-smoke.log"
+RESUME_LOG="$WORK_DIR/resume-smoke.log"
+RESUME_INPUT_STATE="$WORK_DIR/resume-input-state.json"
 PROTECTED_BEFORE="$WORK_DIR/protected-before.json"
 PROTECTED_AFTER="$WORK_DIR/protected-after.json"
 PROTECTED_RESULT="$WORK_DIR/protected-result.json"
@@ -173,12 +190,12 @@ capture_protected() {
   python3 - "$output_path" "$PROJECT_DIR" \
     "$HOME/Library/Application Support/Godot/app_userdata" \
     "$HOME/Library/Application Support/GangnamDream_ORDER103_M01M06_v1" \
-    "$ORDER124_USER_DATA_DIR" <<'PY'
+    "$ORDER124_USER_DATA_DIR" "$ORDER124_BUILD2_ARCHIVE" <<'PY'
 from __future__ import annotations
 import hashlib, json, os, sys
 from pathlib import Path
 
-output, root, user_root, order103_user, order124_user = map(Path, sys.argv[1:])
+output, root, user_root, order103_user, order124_user, order124_build2_archive = map(Path, sys.argv[1:])
 
 def file_hash(path: Path) -> str:
     digest = hashlib.sha256()
@@ -221,6 +238,7 @@ specs = [
     ("retail_v2_user_save_files", user_root, True, "GangnamDream_ORDER124_StoryChoice_v1", "~/Library/Application Support/Godot/app_userdata"),
     ("order103_candidate_user_dir", order103_user, False, "", "~/Library/Application Support/GangnamDream_ORDER103_M01M06_v1"),
     ("order124_candidate_user_dir", order124_user, False, "", "~/Library/Application Support/GangnamDream_ORDER124_StoryChoice_v1"),
+    ("order124_build2_archive", order124_build2_archive, False, "", "build/order124/archive/2026.08.24.2"),
     ("build_order103", root / "build/order103", False, "", "build/order103"),
     ("build_demo", root / "build/demo", False, "", "build/demo"),
     ("build_playtest", root / "build/playtest", False, "", "build/playtest"),
@@ -248,6 +266,64 @@ if [[ -e "$ORDER124_USER_DATA_DIR" ]]; then
   ORDER124_USER_DATA_EXISTED=1
 fi
 ORDER124_USER_DATA_SNAPSHOT_READY=1
+RESUME_SAVE_BACKUP="$ORDER124_USER_DATA_BACKUP/$CANDIDATE_SAVE_NAME"
+RESUME_APPLICABLE=0
+if [[ -L "$RESUME_SAVE_BACKUP" ]]; then
+  echo "ORDER124_BUILD_FAIL: existing candidate save must not be a symlink" >&2
+  exit 1
+elif [[ -f "$RESUME_SAVE_BACKUP" ]]; then
+  python3 - "$RESUME_SAVE_BACKUP" "$RESUME_INPUT_STATE" "$PROFILE" <<'PY'
+from __future__ import annotations
+import hashlib, json, sys
+from pathlib import Path
+
+save_path, output_path = map(Path, sys.argv[1:3])
+profile = sys.argv[3]
+raw = save_path.read_bytes()
+try:
+    data = json.loads(raw)
+except json.JSONDecodeError as exc:
+    raise SystemExit(f"ORDER124_BUILD_FAIL: existing candidate save is invalid JSON: {exc}")
+if not isinstance(data, dict):
+    raise SystemExit("ORDER124_BUILD_FAIL: existing candidate save root must be an object")
+if int(data.get("schema_version", 0)) != 1 or data.get("profile") != profile:
+    raise SystemExit("ORDER124_BUILD_FAIL: existing candidate save identity drifted")
+if not isinstance(data.get("game_state"), dict):
+    raise SystemExit("ORDER124_BUILD_FAIL: existing candidate save lacks game_state")
+
+def exact_int(key: str) -> int:
+    value = data.get(key)
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or int(value) != value:
+        raise SystemExit(f"ORDER124_BUILD_FAIL: existing candidate save {key} is not an integer")
+    return int(value)
+
+month = exact_int("current_month")
+weeks = exact_int("elapsed_weeks")
+settlements = exact_int("monthly_pressure_count")
+choices = data.get("choices")
+phase = str(data.get("phase", ""))
+if month < 1 or month > 7 or weeks < 0 or settlements < 0:
+    raise SystemExit("ORDER124_BUILD_FAIL: existing candidate save progress is out of range")
+if not isinstance(choices, list) or phase not in {"story", "transition", "recap"}:
+    raise SystemExit("ORDER124_BUILD_FAIL: existing candidate save progress shape drifted")
+payload = {
+    "sha256": hashlib.sha256(raw).hexdigest(),
+    "size_bytes": len(raw),
+    "schema_version": 1,
+    "profile": profile,
+    "month": month,
+    "weeks": weeks,
+    "settlements": settlements,
+    "choices": len(choices),
+    "phase": phase,
+    "screen": "recap" if phase == "recap" else "transition",
+}
+output_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+PY
+  RESUME_APPLICABLE=1
+else
+  printf '{}\n' > "$RESUME_INPUT_STATE"
+fi
 capture_protected "$PROTECTED_BEFORE"
 if [[ -e "$ORDER124_USER_DATA_DIR" || -L "$ORDER124_USER_DATA_DIR" ]]; then
   rm -rf "$ORDER124_USER_DATA_DIR"
@@ -492,6 +568,77 @@ run_godot_prefix_gate "$EN_LOG" "$SMOKE_MARKER_PREFIX" \
   -- --qa=order124 --order124-smoke --order124-language=en
 KO_MARKER="$(grep -E "^${SMOKE_MARKER_PREFIX}([[:space:]]|$)" "$KO_LOG" | tail -n 1)"
 EN_MARKER="$(grep -E "^${SMOKE_MARKER_PREFIX}([[:space:]]|$)" "$EN_LOG" | tail -n 1)"
+
+run_godot_prefix_gate "$RETURN_LOG" "$RETURN_MARKER_PREFIX" \
+  "$LAUNCHER" --rendering-driver opengl3 --resolution 1280x800 \
+  -- --qa=order124 --order124-return-smoke --order124-language=ko
+RETURN_MARKER="$(grep -E "^${RETURN_MARKER_PREFIX}([[:space:]]|$)" "$RETURN_LOG" | tail -n 1)"
+for identity_token in \
+  "build=$BUILD_ID" \
+  "screen=transition" \
+  "month=2" \
+  "overlay=clear" \
+  "input=clear" \
+  "choices=1" \
+  "settlements=1"; do
+  if [[ "$RETURN_MARKER" != *"$identity_token"* ]]; then
+    echo "ORDER124_BUILD_FAIL: story-return smoke marker lacks $identity_token" >&2
+    exit 1
+  fi
+done
+
+RESUME_STATUS="not_applicable"
+RESUME_MARKER=""
+if [[ "$RESUME_APPLICABLE" == "1" ]]; then
+  case "$ORDER124_USER_DATA_DIR" in
+    "$HOME/Library/Application Support/$CUSTOM_USER_DIR") ;;
+    *)
+      echo "ORDER124_BUILD_FAIL: resume-smoke user-data target escaped its exact namespace" >&2
+      exit 1
+      ;;
+  esac
+  if [[ -e "$ORDER124_USER_DATA_DIR" || -L "$ORDER124_USER_DATA_DIR" ]]; then
+    rm -rf "$ORDER124_USER_DATA_DIR"
+  fi
+  mkdir -p "$(dirname "$ORDER124_USER_DATA_DIR")"
+  ditto "$ORDER124_USER_DATA_BACKUP" "$ORDER124_USER_DATA_DIR"
+  run_godot_prefix_gate "$RESUME_LOG" "$RESUME_MARKER_PREFIX" \
+    "$LAUNCHER" --rendering-driver opengl3 --resolution 1280x800 \
+    -- --qa=order124 --order124-resume-smoke --order124-language=ko
+  RESUME_MARKER="$(grep -E "^${RESUME_MARKER_PREFIX}([[:space:]]|$)" "$RESUME_LOG" | tail -n 1)"
+  python3 - "$RESUME_INPUT_STATE" "$RESUME_MARKER" "$RESUME_MARKER_PREFIX" "$BUILD_ID" <<'PY'
+from __future__ import annotations
+import json, sys
+from pathlib import Path
+
+state_path = Path(sys.argv[1])
+marker, prefix, build_id = sys.argv[2:]
+state = json.loads(state_path.read_text(encoding="utf-8"))
+parts = marker.split()
+if not parts or parts[0] != prefix:
+    raise SystemExit("ORDER124_BUILD_FAIL: existing-save resume marker prefix drifted")
+tokens = {}
+for part in parts[1:]:
+    if "=" in part:
+        key, value = part.split("=", 1)
+        tokens[key] = value
+expected = {
+    "build": build_id,
+    "month": str(state["month"]),
+    "weeks": str(state["weeks"]),
+    "settlements": str(state["settlements"]),
+    "choices": str(state["choices"]),
+    "phase": state["phase"],
+    "screen": state["screen"],
+    "overlay": "clear",
+    "input": "clear",
+}
+missing = [f"{key}={value}" for key, value in expected.items() if tokens.get(key) != value]
+if missing:
+    raise SystemExit("ORDER124_BUILD_FAIL: existing-save resume marker drifted: " + ", ".join(missing))
+PY
+  RESUME_STATUS="passed"
+fi
 codesign --verify --deep --strict "$VERIFIED_APP"
 
 restore_candidate_user_data
@@ -560,6 +707,10 @@ export ORDER124_VERIFIED_APP="$FINAL_APP_OUTPUT"
 export ORDER124_NATIVE_MARKER="$NATIVE_MARKER"
 export ORDER124_KO_MARKER="$KO_MARKER"
 export ORDER124_EN_MARKER="$EN_MARKER"
+export ORDER124_RETURN_MARKER="$RETURN_MARKER"
+export ORDER124_RESUME_STATUS="$RESUME_STATUS"
+export ORDER124_RESUME_MARKER="$RESUME_MARKER"
+export ORDER124_RESUME_INPUT_STATE="$RESUME_INPUT_STATE"
 export ORDER124_PROTECTED_RESULT="$PROTECTED_RESULT"
 export ORDER124_FINAL_MANIFEST="$FINAL_MANIFEST"
 python3 - <<'PY'
@@ -617,11 +768,25 @@ for relative in contract_paths:
 app_hash, app_files = tree_digest(app)
 launcher = app / "Contents/MacOS" / stem
 pck = app / "Contents/Resources" / f"{stem}.pck"
+resume_status = os.environ["ORDER124_RESUME_STATUS"]
+resume_applicable = resume_status == "passed"
+resume_input = json.loads(Path(os.environ["ORDER124_RESUME_INPUT_STATE"]).read_text(encoding="utf-8"))
+resume_validation = {
+    "passed": True,
+    "status": resume_status,
+    "applicable": resume_applicable,
+    "source": "pre_build_candidate_snapshot",
+    "save_path": "user://story_choice_m1m6_playtest_save.json",
+    "input_save": resume_input if resume_applicable else None,
+    "marker": os.environ["ORDER124_RESUME_MARKER"],
+}
+if not resume_applicable:
+    resume_validation["reason"] = "no_existing_candidate_save"
 payload = {
     "schema_version": 1,
     "profile": "order124_m1m6_story_choice",
     "game_version": "0.1.0-dev",
-    "build_id": "2026.08.24.2",
+    "build_id": "2026.08.24.3",
     "build_flavor": "order124_story_choice_playtest",
     "timestamps": {
         "started_utc": os.environ["ORDER124_BUILD_STARTED_UTC"],
@@ -654,7 +819,7 @@ payload = {
     "protected": json.loads(Path(os.environ["ORDER124_PROTECTED_RESULT"]).read_text(encoding="utf-8")),
     "validation": {
         "source_import": {"passed": True},
-        "targeted_story_choice": {"passed": True, "scene": "res://tools/StoryChoiceM1M6Check.tscn", "marker": "STORY_CHOICE_M1M6_CHECK_OK months=6 weeks=24 settlements=6 commitments=0 routes=2 save=1 m6=1"},
+        "targeted_story_choice": {"passed": True, "scene": "res://tools/StoryChoiceM1M6Check.tscn", "marker": "STORY_CHOICE_M1M6_CHECK_OK months=6 weeks=24 settlements=6 commitments=0 routes=2 save=1 m6=1 returns=2 overlay=1"},
         "native_export": {"passed": True, "platform": "macOS", "preset": "ORDER-124 M01-M06 Story Choice Playtest"},
         "codesign": {"passed": True, "mode": "ad-hoc", "verification": "--deep --strict"},
         "native_no_argument": {"passed": True, "args": [], "marker": os.environ["ORDER124_NATIVE_MARKER"]},
@@ -662,6 +827,14 @@ payload = {
             {"passed": True, "language": "ko", "size": "1280x800", "marker": os.environ["ORDER124_KO_MARKER"]},
             {"passed": True, "language": "en", "size": "960x600", "marker": os.environ["ORDER124_EN_MARKER"]},
         ],
+        "story_return_black_overlay": {
+            "passed": True,
+            "language": "ko",
+            "size": "1280x800",
+            "args": ["--qa=order124", "--order124-return-smoke", "--order124-language=ko"],
+            "marker": os.environ["ORDER124_RETURN_MARKER"],
+        },
+        "existing_save_resume": resume_validation,
     },
 }
 manifest_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

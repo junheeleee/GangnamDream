@@ -60,6 +60,8 @@ const REQUIRED_QA_METHODS := [
 	"qa_choose_event",
 	"qa_close_month",
 	"qa_repeat_last_close",
+	"qa_prepare_story_return",
+	"qa_transition_overlay_state",
 	"qa_set_auto_launch",
 	"qa_set_language",
 	"qa_visible_text",
@@ -141,11 +143,12 @@ func _run() -> void:
 	_expect(bool(controller.call("qa_set_language", "ko")),
 		"could not select Korean for the full route")
 	_check_visible_surface(controller, "ko home")
+	controller = await _check_m1_story_return_overlay(controller)
 
-	if _start_and_check_m1_route(controller, 1, "fallout"):
+	if controller != null and _start_and_check_m1_route(controller, 1, "fallout"):
 		controller = _check_save_roundtrip(controller)
 		if controller != null:
-			_complete_hostile_route(controller)
+			controller = await _complete_hostile_route(controller)
 	if controller != null:
 		_expect(bool(controller.call("qa_set_language", "en")),
 			"could not select English for recap")
@@ -356,7 +359,56 @@ func _check_save_roundtrip(controller: Node) -> Node:
 	return resumed
 
 
-func _complete_hostile_route(controller: Node) -> void:
+func _check_m1_story_return_overlay(controller: Node) -> Node:
+	_expect(bool(controller.call("qa_start_new_run")),
+		"M01 return regression could not start")
+	_expect(bool(controller.call("qa_prepare_story_return", 0)),
+		"M01 return regression could not prepare its StoryMode checkpoint")
+	controller = await _reload_after_covered_story_return(
+		controller, "M01", "transition", 2)
+	if controller == null:
+		return null
+	var snapshot: Dictionary = controller.call("qa_session_snapshot")
+	_expect(int(snapshot.get("elapsed_weeks", -1)) == 4
+			and int(snapshot.get("monthly_pressure_count", -1)) == 1,
+		"M01 return did not settle exactly four weeks and one pressure cycle")
+	_expect((snapshot.get("choices", []) as Array).size() == 1,
+		"M01 return did not collect exactly one StoryMode receipt")
+	return controller
+
+
+func _reload_after_covered_story_return(
+		controller: Node, label: String, expected_screen: String,
+		expected_month: int) -> Node:
+	var active_tween: Variant = SceneTransition.get("_tween")
+	if active_tween is Tween:
+		(active_tween as Tween).kill()
+	SceneTransition.set("_tween", null)
+	SceneTransition.call("_set_transition_alpha", 1.0)
+	var overlay: Variant = SceneTransition.get("_overlay")
+	if overlay is Control:
+		(overlay as Control).mouse_filter = Control.MOUSE_FILTER_STOP
+	_free_controller(controller)
+	var returned := _new_controller()
+	if returned == null:
+		return null
+	await get_tree().create_timer(0.70).timeout
+	var overlay_state: Dictionary = returned.call("qa_transition_overlay_state")
+	_expect(str(returned.call("qa_screen")) == expected_screen,
+		"%s return opened %s instead of %s" % [
+			label, str(returned.call("qa_screen")), expected_screen])
+	_expect(int(returned.call("qa_current_month")) == expected_month,
+		"%s return reached month %d instead of %d" % [
+			label, int(returned.call("qa_current_month")), expected_month])
+	_expect(float(overlay_state.get("alpha", 1.0)) <= 0.01,
+		"%s return remained behind the black transition cover: %s" % [
+			label, overlay_state])
+	_expect(not bool(overlay_state.get("blocks_input", true)),
+		"%s return left the transition cover blocking player input" % label)
+	return returned
+
+
+func _complete_hostile_route(controller: Node) -> Node:
 	var low_mental_choices := {
 		"arc_temptation_fallout": 0,
 		"arc_daeun_01_meet": 1,
@@ -374,6 +426,15 @@ func _complete_hostile_route(controller: Node) -> void:
 				str(controller.call("qa_current_month")), month])
 		_check_schedule(controller, "fallout")
 		_check_visible_surface(controller, "ko M%02d transition" % month)
+		if month == 6:
+			_expect(bool(controller.call("qa_prepare_story_return", 3)),
+				"M06 return regression could not prepare its StoryMode checkpoint")
+			controller = await _reload_after_covered_story_return(
+				controller, "M06", "recap", 7)
+			if controller == null:
+				return null
+			_check_zero_commitments(controller, "M06 story return")
+			continue
 		var choice_guard := 0
 		while choice_guard < 8:
 			var schedule: Dictionary = controller.call("qa_schedule")
@@ -425,6 +486,7 @@ func _complete_hostile_route(controller: Node) -> void:
 			and bool(flags.get("arc_sangchul_met_seen", false)),
 		"M04 did not complete Sangchul's final answer choice")
 	_check_visible_surface(controller, "ko recap")
+	return controller
 
 
 func _check_close_result(result: Dictionary, month: int) -> void:
@@ -785,7 +847,7 @@ func _finish() -> void:
 	if not _original_game_state.is_empty():
 		_restore_global_state()
 	if _failures.is_empty():
-		print("STORY_CHOICE_M1M6_CHECK_OK months=6 weeks=24 settlements=6 commitments=0 routes=2 save=1 m6=1")
+		print("STORY_CHOICE_M1M6_CHECK_OK months=6 weeks=24 settlements=6 commitments=0 routes=2 save=1 m6=1 returns=2 overlay=1")
 	else:
 		for failure in _failures:
 			push_error("STORY_CHOICE_M1M6_CHECK: %s" % failure)

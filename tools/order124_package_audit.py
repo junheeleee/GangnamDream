@@ -20,7 +20,7 @@ from pathlib import Path, PurePosixPath
 ROOT = Path(__file__).resolve().parents[1]
 PROFILE = "order124_m1m6_story_choice"
 GAME_VERSION = "0.1.0-dev"
-BUILD_ID = "2026.08.24.2"
+BUILD_ID = "2026.08.24.3"
 BUILD_FLAVOR = "order124_story_choice_playtest"
 PRESET = "ORDER-124 M01-M06 Story Choice Playtest"
 APP_STEM = "GangnamDream-ORDER124-M01M06-StoryChoicePlaytest"
@@ -30,10 +30,12 @@ ENTRY_SCENE = "res://playtests/order124/StoryChoiceM1M6Playtest.tscn"
 CHECK_SCENE = "res://tools/StoryChoiceM1M6Check.tscn"
 TARGET_MARKER = (
     "STORY_CHOICE_M1M6_CHECK_OK months=6 weeks=24 settlements=6 "
-    "commitments=0 routes=2 save=1 m6=1"
+    "commitments=0 routes=2 save=1 m6=1 returns=2 overlay=1"
 )
 NATIVE_MARKER_PREFIX = "ORDER124_NATIVE_ENTRY_OK"
 SMOKE_MARKER_PREFIX = "ORDER124_WRAPPER_SMOKE_OK"
+RETURN_MARKER_PREFIX = "ORDER124_RETURN_SMOKE_OK"
+RESUME_MARKER_PREFIX = "ORDER124_RESUME_SMOKE_OK"
 EXPECTED_GODOT = "4.6.2.stable.official.71f334935"
 APP_REL = f"build/order124/macos/{APP_STEM}.app"
 ZIP_REL = f"build/order124/macos/{APP_STEM}.zip"
@@ -62,6 +64,7 @@ PROTECTED_LABELS = {
     "retail_v2_user_save_files",
     "order103_candidate_user_dir",
     "order124_candidate_user_dir",
+    "order124_build2_archive",
     "build_order103",
     "build_demo",
     "build_playtest",
@@ -114,10 +117,23 @@ def section_values(text: str, section: str) -> dict[str, str]:
     return values
 
 
+def marker_tokens(marker: str, prefix: str) -> dict[str, str] | None:
+    parts = marker.split()
+    if not parts or parts[0] != prefix:
+        return None
+    values: dict[str, str] = {}
+    for part in parts[1:]:
+        if "=" in part:
+            key, value = part.split("=", 1)
+            values[key] = value
+    return values
+
+
 def source_self_test(root: Path) -> tuple[list[str], int]:
     errors: list[str] = []
     build_path = root / "tools/build_order124_macos.sh"
     audit_path = root / "tools/order124_package_audit.py"
+    controller_path = root / "playtests/order124/StoryChoiceM1M6Playtest.gd"
     for path in (root / relative for relative in SOURCE_CONTRACT):
         if not path.is_file():
             errors.append(f"missing source contract file: {path.relative_to(root)}")
@@ -147,11 +163,19 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
         "codesign --force --deep --sign -",
         "ORDER124_NATIVE_PROBE_PATH",
         "--order124-smoke",
+        "--order124-return-smoke",
+        "--order124-resume-smoke",
         "--qa=order124",
         TARGET_MARKER,
+        RETURN_MARKER_PREFIX,
+        RESUME_MARKER_PREFIX,
         APP_REL,
         "restore_candidate_user_data",
         "order124_candidate_user_dir",
+        "order124_build2_archive",
+        "build/order124/archive/2026.08.24.2",
+        "pre_build_candidate_snapshot",
+        "no_existing_candidate_save",
         "tools/audit_scope.json",
         ".json.bak",
         "capture_protected",
@@ -161,6 +185,17 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
     for token in required_tokens:
         if token not in build_text:
             errors.append(f"build script missing required contract token: {token}")
+
+    controller_tokens = (
+        "--order124-return-smoke",
+        "--order124-resume-smoke",
+        RETURN_MARKER_PREFIX,
+        RESUME_MARKER_PREFIX,
+    )
+    controller_text = controller_path.read_text(encoding="utf-8")
+    for token in controller_tokens:
+        if token not in controller_text:
+            errors.append(f"ORDER-124 controller missing package-smoke token: {token}")
 
     project = section_values((root / "project.godot").read_text(encoding="utf-8"), "application")
     if project.get("run/main_scene") != "res://scenes/SplashScreen.tscn":
@@ -196,7 +231,7 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
             for relative in pair:
                 if not (root / relative).is_file():
                     errors.append(f"incomplete ORDER-124 source pair: {relative}")
-    return errors, len(required_tokens)
+    return errors, len(required_tokens) + len(controller_tokens)
 
 
 def validate_manifest_shape(payload: dict, errors: list[str]) -> None:
@@ -315,12 +350,17 @@ def audit_manifest(path: Path) -> list[str]:
             errors.append(f"protected before/after mismatch: {row.get('label')}")
         if not HASH_RE.fullmatch(str(before.get("sha256", ""))):
             errors.append(f"protected {row.get('label')} lacks SHA-256")
+        if row.get("label") == "order124_build2_archive" and (
+            not before.get("exists") or int(before.get("file_count", 0)) < 3
+        ):
+            errors.append("protected BUILD 2026.08.24.2 archive is incomplete")
     expected_protected_paths = {
         "product_project_godot": "project.godot",
         "product_export_presets": "export_presets.cfg",
         "retail_v2_user_save_files": "~/Library/Application Support/Godot/app_userdata",
         "order103_candidate_user_dir": "~/Library/Application Support/GangnamDream_ORDER103_M01M06_v1",
         "order124_candidate_user_dir": "~/Library/Application Support/GangnamDream_ORDER124_StoryChoice_v1",
+        "order124_build2_archive": "build/order124/archive/2026.08.24.2",
         "build_order103": "build/order103",
         "build_demo": "build/demo",
         "build_playtest": "build/playtest",
@@ -501,6 +541,113 @@ def audit_manifest(path: Path) -> list[str]:
                 errors.append(
                     f"package smoke marker does not prove {language} at {size}"
                 )
+
+        story_return = validation.get("story_return_black_overlay", {})
+        expected_return_args = [
+            "--qa=order124",
+            "--order124-return-smoke",
+            "--order124-language=ko",
+        ]
+        if not isinstance(story_return, dict):
+            errors.append("story-return black-overlay smoke evidence must be an object")
+        else:
+            if (
+                story_return.get("passed") is not True
+                or story_return.get("language") != "ko"
+                or story_return.get("size") != "1280x800"
+                or story_return.get("args") != expected_return_args
+            ):
+                errors.append("story-return black-overlay smoke contract drifted")
+            return_values = marker_tokens(
+                str(story_return.get("marker", "")), RETURN_MARKER_PREFIX
+            )
+            expected_return = {
+                "build": BUILD_ID,
+                "screen": "transition",
+                "month": "2",
+                "overlay": "clear",
+                "input": "clear",
+                "choices": "1",
+                "settlements": "1",
+            }
+            if return_values is None:
+                errors.append("story-return black-overlay smoke marker prefix drifted")
+            else:
+                for key, value in expected_return.items():
+                    if return_values.get(key) != value:
+                        errors.append(
+                            f"story-return black-overlay smoke marker lacks {key}={value}"
+                        )
+
+        resume = validation.get("existing_save_resume", {})
+        if not isinstance(resume, dict):
+            errors.append("existing-save resume evidence must be an object")
+        elif (
+            resume.get("passed") is not True
+            or resume.get("source") != "pre_build_candidate_snapshot"
+            or resume.get("save_path")
+            != "user://story_choice_m1m6_playtest_save.json"
+        ):
+            errors.append("existing-save resume contract drifted")
+        else:
+            status = resume.get("status")
+            applicable = resume.get("applicable")
+            if status == "not_applicable":
+                if (
+                    applicable is not False
+                    or resume.get("reason") != "no_existing_candidate_save"
+                    or resume.get("input_save") is not None
+                    or resume.get("marker") != ""
+                ):
+                    errors.append("not-applicable existing-save resume evidence drifted")
+            elif status == "passed":
+                input_save = resume.get("input_save", {})
+                if applicable is not True or not isinstance(input_save, dict):
+                    errors.append("applicable existing-save resume evidence is incomplete")
+                else:
+                    numeric_keys = ("month", "weeks", "settlements", "choices")
+                    for key in numeric_keys:
+                        value = input_save.get(key)
+                        if isinstance(value, bool) or not isinstance(value, int):
+                            errors.append(f"existing-save input {key} must be an integer")
+                    if not HASH_RE.fullmatch(str(input_save.get("sha256", ""))):
+                        errors.append("existing-save input lacks SHA-256")
+                    if (
+                        not isinstance(input_save.get("size_bytes"), int)
+                        or input_save.get("size_bytes", 0) <= 0
+                        or input_save.get("schema_version") != 1
+                        or input_save.get("profile") != PROFILE
+                    ):
+                        errors.append("existing-save input identity drifted")
+                    phase = str(input_save.get("phase", ""))
+                    screen = str(input_save.get("screen", ""))
+                    expected_screen = "recap" if phase == "recap" else "transition"
+                    if phase not in {"story", "transition", "recap"} or screen != expected_screen:
+                        errors.append("existing-save input phase/screen contract drifted")
+                    resume_values = marker_tokens(
+                        str(resume.get("marker", "")), RESUME_MARKER_PREFIX
+                    )
+                    if resume_values is None:
+                        errors.append("existing-save resume marker prefix drifted")
+                    else:
+                        expected_resume = {
+                            "build": BUILD_ID,
+                            "month": str(input_save.get("month")),
+                            "weeks": str(input_save.get("weeks")),
+                            "settlements": str(input_save.get("settlements")),
+                            "choices": str(input_save.get("choices")),
+                            "phase": phase,
+                            "screen": screen,
+                            "overlay": "clear",
+                            "input": "clear",
+                        }
+                        for key, value in expected_resume.items():
+                            if resume_values.get(key) != value:
+                                errors.append(
+                                    f"existing-save resume marker lacks {key}={value}"
+                                )
+            else:
+                errors.append(f"existing-save resume status drifted: {status!r}")
 
     checksum = artifact_root / CHECKSUM_REL
     if not checksum.is_file():
