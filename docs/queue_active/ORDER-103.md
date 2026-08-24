@@ -4,6 +4,35 @@
 
 #### [~] ORDER-103 [P0·플레이 표본] M01~M06 월간 약속을 직접 고르는 독립 체험판을 만든다
 
+**실행 후보 범위 보정 (2026-08-24 사용자 승인):** BUILD `2026.08.22.1`의
+active `demo_rc`는 기존 숫자 여력 네 장을 쓰는 W1~24 `seoul_cycle_v1`
+기준선이며, 이 오더의 장면 카드·`주력/함께` 선택판이 아니다. 두 후보를 다시
+`데모`라는 한 이름으로 안내하지 않는다. ORDER-103 사람 판정은 clean source의
+`tools/StoryMapM1M6Playtest.tscn`만 직접 여는 **전용 macOS `order103_rc`**에서
+진행한다. 기존 `demo_rc`, 고정 BUILD `.3`, full 후보의 상태와 용도는 바꾸지 않는다.
+
+전용 후보는 저장소 밖 파생 산출물이다. 고정된 clean commit/tree, Godot 버전,
+진입 scene, launcher/app/zip SHA-256, 생성 시각, 전용 사용자 데이터 경로를
+매니페스트에 기록한다. Finder에서 인자 없이 실행하면 위 scene만 열고, wrapper
+staging의 고유 `application/config/custom_user_dir_name`이 만든 전용 사용자 데이터
+디렉터리에서 이 앱이 직접 소유하는 save JSON은
+`story_map_m1m6_playtest_autosave.json` 하나뿐이다. Godot 자체 log·shader cache는
+이 판정에서 save로 세지 않는다. `project.godot`,
+`export_presets.cfg`, `StartMenu`, `MainGame`, `BuildFlavor`, `GameState`,
+`SaveManager`, 기존 retail/V2 저장은 source와 후보 생성 전후 byte-exact로 둔다.
+
+재현 가능한 후보 생성·검증 source로 `tools/build_order103_macos.sh`,
+`tools/order103_export/project.godot`, `tools/order103_export/export_presets.cfg`,
+`tools/order103_export/Entry.tscn`, `tools/order103_export/Entry.gd`,
+`tools/order103_export/AudioManagerStub.gd`, `tools/order103_export/resources.txt`,
+`tools/order103_package_audit.py`, `tools/audit_scope.json`을 추가 소유한다. 후보 등록·
+마감 문서로 `docs/human_gates.json`, `docs/STATUS.md`, `CLAUDE.md`,
+`docs/CODEX_QUEUE.md`, `docs/BUILD_PIPELINE.md`, 이 사양, `docs/WORK_LOG.md`만 추가
+소유한다. 먼저 이 사양과 큐만 선언 커밋하고, source-backed 앱의 KO/EN·
+960×600·1280×800·마우스·키보드·패드·저장 재개 L2와 no-argument native smoke가 끝나기 전에는
+`release_candidates.order103_rc`를 `active`로 바꾸지 않는다. 기존 24주·240주
+검사는 이 후보의 증거로 실행하거나 인용하지 않는다.
+
 **사용자 승인 (2026-08-15):** 형식적인 순서 맞추기가 아니라 실제로 무엇을
 지키고 무엇을 놓칠지 고민하게 만들어야 한다. ORDER-102의 M01~M06 전략 증명이
 끝났으므로 이제 그 규칙을 직접 눌러 보고 판단할 수 있는 작은 실물을 만든다.
