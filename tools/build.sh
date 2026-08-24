@@ -6,6 +6,7 @@
 ##   ./tools/build.sh windows  → build/windows/GangnamDream.exe (Steam용)
 ##   ./tools/build.sh demo     → legacy 데모 계약 + Win/macOS/Linux 데모 + 체크섬
 ##   ./tools/build.sh playtest → V2 계약 + Win/macOS/Linux playtest + 체크섬
+##   ./tools/build.sh full-rc  → clean full Win/macOS/Linux + 통합 체크섬
 ##   ./tools/build.sh all      → 전부
 ##
 ## 전제조건:
@@ -128,6 +129,44 @@ prepare_playtest_imports() {
   echo "✅ clean checkout import 완료"
 }
 
+require_fresh_import_cache() {
+  if [[ -e "$PROJECT_DIR/.godot" ]]; then
+    echo "❌ full RC fresh import 거부: 시작 전에 .godot 캐시가 이미 존재합니다."
+    echo "   새 clean worktree에서 다시 발급하세요."
+    exit 1
+  fi
+}
+
+run_retail_export() {
+  local preset="$1"
+  local artifact="$2"
+  local output
+  local exit_code=0
+  rm -f -- "$artifact"
+  if output=$("$GODOT" --headless --path "$PROJECT_DIR" --export-release \
+      "$preset" "$artifact" 2>&1); then
+    exit_code=0
+  else
+    exit_code=$?
+  fi
+  echo "$output"
+  local export_errors
+  export_errors=$(echo "$output" | grep -E \
+    "SCRIPT ERROR|Parse Error|Compile Error|Failed to load script|Failed loading resource|ERROR:" || true)
+  if [[ "$exit_code" -ne 0 || -n "$export_errors" || ! -f "$artifact" ]]; then
+    echo "❌ retail export 실패: preset=$preset exit=$exit_code artifact=$artifact"
+    return 1
+  fi
+}
+
+clear_full_rc_receipts() {
+  rm -f -- \
+    "$PROJECT_DIR/build/windows/MANIFEST.sha256" \
+    "$PROJECT_DIR/build/macos/MANIFEST.sha256" \
+    "$PROJECT_DIR/build/linux/MANIFEST.sha256" \
+    "$PROJECT_DIR/build/full_rc/MANIFEST.sha256"
+}
+
 finalize_macos_archive() {
   local archive="$1"
   local bundle_stem="$2"
@@ -209,6 +248,7 @@ if [[ ! -d "$TEMPLATES_DIR" ]]; then
   TEMPLATES_DIR="$HOME/.local/share/godot/export_templates"
 fi
 if [[ "$TARGET" != "demo-check" && "$TARGET" != "playtest-check" \
+    && "$TARGET" != "full-rc-self-test" \
     && -z "$(ls "$TEMPLATES_DIR" 2>/dev/null)" ]]; then
   echo ""
   echo "⚠️  Export Templates가 설치되지 않았습니다."
@@ -242,7 +282,7 @@ build_macos() {
   echo ""
   echo "🍎 macOS 빌드 시작..."
   mkdir -p "$PROJECT_DIR/build/macos"
-  "$GODOT" --headless --path "$PROJECT_DIR" --export-release "macOS" "$PROJECT_DIR/build/macos/GangnamDream.zip" 2>&1
+  run_retail_export "macOS" "$PROJECT_DIR/build/macos/GangnamDream.zip"
   if [[ -f "$PROJECT_DIR/build/macos/GangnamDream.zip" ]]; then
     finalize_macos_archive "$PROJECT_DIR/build/macos/GangnamDream.zip" \
       "GangnamDream"
@@ -259,7 +299,7 @@ build_windows() {
   echo ""
   echo "🪟 Windows 빌드 시작..."
   mkdir -p "$PROJECT_DIR/build/windows"
-  "$GODOT" --headless --path "$PROJECT_DIR" --export-release "Windows" "$PROJECT_DIR/build/windows/GangnamDream.exe" 2>&1
+  run_retail_export "Windows" "$PROJECT_DIR/build/windows/GangnamDream.exe"
   if [[ -f "$PROJECT_DIR/build/windows/GangnamDream.exe" ]]; then
     write_retail_manifest "windows" "$PROJECT_DIR/build/windows/GangnamDream.exe"
     SIZE=$(du -sh "$PROJECT_DIR/build/windows/" | cut -f1)
@@ -277,7 +317,7 @@ build_linux() {
   echo ""
   echo "🐧 Linux / Steam Deck 빌드 시작..."
   mkdir -p "$PROJECT_DIR/build/linux"
-  "$GODOT" --headless --path "$PROJECT_DIR" --export-release "Linux / Steam Deck" "$PROJECT_DIR/build/linux/GangnamDream.x86_64" 2>&1
+  run_retail_export "Linux / Steam Deck" "$PROJECT_DIR/build/linux/GangnamDream.x86_64"
   if [[ -f "$PROJECT_DIR/build/linux/GangnamDream.x86_64" ]]; then
     chmod +x "$PROJECT_DIR/build/linux/GangnamDream.x86_64"
     write_retail_manifest "linux" "$PROJECT_DIR/build/linux/GangnamDream.x86_64"
@@ -461,6 +501,34 @@ write_retail_manifest() {
     --manifest "full=$manifest"
 }
 
+write_full_rc_manifest() {
+  local manifest="$PROJECT_DIR/build/full_rc/MANIFEST.sha256"
+  local revision
+  local tree
+  mkdir -p "$PROJECT_DIR/build/full_rc"
+  revision=$(git -C "$PROJECT_DIR" rev-parse HEAD)
+  tree=$(git -C "$PROJECT_DIR" rev-parse 'HEAD^{tree}')
+  {
+    echo "# Gangnam Dream full release candidate"
+    echo "# profile=full"
+    write_identity_header "full" "legacy" "none"
+    echo "# revision=$revision"
+    echo "# tree=$tree"
+    echo "# source_status=clean"
+    echo "# godot=$("$GODOT" --version 2>&1 | head -1)"
+    echo "# generated_utc=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+    for artifact in \
+      "$PROJECT_DIR/build/windows/GangnamDream.exe" \
+      "$PROJECT_DIR/build/macos/GangnamDream.zip" \
+      "$PROJECT_DIR/build/linux/GangnamDream.x86_64"; do
+      shasum -a 256 "$artifact" | sed "s|$PROJECT_DIR/||"
+    done
+  } > "$manifest"
+  python3 "$PROJECT_DIR/tools/build_identity_audit.py" \
+    --require-full-rc-manifest "$manifest"
+  echo "✅ full RC 통합 체크섬 매니페스트 → build/full_rc/MANIFEST.sha256"
+}
+
 write_demo_manifest() {
   local manifest="$PROJECT_DIR/build/demo/MANIFEST.sha256"
   local revision="unknown"
@@ -547,6 +615,62 @@ build_playtest() {
   write_playtest_manifest
 }
 
+build_full_rc() {
+  require_clean_playtest_source
+  require_current_package_build_id
+  require_fresh_import_cache
+  clear_full_rc_receipts
+  prepare_playtest_imports
+  require_clean_playtest_source
+  build_windows
+  build_macos
+  build_linux
+  require_clean_playtest_source
+  write_full_rc_manifest
+  require_clean_playtest_source
+}
+
+run_full_rc_export_guard_self_test() {
+  local test_root
+  test_root=$(mktemp -d "${TMPDIR:-/tmp}/gangnam-full-rc-guard.XXXXXX")
+  PROJECT_DIR="$test_root"
+  GODOT="$test_root/mock-godot"
+  mkdir -p "$PROJECT_DIR/build/windows"
+  printf '%s\n' \
+    '#!/bin/bash' \
+    'artifact="${@: -1}"' \
+    'case "${MOCK_GODOT_MODE:-}" in' \
+    '  no_write) exit 0 ;;' \
+    '  error) mkdir -p "$(dirname "$artifact")"; printf fresh > "$artifact"; echo "SCRIPT ERROR: synthetic export failure"; exit 0 ;;' \
+    '  success) mkdir -p "$(dirname "$artifact")"; printf fresh > "$artifact"; exit 0 ;;' \
+    '  *) exit 9 ;;' \
+    'esac' > "$GODOT"
+  chmod +x "$GODOT"
+  local artifact="$PROJECT_DIR/build/windows/GangnamDream.exe"
+  printf 'stale' > "$artifact"
+  export MOCK_GODOT_MODE=no_write
+  if run_retail_export "Windows" "$artifact" >/dev/null 2>&1; then
+    echo "FULL_RC_EXPORT_GUARD_SELF_TEST_FAIL stale artifact accepted"
+    rm -rf -- "$test_root"
+    return 1
+  fi
+  export MOCK_GODOT_MODE=error
+  if run_retail_export "Windows" "$artifact" >/dev/null 2>&1; then
+    echo "FULL_RC_EXPORT_GUARD_SELF_TEST_FAIL error output accepted"
+    rm -rf -- "$test_root"
+    return 1
+  fi
+  export MOCK_GODOT_MODE=success
+  if ! run_retail_export "Windows" "$artifact" >/dev/null 2>&1; then
+    echo "FULL_RC_EXPORT_GUARD_SELF_TEST_FAIL valid fresh artifact rejected"
+    rm -rf -- "$test_root"
+    return 1
+  fi
+  unset MOCK_GODOT_MODE
+  rm -rf -- "$test_root"
+  echo "FULL_RC_EXPORT_GUARD_SELF_TEST_OK cases=3 stale=removed errors=rejected"
+}
+
 case "$TARGET" in
   web)     build_web ;;
   macos)   build_macos ;;
@@ -562,9 +686,11 @@ case "$TARGET" in
   linux-playtest) run_demo_contract; run_playtest_contract; build_linux_playtest ;;
   demo)     build_demo ;;
   playtest) build_playtest ;;
+  full-rc)  build_full_rc ;;
+  full-rc-self-test) run_full_rc_export_guard_self_test ;;
   all)     build_web; build_macos; build_windows; build_linux ;;
   *)
-    echo "사용법: $0 [web|macos|windows|linux|all|demo|demo-check|windows-demo|macos-demo|linux-demo|playtest|playtest-check|windows-playtest|macos-playtest|linux-playtest]"
+    echo "사용법: $0 [web|macos|windows|linux|all|full-rc|full-rc-self-test|demo|demo-check|windows-demo|macos-demo|linux-demo|playtest|playtest-check|windows-playtest|macos-playtest|linux-playtest]"
     exit 1
     ;;
 esac

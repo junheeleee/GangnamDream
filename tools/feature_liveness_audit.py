@@ -45,7 +45,10 @@ def scripts() -> list[Path]:
 
 def searchable_text() -> dict[Path, str]:
     out: dict[Path, str] = {}
-    for pattern in ("*.gd", "*.tscn", "*.tres", "*.cfg"):
+    # Nested staging projects own real autoload and main-scene references too.
+    # Scanning only the repository-root project.godot falsely marks those
+    # scripts as dead even though their isolated export project loads them.
+    for pattern in ("*.gd", "*.tscn", "*.tres", "*.cfg", "*.godot"):
         for path in ROOT.rglob(pattern):
             if ".godot" in path.parts:
                 continue

@@ -8,6 +8,7 @@ func _ready() -> void:
 	var total: Array = [0]
 	_scan("res://", total)
 	print("COMPILE_SCAN total=%d (verdict from stderr)" % total[0])
+	print("COMPILE_CHECK_OK total=%d stderr_verdict=required" % total[0])
 	get_tree().quit(0)
 
 func _scan(dir: String, total: Array) -> void:

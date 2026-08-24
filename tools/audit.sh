@@ -1202,14 +1202,19 @@ if [ -x "$GODOT" ]; then
   # 2) 씬 부팅으로 전 스크립트 강제 컴파일
   RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/CompileCheck.tscn 2>&1)
   GD_STATUS=$?
-  echo "$RAW" | grep -E "COMPILE_SCAN" | sed 's/^/  /'
+  echo "$RAW" | grep -E "COMPILE_SCAN|COMPILE_CHECK_OK" | sed 's/^/  /'
+  COMPILE_MARKER_COUNT=$(echo "$RAW" \
+    | grep -Ec '^COMPILE_CHECK_OK total=[0-9]+ stderr_verdict=required$' || true)
   GD_OUT=$(echo "$RAW" | grep -v "COMPILE_SCAN" \
     | grep -iE "ERROR:|SCRIPT ERROR|Failed to load script|Parse Error|Compile Error" \
     | grep -viE "Cannot open|No loader|\.png|\.ogg|\.mp3|AudioStream|texture|\.import")
-  if [ "$GD_STATUS" -ne 0 ] || [ -n "$GD_OUT" ]; then
+  if [ "$GD_STATUS" -ne 0 ] || [ "$COMPILE_MARKER_COUNT" -ne 1 ] || [ -n "$GD_OUT" ]; then
     echo "  ✗ 컴파일 에러:"
     if [ "$GD_STATUS" -ne 0 ]; then
       echo "    Godot 종료코드: $GD_STATUS"
+    fi
+    if [ "$COMPILE_MARKER_COUNT" -ne 1 ]; then
+      echo "    COMPILE_CHECK_OK exact marker 수: $COMPILE_MARKER_COUNT (필수: 1)"
     fi
     echo "$GD_OUT" | sed 's/^/    /' | head -20
     GD_EXIT=1

@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import datetime
 import hashlib
+import os
 import re
 import subprocess
 import sys
@@ -26,6 +27,25 @@ IDENTITY_FIELDS = (
     "save_namespace",
 )
 PROFILE_ARTIFACT_COUNTS = {"full": 1, "demo": 3, "playtest": 3}
+FULL_RC_ARTIFACT_PATHS = (
+    "build/windows/GangnamDream.exe",
+    "build/macos/GangnamDream.zip",
+    "build/linux/GangnamDream.x86_64",
+)
+FULL_RC_STAGE_SEQUENCE = (
+    "require_clean_playtest_source",
+    "require_current_package_build_id",
+    "require_fresh_import_cache",
+    "clear_full_rc_receipts",
+    "prepare_playtest_imports",
+    "require_clean_playtest_source",
+    "build_windows",
+    "build_macos",
+    "build_linux",
+    "require_clean_playtest_source",
+    "write_full_rc_manifest",
+    "require_clean_playtest_source",
+)
 PRESET_FEATURES = {
     "Windows": "",
     "macOS": "",
@@ -228,6 +248,23 @@ def artifact_file_errors(
     return errors
 
 
+def full_rc_manifest_errors(
+    values: dict[str, str], checksum_rows: list[tuple[str, str]]
+) -> list[str]:
+    """Require one clean manifest for the three native full-RC artifacts."""
+    errors = manifest_errors("full", values, checksum_rows)
+    if values.get("source_status") != "clean":
+        errors.append("full_rc: source_status must be clean")
+    actual_paths = tuple(raw_path for _digest, raw_path in checksum_rows)
+    if actual_paths != FULL_RC_ARTIFACT_PATHS:
+        errors.append(
+            "full_rc: artifact paths/order mismatch: "
+            f"actual={list(actual_paths)!r} "
+            f"expected={list(FULL_RC_ARTIFACT_PATHS)!r}"
+        )
+    return errors
+
+
 def git_value(*args: str) -> str:
     return subprocess.check_output(
         ["git", "-C", str(ROOT), *args], text=True
@@ -362,6 +399,9 @@ def build_script_errors(build_script: str) -> list[str]:
             r'\s*(?:\\\s*)?'
             r'--manifest\s+"playtest=\$manifest"'
         ),
+        "full RC aggregate manifest audit": (
+            r'^\s*--require-full-rc-manifest\s+"\$manifest"'
+        ),
         "playtest feature header": (
             r'write_identity_header\s+"\$GD_PLAYTEST_FLAVOR"\s+'
             r'"\$GD_PLAYTEST_NAMESPACE"\s*(?:\\\s*)?'
@@ -392,7 +432,7 @@ def build_script_errors(build_script: str) -> list[str]:
         date_guard.group("body") if date_guard else "",
     ):
         errors.append("build.sh malformed or missing package build-id date guard")
-    for aggregate in ("build_demo", "build_playtest"):
+    for aggregate in ("build_demo", "build_playtest", "build_full_rc"):
         function = re.search(
             rf'^{aggregate}\(\) \{{\n(?P<body>.*?)^\}}\s*$',
             build_script,
@@ -404,6 +444,63 @@ def build_script_errors(build_script: str) -> list[str]:
             flags=re.MULTILINE,
         ):
             errors.append(f"build.sh {aggregate} omitted package build-id date guard")
+    full_rc_function = re.search(
+        r'^build_full_rc\(\) \{\n(?P<body>.*?)^\}\s*$',
+        build_script,
+        flags=re.MULTILINE | re.DOTALL,
+    )
+    full_rc_body = full_rc_function.group("body") if full_rc_function else ""
+    actual_full_rc_stages = tuple(
+        line.strip()
+        for line in full_rc_body.splitlines()
+        if re.fullmatch(r"[a-z_]+", line.strip())
+    )
+    if actual_full_rc_stages != FULL_RC_STAGE_SEQUENCE:
+        errors.append(
+            "build.sh build_full_rc stage sequence mismatch: "
+            f"actual={actual_full_rc_stages!r} "
+            f"expected={FULL_RC_STAGE_SEQUENCE!r}"
+        )
+    full_rc_manifest = re.search(
+        r'^write_full_rc_manifest\(\) \{\n(?P<body>.*?)^\}\s*$',
+        build_script,
+        flags=re.MULTILINE | re.DOTALL,
+    )
+    full_rc_manifest_body = (
+        full_rc_manifest.group("body") if full_rc_manifest else ""
+    )
+    for artifact_path in FULL_RC_ARTIFACT_PATHS:
+        expected = f'$PROJECT_DIR/{artifact_path}'
+        if expected not in full_rc_manifest_body:
+            errors.append(
+                f"build.sh full RC manifest omitted artifact {artifact_path}"
+            )
+    export_guard = re.search(
+        r'^run_retail_export\(\) \{\n(?P<body>.*?)^\}\s*$',
+        build_script,
+        flags=re.MULTILINE | re.DOTALL,
+    )
+    export_guard_body = export_guard.group("body") if export_guard else ""
+    for guard_token in (
+        'rm -f -- "$artifact"',
+        "SCRIPT ERROR|Parse Error|Compile Error|Failed to load script|Failed loading resource|ERROR:",
+        '"$exit_code" -ne 0',
+        '! -f "$artifact"',
+    ):
+        if guard_token not in export_guard_body:
+            errors.append(f"build.sh retail export guard omitted {guard_token}")
+    for function_name, invocation in (
+        ("build_windows", 'run_retail_export "Windows"'),
+        ("build_macos", 'run_retail_export "macOS"'),
+        ("build_linux", 'run_retail_export "Linux / Steam Deck"'),
+    ):
+        function = re.search(
+            rf'^{function_name}\(\) \{{\n(?P<body>.*?)^\}}\s*$',
+            build_script,
+            flags=re.MULTILINE | re.DOTALL,
+        )
+        if function is None or invocation not in function.group("body"):
+            errors.append(f"build.sh {function_name} bypasses retail export guard")
     return errors
 
 
@@ -474,6 +571,31 @@ def run_self_test() -> list[str]:
         malformed_rows[0] = ("short", malformed_rows[0][1])
         if not manifest_errors(profile, baseline, malformed_rows):
             failures.append(f"{profile}: malformed artifact checksum accepted")
+    full_rc_baseline = expected_profile("full")
+    full_rc_baseline.update(
+        {
+            "profile": "full",
+            "source_status": "clean",
+            "revision": "d" * 40,
+            "tree": "e" * 40,
+            "godot": EXPECTED_GODOT_VERSION,
+            "generated_utc": "2026-08-24T00:00:00Z",
+        }
+    )
+    full_rc_rows = [
+        (str(index) * 64, path)
+        for index, path in enumerate(FULL_RC_ARTIFACT_PATHS, start=1)
+    ]
+    if full_rc_manifest_errors(full_rc_baseline, full_rc_rows):
+        failures.append("full_rc: valid aggregate fixture rejected")
+    for label, mutated_rows in (
+        ("missing artifact", full_rc_rows[:-1]),
+        ("extra artifact", [*full_rc_rows, ("4" * 64, "build/extra.bin")]),
+        ("wrong order", [full_rc_rows[1], full_rc_rows[0], full_rc_rows[2]]),
+        ("wrong path", [full_rc_rows[0], full_rc_rows[1], ("3" * 64, "build/linux/wrong")]),
+    ):
+        if not full_rc_manifest_errors(full_rc_baseline, mutated_rows):
+            failures.append(f"full_rc: {label} accepted")
     # Exercise the parser as well, so comment formatting cannot silently drift.
     with tempfile.TemporaryDirectory(prefix="gangnam-build-id-") as tmp:
         fixture = Path(tmp) / "MANIFEST.sha256"
@@ -529,6 +651,13 @@ def run_self_test() -> list[str]:
             "build_playtest() {\n  require_clean_playtest_source\n"
             "  require_current_package_build_id"
         ),
+        "full RC package build-id date guard": (
+            "build_full_rc() {\n  require_clean_playtest_source\n"
+            "  require_current_package_build_id"
+        ),
+        "full RC aggregate manifest audit": (
+            '--require-full-rc-manifest "$manifest"'
+        ),
     }
     for label, marker in script_mutations.items():
         if marker not in build_script:
@@ -544,6 +673,55 @@ def run_self_test() -> list[str]:
         )
         if not build_script_errors(mutated):
             failures.append(f"build.sh accepted malformed {label}")
+    full_rc_function = re.search(
+        r'^build_full_rc\(\) \{\n(?P<body>.*?)^\}\s*$',
+        build_script,
+        flags=re.MULTILINE | re.DOTALL,
+    )
+    if full_rc_function is None:
+        failures.append("build.sh self-test fixture lost build_full_rc")
+    else:
+        original_body = full_rc_function.group("body")
+        original_lines = original_body.splitlines(keepends=True)
+        stage_line_indexes = [
+            index
+            for index, line in enumerate(original_lines)
+            if re.fullmatch(r"\s+[a-z_]+\s*", line)
+        ]
+        for stage_index, line_index in enumerate(stage_line_indexes):
+            mutated_lines = original_lines.copy()
+            newline = "\n" if mutated_lines[line_index].endswith("\n") else ""
+            mutated_lines[line_index] = "  true" + newline
+            mutated_body = "".join(mutated_lines)
+            mutated_script = (
+                build_script[: full_rc_function.start("body")]
+                + mutated_body
+                + build_script[full_rc_function.end("body") :]
+            )
+            if not build_script_errors(mutated_script):
+                failures.append(
+                    "build.sh accepted missing/reordered full RC stage "
+                    f"{stage_index}"
+                )
+    guard_env = dict(os.environ)
+    guard_env["GODOT"] = "/usr/bin/true"
+    guard_test = subprocess.run(
+        ["bash", str(BUILD_SCRIPT), "full-rc-self-test"],
+        cwd=ROOT,
+        env=guard_env,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if (
+        guard_test.returncode != 0
+        or "FULL_RC_EXPORT_GUARD_SELF_TEST_OK cases=3" not in guard_test.stdout
+    ):
+        failures.append(
+            "build.sh full RC export guard behavior self-test failed: "
+            f"exit={guard_test.returncode} output={guard_test.stdout!r} "
+            f"stderr={guard_test.stderr!r}"
+        )
     preset_text = EXPORT_PRESETS.read_text(encoding="utf-8")
     mutated_preset = preset_text.replace(
         'custom_features="gangnam_demo,core_loop_v2_playtest"',
@@ -563,6 +741,14 @@ def main() -> int:
         default=[],
         metavar="PROFILE=PATH",
         help="verify a full, demo, or playtest MANIFEST.sha256",
+    )
+    parser.add_argument(
+        "--require-full-rc-manifest",
+        metavar="PATH",
+        help=(
+            "require a clean full manifest containing exactly the Windows, "
+            "macOS, and Linux release-candidate artifacts"
+        ),
     )
     parser.add_argument("--self-test", action="store_true")
     parser.add_argument(
@@ -594,10 +780,21 @@ def main() -> int:
             checked += 1
         except ValueError as exc:
             errors.append(str(exc))
+    if args.require_full_rc_manifest:
+        try:
+            full_rc_path = Path(args.require_full_rc_manifest)
+            full_rc_values = parse_manifest(full_rc_path)
+            full_rc_rows = parse_checksum_rows(full_rc_path)
+            errors.extend(full_rc_manifest_errors(full_rc_values, full_rc_rows))
+            errors.extend(artifact_file_errors("full", full_rc_rows))
+            errors.extend(manifest_source_errors("full", full_rc_values))
+            checked += 1
+        except ValueError as exc:
+            errors.append(str(exc))
     self_tests = 0
     if args.self_test:
         errors.extend(run_self_test())
-        self_tests = 3 * 14 + 2 + 8 + 9 + 1
+        self_tests = 3 * 14 + 2 + 8 + 11 + 1 + 5 + 12 + 3
     if args.require_head_date:
         try:
             errors.extend(
