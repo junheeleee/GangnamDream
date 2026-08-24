@@ -13,11 +13,11 @@
 | 현재 범위 | 1턴=1주, 240주(5년), **데모 제품 범위는 1~24주이며 W24 CTA에서 끝난다.** 본편 Chapter 1 제작 단위는 1~48주 한 해지만 25~48주는 아직 기존 폴백이다. 숫자 여력판과 `주력/함께` 월간 행동판은 최종 코어가 아니다. 직업·생계·회복 루틴과 월세·수입·몸·마음은 자동으로 흐르고, 플레이어 행동은 실제 StoryMode 장면의 표현·기억·결정 선택이 소유한다. 현재 승인은 ORDER-124 후보의 플레이 표면에서 반복 행동판을 제거한 결정이며, 저장 호환용 AP 데이터·엔진 코드를 삭제하라는 GO가 아니다. W1~24 V2의 저장·영수증·월말 결산은 이관 기준선으로 보존하고, `story_map`의 장면 beat를 따라 장별로 옮긴다. |
 | 품질 게이트 | [`docs/MASTER_RELEASE_AUDIT.md`](docs/MASTER_RELEASE_AUDIT.md). 콘텐츠 수량보다 블랙박스 플레이, 한영 패리티, 패드 과업, 사람 기억·전환 증거로 판정한다. |
 | 최근 완료 | ORDER-125 BUILD `2026.08.24.5` exact `6c91e11` / tree `da15e65`를 active clean `full_rc`로 발급했다. 세 플랫폼·fresh 전체 감사·KO PlayStation/EN Xbox 240주·장별 저장·pack/고지·R1b 비도달을 통과했고 BUILD `.4`는 반려 증거로만 남겼다. |
-| 바로 다음 | 자동 구현 큐가 아니라 사람 판정 차례다. 먼저 ORDER-124 BUILD `.3` story-first 후보를 플레이해 반복 월간 행동판 제거 방향을 판정한다. 그 GO 전에는 본편 이관이나 저장 호환 AP 엔진 삭제를 하지 않는다. full 판정은 같은 BUILD `.5`에만 묶는다. |
+| 바로 다음 | 사용자가 성공 기준 제품 판단을 Codex에 위임했다. ORDER-126에서 ORDER-124의 story-first M01~M06을 공개 데모로 이관하고, 한·영 원문 고정 뒤 JA·zh-CN·zh-TW 직접 번역과 SC/TC 전용 서체를 붙인다. AP 표면은 퇴역시키되 저장 호환 엔진은 보존한다. L1/L2가 끝난 exact 앱이 나오면 사용자 플레이 시점을 알린다. |
 | 열려 있는 사람 게이트 | 정본은 [`docs/human_gates.json`](docs/human_gates.json), 출력은 [`STATUS.md`](docs/STATUS.md)다. **개수 상한이 없다.** active ORDER-124 사용자 L3, BUILD `.1` 데모, BUILD `.3` 저장 복구와 지역별 원어민 게이트가 OPEN이다. `done`은 사용자 최종 GO만 가능하며 **초록불은 재미 판정이 아니다.** |
-| 그다음 | career/startup 원고의 사용자 최종 GO와 별도 replacement contract 전에는 R1b·R2·JA/ZH 번역·ending 라우팅을 시작하지 않는다. 순서는 [`CODEX_QUEUE.md`](docs/CODEX_QUEUE.md)가 소유한다. |
+| 그다음 | ORDER-126 스토리 데모의 사용자 플레이 결과를 입력으로 240주 story-first 본편을 장별 작은 오더로 이관한다. career/startup R1b·R2·ending 라우팅은 기존 별도 replacement contract를 지킨다. |
 | 자산 조달 | **외주 0원.** 인물 디자인·작곡·UI 아트·유료 서체를 사지 않고 Codex와 무료 라이선스(임베딩이 허용된 OFL·CC0 등)로만 만든다. 인력·구매를 전제한 계획을 세우지 않는다. 생성 자산의 결함은 품질이 아니라 평균성이므로 동일 후처리·고정 서명·채택률로 이긴다. 정본은 `docs/DECISIONS.md` 2026-07-30 항목이 소유한다. |
-| 마지막 갱신 | 2026-08-24 (Codex: ORDER-125 BUILD `.5` clean full_rc 발급·자동 L1/L2 완료, 사람 gate 12개와 ORDER-124 story-first L3 OPEN) |
+| 마지막 갱신 | 2026-08-25 (Codex: 사용자 위임 제품 판정으로 story-first 공개 데모·JA/zh-CN/zh-TW 출고 후보 ORDER-126 착수, AP 내부 호환 보존) |
 
 사용자가 새 지시를 주면 그것이 위 순서보다 우선한다.
 
