@@ -64,13 +64,14 @@
 **발급 도구:** `tools/build.sh`, `tools/build_identity_audit.py`.
 
 **파생 전체감사 수리:** `tools/feature_liveness_audit.py`,
-`tools/CompileCheck.gd`. ORDER-103의 격리
+`tools/CompileCheck.gd`, `tools/audit.sh`. ORDER-103의 격리
 staging `project.godot`가 `AudioManagerStub.gd`를 실제 autoload로 참조하지만 감사가
 루트 `project.godot`만 읽어 고아로 오판하는 기존 false red를, 모든 `*.godot`
 프로젝트 설정을 검색하게 고친다. baseline에 죽은 파일로 추가하거나 staging
 디렉터리를 통째로 면제하지 않는다. CompileCheck는 전수 `load()` 뒤 기존
 `COMPILE_SCAN`과 함께 `COMPILE_CHECK_OK`를 출력해 selector의 exit 0+marker+오류 0
-계약을 만족시킨다. 오류를 자체적으로 숨기거나 허용하지 않는다.
+계약을 만족시킨다. 전체 감사도 exact marker를 직접 요구해 무출력 exit 0을
+성공으로 오판하지 않는다. 오류를 자체적으로 숨기거나 허용하지 않는다.
 
 **선언·마감:** `docs/CODEX_QUEUE.md`, 이 사양,
 `docs/queue_archive/CODEX_QUEUE_2026-08.md`, `CLAUDE.md`, `docs/HANDOFF.md`,
