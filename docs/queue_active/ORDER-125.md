@@ -63,11 +63,14 @@
 
 **발급 도구:** `tools/build.sh`, `tools/build_identity_audit.py`.
 
-**파생 전체감사 수리:** `tools/feature_liveness_audit.py`. ORDER-103의 격리
+**파생 전체감사 수리:** `tools/feature_liveness_audit.py`,
+`tools/CompileCheck.gd`. ORDER-103의 격리
 staging `project.godot`가 `AudioManagerStub.gd`를 실제 autoload로 참조하지만 감사가
 루트 `project.godot`만 읽어 고아로 오판하는 기존 false red를, 모든 `*.godot`
 프로젝트 설정을 검색하게 고친다. baseline에 죽은 파일로 추가하거나 staging
-디렉터리를 통째로 면제하지 않는다.
+디렉터리를 통째로 면제하지 않는다. CompileCheck는 전수 `load()` 뒤 기존
+`COMPILE_SCAN`과 함께 `COMPILE_CHECK_OK`를 출력해 selector의 exit 0+marker+오류 0
+계약을 만족시킨다. 오류를 자체적으로 숨기거나 허용하지 않는다.
 
 **선언·마감:** `docs/CODEX_QUEUE.md`, 이 사양,
 `docs/queue_archive/CODEX_QUEUE_2026-08.md`, `CLAUDE.md`, `docs/HANDOFF.md`,
@@ -96,6 +99,8 @@ staging `project.godot`가 `AudioManagerStub.gd`를 실제 autoload로 참조하
   full-pack inventory/notices가 모두 PASS.
 - feature liveness는 nested staging project의 실제 autoload 참조를 인식하고 새
   orphan 0으로 PASS하며 기존 orphan baseline은 바꾸지 않는다.
+- CompileCheck는 전수 scan과 exact success marker를 모두 남기고, selector가 marker
+  누락·비정상 종료·스크립트/파싱/컴파일 오류를 계속 거부한다.
 - Windows EXE·macOS ZIP·Linux 실행 파일과 aggregate manifest가 exact 같은
   commit/tree를 가리키며 해시 재검산 PASS.
 - macOS 무인자 격리 smoke가 StartMenu까지 도달하고 retail 사용자 데이터 전후
