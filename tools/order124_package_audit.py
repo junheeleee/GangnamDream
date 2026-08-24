@@ -147,6 +147,7 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
         "codesign --force --deep --sign -",
         "ORDER124_NATIVE_PROBE_PATH",
         "--order124-smoke",
+        "--qa=order124",
         TARGET_MARKER,
         APP_REL,
         "restore_candidate_user_data",
@@ -489,8 +490,17 @@ def audit_manifest(path: Path) -> list[str]:
         if not isinstance(smokes, list) or len(smokes) != len(expected_smokes):
             errors.append("package smoke inventory must contain exactly KO and EN")
         for item in smokes if isinstance(smokes, list) else []:
-            if isinstance(item, dict) and SMOKE_MARKER_PREFIX not in str(item.get("marker", "")):
+            if not isinstance(item, dict):
+                continue
+            marker = str(item.get("marker", ""))
+            if SMOKE_MARKER_PREFIX not in marker:
                 errors.append("package smoke marker prefix drifted")
+            language = str(item.get("language", ""))
+            size = str(item.get("size", ""))
+            if f"language={language}" not in marker or f"size={size}" not in marker:
+                errors.append(
+                    f"package smoke marker does not prove {language} at {size}"
+                )
 
     checksum = artifact_root / CHECKSUM_REL
     if not checksum.is_file():

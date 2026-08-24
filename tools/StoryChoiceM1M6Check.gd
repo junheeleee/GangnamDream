@@ -103,6 +103,7 @@ var _candidate_files_before: Dictionary = {}
 var _protected_files_before: Dictionary = {}
 var _original_game_state: Dictionary = {}
 var _original_language := ""
+var _original_sfx_enabled := true
 
 
 func _ready() -> void:
@@ -112,6 +113,8 @@ func _ready() -> void:
 func _run() -> void:
 	_original_game_state = GameState.serialize().duplicate(true)
 	_original_language = LocaleManager.language
+	_original_sfx_enabled = bool(AudioManager.sfx_enabled)
+	AudioManager.sfx_enabled = false
 	_protected_files_before = _capture_files(_protected_save_paths())
 	_check_owned_resources_and_scope()
 	if not _project_user_data_isolated():
@@ -649,6 +652,19 @@ func _restore_global_state() -> void:
 	LocaleManager.language = _original_language
 	DataRegistry.reload()
 	GameState.load_from_dict(_original_game_state)
+	_stop_audio()
+	AudioManager.sfx_enabled = _original_sfx_enabled
+
+
+func _stop_audio() -> void:
+	var players: Variant = AudioManager.get("_pool")
+	if not players is Array:
+		return
+	for player_variant in players:
+		if player_variant is AudioStreamPlayer:
+			var player := player_variant as AudioStreamPlayer
+			player.stop()
+			player.stream = null
 
 
 func _free_controller(controller: Node) -> void:

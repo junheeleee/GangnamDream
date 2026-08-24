@@ -1157,6 +1157,10 @@ func _capture_requested_screen() -> void:
 	if image == null:
 		_screenshot_fail("no_viewport_image")
 		return
+	var window_size := DisplayServer.window_get_size()
+	if window_size.x > 0 and window_size.y > 0 \
+			and image.get_size() != window_size:
+		image.resize(window_size.x, window_size.y, Image.INTERPOLATE_LANCZOS)
 	var error := image.save_png(_screenshot_path)
 	if error == OK:
 		print("ORDER124_SCREENSHOT_OK screen=%s path=%s" % [

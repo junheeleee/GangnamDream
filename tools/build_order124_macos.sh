@@ -344,7 +344,7 @@ run_godot_exact_gate() {
     exit_code=$?
   fi
   if [[ $exit_code -ne 0 ]] \
-      || grep -Eq 'SCRIPT ERROR|Parse Error|Compile Error|Failed to load script|Failed loading resource|ERROR:.*(parse|compile)' "$log_path" \
+      || grep -Eq 'SCRIPT ERROR|Parse Error|Compile Error|Failed to load script|Failed loading resource|^ERROR:' "$log_path" \
       || ! grep -Fqx "$marker" "$log_path"; then
     echo "ORDER124_BUILD_FAIL: Godot gate failed (exit=$exit_code, expected=$marker)" >&2
     sed -n '1,320p' "$log_path" >&2
@@ -357,7 +357,7 @@ if ! "$GODOT" --headless --path "$STAGE_PROJECT" --import >"$IMPORT_LOG" 2>&1; t
   sed -n '1,320p' "$IMPORT_LOG" >&2
   exit 1
 fi
-if grep -Eq 'SCRIPT ERROR|Parse Error|Compile Error|Failed to load script|Failed loading resource|ERROR:.*(parse|compile)' "$IMPORT_LOG"; then
+if grep -Eq 'SCRIPT ERROR|Parse Error|Compile Error|Failed to load script|Failed loading resource|^ERROR:' "$IMPORT_LOG"; then
   echo "ORDER124_BUILD_FAIL: fixed-source import contains engine/script errors" >&2
   sed -n '1,320p' "$IMPORT_LOG" >&2
   exit 1
@@ -459,7 +459,7 @@ esac
 kill -TERM "$NATIVE_PID" >/dev/null 2>&1 || true
 wait "$NATIVE_PID" >/dev/null 2>&1 || true
 NATIVE_PID=""
-if grep -Eq 'SCRIPT ERROR|Parse Error|Compile Error|Failed to load script|Failed loading resource' "$NATIVE_LOG"; then
+if grep -Eq 'SCRIPT ERROR|Parse Error|Compile Error|Failed to load script|Failed loading resource|^ERROR:' "$NATIVE_LOG"; then
   echo "ORDER124_BUILD_FAIL: native no-argument log contains engine/script errors" >&2
   sed -n '1,280p' "$NATIVE_LOG" >&2
   exit 1
@@ -476,7 +476,7 @@ run_godot_prefix_gate() {
     exit_code=$?
   fi
   if [[ $exit_code -ne 0 ]] \
-      || grep -Eq 'SCRIPT ERROR|Parse Error|Compile Error|Failed to load script|Failed loading resource|ERROR:.*(parse|compile)' "$log_path" \
+      || grep -Eq 'SCRIPT ERROR|Parse Error|Compile Error|Failed to load script|Failed loading resource|^ERROR:' "$log_path" \
       || ! grep -Eq "^${marker_prefix}([[:space:]]|$)" "$log_path"; then
     echo "ORDER124_BUILD_FAIL: package smoke failed (exit=$exit_code, prefix=$marker_prefix)" >&2
     sed -n '1,320p' "$log_path" >&2
@@ -486,10 +486,10 @@ run_godot_prefix_gate() {
 
 run_godot_prefix_gate "$KO_LOG" "$SMOKE_MARKER_PREFIX" \
   "$LAUNCHER" --rendering-driver opengl3 --resolution 1280x800 \
-  -- --order124-smoke --order124-language=ko
+  -- --qa=order124 --order124-smoke --order124-language=ko
 run_godot_prefix_gate "$EN_LOG" "$SMOKE_MARKER_PREFIX" \
   "$LAUNCHER" --rendering-driver opengl3 --resolution 960x600 \
-  -- --order124-smoke --order124-language=en
+  -- --qa=order124 --order124-smoke --order124-language=en
 KO_MARKER="$(grep -E "^${SMOKE_MARKER_PREFIX}([[:space:]]|$)" "$KO_LOG" | tail -n 1)"
 EN_MARKER="$(grep -E "^${SMOKE_MARKER_PREFIX}([[:space:]]|$)" "$EN_LOG" | tail -n 1)"
 codesign --verify --deep --strict "$VERIFIED_APP"
