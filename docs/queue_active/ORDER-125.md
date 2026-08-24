@@ -11,6 +11,16 @@
 “그냥 완성시켜 어떻게든”에 따라 게임 규칙을 바꾸지 않고 실제 240주 정식판
 후보의 provenance·자동 회귀·세 native 플랫폼 패키지만 먼저 발급한다.
 
+**범위 보정 (2026-08-24):** BUILD `2026.08.24.4`의 clean 세 플랫폼 발급과
+macOS 무인자 smoke 뒤 fresh 전체 감사에서 Chapter 1 causal source snapshot 세 건만
+실패했다. `docs/WORK_LOG.md`는 누적 증거 원장이라 인과 source hash로 고정할 수 없고,
+`content/meta/demo_localization_scope.json`과 `docs/CHOICE_CONSEQUENCE_SYSTEM.md`는
+각각 승인된 ORDER-97 수량 정합과 ORDER-124 story-first 규범 변경 뒤의 exact
+바이트가 아직 감사기에 반영되지 않았다. `.4`는 후보로 등록하지 않고 폐기하며,
+이 오더가 `tools/chapter1_core_loop_v2_causal_ledger_check.py`와 두 causal audit
+selector의 exact 경로 목록을 함께 수리한 뒤 다음 미사용 BUILD `2026.08.24.5`를
+처음부터 재발급한다. ledger 의미·런타임·AP 저장 호환은 바꾸지 않는다.
+
 ## 깊이 3문
 
 1. 왜 기존 BUILD `2026.08.22.1`을 그대로 쓰지 않는가? 현재 HEAD는 그 빌드 뒤의
@@ -25,7 +35,8 @@
 
 ## 배치 A — provenance와 aggregate 발급 계약 8단위
 
-1. `BuildInfo.BUILD_ID`만 다음 미사용 전역 ID `2026.08.24.4`로 바꾼다.
+1. `BuildInfo.BUILD_ID`는 폐기된 `.4`를 재사용하지 않고 다음 미사용 전역 ID
+   `2026.08.24.5`로 바꾼다.
 2. `GAME_VERSION`, `SAVE_VERSION`, flavor, feature, 저장 namespace는 보존한다.
 3. `tools/build.sh full-rc`는 시작·fresh import 뒤·export 뒤 clean source를 검사한다.
 4. BUILD_ID 날짜가 HEAD 날짜와 같고 첫 부모의 BUILD_ID와 다름을 검사한다.
@@ -64,14 +75,18 @@
 **발급 도구:** `tools/build.sh`, `tools/build_identity_audit.py`.
 
 **파생 전체감사 수리:** `tools/feature_liveness_audit.py`,
-`tools/CompileCheck.gd`, `tools/audit.sh`. ORDER-103의 격리
+`tools/CompileCheck.gd`, `tools/audit.sh`,
+`tools/chapter1_core_loop_v2_causal_ledger_check.py`, `tools/audit_scope.json`.
+ORDER-103의 격리
 staging `project.godot`가 `AudioManagerStub.gd`를 실제 autoload로 참조하지만 감사가
 루트 `project.godot`만 읽어 고아로 오판하는 기존 false red를, 모든 `*.godot`
 프로젝트 설정을 검색하게 고친다. baseline에 죽은 파일로 추가하거나 staging
 디렉터리를 통째로 면제하지 않는다. CompileCheck는 전수 `load()` 뒤 기존
 `COMPILE_SCAN`과 함께 `COMPILE_CHECK_OK`를 출력해 selector의 exit 0+marker+오류 0
 계약을 만족시킨다. 전체 감사도 exact marker를 직접 요구해 무출력 exit 0을
-성공으로 오판하지 않는다. 오류를 자체적으로 숨기거나 허용하지 않는다.
+성공으로 오판하지 않는다. causal ledger 감사는 누적 상태 문서인 `WORK_LOG.md`를
+source trust key로 다시 받을 수 없고, 고정한 모든 source path가 두 selector의
+입력 경로에도 들어가도록 한다. 오류를 자체적으로 숨기거나 허용하지 않는다.
 
 **선언·마감:** `docs/CODEX_QUEUE.md`, 이 사양,
 `docs/queue_archive/CODEX_QUEUE_2026-08.md`, `CLAUDE.md`, `docs/HANDOFF.md`,
@@ -95,7 +110,7 @@ staging `project.godot`가 `AudioManagerStub.gd`를 실제 autoload로 참조하
 
 ## 완료 증거
 
-- 구현 commit은 clean이고 `BUILD_ID=2026.08.24.4`, 날짜/첫 부모 재사용 guard PASS.
+- 구현 commit은 clean이고 `BUILD_ID=2026.08.24.5`, 날짜/첫 부모 재사용 guard PASS.
 - build identity self-test, 전체 감사, KO/EN 240주 두 경로, R1b 세 검사,
   full-pack inventory/notices가 모두 PASS.
 - feature liveness는 nested staging project의 실제 autoload 참조를 인식하고 새

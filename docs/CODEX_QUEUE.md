@@ -59,7 +59,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-125 · 사람 최종 판정을 묶을 clean 240주 full_rc 발급 | [125](queue_active/ORDER-125.md) | BUILD `2026.08.24.4` provenance·세 native 플랫폼 aggregate manifest·full audit·KO/EN 240주·macOS smoke 대기 · R1b dormant · 사람 gate 전부 OPEN |
+| 1 | [~] | ORDER-125 · 사람 최종 판정을 묶을 clean 240주 full_rc 발급 | [125](queue_active/ORDER-125.md) | BUILD `.4`는 stale causal snapshot 3건으로 폐기 · `2026.08.24.5` causal trust/selector 수리·세 native 플랫폼·full audit·KO/EN 240주·macOS smoke 재발급 대기 · R1b dormant · 사람 gate 전부 OPEN |
 | 2 | [~] | ORDER-119 · 게임 전체 플레이어 표면에서 스탯·시스템 언어 제거 | [119](queue_active/ORDER-119.md) | 제품·QA 36파일+package metadata 2파일 · exact clean full audit·KO/EN 24주·KO 240주·BUILD `2026.08.22.1` 3플랫폼 package·macOS native smoke green · active `demo_rc` 등록 · 사용자 최종 GO OPEN |
 | 3 | [~] | ORDER-118 · startup 전면 재설계·코드 토큰 제거 | [118](queue_active/ORDER-118.md) | L1/L2 GO · 16편/27선택·코드 토큰 0 · fresh seed 9821 #11/#2/#3 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |
 | 4 | [~] | ORDER-117 · 107/109 국소 수리·career 15편 재판정 | [117](queue_active/ORDER-117.md) | L1/L2 GO · 18단위 전수·16 roots 재작성·after_goal/people_verdict exact 보존·코드 토큰 0 · 107/109 각 1/1+career 15/15 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |
