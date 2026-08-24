@@ -21,6 +21,13 @@
 > 차례로 옮긴다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-24 (Codex — ORDER-119 사람 게이트 등록 복구)
+
+- 이미 명시된 ORDER-119 L3 실렌더·사용자 최종 GO가 `human_gates.json`에 빠진
+  원장 공백을 복구했다. `order119_player_surface_user_final_go`는 active
+  `demo_rc`의 KO/EN 결과 산문·칭호와 KO gamepad 표면만 판정하며 새 합격 기준이나
+  자동 GO를 만들지 않는다. 후보 identity와 기존 gate state/evidence/review는 불변이다.
+
 ## 2026-08-24 (Codex — ORDER-124 검은 장면 복귀 수리 BUILD .3)
 
 - 사용자가 BUILD `.2`에서 “중간에 그냥 검은화면뭔데”라고 보고했다. 저장·크래시가

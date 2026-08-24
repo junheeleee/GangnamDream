@@ -854,6 +854,34 @@
       ]
     },
     {
+      "id": "order119_player_surface_user_final_go",
+      "domain": "surface",
+      "gate": "ORDER-119 결과 산문·시스템 언어 제거 사용자 최종 판정",
+      "why": "자동 검사는 금지 토큰·수치 폴백·한영 구조·도달성과 네 렌더 경로의 계약을 증명하지만, 실제 화면의 결과가 스탯 정산표가 아니라 세계 안의 변화로 읽히는지는 사람이 판정해야 한다.",
+      "owner": "ORDER-119",
+      "state": "open",
+      "scope": {
+        "blocks": ["order119-close", "demo", "full"],
+        "content": "active demo_rc에서 ORDER-119가 교체한 KO/EN 결과·영수증·임계 변화·wrapper·칭호 표면과 같은 후보의 KO PlayStation full-gamepad 결과 산문"
+      },
+      "revision": "demo_rc",
+      "sample": {
+        "cohort": "order119_real_render_surface_review",
+        "requirements": [
+          "active demo_rc BUILD 2026.08.22.1의 exact commit/tree/manifest를 사용",
+          "서로 다른 HOME/XDG/OUT에서 직렬 캡처한 1280×800 KO/EN demo-experience 실렌더",
+          "같은 후보의 KO PlayStation full-gamepad 실렌더",
+          "같은 후보의 1280×800 KO/EN 칭호 도감 실렌더"
+        ]
+      },
+      "acceptance": [
+        "결과와 영수증이 정확한 스탯 증감·호감도·등급·배수·해금표가 아니라 1~3문장의 관찰 가능한 세계 변화로 읽힘",
+        "안 고른 선택은 하지 않은 행동만 남기고 정확한 보상·숨은 수치·판정 기준을 다시 설명하지 않음",
+        "임계 변화·wrapper·칭호 이름과 설명이 내부 run theme나 숨은 계산을 해설하지 않고 사람·시장·읽는 방식의 변화로 자연스럽게 읽힘",
+        "위 KO/EN·gamepad 실렌더 전체를 본 사용자가 ORDER-119에 최종 GO"
+      ]
+    },
+    {
       "id": "order124_m1_m6_story_choice_playtest_user_final_go",
       "domain": "gameplay",
       "gate": "ORDER-124 M01~M06 스토리 선택 전용 구조 사용자 판정",

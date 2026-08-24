@@ -63,9 +63,9 @@ source lock은 구현 뒤 의미 변경 없이 새 바이트에만 다시 고정
 후보 발급만 위해 `systems/BuildInfo.gd`의 BUILD_ID 한 줄과 후보 등록 정본
 `docs/human_gates.json`의 `release_candidates.demo_rc` 네 값(commit/tree/manifest/note)과
 ORDER-97 A/B의 낡은 재발급 대기 설명 두 문장을 package/closeout metadata로 추가
-소유한다. 최종 소유는 정확히 38경로다. 고정
-`order99_build_3_rc`, waiting `order103_rc`, 두 연결 gate와 모든 사람 판정
-state/evidence/delegated review는 바꾸지 않는다.
+소유한다. 누락된 아래 L3를 옮긴 `order119_player_surface_user_final_go` open
+object 하나도 같은 파일에서 소유한다. 최종 소유는 38경로다. 고정 후보, 기존
+gate와 그 state/evidence/delegated review는 바꾸지 않는다.
 
 - `scenes/MainGame.gd`, `scenes/StoryMode.gd`, `scenes/JobHuntMiniGame.gd`, `scenes/ArubaGame.gd`
 - `scenes/SeoulCycleBoard.gd`, `scenes/StartMenu.gd`, `scenes/TutorialOverlay.gd`
@@ -117,7 +117,8 @@ state/evidence/delegated review는 바꾸지 않는다.
   macOS native no-arg는 언어 선택→JUNPAC→24주 시작·설정·콘텐츠 안내→도입 장면,
   `PLAYTEST_RELEASE_ENTRY_READY`와 정상 종료 `0`을 확인했다.
 - 이 후보를 active `demo_rc`로 등록했다. 자동 증거는 사람 판정을 대신하지 않으므로
-  ORDER-119는 `[~]`, 사용자 최종 GO는 `OPEN`이다. 고정 BUILD `.3` ORDER-99와
+  ORDER-119는 `[~]`, `order119_player_surface_user_final_go` 사용자 최종 GO는
+  `OPEN`이다. 고정 BUILD `.3` ORDER-99와
   별도 ORDER-103 실행 후보·사람 게이트도 그대로 OPEN이다.
 
 ## 착수 전 멈춤 진단
