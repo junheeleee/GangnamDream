@@ -63,6 +63,12 @@
 
 **발급 도구:** `tools/build.sh`, `tools/build_identity_audit.py`.
 
+**파생 전체감사 수리:** `tools/feature_liveness_audit.py`. ORDER-103의 격리
+staging `project.godot`가 `AudioManagerStub.gd`를 실제 autoload로 참조하지만 감사가
+루트 `project.godot`만 읽어 고아로 오판하는 기존 false red를, 모든 `*.godot`
+프로젝트 설정을 검색하게 고친다. baseline에 죽은 파일로 추가하거나 staging
+디렉터리를 통째로 면제하지 않는다.
+
 **선언·마감:** `docs/CODEX_QUEUE.md`, 이 사양,
 `docs/queue_archive/CODEX_QUEUE_2026-08.md`, `CLAUDE.md`, `docs/HANDOFF.md`,
 `docs/BUILD_PIPELINE.md`, `docs/human_gates.json`, `docs/WORK_LOG.md`, 생성본
@@ -88,6 +94,8 @@
 - 구현 commit은 clean이고 `BUILD_ID=2026.08.24.4`, 날짜/첫 부모 재사용 guard PASS.
 - build identity self-test, 전체 감사, KO/EN 240주 두 경로, R1b 세 검사,
   full-pack inventory/notices가 모두 PASS.
+- feature liveness는 nested staging project의 실제 autoload 참조를 인식하고 새
+  orphan 0으로 PASS하며 기존 orphan baseline은 바꾸지 않는다.
 - Windows EXE·macOS ZIP·Linux 실행 파일과 aggregate manifest가 exact 같은
   commit/tree를 가리키며 해시 재검산 PASS.
 - macOS 무인자 격리 smoke가 StartMenu까지 도달하고 retail 사용자 데이터 전후
