@@ -2790,7 +2790,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/meta/demo_core_loop_v2.json":
         "f336f8a60277effc1885e10911d21785add4ad5580135bb1ab3a4c4b509059c3",
     "content/meta/demo_localization_scope.json":
-		"4fe743a4ee5fcf341b7feaed9d2e9a776268bd70607dbb564c1899c5a9bb9d26",
+		"cb19917beea0f1f78ea4709342c7300a1a7272f0dc2df62361ad95ba34c503ed",
     "content/meta/release_content_inventory.json":
         "c6c10aceea5fa3b46a59a1b933317dd9a1981cb7ce5fa4544c4803739cd5cebc",
     "content/meta/story_rules.json":
@@ -2811,12 +2811,10 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
         "3b2ad299ecd7622b679a093780ec4541758127c0c64697e7868ce65f64f1cbe1",
     "docs/BALANCE.md":
         "8994d997b37c83a580ab97e9ab46c2f4b783ebacdef90b44325c03fa071d7cac",
-    "docs/WORK_LOG.md":
-        "b6451fc0db84679d03af80ab8a04b234f10a796659e4aaebf31147a0b0b579fe",
     "docs/queue_archive/ORDER-101.md":
         "732f49ac40efb644a7321cd425160fae9a8123ead11eb2cc7ebc5b238952ee48",
     "docs/CHOICE_CONSEQUENCE_SYSTEM.md":
-        "8bebca9953e93decdc0ed8f34b1ce4190a144a2bfb1943f439519f3593e61f72",
+        "30083158c33b7369e4247fc6f362f1649df0505918aea31db7febcce130ebdb2",
     "tools/core_loop_v2_balance_sim.py":
         "b9f96ed925cce3801fe8c45716f5bab2fb480507fa1cd3069c714bd222cedf86",
     "tools/demo_core_loop_v2_audit.py":
@@ -2828,6 +2826,10 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "tools/story_consistency_audit.py":
         "2e7bbcff6f995c597ed31a6f7450295b49c5f04699bfb8020290efce0f8af229",
 }
+# Mutable evidence/status logs are not causal sources.  Keeping this guard in
+# production validation prevents an append-only work record from silently
+# becoming a whole-repository trust key again.
+FORBIDDEN_AUDITED_SOURCE_FILE_KEYS = frozenset({"docs/WORK_LOG.md"})
 EXPECTED_PROJECT_AUTOLOAD_BINDINGS = {
     "GameState": "autoloads/GameState.gd",
     "DataRegistry": "autoloads/DataRegistry.gd",
@@ -3290,6 +3292,26 @@ def _file_digest(relative_path: str) -> str:
     except OSError:
         return ""
     return hashlib.sha256(payload).hexdigest()
+
+
+def _audited_source_snapshot_errors(
+        source_hashes: dict[str, str]) -> list[str]:
+    errors: list[str] = []
+    for relative_path, expected_digest in source_hashes.items():
+        if relative_path in FORBIDDEN_AUDITED_SOURCE_FILE_KEYS:
+            errors.append(
+                f"source: mutable evidence trust key forbidden {relative_path}")
+        if _repo_source_path(relative_path) is None:
+            errors.append(
+                f"source: audited source path is not repo-local {relative_path}")
+        if (not isinstance(expected_digest, str)
+                or not re.fullmatch(r"[0-9a-f]{64}", expected_digest)):
+            errors.append(
+                f"source: audited source digest is not exact SHA-256 {relative_path}")
+        elif _file_digest(relative_path) != expected_digest:
+            errors.append(
+                f"source: audited file snapshot mismatch {relative_path}")
+    return errors
 
 
 def _proof_binding_digest(proof: dict[str, Any],
@@ -11834,11 +11856,8 @@ def validate(ledger: Any, baseline: Any, *, require_complete: bool = False,
         errors.append(
             "ledger: audited semantic snapshot mismatch; update source, ledger, and checker contract together")
     if enforce_audited_snapshot:
-        for relative_path, expected_digest in \
-                EXPECTED_AUDITED_SOURCE_FILE_SHA256.items():
-            if _file_digest(relative_path) != expected_digest:
-                errors.append(
-                    f"source: audited file snapshot mismatch {relative_path}")
+        errors.extend(_audited_source_snapshot_errors(
+            EXPECTED_AUDITED_SOURCE_FILE_SHA256))
     if not _is_int(obj.get("schema_version")) or obj["schema_version"] < 1:
         errors.append("ledger.schema_version: expected positive integer")
     if not isinstance(obj.get("ledger_id"), str) or not obj["ledger_id"]:
@@ -19632,10 +19651,31 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
                 "snapshot bytes")
     cases += 1
 
-    if any(_repo_source_path(relative_path) is None
-           for relative_path in EXPECTED_AUDITED_SOURCE_FILE_SHA256):
-        raise AssertionError(
-            "audited source hash map contains a non-repo trust key")
+    if _audited_source_snapshot_errors(
+            EXPECTED_AUDITED_SOURCE_FILE_SHA256):
+        raise AssertionError("audited source snapshot baseline is not clean")
+    cases += 1
+
+    mutable_evidence_map = dict(EXPECTED_AUDITED_SOURCE_FILE_SHA256)
+    mutable_evidence_map["docs/WORK_LOG.md"] = _file_digest(
+        "docs/WORK_LOG.md")
+    if not any(
+            "mutable evidence trust key forbidden docs/WORK_LOG.md" in error
+            for error in _audited_source_snapshot_errors(
+                mutable_evidence_map)):
+        raise AssertionError("mutable evidence source trust key mutation passed")
+    cases += 1
+
+    digest_mutation_map = dict(EXPECTED_AUDITED_SOURCE_FILE_SHA256)
+    digest_mutation_path = "content/meta/demo_localization_scope.json"
+    digest_mutation_map[digest_mutation_path] = "0" * 64
+    if not any(
+            f"audited file snapshot mismatch {digest_mutation_path}" in error
+            for error in _audited_source_snapshot_errors(
+                digest_mutation_map)):
+        raise AssertionError("audited source digest mutation passed")
+    cases += 1
+
     if any(
             _repo_source_path(
                 proof["pointer"].split("#/", 1)[0]
@@ -19644,6 +19684,34 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
             for proof in ledger["runtime_proof_registry"]):
         raise AssertionError(
             "runtime proof map contains a non-repo trust key")
+    cases += 1
+
+    audit_scope = _load_json(ROOT / "tools/audit_scope.json")
+    expected_causal_selector_tools = {
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py --self-test",
+    }
+    causal_selectors = [
+        check for check in audit_scope.get("checks", [])
+        if isinstance(check, dict)
+        and check.get("tool") in expected_causal_selector_tools
+    ]
+    if sorted(check.get("tool") for check in causal_selectors) != sorted(
+            expected_causal_selector_tools):
+        raise AssertionError("causal audit selectors are not exact")
+    required_selector_paths = set(EXPECTED_AUDITED_SOURCE_FILE_SHA256) | {
+        "project.godot",
+        "tools/audit_scope.json",
+        "tools/chapter1_core_loop_v2_causal_debt_baseline.json",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+    }
+    for selector in causal_selectors:
+        selector_paths = selector.get("paths", [])
+        if (not isinstance(selector_paths, list)
+                or not required_selector_paths.issubset(selector_paths)):
+            raise AssertionError(
+                f"causal audit selector misses audited source paths: "
+                f"{selector.get('tool')}")
     cases += 1
 
     project_text = (ROOT / "project.godot").read_text(encoding="utf-8")

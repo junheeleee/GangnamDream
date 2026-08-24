@@ -622,6 +622,7 @@
         "content/meta/chapter1_core_loop_v2_causal_ledger.json",
         "tools/chapter1_core_loop_v2_causal_debt_baseline.json",
         "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/audit_scope.json",
         "project.godot",
         "content/meta/demo_core_loop_v2.json",
         "content/meta/story_rules.json",
@@ -630,6 +631,7 @@
         "autoloads/DataRegistry.gd",
         "autoloads/EventManager.gd",
         "autoloads/GameState.gd",
+        "autoloads/LocaleManager.gd",
         "autoloads/MetaProgression.gd",
         "autoloads/SaveManager.gd",
         "systems/BuildFlavor.gd",
@@ -646,8 +648,19 @@
         "content/events/arc_daeun.json",
         "content/events/arc_midgame.json",
         "content/events/scenario_cafe.json",
+        "content/meta/demo_localization_scope.json",
+        "content/meta/release_content_inventory.json",
+        "docs/BALANCE.md",
         "docs/CORE_LOOP_V2.md",
-        "docs/CHOICE_CONSEQUENCE_SYSTEM.md"
+        "docs/CHOICE_CONSEQUENCE_SYSTEM.md",
+        "docs/queue_archive/ORDER-101.md",
+        "tools/CoreLoopV2CycleCheck.gd",
+        "tools/StoryPlaybackCheck.gd",
+        "tools/core_loop_v2_balance_sim.py",
+        "tools/demo_core_loop_v2_audit.py",
+        "tools/first_session_pacing_audit.py",
+        "tools/release_content_inventory.py",
+        "tools/story_consistency_audit.py"
       ]
     },
     {
@@ -657,6 +670,7 @@
         "content/meta/chapter1_core_loop_v2_causal_ledger.json",
         "tools/chapter1_core_loop_v2_causal_debt_baseline.json",
         "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/audit_scope.json",
         "project.godot",
         "content/meta/demo_core_loop_v2.json",
         "content/meta/story_rules.json",
@@ -665,6 +679,7 @@
         "autoloads/DataRegistry.gd",
         "autoloads/EventManager.gd",
         "autoloads/GameState.gd",
+        "autoloads/LocaleManager.gd",
         "autoloads/MetaProgression.gd",
         "autoloads/SaveManager.gd",
         "systems/BuildFlavor.gd",
@@ -681,8 +696,19 @@
         "content/events/arc_daeun.json",
         "content/events/arc_midgame.json",
         "content/events/scenario_cafe.json",
+        "content/meta/demo_localization_scope.json",
+        "content/meta/release_content_inventory.json",
+        "docs/BALANCE.md",
         "docs/CORE_LOOP_V2.md",
-        "docs/CHOICE_CONSEQUENCE_SYSTEM.md"
+        "docs/CHOICE_CONSEQUENCE_SYSTEM.md",
+        "docs/queue_archive/ORDER-101.md",
+        "tools/CoreLoopV2CycleCheck.gd",
+        "tools/StoryPlaybackCheck.gd",
+        "tools/core_loop_v2_balance_sim.py",
+        "tools/demo_core_loop_v2_audit.py",
+        "tools/first_session_pacing_audit.py",
+        "tools/release_content_inventory.py",
+        "tools/story_consistency_audit.py"
       ]
     },
     {
