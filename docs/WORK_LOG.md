@@ -20,6 +20,23 @@
 > 차례로 옮긴다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-24 (Codex — 월간 행동 없는 M01~M06 후보)
+
+- 사용자 NO-GO에 따라 `주력/함께/여력`을 없애고 StoryMode 선택 뒤 네 주와
+  생활 압박이 자동 정산되는 독립 앱을 만들었다.
+- BUILD `2026.08.24.2` source `e9aff5f06c2e3ec3708426156074674a56a4c3f6` /
+  tree `ad4d88a6aed68a79074f6f8e3204bf0474f6dbc4`, manifest
+  `87f3491f7e526762203a83eb4ed25bbbba79981f7dc3ec812d49cdd955db1194`, ZIP
+  `626196d6a74f50373ddc3e6d0cb8b3a502f052d4436f308361d8b82d3ab45a75`다.
+- 표적 검사는 6개월·24주·정산 6·commitment 0·두 경로·저장·M06을 통과했고
+  package audit, KO/EN smoke·캡처도 green이다. 최종 앱의 KO 960×600·EN
+  1280×800 실제 선택을 Enter로 확정했고 KO는 M03·8주·정산 2까지 이어졌다.
+- 초기 direct checker가 retail meta를 건드렸으나 백업에서 SHA
+  `fc46cc3a40d7813beffc7ed6db969bd55218ee60de66ba313235a99e2072577d`로 복구했다.
+  이후 staged-only guard를 강제했고 제품·기존 저장·반려 ORDER-103은 불변이다.
+- `order124_rc`는 active, 사용자 L3와 본편 이관은 OPEN이다. 24주·240주·전체
+  감사는 이 후보에 실행하거나 인용하지 않았다.
+
 ## 2026-08-24 (Codex — ORDER-103 전용 M01~M06 macOS 후보)
 
 - 숫자 여력 네 장의 W1~W24 active `demo_rc`와 장면 카드·`주력/함께` M01~M06

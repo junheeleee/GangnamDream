@@ -14,7 +14,7 @@
       "commit": "ebc58a839d64d8810b9da5548c20e58bc43c9e30",
       "tree": "f978a22525b678ef83619dc50094a6dada75f190",
       "manifest_sha256": "8a34920038962a4ba0885ad6189d92dc6d3c3ee2780020f3894938d380613177",
-      "note": "데모 제품 경계는 W1~24 CTA다. BUILD 2026.08.22.1은 숫자 여력 네 장을 쓰는 `서울의 네 주` 기준선이다. clean revision ebc58a839d64d8810b9da5548c20e58bc43c9e30 / tree f978a22525b678ef83619dc50094a6dada75f190의 Windows·macOS·Linux V2 playtest 후보고, 같은 후보의 full audit·KO/EN 24주·KO 240주와 package identity/manifest 검증, macOS native no-arg smoke가 PASS했다. 자동 증거는 사용자 최종 GO를 대신하지 않는다. demo_rc의 사람·실기기·연속 A/V·원어민 게이트와 고정 order99_build_3_rc의 사용자 게이트는 OPEN이다. ORDER-103의 독립 월간 선택판은 사용자 NO-GO로 퇴역했고, 후속 ORDER-124 후보는 별도 재빌드 중이다. W25~48 Chapter 1은 데모 RC나 사람 판정 조건이 아니다."
+      "note": "데모 제품 경계는 W1~24 CTA다. BUILD 2026.08.22.1은 숫자 여력 네 장을 쓰는 `서울의 네 주` 기준선이다. clean revision ebc58a839d64d8810b9da5548c20e58bc43c9e30 / tree f978a22525b678ef83619dc50094a6dada75f190의 Windows·macOS·Linux V2 playtest 후보고, 같은 후보의 full audit·KO/EN 24주·KO 240주와 package identity/manifest 검증, macOS native no-arg smoke가 PASS했다. 자동 증거는 사용자 최종 GO를 대신하지 않는다. demo_rc의 사람·실기기·연속 A/V·원어민 게이트와 고정 order99_build_3_rc의 사용자 게이트는 OPEN이다. ORDER-103의 독립 월간 선택판은 사용자 NO-GO로 퇴역했고, 스토리 선택 전용 BUILD 2026.08.24.2는 별도 active `order124_rc`이며 `demo_rc`를 대신하지 않는다. W25~48 Chapter 1은 데모 RC나 사람 판정 조건이 아니다."
     },
     "order99_build_3_rc": {
       "status": "active",
@@ -24,11 +24,11 @@
       "note": "ORDER-99 BUILD 2026.08.11.3 사용자 저장 복구 확인만 소유하는 고정 후보다. 최신 공개 데모 후보가 아니며 demo_rc가 새 빌드로 이동해도 이 저장 게이트의 revision은 바꾸지 않는다."
     },
     "order124_rc": {
-      "status": "waiting_rebuild",
-      "commit": null,
-      "tree": null,
-      "manifest_sha256": null,
-      "note": "ORDER-103 사용자 NO-GO를 반영해 월간 행동판 없이 실제 StoryMode 선택과 자동 시간·경제만 쓰는 M01~M06 전용 macOS 후보를 재빌드 중이다. exact candidate가 L1/L2와 저장 격리를 통과하기 전에는 사람 판정에 사용하지 않는다."
+      "status": "active",
+      "commit": "e9aff5f06c2e3ec3708426156074674a56a4c3f6",
+      "tree": "ad4d88a6aed68a79074f6f8e3204bf0474f6dbc4",
+      "manifest_sha256": "87f3491f7e526762203a83eb4ed25bbbba79981f7dc3ec812d49cdd955db1194",
+      "note": "월간 행동판 없이 실제 StoryMode 선택과 자동 시간·경제만 쓰는 M01~M06 전용 macOS BUILD 2026.08.24.2다. ZIP SHA-256 626196d6a74f50373ddc3e6d0cb8b3a502f052d4436f308361d8b82d3ab45a75, app tree SHA-256 c21d5ba71c5516465849cc7596d48ed430a4fc903eeeb7033340d36e5afb6a85다. L1/L2와 저장 격리는 통과했고 사람 재미 판정은 OPEN이다."
     },
     "full_rc": {
       "status": "waiting_rebuild",
@@ -857,7 +857,7 @@
       "id": "order124_m1_m6_story_choice_playtest_user_final_go",
       "domain": "gameplay",
       "gate": "ORDER-124 M01~M06 스토리 선택 전용 구조 사용자 판정",
-      "why": "자동 검사는 실제 StoryMode 선택, 자동 시간·경제, 저장 격리를 증명한다. 월간 행동판 없이도 선택과 대가가 게임으로 읽히는지는 사용자가 직접 판정해야 한다.",
+      "why": "표적 검사는 자동 시간·경제와 저장 격리를, 최종 패키지 실측은 실제 StoryMode 선택을 증명한다. 월간 행동판 없이도 선택과 대가가 게임으로 읽히는지는 사용자가 직접 판정해야 한다.",
       "owner": "ORDER-124",
       "state": "open",
       "scope": {

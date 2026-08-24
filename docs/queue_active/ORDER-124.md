@@ -31,7 +31,10 @@
    `arc_temptation_clean` 또는 `arc_temptation_fallout`을 재생한다.
 4. M03은 `arc_daeun_01_meet`와 `arc_jiyeon_01_crash`를 같은 달의 두 생활
    장면으로 이어 실제 대화 선택을 적용한다.
-5. M04는 `arc_sangchul_01_meet`, M05는 `arc_jaehyuk_01_reunion`을 재생한다.
+5. M04는 `arc_sangchul_01_meet` 뒤 실제 follow-up인
+   `arc_sangchul_01_measure` 또는 `arc_sangchul_01_coffee`, 이어
+   `arc_sangchul_01_answer`까지 같은 달에 재생하고, M05는
+   `arc_jaehyuk_01_reunion`을 재생한다.
 6. M06은 기존 첫 청구서의 현재 언어 선택·결과 산문을 재사용하되, 구 월간
    의무 영수증과 동적 후보 계약 없이 지금 만난 사람·일·몸 중 하나를 고르는
    이 후보 전용 사건 사본으로 재생한다.
@@ -120,3 +123,28 @@
 사용자가 승인한 “반복 월간 행동은 제거하고 실제 스토리 선택이 행동을 소유한다”는
 제품 방향은 `docs/CHOICE_CONSEQUENCE_SYSTEM.md`에 승격한다. 후보 이름·BUILD·
 격리 저장·검사 명령은 이 오더에서만 유효한 일회성 지시다.
+
+## 2026-08-24 전용 macOS 후보 발급 · 사용자 플레이 가능
+
+- active `order124_rc`는
+  `GangnamDream-ORDER124-M01M06-StoryChoicePlaytest`, BUILD
+  `2026.08.24.2`다. exact source는
+  `e9aff5f06c2e3ec3708426156074674a56a4c3f6`, tree는
+  `ad4d88a6aed68a79074f6f8e3204bf0474f6dbc4`다.
+- manifest SHA-256은
+  `87f3491f7e526762203a83eb4ed25bbbba79981f7dc3ec812d49cdd955db1194`,
+  ZIP은 `626196d6a74f50373ddc3e6d0cb8b3a502f052d4436f308361d8b82d3ab45a75`,
+  app tree는 `c21d5ba71c5516465849cc7596d48ed430a4fc903eeeb7033340d36e5afb6a85`다.
+- 표적 검사는
+  `STORY_CHOICE_M1M6_CHECK_OK months=6 weeks=24 settlements=6 commitments=0 routes=2 save=1 m6=1`,
+  패키지는 `ORDER124_PACKAGE_AUDIT_SELF_TEST_OK checks=26`과
+  `ORDER124_PACKAGE_AUDIT_OK`를 통과했다. 무인자 진입, ad-hoc codesign,
+  KO 1280×800·EN 960×600 packaged smoke와 홈·전환·회고 캡처도 통과했다.
+- 최종 패키지에서 실제 StoryMode를 열어 KO 960×600·EN 1280×800 선택 버튼을
+  Enter로 확정했다. KO는 M01 clean 선택과 M02 결과 뒤 M03까지 도달했고 전용
+  저장은 8주·정산 2회·월간 commitment 0을 기록했다.
+- 제품 설정, retail/V2 저장, 기존 `demo_rc`, 반려 ORDER-103 앱·저장·산출물은
+  불변이며 최종 QA 뒤 후보 사용자 디렉터리는 다시 없는 상태다. 이 후보에는
+  기존 24주·240주·전체 감사를 실행하거나 인용하지 않았다.
+- L1/L2는 닫혔지만 재미 판정은 아니다. 사용자가 M01~M06을 정상 속도로 끝내는
+  L3와 본편 이관 GO가 열려 있으므로 ORDER-124 상태는 `[~]`를 유지한다.

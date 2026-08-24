@@ -209,7 +209,7 @@ green이면 `order103_rc`를 사람 판정용 `active` 후보로 등록하고, �
 물리 패드 조작감은 사용자의 L3에서 닫는다. 이 후보에 24주·240주 검사를 실행하거나
 그 결과를 전용 L2 증거로 재사용하지 않는다.
 
-### 현재 ORDER-103 플레이 후보 (2026-08-24, 사용자 판정 OPEN)
+### 반려된 ORDER-103 보존 후보 (2026-08-24, 사용자 NO-GO)
 
 BUILD `2026.08.24.1`은 exact clean revision
 `20ec3fb04f5068846518f28e4123e1fabfa73e34`, tree
@@ -226,9 +226,66 @@ launcher SHA-256은
 표적 검사와 package audit, KO 1280×800·EN 960×600 flow, M02·회고 저장 재개,
 무인자 전용 홈 진입, ad-hoc codesign, manifest/app/ZIP 재검산, 제품 설정 7파일과
 기존 retail/V2 저장 19파일의 격리가 PASS했다. 창 하단 표식은
-`ORDER-103 · M01–M06 · BUILD 2026.08.24.1`이다. `order103_rc`는 active지만
-자동 입력은 합성 L2이므로 실제 조작감·무엇을 버릴지 고민되는지·최종 GO는 사용자
-L3에서만 닫는다. 숫자 여력 W1~W24 `demo_rc`는 이 판정의 실행 파일이 아니다.
+`ORDER-103 · M01–M06 · BUILD 2026.08.24.1`이다. 사용자가 월간 행동 계층 자체를
+NO-GO해 `order103_rc`는 현재 사람 원장에서 내렸다. 앱·ZIP·해시는 반려 비교
+증거로만 보존하며 새 플레이나 후속 빌드의 기반으로 사용하지 않는다. 숫자 여력
+W1~W24 `demo_rc`도 스토리 선택 전용 판정의 실행 파일이 아니다.
+
+## ORDER-124 전용 M01–M06 스토리 선택 후보
+
+월간 `주력/함께/여력` 행동판을 되살리지 않고 실제 `StoryMode` 선택과 장면 뒤
+자동 네 주·생활 정산만 검증한다. clean source를 저장소 밖에 통째로 staging한 뒤
+그 복사본의 main scene과 custom user-data 이름만 바꾼다. 제품 `project.godot`,
+`export_presets.cfg`, 본편 runtime과 기존 저장은 바꾸지 않는다.
+
+```bash
+GODOT=/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot \
+  ./tools/build_order124_macos.sh \
+  --source HEAD \
+  --build-id 2026.08.24.2
+```
+
+생성기는 dirty source와 Godot `4.6.2.stable.official.71f334935`가 아닌 엔진을
+거부하고 다음을 남긴다.
+
+- `build/order124/macos/GangnamDream-ORDER124-M01M06-StoryChoicePlaytest.app`
+- `build/order124/macos/GangnamDream-ORDER124-M01M06-StoryChoicePlaytest.zip`
+- `build/order124/MANIFEST.json`
+- `build/order124/MANIFEST.sha256`
+
+profile은 `order124_m1m6_story_choice`, flavor는
+`order124_story_choice_playtest`, 진입은
+`res://playtests/order124/StoryChoiceM1M6Playtest.tscn`이다. 전용 사용자 데이터는
+`GangnamDream_ORDER124_StoryChoice_v1`, 후보 저장은
+`user://story_choice_m1m6_playtest_save.json` 하나다. 빌드는 후보 경로의 기존
+상태를 snapshot/복원하고 retail/V2, `demo_rc`, 반려 ORDER-103, 제품 설정과 다른
+산출물의 전후 해시를 비교한다.
+
+자동 L1/L2는 전용 `story-choice-m1m6-runtime` 검사, 무인자 전용 홈 진입,
+KO 1280×800·EN 960×600 package smoke, ad-hoc codesign, 앱과 ZIP 내부 app tree,
+launcher·PCK·source contract와 manifest를 검증한다. 패키지의 홈·전환·회고는
+두 언어·두 목표 크기로 캡처하고, 실제 `StoryMode` 선택은 최종 앱에서 직접
+입력으로 확인한다. 이 후보에는 기존 24주·240주·전체 감사를 실행하거나 인용하지
+않는다.
+
+### 현재 ORDER-124 플레이 후보 (2026-08-24, 사용자 판정 OPEN)
+
+BUILD `2026.08.24.2`는 exact clean revision
+`e9aff5f06c2e3ec3708426156074674a56a4c3f6`, tree
+`ad4d88a6aed68a79074f6f8e3204bf0474f6dbc4`에서 생성했다. manifest SHA-256은
+`87f3491f7e526762203a83eb4ed25bbbba79981f7dc3ec812d49cdd955db1194`, ZIP은
+`626196d6a74f50373ddc3e6d0cb8b3a502f052d4436f308361d8b82d3ab45a75`, app tree는
+`c21d5ba71c5516465849cc7596d48ed430a4fc903eeeb7033340d36e5afb6a85`, launcher는
+`291d39bfa8f6014b40745012e725eb1a398076d223ea89e1caa2d8804495c7c7`, PCK는
+`04e3e67e1591df5984f804f299edcba0c95eb6e8281362d253c134df0d64b7d8`다.
+
+표적 marker는
+`STORY_CHOICE_M1M6_CHECK_OK months=6 weeks=24 settlements=6 commitments=0 routes=2 save=1 m6=1`이고
+package self-test `checks=26`과 최종 audit가 PASS했다. packaged recap은 M06까지,
+KO 960×600·EN 1280×800 실제 StoryMode 키보드 선택은 선택 버튼·결과 적용을
+확인했다. KO 실제 경로는 M01 clean과 M02 결과 뒤 M03, 8주·정산 2회·commitment
+0 저장까지 도달했다. `order124_rc`는 active지만 재미와 본편 이관은 사용자의
+M01~M06 정상 속도 L3에서만 닫는다.
 
 ## 4. 자동 스모크
 
