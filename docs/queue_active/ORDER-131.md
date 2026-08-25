@@ -30,6 +30,8 @@
 `tools/event_lifecycle.py`, `tools/exposed_state_consistency_audit.py`,
 `tools/arc_flow_sim.py`, `tools/narrative_spine_audit.py`,
 `tools/peak_scene_chain_audit.py`, `tools/year5_reference_route_audit.py`,
+`tools/full_run_pacing_audit.py`, `tools/EventDirectorCheck.gd`,
+`tools/CoreChoiceSliceCheck.gd`, `tools/ScreenshotQA.gd`,
 `tools/audit_scope.json`, `tools/audit.sh`,
 `docs/CONTENT_RATING_INVENTORY.md`, `docs/CODEX_QUEUE.md`, 이 사양과 완료 시
 `docs/queue_archive/ORDER-131.md`,
@@ -37,6 +39,12 @@
 `docs/WORK_LOG.md`, 생성본 `docs/STATUS.md`. 선언 범위 중 실물 변경이 불필요한
 감사·자산 원장은 byte 불변 재검증 대상으로 남길 수 있다. `StoryMode.gd`,
 `GameState.gd`, `EndingSystem.gd`, `project.godot`, AP/UI·저장 schema는 범위 밖이다.
+
+**선언 보강 (2026-08-26):** 새 Chapter 4 보호 주차가 기존 exact 리듬
+기준을 바꾸므로, 그 수치를 소유하는 기존 감사 4파일을 위 범위에
+추가한다. 실물 선택 엔진·저장 schema는 계속 byte 불변이며,
+same-turn 재진입·중복 효과는 전용 인과 감사와 `CoreChoiceSliceCheck`의
+저장 왕복으로 검증한다.
 
 ## 깊이 3문
 
