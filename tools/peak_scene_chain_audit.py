@@ -2087,6 +2087,245 @@ def validate_review_appendix_contracts(
             raise ValueError(f"English routine scene retained abstract maxim: {stale}")
 
 
+def validate_finale_density_contracts(
+        ko_events: dict[str, dict[str, Any]],
+        en_events: dict[str, dict[str, Any]]) -> None:
+    """Lock the final 9/10/9 beat climb without inventing contracts or replies."""
+
+    def paragraphs(event: dict[str, Any], field: str) -> list[str]:
+        return [
+            block.strip()
+            for block in str(event.get(field, "")).split("\n\n")
+            if block.strip()
+        ]
+
+    def require_count(
+            locale: str, event_id: str, field: str,
+            event: dict[str, Any], expected: int) -> list[str]:
+        value = paragraphs(event, field)
+        if len(value) != expected:
+            raise ValueError(
+                f"{locale}:{event_id}.{field} must have {expected} meaning beats, "
+                f"got {len(value)}"
+            )
+        return value
+
+    def changed_indexes(base: list[str], variant: list[str]) -> set[int]:
+        return {
+            index for index, (left, right) in enumerate(zip(base, variant))
+            if left != right
+        }
+
+    def placeholders(value: Any) -> list[str]:
+        return sorted(set(re.findall(
+            r"\{[A-Za-z_][A-Za-z0-9_]*\}", str(value or ""))))
+
+    finale_ids = (
+        ("arc_pre_ending_summit", "arc_pre_ending_summit"),
+        ("arc_final_countdown", "arc_final_countdown"),
+        ("arc_final_week", "arc_final_week"),
+    )
+    for ko_id, en_id in finale_ids:
+        if ko_id not in ko_events or en_id not in en_events:
+            raise ValueError(f"finale event missing from KO/EN: {ko_id}")
+        ko_choices = ko_events[ko_id].get("choices") or []
+        en_choices = en_events[en_id].get("choices") or []
+        if len(ko_choices) != len(en_choices):
+            raise ValueError(f"finale KO/EN choice count drifted: {ko_id}")
+
+    summit_fields = ("description", "description_orthodox", "description_unorthodox")
+    for locale, event in (
+        ("ko", ko_events["arc_pre_ending_summit"]),
+        ("en", en_events["arc_pre_ending_summit"]),
+    ):
+        summit_paragraphs = {
+            field: require_count(locale, "arc_pre_ending_summit", field, event, 9)
+            for field in summit_fields
+        }
+        for field in summit_fields[1:]:
+            if changed_indexes(summit_paragraphs["description"], summit_paragraphs[field]) \
+                    != {3, 6}:
+                raise ValueError(
+                    f"{locale}:arc_pre_ending_summit.{field} must change only beats 4 and 7"
+                )
+        for index, choice in enumerate(event.get("choices") or []):
+            require_count(
+                locale, "arc_pre_ending_summit", f"choices[{index}].result_text",
+                {f"choices[{index}].result_text": choice.get("result_text", "")}, 4)
+
+    countdown_fields = ("description",)
+    final_week_fields = ("description",)
+    for locale, events in (("ko", ko_events), ("en", en_events)):
+        countdown = events["arc_final_countdown"]
+        for field in countdown_fields:
+            require_count(locale, "arc_final_countdown", field, countdown, 10)
+        moral = countdown.get("description_if_moral") or {}
+        if set(moral) != {"black", "white"}:
+            raise ValueError(f"{locale}:arc_final_countdown moral variants must stay black/white")
+        for moral_id in ("black", "white"):
+            require_count(
+                locale, "arc_final_countdown", f"description_if_moral.{moral_id}",
+                {f"description_if_moral.{moral_id}": moral[moral_id]}, 10)
+        for index, choice in enumerate(countdown.get("choices") or []):
+            require_count(
+                locale, "arc_final_countdown", f"choices[{index}].result_text",
+                {f"choices[{index}].result_text": choice.get("result_text", "")}, 4)
+
+        final_week = events["arc_final_week"]
+        base = require_count(locale, "arc_final_week", "description", final_week, 9)
+        known = final_week.get("description_if_known") or {}
+        for signature_id in (
+            "final_signature_owned", "final_signature_collateral", "final_signature_people"
+        ):
+            if signature_id not in known:
+                raise ValueError(f"{locale}:arc_final_week missing {signature_id}")
+            variant = require_count(
+                locale, "arc_final_week", f"description_if_known.{signature_id}",
+                {f"description_if_known.{signature_id}": known[signature_id]}, 9)
+            if changed_indexes(base, variant) != {1}:
+                raise ValueError(
+                    f"{locale}:arc_final_week.{signature_id} must change only beat 2"
+                )
+        for index, choice in enumerate(final_week.get("choices") or []):
+            require_count(
+                locale, "arc_final_week", f"choices[{index}].result_text",
+                {f"choices[{index}].result_text": choice.get("result_text", "")}, 4)
+
+    # Every changed KO/EN surface keeps the same player-name placeholder shape.
+    surface_fields = {
+        "arc_pre_ending_summit": summit_fields,
+        "arc_final_countdown": ("description",),
+        "arc_final_week": ("description",),
+    }
+    for event_id, fields in surface_fields.items():
+        ko_event = ko_events[event_id]
+        en_event = en_events[event_id]
+        for field in fields:
+            if placeholders(ko_event.get(field)) != placeholders(en_event.get(field)):
+                raise ValueError(f"finale placeholder parity drifted: {event_id}.{field}")
+        for index, (ko_choice, en_choice) in enumerate(zip(
+                ko_event.get("choices") or [], en_event.get("choices") or [])):
+            if placeholders(ko_choice.get("result_text")) \
+                    != placeholders(en_choice.get("result_text")):
+                raise ValueError(
+                    f"finale result placeholder parity drifted: {event_id}[{index}]"
+                )
+
+    summit_ko = ko_events["arc_pre_ending_summit"]
+    summit_en = en_events["arc_pre_ending_summit"]
+    for field in summit_fields:
+        ko_text = str(summit_ko.get(field, ""))
+        en_text = str(summit_en.get(field, ""))
+        ko_anchors = [
+            "자산 숫자와 집을 샀다는 사실은 같은 말이 아니었다.",
+            "서명한 매매계약서는 없었다. 등기 접수증도, 건네받은 열쇠도 없었다.",
+        ]
+        en_anchors = [
+            "an asset figure did not mean a home had been bought.",
+            "There was no signed purchase agreement. No registration receipt. No key handed over.",
+        ]
+        for anchor in ko_anchors:
+            if anchor not in ko_text:
+                raise ValueError(f"ko:arc_pre_ending_summit.{field} lost {anchor!r}")
+        for anchor in en_anchors:
+            if anchor not in en_text:
+                raise ValueError(f"en:arc_pre_ending_summit.{field} lost {anchor!r}")
+    for locale, event, forbidden in (
+        ("ko", summit_ko, ("계약했다", "매입했다", "열쇠를 받았다", "등기했다")),
+        ("en", summit_en, ("signed the contract", "bought the home", "received the key")),
+    ):
+        result_copy = "\n".join(str(choice.get("result_text", "")) for choice in event.get("choices") or [])
+        for token in forbidden:
+            if token.lower() in result_copy.lower():
+                raise ValueError(f"{locale}:summit result invented ownership: {token!r}")
+
+    for locale, event, forbidden in (
+        ("ko", ko_events["arc_final_countdown"], ("227", "이체 확인서", "이체 완료", "상철", "현수", "민서")),
+        ("en", en_events["arc_final_countdown"], ("227", "transfer confirmation", "transfer completed", "Sangchul", "Hyunsu", "Minseo")),
+    ):
+        description_copy = "\n".join([
+            str(event.get("description", "")),
+            *(str(value) for value in (event.get("description_if_moral") or {}).values()),
+        ])
+        for token in forbidden:
+            if token.lower() in description_copy.lower():
+                raise ValueError(f"{locale}:countdown invented a universal record/person: {token!r}")
+
+    for locale, event, required, forbidden in (
+        (
+            "ko", ko_events["arc_final_week"],
+            ("답장도 만남도 화해도 화면 어느 곳에 확정되어 있지 않았다.",
+             "자기 쪽에서 먼저 보낼 행동이었다."),
+            ("답장이 왔다", "만나기로 했다", "용서받았다", "관계가 회복됐다"),
+        ),
+        (
+            "en", en_events["arc_final_week"],
+            ("No reply, meeting, or reconciliation had been settled anywhere on the screen.",
+             "the action he would send first."),
+            ("a reply came", "agreed to meet", "was forgiven", "the relationship was restored"),
+        ),
+    ):
+        all_descriptions = [str(event.get("description", ""))]
+        all_descriptions.extend(
+            str((event.get("description_if_known") or {}).get(signature_id, ""))
+            for signature_id in (
+                "final_signature_owned", "final_signature_collateral",
+                "final_signature_people",
+            )
+        )
+        for value in all_descriptions:
+            for anchor in required:
+                if anchor not in value:
+                    raise ValueError(f"{locale}:final week lost outbound-only anchor {anchor!r}")
+        result_copy = "\n".join(str(choice.get("result_text", "")) for choice in event.get("choices") or [])
+        for token in forbidden:
+            if token.lower() in result_copy.lower():
+                raise ValueError(f"{locale}:final week invented a reply/recovery: {token!r}")
+
+    expected_choices = {
+        "arc_pre_ending_summit": (
+            ("연락처에서 아버지의 이름을 연다", {"mental": 5, "tint": 6},
+             ["arc_pre_ending_summit_seen"], ""),
+            ("혼자 강남대로를 천천히 걷는다", {"mental": 3, "health": -1, "tint": 2},
+             ["arc_pre_ending_summit_seen"], ""),
+        ),
+        "arc_final_countdown": (
+            ("마지막 줄에 내 이름만 쓴다. 선택의 책임까지.",
+             {"mental": 4, "intelligence": 2, "tint": 1},
+             ["arc_final_countdown_seen", "final_signature_owned"], "arc_final_week"),
+            ("빌려온 이름까지 계산한다. 목표를 위해 한 번 더.",
+             {"investment_skill": 2, "mental": -4, "tint": -2},
+             ["arc_final_countdown_seen", "final_signature_collateral"], "arc_final_week"),
+            ("나를 불러 준 이름들을 적는다. 사람부터.",
+             {"mental": 6, "tint": 3},
+             ["arc_final_countdown_seen", "final_signature_people"], "arc_final_week"),
+        ),
+        "arc_final_week": (
+            ("같은 대화방에 서로 버틴 시간을 인정하고, 다음 주 밥 한 끼를 먼저 제안한다",
+             {"mental": 15, "health": 5, "tint": 5},
+             ["arc_final_week_seen", "final_week_self_approval"], ""),
+            ("다음 주를 부탁하기 전에, 미뤄 둔 사과를 먼저 보낸다",
+             {"intelligence": 3, "tint": -1}, ["arc_final_week_seen"], ""),
+            ("고마움과 오늘 필요한 거리를 쓰고, 다음 연락 시각을 함께 보낸다",
+             {"mental": 10, "health": 3, "tint": 4},
+             ["arc_final_week_seen", "final_week_gratitude"], ""),
+        ),
+    }
+    for event_id, contracts in expected_choices.items():
+        choices = ko_events[event_id].get("choices") or []
+        if len(choices) != len(contracts):
+            raise ValueError(f"{event_id}: finale choice count changed")
+        for index, (text, effects, flags, follow_up) in enumerate(contracts):
+            choice = choices[index]
+            if choice.get("text") != text \
+                    or choice.get("effects") != effects \
+                    or choice.get("flags") != flags \
+                    or str(choice.get("follow_up_event", "")) != follow_up:
+                raise ValueError(
+                    f"{event_id}[{index}]: choice text/effects/flags/follow-up changed"
+                )
+
+
 def measure(label: str, root_id: str, events: dict[str, dict[str, Any]]) -> PeakMetric:
     paths = walk_paths(events, root_id)
     links = [len(path.event_ids) for path in paths]
@@ -2162,6 +2401,7 @@ def main() -> int:
     validate_breakup_peak_contracts(ko_events)
     validate_jiyeon_marriage_routing_contract()
     validate_review_appendix_contracts(ko_events, en_events)
+    validate_finale_density_contracts(ko_events, en_events)
     metrics = [measure(label, root_id, ko_events) for label, root_id in PEAK_ROOTS]
     visited = {
         event_id

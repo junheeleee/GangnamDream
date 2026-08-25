@@ -20101,6 +20101,15 @@ func _ending_build_people_page() -> void:
 		_tr("그 사람들은", "As for Them"),
 		_tr("같은 결말도 곁에 누가 남았는지에 따라 다른 표정을 갖는다.",
 			"The same ending wears a different face depending on who remained."))
+	var signature_coda: Dictionary = EndingSystem.final_signature_coda(
+		_ending_id, GameState.flags)
+	if not signature_coda.is_empty():
+		var signature_card := _ending_epilogue_card(_ending_plain_text(_tr(
+			str(signature_coda.get("text", "")),
+			str(signature_coda.get("text_en", "")))))
+		signature_card.set_meta(
+			"ending_signature_coda", str(signature_coda.get("kind", "")))
+		page.add_child(signature_card)
 	_ending_cast_epilogue(page, _ending_id, true)
 	_ending_add_navigation(page, _tr("시간의 기록", "The Time Ledger"), _ending_show_page.bind(3), true)
 

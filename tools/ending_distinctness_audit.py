@@ -24,7 +24,24 @@ ENDINGS_EN_PATH = ROOT / "content" / "endings_en.json"
 AUDIT_PATH = ROOT / "docs" / "ENDING_AUDIT.md"
 VISUAL_BIBLE_PATH = ROOT / "assets" / "ENDING_COMPLETE_VISUAL_BIBLE.md"
 IMAGE_REGISTRY_PATH = ROOT / "autoloads" / "ImageRegistry.gd"
+ENDING_SYSTEM_PATH = ROOT / "systems" / "EndingSystem.gd"
+MAIN_GAME_PATH = ROOT / "scenes" / "MainGame.gd"
 REGISTRY_ENTRY = re.compile(r'"([^"]+)":\s*"(res://[^"]+)"')
+
+FINAL_SIGNATURE_APPLY_IDS = (
+    "gangnam_dream", "empty_house", "with_daeun", "jiyeon_man", "jaehyuk_way",
+    "late_call", "stable_success", "ordinary_life", "lonely_rich", "investment_master",
+    "reputation_legend", "healthy_retirement", "orthodox_pinnacle", "orthodox_hollow",
+    "balanced_life", "unorthodox_legend", "early_retirement", "full_circle",
+    "gangnam_dream_white", "gambling_recovery", "career_climber", "career_burnout",
+    "sangchul_reckoning", "writer",
+)
+FINAL_SIGNATURE_EXCLUDED_IDS = (
+    "burnout", "mental_break", "bankruptcy", "crypto_ghost", "debt_spiral",
+    "instant_legend", "startup_exit", "second_love", "guardian", "creator_success",
+    "political_fix",
+)
+FINAL_SIGNATURE_TOKEN = re.compile(r"final_signature_[a-z0-9_]+")
 
 ROUTES = {
     "gangnam_dream": "M60 마지막 서명 완료; 런 중 순자산 30억+ 도달; 아버지 생존; 선행 NG+/신화/배우자 상실/Deep Black/고립/White 분기 미해당",
@@ -176,6 +193,24 @@ def _all_text(row: dict) -> str:
     return json.dumps(row, ensure_ascii=False)
 
 
+def _gd_string_array(source: str, constant_name: str) -> list[str] | None:
+    match = re.search(
+        rf"(?ms)^const\s+{re.escape(constant_name)}\s*:=\s*\[(.*?)^\]",
+        source,
+    )
+    if match is None:
+        return None
+    return re.findall(r'"([a-z0-9_]+)"', match.group(1))
+
+
+def _gd_function(source: str, function_name: str) -> str:
+    match = re.search(
+        rf"(?ms)^func\s+{re.escape(function_name)}\s*\(.*?(?=^func\s+|\Z)",
+        source,
+    )
+    return match.group(0) if match is not None else ""
+
+
 def main() -> int:
     errors: list[str] = []
     rows = _load_rows(ENDINGS_PATH)
@@ -193,11 +228,72 @@ def main() -> int:
             "route mirror mismatch missing=%s extra=%s"
             % (sorted(set(by_id) - set(ROUTES)), sorted(set(ROUTES) - set(by_id)))
         )
+
+    ending_system_source = ENDING_SYSTEM_PATH.read_text(encoding="utf-8")
+    actual_apply_ids = _gd_string_array(
+        ending_system_source, "FINAL_SIGNATURE_CODA_ENDING_IDS"
+    )
+    actual_excluded_ids = _gd_string_array(
+        ending_system_source, "FINAL_SIGNATURE_CODA_EXCLUDED_ENDING_IDS"
+    )
+    if actual_apply_ids != list(FINAL_SIGNATURE_APPLY_IDS):
+        errors.append(
+            "final-signature apply whitelist mismatch expected=%s actual=%s"
+            % (list(FINAL_SIGNATURE_APPLY_IDS), actual_apply_ids)
+        )
+    if actual_excluded_ids != list(FINAL_SIGNATURE_EXCLUDED_IDS):
+        errors.append(
+            "final-signature excluded whitelist mismatch expected=%s actual=%s"
+            % (list(FINAL_SIGNATURE_EXCLUDED_IDS), actual_excluded_ids)
+        )
+    signature_apply = set(FINAL_SIGNATURE_APPLY_IDS)
+    signature_excluded = set(FINAL_SIGNATURE_EXCLUDED_IDS)
+    if signature_apply & signature_excluded:
+        errors.append("final-signature apply/excluded whitelists overlap")
+    if signature_apply | signature_excluded != set(by_id):
+        errors.append("final-signature 24/11 partition does not equal the 35 ending IDs")
+
+    for endings_path in sorted((ROOT / "content").glob("endings*.json")):
+        signature_tokens = sorted(
+            set(FINAL_SIGNATURE_TOKEN.findall(endings_path.read_text(encoding="utf-8")))
+        )
+        if signature_tokens:
+            errors.append(
+                "%s: final-signature flags must not enter ending JSON: %s"
+                % (endings_path.relative_to(ROOT), signature_tokens)
+            )
+
+    main_game_source = MAIN_GAME_PATH.read_text(encoding="utf-8")
+    resolver_source = _gd_function(main_game_source, "_resolved_ending_description")
+    first_true_tokens = (
+        'ending.get("description_if_known", null)',
+        "if ending_know is Dictionary:",
+        "for flag_id in ending_know.keys():",
+        "if GameState.flags.get(str(flag_id), false):",
+        "return str(ending_know[flag_id])",
+        "return ending_desc",
+    )
+    positions = [resolver_source.find(token) for token in first_true_tokens]
+    if not resolver_source or any(position < 0 for position in positions) \
+            or positions != sorted(positions):
+        errors.append("MainGame description_if_known first-true resolver contract drifted")
+    if ".sort" in resolver_source or FINAL_SIGNATURE_TOKEN.search(resolver_source):
+        errors.append("MainGame description_if_known resolver must stay ordered and signature-free")
+
     for ending_id, row in by_id.items():
         if not str(row.get("title", "")).strip():
             errors.append("%s: missing title" % ending_id)
         if not _body(row):
             errors.append("%s: missing ending body" % ending_id)
+        ko_dik_order = list((row.get("description_if_known", {}) or {}).keys())
+        en_dik_order = list(
+            (by_en_id[ending_id].get("description_if_known", {}) or {}).keys()
+        )
+        if ko_dik_order != en_dik_order:
+            errors.append(
+                "%s: KO/EN description_if_known first-true order mismatch"
+                % ending_id
+            )
 
     jiyeon_ko = _all_text(by_id["jiyeon_man"])
     jiyeon_en = _all_text(by_en_id["jiyeon_man"])
@@ -313,7 +409,6 @@ def main() -> int:
                         % (ending_id, locale, key, len(value), len(base))
                     )
 
-    main_game_source = (ROOT / "scenes" / "MainGame.gd").read_text(encoding="utf-8")
     meta_progression_source = (ROOT / "autoloads" / "MetaProgression.gd").read_text(encoding="utf-8")
     for stale_claim in ("아무도 밟지 않고 30억", "without stepping on anyone"):
         if stale_claim in main_game_source or stale_claim in meta_progression_source:

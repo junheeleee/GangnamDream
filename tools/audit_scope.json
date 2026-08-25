@@ -683,11 +683,16 @@
     },
     {
       "tool": "tools/peak_scene_chain_audit.py",
-      "why": "정점 장면 체인",
+      "why": "정점 장면 체인·종막 9·10·9 의미 전환과 허위 계약/회복 차단",
       "paths": [
         "content/events/**",
+        "content/events_en/**",
+        "content/endings*.json",
+        "scenes/MainGame.gd",
+        "autoloads/GameState.gd",
         "docs/ROMANCE_SYSTEM.md",
-        "docs/SCENE_TIER.md"
+        "docs/SCENE_TIER.md",
+        "tools/peak_scene_chain_audit.py"
       ]
     },
     {
@@ -702,10 +707,13 @@
     },
     {
       "tool": "tools/ending_distinctness_audit.py",
-      "why": "엔딩 35종 구분성",
+      "why": "엔딩 35종 구분성·마지막 서명 24/11 독립 후일담 경계",
       "paths": [
         "content/endings*.json",
-        "content/meta/narrative_spine.json"
+        "content/meta/narrative_spine.json",
+        "systems/EndingSystem.gd",
+        "scenes/MainGame.gd",
+        "tools/ending_distinctness_audit.py"
       ]
     },
     {
@@ -1490,7 +1498,7 @@
     {
       "tool": "tools/ControllerSemanticCheck.tscn",
       "godot": true,
-      "why": "패드 의미 버튼·trigger edge·모달 누수·진동 설정",
+      "why": "패드 의미 버튼·trigger edge·모달 누수·진동 설정·엔딩 첫 후일담 카드 순서",
       "paths": [
         "project.godot",
         "autoloads/ControllerHints.gd",
@@ -1498,6 +1506,7 @@
         "scenes/StartMenu.gd",
         "scenes/StoryMode.gd",
         "scenes/MainGame.gd",
+        "systems/EndingSystem.gd",
         "scenes/CoreLoopV2Completion.gd",
         "scenes/BlackjackTable.gd",
         "scenes/BaccaratTable.gd",

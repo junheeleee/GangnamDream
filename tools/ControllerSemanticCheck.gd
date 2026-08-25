@@ -379,6 +379,36 @@ func _check_main_game_pages() -> void:
 	await _axis_pulse(JOY_AXIS_TRIGGER_LEFT)
 	_expect(int(main.get("_ending_page_index")) == 0,
 		"MainGame L2 did not return to the ending finale")
+	GameState.flags["final_signature_people"] = true
+	main.call("_ending_show_page", 2)
+	await get_tree().process_frame
+	var people_page := _find_meta_value_control(
+		main, "qa_surface", "ending_people")
+	_expect(is_instance_valid(people_page),
+		"MainGame people page did not expose its semantic surface")
+	if is_instance_valid(people_page):
+		var coda_count := 0
+		var coda_index := -1
+		var cast_grid_index := -1
+		var coda_text := ""
+		for child_index in range(people_page.get_child_count()):
+			var child := people_page.get_child(child_index)
+			if child.has_meta("ending_signature_coda"):
+				coda_count += 1
+				coda_index = child_index
+				coda_text = _visible_control_text(child)
+			if child is GridContainer:
+				cast_grid_index = child_index
+		_expect(coda_count == 1 \
+				and coda_index >= 0 \
+				and cast_grid_index > coda_index,
+			"MainGame signature coda was not the single first card before the cast grid")
+		if coda_index >= 0:
+			_expect(str(people_page.get_child(coda_index).get_meta(
+					"ending_signature_coda", "")) == "people",
+				"MainGame signature coda lost its stable people kind")
+		_expect("final_signature" not in coda_text,
+			"MainGame signature coda leaked its internal flag name")
 	main.call("_ending_show_page", 5)
 	await get_tree().process_frame
 	await _axis_pulse(JOY_AXIS_TRIGGER_RIGHT)
@@ -407,6 +437,27 @@ func _find_meta_control(root: Node, key: String) -> Control:
 		if found != null:
 			return found
 	return null
+
+
+func _find_meta_value_control(root: Node, key: String, value: Variant) -> Control:
+	if root is Control and root.has_meta(key) and root.get_meta(key) == value:
+		return root as Control
+	for child in root.get_children():
+		var found := _find_meta_value_control(child, key, value)
+		if found != null:
+			return found
+	return null
+
+
+func _visible_control_text(root: Node) -> String:
+	var parts: PackedStringArray = []
+	if root is Label:
+		parts.append((root as Label).text)
+	elif root is RichTextLabel:
+		parts.append((root as RichTextLabel).text)
+	for child in root.get_children():
+		parts.append(_visible_control_text(child))
+	return "\n".join(parts)
 
 
 func _axis_pulse(axis: JoyAxis) -> void:

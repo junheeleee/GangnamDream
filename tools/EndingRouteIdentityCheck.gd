@@ -4,8 +4,30 @@ extends Node
 var _failures: Array[String] = []
 var _received_endings: Array[String] = []
 
+const FINAL_SIGNATURE_APPLY_IDS := [
+	"gangnam_dream", "empty_house", "with_daeun", "jiyeon_man", "jaehyuk_way",
+	"late_call", "stable_success", "ordinary_life", "lonely_rich", "investment_master",
+	"reputation_legend", "healthy_retirement", "orthodox_pinnacle", "orthodox_hollow",
+	"balanced_life", "unorthodox_legend", "early_retirement", "full_circle",
+	"gangnam_dream_white", "gambling_recovery", "career_climber", "career_burnout",
+	"sangchul_reckoning", "writer",
+]
+
+const FINAL_SIGNATURE_EXCLUDED_IDS := [
+	"burnout", "mental_break", "bankruptcy", "crypto_ghost", "debt_spiral",
+	"instant_legend", "startup_exit", "second_love", "guardian", "creator_success",
+	"political_fix",
+]
+
+const FINAL_SIGNATURE_CASES := {
+	"final_signature_owned": "owned",
+	"final_signature_collateral": "collateral",
+	"final_signature_people": "people",
+}
+
 func _ready() -> void:
 	GameState.game_over.connect(_on_game_over)
+	_check_final_signature_coda_contract()
 	_check_startup_before_generic_gangnam()
 	_check_first_year_gangnam_is_instant_legend()
 	_check_generic_gangnam_waits_for_final_week()
@@ -26,8 +48,107 @@ func _ready() -> void:
 			push_error("ENDING_ROUTE_IDENTITY_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("ENDING_ROUTE_IDENTITY_CHECK_OK cases=15")
+	print("ENDING_ROUTE_IDENTITY_CHECK_OK routes=15 coda_apply=72 coda_excluded=33")
 	get_tree().quit(0)
+
+
+func _check_final_signature_coda_contract() -> void:
+	var expected_ids: Array[String] = []
+	expected_ids.append_array(FINAL_SIGNATURE_APPLY_IDS)
+	expected_ids.append_array(FINAL_SIGNATURE_EXCLUDED_IDS)
+	expected_ids.sort()
+	var catalog_ids: Array[String] = []
+	var seen_ids: Dictionary = {}
+	var seen_cgs: Dictionary = {}
+	for ending_variant in DataRegistry.endings:
+		if not ending_variant is Dictionary:
+			_failures.append("ending catalog contains a non-Dictionary row")
+			continue
+		var ending: Dictionary = ending_variant
+		var ending_id := str(ending.get("id", ""))
+		var cg_id := str(ending.get("cg", ""))
+		if seen_ids.has(ending_id):
+			_failures.append("ending catalog duplicated id %s" % ending_id)
+		seen_ids[ending_id] = true
+		catalog_ids.append(ending_id)
+		if cg_id != "cg_ending_%s" % ending_id:
+			_failures.append("%s changed its dedicated CG id to %s" % [ending_id, cg_id])
+		if seen_cgs.has(cg_id):
+			_failures.append("ending catalog shared CG %s" % cg_id)
+		seen_cgs[cg_id] = true
+	catalog_ids.sort()
+	if catalog_ids != expected_ids:
+		_failures.append("final-signature 24/11 partition does not equal the 35 ending catalog")
+
+	var applied := 0
+	var excluded := 0
+	for ending_id in expected_ids:
+		for flag_id: String in FINAL_SIGNATURE_CASES:
+			var input_flags := {flag_id: true, "unrelated_run_fact": true}
+			var before := input_flags.duplicate(true)
+			var coda: Dictionary = EndingSystem.final_signature_coda(ending_id, input_flags)
+			if input_flags != before:
+				_failures.append("%s/%s mutated the run flags" % [ending_id, flag_id])
+			if ending_id in FINAL_SIGNATURE_APPLY_IDS:
+				applied += 1
+				_check_signature_payload(ending_id, flag_id, coda)
+			else:
+				excluded += 1
+				if not coda.is_empty():
+					_failures.append("excluded ending %s returned %s" % [ending_id, flag_id])
+	if applied != 72 or excluded != 33:
+		_failures.append("final-signature matrix drifted apply=%d excluded=%d" % [applied, excluded])
+
+	var invalid_cases: Array = [
+		["unknown_ending", {"final_signature_owned": true}],
+		["ordinary_life", {}],
+		["ordinary_life", {"final_signature_owned": false}],
+		["ordinary_life", {"final_signature_owned": true, "final_signature_people": true}],
+		["ordinary_life", {
+			"final_signature_owned": true,
+			"final_signature_collateral": true,
+			"final_signature_people": true,
+		}],
+		["ordinary_life", {"final_signature_unknown": true}],
+		["ordinary_life", {
+			"final_signature_owned": true,
+			"final_signature_unknown": false,
+		}],
+		["ordinary_life", {"final_signature_owned": "true"}],
+		["ordinary_life", null],
+		["ordinary_life", []],
+		["ordinary_life", "final_signature_people"],
+	]
+	for invalid_case in invalid_cases:
+		var coda: Dictionary = EndingSystem.final_signature_coda(
+			invalid_case[0], invalid_case[1])
+		if not coda.is_empty():
+			_failures.append("invalid final-signature input returned a coda: %s" % [invalid_case])
+
+	var first_payload: Dictionary = EndingSystem.final_signature_coda(
+		"ordinary_life", {"final_signature_owned": true})
+	first_payload["kind"] = "mutated_by_test"
+	var second_payload: Dictionary = EndingSystem.final_signature_coda(
+		"ordinary_life", {"final_signature_owned": true})
+	if str(second_payload.get("kind", "")) != "owned":
+		_failures.append("final-signature resolver leaked a mutable shared payload")
+
+
+func _check_signature_payload(
+		ending_id: String, flag_id: String, coda: Dictionary) -> void:
+	var keys: Array = coda.keys()
+	keys.sort()
+	if keys != ["kind", "text", "text_en"]:
+		_failures.append("%s/%s returned payload keys %s" % [ending_id, flag_id, keys])
+		return
+	if str(coda.get("kind", "")) != str(FINAL_SIGNATURE_CASES[flag_id]):
+		_failures.append("%s/%s returned kind %s" % [ending_id, flag_id, coda.get("kind", "")])
+	if str(coda.get("text", "")).strip_edges().is_empty() \
+			or str(coda.get("text_en", "")).strip_edges().is_empty():
+		_failures.append("%s/%s returned an empty KO/EN coda" % [ending_id, flag_id])
+	var surface := "%s %s" % [coda.get("text", ""), coda.get("text_en", "")]
+	if "final_signature_" in surface:
+		_failures.append("%s/%s leaked an internal flag onto the player surface" % [ending_id, flag_id])
 
 func _prepare_case(age_value: int = 38) -> void:
 	MetaProgression.data = DataRegistry.default_meta.duplicate(true)

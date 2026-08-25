@@ -98,6 +98,24 @@ late_call  : 38세 종료 + 아버지와 화해
 - **만나지 않은 사람도 이후가 있다.** 그것이 놓친 길의 최종 회수다.
 - 등급·자산·턴 수는 이 단계 뒤에만 나온다. 기존 계약을 유지한다.
 
+### 마지막 서명은 첫 후일담 카드다
+
+M60 `arc_final_countdown`의 세 선택은 본 결말을 갈아 끼우는 새 엔딩이 아니다.
+`final_signature_owned`·`final_signature_collateral`·`final_signature_people` 중
+정확히 하나가 남았을 때 `사람들의 이후` 제목 바로 아래 첫 카드가 그 선택을
+회수한다. 기존 인물별 grid와 엔딩 고유 본문은 그 뒤에 그대로 남는다.
+
+- `owned`는 도움을 부정하지 않으면서 자기 결정의 책임을 자기 이름 아래 둔다.
+- `collateral`은 사람의 이름을 다시 비용·가치 열로 옮긴 대가를 남긴다.
+- `people`은 실제 기록에 있던 사람들의 이름을 먼저 쓰되, 복귀·용서·동행을
+  만들어 내지 않고 먼저 연락할 책임만 남긴다.
+- 0개 또는 둘 이상의 서명 flag가 있으면 상태를 추측하지 않고 카드를 숨긴다.
+- M60을 실제로 거친 정규 본 결말에만 붙는다. 즉시 귀결 5개,
+  `instant_legend`, 현재 M60 비소유 특수 결말 `startup_exit`·`second_love`·
+  `guardian`·`creator_success`·`political_fix`에는 붙이지 않는다.
+- 이 회수는 `description_if_known`와 독립이다. 그 첫-true 순서, 엔딩 35 ID·CG,
+  라우팅·저장·밸런스를 바꾸지 않는다.
+
 ## 5. 다섯 장 원장을 읽는 법
 
 `CHOICE_CONSEQUENCE_SYSTEM.md`의 공통 원장이 구현되면 엔딩은 현재 수치만

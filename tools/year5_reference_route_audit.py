@@ -337,6 +337,38 @@ ORDER118_ALLOWED_IDS = {
     "ko": ORDER118_KO_ALLOWED_IDS,
     "en": ORDER118_EN_ALLOWED_IDS,
 }
+
+# ORDER-129 is an authorized, shipping finale rewrite on top of the completed
+# ORDER-118 prose candidate.  Keep it separate so the rejected 803a372
+# evidence and ORDER-118 exact changed-object set retain their original meaning.
+ORDER129_BASELINE = "2958541"
+ORDER129_EVENT_FILES = {
+    "ko": (
+        "content/events/arc_pre_ending.json",
+        "content/events/arc_drama.json",
+    ),
+    "en": (
+        "content/events_en/arc_pre_ending.json",
+        "content/events_en/arc_drama.json",
+    ),
+}
+ORDER129_TARGET_IDS = {
+    "arc_pre_ending_summit",
+    "arc_final_countdown",
+    "arc_final_week",
+}
+ORDER129_EXPECTED_OBJECT_SHA256 = {
+    "ko": {
+        "arc_pre_ending_summit": "de67e26ceed85c7c48780df199c6d873e5ac3c92b7bdac6cc6acb4466d8ce685",
+        "arc_final_countdown": "09c591d9613129372e9e37d42511d01c5d87039a4fe20d3a363021e452eca195",
+        "arc_final_week": "928fca218c6e9ecdf0f58ce69953ec2a805814515cd917e8bef25090b450a2e0",
+    },
+    "en": {
+        "arc_pre_ending_summit": "4543bb8216e725db0680bfd8f261c9c91d04d1ce5b3561291dcbf37490ee4474",
+        "arc_final_countdown": "928ab453d5689b0b158b1158a406bd53d86c6da4721073aa461871e4e547fd69",
+        "arc_final_week": "b744f0942a643219587daee335eae845ac81841ae9b83e2fc1b7a6731b27eae3",
+    },
+}
 ROUTE_ROOTS = {
     "career_reference_v1": CAREER_ROOTS,
     "startup_acquisition_reference_v1": STARTUP_ROOTS,
@@ -3296,6 +3328,115 @@ def order118_nonprose_shape(event: dict[str, Any], *, replace_choices: bool) -> 
     return candidate
 
 
+def order129_nonprose_shape(event: dict[str, Any]) -> Any:
+    """Replace only the 18 authorized finale text leaves with stable sentinels."""
+    candidate = copy.deepcopy(event)
+    event_id = str(candidate.get("id", ""))
+    flat_fields: tuple[str, ...]
+    nested_field = ""
+    nested_keys: tuple[str, ...] = ()
+    if event_id == "arc_pre_ending_summit":
+        flat_fields = (
+            "description", "description_orthodox", "description_unorthodox",
+        )
+    elif event_id == "arc_final_countdown":
+        flat_fields = ("description",)
+        nested_field = "description_if_moral"
+        nested_keys = ("black", "white")
+    elif event_id == "arc_final_week":
+        flat_fields = ("description",)
+        nested_field = "description_if_known"
+        nested_keys = (
+            "final_signature_owned", "final_signature_collateral",
+            "final_signature_people",
+        )
+    else:
+        return candidate
+
+    for field in flat_fields:
+        if field in candidate:
+            candidate[field] = "<ORDER129_PROSE>"
+    nested = candidate.get(nested_field) if nested_field else None
+    if isinstance(nested, dict):
+        for key in nested_keys:
+            if key in nested:
+                nested[key] = "<ORDER129_PROSE>"
+    choices = candidate.get("choices")
+    if isinstance(choices, list):
+        for choice in choices:
+            if isinstance(choice, dict) and "result_text" in choice:
+                choice["result_text"] = "<ORDER129_PROSE>"
+    return candidate
+
+
+def validate_order129_finale_candidate(
+    context: AuditContext,
+    errors: list[str],
+) -> dict[str, int]:
+    """Own the exact 9/10/9 finale delta without widening dormant routes."""
+    changed: dict[str, set[str]] = {"ko": set(), "en": set()}
+    for locale, relative_paths in ORDER129_EVENT_FILES.items():
+        for relative in relative_paths:
+            owner = f"ORDER-129:{locale}:{relative}"
+            try:
+                baseline_payload = strict_loads(
+                    git_blob(ORDER129_BASELINE, relative).decode("utf-8"),
+                    f"{ORDER129_BASELINE}:{relative}",
+                )
+            except (OSError, UnicodeDecodeError, ValueError) as exc:
+                errors.append(f"{owner}: cannot load declaration baseline ({exc})")
+                continue
+            baseline_rows = event_rows(
+                baseline_payload, f"{owner}:baseline", errors)
+            baseline_ids = [str(row.get("id", "")) for row in baseline_rows]
+            current_rows: list[dict[str, Any]] = []
+            for event_id in baseline_ids:
+                matches = [
+                    record.row
+                    for record in context.event_indexes[locale].get(event_id, [])
+                    if record.path == relative
+                ]
+                if len(matches) != 1:
+                    errors.append(
+                        f"{owner}:{event_id}: expected one current object, got {len(matches)}"
+                    )
+                    current_rows = []
+                    break
+                current_rows.append(matches[0])
+            if not current_rows:
+                continue
+            current_ids = [str(row.get("id", "")) for row in current_rows]
+            if current_ids != baseline_ids:
+                errors.append(f"{owner}: event ID/order drifted")
+                continue
+            for current, baseline in zip(current_rows, baseline_rows):
+                event_id = str(current.get("id", ""))
+                label = f"{owner}:{event_id}"
+                current_hash = canonical_json_sha256(current)
+                baseline_hash = canonical_json_sha256(baseline)
+                if event_id not in ORDER129_TARGET_IDS:
+                    if current_hash != baseline_hash:
+                        errors.append(f"{label}: non-target event object changed")
+                    continue
+                changed[locale].add(event_id)
+                expected_hash = ORDER129_EXPECTED_OBJECT_SHA256[locale][event_id]
+                if current_hash != expected_hash:
+                    errors.append(f"{label}: exact prose hash drifted")
+                if current_hash == baseline_hash:
+                    errors.append(f"{label}: declared finale target was not rewritten")
+                if order129_nonprose_shape(current) != order129_nonprose_shape(baseline):
+                    errors.append(f"{label}: non-prose shape drifted")
+
+    for locale in ("ko", "en"):
+        if changed[locale] != ORDER129_TARGET_IDS:
+            errors.append(
+                f"ORDER-129:{locale}: exact changed-object set mismatch "
+                f"missing={sorted(ORDER129_TARGET_IDS - changed[locale])} "
+                f"extra={sorted(changed[locale] - ORDER129_TARGET_IDS)}"
+            )
+    return {"order129_roots": 3, "order129_surfaces": 18}
+
+
 def validate_order118_prose_candidate(
     context: AuditContext,
     errors: list[str],
@@ -3349,10 +3490,10 @@ def validate_order118_prose_candidate(
                 label = f"{owner}:{event_id}"
                 is_allowed = event_id in allowed
                 is_changed = canonical_json_sha256(current) != canonical_json_sha256(baseline)
-                if is_changed:
+                if is_changed and is_allowed:
                     changed[locale].add(event_id)
                 if not is_allowed:
-                    if is_changed:
+                    if is_changed and event_id not in ORDER129_TARGET_IDS:
                         errors.append(f"{label}: non-target event object changed")
                 elif not is_changed:
                     errors.append(f"{label}: declared prose target was not rewritten")
@@ -3710,6 +3851,7 @@ def validate_manifest(
     root_total = 0
     choice_total = 0
     order118_stats = {"order118_roots": 0, "order118_choices": 0, "order118_tokens": 0}
+    order129_stats = {"order129_roots": 0, "order129_surfaces": 0}
     validate_r1a_contract(manifest, routes, errors)
     invalidated = contract_is_invalidated(manifest)
     if invalidated:
@@ -3728,6 +3870,7 @@ def validate_manifest(
             )
         validate_invalidated_runtime(manifest, errors)
         order118_stats = validate_order118_prose_candidate(context, errors)
+        order129_stats = validate_order129_finale_candidate(context, errors)
     else:
         for route_id in EXPECTED_ROUTE_IDS:
             route = routes.get(route_id)
@@ -3794,6 +3937,7 @@ def validate_manifest(
         "r1a_roots": r1a_root_total,
         "r1a_choices": r1a_choice_total,
         **order118_stats,
+        **order129_stats,
     }
 
 
@@ -4048,6 +4192,17 @@ def run_invalidated_self_test(
                     record.row["title"] = str(record.row.get("title", "")) + " 변조"
                     return
 
+    def order129_prose_changed(candidate: AuditContext) -> None:
+        event = candidate_record(candidate, "ko", "arc_pre_ending_summit")
+        event["description"] = str(event["description"]) + " 변조"
+
+    def order129_nonprose_changed(candidate: AuditContext) -> None:
+        candidate_record(candidate, "en", "arc_final_countdown")["category"] = "story_mutated"
+
+    def order129_non_target_changed(candidate: AuditContext) -> None:
+        event = candidate_record(candidate, "ko", "arc_pre_ending_winter")
+        event["title"] = str(event.get("title", "")) + " 변조"
+
     for label, mutate, fragment in (
         ("order118_player_token", order118_token_injected, "internal document token remains"),
         ("order118_version_token", order118_version_token_injected, "internal document token remains"),
@@ -4060,6 +4215,9 @@ def run_invalidated_self_test(
         ("order118_state_write", order118_state_write_added, "metadata/non-prose structure drifted"),
         ("order118_nonstartup_metadata", order118_nonstartup_metadata_changed, "metadata/non-prose structure drifted"),
         ("order118_non_target", order118_non_target_changed, "non-target event object changed"),
+        ("order129_prose_hash", order129_prose_changed, "exact prose hash drifted"),
+        ("order129_nonprose", order129_nonprose_changed, "non-prose shape drifted"),
+        ("order129_non_target", order129_non_target_changed, "ORDER-129:ko:content/events/arc_pre_ending.json:arc_pre_ending_winter: non-target event object changed"),
     ):
         case_count += 1
         expect_context_failure(label, manifest, context, mutate, fragment, failures)
@@ -4810,6 +4968,7 @@ def main() -> int:
             f"rejected_r1a_roots={stats['r1a_roots']} rejected_r1a_choices={stats['r1a_choices']} "
             f"order118_roots={stats['order118_roots']} order118_choices={stats['order118_choices']} "
             f"order118_tokens={stats['order118_tokens']} "
+            f"order129_roots={stats['order129_roots']} order129_surfaces={stats['order129_surfaces']} "
             f"product_consumers={stats['consumers']} "
             "qa_consumers=1 topology=invalidated r1b_allowed=false"
         )
@@ -4822,6 +4981,7 @@ def main() -> int:
         f"rejected_r1a_choices={stats['r1a_choices']} "
         f"order118_roots={stats['order118_roots']} order118_choices={stats['order118_choices']} "
         f"order118_tokens={stats['order118_tokens']} "
+        f"order129_roots={stats['order129_roots']} order129_surfaces={stats['order129_surfaces']} "
         f"product_consumers={stats['consumers']} qa_consumers=1 activation=reference_only "
         "topology=invalidated r1b_allowed=false"
     )
