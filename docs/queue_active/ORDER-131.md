@@ -14,11 +14,14 @@
 `e5591f6ca9ab1e45a3c5492aaf72aa5397661f68`의 exact clean 전체 감사
 `✅ 감사 통과`. ORDER-131 선언 전 원격 branch에도 같은 기준선을 push했다.
 
-**정확한 파일 범위:** `scenes/MainGame.gd`,
+**정확한 파일 범위:** `scenes/MainGame.gd`, `autoloads/EventManager.gd`,
 `content/events/arc_chapter_themes.json`,
 `content/events_en/arc_chapter_themes.json`,
 `content/events/arc_drama.json`, `content/events_en/arc_drama.json`,
 `content/events/arc_midgame.json`, `content/events_en/arc_midgame.json`,
+`content/events/arc_addiction_recovery.json`,
+`content/events_en/arc_addiction_recovery.json`,
+`content/events/life_events.json`, `content/events_en/life_events.json`,
 `content/events/arc_year_close.json`, `content/events_en/arc_year_close.json`,
 `content/events/callback_chapter_themes.json`,
 `content/events_en/callback_chapter_themes.json`,
@@ -85,6 +88,15 @@ M39 영수증을 읽는 W157의 세 표적 장면으로 분리했으므로, 옛 
 구조라고 적은 `docs/PEAK_SCENE_CHAIN_AUDIT.md`를 정확한 파일 범위에 추가한다.
 과거 수치를 새 숫자 목표로 바꾸지 않고, 같은 주 즉시 연결이 아니라 여러 주에
 걸친 선택→비용 구조임을 기록한다.
+
+**사망 뒤 생활 장면 보강 (2026-08-26):** 별세 뒤 늦게 5천만·1억·25억을
+달성한 정상 런과 terminal receipt만 남은 옛 저장에서, 기존 자산 이정표·중독
+바닥·부모 통장·초기 아버지 아크가 살아 있는 통화와 식탁을 다시 만들 수 있음을
+독립 전수 감사가 확인했다. 사망 경로용 이정표 원고와 random event의
+`requires_living_father` 편성 계약을 추가하기 위해 한·영
+`arc_addiction_recovery.json`, `life_events.json`, 공용
+`autoloads/EventManager.gd`를 정확한 파일 범위에 추가한다. 과거 회상은 유지하되
+현재 통화·병동·식탁만 차단하며, `GameState.gd`와 저장 schema는 계속 불변이다.
 
 ## 깊이 3문
 
