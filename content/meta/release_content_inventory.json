@@ -535,7 +535,7 @@
         "tokens_ko": ["대포통장", "보이스피싱", "사기", "횡령", "절도", "내부자거래", "폰지", "공범", "돈세탁", "검거"],
         "tokens_en": ["money mule", "voice phishing", "fraud", "embezz", "theft", "insider trading", "ponzi", "accomplice", "money laundering", "arrested"],
         "reviewed_search_noise_ids": ["arc_y4_family_partner_collision_jiyeon"],
-        "expected_event_count": 71, "expected_file_count": 40, "expected_ids_sha256": "33e4f0858ed9e37980fce8383db192b42def77d774e5bfd65ece6b49b3d7c60e", "expected_content_sha256": "670f5fa2828500ae78cf132e40975c09d3631d3ef568ee0589ad59f497489a82"
+        "expected_event_count": 71, "expected_file_count": 40, "expected_ids_sha256": "33e4f0858ed9e37980fce8383db192b42def77d774e5bfd65ece6b49b3d7c60e", "expected_content_sha256": "d1ee53dacfd6653fe0c7fca23d26a355f2860ecd80f514462cd7f111d0622565"
       },
       "facts": [
         {
@@ -593,7 +593,7 @@
         "tokens_ko": ["소주", "맥주", "와인", "위스키", "막걸리", "술집", "술잔", "술자리", "술을", "취했", "숙취", "담배", "흡연", "마약", "수면제", "진통제", "처방약", "복용"],
         "tokens_en": ["soju", "beer", "wine", "whiskey", "drinking", "drunk", "hangover", "cigarette", "smoking", "narcotic", "sleeping pill", "painkiller", "prescription"],
         "reviewed_search_noise_ids": ["arc_36_body_signal"],
-        "expected_event_count": 80, "expected_file_count": 38, "expected_ids_sha256": "dc30cc75c5613e8c003539c7c0d4bc8ea44a68921b08380b27a13025fac23055", "expected_content_sha256": "292b965fbd8f6c05621e21f455f5e0b66f60e6baba3f57813b52627697d840cd"
+        "expected_event_count": 80, "expected_file_count": 38, "expected_ids_sha256": "dc30cc75c5613e8c003539c7c0d4bc8ea44a68921b08380b27a13025fac23055", "expected_content_sha256": "aa24bde6dc8bf6cc88b89d8d0bd451e9308448ee12bf407a181c945dceb01376"
       },
       "facts": [
         {
