@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-127 [P0·엔딩 인과] 1장 30억 비밀 엔딩은 남기고 일반 성공은 마지막 서명까지 보낸다
+#### [x] ORDER-127 [P0·엔딩 인과] 1장 30억 비밀 엔딩은 남기고 일반 성공은 마지막 서명까지 보낸다
 
 **사용자 승인·착수 선언 (2026-08-25):** 후반 밀도 감사 뒤 사용자는 “30억
 즉시엔딩은 오히려 게임의 이스터에그 느낌으로 필요한 거 아니야?”라고 지적했다.
@@ -10,7 +10,7 @@
 30억 도달만 즉시 `finish_run`하지 않고, M60 `arc_final_week` 선택을 끝낸 뒤
 기존 관계·도덕·아버지 분기로 결산한다.
 
-**[~] 착수 — 만지는 파일:** `autoloads/GameState.gd`,
+**[x] 완료 — 만진 파일:** `autoloads/GameState.gd`,
 `tools/EndingRouteIdentityCheck.gd`, `tools/ending_distinctness_audit.py`,
 `tools/demo_core_loop_v2_audit.py`, `docs/ENDING_CONTRACT.md`,
 `content/meta/year5_reference_routes.json`,
@@ -75,3 +75,31 @@
 실제 엔딩 본문과 사람들의 이후를 바꾸게 만드는 작업, M59~M60 장면을 8~10개
 의미 전환으로 강화하는 작업, 4~5년차 route root 공백 수리는 각각 다음 작은
 오더가 소유한다. 이 배치의 자동 GREEN을 후반 재미 GO로 부르지 않는다.
+
+## 규범 판정
+
+- **승격:** 33세·1장 현재 자산 30억의 `instant_legend` 즉시 비밀 엔딩,
+  34세 이후 일반 30억·`full_circle`의 M60 마지막 서명 gate,
+  `peak_asset`의 달성 보존은 `docs/ENDING_CONTRACT.md` `종결 시점`이
+  계속 소유한다.
+- **일회성:** 오더 번호, 구현·검사 commit, baseline hash, 검사 명령과
+  marker는 이 완료 기록에만 남긴다.
+
+## 완료 기록 (2026-08-25)
+
+- 구현 `74b3180`에서 33세 현재 순자산 30억은
+  `instant_legend`로 즉시 닫히고, 34세 이후 30억과
+  `full_circle`은 `arc_final_week_seen`까지 종결하지 않도록 분리했다.
+  일반 달성 후 자산이 내려가도 기존 `peak_asset`이 성취를 보존한다.
+- `ENDING_ROUTE_IDENTITY_CHECK_OK cases=15`는 비밀 엔딩, 일반 달성
+  보류·저장·하락·M60 결산, 아버지·다은 우선순위, 즉시 실패 5종,
+  `startup_exit`과 `full_circle`을 실행 검증했다.
+- 엔딩 35 ID·전용 CG 구분, KO/EN 영향 감사, 240주 오디오·장면
+  전환, 밸런스 밴드, 전체 66 스크립트 컴파일은 통과했다.
+  새 엔딩 ID·CG·저장 필드·밸런스 상수는 0건이다.
+- 전체 감사는 실행했으나 `43fd4c9` 정확 부모에서 이어진
+  `PY/PEAK_CHAIN/FIRST30/EN_HANGUL/JA/ZH/DEMO_I18N/CHAPTER1_LEDGER/STATUS`
+  13 flag가 실패했다. 변경 파일 selector와 부모 baseline 비교에서
+  이 오더가 추가한 실패는 0이며, Year5 보호 hash는 `ad985ce`에서
+  현재 구현으로 재정렬했다. 전체 GREEN은 다음 CI 정합 오더로 이관하며
+  이 기록은 전체 감사 PASS를 주장하지 않는다.
