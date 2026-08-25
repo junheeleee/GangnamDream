@@ -26,8 +26,10 @@
 - 독립 한영 대조에서 만남의 존재, 이름의 위치·순서, 아버지 생존 조건이 언어마다
   달라진 P1 1건·P2 2건을 고쳤다. exact Year5 guard는 3 roots·18 surfaces와
   비산문 불변을 소유하고 self-test 38건이 변조를 거부한다.
-- 구현 `445ce323a20fe401289c86c9eb4b27d05ec30a62` / tree
-  `734fea89fd38a7580044c5c152d02aae384b54fa`에서 peak 32/32, coda 적용 72·
+- 10비트는 전역 할당량이 아니라 이 장면의 서로 다른 의미 전환이 요구한 길이다.
+  이후 중요 장면은 필요한 기능을 먼저 정하고 자연스러운 길이에서 닫는다.
+- 구현 `cd147f6f002e57ed11436466a37f2fd70336fc91` / tree
+  `3eac06f9920a60a09941b62660e62b3324e1b913`에서 peak 32/32, coda 적용 72·
   제외 33, ControllerSemantic, ending distinctness 35, compile 66을 통과했다.
   자동 GREEN은 후반 전체의 사람 재미 판정이 아니며 다음은 Chapter 4 인과축이다.
 
