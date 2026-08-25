@@ -2708,6 +2708,37 @@ _ORDER122_PROOF_BINDING_OVERRIDES = {
 }
 _FROZEN_AUDITED_MAPS["proof_bindings"].update(
     _ORDER122_PROOF_BINDING_OVERRIDES)
+_ORDER128_PROOF_BINDING_OVERRIDES = {
+    'proof:exclusive:group_w24_story_resume_load': '5238b9bec18dfe5d8b4e3337270c75d146b1f0c735103b66ca65b682e1b0ef5a',
+    'proof:execution_stage:w24_story_resume_load': '48457f34bdfdaf8280dfd518127da83d08de8b8d84fe90d9eda527bd90f5a8db',
+    'proof:invocation:w24_story_resume_load': '7709eb835ade39b4933fd4dc931415860baf70fc47949df901abe646ec685c02',
+    'proof:read:milestone_w24_resume_load_common:26256e5f0d': 'a60bd9fe29d7e0f091be9e27bb00135541847e3bc9fc574506d85048d77f7b17',
+    'proof:read:milestone_w24_resume_load_common:47b73193b2': '99f2111b5b9808b89c854aa338f0cfe1ed20e3074152cd7a0ab38bb43f8e81a2',
+    'proof:read:milestone_w24_resume_load_common:8e3ea461b7': '9ca8899c37753d2cc2a245b5956c484eadfd6ae26578f7daed76f88ade458da5',
+    'proof:read:milestone_w24_resume_load_common:9037b79557': '13166091674c7140254cb2e35693117003beb3a971aadfaae35ee8a76fd1f955',
+    'proof:read:milestone_w24_resume_load_common:e27e4f64c4': '2c3767d274a377b1d48dda37512f3157bb3e79edc849da4e8b0b7c4d4d476fe2',
+    'proof:read:milestone_w24_resume_load_first_bill_decision_result:1a19319426': '6326e58695b58c9c191a7951d376eae371148501c78e204e9362eec71d5d0e43',
+    'proof:read:milestone_w24_resume_load_first_bill_decision_result:59bdc3e3dd': '8c79f394f54aa566ea435f3fa6e8e6deb18521e3a01f292ba00ce4d10a5d3840',
+    'proof:read:milestone_w24_resume_load_first_bill_decision_result:bd8305ffd5': 'c03bd39440fa6527be82c2b208d2bf6e193880ba114ae1805752bfe4130e5ae2',
+    'proof:read:milestone_w24_resume_load_first_bill_decision_result:de25268c81': '0c242efb2d6f788b2985c72808bcd92017041253499ace33cab9de538f882cf5',
+    'proof:read:milestone_w24_resume_load_first_bill_ledger_prose:3cf0d0dfb2': 'b2c05cf7ab1d8cfac7a29f71eace6e1757bca74443fdf007fd8df64dfb78c95d',
+    'proof:read:milestone_w24_resume_load_first_bill_ledger_prose:bd8305ffd5': '3247e33f8fa9f391a377f457c9b9c3b35c29b9760a80acf92d5e68ae911b9a75',
+    'proof:read:milestone_w24_resume_load_first_bill_ledger_prose:cbe454274f': '9724c9d6e8fc4a09064349bc15167d85ee6bf4763bdadb29e36b80815db74897',
+    'proof:read:milestone_w24_resume_load_first_bill_ledger_result:3cf0d0dfb2': 'a26c253da635d5a76263f203aa916a571101cbfab99f97b10f8f4ad8278018a9',
+    'proof:read:milestone_w24_resume_load_first_bill_ledger_result:bd8305ffd5': '2b78bbfcfa78eb30b9576f151413f379e893cedad46fc8e506c33747f908d529',
+    'proof:read:milestone_w24_resume_load_first_bill_ledger_result:de25268c81': '7f2f3f559d30cc7f591ec7b7b74413b36206c7b3db4eef8cecec33e182a37aa5',
+    'proof:read:milestone_w24_resume_load_first_bill_ledger_result:e1acd44a90': '5c31fee894b0a5aee2c9c99fd0328a5d4f50cd8f0fd84cbdfad7e0b5e69d6cdd',
+    'proof:read:milestone_w24_resume_load_hyunsu_morning_prose:24151d4d7f': '655e326ce81511ad8f24ba24138a25ebcf0283b6a9eed53a9438616b159c0f3e',
+    'proof:read:milestone_w24_resume_load_hyunsu_morning_prose:cbe454274f': 'dca185378e98a9298cd5e354c180aae2f3cb15d137a09fe815bd48f97b741a0e',
+    'proof:read:milestone_w24_resume_load_hyunsu_morning_result:24151d4d7f': 'e1ae0e207c870cbdc9ac198da759904a95294be68445eacf3823bb71a713b3d0',
+    'proof:read:milestone_w24_resume_load_hyunsu_morning_result:de25268c81': '386ca62ed8489cdbfdef2dc040827a93191df331e43fa541b05b24e277c40b07',
+    'proof:read:milestone_w24_resume_load_hyunsu_morning_result:e1acd44a90': '9e9516ebde20cef0711b138cca342a0691efeb1f990cc50e5da18a64505ecb11',
+    'proof:runtime:story_resume_context_save': '6d3f03fe761918ada249650243ee9893bac5f0790262624c75a1e3efcf2c6e91',
+    'proof:runtime:story_resume_ready': '2207c1dba66348fc3f3ce0d4828d6f9c2a0dbdccf1a122148c04e0b836f2bdb3',
+    'proof:runtime:story_resume_save_to_slot': '8c3996cdf28e3f2c7845c9e775fd11e20ef3296d66c4db01a4b229cffca6fe20',
+}
+_FROZEN_AUDITED_MAPS["proof_bindings"].update(
+    _ORDER128_PROOF_BINDING_OVERRIDES)
 _ORDER101_INVOCATION_CONTRACT_OVERRIDES = {
     'reader:milestone:w24:completion_validation:fresh': 'f0226b81ca161f961526c82d1dd9d8a87d4de3411fdda75c0e1c271759f59d54',
     'reader:milestone:w24:completion_validation:loaded': '71a40c4050c89fecff25b0d4e22aad83affa4004bdb4cf9a988e736655bdf4d9',
@@ -2772,7 +2803,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "systems/BuildFlavor.gd":
         "6264de1c468d5553b73a37d3ea8c5ceb936f6852db7519701f37a2c8bf8aa633",
     "scenes/StoryMode.gd":
-        "591ebb3603598847a978c8489c005b11e811efdcfa0ef0af40c5d66cc959e446",
+        "22456657aa9bbc84e37538b9a8d503beb15e4118dd1c6c3fadef855c0c797616",
     "scenes/StoryMode.tscn":
         "b7688a883323a196e74271c1e76f1d88c91310b3fe1a287cb051b33dd2fb76ca",
     "scenes/MainGame.gd":
@@ -2790,7 +2821,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/meta/demo_core_loop_v2.json":
         "f336f8a60277effc1885e10911d21785add4ad5580135bb1ab3a4c4b509059c3",
     "content/meta/demo_localization_scope.json":
-		"cb19917beea0f1f78ea4709342c7300a1a7272f0dc2df62361ad95ba34c503ed",
+		"eea8939ac24011ac2f65497413215c74578421a2808e9a4f6a21aaa16c81b078",
     "content/meta/release_content_inventory.json":
         "c6c10aceea5fa3b46a59a1b933317dd9a1981cb7ce5fa4544c4803739cd5cebc",
     "content/meta/story_rules.json":
