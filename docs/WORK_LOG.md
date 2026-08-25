@@ -14,6 +14,23 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-25 (Codex — 종막 9·10·9비트와 마지막 서명 후일담)
+
+- M59의 25억대 부동산 문턱, M60의 50만원/30억 마지막 장부, 마지막 주의
+  선발신을 KO/EN 각각 `9/10/9` 의미 비트로 개작했다. 선택 결과는 모두
+  4비트이며 매입·등기·열쇠·상대 답장·만남·용서·화해를 선택보다 먼저
+  만들어 내지 않는다.
+- 세 마지막 서명은 M60을 소유한 정규 엔딩 24개에서만 `사람들의 이후` 첫
+  카드로 돌아온다. 실패 5개·`instant_legend`·M60 비소유 특수 5개는 제외하고,
+  35 ending ID·전용 CG·15 route·기존 `description_if_known` 첫-true는 보존했다.
+- 독립 한영 대조에서 만남의 존재, 이름의 위치·순서, 아버지 생존 조건이 언어마다
+  달라진 P1 1건·P2 2건을 고쳤다. exact Year5 guard는 3 roots·18 surfaces와
+  비산문 불변을 소유하고 self-test 38건이 변조를 거부한다.
+- 구현 `445ce323a20fe401289c86c9eb4b27d05ec30a62` / tree
+  `734fea89fd38a7580044c5c152d02aae384b54fa`에서 peak 32/32, coda 적용 72·
+  제외 33, ControllerSemantic, ending distinctness 35, compile 66을 통과했다.
+  자동 GREEN은 후반 전체의 사람 재미 판정이 아니며 다음은 Chapter 4 인과축이다.
+
 ## 2026-08-25 (Codex — 전체 감사 12 flag exact GREEN 복구)
 
 - StoryMode 타입, 다은 guard, 첫 화면 고지와 Chapter 1·Year5 원장을 실제 의미에

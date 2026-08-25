@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-129
+# Archived Queue Spec: ORDER-129
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-129 [P0·종막 밀도] M59~M60을 9·10·9비트로 개작하고 마지막 서명을 엔딩 첫 후일담에서 회수한다
+#### [x] ORDER-129 [P0·종막 밀도] M59~M60을 9·10·9비트로 개작하고 마지막 서명을 엔딩 첫 후일담에서 회수한다
 
 **사용자 승인·착수 선언 (2026-08-25):** 사용자는 처음부터 끝까지 이야기와
 게임성이 빽빽하고, 엔딩으로 갈수록 더 치밀하고 격동적이어야 하며 중요한
@@ -10,7 +10,7 @@
 30억 즉시 엔딩은 이스터에그로 보존한다. ORDER-128 exact full audit가 GREEN인
 기준선 위에서 종막 원고와 마지막 선택 회수만 별도 변경한다.
 
-**[~] 착수 — 만지는 파일:** `content/events/arc_pre_ending.json`,
+**[x] 완료 — 만진 파일:** `content/events/arc_pre_ending.json`,
 `content/events_en/arc_pre_ending.json`, `content/events/arc_drama.json`,
 `content/events_en/arc_drama.json`, `systems/EndingSystem.gd`,
 `scenes/MainGame.gd`, `tools/EndingRouteIdentityCheck.gd`,
@@ -93,3 +93,29 @@
 M39·M41·M42·M45·M46 인과축, 아버지 시간선 모순, M49~M58 계약 상승곡선과
 민서·미등장 인물의 전면 후일담은 다음 작은 오더가 차례로 소유한다.
 자동 GREEN은 종막 사람 플레이 GO가 아니다.
+
+## 규범 판정
+
+- **승격:** `docs/ENDING_CONTRACT.md`의 `마지막 서명은 첫 후일담 카드다` 절이
+  M60의 세 결정을 기존 엔딩 본문과 별도 첫 후일담에서 회수하는 지속 규칙,
+  정확히 하나인 flag와 M60 비소유 결말의 fail-closed 경계를 소유한다.
+- **일회성:** `9/10/9`, 적용 `24×3=72`, 제외 `11×3=33`, 선언·구현·보호
+  baseline commit과 검사 marker는 이 완료 기록과 기계 gate에만 남긴다.
+
+## 완료 기록 (2026-08-25)
+
+- `arc_pre_ending_summit`·`arc_final_countdown`·`arc_final_week`의 KO/EN 기본과
+  선언 변형을 각각 정확한 `9/10/9` 의미 비트로 고쳤다. 결과는 선택마다 4비트며,
+  25억대 매물·25억+ 자산을 30억 달성이나 매입·등기·열쇠로 만들지 않는다.
+- M60 세 서명은 정규 엔딩 24개에서만 `사람들의 이후` 첫 카드로 회수된다.
+  실패 5개, `instant_legend`, M60 비소유 특수 5개는 제외했고 35 엔딩 ID·전용
+  CG·15 route·기존 `description_if_known` 첫-true 순서는 보존했다.
+- 독립 한영 대조에서 만남의 존재, 이름을 쓴 위치·순서, 아버지 생존 표현의
+  P1 1건·P2 2건을 찾아 같은 사실로 맞췄다. 마지막 주는 플레이어 발신만 확정하고
+  상대 답장·만남·용서·화해를 만들지 않는다.
+- 구현 `445ce323a20fe401289c86c9eb4b27d05ec30a62` / tree
+  `734fea89fd38a7580044c5c152d02aae384b54fa`에서 peak `32/32`, Year5
+  exact/self-test `38`, 엔딩 coda 적용 `72`·제외 `33`, 엔딩 35·CG 35,
+  ControllerSemantic과 `COMPILE_CHECK_OK total=66`이 통과했다. 마감 exact tree의
+  전체 감사도 failure flag 0과 `감사 통과`로 끝내며, 자동 GREEN은 사람 재미
+  판정을 대신하지 않는다.
