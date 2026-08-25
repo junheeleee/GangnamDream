@@ -209,6 +209,11 @@
   {
     "id": "arc_y4_year_close_daeun",
     "title": "One Square Left Open",
+    "description_memory_if_known": {
+      "father_crisis_contact_present": "The ticket, cancellation time, and chair beside the bed remained in the ledger. The visit was a relationship receipt for having moved in the crisis, not merit that decided the medical outcome.",
+      "father_crisis_contact_called": "The seconds of the connected ward call remained beside the distance he had not traveled to Changwon. The call did not decide the medical outcome, but it changed what he had actually done during the crisis.",
+      "father_crisis_contact_missed": "The ward's message and the time he replied that today was impossible remained side by side. He did not need to invent the unknown outcome for the time of his deferral to remain."
+    },
     "description": "The cafe had played its year-end closing announcement twice, but Daeun still sat across from {name} in her coat. The table held the actual times of what he had completed, the blanks left by what he had missed, a physical follow-up notice, and a family bill still waiting for an answer.\n\n\"Minjun, don't decide it with a promise this time. Do one thing now. Let me see what you cancel to make it real too.\"\n\nInstead of explaining what he would protect in the final year, {name} had to complete one action with the phone and calendar.",
     "choices": [
       {
@@ -228,6 +233,11 @@
   {
     "id": "arc_y4_year_close_jiyeon",
     "title": "A Correction Line from Busan",
+    "description_memory_if_known": {
+      "father_crisis_contact_present": "The ticket, cancellation time, and chair beside the bed remained in the ledger. The visit was a relationship receipt for having moved in the crisis, not merit that decided the medical outcome.",
+      "father_crisis_contact_called": "The seconds of the connected ward call remained beside the distance he had not traveled to Changwon. The call did not decide the medical outcome, but it changed what he had actually done during the crisis.",
+      "father_crisis_contact_missed": "The ward's message and the time he replied that today was impossible remained side by side. He did not need to invent the unknown outcome for the time of his deferral to remain."
+    },
     "description": "Jiyeon in Busan and {name} at the desk in his current Seoul room opened the same calendar over a video call. What he had completed, what he had missed, a physical follow-up notice, and a family bill still waiting for an answer carried different timestamps.\n\n\"I can't verify 'I'll do my best.' oppa, do one thing now. Put what it delays on the same screen.\"\n\nJiyeon was not in Seoul. Without pretending the distance between Busan and Seoul had vanished, {name} had to complete one real action through the screen.",
     "choices": [
       {
@@ -247,6 +257,11 @@
   {
     "id": "arc_y4_year_close_unattached",
     "title": "A Boundary Locked Alone",
+    "description_memory_if_known": {
+      "father_crisis_contact_present": "The ticket, cancellation time, and chair beside the bed remained in the ledger. The visit was a relationship receipt for having moved in the crisis, not merit that decided the medical outcome.",
+      "father_crisis_contact_called": "The seconds of the connected ward call remained beside the distance he had not traveled to Changwon. The call did not decide the medical outcome, but it changed what he had actually done during the crisis.",
+      "father_crisis_contact_missed": "The ward's message and the time he replied that today was impossible remained side by side. He did not need to invent the unknown outcome for the time of his deferral to remain."
+    },
     "description": "Late at night, {name} opened the year's records at the desk in his current room. What he had actually completed, what he had missed, a physical follow-up notice, and a family bill still waiting for an answer carried different timestamps. The chair across from him was empty. No one's dialogue filled it.\n\nNo person absent from the current record arrived by default. Instead of a promise waiting for someone's approval, only actions {name} could complete alone remained.\n\nHe had to put one boundary for the final year into the actual calendar and call log, along with the work that would close because of it.",
     "choices": [
       {

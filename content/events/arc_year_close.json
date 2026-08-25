@@ -434,6 +434,11 @@
   {
     "id": "arc_y4_year_close_daeun",
     "title": "비워 둔 한 칸",
+    "description_memory_if_known": {
+      "father_crisis_contact_present": "병실에 직접 도착한 밤의 표·취소 시각·의자 위치가 장부에 남아 있었다. 방문은 생사를 결정한 공로가 아니라, 그 위기에서 실제로 움직인 관계 영수증이었다.",
+      "father_crisis_contact_called": "병동 통화가 연결된 초와 창원에 도착하지 못한 거리가 함께 남았다. 통화는 생사를 결정하지 않았지만 그 위기에서 어떤 행동을 했는지는 바꿨다.",
+      "father_crisis_contact_missed": "병동 연락과 ‘오늘은 어렵다’고 답한 시각이 나란히 남았다. 확인되지 않은 경과를 발명하지 않아도, 미룬 행동의 시간은 지워지지 않았다."
+    },
     "category": "story",
     "rarity": "story",
     "hidden": true,
@@ -477,6 +482,11 @@
   {
     "id": "arc_y4_year_close_jiyeon",
     "title": "부산에서 온 수정선",
+    "description_memory_if_known": {
+      "father_crisis_contact_present": "병실에 직접 도착한 밤의 표·취소 시각·의자 위치가 장부에 남아 있었다. 방문은 생사를 결정한 공로가 아니라, 그 위기에서 실제로 움직인 관계 영수증이었다.",
+      "father_crisis_contact_called": "병동 통화가 연결된 초와 창원에 도착하지 못한 거리가 함께 남았다. 통화는 생사를 결정하지 않았지만 그 위기에서 어떤 행동을 했는지는 바꿨다.",
+      "father_crisis_contact_missed": "병동 연락과 ‘오늘은 어렵다’고 답한 시각이 나란히 남았다. 확인되지 않은 경과를 발명하지 않아도, 미룬 행동의 시간은 지워지지 않았다."
+    },
     "category": "story",
     "rarity": "story",
     "hidden": true,
@@ -520,6 +530,11 @@
   {
     "id": "arc_y4_year_close_unattached",
     "title": "혼자 잠그는 경계",
+    "description_memory_if_known": {
+      "father_crisis_contact_present": "병실에 직접 도착한 밤의 표·취소 시각·의자 위치가 장부에 남아 있었다. 방문은 생사를 결정한 공로가 아니라, 그 위기에서 실제로 움직인 관계 영수증이었다.",
+      "father_crisis_contact_called": "병동 통화가 연결된 초와 창원에 도착하지 못한 거리가 함께 남았다. 통화는 생사를 결정하지 않았지만 그 위기에서 어떤 행동을 했는지는 바꿨다.",
+      "father_crisis_contact_missed": "병동 연락과 ‘오늘은 어렵다’고 답한 시각이 나란히 남았다. 확인되지 않은 경과를 발명하지 않아도, 미룬 행동의 시간은 지워지지 않았다."
+    },
     "category": "story",
     "rarity": "story",
     "hidden": true,

@@ -334,6 +334,11 @@
   {
     "id": "arc_y4_three_promises",
     "title": "Three Places, One Weekend",
+    "description_memory_if_known": {
+      "never_stop": "The choice to keep moving at the crosswalk remained in this calendar. Packing in all three commitments could ruin all three while pretending to protect one.",
+      "pivoted_to_safe": "As on the day he changed direction to cap the loss, he had to mark the channel he would surrender first. Safety did not mean writing that all three could still fit.",
+      "plays_hand": "The list of cards he still held contained more than money: people and channels that would still answer. This weekend was where he had to spend one of them for real."
+    },
     "description": "Saturday, 3:18 p.m. Three times overlapped on {name}'s phone. At four he had a call with Father's ward to reconcile the medication chart; at four thirty, a review of the deal's source terms; at five, a promise with Daeun outside the convenience store where they first met. Once travel was included, he could keep only one.\n\nDaeun wrote, ‘I'll wait where we first agreed.’ The deal lead would hold the review seat only until 4:40. Father had limited access to the ward phone and would answer once, at four. No one canceled another promise for him.\n\n{name} put all three alerts on one screen and pressed the one he would protect. The other two already carried their closing times.",
     "choices": [
       {
@@ -353,6 +358,11 @@
   {
     "id": "arc_y4_three_promises_jiyeon_and_deal",
     "title": "The Right to Correct",
+    "description_memory_if_known": {
+      "never_stop": "The choice to keep moving at the crosswalk remained in this calendar. Packing in all three commitments could ruin all three while pretending to protect one.",
+      "pivoted_to_safe": "As on the day he changed direction to cap the loss, he had to mark the channel he would surrender first. Safety did not mean writing that all three could still fit.",
+      "plays_hand": "The list of cards he still held contained more than money: people and channels that would still answer. This weekend was where he had to spend one of them for real."
+    },
     "description": "Saturday, 2:50 p.m. Three times overlapped beneath the departure board at Seoul Station. At four, {name} had a call with Father's ward to reconcile the medication chart; at four thirty, a contract review in Seoul; at 6:10, a promise to meet Jiyeon at Busan Station. Twelve minutes remained before boarding closed.\n\nJiyeon wrote, ‘Do not turn this into a story where I came to Seoul. I am waiting in Busan today.’ The deal lead would hold the seat only until 4:40, and the ward could connect once at four.\n\n{name} had to buy the ticket, find a quiet place for the call, or remain in Seoul and go to the review room. Pressing one would make the other two times unrecoverable.",
     "choices": [
       {
@@ -372,6 +382,11 @@
   {
     "id": "arc_y4_three_promises_deal_only",
     "title": "A Witness Through the Speaker",
+    "description_memory_if_known": {
+      "never_stop": "The choice to keep moving at the crosswalk remained in this calendar. Packing in all three commitments could ruin all three while pretending to protect one.",
+      "pivoted_to_safe": "As on the day he changed direction to cap the loss, he had to mark the channel he would surrender first. Safety did not mean writing that all three could still fit.",
+      "plays_hand": "The list of cards he still held contained more than money: people and channels that would still answer. This weekend was where he had to spend one of them for real."
+    },
     "description": "Saturday, 3:18 p.m. No partner's name appeared in {name}'s calendar. Instead, a four o'clock call with Father's ward, a four-thirty review of the source terms, and the 5:10 cutoff for his own after-hours clinic overlapped on one screen. His fingertips had been trembling since morning.\n\nThe ward could connect once at four. The deal lead had already charged a seat deposit. The clinic instructions said intake existed only if the patient arrived and showed identification. No one else could enter any of the three windows for him.\n\n{name} did not fill the empty space with an invented lover, friend, or broker. He chose the one place he would actually reach today: Father, his own body, or the deal.",
     "choices": [
       {
