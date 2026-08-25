@@ -14,6 +14,29 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-26 (Codex — 종막 문단 할당량 철회·장면 기능 복구)
+
+- 사용자의 “중요 장면은 10까지도 갈 수 있다”는 예시를 ORDER-129에서 exact
+  `9/10/9` 문단 목표로 바꾼 판단이 잘못이었음을 확인했다. `docs/SCENE_TIER.md`의
+  정본대로 문단과 dramatic beat를 분리하고, 현재 `6/8/6`은 관측값으로만 남겼다.
+- summit은 정확히 25억인 경로와 이미 30억을 넘은 경로를 함께 사실대로 읽는다.
+  정석·비정석 점수를 적금 만기·급등락 이력으로 꾸미지 않고 선택 기록의 기울기만
+  말한다. countdown은 보장되지 않은 `같은 밤/조금 전 책상`을 버리고 독립적으로
+  시작하며, 마지막 장 뒤 다음 장 자국과 결혼 유지 런의 `혼자가 됐다`도 없앴다.
+- 기존 `final_week_self_approval`·`final_week_gratitude`가 결말에서 회수되는
+  자기평가는 결과에 몰래 삽입하지 않고 선택문에 먼저 드러낸다. effects·flags·
+  follow-up, ending coda 적용 72·제외 33, 엔딩 35 ID·CG·15 route와 33세·1장
+  30억 즉시 비밀 엔딩은 보존했다.
+- 패널 수 대신 기능·사실·variant·placeholder·선택 순서를 검사하고 literal filler,
+  허위 30억 달성·매입·계약·등기·열쇠·이체·답장·화해를 거부하는 18개 mutation을
+  추가했다. 구현 `fb9e473a6c2a9ead14c4becc12a1e28ddcbeabc0` / tree
+  `24d7abdcae3e04c8a660e2feeed92eb1ec8318cf`에서 peak 32/32, Year5 self-test
+  38, release `1758/1603/155`, 정적 ERROR 0, 한영 한글 누출 0을 통과했다.
+- 남은 제품 P0는 보편 final week가 실제 대화 상대 receipt 없이 `그 사람`을 만드는
+  점이다. Chapter 5의 M57·M59가 남은 인물·문서·마지막 대화를 저장한 뒤 actor를
+  바인딩하고 signature 0개·2개 이상 손상 저장도 같은 오더에서 fail-closed한다.
+  자동 GREEN은 이 후속이나 사람 재미 GO를 대신하지 않는다.
+
 ## 2026-08-25 (Codex — 종막 9·10·9비트와 마지막 서명 후일담)
 
 - M59의 25억대 부동산 문턱, M60의 50만원/30억 마지막 장부, 마지막 주의

@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-130
+# Archived Queue Spec: ORDER-130
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-130 [P0·종막 정본 복구] 문단 수를 극적 비트로 센 9·10·9 할당량을 제거하고 장면 기능으로 다시 판정한다
+#### [x] ORDER-130 [P0·종막 정본 복구] 문단 수를 극적 비트로 센 9·10·9 할당량을 제거하고 장면 기능으로 다시 판정한다
 
 **사용자 승인·착수 선언 (2026-08-25):** 사용자는 10비트가 이야기 때문에
 필요한지, 자신의 “10까지도 갈 수 있다”는 예시에 억지로 맞춘 것인지 물었다.
@@ -13,6 +13,16 @@
 **착수 기준선:** `cbb9e31bac964e4a405acc1cf54cfc207edf2ac4`의 exact clean
 전체 감사 `✅ 감사 통과`. 이 초록불은 기술 기준선일 뿐, 문단 할당량의 서사
 승인이 아니다.
+
+**[x] 완료 — 만진 파일:** `content/events/arc_pre_ending.json`,
+`content/events_en/arc_pre_ending.json`, `content/events/arc_drama.json`,
+`content/events_en/arc_drama.json`, `tools/peak_scene_chain_audit.py`,
+`tools/year5_reference_route_audit.py`, `tools/audit_scope.json`,
+`docs/CODEX_QUEUE.md`, 이 사양과 보관본,
+`docs/queue_archive/CODEX_QUEUE_2026-08.md`, `CLAUDE.md`,
+`docs/WORK_LOG.md`, 생성본 `docs/STATUS.md`. 선언 범위의
+`tools/chapter1_core_loop_v2_causal_ledger_check.py`는 대상 네 사건을 source
+snapshot으로 소유하지 않아 byte 변경 없이 직접·self-test 재검증 대상으로만 남겼다.
 
 **정확한 파일 범위:** `content/events/arc_pre_ending.json`,
 `content/events_en/arc_pre_ending.json`, `content/events/arc_drama.json`,
@@ -79,3 +89,38 @@
 이 오더는 잘못된 숫자 할당량과 그로 인한 중복 산문만 고친다. M57 명의·제출,
 M59 실제 계약 결과, 남은 인물의 actor binding을 M60과 마지막 주에 회수하는 일은
 Chapter 5 제품 경로가 실제 영수증을 만든 뒤 별도 오더가 소유한다.
+
+특히 현재 보편 `arc_final_week` ingress는 대화 상대 receipt가 없어 수신자를
+`그 사람`으로만 쓴다. 이를 완성된 종막으로 승인하지 않는다. Chapter 5에서 실제
+남은 인물·마지막 대화·사과 대상을 저장하고, signature 0개·2개 이상 손상 저장도
+같은 판정으로 복구하는 후속 제품 오더의 P0다.
+
+## 규범 판정
+
+- **승격 없음:** 문단 수를 dramatic beat로 세지 않고 장면 기능을 먼저 정한다는
+  지속 규칙은 이미 `docs/SCENE_TIER.md`가 소유한다. 같은 문장을 다른 정본에
+  복제하지 않는다.
+- **일회성:** 현재 관측 `6/8/6`, 결과 3패널, exact object hash, mutation 18건,
+  ORDER-129 보호 baseline과 ORDER-130 sentinel은 이 복구의 증거일 뿐 다른 장면의
+  목표치나 전역 상한이 아니다.
+
+## 완료 기록 (2026-08-26)
+
+- 사용자의 “중요 장면은 10까지도 갈 수 있다”는 예시를 정확한 `9/10/9` 문단
+  할당량으로 오해한 것을 명시적으로 철회했다. summit/countdown/final week는
+  중복 설명을 합친 결과 현재 `6/8/6`으로 관측되지만 어떤 수치도 합격 조건이 아니다.
+- 합격 판정은 장소·자산/목표의 중립적 관계·부대비용·비계약 문턱, 독립적인 마지막
+  서명 개시·실제 기록·상호배타 선택, 직전 서명·발신 행동·상대 선택권의 기능으로
+  바꿨다. literal 중복, 허위 30억 달성·매입·등기·열쇠·이체·답장·화해와
+  KO/EN shape·placeholder·선택 순서 변조는 18개 mutation이 거부한다.
+- 정확히 25억원과 30억원 이상 경로를 함께 사실대로 읽고, 성향 점수를 실제 적금·
+  급등락 이력으로 꾸미지 않는다. countdown의 무근거 `같은 밤/조금 전 책상`,
+  마지막 장 뒤 다음 장 자국, 결혼 유지 경로의 `혼자가 됐다`도 제거했다.
+- 기존 `final_week_self_approval`·`final_week_gratitude` 회수는 결과에 몰래 덧붙이지
+  않고 선택문에서 먼저 보인다. effects·flags·follow-up, ending coda 72/33,
+  엔딩 35 ID·CG·15 route는 바꾸지 않았다.
+- 구현 `fb9e473a6c2a9ead14c4becc12a1e28ddcbeabc0` / tree
+  `24d7abdcae3e04c8a660e2feeed92eb1ec8318cf`에서 peak `32/32`, finale mutation
+  `18`, Year5 direct/self-test `38`, release `1758/1603/155`, 정적 ERROR 0과
+  한영 한글 누출 0을 통과했다. 마감 exact tree의 전체 감사도 failure flag 0과
+  `✅ 감사 통과`로 끝냈으며, 이 GREEN은 아직 actor binding이나 사람 재미 GO가 아니다.
