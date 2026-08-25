@@ -36,7 +36,8 @@
 `tools/CoreChoiceSliceCheck.gd`, `tools/ScreenshotQA.gd`,
 `tools/audit_scope.json`, `tools/audit.sh`,
 `docs/CONTENT_RATING_INVENTORY.md`, `docs/STORY_BIBLE.md`,
-`docs/DECISIONS.md`, `docs/CODEX_QUEUE.md`, 이 사양과 완료 시
+`docs/DECISIONS.md`, `docs/PEAK_SCENE_CHAIN_AUDIT.md`,
+`docs/CODEX_QUEUE.md`, 이 사양과 완료 시
 `docs/queue_archive/ORDER-131.md`,
 `docs/queue_archive/CODEX_QUEUE_2026-08.md`, `CLAUDE.md`,
 `docs/WORK_LOG.md`, 생성본 `docs/STATUS.md`. 선언 범위 중 실물 변경이 불필요한
@@ -78,6 +79,12 @@ same-turn 재진입·중복 효과는 전용 인과 감사와 `CoreChoiceSliceCh
 선택에서만 그 호환 플래그를 쓰고, 후속도 “누군가가 민준을 구했다”가 아니라
 “민준이 닫힌 창구에 다시 실제 시각을 보냈다”는 사실을 읽게 하기 위해 한·영
 `callback_chapter_themes.json`을 정확한 파일 범위에 추가한다.
+
+**분산 정점 문서 보강 (2026-08-26):** `arc_36_trust_crack`의 즉시 후속을 제거하고
+M39 영수증을 읽는 W157의 세 표적 장면으로 분리했으므로, 옛 2링크 체인을 현재
+구조라고 적은 `docs/PEAK_SCENE_CHAIN_AUDIT.md`를 정확한 파일 범위에 추가한다.
+과거 수치를 새 숫자 목표로 바꾸지 않고, 같은 주 즉시 연결이 아니라 여러 주에
+걸친 선택→비용 구조임을 기록한다.
 
 ## 깊이 3문
 
