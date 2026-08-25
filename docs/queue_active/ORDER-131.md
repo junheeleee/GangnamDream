@@ -138,6 +138,16 @@ Dialogue History에는 살아 있는 아버지 통화 문장이 남는 결함을
 유지하되 생존 아버지 조건을 명시해 canonical flag·옛 terminal receipt·passed cast
 stage 어느 증거에서도 자동 bridge와 직접 resolve가 모두 차단되는지 검증한다.
 
+**복원 대기열 생존 계약 보강 (2026-08-26):** 마지막 전수 감사에서 주차 라우터가
+사망 뒤 차단한 장면도 구버전 저장의 `pending_story_queue`에 이미 들어 있으면
+StoryMode가 라우터를 건너뛰어 현재형 아버지 통화·병동·식탁을 다시 열 수 있음을
+확인했다. 기존 사망 변형이 있는 5천만·1억·25억 이정표와 임상철 기사는 명시적
+변형 표로 안전한 원고에 이관하고, 생존 아버지 자체가 전제인 초기·중반·4장
+사건에는 데이터의 `requires_living_father` 계약을 붙인다. 별세를 생산하는
+`arc_father_passing`과 사망 뒤 기억 장면은 이 계약에서 제외한다. 정상 생존 큐,
+canonical flag·옛 terminal receipt·passed cast stage의 stale queue/pop,
+결과화면 저장 변형, 읽기 전용 회상을 각각 독립 회귀로 검증한다.
+
 ## 깊이 3문
 
 1. 왜 완성된 25편에 ingress만 붙이지 않는가? 현재 원고는 대부분 월간 행동판에서
