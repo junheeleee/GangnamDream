@@ -27,7 +27,7 @@ LEDGER_RELATIVE_PATH = Path("content/meta/event_lifecycle.json")
 PRODUCT_GDSCRIPT_DIRS = ("autoloads", "scenes", "systems", "ui_components")
 EXPECTED_SCHEMA_VERSION = 1
 EXPECTED_LEDGER_ID = "event_lifecycle_v1"
-EXPECTED_BASELINE_COMMIT = "abad99dee416d24132ba2bfa23fef24d99d906de"
+EXPECTED_BASELINE_COMMIT = "73e1a078902af8ebd0308a63849cedd5f803c3a0"
 HASH_SEMANTICS = "sha256(UTF-8 sorted unique IDs joined by LF with one trailing LF)"
 
 

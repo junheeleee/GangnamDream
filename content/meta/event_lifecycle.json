@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "ledger_id": "event_lifecycle_v1",
-  "baseline_commit": "abad99dee416d24132ba2bfa23fef24d99d906de",
+  "baseline_commit": "73e1a078902af8ebd0308a63849cedd5f803c3a0",
   "hash_semantics": "sha256(UTF-8 sorted unique IDs joined by LF with one trailing LF)",
   "counts": {
     "packaged_events": 1761,

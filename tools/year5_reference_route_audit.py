@@ -37,7 +37,7 @@ EVENT_DIRS = {
 }
 
 EXPECTED_DECLARATION = "89d218233b271e9a60a761d2c0bcce1c235ba703"
-EXPECTED_BASELINE = "15c26db"
+EXPECTED_BASELINE = "73e1a078902af8ebd0308a63849cedd5f803c3a0"
 EXPECTED_MANIFEST_ID = "year5_reference_routes_v2"
 LEGACY_MANIFEST_IDS = ("year5_reference_routes_v1",)
 EXPECTED_ROUTE_IDS = (
@@ -358,6 +358,43 @@ ORDER129_TARGET_IDS = {
     "arc_pre_ending_summit",
     "arc_final_countdown",
     "arc_final_week",
+}
+# ORDER-131 rewrites the Chapter 4 father timeline and three causal receipt
+# readers inside files that also contain the rejected/rewritten Year-5 prose.
+# These IDs are owned by the Chapter-4 route audit; permitting this exact later
+# delta keeps the historical ORDER-118/129 baselines meaningful without making
+# an unrelated new event or object change invisible here.
+ORDER131_LATER_DELTA_IDS = {
+    "arc_36_body_signal",
+    "arc_year_three_half",
+    "arc_36_night_doubt",
+    "arc_father_passing",
+    "arc_father_passing_platform",
+    "arc_father_passing_deal_room",
+    "arc_father_passing_deal_morning",
+    "arc_father_call_on_ktx",
+    "arc_father_call_on_ktx_memory",
+    "arc_father_call_on_ktx_number",
+    "arc_y4_father_call_answered_on_ktx",
+    "arc_y4_father_call_missed_on_ktx",
+    "arc_y4_father_crisis_contact",
+    "arc_y4_father_final_contact_present",
+    "arc_y4_father_final_contact_called",
+    "arc_y4_father_final_contact_missed",
+    "arc_y4_father_crisis_stabilized",
+    "arc_y4_father_outcome_unknown",
+}
+ORDER131_ADDED_IDS_BY_FILE = {
+    "content/events/arc_drama.json": {
+        "arc_y4_father_crisis_contact",
+        "arc_y4_father_crisis_stabilized",
+        "arc_y4_father_outcome_unknown",
+    },
+    "content/events_en/arc_drama.json": {
+        "arc_y4_father_crisis_contact",
+        "arc_y4_father_crisis_stabilized",
+        "arc_y4_father_outcome_unknown",
+    },
 }
 ORDER129_EXPECTED_OBJECT_SHA256 = {
     "ko": {
@@ -3426,7 +3463,10 @@ def validate_order129_finale_candidate(
                 current_hash = canonical_json_sha256(current)
                 baseline_hash = canonical_json_sha256(baseline)
                 if event_id not in ORDER129_TARGET_IDS:
-                    if current_hash != baseline_hash:
+                    if (
+                        current_hash != baseline_hash
+                        and event_id not in ORDER131_LATER_DELTA_IDS
+                    ):
                         errors.append(f"{label}: non-target event object changed")
                     continue
                 changed[locale].add(event_id)
@@ -3474,7 +3514,16 @@ def validate_order118_prose_candidate(
             baseline_rows = event_rows(baseline_payload, f"{owner}:baseline", errors)
             current_ids = [str(row.get("id", "")) for row in disk_current_rows]
             baseline_ids = [str(row.get("id", "")) for row in baseline_rows]
-            if current_ids != baseline_ids:
+            expected_additions = ORDER131_ADDED_IDS_BY_FILE.get(relative, set())
+            observed_additions = set(current_ids) - set(baseline_ids)
+            baseline_projection = [
+                event_id for event_id in current_ids
+                if event_id not in expected_additions
+            ]
+            if (
+                baseline_projection != baseline_ids
+                or observed_additions != expected_additions
+            ):
                 errors.append(f"{owner}: event ID/order drift outside the prose rewrite")
                 continue
             if len(current_ids) != len(set(current_ids)):
@@ -3504,7 +3553,11 @@ def validate_order118_prose_candidate(
                 if is_changed and is_allowed:
                     changed[locale].add(event_id)
                 if not is_allowed:
-                    if is_changed and event_id not in ORDER129_TARGET_IDS:
+                    if (
+                        is_changed
+                        and event_id not in ORDER129_TARGET_IDS
+                        and event_id not in ORDER131_LATER_DELTA_IDS
+                    ):
                         errors.append(f"{label}: non-target event object changed")
                 elif not is_changed:
                     errors.append(f"{label}: declared prose target was not rewritten")
