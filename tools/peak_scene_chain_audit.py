@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import glob
 import json
 import os
@@ -62,8 +63,6 @@ MAX_LINKS = 4
 MIN_DECISIONS = 2
 MAX_DECISIONS = 3
 MIN_DIALOGUE_TURNS = 2
-MIN_PANELS = 6
-
 # Ratchet updated only after a peak is expanded and its rendered QA passes.
 BASELINE_DEBT = 0
 REQUIRED_PASS = {
@@ -2087,202 +2086,601 @@ def validate_review_appendix_contracts(
             raise ValueError(f"English routine scene retained abstract maxim: {stale}")
 
 
-def validate_finale_density_contracts(
+FINALE_IDS = (
+    "arc_pre_ending_summit",
+    "arc_final_countdown",
+    "arc_final_week",
+)
+FINALE_SIGNATURES = (
+    "final_signature_owned",
+    "final_signature_collateral",
+    "final_signature_people",
+)
+
+
+def _prose(value: Any, label: str) -> str:
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"{label} must be a non-empty prose string")
+    return value.strip()
+
+
+def _paragraphs(value: Any) -> list[str]:
+    return [block.strip() for block in str(value or "").split("\n\n") if block.strip()]
+
+
+def _reject_duplicate_prose_panels(value: Any, label: str) -> None:
+    """Reject literal padding without treating a panel count as a quality target."""
+    normalized = [re.sub(r"\s+", " ", block).strip().lower() for block in _paragraphs(value)]
+    if len(normalized) != len(set(normalized)):
+        raise ValueError(f"{label} repeats an identical prose panel (filler)")
+
+
+def _require_meanings(
+        locale: str,
+        surface: str,
+        text: str,
+        requirements: dict[str, tuple[tuple[str, ...], ...]]) -> None:
+    """Require each dramatic function, independent of paragraph position or count."""
+    for meaning, groups in requirements.items():
+        for alternatives in groups:
+            if not any(re.search(pattern, text, re.IGNORECASE | re.DOTALL)
+                       for pattern in alternatives):
+                raise ValueError(f"{locale}:{surface} lost meaning {meaning}")
+
+
+def _placeholder_sequence(value: Any) -> list[str]:
+    # EN may replace repeated KO names with pronouns; preserve the placeholder
+    # vocabulary without requiring occurrence-for-occurrence literal symmetry.
+    return sorted(set(re.findall(
+        r"\{[A-Za-z_][A-Za-z0-9_]*\}", str(value or ""))))
+
+
+def _variant_map(
+        event: dict[str, Any], field: str, label: str,
+        exact_keys: set[str] | None = None,
+        required_keys: set[str] | None = None) -> dict[str, str]:
+    value = event.get(field)
+    if not isinstance(value, dict):
+        raise ValueError(f"{label}.{field} must be a prose map")
+    keys = set(value)
+    if exact_keys is not None and keys != exact_keys:
+        raise ValueError(f"{label}.{field} keys changed: {sorted(keys)!r}")
+    if required_keys is not None and not required_keys.issubset(keys):
+        missing = sorted(required_keys - keys)
+        raise ValueError(f"{label}.{field} lost variants: {missing!r}")
+    result: dict[str, str] = {}
+    for key, prose in value.items():
+        result[str(key)] = _prose(prose, f"{label}.{field}.{key}")
+        _reject_duplicate_prose_panels(prose, f"{label}.{field}.{key}")
+    return result
+
+
+def _all_finale_prose(event: dict[str, Any]) -> list[tuple[str, str]]:
+    surfaces: list[tuple[str, str]] = []
+    for field in (
+        "description", "description_orthodox", "description_unorthodox",
+    ):
+        if field in event:
+            surfaces.append((field, _prose(event[field], f"{event.get('id')}.{field}")))
+    for field in (
+        "description_if_moral", "description_if_known", "description_memory_if_known",
+    ):
+        value = event.get(field)
+        if value is None:
+            continue
+        if not isinstance(value, dict):
+            raise ValueError(f"{event.get('id')}.{field} must be a prose map")
+        for key, prose in value.items():
+            surfaces.append((f"{field}.{key}", _prose(
+                prose, f"{event.get('id')}.{field}.{key}")))
+    choices = event.get("choices")
+    if not isinstance(choices, list):
+        raise ValueError(f"{event.get('id')}.choices must be an array")
+    for index, choice in enumerate(choices):
+        if not isinstance(choice, dict):
+            raise ValueError(f"{event.get('id')}.choices[{index}] must be an object")
+        for field in ("text", "result_text"):
+            surfaces.append((f"choices[{index}].{field}", _prose(
+                choice.get(field), f"{event.get('id')}.choices[{index}].{field}")))
+        if "text_if_moral" in choice:
+            moral = choice["text_if_moral"]
+            if not isinstance(moral, dict):
+                raise ValueError(
+                    f"{event.get('id')}.choices[{index}].text_if_moral must be a prose map")
+            for key, prose in moral.items():
+                surfaces.append((f"choices[{index}].text_if_moral.{key}", _prose(
+                    prose, f"{event.get('id')}.choices[{index}].text_if_moral.{key}")))
+    return surfaces
+
+
+def _validate_finale_shape_and_parity(
         ko_events: dict[str, dict[str, Any]],
         en_events: dict[str, dict[str, Any]]) -> None:
-    """Lock the final 9/10/9 beat climb without inventing contracts or replies."""
-
-    def paragraphs(event: dict[str, Any], field: str) -> list[str]:
-        return [
-            block.strip()
-            for block in str(event.get(field, "")).split("\n\n")
-            if block.strip()
-        ]
-
-    def require_count(
-            locale: str, event_id: str, field: str,
-            event: dict[str, Any], expected: int) -> list[str]:
-        value = paragraphs(event, field)
-        if len(value) != expected:
-            raise ValueError(
-                f"{locale}:{event_id}.{field} must have {expected} meaning beats, "
-                f"got {len(value)}"
-            )
-        return value
-
-    def changed_indexes(base: list[str], variant: list[str]) -> set[int]:
-        return {
-            index for index, (left, right) in enumerate(zip(base, variant))
-            if left != right
-        }
-
-    def placeholders(value: Any) -> list[str]:
-        return sorted(set(re.findall(
-            r"\{[A-Za-z_][A-Za-z0-9_]*\}", str(value or ""))))
-
-    finale_ids = (
-        ("arc_pre_ending_summit", "arc_pre_ending_summit"),
-        ("arc_final_countdown", "arc_final_countdown"),
-        ("arc_final_week", "arc_final_week"),
-    )
-    for ko_id, en_id in finale_ids:
-        if ko_id not in ko_events or en_id not in en_events:
-            raise ValueError(f"finale event missing from KO/EN: {ko_id}")
-        ko_choices = ko_events[ko_id].get("choices") or []
-        en_choices = en_events[en_id].get("choices") or []
-        if len(ko_choices) != len(en_choices):
-            raise ValueError(f"finale KO/EN choice count drifted: {ko_id}")
-
     summit_fields = ("description", "description_orthodox", "description_unorthodox")
-    for locale, event in (
-        ("ko", ko_events["arc_pre_ending_summit"]),
-        ("en", en_events["arc_pre_ending_summit"]),
-    ):
-        summit_paragraphs = {
-            field: require_count(locale, "arc_pre_ending_summit", field, event, 9)
-            for field in summit_fields
-        }
-        for field in summit_fields[1:]:
-            if changed_indexes(summit_paragraphs["description"], summit_paragraphs[field]) \
-                    != {3, 6}:
-                raise ValueError(
-                    f"{locale}:arc_pre_ending_summit.{field} must change only beats 4 and 7"
-                )
-        for index, choice in enumerate(event.get("choices") or []):
-            require_count(
-                locale, "arc_pre_ending_summit", f"choices[{index}].result_text",
-                {f"choices[{index}].result_text": choice.get("result_text", "")}, 4)
+    for event_id in FINALE_IDS:
+        if event_id not in ko_events or event_id not in en_events:
+            raise ValueError(f"finale event missing from KO/EN: {event_id}")
+        for locale, event in (("ko", ko_events[event_id]), ("en", en_events[event_id])):
+            for surface, prose in _all_finale_prose(event):
+                _reject_duplicate_prose_panels(prose, f"{locale}:{event_id}.{surface}")
+        ko_choices = ko_events[event_id].get("choices") or []
+        en_choices = en_events[event_id].get("choices") or []
+        if len(ko_choices) != len(en_choices):
+            raise ValueError(f"finale KO/EN choice count drifted: {event_id}")
 
-    countdown_fields = ("description",)
-    final_week_fields = ("description",)
     for locale, events in (("ko", ko_events), ("en", en_events)):
+        summit = events["arc_pre_ending_summit"]
+        for field in summit_fields:
+            _prose(summit.get(field), f"{locale}:arc_pre_ending_summit.{field}")
+
         countdown = events["arc_final_countdown"]
-        for field in countdown_fields:
-            require_count(locale, "arc_final_countdown", field, countdown, 10)
-        moral = countdown.get("description_if_moral") or {}
-        if set(moral) != {"black", "white"}:
-            raise ValueError(f"{locale}:arc_final_countdown moral variants must stay black/white")
-        for moral_id in ("black", "white"):
-            require_count(
-                locale, "arc_final_countdown", f"description_if_moral.{moral_id}",
-                {f"description_if_moral.{moral_id}": moral[moral_id]}, 10)
+        _variant_map(
+            countdown, "description_if_moral", f"{locale}:arc_final_countdown",
+            exact_keys={"black", "white"})
+        _variant_map(
+            countdown, "description_memory_if_known", f"{locale}:arc_final_countdown",
+            exact_keys={"m3_ledger_reasons_named", "m3_ledger_totals_only"})
         for index, choice in enumerate(countdown.get("choices") or []):
-            require_count(
-                locale, "arc_final_countdown", f"choices[{index}].result_text",
-                {f"choices[{index}].result_text": choice.get("result_text", "")}, 4)
+            moral = choice.get("text_if_moral")
+            if not isinstance(moral, dict) or set(moral) != {"black", "white"}:
+                raise ValueError(
+                    f"{locale}:arc_final_countdown.choices[{index}].text_if_moral keys changed")
+            for moral_id, prose in moral.items():
+                _prose(prose, (
+                    f"{locale}:arc_final_countdown.choices[{index}]."
+                    f"text_if_moral.{moral_id}"))
 
         final_week = events["arc_final_week"]
-        base = require_count(locale, "arc_final_week", "description", final_week, 9)
-        known = final_week.get("description_if_known") or {}
-        for signature_id in (
-            "final_signature_owned", "final_signature_collateral", "final_signature_people"
-        ):
-            if signature_id not in known:
-                raise ValueError(f"{locale}:arc_final_week missing {signature_id}")
-            variant = require_count(
-                locale, "arc_final_week", f"description_if_known.{signature_id}",
-                {f"description_if_known.{signature_id}": known[signature_id]}, 9)
-            if changed_indexes(base, variant) != {1}:
-                raise ValueError(
-                    f"{locale}:arc_final_week.{signature_id} must change only beat 2"
-                )
-        for index, choice in enumerate(final_week.get("choices") or []):
-            require_count(
-                locale, "arc_final_week", f"choices[{index}].result_text",
-                {f"choices[{index}].result_text": choice.get("result_text", "")}, 4)
+        _variant_map(
+            final_week, "description_if_known", f"{locale}:arc_final_week",
+            required_keys=set(FINALE_SIGNATURES))
+        _variant_map(
+            final_week, "description_memory_if_known", f"{locale}:arc_final_week",
+            exact_keys={
+                "m4_housing_priority_runway",
+                "m4_housing_priority_privacy",
+                "m4_housing_priority_time",
+            })
 
-    # Every changed KO/EN surface keeps the same player-name placeholder shape.
-    surface_fields = {
-        "arc_pre_ending_summit": summit_fields,
-        "arc_final_countdown": ("description",),
-        "arc_final_week": ("description",),
+    # Variant/memory topology and placeholder vocabulary stay isomorphic.
+    paired_maps = {
+        "arc_final_countdown": (
+            "description_if_moral", "description_memory_if_known",
+        ),
+        "arc_final_week": (
+            "description_if_known", "description_memory_if_known",
+        ),
     }
-    for event_id, fields in surface_fields.items():
+    for event_id, fields in paired_maps.items():
+        for field in fields:
+            ko_map = ko_events[event_id].get(field) or {}
+            en_map = en_events[event_id].get(field) or {}
+            if set(ko_map) != set(en_map):
+                raise ValueError(f"finale KO/EN variant keys drifted: {event_id}.{field}")
+            for key in ko_map:
+                if _placeholder_sequence(ko_map[key]) != _placeholder_sequence(en_map[key]):
+                    raise ValueError(
+                        f"finale placeholder parity drifted: {event_id}.{field}.{key}")
+
+    for event_id in FINALE_IDS:
         ko_event = ko_events[event_id]
         en_event = en_events[event_id]
+        fields = summit_fields if event_id == "arc_pre_ending_summit" else ("description",)
         for field in fields:
-            if placeholders(ko_event.get(field)) != placeholders(en_event.get(field)):
+            if _placeholder_sequence(ko_event.get(field)) \
+                    != _placeholder_sequence(en_event.get(field)):
                 raise ValueError(f"finale placeholder parity drifted: {event_id}.{field}")
         for index, (ko_choice, en_choice) in enumerate(zip(
                 ko_event.get("choices") or [], en_event.get("choices") or [])):
-            if placeholders(ko_choice.get("result_text")) \
-                    != placeholders(en_choice.get("result_text")):
+            for field in ("text", "result_text"):
+                if _placeholder_sequence(ko_choice.get(field)) \
+                        != _placeholder_sequence(en_choice.get(field)):
+                    raise ValueError(
+                        f"finale placeholder parity drifted: "
+                        f"{event_id}.choices[{index}].{field}")
+            ko_moral = ko_choice.get("text_if_moral") or {}
+            en_moral = en_choice.get("text_if_moral") or {}
+            if set(ko_moral) != set(en_moral):
                 raise ValueError(
-                    f"finale result placeholder parity drifted: {event_id}[{index}]"
-                )
+                    f"finale KO/EN choice variant keys drifted: {event_id}[{index}]")
+            for moral_id in ko_moral:
+                if _placeholder_sequence(ko_moral[moral_id]) \
+                        != _placeholder_sequence(en_moral[moral_id]):
+                    raise ValueError(
+                        f"finale placeholder parity drifted: "
+                        f"{event_id}.choices[{index}].text_if_moral.{moral_id}")
 
-    summit_ko = ko_events["arc_pre_ending_summit"]
-    summit_en = en_events["arc_pre_ending_summit"]
-    for field in summit_fields:
-        ko_text = str(summit_ko.get(field, ""))
-        en_text = str(summit_en.get(field, ""))
-        ko_anchors = [
-            "자산 숫자와 집을 샀다는 사실은 같은 말이 아니었다.",
-            "서명한 매매계약서는 없었다. 등기 접수증도, 건네받은 열쇠도 없었다.",
-        ]
-        en_anchors = [
-            "an asset figure did not mean a home had been bought.",
-            "There was no signed purchase agreement. No registration receipt. No key handed over.",
-        ]
-        for anchor in ko_anchors:
-            if anchor not in ko_text:
-                raise ValueError(f"ko:arc_pre_ending_summit.{field} lost {anchor!r}")
-        for anchor in en_anchors:
-            if anchor not in en_text:
-                raise ValueError(f"en:arc_pre_ending_summit.{field} lost {anchor!r}")
-    for locale, event, forbidden in (
-        ("ko", summit_ko, ("계약했다", "매입했다", "열쇠를 받았다", "등기했다")),
-        ("en", summit_en, ("signed the contract", "bought the home", "received the key")),
-    ):
-        result_copy = "\n".join(str(choice.get("result_text", "")) for choice in event.get("choices") or [])
-        for token in forbidden:
-            if token.lower() in result_copy.lower():
-                raise ValueError(f"{locale}:summit result invented ownership: {token!r}")
 
-    for locale, event, forbidden in (
-        ("ko", ko_events["arc_final_countdown"], ("227", "이체 확인서", "이체 완료", "상철", "현수", "민서")),
-        ("en", en_events["arc_final_countdown"], ("227", "transfer confirmation", "transfer completed", "Sangchul", "Hyunsu", "Minseo")),
-    ):
-        description_copy = "\n".join([
-            str(event.get("description", "")),
-            *(str(value) for value in (event.get("description_if_moral") or {}).values()),
-        ])
-        for token in forbidden:
-            if token.lower() in description_copy.lower():
-                raise ValueError(f"{locale}:countdown invented a universal record/person: {token!r}")
+def _validate_finale_meanings(
+        ko_events: dict[str, dict[str, Any]],
+        en_events: dict[str, dict[str, Any]]) -> None:
+    summit_fields = ("description", "description_orthodox", "description_unorthodox")
+    summit_common = {
+        "ko": {
+            "summit.location": ((r"부동산 사무실",), (r"책상", r"매물표")),
+            "summit.asset_and_goal": ((r"25\s*억원",), (r"30\s*억원",), (r"목표",)),
+            "summit.inclusive_threshold": ((r"25\s*억원에 닿", r"25\s*억원 이상"),),
+            "summit.goal_relation_neutral": ((r"아래인지",), (r"닿았는지",), (r"넘어섰는지",)),
+            "summit.not_owned": ((r"아직[^.]{0,50}(?:아니|없)", r"소유권[^.]{0,30}(?:아니|없)"),),
+            "summit.carrying_cost": ((r"취득세",), (r"중개보수",), (r"남겨 둘 현금", r"버틸 값")),
+            "summit.pre_contract_threshold": (
+                (r"서명한[^.]{0,30}계약서[^.]{0,100}없", r"계약서[^.]{0,20}아니"),
+                (r"등기[^.]{0,80}없", r"등기[^.]{0,20}아니"),
+                (r"열쇠[^.]{0,40}없", r"열쇠[^.]{0,20}아니"),
+            ),
+            "summit.present_action": ((r"아버지[^.]{0,30}연락처",), (r"강남대로",), (r"행동",)),
+        },
+        "en": {
+            "summit.location": ((r"real estate office",), (r"desk", r"listing")),
+            "summit.asset_and_goal": ((r"2\.5[- ]billion[- ]won",), (r"3[- ]billion",), (r"goal",)),
+            "summit.inclusive_threshold": ((r"(?:had )?reached[^.]{0,30}2\.5[- ]billion[- ]won[^.]{0,20}threshold", r"at least 2\.5[- ]billion[- ]won"),),
+            "summit.goal_relation_neutral": ((r"below",), (r"\bat\b",), (r"beyond",)),
+            "summit.not_owned": ((r"none of the homes[^.]{0,40}(?:his|owned)", r"ownership[^.]{0,30}(?:not|no)"),),
+            "summit.carrying_cost": ((r"acquisition tax",), (r"brokerage fee",), (r"cash to keep", r"survive after paying")),
+            "summit.pre_contract_threshold": (
+                (r"no signed purchase agreement", r"not a contract"),
+                (r"no[^.]{0,80}registration receipt", r"not[^.]{0,20}registration"),
+                (r"no[^.]{0,100}(?:handed-over )?key", r"not[^.]{0,20}key"),
+            ),
+            "summit.present_action": ((r"father[^.]{0,30}contacts",), (r"gangnam-daero",), (r"action",)),
+        },
+    }
+    summit_route = {
+        "ko": {
+            "description": {
+                "summit.general_route_cost": ((r"들어온 돈",), (r"나간 돈",), (r"자산[^.]{0,20}선택",), (r"지나간 시간",)),
+            },
+            "description_orthodox": {
+                "summit.orthodox_cost": ((r"정석",), (r"선택 기록",), (r"더 많은 무게",), (r"고르지 않은 가능성",)),
+            },
+            "description_unorthodox": {
+                "summit.unorthodox_cost": ((r"비정석",), (r"선택 기록",), (r"더 많은 무게",), (r"고르지 않은 가능성",)),
+            },
+        },
+        "en": {
+            "description": {
+                "summit.general_route_cost": ((r"money in",), (r"money[^.]{0,12}out",), (r"choices[^.]{0,25}moved[^.]{0,15}assets",), (r"time[^.]{0,15}passed",)),
+            },
+            "description_orthodox": {
+                "summit.orthodox_cost": ((r"conventional",), (r"record of his choices",), (r"carried more weight",), (r"possibilities[^.]{0,25}not chosen",)),
+            },
+            "description_unorthodox": {
+                "summit.unorthodox_cost": ((r"unorthodox",), (r"record of his choices",), (r"carried more weight",), (r"possibilities[^.]{0,25}not chosen",)),
+            },
+        },
+    }
+    for locale, events in (("ko", ko_events), ("en", en_events)):
+        summit = events["arc_pre_ending_summit"]
+        surfaces: list[str] = []
+        for field in summit_fields:
+            text = _prose(summit[field], f"{locale}:arc_pre_ending_summit.{field}")
+            surfaces.append(text)
+            _require_meanings(
+                locale, f"arc_pre_ending_summit.{field}", text,
+                summit_common[locale])
+            _require_meanings(
+                locale, f"arc_pre_ending_summit.{field}", text,
+                summit_route[locale][field])
+        if len(set(surfaces)) != len(surfaces):
+            raise ValueError(f"{locale}:summit route variants lost distinct meaning")
 
-    for locale, event, required, forbidden in (
-        (
-            "ko", ko_events["arc_final_week"],
-            ("답장도 만남도 화해도 화면 어느 곳에 확정되어 있지 않았다.",
-             "자기 쪽에서 먼저 보낼 행동이었다."),
-            ("답장이 왔다", "만나기로 했다", "용서받았다", "관계가 회복됐다"),
+    summit_results = {
+        "ko": (
+            {
+                "summit.father_contact": ((r"아버지",), (r"연락처",)),
+                "summit.no_call_made": ((r"누르지 않았다|누르지는 않았다",),),
+                "summit.no_reply_created": ((r"발신 시각",), (r"신호음",), (r"답도 생기지 않았다",)),
+                "summit.truth_before_goal": ((r"집[^.]{0,20}(?:사지 않았|산 것은 아니)",), (r"25\s*억원[^.]{0,15}(?:문턱[^.]{0,10})?에 닿", r"25\s*억원 이상"), (r"30\s*억원",)),
+                "summit.current_comparison": ((r"지금 숫자",), (r"나란히",)),
+            },
+            {
+                "summit.walks_now": ((r"강남대로",), (r"한 블록",)),
+                "summit.listing_not_contract": ((r"계약서가 아니라",), (r"매물표",)),
+                "summit.body_cost": ((r"허리",), (r"종아리",), (r"걸음을 줄",)),
+                "summit.no_ownership": ((r"소유권[^.]{0,25}(?:주지는 않았다|없)",),),
+                "summit.refuses_false_arrival": ((r"도착했다[^.]{0,15}(?:삼키|말하지|아니)", r"도착했다[^.]{0,15}말[^.]{0,15}삼키"),),
+            },
         ),
-        (
-            "en", en_events["arc_final_week"],
-            ("No reply, meeting, or reconciliation had been settled anywhere on the screen.",
-             "the action he would send first."),
-            ("a reply came", "agreed to meet", "was forgiven", "the relationship was restored"),
+        "en": (
+            {
+                "summit.father_contact": ((r"father",), (r"contact",)),
+                "summit.no_call_made": ((r"did not press",),),
+                "summit.no_reply_created": ((r"outgoing time",), (r"ring",), (r"no[^.]{0,40}answer",)),
+                "summit.truth_before_goal": ((r"had not bought a home",), (r"(?:had )?reached[^.]{0,30}2\.5[- ]billion[- ]won[^.]{0,20}threshold", r"at least 2\.5[- ]billion[- ]won"), (r"3[- ]billion[- ]won",)),
+                "summit.current_comparison": ((r"current figure",), (r"compar",)),
+            },
+            {
+                "summit.walks_now": ((r"gangnam-daero",), (r"one block",)),
+                "summit.listing_not_contract": ((r"no contract",), (r"listing",)),
+                "summit.body_cost": ((r"lower back",), (r"calves",), (r"slowed",)),
+                "summit.no_ownership": ((r"neither gave him ownership", r"gave him no ownership"),),
+                "summit.refuses_false_arrival": ((r"swallowed[^.]{0,40}arrived",),),
+            },
         ),
-    ):
-        all_descriptions = [str(event.get("description", ""))]
-        all_descriptions.extend(
-            str((event.get("description_if_known") or {}).get(signature_id, ""))
-            for signature_id in (
-                "final_signature_owned", "final_signature_collateral",
-                "final_signature_people",
-            )
-        )
-        for value in all_descriptions:
-            for anchor in required:
-                if anchor not in value:
-                    raise ValueError(f"{locale}:final week lost outbound-only anchor {anchor!r}")
-        result_copy = "\n".join(str(choice.get("result_text", "")) for choice in event.get("choices") or [])
-        for token in forbidden:
-            if token.lower() in result_copy.lower():
-                raise ValueError(f"{locale}:final week invented a reply/recovery: {token!r}")
+    }
+    for locale, events in (("ko", ko_events), ("en", en_events)):
+        for index, requirements in enumerate(summit_results[locale]):
+            result = _prose(
+                events["arc_pre_ending_summit"]["choices"][index]["result_text"],
+                f"{locale}:arc_pre_ending_summit.choices[{index}].result_text")
+            _require_meanings(
+                locale, f"arc_pre_ending_summit.choices[{index}].result_text",
+                result, requirements)
 
-    expected_choices = {
+    countdown_common = {
+        "ko": {
+            "countdown.independent_opening": ((r"다섯 해의 마지막 달",), (r"수첩을 편 책상",)),
+            "countdown.start_and_goal": ((r"50\s*만원",), (r"30\s*억원",), (r"목표",)),
+            "countdown.current_result": ((r"자산 화면",), (r"목표[^.]{0,30}(?:위|아래|넘|닿|못 닿)",)),
+            "countdown.actual_record": ((r"실제로",), (r"금액",), (r"날짜",), (r"이름",), (r"만남",), (r"답",), (r"빈칸",)),
+            "countdown.money_people_ledger": ((r"돈",), (r"사람[^.]{0,25}시간",), (r"장부",)),
+            "countdown.not_a_contract": ((r"빈 줄",), (r"수첩",), (r"계약서[^.]{0,15}아니",), (r"접수본[^.]{0,15}아니",)),
+            "countdown.three_signature_meanings": ((r"책임|결과는 내 것",), (r"이름[^.]{0,20}(?:계산|값|가치)",), (r"사람부터",)),
+            "countdown.mutual_exclusion": ((r"하나",), (r"다른 (?:둘|두)",), (r"모두|셋",)),
+            "countdown.no_proxy_signer": ((r"대신 서명",), (r"펜[^.]{0,25}(?:함께|같이)",)),
+            "countdown.cost_after_choice": ((r"대가",), (r"한 줄",)),
+        },
+        "en": {
+            "countdown.independent_opening": ((r"final month of the five years",), (r"notebook open",)),
+            "countdown.start_and_goal": ((r"500,000 won",), (r"3[- ]billion(?:-won)?",), (r"goal",)),
+            "countdown.current_result": ((r"assets screen",), (r"(?:above|past)[^.]{0,20}(?:below|goal)|(?:reaching|arrival)[^.]{0,20}(?:missing|failure)",)),
+            "countdown.actual_record": ((r"actually",), (r"amount",), (r"date",), (r"name",), (r"meeting",), (r"answer",), (r"blank",)),
+            "countdown.money_people_ledger": ((r"money",), (r"time borrowed from people",), (r"ledger",)),
+            "countdown.not_a_contract": ((r"blank line",), (r"notebook",), (r"no contract|not a contract",), (r"no filed copy|not a filed copy|no contract or filed copy",)),
+            "countdown.three_signature_meanings": ((r"responsibility|outcome is mine",), (r"price the names|names[^.]{0,35}(?:value|cost)",), (r"people first",)),
+            "countdown.mutual_exclusion": ((r"one meaning|one of|writing one",), (r"other two",), (r"all three",)),
+            "countdown.no_proxy_signer": ((r"sign for him|sign in his place",), (r"hold the pen with him",)),
+            "countdown.cost_after_choice": ((r"cost",), (r"one line|the line",)),
+        },
+    }
+    countdown_route = {
+        "ko": {
+            "description": {
+                "countdown.base_signature": ((r"내가 책임",), (r"이름[^.]{0,15}계산",), (r"사람부터",)),
+            },
+            "black": {
+                "countdown.black_signature": ((r"결과는 내 것",), (r"이름[^.]{0,15}(?:값|가치)",), (r"목소리[^.]{0,20}비용",)),
+            },
+            "white": {
+                "countdown.white_signature": ((r"도움[^.]{0,25}지우지", r"도움받은[^.]{0,25}지우지"), (r"책임|자기 몫",), (r"순서|같은 문장|달랐",)),
+            },
+        },
+        "en": {
+            "description": {
+                "countdown.base_signature": ((r"take responsibility",), (r"price the names",), (r"people first",)),
+            },
+            "black": {
+                "countdown.black_signature": ((r"outcome is mine",), (r"names[^.]{0,35}cost",), (r"voices?[^.]{0,35}cost",)),
+            },
+            "white": {
+                "countdown.white_signature": ((r"without erasing help|not erasing help|help[^.]{0,25}remained visible",), (r"responsibility|his share",), (r"same sentence|order|different",)),
+            },
+        },
+    }
+    for locale, events in (("ko", ko_events), ("en", en_events)):
+        countdown = events["arc_final_countdown"]
+        surfaces = {
+            "description": _prose(countdown["description"], f"{locale}:countdown.description"),
+            **_variant_map(
+                countdown, "description_if_moral", f"{locale}:arc_final_countdown",
+                exact_keys={"black", "white"}),
+        }
+        for route_id, text in surfaces.items():
+            _require_meanings(
+                locale, f"arc_final_countdown.{route_id}", text,
+                countdown_common[locale])
+            _require_meanings(
+                locale, f"arc_final_countdown.{route_id}", text,
+                countdown_route[locale][route_id])
+        if len(set(surfaces.values())) != len(surfaces):
+            raise ValueError(f"{locale}:countdown moral variants lost distinct meaning")
+
+    countdown_results = {
+        "ko": (
+            {
+                "countdown.owned_result": ((r"자기 이름",), (r"계약서가 아닌|계약[^.]{0,15}아니",), (r"도움[^.]{0,25}(?:지우지|없던 일)",), (r"책임",), (r"관계[^.]{0,30}(?:돌아오|회복|움직)[^.]{0,15}(?:않|아니)",)),
+            },
+            {
+                "countdown.collateral_result": ((r"실제로[^.]{0,25}이름",), (r"수익|얻은 것",), (r"비용|잃은 것",), (r"30\s*억원",), (r"사람[^.]{0,20}자원|목소리[^.]{0,25}작아",), (r"계약[^.]{0,25}(?:실행하지|실행되지|아니|뒤따르지)",), (r"이체[^.]{0,25}(?:실행하지|실행되지|아니|뒤따르지)",)),
+            },
+            {
+                "countdown.people_result": ((r"실제로[^.]{0,35}이름",), (r"곁에[^.]{0,20}(?:아니|뜻도|있거나)",), (r"관계[^.]{0,20}(?:증명하지|아니)|떠난 사람[^.]{0,25}돌아온",), (r"자기 이름[^.]{0,15}(?:마지막|맨 마지막)",), (r"답장",), (r"만남",), (r"화해",)),
+            },
+        ),
+        "en": (
+            {
+                "countdown.owned_result": ((r"his name",), (r"not a contract",), (r"did not erase[^.]{0,30}(?:help|dates and names)",), (r"responsibility",), (r"did not[^.]{0,30}restore[^.]{0,20}relationship|restored no[^.]{0,20}relationship|neither[^.]{0,45}relationships? moved|no distant relationship returned",)),
+            },
+            {
+                "countdown.collateral_result": ((r"names actually written",), (r"return",), (r"cost",), (r"3-billion-won",), (r"people as resources|voices?[^.]{0,25}shrank",), (r"no(?: new)? contract",), (r"no[^.]{0,25}transfer|transfer[^.]{0,20}did not follow",)),
+            },
+            {
+                "countdown.people_result": ((r"names that (?:already appeared|remained)",), (r"still beside him|had returned",), (r"could not prove[^.]{0,25}relationship|someone who had left had returned",), (r"his own name last",), (r"reply",), (r"meeting",), (r"reconciliation",)),
+            },
+        ),
+    }
+    for locale, events in (("ko", ko_events), ("en", en_events)):
+        for index, requirements in enumerate(countdown_results[locale]):
+            result = _prose(
+                events["arc_final_countdown"]["choices"][index]["result_text"],
+                f"{locale}:arc_final_countdown.choices[{index}].result_text")
+            _require_meanings(
+                locale, f"arc_final_countdown.choices[{index}].result_text",
+                result, requirements)
+
+    final_week_common = {
+        "ko": {
+            "final_week.same_scene": ((r"몇 분",), (r"같은 밤",), (r"같은 방",), (r"같은 책상|책상",)),
+            "final_week.previous_signature": ((r"서명",), (r"수첩",)),
+            "final_week.actual_conversation": ((r"실제로[^.]{0,25}(?:주고받|대화)",), (r"전송 시각",), (r"대화방|대화[^.]{0,20}방",), (r"증명[^.]{0,20}(?:아니|못)",)),
+            "final_week.unsettled_state": ((r"답장",), (r"만남",), (r"화해",), (r"확정[^.]{0,15}(?:아니|않)",)),
+            "final_week.outbound_actions": ((r"밥",), (r"사과",), (r"거리",), (r"연락[^.]{0,15}시각",)),
+            "final_week.other_person_choice": ((r"강제로[^.]{0,20}(?:만들|할 수 없)",), (r"상대[^.]{0,25}선택|화면 반대편 사람[^.]{0,25}선택",)),
+            "final_week.present_objects": ((r"휴대폰",), (r"커서",), (r"충전선|배터리",)),
+            "final_week.minjun_goes_first": ((r"먼저 보낼 행동", r"자기 쪽에서 먼저"),),
+        },
+        "en": {
+            "final_week.same_scene": ((r"few minutes",), (r"same night",), (r"same room",), (r"same desk|desk",)),
+            "final_week.previous_signature": ((r"signature",), (r"notebook",)),
+            "final_week.actual_conversation": ((r"actually exchanged|real words",), (r"sent times?",), (r"conversation",), (r"did not prove",)),
+            "final_week.unsettled_state": ((r"reply",), (r"meeting",), (r"reconciliation",), (r"not been settled|no[^.]{0,80}settled",)),
+            "final_week.outbound_actions": ((r"meal",), (r"apology",), (r"distance",), (r"contact[^.]{0,25}(?:time|tomorrow)",)),
+            "final_week.other_person_choice": ((r"could not force|no sentence could force",), (r"choices? for the person|other person[^.]{0,20}choice",)),
+            "final_week.present_objects": ((r"phone",), (r"cursor",), (r"charging cable|battery",)),
+            "final_week.minjun_goes_first": ((r"action he would send first|his side[^.]{0,20}first",),),
+        },
+    }
+    final_week_route = {
+        "ko": {
+            "final_signature_owned": {
+                "final_week.owned_signature": ((r"이름",), (r"책임",), (r"빚[^.]{0,20}(?:갚|아니)",), (r"관계[^.]{0,20}(?:돌아오|되돌리|회복)[^.]{0,18}(?:않|아니)",)),
+            },
+            "final_signature_collateral": {
+                "final_week.collateral_signature": ((r"이름",), (r"수익|얻은 것",), (r"비용|잃은 것",), (r"목소리",), (r"관계[^.]{0,25}(?:돌아오|되돌리|회복)[^.]{0,18}(?:않|아니)",)),
+            },
+            "final_signature_people": {
+                "final_week.people_signature": ((r"실제로[^.]{0,30}이름",), (r"순서",), (r"떠난 사람[^.]{0,30}돌아오",), (r"관계[^.]{0,20}(?:회복|돌아오|되돌리)[^.]{0,18}(?:않|아니)",)),
+            },
+        },
+        "en": {
+            "final_signature_owned": {
+                "final_week.owned_signature": ((r"his name",), (r"responsibility",), (r"repaid no debt",), (r"restored no relationship",)),
+            },
+            "final_signature_collateral": {
+                "final_week.collateral_signature": ((r"names",), (r"return",), (r"cost",), (r"voices",), (r"did not restore[^.]{0,80}relationships?",)),
+            },
+            "final_signature_people": {
+                "final_week.people_signature": ((r"names actually written",), (r"order",), (r"did not bring anyone back",), (r"restore a relationship",)),
+            },
+        },
+    }
+    for locale, events in (("ko", ko_events), ("en", en_events)):
+        final_week = events["arc_final_week"]
+        known = final_week.get("description_if_known") or {}
+        surfaces = {"description": _prose(
+            final_week["description"], f"{locale}:arc_final_week.description")}
+        surfaces.update({signature_id: _prose(
+            known.get(signature_id),
+            f"{locale}:arc_final_week.description_if_known.{signature_id}")
+            for signature_id in FINALE_SIGNATURES})
+        for route_id, text in surfaces.items():
+            _require_meanings(
+                locale, f"arc_final_week.{route_id}", text,
+                final_week_common[locale])
+            if route_id != "description":
+                _require_meanings(
+                    locale, f"arc_final_week.{route_id}", text,
+                    final_week_route[locale][route_id])
+        if len(set(surfaces.values())) != len(surfaces):
+            raise ValueError(f"{locale}:final week signature variants lost distinct meaning")
+
+    final_week_results = {
+        "ko": (
+            {
+                "final_week.meal_result": ((r"다섯 해 전",), (r"잘했다",), (r"버틴 시간",), (r"밥",), (r"제안",), (r"날짜",), (r"장소",), (r"동의",), (r"전송|보낸 시각",), (r"침묵|거절",)),
+            },
+            {
+                "final_week.apology_result": ((r"미뤄 둔 사과",), (r"잘못",), (r"해명[^.]{0,50}(?:않|없|붙이지)",), (r"용서[^.]{0,20}(?:요구하지|바라지 않)",), (r"읽음|답장",), (r"화해[^.]{0,12}(?:아니|않)",)),
+            },
+            {
+                "final_week.distance_result": ((r"포기하지",), (r"다행",), (r"고마",), (r"혼자|거리",), (r"내일|다시 연락",), (r"8시|여덟 시",), (r"자기 쪽|이쪽",), (r"충전선|충전",), (r"답[^.]{0,15}(?:오지|없)",)),
+            },
+        ),
+        "en": (
+            {
+                "final_week.meal_result": ((r"five years ago",), (r"you did well",), (r"endured|held on",), (r"meal",), (r"proposal",), (r"date",), (r"place",), (r"consent",), (r"sent time",), (r"silence|refusal",)),
+            },
+            {
+                "final_week.apology_result": ((r"delayed apology",), (r"done wrong|fault",), (r"no explanation",), (r"neither[^.]{0,20}forgiveness|did not demand[^.]{0,20}forgiveness",), (r"read mark|reply",), (r"reconciliation[^.]{0,15}(?:not|were not)|no[^.]{0,60}reconciliation appeared",)),
+            },
+            {
+                "final_week.distance_result": ((r"didn't give up|did not give up",), (r"glad",), (r"gratitude",), (r"alone tonight|distance",), (r"contact[^.]{0,25}tomorrow",), (r"eight",), (r"his side|this side",), (r"charging cable|plugged",), (r"no new answer",)),
+            },
+        ),
+    }
+    for locale, events in (("ko", ko_events), ("en", en_events)):
+        for index, requirements in enumerate(final_week_results[locale]):
+            result = _prose(
+                events["arc_final_week"]["choices"][index]["result_text"],
+                f"{locale}:arc_final_week.choices[{index}].result_text")
+            _require_meanings(
+                locale, f"arc_final_week.choices[{index}].result_text",
+                result, requirements)
+
+
+def _validate_finale_false_facts(
+        ko_events: dict[str, dict[str, Any]],
+        en_events: dict[str, dict[str, Any]]) -> None:
+    false_facts = {
+        "ko": {
+            "invented 3-billion achievement": (
+                r"30\s*억원(?:을|에)?\s*(?:넘겼|넘었|달성했|도달했|찍었)",
+                r"목표(?:를|에)\s*(?:달성|도달)(?:했|했다)",
+            ),
+            "invented purchase/ownership": (
+                r"(?:집|주택|매물)(?:을|를)\s*(?:샀다|매입했다)",
+                r"매매계약(?:서)?(?:에|을)\s*(?:서명했다|체결했다)",
+                r"계약을\s*(?:체결했다|마쳤다)",
+                r"등기(?:를)?\s*(?:마쳤다|했다|접수했다)",
+                r"열쇠(?:를)?\s*(?:받았다|건네받았다)",
+            ),
+            "invented transfer": (r"이체 확인서", r"이체 완료"),
+            "invented reply/recovery": (
+                r"답장(?:이|은)\s*(?:왔다|도착했다)",
+                r"만나기로\s*(?:했다|확정했다)",
+                r"용서받았다", r"화해했다(?:\.|$)", r"관계가 회복됐다",
+                r"상대가\s*(?:동의했다|받아들였다)",
+            ),
+        },
+        "en": {
+            "invented 3-billion achievement": (
+                r"(?:reached|exceeded|hit|achieved) the 3[- ]billion(?:-won)? goal",
+                r"3[- ]billion(?:-won)? goal (?:was|had been) (?:reached|achieved)",
+            ),
+            "invented purchase/ownership": (
+                r"(?<!not )bought (?:the|a) home",
+                r"signed (?:the|a) purchase (?:agreement|contract)",
+                r"completed (?:the )?registration",
+                r"(?:received|was handed) the key",
+            ),
+            "invented transfer": (r"transfer confirmation", r"transfer completed"),
+            "invented reply/recovery": (
+                r"a reply came", r"agreed to meet", r"was forgiven",
+                r"reconciled with", r"the relationship was restored",
+                r"the other person (?:agreed|accepted)",
+            ),
+        },
+    }
+    for locale, events in (("ko", ko_events), ("en", en_events)):
+        for event_id in FINALE_IDS:
+            for surface, prose in _all_finale_prose(events[event_id]):
+                for label, patterns in false_facts[locale].items():
+                    for pattern in patterns:
+                        if re.search(pattern, prose, re.IGNORECASE | re.DOTALL):
+                            raise ValueError(
+                                f"{locale}:{event_id}.{surface} {label}: {pattern!r}")
+
+    # Countdown cannot universalize one route's record or unbound cast.
+    for locale, event, forbidden in (
+        ("ko", ko_events["arc_final_countdown"],
+         ("227", "상철", "현수", "민서")),
+        ("en", en_events["arc_final_countdown"],
+         ("227", "Sangchul", "Hyunsu", "Minseo")),
+    ):
+        descriptions = [str(event.get("description", ""))]
+        descriptions.extend(str(value) for value in (
+            event.get("description_if_moral") or {}).values())
+        description_copy = "\n".join(descriptions).lower()
+        for token in forbidden:
+            if token.lower() in description_copy:
+                raise ValueError(
+                    f"{locale}:countdown invented a universal record/person: {token!r}")
+
+
+def _validate_finale_choice_and_chain_contract(
+        ko_events: dict[str, dict[str, Any]],
+        en_events: dict[str, dict[str, Any]]) -> None:
+    expected_ko = {
         "arc_pre_ending_summit": (
             ("연락처에서 아버지의 이름을 연다", {"mental": 5, "tint": 6},
              ["arc_pre_ending_summit_seen"], ""),
@@ -2301,17 +2699,33 @@ def validate_finale_density_contracts(
              ["arc_final_countdown_seen", "final_signature_people"], "arc_final_week"),
         ),
         "arc_final_week": (
-            ("같은 대화방에 서로 버틴 시간을 인정하고, 다음 주 밥 한 끼를 먼저 제안한다",
+            ("다섯 해 전의 내가 지금의 나에게 ‘잘했다’고 말하는 장면을 떠올리고, 그 사람에게 다음 주 밥을 제안한다",
              {"mental": 15, "health": 5, "tint": 5},
              ["arc_final_week_seen", "final_week_self_approval"], ""),
             ("다음 주를 부탁하기 전에, 미뤄 둔 사과를 먼저 보낸다",
              {"intelligence": 3, "tint": -1}, ["arc_final_week_seen"], ""),
-            ("고마움과 오늘 필요한 거리를 쓰고, 다음 연락 시각을 함께 보낸다",
+            ("포기하지 않은 것이 다행이라고 스스로 답하고, 오늘 필요한 거리와 다음 연락 시각을 보낸다",
              {"mental": 10, "health": 3, "tint": 4},
              ["arc_final_week_seen", "final_week_gratitude"], ""),
         ),
     }
-    for event_id, contracts in expected_choices.items():
+    expected_en = {
+        "arc_pre_ending_summit": (
+            "Open Father's name in his contacts",
+            "Walk Gangnam-daero alone, slowly",
+        ),
+        "arc_final_countdown": (
+            "Sign only his own name, including responsibility for every choice.",
+            "Price even the names he borrowed. Push once more for the goal.",
+            "Write the names of the people who called him back to himself.",
+        ),
+        "arc_final_week": (
+            "Imagine his five-years-ago self telling him, ‘You did well,’ then suggest a meal next week",
+            "Send the delayed apology before asking for next week",
+            "Tell himself he is glad he did not give up, then send the distance he needs and the next contact time",
+        ),
+    }
+    for event_id, contracts in expected_ko.items():
         choices = ko_events[event_id].get("choices") or []
         if len(choices) != len(contracts):
             raise ValueError(f"{event_id}: finale choice count changed")
@@ -2322,8 +2736,181 @@ def validate_finale_density_contracts(
                     or choice.get("flags") != flags \
                     or str(choice.get("follow_up_event", "")) != follow_up:
                 raise ValueError(
-                    f"{event_id}[{index}]: choice text/effects/flags/follow-up changed"
-                )
+                    f"{event_id}[{index}]: choice text/effects/flags/follow-up changed")
+    for event_id, texts in expected_en.items():
+        actual = tuple(str(choice.get("text", "")) for choice in (
+            en_events[event_id].get("choices") or []))
+        if actual != texts:
+            raise ValueError(f"{event_id}: English finale choice order changed")
+
+    paths = walk_paths(ko_events, "arc_final_countdown")
+    expected_path = ("arc_final_countdown", "arc_final_week")
+    if len(paths) != 9 or {path.event_ids for path in paths} != {expected_path}:
+        raise ValueError(
+            "finale chain paths changed: arc_final_countdown must flow through "
+            "arc_final_week for all 3x3 choices")
+
+
+def validate_finale_function_contracts(
+        ko_events: dict[str, dict[str, Any]],
+        en_events: dict[str, dict[str, Any]]) -> None:
+    """Validate finale functions without treating paragraph counts as dramatic beats."""
+    _validate_finale_shape_and_parity(ko_events, en_events)
+    _validate_finale_choice_and_chain_contract(ko_events, en_events)
+    _validate_finale_meanings(ko_events, en_events)
+    _validate_finale_false_facts(ko_events, en_events)
+
+
+def run_finale_mutation_self_test(
+        ko_events: dict[str, dict[str, Any]],
+        en_events: dict[str, dict[str, Any]]) -> int:
+    """Prove semantic, shape, parity, chain, and false-fact mutations fail closed."""
+    validate_finale_function_contracts(ko_events, en_events)
+    mutations: list[tuple[str, str, Any]] = []
+
+    def add(label: str, expected: str, mutate: Any) -> None:
+        mutations.append((label, expected, mutate))
+
+    add(
+        "broken countdown follow-up", "choice text/effects/flags/follow-up changed",
+        lambda ko, _en: ko["arc_final_countdown"]["choices"][0].pop(
+            "follow_up_event", None))
+    add(
+        "non-prose summit description", "must be a non-empty prose string",
+        lambda ko, _en: ko["arc_pre_ending_summit"].__setitem__(
+            "description", ["not", "prose"]))
+    add(
+        "summit carrying cost erased", "summit.carrying_cost",
+        lambda ko, _en: ko["arc_pre_ending_summit"].__setitem__(
+            "description", str(ko["arc_pre_ending_summit"]["description"])
+            .replace("취득세", "세금")))
+    add(
+        "summit inclusive threshold overstated", "summit.inclusive_threshold",
+        lambda ko, _en: ko["arc_pre_ending_summit"].__setitem__(
+            "description", str(ko["arc_pre_ending_summit"]["description"])
+            .replace("25억원에 닿", "25억원을 넘")))
+    add(
+        "summit above-goal route erased", "summit.goal_relation_neutral",
+        lambda ko, _en: ko["arc_pre_ending_summit"].__setitem__(
+            "description", str(ko["arc_pre_ending_summit"]["description"])
+            .replace("넘어섰는지", "가까운지")))
+    add(
+        "countdown starting stake erased", "countdown.start_and_goal",
+        lambda ko, _en: ko["arc_final_countdown"].__setitem__(
+            "description", str(ko["arc_final_countdown"]["description"])
+            .replace("50만원", "시작 금액")))
+    add(
+        "countdown invented prior scene", "countdown.independent_opening",
+        lambda ko, _en: ko["arc_final_countdown"].__setitem__(
+            "description", str(ko["arc_final_countdown"]["description"])
+            .replace("다섯 해의 마지막 달.", "같은 밤, 같은 방.")))
+    add(
+        "black route collapsed to base", "countdown.black_signature",
+        lambda ko, _en: ko["arc_final_countdown"]["description_if_moral"].__setitem__(
+            "black", ko["arc_final_countdown"]["description"]))
+    add(
+        "owned signature collapsed to base", "final_week.owned_signature",
+        lambda ko, _en: ko["arc_final_week"]["description_if_known"].__setitem__(
+            "final_signature_owned", ko["arc_final_week"]["description"]))
+    add(
+        "invented 3-billion achievement", "invented 3-billion achievement",
+        lambda ko, _en: ko["arc_pre_ending_summit"]["choices"][1].__setitem__(
+            "result_text", str(ko["arc_pre_ending_summit"]["choices"][1]["result_text"])
+            + "\n\n{name}은 30억원 목표를 달성했다."))
+    add(
+        "invented reply", "invented reply/recovery",
+        lambda _ko, en: en["arc_final_week"]["choices"][0].__setitem__(
+            "result_text", str(en["arc_final_week"]["choices"][0]["result_text"])
+            + "\n\nA reply came."))
+    add(
+        "English placeholder drift", "placeholder parity drifted",
+        lambda _ko, en: en["arc_final_week"].__setitem__(
+            "description", str(en["arc_final_week"]["description"])
+            .replace("{name}", "Minjun")))
+    add(
+        "English choice order drift", "English finale choice order changed",
+        lambda _ko, en: en["arc_final_week"]["choices"].__setitem__(
+            slice(0, 2), list(reversed(en["arc_final_week"]["choices"][:2]))))
+
+    def duplicate_countdown_panel(ko: dict[str, dict[str, Any]], _en: Any) -> None:
+        event = ko["arc_final_countdown"]
+        first = _paragraphs(event["description"])[0]
+        event["description"] = str(event["description"]) + "\n\n" + first
+
+    add("duplicate prose filler", "repeats an identical prose panel", duplicate_countdown_panel)
+    add(
+        "apology result replaced with meal result", "final_week.apology_result",
+        lambda ko, _en: ko["arc_final_week"]["choices"][1].__setitem__(
+            "result_text", ko["arc_final_week"]["choices"][0]["result_text"]))
+    add(
+        "self-approval receipt erased", "final_week.meal_result",
+        lambda ko, _en: ko["arc_final_week"]["choices"][0].__setitem__(
+            "result_text", str(ko["arc_final_week"]["choices"][0]["result_text"])
+            .replace("잘했다", "여기까지 왔다")))
+    add(
+        "gratitude receipt erased", "final_week.distance_result",
+        lambda ko, _en: ko["arc_final_week"]["choices"][2].__setitem__(
+            "result_text", str(ko["arc_final_week"]["choices"][2]["result_text"])
+            .replace("포기하지", "멈추지")))
+    add(
+        "moral variant key removed", "description_if_moral keys changed",
+        lambda ko, _en: ko["arc_final_countdown"]["description_if_moral"].pop(
+            "white", None))
+
+    failures: list[str] = []
+    for label, expected, mutate in mutations:
+        changed_ko = copy.deepcopy(ko_events)
+        changed_en = copy.deepcopy(en_events)
+        mutate(changed_ko, changed_en)
+        try:
+            validate_finale_function_contracts(changed_ko, changed_en)
+        except ValueError as exc:
+            if expected not in str(exc):
+                failures.append(
+                    f"{label}: rejected for {exc!s}, expected marker {expected!r}")
+        else:
+            failures.append(f"{label}: mutation was not rejected")
+    if failures:
+        raise ValueError("finale mutation self-test failed:\n- " + "\n- ".join(failures))
+    return len(mutations)
+
+
+def print_finale_observations(events: dict[str, dict[str, Any]], locale: str) -> None:
+    """Report layout measurements; none of these values determine acceptance."""
+    for event_id in FINALE_IDS:
+        event = events[event_id]
+        descriptions: list[tuple[str, int]] = [
+            ("description", paragraph_count(event.get("description"))),
+        ]
+        for field in ("description_orthodox", "description_unorthodox"):
+            if field in event:
+                descriptions.append((field, paragraph_count(event[field])))
+        for field in ("description_if_moral", "description_if_known"):
+            for key, prose in (event.get(field) or {}).items():
+                if field == "description_if_known" and key not in FINALE_SIGNATURES:
+                    continue
+                descriptions.append((f"{field}.{key}", paragraph_count(prose)))
+        choices = event.get("choices") or []
+        result_panels = [paragraph_count(choice.get("result_text")) for choice in choices]
+        memory_count = len(event.get("description_memory_if_known") or {})
+        rendered_descriptions = ",".join(
+            f"{field}:{count}" for field, count in descriptions)
+        rendered_results = ",".join(str(count) for count in result_panels) or "0"
+        print(
+            "FINALE_SCENE_OBSERVATION "
+            f"locale={locale} event={event_id} descriptions={rendered_descriptions} "
+            f"choices={len(choices)} result_panels={rendered_results} "
+            f"memory_inserts={memory_count} acceptance=semantic_only"
+        )
+    paths = walk_paths(events, "arc_final_countdown")
+    panel_counts = [path.panels for path in paths]
+    terminals = ",".join(sorted({path.event_ids[-1] for path in paths}))
+    print(
+        "FINALE_CHAIN_OBSERVATION "
+        f"locale={locale} root=arc_final_countdown terminals={terminals} "
+        f"paths={len(paths)} links={span(min(len(path.event_ids) for path in paths), max(len(path.event_ids) for path in paths))} "
+        f"panels={span(min(panel_counts), max(panel_counts))} acceptance=semantic_only"
+    )
 
 
 def measure(label: str, root_id: str, events: dict[str, dict[str, Any]]) -> PeakMetric:
@@ -2337,7 +2924,6 @@ def measure(label: str, root_id: str, events: dict[str, dict[str, Any]]) -> Peak
         and max(links) <= MAX_LINKS
         and min(decisions) >= MIN_DECISIONS
         and max(decisions) <= MAX_DECISIONS
-        and min(panels) >= MIN_PANELS
         and min(dialogue) >= MIN_DIALOGUE_TURNS
     )
     return PeakMetric(
@@ -2378,10 +2964,15 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--markdown", action="store_true")
     parser.add_argument("--strict", action="store_true")
+    parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args()
 
     ko_events = load_events(EVENTS_KO)
     en_events = load_events(EVENTS_EN)
+    if args.self_test:
+        mutation_count = run_finale_mutation_self_test(ko_events, en_events)
+        print(f"FINALE_FUNCTION_SELF_TEST_OK mutations={mutation_count}")
+        return 0
     validate_season_peak_contracts(ko_events)
     validate_daeun_first_night_contract(ko_events)
     validate_wedding_night_contracts(ko_events)
@@ -2401,7 +2992,7 @@ def main() -> int:
     validate_breakup_peak_contracts(ko_events)
     validate_jiyeon_marriage_routing_contract()
     validate_review_appendix_contracts(ko_events, en_events)
-    validate_finale_density_contracts(ko_events, en_events)
+    validate_finale_function_contracts(ko_events, en_events)
     metrics = [measure(label, root_id, ko_events) for label, root_id in PEAK_ROOTS]
     visited = {
         event_id
@@ -2416,6 +3007,8 @@ def main() -> int:
     if args.markdown:
         print_markdown(metrics)
     else:
+        print_finale_observations(ko_events, "ko")
+        print_finale_observations(en_events, "en")
         for metric in metrics:
             print(
                 "PEAK_CHAIN "

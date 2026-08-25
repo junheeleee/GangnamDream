@@ -683,7 +683,7 @@
     },
     {
       "tool": "tools/peak_scene_chain_audit.py",
-      "why": "정점 장면 체인·종막 9·10·9 의미 전환과 허위 계약/회복 차단",
+      "why": "정점 장면 체인·종막 기능/사실/변형 의미와 허위 계약·회복 차단; 패널 수는 관측값",
       "paths": [
         "content/events/**",
         "content/events_en/**",
@@ -692,6 +692,13 @@
         "autoloads/GameState.gd",
         "docs/ROMANCE_SYSTEM.md",
         "docs/SCENE_TIER.md",
+        "tools/peak_scene_chain_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/peak_scene_chain_audit.py --self-test",
+      "why": "종막 기능·non-prose·허위 사실·KO/EN placeholder·선택 순서 mutation 자체 검사",
+      "paths": [
         "tools/peak_scene_chain_audit.py"
       ]
     },

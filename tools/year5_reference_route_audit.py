@@ -338,9 +338,11 @@ ORDER118_ALLOWED_IDS = {
     "en": ORDER118_EN_ALLOWED_IDS,
 }
 
-# ORDER-129 is an authorized, shipping finale rewrite on top of the completed
-# ORDER-118 prose candidate.  Keep it separate so the rejected 803a372
-# evidence and ORDER-118 exact changed-object set retain their original meaning.
+# ORDER-129 introduced the authorized shipping-finale rewrite on top of the
+# completed ORDER-118 prose candidate; ORDER-130 then removed its paragraph
+# quota without changing the protected gameplay shape. Keep this layer
+# separate so the rejected 803a372 evidence and ORDER-118 exact changed-object
+# set retain their original meaning.
 ORDER129_BASELINE = "2958541"
 ORDER129_EVENT_FILES = {
     "ko": (
@@ -359,14 +361,14 @@ ORDER129_TARGET_IDS = {
 }
 ORDER129_EXPECTED_OBJECT_SHA256 = {
     "ko": {
-        "arc_pre_ending_summit": "de67e26ceed85c7c48780df199c6d873e5ac3c92b7bdac6cc6acb4466d8ce685",
-        "arc_final_countdown": "e0f57f8f88d058ccd44c5692ac0d0b15d85bca226b4d944f9c8841ea61091ba1",
-        "arc_final_week": "34f1275097292507ebf46da93d731681bd310b0cee6d87cb96ff76cbf505c8e7",
+        "arc_pre_ending_summit": "38c8c094c8f47a529492f6da86935d1223e37361ee2715e4aa03eac9e3cdbff2",
+        "arc_final_countdown": "49e72ecbe4ee824fd71b32ef0bad82ae078f4db0c2eea9c80e2189821c633767",
+        "arc_final_week": "906d981c370cbb7be5e7eaeb7439ec408e20c88d90bfd6f94846f7790688b2a6",
     },
     "en": {
-        "arc_pre_ending_summit": "70322edf6d26db8d86557d35f4752b6e26230da7409065e2de0b8808b52accd1",
-        "arc_final_countdown": "ed6d68b6cfade94e9aae77fa7f66429115eb2d89cf5bbe5104d4356ba79c37da",
-        "arc_final_week": "e434cfd8413834b580f13c4d8b3693beec240841f6d03e6cbd0499381e0a908a",
+        "arc_pre_ending_summit": "1cf1bc94dd064515292da6a24c77853ffc353c245fcfc514f2a9ec0558ac2684",
+        "arc_final_countdown": "35666d38e2d49bd8f4cd8246123841fd3c50cac87458285efd9dfccc937f2bdb",
+        "arc_final_week": "511fdb010c30344d79e8d8513b4fc46e0cc7fbe1543fc733a1b4abce4c023908",
     },
 }
 ROUTE_ROOTS = {
@@ -3329,7 +3331,7 @@ def order118_nonprose_shape(event: dict[str, Any], *, replace_choices: bool) -> 
 
 
 def order129_nonprose_shape(event: dict[str, Any]) -> Any:
-    """Replace only the 18 authorized finale text leaves with stable sentinels."""
+    """Replace only the authorized finale text leaves with stable sentinels."""
     candidate = copy.deepcopy(event)
     event_id = str(candidate.get("id", ""))
     flat_fields: tuple[str, ...]
@@ -3356,16 +3358,25 @@ def order129_nonprose_shape(event: dict[str, Any]) -> Any:
     for field in flat_fields:
         if field in candidate:
             candidate[field] = "<ORDER129_PROSE>"
+    if event_id == "arc_pre_ending_summit" and "title" in candidate:
+        candidate["title"] = "<ORDER130_PROSE>"
     nested = candidate.get(nested_field) if nested_field else None
     if isinstance(nested, dict):
         for key in nested_keys:
             if key in nested:
                 nested[key] = "<ORDER129_PROSE>"
+    if event_id == "arc_final_week":
+        memory = candidate.get("description_memory_if_known")
+        if isinstance(memory, dict) and "m4_housing_priority_privacy" in memory:
+            memory["m4_housing_priority_privacy"] = "<ORDER130_PROSE>"
     choices = candidate.get("choices")
     if isinstance(choices, list):
-        for choice in choices:
+        for index, choice in enumerate(choices):
             if isinstance(choice, dict) and "result_text" in choice:
                 choice["result_text"] = "<ORDER129_PROSE>"
+            if event_id == "arc_final_week" and index in (0, 2) \
+                    and isinstance(choice, dict) and "text" in choice:
+                choice["text"] = "<ORDER130_PROSE>"
     return candidate
 
 
@@ -3373,7 +3384,7 @@ def validate_order129_finale_candidate(
     context: AuditContext,
     errors: list[str],
 ) -> dict[str, int]:
-    """Own the exact 9/10/9 finale delta without widening dormant routes."""
+    """Own the approved finale prose delta without widening dormant routes."""
     changed: dict[str, set[str]] = {"ko": set(), "en": set()}
     for locale, relative_paths in ORDER129_EVENT_FILES.items():
         for relative in relative_paths:
