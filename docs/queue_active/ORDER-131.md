@@ -265,6 +265,13 @@ terminal 결과 저장만 관찰적으로 복원하고, 그 밖의 stale queue·
 `content/events/arc_romance_specials.json`,
 `content/events_en/arc_romance_specials.json`을 정확한 파일 범위에 추가한다.
 
+**사후 호감도 무효 효과 보강 (2026-08-26):** 빈 병실 선택만이 여는 사후
+callback은 선택 두 개 모두 별세한 아버지의 호감도를 올려 새 단조 가드가 영구히
+버리는 효과를 저술하고 있다. 실제 산문·정신력 결과는 유지하고 무효 cast 효과만
+제거하기 위해 `content/events/callback_events_42.json`을 정확한 파일 범위에
+추가한다. 사진 앞일 수도 있는 종막의 내적 다짐도 실제 상호작용이 아니므로 같은
+원칙으로 공용 아버지 호감도 효과를 제거한다.
+
 ## 깊이 3문
 
 1. 왜 완성된 25편에 ingress만 붙이지 않는가? 현재 원고는 대부분 월간 행동판에서
