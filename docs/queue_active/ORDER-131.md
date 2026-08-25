@@ -51,6 +51,11 @@ same-turn 재진입·중복 효과는 전용 인과 감사와 `CoreChoiceSliceCh
 새 제품 장면의 시각 전환을 분류하기 위해 `assets/scene_direction_manifest.json`을
 정확한 파일 범위에 추가한다. 검사 도구의 기준은 바꾸지 않고 원장 누락만 채운다.
 
+**정본 시간축 보강 (2026-08-26):** M39~M48 exact 주차와 W193 인계가 확정되면서
+기존 `content/meta/narrative_spine.json`의 6주·12주·5주 deferred 설명은 실제
+8주·11주 receipt 연결과 W193 1주 인계에 어긋난다. 이 정본 원장을 범위에 추가해
+런타임 예약을 다시 만들지 않고, StoryMode의 exact 행동·기억 독자 시간축을 적는다.
+
 ## 깊이 3문
 
 1. 왜 완성된 25편에 ingress만 붙이지 않는가? 현재 원고는 대부분 월간 행동판에서
