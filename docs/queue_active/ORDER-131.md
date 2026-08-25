@@ -222,6 +222,30 @@ Dialogue History는 원문을 유지한다.
 `content/events_en/callback_events_25.json`, `content/events/drama_events2.json`,
 `content/events_en/drama_events2.json`도 정확한 파일 범위에 추가한다.
 
+**모친·가족 공통 문구 전수 보강 (2026-08-26):** dormant random까지 포함한
+제품 사건 전수표에서 사망 뒤에도 유효한 모친·가족 장면 21편은 통째로 버릴 필요가
+없지만, 공통 문구의 ‘부모님’과 사후 father affinity가 현재 생존 관계처럼 남았다.
+선택 수·순서·수치·기존 플래그는 유지하면서 발화 주체만 모친·가족·과거형으로
+정확히 고치고, 사후 아버지 affinity만 제거한다. 이를 위해
+`content/events/callback_events_4.json`,
+`content/events_en/callback_events_4.json`,
+`content/events/callback_events_5.json`,
+`content/events_en/callback_events_5.json`,
+`content/events/callback_events_19.json`,
+`content/events_en/callback_events_19.json`,
+`content/events/callback_events_21.json`,
+`content/events_en/callback_events_21.json`,
+`content/events/callback_events_37.json`,
+`content/events_en/callback_events_37.json`,
+`content/events/callback_events_44.json`,
+`content/events_en/callback_events_44.json`,
+`content/events/relationship_events2.json`,
+`content/events_en/relationship_events2.json`,
+`content/events/social_independence.json`,
+`content/events_en/social_independence.json`를 정확한 파일 범위에 추가한다.
+같은 검토에서 `family_013`의 병원비 송금 선택이 현금을 `+310000` 늘리는 부호 오류도
+확인했으므로, 원고가 말하는 실제 지출과 일치하게 `-310000`으로 교정한다.
+
 ## 깊이 3문
 
 1. 왜 완성된 25편에 ingress만 붙이지 않는가? 현재 원고는 대부분 월간 행동판에서
