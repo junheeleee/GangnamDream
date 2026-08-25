@@ -29,6 +29,8 @@
 `content/events_en/arc_daeun_married.json`,
 `content/events/arc_pre_ending.json`,
 `content/events_en/arc_pre_ending.json`,
+`content/events/amb_scenarios2.json`,
+`content/events_en/amb_scenarios2.json`,
 `content/events/relationship_events.json`,
 `content/events_en/relationship_events.json`,
 `content/events/arc_addiction_recovery.json`,
@@ -159,6 +161,15 @@ canonical flag·옛 terminal receipt·passed cast stage의 stale queue/pop,
 한·영 `ng_plus_events.json`, `arc_daeun_married.json`, `arc_pre_ending.json`을
 정확한 파일 범위에 추가한다. gameplay tag는 KO 정본에만 쓰고 EN overlay는
 텍스트·순서 byte 불변으로 재검증한다.
+
+**즉시 후속 복원 보강 (2026-08-26):** 생존 계약이 있는 부모 사건을 정상으로
+시작한 뒤 후속 장면만 저장한 구버전에서는 부모 root가 없어도 현재
+아버지 대사·병원 결과·위기 연락이 독립 복원될 수 있다. `amb_holiday_home`,
+`father_hospital_results`, KTX 통화 결과와 W185 연락 결과 세 편에도 같은 hard
+contract를 붙인다. 이를 위해 한·영 `amb_scenarios2.json`을 정확한 파일 범위에
+추가하고, 이미 범위 안인 `relationship_events.json`·`arc_drama.json`과 함께
+root→후속 stale queue를 terminal 세 증거에서 전부 막는다. 사망 결과 장면과
+과거 회상은 계속 제외한다.
 
 ## 깊이 3문
 
