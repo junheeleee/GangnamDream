@@ -23,6 +23,12 @@
 `content/events/arc_events.json`, `content/events_en/arc_events.json`,
 `content/events/arc_year3_drama.json`,
 `content/events_en/arc_year3_drama.json`,
+`content/events/ng_plus_events.json`,
+`content/events_en/ng_plus_events.json`,
+`content/events/arc_daeun_married.json`,
+`content/events_en/arc_daeun_married.json`,
+`content/events/arc_pre_ending.json`,
+`content/events_en/arc_pre_ending.json`,
 `content/events/relationship_events.json`,
 `content/events_en/relationship_events.json`,
 `content/events/arc_addiction_recovery.json`,
@@ -147,6 +153,12 @@ StoryMode가 라우터를 건너뛰어 현재형 아버지 통화·병동·식�
 `arc_father_passing`과 사망 뒤 기억 장면은 이 계약에서 제외한다. 정상 생존 큐,
 canonical flag·옛 terminal receipt·passed cast stage의 stale queue/pop,
 결과화면 저장 변형, 읽기 전용 회상을 각각 독립 회귀로 검증한다.
+
+이 계약은 일반 주차뿐 아니라 구버전 저장에 남을 수 있는 NG+ 첫 통화,
+다은 결혼 경로의 양가 만남, 종막 직전 마지막 통화에도 동일해야 한다. 따라서
+한·영 `ng_plus_events.json`, `arc_daeun_married.json`, `arc_pre_ending.json`을
+정확한 파일 범위에 추가한다. gameplay tag는 KO 정본에만 쓰고 EN overlay는
+텍스트·순서 byte 불변으로 재검증한다.
 
 ## 깊이 3문
 
