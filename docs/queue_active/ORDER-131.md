@@ -256,6 +256,15 @@ terminal 결과 저장만 관찰적으로 복원하고, 그 밖의 stale queue·
 다시 시작할 수 없도록 단조 계약을 둔다. 다은 결혼식 신랑석도 생존 원본과 별세
 전용 빈 의자 원고를 분리해 read-only 과거 재생이 현재 사망 상태에 덮이지 않게 한다.
 
+**과거 장면 재생 단조성 보강 (2026-08-26):** 현재 상태에 따라
+`description_if_known.father_passed`를 고르는 공용 사건은 생전 보았던 장면을 사후
+갤러리에서 다시 열 때 과거까지 별세 원고로 소급 변경한다. 지연 결혼 두 장면,
+다은의 집·고향 밥상, 현수 5년차 전화, 새벽 의심, 4년차 결산을 생존 source와
+별세 variant로 분리하고 read-only 재생은 source 원문을 보존한다. 이를 위해
+`content/events/arc_hyunsu.json`, `content/events_en/arc_hyunsu.json`,
+`content/events/arc_romance_specials.json`,
+`content/events_en/arc_romance_specials.json`을 정확한 파일 범위에 추가한다.
+
 ## 깊이 3문
 
 1. 왜 완성된 25편에 ingress만 붙이지 않는가? 현재 원고는 대부분 월간 행동판에서
