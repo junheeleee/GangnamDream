@@ -8,7 +8,7 @@
     "choices": [
       {
         "text": "Open Father's name in his contacts",
-        "result_text": "{name} found Father in his contacts and opened the entry. Beneath the saved name were the call button and old records.\n\nHe placed a finger above the button but did not press it. A contact name kept the same shape whether the person could still answer or had already gone.\n\n{name}'s lips moved around an unsent account: he had not bought a home; his assets had crossed 2.5 billion won; he was still looking at the first figure of 3 billion.\n\nNo outgoing time, ring, or answer appeared on the screen. Keeping Father's name open, {name} left the office with only the listings in his hand."
+        "result_text": "{name} found Father in his contacts and opened the entry. Beneath the saved name were the call button and old records.\n\nHe placed a finger above the button but did not press it. A contact name kept the same shape whether the person was alive or had already gone.\n\n{name}'s lips moved around an unsent account: he had not bought a home; his assets had crossed 2.5 billion won; he was still looking at the first figure of 3 billion.\n\nNo outgoing time, ring, or answer appeared on the screen. Keeping Father's name open, {name} left the office with only the listings in his hand."
       },
       {
         "text": "Walk Gangnam-daero alone, slowly",
@@ -200,7 +200,7 @@
           "black": "List the remaining contacts in the order they must be settled.",
           "white": "Write the names that kept calling him back as a person."
         },
-        "result_text": "{name} turned off the assets screen and copied onto the blank line only names that already appeared on the notebook's earlier pages. He added no one he had never met.\n\nWriting a name did not mean that person was still beside him or that someone who left had returned. Paper could not prove the present state of a relationship.\n\n{name} wrote his own name last. The order refused to pretend he had arrived alone without turning anyone else's time into decoration for his success.\n\nWhen he set down the pen, the notebook held only a trace of choosing to read people first. It created no reply, meeting, or reconciliation."
+        "result_text": "{name} turned off the assets screen and copied below the blank line only names that already appeared on the notebook's earlier pages. He added no one he had never met.\n\nWriting a name did not mean that person was still beside him or that someone who left had returned. Paper could not prove the present state of a relationship.\n\n{name} wrote his own name last. The order refused to pretend he had arrived alone without turning anyone else's time into decoration for his success.\n\nWhen he set down the pen, the notebook held only a trace of choosing to read people first. It created no reply, meeting, or reconciliation."
       }
     ]
   },

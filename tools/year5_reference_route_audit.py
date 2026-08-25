@@ -360,13 +360,13 @@ ORDER129_TARGET_IDS = {
 ORDER129_EXPECTED_OBJECT_SHA256 = {
     "ko": {
         "arc_pre_ending_summit": "de67e26ceed85c7c48780df199c6d873e5ac3c92b7bdac6cc6acb4466d8ce685",
-        "arc_final_countdown": "09c591d9613129372e9e37d42511d01c5d87039a4fe20d3a363021e452eca195",
+        "arc_final_countdown": "e0f57f8f88d058ccd44c5692ac0d0b15d85bca226b4d944f9c8841ea61091ba1",
         "arc_final_week": "928fca218c6e9ecdf0f58ce69953ec2a805814515cd917e8bef25090b450a2e0",
     },
     "en": {
-        "arc_pre_ending_summit": "4543bb8216e725db0680bfd8f261c9c91d04d1ce5b3561291dcbf37490ee4474",
-        "arc_final_countdown": "928ab453d5689b0b158b1158a406bd53d86c6da4721073aa461871e4e547fd69",
-        "arc_final_week": "b744f0942a643219587daee335eae845ac81841ae9b83e2fc1b7a6731b27eae3",
+        "arc_pre_ending_summit": "70322edf6d26db8d86557d35f4752b6e26230da7409065e2de0b8808b52accd1",
+        "arc_final_countdown": "ed6d68b6cfade94e9aae77fa7f66429115eb2d89cf5bbe5104d4356ba79c37da",
+        "arc_final_week": "e434cfd8413834b580f13c4d8b3693beec240841f6d03e6cbd0499381e0a908a",
     },
 }
 ROUTE_ROOTS = {
