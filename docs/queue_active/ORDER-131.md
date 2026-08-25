@@ -56,6 +56,13 @@ same-turn 재진입·중복 효과는 전용 인과 감사와 `CoreChoiceSliceCh
 8주·11주 receipt 연결과 W193 1주 인계에 어긋난다. 이 정본 원장을 범위에 추가해
 런타임 예약을 다시 만들지 않고, StoryMode의 exact 행동·기억 독자 시간축을 적는다.
 
+**1장 증거 지문 보강 (2026-08-26):** `MainGame.gd`, 등급 원장, story rules,
+`arc_midgame.json`은 1장 인과 감사가 파일 전체 SHA-256으로도 잠그는 공용 소스다.
+이번 오더의 4장 변경 때문에 그 네 바이트 지문만 달라졌으므로
+`tools/chapter1_core_loop_v2_causal_ledger_check.py`를 정확한 파일 범위에 추가한다.
+구현 커밋 뒤 현재 파일 SHA-256 네 개만 갱신하며, 1장 frozen audited maps·행동 ID·
+증거 pointer·debt baseline·48주 계약은 byte 불변으로 재검증한다.
+
 ## 깊이 3문
 
 1. 왜 완성된 25편에 ingress만 붙이지 않는가? 현재 원고는 대부분 월간 행동판에서
