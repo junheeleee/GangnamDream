@@ -2758,7 +2758,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "tools/StoryPlaybackCheck.gd":
         "63bd0149a32d6418ad9bd29a378e348560acce93a8b95833f7bb4ed9d8b7a185",
     "autoloads/GameState.gd":
-        "54bb9af74c5a1405ff9a23c97b49e90a13950960f07f0cf4b330a27389c8a5f4",
+        "0f1e5374daca7e9dc75bb446848d74b3aa9a4cd28729d233ef6980844fd854d3",
     "autoloads/DataRegistry.gd":
         "d442e9af4e45a1011150b31985bcee935e472c0b62b0fdce399218079968473c",
     "autoloads/LocaleManager.gd":

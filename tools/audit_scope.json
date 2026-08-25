@@ -1559,8 +1559,11 @@
       "godot": true,
       "why": "엔딩 라우팅 실행",
       "paths": [
+        "autoloads/GameState.gd",
         "content/endings*.json",
-        "systems/EndingSystem.gd"
+        "systems/EndingSystem.gd",
+        "tools/EndingRouteIdentityCheck.gd",
+        "tools/EndingRouteIdentityCheck.tscn"
       ]
     },
     {

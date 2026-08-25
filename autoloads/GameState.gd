@@ -3113,6 +3113,10 @@ func check_game_over():
 	var total_now = get_total_asset_value()
 	if total_now > peak_asset:
 		peak_asset = total_now
+	# 30억은 한 번 닿으면 달성한 목표다. 즉시 종결을 M60으로 늦추더라도
+	# 이후 고정비나 변동으로 현재 자산이 내려갔다고 그 성취를 지우지 않는다.
+	# peak_asset은 기존 저장 필드이므로 새 저장 스키마나 호환 플래그가 필요 없다.
+	var gangnam_goal_reached: bool = peak_asset >= GANGNAM_TARGET
 	if total_now >= 100_000_000 and not flags.get("asset_100m_reached", false):
 		flags["asset_100m_reached"] = true
 		add_log(LocaleManager.ui("💰 자산 1억 돌파 — 종잣돈이 생겼다.", "💰 Assets passed KRW 100M — real seed money has formed."), "money")
@@ -3148,7 +3152,7 @@ func check_game_over():
 			and flags.get("used_daeun_as_means", false) \
 			and not flags.get("arc_daeun_final_choice_seen", false) \
 			and not flags.get("daeun_divorced", false)
-	if total_now >= GANGNAM_TARGET and daeun_reckoning_pending:
+	if gangnam_goal_reached and daeun_reckoning_pending:
 		return
 
 	# ══ NG+ 전용 엔딩 — MetaProgression 조건 필요 ══════════
@@ -3157,11 +3161,16 @@ func check_game_over():
 	# full_circle: 상철 진실 알고 시작, 30억, 아버지 생존, 상철에게서 아버지 빚을 실제로 받아냄.
 	# 엔딩 본문이 "그 사람한테서 빚을 갚았다"고 말하므로, 그 행위(배상 요구)를 실제로 한 런만 도달한다.
 	if _mp_meta.get("sangchul_truth_ever_known", false) \
-			and total_now >= 3_000_000_000.0 \
+			and gangnam_goal_reached \
 			and flags.get("father_reconciled", false) \
 			and not flags.get("father_passed", false) \
 			and flags.get("cleared_father_debt_from_sangchul", false):
-		finish_run("full_circle"); return
+		# 첫해 현재 30억은 아래 instant_legend가 단독 소유한다. 그 뒤의
+		# full_circle은 마지막 서명보다 앞서 닫지 않는다.
+		if age > 33:
+			if not flags.get("arc_final_week_seen", false):
+				return
+			finish_run("full_circle"); return
 
 	# second_love: 다은 경험 후 재도전, 다은과 함께 + 자산 10억
 	if _mp_meta.get("daeun_ending_ever_seen", false) \
@@ -3182,21 +3191,29 @@ func check_game_over():
 	if flags.get("startup_exit", false):
 		finish_run("startup_exit"); return
 
-	# ── 강남 입성 = 자산 30억 달성 = 즉시 성공 엔딩 ──────
-	# 30억으로 강남 아파트를 매매한다. 게임의 최종 목표.
+	# ── 첫해 30억 = 즉시 비밀 엔딩 ──────────────────────
+	# 현재 자산으로 첫해 안에 30억을 만든 순간만 신화로 즉시 닫는다.
+	# 과거 peak만으로 나중에 이 비밀 엔딩이 발동해서는 안 된다.
 	if total_now >= 3_000_000_000:
 		# ★ 히든 이스터에그 — 첫 해(33세=챕터1)에 30억은 거의 불가능한 초고속 달성.
 		#   변칙 플레이(경마/투자 대박)에 대한 보상 엔딩. 인물 아크는 챕터2+라
 		#   아직 아무도 못 만난 상태 → 빈 집 대신 '신화' 엔딩으로 인정해준다.
 		if age <= 33:
 			finish_run("instant_legend"); return
+
+	# ── 일반 30억 = M60 마지막 서명 뒤 성공 엔딩 ────────
+	# 34세 이후의 도달은 후반 인물 아크와 최종 선택을 건너뛰지 않는다.
+	# W237~240의 마지막 서명을 본 뒤 기존 관계·도덕 분기로 결산한다.
+	if gangnam_goal_reached:
+		if not flags.get("arc_final_week_seen", false):
+			return
 		# 아버지를 잃고 도착한 집에는 생존 변주를 씌울 수 없다.
 		if flags.get("father_passed", false):
 			finish_run("empty_house"); return
 		# ── 결혼 분기 (배우자 실을 강남 엔딩에서 회수) ──
 		# 아내를 배신하고(이혼) 강남 = 직접 버린 '외로운 부자'. crossed_line보다 먼저.
 		if flags.get("daeun_divorced", false):
-			finish_run(_divorce_ending_for_assets(total_now)); return
+			finish_run(_divorce_ending_for_assets(peak_asset)); return
 		# 결혼 유지한 채 강남 = 따뜻하게 온 진엔딩(두 부모 방 있는 집, 둘이 함께).
 		if flags.get("daeun_married", false):
 			finish_run("gangnam_dream"); return       # dik: daeun_married 변주
