@@ -23,6 +23,8 @@
 `content/events/arc_events.json`, `content/events_en/arc_events.json`,
 `content/events/arc_year3_drama.json`,
 `content/events_en/arc_year3_drama.json`,
+`content/events/relationship_events.json`,
+`content/events_en/relationship_events.json`,
 `content/events/arc_addiction_recovery.json`,
 `content/events_en/arc_addiction_recovery.json`,
 `content/events/life_events.json`, `content/events_en/life_events.json`,
@@ -128,6 +130,13 @@ Dialogue History에는 살아 있는 아버지 통화 문장이 남는 결함을
 사망 변형으로 결과 문맥을 이관하고 현재 사건 serial의 과거 choice/result 문장만
 새 변형 문장으로 교체해, 효과·플래그·주간 기록은 재적용하지 않으며 이전 사건의
 대화 기록과 읽기 전용 회상은 그대로 보존한다.
+
+**StoryMode 밖 다리 사건 보강 (2026-08-26):** 전수 편성 검토에서
+`sangchul_becomes_primary`가 80주 이후 비차단 bridge로 직접 해결되며, 별세 뒤에도
+“이번 주 아버지 부재중 전화”를 현재 사실로 만들 수 있음을 확인했다. 한·영
+`relationship_events.json`을 정확한 파일 범위에 추가한다. 사건의 상철 관계 선택은
+유지하되 생존 아버지 조건을 명시해 canonical flag·옛 terminal receipt·passed cast
+stage 어느 증거에서도 자동 bridge와 직접 resolve가 모두 차단되는지 검증한다.
 
 ## 깊이 3문
 
