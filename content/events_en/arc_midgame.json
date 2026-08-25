@@ -104,7 +104,7 @@
     "choices": [
       {
         "text": "Tell no one. Walk to the convenience store and buy something expensive.",
-        "result_text": "Telling anyone would mean explaining only the number. {name} pocketed his phone and went down to the convenience store. He chose the 5,000-won ice cream he usually passed over.\n\nOn the goshiwon stairs, cold mist clung to his fingers as he opened it. The first bite was too sweet. From the second, it tasted like ordinary ice cream.\n\nHe liked that no one knew what he was celebrating. Long after it was gone, the wooden stick remained in his hand."
+        "result_text": "Telling anyone would mean explaining only the number. {name} pocketed his phone and went down to the convenience store. He chose the 5,000-won ice cream he usually passed over.\n\nBack home, cold mist clung to his fingers as he opened it. The first bite was too sweet. From the second, it tasted like ordinary ice cream.\n\nHe liked that no one knew what he was celebrating. Long after it was gone, the wooden stick remained in his hand."
       },
       {
         "text": "Call his father.",
@@ -1121,7 +1121,6 @@
       }
     ],
     "description_if_known": {
-      "father_passed": "3 AM. Sleep would not come.\n\nA folded medicine packet lay at one side of the desk. Father was younger in the photograph than he had sounded on their last call. Minjun kept his eyes on the calculator so he would not look at the empty chair.\n\nThere had been a clear reason at first. Father's guarantee fraud. Six years. After paying off that debt, he needed to build something of his own. Three billion won had been the symbol.\n\nBut if he was still chasing the same number now that Father was gone, who was he trying to show it to? At 3 AM he could not tell grief from exhaustion, or either one from having forgotten how to stop.",
       "daytime_conviction": "3 AM. Couldn't sleep.\n\nA strange thought surfaced. Does Gangnam actually have to happen?\n\nIn the beginning, there was a clear reason. Father's guarantee fraud. Six years. After paying off that debt — needed to build something of your own. Three billion was the symbol of that.\n\nBut sometimes, three billion looks like just a number now. Whether this is fatigue, maturity, or surrender — couldn't tell.\n\nOnce before, he had carried a 3 a.m. Conviction into daylight to test it.\nIt held in daylight too.\nThat memory is a backrest now, against tonight's 3 a.m. Doubt."
     },
     "description_memory_if_known": {
@@ -1528,5 +1527,87 @@
         "result_text": "{name} said he could not answer tonight and left with the co-founder. The people at the door folded their questions and scattered toward the elevator. With the acquirer, both founders heard the price and future roles in the same room.\n\nWhen they returned, the office was dark and no one had spoken first in the team chat. “Tomorrow, you go first,” the co-founder said. They kept the fast meeting, but the years in which the team trusted the founders to speak first had not remained untouched."
       }
     ]
+  },
+  {
+    "id": "arc_first_real_win_father_passed",
+    "title": "Fifty Million",
+    "description": "{name} turned the calculator off, then on again. The figure remained: 50,000,000 won. Its eight digits looked too bright in the room.\n\nThree billion won was still far away; every calculation made the remaining distance more exact. Yet he had begun with 500,000 won, a balance that once made rent frightening. It had grown a hundredfold, carrying luck, endurance, and several choices he could never make the same way again.\n\nHe covered the number with one finger, then revealed it. For the first time, possibility looked less like a feeling than evidence. The refrigerator sounded exactly as it had yesterday.",
+    "choices": [
+      {
+        "text": "Tell no one. Walk to the convenience store and buy something expensive.",
+        "result_text": "Telling anyone would mean explaining only the number. {name} pocketed his phone and went down to the convenience store. He chose the 5,000-won ice cream he usually passed over.\n\nOn the goshiwon stairs, cold mist clung to his fingers as he opened it. The first bite was too sweet. From the second, it tasted like ordinary ice cream.\n\nHe liked that no one knew what he was celebrating. Long after it was gone, the wooden stick remained in his hand."
+      },
+      {
+        "text": "Dial Father's number — knowing it will not connect.",
+        "result_text": "{name} tapped the name saved as Father. He even prepared a sentence for the amount. After a short signal, however, a recording said the number could not be reached.\n\nHe knew the recording and did not need to hear it through. When he ended the call, the outgoing log held one new timestamp. This was not an unanswered call. There was no one left who could answer.\n\nThe figure on the calculator had not changed. Only the person he had wanted to show had come into sharper focus."
+      },
+      {
+        "text": "Set the next target immediately — 500 million.",
+        "result_text": "On paper, {name} wrote 500,000 won, 50 million won, then 500 million won. The next box held 3 billion won. Arrows between them made a staircase.\n\nInstead of marking 50 million as a victory, he underlined it and began calculating the next step. The pleasure had nowhere to linger.\n\nAn impossible wall had divided into several ledges. At the same time, he could finally see the full height left to climb."
+      }
+    ]
+  },
+  {
+    "id": "arc_money_loneliness_father_passed",
+    "title": "A Number That Can't Be Shared",
+    "description": "The total-assets figure crossed 100 million won. The banking app displayed it without ceremony. {name} refreshed twice, then opened his contacts.\n\nHe wanted to tell someone. Father's name remained where it had been, but the number no longer connected. With a friend, he would probably lower the amount before saying it, afraid it might sound like boasting. Yet he could not immediately think how many friends were still close enough to worry about.\n\nHis thumb drifted over the names. He pressed none of them and turned off the screen. In the black glass, the number vanished and left only his face.",
+    "choices": [
+      {
+        "text": "Open Father's contact — try to remember his last voice.",
+        "result_text": "{name} opened Father's contact, then the call records that remained. The screen held dates, times, and call lengths, but no voice. From the screen alone, he could not even tell which few words had been the last.\n\n{name} reached for the short breaths and one or two phrases he could remember. He added no sentence he was unsure of. The voice stopped where the memory did.\n\nThe 100 million won remained a number he had told no one. He placed the contact and the balance on the same screen for a moment, then closed both."
+      },
+      {
+        "text": "Told no one — decided to keep it to himself.",
+        "result_text": "The number was his. It needed neither explanation nor witness. {name} closed his contacts and reopened the spreadsheet.\n\nHe marked the 100-million-won cell and entered the next target. The cursor moved right without hesitation. He had begun alone; celebrating alone should be natural too.\n\nAs the night deepened, that sentence grew smoother. No one's name remained in it."
+      },
+      {
+        "text": "Bought a can of beer alone at the convenience store — a private toast.",
+        "result_text": "{name} sat in a plastic chair outside the convenience store and opened a can of beer. Foam flecked the back of his hand. He raised the can slightly toward the balance glowing on his phone.\n\nPeople passed with umbrellas and grocery bags. None of them knew someone here had crossed 100 million won today. The beer was warmer than he expected.\n\nWhen the can was empty, he turned off the screen. The celebration was over, but the crush of aluminum sounded unusually loud."
+      }
+    ]
+  },
+  {
+    "id": "arc_gangnam_real_estate_father_passed",
+    "title": "Gangnam Property Prices",
+    "description": "Opened the real estate app.\n\nGangnam-gu apartments. The cheapest one at 1.7 billion. Then 2 billion, 2.5 billion, 3.5 billion.\n\nThe day his assets passed 2 billion, he had only looked up at lit windows from the street. Now the number was 2.5 billion. The cheapest listing was technically within reach. Was entering Gangnam just a matter of tapping one of those prices?\n\nAcquisition tax, brokerage fees, and monthly maintenance sat below the photographs in smaller type. Having 2.5 billion in assets was not the same as being able to spend 2.5 billion on a home.\n\nHe had never properly considered the difference.",
+    "choices": [
+      {
+        "text": "Bookmarked the 1.7 billion one — this is the target.",
+        "result_text": "Pinned it on the map. Eight minutes from Line 2. South-facing. 109 square meters.\n\nNo one stood in the photographed living room. For the first time, he calculated what could go inside it after liquidating assets and paying the taxes.\n\nOne listing remained in his saved folder. Vague Gangnam had become an address."
+      },
+      {
+        "text": "Closed the app — not reality yet.",
+        "result_text": "Looking too closely made it frightening. Reach 3 billion first. Think afterward. He closed the app.\n\nHis face appeared in the black screen. He had spent almost five years chasing the number without once picturing a day lived with it.\n\nHe set the phone face down. The listing's address remained in his head."
+      },
+      {
+        "text": "Looked at the 2.5 billion one — if going once, go right.",
+        "result_text": "If it was going to happen once, do it properly. He enlarged the floor plan of the 2.5-billion listing.\n\nHis finger stopped over one room. Once, he would have imagined it as Father's room when he came to Seoul. Father could not come now. Nor could he immediately fill the blank with someone else's name.\n\nThree billion won. Beneath the target written once more, the shape of a home appeared alongside one room he would leave empty."
+      }
+    ]
+  },
+  {
+    "id": "arc_36_night_doubt_father_passed",
+    "title": "3 AM",
+    "description": "3 AM. Sleep would not come.\n\nA folded medicine packet lay at one side of the desk. Father was younger in the photograph than he had sounded on their last call. Minjun kept his eyes on the calculator so he would not look at the empty chair.\n\nThere had been a clear reason at first. Father's guarantee fraud. Six years. After paying off that debt, he needed to build something of his own. Three billion won had been the symbol.\n\nBut if he was still chasing the same number now that Father was gone, who was he trying to show it to? At 3 AM he could not tell grief from exhaustion, or either one from having forgotten how to stop.",
+    "choices": [
+      {
+        "text": "Pulled out the original reason. Not to forget.",
+        "result_text": "{name} pulled the notebook from beneath the calculator and opened its first page. The sentence written after the final repayment was more crooked than the figures, and the corners of the paper had worn smooth under years of handling.\n\nFather. Six years. A guarantee that put someone else's debt under Father's own name. Reading the three again did not tell him whether he felt anger or resolve. So instead of naming the feeling, he wrote down one calculation to verify tomorrow and one block of time to clear for his body.\n\nRestoring the goal to its old place did not erase the costs already paid. Beneath three billion won, {name} wrote, \"Do not forget why this began,\" then drew a line to make sure that sentence could not excuse the people he had missed.\n\nWhen he switched off the calculator, the room went dark. Certainty had not returned. But he knew what he would carry when he stood again."
+      },
+      {
+        "text": "Don't know. Decided to think about it tomorrow.",
+        "result_text": "{name} wrote no answer. Instead, he captured the screen with the calculation and question visible together, then set the phone facedown. He would not disguise not knowing as a conclusion.\n\nHe left the notebook open beside the calculator. If the question vanished when he saw the same figures in daylight, it had been exhaustion. If it remained, it belonged to the day as well. His 3 a.m. self would decide neither in advance.\n\nHe set the alarm later and drank a glass of water. The figures stayed against the back of his eyelids for a while, but this time he did not build a new plan to push sleep away.\n\nThe fact that he had deferred the answer remained on the paper. {name} did not call that a solution. Then he slept."
+      },
+      {
+        "text": "For the first time, opened the door to: maybe three billion isn't required.",
+        "result_text": "{name} drew a vertical line in the notebook. On the left he wrote THREE BILLION WON. On the right: WHAT MUST STILL REMAIN AFTERWARD. As he began filling the second column, time withheld from his body and promises that had closed came first.\n\nThe thought was not as frightening as expected. He had not erased the target or abandoned Gangnam. He had only taken away the figure's authority to make every choice beneath it correct.\n\n{name} crossed out the word MUST and left three billion won untouched. The goal became slightly smaller. The shape of the person who might reach it became more concrete.\n\nBefore the sky brightened, he closed the calculator. A door had opened between the size of an account and the value of a life. He chose not to close it yet."
+      }
+    ],
+    "description_if_known": {
+      "daytime_conviction": "3 AM. Couldn't sleep.\n\nA strange thought surfaced. Does Gangnam actually have to happen?\n\nIn the beginning, there was a clear reason. Father's guarantee fraud. Six years. After paying off that debt — needed to build something of your own. Three billion was the symbol of that.\n\nBut sometimes, three billion looks like just a number now. Whether this is fatigue, maturity, or surrender — couldn't tell.\n\nOnce before, he had carried a 3 a.m. Conviction into daylight to test it.\nIt held in daylight too.\nThat memory is a backrest now, against tonight's 3 a.m. Doubt."
+    },
+    "description_memory_if_known": {
+      "arc_y4_midpoint_receipt_seen": "Eleven weeks had passed since he locked the three lines. Beside the calculator lay the long strip he had tucked into the notebook's first page that night. Completion times, dates that would not reopen, and blanks left by his body and family shared the same blue light as the distance remaining to three billion won.\n\n{name} looked once at the number still to go, then once at the three lines already paid. The calculator told him how much farther he had to travel. The paper told him what he had left behind. Tonight's doubt was not a sentence passing through fatigue. It was the question that remained even after he read the ledger he had locked with his own hand."
+    }
   }
 ]

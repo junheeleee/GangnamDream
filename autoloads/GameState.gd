@@ -27,6 +27,8 @@ const RUN_TURN_LIMIT: int = 240   # 5년 × 12개월 × 4주
 # boundary. Old saves omit this key and must never be inferred as fresh merely
 # because their Month-One plan happens to be empty.
 const CORE_LOOP_V2_ELIGIBLE_RUN_GENERATION := "seoul_cycle_eligible_v1"
+# Save migration only: no current event may author this ambiguous legacy alias.
+const LEGACY_FATHER_REASON_FLAG := "father_mentally_updated"
 
 func is_demo_build() -> bool:
 	# Export preset feature가 정본이다. 명시적 인자는 에디터/CI 게이트에서만 사용한다.
@@ -1213,6 +1215,25 @@ func apply_choice(event, authored_choice) -> bool:
 	if not choice_available(event, authored_choice):
 		return false
 	var choice: Dictionary = authored_choice
+	# Persist the authored option identity beside its localized prose. StoryMode
+	# result pages are observations of an already-applied choice; on reload this
+	# index prevents a damaged resume context from splicing another option's
+	# result text onto the state written by the original option.
+	var receipt_choice_index := -1
+	var raw_authored_choices: Variant = event.get("choices", [])
+	if raw_authored_choices is Array:
+		for authored_index in range((raw_authored_choices as Array).size()):
+			var raw_candidate: Variant = \
+				(raw_authored_choices as Array)[authored_index]
+			if is_same(raw_candidate, authored_choice):
+				receipt_choice_index = authored_index
+				break
+		if receipt_choice_index < 0:
+			for authored_index in range((raw_authored_choices as Array).size()):
+				if (raw_authored_choices as Array)[authored_index] \
+						== authored_choice:
+					receipt_choice_index = authored_index
+					break
 	# Expression choices only shape the current conversation. They must leave
 	# the complete serialized run state untouched, including event counters,
 	# logs, deferred callbacks, flags, and every stat/relationship surface.
@@ -1331,6 +1352,7 @@ func apply_choice(event, authored_choice) -> bool:
 	event_log.append({
 		"turn": turn,
 		"event_id": event.get("id", ""),
+		"choice_index": receipt_choice_index,
 		"choice": format_event_text(str(choice.get("text", ""))),
 		"result": format_event_text(str(choice.get("result_text", ""))),
 	})
@@ -1348,6 +1370,20 @@ func _ensure_cast(person_id: String):
 func apply_cast_effect(person_id: String, effect: Dictionary):
 	_ensure_cast(person_id)
 	var c: Dictionary = cast[person_id]
+	# A death receipt is monotonic. Historical callbacks may still attach useful
+	# memory flags to Father, but they must not raise his live affinity or restore
+	# a living relationship stage after he has passed.
+	var father_is_passed := person_id == "father" and (
+		bool(flags.get("father_passed", false))
+		or bool(flags.get("arc_father_passing_seen", false))
+		or str(c.get("stage", "unknown")) == "passed"
+	)
+	if father_is_passed:
+		c["stage"] = "passed"
+		for fk in effect.get("flags", []):
+			(c["flags"] as Dictionary)[str(fk)] = true
+		stats_changed.emit()
+		return
 	if effect.has("affinity"):
 		c["affinity"] = clampi(int(c.get("affinity", 0)) + int(effect["affinity"]), -100, 100)
 	if effect.has("stage"):
@@ -1379,6 +1415,9 @@ func has_any_close_relationship() -> bool:
 	if not relationships.is_empty():
 		return true
 	for pid in cast:
+		if str(pid) == "father" \
+				and str(cast[pid].get("stage", "unknown")) == "passed":
+			continue
 		if int(cast[pid].get("affinity", 0)) >= 60:
 			return true
 	return false
@@ -3468,6 +3507,13 @@ func load_from_dict(data):
 		if int_fields.has(key) and value is float:
 			value = int(value)
 		set(key, value)
+	# Older saves used an internal-only reflection flag for the authored phone
+	# conversation in which Father actually heard why Gangnam mattered. Preserve
+	# that earned memory under the concrete receipt now used by the story, then
+	# remove the ambiguous alias so later selectors cannot invent a second past.
+	if bool(flags.get(LEGACY_FATHER_REASON_FLAG, false)):
+		flags["father_heard_gangnam_reason"] = true
+		flags.erase(LEGACY_FATHER_REASON_FLAG)
 	# `kept_clean_hands` is the specific receipt for refusing the Week-4
 	# bank-account offer. An older cafe callback reused that flag for a later
 	# honest investment, so dirty-account saves could hold both mutually

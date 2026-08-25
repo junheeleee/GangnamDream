@@ -17,10 +17,10 @@
   {
     "id": "callback_knows_dad_reason_echo",
     "title": "Why You Started",
-    "description": "A hard stretch. Late at night.\n\nSangchul called. Opened with small talk, then:\n\n'You said you wanted to prove something to your father. That still true?'",
+    "description": "A hard stretch. Late at night.\n\nSangchul called. Opened with small talk, then:\n\n'When you first came here, you said you wanted to show your father what you could do. Do you still remember what that meant to you?'",
     "choices": [
       {
-        "text": "\"Yes. That hasn't changed.\"",
+        "text": "\"Yes. That reason is still with me.\"",
         "result_text": "Sangchul was quiet, then said:\n'Then you've got it. People who know their reason don't quit when they're tired.'\n\nAfter hanging up, {name} sat with the phone for a while.\nThis man still had a reason to check in. That was still worth something."
       },
       {

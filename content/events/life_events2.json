@@ -839,5 +839,53 @@
         }
       }
     ]
+  },
+  {
+    "id": "first_paycheck_00_father_passed",
+    "title": "첫 월급날",
+    "background": "office",
+    "portrait": "player_sad",
+    "category": "jobs",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 4
+    },
+    "tags": [
+      "jobs",
+      "milestone",
+      "father",
+      "memory"
+    ],
+    "cooldown": 999,
+    "description": "월급이 들어왔다.\n숫자를 확인하는데 — 이상하게 실감이 안 났다.\n첫 봉급을 받으면 부모님께 밥을 산다는 말을 들으며 자랐다. 이제 그 말을 예전과 똑같이 지킬 수는 없었다.\n{name}은 통장 화면을 보며, 오늘 누구와 무엇을 나눌지 오래 생각했다.",
+    "choices": [
+      {
+        "text": "어머니께 밥을 산다. 빈자리까지 함께 기억한다.  (효도 / 지출)",
+        "result_text": "가까운 고깃집에서 어머니와 둘이 먹었다.\n어머니가 고기 한 점을 뒤집다가 말했다. \"네 아버지도 이 날을 기다렸을 텐데.\"\n{name}은 첫 월급이 찍힌 화면을 보여드렸다. 집에 오는 길, 축하할 사람이 한 명 줄었다는 사실이 뒤늦게 목을 막았다.",
+        "effects": {
+          "money": -80000,
+          "mental": 8
+        }
+      },
+      {
+        "text": "그냥 저축한다. 그게 효도다.  (절약 / 목표)",
+        "result_text": "{name}은 이체 버튼을 눌렀다.\n저축 계좌로. 티도 안 나지만 — 자기 자신에게 보내는 첫 투자였다.",
+        "effects": {
+          "money": 0,
+          "mental": 3
+        }
+      },
+      {
+        "text": "오랜만에 나 자신에게 쓴다. 오늘만큼은.  (자기 보상 / 지출)",
+        "result_text": "{name}은 오랫동안 미뤄왔던 것을 샀다. 대단한 건 아니었다.\n하지만 내 돈으로 산 첫 번째 물건 — 그건 달랐다.",
+        "effects": {
+          "money": -100000,
+          "mental": 8
+        }
+      }
+    ]
   }
 ]

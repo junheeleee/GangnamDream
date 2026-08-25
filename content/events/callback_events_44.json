@@ -260,11 +260,6 @@
           "mental": 4,
           "social_skill": 1
         },
-        "cast_effects": {
-          "father": {
-            "affinity": 4
-          }
-        },
         "flags": [],
         "follow_up_event": "",
         "result_text": "\"죄송할 거 없어. 엄마도 네 마음 알아.\"\n\n숨기고 싶었던 건 방이 아니라, 아직 아무것도 못 이룬 자신이었다.\n{name}은 이제 그걸 인정할 수 있었다."
@@ -273,11 +268,6 @@
         "text": "\"이젠 보여드릴 수 있어요. 좋은 데로 옮겼거든요.\"",
         "effects": {
           "mental": 6
-        },
-        "cast_effects": {
-          "father": {
-            "affinity": 5
-          }
         },
         "flags": [],
         "follow_up_event": "",

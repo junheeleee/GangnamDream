@@ -365,12 +365,23 @@ ORDER129_TARGET_IDS = {
 # delta keeps the historical ORDER-118/129 baselines meaningful without making
 # an unrelated new event or object change invisible here.
 ORDER131_LATER_DELTA_IDS = {
+    "arc_first_real_win",
+    "arc_father_quiet_call",
+    "arc_y3_father_deferred_call",
+    "arc_father_medication",
+    "arc_father_06_confession",
+    "arc_35_birthday",
+    "arc_y3_birthday_father_call",
     "arc_36_body_signal",
     "arc_year_three_half",
     "arc_36_night_doubt",
+    "arc_37_ending_peace",
+    "arc_34_parents_visit",
+    "arc_pre_ending_father_call",
     "arc_father_passing",
     "arc_father_passing_platform",
     "arc_father_passing_deal_room",
+    "arc_father_passing_hospital_room",
     "arc_father_passing_deal_morning",
     "arc_father_call_on_ktx",
     "arc_father_call_on_ktx_memory",
@@ -383,17 +394,36 @@ ORDER131_LATER_DELTA_IDS = {
     "arc_y4_father_final_contact_missed",
     "arc_y4_father_crisis_stabilized",
     "arc_y4_father_outcome_unknown",
+    "arc_36_father_comes_to_seoul",
+    "arc_1b_isolation",
+    "arc_why_gangnam_real",
 }
 ORDER131_ADDED_IDS_BY_FILE = {
+    "content/events/arc_midgame.json": {
+        "arc_first_real_win_father_passed",
+        "arc_money_loneliness_father_passed",
+        "arc_gangnam_real_estate_father_passed",
+        "arc_36_night_doubt_father_passed",
+    },
+    "content/events_en/arc_midgame.json": {
+        "arc_first_real_win_father_passed",
+        "arc_money_loneliness_father_passed",
+        "arc_gangnam_real_estate_father_passed",
+        "arc_36_night_doubt_father_passed",
+    },
     "content/events/arc_drama.json": {
         "arc_y4_father_crisis_contact",
         "arc_y4_father_crisis_stabilized",
         "arc_y4_father_outcome_unknown",
+        "arc_1b_isolation_father_passed",
+        "arc_why_gangnam_real_father_passed",
     },
     "content/events_en/arc_drama.json": {
         "arc_y4_father_crisis_contact",
         "arc_y4_father_crisis_stabilized",
         "arc_y4_father_outcome_unknown",
+        "arc_1b_isolation_father_passed",
+        "arc_why_gangnam_real_father_passed",
     },
 }
 ORDER129_EXPECTED_OBJECT_SHA256 = {

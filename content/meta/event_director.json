@@ -76,6 +76,7 @@
       "callback_truth_echo",
       "casino_chip_exchange",
       "casino_comp_offer",
+      "cb_grace_echo",
       "class_reunion",
       "debt_invest_margin_call",
       "drama_crypto_allin",
@@ -223,7 +224,9 @@
         { "id": "arc_y4_three_promises_deal_only", "axis": "human" }
       ],
       "157": [
-        { "id": "arc_36_unexpected_hand", "axis": "human" }
+        { "id": "arc_36_unexpected_hand", "axis": "human" },
+        { "id": "arc_36_unexpected_hand_father_deal", "axis": "human" },
+        { "id": "arc_36_unexpected_hand_person_deal", "axis": "human" }
       ],
       "161": [
         { "id": "arc_36_body_signal", "axis": "human" }

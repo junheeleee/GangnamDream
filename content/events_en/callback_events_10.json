@@ -238,5 +238,20 @@
         "result_text": "It passed.\nIt will pass again.\nFor now, that's everything."
       }
     ]
+  },
+  {
+    "id": "callback_rushed_to_father_moment_father_passed",
+    "title": "What Remained After Running There",
+    "description": "The day {name} rushed there after hearing the news, Father was better than expected. On the way home, {name} assumed there would be another visit.\n\nThere will be no next visit now. What remains is the fact that {name} really went that day, alongside the dates that were left blank afterward.",
+    "choices": [
+      {
+        "text": "Admit that no date was set for going more often",
+        "result_text": "There were dates that never made it onto the calendar.\n{name} did not polish those empty spaces into promises. The fact that it became too late and the fact that {name} once ran there in time went onto the same page.\n\nBoth were real choices."
+      },
+      {
+        "text": "Still remember the self who ran there that day",
+        "result_text": "There was no next visit. That did not erase the choice made that day.\n\n{name} remembered the arrival time and the road home. Even inside regret, one thing actually done remained."
+      }
+    ]
   }
 ]

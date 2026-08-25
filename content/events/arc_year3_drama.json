@@ -152,11 +152,6 @@
         "flags": [
           "arc_father_legacy_seen"
         ],
-        "cast_effects": {
-          "father": {
-            "affinity": 3
-          }
-        },
         "result_text": "그 말이 입 밖으로 나왔다.\n\n누가 듣진 않았다. 아버지도 없다. 그래도 했다. 그게 지금 할 수 있는 전부였다."
       },
       {
@@ -167,8 +162,7 @@
           "tint": 2
         },
         "flags": [
-          "arc_father_legacy_seen",
-          "father_mentally_updated"
+          "arc_father_legacy_seen"
         ],
         "result_text": "했어요, 아버지. 지금 이만큼 왔어요. 아직 멀었어요. 근데 포기 안 해요.\n\n{name}은 그 말들을 속으로 했다. 전부 중요한 말 같았다."
       },
@@ -411,7 +405,8 @@
     "tags": [
       "story",
       "arc",
-      "character"
+      "character",
+      "requires_living_father"
     ],
     "cooldown": 9999,
     "description": "일요일 오전.\n\n아무런 이유가 없었다. 할 일이 있는 것도 아니었다.\n{name}은 핸드폰을 들었다가, 내려놨다가, 다시 들었다.\n\n생각해보니 — 지난 3년 가까이, 먼저 연락해본 적이 거의 없었다.\n항상 어딘가서 연락이 왔고, {name}은 받는 쪽이었다.\n\n오늘은 먼저 걸어보기로 했다. 아무 이유 없이.",
@@ -825,6 +820,7 @@
       "arc",
       "chapter3",
       "father",
+      "requires_living_father",
       "unattached",
       "author_only"
     ],
@@ -1036,6 +1032,7 @@
       "arc",
       "chapter3",
       "father",
+      "requires_living_father",
       "truth_listener",
       "author_only"
     ],
@@ -1166,6 +1163,7 @@
       "arc",
       "year5",
       "father",
+      "requires_living_father",
       "jiyeon",
       "author_only"
     ],
@@ -1220,6 +1218,65 @@
       {
         "text": "약봉지와 통화 화면만 촬영하고 설명 문장을 붙이지 않는다",
         "result_text": "{name}은 통화 기록을 캡처하고, 접힌 약봉지의 복용 시각을 따로 찍어 두 이미지를 한 화면에 나란히 놓았다. 마지막 발신 날짜와 0:00, 복용 시각이 한 장에 들어왔고 사진 제목에는 날짜만 썼다.\n\n옛 보증 문서와 자기 명의 초안은 사진 밖 책상에 놓인 채였다. 흰 약봉지와 검은 0만 화면을 채웠고, 오늘의 이름 칸은 렌즈 바깥에 남았다."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_year3_father_passed",
+    "title": "신문 기사",
+    "background": "street",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "father",
+      "memory"
+    ],
+    "cooldown": 9999,
+    "description": "포털 뉴스에서 그 이름을 봤다.\n\n\"부동산 브로커 임씨, 투자자 다수 기망 혐의로 입건\"\n\n사진이 있었다. 분명히 임상철이었다.\n\n{name}이 신고한 것과 관계없이 — 다른 데서도 일이 터진 것 같았다. 아버지 사건 하나만이 아니었다.\n\n기사를 닫고 창밖을 봤다. 저 사람한테서 많은 걸 배웠다. 그 사람이 아버지를 망하게 했다. 두 가지가 동시에 사실이다.",
+    "choices": [
+      {
+        "text": "그냥 넘겼다. 이미 끝난 관계다.",
+        "effects": {
+          "mental": 4,
+          "tint": 1
+        },
+        "flags": [
+          "arc_sangchul_year3_seen"
+        ],
+        "result_text": "신문을 닫았다. 임상철과의 인연은 그 카페에서 끝났다.\n\n지금의 {name}은 그 덕도, 그 짐도 없이 여기까지 온 거다."
+      },
+      {
+        "text": "아버지 번호를 연다 — 이 소식을 알리고 싶어서",
+        "effects": {
+          "mental": 10,
+          "tint": 4
+        },
+        "flags": [
+          "arc_sangchul_year3_seen"
+        ],
+        "result_text": "연락처에는 아버지 이름과 번호가 그대로 남아 있었다. {name}은 기사 링크의 공유 버튼을 눌렀다가 받는 사람 칸에서 멈췄다.\n\n알리고 싶었다. 그 사람에게 다른 피해가 더 드러났고, 아버지 일이 혼자만의 일이 아니었다고. 그러나 그 번호는 더는 연결될 번호가 아니었다. 링크는 전송되지 않았다.\n\n기사를 닫자 무거운 것이 내려간 게 아니라, 이 소식을 함께 들어 줄 사람이 없다는 사실만 더 분명해졌다."
+      },
+      {
+        "text": "안타까운 마음이 드는 게 이상하다",
+        "effects": {
+          "mental": -3,
+          "intelligence": 2,
+          "tint": 3
+        },
+        "flags": [
+          "arc_sangchul_year3_seen",
+          "sangchul_complicated_feelings"
+        ],
+        "result_text": "그 사람이 없었으면 지금의 {name}이 없을 수도 있다. 하지만 그 사람 때문에 아버지가 무너졌다.\n\n두 가지가 동시에 사실이다. 그게 불편했다."
       }
     ]
   }

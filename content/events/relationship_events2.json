@@ -228,11 +228,6 @@
         "effects": {
           "mental": 8,
           "intelligence": 1
-        },
-        "cast_effects": {
-          "father": {
-            "affinity": 6
-          }
         }
       },
       {
@@ -241,11 +236,6 @@
         "effects": {
           "mental": 5,
           "social_skill": 1
-        },
-        "cast_effects": {
-          "father": {
-            "affinity": 4
-          }
         }
       }
     ]

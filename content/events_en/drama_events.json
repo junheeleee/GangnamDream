@@ -471,12 +471,12 @@
   },
   {
     "id": "drama_parents_financial_crisis",
-    "title": "Parents' Crisis",
-    "description": "Got a call from the parents. The business is struggling. Everything in the account right now is all there is.",
+    "title": "A Family Crisis",
+    "description": "A call came from home. The family was in financial trouble. Everything in the account right now was all there was.",
     "choices": [
       {
         "text": "Help as much as possible",
-        "result_text": "Sent 3 million won. The account was emptied. But the parents' voice changed. That was enough."
+      "result_text": "Sent 3 million won. The account was emptied. But the family's voice changed. That was enough."
       },
       {
         "text": "Help within limits only",
@@ -484,7 +484,7 @@
       },
       {
         "text": "Be honest — things are hard on this end too",
-        "result_text": "Said 'I'm struggling too' for the first time. The parents ended up apologizing. Honesty can sometimes save a relationship."
+      "result_text": "Said 'I'm struggling too' for the first time. The family ended up apologizing. Honesty can sometimes save a relationship."
       }
     ]
   },

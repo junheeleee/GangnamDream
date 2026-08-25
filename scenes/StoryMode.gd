@@ -3220,6 +3220,206 @@ func _restoring_saved_result_phase() -> bool:
 	return str(_pending_restore_context.get("event_id", "")) \
 		== str(_queue.front())
 
+
+func _resume_dialogue_choice_receipt_matches(
+		context: Dictionary, event_id: String, choice_index: int) -> bool:
+	# Legacy event receipts did not persist choice_index. Accept those saves only
+	# when the saved Dialogue History contains one exact choice on the active
+	# event serial. A matching entry from an older occurrence is not authority.
+	var raw_log: Variant = context.get("dialogue_log", {})
+	if not raw_log is Dictionary:
+		return false
+	var dialogue_log := raw_log as Dictionary
+	var event_serial := int(dialogue_log.get("event_serial", 0))
+	var raw_entries: Variant = dialogue_log.get("entries", [])
+	if event_serial <= 0 or not raw_entries is Array:
+		return false
+	var current_serial_choices := 0
+	var matching_choices := 0
+	for raw_entry in raw_entries as Array:
+		if not raw_entry is Dictionary:
+			continue
+		var entry := raw_entry as Dictionary
+		if int(entry.get("event_serial", 0)) != event_serial \
+				or str(entry.get("kind", "")) != "choice":
+			continue
+		current_serial_choices += 1
+		if str(entry.get("event_id", "")) == event_id \
+				and int(entry.get("choice_index", -1)) == choice_index:
+			matching_choices += 1
+	return current_serial_choices == 1 and matching_choices == 1
+
+
+func _applied_result_choice_receipt_matches(
+		event_id: String, choice_index: int, choice: Dictionary,
+		context: Dictionary) -> bool:
+	var dialogue_matches := _resume_dialogue_choice_receipt_matches(
+		context, event_id, choice_index)
+	# Expression-only choices intentionally create no GameState receipt because
+	# they mutate no run state. Their exact current-serial dialogue entry is the
+	# complete authority needed to restore their result page.
+	if GameState.is_expression_choice(choice):
+		return dialogue_matches
+	if GameState.event_log.is_empty():
+		return false
+	var raw_receipt: Variant = GameState.event_log.back()
+	if not raw_receipt is Dictionary:
+		return false
+	var receipt := raw_receipt as Dictionary
+	if str(receipt.get("event_id", "")) != event_id:
+		return false
+	if receipt.has("choice_index"):
+		var raw_index: Variant = receipt.get("choice_index")
+		if typeof(raw_index) not in [TYPE_INT, TYPE_FLOAT]:
+			return false
+		return int(raw_index) == choice_index
+	# Compatibility path for saves created before indexed event receipts. It is
+	# deliberately fail-closed when history is absent, duplicated, or truncated.
+	return dialogue_matches
+
+
+func _restored_result_receipt_matches_event(event: Dictionary) -> bool:
+	if _pending_restore_context.is_empty() \
+			or str(_pending_restore_context.get("phase", "")) != "result" \
+			or str(_pending_restore_context.get("event_id", "")) \
+				!= str(event.get("id", "")):
+		return false
+	var choices: Array = event.get("choices", [])
+	var choice_index := int(_pending_restore_context.get(
+		"pending_result_choice_index", -1))
+	if choice_index < 0 or choice_index >= choices.size() \
+			or not choices[choice_index] is Dictionary:
+		return false
+	return _applied_result_choice_receipt_matches(
+		str(event.get("id", "")), choice_index,
+		choices[choice_index] as Dictionary, _pending_restore_context)
+
+
+func _restoring_applied_father_passing_terminal_result(
+		event: Dictionary) -> bool:
+	# The terminal choice is the point that writes father_passed. A save taken on
+	# its result page must remain observable after reload, but the same event must
+	# never be startable again from a stale queue or direct trigger.
+	if _pending_restore_context.is_empty() \
+			or str(_pending_restore_context.get("phase", "")) != "result" \
+			or str(_pending_restore_context.get("event_id", "")) \
+				!= str(event.get("id", "")) \
+			or not EventManager.father_death_is_monotonic():
+		return false
+	var tags: Array = event.get("tags", [])
+	if not tags.has("father_passing_terminal"):
+		return false
+	var choices: Array = event.get("choices", [])
+	var choice_index := int(_pending_restore_context.get(
+		"pending_result_choice_index", -1))
+	if choice_index < 0 or choice_index >= choices.size():
+		return false
+	var choice: Dictionary = choices[choice_index]
+	var flags: Array = choice.get("flags", [])
+	var father_effect: Variant = choice.get("cast_effects", {}).get(
+		"father", {})
+	if not flags.has("father_passed") \
+			or not father_effect is Dictionary \
+			or str((father_effect as Dictionary).get("stage", "")) != "passed":
+		return false
+	# Do not let a damaged save splice the hospital result onto the deal branch,
+	# or vice versa. Every flag authored by the terminal choice and the latest
+	# event receipt must identify this exact already-applied result.
+	for raw_flag in flags:
+		if not bool(GameState.flags.get(str(raw_flag), false)):
+			return false
+	return _applied_result_choice_receipt_matches(
+		str(event.get("id", "")), choice_index, choice,
+		_pending_restore_context)
+
+func _migrate_live_event_variant_result_resume(
+		previous_event_id: String, replacement_event_id: String) -> bool:
+	if _pending_restore_context.is_empty() \
+			or str(_pending_restore_context.get("event_id", "")) \
+				!= previous_event_id \
+			or str(_pending_restore_context.get("phase", "")) != "result":
+		return false
+	var choices: Array = _current.get("choices", [])
+	var choice_index := int(_pending_restore_context.get(
+		"pending_result_choice_index", -1))
+	if choice_index < 0 or choice_index >= choices.size():
+		return false
+	var choice: Dictionary = choices[choice_index]
+	# A result page is an observation of an already-applied choice, not authority
+	# to invent one. Bind both the source event and its exact authored option
+	# before rewriting any history to the monotonic-state replacement.
+	var source_event: Dictionary = DataRegistry.find_event(previous_event_id)
+	var source_choices: Array = source_event.get("choices", [])
+	if choice_index >= source_choices.size() \
+			or not source_choices[choice_index] is Dictionary \
+			or not _applied_result_choice_receipt_matches(
+				previous_event_id, choice_index,
+				source_choices[choice_index] as Dictionary,
+				_pending_restore_context):
+		return false
+	var result_text: String = _fmt(
+		str(choice.get("result_text", ""))).strip_edges()
+	if result_text.is_empty():
+		return false
+
+	var migrated_context := _pending_restore_context.duplicate(true)
+	migrated_context["event_id"] = replacement_event_id
+	migrated_context["pending_result_choice_index"] = choice_index
+	# The old variant's follow-up and transition contracts may describe a living
+	# participant. Re-resolve the authored edge against the replacement choice,
+	# and discard any target that is no longer legal in the monotonic state.
+	var safe_follow_up := _choice_follow_up_id(
+		choice, replacement_event_id, choice_index)
+	if not safe_follow_up.is_empty():
+		var live_follow_up := EventManager.live_event_variant_id(safe_follow_up)
+		var follow_up_event: Dictionary = DataRegistry.find_event(live_follow_up)
+		if live_follow_up.is_empty() or follow_up_event.is_empty() \
+				or not EventManager._event_passes_hard_state_contracts(
+					follow_up_event):
+			safe_follow_up = ""
+		else:
+			safe_follow_up = live_follow_up
+	migrated_context["pending_follow_up"] = safe_follow_up
+	for transition_key in [
+		"next_transition_mode", "current_transition_mode",
+	]:
+		migrated_context[transition_key] = ""
+	for transition_contract_key in [
+		"next_transition_contract", "current_transition_contract",
+	]:
+		migrated_context[transition_contract_key] = {}
+	for timer_key in [
+		"timer_remaining_msec", "timer_total_msec",
+	]:
+		migrated_context[timer_key] = -1
+
+	# Result prose can have a different paragraph topology in the safe variant.
+	# Resume at the beginning of that result rather than mapping an old source
+	# offset onto a sentence the player had never seen.
+	var result_page_data := _story_page_data(result_text)
+	migrated_context["paragraph_index"] = 0
+	migrated_context["paragraph_was_typing"] = true
+	migrated_context["type_pos"] = 0
+	migrated_context["paragraph_type_ratio"] = 0.0
+	migrated_context["source_paragraph_index"] = 0
+	migrated_context["source_text_progress"] = 0.0
+	migrated_context["source_paragraph_count"] = \
+		_story_page_data_source_paragraph_count(result_page_data)
+	migrated_context["story_locale"] = LocaleManager.language
+
+	_migrate_dialogue_log_current_event_variant(
+		migrated_context, previous_event_id, replacement_event_id,
+		choice_index, choice)
+	_migrate_game_state_current_event_variant_logs(
+		previous_event_id, replacement_event_id, choice)
+	_pending_follow_up = safe_follow_up
+	_next_transition_mode = ""
+	_current_transition_mode = ""
+	_next_transition_contract = {}
+	_current_transition_contract = {}
+	_pending_restore_context = migrated_context
+	return true
+
 func _capture_first_bill_replay_snapshot(choice_index: int = -1) -> bool:
 	var snapshot: Dictionary = {}
 	if choice_index >= 0 and not _first_bill_live_prechoice_snapshot.is_empty():
@@ -3260,28 +3460,150 @@ func _load_next_event():
 		_queue.clear()
 		_finish_all()
 		return
-	if _queue.is_empty():
-		_finish_all()
-		return
-	var previous_event_id := str(_current.get("id", "")).strip_edges()
-	var event_id = str(_queue.pop_front())
-	# Follow-ups already prepare their edge in _after_result. Roots that were
-	# queued together also need their authored transition contract; otherwise
-	# an internal cut silently falls back to whatever the prior scene left on
-	# screen.
-	if _next_transition_contract.is_empty() \
-			and not previous_event_id.is_empty() \
-			and previous_event_id != event_id:
-		var queued_transition := DataRegistry.get_story_transition(
-			previous_event_id, event_id)
-		_next_transition_contract = queued_transition.duplicate(true)
-		_next_transition_mode = str(queued_transition.get("mode", ""))
-	_current = DataRegistry.find_event(event_id)
-	if _current.is_empty():
-		_next_transition_mode = ""
-		_next_transition_contract = {}
-		_load_next_event()
-		return
+	# Old or damaged saves can contain a long run of stale IDs. Skip them in one
+	# bounded stack frame; recursive self-calls made queue length a stack-overflow
+	# input even though every individual rejection was otherwise safe.
+	var event_id := ""
+	while true:
+		# A saved result is allowed to render over its own fatal choice once. If
+		# that exact restore root is missing, rejected, or consumed, re-evaluate
+		# before the same iterative scan can expose any sentinel/follow-up behind
+		# it. The former recursive loader naturally revisited the top guard here.
+		if not _read_only_replay \
+				and _story_has_pending_fatal_state() \
+				and not _restoring_saved_result_phase():
+			_pending_follow_up = ""
+			_queue.clear()
+			_finish_all()
+			return
+		if _queue.is_empty():
+			_finish_all()
+			return
+		var previous_event_id := str(_current.get("id", "")).strip_edges()
+		event_id = str(_queue.pop_front())
+		# Follow-ups already prepare their edge in _after_result. Roots that were
+		# queued together also need their authored transition contract; otherwise
+		# an internal cut silently falls back to whatever the prior scene left on
+		# screen.
+		if _next_transition_contract.is_empty() \
+				and not previous_event_id.is_empty() \
+				and previous_event_id != event_id:
+			var queued_transition := DataRegistry.get_story_transition(
+				previous_event_id, event_id)
+			_next_transition_contract = queued_transition.duplicate(true)
+			_next_transition_mode = str(queued_transition.get("mode", ""))
+		_current = DataRegistry.find_event(event_id)
+		if _current.is_empty():
+			_next_transition_mode = ""
+			_next_transition_contract = {}
+			continue
+		if not _read_only_replay:
+			var live_event_id := EventManager.live_event_variant_id(event_id)
+			if live_event_id.is_empty():
+				_current = {}
+				_pending_restore_context.clear()
+				_next_transition_mode = ""
+				_next_transition_contract = {}
+				continue
+			if live_event_id != event_id:
+				var previous_variant_id: String = event_id
+				var was_result_resume := not _pending_restore_context.is_empty() \
+					and str(_pending_restore_context.get("phase", "")) \
+						== "result" \
+					and str(_pending_restore_context.get("event_id", "")) \
+						== previous_variant_id
+				event_id = live_event_id
+				_current = DataRegistry.find_event(event_id)
+				# A result-phase save already owns an applied choice. Preserve that
+				# result receipt while replacing only the now-contradictory live prose;
+				# other phases conservatively restart the replacement scene.
+				if not _migrate_live_event_variant_result_resume(
+						previous_variant_id, event_id):
+					# The replacement restarts from its first page, so current-
+					# serial history will be authored again. Remove the stale live
+					# prose now instead of leaving a ghost entry in the log.
+					_remove_dialogue_log_current_event_entries(
+						_pending_restore_context, previous_variant_id)
+					_pending_restore_context.clear()
+					if was_result_resume:
+						# The source choice may already have changed state. Never
+						# turn an untrusted result save into a second playable copy
+						# of the replacement event.
+						_current = {}
+						EventManager.current_event = {}
+						_next_transition_mode = ""
+						_next_transition_contract = {}
+						if _story_has_pending_fatal_state():
+							_pending_follow_up = ""
+							_queue.clear()
+							_finish_all()
+							return
+						continue
+		# Materialize the run-specific year candidates before validating a saved
+		# result choice. The catalog root owns only a placeholder option, while a
+		# live result receipt may legally point at dynamic index 1, 2, or 3.
+		# Invalid curation roots remain part of this same bounded queue scan.
+		var curation_year := int(_current.get("year_scene_year", 0))
+		if curation_year > 0:
+			var curation_choices := GameState.build_year_scene_choices(
+				curation_year)
+			if curation_choices.size() < 3:
+				var rejected_curation_result := \
+					not _pending_restore_context.is_empty() \
+					and str(_pending_restore_context.get("phase", "")) \
+						== "result" \
+					and str(_pending_restore_context.get("event_id", "")) \
+						== event_id
+				_current = {}
+				EventManager.current_event = {}
+				_pending_restore_context.clear()
+				_next_transition_mode = ""
+				_next_transition_contract = {}
+				if rejected_curation_result \
+						and _story_has_pending_fatal_state():
+					_pending_follow_up = ""
+					_queue.clear()
+					_finish_all()
+					return
+				continue
+			_current = _current.duplicate(true)
+			_current["choices"] = curation_choices
+		# Every stateful result resume, not only a state-variant migration,
+		# must be bound to the exact applied option before any result prose is
+		# rendered. A mismatched save is skipped rather than reopened for choice.
+		if not _pending_restore_context.is_empty() \
+				and str(_pending_restore_context.get("phase", "")) == "result" \
+				and str(_pending_restore_context.get("event_id", "")) == event_id \
+				and not _restored_result_receipt_matches_event(_current):
+			_remove_dialogue_log_current_event_entries(
+				_pending_restore_context, event_id)
+			_pending_restore_context.clear()
+			_current = {}
+			EventManager.current_event = {}
+			_next_transition_mode = ""
+			_next_transition_contract = {}
+			if _story_has_pending_fatal_state():
+				_pending_follow_up = ""
+				_queue.clear()
+				_finish_all()
+				return
+			continue
+		# Immediate follow-ups and restored StoryMode queues can outlive the state
+		# that made their scene possible. Keep historical read-only replays intact,
+		# but never render a live scene that contradicts a monotonic world fact. The
+		# sole exception is an already-applied passing terminal result page: it is a
+		# read-only receipt of the choice that wrote the monotonic fact.
+		if not _read_only_replay \
+				and not EventManager._event_passes_hard_state_contracts(_current) \
+				and not _restoring_applied_father_passing_terminal_result(
+					_current):
+			_current = {}
+			EventManager.current_event = {}
+			_pending_restore_context.clear()
+			_next_transition_mode = ""
+			_next_transition_contract = {}
+			continue
+		break
 	var restoring_current_event := not _pending_restore_context.is_empty() \
 			and str(_pending_restore_context.get("event_id", "")) == event_id
 	if restoring_current_event and _dialogue_log_event_serial > 0:
@@ -3303,14 +3625,6 @@ func _load_next_event():
 			and not delays_first_bill_unlock:
 		MetaProgression.record_scene_seen(event_id)
 		GameState.record_run_scene_seen(event_id)
-	var curation_year := int(_current.get("year_scene_year", 0))
-	if curation_year > 0:
-		_current = _current.duplicate(true)
-		var curation_choices := GameState.build_year_scene_choices(curation_year)
-		if curation_choices.size() < 3:
-			_load_next_event()
-			return
-		_current["choices"] = curation_choices
 	EventManager.current_event = _current
 	if not _read_only_replay and event_id in [
 		DEMO_CORE_LOOP_V2.FIRST_BILL_DECISION_ID,
@@ -3660,6 +3974,138 @@ func _restore_dialogue_log_state(context: Dictionary) -> void:
 	for entry in _dialogue_log_entries:
 		_dialogue_log_next_serial = maxi(
 			_dialogue_log_next_serial, int((entry as Dictionary).get("event_serial", 0)))
+
+func _remove_dialogue_log_current_event_entries(
+		context: Dictionary, previous_event_id: String) -> int:
+	var raw_saved_log: Variant = context.get("dialogue_log", {})
+	if not raw_saved_log is Dictionary:
+		return 0
+	var saved_log := raw_saved_log as Dictionary
+	var current_serial := int(saved_log.get(
+		"event_serial", _dialogue_log_event_serial))
+	var retained_entries: Array = []
+	for raw_entry in _dialogue_log_entries:
+		if not raw_entry is Dictionary:
+			continue
+		var entry := raw_entry as Dictionary
+		var belongs_to_current_serial := (
+			int(entry.get("event_serial", 0)) == current_serial
+			if current_serial > 0 else
+			str(entry.get("event_id", "")) == previous_event_id)
+		if not belongs_to_current_serial:
+			retained_entries.append(entry.duplicate(true))
+	_dialogue_log_entries = retained_entries
+	var migrated_log := saved_log.duplicate(true)
+	migrated_log["entries"] = _dialogue_log_entries.duplicate(true)
+	context["dialogue_log"] = migrated_log
+	return current_serial
+
+func _migrate_dialogue_log_current_event_variant(
+		context: Dictionary, previous_event_id: String,
+		replacement_event_id: String, selected_choice_index: int,
+		replacement_choice: Dictionary) -> void:
+	var current_serial := _remove_dialogue_log_current_event_entries(
+		context, previous_event_id)
+	if current_serial <= 0:
+		return
+	var replacement_title := _dialogue_log_plain_text(
+		_fmt(str(_current.get("title", ""))))
+	var description_page_data := _story_page_data(
+		_resolved_story_description(_current))
+	var description_pages: Array = description_page_data.get("pages", [])
+	var description_source_indices: Array = description_page_data.get(
+		"source_indices", [])
+	var source_texts: Dictionary = {}
+	var source_last_pages: Dictionary = {}
+	var source_order: Array[int] = []
+	for page_index in range(mini(
+			description_pages.size(), description_source_indices.size())):
+		var source_index := int(description_source_indices[page_index])
+		if not source_texts.has(source_index):
+			source_order.append(source_index)
+		var visible_text := _dialogue_log_plain_text(
+			str(description_pages[page_index])).strip_edges()
+		if not visible_text.is_empty():
+			var accumulated_text := str(source_texts.get(source_index, ""))
+			source_texts[source_index] = (
+				visible_text if accumulated_text.is_empty() else
+				"%s %s" % [accumulated_text, visible_text])
+		source_last_pages[source_index] = page_index
+	for source_index in source_order:
+		var source_text := str(source_texts.get(source_index, ""))
+		if source_text.is_empty():
+			continue
+		_append_dialogue_log_entry({
+			"event_serial": current_serial,
+			"event_id": replacement_event_id,
+			"kind": "prose",
+			"choice_index": -1,
+			"source_paragraph_index": source_index,
+			"page_index": int(source_last_pages.get(source_index, -1)),
+			"title": replacement_title,
+			"speaker": "",
+			"screen_context": "",
+			"channel": "",
+			"locale": LocaleManager.language,
+			"text": source_text,
+		})
+	var choice_text := _dialogue_log_plain_text(_fmt(
+		_moral_perception_text(
+			replacement_choice.get("text_if_moral", {}),
+			str(replacement_choice.get("text", "")))
+	)).strip_edges()
+	_append_dialogue_log_entry({
+		"event_serial": current_serial,
+		"event_id": replacement_event_id,
+		"kind": "choice",
+		"choice_index": selected_choice_index,
+		"source_paragraph_index": -1,
+		"page_index": -1,
+		"title": replacement_title,
+		"speaker": _story_player_display_name(),
+		"screen_context": "",
+		"channel": "",
+		"locale": LocaleManager.language,
+		"text": choice_text,
+	})
+	var migrated_log: Dictionary = \
+		(context.get("dialogue_log", {}) as Dictionary) \
+		.duplicate(true)
+	migrated_log["entries"] = _dialogue_log_entries.duplicate(true)
+	context["dialogue_log"] = migrated_log
+
+func _migrate_game_state_current_event_variant_logs(
+		previous_event_id: String, replacement_event_id: String,
+		replacement_choice: Dictionary) -> void:
+	for index in range(GameState.event_log.size() - 1, -1, -1):
+		var raw_entry: Variant = GameState.event_log[index]
+		if not raw_entry is Dictionary:
+			continue
+		var entry := raw_entry as Dictionary
+		if str(entry.get("event_id", "")) != previous_event_id:
+			continue
+		entry["event_id"] = replacement_event_id
+		entry["choice"] = GameState.format_event_text(str(
+			replacement_choice.get("text", "")))
+		entry["result"] = GameState.format_event_text(str(
+			replacement_choice.get("result_text", "")))
+		break
+	var replacement_message := "%s: %s" % [
+		GameState.format_event_text(str(_current.get(
+			"title", _tr("이벤트", "Event")))),
+		GameState.format_event_text(str(replacement_choice.get(
+			"result_text", replacement_choice.get("text", "")))),
+	]
+	for index in range(GameState.action_log.size() - 1, -1, -1):
+		var raw_entry: Variant = GameState.action_log[index]
+		if not raw_entry is Dictionary:
+			continue
+		var entry := raw_entry as Dictionary
+		if str(entry.get("type", "")) != "event" \
+				or int(entry.get("turn", -1)) != GameState.turn:
+			continue
+		entry["message"] = replacement_message
+		break
 
 func _normalized_dialogue_log_entry(raw_entry: Dictionary) -> Dictionary:
 	var kind := str(raw_entry.get("kind", ""))
@@ -5201,7 +5647,8 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 			and not _first_bill_replay_event_active()
 
 func _on_choice(idx: int):
-	if _transitioning or _story_scene_transition_active:
+	if _transitioning or _story_scene_transition_active \
+			or _pending_after_result:
 		return
 	var choices: Array = _current.get("choices", [])
 	if idx < 0 or idx >= choices.size():

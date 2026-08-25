@@ -13,6 +13,37 @@ var _follow_up_target_ids: Dictionary = {}
 
 const EVENT_DIRECTOR_PATH := "res://content/meta/event_director.json"
 const DEMO_CORE_LOOP_V2 := preload("res://systems/DemoCoreLoopV2.gd")
+const FATHER_PASSED_EVENT_VARIANTS := {
+	"arc_first_real_win": "arc_first_real_win_father_passed",
+	"arc_money_loneliness": "arc_money_loneliness_father_passed",
+	"arc_gangnam_real_estate": "arc_gangnam_real_estate_father_passed",
+	"arc_year1_close": "arc_year1_close_father_passed",
+	"arc_sangchul_year3": "arc_sangchul_year3_father_passed",
+	"amb_mlm_aftermath": "amb_mlm_aftermath_father_passed",
+	"callback_borrowed_parents_repay_moment": \
+		"callback_borrowed_parents_repay_moment_father_passed",
+	"callback_proactive_parent_care_echo": \
+		"callback_proactive_parent_care_echo_father_passed",
+	"callback_rushed_to_father_moment": \
+		"callback_rushed_to_father_moment_father_passed",
+	"first_paycheck_00": "first_paycheck_00_father_passed",
+	"rel_family_visit_seoul": "rel_family_visit_seoul_father_passed",
+	"story_first_paycheck_feel": "story_first_paycheck_feel_father_passed",
+	"story_hometown_nostalgia": "story_hometown_nostalgia_father_passed",
+	"arc_1b_isolation": "arc_1b_isolation_father_passed",
+	"arc_why_gangnam_real": "arc_why_gangnam_real_father_passed",
+	"arc_daeun_wedding_groom_side": \
+		"arc_daeun_wedding_groom_side_father_passed",
+	"arc_jiyeon_wedding_gap": \
+		"arc_jiyeon_wedding_gap_father_passed",
+	"arc_jiyeon_wedding_guest_list": \
+		"arc_jiyeon_wedding_guest_list_father_passed",
+	"arc_daeun_our_home": "arc_daeun_our_home_father_passed",
+	"hyunsu_year5_call": "hyunsu_year5_call_father_passed",
+	"arc_36_night_doubt": "arc_36_night_doubt_father_passed",
+	"arc_year4_close": "arc_year4_close_father_passed",
+	"arc_daeun_hometown_2": "arc_daeun_hometown_2_father_passed",
+}
 
 const ECHO_CATEGORY_ALIASES := {
 	"career": ["jobs", "job", "work", "career"],
@@ -94,6 +125,11 @@ func _rebuild_follow_up_targets() -> void:
 func is_directed_random_event(event: Dictionary) -> bool:
 	var event_id := str(event.get("id", ""))
 	if event_id.is_empty() or DataRegistry.find_event(event_id).is_empty():
+		return false
+	# State-specific copies are reached only through their canonical source.
+	# Treating one as a second random root would double its pool weight and give
+	# it a separate once-per-run identity.
+	if FATHER_PASSED_EVENT_VARIANTS.values().has(event_id):
 		return false
 	if str(event.get("rarity", "")) == "story" \
 			or str(event.get("category", "")) == "story" \
@@ -408,22 +444,33 @@ func director_repeat_policy(event: Dictionary) -> Dictionary:
 	return policy
 
 func cooldown_for_event(event: Dictionary) -> int:
-	var cooldown := int(event.get("cooldown", 6))
-	if is_directed_random_event(event):
-		cooldown = maxi(cooldown, int(director_repeat_policy(event).get("cooldown", 6)))
+	var event_id := str(event.get("id", ""))
+	var source_id := state_variant_source_event_id(event_id)
+	var policy_event: Dictionary = event
+	if source_id != event_id:
+		policy_event = DataRegistry.find_event(source_id)
+	var cooldown := int(policy_event.get("cooldown", 6))
+	if is_directed_random_event(policy_event):
+		cooldown = maxi(cooldown, int(director_repeat_policy(
+			policy_event).get("cooldown", 6)))
 	return maxi(cooldown, 0)
 
 func register_directed_event(event: Dictionary) -> void:
-	if not is_directed_random_event(event):
-		return
 	var event_id := str(event.get("id", ""))
-	GameState.random_event_counts[event_id] = int(
-		GameState.random_event_counts.get(event_id, 0)) + 1
-	GameState.random_event_last_turns[event_id] = GameState.turn
-	var cooldown := cooldown_for_event(event)
+	var source_id := state_variant_source_event_id(event_id)
+	var source_event: Dictionary = event
+	if source_id != event_id:
+		source_event = DataRegistry.find_event(source_id)
+	if not is_directed_random_event(source_event):
+		return
+	GameState.random_event_counts[source_id] = int(
+		GameState.random_event_counts.get(source_id, 0)) + 1
+	GameState.random_event_last_turns[source_id] = GameState.turn
+	var cooldown := cooldown_for_event(source_event)
 	if cooldown > 0:
-		event_cooldowns[event_id] = maxi(int(event_cooldowns.get(event_id, 0)), cooldown)
-	_remember_recent(event_id)
+		event_cooldowns[source_id] = maxi(int(event_cooldowns.get(
+			source_id, 0)), cooldown)
+	_remember_recent(source_id)
 
 func process_month_events():
 	_tick_cooldowns()
@@ -697,15 +744,30 @@ func _should_hold_quiet_week(eligible: Array) -> bool:
 func queue_event(event):
 	if event.is_empty():
 		return
+	var event_id := str(event.get("id", ""))
+	var live_event_id := live_event_variant_id(event_id)
+	if live_event_id.is_empty():
+		return
+	if live_event_id != event_id:
+		event = DataRegistry.find_event(live_event_id)
+	if event.is_empty() or not _event_passes_hard_state_contracts(event):
+		return
 	pending_events.append(event)
 
 func get_next_event():
-	if pending_events.is_empty():
-		current_event = {}
-		return {}
-	current_event = pending_events.pop_front()
-	event_started.emit(current_event)
-	return current_event
+	while not pending_events.is_empty():
+		current_event = pending_events.pop_front()
+		var queued_id := str(current_event.get("id", ""))
+		var live_event_id := live_event_variant_id(queued_id)
+		if live_event_id.is_empty():
+			continue
+		if live_event_id != queued_id:
+			current_event = DataRegistry.find_event(live_event_id)
+		if _event_passes_hard_state_contracts(current_event):
+			event_started.emit(current_event)
+			return current_event
+	current_event = {}
+	return {}
 
 func resolve_current_event(choice_index) -> bool:
 	if current_event.is_empty():
@@ -719,7 +781,8 @@ func resolve_current_event(choice_index) -> bool:
 	if not GameState.apply_choice(current_event, choice):
 		return false
 
-	var event_id := str(current_event.get("id", ""))
+	var event_id := state_variant_source_event_id(str(
+		current_event.get("id", "")))
 	var cooldown := cooldown_for_event(current_event)
 	if cooldown > 0:
 		event_cooldowns[event_id] = maxi(int(event_cooldowns.get(event_id, 0)), cooldown)
@@ -740,19 +803,69 @@ func trigger_event_by_id(event_id):
 	if not event.is_empty():
 		queue_event(event)
 
+func father_death_is_monotonic() -> bool:
+	return bool(GameState.flags.get("father_passed", false)) \
+			or bool(GameState.flags.get(
+				"arc_father_passing_seen", false)) \
+			or GameState.get_cast_stage("father") == "passed"
+
+func state_variant_source_event_id(event_id: String) -> String:
+	for source_id in FATHER_PASSED_EVENT_VARIANTS:
+		if str(FATHER_PASSED_EVENT_VARIANTS[source_id]) == event_id:
+			return str(source_id)
+	return event_id
+
+func live_event_variant_id(event_id: String) -> String:
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	if event.is_empty():
+		return ""
+	if not father_death_is_monotonic():
+		# Passed-only replacements can survive in an interrupted queue from a
+		# contradictory save. Live play rejects them; StoryMode's read-only replay
+		# deliberately bypasses this resolver.
+		if FATHER_PASSED_EVENT_VARIANTS.values().has(event_id):
+			return ""
+		return event_id
+	var variant_id := str(FATHER_PASSED_EVENT_VARIANTS.get(
+			event_id, "")).strip_edges()
+	if variant_id.is_empty():
+		return event_id
+	if DataRegistry.find_event(variant_id).is_empty():
+		push_error("Father-passed event variant missing: %s -> %s" \
+				% [event_id, variant_id])
+		return ""
+	return variant_id
+
+func _event_passes_hard_state_contracts(event: Dictionary) -> bool:
+	var tags: Array = event.get("tags", [])
+	var raw_no_flag: Variant = event.get("conditions", {}).get(
+			"no_flag", "")
+	var rejects_father_passed := false
+	if raw_no_flag is String:
+		rejects_father_passed = raw_no_flag == "father_passed"
+	elif raw_no_flag is Array:
+		rejects_father_passed = (raw_no_flag as Array).has("father_passed")
+	if (tags.has("requires_living_father") or rejects_father_passed) \
+			and father_death_is_monotonic():
+		return false
+	return true
+
 ## Delayed callbacks may outlive the state that made them plausible. Unlike an
 ## immediate authored follow-up, they must still satisfy their event conditions.
 func deferred_event_is_eligible(event_id: String) -> bool:
-	var event: Dictionary = DataRegistry.find_event(event_id)
+	var live_event_id := live_event_variant_id(event_id)
+	var event: Dictionary = DataRegistry.find_event(live_event_id)
 	if event.is_empty():
 		push_error("Deferred event missing: %s" % event_id)
 		return false
-	return _check_conditions(event.get("conditions", {}))
+	return _event_passes_hard_state_contracts(event) \
+			and _check_conditions(event.get("conditions", {}))
 
 func trigger_deferred_event_by_id(event_id: String) -> bool:
 	if not deferred_event_is_eligible(event_id):
 		return false
-	var event: Dictionary = DataRegistry.find_event(event_id)
+	var event: Dictionary = DataRegistry.find_event(
+			live_event_variant_id(event_id))
 	queue_event(event)
 	return true
 
@@ -760,26 +873,32 @@ func trigger_deferred_event_by_id(event_id: String) -> bool:
 ## interrupting the novel with another standalone choice screen. The caller
 ## chooses from the event's existing options based on decisions already made.
 func resolve_narrative_bridge(event_id: String, choice_index: int) -> bool:
-	var event: Dictionary = DataRegistry.find_event(event_id)
+	var live_event_id := live_event_variant_id(event_id)
+	var event: Dictionary = DataRegistry.find_event(live_event_id)
 	if event.is_empty():
 		push_error("Narrative bridge event missing: %s" % event_id)
 		return false
+	if not _event_passes_hard_state_contracts(event):
+		return false
 	var choices: Array = event.get("choices", [])
 	if choice_index < 0 or choice_index >= choices.size():
-		push_error("Narrative bridge choice out of range: %s[%d]" % [event_id, choice_index])
+		push_error("Narrative bridge choice out of range: %s[%d]" \
+			% [live_event_id, choice_index])
 		return false
 	var choice: Dictionary = choices[choice_index]
 	if not GameState.choice_available(event, choice):
 		return false
 	if not GameState.apply_choice(event, choice):
 		return false
+	var source_id := state_variant_source_event_id(live_event_id)
 	var cooldown := cooldown_for_event(event)
 	if cooldown > 0:
-		event_cooldowns[event_id] = maxi(int(event_cooldowns.get(event_id, 0)), cooldown)
-	_remember_recent(event_id)
+		event_cooldowns[source_id] = maxi(int(event_cooldowns.get(
+			source_id, 0)), cooldown)
+	_remember_recent(source_id)
 	narrative_bridge_results.append({
 		"turn": GameState.turn,
-		"event_id": event_id,
+		"event_id": live_event_id,
 		"title": str(event.get("title", "")),
 		"summary": str(choice.get("bridge_summary", choice.get("result_text", choice.get("text", "")))),
 	})
@@ -811,6 +930,15 @@ func _is_event_eligible(event, deterministic_hidden: bool = false):
 	var event_id = str(event.get("id", ""))
 	if event_id.is_empty():
 		return false
+	var eligibility_event: Dictionary = event
+	var live_event_id := live_event_variant_id(event_id)
+	if live_event_id.is_empty():
+		return false
+	if live_event_id != event_id:
+		eligibility_event = DataRegistry.find_event(live_event_id)
+	if eligibility_event.is_empty() \
+			or not _event_passes_hard_state_contracts(eligibility_event):
+		return false
 	if DEMO_CORE_LOOP_V2.legacy_callback_is_superseded(event_id):
 		return false
 	if event_cooldowns.has(event_id) or recent_event_ids.has(event_id):
@@ -831,8 +959,8 @@ func _is_event_eligible(event, deterministic_hidden: bool = false):
 				return false
 	if bool(event.get("hidden", false)) and not deterministic_hidden \
 			and not MetaProgression.is_hidden_event_unlocked(event_id):
-		return _check_hidden_chance(event)
-	return _check_conditions(event.get("conditions", {}))
+		return _check_hidden_chance(eligibility_event)
+	return _check_conditions(eligibility_event.get("conditions", {}))
 
 func _check_hidden_chance(event):
 	if not _check_conditions(event.get("conditions", {})):

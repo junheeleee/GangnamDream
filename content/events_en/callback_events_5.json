@@ -272,5 +272,20 @@
         "result_text": "As they parted, the man said,\n\"I liked that you didn't look at me with envy. I don't get many dinners like that.\"\n\n{name} took the subway home. The face reflected in the window looked more at ease than usual.\nWhatever floor you live on, the height of your gaze is something you set yourself."
       }
     ]
+  },
+  {
+    "id": "callback_borrowed_parents_repay_moment_father_passed",
+    "title": "Time to Pay Back",
+    "description": "Ten months have passed since {name} borrowed the MLM card debt from the family's emergency money.\nThe fact that part of it had been money Father left behind kept weighing on {name}.\nThe account balance was finally enough to repay 3 million won.",
+    "choices": [
+      {
+        "text": "Transfer it and call Mother",
+        "result_text": "After the transfer, {name} called Mother.\n\"Mom, I sent back what I borrowed then.\"\nShe was quiet for a moment. Then she said, \"If your father knew, he would have said it was settled.\"\nThe words were not absolution. They stayed as a line between the money still owed and the memory that could remain."
+      },
+      {
+        "text": "Save a little more and repay it all at once",
+        "result_text": "{name} decided to save more and repay it in one go.\nIt was practical.\nStill, a call to tell Mother what was happening could come before the money."
+      }
+    ]
   }
 ]

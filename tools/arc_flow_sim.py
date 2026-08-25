@@ -51,6 +51,28 @@ for fp in glob.glob("content/events/*.json"):
 
 # ── _next_arc_id() 파싱 (들여쓰기 스택으로 중첩 if AND) ───────────────────
 src = open("scenes/MainGame.gd").read()
+
+
+def source_function_block(function_name):
+    """Return one top-level GDScript function for source-contract checks."""
+    declaration = re.search(
+        rf"^func {re.escape(function_name)}\(", src, re.MULTILINE)
+    if declaration is None:
+        return ""
+    end = src.find("\nfunc ", declaration.end())
+    return src[declaration.start():end if end >= 0 else len(src)]
+
+
+go_story_mode_source = source_function_block("_go_story_mode")
+W193_STORY_HANDOFF_SOURCE_OK = all(re.search(pattern, go_story_mode_source) for pattern in (
+    r'GameState\.turn\s*==\s*193',
+    r'first_event_id\s*==\s*"chapter_card_37"',
+    r'var\s+reckoning_claim\s*:=\s*GameState\.claim_deferred_event\(\s*'
+    r'"arc_37_reckoning"\s*,\s*193\s*\)',
+    r'if\s+not\s+reckoning_claim\.is_empty\(\)\s*:',
+    r'story_queue\.append\(\s*"arc_37_reckoning"\s*\)',
+))
+
 next_arc_decl = re.search(
     r"^func _next_arc_id\([^)]*\)(?:\s*->\s*[^:]+)?\s*:", src, re.MULTILINE)
 if next_arc_decl is None:
@@ -133,6 +155,23 @@ class State:
     def has_deferred_event(s, event_id):
         return any(entry[1] == event_id for entry in s.deferred_events)
 
+    def claim_deferred_event(s, event_id, due_turn=-1):
+        candidates = [
+            (index, entry) for index, entry in enumerate(s.deferred_events)
+            if entry[1] == event_id
+            and entry[0] <= s.t
+            and (due_turn < 0 or entry[0] == due_turn)
+        ]
+        if not candidates:
+            return {}
+        selected_index, selected = min(candidates, key=lambda row: row[1][0])
+        s.deferred_events.pop(selected_index)
+        return {
+            "event_id": event_id,
+            "trigger_turn": selected[0],
+            "claimed_turn": s.t,
+        }
+
     def pop_ready_deferred_event(s):
         ready = [entry for entry in s.deferred_events if entry[0] <= s.t]
         if not ready:
@@ -144,6 +183,15 @@ class State:
     def pop_ready_deferred_events(s):
         event_id = s.pop_ready_deferred_event()
         return [event_id] if event_id else []
+
+
+def father_death_is_monotonic(S):
+    """Mirror every durable death receipt accepted by MainGame."""
+    return bool(
+        S.flags.get("father_passed")
+        or S.flags.get("arc_father_passing_seen")
+        or S.get_cast_stage("father") == "passed"
+    )
 
 
 def evalconds(conds, S):
@@ -164,7 +212,10 @@ def evalconds(conds, S):
         c = re.sub(r'(?<![\w.])t(?![\w])', 'S.t', c)
         c = c.replace("_age", "S.age")
         try:
-            if not bool(eval(c, {"S": S})):
+            if not bool(eval(c, {
+                "S": S,
+                "father_is_passed": father_death_is_monotonic(S),
+            })):
                 return False
         except Exception:
             return False  # 평가 불가 조건은 보수적으로 미발동 처리
@@ -274,7 +325,9 @@ SPINE_COMMON = {
     "arc_34_money_attracts_money": ["arc_34_money_attracts_seen"],
     "arc_34_doors_open": ["arc_34_doors_open_seen"],
     "arc_35_path_cost": ["arc_35_path_cost_seen", "embraced_cost"],
-    "arc_36_unexpected_hand": ["arc_36_unexpected_hand_seen", "accepted_grace"],
+    "arc_36_unexpected_hand": ["arc_36_unexpected_hand_seen"],
+    "arc_36_unexpected_hand_father_deal": ["arc_36_unexpected_hand_seen"],
+    "arc_36_unexpected_hand_person_deal": ["arc_36_unexpected_hand_seen"],
 }
 PATH_A = dict(SPINE_COMMON, **{  # 정석/다은 보냄/사기당함/진실모름
     "arc_temptation_01": ["arc_temptation_seen", "kept_clean_hands"],
@@ -434,12 +487,7 @@ def chapter_four_relationship_event(S, daeun_id, jiyeon_id, unattached_id):
 
 
 def chapter_four_father_outcome(S):
-    death_evidence = (
-        S.flags.get("father_passed")
-        or S.flags.get("arc_father_passing_seen")
-        or S.get_cast_stage("father") == "passed"
-    )
-    if death_evidence or any(S.flags.get(flag) for flag in (
+    if father_death_is_monotonic(S) or any(S.flags.get(flag) for flag in (
         "father_crisis_stabilized",
         "arc_y4_father_crisis_stabilized_seen",
         "arc_y4_father_outcome_unknown_seen",
@@ -470,13 +518,25 @@ def chapter_four_causal_event(S):
     """Mirror MainGame's exact W153-W190 Chapter 4 product router."""
     t = S.t
     f = S.flags
-    if t == 153 and not f.get("arc_y4_three_promises_seen"):
+    if t == 153 and not father_death_is_monotonic(S) \
+            and not f.get("arc_y4_three_promises_seen"):
         return chapter_four_relationship_event(
             S, "arc_y4_three_promises",
             "arc_y4_three_promises_jiyeon_and_deal",
             "arc_y4_three_promises_deal_only")
     if t == 157 and f.get("arc_y4_three_promises_seen") \
             and not f.get("arc_36_unexpected_hand_seen"):
+        missed_father = bool(f.get("arc_y4_three_promises_missed_father"))
+        missed_person = bool(f.get("arc_y4_three_promises_missed_person"))
+        missed_deal = bool(f.get("arc_y4_three_promises_missed_deal"))
+        if sum((missed_father, missed_person, missed_deal)) != 2:
+            return ""
+        if father_death_is_monotonic(S) and missed_father:
+            return ""
+        if missed_father and missed_deal:
+            return "arc_36_unexpected_hand_father_deal"
+        if missed_person and missed_deal:
+            return "arc_36_unexpected_hand_person_deal"
         return "arc_36_unexpected_hand"
     if t == 161 and not f.get("arc_36_body_signal_seen"):
         return "arc_36_body_signal"
@@ -485,7 +545,8 @@ def chapter_four_causal_event(S):
         return chapter_four_relationship_event(
             S, "arc_y4_body_witness", "arc_y4_body_witness_jiyeon",
             "arc_y4_body_witness_hyunsu")
-    if t == 167 and f.get("arc_y4_body_witness_seen") \
+    if t == 167 and not father_death_is_monotonic(S) \
+            and f.get("arc_y4_body_witness_seen") \
             and not f.get("arc_y4_family_table_seen"):
         unattached_id = "arc_y4_family_commitment_none"
         if f.get("arc_y4_three_promises_missed_father"):
@@ -498,7 +559,7 @@ def chapter_four_causal_event(S):
         return "arc_year_three_half"
     if t == 174 and f.get("arc_father_03_seen") \
             and f.get("arc_father_medication_seen") \
-            and not f.get("father_passed") \
+            and not father_death_is_monotonic(S) \
             and not f.get("arc_father_call_on_ktx_seen"):
         if S.has_item("artifact_father_call"):
             return "arc_father_call_on_ktx"
@@ -510,12 +571,13 @@ def chapter_four_causal_event(S):
         return chapter_four_relationship_event(
             S, "arc_y4_borrowed_name", "arc_y4_borrowed_name_jiyeon",
             unattached_id)
-    if t == 181 and not f.get("arc_y4_bill_night_seen"):
+    if t == 181 and not father_death_is_monotonic(S) \
+            and not f.get("arc_y4_bill_night_seen"):
         return chapter_four_relationship_event(
             S, "arc_y4_bill_night", "arc_y4_bill_night_jiyeon",
             "arc_y4_bill_night_unattached")
     if t == 185 and f.get("arc_y4_bill_night_seen") \
-            and not f.get("father_passed") \
+            and not father_death_is_monotonic(S) \
             and not f.get("arc_y4_father_crisis_contact_seen"):
         return "arc_y4_father_crisis_contact"
     if t == 188:
@@ -527,8 +589,22 @@ def chapter_four_causal_event(S):
     return ""
 
 
+def story_mode_root_queue(S, event_ids):
+    """Model MainGame's same-StoryMode-root handoff at the Year 5 boundary."""
+    story_queue = list(event_ids)
+    first_event_id = story_queue[0] if story_queue else ""
+    if W193_STORY_HANDOFF_SOURCE_OK \
+            and S.t == 193 \
+            and first_event_id == "chapter_card_37":
+        reckoning_claim = S.claim_deferred_event("arc_37_reckoning", 193)
+        if reckoning_claim:
+            story_queue.append("arc_37_reckoning")
+    return story_queue
+
+
 def run(spine, traj, cast_flag_hook, choice_indices):
     S = State(); fired = {}; firelog = {}; repeats = {}; bridge_log = {}
+    story_queue_log = {}
     for t in range(1, 241):
         S.t = t; traj(S); cast_flag_hook(S)
         protected_chapter_four_action = False
@@ -536,7 +612,13 @@ def run(spine, traj, cast_flag_hook, choice_indices):
         # the deferred queue. Model that priority instead of allowing an old
         # callback to consume a commitment week.
         chosen = ""
-        if t == 192 and not S.flags.get("arc_year4_close_seen"):
+        if t == 193 and S.age == 37 \
+                and not S.flags.get("chapter_37_seen"):
+            # _next_arc_id gives the chapter card priority over ready deferred
+            # roots. The W193 handoff must therefore happen inside the same
+            # StoryMode queue or reckoning slips to Week 194.
+            chosen = "chapter_card_37"
+        elif t == 192 and not S.flags.get("arc_year4_close_seen"):
             chosen = "arc_year4_close"
         else:
             chosen = chapter_four_causal_event(S)
@@ -552,16 +634,21 @@ def run(spine, traj, cast_flag_hook, choice_indices):
                         continue
                     chosen = eid; break
         if chosen:
-            if chosen in fired:
-                repeats[chosen] = repeats.get(chosen, 1) + 1
-            fired[chosen] = t; firelog[t] = chosen
-            for fl in own_seen_flags(chosen): S.flags[fl] = True
-            for fl in spine.get(chosen, []): S.flags[fl] = True
-            if protected_chapter_four_action:
-                apply_immediate_choice_state(S, chosen, choice_indices)
-            for deferred_id, delay in canonical_deferred_links(chosen, choice_indices):
-                S.add_deferred_event(deferred_id, delay)
-    return fired, firelog, repeats, S, bridge_log
+            story_roots = story_mode_root_queue(S, [chosen])
+            story_queue_log[t] = story_roots
+            for root_id in story_roots:
+                if root_id in fired:
+                    repeats[root_id] = repeats.get(root_id, 1) + 1
+                fired[root_id] = t
+                firelog[t] = root_id
+                for fl in own_seen_flags(root_id): S.flags[fl] = True
+                for fl in spine.get(root_id, []): S.flags[fl] = True
+                if protected_chapter_four_action and root_id == chosen:
+                    apply_immediate_choice_state(S, root_id, choice_indices)
+                for deferred_id, delay in canonical_deferred_links(
+                        root_id, choice_indices):
+                    S.add_deferred_event(deferred_id, delay)
+    return fired, firelog, repeats, S, bridge_log, story_queue_log
 
 
 def hookA(S):
@@ -640,7 +727,7 @@ EXPECTED_LATE_TEMPORAL = {
         191: "arc_final_stretch",
         193: "arc_37_reckoning",
         204: "arc_37_burn_or_light",
-        210: "arc_gangnam_real_estate",
+        210: "arc_gangnam_real_estate_father_passed",
     },
     "B 비정석/진실/committed": {
         # This route refuses Jiyeon's coffee/meal offer, so the restaurant
@@ -657,13 +744,13 @@ EXPECTED_LATE_TEMPORAL = {
         191: "arc_final_stretch",
         193: "arc_37_reckoning",
         204: "arc_37_burn_or_light",
-        215: "arc_gangnam_real_estate",
+        215: "arc_gangnam_real_estate_father_passed",
     },
 }
 EXPECTED_CHAPTER4_CAUSAL = {
     "A 정석/다은보냄/사기": {
         153: "arc_y4_three_promises_deal_only",
-        157: "arc_36_unexpected_hand",
+        157: "arc_36_unexpected_hand_person_deal",
         161: "arc_36_body_signal",
         164: "arc_y4_body_witness_hyunsu",
         167: "arc_y4_family_commitment_none",
@@ -678,7 +765,7 @@ EXPECTED_CHAPTER4_CAUSAL = {
     },
     "B 비정석/진실/committed": {
         153: "arc_y4_three_promises",
-        157: "arc_36_unexpected_hand",
+        157: "arc_36_unexpected_hand_person_deal",
         161: "arc_36_body_signal",
         164: "arc_y4_body_witness",
         167: "arc_y4_family_partner_collision",
@@ -916,6 +1003,84 @@ HYUNSU_TEMPORAL_GATES = {
 }
 
 fail = 0
+if not W193_STORY_HANDOFF_SOURCE_OK:
+    fail += 1
+    print(
+        "  ✗ W193 인계 소스 계약: chapter_card_37과 "
+        "arc_37_reckoning이 같은 StoryMode 큐가 아님"
+    )
+else:
+    print("  ✓ W193 인계 소스 계약=chapter_card_37→reckoning 같은 큐")
+
+alive_father_state = State()
+damaged_father_states = []
+damaged_father_routes = []
+for evidence_kind in ("canonical_flag", "legacy_receipt", "cast_stage"):
+    damaged = State()
+    if evidence_kind == "canonical_flag":
+        damaged.flags["father_passed"] = True
+    elif evidence_kind == "legacy_receipt":
+        damaged.flags["arc_father_passing_seen"] = True
+    else:
+        damaged.cast["father"]["stage"] = "passed"
+    damaged_father_states.append(father_death_is_monotonic(damaged))
+    damaged.flags.update({
+        "arc_father_03_seen": True,
+        "arc_father_medication_seen": True,
+    })
+    damaged.t = 153
+    promises_blocked = chapter_four_causal_event(damaged) == ""
+    damaged.flags.update({
+        "arc_y4_three_promises_seen": True,
+        "arc_y4_three_promises_missed_father": True,
+        "arc_y4_three_promises_missed_deal": True,
+    })
+    damaged.t = 157
+    father_repair_blocked = chapter_four_causal_event(damaged) == ""
+    damaged.flags["arc_y4_body_witness_seen"] = True
+    damaged.t = 167
+    family_table_blocked = chapter_four_causal_event(damaged) == ""
+    damaged.t = 174
+    call_blocked = chapter_four_causal_event(damaged) == ""
+    damaged.t = 181
+    bill_night_blocked = chapter_four_causal_event(damaged) == ""
+    damaged.flags["arc_y4_bill_night_seen"] = True
+    damaged.t = 185
+    crisis_blocked = chapter_four_causal_event(damaged) == ""
+    damaged.t = 188
+    outcome_blocked = chapter_four_causal_event(damaged) == ""
+    damaged_father_routes.append(all((
+        promises_blocked,
+        father_repair_blocked,
+        family_table_blocked,
+        call_blocked,
+        bill_night_blocked,
+        crisis_blocked,
+        outcome_blocked,
+    )))
+father_free_repair_state = State()
+father_free_repair_state.t = 157
+father_free_repair_state.flags.update({
+    "father_passed": True,
+    "arc_y4_three_promises_seen": True,
+    "arc_y4_three_promises_missed_person": True,
+    "arc_y4_three_promises_missed_deal": True,
+})
+father_free_repair_survives = chapter_four_causal_event(
+    father_free_repair_state) == "arc_36_unexpected_hand_person_deal"
+if father_death_is_monotonic(alive_father_state) \
+        or not all(damaged_father_states) \
+        or not all(damaged_father_routes) \
+        or not father_free_repair_survives:
+    fail += 1
+    print("  ✗ 손상 저장 아버지 사망 증거 또는 호출 차단 누락")
+else:
+    print(
+        "  ✓ 아버지 사망 단조 모델=정본·옛 영수증·cast stage"
+        "·W153/W157/W167/W174/W181/W185/W188 재진입 차단"
+        "·father-free M40 유지"
+    )
+
 job_invest_followups = {
     str(choice.get("follow_up_event", ""))
     for choice in events["arc_job_vs_invest"].get("choices", [])
@@ -941,7 +1106,8 @@ for event_id, minimum_week in HYUNSU_TEMPORAL_GATES.items():
         print(f"  ✓ 현수 시간 게이트 {event_id}=t>={minimum_week}")
 
 for name, spine, traj, hook, choice_indices in PATHS:
-    fired, firelog, repeats, S, bridge_log = run(spine, traj, hook, choice_indices)
+    fired, firelog, repeats, S, bridge_log, story_queue_log = run(
+        spine, traj, hook, choice_indices)
     counts = {y: sum(1 for t in range(a, b + 1) if t in firelog) for y, (a, b) in YEARS.items()}
     print(f"\n=== Path {name} ===")
     print("  연차 authored 비트:", "  ".join(f"Y{y}={counts[y]}" for y in range(1, 6)))
@@ -1101,13 +1267,26 @@ for name, spine, traj, hook, choice_indices in PATHS:
     if late_temporal_mismatch:
         fail += 1
         print("  ✗ 2·4·5장 시간축 회귀:", ", ".join(late_temporal_mismatch))
-    elif fired["arc_final_stretch"] >= fired["arc_gangnam_real_estate"]:
+    elif fired["arc_final_stretch"] >= fired.get(
+            "arc_gangnam_real_estate",
+            fired.get("arc_gangnam_real_estate_father_passed", 9999),
+    ):
         fail += 1
         print("  ✗ 자산 이정표 역순: 20억 장면이 25억 장면보다 늦음")
     else:
         print(
             "  ✓ 2·4장 예약 간격·연말→정산·20억→25억 이정표 순서 고정"
         )
+    expected_w193_queue = ["chapter_card_37", "arc_37_reckoning"]
+    if story_queue_log.get(193) != expected_w193_queue \
+            or fired.get("arc_37_reckoning") != 193:
+        fail += 1
+        print(
+            "  ✗ W193 StoryMode 인계 회귀:",
+            story_queue_log.get(193, []),
+        )
+    else:
+        print("  ✓ W193 챕터 카드→마지막 정산 동일 StoryMode 큐")
     if VERBOSE:
         for t, bridge_ids in sorted(bridge_log.items()):
             for bridge_id in bridge_ids:

@@ -140,7 +140,7 @@
   {
     "id": "family_005",
     "title": "친척 모임 압박",
-    "description": "명절도 아닌데 친척 모임이 잡혔다. 큰아버지 회갑이라고 한다.\n부모님이 '꼭 와야 한다'고 당부했다.\n\n친척들 앞에서 근황을 보고해야 한다는 생각에 벌써 피곤해진다.\n'요즘 뭐 해? 결혼은?' — 예상 가능한 질문들이 머릿속을 스쳤다.\n{name}은 참석 여부와 무슨 말을 할지를 동시에 고민했다.",
+    "description": "명절도 아닌데 친척 모임이 잡혔다. 큰아버지 회갑이라고 한다.\n집에서 '꼭 와야 한다'고 당부했다.\n\n친척들 앞에서 근황을 보고해야 한다는 생각에 벌써 피곤해진다.\n'요즘 뭐 해? 결혼은?' — 예상 가능한 질문들이 머릿속을 스쳤다.\n{name}은 참석 여부와 무슨 말을 할지를 동시에 고민했다.",
     "category": "family",
     "rarity": "uncommon",
     "weight": 4,
@@ -419,8 +419,8 @@
   },
   {
     "id": "family_014",
-    "title": "부모님의 전화",
-    "description": "일요일 오후, 부모님에게서 전화가 왔다.\n'밥은 먹고 다니냐. 돈은 있냐. 건강은.'\n\n안부를 묻는 말 사이사이에 걱정이 배어 있었다.\n{name}은 '다 괜찮아요'라고 대답하면서 실제로는 어떤지 생각했다.\n솔직하게 털어놓을 것인가, 걱정 끼치지 않으려 괜찮은 척할 것인가.",
+    "title": "엄마의 전화",
+    "description": "일요일 오후, 엄마에게서 전화가 왔다.\n'밥은 먹고 다니니. 돈은 있니. 건강은.'\n\n안부를 묻는 말 사이사이에 걱정이 배어 있었다.\n{name}은 '다 괜찮아요'라고 대답하면서 실제로는 어떤지 생각했다.\n솔직하게 털어놓을 것인가, 걱정 끼치지 않으려 괜찮은 척할 것인가.",
     "category": "family",
     "rarity": "uncommon",
     "weight": 4,
@@ -457,7 +457,7 @@
           "reputation": -1,
           "investment_skill": -1
         },
-        "result_text": "힘든 이야기는 숨기고 좋은 것만 골라 전했다. 부모님께 짐이 되고 싶지 않아서다."
+      "result_text": "힘든 이야기는 숨기고 좋은 것만 골라 전했다. 엄마에게 짐이 되고 싶지 않아서다."
       }
     ]
   },
@@ -1623,7 +1623,8 @@
     },
     "tags": [
       "family",
-      "relationship"
+      "relationship",
+      "requires_living_father"
     ],
     "cooldown": 4,
     "choices": [
@@ -2178,7 +2179,7 @@
   {
     "id": "jiyeon_mother",
     "title": "한지연 어머니",
-    "description": "한지연 어머니를 만났다.\n\n강남 카페. 한지연 어머니는 차를 한 모금 마시고 물었다.\n\n'부모님은 뭘 하세요?'\n'지방에 계세요.'\n'어디요?'\n\n한지연이 테이블 밑에서 손을 잡았다.",
+    "description": "한지연 어머니를 만났다.\n\n강남 카페. 한지연 어머니는 차를 한 모금 마시고 물었다.\n\n'가족은 뭘 하세요?'\n'본가는 지방이에요.'\n'어디요?'\n\n한지연이 테이블 밑에서 손을 잡았다.",
     "category": "relationship",
     "rarity": "rare",
     "weight": 6.0,
@@ -2453,7 +2454,8 @@
       "family",
       "hospital",
       "emotional",
-      "arc"
+      "arc",
+      "requires_living_father"
     ],
     "cooldown": 9999,
     "choices": [
@@ -2598,8 +2600,9 @@
       "max_cast_affinity": {
         "daeun": 30
       },
-      "min_turn": 80,
-      "flag": "daeun_met"
+    "min_turn": 80,
+    "flag": "daeun_met",
+    "no_flag": "father_passed"
     },
     "tags": [
       "relationship",
@@ -2721,6 +2724,64 @@
         "text": "화제를 돌렸다",
         "effects": {},
         "result_text": "다른 얘기를 꺼냈다.\n지연은 따라와 줬다.\n근데 어딘가 어색했다."
+      }
+    ]
+  },
+  {
+    "id": "rel_family_visit_seoul_father_passed",
+    "title": "어머니가 서울에 오셨다",
+    "description": "엄마에게 문자가 왔다. '다음 주 서울 올라갈게. 보고 싶어서.' 갑작스럽다. 지금 사는 고시원 방을 보여드릴 수는 없어서, 홍대 근처 카페에서 만나기로 했다. 버스에서 내려 혼자 두리번거리는 어머니를 보니 가슴이 뭉클하면서도 묘하게 무거워진다. 아버지가 떠난 뒤의 서울 생활을 어디까지 보여드려야 할까.",
+    "category": "family",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "has_relationship": true,
+      "housing": "gosiwon"
+    },
+    "tags": [
+      "family",
+      "parents",
+      "honesty",
+      "father",
+      "memory"
+    ],
+    "cooldown": 16,
+    "choices": [
+      {
+        "text": "솔직하게 현실을 보여드린다",
+        "effects": {
+          "mental": 13,
+          "tint": 4
+        },
+        "relationship_effects": [
+          {
+            "id": "parents_family",
+            "name": "가족",
+            "type": "family",
+            "affection": 15,
+            "trust": 20
+          }
+        ],
+        "result_text": "고시원 근처를 함께 걸으며 솔직하게 말씀드렸다. 어머니는 한참 말이 없었다. 그러다 방 창문과 복도를 차례로 보고 조용히 말했다. '혼자서 고생했네.' 그 한마디에 눈물이 날 것 같았다."
+      },
+      {
+        "text": "좋은 모습만 보인다",
+        "effects": {
+          "money": -50000,
+          "mental": -5,
+          "social_skill": 2
+        },
+        "relationship_effects": [],
+        "result_text": "근사한 식당으로 모시고 가서 잘 지낸다고 웃으며 말했다. 계산서를 보고 심장이 쿵 내려앉았다. 집에 가는 어머니의 뒷모습이 버스 창 너머로 너무 멀어 보였다."
+      },
+      {
+        "text": "바쁘다고 미룬다",
+        "effects": {
+          "mental": -1
+        },
+        "relationship_effects": [],
+        "result_text": "'이번 주는 프로젝트가 있어서요'라고 했다. 엄마가 '그래, 알겠어'라고 짧게 답했다. 아버지가 떠난 뒤 혼자 서울행을 준비했을 시간을 생각하자, 그 짧음이 오래 마음에 남았다."
       }
     ]
   }

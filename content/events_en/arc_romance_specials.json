@@ -27,10 +27,7 @@
         "text": "Look from the rolled omelet to Daeun, then back again.",
         "result_text": "Daeun's chopsticks paused over the omelet. Her mother saw it and, without a word, placed the neatest slice in her daughter's bowl.\n\n{name} was beginning to understand how one plate had traveled between two homes."
       }
-    ],
-    "description_if_known": {
-      "father_passed": "After the appointment, they had dinner at Daeun's country home.\n\nHer mother wasn't one for words. Instead she kept heaping more rice into {name}'s bowl.\nThen she asked, \"And your parents, Minjun — what do they do?\"\n\n{name} lost his answer for a moment. His father was gone now. Not knowing what to say, he just looked at his bowl.\nHer mother must have read the silence; she didn't ask again, only glanced at {name}'s hands.\n\"...Hands that have worked hard.\"\n\nIn the middle of the table sat a gyeran-mari, the rolled omelet — the very same one Daeun used to bring to his goshiwon.\nWithout a word, he understood where it had come from."
-    }
+    ]
   },
   {
     "id": "arc_daeun_hometown_table_hands",
@@ -249,6 +246,21 @@
       {
         "text": "Tease her gently. \"Han Jiyeon, lost for words. That's a first.\"",
         "result_text": "\"Han Jiyeon, lost for words. That's a first.\" Jiyeon spun around. \"...Shut up.\" The words came sharp, but the tension in her face eased. Maybe being caught nervous was a relief. She stepped closer. \"...Laugh and you're dead.\" The words were steady; her voice was not. The room went quietly dark.\n\nThe next morning, {name} woke beside a face he had never seen before. Her makeup was gone. Her eyes were slightly puffy. None of the armor she normally kept perfectly in place remained. Jiyeon felt his gaze and pulled the duvet up to her nose.\n\n\"...What are you looking at? I always look like this in the morning.\" Her voice was curt, but the tips of her ears above the duvet were red. A moment later, a low voice came from under the covers. \"You're making the coffee, oppa.\""
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_hometown_2_father_passed",
+    "title": "Her Mother's Table",
+    "description": "After the appointment, they had dinner at Daeun's country home.\n\nHer mother wasn't one for words. Instead she kept heaping more rice into {name}'s bowl.\nThen she asked, \"And your parents, Minjun — what do they do?\"\n\n{name} lost his answer for a moment. His father was gone now. Not knowing what to say, he just looked at his bowl.\nHer mother must have read the silence; she didn't ask again, only glanced at {name}'s hands.\n\"...Hands that have worked hard.\"\n\nIn the middle of the table sat a gyeran-mari, the rolled omelet — the very same one Daeun used to bring to his goshiwon.\nWithout a word, he understood where it had come from.",
+    "choices": [
+      {
+        "text": "Follow her mother's gaze and open your palm beneath the table.",
+        "result_text": "{name} set down his spoon and opened his palm. It felt as if even the fatigue caught between the lines had been read, and he closed it again without meaning to.\n\nHer mother pretended not to notice. She only slid a plate of side dishes closer. Daeun was the one who caught the small movement."
+      },
+      {
+        "text": "Look from the rolled omelet to Daeun, then back again.",
+        "result_text": "Daeun's chopsticks paused over the omelet. Her mother saw it and, without a word, placed the neatest slice in her daughter's bowl.\n\n{name} was beginning to understand how one plate had traveled between two homes."
       }
     ]
   }

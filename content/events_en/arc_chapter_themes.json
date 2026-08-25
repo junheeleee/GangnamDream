@@ -78,24 +78,48 @@
   {
     "id": "arc_36_unexpected_hand",
     "title": "The Cost of Two Empty Places",
-    "description": "Monday morning, the two places {name} had left empty over the weekend returned as charges. A cancellation fee and the fare required to move again appeared on separate ledger lines. The unanswered contacts kept only their timestamps.\n\n{name} wrote down no excuse. There was time to repair one thing this week: go in person to someone or some office he had missed, set a new time the other side could confirm, or close one window that could no longer be restored.\n\nBusiness hours kept shrinking while he edited an apology. {name} chose a movement, not a sentence.",
+    "description": "Monday morning, the ward call with Father and the person or clinic window {name} had missed over the weekend both turned gray. A hospital rescheduling fee and the fare required to move again appeared on separate ledger lines. The two contact windows kept only their unanswered times.\n\n{name} did not claim he could reopen both. He could either confirm the ward’s next medication-review time or send the non-ward person or clinic two times he could actually clear this week. Only one confirmed place would reopen.\n\nReception hours kept shrinking. {name} chose which of the two missed targets would receive an actual new time this week.",
     "description_if_known": {
-      "arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person": "Monday morning, Father's appointment and the place {name} had promised another person both turned gray. A hospital rescheduling fee and the fare required to move again appeared on separate ledger lines. The two contact windows kept only their unanswered timestamps.\n\n{name} wrote down no excuse. There was time to repair one thing this week: go in person to someone he had missed, set a new time the other side could confirm, or close one commitment he could no longer keep.\n\nReception hours kept shrinking while he edited an apology. {name} chose a movement, not a sentence.",
-      "arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_deal": "Monday morning, Father's appointment had ended in the hospital record, and the deposit for the contract-review seat had become nonrefundable. Both closing times remained on {name}'s phone to the minute.\n\nHe did not write that he had been busy. There was time to repair one thing this week: go to a place he had missed, set a new time the other side could confirm, or withdraw from the contract window in writing.\n\nBusiness hours kept shrinking while he edited an apology. {name} chose a movement, not a sentence.",
-      "arc_y4_three_promises_missed_person&arc_y4_three_promises_missed_deal": "Monday morning, a photograph of an empty chair arrived from the place {name} should have kept for a person, and the deposit for the contract-review seat became nonrefundable. No one supplied an excuse for him.\n\n{name} marked that he could repair one thing this week: go in person to someone he had missed, set a new time the other side could confirm, or withdraw from the contract window in writing.\n\nBusiness hours kept shrinking while he edited an apology. {name} chose a movement, not a sentence."
+      "arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person": "Monday morning, Father’s appointment and the place {name} had reserved for a person or clinic both turned gray. A hospital rescheduling fee and the fare required to move again appeared on separate ledger lines. The two contact windows kept only their unanswered times.\n\n{name} did not claim he could reopen both. He could either confirm the ward’s next medication-review time or send the other contact window two times he could actually clear this week. Only one confirmed place would reopen.\n\nReception hours kept shrinking. {name} chose which of the two missed targets would receive an actual new time this week."
     },
     "choices": [
       {
-        "text": "Go now to the person or office he missed",
-        "result_text": "{name} booked the nearest ticket and checked the address again. No reply promised that he would be received. He still sent his departure and arrival times.\n\nWhether the door opened belonged to the other side. What {name} left this time was a record of moving, and the time he did not turn away from a closed door."
+        "text": "Call the ward again and confirm a time to review Father's medication",
+        "result_text": "{name} called the ward and began with the medication check he had missed over the weekend. The nurse gave him the next available call, Tuesday at 4:10, and he saved the time beside the ward number.\n\nOne call did not invent a medical outcome. It did leave an actual record of when Father's channel would open again."
       },
       {
-        "text": "Confirm a new time from dates he can actually keep",
-        "result_text": "{name} deleted 'any time' and sent the two hours he could truly clear. He locked the slot the other side chose and cleared travel time on both sides of it.\n\nThe new appointment did not erase the old one. It did make clear who would be waiting first next time."
+        "text": "Send the non-ward place only the times he can actually keep this week",
+        "result_text": "{name} opened the other contact window he had missed alongside the ward. He deleted 'any time,' sent two hours he could truly clear plus travel time, and locked only the confirmed slot into the calendar.\n\nThe new time did not erase the earlier wait. It did leave a record of who, or which office, would be asked to wait first this time."
+      }
+    ]
+  },
+  {
+    "id": "arc_36_unexpected_hand_father_deal",
+    "title": "Between the Ward and the Review Room",
+    "description": "Monday morning, the missed ward call with Father and the canceled contract-review seat remained on one screen. One side showed the next window for reviewing his medication; the other showed the deadline for paying for another source-document review.\n\n{name} did not use the place he had kept over the weekend as an excuse. He could repair only one channel this week. He had to give an actual time either to the ward or to the review room.\n\nThe canceled deposit was not coming back. The ward had only one more call window that week. Reopening one place also meant confirming that the other would stay closed.",
+    "choices": [
+      {
+        "text": "Call the ward again and confirm a time to review Father's medication",
+        "result_text": "{name} called the ward and began with the medication check he had missed over the weekend. The nurse gave him the next available call, Tuesday at 4:10, and he saved the time beside the ward number.\n\nThe review seat closed. Without inventing a medical outcome, the ward was the only channel he actually reopened this week."
       },
       {
-        "text": "Withdraw in writing from one window that cannot be restored",
-        "result_text": "{name} wrote the missed time and his own name, then said he would not ask for that window again. Even without a reply, the withdrawal time remained on the server.\n\nOne opportunity closed. Time opened to repair what remained, though he did not yet know what that time could restore."
+        "text": "Confirm a new time to read the source contract in the review room",
+        "result_text": "{name} asked the deal lead to send the issuer and shortfall table before they met again. He confirmed a Wednesday six o'clock seat and put the added deposit and liability-end-date check in the same note.\n\nHe did not reschedule the ward call. The channel reopened this week and the one still blank remained under different names."
+      }
+    ]
+  },
+  {
+    "id": "arc_36_unexpected_hand_person_deal",
+    "title": "The Waiting Place and the Review Room",
+    "description": "Monday morning, the place {name} should have held for another person or his own body remained on the same screen as the canceled contract-review seat. One side carried an unanswered time; the other, a nonrefundable deposit.\n\n{name} did not write that both could still fit. He had to give actual time either to the waiting person or clinic channel, or to the source contract.\n\nThe canceled deposit was not coming back, and both channels' next openings ended within the week. Before his hand could schedule anything, his chest tightened at the fact that either choice would close one door again.",
+    "choices": [
+      {
+        "text": "Send the waiting person or clinic only the times he can actually keep this week",
+        "result_text": "{name} opened the contact or clinic window he had missed over the weekend. He deleted 'any time,' sent two hours he could truly clear plus travel time, and locked only the confirmed slot into the calendar.\n\nThe contract seat closed. The place he actually reopened this week belonged to another person or to his own body."
+      },
+      {
+        "text": "Confirm a new time to read the source contract in the review room",
+        "result_text": "{name} asked the deal lead to send the issuer and shortfall table before they met again. He confirmed a Wednesday six o'clock seat and put the added deposit and liability-end-date check in the same note.\n\nHe sent no new time to the waiting person or clinic. The source-contract seat was the only place that actually reopened."
       }
     ]
   },
@@ -408,9 +432,9 @@
     "title": "Daeun at Two A.M.",
     "description": "At 2:12 a.m., the bell rang for the third time. When {name} opened the door, Daeun saw his sweat-soaked shirt, shaking hand, and the cup on the floor. She stopped one step short. \"Minjun, may I hold your arm? Or should I call emergency services first?\"\n\nThe laptop showed a client-file deadline of 2:30. After-hours intake was an eleven-minute taxi ride away; eighteen minutes remained to finish the file. He could not do both.\n\nDaeun did not decide for him. {name} had to open the door and seek care, return to the client deadline, or send Daeun away and endure alone.",
     "description_memory_if_known": {
-      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repair_visit": "Just before this, {name} had traveled to one of the two places he missed and left departure and arrival times. The door could not be assumed to have opened, but the cost of actually moving followed him into this choice.",
-      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repair_rebooked": "Just before this, {name} had offered two workable times and locked the one the other side confirmed into his calendar. The new promise did not erase the old one, and tonight again held only one time he could protect.",
-      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repair_abandoned": "Just before this, {name} had withdrawn in writing from one window that could not be restored. The closure freed time, but that time did not solve his body or deadline by itself."
+      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_father": "Just before this, {name} had called the ward and confirmed Tuesday's medication-review time with Father. That call did not decide the medical outcome, and tonight still left a real choice between his own body and the deadline.",
+      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_person": "Just before this, {name} had sent Daeun two hours he could truly clear and locked the confirmed one into his calendar. The earlier wait remained, and no one could open his own medical channel for him tonight.",
+      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_deal": "Just before this, {name} had confirmed another source-contract review seat and its added deposit. The recovered review time sharpened tonight's deadline but did not examine his trembling hand."
     },
     "choices": [
       {
@@ -432,9 +456,9 @@
     "title": "A Call Open from Busan",
     "description": "At 2:12 a.m., Jiyeon in Busan saw {name}'s hand slip twice on their video call. Only her own window and rain showed behind her. She had not arrived in his Seoul entryway and could not arrive soon.\n\n\"Minjun, set the phone on the floor and give only the onset time. I will not decide for you.\" His laptop showed a client deadline of 2:30, and after-hours intake in Seoul was an eleven-minute taxi ride away.\n\nFrom Busan, Jiyeon could remain on the line while he contacted emergency services. In Seoul, {name} could open the door. Or he could return to the deadline, or end the call and remain alone.",
     "description_memory_if_known": {
-      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repair_visit": "Just before this, {name} had traveled to one of the two places he missed and left departure and arrival times. The door could not be assumed to have opened, but the cost of actually moving followed him into this choice.",
-      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repair_rebooked": "Just before this, {name} had offered two workable times and locked the one the other side confirmed into his calendar. The new promise did not erase the old one, and tonight again held only one time he could protect.",
-      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repair_abandoned": "Just before this, {name} had withdrawn in writing from one window that could not be restored. The closure freed time, but that time did not solve his body or deadline by itself."
+      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_father": "Just before this, {name} had called the ward and confirmed Tuesday's medication-review time with Father. The call did not decide the medical outcome, and Jiyeon in Busan could not open his own medical channel tonight.",
+      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_person": "Just before this, {name} had sent Jiyeon in Busan two workable times and locked the confirmed one into his calendar. The distance remained, and tonight again demanded one choice between his body and the deadline.",
+      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_deal": "Just before this, {name} had confirmed another source-contract review seat and its added deposit. The recovered review time sharpened tonight's deadline but did not open a clinic in Seoul."
     },
     "choices": [
       {
@@ -456,9 +480,9 @@
     "title": "The Door Still Shut",
     "description": "At 2:12 a.m., {name} sat on the entryway floor with an after-hours help page open. His fingertips shook, and a tight line ran from his left temple into his neck. The screen held an emergency-call button, a client-file deadline of 2:30, and the final intake time.\n\nNo continuing partner or reconnected friend could be assumed to be in the room. Unless {name} spoke, the only other person who could know about his body was a medical dispatcher.\n\nHe had to share his location and seek care, submit the deadline file, or contact neither and endure alone.",
     "description_memory_if_known": {
-      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repair_visit": "Just before this, {name} had traveled to one of the two places he missed and left departure and arrival times. The door could not be assumed to have opened, but the cost of actually moving followed him into this choice.",
-      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repair_rebooked": "Just before this, {name} had offered two workable times and locked the one the other side confirmed into his calendar. The new promise did not erase the old one, and tonight again held only one time he could protect.",
-      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repair_abandoned": "Just before this, {name} had withdrawn in writing from one window that could not be restored. The closure freed time, but that time did not solve his body or deadline by itself."
+      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_father": "Just before this, {name} had called the ward and confirmed Tuesday's medication-review time with Father. The call did not decide the medical outcome, and no new person appeared to handle his own care tonight.",
+      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_person": "Just before this, {name} had sent his clinic two workable times and locked the confirmed one into his calendar. The booking did not heal him, and walking through the door tonight remained his own action.",
+      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_deal": "Just before this, {name} had confirmed another source-contract review seat and its added deposit. The recovered review time sharpened tonight's deadline but did not examine his trembling hand."
     },
     "description_if_known": {
       "hyunsu_reconnected": "At 2:12 a.m., a reconnected Hyunsu saw {name}'s fingertips shake on a video call. Hyunsu was elsewhere and could not be treated as if he had arrived in the room. \"Hyung, read your address to emergency services first. I won't end the call.\"\n\nThe laptop showed the client deadline of 2:30 and the final after-hours intake time. Hyunsu could neither call nor open the door for him.\n\n{name} had to share his location and seek care, end the call and submit the file, or hand it to no one and endure alone."

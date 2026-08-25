@@ -120,6 +120,12 @@
     "conditions": {
       "min_turn": 9999
     },
+    "tags": [
+      "story",
+      "arc",
+      "father",
+      "requires_living_father"
+    ],
     "cooldown": 9999,
     "timed": true,
     "timer_seconds": 12,

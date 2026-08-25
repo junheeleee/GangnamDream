@@ -62,5 +62,24 @@
         "result_text": "{name} made the call that wouldn't come easily. Asked Dad.\nDad sent the money without asking anything. Just: 'Are you eating?'\nThe debt disappeared. But that silence hurt more than the debt.\nDad spent six years paying off his own debts. {name} just added to them."
       }
     ]
+  },
+  {
+    "id": "amb_mlm_aftermath_father_passed",
+    "title": "The Card Bill",
+    "description": "The MLM product sits in storage. Unsold. Every last piece.\nAnd now — the 3 million won card bill has arrived. Debt collection calls are coming in waves.\nThe classmate has gone silent. From the start, {name} wasn't a friend — just prey.\n\nThat 'once-in-a-lifetime opportunity' came back as a daily debt call.",
+    "choices": [
+      {
+        "text": "Grind part-time jobs and pay it off.  (clear the debt / health + time)",
+        "result_text": "{name} took every dawn and weekend shift available.\nGround through it for months and cleared the debt. Credit survived.\nBut health suffered and the entire time for building seed money evaporated.\nThe price of the mistake was paid in the most expensive currency — time."
+      },
+      {
+        "text": "Can't pay. Accept the credit damage.  (short-term relief / future)",
+        "result_text": "{name} let the card payment go delinquent. Escaped the part-time hell for now.\nBut the credit score collapsed. Loans, jeonse deposits — all blocked going forward.\n{name} paved the road to Gangnam with its own thorns."
+      },
+      {
+        "text": "Swallow pride and tell Mother the whole story.  (resolved / family + shame)",
+        "result_text": "{name} called Mother and told her everything from the beginning.\nShe sent 3 million won from the emergency money she and Father had set aside. \"Why did you stay alone until it got this bad?\"\nThe card bill was covered, but borrowing money that still carried a dead man's share stayed with {name} for a long time."
+      }
+    ]
   }
 ]

@@ -166,11 +166,6 @@
         "effects": {
           "mental": 6
         },
-        "cast_effects": {
-          "father": {
-            "affinity": 3
-          }
-        },
         "flags": [],
         "follow_up_event": "",
         "result_text": "늦었지만 — 갔다.\n\n그 선택이 지금 무슨 의미인지 정확히 알 수 없지만,\n안 갔던 것보다는 낫다는 걸 안다.\n\n아버지한테 보여드리고 싶다고 했던 그 이유가 — 아직 살아 있다."
@@ -179,11 +174,6 @@
         "text": "한 시간만 빨랐어도 하는 생각이 아직 든다",
         "effects": {
           "mental": -8
-        },
-        "cast_effects": {
-          "father": {
-            "affinity": 2
-          }
         },
         "flags": [],
         "follow_up_event": "",

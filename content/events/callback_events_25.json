@@ -254,8 +254,8 @@
   },
   {
     "id": "callback_parent_took_loan_echo",
-    "title": "부모 빚을 대신 갚아주기로 한 뒤",
-    "description": "부모 빚을 대신 갚아주기로 한 지 두 달.\n그 부담이 쌓였다.\n오늘 부모님에게 연락이 왔다.",
+    "title": "집안 빚을 대신 갚아주기로 한 뒤",
+    "description": "집안 빚을 대신 갚아주기로 한 지 두 달.\n그 부담이 쌓였다.\n오늘 어머니에게 연락이 왔다.",
     "conditions": {
       "flag": "parent_took_loan",
       "min_turn": 8
@@ -263,15 +263,13 @@
     "choices": [
       {
         "text": "받다",
-        "result_text": "받았다.\n부모님이 \"고맙다\"고 했다.\n빚을 대신 갚는 것—이 고마움으로 돌아왔다.",
-        "effects": {"mental": 2},
-        "cast_effects": {"father": {"affinity": 3}}
+        "result_text": "받았다.\n어머니가 \"고맙다\"고 했다.\n집안 빚을 대신 갚는 일은, 어머니의 짧은 고마움으로 돌아왔다.",
+        "effects": {"mental": 2}
       },
       {
         "text": "지금 상황을 솔직하게 말하다",
-        "result_text": "솔직하게 말했다.\n부모님이 \"미안하다\"고 했다.",
-        "effects": {"mental": 3},
-        "cast_effects": {"father": {"affinity": 4}}
+        "result_text": "솔직하게 말했다.\n어머니가 \"미안하다\"고 했다.",
+        "effects": {"mental": 3}
       }
     ],
     "cooldown": 999,

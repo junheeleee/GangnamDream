@@ -374,6 +374,10 @@ func _ready():
 	jeongseon_casino.closed.connect(_on_jeongseon_casino_closed)
 	if GameState.action_log.is_empty():
 		GameState.new_game()
+	# Old and interrupted saves can retain a terminal Father receipt without the
+	# newer canonical flag. Repair it before any resumed week can select an
+	# ending or render another live-state route.
+	_normalize_monotonic_story_state()
 	DEMO_CORE_LOOP_V2.initialize_for_run()
 	investment_system.initialize()
 	BGMPlayer.start()
@@ -3888,7 +3892,7 @@ func _core_loop_v2_advance_completed_week() -> void:
 		# A declined plan can carry the final health/mental loss. The shared
 		# rollover checked endings before those receipts were consumed, so check
 		# again before a terminal recap can cover a real failure ending.
-		GameState.check_game_over()
+		_check_game_over_with_monotonic_story_state()
 		if GameState.is_game_over:
 			return
 		var after := _core_loop_v2_economy_snapshot()
@@ -3936,7 +3940,7 @@ func _core_loop_v2_advance_completed_week() -> void:
 		DEMO_CORE_LOOP_V2.process_due_decline_outcomes(closing_month)
 		# Month notebooks obey the same ordering as the prototype boundary:
 		# decline effects resolve first, then a newly fatal state exits at once.
-		GameState.check_game_over()
+		_check_game_over_with_monotonic_story_state()
 		if GameState.is_game_over:
 			return
 		var after := _core_loop_v2_economy_snapshot()
@@ -5788,7 +5792,7 @@ func _notebook_ritual_line() -> String:
 
 func _notebook_father_state_line() -> String:
 	var f: Dictionary = GameState.flags
-	if bool(f.get("father_passed", false)):
+	if _father_death_is_monotonic(f):
 		return _tr("아버지에게는 이제 전화를 걸 수 없다.", "There is no longer a number I can call for Dad.")
 	if bool(f.get("arc_father_02_done", false)):
 		return _tr("아버지는 병원 이야기를 피하고 있다.", "Dad keeps avoiding the subject of the hospital.")
@@ -6174,6 +6178,15 @@ func _go_story_mode(event_ids: Array, keep_cover: bool = false):
 			var curation_id := _year_scene_curation_id(year_index)
 			if not curation_id.is_empty():
 				story_queue.append(curation_id)
+	# The Year 4 closing reserves the reckoning for the first week of Chapter 5.
+	# The age card has foreground priority on W193, so claim that exact reservation
+	# into the same StoryMode queue instead of pushing the consequence to W194.
+	# A reservation from any other due week is left untouched for normal recovery.
+	if GameState.turn == 193 and first_event_id == "chapter_card_37":
+		var reckoning_claim := GameState.claim_deferred_event(
+			"arc_37_reckoning", 193)
+		if not reckoning_claim.is_empty():
+			story_queue.append("arc_37_reckoning")
 	var opening_prologue: bool = GameState.turn == 1 \
 			and first_event_id in ["story_flashforward", "story_arrival"]
 	if not first_event_id.is_empty() and not opening_prologue:
@@ -6450,13 +6463,31 @@ func _chapter_four_relationship_event_id(
 		return jiyeon_id
 	return unattached_id
 
-func _chapter_four_father_outcome_id(f: Dictionary) -> String:
+func _father_death_is_monotonic(
+		f: Dictionary, normalize: bool = false) -> bool:
 	# A damaged save may carry several generations of father state. Death is
-	# monotonic: an old terminal receipt always wins and is never replayed.
+	# monotonic: any old terminal receipt wins. Live routing also repairs the
+	# canonical flag and cast stage so later calls, gifts, and endings cannot
+	# resurrect Father; previews remain observational.
 	var death_evidence := bool(f.get("father_passed", false)) \
 			or bool(f.get("arc_father_passing_seen", false)) \
 			or GameState.get_cast_stage("father") == "passed"
-	if death_evidence \
+	if death_evidence and normalize:
+		f["father_passed"] = true
+		if GameState.get_cast_stage("father") != "passed":
+			GameState.apply_cast_effect("father", {"stage": "passed"})
+	return death_evidence
+
+func _normalize_monotonic_story_state() -> void:
+	_father_death_is_monotonic(GameState.flags, true)
+
+func _check_game_over_with_monotonic_story_state() -> void:
+	_normalize_monotonic_story_state()
+	GameState.check_game_over()
+
+func _chapter_four_father_outcome_id(
+		f: Dictionary, father_is_passed: bool) -> String:
+	if father_is_passed \
 			or f.get("father_crisis_stabilized", false) \
 			or f.get("arc_y4_father_crisis_stabilized_seen", false) \
 			or f.get("arc_y4_father_outcome_unknown_seen", false):
@@ -6489,16 +6520,35 @@ func _chapter_four_father_outcome_id(f: Dictionary) -> String:
 		return "arc_y4_father_crisis_stabilized"
 	return "arc_father_passing"
 
-func _chapter_four_causal_arc_id(t: int, f: Dictionary) -> String:
+func _chapter_four_causal_arc_id(
+		t: int, f: Dictionary, father_is_passed: bool) -> String:
 	# These are the fourth chapter's product-owned actions. They sit above the
 	# broad legacy arcs so an exact protected week cannot be consumed offscreen.
-	if t == 153 and not f.get("arc_y4_three_promises_seen", false):
+	if t == 153 and not father_is_passed \
+			and not f.get("arc_y4_three_promises_seen", false):
 		return _chapter_four_relationship_event_id(
 			"arc_y4_three_promises",
 			"arc_y4_three_promises_jiyeon_and_deal",
 			"arc_y4_three_promises_deal_only")
 	if t == 157 and f.get("arc_y4_three_promises_seen", false) \
 			and not f.get("arc_36_unexpected_hand_seen", false):
+		var missed_father := bool(
+			f.get("arc_y4_three_promises_missed_father", false))
+		var missed_person := bool(
+			f.get("arc_y4_three_promises_missed_person", false))
+		var missed_deal := bool(
+			f.get("arc_y4_three_promises_missed_deal", false))
+		if int(missed_father) + int(missed_person) + int(missed_deal) != 2:
+			# A damaged M39 receipt cannot name a target safely.
+			return ""
+		if father_is_passed and missed_father:
+			# The person/deal repair is father-free. The other two variants
+			# reopen his ward, so terminal evidence must fail closed.
+			return ""
+		if missed_father and missed_deal:
+			return "arc_36_unexpected_hand_father_deal"
+		if missed_person and missed_deal:
+			return "arc_36_unexpected_hand_person_deal"
 		return "arc_36_unexpected_hand"
 	if t == 161 and not f.get("arc_36_body_signal_seen", false):
 		return "arc_36_body_signal"
@@ -6508,7 +6558,8 @@ func _chapter_four_causal_arc_id(t: int, f: Dictionary) -> String:
 			"arc_y4_body_witness",
 			"arc_y4_body_witness_jiyeon",
 			"arc_y4_body_witness_hyunsu")
-	if t == 167 and f.get("arc_y4_body_witness_seen", false) \
+	if t == 167 and not father_is_passed \
+			and f.get("arc_y4_body_witness_seen", false) \
 			and not f.get("arc_y4_family_table_seen", false):
 		var unattached_family_id := "arc_y4_family_commitment_none"
 		if f.get("arc_y4_three_promises_missed_father", false):
@@ -6522,7 +6573,7 @@ func _chapter_four_causal_arc_id(t: int, f: Dictionary) -> String:
 		return "arc_year_three_half"
 	if t == 174 and f.get("arc_father_03_seen", false) \
 			and f.get("arc_father_medication_seen", false) \
-			and not f.get("father_passed", false) \
+			and not father_is_passed \
 			and not f.get("arc_father_call_on_ktx_seen", false):
 		if GameState.has_item("artifact_father_call"):
 			return "arc_father_call_on_ktx"
@@ -6535,17 +6586,18 @@ func _chapter_four_causal_arc_id(t: int, f: Dictionary) -> String:
 			"arc_y4_borrowed_name",
 			"arc_y4_borrowed_name_jiyeon",
 			unattached_name_id)
-	if t == 181 and not f.get("arc_y4_bill_night_seen", false):
+	if t == 181 and not father_is_passed \
+			and not f.get("arc_y4_bill_night_seen", false):
 		return _chapter_four_relationship_event_id(
 			"arc_y4_bill_night",
 			"arc_y4_bill_night_jiyeon",
 			"arc_y4_bill_night_unattached")
 	if t == 185 and f.get("arc_y4_bill_night_seen", false) \
-			and not f.get("father_passed", false) \
+			and not father_is_passed \
 			and not f.get("arc_y4_father_crisis_contact_seen", false):
 		return "arc_y4_father_crisis_contact"
 	if t == 188:
-		return _chapter_four_father_outcome_id(f)
+		return _chapter_four_father_outcome_id(f, father_is_passed)
 	if t == 190 and not f.get("arc_y4_year_close_boundary_seen", false):
 		return _chapter_four_relationship_event_id(
 			"arc_y4_year_close_daeun",
@@ -6557,6 +6609,7 @@ func _next_arc_id(
 		at_turn: int = -1, preview_only: bool = false, resolve_bridges: bool = false) -> String:
 	var t = GameState.turn if at_turn < 0 else at_turn
 	var f = GameState.flags
+	var father_is_passed := _father_death_is_monotonic(f, not preview_only)
 
 	# 랜덤 sangchul_meet이 arc보다 먼저 발동한 경우 arc 플래그 동기화
 	if not preview_only and f.get("sangchul_met", false) and not f.get("arc_sangchul_met_seen", false):
@@ -6586,7 +6639,8 @@ func _next_arc_id(
 	if t == 192 and not f.get("arc_year4_close_seen", false):
 		return "arc_year4_close"
 
-	var chapter_four_causal_id := _chapter_four_causal_arc_id(t, f)
+	var chapter_four_causal_id := _chapter_four_causal_arc_id(
+		t, f, father_is_passed)
 	if not chapter_four_causal_id.is_empty():
 		return chapter_four_causal_id
 	# 신규 런의 연말 장면 선택은 클로징과 같은 StoryMode 큐에서 이어진다.
@@ -6663,7 +6717,8 @@ func _next_arc_id(
 
 
 	# ══ 1구간: 주인공 몰입 (턴 1-8, 인물 없음) ══════════
-	if t >= 2 and not f.get("arc_intro_meal_seen", false) \
+	if t >= 2 and t <= 8 \
+			and not f.get("arc_intro_meal_seen", false) \
 			and f.get("opening_interview_application_sent", false) \
 			and t > int(f.get("opening_interview_application_turn", -1)) \
 			and GameState.current_job.is_empty():
@@ -6681,7 +6736,8 @@ func _next_arc_id(
 			== "opening_interview_math" \
 		and str(opening_interview_receipt.get("status", "")) == "consumed"
 	)
-	if t >= 3 and f.get("arc_intro_meal_seen", false) \
+	if t >= 3 and t <= 8 and not father_is_passed \
+			and f.get("arc_intro_meal_seen", false) \
 			and not f.get("arc_intro_dad_seen", false) \
 			and not v2_replaced_intro_dad:
 		return "arc_intro_02_dad_call"
@@ -6809,6 +6865,7 @@ func _next_arc_id(
 		return "arc_daeun_ng_meet"
 	# 아버지 첫 전화 교체 (NG+: 아버지 잃은 경험)
 	if t >= 11 and _mp.get("father_passed_ever", false) \
+			and not father_is_passed \
 			and not f.get("arc_father_ng_seen", false) \
 			and not f.get("arc_father_01_seen", false):
 		return "arc_father_ng_call"
@@ -6897,7 +6954,7 @@ func _next_arc_id(
 		return "arc_daeun_our_home"
 	# ② 상견례 — 두 가난한 부모(아버지 생존 시만). father_passed면 스킵(유령 등장 방지).
 	if t >= 168 and f.get("arc_daeun_our_home_seen", false) \
-			and not f.get("father_passed", false) \
+			and not father_is_passed \
 			and not f.get("arc_daeun_families_seen", false):
 		return "arc_daeun_families_meet"
 	# ②-b 결혼 준비(스드메·예단) — 결혼 비용 = 강남과 경쟁하는 돈. 실제 money 차감.
@@ -6938,35 +6995,42 @@ func _next_arc_id(
 		return "arc_daeun_05_uncertain"
 
 	# ── 아버지 아크 — 병환과 화해 (런 전체에 걸쳐 진행) ──
-	if t >= 14 and not f.get("arc_father_01_seen", false):
+	if t >= 14 and not father_is_passed \
+			and not f.get("arc_father_01_seen", false):
 		return "arc_father_01_call"
 	# ── 아버지 평범한 통화 — 두 이벤트 사이 고요한 장면 ──
 	if t >= 16 and t <= 19 \
+			and not father_is_passed \
 			and f.get("arc_father_01_seen", false) \
 			and not f.get("arc_father_quiet_call_seen", false):
 		return "arc_father_quiet_call"
-	if t >= 21 and f.get("arc_father_01_seen", false) \
+	if t >= 21 and not father_is_passed \
+			and f.get("arc_father_01_seen", false) \
 			and not f.get("arc_father_02_done", false):
 		return "arc_father_02_signal"
 	# 1장의 짧은 이상 신호가 2장의 약봉지와 병원으로 커진다.
-	if t >= 58 and f.get("arc_father_02_done", false) \
+	if t >= 58 and not father_is_passed \
+			and f.get("arc_father_02_done", false) \
 			and not f.get("arc_father_medication_seen", false):
 		return "arc_father_medication"
-	if t >= 82 and f.get("arc_father_02_done", false) \
+	if t >= 82 and not father_is_passed \
+			and f.get("arc_father_02_done", false) \
 			and f.get("arc_father_medication_seen", false) \
 			and not f.get("arc_father_03_seen", false):
 		return "arc_father_03_hospital"
 	if t >= 90 and f.get("arc_father_03_seen", false) \
 			and not f.get("visited_father", false) \
 			and not f.get("father_visit_deferred", false) \
-			and not f.get("father_passed", false):
+			and not father_is_passed:
 		return "arc_father_04_visit"
-	if t >= 100 and f.get("visited_father", false) \
+	if t >= 100 and not father_is_passed \
+			and f.get("visited_father", false) \
 			and not f.get("arc_father_05_seen", false):
 		return "arc_father_05_after_visit"
 	# ── 아버지 고백 — 빚의 소개인 임상철 (방문 + 상철 커피 이후면 충분)
 	# arc_sangchul_02_seen: 커피 1회로 임상철 이름 인식 가능 (03 네트워크 불요)
-	if t >= 102 and f.get("visited_father", false) \
+	if t >= 102 and not father_is_passed \
+			and f.get("visited_father", false) \
 			and f.get("arc_father_05_seen", false) \
 			and f.get("arc_sangchul_02_seen", false) \
 			and not GameState.has_deferred_event("arc_father_06_confession") \
@@ -7117,6 +7181,8 @@ func _next_arc_id(
 	if t >= 15 \
 			and GameState.get_total_asset_value() >= 50_000_000.0 \
 			and not f.get("arc_first_real_win_seen", false):
+		if father_is_passed:
+			return "arc_first_real_win_father_passed"
 		return "arc_first_real_win"
 
 	# ── 반환점 — 35세의 길을 고른 뒤 도착하는 시간축 정산 ──
@@ -7286,6 +7352,8 @@ func _next_arc_id(
 	if t >= 20 \
 			and GameState.get_total_asset_value() >= 100_000_000.0 \
 			and not f.get("arc_money_loneliness_seen", false):
+		if father_is_passed:
+			return "arc_money_loneliness_father_passed"
 		return "arc_money_loneliness"
 
 	# ── 사표 — 자발적 퇴사 직후 드라마 장면 (1회) ──
@@ -7333,6 +7401,8 @@ func _next_arc_id(
 			and f.get("arc_final_stretch_seen", false) \
 			and GameState.get_total_asset_value() >= 2_500_000_000.0 \
 			and not f.get("arc_gangnam_real_estate_seen", false):
+		if father_is_passed:
+			return "arc_gangnam_real_estate_father_passed"
 		return "arc_gangnam_real_estate"
 
 	# ══ 5구간: 인물 = 결정적 기회 (턴 40+, 30억 경로) ══════
@@ -7436,7 +7506,8 @@ func _next_arc_id(
 	if t >= 62 and t <= 76 and not f.get("arc_34_routine_trap_seen", false):
 		return "arc_34_routine_trap"
 	# ── 34세 부모님 서울 방문 (t77-88) ──
-	if t >= 77 and t <= 88 and not f.get("arc_34_parents_visit_seen", false):
+	if t >= 77 and t <= 88 and not father_is_passed \
+			and not f.get("arc_34_parents_visit_seen", false):
 		return "arc_34_parents_visit"
 	# ── 34세 서울 2년째 자각 (t89-96) ──
 	if t >= 89 and t <= 100 \
@@ -7448,7 +7519,8 @@ func _next_arc_id(
 	if t >= 105 and t <= 115 and not f.get("arc_year_two_pressure_seen", false):
 		return "arc_year_two_pressure"
 	# ── 35세 생일 (t100-112) ──
-	if t >= 100 and t <= 112 and not f.get("arc_35_birthday_seen", false):
+	if t >= 100 and t <= 112 and not father_is_passed \
+			and not f.get("arc_35_birthday_seen", false):
 		return "arc_35_birthday"
 	# ── 2년 반 마커 — 반환점 다음 주에 남는 시간 장부 ──
 	if t >= 122 and t <= 140 \
@@ -7497,7 +7569,7 @@ func _next_arc_id(
 	# ── 아버지 서울 방문 — 야망의 비용 (Y4 초반, 아버지와 연결된 플레이어) ──
 	if t >= 155 and t <= 178 \
 			and f.get("arc_father_01_seen", false) \
-			and not f.get("father_passed", false) \
+			and not father_is_passed \
 			and not f.get("arc_36_father_visit_seen", false):
 		return "arc_36_father_comes_to_seoul"
 	# ── 10억 고독 — 자산 10억 돌파 직후 (Y4 전반) ──
@@ -7512,10 +7584,9 @@ func _next_arc_id(
 	# ── 챕터4 "균열" — 믿었던 사람이 흔든다 (t150~178) ──
 	if t >= 150 and t <= 178 and not f.get("arc_36_trust_crack_seen", false):
 		return "arc_36_trust_crack"
-	# ── 챕터4 "균열" — 예상치 못한 사람이 잡는다 (흔들린 직후, t156~188) ──
-	if t >= 156 and t <= 188 and f.get("arc_36_trust_crack_seen", false) \
-			and not f.get("arc_36_unexpected_hand_seen", false):
-		return "arc_36_unexpected_hand"
+	# 구세이브에 M39의 exact missed 영수증이 없으면 두 대상을
+	# 알 수 없다. t156~188 기본 변형으로 대상을 발명하지 않고
+	# fail-closed하며, 신규 영수증은 exact W157 라우터만 읽는다.
 	# ── 3년 반 마커 — 몸의 경고가 6주 뒤 계획표로 돌아온다 ──
 	if t >= 169 and t <= 184 \
 			and not GameState.has_deferred_event("arc_year_three_half") \
@@ -7551,7 +7622,7 @@ func _next_arc_id(
 	if t >= 100 and f.get("arc_sangchul_confrontation_seen", false) \
 			and not GameState.has_deferred_event("arc_sangchul_year3") \
 			and not f.get("arc_sangchul_year3_seen", false):
-		return "arc_sangchul_year3"
+		return EventManager.live_event_variant_id("arc_sangchul_year3")
 	# 한지연 Year 3 — 재연락 (에필로그 이후)
 	if t >= 100 and f.get("arc_jiyeon_epilogue_seen", false) \
 			and not f.get("arc_jiyeon_year3_seen", false):
@@ -7569,6 +7640,7 @@ func _next_arc_id(
 		return "arc_y3_jiyeon_departure"
 	# 먼저 거는 전화 — 민준의 첫 능동적 연락 (Y3후반~Y4초)
 	if t >= 130 and t <= 155 \
+			and not father_is_passed \
 			and not f.get("arc_minjun_first_call_seen", false):
 		return "arc_minjun_first_call"
 	# 한지연 Y4 — 부산 첫 전화 (출발 이후 t>=145)
@@ -7653,7 +7725,7 @@ func _next_arc_id(
 			and not f.get("arc_daeun_year4_together_seen", false):
 		return "arc_daeun_year4_together"
 	# 아버지 기일 — 별세 정점으로부터 48주 뒤, 마지막 해의 회수.
-	if t >= 224 and f.get("father_passed", false) \
+	if t >= 224 and father_is_passed \
 			and not f.get("arc_father_legacy_seen", false):
 		return "arc_father_legacy"
 	# 김다은 Y4 후반 — 오늘의 서울 (함께 궤적, 강남 취직 이후 조용한 행복 비트)
@@ -7722,7 +7794,7 @@ func _next_arc_id(
 			return "arc_pre_ending_winter"
 		# 아버지와 화해한 경우 — 마지막 통화 (중간 궤적 커버)
 		if f.get("father_reconciled", false) \
-				and not f.get("father_passed", false) \
+				and not father_is_passed \
 				and not f.get("arc_pre_ending_father_call_seen", false):
 			return "arc_pre_ending_father_call"
 
@@ -8098,11 +8170,14 @@ func _run_month_end_transition(
 	}
 
 	var had_paycheck_before: bool = GameState.flags.get("has_received_paycheck", false)
+	# apply_monthly_pressure performs an immediate ending check before the
+	# calendar/router gets another chance to reconcile an old terminal receipt.
+	_normalize_monotonic_story_state()
 	GameState.apply_monthly_pressure()
 	GameState.advance_calendar()
 	# Monthly pressure checks the pre-rollover age. Re-evaluate after the
 	# calendar crosses into age 38 so week 240 resolves into an ending.
-	GameState.check_game_over()
+	_check_game_over_with_monotonic_story_state()
 	_refresh_all()
 	if not had_paycheck_before and GameState.flags.get("has_received_paycheck", false):
 		var paycheck_toast := _tr("첫 월급 수령! 현금 흐름이 시작됩니다", "First paycheck received! Your cash flow has begun")
@@ -9383,6 +9458,7 @@ func _refresh_arc_box() -> void:
 	arc_box.add_child(_info_section_title(_tr("스토리 아크", "Story Arcs"), "#86e4c0"))
 	var f: Dictionary = GameState.flags
 	var t: int = GameState.turn
+	var father_is_passed: bool = _father_death_is_monotonic(f)
 	var repeated_habit_label: String = {
 		"career": _tr("일이 겹치면 먼저 끝낼 것을 정함", "Chooses what to finish first when tasks pile up"),
 		"invest": _tr("가격보다 위험이 걸리는 지점을 먼저 봄", "Looks for risk points before the price"),
@@ -9450,14 +9526,17 @@ func _refresh_arc_box() -> void:
 		{
 			"name": _tr("아버지", "Father"),
 			"icon": "👨",
-			"active": f.get("arc_father_01_seen", false),
-			"done": f.get("arc_father_05_seen", false) or f.get("father_reconciled", false),
+			"active": father_is_passed or f.get("arc_father_01_seen", false),
+			"done": father_is_passed or f.get("arc_father_05_seen", false) or f.get("father_reconciled", false),
 			"stages": [
 				{"label": _tr("전화", "Phone Call"), "done": f.get("arc_father_01_seen", false)},
 				{"label": _tr("이상 신호", "Warning Sign"), "done": f.get("arc_father_02_done", false)},
 				{"label": _tr("병원 소식", "Hospital News"), "done": f.get("arc_father_03_seen", false)},
 				{"label": _tr("방문", "Visit"), "done": f.get("visited_father", false)},
-				{"label": _tr("화해 / 여운", "Reconciliation / Aftermath"), "done": f.get("arc_father_05_seen", false)},
+				{
+					"label": _tr("별세 / 여운", "Passing / Aftermath") if father_is_passed else _tr("화해 / 여운", "Reconciliation / Aftermath"),
+					"done": father_is_passed or f.get("arc_father_05_seen", false),
+				},
 			],
 			"hint": "",
 		},
@@ -10258,7 +10337,7 @@ func _closest_person() -> Dictionary:
 				best_id = pid
 	if best_id != "" and best_aff >= 10:
 		return {"id": best_id}
-	if not f.get("father_passed", false):
+	if not _father_death_is_monotonic(f):
 		return {"id": "father"}
 	return {}
 
@@ -10835,6 +10914,8 @@ func _month_narration() -> String:
 		return _tr("수입은 0원. 통장은 매일 조금씩 줄어든다.", "Income is KRW 0. The bank account shrinks a little each day.")
 
 	# ── 아버지 아크 ──────────────────────────────────
+	if _father_death_is_monotonic(f):
+		return _tr("아버지가 떠난 뒤, 연락처에 남은 이름과 지난 시각만 자꾸 열어 본다.", "Since Father passed, I keep opening the name and old timestamps left in my phone.")
 	if f.get("father_reconciled", false) and me >= 35:
 		if m in [3, 4]:
 			return _tr("아버지와 화해했다. 봄이 유독 따뜻하게 느껴지는 건 그래서인지 모른다.", "I made peace with my father. Maybe that's why this spring feels especially warm.")
@@ -12677,6 +12758,11 @@ func _lowest_relationship_pressure() -> Dictionary:
 	for pid in _core_relationship_people():
 		var person_id: String = str(pid)
 		if not GameState.cast_has_met(person_id):
+			continue
+		# A person who cannot be contacted must not become the live relationship
+		# pressure target. In particular, a passed Father used to generate present-
+		# tense warnings such as "Father may not wait much longer."
+		if not bool(_person_reachable(person_id).get("ok", true)):
 			continue
 		met_count += 1
 		var affinity: int = GameState.get_cast_affinity(person_id)
@@ -16266,7 +16352,7 @@ func _gift_eligible(pid: String) -> bool:
 ## 사유는 판단 없이 사실만(설교 방지). {"ok": bool, "reason": String}.
 func _person_reachable(pid: String) -> Dictionary:
 	var f = GameState.flags
-	if pid == "father" and bool(f.get("father_passed", false)):
+	if pid == "father" and _father_death_is_monotonic(f):
 		return {"ok": false, "reason": _tr("이제 닿지 않는 번호다.", "A number that no longer connects.")}
 	if pid == "daeun" and bool(f.get("daeun_divorced", false)):
 		return {"ok": false, "reason": _tr("더는 걸 수 없는 번호가 됐다.", "Not a number he can call anymore.")}
@@ -20313,6 +20399,15 @@ func _resolved_ending_description(ending: Dictionary) -> String:
 	var ending_know = ending.get("description_if_known", null)
 	if ending_know is Dictionary:
 		for flag_id in ending_know.keys():
+			# Reconciliation remains a historical fact after Father dies. Most
+			# ending variants keyed by it depict a live call or visit, so terminal
+			# evidence must suppress them. empty_house is the one authored
+			# exception: its variant explicitly remembers their final calls.
+			if str(flag_id) == "father_reconciled" \
+					and _father_death_is_monotonic(
+						GameState.flags, false) \
+					and str(ending.get("id", "")) != "empty_house":
+				continue
 			if str(flag_id) == "jiyeon_romance_started" \
 					and GameState.flags.get("jiyeon_left", false):
 				continue
@@ -21395,7 +21490,7 @@ func _ending_next_run_hints(parent: Control):
 	if rc == 0:
 		if f.get("sangchul_truth_known", false) or f.get("father_confession_heard", false):
 			hints.append(_tr("다시 시작한다면, 임상철을 처음부터 다르게 대할 수 있을지 모른다...", "If you start over, maybe you can treat Im Sangchul differently from the start..."))
-		if f.get("father_passed", false):
+		if _father_death_is_monotonic(f):
 			hints.append(_tr("다시 시작한다면, 아버지 전화를 먼저 받을 수 있을지 모른다...", "If you start over, maybe you can answer Father's call first..."))
 		if f.get("daeun_let_her_go", false):
 			hints.append(_tr("다시 시작한다면, 다은을 처음부터 놓치지 않을 수 있을지 모른다...", "If you start over, maybe you won't lose Daeun from the start..."))
@@ -21946,6 +22041,8 @@ func _get_month_narrative() -> String:
 	# 아버지
 	if f.get("father_reconciled", false) and not f.get("father_narrative_noted", false):
 		GameState.flags["father_narrative_noted"] = true
+		if _father_death_is_monotonic(f):
+			return _tr("아버지와 화해한 뒤 남은 통화 기록을 다시 읽었다. 이제 걸 수 없는 번호였다.", "I reread the call log left after making peace with Father. It was a number I could no longer call.")
 		return _tr("아버지와 화해한 뒤로, 전화가 더 자주 걸고 싶어진다.", "Since making up with Father, I want to call more often.")
 	if f.get("arc_father_01_seen", false) and not f.get("narrative_father_noted", false):
 		GameState.flags["narrative_father_noted"] = true

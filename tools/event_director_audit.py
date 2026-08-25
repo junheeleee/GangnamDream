@@ -17,14 +17,15 @@ ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "autoloads" / "DataRegistry.gd"
 MANIFEST = ROOT / "content" / "meta" / "event_director.json"
 MAIN_GAME = ROOT / "scenes" / "MainGame.gd"
+EVENT_MANAGER = ROOT / "autoloads" / "EventManager.gd"
 EXPECTED_CATALOG_RANDOM = 1176
 EXPECTED_DIRECTED_RANDOM = 1003
-EXPECTED_FOREGROUND_RANDOM = 64
+EXPECTED_FOREGROUND_RANDOM = 65
 EXPECTED_BRIDGE_RANDOM = 19
 # Core V2's authored hidden beats include the First Bill fragments plus the
 # fresh-only application Send and pre-plan calculation. They are reached by
 # runtime substitution or bundle/story links, never by the random director.
-EXPECTED_REGISTERED_EVENTS = 1631
+EXPECTED_REGISTERED_EVENTS = 1637
 EXPECTED_DIRECT_ONLY_EVENTS = {
     "v2_hyunsu_player_reachout",
     "v2_hyunsu_study_followup",
@@ -269,6 +270,25 @@ def scheduled_arc_ids(events: list[dict[str, Any]]) -> set[str]:
             for event_id in re.findall(r'"([a-z0-9_]+)"', helper_block)
             if event_id in by_id
         )
+    # A live scheduler root may be replaced by a monotonic-state variant in
+    # EventManager. Treat those explicit target literals as product ingress so
+    # state/visual/audio audits cannot silently omit the replacement scene.
+    event_manager_source = EVENT_MANAGER.read_text(encoding="utf-8")
+    try:
+        variant_block = event_manager_source.split(
+            "const FATHER_PASSED_EVENT_VARIANTS := {", 1
+        )[1].split("}", 1)[0]
+    except IndexError as exc:
+        raise RuntimeError(
+            "EventManager.FATHER_PASSED_EVENT_VARIANTS could not be parsed"
+        ) from exc
+    scheduled.update(
+        event_id
+        for event_id in re.findall(
+            r':\s*(?:\\\s*)?"([a-z0-9_]+)"', variant_block
+        )
+        if event_id in by_id
+    )
     return scheduled
 
 

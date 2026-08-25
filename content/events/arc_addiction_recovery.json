@@ -16,7 +16,8 @@
       "gambling",
       "addiction",
       "climax",
-      "warning"
+      "warning",
+      "requires_living_father"
     ],
     "cooldown": 9999,
     "description": "새벽. {name}은 텅 빈 계좌 화면을 보고 있었다.\n\n이번엔 빌린 돈까지 날렸다.\n갚을 길이 막막한 숫자가 화면에 떠 있었다.\n\n몸이 떨렸다. 추워서가 아니었다.\n\n다음 베팅을 생각하는 자신을 발견하고 — {name}은 소름이 끼쳤다.\n이 와중에도 만회할 한 판을 계산하고 있었다.\n\n이게 바닥이었다.\n더 떨어질 데가 없는, 진짜 바닥.\n\n여기서 두 갈래 길이 있었다. 손을 내밀거나, 더 깊이 파거나.",

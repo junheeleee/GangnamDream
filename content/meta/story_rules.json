@@ -2022,6 +2022,14 @@
         "expected_portrait": "father_home"
       }
     },
+    "callback_proactive_parent_care_echo_father_passed": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local"
+      }
+    },
     "callback_rushed_to_father_echo": {
       "presentation": {
         "channel": "phone",
@@ -2567,6 +2575,16 @@
       }
     },
     "hyunsu_year5_call": {
+      "presentation": {
+        "channel": "video_call",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "accounting_office",
+        "remote_actor": "hyunsu",
+        "portrait_role": "remote"
+      }
+    },
+    "hyunsu_year5_call_father_passed": {
       "presentation": {
         "channel": "video_call",
         "state": "connected",
@@ -3148,6 +3166,17 @@
       }
     },
     "arc_daeun_our_home": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "current_housing",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present",
+        "expected_background": "current_housing",
+        "expected_portrait": "daeun_smile",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "arc_daeun_our_home_father_passed": {
       "presentation": {
         "channel": "in_person",
         "scene_location": "current_housing",

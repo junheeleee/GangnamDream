@@ -33,6 +33,13 @@ func _run() -> void:
 		return
 	await _check_prose_resume()
 	await _check_choice_and_result_resume()
+	await _check_result_choice_receipt_index_guard()
+	await _check_year_scene_result_resume()
+	await _check_father_passed_result_variant_resume()
+	await _check_father_passed_result_variant_receipt_guard()
+	await _check_father_passed_nonresult_variant_resume()
+	await _check_father_stale_pending_story_queue()
+	await _check_father_passing_terminal_result_resume()
 	await _check_timed_choice_resume()
 	await _check_cross_locale_resume_rewind()
 	await _check_pre_dialogue_history_resume()
@@ -90,6 +97,21 @@ func _check_slot_and_legacy_contract() -> void:
 	_expect(SaveManager.peek_loaded_resume_context().is_empty(),
 		"v3 save invented a StoryMode resume payload")
 	_check_build_identity_compatibility(legacy_payload)
+	_check_legacy_father_reason_flag_migration()
+
+func _check_legacy_father_reason_flag_migration() -> void:
+	var current_state: Dictionary = GameState.serialize().duplicate(true)
+	var legacy_state: Dictionary = current_state.duplicate(true)
+	var legacy_flags: Dictionary = legacy_state.get("flags", {}).duplicate(true)
+	legacy_flags.erase("father_heard_gangnam_reason")
+	legacy_flags[GameState.LEGACY_FATHER_REASON_FLAG] = true
+	legacy_state["flags"] = legacy_flags
+	GameState.load_from_dict(legacy_state)
+	_expect(bool(GameState.flags.get("father_heard_gangnam_reason", false)),
+		"legacy father reflection did not migrate to the authored conversation receipt")
+	_expect(not GameState.flags.has(GameState.LEGACY_FATHER_REASON_FLAG),
+		"legacy father reflection alias survived normalization")
+	GameState.load_from_dict(current_state)
 
 func _check_build_identity_compatibility(legacy_payload: Dictionary) -> void:
 	var full_identity := {
@@ -749,6 +771,1048 @@ func _check_choice_and_result_resume() -> void:
 		"result resume lost the selected route flag")
 	_expect((_story.get("_dialogue_log_entries") as Array) == result_log_before,
 		"result resume changed or duplicated Dialogue History")
+
+
+func _check_result_choice_receipt_index_guard() -> void:
+	for receipt_case_value in [
+		"wrong_index", "wrong_index_fatal", "missing_event_fatal",
+		"legacy_duplicate",
+	]:
+		var receipt_case := str(receipt_case_value)
+		var fatal_case: bool = receipt_case in [
+			"wrong_index_fatal", "missing_event_fatal",
+		]
+		await _free_story()
+		LocaleManager.set_language("ko")
+		GameState.start_new_game()
+		GameState.turn = 40
+		if not await _spawn_story("story_knee_choice"):
+			return
+		_story.set("_para_index", (_story.get("_paragraphs") as Array).size() - 1)
+		_story.call("_complete_typing")
+		_story.call("_show_choices")
+		_story.call("_on_choice", 0)
+		var forged_context: Dictionary = _story.call(
+			"build_save_resume_context")
+		var choices: Array = (_story.get("_current") as Dictionary).get(
+			"choices", [])
+		_expect(choices.size() > 1 \
+				and str(forged_context.get("phase", "")) == "result",
+			"indexed result-guard fixture did not reach a multi-choice result")
+		if receipt_case == "missing_event_fatal":
+			forged_context["event_id"] = \
+				"missing_result_resume_fixture"
+		elif receipt_case == "legacy_duplicate":
+			# Pre-index saves may use Dialogue History as their compatibility
+			# receipt, but only when the current event serial owns one choice.
+			var legacy_receipt := GameState.event_log[-1] as Dictionary
+			legacy_receipt.erase("choice_index")
+			var dialogue_log := (
+				forged_context.get("dialogue_log", {}) as Dictionary).duplicate(true)
+			var entries: Array = dialogue_log.get("entries", []).duplicate(true)
+			for raw_entry in entries.duplicate(true):
+				if raw_entry is Dictionary \
+						and str((raw_entry as Dictionary).get(
+							"kind", "")) == "choice":
+					var duplicate_entry := (raw_entry as Dictionary).duplicate(true)
+					duplicate_entry["choice_index"] = 1
+					entries.append(duplicate_entry)
+					break
+			dialogue_log["entries"] = entries
+			forged_context["dialogue_log"] = dialogue_log
+		else:
+			forged_context["pending_result_choice_index"] = 1
+		forged_context["queue"] = ["chapter_card_35"]
+		if fatal_case:
+			GameState.health = 0
+		_expect(SaveManager.save_game(TEST_SLOT, forged_context),
+			"indexed result-guard fixture could not be saved")
+		await _free_story()
+		_expect(SaveManager.load_game(TEST_SLOT),
+			"indexed result-guard fixture could not be loaded")
+		var mental_before := int(GameState.mental)
+		var health_before := int(GameState.health)
+		var money_before := int(GameState.money)
+		var tint_before := float(GameState.moral_tint)
+		var events_before := int(GameState.events_seen)
+		var flags_before: Dictionary = GameState.flags.duplicate(true)
+		var event_log_before: Array = GameState.event_log.duplicate(true)
+		var action_log_before: Array = GameState.action_log.duplicate(true)
+		var commitments_before: Array = \
+			GameState.weekly_commitments.duplicate(true)
+		_expect(not event_log_before.is_empty() \
+				and (
+					not (event_log_before[-1] as Dictionary).has("choice_index")
+					if receipt_case == "legacy_duplicate" else
+					int((event_log_before[-1] as Dictionary).get(
+						"choice_index", -1)) == 0),
+			"%s receipt fixture had the wrong applied-choice identity" \
+				% receipt_case)
+		if not await _spawn_loaded_story():
+			return
+		var restored_id := str(
+			(_story.get("_current") as Dictionary).get("id", ""))
+		_expect(
+			(restored_id.is_empty() and bool(_story.get("_transitioning")))
+				if fatal_case else restored_id == "chapter_card_35",
+			("fatal forged result rendered a queued sentinel" if fatal_case else
+			"%s forged result was rendered or reopened" % receipt_case))
+		_expect(not bool(_story.get("_pending_after_result")) \
+				and not bool(_story.get("_showing_choices")),
+			"forged same-event choice index retained a playable result")
+		_expect(int(GameState.mental) == mental_before \
+				and int(GameState.health) == health_before \
+				and int(GameState.money) == money_before \
+				and is_equal_approx(float(GameState.moral_tint), tint_before) \
+				and int(GameState.events_seen) == events_before \
+				and GameState.flags == flags_before \
+				and GameState.event_log == event_log_before \
+				and GameState.action_log == action_log_before \
+				and GameState.weekly_commitments == commitments_before,
+			"forged same-event choice index reapplied or changed run state")
+
+
+func _check_year_scene_result_resume() -> void:
+	await _free_story()
+	LocaleManager.set_language("ko")
+	GameState.start_new_game()
+	GameState.turn = 40
+	for scene_id in [
+		"story_knee_choice", "arc_daeun_01_meet",
+		"arc_sangchul_01_meet", "arc_father_01_call",
+	]:
+		GameState.record_run_scene_seen(scene_id)
+	if not await _spawn_story("arc_year1_scene"):
+		return
+	var dynamic_choices: Array = (_story.get("_current") as Dictionary).get(
+		"choices", [])
+	_expect(dynamic_choices.size() >= 3,
+		"year-scene result fixture did not materialize three candidates")
+	_story.set("_para_index", (_story.get("_paragraphs") as Array).size() - 1)
+	_story.call("_complete_typing")
+	_story.call("_show_choices")
+	_story.call("_on_choice", 2)
+	var selected_scene := GameState.get_year_scene_selection(1)
+	var result_context: Dictionary = _story.call("build_save_resume_context")
+	_expect(not selected_scene.is_empty() \
+			and str(result_context.get("phase", "")) == "result" \
+			and int(result_context.get(
+				"pending_result_choice_index", -1)) == 2,
+		"year-scene index 2 did not create a result resume receipt")
+	_expect(SaveManager.save_game(TEST_SLOT, result_context),
+		"year-scene result fixture could not be saved")
+	await _free_story()
+	_expect(SaveManager.load_game(TEST_SLOT),
+		"year-scene result fixture could not be loaded")
+	var event_log_before: Array = GameState.event_log.duplicate(true)
+	var events_before := int(GameState.events_seen)
+	var year_scenes_before: Dictionary = GameState.year_scenes.duplicate(true)
+	if not await _spawn_loaded_story():
+		return
+	_expect(str((_story.get("_current") as Dictionary).get("id", "")) \
+			== "arc_year1_scene" \
+			and bool(_story.get("_pending_after_result")) \
+			and int(_story.get("_pending_result_choice_index")) == 2,
+		"year-scene dynamic result index was skipped on reload")
+	_expect(GameState.get_year_scene_selection(1) == selected_scene \
+			and GameState.year_scenes == year_scenes_before \
+			and int(GameState.events_seen) == events_before \
+			and GameState.event_log == event_log_before \
+			and not event_log_before.is_empty() \
+			and int((event_log_before[-1] as Dictionary).get(
+				"choice_index", -1)) == 2,
+		"year-scene result reload changed or lost its applied choice receipt")
+
+func _check_father_passed_result_variant_resume() -> void:
+	await _free_story()
+	LocaleManager.set_language("ko")
+	GameState.start_new_game()
+	GameState.turn = 189
+	GameState.flags.erase("father_passed")
+	GameState.flags.erase("arc_father_passing_seen")
+	var older_event_log_before := {
+		"turn": 188,
+		"event_id": "arc_sangchul_year3",
+		"choice": "OLDER EVENT CHOICE MUST REMAIN",
+		"result": "OLDER EVENT RESULT MUST REMAIN",
+	}
+	var older_action_log_before := {
+		"turn": 188,
+		"date": "OLDER ACTION DATE MUST REMAIN",
+		"message": "OLDER ACTION MESSAGE MUST REMAIN",
+		"type": "event",
+	}
+	GameState.event_log.append(older_event_log_before.duplicate(true))
+	GameState.action_log.append(older_action_log_before.duplicate(true))
+	var event_log_prefix_before_choice: Array = \
+		GameState.event_log.duplicate(true)
+	var action_log_prefix_before_choice: Array = \
+		GameState.action_log.duplicate(true)
+	if not await _spawn_story("arc_sangchul_year3"):
+		return
+
+	# Give this current event a prior serial receipt so the migration must keep
+	# older history byte-for-byte while replacing only the stale live article.
+	_story.set("_dialogue_log_event_serial", 2)
+	_story.set("_dialogue_log_next_serial", 2)
+	_story.call("_append_dialogue_log_entry", {
+		"event_serial": 1,
+		"event_id": "story_knee_choice",
+		"kind": "prose",
+		"choice_index": -1,
+		"source_paragraph_index": 0,
+		"page_index": 0,
+		"title": "이전 장면",
+		"speaker": "",
+		"screen_context": "",
+		"channel": "in_person",
+		"locale": "ko",
+		"text": "OLDER SERIAL MUST REMAIN",
+	})
+	var older_entry_before := (
+		(_story.get("_dialogue_log_entries") as Array)[0] as Dictionary
+	).duplicate(true)
+
+	_story.set("_para_index", (_story.get("_paragraphs") as Array).size() - 1)
+	_story.call("_complete_typing")
+	_story.call("_show_choices")
+	_story.call("_on_choice", 1)
+	_expect(bool(_story.get("_pending_after_result")),
+		"Sangchul live fixture did not enter its result phase")
+	_expect(GameState.event_log.size() \
+				== event_log_prefix_before_choice.size() + 1 \
+			and str((GameState.event_log[-1] as Dictionary).get(
+				"event_id", "")) == "arc_sangchul_year3" \
+			and GameState.action_log.size() \
+				== action_log_prefix_before_choice.size() + 1,
+		"Sangchul live fixture did not create one current event/action log")
+	# Complete every rendered page of the first authored result paragraph so
+	# the saved log contains the live Father's spoken response, not only a choice.
+	var first_result_source := int(_story.call(
+		"_story_source_paragraph_index", int(_story.get("_para_index"))))
+	while bool(_story.get("_pending_after_result")):
+		_story.call("_complete_typing")
+		var current_page := int(_story.get("_para_index"))
+		var result_pages: Array = _story.get("_paragraphs")
+		if current_page + 1 >= result_pages.size() \
+				or int(_story.call(
+					"_story_source_paragraph_index", current_page + 1)) \
+					!= first_result_source:
+			break
+		_story.call("_on_advance")
+
+	var live_context: Dictionary = _story.call("build_save_resume_context")
+	var live_entries: Array = (
+		(live_context.get("dialogue_log", {}) as Dictionary).get(
+			"entries", []) as Array)
+	var live_current_text := ""
+	for raw_live_entry in live_entries:
+		if raw_live_entry is Dictionary \
+				and int((raw_live_entry as Dictionary).get(
+					"event_serial", 0)) == 2:
+			live_current_text += " " + str(
+				(raw_live_entry as Dictionary).get("text", ""))
+	_expect(str(live_context.get("phase", "")) == "result" \
+			and int(live_context.get("pending_result_choice_index", -1)) == 1,
+		"Sangchul fixture did not save the applied live choice as a result")
+	_expect("아버지한테 전화했다" in live_current_text \
+			and "아버지가 짧게" in live_current_text,
+		"Sangchul fixture did not capture the stale live Father history")
+
+	# This is the damaged/interrupted old-save shape: the result receipt belongs
+	# to the living variant, but monotonic death evidence is already authoritative.
+	GameState.flags["father_passed"] = true
+	var mental_after_choice := int(GameState.mental)
+	var tint_after_choice := float(GameState.moral_tint)
+	var affinity_after_choice := GameState.get_cast_affinity("father")
+	var events_after_choice := int(GameState.events_seen)
+	var flags_after_choice := GameState.flags.duplicate(true)
+	var commitments_after_choice := GameState.weekly_commitments.duplicate(true)
+	_expect(SaveManager.save_game(TEST_SLOT, live_context),
+		"Sangchul result-phase migration fixture could not be saved")
+	await _free_story()
+	_expect(SaveManager.load_game(TEST_SLOT),
+		"Sangchul result-phase migration fixture could not be loaded")
+	if not await _spawn_loaded_story():
+		return
+
+	var restored_event: Dictionary = _story.get("_current")
+	_expect(str(restored_event.get("id", "")) \
+			== "arc_sangchul_year3_father_passed",
+		"Sangchul result save did not remap to the father-passed variant")
+	_expect(bool(_story.get("_pending_after_result")) \
+			and not bool(_story.get("_showing_choices")) \
+			and not (_story.get("_choice_box") as Control).visible \
+			and int(_story.get("_pending_result_choice_index")) == 1,
+		"Sangchul migrated save reopened its choice or lost the result receipt")
+	var restored_result_text := "\n".join(
+		_story.get("_paragraphs") as Array)
+	_expect("연락처에는 아버지 이름과 번호가" in restored_result_text \
+			and not "아버지가 짧게 말씀하셨다" in restored_result_text,
+		"Sangchul migrated result still rendered the living Father's response")
+	_expect(str(_story.get("_pending_follow_up")) == "" \
+			and str(_story.get("_next_transition_mode")) == "" \
+			and str(_story.get("_current_transition_mode")) == "" \
+			and (_story.get("_next_transition_contract") as Dictionary).is_empty() \
+			and (_story.get("_current_transition_contract") as Dictionary).is_empty(),
+		"Sangchul result migration retained an unsafe follow-up or transition")
+
+	var restored_entries: Array = _story.get("_dialogue_log_entries")
+	var older_entry_after: Dictionary = {}
+	var restored_current_text := ""
+	var current_history_is_safe := true
+	var restored_current_entries: Array = []
+	for raw_restored_entry in restored_entries:
+		if not raw_restored_entry is Dictionary:
+			continue
+		var restored_entry := raw_restored_entry as Dictionary
+		var serial := int(restored_entry.get("event_serial", 0))
+		if serial == 1:
+			older_entry_after = restored_entry.duplicate(true)
+		elif serial == 2:
+			restored_current_entries.append(restored_entry.duplicate(true))
+			restored_current_text += " " + str(restored_entry.get("text", ""))
+			if str(restored_entry.get("event_id", "")) \
+					!= "arc_sangchul_year3_father_passed":
+				current_history_is_safe = false
+	_expect(older_entry_after == older_entry_before,
+		"Sangchul result migration changed an older Dialogue History serial")
+	_expect(current_history_is_safe \
+			and "아버지 번호를 연다" in restored_current_text \
+			and not "아버지한테 전화했다" in restored_current_text \
+			and not "아버지가 짧게" in restored_current_text \
+			and not "연락처에는 아버지 이름과 번호가" \
+				in restored_current_text \
+			and _count_dialogue_kind(restored_current_entries, "prose") > 0 \
+			and _count_dialogue_kind(restored_current_entries, "choice") == 1 \
+			and _count_dialogue_kind(restored_current_entries, "result") == 0,
+		"Sangchul current Dialogue History retained living-Father prose")
+	var original_current_history_count := 0
+	for raw_current_entry in restored_current_entries:
+		if raw_current_entry is Dictionary \
+				and str((raw_current_entry as Dictionary).get(
+					"event_id", "")) == "arc_sangchul_year3":
+			original_current_history_count += 1
+	_expect(original_current_history_count == 0,
+		"Sangchul result migration retained an original-ID current entry")
+
+	var replacement_choices: Array = restored_event.get("choices", [])
+	var replacement_choice: Dictionary = (
+		replacement_choices[1] as Dictionary
+		if replacement_choices.size() > 1 else {})
+	var expected_choice_text := GameState.format_event_text(str(
+		replacement_choice.get("text", "")))
+	var expected_result_text := GameState.format_event_text(str(
+		replacement_choice.get("result_text", "")))
+	var expected_title := GameState.format_event_text(str(
+		restored_event.get("title", "")))
+	var migrated_event_log: Dictionary = (
+		GameState.event_log[-1] as Dictionary
+		if not GameState.event_log.is_empty() else {})
+	var migrated_action_log: Dictionary = (
+		GameState.action_log[-1] as Dictionary
+		if not GameState.action_log.is_empty() else {})
+	var event_log_prefix_preserved := GameState.event_log.size() \
+		== event_log_prefix_before_choice.size() + 1
+	for index in range(event_log_prefix_before_choice.size()):
+		if index >= GameState.event_log.size() \
+				or GameState.event_log[index] != _json_round_trip_dictionary(
+					event_log_prefix_before_choice[index] as Dictionary):
+			event_log_prefix_preserved = false
+	var action_log_prefix_preserved := GameState.action_log.size() \
+		== action_log_prefix_before_choice.size() + 1
+	for index in range(action_log_prefix_before_choice.size()):
+		if index >= GameState.action_log.size() \
+				or GameState.action_log[index] != _json_round_trip_dictionary(
+					action_log_prefix_before_choice[index] as Dictionary):
+			action_log_prefix_preserved = false
+	_expect(event_log_prefix_preserved \
+			and str(migrated_event_log.get("event_id", "")) \
+				== "arc_sangchul_year3_father_passed" \
+			and str(migrated_event_log.get("choice", "")) \
+				== expected_choice_text \
+			and str(migrated_event_log.get("result", "")) \
+				== expected_result_text,
+		"Sangchul result migration changed past event logs or left the current log live")
+	_expect(action_log_prefix_preserved \
+			and str(migrated_action_log.get("message", "")) \
+				== "%s: %s" % [expected_title, expected_result_text] \
+			and str(migrated_action_log.get("type", "")) == "event" \
+			and int(migrated_action_log.get("turn", -1)) == GameState.turn,
+		"Sangchul result migration changed past action logs or left the current title/result live")
+
+	_expect(int(GameState.mental) == mental_after_choice \
+			and is_equal_approx(float(GameState.moral_tint), tint_after_choice) \
+			and GameState.get_cast_affinity("father") == affinity_after_choice \
+			and int(GameState.events_seen) == events_after_choice \
+			and GameState.flags == flags_after_choice \
+			and GameState.weekly_commitments == commitments_after_choice,
+		"Sangchul result migration re-applied effects, flags, or commitment")
+	var event_log_after_restore: Array = GameState.event_log.duplicate(true)
+	var action_log_after_restore: Array = GameState.action_log.duplicate(true)
+	var state_after_restore: Dictionary = GameState.serialize().duplicate(true)
+	_story.call("_complete_typing")
+	var result_count_after_first_completion := _count_dialogue_kind(
+		_dialogue_entries_for_serial(
+			_story.get("_dialogue_log_entries") as Array, 2), "result")
+	_story.call("_complete_typing")
+	var result_count_after_second_completion := _count_dialogue_kind(
+		_dialogue_entries_for_serial(
+			_story.get("_dialogue_log_entries") as Array, 2), "result")
+	_expect(result_count_after_first_completion == 1 \
+			and result_count_after_second_completion == 1 \
+			and GameState.event_log == event_log_after_restore \
+			and GameState.action_log == action_log_after_restore \
+			and GameState.serialize() == state_after_restore,
+		"Sangchul migrated result duplicated its result receipt, logs, or effects on resume")
+	var state_before_second_choice: Dictionary = \
+		GameState.serialize().duplicate(true)
+	_story.call("_on_choice", 1)
+	_expect(GameState.serialize() == state_before_second_choice,
+		"Sangchul migrated result allowed its choice to be applied twice")
+
+
+func _check_father_passed_result_variant_receipt_guard() -> void:
+	for receipt_case in ["missing", "wrong_event"]:
+		await _free_story()
+		LocaleManager.set_language("ko")
+		GameState.start_new_game()
+		GameState.turn = 189
+		GameState.flags.erase("father_passed")
+		GameState.flags.erase("arc_father_passing_seen")
+		if not await _spawn_story("arc_sangchul_year3"):
+			return
+		var forged_context: Dictionary = _story.call(
+			"build_save_resume_context")
+		forged_context["phase"] = "result"
+		forged_context["pending_result_choice_index"] = 1
+		forged_context["pending_follow_up"] = ""
+		forged_context["queue"] = ["chapter_card_35"]
+		forged_context["paragraph_index"] = 0
+		forged_context["source_paragraph_index"] = 0
+		forged_context["source_text_progress"] = 0.0
+		GameState.flags["father_passed"] = true
+		if receipt_case == "wrong_event":
+			GameState.event_log.append({
+				"turn": 188,
+				"event_id": "story_knee_choice",
+				"choice": "UNRELATED CHOICE MUST REMAIN",
+				"result": "UNRELATED RESULT MUST REMAIN",
+			})
+		_expect(SaveManager.save_game(TEST_SLOT, forged_context),
+			"%s variant receipt-guard fixture could not be saved" \
+				% receipt_case)
+		await _free_story()
+		_expect(SaveManager.load_game(TEST_SLOT),
+			"%s variant receipt-guard fixture could not be loaded" \
+				% receipt_case)
+		# Save loading owns its own schema normalization. Snapshot after that
+		# boundary so this assertion isolates whether StoryMode invented a choice
+		# while rejecting the forged result-phase context.
+		var mental_before := int(GameState.mental)
+		var money_before := int(GameState.money)
+		var tint_before := float(GameState.moral_tint)
+		var affinity_before := GameState.get_cast_affinity("father")
+		var events_before := int(GameState.events_seen)
+		var event_log_before: Array = GameState.event_log.duplicate(true)
+		var action_log_before: Array = GameState.action_log.duplicate(true)
+		if not await _spawn_loaded_story():
+			return
+		var restored_event: Dictionary = _story.get("_current")
+		_expect(str(restored_event.get("id", "")) \
+				== "chapter_card_35" \
+				and not bool(_story.get("_pending_after_result")) \
+				and not bool(_story.get("_showing_choices")),
+			"%s forged result receipt did not skip the already-applied scene" \
+				% receipt_case)
+		_expect(int(GameState.mental) == mental_before \
+				and int(GameState.money) == money_before \
+				and is_equal_approx(float(GameState.moral_tint), tint_before) \
+				and GameState.get_cast_affinity("father") == affinity_before \
+				and int(GameState.events_seen) == events_before \
+				and GameState.event_log == event_log_before \
+				and GameState.action_log == action_log_before,
+			"%s forged result receipt invented or applied a choice" \
+				% receipt_case)
+
+
+func _check_father_passed_nonresult_variant_resume() -> void:
+	for saved_phase in ["prose", "choices"]:
+		await _free_story()
+		LocaleManager.set_language("ko")
+		GameState.start_new_game()
+		GameState.turn = 125
+		GameState.flags.erase("father_passed")
+		GameState.flags.erase("arc_father_passing_seen")
+		if not await _spawn_story("arc_money_loneliness"):
+			return
+
+		_story.set("_dialogue_log_event_serial", 2)
+		_story.set("_dialogue_log_next_serial", 2)
+		_story.call("_append_dialogue_log_entry", {
+			"event_serial": 1,
+			"event_id": "story_knee_choice",
+			"kind": "prose",
+			"choice_index": -1,
+			"source_paragraph_index": 0,
+			"page_index": 0,
+			"title": "이전 장면",
+			"speaker": "",
+			"screen_context": "",
+			"channel": "in_person",
+			"locale": "ko",
+			"text": "OLDER NONRESULT SERIAL MUST REMAIN",
+		})
+		var older_entry_before := (
+			(_story.get("_dialogue_log_entries") as Array)[0] as Dictionary
+		).duplicate(true)
+		# This is the current serial from an interrupted living-Father article.
+		# Keep it explicit so both prose and choices fixtures carry the same stale
+		# sentence regardless of pagination or text-size settings.
+		_story.call("_append_dialogue_log_entry", {
+			"event_serial": 2,
+			"event_id": "arc_money_loneliness",
+			"kind": "prose",
+			"choice_index": -1,
+			"source_paragraph_index": 1,
+			"page_index": 1,
+			"title": "돈이 늘수록",
+			"speaker": "",
+			"screen_context": "",
+			"channel": "in_person",
+			"locale": "ko",
+			"text": "부모님께 말하면 먼저 위험한 일은 아닌지 물을 것이다.",
+		})
+		if saved_phase == "choices":
+			_show_current_story_choices()
+		var live_context: Dictionary = _story.call(
+			"build_save_resume_context")
+		_expect(str(live_context.get("phase", "")) == saved_phase,
+			"%s Father-variant fixture reported the wrong phase" % saved_phase)
+		var live_current_entries := _dialogue_entries_for_serial(
+			((live_context.get("dialogue_log", {}) as Dictionary).get(
+				"entries", []) as Array), 2)
+		_expect(not live_current_entries.is_empty() \
+				and "부모님께 말하면" in _dialogue_entries_text(
+					live_current_entries),
+			"%s Father-variant fixture omitted its stale current serial" \
+				% saved_phase)
+
+		GameState.flags["father_passed"] = true
+		_expect(SaveManager.save_game(TEST_SLOT, live_context),
+			"%s Father-variant migration fixture could not be saved" \
+				% saved_phase)
+		await _free_story()
+		_expect(SaveManager.load_game(TEST_SLOT),
+			"%s Father-variant migration fixture could not be loaded" \
+				% saved_phase)
+		if not await _spawn_loaded_story():
+			return
+
+		_expect(str((_story.get("_current") as Dictionary).get("id", "")) \
+				== "arc_money_loneliness_father_passed" \
+				and not bool(_story.get("_showing_choices")) \
+				and not bool(_story.get("_pending_after_result")),
+			"%s Father-variant migration did not restart safe prose" \
+				% saved_phase)
+		var restored_entries: Array = _story.get("_dialogue_log_entries")
+		var older_entry_after: Dictionary = {}
+		var stale_original_entries := 0
+		var stale_serial_entries := 0
+		for raw_entry in restored_entries:
+			if not raw_entry is Dictionary:
+				continue
+			var entry := raw_entry as Dictionary
+			if int(entry.get("event_serial", 0)) == 1:
+				older_entry_after = entry.duplicate(true)
+			if int(entry.get("event_serial", 0)) == 2:
+				stale_serial_entries += 1
+			if str(entry.get("event_id", "")) == "arc_money_loneliness":
+				stale_original_entries += 1
+		_expect(older_entry_after == older_entry_before \
+				and stale_original_entries == 0 \
+				and stale_serial_entries == 0,
+			"%s Father-variant migration changed past history or retained the stale serial" \
+				% saved_phase)
+
+		# The old source offset is unsafe after a topology change. The replacement
+		# must author its own prose from the beginning; stop as soon as the
+		# father-passed description's distinguishing sentence is recorded.
+		var safe_text := ""
+		var page_budget := maxi(
+			16, (_story.get("_paragraphs") as Array).size() * 3)
+		while page_budget > 0 \
+				and not "그 번호는 이제 연결되지 않았다" in safe_text \
+				and not bool(_story.get("_showing_choices")):
+			_story.call("_on_advance")
+			var current_serial := int(_story.get(
+				"_dialogue_log_event_serial"))
+			safe_text = _dialogue_entries_text(
+				_dialogue_entries_for_serial(
+					_story.get("_dialogue_log_entries") as Array,
+					current_serial))
+			page_budget -= 1
+		var replacement_serial := int(_story.get(
+			"_dialogue_log_event_serial"))
+		var replacement_entries := _dialogue_entries_for_serial(
+			_story.get("_dialogue_log_entries") as Array,
+			replacement_serial)
+		var replacement_entries_are_safe := not replacement_entries.is_empty()
+		for raw_replacement_entry in replacement_entries:
+			if not raw_replacement_entry is Dictionary \
+					or str((raw_replacement_entry as Dictionary).get(
+						"event_id", "")) \
+						!= "arc_money_loneliness_father_passed":
+				replacement_entries_are_safe = false
+		_expect(replacement_entries_are_safe \
+				and "그 번호는 이제 연결되지 않았다" in safe_text \
+				and not "부모님께 말하면" in safe_text \
+				and _count_dialogue_kind(replacement_entries, "prose") > 0 \
+				and _count_dialogue_kind(replacement_entries, "choice") == 0 \
+				and _count_dialogue_kind(replacement_entries, "result") == 0 \
+				and not bool(_story.get("_showing_choices")),
+			"%s Father-variant restart did not record safe prose only: %s" \
+				% [saved_phase, safe_text])
+
+
+func _check_father_stale_pending_story_queue() -> void:
+	await _free_story()
+	LocaleManager.set_language("ko")
+	var milestone_cases: Array[Dictionary] = [
+		{
+			"alive": "arc_first_real_win",
+			"passed": "arc_first_real_win_father_passed",
+		},
+		{
+			"alive": "arc_money_loneliness",
+			"passed": "arc_money_loneliness_father_passed",
+		},
+		{
+			"alive": "arc_gangnam_real_estate",
+			"passed": "arc_gangnam_real_estate_father_passed",
+		},
+	]
+
+	# An old queue is not itself proof of death. Every original milestone must
+	# remain on its living article while the Father timeline is still living.
+	for milestone_case in milestone_cases:
+		GameState.start_new_game()
+		var alive_id: String = str(milestone_case.get("alive", ""))
+		if not await _spawn_pending_story_queue([alive_id], alive_id):
+			return
+		_expect(not bool(_story.get("_read_only_replay")),
+			"living milestone queue unexpectedly entered read-only replay")
+		await _free_story()
+
+	# Cover each monotonic evidence shape against a different old milestone. The
+	# queue retains the original ID; StoryMode must select the safe authored copy.
+	var evidence_cases: Array[String] = [
+		"canonical_flag", "legacy_receipt", "cast_stage",
+	]
+	for index in range(milestone_cases.size()):
+		GameState.start_new_game()
+		var evidence_case: String = evidence_cases[index]
+		match evidence_case:
+			"canonical_flag":
+				GameState.flags["father_passed"] = true
+			"legacy_receipt":
+				GameState.flags["arc_father_passing_seen"] = true
+			"cast_stage":
+				GameState.apply_cast_effect("father", {
+					"met": true,
+					"stage": "passed",
+				})
+		var milestone_case: Dictionary = milestone_cases[index]
+		var original_id: String = str(milestone_case.get("alive", ""))
+		var passed_id: String = str(milestone_case.get("passed", ""))
+		_expect(EventManager.father_death_is_monotonic(),
+			"%s fixture did not establish monotonic Father death" % evidence_case)
+		if not await _spawn_pending_story_queue([original_id], passed_id):
+			return
+		_expect(not bool(_story.get("_read_only_replay")),
+			"%s milestone migration unexpectedly became a replay" % evidence_case)
+		await _free_story()
+
+	# A living-only current call can be stranded ahead of a valid event in an old
+	# queue. It must disappear without consuming the valid event behind it.
+	GameState.start_new_game()
+	GameState.flags["father_passed"] = true
+	if not await _spawn_pending_story_queue([
+		"arc_father_medication", "story_knee_choice",
+	], "story_knee_choice"):
+		return
+	_expect(str(EventManager.current_event.get("id", "")) \
+			== "story_knee_choice" \
+			and not (_story.get("_queue") as Array).has(
+				"arc_father_medication"),
+		"stale living-Father event was rendered or retained in the live queue")
+	await _free_story()
+
+	# A damaged save can carry hundreds of deleted IDs and living-only roots.
+	# Recovery is an iterative queue scan: the final valid event must still load
+	# without making queue length a recursion-depth input.
+	GameState.start_new_game()
+	GameState.flags["father_passed"] = true
+	var long_stale_queue: Array = []
+	for index in range(384):
+		long_stale_queue.append(
+			"missing_father_queue_fixture_%03d" % index)
+		long_stale_queue.append("arc_father_medication")
+	long_stale_queue.append("story_knee_choice")
+	if not await _spawn_pending_story_queue(
+			long_stale_queue, "story_knee_choice"):
+		return
+	_expect(str(EventManager.current_event.get("id", "")) \
+			== "story_knee_choice" \
+			and (_story.get("_queue") as Array).is_empty(),
+		"long stale/missing/living queue did not reach its final valid event")
+	await _free_story()
+
+	# Dynamic year-scene roots can also become stale when an old save has fewer
+	# than three eligible memories. They share the same iterative recovery
+	# contract, including queues long enough to overflow the former recursion.
+	GameState.start_new_game()
+	var long_invalid_curation_queue: Array = []
+	for index in range(768):
+		long_invalid_curation_queue.append("arc_year1_scene")
+	long_invalid_curation_queue.append("story_knee_choice")
+	if not await _spawn_pending_story_queue(
+			long_invalid_curation_queue, "story_knee_choice"):
+		return
+	_expect(str(EventManager.current_event.get("id", "")) \
+			== "story_knee_choice" \
+			and (_story.get("_queue") as Array).is_empty(),
+		"long invalid year-curation queue did not reach its final valid event")
+	await _free_story()
+
+	# Read-only replay is historical evidence, not a live queue. Even with current
+	# death evidence, it must show the original article and original Father choice
+	# without applying that choice to the current run.
+	GameState.start_new_game()
+	GameState.flags["father_passed"] = true
+	if not await _spawn_pending_story_queue(
+			["arc_first_real_win"], "arc_first_real_win", true):
+		return
+	_expect(bool(_story.get("_read_only_replay")),
+		"historical milestone did not remain in read-only replay")
+	var replay_state_before: Dictionary = GameState.serialize().duplicate(true)
+	var replay_meta_before: Dictionary = MetaProgression.data.duplicate(true)
+	_show_current_story_choices()
+	_story.call("_on_choice", 1)
+	_story.call("_finish_story_scene_transition")
+	var replay_history_text: String = ""
+	var replay_page_budget: int = (_story.get("_paragraphs") as Array).size()
+	while bool(_story.get("_pending_after_result")) \
+			and replay_page_budget > 0 \
+			and not "아버지는 잠깐 조용했다가" in replay_history_text:
+		_story.call("_complete_typing")
+		replay_history_text = ""
+		for raw_entry in _story.get("_dialogue_log_entries") as Array:
+			if raw_entry is Dictionary:
+				replay_history_text += " " + str(
+					(raw_entry as Dictionary).get("text", ""))
+		replay_page_budget -= 1
+		if not "아버지는 잠깐 조용했다가" in replay_history_text:
+			_story.call("_on_advance")
+	var replay_result_text: String = _current_story_text()
+	_expect(bool(_story.get("_pending_after_result")) \
+			and "아버지에게 전화한다" in replay_history_text \
+			and not "아버지 번호를 누른다" in replay_history_text \
+			and "아버지는 잠깐 조용했다가" in replay_history_text \
+			and "아버지는 잠깐 조용했다가" in replay_result_text \
+			and not "연결할 수 없는 번호" in replay_result_text,
+		"read-only milestone replay replaced its original Father history: log=%s result=%s" \
+			% [replay_history_text, replay_result_text])
+	_expect(GameState.serialize() == replay_state_before \
+			and MetaProgression.data == replay_meta_before,
+		"read-only milestone replay mutated the current run or meta history")
+
+
+func _check_father_passing_terminal_result_resume() -> void:
+	await _free_story()
+	LocaleManager.set_language("ko")
+	var passing_event_ids: Array[String] = [
+		"arc_father_passing",
+		"arc_father_passing_platform",
+		"arc_father_passing_deal_room",
+		"arc_father_passing_hospital_room",
+		"arc_father_passing_deal_morning",
+	]
+	var terminal_ids: Array[String] = [
+		"arc_father_passing_hospital_room",
+		"arc_father_passing_deal_morning",
+	]
+
+	# Every article is living-only. The terminal tag grants one narrow exception
+	# to an already-applied result save; it must not become a new post-death entry.
+	for event_id in passing_event_ids:
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		var tags: Array = event.get("tags", [])
+		_expect(not event.is_empty() \
+				and tags.has("requires_living_father") \
+				and tags.has("father_passing_terminal") \
+					== terminal_ids.has(event_id),
+			"Father-passing tag contract drifted for %s" % event_id)
+
+	GameState.start_new_game()
+	GameState.flags["father_passed"] = true
+	EventManager.pending_events.clear()
+	EventManager.current_event = {}
+	var direct_queue_rejected := true
+	for event_id in passing_event_ids:
+		var pending_count_before := EventManager.pending_events.size()
+		EventManager.queue_event(DataRegistry.find_event(event_id))
+		if EventManager.pending_events.size() != pending_count_before:
+			direct_queue_rejected = false
+	_expect(direct_queue_rejected and EventManager.pending_events.is_empty(),
+		"post-death EventManager queue accepted a Father-passing article")
+
+	# Also exercise the pop-time guard: old saves can already contain these five
+	# dictionaries even when new queue_event calls are correctly rejected.
+	for event_id in passing_event_ids:
+		EventManager.pending_events.append(DataRegistry.find_event(event_id))
+	EventManager.pending_events.append(DataRegistry.find_event(
+		"story_knee_choice"))
+	var first_valid_after_stale: Dictionary = EventManager.get_next_event()
+	_expect(str(first_valid_after_stale.get("id", "")) \
+			== "story_knee_choice" \
+			and EventManager.pending_events.is_empty(),
+		"post-death EventManager stale queue rendered a Father-passing article")
+
+	# StoryMode has a second direct ingress through pending_story_queue. The same
+	# five IDs must be consumed without rendering before the valid sentinel.
+	var direct_story_queue: Array = passing_event_ids.duplicate()
+	direct_story_queue.append("story_knee_choice")
+	if not await _spawn_pending_story_queue(
+			direct_story_queue, "story_knee_choice"):
+		return
+	_expect((_story.get("_queue") as Array).is_empty(),
+		"post-death StoryMode direct queue retained a Father-passing article")
+	await _free_story()
+
+	var terminal_cases: Array[Dictionary] = [
+		{
+			"event_id": "arc_father_passing_hospital_room",
+			"result_marker": "텅 빈 병실 침대 옆에 앉았다",
+			"route_flag": "tried_to_go_to_father",
+			"deferred_id": "",
+		},
+		{
+			"event_id": "arc_father_passing_deal_morning",
+			"result_marker": "정확히 5백만원",
+			"route_flag": "chose_money_over_father",
+			"deferred_id": "callback_chose_money_father_echo",
+		},
+	]
+	for terminal_case in terminal_cases:
+		await _free_story()
+		GameState.start_new_game()
+		GameState.turn = 189
+		GameState.flags.erase("father_passed")
+		GameState.flags.erase("arc_father_passing_seen")
+		var terminal_id := str(terminal_case.get("event_id", ""))
+		var terminal_event: Dictionary = DataRegistry.find_event(terminal_id)
+		var terminal_choices: Array = terminal_event.get("choices", [])
+		var terminal_choice: Dictionary = (
+			terminal_choices[0] as Dictionary
+			if not terminal_choices.is_empty() else {})
+		var effects: Dictionary = terminal_choice.get("effects", {})
+		var mental_before := int(GameState.mental)
+		var money_before := float(GameState.money)
+		var events_seen_before := int(GameState.events_seen)
+		var event_log_size_before := GameState.event_log.size()
+		var action_log_size_before := GameState.action_log.size()
+		if not await _spawn_story(terminal_id):
+			return
+		_show_current_story_choices()
+		_story.call("_on_choice", 0)
+		var terminal_context: Dictionary = _story.call(
+			"build_save_resume_context")
+		# Keep a valid sentinel behind the restored current event so a broken
+		# exception remains observable instead of replacing this QA scene.
+		terminal_context["queue"] = ["story_knee_choice"]
+		var route_flag := str(terminal_case.get("route_flag", ""))
+		_expect(str(terminal_context.get("phase", "")) == "result" \
+				and int(terminal_context.get(
+					"pending_result_choice_index", -1)) == 0 \
+				and bool(GameState.flags.get("father_passed", false)) \
+				and bool(GameState.flags.get(
+					"arc_father_passing_seen", false)) \
+				and bool(GameState.flags.get(route_flag, false)) \
+				and EventManager.father_death_is_monotonic() \
+				and GameState.get_cast_stage("father") == "passed",
+			"%s did not create an applied terminal result receipt" % terminal_id)
+		_expect(int(GameState.mental) == clampi(
+				mental_before + int(effects.get("mental", 0)), 0, 100) \
+				and is_equal_approx(float(GameState.money),
+					money_before + float(effects.get("money", 0.0))) \
+				and int(GameState.events_seen) == events_seen_before + 1 \
+				and GameState.event_log.size() == event_log_size_before + 1 \
+				and GameState.action_log.size() == action_log_size_before + 1,
+			"%s terminal choice did not apply exactly once before saving" \
+				% terminal_id)
+		var flags_after_choice: Dictionary = GameState.flags.duplicate(true)
+		var mental_after_choice := int(GameState.mental)
+		var money_after_choice := float(GameState.money)
+		var tint_after_choice := float(GameState.moral_tint)
+		var events_seen_after_choice := int(GameState.events_seen)
+		var event_log_after_choice: Array = GameState.event_log.duplicate(true)
+		var action_log_after_choice: Array = GameState.action_log.duplicate(true)
+		var deferred_after_choice: Array = GameState.deferred_events.duplicate(true)
+		var weekly_after_choice: Array = \
+			GameState.weekly_commitments.duplicate(true)
+		var expected_event_log: Variant = JSON.parse_string(
+			JSON.stringify(event_log_after_choice))
+		var expected_action_log: Variant = JSON.parse_string(
+			JSON.stringify(action_log_after_choice))
+		var expected_deferred: Variant = JSON.parse_string(
+			JSON.stringify(deferred_after_choice))
+		var expected_weekly: Variant = JSON.parse_string(
+			JSON.stringify(weekly_after_choice))
+		var deferred_id := str(terminal_case.get("deferred_id", ""))
+		var deferred_count_after_choice := 0
+		for raw_deferred in GameState.deferred_events:
+			if raw_deferred is Dictionary \
+					and str((raw_deferred as Dictionary).get(
+						"event_id", "")) == deferred_id:
+				deferred_count_after_choice += 1
+		_expect((deferred_id.is_empty() \
+				and deferred_count_after_choice == 0) \
+				or (not deferred_id.is_empty() \
+					and deferred_count_after_choice == 1),
+			"%s terminal choice created the wrong deferred receipt count" \
+				% terminal_id)
+
+		_expect(SaveManager.save_game(TEST_SLOT, terminal_context),
+			"%s terminal result fixture could not be saved" % terminal_id)
+		await _free_story()
+		_expect(SaveManager.load_game(TEST_SLOT),
+			"%s terminal result fixture could not be loaded" % terminal_id)
+		if not await _spawn_loaded_story():
+			return
+		var resumed_terminal := str(
+			(_story.get("_current") as Dictionary).get("id", "")) \
+				== terminal_id \
+			and bool(_story.get("_pending_after_result")) \
+			and int(_story.get("_pending_result_choice_index")) == 0 \
+			and not bool(_story.get("_showing_choices"))
+		_expect(resumed_terminal,
+			"%s applied result save was blocked instead of resumed" % terminal_id)
+		if not resumed_terminal:
+			continue
+		_expect(str(terminal_case.get("result_marker", "")) \
+				in _current_story_text(),
+			"%s result resume rendered description instead of result prose" \
+				% terminal_id)
+		_expect(int(GameState.mental) == mental_after_choice \
+				and is_equal_approx(float(GameState.money), money_after_choice) \
+				and is_equal_approx(
+					float(GameState.moral_tint), tint_after_choice) \
+				and int(GameState.events_seen) == events_seen_after_choice \
+				and GameState.flags == \
+					_json_round_trip_dictionary(flags_after_choice) \
+				and GameState.get_cast_stage("father") == "passed" \
+				and GameState.event_log == expected_event_log \
+				and GameState.action_log == expected_action_log \
+				and GameState.deferred_events == expected_deferred \
+				and GameState.weekly_commitments == expected_weekly,
+			"%s terminal result load re-applied effects, flags, logs, or receipts" \
+				% terminal_id)
+
+		var restored_serial := int(_story.get(
+			"_dialogue_log_event_serial"))
+		var restored_current_entries := _dialogue_entries_for_serial(
+			_story.get("_dialogue_log_entries") as Array, restored_serial)
+		_expect(_count_dialogue_kind(restored_current_entries, "choice") == 1 \
+				and _count_dialogue_kind(
+					restored_current_entries, "result") == 0,
+			"%s terminal result load changed pre-result Dialogue History" \
+				% terminal_id)
+		var state_before_result_read: Dictionary = \
+			GameState.serialize().duplicate(true)
+		_story.call("_complete_typing")
+		var result_count_once := _count_dialogue_kind(
+			_dialogue_entries_for_serial(
+				_story.get("_dialogue_log_entries") as Array,
+				restored_serial), "result")
+		_story.call("_complete_typing")
+		_story.call("_on_choice", 0)
+		var result_count_twice := _count_dialogue_kind(
+			_dialogue_entries_for_serial(
+				_story.get("_dialogue_log_entries") as Array,
+				restored_serial), "result")
+		_expect(result_count_once == 1 and result_count_twice == 1 \
+				and GameState.serialize() == state_before_result_read,
+			"%s terminal result continuation duplicated prose or reapplied state" \
+				% terminal_id)
+
+	# Cross-splices forge the latest receipt to match the requested article, so
+	# only the target choice's missing route flag can reject them. The final two
+	# fixtures keep every authored flag correct and isolate the latest-receipt ID.
+	await _check_father_passing_terminal_result_rejection(
+		"arc_father_passing_deal_morning",
+		"arc_father_passing_hospital_room",
+		"arc_father_passing_hospital_room",
+		"deal-state/hospital-result cross-splice")
+	await _check_father_passing_terminal_result_rejection(
+		"arc_father_passing_hospital_room",
+		"arc_father_passing_deal_morning",
+		"arc_father_passing_deal_morning",
+		"hospital-state/deal-result cross-splice")
+	await _check_father_passing_terminal_result_rejection(
+		"arc_father_passing_hospital_room",
+		"arc_father_passing_hospital_room",
+		"arc_father_passing_deal_morning",
+		"hospital latest-receipt mismatch")
+	await _check_father_passing_terminal_result_rejection(
+		"arc_father_passing_deal_morning",
+		"arc_father_passing_deal_morning",
+		"arc_father_passing_hospital_room",
+		"deal latest-receipt mismatch")
+
+
+func _check_father_passing_terminal_result_rejection(
+		state_event_id: String, context_event_id: String,
+		latest_receipt_event_id: String, fixture_label: String) -> void:
+	await _free_story()
+	GameState.start_new_game()
+	GameState.turn = 189
+	GameState.flags.erase("father_passed")
+	GameState.flags.erase("arc_father_passing_seen")
+	if not await _spawn_story(state_event_id):
+		return
+	_show_current_story_choices()
+	_story.call("_on_choice", 0)
+	var damaged_context: Dictionary = _story.call(
+		"build_save_resume_context")
+	_expect(str(damaged_context.get("phase", "")) == "result" \
+			and bool(GameState.flags.get("father_passed", false)) \
+			and not GameState.event_log.is_empty(),
+		"%s could not build its applied terminal source" % fixture_label)
+	if GameState.event_log.is_empty():
+		return
+	# Keep the damaged current event ahead of a safe sentinel. Rejection is then
+	# directly visible as the sentinel loading, without replacing this QA scene.
+	damaged_context["event_id"] = context_event_id
+	damaged_context["queue"] = ["story_knee_choice"]
+	var latest_receipt := (
+		GameState.event_log[-1] as Dictionary).duplicate(true)
+	latest_receipt["event_id"] = latest_receipt_event_id
+	GameState.event_log[-1] = latest_receipt
+	_expect(SaveManager.save_game(TEST_SLOT, damaged_context),
+		"%s fixture could not be saved" % fixture_label)
+	await _free_story()
+	_expect(SaveManager.load_game(TEST_SLOT),
+		"%s fixture could not be loaded" % fixture_label)
+	if not await _spawn_loaded_story():
+		return
+	_expect(str((_story.get("_current") as Dictionary).get("id", "")) \
+			== "story_knee_choice" \
+			and str(EventManager.current_event.get("id", "")) \
+				== "story_knee_choice" \
+			and not bool(_story.get("_pending_after_result")),
+		"%s was accepted as an applied terminal result" % fixture_label)
+
 
 func _check_timed_choice_resume() -> void:
 	await _free_story()
@@ -1971,6 +3035,34 @@ func _spawn_story(event_id: String) -> bool:
 		return false
 	return true
 
+
+func _spawn_pending_story_queue(
+		queue: Array, expected_event_id: String,
+		read_only_replay: bool = false) -> bool:
+	SaveManager.clear_loaded_resume_context()
+	GameState.pending_story_queue = queue.duplicate(true)
+	GameState.story_return_scene = (
+		"res://scenes/StartMenu.tscn" if read_only_replay \
+		else "res://scenes/MainGame.tscn")
+	GameState.story_replay_mode = read_only_replay
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if not is_instance_valid(_story) or not _story.has_method("_set_auto_mode"):
+		_fail("stale pending StoryMode fixture could not be instantiated")
+		return false
+	_story.call("_set_auto_mode", false, false, false)
+	_story.call("_finish_story_scene_transition")
+	var actual: String = str(
+		(_story.get("_current") as Dictionary).get("id", ""))
+	if actual != expected_event_id:
+		_fail("stale pending StoryMode fixture loaded %s instead of %s" % [
+			actual, expected_event_id,
+		])
+		return false
+	return true
+
 func _spawn_loaded_story() -> bool:
 	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
 	add_child(_story)
@@ -2037,6 +3129,22 @@ func _count_dialogue_kind(entries: Array, kind: String) -> int:
 				and str((raw_entry as Dictionary).get("kind", "")) == kind:
 			count += 1
 	return count
+
+func _dialogue_entries_for_serial(entries: Array, event_serial: int) -> Array:
+	var matching: Array = []
+	for raw_entry in entries:
+		if raw_entry is Dictionary \
+				and int((raw_entry as Dictionary).get(
+					"event_serial", 0)) == event_serial:
+			matching.append((raw_entry as Dictionary).duplicate(true))
+	return matching
+
+func _dialogue_entries_text(entries: Array) -> String:
+	var pieces: Array[String] = []
+	for raw_entry in entries:
+		if raw_entry is Dictionary:
+			pieces.append(str((raw_entry as Dictionary).get("text", "")))
+	return " ".join(pieces)
 
 func _v2_story_receipt_count(event_id: String, choice_index: int) -> int:
 	var count := 0
@@ -2164,7 +3272,7 @@ func _finish() -> void:
 	_stop_test_audio()
 	await get_tree().create_timer(0.10).timeout
 	if _failures.is_empty():
-		print("MANUAL_SAVE_CHECK_OK slots=10 durability=temp-readback/verified-backup/primary-preserved/retry/recovery/compatible-backup-preserved/wrong-type/missing-key manual_feedback=failure-stays/success-close identity=current/partial/unknown/full-demo/v2-isolated/completion-turn25-exact/cutoff future=reject-before-state prose=source_progress locale_mismatch=rewind choices=1 result_once=1 timer=1 pages=2 dialogue_history=prose/choice/result/legacy_notice first_bill=expression/decision/ledger+preclamp_H3_H99+fatal_short_circuit+frozen_replay+local_ledger+hyunsu+legacy_atomic+old_dirty_generic_inert+nonstory_root_only/no_synthetic_archive archive=opening1/decision0 meta=restored")
+		print("MANUAL_SAVE_CHECK_OK slots=10 durability=temp-readback/verified-backup/primary-preserved/retry/recovery/compatible-backup-preserved/wrong-type/missing-key manual_feedback=failure-stays/success-close identity=current/partial/unknown/full-demo/v2-isolated/completion-turn25-exact/cutoff future=reject-before-state prose=source_progress locale_mismatch=rewind choices=1 result_once=1 result_variant=sangchul-father-passed/result-once/current-serial-history/event-action-logs/nonresult-prose+choices-restart stale_queue=alive-original/death-canonical+legacy+cast/passed-variants/living-only-skip/769-iterative-skip/769-curation-iterative-skip/read-only-history father_passing=blocked5/event-manager+story-queue/terminal-result2/once/cross-splice2-reject/latest-receipt2-reject timer=1 pages=2 dialogue_history=prose/choice/result/legacy_notice first_bill=expression/decision/ledger+preclamp_H3_H99+fatal_short_circuit+frozen_replay+local_ledger+hyunsu+legacy_atomic+old_dirty_generic_inert+nonstory_root_only/no_synthetic_archive archive=opening1/decision0 meta=restored")
 		get_tree().quit(0)
 		return
 	for failure in _failures:

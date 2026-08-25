@@ -17,15 +17,15 @@
   {
     "id": "callback_asserted_timeline_echo",
     "title": "Saying I Have My Own Goal",
-    "description": "Under marriage pressure, {name} said firmly, 'I have a different goal right now.'\n\nThat declaration comes back sometimes.\n\nToday the parents' worried questions return.",
+    "description": "Under marriage pressure, {name} said firmly, 'I have a different goal right now.'\n\nThat declaration comes back sometimes.\n\nToday Mother's worried questions return.",
     "choices": [
       {
         "text": "Even now — I live at my own pace",
-        "result_text": "Live to others' expectations and it stops being your life.\n\n{name} still keeps that firmness.\nLoving your parents and living on their timetable were different things."
+      "result_text": "Live to others' expectations and it stops being your life.\n\n{name} still keeps that firmness.\nLoving your family and living on their timetable were different things."
       },
       {
-        "text": "Mind their feelings too — say it gently again",
-        "result_text": "Firmness may have hurt the parents sometimes.\n\n{name} decided to keep their path but convey it more warmly."
+      "text": "Mind Mother's feelings too — say it gently again",
+      "result_text": "Firmness may have hurt Mother sometimes.\n\n{name} decided to keep their path but convey it more warmly."
       }
     ]
   },
@@ -176,6 +176,21 @@
       {
         "text": "Now — even losses shake me less",
         "result_text": "At first, one loss cost them sleep. Now it's different.\n\n{name} came to accept loss as part of the game."
+      }
+    ]
+  },
+  {
+    "id": "callback_proactive_parent_care_echo_father_passed",
+    "title": "The Hospital Visit We Made",
+    "description": "When {name} first felt the parents growing older, {name} said, 'Dad, let's go to the hospital together.'\n\nThe words became a real appointment and a day spent together. Even after Father died, that day of not putting it off did not disappear.\n\nToday, {name} thought about the family still here.",
+    "choices": [
+      {
+        "text": "Acting first then — eased the regret a little",
+        "result_text": "There is no next time with someone who is gone.\n\nBut the hospital visit they actually made remained. {name} understood that caring for family was less a grand vow than a day taken while it was still possible."
+      },
+      {
+        "text": "Do not put off Mother and the family still here",
+        "result_text": "One thing done right could not settle everything.\n\n{name} called Mother first and asked about her next checkup. The time of someone gone could not be restored, but the day of someone still here had not passed yet."
       }
     ]
   }

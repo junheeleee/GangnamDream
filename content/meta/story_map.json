@@ -1788,7 +1788,7 @@
               "work": "EXPAND",
               "root": "arc_y4_three_promises",
               "rule_status": "needs_rule",
-              "intent": "다은·지연+상철 exact 원고는 작성됐지만, selected investment deal_owner가 sangchul임을 함께 읽는 actor selector 이관 전에는 reference-only로 보존한다.",
+              "intent": "W153 shipping StoryMode가 관계 경로를 읽어 다은·지연·무연애 원고를 편성하고, 아버지·현재 사람·거래 중 보호한 하나와 놓친 둘을 exact receipt로 남긴다.",
               "channel": "mixed",
               "cast": ["player", "father", "@promise_person", "@deal_owner"],
               "selector": {"selected_all": ["m39_investment_meeting", "m39_partner_weekend"], "selected_none": ["m39_father_weekend"], "availability_values": ["daeun"]},
@@ -1849,13 +1849,19 @@
               "work": "EXPAND",
               "root": "arc_36_unexpected_hand",
               "rule_status": "needs_rule",
-              "intent": "선택하지 않은 사람과 예상 밖에 남은 사람을 실제 반응으로 보여 준다.",
-              "channel": "in_person",
-              "cast": ["player", "@surviving_witness"],
-              "role_bindings": {"surviving_witness": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m39_three_promises", "actor_role": "surviving_witness"}},
-              "distinct_roles": ["@surviving_witness"],
+              "intent": "W157 shipping StoryMode가 M39에서 놓친 아버지+사람·아버지+거래·사람+거래 변형을 편성하고, 선택은 arc_y4_missed_cost_repaired_father·person·deal 중 정확히 하나를 남긴다.",
+              "channel": "internal",
+              "cast": ["player"],
               "reads": {"memories": ["memory.m28_late_words", "memory.m39_three_promises"], "decision": null, "carryovers": []},
-              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m40_missed_cost_repair"], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "route.m40.missed_pair",
+                "base_values": ["father_person"],
+                "fallbacks": [
+                  {"values": ["father_deal"], "root": "arc_36_unexpected_hand_father_deal", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m28_late_words", "memory.m39_three_promises"], "decision": null, "carryovers": []}, "forgone": ["사람·자기 몸 창구를 이번 주에 수습할 기회"]},
+                  {"values": ["*"], "root": "arc_36_unexpected_hand_person_deal", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m28_late_words", "memory.m39_three_promises"], "decision": null, "carryovers": []}, "forgone": ["아버지 병동 창구를 이번 주에 수습할 기회"]}
+                ]
+              },
               "forgone": []
             },
             {
@@ -1899,16 +1905,17 @@
               "work": "EXPAND",
               "root": "arc_y4_body_witness",
               "rule_status": "needs_rule",
-              "intent": "다은·지연·현수별 exact 목격 원고는 작성됐지만, m41_open_door_to_nearest_person 완료와 witness actor를 함께 읽는 selector 이관 전에는 reference-only로 보존한다.",
+              "intent": "W164 shipping StoryMode가 다은·지연·무연애 경로를 편성하고, W157에 실제로 수습한 아버지·사람·거래 대상을 몸과 마감의 현재 선택 앞에 다시 읽는다.",
               "channel": "in_person",
               "cast": ["player", "daeun"],
-              "reads": {"memories": ["memory.m39_three_promises"], "decision": null, "carryovers": []},
+              "reads": {"memories": ["memory.m39_three_promises", "memory.m40_missed_cost_repair"], "decision": null, "carryovers": []},
               "writes": {"memories": ["memory.m41_body_witness"], "decision": null, "carryovers": []},
               "coverage": {
                 "axis": "route.m41.witness_identity",
                 "base_values": ["daeun"],
                 "fallbacks": [
-                  {"values": ["*"], "root": "arc_y4_body_witness_hyunsu", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m39_three_promises"], "decision": null, "carryovers": []}, "forgone": ["다은이 직접 몸의 이상을 목격하는 기준 경로"]}
+                  {"values": ["jiyeon"], "root": "arc_y4_body_witness_jiyeon", "work": "EXPAND", "rule_status": "needs_rule", "channel": "phone", "cast": ["player", "jiyeon"], "reads": {"memories": ["memory.m39_three_promises", "memory.m40_missed_cost_repair"], "decision": null, "carryovers": []}, "forgone": ["다은이 서울 방에 직접 도착하는 기준 경로"]},
+                  {"values": ["*"], "root": "arc_y4_body_witness_hyunsu", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m39_three_promises", "memory.m40_missed_cost_repair"], "decision": null, "carryovers": []}, "forgone": ["다은이 직접 몸의 이상을 목격하는 기준 경로"]}
                 ]
               },
               "forgone": []
@@ -1943,7 +1950,7 @@
               "work": "EXPAND",
               "root": "arc_y4_family_partner_collision",
               "rule_status": "needs_rule",
-              "intent": "다은·지연·가족-only exact 원고는 작성됐지만, M41 witness actor와 father_hospital_door known value를 함께 읽는 selector 이관 전에는 reference-only로 보존한다.",
+              "intent": "W167 shipping StoryMode가 다은·지연·가족-only·빈 식탁 경로를 편성하고, 동석·혼자 참석·불참의 exact 결과를 파트너 약속으로 남긴다.",
               "channel": "in_person",
               "cast": ["player", "@partner", "@family_member"],
               "selector": {"selected_all": ["m42_face_family_member", "m42_bring_partner_to_table"], "selected_none": [], "availability_values": ["daeun"]},
@@ -2077,7 +2084,7 @@
               "work": "EXPAND",
               "root": "arc_y4_borrowed_name",
               "rule_status": "needs_rule",
-              "intent": "다은·지연+상철 exact 원고는 작성됐지만, selected financing deal_owner가 sangchul임을 함께 읽는 actor selector 이관 전에는 reference-only로 보존한다.",
+              "intent": "W177 shipping StoryMode가 다은·지연·자기 명의·자료 빈칸 경로를 편성하고, 타인 명의 요청·자기 범위 축소·서류 철회를 실제 문서 행동으로 남긴다.",
               "channel": "in_person",
               "cast": ["player", "@partner", "@deal_owner"],
               "selector": {"selected_all": ["m45_measure_financing_gap", "m45_ask_partner_consent"], "selected_none": [], "availability_values": ["daeun"]},
@@ -2131,7 +2138,7 @@
               "work": "EXPAND",
               "root": "arc_y4_bill_night",
               "rule_status": "needs_rule",
-              "intent": "다은·지연·무연애 exact 청구서 원고는 작성됐지만, 관계 actor와 father+partner selected set, 미처리 cash/health, bill source와 M45 terminal을 함께 읽는 selector 이관 전에는 reference-only로 보존한다.",
+              "intent": "W181 shipping StoryMode가 다은·지연·무연애 청구서를 편성하고, 긴급 청구·자기 몸·아버지 병동 조정 중 먼저 실행한 일과 미룬 비용을 exact receipt로 남긴다.",
               "channel": "mixed",
               "cast": ["player", "@partner", "father"],
               "role_bindings": {"partner": {"kind": "literal", "actor_id": "daeun"}},
@@ -2203,8 +2210,8 @@
                 "axis": "route.m47.medical_outcome",
                 "base_values": ["passed"],
                 "fallbacks": [
-                  {"values": ["stabilized"], "root": "arc_y4_father_crisis_stabilized", "work": "EXPAND", "rule_status": "mapped", "channel": "in_person", "cast": ["player", "father"], "reads": {"memories": ["memory.m46_bill_night"], "decision": null, "carryovers": []}, "forgone": ["별세 경과"]},
-                  {"values": ["*"], "root": "arc_y4_father_outcome_unknown", "work": "EXPAND", "rule_status": "mapped", "channel": "narration", "cast": ["player"], "reads": {"memories": ["memory.m46_bill_night"], "decision": null, "carryovers": []}, "forgone": ["손상 영수증에서 발명한 생존 또는 별세"]}
+                  {"values": ["stabilized"], "root": "arc_y4_father_crisis_stabilized", "work": "EXPAND", "rule_status": "mapped", "channel": "phone", "cast": ["player", "nurse"], "reads": {"memories": ["memory.m46_bill_night"], "decision": null, "carryovers": []}, "forgone": ["별세 경과"]},
+                  {"values": ["*"], "root": "arc_y4_father_outcome_unknown", "work": "EXPAND", "rule_status": "mapped", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m46_bill_night"], "decision": null, "carryovers": []}, "forgone": ["손상 영수증에서 발명한 생존 또는 별세"]}
                 ]
               },
               "forgone": ["연락 방식으로 생사를 보상하는 경로"]

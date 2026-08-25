@@ -88,6 +88,12 @@
     "portrait": "father_home_weak",
     "background": "late_night",
     "conditions": {},
+    "tags": [
+      "story",
+      "arc",
+      "father",
+      "requires_living_father"
+    ],
     "cooldown": 9999,
     "description": "늦은 밤, 아버지에게서 전화가 왔다.\n\n특별한 날도 아니었다. 그냥 수요일 밤.\n\n\"자냐.\"\n\"아뇨. 아직요.\"\n\n5년 전이었다면 어색했을 통화였다. 6년의 빚을 사이에 두고, 둘 다 그 얘기를 꺼내지 않던 시절.\n\n근데 지금은 달랐다.\n\n\"민준아.\"\n\"네.\"\n\n아버지가 잠깐 뜸을 들였다. 평생 말이 없던 사람이, 무슨 말을 꺼내려는 듯했다.",
     "choices": [

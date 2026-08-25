@@ -60,7 +60,7 @@
       "family"
     ],
     "cooldown": 999,
-    "description": "결혼 압박 앞에서, {name}은 '저는 지금 다른 목표가 있어요'라고 단호하게 말했었다.\n\n그 선언이 가끔 떠오른다.\n\n오늘 또 부모님의 걱정 어린 질문이 돌아온다.",
+    "description": "결혼 압박 앞에서, {name}은 '저는 지금 다른 목표가 있어요'라고 단호하게 말했었다.\n\n그 선언이 가끔 떠오른다.\n\n오늘 또 어머니의 걱정 어린 질문이 돌아온다.",
     "choices": [
       {
         "text": "지금도 — 내 속도대로 산다",
@@ -70,17 +70,17 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "남의 기대에 맞춰 살면, 내 인생이 아니게 된다.\n\n{name}은 그때의 단호함을 지금도 지킨다.\n부모님을 사랑하는 것과, 부모님 시간표대로 사는 건 다른 거였다."
+      "result_text": "남의 기대에 맞춰 살면, 내 인생이 아니게 된다.\n\n{name}은 그때의 단호함을 지금도 지킨다.\n가족을 사랑하는 것과, 가족의 시간표대로 사는 건 다른 거였다."
       },
       {
-        "text": "부모님 마음도 헤아리며 — 부드럽게 다시 말한다",
+      "text": "어머니 마음도 헤아리며 — 부드럽게 다시 말한다",
         "effects": {
           "mental": 5,
           "social_skill": 2
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "단호함이 때론 부모님께 상처가 됐을지도 모른다.\n\n{name}은 자기 길을 지키되, 그 마음을 더 따뜻하게 전하기로 했다."
+      "result_text": "단호함이 때론 어머니께 상처가 됐을지도 모른다.\n\n{name}은 자기 길을 지키되, 그 마음을 더 따뜻하게 전하기로 했다."
       }
     ]
   },
@@ -517,6 +517,50 @@
         "flags": [],
         "follow_up_event": "",
         "result_text": "처음엔 손실 하나에 잠을 못 잤다. 지금은 다르다.\n\n{name}은 손실을 게임의 일부로 받아들이게 됐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_proactive_parent_care_echo_father_passed",
+    "title": "병원에 같이 갔던 것",
+    "background": "current_housing",
+    "portrait": "player_sad",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "flag": "proactive_parent_care",
+      "min_turn": 44
+    },
+    "tags": [
+      "callback",
+      "father",
+      "story",
+      "family",
+      "memory"
+    ],
+    "cooldown": 999,
+    "description": "부모님이 늙어가는 걸 느끼고, {name}은 먼저 '아버지, 병원 한번 같이 가요'라고 말했었다.\n\n그 말은 실제 예약과 동행으로 이어졌다. 아버지가 떠난 뒤에도, 미루지 않았던 그 하루는 사라지지 않았다.\n\n오늘 다시 남은 가족 생각이 났다.",
+    "choices": [
+      {
+        "text": "그때 먼저 챙긴 일이 — 후회를 조금 덜었다",
+        "effects": {
+          "mental": 7
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "떠난 사람에게 다음은 없다.\n\n그래도 그때 함께 병원에 갔던 사실은 남았다. {name}은 효도가 거창한 결심보다, 아직 할 수 있을 때 잡은 하루에 가깝다는 걸 알았다."
+      },
+      {
+        "text": "어머니와 남은 가족의 일은 더 미루지 않는다",
+        "effects": {
+          "mental": 6,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "한 번 잘한 일로 끝낼 수는 없었다.\n\n{name}은 어머니에게 먼저 연락하고, 다음 검진 날짜를 물었다. 떠난 사람의 시간을 되돌릴 수는 없어도 남은 사람의 오늘은 아직 지나가지 않았다."
       }
     ]
   }

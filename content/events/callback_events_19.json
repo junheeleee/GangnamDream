@@ -367,11 +367,6 @@
         "result_text": "반갑게 받았다.\n명절의 화해가 이 연락을 만들었다.",
         "effects": {
           "mental": 4
-        },
-        "cast_effects": {
-          "father": {
-            "affinity": 3
-          }
         }
       },
       {
@@ -379,11 +374,6 @@
         "result_text": "아직 편하지 않았지만 받았다.\n편함은 시간이 만든다.",
         "effects": {
           "mental": 2
-        },
-        "cast_effects": {
-          "father": {
-            "affinity": 2
-          }
         }
       }
     ],

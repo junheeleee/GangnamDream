@@ -795,5 +795,49 @@
         "result_text": "헤어질 때 그가 말했다.\n\"부럽다는 눈으로 안 보셔서 좋았어요. 그런 자리가 별로 없거든요.\"\n\n{name}은 지하철을 탔다. 창에 비친 얼굴이 평소보다 편해 보였다.\n어느 층에 살든, 시선의 높이는 스스로 정하는 거였다."
       }
     ]
+  },
+  {
+    "id": "callback_borrowed_parents_repay_moment_father_passed",
+    "title": "갚아야 할 때",
+    "description": "다단계 카드값을 집안 비상금에서 빌린 지 10개월이 됐다.\n그 돈에 아버지가 남긴 몫도 섞여 있다는 사실이 계속 마음에 걸렸다.\n통장 잔고를 봤다. 300만원을 갚을 수 있을 것 같다.",
+    "category": "family",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "flag": "borrowed_from_parents",
+      "min_turn": 40
+    },
+    "tags": [
+      "parent",
+      "debt",
+      "callback",
+      "father",
+      "memory"
+    ],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "이체하고 어머니께 전화드린다",
+        "effects": {
+          "money": -3000000,
+          "mental": 23
+        },
+        "flags": [
+          "parents_debt_repaid"
+        ],
+        "follow_up_event": "",
+        "result_text": "이체 후 어머니께 전화를 드렸다.\n\"엄마, 그때 빌렸던 거 보냈어요.\"\n어머니는 잠깐 말이 없었다. 그러다 \"네 아버지가 알았으면 됐다고 했을 거다\"라고 말했다.\n그 말은 용서가 아니라, 이제 갚아야 할 돈과 남겨 둘 기억을 나누는 기준처럼 오래 남았다."
+      },
+      {
+        "text": "좀 더 모이면 한꺼번에 갚는다",
+        "effects": {
+          "mental": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "더 모아서 한꺼번에 갚기로 했다.\n합리적이다.\n그래도 어머니께 상황을 알리는 전화 한 통은 돈보다 먼저 할 수 있었다."
+      }
+    ]
   }
 ]

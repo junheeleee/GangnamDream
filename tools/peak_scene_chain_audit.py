@@ -52,7 +52,6 @@ PEAK_ROOTS = (
     ("Hyunsu Reunion", "hyunsu_reunion_later"),
     ("Jaehyuk Ghost", "arc_jaehyuk_04a_ghost"),
     ("Jaehyuk's True Face", "arc_jaehyuk_mirror"),
-    ("The Relationship Bill", "arc_36_trust_crack"),
     ("The Last Signature", "arc_final_countdown"),
     ("Three Claims in One Week", "arc_daeun_03_fork"),
     ("The Mirror and the Hospital Door", "arc_sangchul_mirror"),
@@ -90,7 +89,6 @@ REQUIRED_PASS = {
     "hyunsu_reunion_later",
     "arc_jaehyuk_04a_ghost",
     "arc_jaehyuk_mirror",
-    "arc_36_trust_crack",
     "arc_final_countdown",
     "arc_daeun_03_fork",
     "arc_sangchul_mirror",
@@ -216,6 +214,140 @@ def validate_english_path(
                 f"English peak choice mismatch: {event_id} "
                 f"{len(en_choices)}!={len(ko_choices)}"
             )
+
+
+def validate_distributed_relationship_bill(
+    ko_events: dict[str, dict[str, Any]],
+    en_events: dict[str, dict[str, Any]],
+) -> dict[str, int]:
+    """Keep the protected W157 consequence without faking one immediate chain.
+
+    `arc_36_trust_crack` used to pass the immediate-peak metric only because it
+    jumped straight into M40. M40 is now a separate protected week whose target
+    depends on M39 receipts, so it belongs to the causal-spine audit rather than
+    `walk_paths()`. This contract prevents that honest separation from becoming
+    an excuse to lose the consequence or locale parity.
+    """
+    trust = ko_events.get("arc_36_trust_crack", {})
+    trust_choices = trust.get("choices", [])
+    if len(trust_choices) != 3:
+        raise ValueError("distributed relationship bill lost its trust decision")
+    immediate_bypass = sum(
+        1
+        for choice in trust_choices
+        if str(choice.get("follow_up_event", "")).strip()
+    )
+    if immediate_bypass:
+        raise ValueError("distributed relationship bill bypasses protected W157")
+    route_contracts = (
+        (
+            "missed_father and missed_person",
+            "arc_36_unexpected_hand",
+        ),
+        (
+            "missed_father and missed_deal",
+            "arc_36_unexpected_hand_father_deal",
+        ),
+        (
+            "missed_person and missed_deal",
+            "arc_36_unexpected_hand_person_deal",
+        ),
+    )
+    m40_ids = tuple(event_id for _, event_id in route_contracts)
+    locale_variants = 0
+    for event_id in ("arc_36_trust_crack", *m40_ids):
+        ko_event = ko_events.get(event_id, {})
+        en_event = en_events.get(event_id, {})
+        if (
+            not ko_event
+            or not en_event
+            or len(ko_event.get("choices", []))
+            != len(en_event.get("choices", []))
+        ):
+            raise ValueError(
+                f"distributed relationship bill locale drift: {event_id}"
+            )
+        if event_id in m40_ids:
+            locale_variants += 1
+
+    with open(MAIN_GAME, encoding="utf-8") as handle:
+        source = handle.read()
+
+    def gdscript_function(name: str) -> str:
+        start_match = re.search(rf"(?m)^func {re.escape(name)}\(", source)
+        if start_match is None:
+            raise ValueError(f"distributed relationship bill lost {name}()")
+        end_match = re.search(r"(?m)^func ", source[start_match.end():])
+        end = len(source) if end_match is None else start_match.end() + end_match.start()
+        return source[start_match.start():end]
+
+    causal_router = gdscript_function("_chapter_four_causal_arc_id")
+    full_router = gdscript_function("_next_arc_id")
+    w157_start = causal_router.find("\tif t == 157")
+    w157_end = causal_router.find("\n\tif t == 161", w157_start)
+    if w157_start < 0 or w157_end < 0:
+        raise ValueError("distributed relationship bill lost its exact W157 block")
+    w157_block = causal_router[w157_start:w157_end]
+
+    week_match = re.search(r"\bif t == (\d+) and f\.get\(\n?\s*"
+                           r'"arc_y4_three_promises_seen"', w157_block)
+    if week_match is None:
+        raise ValueError("distributed relationship bill is not gated by the M39 receipt")
+    consequence_week = int(week_match.group(1))
+    for token in (
+        'not f.get("arc_36_unexpected_hand_seen", false)',
+        'f.get("arc_y4_three_promises_missed_father", false)',
+        'f.get("arc_y4_three_promises_missed_person", false)',
+        'f.get("arc_y4_three_promises_missed_deal", false)',
+        "int(missed_father) + int(missed_person) + int(missed_deal) != 2",
+        "if father_is_passed and missed_father:",
+    ):
+        if token not in w157_block:
+            raise ValueError(f"distributed W157 receipt contract missing: {token}")
+    if len(re.findall(r'(?m)^\s*return ""$', w157_block)) < 2:
+        raise ValueError("distributed W157 damaged/deceased receipts do not fail closed")
+
+    routed_pairs = 0
+    for condition, event_id in route_contracts:
+        if event_id == "arc_36_unexpected_hand":
+            # The father/person pair is the only remaining exact pair after the
+            # two named pair branches. Its base return must stay inside W157.
+            branch_pattern = rf'(?m)^\s*return "{re.escape(event_id)}"$'
+        else:
+            branch_pattern = (
+                rf"if {re.escape(condition)}:\s*\n\s*"
+                rf'return "{re.escape(event_id)}"'
+            )
+        if re.search(branch_pattern, w157_block) is None:
+            raise ValueError(
+                f"distributed W157 pair lost {condition} -> {event_id}"
+            )
+        routed_pairs += 1
+
+    causal_call = full_router.find("_chapter_four_causal_arc_id(")
+    if causal_call < 0:
+        raise ValueError("distributed W157 router is not called by the full router")
+    if 'return "arc_36_unexpected_hand"' in full_router:
+        raise ValueError(
+            "receiptless save can invent the father/person M40 base variant"
+        )
+
+    father_active_guards = 0
+    for week, next_week in ((153, 157), (167, 169), (181, 185)):
+        start = causal_router.find(f"\tif t == {week}")
+        end = causal_router.find(f"\n\tif t == {next_week}", start)
+        if start < 0 or end < 0 or "not father_is_passed" not in causal_router[start:end]:
+            raise ValueError(f"terminal Father evidence can reopen W{week}")
+        father_active_guards += 1
+
+    return {
+        "consequence_week": consequence_week,
+        "variants": locale_variants,
+        "target_pairs": routed_pairs,
+        "immediate_bypass": immediate_bypass,
+        "legacy_fallback": 0,
+        "father_active_guards": father_active_guards,
+    }
 
 
 def validate_season_peak_contracts(events: dict[str, dict[str, Any]]) -> None:
@@ -987,14 +1119,29 @@ def validate_daeun_wedding_contract(events: dict[str, dict[str, Any]]) -> None:
 
     groom_side = events["arc_daeun_wedding_groom_side"]
     groom_side_cg_if_known = {
-        "father_passed&hyunsu_reconnected": "cg_romance_wedding_daeun_father_reaction_passed_hyunsu",
-        "father_passed": "cg_romance_wedding_daeun_father_reaction_passed",
         "hyunsu_reconnected": "cg_romance_wedding_daeun_father_reaction_hyunsu",
     }
     if groom_side.get("cg") != "cg_romance_wedding_daeun_father_reaction":
         raise ValueError("Daeun wedding groom-side reaction CG changed")
-    if list((groom_side.get("cg_if_known") or {}).items()) != list(groom_side_cg_if_known.items()):
+    if list((groom_side.get("cg_if_known") or {}).items()) != list(
+            groom_side_cg_if_known.items()):
         raise ValueError("Daeun wedding groom-side state map or precedence changed")
+    passed_groom_side = events.get(
+        "arc_daeun_wedding_groom_side_father_passed", {})
+    passed_cg_if_known = {
+        "hyunsu_reconnected":
+            "cg_romance_wedding_daeun_father_reaction_passed_hyunsu",
+    }
+    if passed_groom_side.get("cg") \
+            != "cg_romance_wedding_daeun_father_reaction_passed":
+        raise ValueError("Daeun wedding passed groom-side reaction CG changed")
+    if list((passed_groom_side.get("cg_if_known") or {}).items()) != list(
+            passed_cg_if_known.items()):
+        raise ValueError(
+            "Daeun wedding passed groom-side state map or precedence changed")
+    if passed_groom_side.get("choices") != groom_side.get("choices"):
+        raise ValueError(
+            "Daeun wedding passed groom-side changed choice mechanics or aisle edge")
 
     wide_cg_if_known = {
         "daeun_wedding_full": "cg_romance_wedding_daeun_full",
@@ -2993,6 +3140,9 @@ def main() -> int:
     validate_jiyeon_marriage_routing_contract()
     validate_review_appendix_contracts(ko_events, en_events)
     validate_finale_function_contracts(ko_events, en_events)
+    distributed_metrics = validate_distributed_relationship_bill(
+        ko_events, en_events
+    )
     metrics = [measure(label, root_id, ko_events) for label, root_id in PEAK_ROOTS]
     visited = {
         event_id
@@ -3019,6 +3169,15 @@ def main() -> int:
                 f"verdict={'PASS' if metric.passes else 'EXPAND'}"
             )
     print(f"PEAK_SCENE_CHAIN_AUDIT peaks={len(metrics)} pass={len(metrics) - debt} debt={debt}")
+    print(
+        "DISTRIBUTED_PEAK_AUDIT root=arc_36_trust_crack "
+        f"consequence_week={distributed_metrics['consequence_week']} "
+        f"variants={distributed_metrics['variants']} "
+        f"target_pairs={distributed_metrics['target_pairs']} "
+        f"immediate_bypass={distributed_metrics['immediate_bypass']} "
+        f"legacy_fallback={distributed_metrics['legacy_fallback']} "
+        f"father_active_guards={distributed_metrics['father_active_guards']}"
+    )
 
     if args.strict:
         missing_pass = sorted(REQUIRED_PASS - passing)

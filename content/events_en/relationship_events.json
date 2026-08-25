@@ -123,7 +123,7 @@
   {
     "id": "family_005",
     "title": "Family Gathering Pressure",
-    "description": "Not even a holiday, but a family gathering was scheduled. Apparently your uncle's 60th birthday.\nYour parents insisted 'you have to come.'\n\nThe idea of reporting your life updates to all your relatives is already exhausting.\n'What are you doing these days? Are you married yet?' — the predictable questions flashed through your mind.\n{name} considered whether to attend and what to",
+    "description": "Not even a holiday, but a family gathering was scheduled. Apparently your uncle's 60th birthday.\nThe family insisted, 'You have to come.'\n\nThe idea of reporting your life updates to all your relatives is already exhausting.\n'What are you doing these days? Are you married yet?' — the predictable questions flashed through your mind.\n{name} considered whether to attend and what to say.",
     "choices": [
       {
         "text": "Attend and keep up appearances",
@@ -244,8 +244,8 @@
   },
   {
     "id": "family_014",
-    "title": "Call from Parents",
-    "description": "Sunday afternoon. A call from your parents.\n'Are you eating well? Do you have money? How's your health?'\n\nWorry was woven between every line of small talk.\n{name} answered 'everything's fine' while actually thinking about whether everything really was.\nTell the truth, or pretend to be okay so they don't worry?",
+    "title": "A Call from Mom",
+    "description": "Sunday afternoon. A call from Mom.\n'Are you eating well? Do you have money? How's your health?'\n\nWorry was woven between every line of small talk.\n{name} answered 'everything's fine' while actually thinking about whether everything really was.\nTell the truth, or pretend to be okay so she does not worry?",
     "choices": [
       {
         "text": "Share your life honestly",
@@ -257,7 +257,7 @@
       },
       {
         "text": "Only share the good things so they don't worry",
-        "result_text": "You hid the hard parts and shared only the good. You didn't want to be a burden to your parents."
+      "result_text": "You hid the hard parts and shared only the good. You didn't want to be a burden to Mom."
       }
     ]
   },
@@ -835,7 +835,7 @@
   {
     "id": "jiyeon_mother",
     "title": "Jiyeon's Mother",
-    "description": "You met Jiyeon's mother.\n\nA café in Gangnam. Jiyeon's mother took a sip of tea and asked:\n\n'What do your parents do?'\n'They're out of Seoul.'\n'Where?'\n\nUnder the table, Jiyeon took your hand.",
+    "description": "You met Jiyeon's mother.\n\nA café in Gangnam. Jiyeon's mother took a sip of tea and asked:\n\n'What does your family do?'\n'My family home is outside Seoul.'\n'Where?'\n\nUnder the table, Jiyeon took your hand.",
     "choices": [
       {
         "text": "Answer with confidence. The truth.",
@@ -960,6 +960,25 @@
       {
         "text": "Changed the subject",
         "result_text": "He brought up something else.\nJiyeon went along with it.\nBut something felt off."
+      }
+    ]
+  },
+  {
+    "id": "rel_family_visit_seoul_father_passed",
+    "title": "Mother Came to Seoul",
+    "description": "A text came from Mom: 'I'll come up to Seoul next week. I miss you.' It was sudden. {name} could not bring himself to show her the gosiwon room, so they agreed to meet at a café near Hongdae. Watching Mother step off the bus and look around alone brought a rush of warmth and a strange weight. How much of life in Seoul after Father should {name} show her?",
+    "choices": [
+      {
+        "text": "Show her the reality honestly",
+        "result_text": "They walked near the gosiwon while {name} told her the truth. Mother was quiet for a long time. After looking at the narrow window and corridor, she said softly, 'You've been struggling here alone.' The words nearly brought tears."
+      },
+      {
+        "text": "Show her only the good side",
+        "result_text": "{name} took her to a nice restaurant and smiled through a story about doing well. The bill made {name}'s heart drop. Through the bus window, Mother's back looked impossibly far away."
+      },
+      {
+        "text": "Say you're busy and postpone it",
+        "result_text": "'I have a project this week,' {name} said. Mom replied with a short, 'All right.' Thinking about the time she must have spent preparing to come to Seoul alone after Father, that brevity stayed for a long time."
       }
     ]
   }

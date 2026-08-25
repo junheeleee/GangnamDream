@@ -423,5 +423,24 @@
         "result_text": "{name} captured the call log, photographed the folded medicine bag's dosing times, and placed the two images side by side. The last outgoing date, 0:00, and dosing times fit in one image; he gave it only the date as its title.\n\nThe old guarantee and self-name draft stayed on the desk outside the frame. The white medicine bag and black zero filled the image; today's name fields remained beyond the lens."
       }
     ]
+  },
+  {
+    "id": "arc_sangchul_year3_father_passed",
+    "title": "News Article",
+    "description": "Saw the name in a portal news headline.\n\n\"Real estate broker Im arrested on suspicion of defrauding multiple investors\"\n\nThere was a photo. Definitely Im Sangchul.\n\nSeparate from what {name} did — another case had surfaced elsewhere. The father's situation wasn't the only one.\n\nClosed the article and looked out the window. Learned a lot from that man. That man destroyed his father. Both things are true at once.",
+    "choices": [
+      {
+        "text": "Just moved past it. That relationship is over.",
+        "result_text": "Closed the article. The connection with Im Sangchul ended at that café.\n\nWho {name} is now — got here without his help, and without his weight."
+      },
+      {
+        "text": "Opened Father's number — wanting to tell him the news.",
+        "result_text": "Father's name and number remained in Contacts. {name} tapped Share on the article, then stopped at the recipient field.\n\nHe wanted to tell him that more victims had surfaced, that what happened to Father had not been the only case. But this was no longer a number that could connect. The link was never sent.\n\nWhen he closed the article, nothing heavy had lifted. Only the absence of anyone who could hear this news had become clearer."
+      },
+      {
+        "text": "Feeling sorry for him is strange",
+        "result_text": "Without that man, the {name} now might not exist. But that man destroyed his father.\n\nBoth are true simultaneously. That's uncomfortable."
+      }
+    ]
   }
 ]

@@ -735,7 +735,8 @@
       "story",
       "core_loop_v2",
       "father",
-      "message"
+      "message",
+      "requires_living_father"
     ],
     "cooldown": 9999,
     "one_time": true,
@@ -1340,7 +1341,8 @@
       "core_loop_v2",
       "demo_boss",
       "reflection",
-      "continuous_scene_fragment"
+      "continuous_scene_fragment",
+      "requires_living_father"
     ],
     "cooldown": 9999,
     "one_time": true,

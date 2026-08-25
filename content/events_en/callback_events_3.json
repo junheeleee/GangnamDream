@@ -28,7 +28,7 @@
         "result_text": "Night shifts at a convenience store. 10,320 won per hour.\nThree weeks later you paid the rent.\nBack to zero. But — this time you know exactly where you lost it."
       },
       {
-        "text": "Call your parents",
+      "text": "Call your mother",
         "result_text": "You called.\nYour mother sent the money without asking questions.\nThat was the hardest part."
       }
     ]
@@ -175,7 +175,7 @@
     "choices": [
       {
         "text": "Set up an early repayment plan",
-        "result_text": "You opened a spreadsheet. Eighteen months to pay it off.\nDebt with a plan is different from debt without one.\nYour father recovered from the surgery. That was enough."
+      "result_text": "You opened a spreadsheet. Eighteen months to pay it off.\nDebt with a plan is different from debt without one.\nThe surgery had gone safely then, preserving more time with Father. That fact was enough."
       },
       {
         "text": "Just pay the interest for now — no bandwidth",

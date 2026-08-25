@@ -165,6 +165,9 @@
     "conditions": {
       "min_turn": 24
     },
+    "tags": [
+      "requires_living_father"
+    ],
     "cooldown": 48,
     "background": "dad_house",
     "portrait": "player_normal",

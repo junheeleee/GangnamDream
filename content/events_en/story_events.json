@@ -464,5 +464,39 @@
       "accepted_current_path": "Thirty-eight was six months away. Twenty-four squares remained on the calendar.\n\nA pay stub lay on the desk; the bank balance and portfolio glowed on the phone. {name} moved between the three, calculating the remaining distance to Gangnam again. The figures were familiar. His fingertips felt colder than before.\n\nOne night, he had chosen to accept the path he was on. Acceptance was not surrender. It was how he kept from living the time that remained as somebody else's failure.\n\nOne question now weighed more than whether Gangnam was possible: could he keep that choice his own for six more months?",
       "final_push_decided": "Thirty-eight was six months away. Twenty-four squares remained on the calendar.\n\nA pay stub lay on the desk; the bank balance and portfolio glowed on the phone. {name} moved between the three, calculating the remaining distance to Gangnam again. The figures were familiar. His fingertips felt colder than before.\n\nOne night, he had committed to a final push. Back then it was a sentence. Now it had become twenty-four actual weeks.\n\nDawn moved across the glass of the buildings outside. The spreadsheet still had no cell for the person who would remain when that commitment came due."
     }
+  },
+  {
+    "id": "story_first_paycheck_feel_father_passed",
+    "title": "First Paycheck",
+    "description": "Near the end of the shift, a short vibration announced a bank deposit.\n\n[DEPOSIT] SALARY\n\n{name} looked at the amount, opened the app, and checked it again. After tax, rent, and food, the money would not remain for long. But it was not an allowance or something borrowed. The hours spent showing up on time and holding himself together among strangers had become a number beneath his own name.\n\nWhen he turned off the screen, the vibration seemed to remain in his palm. The first paycheck registered as weight before it registered as money.",
+    "choices": [
+      {
+        "text": "Buy Mother something with my first paycheck",
+        "result_text": "{name} sent Mother a small gift card. Choosing the amount took longer than checking the paycheck had.\n\nHer reply came soon: 'Save your money. Your father would have loved to see this.'\n\nHappiness and an empty place shared the same sentence. {name} read the message several times without clearing it."
+      },
+      {
+        "text": "Save it all. The future comes before feelings.",
+        "result_text": "{name} moved the whole paycheck into savings. The deposit notification was replaced almost immediately by a transfer receipt, and the feeling folded itself beneath another line of numbers.\n\nHe listed next month's fixed expenses and calculated what remained. There was less room to celebrate than there was money to protect.\n\nThe balance did not grow while the app was closed, but for the first time he had given every won a place to stand."
+      },
+      {
+        "text": "Buy a small gift for myself, who worked so hard",
+        "result_text": "After a long hesitation, {name} bought a new pair of sneakers. They were not expensive, yet pressing Pay felt like asking himself for permission.\n\nThe box smelled of rubber and new fabric. The next morning the heels rubbed raw, and he kept looking down at them on the way to work.\n\nThe first thing he bought with wages he had earned was not perfect. That made it feel more likely to stay in his memory."
+      }
+    ]
+  },
+  {
+    "id": "story_hometown_nostalgia_father_passed",
+    "title": "Thinking of Home",
+    "description": "On the evening before the holiday rush, the news showed long lines at the express bus terminal. People hurried beneath the departure board carrying gift boxes. {name} opened the booking app and stared at the seats.\n\nAt home, a table Mother had prepared alone would be waiting, along with the pauses where neither of them knew how to begin talking about Father. {name} still had no ready answer for how life in Seoul was going.\n\nSeoul was suffocating, and home felt too heavy to return to. As more buses turned red with SOLD OUT, the smell of Mother's soup came back with impossible clarity.",
+    "choices": [
+      {
+        "text": "Go down anyway. I don't want Mother to be alone.",
+        "result_text": "{name} caught a canceled seat and went home. Opening the door released the smell of sesame oil and the sound of the television. The table held too many dishes for the people eating.\n\nMother asked about Seoul, and both of them paused whenever Father's name surfaced. {name} answered that what he did not know, he did not know; what had not happened yet, had not happened yet.\n\nOn the bus back to Seoul, the bag of side dishes was heavy. His chest was somehow lighter than it had been on the way down."
+      },
+      {
+        "text": "Stay in Seoul this year. This is the right call.",
+        "result_text": "{name} did not buy a ticket. He only called. \"Work came up this year.\" His mother went quiet, then told him not to skip meals. Television laughter traveled through the phone.\n\nOn the holiday morning, the goshiwon hallway was quieter than usual. Most of the delivery apps still read NOT OPEN.\n\n{name} poured hot water into instant soup. He had thought staying would be the easier choice. The smell of the empty corridor lasted longer than he expected."
+      }
+    ]
   }
 ]

@@ -5,17 +5,14 @@
     "description": "For the first time since getting engaged, they browsed Gangnam listings together.\n\nScrolling past a three-bedroom, Daeun's hand stopped.\n\"This room... how about it for your father?\"\n{name} froze. He'd never even thought of it.\n\"And this side, for when my mom comes up to Seoul.\"\n\nThe three billion that had been 'my deed' for five years became something else with that one sentence.\nA number he'd climbed alone — was now a home with several rooms.",
     "choices": [
       {
-        "text": "\"Yeah. Let's find one with a room for both of them.\"",
+      "text": "\"Yeah. Let's find a home with a place for both of them.\"",
         "result_text": "Daeun beamed.\n\nThat night, for the first time, {name} thought of Gangnam not as 'where I arrive' but 'where we live.'\nThe weight of the number changed. Heavier now — and yet, strangely, lighter."
       },
       {
         "text": "\"Let's think about that after we get in. Right now the number comes first.\"",
         "result_text": "Daeun went quiet for a moment, then closed the screen.\n\"...Right. The number comes first.\"\n\n{name} felt the temperature of her voice drop half a degree, but his head was already back in the listing math.\nHow many rooms it had — was a problem for later."
       }
-    ],
-    "description_if_known": {
-      "father_passed": "For the first time since getting engaged, they browsed Gangnam listings together.\n\nScrolling past a three-bedroom, Daeun's hand stopped.\n\"Let's keep this room for your father. Hang a photo of him.\"\n{name} froze. His father was gone now — but Daeun wanted to leave a place for him.\n\n\"And this side, for when my mom comes up to Seoul.\"\n\nThe three billion that had been 'my deed' for five years became something else.\nA number he'd climbed alone — was now a home with a place for both the departed and the living."
-    }
+    ]
   },
   {
     "id": "arc_daeun_families_meet",
@@ -150,12 +147,28 @@
       }
     ],
     "description_if_known": {
-      "father_passed&hyunsu_reconnected": "The front-row seat closest to the aisle on the screen-right groom's side — the seat where his father should have been — stood empty. Hyunsu sat alone one row behind it.\n\nHyunsu pushed up his glasses, then looked not at {name} but toward the still-closed doors. Someone who knew these five years was here. The person he most wanted to show this moment was not.\n\n{name} tried to smile, and his throat tightened. If money could have moved time forward, today he would have paid anything.",
-      "father_passed": "One front-row seat closest to the aisle on the screen-right groom's side stood out more sharply than all the other empty chairs. It was where his father should have been.\n\nIf only he had been a little faster, his father could have sat there and seen this. Not even money could move time forward today.\n\n{name} looked at the empty chair back for a long time. No one sat there, yet the seat already belonged to someone.",
       "father_reconciled&hyunsu_reconnected": "His father straightened in the front-row aisle seat on the screen-right groom's side. Hyunsu sat alone one row behind him. Both faces and both sets of eyes pointed toward the doors that were still closed.\n\nHis father, whose hands had worked a factory floor for a lifetime, and the friend who knew these five years had both come. Rows of empty chairs or not, those two reached him first.\n\nHyunsu pushed up his glasses and mouthed, \"Hyung, look ahead. You'll ruin the photos.\"",
       "hyunsu_reconnected": "The screen-right groom's side was sparse. His father sat in the front-row aisle seat; Hyunsu had come alone and sat one row behind him. Both watched the doors that were still closed.\n\nHyunsu had not come as someone's husband or father. He had come simply as Hyunsu, taking the seat he had promised to take.\n\nBeyond the flowers, Hyunsu pushed up his glasses. {name} laughed, and his throat tightened.",
       "father_reconciled": "The screen-right groom's side was sparse. Still, his father straightened in the front-row seat closest to the aisle. Hands that had worked a factory floor for a lifetime rested on his knees; his face and eyes turned toward the door Daeun would enter through.\n\nRows of empty chairs or not, his father had come. Today, that was bigger than a hundred guests.\n\n{name} watched his father's profile, then turned toward the same doors."
     }
+  },
+  {
+    "id": "arc_daeun_wedding_groom_side_father_passed",
+    "title": "The Groom's Side",
+    "description": "One front-row seat closest to the aisle on the screen-right groom's side stood out more sharply than all the other empty chairs. It was where Father should have been.\n\nIf only he had been a little faster, Father could have sat there and seen this. Not even money could move time forward today.\n\n{name} looked at the empty chair back for a long time. No one sat there, yet the seat already belonged to someone.",
+    "description_if_known": {
+      "hyunsu_reconnected": "The front-row seat closest to the aisle on the screen-right groom's side—the seat where Father should have been—stood empty. Hyunsu sat alone one row behind it.\n\nHyunsu pushed up his glasses, then looked not at {name} but toward the still-closed doors. Someone who knew these five years was here. The person he most wanted to show this moment was not.\n\n{name} tried to smile, and his throat tightened. If money could have moved time forward, today he would have paid anything."
+    },
+    "choices": [
+      {
+        "text": "Don't avoid the empty groom's chairs. Look all the way down the rows.",
+        "result_text": "He had thought that if he didn't look, it might not count. So {name} looked at the chairs one by one.\n\nThe seats were empty, but faces came to mind: people whose calls he had put off, people he hadn't met because the numbers came first, people he'd promised to call as one season passed into another.\n\nHis breath caught once. He did not look away."
+      },
+      {
+        "text": "Turn to the bride's side and bow first to the people who came today.",
+        "result_text": "When {name} bowed, quiet applause spread through the bride's side.\n\nA mart coworker who had traded shifts, a hometown friend who had taken the dawn bus, relatives he'd met only once. Every one of them had made time to be here for Daeun.\n\nIn the front row, her mother brought her hands together and bowed back. Only then did {name} understand that this wedding was not something he was doing alone."
+      }
+    ]
   },
   {
     "id": "arc_daeun_wedding_walk",
@@ -183,6 +196,21 @@
       {
         "text": "Beyond Daeun approaching him, the empty groom's section stings. What did he run five years for?",
         "result_text": "From the altar, {name}'s eyes kept catching on the empty chairs.\n\nGangnam had come closer, and along that road people had dropped away one by one.\nOnly today could he see the tally. What he'd gained, and what he'd lost without even a goodbye.\nThe short time it took Daeun to reach him felt unusually long."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_our_home_father_passed",
+    "title": "Our Home",
+    "description": "For the first time since getting engaged, they browsed Gangnam listings together.\n\nScrolling past a three-bedroom, Daeun's hand stopped.\n\"Let's keep this room for your father. Hang a photo of him.\"\n{name} froze. His father was gone now — but Daeun wanted to leave a place for him.\n\n\"And this side, for when my mom comes up to Seoul.\"\n\nThe three billion that had been 'my deed' for five years became something else.\nA number he'd climbed alone — was now a home with a place for both the departed and the living.",
+    "choices": [
+      {
+        "text": "\"Yeah. Let's find a home with a place for both of them.\"",
+        "result_text": "Daeun beamed.\n\nThat night, for the first time, {name} thought of Gangnam not as 'where I arrive' but 'where we live.'\nThe weight of the number changed. Heavier now — and yet, strangely, lighter."
+      },
+      {
+        "text": "\"Let's think about that after we get in. Right now the number comes first.\"",
+        "result_text": "Daeun went quiet for a moment, then closed the screen.\n\"...Right. The number comes first.\"\n\n{name} felt the temperature of her voice drop half a degree, but his head was already back in the listing math.\nHow many rooms it had — was a problem for later."
       }
     ]
   }

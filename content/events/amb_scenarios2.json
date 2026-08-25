@@ -205,7 +205,8 @@
     },
     "tags": [
       "scenario",
-      "tradeoff"
+      "tradeoff",
+      "requires_living_father"
     ],
     "cooldown": 9999,
     "description": "예상대로였다. 상 위로 질문이 쏟아진다.\n\"아직도 그러고 있어? 사람이 눈을 낮춰야지.\"\n\"우리 애는 이번에 대리 달았는데.\"\n\n아버지가 조용히 {name}의 잔에 사이다를 따라준다.\n그 손이, 모든 말보다 따뜻했다.",

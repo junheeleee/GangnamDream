@@ -166,16 +166,16 @@
   },
   {
     "id": "callback_parent_took_loan_echo",
-    "title": "After Agreeing to Cover Your Parents' Debt",
-    "description": "Two months since you agreed to take on your parents' debt.\nThe burden had been piling up.\nToday your parents called.",
+    "title": "After Agreeing to Cover the Family Debt",
+    "description": "Two months since you agreed to take on the family debt.\nThe burden had been piling up.\nToday Mother called.",
     "choices": [
       {
         "text": "Answer",
-        "result_text": "You picked up.\nYour parents said, \"Thank you.\"\nTaking on the debt — had come back as gratitude."
+      "result_text": "You picked up.\nMother said, \"Thank you.\"\nTaking on the family debt had come back as her brief gratitude."
       },
       {
         "text": "Be honest about your situation",
-        "result_text": "You told them honestly.\nYour parents said, \"We're sorry.\""
+      "result_text": "You told her honestly.\nMother said, \"I'm sorry.\""
       }
     ]
   },

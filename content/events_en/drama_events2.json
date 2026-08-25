@@ -21,7 +21,7 @@
   {
     "id": "drama_sibling_news",
     "title": "News from a Sibling",
-    "description": "Sibling got a job.\nGood company, good terms.\nParents overjoyed.\n\n{name} was genuinely happy — about 70%.\nThe other 30%: shame at the comparison happening inside.",
+    "description": "Sibling got a job.\nGood company, good terms.\nThe family was overjoyed.\n\n{name} was genuinely happy — about 70%.\nThe other 30%: shame at the comparison happening inside.",
     "choices": [
       {
         "text": "Congratulate them sincerely.  (family bond / inner friction)",
@@ -190,7 +190,7 @@
   },
   {
     "id": "drama_parent_visit",
-    "title": "Parents Coming Over",
+    "title": "Mom Came Over",
     "description": "Mom said she wanted to come up with some side dishes.\nThree hours to clean the place.\nOpened the windows.\nWorried the room would look too small.",
     "choices": [
       {
@@ -198,7 +198,7 @@
         "result_text": "Mom walked around once and said nothing.\nUnpacked the side dishes. \"Are you eating properly?\"\nThat was all. That was enough."
       },
       {
-        "text": "Put on a brave face. Don't want them to worry.  (self-protection / distance)",
+        "text": "Put on a brave face. Don't want her to worry.  (self-protection / distance)",
         "result_text": "\"Doing well, it's fun.\" Said with conviction.\nMom seemed to believe it — or chose to."
       }
     ]

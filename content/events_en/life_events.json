@@ -308,7 +308,7 @@
   },
   {
     "id": "family_002",
-    "title": "A Call from Your Parents",
+    "title": "A Call from Mom",
     "description": "Sunday afternoon, 3 PM. 'Mom' lit up on the screen.\n\nYou already knew what was coming as you pressed accept. They'd ask how things were going. You'd say you were fine.\n\n'Are you eating properly?'\n\nOn the desk in your room sat a convenience store lunch box. The third one today.\n\n'Yeah, eating well.'",
     "choices": [
       {
@@ -317,7 +317,7 @@
       },
       {
         "text": "Open up and admit you're struggling",
-        "result_text": "When you admitted how hard it was, your parents went quiet. Your chest felt lighter, but you felt guilty for worrying them."
+      "result_text": "When you admitted how hard it was, your mom went quiet. Your chest felt lighter, but you felt guilty for worrying her."
       },
       {
         "text": "Talk big and say you'll be making a lot of money soon",
@@ -424,11 +424,11 @@
   {
     "id": "family_013",
     "title": "Family Medical Bills",
-    "description": "Your parents called. The hospital bill came out higher than expected.\n\nYou heard the amount. You ran the numbers. You quickly calculated the maximum you could pull from your account right now against the remaining expenses for the month.\n\nIt felt strange to be running these calculations. When did your parents' hospital bills become a 'line item'?\n\nThere was no way to calculate the weight of that guilt.",
+    "description": "A call came from home. A family hospital bill was higher than expected.\n\nYou heard the amount. You ran the numbers. You quickly calculated the maximum you could pull from your account right now against the remaining expenses for the month.\n\nIt felt strange to be running these calculations. When did a family hospital bill become a 'line item'?\n\nThere was no way to calculate the weight of that guilt.",
     "choices": [
       {
         "text": "Decide on an amount you can realistically send",
-        "result_text": "You sent only what you could manage. Your parents said they were fine, but your heart felt heavy."
+      "result_text": "You sent only what you could manage. The family said it was fine, but your heart felt heavy."
       },
       {
         "text": "Stew in guilt and lose sleep over it",

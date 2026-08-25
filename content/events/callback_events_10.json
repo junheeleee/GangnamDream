@@ -664,5 +664,45 @@
         "result_text": "지나갔다.\n또 지나갈 것이다.\n지금은 그게 전부였다."
       }
     ]
+  },
+  {
+    "id": "callback_rushed_to_father_moment_father_passed",
+    "title": "달려간 뒤, 남은 것",
+    "description": "소식을 듣고 무작정 달려갔던 그날.\n아버지는 예상보다 괜찮았고, {name}은 돌아오는 길에 다음이 또 있을 거라고 생각했다.\n\n이제 다음 방문은 오지 않는다. 대신 그날 실제로 달려갔다는 기억과, 미뤄 둔 날짜들이 함께 남았다.",
+    "category": "family",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "flag": "rushed_to_father",
+      "min_turn": 3
+    },
+    "tags": [
+      "father",
+      "callback",
+      "family",
+      "memory"
+    ],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "그날 뒤 더 자주 갈 날짜를 잡지 못한 일을 인정한다",
+        "effects": {
+          "mental": 15
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "달력에는 끝내 쓰지 않은 날짜가 있었다.\n{name}은 그 빈칸을 없던 약속처럼 미화하지 않았다. 늦었다는 사실과, 한 번은 제때 달려갔다는 사실을 같은 페이지에 적었다.\n\n둘 다 자기 선택이었다."
+      },
+      {
+        "text": "그래도 그날 달려갔던 자신을 기억한다",
+        "effects": {
+          "mental": 7
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다음 방문은 오지 않았다. 그래도 그날의 선택까지 사라진 것은 아니었다.\n\n{name}은 도착했던 시간과 돌아온 길을 오래 떠올렸다. 후회 속에서도 실제로 한 일 하나는 남아 있었다."
+      }
+    ]
   }
 ]

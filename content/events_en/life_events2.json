@@ -346,5 +346,24 @@
         "result_text": "{name} couldn't say a word.\nGetting out at the destination, the line kept echoing in your ears.\n\"I said I'd make it to Gangnam someday.\""
       }
     ]
+  },
+  {
+    "id": "first_paycheck_00_father_passed",
+    "title": "First Payday",
+    "description": "The deposit came through.\nStaring at the number — it didn't feel real.\n{name} had grown up hearing that your first paycheck was for taking your parents out to dinner. That promise could no longer be kept in the same way.\n{name} studied the account screen, wondering who to share this day with and how.",
+    "choices": [
+      {
+        "text": "Take Mother out for dinner, and remember the empty seat.  (filial duty / expense)",
+        "result_text": "At a nearby BBQ place, {name} and Mother ate together.\nTurning over a piece of meat, she said, \"Your father would have waited for this day too.\"\n{name} showed her the first-paycheck deposit on the screen. On the way home, the fact that there was one fewer person to celebrate with finally caught in {name}'s throat."
+      },
+      {
+        "text": "Just save it. That's the real gift.  (frugality / goal)",
+        "result_text": "{name} hit the transfer button.\nTo savings. No fanfare — just the first investment in yourself."
+      },
+      {
+        "text": "Spend some on yourself. Just this once.  (self-reward / expense)",
+        "result_text": "{name} bought something long put off. Nothing extravagant.\nBut the first thing bought with earned money — that felt different."
+      }
+    ]
   }
 ]

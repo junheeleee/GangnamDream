@@ -204,7 +204,25 @@
     "description": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever. How are you?\"\n\nBehind Hyunsu on the screen were office fluorescents and stacks of paperwork. Working late, apparently, but his face was at ease. The face of someone settled into his own life. When somebody called him mid-conversation, even his \"Yes, one minute\" carried no strain at all.\n\n{name} looked at his own face in the corner of the screen. Five years were in it.\n\nHe decided not to measure who had come farther. They had never been walking the same map.",
     "description_if_known": {
       "crossed_line": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever. How are you?\"\n\nHyunsu was smiling, glad to see him, but {name} found it strangely hard to look straight at the screen. His eyes kept drifting to his own face in the corner.\n\nThe guy he'd shared cup ramyeon with in that dawn kitchen five years ago — what would he say if he saw who {name} was now?\n\n\"Hyung? Can you not hear me?\"\n\"No — no, I hear you.\"\n\nHe heard him fine. That was the problem — he heard him too well.",
-      "father_passed": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever. How's your father—\"\n\nHyunsu stopped. Apparently some things carry even across a screen. {name} hadn't said a word, and Hyunsu didn't ask.\n\nA short silence passed. Not the silence of choosing words of comfort — the silence of deciding not to.\n\n\"...Hyung, make sure you eat.\"\n\nThat was all he said. It stayed longer than anything else {name} heard that day.",
+      "called_hyunsu_first": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever. How are you?\"\n\nBehind Hyunsu on the screen were office fluorescents and stacks of paperwork. Working late, apparently, but his face was at ease. The face of someone settled into his own life.\n\n{name} looked at his own face in the corner of the screen. Five years were in it.\n\nA number he had once dialed first, for no reason at all. To have one number you can call without needing a reason — since that day, this call has never once felt awkward."
+    },
+    "choices": [
+      {
+        "text": "Say it for real — \"I made it because of you\"",
+        "result_text": "\"What are you talking about, hyung, you did all of it.\"\n\nHe hadn't. It was because someone had held on beside him in that 2 AM kitchen that he didn't fold halfway. Enduring alone and enduring with someone in the next room are different things.\n\nHe never quite got the whole thing out. Only after hanging up did the unsaid part linger in the room, a long while."
+      },
+      {
+        "text": "\"I'll have good news soon\" — hang up with a smile",
+        "result_text": "\"I'll be waiting, hyung!\"\n\nHe ended the call. When the screen went dark, the room grew one shade quieter.\n\nSoon. Really, soon. {name} sat back down at the desk. For a moment, the face reflected in the darkened screen looked like the one from that kitchen, five years ago."
+      }
+    ]
+  },
+  {
+    "id": "hyunsu_year5_call_father_passed",
+    "title": "A Call at the End of Five Years",
+    "description": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever. How's your father—\"\n\nHyunsu stopped. Apparently some things carry even across a screen. {name} hadn't said a word, and Hyunsu didn't ask.\n\nA short silence passed. Not the silence of choosing words of comfort — the silence of deciding not to.\n\n\"...Hyung, make sure you eat.\"\n\nThat was all he said. It stayed longer than anything else {name} heard that day.",
+    "description_if_known": {
+      "crossed_line": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever. How are you?\"\n\nHyunsu was smiling, glad to see him, but {name} found it strangely hard to look straight at the screen. His eyes kept drifting to his own face in the corner.\n\nThe guy he'd shared cup ramyeon with in that dawn kitchen five years ago — what would he say if he saw who {name} was now?\n\n\"Hyung? Can you not hear me?\"\n\"No — no, I hear you.\"\n\nHe heard him fine. That was the problem — he heard him too well.",
       "called_hyunsu_first": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever. How are you?\"\n\nBehind Hyunsu on the screen were office fluorescents and stacks of paperwork. Working late, apparently, but his face was at ease. The face of someone settled into his own life.\n\n{name} looked at his own face in the corner of the screen. Five years were in it.\n\nA number he had once dialed first, for no reason at all. To have one number you can call without needing a reason — since that day, this call has never once felt awkward."
     },
     "choices": [

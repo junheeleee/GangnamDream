@@ -22,7 +22,7 @@
     "description": "약혼하고 처음, 강남 매물 사진을 같이 봤다.\n\n방 세 개짜리를 넘기다가 다은이 손을 멈췄다.\n\"이 방은... 아버님 방으로 어때요?\"\n{name}은 멈칫했다. 생각도 못 한 말이었다.\n\"그리고 이쪽은 우리 엄마 서울 오시면.\"\n\n5년 동안 '내 등기'였던 30억이, 그 한마디에 다른 게 됐다.\n혼자 오르던 숫자가 — 이제 방이 여러 개인 집이었다.",
     "choices": [
       {
-        "text": "\"그래. 두 분 다 모실 방 있는 집으로 하자.\"",
+      "text": "\"그래. 두 분 모두의 자리가 있는 집으로 하자.\"",
         "effects": {
           "mental": 12,
           "tint": 6
@@ -53,10 +53,7 @@
         },
         "result_text": "다은이 잠깐 말이 없다가 화면을 닫았다.\n\"...그래요. 숫자가 먼저겠죠.\"\n\n{name}은 그 목소리의 온도가 반 도쯤 내려간 걸 느꼈지만, 매물 계산으로 이미 머리가 돌아가 있었다.\n방이 몇 개인지는 — 나중 문제였다."
       }
-    ],
-    "description_if_known": {
-      "father_passed": "약혼하고 처음, 강남 매물 사진을 같이 봤다.\n\n방 세 개짜리를 넘기다가 다은이 손을 멈췄다.\n\"이 방은... 아버님 방으로 남겨둬요. 사진 하나 걸고.\"\n{name}은 멈칫했다. 아버지는 이제 없지만 — 다은은 그를 위한 자리를 비워두자고 했다.\n\n\"그리고 이쪽은 우리 엄마 서울 오시면.\"\n\n5년 동안 '내 등기'였던 30억이, 그 한마디에 다른 게 됐다.\n혼자 오르던 숫자가 — 떠난 사람과 남은 사람 모두의 자리가 있는 집이었다."
-    }
+    ]
   },
   {
     "id": "arc_daeun_families_meet",
@@ -77,7 +74,8 @@
       "daeun",
       "father",
       "married",
-      "moral"
+      "moral",
+      "requires_living_father"
     ],
     "description": "상견례. 조용한 한정식집.\n\n{name}의 아버지 — 평생 공장, 굽은 어깨, 빌린 양복. 다은의 어머니 — 시골에서 새벽 버스로 올라온, 마디 굵은 손.\n\n두 사람 다 가진 게 없었다. 그게 한눈에 보였다.\n\n아버지가 어렵게 입을 뗐다.\n\"제가... 예전에 빚 때문에 자식한테 못 할 짓을 했습니다. 부끄러운 애비라...\"\n\n식탁에 침묵이 내려앉았다. 다은의 어머니가 {name}을 봤다.\n{name}이 뭐라고 말하느냐에, 아버지의 남은 자존심이 걸려 있었다.",
     "choices": [
@@ -479,8 +477,6 @@
     "hidden": true,
     "cg": "cg_romance_wedding_daeun_father_reaction",
     "cg_if_known": {
-      "father_passed&hyunsu_reconnected": "cg_romance_wedding_daeun_father_reaction_passed_hyunsu",
-      "father_passed": "cg_romance_wedding_daeun_father_reaction_passed",
       "hyunsu_reconnected": "cg_romance_wedding_daeun_father_reaction_hyunsu"
     },
     "conditions": {
@@ -517,12 +513,44 @@
       }
     ],
     "description_if_known": {
-      "father_passed&hyunsu_reconnected": "화면 오른쪽 신랑석 맨 앞 통로 쪽, 아버지가 앉았어야 할 의자가 비어 있었다. 한 줄 뒤에는 현수가 혼자 앉아 있었다.\n\n현수는 안경을 밀어 올린 뒤, {name}이 아니라 아직 닫힌 문 쪽을 보았다. 이 5년을 아는 사람은 와 있었고, 이 모습을 가장 보여주고 싶던 사람은 없었다.\n\n{name}은 웃으려다 목이 메었다. 돈으로 시간을 앞당길 수 있었다면, 오늘만큼은 무엇이든 냈을 것이다.",
-      "father_passed": "화면 오른쪽 신랑석 맨 앞 통로 쪽, 한 자리가 다른 빈자리보다 더 선명했다. 원래 아버지가 앉았어야 할 의자였다.\n\n조금만 더 빨랐으면 아버지가 저기 앉아 이 모습을 봤을 텐데. 오늘만큼은 돈으로도 시간을 앞당길 수 없었다.\n\n{name}은 비어 있는 등받이를 오래 보았다. 아무도 앉지 않았는데도, 그 자리만은 이미 주인이 있었다.",
       "father_reconciled&hyunsu_reconnected": "화면 오른쪽 신랑석 맨 앞 통로 쪽에서 아버지가 허리를 세웠다. 그 한 줄 뒤에는 현수가 혼자 앉아 있었다. 두 사람의 얼굴과 눈은 나란히 아직 닫힌 문을 향했다.\n\n평생 공장에서 일한 아버지와 이 5년을 아는 친구가 와 있었다. 빈 의자가 몇 줄이어도, 오늘은 그 두 사람이 먼저 보였다.\n\n현수가 안경을 밀어 올리고 입 모양으로 말했다. \"형, 앞만 봐요. 사진 이상하게 나와.\"",
       "hyunsu_reconnected": "화면 오른쪽 신랑석은 단출했다. 맨 앞 통로 쪽에는 아버지가 앉아 있었고, 그 한 줄 뒤에는 현수가 혼자 와 있었다. 둘 다 아직 닫힌 문을 보고 있었다.\n\n현수는 누군가의 남편이나 아버지로 온 게 아니었다. 그냥 현수로, 약속한 자리에 와 있었다.\n\n꽃 장식 너머에서 현수가 안경을 밀어 올렸다. {name}은 웃다가 목이 메었다.",
       "father_reconciled": "화면 오른쪽 신랑석은 단출했다. 그래도 맨 앞 통로 쪽에서 아버지가 허리를 세웠다. 평생 공장에서 일한 두 손은 무릎 위에 놓였고, 얼굴과 눈은 다은이 들어올 문을 향했다.\n\n빈 의자가 몇 줄이어도 아버지 한 사람이 와 있었다. 그 사실이 오늘은 백 명보다 컸다.\n\n{name}은 아버지의 옆얼굴을 보다가, 같은 문 쪽으로 시선을 돌렸다."
     }
+  },
+  {
+    "id": "arc_daeun_wedding_groom_side_father_passed",
+    "direction": {"pace": "slow", "hold": 0.8},
+    "title": "신랑석",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "cg": "cg_romance_wedding_daeun_father_reaction_passed",
+    "cg_if_known": {
+      "hyunsu_reconnected": "cg_romance_wedding_daeun_father_reaction_passed_hyunsu"
+    },
+    "conditions": {"min_turn": 9999},
+    "cooldown": 9999,
+    "tags": ["story", "arc", "daeun", "married", "relationships", "moral", "father", "memory"],
+    "description": "화면 오른쪽 신랑석 맨 앞 통로 쪽, 한 자리가 다른 빈자리보다 더 선명했다. 원래 아버지가 앉았어야 할 의자였다.\n\n조금만 더 빨랐으면 아버지가 저기 앉아 이 모습을 봤을 텐데. 오늘만큼은 돈으로도 시간을 앞당길 수 없었다.\n\n{name}은 비어 있는 등받이를 오래 보았다. 아무도 앉지 않았는데도, 그 자리만은 이미 주인이 있었다.",
+    "description_if_known": {
+      "hyunsu_reconnected": "화면 오른쪽 신랑석 맨 앞 통로 쪽, 아버지가 앉았어야 할 의자가 비어 있었다. 한 줄 뒤에는 현수가 혼자 앉아 있었다.\n\n현수는 안경을 밀어 올린 뒤, {name}이 아니라 아직 닫힌 문 쪽을 보았다. 이 5년을 아는 사람은 와 있었고, 이 모습을 가장 보여주고 싶던 사람은 없었다.\n\n{name}은 웃으려다 목이 메었다. 돈으로 시간을 앞당길 수 있었다면, 오늘만큼은 무엇이든 냈을 것이다."
+    },
+    "choices": [
+      {
+        "text": "신랑 측의 빈 의자들을 피하지 않고, 한 번 끝까지 바라본다.",
+        "effects": {"mental": 2},
+        "result_text": "보지 않으면 없던 일이 될 줄 알았다. {name}은 그래서 의자를 하나씩 보았다.\n\n비어 있는 건 자리였지만, 떠오르는 건 얼굴이었다. 안부를 미뤘던 사람, 계산이 먼저라 만나지 않았던 사람, 언젠가 연락하겠다며 계절을 넘긴 사람.\n\n숨이 한 번 막혔다. 그래도 눈을 돌리지는 않았다.",
+        "follow_up_event": "arc_daeun_wedding_walk"
+      },
+      {
+        "text": "신부 측을 향해, 오늘 와 준 사람들에게 먼저 고개를 숙인다.",
+        "cast_effects": {"daeun": {"affinity": 2}},
+        "result_text": "{name}이 짧게 고개를 숙이자 신부석에서 조용한 박수가 번졌다.\n\n교대 근무를 바꿔 온 마트 동료, 새벽 버스를 탄 시골 친구, 한 번밖에 본 적 없는 친척까지. 모두 다은을 위해 시간을 내어 여기 와 있었다.\n\n맨 앞의 어머니가 손을 모은 채 다시 고개를 숙였다. {name}은 그제야 자신의 결혼이 혼자 치르는 일이 아니라는 걸 알았다.",
+        "follow_up_event": "arc_daeun_wedding_walk"
+      }
+    ]
   },
   {
     "id": "arc_daeun_wedding_walk",
@@ -620,6 +648,62 @@
           "arc_daeun_wedding_day_seen"
         ],
         "result_text": "단상에 선 {name}의 눈에 자꾸 빈 의자들이 밟혔다.\n\n강남은 가까워졌는데, 그 길에서 사람들이 하나씩 떨어져 나갔다.\n오늘에서야 그 셈이 눈에 보였다. 얻은 것과, 그동안 배웅도 없이 잃은 것들.\n다은이 걸어오는 그 짧은 시간이 유난히 길었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_our_home_father_passed",
+    "title": "우리 집",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "current_housing",
+    "portrait": "daeun_smile",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "daeun",
+      "married",
+      "moral"
+    ],
+    "description": "약혼하고 처음, 강남 매물 사진을 같이 봤다.\n\n방 세 개짜리를 넘기다가 다은이 손을 멈췄다.\n\"이 방은... 아버님 방으로 남겨둬요. 사진 하나 걸고.\"\n{name}은 멈칫했다. 아버지는 이제 없지만 — 다은은 그를 위한 자리를 비워두자고 했다.\n\n\"그리고 이쪽은 우리 엄마 서울 오시면.\"\n\n5년 동안 '내 등기'였던 30억이, 그 한마디에 다른 게 됐다.\n혼자 오르던 숫자가 — 떠난 사람과 남은 사람 모두의 자리가 있는 집이었다.",
+    "choices": [
+      {
+        "text": "\"그래. 두 분 모두의 자리가 있는 집으로 하자.\"",
+        "effects": {
+          "mental": 12,
+          "tint": 6
+        },
+        "flags": [
+          "arc_daeun_our_home_seen"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": 12
+          }
+        },
+        "result_text": "다은이 환하게 웃었다.\n\n그날 밤 {name}은 처음으로, 강남을 '내가 도착하는 곳'이 아니라 '우리가 사는 곳'으로 생각했다.\n숫자의 무게가 바뀌었다. 더 무거워졌는데 — 이상하게 더 가벼웠다."
+      },
+      {
+        "text": "\"일단 들어가고 나서 생각하자. 지금은 숫자가 먼저야.\"",
+        "effects": {
+          "mental": 2,
+          "tint": -4
+        },
+        "flags": [
+          "arc_daeun_our_home_seen"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": -4
+          }
+        },
+        "result_text": "다은이 잠깐 말이 없다가 화면을 닫았다.\n\"...그래요. 숫자가 먼저겠죠.\"\n\n{name}은 그 목소리의 온도가 반 도쯤 내려간 걸 느꼈지만, 매물 계산으로 이미 머리가 돌아가 있었다.\n방이 몇 개인지는 — 나중 문제였다."
       }
     ]
   }

@@ -31,11 +31,6 @@
         "effects": {
           "mental": 4,
           "tint": 3
-        },
-        "cast_effects": {
-          "father": {
-            "affinity": 2
-          }
         }
       },
       {
@@ -65,7 +60,7 @@
       "social"
     ],
     "cooldown": 20,
-    "description": "동생이 취직했다.\n좋은 회사, 좋은 조건.\n부모님이 기뻐했다.\n\n{name}은 진심으로 기뻤다 — 70%. 나머지 30%는 비교하는 자신에 대한 부끄러움.",
+    "description": "동생이 취직했다.\n좋은 회사, 좋은 조건.\n가족이 기뻐했다.\n\n{name}은 진심으로 기뻤다 — 70%. 나머지 30%는 비교하는 자신에 대한 부끄러움.",
     "choices": [
       {
         "text": "진심으로 축하해준다.  (형제애 / 내면 갈등)",
@@ -459,7 +454,7 @@
   },
   {
     "id": "drama_parent_visit",
-    "title": "부모님이 오셨다",
+    "title": "어머니가 오셨다",
     "background": "apartment",
     "portrait": "player_normal",
     "category": "family",
@@ -482,11 +477,6 @@
         "effects": {
           "mental": 5,
           "tint": 4
-        },
-        "cast_effects": {
-          "father": {
-            "affinity": 3
-          }
         }
       },
       {

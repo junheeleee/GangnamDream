@@ -15,14 +15,13 @@
     ],
     "description_if_known": {
       "told_jiyeon_about_records": "The Han family's wedding was on another scale.\n\nA five-star hotel grand ballroom. The ye-dan alone ran to tens of millions of won. The guest list traded names from business and politics. His future father-in-law said,\n\"It's my daughter's wedding. It has to be done without embarrassment.\"\n\n{name} knows where all of it — the ballroom, the ye-dan, those names — came from. Han PD Construction. The name at the bottom of a list from back then, the list that ruined his father.\nAnd Jiyeon knows it now too.\n\nThey stand facing each other in a hall paid for with that money, both of them knowing. The groom's seats were still bare. {name} looked back and forth between those empty chairs and the bride's side across from them.",
-      "jiyeon_narrow_room": "The Han family's wedding was on another scale.\n\nA five-star hotel grand ballroom. The ye-dan alone ran to tens of millions of won. The guest list traded names from business and politics. His future father-in-law said,\n\"It's my daughter's wedding. It has to be done without embarrassment. You understand that much, don't you?\"\n\nStanding in this wide ballroom, {name} suddenly thought of that narrow room. Two cup ramyeon, a fogged window. The night she said, \"This room is like you, oppa — narrow, and all of it real.\"\nTwo people who knew that night now stood facing each other in a wide place with barely anything real in it.\n\nThe groom's seats were bare. {name} looked back and forth between those empty chairs and the bride's side across from them.",
-      "father_passed": "The Han family's wedding was on another scale.\n\nA five-star hotel grand ballroom. The ye-dan alone ran to tens of millions of won. The guest list traded names from business and politics. His future father-in-law said,\n\"It's my daughter's wedding. It has to be done without embarrassment. You understand that much, don't you?\"\n\n{name} understood that 'that much' exceeded his entire net worth.\n\nAnd the seating — the bride's side would fill with names everyone knew.\nOn the groom's list, {name} wrote down Hyunsu and left the rest blank. His hand stopped as he went to write his father's name. That seat, now, couldn't be filled — not even with a photo."
+      "jiyeon_narrow_room": "The Han family's wedding was on another scale.\n\nA five-star hotel grand ballroom. The ye-dan alone ran to tens of millions of won. The guest list traded names from business and politics. His future father-in-law said,\n\"It's my daughter's wedding. It has to be done without embarrassment. You understand that much, don't you?\"\n\nStanding in this wide ballroom, {name} suddenly thought of that narrow room. Two cup ramyeon, a fogged window. The night she said, \"This room is like you, oppa — narrow, and all of it real.\"\nTwo people who knew that night now stood facing each other in a wide place with barely anything real in it.\n\nThe groom's seats were bare. {name} looked back and forth between those empty chairs and the bride's side across from them."
     }
   },
   {
     "id": "arc_jiyeon_wedding_guest_list",
     "title": "The Empty Side",
-    "description": "The seating chart was cruel in how neatly it was laid out.\n\nThe bride's side ran line after line with names everyone would recognize. Business, politics, real estate. Some would come to congratulate Jiyeon. Some would come to be seen at Chairman Han's daughter's wedding.\n\nThe groom's side had been left wide and blank. {name} held the pen and stopped for a long time. His father, Hyunsu, and empty space. The empty space looked clearer than people.\n\nJiyeon asked quietly,\n\"Oppa's side... is there no one else?\"",
+    "description": "The seating chart was cruel in how neatly it was laid out.\n\nThe bride's side ran line after line with names everyone would recognize. Business, politics, real estate. Some would come to congratulate Jiyeon. Some would come to be seen at Chairman Han's daughter's wedding.\n\nThe groom's side had been left wide and blank. {name} held the pen and stopped for a long time. After writing his father's name, only empty lines continued below it. The empty space looked clearer than people.\n\nJiyeon asked quietly,\n\"Oppa's side... is there no one else?\"",
     "choices": [
       {
         "text": "\"If there isn't, then that's what we write.\" Do not hide the blanks.",
@@ -34,7 +33,6 @@
       }
     ],
     "description_if_known": {
-      "father_passed": "The seating chart was cruel in how neatly it was laid out.\n\nThe bride's side ran line after line with names everyone would recognize. The groom's side had been left wide and blank. {name} held the pen and stopped for a long time.\n\nHe wrote Hyunsu and left the rest blank. His hand stopped as he went to write his father's name. That seat, now, couldn't be filled — not even with a photo.\n\nJiyeon asked quietly,\n\"Oppa's side... is there no one else?\"",
       "hyunsu_reconnected": "The seating chart was cruel in how neatly it was laid out.\n\nThe bride's side ran line after line with names everyone would recognize. The groom's side had been left wide and blank. {name} held the pen and stopped for a long time.\n\nHis father. Hyunsu. After those two names, his hand stopped. Still, those letters held out longer than a completely blank page.\n\nJiyeon asked quietly,\n\"Oppa's side... is there no one else?\""
     }
   },
@@ -113,5 +111,42 @@
         "result_text": "Instead of answering, {name} took out his phone and set one old screen in front of her.\nThe first text, sent at dawn: \"Am I kind of strange?\"\n\nJiyeon looked down at the screen. One beat, two. The stern face slowly came undone.\n\"...You still have this?\"\n\"I answered no back then. That answer hasn't changed.\" {name} said. \"You're not a strange person — and I'm not a person who needs to change. We're both just built this way.\"\n\nA long silence. Jiyeon looked out the window, then at the screen, then finally at {name}.\n\"...I'll talk to Dad myself.\" That was her answer.\nGangnam never came. But no one left, and no one changed. That night the two of them remained what they'd been at that dawn five years ago — two people who believed each other not strange."
       }
     ]
+  },
+  {
+    "id": "arc_jiyeon_wedding_gap_father_passed",
+    "title": "Her Wedding",
+    "description": "The Han family's wedding was on another scale.\n\nA five-star hotel grand ballroom. The ye-dan alone ran to tens of millions of won. The guest list traded names from business and politics. His future father-in-law said,\n\"It's my daughter's wedding. It has to be done without embarrassment. You understand that much, don't you?\"\n\n{name} understood that 'that much' exceeded his entire net worth.\n\nAnd the seating — the bride's side would fill with names everyone knew.\nOn the groom's list, {name}'s hand stopped as he went to write his father's name. He could not write another name below it. That seat, now, couldn't be filled — not even with a photo.",
+    "choices": [
+      {
+        "text": "\"Yes. We'll look first, then decide.\" Meet her father's eyes.",
+        "result_text": "Her father looked at {name} for a moment. It was the look of someone measuring him.\n\nJiyeon folded the file shut. \"Oppa, this way.\" Her voice had gone thin and low. The ballroom carpet swallowed their footsteps as the two of them walked toward the seating-plan table."
+      },
+      {
+        "text": "Look at Jiyeon's hand first. See whether she is shaking.",
+        "result_text": "Jiyeon's fingers were gripping the edge of the file too hard. The paper had bent slightly.\n\nShe noticed {name}'s gaze and tried to smile, then failed. \"It's okay. It's just... this is how my family does things.\" The end of the sentence came half a beat late.\n\nShe walked first to the seating-plan table. {name} followed."
+      }
+    ],
+    "description_if_known": {
+      "told_jiyeon_about_records": "The Han family's wedding was on another scale.\n\nA five-star hotel grand ballroom. The ye-dan alone ran to tens of millions of won. The guest list traded names from business and politics. His future father-in-law said,\n\"It's my daughter's wedding. It has to be done without embarrassment.\"\n\n{name} knows where all of it — the ballroom, the ye-dan, those names — came from. Han PD Construction. The name at the bottom of a list from back then, the list that ruined his father.\nAnd Jiyeon knows it now too.\n\nThey stand facing each other in a hall paid for with that money, both of them knowing. The groom's seats were still bare. {name} looked back and forth between those empty chairs and the bride's side across from them.",
+      "jiyeon_narrow_room": "The Han family's wedding was on another scale.\n\nA five-star hotel grand ballroom. The ye-dan alone ran to tens of millions of won. The guest list traded names from business and politics. His future father-in-law said,\n\"It's my daughter's wedding. It has to be done without embarrassment. You understand that much, don't you?\"\n\nStanding in this wide ballroom, {name} suddenly thought of that narrow room. Two cup ramyeon, a fogged window. The night she said, \"This room is like you, oppa — narrow, and all of it real.\"\nTwo people who knew that night now stood facing each other in a wide place with barely anything real in it.\n\nThe groom's seats were bare. {name} looked back and forth between those empty chairs and the bride's side across from them."
+    }
+  },
+  {
+    "id": "arc_jiyeon_wedding_guest_list_father_passed",
+    "title": "The Empty Side",
+    "description": "The seating chart was cruel in how neatly it was laid out.\n\nThe bride's side ran line after line with names everyone would recognize. The groom's side had been left wide and blank. {name} held the pen and stopped for a long time.\n\nHis hand stopped as he went to write his father's name. He could not write another name below it. That seat, now, couldn't be filled — not even with a photo.\n\nJiyeon asked quietly,\n\"Oppa's side... is there no one else?\"",
+    "choices": [
+      {
+        "text": "\"If there isn't, then that's what we write.\" Do not hide the blanks.",
+        "result_text": "The pen touched the paper. {name} did not borrow people who were not there.\n\nJiyeon looked at the groom's list, then the bride's list, then back at {name}. \"That's like you, oppa.\" It sounded like praise, but the weight of the whole hall was folded inside it."
+      },
+      {
+        "text": "\"There are ways to fill it.\" Start calculating the blanks first.",
+        "result_text": "{name} thought of hired guests, coworkers, even Jiyeon's company staff.\n\nHis head started counting seats before it counted people. Jiyeon seemed to notice. She said nothing. She only looked once at {name}'s hand on the papers, then looked away."
+      }
+    ],
+    "description_if_known": {
+      "hyunsu_reconnected": "The seating chart was cruel in how neatly it was laid out.\n\nThe bride's side ran line after line with names everyone would recognize. The groom's side had been left wide and blank. {name} held the pen and stopped for a long time.\n\nHe wrote Hyunsu's name—the friend whose number had found its way back into his life—and then stopped. His pen stalled where his father's name would have gone. That seat, now, couldn't be filled—not even with a photo.\n\nJiyeon asked quietly,\n\"Oppa's side... is there no one else?\""
+    }
   }
 ]

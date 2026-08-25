@@ -293,7 +293,7 @@
     "description_if_known": {
       "called_father_on_ktx": "The ward called.\n\n{name} remembered calling Father on the Seoul-bound KTX out of Changwon. The call had connected. He had heard Father's short breath, and Father had listened.\n\nToday the ward confirmed a different time. That connected call had not been treatment, nor had it predetermined this death. Both remained facts that could not be erased.",
       "did_not_call_father_on_ktx": "The ward called.\n\n{name} remembered opening Father's number on the Seoul-bound KTX out of Changwon and not calling. No missed call had come in that day. There had only been a button he did not press.\n\nToday's confirmed time of death did not turn that choice into a different event. The two times remained separate.",
-      "father_mentally_updated": "The ward called.\n\nFather had not survived the acute deterioration before dawn.\n\nThere had been one conversation in which {name} spoke without hiding his life. Father listened and said he hoped things would work out. That exchange did not replace every silence after it. What remained now was the fact that they had truly said those words to each other.",
+      "father_heard_gangnam_reason": "The ward called.\n\nFather had not survived the acute deterioration before dawn.\n\nThere had been one conversation in which {name} spoke without hiding his life. Father listened and said he hoped things would work out. That exchange did not replace every silence after it. What remained now was the fact that they had truly said those words to each other.",
       "father_knew_i_came": "The ward called.\n\nFather had not survived the acute deterioration before dawn.\n\nSomething he once said returned: \"...I remembered.\" Father had known about the quiet visit over his medication.\n\nThat visit had not prevented today's outcome. It had not become a visit that never happened either. Father's knowledge of it and the ward's confirmed time remained separate facts.",
       "father_calls_often": "The ward called.\n\nFather had not survived the acute deterioration before dawn.\n\nAt some point, he had started calling first. \"Hey, Minjun. Doing all right?\" What remained on today's screen was not Father's voice but the ward number and a confirmed time. Minjun did not lay the two over each other as if they were the same call.",
       "apologized_for_ignoring": "The ward called.\n\nFather had not survived the acute deterioration before dawn.\n\n{name} remembered apologizing for putting off the medication talk. Father had said, \"It's fine. You're busy.\" The apology and the time after it did not change today's recorded time of death. Minjun did not erase either fact.",
@@ -420,14 +420,62 @@
         "result_text": "Turned off the light.\n\nOne billion won. A number only {name} knows.\n\nTomorrow the charts open again, and this feeling will disappear.\nNo — not disappear. Somewhere it accumulates."
       },
       {
-        "text": "Imagined telling Father about the number.",
-        "result_text": "His first words would have been, \"Have you eaten?\" Minjun might never have said the number at all. They might have talked only about the weather.\n\n{name} imagined the whole conversation alone. Whether the words reached a phone or a photograph, not everything had to be named to be shared.\n\nThe 1 billion on the screen looked a little less cold."
+        "text": "Call Father and tell him the number",
+        "result_text": "{name} called Father. His first words were, as ever, \"Have you eaten?\" They circled through the weather before {name} finally said the account had crossed one billion won.\n\nFather went quiet, then said, \"You worked hard. Eat properly anyway.\" It was a short congratulations, which made it sound more like him.\n\nThe call record and the one-billion figure remained in the same palm. For the first time, the number had become words actually shared with someone."
       },
       {
         "text": "Strangely lonely that no one would understand this number",
         "result_text": "Lonely. Honestly.\n\nStill far from Gangnam — a third of the way there.\nBut having come this far without building anyone to celebrate with — that was the shadow this number cast."
       }
     ]
+  },
+  {
+    "id": "arc_1b_isolation_father_passed",
+    "title": "The Weight of One Billion",
+    "description": "Portfolio and cash combined crossed one billion won.\n\n{name} looked at the number for a long time.\n\nHe wanted to tell someone, but did not know who could receive a number like this.\n\nIt was not about bragging. He wanted to share that something had changed. Yet no one nearby seemed able to understand what had changed.\n\nThis is loneliness, {name} thought.",
+    "choices": [
+      {
+        "text": "Just go to sleep. It is a number only {name} knows.",
+        "result_text": "He turned off the light.\n\nOne billion won. A number only {name} knew.\n\nTomorrow the charts would open again, and this feeling would disappear. No—not disappear. It seemed to be accumulating somewhere."
+      },
+      {
+        "text": "Imagine telling Father about the number",
+        "result_text": "His first words would surely have been, \"Have you eaten?\" The number might never have come out; they might have talked only about the weather.\n\n{name} looked from Father's saved contact to his photograph and imagined the conversation from beginning to end. Even before a number with no one left to answer, not every memory had to be delivered to be shared.\n\nThe one billion on the screen felt a little less cold, but no new call appeared in the log."
+      },
+      {
+        "text": "Admit how strangely lonely it is that no one understands the number",
+        "result_text": "Lonely. Honestly.\n\nGangnam was still far away—a third of the distance covered. But reaching this point without building anyone to celebrate with was the number's shadow."
+      }
+    ]
+  },
+  {
+    "id": "arc_why_gangnam_real_father_passed",
+    "title": "Why Gangnam",
+    "description": "Eleven at night.\n\nFor the first time, his assets had crossed that number.\n{name} stood alone where he could see the lights in the direction of Gangnam.\n\nSomeone asked.\nIt might have been the memory of Father's voice, Hyunsu, or simply a voice carried from somewhere else.\n\n\"Why was it Gangnam in the first place?\"\n\nAfter nearly three years of running, {name} had an answer different from the one he would have given at the start.",
+    "description_if_moral": {
+      "black": "Eleven at night.\n\nFor the first time, his assets had crossed that number. Before looking toward Gangnam's lights, {name} reopened the account alert. The number had not changed. He refreshed it once more.\n\nSomeone asked. It might have been the memory of Father's voice, Hyunsu, or simply a voice carried from somewhere else.\n\n\"Why was it Gangnam in the first place?\"\n\nThe next target came before the answer. What had changed in three years was less the reason than the speed of his calculation.",
+      "white": "Eleven at night.\n\nFor the first time, his assets had crossed that number. {name} stood alone where he could see the lights in the direction of Gangnam. Below them were people waiting for the last bus and shops whose owners had not yet gone home.\n\nSomeone asked. It might have been the memory of Father's voice, Hyunsu, or simply a voice carried from somewhere else. Every voice had a face.\n\n\"Why was it Gangnam in the first place?\"\n\nFor the first time, the answer arrived with names instead of a number."
+    },
+    "choices": [
+      {
+        "text": "\"To prove that I wasn't wrong.\"",
+        "text_if_moral": {"black": "\"To prove it. So no one can dismiss me again.\"", "white": "\"To prove that I did not break.\""},
+        "result_text": "That was the most honest answer. To someone—or perhaps to nothing at all—he had wanted to say, 'I wasn't wrong.'\n\nThere was nothing wrong with wanting to prove yourself. {name} simply could not yet say exactly who that proof was for."
+      },
+      {
+        "text": "\"I think I wanted to answer Father's debt in my own way.\"",
+        "text_if_moral": {"black": "\"To replace what Father lost with a number of my own.\"", "white": "\"I think I wanted to answer Father's debt in my own way.\""},
+        "result_text": "Something loosened when he said it to himself.\n\nIt was not about paying the money back. Father had lost to the world, and {name} had wanted to answer by standing before the world again. He could no longer deliver the words to Father, but at least he did not hide the reason from himself.\n\nGangnam remained not as a certificate, but as lights over a sentence he had never managed to give."
+      },
+      {
+        "text": "\"I thought Gangnam would make things different. Now I'm not sure.\"",
+        "text_if_moral": {"black": "\"I thought Gangnam would end it. But the number has not ended anything.\"", "white": "\"I thought Gangnam would make things different. Now I'm not sure.\""},
+        "result_text": "It was the most honest answer.\n\nAt first, Gangnam had felt like freedom. Now he could no longer say exactly what it was.\n\nKnowing that he did not know might itself be something he had learned in three years."
+      }
+    ],
+    "description_if_known": {
+      "motive_clarified": "Eleven at night.\n\nFor the first time, his assets had crossed that number. {name} stood alone where he could see the lights in the direction of Gangnam.\n\nSomeone asked. It might have been the memory of Father's voice, Hyunsu, or simply a voice carried from somewhere else.\n\n\"Why was it Gangnam in the first place?\"\n\nAfter nearly three years of running, {name} had an answer different from the one he would have given at the start.\n\nHe had asked himself this question once before. On a day when pride and purpose had blurred, he had sorted through his reasons. So this time, the answer came at once."
+    }
   },
   {
     "id": "arc_final_week",
@@ -492,12 +540,12 @@
         "result_text": "That was the most honest answer.\nTo someone — or perhaps to nothing at all — he had wanted to say, 'I wasn't wrong.'\n\nThere was nothing wrong with wanting to prove yourself.\n{name} simply could not yet say exactly who that proof was for."
       },
       {
-        "text": "\"I think I wanted to pay back my father's debt — my way.\"",
+        "text": "Call Father and say, \"I wanted to answer that debt in my own way.\"",
         "text_if_moral": {
-          "black": "\"To replace what my father lost with a number of my own.\"",
-          "white": "\"I think I wanted to pay back my father's debt — my way.\""
+          "black": "Call Father and say, \"I wanted to replace what you lost with a number of my own.\"",
+          "white": "Call Father and say, \"I wanted to answer that debt in my own way.\""
         },
-        "result_text": "Something loosened when he said it to himself.\n\nIt was not about paying the money back. His father had lost to the world, and {name} had wanted to repay that by standing before the world again.\n\nGangnam was the proof. Not a point on a map, but the person standing there."
+        "result_text": "{name} called Father. At first he could mention neither Gangnam's lights nor the account balance, only the weather. Then he steadied his breath. \"I didn't mean I could repay your debt with money. I wanted to stand up again in my own way.\"\n\nFather listened in silence before answering quietly. \"All right. If you're living without hiding, that's enough. I hope it works out.\"\n\nAfter the call, Gangnam no longer looked like a certificate. Its lights marked one sentence they had actually exchanged."
       },
       {
         "text": "\"I thought Gangnam would make things different. Now I'm not sure.\"",
@@ -615,9 +663,17 @@
     "title": "Three Paths Left by the Ward",
     "description": "At 6:14 p.m., the guardian desk at the Changwon ward contacted {name}. Father's breathing had deteriorated suddenly. Oxygen support and tests had begun, and the ward needed to know how a guardian could be reached tonight. Neither survival nor death, nor the course after this crisis, had been confirmed.\n\nThe fastest ticket from Seoul could put him inside the room tonight. If he called the ward now, a nurse could try to connect the phone to Father. If he could do neither, he would have to leave a reply under his own name saying that he was postponing the contact.\n\nThe train app, ward number, and read receipt shared one screen. {name} chose an action he would take now, not the outcome of the crisis.",
     "description_memory_if_known": {
+      "arc_y4_bill_chose_payment&called_father_on_ktx": "On the earlier night, {name} paid the 487,300-won bill, leaving both his own night-clinic visit and Father's ward coordination open. Before that, on the train from Changwon to Seoul, he had called Father first. The payment receipt and the call he opened determined neither today's medical course nor the contact action still in front of him.",
+      "arc_y4_bill_chose_payment&did_not_call_father_on_ktx": "On the earlier night, {name} paid the 487,300-won bill, leaving both his own night-clinic visit and Father's ward coordination open. Before that, on the train from Changwon to Seoul, he had opened Father's number and not called. Neither the payment nor the postponed call determined today's medical course; he still had to decide whether to reopen the line now.",
+      "arc_y4_bill_chose_body_care&called_father_on_ktx": "On the earlier night, {name} registered his own body at the night clinic, leaving both the urgent bill and Father's ward coordination open. Before that, on the train from Changwon to Seoul, he had called Father first. His clinic visit and that call were separate records, and neither chose Father's medical course or today's contact for him.",
+      "arc_y4_bill_chose_body_care&did_not_call_father_on_ktx": "On the earlier night, {name} registered his own body at the night clinic, leaving both the urgent bill and Father's ward coordination open. Before that, on the train from Changwon to Seoul, he had opened Father's number and not called. Caring for his own body did not erase that delay, and the delay did not decide today's medical course.",
+      "arc_y4_bill_chose_father_care&called_father_on_ktx": "On the earlier night, {name} aligned Father's medication list, transfer request, and guardian contact chain. Before that, on the train from Changwon to Seoul, he had called Father first. The ward coordination was one of three medical records; the earlier call was a relationship record, and neither chose today's contact action for him.",
+      "arc_y4_bill_chose_father_care&did_not_call_father_on_ktx": "On the earlier night, {name} aligned Father's medication list, transfer request, and guardian contact chain. Before that, on the train from Changwon to Seoul, he had opened Father's number and not called. The ward coordination was one of three medical records, while the postponed call was only a relationship record and did not decide life or death.",
       "arc_y4_bill_chose_payment": "On the earlier night, {name} paid the 487,300-won bill and left both his own night-clinic visit and Father's ward coordination open. That receipt proved only that money arrived. It did not decide today's respiratory crisis or how he would answer it.",
       "arc_y4_bill_chose_body_care": "On the earlier night, {name} registered his own body at the night clinic and left both the urgent bill and Father's ward coordination open. His clinic record proved that he had cared for his own body, not that Father's course or today's contact had been settled.",
-      "arc_y4_bill_chose_father_care": "On the earlier night, {name} aligned Father's medication list, transfer request, and guardian contact chain. The ward used that confirmed chain to report today's crisis, but the medical coordination still did not choose whether he would travel, call, or postpone contact now."
+      "arc_y4_bill_chose_father_care": "On the earlier night, {name} aligned Father's medication list, transfer request, and guardian contact chain. The ward used that confirmed chain to report today's crisis, but the medical coordination still did not choose whether he would travel, call, or postpone contact now.",
+      "called_father_on_ktx": "As {name} looked at the ward's message, he remembered calling Father first on the train from Changwon to Seoul. That connection did not determine today's medical course. It left only one receipt: on that earlier day, {name} had been the one to open the line.",
+      "did_not_call_father_on_ktx": "As {name} looked at the ward's message, he remembered opening Father's number and not calling on the train from Changwon to Seoul. That postponement did not determine today's medical course. It left only one receipt: on that earlier day, {name} had not opened the line."
     },
     "choices": [
       {

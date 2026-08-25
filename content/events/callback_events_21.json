@@ -336,11 +336,6 @@
         "result_text": "받았다.\n별 말이 없었다.\n그냥 안부였다.",
         "effects": {
           "mental": 3
-        },
-        "cast_effects": {
-          "father": {
-            "affinity": 2
-          }
         }
       },
       {

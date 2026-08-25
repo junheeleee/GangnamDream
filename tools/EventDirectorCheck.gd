@@ -111,13 +111,338 @@ func _ready() -> void:
 	_check_demo_pacing()
 	_check_full_run_pacing()
 	_check_rhythm_save_migration()
+	_check_father_life_contracts()
 	if _failures.is_empty():
-		print("EVENT_DIRECTOR_CHECK_OK directed=1003 foreground=64 bridge=19 bridge_roots=6 causal_roots=7 auto_multi=0 once=1000 repeatable=3 callbacks=37/32 chains=14/12 chapters=5 asset_bands=5 demo=9/2/4/3 authored=7 generic=2 full=57/5/20/21 save=legacy+demo+deferred")
+		print("EVENT_DIRECTOR_CHECK_OK directed=1003 foreground=65 bridge=19 bridge_roots=6 causal_roots=7 auto_multi=0 once=1000 repeatable=3 callbacks=37/32 chains=14/12 chapters=5 asset_bands=5 demo=9/2/4/3 authored=7 generic=2 full=57/5/20/21 save=legacy+demo+deferred")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
 		push_error("EVENT_DIRECTOR_CHECK_FAIL: %s" % failure)
 	get_tree().quit(1)
+
+func _check_father_life_contracts() -> void:
+	var required_tagged_living_only_ids := [
+		"gambling_rock_bottom",
+		"parents_bankbook",
+		"v2_father_health_signal",
+		"v2_demo_first_bill",
+		"story_last_payment_exit",
+		"story_prologue_dad",
+		"amb_parent_hospital",
+		"anxiety_parents_aging",
+		"drama_addiction_warning",
+		"father_wedding_call",
+		"rel_family_proud_call",
+		"arc_y3_father_deferred_call",
+		"arc_y3_birthday_father_call",
+		"arc_y3_relationship_departure_unattached",
+		"arc_y3_truth_heard_by_father",
+		"arc_y5_father_trace_alive_called",
+		"arc_y3_father_after_visit_document",
+		"arc_y3_father_avoidance_document",
+		"arc_father_passing",
+		"arc_father_passing_platform",
+		"arc_father_passing_deal_room",
+		"arc_father_passing_hospital_room",
+		"arc_father_passing_deal_morning",
+		"arc_intro_02_dad_call",
+		"arc_father_ng_call",
+		"arc_father_01_call",
+		"arc_father_quiet_call",
+		"arc_father_02_signal",
+		"arc_father_medication",
+		"arc_father_03_hospital",
+		"arc_father_04_visit",
+		"arc_father_05_after_visit",
+		"arc_father_06_confession",
+		"arc_34_parents_visit",
+		"arc_35_birthday",
+		"arc_36_father_comes_to_seoul",
+		"arc_minjun_first_call",
+		"arc_daeun_families_meet",
+		"arc_pre_ending_father_call",
+		"amb_holiday_home",
+		"father_hospital_results",
+		"arc_36_unexpected_hand",
+		"arc_36_unexpected_hand_father_deal",
+		"arc_y4_three_promises",
+		"arc_y4_three_promises_jiyeon_and_deal",
+		"arc_y4_three_promises_deal_only",
+		"arc_y4_family_partner_collision",
+		"arc_y4_family_partner_collision_jiyeon",
+		"arc_y4_family_commitment_none",
+		"arc_y4_family_table_missed",
+		"arc_father_call_on_ktx",
+		"arc_father_call_on_ktx_number",
+		"arc_y4_father_call_answered_on_ktx",
+		"arc_y4_bill_night",
+		"arc_y4_bill_night_jiyeon",
+		"arc_y4_bill_night_unattached",
+		"arc_y4_father_crisis_contact",
+		"arc_y4_father_final_contact_present",
+		"arc_y4_father_final_contact_called",
+		"arc_y4_father_final_contact_missed",
+		"arc_y4_father_crisis_stabilized",
+		"arc_y4_father_outcome_unknown",
+	]
+	var tagged_living_only_ids: Array[String] = []
+	var condition_living_only_ids: Array[String] = []
+	for event_value in DataRegistry.events:
+		var catalog_event: Dictionary = event_value
+		var catalog_event_id := str(catalog_event.get("id", ""))
+		if catalog_event.get("tags", []).has("requires_living_father"):
+			tagged_living_only_ids.append(catalog_event_id)
+		var raw_no_flag: Variant = catalog_event.get("conditions", {}).get(
+				"no_flag", "")
+		var rejects_father_passed := false
+		if raw_no_flag is String:
+			rejects_father_passed = raw_no_flag == "father_passed"
+		elif raw_no_flag is Array:
+			rejects_father_passed = (raw_no_flag as Array).has(
+					"father_passed")
+		if rejects_father_passed:
+			condition_living_only_ids.append(catalog_event_id)
+	for event_id in required_tagged_living_only_ids:
+		_expect(tagged_living_only_ids.has(event_id),
+			"required living-Father event lost its hard-state tag: %s" \
+					% event_id)
+	var living_only_ids: Array[String] = tagged_living_only_ids.duplicate()
+	for event_id in condition_living_only_ids:
+		if not living_only_ids.has(event_id):
+			living_only_ids.append(event_id)
+	var father_passed_variants := {
+		"arc_first_real_win": "arc_first_real_win_father_passed",
+		"arc_money_loneliness": "arc_money_loneliness_father_passed",
+		"arc_gangnam_real_estate": "arc_gangnam_real_estate_father_passed",
+		"arc_year1_close": "arc_year1_close_father_passed",
+		"arc_sangchul_year3": "arc_sangchul_year3_father_passed",
+		"amb_mlm_aftermath": "amb_mlm_aftermath_father_passed",
+		"callback_borrowed_parents_repay_moment": \
+			"callback_borrowed_parents_repay_moment_father_passed",
+		"callback_proactive_parent_care_echo": \
+			"callback_proactive_parent_care_echo_father_passed",
+		"callback_rushed_to_father_moment": \
+			"callback_rushed_to_father_moment_father_passed",
+		"first_paycheck_00": "first_paycheck_00_father_passed",
+		"rel_family_visit_seoul": "rel_family_visit_seoul_father_passed",
+		"story_first_paycheck_feel": \
+			"story_first_paycheck_feel_father_passed",
+		"story_hometown_nostalgia": \
+			"story_hometown_nostalgia_father_passed",
+		"arc_1b_isolation": "arc_1b_isolation_father_passed",
+		"arc_why_gangnam_real": "arc_why_gangnam_real_father_passed",
+		"arc_daeun_wedding_groom_side": \
+			"arc_daeun_wedding_groom_side_father_passed",
+		"arc_jiyeon_wedding_gap": \
+			"arc_jiyeon_wedding_gap_father_passed",
+		"arc_jiyeon_wedding_guest_list": \
+			"arc_jiyeon_wedding_guest_list_father_passed",
+		"arc_daeun_our_home": "arc_daeun_our_home_father_passed",
+		"hyunsu_year5_call": "hyunsu_year5_call_father_passed",
+		"arc_36_night_doubt": "arc_36_night_doubt_father_passed",
+		"arc_year4_close": "arc_year4_close_father_passed",
+		"arc_daeun_hometown_2": \
+			"arc_daeun_hometown_2_father_passed",
+	}
+	var father_live_only_receipt_flags := [
+		"called_dad_milestone",
+		"called_at_1b_milestone",
+		"father_heard_gangnam_reason",
+		"father_mentally_updated",
+		"sangchul_news_told_father",
+		"told_father_win",
+	]
+	var audio_file := FileAccess.open(
+		"res://assets/scene_audio_manifest.json", FileAccess.READ)
+	_expect(audio_file != null,
+		"Father-variant audio manifest could not be opened")
+	var audio_manifest: Dictionary = {}
+	if audio_file != null:
+		var parsed_audio: Variant = JSON.parse_string(audio_file.get_as_text())
+		audio_file.close()
+		if parsed_audio is Dictionary:
+			audio_manifest = parsed_audio as Dictionary
+	var audio_events: Dictionary = (
+		audio_manifest.get("events", {}) as Dictionary
+		if audio_manifest.get("events", {}) is Dictionary else {})
+	for original_id in father_passed_variants:
+		living_only_ids.erase(original_id)
+	GameState.start_new_game()
+	for event_id in living_only_ids:
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		_expect(not event.is_empty(),
+			"living-Father contract event is missing: %s" % event_id)
+		_expect(EventManager._event_passes_hard_state_contracts(event),
+			"living Father was rejected from %s" % event_id)
+	for event_id in tagged_living_only_ids:
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		_expect(event.get("tags", []).has("requires_living_father"),
+			"living-Father event lost its hard-state tag: %s" % event_id)
+	for original_id in father_passed_variants:
+		var passed_id := str(father_passed_variants[original_id])
+		_expect(EventManager.live_event_variant_id(original_id) == original_id,
+			"living Father was sent to passed variant %s" % passed_id)
+		var passed_event: Dictionary = DataRegistry.find_event(passed_id)
+		_expect(not passed_event.is_empty(),
+			"Father-passed variant is missing: %s" % passed_id)
+		var original_event: Dictionary = DataRegistry.find_event(original_id)
+		if audio_events.has(original_id):
+			_expect(audio_events.has(passed_id) \
+					and audio_events.get(passed_id) \
+						== audio_events.get(original_id),
+				"Father-passed variant lost authored audio contract: %s" \
+					% passed_id)
+		if original_id == "arc_year1_close":
+			_expect(original_event.get("description_if_known", {}) \
+					== passed_event.get("description_if_known", {}),
+				"Year-1 passed close lost route-specific narration")
+			_expect(original_event.get(
+					"description_memory_if_known", {}) \
+					== passed_event.get("description_memory_if_known", {}),
+				"Year-1 passed close lost additive receipt memories")
+		var original_choices: Array = original_event.get("choices", [])
+		var passed_choices: Array = passed_event.get("choices", [])
+		_expect(original_choices.size() == passed_choices.size(),
+			"Father-passed variant changed choice count: %s" % passed_id)
+		for choice_index in range(mini(
+				original_choices.size(), passed_choices.size())):
+			var original_choice: Dictionary = original_choices[choice_index]
+			var passed_choice: Dictionary = passed_choices[choice_index]
+			_expect(original_choice.get("effects", {}) \
+					== passed_choice.get("effects", {}),
+				"Father-passed variant changed effects: %s[%d]" \
+						% [passed_id, choice_index])
+			var expected_passed_flags: Array = []
+			for raw_flag in original_choice.get("flags", []):
+				if str(raw_flag) not in father_live_only_receipt_flags:
+					expected_passed_flags.append(raw_flag)
+			_expect(expected_passed_flags \
+					== passed_choice.get("flags", []),
+				"Father-passed variant changed flags: %s[%d]" \
+						% [passed_id, choice_index])
+			_expect(str(original_choice.get("follow_up_event", "")) \
+					== str(passed_choice.get("follow_up_event", "")),
+				"Father-passed variant changed follow-up: %s[%d]" \
+						% [passed_id, choice_index])
+		_expect(EventManager.live_event_variant_id(passed_id).is_empty(),
+			"living Father accepted passed-only variant %s" % passed_id)
+		EventManager.pending_events.clear()
+		EventManager.queue_event(passed_event)
+		_expect(EventManager.pending_events.is_empty(),
+			"living Father queued passed-only variant %s" % passed_id)
+		EventManager.pending_events.append(passed_event)
+		_expect(EventManager.get_next_event().is_empty(),
+			"living Father restored passed-only variant %s" % passed_id)
+
+	for evidence_case in ["canonical_flag", "legacy_receipt", "cast_stage"]:
+		GameState.start_new_game()
+		match evidence_case:
+			"canonical_flag":
+				GameState.flags["father_passed"] = true
+			"legacy_receipt":
+				GameState.flags["arc_father_passing_seen"] = true
+			"cast_stage":
+				GameState.apply_cast_effect("father", {
+					"met": true,
+					"stage": "passed",
+				})
+		for event_id in living_only_ids:
+			var event: Dictionary = DataRegistry.find_event(event_id)
+			_expect(not EventManager._event_passes_hard_state_contracts(event),
+				"%s reopened living-Father event %s" \
+						% [evidence_case, event_id])
+			EventManager.pending_events.clear()
+			EventManager.queue_event(event)
+			_expect(EventManager.pending_events.is_empty(),
+				"%s queued living-Father event %s" \
+						% [evidence_case, event_id])
+			# A save may already contain a now-impossible pending event. The pop
+			# path must re-check the same monotonic fact instead of trusting it.
+			EventManager.pending_events.append(event)
+			_expect(EventManager.get_next_event().is_empty(),
+				"%s restored living-Father event %s" \
+						% [evidence_case, event_id])
+		EventManager.narrative_bridge_results.clear()
+		_expect(not EventManager.resolve_narrative_bridge(
+				"sangchul_becomes_primary", 0),
+			"%s directly resolved a living-Father bridge" % evidence_case)
+		_expect(EventManager.narrative_bridge_results.is_empty(),
+			"%s recorded a blocked living-Father bridge" % evidence_case)
+		for original_id in father_passed_variants:
+			var passed_id := str(father_passed_variants[original_id])
+			_expect(EventManager.live_event_variant_id(original_id) == passed_id,
+				"%s did not remap %s to %s" \
+						% [evidence_case, original_id, passed_id])
+			var original_event: Dictionary = DataRegistry.find_event(original_id)
+			EventManager.pending_events.clear()
+			EventManager.queue_event(original_event)
+			var queued_variant: Dictionary = EventManager.get_next_event()
+			_expect(str(queued_variant.get("id", "")) == passed_id,
+				"%s queued wrong variant for %s" \
+						% [evidence_case, original_id])
+			# Restored queues bypass queue_event, so the pop path must perform
+			# the same variant migration.
+			EventManager.pending_events.append(original_event)
+			var restored_variant: Dictionary = EventManager.get_next_event()
+			_expect(str(restored_variant.get("id", "")) == passed_id,
+				"%s restored wrong variant for %s" \
+						% [evidence_case, original_id])
+
+	# A state-specific rendering of a random event still belongs to the source
+	# event's once-per-run, recent, and cooldown identity.
+	GameState.start_new_game()
+	GameState.flags["father_passed"] = true
+	EventManager.event_cooldowns.clear()
+	EventManager.recent_event_ids.clear()
+	var random_source: Dictionary = DataRegistry.find_event("first_paycheck_00")
+	var random_variant: Dictionary = DataRegistry.find_event(
+		"first_paycheck_00_father_passed")
+	_expect(EventManager.is_directed_random_event(random_source),
+		"random Father source lost director identity")
+	_expect(not EventManager.is_directed_random_event(random_variant),
+		"Father-passed variant became an independent random root")
+	_expect(GameState.apply_choice(random_variant,
+		random_variant.get("choices", [])[1]),
+		"Father-passed random choice did not resolve")
+	_expect(int(GameState.random_event_counts.get(
+		"first_paycheck_00", 0)) == 1,
+		"Father-passed random choice did not count its source")
+	_expect(not GameState.random_event_counts.has(
+		"first_paycheck_00_father_passed"),
+		"Father-passed random choice created a second count identity")
+	_expect(EventManager.event_cooldowns.has("first_paycheck_00"),
+		"Father-passed random choice lost source cooldown")
+	_expect(EventManager.recent_event_ids.has("first_paycheck_00"),
+		"Father-passed random choice lost source recent identity")
+
+	# Posthumous memory flags may still be recorded, but Father cannot regain a
+	# living stage/affinity or satisfy a current close-relationship ending gate.
+	GameState.start_new_game()
+	GameState.apply_cast_effect("father", {
+		"met": true,
+		"affinity": 80,
+		"stage": "close",
+	})
+	_expect(GameState.has_any_close_relationship(),
+		"living close Father was excluded from relationship state")
+	var affinity_before_death := GameState.get_cast_affinity("father")
+	GameState.flags["father_passed"] = true
+	GameState.apply_cast_effect("father", {
+		"affinity": 20,
+		"stage": "reconciled",
+		"flags": ["posthumous_memory_test"],
+	})
+	_expect(GameState.get_cast_stage("father") == "passed",
+		"posthumous cast effect restored a living Father stage")
+	_expect(GameState.get_cast_affinity("father") == affinity_before_death,
+		"posthumous cast effect changed Father affinity")
+	_expect(GameState.cast_has_flag("father", "posthumous_memory_test"),
+		"posthumous cast effect lost a historical memory flag")
+	_expect(not GameState.has_any_close_relationship(),
+		"passed Father satisfied a current close-relationship gate")
+	GameState.start_new_game()
+	EventManager.pending_events.clear()
+	EventManager.current_event = {}
 
 func _check_catalog_and_ranges() -> void:
 	var directed_count := 0
@@ -149,8 +474,8 @@ func _check_content_diet() -> void:
 			_expect((event.get("choices", []) as Array).size() == 1,
 				"multi-choice event entered the automatic bridge pool: %s" \
 				% str(event.get("id", "")))
-	_expect(foreground_count == 64,
-		"curated foreground pool is %d, expected 64" % foreground_count)
+	_expect(foreground_count == 65,
+		"curated foreground pool is %d, expected 65" % foreground_count)
 	_expect(bridge_count == 19,
 		"safe one-choice bridge pool is %d, expected 19" % bridge_count)
 	for root_id in CAUSAL_PRODUCER_ROOT_IDS:

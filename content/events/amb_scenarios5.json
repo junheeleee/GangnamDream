@@ -63,7 +63,8 @@
     "tags": [
       "scenario",
       "tradeoff",
-      "ripple"
+      "ripple",
+      "requires_living_father"
     ],
     "cooldown": 999,
     "description": "어머니에게서 전화. 울먹이는 목소리.\n\"아버지가... 쓰러지셨어. 수술해야 한대. 500만원이 든다는데...\"\n\n{name}의 통장이 떠오른다. 몇 년을 악착같이 모은 종잣돈.\n그 돈을 빼면, 30억은 다시 까마득해진다.\n하지만 저울의 반대편엔 — 아버지의 생이 올라가 있다.",
