@@ -13,6 +13,8 @@
 **[~] 착수 — 만지는 파일:** `autoloads/GameState.gd`,
 `tools/EndingRouteIdentityCheck.gd`, `tools/ending_distinctness_audit.py`,
 `tools/demo_core_loop_v2_audit.py`, `docs/ENDING_CONTRACT.md`,
+`content/meta/year5_reference_routes.json`,
+`tools/chapter1_core_loop_v2_causal_ledger_check.py`,
 `docs/DECISIONS.md`, `docs/CODEX_QUEUE.md`, 이 사양, `CLAUDE.md`,
 `docs/WORK_LOG.md`, `docs/queue_archive/CODEX_QUEUE_2026-08.md`,
 생성본 `docs/STATUS.md`, `tools/audit_scope.json`.
