@@ -14,7 +14,8 @@
 `e5591f6ca9ab1e45a3c5492aaf72aa5397661f68`의 exact clean 전체 감사
 `✅ 감사 통과`. ORDER-131 선언 전 원격 branch에도 같은 기준선을 push했다.
 
-**정확한 파일 범위:** `scenes/MainGame.gd`, `autoloads/EventManager.gd`,
+**정확한 파일 범위:** `scenes/MainGame.gd`, `scenes/StoryMode.gd`,
+`autoloads/EventManager.gd`,
 `content/events/arc_chapter_themes.json`,
 `content/events_en/arc_chapter_themes.json`,
 `content/events/arc_drama.json`, `content/events_en/arc_drama.json`,
@@ -44,8 +45,8 @@
 `docs/queue_archive/ORDER-131.md`,
 `docs/queue_archive/CODEX_QUEUE_2026-08.md`, `CLAUDE.md`,
 `docs/WORK_LOG.md`, 생성본 `docs/STATUS.md`. 선언 범위 중 실물 변경이 불필요한
-감사·자산 원장은 byte 불변 재검증 대상으로 남길 수 있다. `StoryMode.gd`,
-`GameState.gd`, `EndingSystem.gd`, `project.godot`, AP/UI·저장 schema는 범위 밖이다.
+감사·자산 원장은 byte 불변 재검증 대상으로 남길 수 있다. `GameState.gd`,
+`EndingSystem.gd`, `project.godot`, AP/UI·저장 schema는 범위 밖이다.
 
 **선언 보강 (2026-08-26):** 새 Chapter 4 보호 주차가 기존 exact 리듬
 기준을 바꾸므로, 그 수치를 소유하는 기존 감사 4파일을 위 범위에
@@ -97,6 +98,14 @@ M39 영수증을 읽는 W157의 세 표적 장면으로 분리했으므로, 옛 
 `arc_addiction_recovery.json`, `life_events.json`, 공용
 `autoloads/EventManager.gd`를 정확한 파일 범위에 추가한다. 과거 회상은 유지하되
 현재 통화·병동·식탁만 차단하며, `GameState.gd`와 저장 schema는 계속 불변이다.
+
+**StoryMode 후속 큐 보강 (2026-08-26):** 독립 재감사에서 정상 W188 별세 뒤에도
+오래 미뤄 둔 `arc_daeun_03_fork`의 즉시 후속이 조건을 다시 읽지 않고
+`arc_father_medication`을 큐에 넣어 현재형 통화·약 확인을 부활시킬 수 있음을
+확인했다. 다은의 핵심 관계 선택은 없애지 않고, `requires_living_father`가 붙은
+사건을 실시간·저장 복구 StoryMode 큐에서도 단조 사망 증거로 건너뛰기 위해
+`scenes/StoryMode.gd`를 정확한 파일 범위에 추가한다. 읽기 전용 과거 회상은
+보존하며 AP·저장 schema는 바꾸지 않는다.
 
 ## 깊이 3문
 
