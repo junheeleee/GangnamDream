@@ -2839,7 +2839,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "scenes/StoryMode.tscn":
         "b7688a883323a196e74271c1e76f1d88c91310b3fe1a287cb051b33dd2fb76ca",
     "scenes/MainGame.gd":
-        "70db66c2fce08efa359d7979b7fad156e8619e34f5a58156d14bf177ccce2d7c",
+        "9af0e9f515730cec15e87387ce528423a0b3e02c5fb6f2528c56d9cbb876baf9",
     "scenes/MainGame.tscn":
         "71a9590d43c755fa6b409ee0eb0f1950c6aba4517c64192b83038d22a45d9979",
     "scenes/SeoulCycleBoard.gd":
@@ -2853,7 +2853,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/meta/demo_core_loop_v2.json":
         "f336f8a60277effc1885e10911d21785add4ad5580135bb1ab3a4c4b509059c3",
     "content/meta/demo_localization_scope.json":
-        "eea8939ac24011ac2f65497413215c74578421a2808e9a4f6a21aaa16c81b078",
+        "84b442ad5b71d67b850a8d93a3c907bf8309f88f226fff3bcebbcdf5d969d506",
     "content/meta/release_content_inventory.json":
         "54e4ece08da0ef924bb6d0e149ea3e4a7db83f925d9b0cdef32fd57f545774a7",
     "content/meta/story_rules.json":
