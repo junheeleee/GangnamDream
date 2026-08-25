@@ -30,8 +30,10 @@
 2. 왜 M57·M59의 구체 이름과 계약을 지금 넣지 않는가? 현재 제품에 믿을 수 있는
    영수증과 actor binding이 없으므로 임의로 넣으면 또 거짓 장면이 된다. 다음
    Chapter 5 제품 경로가 이를 소유한다.
-3. 무엇을 보존하는가? 세 event ID, 조건, 선택문, effects, flags, follow-up,
+3. 무엇을 보존하는가? 세 event ID, 조건, effects, flags, follow-up,
    마지막 서명 coda 72/33, 엔딩 35 ID·CG·15 route는 바꾸지 않는다.
+   단, 기존 `final_week_self_approval`·`final_week_gratitude`를 결말이 실제로
+   회수하므로 두 선택문은 그 자기평가를 플레이어에게 숨기지 않도록 명시한다.
 
 ## 배치 A — 장면 기능 감사 복구 8단위
 
@@ -58,7 +60,8 @@
 6. countdown EN 세 표면을 번역투 없이 같은 기능 순서로 쓴다.
 7. 자기 이름·사람들 결과의 중복을 압축하고 담보 결과의 네 기능은 유지한다.
 8. final week KO 기본·세 signature 변형에서 대화 부재 설명을 한 번만 남긴다.
-9. final week EN과 세 결과를 KO와 동형으로 고치되 플레이어 발신만 확정한다.
+9. final week EN과 세 결과를 KO와 동형으로 고치되 플레이어 발신만 확정하고,
+   선택 0·2의 기존 결말 회수 문장은 결과에 몰래 삽입하지 않고 선택문에 드러낸다.
 10. exact object guard·Chapter 1 source guard·audit selector를 승인된 새 실물에
     재결합하고 표적 검사·self-test·diff·전체 감사의 failure flag 0을 판정한다.
 
@@ -66,8 +69,8 @@
 
 - exact 문단 수 assertion은 0이며 패널 수는 관측값으로만 출력된다.
 - KO/EN 모든 표면은 같은 기능·사실·placeholder·선택 순서를 가진다.
-- 기존 선택·effects·flags·follow-up과 ending coda 72/33, 엔딩 35·CG 35·
-  15 route가 불변이다.
+- 기존 effects·flags·follow-up과 ending coda 72/33, 엔딩 35·CG 35·15 route가
+  불변이며, 선택 0·2가 세우는 자기평가를 플레이어가 선택 전에 읽을 수 있다.
 - 허위 계약·매입·등기·열쇠와 상대 답장·만남·용서·화해가 0이다.
 - exact clean 전체 감사가 failure flag 0으로 끝난다.
 
@@ -76,4 +79,3 @@
 이 오더는 잘못된 숫자 할당량과 그로 인한 중복 산문만 고친다. M57 명의·제출,
 M59 실제 계약 결과, 남은 인물의 actor binding을 M60과 마지막 주에 회수하는 일은
 Chapter 5 제품 경로가 실제 영수증을 만든 뒤 별도 오더가 소유한다.
-
