@@ -15,6 +15,14 @@
 
 ## 2026-08
 
+- `[x] ORDER-128` (2026-08-25): ORDER-127 뒤 남은 전체 감사 12 flag를
+  의미 축소 없이 닫았다. StoryMode 타입·다은 guard·첫 화면 고지, Chapter 1
+  proof 27개와 Year5 보호 baseline을 exact source에 맞췄다. JA·zh-CN·zh-TW
+  story-demo UI의 실제 별도 소유는 오류 preview 8개가 아니라 34개였으며,
+  strict collector로 각각 `34/34`를 검증한다. 중국어 번역문을 바꾸지 않고
+  `건당 백`, `Hanbit 流通`, 대만 표준자 `床`의 범용 감사 오탐을 mutation
+  gate와 함께 고쳤다. 전체 감사 failure flag 0, 엔딩 35종·15 route,
+  240주 A/V·장면 방향, 66 스크립트 컴파일이 통과했다. [사양](ORDER-128.md)
 - `[x] ORDER-127` (2026-08-25): 33세·1장의 현재 순자산 30억은
   `instant_legend` 즉시 비밀 엔딩으로 보존하고, 34세 이후 일반
   30억과 `full_circle`은 M60 마지막 서명 후에만 결산하도록
