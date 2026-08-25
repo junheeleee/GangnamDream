@@ -2041,7 +2041,7 @@ func _story_save_primary_text(info: Dictionary) -> String:
 	if _is_public_story_demo():
 		var event_id := str(info.get("event_id", ""))
 		var event: Dictionary = DataRegistry.find_event(event_id)
-		var event_title := _fmt(str(event.get("title", ""))).strip_edges()
+		var event_title: String = _fmt(str(event.get("title", ""))).strip_edges()
 		if not event_title.is_empty():
 			return LocaleManager.ui_format(
 				"챕터 %d · %s", "Chapter %d · %s",

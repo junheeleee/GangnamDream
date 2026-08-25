@@ -154,8 +154,8 @@ func _check_third_party_notices(menu: Control) -> void:
 		return
 	_expect(int(overlay.get_meta("component_entries", 0)) == 1,
 		"Notice overlay engine count drifted from the generated ledger.")
-	_expect(int(overlay.get_meta("font_families", 0)) == 3
-			and int(overlay.get_meta("font_files", 0)) == 6,
+	_expect(int(overlay.get_meta("font_families", 0)) == 5
+			and int(overlay.get_meta("font_files", 0)) == 8,
 		"Notice overlay font counts drifted from the generated ledger.")
 	_expect(int(overlay.get_meta("audio_sources", 0)) == 21
 			and int(overlay.get_meta("audio_assets", 0)) == 139

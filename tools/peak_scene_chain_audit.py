@@ -1945,7 +1945,8 @@ def validate_breakup_peak_contracts(events: dict[str, dict[str, Any]]) -> None:
         "daeun_reckoning_pending",
         'flags.get("used_daeun_as_means", false)',
         'not flags.get("arc_daeun_final_choice_seen", false)',
-        "total_now >= GANGNAM_TARGET",
+        "var gangnam_goal_reached: bool = peak_asset >= GANGNAM_TARGET",
+        "gangnam_goal_reached and daeun_reckoning_pending",
     ):
         if token not in game_state_source:
             raise ValueError(f"Daeun ending cascade can bypass her reckoning: {token}")
