@@ -181,6 +181,31 @@ root→후속 stale queue를 terminal 세 증거에서 전부 막는다. 사망 
 장 결산의 밀도·선택 순서·효과·영수증은 보존하고 결과 저장 변형도 같은 인덱스로
 복원한다.
 
+**제품 전역 잔존 대기열 보강 (2026-08-26):** Chapter 4 경로만 고쳐도 구버전의
+random·callback·프롤로그 대기열에는 별세 뒤 현재형 아버지 통화·방문·치료 약속을
+다시 여는 항목이 남는다. 정상 연대의 사건과 사후 회상은 보존하면서, 생존 자체가
+전제인 사건에는 hard contract를 붙이고 다른 선택까지 유효한 혼합 사건은 같은
+선택 순서·효과의 사망 변형으로 넘긴다. 이 전수 경계와 한·영 대칭을 소유하기 위해
+`content/events/core_loop_v2_events.json`,
+`content/events_en/core_loop_v2_events.json`,
+`content/events/story_events.json`, `content/events_en/story_events.json`,
+`content/events/amb_scenarios3.json`, `content/events_en/amb_scenarios3.json`,
+`content/events/amb_scenarios5.json`, `content/events_en/amb_scenarios5.json`,
+`content/events/anxiety_events.json`, `content/events_en/anxiety_events.json`,
+`content/events/callback_events_3.json`,
+`content/events_en/callback_events_3.json`,
+`content/events/callback_events_10.json`,
+`content/events_en/callback_events_10.json`,
+`content/events/callback_events_51.json`,
+`content/events_en/callback_events_51.json`,
+`content/events/drama_events.json`, `content/events_en/drama_events.json`,
+`content/events/life_events2.json`, `content/events_en/life_events2.json`,
+`content/events/arc_jiyeon_married.json`,
+`content/events_en/arc_jiyeon_married.json`를 정확한 파일 범위에 추가한다.
+이미 범위 안인 다은 결혼·생활·관계 사건도 사망 조건부 설명과 공통 선택 문구를
+함께 대조한다. 사후 기억을 지워서 일관성을 만드는 방식은 금지하며, 읽기 전용
+Dialogue History는 원문을 유지한다.
+
 ## 깊이 3문
 
 1. 왜 완성된 25편에 ingress만 붙이지 않는가? 현재 원고는 대부분 월간 행동판에서
