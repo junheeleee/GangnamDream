@@ -2,7 +2,7 @@
 """Audit the 240-week novel cadence after the five-chapter redistribution.
 
 The estimate is a structural comparison model, not a substitute for a human
-playtest. It combines authored text, deliberation, direct AP weeks, random-event
+playtest. It combines authored text, deliberation, StoryMode choice weeks, random-event
 opportunities, summaries, and the real auto-beat durations. Keeping the model
 constant makes later edits comparable and locates the likely two-hour refund line.
 """
@@ -33,11 +33,10 @@ SUMMARY_SECONDS = 15.0
 QUIET_SECONDS = 0.90
 ECHO_SECONDS = 1.35
 PROLOGUE_MINUTES = 12.0
-# ORDER-52 restores authored delayed consequences into direct weeks. Those
+# ORDER-52 restores authored delayed consequences into choice weeks. Those
 # scenes correctly displace a small number of random foreground opportunities.
 MIN_RANDOM_OPPORTUNITIES = 22
 MAX_RANDOM_OPPORTUNITIES = 36
-MIN_RANDOM_PER_CHAPTER = 1
 EXPECTED_REFUND_DIRECT = [29, 35, 37, 45]
 EXPECTED_REFUND_ECHO = [33]
 TWO_HOUR_MIN_WEEK = 97
@@ -241,7 +240,7 @@ def main() -> int:
         for chapter in range(1, 6)
     ]
     errors: list[str] = []
-    if chapter_direct != [13, 9, 10, 10, 10]:
+    if chapter_direct != [13, 9, 10, 15, 10]:
         errors.append(f"chapter decision cadence drifted: {chapter_direct}")
     if not 40 <= len(direct) <= 60:
         errors.append(f"direct weeks outside 40..60: {len(direct)}")
@@ -275,6 +274,7 @@ def main() -> int:
     totals: list[float] = []
     random_windows: list[int] = []
     random_chapter_windows: list[list[int]] = []
+    authored_direct_chapter_windows: list[list[int]] = []
 
     for path_name, firelog in paths.items():
         elapsed = PROLOGUE_MINUTES
@@ -285,11 +285,14 @@ def main() -> int:
         refund_after = 0.0
         opportunities = 0
         opportunities_by_chapter = [0, 0, 0, 0, 0]
+        authored_direct_by_chapter = [0, 0, 0, 0, 0]
         chapter_minutes: list[float] = []
         for turn in range(1, 241):
             components: list[tuple[str, str, float]] = []
             if turn in firelog:
                 root = firelog[turn]
+                if turn in direct:
+                    authored_direct_by_chapter[min(4, (turn - 1) // 48)] += 1
                 components.append((
                     "scene",
                     root,
@@ -324,14 +327,17 @@ def main() -> int:
                 f"{path_name}: random opportunities outside "
                 f"{MIN_RANDOM_OPPORTUNITIES}..{MAX_RANDOM_OPPORTUNITIES}: {opportunities}"
             )
-        sparse_chapters = [
+        unexplained_randomless_chapters = [
             chapter + 1
-            for chapter, count in enumerate(opportunities_by_chapter)
-            if count < MIN_RANDOM_PER_CHAPTER
+            for chapter, (count, authored) in enumerate(
+                zip(opportunities_by_chapter, authored_direct_by_chapter)
+            )
+            if count == 0 and authored != chapter_direct[chapter]
         ]
-        if sparse_chapters:
+        if unexplained_randomless_chapters:
             errors.append(
-                f"{path_name}: chapters without a random foreground window: {sparse_chapters}"
+                f"{path_name}: randomless chapters still contain unauthored choice weeks: "
+                f"{unexplained_randomless_chapters}"
             )
         if not two_hour_boundary_allowed(refund_week, refund_root, refund_source):
             errors.append(
@@ -347,6 +353,7 @@ def main() -> int:
         totals.append(elapsed)
         random_windows.append(opportunities)
         random_chapter_windows.append(opportunities_by_chapter)
+        authored_direct_chapter_windows.append(authored_direct_by_chapter)
         print(
             "FULL_RUN_PATH "
             f"name={path_name.replace(' ', '_')} direct={len(direct)} "
@@ -354,6 +361,8 @@ def main() -> int:
             f"boss={len(bosses)} echo={len(echoes)} summaries={len(summaries)} "
             f"random_windows={opportunities}/{len(random_events)}({exposure * 100:.2f}%) "
             f"random_by_chapter={','.join(str(value) for value in opportunities_by_chapter)} "
+            "authored_direct_by_chapter="
+            f"{','.join(str(value) for value in authored_direct_by_chapter)} "
             f"refund_week={refund_week} refund_root={refund_root or 'none'} "
             f"refund_source={refund_source or 'none'} "
             f"refund_boundary={two_hour_boundary_kind(refund_week, refund_root, refund_source)} "
@@ -372,6 +381,8 @@ def main() -> int:
         f"refund_cadence=direct:{refund_direct}/echo:{refund_echo} "
         f"random_windows={min(random_windows)}-{max(random_windows)} "
         f"random_chapter_min={min(min(values) for values in random_chapter_windows)} "
+        "authored_direct_chapter_max="
+        f"{max(max(values) for values in authored_direct_chapter_windows)} "
         f"refund_week={min(checkpoints)}-{max(checkpoints)} "
         f"estimated_minutes={min(totals):.1f}-{max(totals):.1f}"
     )

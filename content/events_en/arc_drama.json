@@ -284,19 +284,20 @@
   },
   {
     "id": "arc_father_passing",
-    "title": "Three Times Absent",
-    "description": "The hospital called.\nHis father was in critical condition, they said. He had to come down at once.\n\"Are you able to come down right now?\"\n\nIt wasn't the first such call Minjun had taken.\nThree times. All three, he hadn't gone down. Something important came up. A deal came up. No time. Each time he told himself so, and each time it sounded reasonable enough.\n\nThis call was — the fourth.\nThe nurse's voice on the other end was different from the three before. Not urgent. A voice for which there was no longer any need to hurry.\nPhone in hand, Minjun couldn't move for a long while.",
+    "title": "The Call from the Ward",
+    "description": "The ward called.\nThe nurse said Father had suffered an acute deterioration before dawn. The staff had continued treatment, but he had died.\n\"Please come to the ward when you are able.\"\n\nThe voice on the line did not hurry. No train could arrive before the recorded time of death now.\n\nThe ward's confirmed time and an alert for a deal about to begin shared the screen. One time had already stopped. The other was still waiting for Minjun's answer. He held the phone and could not move for a long while.",
     "description_if_moral": {
-      "black": "The hospital called.\nHis father was in critical condition, they said. He had to come down at once. A reminder for the deal about to start appeared over the call. The hospital number and the calendar alert were rectangles of the same size.\n\nIt wasn't the first such call Minjun had taken.\nThree times. All three, he hadn't gone down. Something important came up. A deal came up. No time. Each time he told himself so, and each time it sounded reasonable enough.\n\nThis call was — the fourth.\nThe nurse's voice on the other end was different from the three before. Not urgent. A voice for which there was no longer any need to hurry.\nPhone in hand, Minjun couldn't move for a long while.",
-      "white": "The hospital called.\nThe nurse said his father was in critical condition and he had to come down at once. The word 'father' reached {name} before 'at once.'\n\nIt wasn't the first such call Minjun had taken.\nThree times. All three, he hadn't gone down. Something important came up. A deal came up. No time. Each time he told himself so, and each time it sounded reasonable enough.\n\nThis call was — the fourth.\nThe nurse's voice on the other end was different from the three before. Not urgent. A voice for which there was no longer any need to hurry.\nPhone in hand, Minjun couldn't move for a long while."
+      "black": "The ward called.\nThe nurse gave the acute-deterioration time, the treatment window, and the time Father died. A reminder for the deal about to start appeared over the call. The ward number and the calendar alert were rectangles of the same size.\n\nNo train could arrive before the confirmed time. He might still reach the meeting room. The fact that this calculation finished so quickly was another thing Minjun could not erase.",
+      "white": "The ward called.\nThe nurse said Father had suffered an acute deterioration before dawn. The staff had continued treatment, but his father had died. The word father reached {name} before the time of death.\n\n\"Please come to the ward when you are able.\"\n\nNo train could arrive before that time. Where he moved now was still left in Minjun's present."
     },
     "description_if_known": {
-      "father_mentally_updated": "The hospital called.\n\nThey said Dad was in critical condition. He needed to come down right away.\n\nThree times. He hadn't gone down any of them.\n\nBut there had been one real conversation.\n{name} had told him — what he was doing, why he was in Seoul, how he was living.\nDad listened, quiet. Said he hoped things would work out.\n\nThat was the last thing he heard his father say.",
-      "called_father_on_ktx": "The fourth call came.\n\nThere'd been a time he dialed the number on the KTX.\nIt just rang. No answer.\n\nBack then he simply looked out the window.\nThis call — was a different kind.",
-      "father_knew_i_came": "The hospital called.\n\nThey said Dad was in critical condition. He needed to come down right away.\n\nThis wasn't the first time Minjun had gotten this call.\n\nThree times. He hadn't gone down any of them. Something important came up. A deal. No time.\n\nThis call — was the fourth.\n\nA thing his father once said came back to him.\n\"...I remembered.\" The quiet visit about the medication — his father had known all along.\nThe man who knew his son had come and said nothing — that man was now critical.",
-      "father_calls_often": "The hospital called.\n\nThey said Dad was in critical condition. He needed to come down right away.\n\nThis wasn't the first time Minjun had gotten this call.\n\nThree times. He hadn't gone down any of them. Something important came up. A deal. No time.\n\nThis call — was the fourth.\n\nAt some point, his father had started calling first.\n\"Hey, Minjun. Doing alright?\"\nThat voice was now — behind a hospital number.",
-      "apologized_for_ignoring": "The hospital called.\n\nThey said Dad was in critical condition. He needed to come down right away.\n\nThis wasn't the first time Minjun had gotten this call.\n\nThree times. He hadn't gone down any of them. Something important came up. A deal. No time.\n\nThis call — was the fourth.\n\nHe remembered the call where he apologized for putting off the medication talk.\nHis father had said, \"It's fine. You're busy.\"\nMaybe it was all those it's-fines, stacked up — that led here.",
-      "father_debt_felt": "The hospital called.\n\nThey said Dad was in critical condition. He needed to come down right away.\n\nThis wasn't the first time Minjun had gotten this call.\n\nThree times. He hadn't gone down any of them. Something important came up. A deal. No time.\n\nThis call — was the fourth.\n\nEvery time the number grew, he'd thought: there is something this must repay.\nHe was still working out how — when the call came saying time was running out."
+      "called_father_on_ktx": "The ward called.\n\n{name} remembered calling Father on the Seoul-bound KTX out of Changwon. The call had connected. He had heard Father's short breath, and Father had listened.\n\nToday the ward confirmed a different time. That connected call had not been treatment, nor had it predetermined this death. Both remained facts that could not be erased.",
+      "did_not_call_father_on_ktx": "The ward called.\n\n{name} remembered opening Father's number on the Seoul-bound KTX out of Changwon and not calling. No missed call had come in that day. There had only been a button he did not press.\n\nToday's confirmed time of death did not turn that choice into a different event. The two times remained separate.",
+      "father_mentally_updated": "The ward called.\n\nFather had not survived the acute deterioration before dawn.\n\nThere had been one conversation in which {name} spoke without hiding his life. Father listened and said he hoped things would work out. That exchange did not replace every silence after it. What remained now was the fact that they had truly said those words to each other.",
+      "father_knew_i_came": "The ward called.\n\nFather had not survived the acute deterioration before dawn.\n\nSomething he once said returned: \"...I remembered.\" Father had known about the quiet visit over his medication.\n\nThat visit had not prevented today's outcome. It had not become a visit that never happened either. Father's knowledge of it and the ward's confirmed time remained separate facts.",
+      "father_calls_often": "The ward called.\n\nFather had not survived the acute deterioration before dawn.\n\nAt some point, he had started calling first. \"Hey, Minjun. Doing all right?\" What remained on today's screen was not Father's voice but the ward number and a confirmed time. Minjun did not lay the two over each other as if they were the same call.",
+      "apologized_for_ignoring": "The ward called.\n\nFather had not survived the acute deterioration before dawn.\n\n{name} remembered apologizing for putting off the medication talk. Father had said, \"It's fine. You're busy.\" The apology and the time after it did not change today's recorded time of death. Minjun did not erase either fact.",
+      "father_debt_felt": "The ward called.\n\nFather had not survived the acute deterioration before dawn. Every time the number grew, {name} had thought there was something it must repay. The time the ward read aloud was not a ledger entry money could move backward or reverse. The time of death and the deal alert remained side by side on the screen."
     },
     "choices": [
       {
@@ -305,7 +306,7 @@
           "black": "Buy the ticket first. Calculate the loss on the platform.",
           "white": "Buy the ticket first. Even if it is late, get ready to go."
         },
-        "result_text": "\"Please come as quickly as you can.\"\n\nEven after the nurse's last words, Minjun could not lower the phone from his ear. With his other hand he bought the fastest ticket to Changwon. He grabbed his coat and left."
+        "result_text": "\"Please come to the ward when you are able.\"\n\nEven after the nurse's words ended, Minjun could not lower the phone from his ear. With his other hand he bought the fastest ticket to Changwon. Its arrival was later than the confirmed time of death. He still grabbed his coat and left."
       },
       {
         "text": "Open the deal alert layered over the call. Go to the meeting room.",
@@ -313,7 +314,7 @@
           "black": "Open the deal alert. This chance also disappears if he waits.",
           "white": "Open the deal alert. Tell himself the decision can wait a little longer."
         },
-        "result_text": "The investment meeting address sat over the hospital number. Twenty-eight minutes until it began. Whether he went to Seoul Station or the meeting room, he had to leave now.\n\nMinjun picked up his bag. Without closing the hospital call screen, he gave the driver the meeting-room address first."
+        "result_text": "The investment meeting address sat over the ward number. Twenty-eight minutes until it began. Reaching Changwon could not change the confirmed time. He might still reach the meeting room.\n\nMinjun picked up his bag. Without closing the ward call screen, he gave the driver the meeting-room address first."
       }
     ]
   },
@@ -336,7 +337,7 @@
           "black": "Turn away from the train. This deal disappears if he waits.",
           "white": "Turn away from the train. Take the deal, knowing what he is leaving behind."
         },
-        "result_text": "\"I'm sorry. This time I really can't come.\" Minjun called the hospital back and said it. Then he went into the deal.\nHe made five million won on it. Just as planned."
+        "result_text": "\"I won't be able to come down to Changwon today.\" Minjun called the ward back and said it. Then he went into the deal.\nHe made five million won on it. Just as planned."
       }
     ]
   },
@@ -359,7 +360,7 @@
           "black": "(Hang up. This deal vanishes if he does not take it now.)",
           "white": "(Hang up. Take the deal, knowing what he is leaving behind.)"
         },
-        "result_text": "\"I'm sorry. This time I really can't come.\" Minjun hung up. And he went into the deal.\nHe made five million won on it. Just as planned."
+        "result_text": "\"I won't be able to come down to Changwon today.\" Minjun told the ward, hung up, and went into the deal.\nHe made five million won on it. Just as planned."
       }
     ]
   },
@@ -377,7 +378,7 @@
   {
     "id": "arc_father_passing_deal_morning",
     "title": "Five Million Won",
-    "description": "The next morning, another call came in the empty meeting room.\n\n\"Your father passed away last night.\"\n\nAt the very hour Minjun was making his five million. The contract had been cleared away, but the deposit alert was still on his screen. After the call ended, the number and the hospital call remained side by side.",
+    "description": "The next morning, the ward's bereavement desk called the empty meeting room.\n\n\"I am calling to reconfirm your father's time of death and the procedures that follow.\"\n\nThe time the coordinator read overlapped the hour Minjun had made five million won. The contract had been cleared away, but the deposit alert remained on his screen. After the call ended, the number and the ward call sat side by side.",
     "choices": [
       {
         "text": "Check the deposit in the banking app.",
@@ -540,15 +541,15 @@
   {
     "id": "arc_father_call_on_ktx_number",
     "title": "Call",
-    "description": "Father's name sat at the center of the contact screen. Beneath it, the green call button trembled with the train.\n\n{name} tried the first words silently. \"Dad, it's me.\" Obvious words, yet no second sentence came. Was he keeping his hospital appointments? Why hadn't {name} gotten off in Changwon? What, exactly, did he believe he had accomplished in Seoul? Starting anywhere felt like avoiding everything else.\n\nThe train entered a tunnel. Hand, face, and call button appeared together in the black window. {name} knew this might be his last chance to call, and pretended he did not.",
+    "description": "Father's name sat at the center of the contact screen. Beneath it, the green call button trembled with the train.\n\n{name} tried the first words silently. \"Dad, it's me.\" Obvious words, yet no second sentence came. Was he keeping his hospital appointments? Why hadn't {name} gotten off in Changwon? What, exactly, did he believe he had accomplished in Seoul? Starting anywhere felt like avoiding everything else.\n\nThe train entered a tunnel. Hand, face, and call button appeared together in the black window. Saying he would think again after reaching Seoul was not yet a promise made to anyone. Whether to call was an action he could choose only here.",
     "choices": [
       {
         "text": "Call him",
-        "result_text": "{name} pressed the number.\n\nIt rang once, twice, three times. Each time the wheels crossed a rail joint, a low vibration entered the space between the tones. The connection dropped before the fourth ring began. No answer.\n\nMaybe Father was no longer in any state to take a call. The thought turned {name}'s fingertips cold.\n\nHe set the phone down and looked outside. When the tunnel ended, dark fields and a handful of lights fled backward at a speed there was no catching."
+        "result_text": "{name} pressed the number.\n\nIt rang twice. Between the vibration of wheels crossing rail joints came a short breath.\n\n\"Yeah. You on the train?\"\n\nFather had answered. The call timer began again at one second. The fact of the connection and everything still unsaid remained on the same screen."
       },
       {
         "text": "Do not call",
-        "result_text": "{name} couldn't bring himself to call. What to say, what to lead with in twenty-three seconds — he didn't know. The thought that he would do it after reaching Seoul became convincing one more time.\n\nThe screen went dark on its own. In the black glass, his own face was faintly reflected.\n\n{name} closed his eyes. The wheels crossed the rail joints in a steady rhythm. The train still had a long way left to go."
+        "result_text": "{name} moved his hand away from the call button. No new outgoing call appeared. No missed call had come in from Father either. What remained was the fact that Minjun had opened the number and chosen not to press.\n\nThe thought that he would call after reaching Seoul still sounded plausible. The screen went dark on its own, and his face appeared in the black glass. The train moved farther from Changwon."
       }
     ]
   },
@@ -573,39 +574,63 @@
   },
   {
     "id": "arc_y4_father_call_answered_on_ktx",
-    "title": "Twenty-Three Seconds Toward Changwon",
-    "description": "The Changwon-bound KTX climbed onto the Han River bridge after leaving Seoul Station. The water bottle on the tray trembled at every rail joint. Father's call had been connected for twenty-three seconds.\n\n\"You on the train?\"\n\"Yes.\"\n\nA carriage announcement filled the pause. From Father's end came cloth shifting and a short breath. Once, each would have waited for the other to hang up. Today the arrival time was visible, and the decision {name} had made alone about whether to make or postpone the hospital visit had not vanished.\n\n\"Say it if you have something to say,\" Father said. \"I'm listening.\" The call kept running, but {name} could give only one thing the whole of his attention.",
+    "title": "Twenty-Three Seconds Toward Seoul",
+    "description": "The Seoul-bound KTX had emerged from its first tunnel after leaving Changwon Jungang Station. The water bottle on the tray trembled at every rail joint. Father's call had been connected for twenty-three seconds.\n\n\"You on the train?\"\n\"Yes. I'm heading up to Seoul.\"\n\nA carriage announcement filled the pause. From Father's end came cloth shifting and a short breath. The fact that {name} had passed a station fifteen minutes by taxi from the hospital and taken his assigned seat for Seoul did not disappear because the call connected.\n\n\"Say it if you have something to say,\" Father said. \"I'm listening.\" The call kept running, but {name} could give only one thing the whole of his attention.",
     "choices": [
       {
         "text": "Ask how Father's body feels now, and do not interrupt before the answer ends",
-        "result_text": "\"What hurts most right now?\"\n\nFather did not answer at once. As the train left the bridge, he said, \"A little short of breath today.\" {name} did not say it was fine or tell him what to do.\n\nListening to one answer left no room for the explanation {name} had prepared. In return, he heard exactly where Father's breathing shortened."
+        "result_text": "\"What hurts most right now?\"\n\nFather did not answer at once. As the next tunnel came into view, he said, \"A little short of breath today.\" {name} did not say it was fine or tell him what to do.\n\nListening to one answer left no room for the explanation {name} had prepared. In return, he heard exactly where Father's breathing shortened."
       },
       {
-        "text": "Admit that he decided on the hospital visit alone",
-        "result_text": "\"I decided alone whether to go to the hospital, whether to postpone it, even whom to tell.\"\n\nSomething rang softly against Father's bed rail. After a long pause, he said only, \"All right.\" Forgiveness or acknowledgment—{name} could not tell.\n\nHe swallowed the excuse. The arrival time did not change, but the face he could have saved until then was already gone."
+        "text": "Admit that he took the Seoul train without getting off near the hospital",
+        "result_text": "\"I knew the hospital was close and still didn't get off. I stayed on the train to Seoul.\"\n\nSomething rang softly against Father's bed rail. After a long pause, he said only, \"All right.\" Forgiveness or acknowledgment—{name} could not tell.\n\n{name} did not explain how important the errand in South Gyeongsang had been. The Seoul arrival time did not change, but the face he could have saved until then was already gone."
       },
       {
-        "text": "Give the Changwon arrival time to the exact minute",
-        "result_text": "\"I arrive at Changwon Station at 8:12. I'll tell you as soon as I get off.\"\n\nFather repeated, \"Eight twelve,\" slowly. A number, not a feeling, became the clearest thing on the call screen.\n\n{name} left Father's condition and the hospital visit unspoken. He gave Father an exact present time to hold, and accepted that missing it would leave no excuse to hide behind."
+        "text": "Give the Seoul arrival time to the exact minute and do not hide where he is",
+        "result_text": "\"I arrive at Seoul Station at 8:12. Right now I'm moving farther from Changwon.\"\n\nFather repeated, \"Eight twelve,\" slowly. A number describing the present route, not a feeling, became the clearest thing on the call screen.\n\n{name} left Father's condition and the hospital visit unspoken. He did not hide where he was going. That precision did not reduce the distance created by not being there."
       }
     ]
   },
   {
     "id": "arc_y4_father_call_missed_on_ktx",
-    "title": "What to Leave on the Dark Screen",
-    "description": "The Changwon-bound KTX pushed past the lights outside Seoul. Only after boarding did {name} turn over the phone he had left on silent. One missed call from Father sat beside the train's arrival time. The call button was directly below it, but this record already belonged to a call he had not answered.\n\nHis photos still held the screen from a twenty-three-second call years ago. His notes held a half-written line to someone in his present, left unsent. Neither could replace the missed call. Calling now would turn the action he had missed into a different one.\n\n{name} moved his hand away from the button. Instead, he would preserve one of the three records so he could not later improve the story of what he had failed to do.",
+    "title": "The Number He Did Not Dial",
+    "description": "The Seoul-bound KTX emerged from its first tunnel after leaving Changwon Jungang Station. {name} kept Father's contact open and moved his hand away from the call button. No new outgoing call appeared. No missed call had come in from Father either.\n\nHis photos still held the screen from a twenty-three-second call years ago. The train app showed the Changwon departure and expected Seoul arrival. His notes held half a sentence to Father. None could turn the call he had not made into a conversation.\n\n{name} chose to leave one exact sentence about what he had and had not done, so he could not improve the story later.",
     "choices": [
       {
-        "text": "Attach today's date to the old twenty-three-second screen and preserve it",
-        "result_text": "{name} copied the old screen and added today's date and train number to its filename. The old silence and today's missed call entered the same folder.\n\nNot one word of a present conversation appeared. What remained was proof that the two silences were not one event. The arrival time and the unsent line slipped out of view."
+        "text": "Save Father's contact screen and the Seoul-bound train number at the same time",
+        "result_text": "{name} saved Father's contact and the Seoul-bound train number in sequence, giving both the same time. Today's call log held no outgoing call.\n\nThe two images did not prove that he had called. They recorded that he had opened the number while moving away from Changwon. The old twenty-three-second screen remained under its own date."
       },
       {
-        "text": "Save the missed-call time and Changwon arrival time in one image",
-        "result_text": "With the train app beside the call log, the time he had failed to answer and the time he would arrive fit on one screen. {name} saved it.\n\nThe numbers were exact. Why Father had called remained blank. While he kept time as evidence without calling back, the place for speech stayed empty."
+        "text": "Write only the Changwon departure time and the fact that he did not call",
+        "result_text": "{name} wrote, \"After leaving Changwon Jungang Station, I opened Father's number and did not press call.\" He added neither reason nor forecast.\n\nThe sentence was short. The hospital's fifteen-minute taxi distance and the Seoul arrival time remained outside the note. Those blanks did not turn the choice into a better story."
       },
       {
-        "text": "Finish the unsent line in his notes, but do not send it",
-        "result_text": "{name} completed the line: \"I'm on my way to Changwon. I failed to send you this today.\" He added the intended recipient and the time, then kept the send window closed.\n\nAnother chance to tell the person in the present passed. The original unsent line remained, preventing him from later claiming that he had sent it."
+        "text": "Finish the line to Father, but do not send it",
+        "result_text": "{name} completed the line: \"Dad, I'm on a train from Changwon to Seoul. I opened your number and did not call.\" He added the time, then kept the send window closed.\n\nThe sentence was complete but did not reach Father. The original remained, preventing him from later claiming that he had sent it."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_father_crisis_contact",
+    "title": "Three Paths Left by the Ward",
+    "description": "At 6:14 p.m., the guardian desk at the Changwon ward contacted {name}. Father's breathing had deteriorated suddenly. Oxygen support and tests had begun, and the ward needed to know how a guardian could be reached tonight. Neither survival nor death, nor the course after this crisis, had been confirmed.\n\nThe fastest ticket from Seoul could put him inside the room tonight. If he called the ward now, a nurse could try to connect the phone to Father. If he could do neither, he would have to leave a reply under his own name saying that he was postponing the contact.\n\nThe train app, ward number, and read receipt shared one screen. {name} chose an action he would take now, not the outcome of the crisis.",
+    "description_memory_if_known": {
+      "arc_y4_bill_chose_payment": "On the earlier night, {name} paid the 487,300-won bill and left both his own night-clinic visit and Father's ward coordination open. That receipt proved only that money arrived. It did not decide today's respiratory crisis or how he would answer it.",
+      "arc_y4_bill_chose_body_care": "On the earlier night, {name} registered his own body at the night clinic and left both the urgent bill and Father's ward coordination open. His clinic record proved that he had cared for his own body, not that Father's course or today's contact had been settled.",
+      "arc_y4_bill_chose_father_care": "On the earlier night, {name} aligned Father's medication list, transfer request, and guardian contact chain. The ward used that confirmed chain to report today's crisis, but the medical coordination still did not choose whether he would travel, call, or postpone contact now."
+    },
+    "choices": [
+      {
+        "text": "Buy the fastest ticket to Changwon, cancel what he will miss, and go to the room",
+        "result_text": "{name} bought a ticket for the 7:02 train to Changwon and sent the cancellation time to the person responsible for what he would miss. He did not add that he would explain the loss later.\n\nHe replied to the ward with the train number and expected arrival. The nurse read the time back. The crisis outcome remained unknown, but where Minjun was moving had become definite."
+      },
+      {
+        "text": "Call the ward now and ask whether he can be connected to Father",
+        "result_text": "{name} dialed the ward number in the message. The nurse confirmed the patient's name and his relationship, then said she would carry the handset over. After cart wheels and curtain rings passed, a short breath entered the line.\n\nThe distance between Seoul and Changwon did not shrink. Still, the fact of the connection began recording from one second on the screen."
+      },
+      {
+        "text": "Reply that he cannot travel or talk today, and postpone the contact",
+        "result_text": "{name} replied, \"I cannot travel to Changwon or speak today.\" He added no promise that he would definitely do it tomorrow. The ward sent a brief acknowledgment that the message had been received.\n\nThe read time and his reply time appeared side by side. What he had missed was not yet an outcome, but the act of postponing the contact no longer hid behind silence."
       }
     ]
   },
@@ -649,20 +674,46 @@
   },
   {
     "id": "arc_y4_father_final_contact_missed",
-    "title": "The Exact Time He Did Not Reach",
-    "description": "Father's name and the time {name} had failed to answer remained on the phone. There was no call duration. {name} neither left for Changwon nor called again to turn the missed action into another one.\n\nA short ward message said, \"The patient is not available for calls at present.\" Nothing beyond that sentence had been confirmed. In the notes app, a line beginning \"Dad\" stopped halfway through a word.\n\n{name} did not possess a story about three absences or a fourth call. He had one time on a screen, one fact confirmed by the ward, and one sentence never sent. He would copy one into his notebook so a better excuse could not replace it later.",
+    "title": "The Time He Postponed Contact",
+    "description": "The phone held the time the ward first contacted {name} and the separate time he replied, \"I can't today.\" There was no outgoing call to Father and no missed call from him. {name} had neither left for Changwon nor asked the ward for a connection.\n\nThe ward's next message said, \"The patient is not available for calls at present.\" Nothing beyond that sentence had been confirmed. In the notes app, a line beginning \"Dad\" stopped halfway through a word.\n\n{name} possessed the ward's contact time, the time he postponed it, and one sentence never sent. He would copy one into his notebook so a better excuse could not replace it later.",
     "choices": [
       {
-        "text": "Copy only the date and time of the missed call into the notebook",
-        "result_text": "{name} copied the caller name, date, and time exactly. He added neither cause nor guess. The line was too short to fill even half the page.\n\nIn preserving the exact time, he left the voice and content he might have heard blank in this record. The space did not shrink when he lifted the pen."
+        "text": "Copy only the dates and times of the ward contact and his reply",
+        "result_text": "{name} copied the ward number, first contact time, and his reply time exactly. He added neither cause nor guess. The two lines were too short to fill even half the page.\n\nIn preserving the exact times, he left the voice and words he might have heard blank. The space did not shrink when he lifted the pen."
       },
       {
         "text": "Record only the ward's confirmed sentence inside quotation marks",
-        "result_text": "\"The patient is not available for calls at present.\"\n\n{name} copied the message through its final period. He wrote neither critical nor fine.\n\nHe invented no future beyond what was known, but Father's voice was replaced by an institution's sentence. On the page, a person narrowed into one status line."
+        "result_text": "\"The patient is not available for calls at present.\"\n\n{name} copied the message through its final period. He wrote neither critical nor fine.\n\nHe invented no outcome beyond what was known, but Father's voice was replaced by an institution's sentence. On the page, a person narrowed into one status line."
       },
       {
         "text": "Finish the unsent sentence, but do not send it",
-        "result_text": "{name} finished the line: \"Dad, that day and today, I decided first without you.\" He added the time and moved his hand away from send.\n\nThe sentence was complete but did not reach Father. What {name} had meant to say remained. The place for a response from the person who might hear it was blank for now."
+        "result_text": "{name} finished the line: \"Dad, I received the contact today and still chose to postpone it myself.\" He added the time and moved his hand away from send.\n\nThe sentence was complete but did not reach Father. What {name} had meant to say remained. The place for a response from the person who might hear it was blank for now."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_father_crisis_stabilized",
+    "title": "Until the Next Test",
+    "description": "The ward called again. After oxygen support and a medication adjustment, Father's acute respiratory deterioration had stopped getting worse. The doctor used the word stable, not discharge. The chronic illness remained, and Father would stay admitted for the next test and continued observation.\n\nThe nurse read out the current medications, the next oxygen check, and the next test time. Surviving one crisis had not finished the work of care. {name} still had to decide who would confirm what from this point forward.",
+    "choices": [
+      {
+        "text": "Read back the medications, oxygen-check time, and next test, then take the guardian contact",
+        "result_text": "{name} read back each medication name and administration time, the oxygen-check time, and the next test. The nurse corrected one time, and Minjun's number remained first on the guardian contact list.\n\nNo sentence said that Father was cured. What had been settled was who would answer the next call and what he would ask. Minjun left the list open and set the first alarm."
+      },
+      {
+        "text": "Cancel work through the next test and make time in which he cannot miss the ward's call",
+        "result_text": "{name} canceled what overlapped the next test. One confirmed payment disappeared from his ledger. He told the other party only that he needed to receive a family ward call, adding neither the diagnosis nor a claim that Father was better.\n\nHe disabled silent mode and exempted the ward number. The acute deterioration had stopped, but admission and chronic illness continued. The time he cleared was not a reward for a cure. It was space in which not to miss the next change."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_father_outcome_unknown",
+    "title": "An Unconfirmed Course",
+    "description": "The ward connection ended during a staff handoff. The next notice contained only an intake time and an expected callback time. The records currently available could not establish whether Father had survived the acute deterioration or had not.\n\n{name} did not fill the blank with hope or bereavement. He kept only the ward number, the patient's name, and the time at which someone would call again on one screen. Until the next confirmation, those were all the facts he could state.",
+    "choices": [
+      {
+        "text": "Keep only the confirmed times and ward number, and do not declare an outcome",
+        "result_text": "{name} copied the intake and expected callback times exactly. He wrote neither stable nor dead. No guess entered the record in place of Father's present condition.\n\nWhen he closed the screen, two times without an outcome remained in the notebook. Enduring what he did not know was different from inventing an ending that was not there."
       }
     ]
   },

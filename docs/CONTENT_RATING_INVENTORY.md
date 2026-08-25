@@ -3,7 +3,7 @@
 > 이 문서는 `content/meta/release_content_inventory.json`과 현재 소스에서 자동 생성한다.
 > 최종 연령 등급·법률 의견·콘텐츠 삭제 결정이 아니며 수동 편집하지 않는다.
 
-갱신 기준: 2026-08-22
+갱신 기준: 2026-08-26
 
 ## 가장 중요한 범위 판정
 
@@ -20,13 +20,13 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 
 ## 현재 코퍼스
 
-- KO/EN 사건: 각각 127파일 · 1758건, ID 일치
-- 패키지 사건: 1758건 · 현재 shipping 사건: 1603건 · author-only reference 원고: 155건
+- KO/EN 사건: 각각 127파일 · 1761건, ID 일치
+- 패키지 사건: 1761건 · 현재 shipping 사건: 1631건 · author-only reference 원고: 130건
 - KO/EN 엔딩: 각각 35건
 - 활성 스토리 이미지: 249장 · source raster: 304장
 - 게임 pack 대상 raster: 296장 · ImageRegistry 외부 pack 대상: 47장
 - `.gdignore` source-only 상점 스크린샷: 8장 · 출처 원장 오디오: 139개
-- 사건 ID SHA-256: `0c934fde26f81511016298e932495eb47cc7f2ebf15de4af722584635e1abdf0`
+- 사건 ID SHA-256: `fcbfa3e96ebc07d777cc2708b287c61374f558db8377f3eb8f8c0f04440d3194`
 - KO/EN 엔딩 본문 SHA-256: `32ea94755971c459f74f5a3bae80151a077c9eb781277fee7fda58879b1045f1`
 
 후보 fingerprint는 표현의 최종 등급이 아니라 검토 코퍼스가 조용히 바뀌는 것을
@@ -36,17 +36,20 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 | 축 | 후보 사건/파일 | ID SHA-256 | KO/EN 본문 SHA-256 | 최고 사실 강도 |
 |---|---:|---|---|---|
 | 사행성·도박 | 137 / 43 | `e324a22a603bda179d3be12bee23fb8e8af3134e9cab56e953416e42d02bba7b` | `6794322ebffc6ac582ce21a675c19c9b3a4c7388b7350f1dc6e9779967c84f0a` | strong, moderate |
-| 선정성·성적 내용 | 121 / 25 | `ba24d3b45e98bc31d2e2aaf9afed41b18c76fc15e38d573d5628a9eb7f45228c` | `bb836a012fc7da231ab208cb6ee98008ba171d95d268285973c67b97e86ade38` | moderate, mild |
+| 선정성·성적 내용 | 121 / 25 | `ba24d3b45e98bc31d2e2aaf9afed41b18c76fc15e38d573d5628a9eb7f45228c` | `406491b84ad15f291ae09dbb7081bfd31471f1380a50cdee5f422596a8f26dd1` | moderate, mild |
 | 폭력성 | 18 / 15 | `1d403db1107800e1e7c4a8d9d78c08361a840c6901fd8e93de83e609bf585a70` | `ca092987894afe0f87d3cd9d17234c77a666f56c6d7bdb631f3d6b3ba3bb2be8` | mild |
-| 공포 | 143 / 51 | `211c3c760cf2f66d61e9bc540cd11003cc05ad46eb59d4d1d97a348eb135c29f` | `a6c47724480ed1fdf2368624219db6af96e782b6551dbec0c4962d1562433432` | moderate |
+| 공포 | 143 / 51 | `44d0a44fea831eebb8f9f8e2359ed43514e3903788c5412df9c7596e1b11c5e3` | `2f99bcc47479f1cad97bea853377d28f2a42ef42e6e8c02fd2b5df3ed7dfb6b8` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `fc1a0465f31a6a2df2deb4559825e67c7f762fa2ebfdbaa45ae63e2fb75131c3` | mild |
-| 범죄 | 70 / 40 | `e1bf5d669b6ca98117da9ff22117a0f723263db564eb7d74e2b0cbe55852b5b6` | `9c864ae29d38432fb0dbff6bc6dd21cc60e9a0f88be01c7bab521961fca76552` | moderate, strong |
-| 음주·흡연·약물 | 76 / 37 | `80c9979ea846e60401fc8c1f996c2dbe1f76518998d68e8c361d8fa823298946` | `01b962138dff14d29506a0c8feed46e7ea9eaed7c502d2c06c14edd85f29ae02` | moderate, mild |
+| 범죄 | 71 / 40 | `33e4f0858ed9e37980fce8383db192b42def77d774e5bfd65ece6b49b3d7c60e` | `670f5fa2828500ae78cf132e40975c09d3631d3ef568ee0589ad59f497489a82` | moderate, strong |
+| 음주·흡연·약물 | 80 / 38 | `dc30cc75c5613e8c003539c7c0d4bc8ea44a68921b08380b27a13025fac23055` | `292b965fbd8f6c05621e21f455f5e0b66f60e6baba3f57813b52627697d840cd` | moderate, mild |
 | 생성형 AI | 기술 축 | — | — | disclosure_required, none |
 | 온라인 기능 | 기술 축 | — | — | none, external_link_only |
 
 명시 검토한 검색 오탐(후보 해시에는 남겨 검색 규칙 변화도 드러낸다):
+- 선정성·성적 내용: `arc_y4_father_final_contact_present`
 - 폭력성: `amb_coin_00`, `arc_35_unorthodox_weight`, `arc_daeun_first_night`, `arc_sangchul_confrontation`, `arc_year3_close`, `cafe_bluff_caught`, `callback_ignored_hyunsu_warning_echo`, `callback_recommitted_to_job_echo`, `inv_portfolio_review`, `job_colleague_conflict`, `kx_coin_noraebang`, `startup_team_conflict`, `story_knee_choice`, `story_knee_witness`
+- 범죄: `arc_y4_family_partner_collision_jiyeon`
+- 음주·흡연·약물: `arc_36_body_signal`
 
 ## ImageRegistry 외부 source raster 55장
 
@@ -132,10 +135,10 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
   - `retail_full`: 패키지 포함 / 부팅 등록 / fresh-start 정적 가능 — Full routes include financial, family-health, and intimidation consequences.
   - `legacy_demo`: 패키지 포함 / 부팅 등록 / fresh-start 정적 가능 — Early fraud consequences and pressure events are in the registered corpus.
   - `v2_playtest`: 패키지 포함 / 부팅 등록 / fresh-start 명시 계약 — Weeks 8 and 21 explicitly own fraud/family-health distress roots.
-- **parental_illness_death_and_grief · moderate** — 본편 후반에는 아버지의 위독·사망과 빈 병실의 애도를 비그래픽 문장과 절제된 상실 음향으로 다룬다. 플레이어는 병원/KTX로 향하거나 투자 딜을 택할 수 있고, 딜을 택하면 아버지가 사망한 시간에 번 500만원을 확인한다. 시신·상처·자해 묘사는 없다.
+- **parental_illness_death_and_grief · moderate** — 본편 후반에는 아버지의 급성 악화 뒤 병동 방문·통화·연락 미룸을 직접 고르되 그 연락 방식이 생사를 결정하지 않는다. 앞선 의료 조정 기록에 따라 입원 지속·사망·확인 불가 경과가 갈리고, 사망 경로는 빈 병실의 애도 또는 사망 시각에 번 500만원을 확인하는 선택으로 이어진다. 시신·상처·자해 묘사는 없다.
   - 소유: `content/events/arc_drama.json`, `content/events_en/arc_drama.json`, `scenes/MainGame.gd`, `assets/scene_audio_manifest.json`
-  - 사건: `arc_father_passing`, `arc_father_passing_platform`, `arc_father_passing_deal_room`, `arc_father_passing_hospital_room`, `arc_father_passing_deal_morning`
-  - `retail_full`: 패키지 포함 / 부팅 등록 / fresh-start 정적 가능 — The late full-game father-health chain can enter arc_father_passing and either hospital/grief or deal-over-family follow-ups.
+  - 사건: `arc_y4_father_crisis_contact`, `arc_y4_father_final_contact_present`, `arc_y4_father_final_contact_called`, `arc_y4_father_final_contact_missed`, `arc_y4_father_crisis_stabilized`, `arc_y4_father_outcome_unknown`, `arc_father_passing`, `arc_father_passing_platform`, `arc_father_passing_deal_room`, `arc_father_passing_hospital_room`, `arc_father_passing_deal_morning`
+  - `retail_full`: 패키지 포함 / 부팅 등록 / fresh-start 정적 가능 — The late full-game father-health chain separates crisis contact from its receipt-backed stable, death, or unknown medical outcome; confirmed death can then enter hospital/grief or deal-over-family follow-ups.
   - `legacy_demo`: 패키지 포함 / 부팅 등록 / fresh-start 차단 — The official legacy 24 weeks stop before the late father illness/death chain.
   - `v2_playtest`: 패키지 포함 / 부팅 등록 / fresh-start 차단 — V2 week 21 signals health uncertainty but does not enter the later death/grief events before week 24.
 
@@ -178,8 +181,8 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
   - `legacy_demo`: 패키지 포함 / 부팅 등록 / fresh-start 정적 가능 — amb_hoesik_00 is a foreground-allowlisted min_turn-8 event for employed players; its explicit drinking choice follows into amb_hoesik_drink. kx_hangang_chimaek remains packaged but is not a normal legacy foreground route.
   - `v2_playtest`: 패키지 포함 / 부팅 등록 / fresh-start 차단 — V2 weeks 1-24 contain no explicit alcohol-consumption scene.
 - **tobacco_and_medicine_references · mild** — 담배는 경마장 냄새·편의점 진열 같은 배경 언급이며 흡연 행동은 확인되지 않았다. 처방약·복용은 건강 서사로 나오고 불법 약물 플레이는 확인되지 않았다.
-  - 소유: `content/events/racetrack_events.json`, `content/events/core_loop_v2_events.json`, `content/events/life_events.json`
-  - 사건: `race_first_visit`, `v2_convenience_trial_shift`, `v2_father_health_signal`
+  - 소유: `content/events/racetrack_events.json`, `content/events/core_loop_v2_events.json`, `content/events/life_events.json`, `content/events/arc_chapter_themes.json`
+  - 사건: `race_first_visit`, `v2_convenience_trial_shift`, `v2_father_health_signal`, `arc_y4_three_promises`, `arc_y4_three_promises_deal_only`, `arc_y4_three_promises_jiyeon_and_deal`
   - `retail_full`: 패키지 포함 / 부팅 등록 / fresh-start 정적 가능 — Background tobacco and health-medicine references exist in full routes.
   - `legacy_demo`: 패키지 포함 / 부팅 등록 / fresh-start 정적 가능 — Early health/background references may be scheduled; no smoking action is owned.
   - `v2_playtest`: 패키지 포함 / 부팅 등록 / fresh-start 명시 계약 — Convenience-store tobacco display and the week-21 medicine signal are explicit V2 roots.

@@ -6441,6 +6441,118 @@ func _deferred_foreground_event_id(
 			return event_id
 	return ""
 
+func _chapter_four_relationship_event_id(
+		daeun_id: String, jiyeon_id: String, unattached_id: String) -> String:
+	var partner_id := _romance_partner_id()
+	if partner_id == "daeun":
+		return daeun_id
+	if partner_id == "jiyeon":
+		return jiyeon_id
+	return unattached_id
+
+func _chapter_four_father_outcome_id(f: Dictionary) -> String:
+	# A damaged save may carry several generations of father state. Death is
+	# monotonic: an old terminal receipt always wins and is never replayed.
+	var death_evidence := bool(f.get("father_passed", false)) \
+			or bool(f.get("arc_father_passing_seen", false)) \
+			or GameState.get_cast_stage("father") == "passed"
+	if death_evidence \
+			or f.get("father_crisis_stabilized", false) \
+			or f.get("arc_y4_father_crisis_stabilized_seen", false) \
+			or f.get("arc_y4_father_outcome_unknown_seen", false):
+		return ""
+
+	# A normal run owns one receipt at each medical window. Missing common
+	# receipts or contradictory exclusive choices are corruption, not evidence
+	# for either survival or death.
+	if not f.get("arc_father_medication_seen", false) \
+			or not f.get("arc_father_03_seen", false) \
+			or not f.get("arc_y4_bill_night_seen", false):
+		return "arc_y4_father_outcome_unknown"
+	var medication_called := bool(f.get("called_about_medication", false))
+	var medication_visited := bool(f.get("visited_for_medication", false))
+	if medication_called and medication_visited:
+		return "arc_y4_father_outcome_unknown"
+	var care_coordinated := bool(f.get("father_care_coordinated", false))
+	var care_left_open := bool(f.get("father_care_left_open", false))
+	if care_coordinated == care_left_open:
+		return "arc_y4_father_outcome_unknown"
+
+	var medical_evidence := 0
+	if medication_called or medication_visited:
+		medical_evidence += 1
+	if f.get("sangchul_helped_with_father", false):
+		medical_evidence += 1
+	if care_coordinated:
+		medical_evidence += 1
+	if medical_evidence >= 2:
+		return "arc_y4_father_crisis_stabilized"
+	return "arc_father_passing"
+
+func _chapter_four_causal_arc_id(t: int, f: Dictionary) -> String:
+	# These are the fourth chapter's product-owned actions. They sit above the
+	# broad legacy arcs so an exact protected week cannot be consumed offscreen.
+	if t == 153 and not f.get("arc_y4_three_promises_seen", false):
+		return _chapter_four_relationship_event_id(
+			"arc_y4_three_promises",
+			"arc_y4_three_promises_jiyeon_and_deal",
+			"arc_y4_three_promises_deal_only")
+	if t == 157 and f.get("arc_y4_three_promises_seen", false) \
+			and not f.get("arc_36_unexpected_hand_seen", false):
+		return "arc_36_unexpected_hand"
+	if t == 161 and not f.get("arc_36_body_signal_seen", false):
+		return "arc_36_body_signal"
+	if t == 164 and f.get("arc_36_body_signal_seen", false) \
+			and not f.get("arc_y4_body_witness_seen", false):
+		return _chapter_four_relationship_event_id(
+			"arc_y4_body_witness",
+			"arc_y4_body_witness_jiyeon",
+			"arc_y4_body_witness_hyunsu")
+	if t == 167 and f.get("arc_y4_body_witness_seen", false) \
+			and not f.get("arc_y4_family_table_seen", false):
+		var unattached_family_id := "arc_y4_family_commitment_none"
+		if f.get("arc_y4_three_promises_missed_father", false):
+			unattached_family_id = "arc_y4_family_table_missed"
+		return _chapter_four_relationship_event_id(
+			"arc_y4_family_partner_collision",
+			"arc_y4_family_partner_collision_jiyeon",
+			unattached_family_id)
+	if t == 169 and f.get("arc_y4_family_table_seen", false) \
+			and not f.get("arc_year_three_half_seen", false):
+		return "arc_year_three_half"
+	if t == 174 and f.get("arc_father_03_seen", false) \
+			and f.get("arc_father_medication_seen", false) \
+			and not f.get("father_passed", false) \
+			and not f.get("arc_father_call_on_ktx_seen", false):
+		if GameState.has_item("artifact_father_call"):
+			return "arc_father_call_on_ktx"
+		return "arc_father_call_on_ktx_number"
+	if t == 177 and not f.get("arc_y4_borrowed_name_seen", false):
+		var unattached_name_id := "arc_y4_borrowed_name_self"
+		if f.get("arc_y4_three_promises_missed_deal", false):
+			unattached_name_id = "arc_y4_borrowed_name_document_gap"
+		return _chapter_four_relationship_event_id(
+			"arc_y4_borrowed_name",
+			"arc_y4_borrowed_name_jiyeon",
+			unattached_name_id)
+	if t == 181 and not f.get("arc_y4_bill_night_seen", false):
+		return _chapter_four_relationship_event_id(
+			"arc_y4_bill_night",
+			"arc_y4_bill_night_jiyeon",
+			"arc_y4_bill_night_unattached")
+	if t == 185 and f.get("arc_y4_bill_night_seen", false) \
+			and not f.get("father_passed", false) \
+			and not f.get("arc_y4_father_crisis_contact_seen", false):
+		return "arc_y4_father_crisis_contact"
+	if t == 188:
+		return _chapter_four_father_outcome_id(f)
+	if t == 190 and not f.get("arc_y4_year_close_boundary_seen", false):
+		return _chapter_four_relationship_event_id(
+			"arc_y4_year_close_daeun",
+			"arc_y4_year_close_jiyeon",
+			"arc_y4_year_close_unattached")
+	return ""
+
 func _next_arc_id(
 		at_turn: int = -1, preview_only: bool = false, resolve_bridges: bool = false) -> String:
 	var t = GameState.turn if at_turn < 0 else at_turn
@@ -6473,6 +6585,10 @@ func _next_arc_id(
 		return "arc_year3_close"
 	if t == 192 and not f.get("arc_year4_close_seen", false):
 		return "arc_year4_close"
+
+	var chapter_four_causal_id := _chapter_four_causal_arc_id(t, f)
+	if not chapter_four_causal_id.is_empty():
+		return chapter_four_causal_id
 	# 신규 런의 연말 장면 선택은 클로징과 같은 StoryMode 큐에서 이어진다.
 	# 아래는 선택 직전 중단·구세이브를 위한 복구 경로다. 후보는 현재 런에서
 	# 실제로 본 장면뿐이며 3개 미만이면 표면을 만들지 않는다.
@@ -6840,22 +6956,6 @@ func _next_arc_id(
 			and f.get("arc_father_medication_seen", false) \
 			and not f.get("arc_father_03_seen", false):
 		return "arc_father_03_hospital"
-	# ── 아버지 별세 — 4장 후반의 보편 정점. 몸·관계의 청구서가 먼저 쌓인 뒤 온다. ──
-	# [유물 해금] 통화시간 23초를 가진 채 KTX를 타는 순간 — 별세 직전 전처리
-	if t >= 174 and f.get("arc_father_03_seen", false) \
-			and f.get("arc_father_medication_seen", false) \
-			and f.get("father_visit_deferred", false) \
-			and not f.get("visited_father", false) \
-			and not f.get("father_passed", false) \
-			and GameState.has_item("artifact_father_call") \
-			and not f.get("arc_father_call_on_ktx_seen", false):
-		return "arc_father_call_on_ktx"
-	if t >= 176 and f.get("arc_father_03_seen", false) \
-			and f.get("arc_father_medication_seen", false) \
-			and f.get("father_visit_deferred", false) \
-			and not f.get("visited_father", false) \
-			and not f.get("father_passed", false):
-		return "arc_father_passing"
 	if t >= 90 and f.get("arc_father_03_seen", false) \
 			and not f.get("visited_father", false) \
 			and not f.get("father_visit_deferred", false) \
@@ -7417,7 +7517,7 @@ func _next_arc_id(
 			and not f.get("arc_36_unexpected_hand_seen", false):
 		return "arc_36_unexpected_hand"
 	# ── 3년 반 마커 — 몸의 경고가 6주 뒤 계획표로 돌아온다 ──
-	if t >= 168 and t <= 184 \
+	if t >= 169 and t <= 184 \
 			and not GameState.has_deferred_event("arc_year_three_half") \
 			and not f.get("arc_year_three_half_seen", false):
 		return "arc_year_three_half"
@@ -7556,12 +7656,6 @@ func _next_arc_id(
 	if t >= 224 and f.get("father_passed", false) \
 			and not f.get("arc_father_legacy_seen", false):
 		return "arc_father_legacy"
-	# 아버지 임종 — 약 복용 이후, 고백 들은 이후
-	if t >= 176 and f.get("arc_father_medication_seen", false) \
-			and f.get("father_confession_heard", false) \
-			and not f.get("arc_father_passing_seen", false) \
-			and not f.get("father_passed", false):
-		return "arc_father_passing"
 	# 김다은 Y4 후반 — 오늘의 서울 (함께 궤적, 강남 취직 이후 조용한 행복 비트)
 	if t >= 170 and f.get("arc_daeun_year4_together_seen", false) \
 			and not f.get("arc_daeun_year4_quiet_seen", false):

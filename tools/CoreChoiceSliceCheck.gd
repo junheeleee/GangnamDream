@@ -234,6 +234,18 @@ func _check_foreground_commitment_weeks() -> void:
 		20: "arc_job_vs_invest",
 		23: "story_first_savings_milestone",
 		24: "hyunsu_exam_day",
+		153: "arc_y4_three_promises",
+		157: "arc_36_unexpected_hand",
+		161: "arc_36_body_signal",
+		164: "arc_y4_body_witness",
+		167: "arc_y4_family_partner_collision",
+		174: "arc_father_call_on_ktx_number",
+		177: "arc_y4_borrowed_name",
+		181: "arc_y4_bill_night",
+		185: "arc_y4_father_crisis_contact",
+		188: "arc_y4_father_crisis_stabilized",
+		190: "arc_y4_year_close_daeun",
+		192: "arc_year4_close",
 	}
 	for raw_week in representatives:
 		var week := int(raw_week)

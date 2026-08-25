@@ -1785,9 +1785,9 @@
               "scene_id": "m39_three_promises",
               "kind": "decision",
               "delivery": "stop",
-              "work": "NEW",
-              "root": "arc_y4_three_promises_sangchul_routed",
-              "rule_status": "planned",
+              "work": "EXPAND",
+              "root": "arc_y4_three_promises",
+              "rule_status": "needs_rule",
               "intent": "다은·지연+상철 exact 원고는 작성됐지만, selected investment deal_owner가 sangchul임을 함께 읽는 actor selector 이관 전에는 reference-only로 보존한다.",
               "channel": "mixed",
               "cast": ["player", "father", "@promise_person", "@deal_owner"],
@@ -1812,7 +1812,7 @@
                 "axis": "route.m39.attendees",
                 "base_values": ["romance_and_deal"],
                 "fallbacks": [
-                  {"values": ["romance_and_deal_jiyeon"], "root": "arc_y4_three_promises_jiyeon_and_deal_routed", "work": "NEW", "rule_status": "planned", "channel": "mixed", "cast": ["player", "father", "@promise_person", "@deal_owner"], "selector": {"selected_all": ["m39_investment_meeting", "m39_partner_weekend"], "selected_none": ["m39_father_weekend"], "availability_values": ["jiyeon"]}, "role_bindings": {"promise_person": {"kind": "literal", "actor_id": "jiyeon"}, "deal_owner": {"kind": "literal", "actor_id": "sangchul"}}, "distinct_roles": ["@promise_person", "@deal_owner"], "reads": {"memories": ["memory.m35_truth_handling"], "decision": "story.sangchul_truth_resolution", "carryovers": ["protected_commitment"]}, "actor_outputs": {"memory.m39_three_promises": {"roles": {"surviving_witness": {"kind": "scene_role", "role": "deal_owner"}, "nearest_person": {"kind": "scene_role", "role": "promise_person"}}, "all_distinct": [["surviving_witness", "nearest_person"]]}}, "forgone": ["다은 기준 세 약속 장면"]},
+                  {"values": ["romance_and_deal_jiyeon"], "root": "arc_y4_three_promises_jiyeon_and_deal", "work": "EXPAND", "rule_status": "needs_rule", "channel": "mixed", "cast": ["player", "father", "@promise_person", "@deal_owner"], "selector": {"selected_all": ["m39_investment_meeting", "m39_partner_weekend"], "selected_none": ["m39_father_weekend"], "availability_values": ["jiyeon"]}, "role_bindings": {"promise_person": {"kind": "literal", "actor_id": "jiyeon"}, "deal_owner": {"kind": "literal", "actor_id": "sangchul"}}, "distinct_roles": ["@promise_person", "@deal_owner"], "reads": {"memories": ["memory.m35_truth_handling"], "decision": "story.sangchul_truth_resolution", "carryovers": ["protected_commitment"]}, "actor_outputs": {"memory.m39_three_promises": {"roles": {"surviving_witness": {"kind": "scene_role", "role": "deal_owner"}, "nearest_person": {"kind": "scene_role", "role": "promise_person"}}, "all_distinct": [["surviving_witness", "nearest_person"]]}}, "forgone": ["다은 기준 세 약속 장면"]},
                   {"values": ["father_and_deal"], "root": "arc_y4_three_promises_father_and_deal", "work": "NEW", "rule_status": "planned", "channel": "mixed", "cast": ["player", "father", "@deal_owner"], "selector": {"selected_all": ["m39_father_weekend", "m39_investment_meeting"], "selected_none": ["m39_partner_weekend"], "availability_values": ["*"]}, "role_bindings": {"deal_owner": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m39_investment_meeting", "slot": ["protected", "optional_second"]}, "actor_role": "deal_owner"}}, "distinct_roles": ["@deal_owner"], "reads": {"memories": ["memory.m35_truth_handling"], "decision": "story.sangchul_truth_resolution", "carryovers": ["protected_commitment"]}, "actor_outputs": {"memory.m39_three_promises": {"roles": {"surviving_witness": {"kind": "scene_role", "role": "deal_owner"}, "nearest_person": {"kind": "literal", "actor_id": "father"}}, "all_distinct": [["surviving_witness", "nearest_person"]]}}, "forgone": ["연인과 잡은 같은 주말 약속"]},
                   {"values": ["father_and_romance"], "root": "arc_y4_three_promises_father_and_romance", "work": "NEW", "rule_status": "planned", "channel": "mixed", "cast": ["player", "father", "@promise_person"], "selector": {"selected_all": ["m39_father_weekend", "m39_partner_weekend"], "selected_none": ["m39_investment_meeting"], "availability_values": ["daeun", "jiyeon"]}, "role_bindings": {"promise_person": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m39_partner_weekend", "slot": ["protected", "optional_second"]}, "actor_role": "promise_person"}}, "distinct_roles": ["@promise_person"], "reads": {"memories": ["memory.m35_truth_handling"], "decision": "story.sangchul_truth_resolution", "carryovers": ["protected_commitment"]}, "actor_outputs": {"memory.m39_three_promises": {"roles": {"surviving_witness": {"kind": "literal", "actor_id": "father"}, "nearest_person": {"kind": "scene_role", "role": "promise_person"}}, "all_distinct": [["surviving_witness", "nearest_person"]]}}, "forgone": ["투자 책임자와 잡은 같은 주말 검토"]},
                   {"values": ["deal_only"], "root": "arc_y4_three_promises_deal_only", "work": "EXPAND", "rule_status": "needs_rule", "channel": "mixed", "cast": ["player", "hyunsu", "@deal_owner"], "selector": {"selected_all": ["m39_investment_meeting"], "selected_none": ["m39_father_weekend", "m39_partner_weekend"], "availability_values": ["unattached"]}, "role_bindings": {"deal_owner": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m39_investment_meeting", "slot": ["protected", "optional_second"]}, "actor_role": "deal_owner"}}, "distinct_roles": ["@deal_owner"], "reads": {"memories": ["memory.m35_truth_handling"], "decision": "story.sangchul_truth_resolution", "carryovers": ["protected_commitment"]}, "actor_outputs": {"memory.m39_three_promises": {"roles": {"surviving_witness": {"kind": "scene_role", "role": "deal_owner"}, "nearest_person": {"kind": "literal", "actor_id": "hyunsu"}}, "all_distinct": [["surviving_witness", "nearest_person"]]}}, "forgone": ["아버지에게 먼저 잡은 같은 주말"]},
@@ -1896,9 +1896,9 @@
               "scene_id": "m41_body_witness",
               "kind": "consequence",
               "delivery": "flow",
-              "work": "NEW",
-              "root": "arc_y4_body_witness_routed",
-              "rule_status": "planned",
+              "work": "EXPAND",
+              "root": "arc_y4_body_witness",
+              "rule_status": "needs_rule",
               "intent": "다은·지연·현수별 exact 목격 원고는 작성됐지만, m41_open_door_to_nearest_person 완료와 witness actor를 함께 읽는 selector 이관 전에는 reference-only로 보존한다.",
               "channel": "in_person",
               "cast": ["player", "daeun"],
@@ -1908,7 +1908,7 @@
                 "axis": "route.m41.witness_identity",
                 "base_values": ["daeun"],
                 "fallbacks": [
-                  {"values": ["*"], "root": "arc_y4_body_witness_other_actor", "work": "NEW", "rule_status": "planned", "channel": "in_person", "cast": ["player", "@nearest_person"], "role_bindings": {"nearest_person": {"kind": "receipt_actor", "source_type": "memory", "source_id": "memory.m39_three_promises", "actor_role": "nearest_person"}}, "distinct_roles": ["@nearest_person"], "reads": {"memories": ["memory.m39_three_promises"], "decision": null, "carryovers": []}, "forgone": ["다은이 직접 몸의 이상을 목격하는 기준 경로"]}
+                  {"values": ["*"], "root": "arc_y4_body_witness_hyunsu", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m39_three_promises"], "decision": null, "carryovers": []}, "forgone": ["다은이 직접 몸의 이상을 목격하는 기준 경로"]}
                 ]
               },
               "forgone": []
@@ -1940,9 +1940,9 @@
               "scene_id": "m42_family_partner_collision",
               "kind": "decision",
               "delivery": "stop",
-              "work": "NEW",
-              "root": "arc_y4_family_partner_collision_routed",
-              "rule_status": "planned",
+              "work": "EXPAND",
+              "root": "arc_y4_family_partner_collision",
+              "rule_status": "needs_rule",
               "intent": "다은·지연·가족-only exact 원고는 작성됐지만, M41 witness actor와 father_hospital_door known value를 함께 읽는 selector 이관 전에는 reference-only로 보존한다.",
               "channel": "in_person",
               "cast": ["player", "@partner", "@family_member"],
@@ -1958,11 +1958,11 @@
                 "axis": "route.m42.family_collision",
                 "base_values": ["partner_and_family"],
                 "fallbacks": [
-                  {"values": ["partner_and_family_jiyeon"], "root": "arc_y4_family_partner_collision_jiyeon_routed", "work": "NEW", "rule_status": "planned", "channel": "in_person", "cast": ["player", "@partner", "@family_member"], "selector": {"selected_all": ["m42_face_family_member", "m42_bring_partner_to_table"], "selected_none": [], "availability_values": ["jiyeon"]}, "role_bindings": {"partner": {"kind": "literal", "actor_id": "jiyeon"}, "family_member": {"kind": "literal", "actor_id": "father"}}, "distinct_roles": ["@partner", "@family_member"], "reads": {"memories": ["memory.m39_three_promises", "memory.m41_body_witness"], "decision": "story.father_hospital_door", "carryovers": []}, "forgone": ["다은과 아버지가 같은 식탁에 앉는 기준 경로"]},
-                  {"values": ["family_only"], "root": "arc_y4_family_commitment_none_routed", "work": "NEW", "rule_status": "planned", "channel": "in_person", "cast": ["player", "@family_member"], "selector": {"selected_all": ["m42_face_family_member"], "selected_none": ["m42_bring_partner_to_table"], "availability_values": ["daeun", "jiyeon"]}, "role_bindings": {"family_member": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m42_face_family_member", "slot": ["protected", "optional_second"]}, "actor_role": "family_member"}}, "distinct_roles": ["@family_member"], "reads": {"memories": ["memory.m39_three_promises", "memory.m41_body_witness"], "decision": "story.father_hospital_door", "carryovers": []}, "forgone": ["연인과 가족이 같은 자리에 앉는 경로"]},
-                  {"values": ["family_only_unattached"], "root": "arc_y4_family_commitment_none_unattached", "work": "NEW", "rule_status": "planned", "channel": "in_person", "cast": ["player", "@family_member"], "selector": {"selected_all": ["m42_face_family_member"], "selected_none": ["m42_bring_partner_to_table"], "availability_values": ["unattached"]}, "role_bindings": {"family_member": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m42_face_family_member", "slot": ["protected", "optional_second"]}, "actor_role": "family_member"}}, "distinct_roles": ["@family_member"], "reads": {"memories": ["memory.m39_three_promises", "memory.m41_body_witness"], "decision": "story.father_hospital_door", "carryovers": []}, "forgone": ["파트너 commitment가 존재하는 경로"]},
+                  {"values": ["partner_and_family_jiyeon"], "root": "arc_y4_family_partner_collision_jiyeon", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "@partner", "@family_member"], "selector": {"selected_all": ["m42_face_family_member", "m42_bring_partner_to_table"], "selected_none": [], "availability_values": ["jiyeon"]}, "role_bindings": {"partner": {"kind": "literal", "actor_id": "jiyeon"}, "family_member": {"kind": "literal", "actor_id": "father"}}, "distinct_roles": ["@partner", "@family_member"], "reads": {"memories": ["memory.m39_three_promises", "memory.m41_body_witness"], "decision": "story.father_hospital_door", "carryovers": []}, "forgone": ["다은과 아버지가 같은 식탁에 앉는 기준 경로"]},
+                  {"values": ["family_only"], "root": "arc_y4_family_commitment_none", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "@family_member"], "selector": {"selected_all": ["m42_face_family_member"], "selected_none": ["m42_bring_partner_to_table"], "availability_values": ["daeun", "jiyeon"]}, "role_bindings": {"family_member": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m42_face_family_member", "slot": ["protected", "optional_second"]}, "actor_role": "family_member"}}, "distinct_roles": ["@family_member"], "reads": {"memories": ["memory.m39_three_promises", "memory.m41_body_witness"], "decision": "story.father_hospital_door", "carryovers": []}, "forgone": ["연인과 가족이 같은 자리에 앉는 경로"]},
+                  {"values": ["family_only_unattached"], "root": "arc_y4_family_commitment_none", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "@family_member"], "selector": {"selected_all": ["m42_face_family_member"], "selected_none": ["m42_bring_partner_to_table"], "availability_values": ["unattached"]}, "role_bindings": {"family_member": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m42_face_family_member", "slot": ["protected", "optional_second"]}, "actor_role": "family_member"}}, "distinct_roles": ["@family_member"], "reads": {"memories": ["memory.m39_three_promises", "memory.m41_body_witness"], "decision": "story.father_hospital_door", "carryovers": []}, "forgone": ["파트너 commitment가 존재하는 경로"]},
                   {"values": ["family_missed"], "root": "arc_y4_family_table_missed", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "selector": {"selected_all": [], "selected_none": ["m42_face_family_member", "m42_bring_partner_to_table"], "availability_values": ["daeun", "jiyeon"]}, "reads": {"memories": ["memory.m39_three_promises", "memory.m41_body_witness"], "decision": "story.father_hospital_door", "carryovers": []}, "forgone": ["가족 식탁과 장기 관계를 함께 확정할 기회"]},
-                  {"values": ["family_missed_unattached"], "root": "arc_y4_family_table_missed_unattached", "work": "NEW", "rule_status": "planned", "channel": "internal", "cast": ["player"], "selector": {"selected_all": [], "selected_none": ["m42_face_family_member", "m42_bring_partner_to_table"], "availability_values": ["unattached"]}, "reads": {"memories": ["memory.m39_three_promises", "memory.m41_body_witness"], "decision": "story.father_hospital_door", "carryovers": []}, "forgone": ["파트너 commitment가 존재하는 경로"]}
+                  {"values": ["family_missed_unattached"], "root": "arc_y4_family_table_missed", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "selector": {"selected_all": [], "selected_none": ["m42_face_family_member", "m42_bring_partner_to_table"], "availability_values": ["unattached"]}, "reads": {"memories": ["memory.m39_three_promises", "memory.m41_body_witness"], "decision": "story.father_hospital_door", "carryovers": []}, "forgone": ["파트너 commitment가 존재하는 경로"]}
                 ]
               },
               "forgone": ["다른 관계 경로", "가족에게 감춘 미래"]
@@ -2074,9 +2074,9 @@
               "scene_id": "m45_borrowed_name",
               "kind": "decision",
               "delivery": "stop",
-              "work": "NEW",
-              "root": "arc_y4_borrowed_name_sangchul_routed",
-              "rule_status": "planned",
+              "work": "EXPAND",
+              "root": "arc_y4_borrowed_name",
+              "rule_status": "needs_rule",
               "intent": "다은·지연+상철 exact 원고는 작성됐지만, selected financing deal_owner가 sangchul임을 함께 읽는 actor selector 이관 전에는 reference-only로 보존한다.",
               "channel": "in_person",
               "cast": ["player", "@partner", "@deal_owner"],
@@ -2092,10 +2092,10 @@
                 "axis": "route.m45.name_request_delivery",
                 "base_values": ["partner_live"],
                 "fallbacks": [
-                  {"values": ["partner_live_jiyeon"], "root": "arc_y4_borrowed_name_jiyeon_routed", "work": "NEW", "rule_status": "planned", "channel": "in_person", "cast": ["player", "@partner", "@deal_owner"], "selector": {"selected_all": ["m45_measure_financing_gap", "m45_ask_partner_consent"], "selected_none": [], "availability_values": ["jiyeon"]}, "role_bindings": {"partner": {"kind": "literal", "actor_id": "jiyeon"}, "deal_owner": {"kind": "literal", "actor_id": "sangchul"}}, "distinct_roles": ["@partner", "@deal_owner"], "reads": {"memories": ["memory.m42_partner_family"], "decision": "story.partner_commitment", "carryovers": []}, "forgone": ["다은과 상철이 명의 원문을 함께 읽는 기준 경로"]},
+                  {"values": ["partner_live_jiyeon"], "root": "arc_y4_borrowed_name_jiyeon", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "@partner", "@deal_owner"], "selector": {"selected_all": ["m45_measure_financing_gap", "m45_ask_partner_consent"], "selected_none": [], "availability_values": ["jiyeon"]}, "role_bindings": {"partner": {"kind": "literal", "actor_id": "jiyeon"}, "deal_owner": {"kind": "literal", "actor_id": "sangchul"}}, "distinct_roles": ["@partner", "@deal_owner"], "reads": {"memories": ["memory.m42_partner_family"], "decision": "story.partner_commitment", "carryovers": []}, "forgone": ["다은과 상철이 명의 원문을 함께 읽는 기준 경로"]},
                   {"values": ["deal_owner_live"], "root": "arc_y4_borrowed_name_self", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "@deal_owner"], "selector": {"selected_all": ["m45_measure_financing_gap"], "selected_none": ["m45_ask_partner_consent"], "availability_values": ["daeun", "jiyeon"]}, "role_bindings": {"deal_owner": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m45_measure_financing_gap", "slot": ["protected", "optional_second"]}, "actor_role": "deal_owner"}}, "distinct_roles": ["@deal_owner"], "reads": {"memories": ["memory.m42_partner_family"], "decision": "story.partner_commitment", "carryovers": []}, "forgone": ["연인의 원문 동의가 있는 공동 검토"]},
-                  {"values": ["deal_owner_live_unattached"], "root": "arc_y4_borrowed_name_self_unattached", "work": "NEW", "rule_status": "planned", "channel": "in_person", "cast": ["player", "@deal_owner"], "selector": {"selected_all": ["m45_measure_financing_gap"], "selected_none": ["m45_ask_partner_consent"], "availability_values": ["none"]}, "role_bindings": {"deal_owner": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m45_measure_financing_gap", "slot": ["protected", "optional_second"]}, "actor_role": "deal_owner"}}, "distinct_roles": ["@deal_owner"], "reads": {"memories": ["memory.m42_partner_family"], "decision": "story.partner_commitment", "carryovers": []}, "forgone": ["파트너 동의 commitment가 존재하는 경로"]},
-                  {"values": ["document_only"], "root": "arc_y4_borrowed_name_unmeasured_routes", "work": "NEW", "rule_status": "planned", "channel": "internal", "cast": ["player"], "selector": {"selected_all": [], "selected_none": ["m45_measure_financing_gap", "m45_ask_partner_consent"], "availability_values": ["*"]}, "reads": {"memories": ["memory.m42_partner_family"], "decision": "story.partner_commitment", "carryovers": []}, "forgone": ["거래 책임자에게 직접 부족액과 이름 문제를 확인할 자리"]}
+                  {"values": ["deal_owner_live_unattached"], "root": "arc_y4_borrowed_name_self", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "@deal_owner"], "selector": {"selected_all": ["m45_measure_financing_gap"], "selected_none": ["m45_ask_partner_consent"], "availability_values": ["none"]}, "role_bindings": {"deal_owner": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m45_measure_financing_gap", "slot": ["protected", "optional_second"]}, "actor_role": "deal_owner"}}, "distinct_roles": ["@deal_owner"], "reads": {"memories": ["memory.m42_partner_family"], "decision": "story.partner_commitment", "carryovers": []}, "forgone": ["파트너 동의 commitment가 존재하는 경로"]},
+                  {"values": ["document_only"], "root": "arc_y4_borrowed_name_document_gap", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "selector": {"selected_all": [], "selected_none": ["m45_measure_financing_gap", "m45_ask_partner_consent"], "availability_values": ["*"]}, "reads": {"memories": ["memory.m42_partner_family"], "decision": "story.partner_commitment", "carryovers": []}, "forgone": ["거래 책임자에게 직접 부족액과 이름 문제를 확인할 자리"]}
                 ]
               },
               "forgone": ["빠른 규모 확대", "파트너의 온전한 신뢰"]
@@ -2128,9 +2128,9 @@
               "scene_id": "m46_bill_night",
               "kind": "consequence",
               "delivery": "flow",
-              "work": "NEW",
-              "root": "arc_y4_bill_night_routed",
-              "rule_status": "planned",
+              "work": "EXPAND",
+              "root": "arc_y4_bill_night",
+              "rule_status": "needs_rule",
               "intent": "다은·지연·무연애 exact 청구서 원고는 작성됐지만, 관계 actor와 father+partner selected set, 미처리 cash/health, bill source와 M45 terminal을 함께 읽는 selector 이관 전에는 reference-only로 보존한다.",
               "channel": "mixed",
               "cast": ["player", "@partner", "father"],
@@ -2142,8 +2142,8 @@
                 "axis": "story.partner_commitment",
                 "base_values": ["daeun"],
                 "fallbacks": [
-                  {"values": ["jiyeon"], "root": "arc_y4_bill_night_jiyeon_routed", "work": "NEW", "rule_status": "planned", "channel": "mixed", "cast": ["player", "@partner", "father"], "role_bindings": {"partner": {"kind": "literal", "actor_id": "jiyeon"}}, "distinct_roles": ["@partner"], "reads": {"memories": ["memory.m41_body_witness", "memory.m45_name_handling"], "decision": "story.partner_commitment", "carryovers": []}, "forgone": ["다은이 방에 도착하는 기준 청구서 장면"]},
-                  {"values": ["none"], "root": "arc_y4_bill_night_unattached_routed", "work": "NEW", "rule_status": "planned", "channel": "mixed", "cast": ["player", "father"], "reads": {"memories": ["memory.m41_body_witness", "memory.m45_name_handling"], "decision": "story.partner_commitment", "carryovers": []}, "forgone": []}
+                  {"values": ["jiyeon"], "root": "arc_y4_bill_night_jiyeon", "work": "EXPAND", "rule_status": "needs_rule", "channel": "mixed", "cast": ["player", "@partner", "father"], "role_bindings": {"partner": {"kind": "literal", "actor_id": "jiyeon"}}, "distinct_roles": ["@partner"], "reads": {"memories": ["memory.m41_body_witness", "memory.m45_name_handling"], "decision": "story.partner_commitment", "carryovers": []}, "forgone": ["다은이 방에 도착하는 기준 청구서 장면"]},
+                  {"values": ["none"], "root": "arc_y4_bill_night_unattached", "work": "EXPAND", "rule_status": "needs_rule", "channel": "mixed", "cast": ["player", "father"], "reads": {"memories": ["memory.m41_body_witness", "memory.m45_name_handling"], "decision": "story.partner_commitment", "carryovers": []}, "forgone": []}
                 ]
               },
               "forgone": []
@@ -2152,46 +2152,62 @@
         },
         {
           "month": 47,
-          "design_label": "마지막 연락과 빈 의자",
+          "design_label": "위기 연락과 의료 경과",
           "phase": "reversal",
           "contract": {
-            "pressure": "아버지의 생존·별세와 마지막 연락이 불가역으로 갈린다",
-            "opportunity": "있거나 전화하거나 놓친 사실을 소유한다",
-            "person_promise": "선택한 방문이 별세를 막는 보상이 되지 않는다",
-            "deadline": "마지막 연락 뒤에는 같은 말을 다시 할 수 없다"
+            "pressure": "위기 연락 방식과 아버지의 의료 경과가 각자 불가역 영수증으로 남는다",
+            "opportunity": "같이 가거나 전화하거나 미룰 현재 행동을 직접 고른다",
+            "person_promise": "방문·통화·놓침은 관계 영수증이며 생사 판정에 쓰지 않는다",
+            "deadline": "W188이 약물 확인·임상 접근·병동 조정 2-of-3을 한 번만 판정한다"
           },
           "availability": {
             "axis": "father.life",
-            "values": ["alive", "concern", "hospitalized", "passed"]
+            "values": ["alive", "concern", "hospitalized"]
           },
           "commitments": [
             {"id": "m47_clear_departure_cost", "source": "pressure", "axis": "cash", "label": "창원으로 움직일 교통비와 비울 업무의 손실을 감당한다", "due_week": 185, "miss": "expired", "after": null, "available_values": ["*"]},
-            {"id": "m47_go_to_father", "source": "opportunity", "axis": "health", "label": "아버지가 살아 있는 마지막 창에 직접 곁으로 간다", "due_week": 187, "miss": "expired", "after": "m47_clear_departure_cost", "available_values": ["alive", "concern", "hospitalized"]},
-            {"id": "m47_make_final_contact", "source": "person_promise", "axis": "trust", "label": "갈 수 없다면 마지막 통화 창에 전화하고 놓쳤다면 그 사실을 기록한다", "due_week": 188, "miss": "expired", "after": null, "available_values": ["alive", "concern", "hospitalized", "passed"]}
+            {"id": "m47_go_to_father", "source": "opportunity", "axis": "health", "label": "병동이 연락한 시각에 직접 창원으로 출발한다", "due_week": 186, "miss": "expired", "after": "m47_clear_departure_cost", "available_values": ["alive", "concern", "hospitalized"]},
+            {"id": "m47_make_crisis_contact", "source": "person_promise", "axis": "trust", "label": "갈 수 없다면 위기 통화를 걸고 미루면 그 시각을 바꾸지 않고 남긴다", "due_week": 185, "miss": "expired", "after": null, "available_values": ["alive", "concern", "hospitalized"]}
           ],
           "beats": [
             {
-              "id": "m47_father_passing",
-              "scene_id": "m47_father_passing",
+              "id": "m47_father_crisis_contact",
+              "scene_id": "m47_father_crisis_contact",
               "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y4_father_crisis_contact",
+              "rule_status": "needs_rule",
+              "intent": "W185에 방문·통화·미루기 중 현재 행동을 고르고 생사와 분리한다.",
+              "channel": "mixed",
+              "cast": ["player", "father"],
+              "reads": {"memories": ["memory.m44_last_call_window", "memory.m46_bill_night"], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m47_final_contact"], "decision": "story.father_final_contact", "carryovers": []},
+              "forgone": ["이번 위기에서 고르지 않은 연락 방식"]
+            },
+            {
+              "id": "m47_father_medical_outcome",
+              "scene_id": "m47_father_medical_outcome",
+              "kind": "consequence",
               "delivery": "stop",
               "work": "EXPAND",
               "source_month": 44,
               "root": "arc_father_passing",
-              "rule_status": "needs_rule",
-              "intent": "방문·미방문·통화의 결과를 경로별 실제 장면으로 청구한다.",
+              "rule_status": "mapped",
+              "intent": "W188이 연락 방식과 무관하게 의료 개입 2-of-3으로 입원 안정·별세·손상 저장 중립 경과를 고른다.",
               "channel": "mixed",
               "cast": ["player", "father"],
-              "reads": {"memories": ["memory.m44_last_call_window", "memory.m46_bill_night"], "decision": "story.father_hospital_door", "carryovers": []},
-              "writes": {"memories": ["memory.m47_final_contact"], "decision": "story.father_final_contact", "carryovers": []},
+              "reads": {"memories": ["memory.m46_bill_night"], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
               "coverage": {
-                "axis": "story.father_hospital_door",
-                "base_values": ["deferred", "avoided"],
+                "axis": "route.m47.medical_outcome",
+                "base_values": ["passed"],
                 "fallbacks": [
-                  {"values": ["visited"], "root": "arc_father_passing_hospital_room", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "father"], "reads": {"memories": ["memory.m44_last_call_window", "memory.m46_bill_night"], "decision": "story.father_hospital_door", "carryovers": []}, "forgone": ["병실 밖에서 마지막 연락을 받는 경로"]}
+                  {"values": ["stabilized"], "root": "arc_y4_father_crisis_stabilized", "work": "EXPAND", "rule_status": "mapped", "channel": "in_person", "cast": ["player", "father"], "reads": {"memories": ["memory.m46_bill_night"], "decision": null, "carryovers": []}, "forgone": ["별세 경과"]},
+                  {"values": ["*"], "root": "arc_y4_father_outcome_unknown", "work": "EXPAND", "rule_status": "mapped", "channel": "narration", "cast": ["player"], "reads": {"memories": ["memory.m46_bill_night"], "decision": null, "carryovers": []}, "forgone": ["손상 영수증에서 발명한 생존 또는 별세"]}
                 ]
               },
-              "forgone": ["하지 못한 마지막 말", "같은 밤의 계약"]
+              "forgone": ["연락 방식으로 생사를 보상하는 경로"]
             }
           ]
         },
@@ -2203,7 +2219,7 @@
             "pressure": "남은 몸·사람·이름으로 마지막 해에 들어갈지 결정한다",
             "opportunity": "마지막 해에 보호할 약속을 확정한다",
             "person_promise": "아버지의 생사와 관계를 숫자 결산으로 덮지 않는다",
-            "deadline": "W192 뒤에는 4장의 마지막 연락을 다시 고를 수 없다"
+            "deadline": "W190의 경계 선택과 W192의 결산을 각각 한 번만 남긴다"
           },
           "availability": {
             "axis": "story.father_final_contact",
@@ -2215,6 +2231,29 @@
             {"id": "m48_tell_surviving_person", "source": "person_promise", "axis": "trust", "label": "남아 있는 사람을 만나 마지막 연락과 마지막 해 약속을 말한다", "due_week": 191, "miss": "expired", "after": null, "available_values": ["present", "called", "missed"]}
           ],
           "beats": [
+            {
+              "id": "m48_year_four_boundary",
+              "scene_id": "m48_year_four_boundary",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y4_year_close_daeun",
+              "rule_status": "needs_rule",
+              "intent": "W190에 실제 남은 관계·몸·가족 중 마지막 해에 먼저 보호할 행동을 고른다.",
+              "channel": "mixed",
+              "cast": ["player", "daeun"],
+              "reads": {"memories": ["memory.m41_body_witness", "memory.m47_final_contact"], "decision": "story.partner_commitment", "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "story.partner_commitment",
+                "base_values": ["daeun"],
+                "fallbacks": [
+                  {"values": ["jiyeon"], "root": "arc_y4_year_close_jiyeon", "work": "EXPAND", "rule_status": "needs_rule", "channel": "mixed", "cast": ["player", "jiyeon"], "reads": {"memories": ["memory.m41_body_witness", "memory.m47_final_contact"], "decision": "story.partner_commitment", "carryovers": []}, "forgone": ["다은과 공유하는 기준 경로"]},
+                  {"values": ["none"], "root": "arc_y4_year_close_unattached", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m41_body_witness", "memory.m47_final_contact"], "decision": "story.partner_commitment", "carryovers": []}, "forgone": ["연인을 발명하는 경로"]}
+                ]
+              },
+              "forgone": ["마지막 해에 먼저 보호하지 못할 두 영역"]
+            },
             {
               "id": "m48_year_four_boss",
               "scene_id": "m48_year_four_boss",

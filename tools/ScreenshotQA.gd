@@ -8245,9 +8245,9 @@ func _run_demo_input_route(
 				scheduled_echo_promotions += 1
 		var scheduled_direct_weeks := int(scheduled_kind_counts.get("decision", 0)) \
 				+ int(scheduled_kind_counts.get("boss", 0))
-		if scheduled_direct_weeks != 52 \
+		if scheduled_direct_weeks != 57 \
 				or int(scheduled_kind_counts.get("boss", 0)) != 7 \
-				or scheduled_direct_by_chapter != [13, 9, 10, 10, 10]:
+				or scheduled_direct_by_chapter != [13, 9, 10, 15, 10]:
 			MetaProgression.data = original_meta
 			_fail("Full route base cadence drifted: kinds=%s chapters=%s." % [
 				scheduled_kind_counts, scheduled_direct_by_chapter])

@@ -682,6 +682,25 @@
       ]
     },
     {
+      "tool": "tools/chapter4_causal_route_audit.py --self-test",
+      "why": "4장 행동·영수증·마지막 연락·의료 2-of-3 mutation 자체 검사",
+      "paths": [
+        "tools/chapter4_causal_route_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/chapter4_causal_route_audit.py",
+      "why": "4장 M39~M48의 실제 선택·한영 동형성·direct ingress·연락/생사 분리 계약",
+      "paths": [
+        "content/events/**",
+        "content/events_en/**",
+        "content/meta/event_director.json",
+        "content/meta/event_lifecycle.json",
+        "scenes/MainGame.gd",
+        "tools/chapter4_causal_route_audit.py"
+      ]
+    },
+    {
       "tool": "tools/peak_scene_chain_audit.py",
       "why": "정점 장면 체인·종막 기능/사실/변형 의미와 허위 계약·회복 차단; 패널 수는 관측값",
       "paths": [

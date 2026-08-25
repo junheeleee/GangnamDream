@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-08-22",
+  "updated": "2026-08-26",
   "scope": "Factual release-content evidence for the current source and uploaded package; not a rating or legal opinion.",
   "decision_boundary": {
     "final_age_rating": "user_required",
@@ -102,14 +102,14 @@
   "corpus_contract": {
     "ko_event_files": 127,
     "en_event_files": 127,
-    "ko_events": 1758,
-    "en_events": 1758,
-    "event_ids_sha256": "0c934fde26f81511016298e932495eb47cc7f2ebf15de4af722584635e1abdf0",
-    "shipping_ko_events": 1603,
-    "shipping_en_events": 1603,
-    "shipping_event_ids_sha256": "e1d39c574a37d24deda7ed3c7849a362bc37d0d0e09487fda66d75c57d7da1eb",
-    "author_only_events": 155,
-    "author_only_event_ids_sha256": "4d719fb0ec7bf7f60d6983de461f04327a374d7daf6b734bda474b1037755665",
+    "ko_events": 1761,
+    "en_events": 1761,
+    "event_ids_sha256": "fcbfa3e96ebc07d777cc2708b287c61374f558db8377f3eb8f8c0f04440d3194",
+    "shipping_ko_events": 1631,
+    "shipping_en_events": 1631,
+    "shipping_event_ids_sha256": "ebefb9656574367900754cd16e45626f53e9f5899325809f59ec9aee6441fa32",
+    "author_only_events": 130,
+    "author_only_event_ids_sha256": "7632d092bf673174662454f1ce9626eb9783c39939505eb036f0afedff38a709",
     "ko_endings": 35,
     "en_endings": 35,
     "ending_ids_sha256": "3c26984721dc1ee6a18d472b854b30578982f43632d05a3d004ad99cb247c118",
@@ -378,8 +378,8 @@
         "categories": [], "tags": ["romance"],
         "tokens_ko": ["키스", "입을 맞", "첫날밤", "첫밤", "침대 위", "밤의 나머지", "불을 껐", "서로를 원"],
         "tokens_en": ["kiss", "first night", "on the bed", "rest of the night", "turned off the light", "wanted each other"],
-        "reviewed_search_noise_ids": [],
-        "expected_event_count": 121, "expected_file_count": 25, "expected_ids_sha256": "ba24d3b45e98bc31d2e2aaf9afed41b18c76fc15e38d573d5628a9eb7f45228c", "expected_content_sha256": "bb836a012fc7da231ab208cb6ee98008ba171d95d268285973c67b97e86ade38"
+        "reviewed_search_noise_ids": ["arc_y4_father_final_contact_present"],
+        "expected_event_count": 121, "expected_file_count": 25, "expected_ids_sha256": "ba24d3b45e98bc31d2e2aaf9afed41b18c76fc15e38d573d5628a9eb7f45228c", "expected_content_sha256": "406491b84ad15f291ae09dbb7081bfd31471f1380a50cdee5f422596a8f26dd1"
       },
       "facts": [
         {
@@ -465,7 +465,7 @@
         "categories": ["anxiety"], "tags": ["anxiety"],
         "tokens_ko": ["공포", "두려", "무서", "겁이", "협박", "위협", "불안", "공황", "악몽", "위독", "돌아가셨", "사망", "임종", "애도"],
         "tokens_en": ["terror", "afraid", "fear", "threat", "anxiety", "panic", "nightmare", "critically ill", "passed away", "death", "grief"],
-        "expected_event_count": 143, "expected_file_count": 51, "expected_ids_sha256": "211c3c760cf2f66d61e9bc540cd11003cc05ad46eb59d4d1d97a348eb135c29f", "expected_content_sha256": "a6c47724480ed1fdf2368624219db6af96e782b6551dbec0c4962d1562433432"
+        "expected_event_count": 143, "expected_file_count": 51, "expected_ids_sha256": "44d0a44fea831eebb8f9f8e2359ed43514e3903788c5412df9c7596e1b11c5e3", "expected_content_sha256": "2f99bcc47479f1cad97bea853377d28f2a42ef42e6e8c02fd2b5df3ed7dfb6b8"
       },
       "facts": [
         {
@@ -486,14 +486,14 @@
         {
           "id": "parental_illness_death_and_grief",
           "event_backed": true,
-          "summary_ko": "본편 후반에는 아버지의 위독·사망과 빈 병실의 애도를 비그래픽 문장과 절제된 상실 음향으로 다룬다. 플레이어는 병원/KTX로 향하거나 투자 딜을 택할 수 있고, 딜을 택하면 아버지가 사망한 시간에 번 500만원을 확인한다. 시신·상처·자해 묘사는 없다.",
+          "summary_ko": "본편 후반에는 아버지의 급성 악화 뒤 병동 방문·통화·연락 미룸을 직접 고르되 그 연락 방식이 생사를 결정하지 않는다. 앞선 의료 조정 기록에 따라 입원 지속·사망·확인 불가 경과가 갈리고, 사망 경로는 빈 병실의 애도 또는 사망 시각에 번 500만원을 확인하는 선택으로 이어진다. 시신·상처·자해 묘사는 없다.",
           "intensity": "moderate",
           "media": ["interactive_choice", "text", "audio"],
           "owner_paths": ["content/events/arc_drama.json", "content/events_en/arc_drama.json", "scenes/MainGame.gd", "assets/scene_audio_manifest.json"],
-          "event_ids": ["arc_father_passing", "arc_father_passing_platform", "arc_father_passing_deal_room", "arc_father_passing_hospital_room", "arc_father_passing_deal_morning"],
-          "evidence_tokens": ["아버님이 어젯밤에 돌아가셨습니다", "딜 알림", "arc_father_passing"],
+          "event_ids": ["arc_y4_father_crisis_contact", "arc_y4_father_final_contact_present", "arc_y4_father_final_contact_called", "arc_y4_father_final_contact_missed", "arc_y4_father_crisis_stabilized", "arc_y4_father_outcome_unknown", "arc_father_passing", "arc_father_passing_platform", "arc_father_passing_deal_room", "arc_father_passing_hospital_room", "arc_father_passing_deal_morning"],
+          "evidence_tokens": ["호흡이 갑자기 나빠져", "끝내 숨을 거두었다", "급성 호흡 악화", "딜 알림"],
           "per_profile": {
-            "retail_full": {"packaged": true, "runtime_load": "boot_eager", "fresh_start_reachability": "static_possible", "basis": "The late full-game father-health chain can enter arc_father_passing and either hospital/grief or deal-over-family follow-ups."},
+            "retail_full": {"packaged": true, "runtime_load": "boot_eager", "fresh_start_reachability": "static_possible", "basis": "The late full-game father-health chain separates crisis contact from its receipt-backed stable, death, or unknown medical outcome; confirmed death can then enter hospital/grief or deal-over-family follow-ups."},
             "legacy_demo": {"packaged": true, "runtime_load": "boot_eager", "fresh_start_reachability": "blocked", "basis": "The official legacy 24 weeks stop before the late father illness/death chain."},
             "v2_playtest": {"packaged": true, "runtime_load": "boot_eager", "fresh_start_reachability": "blocked", "basis": "V2 week 21 signals health uncertainty but does not enter the later death/grief events before week 24."}
           }
@@ -534,7 +534,8 @@
         "categories": ["crime"], "tags": ["crime", "illegal"],
         "tokens_ko": ["대포통장", "보이스피싱", "사기", "횡령", "절도", "내부자거래", "폰지", "공범", "돈세탁", "검거"],
         "tokens_en": ["money mule", "voice phishing", "fraud", "embezz", "theft", "insider trading", "ponzi", "accomplice", "money laundering", "arrested"],
-        "expected_event_count": 70, "expected_file_count": 40, "expected_ids_sha256": "e1bf5d669b6ca98117da9ff22117a0f723263db564eb7d74e2b0cbe55852b5b6", "expected_content_sha256": "9c864ae29d38432fb0dbff6bc6dd21cc60e9a0f88be01c7bab521961fca76552"
+        "reviewed_search_noise_ids": ["arc_y4_family_partner_collision_jiyeon"],
+        "expected_event_count": 71, "expected_file_count": 40, "expected_ids_sha256": "33e4f0858ed9e37980fce8383db192b42def77d774e5bfd65ece6b49b3d7c60e", "expected_content_sha256": "670f5fa2828500ae78cf132e40975c09d3631d3ef568ee0589ad59f497489a82"
       },
       "facts": [
         {
@@ -591,7 +592,8 @@
         "categories": [], "tags": [],
         "tokens_ko": ["소주", "맥주", "와인", "위스키", "막걸리", "술집", "술잔", "술자리", "술을", "취했", "숙취", "담배", "흡연", "마약", "수면제", "진통제", "처방약", "복용"],
         "tokens_en": ["soju", "beer", "wine", "whiskey", "drinking", "drunk", "hangover", "cigarette", "smoking", "narcotic", "sleeping pill", "painkiller", "prescription"],
-        "expected_event_count": 76, "expected_file_count": 37, "expected_ids_sha256": "80c9979ea846e60401fc8c1f996c2dbe1f76518998d68e8c361d8fa823298946", "expected_content_sha256": "01b962138dff14d29506a0c8feed46e7ea9eaed7c502d2c06c14edd85f29ae02"
+        "reviewed_search_noise_ids": ["arc_36_body_signal"],
+        "expected_event_count": 80, "expected_file_count": 38, "expected_ids_sha256": "dc30cc75c5613e8c003539c7c0d4bc8ea44a68921b08380b27a13025fac23055", "expected_content_sha256": "292b965fbd8f6c05621e21f455f5e0b66f60e6baba3f57813b52627697d840cd"
       },
       "facts": [
         {
@@ -615,9 +617,9 @@
           "summary_ko": "담배는 경마장 냄새·편의점 진열 같은 배경 언급이며 흡연 행동은 확인되지 않았다. 처방약·복용은 건강 서사로 나오고 불법 약물 플레이는 확인되지 않았다.",
           "intensity": "mild",
           "media": ["text", "background_reference"],
-          "owner_paths": ["content/events/racetrack_events.json", "content/events/core_loop_v2_events.json", "content/events/life_events.json"],
-          "event_ids": ["race_first_visit", "v2_convenience_trial_shift", "v2_father_health_signal"],
-          "evidence_tokens": ["담배", "담배 위치", "약"],
+          "owner_paths": ["content/events/racetrack_events.json", "content/events/core_loop_v2_events.json", "content/events/life_events.json", "content/events/arc_chapter_themes.json"],
+          "event_ids": ["race_first_visit", "v2_convenience_trial_shift", "v2_father_health_signal", "arc_y4_three_promises", "arc_y4_three_promises_deal_only", "arc_y4_three_promises_jiyeon_and_deal"],
+          "evidence_tokens": ["담배", "담배 위치", "약 복용표"],
           "per_profile": {
             "retail_full": {"packaged": true, "runtime_load": "boot_eager", "fresh_start_reachability": "static_possible", "basis": "Background tobacco and health-medicine references exist in full routes."},
             "legacy_demo": {"packaged": true, "runtime_load": "boot_eager", "fresh_start_reachability": "static_possible", "basis": "Early health/background references may be scheduled; no smoking action is owned."},

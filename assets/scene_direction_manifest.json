@@ -1055,7 +1055,6 @@
       "arc_daeun_wedding_night_honest",
       "arc_daeun_wedding_night_tea",
       "arc_daeun_wedding_walk",
-      "arc_father_call_on_ktx_number",
       "arc_jaehyuk_ghost_decision",
       "arc_jaehyuk_ghost_message",
       "arc_jaehyuk_ghost_read",
@@ -1092,6 +1091,8 @@
       "arc_season_sea_daeun_years",
       "arc_season_sea_jiyeon_route",
       "arc_season_sea_jiyeon_voice",
+      "arc_y4_father_call_missed_on_ktx",
+      "arc_y4_father_final_contact_missed",
       "arc_year1_scene",
       "arc_year2_scene",
       "arc_year3_scene",
@@ -2003,9 +2004,31 @@
       "arc_y3_ledger_grind",
       "arc_y3_ledger_kept",
       "arc_y3_sangchul_deeper_room",
+      "arc_y4_bill_night",
+      "arc_y4_bill_night_jiyeon",
+      "arc_y4_bill_night_unattached",
+      "arc_y4_body_witness",
+      "arc_y4_body_witness_hyunsu",
+      "arc_y4_body_witness_jiyeon",
+      "arc_y4_borrowed_name",
+      "arc_y4_borrowed_name_document_gap",
+      "arc_y4_borrowed_name_jiyeon",
+      "arc_y4_borrowed_name_self",
+      "arc_y4_family_commitment_none",
+      "arc_y4_family_partner_collision",
+      "arc_y4_family_partner_collision_jiyeon",
+      "arc_y4_family_table_missed",
+      "arc_y4_father_final_contact_present",
+      "arc_y4_father_outcome_unknown",
       "arc_y4_folded_time",
       "arc_y4_marriage_talk",
       "arc_y4_network_bill",
+      "arc_y4_three_promises",
+      "arc_y4_three_promises_deal_only",
+      "arc_y4_three_promises_jiyeon_and_deal",
+      "arc_y4_year_close_daeun",
+      "arc_y4_year_close_jiyeon",
+      "arc_y4_year_close_unattached",
       "arc_year1_close",
       "arc_year2_close",
       "arc_year3_close",
@@ -2307,6 +2330,7 @@
       "arc_father_02_signal",
       "arc_father_03_hospital",
       "arc_father_06_confession",
+      "arc_father_call_on_ktx_number",
       "arc_father_medication",
       "arc_father_ng_call",
       "arc_father_passing",
@@ -2325,6 +2349,10 @@
       "arc_sangchul_casino_invite",
       "arc_sangchul_casino_people",
       "arc_y3_jiyeon_departure",
+      "arc_y4_father_call_answered_on_ktx",
+      "arc_y4_father_crisis_contact",
+      "arc_y4_father_crisis_stabilized",
+      "arc_y4_father_final_contact_called",
       "cafe_cb_honest_00",
       "cafe_cb_stole_call",
       "callback_asked_father_more_echo",
@@ -2485,7 +2513,7 @@
     "arc_36_trust_crack->arc_36_unexpected_hand": {
       "mode": "explicit_move",
       "from_surface": "pojangmacha",
-      "to_surface": "gukbap_restaurant_night",
+      "to_surface": "current_housing",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade"
     },
@@ -2714,13 +2742,27 @@
       "reduced_motion": "static_fade"
     },
     "arc_father_call_on_ktx->arc_father_call_on_ktx_number": {
-      "mode": "same_location",
+      "mode": "remote",
       "from_surface": "ktx_window",
       "to_surface": "ktx_window",
       "audio_policy": "continue",
       "reduced_motion": "static_update"
     },
     "arc_father_call_on_ktx_memory->arc_father_call_on_ktx_number": {
+      "mode": "remote",
+      "from_surface": "ktx_window",
+      "to_surface": "ktx_window",
+      "audio_policy": "continue",
+      "reduced_motion": "static_update"
+    },
+    "arc_father_call_on_ktx_number->arc_y4_father_call_answered_on_ktx": {
+      "mode": "remote",
+      "from_surface": "ktx_window",
+      "to_surface": "ktx_window",
+      "audio_policy": "continue",
+      "reduced_motion": "static_update"
+    },
+    "arc_father_call_on_ktx_number->arc_y4_father_call_missed_on_ktx": {
       "mode": "same_location",
       "from_surface": "ktx_window",
       "to_surface": "ktx_window",
@@ -3280,6 +3322,27 @@
       "reduced_motion": "static_fade",
       "arrival_cue_ko": "부산역을 나와",
       "arrival_cue_en": "Out of Busan Station"
+    },
+    "arc_y4_father_crisis_contact->arc_y4_father_final_contact_called": {
+      "mode": "remote",
+      "from_surface": "current_housing",
+      "to_surface": "current_housing",
+      "audio_policy": "continue",
+      "reduced_motion": "static_update"
+    },
+    "arc_y4_father_crisis_contact->arc_y4_father_final_contact_missed": {
+      "mode": "same_location",
+      "from_surface": "current_housing",
+      "to_surface": "current_housing",
+      "audio_policy": "continue",
+      "reduced_motion": "static_update"
+    },
+    "arc_y4_father_crisis_contact->arc_y4_father_final_contact_present": {
+      "mode": "explicit_move",
+      "from_surface": "current_housing",
+      "to_surface": "hospital",
+      "audio_policy": "crossfade",
+      "reduced_motion": "static_fade"
     },
     "arc_year1_close->arc_year1_scene": {
       "mode": "same_location",

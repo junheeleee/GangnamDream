@@ -112,7 +112,7 @@ func _ready() -> void:
 	_check_full_run_pacing()
 	_check_rhythm_save_migration()
 	if _failures.is_empty():
-		print("EVENT_DIRECTOR_CHECK_OK directed=1003 foreground=64 bridge=19 bridge_roots=6 causal_roots=7 auto_multi=0 once=1000 repeatable=3 callbacks=37/32 chains=14/12 chapters=5 asset_bands=5 demo=9/2/4/3 authored=7 generic=2 full=52/5/20/21 save=legacy+demo+deferred")
+		print("EVENT_DIRECTOR_CHECK_OK directed=1003 foreground=64 bridge=19 bridge_roots=6 causal_roots=7 auto_multi=0 once=1000 repeatable=3 callbacks=37/32 chains=14/12 chapters=5 asset_bands=5 demo=9/2/4/3 authored=7 generic=2 full=57/5/20/21 save=legacy+demo+deferred")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -755,10 +755,30 @@ func _check_full_run_pacing() -> void:
 			echoes.append(turn_value)
 		if EventManager.narrative_should_show_full_summary(turn_value):
 			summaries.append(turn_value)
-	_expect(direct_by_chapter == [13, 9, 10, 10, 10],
+	_expect(direct_by_chapter == [13, 9, 10, 15, 10],
 		"full-run chapter decision cadence drifted: %s" % [direct_by_chapter])
-	_expect(bosses == [4, 24, 45, 92, 140, 176, 237],
+	_expect(bosses == [4, 24, 45, 92, 140, 192, 237],
 		"full-run boss cadence drifted: %s" % [bosses])
+	var chapter_four_owner_weeks := [
+		153, 157, 161, 164, 167, 174, 177, 181, 185, 188, 190, 192]
+	for owner_week in chapter_four_owner_weeks:
+		var owner_ids := EventManager.narrative_commitment_event_ids(owner_week)
+		_expect(not owner_ids.is_empty(),
+			"chapter-four owner week %d has no authored action" % owner_week)
+		for owner_id in owner_ids:
+			var owner_event: Dictionary = DataRegistry.find_event(owner_id)
+			var owner_choices: Array = owner_event.get("choices", [])
+			_expect(not owner_event.is_empty() and owner_choices.size() >= 2,
+				"chapter-four owner is not a real choice: %d/%s" % [
+					owner_week, owner_id])
+			for raw_choice in owner_choices:
+				var owner_choice: Dictionary = raw_choice \
+						if raw_choice is Dictionary else {}
+				_expect(not GameState.is_expression_choice(owner_choice),
+					"chapter-four owner choice became expression: %d/%s" % [
+						owner_week, owner_id])
+	_expect(EventManager.narrative_commitment_event_ids(169).is_empty(),
+		"M43 consequence must not own a second weekly action")
 	_expect(echoes.size() == 21, "full run must expose twenty-one echo weeks")
 	_expect(summaries.size() == 21 and summaries.back() == 240,
 		"full run must expose twenty-one gated summaries through week 240")

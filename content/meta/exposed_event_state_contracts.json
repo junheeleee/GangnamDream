@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "scope": {
-    "root_count": 307,
-    "exposed_count": 443,
-    "root_ids_sha256": "222bb9101da3e94f2dd488250cd5ba5aa449dcfe6d7cea86cb4b67625ae51274",
-    "exposed_ids_sha256": "61f6a679edaa9e1d2dffe6fb04376ea2479bc08f3b5d2734cefa437aaafcd67c"
+    "root_count": 331,
+    "exposed_count": 471,
+    "root_ids_sha256": "4b82c8bc4fab46c061ee6c9b85789cfae2a96934c83a0fe4ea2a58dbe11d783f",
+    "exposed_ids_sha256": "528febb03aba85a71bbc065b4ba3a8419f04ee9626691f2b21a38575189830d0"
   },
   "state_sensitive": {
     "amb_coin_00": [
@@ -160,9 +160,9 @@
       "location"
     ],
     "arc_36_unexpected_hand": [
+      "father_life",
       "housing",
-      "location",
-      "relationship"
+      "location"
     ],
     "arc_37_burn_or_light": [
       "father_life",
@@ -511,8 +511,7 @@
       "location"
     ],
     "arc_final_countdown": [
-      "location",
-      "relationship"
+      "location"
     ],
     "arc_final_stretch": [
       "location"
@@ -935,7 +934,6 @@
     "arc_pre_ending_summit": [
       "employment",
       "father_life",
-      "housing",
       "location"
     ],
     "arc_pre_ending_winter": [
@@ -1186,6 +1184,106 @@
       "location",
       "relationship"
     ],
+    "arc_y4_bill_night": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_y4_bill_night_jiyeon": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_y4_bill_night_unattached": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_y4_body_witness": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_y4_body_witness_hyunsu": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_y4_body_witness_jiyeon": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_y4_borrowed_name": [
+      "location",
+      "relationship"
+    ],
+    "arc_y4_borrowed_name_document_gap": [
+      "housing",
+      "location"
+    ],
+    "arc_y4_borrowed_name_jiyeon": [
+      "location",
+      "relationship"
+    ],
+    "arc_y4_borrowed_name_self": [
+      "location"
+    ],
+    "arc_y4_family_commitment_none": [
+      "location"
+    ],
+    "arc_y4_family_partner_collision": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_y4_family_partner_collision_jiyeon": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_y4_family_table_missed": [
+      "location"
+    ],
+    "arc_y4_father_call_answered_on_ktx": [
+      "father_life",
+      "location"
+    ],
+    "arc_y4_father_call_missed_on_ktx": [
+      "father_life",
+      "location"
+    ],
+    "arc_y4_father_crisis_contact": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_y4_father_crisis_stabilized": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_y4_father_final_contact_called": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_y4_father_final_contact_missed": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_y4_father_final_contact_present": [
+      "father_life",
+      "location"
+    ],
+    "arc_y4_father_outcome_unknown": [
+      "father_life",
+      "housing",
+      "location"
+    ],
     "arc_y4_folded_time": [
       "location"
     ],
@@ -1196,6 +1294,33 @@
     "arc_y4_network_bill": [
       "location",
       "relationship"
+    ],
+    "arc_y4_three_promises": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_y4_three_promises_deal_only": [
+      "father_life",
+      "location"
+    ],
+    "arc_y4_three_promises_jiyeon_and_deal": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_y4_year_close_daeun": [
+      "location",
+      "relationship"
+    ],
+    "arc_y4_year_close_jiyeon": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_y4_year_close_unattached": [
+      "housing",
+      "location"
     ],
     "arc_year1_close": [
       "father_life",
@@ -1227,6 +1352,7 @@
       "location"
     ],
     "arc_year_three_half": [
+      "father_life",
       "housing",
       "location"
     ],

@@ -235,7 +235,9 @@ SPINE_COMMON = {
     "arc_father_03_hospital": ["arc_father_03_seen"],
     "arc_father_04_visit": ["visited_father"],
     "arc_father_05_after_visit": ["arc_father_05_seen"],
-    "arc_father_medication": ["arc_father_medication_seen"],
+    # Representative traces take the first medication action: call and check.
+    # W188 reads this durable medical receipt, not the later crisis-contact mode.
+    "arc_father_medication": ["arc_father_medication_seen", "called_about_medication"],
     "arc_father_06_confession": ["arc_father_06_seen", "father_confession_heard", "father_reconciled"],
     "arc_jiyeon_01_crash": ["arc_jiyeon_crash_seen"],
     "arc_jiyeon_02_store": ["arc_jiyeon_store_seen"],
@@ -386,11 +388,161 @@ def apply_bridge_choice(S, event_id, choice_indices):
         S.add_deferred_event(deferred_id, delay)
 
 
+def apply_immediate_choice_state(S, event_id, choice_indices, stack=()):
+    """Apply the representative terminal path for a protected StoryMode action."""
+    if event_id in stack or event_id not in events:
+        return
+    choices = events[event_id].get("choices", [])
+    if not choices:
+        return
+    index = int(choice_indices.get(event_id, 0))
+    if index < 0 or index >= len(choices):
+        index = 0
+    choice = choices[index]
+    for flag in choice.get("flags", []):
+        S.flags[str(flag)] = True
+    for cast_id, cast_effect in choice.get("cast_effects", {}).items():
+        S.cast.setdefault(str(cast_id), {"aff": 0, "stage": "none"})
+        S.cast[str(cast_id)]["aff"] += int(cast_effect.get("affinity", 0))
+        if cast_effect.get("stage"):
+            S.cast[str(cast_id)]["stage"] = str(cast_effect["stage"])
+    follow_up = str(choice.get("follow_up_event", "")).strip()
+    if follow_up:
+        apply_immediate_choice_state(
+            S, follow_up, choice_indices, stack + (event_id,))
+
+
+def chapter_four_partner_id(S):
+    if any(S.flags.get(flag) for flag in (
+        "daeun_married", "daeun_romance_started", "daeun_together_path",
+    )):
+        return "daeun"
+    if any(S.flags.get(flag) for flag in (
+        "jiyeon_romance_started", "jiyeon_committed", "jiyeon_together",
+    )):
+        return "jiyeon"
+    return ""
+
+
+def chapter_four_relationship_event(S, daeun_id, jiyeon_id, unattached_id):
+    partner_id = chapter_four_partner_id(S)
+    if partner_id == "daeun":
+        return daeun_id
+    if partner_id == "jiyeon":
+        return jiyeon_id
+    return unattached_id
+
+
+def chapter_four_father_outcome(S):
+    death_evidence = (
+        S.flags.get("father_passed")
+        or S.flags.get("arc_father_passing_seen")
+        or S.get_cast_stage("father") == "passed"
+    )
+    if death_evidence or any(S.flags.get(flag) for flag in (
+        "father_crisis_stabilized",
+        "arc_y4_father_crisis_stabilized_seen",
+        "arc_y4_father_outcome_unknown_seen",
+    )):
+        return ""
+    if not all(S.flags.get(flag) for flag in (
+        "arc_father_medication_seen", "arc_father_03_seen",
+        "arc_y4_bill_night_seen",
+    )):
+        return "arc_y4_father_outcome_unknown"
+    medication_called = bool(S.flags.get("called_about_medication"))
+    medication_visited = bool(S.flags.get("visited_for_medication"))
+    if medication_called and medication_visited:
+        return "arc_y4_father_outcome_unknown"
+    care_coordinated = bool(S.flags.get("father_care_coordinated"))
+    care_left_open = bool(S.flags.get("father_care_left_open"))
+    if care_coordinated == care_left_open:
+        return "arc_y4_father_outcome_unknown"
+    medical_evidence = int(medication_called or medication_visited)
+    medical_evidence += int(bool(S.flags.get("sangchul_helped_with_father")))
+    medical_evidence += int(care_coordinated)
+    if medical_evidence >= 2:
+        return "arc_y4_father_crisis_stabilized"
+    return "arc_father_passing"
+
+
+def chapter_four_causal_event(S):
+    """Mirror MainGame's exact W153-W190 Chapter 4 product router."""
+    t = S.t
+    f = S.flags
+    if t == 153 and not f.get("arc_y4_three_promises_seen"):
+        return chapter_four_relationship_event(
+            S, "arc_y4_three_promises",
+            "arc_y4_three_promises_jiyeon_and_deal",
+            "arc_y4_three_promises_deal_only")
+    if t == 157 and f.get("arc_y4_three_promises_seen") \
+            and not f.get("arc_36_unexpected_hand_seen"):
+        return "arc_36_unexpected_hand"
+    if t == 161 and not f.get("arc_36_body_signal_seen"):
+        return "arc_36_body_signal"
+    if t == 164 and f.get("arc_36_body_signal_seen") \
+            and not f.get("arc_y4_body_witness_seen"):
+        return chapter_four_relationship_event(
+            S, "arc_y4_body_witness", "arc_y4_body_witness_jiyeon",
+            "arc_y4_body_witness_hyunsu")
+    if t == 167 and f.get("arc_y4_body_witness_seen") \
+            and not f.get("arc_y4_family_table_seen"):
+        unattached_id = "arc_y4_family_commitment_none"
+        if f.get("arc_y4_three_promises_missed_father"):
+            unattached_id = "arc_y4_family_table_missed"
+        return chapter_four_relationship_event(
+            S, "arc_y4_family_partner_collision",
+            "arc_y4_family_partner_collision_jiyeon", unattached_id)
+    if t == 169 and f.get("arc_y4_family_table_seen") \
+            and not f.get("arc_year_three_half_seen"):
+        return "arc_year_three_half"
+    if t == 174 and f.get("arc_father_03_seen") \
+            and f.get("arc_father_medication_seen") \
+            and not f.get("father_passed") \
+            and not f.get("arc_father_call_on_ktx_seen"):
+        if S.has_item("artifact_father_call"):
+            return "arc_father_call_on_ktx"
+        return "arc_father_call_on_ktx_number"
+    if t == 177 and not f.get("arc_y4_borrowed_name_seen"):
+        unattached_id = "arc_y4_borrowed_name_self"
+        if f.get("arc_y4_three_promises_missed_deal"):
+            unattached_id = "arc_y4_borrowed_name_document_gap"
+        return chapter_four_relationship_event(
+            S, "arc_y4_borrowed_name", "arc_y4_borrowed_name_jiyeon",
+            unattached_id)
+    if t == 181 and not f.get("arc_y4_bill_night_seen"):
+        return chapter_four_relationship_event(
+            S, "arc_y4_bill_night", "arc_y4_bill_night_jiyeon",
+            "arc_y4_bill_night_unattached")
+    if t == 185 and f.get("arc_y4_bill_night_seen") \
+            and not f.get("father_passed") \
+            and not f.get("arc_y4_father_crisis_contact_seen"):
+        return "arc_y4_father_crisis_contact"
+    if t == 188:
+        return chapter_four_father_outcome(S)
+    if t == 190 and not f.get("arc_y4_year_close_boundary_seen"):
+        return chapter_four_relationship_event(
+            S, "arc_y4_year_close_daeun", "arc_y4_year_close_jiyeon",
+            "arc_y4_year_close_unattached")
+    return ""
+
+
 def run(spine, traj, cast_flag_hook, choice_indices):
     S = State(); fired = {}; firelog = {}; repeats = {}; bridge_log = {}
     for t in range(1, 241):
         S.t = t; traj(S); cast_flag_hook(S)
-        chosen = S.pop_ready_deferred_event()
+        protected_chapter_four_action = False
+        # MainGame protects the exact Year 4 close and causal actions before
+        # the deferred queue. Model that priority instead of allowing an old
+        # callback to consume a commitment week.
+        chosen = ""
+        if t == 192 and not S.flags.get("arc_year4_close_seen"):
+            chosen = "arc_year4_close"
+        else:
+            chosen = chapter_four_causal_event(S)
+            protected_chapter_four_action = bool(chosen)
+        if not chosen:
+            chosen = S.pop_ready_deferred_event()
         if not chosen:
             for eid, conds in triggers:
                 if evalconds(conds, S):
@@ -405,6 +557,8 @@ def run(spine, traj, cast_flag_hook, choice_indices):
             fired[chosen] = t; firelog[t] = chosen
             for fl in own_seen_flags(chosen): S.flags[fl] = True
             for fl in spine.get(chosen, []): S.flags[fl] = True
+            if protected_chapter_four_action:
+                apply_immediate_choice_state(S, chosen, choice_indices)
             for deferred_id, delay in canonical_deferred_links(chosen, choice_indices):
                 S.add_deferred_event(deferred_id, delay)
     return fired, firelog, repeats, S, bridge_log
@@ -481,12 +635,10 @@ EXPECTED_LATE_TEMPORAL = {
         152: "arc_35_habit_check",
         154: "arc_36_reality_check",
         155: "arc_1b_isolation",
-        163: "arc_36_body_signal",
-        169: "arc_year_three_half",
-        181: "arc_36_night_doubt",
+        180: "arc_36_night_doubt",
         192: "arc_year4_close",
-        190: "arc_final_stretch",
-        197: "arc_37_reckoning",
+        191: "arc_final_stretch",
+        193: "arc_37_reckoning",
         204: "arc_37_burn_or_light",
         210: "arc_gangnam_real_estate",
     },
@@ -497,17 +649,47 @@ EXPECTED_LATE_TEMPORAL = {
         93: "arc_34_two_years_in",
         149: "arc_35_path_cost",
         152: "arc_35_habit_check",
-        153: "arc_almost_there",
-        154: "arc_36_reality_check",
-        157: "arc_1b_isolation",
-        163: "arc_36_body_signal",
-        169: "arc_year_three_half",
-        181: "arc_36_night_doubt",
+        154: "arc_almost_there",
+        158: "arc_1b_isolation",
+        159: "arc_36_reality_check",
+        180: "arc_36_night_doubt",
         192: "arc_year4_close",
-        190: "arc_final_stretch",
-        197: "arc_37_reckoning",
+        191: "arc_final_stretch",
+        193: "arc_37_reckoning",
         204: "arc_37_burn_or_light",
         215: "arc_gangnam_real_estate",
+    },
+}
+EXPECTED_CHAPTER4_CAUSAL = {
+    "A 정석/다은보냄/사기": {
+        153: "arc_y4_three_promises_deal_only",
+        157: "arc_36_unexpected_hand",
+        161: "arc_36_body_signal",
+        164: "arc_y4_body_witness_hyunsu",
+        167: "arc_y4_family_commitment_none",
+        169: "arc_year_three_half",
+        174: "arc_father_call_on_ktx",
+        177: "arc_y4_borrowed_name_document_gap",
+        181: "arc_y4_bill_night_unattached",
+        185: "arc_y4_father_crisis_contact",
+        188: "arc_father_passing",
+        190: "arc_y4_year_close_unattached",
+        192: "arc_year4_close",
+    },
+    "B 비정석/진실/committed": {
+        153: "arc_y4_three_promises",
+        157: "arc_36_unexpected_hand",
+        161: "arc_36_body_signal",
+        164: "arc_y4_body_witness",
+        167: "arc_y4_family_partner_collision",
+        169: "arc_year_three_half",
+        174: "arc_father_call_on_ktx_number",
+        177: "arc_y4_borrowed_name",
+        181: "arc_y4_bill_night",
+        185: "arc_y4_father_crisis_contact",
+        188: "arc_father_passing",
+        190: "arc_y4_year_close_daeun",
+        192: "arc_year4_close",
     },
 }
 EXPECTED_CHAPTER2_COMPARISON = {
@@ -698,8 +880,8 @@ T1_DELAYED_PAYOFF_IDS = {
 }
 
 CAPPED_ARC_WINDOWS = {
-    "arc_36_body_signal": (163, 172),
-    "arc_year_three_half": (168, 184),
+    "arc_36_body_signal": (161, 161),
+    "arc_year_three_half": (169, 169),
     "arc_36_night_doubt": (180, 187),
     "arc_y3_jiyeon_departure": (110, 135),
     "arc_endgame_sixmonths": (216, 237),
@@ -901,6 +1083,16 @@ for name, spine, traj, hook, choice_indices in PATHS:
         print("  ✗ 2장 비교 장면 간격 회귀:", ", ".join(comparison_mismatch))
     else:
         print("  ✓ 2장 대면 비교→SNS 압박 간격 고정")
+    chapter4_causal_mismatch = [
+        f"t{turn}:{firelog.get(turn, 'missing')}!={event_id}"
+        for turn, event_id in EXPECTED_CHAPTER4_CAUSAL[name].items()
+        if firelog.get(turn) != event_id
+    ]
+    if chapter4_causal_mismatch:
+        fail += 1
+        print("  ✗ 4장 인과 행동 시간축 회귀:", ", ".join(chapter4_causal_mismatch))
+    else:
+        print("  ✓ 4장 실제 행동→비용→의료 경과→연말 인과축 고정")
     late_temporal_mismatch = [
         f"t{turn}:{firelog.get(turn, 'missing')}!={event_id}"
         for turn, event_id in EXPECTED_LATE_TEMPORAL[name].items()

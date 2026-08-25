@@ -104,6 +104,35 @@
       "m4_housing_priority_runway",
       "m4_housing_priority_privacy",
       "m4_housing_priority_time"
+    ],
+    "y4_three_promises_protected": [
+      "arc_y4_three_promises_protected_father",
+      "arc_y4_three_promises_protected_person",
+      "arc_y4_three_promises_protected_deal"
+    ],
+    "y4_body_action": [
+      "arc_y4_body_chose_care",
+      "arc_y4_body_chose_deadline",
+      "arc_y4_body_chose_alone"
+    ],
+    "y4_family_table_action": [
+      "arc_y4_family_attended_together",
+      "arc_y4_family_attended_alone",
+      "arc_y4_family_missed"
+    ],
+    "y4_father_care": [
+      "father_care_coordinated",
+      "father_care_left_open"
+    ],
+    "y4_father_crisis_contact": [
+      "father_crisis_contact_present",
+      "father_crisis_contact_called",
+      "father_crisis_contact_missed"
+    ],
+    "y4_year_close_protection": [
+      "arc_y4_year_close_protected_relationship",
+      "arc_y4_year_close_protected_body",
+      "arc_y4_year_close_protected_family"
     ]
   },
   "coverage_targets": {
@@ -140,6 +169,11 @@
       "callback_proactive_parent_care_echo",
       "callback_rushed_to_father_echo",
       "arc_father_call_on_ktx_memory",
+      "arc_father_call_on_ktx_number",
+      "arc_y4_father_call_answered_on_ktx",
+      "arc_y4_father_crisis_contact",
+      "arc_y4_father_final_contact_called",
+      "arc_y4_father_crisis_stabilized",
       "arc_father_passing",
       "arc_father_passing_deal_morning",
       "arc_opp_sangchul_realty",
@@ -2121,12 +2155,15 @@
           "requires_flags": ["arc_father_03_seen", "arc_father_medication_seen"],
           "forbids_flags": ["father_passed", "arc_father_call_on_ktx_seen"],
           "produces_all": ["arc_father_call_on_ktx_seen"],
-          "produces_any": ["called_father_on_ktx"]
+          "produces_any": ["called_father_on_ktx", "did_not_call_father_on_ktx"]
         }
       },
       "presentation": {
-        "channel": "narration",
+        "channel": "phone",
+        "state": "dialing",
         "scene_location": "seoulbound_ktx_after_changwon",
+        "remote_location": "changwon_hospital",
+        "remote_actor": "father",
         "portrait_role": "none"
       }
     },
@@ -4021,6 +4058,101 @@
         "expected_background": "community_center",
         "expected_portrait": "housing_counselor",
         "expected_ambience": "public_office"
+      }
+    },
+    "arc_y4_father_call_answered_on_ktx": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "seoulbound_ktx_after_changwon",
+        "remote_location": "changwon_hospital",
+        "remote_actor": "father",
+        "portrait_role": "local",
+        "expected_portrait": "player_tired"
+      }
+    },
+    "arc_y4_father_final_contact_called": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "changwon_hospital",
+        "remote_actor": "father",
+        "portrait_role": "local",
+        "expected_portrait": "player_tired"
+      }
+    },
+    "arc_y4_father_crisis_contact": {
+      "logic": {
+        "requires": [{"fact": "father.life", "is": "hospitalized"}],
+        "legacy": {
+          "requires_flags": ["arc_father_03_seen", "arc_y4_bill_night_seen"],
+          "forbids_flags": [
+            "father_passed",
+            "arc_y4_father_crisis_contact_seen"
+          ],
+          "produces_all": ["arc_y4_father_crisis_contact_seen"],
+          "produces_any": [
+            "father_crisis_contact_present",
+            "father_crisis_contact_called",
+            "father_crisis_contact_missed"
+          ]
+        }
+      },
+      "presentation": {
+        "channel": "phone",
+        "state": "incoming",
+        "scene_location": "current_housing",
+        "remote_location": "changwon_hospital",
+        "remote_actor": "nurse",
+        "portrait_role": "local",
+        "expected_portrait": "player_shocked"
+      }
+    },
+    "arc_y4_father_crisis_stabilized": {
+      "logic": {
+        "requires": [{"fact": "father.life", "is": "hospitalized"}],
+        "produces": [{"fact": "father.life", "set": "hospitalized"}],
+        "legacy": {
+          "requires_flags": ["arc_y4_bill_night_seen"],
+          "forbids_flags": [
+            "father_passed",
+            "arc_father_passing_seen",
+            "arc_y4_father_crisis_stabilized_seen"
+          ],
+          "produces_all": [
+            "arc_y4_father_crisis_stabilized_seen",
+            "father_crisis_stabilized"
+          ]
+        }
+      },
+      "presentation": {
+        "channel": "phone",
+        "state": "incoming",
+        "scene_location": "current_housing",
+        "remote_location": "changwon_hospital",
+        "remote_actor": "nurse",
+        "portrait_role": "local",
+        "expected_portrait": "player_tired"
+      }
+    },
+    "arc_y4_father_outcome_unknown": {
+      "logic": {
+        "legacy": {
+          "forbids_flags": [
+            "father_passed",
+            "father_crisis_stabilized",
+            "arc_y4_father_outcome_unknown_seen"
+          ],
+          "produces_all": ["arc_y4_father_outcome_unknown_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_portrait": "player_tired"
       }
     },
     "v2_demo_first_bill_ledger": {

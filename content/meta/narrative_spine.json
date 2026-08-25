@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 5,
   "title": "Gangnam Dream",
   "central_question": "민준은 자신과 아버지를 무너뜨린 세계에 들어가면서 그 세계와 같은 사람이 되는가?",
   "player_promise": "1장에서 남긴 선택과 관계가 5장의 마지막 서명까지 형태를 바꾸며 돌아온다.",
@@ -581,22 +581,51 @@
         "arc_35_path_cost",
         "arc_35_habit_check",
         "arc_36_reality_check",
-        "arc_year_three_crossroads"
+        "arc_year_three_crossroads",
+        "arc_y4_three_promises",
+        "arc_y4_three_promises_jiyeon_and_deal",
+        "arc_y4_three_promises_deal_only"
       ],
       "escalation": [
         "arc_36_trust_crack",
         "arc_36_unexpected_hand",
-        "arc_36_body_signal"
+        "arc_36_body_signal",
+        "arc_y4_body_witness",
+        "arc_y4_body_witness_jiyeon",
+        "arc_y4_body_witness_hyunsu",
+        "arc_y4_family_partner_collision",
+        "arc_y4_family_partner_collision_jiyeon",
+        "arc_y4_family_commitment_none",
+        "arc_y4_family_table_missed",
+        "arc_year_three_half"
       ],
       "reversal": [
         "arc_36_father_comes_to_seoul",
-        "arc_father_call_on_ktx"
+        "arc_father_call_on_ktx",
+        "arc_y4_father_call_answered_on_ktx",
+        "arc_y4_father_call_missed_on_ktx",
+        "arc_y4_borrowed_name",
+        "arc_y4_borrowed_name_jiyeon",
+        "arc_y4_borrowed_name_self",
+        "arc_y4_borrowed_name_document_gap",
+        "arc_36_night_doubt",
+        "arc_y4_bill_night",
+        "arc_y4_bill_night_jiyeon",
+        "arc_y4_bill_night_unattached",
+        "arc_y4_father_crisis_contact",
+        "arc_y4_father_final_contact_present",
+        "arc_y4_father_final_contact_called",
+        "arc_y4_father_final_contact_missed"
       ],
       "boss": [
-        "arc_father_passing"
+        "arc_father_passing",
+        "arc_y4_father_crisis_stabilized",
+        "arc_y4_father_outcome_unknown",
+        "arc_y4_year_close_daeun",
+        "arc_y4_year_close_jiyeon",
+        "arc_y4_year_close_unattached"
       ],
       "aftermath": [
-        "arc_36_night_doubt",
         "arc_year4_close",
         "chapter_card_37"
       ],
@@ -619,7 +648,7 @@
             "arc_year_three_half",
             "arc_36_night_doubt"
           ],
-          "payoff": "3년치 영수증과 루틴 점검이 몸의 경고로 구체화되고, 6주 뒤 계획표와 다시 12주 뒤 목표를 의심하는 새벽에 돌아온다."
+          "payoff": "W161의 몸 경고를 W164의 실제 돌봄 선택이 받고, W169의 세 줄 영수증과 W180의 새벽 의심이 각각 8주와 11주 간격으로 그 선택의 값을 다시 읽는다."
         },
         {
           "id": "the_last_year_has_a_price",
@@ -628,10 +657,10 @@
             "arc_37_reckoning",
             "arc_final_year_start"
           ],
-          "payoff": "36세의 마지막 밤에 본 자기 모습을 5주 뒤 장부로 정산한 뒤에야 마지막 1년의 패를 고르게 한다."
+          "payoff": "W192의 마지막 밤이 W193의 장부를 1주 뒤 한 번만 열고, 그 정산이 끝난 자리에서 마지막 1년의 패를 바로 고르게 한다."
         }
       ],
-      "handoff": "청구서를 대신 받아 줄 사람은 없었다. 남은 1년, 민준은 자기 이름으로 무엇을 담보 잡을지 결정해야 한다."
+      "handoff": "몸·관계·가족 중 W190에 먼저 지키기로 한 경계와 W192에 정산한 미지급 비용을 들고, 민준은 마지막 1년에 자기 이름으로 무엇을 담보 잡을지 결정해야 한다."
     },
     {
       "number": 5,

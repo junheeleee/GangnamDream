@@ -24,7 +24,7 @@ EXPECTED_BRIDGE_RANDOM = 19
 # Core V2's authored hidden beats include the First Bill fragments plus the
 # fresh-only application Send and pre-plan calculation. They are reached by
 # runtime substitution or bundle/story links, never by the random director.
-EXPECTED_REGISTERED_EVENTS = 1603
+EXPECTED_REGISTERED_EVENTS = 1631
 EXPECTED_DIRECT_ONLY_EVENTS = {
     "v2_hyunsu_player_reachout",
     "v2_hyunsu_study_followup",
@@ -157,10 +157,11 @@ EXPECTED_FULL_DECISIONS = [
     29, 35, 37, 45,
     49, 53, 57, 61, 67, 85, 92, 94, 96,
     97, 99, 107, 111, 114, 123, 131, 135, 139, 140,
-    145, 149, 153, 157, 161, 169, 176, 181, 185, 188,
+    145, 149, 153, 157, 161, 164, 167, 169, 174, 177,
+    181, 185, 188, 190, 192,
     193, 197, 201, 205, 209, 213, 217, 225, 229, 237,
 ]
-EXPECTED_FULL_BOSSES = [45, 92, 140, 176, 237]
+EXPECTED_FULL_BOSSES = [45, 92, 140, 192, 237]
 EXPECTED_FULL_ECHOES = [
     33, 51, 63, 75, 86, 98, 109, 121, 136,
     151, 159, 171, 184, 199, 207, 219, 231,
@@ -245,11 +246,30 @@ def scheduled_arc_ids(events: list[dict[str, Any]]) -> set[str]:
         block = source.split("func _next_arc_id(", 1)[1].split("\nfunc ", 1)[0]
     except IndexError as exc:
         raise RuntimeError("MainGame._next_arc_id could not be parsed") from exc
-    return {
+    scheduled = {
         event_id
         for event_id in re.findall(r'\breturn\s+"([^"]+)"', block)
         if event_id in by_id
     }
+    # Chapter 4 uses small typed routers so its relationship and medical
+    # variants remain readable. Their literal event IDs are product ingress,
+    # even though _next_arc_id returns the helper result rather than a literal.
+    for helper_name in (
+        "_chapter_four_causal_arc_id",
+        "_chapter_four_father_outcome_id",
+    ):
+        try:
+            helper_block = source.split(f"func {helper_name}(", 1)[1].split(
+                "\nfunc ", 1
+            )[0]
+        except IndexError as exc:
+            raise RuntimeError(f"MainGame.{helper_name} could not be parsed") from exc
+        scheduled.update(
+            event_id
+            for event_id in re.findall(r'"([a-z0-9_]+)"', helper_block)
+            if event_id in by_id
+        )
+    return scheduled
 
 
 def exposed_event_reachability(
@@ -712,7 +732,7 @@ def validate_manifest(manifest: dict[str, Any], events: list[dict[str, Any]]) ->
             sum((chapter - 1) * 48 < turn <= chapter * 48 for turn in all_decisions)
             for chapter in range(1, 6)
         ]
-        if chapter_counts != [13, 9, 10, 10, 10]:
+        if chapter_counts != [13, 9, 10, 15, 10]:
             errors.append(f"chapter direct-decision counts drifted: {chapter_counts}")
         if not 40 <= len(all_decisions) <= 60:
             errors.append(f"full run must expose 40..60 direct weeks, got {len(all_decisions)}")

@@ -211,10 +211,64 @@
       29, 35, 37, 45,
       49, 53, 57, 61, 67, 85, 92, 94, 96,
       97, 99, 107, 111, 114, 123, 131, 135, 139, 140,
-      145, 149, 153, 157, 161, 169, 176, 181, 185, 188,
+      145, 149, 153, 157, 161, 164, 167, 169, 174, 177,
+      181, 185, 188, 190, 192,
       193, 197, 201, 205, 209, 213, 217, 225, 229, 237
     ],
-    "boss_weeks": [45, 92, 140, 176, 237],
+    "boss_weeks": [45, 92, 140, 192, 237],
+    "commitment_event_owners": {
+      "153": [
+        { "id": "arc_y4_three_promises", "axis": "human" },
+        { "id": "arc_y4_three_promises_jiyeon_and_deal", "axis": "human" },
+        { "id": "arc_y4_three_promises_deal_only", "axis": "human" }
+      ],
+      "157": [
+        { "id": "arc_36_unexpected_hand", "axis": "human" }
+      ],
+      "161": [
+        { "id": "arc_36_body_signal", "axis": "human" }
+      ],
+      "164": [
+        { "id": "arc_y4_body_witness", "axis": "human" },
+        { "id": "arc_y4_body_witness_jiyeon", "axis": "human" },
+        { "id": "arc_y4_body_witness_hyunsu", "axis": "human" }
+      ],
+      "167": [
+        { "id": "arc_y4_family_partner_collision", "axis": "human" },
+        { "id": "arc_y4_family_partner_collision_jiyeon", "axis": "human" },
+        { "id": "arc_y4_family_commitment_none", "axis": "human" },
+        { "id": "arc_y4_family_table_missed", "axis": "human" }
+      ],
+      "174": [
+        { "id": "arc_father_call_on_ktx_number", "axis": "human", "person_id": "father" }
+      ],
+      "177": [
+        { "id": "arc_y4_borrowed_name", "axis": "money" },
+        { "id": "arc_y4_borrowed_name_jiyeon", "axis": "money" },
+        { "id": "arc_y4_borrowed_name_self", "axis": "money" },
+        { "id": "arc_y4_borrowed_name_document_gap", "axis": "money" }
+      ],
+      "181": [
+        { "id": "arc_y4_bill_night", "axis": "human" },
+        { "id": "arc_y4_bill_night_jiyeon", "axis": "human" },
+        { "id": "arc_y4_bill_night_unattached", "axis": "human" }
+      ],
+      "185": [
+        { "id": "arc_y4_father_crisis_contact", "axis": "human", "person_id": "father" }
+      ],
+      "188": [
+        { "id": "arc_y4_father_crisis_stabilized", "axis": "human", "person_id": "father" },
+        { "id": "arc_father_passing", "axis": "human", "person_id": "father" }
+      ],
+      "190": [
+        { "id": "arc_y4_year_close_daeun", "axis": "human" },
+        { "id": "arc_y4_year_close_jiyeon", "axis": "human" },
+        { "id": "arc_y4_year_close_unattached", "axis": "human" }
+      ],
+      "192": [
+        { "id": "arc_year4_close", "axis": "human" }
+      ]
+    },
     "echo_weeks": [
       33, 51, 63, 75, 86,
       98, 109, 121, 136,
