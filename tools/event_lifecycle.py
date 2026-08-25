@@ -27,7 +27,7 @@ LEDGER_RELATIVE_PATH = Path("content/meta/event_lifecycle.json")
 PRODUCT_GDSCRIPT_DIRS = ("autoloads", "scenes", "systems", "ui_components")
 EXPECTED_SCHEMA_VERSION = 1
 EXPECTED_LEDGER_ID = "event_lifecycle_v1"
-EXPECTED_BASELINE_COMMIT = "73e1a078902af8ebd0308a63849cedd5f803c3a0"
+EXPECTED_BASELINE_COMMIT = "3b275a913053412a3e2ff52fc9588d71d3a9bb37"
 HASH_SEMANTICS = "sha256(UTF-8 sorted unique IDs joined by LF with one trailing LF)"
 
 
@@ -734,7 +734,7 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
     require("current counts", (
         len(baseline.declared_ids), len(baseline.exempt_ids),
         len(baseline.packaged_event_ids), len(baseline.product_event_ids),
-    ) == (130, 130, 1761, 1631))
+    ) == (130, 130, 1786, 1656))
     require("current ingress", not baseline.ingress_conflict_ids)
 
     target = sorted(baseline.declared_ids)[0]

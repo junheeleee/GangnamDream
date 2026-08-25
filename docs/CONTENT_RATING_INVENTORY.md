@@ -20,14 +20,14 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 
 ## 현재 코퍼스
 
-- KO/EN 사건: 각각 127파일 · 1761건, ID 일치
-- 패키지 사건: 1761건 · 현재 shipping 사건: 1631건 · author-only reference 원고: 130건
+- KO/EN 사건: 각각 127파일 · 1786건, ID 일치
+- 패키지 사건: 1786건 · 현재 shipping 사건: 1656건 · author-only reference 원고: 130건
 - KO/EN 엔딩: 각각 35건
 - 활성 스토리 이미지: 249장 · source raster: 304장
 - 게임 pack 대상 raster: 296장 · ImageRegistry 외부 pack 대상: 47장
 - `.gdignore` source-only 상점 스크린샷: 8장 · 출처 원장 오디오: 139개
-- 사건 ID SHA-256: `fcbfa3e96ebc07d777cc2708b287c61374f558db8377f3eb8f8c0f04440d3194`
-- KO/EN 엔딩 본문 SHA-256: `32ea94755971c459f74f5a3bae80151a077c9eb781277fee7fda58879b1045f1`
+- 사건 ID SHA-256: `a13e4e3954b52c21cb2b0c1a395da02f328740fa58eea8ccf0f90d2ee41b35f2`
+- KO/EN 엔딩 본문 SHA-256: `81f1599053907f43b59021e2baccaff249a7bcc7b2c630dde389021b3d395eca`
 
 후보 fingerprint는 표현의 최종 등급이 아니라 검토 코퍼스가 조용히 바뀌는 것을
 막는 자동검색 래칫이다. fact의 사건 ID는 결정적 증거 앵커이지 후보 전부의 1:1
@@ -35,13 +35,13 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 
 | 축 | 후보 사건/파일 | ID SHA-256 | KO/EN 본문 SHA-256 | 최고 사실 강도 |
 |---|---:|---|---|---|
-| 사행성·도박 | 137 / 43 | `e324a22a603bda179d3be12bee23fb8e8af3134e9cab56e953416e42d02bba7b` | `6794322ebffc6ac582ce21a675c19c9b3a4c7388b7350f1dc6e9779967c84f0a` | strong, moderate |
-| 선정성·성적 내용 | 121 / 25 | `ba24d3b45e98bc31d2e2aaf9afed41b18c76fc15e38d573d5628a9eb7f45228c` | `406491b84ad15f291ae09dbb7081bfd31471f1380a50cdee5f422596a8f26dd1` | moderate, mild |
+| 사행성·도박 | 137 / 43 | `e324a22a603bda179d3be12bee23fb8e8af3134e9cab56e953416e42d02bba7b` | `c6742aed2d813855eff4369aecc1a66f7c101ba214bff6fa90553bfe718200a9` | strong, moderate |
+| 선정성·성적 내용 | 123 / 25 | `f89bbbc2fe99a3b4f4ba265406dbb62623c251cdbcf3addc7c525c5764469e72` | `f198a07d3a814101aecf1710a5d9f405fa85cad6ba4ecdb115b283f31393a6bf` | moderate, mild |
 | 폭력성 | 18 / 15 | `1d403db1107800e1e7c4a8d9d78c08361a840c6901fd8e93de83e609bf585a70` | `ca092987894afe0f87d3cd9d17234c77a666f56c6d7bdb631f3d6b3ba3bb2be8` | mild |
-| 공포 | 143 / 51 | `44d0a44fea831eebb8f9f8e2359ed43514e3903788c5412df9c7596e1b11c5e3` | `2f99bcc47479f1cad97bea853377d28f2a42ef42e6e8c02fd2b5df3ed7dfb6b8` | moderate |
+| 공포 | 146 / 51 | `2c0b31f28649c41920b109674331366623b3600076d16a694a647fae6f26a5cb` | `261c9def4d217e4a82aaaa8f1900c456c94d7859232ac9dcaee66a1e36b982c5` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `fc1a0465f31a6a2df2deb4559825e67c7f762fa2ebfdbaa45ae63e2fb75131c3` | mild |
-| 범죄 | 71 / 40 | `33e4f0858ed9e37980fce8383db192b42def77d774e5bfd65ece6b49b3d7c60e` | `d1ee53dacfd6653fe0c7fca23d26a355f2860ecd80f514462cd7f111d0622565` | moderate, strong |
-| 음주·흡연·약물 | 80 / 38 | `dc30cc75c5613e8c003539c7c0d4bc8ea44a68921b08380b27a13025fac23055` | `aa24bde6dc8bf6cc88b89d8d0bd451e9308448ee12bf407a181c945dceb01376` | moderate, mild |
+| 범죄 | 73 / 40 | `4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd` | `b3623b87194fe6108ca0d9de313d2a8ebf9066e715b93cb2f167dee3dbcb8468` | moderate, strong |
+| 음주·흡연·약물 | 81 / 38 | `3f79054d4c6640978ba106481fcd40aa5135292050de407217908e04f9a72dcc` | `8e82587453c1d090c036bbb328a91bb5dc920199e3aa2c730c5d3a5d2351e467` | moderate, mild |
 | 생성형 AI | 기술 축 | — | — | disclosure_required, none |
 | 온라인 기능 | 기술 축 | — | — | none, external_link_only |
 

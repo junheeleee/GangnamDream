@@ -2739,6 +2739,38 @@ _ORDER128_PROOF_BINDING_OVERRIDES = {
 }
 _FROZEN_AUDITED_MAPS["proof_bindings"].update(
     _ORDER128_PROOF_BINDING_OVERRIDES)
+_ORDER131_PROOF_BINDING_OVERRIDES = {
+    'proof:co_presence:group_w24_story_scene': '0fa74a06da22bed8d5deada2681338e2d042b558dce3dbbd668cd2373b19dda4',
+    'proof:data:story_event:arc_father_01_call': '1649973eaab4418d0168b88e46b00f5a2e34ee96cc0bf8cef54fa66225279647',
+    'proof:data:story_event:arc_father_quiet_call': '7b95449340a4ba685b41e2edfbd0ed6db7097d6028f0220d251bca749368a265',
+    'proof:data:story_event:v2_demo_first_bill': '1a2210d323a125ae94deae0f24edcc3e4541b61cb2919eda17f7c286e914d171',
+    'proof:data:story_event:v2_father_health_signal': '1a0b443641c8ba7dc96421c43e064c2f26cba3ba7f249f84654154b5eda5c8b1',
+    'proof:exclusive:group_producer_milestone_w20_hanbit_offer': '685c4c425a84c308e3300ea3ac406fe349fb69777b121538da2c9f136f683260',
+    'proof:exclusive:w24_stage_first_bill_result_route': 'f0a7ede70104094729e179072c0e0a0e918b3686c887a5e1eb3d66b5d9602d6e',
+    'proof:exclusive:w24_stage_hyunsu_result_format': '0ecc82b4993779b9b4102b11164cce51a681e3983e371cfa7fa94c6ab52ac2e9',
+    'proof:execution_stage:w04_w03_hyunsu_choice': '2a4691034317098ac408f695ec68c7b8008800b9f3541d5402a524d220338f39',
+    'proof:execution_stage:w04_w04_temptation_choice': 'c786b70e3db56d6607234353ec55d5a3a9b47f46e27366a6f513946cb43dd1a1',
+    'proof:execution_stage:w08_w05_mirae_choice': 'ed328ff0f440903dda97d0175b452bf2d78fb07c0c0ace627b9e625cd58300b2',
+    'proof:execution_stage:w08_w08_temptation_choice': '2b01966aa094e675b02e23093eac74f131567216c7d45252452008bd952399ee',
+    'proof:execution_stage:w12_w09_seorin_choice': '055ad813200be8e2cb2a87f5ab680548b7cabaaabb017c597181232974bb95b1',
+    'proof:execution_stage:w20_w17_hanbit_choice': '7556c8ffed410f8ab14efd157be219e8677c5b24d4caa2392fce15538d961b0e',
+    'proof:execution_stage:w24_w21_father_choice': '1d9c08ebdc104e1019b90e426049f1ff41464d3e16293d1b5a614760217f75e6',
+    'proof:execution_stage:w24_w22_dodam_choice': '61e6560db3df16a256caf14b90ebdefbe6bfea99d8c87bb07ed0c84a5f31232e',
+    'proof:execution_stage:w24_w22_gangnam_choice': '64a25be22831dcbc0944d523bb16523724f1c558b71b50d560514c6adafd2bc0',
+    'proof:execution_stage:w24_w23_city_choice': '4806685eb20ecf23097e1db3d4010aafd15f23654a3004b978136b8f7d3cc52d',
+    'proof:invocation:w08_temptation_fallout_choice': '92402454235556db05d5862fe99c27c4e9c92241da8ede06f43b9788f2e9f782',
+    'proof:runtime:deferred_story_choice_schedule': '0a66272f9a7f0efd252add295e231ce7eb497c810ab278a9ce399ccc501cb586',
+    'proof:runtime:first_bill_fatal_return': '7bba911429cff864d10df2a0e88b1b4a5dfe2ae147e44c490e9ce1356522fe60',
+    'proof:runtime:hanbit_offer_job_grant': '4453ac2422982601c5fe65d0c9fe08c5feffc5d1f72e2880cb145d948786b422',
+    'proof:runtime:load_core_loop_v2_state': '2ebcdd8970e0a19840b4005d156637c165f063500ce4ae3be4224854cf014a9d',
+    'proof:runtime:story_choice_effect_application': '3b002a504919295b1944baf8032f7afffdc4a37f2cd22e741e3a9617f0d17078',
+    'proof:runtime:story_mode_choice_full_transaction': 'f13fef15df528fe0708e01bccf73f99c572d6ea1299291fcf869218ae6c6f279',
+    'proof:runtime:w24_completion_cta': '12cb738f6a1a30d19a624625b0e46252106510eafe2567ac26b896c4784f5beb',
+    'proof:runtime:w24_hyunsu_result_formatter_reachability': 'af76dd9d3affc4fcc03c1f07f050cfb552f82b2d32ab60b2bcc3785d40c7a925',
+    'proof:runtime:w24_ledger_description_memory_rendered': 'd88a837a089922e640996157a93f57c29d76efccf73575b5c5d1c9ad3490e2ec',
+}
+_FROZEN_AUDITED_MAPS["proof_bindings"].update(
+    _ORDER131_PROOF_BINDING_OVERRIDES)
 _ORDER101_INVOCATION_CONTRACT_OVERRIDES = {
     'reader:milestone:w24:completion_validation:fresh': 'f0226b81ca161f961526c82d1dd9d8a87d4de3411fdda75c0e1c271759f59d54',
     'reader:milestone:w24:completion_validation:loaded': '71a40c4050c89fecff25b0d4e22aad83affa4004bdb4cf9a988e736655bdf4d9',
@@ -2780,22 +2812,22 @@ EXPECTED_STORY_INPUTS_BY_READER = {
 
 AUDITED_LEDGER_SEMANTIC_SHA256 = 'dde49afc201affa1bc252631fd02a815f422974b40e6c5c183e7fa38f7f3e283'
 EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
-	"content/meta/chapter1_core_loop_v2_causal_ledger.json":
-		"69762ce470b2e466a67440d9562a01cef1ea032352840c4fd8a43be7a3ef05a0",
+    "content/meta/chapter1_core_loop_v2_causal_ledger.json":
+        "69762ce470b2e466a67440d9562a01cef1ea032352840c4fd8a43be7a3ef05a0",
     "systems/DemoCoreLoopV2.gd":
         "9c01278a35e1101fd592addba0605a414a0eee8fd62c1af08d2a3919f51307fc",
     "tools/CoreLoopV2CycleCheck.gd":
-		"b375fbe1c5afa97dc0abe0d54a9ecf70d5041caf63675ba6d43a04d5aeb69520",
+        "b375fbe1c5afa97dc0abe0d54a9ecf70d5041caf63675ba6d43a04d5aeb69520",
     "tools/StoryPlaybackCheck.gd":
         "63bd0149a32d6418ad9bd29a378e348560acce93a8b95833f7bb4ed9d8b7a185",
     "autoloads/GameState.gd":
-        "0f1e5374daca7e9dc75bb446848d74b3aa9a4cd28729d233ef6980844fd854d3",
+        "88489ef23ba4e8482db8b1c7e3f8727d8a7d240cded4901d51ad5186b39ce829",
     "autoloads/DataRegistry.gd":
         "d442e9af4e45a1011150b31985bcee935e472c0b62b0fdce399218079968473c",
     "autoloads/LocaleManager.gd":
         "9417e6b9e241e1d2b9ec7a7668cf4d19fe337ce6719d87e032020fe421ceec9a",
     "autoloads/EventManager.gd":
-        "ca2ae4d3710a746f40f311ede93e9b37015b180df5820e95dadd9c8917b66365",
+        "76715b22b6e4ff63a0fe05ee0ddf114fff67d8b00b1c908c08635fdbc9ad5488",
     "autoloads/MetaProgression.gd":
         "9c1cd716a9c6a1af838c31973005d5514ec11ea92a85b092170df6c31dd37b1e",
     "autoloads/SaveManager.gd":
@@ -2803,15 +2835,15 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "systems/BuildFlavor.gd":
         "6264de1c468d5553b73a37d3ea8c5ceb936f6852db7519701f37a2c8bf8aa633",
     "scenes/StoryMode.gd":
-        "22456657aa9bbc84e37538b9a8d503beb15e4118dd1c6c3fadef855c0c797616",
+        "f8b0d66118ee64ca41a504d422c96e16e0a68faf36fed5e57c090a159fadb081",
     "scenes/StoryMode.tscn":
         "b7688a883323a196e74271c1e76f1d88c91310b3fe1a287cb051b33dd2fb76ca",
     "scenes/MainGame.gd":
-		"5b8d35f513643e5e712d1ef7b991c8459a41946783dfd843dfb0a51735794538",
+        "70db66c2fce08efa359d7979b7fad156e8619e34f5a58156d14bf177ccce2d7c",
     "scenes/MainGame.tscn":
         "71a9590d43c755fa6b409ee0eb0f1950c6aba4517c64192b83038d22a45d9979",
     "scenes/SeoulCycleBoard.gd":
-		"cd116239ac374753d40e77c757215bdfb588f3bdd913a9b01a401890db43dc37",
+        "cd116239ac374753d40e77c757215bdfb588f3bdd913a9b01a401890db43dc37",
     "scenes/CommitmentTask.gd":
         "bae7b92139eaf8d4e112b870eb11dfb1fefa0a35d1d4f37a7bfa9df7e665af8b",
     "scenes/JobHuntMiniGame.gd":
@@ -2821,21 +2853,21 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/meta/demo_core_loop_v2.json":
         "f336f8a60277effc1885e10911d21785add4ad5580135bb1ab3a4c4b509059c3",
     "content/meta/demo_localization_scope.json":
-		"eea8939ac24011ac2f65497413215c74578421a2808e9a4f6a21aaa16c81b078",
+        "eea8939ac24011ac2f65497413215c74578421a2808e9a4f6a21aaa16c81b078",
     "content/meta/release_content_inventory.json":
-        "6a3ccf960c9e7df74c4219ac64cd5944f02bc3b366d71304c153a7200e7cd86f",
+        "54e4ece08da0ef924bb6d0e149ea3e4a7db83f925d9b0cdef32fd57f545774a7",
     "content/meta/story_rules.json":
-        "80139ad4568826247f336590867fffa81baa263979af0cff4ba8cf11c0c6535b",
+        "9bc185ba8177fd2bb7238b2aec312ed4c8b04266b40b32cd09d06451b39be64f",
     "content/jobs.json":
         "d1a3ed8ba3f2839954d0b15266bff4f7a0d1317d78c503bd2422aa87b7210f84",
     "content/events/arc_events.json":
-        "c429b30dbe4ba3665e381c446c1945aedbfaf4ad27de7b7ab16e6b71ce3a7744",
+        "41febd1d1fd6b68f146171b02bf64a144699b39d1dd03c75444e72a518676d99",
     "content/events/core_loop_v2_events.json":
-        "a30227ba75430679caca5e6e9e1bac03c45519917d3d80d46e3904f4dee425db",
+        "30ce137faf06437e131d297efa7ab3fc82806534e77c53bea33af0b01a750b87",
     "content/events/arc_daeun.json":
         "29a1f84fa411d03660f6e2283f3302a5f1f7c9b264a923c916b4484e9699748d",
     "content/events/arc_midgame.json":
-        "17ef55f088ff6005273dae13147d669b586974d1edaf8e70714b88f4644bd3c3",
+        "7e2c504a5e2dad55d7c579b7b7fdd5bd46a804da20a6d984744830193911509d",
     "content/events/scenario_cafe.json":
         "748fa21586b928419a7e7cf336b7c737ba3f09ecfdddafdbb38bff1698ebbe85",
     "docs/CORE_LOOP_V2.md":
@@ -2849,7 +2881,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "tools/core_loop_v2_balance_sim.py":
         "b9f96ed925cce3801fe8c45716f5bab2fb480507fa1cd3069c714bd222cedf86",
     "tools/demo_core_loop_v2_audit.py":
-		"c4ec7660b453321687023109090c767f07bf2641dc634378a5d9a71b5a2227b3",
+        "c4ec7660b453321687023109090c767f07bf2641dc634378a5d9a71b5a2227b3",
     "tools/first_session_pacing_audit.py":
         "91beb389fc0362e4769d0e5f15ae45e4d1b354ba2f51c500f9b903608f2545a0",
     "tools/release_content_inventory.py":

@@ -102,18 +102,18 @@
   "corpus_contract": {
     "ko_event_files": 127,
     "en_event_files": 127,
-    "ko_events": 1761,
-    "en_events": 1761,
-    "event_ids_sha256": "fcbfa3e96ebc07d777cc2708b287c61374f558db8377f3eb8f8c0f04440d3194",
-    "shipping_ko_events": 1631,
-    "shipping_en_events": 1631,
-    "shipping_event_ids_sha256": "ebefb9656574367900754cd16e45626f53e9f5899325809f59ec9aee6441fa32",
+    "ko_events": 1786,
+    "en_events": 1786,
+    "event_ids_sha256": "a13e4e3954b52c21cb2b0c1a395da02f328740fa58eea8ccf0f90d2ee41b35f2",
+    "shipping_ko_events": 1656,
+    "shipping_en_events": 1656,
+    "shipping_event_ids_sha256": "e9b13e250d8d17d9ff08d934cdc1d19e9748341999cbdb2c127da39f727462d9",
     "author_only_events": 130,
     "author_only_event_ids_sha256": "7632d092bf673174662454f1ce9626eb9783c39939505eb036f0afedff38a709",
     "ko_endings": 35,
     "en_endings": 35,
     "ending_ids_sha256": "3c26984721dc1ee6a18d472b854b30578982f43632d05a3d004ad99cb247c118",
-    "ending_content_sha256": "32ea94755971c459f74f5a3bae80151a077c9eb781277fee7fda58879b1045f1",
+    "ending_content_sha256": "81f1599053907f43b59021e2baccaff249a7bcc7b2c630dde389021b3d395eca",
     "active_art_assets": 249,
     "source_raster_assets": 304,
     "packaged_raster_assets": 296,
@@ -306,7 +306,7 @@
         "expected_event_count": 137,
         "expected_file_count": 43,
         "expected_ids_sha256": "e324a22a603bda179d3be12bee23fb8e8af3134e9cab56e953416e42d02bba7b",
-        "expected_content_sha256": "6794322ebffc6ac582ce21a675c19c9b3a4c7388b7350f1dc6e9779967c84f0a"
+        "expected_content_sha256": "c6742aed2d813855eff4369aecc1a66f7c101ba214bff6fa90553bfe718200a9"
       },
       "facts": [
         {
@@ -379,7 +379,7 @@
         "tokens_ko": ["키스", "입을 맞", "첫날밤", "첫밤", "침대 위", "밤의 나머지", "불을 껐", "서로를 원"],
         "tokens_en": ["kiss", "first night", "on the bed", "rest of the night", "turned off the light", "wanted each other"],
         "reviewed_search_noise_ids": ["arc_y4_father_final_contact_present"],
-        "expected_event_count": 121, "expected_file_count": 25, "expected_ids_sha256": "ba24d3b45e98bc31d2e2aaf9afed41b18c76fc15e38d573d5628a9eb7f45228c", "expected_content_sha256": "406491b84ad15f291ae09dbb7081bfd31471f1380a50cdee5f422596a8f26dd1"
+        "expected_event_count": 123, "expected_file_count": 25, "expected_ids_sha256": "f89bbbc2fe99a3b4f4ba265406dbb62623c251cdbcf3addc7c525c5764469e72", "expected_content_sha256": "f198a07d3a814101aecf1710a5d9f405fa85cad6ba4ecdb115b283f31393a6bf"
       },
       "facts": [
         {
@@ -465,7 +465,7 @@
         "categories": ["anxiety"], "tags": ["anxiety"],
         "tokens_ko": ["공포", "두려", "무서", "겁이", "협박", "위협", "불안", "공황", "악몽", "위독", "돌아가셨", "사망", "임종", "애도"],
         "tokens_en": ["terror", "afraid", "fear", "threat", "anxiety", "panic", "nightmare", "critically ill", "passed away", "death", "grief"],
-        "expected_event_count": 143, "expected_file_count": 51, "expected_ids_sha256": "44d0a44fea831eebb8f9f8e2359ed43514e3903788c5412df9c7596e1b11c5e3", "expected_content_sha256": "2f99bcc47479f1cad97bea853377d28f2a42ef42e6e8c02fd2b5df3ed7dfb6b8"
+        "expected_event_count": 146, "expected_file_count": 51, "expected_ids_sha256": "2c0b31f28649c41920b109674331366623b3600076d16a694a647fae6f26a5cb", "expected_content_sha256": "261c9def4d217e4a82aaaa8f1900c456c94d7859232ac9dcaee66a1e36b982c5"
       },
       "facts": [
         {
@@ -535,7 +535,7 @@
         "tokens_ko": ["대포통장", "보이스피싱", "사기", "횡령", "절도", "내부자거래", "폰지", "공범", "돈세탁", "검거"],
         "tokens_en": ["money mule", "voice phishing", "fraud", "embezz", "theft", "insider trading", "ponzi", "accomplice", "money laundering", "arrested"],
         "reviewed_search_noise_ids": ["arc_y4_family_partner_collision_jiyeon"],
-        "expected_event_count": 71, "expected_file_count": 40, "expected_ids_sha256": "33e4f0858ed9e37980fce8383db192b42def77d774e5bfd65ece6b49b3d7c60e", "expected_content_sha256": "d1ee53dacfd6653fe0c7fca23d26a355f2860ecd80f514462cd7f111d0622565"
+        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "b3623b87194fe6108ca0d9de313d2a8ebf9066e715b93cb2f167dee3dbcb8468"
       },
       "facts": [
         {
@@ -593,7 +593,7 @@
         "tokens_ko": ["소주", "맥주", "와인", "위스키", "막걸리", "술집", "술잔", "술자리", "술을", "취했", "숙취", "담배", "흡연", "마약", "수면제", "진통제", "처방약", "복용"],
         "tokens_en": ["soju", "beer", "wine", "whiskey", "drinking", "drunk", "hangover", "cigarette", "smoking", "narcotic", "sleeping pill", "painkiller", "prescription"],
         "reviewed_search_noise_ids": ["arc_36_body_signal"],
-        "expected_event_count": 80, "expected_file_count": 38, "expected_ids_sha256": "dc30cc75c5613e8c003539c7c0d4bc8ea44a68921b08380b27a13025fac23055", "expected_content_sha256": "aa24bde6dc8bf6cc88b89d8d0bd451e9308448ee12bf407a181c945dceb01376"
+        "expected_event_count": 81, "expected_file_count": 38, "expected_ids_sha256": "3f79054d4c6640978ba106481fcd40aa5135292050de407217908e04f9a72dcc", "expected_content_sha256": "8e82587453c1d090c036bbb328a91bb5dc920199e3aa2c730c5d3a5d2351e467"
       },
       "facts": [
         {
