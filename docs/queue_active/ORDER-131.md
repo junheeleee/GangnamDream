@@ -33,7 +33,8 @@
 `tools/full_run_pacing_audit.py`, `tools/EventDirectorCheck.gd`,
 `tools/CoreChoiceSliceCheck.gd`, `tools/ScreenshotQA.gd`,
 `tools/audit_scope.json`, `tools/audit.sh`,
-`docs/CONTENT_RATING_INVENTORY.md`, `docs/CODEX_QUEUE.md`, 이 사양과 완료 시
+`docs/CONTENT_RATING_INVENTORY.md`, `docs/STORY_BIBLE.md`,
+`docs/DECISIONS.md`, `docs/CODEX_QUEUE.md`, 이 사양과 완료 시
 `docs/queue_archive/ORDER-131.md`,
 `docs/queue_archive/CODEX_QUEUE_2026-08.md`, `CLAUDE.md`,
 `docs/WORK_LOG.md`, 생성본 `docs/STATUS.md`. 선언 범위 중 실물 변경이 불필요한
@@ -62,6 +63,12 @@ same-turn 재진입·중복 효과는 전용 인과 감사와 `CoreChoiceSliceCh
 `tools/chapter1_core_loop_v2_causal_ledger_check.py`를 정확한 파일 범위에 추가한다.
 구현 커밋 뒤 현재 파일 SHA-256 네 개만 갱신하며, 1장 frozen audited maps·행동 ID·
 증거 pointer·debt baseline·48주 계약은 byte 불변으로 재검증한다.
+
+**정본 문서 보강 (2026-08-26):** 독립 완료 감사에서 현재 런타임의 W193
+1주 인계·안정화/사망 이중 의료 경과와 기존 정본 문서의 W197 5주 인계·사망 단일
+설명이 충돌함을 확인했다. 최신 제품 시간축을 거짓 없이 기록하기 위해
+`docs/STORY_BIBLE.md`, `docs/DECISIONS.md`를 정확한 파일 범위에 추가한다. 과거 결정
+기록은 지우지 않고 W193 결정이 이전 W197 설명을 대체했음을 새 결정으로 명시한다.
 
 ## 깊이 3문
 
