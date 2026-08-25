@@ -97,9 +97,9 @@
 - 엔딩 35 ID·전용 CG 구분, KO/EN 영향 감사, 240주 오디오·장면
   전환, 밸런스 밴드, 전체 66 스크립트 컴파일은 통과했다.
   새 엔딩 ID·CG·저장 필드·밸런스 상수는 0건이다.
-- 전체 감사는 실행했으나 `43fd4c9` 정확 부모에서 이어진
-  `PY/PEAK_CHAIN/FIRST30/EN_HANGUL/JA/ZH/DEMO_I18N/CHAPTER1_LEDGER/STATUS`
-  13 flag가 실패했다. 변경 파일 selector와 부모 baseline 비교에서
-  이 오더가 추가한 실패는 0이며, Year5 보호 hash는 `ad985ce`에서
-  현재 구현으로 재정렬했다. 전체 GREEN은 다음 CI 정합 오더로 이관하며
-  이 기록은 전체 감사 PASS를 주장하지 않는다.
+- 전체 감사 13 flag 중 `STATUS_DOC`는 이 마감 생성으로 해소됐다.
+  11건은 `43fd4c9` 부모에서 이어진 기준 불일치였고, `PEAK_CHAIN`은 이
+  오더가 `total_now` 판정을 `gangnam_goal_reached`로 옮긴 뒤 guard가 새
+  의미를 따라오지 못한 1건이다. 초기 완료 기록의 ‘추가 실패 0’은 잘못이어서
+  정정했다. Year5 보호 hash는 `ad985ce`에서 재정렬했으며, 남은 12 flag의
+  exact GREEN은 ORDER-128이 소유한다.
