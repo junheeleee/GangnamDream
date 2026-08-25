@@ -20,6 +20,8 @@
 `content/events/arc_drama.json`, `content/events_en/arc_drama.json`,
 `content/events/arc_midgame.json`, `content/events_en/arc_midgame.json`,
 `content/events/arc_year_close.json`, `content/events_en/arc_year_close.json`,
+`content/events/callback_chapter_themes.json`,
+`content/events_en/callback_chapter_themes.json`,
 `content/meta/story_map.json`, `content/meta/story_rules.json`,
 `content/meta/event_director.json`, `content/meta/event_lifecycle.json`,
 `content/meta/exposed_event_state_contracts.json`,
@@ -69,6 +71,13 @@ same-turn 재진입·중복 효과는 전용 인과 감사와 `CoreChoiceSliceCh
 설명이 충돌함을 확인했다. 최신 제품 시간축을 거짓 없이 기록하기 위해
 `docs/STORY_BIBLE.md`, `docs/DECISIONS.md`를 정확한 파일 범위에 추가한다. 과거 결정
 기록은 지우지 않고 W193 결정이 이전 W197 설명을 대체했음을 새 결정으로 명시한다.
+
+**M40 후속 독자 보강 (2026-08-26):** M40을 막연한 수습 방식이 아니라 실제로
+다시 연 대상별 영수증으로 교정하자 기존 `accepted_grace` 생산자가 사라졌고,
+5장의 `cb_grace_echo`가 거짓 원인과 함께 고립됐다. 대상이 사람·진료 창구인
+선택에서만 그 호환 플래그를 쓰고, 후속도 “누군가가 민준을 구했다”가 아니라
+“민준이 닫힌 창구에 다시 실제 시각을 보냈다”는 사실을 읽게 하기 위해 한·영
+`callback_chapter_themes.json`을 정확한 파일 범위에 추가한다.
 
 ## 깊이 3문
 
