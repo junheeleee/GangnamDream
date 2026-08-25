@@ -8,7 +8,7 @@
     },
     {
       "path": "res://assets/fonts/FONT_LICENSE_LEDGER.md",
-      "sha256": "8fffdd90d7c02bbf3bda17c51f1524de64ef5a0598ce425c41d40cb67158b904"
+      "sha256": "b355a17c965564e2bf45fb07dc2aa44f7a30bfe050372210271e50c5a573edc8"
     },
     {
       "path": "res://assets/fonts/OFL-NotoColorEmoji.txt",
@@ -17,6 +17,14 @@
     {
       "path": "res://assets/fonts/OFL-NotoSansJP.txt",
       "sha256": "babcfe66c8a098b2fa279bc724a3a342f8124f77ce18941fbcc1bbb39823cded"
+    },
+    {
+      "path": "res://assets/fonts/OFL-NotoSansSC.txt",
+      "sha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9"
+    },
+    {
+      "path": "res://assets/fonts/OFL-NotoSansTC.txt",
+      "sha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9"
     },
     {
       "path": "res://assets/fonts/OFL-Pretendard.txt",
@@ -92,6 +100,8 @@
     "package_license_copies": [
       "res://assets/fonts/OFL-NotoColorEmoji.txt",
       "res://assets/fonts/OFL-NotoSansJP.txt",
+      "res://assets/fonts/OFL-NotoSansSC.txt",
+      "res://assets/fonts/OFL-NotoSansTC.txt",
       "res://assets/fonts/OFL-Pretendard.txt",
       "res://assets/third_party/GODOT_ENGINE_COPYRIGHT.txt",
       "res://assets/third_party/GODOT_ENGINE_LICENSE.txt"
@@ -103,8 +113,8 @@
   },
   "summary": {
     "component_entries": 1,
-    "font_families": 3,
-    "font_files": 6,
+    "font_families": 5,
+    "font_files": 8,
     "audio_sources": 21,
     "audio_assets": 139,
     "attribution_required_audio_sources": 1,
@@ -177,6 +187,42 @@
           ],
           "shipped_files": [
             "res://assets/fonts/NotoSansJP-Variable.ttf"
+          ]
+        },
+        {
+          "id": "font_noto_sans_sc",
+          "kind": "font_family",
+          "name": "Noto Sans SC",
+          "version": "2.004-H2;hotconv 1.0.118;makeotfexe 2.5.65603",
+          "copyright": "(c) 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'.",
+          "provider": "Adobe and Google",
+          "license": "SIL Open Font License 1.1",
+          "source_url": "https://github.com/google/fonts/tree/main/ofl/notosanssc",
+          "license_text_path": "res://assets/fonts/OFL-NotoSansSC.txt",
+          "notice_status": "license_copy_required",
+          "roles": [
+            "중국어 간체"
+          ],
+          "shipped_files": [
+            "res://assets/fonts/NotoSansSC-Variable.ttf"
+          ]
+        },
+        {
+          "id": "font_noto_sans_tc",
+          "kind": "font_family",
+          "name": "Noto Sans TC",
+          "version": "2.004-H2;hotconv 1.0.118;makeotfexe 2.5.65603",
+          "copyright": "(c) 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'.",
+          "provider": "Adobe and Google",
+          "license": "SIL Open Font License 1.1",
+          "source_url": "https://github.com/google/fonts/tree/main/ofl/notosanstc",
+          "license_text_path": "res://assets/fonts/OFL-NotoSansTC.txt",
+          "notice_status": "license_copy_required",
+          "roles": [
+            "중국어 번체"
+          ],
+          "shipped_files": [
+            "res://assets/fonts/NotoSansTC-Variable.ttf"
           ]
         },
         {

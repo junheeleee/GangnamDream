@@ -22,6 +22,8 @@
 | `Pretendard-SemiBold.ttf` | Pretendard | 1.309 | Copyright © 2023 Kil Hyung-jin | [`OFL-Pretendard.txt`](OFL-Pretendard.txt) | 본문 | `5e1c548732af7087` |
 | `Pretendard-Bold.ttf` | Pretendard | 1.309 | Copyright © 2023 Kil Hyung-jin | [`OFL-Pretendard.txt`](OFL-Pretendard.txt) | 본문 강조 | `c16b88c670d23e83` |
 | `NotoSansJP-Variable.ttf` | Noto Sans JP | 2.004-H2;hotconv 1.0.118;makeotfexe 2.5.65603 | (c) 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'. | [`OFL-NotoSansJP.txt`](OFL-NotoSansJP.txt) | 일본어 | `c2f3b4d463500a2d` |
+| `NotoSansSC-Variable.ttf` | Noto Sans SC | 2.004-H2;hotconv 1.0.118;makeotfexe 2.5.65603 | (c) 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'. | [`OFL-NotoSansSC.txt`](OFL-NotoSansSC.txt) | 중국어 간체 | `a3041811a78c361b` |
+| `NotoSansTC-Variable.ttf` | Noto Sans TC | 2.004-H2;hotconv 1.0.118;makeotfexe 2.5.65603 | (c) 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'. | [`OFL-NotoSansTC.txt`](OFL-NotoSansTC.txt) | 중국어 번체 | `864727d210d54f25` |
 | `NotoColorEmoji.ttf` | Noto Color Emoji | 2.051;GOOG;noto-emoji:20250818:e92753bfa55fd449e427d4d325f9c8c40408c74e | Copyright 2022 Google Inc. | [`OFL-NotoColorEmoji.txt`](OFL-NotoColorEmoji.txt) | 이모지 폴백 | `72a635cb3d2f3524` |
 
 ## 패밀리 출처
@@ -30,18 +32,18 @@
 |---|---|---|
 | Pretendard | Kil Hyung-jin | https://github.com/orioncactus/pretendard |
 | Noto Sans JP | Adobe and Google | https://github.com/notofonts/noto-cjk |
+| Noto Sans SC | Adobe and Google | https://github.com/google/fonts/tree/main/ofl/notosanssc |
+| Noto Sans TC | Adobe and Google | https://github.com/google/fonts/tree/main/ofl/notosanstc |
 | Noto Color Emoji | Google | https://github.com/googlefonts/noto-emoji |
 
-## 중국어 전용 서체 차단 상태
+## 중국어 전용 서체 상태
 
-간체(`zh-CN`)와 번체(`zh-TW`) 전용 서체는 아직 채택하지 않았다. 현재의
-`NotoSansJP-Variable.ttf`가 일부 공통 한자를 표시하더라도 일본식 자형을 먼저
-선택할 수 있으므로 중국어 출시 증거가 아니다. 두 언어는 각각 공식 SC/TC 파일,
-OFL 사본, 전체 SHA-256, `FontKit`의 언어별 우선 체인, Windows·macOS·Linux/
-Steam Deck 실제 글리프 검사를 같은 변경에서 갖추기 전까지 차단한다.
-
-빈 중국어 폰트 경로는 누락이 아니라 이 차단 상태를 코드로 고정한 것이다. 임의의
-OS 폰트나 출처·버전이 확인되지 않은 바이너리를 넣어 우회하지 않는다.
+간체(`zh-CN`)는 공식 Noto Sans SC, 번체(`zh-TW`)는 공식 Noto Sans TC를 각각
+primary로 쓴다. 두 파일은 Google Fonts의 원본 variable TTF이며 OFL 사본과 전체
+SHA-256을 이 원장에 고정했다. `FontKit`은 두 언어에서 해당 전용 서체를 Noto Sans
+JP보다 먼저 놓아 공통 한자가 일본식 자형으로 먼저 그려지지 않게 한다. 임의의 OS
+폰트는 어느 출고 언어의 primary 증거도 아니다. 실제 패키지 글리프와 줄바꿈은
+Windows·macOS·Linux/Steam Deck 표본을 별도로 통과해야 한다.
 
 ## 라이선스 사본 무결성
 
@@ -49,6 +51,8 @@ OS 폰트나 출처·버전이 확인되지 않은 바이너리를 넣어 우회
 |---|---|
 | `OFL-Pretendard.txt` | `9884c81482f64d1a80941098f152c0c9ea944d57ed45bf38324a2601a50b9ef1` |
 | `OFL-NotoSansJP.txt` | `babcfe66c8a098b2fa279bc724a3a342f8124f77ce18941fbcc1bbb39823cded` |
+| `OFL-NotoSansSC.txt` | `1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9` |
+| `OFL-NotoSansTC.txt` | `1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9` |
 | `OFL-NotoColorEmoji.txt` | `6b8fb65f9c022d3902191c5fe93f3d02ecfd88256db16eb187b4f136e5916b68` |
 
 전부 **SIL Open Font License 1.1**이다. OFL은 임베딩·수정·재배포를 허용하되

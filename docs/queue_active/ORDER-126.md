@@ -76,7 +76,7 @@ StoryMode 선택이 플레이를 소유하고, 반복 행동판은 새 데모 �
 `docs/WORK_LOG.md`, 생성본 `docs/STATUS.md`, `tools/audit_scope.json`.
 
 **스토리 데모 표면:** `playtests/order124/StoryChoiceM1M6Playtest.gd`,
-`playtests/order124/StoryChoiceM1M6Playtest.tscn`.
+`playtests/order124/StoryChoiceM1M6Playtest.tscn`, `scenes/StoryMode.gd`.
 
 **다국어 런타임·서체:** `autoloads/LocaleManager.gd`, `autoloads/FontKit.gd`,
 `assets/fonts/NotoSansSC-Variable.ttf`, `assets/fonts/NotoSansTC-Variable.ttf`, 해당

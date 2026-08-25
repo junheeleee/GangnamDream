@@ -15,6 +15,12 @@
 | V2 테스트 Windows | `Windows V2 Playtest` | `gangnam_demo,core_loop_v2_playtest` | `build/playtest/windows/GangnamDreamV2Playtest.exe` |
 | V2 테스트 macOS | `macOS V2 Playtest` | `gangnam_demo,core_loop_v2_playtest` | `build/playtest/macos/GangnamDreamV2Playtest.zip` |
 | V2 테스트 Linux/Deck | `Linux / Steam Deck V2 Playtest` | `gangnam_demo,core_loop_v2_playtest` | `build/playtest/linux/GangnamDreamV2Playtest.x86_64` |
+| M01~M06 스토리 데모 macOS | `Story Demo macOS` (staging 전용) | `story_demo_rc` profile | `build/story_demo/macos/GangnamDream-StoryDemo.app`·`.zip` |
+
+스토리 데모 행은 제품 `export_presets.cfg`에 새 preset을 추가한다는 뜻이 아니다.
+`build_story_demo_macos.sh`가 clean commit을 저장소 밖에 풀고 그 staging 복사본의
+앱 identity·진입·custom user dir만 바꾼다. 루트 `project.godot`과 retail preset은
+byte-exact로 유지한다.
 
 `GameState.is_demo_build()`는 24주 차단만 판정한다. `BuildFlavor`는 별도로
 `core_loop_v2_playtest`를 판정해 V2 진입·빌드 표식·사용자 데이터
@@ -361,6 +367,72 @@ ORDER-103 앱·저장·산출물, BUILD `.2` archive, ORDER-124 사용자 디렉
 이관은 OPEN/HOLD다. 이 격리 후보에 기존 24주·240주·전체 감사를 실행하거나
 인용하지 않았다.
 
+## ORDER-126 공개 M01~M06 다섯 언어 스토리 데모
+
+ORDER-124의 스토리 선택형 흐름을 공개 데모 identity로 옮기고, 한국어·영어·
+일본어·간체·번체를 한 앱에서 고르게 한다. 플레이 표면은 StoryMode 선택과
+장면 현지 행동뿐이며 `주력/함께/여력`, AP 카드, 주간·월간 계획판은 노출하지
+않는다. 내부 AP/경제 데이터와 기존 retail/V2·ORDER-124 저장은 삭제하거나
+이전하지 않는다.
+
+고정 identity는 다음과 같다.
+
+| 항목 | 값 |
+|---|---|
+| BUILD | `2026.08.25.1` |
+| profile / flavor | `story_demo_rc` |
+| 앱 | `GangnamDream-StoryDemo` |
+| bundle ID | `dev.junheelee.gangnamdream.storydemo` |
+| 진입 | `res://playtests/order124/StoryChoiceM1M6Playtest.tscn` |
+| custom user dir | `GangnamDream_StoryDemo_v1` |
+| 저장 | `user://story_demo_save.json` |
+| 언어 | `ko`, `en`, `ja`, `zh-CN`, `zh-TW` |
+
+clean source commit에서 macOS 후보를 만든다.
+
+```bash
+GODOT=/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot \
+  ./tools/build_story_demo_macos.sh \
+  --source HEAD \
+  --build-id 2026.08.25.1
+```
+
+생성기는 다음 산출물을 남긴다.
+
+- `build/story_demo/macos/GangnamDream-StoryDemo.app`
+- `build/story_demo/macos/GangnamDream-StoryDemo.zip`
+- `build/story_demo/MANIFEST.json`
+- `build/story_demo/MANIFEST.sha256`
+
+발급은 dirty worktree와 Godot `4.6.2.stable.official.71f334935`가 아닌 엔진을
+거부한다. full Git archive를 저장소 밖 staging에 풀고, 스토리 데모 전용 main
+scene·preset 이름·앱 이름·bundle ID·custom user dir만 그 복사본에서 바꾼다.
+manifest는 clean revision/tree, Godot 버전, source-contract 파일 해시,
+앱 tree·launcher·PCK·ZIP 해시, ad-hoc codesign, 보호 대상 전후 해시와 모든
+검사 marker를 잠근다.
+
+L1/L2는 같은 clean source에서 순서대로 다음을 요구한다.
+
+1. `story_demo_localization_audit.py` normal/self-test: 세 대상 언어 각각 11사건,
+   본문 82, UI 117, catalog 1, 토큰·줄바꿈·지역 문자·원화·한글/영어 폴백 0.
+2. `third_party_notice_audit.py` normal/self-test와 `FontRoutingCheck.tscn`:
+   Noto Sans JP/SC/TC primary, 400/600/700, OFL 사본·해시·고지, emoji-last.
+3. `I18nInfrastructureCheck.tscn`과 `StoryDemoFourLanguageCheck.tscn`: 다섯 언어,
+   M01 두 분기·M04 두 진입, M06, 합산 30개월·120주·정산 30회, save/resume 5회,
+   AP 표면·원장 0. exact marker는
+   `STORY_DEMO_FOUR_LANGUAGE_CHECK_OK locales=5 routes=4 months=30 weeks=120 settlements=30 ap_surface=0 save=5 story=5 build=2026.08.25.1`이다.
+4. 무인자 native 실행의 첫 언어 선택, 다섯 locale package smoke, 실제
+   `SceneTransition` 복귀 뒤 검은 cover/input 해제, 기존 공개 데모 저장이 있을 때
+   복사본 resume, ad-hoc codesign과 최종 package audit.
+5. 루트 제품 설정, retail/V2와 ORDER-103/ORDER-124 사용자 저장, 반려 BUILD `.2`
+   archive와 기존 산출물이 전후 byte-exact인지 재검사한다. 후보 user dir도 빌드
+   전 snapshot으로 복원한다.
+
+이 차선은 기존 24주 AP/V2·240주 전체 감사를 실행하거나 그 결과를 재사용하지
+않는다. 다섯 언어 자동 PASS는 플레이 가능한 macOS 후보의 조건일 뿐 번역의
+자연스러움이나 Steam 언어 claim이 아니다. 일본어·간체·번체 원어민 출고 게이트는
+각각 OPEN으로 남고, 이 후보를 240주 본편 완성으로 표시하지 않는다.
+
 ## 4. 자동 스모크
 
 ### 계약 스모크
@@ -410,13 +482,14 @@ autoload·StartMenu 코드에서 다음을 검사한다.
 
 `python3 tools/third_party_notice_audit.py --self-test`는 실제 원장에서 설정의
 제3자 고지 데이터를 다시 만들 수 있는지 검사한다. 현재 원장은 Godot Engine
-4.6.2 1개, 서체 3패밀리/6파일, 오디오 21원천/139파일이며 제공자·라이선스·출처를
+4.6.2 1개, 서체 5패밀리/8파일, 오디오 21원천/139파일이며 제공자·라이선스·출처를
 UI 코드에 복사하지 않는다. 필수 저작자 표시는 Salamander Grand Piano 1원천이며,
 말발굽 출하 파일은 pack 전체 설명이 아니라 실제 `ground.mp3`의 D4XX·CC0 기록을
-쓴다. 10개 export preset은 Godot MIT와 내장 구성요소 `COPYRIGHT.txt`, 세 OFL
-1.1 사본, 생성된 오디오 고지·원장과 고지 JSON을 포함해야 한다.
+쓴다. 10개 export preset은 Godot MIT와 내장 구성요소 `COPYRIGHT.txt`,
+Pretendard·Noto JP·SC·TC·Emoji의 다섯 OFL 1.1 사본, 생성된 오디오 고지·원장과
+고지 JSON을 포함해야 한다.
 
-Full과 V2의 실제 export-pack ZIP을 만든 뒤에는 소스 검사와 별도로 필수 10파일의
+Full과 V2의 실제 export-pack ZIP을 만든 뒤에는 소스 검사와 별도로 필수 12파일의
 패키지 바이트를 대조한다.
 
 ```bash

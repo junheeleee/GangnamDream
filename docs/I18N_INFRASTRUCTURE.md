@@ -1,28 +1,35 @@
 # Multilingual Infrastructure
 
+Updated: 2026-08-25
+
 ## Status
 
-Korean and English are the only languages currently exposed by the development
-build. The public demo target is Korean, English, Japanese, and Chinese, with
-both Simplified and Traditional Chinese supported. Japanese and both Chinese
-regions remain prepared targets, not selectable player options. Japanese UI is a machine-assisted beta with structural and semantic
-gates; new story, ending, dynamic, and catalog prose remains held until the
-approved 24-week source text is declared final. One existing Japanese prologue event is a
-seed, not evidence that the demo body is translated. Simplified and Traditional
-Chinese have separate source, script, money, font, and native-review contracts,
-but their dictionaries and body overlays remain empty.
+Retail and the legacy V2 demo still expose only Korean and English through
+`LocaleManager.SHIPPING_LANGUAGES`. ORDER-126 adds one deliberately narrow
+exception: the staged M01-M06 story-demo namespace
+`GangnamDream_StoryDemo_v1` exposes Korean, English, Japanese, Simplified
+Chinese, and Traditional Chinese in its own first-run selector and StoryMode
+language menu. It does not change the retail allowlist or Steam metadata.
 
-| Code | Status | UI dictionary | Event overlay | Ending overlay |
-|---|---|---|---|---|
-| `ko` | Shipping, source | Inline source | `content/events/` | `content/endings.json` |
-| `en` | Shipping, strict | Inline fallback | `content/events_en/` | `content/endings_en.json` |
-| `ja` | Prepared beta, hidden | legacy 2,816/2,816; context 29/29 (2,845/2,845 total) | 1/1,603 full shipping; 1/72 demo | 0/35 full; 0 required by demo |
-| `zh-CN` | Prepared, hidden; font blocked | legacy 0/2,816; context 0/29 | 0/1,603 full shipping; 0/72 demo | 0/35 full; 0 required by demo |
-| `zh-TW` | Prepared, hidden; font blocked | legacy 0/2,816; context 0/29 | 0/1,603 full shipping; 0/72 demo | 0/35 full; 0 required by demo |
+| Code | Retail/V2 surface | ORDER-126 story-demo surface | Story-demo font |
+|---|---|---|---|
+| `ko` | Shipping source | Source | Pretendard |
+| `en` | Shipping strict fallback | Source fallback | Pretendard |
+| `ja` | Prepared beta, hidden | 11/11 events · 82/82 leaves · 117/117 UI · 1/1 catalog | Noto Sans JP |
+| `zh-CN` | Prepared, hidden | 11/11 events · 82/82 leaves · 117/117 UI · 1/1 catalog | Noto Sans SC |
+| `zh-TW` | Prepared, hidden | 11/11 events · 82/82 leaves · 117/117 UI · 1/1 catalog | Noto Sans TC |
 
-`LocaleManager.SHIPPING_LANGUAGES` is the player-facing allowlist. Adding a
-language to `SUPPORTED_LANGUAGES` is not permission to expose it in the first-run
-gate or Steam metadata.
+The three target overlays are direct Korean-to-target translations. The two
+Chinese bodies are independently authored rather than OpenCC-converted copies.
+Their native-language release gates remain OPEN: the exact candidate may be
+played in all five languages after package L1/L2, but Japanese and Chinese
+Steam language claims remain blocked until their respective native reviewers
+approve voice, meaning, and rendered context.
+
+`LocaleManager.SHIPPING_LANGUAGES` remains the retail player-facing allowlist.
+Adding a language to `SUPPORTED_LANGUAGES`, or exposing it only inside the exact
+story-demo custom namespace, is not permission to add it to retail first-run or
+Steam metadata.
 
 ## UI Contract
 
@@ -131,6 +138,12 @@ duplicates before using effective dictionary counts. Japanese and Chinese body
 work must build on this locked inventory rather than reopening either key
 migration.
 
+ORDER-126 does not claim the full retail UI denominator. Its separate
+`story_demo_localization_audit.py` collector locks 35 unique controller keys,
+81 unique StoryMode keys, their merged set, and the localized default name as
+exactly 117 required UI keys. A story-demo translation can pass this narrow
+surface while the same locale remains incomplete and hidden in retail.
+
 ## Content Contract
 
 Localized content is an ID overlay, never a second gameplay database.
@@ -151,10 +164,41 @@ Catalog text uses `locale/catalog_<code>.json` with these sections:
 Each section is an object keyed by the source row ID. Empty sections inherit the
 English catalog.
 
-## Actual 24-Week Demo Scope
+## Public M01-M06 Story Demo Scope (ORDER-126)
 
-The demo translation unit is derived from the runtime sources rather than one
-representative playthrough. `tools/demo_localization_scope.py` follows every
+The public story-demo translation unit follows only text reachable from
+`StoryChoiceM1M6Playtest` and `StoryMode`; it does not inherit the retired
+monthly action board's denominator.
+
+- 11 Korean event IDs, 27 choices, and 82 translatable leaves cover both M01
+  branches, both M04 entries and merge, M03-M05 character scenes, and the five
+  reachable M06 choices.
+- The shell owns 35 unique UI keys and StoryMode owns 81. After overlaps and the
+  default player name, each target locale must provide exactly 117 UI values.
+- Only `jobs.job_01.name` is a required catalog row. This slice has no ending
+  overlay.
+- Korean and English remain the source/fallback pair. Japanese, `zh-CN`, and
+  `zh-TW` each own an 11-row `story_demo_events.json`, the 117 required UI rows,
+  and that one catalog name.
+- The localized surface contains StoryMode choices plus scene-local actions;
+  `주력/함께/여력`, AP cards, and weekly/monthly planning copy are not part of
+  this product or its translation denominator.
+- The staged custom user-data name is the only authority to expose all five
+  language choices. Retail, V2, and ORDER-124 continue to follow their existing
+  language surfaces and saves.
+
+`story_demo_localization_audit.py` checks structure, token/newline parity,
+Hangul and English-fallback leakage, region script, won meaning, canonical
+names, and required UI/catalog rows. `StoryDemoFourLanguageCheck.tscn` then
+drives every locale through both M01 and M04 route shapes, M06, save/resume, and
+zero AP surface. Those checks make a playable candidate; they do not judge
+native prose quality.
+
+## Legacy 24-Week V2 Demo Scope
+
+This older, larger denominator remains the retail/V2 migration and eventual
+full 24-week translation baseline. It is not the ORDER-126 public story-demo
+scope. `tools/demo_localization_scope.py` follows every
 legal Week 1-24 bundle, foreground root, immediate follow-up, the complete
 prologue closure, and the required Chapter 1 card. The current locked scope is:
 
@@ -224,9 +268,12 @@ a scene the player never reads. The scope manifest locks the source hashes and
 the complete event-ID hash so a content change cannot silently leave the
 translation plan stale.
 
-Current prepared coverage is deliberately incomplete. Static UI is a separate
-claim surface: a Chinese demo cannot ship with its 2,816 current UI keys falling
-back to English even after the event body is complete.
+The table below is the locked pre-ORDER-126 coverage snapshot for the legacy
+24-week V2 denominator. It remains deliberately incomplete and does not count
+the 117-key/11-event story-demo overlays above. Static UI is a separate claim
+surface for any future 24-week or retail language claim: that broader product
+cannot ship with its 2,816 required UI keys falling back to English even after
+its event body is complete.
 
 | Locale | Static UI | Events | Event text leaves | Dynamic keys | Demo catalog |
 |---|---:|---:|---:|---:|---:|
@@ -299,29 +346,34 @@ SHA-256 locks:
 - `NotoSansJP-Variable.ttf`: `c2f3b4d463500a2ddcd3849cded1fceeb9fd6d1c32e6cbecd568453ba50fc68f`
 - `OFL-NotoSansJP.txt`: `babcfe66c8a098b2fa279bc724a3a342f8124f77ce18941fbcc1bbb39823cded`
 
-Both Chinese font routes are blocked. `FontKit.ZH_CN_FONT_PATH` and
-`FontKit.ZH_TW_FONT_PATH` are deliberately empty until a complete licensed bundle
-is adopted. The current Japanese fallback may display many Traditional Chinese
-and shared Han codepoints, but it is attached before emoji and can select Japanese
-glyph forms. That incidental coverage is evidence for neither `zh-CN` nor
-`zh-TW`. macOS can additionally hide missing glyphs by selecting an OS font,
-which is not a deterministic Windows or Steam Deck result.
+ORDER-126 adopts the official Google Fonts variable TTFs
+`NotoSansSC-Variable.ttf` and `NotoSansTC-Variable.ttf`. Simplified Chinese uses
+SC as its primary; Traditional Chinese uses TC. Each active Chinese role uses
+the exact variable weights `400`, `600`, and `700`, followed by weight-matched
+Pretendard, Noto Sans JP, and the bundled emoji font. The regional primary
+therefore wins before the JP shared-Han fallback, and an OS font is never the
+primary evidence.
 
-Approved candidate family: Noto Sans CJK JP/SC/TC, regular and semibold subsets
-or language-specific TTFs. The official project distributes the family under
-SIL Open Font License 1.1 and recommends TTF rather than CFF2 variable fonts on
-Windows where corruption is still documented:
+SHA-256 locks:
+
+- `NotoSansSC-Variable.ttf`: `a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da`
+- `NotoSansTC-Variable.ttf`: `864727d210d54f2537bbe23b3a839436c3992af72de9322af5270897246bd44f`
+- `OFL-NotoSansSC.txt`: `1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9`
+- `OFL-NotoSansTC.txt`: `1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9`
+
+The adopted Noto Sans CJK JP/SC/TC family is distributed under SIL Open Font
+License 1.1. The font files, retained license copies, full hashes, generated
+notice data, and package copies are one release contract:
 
 - <https://github.com/notofonts/noto-cjk>
 - <https://github.com/googlefonts/noto-cjk/blob/main/Sans/LICENSE>
 - <https://github.com/notofonts/noto-cjk/releases>
 
-Before enabling a prepared language, bundle its region-specific font, attach it
-ahead of JP for that active locale in `FontKit`, retain the OFL license and full
-SHA-256 in distribution notices, and pass real translated-surface glyph/layout
-checks on Windows, macOS, and Linux/Steam Deck. The blocked baseline is reported
-as `primary=missing shared_han_jp_first=1`; readiness requires a real path,
-`shared_han_jp_first=0`, and all required glyphs covered.
+`FontRoutingCheck.tscn` requires the JA/SC/TC primaries, all three weights,
+Pretendard and JP fallback ordering, emoji-last, and runtime locale switching.
+This closes the deterministic font asset/routing gate for the macOS story-demo
+candidate. It does not close translated-surface visual review on other target
+platforms or any native-language release gate.
 
 ## Validation
 
@@ -336,11 +388,21 @@ python3 tools/demo_localization_scope.py --self-test
 python3 tools/demo_localization_scope.py --lang all
 python3 tools/zh_translation_audit.py --lang all
 python3 tools/zh_translation_audit.py --self-test
+python3 tools/story_demo_localization_audit.py --self-test
+python3 tools/story_demo_localization_audit.py
 godot --headless res://tools/I18nInfrastructureCheck.tscn
+STORY_DEMO_ALLOW_ISOLATED_QA=1 \
+STORY_DEMO_QA_BOOTSTRAP_NAME=GangnamDream_StoryDemo_RuntimeQA_docs \
+  godot --headless res://tools/StoryDemoFourLanguageCheck.tscn
 godot --headless res://tools/ModLayerCheck.tscn
 godot --rendering-driver opengl3 --resolution 1280x800 \
   res://tools/ScreenshotQA.tscn -- --qa=i18n-layout --lang=ja
 ```
+
+The story-demo runtime pass must end with
+`STORY_DEMO_FOUR_LANGUAGE_CHECK_OK locales=5 routes=4 months=30 weeks=120 settlements=30 ap_surface=0 save=5 story=5 build=2026.08.25.1`.
+The 30 months and 120 weeks are the five locale runs combined; one player run
+is still M01-M06, 24 weeks, and six settlements.
 
 The default full-game coverage command keeps English strict and prepared locales
 in skeleton mode. Its current strict collector scans all 1,758 packaged event
@@ -376,8 +438,10 @@ The source-hash cache lives under `.git` so generated drafts do not become relea
 assets.
 
 `zh_translation_audit.py` reads both regions from the Korean source independently.
-Its normal mode reports the empty skeleton and both blocked font routes without
-claiming completion. Its region-specific strict mode requires 2,816/2,816 legacy
+Its normal mode reports the still-incomplete legacy denominator without
+claiming completion; the SC/TC font routes are now present, while the separate
+story-demo audit owns the narrow translated slice. Its region-specific strict
+mode requires 2,816/2,816 legacy
 UI keys and 29/29 context IDs, the exact 72/467/701/4 demo body (1,172 unique demo translation sources),
 zero direct English bypasses, every
 context-unambiguous wrong-region character in the pinned OpenCC 1.3.1 classifier
@@ -390,8 +454,9 @@ the character ban; phrase rules cover locked usages and the same-revision native
 review must judge every remaining context. Both regions reject CJK compatibility
 ideographs and Han variation-selector sequences instead of silently normalizing
 them, so a visually similar noncanonical encoding cannot bypass the classifier.
-The current strict failures are
-therefore release evidence, not CI debt to hide. See
+The remaining legacy/full strict failures are therefore release evidence, not
+CI debt to hide; they do not contradict the separate narrow story-demo audit.
+See
 [`I18N_GLOSSARY_ZH.md`](I18N_GLOSSARY_ZH.md).
 Numeric validation normalizes Korean-won values, signs, dates, times, durations,
 counts, ordinals, ticket identifiers, native-Korean counters, and corresponding
@@ -405,11 +470,13 @@ the semantic and context-dependent script backstop. The pinned classifier carrie
 its source revision, input hashes, derivation rule, and Apache-2.0 copy under
 [`tools/data`](../tools/data/opencc_script_variants_1_3_1.json).
 
-## Translation Wave Gate
+## Legacy 24-Week Translation Wave Gate
 
-Japanese infrastructure began after content freeze, but prose generation is
-held because the playable demo is still being revised. The Japanese
-UI dictionary remains a hidden beta and is not a shipping-language promise.
+The 72-event/1,172-source Japanese wave for the older 24-week V2 denominator
+remains held. ORDER-126's much smaller M01-M06 body is already authored as a
+separate 11-event/82-leaf/117-UI candidate and must not be used to claim that
+the legacy wave or full game is complete. The Japanese retail UI dictionary
+remains a hidden beta and is not a shipping-language promise.
 ORDER-97's L3 screen review is also still open: the user must select three actual
 Batch A surfaces and three actual Batch B surfaces from the same candidate, and
 one failure rejects the corresponding whole 23- or 24-call batch. Inventory,
@@ -426,23 +493,29 @@ Once the approved 24-week source text is declared final, the remaining wave requ
    choices. Character voice, relationship distance, subtext, KRW weight,
    translationese, and causal meaning are human gates rather than key counts.
 
-The Japanese demo claim and the eventual full-game Japanese release claim are
-separate. Passing the demo gate does not satisfy 1,603-event/35-ending full-game
-coverage. Passing the current UI/font gates alone must never add `ja` to
-`SHIPPING_LANGUAGES` or Steam metadata. The Japanese demo gate also blocks the
-combined four-language public demo, while Korean/English development candidates
-may still be tested before translation is complete.
+The ORDER-126 story-demo candidate, the legacy 24-week Japanese claim, and the
+eventual full-game Japanese release claim are separate. Passing the narrow
+candidate does not satisfy the legacy denominator or 1,603-event/35-ending
+full-game coverage. Passing its structure/font gates must never add `ja` to
+retail `SHIPPING_LANGUAGES` or Steam metadata. Native review remains OPEN and
+blocks the Japanese shipping claim, while the exact five-language candidate may
+still be played for evaluation after package L1/L2.
 
 ## Chinese Regional Wave Gate
 
-Chinese prose and UI generation remain held. When the user explicitly opens a
-Chinese demo translation wave, `zh-CN` and `zh-TW` must be translated from Korean
-as two independent bodies; OpenCC or another script conversion cannot create the
-second region. Official character Hanja must not be invented, so established
-romanized names remain locked until a user/native decision updates the glossary
-and validator together.
+ORDER-126 opens only the M01-M06 Chinese story-demo wave. `zh-CN` and `zh-TW`
+now own separate 11-event/82-leaf/117-UI/1-catalog translations made directly
+from Korean; OpenCC or another script conversion did not create the second
+region. The larger legacy 24-week body remains held. Official character Hanja
+must not be invented, so established romanized names remain locked until a
+user/native decision updates the glossary and validator together.
 
-Before either Chinese demo claim, that region requires:
+For the narrow story demo, each region must pass the exact localization audit,
+its dedicated SC/TC font route, all legal M01 and M04 branch shapes, M06,
+save/resume, and rendered package checks. That makes the locale selectable in
+the isolated candidate, not in retail.
+
+Before either legacy 24-week Chinese claim, that region requires:
 
 1. 2,816/2,816 legacy UI keys, 29/29 context IDs, and strict parity for all 72 demo events, 467 event
    leaves, 701 dynamic keys, and four catalog names: 1,172 unique demo translation
@@ -459,10 +532,8 @@ Before either Chinese demo claim, that region requires:
 
 Those reviewers judge voice, relationship distance, subtext, aftertaste, Korean
 cultural explanation, KRW weight, causal meaning, regional glyph forms, and real
-layout. Each gate blocks its regional claim and the combined four-language demo
-release. Korean/English development candidates may still be tested before
-translation is complete, but the public demo cannot ship until Japanese,
-Simplified Chinese, and Traditional Chinese claims all pass. A demo approval
-never authorizes the 1,603-event/35-ending full-game Chinese release or adds a
-language to `SHIPPING_LANGUAGES` or Steam metadata before the prepared release
-wiring is complete.
+layout. Each OPEN gate blocks its regional Steam/shipping claim, but it does not
+block local play of the exact ORDER-126 candidate after package L1/L2. A narrow
+demo approval never authorizes the legacy 24-week denominator, the
+1,603-event/35-ending full-game Chinese release, or a retail addition to
+`SHIPPING_LANGUAGES` or Steam metadata.

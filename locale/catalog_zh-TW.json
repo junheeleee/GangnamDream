@@ -1,6 +1,10 @@
 {
   "assets": {},
-  "jobs": {},
+  "jobs": {
+    "job_01": {
+      "name": "便利商店大夜班兼職"
+    }
+  },
   "items": {},
   "achievements": {},
   "clues": {},

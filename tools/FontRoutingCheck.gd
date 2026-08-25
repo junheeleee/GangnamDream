@@ -1,6 +1,10 @@
 extends Node
 
 const JAPANESE_SAMPLE := "あア漢日本語「。」"
+const CHINESE_SAMPLES := {
+	"zh-CN": "汉语门里“，。”",
+	"zh-TW": "漢語門裡「，。」",
+}
 const ROLE_WEIGHTS := [
 	["regular", FontKit.WEIGHT_REGULAR, FontKit.PRETENDARD_REGULAR_PATH],
 	["semibold", FontKit.WEIGHT_SEMIBOLD, FontKit.PRETENDARD_SEMIBOLD_PATH],
@@ -20,6 +24,8 @@ func _run() -> void:
 	_check_pretendard_primary("ko")
 	_check_pretendard_primary("en")
 	_check_japanese_primary()
+	_check_chinese_primary("zh-CN", FontKit.ZH_CN_FONT_PATH)
+	_check_chinese_primary("zh-TW", FontKit.ZH_TW_FONT_PATH)
 	_check_legacy_fallback_weight()
 
 	# UIStyle owns the runtime signal bridge. Prove that already-built resources
@@ -48,7 +54,7 @@ func _run() -> void:
 			push_error("FONT_ROUTING_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("FONT_ROUTING_CHECK_OK ko_en=Pretendard ja=NotoSansJP weights=400,600,700 emoji=last")
+	print("FONT_ROUTING_CHECK_OK ko_en=Pretendard ja=NotoSansJP zh_cn=NotoSansSC zh_tw=NotoSansTC weights=400,600,700 emoji=last")
 	get_tree().quit(0)
 
 func _check_no_product_direct_font_loads() -> void:
@@ -64,6 +70,8 @@ func _check_no_product_direct_font_loads() -> void:
 		for direct_path in [
 			"res://assets/fonts/Pretendard-",
 			"res://assets/fonts/NotoSansJP-",
+			"res://assets/fonts/NotoSansSC-",
+			"res://assets/fonts/NotoSansTC-",
 			"res://assets/fonts/NotoColorEmoji",
 		]:
 			_expect(not source.contains(direct_path),
@@ -77,19 +85,25 @@ func _collect_gd_files(directory_path: String, output: Array[String]) -> void:
 		_collect_gd_files(directory_path.path_join(child), output)
 
 func _check_variable_axis_source() -> void:
-	var jp := load(FontKit.JP_FONT_PATH) as Font
-	_expect(jp != null, "Bundled Noto Sans JP could not be loaded.")
-	if jp == null:
-		return
-	var server := TextServerManager.get_primary_interface()
-	var weight_tag := server.name_to_tag("wght")
-	var supported := jp.get_supported_variation_list()
-	_expect(supported.has(weight_tag), "Bundled Noto Sans JP has no wght axis.")
-	if not supported.has(weight_tag):
-		return
-	var axis: Vector3 = supported[weight_tag]
-	_expect(axis.x == 100.0 and axis.y == 900.0 and axis.z == 100.0,
-		"Noto Sans JP wght axis is not min=100/max=900/default=100: %s" % axis)
+	for fixture in [
+		["Noto Sans JP", FontKit.JP_FONT_PATH],
+		["Noto Sans SC", FontKit.ZH_CN_FONT_PATH],
+		["Noto Sans TC", FontKit.ZH_TW_FONT_PATH],
+	]:
+		var family := str(fixture[0])
+		var source := load(str(fixture[1])) as Font
+		_expect(source != null, "Bundled %s could not be loaded." % family)
+		if source == null:
+			continue
+		var server := TextServerManager.get_primary_interface()
+		var weight_tag := server.name_to_tag("wght")
+		var supported := source.get_supported_variation_list()
+		_expect(supported.has(weight_tag), "Bundled %s has no wght axis." % family)
+		if not supported.has(weight_tag):
+			continue
+		var axis: Vector3 = supported[weight_tag]
+		_expect(axis.x == 100.0 and axis.y == 900.0 and axis.z == 100.0,
+			"%s wght axis is not min=100/max=900/default=100: %s" % [family, axis])
 
 func _check_pretendard_primary(language: String) -> void:
 	FontKit.configure_language(language)
@@ -137,6 +151,38 @@ func _check_japanese_primary() -> void:
 		_expect(not emoji_rids.is_empty()
 				and emoji_rids.all(func(rid: RID): return rid == rids[rids.size() - 1]),
 			"Japanese %s emoji did not use the bundled final fallback." % fixture[0])
+
+func _check_chinese_primary(language: String, source_path: String) -> void:
+	FontKit.configure_language(language)
+	var source := load(source_path) as Font
+	_expect(source != null, "%s dedicated font could not be loaded." % language)
+	_expect(FontKit.dedicated_locale_font_precedes_jp(language),
+		"%s dedicated font is not ordered before the JP fallback." % language)
+	for fixture in ROLE_WEIGHTS:
+		var weight := int(fixture[1])
+		var role := _font_for_weight(weight)
+		var rids := role.get_rids()
+		_expect(rids.size() >= 4, "%s %s role has an incomplete font chain." % [language, fixture[0]])
+		if rids.size() < 4:
+			continue
+		_expect(_variation_weight(rids, 0) == weight,
+			"%s %s primary has the wrong weight." % [language, fixture[0]])
+		var variation := role as FontVariation
+		_expect(variation != null and variation.base_font == source,
+			"%s %s did not keep its dedicated font as primary." % [language, fixture[0]])
+		var pretendard := load(str(fixture[2])) as Font
+		var pretendard_rids := pretendard.get_rids()
+		_expect(not pretendard_rids.is_empty() and rids[1] == pretendard_rids[0],
+			"%s %s did not keep Pretendard behind the locale primary." % [language, fixture[0]])
+		_expect(_variation_weight(rids, 2) == weight,
+			"%s %s JP fallback has the wrong weight." % [language, fixture[0]])
+		_expect(_last_rid_is_emoji(rids),
+			"%s %s did not keep emoji as the final fallback." % [language, fixture[0]])
+		var glyph_rids := _shape_font_rids(str(CHINESE_SAMPLES[language]), role, language)
+		_expect(not glyph_rids.is_empty(),
+			"%s %s representative text produced no glyphs." % [language, fixture[0]])
+		_expect(glyph_rids.all(func(rid: RID): return rid == rids[0]),
+			"%s %s mixed fallback glyphs inside one script run." % [language, fixture[0]])
 
 func _check_legacy_fallback_weight() -> void:
 	var source := load(FontKit.PRETENDARD_REGULAR_PATH) as FontFile

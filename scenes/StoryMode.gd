@@ -14,6 +14,14 @@ extends Control
 # ── 노출 색상 ─────────────────────────────────────────────────
 const DEMO_CORE_LOOP_V2 := preload("res://systems/DemoCoreLoopV2.gd")
 const BUILD_FLAVOR := preload("res://systems/BuildFlavor.gd")
+const STORY_DEMO_CONTROLLER := preload(
+	"res://playtests/order124/StoryChoiceM1M6Playtest.gd")
+const STORY_DEMO_PROFILE := "story_demo_rc"
+const STORY_DEMO_SESSION_PATH := "user://story_demo_save.json"
+const STORY_DEMO_RETURN_SCENE := \
+	"res://playtests/order124/StoryChoiceM1M6Playtest.tscn"
+const STORY_DEMO_SESSION_SCHEMA := 1
+const STORY_DEMO_MANUAL_SLOT := 10
 const C_NARRATION := "#d8dce8"
 const C_DIM       := "#8892a4"
 const C_CHOICE    := "#c8d0e0"
@@ -272,6 +280,9 @@ func _ready():
 		_finish_all()
 		return
 	_load_next_event()
+	if _is_public_story_demo() \
+			and OS.get_cmdline_user_args().has("--story-demo-real-flow-smoke"):
+		call_deferred("_run_story_demo_real_flow_smoke")
 
 func _load_fonts():
 	_font      = FontKit.ui_regular()
@@ -1192,7 +1203,7 @@ func _wire_story_settings_focus(
 		if is_instance_valid(speed_button):
 			speed_buttons.append(speed_button)
 	var language_buttons: Array[Button] = []
-	for lang in LocaleManager.get_selectable_languages():
+	for lang in _story_selectable_languages():
 		var language_button: Button = _story_language_buttons.get(lang) as Button
 		if is_instance_valid(language_button):
 			language_buttons.append(language_button)
@@ -1966,11 +1977,7 @@ func _add_story_save_slot_row(
 		primary.text = _tr("빈 기록", "Empty record")
 		secondary.text = _tr("현재 장면을 저장할 수 있습니다.", "Save the current scene here.")
 	else:
-		var label := str(info.get("label", "")).strip_edges()
-		primary.text = label if not label.is_empty() else LocaleManager.ui_format(
-			"챕터 %d · %d주차", "Chapter %d · Week %d",
-			[int(info.get("chapter", 1)), int(info.get("turn", 1))],
-			[int(info.get("chapter", 1)), int(info.get("turn", 1))])
+		primary.text = _story_save_primary_text(info)
 		secondary.text = LocaleManager.ui_format(
 			"%d년 %d월 · 자산 %s",
 			"%d / %02d · Assets %s",
@@ -2029,6 +2036,26 @@ func _add_story_save_slot_row(
 		button.add_theme_stylebox_override("pressed", focus)
 		button.add_theme_stylebox_override("disabled", disabled)
 
+
+func _story_save_primary_text(info: Dictionary) -> String:
+	if _is_public_story_demo():
+		var event_id := str(info.get("event_id", ""))
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		var event_title := _fmt(str(event.get("title", ""))).strip_edges()
+		if not event_title.is_empty():
+			return LocaleManager.ui_format(
+				"챕터 %d · %s", "Chapter %d · %s",
+				[int(info.get("chapter", 1)), event_title],
+				[int(info.get("chapter", 1)), event_title])
+	var label := str(info.get("label", "")).strip_edges()
+	if not label.is_empty():
+		return label
+	return LocaleManager.ui_format(
+		"챕터 %d · %d주차", "Chapter %d · Week %d",
+		[int(info.get("chapter", 1)), int(info.get("turn", 1))],
+		[int(info.get("chapter", 1)), int(info.get("turn", 1))])
+
+
 func _set_story_save_page(page: int) -> void:
 	var clamped := clampi(page, 0, maxi(0, ceili(float(SaveManager.SLOT_COUNT) / 5.0) - 1))
 	if clamped == _story_save_page:
@@ -2055,7 +2082,26 @@ func _save_story_to_slot(slot: int) -> void:
 	var label := LocaleManager.ui_format(
 		"챕터 %d · %s", "Chapter %d · %s",
 		[chapter, event_title], [chapter, event_title_english])
-	if SaveManager.save_game(slot, context, {"label": label, "qa_fixture": false}):
+	var metadata := {"qa_fixture": false}
+	var public_controller_session := {}
+	if _is_public_story_demo():
+		public_controller_session = (
+			context.get("story_demo_controller_session", {}) as Dictionary) \
+				.duplicate(true)
+		if public_controller_session.is_empty():
+			_story_save_notice = _tr("저장에 실패했습니다.", "Save failed.")
+			_replace_story_popup_with_save_page()
+			return
+		public_controller_session["story_resume_slot"] = slot
+		context["story_demo_controller_session"] = public_controller_session
+	else:
+		metadata["label"] = label
+	var saved := SaveManager.save_game(slot, context, metadata)
+	if saved and _is_public_story_demo():
+		# Publish the exact slot pointer only after the slot itself is durable.
+		# Continue can then re-load SaveManager's resume context after an app exit.
+		saved = _write_story_demo_controller_session(public_controller_session)
+	if saved:
 		_story_save_notice = LocaleManager.ui_format(
 			"슬롯 %d에 현재 장면을 저장했습니다.",
 			"Current scene saved to slot %d.", slot, slot)
@@ -2065,7 +2111,29 @@ func _save_story_to_slot(slot: int) -> void:
 	_replace_story_popup_with_save_page()
 
 func _load_story_from_slot(slot: int) -> void:
+	var live_state_before_load: Dictionary = GameState.serialize().duplicate(true)
+	var pending_story_queue_before_load := GameState.pending_story_queue.duplicate(true)
+	var story_return_scene_before_load := GameState.story_return_scene
+	var returning_from_story_before_load := GameState.returning_from_story
+	var story_replay_mode_before_load := GameState.story_replay_mode
 	if not SaveManager.load_game(slot):
+		_restore_live_story_state_after_failed_load(
+			live_state_before_load, pending_story_queue_before_load,
+			story_return_scene_before_load, returning_from_story_before_load,
+			story_replay_mode_before_load)
+		_story_save_notice = _tr("불러오기에 실패했습니다.", "Load failed.")
+		_replace_story_popup_with_save_page()
+		return
+	if _is_public_story_demo() and not _restore_story_demo_controller_session(
+			SaveManager.peek_loaded_resume_context(), slot):
+		# SaveManager restores GameState before StoryMode can validate the paired
+		# controller checkpoint. A foreign or damaged slot must therefore roll
+		# the live scene back instead of leaving two different months in memory.
+		_restore_live_story_state_after_failed_load(
+			live_state_before_load, pending_story_queue_before_load,
+			story_return_scene_before_load, returning_from_story_before_load,
+			story_replay_mode_before_load)
+		SaveManager.clear_loaded_resume_context()
 		_story_save_notice = _tr("불러오기에 실패했습니다.", "Load failed.")
 		_replace_story_popup_with_save_page()
 		return
@@ -2073,6 +2141,17 @@ func _load_story_from_slot(slot: int) -> void:
 	_stop_story_choice_countdown()
 	GameState.story_replay_mode = false
 	SceneTransition.go(SaveManager.loaded_scene_path())
+
+
+func _restore_live_story_state_after_failed_load(
+		serialized_state: Dictionary, pending_queue: Array,
+		return_scene: String, returning_from_story: bool,
+		replay_mode: bool) -> void:
+	GameState.load_from_dict(serialized_state)
+	GameState.pending_story_queue = pending_queue.duplicate(true)
+	GameState.story_return_scene = return_scene
+	GameState.returning_from_story = returning_from_story
+	GameState.story_replay_mode = replay_mode
 
 func _return_to_story_settings() -> void:
 	if is_instance_valid(_audio_settings_popup):
@@ -2111,14 +2190,21 @@ func _resume_story_countdown_after_settings() -> void:
 	_start_story_choice_countdown_msec(remaining, _choice_countdown_default_index, total)
 
 func can_manual_save_story() -> bool:
-	return not _read_only_replay \
+	var state_allows_save := not _read_only_replay \
 			and not _transitioning \
 			and not _story_scene_transition_active \
 			and not _current.is_empty()
+	return state_allows_save and (not _is_public_story_demo() \
+		or not _story_demo_controller_session_snapshot().is_empty())
 
 func build_save_resume_context() -> Dictionary:
 	if not can_manual_save_story():
 		return {}
+	var story_demo_session := {}
+	if _is_public_story_demo():
+		story_demo_session = _story_demo_controller_session_snapshot()
+		if story_demo_session.is_empty():
+			return {}
 	var timer_remaining := -1
 	var timer_total := -1
 	if _settings_countdown_remaining_msec > 0:
@@ -2172,6 +2258,13 @@ func build_save_resume_context() -> Dictionary:
 			"next_serial": _dialogue_log_next_serial,
 		},
 	}
+	if not story_demo_session.is_empty():
+		story_demo_session = STORY_DEMO_CONTROLLER \
+			.reconcile_story_demo_session_with_live_receipts(
+				story_demo_session, resume_context)
+		if story_demo_session.is_empty():
+			return {}
+		resume_context["story_demo_controller_session"] = story_demo_session
 	var current_event_id := str(_current.get("id", ""))
 	if current_event_id in [
 		DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID,
@@ -2192,6 +2285,89 @@ func build_save_resume_context() -> Dictionary:
 	if not post_ledger_resume.is_empty():
 		resume_context["first_bill_post_ledger_resume"] = post_ledger_resume
 	return resume_context
+
+
+func _story_demo_controller_session_snapshot() -> Dictionary:
+	if not _is_public_story_demo():
+		return {}
+	var session := {}
+	for candidate_path in [
+		STORY_DEMO_SESSION_PATH,
+		"%s.tmp" % STORY_DEMO_SESSION_PATH,
+		"%s.bak" % STORY_DEMO_SESSION_PATH,
+	]:
+		if not FileAccess.file_exists(candidate_path):
+			continue
+		var file := FileAccess.open(candidate_path, FileAccess.READ)
+		if file == null:
+			continue
+		var parser := JSON.new()
+		var parse_error := parser.parse(file.get_as_text())
+		file.close()
+		if parse_error != OK:
+			continue
+		var parsed: Variant = parser.data
+		session = _validated_story_demo_controller_session(parsed)
+		if not session.is_empty():
+			break
+	if session.is_empty():
+		return {}
+	# The live GameState owns any choice already made inside this scene. Bundle
+	# that same instant with the controller's month/receipt checkpoint.
+	return STORY_DEMO_CONTROLLER \
+		.reconcile_story_demo_session_with_live_receipts(session)
+
+
+func _validated_story_demo_controller_session(raw_session: Variant) -> Dictionary:
+	if not raw_session is Dictionary:
+		return {}
+	var session: Dictionary = (raw_session as Dictionary).duplicate(true)
+	if int(session.get("schema_version", 0)) != STORY_DEMO_SESSION_SCHEMA \
+			or str(session.get("profile", "")) != STORY_DEMO_PROFILE \
+			or str(session.get("phase", "")) != "story":
+		return {}
+	var month := int(session.get("current_month", 0))
+	var elapsed_weeks := int(session.get("elapsed_weeks", -1))
+	var settlement_count := int(session.get("monthly_pressure_count", -1))
+	if month < 1 or month > 6 \
+			or elapsed_weeks != (month - 1) * 4 \
+			or settlement_count != month - 1:
+		return {}
+	for key in ["choices", "settlements", "completed_event_ids", "closed_months"]:
+		if not session.get(key, null) is Array:
+			return {}
+	if (session.get("settlements", []) as Array).size() != settlement_count \
+			or (session.get("closed_months", []) as Array).size() != settlement_count \
+			or not session.get("game_state", null) is Dictionary:
+		return {}
+	return session
+
+
+func _restore_story_demo_controller_session(
+		resume_context: Variant, resume_slot: int = -1) -> bool:
+	if not _is_public_story_demo() or not resume_context is Dictionary:
+		return false
+	var context: Dictionary = resume_context
+	if str(context.get("kind", "")) != "story" \
+			or str(context.get("scene", "")) != "res://scenes/StoryMode.tscn" \
+			or str(context.get("return_scene", "")) != STORY_DEMO_RETURN_SCENE:
+		return false
+	var session := _validated_story_demo_controller_session(
+		context.get("story_demo_controller_session", {}))
+	if session.is_empty():
+		return false
+	STORY_DEMO_CONTROLLER.install_story_demo_runtime_events()
+	session = STORY_DEMO_CONTROLLER \
+		.reconcile_story_demo_session_with_live_receipts(session, context)
+	if session.is_empty():
+		return false
+	if resume_slot >= 1 and resume_slot <= SaveManager.SLOT_COUNT:
+		session["story_resume_slot"] = resume_slot
+	return _write_story_demo_controller_session(session)
+
+
+func _write_story_demo_controller_session(session: Dictionary) -> bool:
+	return STORY_DEMO_CONTROLLER.write_verified_story_demo_session(session)
 
 func _validated_first_bill_post_ledger_resume_context(
 		raw_context: Variant) -> Dictionary:
@@ -2784,7 +2960,7 @@ func _set_story_text_speed(level: String) -> void:
 
 func _story_language_options() -> Array:
 	var options: Array = []
-	for code in LocaleManager.get_selectable_languages():
+	for code in _story_selectable_languages():
 		var display_name := LocaleManager.get_language_display_name(code)
 		if code == "ko":
 			display_name = _tr("한국어", "Korean")
@@ -2794,9 +2970,29 @@ func _story_language_options() -> Array:
 		})
 	return options
 
+
+func _story_selectable_languages() -> Array[String]:
+	# The public six-month story demo ships all prepared built-in locales while
+	# the retail release allowlist remains KO/EN. Tie the exception to the demo's
+	# isolated namespace so this cannot expand retail language claims.
+	return LocaleManager.SUPPORTED_LANGUAGES.duplicate() if _is_public_story_demo() \
+		else LocaleManager.get_selectable_languages()
+
+
+func _is_public_story_demo() -> bool:
+	var configured_name := str(ProjectSettings.get_setting(
+		"application/config/custom_user_dir_name", ""))
+	return bool(ProjectSettings.get_setting(
+		"application/config/use_custom_user_dir", false)) \
+		and (configured_name == "GangnamDream_StoryDemo_v1" \
+		or ((OS.get_environment("STORY_DEMO_ALLOW_ISOLATED_QA") == "1" \
+			or OS.get_cmdline_user_args().has("--story-demo-runtime-qa")) \
+		and configured_name.begins_with("GangnamDream_StoryDemo_RuntimeQA_")))
+
+
 func _set_story_language(raw_language: String) -> void:
 	var language := LocaleManager.normalize_language(raw_language)
-	if language not in LocaleManager.get_selectable_languages() or language == LocaleManager.language:
+	if language not in _story_selectable_languages() or language == LocaleManager.language:
 		return
 	var event_id := str(_current.get("id", ""))
 	var source_paragraph_index := _story_source_paragraph_index(_para_index)
@@ -2810,6 +3006,8 @@ func _set_story_language(raw_language: String) -> void:
 	var beat_was_waiting := _direction_beat_waiting
 
 	LocaleManager.set_language(language)
+	if GameState.story_return_scene == STORY_DEMO_RETURN_SCENE:
+		STORY_DEMO_CONTROLLER.install_story_demo_runtime_events()
 	var localized := _localized_story_event(event_id)
 	if not localized.is_empty():
 		_current = localized
@@ -2849,6 +3047,7 @@ func _set_story_language(raw_language: String) -> void:
 
 	_refresh_hud()
 	_refresh_continue_hint_text()
+	_refresh_auto_button(true)
 	if is_instance_valid(_audio_settings_button):
 		_audio_settings_button.text = _tr("설정", "Settings")
 		_audio_settings_button.tooltip_text = LocaleManager.ui_format(
@@ -4602,7 +4801,7 @@ func _auto_reading_delay(text: String) -> float:
 	if normalized.is_empty():
 		return AUTO_MIN_WAIT_SECONDS
 	var reading_seconds: float
-	if LocaleManager.language in ["ko", "ja"]:
+	if LocaleManager.language in ["ko", "ja", "zh-CN", "zh-TW"]:
 		reading_seconds = float(normalized.length()) / AUTO_CJK_CHARS_PER_MINUTE * 60.0
 	else:
 		var words := normalized.replace("\n", " ").split(" ", false).size()
@@ -4637,7 +4836,10 @@ func _refresh_auto_button(force: bool = false) -> void:
 	if not force and signature == _auto_button_signature:
 		return
 	_auto_button_signature = signature
-	_auto_button.text = "%s  [%s]" % ["AUTO ON" if _auto_mode else "AUTO", key_name]
+	_auto_button.text = "%s  [%s]" % [
+		_tr("자동 켬", "AUTO ON") if _auto_mode else _tr("자동", "AUTO"),
+		key_name,
+	]
 	_auto_button.add_theme_color_override("font_color", Color("#dce3eb") if _auto_mode else Color("#6f7886"))
 
 # ── 선택지 ────────────────────────────────────────────────────
@@ -5432,6 +5634,220 @@ func _show_change_toasts(_before: Dictionary):
 ## 관계 수치는 숨긴다. 변화는 같은 장면의 연기와 후속 사건이 회수한다.
 func _show_cast_toasts(_before: Dictionary):
 	pass
+
+# Explicit public-demo package gate. It uses the real StoryMode lifecycle,
+# including a manual-slot roundtrip, authored choice application, result prose,
+# _finish_all(), SceneTransition, and the controller return scene.
+func _run_story_demo_real_flow_smoke() -> void:
+	AudioManager.sfx_enabled = false
+	var tree := get_tree()
+	var verify_key := "story_demo_real_flow_verify"
+	var raw_state: Variant = tree.get_meta(verify_key, {})
+	if not raw_state is Dictionary:
+		push_error("STORY_DEMO_REAL_FLOW_SMOKE: missing controller state")
+		get_tree().quit(1)
+		return
+	var flow_state: Dictionary = (raw_state as Dictionary).duplicate(true)
+	var route_choice := int(flow_state.get("choice", -1))
+	if route_choice not in [0, 1]:
+		push_error("STORY_DEMO_REAL_FLOW_SMOKE: invalid retained route")
+		get_tree().quit(1)
+		return
+	var transition_guard := 0
+	while _story_scene_transition_active and transition_guard < 240:
+		await get_tree().process_frame
+		transition_guard += 1
+	if _story_scene_transition_active:
+		push_error("STORY_DEMO_REAL_FLOW_SMOKE: StoryMode setup failed")
+		get_tree().quit(1)
+		return
+	if bool(flow_state.get("manual_restart_resumed", false)) \
+			and not bool(flow_state.get("exact_result_phase_verified", false)):
+		var expected_fingerprint := str(flow_state.get(
+			"resume_state_fingerprint", ""))
+		var exact_result_resumed := str(_current.get("id", "")) \
+				== "arc_temptation_01" \
+			and _pending_after_result \
+			and _pending_result_choice_index == route_choice \
+			and not expected_fingerprint.is_empty() \
+			and STORY_DEMO_CONTROLLER.real_flow_resume_state_fingerprint() \
+				== expected_fingerprint
+		if not exact_result_resumed:
+			push_error(
+				"STORY_DEMO_REAL_FLOW_SMOKE: exact result phase was not restored")
+			get_tree().quit(1)
+			return
+		flow_state["exact_result_phase_verified"] = true
+		tree.set_meta(verify_key, flow_state)
+	if not bool(flow_state.get("manual_save", false)) \
+			and not _story_demo_manual_save_roundtrip_smoke():
+		push_error("STORY_DEMO_REAL_FLOW_SMOKE: StoryMode setup/manual save failed")
+		get_tree().quit(1)
+		return
+	if not bool(flow_state.get("manual_save", false)):
+		flow_state["manual_save"] = true
+		tree.set_meta(verify_key, flow_state)
+	var guard := 0
+	while guard < 960:
+		if _transitioning:
+			return
+		if _story_scene_transition_active:
+			await get_tree().process_frame
+			guard += 1
+			continue
+		if _direction_hold_active:
+			_direction_hold_active = false
+			_direction_hold_remaining = 0.0
+		elif _direction_beat_waiting:
+			_finish_direction_beat()
+		elif _typing:
+			_complete_typing()
+		elif _showing_choices:
+			var event_id := str(_current.get("id", ""))
+			var choice_index := _story_demo_real_flow_choice_index(
+				event_id, route_choice)
+			var choices: Array = _current.get("choices", [])
+			if choice_index < 0 or choice_index >= choices.size():
+				push_error(
+					"STORY_DEMO_REAL_FLOW_SMOKE: invalid choice for %s" % event_id)
+				get_tree().quit(1)
+				return
+			_on_choice(choice_index)
+			if _pending_after_result \
+					and not bool(flow_state.get(
+						"result_checkpoint_saved", false)):
+				if not _story_demo_result_cold_restart_checkpoint_smoke(
+						event_id, choice_index):
+					push_error(
+						"STORY_DEMO_REAL_FLOW_SMOKE: result cold checkpoint failed")
+					get_tree().quit(1)
+					return
+				flow_state["result_checkpoint_saved"] = true
+				flow_state["manual_restart_pending"] = true
+				tree.set_meta(verify_key, flow_state)
+				_close_audio_settings()
+				_transitioning = true
+				_stop_story_choice_countdown()
+				SceneTransition.go(STORY_DEMO_RETURN_SCENE)
+				return
+		else:
+			_on_advance()
+		if _transitioning:
+			return
+		await get_tree().process_frame
+		guard += 1
+	push_error("STORY_DEMO_REAL_FLOW_SMOKE: StoryMode did not finish")
+	get_tree().quit(1)
+
+
+func _story_demo_real_flow_choice_index(
+		event_id: String, route_choice: int) -> int:
+	match event_id:
+		"arc_temptation_01": return route_choice
+		"arc_daeun_01_meet": return route_choice
+		"arc_sangchul_01_meet": return route_choice
+		"arc_sangchul_01_answer": return route_choice
+		"arc_jaehyuk_01_reunion": return route_choice
+		STORY_DEMO_CONTROLLER.M6_EVENT_ID:
+			return 3 if route_choice == 1 else 0
+	return 0
+
+
+func _story_demo_result_cold_restart_checkpoint_smoke(
+		event_id: String, choice_index: int) -> bool:
+	if not _pending_after_result \
+			or _pending_result_choice_index != choice_index \
+			or str(_current.get("id", "")) != event_id:
+		return false
+	SaveManager.delete_save(STORY_DEMO_MANUAL_SLOT)
+	_save_story_to_slot(STORY_DEMO_MANUAL_SLOT)
+	if not SaveManager.has_save(STORY_DEMO_MANUAL_SLOT):
+		return false
+	var session := _story_demo_controller_session_snapshot()
+	var completed: Array = session.get("completed_event_ids", [])
+	var records: Array = session.get("choices", [])
+	var matching_records := 0
+	for record_variant in records:
+		if record_variant is Dictionary:
+			var record: Dictionary = record_variant
+			if str(record.get("event_id", "")) == event_id \
+					and int(record.get("choice_index", -1)) == choice_index:
+				matching_records += 1
+	return str(_story_save_notice).contains(str(STORY_DEMO_MANUAL_SLOT)) \
+		and int(session.get("story_resume_slot", -1)) \
+			== STORY_DEMO_MANUAL_SLOT \
+		and completed.count(event_id) == 1 \
+		and matching_records == 1 \
+		and str(session.get("phase", "")) == "story"
+
+
+func _story_demo_manual_save_roundtrip_smoke() -> bool:
+	SaveManager.delete_save(STORY_DEMO_MANUAL_SLOT)
+	var context := build_save_resume_context()
+	if context.is_empty() \
+			or not context.get("story_demo_controller_session", null) is Dictionary:
+		return false
+	var expected: Dictionary = (
+		context.get("story_demo_controller_session", {}) as Dictionary).duplicate(true)
+	var expected_state: Dictionary = expected.get("game_state", {}).duplicate(true)
+	expected.erase("game_state")
+	if not SaveManager.save_game(STORY_DEMO_MANUAL_SLOT, context):
+		return false
+	# Establish the exact normalized state that this slot restores. SaveManager
+	# deliberately compacts history arrays and GameState normalizes legacy-shaped
+	# dictionaries, so the second load must match this first verified load.
+	if not SaveManager.load_game(STORY_DEMO_MANUAL_SLOT) \
+			or not _restore_story_demo_controller_session(
+				SaveManager.peek_loaded_resume_context()):
+		SaveManager.clear_loaded_resume_context()
+		SaveManager.delete_save(STORY_DEMO_MANUAL_SLOT)
+		return false
+	var expected_loaded_state: Dictionary = GameState.serialize().duplicate(true)
+	SaveManager.clear_loaded_resume_context()
+	var mutated: Dictionary = _story_demo_controller_session_snapshot()
+	mutated["qa_manual_mutation"] = true
+	var mutated_state: Dictionary = expected_loaded_state.duplicate(true)
+	mutated_state["money"] = float(mutated_state.get("money", 0.0)) + 12345.0
+	GameState.load_from_dict(mutated_state)
+	if not _write_story_demo_controller_session(mutated) \
+			or not SaveManager.load_game(STORY_DEMO_MANUAL_SLOT):
+		SaveManager.delete_save(STORY_DEMO_MANUAL_SLOT)
+		return false
+	var loaded_context := SaveManager.peek_loaded_resume_context()
+	if not _restore_story_demo_controller_session(loaded_context):
+		SaveManager.clear_loaded_resume_context()
+		SaveManager.delete_save(STORY_DEMO_MANUAL_SLOT)
+		return false
+	var actual := _story_demo_controller_session_snapshot()
+	var actual_state: Dictionary = actual.get("game_state", {}).duplicate(true)
+	actual.erase("game_state")
+	var controller_matches := JSON.stringify(actual, "", true) \
+			== JSON.stringify(expected, "", true)
+	var slot_state_matches := JSON.stringify(actual_state, "", true) \
+			== JSON.stringify(expected_loaded_state, "", true)
+	var live_state_matches := JSON.stringify(actual_state, "", true) \
+			== JSON.stringify(GameState.serialize(), "", true)
+	var passed := controller_matches and slot_state_matches \
+			and live_state_matches and not actual.has("qa_manual_mutation") \
+			and not expected_state.is_empty()
+	if not passed:
+		push_error(("STORY_DEMO_REAL_FLOW_SMOKE: manual roundtrip mismatch " \
+			+ "controller=%s slot_state=%s live_state=%s mutation=%s expected_empty=%s") % [
+			controller_matches, slot_state_matches, live_state_matches,
+			actual.has("qa_manual_mutation"), expected_state.is_empty()])
+	SaveManager.clear_loaded_resume_context()
+	SaveManager.delete_save(STORY_DEMO_MANUAL_SLOT)
+	GameState.story_return_scene = STORY_DEMO_RETURN_SCENE
+	GameState.story_replay_mode = false
+	return passed
+
+
+func _argument_value(args: PackedStringArray, prefix: String) -> String:
+	for arg in args:
+		if arg.begins_with(prefix):
+			return arg.trim_prefix(prefix)
+	return ""
+
 
 # ── 종료 ──────────────────────────────────────────────────────
 func _finish_all():
