@@ -361,7 +361,7 @@ ORDER129_EXPECTED_OBJECT_SHA256 = {
     "ko": {
         "arc_pre_ending_summit": "de67e26ceed85c7c48780df199c6d873e5ac3c92b7bdac6cc6acb4466d8ce685",
         "arc_final_countdown": "e0f57f8f88d058ccd44c5692ac0d0b15d85bca226b4d944f9c8841ea61091ba1",
-        "arc_final_week": "928fca218c6e9ecdf0f58ce69953ec2a805814515cd917e8bef25090b450a2e0",
+        "arc_final_week": "34f1275097292507ebf46da93d731681bd310b0cee6d87cb96ff76cbf505c8e7",
     },
     "en": {
         "arc_pre_ending_summit": "70322edf6d26db8d86557d35f4752b6e26230da7409065e2de0b8808b52accd1",
