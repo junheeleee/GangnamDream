@@ -295,7 +295,8 @@ SC/TC primary를 확인한다. 기존 24주 V2·retail claim은 별도로 legacy
 ORDER-126은 그 전역 채무를 완료로 세지 않고, 실제 도달 StoryMode의 중국어 CJK
 AUTO 읽기 속도와 좁은 표면의 영어 폴백 0만 별도 검사한다.
 
-사람 GO는 각각 `claim:zh-CN-demo`, `claim:zh-TW-demo`에 적용되며 현재 OPEN이다.
+사람 GO는 각각 `claim:zh-CN-story-demo`, `claim:zh-TW-story-demo`에 적용되며
+현재 OPEN이다.
 이는 exact `story_demo_rc` 후보를 사용자가 두 언어로 플레이하는 것을 막지 않고,
 Steam 해당 언어 지원 표기와 지역별 정식 출고 claim을 막는다. 이 좁은 데모 GO도
 24주 V2 전체나 1,603사건·35엔딩의 중국어 정식판 출시를 승인하지 않는다.

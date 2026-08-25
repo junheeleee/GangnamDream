@@ -13,6 +13,17 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-25 (Codex — ORDER-126 5개 언어 story-first 공개 데모)
+
+- AP·`주력/함께/여력` 행동판을 공개 표면에서 퇴역시키고 StoryMode 선택과 자동
+  생활 정산으로 M01~M06을 잇는다. 호환용 AP 엔진·기존 저장은 보존했다.
+- 5 locale의 11건·82 leaf·UI 117개와 cold exact resume를 잠갔다. 30개월·
+  120주·정산 30회·AP 표면 0이고, 40개 캡처에 검정막·잘림이 없다.
+- BUILD `2026.08.25.1` / `16675f6ce310adb477da9ab3431c2edfe15ab278`을
+  `story_demo_rc`로 등록했다. 상세 해시·증거는
+  [`ORDER-126`](queue_archive/ORDER-126.md)이 소유한다. 사용자 재미·시간감과
+  JA·zh-CN·zh-TW 원어민 출시 claim만 OPEN이다.
+
 ## 2026-08-24 (Codex — ORDER-125 clean 240주 full_rc BUILD .5)
 
 - BUILD `.4`는 fresh 전체 감사에서 causal source snapshot 3건이 stale이라 후보로

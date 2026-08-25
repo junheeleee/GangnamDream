@@ -13,9 +13,10 @@
 - active 내부 `demo_rc`는 BUILD `2026.08.22.1`, exact `ebc58a839d64d8810b9da5548c20e58bc43c9e30`
   / tree `f978a22525b678ef83619dc50094a6dada75f190`다. BUILD `2026.08.11.2` / `573606`은
   역사 후보, BUILD `2026.08.11.3`은 ORDER-99 저장 복구 전용 고정 후보다.
-- StoryMode 선택만 쓰는 BUILD `2026.08.24.3`은 별도 active `order124_rc`다.
-  사용자 L3 전에는 story-first 본편 이관이 `HOLD`이며 `demo_rc`나 저장 호환 AP
-  엔진의 삭제 승인으로 해석하지 않는다.
+- 현재 StoryMode 선택형 사용자 L3 후보는 BUILD `2026.08.25.1`, active
+  `story_demo_rc` exact `16675f6ce310adb477da9ab3431c2edfe15ab278`다. ORDER-124
+  BUILD `2026.08.24.3` `order124_rc`는 역사 수리 증거다. 사용자 L3 전에는
+  story-first 본편 이관이 `HOLD`이며 저장 호환 AP 엔진 삭제 승인으로 해석하지 않는다.
 - active 240주 `full_rc`는 BUILD `2026.08.24.5`, exact
   `6c91e11c128c4535f5c5852845b0e7309947e162` / tree
   `da15e65977849ab8bf912f3612fa9fd511eee99d`, manifest
@@ -56,8 +57,8 @@
 - 외부 30분 package/session 묶음은 미발급이다. 내부 후보 등록이나 자동 PASS를
   외부 모집·출시 GO로 바꾸지 않으며, 후속 후보는 새 exact identity로만 교체한다.
 - 외부 30분 이해도, 정상 속도 W1~24 완주, 연속 A/V, 물리 패드는 같은 demo_rc의
-  서로 다른 `OPEN` 판정이다. BUILD `2026.08.11.3` 저장 복구와 BUILD
-  `2026.08.24.3` 스토리 후보의 자동 PASS도 이를 대신하지 않는다.
+  서로 다른 `OPEN` 판정이다. BUILD `2026.08.11.3` 저장 복구와 현재
+  `story_demo_rc`·역사 BUILD `2026.08.24.3`의 자동 PASS도 이를 대신하지 않는다.
 
 ## 다음 세션 복귀
 

@@ -339,7 +339,7 @@ archive 전체 SHA-256
 `84b5f16dac820fd946240bf72519dea155f1ff49e1724a72aed5d35664916d41`를 후속 빌드
 전후 동일하게 보존한다.
 
-### 현재 ORDER-124 BUILD 2026.08.24.3 (2026-08-24, 사용자 판정 OPEN)
+### 역사 ORDER-124 BUILD 2026.08.24.3 (2026-08-24, 기술 수리 증거)
 
 BUILD `2026.08.24.3`은 exact clean revision
 `23f0bd9b7a56a352c9234f95870a98dbf5c728e9`, tree
@@ -363,9 +363,9 @@ BUILD `.2`의 사용자 저장 SHA-256
 
 제품 `project.godot`·`export_presets.cfg`, retail/V2, `demo_rc`, 반려
 ORDER-103 앱·저장·산출물, BUILD `.2` archive, ORDER-124 사용자 디렉터리는
-패키지 검사 전후 byte-exact다. `order124_rc`는 active지만 사용자 L3와 본편
-이관은 OPEN/HOLD다. 이 격리 후보에 기존 24주·240주·전체 감사를 실행하거나
-인용하지 않았다.
+패키지 검사 전후 byte-exact다. 발급 당시 `order124_rc`의 사용자 L3와 본편
+이관은 OPEN/HOLD였다. 이 격리 후보에 기존 24주·240주·전체 감사를 실행하거나
+인용하지 않았고, 현재 사용자 판정에는 아래 `story_demo_rc`를 쓴다.
 
 ## ORDER-126 공개 M01~M06 다섯 언어 스토리 데모
 
@@ -373,7 +373,8 @@ ORDER-124의 스토리 선택형 흐름을 공개 데모 identity로 옮기고, 
 일본어·간체·번체를 한 앱에서 고르게 한다. 플레이 표면은 StoryMode 선택과
 장면 현지 행동뿐이며 `주력/함께/여력`, AP 카드, 주간·월간 계획판은 노출하지
 않는다. 내부 AP/경제 데이터와 기존 retail/V2·ORDER-124 저장은 삭제하거나
-이전하지 않는다.
+이전하지 않는다. BUILD `2026.08.25.1` `story_demo_rc`가 현재 사용자 L3의
+유일한 후보이며 ORDER-124 BUILD `.3`은 역사 수리 증거다.
 
 고정 identity는 다음과 같다.
 
@@ -417,9 +418,9 @@ L1/L2는 같은 clean source에서 순서대로 다음을 요구한다.
    본문 82, UI 117, catalog 1, 토큰·줄바꿈·지역 문자·원화·한글/영어 폴백 0.
 2. `third_party_notice_audit.py` normal/self-test와 `FontRoutingCheck.tscn`:
    Noto Sans JP/SC/TC primary, 400/600/700, OFL 사본·해시·고지, emoji-last.
-3. `I18nInfrastructureCheck.tscn`과 `StoryDemoFourLanguageCheck.tscn`: 다섯 언어,
-   M01 두 분기·M04 두 진입, M06, 합산 30개월·120주·정산 30회, save/resume 5회,
-   AP 표면·원장 0. exact marker는
+3. `I18nInfrastructureCheck.tscn`과 `StoryDemoFourLanguageCheck.tscn`: 언어별
+   M01~M06 한 route, 다섯 run 전체에서 M01 두 분기·M04 두 진입을 합산 cover,
+   30개월·120주·정산 30회, save/resume 5회, AP 표면·원장 0. exact marker는
    `STORY_DEMO_FOUR_LANGUAGE_CHECK_OK locales=5 routes=4 months=30 weeks=120 settlements=30 ap_surface=0 save=5 story=5 build=2026.08.25.1`이다.
 4. 무인자 native 실행의 첫 언어 선택, 다섯 locale package smoke, 실제
    `SceneTransition` 복귀 뒤 검은 cover/input 해제, 기존 공개 데모 저장이 있을 때

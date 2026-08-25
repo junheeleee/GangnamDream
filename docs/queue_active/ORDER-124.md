@@ -144,9 +144,9 @@
   `build/order124/archive/2026.08.24.2`에 비교 근거로 보존한다. 이 판정은
   AP 행동의 복원 GO나 스토리 선택 구조의 재미 GO가 아니다.
 
-## BUILD 2026.08.24.3 · 현재 macOS 후보 · 사용자 판정 OPEN
+## BUILD 2026.08.24.3 · 역사 macOS 후보 · 기술 수리 증거
 
-- active `order124_rc`는
+- 발급 당시 active `order124_rc`는
   `GangnamDream-ORDER124-M01M06-StoryChoicePlaytest`, BUILD
   `2026.08.24.3`다. exact source는
   `23f0bd9b7a56a352c9234f95870a98dbf5c728e9`, tree는
@@ -168,6 +168,19 @@
 - 제품 `project.godot`·`export_presets.cfg`, retail/V2, `demo_rc`, 반려
   ORDER-103 앱·저장·산출물, BUILD `.2` archive, ORDER-124 사용자
   디렉터리는 패키지 검사 전후 byte-exact다.
-- L1/L2는 닫혔지만 재미 판정은 아니다. 사용자 L3와 본편 이관 GO는
-  OPEN/HOLD이며 ORDER-124는 `[~]`를 유지한다. 기존 24주·240주·전체 감사는
-  이 격리 후보에 실행하거나 인용하지 않았다.
+- 이 BUILD의 L1/L2는 닫혔지만 재미 판정은 아니다. 당시 사용자 L3와 본편 이관
+  GO는 OPEN/HOLD였고 ORDER-124는 `[~]`를 유지했다. 기존 24주·240주·전체
+  감사는 이 격리 후보에 실행하거나 인용하지 않았다.
+
+## BUILD 2026.08.25.1 · 현재 사용자 L3 후보로 승계
+
+- ORDER-126이 같은 story-first M01~M06 구조를 5개 언어·복구 가능한 독립 저장·
+  exact cold resume로 확장했다. 따라서 위 `order124_rc` BUILD `.3`은 검은 전환막
+  수리 계보를 보존하는 역사 후보이며, 새 사용자 판정에는 사용하지 않는다.
+- 현재 ORDER-124 L3 대상은 `GangnamDream-StoryDemo`, BUILD `2026.08.25.1`,
+  active `story_demo_rc` exact `16675f6ce310adb477da9ab3431c2edfe15ab278` /
+  tree `aed6904fc95345a867d2762f0bb8a62e65b32ce1` 하나다.
+- `story_demo_m1_m6_user_play` 게이트가 `order124-close`와
+  `story-only-product-migration`을 함께 막는다. 이 앱의 정상 속도 M01~M06 사용자
+  GO 전에는 ORDER-124를 닫거나 본편을 이관하지 않는다. 저장 호환 AP 데이터·
+  엔진 삭제는 이 GO에도 포함되지 않는다.

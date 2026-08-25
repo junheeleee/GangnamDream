@@ -189,10 +189,11 @@ monthly action board's denominator.
 
 `story_demo_localization_audit.py` checks structure, token/newline parity,
 Hangul and English-fallback leakage, region script, won meaning, canonical
-names, and required UI/catalog rows. `StoryDemoFourLanguageCheck.tscn` then
-drives every locale through both M01 and M04 route shapes, M06, save/resume, and
-zero AP surface. Those checks make a playable candidate; they do not judge
-native prose quality.
+names, every authored choice, and required UI/catalog rows.
+`StoryDemoFourLanguageCheck.tscn` then drives one complete M01~M06 route per
+locale; the five-run sweep covers both M01 variants and both M04 variants in
+aggregate, plus M06, save/resume, and zero AP surface. Those checks make a
+playable candidate; they do not judge native prose quality.
 
 ## Legacy 24-Week V2 Demo Scope
 

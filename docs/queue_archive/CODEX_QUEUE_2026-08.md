@@ -15,6 +15,16 @@
 
 ## 2026-08
 
+- `[x] ORDER-126` (2026-08-25): 반복 AP·월간 행동판을 공개 표면에서 퇴역시키고
+  실제 StoryMode 선택과 자동 네 주·생활 정산만으로 M01~M06을 잇는 5개 언어
+  macOS `story_demo_rc`를 발급했다. exact `16675f6ce310adb477da9ab3431c2edfe15ab278` /
+  tree `aed6904fc95345a867d2762f0bb8a62e65b32ce1`, BUILD `2026.08.25.1`에서
+  11사건·82 leaf·UI 117, JP/SC/TC 전용 primary font·OFL, 다섯 locale run 전체의
+  M01·M04 양쪽 변형과 실제 KO clean/zh-CN fallout 24주·정산 6·영수증 9·exact
+  cold resume를 통과했다.
+  app/ZIP/manifest 감사와 5 locale × 4표면 × 2해상도 40장 검수도 PASS다. 사용자
+  재미·시간감·선택감각과 JA·zh-CN·zh-TW 원어민 출시 claim은 OPEN이며, 저장 호환
+  AP 데이터·엔진은 삭제하지 않았다. [사양](ORDER-126.md)
 - `[x] ORDER-125` (2026-08-24): BUILD `.4`의 stale causal source snapshot
   3건을 숨기지 않고 폐기한 뒤, 누적 `WORK_LOG`를 source trust key에서 제외하고
   승인된 두 source hash와 두 audit selector를 정렬했다. exact clean

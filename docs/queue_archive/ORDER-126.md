@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-126
+# Archived Queue Spec: ORDER-126
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-126 [P0·공개 데모] 스토리 선택형 M01~M06을 일·중 포함 출고 후보로 만든다
+#### [x] ORDER-126 [P0·공개 데모] 스토리 선택형 M01~M06을 일·중 포함 출고 후보로 만든다
 
 **착수 선언 (2026-08-25):** 사용자는 반복 AP/월간 행동판 대신 게임의
 성공 가능성을 기준으로 Codex가 제품 방향과 순서를 판단하도록 위임했고,
@@ -70,9 +70,11 @@ StoryMode 선택이 플레이를 소유하고, 반복 행동판은 새 데모 �
 
 ## 정확한 파일 소유권
 
-**선언·마감:** `docs/CODEX_QUEUE.md`, 이 사양, `CLAUDE.md`,
+**선언·마감:** `docs/CODEX_QUEUE.md`, 이 사양,
+`docs/queue_archive/CODEX_QUEUE_2026-08.md`, `CLAUDE.md`,
 `docs/DECISIONS.md`, `docs/I18N_INFRASTRUCTURE.md`, `docs/I18N_GLOSSARY_JA.md`,
 `docs/I18N_GLOSSARY_ZH.md`, `docs/BUILD_PIPELINE.md`, `docs/human_gates.json`,
+`docs/HANDOFF.md`, `docs/DEMO_FIXLOG.md`, `docs/queue_active/ORDER-124.md`,
 `docs/WORK_LOG.md`, 생성본 `docs/STATUS.md`, `tools/audit_scope.json`.
 
 **스토리 데모 표면:** `playtests/order124/StoryChoiceM1M6Playtest.gd`,
@@ -99,8 +101,9 @@ StoryMode 선택이 플레이를 소유하고, 반복 행동판은 새 데모 �
 ## 완료 증거·사람 경계
 
 - clean exact source에서 5 locale 구조 패리티, 한글·영어 fallback 0, 폰트 경로·OFL·고지가 PASS다.
-- 두 M01 route·두 M04 route·다섯 M06 선택, 24주·정산 6·월간/AP 원장 0,
-  save/resume·overlay/input clear가 다섯 locale에서 PASS다.
+- 구조 감사는 다섯 locale의 M06 선택 전부를 확인했다. 런타임은 locale마다
+  M01~M06 한 route를 완주하고, 다섯 run 전체에서 M01·M04의 양쪽 변형을 cover했다.
+  각 run은 24주·정산 6·월간/AP 원장 0, save/resume·overlay/input clear다.
 - macOS app/ZIP/manifest가 고정 commit/tree와 일치하고 기존 사용자 저장·ORDER-124
   산출물·retail/V2 설정이 byte-exact다.
 - 이 L1/L2가 끝난 뒤에만 사용자에게 플레이할 앱을 지목한다. 사용자가 직접
@@ -116,3 +119,36 @@ StoryMode 선택이 플레이를 소유하고, 반복 행동판은 새 데모 �
 `docs/CHOICE_CONSEQUENCE_SYSTEM.md`의 적용이다. 데모 네 언어와 중국어 두 지역
 직접 번역·전용 서체 규칙은 `docs/I18N_INFRASTRUCTURE.md`에 승격한다. BUILD,
 앱 이름, 전용 저장, 산출물 해시와 임시 검사 명령은 일회성이다.
+
+## 완료 기록 (2026-08-25)
+
+- exact candidate는 `16675f6ce310adb477da9ab3431c2edfe15ab278` / tree
+  `aed6904fc95345a867d2762f0bb8a62e65b32ce1`, BUILD `2026.08.25.1`이다.
+  manifest SHA-256은
+  `90ca36437e93a31ad6724f7d53faf39f35c84239e4f1d898755df2e34ce64a43`,
+  app tree는 `4cdb86ab3d1c1de7811729283364cd45594363c3895ecb4ccc296ddae4c951b2`,
+  ZIP은 `b38e0a042bea8022da947a8e29b140de1394fdc3832b8541f809289c9c83d82f`다.
+- KO·EN·JA·zh-CN·zh-TW의 11사건·82 leaf·도달 UI 117개 구조 패리티와
+  Pretendard·Noto Sans JP/SC/TC primary, OFL·제3자 고지가 PASS다. 언어별
+  StoryMode 한 route씩 합계 30개월·120주·정산 30회를 완주했고, 다섯 run 전체에서
+  M01·M04 양쪽 변형을 cover했으며 AP 표면·원장은 0이다.
+- 패키지의 KO clean과 zh-CN fallout는 각각 M01~M06 24주·정산 6회·선택
+  영수증 9개를 실제 장면으로 완주했다. 결과 화면 수동 저장 뒤 새 controller의
+  이어하기가 exact phase·choice·GameState fingerprint를 복원했고, 손상 primary의
+  backup 복구와 검은 전환막·입력 차단 해제도 통과했다.
+- 배포 앱에서 5 locale × home/transition/StoryMode/recap × 960×600/1280×800
+  총 40장을 다시 캡처해 검은 화면·잘림·잘못된 CJK primary font 0을 확인했다.
+- 첫 package 시도는 여섯 달을 수 초로 압축한 real-flow가 CoreAudio의 이전 BGM
+  playback을 종료 직전 보유해 오류 로그를 남겼으므로 출판 전에 자동 중단됐다.
+  가속 real-flow 두 개만 deterministic dummy mixer로 격리하고, native entry와
+  일반 wrapper/return/resume는 실제 CoreAudio 검사를 유지한 뒤 clean source에서
+  전체 package를 재발급했다. 실제 후보 사용자 데이터는 빌드 전후 모두 없었고
+  실패 시 생성된 QA 데이터와 복구 사본은 검증 뒤 휴지통으로 옮겼다.
+- 승격: story-first 공개 표면·AP 저장 호환 경계는 `docs/DECISIONS.md`, 중국어
+  두 지역 직접 번역·전용 primary font와 원어민 경계는
+  `docs/I18N_INFRASTRUCTURE.md`, clean staging·복구·manifest·package smoke 계약은
+  `docs/BUILD_PIPELINE.md`가 소유한다.
+- 일회성: BUILD 번호, exact commit/tree와 artifact hash, 11사건 번역 snapshot,
+  임시 RuntimeQA namespace·화면 경로. 사용자 M01~M06 재미·시간감·선택감각과
+  JA·zh-CN·zh-TW 원어민 출시 claim은 `open`이다. 사용자 플레이 게이트는 현재
+  ORDER-124의 close와 본편 이관을 막고, 원어민 gate는 로컬 플레이를 막지 않는다.
