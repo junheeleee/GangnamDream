@@ -284,6 +284,29 @@ callback은 선택 두 개 모두 별세한 아버지의 호감도를 올려 새
 추가하지 않으며 `GameState.gd`, `StoryMode.gd`, `ManualSaveCheck.gd` 안에서 실제
 일반 결과·사망 변형·terminal·동적 연말 저장 왕복을 검증한다.
 
+**전체 감사 정합 수리 범위 보강 (2026-08-26):** 첫 전체 감사는 제품 회귀 하나와
+새 정본을 아직 모르는 검사·번역 원장을 드러냈다. 생존한 아버지의 영수증 없는
+구저장은 첫 달 전화 fallback을 계속 복구해야 하므로 `MainGame.gd`의 사망 단조
+가드는 유지하고 잘못 붙은 8주 상한만 제거하며 기존 Chapter 4 인과 감사가 두
+경계를 따로 잠근다. 모든 완료 플래그를 세우는 동기 각인 fixture는 새 terminal
+receipt까지 죽음으로 읽은 것이므로 생존 대조군에서 그 receipt만 명시적으로
+제외한다. 이를 위해 `tools/MotivationImprintCheck.gd`를 정확한 파일 범위에
+추가하고 `tools/CoreLoopV2HandoffCheck.gd`는 byte 불변 재검증 대상으로 둔다.
+
+별세 전용 callback 한 편은 `weight: 0`, `hidden: true`인 상태 대체본이지 랜덤 풀
+163번째 사건이 아니며, 같은 결혼식 CG는 아버지가 나오지 않는 동일 공간 컷이라
+생존·별세 산문이 함께 소유해도 사실과 충돌하지 않는다. 이 분류를 정확히 잠그기
+위해 `tools/random_pool_hygiene_audit.py`, `tools/CGRuntimeCheck.gd`를 범위에
+추가한다. 신규 `_tr` 네 호출로 늘어난 현재 번역 분모와 일본어 세 문장·중국어
+공통 `이벤트` 표면을 거짓 없이 반영하기 위해
+`content/meta/demo_localization_scope.json`, `tools/ja_translation_pipeline.py`,
+`tools/story_demo_localization_audit.py`, `locale/ui_ja.json`,
+`locale/ui_zh-CN.json`, `locale/ui_zh-TW.json`,
+`docs/I18N_INFRASTRUCTURE.md`, `docs/I18N_GLOSSARY_JA.md`,
+`docs/I18N_GLOSSARY_ZH.md`, `docs/QA_CHECKLIST.md`, `docs/MODDING.md`를
+정확한 파일 범위에 추가한다. 과거 ORDER·BUILD·candidate에 귀속된 번역 측정값은
+역사값으로 보존하고 현재 source·collector·audit 계약만 갱신한다.
+
 ## 깊이 3문
 
 1. 왜 완성된 25편에 ingress만 붙이지 않는가? 현재 원고는 대부분 월간 행동판에서
