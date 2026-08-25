@@ -15,6 +15,15 @@
 
 ## 2026-08
 
+- `[x] ORDER-131` (2026-08-26): M39~M48의 오프스크린 전제를 실제 StoryMode
+  선택·exact receipt·후속 비용으로 바꾸고 W157~W193을 연결했다. 아버지 위기
+  연락은 생사 writer에서 분리하고 의료 2-of-3만 W188 경과를 쓰며, 구저장·결과
+  화면·별세 변형에서도 사망이 단조다. author-only 25편을 제품에 연결해
+  packaged/shipping/author-only `1786/1656/130`이 됐고, 30억 `instant_legend`와
+  엔딩 35·15 route·서명 coda 72/33은 보존했다. 첫 전체 감사가 찾은 구저장 전화,
+  별세 callback 풀 분류, 공유 CG, JA/ZH 분모·fixture를 정본에 맞춰 수리한 뒤
+  476 변이와 exact 전체 감사가 통과했다. 다음 P1은 갤러리 최초 관람 상태 고정이며,
+  그 뒤 Chapter 5 actor·문서·대화 영수증을 잇는다. [사양](ORDER-131.md)
 - `[x] ORDER-130` (2026-08-26): ORDER-129가 사용자의 “중요 장면은 10까지도
   갈 수 있다”는 예시를 exact `9/10/9` 문단 할당량으로 오해한 판정을 철회했다.
   패널 수는 관측값으로만 남기고 summit·countdown·final week의 실제 기능,

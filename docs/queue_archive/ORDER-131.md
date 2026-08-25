@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-131
+# Archived Queue Spec: ORDER-131
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-131 [P0·4장 제품 연결] M39~M48의 오프스크린 선택을 StoryMode 행동으로 바꾸고 아버지 마지막 연락을 단일 시간선으로 잇는다
+#### [x] ORDER-131 [P0·4장 제품 연결] M39~M48의 오프스크린 선택을 StoryMode 행동으로 바꾸고 아버지 마지막 연락을 단일 시간선으로 잇는다
 
 **사용자 승인·착수 선언 (2026-08-26):** 사용자는 게임을 최종까지 완성하고,
 처음부터 끝까지 스토리와 게임성이 빽빽하며 후반으로 갈수록 치밀하고 격동적인지
@@ -375,14 +375,39 @@ receipt까지 죽음으로 읽은 것이므로 생존 대조군에서 그 receip
 
 ## 다음 경계
 
-이 오더는 Chapter 4 M39~M48의 제품 경로만 소유한다. M49~M59의 계약 상승곡선,
-마지막 남은 actor/문서/대화 receipt, M60·`arc_final_week` actor binding과 손상
-signature 복구는 다음 Chapter 5 오더가 소유한다. 자동 GREEN은 사람 재미 GO가 아니다.
+이 오더는 Chapter 4 M39~M48의 제품 경로만 소유한다. 먼저 갤러리 20개 루트가
+최초 관람 당시가 아니라 현재 런 상태를 읽는 P1을 별도 오더로 고정한다. 그 뒤
+M49~M59의 계약 상승곡선, 마지막 남은 actor/문서/대화 receipt, M60·
+`arc_final_week` actor binding과 손상 signature 복구는 Chapter 5 오더가 소유한다.
+자동 GREEN은 사람 재미 GO가 아니다.
 
 ## 규범 판정
 
-- **승격 후보:** 폐기한 월간 행동판이 선행 선택을 소유하던 후반 원고는 StoryMode
-  장면의 실제 선택과 weekly commitment receipt 없이는 shipping하지 않는다는 규칙.
-  완료 시 기존 story-first 정본에 이미 포함되는지 대조한 뒤 중복 없이 한 곳만 갱신한다.
+- **승격 없음:** 폐기한 월간 행동판 대신 StoryMode의 실제 선택과 exact receipt가
+  행동을 소유한다는 지속 규칙은 이미 `docs/CHOICE_CONSEQUENCE_SYSTEM.md`의
+  `60개월 장면 배치 정본`과 `CLAUDE.md`의 상품·선택 규칙이 소유한다. 중복 문장을
+  새 정본에 만들지 않는다.
 - **일회성:** 정확한 보호 주차, 사건 ID, lifecycle count/hash, baseline commit,
   mutation 수는 ORDER-131 증거이며 다른 장의 장면 수·선택 수 목표가 아니다.
+
+## 완료 기록 (2026-08-26)
+
+- M39~M48의 사람·몸·가족·이름·청구·마지막 연락을 화면 밖 전제에서 실제
+  StoryMode 선택으로 옮겼다. W157은 M39에서 놓친 정확한 두 대상을, W188은
+  약물 확인·임상 접근·M46 병동 조정의 2-of-3 의료 영수증을 읽고 W193의
+  `arc_37_reckoning`까지 같은 장면 큐로 잇는다.
+- 위기 방문·통화·놓침은 생사를 쓰지 않는다. `father_passed`·옛 passing receipt·
+  passed cast 중 하나라도 있으면 사망이 단조이며, 살아 있는 구저장의 첫 달 전화만
+  정확히 복구한다. 결과 화면은 event ID와 choice index를 함께 대조해 다른 선택의
+  효과나 사망 변형을 두 번 적용하지 않는다.
+- 기존 author-only 25편을 제품에 연결해 packaged/shipping/author-only 모집단은
+  `1786/1656/130`이 됐다. KO/EN 위치·인물·선택 순서, 연출·오디오·등급 원장을
+  맞췄고 33세·1장의 30억 `instant_legend`, 엔딩 35 ID·CG·15 route,
+  종막 서명 coda 72/33은 그대로 보존했다.
+- 본 구현 `3b275a913053412a3e2ff52fc9588d71d3a9bb37` / tree
+  `9bc154b5b3cc534565fd66265183c7a0682e5b50`, 전체 감사 수리
+  `2ec3a381722d7ba209d597c2a662a7546aa7cdb1` / tree
+  `8ab3953c31335e306835fafdc8e694333629db16`, 기준 재승인
+  `8eb6a0692fb7264fbcb17e0f4fc3ba66a443f722`에서 표적·476 변이·런타임 검사를
+  통과했다. 마감 exact tree의 전체 감사도 failure flag 0과 `✅ 감사 통과`로
+  끝냈다. 이 GREEN은 사람 재미 GO가 아니다.
