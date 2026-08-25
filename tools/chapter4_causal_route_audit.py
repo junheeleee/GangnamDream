@@ -253,10 +253,10 @@ def validate_death_recovery_source(source: str) -> list[str]:
 def validate_intro_route_source(source: str) -> list[str]:
     errors: list[str] = []
     contracts = (
-        ("arc_intro_01_meal", 2, False),
-        ("arc_intro_02_dad_call", 3, True),
+        ("arc_intro_01_meal", 2, False, True),
+        ("arc_intro_02_dad_call", 3, True, False),
     )
-    for event_id, minimum_week, needs_father_guard in contracts:
+    for event_id, minimum_week, needs_father_guard, has_upper_bound in contracts:
         guards = source_return_guard_blocks(source, "_next_arc_id", event_id)
         if len(guards) != 1:
             errors.append(
@@ -268,9 +268,14 @@ def validate_intro_route_source(source: str) -> list[str]:
             errors.append(
                 f"{event_id}: legacy intro root lost its W{minimum_week} lower bound"
             )
-        if re.search(r"\bt\s*<=\s*8\b", guard) is None:
+        upper_bound_present = re.search(r"\bt\s*<=\s*8\b", guard) is not None
+        if has_upper_bound and not upper_bound_present:
             errors.append(
                 f"{event_id}: legacy intro root can reopen after W8"
+            )
+        if not has_upper_bound and upper_bound_present:
+            errors.append(
+                f"{event_id}: valid receiptless legacy fallback is capped at W8"
             )
         if needs_father_guard and "not father_is_passed" not in guard:
             errors.append(
@@ -1066,7 +1071,7 @@ func _load_next_event():
 func _next_arc_id(t, father_is_passed):
     if t >= 2 and t <= 8 and ready:
         return "arc_intro_01_meal"
-    if t >= 3 and t <= 8 and not father_is_passed and meal_seen:
+    if t >= 3 and not father_is_passed and meal_seen:
         return "arc_intro_02_dad_call"
 '''
     check(
@@ -1078,6 +1083,14 @@ func _next_arc_id(t, father_is_passed):
     check(
         bool(validate_intro_route_source(unbounded_meal)),
         "late intro-meal reopening mutation was not detected",
+    )
+    bounded_dad = intro_source.replace(
+        "t >= 3 and not father_is_passed",
+        "t >= 3 and t <= 8 and not father_is_passed",
+    )
+    check(
+        bool(validate_intro_route_source(bounded_dad)),
+        "receiptless legacy Dad fallback cap mutation was not detected",
     )
     unguarded_dad = intro_source.replace(
         " and not father_is_passed and meal_seen", " and meal_seen")

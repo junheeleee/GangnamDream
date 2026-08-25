@@ -179,6 +179,11 @@ func _check_demo_father_contacts() -> void:
 	for fixture in fixtures:
 		GameState.start_new_game()
 		_mark_completion_flags()
+		# This control represents a living Father. The broad completion helper
+		# now sees the terminal scene's `_seen` receipt as well, so remove that
+		# one state fact instead of weakening the production monotonic guard.
+		GameState.flags.erase("arc_father_passing_seen")
+		GameState.flags.erase("father_passed")
 		GameState.turn = int(fixture["turn"])
 		GameState.flags.erase(str(fixture["unset"]))
 		var actual := str(game._next_arc_id(GameState.turn, true))

@@ -1,9 +1,9 @@
 # 강남드림 일본어 현지화 정본
 
-Updated: 2026-08-25
+Updated: 2026-08-26
 Source: 한국어 원본 직접 번역. 영어 오버레이를 중역 원문으로 사용하지 않는다.
 Status: retail·기존 24주 V2에서는 숨김 준비판이다. 다만 ORDER-126의 격리된
-M01~M06 story demo는 11사건·82본문·117 UI·catalog 1행의 일본어 직접 번역을
+M01~M06 story demo는 11사건·82본문·118 UI·catalog 1행의 일본어 직접 번역을
 포함하고 해당 exact 앱 안에서 선택할 수 있다. 같은 리비전의 원어민 문맥 검수는
 계속 OPEN이며 Steam 일본어 지원 표기와 정식 출고 claim을 막지만, L1/L2를 통과한
 후보를 일본어로 플레이하는 것 자체는 막지 않는다. 넓은 24주 범위와 승인 게이트는
@@ -17,8 +17,8 @@ M01~M06 story demo는 11사건·82본문·117 UI·catalog 1행의 일본어 직�
 - M01의 두 선택과 M02 clean/fallout, M04 meet→measure/coffee→answer, M06의
   도달 가능한 다섯 선택을 모두 포함한다. 선택 의미·결과의 불편함·원화 무게를
   번역자가 친절한 정답으로 바꾸지 않는다.
-- 이 범위의 UI 분모는 controller 35키와 StoryMode 81키의 합집합 및 기본 이름을
-  합친 정확히 117키다. 기존 2,845키 retail UI 분모 완료를 새로 주장하지 않는다.
+- 이 범위의 UI 분모는 controller 35키와 StoryMode 82키의 합집합 및 기본 이름을
+  합친 정확히 118키다. 기존 2,850키 retail UI 분모 완료를 새로 주장하지 않는다.
 - `주력/함께/여력`, AP 카드, 주간·월간 계획판은 이 제품 표면과 번역 분모에 없다.
   플레이어가 고르는 것은 실제 StoryMode 장면의 표현·기억·결정이다.
 - 구조·토큰·폰트·실제 경로 자동 검사는 플레이 가능한 후보를 만들 뿐, 인물 말투와
@@ -153,8 +153,8 @@ ORDER-97의 포맷 템플릿 이동 리비전은 `legacy 2,780키 + context 30 I
 `3,310 = legacy 3,273 + context 37`호출이었다. 이후 ORDER-98의 직접 게임 패드
 힌트·페이지·진동 설정 copy를 옮긴 당시 snapshot은
 `legacy 2,782키 + context 30 ID`, `3,313 = legacy 3,276 + context 37`호출이었다.
-active demo_rc의 현재 collector는 `legacy 2,816키 + context 29 ID = 2,845키`,
-`3,311 = legacy 3,277 + context 34`호출을 요구한다.
+active demo_rc의 현재 collector는 `legacy 2,821키 + context 29 ID = 2,850키`,
+`3,320 = legacy 3,286 + context 34`호출을 요구한다.
 문맥 ID는 `ui_<code>.json`의 다른 행과 같은 최상위 문자열 키이며, 사건 ID나
 gameplay key가 아니다. 제품은 현재 잠긴 34곳에서만 문맥 ID를 조회하고 일본어
 사전은 도달 29행을 모두 소유한다.
@@ -166,7 +166,7 @@ gameplay key가 아니다. 제품은 현재 잠긴 34곳에서만 문맥 ID를 �
   `ui.gambling.venues_title`은 서로 다른 번역 단위다.
 - 기존 커뮤니티 언어팩은 한국어 키만으로 계속 작동한다. 신형 팩은 같은 flat
   JSON에 문맥 ID를 추가할 수 있으며, 명시 문맥 행이 있을 때만 그 행이 우선한다.
-- 자동 감사는 `legacy 2,816/2,816 + context 29/29 = 2,845/2,845`를 요구한다.
+- 자동 감사는 `legacy 2,821/2,821 + context 29/29 = 2,850/2,850`을 요구한다.
   키 수 통과는 일본어 문맥·버튼 품사·badge 온도의 사람 판정을 대신하지 않는다.
 
 ### 값이 들어가는 UI 템플릿
@@ -181,10 +181,10 @@ gameplay key가 아니다. 제품은 현재 잠긴 34곳에서만 문맥 ID를 �
 - 일본어 사전 hit는 대상 언어 인자를 쓰고, miss는 영어 템플릿과 명시 영어
   인자를 함께 쓴다. 현재 locale로 만든 금액이나 문구를 두 인자 목록에 공유해
   영어 부모 안에 일본어가 섞이게 만들지 않는다.
-- 착수 raw 원장은 `55 = 이동 47 + 동적 pair reader 4 + branch literal 2 +
+- 착수 raw 원장은 `56 = 이동 48 + 동적 pair reader 4 + branch literal 2 +
   exact-money formatter 2`다. Aruba의 기존 포맷 부모와 GameState의 연말 장면
-  선택 따옴표 2건은 raw 55 밖의 별도 provenance 보강이므로 런타임
-  `ui_format`은 `47 + 2 = 49`호출이다.
+  선택 따옴표 2건은 raw 56 밖의 별도 provenance 보강이므로 런타임
+  `ui_format`은 `48 + 2 = 50`호출이다.
 - 정확 1원 단위 표면은 `CommitmentTask::_format_money`와
   `SeoulCycleBoard::_format_money` 두 owner만 가진다. 일본어는 부호·쉼표·정수값을
   보존하고 단위를 `ウォン`으로 쓰며 `円`이나 `¥`로 바꾸지 않는다.
@@ -194,7 +194,7 @@ gameplay key가 아니다. 제품은 현재 잠긴 34곳에서만 문맥 ID를 �
 ORDER-97 L3 사람 판정은 아직 OPEN이다. 같은 후보에서 Batch A 23호출 중 임의의
 실제 3표면과 Batch B 24호출 중 임의의 실제 3표면을 각각 보고, 하나라도 영어
 fallback·잘못된 값 provenance·문맥 오류가 있으면 그 배치 전량을 반려한다. 현재
-`2,845/2,845` 키 수와 자동 검사는 이 화면 증거를 대신하지 않는다.
+해당 후보의 `2,845/2,845` 키 수와 자동 검사는 이 화면 증거를 대신하지 않는다.
 
 ## 문장·기호 규칙
 

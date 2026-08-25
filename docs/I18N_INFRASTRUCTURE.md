@@ -1,6 +1,6 @@
 # Multilingual Infrastructure
 
-Updated: 2026-08-25
+Updated: 2026-08-26
 
 ## Status
 
@@ -15,9 +15,9 @@ language menu. It does not change the retail allowlist or Steam metadata.
 |---|---|---|---|
 | `ko` | Shipping source | Source | Pretendard |
 | `en` | Shipping strict fallback | Source fallback | Pretendard |
-| `ja` | Prepared beta, hidden | 11/11 events · 82/82 leaves · 117/117 UI · 1/1 catalog | Noto Sans JP |
-| `zh-CN` | Prepared, hidden | 11/11 events · 82/82 leaves · 117/117 UI · 1/1 catalog | Noto Sans SC |
-| `zh-TW` | Prepared, hidden | 11/11 events · 82/82 leaves · 117/117 UI · 1/1 catalog | Noto Sans TC |
+| `ja` | Prepared beta, hidden | 11/11 events · 82/82 leaves · 118/118 UI · 1/1 catalog | Noto Sans JP |
+| `zh-CN` | Prepared, hidden | 11/11 events · 82/82 leaves · 118/118 UI · 1/1 catalog | Noto Sans SC |
+| `zh-TW` | Prepared, hidden | 11/11 events · 82/82 leaves · 118/118 UI · 1/1 catalog | Noto Sans TC |
 
 The three target overlays are direct Korean-to-target translations. The two
 Chinese bodies are independently authored rather than OpenCC-converted copies.
@@ -85,10 +85,10 @@ historical context meanings. Its migration revision measured `3,310 calls = 3,27
 37 context` and 2,780 unique legacy Korean keys. Later W1 and controller surfaces
 and the later removal of three superseded context call sites changed the reached
 inventory without changing the surviving meanings. The current measured inventory
-is exactly `3,311 calls = 3,277 legacy + 34 context`, with 2,816 unique legacy
+is exactly `3,320 calls = 3,286 legacy + 34 context`, with 2,821 unique legacy
 Korean keys and 29 reached context IDs. Japanese owns all
-`2,816 legacy + 29 context = 2,845` rows; both Chinese skeletons remain
-`legacy 0/2,816 + context 0/29`.
+`2,821 legacy + 29 context = 2,850` rows; both Chinese skeletons remain
+`legacy 0/2,821 + context 0/29`.
 
 `LocaleManager.ui_format(ko_template, en_template, ko_args, en_args)` performs a
 stable legacy-template lookup before inserting values. Korean and English each
@@ -110,13 +110,13 @@ sides can produce an English parent with Japanese or Chinese content. The
 collector locks exactly 15 raw-migration argument-provenance rows in addition to
 the templates.
 
-The current registry is `55 raw candidates = 47 migrated
+The current registry is `56 raw candidates = 48 migrated
 lookup-before-format calls / 42 templates + 4 dynamic pair readers + 2
 branch-selected literals + 2 locale money formatters`. Two pre-existing calls
-were outside that raw-55 set because their template lookup order was already
+were outside that raw-56 set because their template lookup order was already
 correct: the Aruba status parent and GameState's year-choice quote. ORDER-97
 separately split their target and English argument provenance. Runtime therefore
-contains exactly 49 `ui_format` calls: the 47 raw migrations plus those two
+contains exactly 50 `ui_format` calls: the 48 raw migrations plus those two
 supplemental existing calls. Registry validation rejects missing, extra,
 duplicate, stale, or selector-partial path/function/template/signature/count rows
 rather than adjusting the expected inventory.
@@ -140,8 +140,8 @@ migration.
 
 ORDER-126 does not claim the full retail UI denominator. Its separate
 `story_demo_localization_audit.py` collector locks 35 unique controller keys,
-81 unique StoryMode keys, their merged set, and the localized default name as
-exactly 117 required UI keys. A story-demo translation can pass this narrow
+82 unique StoryMode keys, their merged set, and the localized default name as
+exactly 118 required UI keys. A story-demo translation can pass this narrow
 surface while the same locale remains incomplete and hidden in retail.
 
 ## Content Contract
@@ -173,12 +173,12 @@ monthly action board's denominator.
 - 11 Korean event IDs, 27 choices, and 82 translatable leaves cover both M01
   branches, both M04 entries and merge, M03-M05 character scenes, and the five
   reachable M06 choices.
-- The shell owns 35 unique UI keys and StoryMode owns 81. After overlaps and the
-  default player name, each target locale must provide exactly 117 UI values.
+- The shell owns 35 unique UI keys and StoryMode owns 82. After overlaps and the
+  default player name, each target locale must provide exactly 118 UI values.
 - Only `jobs.job_01.name` is a required catalog row. This slice has no ending
   overlay.
 - Korean and English remain the source/fallback pair. Japanese, `zh-CN`, and
-  `zh-TW` each own an 11-row `story_demo_events.json`, the 117 required UI rows,
+  `zh-TW` each own an 11-row `story_demo_events.json`, the 118 required UI rows,
   and that one catalog name.
 - The localized surface contains StoryMode choices plus scene-local actions;
   `주력/함께/여력`, AP cards, and weekly/monthly planning copy are not part of
@@ -271,7 +271,7 @@ translation plan stale.
 
 The table below is the locked pre-ORDER-126 coverage snapshot for the legacy
 24-week V2 denominator. It remains deliberately incomplete and does not count
-the 117-key/11-event story-demo overlays above. Static UI is a separate claim
+the 118-key/11-event story-demo overlays above. Static UI is a separate claim
 surface for any future 24-week or retail language claim: that broader product
 cannot ship with its 2,816 required UI keys falling back to English even after
 its event body is complete.
@@ -288,7 +288,7 @@ shipping state without pretending missing prose is complete. Per-language
 keys, 4/4 catalog names, and zero direct English bypasses. It is expected to fail
 until an approved body-translation wave is finished. Japanese has the required
 terminology and source-shape validator now. `zh_translation_audit.py --strict`
-adds 2,816/2,816 legacy UI keys and 29/29 context IDs, separate
+adds 2,821/2,821 legacy UI keys and 29/29 context IDs, separate
 Simplified/Traditional script and
 terminology, Korean-won semantics, romanized-name locks, and a project-owned
 regional font route. It cannot certify one region from the other region's text.
@@ -409,7 +409,7 @@ The default full-game coverage command keeps English strict and prepared locales
 in skeleton mode. Its current strict collector scans all 1,758 packaged event
 descriptions and 35 endings: 1,603 shipping events plus 155 author-only events.
 That pass contains the 1,603-event shipping release claim but is not the same
-denominator. `ja_translation_audit.py --scope ui` requires all 2,816 legacy
+denominator. `ja_translation_audit.py --scope ui` requires all 2,821 legacy
 UI keys and all 29 reached context IDs. It also
 requires exact placeholder/newline parity, zero Hangul or yen conversion,
 canonical names and casino terms, and no lock/unlock polarity reversal. The
@@ -419,8 +419,8 @@ current source collectors lock only the reached `29 + 44 + 27` partition and
 runtime check proves alias normalization, five-layer context lookup,
 provenance-preserving community refresh, UI miss logging, English
 event/ending/catalog fallback, locale money labels, and bundled glyph coverage.
-The parameterized registry additionally locks the raw `55 = 47 + 4 + 2 + 2`
-disposition, the two supplemental existing calls, 49 runtime `ui_format` calls,
+The parameterized registry additionally locks the raw `56 = 48 + 4 + 2 + 2`
+disposition, the two supplemental existing calls, 50 runtime `ui_format` calls,
 the two exact-money owners, 15 argument-provenance rows, and raw duplicate-key
 rejection.
 
@@ -442,7 +442,7 @@ assets.
 Its normal mode reports the still-incomplete legacy denominator without
 claiming completion; the SC/TC font routes are now present, while the separate
 story-demo audit owns the narrow translated slice. Its region-specific strict
-mode requires 2,816/2,816 legacy
+mode requires 2,821/2,821 legacy
 UI keys and 29/29 context IDs, the exact 72/467/701/4 demo body (1,172 unique demo translation sources),
 zero direct English bypasses, every
 context-unambiguous wrong-region character in the pinned OpenCC 1.3.1 classifier
@@ -505,7 +505,7 @@ still be played for evaluation after package L1/L2.
 ## Chinese Regional Wave Gate
 
 ORDER-126 opens only the M01-M06 Chinese story-demo wave. `zh-CN` and `zh-TW`
-now own separate 11-event/82-leaf/117-UI/1-catalog translations made directly
+now own separate 11-event/82-leaf/118-UI/1-catalog translations made directly
 from Korean; OpenCC or another script conversion did not create the second
 region. The larger legacy 24-week body remains held. Official character Hanja
 must not be invented, so established romanized names remain locked until a
@@ -518,7 +518,7 @@ the isolated candidate, not in retail.
 
 Before either legacy 24-week Chinese claim, that region requires:
 
-1. 2,816/2,816 legacy UI keys, 29/29 context IDs, and strict parity for all 72 demo events, 467 event
+1. 2,821/2,821 legacy UI keys, 29/29 context IDs, and strict parity for all 72 demo events, 467 event
    leaves, 701 dynamic keys, and four catalog names: 1,172 unique demo translation
    sources in total; no ending is fabricated.
 2. Zero Hangul, kana, untranslated English prose, direct English bypass, wrong-

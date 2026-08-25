@@ -18,6 +18,9 @@ EARLY_CALLBACK_RANGE = range(12, 26)
 LATE_CALLBACK_RANGE = range(43, 55)
 EARLY_LINE_BUDGET = {"ko": 858, "en": 868}
 LATE_SECOND_LINE_BUDGET = {"ko": 317, "en": 322}
+EXPECTED_LATE_NON_POOL_IDS = frozenset({
+    "callback_proactive_parent_care_echo_father_passed",
+})
 
 
 def load_events(root: Path) -> dict[str, dict[str, Any]]:
@@ -243,7 +246,28 @@ def check() -> tuple[list[str], dict[str, int]]:
 
     early_choices = 0
     early_lines = {"ko": 0, "en": 0}
-    late_second_choices = 0
+    late_pool_ids: set[str] = set()
+    late_ko_ids: set[str] = set()
+    for number in LATE_CALLBACK_RANGE:
+        for event in load_callback_file("ko", number):
+            event_id = str(event.get("id", ""))
+            late_ko_ids.add(event_id)
+            weight = event.get("weight")
+            is_positive_weight = (
+                isinstance(weight, (int, float))
+                and not isinstance(weight, bool)
+                and weight > 0
+            )
+            if is_positive_weight and event.get("hidden") is not True:
+                late_pool_ids.add(event_id)
+    late_non_pool_ids = late_ko_ids - late_pool_ids
+    if late_non_pool_ids != EXPECTED_LATE_NON_POOL_IDS:
+        errors.append(
+            "late callback non-pool classification drifted: "
+            f"{sorted(late_non_pool_ids)}"
+        )
+
+    late_second_choices = len(late_pool_ids)
     late_second_lines = {"ko": 0, "en": 0}
     for language in ("ko", "en"):
         for number in EARLY_CALLBACK_RANGE:
@@ -257,20 +281,28 @@ def check() -> tuple[list[str], dict[str, int]]:
                     early_lines[language] += lines
                     if language == "ko":
                         early_choices += 1
+        language_late_ids: set[str] = set()
         for number in LATE_CALLBACK_RANGE:
             for event in load_callback_file(language, number):
+                event_id = str(event.get("id", ""))
+                language_late_ids.add(event_id)
                 choices = event.get("choices", [])
                 if not isinstance(choices, list) or len(choices) < 2:
-                    errors.append(f"{language}:{event.get('id')}: late callback lacks two choices")
+                    errors.append(f"{language}:{event_id}: late callback lacks two choices")
                     continue
                 lines = text_line_count(choices[1].get("result_text"))
                 if lines == 0 or lines > 2:
                     errors.append(
-                        f"{language}:{event.get('id')}: reserved branch has {lines} lines"
+                        f"{language}:{event_id}: reserved branch has {lines} lines"
                     )
-                late_second_lines[language] += lines
-                if language == "ko":
-                    late_second_choices += 1
+                if event_id in late_pool_ids:
+                    late_second_lines[language] += lines
+        if language_late_ids != late_ko_ids:
+            errors.append(
+                f"{language}: late callback ID parity drifted: "
+                f"missing={sorted(late_ko_ids - language_late_ids)} "
+                f"extra={sorted(language_late_ids - late_ko_ids)}"
+            )
 
     if early_choices != 400:
         errors.append(f"early callback choice count drifted: {early_choices}")

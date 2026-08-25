@@ -42,8 +42,8 @@
     "automatic_script_conversion": false,
     "body_translation": "held_until_explicit_demo_GO",
     "shipping": false,
-    "static_ui_source_count": 2818,
-    "static_ui_source_keys_sha256": "7c0b3e6b49d5b58665292b59b8b9db2ff9cf26a749edb60baae35e540f11e808",
+    "static_ui_source_count": 2821,
+    "static_ui_source_keys_sha256": "03f83632cbc5df7f0356495bb48f5a66eb8b842fae49f62cbb5d6300dfe1eb5f",
     "regions": {
       "zh-CN": {
         "source_language": "ko",
@@ -68,10 +68,10 @@
     "legacy_korean_source_keys": 2730,
     "legacy_korean_source_keys_sha256": "b67df90ba814deeac78db1b1bc4836d16596b6b93521e97a34427ae3b2bcb222",
     "current_source_snapshot": {
-      "legacy_pair_call_occurrences": 3259,
-      "post_migration_legacy_pair_call_occurrences": 3225,
-      "legacy_korean_source_keys": 2768,
-      "legacy_korean_source_keys_sha256": "963d8c484d1bb31cad55c9eaaa0893e5aa6fb3295e66eae7f80b3f050b42b377"
+      "legacy_pair_call_occurrences": 3263,
+      "post_migration_legacy_pair_call_occurrences": 3229,
+      "legacy_korean_source_keys": 2771,
+      "legacy_korean_source_keys_sha256": "7052abce91564ac6cbdbcc3095c6b2a0518f7e0b4bbfb705b1b61549daeca0e9"
     },
     "multi_english_korean_keys": 100,
     "format_equivalent_keys": 29,
@@ -2173,11 +2173,11 @@
         "money_formatter_migrations": 2,
         "localized_argument_calls": 1,
         "migrated_branch_literal_calls": 2,
-        "total_ui_call_occurrences": 3316,
-        "legacy_pair_call_occurrences": 3282,
+        "total_ui_call_occurrences": 3320,
+        "legacy_pair_call_occurrences": 3286,
         "context_call_occurrences": 34,
-        "legacy_korean_source_keys": 2818,
-        "legacy_korean_source_keys_sha256": "7c0b3e6b49d5b58665292b59b8b9db2ff9cf26a749edb60baae35e540f11e808"
+        "legacy_korean_source_keys": 2821,
+        "legacy_korean_source_keys_sha256": "03f83632cbc5df7f0356495bb48f5a66eb8b842fae49f62cbb5d6300dfe1eb5f"
       }
     },
     "existing_lookup_before_format_calls": 2,

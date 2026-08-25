@@ -6736,7 +6736,7 @@ func _next_arc_id(
 			== "opening_interview_math" \
 		and str(opening_interview_receipt.get("status", "")) == "consumed"
 	)
-	if t >= 3 and t <= 8 and not father_is_passed \
+	if t >= 3 and not father_is_passed \
 			and f.get("arc_intro_meal_seen", false) \
 			and not f.get("arc_intro_dad_seen", false) \
 			and not v2_replaced_intro_dad:
