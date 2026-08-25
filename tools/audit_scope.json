@@ -1057,6 +1057,7 @@
         "autoloads/FontKit.gd",
         "autoloads/LocaleManager.gd",
         "autoloads/**",
+        "playtests/order124/StoryChoiceM1M6Playtest.gd",
         "scenes/**",
         "systems/**",
         "ui_components/**",
@@ -1064,6 +1065,7 @@
         "docs/I18N_GLOSSARY_ZH.md",
         "tools/demo_localization_scope.py",
         "tools/ja_translation_pipeline.py",
+        "tools/story_demo_localization_audit.py",
         "tools/zh_translation_audit.py",
         "tools/data/opencc_script_variants_1_3_1.json",
         "tools/data/LICENSE-OpenCC-2.0.txt"
@@ -1083,12 +1085,14 @@
         "locale/catalog_zh-TW.json",
         "autoloads/FontKit.gd",
         "autoloads/**",
+        "playtests/order124/StoryChoiceM1M6Playtest.gd",
         "scenes/**",
         "systems/**",
         "ui_components/**",
         "assets/fonts/**",
         "tools/demo_localization_scope.py",
         "tools/ja_translation_pipeline.py",
+        "tools/story_demo_localization_audit.py",
         "tools/zh_translation_audit.py",
         "tools/data/opencc_script_variants_1_3_1.json",
         "tools/data/LICENSE-OpenCC-2.0.txt"
@@ -1108,12 +1112,17 @@
       "tool": "tools/ja_translation_audit.py --scope ui",
       "why": "일본어 UI 키. 본문 scope(events/endings/catalog)는 ja_translation_pipeline 이 24주 본문 확정 전까지 잠가 둔 미완이므로 게이트하지 않는다",
       "paths": [
+        "content/meta/demo_localization_scope.json",
         "locale/ui_ja.json",
         "locale/**",
         "autoloads/**",
+        "playtests/order124/StoryChoiceM1M6Playtest.gd",
         "scenes/**",
         "systems/**",
-        "ui_components/**"
+        "ui_components/**",
+        "tools/ja_translation_audit.py",
+        "tools/ja_translation_pipeline.py",
+        "tools/story_demo_localization_audit.py"
       ]
     },
     {

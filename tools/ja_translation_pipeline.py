@@ -3281,11 +3281,11 @@ def main() -> int:
             )
         cases += 1
         exact_parameter_stats = {
-            "source_calls": 3311,
-            "legacy_calls": 3277,
-            "format_calls": 49,
-            "parameter_raw_candidates": 55,
-            "parameter_migrate_calls": 47,
+            "source_calls": 3316,
+            "legacy_calls": 3282,
+            "format_calls": 50,
+            "parameter_raw_candidates": 56,
+            "parameter_migrate_calls": 48,
             "parameter_existing_lookup_before_format_migrations": 2,
             "parameter_argument_provenance_calls": 15,
             "parameter_existing_lookup_before_format_provenance_calls": 2,

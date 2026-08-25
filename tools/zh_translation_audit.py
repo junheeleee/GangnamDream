@@ -37,6 +37,7 @@ from ja_translation_pipeline import (  # noqa: E402
 
 
 LANGUAGES = ("zh-CN", "zh-TW")
+EXPECTED_STORY_DEMO_EXCLUSIVE_UI_KEYS = 34
 SCRIPT_VARIANT_DATA_PATH = (
     ROOT / "tools/data/opencc_script_variants_1_3_1.json"
 )
@@ -241,7 +242,7 @@ SOURCE_BARE_ONE_MONEY = re.compile(
     r"(?<![가-힣])(?P<unit>억|만)\s*원"
 )
 SOURCE_COLLOQUIAL_MANWON = re.compile(
-    r"(?<![가-힣\d])(?P<context>보증금|월|즉시)\s+"
+    r"(?<![가-힣\d])(?P<context>보증금|월|즉시|건당)\s+"
     r"(?P<number>\d[\d,]*|[일이삼사오육칠팔구십백천]+)(?![\d,])"
 )
 CHINESE_MONEY_COMPONENT = re.compile(
@@ -308,6 +309,7 @@ SCRIPT_VARIANTS: tuple[tuple[str, str], ...] = (
 REGIONAL_PHRASE_VARIANTS: tuple[tuple[str, str], ...] = (
     ("以后", "以後"),
 )
+ZH_TW_SHARED_SCRIPT_CHARACTERS = frozenset({"床"})
 
 REGIONAL_TERMS = {
     "zh-CN": {
@@ -393,6 +395,12 @@ LATIN_EXACT = {
     "리츠 ETF": "REIT ETF",
     "포스코": "POSCO",
     "코파일럿": "Copilot",
+}
+# Fictional business names are allowed only when their Korean source term is
+# present. Keep them out of ALLOWED_LATIN_PHRASES so unrelated translations
+# cannot use this exception to smuggle an otherwise-untranslated Latin token.
+SOURCE_SCOPED_LATIN_TERMS = {
+    "한빛유통": "Hanbit 流通",
 }
 ALLOWED_LATIN_PHRASES = tuple(sorted({
     *LATIN_EXACT.values(),
@@ -649,6 +657,11 @@ def _script_errors(lang: str, target: str) -> list[str]:
         return errors
     for simplified, traditional in SCRIPT_VARIANTS:
         forbidden.add(traditional if lang == "zh-CN" else simplified)
+    if lang == "zh-TW":
+        # OpenCC's variant table classifies 床 as Simplified-only, although 床
+        # is also the standard Taiwan character. Remove only this reviewed
+        # shared character; every other Simplified sentinel remains forbidden.
+        forbidden.difference_update(ZH_TW_SHARED_SCRIPT_CHARACTERS)
     forbidden_phrases = {
         traditional if lang == "zh-CN" else simplified
         for simplified, traditional in REGIONAL_PHRASE_VARIANTS
@@ -681,6 +694,19 @@ def _terminology_errors(lang: str, source: str, target: str) -> list[str]:
         errors.append(
             f"exact prepared form mismatch: {target.strip()!r} != {exact!r}"
         )
+
+    for korean, expected in SOURCE_SCOPED_LATIN_TERMS.items():
+        if korean not in source:
+            continue
+        if expected not in target:
+            errors.append(
+                f"{korean} must use canonical prepared form {expected!r}"
+            )
+        elif source.strip() == korean and target.strip() != expected:
+            errors.append(
+                f"exact prepared form mismatch: {target.strip()!r} != "
+                f"{expected!r}"
+            )
 
     if "강남드림" in source and "GANGNAM DREAM" not in target:
         errors.append("game title must remain 'GANGNAM DREAM' until title GO")
@@ -1346,6 +1372,10 @@ def _untranslated_english_errors(source: str, target: str) -> list[str]:
             scrubbed,
             flags=re.IGNORECASE,
         )
+    for korean, phrase in SOURCE_SCOPED_LATIN_TERMS.items():
+        if korean in source:
+            # Case and spacing are part of the locked prepared form.
+            scrubbed = scrubbed.replace(phrase, " ")
     for phrase in ALLOWED_LATIN_PHRASES:
         scrubbed = re.sub(re.escape(phrase), " ", scrubbed, flags=re.IGNORECASE)
     for token in sorted(ALLOWED_LATIN_TOKENS, key=len, reverse=True):
@@ -1718,11 +1748,36 @@ def chinese_contract_errors(manifest: dict[str, Any]) -> list[str]:
     return errors
 
 
+def _story_demo_exclusive_ui_pairs(
+    runtime: dict[str, Any], inventory: UiInventory,
+) -> tuple[dict[str, Any], list[str]]:
+    """Collect only story-demo UI strings that have no older UI owner."""
+    import story_demo_localization_audit as story_demo
+
+    pairs, errors, _counts = story_demo.ui_pairs()
+    existing_owners = (
+        set(inventory.legacy_blueprint)
+        | set(inventory.planned_context_blueprint)
+        | set(runtime["merged_pairs"])
+    )
+    exclusive = {
+        source: pair
+        for source, pair in pairs.items()
+        if source not in existing_owners
+    }
+    if len(exclusive) != EXPECTED_STORY_DEMO_EXCLUSIVE_UI_KEYS:
+        errors.append(
+            f"story-demo exclusive UI source count {len(exclusive)} != "
+            f"{EXPECTED_STORY_DEMO_EXCLUSIVE_UI_KEYS}"
+        )
+    return exclusive, errors
+
+
 def static_ui_coverage(
     lang: str, runtime: dict[str, Any], strict: bool,
     actual_override: Optional[dict[str, Any]] = None,
     raw_text_override: Optional[str] = None,
-) -> tuple[int, int, int, int, list[str]]:
+) -> tuple[int, int, int, int, int, int, list[str]]:
     inventory = _static_ui_inventory()
     legacy_entries = {entry.source: entry for entry in inventory.legacy_entries}
     context_entries = {
@@ -1730,6 +1785,20 @@ def static_ui_coverage(
     }
     expected_legacy = set(inventory.legacy_blueprint)
     expected_context = set(inventory.planned_context_blueprint)
+    # The isolated M01-M06 controller is not part of the legacy retail UI
+    # denominator. Derive its exact owner set from the strict source collector
+    # on every audit instead of copying those Korean strings into a whitelist.
+    import story_demo_localization_audit as story_demo
+
+    story_demo_pairs, story_source_errors = _story_demo_exclusive_ui_pairs(
+        runtime, inventory
+    )
+    story_demo_exclusive_keys = set(story_demo_pairs)
+    source_errors = [
+        f"{lang}:story-demo-ui source: {error}"
+        for error in story_source_errors
+    ]
+    dynamic_keys = set(runtime["merged_pairs"])
     ui_path = ROOT / "locale" / f"ui_{lang}.json"
     duplicate_keys: list[str] = []
     if raw_text_override is not None:
@@ -1737,22 +1806,34 @@ def static_ui_coverage(
     elif actual_override is None and ui_path.is_file():
         duplicate_keys = duplicate_json_object_keys(ui_path)
     if duplicate_keys:
-        return 0, len(expected_legacy), 0, len(expected_context), [
-            f"{lang}:ui: duplicate raw JSON keys {duplicate_keys[:12]}"
-        ]
+        return (
+            0, len(expected_legacy), 0, len(expected_context),
+            0, len(story_demo_exclusive_keys),
+            source_errors + [
+                f"{lang}:ui: duplicate raw JSON keys {duplicate_keys[:12]}"
+            ],
+        )
     actual = actual_override
     if actual is None:
         actual = read_json(ui_path) if ui_path.is_file() else {}
-    errors: list[str] = []
+    errors: list[str] = list(source_errors)
     if not isinstance(actual, dict):
-        return 0, len(expected_legacy), 0, len(expected_context), [
-            f"{ui_path.relative_to(ROOT)}: expected object"
-        ]
+        return (
+            0, len(expected_legacy), 0, len(expected_context),
+            0, len(story_demo_exclusive_keys),
+            errors + [f"{ui_path.relative_to(ROOT)}: expected object"],
+        )
 
-    allowed = expected_legacy | expected_context | set(runtime["merged_pairs"])
+    allowed = (
+        expected_legacy | expected_context | dynamic_keys
+        | story_demo_exclusive_keys
+    )
     unknown = sorted(set(actual) - allowed)
     if unknown:
-        errors.append(f"{lang}:ui: unknown source keys {unknown[:8]}")
+        errors.append(
+            f"{lang}:ui: unknown source keys count={len(unknown)} "
+            f"preview={unknown[:8]}"
+        )
     legacy_covered = 0
     for source in sorted(expected_legacy):
         if source not in actual:
@@ -1777,6 +1858,36 @@ def static_ui_coverage(
         entry = context_entries[context_id]
         for error in validate_text(lang, entry.key, entry.source, target):
             errors.append(f"{lang}:{entry.key}: {error}")
+    story_demo_covered = 0
+    for source in sorted(story_demo_exclusive_keys):
+        if source not in actual:
+            continue
+        target = actual[source]
+        if not isinstance(target, str) or not target.strip():
+            errors.append(
+                f"{lang}:story-demo-ui:{source!r}: empty/non-string translation"
+            )
+            continue
+        story_demo_covered += 1
+        pair = story_demo_pairs[source]
+        entry_key = (
+            "story-demo-ui::"
+            + hashlib.sha1(source.encode("utf-8")).hexdigest()[:12]
+        )
+        for error in story_demo.target_text_errors(
+            lang,
+            entry_key,
+            source,
+            target,
+            format_template=pair.format_template,
+            english=pair.english,
+        ):
+            errors.append(f"{lang}:{entry_key}: {error}")
+    if story_demo_covered != len(story_demo_exclusive_keys):
+        errors.append(
+            f"{lang}: required story-demo UI coverage "
+            f"{story_demo_covered}/{len(story_demo_exclusive_keys)}"
+        )
     if strict and legacy_covered != len(expected_legacy):
         errors.append(
             f"{lang}: strict legacy static_ui coverage "
@@ -1792,6 +1903,8 @@ def static_ui_coverage(
         len(expected_legacy),
         context_covered,
         len(expected_context),
+        story_demo_covered,
+        len(story_demo_exclusive_keys),
         errors,
     )
 
@@ -2077,6 +2190,26 @@ def run_self_test(
             "押金1000韩元，月租55韩元。", "Korean-won values changed",
         ),
         (
+            "colloquial-per-item-money", "zh-CN", "건당 백.",
+            "每个10万韩元。", "Korean-won values changed",
+        ),
+        (
+            "hanbit-invented-hanja", "zh-CN", "한빛유통에서 일한다",
+            "在韩光流通工作", "canonical prepared form",
+        ),
+        (
+            "hanbit-exact-extra-prose", "zh-CN", "한빛유통",
+            "在Hanbit 流通工作", "exact prepared form mismatch",
+        ),
+        (
+            "hanbit-unrelated-source", "zh-CN", "다른 회사에서 일한다",
+            "在Hanbit 流通工作", "untranslated English token",
+        ),
+        (
+            "tw-shared-bed-keeps-script-gate", "zh-TW", "침대에서 문을 연다",
+            "在床上开门", "regional script mismatch",
+        ),
+        (
             "age-decade-not-vehicle", "zh-CN", "30대 초반",
             "30辆车", "counter quantity missing/changed",
         ),
@@ -2331,6 +2464,35 @@ def run_self_test(
     ):
         failures.append("valid shared-form Traditional context was rejected")
 
+    for lang, source, target, label in (
+        (
+            "zh-CN", "통장 세 개 더 구하면 건당 백.",
+            "再弄三个存折，每个100万韩元。", "per-item money",
+        ),
+        (
+            "zh-TW", "통장 세 개 더 구하면 건당 백.",
+            "再弄三個帳戶，每個100萬韓元。", "per-item money",
+        ),
+        ("zh-CN", "한빛유통", "Hanbit 流通", "exact Hanbit business"),
+        (
+            "zh-CN", "한빛유통에서 일한다", "在Hanbit 流通工作",
+            "scoped Hanbit business",
+        ),
+        (
+            "zh-TW", "한빛유통에서 일한다", "在Hanbit 流通工作",
+            "scoped Hanbit business",
+        ),
+        ("zh-TW", "침대에 눕는다", "躺到床上", "Taiwan shared 床"),
+    ):
+        cases += 1
+        scoped_errors = validate_text(
+            lang, f"self-test::scoped-{label}", source, target,
+        )
+        if scoped_errors:
+            failures.append(
+                f"valid scoped {label} row failed {lang}: {scoped_errors}"
+            )
+
     valid_semantic_rows = (
         ("zh-CN", "9,000원", "9000韩元"),
         ("zh-TW", "500,000원", "50萬韓元"),
@@ -2540,17 +2702,34 @@ static func attach_locale_fallbacks(font: FontFile, language: String) -> void:
             legacy_total,
             context_covered,
             context_total,
+            story_demo_covered,
+            story_demo_total,
             skeleton_errors,
         ) = static_ui_coverage(lang, runtime, False, {})
+        non_owner_errors = [
+            error for error in skeleton_errors
+            if "required story-demo UI coverage" not in error
+        ]
         if legacy_covered != 0 or legacy_total != expected_legacy_total \
                 or context_covered != 0 \
                 or context_total != expected_context_total \
-                or skeleton_errors:
+                or story_demo_covered != 0 \
+                or story_demo_total != EXPECTED_STORY_DEMO_EXCLUSIVE_UI_KEYS \
+                or non_owner_errors:
             failures.append(
                 f"empty {lang} two-layer skeleton was rejected: "
                 f"legacy={legacy_covered}/{legacy_total} "
                 f"context={context_covered}/{context_total} "
+                f"story_demo={story_demo_covered}/{story_demo_total} "
                 f"errors={skeleton_errors}"
+            )
+        if not any(
+            f"required story-demo UI coverage "
+            f"0/{EXPECTED_STORY_DEMO_EXCLUSIVE_UI_KEYS}" in error
+            for error in skeleton_errors
+        ):
+            failures.append(
+                f"empty {lang} story-demo UI owner mutation escaped"
             )
         *_coverage, strict_errors = static_ui_coverage(lang, runtime, True, {})
         if not any("strict legacy static_ui coverage" in error for error in strict_errors):
@@ -2559,6 +2738,63 @@ static func attach_locale_fallbacks(font: FontFile, language: String) -> void:
             f"strict context static_ui coverage 0/{expected_context_total}" in error
                    for error in strict_errors):
             failures.append(f"empty {lang} strict context UI mutation escaped")
+
+    cases += 1
+    for lang in LANGUAGES:
+        live_ui = read_json(ROOT / "locale" / f"ui_{lang}.json")
+        (
+            _legacy_covered,
+            _legacy_total,
+            _context_covered,
+            _context_total,
+            story_demo_covered,
+            story_demo_total,
+            live_ui_errors,
+        ) = static_ui_coverage(lang, runtime, False, live_ui)
+        if story_demo_covered != EXPECTED_STORY_DEMO_EXCLUSIVE_UI_KEYS \
+                or story_demo_total != EXPECTED_STORY_DEMO_EXCLUSIVE_UI_KEYS \
+                or live_ui_errors:
+            failures.append(
+                f"live {lang} story-demo UI owner failed: "
+                f"{story_demo_covered}/{story_demo_total} {live_ui_errors}"
+            )
+
+        story_pairs, story_source_errors = _story_demo_exclusive_ui_pairs(
+            runtime, expected_inventory
+        )
+        owner_keys = set(story_pairs)
+        if story_source_errors:
+            failures.append(
+                f"{lang} story-demo UI source collector failed: "
+                f"{story_source_errors}"
+            )
+        if not owner_keys:
+            continue
+        removed = dict(live_ui)
+        removed.pop(sorted(owner_keys)[0])
+        *_coverage, removed_errors = static_ui_coverage(
+            lang, runtime, False, removed
+        )
+        if not any(
+            f"required story-demo UI coverage "
+            f"{EXPECTED_STORY_DEMO_EXCLUSIVE_UI_KEYS - 1}/"
+            f"{EXPECTED_STORY_DEMO_EXCLUSIVE_UI_KEYS}" in error
+            for error in removed_errors
+        ):
+            failures.append(
+                f"missing {lang} story-demo UI owner key mutation escaped"
+            )
+
+        invalid = dict(live_ui)
+        invalid_source = sorted(owner_keys)[0]
+        invalid[invalid_source] = invalid_source
+        *_coverage, invalid_errors = static_ui_coverage(
+            lang, runtime, False, invalid
+        )
+        if not any("Hangul remains" in error for error in invalid_errors):
+            failures.append(
+                f"invalid {lang} story-demo UI owner target mutation escaped"
+            )
 
     cases += 1
     *_coverage, unknown_errors = static_ui_coverage(
@@ -2703,6 +2939,8 @@ def main() -> int:
             ui_legacy_total,
             ui_context_covered,
             ui_context_total,
+            ui_story_demo_covered,
+            ui_story_demo_total,
             ui_errors,
         ) = static_ui_coverage(
             lang, runtime, args.strict
@@ -2720,6 +2958,7 @@ def main() -> int:
             f"strings={result['event_strings']}/{result['total_event_strings']} "
             f"ui_legacy={ui_legacy_covered}/{ui_legacy_total} "
             f"ui_context={ui_context_covered}/{ui_context_total} "
+            f"ui_story_demo={ui_story_demo_covered}/{ui_story_demo_total} "
             f"context_plan={_static_ui_inventory().stats['migrated_context_ids']}/"
             f"{_static_ui_inventory().stats['planned_context_ids']} "
             f"dynamic={result['dynamic']}/{result['total_dynamic']} "

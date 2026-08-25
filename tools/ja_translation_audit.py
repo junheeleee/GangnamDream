@@ -159,7 +159,7 @@ def _demo_runtime(errors: list[str]) -> tuple[dict[str, Any], dict[str, Any]]:
 
 
 def check_ui_scope(actual: Any, errors: list[str]) -> int:
-    """Keep static UI exact while allowing only locked demo dynamic keys."""
+    """Keep retail UI exact while recognizing separately owned demo surfaces."""
     inventory = collect_ui_inventory()
     rows, blueprint = inventory.entries, inventory.blueprint
     entries = {entry.key: entry for entry in rows}
@@ -177,16 +177,32 @@ def check_ui_scope(actual: Any, errors: list[str]) -> int:
     dynamic_keys = set(runtime["merged_pairs"])
     static_keys = set(blueprint)
     extra_keys = set(actual) - static_keys
+    # ORDER-126's isolated M01-M06 controller is not part of the retail UI
+    # denominator.  Its exact source/key count and target coverage belong to
+    # story_demo_localization_audit; reuse that fail-closed source collector
+    # here instead of copying its strings into a second allowlist.
+    import story_demo_localization_audit as story_demo
+
+    story_demo_pairs, story_demo_errors, _story_demo_counts = story_demo.ui_pairs()
+    errors.extend(
+        f"story demo UI source: {error}" for error in story_demo_errors
+    )
+    story_demo_keys = set(story_demo_pairs)
+    story_demo_exclusive_keys = story_demo_keys - static_keys - dynamic_keys
     premature_context = set(premature_context_dictionary_keys(actual, inventory))
     if premature_context:
         errors.append(
             "ui: planned context rows appeared before implementation "
             f"{sorted(premature_context)[:8]}"
         )
-    unknown_extra = extra_keys - dynamic_keys - premature_context
+    unknown_extra = (
+        extra_keys - dynamic_keys - story_demo_exclusive_keys
+        - premature_context
+    )
     if unknown_extra:
         errors.append(
-            f"ui: unknown extra keys {sorted(unknown_extra)[:8]}"
+            f"ui: unknown extra keys count={len(unknown_extra)} "
+            f"preview={sorted(unknown_extra)[:8]}"
         )
     for korean in sorted(extra_keys & dynamic_keys):
         entry = Entry(
@@ -195,7 +211,19 @@ def check_ui_scope(actual: Any, errors: list[str]) -> int:
             "24-week dynamic UI",
         )
         check_text(entry, actual[korean], errors)
+    for korean in sorted(extra_keys & story_demo_exclusive_keys):
+        pair = story_demo_pairs[korean]
+        entry = Entry(
+            f"story-demo-ui::{hashlib.sha1(korean.encode()).hexdigest()[:12]}",
+            korean,
+            pair.owner,
+            format_template=pair.format_template,
+        )
+        check_text(entry, actual[korean], errors)
     dynamic_present = len(dynamic_keys & set(actual))
+    story_demo_exclusive_present = len(
+        story_demo_exclusive_keys & set(actual)
+    )
     legacy_present = len(set(inventory.legacy_blueprint) & set(actual))
     context_present = len(set(inventory.planned_context_blueprint) & set(actual))
     stats = inventory.stats
@@ -206,6 +234,8 @@ def check_ui_scope(actual: Any, errors: list[str]) -> int:
         f"migrated={stats['migrated_context_ids']}/"
         f"{stats['planned_context_ids']} "
         f"demo_dynamic={dynamic_present}/{len(dynamic_keys)} "
+        f"story_demo_extra={story_demo_exclusive_present}/"
+        f"{len(story_demo_exclusive_keys)} "
         f"errors={len(errors)-before}"
     )
     return len(rows)
