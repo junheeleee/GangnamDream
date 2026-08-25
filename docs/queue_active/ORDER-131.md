@@ -20,6 +20,9 @@
 `content/events_en/arc_chapter_themes.json`,
 `content/events/arc_drama.json`, `content/events_en/arc_drama.json`,
 `content/events/arc_midgame.json`, `content/events_en/arc_midgame.json`,
+`content/events/arc_events.json`, `content/events_en/arc_events.json`,
+`content/events/arc_year3_drama.json`,
+`content/events_en/arc_year3_drama.json`,
 `content/events/arc_addiction_recovery.json`,
 `content/events_en/arc_addiction_recovery.json`,
 `content/events/life_events.json`, `content/events_en/life_events.json`,
@@ -106,6 +109,15 @@ M39 영수증을 읽는 W157의 세 표적 장면으로 분리했으므로, 옛 
 사건을 실시간·저장 복구 StoryMode 큐에서도 단조 사망 증거로 건너뛰기 위해
 `scenes/StoryMode.gd`를 정확한 파일 범위에 추가한다. 읽기 전용 과거 회상은
 보존하며 AP·저장 schema는 바꾸지 않는다.
+
+**후반 구세이브·기사 변형 보강 (2026-08-26):** 같은 재감사에서 W189+ 옛 저장이
+1장의 `arc_intro_02_dad_call`을 직접 또는 식사 후속으로 다시 열 수 있고,
+W188 별세 직전 예약된 `arc_sangchul_year3`의 세 선택 중 하나가 다음 주 아버지의
+현재 응답을 만들 수 있음을 확인했다. 한·영 `arc_events.json`과
+`arc_year3_drama.json`을 정확한 파일 범위에 추가한다. 새벽 전화는 live queue에서
+차단하고, 임상철 기사는 통째로 버리지 않고 같은 기사·같은 3선택을 가진 사망
+변형으로 넘겨 ‘알리고 싶었던 사람의 부재’를 쓴다. 정상 생존 경로와 읽기 전용
+과거 회상은 보존한다.
 
 ## 깊이 3문
 
