@@ -7,7 +7,7 @@
 **사용자 지시·착수 선언 (2026-08-25):** 사용자는 CI 오류를 포함한 큐 작업을
 계속 진행하고, 종막 밀도를 올린 뒤 직접 플레이할 시점에 알려 달라고 했다.
 ORDER-127 전체 감사 13 flag 중 STATUS_DOC 1건은 마감 생성으로 해소됐다.
-남은 12건은 실제 코드·번역 결함과 stale 원장을 분리해 고친 뒤 같은 exact tree의
+남은 12건은 실제 코드 결함, 좁은 데모의 승인된 예외, stale 원장을 분리해 고친 뒤 같은 exact tree의
 전체 GREEN을 확인한다.
 
 **[~] 착수 — 만지는 파일:** scenes/StoryMode.gd,
@@ -17,6 +17,7 @@ tools/ja_translation_pipeline.py, tools/ja_translation_audit.py,
 tools/zh_translation_audit.py, tools/demo_localization_scope.py,
 tools/chapter1_core_loop_v2_causal_ledger_check.py,
 content/meta/chapter1_core_loop_v2_causal_ledger.json,
+content/meta/year5_reference_routes.json, tools/year5_reference_route_audit.py,
 content/meta/demo_localization_scope.json,
 content/events_ja/story_demo_events.json,
 content/events_zh-CN/story_demo_events.json,
@@ -31,8 +32,8 @@ docs/WORK_LOG.md, docs/history/WORK_LOG_2026-08-24.md,
 
 1. 왜 검사 기준을 지우지 않는가? StoryMode 타입, 종막 우선순위, 저장 표시,
    한글 누출, 중국어 금액·지역 문자는 실제 제품 의미다.
-2. 왜 전부 번역 문제로 부르지 않는가? 실제 zh-CN/zh-TW 오역과 ORDER-126
-   표면을 아직 모르는 stale manifest가 섞여 있다.
+2. 왜 번역문부터 바꾸지 않는가? ORDER-126 전용 감사에서 통과한 속어 금액,
+   Hanbit 준비형, 대만 표준 자형을 구형 범용 감사가 오탐하고 있다.
 3. 왜 종막 카피를 같이 고치지 않는가? CI 기준선을 먼저 복구해야 다음
    서명 coda·M59~M60 개작의 새 회귀를 분리할 수 있다.
 
@@ -55,9 +56,9 @@ docs/WORK_LOG.md, docs/history/WORK_LOG_2026-08-24.md,
 2. UI call·legacy key·context ID·parameter provenance를 collector와 맞춘다.
 3. manifest phase를 invalid_partial이 아닌 완료된 atomic phase로 고정한다.
 4. JA·zh-CN·zh-TW의 ORDER-126 신규 UI 8 key 소유권을 정리한다.
-5. zh-CN/zh-TW temptation fallout의 누락된 100만원을 복구한다.
-6. zh-CN/zh-TW의 Hanbit 영어 미번역 토큰을 제거한다.
-7. zh-TW choice/result의 간체 床을 번체 牀으로 고친다.
+5. ‘건당 백’을 100만원으로 보존한 번역을 범용 금액 감사도 정확히 이해하게 한다.
+6. 승인된 회사명 Hanbit 流通만 허용하고 임의 한자 회사명은 계속 거부한다.
+7. 대만 표준 자형 床은 허용하되 다른 간체 전용 문자는 계속 거부한다.
 8. 금액·placeholder·인물명·선택 index·gameplay key를 보존한다.
 9. EN Hangul, JA UI/pipeline, ZH, demo i18n direct/self-test를 통과한다.
 10. mutation self-test가 오역·지역 문자·금액·registry drift를 거부한다.
@@ -68,7 +69,7 @@ docs/WORK_LOG.md, docs/history/WORK_LOG_2026-08-24.md,
 
 - 남은 12 flag의 direct/self-test가 모두 PASS한다.
 - 15 routing, 35 ending ID·CG, Year5 dormant guard가 ORDER-127과 동일하다.
-- 중국어 6개 실제 번역 결함이 0이고 신규 UI 8 key 소유권이 일치한다.
+- 중국어 번역문은 byte 의미를 보존하고, 여섯 오탐과 신규 UI 8 key 소유권이 정리된다.
 - context, queue, STATUS, 영향 selector, EN coverage, diff가 PASS한다.
 - 최종 exact commit의 전체 감사가 “감사 통과”로 끝난다.
 
