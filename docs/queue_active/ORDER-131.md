@@ -206,6 +206,22 @@ random·callback·프롤로그 대기열에는 별세 뒤 현재형 아버지 �
 함께 대조한다. 사후 기억을 지워서 일관성을 만드는 방식은 금지하며, 읽기 전용
 Dialogue History는 원문을 유지한다.
 
+**사후 관계 단조성·random 변형 정체성 보강 (2026-08-26):** 사후 회상 선택에
+남은 `father` 호감도 효과가 passed cast의 수치를 다시 올리고, 기존
+`has_any_close_relationship()`가 passed stage도 현재 관계로 세어 엔딩 조건을
+오염시키는 별도 상태 결함을 확인했다. 저장 필드를 추가하지 않고 사망 증거가 있는
+아버지 cast에는 `passed` stage만 허용하며 이후 호감도·생존 stage 변경을 무시하고,
+현재 관계 판정에서도 passed cast를 제외한다. 이를 위해 기존 범위 밖으로 명시했던
+`autoloads/GameState.gd`를 이 단조성 수정에 한해 정확한 파일 범위에 추가한다.
+
+또한 random 원본을 사망 변형으로 렌더한 뒤 변형 ID를 별도 random 사건처럼 기록하면
+원본의 once-per-run·recent·cooldown 영수증이 사라진다. passed 변형은 독립 pool root가
+아니며, resolution 통계와 cooldown은 역매핑한 원본 ID가 소유하도록 EventManager와
+런타임 회귀를 보강한다. 현재 부모 응답을 가진 대출 callback과 가족 원고의 최종
+전수 대조를 위해 `content/events/callback_events_25.json`,
+`content/events_en/callback_events_25.json`, `content/events/drama_events2.json`,
+`content/events_en/drama_events2.json`도 정확한 파일 범위에 추가한다.
+
 ## 깊이 3문
 
 1. 왜 완성된 25편에 ingress만 붙이지 않는가? 현재 원고는 대부분 월간 행동판에서
