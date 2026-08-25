@@ -40,7 +40,8 @@
 `tools/arc_flow_sim.py`, `tools/narrative_spine_audit.py`,
 `tools/peak_scene_chain_audit.py`, `tools/year5_reference_route_audit.py`,
 `tools/full_run_pacing_audit.py`, `tools/EventDirectorCheck.gd`,
-`tools/CoreChoiceSliceCheck.gd`, `tools/ScreenshotQA.gd`,
+`tools/CoreChoiceSliceCheck.gd`, `tools/ManualSaveCheck.gd`,
+`tools/ScreenshotQA.gd`,
 `tools/audit_scope.json`, `tools/audit.sh`,
 `docs/CONTENT_RATING_INVENTORY.md`, `docs/STORY_BIBLE.md`,
 `docs/DECISIONS.md`, `docs/PEAK_SCENE_CHAIN_AUDIT.md`,
@@ -118,6 +119,15 @@ W188 별세 직전 예약된 `arc_sangchul_year3`의 세 선택 중 하나가 �
 차단하고, 임상철 기사는 통째로 버리지 않고 같은 기사·같은 3선택을 가진 사망
 변형으로 넘겨 ‘알리고 싶었던 사람의 부재’를 쓴다. 정상 생존 경로와 읽기 전용
 과거 회상은 보존한다.
+
+**결과화면 저장 변형 보강 (2026-08-26):** 독립 저장 복원 검토에서 생존용
+임상철 기사 선택의 효과가 이미 반영된 `phase=result` 옛 저장을 사망 변형으로
+바꿀 때 복원 문맥을 버리면 같은 선택을 다시 눌러 효과를 중복 적용하고, 기존
+Dialogue History에는 살아 있는 아버지 통화 문장이 남는 결함을 확인했다.
+`tools/ManualSaveCheck.gd`를 정확한 파일 범위에 추가한다. 같은 선택 인덱스를 가진
+사망 변형으로 결과 문맥을 이관하고 현재 사건 serial의 과거 choice/result 문장만
+새 변형 문장으로 교체해, 효과·플래그·주간 기록은 재적용하지 않으며 이전 사건의
+대화 기록과 읽기 전용 회상은 그대로 보존한다.
 
 ## 깊이 3문
 
