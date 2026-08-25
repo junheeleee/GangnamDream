@@ -1589,10 +1589,14 @@ ZH_TW_MARKER="$(grep -E "^${SMOKE_MARKER_PREFIX}([[:space:]]|$)" "$ZH_TW_LOG" | 
 
 remove_runtime_qa_dir "$REAL_FLOW_CLEAN_QA_DIR"
 remove_runtime_qa_dir "$REAL_FLOW_FALLOUT_QA_DIR"
+# These two synthetic runs compress six months and many BGM crossfades into
+# seconds. Use Godot's deterministic dummy mixer so CoreAudio cannot retain old
+# playback objects at the deliberately abrupt QA exit. The native entry and
+# ordinary wrapper/return/resume package probes above still exercise CoreAudio.
 run_godot_prefix_gate "$REAL_FLOW_CLEAN_LOG" "$REAL_FLOW_MARKER_PREFIX" \
   env STORY_DEMO_ALLOW_ISOLATED_QA=1 \
   STORY_DEMO_QA_BOOTSTRAP_NAME="$REAL_FLOW_CLEAN_QA_NAME" \
-  "$LAUNCHER" --rendering-driver opengl3 --resolution 1280x800 \
+  "$LAUNCHER" --audio-driver Dummy --rendering-driver opengl3 --resolution 1280x800 \
   -- --story-demo-real-flow-smoke --story-demo-real-flow-choice=0 \
   --story-demo-language=ko
 if [[ ! -d "$REAL_FLOW_CLEAN_QA_DIR" || -L "$REAL_FLOW_CLEAN_QA_DIR" ]]; then
@@ -1610,7 +1614,7 @@ require_marker_tokens "$REAL_FLOW_CLEAN_MARKER" "clean real StoryMode roundtrip"
 run_godot_prefix_gate "$REAL_FLOW_FALLOUT_LOG" "$REAL_FLOW_MARKER_PREFIX" \
   env STORY_DEMO_ALLOW_ISOLATED_QA=1 \
   STORY_DEMO_QA_BOOTSTRAP_NAME="$REAL_FLOW_FALLOUT_QA_NAME" \
-  "$LAUNCHER" --rendering-driver opengl3 --resolution 1280x800 \
+  "$LAUNCHER" --audio-driver Dummy --rendering-driver opengl3 --resolution 1280x800 \
   -- --story-demo-real-flow-smoke --story-demo-real-flow-choice=1 \
   --story-demo-language=zh-CN
 if [[ ! -d "$REAL_FLOW_FALLOUT_QA_DIR" || -L "$REAL_FLOW_FALLOUT_QA_DIR" ]]; then

@@ -240,6 +240,7 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
         "--story-demo-real-flow-smoke",
         "--story-demo-real-flow-choice=0",
         "--story-demo-real-flow-choice=1",
+        "--audio-driver Dummy",
         "--qa=story-demo",
         TARGET_MARKER,
         RETURN_MARKER_PREFIX,
@@ -328,6 +329,13 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
     for command in real_flow_commands:
         if command not in normalized_build:
             errors.append(f"build script lacks real StoryMode package command: {command}")
+    if normalized_build.count(
+        '"$LAUNCHER" --audio-driver Dummy --rendering-driver opengl3 '
+        '--resolution 1280x800 -- --story-demo-real-flow-smoke'
+    ) != 2:
+        errors.append(
+            "both accelerated real StoryMode package runs must isolate CoreAudio"
+        )
 
     lock_position = build_text.find(
         "acquire_story_demo_build_lock || lock_acquire_status=$?"

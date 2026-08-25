@@ -2047,7 +2047,7 @@ func _run_real_flow_smoke() -> void:
 			for failure in failures:
 				push_error("STORY_DEMO_REAL_FLOW_SMOKE: %s" % failure)
 			tree.remove_meta(verify_key)
-			_stop_smoke_audio()
+			await _stop_smoke_audio()
 			get_tree().quit(1)
 			return
 		if choices.size() == 9:
@@ -2065,7 +2065,7 @@ func _run_real_flow_smoke() -> void:
 			print("STORY_DEMO_REAL_FLOW_SMOKE_OK build=%s language=%s choice=%d m02=%s months=6 weeks=24 settlements=6 receipts=9 story=real manual_save=1 cold_restart=1 exact_resume=1 overlay=clear input=clear ap_ledger=0" % [
 				_active_build_id(), LocaleManager.language, expected_choice,
 				expected_route])
-			_stop_smoke_audio()
+			await _stop_smoke_audio()
 			get_tree().quit(0)
 			return
 		tree.set_meta(verify_key, flow_state)
@@ -2182,19 +2182,19 @@ func _run_return_smoke() -> void:
 		if passed:
 			print("%s_OK build=%s screen=transition month=2 overlay=clear input=clear choices=1 settlements=1" % [
 				return_prefix, _active_build_id()])
-			_stop_smoke_audio()
+			await _stop_smoke_audio()
 			get_tree().quit(0)
 			return
 		push_error("%s: return contract failed screen=%s month=%d snapshot=%s overlay=%s" % [return_prefix,
 			qa_screen(), qa_current_month(), snapshot, overlay])
-		_stop_smoke_audio()
+		await _stop_smoke_audio()
 		get_tree().quit(1)
 		return
 
 	if not qa_start_new_run() or not qa_prepare_story_return(0):
 		push_error("%s: could not prepare M01 story return" % [
 			"STORY_DEMO_RETURN_SMOKE" if _public_demo else "ORDER124_RETURN_SMOKE"])
-		_stop_smoke_audio()
+		await _stop_smoke_audio()
 		get_tree().quit(1)
 		return
 	get_tree().set_meta("order124_return_smoke_verify", true)
@@ -2243,12 +2243,12 @@ func _run_resume_smoke() -> void:
 		print("%s_OK build=%s month=%d weeks=%d settlements=%d choices=%d phase=%s screen=%s overlay=clear input=clear" % [
 			resume_prefix, _active_build_id(), month, weeks, settlement_count, choices.size(),
 			saved_phase, qa_screen()])
-		_stop_smoke_audio()
+		await _stop_smoke_audio()
 		get_tree().quit(0)
 		return
 	for failure in failures:
 		push_error("%s: %s" % [resume_prefix, failure])
-	_stop_smoke_audio()
+	await _stop_smoke_audio()
 	get_tree().quit(1)
 
 
@@ -2279,7 +2279,7 @@ func _run_smoke() -> void:
 		print("%s language=%s size=%dx%d start=1 save=1 continue=1 month=m02 weeks=4 settlement=1" % [
 			"STORY_DEMO_WRAPPER_SMOKE_OK" if _public_demo else "ORDER124_WRAPPER_SMOKE_OK",
 			LocaleManager.language, size.x, size.y])
-		_stop_smoke_audio()
+		await _stop_smoke_audio()
 		await get_tree().process_frame
 		await get_tree().process_frame
 		get_tree().quit(0)
@@ -2288,21 +2288,56 @@ func _run_smoke() -> void:
 		push_error("%s: %s" % [
 			"STORY_DEMO_WRAPPER_SMOKE" if _public_demo else "ORDER124_WRAPPER_SMOKE",
 			failure])
-	_stop_smoke_audio()
+	await _stop_smoke_audio()
 	await get_tree().process_frame
 	await get_tree().process_frame
 	get_tree().quit(1)
 
 
 func _stop_smoke_audio() -> void:
+	# The graphical release runner owns a real CoreAudio mixer. Stop every
+	# autoload player, sever its stream references, and give the mixer one
+	# interval to release playback objects before quitting. Merely stopping the
+	# SFX pool leaves each StoryMode BGM playback alive in the resource cache and
+	# turns a successful packaged M01-M06 run into a false release-gate failure.
+	AudioManager.begin_story_audio_event("story_demo_smoke_cleanup")
+	AudioManager.stop_gamepad_vibration()
 	var players: Variant = AudioManager.get("_pool")
-	if not players is Array:
-		return
-	for player_variant in players:
-		if player_variant is AudioStreamPlayer:
-			var player := player_variant as AudioStreamPlayer
+	if players is Array:
+		for player_variant in players:
+			if player_variant is AudioStreamPlayer:
+				var player := player_variant as AudioStreamPlayer
+				player.stop()
+				player.stream = null
+				player.queue_free()
+		(players as Array).clear()
+	var sounds: Variant = AudioManager.get("_sounds")
+	if sounds is Dictionary:
+		(sounds as Dictionary).clear()
+	BGMPlayer.stop()
+	for tween_key in [
+		"_fade_tween", "_ambience_tween", "_season_tween",
+		"_human_ambience_tween", "_moral_human_tween",
+		"_moral_filter_tween",
+	]:
+		var tween_value: Variant = BGMPlayer.get(tween_key)
+		if tween_value is Tween and (tween_value as Tween).is_running():
+			(tween_value as Tween).kill()
+		BGMPlayer.set(tween_key, null)
+	for player_key in [
+		"_player_a", "_player_b", "_ambience_player", "_season_player",
+		"_human_ambience_player",
+	]:
+		var player_value: Variant = BGMPlayer.get(player_key)
+		if player_value is AudioStreamPlayer:
+			var player := player_value as AudioStreamPlayer
 			player.stop()
 			player.stream = null
+			player.queue_free()
+			BGMPlayer.set(player_key, null)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await get_tree().create_timer(0.35).timeout
 
 
 func _capture_requested_screen() -> void:
