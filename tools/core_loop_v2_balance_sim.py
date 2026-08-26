@@ -1543,7 +1543,8 @@ def validate_runtime_city_service_prelude(errors: list[str]) -> None:
         )
     story_source = STORY_MODE_PATH.read_text(encoding="utf-8")
     visible_match = re.search(
-        r"func _choice_visible\(ch: Dictionary\).*?(?=\nfunc )",
+        r"func _choice_visible\(\s*ch: Dictionary,\s*"
+        r"choice_index: int = -1\s*\).*?(?=\nfunc )",
         story_source,
         re.DOTALL,
     )

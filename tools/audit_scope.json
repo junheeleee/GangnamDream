@@ -875,7 +875,8 @@
         "content/meta/demo_core_loop_v2.json",
         "systems/DemoCoreLoopV2.gd",
         "autoloads/GameState.gd",
-        "content/jobs.json"
+        "content/jobs.json",
+        "tools/core_loop_v2_balance_sim.py"
       ]
     },
     {

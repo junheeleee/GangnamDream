@@ -7,7 +7,9 @@ const BuildFlavorScript := preload("res://systems/BuildFlavor.gd")
 const BuildInfoScript := preload("res://systems/BuildInfo.gd")
 const DemoCoreLoopV2Script := preload("res://systems/DemoCoreLoopV2.gd")
 const StartMenuScript := preload("res://scenes/StartMenu.gd")
+const StoryModeScript := preload("res://scenes/StoryMode.gd")
 const START_MENU := preload("res://scenes/StartMenu.tscn")
+const MARKER_REPLAY_ROOT := "arc_date_park_daeun"
 
 const REQUIRED_RETAIL_PRESETS := [
 	"Windows", "macOS", "Web", "Linux / Steam Deck",
@@ -29,6 +31,7 @@ func _ready() -> void:
 
 
 func _run() -> void:
+	var user_data_before := _capture_files(_protected_user_data_paths())
 	_check_runtime_flavor()
 	_check_export_presets()
 	_check_user_data_namespaces()
@@ -44,6 +47,7 @@ func _run() -> void:
 	await get_tree().create_timer(0.5, true, false, true).timeout
 	await get_tree().process_frame
 	await get_tree().process_frame
+	_expect_files_unchanged(user_data_before, "playtest flavor read-only fixture")
 	if not _failures.is_empty():
 		for failure in _failures:
 			push_error("PLAYTEST_FLAVOR_CHECK_FAIL " + failure)
@@ -292,9 +296,17 @@ func _check_start_surface() -> void:
 
 
 func _check_story_marker_clearance() -> void:
+	# Use a valid in-memory gallery pair so marker geometry can be measured
+	# without a live StoryMode visit persisting scene history to playtest meta.
+	var pending_before := GameState.pending_story_queue.duplicate(true)
+	var return_scene_before := GameState.story_return_scene
+	var replay_mode_before := GameState.story_replay_mode
+	var meta_before := MetaProgression.data.duplicate(true)
+	_expect(_seed_marker_gallery_pair(),
+		"StoryMode marker fixture could not seed a valid in-memory gallery pair.")
 	GameState.story_replay_mode = true
-	GameState.pending_story_queue = ["story_prologue_dad"]
-	GameState.story_return_scene = "res://scenes/MainGame.tscn"
+	GameState.pending_story_queue = [MARKER_REPLAY_ROOT]
+	GameState.story_return_scene = "res://scenes/StartMenu.tscn"
 	var story := load("res://scenes/StoryMode.tscn").instantiate() as Control
 	add_child(story)
 	await get_tree().process_frame
@@ -318,12 +330,48 @@ func _check_story_marker_clearance() -> void:
 			and hud_label.text_overrun_behavior == TextServer.OVERRUN_TRIM_ELLIPSIS,
 		"StoryMode HUD can draw through the Dialogue History controls at narrow widths.")
 	_dispose(story)
-	GameState.pending_story_queue.clear()
-	GameState.story_replay_mode = false
+	GameState.pending_story_queue = pending_before
+	GameState.story_return_scene = return_scene_before
+	GameState.story_replay_mode = replay_mode_before
+	MetaProgression.data = meta_before
 	await get_tree().process_frame
 	if is_instance_valid(marker):
 		_expect(str(marker.get_meta("marker_context", "")) == "default",
 			"Leaving StoryMode did not restore the default marker slot.")
+
+
+func _seed_marker_gallery_pair() -> bool:
+	var producer := StoryModeScript.new()
+	var selectors: Dictionary = {}
+	var choices: Dictionary = {}
+	for event_id in MetaProgression.gallery_replay_closure_ids(
+			MARKER_REPLAY_ROOT):
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		if event.is_empty():
+			producer.free()
+			return false
+		selectors[event_id] = producer.call(
+			"_live_gallery_selector_matches", event)
+		choices[event_id] = producer.call(
+			"_live_gallery_visible_choice_indices", event)
+	producer.free()
+	var snapshot := MetaProgression.build_scene_replay_snapshot(
+		MARKER_REPLAY_ROOT, selectors, choices)
+	if snapshot.is_empty():
+		return false
+	var raw_seen: Variant = MetaProgression.data.get("seen_scenes", [])
+	var seen: Array = (raw_seen as Array).duplicate() \
+		if raw_seen is Array else []
+	if not seen.has(MARKER_REPLAY_ROOT):
+		seen.append(MARKER_REPLAY_ROOT)
+	var raw_snapshots: Variant = MetaProgression.data.get(
+		"scene_replay_snapshots", {})
+	var snapshots: Dictionary = (raw_snapshots as Dictionary).duplicate(true) \
+		if raw_snapshots is Dictionary else {}
+	snapshots[MARKER_REPLAY_ROOT] = snapshot.duplicate(true)
+	MetaProgression.data["seen_scenes"] = seen
+	MetaProgression.data["scene_replay_snapshots"] = snapshots
+	return MetaProgression.has_valid_scene_replay_pair(MARKER_REPLAY_ROOT)
 
 
 func _check_planner_marker_context() -> void:
@@ -364,6 +412,43 @@ func _has_exact_features(actual: Array, expected: Array) -> bool:
 		if not actual.has(feature):
 			return false
 	return true
+
+
+func _protected_user_data_paths() -> Array:
+	var paths: Array = []
+	for playtest in [false, true]:
+		var namespace_paths: Dictionary = \
+			BuildFlavorScript.user_data_paths_for_playtest(playtest)
+		for raw_path in namespace_paths.values():
+			var path := str(raw_path)
+			for candidate in [path, "%s.bak" % path, "%s.tmp" % path]:
+				if candidate not in paths:
+					paths.append(candidate)
+	return paths
+
+
+func _capture_files(paths: Array) -> Dictionary:
+	var captured := {}
+	for raw_path in paths:
+		var path := str(raw_path)
+		captured[path] = {
+			"exists": FileAccess.file_exists(path),
+			"bytes": FileAccess.get_file_as_bytes(path) \
+				if FileAccess.file_exists(path) else PackedByteArray(),
+		}
+	return captured
+
+
+func _expect_files_unchanged(before: Dictionary, label: String) -> void:
+	for raw_path in before:
+		var path := str(raw_path)
+		var expected: Dictionary = before[raw_path]
+		var exists := FileAccess.file_exists(path)
+		_expect(exists == bool(expected.get("exists", false)),
+			"%s existence changed: %s" % [label, path])
+		if exists and bool(expected.get("exists", false)):
+			_expect(FileAccess.get_file_as_bytes(path) == expected.get("bytes"),
+				"%s bytes changed: %s" % [label, path])
 
 
 func _dispose(node: Node) -> void:

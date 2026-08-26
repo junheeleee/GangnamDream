@@ -191,6 +191,7 @@ func _check_default_auto_contract() -> bool:
 		return false
 	await _free_story_fixture()
 
+	var meta_before_gallery_fixture := MetaProgression.data.duplicate(true)
 	if not _seed_gallery_replay_pair(AUTO_REPLAY_ROOT):
 		_fail("auto contract could not seed a valid gallery replay pair")
 		return false
@@ -200,6 +201,10 @@ func _check_default_auto_contract() -> bool:
 		_fail("read-only replay did not default to manual playback")
 		return false
 	await _free_story_fixture()
+	# Later live fixtures legitimately persist their own seen scenes. Remove the
+	# in-memory gallery seed first so it can never hitchhike into a developer's
+	# real meta file during a direct test run.
+	MetaProgression.data = meta_before_gallery_fixture
 
 	if not await _spawn_story_fixture("story_prologue_dad", false, false):
 		return false

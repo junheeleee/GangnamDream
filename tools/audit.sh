@@ -1193,10 +1193,12 @@ fi
 echo "──────────────────────────────────────────"
 echo "● V2 release playtest 진입·표식·게임 쓰기 데이터 격리 검사"
 if [ -x "$GODOT" ]; then
-  PLAYTEST_FLAVOR_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 \
+  PLAYTEST_FLAVOR_HOME=$(make_isolated_home "gangnam-playtest-flavor")
+  PLAYTEST_FLAVOR_RAW=$(run_limited env HOME="$PLAYTEST_FLAVOR_HOME" "$GODOT" --headless --quit-after 3600 \
     res://tools/PlaytestFlavorCheck.tscn -- \
     --demo-build --core-loop-v2-playtest-build 2>&1)
   PLAYTEST_FLAVOR_STATUS=$?
+  cleanup_isolated_home "$PLAYTEST_FLAVOR_HOME"
   echo "$PLAYTEST_FLAVOR_RAW" | grep -E \
     "PLAYTEST_FLAVOR_(CHECK_OK|CHECK_FAIL)|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
   if godot_check_passed "$PLAYTEST_FLAVOR_RAW" "$PLAYTEST_FLAVOR_STATUS" \

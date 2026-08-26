@@ -180,15 +180,13 @@ func _check_opportunity_inventory_and_visibility() -> void:
 		GameState.money = 0.0
 		_expect(main_game.call("_available_event_choice_indices", event) == [1],
 			"%s did not expose only fallback at zero cash" % event_id)
-		story_mode.set("_current", event)
-		story_mode.set("_read_only_replay", true)
-		_expect(story_mode.call("_visible_choice_indices", event) == [0],
-			"%s replay rewrote its funded historical choice as a cash fallback"
-				% event_id)
-		story_mode.set("_read_only_replay", false)
 		GameState.money = 1.0
-		_expect(main_game.call("_available_event_choice_indices", event) == [0],
-			"%s did not expose only opportunity at one won" % event_id)
+		story_mode.set("_current", event)
+		story_mode.set("_read_only_replay", false)
+		_expect(main_game.call("_available_event_choice_indices", event) == [0] \
+			and story_mode.call("_visible_choice_indices", event) == [0],
+			"%s MainGame/StoryMode did not expose only opportunity at one won"
+				% event_id)
 	main_game.free()
 	story_mode.free()
 

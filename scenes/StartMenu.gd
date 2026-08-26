@@ -1291,7 +1291,8 @@ func _archive_scene_card(scene_id: String, catalog_index: int) -> Button:
 	button.name = "ArchiveScene_%02d" % (catalog_index + 1)
 	button.disabled = not unlocked
 
-	var image_path := _archive_event_visual_path(event) if unlocked else ""
+	var image_path := _archive_event_visual_path(event, scene_id) \
+		if unlocked else ""
 	if image_path != "" and ImageRegistry.has_texture(image_path):
 		var preview := TextureRect.new()
 		preview.texture = ImageRegistry.load_texture(image_path)
@@ -1427,13 +1428,31 @@ func _archive_value_contains_cg(value: Variant, cg_id: String) -> bool:
 				return true
 	return false
 
-func _archive_event_visual_path(event: Dictionary) -> String:
+func _archive_event_visual_path(
+		event: Dictionary, scene_id: String = "") -> String:
 	var cg_id := str(event.get("cg", ""))
 	if cg_id != "":
 		var cg_path := ImageRegistry.get_cg(cg_id)
 		if cg_path != "":
 			return cg_path
 	var bg_id := str(event.get("background", ""))
+	if bg_id == "current_housing":
+		var snapshot := MetaProgression.get_scene_replay_snapshot(scene_id)
+		if snapshot.is_empty():
+			return ""
+		match str(snapshot.get("housing", "")):
+			"gangnam", "apartment":
+				bg_id = "gangnam_apartment"
+			"villa", "oneroom":
+				bg_id = "apartment"
+			"gosiwon":
+				bg_id = "goshiwon_room"
+			_:
+				return ""
+	elif bg_id == "current_workplace":
+		# Gallery schema 1 has no frozen occupation. Never build an archive card
+		# from whichever live job happens to be loaded behind the menu.
+		return ""
 	if bg_id != "":
 		return ImageRegistry.get_background(bg_id)
 	return ""

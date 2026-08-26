@@ -20,14 +20,27 @@
 `tools/GalleryReplaySnapshotCheck.gd.uid`, `tools/GalleryReplaySnapshotCheck.tscn`,
 `tools/CoreLoopV2ECheck.gd`, `tools/ManualSaveCheck.gd`,
 `tools/StoryPlaybackCheck.gd`, `tools/StoryDialogueHistoryCheck.gd`,
-`tools/ScreenshotQA.gd`, `tools/audit.sh`,
-`tools/audit_scope.json`, `docs/ROMANCE_SYSTEM.md`, `docs/CORE_LOOP_V2.md`,
+`tools/MoneyIntegrityCheck.gd`, `tools/PlaytestFlavorCheck.gd`,
+`tools/ScreenshotQA.gd`, `tools/audit.sh`, `tools/audit_scope.json`,
+`tools/demo_core_loop_v2_audit.py`, `tools/core_loop_v2_balance_sim.py`,
+`tools/chapter1_core_loop_v2_causal_ledger_check.py`,
+`content/meta/chapter1_core_loop_v2_causal_ledger.json`,
+`tools/year5_reference_route_audit.py`,
+`content/meta/year5_reference_routes.json`,
+`docs/ROMANCE_SYSTEM.md`, `docs/CORE_LOOP_V2.md`,
 `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, 이 사양과 완료 시
 `docs/queue_archive/ORDER-132.md`,
 `docs/queue_archive/CODEX_QUEUE_2026-08.md`, `CLAUDE.md`,
 `docs/WORK_LOG.md`, 생성본 `docs/STATUS.md`. `autoloads/GameState.gd`,
 `autoloads/SaveManager.gd`, `content/meta/default_meta.json`, 사건·번역 JSON,
 로케일 파일, `project.godot`은 byte 불변 범위다.
+
+**전체 감사 통합 수리 (2026-08-26):** 구현 freeze 뒤 첫 exact clean 전체
+감사가 과거의 비갤러리 가짜 replay fixture, 단일 스냅숏 writer 이름,
+`_choice_visible` 구 시그니처, StoryMode 메모리 reader 구 본문 위치,
+Year 5 보호 해시를 계속 요구해 7개 차선을 반려했다. 제품 계약이나 Chapter 1
+48행·debt·proof ID를 느슨하게 하지 않고, 위 검사 fixture·포인터·source/proof
+digest만 새 원자 pair 구조에 맞춰 같은 오더에서 재봉인한다.
 
 ## 판정 단위·배치
 

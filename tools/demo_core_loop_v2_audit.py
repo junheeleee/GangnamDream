@@ -5287,14 +5287,39 @@ def validate_activity_task_contracts(
         story_mode_source,
         re.MULTILINE,
     )
+    live_story_reader_match = re.search(
+        r"^(?:static )?func _live_story_memory_condition_matches\b[\s\S]*?"
+        r"(?=^(?:static )?func |\Z)",
+        story_mode_source,
+        re.MULTILINE,
+    )
     story_reader = (
         story_reader_match.group(0) if story_reader_match is not None else ""
     )
-    if (
-        'condition.begins_with("activity_task_outcome:")' not in story_reader
-        or "activity_task_receipt_outcome_id" not in story_reader
+    live_story_reader = (
+        live_story_reader_match.group(0)
+        if live_story_reader_match is not None
+        else ""
+    )
+    if not re.search(
+        r"\breturn\s+_live_story_memory_condition_matches\(\s*"
+        r"condition_key\s*\)",
+        story_reader,
     ):
-        fail("StoryMode lost its exact activity-task outcome reader", errors)
+        fail(
+            "StoryMode memory-condition wrapper no longer delegates live "
+            "reads to the live helper",
+            errors,
+        )
+    if (
+        'condition.begins_with("activity_task_outcome:")'
+        not in live_story_reader
+        or "activity_task_receipt_outcome_id" not in live_story_reader
+    ):
+        fail(
+            "StoryMode lost its exact live activity-task outcome reader",
+            errors,
+        )
     return activity_ids
 
 

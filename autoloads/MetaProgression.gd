@@ -256,6 +256,12 @@ func load_meta():
 		if parsed is Dictionary:
 			data.merge(parsed, true)
 	var migrated := false
+	if not data.get("seen_scenes", []) is Array:
+		# Keep malformed history fail-closed, but normalize the container so the
+		# next trusted live encounter can create a fresh atomic pair instead of
+		# leaving gallery repair permanently impossible.
+		data["seen_scenes"] = []
+		migrated = true
 	if not data.get("scene_replay_snapshots", {}) is Dictionary:
 		data["scene_replay_snapshots"] = {}
 		migrated = true

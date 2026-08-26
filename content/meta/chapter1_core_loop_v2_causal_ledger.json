@@ -48895,19 +48895,19 @@
       "proof_id": "proof:runtime:first_bill_replay_capture_call",
       "kind": "source_symbol",
       "pointer": "scenes/StoryMode.gd::_capture_first_bill_replay_snapshot",
-      "assertion": "_capture_first_bill_replay_snapshot validates live or loaded input, calls MetaProgression.record_scene_replay_snapshot, and returns false when durable archive recording fails."
+      "assertion": "_capture_first_bill_replay_snapshot validates live or loaded input, calls MetaProgression.record_scene_replay_pair, and returns false when durable atomic archive recording fails."
     },
     {
       "proof_id": "proof:runtime:meta_replay_snapshot_record",
       "kind": "source_symbol",
-      "pointer": "autoloads/MetaProgression.gd::record_scene_replay_snapshot",
-      "assertion": "record_scene_replay_snapshot validates the exact FirstBill snapshot, stores it under scene_replay_snapshots, and calls save_meta."
+      "pointer": "autoloads/MetaProgression.gd::record_scene_replay_pair",
+      "assertion": "record_scene_replay_pair validates the exact gallery snapshot, builds seen_scenes and scene_replay_snapshots on one detached candidate, preserves an existing valid pair, and calls save_meta once."
     },
     {
       "proof_id": "proof:runtime:meta_replay_snapshot_validate",
       "kind": "source_symbol",
-      "pointer": "autoloads/MetaProgression.gd::_validated_scene_replay_snapshot",
-      "assertion": "_validated_scene_replay_snapshot enforces scene identity, schema, JSON safety/size, encode-decode stability, and exact Dictionary shape."
+      "pointer": "autoloads/MetaProgression.gd::validate_scene_replay_snapshot",
+      "assertion": "validate_scene_replay_snapshot enforces an authored gallery root, scene identity, schema, JSON safety/size, encode-decode stability, and the exact generic or First Bill Dictionary shape."
     },
     {
       "proof_id": "proof:runtime:meta_replay_snapshot_disk_write",
@@ -48931,7 +48931,7 @@
       "proof_id": "proof:runtime:meta_replay_snapshot_read",
       "kind": "source_symbol",
       "pointer": "autoloads/MetaProgression.gd::get_scene_replay_snapshot",
-      "assertion": "get_scene_replay_snapshot reads the exact scene identity and returns only a snapshot accepted again by _validated_scene_replay_snapshot."
+      "assertion": "get_scene_replay_snapshot reads the exact authored gallery root and returns only a snapshot accepted again by validate_scene_replay_snapshot."
     },
     {
       "proof_id": "proof:data:prerequisites:m5_hanbit_offer_message",

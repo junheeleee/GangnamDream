@@ -258,6 +258,23 @@ func _check_pair_persistence_and_fail_closed() -> void:
 			and MetaProgression.data == data_before_seen_call,
 		"gallery root accepted a non-atomic seen-only write")
 
+	# A malformed top-level seen container is locked, normalized on load, and
+	# repairable only by the next trusted live pair writer.
+	var data_before_bad_seen := MetaProgression.data.duplicate(true)
+	MetaProgression.data["seen_scenes"] = "damaged"
+	MetaProgression.save_meta()
+	MetaProgression.load_meta()
+	var repaired_seen_type: Variant = MetaProgression.data.get(
+		"seen_scenes", null)
+	_expect(repaired_seen_type is Array \
+			and not MetaProgression.has_valid_scene_replay_pair(invalid_root) \
+			and MetaProgression.record_scene_replay_pair(
+				invalid_root, first_snapshots[invalid_root]) \
+			and MetaProgression.has_valid_scene_replay_pair(invalid_root),
+		"malformed seen container could not recover at a trusted live encounter")
+	MetaProgression.data = data_before_bad_seen
+	MetaProgression.save_meta()
+
 	# A stale direct request loses replay authority and remains on the menu.
 	var snapshots: Dictionary = MetaProgression.data.get(
 		"scene_replay_snapshots", {}).duplicate(true)
@@ -299,6 +316,14 @@ func _check_frozen_runtime_surfaces() -> void:
 	GameState.flags.erase(FROZEN_SELECTOR_ID)
 	var live_state_before: Dictionary = GameState.serialize().duplicate(true)
 	var meta_before: Dictionary = MetaProgression.data.duplicate(true)
+	var archive_menu := START_MENU_SCRIPT.new()
+	var archive_preview_path := str(archive_menu.call(
+		"_archive_event_visual_path",
+		DataRegistry.find_event(FROZEN_SURFACE_ROOT), FROZEN_SURFACE_ROOT))
+	_expect(archive_preview_path == ImageRegistry.get_background(
+			"gangnam_apartment"),
+		"archive card preview read the inverted live housing")
+	archive_menu.free()
 
 	GameState.pending_story_queue = [FROZEN_SURFACE_ROOT]
 	GameState.story_return_scene = "res://scenes/StartMenu.tscn"
