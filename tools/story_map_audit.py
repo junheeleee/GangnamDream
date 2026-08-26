@@ -134,6 +134,27 @@ EXPECTED_RELOCATIONS = {
     "arc_father_passing": (47, "EXPAND", 44),
     "arc_jaehyuk_mirror": (53, "EXPAND", 15),
 }
+EXPECTED_CHAPTER5_PRODUCT_MONTHS = {
+    "arc_y5_contract_cover_investment": 49,
+    "arc_y5_contract_reviewer_delivery_sangchul": 49,
+    "arc_y5_final_push_deadline_investment": 50,
+    "arc_y5_protection_boundary_daeun": 50,
+    "arc_y5_burnout_check_reference": 51,
+    "arc_y5_minseo_goal_cost_reference": 51,
+    "arc_y5_after_goal_daeun": 51,
+    "arc_y5_final_offer": 52,
+    "arc_y5_final_offer_reference_delivery": 52,
+    "arc_y5_jaehyuk_guarantee_request_reference": 53,
+    "arc_y5_jaehyuk_return_call_reference": 53,
+    "arc_y5_jaehyuk_father_document_reference": 53,
+    "arc_y5_guarantee_protected_show_daeun": 53,
+    "arc_y5_jaehyuk_guarantee_decision_reference": 53,
+    "arc_sangchul_final_door": 54,
+    "arc_y5_sangchul_review_receipt": 54,
+    "arc_y5_three_in_room": 55,
+    "arc_y5_three_in_room_decision": 55,
+    "arc_y5_room_consent_receipt": 55,
+}
 EXPECTED_DECISIONS = {
     "story.first_illegal_offer",
     "story.father_hospital_door",
@@ -1867,11 +1888,11 @@ def validate_story_map(
     }
     if exact_keys(targets, target_shape, "design_targets", errors):
         if (
-            targets.get("direct_stops") != [24, 30]
+            targets.get("direct_stops") != [36, 42]
             or targets.get("history_inputs_per_scene") != 2
             or targets.get("decision_inputs_per_scene") != 1
         ):
-            errors.append("design_targets: approved targets are stops 24..30, scene history 2, decision 1")
+            errors.append("design_targets: approved targets are stops 36..42, scene history 2, decision 1")
         for count_key in ("named_readers", "generic_commitments"):
             value = targets.get(count_key)
             if not isinstance(value, int) or isinstance(value, bool) or value < 0:
@@ -1963,6 +1984,9 @@ def validate_story_map(
     availability_receipt_refs: list[tuple[str, str, int]] = []
     scene_inputs: dict[str, dict[str, set[str]]] = {}
     stop_scene_ids: set[str] = set()
+    chapter5_product_months: dict[str, list[int]] = {
+        root_id: [] for root_id in EXPECTED_CHAPTER5_PRODUCT_MONTHS
+    }
     coverage_months: set[int] = set()
 
     for chapter_index, chapter in enumerate(chapters, start=1):
@@ -2383,6 +2407,8 @@ def validate_story_map(
                 if not isinstance(root, str) or not root.strip():
                     errors.append(f"{beat_owner}.root: must be non-empty")
                     root = f"<invalid-root:{month_number}:{beat_index}>"
+                if root in chapter5_product_months:
+                    chapter5_product_months[root].append(month_number)
                 relocation = EXPECTED_RELOCATIONS.get(root)
                 if relocation and (month_number, work, beat.get("source_month")) != relocation:
                     errors.append(
@@ -2683,8 +2709,14 @@ def validate_story_map(
     stats.stops = len(stop_scene_ids)
     if [month.get("month") for month in months] != list(range(1, 61)):
         errors.append("months: must be the exact continuous sequence M01..M60")
-    if not 24 <= stats.stops <= 30:
-        errors.append(f"direct stops: {stats.stops} is outside 24..30")
+    if not 36 <= stats.stops <= 42:
+        errors.append(f"direct stops: {stats.stops} is outside 36..42")
+    for root_id, expected_month in EXPECTED_CHAPTER5_PRODUCT_MONTHS.items():
+        if chapter5_product_months[root_id] != [expected_month]:
+            errors.append(
+                f"Chapter 5 product root {root_id}: expected exactly M{expected_month}, "
+                f"got {chapter5_product_months[root_id]}"
+            )
     if not REQUIRED_COVERAGE_MONTHS.issubset(coverage_months):
         errors.append(
             "coverage: missing required route months "

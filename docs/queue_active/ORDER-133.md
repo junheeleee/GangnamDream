@@ -61,12 +61,25 @@ M51은 병원 검사표를 민서가 읽으므로 5→6 순서를 바꾸지 않�
 M53은 통화 후에만 아버지 문서를 꺼내고, 다은에게 보여 준 후에만
 보증을 결정한다. 16번은 15번 choice 0, 19번은 18번 choice 1에서만
 열린다. 다른 선택에 없던 빨간 원이나 자필 동의를 생성하지 않는다.
+이 세로줄은 투자형 정체성과 `route_invest`, 20억원 이상 자산 구간,
+실제로 이어진 상철·다은·민서·재혁 관계가 모두 있는 런만 W195에서 연다.
+W209~W212의 확장 보증 장면은 기존 `arc_jaehyuk_mirror`의 두 번째 부탁이
+아니라 같은 한 번의 결정을 옮겨 깊게 만든 것이다. 세 결과는 기존
+완료·거절/서명/차단 플래그와 정신·Moral Tint 비용까지 그대로 쓴다.
 
 ## 구현 계약
 
-- 로케일 중립 `Chapter5CausalRoute` schema 1은 선택 index, 실제 인물,
-  문서·비교·전달·검토·동의 receipt, 순서를 저장한다. 번역문·AP·
+- 로케일 중립 `Chapter5CausalRoute` schema 1은 W195에서
+  `investment_property` 경제 경로, 20억원 이상 진입 밴드, 실제 배우 역할을
+  먼저 exact entry로 고정한 뒤 선택 index, 문서·비교·전달·검토·동의 receipt,
+  순서를 저장한다. 번역문·AP·
   행동 카드·스탯·엔딩 결과는 저장하지 않는다.
+- 진입 전에는 투자형 정체성·20억원·상철/다은/민서/재혁의 실제 선행 관계를
+  모두 검사한다. entry가 한 번 저장된 뒤에는 가격이나 관계 플래그가 변해도
+  이미 시작한 원문을 중간에 바꾸거나 다른 경제 경로로 갈아끼우지 않는다.
+- R3의 7천만원은 HUD의 실시간 현금 잔액을 단정하는 수치가 아니라, 기존
+  의무에 묶인 자금을 제외한 원문 조달표의 추가 확보 전제다. KO/EN 원고는
+  둘을 명시적으로 구분하며 현재 잔액을 발명하지 않는다.
 - 주차 ingress는 기준 경로의 정확한 선행 receipt에서만 열리고, 중복·
   역순·범위 밖 index·잘못된 인물/문서·손상 저장은 상태를 더 쓰지
   않고 기존 안전 fallback으로 닫힌다. 첫 성공 쓰기는 write-once·idempotent다.
@@ -121,8 +134,13 @@ M53은 통화 후에만 아버지 문서를 꺼내고, 다은에게 보여 준 �
 `tools/story_map_audit.py`, `tools/narrative_spine_audit.py`,
 `tools/full_run_pacing_audit.py`, `tools/ManualSaveCheck.gd`,
 `tools/CoreChoiceSliceCheck.gd`, `tools/ScreenshotQA.gd`,
+`tools/art_resolution_baseline.json`(신규 활성 CG 1개의 해상도 부채 재봉인),
 `tools/chapter1_core_loop_v2_causal_ledger_check.py`, `tools/audit_scope.json`,
-`tools/audit.sh`.
+`tools/audit.sh`, `tools/narrative_continuity_audit.py`(투자 대표 경로가
+실제 `route_invest` 정체성을 가지며 기존 W10 차트 장면을 카운트하게 된
+감사 정확도 교정 1건), `tools/full_run_pacing_audit.py`(같은 정체성 교정으로
+기존 W10 장면이 실측되면서 드러난 2시간 추정 오차 W94~95와 제품/비제품
+런의 서로 다른 무작위 주차 계약을 분리).
 
 **선언·마감:** `docs/CODEX_QUEUE.md`, 이 사양과 완료 시
 `docs/queue_archive/ORDER-133.md`, `docs/queue_archive/CODEX_QUEUE_2026-08.md`,

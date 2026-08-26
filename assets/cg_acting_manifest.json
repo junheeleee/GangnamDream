@@ -1,6 +1,6 @@
 {
-  "version": 6,
-  "updated": "2026-07-24",
+  "version": 7,
+  "updated": "2026-08-26",
   "rule": "Every active CG owns an explicit camera role and every visible named actor owns a gaze target plus a supporting body action. Lens gaze is legal only for player_pov.",
   "cg": {
     "cg_start": {
@@ -63,6 +63,17 @@
       "actors": [
         {"id": "jaehyuk", "gaze_target": "Minjun across the table", "pose_support": "Face and torso stay oriented toward the foreground Minjun."},
         {"id": "minjun", "gaze_target": "Jaehyuk and the documents", "pose_support": "Back and shoulder line frame Jaehyuk rather than the lens."}
+      ]
+    },
+    "cg_y5_three_in_room": {
+      "path": "assets/cg/y5_three_in_room_v1.png",
+      "camera_role": "observational_ensemble_wide",
+      "story_action": "Four separate document stacks and four conflicting gaze lines make the collateral decision belong to people before it belongs to the calculator.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "Daeun and the unsigned copy across the table", "pose_support": "His rear three-quarter shoulders frame the calculator while his head angles toward Daeun instead of the night skyline."},
+        {"id": "daeun", "gaze_target": "Minjun across her unsigned copy", "pose_support": "Her eyes and upright torso hold on Minjun; both hands stay together beside the detached cup sleeve rather than signing."},
+        {"id": "jaehyuk", "gaze_target": "Minjun beyond the guarantee PDF", "pose_support": "His controlled forward gaze follows the table axis while one natural hand pins the separate PDF without offering a handshake."},
+        {"id": "sangchul", "gaze_target": "Minjun across the proposal stack", "pose_support": "His weathered face stays lowered toward Minjun and the papers; the red pen remains laid down beside his unraised hand."}
       ]
     },
     "cg_ending_father": {

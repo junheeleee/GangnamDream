@@ -6,7 +6,7 @@
     "months_per_chapter": 12
   },
   "design_targets": {
-    "direct_stops": [24, 30],
+    "direct_stops": [36, 42],
     "history_inputs_per_scene": 2,
     "decision_inputs_per_scene": 1,
     "named_readers": 17,
@@ -2318,6 +2318,36 @@
               "reads": {"memories": [], "decision": null, "carryovers": ["boss_choice", "protected_commitment"]},
               "writes": {"memories": [], "decision": null, "carryovers": []},
               "forgone": []
+            },
+            {
+              "id": "m49_contract_cover_product",
+              "scene_id": "m49_contract_cover_product",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y5_contract_cover_investment",
+              "rule_status": "mapped",
+              "intent": "W195에 R3 원문·금액·다은 이름을 한 문서로 열고 선택 영수증은 Chapter5 인과 원장에만 남긴다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["같은 화면에서 이번에 먼저 보존하지 않은 두 증거의 우선순위"]
+            },
+            {
+              "id": "m49_reviewer_delivery_product",
+              "scene_id": "m49_reviewer_delivery_product",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y5_contract_reviewer_delivery_sangchul",
+              "rule_status": "mapped",
+              "intent": "W196에 잘라 내지 않은 동일 원문을 상철에게 전달하고 수신자·판본·시각을 보존한다.",
+              "channel": "message",
+              "cast": ["player", "sangchul"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["상철에게 보낸 첫 문장에 놓지 않은 두 사실의 검토 우선권"]
             }
           ]
         },
@@ -2360,6 +2390,36 @@
                 }
               },
               "forgone": []
+            },
+            {
+              "id": "m50_final_push_deadline_product",
+              "scene_id": "m50_final_push_deadline_product",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y5_final_push_deadline_investment",
+              "rule_status": "mapped",
+              "intent": "W197 마감 답변과 즉시 포기 비용을 같은 선택에서 확정한다.",
+              "channel": "message",
+              "cast": ["player"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["선택하지 않은 두 마감 조건과 그 조건에 붙은 시간·수수료"]
+            },
+            {
+              "id": "m50_protection_boundary_product",
+              "scene_id": "m50_protection_boundary_product",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y5_protection_boundary_daeun",
+              "rule_status": "mapped",
+              "intent": "W200에 다은 이름 삭제와 그 때문에 낮아진 조달 상한을 같은 원문으로 보여 준다.",
+              "channel": "in_person",
+              "cast": ["player", "daeun"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["다은에게 이번 대화에서 먼저 꺼내지 않은 두 사실의 설명 순서"]
             }
           ]
         },
@@ -2383,6 +2443,51 @@
             {"id": "m51_ask_after_goal", "source": "person_promise", "axis": "trust", "label": "보호할 사람에게 30억 뒤에도 함께 지킬 삶이 무엇인지 묻는다", "due_week": 204, "miss": "deferred", "after": "m51_hear_minseo", "available_values": ["*"]}
           ],
           "beats": [
+            {
+              "id": "m51_burnout_check_product",
+              "scene_id": "m51_burnout_check_product",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y5_burnout_check_reference",
+              "rule_status": "mapped",
+              "intent": "W201에 진단을 발명하지 않고 실제 검사 자료와 먼저 멈출 항목을 고른다.",
+              "channel": "in_person",
+              "cast": ["player"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["이번 진료에서 첫 관찰 근거로 내지 않은 두 자료"]
+            },
+            {
+              "id": "m51_goal_cost_product",
+              "scene_id": "m51_goal_cost_product",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y5_minseo_goal_cost_reference",
+              "rule_status": "mapped",
+              "intent": "W203에 민서가 검사표를 읽은 뒤 돈·몸·사람 중 이미 낸 가격을 묻는다.",
+              "channel": "in_person",
+              "cast": ["player", "minseo"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["돈·몸·사람 중 이번 비용표에서 고르지 않은 두 칸"]
+            },
+            {
+              "id": "m51_after_goal_product",
+              "scene_id": "m51_after_goal_product",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y5_after_goal_daeun",
+              "rule_status": "mapped",
+              "intent": "W204에 목표 뒤 먼저 비워 둘 시간을 다은과 정하며 검사→민서→다은 순서를 닫는다.",
+              "channel": "in_person",
+              "cast": ["player", "daeun"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["이번 달 달력에 먼저 비우지 않은 두 시간 경계"]
+            },
             {
               "id": "m51_minseo_arrival",
               "scene_id": "m51_minseo_arrival",
@@ -2464,6 +2569,21 @@
                 ]
               },
               "forgone": ["다른 경제 경로의 마지막 제안"]
+            },
+            {
+              "id": "m52_offer_delivery_product",
+              "scene_id": "m52_offer_delivery_product",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_y5_final_offer_reference_delivery",
+              "rule_status": "mapped",
+              "intent": "W208에 플레이어가 같은 일곱 장을 상철과 다은에게 전송하며 동석하지 않은 인물을 발명하지 않는다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": []
             }
           ]
         },
@@ -2484,6 +2604,81 @@
             {"id": "m53_tell_protected_person", "source": "person_promise", "axis": "trust", "label": "보증 결정을 내리기 전에 보호할 사람에게 요청 원문을 보여 준다", "due_week": 212, "miss": "expired", "after": "m53_verify_pdf"}
           ],
           "beats": [
+            {
+              "id": "m53_guarantee_request_product",
+              "scene_id": "m53_guarantee_request_product",
+              "kind": "scene",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_y5_jaehyuk_guarantee_request_reference",
+              "rule_status": "mapped",
+              "intent": "W209에 재혁 요청 원문·PDF·도착 시각을 별도 보관한다.",
+              "channel": "message",
+              "cast": ["player", "jaehyuk"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": []
+            },
+            {
+              "id": "m53_return_call_product",
+              "scene_id": "m53_return_call_product",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y5_jaehyuk_return_call_reference",
+              "rule_status": "mapped",
+              "intent": "W210 첫 순서에서 재혁이 돌아온 이유를 듣고 가장 먼저 닫을 질문 하나를 고른다.",
+              "channel": "phone",
+              "cast": ["player", "jaehyuk"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["통화가 끝나기 전에 닫지 못한 두 질문"]
+            },
+            {
+              "id": "m53_father_document_product",
+              "scene_id": "m53_father_document_product",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_y5_jaehyuk_father_document_reference",
+              "rule_status": "mapped",
+              "intent": "W210 둘째 순서에서 통화가 끝난 뒤에만 아버지 문서와 오늘 PDF를 비교한다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": []
+            },
+            {
+              "id": "m53_protected_show_product",
+              "scene_id": "m53_protected_show_product",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y5_guarantee_protected_show_daeun",
+              "rule_status": "mapped",
+              "intent": "W211에 서명 전에만 다은에게 요청·범위·비교본을 보여 준 순서를 남긴다.",
+              "channel": "in_person",
+              "cast": ["player", "daeun"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["다은 앞에서 이번에 먼저 공개하지 않은 두 사실의 설명 순서"]
+            },
+            {
+              "id": "m53_guarantee_decision_product",
+              "scene_id": "m53_guarantee_decision_product",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y5_jaehyuk_guarantee_decision_reference",
+              "rule_status": "mapped",
+              "intent": "W212에 거절·실제 서명·차단 중 하나를 고르고 보지 않은 서명이나 차단을 발명하지 않는다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["고르지 않은 두 행동과 그 행동이 만들 연락·서명 상태"]
+            },
             {
               "id": "m53_jaehyuk_guarantee",
               "scene_id": "m53_jaehyuk_guarantee",
@@ -2543,6 +2738,21 @@
                 ]
               },
               "forgone": []
+            },
+            {
+              "id": "m54_review_receipt_product",
+              "scene_id": "m54_review_receipt_product",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_y5_sangchul_review_receipt",
+              "rule_status": "mapped",
+              "intent": "W216은 W215 상철 문 choice 0에서만 빨간 원·원본·촬영 시각을 보존한다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["W215 choice 1·2에서는 빨간 원 영수증이 열리지 않는다"]
             }
           ]
         },
@@ -2630,6 +2840,21 @@
                 ]
               },
               "forgone": ["감춘 조건의 신뢰", "다른 사람 이름을 쓰는 빠른 길"]
+            },
+            {
+              "id": "m55_consent_receipt_product",
+              "scene_id": "m55_consent_receipt_product",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_y5_room_consent_receipt",
+              "rule_status": "mapped",
+              "intent": "W220은 W219 choice 1에서만 다은의 자필 범위 원본·별도 클립·촬영 시각을 보존한다.",
+              "channel": "in_person",
+              "cast": ["player", "daeun", "sangchul", "jaehyuk"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["W219 choice 0·2에서는 자필 동의 영수증이 열리지 않는다"]
             }
           ]
         },

@@ -639,7 +639,7 @@ EVENT_ROOT_KEYS = {"id", "title", "description", "category", "rarity", "weight",
                    "description_orthodox", "description_unorthodox",
                    "description_low_mental", "description_long_gosiwon",
                    "description_if_known", "description_memory_if_known",
-                   "description_if_moral", "direction"}
+                   "description_if_moral", "direction", "chapter5_causal_reads"}
 EVENT_ROOT_KEYS.update({"year_scene_year", "timer_default_choice", "living_scene"})
 MORAL_PERCEPTION_KEYS = {"deep_black", "black", "gray", "white", "deep_white"}
 DIRECTION_KEYS = {"pace", "amb", "sting", "camera", "hold", "visual"}
@@ -697,6 +697,38 @@ def _check_moral_text_map(value, label):
         if not isinstance(text, str) or not text.strip():
             err('%s.%s는 빈 값이 아닌 문자열이어야 함' % (label, key))
 
+def _check_chapter5_causal_reads(value, label):
+    expected_keys = {
+        "source_event_ids", "optional_source_event_ids", "texts", "mode",
+    }
+    if not isinstance(value, dict) or set(value) != expected_keys:
+        err('%s는 exact causal-read object여야 함' % label)
+        return
+    source_ids = value.get("source_event_ids")
+    optional_ids = value.get("optional_source_event_ids")
+    text_rows = value.get("texts")
+    if value.get("mode") != "prepend":
+        err('%s.mode는 prepend여야 함' % label)
+    if not isinstance(source_ids, list) or not source_ids \
+            or any(not isinstance(item, str) or not item for item in source_ids) \
+            or len(set(source_ids)) != len(source_ids):
+        err('%s.source_event_ids는 중복 없는 비어 있지 않은 문자열 배열이어야 함' % label)
+        return
+    if not isinstance(optional_ids, list) \
+            or any(not isinstance(item, str) or item not in source_ids
+                   for item in optional_ids) \
+            or len(set(optional_ids)) != len(optional_ids):
+        err('%s.optional_source_event_ids는 source_event_ids의 중복 없는 부분집합이어야 함' % label)
+    if not isinstance(text_rows, list) or len(text_rows) != len(source_ids):
+        err('%s.texts는 source_event_ids와 같은 크기의 배열이어야 함' % label)
+        return
+    for row_index, row in enumerate(text_rows):
+        if not isinstance(row, list) or not row \
+                or any(not isinstance(text, str) or not text.strip() for text in row) \
+                or len(set(row)) != len(row):
+            err('%s.texts[%d]는 선택별 서로 다른 비어 있지 않은 문자열 배열이어야 함' \
+                % (label, row_index))
+
 def check_event_registry_coverage():
     """모든 이벤트 JSON이 런타임 DataRegistry에 실제로 연결됐는지 확인한다."""
     registry_path = os.path.join(ROOT, "autoloads", "DataRegistry.gd")
@@ -737,6 +769,10 @@ def check_event_keys():
             for k in e.keys():
                 if k not in EVENT_ROOT_KEYS:
                     warn('%s  [%s] 모르는 이벤트 루트 키 "%s"' % (rel(p), eid, k))
+            if "chapter5_causal_reads" in e:
+                _check_chapter5_causal_reads(
+                    e.get("chapter5_causal_reads"),
+                    '%s  [%s].chapter5_causal_reads' % (rel(p), eid))
             if "year_scene_year" in e:
                 year_scene_year = e.get("year_scene_year")
                 if not isinstance(year_scene_year, int) or isinstance(year_scene_year, bool) \
@@ -1349,25 +1385,120 @@ def _choice_is_inert(ch):
         return False
     return True
 
+def _chapter5_direct_receipt_owned_ids(
+        ledger=None, system_source=None, main_source=None, story_source=None):
+    """Return only the exact Chapter 5 roots proven wired to receipt ingress.
+
+    These weight-zero/hidden roots deliberately keep their authored choices
+    free of ordinary effects: the immutable causal reducer is their mechanical
+    consequence.  Exempting a tag or every weight-zero row would hide genuinely
+    inert content, so require the dedicated ledger, immutable owned-ID list, and
+    both runtime consumers together.
+    """
+    try:
+        if ledger is None:
+            ledger = json.load(open(os.path.join(
+                ROOT, "content", "meta", "chapter5_causal_ledger.json"),
+                encoding="utf-8"))
+        if system_source is None:
+            system_source = open(os.path.join(
+                ROOT, "systems", "Chapter5CausalRoute.gd"),
+                encoding="utf-8").read()
+        if main_source is None:
+            main_source = open(os.path.join(
+                ROOT, "scenes", "MainGame.gd"), encoding="utf-8").read()
+        if story_source is None:
+            story_source = open(os.path.join(
+                ROOT, "scenes", "StoryMode.gd"), encoding="utf-8").read()
+    except (OSError, ValueError, TypeError, json.JSONDecodeError):
+        return set()
+    if not isinstance(ledger, dict) \
+            or ledger.get("schema_version") != 1 \
+            or ledger.get("ledger_id") != "chapter5_m49_m55_causal_route_v1" \
+            or ledger.get("expected_root_count") != 19 \
+            or ledger.get("expected_choice_count") != 47:
+        return set()
+    roots = ledger.get("roots", [])
+    if not isinstance(roots, list) or len(roots) != 19:
+        return set()
+    ledger_ids = []
+    total_choices = 0
+    for root in roots:
+        if not isinstance(root, dict):
+            return set()
+        event_id = root.get("event_id")
+        choices = root.get("choices")
+        if not isinstance(event_id, str) or not event_id \
+                or event_id in ledger_ids \
+                or not isinstance(choices, list) or not choices:
+            return set()
+        for choice in choices:
+            if not isinstance(choice, dict) \
+                    or not isinstance(choice.get("receipts"), list) \
+                    or not choice.get("receipts"):
+                return set()
+        ledger_ids.append(event_id)
+        total_choices += len(choices)
+    if total_choices != 47:
+        return set()
+    owned_match = re.search(
+        r'const\s+OWNED_EVENT_IDS[^=]*=\s*\[(.*?)\n\]',
+        system_source, re.S)
+    if not owned_match:
+        return set()
+    owned_ids = re.findall(r'"([^"]+)"', owned_match.group(1))
+    if owned_ids != ledger_ids:
+        return set()
+    required_system = (
+        "static func next_event_for_turn(",
+        "static func commit_choice(",
+        "static func receipt_matches(",
+    )
+    required_main = (
+        "func _route_chapter5_causal_week(",
+        "GameState.chapter5_causal_next_event_for_turn()",
+        "GameState.chapter5_causal_week_completed()",
+    )
+    required_story = (
+        "func _chapter5_causal_live_ingress_allowed(",
+        "GameState.chapter5_causal_choice_available(",
+        "GameState.record_chapter5_causal_choice(",
+    )
+    if any(marker not in system_source for marker in required_system) \
+            or any(marker not in main_source for marker in required_main) \
+            or any(marker not in story_source for marker in required_story):
+        return set()
+    return set(ledger_ids)
+
+def _inert_event_ids(event_rows, author_only_exempt=frozenset(),
+                     direct_receipt_owned=frozenset()):
+    inert = []
+    for ev in event_rows:
+        if not isinstance(ev, dict):
+            continue
+        chs = ev.get("choices", []) or []
+        if ev.get("id") in author_only_exempt \
+                or ev.get("id") in direct_receipt_owned:
+            continue
+        if len(chs) >= 2 and all(_choice_is_inert(choice) for choice in chs):
+            inert.append(ev.get("id", "?"))
+    return inert
+
 def check_structural_debt(author_only_exempt=frozenset()):
     # 1) write-only 플래그: set되지만 코드/조건 어디서도 안 읽힘
     game_sets, reads = _gather_game_flags()
     write_only = sorted(f for f in game_sets if f not in reads)
     # 2) inert 이벤트: 선택지 2개+인데 전 선택지가 기계적 영향 0
-    inert = []
+    event_rows = []
     for p in glob.glob(os.path.join(ROOT, "content", "events", "*.json")):
         try:
             evs = load_events(p)
         except Exception:
             continue
-        for ev in evs:
-            if not isinstance(ev, dict):
-                continue
-            chs = ev.get("choices", []) or []
-            if ev.get("id") in author_only_exempt:
-                continue
-            if len(chs) >= 2 and all(_choice_is_inert(c) for c in chs):
-                inert.append(ev.get("id", "?"))
+        event_rows.extend(evs)
+    direct_receipt_owned = _chapter5_direct_receipt_owned_ids()
+    inert = _inert_event_ids(
+        event_rows, author_only_exempt, direct_receipt_owned)
     metrics = {"write_only_flags": len(write_only), "inert_events": len(inert)}
 
     bp = os.path.join(ROOT, "tools", "debt_baseline.json")
@@ -1392,6 +1523,35 @@ def check_structural_debt(author_only_exempt=frozenset()):
                   % (C.G, k, cur, base, C.Z))
         else:
             print("  %s: %d (baseline 유지)" % (k, cur))
+
+def _self_test_chapter5_direct_wiring():
+    wired = _chapter5_direct_receipt_owned_ids()
+    if len(wired) != 19:
+        raise AssertionError(
+            "actual Chapter 5 receipt/direct wiring was not recognized")
+    event_id = sorted(wired)[0]
+    rows = [
+        {"id": event_id, "choices": [{"text": "a"}, {"text": "b"}]},
+        {"id": "arbitrary_hidden_inert", "choices": [
+            {"text": "a"}, {"text": "b"},
+        ]},
+    ]
+    if _inert_event_ids(rows, direct_receipt_owned=wired) != [
+            "arbitrary_hidden_inert"]:
+        raise AssertionError("receipt exemption hid an arbitrary inert event")
+    story_source = open(os.path.join(
+        ROOT, "scenes", "StoryMode.gd"), encoding="utf-8").read()
+    broken_story = story_source.replace(
+        "GameState.record_chapter5_causal_choice(",
+        "GameState.record_removed_chapter5_causal_choice(")
+    broken_wired = _chapter5_direct_receipt_owned_ids(
+        story_source=broken_story)
+    if broken_wired:
+        raise AssertionError("missing StoryMode receipt binding remained exempt")
+    if _inert_event_ids(rows, direct_receipt_owned=broken_wired) != [
+            event_id, "arbitrary_hidden_inert"]:
+        raise AssertionError("removed binding did not make the owned root inert")
+    print("AUDIT_CHAPTER5_DIRECT_WIRING_SELF_TEST_OK cases=3")
 
 # ══════════════════════════════════════════════════════════════
 # 8) EN/KR 조건 일치 검사 — events_en/ 파일의 conditions가
@@ -1613,4 +1773,11 @@ def main():
     sys.exit(1 if errors else 0)
 
 if __name__ == "__main__":
-    main()
+    if "--self-test-chapter5-direct-wiring" in sys.argv:
+        try:
+            _self_test_chapter5_direct_wiring()
+        except AssertionError as exc:
+            print("AUDIT_CHAPTER5_DIRECT_WIRING_SELF_TEST_FAIL %s" % exc)
+            sys.exit(1)
+    else:
+        main()

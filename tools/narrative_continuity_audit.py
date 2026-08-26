@@ -39,10 +39,11 @@ CHAPTER_RATCHETS = {
         "peak_roots_min": 1,
         "temporal_roots_min": 3,
         "isolated_micro_max": 0,
-        # ORDER-52 restores authored consequence scenes in Chapter 1. These are
-        # deliberate delayed-payoff stops, not random-card or filler regressions.
-        "stops_max": 33,
-        "thread_switches_max": 28,
+        # The investment representative now carries its real route identity
+        # from W1, so the already-shipping first-chart scene is measured instead
+        # of silently omitted. This is audit-fidelity debt, not a new stop.
+        "stops_max": 34,
+        "thread_switches_max": 29,
     },
     2: {
         "chained_min": 4,

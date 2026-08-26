@@ -2,6 +2,27 @@ extends Node
 ## ORDER-36/37: player plan, delayed consequence, and one authored decision per
 ## foreground week without a duplicate generic AP board.
 
+const CHAPTER5_REQUIRED_ENTRY_FLAGS: Array[String] = [
+	"arc_sangchul_met_seen",
+	"arc_daeun_met",
+	"daeun_romance_started",
+	"arc_minseo_02_seen",
+	"arc_jaehyuk_reunion_seen",
+	"arc_jaehyuk_aftermath_seen",
+]
+const CHAPTER5_EXCLUDED_ENTRY_FLAGS: Array[String] = [
+	"sangchul_reported",
+	"sangchul_cut_ties",
+	"sangchul_quietly_distanced",
+	"daeun_let_her_go",
+	"daeun_divorced",
+	"arc_jaehyuk_mirror_seen",
+	"refused_jaehyuk_guarantee",
+	"vouched_jaehyuk_guarantee",
+	"blocked_jaehyuk_guarantee",
+	"jaehyuk_final_break",
+]
+
 var _failures: Array[String] = []
 
 func _ready() -> void:
@@ -13,6 +34,7 @@ func _ready() -> void:
 	_check_boss_choice(1, "arc_temptation_fallout")
 	_check_chapter_four_missed_cost_routing()
 	_check_chapter_four_boundary_handoff()
+	_check_chapter5_causal_direct_week_ownership()
 	_check_chapter_four_father_death_recovery()
 	_check_father_terminal_final_week_repair()
 	_check_father_terminal_ending_descriptions()
@@ -20,7 +42,7 @@ func _ready() -> void:
 	_check_father_terminal_legacy_routes()
 	_check_foreground_commitment_weeks()
 	if _failures.is_empty():
-		print("CORE_CHOICE_SLICE_CHECK_OK intent=1 interview=causal job_gate=ledger jiyeon_lunch=branch_gated racetrack=handoff authored=7 generic=2 ap_duplicate=0 delayed=t8 branches=2 axes=money/human missed_cost=targeted chapter5=w193_same_queue father_death=monotonic_repair father_active=guarded milestone_routing=dual late_routes=variant+closed save=roundtrip")
+		print("CORE_CHOICE_SLICE_CHECK_OK intent=1 interview=causal job_gate=ledger jiyeon_lunch=branch_gated racetrack=handoff authored=7 generic=2 ap_duplicate=0 delayed=t8 branches=2 axes=money/human missed_cost=targeted chapter5=w193_same_queue+eligible-direct/fallback-w209/no-ap father_death=monotonic_repair father_active=guarded milestone_routing=dual late_routes=variant+closed save=roundtrip")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -29,6 +51,29 @@ func _ready() -> void:
 
 func _new_main_game():
 	return load("res://scenes/MainGame.gd").new()
+
+func _prepare_chapter5_product_path() -> void:
+	GameState.start_new_game("김민준", "지방_상경", "투자형")
+	GameState.turn = 195
+	GameState.money = 2_100_000_000.0
+	GameState.portfolio = {}
+	GameState.loans = {"bank": 0.0, "second": 0.0}
+	GameState.pending_story_queue = []
+	GameState.flags.erase("foreground_story_turn")
+	GameState.flags["route_invest"] = true
+	for flag in CHAPTER5_REQUIRED_ENTRY_FLAGS:
+		GameState.flags[flag] = true
+	for flag in CHAPTER5_EXCLUDED_ENTRY_FLAGS:
+		GameState.flags.erase(flag)
+
+func _expect_chapter5_direct_route_rejected(label: String) -> void:
+	var game = _new_main_game()
+	game.set_meta("_screenshot_qa_static_surface", true)
+	_expect(not game._route_chapter5_causal_week() \
+		and GameState.pending_story_queue.is_empty() \
+		and int(GameState.flags.get("foreground_story_turn", -1)) != 195,
+		"ineligible Chapter 5 route claimed W195: %s" % label)
+	game.free()
 
 func _check_opening_intent() -> void:
 	GameState.start_new_game()
@@ -715,6 +760,130 @@ func _check_chapter_four_boundary_handoff() -> void:
 		"W193 chapter handoff pulled a future reckoning reservation early")
 	_expect(GameState.has_deferred_event("arc_37_reckoning"),
 		"W193 chapter handoff discarded a future reckoning reservation")
+	game.free()
+
+func _check_chapter5_causal_direct_week_ownership() -> void:
+	_prepare_chapter5_product_path()
+	GameState.player_route = "직장형"
+	_expect_chapter5_direct_route_rejected("career route")
+	_prepare_chapter5_product_path()
+	GameState.player_route = "창업형"
+	_expect_chapter5_direct_route_rejected("startup route")
+	_prepare_chapter5_product_path()
+	GameState.flags.erase("route_invest")
+	_expect_chapter5_direct_route_rejected("unearned investment identity")
+	_prepare_chapter5_product_path()
+	GameState.money = 1_999_999_999.0
+	_expect_chapter5_direct_route_rejected("assets below 2 billion")
+	_prepare_chapter5_product_path()
+	GameState.flags.erase("arc_minseo_02_seen")
+	_expect_chapter5_direct_route_rejected("missing Minseo context")
+	_prepare_chapter5_product_path()
+	GameState.flags["daeun_let_her_go"] = true
+	_expect_chapter5_direct_route_rejected("Daeun sent away Path A")
+
+	_prepare_chapter5_product_path()
+	GameState.action_points = GameState.max_action_points
+	var game = _new_main_game()
+	game.set_meta("_screenshot_qa_static_surface", true)
+	_expect(game._route_chapter5_causal_week(),
+		"W195 Chapter 5 direct receipt week did not route")
+	_expect(GameState.pending_story_queue == [
+		"arc_y5_contract_cover_investment"],
+		"W195 Chapter 5 direct route opened the wrong story root")
+	var entry := GameState.chapter5_causal_entry_snapshot()
+	_expect(str(entry.get("route_id", "")) == "investment_property" \
+		and int(entry.get("turn", -1)) == 195 \
+		and str(entry.get("economic_route", "")) == "investment" \
+		and str(entry.get("asset_band", "")) == "at_least_2b" \
+		and (entry.get("actor_bindings", {}) as Dictionary).get(
+			"protected_person", "") == "daeun",
+		"W195 story displayed before the exact durable entry context was locked")
+	_expect(int(GameState.flags.get("foreground_story_turn", -1)) == 195,
+		"W195 Chapter 5 route did not own its foreground week")
+	var money_before: float = float(GameState.money)
+	var ap_before: int = int(GameState.action_points)
+	var result := GameState.record_chapter5_causal_choice(
+		"arc_y5_contract_cover_investment", 2)
+	_expect(bool(result.get("ok", false)) \
+		and GameState.chapter5_causal_week_completed(),
+		"W195 Chapter 5 choice did not close its receipt-owned week")
+	_expect(GameState.money == money_before \
+		and GameState.action_points == ap_before,
+		"W195 Chapter 5 receipt duplicated money/AP gameplay effects")
+	GameState.money = 0.0
+	GameState.player_route = "직장형"
+	GameState.flags.erase("route_invest")
+	GameState.flags["daeun_let_her_go"] = true
+	_expect(game._complete_chapter5_causal_week_after_story(),
+		"durable entry did not close W195 after assets/identity/relationship fell")
+	_expect(GameState.turn == 196,
+		"W195 Chapter 5 direct story week did not advance without the generic AP board")
+	game.free()
+
+	_check_chapter5_w209_mirror_fallback()
+
+func _check_chapter5_w209_mirror_fallback() -> void:
+	# Mark unrelated one-shots complete so _next_arc_id reaches the singular
+	# Jaehyuk mirror. Then reopen only its unresolved canonical state.
+	_prepare_chapter5_product_path()
+	for event in DataRegistry.get_all_events():
+		var event_id := str(event.get("id", ""))
+		if not event_id.is_empty():
+			GameState.flags["%s_seen" % event_id] = true
+		for choice in event.get("choices", []):
+			for raw_flag in choice.get("flags", []):
+				GameState.flags[str(raw_flag)] = true
+	for chapter_flag in [
+		"prologue_done", "chapter_33_seen", "chapter_34_seen",
+		"chapter_35_seen", "chapter_36_seen", "chapter_37_seen",
+	]:
+		GameState.flags[chapter_flag] = true
+	for flag in CHAPTER5_REQUIRED_ENTRY_FLAGS:
+		GameState.flags[flag] = true
+	for flag in CHAPTER5_EXCLUDED_ENTRY_FLAGS:
+		GameState.flags.erase(flag)
+	GameState.flags["route_invest"] = true
+	GameState.turn = 209
+	GameState.money = 1_999_999_999.0
+	var game = _new_main_game()
+	_expect(GameState.chapter5_causal_guarantee_relocation_reserved() \
+		and not GameState.chapter5_causal_product_path_available(),
+		"sub-2-billion fallback fixture did not reserve unresolved mirror")
+	_expect(game._next_arc_id(208, true, false) != "arc_jaehyuk_mirror",
+		"reserved singular mirror escaped before W209")
+	_expect(game._next_arc_id(209, true, false) == "arc_jaehyuk_mirror",
+		"property-ineligible reserved candidate lost the W209 old-mirror fallback")
+	GameState.money = 2_100_000_000.0
+	GameState.flags["sangchul_cut_ties"] = true
+	_expect(not GameState.chapter5_causal_product_path_available() \
+		and game._next_arc_id(209, true, false) == "arc_jaehyuk_mirror",
+		"closed Sangchul context lost the W209 old-mirror fallback")
+	GameState.flags.erase("sangchul_cut_ties")
+	GameState.flags.erase("arc_minseo_02_seen")
+	_expect(not GameState.chapter5_causal_product_path_available() \
+		and game._next_arc_id(209, true, false) == "arc_jaehyuk_mirror",
+		"missing Minseo context lost the W209 old-mirror fallback")
+	GameState.flags["arc_minseo_02_seen"] = true
+
+	# Every canonical outcome resolves the singular mirror. None may allow the
+	# old chain to appear again after the relocated W212 decision.
+	for outcome_flag in [
+		"refused_jaehyuk_guarantee",
+		"vouched_jaehyuk_guarantee",
+		"blocked_jaehyuk_guarantee",
+	]:
+		for reset_flag in [
+			"arc_jaehyuk_mirror_seen",
+			"refused_jaehyuk_guarantee",
+			"vouched_jaehyuk_guarantee",
+			"blocked_jaehyuk_guarantee",
+		]:
+			GameState.flags.erase(reset_flag)
+		GameState.flags["arc_jaehyuk_mirror_seen"] = true
+		GameState.flags[outcome_flag] = true
+		_expect(game._next_arc_id(213, true, false) != "arc_jaehyuk_mirror",
+			"W212 %s outcome reopened the old singular mirror" % outcome_flag)
 	game.free()
 
 func _check_foreground_commitment_weeks() -> void:

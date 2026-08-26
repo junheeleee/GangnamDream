@@ -13,7 +13,7 @@
 
 ## 감사 결과
 
-- 활성 인벤토리: **249장** (`CG 74 / Portrait 92 / Background 83`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
+- 활성 인벤토리: **250장** (`CG 75 / Portrait 92 / Background 83`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
 - 전수 방법: 종류별 콘택트시트 24장으로 얼굴·실루엣·그레이딩·공간을 1차 비교하고, 손·반사·차량·카운터·정류장처럼 오독 위험이 있는 컷과 키 비주얼 10장은 원본 해상도로 다시 열었다.
 - 런타임 수리: 배경이 구워진 `main_character_50s.png`를 본편의 `player_hollow` 슬롯에서 제외하고 같은 민준의 투명 피로 초상으로 통합했다. 현재 이벤트가 없는 박재원의 죽은 초상 등록도 제거했다.
 - 이미지 수리: `ending_crypto_ghost.png`의 비현실적인 6면 모니터 벽을 정본 고시원 안의 휴대폰 1대·낡은 노트북 1대로 교체했다. 방 크기, 작은 불투명창, 침대/책상 방향, 민준 신원, 다섯 손가락, 무문자 차트를 원본에서 재검수했다.
@@ -26,7 +26,7 @@
 
 ### M01-M06 독립 선택판 UI 장면
 
-아래 9장은 `ImageRegistry` 출시 인벤토리 249장에는 포함하지 않는 독립 체험판
+아래 9장은 `ImageRegistry` 출시 인벤토리 250장에는 포함하지 않는 독립 체험판
 직접 로드 자산이다. 원본 해상도와 KO/EN 960x600·1280x800 실제 카드 크롭을
 별도로 확인했다. 선택 전 표면이므로 인물, 판독 문자, 상표, 합격/거절, 계약 완료,
 통화 응답, 미래 관계 결과가 없는지를 `PASS-S` 기준으로 판정했다.
@@ -205,6 +205,7 @@
 | CG | `assets/cg/ending_with_daeun_v1.png` | `cg_ending_with_daeun` | 1280x800 | no | `9c4af6de306d` | PASS-A | 라면/물 정확히 2인분, 상호 시선, 가까운 손, 작은 집의 존엄 통과. |
 | CG | `assets/cg/ending_writer_v1.png` | `cg_ending_writer` | 1280x800 | no | `b8f6de4cadbc` | PASS-A | 정본 고시원 구조, 원고 위 손, 작은 창을 보는 38세 민준, 책·봉투·휴대폰의 무문자 상태를 확인했다. |
 | CG | `assets/cg/jaehyuk_reveal.png` | `cg_jaehyuk_reveal` | 1280x800 | no | `18243d73b73f` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
+| CG | `assets/cg/y5_three_in_room_v1.png` | `cg_y5_three_in_room` | 1280x800 | no | `e75878140ac0` | PASS-A | 민준·다은·재혁·상철 신원·나이·시선, 별도 제안서/PDF/미서명 사본, 놓인 빨간 펜, 단일 계산기, 네 개 종이컵, 자연스러운 손·회의실 동선·하단 안전 크롭·무서명을 원본에서 확인. |
 | CG | `assets/cg/jiyeon_crash_day_v3.png` | `cg_jiyeon_crash` | 1280x800 | no | `a714c2c2bc7e` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/romance/amusement_lost_child_daeun_v1.png` | `cg_romance_amusement_lost_child_daeun` | 1280x800 | no | `6651c8b0569e` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/romance/amusement_photo_strip_jiyeon_v1.png` | `cg_romance_amusement_photo_strip_jiyeon` | 1280x800 | no | `2269261438ca` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
@@ -415,4 +416,4 @@
 | Background | `assets/backgrounds/year3_hangang_winter_night.png` | `year3_hangang_winter_night` | 1280x800 | no | `b8387ccb4707` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/year4_winter_rooftop.png` | `year4_winter_rooftop` | 1280x800 | no | `46803837d191` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 
-Inventory: 74 CG / 92 portraits / 83 backgrounds / 249 total.
+Inventory: 75 CG / 92 portraits / 83 backgrounds / 250 total.

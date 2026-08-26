@@ -44,7 +44,7 @@ cleanup_isolated_home() {
     return 1
   fi
   case "$target" in
-	  "$temp_root"/gangnam-achievements.*|"$temp_root"/gangnam-communication-phone.*|"$temp_root"/gangnam-controller-semantic.*|"$temp_root"/gangnam-core-loop-v2.*|"$temp_root"/gangnam-core-loop-v2-b.*|"$temp_root"/gangnam-core-loop-v2-c.*|"$temp_root"/gangnam-core-loop-v2-cycle-balance.*|"$temp_root"/gangnam-core-loop-v2-d.*|"$temp_root"/gangnam-core-loop-v2-e.*|"$temp_root"/gangnam-core-loop-v2-first-entry.*|"$temp_root"/gangnam-core-loop-v2-handoff.*|"$temp_root"/gangnam-ending-route.*|"$temp_root"/gangnam-first30.*|"$temp_root"/gangnam-gallery-replay.*|"$temp_root"/gangnam-hidden.*|"$temp_root"/gangnam-housing-keepsake.*|"$temp_root"/gangnam-immersion-loop.*|"$temp_root"/gangnam-input-matrix.*|"$temp_root"/gangnam-manual-save.*|"$temp_root"/gangnam-mod-layer.*|"$temp_root"/gangnam-money-integrity.*|"$temp_root"/gangnam-phone-system.*|"$temp_root"/gangnam-playtest-flavor.*|"$temp_root"/gangnam-story-audio.*|"$temp_root"/gangnam-story-dialogue-history.*|"$temp_root"/gangnam-story-playback.*|"$temp_root"/gangnam-story-tutorial.*)
+	  "$temp_root"/gangnam-achievements.*|"$temp_root"/gangnam-chapter5-causal.*|"$temp_root"/gangnam-communication-phone.*|"$temp_root"/gangnam-controller-semantic.*|"$temp_root"/gangnam-core-loop-v2.*|"$temp_root"/gangnam-core-loop-v2-b.*|"$temp_root"/gangnam-core-loop-v2-c.*|"$temp_root"/gangnam-core-loop-v2-cycle-balance.*|"$temp_root"/gangnam-core-loop-v2-d.*|"$temp_root"/gangnam-core-loop-v2-e.*|"$temp_root"/gangnam-core-loop-v2-first-entry.*|"$temp_root"/gangnam-core-loop-v2-handoff.*|"$temp_root"/gangnam-ending-route.*|"$temp_root"/gangnam-first30.*|"$temp_root"/gangnam-gallery-replay.*|"$temp_root"/gangnam-hidden.*|"$temp_root"/gangnam-housing-keepsake.*|"$temp_root"/gangnam-immersion-loop.*|"$temp_root"/gangnam-input-matrix.*|"$temp_root"/gangnam-manual-save.*|"$temp_root"/gangnam-mod-layer.*|"$temp_root"/gangnam-money-integrity.*|"$temp_root"/gangnam-phone-system.*|"$temp_root"/gangnam-playtest-flavor.*|"$temp_root"/gangnam-story-audio.*|"$temp_root"/gangnam-story-dialogue-history.*|"$temp_root"/gangnam-story-playback.*|"$temp_root"/gangnam-story-tutorial.*)
       rm -rf -- "$target"
       ;;
     *)
@@ -133,6 +133,8 @@ EVENT_LIFECYCLE_SELF_TEST_EXIT=$?
 echo "──────────────────────────────────────────"
 python3 tools/audit.py
 PY_EXIT=$?
+python3 tools/audit.py --self-test-chapter5-direct-wiring
+CHAPTER5_DIRECT_WIRING_SELF_TEST_EXIT=$?
 
 echo "──────────────────────────────────────────"
 echo "● 기회 선택 19개·15사건·현금 부족 대체 선택 정적 원장"
@@ -254,6 +256,13 @@ python3 tools/chapter4_causal_route_audit.py --self-test
 CHAPTER4_CAUSAL_SELF_TEST_EXIT=$?
 python3 tools/chapter4_causal_route_audit.py
 CHAPTER4_CAUSAL_EXIT=$?
+
+echo "──────────────────────────────────────────"
+echo "● 5장 M49~M55 19루트·47선택·영수증·직접 주차 인과 계약"
+python3 tools/chapter5_causal_route_audit.py --self-test
+CHAPTER5_CAUSAL_SELF_TEST_EXIT=$?
+python3 tools/chapter5_causal_route_audit.py
+CHAPTER5_CAUSAL_EXIT=$?
 
 echo "──────────────────────────────────────────"
 echo "● Tier-1 정점 체인 길이·선택점·대화 왕복 래칫"
@@ -697,6 +706,25 @@ if [ -x "$GODOT" ]; then
 else
   echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 코어 선택 수직 단면 검사 건너뜀."
   CORE_CHOICE_EXIT=0
+fi
+
+echo "──────────────────────────────────────────"
+echo "● 5장 exact receipt·저장·손상 차단·조건부 ingress 런타임"
+if [ -x "$GODOT" ]; then
+  CHAPTER5_CAUSAL_HOME=$(make_isolated_home "gangnam-chapter5-causal")
+  CHAPTER5_CAUSAL_RAW=$(run_limited env HOME="$CHAPTER5_CAUSAL_HOME" "$GODOT" --headless --quit-after 1200 res://tools/Chapter5CausalRouteCheck.tscn 2>&1)
+  CHAPTER5_CAUSAL_STATUS=$?
+  cleanup_isolated_home "$CHAPTER5_CAUSAL_HOME"
+  echo "$CHAPTER5_CAUSAL_RAW" | grep -E "CHAPTER5_CAUSAL_ROUTE_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
+  if godot_check_passed "$CHAPTER5_CAUSAL_RAW" "$CHAPTER5_CAUSAL_STATUS" \
+      "CHAPTER5_CAUSAL_ROUTE_CHECK_OK"; then
+    CHAPTER5_CAUSAL_RUNTIME_EXIT=0
+  else
+    CHAPTER5_CAUSAL_RUNTIME_EXIT=1
+  fi
+else
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 5장 인과 런타임 체크 건너뜀."
+  CHAPTER5_CAUSAL_RUNTIME_EXIT=0
 fi
 
 echo "──────────────────────────────────────────"
@@ -1261,14 +1289,14 @@ echo "────────────────────────�
 # 게이트가 모든 검사 플래그를 모으므로, 실패 시 어떤 검사가 걸렸는지 이름으로
 # 알려 준다. 검사마다 ✗를 찍지 않는 경로가 있어 이름 없이는 추적이 어렵다.
 AUDIT_EXIT_FLAGS="
-  CONTEXT_MANIFEST_EXIT QUEUE_CONSISTENCY_EXIT RELEASE_CONTENT_EXIT RELEASE_CONTENT_SELF_TEST_EXIT BUILD_IDENTITY_EXIT THIRD_PARTY_NOTICE_EXIT EVENT_LIFECYCLE_EXIT EVENT_LIFECYCLE_SELF_TEST_EXIT PY_EXIT OPPORTUNITY_MONEY_AUDIT_EXIT STORY_CONSISTENCY_EXIT STORY_MAP_EXIT YEAR5_REFERENCE_ROUTE_EXIT YEAR5_REFERENCE_ROUTE_R1_EXIT SPEECH_REGISTER_EXIT RANDOM_POOL_HYGIENE_EXIT SURFACE_EXIT
-  PACING_EXIT DEMO_EXPERIENCE_EXIT PLAYTEST_REPORT_EXIT NARRATIVE_CONTINUITY_EXIT FULL_RUN_PACING_EXIT NARRATIVE_SPINE_EXIT CHAPTER4_CAUSAL_SELF_TEST_EXIT CHAPTER4_CAUSAL_EXIT PLAYER_SURFACE_LANGUAGE_EXIT PLAYER_SURFACE_LANGUAGE_SELF_TEST_EXIT
+  CONTEXT_MANIFEST_EXIT QUEUE_CONSISTENCY_EXIT RELEASE_CONTENT_EXIT RELEASE_CONTENT_SELF_TEST_EXIT BUILD_IDENTITY_EXIT THIRD_PARTY_NOTICE_EXIT EVENT_LIFECYCLE_EXIT EVENT_LIFECYCLE_SELF_TEST_EXIT PY_EXIT CHAPTER5_DIRECT_WIRING_SELF_TEST_EXIT OPPORTUNITY_MONEY_AUDIT_EXIT STORY_CONSISTENCY_EXIT STORY_MAP_EXIT YEAR5_REFERENCE_ROUTE_EXIT YEAR5_REFERENCE_ROUTE_R1_EXIT SPEECH_REGISTER_EXIT RANDOM_POOL_HYGIENE_EXIT SURFACE_EXIT
+  PACING_EXIT DEMO_EXPERIENCE_EXIT PLAYTEST_REPORT_EXIT NARRATIVE_CONTINUITY_EXIT FULL_RUN_PACING_EXIT NARRATIVE_SPINE_EXIT CHAPTER4_CAUSAL_SELF_TEST_EXIT CHAPTER4_CAUSAL_EXIT CHAPTER5_CAUSAL_SELF_TEST_EXIT CHAPTER5_CAUSAL_EXIT PLAYER_SURFACE_LANGUAGE_EXIT PLAYER_SURFACE_LANGUAGE_SELF_TEST_EXIT
   PEAK_CHAIN_EXIT KEY_ART_EXIT FIRST30_EXIT ART_AI_EXIT ART_RESOLUTION_EXIT ART_MASTER_EXIT CG_ACTING_EXIT
   CG_RUNTIME_EXIT CAST_DETAIL_EXIT EVENT_VISUAL_EXIT EN_HANGUL_EXIT EN_HANGUL_SELF_TEST_EXIT EN_COVERAGE_EXIT I18N_COVERAGE_EXIT I18N_SURFACE_EXIT JA_UI_EXIT JA_DEMO_INVENTORY_EXIT JA_DEMO_PIPELINE_SELF_TEST_EXIT JA_DEMO_AUDIT_EXIT ZH_DEMO_AUDIT_EXIT ZH_DEMO_SELF_TEST_EXIT DEMO_I18N_SCOPE_EXIT DEMO_I18N_SELF_TEST_EXIT DEMO_PROSE_STYLE_EXIT I18N_RUNTIME_EXIT FONT_ROUTING_EXIT
   MOD_LAYER_AUDIT_EXIT MOD_LAYER_RUNTIME_EXIT BAL_EXIT EVENT_DIRECTOR_EXIT EXPOSED_STATE_EXIT PHONE_SYSTEM_EXIT MONEY_INTEGRITY_EXIT COMMUNICATION_PHONE_EXIT
   CORE_LOOP_V2_EXIT CHAPTER1_CAUSAL_LEDGER_SELF_TEST_EXIT CHAPTER1_CAUSAL_LEDGER_EXIT CORE_LOOP_V2_BALANCE_EXIT CORE_LOOP_V2_RUNTIME_EXIT CORE_LOOP_V2_B_RUNTIME_EXIT CORE_LOOP_V2_C_RUNTIME_EXIT
   CORE_LOOP_V2_D_RUNTIME_EXIT CORE_LOOP_V2_E_RUNTIME_EXIT CORE_LOOP_V2_CYCLE_EXIT CORE_LOOP_V2_CYCLE_BALANCE_EXIT CORE_LOOP_V2_FIRST_ENTRY_EXIT CORE_LOOP_V2_HANDOFF_EXIT
-  EVENT_DIRECTOR_RUNTIME_EXIT CORE_CHOICE_EXIT ENDING_DISTINCTNESS_EXIT ENDING_ROUTE_EXIT AUDIO_SOURCE_EXIT SCENE_AUDIO_EXIT
+  EVENT_DIRECTOR_RUNTIME_EXIT CORE_CHOICE_EXIT CHAPTER5_CAUSAL_RUNTIME_EXIT ENDING_DISTINCTNESS_EXIT ENDING_ROUTE_EXIT AUDIO_SOURCE_EXIT SCENE_AUDIO_EXIT
   SCENE_AUDIO_CATALOG_EXIT FULL_RUN_AUDIO_EXIT SCENE_DIRECTION_CATALOG_EXIT FULL_RUN_DIRECTION_EXIT GAME_AUDIO_CONTRACT_EXIT UI_SFX_EXIT
   LAUNCH_AUDIO_EXIT AUDIO_EXIT GAME_AUDIO_RUNTIME_EXIT BGM_EXIT MORAL_AMBIENCE_EXIT IMMERSION_EXIT
   MOTIVATION_EXIT TUTORIAL_EXIT STORY_TUTORIAL_EXIT GALLERY_REPLAY_EXIT STORY_PLAYBACK_EXIT STORY_DIALOGUE_HISTORY_EXIT MANUAL_SAVE_EXIT SURFACE_COHERENCE_EXIT IDENTITY_SIGNATURE_EXIT FEATURE_LIVENESS_EXIT STATUS_DOC_EXIT HUMAN_GATES_EXIT

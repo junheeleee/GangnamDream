@@ -20,6 +20,9 @@ ROOT = Path(__file__).resolve().parents[1]
 EVENT_DIR = ROOT / "content" / "events"
 EVENT_EN_DIR = ROOT / "content" / "events_en"
 RULES_PATH = ROOT / "content" / "meta" / "story_rules.json"
+CHAPTER5_CAUSAL_LEDGER_PATH = (
+    ROOT / "content" / "meta" / "chapter5_causal_ledger.json"
+)
 DEMO_CONTRACT_PATH = ROOT / "content" / "meta" / "demo_core_loop_v2.json"
 JOBS_PATH = ROOT / "content" / "jobs.json"
 VISUAL_CONTRACTS_PATH = ROOT / "assets" / "event_visual_contracts.json"
@@ -103,6 +106,10 @@ SPEECH_SOURCE_KINDS = {
     "prior_event",
     "prior_choice",
 }
+CHAPTER5_W210_QUEUE_EDGE = (
+    "arc_y5_jaehyuk_return_call_reference"
+    "->arc_y5_jaehyuk_father_document_reference"
+)
 
 
 def load_json(path: Path) -> Any:
@@ -110,6 +117,33 @@ def load_json(path: Path) -> Any:
         return json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         raise RuntimeError(f"cannot load {path.relative_to(ROOT)}: {exc}") from exc
+
+
+def chapter5_queue_only_edges() -> set[str]:
+    """Return the one non-demo queue edge proven by the immutable route ledger."""
+    ledger = load_json(CHAPTER5_CAUSAL_LEDGER_PATH)
+    if not isinstance(ledger, dict) \
+            or ledger.get("schema_version") != 1 \
+            or ledger.get("ledger_id") != "chapter5_m49_m55_causal_route_v1" \
+            or ledger.get("expected_root_count") != 19 \
+            or ledger.get("expected_choice_count") != 47:
+        return set()
+    roots = ledger.get("roots", [])
+    if not isinstance(roots, list) or len(roots) != 19 \
+            or not all(isinstance(root, dict) for root in roots):
+        return set()
+    source = roots[10]
+    target = roots[11]
+    if source.get("sequence") != 11 or target.get("sequence") != 12 \
+            or source.get("turn") != 210 or target.get("turn") != 210 \
+            or source.get("event_id") \
+                != "arc_y5_jaehyuk_return_call_reference" \
+            or target.get("event_id") \
+                != "arc_y5_jaehyuk_father_document_reference" \
+            or source.get("condition") is not None \
+            or target.get("condition") is not None:
+        return set()
+    return {CHAPTER5_W210_QUEUE_EDGE}
 
 
 def load_events() -> tuple[dict[str, dict[str, Any]], list[str]]:
@@ -1074,6 +1108,7 @@ def main() -> int:
     ]
     for edge in missing_transition_contracts:
         errors.append(f"demo transition lacks contract: {edge}")
+    chapter5_queue_edges = chapter5_queue_only_edges()
 
     validated_transition_contracts = 0
     for edge, contract in transition_contracts.items():
@@ -1102,8 +1137,11 @@ def main() -> int:
             legacy_only = False
         if legacy_only and not queue_only:
             errors.append(f"{owner}: legacy_only transitions must be queue_only")
-        if queue_only and edge not in demo_transition_edges:
-            errors.append(f"{owner}: queue_only edges must be demo coverage targets")
+        if queue_only and edge not in demo_transition_edges \
+                and edge not in chapter5_queue_edges:
+            errors.append(
+                f"{owner}: queue_only edge lacks demo or exact Chapter 5 ledger ownership"
+            )
 
         choices = events[from_id].get("choices", [])
         follows = {

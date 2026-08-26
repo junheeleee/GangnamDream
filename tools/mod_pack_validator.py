@@ -28,7 +28,7 @@ EVENT_ROOT_KEYS = {
     "timer_default_choice", "description_orthodox", "description_unorthodox",
     "description_low_mental", "description_long_gosiwon", "description_if_known",
     "description_memory_if_known", "description_if_moral", "direction", "living_scene",
-    "year_scene_year", "override",
+    "year_scene_year", "chapter5_causal_reads", "override",
 }
 CHOICE_KEYS = {
     "text", "text_if_moral", "effects", "flags", "follow_up_event", "result_text",
@@ -113,6 +113,51 @@ def produced_flags(choice: dict[str, Any]) -> set[str]:
             if isinstance(value, dict):
                 result.update(str(flag) for flag in value.get("flags", []) if str(flag))
     return result
+
+
+def validate_chapter5_causal_reads(
+    value: Any, label: str, report: Report,
+) -> None:
+    expected_keys = {
+        "source_event_ids", "optional_source_event_ids", "texts", "mode",
+    }
+    if not isinstance(value, dict) or set(value) != expected_keys:
+        report.error(f"{label}: chapter5_causal_reads must use the exact schema")
+        return
+    source_ids = value.get("source_event_ids")
+    optional_ids = value.get("optional_source_event_ids")
+    text_rows = value.get("texts")
+    if value.get("mode") != "prepend":
+        report.error(f"{label}: chapter5_causal_reads.mode must be prepend")
+    if (
+        not isinstance(source_ids, list)
+        or not source_ids
+        or any(not isinstance(item, str) or not item for item in source_ids)
+        or len(set(source_ids)) != len(source_ids)
+    ):
+        report.error(
+            f"{label}: source_event_ids must be unique non-empty strings")
+        return
+    if (
+        not isinstance(optional_ids, list)
+        or any(not isinstance(item, str) or item not in source_ids
+               for item in optional_ids)
+        or len(set(optional_ids)) != len(optional_ids)
+    ):
+        report.error(
+            f"{label}: optional_source_event_ids must be a unique source subset")
+    if not isinstance(text_rows, list) or len(text_rows) != len(source_ids):
+        report.error(f"{label}: texts must align one-to-one with sources")
+        return
+    for row_index, row in enumerate(text_rows):
+        if (
+            not isinstance(row, list)
+            or not row
+            or any(not isinstance(text, str) or not text.strip() for text in row)
+            or len(set(row)) != len(row)
+        ):
+            report.error(
+                f"{label}: texts[{row_index}] must contain distinct non-empty strings")
 
 
 def validate_choice(
@@ -253,6 +298,9 @@ def validate_event_file(path: Path, builtins: dict[str, dict[str, Any]], report:
         unknown = set(event) - EVENT_ROOT_KEYS
         if unknown:
             report.error(f"{label}: unsupported event keys {sorted(unknown)}")
+        if "chapter5_causal_reads" in event:
+            validate_chapter5_causal_reads(
+                event.get("chapter5_causal_reads"), label, report)
         choices = event.get("choices", [])
         if not isinstance(choices, list) or not choices:
             report.error(f"{label}: event must have at least one choice")

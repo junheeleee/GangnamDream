@@ -51,6 +51,15 @@
     "id": "arc_y5_final_offer",
     "title": "Page Seven",
     "description": "Sangchul arrived before the appointed time. A seven-page offer and two paper cups sat on the meeting-room table. He pushed the less-cold cup toward {name} and tapped the figure on page one.\n\n\"You made it all the way to the end. Lock this today and 3 billion won becomes a number we can discuss.\"\n\nPage seven held a blank marked CONSENTING PARTY'S NAME. The addendum beneath it borrowed Daeun's name in exchange for priority over her weekends and nights. When {name} pulled the staple, the tablet in his bag briefly lit up with his father's old guarantee PDF. The two documents hid the scope of liability in sentences of the same shape.\n\n\"Does Daeun know?\"\nSangchul swallowed cold coffee. \"She'll sign for herself. You explain it.\"\n\nHe pushed over the calculator. The figure was close to the goal. Daeun's blank name field was directly under his fingertip.",
+    "chapter5_causal_reads": {
+      "texts": [
+        [
+          "The calendar still held the slash after seven on Thursday and the two hours that could no longer be sold. Sangchul's today demanded that {name} turn that line back into contract time.",
+          "The first Sunday of next month remained circled on both screens, with neither person having marked the promise complete. Sangchul's seven pages demanded an answer before that unfinished day did.",
+          "Beside the line joining the clinic record to family calls were Daeun's words: TELL ME BEFORE. When Sangchul pushed over the calculator, {name} saw the promise to speak before stopping."
+        ]
+      ]
+    },
     "choices": [
       {
         "text": "Set Father's guarantee PDF beside it. Ask whether Sangchul can review his own offer.",
@@ -70,6 +79,15 @@
     "id": "arc_sangchul_final_door",
     "title": "The Owner of the Cold Coffee",
     "description": "The old office door did not open on the first push. When {name} leaned a shoulder into it, Sangchul kicked a pile of mail clear from the other side. Two paper cups stood on the desk. A skin had formed over one coffee.\n\n\"You made it all the way to the end.\"\n\n{name} set Jaehyuk's guarantee PDF beside the final offer. Sangchul looked at the name fields before the amounts.\n\n\"The papers didn't lie back when your father signed either. Nobody read what their words meant between people.\"\n\"Read these with me.\"\n\nSangchul swallowed a mouthful of cold coffee.\n\"If I make the offer and review it too, that's not verification. That's my word repeated. If you still want my time, you decide where to spend it.\"\n\nHe placed a red pen between the documents.",
+    "chapter5_causal_reads": {
+      "texts": [
+        [
+          "Jaehyuk's chat held the sent refusal with its time while the input remained open. The PDF signature line was still blank, so {name} placed before Sangchul the screen where refusal—not silence—had been recorded.",
+          "Black letters and an authentication time filled the guarantee field, while Jaehyuk's chat contained no sentence from {name}. Sangchul looked at the completed signature first and asked what had been read before that name entered it.",
+          "A block notice sat at the bottom of Jaehyuk's chat; the input and call button were gone. The signature line remained blank, but the hand that had closed contact was now asking Sangchul for review."
+        ]
+      ]
+    },
     "choices": [
       {
         "text": "Ask him to circle only the single most dangerous clause.",
@@ -88,7 +106,24 @@
   {
     "id": "arc_y5_three_in_room",
     "title": "Four at the Table",
-    "description": "Four people sat inside the glass meeting room. Sangchul had the offer he had brought and a red pen. Jaehyuk had his own guarantee PDF. Daeun had a copy opened to the field for her name. Only {name} had a calculator in front of him.\n\nSangchul opened the returns table. \"Lock it today and these are the terms. But don't call it safe just because I reviewed the deal I brought.\" He left the red pen down. Jaehyuk's knee bounced under the table. \"Minjun, my guarantee is clean. We get through this one together.\"\n\nDaeun peeled the sleeve from a paper cup gone cold and laid it across the name field. \"You two finished the whole conversation with my name before I even answered.\"\n\nSangchul looked at Jaehyuk. Jaehyuk looked at {name}. Daeun let neither man choose where she looked. The wall clock cut the time left before the transfer deadline into small pieces.",
+    "description": "Four people sat inside the glass meeting room. Sangchul had the offer he had brought and a red pen. Jaehyuk had his own guarantee PDF. Daeun had a copy opened to the field for her name. Only {name} had a calculator in front of him.\n\nSangchul opened the returns table. \"Lock it today and these are the terms. But don't call it safe just because I reviewed the deal I brought.\" He left the red pen down. Jaehyuk's knee bounced as he cut in. \"Minjun, I know what you left in the guarantee field. But here, at this table, let's read all the way through what my document binds.\"\n\nDaeun peeled the sleeve from a paper cup gone cold and laid it across the name field. \"You two finished the whole conversation with my name before I even answered.\"\n\nSangchul looked at Jaehyuk. Jaehyuk looked at {name}. Daeun let neither man choose where she looked. The wall clock cut the time left before the transfer deadline into small pieces.",
+    "chapter5_causal_reads": {
+      "texts": [
+        [
+          "On the table, Jaehyuk's chat showed the guarantee refusal beside an open input. There was no read mark, but the sent sentence and blank signature line now lay together before Jaehyuk's chair.",
+          "Black letters and an authentication time already occupied {name}'s field in Jaehyuk's guarantee PDF. Beside that field, Jaehyuk now had to read his own liability aloud.",
+          "Jaehyuk's chat input was gray and locked, and its call button had vanished. Yet he occupied the chair across the table, forcing the document's liability back into the room outside the blocked screen."
+        ],
+        [
+          "Sangchul's red circle bit both the liability clause and the name field, but he had already said he could not call it safe. Here too, the circle marked his conflict rather than an answer.",
+          "Sangchul had folded his own business card and thrown it away; the name field remained blank. He sat at the table unable to substitute his name for safety.",
+          "FORTY MINUTES was written on the offer cover, and the fresh cup Sangchul had handed over stood before {name}. Between the hot cup from the old office and today's cold coffee, the borrowed review time became harder to ignore."
+        ],
+        [
+          "The phone photograph preserved the unbroken red circle across both originals with its capture time. {name} left that frame open too, so the proposer's review could not masquerade as independent verification."
+        ]
+      ]
+    },
     "choices": [
       {
         "text": "Open the main contract, addendum, and name field all at once.",
@@ -108,6 +143,15 @@
     "id": "arc_y5_three_in_room_decision",
     "title": "Who Owns the Line",
     "description": "9:47 p.m. The corners of the papers before the four of them had worn in different directions.\n\nSangchul spoke first. \"The limit drops without Daeun's name. Those are the terms I brought. But a red line from me doesn't make them safe.\" Jaehyuk pressed his guarantee PDF flat with one palm. \"Minjun, my name is on the line too. You aren't the only one using somebody else's.\"\n\nDaeun ignored the figure and looked at {name}. \"I'm not asking how much you make. I'm asking how far you meant to use my name and my time before you asked me.\"\n\n{name} opened the transfer-lock screen. Thirteen minutes remained. Sangchul put down the red pen. For the first time, Jaehyuk took his hand off the calculator. There was one blank on the page and three people waiting for an answer.",
+    "chapter5_causal_reads": {
+      "texts": [
+        [
+          "The offer, addendum, and guarantee PDF still lay in one row after Sangchul, Jaehyuk, and Daeun had read the amount, liability term, and name field aloud. With {name}'s calculator dark, no figure could answer for any of them now.",
+          "Sangchul had asked the first question and set down the red pen, while Daeun had kept her gaze on {name}. The proposer had asked but could not verify the answer, and that conflict remained on the table.",
+          "After Sangchul placed the blank sheet before Daeun, her question—WHAT DO I GET TO CHOOSE—became the meeting's first record, ahead of the projected return. It now demanded {name}'s answer."
+        ]
+      ]
+    },
     "choices": [
       {
         "text": "Remove that name and recalculate the smaller terms.",
@@ -227,6 +271,15 @@
     "id": "arc_y5_final_offer_reference_delivery",
     "title": "The Same Seven Pages",
     "description": "The copier outside the meeting room held the same seven pages twice. {name} flattened every sticky note and folded corner in Sangchul's proposal, then scanned the addendum into the same file. He did not hide the final page bearing Daeun's name field.\n\nOne send window held Sangchul's name; the other held Daeun's conversation. If the proposer and the person whose name might be used received different versions, even the order of the words could later be replaced by money's account of them. {name} compared both attachments from the first sentence to the last.\n\nAs the copier cooled, only the two blue send buttons remained. Neither window showed a read mark yet.",
+    "chapter5_causal_reads": {
+      "texts": [
+        [
+          "After Sangchul was asked whether he could review his own offer, the red pen remained untouched and Father's guarantee PDF stayed open beside the seven pages. {name} had to preserve that conflict in the same file.",
+          "Beside the copier lay the version where a memo had covered Daeun's name and the calculator had stepped down to the lower terms. {name} could not send only the smaller figure and hide the name that had been covered.",
+          "Daeun had read the page bearing her name before the figures and stopped on WEEKENDS AND NIGHTS. {name} had to ensure that the original carrying her question matched Sangchul's original word for word."
+        ]
+      ]
+    },
     "choices": [
       {
         "text": "Compare both files through the final page, then send the same original in order.",

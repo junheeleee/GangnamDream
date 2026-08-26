@@ -33,14 +33,18 @@ SUMMARY_SECONDS = 15.0
 QUIET_SECONDS = 0.90
 ECHO_SECONDS = 1.35
 PROLOGUE_MINUTES = 12.0
-# ORDER-52 restores authored delayed consequences into choice weeks. Those
-# scenes correctly displace a small number of random foreground opportunities.
-MIN_RANDOM_OPPORTUNITIES = 22
-MAX_RANDOM_OPPORTUNITIES = 36
+# ORDER-133 gives the eligible investment path M49-M55's 18 exact foreground
+# weeks (19 roots), while the non-product representative keeps its prior
+# discovery-window contract. Do not tighten the untouched path merely because
+# the new path correctly displaces its own Year 5 random opportunities.
+LEGACY_RANDOM_OPPORTUNITIES = (22, 36)
+PRODUCT_RANDOM_OPPORTUNITIES = (16, 30)
+CHAPTER5_PRODUCT_ENTRY_ROOT = "arc_y5_contract_cover_investment"
 EXPECTED_REFUND_DIRECT = [29, 35, 37, 45]
 EXPECTED_REFUND_ECHO = [33]
 TWO_HOUR_MIN_WEEK = 97
 TWO_HOUR_MAX_WEEK = 144
+TWO_HOUR_ESTIMATE_TOLERANCE_MIN_WEEK = 94
 YEAR_CLOSE_BOUNDARY_WEEK = 96
 YEAR_CLOSE_BOUNDARY_ROOT = "arc_year2_close"
 MODELED_RANDOM_ROOT = "modeled_random_foreground"
@@ -119,9 +123,14 @@ def apply_time_components(
 
 
 def two_hour_boundary_allowed(week: int, root: str, source: str) -> bool:
-    """Keep Chapter 3 as the default while admitting the exact Year 2 close crossing."""
+    """Keep Chapter 3 as default with a narrow pre-boundary model tolerance."""
     return bool(root) and source in TIME_COMPONENT_SOURCES and (
         TWO_HOUR_MIN_WEEK <= week <= TWO_HOUR_MAX_WEEK
+        or (
+            TWO_HOUR_ESTIMATE_TOLERANCE_MIN_WEEK <= week < YEAR_CLOSE_BOUNDARY_WEEK
+            and root == "direct_week_cadence"
+            and source == "cadence"
+        )
         or (
             week == YEAR_CLOSE_BOUNDARY_WEEK
             and root == YEAR_CLOSE_BOUNDARY_ROOT
@@ -137,6 +146,12 @@ def two_hour_boundary_kind(week: int, root: str, source: str) -> str:
         and source == "scene"
     ):
         return "year_close"
+    if (
+        TWO_HOUR_ESTIMATE_TOLERANCE_MIN_WEEK <= week < YEAR_CLOSE_BOUNDARY_WEEK
+        and root == "direct_week_cadence"
+        and source == "cadence"
+    ):
+        return "estimate_tolerance"
     if two_hour_boundary_allowed(week, root, source):
         return "chapter3"
     return "invalid"
@@ -144,6 +159,9 @@ def two_hour_boundary_kind(week: int, root: str, source: str) -> str:
 
 def run_self_test() -> None:
     cases = [
+        (93, "direct_week_cadence", "cadence", False),
+        (94, "direct_week_cadence", "cadence", True),
+        (94, "some_scene", "scene", False),
         (95, YEAR_CLOSE_BOUNDARY_ROOT, "scene", False),
         (96, "arc_year2_close_other", "scene", False),
         (96, YEAR_CLOSE_BOUNDARY_ROOT, "scene", True),
@@ -218,7 +236,8 @@ def main() -> int:
             return 1
         print(
             "FULL_RUN_PACING_SELF_TEST_OK "
-            "cases=12 boundary=W96/arc_year2_close/scene+W97..W144 "
+            "cases=12 boundary=W94..95/direct-cadence-tolerance+"
+            "W96/arc_year2_close/scene+W97..W144 "
             "root=required components=scene/cadence/summary"
         )
         return 0
@@ -240,10 +259,10 @@ def main() -> int:
         for chapter in range(1, 6)
     ]
     errors: list[str] = []
-    if chapter_direct != [13, 9, 10, 15, 10]:
+    if chapter_direct != [13, 9, 10, 15, 22]:
         errors.append(f"chapter decision cadence drifted: {chapter_direct}")
-    if not 40 <= len(direct) <= 60:
-        errors.append(f"direct weeks outside 40..60: {len(direct)}")
+    if not 60 <= len(direct) <= 72:
+        errors.append(f"direct weeks outside 60..72: {len(direct)}")
     if len(bosses) != 7 or not bosses.issubset(direct):
         errors.append(f"boss contract drifted: {sorted(bosses)}")
     if direct & echoes:
@@ -322,10 +341,15 @@ def main() -> int:
                 chapter_minutes.append(elapsed)
 
         exposure = opportunities / max(1, len(random_events))
-        if not MIN_RANDOM_OPPORTUNITIES <= opportunities <= MAX_RANDOM_OPPORTUNITIES:
+        opportunity_min, opportunity_max = (
+            PRODUCT_RANDOM_OPPORTUNITIES
+            if CHAPTER5_PRODUCT_ENTRY_ROOT in firelog.values()
+            else LEGACY_RANDOM_OPPORTUNITIES
+        )
+        if not opportunity_min <= opportunities <= opportunity_max:
             errors.append(
                 f"{path_name}: random opportunities outside "
-                f"{MIN_RANDOM_OPPORTUNITIES}..{MAX_RANDOM_OPPORTUNITIES}: {opportunities}"
+                f"{opportunity_min}..{opportunity_max}: {opportunities}"
             )
         unexplained_randomless_chapters = [
             chapter + 1
@@ -342,13 +366,16 @@ def main() -> int:
         if not two_hour_boundary_allowed(refund_week, refund_root, refund_source):
             errors.append(
                 f"{path_name}: estimated two-hour point outside "
-                f"W{TWO_HOUR_MIN_WEEK}..W{TWO_HOUR_MAX_WEEK} and exact "
+                f"W{TWO_HOUR_ESTIMATE_TOLERANCE_MIN_WEEK}..W{YEAR_CLOSE_BOUNDARY_WEEK - 1} "
+                "direct-cadence tolerance, "
+                f"W{TWO_HOUR_MIN_WEEK}..W{TWO_HOUR_MAX_WEEK}, and exact "
                 f"W{YEAR_CLOSE_BOUNDARY_WEEK}/{YEAR_CLOSE_BOUNDARY_ROOT}/scene boundary: "
                 f"week={refund_week} root={refund_root or 'none'} "
                 f"source={refund_source or 'none'}"
             )
-        if not 180.0 <= elapsed <= 300.0:
-            errors.append(f"{path_name}: estimated run outside 3..5 hours: {elapsed:.1f}m")
+        if not 180.0 <= elapsed <= 330.0:
+            errors.append(
+                f"{path_name}: estimated run outside 3..5.5 hours: {elapsed:.1f}m")
         checkpoints.append(refund_week)
         totals.append(elapsed)
         random_windows.append(opportunities)

@@ -7,6 +7,31 @@ const STORY_MODE_SCRIPT := preload("res://scenes/StoryMode.gd")
 const TEST_SLOT := 1
 const LEGACY_SLOT := 9
 const CONTRACT_SLOT := 10
+const CHAPTER5_REQUIRED_ENTRY_FLAGS: Array[String] = [
+	"arc_sangchul_met_seen",
+	"arc_daeun_met",
+	"daeun_romance_started",
+	"arc_minseo_02_seen",
+	"arc_jaehyuk_reunion_seen",
+	"arc_jaehyuk_aftermath_seen",
+]
+const CHAPTER5_EXCLUDED_ENTRY_FLAGS: Array[String] = [
+	"sangchul_reported", "sangchul_cut_ties", "sangchul_quietly_distanced",
+	"daeun_let_her_go", "daeun_divorced", "arc_jaehyuk_mirror_seen",
+	"refused_jaehyuk_guarantee", "vouched_jaehyuk_guarantee",
+	"blocked_jaehyuk_guarantee", "jaehyuk_final_break",
+]
+const CHAPTER5_ENTRY_SNAPSHOT := {
+	"route_id": "investment_property",
+	"turn": 195,
+	"economic_route": "investment",
+	"asset_band": "at_least_2b",
+	"actor_bindings": {
+		"chooser": "player", "proposer": "sangchul", "reviewer": "sangchul",
+		"protected_person": "daeun", "guarantee_party": "jaehyuk",
+		"cost_witness": "minseo",
+	},
+}
 
 var _story: Control = null
 var _failures: Array[String] = []
@@ -23,6 +48,8 @@ func _run() -> void:
 	_backup_settings_file()
 	_backup_meta_progression()
 	_backup_test_slots()
+	GameState.start_new_game()
+	_check_chapter5_causal_disk_save_contract()
 	GameState.start_new_game()
 	_check_slot_and_legacy_contract()
 	if not _failures.is_empty():
@@ -47,6 +74,62 @@ func _run() -> void:
 	await _check_first_bill_continuous_resume()
 	await _check_story_save_surface()
 	await _finish()
+
+func _check_chapter5_causal_disk_save_contract() -> void:
+	GameState.turn = 195
+	GameState.money = 3_000_000_000.0
+	var ineligible := GameState.record_chapter5_causal_choice(
+		"arc_y5_contract_cover_investment", 2)
+	_expect(not bool(ineligible.get("ok", false)) \
+		and str(ineligible.get("error", "")) == "product_path_unavailable",
+		"disk fixture manufactured Chapter 5 evidence for a career/default run")
+
+	_prepare_chapter5_product_path()
+	var committed := GameState.record_chapter5_causal_choice(
+		"arc_y5_contract_cover_investment", 2)
+	_expect(bool(committed.get("ok", false)),
+		"Chapter 5 causal receipt could not be written before disk save")
+	_expect(SaveManager.save_game(TEST_SLOT, {}, {"qa_fixture": true}),
+		"Chapter 5 causal disk fixture could not be saved")
+	GameState.start_new_game()
+	_expect(SaveManager.load_game(TEST_SLOT),
+		"Chapter 5 causal disk fixture could not be loaded")
+	var receipt := GameState.chapter5_causal_receipt_snapshot(
+		"arc_y5_contract_cover_investment")
+	var entry := GameState.chapter5_causal_entry_snapshot()
+	_expect(not receipt.is_empty() \
+		and entry == CHAPTER5_ENTRY_SNAPSHOT \
+		and typeof(entry.get("turn")) == TYPE_INT \
+		and typeof(GameState.chapter5_causal_state.get("schema_version")) == TYPE_INT \
+		and typeof(receipt.get("sequence")) == TYPE_INT \
+		and typeof(receipt.get("turn")) == TYPE_INT \
+		and typeof(receipt.get("choice_index")) == TYPE_INT \
+		and GameState.chapter5_causal_receipt_matches(
+			"arc_y5_contract_cover_investment", 2, 195),
+		"Chapter 5 causal disk JSON roundtrip lost exact integer receipt evidence")
+	GameState.turn = 196
+	GameState.money = 0.0
+	GameState.player_route = "직장형"
+	GameState.flags.erase("route_invest")
+	GameState.flags["daeun_let_her_go"] = true
+	GameState.flags["sangchul_cut_ties"] = true
+	_expect(GameState.chapter5_causal_product_path_available() \
+		and GameState.chapter5_causal_next_event_for_turn() \
+			== "arc_y5_contract_reviewer_delivery_sangchul",
+		"loaded first receipt lost continuation after assets/entry context fell")
+	SaveManager.clear_loaded_resume_context()
+
+func _prepare_chapter5_product_path() -> void:
+	GameState.start_new_game("김민준", "지방_상경", "투자형")
+	GameState.turn = 195
+	GameState.money = 2_100_000_000.0
+	GameState.portfolio = {}
+	GameState.loans = {"bank": 0.0, "second": 0.0}
+	GameState.flags["route_invest"] = true
+	for flag in CHAPTER5_REQUIRED_ENTRY_FLAGS:
+		GameState.flags[flag] = true
+	for flag in CHAPTER5_EXCLUDED_ENTRY_FLAGS:
+		GameState.flags.erase(flag)
 
 func _check_slot_and_legacy_contract() -> void:
 	_expect(SaveManager.SLOT_COUNT == 10, "manual slot count is not 10")
@@ -3308,7 +3391,7 @@ func _finish() -> void:
 	_stop_test_audio()
 	await get_tree().create_timer(0.10).timeout
 	if _failures.is_empty():
-		print("MANUAL_SAVE_CHECK_OK slots=10 durability=temp-readback/verified-backup/primary-preserved/retry/recovery/compatible-backup-preserved/wrong-type/missing-key manual_feedback=failure-stays/success-close identity=current/partial/unknown/full-demo/v2-isolated/completion-turn25-exact/cutoff future=reject-before-state prose=source_progress locale_mismatch=rewind choices=1 result_once=1 result_variant=sangchul-father-passed/result-once/current-serial-history/event-action-logs/nonresult-prose+choices-restart stale_queue=alive-original/death-canonical+legacy+cast/passed-variants/living-only-skip/769-iterative-skip/769-curation-iterative-skip/read-only-history father_passing=blocked5/event-manager+story-queue/terminal-result2/once/cross-splice2-reject/latest-receipt2-reject timer=1 pages=2 dialogue_history=prose/choice/result/legacy_notice first_bill=expression/decision/ledger+preclamp_H3_H99+fatal_short_circuit+frozen_replay+local_ledger+hyunsu+legacy_atomic+old_dirty_generic_inert+nonstory_root_only/no_synthetic_archive archive=opening1/decision0 meta=restored")
+		print("MANUAL_SAVE_CHECK_OK slots=10 chapter5=disk-json-exact-int/eligible-entry/durable-lock-ratchet durability=temp-readback/verified-backup/primary-preserved/retry/recovery/compatible-backup-preserved/wrong-type/missing-key manual_feedback=failure-stays/success-close identity=current/partial/unknown/full-demo/v2-isolated/completion-turn25-exact/cutoff future=reject-before-state prose=source_progress locale_mismatch=rewind choices=1 result_once=1 result_variant=sangchul-father-passed/result-once/current-serial-history/event-action-logs/nonresult-prose+choices-restart stale_queue=alive-original/death-canonical+legacy+cast/passed-variants/living-only-skip/769-iterative-skip/769-curation-iterative-skip/read-only-history father_passing=blocked5/event-manager+story-queue/terminal-result2/once/cross-splice2-reject/latest-receipt2-reject timer=1 pages=2 dialogue_history=prose/choice/result/legacy_notice first_bill=expression/decision/ledger+preclamp_H3_H99+fatal_short_circuit+frozen_replay+local_ledger+hyunsu+legacy_atomic+old_dirty_generic_inert+nonstory_root_only/no_synthetic_archive archive=opening1/decision0 meta=restored")
 		get_tree().quit(0)
 		return
 	for failure in _failures:

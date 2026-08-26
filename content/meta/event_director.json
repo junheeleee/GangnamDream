@@ -214,7 +214,9 @@
       97, 99, 107, 111, 114, 123, 131, 135, 139, 140,
       145, 149, 153, 157, 161, 164, 167, 169, 174, 177,
       181, 185, 188, 190, 192,
-      193, 197, 201, 205, 209, 213, 217, 225, 229, 237
+      193, 195, 196, 197, 200, 201, 203, 204,
+      207, 208, 209, 210, 211, 212, 215, 216, 217, 219, 220,
+      225, 229, 237
     ],
     "boss_weeks": [45, 92, 140, 192, 237],
     "commitment_event_owners": {
@@ -270,13 +272,68 @@
       ],
       "192": [
         { "id": "arc_year4_close", "axis": "human" }
+      ],
+      "195": [
+        { "id": "arc_y5_contract_cover_investment", "axis": "money" }
+      ],
+      "196": [
+        { "id": "arc_y5_contract_reviewer_delivery_sangchul", "axis": "human", "person_id": "sangchul" }
+      ],
+      "197": [
+        { "id": "arc_y5_final_push_deadline_investment", "axis": "money" }
+      ],
+      "200": [
+        { "id": "arc_y5_protection_boundary_daeun", "axis": "human", "person_id": "daeun" }
+      ],
+      "201": [
+        { "id": "arc_y5_burnout_check_reference", "axis": "human" }
+      ],
+      "203": [
+        { "id": "arc_y5_minseo_goal_cost_reference", "axis": "human", "person_id": "minseo" }
+      ],
+      "204": [
+        { "id": "arc_y5_after_goal_daeun", "axis": "human", "person_id": "daeun" }
+      ],
+      "207": [
+        { "id": "arc_y5_final_offer", "axis": "money" }
+      ],
+      "208": [
+        { "id": "arc_y5_final_offer_reference_delivery", "axis": "human" }
+      ],
+      "209": [
+        { "id": "arc_y5_jaehyuk_guarantee_request_reference", "axis": "human", "person_id": "jaehyuk" }
+      ],
+      "210": [
+        { "id": "arc_y5_jaehyuk_return_call_reference", "axis": "human", "person_id": "jaehyuk" },
+        { "id": "arc_y5_jaehyuk_father_document_reference", "axis": "human" }
+      ],
+      "211": [
+        { "id": "arc_y5_guarantee_protected_show_daeun", "axis": "human", "person_id": "daeun" }
+      ],
+      "212": [
+        { "id": "arc_y5_jaehyuk_guarantee_decision_reference", "axis": "human", "person_id": "jaehyuk" }
+      ],
+      "215": [
+        { "id": "arc_sangchul_final_door", "axis": "human", "person_id": "sangchul" }
+      ],
+      "216": [
+        { "id": "arc_y5_sangchul_review_receipt", "axis": "human", "person_id": "sangchul" }
+      ],
+      "217": [
+        { "id": "arc_y5_three_in_room", "axis": "human" }
+      ],
+      "219": [
+        { "id": "arc_y5_three_in_room_decision", "axis": "human" }
+      ],
+      "220": [
+        { "id": "arc_y5_room_consent_receipt", "axis": "human", "person_id": "daeun" }
       ]
     },
     "echo_weeks": [
       33, 51, 63, 75, 86,
       98, 109, 121, 136,
       151, 159, 171, 184,
-      199, 207, 219, 231
+      199, 231
     ],
     "full_summary_weeks": [
       36, 48,

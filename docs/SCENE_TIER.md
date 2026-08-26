@@ -121,6 +121,48 @@
   대표 사례다. 분위기만 필요한 장면은 `오전`, `늦은 밤`, `오후 2시`처럼
   정밀도를 낮춘다.
 
+### ORDER-133 — M49~M55 제품 T2 레지스트리
+
+아래 19단위는 모두 M49~M55 제품 경로의 T2다. 수량은 할당 목표가 아니라
+원문·전달·검사·비교·결정·증거의 기능이 실제로 다른 결과다. 공통 링크·패널·
+비트 수를 요구하지 않는다. `content/meta/chapter5_causal_ledger.json`의 `tier:T2`는
+이 집합을 기계적으로 잠그며, 이벤트 JSON에 임의의 `scene_tier` 키를 복제하지
+않는다.
+
+이 제품 ingress로 authored 선택 정지가 10개 늘어 전체 직접 정지는 40개가 됐다.
+따라서 `story_map.json`의 품질 대역은 36~42로 넓힌다. 이는 선택 수 할당이 아니라
+원문 확인·검사 자료 선택·보증 결정처럼 플레이어 입력 없이는 장면의 다음 사실을
+정할 수 없는 표면을 정지로 분류한 결과다. 조건부 영수증과 단순 전달은 flow로
+남겨 정지 수를 맞추기 위해 승격하지 않는다.
+
+| # | 주 | 루트 | 계층 소유 | 장면 기능 |
+|---:|---:|---|---|---|
+| 1 | 195 | `arc_y5_contract_cover_investment` | T2 진입 | R3 원문·금액·다은 이름 확인 |
+| 2 | 196 | `arc_y5_contract_reviewer_delivery_sangchul` | T2 진입 | 잘라 내지 않은 동일 원문 전달 |
+| 3 | 197 | `arc_y5_final_push_deadline_investment` | T2 진입 | 마감 답변과 즉시 포기 비용 |
+| 4 | 200 | `arc_y5_protection_boundary_daeun` | T2 진입 | 이름 삭제와 상한 변화 대면 |
+| 5 | 201 | `arc_y5_burnout_check_reference` | T2 진입 | 진단 전 검사 자료 제시 |
+| 6 | 203 | `arc_y5_minseo_goal_cost_reference` | T2 진입 | 돈·몸·사람 중 이미 낸 가격 읽기 |
+| 7 | 204 | `arc_y5_after_goal_daeun` | T2 진입 | 목표 뒤 먼저 비울 시간 정하기 |
+| 8 | 207 | `arc_y5_final_offer` | T2 진입 | 상철의 일곱 장 제안 첫 행동 |
+| 9 | 208 | `arc_y5_final_offer_reference_delivery` | T2 진입 | 상철·다은에게 같은 판본 전달 |
+| 10 | 209 | `arc_y5_jaehyuk_guarantee_request_reference` | T2 진입 | 재혁 요청 PDF·도착 시각 보관 |
+| 11 | 210 | `arc_y5_jaehyuk_return_call_reference` | T2 진입 | 돌아온 이유의 한 질문 |
+| 12 | 210 | `arc_y5_jaehyuk_father_document_reference` | T2 상속 링크 | 통화가 끝난 뒤 두 문서 비교 |
+| 13 | 211 | `arc_y5_guarantee_protected_show_daeun` | T2 진입 | 서명 전 다은에게 보여 준 순서 |
+| 14 | 212 | `arc_y5_jaehyuk_guarantee_decision_reference` | T2 진입 | 거절·실제 서명·차단 결정 |
+| 15 | 215 | `arc_sangchul_final_door` | T2 진입 | 제안자=검토자의 이해충돌 대면 |
+| 16 | 216 | `arc_y5_sangchul_review_receipt` | 조건부 T2 진입 | 15번 choice 0의 빨간 원·촬영 시각 |
+| 17 | 217 | `arc_y5_three_in_room` | T2 진입 | 네 사람의 서로 다른 원문 충돌 |
+| 18 | 219 | `arc_y5_three_in_room_decision` | T2 진입 | 이름 삭제·자필 범위·원 조건 결정 |
+| 19 | 220 | `arc_y5_room_consent_receipt` | 조건부 T2 진입 | 18번 choice 1의 자필 원본 보관 |
+
+W210의 12번은 11번과 같은 주·장소에서 queue-only로 이어지는 비교 링크이므로
+별도 계층 진입을 연출하지 않는다. 반대로 W216·W220은 각각 정확한 선행 선택이
+있을 때만 다음 주의 증거 장면으로 열리며, 다른 선택에서 증거를 발명하지 않는다.
+M55 회의는 전용 CG·회의실 앰비언스·절제된 slow/hold 연출을 쓰지만, 그 자산이
+T1 승격이나 추가 링크의 근거는 아니다.
+
 ## 3. 자산 부재는 통과가 아니라 실패다
 
 계약이 요구하는 배경·초상·CG·앰비언스·폴리가 없으면 **그 장면을 내보내지

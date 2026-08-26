@@ -49,6 +49,49 @@ for fp in glob.glob("content/events/*.json"):
             event_sets[ev["id"]] = set(
                 fl for ch in ev.get("choices", []) for fl in ch.get("flags", []))
 
+with open("content/meta/chapter5_causal_ledger.json", encoding="utf-8") as fp:
+    CHAPTER5_LEDGER = json.load(fp)
+CHAPTER5_ROOTS = CHAPTER5_LEDGER.get("roots", [])
+CHAPTER5_ROOT_IDS = [str(root.get("event_id", "")) for root in CHAPTER5_ROOTS]
+CHAPTER5_DEFAULT_CHOICES = {
+    event_id: 0 for event_id in CHAPTER5_ROOT_IDS
+}
+# Exercise both conditional receipts in the representative product trace.
+CHAPTER5_DEFAULT_CHOICES["arc_sangchul_final_door"] = 0
+CHAPTER5_DEFAULT_CHOICES["arc_y5_three_in_room_decision"] = 1
+CHAPTER5_DEFAULT_CHOICES["arc_y5_jaehyuk_guarantee_decision_reference"] = 1
+CHAPTER5_ENTRY = {
+    "route_id": "investment_property",
+    "turn": 195,
+    "economic_route": "investment",
+    "asset_band": "at_least_2b",
+    "actor_bindings": {
+        "chooser": "player",
+        "proposer": "sangchul",
+        "reviewer": "sangchul",
+        "protected_person": "daeun",
+        "guarantee_party": "jaehyuk",
+        "cost_witness": "minseo",
+    },
+}
+W212_OUTCOMES = [
+    {
+        "effects": {"mental": -8, "tint": 7},
+        "flags": ["arc_jaehyuk_mirror_seen", "refused_jaehyuk_guarantee"],
+    },
+    {
+        "effects": {"mental": -15, "tint": -6},
+        "flags": [
+            "arc_jaehyuk_mirror_seen", "vouched_jaehyuk_guarantee",
+            "jaehyuk_exploited", "crossed_line",
+        ],
+    },
+    {
+        "effects": {"mental": -5, "tint": -2},
+        "flags": ["arc_jaehyuk_mirror_seen", "blocked_jaehyuk_guarantee"],
+    },
+]
+
 # ── _next_arc_id() 파싱 (들여쓰기 스택으로 중첩 if AND) ───────────────────
 src = open("scenes/MainGame.gd").read()
 
@@ -134,8 +177,12 @@ class State:
         s.items = set()
         s.route_orthodox = 0; s.route_unorthodox = 0; s.intelligence = 50
         s.money = 500000; s.investment_skill = 0; s.job_tenure = 0
+        s.player_route = "직장형"; s.moral_tint = 0
         s.housing = "gosiwon"; s.current_job = Job(); s.nav = 500000
         s.deferred_events = []
+        s.chapter5_receipts = {}
+        s.chapter5_order = []
+        s.chapter5_entry = {}
         s.cast = {k: {"aff": 0, "stage": "none"} for k in
                   ["sangchul", "daeun", "jiyeon", "jaehyuk", "father", "hyunsu"]}
 
@@ -176,13 +223,185 @@ class State:
         ready = [entry for entry in s.deferred_events if entry[0] <= s.t]
         if not ready:
             return ""
-        selected = min(ready, key=lambda entry: (entry[0], s.deferred_events.index(entry)))
+        selectable = []
+        for entry in ready:
+            if entry[1] != "arc_jaehyuk_mirror":
+                selectable.append(entry)
+                continue
+            resolved = any(s.flags.get(flag) for flag in (
+                "arc_jaehyuk_mirror_seen", "refused_jaehyuk_guarantee",
+                "vouched_jaehyuk_guarantee", "blocked_jaehyuk_guarantee",
+            ))
+            if resolved:
+                s.deferred_events.remove(entry)
+                continue
+            if chapter5_guarantee_relocation_reserved(s) \
+                    and (s.t < 209 or bool(s.chapter5_entry)):
+                continue
+            selectable.append(entry)
+        if not selectable:
+            return ""
+        selected = min(
+            selectable,
+            key=lambda entry: (entry[0], s.deferred_events.index(entry)))
         s.deferred_events.remove(selected)
         return selected[1]
 
     def pop_ready_deferred_events(s):
         event_id = s.pop_ready_deferred_event()
         return [event_id] if event_id else []
+
+    def chapter5_causal_product_path_available(s):
+        return chapter5_product_path_available(s)
+
+
+def chapter5_condition_active(root, receipts):
+    condition = root.get("condition")
+    if condition is None:
+        return True
+    source = receipts.get(str(condition.get("event_id", "")), {})
+    return int(source.get("choice_index", -1)) == int(
+        condition.get("choice_index", -2))
+
+
+def chapter5_daeun_path_live(S):
+    return bool(
+        S.flags.get("arc_daeun_met")
+        and any(S.flags.get(flag) for flag in (
+            "daeun_chose_her", "daeun_together_path", "daeun_close_bond",
+            "daeun_romance_started", "daeun_married", "daeun_final_together",
+        ))
+        and not S.flags.get("daeun_let_her_go")
+        and not S.flags.get("daeun_divorced")
+    )
+
+
+def chapter5_guarantee_relocation_reserved(S):
+    return bool(
+        S.player_route == "투자형"
+        and S.flags.get("route_invest")
+        and chapter5_daeun_path_live(S)
+        and S.flags.get("arc_jaehyuk_reunion_seen")
+        and S.flags.get("arc_jaehyuk_aftermath_seen")
+        and not any(S.flags.get(flag) for flag in (
+            "arc_jaehyuk_mirror_seen", "refused_jaehyuk_guarantee",
+            "vouched_jaehyuk_guarantee", "blocked_jaehyuk_guarantee",
+            "jaehyuk_final_break",
+        ))
+    )
+
+
+def chapter5_participants_ready(S):
+    return bool(
+        S.flags.get("arc_sangchul_met_seen")
+        and not any(S.flags.get(flag) for flag in (
+            "sangchul_reported", "sangchul_cut_ties",
+            "sangchul_quietly_distanced",
+        ))
+        and chapter5_daeun_path_live(S)
+        and S.flags.get("arc_minseo_02_seen")
+        and chapter5_guarantee_relocation_reserved(S)
+    )
+
+
+def chapter5_product_path_available(S):
+    if S.chapter5_entry:
+        return S.chapter5_entry == CHAPTER5_ENTRY
+    return bool(
+        S.player_route == "투자형"
+        and S.flags.get("route_invest")
+        and chapter5_participants_ready(S)
+        and S.nav >= 2_000_000_000
+    )
+
+
+def lock_chapter5_entry(S):
+    if S.chapter5_entry:
+        return S.chapter5_entry == CHAPTER5_ENTRY
+    if S.t != 195 or not chapter5_product_path_available(S):
+        return False
+    S.chapter5_entry = json.loads(json.dumps(CHAPTER5_ENTRY))
+    return True
+
+
+def old_jaehyuk_mirror_event(S):
+    if not S.flags.get("arc_jaehyuk_aftermath_seen"):
+        return ""
+    if any(S.flags.get(flag) for flag in (
+        "arc_jaehyuk_mirror_seen", "refused_jaehyuk_guarantee",
+        "vouched_jaehyuk_guarantee", "blocked_jaehyuk_guarantee",
+    )) or S.has_deferred_event("arc_jaehyuk_mirror"):
+        return ""
+    minimum_turn = 209 if chapter5_guarantee_relocation_reserved(S) else 60
+    return "arc_jaehyuk_mirror" if S.t >= minimum_turn else ""
+
+
+def chapter5_next_root(S):
+    for root in CHAPTER5_ROOTS:
+        event_id = str(root.get("event_id", ""))
+        if event_id in S.chapter5_receipts:
+            continue
+        if not chapter5_condition_active(root, S.chapter5_receipts):
+            continue
+        return root
+    return {}
+
+
+def chapter5_causal_event(S):
+    if not chapter5_product_path_available(S):
+        return ""
+    if S.t == 195 and not S.chapter5_entry and not lock_chapter5_entry(S):
+        return ""
+    root = chapter5_next_root(S)
+    if int(root.get("turn", -1)) != S.t:
+        return ""
+    return str(root.get("event_id", ""))
+
+
+def commit_chapter5_choice(S, event_id, choice_indices):
+    if not chapter5_product_path_available(S):
+        return False
+    if not S.chapter5_entry and not lock_chapter5_entry(S):
+        return False
+    root = chapter5_next_root(S)
+    if str(root.get("event_id", "")) != event_id:
+        return False
+    choices = root.get("choices", [])
+    choice_index = int(choice_indices.get(
+        event_id, CHAPTER5_DEFAULT_CHOICES.get(event_id, 0)))
+    if choice_index < 0 or choice_index >= len(choices):
+        return False
+    S.chapter5_receipts[event_id] = {
+        "event_id": event_id,
+        "turn": int(root.get("turn", -1)),
+        "choice_index": choice_index,
+    }
+    S.chapter5_order.append(event_id)
+    authored_choices = events.get(event_id, {}).get("choices", [])
+    if choice_index < len(authored_choices):
+        authored_choice = authored_choices[choice_index]
+        for flag in authored_choice.get("flags", []):
+            S.flags[str(flag)] = True
+        effects = authored_choice.get("effects", {})
+        S.moral_tint += float(effects.get("tint", 0))
+    return True
+
+
+def eligible_chapter5_fixture():
+    S = State()
+    S.t = 195
+    S.player_route = "투자형"
+    S.nav = 2_000_000_000
+    S.flags.update({
+        "route_invest": True,
+        "arc_sangchul_met_seen": True,
+        "arc_daeun_met": True,
+        "daeun_romance_started": True,
+        "arc_minseo_02_seen": True,
+        "arc_jaehyuk_reunion_seen": True,
+        "arc_jaehyuk_aftermath_seen": True,
+    })
+    return S
 
 
 def father_death_is_monotonic(S):
@@ -205,6 +424,8 @@ def evalconds(conds, S):
         # canonical legacy Week-25 failure branch stays in the simulated graph.
         c = re.sub(r'\bv2_hyunsu_receipt_known\b', 'False', c)
         c = c.replace("false", "False").replace("true", "True")
+        c = c.replace(
+            "CHAPTER5_CAUSAL_ROUTE.ENTRY_PLAYER_ROUTE", '"투자형"')
         c = c.replace("GameState.flags", "S.flags").replace("GameState.", "S.")
         c = re.sub(r'\bf\.get\(', 'S.flags.get(', c)
         c = re.sub(r'\bnav\b', 'S.nav', c)
@@ -361,7 +582,7 @@ PATH_B = dict(SPINE_COMMON, **{  # 비정석/진실/다은 함께/재혁 역공
     "arc_daeun_03_fork": ["arc_daeun_fork_seen", "daeun_chose_her", "daeun_together_path"],
     "arc_daeun_03b_date": ["arc_daeun_03b_seen"],
     "arc_daeun_04_morning": ["arc_daeun_04_seen"],
-    "arc_daeun_04b_future": ["arc_daeun_04b_seen", "daeun_committed", "daeun_romance_started"],
+    "arc_daeun_04b_future": ["arc_daeun_04b_seen", "daeun_romance_started"],
     "arc_daeun_proposal": ["arc_daeun_proposal_seen", "daeun_married"],
     "arc_daeun_the_test": ["arc_daeun_test_seen", "used_daeun_as_means"],
     "arc_daeun_year3_together": ["arc_daeun_year3_together_seen"],
@@ -377,6 +598,7 @@ PATH_B = dict(SPINE_COMMON, **{  # 비정석/진실/다은 함께/재혁 역공
 
 def traj_A(S):
     t = S.t; S.age = 33 + (t - 1) // 48 if t > 0 else 33
+    S.player_route = "직장형"
     if t == 1: S.items.add("artifact_father_call")
     if t in (2, 5, 8, 12, 20, 30, 45, 60): S.route_orthodox += 1
     if t in (4, 25, 55): S.route_unorthodox += 1
@@ -397,6 +619,8 @@ def traj_A(S):
 
 def traj_B(S):
     t = S.t; S.age = 33 + (t - 1) // 48 if t > 0 else 33
+    S.player_route = "투자형"
+    S.flags["route_invest"] = True
     if t in (4, 8, 12, 18, 25, 33, 44, 55): S.route_unorthodox += 1
     if t in (20, 40): S.route_orthodox += 1
     S.intelligence = min(80, 50 + max(0, (t - 10)) // 4)
@@ -608,6 +832,7 @@ def run(spine, traj, cast_flag_hook, choice_indices):
     for t in range(1, 241):
         S.t = t; traj(S); cast_flag_hook(S)
         protected_chapter_four_action = False
+        protected_chapter_five_action = False
         # MainGame protects the exact Year 4 close and causal actions before
         # the deferred queue. Model that priority instead of allowing an old
         # callback to consume a commitment week.
@@ -621,12 +846,21 @@ def run(spine, traj, cast_flag_hook, choice_indices):
         elif t == 192 and not S.flags.get("arc_year4_close_seen"):
             chosen = "arc_year4_close"
         else:
-            chosen = chapter_four_causal_event(S)
-            protected_chapter_four_action = bool(chosen)
+            chosen = chapter5_causal_event(S)
+            protected_chapter_five_action = bool(chosen)
+            if not chosen:
+                chosen = chapter_four_causal_event(S)
+                protected_chapter_four_action = bool(chosen)
+            if not chosen:
+                chosen = old_jaehyuk_mirror_event(S)
         if not chosen:
             chosen = S.pop_ready_deferred_event()
         if not chosen:
             for eid, conds in triggers:
+                if eid == "arc_jaehyuk_mirror":
+                    # The singular mirror is manually modeled above because its
+                    # W209 relocation uses a local GDScript min-turn variable.
+                    continue
                 if evalconds(conds, S):
                     if eid in BRIDGE_EVENTS:
                         apply_bridge_choice(S, eid, choice_indices)
@@ -645,6 +879,15 @@ def run(spine, traj, cast_flag_hook, choice_indices):
                 for fl in spine.get(root_id, []): S.flags[fl] = True
                 if protected_chapter_four_action and root_id == chosen:
                     apply_immediate_choice_state(S, root_id, choice_indices)
+                if protected_chapter_five_action \
+                        and root_id in CHAPTER5_ROOT_IDS:
+                    if not commit_chapter5_choice(
+                            S, root_id, choice_indices):
+                        repeats["chapter5_commit_rejected"] = \
+                            repeats.get("chapter5_commit_rejected", 0) + 1
+                    same_turn_root = chapter5_causal_event(S)
+                    if same_turn_root and same_turn_root not in story_roots:
+                        story_roots.append(same_turn_root)
                 for deferred_id, delay in canonical_deferred_links(
                         root_id, choice_indices):
                     S.add_deferred_event(deferred_id, delay)
@@ -690,7 +933,7 @@ CHAINS = {
     "B 비정석/진실/committed": [
         "arc_year_one_mark", "arc_daeun_03_fork", "arc_34_doors_open",
         "arc_sangchul_mirror",
-        "arc_sangchul_confrontation", "arc_jaehyuk_mirror", "arc_daeun_proposal",
+        "arc_sangchul_confrontation", "arc_daeun_proposal",
         "arc_daeun_wedding_day", "arc_daeun_final_choice", "arc_36_trust_crack",
         "arc_father_passing", "arc_father_legacy", "arc_final_countdown",
     ],
@@ -726,8 +969,6 @@ EXPECTED_LATE_TEMPORAL = {
         192: "arc_year4_close",
         191: "arc_final_stretch",
         193: "arc_37_reckoning",
-        204: "arc_37_burn_or_light",
-        210: "arc_gangnam_real_estate_father_passed",
     },
     "B 비정석/진실/committed": {
         # This route refuses Jiyeon's coffee/meal offer, so the restaurant
@@ -743,8 +984,6 @@ EXPECTED_LATE_TEMPORAL = {
         192: "arc_year4_close",
         191: "arc_final_stretch",
         193: "arc_37_reckoning",
-        204: "arc_37_burn_or_light",
-        215: "arc_gangnam_real_estate_father_passed",
     },
 }
 EXPECTED_CHAPTER4_CAUSAL = {
@@ -777,6 +1016,13 @@ EXPECTED_CHAPTER4_CAUSAL = {
         188: "arc_father_passing",
         190: "arc_y4_year_close_daeun",
         192: "arc_year4_close",
+    },
+}
+EXPECTED_CHAPTER5_CAUSAL = {
+    "A 정석/다은보냄/사기": {},
+    "B 비정석/진실/committed": {
+        str(root["event_id"]): int(root["turn"])
+        for root in CHAPTER5_ROOTS
     },
 }
 EXPECTED_CHAPTER2_COMPARISON = {
@@ -819,7 +1065,6 @@ EXPECTED_CHAPTER3 = {
         115: "arc_why_gangnam_real",
         117: "arc_jaehyuk_04b_counter",
         118: "arc_jaehyuk_aftermath",
-        119: "arc_jaehyuk_mirror",
         120: "arc_sangchul_known_reflex",
         121: "arc_midpoint_reckoning",
         122: "arc_year_two_half",
@@ -874,9 +1119,10 @@ EXPECTED_CHAPTER1 = {
         5: "arc_intro_03_sns",
         8: "arc_temptation_fallout",
         9: "arc_intro_04_hyunsu",
-        10: "arc_sangchul_01_meet",
-        11: "hyunsu_study_together",
+        10: "arc_ch1_invest_first_chart",
+        11: "arc_sangchul_01_meet",
         12: "arc_daeun_01_meet",
+        13: "hyunsu_study_together",
         14: "arc_father_01_call",
         15: "arc_invest_first_loss",
         16: "arc_father_quiet_call",
@@ -1003,6 +1249,111 @@ HYUNSU_TEMPORAL_GATES = {
 }
 
 fail = 0
+
+# Product-entry matrix: these are deliberately synthetic one-step states so each
+# rejected prerequisite is isolated from the long representative trajectories.
+eligible_entry = eligible_chapter5_fixture()
+entry_matrix_ok = chapter5_product_path_available(eligible_entry)
+for route_name in ("직장형", "창업형"):
+    candidate = eligible_chapter5_fixture()
+    candidate.player_route = route_name
+    entry_matrix_ok = entry_matrix_ok and not chapter5_product_path_available(candidate)
+candidate = eligible_chapter5_fixture()
+candidate.flags.pop("route_invest")
+entry_matrix_ok = entry_matrix_ok and not chapter5_product_path_available(candidate)
+candidate = eligible_chapter5_fixture()
+candidate.nav = 1_999_999_999
+entry_matrix_ok = entry_matrix_ok and not chapter5_product_path_available(candidate)
+for missing_flag in (
+        "arc_sangchul_met_seen", "arc_daeun_met", "daeun_romance_started",
+        "arc_minseo_02_seen", "arc_jaehyuk_reunion_seen",
+        "arc_jaehyuk_aftermath_seen"):
+    candidate = eligible_chapter5_fixture()
+    candidate.flags.pop(missing_flag)
+    entry_matrix_ok = entry_matrix_ok and not chapter5_product_path_available(candidate)
+sent_away = eligible_chapter5_fixture()
+sent_away.flags["daeun_let_her_go"] = True
+entry_matrix_ok = entry_matrix_ok and not chapter5_product_path_available(sent_away)
+if not entry_matrix_ok:
+    fail += 1
+    print("  ✗ 5장 투자형/20억/actual-participant 진입 행렬 회귀")
+else:
+    print("  ✓ 5장 entry 행렬=career/startup/<20억/미정체성/인물누락/다은보냄 거절")
+
+sticky = eligible_chapter5_fixture()
+sticky_started = chapter5_causal_event(sticky) == CHAPTER5_ROOT_IDS[0] \
+    and sticky.chapter5_entry == CHAPTER5_ENTRY \
+    and commit_chapter5_choice(sticky, CHAPTER5_ROOT_IDS[0], {})
+sticky.t = 196
+sticky.nav = 0
+sticky.player_route = "직장형"
+sticky.flags.pop("route_invest", None)
+sticky.flags["daeun_let_her_go"] = True
+sticky.flags["sangchul_cut_ties"] = True
+sticky_continued = chapter5_product_path_available(sticky) \
+    and chapter5_causal_event(sticky) == CHAPTER5_ROOT_IDS[1]
+tampered_entry = eligible_chapter5_fixture()
+tampered_entry.chapter5_entry = json.loads(json.dumps(CHAPTER5_ENTRY))
+tampered_entry.chapter5_entry["economic_route"] = "career"
+if not sticky_started or not sticky_continued \
+        or chapter5_product_path_available(tampered_entry):
+    fail += 1
+    print("  ✗ durable entry lock/first-receipt continuation/tamper 회귀")
+else:
+    print("  ✓ durable entry=W195 actual context·외부조건 하락 후 sticky·tamper 거절")
+
+fallback_matrix_ok = True
+for failure_kind in ("assets", "sangchul", "minseo"):
+    fallback = eligible_chapter5_fixture()
+    if failure_kind == "assets":
+        fallback.nav = 1_999_999_999
+    elif failure_kind == "sangchul":
+        fallback.flags.pop("arc_sangchul_met_seen")
+    else:
+        fallback.flags.pop("arc_minseo_02_seen")
+    fallback.t = 208
+    fallback_matrix_ok = fallback_matrix_ok \
+        and chapter5_guarantee_relocation_reserved(fallback) \
+        and not chapter5_product_path_available(fallback) \
+        and old_jaehyuk_mirror_event(fallback) == ""
+    fallback.t = 209
+    fallback_matrix_ok = fallback_matrix_ok \
+        and old_jaehyuk_mirror_event(fallback) == "arc_jaehyuk_mirror"
+if not fallback_matrix_ok:
+    fail += 1
+    print("  ✗ 미진입 reserved candidate W209 old-mirror fallback 회귀")
+else:
+    print("  ✓ 미진입 fallback=<20억/상철누락/민서누락 W208 억제→W209 old mirror")
+
+w212_choices = events.get(
+    "arc_y5_jaehyuk_guarantee_decision_reference", {}).get("choices", [])
+w212_exact = len(w212_choices) == 3 and all(
+    choice.get("effects", {}) == expected["effects"]
+    and choice.get("flags", []) == expected["flags"]
+    for choice, expected in zip(w212_choices, W212_OUTCOMES)
+)
+if not w212_exact:
+    fail += 1
+    print("  ✗ W212 singular Jaehyuk mirror outcome semantics 회귀")
+else:
+    print("  ✓ W212=기존 singular mirror 3결과/effects/flags exact relocation")
+
+minseo_duplicate_free = True
+for post_lock_nav in (2_100_000_000, 1_900_000_000):
+    locked_minseo = eligible_chapter5_fixture()
+    chapter5_causal_event(locked_minseo)
+    locked_minseo.t = 202
+    locked_minseo.nav = post_lock_nav
+    for event_id in ("arc_minseo_03_arrival", "arc_minseo_03b_not_arrived"):
+        if any(evalconds(conditions, locked_minseo)
+               for trigger_id, conditions in triggers if trigger_id == event_id):
+            minseo_duplicate_free = False
+if not minseo_duplicate_free:
+    fail += 1
+    print("  ✗ locked product route가 W202 generic Minseo arrival 변주를 중복 수신")
+else:
+    print("  ✓ locked product route=W202 Minseo generic arrival/not-arrived 중복 0")
+
 if not W193_STORY_HANDOFF_SOURCE_OK:
     fail += 1
     print(
@@ -1259,6 +1610,58 @@ for name, spine, traj, hook, choice_indices in PATHS:
         print("  ✗ 4장 인과 행동 시간축 회귀:", ", ".join(chapter4_causal_mismatch))
     else:
         print("  ✓ 4장 실제 행동→비용→의료 경과→연말 인과축 고정")
+    late_push_expected = name == "B 비정석/진실/committed"
+    if ("arc_late_game_push" in fired) != late_push_expected:
+        fail += 1
+        print("  ✗ arc_late_game_push career/investment 경로 gate 회귀")
+    else:
+        print("  ✓ arc_late_game_push=investment Path B only")
+    expected_chapter5 = EXPECTED_CHAPTER5_CAUSAL[name]
+    chapter5_causal_mismatch = [
+        f"{event_id}:t{fired.get(event_id, 'missing')}!={turn}"
+        for event_id, turn in expected_chapter5.items()
+        if fired.get(event_id) != turn
+    ]
+    unexpected_chapter5 = sorted(
+        event_id for event_id in CHAPTER5_ROOT_IDS
+        if event_id in fired and event_id not in expected_chapter5
+    )
+    if chapter5_causal_mismatch or unexpected_chapter5:
+        fail += 1
+        print("  ✗ 5장 19루트 인과 시간축 회귀:",
+              ", ".join(chapter5_causal_mismatch + [
+                  f"unexpected:{event_id}" for event_id in unexpected_chapter5
+              ]))
+    elif not expected_chapter5:
+        if S.chapter5_order or S.chapter5_receipts or S.chapter5_entry:
+            fail += 1
+            print("  ✗ career/다은보냄 Path A가 투자 부동산 entry/receipt를 획득")
+        else:
+            print("  ✓ career/다은보냄 Path A=19루트 부동산 vertical 미진입")
+    elif story_queue_log.get(210) != [
+            "arc_y5_jaehyuk_return_call_reference",
+            "arc_y5_jaehyuk_father_document_reference",
+    ]:
+        fail += 1
+        print("  ✗ W210 통화→아버지 문서 동일 큐 순서 회귀:",
+              story_queue_log.get(210, []))
+    elif len(S.chapter5_order) != 19 \
+            or len(S.chapter5_receipts) != 19:
+        fail += 1
+        print("  ✗ 5장 write-once receipt 인구 회귀:",
+              len(S.chapter5_order), len(S.chapter5_receipts))
+    else:
+        w212_flags = W212_OUTCOMES[1]["flags"]
+        if S.chapter5_entry != CHAPTER5_ENTRY \
+                or not all(S.flags.get(flag) for flag in w212_flags) \
+                or S.moral_tint != -6:
+            fail += 1
+            print("  ✗ Path B durable entry 또는 W212 singular mirror state 회귀")
+        else:
+            print(
+                "  ✓ investment/다은함께 Path B=M49~M55 19루트·47선택"
+                "·durable entry·W210 동일 큐·W212 canonical outcome"
+            )
     late_temporal_mismatch = [
         f"t{turn}:{firelog.get(turn, 'missing')}!={event_id}"
         for turn, event_id in EXPECTED_LATE_TEMPORAL[name].items()

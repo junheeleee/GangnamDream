@@ -29,7 +29,8 @@
       "proof": [
         "story_knee_witness",
         "arc_sangchul_deduction",
-        "arc_jaehyuk_mirror"
+        "arc_jaehyuk_mirror",
+        "arc_y5_jaehyuk_guarantee_decision_reference"
       ]
     },
     {
@@ -87,6 +88,9 @@
         "arc_sangchul_deduction",
         "arc_sangchul_confrontation",
         "arc_sangchul_reckoning",
+        "arc_y5_contract_reviewer_delivery_sangchul",
+        "arc_y5_final_offer",
+        "arc_sangchul_final_door",
         "arc_y5_three_in_room"
       ],
       "planned_anchors": []
@@ -105,6 +109,8 @@
         "arc_jaehyuk_01b_real_face",
         "arc_jaehyuk_03_pitch",
         "arc_jaehyuk_04a_ghost",
+        "arc_y5_jaehyuk_guarantee_request_reference",
+        "arc_y5_jaehyuk_guarantee_decision_reference",
         "arc_y5_three_in_room"
       ],
       "planned_anchors": [
@@ -146,6 +152,10 @@
         "arc_daeun_02_regular",
         "arc_daeun_proposal",
         "arc_daeun_wedding_day",
+        "arc_y5_protection_boundary_daeun",
+        "arc_y5_after_goal_daeun",
+        "arc_y5_guarantee_protected_show_daeun",
+        "arc_y5_three_in_room",
         "arc_daeun_final_choice"
       ]
     },
@@ -197,6 +207,14 @@
         {
           "chapter": 3,
           "event": "arc_sangchul_deduction"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_y5_jaehyuk_father_document_reference"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_y5_three_in_room_decision"
         },
         {
           "chapter": 5,
@@ -256,6 +274,14 @@
         },
         {
           "chapter": 5,
+          "event": "arc_y5_final_offer"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_sangchul_final_door"
+        },
+        {
+          "chapter": 5,
           "event": "arc_y5_three_in_room"
         }
       ],
@@ -276,6 +302,18 @@
         {
           "chapter": 3,
           "event": "arc_jaehyuk_04a_ghost"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_y5_contract_cover_investment"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_y5_final_push_deadline_investment"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_y5_final_offer"
         },
         {
           "chapter": 5,
@@ -680,11 +718,30 @@
       "object": "등기 서류 또는 빈 수첩의 마지막 줄",
       "setup": [
         "arc_37_reckoning",
-        "arc_final_year_start"
+        "arc_final_year_start",
+        "arc_y5_contract_cover_investment",
+        "arc_y5_contract_reviewer_delivery_sangchul",
+        "arc_y5_final_push_deadline_investment",
+        "arc_y5_protection_boundary_daeun",
+        "arc_y5_burnout_check_reference",
+        "arc_y5_minseo_goal_cost_reference",
+        "arc_y5_after_goal_daeun"
       ],
       "escalation": [
         "arc_late_game_push",
-        "arc_endgame_sixmonths"
+        "arc_endgame_sixmonths",
+        "arc_y5_final_offer",
+        "arc_y5_final_offer_reference_delivery",
+        "arc_y5_jaehyuk_guarantee_request_reference",
+        "arc_y5_jaehyuk_return_call_reference",
+        "arc_y5_jaehyuk_father_document_reference",
+        "arc_y5_guarantee_protected_show_daeun",
+        "arc_y5_jaehyuk_guarantee_decision_reference",
+        "arc_sangchul_final_door",
+        "arc_y5_sangchul_review_receipt",
+        "arc_y5_three_in_room",
+        "arc_y5_three_in_room_decision",
+        "arc_y5_room_consent_receipt"
       ],
       "reversal": [
         "arc_father_legacy",

@@ -37,12 +37,12 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 249,
+  "inventory_count": 250,
   "counts": {
     "1080p": {
       "CG": {
         "native": 0,
-        "light": 74,
+        "light": 75,
         "medium": 0,
         "heavy": 0,
         "severe": 0
@@ -67,7 +67,7 @@
         "native": 0,
         "light": 0,
         "medium": 0,
-        "heavy": 74,
+        "heavy": 75,
         "severe": 0
       },
       "Portrait": {
@@ -2757,6 +2757,23 @@
       ],
       "width": 1280,
       "height": 720,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/y5_three_in_room_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_y5_three_in_room"
+      ],
+      "width": 1280,
+      "height": 800,
       "alpha": false,
       "scale": {
         "1080p": 1.5,

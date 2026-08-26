@@ -17,6 +17,7 @@ signal moral_tint_changed(norm: float, stage: int)
 const INITIAL_SETTLEMENT_SUBSIDY := 300_000.0
 const STAT_THRESHOLDS: Array = [30, 50, 70]
 const PHONE_SYSTEM := preload("res://systems/PhoneSystem.gd")
+const CHAPTER5_CAUSAL_ROUTE := preload("res://systems/Chapter5CausalRoute.gd")
 var unlocked_stat_thresholds: Dictionary = {}
 
 const DEMO_FEATURE := "gangnam_demo"
@@ -193,6 +194,9 @@ var forgone_path_debts: Dictionary = {}
 # Core Loop V2는 8주 사람 GO 전까지 명시적 테스트 런에서만 사용한다.
 # 한 사전 안에 일정·놓친 길·관계 단계를 묶어 기존 저장과 역호환한다.
 var core_loop_v2_state: Dictionary = {}
+# M49-M55의 선택·배우·문서 순서만 소유한다. 경제·AP·엔딩 상태와 분리해
+# 손상되거나 구버전인 원장이 다른 플레이 표면을 오염시키지 않게 한다.
+var chapter5_causal_state: Dictionary = CHAPTER5_CAUSAL_ROUTE.default_state()
 # 휴대폰은 기종이나 앱 상태를 저장하지 않는다. 이 사전은 폐기된 기종 구매를
 # schema 3에서 한 번 정산했다는 이관 원장만 소유한다.
 var phone_state: Dictionary = {}
@@ -204,6 +208,165 @@ var last_contact_turn: Dictionary = {}
 var run_seen_scenes_by_year: Dictionary = {}
 # 플레이어가 각 연말에 직접 남긴 한 장면. key는 year_scene_1..5, value는 event id.
 var year_scenes: Dictionary = {}
+
+func chapter5_causal_is_owned_event(event_id: String) -> bool:
+	return CHAPTER5_CAUSAL_ROUTE.is_owned_event(event_id)
+
+func _chapter5_causal_daeun_path_live() -> bool:
+	return bool(flags.get("arc_daeun_met", false)) \
+		and (bool(flags.get("daeun_chose_her", false)) \
+		or bool(flags.get("daeun_together_path", false)) \
+		or bool(flags.get("daeun_close_bond", false)) \
+		or bool(flags.get("daeun_romance_started", false)) \
+		or bool(flags.get("daeun_married", false)) \
+		or bool(flags.get("daeun_final_together", false))) \
+		and not bool(flags.get("daeun_let_her_go", false)) \
+		and not bool(flags.get("daeun_divorced", false))
+
+func chapter5_causal_guarantee_relocation_reserved() -> bool:
+	# The expanded W209-W212 sequence replaces the singular old guarantee
+	# mirror. Reserve it only while that old decision is genuinely unresolved.
+	# If the property vertical never starts, MainGame releases the old scene at
+	# W209 so an investment/Daeun run never loses Jaehyuk's canonical decision.
+	return player_route == CHAPTER5_CAUSAL_ROUTE.ENTRY_PLAYER_ROUTE \
+		and bool(flags.get("route_invest", false)) \
+		and _chapter5_causal_daeun_path_live() \
+		and bool(flags.get("arc_jaehyuk_reunion_seen", false)) \
+		and bool(flags.get("arc_jaehyuk_aftermath_seen", false)) \
+		and not bool(flags.get("arc_jaehyuk_mirror_seen", false)) \
+		and not bool(flags.get("refused_jaehyuk_guarantee", false)) \
+		and not bool(flags.get("vouched_jaehyuk_guarantee", false)) \
+		and not bool(flags.get("blocked_jaehyuk_guarantee", false)) \
+		and not bool(flags.get("jaehyuk_final_break", false))
+
+func _chapter5_causal_entry_participants_ready() -> bool:
+	# This vertical uses actual prior relationships. A direct week jump, legacy
+	# gap, or a run that let Daeun go/cut Sangchul off must not fabricate four
+	# people around a property contract merely because the calendar says W195.
+	return bool(flags.get("arc_sangchul_met_seen", false)) \
+		and not bool(flags.get("sangchul_reported", false)) \
+		and not bool(flags.get("sangchul_cut_ties", false)) \
+		and not bool(flags.get("sangchul_quietly_distanced", false)) \
+		and _chapter5_causal_daeun_path_live() \
+		and bool(flags.get("arc_minseo_02_seen", false)) \
+		and chapter5_causal_guarantee_relocation_reserved()
+
+func chapter5_causal_product_path_available() -> bool:
+	return CHAPTER5_CAUSAL_ROUTE.product_path_available(
+		chapter5_causal_state,
+		player_route,
+		bool(flags.get("route_invest", false)),
+		_chapter5_causal_entry_participants_ready(),
+		float(get_total_asset_value()))
+
+func prepare_chapter5_causal_route_entry() -> bool:
+	var result := CHAPTER5_CAUSAL_ROUTE.lock_entry(
+		chapter5_causal_state,
+		int(turn),
+		player_route,
+		bool(flags.get("route_invest", false)),
+		_chapter5_causal_entry_participants_ready(),
+		float(get_total_asset_value()))
+	if not bool(result.get("ok", false)):
+		return false
+	chapter5_causal_state = (
+		result.get("state", chapter5_causal_state) as Dictionary).duplicate(true)
+	return true
+
+func chapter5_causal_entry_snapshot() -> Dictionary:
+	return CHAPTER5_CAUSAL_ROUTE.entry_snapshot(chapter5_causal_state)
+
+func chapter5_causal_next_event_for_turn(at_turn: int = -1) -> String:
+	if not chapter5_causal_product_path_available():
+		return ""
+	var query_turn: int = int(turn) if at_turn < 0 else at_turn
+	return CHAPTER5_CAUSAL_ROUTE.next_event_for_turn(
+		chapter5_causal_state, query_turn)
+
+func chapter5_causal_ingress_available(event_id: String) -> bool:
+	if not chapter5_causal_product_path_available():
+		return false
+	return CHAPTER5_CAUSAL_ROUTE.ingress_available(
+		chapter5_causal_state, event_id, turn)
+
+func chapter5_causal_choice_available(
+		event_id: String, choice_index: int) -> bool:
+	if not chapter5_causal_product_path_available():
+		return false
+	return CHAPTER5_CAUSAL_ROUTE.choice_commit_available(
+		chapter5_causal_state, event_id, choice_index, turn)
+
+func record_chapter5_causal_choice(
+		event_id: String, choice_index: int) -> Dictionary:
+	if not chapter5_causal_product_path_available():
+		return {
+			"ok": false,
+			"error": "product_path_unavailable",
+			"idempotent": false,
+			"state": chapter5_causal_state.duplicate(true),
+		}
+	# Keep entry lock + authored receipt one atomic callback. MainGame normally
+	# binds the entry before display, but direct QA/mod calls may arrive here
+	# first; a bad event/index must not leave even a route identity behind.
+	var candidate_state := chapter5_causal_state.duplicate(true)
+	if not CHAPTER5_CAUSAL_ROUTE.entry_locked(candidate_state):
+		var lock_result := CHAPTER5_CAUSAL_ROUTE.lock_entry(
+			candidate_state,
+			int(turn),
+			player_route,
+			bool(flags.get("route_invest", false)),
+			_chapter5_causal_entry_participants_ready(),
+			float(get_total_asset_value()))
+		if not bool(lock_result.get("ok", false)):
+			return {
+				"ok": false,
+				"error": "entry_lock_failed",
+				"idempotent": false,
+				"state": chapter5_causal_state.duplicate(true),
+			}
+		candidate_state = (
+			lock_result.get("state", candidate_state) as Dictionary).duplicate(true)
+	var result := CHAPTER5_CAUSAL_ROUTE.commit_choice(
+		candidate_state, event_id, choice_index, turn)
+	if bool(result.get("ok", false)):
+		chapter5_causal_state = (
+			result.get("state", chapter5_causal_state) as Dictionary).duplicate(true)
+	return result
+
+func close_chapter5_causal_route(reason: String) -> Dictionary:
+	var result := CHAPTER5_CAUSAL_ROUTE.close_route(
+		chapter5_causal_state, reason)
+	if bool(result.get("ok", false)):
+		chapter5_causal_state = (
+			result.get("state", chapter5_causal_state) as Dictionary).duplicate(true)
+	return result
+
+func chapter5_causal_receipt_matches(
+		event_id: String, choice_index: int, at_turn: int = -1) -> bool:
+	var query_turn: int = int(turn) if at_turn < 0 else at_turn
+	return CHAPTER5_CAUSAL_ROUTE.receipt_matches(
+		chapter5_causal_state, event_id, choice_index, query_turn)
+
+func chapter5_causal_selected_choice(event_id: String) -> int:
+	return CHAPTER5_CAUSAL_ROUTE.selected_choice(
+		chapter5_causal_state, event_id)
+
+func chapter5_causal_receipt_snapshot(event_id: String) -> Dictionary:
+	return CHAPTER5_CAUSAL_ROUTE.receipt_snapshot(
+		chapter5_causal_state, event_id)
+
+func chapter5_causal_choice_count(event_id: String) -> int:
+	return CHAPTER5_CAUSAL_ROUTE.choice_count_for_event(event_id)
+
+func chapter5_causal_event_sequence(event_id: String) -> int:
+	return CHAPTER5_CAUSAL_ROUTE.event_sequence(event_id)
+
+func chapter5_causal_week_completed(at_turn: int = -1) -> bool:
+	if not chapter5_causal_product_path_available():
+		return false
+	var query_turn: int = int(turn) if at_turn < 0 else at_turn
+	return CHAPTER5_CAUSAL_ROUTE.week_completed(
+		chapter5_causal_state, query_turn)
 
 func note_contact(person_id: String) -> void:
 	contact_counts[person_id] = int(contact_counts.get(person_id, 0)) + 1
@@ -501,6 +664,7 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	core_loop_v2_state = {
 		"run_generation": CORE_LOOP_V2_ELIGIBLE_RUN_GENERATION,
 	}
+	chapter5_causal_state = CHAPTER5_CAUSAL_ROUTE.default_state()
 	phone_state = PHONE_SYSTEM.default_state()
 	contact_counts = {}
 	last_contact_turn = {}
@@ -3432,6 +3596,7 @@ func serialize():
 		"weekly_commitments": weekly_commitments,
 		"forgone_path_debts": forgone_path_debts,
 		"core_loop_v2_state": core_loop_v2_state,
+		"chapter5_causal_state": chapter5_causal_state,
 		"phone_state": phone_state,
 		"contact_counts": contact_counts,
 		"last_contact_turn": last_contact_turn,
@@ -3504,9 +3669,19 @@ func load_from_dict(data):
 			else:
 				phone_state = {}
 			continue
+		if key == "chapter5_causal_state":
+			# Nested choice/actor/document receipts use an exact schema. Defer all
+			# validation until after the generic assignment loop so malformed input
+			# can never be cast into the typed property or inherit a prior run.
+			chapter5_causal_state = (
+				(value as Dictionary).duplicate(true) if value is Dictionary else {})
+			continue
 		if int_fields.has(key) and value is float:
 			value = int(value)
 		set(key, value)
+	chapter5_causal_state = CHAPTER5_CAUSAL_ROUTE.state_from_save(
+		data.get("chapter5_causal_state", null),
+		data.has("chapter5_causal_state"))
 	# Older saves used an internal-only reflection flag for the authored phone
 	# conversation in which Father actually heard why Gangnam mattered. Preserve
 	# that earned memory under the concrete receipt now used by the story, then

@@ -777,6 +777,13 @@
     "id": "arc_y5_jaehyuk_guarantee_request_reference",
     "title": "The Night the Guarantee PDF Arrived",
     "description": "Jaehyuk's long-silent chat rose to the top with one file notification. Its preview held the title GUARANTEE REQUEST, a debtor field, and an empty guarantor signature line on the same screen. A short message sat beneath the file.\n\n“Minjun, look at this before we talk. I'll tell you all of why I came back to you now.”\n\n{name} did not open the signing screen. He wrote no refusal either. The immediate task was not to answer the request, but to preserve the words and time in which it had arrived. Sangchul's seven-page offer and the identical copy sent to Daeun already sat beside each other in Downloads. This PDF needed its own locked folder, merged with neither. The message box remained empty while the attachment icon stayed blue.",
+    "chapter5_causal_reads": {
+      "texts": [
+        [
+          "Downloads held the same filename sent first to Sangchul and two minutes later to Daeun. One copy carried the note that proposer and reviewer were the same person; the other said the name page had not been removed. The new guarantee request could not be recorded apart from its recipient and original either."
+        ]
+      ]
+    },
     "choices": [
       {"text": "Move the original request and PDF into a separate folder and preserve their arrival time", "result_text": "{name} placed Jaehyuk's message and attachment in the same locked folder. He added only the received date and time to the filename, no verdict such as safe or fraud.\n\nInside the folder, the request sat above the empty signature line. No message bubble of his own appeared in the chat. When he closed the screen, the download bar vanished and one lock symbol remained beside the new PDF."}
     ]
@@ -785,6 +792,13 @@
     "id": "arc_y5_jaehyuk_return_call_reference",
     "title": "The Call About Why He Returned",
     "description": "The call {name} placed connected on the third ring. Traffic and a hastily swallowed breath overlapped on Jaehyuk's end.\n\n“I did run. I was one of the people trapped at first. But the debt stayed under my name, and the old crowd started avoiding my calls. I thought if I finished this document, I could start again. That's why I thought of you.”\n\nJaehyuk carried his mixture of excuse and circumstance to the end. {name} did not interrupt. Beneath the call screen, the archived PDF remained open. Its debtor field, separate lines for the total and guarantee limit, and the first message using a friend's name each raised a different question. Asking all three at once would leave none heard through. {name} chose the first question he would finish.",
+    "chapter5_causal_reads": {
+      "texts": [
+        [
+          "The locked folder held Jaehyuk's original request, its received time, and the still-empty guarantor signature line together. No reply bubble from {name} existed, making this call the first direct act toward the request he had preserved."
+        ]
+      ]
+    },
     "choices": [
       {"text": "Ask first for the name in the debtor field and Jaehyuk's relationship to it", "result_text": "“What is your relationship to the name in the debtor field?”\n\nJaehyuk read the corporate name once, then stopped. “I'm not listed as the borrower. My name is tied to the guarantee side too.”\n\n{name} wrote his explanation beside the field. He did not reach the total or why Jaehyuk had chosen him. When the call fell quiet, the long name in the debtor box seemed darker on the screen."},
       {"text": "Have him read where the total and the guarantee liability part ways", "result_text": "“Not the total. Read exactly what you would be liable for.”\n\nJaehyuk first said the figures were the same, then reopened the PDF. After a pause, he read the total and the guarantee cap separately. The two lines did not end in the same place.\n\n{name} marked their different endings. The debtor relationship and the reason for choosing a friend's name stayed beyond this question. Only the sound of Jaehyuk turning pages moved between the figures."},
@@ -795,6 +809,15 @@
     "id": "arc_y5_jaehyuk_father_document_reference",
     "title": "The Same Fields on Two Documents",
     "description": "Jaehyuk's PDF remained open after the call. {name} took the copy of Father's old guarantee document from his private files. One was a gray scan of paper long kept folded; the other was a white PDF received today.\n\nTheir eras and typefaces differed. Yet both placed a guarantor's name after the debtor and pushed the fine print defining liability onto the next page. Father's document carried a signature that had long since set. The line waiting for him on Jaehyuk's file was still empty.\n\n{name} did not merge the files. An old failure would not decide today's request for him. Instead, he would align only the name fields and liability clauses so that what matched—and what remained blank—could be seen at once.",
+    "chapter5_causal_reads": {
+      "texts": [
+        [
+          "The call note placed the debtor's corporate name, Jaehyuk's relationship to it, and his admission that his own name sat on the guarantee side beside the debtor field. {name} aligned that field first with the debtor-and-guarantor order in Father's document.",
+          "The call note marked the total and guarantee-cap lines ending at different places. {name} found the separate ends of total and liability in Father's document and set them at the same height.",
+          "The call note preserved Jaehyuk's reason for choosing a friend's name verbatim beside the PDF. {name} opened a separate comparison so that sentence could not stand in for the guarantor field."
+        ]
+      ]
+    },
     "choices": [
       {"text": "Align the name fields and liability clauses in a separate comparison copy", "result_text": "{name} set the guarantor field on Father's document level with the empty signature line in Jaehyuk's PDF. On the next screen he marked only where each liability clause began and ended.\n\nHe added neither conclusion nor arrow. Father's settled name remained on the left; his own empty field remained on the right. The cursor blinked once between them and stopped."}
     ]
@@ -803,6 +826,13 @@
     "id": "arc_y5_guarantee_protected_show_daeun",
     "title": "The Guarantee Request Before Daeun",
     "description": "Across the laptop, Daeun read Jaehyuk's original request, the verified guarantee scope, and the comparison with Father's document. None of the files carried {name}'s signature yet.\n\n“Mr. Minjun, you didn't call me just to leave proof that you showed me, did you?”\n\n{name} kept all three screens open. He still had to choose what to move forward first. Starting with money pushed aside who had made the request and why. Starting with names exposed Jaehyuk's and Father's circumstances to Daeun. Starting with the arrival time meant accounting for the hours he had held the file alone before discussing the paper.\n\nDaeun did not choose for him. She withdrew her hand from the laptop. “Show me what you most want to hide first. Then I can read the rest with my own eyes.”",
+    "chapter5_causal_reads": {
+      "texts": [
+        [
+          "The separate comparison aligned Father's settled name, Jaehyuk's empty field, and only the beginnings and ends of both liability clauses. With neither conclusion nor arrow added, Daeun could ask what judgment the arrangement itself concealed."
+        ]
+      ]
+    },
     "choices": [
       {"text": "Open with the total and guarantee scope, showing the size of the money first", "result_text": "{name} enlarged the total and the line where guarantee liability ended. Daeun read both figures, then placed one finger in the gap between them.\n\n“Did Jaehyuk tell you this difference, or did it appear only after you asked?”\n\n{name} distinguished what Jaehyuk had volunteered from the line verified directly in the PDF. The shape of the money was clear. The reason for choosing a friend's name and the time he had kept the file alone remained on the screens behind it. Daeun did not look away from the figures."},
       {"text": "Open with Jaehyuk's and Father's name fields and show the repeated structure", "result_text": "{name} brought the comparison forward. Daeun looked from Father's name on the left to the empty field on the right, then read the original request in which Jaehyuk had called him by name.\n\n“If you stop at saying they look alike, the people become fields again. Your name is still blank, correct?”\n\n{name} showed her the blank. Two men's circumstances were now exposed; the numerical difference and the hours he had held the file remained behind them."},
@@ -812,7 +842,16 @@
   {
     "id": "arc_y5_jaehyuk_guarantee_decision_reference",
     "title": "The Act Left in the Guarantee Field",
-    "description": "Three actions remained open: Jaehyuk's message box, the e-signature button on the guarantee PDF, and Block in the contact menu. The time Daeun saw the request and the comparison with Father's document stayed beside them.\n\nJaehyuk's last sentence on the call was brief. “Minjun, decide. Just don't pretend you never saw it.”\n\nRefusal would leave the signature blank and the channel open. Signing would put his name and authentication time in the empty field. Blocking would send a boundary against further contact about this request, then close the channel. None determined Jaehyuk's response or the guarantee's future. What could move now was a sentence, a signature, or the block control.",
+    "description": "Three actions remained open: Jaehyuk's message box, the e-signature button on the guarantee PDF, and Block in the contact menu. The time Daeun saw the request and the comparison with Father's document stayed beside them.\n\nJaehyuk's last sentence on the call was brief. “Minjun, decide. Just don't pretend you never saw it.”\n\nRefusal would leave the signature blank and the channel open. Signing would put his name and authentication time in the empty field—and immediately record that he had crossed Father's line. Blocking would send a boundary against further contact about this request, then close the channel. None determined Jaehyuk's response or the guarantee's future. What could move now was a sentence, a signature, or the block control.",
+    "chapter5_causal_reads": {
+      "texts": [
+        [
+          "Daeun had placed one finger between the total and guarantee scope, asking whether their difference came from Jaehyuk or only after {name}'s question. Before touching e-signature, {name} reread the record where he separated those two sources.",
+          "After seeing Father's settled name beside Jaehyuk's empty field, Daeun had asked whether {name}'s name was still blank. E-signature would answer her with irreversible black letters.",
+          "When {name} read the received time, call time, and disclosure time, Daeun asked whether her name had sat beside the request during those hours. Those three times and her question would remain even if he pressed Block."
+        ]
+      ]
+    },
     "choices": [
       {"text": "Send Jaehyuk a refusal to guarantee while leaving the contact channel open", "result_text": "{name} wrote, ‘I will not sign this guarantee. Do not put my name on this document,’ and sent it. The signature line remained blank, and the conversation stayed open.\n\nOnly a sent time appeared beneath his bubble. The place for Jaehyuk's response remained as it was, but the refusal could no longer be mistaken for silence. The call button remained at one edge of the screen; the signature button went untouched."},
       {"text": "Enter his name in the electronic-signature field and complete authentication", "result_text": "{name} read the guarantee scope once more from top to bottom, then entered his name in the electronic-signature field. When authentication finished, black letters filled the blank and the signing time appeared automatically.\n\nHe sent no new sentence in Jaehyuk's chat. The screen held only the completed-authentication mark, the liability scope, and his name. The field that had let light through before Daeun no longer did."},

@@ -21,10 +21,10 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 ## 현재 코퍼스
 
 - KO/EN 사건: 각각 127파일 · 1786건, ID 일치
-- 패키지 사건: 1786건 · 현재 shipping 사건: 1656건 · author-only reference 원고: 130건
+- 패키지 사건: 1786건 · 현재 shipping 사건: 1675건 · author-only reference 원고: 111건
 - KO/EN 엔딩: 각각 35건
-- 활성 스토리 이미지: 249장 · source raster: 304장
-- 게임 pack 대상 raster: 296장 · ImageRegistry 외부 pack 대상: 47장
+- 활성 스토리 이미지: 250장 · source raster: 305장
+- 게임 pack 대상 raster: 297장 · ImageRegistry 외부 pack 대상: 47장
 - `.gdignore` source-only 상점 스크린샷: 8장 · 출처 원장 오디오: 139개
 - 사건 ID SHA-256: `a13e4e3954b52c21cb2b0c1a395da02f328740fa58eea8ccf0f90d2ee41b35f2`
 - KO/EN 엔딩 본문 SHA-256: `81f1599053907f43b59021e2baccaff249a7bcc7b2c630dde389021b3d395eca`
@@ -40,7 +40,7 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 | 폭력성 | 18 / 15 | `1d403db1107800e1e7c4a8d9d78c08361a840c6901fd8e93de83e609bf585a70` | `ca092987894afe0f87d3cd9d17234c77a666f56c6d7bdb631f3d6b3ba3bb2be8` | mild |
 | 공포 | 146 / 51 | `2c0b31f28649c41920b109674331366623b3600076d16a694a647fae6f26a5cb` | `261c9def4d217e4a82aaaa8f1900c456c94d7859232ac9dcaee66a1e36b982c5` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `fc1a0465f31a6a2df2deb4559825e67c7f762fa2ebfdbaa45ae63e2fb75131c3` | mild |
-| 범죄 | 73 / 40 | `4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd` | `b3623b87194fe6108ca0d9de313d2a8ebf9066e715b93cb2f167dee3dbcb8468` | moderate, strong |
+| 범죄 | 73 / 40 | `4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd` | `91b70d2bd432c47784ab9e442e8d5e7cd8710794da4a59a2c55f767ea8f17e70` | moderate, strong |
 | 음주·흡연·약물 | 81 / 38 | `3f79054d4c6640978ba106481fcd40aa5135292050de407217908e04f9a72dcc` | `8e82587453c1d090c036bbb328a91bb5dc920199e3aa2c730c5d3a5d2351e467` | moderate, mild |
 | 생성형 AI | 기술 축 | — | — | disclosure_required, none |
 | 온라인 기능 | 기술 축 | — | — | none, external_link_only |

@@ -13,6 +13,7 @@ extends Control
 
 # ── 노출 색상 ─────────────────────────────────────────────────
 const DEMO_CORE_LOOP_V2 := preload("res://systems/DemoCoreLoopV2.gd")
+const CHAPTER5_CAUSAL_ROUTE := preload("res://systems/Chapter5CausalRoute.gd")
 const BUILD_FLAVOR := preload("res://systems/BuildFlavor.gd")
 const STORY_DEMO_CONTROLLER := preload(
 	"res://playtests/order124/StoryChoiceM1M6Playtest.gd")
@@ -2539,6 +2540,11 @@ func _restore_story_result(context: Dictionary) -> void:
 	_pending_follow_up = str(context.get(
 		"pending_follow_up", _choice_follow_up_id(
 			choice, str(_current.get("id", "")), choice_index)))
+	if GameState.chapter5_causal_is_owned_event(str(_current.get("id", ""))):
+		# The W217 source still carries an old immediate follow-up to the W219
+		# decision. Exact-week routing owns every Chapter 5 edge, including resume.
+		_pending_follow_up = ""
+		_queue_chapter5_same_turn_ingress()
 	_pending_after_result = true
 	_showing_choices = false
 	_choice_box.visible = false
@@ -3141,7 +3147,7 @@ func _localized_story_event(event_id: String) -> Dictionary:
 	if curation_year > 0:
 		localized = localized.duplicate(true)
 		localized["choices"] = GameState.build_year_scene_choices(curation_year)
-	return localized
+	return _chapter5_causal_event_with_reads(localized)
 
 func _localized_result_page_data(choice_index: int) -> Dictionary:
 	var choices: Array = _current.get("choices", [])
@@ -3625,6 +3631,125 @@ func _capture_first_bill_replay_snapshot(choice_index: int = -1) -> bool:
 	return true
 
 # ── 이벤트 로딩 ───────────────────────────────────────────────
+func _chapter5_causal_exact_keys(
+		data: Dictionary, expected: Array[String]) -> bool:
+	if data.size() != expected.size():
+		return false
+	for key in expected:
+		if not data.has(key):
+			return false
+	return true
+
+func _chapter5_causal_event_with_reads(event: Dictionary) -> Dictionary:
+	if event.is_empty() or _read_only_replay:
+		return event
+	var event_id := str(event.get("id", ""))
+	if not CHAPTER5_CAUSAL_ROUTE.is_owned_event(event_id):
+		return event
+	var expected := CHAPTER5_CAUSAL_ROUTE.expected_read_contract(event_id)
+	var has_authored_reads := event.has("chapter5_causal_reads")
+	# A target with required causal echoes cannot silently lose the authored
+	# surface, while roots without a declared read contract cannot invent one.
+	if expected.is_empty():
+		return {} if has_authored_reads else event
+	if not has_authored_reads \
+			or not event.get("chapter5_causal_reads") is Dictionary:
+		return {}
+	var reads: Dictionary = event["chapter5_causal_reads"]
+	if not _chapter5_causal_exact_keys(reads, [
+			"source_event_ids", "optional_source_event_ids", "texts", "mode",
+		]) \
+			or str(reads.get("mode", "")) != "prepend" \
+			or not reads.get("source_event_ids") is Array \
+			or not reads.get("optional_source_event_ids") is Array \
+			or not reads.get("texts") is Array:
+		return {}
+	var source_ids: Array = reads["source_event_ids"]
+	var optional_ids: Array = reads["optional_source_event_ids"]
+	var text_rows: Array = reads["texts"]
+	if source_ids != expected.get("source_event_ids", []) \
+			or optional_ids != expected.get("optional_source_event_ids", []) \
+			or text_rows.size() != source_ids.size():
+		return {}
+	var target_sequence := GameState.chapter5_causal_event_sequence(event_id)
+	var prefixes: Array[String] = []
+	var seen_sources: Dictionary = {}
+	for source_index in range(source_ids.size()):
+		var raw_source_id: Variant = source_ids[source_index]
+		if not raw_source_id is String:
+			return {}
+		var source_id := str(raw_source_id)
+		var source_sequence := GameState.chapter5_causal_event_sequence(source_id)
+		if source_id.is_empty() or seen_sources.has(source_id) \
+				or source_sequence < 1 or source_sequence >= target_sequence:
+			return {}
+		seen_sources[source_id] = true
+		var raw_text_row: Variant = text_rows[source_index]
+		var choice_count := GameState.chapter5_causal_choice_count(source_id)
+		if choice_count < 1 or not raw_text_row is Array \
+				or (raw_text_row as Array).size() != choice_count:
+			return {}
+		var text_row: Array = raw_text_row
+		var distinct_texts: Dictionary = {}
+		for raw_text in text_row:
+			if not raw_text is String or str(raw_text).strip_edges().is_empty() \
+					or distinct_texts.has(str(raw_text)):
+				return {}
+			distinct_texts[str(raw_text)] = true
+		var receipt := GameState.chapter5_causal_receipt_snapshot(source_id)
+		if receipt.is_empty():
+			if optional_ids.has(source_id):
+				continue
+			return {}
+		var selected_choice := GameState.chapter5_causal_selected_choice(source_id)
+		if selected_choice < 0 or selected_choice >= text_row.size() \
+				or int(receipt.get("choice_index", -1)) != selected_choice:
+			return {}
+		prefixes.append(str(text_row[selected_choice]).strip_edges())
+	for raw_optional_id in optional_ids:
+		if not raw_optional_id is String \
+				or not seen_sources.has(str(raw_optional_id)):
+			return {}
+	if prefixes.is_empty() or not event.get("description", "") is String:
+		return {}
+	var resolved := event.duplicate(true)
+	var body := str(event.get("description", "")).strip_edges()
+	resolved["description"] = "\n\n".join(prefixes) \
+		+ ("\n\n" + body if not body.is_empty() else "")
+	return resolved
+
+func _chapter5_causal_live_ingress_allowed(event_id: String) -> bool:
+	if not GameState.chapter5_causal_is_owned_event(event_id):
+		return true
+	if GameState.chapter5_causal_ingress_available(event_id):
+		return true
+	# A result-phase save observes a choice that is already committed. It may
+	# render that exact immutable result once, but a prose/choice save cannot use
+	# an old receipt to reopen the root.
+	if str(_pending_restore_context.get("phase", "")) != "result" \
+			or str(_pending_restore_context.get("event_id", "")) != event_id:
+		return false
+	return GameState.chapter5_causal_receipt_matches(
+		event_id,
+		int(_pending_restore_context.get("pending_result_choice_index", -1)))
+
+func _close_chapter5_causal_invalid_read_surface(event_id: String) -> void:
+	if _read_only_replay \
+			or not CHAPTER5_CAUSAL_ROUTE.is_owned_event(event_id):
+		return
+	var close_result := GameState.close_chapter5_causal_route(
+		CHAPTER5_CAUSAL_ROUTE.CLOSE_REASON_READ_SURFACE_INVALID)
+	if not bool(close_result.get("ok", false)):
+		push_error(
+			"Chapter 5 causal route could not fail closed after an invalid read surface: %s"
+			% str(close_result.get("error", "unknown")))
+
+func _queue_chapter5_same_turn_ingress() -> void:
+	var next_event_id := GameState.chapter5_causal_next_event_for_turn()
+	if next_event_id.is_empty() or _queue.has(next_event_id):
+		return
+	_queue.push_front(next_event_id)
+
 func _load_next_event():
 	_reset_advance_hold()
 	_stop_story_choice_countdown()
@@ -3662,6 +3787,12 @@ func _load_next_event():
 		if _read_only_replay and not _gallery_replay_event_allowed(event_id):
 			_fail_closed_gallery_replay()
 			return
+		if not _read_only_replay \
+				and not _chapter5_causal_live_ingress_allowed(event_id):
+			_pending_restore_context.clear()
+			_next_transition_mode = ""
+			_next_transition_contract = {}
+			continue
 		# Follow-ups already prepare their edge in _after_result. Roots that were
 		# queued together also need their authored transition contract; otherwise
 		# an internal cut silently falls back to whatever the prior scene left on
@@ -3675,18 +3806,31 @@ func _load_next_event():
 			_next_transition_mode = str(queued_transition.get("mode", ""))
 		_current = DataRegistry.find_event(event_id)
 		if _current.is_empty():
+			_close_chapter5_causal_invalid_read_surface(event_id)
 			_next_transition_mode = ""
 			_next_transition_contract = {}
 			continue
 		if not _read_only_replay:
 			var live_event_id := EventManager.live_event_variant_id(event_id)
 			if live_event_id.is_empty():
+				_close_chapter5_causal_invalid_read_surface(event_id)
 				_current = {}
 				_pending_restore_context.clear()
 				_next_transition_mode = ""
 				_next_transition_contract = {}
 				continue
 			if live_event_id != event_id:
+				# The receipt ledger binds this route to exact authored IDs. A
+				# state variant without its own ledger root cannot inherit that
+				# choice/actor/document identity or leave the source reopening.
+				if CHAPTER5_CAUSAL_ROUTE.is_owned_event(event_id):
+					_close_chapter5_causal_invalid_read_surface(event_id)
+					_current = {}
+					EventManager.current_event = {}
+					_pending_restore_context.clear()
+					_next_transition_mode = ""
+					_next_transition_contract = {}
+					continue
 				var previous_variant_id: String = event_id
 				var was_result_resume := not _pending_restore_context.is_empty() \
 					and str(_pending_restore_context.get("phase", "")) \
@@ -3749,6 +3893,16 @@ func _load_next_event():
 				continue
 			_current = _current.duplicate(true)
 			_current["choices"] = curation_choices
+		var causal_event := _chapter5_causal_event_with_reads(_current)
+		if causal_event.is_empty():
+			_close_chapter5_causal_invalid_read_surface(event_id)
+			_current = {}
+			EventManager.current_event = {}
+			_pending_restore_context.clear()
+			_next_transition_mode = ""
+			_next_transition_contract = {}
+			continue
+		_current = causal_event
 		# Every stateful result resume, not only a state-variant migration,
 		# must be bound to the exact applied option before any result prose is
 		# rendered. A mismatched save is skipped rather than reopened for choice.
@@ -5935,6 +6089,13 @@ func _on_choice(idx: int):
 		return
 	var expression_choice := GameState.is_expression_choice(choice)
 	var current_event_id := str(_current.get("id", ""))
+	var chapter5_choice_transaction := not _read_only_replay \
+		and not expression_choice \
+		and CHAPTER5_CAUSAL_ROUTE.is_owned_event(current_event_id)
+	if chapter5_choice_transaction \
+			and not GameState.chapter5_causal_choice_available(
+				current_event_id, idx):
+		return
 	var v2_choice_transaction := not _read_only_replay and not expression_choice \
 		and DEMO_CORE_LOOP_V2.story_choice_transaction_required(
 			current_event_id, idx, _queue)
@@ -5949,6 +6110,9 @@ func _on_choice(idx: int):
 			== DEMO_CORE_LOOP_V2.OPENING_APPLICATION_EVENT_ID
 	var v2_choice_snapshot: Dictionary = (
 		GameState.serialize().duplicate(true) if v2_choice_transaction else {})
+	var chapter5_choice_snapshot: Dictionary = (
+		GameState.serialize().duplicate(true)
+		if chapter5_choice_transaction else {})
 	_stop_story_choice_countdown()
 	if _read_only_replay \
 			and current_event_id == DEMO_CORE_LOOP_V2.FIRST_BILL_DECISION_ID:
@@ -5999,6 +6163,10 @@ func _on_choice(idx: int):
 			if v2_choice_transaction:
 				GameState.call(
 					"_restore_serialized_snapshot_exact", v2_choice_snapshot)
+			if chapter5_choice_transaction:
+				GameState.call(
+					"_restore_serialized_snapshot_exact",
+					chapter5_choice_snapshot)
 			return
 		if v2_choice_transaction:
 			var story_recorded := DEMO_CORE_LOOP_V2.note_story_choice(
@@ -6012,6 +6180,22 @@ func _on_choice(idx: int):
 					if not legacy_opening_send else \
 					"Legacy opening Send lost its exact application owner")
 				return
+		if chapter5_choice_transaction:
+			var chapter5_record := GameState.record_chapter5_causal_choice(
+				current_event_id, idx)
+			if not bool(chapter5_record.get("ok", false)):
+				GameState.call(
+					"_restore_serialized_snapshot_exact",
+					chapter5_choice_snapshot)
+				push_error(
+					"Chapter 5 causal choice lost its exact receipt transaction: %s"
+					% str(chapter5_record.get("error", "unknown")))
+				return
+			# Chapter 5 owns its own calendar edges. This suppresses the stale
+			# W217 -> W219 authored follow-up and admits only W210's second root,
+			# after the return-call receipt now exists.
+			_pending_follow_up = ""
+			_queue_chapter5_same_turn_ingress()
 		if not expression_choice:
 			DEMO_CORE_LOOP_V2.note_post_demo_application_result(
 				current_event_id, idx)

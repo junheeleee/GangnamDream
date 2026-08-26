@@ -297,6 +297,45 @@ StoryMode 결정과 그 exact receipt가 소유하며, W240 장면 뒤 엔딩 �
 대체하지 않는다. 정확한 결정은 정확한 사실로, 반복된 삶의 모양은 여러 장의
 출처가 있는 pattern으로 읽는다.
 
+### 5장 M49~M55 exact receipt 계약
+
+M49~M55 투자 기준 경로는 로케일 중립 `Chapter5CausalRoute` 원장 하나가 소유한다.
+W195 진입은 실제 투자형 정체성·`route_invest`·20억원 이상 자산 구간과
+이어진 상철·다은·민서·재혁 관계를 모두 요구한다. 첫 장면을 보여 주기 전에
+`investment_property`, `at_least_2b`, 역할별 실제 배우를 exact entry로 고정하며,
+이후 시장이나 관계가 움직여도 이미 시작한 세로줄의 정체성을 다시 추론하지 않는다.
+각 선택은 `event_id`, 0-based `choice_index`, `turn`, 실제 `actor_bindings`,
+`receipt_type`, 고유 `receipt_id`, 원문 `document_ids`만 저장한다. 번역문, AP,
+행동 카드, 수치 효과, 엔딩 결과를 이 영수증에 넣지 않는다. 첫 성공 쓰기는
+write-once·idempotent이며 중복·역순·범위 밖 index·배우/문서 불일치·손상 저장은
+새 사실을 발명하지 않고 닫힌다.
+
+W209~W212는 기존 `arc_jaehyuk_mirror`와 별개의 두 번째 보증이 아니다. 아직
+결정하지 않은 그 한 번을 확장·이동한 경로이며, W212의 거절·실제 서명·차단은
+기존 완료/결과 플래그, 정신 비용, Moral Tint 변화와 `crossed_line` 흉터를 그대로
+적용한다. 이 투자 세로줄이 열리지 않은 적격 후보에게는 W209부터 기존 짧은
+보증 거울이 다시 열려 결정을 잃지 않게 한다.
+
+같은 달의 순서는 단순 배열 순서가 아니다. M51은 검사 자료→민서의 비용 읽기→
+다은과 목표 뒤 시간을 정하는 순서를, M53은 요청 PDF→통화→아버지 문서 비교→
+다은에게 보여 줌→보증 결정을 지킨다. W210의 통화 뒤 문서 비교는 같은 주의
+queue-only 전환이다. W216 빨간 원 사본은 `arc_sangchul_final_door` choice 0,
+W220 자필 범위 원본은 `arc_y5_three_in_room_decision` choice 1만 읽는다.
+고르지 않은 선택의 빨간 원·서명·차단·자필 동의를 추론하지 않는다.
+
+영수증을 저장하는 것만으로 인과 연결을 완료했다고 보지 않는다. 47개 선택은
+각각 이후 대사·가능성·비용·부재 중 적어도 하나를 바꾸는 이름 있는 reader를
+가져야 한다. 단순 다음-root 순서 gate나 대화 로그는 choice-index reader가 아니다.
+M56~M60 또는 엔딩을 미래 reader로 적어 두기만 하고 실제 소비 코드와 원고가
+없으면 미완성이다.
+
+ORDER-133 제품 원고는 후속 16루트의 `chapter5_causal_reads`를 reader 표면으로
+쓴다. KO 정본은 `source_event_ids`, 그 부분집합인 `optional_source_event_ids`,
+source별 choice-index 문장 배열 `texts`, `mode:"prepend"`를 소유하고, EN overlay는
+같은 배열 모양의 `texts`만 번역한다. 런타임은 선행 영수증의 실제 choice index로
+한 문장을 골라 본문 앞에 붙인다. 단순 선택명 요약이 아니라 전송 시각·빈 서명란·
+접힌 병원 사본·차단된 입력창처럼 실제로 관찰된 행동을 읽어야 한다.
+
 ## 9. 이관 순서
 
 1. 24주 데모의 기존 영수증 구조를 공통 원장 후보로 삼고 저장 이관 규칙을
@@ -314,5 +353,11 @@ StoryMode 결정과 그 exact receipt가 소유하며, W240 장면 뒤 엔딩 �
 **구현 상태:** `story_map.json`의 M01~M60 장면 beat와 세 수직 단면은 작가용
 배치 입력이다. 같은 파일의 월간 commitment·여유 계약은 사용자 NO-GO 뒤 제품
 소비가 금지된 역사 자료다. W1~W24 V2의 저장과 첫 청구서 receipt는 이관 기준선으로
-보존한다. 공통 `story_ledger`, M35/M55 산문, 월간 행동판 없는 본편 진입은 아직
-제품에 연결되지 않았으며, 먼저 M01~M06 StoryMode 전용 후보를 사람 판정한다.
+보존한다. M49~M55 기준 경로는 정확한 19루트·47선택의 직접 주차 ingress와
+write-once 영수증 저장까지 제품에 연결됐다. 1~17번 루트의 43선택은 후속 장면의
+choice-index 대사 reader가 있고, W216 빨간 원과 W220 자필 원본의 조건부 진입도
+정확한 선택만 읽는다. 다만 18번 결정의 3선택과 19번 영수증의 1선택은 M56 후속
+장면이 실제 원고·코드로 들어오기 전까지 pending이다. 따라서 현재 범위는
+`43/47 reader 연결, 4/47 M56 pending`이며 M49~M55의 완전한 스노우볼이나 최종
+플레이 준비 완료를 선언하지 않는다.
+career/startup의 별도 32루트·86선택은 계속 reference-only다.

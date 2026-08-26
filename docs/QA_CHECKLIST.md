@@ -125,6 +125,48 @@ last W48 capacity/node action
   its W24 CTA. That GO approves only the demo and does not claim W25–48 or full
   Chapter One completion.
 
+## Chapter 5 M49~M55 Causal Ingress Gate
+
+- `python3 tools/chapter5_causal_route_audit.py`와
+  `Chapter5CausalRouteCheck.tscn`은 정확히 19루트·47선택, 0-based index,
+  주차 `195,196,197,200,201,203,204,207,208,209,210×2,211,212,215,216,217,219,220`,
+  M51 검사→민서→다은, M53 요청→통화→아버지 문서→다은 공개→결정 순서를
+  함께 잠근다. 빠진·추가된·중복된 루트나 선택, locale prose가 들어간 영수증,
+  잘못된 배우·문서·주차는 실패다.
+- 19개 KO 루트는 `author_only` 태그와 lifecycle에서 빠지되 `weight=0`,
+  `hidden=true`, `conditions.min_turn=9999`를 유지한다. EN은 같은 ID·선택 수의
+  text-only overlay이며 gameplay 키를 새로 소유하지 않는다. shipping은 1,675,
+  author-only는 111이어야 한다.
+- W207은 일반 Echo보다 `arc_y5_final_offer`가 먼저이며 W219도 회의 결정을
+  직접 소유한다. 열린 18개 고유 주차에서는 일반 AP 3택을 다시 묻지 않는다.
+  W210은 return call 뒤 father document 하나만 같은 주 queue로 잇고, unrelated
+  due root를 함께 비우지 않는다.
+- W216 `arc_y5_sangchul_review_receipt`는 `arc_sangchul_final_door` choice 0,
+  W220 `arc_y5_room_consent_receipt`는 `arc_y5_three_in_room_decision` choice 1에서만
+  열린다. 다른 선택·손상 저장·legacy 추론이 빨간 원이나 자필 원본을 만들면
+  실패다.
+- 영수증 쓰기는 write-once·idempotent이고 중복·역순·범위 밖 index·tamper에
+  fail-closed여야 한다. 수동 저장과 자동 저장의 serialize/load 왕복 뒤 exact
+  actor/document/order가 같아야 하며 재진입이 효과나 장면을 반복해서는 안 된다.
+- **인과 완성 게이트:** 47개 선택 각각에 choice-index를 읽는 실제 downstream
+  dialogue/availability/cost/absence reader가 하나 이상 있어야 한다. 다음 루트가
+  단지 선행 receipt의 존재를 확인하거나 로그에 표시하는 것은 reader가 아니다.
+  현재 1~17번 루트의 43선택은 후속 16루트의 `chapter5_causal_reads`가 실제
+  관찰 행동을 본문 앞 대사로 읽는다. KO는 exact
+  `source_event_ids/optional_source_event_ids/texts/mode` 구조, EN은 text-only
+  `texts` overlay, source 행·choice 열 패리티를 지켜야 한다. 18번의 3선택과
+  19번의 1선택은 M56 독자가 아직 없으므로 `43/47 connected, 4/47 pending`이다.
+  이 네 소비자가 연결되기 전에는 causal completion, snowball complete,
+  플레이 준비 완료를 보고하지 않는다.
+- 기존 career/startup Year 5는 `32 roots / 86 choices / consumer 0 /
+  reference_only`, `Year5ReferenceRouteKernel.gd` byte-exact를 유지한다.
+  M49~M55는 거래·이체·엔딩을 적용하지 않으며 `instant_legend` 라우팅과 엔딩
+  JSON은 불변이다.
+- 기계 통과 뒤 KO/EN 실제 장면과 M55 전용 CG를 960×600, 1280×800,
+  1920×1080에서 캡처해 검은막, CG crop, 상철 초상, player-determined 전달,
+  문서·자필·빨간 원의 시선, HUD/자막 겹침을 눈으로 본다. 정상 속도 L3에서
+  문서가 인물 압박으로 읽히고 M53·M55의 포기가 실제로 느껴져야만 사람이 GO한다.
+
 ## Release Content Survey / Rating Intake Gate
 
 - `content/meta/release_content_inventory.json` is the machine ledger and
@@ -300,6 +342,7 @@ python3 tools/release_content_inventory.py \
 | Demo boot surfaces, t=1~8 story chain, AP loop, month summary, demo ending CTA | `--qa=demo-blackbox --lang=ko/en --demo-build` |
 | Full demo input route: real confirm inputs through StoryMode, choices, AP, results, month summaries, and the week-24 CTA | `--qa=demo-input --lang=ko/en --demo-build` |
 | Full 240-week controller black box: title, opening, five chapters, all scheduled week kinds, monthly summaries, authored roots, one pad-selected causal producer and its exact later bridge, AP, and the actual ending with zero keyboard/mouse input | `--qa=full-gamepad --lang=ko --pad=playstation`, then `--qa=full-gamepad --lang=en --pad=xbox` |
+| Chapter 5 M49~M55 product route: exact 19 roots/47 choices, direct-week ownership, W210 same-week order, W216/W220 conditional receipts, save/load and tamper fail-closed, KO/EN parity, M55 meeting CG crop and no black/HUD layer; automation is not the causal-reader or fun verdict | `python3 tools/chapter5_causal_route_audit.py`, `Chapter5CausalRouteCheck.tscn`, `ManualSaveCheck.tscn`, then targeted `--qa=full-gamepad --lang=ko/en` chapter-5 fixtures at 960×600, 1280×800, and 1920×1080 |
 | Demo month summary, demo ending CTA, 6-month Time Ledger card | `--qa=demo-end-en` |
 | P0 final-life endings: eight exact CG owners, 950x430 crop, Jiyeon reflection-only mirror with exactly two non-duplicated actors and coherent gaze, 1B Second Love across-river home, Jiyeon-mediated Gangnam framing, White/Deep Black readability, and KO/EN first viewport | `--qa=ending-p0 --lang=ko/en` |
 | P1 final-life endings: exact CG owner/crop, Late Call memory, Rich and Alone base/divorce/no-leak, One More Circle base/Father-memory calendar action, distinct Bankruptcy/Debt Spiral calculation states, Startup Exit base/first-user memory, 33-year-old first-year Myth arrival, Orthodox Pinnacle base/salary-memory company-dinner pause, Burnout first-person emergency-bed hand/IV/phone composition, Stable Success's modest Seoul-room relief CG, and Mental Collapse no-leak | `--qa=ending-p1 --lang=ko/en` |

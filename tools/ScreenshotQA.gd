@@ -22,6 +22,8 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-audio --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x720 res://tools/ScreenshotQA.tscn -- --qa=story-dialogue-history --lang=ko
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-moral --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=chapter5-causal --lang=ko
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=chapter5-causal --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1920x1080 res://tools/ScreenshotQA.tscn -- --qa=living-scene --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1920x1080 res://tools/ScreenshotQA.tscn -- --qa=display-matrix --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=text-material --lang=en
@@ -88,6 +90,8 @@ extends Node
 ## .tscn 으로 부팅해야 autoload(GameState 등)가 로드된다.
 
 const StoryModeScript = preload("res://scenes/StoryMode.gd")
+const Chapter5CausalRouteScript = preload(
+	"res://systems/Chapter5CausalRoute.gd")
 
 # Parallel matrix jobs must not erase one another's screenshots. Set
 # GANGNAM_QA_OUT per process when durable, isolated evidence is required.
@@ -123,6 +127,7 @@ const QA_SCOPE_STORY_PRESENCE := "story_presence"
 const QA_SCOPE_STORY_AUDIO := "story_audio"
 const QA_SCOPE_STORY_DIALOGUE_HISTORY := "story_dialogue_history"
 const QA_SCOPE_STORY_MORAL := "story_moral"
+const QA_SCOPE_CHAPTER5_CAUSAL := "chapter5_causal"
 const QA_SCOPE_LIVING_SCENE := "living_scene"
 const QA_SCOPE_DISPLAY_MATRIX := "display_matrix"
 const QA_SCOPE_TEXT_MATERIAL := "text_material"
@@ -176,6 +181,31 @@ const QA_SCOPE_RACETRACK_EN := "racetrack_en"
 const QA_SCOPE_TENDENCY_EN := "tendency_en"
 const QA_SCOPE_SURFACE_EN := "surface_en"
 const QA_SCOPE_TRANSITION := "transition"
+const CHAPTER5_CAUSAL_QA_ROOTS: Array[String] = [
+	"arc_y5_contract_cover_investment",
+	"arc_y5_contract_reviewer_delivery_sangchul",
+	"arc_y5_final_push_deadline_investment",
+	"arc_y5_protection_boundary_daeun",
+	"arc_y5_burnout_check_reference",
+	"arc_y5_minseo_goal_cost_reference",
+	"arc_y5_after_goal_daeun",
+	"arc_y5_final_offer",
+	"arc_y5_final_offer_reference_delivery",
+	"arc_y5_jaehyuk_guarantee_request_reference",
+	"arc_y5_jaehyuk_return_call_reference",
+	"arc_y5_jaehyuk_father_document_reference",
+	"arc_y5_guarantee_protected_show_daeun",
+	"arc_y5_jaehyuk_guarantee_decision_reference",
+	"arc_sangchul_final_door",
+	"arc_y5_sangchul_review_receipt",
+	"arc_y5_three_in_room",
+	"arc_y5_three_in_room_decision",
+	"arc_y5_room_consent_receipt",
+]
+const CHAPTER5_CAUSAL_QA_TURNS: Array[int] = [
+	195, 196, 197, 200, 201, 203, 204, 207, 208, 209,
+	210, 210, 211, 212, 215, 216, 217, 219, 220,
+]
 const FULL_ROUTE_STORY_CHOICE_OVERRIDES := {
 	"anxiety_pension_crisis": 1,
 }
@@ -508,6 +538,19 @@ func _ready() -> void:
 		if _qa_failed:
 			return
 		print("SCREENSHOT_QA_DONE scope=core-loop-v2 lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_CHAPTER5_CAUSAL:
+		var lang := _qa_language("ko")
+		if lang not in ["ko", "en"]:
+			_fail("Chapter 5 causal QA supports only lang=ko/en, got %s." % lang)
+			return
+		await _shot_chapter5_causal_surfaces(lang)
+		if _qa_failed:
+			return
+		print(("SCREENSHOT_QA_DONE scope=chapter5-causal lang=%s shots=5 " \
+			+ "causal_receipts=live black=clear hud=correct language=clean " \
+			+ "cg=verified focus=verified dir=%s") % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope in [QA_SCOPE_CASINO, QA_SCOPE_CASINO_EN]:
@@ -1136,6 +1179,12 @@ func _qa_scope() -> String:
 		args.append(str(raw))
 	for raw in args:
 		var arg := raw.strip_edges().to_lower()
+		if arg in ["chapter5-causal", "chapter5_causal", "chapter-5-causal",
+				"--chapter5-causal", "--chapter5_causal",
+				"qa=chapter5-causal", "--qa=chapter5-causal",
+				"qa=chapter5_causal", "--qa=chapter5_causal",
+				"scope=chapter5-causal", "--scope=chapter5-causal"]:
+			return QA_SCOPE_CHAPTER5_CAUSAL
 		if arg in ["commitment-task", "commitment_task",
 				"--commitment-task", "--commitment_task",
 				"qa=commitment-task", "--qa=commitment-task",
@@ -6227,6 +6276,214 @@ func _collect_start_menu_nodes(node: Node, targets: Array[Node]) -> void:
 		else:
 			_collect_start_menu_nodes(child, targets)
 
+func _shot_chapter5_causal_surfaces(lang: String) -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	var prefix := "chapter5_%s_" % lang
+	var cases: Array[Dictionary] = [
+		{
+			"event": CHAPTER5_CAUSAL_QA_ROOTS[0],
+			"shot": "01_w195_contract_choices",
+			"choices": {},
+			"show_choices": true,
+		},
+		{
+			"event": CHAPTER5_CAUSAL_QA_ROOTS[5],
+			"shot": "02_w203_previous_choice_echo",
+			"choices": {CHAPTER5_CAUSAL_QA_ROOTS[4]: 2},
+			"show_choices": false,
+		},
+		{
+			"event": CHAPTER5_CAUSAL_QA_ROOTS[13],
+			"shot": "03_w212_guarantee_decision",
+			"choices": {CHAPTER5_CAUSAL_QA_ROOTS[12]: 2},
+			"show_choices": true,
+		},
+		{
+			"event": CHAPTER5_CAUSAL_QA_ROOTS[16],
+			"shot": "04_w217_four_people_cg_documents",
+			"choices": {CHAPTER5_CAUSAL_QA_ROOTS[14]: 0},
+			"show_choices": false,
+		},
+		{
+			"event": CHAPTER5_CAUSAL_QA_ROOTS[17],
+			"shot": "05_w219_room_decision_choices",
+			"choices": {CHAPTER5_CAUSAL_QA_ROOTS[16]: 2},
+			"show_choices": true,
+		},
+	]
+	for shot_case in cases:
+		var event_id := str(shot_case["event"])
+		_prepare_chapter5_causal_story_state(
+			event_id, shot_case["choices"] as Dictionary)
+		if _qa_failed:
+			return
+		await _shot_story_event(
+			event_id,
+			prefix + str(shot_case["shot"]),
+			"",
+			0.75,
+			true,
+			bool(shot_case["show_choices"]))
+		if _qa_failed:
+			return
+
+func _prepare_chapter5_causal_story_state(
+		target_id: String, choice_overrides: Dictionary) -> void:
+	var target_index := CHAPTER5_CAUSAL_QA_ROOTS.find(target_id)
+	if target_index < 0:
+		_fail("Chapter 5 causal screenshot requested an unowned root: %s." % target_id)
+		return
+	var state: Dictionary = Chapter5CausalRouteScript.default_state()
+	for index in range(target_index):
+		var event_id := CHAPTER5_CAUSAL_QA_ROOTS[index]
+		var at_turn := CHAPTER5_CAUSAL_QA_TURNS[index]
+		var next_id: String = Chapter5CausalRouteScript.next_event_for_turn(
+			state, at_turn)
+		if next_id.is_empty():
+			if index not in [15, 18]:
+				_fail("Chapter 5 causal screenshot skipped required root %s." % event_id)
+				return
+			continue
+		if next_id != event_id:
+			_fail("Chapter 5 causal screenshot order expected %s, got %s." % [
+				event_id, next_id])
+			return
+		var selected_choice := int(choice_overrides.get(event_id, 0))
+		var result: Dictionary = Chapter5CausalRouteScript.commit_choice(
+			state, event_id, selected_choice, at_turn)
+		if not bool(result.get("ok", false)):
+			_fail("Chapter 5 causal screenshot could not commit %s choice %d: %s." % [
+				event_id, selected_choice, str(result.get("error", ""))])
+			return
+		state = (result.get("state", state) as Dictionary).duplicate(true)
+	var target_turn := CHAPTER5_CAUSAL_QA_TURNS[target_index]
+	if Chapter5CausalRouteScript.next_event_for_turn(state, target_turn) != target_id:
+		_fail("Chapter 5 causal screenshot state does not own %s at W%d." % [
+			target_id, target_turn])
+		return
+	GameState.chapter5_causal_state = state
+	GameState.turn = target_turn
+	GameState.year = 5
+	GameState.month = int((target_turn - 1) / 4) + 1
+	GameState.week_of_month = int((target_turn - 1) % 4) + 1
+	GameState.age = 37
+
+func _assert_chapter5_causal_story_surface(
+		story: Node, event_id: String) -> void:
+	var expected_ids := [
+		CHAPTER5_CAUSAL_QA_ROOTS[0], CHAPTER5_CAUSAL_QA_ROOTS[5],
+		CHAPTER5_CAUSAL_QA_ROOTS[13], CHAPTER5_CAUSAL_QA_ROOTS[16],
+		CHAPTER5_CAUSAL_QA_ROOTS[17],
+	]
+	if event_id not in expected_ids:
+		_fail("Chapter 5 causal screenshot opened an unexpected root: %s." % event_id)
+		return
+	if not GameState.chapter5_causal_ingress_available(event_id):
+		_fail("Chapter 5 causal screenshot did not use live receipt-owned ingress: %s." \
+			% event_id)
+		return
+	var current: Dictionary = story.get("_current")
+	if str(current.get("id", "")) != event_id:
+		_fail("Chapter 5 causal screenshot current root drifted: %s." % event_id)
+		return
+	var authored: Dictionary = DataRegistry.find_event(event_id)
+	var raw_reads: Variant = authored.get("chapter5_causal_reads")
+	if raw_reads is Dictionary:
+		var reads: Dictionary = raw_reads
+		var source_ids: Array = reads.get("source_event_ids", [])
+		var optional_ids: Array = reads.get("optional_source_event_ids", [])
+		var text_rows: Array = reads.get("texts", [])
+		var prefixes: Array[String] = []
+		for source_index in range(source_ids.size()):
+			var source_id := str(source_ids[source_index])
+			var selected_choice := GameState.chapter5_causal_selected_choice(source_id)
+			if selected_choice < 0:
+				if optional_ids.has(source_id):
+					continue
+				_fail("%s screenshot lacks required receipt %s." % [
+					event_id, source_id])
+				return
+			var row: Array = text_rows[source_index]
+			if selected_choice >= row.size():
+				_fail("%s screenshot selected an invalid causal prefix." % event_id)
+				return
+			prefixes.append(str(row[selected_choice]).strip_edges())
+		var expected_prefix := "\n\n".join(prefixes)
+		if expected_prefix.is_empty() \
+				or not str(current.get("description", "")).begins_with(expected_prefix):
+			_fail("%s screenshot did not render its selected localized receipt echo." \
+				% event_id)
+			return
+	var surface_text := _collect_control_text(story)
+	if LocaleManager.is_english():
+		if _contains_hangul(surface_text):
+			_fail("%s Chapter 5 English screenshot leaked Hangul." % event_id)
+			return
+	elif not _contains_hangul(surface_text):
+		_fail("%s Chapter 5 Korean screenshot lost Korean copy." % event_id)
+		return
+	var main_game_nodes: Array[Node] = []
+	_collect_nodes_by_script(
+		get_tree().root, "res://scenes/MainGame.gd", main_game_nodes)
+	if not main_game_nodes.is_empty():
+		_fail("%s screenshot left the MainGame/AP HUD under StoryMode." % event_id)
+		return
+	var hud := story.get("_hud_panel") as Control
+	var uses_cg := bool(story.get("_current_uses_cg"))
+	if not is_instance_valid(hud) \
+			or (uses_cg and hud.visible) or (not uses_cg and not hud.visible):
+		_fail("%s screenshot StoryMode HUD/CG visibility is inconsistent." % event_id)
+		return
+	if event_id == CHAPTER5_CAUSAL_QA_ROOTS[16]:
+		var background := story.get("_bg_img") as TextureRect
+		var expected_cg_path := ImageRegistry.get_cg("cg_y5_three_in_room")
+		var actual_cg_path := (
+			background.texture.resource_path
+			if is_instance_valid(background) and background.texture != null else "")
+		if not uses_cg or not is_instance_valid(background) \
+				or not background.visible or expected_cg_path.is_empty() \
+				or actual_cg_path != expected_cg_path:
+			_fail("W217 four-person CG is missing: actual=%s expected=%s." % [
+				actual_cg_path, expected_cg_path])
+			return
+	var choice_surface_ids := [
+		CHAPTER5_CAUSAL_QA_ROOTS[0], CHAPTER5_CAUSAL_QA_ROOTS[13],
+		CHAPTER5_CAUSAL_QA_ROOTS[17],
+	]
+	if event_id in choice_surface_ids:
+		var choice_box := story.get("_choice_box") as Control
+		var visible_choices: Array[Button] = []
+		if is_instance_valid(choice_box):
+			for raw_button in choice_box.find_children("*", "Button", true, false):
+				if raw_button is Button \
+						and (raw_button as Button).is_visible_in_tree():
+					visible_choices.append(raw_button as Button)
+		var focus_owner := get_viewport().gui_get_focus_owner()
+		if visible_choices.size() != 3 \
+				or not is_instance_valid(focus_owner) \
+				or not choice_box.is_ancestor_of(focus_owner):
+			_fail("%s screenshot lost its three-choice controller focus." % event_id)
+
+func _assert_chapter5_causal_render_not_black(
+		image: Image, shot_name: String) -> void:
+	var stride_x := maxi(1, int(image.get_width() / 32))
+	var stride_y := maxi(1, int(image.get_height() / 20))
+	var brightest := 0.0
+	var visible_samples := 0
+	var sample_count := 0
+	for y in range(0, image.get_height(), stride_y):
+		for x in range(0, image.get_width(), stride_x):
+			var color := image.get_pixel(x, y)
+			var luminance := color.r * 0.2126 + color.g * 0.7152 + color.b * 0.0722
+			brightest = maxf(brightest, luminance)
+			if luminance >= 0.055 and color.a >= 0.95:
+				visible_samples += 1
+			sample_count += 1
+	if brightest < 0.14 or visible_samples < maxi(8, int(sample_count * 0.015)):
+		_fail("%s rendered as an empty/black frame: max=%.3f visible=%d/%d." % [
+			shot_name, brightest, visible_samples, sample_count])
+
 func _shot_story_event(event_id: String, shot_name: String, lang: String = "", settle_time: float = 1.1, finish_first_paragraph: bool = false, show_choices: bool = false, select_choice: int = -1, advance_paragraphs: int = 0, suppress_cg: bool = false, advance_result_paragraphs: int = 0) -> void:
 	if not lang.is_empty():
 		_set_qa_language(lang)
@@ -6382,6 +6639,10 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	_assert_chapter2_visual_state(story, event_id, select_choice)
 	_assert_chapter3_spine_state(story, event_id)
 	_assert_late_chapter_spine_state(story, event_id, select_choice)
+	if _qa_scope() == QA_SCOPE_CHAPTER5_CAUSAL:
+		_assert_chapter5_causal_story_surface(story, event_id)
+		if _qa_failed:
+			return
 	if _qa_scope() == QA_SCOPE_CORE_LOOP_V2:
 		_assert_core_loop_v2_opening_story_surface(
 			story, event_id, select_choice)
@@ -21933,6 +22194,10 @@ func _save(shot_name: String, settle_time: float = 0.3) -> void:
 		_fail("Screenshot size mismatch for %s: image=%dx%d viewport=%dx%d." % [
 			shot_name, img.get_width(), img.get_height(), expected_size.x, expected_size.y])
 		return
+	if _qa_scope() == QA_SCOPE_CHAPTER5_CAUSAL:
+		_assert_chapter5_causal_render_not_black(img, shot_name)
+		if _qa_failed:
+			return
 	var path := "%s/%s.png" % [OUT_DIR, shot_name]
 	img.save_png(path)
 	print("SHOT %s" % path)

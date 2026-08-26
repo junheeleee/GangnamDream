@@ -1,5 +1,5 @@
 {
-  "version": 20,
+  "version": 21,
   "updated": "2026-08-26",
   "policy": {
     "diegetic_spoken_language": "ko",
@@ -148,41 +148,46 @@
           "arc_sangchul_01_meet", "arc_sangchul_03_network", "arc_sangchul_buried_silence", "arc_sangchul_casino_arrival",
           "arc_sangchul_casino_cost", "arc_sangchul_casino_decision", "arc_sangchul_casino_invite", "arc_sangchul_casino_people",
           "arc_sangchul_confrontation", "arc_sangchul_deduction", "arc_sangchul_deduction_career", "arc_sangchul_deduction_case",
-          "arc_sangchul_deduction_decision", "arc_sangchul_jiyeon_reveal", "arc_sangchul_known_offer", "arc_sangchul_known_reflex",
-          "arc_sangchul_mirror", "arc_sangchul_reckoning", "arc_sangchul_stairwell", "arc_sangchul_year3",
-          "arc_sangchul_year3_father_passed", "arc_season_fireworks_daeun", "arc_season_fireworks_daeun_decision", "arc_season_fireworks_daeun_dress",
-          "arc_season_fireworks_daeun_river", "arc_season_fireworks_jiyeon", "arc_season_fireworks_jiyeon_decision", "arc_season_fireworks_jiyeon_pace",
-          "arc_season_fireworks_jiyeon_schedule", "arc_season_sea_daeun", "arc_season_sea_daeun_decision", "arc_season_sea_daeun_horizon",
-          "arc_season_sea_daeun_years", "arc_season_sea_jiyeon", "arc_season_sea_jiyeon_decision", "arc_season_sea_jiyeon_route",
-          "arc_season_sea_jiyeon_voice", "arc_temptation_01", "arc_temptation_clean", "arc_why_gangnam_real",
-          "arc_why_gangnam_real_father_passed", "arc_y3_jiyeon_departure", "arc_y3_sangchul_deeper_room", "arc_y4_father_call_answered_on_ktx",
-          "arc_y4_father_call_missed_on_ktx", "arc_y4_father_crisis_contact", "arc_y4_father_crisis_stabilized", "arc_y4_father_final_contact_called",
-          "arc_y4_father_final_contact_missed", "arc_y4_father_final_contact_present", "arc_y4_father_outcome_unknown", "arc_year1_close",
-          "arc_year1_close_father_passed", "arc_year1_scene", "arc_year3_close", "arc_year4_close",
-          "arc_year4_close_father_passed", "arc_year_one_half", "arc_year_one_mark", "arc_year_three_half",
-          "arc_year_two_half", "arc_year_two_pressure", "butterfly_mystery_info_result_scam", "cafe_00",
-          "cafe_caught_honest", "cafe_cb_honest_00", "cafe_cb_honest_in", "cafe_cb_stole_00",
-          "cafe_listen_01", "cafe_peek_01", "callback_child_cost_grind", "callback_chose_money_father_echo",
-          "callback_daeun_breakup_begged_echo", "callback_daeun_daily_life_echo", "callback_father_confession_echo", "callback_guarantee_default",
-          "callback_guarantee_refused_news", "callback_investment_lesson_echo", "callback_jeonse_auction_insured", "callback_kkondae_respect",
-          "callback_mindset_investor_echo", "callback_tax_windfall", "father_hospital_results", "father_hospital_wait",
-          "final_last_winter", "flex_sns_envy", "hidden_whole_picture", "hyunsu_exam_day",
-          "hyunsu_result_fail", "hyunsu_result_pass", "hyunsu_reunion_later", "hyunsu_reunion_meet",
-          "hyunsu_reunion_memory", "hyunsu_reunion_photo", "hyunsu_study_together", "ng_recovery_echo",
-          "recovery_first_week", "story_arrival", "story_first_paycheck_feel", "story_first_paycheck_feel_father_passed",
-          "story_first_savings_milestone", "story_flashforward", "story_knee_choice", "story_knee_door",
-          "story_knee_witness", "story_last_payment_exit", "story_last_payment_wait", "story_last_payment_word",
-          "story_pressure", "story_prologue_dad", "story_prologue_goal", "story_prologue_meal",
-          "story_six_months", "v2_city_service_result_message", "v2_city_service_work_sample_message", "v2_convenience_trial_shift",
-          "v2_daeun_return_after_distance", "v2_daeun_return_named", "v2_daeun_small_commitment", "v2_daeun_third_greeting",
-          "v2_daeun_tuesday_followthrough", "v2_demo_first_bill", "v2_demo_first_bill_ledger", "v2_demo_first_bill_opening",
-          "v2_dirty_recruiter_week24", "v2_dirty_trace_initial_call", "v2_dodam_result_message", "v2_empty_sunday",
-          "v2_father_health_signal", "v2_gangnam_receipt_walk", "v2_hanbit_interview", "v2_hanbit_offer_message",
-          "v2_hyunsu_exam_eve", "v2_hyunsu_exam_morning_echo", "v2_hyunsu_first_study", "v2_hyunsu_player_reachout",
-          "v2_hyunsu_study_followup", "v2_inventory_count_nights", "v2_jaehyuk_message", "v2_jaehyuk_plain_reunion_echo",
-          "v2_jiyeon_second_crossing", "v2_logistics_class_session", "v2_m3_room_ledger_anchor", "v2_m4_housing_consultation_anchor",
-          "v2_mirae_result_message", "v2_moving_crew_days", "v2_opening_application_send", "v2_opening_return_math",
-          "v2_sangchul_demo_echo", "v2_sangchul_housing_lead", "v2_seorin_result_message", "yolo_morning_after"
+          "arc_sangchul_deduction_decision", "arc_sangchul_final_door", "arc_sangchul_jiyeon_reveal", "arc_sangchul_known_offer",
+          "arc_sangchul_known_reflex", "arc_sangchul_mirror", "arc_sangchul_reckoning", "arc_sangchul_stairwell",
+          "arc_sangchul_year3", "arc_sangchul_year3_father_passed", "arc_season_fireworks_daeun", "arc_season_fireworks_daeun_decision",
+          "arc_season_fireworks_daeun_dress", "arc_season_fireworks_daeun_river", "arc_season_fireworks_jiyeon", "arc_season_fireworks_jiyeon_decision",
+          "arc_season_fireworks_jiyeon_pace", "arc_season_fireworks_jiyeon_schedule", "arc_season_sea_daeun", "arc_season_sea_daeun_decision",
+          "arc_season_sea_daeun_horizon", "arc_season_sea_daeun_years", "arc_season_sea_jiyeon", "arc_season_sea_jiyeon_decision",
+          "arc_season_sea_jiyeon_route", "arc_season_sea_jiyeon_voice", "arc_temptation_01", "arc_temptation_clean",
+          "arc_why_gangnam_real", "arc_why_gangnam_real_father_passed", "arc_y3_jiyeon_departure", "arc_y3_sangchul_deeper_room",
+          "arc_y4_father_call_answered_on_ktx", "arc_y4_father_call_missed_on_ktx", "arc_y4_father_crisis_contact", "arc_y4_father_crisis_stabilized",
+          "arc_y4_father_final_contact_called", "arc_y4_father_final_contact_missed", "arc_y4_father_final_contact_present", "arc_y4_father_outcome_unknown",
+          "arc_y5_after_goal_daeun", "arc_y5_burnout_check_reference", "arc_y5_contract_cover_investment", "arc_y5_contract_reviewer_delivery_sangchul",
+          "arc_y5_final_offer", "arc_y5_final_offer_reference_delivery", "arc_y5_final_push_deadline_investment", "arc_y5_guarantee_protected_show_daeun",
+          "arc_y5_jaehyuk_father_document_reference", "arc_y5_jaehyuk_guarantee_decision_reference", "arc_y5_jaehyuk_guarantee_request_reference", "arc_y5_jaehyuk_return_call_reference",
+          "arc_y5_minseo_goal_cost_reference", "arc_y5_protection_boundary_daeun", "arc_y5_room_consent_receipt", "arc_y5_sangchul_review_receipt",
+          "arc_y5_three_in_room", "arc_y5_three_in_room_decision", "arc_year1_close", "arc_year1_close_father_passed",
+          "arc_year1_scene", "arc_year3_close", "arc_year4_close", "arc_year4_close_father_passed",
+          "arc_year_one_half", "arc_year_one_mark", "arc_year_three_half", "arc_year_two_half",
+          "arc_year_two_pressure", "butterfly_mystery_info_result_scam", "cafe_00", "cafe_caught_honest",
+          "cafe_cb_honest_00", "cafe_cb_honest_in", "cafe_cb_stole_00", "cafe_listen_01",
+          "cafe_peek_01", "callback_child_cost_grind", "callback_chose_money_father_echo", "callback_daeun_breakup_begged_echo",
+          "callback_daeun_daily_life_echo", "callback_father_confession_echo", "callback_guarantee_default", "callback_guarantee_refused_news",
+          "callback_investment_lesson_echo", "callback_jeonse_auction_insured", "callback_kkondae_respect", "callback_mindset_investor_echo",
+          "callback_tax_windfall", "father_hospital_results", "father_hospital_wait", "final_last_winter",
+          "flex_sns_envy", "hidden_whole_picture", "hyunsu_exam_day", "hyunsu_result_fail",
+          "hyunsu_result_pass", "hyunsu_reunion_later", "hyunsu_reunion_meet", "hyunsu_reunion_memory",
+          "hyunsu_reunion_photo", "hyunsu_study_together", "ng_recovery_echo", "recovery_first_week",
+          "story_arrival", "story_first_paycheck_feel", "story_first_paycheck_feel_father_passed", "story_first_savings_milestone",
+          "story_flashforward", "story_knee_choice", "story_knee_door", "story_knee_witness",
+          "story_last_payment_exit", "story_last_payment_wait", "story_last_payment_word", "story_pressure",
+          "story_prologue_dad", "story_prologue_goal", "story_prologue_meal", "story_six_months",
+          "v2_city_service_result_message", "v2_city_service_work_sample_message", "v2_convenience_trial_shift", "v2_daeun_return_after_distance",
+          "v2_daeun_return_named", "v2_daeun_small_commitment", "v2_daeun_third_greeting", "v2_daeun_tuesday_followthrough",
+          "v2_demo_first_bill", "v2_demo_first_bill_ledger", "v2_demo_first_bill_opening", "v2_dirty_recruiter_week24",
+          "v2_dirty_trace_initial_call", "v2_dodam_result_message", "v2_empty_sunday", "v2_father_health_signal",
+          "v2_gangnam_receipt_walk", "v2_hanbit_interview", "v2_hanbit_offer_message", "v2_hyunsu_exam_eve",
+          "v2_hyunsu_exam_morning_echo", "v2_hyunsu_first_study", "v2_hyunsu_player_reachout", "v2_hyunsu_study_followup",
+          "v2_inventory_count_nights", "v2_jaehyuk_message", "v2_jaehyuk_plain_reunion_echo", "v2_jiyeon_second_crossing",
+          "v2_logistics_class_session", "v2_m3_room_ledger_anchor", "v2_m4_housing_consultation_anchor", "v2_mirae_result_message",
+          "v2_moving_crew_days", "v2_opening_application_send", "v2_opening_return_math", "v2_sangchul_demo_echo",
+          "v2_sangchul_housing_lead", "v2_seorin_result_message", "yolo_morning_after"
         ],
     "cg_contract": [
           "arc_date_park_daeun", "arc_season_cherry_daeun", "arc_season_cherry_jiyeon", "arc_season_snow_daeun",
@@ -534,6 +539,7 @@
     "cg_demo_father_first_call": {"ambience": "room"},
     "cg_seollal_sebae_family": {"ambience": "room"},
     "cg_jaehyuk_reveal": {"ambience": "cafe"},
+    "cg_y5_three_in_room": {"ambience": "office"},
     "cg_ending_father": {"ambience": "hospital"},
     "cg_ending_gangnam_dream": {"ambience": "apartment"},
     "cg_ending_empty_house": {"ambience": "apartment"},
@@ -603,6 +609,131 @@
     "cg_ending_writer": {"ambience": "room"}
   },
   "events": {
+    "arc_y5_contract_cover_investment": {
+      "ambience": "current_housing",
+      "suppress_music": true,
+      "paragraph_cues": {
+        "0": [{"sfx": "phone_notification", "volume_db": -6.0}],
+        "1": [{"sfx": "page_turn", "volume_db": -8.0}]
+      }
+    },
+    "arc_y5_contract_reviewer_delivery_sangchul": {
+      "ambience": "current_housing",
+      "suppress_music": true,
+      "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -7.0}]}
+    },
+    "arc_y5_final_push_deadline_investment": {
+      "ambience": "current_housing",
+      "music": {"key": "reckoning", "start_paragraph": 1},
+      "paragraph_cues": {"1": [{"sfx": "paper_handle", "volume_db": -8.0}]}
+    },
+    "arc_y5_protection_boundary_daeun": {
+      "ambience": "cafe",
+      "music": {"key": "reckoning", "start_paragraph": 2},
+      "paragraph_cues": {"1": [{"sfx": "cup_set", "volume_db": -7.0}]}
+    },
+    "arc_y5_burnout_check_reference": {
+      "ambience": "hospital",
+      "suppress_music": true,
+      "paragraph_cues": {"1": [{"sfx": "paper_handle", "volume_db": -8.0}]}
+    },
+    "arc_y5_minseo_goal_cost_reference": {
+      "ambience": "cafe",
+      "suppress_music": true,
+      "paragraph_cues": {"0": [{"sfx": "cup_set", "volume_db": -8.0}]}
+    },
+    "arc_y5_after_goal_daeun": {
+      "ambience": "cafe",
+      "music": {"key": "daeun", "start_paragraph": 2},
+      "paragraph_cues": {"1": [{"sfx": "paper_handle", "volume_db": -8.0}]}
+    },
+    "arc_y5_final_offer": {
+      "ambience": "office",
+      "music": {"key": "reckoning", "start_paragraph": 2},
+      "paragraph_cues": {
+        "0": [{"sfx": "cup_set", "volume_db": -8.0}],
+        "1": [{"sfx": "paper_handle", "volume_db": -6.0}]
+      }
+    },
+    "arc_y5_final_offer_reference_delivery": {
+      "ambience": "office",
+      "suppress_music": true,
+      "paragraph_cues": {
+        "0": [{"sfx": "register_scan", "volume_db": -8.0}],
+        "1": [{"sfx": "page_turn", "volume_db": -8.0}]
+      }
+    },
+    "arc_y5_jaehyuk_guarantee_request_reference": {
+      "ambience": "current_housing",
+      "music": {"key": "reckoning", "start_paragraph": 1},
+      "paragraph_cues": {"0": [{"sfx": "phone_notification", "volume_db": -5.0}]}
+    },
+    "arc_y5_jaehyuk_return_call_reference": {
+      "ambience": "current_housing",
+      "music": {"key": "reckoning", "start_paragraph": 1},
+      "paragraph_cues": {"0": [{"sfx": "traffic_pass", "volume_db": -9.0}]}
+    },
+    "arc_y5_jaehyuk_father_document_reference": {
+      "ambience": "current_housing",
+      "music": {"key": "grief", "start_paragraph": 1},
+      "paragraph_cues": {"0": [{"sfx": "page_turn", "volume_db": -7.0}]}
+    },
+    "arc_y5_guarantee_protected_show_daeun": {
+      "ambience": "current_housing",
+      "music": {"key": "reckoning", "start_paragraph": 2},
+      "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -6.0}]}
+    },
+    "arc_y5_jaehyuk_guarantee_decision_reference": {
+      "ambience": "current_housing",
+      "music": {"key": "reckoning", "start_paragraph": 0},
+      "result_paragraph_cues": {
+        "0": {"0": [{"sfx": "phone_notification", "volume_db": -7.0}]},
+        "1": {"0": [{"sfx": "pen_write", "volume_db": -5.0}]},
+        "2": {"0": [{"sfx": "phone_notification", "volume_db": -7.0}]}
+      }
+    },
+    "arc_sangchul_final_door": {
+      "ambience": "office",
+      "music": {"key": "reckoning", "start_paragraph": 2},
+      "paragraph_cues": {
+        "0": [{"sfx": "door_latch", "volume_db": -7.0}],
+        "1": [{"sfx": "cup_set", "volume_db": -8.0}],
+        "3": [{"sfx": "paper_handle", "volume_db": -7.0}]
+      },
+      "result_paragraph_cues": {
+        "0": {"0": [{"sfx": "pen_write", "volume_db": -5.0}]}
+      }
+    },
+    "arc_y5_sangchul_review_receipt": {
+      "ambience": "office",
+      "music": {"key": "reckoning", "start_paragraph": 0},
+      "paragraph_cues": {
+        "0": [{"sfx": "paper_handle", "volume_db": -6.0}],
+        "1": [{"sfx": "door_latch", "volume_db": -9.0}]
+      }
+    },
+    "arc_y5_three_in_room": {
+      "ambience": "office",
+      "music": {"key": "reckoning", "start_paragraph": 2},
+      "paragraph_cues": {
+        "0": [{"sfx": "paper_handle", "volume_db": -7.0}],
+        "1": [{"sfx": "cup_set", "volume_db": -8.0}]
+      }
+    },
+    "arc_y5_three_in_room_decision": {
+      "ambience": "office",
+      "music": {"key": "reckoning", "start_paragraph": 0},
+      "result_paragraph_cues": {
+        "0": {"0": [{"sfx": "paper_handle", "volume_db": -6.0}]},
+        "1": {"0": [{"sfx": "pen_write", "volume_db": -5.0}]},
+        "2": {"0": [{"sfx": "pen_write", "volume_db": -6.0}]}
+      }
+    },
+    "arc_y5_room_consent_receipt": {
+      "ambience": "office",
+      "music": {"key": "reckoning", "start_paragraph": 0},
+      "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -6.0}]}
+    },
     "arc_year_one_mark": {"ambience": "current_housing", "suppress_music": true},
     "arc_year_one_half": {"ambience": "convenience", "suppress_music": true},
     "arc_34_two_years_in": {"ambience": "current_housing", "suppress_music": true},

@@ -1,0 +1,355 @@
+{
+  "schema_version": 1,
+  "ledger_id": "chapter5_m49_m55_causal_route_v1",
+  "choice_index_base": 0,
+  "expected_root_count": 19,
+  "expected_choice_count": 47,
+  "entry_contract": {
+    "route_id": "investment_property",
+    "turn": 195,
+    "economic_route": "investment",
+    "asset_band": "at_least_2b",
+    "actor_bindings": {
+      "chooser": "player",
+      "proposer": "sangchul",
+      "reviewer": "sangchul",
+      "protected_person": "daeun",
+      "guarantee_party": "jaehyuk",
+      "cost_witness": "minseo"
+    }
+  },
+  "roots": [
+    {
+      "sequence": 1,
+      "month": 49,
+      "turn": 195,
+      "week": 195,
+      "event_id": "arc_y5_contract_cover_investment",
+      "root_id": "arc_y5_contract_cover_investment",
+      "choice_count": 3,
+      "tier": "T2",
+      "actor_bindings": {"chooser": "player", "protected_person": "daeun"},
+      "condition": null,
+      "requires_choice": null,
+      "choices": [
+        {"index": 0, "receipts": [{"receipt_type": "document_observation", "receipt_id": "m49_r3_amounts_and_shortfall", "document_ids": ["GD-P25-R3"]}]},
+        {"index": 1, "receipts": [{"receipt_type": "document_observation", "receipt_id": "m49_r3_loss_cap_exceptions", "document_ids": ["GD-P25-R3"]}]},
+        {"index": 2, "receipts": [{"receipt_type": "document_observation", "receipt_id": "m49_r3_daeun_unsigned_name", "document_ids": ["GD-P25-R3"]}]}
+      ]
+    },
+    {
+      "sequence": 2,
+      "month": 49,
+      "turn": 196,
+      "week": 196,
+      "event_id": "arc_y5_contract_reviewer_delivery_sangchul",
+      "root_id": "arc_y5_contract_reviewer_delivery_sangchul",
+      "choice_count": 3,
+      "tier": "T2",
+      "actor_bindings": {"chooser": "player", "reviewer": "sangchul", "protected_person": "daeun"},
+      "condition": null,
+      "requires_choice": null,
+      "choices": [
+        {"index": 0, "receipts": [{"receipt_type": "document_delivery", "receipt_id": "m49_r3_full_delivery_shortfall_first", "document_ids": ["GD-P25-R3"]}]},
+        {"index": 1, "receipts": [{"receipt_type": "document_delivery", "receipt_id": "m49_r3_full_delivery_liability_first", "document_ids": ["GD-P25-R3"]}]},
+        {"index": 2, "receipts": [{"receipt_type": "document_delivery", "receipt_id": "m49_r3_full_delivery_deadline_first", "document_ids": ["GD-P25-R3"]}]}
+      ]
+    },
+    {
+      "sequence": 3,
+      "month": 50,
+      "turn": 197,
+      "week": 197,
+      "event_id": "arc_y5_final_push_deadline_investment",
+      "root_id": "arc_y5_final_push_deadline_investment",
+      "choice_count": 3,
+      "tier": "T2",
+      "actor_bindings": {"chooser": "player"},
+      "condition": null,
+      "requires_choice": null,
+      "choices": [
+        {"index": 0, "receipts": [{"receipt_type": "deadline_response", "receipt_id": "m50_shortfall_disclosed_extension_requested", "document_ids": ["GD-P25-R3"]}]},
+        {"index": 1, "receipts": [{"receipt_type": "deadline_response", "receipt_id": "m50_same_terms_midnight_deadline", "document_ids": ["GD-P25-R3"]}]},
+        {"index": 2, "receipts": [{"receipt_type": "deadline_response", "receipt_id": "m50_shared_liability_refused_lower_fee", "document_ids": ["GD-P25-R3"]}]}
+      ]
+    },
+    {
+      "sequence": 4,
+      "month": 50,
+      "turn": 200,
+      "week": 200,
+      "event_id": "arc_y5_protection_boundary_daeun",
+      "root_id": "arc_y5_protection_boundary_daeun",
+      "choice_count": 3,
+      "tier": "T2",
+      "actor_bindings": {"chooser": "player", "protected_person": "daeun"},
+      "condition": null,
+      "requires_choice": null,
+      "choices": [
+        {"index": 0, "receipts": [{"receipt_type": "document_comparison", "receipt_id": "m50_daeun_limit_delta_read_aloud", "document_ids": ["GD-P25-R3", "GD-P25-R4-SELF"]}]},
+        {"index": 1, "receipts": [{"receipt_type": "document_comparison", "receipt_id": "m50_daeun_draft_and_deletion_timestamps", "document_ids": ["GD-P25-R3", "GD-P25-R4-SELF"]}]},
+        {"index": 2, "receipts": [{"receipt_type": "document_comparison", "receipt_id": "m50_daeun_weekend_night_clause", "document_ids": ["GD-P25-R3", "GD-P25-R4-SELF"]}]}
+      ]
+    },
+    {
+      "sequence": 5,
+      "month": 51,
+      "turn": 201,
+      "week": 201,
+      "event_id": "arc_y5_burnout_check_reference",
+      "root_id": "arc_y5_burnout_check_reference",
+      "choice_count": 3,
+      "tier": "T2",
+      "actor_bindings": {"chooser": "player", "reader": "clinician"},
+      "condition": null,
+      "requires_choice": null,
+      "choices": [
+        {"index": 0, "receipts": [{"receipt_type": "medical_evidence", "receipt_id": "m51_fourteen_day_sleep_log", "document_ids": ["Y5-CLINIC-INTAKE-COPY"]}]},
+        {"index": 1, "receipts": [{"receipt_type": "medical_evidence", "receipt_id": "m51_tremor_video_timestamps", "document_ids": ["Y5-CLINIC-INTAKE-COPY"]}]},
+        {"index": 2, "receipts": [{"receipt_type": "medical_evidence", "receipt_id": "m51_actual_work_hours", "document_ids": ["Y5-CLINIC-INTAKE-COPY"]}]}
+      ]
+    },
+    {
+      "sequence": 6,
+      "month": 51,
+      "turn": 203,
+      "week": 203,
+      "event_id": "arc_y5_minseo_goal_cost_reference",
+      "root_id": "arc_y5_minseo_goal_cost_reference",
+      "choice_count": 3,
+      "tier": "T2",
+      "actor_bindings": {"chooser": "player", "reader": "minseo"},
+      "condition": null,
+      "requires_choice": null,
+      "choices": [
+        {"index": 0, "receipts": [{"receipt_type": "cost_reading", "receipt_id": "m51_body_cost_selected_clinic_evidence", "document_ids": ["Y5-CLINIC-INTAKE-COPY"]}]},
+        {"index": 1, "receipts": [{"receipt_type": "cost_reading", "receipt_id": "m51_people_cost_weekend_night", "document_ids": ["GD-P25-R4-SELF"]}]},
+        {"index": 2, "receipts": [{"receipt_type": "cost_reading", "receipt_id": "m51_money_cost_shortfall", "document_ids": ["GD-P25-R3"]}]}
+      ]
+    },
+    {
+      "sequence": 7,
+      "month": 51,
+      "turn": 204,
+      "week": 204,
+      "event_id": "arc_y5_after_goal_daeun",
+      "root_id": "arc_y5_after_goal_daeun",
+      "choice_count": 3,
+      "tier": "T2",
+      "actor_bindings": {"chooser": "player", "protected_person": "daeun"},
+      "condition": null,
+      "requires_choice": null,
+      "choices": [
+        {"index": 0, "receipts": [{"receipt_type": "time_boundary", "receipt_id": "m51_one_evening_no_contract_calls", "document_ids": ["Y5-GOAL-COST-NAPKIN"]}]},
+        {"index": 1, "receipts": [{"receipt_type": "time_boundary", "receipt_id": "m51_one_sunday_reserved_first", "document_ids": ["Y5-GOAL-COST-NAPKIN"]}]},
+        {"index": 2, "receipts": [{"receipt_type": "time_boundary", "receipt_id": "m51_body_family_stop_first", "document_ids": ["Y5-GOAL-COST-NAPKIN"]}]}
+      ]
+    },
+    {
+      "sequence": 8,
+      "month": 52,
+      "turn": 207,
+      "week": 207,
+      "event_id": "arc_y5_final_offer",
+      "root_id": "arc_y5_final_offer",
+      "choice_count": 3,
+      "tier": "T2",
+      "actor_bindings": {"chooser": "player", "proposer": "sangchul", "reviewer": "sangchul", "protected_person": "daeun"},
+      "condition": null,
+      "requires_choice": null,
+      "choices": [
+        {"index": 0, "receipts": [{"receipt_type": "offer_response", "receipt_id": "m52_conflicted_reviewer_requested", "document_ids": ["Y5-FINAL-OFFER-7P", "FATHER-GUARANTEE-SCAN"]}]},
+        {"index": 1, "receipts": [{"receipt_type": "offer_response", "receipt_id": "m52_daeun_name_removed_reprice", "document_ids": ["Y5-FINAL-OFFER-7P"]}]},
+        {"index": 2, "receipts": [{"receipt_type": "offer_response", "receipt_id": "m52_daeun_reads_before_decision", "document_ids": ["Y5-FINAL-OFFER-7P"]}]}
+      ]
+    },
+    {
+      "sequence": 9,
+      "month": 52,
+      "turn": 208,
+      "week": 208,
+      "event_id": "arc_y5_final_offer_reference_delivery",
+      "root_id": "arc_y5_final_offer_reference_delivery",
+      "choice_count": 1,
+      "tier": "T2",
+      "actor_bindings": {"chooser": "player", "proposer": "sangchul", "recipient": "daeun"},
+      "condition": null,
+      "requires_choice": null,
+      "choices": [
+        {"index": 0, "receipts": [{"receipt_type": "document_delivery", "receipt_id": "m52_same_seven_pages_delivered_to_sangchul_and_daeun", "document_ids": ["Y5-FINAL-OFFER-7P"]}]}
+      ]
+    },
+    {
+      "sequence": 10,
+      "month": 53,
+      "turn": 209,
+      "week": 209,
+      "event_id": "arc_y5_jaehyuk_guarantee_request_reference",
+      "root_id": "arc_y5_jaehyuk_guarantee_request_reference",
+      "choice_count": 1,
+      "tier": "T2",
+      "actor_bindings": {"chooser": "player", "requester": "jaehyuk"},
+      "condition": null,
+      "requires_choice": null,
+      "choices": [
+        {"index": 0, "receipts": [{"receipt_type": "document_custody", "receipt_id": "m53_jaehyuk_request_pdf_arrival", "document_ids": ["JAEHYUK-GUARANTEE-PDF"]}]}
+      ]
+    },
+    {
+      "sequence": 11,
+      "month": 53,
+      "turn": 210,
+      "week": 210,
+      "event_id": "arc_y5_jaehyuk_return_call_reference",
+      "root_id": "arc_y5_jaehyuk_return_call_reference",
+      "choice_count": 3,
+      "tier": "T2",
+      "actor_bindings": {"chooser": "player", "requester": "jaehyuk"},
+      "condition": null,
+      "requires_choice": null,
+      "choices": [
+        {"index": 0, "receipts": [{"receipt_type": "call_answer", "receipt_id": "m53_debtor_relationship_answer", "document_ids": ["JAEHYUK-GUARANTEE-PDF"]}]},
+        {"index": 1, "receipts": [{"receipt_type": "call_answer", "receipt_id": "m53_total_and_guarantee_scope_answer", "document_ids": ["JAEHYUK-GUARANTEE-PDF"]}]},
+        {"index": 2, "receipts": [{"receipt_type": "call_answer", "receipt_id": "m53_friend_name_reason_answer", "document_ids": ["JAEHYUK-GUARANTEE-PDF"]}]}
+      ]
+    },
+    {
+      "sequence": 12,
+      "month": 53,
+      "turn": 210,
+      "week": 210,
+      "event_id": "arc_y5_jaehyuk_father_document_reference",
+      "root_id": "arc_y5_jaehyuk_father_document_reference",
+      "choice_count": 1,
+      "tier": "T2",
+      "actor_bindings": {"chooser": "player", "requester": "jaehyuk", "prior_guarantor": "father"},
+      "condition": null,
+      "requires_choice": null,
+      "choices": [
+        {"index": 0, "receipts": [{"receipt_type": "document_comparison", "receipt_id": "m53_father_and_jaehyuk_separate_comparison", "document_ids": ["FATHER-GUARANTEE-SCAN", "JAEHYUK-GUARANTEE-PDF"]}]}
+      ]
+    },
+    {
+      "sequence": 13,
+      "month": 53,
+      "turn": 211,
+      "week": 211,
+      "event_id": "arc_y5_guarantee_protected_show_daeun",
+      "root_id": "arc_y5_guarantee_protected_show_daeun",
+      "choice_count": 3,
+      "tier": "T2",
+      "actor_bindings": {"chooser": "player", "protected_person": "daeun", "requester": "jaehyuk", "prior_guarantor": "father"},
+      "condition": null,
+      "requires_choice": null,
+      "choices": [
+        {"index": 0, "receipts": [{"receipt_type": "protected_delivery", "receipt_id": "m53_guarantee_money_scope_shown_first", "document_ids": ["JAEHYUK-GUARANTEE-PDF", "FATHER-GUARANTEE-SCAN"]}]},
+        {"index": 1, "receipts": [{"receipt_type": "protected_delivery", "receipt_id": "m53_guarantee_names_comparison_shown_first", "document_ids": ["JAEHYUK-GUARANTEE-PDF", "FATHER-GUARANTEE-SCAN"]}]},
+        {"index": 2, "receipts": [{"receipt_type": "protected_delivery", "receipt_id": "m53_guarantee_custody_timestamps_shown_first", "document_ids": ["JAEHYUK-GUARANTEE-PDF", "FATHER-GUARANTEE-SCAN"]}]}
+      ]
+    },
+    {
+      "sequence": 14,
+      "month": 53,
+      "turn": 212,
+      "week": 212,
+      "event_id": "arc_y5_jaehyuk_guarantee_decision_reference",
+      "root_id": "arc_y5_jaehyuk_guarantee_decision_reference",
+      "choice_count": 3,
+      "tier": "T2",
+      "actor_bindings": {"chooser": "player", "requester": "jaehyuk", "protected_person": "daeun"},
+      "condition": null,
+      "requires_choice": null,
+      "choices": [
+        {"index": 0, "receipts": [{"receipt_type": "guarantee_decision", "receipt_id": "m53_guarantee_refused_channel_open", "document_ids": ["JAEHYUK-GUARANTEE-PDF"]}]},
+        {"index": 1, "receipts": [{"receipt_type": "guarantee_decision", "receipt_id": "m53_guarantee_e_signed", "document_ids": ["JAEHYUK-GUARANTEE-PDF"]}]},
+        {"index": 2, "receipts": [{"receipt_type": "guarantee_decision", "receipt_id": "m53_guarantee_request_blocked", "document_ids": ["JAEHYUK-GUARANTEE-PDF"]}]}
+      ]
+    },
+    {
+      "sequence": 15,
+      "month": 54,
+      "turn": 215,
+      "week": 215,
+      "event_id": "arc_sangchul_final_door",
+      "root_id": "arc_sangchul_final_door",
+      "choice_count": 3,
+      "tier": "T2",
+      "actor_bindings": {"chooser": "player", "proposer": "sangchul", "reviewer": "sangchul"},
+      "condition": null,
+      "requires_choice": null,
+      "choices": [
+        {"index": 0, "receipts": [{"receipt_type": "review_action", "receipt_id": "m54_single_risk_clause_circled", "document_ids": ["Y5-FINAL-OFFER-7P", "JAEHYUK-GUARANTEE-PDF"]}]},
+        {"index": 1, "receipts": [{"receipt_type": "review_action", "receipt_id": "m54_sangchul_name_conflict_exposed", "document_ids": ["Y5-FINAL-OFFER-7P"]}]},
+        {"index": 2, "receipts": [{"receipt_type": "review_action", "receipt_id": "m54_review_time_recorded", "document_ids": ["Y5-FINAL-OFFER-7P", "JAEHYUK-GUARANTEE-PDF"]}]}
+      ]
+    },
+    {
+      "sequence": 16,
+      "month": 54,
+      "turn": 216,
+      "week": 216,
+      "event_id": "arc_y5_sangchul_review_receipt",
+      "root_id": "arc_y5_sangchul_review_receipt",
+      "choice_count": 1,
+      "tier": "T2",
+      "actor_bindings": {"chooser": "player", "proposer": "sangchul", "reviewer": "sangchul"},
+      "condition": {"event_id": "arc_sangchul_final_door", "choice_index": 0},
+      "requires_choice": {"event_id": "arc_sangchul_final_door", "choice_index": 0},
+      "choices": [
+        {"index": 0, "receipts": [{"receipt_type": "review_receipt", "receipt_id": "m54_red_circle_photo_timestamp", "document_ids": ["Y5-FINAL-OFFER-7P", "JAEHYUK-GUARANTEE-PDF", "SANGCHUL-RISK-CIRCLE-PHOTO"]}]}
+      ]
+    },
+    {
+      "sequence": 17,
+      "month": 55,
+      "turn": 217,
+      "week": 217,
+      "event_id": "arc_y5_three_in_room",
+      "root_id": "arc_y5_three_in_room",
+      "choice_count": 3,
+      "tier": "T2",
+      "actor_bindings": {"chooser": "player", "guarantee_party": "jaehyuk", "proposer": "sangchul", "reviewer": "sangchul", "protected_person": "daeun"},
+      "condition": null,
+      "requires_choice": null,
+      "choices": [
+        {"index": 0, "receipts": [{"receipt_type": "meeting_position", "receipt_id": "m55_all_documents_opened_together", "document_ids": ["Y5-FINAL-OFFER-7P", "JAEHYUK-GUARANTEE-PDF"]}]},
+        {"index": 1, "receipts": [{"receipt_type": "meeting_position", "receipt_id": "m55_sangchul_asks_first", "document_ids": ["Y5-FINAL-OFFER-7P", "JAEHYUK-GUARANTEE-PDF"]}]},
+        {"index": 2, "receipts": [{"receipt_type": "meeting_position", "receipt_id": "m55_daeun_reads_first", "document_ids": ["Y5-FINAL-OFFER-7P", "JAEHYUK-GUARANTEE-PDF"]}]}
+      ]
+    },
+    {
+      "sequence": 18,
+      "month": 55,
+      "turn": 219,
+      "week": 219,
+      "event_id": "arc_y5_three_in_room_decision",
+      "root_id": "arc_y5_three_in_room_decision",
+      "choice_count": 3,
+      "tier": "T2",
+      "actor_bindings": {"chooser": "player", "guarantee_party": "jaehyuk", "proposer": "sangchul", "reviewer": "sangchul", "protected_person": "daeun"},
+      "condition": null,
+      "requires_choice": null,
+      "choices": [
+        {"index": 0, "receipts": [{"receipt_type": "room_decision", "receipt_id": "m55_daeun_name_removed_reprice", "document_ids": ["Y5-FINAL-OFFER-7P", "JAEHYUK-GUARANTEE-PDF"]}]},
+        {"index": 1, "receipts": [{"receipt_type": "room_decision", "receipt_id": "m55_daeun_handwrites_scope_and_term", "document_ids": ["Y5-FINAL-OFFER-7P", "JAEHYUK-GUARANTEE-PDF", "DAEUN-HANDWRITTEN-CONSENT"]}]},
+        {"index": 2, "receipts": [{"receipt_type": "room_decision", "receipt_id": "m55_original_terms_resumed", "document_ids": ["Y5-FINAL-OFFER-7P", "JAEHYUK-GUARANTEE-PDF"]}]}
+      ]
+    },
+    {
+      "sequence": 19,
+      "month": 55,
+      "turn": 220,
+      "week": 220,
+      "event_id": "arc_y5_room_consent_receipt",
+      "root_id": "arc_y5_room_consent_receipt",
+      "choice_count": 1,
+      "tier": "T2",
+      "actor_bindings": {"chooser": "player", "guarantee_party": "jaehyuk", "proposer": "sangchul", "reviewer": "sangchul", "protected_person": "daeun"},
+      "condition": {"event_id": "arc_y5_three_in_room_decision", "choice_index": 1},
+      "requires_choice": {"event_id": "arc_y5_three_in_room_decision", "choice_index": 1},
+      "choices": [
+        {"index": 0, "receipts": [{"receipt_type": "consent_receipt", "receipt_id": "m55_handwritten_scope_original_separate_custody", "document_ids": ["Y5-FINAL-OFFER-7P", "JAEHYUK-GUARANTEE-PDF", "DAEUN-HANDWRITTEN-CONSENT"]}]}
+      ]
+    }
+  ]
+}

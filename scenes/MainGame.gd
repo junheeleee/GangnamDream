@@ -7,6 +7,7 @@ const STEAM_APP_ID := "STEAM_APP_ID"  # TODO: Steamworks 등록 후 실제 App I
 const STEAM_FALLBACK_URL := "https://store.steampowered.com/search/?term=Gangnam%20Dream"
 const SEOUL_MAP_STRIP_SCRIPT = preload("res://ui_components/SeoulMapStrip.gd")
 const DEMO_CORE_LOOP_V2 = preload("res://systems/DemoCoreLoopV2.gd")
+const CHAPTER5_CAUSAL_ROUTE = preload("res://systems/Chapter5CausalRoute.gd")
 const CORE_LOOP_PLANNER_SCRIPT = preload("res://scenes/CoreLoopPlanner.gd")
 const SEOUL_CYCLE_BOARD_SCRIPT = preload("res://scenes/SeoulCycleBoard.gd")
 const CORE_LOOP_V2_COMPLETION_SCRIPT = preload(
@@ -459,6 +460,15 @@ func _continue_after_story():
 	if DEMO_CORE_LOOP_V2.is_active():
 		_core_loop_v2_continue_after_story()
 		return
+	# W210 has two ordered roots. If the first returned through an interrupted
+	# queue, the exact call receipt may open the second before this week closes.
+	if _route_chapter5_causal_week(true):
+		return
+	# These scenes are the player's action for their protected week. Once every
+	# active root for the week has an exact receipt, close the calendar slot
+	# without reopening the generic three-card AP board.
+	if _complete_chapter5_causal_week_after_story():
+		return
 	if _route_opening_chapter_if_pending():
 		return
 	var followup_activity := _take_story_followup_activity()
@@ -484,6 +494,25 @@ func _continue_after_story():
 	if _demo_director_requires_player_input():
 		TutorialOverlay.maybe_show("main_game", self)
 	_demo_director_route_week()
+
+func _route_chapter5_causal_week(keep_cover: bool = false) -> bool:
+	# Bind the investment route and its actual cast before W195 is displayed.
+	# The exact context then survives later price/relationship movement and save.
+	if GameState.turn == CHAPTER5_CAUSAL_ROUTE.ENTRY_TURN:
+		GameState.prepare_chapter5_causal_route_entry()
+	var event_id := GameState.chapter5_causal_next_event_for_turn()
+	if event_id.is_empty() or not CHAPTER5_CAUSAL_ROUTE.is_owned_event(event_id):
+		return false
+	_go_story_mode([event_id], keep_cover)
+	return true
+
+func _complete_chapter5_causal_week_after_story() -> bool:
+	if not GameState.chapter5_causal_week_completed():
+		return false
+	SceneTransition.fade_in()
+	current_event = {}
+	_demo_director_finish_auto_week()
+	return true
 
 func _core_loop_v2_continue_after_story() -> void:
 	DEMO_CORE_LOOP_V2.restore_story_bundle_followups()
@@ -6106,6 +6135,10 @@ func _begin_month_story_and_render():
 	if DEMO_CORE_LOOP_V2.is_active():
 		_core_loop_v2_route_week()
 		return
+	# The causal route owns its exact story-map week before legacy arcs,
+	# milestones, Event Director echoes, or the generic AP surface can claim it.
+	if _route_chapter5_causal_week():
+		return
 	if _route_opening_chapter_if_pending():
 		return
 	# 아크 이벤트 (인물 스토리) — 마일스톤보다 우선. 정식 구간에서는
@@ -6438,6 +6471,16 @@ func _deferred_foreground_event_id(
 		var event_id := str(entry.get("event_id", "")).strip_edges()
 		var trigger_turn := int(entry.get("trigger_turn", -1))
 		if event_id.is_empty():
+			continue
+		# The product-owned W209-W212 chain relocates Jaehyuk's one canonical
+		# guarantee decision. Keep its old one-week deferred reservation intact
+		# until W209 can release the legacy fallback or a W195 entry lock proves
+		# that the expanded decision owns it. The W212 outcome then makes this
+		# stale reservation ineligible and the normal branch below discards it.
+		if event_id == "arc_jaehyuk_mirror" \
+				and GameState.chapter5_causal_guarantee_relocation_reserved() \
+				and (GameState.turn < 209 \
+					or not GameState.chapter5_causal_entry_snapshot().is_empty()):
 			continue
 		if not EventManager.deferred_event_is_eligible(event_id):
 			# Display and montage guards are observational. Only the actual
@@ -7367,6 +7410,8 @@ func _next_arc_id(
 	if t >= 205 and t <= 215 \
 			and f.get("arc_37_reckoning_seen", false) \
 			and f.get("arc_final_year_start_seen", false) \
+			and GameState.player_route == CHAPTER5_CAUSAL_ROUTE.ENTRY_PLAYER_ROUTE \
+			and f.get("route_invest", false) \
 			and GameState.get_total_asset_value() < 2_800_000_000.0 \
 			and not f.get("arc_late_game_push_seen", false):
 		return "arc_late_game_push"
@@ -7455,7 +7500,10 @@ func _next_arc_id(
 			and not f.get("arc_jaehyuk_aftermath_seen", false):
 		return "arc_jaehyuk_aftermath"
 	# ── 재혁 거울 — 보증 요청, 아버지 실수의 반복 (aftermath 이후) ──
-	if t >= 60 and f.get("arc_jaehyuk_aftermath_seen", false) \
+	var jaehyuk_mirror_min_turn := 209 \
+		if GameState.chapter5_causal_guarantee_relocation_reserved() else 60
+	if t >= jaehyuk_mirror_min_turn \
+			and f.get("arc_jaehyuk_aftermath_seen", false) \
 			and not f.get("refused_jaehyuk_guarantee", false) \
 			and not f.get("vouched_jaehyuk_guarantee", false) \
 			and not f.get("blocked_jaehyuk_guarantee", false) \
@@ -7712,11 +7760,13 @@ func _next_arc_id(
 
 	# 이민서 — 강남 도착 페이오프 (Y5, 목표 근접 시 그녀의 경고가 회수된다)
 	if t >= 200 and f.get("arc_minseo_02_seen", false) \
+			and not GameState.chapter5_causal_product_path_available() \
 			and not f.get("arc_minseo_03_seen", false) \
 			and GameState.get_total_asset_value() >= 2_000_000_000.0:
 		return "arc_minseo_03_arrival"
 	# 이민서 — 미달 런 변주 (도착 못 해도 '그 목표가 네 거였냐'는 주제는 똑같이 회수된다)
 	if t >= 200 and f.get("arc_minseo_02_seen", false) \
+			and not GameState.chapter5_causal_product_path_available() \
 			and not f.get("arc_minseo_03_seen", false) \
 			and GameState.get_total_asset_value() < 2_000_000_000.0:
 		return "arc_minseo_03b_not_arrived"

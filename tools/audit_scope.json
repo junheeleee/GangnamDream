@@ -406,6 +406,13 @@
       ]
     },
     {
+      "tool": "tools/audit.py --self-test-chapter5-direct-wiring",
+      "why": "5장 direct receipt 소유 루트만 inert 예외이며 임의·배선 제거 사건은 다시 적발되는지 변이 검사",
+      "paths": [
+        "tools/audit.py"
+      ]
+    },
+    {
       "tool": "tools/opportunity_money_audit.py",
       "why": "기회 선택 19개·15사건·7파일과 두 현금 부족 무상태 대체 선택의 정적 원장",
       "paths": [
@@ -698,6 +705,32 @@
         "content/meta/event_lifecycle.json",
         "scenes/MainGame.gd",
         "tools/chapter4_causal_route_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/chapter5_causal_route_audit.py --self-test",
+      "why": "5장 19루트·47선택·순서·T2·참조 경로 보호 mutation 자체 검사",
+      "paths": [
+        "tools/chapter5_causal_route_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/chapter5_causal_route_audit.py",
+      "why": "5장 M49~M55 direct ingress·exact receipt·author_only -19·reference 32/86 consumer0·instant_legend 보호",
+      "paths": [
+        "autoloads/GameState.gd",
+        "content/events/**",
+        "content/events_en/**",
+        "content/meta/chapter5_causal_ledger.json",
+        "content/meta/event_lifecycle.json",
+        "content/meta/story_map.json",
+        "content/meta/year5_reference_routes.json",
+        "docs/SCENE_TIER.md",
+        "scenes/MainGame.gd",
+        "scenes/StoryMode.gd",
+        "systems/Chapter5CausalRoute.gd",
+        "systems/Year5ReferenceRouteKernel.gd",
+        "tools/chapter5_causal_route_audit.py"
       ]
     },
     {
@@ -1523,7 +1556,9 @@
       "paths": [
         "autoloads/SaveManager.gd",
         "autoloads/GameState.gd",
+        "content/meta/chapter5_causal_ledger.json",
         "scenes/StoryMode.gd",
+        "systems/Chapter5CausalRoute.gd",
         "tools/ManualSaveCheck.gd",
         "tools/ManualSaveCheck.gd.uid",
         "tools/ManualSaveCheck.tscn"
@@ -1836,8 +1871,27 @@
       "godot": true,
       "why": "작성형 선택 수직 단면",
       "paths": [
+        "autoloads/GameState.gd",
         "content/events/**",
-        "scenes/MainGame.gd"
+        "content/meta/chapter5_causal_ledger.json",
+        "scenes/MainGame.gd",
+        "systems/Chapter5CausalRoute.gd",
+        "tools/CoreChoiceSliceCheck.gd"
+      ]
+    },
+    {
+      "tool": "tools/Chapter5CausalRouteCheck.tscn",
+      "godot": true,
+      "why": "5장 exact receipt write-once·idempotent·save/load·corrupt/legacy fail-closed·조건부 ingress 런타임",
+      "paths": [
+        "autoloads/GameState.gd",
+        "content/meta/chapter5_causal_ledger.json",
+        "scenes/MainGame.gd",
+        "scenes/StoryMode.gd",
+        "systems/Chapter5CausalRoute.gd",
+        "tools/Chapter5CausalRouteCheck.gd",
+        "tools/Chapter5CausalRouteCheck.gd.uid",
+        "tools/Chapter5CausalRouteCheck.tscn"
       ]
     },
     {

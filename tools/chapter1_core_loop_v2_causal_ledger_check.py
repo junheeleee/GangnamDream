@@ -3319,6 +3319,31 @@ _ORDER132_PROOF_BINDING_OVERRIDES = {
 }
 _FROZEN_AUDITED_MAPS["proof_bindings"].update(
     _ORDER132_PROOF_BINDING_OVERRIDES)
+_ORDER133_PROOF_BINDING_OVERRIDES = {
+    'proof:runtime:serialize_core_loop_v2_state': 'c438dc446393f656338071b8434cd313e7b299dafe3c59cb4262d85d80be6ce1',
+    'proof:runtime:load_core_loop_v2_state': '5d0b315aecd0e6968f1993358d166a4c37703f477f0703fbfae891fe1c6d6bbc',
+    'proof:co_presence:group_w24_story_scene': 'e1d0ae9708037f7640b6253b7e1791139cbd0634f973591ecb7ea66a6b9ea562',
+    'proof:execution_stage:w04_w03_hyunsu_choice': 'd6a383fc2e5938a244a0684d0c15c3f61085376a26bc5a1f4680850271499e5b',
+    'proof:execution_stage:w04_w04_temptation_choice': '8eb6383aea49b44f42e996d7320e48e3104329d87b8667ee040093af4665af39',
+    'proof:execution_stage:w08_w05_mirae_choice': '90c98ce0f020fcee6a579cf47938cbe2a6b5860e6afa398513e4ec58b6bac78f',
+    'proof:execution_stage:w08_w08_temptation_choice': '3b7366a78cd4a06b8d4dd5d11d44f1263cdbb0aa60e7c851ab0a3027d9e46ecb',
+    'proof:execution_stage:w12_w09_seorin_choice': '2f40d370d6d32f77dcb94c6b15cf5637dbe0c58289cd5eee1751ad5d7de8af50',
+    'proof:execution_stage:w20_w17_hanbit_choice': 'e567e66a4c82777d59a3671246d47c8402f13d7ecc423f08a5e97c047702af71',
+    'proof:execution_stage:w24_w21_father_choice': '371082350e48f2916e48475842c200c2d94be4236fb6fa69f4347585c3cda3e3',
+    'proof:execution_stage:w24_w22_dodam_choice': '1e92449e3899dd7a5f3896e2b9990cc2afc92f3bd0390cb207a24911020fc572',
+    'proof:execution_stage:w24_w22_gangnam_choice': 'ff32d873f853bf18a9a26ece056c03be6717e0f47f5bfa8577bb15cebdc7716d',
+    'proof:execution_stage:w24_w23_city_choice': 'fb5ad081ffaa55a2c2c93c1d76aa266fb80bade00ee59769509a71602f66e7f9',
+    'proof:runtime:story_mode_choice_full_transaction': '7f2c6f9be288f2903966d557afa04048aebfefd92e1ace17118c3c2e81c52c03',
+    'proof:runtime:story_resume_restore_result': '36df77a00a5d325a8a5feb5cf2a97bdebb7af1e3175a4b0e24fa0bca220c1162',
+    'proof:runtime:first_bill_fatal_return': 'b33aaecef4f07b54964d1eef09b331db5a88a10a3985bd29f9ee519009577f4b',
+    'proof:runtime:w24_hyunsu_result_formatter_reachability': 'c06054c4befeafd06281d57a1fb9b222210aa22cebcc2f3f07dc6bcecd65b5ba',
+    'proof:runtime:w24_ledger_description_memory_rendered': '3b5dd8afe470222fe89b914d5cae53bb3e459cd2e7ab25c72999cbabaaaeebe3',
+    'proof:exclusive:w24_stage_first_bill_result_route': '76dc7aa3141f7a1fcddfc4464f2d1d9ce626d7b636e767bf25971471a66a99cd',
+    'proof:execution_stage:w24_hyunsu_morning_resume_restore_result': 'de4b7739c7c91d5af330df243bbe06d15711211fe2588cda31390b70c91ee1a8',
+    'proof:exclusive:w24_stage_hyunsu_result_format': 'da1efe61f3f5e830d5b6d54d98a355ec51e03c7d36f148f6b8d0a05c2c6c4adf',
+}
+_FROZEN_AUDITED_MAPS["proof_bindings"].update(
+    _ORDER133_PROOF_BINDING_OVERRIDES)
 _ORDER101_INVOCATION_CONTRACT_OVERRIDES = {
     'reader:milestone:w24:completion_validation:fresh': 'f0226b81ca161f961526c82d1dd9d8a87d4de3411fdda75c0e1c271759f59d54',
     'reader:milestone:w24:completion_validation:loaded': '71a40c4050c89fecff25b0d4e22aad83affa4004bdb4cf9a988e736655bdf4d9',
@@ -3369,7 +3394,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "tools/StoryPlaybackCheck.gd":
         "c6210f9687573353da8d0b429edc85f3016d8084c2914226f54d12cd8c657edb",
     "autoloads/GameState.gd":
-        "88489ef23ba4e8482db8b1c7e3f8727d8a7d240cded4901d51ad5186b39ce829",
+        "ba0efa033c36c778140f0361a7efb233d31a1d849afed25f82ae131f2b1d2cbd",
     "autoloads/DataRegistry.gd":
         "d442e9af4e45a1011150b31985bcee935e472c0b62b0fdce399218079968473c",
     "autoloads/LocaleManager.gd":
@@ -3383,11 +3408,11 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "systems/BuildFlavor.gd":
         "6264de1c468d5553b73a37d3ea8c5ceb936f6852db7519701f37a2c8bf8aa633",
     "scenes/StoryMode.gd":
-        "4d0d921fe80ae25c75e9fda417f8eb049504e474b68fbedec602fdb5be43454d",
+        "c39ed8f5044d39eb8574c1d89e98ebfeb335571077eb8591b026b2be4d19deb6",
     "scenes/StoryMode.tscn":
         "b7688a883323a196e74271c1e76f1d88c91310b3fe1a287cb051b33dd2fb76ca",
     "scenes/MainGame.gd":
-        "9af0e9f515730cec15e87387ce528423a0b3e02c5fb6f2528c56d9cbb876baf9",
+        "d6a5f18b405a6cc958c9c321a1f2834b195afee5508979c7ace07d7c51e2b634",
     "scenes/MainGame.tscn":
         "71a9590d43c755fa6b409ee0eb0f1950c6aba4517c64192b83038d22a45d9979",
     "scenes/SeoulCycleBoard.gd":
@@ -3403,9 +3428,9 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/meta/demo_localization_scope.json":
         "84b442ad5b71d67b850a8d93a3c907bf8309f88f226fff3bcebbcdf5d969d506",
     "content/meta/release_content_inventory.json":
-        "54e4ece08da0ef924bb6d0e149ea3e4a7db83f925d9b0cdef32fd57f545774a7",
+        "f847fce035637269a3068c8a39cb03bc7e432d5ef4565022f7f9a12e06a52a40",
     "content/meta/story_rules.json":
-        "9bc185ba8177fd2bb7238b2aec312ed4c8b04266b40b32cd09d06451b39be64f",
+        "81b929e57020f8dd4916ef91930e7ff90ee9dfe119f256327f88a564d139e731",
     "content/jobs.json":
         "d1a3ed8ba3f2839954d0b15266bff4f7a0d1317d78c503bd2422aa87b7210f84",
     "content/events/arc_events.json":
@@ -3415,7 +3440,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/events/arc_daeun.json":
         "29a1f84fa411d03660f6e2283f3302a5f1f7c9b264a923c916b4484e9699748d",
     "content/events/arc_midgame.json":
-        "7e2c504a5e2dad55d7c579b7b7fdd5bd46a804da20a6d984744830193911509d",
+        "44b47bc5270395eb57459742804a9771a386289a578f571cf7c9e2174d505c31",
     "content/events/scenario_cafe.json":
         "748fa21586b928419a7e7cf336b7c737ba3f09ecfdddafdbb38bff1698ebbe85",
     "docs/CORE_LOOP_V2.md":
@@ -3425,7 +3450,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "docs/queue_archive/ORDER-101.md":
         "732f49ac40efb644a7321cd425160fae9a8123ead11eb2cc7ebc5b238952ee48",
     "docs/CHOICE_CONSEQUENCE_SYSTEM.md":
-        "30083158c33b7369e4247fc6f362f1649df0505918aea31db7febcce130ebdb2",
+        "b8b3ebf8fa32a949bf78e8fa9156903a6d5663959ec6fd2d63b64d9eee2e5c31",
     "tools/core_loop_v2_balance_sim.py":
         "034475f5d392f016f94c731335a32b460229c7685b00e70bc65fb62efcc5ae3a",
     "tools/demo_core_loop_v2_audit.py":
@@ -3435,7 +3460,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "tools/release_content_inventory.py":
         "2563a8f4ecef128e6a6ecbb4377374fd4e40b0e1080a81ba12144913f0dba4d1",
     "tools/story_consistency_audit.py":
-        "2e7bbcff6f995c597ed31a6f7450295b49c5f04699bfb8020290efce0f8af229",
+        "88913e28fb744947c6b9b0df20f3b45d41c8e5561615013310885f74ad82ecc9",
 }
 # Mutable evidence/status logs are not causal sources.  Keeping this guard in
 # production validation prevents an append-only work record from silently
@@ -7683,6 +7708,9 @@ def _terminal_route_reader_binds_fact(
 def _story_choice_full_state_transaction_valid(
         all_proof_pointers: set[str], cache: dict[Path, Any]) -> bool:
     """Bind classified Story effects and typed receipts into one exact commit."""
+    v2_restore_pattern = (
+        r'"_restore_serialized_snapshot_exact"\s*,\s*'
+        r'v2_choice_snapshot')
     required_pointers = {
         STORY_MODE_CHOICE_TRANSACTION_POINTER,
         GAME_STATE_EXACT_SNAPSHOT_RESTORE_POINTER,
@@ -7707,6 +7735,7 @@ def _story_choice_full_state_transaction_valid(
         GENERIC_STORY_CHOICE_PRODUCER_POINTER, cache)
     fresh_prologue_body = _pointer_source_text(
         STORY_PLAYBACK_FRESH_PROLOGUE_POINTER, cache)
+    v2_restore_matches = list(re.finditer(v2_restore_pattern, story_body))
     if not all((story_body, restore_body, classifier_body,
                 commit_available_body, exact_deferred_body, live_owner_body,
                 bundle_events_body, generic_body, fresh_prologue_body)):
@@ -7821,8 +7850,7 @@ def _story_choice_full_state_transaction_valid(
                        for marker in bundle_event_markers)
             or not all(marker in fresh_prologue_body
                        for marker in fresh_prologue_markers)
-            or story_body.count(
-                '"_restore_serialized_snapshot_exact"') < 2):
+            or len(v2_restore_matches) != 2):
         return False
     classifier_position = story_body.find(
         "DEMO_CORE_LOOP_V2.story_choice_transaction_required(")
@@ -7830,12 +7858,10 @@ def _story_choice_full_state_transaction_valid(
         "DEMO_CORE_LOOP_V2.story_choice_commit_available(")
     snapshot_position = story_body.find("var v2_choice_snapshot: Dictionary")
     apply_position = story_body.find("GameState.apply_choice(_current, choice)")
-    first_restore_position = story_body.find(
-        '"_restore_serialized_snapshot_exact"')
+    first_restore_position = v2_restore_matches[0].start()
     note_position = story_body.find(
         "DEMO_CORE_LOOP_V2.note_story_choice(")
-    second_restore_position = story_body.find(
-        '"_restore_serialized_snapshot_exact"', first_restore_position + 1)
+    second_restore_position = v2_restore_matches[1].start()
     legacy_gate_position = classifier_body.find(
         "if event_id == OPENING_APPLICATION_EVENT_ID:")
     legacy_true_position = classifier_body.find(
@@ -23527,11 +23553,14 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
     story_mode_transaction_body = _pointer_source_text(
         story_mode_transaction_pointer, {})
     full_state_rollback_marker = '"_restore_serialized_snapshot_exact"'
-    if story_mode_transaction_body.count(full_state_rollback_marker) < 2:
+    v2_full_state_rollbacks = list(re.finditer(
+        full_state_rollback_marker
+        + r"\s*,\s*v2_choice_snapshot",
+        story_mode_transaction_body))
+    if len(v2_full_state_rollbacks) != 2:
         raise AssertionError(
-            "self-test setup: StoryMode full-state rollback calls missing")
-    note_failure_rollback = story_mode_transaction_body.rfind(
-        full_state_rollback_marker)
+            "self-test setup: exact V2 StoryMode rollback pair missing")
+    note_failure_rollback = v2_full_state_rollbacks[-1].start()
     SOURCE_TEXT_CACHE[story_mode_transaction_pointer] = (
         story_mode_transaction_body[:note_failure_rollback]
         + '"_selftest_restore_serialized_snapshot_omitted"'
