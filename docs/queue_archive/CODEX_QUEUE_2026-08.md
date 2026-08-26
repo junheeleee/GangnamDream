@@ -15,6 +15,15 @@
 
 ## 2026-08
 
+- `[x] ORDER-132` (2026-08-26): 갤러리 20루트의 최초 live 진입에서
+  `seen + valid snapshot`을 원자적·write-once로 기록하고, 이름·연차 초상·
+  도덕 인지·주거/배경/앰비언스·selector·당시 보인 선택·계절 음향을 현재 런과
+  분리했다. 작성 폐쇄 51편, 조건부 runtime 최대 52편, First Bill M3 기억 3종,
+  fail-closed·HUD 0·mutation 0을 exact 전체 감사와 KO/EN 실물 각 5장으로
+  확인했다. 명시 T1은 12루트이고 8루트는 formal tier 이관 부채다. 또한 실제
+  정점 `hometown_2`·`narrow_room_2`는 카탈로그 밖이므로 “모든 정점 회상”이나
+  재미 GO는 선언하지 않는다. 30억 `instant_legend`는 보존했다.
+  [사양](ORDER-132.md)
 - `[x] ORDER-131` (2026-08-26): M39~M48의 오프스크린 전제를 실제 StoryMode
   선택·exact receipt·후속 비용으로 바꾸고 W157~W193을 연결했다. 아버지 위기
   연락은 생사 writer에서 분리하고 의료 2-of-3만 W188 경과를 쓰며, 구저장·결과
