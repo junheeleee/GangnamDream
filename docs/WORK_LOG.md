@@ -15,6 +15,20 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-27 (Codex — ORDER-135 일반 5장 종막 첫 profile 선언)
+
+- 기준 `bc1006f`에서 일반 런의 직접 정지·선택·분량·peak가 투자 기준보다
+  낮고, 민서 도착·아버지 기일·25억 문턱 선택이 generic W237/W240에 exact로
+  읽히지 않는 결함을 확인했다.
+- 첫 자식은 `general_near_goal_father_passed`만 소유한다. W229 마지막 지시,
+  W237 기록 봉인, W240 서명, 같은 턴 선발신의 4 roots·10 choices를 source
+  flag+event_log→typed entry→stage receipt→ending coda로 잇는다. 숫자 10에 맞춘
+  장면 수가 아니라 서로 다른 네 인과 기능이다.
+- 아버지 생존·중저자산·source 누락, property/career/startup은 기존 경로로
+  fail-closed한다. `project.godot`, 기존 ending/balance, 즉시 실패 5종과 33세
+  30억 `instant_legend`는 보호선이다. 기계·화면 검증 뒤에도 정상 속도 L3 전에는
+  완성·main 병합·플레이 준비를 선언하지 않는다.
+
 ## 2026-08-27 (Codex — M55 네 사람 회의의 다은 복장 정합)
 
 - M55 회의는 민준·상철·재혁·다은이 제안서·보증 PDF·미서명 사본을 한 방에
