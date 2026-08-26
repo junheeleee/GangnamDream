@@ -1,6 +1,8 @@
 extends Node
 
 const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
+const STORY_MODE_SCRIPT := preload("res://scenes/StoryMode.gd")
+const AUTO_REPLAY_ROOT := "arc_date_park_daeun"
 const DIRECT_CONTINUE_EVENTS := [
 	"story_flashforward",
 	"story_arrival",
@@ -155,7 +157,16 @@ func _spawn_story_fixture(
 	await get_tree().process_frame
 	await get_tree().process_frame
 	if str((_story.get("_current") as Dictionary).get("id", "")) != event_id:
-		_fail("story fixture did not load %s" % event_id)
+		_fail("story fixture did not load %s: actual=%s replay=%s queue=%s health=%d mental=%d assets=%s addiction=%d fatal=%s" % [
+			event_id,
+			str((_story.get("_current") as Dictionary).get("id", "")),
+			str(GameState.story_replay_mode),
+			str(_story.get("_queue")),
+			int(GameState.health), int(GameState.mental),
+			str(GameState.get_total_asset_value()),
+			int(GameState.addiction_tendency),
+			str(_story.call("_story_has_pending_fatal_state")),
+		])
 		return false
 	if disable_auto:
 		_story.call("_set_auto_mode", false, false, false)
@@ -180,7 +191,10 @@ func _check_default_auto_contract() -> bool:
 		return false
 	await _free_story_fixture()
 
-	if not await _spawn_story_fixture("story_prologue_dad", false, true):
+	if not _seed_gallery_replay_pair(AUTO_REPLAY_ROOT):
+		_fail("auto contract could not seed a valid gallery replay pair")
+		return false
+	if not await _spawn_story_fixture(AUTO_REPLAY_ROOT, false, true):
 		return false
 	if bool(_story.get("_auto_mode")):
 		_fail("read-only replay did not default to manual playback")
@@ -194,6 +208,40 @@ func _check_default_auto_contract() -> bool:
 		return false
 	GameState.story_replay_mode = original_replay_mode
 	return true
+
+func _seed_gallery_replay_pair(root_id: String) -> bool:
+	var producer := STORY_MODE_SCRIPT.new()
+	var selectors: Dictionary = {}
+	var choices: Dictionary = {}
+	for event_id in MetaProgression.gallery_replay_closure_ids(root_id):
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		if event.is_empty():
+			producer.free()
+			return false
+		selectors[event_id] = producer.call(
+			"_live_gallery_selector_matches", event)
+		choices[event_id] = producer.call(
+			"_live_gallery_visible_choice_indices", event)
+	producer.free()
+	var snapshot := MetaProgression.build_scene_replay_snapshot(
+		root_id, selectors, choices)
+	if snapshot.is_empty():
+		return false
+	# This playback check owns only an in-memory fixture. Persistence and atomic
+	# pairing are covered by GalleryReplaySnapshotCheck, so a direct developer
+	# run must not write a gallery unlock into their real meta save.
+	var raw_seen: Variant = MetaProgression.data.get("seen_scenes", [])
+	var seen: Array = (raw_seen as Array).duplicate() if raw_seen is Array else []
+	if not seen.has(root_id):
+		seen.append(root_id)
+	var raw_snapshots: Variant = MetaProgression.data.get(
+		"scene_replay_snapshots", {})
+	var snapshots: Dictionary = (raw_snapshots as Dictionary).duplicate(true) \
+		if raw_snapshots is Dictionary else {}
+	snapshots[root_id] = snapshot.duplicate(true)
+	MetaProgression.data["seen_scenes"] = seen
+	MetaProgression.data["scene_replay_snapshots"] = snapshots
+	return MetaProgression.has_valid_scene_replay_pair(root_id)
 
 func _check_accept_hold_boundary() -> bool:
 	var original_language := LocaleManager.language
@@ -611,7 +659,12 @@ func _check_v2_fresh_guided_handoff() -> bool:
 func _check_runtime_transition_handoff(
 		source_id: String, target_id: String, expected_mode: String) -> bool:
 	await _free_story_fixture()
-	if not await _spawn_story_fixture(source_id, true, true):
+	# Non-gallery events can no longer borrow the public replay flag as a
+	# mutation-free fixture. Exercise the real live handoff, then restore the
+	# exact run/meta snapshot after the transition assertion.
+	var state_before: Dictionary = GameState.serialize().duplicate(true)
+	var meta_before: Dictionary = MetaProgression.data.duplicate(true)
+	if not await _spawn_story_fixture(source_id, true, false):
 		return false
 	var choices: Array = (_story.get("_current") as Dictionary).get("choices", [])
 	if choices.is_empty():
@@ -640,6 +693,8 @@ func _check_runtime_transition_handoff(
 		return false
 	_story.call("_finish_story_scene_transition")
 	await _free_story_fixture()
+	GameState.call("_restore_serialized_snapshot_exact", state_before)
+	MetaProgression.data = meta_before
 	return true
 
 func _hint_fits(hint: Label) -> bool:

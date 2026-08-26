@@ -19,7 +19,8 @@
 `autoloads/BGMPlayer.gd`, 신규 `tools/GalleryReplaySnapshotCheck.gd`,
 `tools/GalleryReplaySnapshotCheck.gd.uid`, `tools/GalleryReplaySnapshotCheck.tscn`,
 `tools/CoreLoopV2ECheck.gd`, `tools/ManualSaveCheck.gd`,
-`tools/StoryPlaybackCheck.gd`, `tools/ScreenshotQA.gd`, `tools/audit.sh`,
+`tools/StoryPlaybackCheck.gd`, `tools/StoryDialogueHistoryCheck.gd`,
+`tools/ScreenshotQA.gd`, `tools/audit.sh`,
 `tools/audit_scope.json`, `docs/ROMANCE_SYSTEM.md`, `docs/CORE_LOOP_V2.md`,
 `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, 이 사양과 완료 시
 `docs/queue_archive/ORDER-132.md`,

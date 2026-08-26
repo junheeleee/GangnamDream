@@ -1,12 +1,42 @@
 extends Node
 
 const BUILD_FLAVOR := preload("res://systems/BuildFlavor.gd")
+const DEMO_CORE_LOOP_V2 := preload("res://systems/DemoCoreLoopV2.gd")
 # Compatibility constant for tools that explicitly inspect legacy retail
 # data. Production persistence uses meta_save_path().
 const META_SAVE_PATH = BUILD_FLAVOR.RETAIL_META_PATH
 const LEGACY_ACHIEVEMENT_IDS: Array[String] = ["white_gangnam", "clean_gangnam"]
 const SCENE_REPLAY_SNAPSHOT_MAX_BYTES := 32 * 1024
-const SCENE_REPLAY_SNAPSHOT_MAX_DEPTH := 64
+const SCENE_REPLAY_SNAPSHOT_MAX_DEPTH := 12
+const SCENE_REPLAY_SNAPSHOT_MAX_COLLECTION_ITEMS := 96
+const SCENE_REPLAY_SNAPSHOT_MAX_ID_LENGTH := 192
+const SCENE_REPLAY_SCHEMA := 1
+const GALLERY_REPLAY_ROOT_IDS: Array[String] = [
+	"arc_date_namsan_daeun", "arc_date_namsan_jiyeon",
+	"arc_date_park_daeun", "arc_date_park_jiyeon",
+	"arc_daeun_hometown_1", "arc_jiyeon_narrow_room_1",
+	"arc_season_cherry_daeun", "arc_season_cherry_jiyeon",
+	"arc_season_sea_daeun", "arc_season_sea_jiyeon",
+	"arc_season_fireworks_daeun", "arc_season_fireworks_jiyeon",
+	"arc_season_snow_daeun", "arc_season_snow_jiyeon",
+	"arc_daeun_first_kiss", "arc_jiyeon_first_kiss",
+	"arc_daeun_first_night", "arc_daeun_wedding_night",
+	"arc_jiyeon_wedding_night", "v2_demo_first_bill_opening",
+]
+const GALLERY_REPLAY_GENERIC_KEYS: Array[String] = [
+	"schema", "scene_id", "player_name", "turn", "moral_tint", "housing",
+	"selector_matches", "visible_choice_indices",
+]
+const GALLERY_REPLAY_HOUSING_IDS: Array[String] = [
+	"gosiwon", "oneroom", "villa", "apartment", "gangnam",
+]
+const FIRST_BILL_REPLAY_ALLOWED_KEYS: Array[String] = [
+	"schema", "scene_id", "turn", "player_name", "housing", "health",
+	"mental", "addiction_tendency", "moral_tint", "money", "total_assets",
+	"housing_expense", "required_cash", "context", "father_memory",
+	"m3_ledger_memory", "dirty_receipt", "hyunsu_receipt",
+	"obligation_receipt",
+]
 
 var data: Dictionary = {}
 # NG+ 메타 플래그 접근용 alias (data와 동일 객체)
@@ -229,28 +259,27 @@ func load_meta():
 	if not data.get("scene_replay_snapshots", {}) is Dictionary:
 		data["scene_replay_snapshots"] = {}
 		migrated = true
-	# The First Bill finale turned the old decision card into an internal fragment. Keep an
-	# archive unlock only when the complete opening snapshot exists; otherwise a
-	# legacy in-progress save will unlock it after its decision receipt resumes.
-	var seen_scenes: Array = data.get("seen_scenes", []) \
-		if data.get("seen_scenes", []) is Array else []
-	var migrated_scenes: Array = []
-	var replay_snapshots: Dictionary = data.get("scene_replay_snapshots", {})
-	for raw_scene_id in seen_scenes:
-		var scene_id := str(raw_scene_id)
-		if scene_id == "v2_demo_first_bill":
+	# Do not manufacture a gallery pair from old scene history. Legacy seen-only
+	# and orphan snapshot records stay intact but locked until a real live scene
+	# can capture the missing half of the pair.
+	var raw_seen_scenes: Variant = data.get("seen_scenes", [])
+	var raw_replay_snapshots: Variant = data.get("scene_replay_snapshots", {})
+	if raw_seen_scenes is Array and raw_replay_snapshots is Dictionary \
+			and (raw_seen_scenes as Array).has(DEMO_CORE_LOOP_V2.FIRST_BILL_DECISION_ID) \
+			and not (raw_seen_scenes as Array).has(
+				DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID):
+		# This is the one exact historical alias, not an orphan repair: the old
+		# seen ID proves the encounter and the complete opening snapshot proves
+		# the frozen frame. Keep the old ID and add its renamed gallery root.
+		var legacy_snapshot := validate_scene_replay_snapshot(
+			DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID,
+			(raw_replay_snapshots as Dictionary).get(
+				DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID, {}))
+		if not legacy_snapshot.is_empty():
+			var preserved_seen: Array = (raw_seen_scenes as Array).duplicate()
+			preserved_seen.append(DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID)
+			data["seen_scenes"] = preserved_seen
 			migrated = true
-			if replay_snapshots.has("v2_demo_first_bill_opening"):
-				scene_id = "v2_demo_first_bill_opening"
-			else:
-				continue
-		if not migrated_scenes.has(scene_id):
-			migrated_scenes.append(scene_id)
-		else:
-			migrated = true
-	if migrated_scenes != seen_scenes:
-		data["seen_scenes"] = migrated_scenes
-		migrated = true
 	var achievements: Array = data.get("achievements", [])
 	var sanitized: Array = []
 	for raw_id in achievements:
@@ -273,35 +302,113 @@ func save_meta():
 func meta_save_path() -> String:
 	return BUILD_FLAVOR.meta_path()
 
+func is_gallery_replay_root(scene_id: String) -> bool:
+	return scene_id in GALLERY_REPLAY_ROOT_IDS
+
+## State-free authored closure used by capture and QA. Every branch follow-up is
+## included once in authored order; missing/malformed events fail closed.
+func gallery_replay_closure_ids(root_id: String) -> Array[String]:
+	if not is_gallery_replay_root(root_id):
+		return []
+	var closure: Array[String] = []
+	var pending: Array[String] = [root_id]
+	while not pending.is_empty():
+		if closure.size() + pending.size() > 64:
+			return []
+		var event_id: String = pending.pop_front()
+		if closure.has(event_id):
+			continue
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		var raw_choices: Variant = event.get("choices", null)
+		if event.is_empty() or not raw_choices is Array:
+			return []
+		closure.append(event_id)
+		for raw_choice in raw_choices as Array:
+			if not raw_choice is Dictionary:
+				return []
+			var follow_up_id := str(
+				(raw_choice as Dictionary).get("follow_up_event", "")).strip_edges()
+			if not follow_up_id.is_empty() \
+					and not closure.has(follow_up_id) \
+					and not pending.has(follow_up_id):
+				pending.append(follow_up_id)
+	return closure
+
+## StoryMode owns the exact authored closure because it owns selector and choice
+## visibility semantics. MetaProgression adds only the locale-neutral live frame
+## and rejects partial or unbounded maps before anything can be persisted.
+func build_scene_replay_snapshot(
+		scene_id: String,
+		selector_matches: Dictionary,
+		visible_choice_indices: Dictionary) -> Dictionary:
+	if not is_gallery_replay_root(scene_id) \
+			or scene_id == DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID:
+		return {}
+	return validate_scene_replay_snapshot(scene_id, {
+		"schema": SCENE_REPLAY_SCHEMA,
+		"scene_id": scene_id,
+		"player_name": str(GameState.player_name),
+		"turn": int(GameState.turn),
+		"moral_tint": float(GameState.moral_tint),
+		"housing": str(GameState.housing),
+		"selector_matches": selector_matches.duplicate(true),
+		"visible_choice_indices": visible_choice_indices.duplicate(true),
+	})
+
+## Compatibility name retained for existing First Bill callers. Recording a
+## gallery snapshot now always means recording the valid seen+snapshot pair.
 func record_scene_replay_snapshot(scene_id: String, snapshot: Dictionary) -> bool:
-	var validated := _validated_scene_replay_snapshot(scene_id, snapshot)
+	return record_scene_replay_pair(scene_id, snapshot)
+
+## A trusted live encounter is the sole writer. Build both halves on a detached
+## candidate and persist once; an already-valid pair is permanently write-once.
+## A seen-only, orphan, or corrupt record is not a pair, so the next real live
+## encounter may repair it without deleting any historical scene IDs.
+func record_scene_replay_pair(scene_id: String, snapshot: Dictionary) -> bool:
+	if not is_gallery_replay_root(scene_id):
+		return false
+	var validated := validate_scene_replay_snapshot(scene_id, snapshot)
 	if validated.is_empty():
 		return false
-	var snapshots: Dictionary = {}
-	var stored_snapshots: Variant = data.get("scene_replay_snapshots", {})
-	if stored_snapshots is Dictionary:
-		snapshots = stored_snapshots
-	snapshots[scene_id] = validated
-	data["scene_replay_snapshots"] = snapshots
+	if has_valid_scene_replay_pair(scene_id):
+		return true
+	var candidate := data.duplicate(true)
+	var raw_seen: Variant = candidate.get("seen_scenes", [])
+	if not raw_seen is Array:
+		return false
+	var scenes: Array = (raw_seen as Array).duplicate()
+	if not scenes.has(scene_id):
+		scenes.append(scene_id)
+	var raw_snapshots: Variant = candidate.get("scene_replay_snapshots", {})
+	var snapshots: Dictionary = (raw_snapshots as Dictionary).duplicate(true) \
+		if raw_snapshots is Dictionary else {}
+	snapshots[scene_id] = validated.duplicate(true)
+	candidate["seen_scenes"] = scenes
+	candidate["scene_replay_snapshots"] = snapshots
+	data = candidate
 	save_meta()
 	return true
 
+func has_valid_scene_replay_pair(scene_id: String) -> bool:
+	if not is_gallery_replay_root(scene_id):
+		return false
+	var raw_seen: Variant = data.get("seen_scenes", [])
+	if not raw_seen is Array or not (raw_seen as Array).has(scene_id):
+		return false
+	return not get_scene_replay_snapshot(scene_id).is_empty()
+
 func get_scene_replay_snapshot(scene_id: String) -> Dictionary:
-	if scene_id.strip_edges().is_empty():
+	if not is_gallery_replay_root(scene_id):
 		return {}
 	var snapshots: Variant = data.get("scene_replay_snapshots", {})
 	if not snapshots is Dictionary or not snapshots.has(scene_id):
 		return {}
-	return _validated_scene_replay_snapshot(scene_id, snapshots.get(scene_id, {}))
+	return validate_scene_replay_snapshot(scene_id, snapshots.get(scene_id, {}))
 
-func _validated_scene_replay_snapshot(scene_id: String, snapshot: Variant) -> Dictionary:
-	if scene_id.strip_edges().is_empty() or not snapshot is Dictionary:
+func validate_scene_replay_snapshot(scene_id: String, snapshot: Variant) -> Dictionary:
+	if not is_gallery_replay_root(scene_id) or not snapshot is Dictionary:
 		return {}
-	var snapshot_scene_id: Variant = snapshot.get("scene_id", null)
-	if not snapshot_scene_id is String or snapshot_scene_id != scene_id:
-		return {}
-	var schema: Variant = snapshot.get("schema", null)
-	if not _valid_scene_replay_schema(schema) or not _is_json_safe(snapshot):
+	if not _is_json_safe(snapshot):
 		return {}
 	var encoded := JSON.stringify(snapshot)
 	if encoded.to_utf8_buffer().size() > SCENE_REPLAY_SNAPSHOT_MAX_BYTES:
@@ -309,15 +416,183 @@ func _validated_scene_replay_snapshot(scene_id: String, snapshot: Variant) -> Di
 	var decoded: Variant = JSON.parse_string(encoded)
 	if not decoded is Dictionary:
 		return {}
-	if decoded.get("scene_id", null) != scene_id or not _valid_scene_replay_schema(decoded.get("schema", null)):
+	var common := _validated_scene_replay_common(scene_id, decoded as Dictionary)
+	if common.is_empty():
 		return {}
-	return decoded
+	if scene_id == DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID:
+		if not _dictionary_has_only_string_keys(
+				decoded as Dictionary, FIRST_BILL_REPLAY_ALLOWED_KEYS):
+			return {}
+		return DEMO_CORE_LOOP_V2.validated_complete_first_bill_replay_snapshot(
+			decoded as Dictionary)
+	return _validated_generic_scene_replay_snapshot(decoded as Dictionary)
+
+func _validated_scene_replay_common(
+		scene_id: String, snapshot: Dictionary) -> Dictionary:
+	if snapshot.get("scene_id", null) != scene_id \
+			or not _valid_scene_replay_schema(snapshot.get("schema", null)):
+		return {}
+	var raw_name: Variant = snapshot.get("player_name", null)
+	var raw_turn: Variant = snapshot.get("turn", null)
+	var raw_moral: Variant = snapshot.get("moral_tint", null)
+	var raw_housing: Variant = snapshot.get("housing", null)
+	if not raw_name is String or (raw_name as String).strip_edges().is_empty() \
+			or (raw_name as String).length() > 64 \
+			or not _valid_integral_number(raw_turn, 1, 240) \
+			or typeof(raw_moral) not in [TYPE_INT, TYPE_FLOAT] \
+			or not is_finite(float(raw_moral)) \
+			or float(raw_moral) < -100.0 or float(raw_moral) > 100.0 \
+			or not raw_housing is String \
+			or str(raw_housing) not in GALLERY_REPLAY_HOUSING_IDS:
+		return {}
+	return snapshot
+
+func _validated_generic_scene_replay_snapshot(snapshot: Dictionary) -> Dictionary:
+	if not _dictionary_has_exact_string_keys(snapshot, GALLERY_REPLAY_GENERIC_KEYS):
+		return {}
+	var raw_selectors: Variant = snapshot.get("selector_matches", null)
+	var raw_choices: Variant = snapshot.get("visible_choice_indices", null)
+	if not raw_selectors is Dictionary or not raw_choices is Dictionary:
+		return {}
+	var selectors: Dictionary = raw_selectors
+	var choices: Dictionary = raw_choices
+	var closure: Array[String] = gallery_replay_closure_ids(
+		str(snapshot.get("scene_id", "")))
+	if closure.is_empty() or selectors.size() != closure.size() \
+			or selectors.size() != choices.size():
+		return {}
+	var normalized_selectors: Dictionary = {}
+	var normalized_choices: Dictionary = {}
+	for event_id in closure:
+		if not selectors.has(event_id) or not choices.has(event_id):
+			return {}
+	for raw_event_id in selectors:
+		if not raw_event_id is String:
+			return {}
+		var event_id := str(raw_event_id)
+		var authored_event: Dictionary = DataRegistry.find_event(event_id)
+		var authored_choices: Variant = authored_event.get("choices", null)
+		if authored_event.is_empty() or not authored_choices is Array:
+			return {}
+		if not _valid_locale_neutral_id(event_id) \
+				or not choices.has(event_id) \
+				or not _valid_snapshot_id_array(
+					selectors[event_id],
+					_gallery_authored_selector_ids(authored_event)) \
+				or not _valid_snapshot_choice_array(
+					choices[event_id], (authored_choices as Array).size()):
+			return {}
+		var selector_ids: Array[String] = []
+		for raw_selector_id in selectors[event_id] as Array:
+			selector_ids.append(str(raw_selector_id))
+		normalized_selectors[event_id] = selector_ids
+		var choice_indices: Array[int] = []
+		for raw_choice_index in choices[event_id] as Array:
+			choice_indices.append(int(raw_choice_index))
+		normalized_choices[event_id] = choice_indices
+	var normalized := snapshot.duplicate(true)
+	normalized["schema"] = SCENE_REPLAY_SCHEMA
+	normalized["turn"] = int(snapshot["turn"])
+	normalized["moral_tint"] = float(snapshot["moral_tint"])
+	normalized["selector_matches"] = normalized_selectors
+	normalized["visible_choice_indices"] = normalized_choices
+	return normalized
 
 func _valid_scene_replay_schema(value: Variant) -> bool:
-	if typeof(value) != TYPE_INT and typeof(value) != TYPE_FLOAT:
+	return _valid_integral_number(value, SCENE_REPLAY_SCHEMA, SCENE_REPLAY_SCHEMA)
+
+func _valid_integral_number(value: Variant, minimum: int, maximum: int) -> bool:
+	if typeof(value) not in [TYPE_INT, TYPE_FLOAT]:
 		return false
 	var numeric := float(value)
-	return not is_nan(numeric) and not is_inf(numeric) and numeric >= 1.0
+	return is_finite(numeric) and numeric == floorf(numeric) \
+		and numeric >= float(minimum) and numeric <= float(maximum)
+
+func _dictionary_has_exact_string_keys(
+		dictionary: Dictionary, expected_keys: Array[String]) -> bool:
+	if dictionary.size() != expected_keys.size():
+		return false
+	for key in expected_keys:
+		if not dictionary.has(key):
+			return false
+	return true
+
+func _dictionary_has_only_string_keys(
+		dictionary: Dictionary, allowed_keys: Array[String]) -> bool:
+	for raw_key in dictionary:
+		if not raw_key is String or str(raw_key) not in allowed_keys:
+			return false
+	return true
+
+func _gallery_authored_selector_ids(event: Dictionary) -> Dictionary:
+	var authored: Dictionary = {}
+	for map_key in [
+		"portrait_if_known", "cg_if_known", "description_if_known",
+		"description_if_held", "description_memory_if_known",
+	]:
+		var raw_map: Variant = event.get(map_key, {})
+		if not raw_map is Dictionary:
+			continue
+		for raw_selector_id in (raw_map as Dictionary).keys():
+			if raw_selector_id is String:
+				authored[str(raw_selector_id).strip_edges()] = true
+	for field_key in [
+		"description_low_mental", "description_long_gosiwon",
+		"description_orthodox", "description_unorthodox",
+	]:
+		if event.has(field_key):
+			authored[field_key] = true
+	var raw_choices: Variant = event.get("choices", [])
+	if raw_choices is Array:
+		for raw_choice in raw_choices as Array:
+			if not raw_choice is Dictionary:
+				continue
+			var raw_flags: Variant = (raw_choice as Dictionary).get(
+				"follow_up_requires_flags", [])
+			if not raw_flags is Array:
+				continue
+			for raw_flag in raw_flags as Array:
+				if raw_flag is String:
+					authored[str(raw_flag).strip_edges()] = true
+	authored.erase("")
+	return authored
+
+func _valid_snapshot_id_array(
+		value: Variant, authored_ids: Dictionary) -> bool:
+	if not value is Array or (value as Array).size() > 32:
+		return false
+	var seen: Dictionary = {}
+	for raw_id in value as Array:
+		if not raw_id is String:
+			return false
+		var condition_id := str(raw_id)
+		if not _valid_locale_neutral_id(condition_id) \
+				or not authored_ids.has(condition_id) or seen.has(condition_id):
+			return false
+		seen[condition_id] = true
+	return true
+
+func _valid_locale_neutral_id(value: String) -> bool:
+	if value.is_empty() or value.length() > SCENE_REPLAY_SNAPSHOT_MAX_ID_LENGTH:
+		return false
+	for index in range(value.length()):
+		var codepoint := value.unicode_at(index)
+		if codepoint < 33 or codepoint > 126:
+			return false
+	return true
+
+func _valid_snapshot_choice_array(value: Variant, authored_count: int) -> bool:
+	if not value is Array or (value as Array).size() > 32:
+		return false
+	var previous := -1
+	for raw_index in value as Array:
+		if not _valid_integral_number(raw_index, 0, authored_count - 1):
+			return false
+		var index := int(raw_index)
+		if index <= previous:
+			return false
+		previous = index
+	return true
 
 func _is_json_safe(value: Variant, depth: int = 0) -> bool:
 	if depth > SCENE_REPLAY_SNAPSHOT_MAX_DEPTH:
@@ -329,13 +604,19 @@ func _is_json_safe(value: Variant, depth: int = 0) -> bool:
 			var numeric := float(value)
 			return not is_nan(numeric) and not is_inf(numeric)
 		TYPE_ARRAY:
+			if (value as Array).size() > SCENE_REPLAY_SNAPSHOT_MAX_COLLECTION_ITEMS:
+				return false
 			for item in value:
 				if not _is_json_safe(item, depth + 1):
 					return false
 			return true
 		TYPE_DICTIONARY:
+			if (value as Dictionary).size() > SCENE_REPLAY_SNAPSHOT_MAX_COLLECTION_ITEMS:
+				return false
 			for key in value:
-				if not key is String or not _is_json_safe(value[key], depth + 1):
+				if not key is String \
+						or (key as String).length() > SCENE_REPLAY_SNAPSHOT_MAX_ID_LENGTH \
+						or not _is_json_safe(value[key], depth + 1):
 					return false
 			return true
 		_:
@@ -584,7 +865,7 @@ func is_achievement_unlocked(achievement_id: String) -> bool:
 
 # ── 회상 갤러리 ──────────────────────────────────────────────────
 func record_scene_seen(scene_id: String) -> bool:
-	if scene_id.is_empty():
+	if scene_id.is_empty() or is_gallery_replay_root(scene_id):
 		return false
 	var scenes: Array = data.get("seen_scenes", [])
 	if scenes.has(scene_id):

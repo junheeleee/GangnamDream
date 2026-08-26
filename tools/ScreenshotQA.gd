@@ -3535,6 +3535,11 @@ func _set_first_bill_archive_snapshot(snapshot: Dictionary) -> void:
 		snapshots = (raw_snapshots as Dictionary).duplicate(true)
 	snapshots["v2_demo_first_bill_opening"] = snapshot.duplicate(true)
 	MetaProgression.data["scene_replay_snapshots"] = snapshots
+	var raw_seen: Variant = MetaProgression.data.get("seen_scenes", [])
+	var seen: Array = (raw_seen as Array).duplicate() if raw_seen is Array else []
+	if not seen.has("v2_demo_first_bill_opening"):
+		seen.append("v2_demo_first_bill_opening")
+	MetaProgression.data["seen_scenes"] = seen
 
 func _shot_first_bill_archive_replay_page(
 		expected_memory: String, live_memory: String,
@@ -14795,12 +14800,25 @@ func _shot_first_30_surfaces(lang: String = "en") -> void:
 func _shot_archive_surfaces(lang: String = "en", prefix: String = "archive_en_") -> void:
 	_set_qa_language(lang)
 	var original_meta := MetaProgression.data.duplicate(true)
+	_prepare_main_game_state()
+	GameState.player_name = "Archive First Name"
+	GameState.turn = 200
+	GameState.year = 5
+	GameState.month = 2
+	GameState.week_of_month = 4
+	GameState.moral_tint = -72.0
+	GameState.housing = "gangnam"
 	var cg_ids: Array = ImageRegistry.CG.keys()
 	MetaProgression.data["unlocked_cgs"] = [str(cg_ids[0]), str(cg_ids[2]), str(cg_ids[3])]
-	MetaProgression.data["seen_scenes"] = [
+	MetaProgression.data["seen_scenes"] = []
+	MetaProgression.data["scene_replay_snapshots"] = {}
+	for scene_id in [
 		"arc_date_namsan_daeun", "arc_date_park_jiyeon",
 		"arc_season_sea_daeun", "arc_daeun_first_kiss",
-	]
+	]:
+		if not _seed_gallery_replay_pair(str(scene_id)):
+			_fail("Archive QA could not seed a valid replay pair: %s" % scene_id)
+			return
 	MetaProgression.data["achievements"] = ["four_seasons"]
 
 	var packed := load("res://scenes/StartMenu.tscn") as PackedScene
@@ -14837,8 +14855,28 @@ func _shot_archive_surfaces(lang: String = "en", prefix: String = "archive_en_")
 	# Read-only replay contract: a choice may advance prose and reveal its CG,
 	# but no serialized run state or achievement collection is allowed to move.
 	_prepare_main_game_state()
-	MetaProgression.data["seen_scenes"] = ["arc_daeun_first_kiss"]
+	GameState.player_name = "Archive Frozen Name"
+	GameState.turn = 200
+	GameState.year = 5
+	GameState.month = 2
+	GameState.week_of_month = 4
+	GameState.moral_tint = -72.0
+	GameState.housing = "gangnam"
+	MetaProgression.data["seen_scenes"] = []
+	MetaProgression.data["scene_replay_snapshots"] = {}
+	if not _seed_gallery_replay_pair("arc_daeun_first_kiss"):
+		_fail("Archive read-only QA could not seed its valid replay pair")
+		return
 	MetaProgression.data["unlocked_cgs"] = ["cg_romance_first_kiss_daeun"]
+	var frozen_snapshot := MetaProgression.get_scene_replay_snapshot(
+		"arc_daeun_first_kiss")
+	GameState.player_name = "Current Live Name"
+	GameState.turn = 1
+	GameState.year = 1
+	GameState.month = 8
+	GameState.week_of_month = 1
+	GameState.moral_tint = 88.0
+	GameState.housing = "gosiwon"
 	var state_before: Dictionary = GameState.serialize().duplicate(true)
 	var meta_before: Dictionary = MetaProgression.data.duplicate(true)
 	GameState.pending_story_queue = ["arc_daeun_first_kiss"]
@@ -14849,6 +14887,20 @@ func _shot_archive_surfaces(lang: String = "en", prefix: String = "archive_en_")
 	get_tree().root.add_child.call_deferred(story)
 	await get_tree().process_frame
 	await _settle(0.35)
+	var hud := story.get("_hud_panel") as Control
+	if frozen_snapshot.is_empty() \
+			or str(story.call("_fmt", "{name}")) \
+				!= str(frozen_snapshot.get("player_name", "")) \
+			or int(story.call("_story_visual_turn")) \
+				!= int(frozen_snapshot.get("turn", 0)) \
+			or not is_instance_valid(hud) or hud.visible:
+		_fail("Archive replay did not render the frozen frame with HUD hidden")
+		return
+	story.call("_finish_story_scene_transition")
+	story.set("_para_index", maxi(
+		0, (story.get("_paragraphs") as Array).size() - 1))
+	story.call("_complete_typing")
+	story.call("_show_choices")
 	story._on_choice(0)
 	await _settle(0.35)
 	var state_after: Dictionary = GameState.serialize().duplicate(true)
@@ -14861,10 +14913,51 @@ func _shot_archive_surfaces(lang: String = "en", prefix: String = "archive_en_")
 	if story.find_child("StoryResultRecord", true, false) != null:
 		_fail("Archive replay exposed a mechanical choice result card")
 		return
+	hud = story.get("_hud_panel") as Control
+	if not is_instance_valid(hud) or hud.visible:
+		_fail("Archive replay result exposed the live HUD")
+		return
 	await _save(prefix + "05_read_only_result")
 	_remove_nodes_by_script("res://scenes/StoryMode.gd")
 	MetaProgression.data = original_meta
 	await _settle(0.25)
+
+func _seed_gallery_replay_pair(scene_id: String) -> bool:
+	if not MetaProgression.is_gallery_replay_root(scene_id) \
+			or scene_id == "v2_demo_first_bill_opening":
+		return false
+	var story := StoryModeScript.new()
+	var selectors: Dictionary = {}
+	var choices: Dictionary = {}
+	for event_id in MetaProgression.gallery_replay_closure_ids(scene_id):
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		if event.is_empty():
+			story.free()
+			return false
+		selectors[event_id] = story.call(
+			"_live_gallery_selector_matches", event)
+		choices[event_id] = story.call(
+			"_live_gallery_visible_choice_indices", event)
+	story.free()
+	var snapshot := MetaProgression.build_scene_replay_snapshot(
+		scene_id, selectors, choices)
+	if snapshot.is_empty():
+		return false
+	# ScreenshotQA owns an in-memory gallery fixture and restores the caller's
+	# complete meta dictionary at the end. Do not write a developer's real meta
+	# file merely to render QA cards.
+	var raw_seen: Variant = MetaProgression.data.get("seen_scenes", [])
+	var seen: Array = (raw_seen as Array).duplicate() if raw_seen is Array else []
+	if not seen.has(scene_id):
+		seen.append(scene_id)
+	var raw_snapshots: Variant = MetaProgression.data.get(
+		"scene_replay_snapshots", {})
+	var snapshots: Dictionary = (raw_snapshots as Dictionary).duplicate(true) \
+		if raw_snapshots is Dictionary else {}
+	snapshots[scene_id] = snapshot.duplicate(true)
+	MetaProgression.data["seen_scenes"] = seen
+	MetaProgression.data["scene_replay_snapshots"] = snapshots
+	return MetaProgression.has_valid_scene_replay_pair(scene_id)
 
 func _seed_year_scene_history(select_each_year: bool) -> void:
 	GameState.run_seen_scenes_by_year = {}
@@ -15337,8 +15430,8 @@ func _assert_archive_surface(
 					unlocked, total]
 		1:
 			var seen_count := 0
-			for scene_id in MetaProgression.data.get("seen_scenes", []):
-				if MetaProgression.has_seen_scene(str(scene_id)):
+			for scene_id in MetaProgression.GALLERY_REPLAY_ROOT_IDS:
+				if bool(menu.call("_archive_scene_has_valid_replay", str(scene_id))):
 					seen_count += 1
 			expected_progress = _order97_expected(
 				lang, "회상  %d / %d", "SCENES  %d / %d", "回想  %d / %d") % [

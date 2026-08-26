@@ -173,6 +173,7 @@ var _scene_audio_events: Dictionary = {}
 var _scene_audio_intents: Dictionary = {}
 var _scene_audio_background_profiles: Dictionary = {}
 var _warned_background_profiles: Dictionary = {}
+var _gallery_replay_context: Dictionary = {}
 
 const _FADE_TIME = 2.5  # 크로스페이드 초
 const _AMBIENCE_VOLUME = 1.0
@@ -279,6 +280,8 @@ func _ensure_human_ambience_bus() -> void:
 		AudioServer.add_bus_effect(_human_bus_index, _human_filter)
 
 func _on_moral_tint_changed(_norm: float, stage: int) -> void:
+	if not _gallery_replay_context.is_empty():
+		return
 	if stage == _last_moral_stage:
 		return
 	_last_moral_stage = stage
@@ -355,10 +358,67 @@ func _set_moral_bus_db(value: float) -> void:
 	if _bgm_bus_index >= 0:
 		AudioServer.set_bus_volume_db(_bgm_bus_index, value)
 
+func begin_gallery_replay(snapshot: Dictionary) -> bool:
+	var raw_turn: Variant = snapshot.get("turn", null)
+	var raw_moral_tint: Variant = snapshot.get("moral_tint", null)
+	var housing := str(snapshot.get("housing", "")).strip_edges()
+	if typeof(raw_turn) not in [TYPE_INT, TYPE_FLOAT] \
+			or typeof(raw_moral_tint) not in [TYPE_INT, TYPE_FLOAT] \
+			or housing not in [
+				"gosiwon", "oneroom", "villa", "apartment", "gangnam",
+			]:
+		return false
+	var frozen_turn := int(raw_turn)
+	var moral_tint := float(raw_moral_tint)
+	if frozen_turn < 1 or frozen_turn > 240 \
+			or not is_finite(moral_tint) \
+			or moral_tint < -100.0 or moral_tint > 100.0:
+		return false
+	_gallery_replay_context = {
+		"turn": frozen_turn,
+		"housing": housing,
+		"moral_tint": moral_tint,
+	}
+	# An archive scene must never inherit a live action's workplace/crowd bed.
+	# The frozen event will select its own ambience immediately after this.
+	_is_ending = false
+	_activity_ambience_key = ""
+	_last_moral_stage = _moral_stage_for_tint(moral_tint)
+	_apply_moral_stage(_last_moral_stage, true)
+	return true
+
+func end_gallery_replay() -> void:
+	if _gallery_replay_context.is_empty():
+		return
+	_gallery_replay_context.clear()
+	_last_moral_stage = GameState.moral_stage()
+	_apply_moral_stage(_last_moral_stage, true)
+
+func _moral_stage_for_tint(moral_tint: float) -> int:
+	if moral_tint >= 60.0:
+		return 2
+	if moral_tint >= 20.0:
+		return 1
+	if moral_tint <= -60.0:
+		return -2
+	if moral_tint <= -20.0:
+		return -1
+	return 0
+
+func _active_housing_id() -> String:
+	return str(_gallery_replay_context.get("housing", GameState.housing))
+
+func _active_calendar_month() -> int:
+	if _gallery_replay_context.is_empty():
+		return int(GameState.month)
+	var frozen_turn := int(_gallery_replay_context.get("turn", 1))
+	return posmod(floori(float(frozen_turn - 1) / 4.0), 12) + 1
+
 func start():
 	volume = AudioManager.bgm_volume
 	_is_ending = false
 	_activity_ambience_key = ""
+	_gallery_replay_context.clear()
 	_last_moral_stage = GameState.moral_stage()
 	_apply_moral_stage(_last_moral_stage, true)
 	enter_ambient_bed(0.65)
@@ -368,6 +428,7 @@ func start_menu():
 	volume = AudioManager.bgm_volume
 	_is_ending = false
 	_activity_ambience_key = ""
+	_gallery_replay_context.clear()
 	_music_mode = "menu"
 	_punctuation_token += 1
 	_last_moral_stage = 0
@@ -376,6 +437,7 @@ func start_menu():
 	clear_ambience()
 
 func stop():
+	_gallery_replay_context.clear()
 	if _fade_tween and _fade_tween.is_running():
 		_fade_tween.kill()
 	if _moral_filter_tween and _moral_filter_tween.is_running():
@@ -502,7 +564,7 @@ func update_idle_ambience() -> void:
 		set_ambience(_activity_ambience_key)
 		set_season_ambience("")
 		return
-	match str(GameState.housing):
+	match _active_housing_id():
 		"gangnam", "apartment":
 			set_ambience("apartment")
 		"villa", "oneroom":
@@ -588,7 +650,7 @@ func apply_ending_cg_ambience(cg_id: String) -> void:
 func _resolve_dynamic_ambience_key(key: String) -> String:
 	match key:
 		"current_housing":
-			match str(GameState.housing):
+			match _active_housing_id():
 				"gangnam", "apartment":
 					return "apartment"
 				"villa", "oneroom":
@@ -596,6 +658,11 @@ func _resolve_dynamic_ambience_key(key: String) -> String:
 				_:
 					return "room"
 		"current_workplace":
+			if not _gallery_replay_context.is_empty():
+				# Gallery schema 1 freezes housing, not a job. A future replay scene
+				# that needs workplace ambience must first gain an authored snapshot
+				# producer instead of borrowing the loaded run's occupation.
+				return ""
 			var job_id := str(GameState.current_job.get("id", ""))
 			match job_id:
 				"job_01":
@@ -809,9 +876,10 @@ func _human_ambience_target_db() -> float:
 			+ _ambience_duck_db + _moral_human_gain_db
 
 func _calendar_season_key() -> String:
-	if GameState.month in [6, 7, 8]:
+	var calendar_month := _active_calendar_month()
+	if calendar_month in [6, 7, 8]:
 		return "summer"
-	if GameState.month in [12, 1, 2]:
+	if calendar_month in [12, 1, 2]:
 		return "winter"
 	return ""
 
@@ -840,7 +908,8 @@ func _event_background_id(ev: Dictionary) -> String:
 	if explicit_bg != "":
 		return explicit_bg.to_lower()
 	if ImageRegistry and ImageRegistry.has_method("infer_background_id"):
-		return str(ImageRegistry.infer_background_id(ev, GameState.housing)).to_lower()
+		return str(ImageRegistry.infer_background_id(
+			ev, _active_housing_id())).to_lower()
 	return ""
 
 # ── 트랙 선택 로직 ─────────────────────────────────────────────

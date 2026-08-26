@@ -81,6 +81,8 @@ var _direction_pending_text: String = ""
 var _story_visual_override_active: bool = false
 var _story_visual_override_norm: float = 0.0
 var _read_only_replay: bool = false
+var _gallery_replay_root_id: String = ""
+var _gallery_replay_snapshot: Dictionary = {}
 var _first_bill_replay_snapshot: Dictionary = {}
 var _first_bill_replay_fatal_choice: bool = false
 var _first_bill_live_prechoice_snapshot: Dictionary = {}
@@ -260,22 +262,10 @@ func _ready():
 		# 일반 진입은 GameState에 예약된 사건 큐를 가져온다.
 		_queue = GameState.pending_story_queue.duplicate()
 	GameState.pending_story_queue.clear()
-	if _read_only_replay and not _queue.is_empty() \
-			and str(_queue.front()) == DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID:
-		_first_bill_replay_snapshot = \
-			DEMO_CORE_LOOP_V2.validated_complete_first_bill_replay_snapshot(
-				MetaProgression.get_scene_replay_snapshot(
-					DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID))
-		if _first_bill_replay_snapshot.is_empty():
-			# A partially witnessed or damaged archive record must never render
-			# blank dynamic prose against a new run's unrelated state.
-			_queue.clear()
-		else:
-			for follow_up_root in \
-					DEMO_CORE_LOOP_V2.first_bill_replay_follow_up_roots(
-						_first_bill_replay_snapshot):
-				if not _queue.has(follow_up_root):
-					_queue.append(follow_up_root)
+	if _read_only_replay:
+		if not _prepare_gallery_replay():
+			_fail_closed_gallery_replay()
+			return
 	if _queue.is_empty():
 		_finish_all()
 		return
@@ -283,6 +273,81 @@ func _ready():
 	if _is_public_story_demo() \
 			and OS.get_cmdline_user_args().has("--story-demo-real-flow-smoke"):
 		call_deferred("_run_story_demo_real_flow_smoke")
+
+func _prepare_gallery_replay() -> bool:
+	# Archive launch authority is exactly one catalog root. Extra queued events
+	# have no frozen closure owner and must not be rendered opportunistically.
+	if _queue.size() != 1:
+		return false
+	var root_id := str(_queue.front()).strip_edges()
+	if root_id.is_empty() \
+			or not MetaProgression.is_gallery_replay_root(root_id) \
+			or not MetaProgression.has_valid_scene_replay_pair(root_id):
+		return false
+	var stored_snapshot: Dictionary = \
+		MetaProgression.get_scene_replay_snapshot(root_id)
+	var snapshot: Dictionary = MetaProgression.validate_scene_replay_snapshot(
+		root_id, stored_snapshot)
+	if snapshot.is_empty():
+		return false
+	if root_id == DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID:
+		snapshot = DEMO_CORE_LOOP_V2 \
+			.validated_complete_first_bill_replay_snapshot(snapshot)
+		if snapshot.is_empty():
+			return false
+		_first_bill_replay_snapshot = snapshot.duplicate(true)
+		for follow_up_root in \
+				DEMO_CORE_LOOP_V2.first_bill_replay_follow_up_roots(snapshot):
+			if not _queue.has(follow_up_root):
+				_queue.append(follow_up_root)
+	_gallery_replay_root_id = root_id
+	_gallery_replay_snapshot = snapshot.duplicate(true)
+	if not BGMPlayer.begin_gallery_replay(_gallery_replay_snapshot):
+		_gallery_replay_root_id = ""
+		_gallery_replay_snapshot.clear()
+		_first_bill_replay_snapshot.clear()
+		return false
+	return true
+
+func _fail_closed_gallery_replay() -> void:
+	# A direct, stale, or damaged replay request is never repaired from the live
+	# run. Drop the untrusted queue and return to the archive without rendering.
+	_queue.clear()
+	_current = {}
+	_pending_follow_up = ""
+	_pending_restore_context.clear()
+	GameState.pending_story_queue.clear()
+	GameState.story_return_scene = ""
+	GameState.returning_from_story = false
+	GameState.story_replay_mode = false
+	BGMPlayer.end_gallery_replay()
+	BGMPlayer.enter_ambient_bed(0.25)
+	BGMPlayer.clear_ambience()
+	_transitioning = true
+	SceneTransition.go("res://scenes/StartMenu.tscn")
+
+func _gallery_replay_event_allowed(event_id: String) -> bool:
+	if not _read_only_replay or event_id.is_empty() \
+			or _gallery_replay_snapshot.is_empty():
+		return false
+	if _gallery_replay_root_id == DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID:
+		var allowed: Array[String] = [
+			DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID,
+			DEMO_CORE_LOOP_V2.FIRST_BILL_DECISION_ID,
+			DEMO_CORE_LOOP_V2.FIRST_BILL_LEDGER_ID,
+		]
+		for follow_up_id in DEMO_CORE_LOOP_V2.first_bill_replay_follow_up_roots(
+				_first_bill_replay_snapshot):
+			if not allowed.has(follow_up_id):
+				allowed.append(follow_up_id)
+		return event_id in allowed
+	var raw_selectors: Variant = _gallery_replay_snapshot.get(
+		"selector_matches", {})
+	var raw_choices: Variant = _gallery_replay_snapshot.get(
+		"visible_choice_indices", {})
+	return raw_selectors is Dictionary and raw_choices is Dictionary \
+		and (raw_selectors as Dictionary).has(event_id) \
+		and (raw_choices as Dictionary).has(event_id)
 
 func _load_fonts():
 	_font      = FontKit.ui_regular()
@@ -292,6 +357,8 @@ func _load_fonts():
 
 # ── Gangnam Ink 표면 팔레트 ───────────────────────────────────
 func _on_story_moral_tint_changed(norm: float, stage: int) -> void:
+	if _read_only_replay:
+		return
 	_story_moral_norm = clampf(norm, -1.0, 1.0)
 	_story_moral_stage = stage
 	_apply_story_surface_palette(_current_uses_cg)
@@ -317,7 +384,9 @@ func _story_palette() -> Dictionary:
 ## 같은 사건도 민준이 무엇을 먼저 보는지에 따라 다르게 읽힌다.
 ## 장면 강제 필터(black_future)가 아니라 실제 플레이 상태만 사용한다.
 func _moral_perception_keys() -> Array[String]:
-	match GameState.moral_stage():
+	var perception_stage := _story_moral_stage if _read_only_replay \
+		else GameState.moral_stage()
+	match perception_stage:
 		-2:
 			return ["deep_black", "black"]
 		-1:
@@ -366,16 +435,16 @@ func _story_dim_color(has_cg: bool) -> Color:
 	return tone
 
 func _story_visual_turn() -> int:
-	return int(_first_bill_replay_snapshot.get("turn", GameState.turn)) \
-		if _first_bill_replay_event_active() else int(GameState.turn)
+	return int(_gallery_replay_snapshot.get("turn", 1)) \
+		if _read_only_replay else int(GameState.turn)
 
 func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false) -> void:
 	if _story_visual_override_active:
 		_story_moral_norm = clampf(_story_visual_override_norm, -1.0, 1.0)
 		_story_moral_stage = -2 if _story_moral_norm <= -0.6 else (-1 if _story_moral_norm < -0.2 else 0)
-	elif _first_bill_replay_event_active():
+	elif _read_only_replay:
 		_story_moral_norm = clampf(
-			float(_first_bill_replay_snapshot.get("moral_tint", 0.0)) / 100.0,
+			float(_gallery_replay_snapshot.get("moral_tint", 0.0)) / 100.0,
 			-1.0, 1.0)
 		_story_moral_stage = (
 			2 if _story_moral_norm >= 0.6 else
@@ -2807,6 +2876,11 @@ func _draw_story_ink_transition() -> void:
 func _refresh_hud():
 	if _hud_label == null:
 		return
+	if _read_only_replay:
+		_hud_label.text = ""
+		if is_instance_valid(_hud_panel):
+			_hud_panel.visible = false
+		return
 	var core_loop_v2_active := DEMO_CORE_LOOP_V2.is_active()
 	var assets: float = GameState.get_total_asset_value()
 	# V2's negative money is an unpaid-cost ledger, not cash below zero. Keep
@@ -3152,7 +3226,11 @@ func _refresh_story_speaker_language() -> void:
 		if is_instance_valid(_name_panel):
 			_name_panel.visible = false
 		return
-	var info := ImageRegistry.get_person_info(_resolved_event_portrait_id())
+	var portrait_id := _resolved_event_portrait_id()
+	var info := ImageRegistry.get_person_info(portrait_id)
+	if _read_only_replay and portrait_id.begins_with("player"):
+		info = info.duplicate(true)
+		info["name"] = _story_player_display_name()
 	if info.is_empty() or str(info.get("name", "")).is_empty():
 		if is_instance_valid(_name_panel):
 			_name_panel.visible = false
@@ -3187,7 +3265,8 @@ func _direct_continue_choice_index() -> int:
 			or bool(_current.get("timed", false)):
 		return -1
 	var choices: Array = _current.get("choices", [])
-	if choices.size() != 1 or not _choice_visible(choices[0] as Dictionary):
+	if choices.size() != 1 or not _choice_visible(
+			choices[0] as Dictionary, 0):
 		return -1
 	return 0
 
@@ -3420,6 +3499,106 @@ func _migrate_live_event_variant_result_resume(
 	_pending_restore_context = migrated_context
 	return true
 
+func _capture_gallery_replay_pair(root_id: String) -> bool:
+	if root_id.is_empty() \
+			or root_id == DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID \
+			or not MetaProgression.is_gallery_replay_root(root_id):
+		return false
+	var closure: Array[String] = \
+		MetaProgression.gallery_replay_closure_ids(root_id)
+	if closure.is_empty():
+		return false
+	var selector_matches: Dictionary = {}
+	var visible_choice_indices: Dictionary = {}
+	for event_id in closure:
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		if event.is_empty():
+			return false
+		selector_matches[event_id] = _live_gallery_selector_matches(event)
+		visible_choice_indices[event_id] = \
+			_live_gallery_visible_choice_indices(event)
+	var snapshot: Dictionary = MetaProgression.build_scene_replay_snapshot(
+		root_id, selector_matches, visible_choice_indices)
+	return not snapshot.is_empty() \
+		and MetaProgression.record_scene_replay_pair(root_id, snapshot)
+
+func _append_gallery_selector(matches: Array[String], selector_id: String) -> void:
+	var normalized := selector_id.strip_edges()
+	if not normalized.is_empty() and not matches.has(normalized):
+		matches.append(normalized)
+
+func _live_gallery_selector_matches(event: Dictionary) -> Array[String]:
+	var matches: Array[String] = []
+	for map_key in ["portrait_if_known", "cg_if_known", "description_if_known"]:
+		var raw_map: Variant = event.get(map_key, {})
+		if not raw_map is Dictionary:
+			continue
+		for raw_selector in (raw_map as Dictionary).keys():
+			var selector_id := str(raw_selector)
+			if _live_known_flag_condition_matches(selector_id):
+				_append_gallery_selector(matches, selector_id)
+	var held_map: Variant = event.get("description_if_held", {})
+	if held_map is Dictionary:
+		for raw_item_id in (held_map as Dictionary).keys():
+			var item_id := str(raw_item_id).strip_edges()
+			if not item_id.is_empty() and GameState.has_item(item_id):
+				_append_gallery_selector(matches, item_id)
+	var memory_map: Variant = event.get("description_memory_if_known", {})
+	if memory_map is Dictionary:
+		for raw_condition in (memory_map as Dictionary).keys():
+			var condition_key := str(raw_condition)
+			if _live_story_memory_condition_matches(condition_key):
+				_append_gallery_selector(matches, condition_key)
+	if event.has("description_low_mental") and int(GameState.mental) <= 20:
+		_append_gallery_selector(matches, "description_low_mental")
+	var housing := str(GameState.housing)
+	if event.has("description_long_gosiwon") and housing == "gosiwon" \
+			and int(GameState.housing_months.get(housing, 0)) >= 6:
+		_append_gallery_selector(matches, "description_long_gosiwon")
+	if event.has("description_orthodox") \
+			and int(GameState.route_orthodox) > int(GameState.route_unorthodox) + 15:
+		_append_gallery_selector(matches, "description_orthodox")
+	if event.has("description_unorthodox") \
+			and int(GameState.route_unorthodox) > int(GameState.route_orthodox) + 15:
+		_append_gallery_selector(matches, "description_unorthodox")
+	for raw_choice in event.get("choices", []):
+		if not raw_choice is Dictionary:
+			continue
+		var required_flags: Variant = (raw_choice as Dictionary).get(
+			"follow_up_requires_flags", [])
+		if not required_flags is Array:
+			continue
+		for raw_flag in required_flags as Array:
+			var flag_id := str(raw_flag).strip_edges()
+			if not flag_id.is_empty() \
+					and bool(GameState.flags.get(flag_id, false)):
+				_append_gallery_selector(matches, flag_id)
+	matches.sort()
+	return matches
+
+func _live_gallery_visible_choice_indices(event: Dictionary) -> Array[int]:
+	var visible: Array[int] = []
+	var choices: Array = event.get("choices", [])
+	for choice_index in range(choices.size()):
+		var raw_choice: Variant = choices[choice_index]
+		if raw_choice is Dictionary and _live_gallery_choice_visible(
+				event, raw_choice as Dictionary):
+			visible.append(choice_index)
+	return visible
+
+func _live_gallery_choice_visible(
+		event: Dictionary, choice: Dictionary) -> bool:
+	var need_item := str(choice.get("requires_item", ""))
+	if not need_item.is_empty() and not GameState.has_item(need_item):
+		return false
+	if not GameState.choice_available(event, choice):
+		return false
+	var obligation_id := str(choice.get(
+		"v2_obligation_id", "")).strip_edges()
+	return obligation_id.is_empty() or not DEMO_CORE_LOOP_V2.is_active() \
+		or DEMO_CORE_LOOP_V2.story_choice_available(
+			str(event.get("id", "")), obligation_id)
+
 func _capture_first_bill_replay_snapshot(choice_index: int = -1) -> bool:
 	var snapshot: Dictionary = {}
 	if choice_index >= 0 and not _first_bill_live_prechoice_snapshot.is_empty():
@@ -3437,10 +3616,9 @@ func _capture_first_bill_replay_snapshot(choice_index: int = -1) -> bool:
 	if snapshot.is_empty() or not raw_receipt is Dictionary \
 			or (raw_receipt as Dictionary).is_empty():
 		return false
-	if not MetaProgression.record_scene_replay_snapshot(
+	if not MetaProgression.record_scene_replay_pair(
 			DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID, snapshot):
 		return false
-	MetaProgression.record_scene_seen(DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID)
 	GameState.record_run_scene_seen(DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID)
 	_first_bill_replay_snapshot = snapshot.duplicate(true)
 	_first_bill_live_prechoice_snapshot.clear()
@@ -3481,6 +3659,9 @@ func _load_next_event():
 			return
 		var previous_event_id := str(_current.get("id", "")).strip_edges()
 		event_id = str(_queue.pop_front())
+		if _read_only_replay and not _gallery_replay_event_allowed(event_id):
+			_fail_closed_gallery_replay()
+			return
 		# Follow-ups already prepare their edge in _after_result. Roots that were
 		# queued together also need their authored transition contract; otherwise
 		# an internal cut silently falls back to whatever the prior scene left on
@@ -3621,10 +3802,17 @@ func _load_next_event():
 			and (raw_tags as Array).has("continuous_scene_fragment")
 	var delays_first_bill_unlock: bool = event_id \
 		== DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID
-	if not _read_only_replay and not is_continuous_fragment \
-			and not delays_first_bill_unlock:
-		MetaProgression.record_scene_seen(event_id)
-		GameState.record_run_scene_seen(event_id)
+	if not _read_only_replay and not is_continuous_fragment:
+		if MetaProgression.is_gallery_replay_root(event_id):
+			if not delays_first_bill_unlock:
+				# Pair creation owns the only meta write. A valid earlier pair is a
+				# write-once no-op; damaged legacy data is repaired only here, at a
+				# trusted live encounter before the first rendered paragraph.
+				_capture_gallery_replay_pair(event_id)
+				GameState.record_run_scene_seen(event_id)
+		elif not delays_first_bill_unlock:
+			MetaProgression.record_scene_seen(event_id)
+			GameState.record_run_scene_seen(event_id)
 	EventManager.current_event = _current
 	if not _read_only_replay and event_id in [
 		DEMO_CORE_LOOP_V2.FIRST_BILL_DECISION_ID,
@@ -3667,6 +3855,12 @@ func _resolved_event_cg_id() -> String:
 	return cg_id
 
 func _known_flag_condition_matches(condition_key: String) -> bool:
+	if _read_only_replay:
+		return _gallery_selector_matches(
+			str(_current.get("id", "")), condition_key)
+	return _live_known_flag_condition_matches(condition_key)
+
+func _live_known_flag_condition_matches(condition_key: String) -> bool:
 	for raw_flag_id in condition_key.split("&", false):
 		var flag_id := str(raw_flag_id).strip_edges()
 		if flag_id.is_empty() or not GameState.flags.get(flag_id, false):
@@ -3674,6 +3868,55 @@ func _known_flag_condition_matches(condition_key: String) -> bool:
 	return true
 
 func _story_memory_condition_matches(condition_key: String) -> bool:
+	if _read_only_replay:
+		if _first_bill_replay_event_active():
+			return _first_bill_replay_memory_condition_matches(condition_key)
+		return _gallery_selector_matches(
+			str(_current.get("id", "")), condition_key)
+	return _live_story_memory_condition_matches(condition_key)
+
+func _first_bill_replay_memory_condition_matches(
+		condition_key: String) -> bool:
+	for raw_condition in condition_key.split("&", false):
+		var condition := str(raw_condition).strip_edges()
+		if condition.begins_with("relationship_memory:"):
+			var receipt_id := condition.trim_prefix("relationship_memory:")
+			var separator := receipt_id.find(":")
+			if separator <= 0 or separator >= receipt_id.length() - 1:
+				return false
+			var character_id := receipt_id.substr(0, separator).strip_edges()
+			var memory_id := receipt_id.substr(separator + 1).strip_edges()
+			if character_id.is_empty() or memory_id.is_empty() \
+					or not DEMO_CORE_LOOP_V2 \
+						.first_bill_replay_has_relationship_memory(
+							_first_bill_replay_snapshot,
+							character_id, memory_id):
+				return false
+		elif condition in [
+			"m3_ledger_reasons_named", "m3_ledger_totals_only",
+		]:
+			if not DEMO_CORE_LOOP_V2.first_bill_replay_has_m3_ledger_memory(
+					_first_bill_replay_snapshot, condition):
+				return false
+		else:
+			# Specialized schema 1 intentionally has no generic live-flag escape
+			# hatch. A newly authored selector needs an explicit frozen producer.
+			return false
+	return true
+
+func _gallery_selector_matches(event_id: String, selector_id: String) -> bool:
+	if _gallery_replay_snapshot.is_empty() \
+			or event_id.is_empty() or selector_id.strip_edges().is_empty():
+		return false
+	var raw_by_event: Variant = _gallery_replay_snapshot.get(
+		"selector_matches", {})
+	if not raw_by_event is Dictionary:
+		return false
+	var raw_matches: Variant = (raw_by_event as Dictionary).get(event_id, [])
+	return raw_matches is Array \
+		and (raw_matches as Array).has(selector_id.strip_edges())
+
+func _live_story_memory_condition_matches(condition_key: String) -> bool:
 	for raw_condition in condition_key.split("&", false):
 		var condition := str(raw_condition).strip_edges()
 		if condition.begins_with("relationship_memory:"):
@@ -3684,17 +3927,9 @@ func _story_memory_condition_matches(condition_key: String) -> bool:
 				return false
 			var character_id := receipt_id.substr(0, separator).strip_edges()
 			var memory_id := receipt_id.substr(separator + 1).strip_edges()
-			var memory_known := DEMO_CORE_LOOP_V2 \
-				.first_bill_replay_has_relationship_memory(
-					_first_bill_replay_snapshot,
-					character_id, memory_id) \
-				if _read_only_replay \
-					and str(_current.get("id", "")) \
-						== DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID \
-				else DEMO_CORE_LOOP_V2.has_relationship_memory(
-					character_id, memory_id)
 			if character_id.is_empty() or memory_id.is_empty() \
-					or not memory_known:
+					or not DEMO_CORE_LOOP_V2.has_relationship_memory(
+						character_id, memory_id):
 				return false
 		elif condition.begins_with("future_story_source:"):
 			var source_key := condition.trim_prefix(
@@ -3756,11 +3991,7 @@ func _obligation_condition_disposition(condition_key: String) -> String:
 
 func _resolved_story_description(event: Dictionary) -> String:
 	var desc_raw: String = str(event.get("description", ""))
-	var ortho: int = int(GameState.route_orthodox)
-	var unorth: int = int(GameState.route_unorthodox)
-	var mental: int = int(GameState.mental)
-	var housing: String = str(GameState.housing)
-	var housing_months: int = int(GameState.housing_months.get(housing, 0))
+	var event_id := str(event.get("id", ""))
 	var know_variant := ""
 	var know_map = event.get("description_if_known", null)
 	if know_map is Dictionary:
@@ -3772,20 +4003,34 @@ func _resolved_story_description(event: Dictionary) -> String:
 		var held_map = event.get("description_if_held", null)
 		if held_map is Dictionary:
 			for item_id in held_map.keys():
-				if GameState.has_item(str(item_id)):
+				var held := _gallery_selector_matches(
+					event_id, str(item_id)) if _read_only_replay \
+					else GameState.has_item(str(item_id))
+				if held:
 					know_variant = str(held_map[item_id])
 					break
 	if not know_variant.is_empty():
 		desc_raw = know_variant
 	elif event.has("description_if_moral"):
 		desc_raw = _moral_perception_text(event.get("description_if_moral", {}), desc_raw)
-	elif mental <= 20 and event.has("description_low_mental"):
+	elif event.has("description_low_mental") and (
+			_gallery_selector_matches(event_id, "description_low_mental")
+			if _read_only_replay else int(GameState.mental) <= 20):
 		desc_raw = str(event["description_low_mental"])
-	elif housing == "gosiwon" and housing_months >= 6 and event.has("description_long_gosiwon"):
+	elif event.has("description_long_gosiwon") and (
+			_gallery_selector_matches(event_id, "description_long_gosiwon")
+			if _read_only_replay else str(GameState.housing) == "gosiwon" \
+				and int(GameState.housing_months.get("gosiwon", 0)) >= 6):
 		desc_raw = str(event["description_long_gosiwon"])
-	elif ortho > unorth + 15 and event.has("description_orthodox"):
+	elif event.has("description_orthodox") and (
+			_gallery_selector_matches(event_id, "description_orthodox")
+			if _read_only_replay else int(GameState.route_orthodox) \
+				> int(GameState.route_unorthodox) + 15):
 		desc_raw = str(event["description_orthodox"])
-	elif unorth > ortho + 15 and event.has("description_unorthodox"):
+	elif event.has("description_unorthodox") and (
+			_gallery_selector_matches(event_id, "description_unorthodox")
+			if _read_only_replay else int(GameState.route_unorthodox) \
+				> int(GameState.route_orthodox) + 15):
 		desc_raw = str(event["description_unorthodox"])
 	var memory_map = event.get("description_memory_if_known", null)
 	if memory_map is Dictionary:
@@ -3808,7 +4053,10 @@ func _resolved_story_description(event: Dictionary) -> String:
 					obligation_dispositions_added[disposition] = true
 				desc_raw += "\n\n" + memory_text
 	var desc := _fmt(desc_raw)
-	var causal_frame := EventManager.causal_frame_for(event)
+	# The schema does not store a current-run action echo. Gallery roots are
+	# authored without one, so a later run must not invent a new preface.
+	var causal_frame := "" if _read_only_replay \
+		else EventManager.causal_frame_for(event)
 	if not causal_frame.is_empty():
 		desc = "[color=#9aa4b2][i]%s[/i][/color]\n%s" % [_fmt(causal_frame), desc]
 	return desc
@@ -4440,7 +4688,7 @@ func _render_current():
 	if _text_panel != null:
 		_text_panel.visible = true
 	if _hud_panel != null and is_instance_valid(_hud_panel):
-		_hud_panel.visible = true
+		_hud_panel.visible = not _read_only_replay
 
 	# 챕터 카드 전용 시네마틱 연출
 	if str(_current.get("id", "")).begins_with("chapter_card_"):
@@ -4479,7 +4727,9 @@ func _render_current():
 		if bg_id == "":
 			bg_id = str(_current.get("background", ""))
 		if bg_id == "":
-			bg_id = ImageRegistry.infer_background_id(_current, GameState.housing)
+			bg_id = ImageRegistry.infer_background_id(
+				_current, _gallery_replay_housing_id() \
+					if _read_only_replay else GameState.housing)
 		bg_id = _resolve_story_background_id(bg_id)
 		if bg_id != "":
 			var bp = ImageRegistry.get_background(bg_id)
@@ -4516,7 +4766,7 @@ func _render_current():
 		_show_portrait("", true)
 	if _current_uses_cg and _hud_panel != null and is_instance_valid(_hud_panel):
 		_hud_panel.visible = false
-	if _first_bill_replay_event_active() \
+	if _read_only_replay \
 			and _hud_panel != null and is_instance_valid(_hud_panel):
 		_hud_panel.visible = false
 
@@ -4548,16 +4798,21 @@ func _event_background_id_for_paragraph(paragraph_index: int) -> String:
 	return _resolve_story_background_id(str(_event_paragraph_backgrounds[index]))
 
 func _resolve_story_background_id(background_id: String) -> String:
-	if background_id.strip_edges() == "current_housing" \
-			and _first_bill_replay_event_active():
-		match str(_first_bill_replay_snapshot.get("housing", "gosiwon")):
+	var contextual_id := background_id.strip_edges()
+	if contextual_id == "current_housing" \
+			and _read_only_replay:
+		match _gallery_replay_housing_id():
 			"gangnam", "apartment":
 				return "gangnam_apartment"
 			"villa", "oneroom":
 				return "apartment"
 			_:
 				return "goshiwon_room"
-	return ImageRegistry.resolve_contextual_background_id(background_id.strip_edges())
+	if contextual_id == "current_workplace" and _read_only_replay:
+		# Schema 1 has no occupation field. Future gallery authors must add a frozen
+		# producer before a workplace-relative root can be admitted by the audit.
+		return ""
+	return ImageRegistry.resolve_contextual_background_id(contextual_id)
 
 func _first_bill_replay_event_active() -> bool:
 	if not _read_only_replay or _first_bill_replay_snapshot.is_empty():
@@ -4573,10 +4828,16 @@ func _story_player_display_name() -> String:
 	if _first_bill_replay_event_active():
 		return DEMO_CORE_LOOP_V2.first_bill_replay_player_name(
 			_first_bill_replay_snapshot)
+	if _read_only_replay:
+		return LocaleManager.localize_player_name(str(
+			_gallery_replay_snapshot.get("player_name", "")))
 	return GameState.player_name
 
+func _gallery_replay_housing_id() -> String:
+	return str(_gallery_replay_snapshot.get("housing", ""))
+
 func _first_bill_replay_housing_ambience() -> String:
-	match str(_first_bill_replay_snapshot.get("housing", "gosiwon")):
+	match _gallery_replay_housing_id():
 		"gangnam", "apartment":
 			return "apartment"
 		"villa", "oneroom":
@@ -4705,15 +4966,14 @@ func _show_portrait(portrait_id: String, bg_only: bool = false):
 	# bg_only 장면(배경이 주연)에선 초상화 id가 있어도 인물 정보만 쓰고 그림은 띄우지 않는다.
 	if portrait_id != "":
 		info = ImageRegistry.get_person_info(portrait_id)
-		if _first_bill_replay_event_active() \
+		if _read_only_replay \
 				and portrait_id.begins_with("player"):
 			info = info.duplicate(true)
-			info["name"] = DEMO_CORE_LOOP_V2.first_bill_replay_player_name(
-				_first_bill_replay_snapshot)
+			info["name"] = _story_player_display_name()
 		if not bg_only and str(_current_presentation.get("portrait_role", "present")) != "none":
 			path = ImageRegistry.get_portrait_for_turn(
-				portrait_id, int(_first_bill_replay_snapshot.get("turn", 24))) \
-				if _first_bill_replay_event_active() \
+				portrait_id, _story_visual_turn()) \
+				if _read_only_replay \
 				else ImageRegistry.get_portrait(portrait_id)
 
 	# 초상화 이미지가 실제로 있을 때만 액자 표시. 없으면(배경전용/플레이스홀더) 프레임 통째로 숨김.
@@ -5478,31 +5738,42 @@ func _stop_story_choice_countdown() -> void:
 
 ## 선택지 노출 게이트 — requires_item 보유 시에만 표시(유물 제시 메커니즘).
 ## 향후 requires_flag/requires_not_flag 확장 여지. 없으면 항상 표시.
-func _choice_visible(ch: Dictionary) -> bool:
+func _choice_visible(ch: Dictionary, choice_index: int = -1) -> bool:
+	if _read_only_replay:
+		if _first_bill_replay_event_active():
+			if bool(ch.get("opportunity_unavailable_fallback", false)):
+				return false
+			var replay_obligation_id := str(ch.get(
+				"v2_obligation_id", "")).strip_edges()
+			return replay_obligation_id.is_empty() \
+				or DEMO_CORE_LOOP_V2.first_bill_replay_choice_available(
+					_first_bill_replay_snapshot, replay_obligation_id)
+		return _gallery_choice_was_visible(
+			str(_current.get("id", "")), choice_index)
 	var need_item := str(ch.get("requires_item", ""))
 	if need_item != "" and not GameState.has_item(need_item):
 		return false
-	# A replay reconstructs the choices that existed in the remembered scene;
-	# live cash must not rewrite history. The zero-cash escape choice is a live
-	# compatibility path and therefore never appears in read-only recollection.
-	if _read_only_replay:
-		if bool(ch.get("opportunity_unavailable_fallback", false)):
-			return false
-	elif not GameState.choice_available(_current, ch):
+	if not GameState.choice_available(_current, ch):
 		return false
 	var obligation_id := str(
 		ch.get("v2_obligation_id", "")).strip_edges()
 	if not obligation_id.is_empty():
-		if _read_only_replay \
-				and str(_current.get("id", "")) \
-					== DEMO_CORE_LOOP_V2.FIRST_BILL_DECISION_ID:
-			return DEMO_CORE_LOOP_V2.first_bill_replay_choice_available(
-				_first_bill_replay_snapshot, obligation_id)
 		if DEMO_CORE_LOOP_V2.is_active() \
 				and not DEMO_CORE_LOOP_V2.story_choice_available(
 					str(_current.get("id", "")), obligation_id):
 			return false
 	return true
+
+func _gallery_choice_was_visible(event_id: String, choice_index: int) -> bool:
+	if _gallery_replay_snapshot.is_empty() \
+			or event_id.is_empty() or choice_index < 0:
+		return false
+	var raw_by_event: Variant = _gallery_replay_snapshot.get(
+		"visible_choice_indices", {})
+	if not raw_by_event is Dictionary:
+		return false
+	var raw_indices: Variant = (raw_by_event as Dictionary).get(event_id, [])
+	return raw_indices is Array and (raw_indices as Array).has(choice_index)
 
 ## 원본 선택지 인덱스를 유지한 채 현재 플레이어에게 보이는 선택지만 반환한다.
 ## UI와 히든 경로 QA가 이 함수를 공유해, 표시 번호와 실제 선택 배선이 갈라지지 않게 한다.
@@ -5511,7 +5782,7 @@ func _visible_choice_indices(event: Dictionary) -> Array[int]:
 	var choices: Array = event.get("choices", [])
 	for i in range(choices.size()):
 		var choice: Dictionary = choices[i]
-		if _choice_visible(choice):
+		if _choice_visible(choice, i):
 			visible.append(i)
 	return visible
 
@@ -5525,9 +5796,15 @@ func _choice_follow_up_id(
 		return ""
 	for raw_flag in raw_required_flags as Array:
 		var flag_id := str(raw_flag).strip_edges()
-		if flag_id.is_empty() \
-				or not bool(GameState.flags.get(flag_id, false)):
+		var flag_matched := _gallery_selector_matches(
+			event_id, flag_id) if _read_only_replay \
+			else bool(GameState.flags.get(flag_id, false))
+		if flag_id.is_empty() or not flag_matched:
 			return ""
+	if _read_only_replay:
+		# Demo suppression and opening replacement are live-run schedulers. The
+		# gallery follows the authored edge that existed in the frozen closure.
+		return follow_up_id
 	follow_up_id = DEMO_CORE_LOOP_V2.opening_follow_up_event(
 		event_id, follow_up_id, _queue)
 	if DEMO_CORE_LOOP_V2.is_active() \
@@ -5644,7 +5921,7 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 		BGMPlayer.update_event_ambience(result_event, "", result_background_id)
 	if _hud_panel != null and is_instance_valid(_hud_panel):
 		_hud_panel.visible = not _story_visual_override_active \
-			and not _first_bill_replay_event_active()
+			and not _read_only_replay
 
 func _on_choice(idx: int):
 	if _transitioning or _story_scene_transition_active \
@@ -5654,7 +5931,7 @@ func _on_choice(idx: int):
 	if idx < 0 or idx >= choices.size():
 		return
 	var choice: Dictionary = choices[idx]
-	if not _choice_visible(choice):
+	if not _choice_visible(choice, idx):
 		return
 	var expression_choice := GameState.is_expression_choice(choice)
 	var current_event_id := str(_current.get("id", ""))
@@ -5711,9 +5988,9 @@ func _on_choice(idx: int):
 		and result != "" and _story_choice_has_visible_result(choice)
 
 	# 변화 스냅샷 (노출용) — 스탯 + 인물 관계
-	var before = _snapshot_stats()
-	var cast_before := {}
-	if not expression_choice:
+	var before: Dictionary = {} if _read_only_replay else _snapshot_stats()
+	var cast_before: Dictionary = {}
+	if not _read_only_replay and not expression_choice:
 		for pid in choice.get("cast_effects", {}):
 			cast_before[str(pid)] = GameState.get_cast_affinity(str(pid))
 	if not _read_only_replay:
@@ -6305,7 +6582,11 @@ func _finish_all():
 	EventManager.current_event = {}
 	_reset_scene_direction()
 	BGMPlayer.enter_ambient_bed(0.75)
-	BGMPlayer.update_idle_ambience()
+	if _read_only_replay:
+		BGMPlayer.clear_ambience()
+		BGMPlayer.end_gallery_replay()
+	else:
+		BGMPlayer.update_idle_ambience()
 	# MainGame 복귀만 주간 재시작을 막는다. 메인 메뉴 회상은 런 상태를 건드리지 않는다.
 	GameState.returning_from_story = not _read_only_replay
 	# 복귀 대상 (기본: MainGame)
@@ -6319,14 +6600,28 @@ func _finish_all():
 func _exit_tree() -> void:
 	_stop_story_choice_countdown()
 	GameState.story_replay_mode = false
+	if _read_only_replay:
+		BGMPlayer.clear_ambience()
+	BGMPlayer.end_gallery_replay()
 	BGMPlayer.restore_ambience()
 	SceneTransition.set_playtest_marker_context(
 		SceneTransition.PLAYTEST_MARKER_CONTEXT_DEFAULT)
 
 func _fmt(s: String) -> String:
-	return DEMO_CORE_LOOP_V2.format_first_bill_story_text(
-		s, _first_bill_replay_snapshot \
-			if _read_only_replay else {})
+	if _read_only_replay and _first_bill_replay_event_active():
+		var frozen_first_bill := DEMO_CORE_LOOP_V2 \
+			.validated_first_bill_replay_snapshot(_first_bill_replay_snapshot)
+		# Preparation accepts only a complete snapshot. This guard also keeps direct
+		# fixture/corruption calls from falling through to DemoCore's live formatter.
+		return s if frozen_first_bill.is_empty() else \
+			DEMO_CORE_LOOP_V2.format_first_bill_story_text(
+				s, frozen_first_bill)
+	if _read_only_replay:
+		# Ordinary gallery closure currently owns exactly one dynamic token. Keep
+		# unknown future tokens unresolved so they cannot silently read a live run;
+		# the gallery audit rejects any such authored expansion.
+		return s.replace("{name}", _story_player_display_name())
+	return DEMO_CORE_LOOP_V2.format_first_bill_story_text(s)
 
 ## UI 문자열 번역 헬퍼
 func _tr(ko: String, en: String) -> String:

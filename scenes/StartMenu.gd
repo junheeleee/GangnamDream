@@ -1177,7 +1177,7 @@ func _update_archive_status() -> void:
 			1:
 				var seen := 0
 				for scene_id in ARCHIVE_SCENE_IDS:
-					if MetaProgression.has_seen_scene(scene_id):
+					if _archive_scene_has_valid_replay(scene_id):
 						seen += 1
 				_archive_progress_label.text = LocaleManager.ui_format(
 					"회상  %d / %d", "SCENES  %d / %d",
@@ -1284,11 +1284,7 @@ func _archive_cg_card(cg_id: String, catalog_index: int) -> Button:
 
 func _archive_scene_card(scene_id: String, catalog_index: int) -> Button:
 	var event: Dictionary = DataRegistry.find_event(scene_id)
-	var unlocked: bool = MetaProgression.has_seen_scene(scene_id) and not event.is_empty()
-	if scene_id == DemoCoreLoopV2Script.FIRST_BILL_OPENING_ID:
-		unlocked = unlocked and not DemoCoreLoopV2Script \
-			.validated_complete_first_bill_replay_snapshot(
-				MetaProgression.get_scene_replay_snapshot(scene_id)).is_empty()
+	var unlocked := _archive_scene_has_valid_replay(scene_id)
 	var title := str(event.get("title", LocaleManager.ui_context(
 		"ui.archive.record_fallback", "기록", "Record"))) if unlocked else "???"
 	var button := _archive_card_button(142)
@@ -1337,6 +1333,17 @@ func _archive_scene_card(scene_id: String, catalog_index: int) -> Button:
 	if unlocked:
 		button.pressed.connect(_replay_archive_scene.bind(scene_id))
 	return button
+
+func _archive_scene_has_valid_replay(scene_id: String) -> bool:
+	if scene_id not in ARCHIVE_SCENE_IDS \
+			or DataRegistry.find_event(scene_id).is_empty() \
+			or not MetaProgression.has_valid_scene_replay_pair(scene_id):
+		return false
+	if scene_id == DemoCoreLoopV2Script.FIRST_BILL_OPENING_ID:
+		return not DemoCoreLoopV2Script \
+			.validated_complete_first_bill_replay_snapshot(
+				MetaProgression.get_scene_replay_snapshot(scene_id)).is_empty()
+	return true
 
 func _archive_hidden_card(achievement: Dictionary, catalog_index: int) -> PanelContainer:
 	var card := PanelContainer.new()
@@ -1501,11 +1508,13 @@ func _close_archive_cg_preview() -> void:
 	call_deferred("_focus_first_archive_item")
 
 func _replay_archive_scene(scene_id: String) -> void:
-	if not MetaProgression.has_seen_scene(scene_id) or DataRegistry.find_event(scene_id).is_empty():
-		return
-	if scene_id == DemoCoreLoopV2Script.FIRST_BILL_OPENING_ID \
-			and DemoCoreLoopV2Script.validated_complete_first_bill_replay_snapshot(
-				MetaProgression.get_scene_replay_snapshot(scene_id)).is_empty():
+	if not _archive_scene_has_valid_replay(scene_id):
+		# Remain on the menu and remove any stale launch authority. A direct or
+		# damaged replay request must not fall through into live StoryMode state.
+		GameState.pending_story_queue.clear()
+		GameState.story_return_scene = "res://scenes/StartMenu.tscn"
+		GameState.returning_from_story = false
+		GameState.story_replay_mode = false
 		return
 	GameState.pending_story_queue = [scene_id]
 	GameState.story_return_scene = "res://scenes/StartMenu.tscn"

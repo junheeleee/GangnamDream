@@ -44,7 +44,7 @@ cleanup_isolated_home() {
     return 1
   fi
   case "$target" in
-	  "$temp_root"/gangnam-achievements.*|"$temp_root"/gangnam-communication-phone.*|"$temp_root"/gangnam-controller-semantic.*|"$temp_root"/gangnam-core-loop-v2.*|"$temp_root"/gangnam-core-loop-v2-b.*|"$temp_root"/gangnam-core-loop-v2-c.*|"$temp_root"/gangnam-core-loop-v2-cycle-balance.*|"$temp_root"/gangnam-core-loop-v2-d.*|"$temp_root"/gangnam-core-loop-v2-e.*|"$temp_root"/gangnam-core-loop-v2-first-entry.*|"$temp_root"/gangnam-core-loop-v2-handoff.*|"$temp_root"/gangnam-ending-route.*|"$temp_root"/gangnam-first30.*|"$temp_root"/gangnam-hidden.*|"$temp_root"/gangnam-housing-keepsake.*|"$temp_root"/gangnam-immersion-loop.*|"$temp_root"/gangnam-input-matrix.*|"$temp_root"/gangnam-manual-save.*|"$temp_root"/gangnam-mod-layer.*|"$temp_root"/gangnam-money-integrity.*|"$temp_root"/gangnam-phone-system.*|"$temp_root"/gangnam-story-audio.*|"$temp_root"/gangnam-story-dialogue-history.*|"$temp_root"/gangnam-story-tutorial.*)
+	  "$temp_root"/gangnam-achievements.*|"$temp_root"/gangnam-communication-phone.*|"$temp_root"/gangnam-controller-semantic.*|"$temp_root"/gangnam-core-loop-v2.*|"$temp_root"/gangnam-core-loop-v2-b.*|"$temp_root"/gangnam-core-loop-v2-c.*|"$temp_root"/gangnam-core-loop-v2-cycle-balance.*|"$temp_root"/gangnam-core-loop-v2-d.*|"$temp_root"/gangnam-core-loop-v2-e.*|"$temp_root"/gangnam-core-loop-v2-first-entry.*|"$temp_root"/gangnam-core-loop-v2-handoff.*|"$temp_root"/gangnam-ending-route.*|"$temp_root"/gangnam-first30.*|"$temp_root"/gangnam-gallery-replay.*|"$temp_root"/gangnam-hidden.*|"$temp_root"/gangnam-housing-keepsake.*|"$temp_root"/gangnam-immersion-loop.*|"$temp_root"/gangnam-input-matrix.*|"$temp_root"/gangnam-manual-save.*|"$temp_root"/gangnam-mod-layer.*|"$temp_root"/gangnam-money-integrity.*|"$temp_root"/gangnam-phone-system.*|"$temp_root"/gangnam-story-audio.*|"$temp_root"/gangnam-story-dialogue-history.*|"$temp_root"/gangnam-story-playback.*|"$temp_root"/gangnam-story-tutorial.*)
       rm -rf -- "$target"
       ;;
     *)
@@ -882,10 +882,31 @@ else
 fi
 
 echo "──────────────────────────────────────────"
+echo "● 갤러리 20루트 최초 상태·읽기 전용 회상 검사"
+if [ -x "$GODOT" ]; then
+  GALLERY_REPLAY_HOME=$(make_isolated_home "gangnam-gallery-replay")
+  GALLERY_REPLAY_RAW=$(run_limited env HOME="$GALLERY_REPLAY_HOME" "$GODOT" --headless --quit-after 1200 res://tools/GalleryReplaySnapshotCheck.tscn 2>&1)
+  GALLERY_REPLAY_STATUS=$?
+  cleanup_isolated_home "$GALLERY_REPLAY_HOME"
+  echo "$GALLERY_REPLAY_RAW" | grep -E "GALLERY_REPLAY_SNAPSHOT_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
+  if godot_check_passed "$GALLERY_REPLAY_RAW" "$GALLERY_REPLAY_STATUS" \
+      "GALLERY_REPLAY_SNAPSHOT_CHECK_OK" strict; then
+    GALLERY_REPLAY_EXIT=0
+  else
+    GALLERY_REPLAY_EXIT=1
+  fi
+else
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 갤러리 회상 체크 건너뜀."
+  GALLERY_REPLAY_EXIT=0
+fi
+
+echo "──────────────────────────────────────────"
 echo "● 스토리 자동 재생 선택지 안전 검사"
 if [ -x "$GODOT" ]; then
-  STORY_PLAYBACK_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/StoryPlaybackCheck.tscn 2>&1)
+  STORY_PLAYBACK_HOME=$(make_isolated_home "gangnam-story-playback")
+  STORY_PLAYBACK_RAW=$(run_limited env HOME="$STORY_PLAYBACK_HOME" "$GODOT" --headless --quit-after 3600 res://tools/StoryPlaybackCheck.tscn 2>&1)
   STORY_PLAYBACK_STATUS=$?
+  cleanup_isolated_home "$STORY_PLAYBACK_HOME"
   echo "$STORY_PLAYBACK_RAW" | grep -E "STORY_PLAYBACK_CHECK_OK|STORY_PLAYBACK_CHECK_FAIL|ERROR:|SCRIPT ERROR" | sed 's/^/  /'
   if godot_check_passed "$STORY_PLAYBACK_RAW" "$STORY_PLAYBACK_STATUS" \
       "STORY_PLAYBACK_CHECK_OK"; then
@@ -1248,7 +1269,7 @@ AUDIT_EXIT_FLAGS="
   EVENT_DIRECTOR_RUNTIME_EXIT CORE_CHOICE_EXIT ENDING_DISTINCTNESS_EXIT ENDING_ROUTE_EXIT AUDIO_SOURCE_EXIT SCENE_AUDIO_EXIT
   SCENE_AUDIO_CATALOG_EXIT FULL_RUN_AUDIO_EXIT SCENE_DIRECTION_CATALOG_EXIT FULL_RUN_DIRECTION_EXIT GAME_AUDIO_CONTRACT_EXIT UI_SFX_EXIT
   LAUNCH_AUDIO_EXIT AUDIO_EXIT GAME_AUDIO_RUNTIME_EXIT BGM_EXIT MORAL_AMBIENCE_EXIT IMMERSION_EXIT
-  MOTIVATION_EXIT TUTORIAL_EXIT STORY_TUTORIAL_EXIT STORY_PLAYBACK_EXIT STORY_DIALOGUE_HISTORY_EXIT MANUAL_SAVE_EXIT SURFACE_COHERENCE_EXIT IDENTITY_SIGNATURE_EXIT FEATURE_LIVENESS_EXIT STATUS_DOC_EXIT HUMAN_GATES_EXIT
+  MOTIVATION_EXIT TUTORIAL_EXIT STORY_TUTORIAL_EXIT GALLERY_REPLAY_EXIT STORY_PLAYBACK_EXIT STORY_DIALOGUE_HISTORY_EXIT MANUAL_SAVE_EXIT SURFACE_COHERENCE_EXIT IDENTITY_SIGNATURE_EXIT FEATURE_LIVENESS_EXIT STATUS_DOC_EXIT HUMAN_GATES_EXIT
   STORY_PRESENCE_EXIT LIVING_SCENE_EXIT SCENE_DIRECTION_RUNTIME_EXIT TEXT_MATERIAL_EXIT STORY_AUDIO_EXIT INPUT_MATRIX_EXIT CONTROLLER_SEMANTIC_EXIT
   ACHIEVEMENT_EXIT HIDDEN_EXIT HOUSING_KEEPSAKE_EXIT YEAR_IDENTITY_EXIT CAST_VISUAL_TIME_EXIT DEMO_BUILD_EXIT PLAYTEST_FLAVOR_EXIT
   TRAILER_EXIT GD_EXIT

@@ -1,9 +1,31 @@
 extends Node
 ## StoryDialogueHistoryCheck — 현재 대화 백로그의 노출·입력·저장 경계를 검증한다.
 
+const STORY_MODE_SCRIPT := preload("res://scenes/StoryMode.gd")
+const REPLAY_ROOT := "arc_daeun_first_kiss"
+const EXPECTED_FOLLOW_UP := "arc_daeun_first_kiss_ask"
+
 var _story: Control = null
+var _game_state_backup: Dictionary = {}
+var _meta_backup: Dictionary = {}
+var _pending_story_queue_backup: Array = []
+var _story_return_scene_backup := ""
+var _returning_from_story_backup := false
+var _story_replay_mode_backup := false
+var _current_event_backup: Dictionary = {}
 
 func _ready() -> void:
+	_backup_state()
+	# Use an actual gallery closure. Non-gallery IDs are intentionally rejected by
+	# StoryMode now, and this fixture must exercise the same read-only authority as
+	# the archive instead of bypassing it with a stale replay flag.
+	GameState.player_name = "김민준"
+	GameState.turn = 52
+	GameState.moral_tint = 0
+	GameState.housing = "gosiwon"
+	if not _seed_gallery_replay_pair(REPLAY_ROOT):
+		_fail("fixture could not seed a valid gallery replay pair")
+		return
 	if not await _spawn_story():
 		return
 	if not _check_plain_text_markup_boundary():
@@ -24,18 +46,49 @@ func _ready() -> void:
 
 func _spawn_story() -> bool:
 	GameState.story_replay_mode = true
-	GameState.pending_story_queue = ["story_prologue_dad"]
+	GameState.pending_story_queue = [REPLAY_ROOT]
 	GameState.story_return_scene = "res://scenes/MainGame.tscn"
 	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
 	add_child(_story)
 	await get_tree().process_frame
 	await get_tree().process_frame
 	if str((_story.get("_current") as Dictionary).get("id", "")) \
-			!= "story_prologue_dad":
-		_fail("fixture did not load the phone conversation")
+			!= REPLAY_ROOT:
+		_fail("fixture did not load the gallery conversation")
 		return false
 	_story.call("_set_auto_mode", false, false, false)
 	return true
+
+func _seed_gallery_replay_pair(root_id: String) -> bool:
+	var producer := STORY_MODE_SCRIPT.new()
+	var selectors: Dictionary = {}
+	var choices: Dictionary = {}
+	for event_id in MetaProgression.gallery_replay_closure_ids(root_id):
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		if event.is_empty():
+			producer.free()
+			return false
+		selectors[event_id] = producer.call(
+			"_live_gallery_selector_matches", event)
+		choices[event_id] = producer.call(
+			"_live_gallery_visible_choice_indices", event)
+	producer.free()
+	var snapshot := MetaProgression.build_scene_replay_snapshot(
+		root_id, selectors, choices)
+	if snapshot.is_empty():
+		return false
+	var raw_seen: Variant = MetaProgression.data.get("seen_scenes", [])
+	var seen: Array = (raw_seen as Array).duplicate() if raw_seen is Array else []
+	if not seen.has(root_id):
+		seen.append(root_id)
+	var raw_snapshots: Variant = MetaProgression.data.get(
+		"scene_replay_snapshots", {})
+	var snapshots: Dictionary = (raw_snapshots as Dictionary).duplicate(true) \
+		if raw_snapshots is Dictionary else {}
+	snapshots[root_id] = snapshot.duplicate(true)
+	MetaProgression.data["seen_scenes"] = seen
+	MetaProgression.data["scene_replay_snapshots"] = snapshots
+	return MetaProgression.has_valid_scene_replay_pair(root_id)
 
 func _check_plain_text_markup_boundary() -> bool:
 	if not _story.has_method("_dialogue_log_plain_text"):
@@ -309,7 +362,7 @@ func _check_follow_up_and_session_boundary() -> bool:
 			break
 		await get_tree().process_frame
 	if str((_story.get("_current") as Dictionary).get("id", "")) \
-			!= "story_prologue_goal":
+			!= EXPECTED_FOLLOW_UP:
 		_fail("fixture did not reach its immediate follow-up")
 		return false
 	var history_after: Array = _story.get("_dialogue_log_entries")
@@ -347,13 +400,34 @@ func _finish_ok() -> void:
 		await get_tree().process_frame
 		await get_tree().process_frame
 	_story = null
+	_restore_state()
 	print(
 		"STORY_DIALOGUE_HISTORY_CHECK_OK "
 		+ "seen_only=prose+choice+result no_future=1 partial=transient "
 		+ "brackets=literal bbcode=stripped timer=paused focus=exact "
-		+ "save=resume_schema1 replay=read_only follow_up=kept fresh=empty")
+		+ "save=resume_schema1 replay=valid_gallery follow_up=kept fresh=empty")
 	get_tree().quit(0)
 
 func _fail(message: String) -> void:
+	_restore_state()
 	push_error("STORY_DIALOGUE_HISTORY_CHECK_FAIL: %s" % message)
 	get_tree().quit(1)
+
+func _backup_state() -> void:
+	_game_state_backup = GameState.serialize().duplicate(true)
+	_meta_backup = MetaProgression.data.duplicate(true)
+	_pending_story_queue_backup = GameState.pending_story_queue.duplicate(true)
+	_story_return_scene_backup = GameState.story_return_scene
+	_returning_from_story_backup = GameState.returning_from_story
+	_story_replay_mode_backup = GameState.story_replay_mode
+	_current_event_backup = EventManager.current_event.duplicate(true)
+
+func _restore_state() -> void:
+	BGMPlayer.end_gallery_replay()
+	GameState.load_from_dict(_game_state_backup)
+	GameState.pending_story_queue = _pending_story_queue_backup.duplicate(true)
+	GameState.story_return_scene = _story_return_scene_backup
+	GameState.returning_from_story = _returning_from_story_backup
+	GameState.story_replay_mode = _story_replay_mode_backup
+	EventManager.current_event = _current_event_backup.duplicate(true)
+	MetaProgression.data = _meta_backup.duplicate(true)

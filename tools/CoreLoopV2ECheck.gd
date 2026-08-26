@@ -1037,6 +1037,7 @@ func _ready() -> void:
 	_check_first_bill_custom_player_name_copy()
 	_check_hanbit_first_bill_provenance()
 	_check_first_bill_father_memory_replay_snapshot()
+	_check_first_bill_m3_ledger_memory_replay_snapshot()
 	_check_dirty_choice_single_truth()
 	_check_collision_queue_and_receipts()
 	_check_city_choice_preserves_submission()
@@ -1074,6 +1075,8 @@ func _ready() -> void:
 			+ "loan_housing_required_split_ko_en/custom_name_ko_en/"
 			+ "hanbit_exact_provenance_legacy_prune_save "
 			+ "father_replay=frozen3/live_isolated/schema1_empty "
+			+ "m3_replay=frozen2+empty/live_isolated/"
+			+ "schema1_empty/corrupt_reject3 "
 			+ "dirty_choice=2x2/effects/exact_deferred/no_generic/"
 			+ "corrupt_reject/live_preflight/keyed_duplicate_safe/"
 			+ "save_load/ko_en_trace "
@@ -2347,6 +2350,98 @@ func _check_first_bill_father_memory_replay_snapshot() -> void:
 				"Schema-1 First Bill replay inferred a live Father memory")
 			legacy_checked = true
 		story.free()
+	LocaleManager.set_language(original_language)
+	DataRegistry.reload()
+
+
+func _check_first_bill_m3_ledger_memory_replay_snapshot() -> void:
+	var original_language := LocaleManager.language
+	LocaleManager.set_language("ko")
+	var ledger: Dictionary = DataRegistry.find_event(
+		CORE_LOOP.FIRST_BILL_LEDGER_ID)
+	var memory_map: Dictionary = ledger.get(
+		"description_memory_if_known", {})
+	var fixtures := [
+		{
+			"memory": "m3_ledger_reasons_named",
+			"live": "m3_ledger_totals_only",
+		},
+		{
+			"memory": "m3_ledger_totals_only",
+			"live": "m3_ledger_reasons_named",
+		},
+		{
+			"memory": "",
+			"live": "m3_ledger_reasons_named",
+		},
+	]
+	var complete_fixture: Dictionary = {}
+	for fixture in fixtures:
+		var frozen_memory := str(fixture["memory"])
+		var live_memory := str(fixture["live"])
+		_fresh_at(24)
+		if not frozen_memory.is_empty():
+			GameState.flags[frozen_memory] = true
+		_expect(CORE_LOOP.begin_bundle("demo_collision", "schedule"),
+			"M3 replay fixture could not begin for %s" % frozen_memory)
+		var prepared := CORE_LOOP.prepare_demo_collision()
+		var prechoice := CORE_LOOP.build_first_bill_replay_snapshot()
+		var frozen := CORE_LOOP.first_bill_replay_snapshot_with_choice(
+			prechoice, 0)
+		_expect(bool(prepared.get("ok", false)) \
+				and not frozen.is_empty() \
+				and str(frozen.get("m3_ledger_memory", "missing")) \
+					== frozen_memory,
+			"First Bill snapshot did not freeze M3 memory %s" \
+				% frozen_memory)
+		if not frozen_memory.is_empty():
+			complete_fixture = frozen.duplicate(true)
+
+		GameState.flags.erase("m3_ledger_reasons_named")
+		GameState.flags.erase("m3_ledger_totals_only")
+		GameState.flags[live_memory] = true
+		var story := STORY_MODE_SCRIPT.new()
+		story.set("_read_only_replay", true)
+		story.set("_first_bill_replay_snapshot", frozen)
+		story.set("_current", ledger)
+		var resolved: String = story.call(
+			"_resolved_story_description", ledger)
+		for memory_id in CORE_LOOP.FIRST_BILL_M3_LEDGER_MEMORY_IDS:
+			var memory_text: String = str(story.call(
+				"_fmt", str(memory_map.get(memory_id, ""))))
+			_expect(resolved.contains(memory_text) \
+					== (memory_id == frozen_memory),
+				"First Bill M3 replay read live %s instead of frozen %s" % [
+					live_memory, frozen_memory,
+				])
+		story.free()
+
+	_expect(not complete_fixture.is_empty(),
+		"M3 replay fixture did not produce a complete snapshot")
+	if not complete_fixture.is_empty():
+		var legacy := complete_fixture.duplicate(true)
+		legacy.erase("m3_ledger_memory")
+		var validated_legacy := CORE_LOOP \
+			.validated_complete_first_bill_replay_snapshot(legacy)
+		_expect(not validated_legacy.is_empty() \
+				and str(validated_legacy.get(
+					"m3_ledger_memory", "missing")) == "",
+			"Schema-1 First Bill replay did not normalize missing M3 memory")
+		for bad_value in [true, 3, "m3_ledger_both"]:
+			var corrupt := complete_fixture.duplicate(true)
+			corrupt["m3_ledger_memory"] = bad_value
+			_expect(CORE_LOOP \
+					.validated_complete_first_bill_replay_snapshot(
+						corrupt).is_empty(),
+				"First Bill accepted corrupt M3 memory %s" % str(bad_value))
+
+	_fresh_at(24)
+	GameState.flags["m3_ledger_reasons_named"] = true
+	GameState.flags["m3_ledger_totals_only"] = true
+	_expect(CORE_LOOP.begin_bundle("demo_collision", "schedule") \
+			and bool(CORE_LOOP.prepare_demo_collision().get("ok", false)) \
+			and CORE_LOOP.build_first_bill_replay_snapshot().is_empty(),
+		"First Bill captured contradictory live M3 ledger memories")
 	LocaleManager.set_language(original_language)
 	DataRegistry.reload()
 

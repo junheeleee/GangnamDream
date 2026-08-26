@@ -86,6 +86,10 @@ const FIRST_BILL_OPENING_ID := "v2_demo_first_bill_opening"
 const FIRST_BILL_DECISION_ID := "v2_demo_first_bill"
 const FIRST_BILL_LEDGER_ID := "v2_demo_first_bill_ledger"
 const FIRST_BILL_REPLAY_SCHEMA := 1
+const FIRST_BILL_M3_LEDGER_MEMORY_IDS := [
+	"m3_ledger_reasons_named",
+	"m3_ledger_totals_only",
+]
 const LEGACY_040746_ORIGIN_SCHEMA := 1
 const LEGACY_040746_ORIGIN_ID := "demo_core_loop_v2@040746a"
 const LEGACY_040746_SOURCE_SCHEMA := 2
@@ -12969,14 +12973,16 @@ static func format_first_bill_story_text(
 				_first_bill_cash_position_sentence(replay_money)) \
 			.replace("{expense}", GameState.format_money(
 				float(snapshot.get("housing_expense", 0.0))))
-		# First Bill does not currently use the remaining generic tokens, but
-		# resolving them keeps the formatter safe if a non-dynamic line gains one.
-		formatted = GameState.format_event_text(formatted)
+		# Do not call the live GameState formatter here. The authored First Bill
+		# closure is deliberately limited to the frozen tokens above; any future
+		# generic token must gain an explicit snapshot field and audit coverage.
 	formatted = format_first_bill_story_tokens(formatted, snapshot)
-	var player_name: String = _first_bill_localized_player_name(str(snapshot.get(
-		"player_name", GameState.player_name)))
+	var raw_player_name := str(snapshot.get("player_name", "")) \
+		if not snapshot.is_empty() else str(GameState.player_name)
+	var player_name: String = _first_bill_localized_player_name(raw_player_name)
 	return formatted.replace(
-		"{name}", player_name if not player_name.is_empty() else GameState.player_name)
+		"{name}", player_name if not player_name.is_empty() \
+			else raw_player_name)
 
 ## Expands the First Bill's story-only tokens from frozen candidates and durable
 ## receipts. Kept public for focused QA and other story surfaces.
@@ -12997,12 +13003,12 @@ static func format_first_bill_story_tokens(
 		replay_snapshot)
 	var finale := _first_bill_finale_contract()
 	var snapshot := validated_first_bill_replay_snapshot(replay_snapshot)
-	var state := _normalized_state(GameState.core_loop_v2_state)
-	var context := _validated_demo_collision_context(state)
+	var state: Dictionary = {}
+	var context: Dictionary = {}
 	var candidates: Array[String] = []
-	var health := int(GameState.health)
-	var cash := float(GameState.money)
-	var required_cash := float(GameState.get_monthly_required_cash())
+	var health := 0
+	var cash := 0.0
+	var required_cash := 0.0
 	if not snapshot.is_empty():
 		state = _first_bill_replay_state(snapshot)
 		context = (snapshot.get("context", {}) as Dictionary).duplicate(true)
@@ -13011,6 +13017,12 @@ static func format_first_bill_story_tokens(
 		health = int(snapshot.get("health", health))
 		cash = float(snapshot.get("money", cash))
 		required_cash = float(snapshot.get("required_cash", required_cash))
+	else:
+		state = _normalized_state(GameState.core_loop_v2_state)
+		context = _validated_demo_collision_context(state)
+		health = int(GameState.health)
+		cash = float(GameState.money)
+		required_cash = float(GameState.get_monthly_required_cash())
 	if not finale.is_empty() and not context.is_empty():
 		if candidates.is_empty():
 			candidates = _first_bill_candidate_ids(state, context)
@@ -13067,10 +13079,12 @@ static func format_first_bill_story_tokens(
 	var formatted := source_text
 	for token in FIRST_BILL_STORY_TOKENS:
 		formatted = formatted.replace(token, str(replacements[token]))
-	var player_name: String = _first_bill_localized_player_name(str(snapshot.get(
-		"player_name", GameState.player_name)))
+	var raw_player_name := str(snapshot.get("player_name", "")) \
+		if not snapshot.is_empty() else str(GameState.player_name)
+	var player_name: String = _first_bill_localized_player_name(raw_player_name)
 	return formatted.replace(
-		"{name}", player_name if not player_name.is_empty() else GameState.player_name)
+		"{name}", player_name if not player_name.is_empty() \
+			else raw_player_name)
 
 static func _first_bill_finale_contract() -> Dictionary:
 	var raw_finale: Variant = bundle(
@@ -13094,6 +13108,19 @@ static func build_first_bill_replay_snapshot(
 		state, context, candidates, finale)
 	if allow_completed_legacy and obligation.is_empty():
 		return {}
+	var m3_reasons_named := bool(GameState.flags.get(
+		"m3_ledger_reasons_named", false))
+	var m3_totals_only := bool(GameState.flags.get(
+		"m3_ledger_totals_only", false))
+	# The Month-Three choice is mutually exclusive. A damaged live state must
+	# never be laundered into a plausible archive snapshot.
+	if m3_reasons_named and m3_totals_only:
+		return {}
+	var m3_ledger_memory := ""
+	if m3_reasons_named:
+		m3_ledger_memory = "m3_ledger_reasons_named"
+	elif m3_totals_only:
+		m3_ledger_memory = "m3_ledger_totals_only"
 	var snapshot_health := int(GameState.health)
 	var snapshot_mental := int(GameState.mental)
 	var snapshot_addiction := int(GameState.addiction_tendency)
@@ -13133,6 +13160,7 @@ static func build_first_bill_replay_snapshot(
 		"required_cash": float(GameState.get_monthly_required_cash()),
 		"context": context.duplicate(true),
 		"father_memory": _first_bill_father_memory_id(state),
+		"m3_ledger_memory": m3_ledger_memory,
 		"dirty_receipt": {},
 		"hyunsu_receipt": {},
 		"obligation_receipt": {},
@@ -13271,6 +13299,18 @@ static func validated_first_bill_replay_snapshot(
 			and father_memory not in FIRST_BILL_FATHER_MEMORY_IDS:
 		return {}
 	snapshot["father_memory"] = father_memory
+	# Schema-1 archives created before ORDER-132 have no frozen Month-Three
+	# ledger memory. Normalize absence to the base line and never infer it from
+	# whichever run happens to be loaded during archive replay.
+	var raw_m3_ledger_memory: Variant = raw_snapshot.get(
+		"m3_ledger_memory", "")
+	if not raw_m3_ledger_memory is String:
+		return {}
+	var m3_ledger_memory := str(raw_m3_ledger_memory).strip_edges()
+	if not m3_ledger_memory.is_empty() \
+			and m3_ledger_memory not in FIRST_BILL_M3_LEDGER_MEMORY_IDS:
+		return {}
+	snapshot["m3_ledger_memory"] = m3_ledger_memory
 	var raw_obligation: Variant = snapshot.get("obligation_receipt", {})
 	if not raw_obligation is Dictionary:
 		return {}
@@ -13311,6 +13351,15 @@ static func first_bill_replay_has_relationship_memory(
 			or character_id.strip_edges() != "father":
 		return false
 	var frozen_memory := str(snapshot.get("father_memory", ""))
+	return not frozen_memory.is_empty() \
+		and memory_id.strip_edges() == frozen_memory
+
+static func first_bill_replay_has_m3_ledger_memory(
+		replay_snapshot: Dictionary, memory_id: String) -> bool:
+	var snapshot := validated_first_bill_replay_snapshot(replay_snapshot)
+	if snapshot.is_empty():
+		return false
+	var frozen_memory := str(snapshot.get("m3_ledger_memory", ""))
 	return not frozen_memory.is_empty() \
 		and memory_id.strip_edges() == frozen_memory
 

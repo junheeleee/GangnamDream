@@ -3,6 +3,7 @@ extends Node
 
 const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
 const MAIN_GAME_SCENE := preload("res://scenes/MainGame.tscn")
+const STORY_MODE_SCRIPT := preload("res://scenes/StoryMode.gd")
 const TEST_SLOT := 1
 const LEGACY_SLOT := 9
 const CONTRACT_SLOT := 10
@@ -1485,47 +1486,48 @@ func _check_father_stale_pending_story_queue() -> void:
 		"long invalid year-curation queue did not reach its final valid event")
 	await _free_story()
 
-	# Read-only replay is historical evidence, not a live queue. Even with current
-	# death evidence, it must show the original article and original Father choice
-	# without applying that choice to the current run.
+	# Read-only replay is historical evidence, not a generic live queue. Capture
+	# one of the exact gallery roots with its earlier route fact, then invert the
+	# current run and prove the frozen variant and choice do not mutate anything.
 	GameState.start_new_game()
-	GameState.flags["father_passed"] = true
-	if not await _spawn_pending_story_queue(
-			["arc_first_real_win"], "arc_first_real_win", true):
-		return
-	_expect(bool(_story.get("_read_only_replay")),
-		"historical milestone did not remain in read-only replay")
+	GameState.player_name = "과거기록민준"
+	GameState.turn = 200
+	GameState.year = 5
+	GameState.month = 2
+	GameState.week_of_month = 4
+	GameState.flags["arc_y3_jiyeon_departure_seen"] = true
+	var replay_root := "arc_jiyeon_narrow_room_1"
+	_clear_gallery_pair_fixture(replay_root)
+	_expect(_seed_gallery_replay_pair(replay_root),
+		"historical gallery fixture could not persist a valid pair")
+	GameState.flags.erase("arc_y3_jiyeon_departure_seen")
+	GameState.player_name = "현재런민준"
+	GameState.turn = 1
+	GameState.year = 1
+	GameState.month = 1
+	GameState.week_of_month = 1
 	var replay_state_before: Dictionary = GameState.serialize().duplicate(true)
 	var replay_meta_before: Dictionary = MetaProgression.data.duplicate(true)
+	if not await _spawn_pending_story_queue(
+			[replay_root], replay_root, true):
+		return
+	_expect(bool(_story.get("_read_only_replay")),
+		"historical gallery scene did not remain in read-only replay")
+	var replay_event: Dictionary = _story.get("_current")
+	var replay_description := str(_story.call(
+		"_resolved_story_description", replay_event))
+	_expect("부산의 넓은 집을 두고" in replay_description \
+			and not "현재런민준의 좁은 방문" in replay_description,
+		"historical gallery scene read the inverted live route/name")
 	_show_current_story_choices()
 	_story.call("_on_choice", 1)
 	_story.call("_finish_story_scene_transition")
-	var replay_history_text: String = ""
-	var replay_page_budget: int = (_story.get("_paragraphs") as Array).size()
-	while bool(_story.get("_pending_after_result")) \
-			and replay_page_budget > 0 \
-			and not "아버지는 잠깐 조용했다가" in replay_history_text:
-		_story.call("_complete_typing")
-		replay_history_text = ""
-		for raw_entry in _story.get("_dialogue_log_entries") as Array:
-			if raw_entry is Dictionary:
-				replay_history_text += " " + str(
-					(raw_entry as Dictionary).get("text", ""))
-		replay_page_budget -= 1
-		if not "아버지는 잠깐 조용했다가" in replay_history_text:
-			_story.call("_on_advance")
-	var replay_result_text: String = _current_story_text()
 	_expect(bool(_story.get("_pending_after_result")) \
-			and "아버지에게 전화한다" in replay_history_text \
-			and not "아버지 번호를 누른다" in replay_history_text \
-			and "아버지는 잠깐 조용했다가" in replay_history_text \
-			and "아버지는 잠깐 조용했다가" in replay_result_text \
-			and not "연결할 수 없는 번호" in replay_result_text,
-		"read-only milestone replay replaced its original Father history: log=%s result=%s" \
-			% [replay_history_text, replay_result_text])
+			and not _current_story_text().is_empty(),
+		"read-only gallery choice did not enter its authored result")
 	_expect(GameState.serialize() == replay_state_before \
 			and MetaProgression.data == replay_meta_before,
-		"read-only milestone replay mutated the current run or meta history")
+		"read-only gallery replay mutated the current run or meta history")
 
 
 func _check_father_passing_terminal_result_resume() -> void:
@@ -3062,6 +3064,40 @@ func _spawn_pending_story_queue(
 		])
 		return false
 	return true
+
+
+func _seed_gallery_replay_pair(root_id: String) -> bool:
+	var producer := STORY_MODE_SCRIPT.new()
+	var selectors: Dictionary = {}
+	var choices: Dictionary = {}
+	for event_id in MetaProgression.gallery_replay_closure_ids(root_id):
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		if event.is_empty():
+			producer.free()
+			return false
+		selectors[event_id] = producer.call(
+			"_live_gallery_selector_matches", event)
+		choices[event_id] = producer.call(
+			"_live_gallery_visible_choice_indices", event)
+	producer.free()
+	var snapshot := MetaProgression.build_scene_replay_snapshot(
+		root_id, selectors, choices)
+	return not snapshot.is_empty() \
+		and MetaProgression.record_scene_replay_pair(root_id, snapshot)
+
+
+func _clear_gallery_pair_fixture(root_id: String) -> void:
+	var raw_seen: Variant = MetaProgression.data.get("seen_scenes", [])
+	var seen: Array = (raw_seen as Array).duplicate() if raw_seen is Array else []
+	while seen.has(root_id):
+		seen.erase(root_id)
+	MetaProgression.data["seen_scenes"] = seen
+	var raw_snapshots: Variant = MetaProgression.data.get(
+		"scene_replay_snapshots", {})
+	var snapshots: Dictionary = (raw_snapshots as Dictionary).duplicate(true) \
+		if raw_snapshots is Dictionary else {}
+	snapshots.erase(root_id)
+	MetaProgression.data["scene_replay_snapshots"] = snapshots
 
 func _spawn_loaded_story() -> bool:
 	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control

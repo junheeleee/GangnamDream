@@ -1458,6 +1458,28 @@
       ]
     },
     {
+      "tool": "tools/GalleryReplaySnapshotCheck.tscn",
+      "godot": true,
+      "why": "갤러리 20루트 최초 seen+snapshot 쌍·7개 동결 표면·읽기 전용·손상 fail-closed",
+      "paths": [
+        "autoloads/MetaProgression.gd",
+        "autoloads/BGMPlayer.gd",
+        "scenes/StartMenu.gd",
+        "scenes/StoryMode.gd",
+        "systems/DemoCoreLoopV2.gd",
+        "content/events/**",
+        "content/events_en/**",
+        "content/meta/cast_visual_years.json",
+        "tools/GalleryReplaySnapshotCheck.gd",
+        "tools/GalleryReplaySnapshotCheck.gd.uid",
+        "tools/GalleryReplaySnapshotCheck.tscn",
+        "tools/CoreLoopV2ECheck.gd",
+        "tools/ManualSaveCheck.gd",
+        "tools/StoryPlaybackCheck.gd",
+        "tools/ScreenshotQA.gd"
+      ]
+    },
+    {
       "tool": "tools/StoryPlaybackCheck.tscn",
       "godot": true,
       "why": "스토리 자동 재생·선택 안전",
