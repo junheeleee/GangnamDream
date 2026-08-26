@@ -23,8 +23,8 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 - KO/EN 사건: 각각 127파일 · 1796건, ID 일치
 - 패키지 사건: 1796건 · 현재 shipping 사건: 1686건 · author-only reference 원고: 110건
 - KO/EN 엔딩: 각각 35건
-- 활성 스토리 이미지: 250장 · source raster: 305장
-- 게임 pack 대상 raster: 297장 · ImageRegistry 외부 pack 대상: 47장
+- 활성 스토리 이미지: 250장 · source raster: 306장
+- 게임 pack 대상 raster: 298장 · ImageRegistry 외부 pack 대상: 48장
 - `.gdignore` source-only 상점 스크린샷: 8장 · 출처 원장 오디오: 139개
 - 사건 ID SHA-256: `2eb51d379ac4aaa71c8d9df47a563b6cc0c4f9d5622f0a3eae17721d7aaee593`
 - KO/EN 엔딩 본문 SHA-256: `81f1599053907f43b59021e2baccaff249a7bcc7b2c630dde389021b3d395eca`
@@ -51,19 +51,19 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 - 범죄: `arc_y4_family_partner_collision_jiyeon`
 - 음주·흡연·약물: `arc_36_body_signal`
 
-## ImageRegistry 외부 source raster 55장
+## ImageRegistry 외부 source raster 56장
 
 `all_resources`라 ImageRegistry 외부 구버전·마케팅·UI raster 중
-47장도 게임 pack 대상이다. 나머지 8장 상점 스크린샷은 `.gdignore` 아래 source-only라 게임 pack에는 없다.
-전체 55장은 원본·접촉표로 에이전트 시각 검토했지만 최종 사람 판정은
+48장도 게임 pack 대상이다. 나머지 8장 상점 스크린샷은 `.gdignore` 아래 source-only라 게임 pack에는 없다.
+전체 56장은 원본·접촉표로 에이전트 시각 검토했지만 최종 사람 판정은
 여전히 `user_required`다. 실제 pack 검사는 대상 raster의 각 `.import`가 가리키는 `.ctex`까지 확인한다.
 
-- 경로 SHA-256: `07c8cf2168ef7c139a1a283506f8228b414a846230ed74123f999545699c4f43`
-- 경로+파일 SHA-256: `e3603753f07d425102aa3fdec0245fffbd1690c8d35521fea5df6f7ef41e4785`
-- 실제 pack 대상 외부 raster 경로 SHA-256: `e08977c4cb6a19f4ed801ffb88a74721725bfebdfeea351eed6e1458a7d53d1f`
-- 실제 pack 대상 외부 raster 경로+파일 SHA-256: `e62104d47939ffdd34c324ab124a7cd24501a5c4c9f720b035aeec3446cdd9e7`
+- 경로 SHA-256: `9383fb0901e3a143bce9bffaa90ffe27e245615b8152b46a20f603d36165fea6`
+- 경로+파일 SHA-256: `e1409d70753f6aeef066a4d8b783396f0d3789de42a227d45814e2e65e0dead8`
+- 실제 pack 대상 외부 raster 경로 SHA-256: `682e9eb67aa7987d76f1275460a23a66b56ead72b7148d7e097a5585b2e05760`
+- 실제 pack 대상 외부 raster 경로+파일 SHA-256: `855aa8920904e1454c13537855c673de45d15e8ae15227555750c09f77dcc279`
 - `.gdignore` source-only 경로 SHA-256: `f53a4433d398f59a1f71b77af81a840587083f9eca7a7d89ba4d6b1e46dfb2a4`
-- `story_and_legacy` 14장 · 게임 pack 포함 — 원본 해상도와 접촉표에서 나체·성행위·가시적 혈흔/고어·자해·흡연·불법 약물 묘사는 확인되지 않았다. 이전 수영복, 경제적 절망/도박 회복, 상처가 보이지 않는 충돌 구도는 축별 사실에 따로 기록했으며 최종 사용자 검토가 남는다.
+- `story_and_legacy` 15장 · 게임 pack 포함 — 원본 해상도와 접촉표에서 나체·성행위·가시적 혈흔/고어·자해·흡연·불법 약물 묘사는 확인되지 않았다. 이전 수영복, 경제적 절망/도박 회복, 상처가 보이지 않는 충돌 구도는 축별 사실에 따로 기록했으며 최종 사용자 검토가 남는다.
 - `packaged_marketing` 10장 · 게임 pack 포함 — 패키지에 들어가는 키아트·캡슐·로고에는 별도로 누락된 더 강한 시각 표현이 확인되지 않았으며 최종 사용자 검토가 남는다.
 - `source_only_store_screenshots` 8장 · source-only / 게임 pack 제외 — Steam 마케팅 스크린샷 8장은 assets/store/screenshots/.gdignore 아래라 게임 pack에는 없다. 이미 기록한 대포통장 선택, Moral dark 분위기, 해변 데이트, 엔딩 요약을 되풀이하며 더 강한 누락 표현은 확인되지 않았다. 상점 사용과 최종 사용자 검토는 별도 게이트다.
 - `ui` 14장 · 게임 pack 포함 — UI에는 카드·칩·말 실루엣·시장 캔들·도박 행동 atlas가 있다. 폰 기종 구매는 종료됐고 flagship 셸만 세로 연락폰에 사용하며 starter/refurbished 셸은 all_resources pack의 출처 보존용 미사용 자산이다. 실제 현금 구매/환전이나 성적·약물·폭력 묘사는 확인되지 않았으며 최종 사용자 검토가 남는다.

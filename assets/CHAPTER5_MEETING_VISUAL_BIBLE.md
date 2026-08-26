@@ -1,6 +1,6 @@
 # Chapter 5 Meeting Visual Bible
 
-Updated: 2026-08-26
+Updated: 2026-08-27
 
 ## Owner and Use
 
@@ -28,8 +28,11 @@ portrait because the four-person confrontation has ended.
 
 - Minjun: lean face and slim navy corporate suit; guarded shoulders, not luxury
   polish.
-- Daeun: short black bob, left-temple clip, practical navy-and-beige clothes;
-  upright and direct, never pleading or glamorous.
+- Daeun: short black bob, left-temple clip, a soft charcoal unbranded jacket
+  over a muted blue-gray blouse; inexpensive matte cloth rather than executive
+  tailoring. She is dressed as an equal consent party for this late-night
+  meeting, not in her convenience-store uniform, romance wardrobe, or luxury
+  businesswear; upright and direct, never pleading or glamorous.
 - Jaehyuk: swept black hair, narrow polished face, black suit, controlled
   exhaustion; not Sangchul's age and not a theatrical villain.
 - Sangchul: salt-and-pepper hair, weathered broker face, practical dark suit;
@@ -48,19 +51,28 @@ gaze line, the separate document ownership, or the laid-down red pen.
 
 ## Production Record
 
-- Mode: OpenAI built-in ImageGen, reference-guided generation.
+- Mode: OpenAI built-in ImageGen, reference-guided generation followed by one
+  identity-preserving wardrobe correction.
 - Identity references: `main_character_corporate_y5.png`,
   `npc_daeun_normal_y5.png`, `npc_jaehyuk_shadow_y5.png`,
   `npc_sangchul_serious_y5.png`.
 - Style reference: `assets/cg/jaehyuk_reveal.png`.
-- Generated source:
+- Original generated source:
   `$CODEX_HOME/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-b795aa6d-a371-4e74-a13d-5ccd41f84815.png`.
-- Release crop: centered to 16:10 and resized to 1280×800 at
-  `assets/cg/y5_three_in_room_v1.png`.
-- Release SHA-256: `e75878140ac0fe3233149b630f9085370f89f37fc42dd0b71e0f5cb276c525a0`.
+- Wardrobe-corrected source:
+  `$CODEX_HOME/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-714436d2-4463-4b19-b8d0-3373afca4190.png`.
+- Release image: near-exact 16:10 source resized to 1280×800 at
+  `assets/cg/y5_three_in_room_v2.png`.
+- Release SHA-256: `d18a9c38300eb33f18a87c79f7fe05f8f9e1015cda55907a9b4390625e862d9c`.
+- `assets/cg/y5_three_in_room_v1.png` remains an inactive provenance copy. It is
+  not registered because its default convenience-store uniform implies an
+  unsupported straight-from-shift arrival and visually weakens Daeun's equal
+  standing in the room.
 
 The final prompt specified the four reference identities in fixed order, the
 observational ensemble blocking, separate proposal/PDF/unsigned copy, laid-down
 red pen, detached cup sleeve, one calculator, four plain cups, dialogue-safe
 crop, natural hands, no readable text or signatures, and the Gangnam Ink
-social-reality surface.
+social-reality surface. The corrective prompt changed only Daeun's clothing to
+ordinary serious meeting attire and explicitly locked all identities, poses,
+gazes, documents, props, lighting, and framing.

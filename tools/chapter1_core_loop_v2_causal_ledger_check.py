@@ -3453,7 +3453,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/meta/demo_localization_scope.json":
         "84b442ad5b71d67b850a8d93a3c907bf8309f88f226fff3bcebbcdf5d969d506",
     "content/meta/release_content_inventory.json":
-        "16d6c076fa262d93ba71295ea368a06ca6b624762ad923437fb4787885394cf6",
+        "3b27c2340aef4c28077dc624043c60a760a5b323e4c73733dc5e176e78e3f528",
     "content/meta/story_rules.json":
         "efd50cd8029f602675e68efd1af66e8d3efe826476aa6cb76c02bafb522a3a54",
     "content/jobs.json":

@@ -316,7 +316,7 @@ const CG = {
 	"cg_demo_father_first_call": "res://assets/cg/demo/father_first_call_v1.png",
 	"cg_seollal_sebae_family": "res://assets/cg/seollal_sebae_family_v1.png",
 	"cg_jaehyuk_reveal": "res://assets/cg/jaehyuk_reveal.png",
-	"cg_y5_three_in_room": "res://assets/cg/y5_three_in_room_v1.png",
+	"cg_y5_three_in_room": "res://assets/cg/y5_three_in_room_v2.png",
 	"cg_ending_father":  "res://assets/cg/ending_father.png",
 	"cg_ending_gangnam_dream": "res://assets/cg/ending_gangnam_dream.png",
 	"cg_ending_empty_house":   "res://assets/cg/ending_empty_house.png",

@@ -205,7 +205,7 @@
 | CG | `assets/cg/ending_with_daeun_v1.png` | `cg_ending_with_daeun` | 1280x800 | no | `9c4af6de306d` | PASS-A | 라면/물 정확히 2인분, 상호 시선, 가까운 손, 작은 집의 존엄 통과. |
 | CG | `assets/cg/ending_writer_v1.png` | `cg_ending_writer` | 1280x800 | no | `b8f6de4cadbc` | PASS-A | 정본 고시원 구조, 원고 위 손, 작은 창을 보는 38세 민준, 책·봉투·휴대폰의 무문자 상태를 확인했다. |
 | CG | `assets/cg/jaehyuk_reveal.png` | `cg_jaehyuk_reveal` | 1280x800 | no | `18243d73b73f` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
-| CG | `assets/cg/y5_three_in_room_v1.png` | `cg_y5_three_in_room` | 1280x800 | no | `e75878140ac0` | PASS-A | 민준·다은·재혁·상철 신원·나이·시선, 별도 제안서/PDF/미서명 사본, 놓인 빨간 펜, 단일 계산기, 네 개 종이컵, 자연스러운 손·회의실 동선·하단 안전 크롭·무서명을 원본에서 확인. |
+| CG | `assets/cg/y5_three_in_room_v2.png` | `cg_y5_three_in_room` | 1280x800 | no | `d18a9c38300e` | PASS-A | 민준·다은·재혁·상철 신원·나이·시선, 다은의 무상표 차콜 재킷·청회색 블라우스, 별도 제안서/PDF/미서명 사본, 놓인 빨간 펜, 단일 계산기, 네 개 종이컵, 자연스러운 손·회의실 동선·하단 안전 크롭·무서명을 원본에서 확인. |
 | CG | `assets/cg/jiyeon_crash_day_v3.png` | `cg_jiyeon_crash` | 1280x800 | no | `a714c2c2bc7e` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/romance/amusement_lost_child_daeun_v1.png` | `cg_romance_amusement_lost_child_daeun` | 1280x800 | no | `6651c8b0569e` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/romance/amusement_photo_strip_jiyeon_v1.png` | `cg_romance_amusement_photo_strip_jiyeon` | 1280x800 | no | `2269261438ca` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |

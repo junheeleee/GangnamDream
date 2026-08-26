@@ -649,11 +649,14 @@ weather, romance, and historical portraits remain fixed.
 - Store derivatives are rendered by `tools/KeyArtExport.tscn`; `tools/generate_assets.py` does not own or regenerate them.
 
 ### Story CG
-- `assets/cg/y5_three_in_room_v1.png`
+- `assets/cg/y5_three_in_room_v2.png`
   - M55 `arc_y5_three_in_room → arc_y5_three_in_room_decision` only.
   - Exactly Minjun, Daeun, Jaehyuk, and Sangchul sit around four separately
     owned document surfaces; the red pen is laid down and only Minjun has a
     calculator. No signature or contract result is shown.
+  - Daeun wears modest charcoal-and-blue-gray meeting clothes, not her default
+    convenience-store uniform. `y5_three_in_room_v1.png` is retained only as an
+    inactive generation-provenance copy.
   - Identity, acting, crop, and generation provenance are locked in
     `assets/CHAPTER5_MEETING_VISUAL_BIBLE.md`.
 

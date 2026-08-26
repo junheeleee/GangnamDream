@@ -429,6 +429,30 @@ sips -z 768 512
 
 ---
 
+## 2026-08-27 M55 네 사람 회의 다은 복장 교정
+
+- **모드:** OpenAI 내장 ImageGen 정밀 편집.
+- **편집 대상:** `assets/cg/y5_three_in_room_v1.png`.
+- **생성 원본:** `$CODEX_HOME/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-714436d2-4463-4b19-b8d0-3373afca4190.png`.
+- **출시 경로:** `assets/cg/y5_three_in_room_v2.png` (1586×992 원본을
+  1280×800으로 정규화).
+- **최종 프롬프트:**
+
+```text
+Use case: precise-object-edit
+Asset type: production visual-novel event CG for Gangnam Dream, M55 late-night contract meeting
+Input image: Image 1 is the edit target.
+Primary request: Change only Kim Daeun's clothing, the woman seated on the far right. Replace her convenience-store navy polo and beige knit cardigan with modest, situation-appropriate off-duty meeting clothes: a simple charcoal single-breasted jacket over a muted pale blue-gray blouse, with ordinary inexpensive fabric and no luxury styling.
+Identity lock: Preserve Daeun's exact face, age 37–38, short black bob, left-temple hair clip, restrained expression, gaze toward Minjun, body proportions, seated pose, and both hands.
+Scene invariants: Preserve Minjun in rear three-quarter view, Sangchul at far left, Jaehyuk at far center, every face and gaze, all four poses and hands, exact table and document ownership, laid-down red pen, one calculator, four paper cups, glass-walled night meeting room, clock, city background, 16:10 framing, lower dialogue-safe composition, lighting, palette, and Gangnam Ink Korean adult manhwa/VN realism.
+Constraints: Change only Daeun's outfit. Her new clothes must read as practical serious civilian meeting attire, not executive luxury, not romance/date wear, and not a uniform. No logos, badge, lanyard, text, jewelry, signature, handshake, money, celebration, extra people, extra props, anatomy changes, or watermark.
+```
+
+- **판정:** 편의점 근무복 신호가 사라지고 평범한 계약 당사자 복장으로 읽힌다.
+  다은의 신원·시선·손과 네 사람의 서류 소유·무서명 상태·크롭은 보존됐다.
+
+---
+
 ## 2026-08-21 M01-M06 약속 선택 장면
 
 아래 9개 이미지는 Codex built-in ImageGen으로 각각 별도 생성했다. 외부 사진이나

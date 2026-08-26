@@ -66,7 +66,7 @@
       ]
     },
     "cg_y5_three_in_room": {
-      "path": "assets/cg/y5_three_in_room_v1.png",
+      "path": "assets/cg/y5_three_in_room_v2.png",
       "camera_role": "observational_ensemble_wide",
       "story_action": "Four separate document stacks and four conflicting gaze lines make the collateral decision belong to people before it belongs to the calculator.",
       "actors": [
