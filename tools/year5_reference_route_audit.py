@@ -37,7 +37,7 @@ EVENT_DIRS = {
 }
 
 EXPECTED_DECLARATION = "89d218233b271e9a60a761d2c0bcce1c235ba703"
-EXPECTED_BASELINE = "2e2e5fea8548bfc1dd574aa9d5230192a64ecc7f"
+EXPECTED_BASELINE = "34e5a89d67b49ade65aa046ad69e9b02ae165338"
 EXPECTED_MANIFEST_ID = "year5_reference_routes_v2"
 LEGACY_MANIFEST_IDS = ("year5_reference_routes_v1",)
 EXPECTED_ROUTE_IDS = (
@@ -397,6 +397,33 @@ ORDER131_LATER_DELTA_IDS = {
     "arc_36_father_comes_to_seoul",
     "arc_1b_isolation",
     "arc_why_gangnam_real",
+}
+# ORDER-133 activates only the investment-property M49-M55 vertical. These
+# exact objects may change on top of the historical ORDER-118/129 snapshots;
+# the dedicated Chapter 5 ledger/audit owns their new gameplay shape. Career
+# and startup objects, the dormant injected kernel, and product consumer zero
+# remain protected here.
+ORDER133_LATER_DELTA_IDS = {
+    "arc_late_game_push",
+    "arc_y5_contract_cover_investment",
+    "arc_y5_contract_reviewer_delivery_sangchul",
+    "arc_y5_final_push_deadline_investment",
+    "arc_y5_protection_boundary_daeun",
+    "arc_y5_burnout_check_reference",
+    "arc_y5_minseo_goal_cost_reference",
+    "arc_y5_after_goal_daeun",
+    "arc_y5_final_offer",
+    "arc_y5_final_offer_reference_delivery",
+    "arc_y5_jaehyuk_guarantee_request_reference",
+    "arc_y5_jaehyuk_return_call_reference",
+    "arc_y5_jaehyuk_father_document_reference",
+    "arc_y5_guarantee_protected_show_daeun",
+    "arc_y5_jaehyuk_guarantee_decision_reference",
+    "arc_sangchul_final_door",
+    "arc_y5_sangchul_review_receipt",
+    "arc_y5_three_in_room",
+    "arc_y5_three_in_room_decision",
+    "arc_y5_room_consent_receipt",
 }
 ORDER131_ADDED_IDS_BY_FILE = {
     "content/events/arc_midgame.json": {
@@ -3496,6 +3523,7 @@ def validate_order129_finale_candidate(
                     if (
                         current_hash != baseline_hash
                         and event_id not in ORDER131_LATER_DELTA_IDS
+                        and event_id not in ORDER133_LATER_DELTA_IDS
                     ):
                         errors.append(f"{label}: non-target event object changed")
                     continue
@@ -3587,6 +3615,7 @@ def validate_order118_prose_candidate(
                         is_changed
                         and event_id not in ORDER129_TARGET_IDS
                         and event_id not in ORDER131_LATER_DELTA_IDS
+                        and event_id not in ORDER133_LATER_DELTA_IDS
                     ):
                         errors.append(f"{label}: non-target event object changed")
                 elif not is_changed:
@@ -3596,7 +3625,8 @@ def validate_order118_prose_candidate(
                     startup = event_id in ORDER118_STARTUP_IDS
                     current_shape = order118_nonprose_shape(current, replace_choices=startup)
                     baseline_shape = order118_nonprose_shape(baseline, replace_choices=startup)
-                    if current_shape != baseline_shape:
+                    if current_shape != baseline_shape \
+                            and event_id not in ORDER133_LATER_DELTA_IDS:
                         errors.append(f"{label}: metadata/non-prose structure drifted")
                     choices = current.get("choices")
                     if not isinstance(choices, list):
