@@ -185,3 +185,9 @@ W209~W212의 확장 보증 장면은 기존 `arc_jaehyuk_mirror`의 두 번째 �
 M56~M60의 아버지 흔적→자기 이름 접수→사람들의 판결→실제 거래→마지막
 서명과 `arc_final_week` exact actor binding을 별도 자식 오더로 연다. 33세·1장
 30억 `instant_legend`는 비밀 이스터에그로 계속 보존한다.
+
+**소유권 이관 (2026-08-26):** 구현 커밋 `34e5a89`과 보호 커밋
+`8b7bc98`에서 M49~M55 구현을 freeze했다. 이 사양이 선언했던
+`GameState.gd`, `MainGame.gd`, `StoryMode.gd`, 공유 사건·메타·검사 파일의
+후속 소유권은 선언 커밋 이후 ORDER-134에 있다. ORDER-133 전용
+19/47 원장·M55 CG·Year5 reference 보호 기준은 불변 회귀로 남는다.

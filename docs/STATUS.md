@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-08-26 04:34 UTC · b0d659ec`
+> 생성 시각 · 커밋: `2026-08-26 07:19 UTC · 8b7bc98f`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -83,8 +83,8 @@
 |---|---:|---|
 | 사건 | 1,786 | KR 이벤트 전체 |
 | 선택 2+ 사건 | 1,646 | 판정 대상 |
-| 체인(장면) | 72 | 2링크 이상 |
-| 연출 보유 사건 | 171 | 전체의 9% |
+| 체인(장면) | 71 | 2링크 이상 |
+| 연출 보유 사건 | 172 | 전체의 9% |
 | 정답 선택 | 419 | 선택 2+ 사건의 25% |
 | 테마 우회 | 2,116 | UIStyle 밖 override |
 | 수동 스타일 | 260 | StyleBoxFlat 직접 생성 |
@@ -100,7 +100,8 @@
 
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
-| `ORDER-133` | M49~M55 계약·보호·보증·공동 결정 실제 플레이 연결 | 진행 | 착수 · 19 roots·47 choices·exact receipt/save/direct week ingress·KO/EN·M55 CG·reference route/30억 비밀 엔딩 보호 L1/L2 진행 중 |
+| `ORDER-134` | M56~M60 문서·사람·무이체·마지막 서명 엔딩 연결 | 진행 | 착수 · 한 런 9 roots·24 choices·typed finale/save/ending handoff·KO/EN·즉시 실패/30억 이스터에그 보호 |
+| `ORDER-133` | M49~M55 계약·보호·보증·공동 결정 실제 플레이 연결 | 진행 | 구현 freeze·19 roots·47 choices·exact receipt/save/direct week ingress·KO/EN·M55 CG·reference route/30억 비밀 엔딩 보호 GREEN · 공유 파일은 ORDER-134로 이관 |
 | `ORDER-119` | 게임 전체 플레이어 표면에서 스탯·시스템 언어 제거 | 진행 | 제품·QA 36파일+package metadata 2파일 · exact clean full audit·KO/EN 24주·KO 240주·BUILD 2026.08.22.1 3플랫폼 package·macOS native smoke green · active demo_rc 등록 · 사용자 최종 GO OPEN |
 | `ORDER-118` | startup 전면 재설계·코드 토큰 제거 | 진행 | L1/L2 GO · 16편/27선택·코드 토큰 0 · fresh seed 9821 #11/#2/#3 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |
 | `ORDER-117` | 107/109 국소 수리·career 15편 재판정 | 진행 | L1/L2 GO · 18단위 전수·16 roots 재작성·after_goal/people_verdict exact 보존·코드 토큰 0 · 107/109 각 1/1+career 15/15 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |
