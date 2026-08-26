@@ -1271,6 +1271,14 @@
       "resolution": "1280x720"
     },
     {
+      "kind": "cg",
+      "ids": [
+        "cg_y5_three_in_room"
+      ],
+      "relative_path": "cg/y5_three_in_room_v1.png",
+      "resolution": "1280x800"
+    },
+    {
       "kind": "portrait",
       "ids": [
         "player_cold_snap"

@@ -6,10 +6,13 @@ extends Node
 
 var _failures: Array[String] = []
 
-# One continuous wedding-space shot intentionally spans its three canonical
-# beats and exact father-state prose alternates. Every other story CG keeps
-# single-owner enforcement.
+# A continuous shot may span only the exact adjacent beats listed here. Every
+# other story CG keeps single-owner enforcement.
 const ALLOWED_STORY_CG_CONTINUITY := {
+	"cg_y5_three_in_room": [
+		"arc_y5_three_in_room",
+		"arc_y5_three_in_room_decision",
+	],
 	"cg_romance_wedding_gap_jiyeon": [
 		"arc_jiyeon_wedding_gap",
 		"arc_jiyeon_wedding_guest_list",

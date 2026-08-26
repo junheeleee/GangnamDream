@@ -475,6 +475,7 @@ python3 tools/generate_mod_manifest.py --check
 | cg | `cg_romance_wedding_morning_jiyeon` | `cg/romance/wedding_morning_jiyeon_v1.png` | 1280x800 |
 | cg | `cg_seollal_sebae_family` | `cg/seollal_sebae_family_v1.png` | 1280x800 |
 | cg | `cg_start` | `cg/start.png` | 1280x720 |
+| cg | `cg_y5_three_in_room` | `cg/y5_three_in_room_v1.png` | 1280x800 |
 | portrait | `player_cold_snap` | `characters/main_character_cold_snap.png` | 512x768 |
 | portrait | `player_corporate`, `player_suit` | `characters/main_character_corporate.png` | 512x768 |
 | portrait | `player_corporate_y3` | `characters/main_character_corporate_y3.png` | 1024x1536 |

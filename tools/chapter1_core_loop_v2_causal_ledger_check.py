@@ -3437,7 +3437,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "scenes/StoryMode.tscn":
         "b7688a883323a196e74271c1e76f1d88c91310b3fe1a287cb051b33dd2fb76ca",
     "scenes/MainGame.gd":
-        "1bb32d8963f0d52f14ac07c1168d280986d60da9dccdbcab202120b0ee708b0e",
+        "f31879e9627ef644d2f6eb9c1f8441ab4ed7db3b0925b7f13295fa406797dd3e",
     "scenes/MainGame.tscn":
         "71a9590d43c755fa6b409ee0eb0f1950c6aba4517c64192b83038d22a45d9979",
     "scenes/SeoulCycleBoard.gd":
@@ -3455,7 +3455,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/meta/release_content_inventory.json":
         "16d6c076fa262d93ba71295ea368a06ca6b624762ad923437fb4787885394cf6",
     "content/meta/story_rules.json":
-        "3b5fc1b6ec4c2730fad7cb969dcd24b0e231dde50fca6c0b823326f8961a8b89",
+        "efd50cd8029f602675e68efd1af66e8d3efe826476aa6cb76c02bafb522a3a54",
     "content/jobs.json":
         "d1a3ed8ba3f2839954d0b15266bff4f7a0d1317d78c503bd2422aa87b7210f84",
     "content/events/arc_events.json":
@@ -3475,7 +3475,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "docs/queue_archive/ORDER-101.md":
         "732f49ac40efb644a7321cd425160fae9a8123ead11eb2cc7ebc5b238952ee48",
     "docs/CHOICE_CONSEQUENCE_SYSTEM.md":
-        "e934df1affb1beb853e42c70eb8293250c36bf0e5e8084e4ccd426d88b05db79",
+        "26e525ce6c9e69f100b68e1024e6b1a0289a17fc7f5df95df696a904b46943f2",
     "tools/core_loop_v2_balance_sim.py":
         "034475f5d392f016f94c731335a32b460229c7685b00e70bc65fb62efcc5ae3a",
     "tools/demo_core_loop_v2_audit.py":

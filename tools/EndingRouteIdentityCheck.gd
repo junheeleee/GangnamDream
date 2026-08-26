@@ -36,7 +36,7 @@ const EXPECTED_FINALE_OUTBOUND_CODAS := [
 	},
 	{
 		"kind": "apology",
-		"text": "마지막 연락 · 사과를 보내다\n그는 다은의 이름이 들어갈 자리를 먼저 계산하고 그녀의 답을 나중에 기다린 일을 사과했다. 사과는 답을 요구하지 않았고, 화면에는 용서나 화해 대신 전송 시각만 남았다.",
+		"text": "마지막 연락 · 사과를 보내다\n그는 다은의 답을 기다리기 전에 그녀의 이름이 들어갈 자리부터 계산한 일을 사과했다. 사과는 답을 요구하지 않았고, 화면에는 용서나 화해 대신 전송 시각만 남았다.",
 		"text_en": "THE LAST MESSAGE · SENDING THE APOLOGY\nHe apologized for calculating the place Daeun's name could occupy before waiting for her answer. The apology demanded no reply; the screen held a sent time, not forgiveness or reconciliation.",
 	},
 	{

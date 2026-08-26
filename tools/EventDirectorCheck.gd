@@ -113,7 +113,7 @@ func _ready() -> void:
 	_check_rhythm_save_migration()
 	_check_father_life_contracts()
 	if _failures.is_empty():
-		print("EVENT_DIRECTOR_CHECK_OK directed=1003 foreground=65 bridge=19 bridge_roots=6 causal_roots=7 auto_multi=0 once=1000 repeatable=3 callbacks=37/32 chains=14/12 chapters=5 asset_bands=5 demo=9/2/4/3 authored=7 generic=2 full=57/5/20/21 save=legacy+demo+deferred")
+		print("EVENT_DIRECTOR_CHECK_OK directed=1003 foreground=65 bridge=19 bridge_roots=6 causal_roots=7 auto_multi=0 once=1000 repeatable=3 callbacks=37/32 chains=14/12 chapters=5 asset_bands=5 demo=9/2/4/3 authored=7 generic=2 full=77/6/19/21 save=legacy+demo+deferred")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -1080,9 +1080,9 @@ func _check_full_run_pacing() -> void:
 			echoes.append(turn_value)
 		if EventManager.narrative_should_show_full_summary(turn_value):
 			summaries.append(turn_value)
-	_expect(direct_by_chapter == [13, 9, 10, 15, 10],
+	_expect(direct_by_chapter == [13, 9, 10, 15, 30],
 		"full-run chapter decision cadence drifted: %s" % [direct_by_chapter])
-	_expect(bosses == [4, 24, 45, 92, 140, 192, 237],
+	_expect(bosses == [4, 24, 45, 92, 140, 192, 237, 240],
 		"full-run boss cadence drifted: %s" % [bosses])
 	var chapter_four_owner_weeks := [
 		153, 157, 161, 164, 167, 174, 177, 181, 185, 188, 190, 192]
@@ -1104,7 +1104,31 @@ func _check_full_run_pacing() -> void:
 						owner_week, owner_id])
 	_expect(EventManager.narrative_commitment_event_ids(169).is_empty(),
 		"M43 consequence must not own a second weekly action")
-	_expect(echoes.size() == 21, "full run must expose twenty-one echo weeks")
+	var chapter_five_finale_owner_weeks := [221, 224, 227, 230, 235, 238, 239, 240]
+	for owner_week in chapter_five_finale_owner_weeks:
+		var owner_ids := EventManager.narrative_commitment_event_ids(owner_week)
+		_expect(not owner_ids.is_empty(),
+			"chapter-five finale owner week %d has no authored action" % owner_week)
+		for owner_id in owner_ids:
+			var owner_event: Dictionary = DataRegistry.find_event(owner_id)
+			var owner_choices: Array = owner_event.get("choices", [])
+			if owner_id == "arc_y5_property_not_executed_notice":
+				_expect(not owner_event.is_empty() and owner_choices.size() == 1,
+					"chapter-five fixed follow-through drifted: %d/%s" % [
+						owner_week, owner_id])
+			else:
+				_expect(not owner_event.is_empty() and owner_choices.size() >= 2,
+					"chapter-five finale owner is not a real choice: %d/%s" % [
+						owner_week, owner_id])
+			var owner_contract := EventManager.narrative_commitment_contract(
+				owner_id, owner_week)
+			_expect(str(owner_contract.get("axis", "")) in ["money", "human"],
+				"chapter-five finale owner has no valid axis: %d/%s" % [
+					owner_week, owner_id])
+	_expect(echoes == [
+		6, 9, 17, 21, 33, 51, 63, 75, 86, 98, 109, 121, 136, 151,
+		159, 171, 184, 199, 231,
+	], "full-run echo schedule drifted: %s" % [echoes])
 	_expect(summaries.size() == 21 and summaries.back() == 240,
 		"full run must expose twenty-one gated summaries through week 240")
 	_expect(EventManager.narrative_week_kind(241) == "decision",
