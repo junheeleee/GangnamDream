@@ -385,7 +385,7 @@ def validate_lifecycle(lifecycle: Any, errors: list[str]) -> None:
 
 
 def validate_scene_tier_registry(source: str, errors: list[str]) -> None:
-    heading = "ORDER-133 — M49~M55 제품 T2 레지스트리"
+    heading = "M49~M55 제품 T2 레지스트리"
     if heading not in source:
         errors.append("Chapter 5 T2 registry heading is missing from SCENE_TIER")
         return
@@ -1077,7 +1077,7 @@ def run_self_test() -> int:
     )
     errors = []
     validate_scene_tier_registry(
-        "## ORDER-133 — M49~M55 제품 T2 레지스트리\n" + registry_rows,
+        "## M49~M55 제품 T2 레지스트리\n" + registry_rows,
         errors,
     )
     check(not errors, errors[0] if errors else "valid T2 registry rejected")

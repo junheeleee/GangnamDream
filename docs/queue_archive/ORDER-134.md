@@ -1,8 +1,25 @@
-# Active Queue Spec: ORDER-134
+# Archived Queue Spec: ORDER-134
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-134 [P0·5장 결말] M56~M60의 실제 문서·사람·마지막 서명을 엔딩에 잇는다
+#### [x] ORDER-134 [P0·5장 결말] M56~M60의 실제 문서·사람·마지막 서명을 엔딩에 잇는다
+
+**[x] 완료 — 만진 파일:** `autoloads/GameState.gd`, `scenes/MainGame.gd`,
+`scenes/StoryMode.gd`, `systems/Chapter5FinaleRoute.gd`,
+`content/meta/chapter5_finale_ledger.json`, KO/EN 결말 사건·엔딩 연결·장면 계약,
+전용/공용 감사, 아래 정본·마감 문서.
+
+**완료 판정 (2026-08-26):** 구현
+`974534f2ffdab012d6765d04ca2063792681656d`에서 작성 11 roots·30 choices,
+한 런 9 roots·24 choices의 안전한 미실행 결말을 완성했다. 감사 정합
+`a5439549991109f6bdb8d1e86e4053d2f5dad1f2` / tree
+`31c8749e1393b8f27c53c31d1f13d99856f7181f`의 exact clean 전체 감사가
+`✅ 감사 통과`했고 30억 `instant_legend`·즉시 실패 우선순위를 보존했다.
+KO/EN×3해상도 종막 60장과 선행 30장 총 90장의 검은막 실패는 0이다.
+중요 장면은 10비트에 맞추지 않고 trace→custody→filing→verdict→
+nontransaction→return→answer→signature→outbound의 서로 다른 인과·감정
+기능 때문에 9단계다. 정상 속도 재미 판정 L3는 OPEN이며 새 후보 빌드 전에는
+플레이 준비 완료를 선언하지 않는다.
 
 **사용자 위임·착수 근거 (2026-08-26):** 사용자는 게임을 끝까지
 완성하고 직접 플레이할 때가 되면 알려 달라고 했다. 특히
@@ -135,7 +152,7 @@ signature, outbound action이라는 서로 다른 인과·감정 기능을 닫�
 
 **선언·마감:** `docs/CODEX_QUEUE.md`, 이 사양과 완료 시
 `docs/queue_archive/ORDER-134.md`, `docs/queue_archive/CODEX_QUEUE_2026-08.md`,
-`docs/queue_active/ORDER-133.md`, `CLAUDE.md`, `docs/WORK_LOG.md`,
+`docs/queue_archive/ORDER-133.md`, `CLAUDE.md`, `docs/WORK_LOG.md`,
 생성본 `docs/STATUS.md`.
 
 `project.godot`, 기존 ending JSON/산문, career/startup reference roots·86 choices,
@@ -195,7 +212,7 @@ signature, outbound action이라는 서로 다른 인과·감정 기능을 닫�
 포커스·same-turn·ending receipt 육안 검수가 모두 통과했다. 이는 레이아웃
 L2이며 정상 속도 재미 GO가 아니다.
 
-## 정본 승격 예정
+## 정본 승격 완료
 
 - 계속 유효한 규칙은 `docs/CHOICE_CONSEQUENCE_SYSTEM.md`의 M56~M60 exact
   filing/nontransaction/finale receipt 절, `docs/STORY_BIBLE.md`의 인물·문서 결말,

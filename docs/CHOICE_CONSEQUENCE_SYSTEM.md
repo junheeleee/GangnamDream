@@ -329,7 +329,7 @@ W220 자필 범위 원본은 `arc_y5_three_in_room_decision` choice 1만 읽는�
 로그는 choice-index reader가 아니다. 현재 M55 결정 3선택은 W221·W227의 정확한
 문장을 바꾸고, 조건부 W220 영수증은 M56 진입 잠금의 실제 증거로 소비된다.
 
-ORDER-133 제품 원고는 후속 16루트의 `chapter5_causal_reads`를 reader 표면으로
+M49~M55 제품 원고는 후속 16루트의 `chapter5_causal_reads`를 reader 표면으로
 쓴다. KO 정본은 `source_event_ids`, 그 부분집합인 `optional_source_event_ids`,
 source별 choice-index 문장 배열 `texts`, `mode:"prepend"`를 소유하고, EN overlay는
 같은 배열 모양의 `texts`만 번역한다. 런타임은 선행 영수증의 실제 choice index로

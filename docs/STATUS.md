@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-08-26 11:27 UTC · 974534f2`
+> 생성 시각 · 커밋: `2026-08-26 12:41 UTC · a5439549`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -23,6 +23,7 @@
 | 범위 | 판정 | 후보 | 표본·환경 | 합격 기준 | 소유 |
 |---|---|---|---|---|---|
 | activity_task_expansion · 3개월 나흘 야간 재고조사의 세 작업 대상, 보통 완료, 무리하기, 결과 장면과 다음 달 기억 | **재고조사 약속 수행 장면의 행동감**<br><sub>자동 검사는 조합·수치·저장·입력을 증명한다. 두 번의 선택이 실제 일을 처리한 감각인지, 웹 버튼 퀴즈인지 판단하지 못한다.</sub> | `demo_rc · ACTIVE ebc58a83 / manifest 8a349200` | inventory_task_first_play<br>같은 demo_rc에서 키보드 또는 패드로 재고조사 수행 장면을 처음부터 결과 장면까지 진행<br>보통 완료 한 번과 무리하기 한 번을 서로 다른 저장에서 비교 | 플레이어가 자신이 처리한 일, 남긴 일, 그 대가를 자기 말로 설명할 수 있음<br>선택이 숨은 정답 찾기나 웹 버튼 퀴즈가 아니라 실제 주간 약속을 수행하는 감각으로 읽힘<br>수행 화면과 결과 산문이 한 장면처럼 이어지며 다른 행동으로 확산할 근거가 생김 | `ORDER-92` |
+| chapter5-finale, claim:full-play-ready · 같은 chapter5_finale_rc에서 M49 계약 원문부터 M60 마지막 선발신·엔딩 후일담까지 이어지는 KO 기준 경로 | **5장 M49~M60 정상 속도 인과·격동·결말 체험**<br><sub>자동 검사는 19+9개의 장면 기능, 선택 영수증, 무이체와 엔딩 연결을 증명한다. 계약 문서가 사람 사이의 압박으로 읽히는지, 마지막으로 갈수록 더 치밀해지는지는 정상 속도 플레이어만 판정한다.</sub> | `chapter5_finale_rc · REBUILD 대기` | chapter5_finale_first_normal_reading<br>새로 발급된 동일 chapter5_finale_rc에서 M49~M60을 건너뛰기 없이 정상 독해 속도로 진행<br>M53 보증과 M55 공동 결정에서 무엇을 포기했는지, M57 접수와 M60 서명이 무엇을 바꿨는지 유도 없이 기록<br>검은 화면·장면 중복·주차 건너뜀·선택 뒤 허위 이체나 답장이 없는지 연속 확인 | 문서가 정보 카드가 아니라 상철·다은·민서·재혁과의 압박과 책임으로 읽힘<br>M49~M60의 긴장이 엔딩으로 갈수록 되풀이가 아니라 더 좁아지는 선택과 실제 포기로 상승함<br>무이체 결말이 빈 결말이 아니라 닫힌 문·쓴 시간·먼저 보낸 말의 결과로 남고 사용자 최종 GO | `ORDER-134` |
 | claim:controller · 공개 데모의 Steam Deck·DualSense·Switch Pro 지원 주장 | **물리 Steam Deck·DualSense·Switch Pro 실기기**<br><sub>InputMatrixCheck는 매핑과 글리프를 본다. 손에 쥐었을 때의 오작동은 실기기에서만 나온다.</sub> | `demo_rc · ACTIVE ebc58a83 / manifest 8a349200` | demo_physical_controller_matrix<br>Steam Deck·DualSense·Switch Pro를 각각 실제 장치에서 확인<br>배포 대상 플랫폼 패키지와 동일한 demo_rc 사용 | 각 장치에서 잘못 누름·포커스 소실·입력 지연 없이 데모 진행<br>Steam Deck에서 장면 전환 프레임 드롭과 셰이더 컴파일 끊김이 체험을 훼손하지 않음 | `USER-P0N` |
 | claim:ja · 일본어 본문·엔딩·카탈로그를 출시 언어로 표시하는 주장 | **일본어 원어민 검수**<br><sub>커버리지 검사는 키 누락과 한글 누출을 잡는다. 자연스러움은 원어민만 안다.</sub> | `full_rc · ACTIVE 6c91e11c / manifest 1cef15ff` | ja_native_release_review<br>일본어 본문·엔딩·카탈로그와 대표 15장 캡처<br>게임 문맥을 아는 일본어 원어민 검수자 | 의미 반전·누락·한글 누출·번역투가 출시 표면에 없음<br>원어민이 자연스러운 일본어 출시본으로 GO | `ORDER-21` |
 | claim:ja-demo, demo-release · 같은 demo_rc의 실제 24주 일본어 장면·선택·계획판·연락폰·오프닝·CTA | **일본어 24주 데모 원어민 문맥 검수**<br><sub>완전성 검사는 누락과 영어 우회를 잡는다. 한국어 정본의 인물 목소리·관계 거리·함축·돈의 체감·선택 인과가 자연스러운 일본어 장면으로 남았는지는 원어민의 직접 대조가 필요하다.</sub> | `demo_rc · ACTIVE ebc58a83 / manifest 8a349200` | ja_demo_native_context_review<br>게임 문맥과 한국어를 함께 이해하는 일본어 원어민 검수자<br>같은 demo_rc에서 ja_translation_audit.py --scope ui 및 --scope demo --strict PASS: legacy UI 2,816/2,816·context UI 29/29(총 UI 2,845/2,845)·72사건·467본문·701동적·4자산<br>같은 demo_rc를 새 세이브로 시작해 24주와 CTA까지 정상 속도로 독해<br>한 경로에 나오지 않은 합법 도달 72개 사건과 모든 선택·결과를 한국어 정본과 직접 대조 | 오역·누락·한글 누출·불필요한 영어 혼용·번역투가 없음<br>인물별 말투와 관계 거리, 대화의 함축과 여운, 원화 금액의 체감, 선택과 결과의 인과가 한국어 정본과 같은 장면으로 읽힘<br>원어민이 일본어 24주 데모 주장에 GO | `ORDER-81` |
@@ -100,8 +101,6 @@
 
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
-| `ORDER-134` | M56~M60 문서·사람·무이체·마지막 서명 엔딩 연결 | 진행 | 착수 · 한 런 9 roots·24 choices·typed finale/save/ending handoff·KO/EN·즉시 실패/30억 이스터에그 보호 |
-| `ORDER-133` | M49~M55 계약·보호·보증·공동 결정 실제 플레이 연결 | 진행 | 구현 freeze·19 roots·47 choices·exact receipt/save/direct week ingress·KO/EN·M55 CG·reference route/30억 비밀 엔딩 보호 GREEN · 공유 파일은 ORDER-134로 이관 |
 | `ORDER-119` | 게임 전체 플레이어 표면에서 스탯·시스템 언어 제거 | 진행 | 제품·QA 36파일+package metadata 2파일 · exact clean full audit·KO/EN 24주·KO 240주·BUILD 2026.08.22.1 3플랫폼 package·macOS native smoke green · active demo_rc 등록 · 사용자 최종 GO OPEN |
 | `ORDER-118` | startup 전면 재설계·코드 토큰 제거 | 진행 | L1/L2 GO · 16편/27선택·코드 토큰 0 · fresh seed 9821 #11/#2/#3 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |
 | `ORDER-117` | 107/109 국소 수리·career 15편 재판정 | 진행 | L1/L2 GO · 18단위 전수·16 roots 재작성·after_goal/people_verdict exact 보존·코드 토큰 0 · 107/109 각 1/1+career 15/15 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |

@@ -1,8 +1,22 @@
-# Active Queue Spec: ORDER-133
+# Archived Queue Spec: ORDER-133
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-133 [P0·5장 인과] M49~M55의 계약·보호·보증·공동 결정을 실제 플레이로 잇는다
+#### [x] ORDER-133 [P0·5장 인과] M49~M55의 계약·보호·보증·공동 결정을 실제 플레이로 잇는다
+
+**[x] 완료 — 만진 파일:** `autoloads/GameState.gd`, `scenes/MainGame.gd`,
+`scenes/StoryMode.gd`, `systems/Chapter5CausalRoute.gd`,
+`content/meta/chapter5_causal_ledger.json`, KO/EN 사건·제품 라우팅·장면 계약,
+M55 전용 CG·연출·오디오 매니페스트, 전용/공용 감사, 아래 정본·마감 문서.
+
+**완료 판정 (2026-08-26):** 구현 `34e5a89`·보호 `8b7bc98`에서
+19 roots·47 choices를 제품 경로로 동결했고, 후속 결말 구현 뒤 exact clean
+`a5439549991109f6bdb8d1e86e4053d2f5dad1f2` / tree
+`31c8749e1393b8f27c53c31d1f13d99856f7181f`에서 Chapter 1 478 변이와
+전체 감사 `✅ 감사 통과`로 재검증했다. 장면 수·비트 수는 할당량이 아니며
+각 원문·전달·검사·비교·결정·증거의 인과 기능으로만 유지한다. L2 화면
+90장 묶음에 포함된 M49~M55 KO/EN 30장은 검은막·겹침·포커스 실패 0이다.
+정상 속도 재미 판정 L3는 OPEN이며 플레이 준비 완료를 뜻하지 않는다.
 
 **사용자 위임·착수 근거 (2026-08-26):** 사용자는 게임을 최종까지
 완성하고 플레이할 때가 되면 알려 달라고 했다. 특히 초반부터
@@ -202,7 +216,7 @@ entry/commit/choice-index 독자는 `G:266/303`, `S:3657`; L3는 별도다.
 |18|219|#17→#18|회의→삭제/자필/원조건|다른 결론 2|7장·PDF·조건부 자필|L:325 P:305 R:310|
 |19|220|#18.c1→#19|∅→자필 원본 custody|c0/2는 M56 증거 포기|자필 원본·클립|L:343/348 P:627 G:409|
 
-## 정본 승격 예정
+## 정본 승격 완료
 
 - 계속 유효한 규칙은 `docs/CHOICE_CONSEQUENCE_SYSTEM.md`의 5장 exact receipt 절,
   `docs/STORY_BIBLE.md`의 5장 기준 배우/문서 경로, `docs/SCENE_TIER.md`의 승인된

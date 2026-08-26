@@ -15,6 +15,21 @@
 
 ## 2026-08
 
+- `[x] ORDER-134` (2026-08-26): M56~M60을 아버지 흔적→문서 보관→명의 접수→
+  사람 판정→무이체·미실행→보증 결과→아버지 답→마지막 서명→다은 선발신의
+  typed receipt로 연결했다. 작성 11 roots·30 choices, 한 런 9 roots·24 choices와
+  save/load·tamper/legacy fail-closed·same-turn W240·ending consume-once를 고정했다.
+  KO/EN×3해상도 종막 60장과 선행 30장 총 90장에 검은막 실패 0이며 exact clean
+  `a543954` 전체 감사가 통과했다. 10비트 할당량이 아니라 서로 다른 인과·감정
+  기능으로 길이를 정했고, 30억 `instant_legend`와 즉시 실패 우선순위를 보존했다.
+  정상 속도 L3와 새 후보 빌드는 OPEN이다. [사양](ORDER-134.md)
+- `[x] ORDER-133` (2026-08-26): M49~M55 투자 기준 경로의 계약 원문·전달·
+  다은 보호·민서 검사·재혁 보증·상철 검토·네 사람 결정을 19 roots·47 choices의
+  exact receipt와 실제 후속 reader로 제품에 연결했다. 조건부 증거·직접 주차·
+  save/load·손상 fail-closed, M55 전용 CG와 KO/EN 화면을 검증했고 career/startup
+  reference 32/86·consumer 0 및 30억 비밀 엔딩을 보존했다. exact clean
+  `a543954` 전체 감사에서 다시 통과했으며 정상 속도 L3는 OPEN이다.
+  [사양](ORDER-133.md)
 - `[x] ORDER-132` (2026-08-26): 갤러리 20루트의 최초 live 진입에서
   `seen + valid snapshot`을 원자적·write-once로 기록하고, 이름·연차 초상·
   도덕 인지·주거/배경/앰비언스·selector·당시 보인 선택·계절 음향을 현재 런과

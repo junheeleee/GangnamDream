@@ -30,6 +30,13 @@
       "manifest_sha256": "90ca36437e93a31ad6724f7d53faf39f35c84239e4f1d898755df2e34ce64a43",
       "note": "BUILD 2026.08.25.1 macOS 공개 M01~M06 story-first 후보가 active다. app tree SHA-256 4cdb86ab3d1c1de7811729283364cd45594363c3895ecb4ccc296ddae4c951b2, ZIP SHA-256 b38e0a042bea8022da947a8e29b140de1394fdc3832b8541f809289c9c83d82f다. KO·EN·JA·zh-CN·zh-TW 11사건·82 leaf·도달 UI 117과 JP/SC/TC 전용 primary font·OFL을 고정했다. 다섯 locale run이 전체적으로 M01·M04 양쪽 변형을 cover했고 package KO clean/zh-CN fallout는 각각 M01~M06·24주·정산 6·영수증 9·수동 저장 뒤 cold restart exact resume·overlay/input clear·AP 원장 0으로 통과했고, 5 locale×4표면×2해상도 40장에 검은 화면·잘림이 없다. 사용자 재미·시간감·선택감각과 JA·zh-CN·zh-TW 원어민 출시 claim은 OPEN이며, 로컬 플레이는 가능하다. 저장 호환 AP 데이터·엔진 삭제 GO는 아니다."
     },
+    "chapter5_finale_rc": {
+      "status": "waiting_rebuild",
+      "commit": null,
+      "tree": null,
+      "manifest_sha256": null,
+      "note": "M49~M60 투자·부동산 안전 결말은 exact clean a543954에서 L1과 KO/EN×3해상도 90장 L2를 통과했다. 그러나 일반 안전 런 후반 밀도와 동일 소스의 새 배포 후보가 아직 닫히지 않았으므로 사람 판정 revision은 waiting_rebuild다. 자동 GREEN이나 과거 full_rc를 이 게이트의 플레이 준비 완료로 재사용하지 않는다."
+    },
     "full_rc": {
       "status": "active",
       "commit": "6c91e11c128c4535f5c5852845b0e7309947e162",
@@ -39,6 +46,35 @@
     }
   },
   "gates": [
+    {
+      "id": "chapter5_finale_normal_speed",
+      "domain": "gameplay",
+      "gate": "5장 M49~M60 정상 속도 인과·격동·결말 체험",
+      "why": "자동 검사는 19+9개의 장면 기능, 선택 영수증, 무이체와 엔딩 연결을 증명한다. 계약 문서가 사람 사이의 압박으로 읽히는지, 마지막으로 갈수록 더 치밀해지는지는 정상 속도 플레이어만 판정한다.",
+      "owner": "ORDER-134",
+      "state": "open",
+      "scope": {
+        "blocks": [
+          "chapter5-finale",
+          "claim:full-play-ready"
+        ],
+        "content": "같은 chapter5_finale_rc에서 M49 계약 원문부터 M60 마지막 선발신·엔딩 후일담까지 이어지는 KO 기준 경로"
+      },
+      "revision": "chapter5_finale_rc",
+      "sample": {
+        "cohort": "chapter5_finale_first_normal_reading",
+        "requirements": [
+          "새로 발급된 동일 chapter5_finale_rc에서 M49~M60을 건너뛰기 없이 정상 독해 속도로 진행",
+          "M53 보증과 M55 공동 결정에서 무엇을 포기했는지, M57 접수와 M60 서명이 무엇을 바꿨는지 유도 없이 기록",
+          "검은 화면·장면 중복·주차 건너뜀·선택 뒤 허위 이체나 답장이 없는지 연속 확인"
+        ]
+      },
+      "acceptance": [
+        "문서가 정보 카드가 아니라 상철·다은·민서·재혁과의 압박과 책임으로 읽힘",
+        "M49~M60의 긴장이 엔딩으로 갈수록 되풀이가 아니라 더 좁아지는 선택과 실제 포기로 상승함",
+        "무이체 결말이 빈 결말이 아니라 닫힌 문·쓴 시간·먼저 보낸 말의 결과로 남고 사용자 최종 GO"
+      ]
+    },
     {
       "id": "demo_normal_speed_24w",
       "domain": "pacing",
