@@ -777,14 +777,23 @@ def validate_source_contracts(
         r"_close_chapter5_causal_invalid_read_surface\(event_id\)",
         r"if live_event_id\.is_empty\(\):\s+"
         r"_close_chapter5_causal_invalid_read_surface\(event_id\)",
-        r"if live_event_id != event_id:.*?"
-        r"if CHAPTER5_CAUSAL_ROUTE\.is_owned_event\(event_id\):\s+"
-        r"_close_chapter5_causal_invalid_read_surface\(event_id\)",
     )
     for pattern in variant_close_patterns:
         if not re.search(pattern, story_source, re.S):
             errors.append(
                 "StoryMode owned empty/different live variant lacks canonical close")
+    # ORDER-134 shares this fail-closed branch with the finale ledger.  Keep
+    # the old causal owner explicit: broadening the guard must never let an
+    # M49~M55 source variant bypass its canonical close.
+    combined_variant_guard = (
+        r"if live_event_id != event_id:.*?"
+        r"if CHAPTER5_CAUSAL_ROUTE\.is_owned_event\(event_id\)\s*"
+        r"(?:\\\s*or\s+CHAPTER5_FINALE_ROUTE\.is_owned_event\(event_id\))?\s*:"
+        r"\s+_close_chapter5_causal_invalid_read_surface\(event_id\)"
+    )
+    if not re.search(combined_variant_guard, story_source, re.S):
+        errors.append(
+            "StoryMode owned empty/different live variant lacks canonical close")
     missing_literals = [root_id for root_id in ROOT_IDS if root_id not in (
         system_source + main_source
     )]

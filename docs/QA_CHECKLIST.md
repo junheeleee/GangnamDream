@@ -135,8 +135,8 @@ last W48 capacity/node action
   잘못된 배우·문서·주차는 실패다.
 - 19개 KO 루트는 `author_only` 태그와 lifecycle에서 빠지되 `weight=0`,
   `hidden=true`, `conditions.min_turn=9999`를 유지한다. EN은 같은 ID·선택 수의
-  text-only overlay이며 gameplay 키를 새로 소유하지 않는다. shipping은 1,675,
-  author-only는 111이어야 한다.
+  text-only overlay이며 gameplay 키를 새로 소유하지 않는다. M56~M60 결말까지
+  등록한 현재 코퍼스는 packaged 1,796, shipping 1,686, author-only 110이어야 한다.
 - W207은 일반 Echo보다 `arc_y5_final_offer`가 먼저이며 W219도 회의 결정을
   직접 소유한다. 열린 18개 고유 주차에서는 일반 AP 3택을 다시 묻지 않는다.
   W210은 return call 뒤 father document 하나만 같은 주 queue로 잇고, unrelated
@@ -151,13 +151,12 @@ last W48 capacity/node action
 - **인과 완성 게이트:** 47개 선택 각각에 choice-index를 읽는 실제 downstream
   dialogue/availability/cost/absence reader가 하나 이상 있어야 한다. 다음 루트가
   단지 선행 receipt의 존재를 확인하거나 로그에 표시하는 것은 reader가 아니다.
-  현재 1~17번 루트의 43선택은 후속 16루트의 `chapter5_causal_reads`가 실제
+  1~17번 루트의 43선택은 후속 16루트의 `chapter5_causal_reads`가 실제
   관찰 행동을 본문 앞 대사로 읽는다. KO는 exact
   `source_event_ids/optional_source_event_ids/texts/mode` 구조, EN은 text-only
-  `texts` overlay, source 행·choice 열 패리티를 지켜야 한다. 18번의 3선택과
-  19번의 1선택은 M56 독자가 아직 없으므로 `43/47 connected, 4/47 pending`이다.
-  이 네 소비자가 연결되기 전에는 causal completion, snowball complete,
-  플레이 준비 완료를 보고하지 않는다.
+  `texts` overlay, source 행·choice 열 패리티를 지켜야 한다. 18번의 3선택은
+  W221·W227 문장을 바꾸고 19번의 1선택은 M56 진입 잠금이 소비하므로 현재
+  `47/47 connected, 0 pending`이다.
 - 기존 career/startup Year 5는 `32 roots / 86 choices / consumer 0 /
   reference_only`, `Year5ReferenceRouteKernel.gd` byte-exact를 유지한다.
   M49~M55는 거래·이체·엔딩을 적용하지 않으며 `instant_legend` 라우팅과 엔딩
@@ -166,6 +165,46 @@ last W48 capacity/node action
   1920×1080에서 캡처해 검은막, CG crop, 상철 초상, player-determined 전달,
   문서·자필·빨간 원의 시선, HUD/자막 겹침을 눈으로 본다. 정상 속도 L3에서
   문서가 인물 압박으로 읽히고 M53·M55의 포기가 실제로 느껴져야만 사람이 GO한다.
+
+## Chapter 5 M56~M60 Safe Finale Gate
+
+- `python3 tools/chapter5_finale_route_audit.py`와
+  `Chapter5FinaleRouteCheck.tscn`은 생존·별세 변형을 포함한 정확한 11루트·30선택,
+  한 플레이의 9루트·24선택, 주차 `221,224,227,230,235,238,239,240×2`와
+  `father_trace→custody→filing→verdict→nontransaction→guarantee_return→
+  father_answer→signature→outbound` 순서를 잠근다.
+- 진입은 `investment_safe_no_execution` 하나만 허용한다. M49~M55의 terminal
+  선택과 exact entry가 있어야 하고, M55 choice 1은 W220 자필 원본 receipt까지
+  요구한다. 진입 뒤 father life/contact, source choices, actor bindings를 다시
+  현재 상태에서 추론하면 실패다. career/startup·일반 런을 이 프로필에 묶어서는
+  안 된다.
+- M57은 `withdrawn|limited_filed|verification_hold|self_filed`의 네 물성을
+  choice 0~3과 정확히 대응시킨다. 붉은 철회 표지, 다은 제한 접수본, 현재 동의
+  확인 보류·임시번호, 자기 명의 227번을 서로 바꾸거나 접수 완료·거래·소유권으로
+  확대하면 실패다.
+- M59 receipt는 `kind:none`, `reason:no_executable_contract`, 현금·자산·부채
+  변화가 각각 0이어야 한다. 산문·effect·저장 어느 곳도 지급하지 않은 계약금·
+  잔금·수수료 금액, 취소·양도·등기·열쇠를 만들면 실패다. 닫힌 창구, 쓴 시간,
+  보류와 미전달은 상태별로 남아야 한다.
+- receipt는 root·turn·order·actor·document·economic outcome을 write-once·
+  idempotent로 저장한다. 수동/자동 저장 왕복, same-turn resume, legacy missing,
+  tamper/corrupt, 중복·역순·범위 밖 선택을 검사하고, StoryMode commit 실패는
+  선택 효과를 포함한 전체 상태를 byte-identical하게 되돌려야 한다.
+- W240은 `arc_final_countdown_property_not_executed` 완료 뒤
+  `arc_y5_final_week_daeun_outbound` 하나만 같은 주 queue로 잇는다. 마지막 선택이
+  `pending→ready`, MainGame 복귀가 먼저 `ready→consumed`를 한 번만 쓴 뒤 기존
+  `check_game_over()`를 정확히 한 번 호출해야 한다. W240 재진입·중복 엔딩 기록·
+  다음 달 지연은 실패다. 두 W240 선택의 능력치·Moral Tint·경제 effect는 모두
+  비어 있어야 하며, exact signature/outbound receipt와 후일담만 달라져야 한다.
+- 번아웃·정신 붕괴·채무·파산·중독의 즉시 실패 5개는 finale hold보다 먼저 이긴다.
+  30억원 미달 37세 런도 W240 outbound 직후 기존 38세 결말 순서로 닫히며,
+  33세 첫 장 30억원은 즉시 `instant_legend`로 끝나야 한다. 이 비밀 엔딩의
+  조건·순서·결과가 바뀌면 실패다.
+- KO/EN W221·W227·W230·W235·W240을 960×600, 1280×800, 1920×1080에서
+  캡처한다. 검은 전환막이 멈춰 보이지 않는지, 배경·초상·문서·자막·HUD·포커스가
+  겹치지 않는지, W240 두 장면이 같은 밤의 다른 기능으로 읽히는지 본다. 기계
+  GREEN은 재미 GO가 아니며 정상 속도 사람이 무이체를 빈 결말이 아니라 닫힌 문·
+  쓴 시간·먼저 보낸 말로 느껴야 플레이 준비 완료를 선언한다.
 
 ## Release Content Survey / Rating Intake Gate
 
@@ -343,6 +382,7 @@ python3 tools/release_content_inventory.py \
 | Full demo input route: real confirm inputs through StoryMode, choices, AP, results, month summaries, and the week-24 CTA | `--qa=demo-input --lang=ko/en --demo-build` |
 | Full 240-week controller black box: title, opening, five chapters, all scheduled week kinds, monthly summaries, authored roots, one pad-selected causal producer and its exact later bridge, AP, and the actual ending with zero keyboard/mouse input | `--qa=full-gamepad --lang=ko --pad=playstation`, then `--qa=full-gamepad --lang=en --pad=xbox` |
 | Chapter 5 M49~M55 product route: exact 19 roots/47 choices, direct-week ownership, W210 same-week order, W216/W220 conditional receipts, save/load and tamper fail-closed, KO/EN parity, M55 meeting CG crop and no black/HUD layer; automation is not the causal-reader or fun verdict | `python3 tools/chapter5_causal_route_audit.py`, `Chapter5CausalRouteCheck.tscn`, `ManualSaveCheck.tscn`, then targeted `--qa=full-gamepad --lang=ko/en` chapter-5 fixtures at 960×600, 1280×800, and 1920×1080 |
+| Chapter 5 M56~M60 safe finale: 11 authored roots/30 choices and one-run 9/24, exact father-life variants, four M57 filing materials, M59 economic zero, W240 signature→Daeun same-turn outbound, atomic save/tamper closure, immediate failures first, under-goal W240 close, and unchanged 33-year `instant_legend`; automation is not the density/fun verdict | `python3 tools/chapter5_finale_route_audit.py`, `Chapter5FinaleRouteCheck.tscn`, `ManualSaveCheck.tscn`, `EndingRouteIdentityCheck.tscn`, then targeted `--qa=full-gamepad --lang=ko/en` W221/W227/W230/W235/W240 fixtures at 960×600, 1280×800, and 1920×1080 |
 | Demo month summary, demo ending CTA, 6-month Time Ledger card | `--qa=demo-end-en` |
 | P0 final-life endings: eight exact CG owners, 950x430 crop, Jiyeon reflection-only mirror with exactly two non-duplicated actors and coherent gaze, 1B Second Love across-river home, Jiyeon-mediated Gangnam framing, White/Deep Black readability, and KO/EN first viewport | `--qa=ending-p0 --lang=ko/en` |
 | P1 final-life endings: exact CG owner/crop, Late Call memory, Rich and Alone base/divorce/no-leak, One More Circle base/Father-memory calendar action, distinct Bankruptcy/Debt Spiral calculation states, Startup Exit base/first-user memory, 33-year-old first-year Myth arrival, Orthodox Pinnacle base/salary-memory company-dinner pause, Burnout first-person emergency-bed hand/IV/phone composition, Stable Success's modest Seoul-room relief CG, and Mental Collapse no-leak | `--qa=ending-p1 --lang=ko/en` |

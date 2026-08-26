@@ -39,7 +39,10 @@ TEXT_EVENT_KEYS = {
     "description_low_mental",
     "description_long_gosiwon",
     "choices",
+    "chapter5_causal_reads",
+    "chapter5_finale_reads",
 }
+TEXT_READER_EVENT_KEYS = {"chapter5_causal_reads", "chapter5_finale_reads"}
 TEXT_CHOICE_KEYS = {"text", "result_text", "text_if_moral", "bridge_summary"}
 TEXT_ENDING_KEYS = {
     "id",
@@ -117,6 +120,14 @@ def key_parity(base: Any, overlay: Any) -> bool:
     return isinstance(overlay, dict) and set(base) == set(overlay)
 
 
+def nested_text_shape(value: Any) -> Any:
+    if isinstance(value, str):
+        return "text"
+    if isinstance(value, list):
+        return [nested_text_shape(item) for item in value]
+    return None
+
+
 def validate_event(
     lang: str,
     event_id: str,
@@ -144,6 +155,27 @@ def validate_event(
     ):
         if not key_parity(base.get(field), overlay.get(field)):
             errors.append(f"{lang}:{event_id}: {field} key mismatch")
+
+    # Typed Chapter 5 readers keep source identity/mode in KO gameplay data.
+    # A locale overlay owns only the translated nested text rows, with the
+    # exact same row/choice topology as the Korean source.
+    for field in TEXT_READER_EVENT_KEYS:
+        base_reader = base.get(field)
+        overlay_reader = overlay.get(field)
+        if not isinstance(base_reader, dict):
+            if overlay_reader is not None:
+                errors.append(f"{lang}:{event_id}: unexpected {field}")
+            continue
+        if overlay_reader is None and lang != "en":
+            continue
+        if not isinstance(overlay_reader, dict) \
+                or set(overlay_reader) != {"texts"}:
+            errors.append(
+                f"{lang}:{event_id}: {field} must contain translated texts only")
+            continue
+        if nested_text_shape(overlay_reader.get("texts")) \
+                != nested_text_shape(base_reader.get("texts")):
+            errors.append(f"{lang}:{event_id}: {field} text topology mismatch")
 
     base_choices = base.get("choices", [])
     overlay_choices = overlay.get("choices", [])

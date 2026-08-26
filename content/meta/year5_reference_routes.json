@@ -1257,19 +1257,53 @@
       "separators": [",", ":"],
       "ensure_ascii": false
     },
+    "authorized_source_transitions": {
+      "order_id": "ORDER-134",
+      "baseline_commit": "34e5a89d67b49ade65aa046ad69e9b02ae165338",
+      "files": {
+        "content/meta/story_map.json": {
+          "baseline_sha256": "580d233823aec6f037311c7c21419fa77d4e2e6a9d6e6536fe71fe799208c23b",
+          "current_sha256": "67403bd3724d06e49038a8507a4bc37fff67c91a56831bf586793ead77e3fac8"
+        },
+        "content/meta/story_rules.json": {
+          "baseline_sha256": "81b929e57020f8dd4916ef91930e7ff90ee9dfe119f256327f88a564d139e731",
+          "current_sha256": "efd50cd8029f602675e68efd1af66e8d3efe826476aa6cb76c02bafb522a3a54"
+        },
+        "content/meta/narrative_spine.json": {
+          "baseline_sha256": "2341fba1d8c4f49fd3c7e8810de205367a43b5d163ef3643e2156e8faa8b9eba",
+          "current_sha256": "95d11eee0b0050f3d21af8ced8f3ed25f04f467559b38311773b873c9cf33826"
+        },
+        "autoloads/GameState.gd": {
+          "baseline_sha256": "135463a6842acb0d76acea885cebee06d1e1ad3b953afda04466f61c4219678a",
+          "current_sha256": "328160d0a296b1cf0edc5638ee7e454eeccd42c42413e9d58c4d21348536aeff"
+        },
+        "scenes/MainGame.gd": {
+          "baseline_sha256": "97ea49542f72c7383089eaadb330a05273d62b7e5b88e235f334f20557cc25ad",
+          "current_sha256": "f31879e9627ef644d2f6eb9c1f8441ab4ed7db3b0925b7f13295fa406797dd3e"
+        },
+        "scenes/StoryMode.gd": {
+          "baseline_sha256": "c39ed8f5044d39eb8574c1d89e98ebfeb335571077eb8591b026b2be4d19deb6",
+          "current_sha256": "0791a0155af732ffb7e3515758a9e998508ae7e20f9be2682688f1ab4d8e62c1"
+        },
+        "systems/EndingSystem.gd": {
+          "baseline_sha256": "1ca507bb8b12e465f5aaa4b478d11d80f821b099415d353ea15030fb694b4f04",
+          "current_sha256": "81d015f171a414b7443fdeda22d55e8022507f987d829067fa96385eae392366"
+        }
+      }
+    },
     "files": {
       "content/jobs.json": "d1a3ed8ba3f2839954d0b15266bff4f7a0d1317d78c503bd2422aa87b7210f84",
       "project.godot": "78e98d7bdc1349570df6f2cc7ca6cbb11d4fc5451f5bbfdd338561653c7380c5",
-      "content/meta/story_map.json": "580d233823aec6f037311c7c21419fa77d4e2e6a9d6e6536fe71fe799208c23b",
-      "content/meta/story_rules.json": "81b929e57020f8dd4916ef91930e7ff90ee9dfe119f256327f88a564d139e731",
-      "content/meta/narrative_spine.json": "2341fba1d8c4f49fd3c7e8810de205367a43b5d163ef3643e2156e8faa8b9eba",
+      "content/meta/story_map.json": "67403bd3724d06e49038a8507a4bc37fff67c91a56831bf586793ead77e3fac8",
+      "content/meta/story_rules.json": "efd50cd8029f602675e68efd1af66e8d3efe826476aa6cb76c02bafb522a3a54",
+      "content/meta/narrative_spine.json": "95d11eee0b0050f3d21af8ced8f3ed25f04f467559b38311773b873c9cf33826",
       "systems/StoryMapMonthlyRuntime.gd": "d905d967bd7c91213ba125d2e1925ea29bc7b05e1ff8587cdb4f0efd4a69adec",
-      "autoloads/GameState.gd": "135463a6842acb0d76acea885cebee06d1e1ad3b953afda04466f61c4219678a",
+      "autoloads/GameState.gd": "328160d0a296b1cf0edc5638ee7e454eeccd42c42413e9d58c4d21348536aeff",
       "autoloads/EventManager.gd": "76715b22b6e4ff63a0fe05ee0ddf114fff67d8b00b1c908c08635fdbc9ad5488",
       "autoloads/SaveManager.gd": "67f20478f4ede9cf3902f02eab06a945ddbf1a348e86b71a34108de0c1d87645",
-      "scenes/MainGame.gd": "97ea49542f72c7383089eaadb330a05273d62b7e5b88e235f334f20557cc25ad",
-      "scenes/StoryMode.gd": "c39ed8f5044d39eb8574c1d89e98ebfeb335571077eb8591b026b2be4d19deb6",
-      "systems/EndingSystem.gd": "1ca507bb8b12e465f5aaa4b478d11d80f821b099415d353ea15030fb694b4f04",
+      "scenes/MainGame.gd": "f31879e9627ef644d2f6eb9c1f8441ab4ed7db3b0925b7f13295fa406797dd3e",
+      "scenes/StoryMode.gd": "0791a0155af732ffb7e3515758a9e998508ae7e20f9be2682688f1ab4d8e62c1",
+      "systems/EndingSystem.gd": "81d015f171a414b7443fdeda22d55e8022507f987d829067fa96385eae392366",
       "content/endings.json": "e9dbf43ddc901cb4340f0ee1e7c41bbbbe5e2dad8c158b755524e1e4f9b36bff",
       "content/endings_en.json": "9c702bdf88d8bf0f0b7d200b883394012dcafa0a94b9d835150501b8debaf7c4",
       "content/endings_ja.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",

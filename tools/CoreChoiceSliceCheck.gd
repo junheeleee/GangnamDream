@@ -2,6 +2,10 @@ extends Node
 ## ORDER-36/37: player plan, delayed consequence, and one authored decision per
 ## foreground week without a duplicate generic AP board.
 
+const CHAPTER5_CAUSAL_ROUTE := preload("res://systems/Chapter5CausalRoute.gd")
+const CHAPTER5_FINALE_ROUTE := preload("res://systems/Chapter5FinaleRoute.gd")
+const STORY_MODE_SCRIPT := preload("res://scenes/StoryMode.gd")
+
 const CHAPTER5_REQUIRED_ENTRY_FLAGS: Array[String] = [
 	"arc_sangchul_met_seen",
 	"arc_daeun_met",
@@ -24,6 +28,10 @@ const CHAPTER5_EXCLUDED_ENTRY_FLAGS: Array[String] = [
 ]
 
 var _failures: Array[String] = []
+var _captured_endings: Array[String] = []
+
+func _capture_ending(ending_id: String) -> void:
+	_captured_endings.append(ending_id)
 
 func _ready() -> void:
 	_check_opening_intent()
@@ -35,6 +43,7 @@ func _ready() -> void:
 	_check_chapter_four_missed_cost_routing()
 	_check_chapter_four_boundary_handoff()
 	_check_chapter5_causal_direct_week_ownership()
+	await _check_chapter5_finale_direct_week_ownership()
 	_check_chapter_four_father_death_recovery()
 	_check_father_terminal_final_week_repair()
 	_check_father_terminal_ending_descriptions()
@@ -42,12 +51,20 @@ func _ready() -> void:
 	_check_father_terminal_legacy_routes()
 	_check_foreground_commitment_weeks()
 	if _failures.is_empty():
-		print("CORE_CHOICE_SLICE_CHECK_OK intent=1 interview=causal job_gate=ledger jiyeon_lunch=branch_gated racetrack=handoff authored=7 generic=2 ap_duplicate=0 delayed=t8 branches=2 axes=money/human missed_cost=targeted chapter5=w193_same_queue+eligible-direct/fallback-w209/no-ap father_death=monotonic_repair father_active=guarded milestone_routing=dual late_routes=variant+closed save=roundtrip")
+		_stop_fixture_audio()
+		print("CORE_CHOICE_SLICE_CHECK_OK intent=1 interview=causal job_gate=ledger jiyeon_lunch=branch_gated racetrack=handoff authored=7 generic=2 ap_duplicate=0 delayed=t8 branches=2 axes=money/human missed_cost=targeted chapter5=w193_same_queue+causal19/47+finale11/30-active9/24+read-contract+direct-no-ap+w240-two-root+fatal-return-uncovered+normal-release-uncovered father_death=monotonic_repair father_active=guarded milestone_routing=dual late_routes=variant+closed save=roundtrip")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
 		push_error("CORE_CHOICE_SLICE_CHECK_FAIL: %s" % failure)
+	_stop_fixture_audio()
 	get_tree().quit(1)
+
+func _stop_fixture_audio() -> void:
+	for raw_player in AudioManager.get("_pool"):
+		if is_instance_valid(raw_player):
+			(raw_player as AudioStreamPlayer).stop()
+			(raw_player as AudioStreamPlayer).stream = null
 
 func _new_main_game():
 	return load("res://scenes/MainGame.gd").new()
@@ -65,6 +82,28 @@ func _prepare_chapter5_product_path() -> void:
 		GameState.flags[flag] = true
 	for flag in CHAPTER5_EXCLUDED_ENTRY_FLAGS:
 		GameState.flags.erase(flag)
+
+func _complete_chapter5_causal_product_route() -> bool:
+	_prepare_chapter5_product_path()
+	if not GameState.prepare_chapter5_causal_route_entry():
+		return false
+	var choice_indices := {
+		"arc_y5_jaehyuk_guarantee_decision_reference": 1,
+		"arc_sangchul_final_door": 0,
+		"arc_y5_three_in_room_decision": 1,
+	}
+	for turn_value in range(195, 221):
+		GameState.turn = turn_value
+		while true:
+			var event_id := GameState.chapter5_causal_next_event_for_turn()
+			if event_id.is_empty():
+				break
+			var result := GameState.record_chapter5_causal_choice(
+				event_id, int(choice_indices.get(event_id, 0)))
+			if not bool(result.get("ok", false)):
+				return false
+	return CHAPTER5_CAUSAL_ROUTE.route_complete(
+		GameState.chapter5_causal_state)
 
 func _expect_chapter5_direct_route_rejected(label: String) -> void:
 	var game = _new_main_game()
@@ -885,6 +924,222 @@ func _check_chapter5_w209_mirror_fallback() -> void:
 		_expect(game._next_arc_id(213, true, false) != "arc_jaehyuk_mirror",
 			"W212 %s outcome reopened the old singular mirror" % outcome_flag)
 	game.free()
+
+func _check_chapter5_finale_direct_week_ownership() -> void:
+	_expect(_complete_chapter5_causal_product_route(),
+		"M49-M55 causal source route could not reach its exact final receipt")
+	_expect((GameState.chapter5_causal_state.get("order", []) as Array).size() == 19 \
+		and CHAPTER5_CAUSAL_ROUTE.EXPECTED_CHOICE_COUNT == 47,
+		"M49-M55 causal 19-root/47-choice inventory regressed")
+	GameState.turn = 221
+	GameState.action_points = GameState.max_action_points
+	var economic_before := {
+		"money": GameState.money,
+		"portfolio": GameState.portfolio.duplicate(true),
+		"loans": GameState.loans.duplicate(true),
+		"health": GameState.health,
+		"mental": GameState.mental,
+		"intelligence": GameState.intelligence,
+		"investment_skill": GameState.investment_skill,
+		"moral_tint": GameState.moral_tint,
+	}
+	_expect(GameState.prepare_chapter5_finale_route_entry(),
+		"W221 did not lock the completed causal route into the safe finale")
+	var entry := GameState.chapter5_finale_entry_snapshot()
+	_expect(str(entry.get("profile_id", "")) == "investment_safe_no_execution" \
+		and str(entry.get("source_route_id", "")) == "investment_property" \
+		and (entry.get("source_choices", {}) as Dictionary) == {
+			"m55_decision": 1,
+			"w212_guarantee": 1,
+			"w215_final_door": 0,
+		} \
+		and str((entry.get("father", {}) as Dictionary).get("life", "")) == "alive",
+		"W221 finale entry did not preserve exact source choices/father trace")
+	var first_event_id := GameState.chapter5_finale_next_event_for_turn()
+	_expect(first_event_id == "arc_y5_father_trace_alive_exact",
+		"W221 finale selected the wrong father-trace variant")
+
+	# Exercise the actual localized StoryMode loading path. Its deep source-array
+	# equality must accept the canonical authored surface and reject a same-shape
+	# source identity substitution before any choice can be shown.
+	var story = STORY_MODE_SCRIPT.new()
+	var raw_first: Dictionary = DataRegistry.find_event(first_event_id)
+	var localized: Dictionary = story.call("_localized_story_event", first_event_id)
+	_expect(not localized.is_empty() \
+		and str(localized.get("id", "")) == first_event_id \
+		and str(localized.get("description", "")) \
+			!= str(raw_first.get("description", "")),
+		"StoryMode actual loader did not prepend the exact finale read contract")
+	var tampered_first: Dictionary = raw_first.duplicate(true)
+	var tampered_reads: Dictionary = (
+		tampered_first.get("chapter5_finale_reads", {}) as Dictionary).duplicate(true)
+	var tampered_sources: Array = (
+		tampered_reads.get("sources", []) as Array).duplicate(true)
+	if not tampered_sources.is_empty():
+		var tampered_source: Dictionary = (
+			tampered_sources[0] as Dictionary).duplicate(true)
+		tampered_source["id"] = "arc_y5_three_in_room"
+		tampered_sources[0] = tampered_source
+		tampered_reads["sources"] = tampered_sources
+		tampered_first["chapter5_finale_reads"] = tampered_reads
+	_expect((story.call(
+		"_chapter5_finale_event_with_reads", tampered_first) as Dictionary).is_empty(),
+		"StoryMode accepted a finale read source with substituted identity")
+
+	var game = _new_main_game()
+	game.set_meta("_screenshot_qa_static_surface", true)
+	GameState.pending_story_queue = []
+	_expect(game._route_chapter5_finale_week() \
+		and GameState.pending_story_queue == [first_event_id] \
+		and int(GameState.flags.get("foreground_story_turn", -1)) == 221,
+		"W221 finale did not enter StoryMode as the direct foreground action")
+	var before_rejected: Dictionary = GameState.serialize().duplicate(true)
+	var rejected := GameState.record_chapter5_finale_choice(first_event_id, 99)
+	_expect(not bool(rejected.get("ok", false)) \
+		and GameState.serialize() == before_rejected,
+		"rejected finale choice did not roll the whole live state back byte-exact")
+	var accepted := GameState.record_chapter5_finale_choice(first_event_id, 0)
+	_expect(bool(accepted.get("ok", false)) \
+		and GameState.chapter5_finale_week_completed(221) \
+		and GameState.action_points == GameState.max_action_points,
+		"W221 finale receipt changed AP or failed to close its direct week")
+	_expect(game._complete_chapter5_finale_week_after_story() \
+		and GameState.turn == 222,
+		"W221 finale returned to a generic AP question instead of advancing")
+
+	var direct_turns: Array[int] = [224, 227, 230, 235, 238, 239, 240]
+	for direct_turn in direct_turns:
+		GameState.turn = direct_turn
+		GameState.pending_story_queue = []
+		GameState.flags.erase("foreground_story_turn")
+		var event_id := GameState.chapter5_finale_next_event_for_turn()
+		_expect(not event_id.is_empty() and game._route_chapter5_finale_week() \
+			and GameState.pending_story_queue == [event_id] \
+			and int(GameState.flags.get("foreground_story_turn", -1)) == direct_turn,
+			"finale exact direct ingress failed at W%d" % direct_turn)
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		var choice_index := 0
+		if direct_turn == 240:
+			GameState.apply_choice(event, (event.get("choices", []) as Array)[choice_index])
+		var result := GameState.record_chapter5_finale_choice(
+			event_id, choice_index)
+		_expect(bool(result.get("ok", false)),
+			"finale receipt commit failed at W%d/%s" % [direct_turn, event_id])
+		if direct_turn == 240:
+			_expect(GameState.chapter5_finale_next_event_for_turn() \
+				== "arc_y5_final_week_daeun_outbound",
+				"W240 signature did not expose the outbound root in the same turn")
+			# StoryMode returns a newly fatal choice to MainGame before it queues
+			# authored follow-ups. The canonical failure must win that race; otherwise
+			# the outbound guard bounces between the two scenes forever.
+			var before_fatal_return: Dictionary = GameState.serialize().duplicate(true)
+			var meta_before_fatal_return: Dictionary = MetaProgression.data.duplicate(true)
+			var unlocks_before_fatal_return: Dictionary = \
+				MetaProgression.get("_new_this_run").duplicate(true)
+			GameState.mental = 0
+			GameState.pending_story_queue = []
+			_captured_endings.clear()
+			var ending_callback := Callable(self, "_capture_ending")
+			GameState.game_over.connect(ending_callback, CONNECT_ONE_SHOT)
+			var transition_overlay := SceneTransition.get("_overlay") as ColorRect
+			_expect(is_instance_valid(transition_overlay),
+				"fatal W240 return test could not inspect the global cover")
+			if is_instance_valid(transition_overlay):
+				SceneTransition.call("_set_transition_alpha", 1.0)
+				transition_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+			game._continue_after_story()
+			await _wait_for_transition_uncovered()
+			if GameState.game_over.is_connected(ending_callback):
+				GameState.game_over.disconnect(ending_callback)
+			_expect(GameState.is_game_over \
+				and _captured_endings == ["mental_break"] \
+				and GameState.pending_story_queue.is_empty() \
+				and is_instance_valid(transition_overlay) \
+				and transition_overlay.mouse_filter == Control.MOUSE_FILTER_IGNORE \
+				and float(SceneTransition.get("_transition_alpha")) <= 0.01,
+				"fatal W240 return hid or rerouted the mental-break ending")
+			MetaProgression.data = meta_before_fatal_return
+			MetaProgression.set("_new_this_run", unlocks_before_fatal_return)
+			GameState.load_from_dict(before_fatal_return)
+			story.set("_queue", [])
+			story.call("_queue_chapter5_finale_same_turn_ingress")
+			_expect(story.get("_queue") == [
+				"arc_y5_final_week_daeun_outbound"],
+				"StoryMode did not recover W240 signature -> outbound in one queue")
+			var outbound_id := GameState.chapter5_finale_next_event_for_turn()
+			var outbound: Dictionary = DataRegistry.find_event(outbound_id)
+			GameState.apply_choice(
+				outbound, (outbound.get("choices", []) as Array)[0])
+			var outbound_result := GameState.record_chapter5_finale_choice(
+				outbound_id, 0)
+			_expect(bool(outbound_result.get("ok", false)),
+				"W240 outbound receipt did not commit after signature")
+
+	var nontransaction: Dictionary = (
+		GameState.chapter5_finale_state.get("receipts", {}) as Dictionary).get(
+			"arc_y5_property_not_executed_notice", {})
+	_expect(CHAPTER5_FINALE_ROUTE.EXPECTED_ROOT_COUNT == 11 \
+		and CHAPTER5_FINALE_ROUTE.EXPECTED_CHOICE_COUNT == 30 \
+		and (GameState.chapter5_finale_state.get("order", []) as Array).size() == 9 \
+		and CHAPTER5_FINALE_ROUTE.EXPECTED_ACTIVE_CHOICE_COUNT == 24 \
+		and nontransaction.get("economic_outcome", {}) \
+			== CHAPTER5_FINALE_ROUTE.NO_EXECUTABLE_CONTRACT_OUTCOME \
+		and GameState.chapter5_finale_week_completed(240) \
+		and GameState.chapter5_finale_ending_ready(),
+		"M56-M60 11/30-active9/24/no-execution/ready contract regressed")
+	_expect(GameState.money == economic_before["money"] \
+		and GameState.portfolio == economic_before["portfolio"] \
+		and GameState.loans == economic_before["loans"] \
+		and GameState.health == economic_before["health"] \
+		and GameState.mental == economic_before["mental"] \
+		and GameState.intelligence == economic_before["intelligence"] \
+		and GameState.investment_skill == economic_before["investment_skill"] \
+		and GameState.moral_tint == economic_before["moral_tint"] \
+		and not bool(GameState.flags.get("final_week_self_approval", false)) \
+		and not bool(GameState.flags.get("final_week_gratitude", false)),
+		"finale invented a hidden stat/economic result or legacy outbound meaning")
+
+	# A normal outbound return is also covered by StoryMode. Consuming the ready
+	# latch must emit one ending and uncover that modal on the same MainGame visit.
+	var before_normal_release: Dictionary = GameState.serialize().duplicate(true)
+	var meta_before_normal_release: Dictionary = MetaProgression.data.duplicate(true)
+	var unlocks_before_normal_release: Dictionary = \
+		MetaProgression.get("_new_this_run").duplicate(true)
+	_captured_endings.clear()
+	var normal_ending_callback := Callable(self, "_capture_ending")
+	GameState.game_over.connect(normal_ending_callback, CONNECT_ONE_SHOT)
+	var normal_transition_overlay := SceneTransition.get("_overlay") as ColorRect
+	_expect(is_instance_valid(normal_transition_overlay),
+		"normal W240 release test could not inspect the global cover")
+	if is_instance_valid(normal_transition_overlay):
+		SceneTransition.call("_set_transition_alpha", 1.0)
+		normal_transition_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	var normal_release_owned: bool = \
+		game._complete_chapter5_finale_week_after_story()
+	await _wait_for_transition_uncovered()
+	if GameState.game_over.is_connected(normal_ending_callback):
+		GameState.game_over.disconnect(normal_ending_callback)
+	_expect(normal_release_owned \
+		and GameState.is_game_over \
+		and GameState.chapter5_finale_ending_consumed() \
+		and _captured_endings == ["with_daeun"] \
+		and is_instance_valid(normal_transition_overlay) \
+		and normal_transition_overlay.mouse_filter == Control.MOUSE_FILTER_IGNORE \
+		and float(SceneTransition.get("_transition_alpha")) <= 0.01,
+		"normal W240 release hid, duplicated, or skipped its canonical ending")
+	MetaProgression.data = meta_before_normal_release
+	MetaProgression.set("_new_this_run", unlocks_before_normal_release)
+	GameState.load_from_dict(before_normal_release)
+	story.free()
+	game.free()
+
+func _wait_for_transition_uncovered() -> void:
+	# A mouse-passable cover can still be visually black. Give the real fade tween
+	# enough frames to complete, then let the caller assert the canonical alpha.
+	for _frame in range(90):
+		if float(SceneTransition.get("_transition_alpha")) <= 0.01:
+			return
+		await get_tree().process_frame
 
 func _check_foreground_commitment_weeks() -> void:
 	var representatives := {

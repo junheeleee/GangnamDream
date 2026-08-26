@@ -859,6 +859,65 @@
     ]
   },
   {
+    "id": "arc_y5_remaining_jaehyuk_or_self",
+    "title": "A Sentence That Reaches Jaehyuk—or Only Himself",
+    "description": "A few days later, {name} opened the Jaehyuk guarantee decision beside the non-transfer notice sent to Sangchul. The fact that no money moved on the property side did not change what actually remained from the guarantee: a blank signature, a completed electronic signature, or a closed conversation.\n\n{name} could write one sentence aimed at Jaehyuk in the place left by that earlier decision, or touch no channel and keep both outcomes only in his own ledger. Either way, the guarantee state already on record would remain.",
+    "chapter5_finale_reads": {
+      "texts": [
+        [
+          "The conversation remained open after {name} refused the guarantee. A sentence written in this choice will be sent to Jaehyuk through that input.",
+          "Jaehyuk's conversation remained open after {name} completed the electronic signature. A sentence written in this choice will be sent through that input, while the name and authentication time remain on the PDF.",
+          "The input and call button remained closed after {name} blocked Jaehyuk. A sentence written in this choice will not reach Jaehyuk; it will remain under UNDELIVERED—CHANNEL BLOCKED in the personal ledger."
+        ],
+        [
+          "The notice to Sangchul held one sentence saying the current papers had not reached execution and no transfer was made, beside its sent time."
+        ]
+      ]
+    },
+    "choices": [
+      {
+        "text": "Leave one sentence about the non-transfer result in the place the earlier decision left open",
+        "result_text": "In the one place left by that earlier decision, {name} wrote, ‘There was no contract to execute on the property side, so no money moved. My decision on your guarantee remains unchanged,’ and kept the time. He neither reopened a closed channel nor changed the signature field, whether blank or filled."
+      },
+      {
+        "text": "Touch no Jaehyuk channel and keep both outcomes only in his own ledger",
+        "result_text": "{name} placed the actual guarantee state and the sent time of the non-transfer notice on separate lines. Between them he wrote, ONE OUTCOME DOES NOT ERASE THE OTHER.\n\nHe did not open Jaehyuk's conversation. Only today's time was added to the personal ledger; no sentence aimed at Jaehyuk remained."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_final_week_daeun_outbound",
+    "title": "Reaching Out to Daeun First",
+    "description": "A few minutes after the last signature, {name} closed the notebook and opened the conversation where he and Daeun had actually exchanged words. Whoever held the comparison, the screen contained only the sentences and times they had sent, with an empty input below.\n\nInstead of the KRW 3 billion figure or a photograph of a key, he could send one action from his side: a date and place for a meal next week, an apology for calculating with Daeun's name before waiting for her answer, or the distance he needed tonight and the time he would contact her again. What happened after sending would remain on the other side of the screen.",
+    "chapter5_finale_reads": {
+      "texts": [
+        [
+          "The delivery time on the comparison Daeun had taken home returned beside the older messages in the conversation.",
+          "NOT DELIVERED was already in the notebook before {name} opened the conversation."
+        ],
+        [
+          "Moments ago, {name} gathered what he had begun and stopped into one sentence beneath his own name. An act outside that sentence remained.",
+          "Moments ago, {name} put each person's time and the weight of each name into the cost column. The message to Daeun had to be chosen outside that ledger.",
+          "Moments ago, {name} wrote other people's names first and his own at the end. Now he had to call one of those names again in an actual conversation."
+        ]
+      ]
+    },
+    "choices": [
+      {
+        "text": "Propose a date and place for a meal next week",
+        "result_text": "{name} wrote, ‘Next Sunday at seven, I'd like to eat with you near the convenience store where we first exchanged names. Tell me later if another day is better.’\n\nThe screen remained empty below the sent time. Inside his own bubble, a date and place had taken the shape of an invitation."
+      },
+      {
+        "text": "Apologize for calculating with Daeun's name before waiting for her answer",
+        "result_text": "{name} wrote, ‘I calculated the place your name could occupy before I waited for your answer. I'm sorry. I won't press you for a reply.’ He sent the sentence without shortening it, and a sent time appeared beneath the apology."
+      },
+      {
+        "text": "Send the distance he needs tonight and the time he will contact her again",
+        "result_text": "{name} sent, ‘I want to close the papers and be alone tonight. I'll contact you first tomorrow at eight.’ He placed the next act and time after the request for distance.\n\nBefore he turned the phone over, only the sent time sat beneath his bubble. The duty to return at eight remained on this side of the screen."
+      }
+    ]
+  },
+  {
     "id": "arc_y5_final_week_jiyeon_outbound",
     "title": "Reaching Out to Jiyeon First",
     "description": "At 12:11 a.m. Tuesday of the final week, {name} set the key envelope and execution copy on his desk, then opened the conversation he had shared with Jiyeon. The screen held only their earlier words.\n\nWhat Jiyeon had said before the broker returned: ‘On the next document, don't make my place before waiting for my answer.’ Her voice returned in {name}'s handwriting in the execution copy's margin.\n\nThe time {name} had postponed answering stretched above the input box. He touched it without posting the goal figure or a key photograph. Rather than wait for Jiyeon to decide the relationship, he would send one present act: a meal, an overdue apology, or the distance he needed and his next contact time.",

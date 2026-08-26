@@ -23,6 +23,9 @@ RULES_PATH = ROOT / "content" / "meta" / "story_rules.json"
 CHAPTER5_CAUSAL_LEDGER_PATH = (
     ROOT / "content" / "meta" / "chapter5_causal_ledger.json"
 )
+CHAPTER5_FINALE_LEDGER_PATH = (
+    ROOT / "content" / "meta" / "chapter5_finale_ledger.json"
+)
 DEMO_CONTRACT_PATH = ROOT / "content" / "meta" / "demo_core_loop_v2.json"
 JOBS_PATH = ROOT / "content" / "jobs.json"
 VISUAL_CONTRACTS_PATH = ROOT / "assets" / "event_visual_contracts.json"
@@ -110,6 +113,10 @@ CHAPTER5_W210_QUEUE_EDGE = (
     "arc_y5_jaehyuk_return_call_reference"
     "->arc_y5_jaehyuk_father_document_reference"
 )
+CHAPTER5_W240_FINALE_EDGE = (
+    "arc_final_countdown_property_not_executed"
+    "->arc_y5_final_week_daeun_outbound"
+)
 
 
 def load_json(path: Path) -> Any:
@@ -120,7 +127,7 @@ def load_json(path: Path) -> Any:
 
 
 def chapter5_queue_only_edges() -> set[str]:
-    """Return the one non-demo queue edge proven by the immutable route ledger."""
+    """Return non-demo queue edges proven by the two typed Chapter 5 ledgers."""
     ledger = load_json(CHAPTER5_CAUSAL_LEDGER_PATH)
     if not isinstance(ledger, dict) \
             or ledger.get("schema_version") != 1 \
@@ -143,7 +150,36 @@ def chapter5_queue_only_edges() -> set[str]:
             or source.get("condition") is not None \
             or target.get("condition") is not None:
         return set()
-    return {CHAPTER5_W210_QUEUE_EDGE}
+
+    finale = load_json(CHAPTER5_FINALE_LEDGER_PATH)
+    if not isinstance(finale, dict) \
+            or finale.get("schema_version") != 1 \
+            or finale.get("ledger_id") != "chapter5_m56_m60_safe_finale_v1" \
+            or finale.get("expected_root_count") != 11 \
+            or finale.get("expected_active_root_count") != 9 \
+            or finale.get("expected_choice_count") != 30 \
+            or finale.get("expected_active_choice_count") != 24:
+        return {CHAPTER5_W210_QUEUE_EDGE}
+    finale_roots = finale.get("roots", [])
+    if not isinstance(finale_roots, list) or len(finale_roots) != 11 \
+            or not all(isinstance(root, dict) for root in finale_roots):
+        return {CHAPTER5_W210_QUEUE_EDGE}
+    signature = finale_roots[9]
+    outbound = finale_roots[10]
+    if signature.get("stage_sequence") != 8 \
+            or outbound.get("stage_sequence") != 9 \
+            or signature.get("stage") != "signature" \
+            or outbound.get("stage") != "outbound" \
+            or signature.get("turn") != 240 \
+            or outbound.get("turn") != 240 \
+            or signature.get("event_id") \
+                != "arc_final_countdown_property_not_executed" \
+            or outbound.get("event_id") \
+                != "arc_y5_final_week_daeun_outbound" \
+            or signature.get("active_when") is not None \
+            or outbound.get("active_when") is not None:
+        return {CHAPTER5_W210_QUEUE_EDGE}
+    return {CHAPTER5_W210_QUEUE_EDGE, CHAPTER5_W240_FINALE_EDGE}
 
 
 def load_events() -> tuple[dict[str, dict[str, Any]], list[str]]:

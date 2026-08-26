@@ -85,7 +85,9 @@ EXPECTED_DIRECT = [
     145, 149, 153, 157, 161, 164, 167, 169, 174, 177,
     181, 185, 188, 190, 192,
 ]
-EXPECTED_BOSSES = [45, 92, 140, 192, 237]
+# ORDER-134 adds the W240 responsibility signature after the existing W237
+# Chapter-5 boss.  The Chapter-4 positions remain byte-for-byte explicit here.
+EXPECTED_BOSSES = [45, 92, 140, 192, 237, 240]
 EXPECTED_OWNER_IDS = {
     153: set(GROUPS["m39"]),
     157: set(M40_EVENTS),

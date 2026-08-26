@@ -74,6 +74,26 @@ CHAPTER5_ENTRY = {
         "cost_witness": "minseo",
     },
 }
+with open("content/meta/chapter5_finale_ledger.json", encoding="utf-8") as fp:
+    CHAPTER5_FINALE_LEDGER = json.load(fp)
+CHAPTER5_FINALE_ROOTS = CHAPTER5_FINALE_LEDGER.get("roots", [])
+CHAPTER5_FINALE_ROOT_IDS = [
+    str(root.get("event_id", "")) for root in CHAPTER5_FINALE_ROOTS
+]
+CHAPTER5_FINALE_DEFAULT_CHOICES = {
+    event_id: 0 for event_id in CHAPTER5_FINALE_ROOT_IDS
+}
+CHAPTER5_FINALE_NO_EXECUTION = {
+    "kind": "none",
+    "reason": "no_executable_contract",
+    "cash_delta_krw": 0,
+    "asset_delta_krw": 0,
+    "debt_delta_krw": 0,
+}
+CHAPTER5_FINALE_ACTORS = (
+    CHAPTER5_FINALE_LEDGER.get("entry_contract", {})
+    .get("actor_bindings", {})
+)
 W212_OUTCOMES = [
     {
         "effects": {"mental": -8, "tint": 7},
@@ -114,6 +134,38 @@ W193_STORY_HANDOFF_SOURCE_OK = all(re.search(pattern, go_story_mode_source) for 
     r'"arc_37_reckoning"\s*,\s*193\s*\)',
     r'if\s+not\s+reckoning_claim\.is_empty\(\)\s*:',
     r'story_queue\.append\(\s*"arc_37_reckoning"\s*\)',
+))
+chapter5_finale_route_source = source_function_block(
+    "_route_chapter5_finale_week")
+chapter5_finale_complete_source = source_function_block(
+    "_complete_chapter5_finale_week_after_story")
+continue_after_story_source = source_function_block("_continue_after_story")
+CHAPTER5_FINALE_DIRECT_SOURCE_OK = all((
+    "GameState.prepare_chapter5_finale_route_entry()"
+    in chapter5_finale_route_source,
+    "GameState.chapter5_finale_next_event_for_turn()"
+    in chapter5_finale_route_source,
+    "CHAPTER5_FINALE_ROUTE.is_owned_event(event_id)"
+    in chapter5_finale_route_source,
+    "_go_story_mode([event_id], keep_cover)"
+    in chapter5_finale_route_source,
+    "GameState.chapter5_finale_ending_ready()"
+    in chapter5_finale_complete_source,
+    "GameState.consume_chapter5_finale_ending_check()"
+    in chapter5_finale_complete_source,
+    "_check_game_over_with_monotonic_story_state()"
+    in chapter5_finale_complete_source,
+    "GameState.chapter5_finale_week_completed()"
+    in chapter5_finale_complete_source,
+    "_demo_director_finish_auto_week()"
+    in chapter5_finale_complete_source,
+    "_render_ap_actions" not in chapter5_finale_route_source,
+    "_render_ap_actions" not in chapter5_finale_complete_source,
+    continue_after_story_source.find("_route_chapter5_finale_week(true)")
+    < continue_after_story_source.find("_render_ap_actions"),
+    continue_after_story_source.find(
+        "_complete_chapter5_finale_week_after_story()")
+    < continue_after_story_source.find("_render_ap_actions"),
 ))
 
 next_arc_decl = re.search(
@@ -183,6 +235,13 @@ class State:
         s.chapter5_receipts = {}
         s.chapter5_order = []
         s.chapter5_entry = {}
+        s.chapter5_w212_tint = None
+        s.chapter5_finale_receipts = {}
+        s.chapter5_finale_order = []
+        s.chapter5_finale_entry = {}
+        s.chapter5_finale_ending_check = "pending"
+        s.chapter5_finale_release_count = 0
+        s.chapter5_finale_economic_mutations = 0
         s.cast = {k: {"aff": 0, "stage": "none"} for k in
                   ["sangchul", "daeun", "jiyeon", "jaehyuk", "father", "hyunsu"]}
 
@@ -384,6 +443,8 @@ def commit_chapter5_choice(S, event_id, choice_indices):
             S.flags[str(flag)] = True
         effects = authored_choice.get("effects", {})
         S.moral_tint += float(effects.get("tint", 0))
+    if event_id == "arc_y5_jaehyuk_guarantee_decision_reference":
+        S.chapter5_w212_tint = S.moral_tint
     return True
 
 
@@ -413,6 +474,147 @@ def father_death_is_monotonic(S):
     )
 
 
+def chapter5_causal_route_complete(S):
+    return bool(S.chapter5_entry) and not chapter5_next_root(S)
+
+
+def chapter5_finale_source_choices(S):
+    source_events = {
+        "m55_decision": "arc_y5_three_in_room_decision",
+        "w212_guarantee": "arc_y5_jaehyuk_guarantee_decision_reference",
+        "w215_final_door": "arc_sangchul_final_door",
+    }
+    return {
+        key: int(S.chapter5_receipts.get(event_id, {}).get(
+            "choice_index", -1))
+        for key, event_id in source_events.items()
+    }
+
+
+def chapter5_finale_father_snapshot(S):
+    modes = [
+        mode for mode, flag in (
+            ("present", "father_crisis_contact_present"),
+            ("called", "father_crisis_contact_called"),
+            ("missed", "father_crisis_contact_missed"),
+        )
+        if S.flags.get(flag)
+    ]
+    return {
+        "life": "passed" if father_death_is_monotonic(S) else "alive",
+        "contact_mode": modes[0] if len(modes) == 1 else "records_only",
+    }
+
+
+def chapter5_finale_expected_entry(S):
+    return {
+        "route_id": "chapter5_safe_finale",
+        "turn": 221,
+        "profile_id": "investment_safe_no_execution",
+        "source_route_id": "investment_property",
+        "source_choices": chapter5_finale_source_choices(S),
+        "father": chapter5_finale_father_snapshot(S),
+        "actor_bindings": json.loads(json.dumps(CHAPTER5_FINALE_ACTORS)),
+    }
+
+
+def chapter5_finale_root_active(root, entry):
+    condition = root.get("active_when")
+    if condition is None:
+        return True
+    value = entry
+    for key in str(condition.get("entry_path", "")).split("."):
+        if not isinstance(value, dict) or key not in value:
+            return False
+        value = value[key]
+    return value == condition.get("equals")
+
+
+def chapter5_finale_next_root(S):
+    if not S.chapter5_finale_entry:
+        return {}
+    for root in CHAPTER5_FINALE_ROOTS:
+        event_id = str(root.get("event_id", ""))
+        if event_id in S.chapter5_finale_receipts:
+            continue
+        if not chapter5_finale_root_active(root, S.chapter5_finale_entry):
+            continue
+        return root
+    return {}
+
+
+def lock_chapter5_finale_entry(S):
+    if S.chapter5_finale_entry:
+        return S.chapter5_finale_entry == chapter5_finale_expected_entry(S)
+    if S.t != 221 or not chapter5_causal_route_complete(S):
+        return False
+    source_choices = chapter5_finale_source_choices(S)
+    if set(source_choices.values()) & {-1}:
+        return False
+    S.chapter5_finale_entry = chapter5_finale_expected_entry(S)
+    return True
+
+
+def chapter5_finale_event(S):
+    if S.t == 221 and not S.chapter5_finale_entry \
+            and not lock_chapter5_finale_entry(S):
+        return ""
+    root = chapter5_finale_next_root(S)
+    if int(root.get("turn", -1)) != S.t:
+        return ""
+    return str(root.get("event_id", ""))
+
+
+def chapter5_finale_holds_ending(S):
+    return bool(S.chapter5_finale_entry) \
+        and S.chapter5_finale_ending_check in ("pending", "ready")
+
+
+def chapter5_finale_receipt(root, choice_index):
+    choice = root.get("choices", [])[choice_index]
+    outcome = choice.get("economic_outcome", {})
+    if str(root.get("stage", "")) == "nontransaction":
+        outcome = CHAPTER5_FINALE_NO_EXECUTION
+    return {
+        "stage": str(root.get("stage", "")),
+        "event_id": str(root.get("event_id", "")),
+        "turn": int(root.get("turn", -1)),
+        "choice_index": choice_index,
+        "actors": json.loads(json.dumps(root.get("actors", {}))),
+        "receipt_ids": list(choice.get("receipt_ids", [])),
+        "document_ids": list(choice.get("document_ids", [])),
+        "economic_outcome": json.loads(json.dumps(outcome)),
+    }
+
+
+def commit_chapter5_finale_choice(S, event_id, choice_indices):
+    root = chapter5_finale_next_root(S)
+    if str(root.get("event_id", "")) != event_id \
+            or int(root.get("turn", -1)) != S.t:
+        return False
+    choices = root.get("choices", [])
+    choice_index = int(choice_indices.get(
+        event_id, CHAPTER5_FINALE_DEFAULT_CHOICES.get(event_id, 0)))
+    if choice_index < 0 or choice_index >= len(choices):
+        return False
+    economic_before = (S.money, S.nav)
+    S.chapter5_finale_receipts[event_id] = chapter5_finale_receipt(
+        root, choice_index)
+    S.chapter5_finale_order.append(event_id)
+    authored_choices = events.get(event_id, {}).get("choices", [])
+    if choice_index < len(authored_choices):
+        authored_choice = authored_choices[choice_index]
+        for flag in authored_choice.get("flags", []):
+            S.flags[str(flag)] = True
+        S.moral_tint += float(
+            authored_choice.get("effects", {}).get("tint", 0))
+    if economic_before != (S.money, S.nav):
+        S.chapter5_finale_economic_mutations += 1
+    if str(root.get("stage", "")) == "outbound":
+        S.chapter5_finale_ending_check = "ready"
+    return True
+
+
 def evalconds(conds, S):
     for r in conds:
         c = r.strip().rstrip(':')
@@ -426,6 +628,9 @@ def evalconds(conds, S):
         c = c.replace("false", "False").replace("true", "True")
         c = c.replace(
             "CHAPTER5_CAUSAL_ROUTE.ENTRY_PLAYER_ROUTE", '"투자형"')
+        c = re.sub(
+            r'\bchapter5_finale_locked\b',
+            str(chapter5_finale_holds_ending(S)), c)
         c = c.replace("GameState.flags", "S.flags").replace("GameState.", "S.")
         c = re.sub(r'\bf\.get\(', 'S.flags.get(', c)
         c = re.sub(r'\bnav\b', 'S.nav', c)
@@ -814,7 +1019,7 @@ def chapter_four_causal_event(S):
 
 
 def story_mode_root_queue(S, event_ids):
-    """Model MainGame's same-StoryMode-root handoff at the Year 5 boundary."""
+    """Model MainGame's same-StoryMode-root handoff at protected boundaries."""
     story_queue = list(event_ids)
     first_event_id = story_queue[0] if story_queue else ""
     if W193_STORY_HANDOFF_SOURCE_OK \
@@ -833,6 +1038,7 @@ def run(spine, traj, cast_flag_hook, choice_indices):
         S.t = t; traj(S); cast_flag_hook(S)
         protected_chapter_four_action = False
         protected_chapter_five_action = False
+        protected_chapter_five_finale_action = False
         # MainGame protects the exact Year 4 close and causal actions before
         # the deferred queue. Model that priority instead of allowing an old
         # callback to consume a commitment week.
@@ -848,6 +1054,9 @@ def run(spine, traj, cast_flag_hook, choice_indices):
         else:
             chosen = chapter5_causal_event(S)
             protected_chapter_five_action = bool(chosen)
+            if not chosen:
+                chosen = chapter5_finale_event(S)
+                protected_chapter_five_finale_action = bool(chosen)
             if not chosen:
                 chosen = chapter_four_causal_event(S)
                 protected_chapter_four_action = bool(chosen)
@@ -888,9 +1097,24 @@ def run(spine, traj, cast_flag_hook, choice_indices):
                     same_turn_root = chapter5_causal_event(S)
                     if same_turn_root and same_turn_root not in story_roots:
                         story_roots.append(same_turn_root)
+                if protected_chapter_five_finale_action \
+                        and root_id in CHAPTER5_FINALE_ROOT_IDS:
+                    if not commit_chapter5_finale_choice(
+                            S, root_id, choice_indices):
+                        repeats["chapter5_finale_commit_rejected"] = \
+                            repeats.get(
+                                "chapter5_finale_commit_rejected", 0) + 1
+                    same_turn_root = chapter5_finale_event(S)
+                    if same_turn_root and same_turn_root not in story_roots:
+                        story_roots.append(same_turn_root)
                 for deferred_id, delay in canonical_deferred_links(
                         root_id, choice_indices):
                     S.add_deferred_event(deferred_id, delay)
+            if protected_chapter_five_finale_action \
+                    and S.chapter5_finale_ending_check == "ready" \
+                    and not chapter5_finale_next_root(S):
+                S.chapter5_finale_ending_check = "consumed"
+                S.chapter5_finale_release_count += 1
     return fired, firelog, repeats, S, bridge_log, story_queue_log
 
 
@@ -935,7 +1159,14 @@ CHAINS = {
         "arc_sangchul_mirror",
         "arc_sangchul_confrontation", "arc_daeun_proposal",
         "arc_daeun_wedding_day", "arc_daeun_final_choice", "arc_36_trust_crack",
-        "arc_father_passing", "arc_father_legacy", "arc_final_countdown",
+        "arc_father_passing", "arc_y5_father_trace_passed_exact",
+        "arc_y5_father_trace_custody", "arc_y5_name_on_line_daeun_routed",
+        "arc_y5_people_verdict_daeun_exact",
+        "arc_y5_property_not_executed_notice",
+        "arc_y5_remaining_jaehyuk_or_self",
+        "arc_y5_final_father_answer_passed",
+        "arc_final_countdown_property_not_executed",
+        "arc_y5_final_week_daeun_outbound",
     ],
 }
 REQUIRED_FLAGS = {
@@ -1023,6 +1254,15 @@ EXPECTED_CHAPTER5_CAUSAL = {
     "B 비정석/진실/committed": {
         str(root["event_id"]): int(root["turn"])
         for root in CHAPTER5_ROOTS
+    },
+}
+EXPECTED_CHAPTER5_FINALE = {
+    "A 정석/다은보냄/사기": {},
+    "B 비정석/진실/committed": {
+        str(root["event_id"]): int(root["turn"])
+        for root in CHAPTER5_FINALE_ROOTS
+        if root.get("active_when") is None
+        or root.get("active_when", {}).get("equals") == "passed"
     },
 }
 EXPECTED_CHAPTER2_COMPARISON = {
@@ -1229,7 +1469,11 @@ EXPECTED_CAPPED_ARCS = {
         "arc_y3_jiyeon_departure",
         "arc_endgame_sixmonths",
     },
-    "B 비정석/진실/committed": set(CAPPED_ARC_WINDOWS),
+    # The 19-root causal ledger owns W216-W220 and the safe finale locks W221.
+    # Its nine exact final roots replace the generic six-month montage here.
+    "B 비정석/진실/committed": set(CAPPED_ARC_WINDOWS) - {
+        "arc_endgame_sixmonths",
+    },
 }
 
 HYUNSU_CHAPTER1_SEQUENCE = [
@@ -1362,6 +1606,60 @@ if not W193_STORY_HANDOFF_SOURCE_OK:
     )
 else:
     print("  ✓ W193 인계 소스 계약=chapter_card_37→reckoning 같은 큐")
+
+finale_inventory_ok = (
+    CHAPTER5_FINALE_LEDGER.get("ledger_id")
+    == "chapter5_m56_m60_safe_finale_v1"
+    and int(CHAPTER5_FINALE_LEDGER.get("expected_root_count", -1)) == 11
+    and int(CHAPTER5_FINALE_LEDGER.get("expected_choice_count", -1)) == 30
+    and len(CHAPTER5_FINALE_ROOTS) == 11
+    and sum(len(root.get("choices", []))
+            for root in CHAPTER5_FINALE_ROOTS) == 30
+)
+for father_life in ("alive", "passed"):
+    entry = {
+        "father": {"life": father_life},
+    }
+    active_roots = [
+        root for root in CHAPTER5_FINALE_ROOTS
+        if chapter5_finale_root_active(root, entry)
+    ]
+    finale_inventory_ok = finale_inventory_ok \
+        and len(active_roots) == 9 \
+        and sum(len(root.get("choices", [])) for root in active_roots) == 24 \
+        and sorted(set(int(root.get("turn", -1)) for root in active_roots)) \
+        == [221, 224, 227, 230, 235, 238, 239, 240]
+nontransaction_roots = [
+    root for root in CHAPTER5_FINALE_ROOTS
+    if root.get("stage") == "nontransaction"
+]
+finale_inventory_ok = finale_inventory_ok \
+    and len(nontransaction_roots) == 1 \
+    and all(
+        choice.get("economic_outcome") == CHAPTER5_FINALE_NO_EXECUTION
+        for choice in nontransaction_roots[0].get("choices", [])
+    )
+outbound_choices = events.get(
+    "arc_y5_final_week_daeun_outbound", {}).get("choices", [])
+finale_inventory_ok = finale_inventory_ok \
+    and len(outbound_choices) == 3 \
+    and all(choice.get("effects", {}) == {} for choice in outbound_choices) \
+    and all(
+        not {"final_week_self_approval", "final_week_gratitude"}
+        & set(choice.get("flags", []))
+        for choice in outbound_choices
+    )
+if not finale_inventory_ok:
+    fail += 1
+    print("  ✗ M56~M60 finale 11/30·active 9/24·no-execution inventory 회귀")
+else:
+    print("  ✓ M56~M60 finale=11루트/30선택·active 9/24·8 direct weeks·경제 실행 0")
+
+if not CHAPTER5_FINALE_DIRECT_SOURCE_OK:
+    fail += 1
+    print("  ✗ M56~M60 direct StoryMode ingress/AP 비재질문/ending release 소스 계약")
+else:
+    print("  ✓ M56~M60 direct StoryMode ingress·AP 재질문 0·W240 canonical release")
 
 alive_father_state = State()
 damaged_father_states = []
@@ -1654,13 +1952,95 @@ for name, spine, traj, hook, choice_indices in PATHS:
         w212_flags = W212_OUTCOMES[1]["flags"]
         if S.chapter5_entry != CHAPTER5_ENTRY \
                 or not all(S.flags.get(flag) for flag in w212_flags) \
-                or S.moral_tint != -6:
+                or S.chapter5_w212_tint != -6:
             fail += 1
             print("  ✗ Path B durable entry 또는 W212 singular mirror state 회귀")
         else:
             print(
                 "  ✓ investment/다은함께 Path B=M49~M55 19루트·47선택"
                 "·durable entry·W210 동일 큐·W212 canonical outcome"
+            )
+    expected_finale = EXPECTED_CHAPTER5_FINALE[name]
+    chapter5_finale_mismatch = [
+        f"{event_id}:t{fired.get(event_id, 'missing')}!={turn}"
+        for event_id, turn in expected_finale.items()
+        if fired.get(event_id) != turn
+    ]
+    unexpected_finale = sorted(
+        event_id for event_id in CHAPTER5_FINALE_ROOT_IDS
+        if event_id in fired and event_id not in expected_finale
+    )
+    if chapter5_finale_mismatch or unexpected_finale:
+        fail += 1
+        print(
+            "  ✗ M56~M60 finale direct 시간축 회귀:",
+            ", ".join(chapter5_finale_mismatch + [
+                f"unexpected:{event_id}" for event_id in unexpected_finale
+            ]),
+        )
+    elif not expected_finale:
+        if S.chapter5_finale_entry \
+                or S.chapter5_finale_receipts \
+                or S.chapter5_finale_order \
+                or S.chapter5_finale_ending_check != "pending" \
+                or S.chapter5_finale_release_count != 0:
+            fail += 1
+            print("  ✗ career Path A가 safe-no-execution finale 상태를 획득")
+        else:
+            print("  ✓ career Path A=M56~M60 finale 미진입·legacy ending 축 유지")
+    else:
+        active_roots = [
+            root for root in CHAPTER5_FINALE_ROOTS
+            if chapter5_finale_root_active(root, S.chapter5_finale_entry)
+        ]
+        expected_queues = {}
+        for root in active_roots:
+            expected_queues.setdefault(int(root["turn"]), []).append(
+                str(root["event_id"]))
+        actual_queues = {
+            turn: [
+                event_id for event_id in story_queue_log.get(turn, [])
+                if event_id in CHAPTER5_FINALE_ROOT_IDS
+            ]
+            for turn in expected_queues
+        }
+        nontransaction_receipt = S.chapter5_finale_receipts.get(
+            "arc_y5_property_not_executed_notice", {})
+        finale_state_ok = all((
+            S.chapter5_finale_entry.get("profile_id")
+            == "investment_safe_no_execution",
+            S.chapter5_finale_entry.get("source_route_id")
+            == "investment_property",
+            S.chapter5_finale_entry.get("father", {}).get("life") == "passed",
+            len(S.chapter5_finale_order) == 9,
+            len(S.chapter5_finale_receipts) == 9,
+            sum(len(root.get("choices", [])) for root in active_roots) == 24,
+            actual_queues == expected_queues,
+            story_queue_log.get(240) == [
+                "arc_final_countdown_property_not_executed",
+                "arc_y5_final_week_daeun_outbound",
+            ],
+            nontransaction_receipt.get("economic_outcome")
+            == CHAPTER5_FINALE_NO_EXECUTION,
+            S.chapter5_finale_economic_mutations == 0,
+            S.chapter5_finale_ending_check == "consumed",
+            S.chapter5_finale_release_count == 1,
+            not chapter5_finale_holds_ending(S),
+        ))
+        if not finale_state_ok:
+            fail += 1
+            print(
+                "  ✗ safe-no-execution finale receipt/queue/release 회귀:",
+                S.chapter5_finale_entry,
+                len(S.chapter5_finale_order),
+                S.chapter5_finale_ending_check,
+                S.chapter5_finale_release_count,
+                actual_queues,
+            )
+        else:
+            print(
+                "  ✓ Path B=M56~M60 active 9루트/24선택·W240 서명→outbound"
+                "·no-exec·canonical ending exactly once"
             )
     late_temporal_mismatch = [
         f"t{turn}:{firelog.get(turn, 'missing')}!={event_id}"

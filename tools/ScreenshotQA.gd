@@ -24,6 +24,8 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-moral --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=chapter5-causal --lang=ko
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=chapter5-causal --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=chapter5-finale --lang=ko
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=chapter5-finale --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1920x1080 res://tools/ScreenshotQA.tscn -- --qa=living-scene --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1920x1080 res://tools/ScreenshotQA.tscn -- --qa=display-matrix --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=text-material --lang=en
@@ -92,6 +94,8 @@ extends Node
 const StoryModeScript = preload("res://scenes/StoryMode.gd")
 const Chapter5CausalRouteScript = preload(
 	"res://systems/Chapter5CausalRoute.gd")
+const Chapter5FinaleRouteScript = preload(
+	"res://systems/Chapter5FinaleRoute.gd")
 
 # Parallel matrix jobs must not erase one another's screenshots. Set
 # GANGNAM_QA_OUT per process when durable, isolated evidence is required.
@@ -128,6 +132,7 @@ const QA_SCOPE_STORY_AUDIO := "story_audio"
 const QA_SCOPE_STORY_DIALOGUE_HISTORY := "story_dialogue_history"
 const QA_SCOPE_STORY_MORAL := "story_moral"
 const QA_SCOPE_CHAPTER5_CAUSAL := "chapter5_causal"
+const QA_SCOPE_CHAPTER5_FINALE := "chapter5_finale"
 const QA_SCOPE_LIVING_SCENE := "living_scene"
 const QA_SCOPE_DISPLAY_MATRIX := "display_matrix"
 const QA_SCOPE_TEXT_MATERIAL := "text_material"
@@ -206,6 +211,22 @@ const CHAPTER5_CAUSAL_QA_TURNS: Array[int] = [
 	195, 196, 197, 200, 201, 203, 204, 207, 208, 209,
 	210, 210, 211, 212, 215, 216, 217, 219, 220,
 ]
+const CHAPTER5_FINALE_QA_ROOTS: Array[String] = [
+	"arc_y5_father_trace_alive_exact",
+	"arc_y5_father_trace_passed_exact",
+	"arc_y5_father_trace_custody",
+	"arc_y5_name_on_line_daeun_routed",
+	"arc_y5_people_verdict_daeun_exact",
+	"arc_y5_property_not_executed_notice",
+	"arc_y5_remaining_jaehyuk_or_self",
+	"arc_y5_final_father_answer_alive",
+	"arc_y5_final_father_answer_passed",
+	"arc_final_countdown_property_not_executed",
+	"arc_y5_final_week_daeun_outbound",
+]
+const CHAPTER5_FINALE_QA_ACTIVE_TURNS: Array[int] = [
+	221, 224, 227, 230, 235, 238, 239, 240, 240,
+]
 const FULL_ROUTE_STORY_CHOICE_OVERRIDES := {
 	"anxiety_pension_crisis": 1,
 }
@@ -236,6 +257,8 @@ const CAST_TIME_SCENE_SAMPLE: Array[Dictionary] = [
 ]
 var _mg: Node = null
 var _qa_failed := false
+var _chapter5_finale_expected_capture_size := Vector2i.ZERO
+var _chapter5_finale_capture_viewport: SubViewport = null
 var _route_keyboard_events := 0
 var _route_mouse_events := 0
 var _route_gamepad_events := 0
@@ -545,12 +568,47 @@ func _ready() -> void:
 		if lang not in ["ko", "en"]:
 			_fail("Chapter 5 causal QA supports only lang=ko/en, got %s." % lang)
 			return
+		await _ensure_chapter5_finale_capture_resolution()
+		if _qa_failed:
+			return
+		var resolution := _chapter5_finale_expected_capture_size
+		if resolution not in [
+			Vector2i(960, 600), Vector2i(1280, 800), Vector2i(1920, 1080),
+		]:
+			_fail("Chapter 5 causal QA requires 960x600, 1280x800, or 1920x1080; got %s." % [
+				str(resolution)])
+			return
 		await _shot_chapter5_causal_surfaces(lang)
 		if _qa_failed:
 			return
 		print(("SCREENSHOT_QA_DONE scope=chapter5-causal lang=%s shots=5 " \
 			+ "causal_receipts=live black=clear hud=correct language=clean " \
 			+ "cg=verified focus=verified dir=%s") % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_CHAPTER5_FINALE:
+		var lang := _qa_language("ko")
+		if lang not in ["ko", "en"]:
+			_fail("Chapter 5 finale QA supports only lang=ko/en, got %s." % lang)
+			return
+		await _ensure_chapter5_finale_capture_resolution()
+		if _qa_failed:
+			return
+		var resolution := _chapter5_finale_expected_capture_size
+		if resolution not in [
+			Vector2i(960, 600), Vector2i(1280, 800), Vector2i(1920, 1080),
+		]:
+			_fail("Chapter 5 finale QA requires 960x600, 1280x800, or 1920x1080; got %s." % [
+				str(resolution)])
+			return
+		await _shot_chapter5_finale_surfaces(lang)
+		if _qa_failed:
+			return
+		print(("SCREENSHOT_QA_DONE scope=chapter5-finale lang=%s shots=10 " \
+			+ "receipts=live black=clear hud=correct language=clean " \
+			+ "overflow=clear focus=verified same_turn=verified " \
+			+ "ending_receipt=verified dir=%s") % [
+			lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope in [QA_SCOPE_CASINO, QA_SCOPE_CASINO_EN]:
@@ -1179,6 +1237,12 @@ func _qa_scope() -> String:
 		args.append(str(raw))
 	for raw in args:
 		var arg := raw.strip_edges().to_lower()
+		if arg in ["chapter5-finale", "chapter5_finale", "chapter-5-finale",
+				"--chapter5-finale", "--chapter5_finale",
+				"qa=chapter5-finale", "--qa=chapter5-finale",
+				"qa=chapter5_finale", "--qa=chapter5_finale",
+				"scope=chapter5-finale", "--scope=chapter5-finale"]:
+			return QA_SCOPE_CHAPTER5_FINALE
 		if arg in ["chapter5-causal", "chapter5_causal", "chapter-5-causal",
 				"--chapter5-causal", "--chapter5_causal",
 				"qa=chapter5-causal", "--qa=chapter5-causal",
@@ -5722,7 +5786,7 @@ func _boot_main_game() -> void:
 	var packed: PackedScene = load("res://scenes/MainGame.tscn")
 	_mg = packed.instantiate()
 	_mg.set_meta("_screenshot_qa_static_surface", true)
-	get_tree().root.add_child.call_deferred(_mg)
+	_chapter5_finale_scene_parent().add_child.call_deferred(_mg)
 
 	# 남아 있을 수 있는 전환 덮개를 걷어 실제 표면만 캡처한다.
 	for _i in range(40):
@@ -6327,6 +6391,7 @@ func _shot_chapter5_causal_surfaces(lang: String) -> void:
 			bool(shot_case["show_choices"]))
 		if _qa_failed:
 			return
+	await _dispose_chapter5_capture_viewport()
 
 func _prepare_chapter5_causal_story_state(
 		target_id: String, choice_overrides: Dictionary) -> void:
@@ -6335,6 +6400,15 @@ func _prepare_chapter5_causal_story_state(
 		_fail("Chapter 5 causal screenshot requested an unowned root: %s." % target_id)
 		return
 	var state: Dictionary = Chapter5CausalRouteScript.default_state()
+	var entry := Chapter5CausalRouteScript.lock_entry(
+		state, Chapter5CausalRouteScript.ENTRY_TURN,
+		Chapter5CausalRouteScript.ENTRY_PLAYER_ROUTE,
+		true, true, Chapter5CausalRouteScript.ENTRY_MIN_TOTAL_ASSETS)
+	if not bool(entry.get("ok", false)):
+		_fail("Chapter 5 causal screenshot could not lock its live entry: %s." % [
+			str(entry.get("error", "unknown"))])
+		return
+	state = (entry.get("state", state) as Dictionary).duplicate(true)
 	for index in range(target_index):
 		var event_id := CHAPTER5_CAUSAL_QA_ROOTS[index]
 		var at_turn := CHAPTER5_CAUSAL_QA_TURNS[index]
@@ -6368,6 +6442,8 @@ func _prepare_chapter5_causal_story_state(
 	GameState.month = int((target_turn - 1) / 4) + 1
 	GameState.week_of_month = int((target_turn - 1) % 4) + 1
 	GameState.age = 37
+	# The reducer entry and the visible HUD must describe the same live run.
+	GameState.money = 2_100_000_000.0
 
 func _assert_chapter5_causal_story_surface(
 		story: Node, event_id: String) -> void:
@@ -6382,6 +6458,12 @@ func _assert_chapter5_causal_story_surface(
 	if not GameState.chapter5_causal_ingress_available(event_id):
 		_fail("Chapter 5 causal screenshot did not use live receipt-owned ingress: %s." \
 			% event_id)
+		return
+	if not Chapter5CausalRouteScript.entry_locked(
+			GameState.chapter5_causal_state) \
+			or GameState.get_total_asset_value() \
+				< Chapter5CausalRouteScript.ENTRY_MIN_TOTAL_ASSETS:
+		_fail("%s screenshot reducer entry and visible asset HUD disagree." % event_id)
 		return
 	var current: Dictionary = story.get("_current")
 	if str(current.get("id", "")) != event_id:
@@ -6459,7 +6541,7 @@ func _assert_chapter5_causal_story_surface(
 				if raw_button is Button \
 						and (raw_button as Button).is_visible_in_tree():
 					visible_choices.append(raw_button as Button)
-		var focus_owner := get_viewport().gui_get_focus_owner()
+		var focus_owner := story.get_viewport().gui_get_focus_owner()
 		if visible_choices.size() != 3 \
 				or not is_instance_valid(focus_owner) \
 				or not choice_box.is_ancestor_of(focus_owner):
@@ -6484,6 +6566,664 @@ func _assert_chapter5_causal_render_not_black(
 		_fail("%s rendered as an empty/black frame: max=%.3f visible=%d/%d." % [
 			shot_name, brightest, visible_samples, sample_count])
 
+func _shot_chapter5_finale_surfaces(lang: String) -> void:
+	_set_qa_language(lang)
+	var resolution := _chapter5_finale_expected_capture_size
+	var prefix := "chapter5_finale_%s_%dx%d_" % [
+		lang, resolution.x, resolution.y]
+	var cases: Array[Dictionary] = [
+		{
+			"event": "arc_y5_father_trace_alive_exact",
+			"father_life": "alive",
+			"shot": "01_w221_alive_choices",
+			"show_choices": true,
+		},
+		{
+			"event": "arc_y5_father_trace_passed_exact",
+			"father_life": "passed",
+			"shot": "02_w221_passed_choices",
+			"show_choices": true,
+		},
+		{
+			"event": "arc_y5_name_on_line_daeun_routed",
+			"father_life": "alive",
+			"shot": "03_w227_four_filing_choices",
+			"show_choices": true,
+		},
+		{
+			"event": "arc_y5_people_verdict_daeun_exact",
+			"father_life": "alive",
+			"shot": "04_w230_daeun_minseo_verdict",
+			"show_choices": true,
+		},
+		{
+			"event": "arc_y5_property_not_executed_notice",
+			"father_life": "alive",
+			"shot": "05_w235_no_execution_result",
+			# StoryMode presents a one-choice authored action directly and stops
+			# on its result; this is the finale's representative result page.
+			"show_choices": true,
+		},
+	]
+	for shot_case in cases:
+		var event_id := str(shot_case["event"])
+		_prepare_chapter5_finale_story_state(
+			event_id, str(shot_case["father_life"]))
+		if _qa_failed:
+			return
+		await _shot_story_event(
+			event_id, prefix + str(shot_case["shot"]), "", 0.75,
+			true, bool(shot_case["show_choices"]))
+		if _qa_failed:
+			return
+	await _shot_chapter5_finale_w240_same_turn(lang, prefix)
+	await _dispose_chapter5_capture_viewport()
+
+func _ensure_chapter5_finale_capture_resolution() -> void:
+	var initial := get_window().size
+	var target := initial
+	if initial.x >= 1900 and initial.y >= 900:
+		target = Vector2i(1920, 1080)
+	_chapter5_finale_expected_capture_size = target
+	# macOS caps a decorated 1920x1080 QA window at the menu-bar work area. Render
+	# that matrix cell in a real offscreen Godot viewport so the evidence buffer,
+	# layout viewport, and saved PNG remain exactly 1920x1080.
+	if target == Vector2i(1920, 1080):
+		_chapter5_finale_capture_viewport = SubViewport.new()
+		_chapter5_finale_capture_viewport.name = "Chapter5FinaleCaptureViewport"
+		_chapter5_finale_capture_viewport.size = target
+		_chapter5_finale_capture_viewport.transparent_bg = false
+		_chapter5_finale_capture_viewport.render_target_update_mode = \
+			SubViewport.UPDATE_ALWAYS
+		# Keep the render surface beside ScreenshotQA in the root. Existing cleanup
+		# and scene-owner probes intentionally skip ScreenshotQA's own subtree.
+		get_tree().root.add_child.call_deferred(_chapter5_finale_capture_viewport)
+		for _frame in range(4):
+			await get_tree().process_frame
+	var actual := (
+		_chapter5_finale_capture_viewport.size
+		if is_instance_valid(_chapter5_finale_capture_viewport)
+		else get_window().size)
+	if actual != target:
+		_fail("Chapter 5 QA could not open the exact capture viewport %s; got %s." % [
+			str(target), str(actual)])
+
+func _dispose_chapter5_capture_viewport() -> void:
+	if not is_instance_valid(_chapter5_finale_capture_viewport):
+		return
+	_chapter5_finale_capture_viewport.render_target_update_mode = \
+		SubViewport.UPDATE_DISABLED
+	_chapter5_finale_capture_viewport.queue_free()
+	_chapter5_finale_capture_viewport = null
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+func _chapter5_finale_scene_parent() -> Node:
+	return _chapter5_finale_capture_viewport \
+		if is_instance_valid(_chapter5_finale_capture_viewport) \
+		else get_tree().root
+
+func _chapter5_finale_render_viewport() -> Viewport:
+	return _chapter5_finale_capture_viewport \
+		if is_instance_valid(_chapter5_finale_capture_viewport) \
+		else get_viewport()
+
+func _chapter5_finale_choice_overrides() -> Dictionary:
+	return {
+		"arc_y5_father_trace_alive_exact": 1,
+		"arc_y5_father_trace_passed_exact": 1,
+		"arc_y5_father_trace_custody": 0,
+		# Verification hold is the representative material carried into W230+
+		# while the W227 screenshot itself still exposes all four filing states.
+		"arc_y5_name_on_line_daeun_routed": 2,
+		"arc_y5_people_verdict_daeun_exact": 2,
+		"arc_y5_property_not_executed_notice": 0,
+		"arc_y5_remaining_jaehyuk_or_self": 0,
+		"arc_y5_final_father_answer_alive": 0,
+		"arc_y5_final_father_answer_passed": 0,
+		"arc_final_countdown_property_not_executed": 2,
+		"arc_y5_final_week_daeun_outbound": 1,
+	}
+
+func _build_chapter5_causal_complete_state() -> Dictionary:
+	var state: Dictionary = Chapter5CausalRouteScript.default_state()
+	var entry := Chapter5CausalRouteScript.lock_entry(
+		state, 195, Chapter5CausalRouteScript.ENTRY_PLAYER_ROUTE,
+		true, true, Chapter5CausalRouteScript.ENTRY_MIN_TOTAL_ASSETS)
+	if not bool(entry.get("ok", false)):
+		_fail("Chapter 5 finale screenshot could not lock the M49-M55 entry: %s." % [
+			str(entry.get("error", "unknown"))])
+		return {}
+	state = (entry.get("state", state) as Dictionary).duplicate(true)
+	var source_choices := {
+		"arc_y5_jaehyuk_guarantee_decision_reference": 2,
+		"arc_sangchul_final_door": 0,
+		# Choice 1 makes the conditional W220 handwritten-scope receipt part
+		# of the actual predecessor route rather than a fabricated fixture.
+		"arc_y5_three_in_room_decision": 1,
+	}
+	for at_turn in range(195, 221):
+		for _same_turn_guard in range(4):
+			var event_id: String = Chapter5CausalRouteScript.next_event_for_turn(
+				state, at_turn)
+			if event_id.is_empty():
+				break
+			var selected_choice := int(source_choices.get(event_id, 0))
+			var result: Dictionary = Chapter5CausalRouteScript.commit_choice(
+				state, event_id, selected_choice, at_turn)
+			if not bool(result.get("ok", false)):
+				_fail("Chapter 5 finale screenshot could not commit source %s/%d at W%d: %s." % [
+					event_id, selected_choice, at_turn,
+					str(result.get("error", "unknown"))])
+				return {}
+			state = (result.get("state", state) as Dictionary).duplicate(true)
+	if not Chapter5CausalRouteScript.route_complete(state):
+		_fail("Chapter 5 finale screenshot did not complete the exact M49-M55 route.")
+		return {}
+	return state
+
+func _set_chapter5_finale_calendar(at_turn: int) -> void:
+	GameState.turn = at_turn
+	GameState.year = 2026 + int((at_turn - 1) / 48)
+	GameState.month = int((at_turn - 1) / 4) + 1
+	GameState.week_of_month = int((at_turn - 1) % 4) + 1
+	GameState.age = 33 + int((at_turn - 1) / 48)
+
+func _prepare_chapter5_finale_story_state(
+		target_id: String, father_life: String = "alive") -> void:
+	if target_id not in CHAPTER5_FINALE_QA_ROOTS:
+		_fail("Chapter 5 finale screenshot requested an unowned root: %s." % target_id)
+		return
+	if father_life not in ["alive", "passed"]:
+		_fail("Chapter 5 finale screenshot received invalid father life: %s." % father_life)
+		return
+	_prepare_main_game_state()
+	GameState.money = 2_100_000_000.0
+	GameState.chapter5_causal_state = _build_chapter5_causal_complete_state()
+	if _qa_failed:
+		return
+	GameState.chapter5_finale_state = Chapter5FinaleRouteScript.default_state()
+	for flag_id in [
+		"father_passed", "arc_father_passing_seen",
+		"father_crisis_contact_present", "father_crisis_contact_called",
+		"father_crisis_contact_missed",
+	]:
+		GameState.flags.erase(flag_id)
+	if father_life == "passed":
+		GameState.flags["father_passed"] = true
+		GameState.flags["father_crisis_contact_missed"] = true
+	else:
+		GameState.flags["father_crisis_contact_called"] = true
+	_set_chapter5_finale_calendar(221)
+	if not GameState.prepare_chapter5_finale_route_entry():
+		_fail("Chapter 5 finale screenshot could not lock the W221 entry.")
+		return
+	var entry: Dictionary = GameState.chapter5_finale_entry_snapshot()
+	if str((entry.get("father", {}) as Dictionary).get("life", "")) != father_life:
+		_fail("Chapter 5 finale screenshot locked the wrong father variant: %s." % [
+			str(entry.get("father", {}))])
+		return
+	var choices := _chapter5_finale_choice_overrides()
+	for at_turn in CHAPTER5_FINALE_QA_ACTIVE_TURNS:
+		_set_chapter5_finale_calendar(at_turn)
+		for _same_turn_guard in range(3):
+			var event_id := GameState.chapter5_finale_next_event_for_turn()
+			if event_id.is_empty():
+				break
+			if event_id == target_id:
+				return
+			var selected_choice := int(choices.get(event_id, 0))
+			var result := GameState.record_chapter5_finale_choice(
+				event_id, selected_choice)
+			if not bool(result.get("ok", false)):
+				_fail("Chapter 5 finale screenshot could not commit %s/%d at W%d: %s." % [
+					event_id, selected_choice, at_turn,
+					str(result.get("error", "unknown"))])
+				return
+	_fail("Chapter 5 finale screenshot could not reach %s for father=%s." % [
+		target_id, father_life])
+
+func _chapter5_finale_advance_to_choices(story: Node, event_id: String) -> bool:
+	for _step in range(48):
+		if str((story.get("_current") as Dictionary).get("id", "")) != event_id:
+			break
+		if bool(story.get("_showing_choices")):
+			await _settle(0.35)
+			return true
+		if bool(story.get("_pending_after_result")):
+			break
+		if bool(story.get("_typing")) and story.has_method("_complete_typing"):
+			story.call("_complete_typing")
+		elif story.has_method("_on_advance"):
+			story.call("_on_advance")
+		await _settle(0.12)
+	_fail("Chapter 5 finale screenshot could not expose choices for %s." % event_id)
+	return false
+
+func _chapter5_finale_advance_to_event(
+		story: Node, expected_event_id: String) -> bool:
+	for _step in range(72):
+		var current: Variant = story.get("_current")
+		if current is Dictionary \
+				and str((current as Dictionary).get("id", "")) == expected_event_id:
+			await _settle(0.35)
+			return true
+		if bool(story.get("_typing")) and story.has_method("_complete_typing"):
+			story.call("_complete_typing")
+		elif story.has_method("_on_advance"):
+			story.call("_on_advance")
+		await _settle(0.12)
+	_fail("Chapter 5 finale same-turn chain did not reach %s." % expected_event_id)
+	return false
+
+func _chapter5_finale_complete_current_typing(story: Node) -> void:
+	# Small windows may paginate one authored result into several source-relative
+	# visual pages. Complete only the currently visible page; never cross a
+	# result/follow-up boundary while preparing a screenshot.
+	for _step in range(8):
+		if not bool(story.get("_typing")):
+			return
+		if story.has_method("_complete_typing"):
+			story.call("_complete_typing")
+		else:
+			story.call("_on_advance")
+		await _settle(0.12)
+
+func _shot_chapter5_finale_w240_same_turn(
+		lang: String, prefix: String) -> void:
+	var signature_id := "arc_final_countdown_property_not_executed"
+	var outbound_id := "arc_y5_final_week_daeun_outbound"
+	_prepare_chapter5_finale_story_state(signature_id, "alive")
+	if _qa_failed:
+		return
+	GameState.pending_story_queue = [signature_id]
+	var packed: PackedScene = load("res://scenes/StoryMode.tscn")
+	var story := packed.instantiate()
+	_chapter5_finale_scene_parent().add_child.call_deferred(story)
+	await get_tree().process_frame
+	if story.has_method("_set_auto_mode"):
+		story.call("_set_auto_mode", false, false)
+	await _settle(0.75)
+	if not await _chapter5_finale_advance_to_choices(story, signature_id):
+		return
+	_assert_chapter5_finale_story_surface(story, signature_id)
+	if _qa_failed:
+		return
+	await _save(prefix + "06_w240_signature_choices")
+	if _qa_failed:
+		return
+	story.call("_on_choice", 2)
+	await _settle(0.35)
+	await _chapter5_finale_complete_current_typing(story)
+	_assert_chapter5_finale_story_surface(story, signature_id)
+	if _qa_failed:
+		return
+	await _save(prefix + "07_w240_signature_result")
+	if _qa_failed:
+		return
+	if not await _chapter5_finale_advance_to_event(story, outbound_id):
+		return
+	if GameState.chapter5_finale_next_event_for_turn() != outbound_id:
+		_fail("Chapter 5 finale W240 chain loaded Daeun without live reducer ingress.")
+		return
+	if not await _chapter5_finale_advance_to_choices(story, outbound_id):
+		return
+	_assert_chapter5_finale_story_surface(story, outbound_id)
+	if _qa_failed:
+		return
+	await _save(prefix + "08_w240_daeun_outbound_choices")
+	if _qa_failed:
+		return
+	story.call("_on_choice", 1)
+	await _settle(0.35)
+	await _chapter5_finale_complete_current_typing(story)
+	_assert_chapter5_finale_story_surface(story, outbound_id)
+	if _qa_failed:
+		return
+	if not GameState.chapter5_finale_ending_ready():
+		_fail("Chapter 5 finale outbound result did not arm the ending exactly once.")
+		return
+	await _save(prefix + "09_w240_daeun_outbound_result")
+	if _qa_failed:
+		return
+	await _shot_chapter5_finale_ending_people(prefix, story, 1)
+
+func _shot_chapter5_finale_ending_people(
+		prefix: String, story: Node, outbound_choice: int) -> void:
+	if not bool(GameState.flags.get("final_signature_people", false)) \
+			or bool(GameState.flags.get("final_signature_owned", false)) \
+			or bool(GameState.flags.get("final_signature_collateral", false)):
+		_fail("Chapter 5 finale ending lost the exact people-signature receipt.")
+		return
+	for legacy_flag in ["final_week_self_approval", "final_week_gratitude"]:
+		if bool(GameState.flags.get(legacy_flag, false)):
+			_fail("Chapter 5 finale ending inherited legacy flag %s." % legacy_flag)
+			return
+	var outbound_receipt := Chapter5FinaleRouteScript.receipt_snapshot_for_stage(
+		GameState.chapter5_finale_state, "outbound")
+	if int(outbound_receipt.get("choice_index", -1)) != outbound_choice:
+		_fail("Chapter 5 finale ending lost outbound choice %d: %s." % [
+			outbound_choice, str(outbound_receipt)])
+		return
+	var release := GameState.consume_chapter5_finale_ending_check()
+	if not bool(release.get("ok", false)) \
+			or not GameState.chapter5_finale_ending_consumed():
+		_fail("Chapter 5 finale ending receipt could not be consumed exactly once: %s." % [
+			str(release)])
+		return
+	var consumed_state: Dictionary = GameState.chapter5_finale_state.duplicate(true)
+	var repeated_release := GameState.consume_chapter5_finale_ending_check()
+	if not bool(repeated_release.get("ok", false)) \
+			or not bool(repeated_release.get("idempotent", false)) \
+			or GameState.chapter5_finale_state != consumed_state:
+		_fail("Chapter 5 finale ending receipt was not idempotent after one consumption.")
+		return
+	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	GameState.pending_story_queue.clear()
+	await _settle(0.35)
+	if is_instance_valid(story):
+		_fail("Chapter 5 finale ending left StoryMode over the result surface.")
+		return
+	# A real W240 run at 2.1B already owns every lower asset milestone. Seed that
+	# durable history before MainGame boots so its asynchronous two-second
+	# milestone portrait timer cannot outlive the short-lived QA ending scene.
+	for milestone_id in ["10m", "50m", "100m", "500m", "1b", "2b"]:
+		GameState.milestones_reached[milestone_id] = true
+	await _boot_main_game()
+	if _qa_failed or not is_instance_valid(_mg):
+		return
+	# `stable_success` is the canonical time-limit result of this 2.1B fixture.
+	# Render through MainGame's real ending builder while retaining the consumed
+	# reducer receipt; preview-only seeded ending helpers would erase that owner.
+	_mg.call("_show_ending", "stable_success")
+	await _settle(0.9)
+	_mg.call("_ending_show_page", 2)
+	await _settle(0.55)
+	_assert_chapter5_finale_ending_people_surface("stable_success", outbound_choice)
+	if _qa_failed:
+		return
+	await _save(prefix + "10_ending_people_signature_then_apology")
+	await _dispose_main_game()
+
+func _assert_chapter5_finale_ending_people_surface(
+		ending_id: String, outbound_choice: int) -> void:
+	_assert_ending_page_contract(2)
+	if _qa_failed:
+		return
+	var page := _find_qa_surface(_mg, "ending_people")
+	if not is_instance_valid(page):
+		_fail("Chapter 5 finale ending has no visible people page.")
+		return
+	var signature_cards: Array[Control] = []
+	var outbound_cards: Array[Control] = []
+	for raw_child in page.get_children():
+		if not raw_child is Control:
+			continue
+		var child := raw_child as Control
+		if child.has_meta("ending_signature_coda"):
+			signature_cards.append(child)
+		if child.has_meta("ending_finale_outbound_coda"):
+			outbound_cards.append(child)
+	if signature_cards.size() != 1 \
+			or str(signature_cards[0].get_meta("ending_signature_coda", "")) != "people":
+		_fail("Ending people page expected one people-signature card, got %s." % [
+			str(signature_cards)])
+		return
+	var expected_kinds: Array[String] = ["meal", "apology", "distance"]
+	if outbound_choice < 0 or outbound_choice >= expected_kinds.size() \
+			or outbound_cards.size() != 1 \
+			or str(outbound_cards[0].get_meta(
+				"ending_finale_outbound_coda", "")) != expected_kinds[outbound_choice]:
+		_fail("Ending people page expected one outbound card for choice %d, got %s." % [
+			outbound_choice, str(outbound_cards)])
+		return
+	if page.get_children().find(signature_cards[0]) \
+			>= page.get_children().find(outbound_cards[0]):
+		_fail("Ending people page placed the outbound receipt before its signature.")
+		return
+	var expected_signature := EndingSystem.final_signature_coda(
+		ending_id, GameState.flags)
+	var expected_outbound := EndingSystem.chapter5_finale_outbound_coda(
+		ending_id, GameState.chapter5_finale_state)
+	var signature_text := _collect_control_text(signature_cards[0]).strip_edges()
+	var outbound_text := _collect_control_text(outbound_cards[0]).strip_edges()
+	var exact_signature := _tr(
+		str(expected_signature.get("text", "")),
+		str(expected_signature.get("text_en", ""))).strip_edges()
+	var exact_outbound := _tr(
+		str(expected_outbound.get("text", "")),
+		str(expected_outbound.get("text_en", ""))).strip_edges()
+	if expected_signature.is_empty() or signature_text != exact_signature:
+		_fail("Ending people page signature card did not render its exact resolver copy.")
+		return
+	if expected_outbound.is_empty() or outbound_text != exact_outbound:
+		_fail("Ending people page outbound card did not render its exact reducer receipt copy.")
+		return
+	var surface_text := _collect_control_text(page)
+	for legacy_sentence in [
+		"5년 전의 그 사람이 지금의 나를 보면",
+		"여기서 포기하지 않아서 다행이야",
+		"the man from five years ago",
+		"I'm glad I didn't give up here",
+	]:
+		if str(legacy_sentence).to_lower() in surface_text.to_lower():
+			_fail("Ending people page leaked legacy self-approval/gratitude copy: %s." % [
+				str(legacy_sentence)])
+			return
+	var internal_code := RegEx.new()
+	internal_code.compile("(?i)(^|[^A-Za-z0-9_])([WM]\\d{1,3}|Y5-[A-Z0-9-]+)([^A-Za-z0-9_]|$)|arc_|chapter5_|finale_stage|final_week_")
+	var internal_match := internal_code.search(surface_text)
+	if internal_match != null:
+		_fail("Ending people page leaked internal code %s." % [
+			internal_match.get_string().strip_edges()])
+		return
+	if LocaleManager.is_english():
+		if _contains_hangul(surface_text):
+			_fail("Ending people page English capture leaked Hangul.")
+			return
+	elif not _contains_hangul(surface_text):
+		_fail("Ending people page Korean capture lost Korean copy.")
+		return
+	var ending_viewport := _mg.get_viewport()
+	var focus_owner := ending_viewport.gui_get_focus_owner()
+	var nav := _find_visible_meta_button(page, "ending_nav")
+	if not is_instance_valid(nav) or focus_owner != nav:
+		_fail("Ending people page lost its visible controller focus.")
+		return
+	var viewport := ending_viewport.get_visible_rect().grow(1.0)
+	for card in [signature_cards[0], outbound_cards[0]]:
+		if not card.is_visible_in_tree() or not viewport.encloses(card.get_global_rect()):
+			_fail("Ending people receipt card escaped the viewport: %s." % [
+				card.get_global_rect()])
+			return
+		for raw_label in card.find_children("*", "RichTextLabel", true, false):
+			var label := raw_label as RichTextLabel
+			if label.is_visible_in_tree() \
+					and label.get_content_height() > label.size.y + 2.0:
+				_fail("Ending people receipt text clipped: %.1f > %.1f." % [
+					label.get_content_height(), label.size.y])
+				return
+
+func _assert_chapter5_finale_story_surface(
+		story: Node, event_id: String) -> void:
+	if event_id not in CHAPTER5_FINALE_QA_ROOTS:
+		_fail("Chapter 5 finale screenshot opened an unexpected root: %s." % event_id)
+		return
+	var current: Dictionary = story.get("_current")
+	if str(current.get("id", "")) != event_id:
+		_fail("Chapter 5 finale screenshot current root drifted: %s." % event_id)
+		return
+	var pending_choice := int(story.get("_pending_result_choice_index"))
+	if not GameState.chapter5_finale_ingress_available(event_id) \
+			and (pending_choice < 0 \
+				or not GameState.chapter5_finale_receipt_matches(
+					event_id, pending_choice)):
+		_fail("Chapter 5 finale screenshot lacks live ingress/receipt ownership: %s." % event_id)
+		return
+	var authored: Dictionary = DataRegistry.find_event(event_id)
+	var expected_contract := Chapter5FinaleRouteScript.expected_read_contract(event_id)
+	var raw_reads: Variant = authored.get("chapter5_finale_reads")
+	if expected_contract.is_empty() or not raw_reads is Dictionary:
+		_fail("%s screenshot lacks its typed finale read contract." % event_id)
+		return
+	var reads: Dictionary = raw_reads
+	if reads.get("sources", []) != expected_contract.get("sources", []) \
+			or str(reads.get("mode", "")) != str(expected_contract.get("mode", "")):
+		_fail("%s screenshot read contract drifted from the reducer ledger." % event_id)
+		return
+	var sources: Array = reads.get("sources", [])
+	var texts: Array = reads.get("texts", [])
+	if texts.size() != sources.size():
+		_fail("%s screenshot has %d read rows for %d sources." % [
+			event_id, texts.size(), sources.size()])
+		return
+	var prefixes: Array[String] = []
+	for source_index in range(sources.size()):
+		var source: Dictionary = sources[source_index]
+		var snapshot := GameState.chapter5_finale_read_source_snapshot(source)
+		var selected := int(snapshot.get("index", -1))
+		var count := int(snapshot.get("count", 0))
+		var raw_row: Variant = texts[source_index]
+		if not bool(snapshot.get("ok", false)) or not raw_row is Array \
+				or (raw_row as Array).size() != count \
+				or selected < 0 or selected >= count:
+			_fail("%s screenshot cannot resolve read source %d: %s." % [
+				event_id, source_index, str(source)])
+			return
+		# StoryMode keeps `_current` as the authored token-bearing source and
+		# resolves `{name}` only when it renders the current page. Compare the
+		# source here; the visible-control check below separately rejects a token
+		# that escaped formatting.
+		prefixes.append(str((raw_row as Array)[selected]).strip_edges())
+	var expected_prefix := "\n\n".join(prefixes)
+	if expected_prefix.is_empty() \
+			or not str(current.get("description", "")).begins_with(expected_prefix):
+		_fail(("%s screenshot did not render its exact localized receipt echo. " \
+			+ "expected=%s actual=%s entry=%s") % [
+			event_id, expected_prefix.left(700),
+			str(current.get("description", "")).left(700),
+			str(GameState.chapter5_finale_entry_snapshot())])
+		return
+	var surface_text := _collect_control_text(story)
+	if LocaleManager.is_english():
+		if _contains_hangul(surface_text):
+			_fail("%s Chapter 5 finale English screenshot leaked Hangul." % event_id)
+			return
+	elif not _contains_hangul(surface_text):
+		_fail("%s Chapter 5 finale Korean screenshot lost Korean copy." % event_id)
+		return
+	var unresolved := RegEx.new()
+	unresolved.compile("\\{[A-Za-z0-9_\\-]+\\}")
+	var token_match := unresolved.search(surface_text)
+	if token_match != null:
+		_fail("%s screenshot leaked unresolved placeholder %s." % [
+			event_id, token_match.get_string()])
+		return
+	var internal_code := RegEx.new()
+	internal_code.compile("(?i)(^|[^A-Za-z0-9_])([WM]\\d{1,3}|Y5-[A-Z0-9-]+)([^A-Za-z0-9_]|$)|arc_|chapter5_|finale_stage|no_executable_contract")
+	var internal_match := internal_code.search(surface_text)
+	if internal_match != null:
+		_fail("%s screenshot leaked internal code %s." % [
+			event_id, internal_match.get_string().strip_edges()])
+		return
+	var main_game_nodes: Array[Node] = []
+	_collect_nodes_by_script(
+		get_tree().root, "res://scenes/MainGame.gd", main_game_nodes)
+	if not main_game_nodes.is_empty():
+		_fail("%s screenshot left the MainGame/AP HUD under StoryMode." % event_id)
+		return
+	var hud := story.get("_hud_panel") as Control
+	var uses_cg := bool(story.get("_current_uses_cg"))
+	if not is_instance_valid(hud) \
+			or (uses_cg and hud.visible) or (not uses_cg and not hud.visible):
+		_fail("%s screenshot StoryMode HUD/CG visibility is inconsistent." % event_id)
+		return
+	var background := story.get("_bg_img") as TextureRect
+	if not is_instance_valid(background) or not background.visible \
+			or background.texture == null \
+			or background.stretch_mode != TextureRect.STRETCH_KEEP_ASPECT_COVERED \
+			or background.expand_mode != TextureRect.EXPAND_IGNORE_SIZE:
+		_fail("%s screenshot lost its visible aspect-cover background." % event_id)
+		return
+	var story_viewport := story.get_viewport()
+	var viewport := story_viewport.get_visible_rect().grow(1.0)
+	for raw_control in [
+		story.get("_hud_panel"), story.get("_text_panel"),
+		story.get("_choice_box"), story.get("_result_record_card"),
+	]:
+		if raw_control is Control:
+			var control := raw_control as Control
+			if control.is_visible_in_tree() \
+					and not viewport.encloses(control.get_global_rect()):
+				_fail("%s control %s escaped the viewport: %s / %s." % [
+					event_id, control.name, control.get_global_rect(), viewport])
+				return
+	var body := story.get("_body_lbl") as RichTextLabel
+	if is_instance_valid(body) and body.is_visible_in_tree() \
+			and body.get_content_height() > body.size.y + 2.0:
+		_fail("%s prose clipped: content=%.1f viewport=%.1f." % [
+			event_id, body.get_content_height(), body.size.y])
+		return
+	if bool(story.get("_showing_choices")):
+		var choice_box := story.get("_choice_box") as Control
+		var visible_choices: Array[Button] = []
+		if is_instance_valid(choice_box):
+			for raw_button in choice_box.find_children("*", "Button", true, false):
+				if raw_button is Button \
+						and (raw_button as Button).is_visible_in_tree():
+					visible_choices.append(raw_button as Button)
+		var expected_choice_count := (
+			(authored.get("choices", []) as Array).size()
+			if authored.get("choices", []) is Array else 0)
+		if visible_choices.size() != expected_choice_count:
+			_fail("%s screenshot expected %d visible choices, got %d." % [
+				event_id, expected_choice_count, visible_choices.size()])
+			return
+		var focus_owner := story_viewport.gui_get_focus_owner()
+		if not is_instance_valid(focus_owner) \
+				or not choice_box.is_ancestor_of(focus_owner):
+			_fail("%s screenshot has no visible controller focus." % event_id)
+			return
+		for button in visible_choices:
+			if not viewport.encloses(button.get_global_rect()):
+				_fail("%s choice escaped the viewport: %s." % [
+					event_id, button.get_global_rect()])
+				return
+			var font := button.get_theme_font("font")
+			var font_size := button.get_theme_font_size("font_size")
+			var measured := font.get_multiline_string_size(
+				button.text, HORIZONTAL_ALIGNMENT_LEFT,
+				maxf(80.0, button.size.x - 32.0), font_size)
+			if measured.y > button.size.y - 4.0:
+				_fail("%s choice clips vertically: text=%.1f control=%.1f (%s)." % [
+					event_id, measured.y, button.size.y, button.text])
+				return
+	if bool(story.get("_pending_after_result")):
+		if pending_choice < 0:
+			_fail("%s result page lost its selected choice identity." % event_id)
+			return
+		var choices: Array = authored.get("choices", [])
+		if pending_choice >= choices.size():
+			_fail("%s result page selected choice is out of range." % event_id)
+			return
+		var expected_result := GameState.format_event_text(
+			str((choices[pending_choice] as Dictionary).get("result_text", "")))
+		var visible_result := str(body.text) if is_instance_valid(body) else surface_text
+		var first_result_line := str(expected_result.split("\n\n", false)[0])
+		var result_probe := first_result_line.left(mini(48, first_result_line.length()))
+		if result_probe.is_empty() or result_probe not in visible_result:
+			_fail(("%s result page does not show the authored selected result. " \
+				+ "probe=%s visible=%s") % [
+				event_id, result_probe, visible_result.left(500)])
+			return
+		if event_id == "arc_y5_property_not_executed_notice":
+			var receipt := Chapter5FinaleRouteScript.receipt_snapshot_for_event(
+				GameState.chapter5_finale_state, event_id)
+			if receipt.get("economic_outcome", {}) \
+					!= Chapter5FinaleRouteScript.NO_EXECUTABLE_CONTRACT_OUTCOME:
+				_fail("W235 result page lost the exact zero-economic receipt.")
+				return
+
 func _shot_story_event(event_id: String, shot_name: String, lang: String = "", settle_time: float = 1.1, finish_first_paragraph: bool = false, show_choices: bool = false, select_choice: int = -1, advance_paragraphs: int = 0, suppress_cg: bool = false, advance_result_paragraphs: int = 0) -> void:
 	if not lang.is_empty():
 		_set_qa_language(lang)
@@ -6500,7 +7240,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	GameState.pending_story_queue = [event_id]
 	var packed: PackedScene = load("res://scenes/StoryMode.tscn")
 	var story := packed.instantiate()
-	get_tree().root.add_child.call_deferred(story)
+	_chapter5_finale_scene_parent().add_child.call_deferred(story)
 	await get_tree().process_frame
 	# Screenshot scopes own advancement explicitly; persisted AUTO would race the requested frame.
 	if story.has_method("_set_auto_mode"):
@@ -6547,6 +7287,12 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 		# One-choice bridge events commit directly at the last prose paragraph.
 		# Their result still needs the same completion path as a visible choice.
 		should_finish_result = true
+	elif _qa_scope() == QA_SCOPE_CHAPTER5_FINALE \
+			and bool(story.get("_pending_after_result")):
+		# W235 is a one-choice authored action. The fixture reaches its result
+		# while opening the action, so freeze that result at full text even though
+		# no explicit `select_choice` argument was needed.
+		should_finish_result = true
 	if should_finish_result:
 		if bool(story.get("_typing")) and story.has_method("_on_advance"):
 			if story.has_method("_complete_typing"):
@@ -6572,6 +7318,8 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 						story._on_advance()
 					await _settle(0.16)
 	if should_finish_result:
+		if _qa_scope() == QA_SCOPE_CHAPTER5_FINALE:
+			await _chapter5_finale_complete_current_typing(story)
 		_assert_authored_story_result_surface(story, event_id, select_choice)
 		if _qa_failed:
 			return
@@ -6641,6 +7389,10 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	_assert_late_chapter_spine_state(story, event_id, select_choice)
 	if _qa_scope() == QA_SCOPE_CHAPTER5_CAUSAL:
 		_assert_chapter5_causal_story_surface(story, event_id)
+		if _qa_failed:
+			return
+	if _qa_scope() == QA_SCOPE_CHAPTER5_FINALE:
+		_assert_chapter5_finale_story_surface(story, event_id)
 		if _qa_failed:
 			return
 	if _qa_scope() == QA_SCOPE_CORE_LOOP_V2:
@@ -22171,7 +22923,11 @@ func _save(shot_name: String, settle_time: float = 0.3) -> void:
 	for _draw_pass in range(3):
 		await get_tree().process_frame
 		await RenderingServer.frame_post_draw
-	var viewport_texture := get_viewport().get_texture()
+	var capture_viewport := (
+		_chapter5_finale_render_viewport()
+		if _qa_scope() in [QA_SCOPE_CHAPTER5_CAUSAL, QA_SCOPE_CHAPTER5_FINALE]
+		else get_viewport())
+	var viewport_texture := capture_viewport.get_texture()
 	if viewport_texture == null:
 		_fail("Viewport texture is unavailable. Run ScreenshotQA with a real rendering driver.")
 		return
@@ -22189,12 +22945,16 @@ func _save(shot_name: String, settle_time: float = 0.3) -> void:
 	if img == null or img.is_empty():
 		_fail("Viewport image is empty. Run ScreenshotQA with a real rendering driver.")
 		return
-	var expected_size := get_window().size
+	var expected_size := (
+		_chapter5_finale_expected_capture_size
+		if _qa_scope() in [QA_SCOPE_CHAPTER5_CAUSAL, QA_SCOPE_CHAPTER5_FINALE] \
+				and _chapter5_finale_expected_capture_size != Vector2i.ZERO
+		else get_window().size)
 	if Vector2i(img.get_width(), img.get_height()) != expected_size:
-		_fail("Screenshot size mismatch for %s: image=%dx%d viewport=%dx%d." % [
+		_fail("Screenshot size mismatch for %s: image=%dx%d expected=%dx%d." % [
 			shot_name, img.get_width(), img.get_height(), expected_size.x, expected_size.y])
 		return
-	if _qa_scope() == QA_SCOPE_CHAPTER5_CAUSAL:
+	if _qa_scope() in [QA_SCOPE_CHAPTER5_CAUSAL, QA_SCOPE_CHAPTER5_FINALE]:
 		_assert_chapter5_causal_render_not_black(img, shot_name)
 		if _qa_failed:
 			return
@@ -23017,7 +23777,7 @@ func _assert_ending_page_contract(page_index: int, game: Node = null) -> void:
 	if is_instance_valid(header) and header.visible:
 		_fail("Ending page %d exposed the legacy modal header." % page_index)
 		return
-	var viewport_size := get_viewport().get_visible_rect().size
+	var viewport_size := root.get_viewport().get_visible_rect().size
 	if not is_instance_valid(panel) or panel.size.x < viewport_size.x * 0.95 \
 			or panel.size.y < viewport_size.y * 0.90:
 		_fail("Ending page %d is not a full-screen surface: panel=%s viewport=%s." % [

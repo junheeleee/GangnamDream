@@ -18,6 +18,7 @@ const INITIAL_SETTLEMENT_SUBSIDY := 300_000.0
 const STAT_THRESHOLDS: Array = [30, 50, 70]
 const PHONE_SYSTEM := preload("res://systems/PhoneSystem.gd")
 const CHAPTER5_CAUSAL_ROUTE := preload("res://systems/Chapter5CausalRoute.gd")
+const CHAPTER5_FINALE_ROUTE := preload("res://systems/Chapter5FinaleRoute.gd")
 var unlocked_stat_thresholds: Dictionary = {}
 
 const DEMO_FEATURE := "gangnam_demo"
@@ -197,6 +198,9 @@ var core_loop_v2_state: Dictionary = {}
 # M49-M55의 선택·배우·문서 순서만 소유한다. 경제·AP·엔딩 상태와 분리해
 # 손상되거나 구버전인 원장이 다른 플레이 표면을 오염시키지 않게 한다.
 var chapter5_causal_state: Dictionary = CHAPTER5_CAUSAL_ROUTE.default_state()
+# M56-M60의 안전 결말은 앞선 투자 문서 선택, 아버지의 확인 가능한 상태,
+# 마지막 아홉 결정을 한 원장에 묶는다. 돈·AP·실제 엔딩 판정은 소유하지 않는다.
+var chapter5_finale_state: Dictionary = CHAPTER5_FINALE_ROUTE.default_state()
 # 휴대폰은 기종이나 앱 상태를 저장하지 않는다. 이 사전은 폐기된 기종 구매를
 # schema 3에서 한 번 정산했다는 이관 원장만 소유한다.
 var phone_state: Dictionary = {}
@@ -367,6 +371,202 @@ func chapter5_causal_week_completed(at_turn: int = -1) -> bool:
 	var query_turn: int = int(turn) if at_turn < 0 else at_turn
 	return CHAPTER5_CAUSAL_ROUTE.week_completed(
 		chapter5_causal_state, query_turn)
+
+func _chapter5_finale_source_choices() -> Dictionary:
+	return {
+		"m55_decision": chapter5_causal_selected_choice(
+			"arc_y5_three_in_room_decision"),
+		"w212_guarantee": chapter5_causal_selected_choice(
+			"arc_y5_jaehyuk_guarantee_decision_reference"),
+		"w215_final_door": chapter5_causal_selected_choice(
+			"arc_sangchul_final_door"),
+	}
+
+func _chapter5_finale_father_snapshot() -> Dictionary:
+	var father_passed := bool(flags.get("father_passed", false)) \
+		or bool(flags.get("arc_father_passing_seen", false)) \
+		or get_cast_stage("father") == "passed"
+	var contact_receipts := {
+		"present": bool(flags.get("father_crisis_contact_present", false)),
+		"called": bool(flags.get("father_crisis_contact_called", false)),
+		"missed": bool(flags.get("father_crisis_contact_missed", false)),
+	}
+	var contact_mode := "records_only"
+	var contact_matches: Array[String] = []
+	for mode in ["present", "called", "missed"]:
+		if bool(contact_receipts[mode]):
+			contact_matches.append(mode)
+	if contact_matches.size() == 1:
+		contact_mode = contact_matches[0]
+	return {
+		"life": "passed" if father_passed else "alive",
+		"contact_mode": contact_mode,
+	}
+
+func chapter5_finale_is_owned_event(event_id: String) -> bool:
+	return CHAPTER5_FINALE_ROUTE.is_owned_event(event_id)
+
+func prepare_chapter5_finale_route_entry() -> bool:
+	# M56의 첫 장면은 M49-M55 전체가 실제로 끝난 같은 투자 문서 경로만
+	# 이어받는다. 누락된 선택을 달력이나 관계 플래그로 추정하지 않는다.
+	if not CHAPTER5_CAUSAL_ROUTE.route_complete(chapter5_causal_state):
+		return false
+	var result := CHAPTER5_FINALE_ROUTE.lock_entry(
+		chapter5_finale_state,
+		int(turn),
+		CHAPTER5_FINALE_ROUTE.ROUTE_ID,
+		CHAPTER5_FINALE_ROUTE.PROFILE_ID,
+		_chapter5_finale_source_choices(),
+		_chapter5_finale_father_snapshot(),
+		CHAPTER5_FINALE_ROUTE.ACTORS.duplicate(true))
+	if not bool(result.get("ok", false)):
+		return false
+	chapter5_finale_state = (
+		result.get("state", chapter5_finale_state) as Dictionary).duplicate(true)
+	return true
+
+func chapter5_finale_entry_snapshot() -> Dictionary:
+	return CHAPTER5_FINALE_ROUTE.entry_snapshot(chapter5_finale_state)
+
+func chapter5_finale_next_event_for_turn(at_turn: int = -1) -> String:
+	var query_turn: int = int(turn) if at_turn < 0 else at_turn
+	return CHAPTER5_FINALE_ROUTE.next_event_for_turn(
+		chapter5_finale_state, query_turn)
+
+func chapter5_finale_ingress_available(event_id: String) -> bool:
+	return CHAPTER5_FINALE_ROUTE.ingress_available(
+		chapter5_finale_state, event_id, int(turn))
+
+func chapter5_finale_choice_available(
+		event_id: String, choice_index: int) -> bool:
+	return CHAPTER5_FINALE_ROUTE.choice_commit_available(
+		chapter5_finale_state, event_id, choice_index, int(turn))
+
+func record_chapter5_finale_choice(
+		event_id: String, choice_index: int) -> Dictionary:
+	# StoryMode snapshots the whole GameState before normal choice effects. This
+	# wrapper changes only the finale ledger; a failed commit leaves it byte exact.
+	var candidate_state := chapter5_finale_state.duplicate(true)
+	var result := CHAPTER5_FINALE_ROUTE.commit_choice(
+		candidate_state, event_id, choice_index, int(turn))
+	if bool(result.get("ok", false)):
+		chapter5_finale_state = (
+			result.get("state", chapter5_finale_state) as Dictionary).duplicate(true)
+	return result
+
+func close_chapter5_finale_route(reason: String) -> Dictionary:
+	var result := CHAPTER5_FINALE_ROUTE.close_route(
+		chapter5_finale_state, reason)
+	if bool(result.get("ok", false)):
+		chapter5_finale_state = (
+			result.get("state", chapter5_finale_state) as Dictionary).duplicate(true)
+	return result
+
+func chapter5_finale_receipt_matches(
+		event_id: String, choice_index: int, at_turn: int = -1) -> bool:
+	var query_turn: int = int(turn) if at_turn < 0 else at_turn
+	return CHAPTER5_FINALE_ROUTE.receipt_matches(
+		chapter5_finale_state, event_id, choice_index, query_turn)
+
+func chapter5_finale_week_completed(at_turn: int = -1) -> bool:
+	var query_turn: int = int(turn) if at_turn < 0 else at_turn
+	return CHAPTER5_FINALE_ROUTE.week_completed(
+		chapter5_finale_state, query_turn)
+
+func chapter5_finale_holds_ending() -> bool:
+	return CHAPTER5_FINALE_ROUTE.holds_ending(chapter5_finale_state)
+
+func chapter5_finale_ending_ready() -> bool:
+	return CHAPTER5_FINALE_ROUTE.ending_ready(chapter5_finale_state)
+
+func chapter5_finale_ending_consumed() -> bool:
+	var canonical := CHAPTER5_FINALE_ROUTE.state_from_save(
+		chapter5_finale_state, true, int(turn))
+	return str(canonical.get("status", "")) == "open" \
+		and str(canonical.get("ending_check", "")) == "consumed" \
+		and CHAPTER5_FINALE_ROUTE.route_complete(canonical)
+
+func consume_chapter5_finale_ending() -> Dictionary:
+	var result := CHAPTER5_FINALE_ROUTE.consume_ending_check(
+		chapter5_finale_state)
+	if bool(result.get("ok", false)):
+		chapter5_finale_state = (
+			result.get("state", chapter5_finale_state) as Dictionary).duplicate(true)
+	return result
+
+func consume_chapter5_finale_ending_check() -> Dictionary:
+	# Compatibility alias for in-flight callers; the public contract uses the
+	# shorter name above.
+	return consume_chapter5_finale_ending()
+
+func _chapter5_finale_exact_source_keys(
+		source: Dictionary, expected: Array[String]) -> bool:
+	if source.size() != expected.size():
+		return false
+	for key in expected:
+		if not source.has(key):
+			return false
+	return true
+
+func _chapter5_finale_entry_value(path: String) -> Variant:
+	var current: Variant = chapter5_finale_entry_snapshot()
+	for component in path.split(".", false):
+		if not current is Dictionary \
+				or not (current as Dictionary).has(component):
+			return null
+		current = (current as Dictionary)[component]
+	return current
+
+func chapter5_finale_read_source_snapshot(source: Dictionary) -> Dictionary:
+	var kind := str(source.get("kind", ""))
+	var selected := -1
+	var count := 0
+	var receipt: Dictionary = {}
+	if kind == "causal_event":
+		if not _chapter5_finale_exact_source_keys(source, ["kind", "id"]):
+			return {"ok": false}
+		var event_id := str(source.get("id", ""))
+		selected = chapter5_causal_selected_choice(event_id)
+		count = chapter5_causal_choice_count(event_id)
+		receipt = chapter5_causal_receipt_snapshot(event_id)
+	elif kind == "finale_stage":
+		if not _chapter5_finale_exact_source_keys(source, ["kind", "id"]):
+			return {"ok": false}
+		var stage := str(source.get("id", ""))
+		selected = CHAPTER5_FINALE_ROUTE.selected_choice_for_stage(
+			chapter5_finale_state, stage)
+		count = CHAPTER5_FINALE_ROUTE.choice_count_for_stage(
+			chapter5_finale_state, stage)
+		receipt = CHAPTER5_FINALE_ROUTE.receipt_snapshot_for_stage(
+			chapter5_finale_state, stage)
+	elif kind == "entry_value":
+		if not _chapter5_finale_exact_source_keys(
+				source, ["kind", "path", "values"]) \
+				or not source.get("values") is Array:
+			return {"ok": false}
+		var values: Array = source["values"]
+		var value: Variant = _chapter5_finale_entry_value(
+			str(source.get("path", "")))
+		selected = values.find(value)
+		count = values.size()
+		if count < 1 or selected < 0:
+			return {"ok": false}
+		return {
+			"ok": true,
+			"index": selected,
+			"count": count,
+			"value": value,
+		}
+	else:
+		return {"ok": false}
+	if receipt.is_empty() or count < 1 or selected < 0 or selected >= count:
+		return {"ok": false}
+	return {
+		"ok": true,
+		"index": selected,
+		"count": count,
+		"receipt": receipt,
+	}
 
 func note_contact(person_id: String) -> void:
 	contact_counts[person_id] = int(contact_counts.get(person_id, 0)) + 1
@@ -665,6 +865,7 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 		"run_generation": CORE_LOOP_V2_ELIGIBLE_RUN_GENERATION,
 	}
 	chapter5_causal_state = CHAPTER5_CAUSAL_ROUTE.default_state()
+	chapter5_finale_state = CHAPTER5_FINALE_ROUTE.default_state()
 	phone_state = PHONE_SYSTEM.default_state()
 	contact_counts = {}
 	last_contact_turn = {}
@@ -3348,6 +3549,12 @@ func check_game_over():
 	if addiction_tendency >= 90:
 		finish_run("crypto_ghost"); return
 
+	# M56-M60 owns the final document/person decisions for its locked route.
+	# Immediate failures above stay immediate; every success or time-limit ending
+	# below waits until the W240 outbound receipt releases one canonical check.
+	if chapter5_finale_holds_ending():
+		return
+
 	# 다은의 믿음을 서류로 이용한 런은 30억을 먼저 달성해도 그 결산을
 	# 건너뛰지 않는다. StoryMode의 기존 최종 선택이 끝난 뒤 같은 호출에서
 	# 결혼 유지/이혼 결과에 맞는 성공 엔딩으로 다시 판정된다.
@@ -3444,7 +3651,7 @@ func check_game_over():
 		finish_run("political_fix"); return
 
 	# ── 38세 = 타임리밋 (5년 종료) ────────────────────
-	if age >= 38:
+	if age >= 38 or chapter5_finale_ending_consumed():
 		var total = get_total_asset_value()
 		# 이혼(강남 미달 엣지 — 서명했으나 끝내 못 닿음): 버렸는데 얻지도 못한 결말
 		if flags.get("daeun_divorced", false):
@@ -3597,6 +3804,7 @@ func serialize():
 		"forgone_path_debts": forgone_path_debts,
 		"core_loop_v2_state": core_loop_v2_state,
 		"chapter5_causal_state": chapter5_causal_state,
+		"chapter5_finale_state": chapter5_finale_state,
 		"phone_state": phone_state,
 		"contact_counts": contact_counts,
 		"last_contact_turn": last_contact_turn,
@@ -3669,12 +3877,16 @@ func load_from_dict(data):
 			else:
 				phone_state = {}
 			continue
-		if key == "chapter5_causal_state":
+		if key == "chapter5_causal_state" or key == "chapter5_finale_state":
 			# Nested choice/actor/document receipts use an exact schema. Defer all
 			# validation until after the generic assignment loop so malformed input
 			# can never be cast into the typed property or inherit a prior run.
-			chapter5_causal_state = (
-				(value as Dictionary).duplicate(true) if value is Dictionary else {})
+			if key == "chapter5_causal_state":
+				chapter5_causal_state = (
+					(value as Dictionary).duplicate(true) if value is Dictionary else {})
+			else:
+				chapter5_finale_state = (
+					(value as Dictionary).duplicate(true) if value is Dictionary else {})
 			continue
 		if int_fields.has(key) and value is float:
 			value = int(value)
@@ -3682,6 +3894,9 @@ func load_from_dict(data):
 	chapter5_causal_state = CHAPTER5_CAUSAL_ROUTE.state_from_save(
 		data.get("chapter5_causal_state", null),
 		data.has("chapter5_causal_state"))
+	chapter5_finale_state = CHAPTER5_FINALE_ROUTE.state_from_save(
+		data.get("chapter5_finale_state", null),
+		data.has("chapter5_finale_state"), int(turn))
 	# Older saves used an internal-only reflection flag for the authored phone
 	# conversation in which Father actually heard why Gangnam mattered. Preserve
 	# that earned memory under the concrete receipt now used by the story, then

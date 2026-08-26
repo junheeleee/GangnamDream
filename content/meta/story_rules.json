@@ -703,6 +703,14 @@
       "from_location": "current_housing",
       "to_location": "current_housing",
       "queue_only": true
+    },
+    "arc_final_countdown_property_not_executed->arc_y5_final_week_daeun_outbound": {
+      "mode": "time_cut",
+      "from_location": "gangnam_night",
+      "to_location": "current_housing",
+      "arrival_cue_ko": "마지막 서명 뒤 몇 분",
+      "arrival_cue_en": "A few minutes after the last signature",
+      "queue_only": true
     }
   },
   "events": {
@@ -759,6 +767,109 @@
       }
     },
     "arc_y5_room_consent_receipt": {"logic": {}},
+    "arc_y5_father_trace_alive_exact": {
+      "logic": {},
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local"
+      }
+    },
+    "arc_y5_father_trace_passed_exact": {
+      "logic": {},
+      "presentation": {
+        "channel": "memory",
+        "scene_location": "current_housing",
+        "remote_location": "father_record",
+        "remote_actor": "father",
+        "portrait_role": "local"
+      }
+    },
+    "arc_y5_father_trace_custody": {
+      "logic": {},
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "late_night",
+        "participants": ["player", "daeun"],
+        "portrait_role": "local"
+      }
+    },
+    "arc_y5_name_on_line_daeun_routed": {
+      "logic": {},
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "office",
+        "participants": ["player", "daeun"],
+        "portrait_role": "none"
+      }
+    },
+    "arc_y5_people_verdict_daeun_exact": {
+      "logic": {},
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "late_night",
+        "participants": ["player", "daeun", "minseo"],
+        "portrait_role": "none"
+      }
+    },
+    "arc_y5_property_not_executed_notice": {
+      "logic": {},
+      "presentation": {
+        "channel": "message",
+        "scene_location": "current_housing",
+        "remote_location": "sangchul_current_location",
+        "remote_actor": "sangchul",
+        "portrait_role": "local"
+      }
+    },
+    "arc_y5_remaining_jaehyuk_or_self": {
+      "logic": {},
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local"
+      }
+    },
+    "arc_y5_final_father_answer_alive": {
+      "logic": {},
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local"
+      }
+    },
+    "arc_y5_final_father_answer_passed": {
+      "logic": {},
+      "presentation": {
+        "channel": "memory",
+        "scene_location": "current_housing",
+        "remote_location": "father_record",
+        "remote_actor": "father",
+        "portrait_role": "local"
+      }
+    },
+    "arc_final_countdown_property_not_executed": {
+      "logic": {},
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "gangnam_night",
+        "participants": ["player"],
+        "portrait_role": "local"
+      }
+    },
+    "arc_y5_final_week_daeun_outbound": {
+      "logic": {},
+      "presentation": {
+        "channel": "message",
+        "scene_location": "current_housing",
+        "remote_location": "daeun_current_location",
+        "remote_actor": "daeun",
+        "portrait_role": "local"
+      }
+    },
     "v2_mirae_result_message": {
       "speech": {
         "speakers": {

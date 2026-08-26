@@ -18,6 +18,7 @@ REGISTRY = ROOT / "autoloads" / "DataRegistry.gd"
 MANIFEST = ROOT / "content" / "meta" / "event_director.json"
 MAIN_GAME = ROOT / "scenes" / "MainGame.gd"
 CHAPTER5_CAUSAL_ROUTE = ROOT / "systems" / "Chapter5CausalRoute.gd"
+CHAPTER5_FINALE_ROUTE = ROOT / "systems" / "Chapter5FinaleRoute.gd"
 EVENT_MANAGER = ROOT / "autoloads" / "EventManager.gd"
 EXPECTED_CATALOG_RANDOM = 1176
 EXPECTED_DIRECTED_RANDOM = 1003
@@ -26,7 +27,7 @@ EXPECTED_BRIDGE_RANDOM = 19
 # Core V2's authored hidden beats include the First Bill fragments plus the
 # fresh-only application Send and pre-plan calculation. They are reached by
 # runtime substitution or bundle/story links, never by the random director.
-EXPECTED_REGISTERED_EVENTS = 1675
+EXPECTED_REGISTERED_EVENTS = 1686
 EXPECTED_DIRECT_ONLY_EVENTS = {
     "v2_hyunsu_player_reachout",
     "v2_hyunsu_study_followup",
@@ -162,9 +163,10 @@ EXPECTED_FULL_DECISIONS = [
     145, 149, 153, 157, 161, 164, 167, 169, 174, 177,
     181, 185, 188, 190, 192,
     193, 195, 196, 197, 200, 201, 203, 204, 207, 208, 209,
-    210, 211, 212, 215, 216, 217, 219, 220, 225, 229, 237,
+    210, 211, 212, 215, 216, 217, 219, 220,
+    221, 224, 225, 227, 229, 230, 235, 237, 238, 239, 240,
 ]
-EXPECTED_FULL_BOSSES = [45, 92, 140, 192, 237]
+EXPECTED_FULL_BOSSES = [45, 92, 140, 192, 237, 240]
 EXPECTED_FULL_ECHOES = [
     33, 51, 63, 75, 86, 98, 109, 121, 136,
     151, 159, 171, 184, 199, 231,
@@ -301,6 +303,18 @@ def scheduled_arc_ids(events: list[dict[str, Any]]) -> set[str]:
     scheduled.update(
         event_id
         for event_id in re.findall(r'"([a-z0-9_]+)"', owned_block)
+        if event_id in by_id
+    )
+    chapter5_finale_source = CHAPTER5_FINALE_ROUTE.read_text(encoding="utf-8")
+    try:
+        finale_owned_block = chapter5_finale_source.split(
+            "const OWNED_EVENT_IDS:", 1)[1].split("]", 1)[0]
+    except IndexError as exc:
+        raise RuntimeError(
+            "Chapter5FinaleRoute.OWNED_EVENT_IDS could not be parsed") from exc
+    scheduled.update(
+        event_id
+        for event_id in re.findall(r'"([a-z0-9_]+)"', finale_owned_block)
         if event_id in by_id
     )
     return scheduled
@@ -766,10 +780,10 @@ def validate_manifest(manifest: dict[str, Any], events: list[dict[str, Any]]) ->
             sum((chapter - 1) * 48 < turn <= chapter * 48 for turn in all_decisions)
             for chapter in range(1, 6)
         ]
-        if chapter_counts != [13, 9, 10, 15, 22]:
+        if chapter_counts != [13, 9, 10, 15, 30]:
             errors.append(f"chapter direct-decision counts drifted: {chapter_counts}")
-        if not 60 <= len(all_decisions) <= 72:
-            errors.append(f"full run must expose 60..72 direct weeks, got {len(all_decisions)}")
+        if not 72 <= len(all_decisions) <= 80:
+            errors.append(f"full run must expose 72..80 direct weeks, got {len(all_decisions)}")
 
     scope = manifest.get("scope", {})
     if scope.get("excluded_id_prefixes") != ["arc_"]:

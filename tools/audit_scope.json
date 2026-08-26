@@ -504,8 +504,10 @@
       "paths": [
         "content/events/**",
         "content/events_en/**",
+        "content/meta/chapter5_finale_ledger.json",
         "content/meta/story_rules.json",
-        "content/meta/demo_core_loop_v2.json"
+        "content/meta/demo_core_loop_v2.json",
+        "tools/story_consistency_audit.py"
       ]
     },
     {
@@ -514,6 +516,7 @@
       "paths": [
         "content/events/**",
         "content/events_en/**",
+        "content/meta/chapter5_finale_ledger.json",
         "content/meta/story_map.json",
         "content/meta/story_rules.json",
         "content/meta/narrative_spine.json",
@@ -667,7 +670,13 @@
       "why": "장편 연속성·챕터 밀도·고립 단편",
       "paths": [
         "content/events/**",
+        "content/meta/chapter5_causal_ledger.json",
+        "content/meta/chapter5_finale_ledger.json",
         "content/meta/narrative_spine.json",
+        "scenes/MainGame.gd",
+        "systems/Chapter5CausalRoute.gd",
+        "systems/Chapter5FinaleRoute.gd",
+        "tools/arc_flow_sim.py",
         "tools/narrative_continuity_audit.py"
       ]
     },
@@ -684,6 +693,7 @@
       "paths": [
         "content/meta/narrative_spine.json",
         "content/meta/story_map.json",
+        "content/meta/chapter5_finale_ledger.json",
         "content/events/**",
         "tools/narrative_spine_audit.py"
       ]
@@ -734,6 +744,54 @@
       ]
     },
     {
+      "tool": "tools/chapter5_finale_route_audit.py --self-test",
+      "why": "5장 M56~M60 11루트·30선택·active 9/24·경제 비실행·tamper mutation 자체 검사",
+      "paths": [
+        "autoloads/GameState.gd",
+        "autoloads/SaveManager.gd",
+        "content/events/**",
+        "content/events_en/**",
+        "content/meta/chapter5_causal_ledger.json",
+        "content/meta/chapter5_finale_ledger.json",
+        "scenes/MainGame.gd",
+        "scenes/StoryMode.gd",
+        "systems/Chapter5CausalRoute.gd",
+        "systems/Chapter5FinaleRoute.gd",
+        "systems/EndingSystem.gd",
+        "tools/chapter5_causal_route_audit.py",
+        "tools/chapter5_finale_route_audit.py",
+        "tools/Chapter5FinaleRouteCheck.gd",
+        "tools/ManualSaveCheck.gd",
+        "tools/CoreChoiceSliceCheck.gd",
+        "tools/EndingRouteIdentityCheck.gd",
+        "tools/audit_scope.json"
+      ]
+    },
+    {
+      "tool": "tools/chapter5_finale_route_audit.py",
+      "why": "M56~M60 safe-no-execution direct ingress·exact receipt/read identity·W240 signature→outbound·ending one-shot 계약",
+      "paths": [
+        "autoloads/GameState.gd",
+        "autoloads/SaveManager.gd",
+        "content/events/**",
+        "content/events_en/**",
+        "content/meta/chapter5_causal_ledger.json",
+        "content/meta/chapter5_finale_ledger.json",
+        "scenes/MainGame.gd",
+        "scenes/StoryMode.gd",
+        "systems/Chapter5CausalRoute.gd",
+        "systems/Chapter5FinaleRoute.gd",
+        "systems/EndingSystem.gd",
+        "tools/chapter5_causal_route_audit.py",
+        "tools/chapter5_finale_route_audit.py",
+        "tools/Chapter5FinaleRouteCheck.gd",
+        "tools/ManualSaveCheck.gd",
+        "tools/CoreChoiceSliceCheck.gd",
+        "tools/EndingRouteIdentityCheck.gd",
+        "tools/audit_scope.json"
+      ]
+    },
+    {
       "tool": "tools/peak_scene_chain_audit.py",
       "why": "정점 장면 체인·종막 기능/사실/변형 의미와 허위 계약·회복 차단; 패널 수는 관측값",
       "paths": [
@@ -759,8 +817,11 @@
       "why": "디렉터 풀·콜백 도달성·체인",
       "paths": [
         "content/events/**",
+        "content/meta/chapter5_finale_ledger.json",
         "content/meta/event_director.json",
         "content/meta/event_lifecycle.json",
+        "systems/Chapter5FinaleRoute.gd",
+        "tools/event_director_audit.py",
         "tools/event_lifecycle.py"
       ]
     },
@@ -950,7 +1011,13 @@
       "why": "240주 페이싱",
       "paths": [
         "content/events/**",
+        "content/meta/chapter5_finale_ledger.json",
+        "content/meta/event_director.json",
         "content/meta/narrative_spine.json",
+        "scenes/MainGame.gd",
+        "systems/Chapter5FinaleRoute.gd",
+        "tools/arc_flow_sim.py",
+        "tools/narrative_continuity_audit.py",
         "tools/full_run_pacing_audit.py"
       ]
     },
@@ -998,10 +1065,18 @@
       "tool": "tools/i18n_coverage_check.py",
       "why": "다국어 커버리지",
       "paths": [
+        "content/events/**",
+        "content/events_en/**",
+        "content/events_ja/**",
+        "content/events_zh-CN/**",
+        "content/events_zh-TW/**",
+        "content/endings.json",
+        "content/endings_en.json",
         "locale/**",
         "content/endings_ja.json",
         "content/endings_zh-CN.json",
-        "content/endings_zh-TW.json"
+        "content/endings_zh-TW.json",
+        "tools/i18n_coverage_check.py"
       ]
     },
     {
@@ -1290,7 +1365,14 @@
       "why": "아크 예약 간격·이정표 순서",
       "paths": [
         "content/events/**",
-        "content/meta/event_director.json"
+        "content/meta/chapter5_causal_ledger.json",
+        "content/meta/chapter5_finale_ledger.json",
+        "content/meta/event_director.json",
+        "scenes/MainGame.gd",
+        "scenes/StoryMode.gd",
+        "systems/Chapter5CausalRoute.gd",
+        "systems/Chapter5FinaleRoute.gd",
+        "tools/arc_flow_sim.py"
       ]
     },
     {
@@ -1557,8 +1639,11 @@
         "autoloads/SaveManager.gd",
         "autoloads/GameState.gd",
         "content/meta/chapter5_causal_ledger.json",
+        "content/meta/chapter5_finale_ledger.json",
+        "scenes/MainGame.gd",
         "scenes/StoryMode.gd",
         "systems/Chapter5CausalRoute.gd",
+        "systems/Chapter5FinaleRoute.gd",
         "tools/ManualSaveCheck.gd",
         "tools/ManualSaveCheck.gd.uid",
         "tools/ManualSaveCheck.tscn"
@@ -1663,6 +1748,11 @@
       "paths": [
         "autoloads/GameState.gd",
         "content/endings*.json",
+        "content/meta/chapter5_causal_ledger.json",
+        "content/meta/chapter5_finale_ledger.json",
+        "scenes/MainGame.gd",
+        "systems/Chapter5CausalRoute.gd",
+        "systems/Chapter5FinaleRoute.gd",
         "systems/EndingSystem.gd",
         "tools/EndingRouteIdentityCheck.gd",
         "tools/EndingRouteIdentityCheck.tscn"
@@ -1874,8 +1964,11 @@
         "autoloads/GameState.gd",
         "content/events/**",
         "content/meta/chapter5_causal_ledger.json",
+        "content/meta/chapter5_finale_ledger.json",
         "scenes/MainGame.gd",
+        "scenes/StoryMode.gd",
         "systems/Chapter5CausalRoute.gd",
+        "systems/Chapter5FinaleRoute.gd",
         "tools/CoreChoiceSliceCheck.gd"
       ]
     },
@@ -1892,6 +1985,31 @@
         "tools/Chapter5CausalRouteCheck.gd",
         "tools/Chapter5CausalRouteCheck.gd.uid",
         "tools/Chapter5CausalRouteCheck.tscn"
+      ]
+    },
+    {
+      "tool": "tools/Chapter5FinaleRouteCheck.tscn",
+      "godot": true,
+      "why": "M56~M60 11/30·active 9/24 reducer, save/tamper/legacy, W240 two-root, no-execution, ending release 런타임",
+      "paths": [
+        "autoloads/GameState.gd",
+        "autoloads/SaveManager.gd",
+        "content/events/**",
+        "content/events_en/**",
+        "content/meta/chapter5_causal_ledger.json",
+        "content/meta/chapter5_finale_ledger.json",
+        "scenes/MainGame.gd",
+        "scenes/StoryMode.gd",
+        "systems/Chapter5CausalRoute.gd",
+        "systems/Chapter5FinaleRoute.gd",
+        "systems/EndingSystem.gd",
+        "tools/chapter5_finale_route_audit.py",
+        "tools/Chapter5FinaleRouteCheck.gd",
+        "tools/Chapter5FinaleRouteCheck.gd.uid",
+        "tools/Chapter5FinaleRouteCheck.tscn",
+        "tools/ManualSaveCheck.gd",
+        "tools/CoreChoiceSliceCheck.gd",
+        "tools/EndingRouteIdentityCheck.gd"
       ]
     },
     {

@@ -6,7 +6,7 @@
     "months_per_chapter": 12
   },
   "design_targets": {
-    "direct_stops": [36, 42],
+    "direct_stops": [45, 51],
     "history_inputs_per_scene": 2,
     "decision_inputs_per_scene": 1,
     "named_readers": 17,
@@ -2873,9 +2873,9 @@
             "values": ["alive", "concern", "hospitalized", "passed"]
           },
           "commitments": [
-            {"id": "m56_revisit_father_trace", "source": "opportunity", "axis": "trust", "label": "기일 또는 약속 시각에 생존 경로는 전화하고 별세 경로는 약봉지를 꺼낸다", "due_week": 221, "miss": "expired", "after": null, "available_values": ["alive", "concern", "hospitalized", "passed"]},
+            {"id": "m56_revisit_father_trace", "source": "opportunity", "axis": "trust", "label": "생존 경로는 확인된 마지막 연락 기록을 열고 별세 경로는 약봉지와 기록 봉투를 꺼낸다", "due_week": 221, "miss": "expired", "after": null, "available_values": ["alive", "concern", "hospitalized", "passed"]},
             {"id": "m56_work_anniversary_deadline", "source": "pressure", "axis": "cash", "label": "같은 시각 최종 계약의 유급 마감에 나간다", "due_week": 221, "miss": "expired", "after": null, "available_values": ["*"]},
-            {"id": "m56_share_father_lesson", "source": "person_promise", "axis": "trust", "label": "보호할 사람을 만나 아버지의 보증과 지난 선택을 말한다", "due_week": 224, "miss": "expired", "after": "m56_revisit_father_trace", "available_values": ["*"]}
+            {"id": "m56_share_father_lesson", "source": "person_promise", "axis": "trust", "label": "보호할 사람과 아버지 보증·지난 선택의 비교본을 공유하거나 자기 보관으로 남긴다", "due_week": 224, "miss": "expired", "after": "m56_revisit_father_trace", "available_values": ["*"]}
           ],
           "beats": [
             {
@@ -2899,6 +2899,52 @@
                 ]
               },
               "forgone": []
+            },
+            {
+              "id": "m56_father_trace_product",
+              "scene_id": "m56_father_trace_product",
+              "kind": "consequence",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y5_father_trace_alive_exact",
+              "rule_status": "mapped",
+              "intent": "안전한 투자 경로에서 M55의 실제 선택과 고정된 마지막 연락 증거를 함께 읽되 새 통화·방문·대답을 발명하지 않는다.",
+              "channel": "mixed",
+              "cast": ["player", "father"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "route.m56.father_life",
+                "base_values": ["alive", "concern", "hospitalized"],
+                "fallbacks": [
+                  {
+                    "values": ["*"],
+                    "root": "arc_y5_father_trace_passed_exact",
+                    "work": "EXPAND",
+                    "rule_status": "mapped",
+                    "channel": "memory",
+                    "cast": ["player", "father"],
+                    "reads": {"memories": [], "decision": null, "carryovers": []},
+                    "forgone": ["생존 아버지에게 사실 문장을 먼저 보내는 현재형 행동"]
+                  }
+                ]
+              },
+              "forgone": ["별세한 아버지의 대답을 기억으로 만들어 내는 위로"]
+            },
+            {
+              "id": "m56_father_trace_custody_product",
+              "scene_id": "m56_father_trace_custody_product",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y5_father_trace_custody",
+              "rule_status": "mapped",
+              "intent": "W221 비교본의 보관 주체를 다은 공유 또는 자기 보관으로 확정하고 받은 적 없는 검토·동의를 추론하지 않는다.",
+              "channel": "in_person",
+              "cast": ["player", "daeun"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["이번 밤 선택하지 않은 비교본 보관 주체와 그 사람이 가질 다음 창구의 증거"]
             }
           ]
         },
@@ -2918,8 +2964,8 @@
           },
           "commitments": [
             {"id": "m57_keep_safe_income_closing", "source": "pressure", "axis": "cash", "label": "명의 계약과 겹친 기존 수입의 마지막 마감을 지킨다", "due_week": 226, "miss": "expired", "after": null, "available_values": ["*"]},
-            {"id": "m57_file_name_decision", "source": "opportunity", "axis": "cash", "label": "제출 창구에서 거절 뒤 철회 또는 명시 동의 또는 몰래 사용 또는 자기 명의만을 실제 접수한다", "due_week": 227, "miss": "expired", "after": null, "available_values": ["*"]},
-            {"id": "m57_deliver_filed_copy", "source": "person_promise", "axis": "trust", "label": "보호한 사람에게 접수본을 그날 직접 건넨다", "due_week": 228, "miss": "deferred", "after": "m57_file_name_decision", "available_values": ["*"]}
+            {"id": "m57_file_name_decision", "source": "opportunity", "axis": "cash", "label": "실제 동의와 조건에 따라 철회·제한 접수·검증 보류·자기 명의 중 현재 문서 상태를 확정한다", "due_week": 227, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m57_deliver_filed_copy", "source": "person_promise", "axis": "trust", "label": "보호한 사람에게 실제 접수본을 건네거나 미전달 사실을 그날 기록한다", "due_week": 228, "miss": "deferred", "after": "m57_file_name_decision", "available_values": ["*"]}
           ],
           "beats": [
             {
@@ -2955,6 +3001,21 @@
                 ]
               },
               "forgone": ["빠른 계약", "보호한 사람의 신뢰"]
+            },
+            {
+              "id": "m57_name_on_line_safe_product",
+              "scene_id": "m57_name_on_line_safe_product",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y5_name_on_line_daeun_routed",
+              "rule_status": "mapped",
+              "intent": "안전한 투자 경로의 M55 결정과 W224 보관 영수증을 읽어 철회·제한 접수·검증 보류·자기 명의 227번의 네 물성을 하나만 확정한다.",
+              "channel": "in_person",
+              "cast": ["player", "daeun"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["고르지 않은 세 문서 상태와 그 상태가 열었을 다음 창구의 길"]
             }
           ]
         },
@@ -2964,7 +3025,7 @@
           "phase": "reversal",
           "contract": {
             "pressure": "가장 관련 있는 두 사람이 M57을 서로 다르게 읽는다",
-            "opportunity": "변명하거나 책임지거나 관계를 놓는다",
+            "opportunity": "사람이 쓴 시간과 문서 상태를 섞지 않고 책임의 언어를 고른다",
             "person_promise": "모든 인물 에필로그를 나열하지 않고 관련 있는 둘만 부른다",
             "deadline": "계약 실행 전 마지막 관계 판정이다"
           },
@@ -2973,7 +3034,7 @@
             "values": ["none", "daeun", "jiyeon"]
           },
           "commitments": [
-            {"id": "m58_answer_counterparty_ultimatum", "source": "pressure", "axis": "cash", "label": "서명을 재개하라는 거래 상대의 당일 요구에 직접 답한다", "due_week": 230, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m58_answer_counterparty_ultimatum", "source": "pressure", "axis": "cash", "label": "거래 상대에게 현재 문서로 실행 가능한 조건이 있는지 당일 사실로 답한다", "due_week": 230, "miss": "expired", "after": null, "available_values": ["*"]},
             {"id": "m58_hear_primary_witness", "source": "person_promise", "axis": "trust", "label": "가장 직접 영향을 받은 사람의 판정 자리에 간다", "due_week": 230, "miss": "expired", "after": null, "available_values": ["none", "daeun", "jiyeon"]},
             {"id": "m58_hear_secondary_witness", "source": "person_promise", "axis": "trust", "label": "다른 위치에서 본 두 번째 사람의 판정 자리에 간다", "due_week": 231, "miss": "expired", "after": null, "available_values": ["none", "daeun", "jiyeon"]}
           ],
@@ -3001,18 +3062,33 @@
                 ]
               },
               "forgone": []
+            },
+            {
+              "id": "m58_people_verdict_safe_product",
+              "scene_id": "m58_people_verdict_safe_product",
+              "kind": "consequence",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y5_people_verdict_daeun_exact",
+              "rule_status": "mapped",
+              "intent": "W224 보관과 M57의 정확한 문서 상태를 다은의 쓴 시간과 민서의 절차 판정이 서로 대신하지 않는 두 문장으로 회수한다.",
+              "channel": "in_person",
+              "cast": ["player", "daeun", "minseo"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["다은의 시간과 민서의 문서 판정을 하나의 승인이나 용서로 합치는 결론"]
             }
           ]
         },
         {
           "month": 59,
-          "design_label": "실제 계약",
+          "design_label": "계약의 물질 결과",
           "phase": "reversal",
           "contract": {
-            "pressure": "체결·취소·엑싯 중 하나를 실제 숫자와 서류로 실행한다",
-            "opportunity": "현재 경제 경로의 계약을 끝낸다",
+            "pressure": "경로별 실행 조건을 검증하고 성립한 조건만 실제 숫자와 서류로 움직인다",
+            "opportunity": "실행하거나, 실행 가능한 계약 없음과 경제 변화 0을 확정한다",
             "person_promise": "사람 판정과 물질 결과를 서로 대신하게 하지 않는다",
-            "deadline": "W236 뒤에는 계약을 실행할 시간이 없다"
+            "deadline": "W236 뒤에는 실행 또는 미실행의 물질 결과를 새로 만들 시간이 없다"
           },
           "availability": {
             "axis": "route.m59.contract_path",
@@ -3020,8 +3096,8 @@
           },
           "commitments": [
             {"id": "m59_keep_safe_income_closing", "source": "pressure", "axis": "cash", "label": "최종 계약과 겹친 기존 수입 마감에 나간다", "due_week": 234, "miss": "expired", "after": null, "available_values": ["*"]},
-            {"id": "m59_execute_contract_result", "source": "opportunity", "axis": "cash", "label": "중개 또는 은행 또는 회사 창구에서 체결 또는 취소 또는 엑싯의 돈과 서류를 실제로 움직인다", "due_week": 235, "miss": "expired", "after": null, "available_values": ["property", "career", "startup"]},
-            {"id": "m59_deliver_result_to_affected_person", "source": "person_promise", "axis": "trust", "label": "영향받은 사람에게 체결 또는 취소 원본을 직접 건넨다", "due_week": 236, "miss": "deferred", "after": "m59_execute_contract_result", "available_values": ["*"]}
+            {"id": "m59_execute_contract_result", "source": "opportunity", "axis": "cash", "label": "실행 조건이 있으면 돈과 서류를 움직이고 없으면 무이체·미실행 결과를 확정한다", "due_week": 235, "miss": "expired", "after": null, "available_values": ["property", "career", "startup"]},
+            {"id": "m59_deliver_result_to_affected_person", "source": "person_promise", "axis": "trust", "label": "영향받은 사람에게 실행 또는 미실행의 정확한 문서 상태를 직접 전달한다", "due_week": 236, "miss": "deferred", "after": "m59_execute_contract_result", "available_values": ["*"]}
           ],
           "beats": [
             {
@@ -3049,6 +3125,21 @@
                 ]
               },
               "forgone": []
+            },
+            {
+              "id": "m59_property_not_executed_product",
+              "scene_id": "m59_property_not_executed_product",
+              "kind": "consequence",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y5_property_not_executed_notice",
+              "rule_status": "mapped",
+              "intent": "가격·지급 조건·실행 원본이 없는 안전 경로를 거래로 꾸미지 않고 no_executable_contract와 현금·자산·부채 변화 0으로 확정한다.",
+              "channel": "message",
+              "cast": ["player", "sangchul"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["조건 없는 소유·취소·양도·등기와 실행되지 않은 계약의 수익"]
             }
           ]
         },
@@ -3067,9 +3158,9 @@
             "values": ["arrived_father_alive", "arrived_father_passed", "not_arrived_father_alive", "not_arrived_father_passed"]
           },
           "commitments": [
-            {"id": "m60_take_key_or_return_documents", "source": "pressure", "axis": "cash", "label": "계약 결과에 따라 열쇠를 받거나 서류를 돌려준다", "due_week": 237, "miss": "expired", "after": null, "available_values": ["*"]},
-            {"id": "m60_face_remaining_person", "source": "person_promise", "axis": "trust", "label": "끝까지 남은 사람을 만나거나 통화해 그의 이후를 듣는다", "due_week": 238, "miss": "expired", "after": null, "available_values": ["*"]},
-            {"id": "m60_answer_father_trace", "source": "person_promise", "axis": "health", "label": "아버지가 살아 있으면 통화하고 아니면 남은 기억 앞에 답한다", "due_week": 239, "miss": "expired", "after": null, "available_values": ["arrived_father_alive", "arrived_father_passed", "not_arrived_father_alive", "not_arrived_father_passed"]},
+            {"id": "m60_take_key_or_return_documents", "source": "pressure", "axis": "cash", "label": "계약 결과가 있으면 열쇠·원본을, 없으면 보관 상태와 무이체 통지를 확인한다", "due_week": 237, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m60_face_remaining_person", "source": "person_promise", "axis": "trust", "label": "끝까지 남은 사람에게 실제 결과를 전달하거나 닫힌 채널은 미전달로 기록한다", "due_week": 238, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m60_answer_father_trace", "source": "person_promise", "axis": "health", "label": "생존 아버지에게 먼저 보내거나 다음 연락 시각을 남기고 별세 경로는 기록 앞에 답한다", "due_week": 239, "miss": "expired", "after": null, "available_values": ["arrived_father_alive", "arrived_father_passed", "not_arrived_father_alive", "not_arrived_father_passed"]},
             {"id": "m60_sign_own_answer", "source": "opportunity", "axis": "trust", "label": "도착 여부와 상관없이 누구의 이름과 시간을 썼는지 자기 이름으로 서명한다", "due_week": 240, "miss": "expired", "after": null, "available_values": ["arrived_father_alive", "arrived_father_passed", "not_arrived_father_alive", "not_arrived_father_passed"]}
           ],
           "beats": [
@@ -3097,6 +3188,82 @@
                 ]
               },
               "forgone": ["닫힌 사람의 길", "자기 명의가 아닌 문서 또는 실행되지 않은 계약 경로"]
+            },
+            {
+              "id": "m60_jaehyuk_result_product",
+              "scene_id": "m60_jaehyuk_result_product",
+              "kind": "consequence",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y5_remaining_jaehyuk_or_self",
+              "rule_status": "mapped",
+              "intent": "W212의 거절·전자서명·차단 상태를 지킨 채 W235 무이체 결과를 전달하거나 미전달로 남겨 한 결과가 다른 책임을 취소하지 않게 한다.",
+              "channel": "mixed",
+              "cast": ["player", "jaehyuk"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["재혁에게 결과를 전했거나 전하지 않은 반대 상태와 그 이후 대화 가능성"]
+            },
+            {
+              "id": "m60_father_answer_product",
+              "scene_id": "m60_father_answer_product",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y5_final_father_answer_alive",
+              "rule_status": "mapped",
+              "intent": "고정된 아버지 생사와 W221 흔적·W235 무이체를 읽고 생존 경로의 먼저 보낸 행동 또는 별세 경로의 대답 없는 기록을 하나만 남긴다.",
+              "channel": "mixed",
+              "cast": ["player", "father"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "route.m60.ending_context",
+                "base_values": ["arrived_father_alive", "not_arrived_father_alive"],
+                "fallbacks": [
+                  {
+                    "values": ["*"],
+                    "root": "arc_y5_final_father_answer_passed",
+                    "work": "EXPAND",
+                    "rule_status": "mapped",
+                    "channel": "memory",
+                    "cast": ["player", "father"],
+                    "reads": {"memories": [], "decision": null, "carryovers": []},
+                    "forgone": ["생존 아버지에게 문자·음성·다음 연락 시각을 먼저 남기는 행동"]
+                  }
+                ]
+              },
+              "forgone": ["별세한 아버지의 답장·통화·용서를 현재 사실로 만드는 결론"]
+            },
+            {
+              "id": "m60_safe_final_signature_product",
+              "scene_id": "m60_safe_final_signature_product",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_final_countdown_property_not_executed",
+              "rule_status": "mapped",
+              "intent": "M57 네 문서 물성, M58 두 사람 판정, M59 경제 변화 0, W239 아버지 답변을 지우지 않고 다섯 해의 책임 문장을 자기 서명으로 고른다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["이번 수첩 마지막 줄에서 고르지 않은 두 책임 해석과 그 해석의 사람 순서"]
+            },
+            {
+              "id": "m60_daeun_outbound_product",
+              "scene_id": "m60_daeun_outbound_product",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y5_final_week_daeun_outbound",
+              "rule_status": "mapped",
+              "intent": "같은 W240 밤 마지막 서명 뒤 다은에게 밥·사과·거리와 다음 연락 시각 중 하나를 먼저 보내되 답장·용서·재회를 확정하지 않는다.",
+              "channel": "message",
+              "cast": ["player", "daeun"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["이번 밤 보내지 않은 두 구체 행동과 그 행동이 열었을 다음 만남의 가능성"]
             }
           ]
         }

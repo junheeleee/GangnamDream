@@ -2,6 +2,8 @@ extends Node
 ## ManualSaveCheck — 10슬롯과 StoryMode 중간 재개 계약을 실제 런타임으로 검증한다.
 
 const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
+const CHAPTER5_CAUSAL_ROUTE := preload("res://systems/Chapter5CausalRoute.gd")
+const CHAPTER5_FINALE_ROUTE := preload("res://systems/Chapter5FinaleRoute.gd")
 const MAIN_GAME_SCENE := preload("res://scenes/MainGame.tscn")
 const STORY_MODE_SCRIPT := preload("res://scenes/StoryMode.gd")
 const TEST_SLOT := 1
@@ -50,6 +52,8 @@ func _run() -> void:
 	_backup_test_slots()
 	GameState.start_new_game()
 	_check_chapter5_causal_disk_save_contract()
+	GameState.start_new_game()
+	_check_chapter5_finale_disk_save_contract()
 	GameState.start_new_game()
 	_check_slot_and_legacy_contract()
 	if not _failures.is_empty():
@@ -130,6 +134,118 @@ func _prepare_chapter5_product_path() -> void:
 		GameState.flags[flag] = true
 	for flag in CHAPTER5_EXCLUDED_ENTRY_FLAGS:
 		GameState.flags.erase(flag)
+
+func _complete_chapter5_causal_product_route() -> bool:
+	_prepare_chapter5_product_path()
+	if not GameState.prepare_chapter5_causal_route_entry():
+		return false
+	var choices := {
+		"arc_y5_jaehyuk_guarantee_decision_reference": 1,
+		"arc_sangchul_final_door": 0,
+		"arc_y5_three_in_room_decision": 1,
+	}
+	for turn_value in range(195, 221):
+		GameState.turn = turn_value
+		while true:
+			var event_id := GameState.chapter5_causal_next_event_for_turn()
+			if event_id.is_empty():
+				break
+			var result := GameState.record_chapter5_causal_choice(
+				event_id, int(choices.get(event_id, 0)))
+			if not bool(result.get("ok", false)):
+				return false
+	return CHAPTER5_CAUSAL_ROUTE.route_complete(
+		GameState.chapter5_causal_state)
+
+func _check_chapter5_finale_disk_save_contract() -> void:
+	_expect(_complete_chapter5_causal_product_route(),
+		"finale disk fixture could not complete its M49-M55 causal source")
+	GameState.turn = 221
+	_expect(GameState.prepare_chapter5_finale_route_entry(),
+		"finale disk fixture could not lock its W221 entry")
+	var first_event_id := GameState.chapter5_finale_next_event_for_turn()
+	var committed := GameState.record_chapter5_finale_choice(first_event_id, 2)
+	_expect(first_event_id == "arc_y5_father_trace_alive_exact" \
+		and bool(committed.get("ok", false)),
+		"finale disk fixture could not commit its exact father-trace choice")
+	_expect(SaveManager.save_game(TEST_SLOT, {}, {"qa_fixture": true}),
+		"Chapter 5 finale disk fixture could not be saved")
+	GameState.start_new_game()
+	_expect(SaveManager.load_game(TEST_SLOT),
+		"Chapter 5 finale disk fixture could not be loaded")
+	var entry := GameState.chapter5_finale_entry_snapshot()
+	var receipt := CHAPTER5_FINALE_ROUTE.receipt_snapshot_for_event(
+		GameState.chapter5_finale_state, first_event_id)
+	_expect(str(entry.get("profile_id", "")) \
+			== "investment_safe_no_execution" \
+		and str(entry.get("source_route_id", "")) == "investment_property" \
+		and typeof(entry.get("turn")) == TYPE_INT \
+		and typeof(GameState.chapter5_finale_state.get("schema_version")) \
+			== TYPE_INT \
+		and typeof(receipt.get("turn")) == TYPE_INT \
+		and typeof(receipt.get("choice_index")) == TYPE_INT \
+		and GameState.chapter5_finale_receipt_matches(
+			first_event_id, 2, 221),
+		"finale disk JSON roundtrip lost exact entry/receipt integers")
+	GameState.turn = 224
+	_expect(GameState.chapter5_finale_next_event_for_turn() \
+			== "arc_y5_father_trace_custody" \
+		and GameState.chapter5_finale_holds_ending(),
+		"loaded finale receipt did not continue to its exact W224 direct root")
+
+	# A JSON-valid receipt mutation must fail closed instead of reopening a
+	# choice or fabricating a later stage. The live state is replaced only by the
+	# canonical closed state produced by load_from_dict.
+	var tampered_payload: Dictionary = GameState.serialize().duplicate(true)
+	var tampered_finale: Dictionary = (
+		tampered_payload["chapter5_finale_state"] as Dictionary).duplicate(true)
+	var tampered_receipts: Dictionary = (
+		tampered_finale["receipts"] as Dictionary).duplicate(true)
+	var tampered_receipt: Dictionary = (
+		tampered_receipts[first_event_id] as Dictionary).duplicate(true)
+	var original_choice_index := int(tampered_receipt["choice_index"])
+	var tampered_choice_index := 0 if original_choice_index != 0 else 1
+	var before_tamper_load := tampered_payload.duplicate(true)
+	var expected_nonfinale := before_tamper_load.duplicate(true)
+	expected_nonfinale.erase("chapter5_finale_state")
+	tampered_receipt["choice_index"] = tampered_choice_index
+	tampered_receipts[first_event_id] = tampered_receipt
+	tampered_finale["receipts"] = tampered_receipts
+	tampered_payload["chapter5_finale_state"] = tampered_finale
+	GameState.start_new_game()
+	GameState.load_from_dict(tampered_payload)
+	var loaded_nonfinale: Dictionary = GameState.serialize().duplicate(true)
+	loaded_nonfinale.erase("chapter5_finale_state")
+	_expect(str(GameState.chapter5_finale_state.get("status", "")) == "closed" \
+		and str(GameState.chapter5_finale_state.get("ending_check", "")) \
+			== "consumed" \
+		and GameState.chapter5_finale_entry_snapshot().is_empty() \
+		and GameState.chapter5_finale_next_event_for_turn(224).is_empty() \
+		and not GameState.chapter5_finale_holds_ending() \
+		and loaded_nonfinale == expected_nonfinale,
+		"tampered finale receipt did not fail closed without collateral state loss")
+
+	# Missing-field legacy migration is only truthful through W220. At W221 the
+	# missing father/source snapshot can no longer be invented.
+	GameState.start_new_game()
+	GameState.turn = 220
+	var fresh_legacy: Dictionary = GameState.serialize().duplicate(true)
+	fresh_legacy.erase("chapter5_finale_state")
+	GameState.start_new_game()
+	GameState.load_from_dict(fresh_legacy)
+	_expect(str(GameState.chapter5_finale_state.get("status", "")) == "open" \
+		and GameState.chapter5_finale_entry_snapshot().is_empty(),
+		"through-W220 legacy save was not left eligible for truthful finale entry")
+	var late_legacy: Dictionary = fresh_legacy.duplicate(true)
+	late_legacy["turn"] = 221
+	GameState.start_new_game()
+	GameState.load_from_dict(late_legacy)
+	_expect(str(GameState.chapter5_finale_state.get("status", "")) == "closed" \
+		and str(GameState.chapter5_finale_state.get("closed_reason", "")) \
+			== "legacy_missing" \
+		and not GameState.chapter5_finale_holds_ending(),
+		"W221+ legacy save fabricated a missing finale entry")
+	SaveManager.clear_loaded_resume_context()
 
 func _check_slot_and_legacy_contract() -> void:
 	_expect(SaveManager.SLOT_COUNT == 10, "manual slot count is not 10")
@@ -3391,7 +3507,7 @@ func _finish() -> void:
 	_stop_test_audio()
 	await get_tree().create_timer(0.10).timeout
 	if _failures.is_empty():
-		print("MANUAL_SAVE_CHECK_OK slots=10 chapter5=disk-json-exact-int/eligible-entry/durable-lock-ratchet durability=temp-readback/verified-backup/primary-preserved/retry/recovery/compatible-backup-preserved/wrong-type/missing-key manual_feedback=failure-stays/success-close identity=current/partial/unknown/full-demo/v2-isolated/completion-turn25-exact/cutoff future=reject-before-state prose=source_progress locale_mismatch=rewind choices=1 result_once=1 result_variant=sangchul-father-passed/result-once/current-serial-history/event-action-logs/nonresult-prose+choices-restart stale_queue=alive-original/death-canonical+legacy+cast/passed-variants/living-only-skip/769-iterative-skip/769-curation-iterative-skip/read-only-history father_passing=blocked5/event-manager+story-queue/terminal-result2/once/cross-splice2-reject/latest-receipt2-reject timer=1 pages=2 dialogue_history=prose/choice/result/legacy_notice first_bill=expression/decision/ledger+preclamp_H3_H99+fatal_short_circuit+frozen_replay+local_ledger+hyunsu+legacy_atomic+old_dirty_generic_inert+nonstory_root_only/no_synthetic_archive archive=opening1/decision0 meta=restored")
+		print("MANUAL_SAVE_CHECK_OK slots=10 chapter5=causal-disk-json-exact-int/eligible-entry/durable-lock-ratchet+finale-disk-exact-int/tamper-closed/legacy-W220-open-W221-closed durability=temp-readback/verified-backup/primary-preserved/retry/recovery/compatible-backup-preserved/wrong-type/missing-key manual_feedback=failure-stays/success-close identity=current/partial/unknown/full-demo/v2-isolated/completion-turn25-exact/cutoff future=reject-before-state prose=source_progress locale_mismatch=rewind choices=1 result_once=1 result_variant=sangchul-father-passed/result-once/current-serial-history/event-action-logs/nonresult-prose+choices-restart stale_queue=alive-original/death-canonical+legacy+cast/passed-variants/living-only-skip/769-iterative-skip/769-curation-iterative-skip/read-only-history father_passing=blocked5/event-manager+story-queue/terminal-result2/once/cross-splice2-reject/latest-receipt2-reject timer=1 pages=2 dialogue_history=prose/choice/result/legacy_notice first_bill=expression/decision/ledger+preclamp_H3_H99+fatal_short_circuit+frozen_replay+local_ledger+hyunsu+legacy_atomic+old_dirty_generic_inert+nonstory_root_only/no_synthetic_archive archive=opening1/decision0 meta=restored")
 		get_tree().quit(0)
 		return
 	for failure in _failures:

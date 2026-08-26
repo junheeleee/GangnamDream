@@ -1,0 +1,319 @@
+{
+  "schema_version": 1,
+  "ledger_id": "chapter5_m56_m60_safe_finale_v1",
+  "choice_index_base": 0,
+  "expected_root_count": 11,
+  "expected_active_root_count": 9,
+  "expected_choice_count": 30,
+  "expected_active_choice_count": 24,
+  "entry_contract": {
+    "route_id": "chapter5_safe_finale",
+    "turn": 221,
+    "profile_id": "investment_safe_no_execution",
+    "source_route_id": "investment_property",
+    "source_choice_keys": {
+      "m55_decision": [0, 1, 2],
+      "w212_guarantee": [0, 1, 2],
+      "w215_final_door": [0, 1, 2]
+    },
+    "father": {
+      "life": ["alive", "passed"],
+      "contact_mode": ["present", "called", "missed", "records_only"]
+    },
+    "actor_bindings": {
+      "chooser": "player",
+      "father": "father",
+      "protected_person": "daeun",
+      "guarantee_party": "jaehyuk",
+      "reviewer": "sangchul",
+      "proposer": "sangchul",
+      "cost_witness": "minseo"
+    }
+  },
+  "stages": [
+    "father_trace",
+    "custody",
+    "filing",
+    "verdict",
+    "nontransaction",
+    "guarantee_return",
+    "father_answer",
+    "signature",
+    "outbound"
+  ],
+  "roots": [
+    {
+      "stage_sequence": 1,
+      "variant_sequence": 1,
+      "month": 56,
+      "turn": 221,
+      "week": 221,
+      "event_id": "arc_y5_father_trace_alive_exact",
+      "root_id": "arc_y5_father_trace_alive_exact",
+      "choice_count": 3,
+      "tier": "T1",
+      "stage": "father_trace",
+      "active_when": {"entry_path": "father.life", "equals": "alive"},
+      "actors": {"chooser": "player", "father": "father"},
+      "read_sources": [
+        {"kind": "causal_event", "id": "arc_y5_three_in_room_decision"},
+        {"kind": "entry_value", "path": "father.contact_mode", "values": ["present", "called", "missed", "records_only"]}
+      ],
+      "read_mode": "prepend",
+      "choices": [
+        {"index": 0, "receipt_ids": ["m56_alive_trace_m55_sentence"], "document_ids": ["Y5-M55-MEETING-MINUTES", "Y4-FATHER-FINAL-CONTACT"], "economic_outcome": {}},
+        {"index": 1, "receipt_ids": ["m56_alive_trace_contact_boundary"], "document_ids": ["Y5-M55-MEETING-MINUTES", "Y4-FATHER-FINAL-CONTACT"], "economic_outcome": {}},
+        {"index": 2, "receipt_ids": ["m56_alive_trace_records_boundary"], "document_ids": ["Y5-M55-MEETING-MINUTES", "Y4-FATHER-FINAL-CONTACT"], "economic_outcome": {}}
+      ]
+    },
+    {
+      "stage_sequence": 1,
+      "variant_sequence": 2,
+      "month": 56,
+      "turn": 221,
+      "week": 221,
+      "event_id": "arc_y5_father_trace_passed_exact",
+      "root_id": "arc_y5_father_trace_passed_exact",
+      "choice_count": 3,
+      "tier": "T1",
+      "stage": "father_trace",
+      "active_when": {"entry_path": "father.life", "equals": "passed"},
+      "actors": {"chooser": "player", "father": "father"},
+      "read_sources": [
+        {"kind": "causal_event", "id": "arc_y5_three_in_room_decision"},
+        {"kind": "entry_value", "path": "father.contact_mode", "values": ["present", "called", "missed", "records_only"]}
+      ],
+      "read_mode": "prepend",
+      "choices": [
+        {"index": 0, "receipt_ids": ["m56_passed_trace_m55_sentence"], "document_ids": ["Y5-M55-MEETING-MINUTES", "FATHER-RECORD-ENVELOPE"], "economic_outcome": {}},
+        {"index": 1, "receipt_ids": ["m56_passed_trace_last_contact_boundary"], "document_ids": ["Y5-M55-MEETING-MINUTES", "FATHER-RECORD-ENVELOPE"], "economic_outcome": {}},
+        {"index": 2, "receipt_ids": ["m56_passed_trace_records_boundary"], "document_ids": ["Y5-M55-MEETING-MINUTES", "FATHER-RECORD-ENVELOPE"], "economic_outcome": {}}
+      ]
+    },
+    {
+      "stage_sequence": 2,
+      "variant_sequence": 1,
+      "month": 56,
+      "turn": 224,
+      "week": 224,
+      "event_id": "arc_y5_father_trace_custody",
+      "root_id": "arc_y5_father_trace_custody",
+      "choice_count": 2,
+      "tier": "T2",
+      "stage": "custody",
+      "active_when": null,
+      "actors": {"chooser": "player", "protected_person": "daeun"},
+      "read_sources": [
+        {"kind": "finale_stage", "id": "father_trace"}
+      ],
+      "read_mode": "prepend",
+      "choices": [
+        {"index": 0, "receipt_ids": ["m56_trace_copy_shared_daeun"], "document_ids": ["Y5-FATHER-TRACE-COMPARE-COPY-DAEUN"], "economic_outcome": {}},
+        {"index": 1, "receipt_ids": ["m56_trace_copy_self_custody"], "document_ids": ["Y5-FATHER-TRACE-COMPARE-COPY-SELF"], "economic_outcome": {}}
+      ]
+    },
+    {
+      "stage_sequence": 3,
+      "variant_sequence": 1,
+      "month": 57,
+      "turn": 227,
+      "week": 227,
+      "event_id": "arc_y5_name_on_line_daeun_routed",
+      "root_id": "arc_y5_name_on_line_daeun_routed",
+      "choice_count": 4,
+      "tier": "T1",
+      "stage": "filing",
+      "active_when": null,
+      "actors": {"chooser": "player", "protected_person": "daeun"},
+      "read_sources": [
+        {"kind": "causal_event", "id": "arc_y5_three_in_room_decision"},
+        {"kind": "finale_stage", "id": "custody"}
+      ],
+      "read_mode": "prepend",
+      "choices": [
+        {"index": 0, "receipt_ids": ["m57_filing_withdrawn_red_stamp"], "document_ids": ["Y5-PROPERTY-FILING-WITHDRAWN"], "economic_outcome": {}},
+        {"index": 1, "receipt_ids": ["m57_filing_limited_self_copy"], "document_ids": ["Y5-PROPERTY-FILING-LIMITED"], "economic_outcome": {}},
+        {"index": 2, "receipt_ids": ["m57_filing_verification_hold_temp_number"], "document_ids": ["Y5-PROPERTY-FILING-VERIFY-HOLD"], "economic_outcome": {}},
+        {"index": 3, "receipt_ids": ["m57_filing_self_name_227"], "document_ids": ["Y5-PROPERTY-FILING-SELF-227"], "economic_outcome": {}}
+      ]
+    },
+    {
+      "stage_sequence": 4,
+      "variant_sequence": 1,
+      "month": 58,
+      "turn": 230,
+      "week": 230,
+      "event_id": "arc_y5_people_verdict_daeun_exact",
+      "root_id": "arc_y5_people_verdict_daeun_exact",
+      "choice_count": 3,
+      "tier": "T1",
+      "stage": "verdict",
+      "active_when": null,
+      "actors": {"chooser": "player", "protected_person": "daeun", "cost_witness": "minseo"},
+      "read_sources": [
+        {"kind": "finale_stage", "id": "custody"},
+        {"kind": "finale_stage", "id": "filing"}
+      ],
+      "read_mode": "prepend",
+      "choices": [
+        {"index": 0, "receipt_ids": ["m58_people_verdict_daeun_first"], "document_ids": ["Y5-PEOPLE-VERDICT-MEMO"], "economic_outcome": {}},
+        {"index": 1, "receipt_ids": ["m58_people_verdict_minseo_first"], "document_ids": ["Y5-PEOPLE-VERDICT-MEMO"], "economic_outcome": {}},
+        {"index": 2, "receipt_ids": ["m58_people_verdict_both_words_separate"], "document_ids": ["Y5-PEOPLE-VERDICT-MEMO"], "economic_outcome": {}}
+      ]
+    },
+    {
+      "stage_sequence": 5,
+      "variant_sequence": 1,
+      "month": 59,
+      "turn": 235,
+      "week": 235,
+      "event_id": "arc_y5_property_not_executed_notice",
+      "root_id": "arc_y5_property_not_executed_notice",
+      "choice_count": 1,
+      "tier": "T2",
+      "stage": "nontransaction",
+      "active_when": null,
+      "actors": {"chooser": "player"},
+      "read_sources": [
+        {"kind": "finale_stage", "id": "filing"},
+        {"kind": "finale_stage", "id": "verdict"}
+      ],
+      "read_mode": "prepend",
+      "choices": [
+        {
+          "index": 0,
+          "receipt_ids": ["m59_property_no_executable_contract"],
+          "document_ids": ["Y5-PROPERTY-NOT-EXECUTED-NOTICE"],
+          "economic_outcome": {
+            "kind": "none",
+            "reason": "no_executable_contract",
+            "cash_delta_krw": 0,
+            "asset_delta_krw": 0,
+            "debt_delta_krw": 0
+          }
+        }
+      ]
+    },
+    {
+      "stage_sequence": 6,
+      "variant_sequence": 1,
+      "month": 60,
+      "turn": 238,
+      "week": 238,
+      "event_id": "arc_y5_remaining_jaehyuk_or_self",
+      "root_id": "arc_y5_remaining_jaehyuk_or_self",
+      "choice_count": 2,
+      "tier": "T2",
+      "stage": "guarantee_return",
+      "active_when": null,
+      "actors": {"chooser": "player", "guarantee_party": "jaehyuk"},
+      "read_sources": [
+        {"kind": "causal_event", "id": "arc_y5_jaehyuk_guarantee_decision_reference"},
+        {"kind": "finale_stage", "id": "nontransaction"}
+      ],
+      "read_mode": "prepend",
+      "choices": [
+        {"index": 0, "receipt_ids": ["m60_guarantee_result_channel_state_preserved"], "document_ids": ["Y5-GUARANTEE-RESULT-CHANNEL-STATE"], "economic_outcome": {}},
+        {"index": 1, "receipt_ids": ["m60_guarantee_result_self_custody"], "document_ids": ["Y5-GUARANTEE-RESULT-SELF-COPY"], "economic_outcome": {}}
+      ]
+    },
+    {
+      "stage_sequence": 7,
+      "variant_sequence": 1,
+      "month": 60,
+      "turn": 239,
+      "week": 239,
+      "event_id": "arc_y5_final_father_answer_alive",
+      "root_id": "arc_y5_final_father_answer_alive",
+      "choice_count": 3,
+      "tier": "T1",
+      "stage": "father_answer",
+      "active_when": {"entry_path": "father.life", "equals": "alive"},
+      "actors": {"chooser": "player", "father": "father"},
+      "read_sources": [
+        {"kind": "finale_stage", "id": "father_trace"},
+        {"kind": "finale_stage", "id": "nontransaction"}
+      ],
+      "read_mode": "prepend",
+      "choices": [
+        {"index": 0, "receipt_ids": ["m60_alive_father_answer_sent_now"], "document_ids": ["Y5-FATHER-FINAL-ANSWER-ALIVE"], "economic_outcome": {}},
+        {"index": 1, "receipt_ids": ["m60_alive_father_answer_saved_for_call"], "document_ids": ["Y5-FATHER-FINAL-ANSWER-ALIVE"], "economic_outcome": {}},
+        {"index": 2, "receipt_ids": ["m60_alive_father_answer_records_only"], "document_ids": ["Y5-FATHER-FINAL-ANSWER-ALIVE"], "economic_outcome": {}}
+      ]
+    },
+    {
+      "stage_sequence": 7,
+      "variant_sequence": 2,
+      "month": 60,
+      "turn": 239,
+      "week": 239,
+      "event_id": "arc_y5_final_father_answer_passed",
+      "root_id": "arc_y5_final_father_answer_passed",
+      "choice_count": 3,
+      "tier": "T1",
+      "stage": "father_answer",
+      "active_when": {"entry_path": "father.life", "equals": "passed"},
+      "actors": {"chooser": "player", "father": "father"},
+      "read_sources": [
+        {"kind": "finale_stage", "id": "father_trace"},
+        {"kind": "finale_stage", "id": "nontransaction"}
+      ],
+      "read_mode": "prepend",
+      "choices": [
+        {"index": 0, "receipt_ids": ["m60_passed_father_answer_left_in_envelope"], "document_ids": ["Y5-FATHER-FINAL-ANSWER-PASSED"], "economic_outcome": {}},
+        {"index": 1, "receipt_ids": ["m60_passed_father_answer_read_to_empty_seat"], "document_ids": ["Y5-FATHER-FINAL-ANSWER-PASSED"], "economic_outcome": {}},
+        {"index": 2, "receipt_ids": ["m60_passed_father_answer_kept_with_records"], "document_ids": ["Y5-FATHER-FINAL-ANSWER-PASSED"], "economic_outcome": {}}
+      ]
+    },
+    {
+      "stage_sequence": 8,
+      "variant_sequence": 1,
+      "month": 60,
+      "turn": 240,
+      "week": 240,
+      "event_id": "arc_final_countdown_property_not_executed",
+      "root_id": "arc_final_countdown_property_not_executed",
+      "choice_count": 3,
+      "tier": "T1",
+      "stage": "signature",
+      "active_when": null,
+      "actors": {"chooser": "player"},
+      "read_sources": [
+        {"kind": "finale_stage", "id": "filing"},
+        {"kind": "finale_stage", "id": "verdict"},
+        {"kind": "finale_stage", "id": "nontransaction"},
+        {"kind": "finale_stage", "id": "father_answer"}
+      ],
+      "read_mode": "prepend",
+      "choices": [
+        {"index": 0, "receipt_ids": ["m60_signature_name_without_transfer"], "document_ids": ["Y5-FINAL-SIGNATURE-NO-TRANSFER"], "economic_outcome": {}},
+        {"index": 1, "receipt_ids": ["m60_signature_cost_kept_visible"], "document_ids": ["Y5-FINAL-SIGNATURE-NO-TRANSFER"], "economic_outcome": {}},
+        {"index": 2, "receipt_ids": ["m60_signature_people_before_number"], "document_ids": ["Y5-FINAL-SIGNATURE-NO-TRANSFER"], "economic_outcome": {}}
+      ]
+    },
+    {
+      "stage_sequence": 9,
+      "variant_sequence": 1,
+      "month": 60,
+      "turn": 240,
+      "week": 240,
+      "event_id": "arc_y5_final_week_daeun_outbound",
+      "root_id": "arc_y5_final_week_daeun_outbound",
+      "choice_count": 3,
+      "tier": "T1",
+      "stage": "outbound",
+      "active_when": null,
+      "actors": {"chooser": "player", "protected_person": "daeun"},
+      "read_sources": [
+        {"kind": "finale_stage", "id": "custody"},
+        {"kind": "finale_stage", "id": "signature"}
+      ],
+      "read_mode": "prepend",
+      "choices": [
+        {"index": 0, "receipt_ids": ["m60_outbound_meal_time_sent"], "document_ids": ["Y5-FINAL-OUTBOUND-MESSAGE"], "economic_outcome": {}},
+        {"index": 1, "receipt_ids": ["m60_outbound_apology_time_sent"], "document_ids": ["Y5-FINAL-OUTBOUND-MESSAGE"], "economic_outcome": {}},
+        {"index": 2, "receipt_ids": ["m60_outbound_distance_and_next_contact_sent"], "document_ids": ["Y5-FINAL-OUTBOUND-MESSAGE"], "economic_outcome": {}}
+      ]
+    }
+  ]
+}

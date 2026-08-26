@@ -216,9 +216,9 @@
       181, 185, 188, 190, 192,
       193, 195, 196, 197, 200, 201, 203, 204,
       207, 208, 209, 210, 211, 212, 215, 216, 217, 219, 220,
-      225, 229, 237
+      221, 224, 225, 227, 229, 230, 235, 237, 238, 239, 240
     ],
-    "boss_weeks": [45, 92, 140, 192, 237],
+    "boss_weeks": [45, 92, 140, 192, 237, 240],
     "commitment_event_owners": {
       "153": [
         { "id": "arc_y4_three_promises", "axis": "human" },
@@ -327,6 +327,33 @@
       ],
       "220": [
         { "id": "arc_y5_room_consent_receipt", "axis": "human", "person_id": "daeun" }
+      ],
+      "221": [
+        { "id": "arc_y5_father_trace_alive_exact", "axis": "human", "person_id": "father" },
+        { "id": "arc_y5_father_trace_passed_exact", "axis": "human", "person_id": "father" }
+      ],
+      "224": [
+        { "id": "arc_y5_father_trace_custody", "axis": "human", "person_id": "daeun" }
+      ],
+      "227": [
+        { "id": "arc_y5_name_on_line_daeun_routed", "axis": "money", "person_id": "daeun" }
+      ],
+      "230": [
+        { "id": "arc_y5_people_verdict_daeun_exact", "axis": "human", "person_id": "daeun" }
+      ],
+      "235": [
+        { "id": "arc_y5_property_not_executed_notice", "axis": "money", "person_id": "sangchul" }
+      ],
+      "238": [
+        { "id": "arc_y5_remaining_jaehyuk_or_self", "axis": "human", "person_id": "jaehyuk" }
+      ],
+      "239": [
+        { "id": "arc_y5_final_father_answer_alive", "axis": "human", "person_id": "father" },
+        { "id": "arc_y5_final_father_answer_passed", "axis": "human", "person_id": "father" }
+      ],
+      "240": [
+        { "id": "arc_final_countdown_property_not_executed", "axis": "money" },
+        { "id": "arc_y5_final_week_daeun_outbound", "axis": "human", "person_id": "daeun" }
       ]
     },
     "echo_weeks": [

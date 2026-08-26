@@ -154,6 +154,17 @@ EXPECTED_CHAPTER5_PRODUCT_MONTHS = {
     "arc_y5_three_in_room": 55,
     "arc_y5_three_in_room_decision": 55,
     "arc_y5_room_consent_receipt": 55,
+    "arc_y5_father_trace_alive_exact": 56,
+    "arc_y5_father_trace_passed_exact": 56,
+    "arc_y5_father_trace_custody": 56,
+    "arc_y5_name_on_line_daeun_routed": 57,
+    "arc_y5_people_verdict_daeun_exact": 58,
+    "arc_y5_property_not_executed_notice": 59,
+    "arc_y5_remaining_jaehyuk_or_self": 60,
+    "arc_y5_final_father_answer_alive": 60,
+    "arc_y5_final_father_answer_passed": 60,
+    "arc_final_countdown_property_not_executed": 60,
+    "arc_y5_final_week_daeun_outbound": 60,
 }
 EXPECTED_DECISIONS = {
     "story.first_illegal_offer",
@@ -1888,11 +1899,11 @@ def validate_story_map(
     }
     if exact_keys(targets, target_shape, "design_targets", errors):
         if (
-            targets.get("direct_stops") != [36, 42]
+            targets.get("direct_stops") != [45, 51]
             or targets.get("history_inputs_per_scene") != 2
             or targets.get("decision_inputs_per_scene") != 1
         ):
-            errors.append("design_targets: approved targets are stops 36..42, scene history 2, decision 1")
+            errors.append("design_targets: approved targets are stops 45..51, scene history 2, decision 1")
         for count_key in ("named_readers", "generic_commitments"):
             value = targets.get(count_key)
             if not isinstance(value, int) or isinstance(value, bool) or value < 0:
@@ -2627,6 +2638,8 @@ def validate_story_map(
                         if not isinstance(fallback_root, str) or not fallback_root.strip():
                             errors.append(f"{fallback_owner}.root: must be non-empty")
                             continue
+                        if fallback_root in chapter5_product_months:
+                            chapter5_product_months[fallback_root].append(month_number)
                         old_owner = root_owners.get(fallback_root)
                         if old_owner is not None and old_owner != (month_number, beat_id):
                             errors.append(
@@ -2709,8 +2722,8 @@ def validate_story_map(
     stats.stops = len(stop_scene_ids)
     if [month.get("month") for month in months] != list(range(1, 61)):
         errors.append("months: must be the exact continuous sequence M01..M60")
-    if not 36 <= stats.stops <= 42:
-        errors.append(f"direct stops: {stats.stops} is outside 36..42")
+    if not 45 <= stats.stops <= 51:
+        errors.append(f"direct stops: {stats.stops} is outside 45..51")
     for root_id, expected_month in EXPECTED_CHAPTER5_PRODUCT_MONTHS.items():
         if chapter5_product_months[root_id] != [expected_month]:
             errors.append(
@@ -2879,6 +2892,14 @@ def run_self_test(
             for chapter in data["chapters"]
             for row in chapter["months"]
             if row["month"] == number
+        )
+
+    def beat(
+        data: dict[str, Any], number: int, beat_id: str
+    ) -> dict[str, Any]:
+        return next(
+            row for row in month(data, number)["beats"]
+            if row["id"] == beat_id
         )
 
     def case(
@@ -3176,10 +3197,11 @@ def run_self_test(
         "one boss decision scene must write all four carryovers",
     )
 
-    case("actor_receipt_counts_in_history", lambda x: month(x, 50)["beats"][0]["reads"]
+    case("actor_receipt_counts_in_history", lambda x: beat(
+         x, 50, "m50_final_year_start")["reads"]
          ["memories"].append("memory.m47_final_contact"), "history inputs maximum is 2")
     def make_fallback_history_disjoint(data: dict[str, Any]) -> None:
-        month(data, 51)["beats"][0]["coverage"]["fallbacks"][0]["reads"]["memories"] = [
+        beat(data, 51, "m51_minseo_arrival")["coverage"]["fallbacks"][0]["reads"]["memories"] = [
             "memory.m47_final_contact", "memory.m50_protection_context",
         ]
 
@@ -3271,7 +3293,7 @@ def run_self_test(
     case(
         "memory_actor_role_requires_producer_output",
         erase_memory_actor_role,
-        "has no role surviving_witness",
+        "unknown output role",
     )
 
     def bind_from_other_scene_beat_read(data: dict[str, Any]) -> None:
@@ -3437,17 +3459,19 @@ def run_self_test(
     )
     case(
         "father_relocation_mode_drift",
-        lambda x: month(x, 47)["beats"][0].update({"work": "MOVE"}),
+        lambda x: beat(x, 47, "m47_father_medical_outcome").update(
+            {"work": "MOVE"}),
         "relocation must be M47 EXPAND from M44",
     )
     case(
         "mirror_relocation_mode_drift",
-        lambda x: month(x, 53)["beats"][0].update({"work": "MOVE"}),
+        lambda x: beat(x, 53, "m53_jaehyuk_guarantee").update({"work": "MOVE"}),
         "relocation must be M53 EXPAND from M15",
     )
     case(
         "m55_cast_erased",
-        lambda x: month(x, 55)["beats"][1].update({"cast": ["player", "@final_proposer"]}),
+        lambda x: beat(x, 55, "m55_three_in_room_decision").update(
+            {"cast": ["player", "@final_proposer"]}),
         "M55 vertical slice",
     )
 

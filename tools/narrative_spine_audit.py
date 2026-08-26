@@ -101,10 +101,27 @@ CHAPTER_PHASE_REQUIRED = {
             "arc_y5_three_in_room",
             "arc_y5_three_in_room_decision",
             "arc_y5_room_consent_receipt",
+            "arc_y5_father_trace_alive_exact",
+            "arc_y5_father_trace_passed_exact",
+            "arc_y5_father_trace_custody",
         },
-        "reversal": {"arc_father_legacy"},
-        "boss": {"arc_final_countdown"},
-        "aftermath": {"arc_final_week"},
+        "reversal": {
+            "arc_father_legacy",
+            "arc_y5_name_on_line_daeun_routed",
+            "arc_y5_people_verdict_daeun_exact",
+            "arc_y5_property_not_executed_notice",
+        },
+        "boss": {
+            "arc_final_countdown",
+            "arc_y5_remaining_jaehyuk_or_self",
+            "arc_y5_final_father_answer_alive",
+            "arc_y5_final_father_answer_passed",
+            "arc_final_countdown_property_not_executed",
+        },
+        "aftermath": {
+            "arc_final_week",
+            "arc_y5_final_week_daeun_outbound",
+        },
     },
 }
 
@@ -813,8 +830,17 @@ def main() -> int:
                 for reader in readers
                 if isinstance(reader, dict)
             }
-            if (5, "arc_final_countdown") not in signature_readers:
-                fail(errors, "signature motif must resolve through arc_final_countdown")
+            signature_finale_readers = {
+                (5, "arc_y5_name_on_line_daeun_routed"),
+                (5, "arc_final_countdown"),
+                (5, "arc_final_countdown_property_not_executed"),
+            }
+            if not signature_finale_readers.issubset(signature_readers):
+                fail(
+                    errors,
+                    "signature motif must resolve through filing, legacy countdown, "
+                    "and the no-execution countdown",
+                )
     if chapter_five_readers < len(motifs):
         fail(errors, "every chapter-1 motif needs at least one chapter-5 reader")
 

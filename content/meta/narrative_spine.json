@@ -30,7 +30,8 @@
         "story_knee_witness",
         "arc_sangchul_deduction",
         "arc_jaehyuk_mirror",
-        "arc_y5_jaehyuk_guarantee_decision_reference"
+        "arc_y5_jaehyuk_guarantee_decision_reference",
+        "arc_y5_remaining_jaehyuk_or_self"
       ]
     },
     {
@@ -39,7 +40,8 @@
       "proof": [
         "arc_temptation_fallout",
         "arc_jaehyuk_04a_ghost",
-        "arc_daeun_final_choice"
+        "arc_daeun_final_choice",
+        "arc_y5_people_verdict_daeun_exact"
       ]
     },
     {
@@ -48,7 +50,8 @@
       "proof": [
         "story_last_payment_exit",
         "arc_father_call_on_ktx",
-        "arc_final_countdown"
+        "arc_final_countdown",
+        "arc_final_countdown_property_not_executed"
       ]
     }
   ],
@@ -69,7 +72,11 @@
         "arc_father_06_confession",
         "arc_father_passing",
         "arc_father_legacy",
-        "arc_pre_ending_father_call"
+        "arc_pre_ending_father_call",
+        "arc_y5_father_trace_alive_exact",
+        "arc_y5_father_trace_passed_exact",
+        "arc_y5_final_father_answer_alive",
+        "arc_y5_final_father_answer_passed"
       ]
     },
     {
@@ -111,7 +118,8 @@
         "arc_jaehyuk_04a_ghost",
         "arc_y5_jaehyuk_guarantee_request_reference",
         "arc_y5_jaehyuk_guarantee_decision_reference",
-        "arc_y5_three_in_room"
+        "arc_y5_three_in_room",
+        "arc_y5_remaining_jaehyuk_or_self"
       ],
       "planned_anchors": [
         {
@@ -156,7 +164,11 @@
         "arc_y5_after_goal_daeun",
         "arc_y5_guarantee_protected_show_daeun",
         "arc_y5_three_in_room",
-        "arc_daeun_final_choice"
+        "arc_daeun_final_choice",
+        "arc_y5_father_trace_custody",
+        "arc_y5_name_on_line_daeun_routed",
+        "arc_y5_people_verdict_daeun_exact",
+        "arc_y5_final_week_daeun_outbound"
       ]
     },
     {
@@ -190,7 +202,8 @@
         "arc_minseo_01_meet",
         "arc_minseo_02_real",
         "arc_minseo_03_arrival",
-        "arc_minseo_03b_not_arrived"
+        "arc_minseo_03b_not_arrived",
+        "arc_y5_people_verdict_daeun_exact"
       ],
       "late_by_design": "먼저 도착한 사람은 민준이 도착 근처에 갔을 때만 의미를 가진다. 1~3장에 등장하면 대비가 성립하지 않는다."
     }
@@ -218,7 +231,15 @@
         },
         {
           "chapter": 5,
+          "event": "arc_y5_name_on_line_daeun_routed"
+        },
+        {
+          "chapter": 5,
           "event": "arc_final_countdown"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_final_countdown_property_not_executed"
         }
       ],
       "planned_readers": [
@@ -253,6 +274,22 @@
         {
           "chapter": 5,
           "event": "arc_pre_ending_father_call"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_y5_father_trace_alive_exact"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_y5_father_trace_passed_exact"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_y5_final_father_answer_alive"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_y5_final_father_answer_passed"
         }
       ]
     },
@@ -318,6 +355,14 @@
         {
           "chapter": 5,
           "event": "arc_year5_scene"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_y5_property_not_executed_notice"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_final_countdown_property_not_executed"
         }
       ]
     },
@@ -340,6 +385,10 @@
         {
           "chapter": 5,
           "event": "arc_pre_ending_summit"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_y5_name_on_line_daeun_routed"
         }
       ]
     },
@@ -358,6 +407,10 @@
         {
           "chapter": 5,
           "event": "arc_final_countdown"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_final_countdown_property_not_executed"
         }
       ]
     },
@@ -376,6 +429,10 @@
         {
           "chapter": 5,
           "event": "arc_final_week"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_y5_final_week_daeun_outbound"
         }
       ]
     }
@@ -710,12 +767,12 @@
       ],
       "question": "마지막 숫자 앞에서 민준은 누구의 이름과 시간을 담보로 서명하는가?",
       "system": {
-        "opens": "서명한다 — 되돌릴 수 없는 한 번의 결정",
+        "opens": "문서 상태를 고정하고 책임을 서명한 뒤 먼저 연락한다",
         "closes": "대부분의 문이 이미 닫혀 있다. 새 기회가 오지 않고 남은 것으로만 한다",
         "pressure": "지킬 것을 지킬 수 있는가",
         "failure": "다 얻고 아무도 남지 않는다"
       },
-      "object": "등기 서류 또는 빈 수첩의 마지막 줄",
+      "object": "실행되었거나 멈춘 계약 문서와 빈 수첩의 마지막 줄",
       "setup": [
         "arc_37_reckoning",
         "arc_final_year_start",
@@ -741,21 +798,32 @@
         "arc_y5_sangchul_review_receipt",
         "arc_y5_three_in_room",
         "arc_y5_three_in_room_decision",
-        "arc_y5_room_consent_receipt"
+        "arc_y5_room_consent_receipt",
+        "arc_y5_father_trace_alive_exact",
+        "arc_y5_father_trace_passed_exact",
+        "arc_y5_father_trace_custody"
       ],
       "reversal": [
         "arc_father_legacy",
-        "arc_pre_ending_summit"
+        "arc_pre_ending_summit",
+        "arc_y5_name_on_line_daeun_routed",
+        "arc_y5_people_verdict_daeun_exact",
+        "arc_y5_property_not_executed_notice"
       ],
       "boss": [
         "arc_daeun_final_choice",
         "arc_jiyeon_verdict",
-        "arc_final_countdown"
+        "arc_final_countdown",
+        "arc_y5_remaining_jaehyuk_or_self",
+        "arc_y5_final_father_answer_alive",
+        "arc_y5_final_father_answer_passed",
+        "arc_final_countdown_property_not_executed"
       ],
       "aftermath": [
         "arc_final_week",
         "arc_year5_scene",
-        "arc_37_ending_peace"
+        "arc_37_ending_peace",
+        "arc_y5_final_week_daeun_outbound"
       ],
       "planned_relocations": [
         {
@@ -764,7 +832,7 @@
           "source_month": 15
         }
       ],
-      "handoff": "엔딩은 30억의 성패와 함께, 1장의 문턱에 섰던 사람과 같은 이름으로 끝나는지 답한다."
+      "handoff": "엔딩은 30억의 성패와 함께 실행되거나 멈춘 문서, 남은 사람의 시간, 먼저 보낸 말로 1장의 문턱에 섰던 사람과 같은 이름으로 끝나는지 답한다."
     }
   ],
   "demo": {

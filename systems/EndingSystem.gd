@@ -1,5 +1,7 @@
 extends Node
 
+const CHAPTER5_FINALE_ROUTE := preload("res://systems/Chapter5FinaleRoute.gd")
+
 const FINAL_SIGNATURE_CODA_ENDING_IDS := [
 	"gangnam_dream",
 	"empty_house",
@@ -49,13 +51,31 @@ const FINAL_SIGNATURE_CODA_BY_FLAG := {
 	},
 	"final_signature_collateral": {
 		"kind": "collateral",
-		"text": "마지막 서명 · 담보\n마지막 장에서 사람들의 이름은 다시 비용과 가치의 열로 들어갔다. 다섯 해는 끝났지만, 계산표 밖으로 밀려난 목소리가 저절로 돌아온 것은 아니었다.",
-		"text_en": "THE LAST SIGNATURE · COLLATERAL\nOn the last page, people's names entered the cost and value columns again. The five years were over, but the voices pushed beyond the ledger did not return on their own.",
+		"text": "마지막 서명 · 계산\n마지막 장에서 사람들의 이름과 시간은 비용 열에 함께 남았다. 한 열에 두어도 같은 단위가 되지 않는 항목은 그대로 보였다. 무엇을 계산했고 무엇을 계산할 수 없었는지도 같은 서명 아래 남았다.",
+		"text_en": "THE LAST SIGNATURE · ACCOUNTING\nOn the last page, people's names and time remained together in the cost column. Even there, entries that shared no unit stayed visibly unlike. What he calculated and what could not be calculated remained beneath the same signature.",
 	},
 	"final_signature_people": {
 		"kind": "people",
 		"text": "마지막 서명 · 사람들\n마지막 장에 사람들의 이름을 먼저 적었다. 그것은 누구의 복귀나 용서도 약속하지 않았고, 먼저 연락할 책임만 자기 이름 옆에 남겼다.",
 		"text_en": "THE LAST SIGNATURE · PEOPLE\nHe wrote people's names first on the last page. It promised neither anyone's return nor forgiveness; it only left him responsible for reaching out first.",
+	},
+}
+
+const CHAPTER5_FINALE_OUTBOUND_CODA_BY_CHOICE := {
+	0: {
+		"kind": "meal",
+		"text": "마지막 연락 · 밥을 묻다\n그는 처음 이름을 주고받은 편의점 근처에서 다음 일요일 일곱 시에 밥을 먹자고 먼저 보냈다. 화면에 남은 것은 전송 시각뿐이었다. 다은의 답과 실제 식사는 아직 그녀 쪽의 일이었다.",
+		"text_en": "THE LAST MESSAGE · ASKING ABOUT A MEAL\nHe proposed a meal next Sunday at seven, near the convenience store where they first exchanged names. Only the sent time remained on screen. Daeun's answer and the meal itself were still hers to decide.",
+	},
+	1: {
+		"kind": "apology",
+		"text": "마지막 연락 · 사과를 보내다\n그는 다은의 답을 기다리기 전에 그녀의 이름이 들어갈 자리부터 계산한 일을 사과했다. 사과는 답을 요구하지 않았고, 화면에는 용서나 화해 대신 전송 시각만 남았다.",
+		"text_en": "THE LAST MESSAGE · SENDING THE APOLOGY\nHe apologized for calculating the place Daeun's name could occupy before waiting for her answer. The apology demanded no reply; the screen held a sent time, not forgiveness or reconciliation.",
+	},
+	2: {
+		"kind": "distance",
+		"text": "마지막 연락 · 돌아올 시각\n그는 오늘 필요한 거리를 말하고 내일 저녁 여덟 시에 자신이 먼저 연락하겠다고 보냈다. 침묵을 관계의 결론으로 만들지 않은 채, 돌아올 책임을 자기 쪽에 남겼다.",
+		"text_en": "THE LAST MESSAGE · A TIME TO RETURN\nHe named the distance he needed tonight and sent that he would contact her first tomorrow at eight. Without turning silence into the relationship's ending, he kept the duty to return on his side.",
 	},
 }
 
@@ -94,6 +114,33 @@ func final_signature_coda(ending_id: Variant, run_flags: Variant) -> Dictionary:
 	if selected_flags.size() != 1:
 		return {}
 	return (FINAL_SIGNATURE_CODA_BY_FLAG[selected_flags[0]] as Dictionary).duplicate(true)
+
+
+## The protected M56-M60 route records the final outgoing action in its exact
+## reducer receipt. Read that receipt directly so legacy self-approval/gratitude
+## flags cannot make the ending remember a sentence the player never chose.
+func chapter5_finale_outbound_coda(
+		ending_id: Variant, raw_finale_state: Variant) -> Dictionary:
+	var normalized_ending_id := str(ending_id).strip_edges()
+	if normalized_ending_id not in FINAL_SIGNATURE_CODA_ENDING_IDS \
+			or not raw_finale_state is Dictionary:
+		return {}
+	var canonical := CHAPTER5_FINALE_ROUTE.state_from_save(
+		raw_finale_state, true, CHAPTER5_FINALE_ROUTE.ENTRY_TURN)
+	if str(canonical.get("status", "")) != "open" \
+			or str(canonical.get("ending_check", "")) != "consumed" \
+			or not CHAPTER5_FINALE_ROUTE.route_complete(canonical):
+		return {}
+	var receipt := CHAPTER5_FINALE_ROUTE.receipt_snapshot_for_stage(
+		canonical, "outbound")
+	if str(receipt.get("event_id", "")) \
+			!= "arc_y5_final_week_daeun_outbound":
+		return {}
+	var choice_index := int(receipt.get("choice_index", -1))
+	if not CHAPTER5_FINALE_OUTBOUND_CODA_BY_CHOICE.has(choice_index):
+		return {}
+	return (CHAPTER5_FINALE_OUTBOUND_CODA_BY_CHOICE[choice_index] \
+		as Dictionary).duplicate(true)
 
 # NOTE: 엔딩 발동 로직은 GameState.check_game_over()에서 담당.
 # evaluate_current_ending()은 제거됨 — GameState가 유일한 판정 소스.

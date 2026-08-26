@@ -20,13 +20,13 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 
 ## 현재 코퍼스
 
-- KO/EN 사건: 각각 127파일 · 1786건, ID 일치
-- 패키지 사건: 1786건 · 현재 shipping 사건: 1675건 · author-only reference 원고: 111건
+- KO/EN 사건: 각각 127파일 · 1796건, ID 일치
+- 패키지 사건: 1796건 · 현재 shipping 사건: 1686건 · author-only reference 원고: 110건
 - KO/EN 엔딩: 각각 35건
 - 활성 스토리 이미지: 250장 · source raster: 305장
 - 게임 pack 대상 raster: 297장 · ImageRegistry 외부 pack 대상: 47장
 - `.gdignore` source-only 상점 스크린샷: 8장 · 출처 원장 오디오: 139개
-- 사건 ID SHA-256: `a13e4e3954b52c21cb2b0c1a395da02f328740fa58eea8ccf0f90d2ee41b35f2`
+- 사건 ID SHA-256: `2eb51d379ac4aaa71c8d9df47a563b6cc0c4f9d5622f0a3eae17721d7aaee593`
 - KO/EN 엔딩 본문 SHA-256: `81f1599053907f43b59021e2baccaff249a7bcc7b2c630dde389021b3d395eca`
 
 후보 fingerprint는 표현의 최종 등급이 아니라 검토 코퍼스가 조용히 바뀌는 것을

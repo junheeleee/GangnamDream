@@ -445,6 +445,21 @@ static func week_completed(state: Dictionary, turn: int) -> bool:
 	return active_count > 0
 
 
+static func route_complete(state: Dictionary) -> bool:
+	## True only after every active M49-M55 root, including any conditional
+	## W216/W220 paper receipt, has been durably committed.
+	var checked := _canonical_state(state)
+	if not bool(checked.get("ok", false)):
+		return false
+	var current: Dictionary = checked["state"]
+	if str(current.get("status", "")) != "open" \
+			or (current.get("entry", {}) as Dictionary).is_empty():
+		return false
+	var ledger := _ledger()
+	return not ledger.is_empty() and _next_active_root(
+		ledger, current["receipts"] as Dictionary).is_empty()
+
+
 static func _closed_state(reason: String) -> Dictionary:
 	return {
 		"schema_version": SCHEMA_VERSION,

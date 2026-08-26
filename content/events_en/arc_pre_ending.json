@@ -312,23 +312,36 @@
   {
     "id": "arc_y5_name_on_line_daeun_routed",
     "title": "Daeun Beside the Blue Pen",
-    "description": "The blue pen at the filing counter was tethered by a short metal chain. Daeun did not stand on {name}'s side. From across the clerk's desk, she looked between her handwritten scope and the contract's name field.\n\n'Minjun, what I wrote ends here.' She pressed a nail beneath the end date. 'Having this sheet doesn't mean you can move my name anywhere you want.'\n\nThe clerk placed yellow tabs on three clauses outside that scope. An old identity copy waited in a separate envelope; in the bag was the smaller estimate with every Daeun document removed. Ticket 227 chimed again. Beside the blue pen, the withdrawal stamp, filing stamp, and blank consenting-party field stood in a row.",
+    "description": "A blue pen was tethered to the filing counter by a short metal chain. Daeun separated the pages bearing her name from those without it; the comparison's delivery time remained at the corner of its cover.\n\nThe clerk laid out four physical outcomes: a red withdrawal mark, a limited filing at the lower amount, a provisional hold with its completion time blank, and self-filing number 227 with every Daeun document removed. Looking at the blue pen, Daeun said, “Don't let the pen move past the boundary I wrote.” The number chimed again. One of those four states had to remain on paper today.",
+    "chapter5_finale_reads": {
+      "texts": [
+        [
+          "At the four-person meeting, Daeun's name was struck and only the time of the smaller recalculation remained. There was no handwritten scope original.",
+          "At the four-person meeting, Daeun wrote the permitted scope and end date herself. The clerk aligned the papers only inside the boundary on that original.",
+          "At the four-person meeting, {name} chose to return to the original terms while Daeun's pen stayed beside the paper. Her name field at today's counter was still blank."
+        ],
+        [
+          "On the night the comparison was handled, Daeun took one copy into her own file. The same delivery time showed on both covers today.",
+          "On the night the comparison was handled, the copy remained sealed in {name}'s file. Daeun set apart every page she was seeing for the first time today."
+        ]
+      ]
+    },
     "choices": [
       {
-        "text": "Acknowledge the clauses beyond her scope and withdraw today's filing.",
-        "result_text": "{name} did not pick up the blue pen. The clerk stamped WITHDRAWN at the upper-right corner and read out the filing window that would not reopen today and the fee that would not be refunded.\n\nDaeun did not thank him. She returned her handwritten original to its clear folder. 'Not filing was your choice too. I won't make it clean for you.' Until the red letters dried, they held opposite edges of the same sheet."
+        "text": "Withdraw today's application and leave only the withdrawal mark",
+        "result_text": "{name} did not press Submit. He turned the application back toward the clerk, who stamped WITHDRAWN in red and wrote the time the window closed.\n\nThe queue ticket and copy receipt remained. Watching the stamp dry, Daeun said, “Not filing was your choice too. It doesn't give us back the time we spent today.”"
       },
       {
-        "text": "File only within Daeun's handwritten scope and strike every other field.",
-        "result_text": "The clerk verified Daeun's handwriting and date, then ruled through the three clauses outside her scope. {name} heard the lower limit created by those lines and signed the application in his own name. Daeun signed once in the consenting-party field, matching the original.\n\nEven after the filing stamp fell, the original and contract remained separate. The rounded back of the clear clip protruded between the copies bearing number 227."
+        "text": "File only a lower limit under his own responsibility",
+        "result_text": "The clerk removed every field requiring another person's new consent and left only the lower limit {name} would carry. When he signed, the clerk marked the cover LIMITED FILING. The copy held that limit and the submitter's name; Daeun's hand never touched the blue pen."
       },
       {
-        "text": "Attach the old identity copy and electronically submit even the fields Daeun did not write.",
-        "result_text": "{name} attached the old identity copy and entered the name fields beyond Daeun's scope. When the clerk asked, 'Was this portion also approved today?' {name} answered, 'The identity document is here.' The answer was not the question.\n\nInstead of a final stamp, the clerk marked IDENTITY VERIFICATION HOLD and issued a provisional filing number. Daeun pulled out her handwritten original. 'You filed even the lines where I wrote no.' She did not take the provisional copy. Only the tethered blue pen slowly returned at the edge of the counter."
+        "text": "Request verification while leaving the unverified name field unresolved",
+        "result_text": "{name} requested verification with the unverified name field left as it was. Instead of a final stamp, the clerk marked CURRENT CONSENT VERIFICATION HOLD and issued a provisional number.\n\nThe completion time beneath the number stayed blank, and Daeun did not take the pen. The clerk placed the page in the hold tray."
       },
       {
-        "text": "Remove every Daeun document and switch to the smaller estimate under his name alone.",
-        "result_text": "The new limit stood farther from the goal. {name} removed Daeun's handwritten original and identity copy from the filing stack and wrote NOT APPLICABLE in the consenting-party field. His name appeared once on the signature line.\n\nWhile the clerk stamped filing number 227, Daeun read the reduced figure to the end. 'That number is yours now too. Not using my name isn't the same as not using my time.' Each of them took one copy of the thinner filing."
+        "text": "Remove every Daeun document and file number 227 under his name alone",
+        "result_text": "{name} removed every Daeun document from the submission stack and wrote NOT APPLICABLE in the consenting-party field. Only his name remained on the application signature line.\n\nThe clerk stamped number 227 and the date. Without taking a copy, Daeun said, “Not using my name isn't the same as not using my time.”"
       }
     ]
   },
@@ -348,6 +361,39 @@
       {
         "text": "Take Sangchul's call and return to the execution counter.",
         "result_text": "{name} told Sangchul, 'I'm coming,' and gathered the filed copy. Daeun kept her handwritten original in her own folder. Hyunsu pushed the abandoned chair back under the table. Neither blocked the door.\n\n'Minjun.' Daeun called his name, but did not choose the next sentence for him. As the automatic door closed, filing number 227 flashed in the glass. The unused consent sheet remained at the table."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_people_verdict_daeun_exact",
+    "title": "Daeun's Time, Minseo's Procedure",
+    "description": "Daeun and Minseo sat on opposite sides of the small table. Daeun counted the evenings she had spent on the papers; Minseo ran a fingertip from the label and number to the last state the document had reached.\n\n“Whatever state today's paper ended in, that doesn't give me back the nights I sat here,” Daeun said. Minseo stopped at the final notation. “This still shows how far the paper got.” {name} had to decide whose words would enter the notebook first.",
+    "chapter5_finale_reads": {
+      "texts": [
+        [
+          "Daeun took out the comparison she had received that night and set it beside today's counter paper.",
+          "The comparison had remained in {name}'s file that night. Daeun marked every page she was seeing for the first time today."
+        ],
+        [
+          "The paper from filing day held a red WITHDRAWN mark and the time the counter closed. The queue ticket and copy receipt remained beside it.",
+          "The paper from filing day held the lower amount, LIMITED FILING, and {name}'s signature. Daeun's name field was blank.",
+          "The record from filing day held CURRENT CONSENT VERIFICATION HOLD and a provisional number, with the completion time beneath it blank.",
+          "The self-filed copy held number 227, the date, {name}'s signature, and NOT APPLICABLE in the consenting-party field."
+        ]
+      ]
+    },
+    "choices": [
+      {
+        "text": "Ask Daeun first to finish naming the time she spent on these papers",
+      "result_text": "Daeun named the meeting night, the night she read the comparison, and the time at the counter in date order. {name} did not interrupt as he filled the first line.\n\nOnly after Daeun took her hand from the paper did Minseo write the current label and the document's last state on the second line. Their order remained."
+      },
+      {
+      "text": "Ask Minseo first to point to the last state the paper reached",
+      "result_text": "Minseo moved her finger from the label to the number, then to the place where the last state was recorded. “Here. Nothing after this proves execution.” {name} put that location on the first line.\n\nDaeun wrote the dates of her evenings on the second. The document state occupied the first line and the record of her time the second."
+      },
+      {
+        "text": "Leave the same page open and ask each woman to write one line",
+      "result_text": "{name} placed the notebook sideways between them. Daeun wrote the evenings she had spent and the hours she had waited on the left line; Minseo wrote the label and the document's last state on the right.\n\nNeither line received a number marking it first. When both women set down their pens, two lines in different hands and measured by different standards remained on the same page."
       }
     ]
   },
@@ -529,6 +575,29 @@
     ]
   },
   {
+    "id": "arc_y5_property_not_executed_notice",
+    "title": "Notice That No Executable Contract Exists",
+    "description": "On the day of the non-transfer notice, {name} placed the counter paper beside Daeun and Minseo's memo on one screen. A label and number remained, but there was no purchase price, payment term, or completed original. These pages gave him nothing he could hand to a bank as a transfer instruction.\n\nThe message field to Sangchul was empty. {name} could state first where the papers had stopped. The closing time, the evenings both women had spent, and the comparison copy delivered or kept would remain after the notice was sent.",
+    "chapter5_finale_reads": {
+      "texts": [
+        [
+          "The red withdrawal mark and counter closing time became the first page of today's notice.",
+          "The limited filing held only the lower amount and {name}'s signature.",
+          "The provisional number sat beside CURRENT CONSENT VERIFICATION HOLD and a blank completion time.",
+          "The self-filed copy bore number 227, the date, and {name}'s name."
+        ],
+        [
+        "That night, the dates of Daeun's time came first and the document's last state, as Minseo identified it, followed on the second line.",
+        "That night, Minseo identified the document's last state first, and Daeun's dates followed on the second line.",
+          "That night, Daeun's time and the document state Minseo identified remained on two separate lines."
+        ]
+      ]
+    },
+    "choices": [
+      {"text": "Tell Sangchul first the current document state and the non-transfer result", "result_text": "{name} sent, ‘The current papers did not reach execution. I made no transfer.’ The photograph showed only the counter label and its time.\n\nAfter the sent time appeared, the account still showed no new transfer, and no ownership or debt document had been created. {name} returned the comparison and filing papers to their established custody."}
+    ]
+  },
+  {
     "id": "arc_y5_returned_documents_hyunsu",
     "title": "Documents to Return Instead of a Key",
     "description": "There was no key envelope on the cafe table before Hyunsu. Instead lay self-name filing number 227, the sent record telling Sangchul there had been no transfer or execution, and the seven-page original that still had to be returned. Its final signature field and completed-transfer time were blank.\n\nHyunsu flattened a corner before reading the figures. “Hyung, this time you didn't hold the door with someone else's name.” He placed the filing beside the sent record. “But the time people spent reading all this didn't disappear.”\n\n{name} opened a return-preparation envelope beside the empty place where a key might have been. As Hyunsu read the three records again as people's time, the recipient line stayed blank and the corners of all seven original pages remained outside the envelope.",
@@ -544,6 +613,39 @@
       {"text": "Write that both the filing and non-execution were his choices, then sign his name.", "result_text": "{name} copied the filing number and sent time of the no-execution notice onto one line. Beneath them he wrote, BOTH THE FILING AND THE MONEY NOT SENT WERE CHOICES MADE BY {name}, then placed his name.\n\nThe stamp remained, but no completed-transfer mark appeared. The black name and blank execution field shared one frame. When he set down the pen, the final page of the return-prepared original lifted and settled."},
       {"text": "Put the filed name and missed execution time into the cost column and calculate.", "result_text": "{name} entered Sangchul's review time, Daeun's refusal, and the night before Hyunsu into the cost column. The filing number went under assets; the unmoved money and closed deadline went under loss.\n\nThe ledger grew more exact while people's voices shrank between figures. His name pressed long into the final line. Only the calculator's cold light remained beside the empty transfer time."},
       {"text": "Write first on the back of the filing the names of those who called him by name.", "result_text": "{name} flipped the filed copy and wrote Daeun, Hyunsu, Minseo, Sangchul, Jaehyuk, and Father in order. His own name came last.\n\nThe contract did not become executed, and the filing did not disappear. But people's time stood before the stamp and empty transfer time. {name} opened the first contact that could still answer and read one name aloud from the page."}
+    ]
+  },
+  {
+    "id": "arc_final_countdown_property_not_executed",
+    "title": "The Signature After Nothing Moved",
+    "description": "In the final week, seven days remained until {name}'s thirty-eighth birthday. Beside the notebook where he first wrote KRW 3 billion, he opened the papers from the final month. The label and number he had actually received, the sent time on his notice to Sangchul, and the last empty line came into view together.\n\nEarlier pages held records of the evenings Daeun and Minseo had spent, the sentence aimed at Jaehyuk or kept in {name}'s own ledger, and the action he had taken toward Father. The last line was not a contract. It was where he would place his own name among those lines.",
+    "chapter5_finale_reads": {
+      "texts": [
+        [
+          "The red withdrawal mark and counter time lay to the left of the notebook.",
+          "The limited filing with its lower amount and {name}'s signature lay to the left of the notebook.",
+          "The provisional number, CURRENT CONSENT VERIFICATION HOLD, and blank completion time lay to the left of the notebook.",
+          "The self-filed copy bearing number 227, the date, and {name}'s name lay to the left of the notebook."
+        ],
+        [
+        "The dates Daeun named came first; the document's last state, as Minseo identified it, followed on the next line.",
+        "The document's last state, as Minseo identified it, came first; the dates Daeun wrote followed on the next line.",
+          "The two lines holding Daeun's time and Minseo's document state remained side by side."
+        ],
+        [
+          "The non-transfer notice to Sangchul and its sent time lay beneath the filing paper."
+        ],
+        [
+          "The sentence of responsibility {name} had left toward Father the previous night lay before the last page.",
+        "The words {name} had directed toward Father and the place where he had stopped opened the notebook's next line.",
+        "The previous night, {name} had left today's paper and date beside Father's record."
+        ]
+      ]
+    },
+    "choices": [
+      {"text": "Write his name on the final line and gather the choices so far into his own sentence", "text_if_moral": {"black": "Fix the subject of the result under his own name.", "white": "Leave his name as the subject of both beginning and stopping."}, "result_text": "{name} copied the actual label on the paper and the sent time of the non-transfer notice onto one line. Beneath them he wrote, ‘Beginning it and stopping it were both my choices,’ then signed his name.\n\nWhile the ink dried, the dates on the earlier pages stayed visible. His name became the subject of the final line without covering their time."},
+      {"text": "Record every person's time and the weight of each name in the cost column", "text_if_moral": {"black": "Put names and time in the same ledger and calculate them to the end.", "white": "Record entries without amounts by their dates and states."}, "result_text": "{name} moved the time Daeun and Minseo had spent, Sangchul's review, and the names of Jaehyuk and Father into the cost column. Where there was no amount, he wrote dates and document states.\n\nSet in one column, the things that could be compared appeared beside those that would never share a unit. At the bottom, {name} signed as the person who had chosen to calculate them."},
+      {"text": "Begin the final line with other people's names and leave his own name until the end", "text_if_moral": {"black": "Write the contacts that remain, then decide his own place.", "white": "Write the names preserved in the record first and leave his own until the end."}, "result_text": "Beside the dates and labels on the earlier pages, {name} wrote Daeun, Minseo, Sangchul, Jaehyuk, and Father. His own name came last. When he half-closed the notebook, the filing number remained, but the names were what the final page made him read first."}
     ]
   },
   {

@@ -29,6 +29,20 @@ from event_schedule import deferred_follow_ups
 ROOT = Path(__file__).resolve().parents[1]
 EVENT_DIR = ROOT / "content" / "events"
 EVENT_DIRECTOR = ROOT / "content" / "meta" / "event_director.json"
+CHAPTER5_TYPED_LEDGERS = (
+    (
+        ROOT / "content" / "meta" / "chapter5_causal_ledger.json",
+        "chapter5_m49_m55_causal_route_v1",
+        19,
+        47,
+    ),
+    (
+        ROOT / "content" / "meta" / "chapter5_finale_ledger.json",
+        "chapter5_m56_m60_safe_finale_v1",
+        11,
+        30,
+    ),
+)
 WEEKS_PER_CHAPTER = 48
 TOTAL_CHAPTERS = 5
 CHAPTER_RATCHETS = {
@@ -96,6 +110,32 @@ def load_events() -> dict[str, dict[str, Any]]:
             event["_source"] = path.name
             events[event_id] = event
     return events
+
+
+def typed_chapter5_chain_members(events: dict[str, dict[str, Any]]) -> set[str]:
+    """Return roots whose links are owned by the two typed product ledgers."""
+    members: set[str] = set()
+    for path, ledger_id, root_count, choice_count in CHAPTER5_TYPED_LEDGERS:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        roots = payload.get("roots", []) if isinstance(payload, dict) else []
+        if not isinstance(payload, dict) \
+                or payload.get("schema_version") != 1 \
+                or payload.get("ledger_id") != ledger_id \
+                or payload.get("expected_root_count") != root_count \
+                or payload.get("expected_choice_count") != choice_count \
+                or not isinstance(roots, list) \
+                or len(roots) != root_count \
+                or not all(isinstance(root, dict) for root in roots) \
+                or sum(int(root.get("choice_count", -1)) for root in roots) \
+                    != choice_count:
+            raise ValueError(f"typed Chapter 5 ledger drifted: {path.name}")
+        event_ids = [str(root.get("event_id", "")) for root in roots]
+        if any(not event_id or event_id not in events for event_id in event_ids) \
+                or len(event_ids) != len(set(event_ids)):
+            raise ValueError(
+                f"typed Chapter 5 ledger has missing/duplicate roots: {path.name}")
+        members.update(event_ids)
+    return members
 
 
 def paragraph_count(value: Any) -> int:
@@ -448,6 +488,11 @@ def build_report() -> dict[str, Any]:
         for event_id, event in events.items()
         if incoming[event_id] > 0 or bool(causal_followups(event))
     }
+    # M49-M60 product sequencing is deliberately not encoded as generic JSON
+    # follow_up_event links: exact reducers own turn, receipt, save, and variant
+    # routing. Count those roots as chained so a short cross-character climax
+    # is not mislabeled as an isolated event card.
+    chain_members.update(typed_chapter5_chain_members(events))
     temporal_sources = {
         event_id for event_id, event in events.items() if deferred_followups(event)
     }

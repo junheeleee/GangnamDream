@@ -3344,6 +3344,31 @@ _ORDER133_PROOF_BINDING_OVERRIDES = {
 }
 _FROZEN_AUDITED_MAPS["proof_bindings"].update(
     _ORDER133_PROOF_BINDING_OVERRIDES)
+_ORDER134_PROOF_BINDING_OVERRIDES = {
+    'proof:co_presence:group_w24_story_scene': 'b0d0f4ce5a9238d4eacef710f1bd6f3b718559c4eea5fd0f5c801056b5f9d40b',
+    'proof:exclusive:w24_stage_first_bill_result_route': 'bcf899d5bc516e0505860c3cb4a7d45aea69799652b4cf1bccec8f72fed1f81e',
+    'proof:exclusive:w24_stage_hyunsu_result_format': '90e4d46b75c429f17caf0588738b44bc49ac59ac88a16cbedad6d96f6fd4d873',
+    'proof:execution_stage:w04_w03_hyunsu_choice': 'a268cc16692989d19afe5122526c904c05005db82b4ce80372edde31532d9057',
+    'proof:execution_stage:w04_w04_temptation_choice': '3f6f725e70b6d4dab29642b4a0f271b6cf11789c2b8e1718b04e04a716536b94',
+    'proof:execution_stage:w08_w05_mirae_choice': '7a6457eb883d664211d7a49b70518836d37ef8897f9774bc3f2059b308be51f0',
+    'proof:execution_stage:w08_w08_temptation_choice': 'e6f8fc0233a7ced0ae2c035fd8c683d1538eb9b93252cb2dcd276e15de8e481a',
+    'proof:execution_stage:w12_w09_seorin_choice': 'dd91c6ba332884a94fe2f9603bf79605d5f9e21da9ad5555b2eaba6c0cf4b934',
+    'proof:execution_stage:w20_w17_hanbit_choice': 'b7f1b1128429bcf8adb0e7a91ca981ecec45311fab514e77f1bdfcd0a6c55001',
+    'proof:execution_stage:w24_hyunsu_morning_resume_restore_result': '1554c39c60dade154c8736e5dc0f7e59d3163411fb8fde199e97cd006e9de9e7',
+    'proof:execution_stage:w24_w21_father_choice': 'e18277c5172f6dc2e94b3980ccf654bc80b9dc493c6253966d019176ea1b08a8',
+    'proof:execution_stage:w24_w22_dodam_choice': '724a7a57df0f1b91789a8438a79d9e29008c9ccc148c3d2953d6f047fdbbf901',
+    'proof:execution_stage:w24_w22_gangnam_choice': '8fca983e7f204939293d502584b7a48c643951109d4887b721ba352c63938152',
+    'proof:execution_stage:w24_w23_city_choice': '9a6acfb05261e12dbf2ac9344292563114e710b67c64f00690d052b70211f073',
+    'proof:runtime:first_bill_fatal_return': 'ecf1121a7ad0059274d9440e5cf5e06ce4277c7336c23b8267230c1a1f927633',
+    'proof:runtime:load_core_loop_v2_state': 'cad9111d0aaaa29fa3dc9c8a8f13e2a173a726ac0b647eb03da754f9c9d8f09f',
+    'proof:runtime:serialize_core_loop_v2_state': '137a799661058a2ce3863f59b06c390142bd2dfceb52656e8a69bc7e7e8cbda8',
+    'proof:runtime:story_mode_choice_full_transaction': '767c1da114e534b0098553c3dd6af180263e649ec49e93bb70f0a5fb8066f802',
+    'proof:runtime:story_resume_restore_result': 'cc1ac36d03d5dcddfdbc63e771c490e5ba4b1434ab623364a93ca95f663eb4bf',
+    'proof:runtime:w24_hyunsu_result_formatter_reachability': '6bc9a3570ee6bd05fae2c5a6eed69dd9d17bbd1fbd20492aed3c8932aca57150',
+    'proof:runtime:w24_ledger_description_memory_rendered': '5a621c1e76cb246e078990bce0488b04c83f76eb79e118750579083bd3e82681',
+}
+_FROZEN_AUDITED_MAPS["proof_bindings"].update(
+    _ORDER134_PROOF_BINDING_OVERRIDES)
 _ORDER101_INVOCATION_CONTRACT_OVERRIDES = {
     'reader:milestone:w24:completion_validation:fresh': 'f0226b81ca161f961526c82d1dd9d8a87d4de3411fdda75c0e1c271759f59d54',
     'reader:milestone:w24:completion_validation:loaded': '71a40c4050c89fecff25b0d4e22aad83affa4004bdb4cf9a988e736655bdf4d9',
@@ -3394,7 +3419,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "tools/StoryPlaybackCheck.gd":
         "c6210f9687573353da8d0b429edc85f3016d8084c2914226f54d12cd8c657edb",
     "autoloads/GameState.gd":
-        "ba0efa033c36c778140f0361a7efb233d31a1d849afed25f82ae131f2b1d2cbd",
+        "328160d0a296b1cf0edc5638ee7e454eeccd42c42413e9d58c4d21348536aeff",
     "autoloads/DataRegistry.gd":
         "d442e9af4e45a1011150b31985bcee935e472c0b62b0fdce399218079968473c",
     "autoloads/LocaleManager.gd":
@@ -3408,11 +3433,11 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "systems/BuildFlavor.gd":
         "6264de1c468d5553b73a37d3ea8c5ceb936f6852db7519701f37a2c8bf8aa633",
     "scenes/StoryMode.gd":
-        "c39ed8f5044d39eb8574c1d89e98ebfeb335571077eb8591b026b2be4d19deb6",
+        "0791a0155af732ffb7e3515758a9e998508ae7e20f9be2682688f1ab4d8e62c1",
     "scenes/StoryMode.tscn":
         "b7688a883323a196e74271c1e76f1d88c91310b3fe1a287cb051b33dd2fb76ca",
     "scenes/MainGame.gd":
-        "d6a5f18b405a6cc958c9c321a1f2834b195afee5508979c7ace07d7c51e2b634",
+        "1bb32d8963f0d52f14ac07c1168d280986d60da9dccdbcab202120b0ee708b0e",
     "scenes/MainGame.tscn":
         "71a9590d43c755fa6b409ee0eb0f1950c6aba4517c64192b83038d22a45d9979",
     "scenes/SeoulCycleBoard.gd":
@@ -3428,9 +3453,9 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/meta/demo_localization_scope.json":
         "84b442ad5b71d67b850a8d93a3c907bf8309f88f226fff3bcebbcdf5d969d506",
     "content/meta/release_content_inventory.json":
-        "f847fce035637269a3068c8a39cb03bc7e432d5ef4565022f7f9a12e06a52a40",
+        "16d6c076fa262d93ba71295ea368a06ca6b624762ad923437fb4787885394cf6",
     "content/meta/story_rules.json":
-        "81b929e57020f8dd4916ef91930e7ff90ee9dfe119f256327f88a564d139e731",
+        "3b5fc1b6ec4c2730fad7cb969dcd24b0e231dde50fca6c0b823326f8961a8b89",
     "content/jobs.json":
         "d1a3ed8ba3f2839954d0b15266bff4f7a0d1317d78c503bd2422aa87b7210f84",
     "content/events/arc_events.json":
@@ -3440,7 +3465,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/events/arc_daeun.json":
         "29a1f84fa411d03660f6e2283f3302a5f1f7c9b264a923c916b4484e9699748d",
     "content/events/arc_midgame.json":
-        "44b47bc5270395eb57459742804a9771a386289a578f571cf7c9e2174d505c31",
+        "bf18ddb0696314c2df51ffe23e49cefe88a241e3e75fcd74ee157617ac4e46c0",
     "content/events/scenario_cafe.json":
         "748fa21586b928419a7e7cf336b7c737ba3f09ecfdddafdbb38bff1698ebbe85",
     "docs/CORE_LOOP_V2.md":
@@ -3450,7 +3475,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "docs/queue_archive/ORDER-101.md":
         "732f49ac40efb644a7321cd425160fae9a8123ead11eb2cc7ebc5b238952ee48",
     "docs/CHOICE_CONSEQUENCE_SYSTEM.md":
-        "b8b3ebf8fa32a949bf78e8fa9156903a6d5663959ec6fd2d63b64d9eee2e5c31",
+        "e934df1affb1beb853e42c70eb8293250c36bf0e5e8084e4ccd426d88b05db79",
     "tools/core_loop_v2_balance_sim.py":
         "034475f5d392f016f94c731335a32b460229c7685b00e70bc65fb62efcc5ae3a",
     "tools/demo_core_loop_v2_audit.py":
@@ -3460,7 +3485,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "tools/release_content_inventory.py":
         "2563a8f4ecef128e6a6ecbb4377374fd4e40b0e1080a81ba12144913f0dba4d1",
     "tools/story_consistency_audit.py":
-        "88913e28fb744947c6b9b0df20f3b45d41c8e5561615013310885f74ad82ecc9",
+        "631558d8349333496fa4d056e1c99117654e0ac9192f1922e36df03646e59659",
 }
 # Mutable evidence/status logs are not causal sources.  Keeping this guard in
 # production validation prevents an append-only work record from silently
@@ -20391,6 +20416,46 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
                 f"{selector.get('tool')}")
     cases += 1
 
+    expected_finale_selector_tools = {
+        "tools/chapter5_finale_route_audit.py",
+        "tools/chapter5_finale_route_audit.py --self-test",
+    }
+    finale_selectors = [
+        check for check in audit_scope.get("checks", [])
+        if isinstance(check, dict)
+        and check.get("tool") in expected_finale_selector_tools
+    ]
+    if sorted(check.get("tool") for check in finale_selectors) != sorted(
+            expected_finale_selector_tools):
+        raise AssertionError("finale audit selectors are not exact")
+    required_finale_selector_paths = {
+        "content/meta/chapter5_causal_ledger.json",
+        "content/meta/chapter5_finale_ledger.json",
+        "systems/Chapter5CausalRoute.gd",
+        "systems/Chapter5FinaleRoute.gd",
+        "autoloads/GameState.gd",
+        "autoloads/SaveManager.gd",
+        "scenes/MainGame.gd",
+        "scenes/StoryMode.gd",
+        "systems/EndingSystem.gd",
+        "tools/chapter5_causal_route_audit.py",
+        "tools/chapter5_finale_route_audit.py",
+        "tools/Chapter5FinaleRouteCheck.gd",
+        "tools/ManualSaveCheck.gd",
+        "tools/CoreChoiceSliceCheck.gd",
+        "tools/EndingRouteIdentityCheck.gd",
+        "tools/audit_scope.json",
+    }
+    for selector in finale_selectors:
+        selector_paths = selector.get("paths", [])
+        if (not isinstance(selector_paths, list)
+                or not required_finale_selector_paths.issubset(
+                    selector_paths)):
+            raise AssertionError(
+                "finale audit selector misses reducer/save/StoryMode/ending "
+                f"paths: {selector.get('tool')}")
+    cases += 1
+
     project_text = (ROOT / "project.godot").read_text(encoding="utf-8")
     if _project_autoload_binding_mismatches(project_text):
         raise AssertionError("self-test setup: project autoloads are not exact")
@@ -23552,6 +23617,37 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
     story_mode_transaction_pointer = STORY_MODE_CHOICE_TRANSACTION_POINTER
     story_mode_transaction_body = _pointer_source_text(
         story_mode_transaction_pointer, {})
+
+    finale_transaction_markers = (
+        "var chapter5_finale_choice_transaction :=",
+        "GameState.chapter5_finale_choice_available(",
+        "var chapter5_finale_choice_snapshot: Dictionary = (",
+        "GameState.record_chapter5_finale_choice(",
+        "_queue_chapter5_finale_same_turn_ingress()",
+    )
+    missing_finale_markers = [
+        marker for marker in finale_transaction_markers
+        if marker not in story_mode_transaction_body
+    ]
+    if missing_finale_markers:
+        raise AssertionError(
+            "self-test setup: finale StoryMode transaction surface missing "
+            + ", ".join(repr(marker) for marker in missing_finale_markers))
+    if story_mode_transaction_body.count(
+            "chapter5_finale_choice_snapshot)") != 2:
+        raise AssertionError(
+            "self-test setup: finale apply/receipt rollback pair is not exact")
+    finale_preflight = story_mode_transaction_body.find(
+        "GameState.chapter5_finale_choice_available(")
+    finale_apply = story_mode_transaction_body.find(
+        "GameState.apply_choice(_current, choice)")
+    finale_commit = story_mode_transaction_body.find(
+        "GameState.record_chapter5_finale_choice(")
+    if not 0 <= finale_preflight < finale_apply < finale_commit:
+        raise AssertionError(
+            "self-test setup: finale preflight/apply/receipt order regressed")
+    cases += 1
+
     full_state_rollback_marker = '"_restore_serialized_snapshot_exact"'
     v2_full_state_rollbacks = list(re.finditer(
         full_state_rollback_marker

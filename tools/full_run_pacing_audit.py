@@ -34,10 +34,10 @@ QUIET_SECONDS = 0.90
 ECHO_SECONDS = 1.35
 PROLOGUE_MINUTES = 12.0
 # ORDER-133 gives the eligible investment path M49-M55's 18 exact foreground
-# weeks (19 roots), while the non-product representative keeps its prior
-# discovery-window contract. Do not tighten the untouched path merely because
-# the new path correctly displaces its own Year 5 random opportunities.
-LEGACY_RANDOM_OPPORTUNITIES = (22, 36)
+# weeks (19 roots). ORDER-134 then adds eight globally reserved decision weeks
+# for M56-M60: the eligible product path fills them with nine authored roots,
+# while a non-product path retains ordinary choice opportunities on those slots.
+LEGACY_RANDOM_OPPORTUNITIES = (36, 44)
 PRODUCT_RANDOM_OPPORTUNITIES = (16, 30)
 CHAPTER5_PRODUCT_ENTRY_ROOT = "arc_y5_contract_cover_investment"
 EXPECTED_REFUND_DIRECT = [29, 35, 37, 45]
@@ -259,11 +259,11 @@ def main() -> int:
         for chapter in range(1, 6)
     ]
     errors: list[str] = []
-    if chapter_direct != [13, 9, 10, 15, 22]:
+    if chapter_direct != [13, 9, 10, 15, 30]:
         errors.append(f"chapter decision cadence drifted: {chapter_direct}")
-    if not 60 <= len(direct) <= 72:
-        errors.append(f"direct weeks outside 60..72: {len(direct)}")
-    if len(bosses) != 7 or not bosses.issubset(direct):
+    if not 72 <= len(direct) <= 80:
+        errors.append(f"direct weeks outside 72..80: {len(direct)}")
+    if len(bosses) != 8 or 240 not in bosses or not bosses.issubset(direct):
         errors.append(f"boss contract drifted: {sorted(bosses)}")
     if direct & echoes:
         errors.append("direct and echo weeks overlap")

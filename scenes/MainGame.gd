@@ -8,6 +8,7 @@ const STEAM_FALLBACK_URL := "https://store.steampowered.com/search/?term=Gangnam
 const SEOUL_MAP_STRIP_SCRIPT = preload("res://ui_components/SeoulMapStrip.gd")
 const DEMO_CORE_LOOP_V2 = preload("res://systems/DemoCoreLoopV2.gd")
 const CHAPTER5_CAUSAL_ROUTE = preload("res://systems/Chapter5CausalRoute.gd")
+const CHAPTER5_FINALE_ROUTE = preload("res://systems/Chapter5FinaleRoute.gd")
 const CORE_LOOP_PLANNER_SCRIPT = preload("res://scenes/CoreLoopPlanner.gd")
 const SEOUL_CYCLE_BOARD_SCRIPT = preload("res://scenes/SeoulCycleBoard.gd")
 const CORE_LOOP_V2_COMPLETION_SCRIPT = preload(
@@ -460,14 +461,31 @@ func _continue_after_story():
 	if DEMO_CORE_LOOP_V2.is_active():
 		_core_loop_v2_continue_after_story()
 		return
+	# StoryMode deliberately hands fatal choice effects back to MainGame because
+	# this scene owns the canonical ending signal. Resolve that terminal state
+	# before any durable chapter receipt can route the next authored root; doing
+	# the reverse can bounce forever between MainGame and a guarded StoryMode.
+	_check_game_over_with_monotonic_story_state()
+	if GameState.is_game_over:
+		# StoryMode entered this scene under an opaque global transition cover.
+		# The ending modal is already emitted above, so uncover it before returning.
+		SceneTransition.fade_in()
+		return
 	# W210 has two ordered roots. If the first returned through an interrupted
 	# queue, the exact call receipt may open the second before this week closes.
 	if _route_chapter5_causal_week(true):
+		return
+	# M56-M60 continues the same document trail. A result-page reload may have
+	# committed one root without preserving StoryMode's in-memory queue, so the
+	# durable finale ledger gets the same first chance to restore its exact edge.
+	if _route_chapter5_finale_week(true):
 		return
 	# These scenes are the player's action for their protected week. Once every
 	# active root for the week has an exact receipt, close the calendar slot
 	# without reopening the generic three-card AP board.
 	if _complete_chapter5_causal_week_after_story():
+		return
+	if _complete_chapter5_finale_week_after_story():
 		return
 	if _route_opening_chapter_if_pending():
 		return
@@ -508,6 +526,41 @@ func _route_chapter5_causal_week(keep_cover: bool = false) -> bool:
 
 func _complete_chapter5_causal_week_after_story() -> bool:
 	if not GameState.chapter5_causal_week_completed():
+		return false
+	SceneTransition.fade_in()
+	current_event = {}
+	_demo_director_finish_auto_week()
+	return true
+
+func _route_chapter5_finale_week(keep_cover: bool = false) -> bool:
+	# The entry snapshot binds M55's exact choices, Father's monotonic trace,
+	# and the real cast before the first M56 page can be shown. Later relationship
+	# or asset movement cannot silently rewrite that final document trail.
+	if GameState.turn == CHAPTER5_FINALE_ROUTE.ENTRY_TURN:
+		GameState.prepare_chapter5_finale_route_entry()
+	var event_id := GameState.chapter5_finale_next_event_for_turn()
+	if event_id.is_empty() or not CHAPTER5_FINALE_ROUTE.is_owned_event(event_id):
+		return false
+	_go_story_mode([event_id], keep_cover)
+	return true
+
+func _complete_chapter5_finale_week_after_story() -> bool:
+	# The outbound W240 choice first writes `ready`. Consume that one-shot latch
+	# before asking the canonical ending selector to run, so a restored result
+	# page or duplicate MainGame entry cannot record the run twice.
+	if GameState.chapter5_finale_ending_ready():
+		var release := GameState.consume_chapter5_finale_ending_check()
+		if not bool(release.get("ok", false)):
+			push_error(
+				"Chapter 5 finale could not release its canonical ending: %s"
+				% str(release.get("error", "unknown")))
+			return true
+		_check_game_over_with_monotonic_story_state()
+		# The outbound result returns under StoryMode's opaque cover. The ending
+		# signal has built the modal; uncover it before this terminal branch exits.
+		SceneTransition.fade_in()
+		return true
+	if not GameState.chapter5_finale_week_completed():
 		return false
 	SceneTransition.fade_in()
 	current_event = {}
@@ -6139,6 +6192,10 @@ func _begin_month_story_and_render():
 	# milestones, Event Director echoes, or the generic AP surface can claim it.
 	if _route_chapter5_causal_week():
 		return
+	# The terminal route owns M56-M60 with the same direct-week rule. A chosen
+	# scene is the week's action; the generic AP board must not ask again.
+	if _route_chapter5_finale_week():
+		return
 	if _route_opening_chapter_if_pending():
 		return
 	# 아크 이벤트 (인물 스토리) — 마일스톤보다 우선. 정식 구간에서는
@@ -6653,6 +6710,7 @@ func _next_arc_id(
 	var t = GameState.turn if at_turn < 0 else at_turn
 	var f = GameState.flags
 	var father_is_passed := _father_death_is_monotonic(f, not preview_only)
+	var chapter5_finale_locked := GameState.chapter5_finale_holds_ending()
 
 	# 랜덤 sangchul_meet이 arc보다 먼저 발동한 경우 arc 플래그 동기화
 	if not preview_only and f.get("sangchul_met", false) and not f.get("arc_sangchul_met_seen", false):
@@ -7660,9 +7718,11 @@ func _next_arc_id(
 	if t >= 204 and t <= 214 and not f.get("arc_37_burn_or_light_seen", false):
 		return "arc_37_burn_or_light"
 	# ── 37세 마지막 평화 (t222-236) ──
-	if t >= 222 and t <= 236 and not f.get("arc_37_ending_peace_seen", false):
+	if t >= 222 and t <= 236 and not chapter5_finale_locked \
+			and not f.get("arc_37_ending_peace_seen", false):
 		return "arc_37_ending_peace"
-	if t >= 216 and t <= 237 and not f.get("arc_endgame_sixmonths_seen", false):
+	if t >= 216 and t <= 237 and not chapter5_finale_locked \
+			and not f.get("arc_endgame_sixmonths_seen", false):
 		return "arc_endgame_sixmonths"
 
 	# ══ 9구간: Year 3-5 인물 재등장 ══════════════════════════════
@@ -7775,7 +7835,7 @@ func _next_arc_id(
 			and not f.get("arc_daeun_year4_together_seen", false):
 		return "arc_daeun_year4_together"
 	# 아버지 기일 — 별세 정점으로부터 48주 뒤, 마지막 해의 회수.
-	if t >= 224 and father_is_passed \
+	if t >= 224 and father_is_passed and not chapter5_finale_locked \
 			and not f.get("arc_father_legacy_seen", false):
 		return "arc_father_legacy"
 	# 김다은 Y4 후반 — 오늘의 서울 (함께 궤적, 강남 취직 이후 조용한 행복 비트)
@@ -7822,7 +7882,8 @@ func _next_arc_id(
 			and not f.get("arc_jiyeon_verdict_seen", false) \
 			and GameState.get_total_asset_value() < 500_000_000.0:
 		return "arc_jiyeon_verdict"
-	if t >= 193 and (f.get("daeun_romance_started", false) or f.get("arc_daeun_year4_together_seen", false)) \
+	if t >= 193 and not chapter5_finale_locked \
+			and (f.get("daeun_romance_started", false) or f.get("arc_daeun_year4_together_seen", false)) \
 			and GameState.get_total_asset_value() >= 2_900_000_000.0 \
 			and not f.get("arc_daeun_year5_seen", false):
 		return "arc_daeun_year5_ending"
@@ -7832,7 +7893,7 @@ func _next_arc_id(
 		return "arc_daeun_year5_apart"
 
 	# ── 엔딩 직전 씬 (t>=234, 궤적별 분기) — 진짜 마지막 감정 비트 ──
-	if t >= 234:
+	if t >= 234 and not chapter5_finale_locked:
 		var _asset: float = float(GameState.get_total_asset_value())
 		# 강남 코앞 — 마지막 한 걸음
 		if _asset >= 2_500_000_000.0 and not f.get("arc_pre_ending_summit_seen", false):
@@ -7850,9 +7911,11 @@ func _next_arc_id(
 
 	# ── 마지막 서명 — 38세 7일 전, 궤적 무관 보편 정점 (t237-240) ──
 	# 선택 결과가 follow-up으로 마지막 주를 즉시 열어 다섯 해의 마지막 두 결정을 한 장면으로 묶는다.
-	if t >= 237 and not f.get("arc_final_countdown_seen", false):
+	if t >= 237 and not chapter5_finale_locked \
+			and not f.get("arc_final_countdown_seen", false):
 		return "arc_final_countdown"
-	if t >= 237 and not f.get("arc_final_week_seen", false):
+	if t >= 237 and not chapter5_finale_locked \
+			and not f.get("arc_final_week_seen", false):
 		return "arc_final_week"
 
 	# ── H2 데드존 채움 비트 (경로 반응형, 최저 우선순위 — 기존 아크를 굶기지 않음) ──
@@ -20340,6 +20403,15 @@ func _ending_build_people_page() -> void:
 		signature_card.set_meta(
 			"ending_signature_coda", str(signature_coda.get("kind", "")))
 		page.add_child(signature_card)
+	var outbound_coda: Dictionary = EndingSystem.chapter5_finale_outbound_coda(
+		_ending_id, GameState.chapter5_finale_state)
+	if not outbound_coda.is_empty():
+		var outbound_card := _ending_epilogue_card(_ending_plain_text(_tr(
+			str(outbound_coda.get("text", "")),
+			str(outbound_coda.get("text_en", "")))))
+		outbound_card.set_meta(
+			"ending_finale_outbound_coda", str(outbound_coda.get("kind", "")))
+		page.add_child(outbound_card)
 	_ending_cast_epilogue(page, _ending_id, true)
 	_ending_add_navigation(page, _tr("시간의 기록", "The Time Ledger"), _ending_show_page.bind(3), true)
 

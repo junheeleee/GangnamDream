@@ -97,14 +97,15 @@ signature, outbound action이라는 서로 다른 인과·감정 기능을 닫�
   소유·부채는 변화 0이다.
 - W240의 두 선택은 같은 밤의 독립 기능이다. 첫 서명은 다섯 해를
   자기 문장으로 해석하고, 둘째 선택은 다은에게 밥·사과·거리와 다음
-  연락 시각 중 하나를 실제로 먼저 보낸다. 답장·용서·재회는 확정하지
-  않는다.
+  연락 시각 중 하나를 실제로 먼저 보낸다. 두 선택 모두 숨은 능력치·
+  Moral Tint·경제 effect 없이 receipt와 후일담만 바꾸며, 답장·용서·
+  재회는 확정하지 않는다.
 
 ## 정확한 파일 소유권
 
 **런타임·저장:** `autoloads/GameState.gd`, `autoloads/SaveManager.gd`,
 `scenes/MainGame.gd`, `scenes/StoryMode.gd`, `systems/Chapter5CausalRoute.gd`,
-신규 `systems/Chapter5FinaleRoute.gd` 및 `.gd.uid`, 신규
+`systems/EndingSystem.gd`, 신규 `systems/Chapter5FinaleRoute.gd` 및 `.gd.uid`, 신규
 `content/meta/chapter5_finale_ledger.json`.
 
 **사건 KO/EN:** `content/events/arc_year3_drama.json`,
@@ -117,7 +118,8 @@ signature, outbound action이라는 서로 다른 인과·감정 기능을 닫�
 `content/meta/story_rules.json`, `content/meta/narrative_spine.json`,
 `content/meta/release_content_inventory.json`, `docs/STORY_BIBLE.md`,
 `docs/CHOICE_CONSEQUENCE_SYSTEM.md`, `docs/SCENE_TIER.md`,
-`docs/CONTENT_RATING_INVENTORY.md`, `docs/QA_CHECKLIST.md`.
+`docs/CONTENT_RATING_INVENTORY.md`, `docs/ENDING_CONTRACT.md`,
+`docs/QA_CHECKLIST.md`.
 
 **검사:** 신규 `tools/chapter5_finale_route_audit.py`, 신규
 `tools/Chapter5FinaleRouteCheck.gd`, `.gd.uid`, `.tscn`,
@@ -126,7 +128,9 @@ signature, outbound action이라는 서로 다른 인과·감정 기능을 닫�
 `tools/narrative_spine_audit.py`, `tools/narrative_continuity_audit.py`,
 `tools/full_run_pacing_audit.py`, `tools/EndingRouteIdentityCheck.gd`,
 `tools/ManualSaveCheck.gd`, `tools/CoreChoiceSliceCheck.gd`,
-`tools/chapter1_core_loop_v2_causal_ledger_check.py`, `tools/audit.py`,
+`tools/chapter1_core_loop_v2_causal_ledger_check.py`,
+`tools/chapter4_causal_route_audit.py`, `tools/story_consistency_audit.py`,
+`tools/i18n_coverage_check.py`, `tools/audit.py`,
 `tools/audit_scope.json`, `tools/audit.sh`.
 
 **선언·마감:** `docs/CODEX_QUEUE.md`, 이 사양과 완료 시
@@ -161,6 +165,35 @@ signature, outbound action이라는 서로 다른 인과·감정 기능을 닫�
   정상 속도로 플레이해 거래 0이 빈 결말이 아니라 닫힌 문·쓴 시간·
   먼저 보낸 말로 느껴지는지, M57·M60 선택이 실제 포기로 남는지
   판정한다. 이 단계 전에는 플레이 준비 완료를 선언하지 않는다.
+
+## L2 전수 증거
+
+생사 변형은 같은 기능 행에 병기한다. 근거 별칭은
+`F=content/meta/chapter5_finale_ledger.json`, `Y=content/events/arc_year3_drama.json`,
+`P=content/events/arc_pre_ending.json`, `D=content/events/arc_drama.json`,
+`G=autoloads/GameState.gd`, `S=scenes/StoryMode.gd`,
+`R=systems/Chapter5FinaleRoute.gd`, `E=systems/EndingSystem.gd`,
+`M=scenes/MainGame.gd`의 실제 `파일:행`이다. 공통 entry/commit/read/prepend는
+`G:409/445/520`, `S:3735`; ready/consume는 `R:324/509/519`, `M:541`이다.
+
+|#|W|producer→reader|before→after|포기·비용|물성|근거|
+|---:|---:|---|---|---|---|---|
+|1|221|M55+father entry→trace alive/passed|∅→사실/연락/records 1|답장·방문·부활 없음|생존 연락+회의록 / 별세 봉투+회의록|F:51/75 Y:1162/1249|
+|2|224|#1→custody|∅→다은 공유/자기 보관|통제/공유 중 1|비교본 Daeun/Self|F:99 Y:1297 G:520|
+|3|227|M55+#2→filing|∅→철회/제한/보류/자기명의|기회/상한/즉시성/타인 이름|빨간 표지·제한본·임시번호·227번|F:121 P:674 R:324|
+|4|230|#2+#3→verdict|한 결론→다은/민서/분리|다른 말 순서|사람 시간/절차 메모|F:146 P:770 G:520|
+|5|235|#3+#4→nontransaction|미확정→no contract, 0/0/0|소유·등기·열쇠 없음; 시간 남음|미실행 통지|F:170 P:1164 R:154|
+|6|238|W212+#5→guarantee return|∅→실제 채널 상태 보존/자기보관|채널에 남길 문장/자기 원장 중 1|채널 상태본/Self copy|F:203 D:1963 G:520|
+|7|239|#1+#5→answer alive/passed|∅→문자/음성/시각 또는 봉투/빈자리/날짜|답장·화해·전달 없음|생존/별세 답 기록|F:226/250 Y:1334/1379|
+|8|240|#3+#4+#5+#7→signature|미서명→내 이름/사람/비용 1; pending|다른 해석 2; 거래 없음|무이체 마지막 서명|F:274 P:1237 R:324|
+|9|240|#2+#8→outbound→coda|무발신·pending→밥/사과/거리 1·ready→consumed|다른 발신 2; 답장·숨은 효과 없음|구체 발신 시각|F:300 D:2004 E:122 M:541|
+
+최종 `final_revision5`에서 KO/EN×3해상도 finale 60장과 ORDER-133 causal
+30장, 총 90장을 새로 렌더했다. 사전/사후 fingerprint
+`1566ed39cb1964b302d38579dc783fc76070717b852c8ae089d789e38df22f8a`가
+같고, 고유 PNG `90/90`, 실제 해상도 일치, `BLACK_FAIL 0/90`, 검은막·겹침·
+포커스·same-turn·ending receipt 육안 검수가 모두 통과했다. 이는 레이아웃
+L2이며 정상 속도 재미 GO가 아니다.
 
 ## 정본 승격 예정
 

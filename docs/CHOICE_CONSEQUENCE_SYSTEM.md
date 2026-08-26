@@ -297,7 +297,7 @@ StoryMode 결정과 그 exact receipt가 소유하며, W240 장면 뒤 엔딩 �
 대체하지 않는다. 정확한 결정은 정확한 사실로, 반복된 삶의 모양은 여러 장의
 출처가 있는 pattern으로 읽는다.
 
-### 5장 M49~M55 exact receipt 계약
+### 5장 M49~M60 exact receipt 계약
 
 M49~M55 투자 기준 경로는 로케일 중립 `Chapter5CausalRoute` 원장 하나가 소유한다.
 W195 진입은 실제 투자형 정체성·`route_invest`·20억원 이상 자산 구간과
@@ -324,10 +324,10 @@ W220 자필 범위 원본은 `arc_y5_three_in_room_decision` choice 1만 읽는�
 고르지 않은 선택의 빨간 원·서명·차단·자필 동의를 추론하지 않는다.
 
 영수증을 저장하는 것만으로 인과 연결을 완료했다고 보지 않는다. 47개 선택은
-각각 이후 대사·가능성·비용·부재 중 적어도 하나를 바꾸는 이름 있는 reader를
-가져야 한다. 단순 다음-root 순서 gate나 대화 로그는 choice-index reader가 아니다.
-M56~M60 또는 엔딩을 미래 reader로 적어 두기만 하고 실제 소비 코드와 원고가
-없으면 미완성이다.
+각각 이후 대사·가능성·비용·부재 또는 다음 경로의 실제 진입 가능성 중 적어도
+하나를 바꾸는 이름 있는 reader를 가져야 한다. 단순 다음-root 순서 gate나 대화
+로그는 choice-index reader가 아니다. 현재 M55 결정 3선택은 W221·W227의 정확한
+문장을 바꾸고, 조건부 W220 영수증은 M56 진입 잠금의 실제 증거로 소비된다.
 
 ORDER-133 제품 원고는 후속 16루트의 `chapter5_causal_reads`를 reader 표면으로
 쓴다. KO 정본은 `source_event_ids`, 그 부분집합인 `optional_source_event_ids`,
@@ -335,6 +335,49 @@ source별 choice-index 문장 배열 `texts`, `mode:"prepend"`를 소유하고, 
 같은 배열 모양의 `texts`만 번역한다. 런타임은 선행 영수증의 실제 choice index로
 한 문장을 골라 본문 앞에 붙인다. 단순 선택명 요약이 아니라 전송 시각·빈 서명란·
 접힌 병원 사본·차단된 입력창처럼 실제로 관찰된 행동을 읽어야 한다.
+
+#### M56~M60 안전한 미실행 finale 영수증
+
+`Chapter5FinaleRoute`는 `investment_safe_no_execution` 프로필 하나를 먼저
+소유한다. M49~M55 경로가 실제 terminal 선택까지 끝났을 때만 W221 진입을
+잠그며, M55 choice 1은 W220 자필 원본 receipt까지 있어야 한다. 진입에는 원본
+경로·M55/W212/W215 선택, 아버지 생사와 마지막 연락 증거, 실제
+`player/father/sangchul/daeun/minseo/jaehyuk` 배우를 저장한다. 이후 관계나
+현재 상태가 바뀌어도 이미 잠근 출처·배우·생사를 다시 추론하지 않는다.
+
+작성 원고는 생존·별세 변형을 포함한 11루트·30선택이고, 한 플레이는 둘 중
+하나씩만 통과해 9루트·24선택이다. 단계는 `father_trace → custody → filing →
+verdict → nontransaction → guarantee_return → father_answer → signature →
+outbound` 순서로만 진행한다. 각 receipt는 root·주차·순서·배우·문서·선택 index를
+write-once·idempotent로 저장하고, 중복·역순·범위 밖 선택·손상 저장은 새 사실을
+발명하지 않고 경로를 닫는다. StoryMode는 선택 효과와 receipt를 한 묶음으로
+적용하며 어느 한쪽이 실패하면 선택 전 전체 상태로 되돌린다.
+
+M57 선택 0~3은 각각 `withdrawn`, `limited_filed`, `verification_hold`,
+`self_filed`다. 붉은 철회 표지, 타인의 새 동의가 필요한 칸을 뺀 낮은 한도
+접수본, 현재 동의 확인 보류와 임시번호, 자기 명의 227번은 서로 대체할 수
+없으며 어느 것도 거래 실행이나 소유권을 뜻하지 않는다. M59는 아래 결과를
+그대로 기록한다.
+
+```json
+{"kind":"none", "reason":"no_executable_contract",
+ "cash_delta_krw":0, "asset_delta_krw":0, "debt_delta_krw":0}
+```
+
+W240에서는 마지막 서명 receipt가 먼저 완성되고 같은 밤 다은에게 보내는 행동이
+뒤따른다. 둘째 선택까지 끝나면 ending 상태를 `pending → ready`로 바꾸고,
+MainGame 복귀에서 먼저 `ready → consumed`를 한 번만 쓴 뒤 기존
+`check_game_over()`에 넘긴다. 번아웃·정신 붕괴·채무·파산·중독의 즉시 실패는
+이 보류보다 먼저 판정한다. 30억원 미달도 W240에서 기존 시간제 결말로 닫히며,
+33세 첫 장의 30억원 `instant_legend` 이스터에그는 이 경로 진입 전이라 그대로다.
+마지막 서명과 다은에게 보낸 밥 제안·사과·거리/다음 연락 시각은 능력치·경제·
+숨은 도덕 수치나 옛 자기평가 flag로 바꾸지 않는다. 소비된 exact signature와
+outbound receipt가 `사람들의 이후` 카드에서 실제 선택만 회수하고,
+답장·용서·만남은 만들지 않는다.
+
+career/startup과 일반 안전 런은 이 프로필이 사실인 것처럼 바인딩하지 않는다.
+기존 32루트·86선택은 계속 `reference_only`이며, 각 경제 경로의 실제 배우·문서·
+물질 결과가 있는 별도 프로필이 생기기 전에는 제품 consumer를 붙이지 않는다.
 
 ## 9. 이관 순서
 
@@ -354,10 +397,10 @@ source별 choice-index 문장 배열 `texts`, `mode:"prepend"`를 소유하고, 
 배치 입력이다. 같은 파일의 월간 commitment·여유 계약은 사용자 NO-GO 뒤 제품
 소비가 금지된 역사 자료다. W1~W24 V2의 저장과 첫 청구서 receipt는 이관 기준선으로
 보존한다. M49~M55 기준 경로는 정확한 19루트·47선택의 직접 주차 ingress와
-write-once 영수증 저장까지 제품에 연결됐다. 1~17번 루트의 43선택은 후속 장면의
-choice-index 대사 reader가 있고, W216 빨간 원과 W220 자필 원본의 조건부 진입도
-정확한 선택만 읽는다. 다만 18번 결정의 3선택과 19번 영수증의 1선택은 M56 후속
-장면이 실제 원고·코드로 들어오기 전까지 pending이다. 따라서 현재 범위는
-`43/47 reader 연결, 4/47 M56 pending`이며 M49~M55의 완전한 스노우볼이나 최종
-플레이 준비 완료를 선언하지 않는다.
-career/startup의 별도 32루트·86선택은 계속 reference-only다.
+write-once 영수증 저장까지 제품에 연결됐다. 47선택 전부가 choice-index 대사,
+조건부 증거 진입 또는 M56 경로 진입에서 실제로 소비된다. 그 뒤
+`investment_safe_no_execution`은 11개 작성 변형·30선택, 한 플레이
+9루트·24선택으로 W221~W240을 잇고, M59 경제 변화 0과 W240 두 장면 뒤 기존
+엔딩 판정에 한 번만 넘긴다. 자동 검사는 인과·저장·결말 해제를 증명할 뿐 이
+결말이 충분히 격동적이고 선택의 포기가 기억나는지는 정상 속도 사람 플레이가
+판정한다. career/startup의 별도 32루트·86선택은 계속 reference-only다.

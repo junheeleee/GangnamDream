@@ -2446,11 +2446,22 @@
       "arc_daeun_proposal_answer",
       "arc_daeun_proposal_last_cup",
       "arc_final_countdown",
+      "arc_final_countdown_property_not_executed",
       "arc_final_week",
       "arc_jiyeon_verdict",
       "arc_jiyeon_verdict_decision",
       "arc_jiyeon_verdict_fear",
-      "arc_jiyeon_verdict_voice"
+      "arc_jiyeon_verdict_voice",
+      "arc_y5_father_trace_alive_exact",
+      "arc_y5_father_trace_custody",
+      "arc_y5_father_trace_passed_exact",
+      "arc_y5_final_father_answer_alive",
+      "arc_y5_final_father_answer_passed",
+      "arc_y5_final_week_daeun_outbound",
+      "arc_y5_name_on_line_daeun_routed",
+      "arc_y5_people_verdict_daeun_exact",
+      "arc_y5_property_not_executed_notice",
+      "arc_y5_remaining_jaehyuk_or_self"
     ]
   },
   "transition_edges": {
@@ -2882,6 +2893,15 @@
       "to_surface": "gangnam_night",
       "audio_policy": "continue",
       "reduced_motion": "static_update"
+    },
+    "arc_final_countdown_property_not_executed->arc_y5_final_week_daeun_outbound": {
+      "mode": "time_cut",
+      "from_surface": "gangnam_night",
+      "to_surface": "current_housing",
+      "audio_policy": "crossfade",
+      "reduced_motion": "static_fade",
+      "arrival_cue_ko": "마지막 서명 뒤 몇 분",
+      "arrival_cue_en": "A few minutes after the last signature"
     },
     "arc_gangnam_visit_alone->arc_four_months_in": {
       "mode": "explicit_move",
