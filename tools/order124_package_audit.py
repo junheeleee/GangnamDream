@@ -189,8 +189,10 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
     controller_tokens = (
         "--order124-return-smoke",
         "--order124-resume-smoke",
-        RETURN_MARKER_PREFIX,
-        RESUME_MARKER_PREFIX,
+        "ORDER124_RETURN_SMOKE",
+        "ORDER124_RESUME_SMOKE",
+        'print("%s_OK build=%s screen=transition month=2 overlay=clear input=clear choices=1 settlements=1"',
+        'print("%s_OK build=%s month=%d weeks=%d settlements=%d choices=%d phase=%s screen=%s overlay=clear input=clear"',
     )
     controller_text = controller_path.read_text(encoding="utf-8")
     for token in controller_tokens:

@@ -1650,9 +1650,11 @@ func _check_father_signal_replaces_skipped_first_call() -> void:
 	if not is_instance_valid(_main_game):
 		return
 	GameState.flags.erase("arc_father_01_seen")
+	var father_control_route := _route_at(25)
 	_expect(
-		_route_at(25) == "arc_father_01_call",
-		"Father scheduler control fixture no longer exposes the old root")
+		father_control_route == "arc_father_01_call",
+		"Father scheduler control fixture no longer exposes the old root: %s"
+			% father_control_route)
 	GameState.flags["arc_father_01_seen"] = true
 	_expect(
 		_route_at(25) != "arc_father_01_call",
@@ -1821,6 +1823,9 @@ func _seed_scheduler_baseline() -> void:
 		"arc_sangchul_met_seen",
 		"arc_invest_guidance_seen",
 		"arc_daeun_met",
+		# Keep user-owned NG+ meta from replacing this control fixture's
+		# deliberately unseen legacy Father root.
+		"arc_father_ng_seen",
 		"arc_father_01_seen",
 		"arc_father_quiet_call_seen",
 		"arc_father_02_done",

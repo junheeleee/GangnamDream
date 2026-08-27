@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-qa_timeout_seconds="${GANGNAM_QA_TIMEOUT_SECONDS:-300}"
+# A full 24-week raw-input route takes about 9m20s on the macOS OpenGL QA host.
+# Keep roughly 28% wall-clock headroom while the in-scene stagnation guards
+# remain responsible for detecting routes that stop making progress.
+qa_timeout_seconds="${GANGNAM_QA_TIMEOUT_SECONDS:-720}"
 run_qa_limited() {
   if command -v gtimeout >/dev/null 2>&1; then
     gtimeout "${qa_timeout_seconds}" "$@"

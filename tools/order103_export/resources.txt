@@ -14,10 +14,14 @@ assets/fonts/Pretendard-Regular.ttf
 assets/fonts/Pretendard-SemiBold.ttf
 assets/fonts/Pretendard-Bold.ttf
 assets/fonts/NotoSansJP-Variable.ttf
+assets/fonts/NotoSansSC-Variable.ttf
+assets/fonts/NotoSansTC-Variable.ttf
 assets/fonts/NotoColorEmoji.ttf
 assets/fonts/FONT_LICENSE_LEDGER.md
 assets/fonts/OFL-NotoColorEmoji.txt
 assets/fonts/OFL-NotoSansJP.txt
+assets/fonts/OFL-NotoSansSC.txt
+assets/fonts/OFL-NotoSansTC.txt
 assets/fonts/OFL-Pretendard.txt
 assets/backgrounds/goshiwon_room.png
 assets/backgrounds/goshiwon_shared_kitchen.png

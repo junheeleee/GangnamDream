@@ -55,6 +55,10 @@ REQUIRED_RESOURCES = {
     "content/meta/story_map_m1m6_en.json",
     "autoloads/UIStyle.gd",
     "autoloads/FontKit.gd",
+    "assets/fonts/NotoSansSC-Variable.ttf",
+    "assets/fonts/NotoSansTC-Variable.ttf",
+    "assets/fonts/OFL-NotoSansSC.txt",
+    "assets/fonts/OFL-NotoSansTC.txt",
 }
 FORBIDDEN_RESOURCES = {
     "project.godot",

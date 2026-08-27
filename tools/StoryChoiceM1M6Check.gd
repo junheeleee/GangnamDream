@@ -103,9 +103,15 @@ const EXPECTED_LANE_PATHS := [
 var _failures: Array[String] = []
 var _candidate_files_before: Dictionary = {}
 var _protected_files_before: Dictionary = {}
+var _isolated_shared_files_before: Dictionary = {}
 var _original_game_state: Dictionary = {}
 var _original_language := ""
 var _original_sfx_enabled := true
+var _original_use_custom_user_dir: Variant = null
+var _original_custom_user_dir_name: Variant = null
+var _had_use_custom_user_dir_setting := false
+var _had_custom_user_dir_name_setting := false
+var _bootstrapped_qa_namespace := false
 
 
 func _ready() -> void:
@@ -113,11 +119,16 @@ func _ready() -> void:
 
 
 func _run() -> void:
+	# Resolve the real retail/V2 paths before switching this QA process into its
+	# approved custom namespace. Absolute paths keep the protection meaningful.
+	_protected_files_before = _capture_files(
+		_globalized_paths(_protected_save_paths()))
+	_bootstrap_qa_namespace()
+	_isolated_shared_files_before = _capture_files(_protected_save_paths())
 	_original_game_state = GameState.serialize().duplicate(true)
 	_original_language = LocaleManager.language
 	_original_sfx_enabled = bool(AudioManager.sfx_enabled)
 	AudioManager.sfx_enabled = false
-	_protected_files_before = _capture_files(_protected_save_paths())
 	_check_owned_resources_and_scope()
 	if not _project_user_data_isolated():
 		_expect(false,
@@ -157,6 +168,42 @@ func _run() -> void:
 		_free_controller(controller)
 
 	_finish()
+
+
+func _bootstrap_qa_namespace() -> void:
+	# audit_select runs this QA scene directly from the source project. Give it
+	# the same approved isolated namespace as the staged ORDER-124 build before
+	# any user:// snapshot is resolved; never borrow the retail directory.
+	_had_use_custom_user_dir_setting = ProjectSettings.has_setting(
+		"application/config/use_custom_user_dir")
+	_had_custom_user_dir_name_setting = ProjectSettings.has_setting(
+		"application/config/custom_user_dir_name")
+	_original_use_custom_user_dir = ProjectSettings.get_setting(
+		"application/config/use_custom_user_dir", null)
+	_original_custom_user_dir_name = ProjectSettings.get_setting(
+		"application/config/custom_user_dir_name", null)
+	if _project_user_data_isolated():
+		return
+	ProjectSettings.set_setting(
+		"application/config/use_custom_user_dir", true)
+	ProjectSettings.set_setting(
+		"application/config/custom_user_dir_name", EXPECTED_CUSTOM_USER_DIR)
+	DirAccess.make_dir_recursive_absolute(OS.get_user_data_dir())
+	_bootstrapped_qa_namespace = true
+
+
+func _restore_project_user_namespace() -> void:
+	if not _bootstrapped_qa_namespace:
+		return
+	ProjectSettings.set_setting(
+		"application/config/use_custom_user_dir",
+		_original_use_custom_user_dir
+		if _had_use_custom_user_dir_setting else null)
+	ProjectSettings.set_setting(
+		"application/config/custom_user_dir_name",
+		_original_custom_user_dir_name
+		if _had_custom_user_dir_name_setting else null)
+	_bootstrapped_qa_namespace = false
 
 
 func _new_controller() -> Node:
@@ -684,6 +731,15 @@ func _protected_save_paths() -> Array:
 	return paths
 
 
+func _globalized_paths(paths: Array) -> Array:
+	var result: Array = []
+	for raw_path in paths:
+		var absolute := ProjectSettings.globalize_path(str(raw_path))
+		if absolute not in result:
+			result.append(absolute)
+	return result
+
+
 func _capture_files(paths: Array) -> Dictionary:
 	var captured := {}
 	for raw_path in paths:
@@ -846,6 +902,9 @@ func _finish() -> void:
 		_restore_files(_protected_files_before)
 	if not _original_game_state.is_empty():
 		_restore_global_state()
+	if not _isolated_shared_files_before.is_empty():
+		_restore_files(_isolated_shared_files_before)
+	_restore_project_user_namespace()
 	if _failures.is_empty():
 		print("STORY_CHOICE_M1M6_CHECK_OK months=6 weeks=24 settlements=6 commitments=0 routes=2 save=1 m6=1 returns=2 overlay=1")
 	else:
