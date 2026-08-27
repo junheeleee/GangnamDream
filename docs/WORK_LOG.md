@@ -15,6 +15,27 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-27 (Codex — ORDER-136 M55 다은 회의 초상 후보 재개방)
+
+- Claude가 clean detached `611c635`에서 제품 source `771d0e7`과 후보 원장의
+  일치, Python 감사 ERROR/WARNING 0, 이전 미도달 원고 127건 해소를 확인했다.
+  다만 Godot·디스플레이가 없어 정상 독해 플레이, 검은 화면·잘림·초상 렌더,
+  전환 체감은 판정하지 않았다. 따라서 보고 전체를 원고·데이터 한정
+  CONDITIONAL로만 보존하고 property/general 사람 플레이 게이트에는 합격 또는
+  실패 evidence를 쓰지 않았다.
+- 막는 결함은 `arc_y5_room_consent_receipt` 한 건이다. `meeting + daeun_normal`이
+  연차 resolver를 거쳐 편의점 폴로가 포함된 `daeun_normal_y5`를 띄우지만, 직전
+  전용 CG는 다은을 회의 사복의 동등한 당사자로 잠근다. 같은 격식 배경 51건 중
+  이 한 건만 위반이고 인접 결말 장면은 초상 없음이므로, 새 원화 대신 대상 root만
+  `no portrait`로 내리고 별도 context lock으로 재발을 막는다.
+- 일반 경로 3장면·8선택이 property 9장면·24선택보다 얇다는 소견은 숫자만으로
+  즉시 결함 처리하지 않는다. 현재 네 기능은 지시→기록 소유→해석→사람 행동으로
+  다르고 앞선 선택의 exact reader가 있다. 정상 속도 플레이에서 기억·압박이
+  실제로 약하다고 판정될 때만 별도 작은 자식으로 보강하며 분량 맞추기 장면은
+  넣지 않는다.
+- 기존 `chapter5_finale_rc`를 `waiting_rebuild`로 내려 새 세션을 차단했다.
+  내부 `v0.1.0-dev · BUILD 2026.08.24.5`와 `main` HOLD는 그대로다.
+
 ## 2026-08-27 (Codex — ORDER-135 일반 5장 종막 source candidate)
 
 - `general_near_goal_father_passed`에서 M51 민서·M56 아버지·W229 마지막 지시·

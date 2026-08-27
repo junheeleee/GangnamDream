@@ -12,12 +12,12 @@
 | 상품 정의 | **"나는 민준이다. 눈앞의 사람·돈·몸 사이에서 실제로 무엇을 할지 고르고, 흐른 시간 속에서 그 대가를 산다."** 240주를 카드 목록이 아니라 한 편의 소설·영화처럼 인과·장면·연기·전환·여운으로 겪는다. 플레이어를 구경꾼으로 부르거나 숨은 도덕 점수를 설명하지 않는다. |
 | 현재 범위 | 1턴=1주, 240주(5년), **데모 제품 범위는 1~24주이며 W24 CTA에서 끝난다.** 본편 Chapter 1 제작 단위는 1~48주 한 해지만 25~48주는 아직 기존 폴백이다. 숫자 여력판과 `주력/함께` 월간 행동판은 최종 코어가 아니다. 직업·생계·회복 루틴과 월세·수입·몸·마음은 자동으로 흐르고, 플레이어 행동은 실제 StoryMode 장면의 표현·기억·결정 선택이 소유한다. 현재 공개 판정 후보는 ORDER-126 `story_demo_rc`이며 반복 행동판은 표면에서 0이다. 저장 호환용 AP 데이터·엔진 코드를 삭제하라는 GO는 아니다. W1~24 V2의 저장·영수증·월말 결산은 이관 기준선으로 보존하고, `story_map`의 장면 beat를 따라 장별로 옮긴다. |
 | 품질 게이트 | [`docs/MASTER_RELEASE_AUDIT.md`](docs/MASTER_RELEASE_AUDIT.md). 콘텐츠 수량보다 블랙박스 플레이, 한영 패리티, 패드 과업, 사람 기억·전환 증거로 판정한다. |
-| 최근 완료 | 5장 일반 `general_near_goal_father_passed`의 M51·M56·W229·M59 선택을 W237 봉인→W240 서명→같은 턴 선발신·엔딩에 이었다. 4 roots·10 choices와 finale 원장 3/8은 기능 수이지 비트 할당량이 아니다. source candidate `771d0e7`에서 KO/EN 일반 78장+property 20장 검은막 0; 기존 property 11/30, career/startup 32/86, 30억 `instant_legend`, M55 다은 회의 사복을 보존했다. |
-| 바로 다음 | active Git source 후보 `chapter5_finale_rc`의 exact 제품 commit `771d0e7`에서 Claude가 property·general 두 M49~M60 경로를 자동 진행 없이 정상 속도로 플레이한다. |
-| 열려 있는 사람 게이트 | 정본은 [`docs/human_gates.json`](docs/human_gates.json), 출력은 [`STATUS.md`](docs/STATUS.md)다. `chapter5_finale_rc`는 변경 범위 111개와 전체 감사 GREEN으로 active지만 property·general 정상 속도 L3와 사용자 최종 GO, main은 HOLD다. 새 패키지나 버전 bump는 없고 내부 표시는 기존 `v0.1.0-dev · BUILD 2026.08.24.5`. **초록불은 재미 판정이 아니다.** |
+| 최근 완료 | 5장 일반 경로의 M51·M56·W229·M59 선택을 W237 봉인→W240 서명→선발신·엔딩에 이었다. 4 roots·10 choices와 원장 3/8은 기능 수다. source `771d0e7`의 KO/EN 화면 검사는 통과했지만 이후 검토가 M55 후속 회의실의 편의점 근무복 다은 초상 결함을 찾았다. |
+| 바로 다음 | `arc_y5_room_consent_receipt`를 meeting 배경·초상 없음으로 정렬하고 재발 방지와 실제 KO/EN 화면·전체 감사를 거쳐 새 `chapter5_finale_rc` source 후보를 발급한다. 기존 `771d0e7`로 플레이하지 않는다. |
+| 열려 있는 사람 게이트 | 정본은 [`docs/human_gates.json`](docs/human_gates.json), 출력은 [`STATUS.md`](docs/STATUS.md)다. `chapter5_finale_rc`는 `waiting_rebuild`라 새 플레이를 막는다. Claude의 이번 CONDITIONAL은 플레이 미실시 원고·데이터 판정이며 게이트를 닫지 않는다. 두 L3·사용자 최종 GO·main은 HOLD다. 내부 표시는 `v0.1.0-dev · BUILD 2026.08.24.5`. **초록불은 재미 판정이 아니다.** |
 | 그다음 | 두 L3의 결함만 정확히 수리하고 사용자 최종 GO 뒤에 main으로 승격한다. `story_demo_rc` 판정 뒤 240주 story-first를 장별 이관하며 career/startup R1b·R2와 AP 엔진 삭제는 별도 승인 전 착수하지 않는다. |
 | 자산 조달 | **외주 0원.** 인물 디자인·작곡·UI 아트·유료 서체를 사지 않고 Codex와 무료 라이선스(임베딩이 허용된 OFL·CC0 등)로만 만든다. 인력·구매를 전제한 계획을 세우지 않는다. 생성 자산의 결함은 품질이 아니라 평균성이므로 동일 후처리·고정 서명·채택률로 이긴다. 정본은 `docs/DECISIONS.md` 2026-07-30 항목이 소유한다. |
-| 마지막 갱신 | 2026-08-27 (Codex: M55 다은 회의 복장 정합·일반 종막 밀도 후속) |
+| 마지막 갱신 | 2026-08-27 (Codex: M55 다은 회의 복장 결함으로 후보 재개방) |
 
 사용자가 새 지시를 주면 그것이 위 순서보다 우선한다.
 

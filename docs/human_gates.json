@@ -31,11 +31,11 @@
       "note": "BUILD 2026.08.25.1 macOS 공개 M01~M06 story-first 후보가 active다. app tree SHA-256 4cdb86ab3d1c1de7811729283364cd45594363c3895ecb4ccc296ddae4c951b2, ZIP SHA-256 b38e0a042bea8022da947a8e29b140de1394fdc3832b8541f809289c9c83d82f다. KO·EN·JA·zh-CN·zh-TW 11사건·82 leaf·도달 UI 117과 JP/SC/TC 전용 primary font·OFL을 고정했다. 다섯 locale run이 전체적으로 M01·M04 양쪽 변형을 cover했고 package KO clean/zh-CN fallout는 각각 M01~M06·24주·정산 6·영수증 9·수동 저장 뒤 cold restart exact resume·overlay/input clear·AP 원장 0으로 통과했고, 5 locale×4표면×2해상도 40장에 검은 화면·잘림이 없다. 사용자 재미·시간감·선택감각과 JA·zh-CN·zh-TW 원어민 출시 claim은 OPEN이며, 로컬 플레이는 가능하다. 저장 호환 AP 데이터·엔진 삭제 GO는 아니다."
     },
     "chapter5_finale_rc": {
-      "status": "active",
-      "commit": "771d0e735b9440b54d5449dfbd36369bf97d2b83",
-      "tree": "138ddf66f46ac3625eaf6dc355dcd4e2189545cc",
-      "manifest_sha256": "aff298c0c63d866637a8a1a7cd8283f90f0adfaafdb1744f25464968e7ef0fdc",
-      "note": "제품과 감사 수리를 합친 exact Git source 후보는 M49~M60 투자·부동산 안전 결말과 general_near_goal_father_passed 일반 결말을 같은 소스에 고정했다. 일반 결말 4 roots·10 choices와 finale 원장 3/8, 기존 property 11/30·한 런 9/24, KO/EN 일반 78장+property 20장 검은 화면 0을 통과했다. 첫 변경 범위 감사의 입력 시간 제한·인계·스토리 데모·패키지 6건은 fixture/wrapper 최소 수리로 닫았고 exact 변경 범위 111개와 전체 감사가 GREEN이라 active다. source-only 후보라 새 패키지·버전 bump는 없고 내부 표시는 v0.1.0-dev / BUILD 2026.08.24.5 그대로다. property·general 두 정상 속도 L3와 사용자 최종 GO가 남았으므로 재미·완성·main 승격은 HOLD다."
+      "status": "waiting_rebuild",
+      "commit": null,
+      "tree": null,
+      "manifest_sha256": null,
+      "note": "기존 source 771d0e7은 원고·데이터 한정 외부 검토에서 arc_y5_room_consent_receipt가 meeting 배경에 5년차 편의점 근무복 daeun_normal 초상을 띄우는 결함 한 건이 확인되어 폐기했다. 검토자는 Godot·디스플레이·정상 속도 플레이를 수행하지 않았으므로 이 CONDITIONAL은 사람 플레이 게이트의 폐쇄 증거가 아니다. no-portrait 수리와 재발 방지, exact 화면·전체 감사를 마친 새 source 후보가 active가 되기 전에는 property·general L3 세션을 시작하지 않는다. 내부 표시는 v0.1.0-dev / BUILD 2026.08.24.5 그대로이고 사용자 최종 GO와 main은 HOLD다."
     },
     "full_rc": {
       "status": "active",
