@@ -4,9 +4,19 @@
 
 #### [~] ORDER-135 [P0·5장 일반 종막] 25억 문턱·아버지 별세 경로의 앞선 선택을 마지막 기록과 선발신에 잇는다
 
-**[~] 진행 중 — 선언 기준선:**
-`bc1006f492c2f9e2457b39ca2787b2cf68274da7` / tree
-`5313bbc09666eb6ce573a7b9c1ec9a85bf06a008`.
+**[~] L1/L2 GO · `chapter5_finale_rc` active · L3 OPEN · main HOLD:**
+active Git source 후보의 exact 제품 commit은
+`771d0e735b9440b54d5449dfbd36369bf97d2b83` / tree
+`138ddf66f46ac3625eaf6dc355dcd4e2189545cc` / source manifest SHA-256
+`aff298c0c63d866637a8a1a7cd8283f90f0adfaafdb1744f25464968e7ef0fdc`.
+
+선언 기준선은 `bc1006f492c2f9e2457b39ca2787b2cf68274da7` / tree
+`5313bbc09666eb6ce573a7b9c1ec9a85bf06a008`다. 첫 변경 범위 감사에서 발견한 기존
+입력 시간 제한·인계·스토리 데모·패키지 6건은 fixture/wrapper 최소 수리와 표적
+재검증으로 닫았고, 수리한 exact source는 변경 범위 111개와 전체 감사를 모두
+통과했다. 이 후보에서 property·general 두 정상 속도 L3 판정을 시작할 수 있다.
+이는 게임 완성·재미 GO·main 승격이 아니다. 새 패키지와 버전 bump는 없으며 내부
+표시는 기존 `v0.1.0-dev · BUILD 2026.08.24.5`다.
 
 **사용자 위임·착수 근거 (2026-08-27):** 사용자는 처음부터 끝까지 스토리와
 게임성이 빽빽하고, 엔딩으로 갈수록 더 치밀하고 격동적이어야 한다고 했다.
@@ -174,9 +184,10 @@ hold→`instant_legend`→일반 30억 순서를 그대로 보존한다.
   Python+Godot으로 입증한다. property·career/startup·instant legend 회귀 0.
 - **L2 자가:** 4행 전수표에 도달 주차, producer↔reader, before→after, 포기 비용,
   물성, 파일:행을 남긴다. KO/EN 실제 화면과 검은막 0을 확인한다.
-- **L3 사람:** 자동 GREEN은 재미 GO가 아니다. 새 후보 빌드에서 사용자가 정상
-  속도 M49~M60을 플레이해 앞선 세 선택이 마지막 밤에 되돌아오는지 판정한다.
-  이 단계 전에는 완성·main 병합·플레이 준비 완료를 선언하지 않는다.
+- **L3 사람:** 자동 GREEN은 재미 GO가 아니다. active Git source 후보에서 사용자가 정상
+  속도 M49~M60을 플레이해 M51·M56·W229·M59의 네 선택이 마지막 밤에
+  되돌아오는지 판정한다.
+  현재 L3 판정을 시작할 수 있지만, 이 단계 전에는 완성·main 병합을 선언하지 않는다.
 
 ## 다음 경계
 
