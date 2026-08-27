@@ -31,11 +31,11 @@
       "note": "BUILD 2026.08.25.1 macOS 공개 M01~M06 story-first 후보가 active다. app tree SHA-256 4cdb86ab3d1c1de7811729283364cd45594363c3895ecb4ccc296ddae4c951b2, ZIP SHA-256 b38e0a042bea8022da947a8e29b140de1394fdc3832b8541f809289c9c83d82f다. KO·EN·JA·zh-CN·zh-TW 11사건·82 leaf·도달 UI 117과 JP/SC/TC 전용 primary font·OFL을 고정했다. 다섯 locale run이 전체적으로 M01·M04 양쪽 변형을 cover했고 package KO clean/zh-CN fallout는 각각 M01~M06·24주·정산 6·영수증 9·수동 저장 뒤 cold restart exact resume·overlay/input clear·AP 원장 0으로 통과했고, 5 locale×4표면×2해상도 40장에 검은 화면·잘림이 없다. 사용자 재미·시간감·선택감각과 JA·zh-CN·zh-TW 원어민 출시 claim은 OPEN이며, 로컬 플레이는 가능하다. 저장 호환 AP 데이터·엔진 삭제 GO는 아니다."
     },
     "chapter5_finale_rc": {
-      "status": "waiting_rebuild",
-      "commit": null,
-      "tree": null,
-      "manifest_sha256": null,
-      "note": "기존 source 771d0e7은 원고·데이터 한정 외부 검토에서 arc_y5_room_consent_receipt가 meeting 배경에 5년차 편의점 근무복 daeun_normal 초상을 띄우는 결함 한 건이 확인되어 폐기했다. 검토자는 Godot·디스플레이·정상 속도 플레이를 수행하지 않았으므로 이 CONDITIONAL은 사람 플레이 게이트의 폐쇄 증거가 아니다. no-portrait 수리와 재발 방지, exact 화면·전체 감사를 마친 새 source 후보가 active가 되기 전에는 property·general L3 세션을 시작하지 않는다. 내부 표시는 v0.1.0-dev / BUILD 2026.08.24.5 그대로이고 사용자 최종 GO와 main은 HOLD다."
+      "status": "active",
+      "commit": "b375af26f48668c68ec5bda05b25aedf064fe043",
+      "tree": "840016b61bceab6368ef79ea145b32a02730ba00",
+      "manifest_sha256": "9415428847c33b94536aa1a82be780cf4e88bcf2b8c9ebcf414a13625d066ad0",
+      "note": "M55 회의 후 영수증을 meeting + no reusable portrait로 고친 Git source 후보가 active다. exact 제품 commit b375af26f48668c68ec5bda05b25aedf064fe043 / tree 840016b61bceab6368ef79ea145b32a02730ba00 / source manifest 9415428847c33b94536aa1a82be780cf4e88bcf2b8c9ebcf414a13625d066ad0이다. 변경 범위 74개와 전체 감사가 GREEN이고, Year5 역사 투영 self-test 48건이 ORDER-135와 ORDER-136의 소유층을 분리한다. 같은 exact source의 KO/EN 1280x800 각 6장에 검은 화면·잘림·CG 잔상·다은 근무복 초상·초상 프레임이 없다. 기존 source 771d0e7은 폐기됐고 Claude의 앞선 CONDITIONAL은 Godot·디스플레이·정상 속도 플레이 미실시 원고·데이터 판정이므로 사람 게이트 증거가 아니다. property·general 정상 속도 L3와 사용자 최종 GO는 OPEN, main은 HOLD다. 내부 표시는 v0.1.0-dev / BUILD 2026.08.24.5 그대로다."
     },
     "full_rc": {
       "status": "active",

@@ -1,16 +1,19 @@
-# Active Queue Spec: ORDER-136
+# Archived Queue Spec: ORDER-136
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-136 [P0·5장 화면 정합] M55 계약 회의 뒤 다은의 편의점 근무복 초상을 제거하고 후보를 재발급한다
+#### [x] ORDER-136 [P0·5장 화면 정합] M55 계약 회의 뒤 다은의 편의점 근무복 초상을 제거하고 후보를 재발급한다
 
-**[~] 착수 · `chapter5_finale_rc` waiting_rebuild · L3 재개 전 차단:**
-Claude의 `611c635` 원고·데이터 한정 검토는 제품 source `771d0e7`과 후보 원장이
-일치하고 자동 감사가 GREEN임을 확인했지만, `arc_y5_room_consent_receipt`가
-`meeting + daeun_normal`을 사용해 5년차 편의점 근무복 초상을 계약 회의실에
-띄우는 결함 한 건을 찾았다. 이 검토는 Godot·디스플레이·정상 속도 플레이를
-수행하지 않았으므로 사람 플레이 게이트의 합격·실패 증거가 아니다. 기존 후보는
-재발급 전까지 새 세션에 쓰지 않는다.
+**[x] 완료 · `chapter5_finale_rc` active · 두 L3 OPEN · main HOLD:**
+제품 commit `b375af26f48668c68ec5bda05b25aedf064fe043` / tree
+`840016b61bceab6368ef79ea145b32a02730ba00` / source manifest SHA-256
+`9415428847c33b94536aa1a82be780cf4e88bcf2b8c9ebcf414a13625d066ad0`으로
+후보를 재발급했다. `arc_y5_room_consent_receipt`는 `meeting + no portrait`이고,
+네 사람의 실제 현장 참여는 문서·대사·표시 계약이 소유한다. 변경 범위 74개와
+전체 감사가 GREEN이며, 같은 exact source의 KO/EN 1280×800 각 6장에 검은 화면,
+잘림, CG 잔상, 다은 근무복 초상과 초상 프레임이 없다. Claude의 앞선 원고·데이터
+CONDITIONAL은 Godot·디스플레이·정상 속도 플레이 미실시 판정이므로 두 사람
+게이트를 닫지 않는다.
 
 ## 깊이 3문
 
@@ -65,3 +68,27 @@ Claude의 `611c635` 원고·데이터 한정 검토는 제품 source `771d0e7`�
 `docs/STATUS.md`다. 제품 commit/tree/source manifest와 검증 증거를 남긴 뒤 후보를
 재등록한다. 내부 버전은 `v0.1.0-dev · BUILD 2026.08.24.5` 그대로이며 `main`은
 사용자 최종 GO 전까지 HOLD다.
+
+## 완료 증거
+
+- L1: 대상 사건·시각 계약·표시 계약이 각각 `portrait:""`, `portrait:null`,
+  `portrait_role:none`으로 일치한다. causal self-test 16건, Year5 역사 투영
+  self-test 48건, 변경 범위 감사 74개와 exact 전체 감사가 통과했다.
+- L2: `/private/tmp/gangnam-order136-final-ko.PFfJdE`와
+  `/private/tmp/gangnam-order136-final-en.QSyUQQ`의 실제 1280×800 각 6장,
+  특히 `*_06_w220_room_consent_receipt_no_portrait.png`를 전수 확인했다.
+  `SCREENSHOT_QA_DONE ... black=clear ... cg=verified focus=verified`다.
+- 보호: `project.godot` git hash
+  `de7af180446a6976bdbb622d9d814175d0869115`, SHA-256
+  `78e98d7bdc1349570df6f2cc7ca6cbb11d4fc5451f5bbfdd338561653c7380c5`로
+  불변이다. 선택·원고·수치·저장·엔딩 라우팅과 33세 30억
+  `instant_legend`도 바꾸지 않았다.
+
+## 정본 승격 판정
+
+- **승격:** `assets/CHAPTER5_MEETING_VISUAL_BIBLE.md`의 `Owner and Use`와
+  `Continuity Lock`. 회의용 재사용 초상이 등록되지 않은 상태에서 M55 영수증은
+  기본 편의점 근무복 초상을 띄우지 않고, 다은의 참여는 손글씨 경계·지시·투명
+  클립으로 보여 준다는 규칙을 정본에 남겼다.
+- **일회성:** 폐기 후보 차단, exact commit/tree/manifest 등록, 임시 화면 경로,
+  변경 범위·전체 감사 실행 순서와 마감 문서 갱신은 이 수리에서만 유효하다.

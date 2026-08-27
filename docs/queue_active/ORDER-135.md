@@ -6,15 +6,18 @@
 
 **[~] L1/L2 GO · `chapter5_finale_rc` active · L3 OPEN · main HOLD:**
 active Git source 후보의 exact 제품 commit은
-`771d0e735b9440b54d5449dfbd36369bf97d2b83` / tree
-`138ddf66f46ac3625eaf6dc355dcd4e2189545cc` / source manifest SHA-256
-`aff298c0c63d866637a8a1a7cd8283f90f0adfaafdb1744f25464968e7ef0fdc`.
+`b375af26f48668c68ec5bda05b25aedf064fe043` / tree
+`840016b61bceab6368ef79ea145b32a02730ba00` / source manifest SHA-256
+`9415428847c33b94536aa1a82be780cf4e88bcf2b8c9ebcf414a13625d066ad0`.
 
 선언 기준선은 `bc1006f492c2f9e2457b39ca2787b2cf68274da7` / tree
 `5313bbc09666eb6ce573a7b9c1ec9a85bf06a008`다. 첫 변경 범위 감사에서 발견한 기존
 입력 시간 제한·인계·스토리 데모·패키지 6건은 fixture/wrapper 최소 수리와 표적
 재검증으로 닫았고, 수리한 exact source는 변경 범위 111개와 전체 감사를 모두
-통과했다. 이 후보에서 property·general 두 정상 속도 L3 판정을 시작할 수 있다.
+통과했다. 앞선 `771d0e7`은 M55 회의 뒤 편의점 근무복 다은 초상 결함으로
+폐기했다. 새 후보는 해당 영수증을 meeting·초상 없음으로 고정하고 변경 범위
+74개·전체 감사, KO/EN 1280×800 각 6장 화면을 다시 통과했다. 이 후보에서
+property·general 두 정상 속도 L3 판정을 시작할 수 있다.
 이는 게임 완성·재미 GO·main 승격이 아니다. 새 패키지와 버전 bump는 없으며 내부
 표시는 기존 `v0.1.0-dev · BUILD 2026.08.24.5`다.
 

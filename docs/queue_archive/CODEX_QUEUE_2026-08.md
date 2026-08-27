@@ -15,6 +15,14 @@
 
 ## 2026-08
 
+- `[x] ORDER-136` (2026-08-27): M55 계약 회의 뒤 영수증에서 5년차 편의점
+  근무복 다은 초상을 제거하고 `meeting + no reusable portrait`를 사건·시각·
+  표시 계약과 회의 정본에 잠갔다. 제품 `b375af2` / tree `840016b` / source
+  manifest `94154288`에서 변경 범위 74개·전체 감사와 KO/EN 1280×800 각 6장이
+  통과했고 검은 화면·CG 잔상·초상 프레임은 0이다. Year5 self-test 48건은 이
+  portrait 한 필드만 ORDER-136 후속층으로 투영하고 ORDER-135 변경 집합을
+  넓히지 않는다. 새 `chapter5_finale_rc`는 active지만 정상 속도 property/general
+  L3와 사용자 최종 GO는 OPEN, `main`은 HOLD다. [사양](ORDER-136.md)
 - `[x] ORDER-134` (2026-08-26): M56~M60을 아버지 흔적→문서 보관→명의 접수→
   사람 판정→무이체·미실행→보증 결과→아버지 답→마지막 서명→다은 선발신의
   typed receipt로 연결했다. 작성 11 roots·30 choices, 한 런 9 roots·24 choices와
