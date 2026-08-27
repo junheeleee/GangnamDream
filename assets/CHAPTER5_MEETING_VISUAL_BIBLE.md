@@ -7,8 +7,11 @@ Updated: 2026-08-27
 `cg_y5_three_in_room` is the one-off M55 visual for
 `arc_y5_three_in_room → arc_y5_three_in_room_decision`. It is not a reusable
 office background, an ending image, or proof that any contract was signed.
-`arc_y5_room_consent_receipt` returns to the meeting background and Daeun's
-portrait because the four-person confrontation has ended.
+`arc_y5_room_consent_receipt` returns to the meeting background without a
+reusable portrait after the four-person confrontation. Daeun remains physically
+present through her handwritten boundary, spoken instruction, and handling of
+the clear clip; the default convenience-store portrait must not float over this
+meeting, and no separate meeting-attire portrait is registered for reuse.
 
 ## Canon Frame
 

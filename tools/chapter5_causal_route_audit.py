@@ -93,6 +93,7 @@ ROUTES = (
 )
 ROOT_IDS = tuple(spec.root_id for spec in ROUTES)
 EXPECTED_WEEKS = tuple(spec.week for spec in ROUTES)
+ROOM_CONSENT_ROOT_ID = "arc_y5_room_consent_receipt"
 READ_SOURCES: dict[str, tuple[tuple[str, ...], tuple[str, ...]]] = {
     ROUTES[index].root_id: ((ROUTES[index - 1].root_id,), ())
     for index in range(1, 15)
@@ -258,6 +259,17 @@ def validate_events(
                 )
     if total_choices != 47:
         errors.append(f"shipping Chapter 5 choice total is {total_choices}, expected 47")
+    room_consent = ko.get(ROOM_CONSENT_ROOT_ID)
+    if isinstance(room_consent, dict) and (
+        room_consent.get("background") != "meeting"
+        or room_consent.get("portrait") not in (None, "")
+    ):
+        errors.append(
+            f"{ROOM_CONSENT_ROOT_ID}: M55 visual lock requires meeting "
+            "background and no reusable portrait; got "
+            f"background={room_consent.get('background')!r} "
+            f"portrait={room_consent.get('portrait')!r}"
+        )
 
 
 def _valid_read_text_rows(
@@ -978,6 +990,7 @@ def _fixture_events(author_only: bool = False) -> tuple[
         }
     for index, expected in enumerate(W212_OUTCOMES):
         ko[ROUTES[13].root_id]["choices"][index].update(copy.deepcopy(expected))
+    ko[ROOM_CONSENT_ROOT_ID].update({"background": "meeting", "portrait": ""})
     for target_id, (source_ids, optional_ids) in READ_SOURCES.items():
         ko[target_id]["chapter5_causal_reads"] = {
             "source_event_ids": list(source_ids),
@@ -1064,6 +1077,13 @@ def run_self_test() -> int:
     validate_events(w212_mutation, en, errors)
     check(any("singular Jaehyuk mirror outcome drifted" in error for error in errors),
           "W212 canonical mirror mutation was accepted")
+
+    room_portrait_mutation = copy.deepcopy(ko)
+    room_portrait_mutation[ROOM_CONSENT_ROOT_ID]["portrait"] = "daeun_normal"
+    errors = []
+    validate_events(room_portrait_mutation, en, errors)
+    check(any("no reusable portrait" in error for error in errors),
+          "M55 convenience-store portrait mutation was accepted")
 
     errors = []
     validate_lifecycle({"author_only_event_ids": [ROOT_IDS[0]]}, errors)

@@ -112,7 +112,7 @@
     {"id": "arc_y5_sangchul_review_receipt", "background": "office", "portrait": "sangchul_serious"},
     {"id": "arc_y5_three_in_room", "background": "meeting", "portrait": null, "cg": "cg_y5_three_in_room"},
     {"id": "arc_y5_three_in_room_decision", "background": "meeting", "portrait": null, "cg": "cg_y5_three_in_room"},
-    {"id": "arc_y5_room_consent_receipt", "background": "meeting", "portrait": "daeun_normal"},
+    {"id": "arc_y5_room_consent_receipt", "background": "meeting", "portrait": null},
     {"id": "arc_year_one_mark", "background": "current_housing", "portrait": "player_tired"},
     {"id": "arc_34_money_attracts_money", "background": "investment_phone", "portrait": "player_normal"},
     {"id": "arc_daeun_01_meet", "background": "convenience_night", "portrait": "daeun_smile", "cg": "cg_demo_daeun_first_kindness"},

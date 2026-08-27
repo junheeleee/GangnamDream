@@ -596,7 +596,7 @@ func _ready() -> void:
 		await _shot_chapter5_causal_surfaces(lang)
 		if _qa_failed:
 			return
-		print(("SCREENSHOT_QA_DONE scope=chapter5-causal lang=%s shots=5 " \
+		print(("SCREENSHOT_QA_DONE scope=chapter5-causal lang=%s shots=6 " \
 			+ "causal_receipts=live black=clear hud=correct language=clean " \
 			+ "cg=verified focus=verified dir=%s") % [lang, OUT_DIR])
 		get_tree().quit(0)
@@ -6422,6 +6422,12 @@ func _shot_chapter5_causal_surfaces(lang: String) -> void:
 			"choices": {CHAPTER5_CAUSAL_QA_ROOTS[16]: 2},
 			"show_choices": true,
 		},
+		{
+			"event": CHAPTER5_CAUSAL_QA_ROOTS[18],
+			"shot": "06_w220_room_consent_receipt_no_portrait",
+			"choices": {CHAPTER5_CAUSAL_QA_ROOTS[17]: 1},
+			"show_choices": false,
+		},
 	]
 	for shot_case in cases:
 		var event_id := str(shot_case["event"])
@@ -6497,7 +6503,7 @@ func _assert_chapter5_causal_story_surface(
 	var expected_ids := [
 		CHAPTER5_CAUSAL_QA_ROOTS[0], CHAPTER5_CAUSAL_QA_ROOTS[5],
 		CHAPTER5_CAUSAL_QA_ROOTS[13], CHAPTER5_CAUSAL_QA_ROOTS[16],
-		CHAPTER5_CAUSAL_QA_ROOTS[17],
+		CHAPTER5_CAUSAL_QA_ROOTS[17], CHAPTER5_CAUSAL_QA_ROOTS[18],
 	]
 	if event_id not in expected_ids:
 		_fail("Chapter 5 causal screenshot opened an unexpected root: %s." % event_id)
@@ -6575,6 +6581,42 @@ func _assert_chapter5_causal_story_surface(
 				or actual_cg_path != expected_cg_path:
 			_fail("W217 four-person CG is missing: actual=%s expected=%s." % [
 				actual_cg_path, expected_cg_path])
+			return
+	if event_id == CHAPTER5_CAUSAL_QA_ROOTS[18]:
+		var raw_presentation: Variant = story.get("_current_presentation")
+		var expected_background := ImageRegistry.resolve_contextual_background_id(
+			"meeting")
+		var portrait := story.get("_portrait") as TextureRect
+		var portrait_frame := story.get("_portrait_frame") as Control
+		var actual_portrait_path := (
+			portrait.texture.resource_path
+			if is_instance_valid(portrait) and portrait.texture != null else "")
+		if str(current.get("background", "")) != "meeting" \
+				or not str(current.get("portrait", "")).is_empty() \
+				or current.has("cg") \
+				or not raw_presentation is Dictionary \
+				or str((raw_presentation as Dictionary).get("channel", "")) \
+					!= "in_person" \
+				or str((raw_presentation as Dictionary).get("scene_location", "")) \
+					!= "meeting" \
+				or (raw_presentation as Dictionary).get("participants", []) \
+					!= ["player", "sangchul", "jaehyuk", "daeun"] \
+				or str((raw_presentation as Dictionary).get("portrait_role", "")) \
+					!= "none" \
+				or str(story.get("_event_background_id")) != expected_background \
+				or not actual_portrait_path.is_empty() \
+				or not is_instance_valid(portrait_frame) \
+				or portrait_frame.visible:
+			_fail("W220 room-consent receipt lost its meeting/no-portrait lock: %s." % [
+				str({
+					"event": current,
+					"presentation": raw_presentation,
+					"background": story.get("_event_background_id"),
+					"portrait": actual_portrait_path,
+					"portrait_frame_visible": (
+						portrait_frame.visible
+						if is_instance_valid(portrait_frame) else null),
+				})])
 			return
 	var choice_surface_ids := [
 		CHAPTER5_CAUSAL_QA_ROOTS[0], CHAPTER5_CAUSAL_QA_ROOTS[13],

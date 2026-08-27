@@ -841,7 +841,7 @@
     "weight": 0,
     "hidden": true,
     "background": "meeting",
-    "portrait": "daeun_normal",
+    "portrait": "",
     "conditions": {
       "min_turn": 9999
     },

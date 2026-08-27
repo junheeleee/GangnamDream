@@ -3455,7 +3455,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/meta/release_content_inventory.json":
         "944c49c74cb379e56fa6b7aae49ccba8391bb0879331c8e9ed87911cad9e2327",
     "content/meta/story_rules.json":
-        "cbaa163d72a5c3f4fa3330fd72a30c42ced164d213a99a9942d774e475d50879",
+        "b3e77eb1f3803decc8101c6367e87e99252267a7d426eb863bf58fa94bc5e94e",
     "content/jobs.json":
         "d1a3ed8ba3f2839954d0b15266bff4f7a0d1317d78c503bd2422aa87b7210f84",
     "content/events/arc_events.json":

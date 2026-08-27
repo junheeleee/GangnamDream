@@ -789,7 +789,16 @@
         "portrait_role": "none"
       }
     },
-    "arc_y5_room_consent_receipt": {"logic": {}},
+    "arc_y5_room_consent_receipt": {
+      "logic": {},
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "meeting",
+        "participants": ["player", "sangchul", "jaehyuk", "daeun"],
+        "portrait_role": "none",
+        "expected_background": "meeting"
+      }
+    },
     "arc_y5_father_trace_alive_exact": {
       "logic": {},
       "presentation": {

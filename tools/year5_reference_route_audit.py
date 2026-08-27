@@ -694,6 +694,30 @@ ORDER135_PROTECTED_FILE_TRANSITIONS = {
         "fbbf2d6f10e14eb24e1fa4e79f7ba417b6c8a3adfb934876ab680ecfc87544f0",
     ),
 }
+
+# ORDER-136 repairs one visual field on top of the active Chapter 5 source.
+# It is projected away only for older audit receipts and remains exact here.
+ORDER136_BASELINE = "771d0e735b9440b54d5449dfbd36369bf97d2b83"
+ORDER136_ROOM_CONSENT_ROOT_ID = "arc_y5_room_consent_receipt"
+ORDER136_CHANGED_IDS_BY_FILE = {
+    "content/events/arc_pre_ending.json": {ORDER136_ROOM_CONSENT_ROOT_ID},
+}
+ORDER136_ROOM_CONSENT_OBJECT_SHA256 = (
+    "687292539a6574e425d5435ea5c63740418473fb77db77f05020773c946e3631"
+)
+ORDER136_ROOM_CONSENT_PRESENTATION = {
+    "channel": "in_person",
+    "scene_location": "meeting",
+    "participants": ["player", "sangchul", "jaehyuk", "daeun"],
+    "portrait_role": "none",
+    "expected_background": "meeting",
+}
+ORDER136_PROTECTED_FILE_TRANSITIONS = {
+    "content/meta/story_rules.json": (
+        "cbaa163d72a5c3f4fa3330fd72a30c42ced164d213a99a9942d774e475d50879",
+        "b3e77eb1f3803decc8101c6367e87e99252267a7d426eb863bf58fa94bc5e94e",
+    ),
+}
 ORDER131_ADDED_IDS_BY_FILE = {
     "content/events/arc_midgame.json": {
         "arc_first_real_win_father_passed",
@@ -3690,6 +3714,33 @@ def order135_project_event(event: dict[str, Any]) -> dict[str, Any]:
     return candidate
 
 
+def order136_project_event(event: dict[str, Any]) -> dict[str, Any]:
+    """Restore the one pre-ORDER-136 portrait field for historical checks."""
+    candidate = copy.deepcopy(event)
+    if str(candidate.get("id", "")) == ORDER136_ROOM_CONSENT_ROOT_ID \
+            and "portrait" in candidate:
+        candidate["portrait"] = "daeun_normal"
+    return candidate
+
+
+def historical_project_event(event: dict[str, Any]) -> dict[str, Any]:
+    """Project current additive layers back to their historical source shape."""
+    return order136_project_event(order135_project_event(event))
+
+
+def order135_changed_existing_ids(
+    current_by_id: dict[str, dict[str, Any]],
+    baseline_by_id: dict[str, dict[str, Any]],
+) -> set[str]:
+    """Measure ORDER-135 after removing the later ORDER-136 portrait layer."""
+    return {
+        event_id
+        for event_id in set(baseline_by_id) & set(current_by_id)
+        if canonical_json_sha256(order136_project_event(current_by_id[event_id]))
+        != canonical_json_sha256(baseline_by_id[event_id])
+    }
+
+
 def order118_visible_leaves(event: dict[str, Any]) -> Iterator[tuple[str, Any]]:
     yield "title", event.get("title")
     yield "description", event.get("description")
@@ -3804,7 +3855,7 @@ def validate_order129_finale_candidate(
                     )
                     current_rows = []
                     break
-                current_rows.append(order135_project_event(matches[0]))
+                current_rows.append(historical_project_event(matches[0]))
             if not current_rows:
                 continue
             current_ids = [str(row.get("id", "")) for row in current_rows]
@@ -3904,13 +3955,13 @@ def validate_order118_prose_candidate(
                         f"{owner}:{event_id}: expected one current context object, got {len(matches)}"
                     )
                     current_rows = [
-                        order135_project_event(row)
+                        historical_project_event(row)
                         for row in disk_current_rows
                         if str(row.get("id", ""))
                         not in ORDER135_ADDED_IDS_BY_FILE.get(relative, set())
                     ]
                     break
-                current_rows.append(order135_project_event(matches[0]))
+                current_rows.append(historical_project_event(matches[0]))
 
             for current, baseline in zip(current_rows, baseline_rows):
                 event_id = str(current.get("id", ""))
@@ -4104,7 +4155,7 @@ def validate_order134_registration(
             baseline_rows = event_rows(
                 baseline_payload, f"{owner}:baseline", errors)
             historical_current_rows = [
-                order135_project_event(row)
+                historical_project_event(row)
                 for row in current_rows
                 if str(row.get("id", ""))
                 not in ORDER135_ADDED_IDS_BY_FILE.get(relative, set())
@@ -4322,11 +4373,11 @@ def validate_order135_registration(
         current_by_id = {
             str(row.get("id", "")): row for row in current_rows
         }
-        changed_existing = {
-            event_id for event_id in set(baseline_by_id) & set(current_by_id)
-            if canonical_json_sha256(current_by_id[event_id])
-            != canonical_json_sha256(baseline_by_id[event_id])
-        }
+        # ORDER-136 owns only the later portrait removal.  Strip that layer
+        # before measuring ORDER-135 so the older receipt remains exact rather
+        # than being widened to accept a newer changed object.
+        changed_existing = order135_changed_existing_ids(
+            current_by_id, baseline_by_id)
         expected_changed = ORDER135_CHANGED_IDS_BY_FILE.get(relative, set())
         if changed_existing != expected_changed:
             errors.append(
@@ -4334,7 +4385,7 @@ def validate_order135_registration(
                 f"expected={sorted(expected_changed)} "
                 f"actual={sorted(changed_existing)}")
         historical_rows = [
-            order135_project_event(row)
+            historical_project_event(row)
             for row in current_rows
             if str(row.get("id", "")) not in expected_additions
         ]
@@ -4347,6 +4398,79 @@ def validate_order135_registration(
         "order135_choices": 10,
         "order135_source_objects": 3,
     }
+
+
+def validate_order136_registration(
+    context: AuditContext,
+    errors: list[str],
+) -> dict[str, int]:
+    """Own the exact no-portrait repair without widening older snapshots."""
+    records = context.event_indexes["ko"].get(
+        ORDER136_ROOM_CONSENT_ROOT_ID, [])
+    owner = f"ORDER-136:ko:{ORDER136_ROOM_CONSENT_ROOT_ID}"
+    if len(records) != 1:
+        errors.append(f"{owner}: expected one event object, got {len(records)}")
+    else:
+        record = records[0]
+        expected_path = "content/events/arc_pre_ending.json"
+        if record.path != expected_path:
+            errors.append(
+                f"{owner}: exact source file drifted "
+                f"expected={expected_path!r} actual={record.path!r}")
+        if canonical_json_sha256(record.row) \
+                != ORDER136_ROOM_CONSENT_OBJECT_SHA256:
+            errors.append(f"{owner}: exact object hash drifted")
+        if record.row.get("background") != "meeting" \
+                or record.row.get("portrait") not in (None, ""):
+            errors.append(
+                f"{owner}: visual lock requires meeting and no reusable portrait")
+
+    for locale, relative in (
+        ("ko", "content/events/arc_pre_ending.json"),
+        ("en", "content/events_en/arc_pre_ending.json"),
+    ):
+        projection_owner = f"ORDER-136:{locale}:{relative}"
+        try:
+            baseline_payload = strict_loads(
+                git_blob(ORDER136_BASELINE, relative).decode("utf-8"),
+                f"{ORDER136_BASELINE}:{relative}",
+            )
+        except (OSError, UnicodeDecodeError, ValueError) as exc:
+            errors.append(
+                f"{projection_owner}: cannot load baseline ({exc})")
+            continue
+        baseline_rows = object_from_payload(
+            baseline_payload, ORDER136_ROOM_CONSENT_ROOT_ID)
+        current_records = context.event_indexes[locale].get(
+            ORDER136_ROOM_CONSENT_ROOT_ID, [])
+        if len(baseline_rows) != 1 or len(current_records) != 1:
+            errors.append(
+                f"{projection_owner}: target must resolve exactly once")
+            continue
+        current_row = current_records[0].row
+        projected = (
+            order136_project_event(current_row)
+            if locale == "ko" else current_row
+        )
+        if projected != baseline_rows[0]:
+            errors.append(
+                f"{projection_owner}: projection does not restore baseline")
+
+    try:
+        rules = load_json(ROOT / "content/meta/story_rules.json")
+    except (OSError, ValueError) as exc:
+        errors.append(f"ORDER-136: cannot load story rules ({exc})")
+    else:
+        presentation = (
+            rules.get("events", {})
+            .get(ORDER136_ROOM_CONSENT_ROOT_ID, {})
+            .get("presentation")
+            if isinstance(rules, dict) else None
+        )
+        if presentation != ORDER136_ROOM_CONSENT_PRESENTATION:
+            errors.append(
+                "ORDER-136: exact room-consent presentation contract drifted")
+    return {"order136_visual_roots": 1}
 
 
 def safe_relative_path(raw: Any, owner: str, errors: list[str]) -> Path | None:
@@ -4470,12 +4594,16 @@ def validate_protected_hashes(
             continue
         actual_hash = byte_sha256(path.read_bytes())
         order135_transition = ORDER135_PROTECTED_FILE_TRANSITIONS.get(relative)
+        order136_transition = ORDER136_PROTECTED_FILE_TRANSITIONS.get(relative)
         effective_expected_hash = (
             order135_transition[1]
             if order135_transition is not None
             and expected_hash == order135_transition[0]
             else expected_hash
         )
+        if order136_transition is not None \
+                and effective_expected_hash == order136_transition[0]:
+            effective_expected_hash = order136_transition[1]
         if actual_hash != effective_expected_hash:
             errors.append(f"{owner}: working-tree byte hash drifted")
         transition = ORDER134_PROTECTED_FILE_TRANSITIONS.get(relative)
@@ -4485,12 +4613,21 @@ def validate_protected_hashes(
             if expected_hash != order135_transition[0]:
                 errors.append(
                     f"{owner}: ORDER-135 additive source hash drifted")
-            if actual_hash != order135_transition[1]:
+            if order136_transition is None \
+                    and actual_hash != order135_transition[1]:
                 errors.append(
                     f"{owner}: ORDER-135 additive current hash drifted")
             if transition is None or transition[1] != order135_transition[0]:
                 errors.append(
                     f"{owner}: ORDER-135 transition does not extend ORDER-134")
+        if order136_transition is not None:
+            if order135_transition is None \
+                    or order136_transition[0] != order135_transition[1]:
+                errors.append(
+                    f"{owner}: ORDER-136 transition does not extend ORDER-135")
+            if actual_hash != order136_transition[1]:
+                errors.append(
+                    f"{owner}: ORDER-136 visual current hash drifted")
         try:
             baseline_hash = byte_sha256(git_blob(EXPECTED_BASELINE, relative))
         except ValueError as exc:
@@ -4512,6 +4649,16 @@ def validate_protected_hashes(
                 if order135_baseline_hash != order135_transition[0]:
                     errors.append(
                         f"{owner}: ORDER-135 additive baseline hash drifted")
+        if order136_transition is not None:
+            try:
+                order136_baseline_hash = byte_sha256(
+                    git_blob(ORDER136_BASELINE, relative))
+            except ValueError as exc:
+                errors.append(f"{owner}: {exc}")
+            else:
+                if order136_baseline_hash != order136_transition[0]:
+                    errors.append(
+                        f"{owner}: ORDER-136 visual baseline hash drifted")
 
     objects = protected.get("objects")
     if not isinstance(objects, list) or not objects:
@@ -4665,6 +4812,7 @@ def validate_manifest(
         "order135_choices": 0,
         "order135_source_objects": 0,
     }
+    order136_stats = {"order136_visual_roots": 0}
     validate_r1a_contract(manifest, routes, errors)
     invalidated = contract_is_invalidated(manifest)
     if invalidated:
@@ -4715,6 +4863,7 @@ def validate_manifest(
         validate_transactions_and_finale(manifest, routes, errors)
     order134_stats = validate_order134_registration(context, errors)
     order135_stats = validate_order135_registration(context, errors)
+    order136_stats = validate_order136_registration(context, errors)
     blocker_text = flattened(manifest.get("unresolved_blockers"))
     if "order112_113_l3_topology_rejected" not in blocker_text:
         errors.append("manifest.unresolved_blockers: rejected literary topology must block R1b")
@@ -4755,6 +4904,7 @@ def validate_manifest(
         **order129_stats,
         **order134_stats,
         **order135_stats,
+        **order136_stats,
     }
 
 
@@ -5051,6 +5201,11 @@ def run_invalidated_self_test(
             "arc_y5_final_week_general_people_outbound"][0]
         record.path = "content/events/arc_pre_ending.json"
 
+    def order136_object_changed(candidate: AuditContext) -> None:
+        candidate_record(
+            candidate, "ko", ORDER136_ROOM_CONSENT_ROOT_ID
+        )["portrait"] = "daeun_normal"
+
     for label, mutate, fragment in (
         ("order118_player_token", order118_token_injected, "internal document token remains"),
         ("order118_version_token", order118_version_token_injected, "internal document token remains"),
@@ -5071,9 +5226,77 @@ def run_invalidated_self_test(
         ("order135_object_hash", order135_object_changed, "ORDER-135:en:arc_y5_general_last_page_instruction: exact object hash drifted"),
         ("order135_source_flag", order135_source_flag_removed, "ORDER-135: exact source flag placement drifted"),
         ("order135_source_file", order135_source_file_changed, "ORDER-135:ko:arc_y5_final_week_general_people_outbound: exact source file drifted"),
+        ("order136_object_hash", order136_object_changed, "ORDER-136:ko:arc_y5_room_consent_receipt: exact object hash drifted"),
     ):
         case_count += 1
         expect_context_failure(label, manifest, context, mutate, fragment, failures)
+
+    # Use the same helper as the file-level ORDER-135 validator to prove that
+    # the later portrait field is removable but no neighboring field is.
+    relative = "content/events/arc_pre_ending.json"
+    fixture_errors: list[str] = []
+    try:
+        current_payload = load_json(ROOT / relative)
+        baseline_payload = strict_loads(
+            git_blob(ORDER135_BASELINE, relative).decode("utf-8"),
+            f"self-test:{ORDER135_BASELINE}:{relative}",
+        )
+        current_rows = event_rows(
+            current_payload, "self-test:ORDER-136:current", fixture_errors)
+        baseline_rows = event_rows(
+            baseline_payload, "self-test:ORDER-136:baseline", fixture_errors)
+    except (OSError, UnicodeDecodeError, ValueError) as exc:
+        failures.append(f"order136_projection_fixture: cannot load fixture ({exc})")
+        current_rows = []
+        baseline_rows = []
+    if fixture_errors:
+        failures.append(
+            f"order136_projection_fixture: malformed fixture {fixture_errors[:4]}"
+        )
+    baseline_by_id = {
+        str(row.get("id", "")): row for row in baseline_rows
+    }
+    current_by_id = {
+        str(row.get("id", "")): row for row in current_rows
+    }
+    expected_order135 = ORDER135_CHANGED_IDS_BY_FILE.get(relative, set())
+
+    case_count += 1
+    rollback_by_id = copy.deepcopy(current_by_id)
+    rollback_target = rollback_by_id.get(ORDER136_ROOM_CONSENT_ROOT_ID)
+    if rollback_target is None:
+        failures.append("order136_layer_isolation: target fixture is missing")
+    else:
+        rollback_target["portrait"] = "daeun_normal"
+        rollback_changed = order135_changed_existing_ids(
+            rollback_by_id, baseline_by_id)
+        if rollback_changed != expected_order135:
+            failures.append(
+                "order136_layer_isolation: ORDER-136 rollback leaked into "
+                "ORDER-135 historical receipt "
+                f"expected={sorted(expected_order135)} "
+                f"actual={sorted(rollback_changed)}"
+            )
+
+    case_count += 1
+    scope_by_id = copy.deepcopy(current_by_id)
+    scope_target = scope_by_id.get(ORDER136_ROOM_CONSENT_ROOT_ID)
+    if scope_target is None:
+        failures.append("order136_projection_scope: target fixture is missing")
+    else:
+        scope_target["background"] = "office"
+        scope_changed = order135_changed_existing_ids(
+            scope_by_id, baseline_by_id)
+        expected_scope_changed = (
+            expected_order135 | {ORDER136_ROOM_CONSENT_ROOT_ID}
+        )
+        if scope_changed != expected_scope_changed:
+            failures.append(
+                "order136_projection_scope: non-portrait drift was hidden by "
+                "historical projection "
+                f"expected={sorted(expected_scope_changed)} "
+                f"actual={sorted(scope_changed)}"
+            )
 
     case_count += 1
     replacement_context = copy.deepcopy(context)
@@ -5825,6 +6048,7 @@ def main() -> int:
             f"order134_roots={stats['order134_roots']} order134_choices={stats['order134_choices']} "
             f"order135_roots={stats['order135_roots']} order135_choices={stats['order135_choices']} "
             f"order135_source_objects={stats['order135_source_objects']} "
+            f"order136_visual_roots={stats['order136_visual_roots']} "
             f"product_consumers={stats['consumers']} "
             "qa_consumers=1 topology=invalidated r1b_allowed=false"
         )
@@ -5841,6 +6065,7 @@ def main() -> int:
         f"order134_roots={stats['order134_roots']} order134_choices={stats['order134_choices']} "
         f"order135_roots={stats['order135_roots']} order135_choices={stats['order135_choices']} "
         f"order135_source_objects={stats['order135_source_objects']} "
+        f"order136_visual_roots={stats['order136_visual_roots']} "
         f"product_consumers={stats['consumers']} qa_consumers=1 activation=reference_only "
         "topology=invalidated r1b_allowed=false"
     )
