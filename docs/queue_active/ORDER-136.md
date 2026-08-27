@@ -37,6 +37,11 @@ Claude의 `611c635` 원고·데이터 한정 검토는 제품 source `771d0e7`�
 - `tools/ScreenshotQA.gd`: 기존 목록에만 있고 실제 다섯 case에서는 빠졌던 W220
   receipt를 여섯 번째로 렌더해 meeting 배경, `portrait_role:none`, 빈 texture와
   숨은 frame을 직접 단언한다.
+- `tools/year5_reference_route_audit.py`: ORDER-118/129/134/135 역사 투영을 넓히지
+  않고 이 root의 `portrait` 한 필드와 `story_rules` old→new hash만 ORDER-136
+  후속층으로 등록한다.
+- `tools/chapter1_core_loop_v2_causal_ledger_check.py`: 공통 감사 source snapshot의
+  `story_rules.json` 해시만 새 정확 바이트로 갱신한다.
 - 영어 사건은 text-only overlay라 gameplay visual key를 중복하지 않는다. 신규 원화,
   원고, 선택, 밸런스, 저장, 엔딩 라우팅, `project.godot`은 바꾸지 않는다.
 
@@ -55,7 +60,7 @@ Claude의 `611c635` 원고·데이터 한정 검토는 제품 source `771d0e7`�
 
 ## 선언·마감
 
-착수 파일은 위 제품 6개와 `docs/CODEX_QUEUE.md`, 이 사양,
+착수 파일은 위 제품 8개와 `docs/CODEX_QUEUE.md`, 이 사양,
 `docs/human_gates.json`, `CLAUDE.md`, `docs/WORK_LOG.md`, 생성본
 `docs/STATUS.md`다. 제품 commit/tree/source manifest와 검증 증거를 남긴 뒤 후보를
 재등록한다. 내부 버전은 `v0.1.0-dev · BUILD 2026.08.24.5` 그대로이며 `main`은
