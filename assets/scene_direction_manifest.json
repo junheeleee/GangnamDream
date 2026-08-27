@@ -2446,6 +2446,7 @@
       "arc_daeun_proposal_answer",
       "arc_daeun_proposal_last_cup",
       "arc_final_countdown",
+      "arc_final_countdown_general_near_goal_passed",
       "arc_final_countdown_property_not_executed",
       "arc_final_week",
       "arc_jiyeon_verdict",
@@ -2458,6 +2459,9 @@
       "arc_y5_final_father_answer_alive",
       "arc_y5_final_father_answer_passed",
       "arc_y5_final_week_daeun_outbound",
+      "arc_y5_final_week_general_people_outbound",
+      "arc_y5_general_final_record_seal",
+      "arc_y5_general_last_page_instruction",
       "arc_y5_name_on_line_daeun_routed",
       "arc_y5_people_verdict_daeun_exact",
       "arc_y5_property_not_executed_notice",
@@ -2891,6 +2895,13 @@
       "mode": "same_location",
       "from_surface": "gangnam_night",
       "to_surface": "gangnam_night",
+      "audio_policy": "continue",
+      "reduced_motion": "static_update"
+    },
+    "arc_final_countdown_general_near_goal_passed->arc_y5_final_week_general_people_outbound": {
+      "mode": "same_location",
+      "from_surface": "current_housing",
+      "to_surface": "current_housing",
       "audio_policy": "continue",
       "reduced_motion": "static_update"
     },

@@ -27,7 +27,7 @@ EXPECTED_BRIDGE_RANDOM = 19
 # Core V2's authored hidden beats include the First Bill fragments plus the
 # fresh-only application Send and pre-plan calculation. They are reached by
 # runtime substitution or bundle/story links, never by the random director.
-EXPECTED_REGISTERED_EVENTS = 1686
+EXPECTED_REGISTERED_EVENTS = 1690
 EXPECTED_DIRECT_ONLY_EVENTS = {
     "v2_hyunsu_player_reachout",
     "v2_hyunsu_study_followup",
@@ -306,17 +306,23 @@ def scheduled_arc_ids(events: list[dict[str, Any]]) -> set[str]:
         if event_id in by_id
     )
     chapter5_finale_source = CHAPTER5_FINALE_ROUTE.read_text(encoding="utf-8")
-    try:
-        finale_owned_block = chapter5_finale_source.split(
-            "const OWNED_EVENT_IDS:", 1)[1].split("]", 1)[0]
-    except IndexError as exc:
-        raise RuntimeError(
-            "Chapter5FinaleRoute.OWNED_EVENT_IDS could not be parsed") from exc
-    scheduled.update(
-        event_id
-        for event_id in re.findall(r'"([a-z0-9_]+)"', finale_owned_block)
-        if event_id in by_id
-    )
+    for const_name, expected_count in (
+        ("OWNED_EVENT_IDS", 11),
+        ("GENERAL_OWNED_EVENT_IDS", 3),
+    ):
+        match = re.search(
+            rf"const\s+{const_name}[^=]*=\s*\[(.*?)\n\]",
+            chapter5_finale_source,
+            re.S,
+        )
+        if match is None:
+            raise RuntimeError(
+                f"Chapter5FinaleRoute.{const_name} could not be parsed")
+        owned_ids = re.findall(r'"([a-z0-9_]+)"', match.group(1))
+        if len(owned_ids) != expected_count or len(set(owned_ids)) != expected_count:
+            raise RuntimeError(
+                f"Chapter5FinaleRoute.{const_name} exact inventory drifted")
+        scheduled.update(event_id for event_id in owned_ids if event_id in by_id)
     return scheduled
 
 

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-08-26",
+  "updated": "2026-08-27",
   "scope": "Factual release-content evidence for the current source and uploaded package; not a rating or legal opinion.",
   "decision_boundary": {
     "final_age_rating": "user_required",
@@ -102,12 +102,12 @@
   "corpus_contract": {
     "ko_event_files": 127,
     "en_event_files": 127,
-    "ko_events": 1796,
-    "en_events": 1796,
-    "event_ids_sha256": "2eb51d379ac4aaa71c8d9df47a563b6cc0c4f9d5622f0a3eae17721d7aaee593",
-    "shipping_ko_events": 1686,
-    "shipping_en_events": 1686,
-    "shipping_event_ids_sha256": "8f19695e47a2069078bc68b68e371700f5d39298a58c15c9fdd64569503ce4f1",
+    "ko_events": 1800,
+    "en_events": 1800,
+    "event_ids_sha256": "995df0e266905a3bd77d07d2860f165936a013d7f03035303391dc23b3bc4407",
+    "shipping_ko_events": 1690,
+    "shipping_en_events": 1690,
+    "shipping_event_ids_sha256": "713fcfbeffea3767d73e3e5ee33ae6875b76a2b41fb227b34e87e17e74c84316",
     "author_only_events": 110,
     "author_only_event_ids_sha256": "5ae01514f11811a91494fa88fb4b5aca30659bd5cea727d9c390508db3932fd4",
     "ko_endings": 35,

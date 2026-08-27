@@ -79,6 +79,24 @@ const CHAPTER5_FINALE_OUTBOUND_CODA_BY_CHOICE := {
 	},
 }
 
+const CHAPTER5_GENERAL_OUTBOUND_CODA_BY_CHOICE := {
+	0: {
+		"kind": "minseo_verified_fact",
+		"text": "마지막 행동 · 확인한 사실을 보내다\n그는 민서에게 그날의 대답을 다시 읽었고, 매수인 이름과 서명이 없어 오늘도 집을 샀다고 쓰지 않았다고 보냈다. 화면에는 자기 쪽 전송 시각만 남았고, 읽음·답장·다음 만남은 확정되지 않았다.",
+		"text_en": "THE LAST ACTION · SENDING THE VERIFIED FACT\nHe told Minseo he had reread the answer he gave her and still had not written that he had bought a home, because there was no buyer's name or signature. Only his sent time remained; no read receipt, reply, or next meeting was confirmed.",
+	},
+	1: {
+		"kind": "father_record_line",
+		"text": "마지막 행동 · 아버지 봉투의 한 줄\n그는 아버지 기록 봉투에 빈 의자 앞의 행동과, 매수인 이름이 없는 매물표를 자기 서명 수첩과 함께 닫았다는 오늘의 문장을 적었다. 날짜는 남았지만 방 안에 답이나 사후의 화해는 생기지 않았다.",
+		"text_en": "THE LAST ACTION · A LINE ON FATHER'S ENVELOPE\nHe wrote the empty-chair action on Father's record envelope, then added that today he had closed listings with no buyer's name beside his signed notebook. The date remained, but no answer or reconciliation beyond death appeared in the room.",
+	},
+	2: {
+		"kind": "minseo_meeting_request",
+		"text": "마지막 행동 · 다음 화요일을 묻다\n그는 민서에게 다음 화요일 저녁 일곱 시 반, 그 카페에서 삼십 분 이야기할 수 있는지 먼저 물었다. 자기 쪽 전송 시각만 생겼고, 읽음·답장·약속된 만남은 여전히 민서의 선택으로 남았다.",
+		"text_en": "THE LAST ACTION · ASKING ABOUT NEXT TUESDAY\nHe asked Minseo if she could talk for thirty minutes at that cafe next Tuesday at seven thirty. Only his sent time appeared; the read receipt, reply, and any meeting remained Minseo's to decide.",
+	},
+}
+
 func get_ending(ending_id):
 	var ending = DataRegistry.get_ending(ending_id)
 	if ending.is_empty():
@@ -133,13 +151,18 @@ func chapter5_finale_outbound_coda(
 		return {}
 	var receipt := CHAPTER5_FINALE_ROUTE.receipt_snapshot_for_stage(
 		canonical, "outbound")
-	if str(receipt.get("event_id", "")) \
-			!= "arc_y5_final_week_daeun_outbound":
+	var event_id := str(receipt.get("event_id", ""))
+	var coda_by_choice: Dictionary = {}
+	if event_id == "arc_y5_final_week_daeun_outbound":
+		coda_by_choice = CHAPTER5_FINALE_OUTBOUND_CODA_BY_CHOICE
+	elif event_id == "arc_y5_final_week_general_people_outbound":
+		coda_by_choice = CHAPTER5_GENERAL_OUTBOUND_CODA_BY_CHOICE
+	else:
 		return {}
 	var choice_index := int(receipt.get("choice_index", -1))
-	if not CHAPTER5_FINALE_OUTBOUND_CODA_BY_CHOICE.has(choice_index):
+	if not coda_by_choice.has(choice_index):
 		return {}
-	return (CHAPTER5_FINALE_OUTBOUND_CODA_BY_CHOICE[choice_index] \
+	return (coda_by_choice[choice_index] \
 		as Dictionary).duplicate(true)
 
 # NOTE: 엔딩 발동 로직은 GameState.check_game_over()에서 담당.

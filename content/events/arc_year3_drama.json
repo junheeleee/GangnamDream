@@ -149,8 +149,9 @@
           "mental": 8,
           "tint": 4
         },
-        "flags": [
-          "arc_father_legacy_seen"
+      "flags": [
+        "arc_father_legacy_seen",
+        "chapter5_general_father_legacy_0"
         ],
         "result_text": "그 말이 입 밖으로 나왔다.\n\n누가 듣진 않았다. 아버지도 없다. 그래도 했다. 그게 지금 할 수 있는 전부였다."
       },
@@ -161,8 +162,9 @@
           "intelligence": 1,
           "tint": 2
         },
-        "flags": [
-          "arc_father_legacy_seen"
+      "flags": [
+        "arc_father_legacy_seen",
+        "chapter5_general_father_legacy_1"
         ],
         "result_text": "했어요, 아버지. 지금 이만큼 왔어요. 아직 멀었어요. 근데 포기 안 해요.\n\n{name}은 그 말들을 속으로 했다. 전부 중요한 말 같았다."
       },
@@ -172,8 +174,9 @@
           "intelligence": 1,
           "tint": -1
         },
-        "flags": [
-          "arc_father_legacy_seen"
+      "flags": [
+        "arc_father_legacy_seen",
+        "chapter5_general_father_legacy_2"
         ],
         "result_text": "모니터가 켜졌다. 차트가 올라왔다.\n\n사진은 그대로 있었다. {name}도 그대로 있었다. 살아있는 사람이 할 일이 있다."
       }

@@ -76,7 +76,11 @@
         "arc_y5_father_trace_alive_exact",
         "arc_y5_father_trace_passed_exact",
         "arc_y5_final_father_answer_alive",
-        "arc_y5_final_father_answer_passed"
+        "arc_y5_final_father_answer_passed",
+        "arc_y5_general_last_page_instruction",
+        "arc_y5_general_final_record_seal",
+        "arc_final_countdown_general_near_goal_passed",
+        "arc_y5_final_week_general_people_outbound"
       ]
     },
     {
@@ -203,7 +207,11 @@
         "arc_minseo_02_real",
         "arc_minseo_03_arrival",
         "arc_minseo_03b_not_arrived",
-        "arc_y5_people_verdict_daeun_exact"
+        "arc_y5_people_verdict_daeun_exact",
+        "arc_y5_general_last_page_instruction",
+        "arc_y5_general_final_record_seal",
+        "arc_final_countdown_general_near_goal_passed",
+        "arc_y5_final_week_general_people_outbound"
       ],
       "late_by_design": "먼저 도착한 사람은 민준이 도착 근처에 갔을 때만 의미를 가진다. 1~3장에 등장하면 대비가 성립하지 않는다."
     }
@@ -240,6 +248,14 @@
         {
           "chapter": 5,
           "event": "arc_final_countdown_property_not_executed"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_y5_general_final_record_seal"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_final_countdown_general_near_goal_passed"
         }
       ],
       "planned_readers": [
@@ -806,6 +822,7 @@
       "reversal": [
         "arc_father_legacy",
         "arc_pre_ending_summit",
+        "arc_y5_general_last_page_instruction",
         "arc_y5_name_on_line_daeun_routed",
         "arc_y5_people_verdict_daeun_exact",
         "arc_y5_property_not_executed_notice"
@@ -817,13 +834,16 @@
         "arc_y5_remaining_jaehyuk_or_self",
         "arc_y5_final_father_answer_alive",
         "arc_y5_final_father_answer_passed",
-        "arc_final_countdown_property_not_executed"
+        "arc_final_countdown_property_not_executed",
+        "arc_y5_general_final_record_seal",
+        "arc_final_countdown_general_near_goal_passed"
       ],
       "aftermath": [
         "arc_final_week",
         "arc_year5_scene",
         "arc_37_ending_peace",
-        "arc_y5_final_week_daeun_outbound"
+        "arc_y5_final_week_daeun_outbound",
+        "arc_y5_final_week_general_people_outbound"
       ],
       "planned_relocations": [
         {

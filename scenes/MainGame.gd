@@ -536,7 +536,7 @@ func _route_chapter5_finale_week(keep_cover: bool = false) -> bool:
 	# The entry snapshot binds M55's exact choices, Father's monotonic trace,
 	# and the real cast before the first M56 page can be shown. Later relationship
 	# or asset movement cannot silently rewrite that final document trail.
-	if GameState.turn == CHAPTER5_FINALE_ROUTE.ENTRY_TURN:
+	if CHAPTER5_FINALE_ROUTE.is_entry_turn(GameState.turn):
 		GameState.prepare_chapter5_finale_route_entry()
 	var event_id := GameState.chapter5_finale_next_event_for_turn()
 	if event_id.is_empty() or not CHAPTER5_FINALE_ROUTE.is_owned_event(event_id):
@@ -7718,6 +7718,11 @@ func _next_arc_id(
 	if t >= 204 and t <= 214 and not f.get("arc_37_burn_or_light_seen", false):
 		return "arc_37_burn_or_light"
 	# ── 37세 마지막 평화 (t222-236) ──
+	# W229 is the one pre-entry source owned by the first general finale child.
+	# It gets the week before lower-priority peace/repetition arcs can consume it.
+	if t == 229 and GameState.chapter5_general_finale_w229_available(t) \
+			and not f.get("arc_y5_general_last_page_instruction_seen", false):
+		return "arc_y5_general_last_page_instruction"
 	if t >= 222 and t <= 236 and not chapter5_finale_locked \
 			and not f.get("arc_37_ending_peace_seen", false):
 		return "arc_37_ending_peace"

@@ -45,6 +45,23 @@ const EXPECTED_FINALE_OUTBOUND_CODAS := [
 		"text_en": "THE LAST MESSAGE · A TIME TO RETURN\nHe named the distance he needed tonight and sent that he would contact her first tomorrow at eight. Without turning silence into the relationship's ending, he kept the duty to return on his side.",
 	},
 ]
+const EXPECTED_GENERAL_OUTBOUND_CODAS := [
+	{
+		"kind": "minseo_verified_fact",
+		"text": "마지막 행동 · 확인한 사실을 보내다\n그는 민서에게 그날의 대답을 다시 읽었고, 매수인 이름과 서명이 없어 오늘도 집을 샀다고 쓰지 않았다고 보냈다. 화면에는 자기 쪽 전송 시각만 남았고, 읽음·답장·다음 만남은 확정되지 않았다.",
+		"text_en": "THE LAST ACTION · SENDING THE VERIFIED FACT\nHe told Minseo he had reread the answer he gave her and still had not written that he had bought a home, because there was no buyer's name or signature. Only his sent time remained; no read receipt, reply, or next meeting was confirmed.",
+	},
+	{
+		"kind": "father_record_line",
+		"text": "마지막 행동 · 아버지 봉투의 한 줄\n그는 아버지 기록 봉투에 빈 의자 앞의 행동과, 매수인 이름이 없는 매물표를 자기 서명 수첩과 함께 닫았다는 오늘의 문장을 적었다. 날짜는 남았지만 방 안에 답이나 사후의 화해는 생기지 않았다.",
+		"text_en": "THE LAST ACTION · A LINE ON FATHER'S ENVELOPE\nHe wrote the empty-chair action on Father's record envelope, then added that today he had closed listings with no buyer's name beside his signed notebook. The date remained, but no answer or reconciliation beyond death appeared in the room.",
+	},
+	{
+		"kind": "minseo_meeting_request",
+		"text": "마지막 행동 · 다음 화요일을 묻다\n그는 민서에게 다음 화요일 저녁 일곱 시 반, 그 카페에서 삼십 분 이야기할 수 있는지 먼저 물었다. 자기 쪽 전송 시각만 생겼고, 읽음·답장·약속된 만남은 여전히 민서의 선택으로 남았다.",
+		"text_en": "THE LAST ACTION · ASKING ABOUT NEXT TUESDAY\nHe asked Minseo if she could talk for thirty minutes at that cafe next Tuesday at seven thirty. Only his sent time appeared; the read receipt, reply, and any meeting remained Minseo's to decide.",
+	},
+]
 
 func _ready() -> void:
 	# Route identity is a data/state contract. Do not retain ending stinger streams
@@ -55,6 +72,9 @@ func _ready() -> void:
 	_check_chapter5_finale_outbound_coda_contract()
 	_check_chapter5_finale_ending_release()
 	_check_chapter5_finale_failure_priority()
+	_check_chapter5_general_outbound_coda_contract()
+	_check_chapter5_general_ending_release()
+	_check_chapter5_general_failure_priority()
 	_check_startup_before_generic_gangnam()
 	_check_first_year_gangnam_is_instant_legend()
 	_check_generic_gangnam_waits_for_final_week()
@@ -79,7 +99,7 @@ func _ready() -> void:
 		return
 	_stop_fixture_audio()
 	await get_tree().create_timer(0.5).timeout
-	print("ENDING_ROUTE_IDENTITY_CHECK_OK routes=15+finale2 coda_apply=72 coda_excluded=33 finale_coda=3 failure_priority=5 w240_canonical_once=2 instant_legend=preserved")
+	print("ENDING_ROUTE_IDENTITY_CHECK_OK routes=15+finale4 coda_apply=72 coda_excluded=33 finale_coda=6 failure_priority=10 w240_canonical_once=4 instant_legend=preserved")
 	get_tree().quit(0)
 
 func _stop_fixture_audio() -> void:
@@ -248,6 +268,107 @@ func _prepare_chapter5_finale_case(
 	if include_outbound and last_turn >= 240:
 		GameState.flags["arc_final_week_seen"] = true
 	return true
+
+
+func _prepare_chapter5_general_finale_case(
+		total_assets: float, outbound_choice: int = 0,
+		include_outbound: bool = true) -> bool:
+	_prepare_case(37)
+	GameState.player_route = "투자형"
+	GameState.tendency_realized = "invest"
+	GameState.flags["route_invest"] = true
+	GameState.money = total_assets
+	GameState.flags["father_passed"] = true
+	GameState.flags["chapter5_general_minseo_arrival_1"] = true
+	GameState.flags["chapter5_general_father_legacy_2"] = true
+	GameState.flags["chapter5_general_last_page_instruction_0"] = true
+	GameState.flags["chapter5_general_summit_1"] = true
+	GameState.event_log = [
+		{"event_id": "arc_minseo_03_arrival", "choice_index": 1, "turn": 203},
+		{"event_id": "arc_father_legacy", "choice_index": 2, "turn": 224},
+		{"event_id": "arc_y5_general_last_page_instruction", "choice_index": 0, "turn": 229},
+		{"event_id": "arc_pre_ending_summit", "choice_index": 1, "turn": 235},
+	]
+	GameState.turn = 237
+	if not GameState.prepare_chapter5_finale_route_entry():
+		return false
+	var first := GameState.record_chapter5_finale_choice(
+		"arc_y5_general_final_record_seal", 1)
+	if not bool(first.get("ok", false)):
+		return false
+	GameState.turn = 240
+	var signature := GameState.record_chapter5_finale_choice(
+		"arc_final_countdown_general_near_goal_passed", 2)
+	if not bool(signature.get("ok", false)):
+		return false
+	if not include_outbound:
+		return true
+	var outbound := GameState.record_chapter5_finale_choice(
+		"arc_y5_final_week_general_people_outbound", outbound_choice)
+	if bool(outbound.get("ok", false)):
+		GameState.flags["arc_final_week_seen"] = true
+	return bool(outbound.get("ok", false))
+
+
+func _check_chapter5_general_outbound_coda_contract() -> void:
+	for choice_index in range(3):
+		if not _prepare_chapter5_general_finale_case(150_000_000.0, choice_index):
+			_failures.append("could not build general coda choice %d" % choice_index)
+			continue
+		var ready := GameState.chapter5_finale_state.duplicate(true)
+		if not EndingSystem.chapter5_finale_outbound_coda("ordinary_life", ready).is_empty():
+			_failures.append("ready general finale exposed coda early")
+			continue
+		GameState.consume_chapter5_finale_ending()
+		var consumed := GameState.chapter5_finale_state.duplicate(true)
+		var coda := EndingSystem.chapter5_finale_outbound_coda("ordinary_life", consumed)
+		if coda != EXPECTED_GENERAL_OUTBOUND_CODAS[choice_index]:
+			_failures.append("general coda %d payload drifted" % choice_index)
+			continue
+		coda["kind"] = "mutated"
+		if EndingSystem.chapter5_finale_outbound_coda(
+			"ordinary_life", consumed) != EXPECTED_GENERAL_OUTBOUND_CODAS[choice_index]:
+			_failures.append("general coda leaked mutable payload")
+		for unsupported in ["burnout", "instant_legend", "unknown_ending"]:
+			if not EndingSystem.chapter5_finale_outbound_coda(unsupported, consumed).is_empty():
+				_failures.append("unsupported ending received general coda")
+		var corrupt := consumed.duplicate(true)
+		((corrupt["receipts"] as Dictionary)[
+			"arc_y5_final_week_general_people_outbound"] as Dictionary)["choice_index"] = 99
+		if not EndingSystem.chapter5_finale_outbound_coda("ordinary_life", corrupt).is_empty():
+			_failures.append("corrupt general state received coda")
+
+
+func _check_chapter5_general_ending_release() -> void:
+	if not _prepare_chapter5_general_finale_case(3_200_000_000.0):
+		_failures.append("could not build goal general finale")
+		return
+	_expect_no_route("general goal before consumed outbound")
+	GameState.consume_chapter5_finale_ending()
+	_expect_route("general father-passed goal release", "empty_house")
+	if not _prepare_chapter5_general_finale_case(150_000_000.0):
+		_failures.append("could not build under-goal general finale")
+		return
+	GameState.consume_chapter5_finale_ending()
+	_expect_route("general under-goal release", "ordinary_life")
+
+
+func _check_chapter5_general_failure_priority() -> void:
+	var cases := [
+		["health", 0, "burnout"], ["mental", 0, "mental_break"],
+		["money", -150_000_000.0, "bankruptcy"],
+		["money", -250_000_000.0, "debt_spiral"], ["addiction", 90, "crypto_ghost"],
+	]
+	for failure_case in cases:
+		if not _prepare_chapter5_general_finale_case(3_200_000_000.0):
+			_failures.append("could not build general failure-priority fixture")
+			return
+		match str(failure_case[0]):
+			"health": GameState.health = int(failure_case[1])
+			"mental": GameState.mental = int(failure_case[1])
+			"money": GameState.money = float(failure_case[1])
+			"addiction": GameState.addiction_tendency = int(failure_case[1])
+		_expect_route("general immediate %s priority" % failure_case[2], str(failure_case[2]))
 
 func _check_chapter5_finale_outbound_coda_contract() -> void:
 	var outbound_event: Dictionary = DataRegistry.find_event(

@@ -3077,6 +3077,21 @@
               "reads": {"memories": [], "decision": null, "carryovers": []},
               "writes": {"memories": [], "decision": null, "carryovers": []},
               "forgone": ["다은의 시간과 민서의 문서 판정을 하나의 승인이나 용서로 합치는 결론"]
+            },
+            {
+              "id": "m58_general_last_page_instruction_product",
+              "scene_id": "m58_general_last_page_instruction_product",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y5_general_last_page_instruction",
+              "rule_status": "mapped",
+              "intent": "M51 민서에게 실제로 한 대답과 M56 빈 의자 앞에서 실제로 한 행동 중 무엇을 마지막 장의 첫 줄로 둘지 정한다. 민서나 별세한 아버지의 새 대답은 만들지 않는다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["이번 색인에서 둘째 줄의 첨부 기록으로 남긴 다른 과거 행동"]
             }
           ]
         },
@@ -3165,6 +3180,21 @@
           ],
           "beats": [
             {
+              "id": "m60_general_final_record_seal_product",
+              "scene_id": "m60_general_final_record_seal_product",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_y5_general_final_record_seal",
+              "rule_status": "mapped",
+              "intent": "W229 색인과 W234의 매수인·서명·등기·열쇠가 없는 매물표를 한 파일에 봉인하되 어느 사실을 최종 서명 앞의 첫 장으로 둘지 정한다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["봉인 파일의 표지가 되지 않은 다른 기록 순서"]
+            },
+            {
               "id": "m60_final_signature",
               "scene_id": "m60_final_signature",
               "kind": "decision",
@@ -3184,6 +3214,7 @@
                   {"values": ["unfiled_not_executed"], "root": "arc_final_countdown_not_executed", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m55_three_in_room", "memory.m59_contract_result"], "decision": "story.partner_name_use", "carryovers": []}, "forgone": ["자기 명의 접수본과 실행·전달 영수증이 함께 남은 결말"]},
                   {"values": ["other_filing_executed"], "root": "arc_final_countdown_other_filing_executed", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m55_three_in_room", "memory.m59_contract_result"], "decision": "story.partner_name_use", "carryovers": []}, "forgone": ["민준 자기 명의만으로 실행한 기준 서명"]},
                   {"values": ["filed_not_executed"], "root": "arc_final_countdown_filed_not_executed", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m55_three_in_room", "memory.m59_contract_result"], "decision": "story.partner_name_use", "carryovers": []}, "forgone": ["접수한 문서가 실제 돈·원본 전달까지 이어진 결말"]},
+                  {"values": ["general_near_goal_father_passed"], "root": "arc_final_countdown_general_near_goal_passed", "work": "EXPAND", "rule_status": "mapped", "channel": "internal", "cast": ["player"], "reads": {"memories": [], "decision": null, "carryovers": []}, "forgone": ["이번 수첩에서 고르지 않은 두 책임 해석"]},
                   {"values": ["*"], "root": "arc_final_countdown_signature_document_other", "work": "NEW", "rule_status": "planned", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m55_three_in_room", "memory.m59_contract_result"], "decision": "story.partner_name_use", "carryovers": []}, "forgone": ["정상적인 접수·실행 조합으로 닫힌 마지막 서명"]}
                 ]
               },
@@ -3263,6 +3294,32 @@
               "cast": ["player", "daeun"],
               "reads": {"memories": [], "decision": null, "carryovers": []},
               "writes": {"memories": [], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "route.m60.outbound",
+                "base_values": ["property_daeun"],
+                "fallbacks": [
+                  {
+                    "values": ["general_near_goal_father_passed"],
+                    "root": "arc_y5_final_week_general_people_outbound",
+                    "work": "EXPAND",
+                    "rule_status": "mapped",
+                    "channel": "internal",
+                    "cast": ["player"],
+                    "reads": {"memories": [], "decision": null, "carryovers": []},
+                    "forgone": ["이번 밤 먼저 남기지 않은 다른 두 사람 쪽 행동"]
+                  },
+                  {
+                    "values": ["*"],
+                    "root": "arc_final_week",
+                    "work": "EXPAND",
+                    "rule_status": "needs_rule",
+                    "channel": "internal",
+                    "cast": ["player"],
+                    "reads": {"memories": [], "decision": null, "carryovers": []},
+                    "forgone": ["정확한 인물 영수증을 가진 경로의 먼저 보낸 행동"]
+                  }
+                ]
+              },
               "forgone": ["이번 밤 보내지 않은 두 구체 행동과 그 행동이 열었을 다음 만남의 가능성"]
             }
           ]

@@ -375,7 +375,48 @@ MainGame 복귀에서 먼저 `ready → consumed`를 한 번만 쓴 뒤 기존
 outbound receipt가 `사람들의 이후` 카드에서 실제 선택만 회수하고,
 답장·용서·만남은 만들지 않는다.
 
-career/startup과 일반 안전 런은 이 프로필이 사실인 것처럼 바인딩하지 않는다.
+#### 25억원 문턱·아버지 별세 일반 finale 영수증
+
+`Chapter5FinaleRoute`의 두 번째 프로필 `general_near_goal_father_passed`는 기존
+property 원장과 분리된 schema 1 `chapter5_general_finale_ledger.json`을 쓴다.
+새 저장 필드를 추측해 채우지 않고, 다음 네 source 사건의 `event_id`·0-based
+choice index·정확히 하나인 locale-neutral flag를 함께 확인한다.
+
+| source | 선택 범위 | 마지막 독자 |
+|---|---:|---|
+| M51 `arc_minseo_03_arrival` | 0~1 | W229 색인, W237 봉인, W240 선발신 |
+| M56 `arc_father_legacy` | 0~2 | W229 색인, W237 봉인, W240 선발신 |
+| W229 `arc_y5_general_last_page_instruction` | 0~1 | W237 봉인, W240 서명 |
+| M59 `arc_pre_ending_summit` | 0~1 | W237 봉인, W240 서명 |
+
+투자·부동산 finale entry가 없고 아버지 별세가 고정됐으며 위 네 source가 하나씩
+완전할 때만 W237에 진입한다. 원장은 `record_seal → signature → outbound` 3루트·
+8선택을 W237, W240, 같은 W240 순서로 write-once 저장한다. W237 봉인 2선택은
+색인과 매수인 이름이 빈 매물표의 앞뒤만 정하고, W240 서명 3선택은 확인된 사실·
+이름과 시간·먼저 할 행동을 서로 다른 방식으로 해석한다. 이어지는 선발신 3선택은
+민서 채널에 사실을 보내기, 아버지 기록 봉투에 한 줄을 남기기, 민서에게 구체적인
+다음 주 시각을 묻기 중 민준이 실제로 한 행동 하나만 남긴다.
+
+경로 정체성은 정상 writer가 만드는 두 형태만 허용한다. 아직 자각하지 않은
+`none + tendency "" + route_invest false/없음`, 또는 부동산 원장이 잠기지 않은
+`투자형 + tendency ""/invest + route_invest exact true`다. career/startup 이력이
+true로 남았거나 경로 flag가 비-bool이거나 세 값이 서로 모순되면 W229와 W237 모두
+기존 generic 흐름으로 fail-closed한다. entry가 한 번 잠긴 뒤에는 이후 정체성 변화로
+원장 배우와 source를 다시 쓰지 않는다.
+
+세 receipt의 `economic_outcome`은 비어 있다. 25억원대 매물표는 매매계약·이체·
+등기·열쇠·부동산 소유권이 아니며, 민서의 읽음·답장·만남 수락과 떠난 아버지의
+대답도 만들지 않는다. W237과 W240의 현재 방에는 민준 혼자 있고 두 사람은 연락
+채널·봉투·기억으로만 읽힌다. outbound 뒤에만 `pending → ready`, MainGame
+복귀에서 `ready → consumed`가 한 번 진행된 뒤 기존 엔딩 판정으로 넘어간다.
+
+source 누락·복수 true·event log 불일치·생존 아버지·다른 일반 자산 구간은
+빈 상태를 바꾸지 않고 기존 generic finale가 소유한다. 기존
+`investment_safe_no_execution` 11루트·30선택/한 런 9·24, 즉시 실패 우선순위,
+33세 Chapter 1의 30억원 `instant_legend`는 그대로다.
+
+career/startup과 위 네 source가 불완전한 그 밖의 일반 안전 런은 어느 finale
+프로필도 사실인 것처럼 바인딩하지 않는다.
 기존 32루트·86선택은 계속 `reference_only`이며, 각 경제 경로의 실제 배우·문서·
 물질 결과가 있는 별도 프로필이 생기기 전에는 제품 consumer를 붙이지 않는다.
 
@@ -403,4 +444,7 @@ write-once 영수증 저장까지 제품에 연결됐다. 47선택 전부가 cho
 9루트·24선택으로 W221~W240을 잇고, M59 경제 변화 0과 W240 두 장면 뒤 기존
 엔딩 판정에 한 번만 넘긴다. 자동 검사는 인과·저장·결말 해제를 증명할 뿐 이
 결말이 충분히 격동적이고 선택의 포기가 기억나는지는 정상 속도 사람 플레이가
-판정한다. career/startup의 별도 32루트·86선택은 계속 reference-only다.
+판정한다. 첫 일반 프로필은 W229 2선택을 source로 더하고 W237/W240/W240의
+별도 원장 3루트·8선택으로 네 source의 exact choice를 회수한다. 이 후보도
+정상 속도 사람이 마지막 밤의 회수가 충분한지 판정하기 전에는 main 제품 완료로
+승격하지 않는다. career/startup의 별도 32루트·86선택은 계속 reference-only다.

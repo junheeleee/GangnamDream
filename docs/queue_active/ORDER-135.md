@@ -108,9 +108,14 @@ transaction/read/same-turn 계약 재사용을 우선하며 결함이 증명될 
 `content/events{,_en}/arc_pre_ending.json`,
 `content/events{,_en}/arc_drama.json`.
 
+**연출 원장:** `assets/scene_audio_manifest.json`,
+`assets/scene_direction_manifest.json`. 신규 네 장면의 기존 cue·같은 장소 연속성을
+등록하는 파일이며 오디오 파일·배경·초상 원화 자체는 바꾸지 않는다.
+
 **제품·서사 계약:** `content/meta/event_lifecycle.json`,
 `content/meta/event_director.json`, `content/meta/story_map.json`,
 `content/meta/story_rules.json`, `content/meta/narrative_spine.json`,
+`content/meta/exposed_event_state_contracts.json`,
 `content/meta/release_content_inventory.json`, `docs/STORY_BIBLE.md`,
 `docs/CHOICE_CONSEQUENCE_SYSTEM.md`, `docs/SCENE_TIER.md`,
 `docs/ENDING_CONTRACT.md`, `docs/QA_CHECKLIST.md`, 생성본
@@ -120,11 +125,15 @@ transaction/read/same-turn 계약 재사용을 우선하며 결함이 증명될 
 `tools/chapter5_general_finale_route_audit.py`,
 `tools/Chapter5FinaleRouteCheck.gd`, `tools/CoreChoiceSliceCheck.gd`,
 `tools/ManualSaveCheck.gd`, `tools/EndingRouteIdentityCheck.gd`,
+`tools/ScreenshotQA.gd`,
 `tools/event_lifecycle.py`, `tools/event_director_audit.py`,
 `tools/story_map_audit.py`, `tools/narrative_spine_audit.py`,
 `tools/narrative_continuity_audit.py`, `tools/full_run_pacing_audit.py`,
+`tools/story_consistency_audit.py`, `tools/peak_scene_chain_audit.py`,
+`tools/exposed_state_consistency_audit.py`,
 `tools/arc_flow_sim.py`, `tools/i18n_coverage_check.py`, `tools/audit.py`,
 `tools/audit_scope.json`, `tools/audit.sh`,
+`tools/year5_reference_route_audit.py`,
 `tools/chapter1_core_loop_v2_causal_ledger_check.py`의 exact source snapshot.
 
 **선언·마감:** `docs/CODEX_QUEUE.md`, 이 사양, `CLAUDE.md`,
@@ -134,6 +143,29 @@ transaction/read/same-turn 계약 재사용을 우선하며 결함이 증명될 
 `systems/Year5ReferenceRouteKernel.gd`, 기존 property causal/finale 원장 산문은
 수정하지 않는다. `GameState.check_game_over()`는 변경하지 않고 즉시 실패→finale
 hold→`instant_legend`→일반 30억 순서를 그대로 보존한다.
+
+## L1/L2 후보 증거 (2026-08-27)
+
+- **L1 GREEN:** source+finale `4 roots / 10 choices`, 별도 finale 원장 `3/8`, 기존
+  property `11/30`·한 런 `9/24`, career/startup reference `32/86`, 33세
+  `instant_legend`를 보존했다. exact source flag+event log, neutral/investor 경로 tuple,
+  father/contact exact bool, entry/receipt write-once, JSON 저장, 손상·legacy fallback,
+  same-turn outbound, ending pending→ready→consumed를 Python mutation 24건과 Godot
+  reducer·CoreChoice·ManualSave·EndingRouteIdentity로 실행했다.
+- **L2 화면 GREEN:** KO/EN × 960×600·1280×800·1920×1080의 W229·W237·W240
+  signature·outbound·ending 78/78장을 전수 확인했다. 검은 전환, 잘림·겹침, 초점,
+  언어 누출, 민서·아버지의 허위 동석은 0이다. 기존 property KO/EN 1280도 각
+  10장을 다시 렌더해 W240 same-turn·ending handoff를 보존했다.
+- **보호 바이트:** `project.godot` git hash
+  `de7af180446a6976bdbb622d9d814175d0869115`, SHA-256
+  `78e98d7bdc1349570df6f2cc7ca6cbb11d4fc5451f5bbfdd338561653c7380c5`.
+
+| 행 | 도달·producer → reader | before → after | 이번에 포기한 것 | 화면에 남은 물성·근거 |
+|---:|---|---|---|---|
+| 1 | W229 · M51 민서 대답 + M56 빈 의자 행동 → `last_page_instruction` | 마지막 장의 첫 줄 없음 → 둘 중 하나의 exact index·event-log 영수증 | 고르지 않은 문장은 표지가 아니라 첨부 기록으로 밀림 | 수첩 사이의 색인 한 장과 펜 · `content/events/arc_pre_ending.json:414`, `autoloads/GameState.gd:491` |
+| 2 | W237 · 네 source + 별세/경로 tuple → `record_seal` | generic W237·hold 없음 → immutable entry와 봉인 receipt, 그 주 직접 소유 | 색인과 빈 매수인 칸 중 고르지 않은 한쪽은 파일 첫 장을 잃음 | 날짜를 쓴 투명 파일·25억원대 매물표 세 장·빈 매수인 이름 · `content/events/arc_pre_ending.json:463`, `content/meta/chapter5_general_finale_ledger.json:42`, `autoloads/GameState.gd:537` |
+| 3 | W240 · 봉인 receipt → `signature` | ending pending → 서명 receipt는 남지만 outbound 전까지 계속 pending | 확인 사실/이름과 시간/사람 이름 우선 중 고르지 않은 두 해석 | 수첩 마지막 면의 세 칸과 자기 이름 한 번 · `content/events/arc_pre_ending.json:540`, `content/meta/chapter5_general_finale_ledger.json:97` |
+| 4 | 같은 W240 · signature → `outbound` → ending coda | pending → outbound 뒤 ready → MainGame 복귀에서 consumed 1회 | 보내지 않거나 쓰지 않은 다른 두 행동은 그 밤 기록에 남지 않음 | 민서 채널의 자기 쪽 전송 시각 또는 아버지 봉투의 날짜 한 줄 · `content/events/arc_drama.json:1473`, `content/meta/chapter5_general_finale_ledger.json:148`, `autoloads/GameState.gd:601`, `systems/EndingSystem.gd:158` |
 
 ## 완료 판정
 

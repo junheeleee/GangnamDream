@@ -1,7 +1,7 @@
 extends RefCounted
 class_name Chapter5FinaleRoute
 
-## Locale-neutral, save-safe reducer for the M56-M60 property finale.
+## Locale-neutral, save-safe reducer for authored Chapter 5 finales.
 ## The reducer records authored paper/person choices only. It never applies
 ## money, asset, debt, stat, flag, or ending effects itself.
 
@@ -17,6 +17,17 @@ const EXPECTED_ROOT_COUNT := 11
 const EXPECTED_ACTIVE_ROOT_COUNT := 9
 const EXPECTED_CHOICE_COUNT := 30
 const EXPECTED_ACTIVE_CHOICE_COUNT := 24
+
+const GENERAL_LEDGER_PATH := \
+	"res://content/meta/chapter5_general_finale_ledger.json"
+const GENERAL_LEDGER_ID := "chapter5_general_near_goal_passed_finale_v1"
+const GENERAL_PROFILE_ID := "general_near_goal_father_passed"
+const GENERAL_SOURCE_ROUTE_ID := "general_story"
+const GENERAL_ENTRY_TURN := 237
+const GENERAL_EXPECTED_ROOT_COUNT := 3
+const GENERAL_EXPECTED_ACTIVE_ROOT_COUNT := 3
+const GENERAL_EXPECTED_CHOICE_COUNT := 8
+const GENERAL_EXPECTED_ACTIVE_CHOICE_COUNT := 8
 
 const STAGES: Array[String] = [
 	"father_trace",
@@ -149,6 +160,91 @@ const READ_SOURCES := {
 		{"kind": "finale_stage", "id": "signature"},
 	],
 }
+const GENERAL_STAGES: Array[String] = [
+	"record_seal",
+	"signature",
+	"outbound",
+]
+const GENERAL_OWNED_EVENT_IDS: Array[String] = [
+	"arc_y5_general_final_record_seal",
+	"arc_final_countdown_general_near_goal_passed",
+	"arc_y5_final_week_general_people_outbound",
+]
+const GENERAL_OWNED_TURNS: Array[int] = [237, 240, 240]
+const GENERAL_ROOT_CHOICE_COUNTS: Array[int] = [2, 3, 3]
+const GENERAL_SOURCE_CHOICE_KEYS: Array[String] = [
+	"m51_minseo_arrival",
+	"m56_father_legacy",
+	"w229_last_page_instruction",
+	"m59_summit",
+]
+const GENERAL_ACTORS := {
+	"chooser": "player",
+	"father": "father",
+	"cost_witness": "minseo",
+}
+const GENERAL_ROOT_ACTORS := {
+	"arc_y5_general_final_record_seal": {
+		"chooser": "player", "father": "father", "cost_witness": "minseo",
+	},
+	"arc_final_countdown_general_near_goal_passed": {
+		"chooser": "player", "father": "father",
+	},
+	"arc_y5_final_week_general_people_outbound": {
+		"chooser": "player", "father": "father", "cost_witness": "minseo",
+	},
+}
+const GENERAL_READ_SOURCES := {
+	"arc_y5_general_final_record_seal": [
+		{
+			"kind": "entry_value",
+			"path": "source_choices.m51_minseo_arrival",
+			"values": [0.0, 1.0],
+		},
+		{
+			"kind": "entry_value",
+			"path": "source_choices.m56_father_legacy",
+			"values": [0.0, 1.0, 2.0],
+		},
+		{
+			"kind": "entry_value",
+			"path": "source_choices.w229_last_page_instruction",
+			"values": [0.0, 1.0],
+		},
+		{
+			"kind": "entry_value",
+			"path": "source_choices.m59_summit",
+			"values": [0.0, 1.0],
+		},
+	],
+	"arc_final_countdown_general_near_goal_passed": [
+		{
+			"kind": "entry_value",
+			"path": "source_choices.w229_last_page_instruction",
+			"values": [0.0, 1.0],
+		},
+		{
+			"kind": "entry_value",
+			"path": "source_choices.m59_summit",
+			"values": [0.0, 1.0],
+		},
+		{"kind": "finale_stage", "id": "record_seal"},
+	],
+	"arc_y5_final_week_general_people_outbound": [
+		{"kind": "finale_stage", "id": "record_seal"},
+		{"kind": "finale_stage", "id": "signature"},
+		{
+			"kind": "entry_value",
+			"path": "source_choices.m51_minseo_arrival",
+			"values": [0.0, 1.0],
+		},
+		{
+			"kind": "entry_value",
+			"path": "source_choices.m56_father_legacy",
+			"values": [0.0, 1.0, 2.0],
+		},
+	],
+}
 const NO_EXECUTABLE_CONTRACT_OUTCOME := {
 	"kind": "none",
 	"reason": "no_executable_contract",
@@ -177,6 +273,8 @@ const CLOSE_REASONS: Array[String] = [
 
 static var _ledger_cache: Dictionary = {}
 static var _ledger_checked := false
+static var _general_ledger_cache: Dictionary = {}
+static var _general_ledger_checked := false
 
 
 static func default_state() -> Dictionary:
@@ -190,6 +288,68 @@ static func default_state() -> Dictionary:
 		"order": [],
 		"ending_check": "pending",
 	}
+
+
+static func ledger_id_for_profile(profile_id: String) -> String:
+	if profile_id == PROFILE_ID:
+		return LEDGER_ID
+	if profile_id == GENERAL_PROFILE_ID:
+		return GENERAL_LEDGER_ID
+	return ""
+
+
+static func ledger_path_for_profile(profile_id: String) -> String:
+	if profile_id == PROFILE_ID:
+		return LEDGER_PATH
+	if profile_id == GENERAL_PROFILE_ID:
+		return GENERAL_LEDGER_PATH
+	return ""
+
+
+static func profile_for_ledger_id(ledger_id: String) -> String:
+	if ledger_id == LEDGER_ID:
+		return PROFILE_ID
+	if ledger_id == GENERAL_LEDGER_ID:
+		return GENERAL_PROFILE_ID
+	return ""
+
+
+static func profile_for_event(event_id: String) -> String:
+	if event_id in OWNED_EVENT_IDS:
+		return PROFILE_ID
+	if event_id in GENERAL_OWNED_EVENT_IDS:
+		return GENERAL_PROFILE_ID
+	return ""
+
+
+static func stages_for_profile(profile_id: String) -> Array[String]:
+	if profile_id == PROFILE_ID:
+		return STAGES.duplicate()
+	if profile_id == GENERAL_PROFILE_ID:
+		return GENERAL_STAGES.duplicate()
+	return []
+
+
+static func owned_event_ids_for_profile(profile_id: String) -> Array[String]:
+	if profile_id == PROFILE_ID:
+		return OWNED_EVENT_IDS.duplicate()
+	if profile_id == GENERAL_PROFILE_ID:
+		return GENERAL_OWNED_EVENT_IDS.duplicate()
+	return []
+
+
+static func entry_turn_for_profile(profile_id: String) -> int:
+	if profile_id == PROFILE_ID:
+		return ENTRY_TURN
+	if profile_id == GENERAL_PROFILE_ID:
+		return GENERAL_ENTRY_TURN
+	return -1
+
+
+static func is_entry_turn(turn: int, profile_id: String = "") -> bool:
+	if profile_id.is_empty():
+		return turn == ENTRY_TURN or turn == GENERAL_ENTRY_TURN
+	return turn == entry_turn_for_profile(profile_id)
 
 
 static func state_from_save(
@@ -228,9 +388,10 @@ static func lock_entry(
 		if _same(existing, candidate):
 			return _success(current, true)
 		return _failure("entry_conflict", current)
-	if turn != ENTRY_TURN:
+	if not is_entry_turn(turn, profile_id):
 		return _failure("entry_turn_mismatch", current)
 	var next_state := current.duplicate(true)
+	next_state["ledger_id"] = ledger_id_for_profile(profile_id)
 	next_state["entry"] = candidate
 	return _success(next_state, false)
 
@@ -253,13 +414,15 @@ static func entry_snapshot(state: Dictionary) -> Dictionary:
 
 static func is_owned_event(event_id: String) -> bool:
 	# Keep ownership closed even if the external ledger cannot be parsed.
-	return event_id in OWNED_EVENT_IDS
+	return not profile_for_event(event_id).is_empty()
 
 
 static func expected_read_contract(event_id: String) -> Dictionary:
-	if not is_owned_event(event_id) or _ledger().is_empty():
+	var profile_id := profile_for_event(event_id)
+	var ledger := _ledger_for_profile(profile_id)
+	if profile_id.is_empty() or ledger.is_empty():
 		return {}
-	var root := _root_by_id(_ledger(), event_id)
+	var root := _root_by_id(ledger, event_id)
 	if root.is_empty():
 		return {}
 	return {
@@ -278,7 +441,7 @@ static func next_event_for_turn(state: Dictionary, turn: int) -> String:
 			or str(current.get("ending_check", "")) == "consumed":
 		return ""
 	var root := _next_active_root(
-		_ledger(), current["entry"] as Dictionary,
+		_ledger_for_state(current), current["entry"] as Dictionary,
 		current["receipts"] as Dictionary)
 	if root.is_empty() or int(root.get("turn", -1)) != turn:
 		return ""
@@ -303,7 +466,8 @@ static func choice_commit_available(
 	if str(current.get("status", "")) != "open" \
 			or (current.get("entry", {}) as Dictionary).is_empty():
 		return false
-	var root := _root_by_id(_ledger(), event_id)
+	var ledger := _ledger_for_state(current)
+	var root := _root_by_id(ledger, event_id)
 	if root.is_empty() or int(root.get("turn", -1)) != turn \
 			or not _root_active_for_entry(root, current["entry"] as Dictionary):
 		return false
@@ -317,7 +481,7 @@ static func choice_commit_available(
 	if str(current.get("ending_check", "")) == "consumed":
 		return false
 	return str(_next_active_root(
-		_ledger(), current["entry"] as Dictionary, receipts
+		ledger, current["entry"] as Dictionary, receipts
 	).get("event_id", "")) == event_id
 
 
@@ -334,7 +498,8 @@ static func commit_choice(
 		return _failure("entry_missing", current)
 	if not is_owned_event(event_id):
 		return _failure("event_unowned", current)
-	var root := _root_by_id(_ledger(), event_id)
+	var ledger := _ledger_for_state(current)
+	var root := _root_by_id(ledger, event_id)
 	if root.is_empty() or int(root.get("turn", -1)) != turn:
 		return _failure("turn_mismatch", current)
 	if not _root_active_for_entry(root, current["entry"] as Dictionary):
@@ -351,7 +516,7 @@ static func commit_choice(
 	if str(current.get("ending_check", "")) == "consumed":
 		return _failure("ending_consumed", current)
 	var expected := _next_active_root(
-		_ledger(), current["entry"] as Dictionary, receipts)
+		ledger, current["entry"] as Dictionary, receipts)
 	if str(expected.get("event_id", "")) != event_id:
 		return _failure("root_order", current)
 	var next_state := current.duplicate(true)
@@ -375,7 +540,7 @@ static func receipt_matches(
 	if not bool(checked.get("ok", false)):
 		return false
 	var current: Dictionary = checked["state"]
-	var root := _root_by_id(_ledger(), event_id)
+	var root := _root_by_id(_ledger_for_state(current), event_id)
 	if root.is_empty() or int(root.get("turn", -1)) != turn \
 			or not _root_active_for_entry(root, current["entry"] as Dictionary) \
 			or _choice_by_index(root, choice_index).is_empty():
@@ -409,12 +574,14 @@ static func receipt_snapshot_by_stage(
 
 static func receipt_snapshot_for_stage(
 		state: Dictionary, stage: String) -> Dictionary:
-	if stage not in STAGES:
-		return {}
 	var checked := _canonical_state(state)
 	if not bool(checked.get("ok", false)):
 		return {}
 	var current: Dictionary = checked["state"]
+	var entry: Dictionary = current["entry"]
+	var profile_id := str(entry.get("profile_id", PROFILE_ID))
+	if stage not in stages_for_profile(profile_id):
+		return {}
 	var receipts: Dictionary = current["receipts"]
 	for raw_event_id in current["order"] as Array:
 		var event_id := str(raw_event_id)
@@ -435,7 +602,8 @@ static func selected_choice_for_stage(state: Dictionary, stage: String) -> int:
 
 
 static func choice_count_for_event(event_id: String) -> int:
-	var root := _root_by_id(_ledger(), event_id)
+	var root := _root_by_id(
+		_ledger_for_profile(profile_for_event(event_id)), event_id)
 	return (root.get("choices", []) as Array).size() \
 		if root.get("choices", []) is Array else 0
 
@@ -448,18 +616,20 @@ static func choice_count_for_stage(state: Dictionary, stage: String) -> int:
 	if (current.get("entry", {}) as Dictionary).is_empty():
 		return 0
 	var root := _active_root_for_stage(
-		_ledger(), current["entry"] as Dictionary, stage)
+		_ledger_for_state(current), current["entry"] as Dictionary, stage)
 	return (root.get("choices", []) as Array).size() \
 		if root.get("choices", []) is Array else 0
 
 
 static func event_stage(event_id: String) -> String:
-	var root := _root_by_id(_ledger(), event_id)
+	var root := _root_by_id(
+		_ledger_for_profile(profile_for_event(event_id)), event_id)
 	return str(root.get("stage", "")) if not root.is_empty() else ""
 
 
 static func event_sequence(event_id: String) -> int:
-	var root := _root_by_id(_ledger(), event_id)
+	var root := _root_by_id(
+		_ledger_for_profile(profile_for_event(event_id)), event_id)
 	return int(root.get("stage_sequence", -1)) if not root.is_empty() else -1
 
 
@@ -471,11 +641,13 @@ static func week_completed(state: Dictionary, turn: int) -> bool:
 	if str(current.get("status", "")) != "open" \
 			or (current.get("entry", {}) as Dictionary).is_empty():
 		return false
+	var entry: Dictionary = current["entry"]
+	var ledger := _ledger_for_state(current)
 	var receipts: Dictionary = current["receipts"]
 	var active_count := 0
-	for stage in STAGES:
+	for stage in stages_for_profile(str(entry.get("profile_id", ""))):
 		var root := _active_root_for_stage(
-			_ledger(), current["entry"] as Dictionary, stage)
+			ledger, entry, stage)
 		if root.is_empty() or int(root.get("turn", -1)) != turn:
 			continue
 		active_count += 1
@@ -492,7 +664,7 @@ static func route_complete(state: Dictionary) -> bool:
 	return str(current.get("status", "")) == "open" \
 		and not (current.get("entry", {}) as Dictionary).is_empty() \
 		and _next_active_root(
-			_ledger(), current["entry"] as Dictionary,
+			_ledger_for_state(current), current["entry"] as Dictionary,
 			current["receipts"] as Dictionary).is_empty()
 
 
@@ -548,52 +720,103 @@ static func close_route(state: Dictionary, reason: String) -> Dictionary:
 static func _canonical_entry(
 		route_id: String, profile_id: String, source_choices: Dictionary,
 		father: Dictionary, actors: Dictionary) -> Dictionary:
-	if route_id != ROUTE_ID or profile_id != PROFILE_ID \
-			or not _valid_source_choices(source_choices) \
-			or not _valid_father(father) or not _same(actors, ACTORS):
+	var expected_actors := _actors_for_profile(profile_id)
+	if route_id != ROUTE_ID or expected_actors.is_empty() \
+			or not _valid_source_choices(source_choices, profile_id) \
+			or not _valid_father(father, profile_id) \
+			or not _same(actors, expected_actors):
 		return {}
 	return {
 		"route_id": ROUTE_ID,
-		"turn": ENTRY_TURN,
-		"profile_id": PROFILE_ID,
-		"source_route_id": SOURCE_ROUTE_ID,
+		"turn": entry_turn_for_profile(profile_id),
+		"profile_id": profile_id,
+		"source_route_id": _source_route_id_for_profile(profile_id),
 		"source_choices": source_choices.duplicate(true),
 		"father": father.duplicate(true),
-		"actor_bindings": ACTORS.duplicate(true),
+		"actor_bindings": expected_actors.duplicate(true),
 	}
 
 
 static func _valid_entry(entry: Dictionary) -> bool:
+	var profile_id := str(entry.get("profile_id", ""))
+	var expected_actors := _actors_for_profile(profile_id)
 	return _has_exact_keys(entry, ENTRY_KEYS) \
 		and str(entry.get("route_id", "")) == ROUTE_ID \
 		and _is_exact_int(entry.get("turn")) \
-		and int(entry.get("turn", -1)) == ENTRY_TURN \
-		and str(entry.get("profile_id", "")) == PROFILE_ID \
-		and str(entry.get("source_route_id", "")) == SOURCE_ROUTE_ID \
+		and int(entry.get("turn", -1)) == entry_turn_for_profile(profile_id) \
+		and not expected_actors.is_empty() \
+		and str(entry.get("source_route_id", "")) \
+			== _source_route_id_for_profile(profile_id) \
 		and entry.get("source_choices") is Dictionary \
-		and _valid_source_choices(entry["source_choices"] as Dictionary) \
+		and _valid_source_choices(
+			entry["source_choices"] as Dictionary, profile_id) \
 		and entry.get("father") is Dictionary \
-		and _valid_father(entry["father"] as Dictionary) \
+		and _valid_father(entry["father"] as Dictionary, profile_id) \
 		and entry.get("actor_bindings") is Dictionary \
-		and _same(entry["actor_bindings"], ACTORS)
+		and _same(entry["actor_bindings"], expected_actors)
 
 
-static func _valid_source_choices(source_choices: Dictionary) -> bool:
-	if not _has_exact_keys(source_choices, SOURCE_CHOICE_KEYS):
+static func _valid_source_choices(
+		source_choices: Dictionary, profile_id: String = PROFILE_ID) -> bool:
+	var keys := _source_choice_keys_for_profile(profile_id)
+	if keys.is_empty() or not _has_exact_keys(source_choices, keys):
 		return false
-	for key in SOURCE_CHOICE_KEYS:
+	for key in keys:
+		var max_index := _source_choice_max_for_profile(profile_id, key)
 		if not _is_exact_int(source_choices.get(key)) \
-				or int(source_choices[key]) < 0 or int(source_choices[key]) > 2:
+				or int(source_choices[key]) < 0 \
+				or int(source_choices[key]) > max_index:
 			return false
 	return true
 
 
-static func _valid_father(father: Dictionary) -> bool:
-	return _has_exact_keys(father, FATHER_KEYS) \
-		and father.get("life") is String \
-		and str(father.get("life", "")) in FATHER_LIFE_VALUES \
+static func _valid_father(
+		father: Dictionary, profile_id: String = PROFILE_ID) -> bool:
+	if not _has_exact_keys(father, FATHER_KEYS) \
+			or not father.get("life") is String \
+			or not father.get("contact_mode") is String:
+		return false
+	var life := str(father.get("life", ""))
+	return life in FATHER_LIFE_VALUES \
+		and (profile_id != GENERAL_PROFILE_ID or life == "passed") \
 		and father.get("contact_mode") is String \
 		and str(father.get("contact_mode", "")) in FATHER_CONTACT_VALUES
+
+
+static func _source_route_id_for_profile(profile_id: String) -> String:
+	if profile_id == PROFILE_ID:
+		return SOURCE_ROUTE_ID
+	if profile_id == GENERAL_PROFILE_ID:
+		return GENERAL_SOURCE_ROUTE_ID
+	return ""
+
+
+static func _source_choice_keys_for_profile(profile_id: String) -> Array[String]:
+	if profile_id == PROFILE_ID:
+		return SOURCE_CHOICE_KEYS.duplicate()
+	if profile_id == GENERAL_PROFILE_ID:
+		return GENERAL_SOURCE_CHOICE_KEYS.duplicate()
+	return []
+
+
+static func _source_choice_max_for_profile(
+		profile_id: String, key: String) -> int:
+	if profile_id == PROFILE_ID and key in SOURCE_CHOICE_KEYS:
+		return 2
+	if profile_id == GENERAL_PROFILE_ID:
+		if key == "m56_father_legacy":
+			return 2
+		if key in GENERAL_SOURCE_CHOICE_KEYS:
+			return 1
+	return -1
+
+
+static func _actors_for_profile(profile_id: String) -> Dictionary:
+	if profile_id == PROFILE_ID:
+		return ACTORS.duplicate(true)
+	if profile_id == GENERAL_PROFILE_ID:
+		return GENERAL_ACTORS.duplicate(true)
+	return {}
 
 
 static func _closed_state(reason: String) -> Dictionary:
@@ -621,7 +844,8 @@ static func _normalize_saved_exact_ints(state: Dictionary) -> Dictionary:
 		var raw_choices: Variant = entry.get("source_choices")
 		if raw_choices is Dictionary:
 			var choices: Dictionary = (raw_choices as Dictionary).duplicate(true)
-			for key in SOURCE_CHOICE_KEYS:
+			var profile_id := str(entry.get("profile_id", ""))
+			for key in _source_choice_keys_for_profile(profile_id):
 				if _is_json_int(choices.get(key)):
 					choices[key] = int(choices[key])
 			entry["source_choices"] = choices
@@ -651,13 +875,9 @@ static func _normalize_saved_exact_ints(state: Dictionary) -> Dictionary:
 
 
 static func _canonical_state(state: Dictionary) -> Dictionary:
-	var ledger := _ledger()
-	if ledger.is_empty():
-		return {"ok": false, "error": "ledger_invalid"}
 	if not _has_exact_keys(state, STATE_KEYS) \
 			or not _is_exact_int(state.get("schema_version")) \
 			or int(state["schema_version"]) != SCHEMA_VERSION \
-			or str(state.get("ledger_id", "")) != LEDGER_ID \
 			or not state.get("status") is String \
 			or not state.get("closed_reason") is String \
 			or not state.get("entry") is Dictionary \
@@ -672,23 +892,34 @@ static func _canonical_state(state: Dictionary) -> Dictionary:
 	var order: Array = state["order"]
 	var ending_check := str(state.get("ending_check", ""))
 	if status == "closed":
-		if closed_reason.is_empty() or not entry.is_empty() \
+		if str(state.get("ledger_id", "")) != LEDGER_ID \
+				or closed_reason.is_empty() or not entry.is_empty() \
 				or not receipts.is_empty() or not order.is_empty() \
 				or ending_check != "consumed":
 			return {"ok": false, "error": "state_schema"}
 		return {"ok": true, "state": state.duplicate(true)}
 	if status != "open" or not closed_reason.is_empty() \
 			or ending_check not in ["pending", "ready", "consumed"] \
-			or receipts.size() != order.size() \
-			or order.size() > EXPECTED_ACTIVE_ROOT_COUNT:
+			or receipts.size() != order.size():
 		return {"ok": false, "error": "state_schema"}
 	if entry.is_empty():
-		if not receipts.is_empty() or not order.is_empty() \
+		if str(state.get("ledger_id", "")) != LEDGER_ID \
+				or not receipts.is_empty() or not order.is_empty() \
 				or ending_check != "pending":
 			return {"ok": false, "error": "entry_missing"}
+		if _ledger().is_empty():
+			return {"ok": false, "error": "ledger_invalid"}
 		return {"ok": true, "state": state.duplicate(true)}
 	if not _valid_entry(entry):
 		return {"ok": false, "error": "entry_tampered"}
+	var profile_id := str(entry.get("profile_id", ""))
+	if str(state.get("ledger_id", "")) != ledger_id_for_profile(profile_id):
+		return {"ok": false, "error": "state_schema"}
+	var ledger := _ledger_for_profile(profile_id)
+	if ledger.is_empty():
+		return {"ok": false, "error": "ledger_invalid"}
+	if order.size() > _expected_active_root_count_for_profile(profile_id):
+		return {"ok": false, "error": "state_schema"}
 	var replayed: Dictionary = {}
 	var seen: Dictionary = {}
 	for raw_event_id in order:
@@ -767,7 +998,8 @@ static func _next_active_root(
 		ledger: Dictionary, entry: Dictionary, receipts: Dictionary) -> Dictionary:
 	if ledger.is_empty() or entry.is_empty():
 		return {}
-	for stage in STAGES:
+	for raw_stage in ledger.get("stages", []) as Array:
+		var stage := str(raw_stage)
 		var root := _active_root_for_stage(ledger, entry, stage)
 		if root.is_empty():
 			return {}
@@ -835,6 +1067,27 @@ static func _root_by_id(ledger: Dictionary, event_id: String) -> Dictionary:
 
 
 static func _ledger() -> Dictionary:
+	return _ledger_for_profile(PROFILE_ID)
+
+
+static func _ledger_for_profile(profile_id: String) -> Dictionary:
+	if profile_id == GENERAL_PROFILE_ID:
+		if _general_ledger_checked:
+			return _general_ledger_cache
+		_general_ledger_checked = true
+		_general_ledger_cache = {}
+		if not FileAccess.file_exists(GENERAL_LEDGER_PATH):
+			return _general_ledger_cache
+		var general_parsed: Variant = JSON.parse_string(
+			FileAccess.get_file_as_string(GENERAL_LEDGER_PATH))
+		if not general_parsed is Dictionary \
+				or not _valid_ledger(
+					general_parsed as Dictionary, GENERAL_PROFILE_ID):
+			return _general_ledger_cache
+		_general_ledger_cache = (general_parsed as Dictionary).duplicate(true)
+		return _general_ledger_cache
+	if profile_id != PROFILE_ID:
+		return {}
 	if _ledger_checked:
 		return _ledger_cache
 	_ledger_checked = true
@@ -842,13 +1095,84 @@ static func _ledger() -> Dictionary:
 	if not FileAccess.file_exists(LEDGER_PATH):
 		return _ledger_cache
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(LEDGER_PATH))
-	if not parsed is Dictionary or not _valid_ledger(parsed as Dictionary):
+	if not parsed is Dictionary \
+			or not _valid_ledger(parsed as Dictionary, PROFILE_ID):
 		return _ledger_cache
 	_ledger_cache = (parsed as Dictionary).duplicate(true)
 	return _ledger_cache
 
 
-static func _valid_ledger(ledger: Dictionary) -> bool:
+static func _ledger_for_state(state: Dictionary) -> Dictionary:
+	var raw_entry: Variant = state.get("entry", {})
+	if raw_entry is Dictionary and not (raw_entry as Dictionary).is_empty():
+		return _ledger_for_profile(str((raw_entry as Dictionary).get(
+			"profile_id", "")))
+	return _ledger_for_profile(profile_for_ledger_id(str(state.get(
+		"ledger_id", ""))))
+
+
+static func _expected_root_count_for_profile(profile_id: String) -> int:
+	return GENERAL_EXPECTED_ROOT_COUNT \
+		if profile_id == GENERAL_PROFILE_ID else EXPECTED_ROOT_COUNT
+
+
+static func _expected_active_root_count_for_profile(profile_id: String) -> int:
+	return GENERAL_EXPECTED_ACTIVE_ROOT_COUNT \
+		if profile_id == GENERAL_PROFILE_ID else EXPECTED_ACTIVE_ROOT_COUNT
+
+
+static func _expected_choice_count_for_profile(profile_id: String) -> int:
+	return GENERAL_EXPECTED_CHOICE_COUNT \
+		if profile_id == GENERAL_PROFILE_ID else EXPECTED_CHOICE_COUNT
+
+
+static func _expected_active_choice_count_for_profile(profile_id: String) -> int:
+	return GENERAL_EXPECTED_ACTIVE_CHOICE_COUNT \
+		if profile_id == GENERAL_PROFILE_ID else EXPECTED_ACTIVE_CHOICE_COUNT
+
+
+static func _owned_turns_for_profile(profile_id: String) -> Array[int]:
+	if profile_id == PROFILE_ID:
+		return OWNED_TURNS.duplicate()
+	if profile_id == GENERAL_PROFILE_ID:
+		return GENERAL_OWNED_TURNS.duplicate()
+	return []
+
+
+static func _root_choice_counts_for_profile(profile_id: String) -> Array[int]:
+	if profile_id == PROFILE_ID:
+		return ROOT_CHOICE_COUNTS.duplicate()
+	if profile_id == GENERAL_PROFILE_ID:
+		return GENERAL_ROOT_CHOICE_COUNTS.duplicate()
+	return []
+
+
+static func _root_actors_for_profile(profile_id: String) -> Dictionary:
+	if profile_id == PROFILE_ID:
+		return ROOT_ACTORS.duplicate(true)
+	if profile_id == GENERAL_PROFILE_ID:
+		return GENERAL_ROOT_ACTORS.duplicate(true)
+	return {}
+
+
+static func _read_sources_for_profile(profile_id: String) -> Dictionary:
+	if profile_id == PROFILE_ID:
+		return READ_SOURCES.duplicate(true)
+	if profile_id == GENERAL_PROFILE_ID:
+		return GENERAL_READ_SOURCES.duplicate(true)
+	return {}
+
+
+static func _valid_ledger(
+		ledger: Dictionary, profile_id: String = PROFILE_ID) -> bool:
+	var stages := stages_for_profile(profile_id)
+	var expected_roots := _expected_root_count_for_profile(profile_id)
+	var expected_active_roots := _expected_active_root_count_for_profile(profile_id)
+	var expected_choices := _expected_choice_count_for_profile(profile_id)
+	var expected_active_choices := \
+		_expected_active_choice_count_for_profile(profile_id)
+	if stages.is_empty() or ledger_id_for_profile(profile_id).is_empty():
+		return false
 	if not _has_exact_keys(ledger, [
 			"schema_version", "ledger_id", "choice_index_base",
 			"expected_root_count", "expected_active_root_count",
@@ -856,25 +1180,27 @@ static func _valid_ledger(ledger: Dictionary) -> bool:
 			"entry_contract", "stages", "roots",
 		]) \
 			or not _json_int_equals(ledger.get("schema_version"), SCHEMA_VERSION) \
-			or str(ledger.get("ledger_id", "")) != LEDGER_ID \
+			or str(ledger.get("ledger_id", "")) \
+				!= ledger_id_for_profile(profile_id) \
 			or not _json_int_equals(ledger.get("choice_index_base"), 0) \
 			or not _json_int_equals(ledger.get("expected_root_count"),
-				EXPECTED_ROOT_COUNT) \
+				expected_roots) \
 			or not _json_int_equals(ledger.get("expected_active_root_count"),
-				EXPECTED_ACTIVE_ROOT_COUNT) \
+				expected_active_roots) \
 			or not _json_int_equals(ledger.get("expected_choice_count"),
-				EXPECTED_CHOICE_COUNT) \
+				expected_choices) \
 			or not _json_int_equals(ledger.get("expected_active_choice_count"),
-				EXPECTED_ACTIVE_CHOICE_COUNT) \
+				expected_active_choices) \
 			or not ledger.get("entry_contract") is Dictionary \
 			or not ledger.get("stages") is Array \
-			or not _same(ledger["stages"], STAGES) \
+			or not _same(ledger["stages"], stages) \
 			or not ledger.get("roots") is Array:
 		return false
-	if not _valid_ledger_entry_contract(ledger["entry_contract"] as Dictionary):
+	if not _valid_ledger_entry_contract(
+			ledger["entry_contract"] as Dictionary, profile_id):
 		return false
 	var roots: Array = ledger["roots"]
-	if roots.size() != EXPECTED_ROOT_COUNT:
+	if roots.size() != expected_roots:
 		return false
 	var choice_total := 0
 	var receipt_ids: Dictionary = {}
@@ -884,100 +1210,128 @@ static func _valid_ledger(ledger: Dictionary) -> bool:
 		if not raw_root is Dictionary:
 			return false
 		var root: Dictionary = raw_root
-		if not _valid_ledger_root(root, index, receipt_ids):
+		if not _valid_ledger_root(root, index, receipt_ids, profile_id):
 			return false
 		choice_total += (root["choices"] as Array).size()
 		var stage := str(root["stage"])
 		stage_variant_counts[stage] = int(stage_variant_counts.get(stage, 0)) + 1
-	if choice_total != EXPECTED_CHOICE_COUNT:
+	if choice_total != expected_choices:
 		return false
-	for stage in STAGES:
-		var expected_variants := 2 if stage in ["father_trace", "father_answer"] else 1
+	for stage in stages:
+		var expected_variants := 2 \
+			if profile_id == PROFILE_ID \
+				and stage in ["father_trace", "father_answer"] else 1
 		if int(stage_variant_counts.get(stage, 0)) != expected_variants:
 			return false
-	for life in FATHER_LIFE_VALUES:
+	var sample_lives: Array[String] = ["passed"]
+	if profile_id == PROFILE_ID:
+		sample_lives = FATHER_LIFE_VALUES.duplicate()
+	for life in sample_lives:
+		var sample_source_choices: Dictionary = {}
+		for source_key in _source_choice_keys_for_profile(profile_id):
+			sample_source_choices[source_key] = 0
 		var entry := {
 			"route_id": ROUTE_ID,
-			"turn": ENTRY_TURN,
-			"profile_id": PROFILE_ID,
-			"source_route_id": SOURCE_ROUTE_ID,
-			"source_choices": {
-				"m55_decision": 0,
-				"w212_guarantee": 0,
-				"w215_final_door": 0,
-			},
+			"turn": entry_turn_for_profile(profile_id),
+			"profile_id": profile_id,
+			"source_route_id": _source_route_id_for_profile(profile_id),
+			"source_choices": sample_source_choices,
 			"father": {"life": life, "contact_mode": "records_only"},
-			"actor_bindings": ACTORS.duplicate(true),
+			"actor_bindings": _actors_for_profile(profile_id),
 		}
 		var active_choices := 0
-		for stage in STAGES:
+		var active_roots := 0
+		for stage in stages:
 			var active := _active_root_for_stage(ledger, entry, stage)
 			if active.is_empty():
 				return false
+			active_roots += 1
 			active_choices += (active["choices"] as Array).size()
-		if active_choices != EXPECTED_ACTIVE_CHOICE_COUNT:
+		if active_roots != expected_active_roots \
+				or active_choices != expected_active_choices:
 			return false
 	return true
 
 
-static func _valid_ledger_entry_contract(contract: Dictionary) -> bool:
+static func _valid_ledger_entry_contract(
+		contract: Dictionary, profile_id: String = PROFILE_ID) -> bool:
+	var source_keys := _source_choice_keys_for_profile(profile_id)
+	var actors := _actors_for_profile(profile_id)
 	if not _has_exact_keys(contract, [
 			"route_id", "turn", "profile_id", "source_route_id",
 			"source_choice_keys", "father", "actor_bindings",
 		]) \
 			or str(contract.get("route_id", "")) != ROUTE_ID \
-			or not _json_int_equals(contract.get("turn"), ENTRY_TURN) \
-			or str(contract.get("profile_id", "")) != PROFILE_ID \
-			or str(contract.get("source_route_id", "")) != SOURCE_ROUTE_ID \
+			or not _json_int_equals(contract.get("turn"),
+				entry_turn_for_profile(profile_id)) \
+			or str(contract.get("profile_id", "")) != profile_id \
+			or str(contract.get("source_route_id", "")) \
+				!= _source_route_id_for_profile(profile_id) \
 			or not contract.get("source_choice_keys") is Dictionary \
 			or not contract.get("father") is Dictionary \
 			or not contract.get("actor_bindings") is Dictionary \
-			or not _same(contract["actor_bindings"], ACTORS):
+			or not _same(contract["actor_bindings"], actors):
 		return false
 	var choice_contract: Dictionary = contract["source_choice_keys"]
-	if not _has_exact_keys(choice_contract, SOURCE_CHOICE_KEYS):
+	if not _has_exact_keys(choice_contract, source_keys):
 		return false
-	for key in SOURCE_CHOICE_KEYS:
+	for key in source_keys:
 		var raw_values: Variant = choice_contract.get(key)
-		if not raw_values is Array or (raw_values as Array).size() != 3:
+		var choice_count := _source_choice_max_for_profile(profile_id, key) + 1
+		if not raw_values is Array \
+				or (raw_values as Array).size() != choice_count:
 			return false
-		for index in range(3):
+		for index in range(choice_count):
 			if not _json_int_equals((raw_values as Array)[index], index):
 				return false
 	var father_contract: Dictionary = contract["father"]
+	var expected_lives: Array[String] = ["passed"]
+	if profile_id == PROFILE_ID:
+		expected_lives = FATHER_LIFE_VALUES.duplicate()
 	return _has_exact_keys(father_contract, FATHER_KEYS) \
-		and _same(father_contract.get("life", []), FATHER_LIFE_VALUES) \
+		and _same(father_contract.get("life", []), expected_lives) \
 		and _same(father_contract.get("contact_mode", []), FATHER_CONTACT_VALUES)
 
 
 static func _valid_ledger_root(
-		root: Dictionary, index: int, seen_receipt_ids: Dictionary) -> bool:
+		root: Dictionary, index: int, seen_receipt_ids: Dictionary,
+		profile_id: String = PROFILE_ID) -> bool:
+	var turns := _owned_turns_for_profile(profile_id)
+	var event_ids := owned_event_ids_for_profile(profile_id)
+	var choice_counts := _root_choice_counts_for_profile(profile_id)
+	var stages := stages_for_profile(profile_id)
+	var root_actors := _root_actors_for_profile(profile_id)
+	var read_sources := _read_sources_for_profile(profile_id)
+	if index < 0 or index >= event_ids.size():
+		return false
+	var expected_event_id := event_ids[index]
 	if not _has_exact_keys(root, [
 			"stage_sequence", "variant_sequence", "month", "turn", "week",
 			"event_id", "root_id", "choice_count", "tier", "stage",
 			"active_when", "actors", "read_sources", "read_mode", "choices",
 		]) \
-			or not _json_int_equals(root.get("turn"), OWNED_TURNS[index]) \
-			or not _json_int_equals(root.get("week"), OWNED_TURNS[index]) \
+			or not _json_int_equals(root.get("turn"), turns[index]) \
+			or not _json_int_equals(root.get("week"), turns[index]) \
 			or not _is_json_int(root.get("month")) \
-			or int(root["month"]) != floori((OWNED_TURNS[index] - 1) / 4.0) + 1 \
-			or str(root.get("event_id", "")) != OWNED_EVENT_IDS[index] \
-			or str(root.get("root_id", "")) != OWNED_EVENT_IDS[index] \
+			or int(root["month"]) != floori((turns[index] - 1) / 4.0) + 1 \
+			or str(root.get("event_id", "")) != expected_event_id \
+			or str(root.get("root_id", "")) != expected_event_id \
 			or not _json_int_equals(root.get("choice_count"),
-				ROOT_CHOICE_COUNTS[index]) \
+				choice_counts[index]) \
 			or str(root.get("tier", "")) not in ["T1", "T2"] \
-			or str(root.get("stage", "")) not in STAGES \
+			or str(root.get("stage", "")) not in stages \
 			or not _is_json_int(root.get("stage_sequence")) \
-			or int(root["stage_sequence"]) != STAGES.find(str(root["stage"])) + 1 \
+			or int(root["stage_sequence"]) != stages.find(str(root["stage"])) + 1 \
 			or not _is_json_int(root.get("variant_sequence")) \
 			or not root.get("actors") is Dictionary \
-			or not _same(root["actors"], ROOT_ACTORS[OWNED_EVENT_IDS[index]]) \
+			or not _same(root["actors"], root_actors[expected_event_id]) \
 			or not root.get("read_sources") is Array \
-			or not _same(root["read_sources"], READ_SOURCES[OWNED_EVENT_IDS[index]]) \
+			or not _same(root["read_sources"], read_sources[expected_event_id]) \
 			or str(root.get("read_mode", "")) != "prepend" \
 			or not root.get("choices") is Array:
 		return false
-	var is_variant := str(root["stage"]) in ["father_trace", "father_answer"]
+	var is_variant := profile_id == PROFILE_ID \
+		and str(root["stage"]) in ["father_trace", "father_answer"]
 	var expected_variant := 1
 	var expected_life := ""
 	if is_variant:
@@ -993,7 +1347,7 @@ static func _valid_ledger_root(
 	if int(root["variant_sequence"]) != expected_variant:
 		return false
 	var choices: Array = root["choices"]
-	if choices.size() != ROOT_CHOICE_COUNTS[index]:
+	if choices.size() != choice_counts[index]:
 		return false
 	for choice_index in range(choices.size()):
 		var raw_choice: Variant = choices[choice_index]
@@ -1013,7 +1367,8 @@ static func _valid_ledger_root(
 			if seen_receipt_ids.has(receipt_id):
 				return false
 			seen_receipt_ids[receipt_id] = true
-		if str(root["stage"]) == "nontransaction":
+		if profile_id == PROFILE_ID \
+				and str(root["stage"]) == "nontransaction":
 			if not _valid_no_execution_outcome(choice["economic_outcome"] as Dictionary):
 				return false
 		elif not (choice["economic_outcome"] as Dictionary).is_empty():

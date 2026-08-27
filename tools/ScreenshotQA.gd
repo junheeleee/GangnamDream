@@ -26,6 +26,8 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=chapter5-causal --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=chapter5-finale --lang=ko
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=chapter5-finale --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=chapter5-general-finale --lang=ko
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=chapter5-general-finale --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1920x1080 res://tools/ScreenshotQA.tscn -- --qa=living-scene --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1920x1080 res://tools/ScreenshotQA.tscn -- --qa=display-matrix --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=text-material --lang=en
@@ -133,6 +135,7 @@ const QA_SCOPE_STORY_DIALOGUE_HISTORY := "story_dialogue_history"
 const QA_SCOPE_STORY_MORAL := "story_moral"
 const QA_SCOPE_CHAPTER5_CAUSAL := "chapter5_causal"
 const QA_SCOPE_CHAPTER5_FINALE := "chapter5_finale"
+const QA_SCOPE_CHAPTER5_GENERAL_FINALE := "chapter5_general_finale"
 const QA_SCOPE_LIVING_SCENE := "living_scene"
 const QA_SCOPE_DISPLAY_MATRIX := "display_matrix"
 const QA_SCOPE_TEXT_MATERIAL := "text_material"
@@ -227,6 +230,17 @@ const CHAPTER5_FINALE_QA_ROOTS: Array[String] = [
 const CHAPTER5_FINALE_QA_ACTIVE_TURNS: Array[int] = [
 	221, 224, 227, 230, 235, 238, 239, 240, 240,
 ]
+const CHAPTER5_GENERAL_FINALE_QA_ROOTS: Array[String] = [
+	"arc_y5_general_last_page_instruction",
+	"arc_y5_general_final_record_seal",
+	"arc_final_countdown_general_near_goal_passed",
+	"arc_y5_final_week_general_people_outbound",
+]
+const CHAPTER5_GENERAL_FINALE_REDUCER_ROOTS: Array[String] = [
+	"arc_y5_general_final_record_seal",
+	"arc_final_countdown_general_near_goal_passed",
+	"arc_y5_final_week_general_people_outbound",
+]
 const FULL_ROUTE_STORY_CHOICE_OVERRIDES := {
 	"anxiety_pension_crisis": 1,
 }
@@ -259,6 +273,7 @@ var _mg: Node = null
 var _qa_failed := false
 var _chapter5_finale_expected_capture_size := Vector2i.ZERO
 var _chapter5_finale_capture_viewport: SubViewport = null
+var _chapter5_general_hud_reference: Image = null
 var _route_keyboard_events := 0
 var _route_mouse_events := 0
 var _route_gamepad_events := 0
@@ -608,6 +623,31 @@ func _ready() -> void:
 			+ "receipts=live black=clear hud=correct language=clean " \
 			+ "overflow=clear focus=verified same_turn=verified " \
 			+ "ending_receipt=verified dir=%s") % [
+			lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_CHAPTER5_GENERAL_FINALE:
+		var lang := _qa_language("ko")
+		if lang not in ["ko", "en"]:
+			_fail("Chapter 5 general finale QA supports only lang=ko/en, got %s." % lang)
+			return
+		await _ensure_chapter5_finale_capture_resolution()
+		if _qa_failed:
+			return
+		var resolution := _chapter5_finale_expected_capture_size
+		if resolution not in [
+			Vector2i(960, 600), Vector2i(1280, 800), Vector2i(1920, 1080),
+		]:
+			_fail("Chapter 5 general finale QA requires 960x600, 1280x800, or 1920x1080; got %s." % [
+				str(resolution)])
+			return
+		await _shot_chapter5_general_finale_surfaces(lang)
+		if _qa_failed:
+			return
+		print(("SCREENSHOT_QA_DONE scope=chapter5-general-finale lang=%s " \
+			+ "shots=13 sources=exact receipts=live black=clear hud=correct " \
+			+ "language=clean overflow=clear focus=verified player=alone " \
+			+ "same_turn=verified ending_receipt=verified dir=%s") % [
 			lang, OUT_DIR])
 		get_tree().quit(0)
 		return
@@ -1237,6 +1277,13 @@ func _qa_scope() -> String:
 		args.append(str(raw))
 	for raw in args:
 		var arg := raw.strip_edges().to_lower()
+		if arg in ["chapter5-general-finale", "chapter5_general_finale",
+				"chapter-5-general-finale", "--chapter5-general-finale",
+				"--chapter5_general_finale",
+				"qa=chapter5-general-finale", "--qa=chapter5-general-finale",
+				"qa=chapter5_general_finale", "--qa=chapter5_general_finale",
+				"scope=chapter5-general-finale", "--scope=chapter5-general-finale"]:
+			return QA_SCOPE_CHAPTER5_GENERAL_FINALE
 		if arg in ["chapter5-finale", "chapter5_finale", "chapter-5-finale",
 				"--chapter5-finale", "--chapter5_finale",
 				"qa=chapter5-finale", "--qa=chapter5-finale",
@@ -6619,6 +6666,314 @@ func _shot_chapter5_finale_surfaces(lang: String) -> void:
 	await _shot_chapter5_finale_w240_same_turn(lang, prefix)
 	await _dispose_chapter5_capture_viewport()
 
+func _shot_chapter5_general_finale_surfaces(lang: String) -> void:
+	_set_qa_language(lang)
+	var resolution := _chapter5_finale_expected_capture_size
+	var prefix := "chapter5_general_finale_%s_%dx%d_" % [
+		lang, resolution.x, resolution.y]
+	await _shot_chapter5_general_w229(prefix)
+	if _qa_failed:
+		return
+	await _shot_chapter5_general_w237(prefix)
+	if _qa_failed:
+		return
+	await _shot_chapter5_general_w240_same_turn(prefix)
+	await _dispose_chapter5_capture_viewport()
+
+func _prepare_chapter5_general_source_state(
+		include_w229: bool, include_m59: bool) -> void:
+	_prepare_main_game_state()
+	# This profile is near the goal, not over it. Keeping the fixture below 3B
+	# prevents the hidden/goal endings from replacing the W237/W240 ledger.
+	GameState.money = 2_600_000_000.0
+	GameState.player_route = "투자형"
+	GameState.tendency_realized = "invest"
+	GameState.chapter5_causal_state = Chapter5CausalRouteScript.default_state()
+	GameState.chapter5_finale_state = Chapter5FinaleRouteScript.default_state()
+	for flag_id in [
+		"route_career", "route_invest", "route_startup",
+		"father_crisis_contact_present",
+		"father_crisis_contact_called", "father_crisis_contact_missed",
+		"arc_final_countdown_seen", "arc_final_week_seen",
+		"final_signature_owned", "final_signature_collateral",
+		"final_signature_people",
+	]:
+		GameState.flags.erase(flag_id)
+	GameState.flags["route_invest"] = true
+	GameState.flags["father_passed"] = true
+	GameState.flags["arc_minseo_03_seen"] = true
+	GameState.flags["chapter5_general_minseo_arrival_1"] = true
+	GameState.flags["arc_father_legacy_seen"] = true
+	GameState.flags["chapter5_general_father_legacy_2"] = true
+	GameState.event_log = [
+		{"event_id": "arc_minseo_03_arrival", "choice_index": 1, "turn": 203},
+		{"event_id": "arc_father_legacy", "choice_index": 2, "turn": 224},
+	]
+	if include_w229:
+		GameState.flags["arc_y5_general_last_page_instruction_seen"] = true
+		GameState.flags["chapter5_general_last_page_instruction_0"] = true
+		GameState.event_log.append({
+			"event_id": "arc_y5_general_last_page_instruction",
+			"choice_index": 0,
+			"turn": 229,
+		})
+	if include_m59:
+		GameState.flags["arc_pre_ending_summit_seen"] = true
+		GameState.flags["chapter5_general_summit_1"] = true
+		GameState.event_log.append({
+			"event_id": "arc_pre_ending_summit",
+			"choice_index": 1,
+			"turn": 235,
+		})
+
+func _prepare_chapter5_general_w229_story_state() -> void:
+	_prepare_chapter5_general_source_state(false, false)
+	_set_chapter5_finale_calendar(229)
+	if not GameState.chapter5_causal_entry_snapshot().is_empty() \
+			or not GameState.chapter5_finale_entry_snapshot().is_empty():
+		_fail("General finale W229 fixture inherited a property/finale entry.")
+		return
+	if not GameState.chapter5_general_finale_w229_available(229):
+		_fail("General finale W229 fixture lacks exact M51/M56 source receipts.")
+
+func _prepare_chapter5_general_finale_story_state(target_id: String) -> void:
+	if target_id not in CHAPTER5_GENERAL_FINALE_REDUCER_ROOTS:
+		_fail("General finale screenshot requested an unowned reducer root: %s." % target_id)
+		return
+	_prepare_chapter5_general_source_state(true, true)
+	if not GameState.chapter5_causal_entry_snapshot().is_empty():
+		_fail("General finale fixture inherited the investment/property entry.")
+		return
+	_set_chapter5_finale_calendar(237)
+	if not GameState.prepare_chapter5_finale_route_entry():
+		_fail("General finale screenshot could not lock the exact W237 entry.")
+		return
+	var entry := GameState.chapter5_finale_entry_snapshot()
+	var expected_sources := {
+		"m51_minseo_arrival": 1,
+		"m56_father_legacy": 2,
+		"w229_last_page_instruction": 0,
+		"m59_summit": 1,
+	}
+	if str(entry.get("profile_id", "")) \
+			!= Chapter5FinaleRouteScript.GENERAL_PROFILE_ID \
+			or str(entry.get("route_id", "")) \
+				!= Chapter5FinaleRouteScript.ROUTE_ID \
+			or int(entry.get("turn", -1)) \
+				!= Chapter5FinaleRouteScript.GENERAL_ENTRY_TURN \
+			or str(entry.get("source_route_id", "")) \
+				!= Chapter5FinaleRouteScript.GENERAL_SOURCE_ROUTE_ID \
+			or entry.get("source_choices", {}) != expected_sources \
+			or entry.get("father", {}) != {
+				"life": "passed", "contact_mode": "records_only",
+			} \
+			or entry.get("actor_bindings", {}) \
+				!= Chapter5FinaleRouteScript.GENERAL_ACTORS:
+		_fail("General finale screenshot locked the wrong W237 snapshot: %s." % [
+			str(entry)])
+		return
+	var events: Array[String] = [
+		"arc_y5_general_final_record_seal",
+		"arc_final_countdown_general_near_goal_passed",
+		"arc_y5_final_week_general_people_outbound",
+	]
+	var turns: Array[int] = [237, 240, 240]
+	var choices: Array[int] = [1, 2, 0]
+	for index in range(events.size()):
+		_set_chapter5_finale_calendar(turns[index])
+		var event_id := events[index]
+		if event_id == target_id:
+			if GameState.chapter5_finale_next_event_for_turn() != target_id:
+				_fail("General finale screenshot could not reach %s." % target_id)
+			return
+		var result := GameState.record_chapter5_finale_choice(
+			event_id, choices[index])
+		if not bool(result.get("ok", false)):
+			_fail("General finale screenshot could not commit %s/%d: %s." % [
+				event_id, choices[index], str(result.get("error", "unknown"))])
+			return
+	_fail("General finale screenshot target is outside the active route: %s." % target_id)
+
+func _open_chapter5_general_story(event_id: String) -> Node:
+	if event_id not in CHAPTER5_GENERAL_FINALE_QA_ROOTS:
+		_fail("General finale screenshot tried to open an unowned root: %s." % event_id)
+		return null
+	GameState.pending_story_queue = [event_id]
+	var packed: PackedScene = load("res://scenes/StoryMode.tscn")
+	var story := packed.instantiate()
+	_assert_chapter5_general_story_preflight(story, event_id)
+	if _qa_failed:
+		return null
+	_chapter5_finale_scene_parent().add_child.call_deferred(story)
+	await get_tree().process_frame
+	if story.has_method("_set_auto_mode"):
+		story.call("_set_auto_mode", false, false)
+	await _settle(0.75)
+	if not await _chapter5_finale_wait_for_stable_story_surface(
+			story, event_id):
+		return null
+	var current: Variant = story.get("_current")
+	if not current is Dictionary \
+			or str((current as Dictionary).get("id", "")) != event_id:
+		_fail("General finale fixture requested %s but opened %s." % [
+			event_id, str(current)])
+		return null
+	return story
+
+func _assert_chapter5_general_story_preflight(
+		story: Node, event_id: String) -> void:
+	var authored: Dictionary = DataRegistry.find_event(event_id)
+	if authored.is_empty():
+		_fail("General finale preflight cannot load %s." % event_id)
+		return
+	if event_id in CHAPTER5_GENERAL_FINALE_REDUCER_ROOTS:
+		if GameState.chapter5_finale_next_event_for_turn() != event_id \
+				or not GameState.chapter5_finale_ingress_available(event_id):
+			_fail("General finale preflight lacks exact ingress for %s." % event_id)
+			return
+	elif event_id != "arc_y5_general_last_page_instruction" \
+			or not GameState.chapter5_general_finale_w229_available(229):
+		_fail("General finale preflight lacks exact W229 source ingress.")
+		return
+	if EventManager.live_event_variant_id(event_id) != event_id \
+			or not EventManager._event_passes_hard_state_contracts(authored):
+		_fail("General finale preflight rejected the live state for %s." % event_id)
+		return
+	var causal: Variant = story.call(
+		"_chapter5_causal_event_with_reads", authored)
+	if not causal is Dictionary or (causal as Dictionary).is_empty():
+		_fail("General finale preflight lost %s in the causal read gate." % event_id)
+		return
+	var finale: Variant = story.call(
+		"_chapter5_finale_event_with_reads", causal as Dictionary)
+	if not finale is Dictionary or (finale as Dictionary).is_empty() \
+			or str((finale as Dictionary).get("id", "")) != event_id:
+		_fail("General finale preflight lost %s in the finale read gate." % event_id)
+
+func _close_chapter5_general_story() -> void:
+	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	GameState.pending_story_queue.clear()
+	await _settle(0.3)
+
+func _shot_chapter5_general_w229(prefix: String) -> void:
+	var event_id := "arc_y5_general_last_page_instruction"
+	_prepare_chapter5_general_w229_story_state()
+	if _qa_failed:
+		return
+	var story := await _open_chapter5_general_story(event_id)
+	if _qa_failed or not is_instance_valid(story):
+		return
+	if not await _chapter5_general_advance_to_last_prose(story, event_id):
+		return
+	_assert_chapter5_finale_story_surface(story, event_id)
+	if _qa_failed:
+		return
+	await _save(prefix + "01_w229_source_memory")
+	if not await _chapter5_finale_advance_to_choices(story, event_id):
+		return
+	_assert_chapter5_finale_story_surface(story, event_id)
+	if _qa_failed:
+		return
+	await _save(prefix + "02_w229_choices")
+	story.call("_on_choice", 0)
+	await _settle(0.35)
+	await _chapter5_finale_complete_current_typing(story)
+	_assert_chapter5_finale_story_surface(story, event_id)
+	if _qa_failed:
+		return
+	await _save(prefix + "03_w229_result")
+	await _close_chapter5_general_story()
+
+func _shot_chapter5_general_w237(prefix: String) -> void:
+	var event_id := "arc_y5_general_final_record_seal"
+	_prepare_chapter5_general_finale_story_state(event_id)
+	if _qa_failed:
+		return
+	var story := await _open_chapter5_general_story(event_id)
+	if _qa_failed or not is_instance_valid(story):
+		return
+	await _chapter5_finale_complete_current_typing(story)
+	_assert_chapter5_finale_story_surface(story, event_id)
+	if _qa_failed:
+		return
+	await _save(prefix + "04_w237_event")
+	if not await _chapter5_finale_advance_to_choices(story, event_id):
+		return
+	_assert_chapter5_finale_story_surface(story, event_id)
+	if _qa_failed:
+		return
+	await _save(prefix + "05_w237_choices")
+	story.call("_on_choice", 1)
+	await _settle(0.35)
+	await _chapter5_finale_complete_current_typing(story)
+	_assert_chapter5_finale_story_surface(story, event_id)
+	if _qa_failed:
+		return
+	await _save(prefix + "06_w237_result")
+	await _close_chapter5_general_story()
+
+func _shot_chapter5_general_w240_same_turn(prefix: String) -> void:
+	var signature_id := "arc_final_countdown_general_near_goal_passed"
+	var outbound_id := "arc_y5_final_week_general_people_outbound"
+	_prepare_chapter5_general_finale_story_state(signature_id)
+	if _qa_failed:
+		return
+	var story := await _open_chapter5_general_story(signature_id)
+	if _qa_failed or not is_instance_valid(story):
+		return
+	await _chapter5_finale_complete_current_typing(story)
+	_assert_chapter5_finale_story_surface(story, signature_id)
+	if _qa_failed:
+		return
+	await _save(prefix + "07_w240_signature_event")
+	if not await _chapter5_finale_advance_to_choices(story, signature_id):
+		return
+	_assert_chapter5_finale_story_surface(story, signature_id)
+	if _qa_failed:
+		return
+	await _save(prefix + "08_w240_signature_choices")
+	story.call("_on_choice", 2)
+	await _settle(0.35)
+	await _chapter5_finale_complete_current_typing(story)
+	_assert_chapter5_finale_story_surface(story, signature_id)
+	if _qa_failed:
+		return
+	if story.get("_queue") != [outbound_id] \
+			or not str(story.get("_pending_follow_up")).is_empty():
+		_fail("General finale W240 signature did not queue only its same-turn outbound: %s." % [
+			str(story.get("_queue"))])
+		return
+	await _save(prefix + "09_w240_signature_result")
+	if not await _chapter5_finale_advance_to_event(story, outbound_id):
+		return
+	if GameState.chapter5_finale_next_event_for_turn() != outbound_id:
+		_fail("General finale W240 signature did not expose live outbound ingress.")
+		return
+	await _chapter5_finale_complete_current_typing(story)
+	_assert_chapter5_finale_story_surface(story, outbound_id)
+	if _qa_failed:
+		return
+	await _save(prefix + "10_w240_outbound_event")
+	if not await _chapter5_finale_advance_to_choices(story, outbound_id):
+		return
+	_assert_chapter5_finale_story_surface(story, outbound_id)
+	if _qa_failed:
+		return
+	await _save(prefix + "11_w240_outbound_choices")
+	story.call("_on_choice", 0)
+	await _settle(0.35)
+	await _chapter5_finale_complete_current_typing(story)
+	_assert_chapter5_finale_story_surface(story, outbound_id)
+	if _qa_failed:
+		return
+	if not GameState.chapter5_finale_ending_ready():
+		_fail("General finale outbound result did not arm the ending exactly once.")
+		return
+	await _save(prefix + "12_w240_outbound_result")
+	if _qa_failed:
+		return
+	await _shot_chapter5_finale_ending_people(prefix, story, 0, true)
+
 func _ensure_chapter5_finale_capture_resolution() -> void:
 	var initial := get_window().size
 	var target := initial
@@ -6788,6 +7143,9 @@ func _chapter5_finale_advance_to_choices(story: Node, event_id: String) -> bool:
 		if str((story.get("_current") as Dictionary).get("id", "")) != event_id:
 			break
 		if bool(story.get("_showing_choices")):
+			if _qa_scope() == QA_SCOPE_CHAPTER5_GENERAL_FINALE:
+				return await _chapter5_finale_wait_for_stable_story_surface(
+					story, event_id)
 			await _settle(0.35)
 			return true
 		if bool(story.get("_pending_after_result")):
@@ -6800,12 +7158,35 @@ func _chapter5_finale_advance_to_choices(story: Node, event_id: String) -> bool:
 	_fail("Chapter 5 finale screenshot could not expose choices for %s." % event_id)
 	return false
 
+func _chapter5_general_advance_to_last_prose(
+		story: Node, event_id: String) -> bool:
+	for _step in range(48):
+		if str((story.get("_current") as Dictionary).get("id", "")) != event_id \
+				or bool(story.get("_showing_choices")) \
+				or bool(story.get("_pending_after_result")):
+			break
+		var paragraphs: Array = story.get("_paragraphs")
+		var paragraph_index := int(story.get("_para_index"))
+		if not paragraphs.is_empty() and paragraph_index >= paragraphs.size() - 1:
+			await _chapter5_finale_complete_current_typing(story)
+			return true
+		if bool(story.get("_typing")) and story.has_method("_complete_typing"):
+			story.call("_complete_typing")
+		elif story.has_method("_on_advance"):
+			story.call("_on_advance")
+		await _settle(0.12)
+	_fail("General finale screenshot could not reach the last prose page for %s." % event_id)
+	return false
+
 func _chapter5_finale_advance_to_event(
 		story: Node, expected_event_id: String) -> bool:
 	for _step in range(72):
 		var current: Variant = story.get("_current")
 		if current is Dictionary \
 				and str((current as Dictionary).get("id", "")) == expected_event_id:
+			if _qa_scope() == QA_SCOPE_CHAPTER5_GENERAL_FINALE:
+				return await _chapter5_finale_wait_for_stable_story_surface(
+					story, expected_event_id)
 			await _settle(0.35)
 			return true
 		if bool(story.get("_typing")) and story.has_method("_complete_typing"):
@@ -6828,6 +7209,27 @@ func _chapter5_finale_complete_current_typing(story: Node) -> void:
 		else:
 			story.call("_on_advance")
 		await _settle(0.12)
+
+func _chapter5_finale_wait_for_stable_story_surface(
+		story: Node, event_id: String) -> bool:
+	for _frame in range(240):
+		if not is_instance_valid(story):
+			break
+		var raw_ink_tween: Variant = story.get("_story_ink_transition_tween")
+		var raw_text_tween: Variant = story.get("_story_text_panel_tween")
+		var ink_layer := story.get("_story_ink_transition_layer") as Control
+		var transition_busy := bool(story.get("_story_scene_transition_active")) \
+			or (raw_ink_tween is Tween \
+				and (raw_ink_tween as Tween).is_running()) \
+			or (raw_text_tween is Tween \
+				and (raw_text_tween as Tween).is_running()) \
+			or (is_instance_valid(ink_layer) and ink_layer.visible)
+		if not transition_busy:
+			await _settle(0.2)
+			return true
+		await get_tree().process_frame
+	_fail("Chapter 5 finale screenshot never reached a stable surface for %s." % event_id)
+	return false
 
 func _shot_chapter5_finale_w240_same_turn(
 		lang: String, prefix: String) -> void:
@@ -6889,7 +7291,8 @@ func _shot_chapter5_finale_w240_same_turn(
 	await _shot_chapter5_finale_ending_people(prefix, story, 1)
 
 func _shot_chapter5_finale_ending_people(
-		prefix: String, story: Node, outbound_choice: int) -> void:
+		prefix: String, story: Node, outbound_choice: int,
+		general_profile: bool = false) -> void:
 	if not bool(GameState.flags.get("final_signature_people", false)) \
 			or bool(GameState.flags.get("final_signature_owned", false)) \
 			or bool(GameState.flags.get("final_signature_collateral", false)):
@@ -6901,7 +7304,16 @@ func _shot_chapter5_finale_ending_people(
 			return
 	var outbound_receipt := Chapter5FinaleRouteScript.receipt_snapshot_for_stage(
 		GameState.chapter5_finale_state, "outbound")
-	if int(outbound_receipt.get("choice_index", -1)) != outbound_choice:
+	var expected_profile := (
+		Chapter5FinaleRouteScript.GENERAL_PROFILE_ID
+		if general_profile else Chapter5FinaleRouteScript.PROFILE_ID)
+	var expected_outbound_event := (
+		"arc_y5_final_week_general_people_outbound"
+		if general_profile else "arc_y5_final_week_daeun_outbound")
+	if str(GameState.chapter5_finale_entry_snapshot().get("profile_id", "")) \
+			!= expected_profile \
+			or str(outbound_receipt.get("event_id", "")) != expected_outbound_event \
+			or int(outbound_receipt.get("choice_index", -1)) != outbound_choice:
 		_fail("Chapter 5 finale ending lost outbound choice %d: %s." % [
 			outbound_choice, str(outbound_receipt)])
 		return
@@ -6939,14 +7351,19 @@ func _shot_chapter5_finale_ending_people(
 	await _settle(0.9)
 	_mg.call("_ending_show_page", 2)
 	await _settle(0.55)
-	_assert_chapter5_finale_ending_people_surface("stable_success", outbound_choice)
+	_assert_chapter5_finale_ending_people_surface(
+		"stable_success", outbound_choice, general_profile)
 	if _qa_failed:
 		return
-	await _save(prefix + "10_ending_people_signature_then_apology")
+	var shot_suffix := (
+		"13_ending_people_signature_then_minseo_fact"
+		if general_profile else "10_ending_people_signature_then_apology")
+	await _save(prefix + shot_suffix)
 	await _dispose_main_game()
 
 func _assert_chapter5_finale_ending_people_surface(
-		ending_id: String, outbound_choice: int) -> void:
+		ending_id: String, outbound_choice: int,
+		general_profile: bool = false) -> void:
 	_assert_ending_page_contract(2)
 	if _qa_failed:
 		return
@@ -6969,7 +7386,14 @@ func _assert_chapter5_finale_ending_people_surface(
 		_fail("Ending people page expected one people-signature card, got %s." % [
 			str(signature_cards)])
 		return
-	var expected_kinds: Array[String] = ["meal", "apology", "distance"]
+	var expected_kinds: Array[String] = []
+	if general_profile:
+		expected_kinds.assign([
+			"minseo_verified_fact", "father_record_line",
+			"minseo_meeting_request",
+		])
+	else:
+		expected_kinds.assign(["meal", "apology", "distance"])
 	if outbound_choice < 0 or outbound_choice >= expected_kinds.size() \
 			or outbound_cards.size() != 1 \
 			or str(outbound_cards[0].get_meta(
@@ -7044,23 +7468,75 @@ func _assert_chapter5_finale_ending_people_surface(
 					label.get_content_height(), label.size.y])
 				return
 
-func _assert_chapter5_finale_story_surface(
-		story: Node, event_id: String) -> void:
-	if event_id not in CHAPTER5_FINALE_QA_ROOTS:
-		_fail("Chapter 5 finale screenshot opened an unexpected root: %s." % event_id)
+func _chapter5_general_has_exact_event_receipt(
+		event_id: String, choice_index: int, at_turn: int) -> bool:
+	var matches := 0
+	for raw_entry in GameState.event_log:
+		if not raw_entry is Dictionary:
+			continue
+		var entry: Dictionary = raw_entry
+		if str(entry.get("event_id", "")) != event_id:
+			continue
+		matches += 1
+		if int(entry.get("choice_index", -1)) != choice_index \
+				or int(entry.get("turn", -1)) != at_turn:
+			return false
+	return matches == 1
+
+func _assert_chapter5_general_w229_source_surface(
+		story: Node, current: Dictionary, authored: Dictionary,
+		pending_choice: int) -> void:
+	var memory_key := (
+		"chapter5_general_minseo_arrival_1" \
+		+ "&chapter5_general_father_legacy_2")
+	var memory_map: Variant = authored.get("description_memory_if_known", {})
+	var expected_memory := (
+		str((memory_map as Dictionary).get(memory_key, "")).strip_edges()
+		if memory_map is Dictionary else "")
+	if expected_memory.is_empty():
+		_fail("General finale W229 has no exact M51/M56 memory row.")
 		return
-	var current: Dictionary = story.get("_current")
-	if str(current.get("id", "")) != event_id:
-		_fail("Chapter 5 finale screenshot current root drifted: %s." % event_id)
+	if not _chapter5_general_has_exact_event_receipt(
+			"arc_minseo_03_arrival", 1, 203) \
+			or not _chapter5_general_has_exact_event_receipt(
+				"arc_father_legacy", 2, 224):
+		_fail("General finale W229 lost its exact M51/M56 flag+event-log sources.")
 		return
-	var pending_choice := int(story.get("_pending_result_choice_index"))
+	if pending_choice < 0:
+		if not bool(story.get("_showing_choices")):
+			var body := story.get("_body_lbl") as RichTextLabel
+			var visible_memory := str(body.text) if is_instance_valid(body) else ""
+			var formatted_memory := GameState.format_event_text(expected_memory)
+			var memory_probe := formatted_memory.left(
+				mini(64, formatted_memory.length()))
+			if memory_probe.is_empty() or memory_probe not in visible_memory:
+				_fail("General finale W229 event page did not visibly render its M51/M56 memory row.")
+				return
+		if not GameState.chapter5_general_finale_w229_available(229) \
+				or bool(GameState.flags.get(
+					"arc_y5_general_last_page_instruction_seen", false)):
+			_fail("General finale W229 choice surface is not live before its receipt.")
+		return
+	if pending_choice != 0 \
+			or not bool(GameState.flags.get(
+				"arc_y5_general_last_page_instruction_seen", false)) \
+			or not bool(GameState.flags.get(
+				"chapter5_general_last_page_instruction_0", false)) \
+			or bool(GameState.flags.get(
+				"chapter5_general_last_page_instruction_1", false)) \
+			or not _chapter5_general_has_exact_event_receipt(
+				"arc_y5_general_last_page_instruction", 0, 229):
+		_fail("General finale W229 result lost its exact flag+event-log receipt.")
+
+func _assert_chapter5_finale_receipt_surface(
+		story: Node, current: Dictionary, authored: Dictionary,
+		event_id: String, pending_choice: int) -> void:
 	if not GameState.chapter5_finale_ingress_available(event_id) \
 			and (pending_choice < 0 \
 				or not GameState.chapter5_finale_receipt_matches(
 					event_id, pending_choice)):
 		_fail("Chapter 5 finale screenshot lacks live ingress/receipt ownership: %s." % event_id)
 		return
-	var authored: Dictionary = DataRegistry.find_event(event_id)
 	var expected_contract := Chapter5FinaleRouteScript.expected_read_contract(event_id)
 	var raw_reads: Variant = authored.get("chapter5_finale_reads")
 	if expected_contract.is_empty() or not raw_reads is Dictionary:
@@ -7090,10 +7566,6 @@ func _assert_chapter5_finale_story_surface(
 			_fail("%s screenshot cannot resolve read source %d: %s." % [
 				event_id, source_index, str(source)])
 			return
-		# StoryMode keeps `_current` as the authored token-bearing source and
-		# resolves `{name}` only when it renders the current page. Compare the
-		# source here; the visible-control check below separately rejects a token
-		# that escaped formatting.
 		prefixes.append(str((raw_row as Array)[selected]).strip_edges())
 	var expected_prefix := "\n\n".join(prefixes)
 	if expected_prefix.is_empty() \
@@ -7104,6 +7576,73 @@ func _assert_chapter5_finale_story_surface(
 			str(current.get("description", "")).left(700),
 			str(GameState.chapter5_finale_entry_snapshot())])
 		return
+	if pending_choice < 0 and not bool(story.get("_showing_choices")):
+		var body := story.get("_body_lbl") as RichTextLabel
+		var visible_receipt := str(body.text) if is_instance_valid(body) else ""
+		var formatted_first_receipt := GameState.format_event_text(prefixes[0])
+		var receipt_probe := formatted_first_receipt.left(
+			mini(64, formatted_first_receipt.length()))
+		if receipt_probe.is_empty() or receipt_probe not in visible_receipt:
+			_fail("%s event page did not visibly render its first exact source receipt." % event_id)
+
+func _assert_chapter5_finale_story_surface(
+		story: Node, event_id: String) -> void:
+	var scope := _qa_scope()
+	var scope_owns_root := (
+		event_id in CHAPTER5_FINALE_QA_ROOTS
+		if scope == QA_SCOPE_CHAPTER5_FINALE
+		else event_id in CHAPTER5_GENERAL_FINALE_QA_ROOTS
+		if scope == QA_SCOPE_CHAPTER5_GENERAL_FINALE else false)
+	if not scope_owns_root:
+		_fail("Chapter 5 finale screenshot opened an unexpected root: %s." % event_id)
+		return
+	var current: Dictionary = story.get("_current")
+	if str(current.get("id", "")) != event_id:
+		_fail("Chapter 5 finale screenshot current root drifted: %s." % event_id)
+		return
+	var pending_choice := int(story.get("_pending_result_choice_index"))
+	var authored: Dictionary = DataRegistry.find_event(event_id)
+	if event_id == "arc_y5_general_last_page_instruction":
+		_assert_chapter5_general_w229_source_surface(
+			story, current, authored, pending_choice)
+	else:
+		_assert_chapter5_finale_receipt_surface(
+			story, current, authored, event_id, pending_choice)
+	if _qa_failed:
+		return
+	if event_id in CHAPTER5_GENERAL_FINALE_QA_ROOTS:
+		var raw_presentation: Variant = story.get("_current_presentation")
+		var expected_background := ImageRegistry.resolve_contextual_background_id(
+			"current_housing")
+		var portrait := story.get("_portrait") as TextureRect
+		var expected_portrait_path := ImageRegistry.get_portrait_for_turn(
+			"player_tired", GameState.turn)
+		var actual_portrait_path := (
+			portrait.texture.resource_path
+			if is_instance_valid(portrait) and portrait.texture != null else "")
+		if str(current.get("background", "")) != "current_housing" \
+				or str(current.get("portrait", "")) != "player_tired" \
+				or current.has("cg") \
+				or not raw_presentation is Dictionary \
+				or str((raw_presentation as Dictionary).get("channel", "")) \
+					!= "internal" \
+				or str((raw_presentation as Dictionary).get("scene_location", "")) \
+					!= "current_housing" \
+				or (raw_presentation as Dictionary).get("participants", []) \
+					!= ["player"] \
+				or str((raw_presentation as Dictionary).get("portrait_role", "")) \
+					!= "local" \
+				or bool(story.get("_portrait_remote_inset")) \
+				or str(story.get("_event_background_id")) != expected_background \
+				or expected_portrait_path.is_empty() \
+				or actual_portrait_path != expected_portrait_path:
+			_fail("%s general finale surface is not player-alone/current-housing: %s." % [
+				event_id, str({
+					"event": current, "presentation": raw_presentation,
+					"background": story.get("_event_background_id"),
+					"portrait": actual_portrait_path,
+				})])
+			return
 	var surface_text := _collect_control_text(story)
 	if LocaleManager.is_english():
 		if _contains_hangul(surface_text):
@@ -22925,7 +23464,10 @@ func _save(shot_name: String, settle_time: float = 0.3) -> void:
 		await RenderingServer.frame_post_draw
 	var capture_viewport := (
 		_chapter5_finale_render_viewport()
-		if _qa_scope() in [QA_SCOPE_CHAPTER5_CAUSAL, QA_SCOPE_CHAPTER5_FINALE]
+		if _qa_scope() in [
+			QA_SCOPE_CHAPTER5_CAUSAL, QA_SCOPE_CHAPTER5_FINALE,
+			QA_SCOPE_CHAPTER5_GENERAL_FINALE,
+		]
 		else get_viewport())
 	var viewport_texture := capture_viewport.get_texture()
 	if viewport_texture == null:
@@ -22942,25 +23484,106 @@ func _save(shot_name: String, settle_time: float = 0.3) -> void:
 	await get_tree().process_frame
 	await RenderingServer.frame_post_draw
 	var img: Image = viewport_texture.get_image()
+	if _qa_scope() == QA_SCOPE_CHAPTER5_GENERAL_FINALE:
+		# macOS OpenGL can expose a partially uploaded small-font atlas in one
+		# readback even after the scene itself is stable. Sample completed frames
+		# and retain the one with the strongest static HUD/text coverage; this does
+		# not alter the product surface or the legacy Chapter 5 fixture.
+		var uses_story_hud := not shot_name.contains("_13_ending_")
+		var best_hud_score := _chapter5_general_capture_hud_score(img)
+		var best_hud_difference := (
+			_chapter5_general_capture_hud_difference(
+				img, _chapter5_general_hud_reference)
+			if uses_story_hud and _chapter5_general_hud_reference != null
+			else 1.0)
+		for _capture_retry in range(6):
+			RenderingServer.force_draw()
+			await get_tree().process_frame
+			await RenderingServer.frame_post_draw
+			var candidate: Image = viewport_texture.get_image()
+			var candidate_hud_score := \
+				_chapter5_general_capture_hud_score(candidate)
+			var candidate_hud_difference := (
+				_chapter5_general_capture_hud_difference(
+					candidate, _chapter5_general_hud_reference)
+				if uses_story_hud and _chapter5_general_hud_reference != null
+				else 1.0)
+			if (_chapter5_general_hud_reference != null \
+					and candidate_hud_difference < best_hud_difference) \
+					or (_chapter5_general_hud_reference == null \
+						and candidate_hud_score > best_hud_score):
+				img = candidate
+				best_hud_score = candidate_hud_score
+				best_hud_difference = candidate_hud_difference
+		if uses_story_hud and _chapter5_general_hud_reference == null:
+			var minimum_reference_score := maxi(500, int(img.get_width() * 0.5))
+			if best_hud_score < minimum_reference_score:
+				_fail("General finale first HUD readback lacks stable glyph coverage: %d < %d." % [
+					best_hud_score, minimum_reference_score])
+				return
+			_chapter5_general_hud_reference = img.get_region(Rect2i(
+				0, 0, img.get_width(), mini(52, img.get_height())))
+		elif uses_story_hud and best_hud_difference > 0.001:
+			_fail("General finale HUD readback remained unstable for %s: %.6f." % [
+				shot_name, best_hud_difference])
+			return
 	if img == null or img.is_empty():
 		_fail("Viewport image is empty. Run ScreenshotQA with a real rendering driver.")
 		return
 	var expected_size := (
 		_chapter5_finale_expected_capture_size
-		if _qa_scope() in [QA_SCOPE_CHAPTER5_CAUSAL, QA_SCOPE_CHAPTER5_FINALE] \
+		if _qa_scope() in [
+			QA_SCOPE_CHAPTER5_CAUSAL, QA_SCOPE_CHAPTER5_FINALE,
+			QA_SCOPE_CHAPTER5_GENERAL_FINALE,
+		] \
 				and _chapter5_finale_expected_capture_size != Vector2i.ZERO
 		else get_window().size)
 	if Vector2i(img.get_width(), img.get_height()) != expected_size:
 		_fail("Screenshot size mismatch for %s: image=%dx%d expected=%dx%d." % [
 			shot_name, img.get_width(), img.get_height(), expected_size.x, expected_size.y])
 		return
-	if _qa_scope() in [QA_SCOPE_CHAPTER5_CAUSAL, QA_SCOPE_CHAPTER5_FINALE]:
+	if _qa_scope() in [
+		QA_SCOPE_CHAPTER5_CAUSAL, QA_SCOPE_CHAPTER5_FINALE,
+		QA_SCOPE_CHAPTER5_GENERAL_FINALE,
+	]:
 		_assert_chapter5_causal_render_not_black(img, shot_name)
 		if _qa_failed:
 			return
 	var path := "%s/%s.png" % [OUT_DIR, shot_name]
 	img.save_png(path)
 	print("SHOT %s" % path)
+
+func _chapter5_general_capture_hud_score(img: Image) -> int:
+	if img == null or img.is_empty():
+		return -1
+	var sample_height := mini(52, img.get_height())
+	var score := 0
+	for y in range(sample_height):
+		for x in range(img.get_width()):
+			var pixel := img.get_pixel(x, y)
+			var luminance := pixel.r * 0.2126 + pixel.g * 0.7152 \
+				+ pixel.b * 0.0722
+			if pixel.a > 0.5 and luminance > 0.24:
+				score += 1
+	return score
+
+func _chapter5_general_capture_hud_difference(
+		img: Image, reference: Image) -> float:
+	if img == null or img.is_empty() or reference == null \
+			or reference.is_empty() or img.get_width() != reference.get_width():
+		return 1.0
+	var sample_height := mini(reference.get_height(), img.get_height())
+	var different := 0
+	var sampled := img.get_width() * sample_height
+	for y in range(sample_height):
+		for x in range(img.get_width()):
+			var current := img.get_pixel(x, y)
+			var expected := reference.get_pixel(x, y)
+			var delta := absf(current.r - expected.r) \
+				+ absf(current.g - expected.g) + absf(current.b - expected.b)
+			if delta > 0.08:
+				different += 1
+	return float(different) / float(maxi(sampled, 1))
 
 
 func _core_loop_v2_first_variant_difference(

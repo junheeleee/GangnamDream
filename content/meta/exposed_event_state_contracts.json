@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "scope": {
-    "root_count": 356,
-    "exposed_count": 500,
-    "root_ids_sha256": "e3d06b9d5f452b7308d776db9d489d5a4adb9fa5eea8960c93340f269606e398",
-    "exposed_ids_sha256": "7509067304ae6df647137e0dae0cdde2c3c93bad37836c8aa3ca156382a7bb9a"
+    "root_count": 371,
+    "exposed_count": 515,
+    "root_ids_sha256": "30e36c84bb8b5394d9081cb2b9623daeb1ac35d83ea05f260437676591b9ed1e",
+    "exposed_ids_sha256": "4f531842d6225d25ee0d3f5ccbf78058106e589e760eaa9a0233f7bd6f99432a"
   },
   "state_sensitive": {
     "amb_coin_00": [
@@ -565,6 +565,17 @@
     ],
     "arc_final_countdown": [
       "location"
+    ],
+    "arc_final_countdown_general_near_goal_passed": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_final_countdown_property_not_executed": [
+      "father_life",
+      "location",
+      "relationship"
     ],
     "arc_final_stretch": [
       "location"
@@ -1412,6 +1423,77 @@
     "arc_y4_year_close_unattached": [
       "housing",
       "location"
+    ],
+    "arc_y5_father_trace_alive_exact": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_y5_father_trace_custody": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_y5_father_trace_passed_exact": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_y5_final_father_answer_alive": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_y5_final_father_answer_passed": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_y5_final_week_daeun_outbound": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_y5_final_week_general_people_outbound": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_y5_general_final_record_seal": [
+      "employment",
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_y5_general_last_page_instruction": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_y5_name_on_line_daeun_routed": [
+      "location",
+      "relationship"
+    ],
+    "arc_y5_people_verdict_daeun_exact": [
+      "location",
+      "relationship"
+    ],
+    "arc_y5_property_not_executed_notice": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_y5_remaining_jaehyuk_or_self": [
+      "housing",
+      "location",
+      "relationship"
     ],
     "arc_year1_close": [
       "father_life",

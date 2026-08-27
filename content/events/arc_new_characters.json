@@ -142,7 +142,8 @@
           "mental": 4
         },
         "flags": [
-          "arc_minseo_03_seen"
+          "arc_minseo_03_seen",
+          "chapter5_general_minseo_arrival_0"
         ],
         "result_text": "이민서가 고개를 끄덕였다.\n\"그쵸. 도착하면 다음 질문이 와요. '이제 뭘 하지.'\n근데 그게 나쁜 것만은 아니에요. 적어도 — 새 질문이 생긴 거니까.\"\n\n{name}은 처음으로, 강남이 끝이 아니라 다음 문장의 시작이라는 걸 느꼈다."
       },
@@ -152,7 +153,8 @@
           "mental": 2
         },
         "flags": [
-          "arc_minseo_03_seen"
+          "arc_minseo_03_seen",
+          "chapter5_general_minseo_arrival_1"
         ],
         "result_text": "이민서가 웃었다. \"그것도 맞아요. 끝까지 가보세요.\"\n\n그래도 {name}은 그녀의 말을 가방 안에 넣어두기로 했다.\n도착한 다음에 꺼내볼 것이다."
       }

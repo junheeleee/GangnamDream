@@ -131,6 +131,33 @@ M56~M60의 `investment_safe_no_execution` 경로에서는 마지막 서명 직�
 않는 즉시·특수 결말에서는 숨기며, 본 결말 ID·CG와 기존 `description_if_known`,
 첫 서명 카드의 순서를 바꾸지 않는다.
 
+### 25억원 문턱 일반 경로도 exact 서명·선발신을 읽는다
+
+`general_near_goal_father_passed`는 새 엔딩 ID가 아니라 기존 정규 본 결말 안의
+두 후일담 카드 입력이다. 투자·부동산 entry가 없고 아버지 별세와 M51 민서 재회,
+M56 빈 의자, W229 색인, M59 25억원 문턱 선택이 각각 정확히 하나일 때만 W237의
+별도 schema 1 원장을 잠근다. W237 봉인 뒤 W240 `signature` 3선택과 같은 턴
+`outbound` 3선택의 receipt가 모두 있고 원장의 ending 상태가 `consumed`인 경우에만
+두 카드를 표시한다.
+
+진입 경로는 모순 없는 neutral 정체성 또는 부동산 entry가 잠기지 않은 투자형
+정체성만 허용한다. career/startup 이력, 비-bool route flag, player route·자각·flag
+불일치가 있으면 현재 저장을 추론해 고치지 않고 generic 결말로 돌아간다.
+
+첫 카드는 `signature` receipt가 고른 확인된 문서 사실, 금액·날짜와 이름·시간의
+분리, 민서·아버지 이름과 다음 행동 빈칸 중 하나를 회수한다. 둘째 카드는
+`arc_y5_final_week_general_people_outbound` receipt의 choice index로 민서에게
+확인한 사실 전송, 아버지 기록 봉투에 오늘의 한 줄, 민서에게 구체적인 다음 주
+시각 질문 중 실제 행동 하나만 회수한다. 현재 방에는 민준 혼자 있으며, 민서와
+아버지를 동석시키거나 읽음·답장·용서·약속 성립을 만들지 않는다.
+
+25억원대 매물표와 봉인은 매매·이체·등기·열쇠·소유권이 아니고 세 finale
+receipt는 경제 효과가 없다. 따라서 본 결말 우선순위, 기존 35개 ID·CG,
+`investment_safe_no_execution`의 11루트·30선택, 즉시 실패 귀결,
+33세 Chapter 1의 30억원 `instant_legend`를 바꾸지 않는다. source 누락·충돌,
+생존 아버지, 다른 자산 구간, pending·ready·손상 원장은 이 카드를 추론하지 않고
+기존 generic 결말을 따른다.
+
 ## 5. 다섯 장 원장을 읽는 법
 
 `CHOICE_CONSEQUENCE_SYSTEM.md`의 공통 원장이 구현되면 엔딩은 현재 수치만
@@ -161,4 +188,6 @@ M56~M60의 `investment_safe_no_execution` 경로에서는 마지막 서명 직�
   유사도 0.
 
 자동 검사는 구조만 증명한다. 마지막 장면이 실제로 닫히는 느낌인지는 정상
-속도 사람 플레이만 판정한다.
+속도 사람 플레이만 판정한다. 새 일반 종막 후보도 L1 기계·L2 전수 자가검토 뒤
+정상 속도 L3에서 앞선 네 선택이 마지막 밤에 되돌아오는지 사람이 확인해야 하며,
+그 전에는 main 승격이나 플레이 준비 완료로 판정하지 않는다.

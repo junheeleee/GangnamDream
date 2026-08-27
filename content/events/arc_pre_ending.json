@@ -20,8 +20,9 @@
           "mental": 5,
           "tint": 6
         },
-        "flags": [
-          "arc_pre_ending_summit_seen"
+      "flags": [
+        "arc_pre_ending_summit_seen",
+        "chapter5_general_summit_0"
         ],
         "result_text": "{name}은 연락처에서 '아버지'를 찾아 화면에 띄웠다. 저장된 이름 아래에는 통화 버튼과 오래된 기록만 있었다.\n\n손가락을 버튼 위에 올렸지만 누르지 않았다. 살아 있는 사람에게도 떠난 사람에게도 연락처의 글자는 같은 모양이었다. 입술로만, 집은 아직 사지 않았고 자산은 25억원 문턱에 닿았으며 처음 적은 30억원과 지금 숫자를 나란히 보고 있다고 말했다.\n\n화면에는 발신 시각도 신호음도 답도 생기지 않았다. {name}은 아버지의 이름을 열어 둔 채, 매물표만 들고 사무실을 나섰다."
       },
@@ -32,8 +33,9 @@
           "health": -1,
           "tint": 2
         },
-        "flags": [
-          "arc_pre_ending_summit_seen"
+      "flags": [
+        "arc_pre_ending_summit_seen",
+        "chapter5_general_summit_1"
         ],
         "result_text": "{name}은 유리문을 밀고 같은 저녁의 강남대로로 나왔다. 손에는 계약서가 아니라 펼쳐진 매물표만 있었다.\n\n한 블록을 가는 동안 신호가 두 번 바뀌었다. 오래 앉아 있던 허리와 종아리가 늦게 당겨, {name}은 두 번째 횡단보도 앞에서 걸음을 줄였다.\n\n5년 전에는 이 거리에 들어오는 일부터 남의 삶을 구경하는 것 같았다. 이제는 가격을 묻고 계산할 수 있었지만, 그것이 소유권을 주지는 않았다. 두 번째 신호가 켜지자 그는 매물표가 등기라도 되는 듯 '도착했다'고 말하려는 충동을 삼키고 길을 건넜다."
       }
@@ -405,6 +407,214 @@
       {
         "text": "전화를 받고, 서명을 재개하러 자리를 뜬다.",
         "result_text": "{name}은 상철에게 \"갑니다\"라고 말했다. 현수도 민서도 붙잡지 않았다.\n\n의자를 밀자 서류 모서리가 바람에 들렸다. 현수가 손바닥으로 눌렀다. \"형, 첫날에도 목표보다 라면이 먼저 식었어요.\" 민서는 수익 표를 덮으며 말했다. \"도착한 다음 질문은 없어지지 않아요. 오늘 두고 가면 더 정확해질 뿐이에요.\"\n\n{name}이 문을 닫은 뒤 테이블에는 식은 컵 두 잔과 서로 다른 이유로 닫힌 서류 두 장이 남았다."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_general_last_page_instruction",
+    "title": "마지막 장의 첫 줄",
+    "background": "current_housing",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "year5",
+      "father",
+      "minseo",
+      "finale"
+    ],
+    "cooldown": 9999,
+    "description": "마지막 해의 늦은 밤, {name}은 수첩에서 민서를 다시 만난 주와 빈 의자를 놓았던 주를 펼쳤다. 두 장면 사이에는 아직 제목이 없는 마지막 장의 색인 한 장이 끼워져 있었다.\n\n그는 그때 자신이 실제로 말했거나 한 행동만 빈 종이에 옮겼다. 민서가 하지 않은 대답, 아버지가 하지 않은 대답, 아직 얻지 않은 집은 쓰지 않았다.\n\n색인의 첫 줄은 하나뿐이었다. 먼저 놓인 문장은 마지막 서명 전에 봉인할 파일의 표지가 되고, 다른 문장은 그 뒤의 첨부 기록으로 남는다. {name}은 펜을 들었다.",
+    "description_memory_if_known": {
+      "chapter5_general_minseo_arrival_0&chapter5_general_father_legacy_0": "민서에게는 ‘이제 좀 알 것 같다’고 답했고, 빈 의자 앞에서는 ‘꼭 갈게요, 아버지’가 입 밖에 나왔다. 다음 질문을 안다는 말과 반드시 도착하겠다는 말이 같은 색인 앞에서 순서를 기다렸다.",
+      "chapter5_general_minseo_arrival_0&chapter5_general_father_legacy_1": "민서에게는 ‘이제 좀 알 것 같다’고 답했고, 빈 의자 앞에서는 지금 어디까지 왔는지를 속으로 설명했다. 새 질문과 끝내 닿지 못한 설명이 같은 색인 앞에서 순서를 기다렸다.",
+      "chapter5_general_minseo_arrival_0&chapter5_general_father_legacy_2": "민서에게는 ‘이제 좀 알 것 같다’고 답했지만, 빈 의자 앞에서는 말 대신 모니터를 켰다. 입 밖에 낸 이해와 말하지 않고 시작한 일이 같은 색인 앞에서 순서를 기다렸다.",
+      "chapter5_general_minseo_arrival_1&chapter5_general_father_legacy_0": "민서에게는 ‘아직 도착 안 했다’고 답했고, 빈 의자 앞에서는 ‘꼭 갈게요, 아버지’가 입 밖에 나왔다. 도착을 미룬 말과 도착을 약속한 말이 같은 색인 앞에서 순서를 기다렸다.",
+      "chapter5_general_minseo_arrival_1&chapter5_general_father_legacy_1": "민서에게는 ‘아직 도착 안 했다’고 답했고, 빈 의자 앞에서는 지금 어디까지 왔는지를 속으로 설명했다. 끝나지 않았다는 두 문장이 서로 다른 사람 앞에서 남아 같은 색인에 모였다.",
+      "chapter5_general_minseo_arrival_1&chapter5_general_father_legacy_2": "민서에게는 ‘아직 도착 안 했다’고 답했고, 빈 의자 앞에서는 말 대신 모니터를 켰다. 나중에 꺼낼 말과 당장 살아 있는 사람이 한 일이 같은 색인 앞에서 순서를 기다렸다."
+    },
+    "choices": [
+      {
+        "text": "민서에게 했던 대답을 색인의 첫 줄에 옮긴다",
+        "flags": [
+          "arc_y5_general_last_page_instruction_seen",
+          "chapter5_general_last_page_instruction_0"
+        ],
+        "result_text": "{name}은 민서에게 했던 대답을 색인의 첫 줄에 다시 적고, 그 주를 옆에 표시했다. 빈 의자 앞에서 고른 행동은 둘째 줄로 내려가 ‘첨부 1’이 됐다.\n\n두 기록을 모두 남겼지만, 마지막 서명 전에 먼저 읽을 것은 민서에게 했던 대답이었다. {name}은 색인을 수첩 끝에 끼웠다."
+      },
+      {
+        "text": "빈 의자 앞에서 고른 행동을 색인의 첫 줄에 옮긴다",
+        "flags": [
+          "arc_y5_general_last_page_instruction_seen",
+          "chapter5_general_last_page_instruction_1"
+        ],
+        "result_text": "{name}은 빈 의자 앞에서 고른 행동을 색인의 첫 줄에 다시 적고, 그 주를 옆에 표시했다. 민서에게 했던 대답은 둘째 줄로 내려가 ‘첨부 1’이 됐다.\n\n두 기록을 모두 남겼지만, 마지막 서명 전에 먼저 읽을 것은 대답 없는 의자 앞에서 자기 쪽이 실제로 한 일이었다. {name}은 색인을 수첩 끝에 끼웠다."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_general_final_record_seal",
+    "title": "서명 전 봉인",
+    "background": "current_housing",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "year5",
+      "father",
+      "minseo",
+      "finale"
+    ],
+    "cooldown": 9999,
+    "description": "마지막 서명을 앞둔 밤, {name}은 투명 파일 하나를 비웠다. 색인 한 장과 25억원대 매물표 세 장을 나란히 놓고, 빈 봉인 라벨에 오늘 날짜를 적었다.\n\n매물표에는 가격이 있었지만 매수인 이름·서명·접수번호·열쇠는 없었다. 색인에는 실제로 했던 말과 행동이 있었지만, 민서나 아버지의 새 대답은 없었다.\n\n둘 다 파일 안에 들어간다. 다만 봉인된 채 마지막 서명 앞에 놓일 첫 장은 하나뿐이었다. {name}은 어느 쪽을 위로 둘지 정한 뒤 라벨을 닫아야 했다.",
+    "chapter5_finale_reads": {
+      "sources": [
+        {
+          "kind": "entry_value",
+          "path": "source_choices.m51_minseo_arrival",
+          "values": [0, 1]
+        },
+        {
+          "kind": "entry_value",
+          "path": "source_choices.m56_father_legacy",
+          "values": [0, 1, 2]
+        },
+        {
+          "kind": "entry_value",
+          "path": "source_choices.w229_last_page_instruction",
+          "values": [0, 1]
+        },
+        {
+          "kind": "entry_value",
+          "path": "source_choices.m59_summit",
+          "values": [0, 1]
+        }
+      ],
+      "texts": [
+        [
+          "민서를 다시 만난 날, {name}은 ‘이제 좀 알 것 같아요’라고 말했다. 민서는 도착하면 다음 질문이 온다고 답했다.",
+          "민서를 다시 만난 날, {name}은 ‘아직 도착 안 했어요’라고 말했다. 민서의 말은 도착한 다음에 꺼내 볼 것으로 남았다."
+        ],
+        [
+          "빈 의자 앞에서는 ‘꼭 갈게요, 아버지’가 실제로 입 밖에 나왔다. 그 말을 들은 사람은 없었다.",
+          "빈 의자 앞에서는 지금 어디까지 왔고 아직 멀었다는 설명을 속으로만 했다.",
+          "빈 의자 앞에서는 문장을 남기지 않고 모니터를 켰다. 사진은 그 자리에 남았다."
+        ],
+        [
+          "색인의 첫 줄에는 민서에게 했던 대답이 있었고, 빈 의자 앞의 행동은 첨부 기록으로 남아 있었다.",
+          "색인의 첫 줄에는 빈 의자 앞에서 고른 행동이 있었고, 민서에게 했던 대답은 첨부 기록으로 남아 있었다."
+        ],
+        [
+          "부동산 사무실에서는 아버지의 연락처를 열었지만 통화 버튼을 누르지 않았다. 발신 시각도 답도 생기지 않았고, 손에는 매물표만 남았다.",
+          "부동산 사무실을 나와 매물표를 든 채 강남대로 한 블록을 걸었다. 계약서·등기 접수증·열쇠는 생기지 않았다."
+        ]
+      ],
+      "mode": "prepend"
+    },
+    "choices": [
+      {
+        "text": "색인을 위에 놓고, 매물표를 첨부한다",
+        "result_text": "{name}은 색인을 맨 위에 놓고 매물표 세 장을 그 뒤에 맞췄다. 내용 목록에는 ‘색인 1장 / 매물표 3장 / 오늘 날짜’만 적었다. 투명 파일 밖으로는 자신이 먼저 고른 문장이 보였다.\n\n봉인 라벨을 눌러 붙이자 매수인 이름이 빈 칸들은 사라지지 않고 그 한 장 뒤에 남았다. 마지막 서명 전에는 이 순서를 바꾸지 않기로 했다."
+      },
+      {
+        "text": "매수인 이름이 빈 매물표를 위에 놓고, 색인을 첨부한다",
+        "result_text": "{name}은 매수인 이름 칸이 빈 매물표를 맨 위에 놓고 나머지 매물표와 색인을 그 뒤에 맞췄다. 내용 목록에는 ‘매물표 3장 / 색인 1장 / 오늘 날짜’만 적었다. 투명 파일 밖으로는 비어 있는 이름 칸이 보였다.\n\n봉인 라벨을 눌러 붙이자 색인의 첫 문장은 사라지지 않고 매물표 뒤에 남았다. 마지막 서명 전에는 이 순서를 바꾸지 않기로 했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_final_countdown_general_near_goal_passed",
+    "title": "봉인 뒤의 서명",
+    "background": "current_housing",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "year5",
+      "father",
+      "minseo",
+      "finale"
+    ],
+    "cooldown": 9999,
+    "description": "다섯 해의 마지막 밤, 봉인 라벨의 날짜와 수첩의 마지막 날짜가 나란히 놓였다. {name}은 파일을 뜯지 않고 맨 위의 장만 읽었다. 25억원 문턱을 지난 기록은 있었지만, 집을 샀다는 서류는 없었다.\n\n그는 수첩 마지막 면에 세 칸을 그었다. ‘확인된 사실’, ‘이름과 시간’, ‘오늘 먼저 할 행동’. 어느 칸에도 다른 사람의 답이나 용서를 대신 쓸 수 없었다. 맞은편 의자는 비어 있었고, 휴대폰에는 새로 온 말이 없었다.\n\n이 종이는 계약서도 이체 지시도 아니었다. {name}은 세 방식 중 하나로 마지막 면을 채우고 자기 이름을 한 번만 쓰려 했다.",
+    "chapter5_finale_reads": {
+      "sources": [
+        {
+          "kind": "entry_value",
+          "path": "source_choices.w229_last_page_instruction",
+          "values": [0, 1]
+        },
+        {
+          "kind": "entry_value",
+          "path": "source_choices.m59_summit",
+          "values": [0, 1]
+        },
+        {
+          "kind": "finale_stage",
+          "id": "record_seal"
+        }
+      ],
+      "texts": [
+        [
+          "마지막 장의 색인은 민서에게 했던 대답을 첫 줄로 삼았다.",
+          "마지막 장의 색인은 빈 의자 앞에서 고른 행동을 첫 줄로 삼았다."
+        ],
+        [
+          "문턱 앞에서는 아버지 연락처를 열었지만 전화하지 않았고, 매물표만 들고 나왔다.",
+          "문턱 앞에서는 매물표를 들고 한 블록을 걸었고, 소유권을 뜻하는 서류는 생기지 않았다."
+        ],
+        [
+          "봉인 파일의 맨 위에는 색인이 놓였고, 매물표는 첨부 기록으로 들어갔다.",
+          "봉인 파일의 맨 위에는 매수인 이름이 빈 매물표가 놓였고, 색인은 첨부 기록으로 들어갔다."
+        ]
+      ],
+      "mode": "prepend"
+    },
+    "choices": [
+      {
+        "text": "확인된 문서 사실 아래에 내 이름을 쓴다",
+        "flags": [
+          "arc_final_countdown_seen",
+          "final_signature_owned"
+        ],
+        "result_text": "{name}은 첫 칸에 봉인 파일의 목록을 그대로 옮겼다. 매물표, 색인, 봉인 날짜. 그 아래에 ‘매수인 이름 없음 / 서명 없음 / 접수번호 없음 / 열쇠 없음’이라고 적고 자기 이름을 썼다.\n\n민서의 말과 빈 의자 앞의 행동은 첨부 기록 번호 아래 그대로 남았다. 마지막 줄 아래에는 새 매수인 이름도 접수번호도 생기지 않았다."
+      },
+      {
+        "text": "금액·날짜와 이름·시간을 다른 칸에 적고, 한 장에 서명한다",
+        "flags": [
+          "arc_final_countdown_seen",
+          "final_signature_collateral"
+        ],
+        "result_text": "{name}은 왼쪽 칸에 매물표의 가격과 봉인 날짜를 적었다. 오른쪽 칸에는 민서를 만난 주와 빈 의자 앞에서 고른 행동을 적었다. 두 칸 사이에는 합계선을 긋지 않았다.\n\n오른쪽에는 새 대답이나 용서를 보태지 않았다. 실제로 있었던 말과 자기 행동만 남긴 뒤, 두 칸 아래에 이름을 썼다."
+      },
+      {
+        "text": "민서와 아버지의 이름을 먼저 적고, 다음 행동 한 칸을 남긴 채 서명한다",
+        "flags": [
+          "arc_final_countdown_seen",
+          "final_signature_people"
+        ],
+        "result_text": "{name}은 첫 줄에 민서와 아버지의 이름을 적었다. 각 이름 옆에는 ‘다시 만난 주’와 ‘빈 의자의 주’만 붙였다. 관계가 이어졌다는 말도, 떠난 사람이 돌아왔다는 말도 쓰지 않았다.\n\n그 아래에 ‘오늘 먼저 할 행동 한 가지: ______’라고 적었다. 빈칸의 책임자 옆에 자기 이름을 썼다. 잉크가 마르자 아직 채우지 않은 행동 칸만 남았다."
       }
     ]
   },

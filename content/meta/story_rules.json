@@ -133,6 +133,23 @@
       "arc_y4_year_close_protected_relationship",
       "arc_y4_year_close_protected_body",
       "arc_y4_year_close_protected_family"
+    ],
+    "chapter5_general_minseo_arrival": [
+      "chapter5_general_minseo_arrival_0",
+      "chapter5_general_minseo_arrival_1"
+    ],
+    "chapter5_general_father_legacy": [
+      "chapter5_general_father_legacy_0",
+      "chapter5_general_father_legacy_1",
+      "chapter5_general_father_legacy_2"
+    ],
+    "chapter5_general_last_page_instruction": [
+      "chapter5_general_last_page_instruction_0",
+      "chapter5_general_last_page_instruction_1"
+    ],
+    "chapter5_general_summit": [
+      "chapter5_general_summit_0",
+      "chapter5_general_summit_1"
     ]
   },
   "coverage_targets": {
@@ -711,6 +728,12 @@
       "arrival_cue_ko": "마지막 서명 뒤 몇 분",
       "arrival_cue_en": "A few minutes after the last signature",
       "queue_only": true
+    },
+    "arc_final_countdown_general_near_goal_passed->arc_y5_final_week_general_people_outbound": {
+      "mode": "same_location",
+      "from_location": "current_housing",
+      "to_location": "current_housing",
+      "queue_only": true
     }
   },
   "events": {
@@ -867,6 +890,42 @@
         "scene_location": "current_housing",
         "remote_location": "daeun_current_location",
         "remote_actor": "daeun",
+        "portrait_role": "local"
+      }
+    },
+    "arc_y5_general_last_page_instruction": {
+      "logic": {},
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local"
+      }
+    },
+    "arc_y5_general_final_record_seal": {
+      "logic": {},
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local"
+      }
+    },
+    "arc_final_countdown_general_near_goal_passed": {
+      "logic": {},
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local"
+      }
+    },
+    "arc_y5_final_week_general_people_outbound": {
+      "logic": {},
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
         "portrait_role": "local"
       }
     },

@@ -2830,9 +2830,9 @@ def _validate_finale_choice_and_chain_contract(
     expected_ko = {
         "arc_pre_ending_summit": (
             ("연락처에서 아버지의 이름을 연다", {"mental": 5, "tint": 6},
-             ["arc_pre_ending_summit_seen"], ""),
+             ["arc_pre_ending_summit_seen", "chapter5_general_summit_0"], ""),
             ("혼자 강남대로를 천천히 걷는다", {"mental": 3, "health": -1, "tint": 2},
-             ["arc_pre_ending_summit_seen"], ""),
+             ["arc_pre_ending_summit_seen", "chapter5_general_summit_1"], ""),
         ),
         "arc_final_countdown": (
             ("마지막 줄에 내 이름만 쓴다. 선택의 책임까지.",

@@ -1416,6 +1416,11 @@ def _gather_game_flags():
                     game_sets.add(m.group(1))
             # 코드 내 모든 문자열 리터럴을 '참조'로 간주 (보수적 — 오탐 방지)
             reads |= set(LIT.findall(text))
+    # ORDER-135 records four source choices through a prefix+index reducer.
+    # The concrete flags therefore do not appear as full literals in GDScript;
+    # admit them as reads only when the exact ledger, product binding, and KO
+    # source-choice placement all agree.
+    reads |= _chapter5_general_finale_source_flag_reads()
     return game_sets, reads
 
 def _choice_is_inert(ch):
@@ -1600,9 +1605,166 @@ def _chapter5_finale_direct_receipt_owned_ids(
         return set()
     return set(ledger_ids)
 
+def _chapter5_general_finale_direct_receipt_owned_ids(
+        ledger=None, system_source=None, main_source=None, story_source=None):
+    """Recognize only the exact ORDER-135 general finale 3/8 inventory."""
+    try:
+        if ledger is None:
+            ledger = json.load(open(os.path.join(
+                ROOT, "content", "meta", "chapter5_general_finale_ledger.json"),
+                encoding="utf-8"))
+        if system_source is None:
+            system_source = open(os.path.join(
+                ROOT, "systems", "Chapter5FinaleRoute.gd"),
+                encoding="utf-8").read()
+        if main_source is None:
+            main_source = open(os.path.join(
+                ROOT, "scenes", "MainGame.gd"), encoding="utf-8").read()
+        if story_source is None:
+            story_source = open(os.path.join(
+                ROOT, "scenes", "StoryMode.gd"), encoding="utf-8").read()
+    except (OSError, ValueError, TypeError, json.JSONDecodeError):
+        return set()
+    if not isinstance(ledger, dict) \
+            or ledger.get("schema_version") != 1 \
+            or ledger.get("ledger_id") \
+                != "chapter5_general_near_goal_passed_finale_v1" \
+            or ledger.get("expected_root_count") != 3 \
+            or ledger.get("expected_active_root_count") != 3 \
+            or ledger.get("expected_choice_count") != 8 \
+            or ledger.get("expected_active_choice_count") != 8:
+        return set()
+    roots = ledger.get("roots", [])
+    if not isinstance(roots, list) or len(roots) != 3:
+        return set()
+    ledger_ids = []
+    total_choices = 0
+    for root in roots:
+        if not isinstance(root, dict):
+            return set()
+        event_id = root.get("event_id")
+        choices = root.get("choices")
+        if not isinstance(event_id, str) or not event_id \
+                or event_id in ledger_ids \
+                or not isinstance(choices, list) or not choices:
+            return set()
+        for choice in choices:
+            if not isinstance(choice, dict) \
+                    or not isinstance(choice.get("receipt_ids"), list) \
+                    or not choice.get("receipt_ids"):
+                return set()
+        ledger_ids.append(event_id)
+        total_choices += len(choices)
+    if total_choices != 8:
+        return set()
+    owned_match = re.search(
+        r'const\s+GENERAL_OWNED_EVENT_IDS[^=]*=\s*\[(.*?)\n\]',
+        system_source, re.S)
+    if not owned_match:
+        return set()
+    owned_ids = re.findall(r'"([^"]+)"', owned_match.group(1))
+    if owned_ids != ledger_ids:
+        return set()
+    required_system = (
+        "static func next_event_for_turn(",
+        "static func commit_choice(",
+        "static func consume_ending_check(",
+        "static func profile_for_event(",
+    )
+    required_main = (
+        "func _route_chapter5_finale_week(",
+        "GameState.chapter5_finale_next_event_for_turn()",
+        "GameState.chapter5_finale_week_completed()",
+    )
+    required_story = (
+        "func _chapter5_finale_live_ingress_allowed(",
+        "GameState.chapter5_finale_choice_available(",
+        "GameState.record_chapter5_finale_choice(",
+    )
+    if any(marker not in system_source for marker in required_system) \
+            or any(marker not in main_source for marker in required_main) \
+            or any(marker not in story_source for marker in required_story):
+        return set()
+    return set(ledger_ids)
+
+def _chapter5_general_finale_source_flag_reads(
+        ledger=None, game_source=None):
+    """Recognize exact prefix-index source flags consumed by ORDER-135."""
+    source_specs = (
+        ("m51_minseo_arrival", "arc_minseo_03_arrival",
+         "chapter5_general_minseo_arrival_", 2,
+         "content/events/arc_new_characters.json"),
+        ("m56_father_legacy", "arc_father_legacy",
+         "chapter5_general_father_legacy_", 3,
+         "content/events/arc_year3_drama.json"),
+        ("w229_last_page_instruction",
+         "arc_y5_general_last_page_instruction",
+         "chapter5_general_last_page_instruction_", 2,
+         "content/events/arc_pre_ending.json"),
+        ("m59_summit", "arc_pre_ending_summit",
+         "chapter5_general_summit_", 2,
+         "content/events/arc_pre_ending.json"),
+    )
+    try:
+        if ledger is None:
+            ledger = json.load(open(os.path.join(
+                ROOT, "content", "meta", "chapter5_general_finale_ledger.json"),
+                encoding="utf-8"))
+        if game_source is None:
+            game_source = open(os.path.join(
+                ROOT, "autoloads", "GameState.gd"),
+                encoding="utf-8").read()
+    except (OSError, ValueError, TypeError, json.JSONDecodeError):
+        return set()
+    if not _chapter5_general_finale_direct_receipt_owned_ids(ledger=ledger):
+        return set()
+    entry = ledger.get("entry_contract", {}) if isinstance(ledger, dict) else {}
+    expected_domains = {
+        key: list(range(choice_count))
+        for key, _, _, choice_count, _ in source_specs
+    }
+    if not isinstance(entry, dict) \
+            or entry.get("source_choice_keys") != expected_domains:
+        return set()
+    if any(game_source.count(f'"{event_id}"') < 1
+           or game_source.count(f'"{prefix}"') < 1
+           for _, event_id, prefix, _, _ in source_specs):
+        return set()
+    if "func _chapter5_general_exact_source_choice(" not in game_source \
+            or "func _chapter5_general_finale_source_choices()" not in game_source:
+        return set()
+
+    result = set()
+    loaded = {}
+    for _, event_id, prefix, choice_count, relative in source_specs:
+        try:
+            if relative not in loaded:
+                loaded[relative] = {
+                    str(row.get("id", "")): row
+                    for row in load_events(os.path.join(ROOT, relative))
+                    if isinstance(row, dict)
+                }
+            event = loaded[relative].get(event_id)
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            return set()
+        choices = event.get("choices", []) if isinstance(event, dict) else []
+        if not isinstance(choices, list) or len(choices) != choice_count:
+            return set()
+        for index, choice in enumerate(choices):
+            expected_flag = f"{prefix}{index}"
+            flags = choice.get("flags", []) if isinstance(choice, dict) else []
+            if not isinstance(flags, list) \
+                    or flags.count(expected_flag) != 1 \
+                    or sum(isinstance(flag, str) and flag.startswith(prefix)
+                           for flag in flags) != 1:
+                return set()
+            result.add(expected_flag)
+    return result
+
 def _chapter5_direct_receipt_owned_ids():
     return _chapter5_causal_direct_receipt_owned_ids() \
-        | _chapter5_finale_direct_receipt_owned_ids()
+        | _chapter5_finale_direct_receipt_owned_ids() \
+        | _chapter5_general_finale_direct_receipt_owned_ids()
 
 def _inert_event_ids(event_rows, author_only_exempt=frozenset(),
                      direct_receipt_owned=frozenset()):
@@ -1660,12 +1822,15 @@ def check_structural_debt(author_only_exempt=frozenset()):
 
 def _self_test_chapter5_direct_wiring():
     wired = _chapter5_direct_receipt_owned_ids()
-    if len(wired) != 30:
+    if len(wired) != 33:
         raise AssertionError(
             "actual Chapter 5 receipt/direct wiring was not recognized")
     causal_wired = _chapter5_causal_direct_receipt_owned_ids()
     if len(causal_wired) != 19:
         raise AssertionError("causal receipt/direct wiring was not recognized")
+    general_wired = _chapter5_general_finale_direct_receipt_owned_ids()
+    if len(general_wired) != 3:
+        raise AssertionError("general finale receipt/direct wiring was not recognized")
     event_id = sorted(causal_wired)[0]
     rows = [
         {"id": event_id, "choices": [{"text": "a"}, {"text": "b"}]},
@@ -1688,7 +1853,35 @@ def _self_test_chapter5_direct_wiring():
     if _inert_event_ids(rows, direct_receipt_owned=broken_wired) != [
             event_id, "arbitrary_hidden_inert"]:
         raise AssertionError("removed binding did not make the owned root inert")
-    print("AUDIT_CHAPTER5_DIRECT_WIRING_SELF_TEST_OK cases=3")
+    general_event_id = sorted(general_wired)[0]
+    general_rows = [{
+        "id": general_event_id,
+        "choices": [{"text": "a"}, {"text": "b"}],
+    }]
+    if _inert_event_ids(
+            general_rows, direct_receipt_owned=general_wired):
+        raise AssertionError("general finale owned root remained inert")
+    system_source = open(os.path.join(
+        ROOT, "systems", "Chapter5FinaleRoute.gd"), encoding="utf-8").read()
+    broken_system = system_source.replace(
+        "const GENERAL_OWNED_EVENT_IDS:",
+        "const REMOVED_GENERAL_OWNED_EVENT_IDS:")
+    broken_general = _chapter5_general_finale_direct_receipt_owned_ids(
+        system_source=broken_system)
+    if broken_general or _inert_event_ids(
+            general_rows, direct_receipt_owned=broken_general) != [general_event_id]:
+        raise AssertionError("removed general owned-ID binding remained exempt")
+    general_source_reads = _chapter5_general_finale_source_flag_reads()
+    if len(general_source_reads) != 9:
+        raise AssertionError("general prefix-index source reads were not recognized")
+    game_source = open(os.path.join(
+        ROOT, "autoloads", "GameState.gd"), encoding="utf-8").read()
+    broken_game = game_source.replace(
+        '"chapter5_general_summit_"',
+        '"removed_chapter5_general_summit_"')
+    if _chapter5_general_finale_source_flag_reads(game_source=broken_game):
+        raise AssertionError("missing general prefix reader remained exempt")
+    print("AUDIT_CHAPTER5_DIRECT_WIRING_SELF_TEST_OK cases=7")
 
 # ══════════════════════════════════════════════════════════════
 # 8) EN/KR 조건 일치 검사 — events_en/ 파일의 conditions가

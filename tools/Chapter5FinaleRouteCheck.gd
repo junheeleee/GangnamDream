@@ -29,6 +29,14 @@ const PASSED_EVENTS: Array[String] = [
 	"arc_y5_final_week_daeun_outbound",
 ]
 const PATH_CHOICES: Array[int] = [2, 1, 3, 2, 0, 1, 1, 2, 0]
+const GENERAL_LEDGER_PATH := "res://content/meta/chapter5_general_finale_ledger.json"
+const GENERAL_TURNS: Array[int] = [237, 240, 240]
+const GENERAL_EVENTS: Array[String] = [
+	"arc_y5_general_final_record_seal",
+	"arc_final_countdown_general_near_goal_passed",
+	"arc_y5_final_week_general_people_outbound",
+]
+const GENERAL_CHOICES: Array[int] = [1, 2, 0]
 
 var _failures: Array[String] = []
 
@@ -42,6 +50,8 @@ func _ready() -> void:
 	_check_ending_hold_ready_consume_close()
 	_check_source_route_complete_api()
 	_check_game_state_wrapper_save_and_single_release()
+	_check_general_ledger_and_reducer_contract()
+	_check_general_game_state_contract()
 	if _failures.is_empty():
 		print(
 			"CHAPTER5_FINALE_ROUTE_CHECK_OK roots=11 active=9 "
@@ -50,7 +60,9 @@ func _ready() -> void:
 			+ "receipts=stage-write-once economic=no-executable-zero "
 			+ "save=int-roundtrip legacy=turn220-fresh/221-closed "
 			+ "ending=pending-ready-consumed-exactly-once "
-			+ "wrapper=game-state-json-release canonical-check=once")
+			+ "wrapper=game-state-json-release canonical-check=once "
+			+ "general=roots3/choices8-w237-w240-outbound-save-release "
+			+ "general-gate=tuple-exact/source-tamper/locked-durable")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -445,6 +457,298 @@ func _check_game_state_wrapper_save_and_single_release() -> void:
 		"MainGame W240 release is not consume-first then one canonical check")
 
 
+func _check_general_ledger_and_reducer_contract() -> void:
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(GENERAL_LEDGER_PATH))
+	_expect(parsed is Dictionary, "general finale ledger is not a JSON object")
+	if not parsed is Dictionary:
+		return
+	var ledger: Dictionary = parsed
+	_expect(int(ledger.get("schema_version", -1)) == 1 \
+		and str(ledger.get("ledger_id", "")) == ROUTE.GENERAL_LEDGER_ID \
+		and int(ledger.get("expected_root_count", -1)) == 3 \
+		and int(ledger.get("expected_active_root_count", -1)) == 3 \
+		and int(ledger.get("expected_choice_count", -1)) == 8 \
+		and int(ledger.get("expected_active_choice_count", -1)) == 8 \
+		and _same(ledger.get("stages", []), ROUTE.GENERAL_STAGES),
+		"general finale ledger inventory drifted")
+	var roots: Array = ledger.get("roots", [])
+	var events: Array[String] = []
+	var total_choices := 0
+	for raw_root in roots:
+		if not raw_root is Dictionary:
+			_expect(false, "general finale root is not an object")
+			continue
+		var root: Dictionary = raw_root
+		var event_id := str(root.get("event_id", ""))
+		events.append(event_id)
+		total_choices += (root.get("choices", []) as Array).size()
+		_expect(_same(ROUTE.expected_read_contract(event_id), {
+			"sources": (root.get("read_sources", []) as Array).duplicate(true),
+			"mode": str(root.get("read_mode", "")),
+		}), "%s general read contract drifted" % event_id)
+	_expect(roots.size() == 3 and total_choices == 8 \
+		and _same(events, ROUTE.GENERAL_OWNED_EVENT_IDS) \
+		and _same(ROUTE.GENERAL_ACTORS, {
+			"chooser": "player", "father": "father", "cost_witness": "minseo"}),
+		"general finale roots/actors are not exact")
+
+	var empty := ROUTE.default_state()
+	for invalid in [
+		ROUTE.lock_entry(empty, 236, ROUTE.ROUTE_ID, ROUTE.GENERAL_PROFILE_ID,
+			_general_source_choices(), _father("passed", "records_only"), ROUTE.GENERAL_ACTORS),
+		ROUTE.lock_entry(empty, 237, ROUTE.ROUTE_ID, ROUTE.PROFILE_ID,
+			_general_source_choices(), _father("passed", "records_only"), ROUTE.GENERAL_ACTORS),
+		ROUTE.lock_entry(empty, 237, ROUTE.ROUTE_ID, ROUTE.GENERAL_PROFILE_ID,
+			_general_source_choices(), _father("alive", "records_only"), ROUTE.GENERAL_ACTORS),
+	]:
+		_expect(not bool((invalid as Dictionary).get("ok", false)) \
+			and _same((invalid as Dictionary).get("state", {}), empty),
+			"invalid general entry mutated reducer state")
+	var malformed := _general_source_choices()
+	malformed["m59_summit"] = 2
+	_expect(not bool(ROUTE.lock_entry(empty, 237, ROUTE.ROUTE_ID,
+		ROUTE.GENERAL_PROFILE_ID, malformed, _father("passed", "records_only"),
+		ROUTE.GENERAL_ACTORS).get("ok", false)),
+		"out-of-range general source entered finale")
+	var extra_actors: Dictionary = ROUTE.GENERAL_ACTORS.duplicate(true)
+	extra_actors["partner"] = "daeun"
+	_expect(not bool(ROUTE.lock_entry(empty, 237, ROUTE.ROUTE_ID,
+		ROUTE.GENERAL_PROFILE_ID, _general_source_choices(),
+		_father("passed", "records_only"), extra_actors).get("ok", false)),
+		"extra general actor entered finale")
+
+	var state := _general_state_through(0)
+	var entry := ROUTE.entry_snapshot(state)
+	_expect(ROUTE.entry_locked(state) and ROUTE.holds_ending(state) \
+		and str(state.get("ledger_id", "")) == ROUTE.GENERAL_LEDGER_ID \
+		and _same(entry, {
+			"route_id": ROUTE.ROUTE_ID, "turn": 237,
+			"profile_id": ROUTE.GENERAL_PROFILE_ID,
+			"source_route_id": ROUTE.GENERAL_SOURCE_ROUTE_ID,
+			"source_choices": _general_source_choices(),
+			"father": _father("passed", "records_only"),
+			"actor_bindings": ROUTE.GENERAL_ACTORS,
+		}), "general W237 durable entry snapshot drifted")
+	var wrong_order := ROUTE.commit_choice(state, GENERAL_EVENTS[1], 0, 240)
+	var collision := ROUTE.commit_choice(state, ALIVE_EVENTS[0], 0, 237)
+	var bad_index := ROUTE.commit_choice(state, GENERAL_EVENTS[0], 2, 237)
+	_expect(not bool(wrong_order.get("ok", false)) and _same(wrong_order.get("state", {}), state) \
+		and not bool(collision.get("ok", false)) and _same(collision.get("state", {}), state) \
+		and not bool(bad_index.get("ok", false)) and _same(bad_index.get("state", {}), state),
+		"general order/collision/index rejection mutated state")
+	var first := ROUTE.commit_choice(state, GENERAL_EVENTS[0], GENERAL_CHOICES[0], 237)
+	state = (first.get("state", state) as Dictionary).duplicate(true)
+	var replay := ROUTE.commit_choice(state, GENERAL_EVENTS[0], GENERAL_CHOICES[0], 237)
+	var conflict := ROUTE.commit_choice(state, GENERAL_EVENTS[0], 0, 237)
+	_expect(bool(replay.get("ok", false)) and bool(replay.get("idempotent", false)) \
+		and _same(replay.get("state", {}), state) \
+		and not bool(conflict.get("ok", false)) and _same(conflict.get("state", {}), state),
+		"general write-once callback contract regressed")
+	var signature := ROUTE.commit_choice(state, GENERAL_EVENTS[1], GENERAL_CHOICES[1], 240)
+	state = (signature.get("state", state) as Dictionary).duplicate(true)
+	_expect(not ROUTE.week_completed(state, 240) and not ROUTE.ending_ready(state) \
+		and ROUTE.next_event_for_turn(state, 240) == GENERAL_EVENTS[2],
+		"general signature did not expose same-turn outbound while pending")
+	var outbound := ROUTE.commit_choice(state, GENERAL_EVENTS[2], GENERAL_CHOICES[2], 240)
+	state = (outbound.get("state", state) as Dictionary).duplicate(true)
+	_expect(ROUTE.week_completed(state, 240) and ROUTE.route_complete(state) \
+		and ROUTE.ending_ready(state), "general outbound did not make ending ready")
+	var disk: Variant = JSON.parse_string(JSON.stringify(state))
+	var restored := ROUTE.state_from_save(disk, true, 240)
+	_expect(_same(restored, state) \
+		and typeof(restored.get("schema_version")) == TYPE_INT \
+		and typeof((ROUTE.entry_snapshot(restored).get("source_choices", {}) as Dictionary).get("m59_summit")) == TYPE_INT \
+		and typeof(ROUTE.receipt_snapshot_for_stage(restored, "outbound").get("choice_index")) == TYPE_INT,
+		"general JSON save boundary lost exact integer evidence")
+	for tamper_kind in ["ledger", "source", "receipt"]:
+		var tampered := state.duplicate(true)
+		if tamper_kind == "ledger":
+			tampered["ledger_id"] = ROUTE.LEDGER_ID
+		elif tamper_kind == "source":
+			((tampered["entry"] as Dictionary)["source_choices"] as Dictionary).erase(
+				"m51_minseo_arrival")
+		else:
+			((tampered["receipts"] as Dictionary)[GENERAL_EVENTS[0]] as Dictionary)["choice_index"] = 0
+		_expect(str(ROUTE.state_from_save(tampered, true, 240).get("status", "")) == "closed",
+			"general %s tamper did not fail closed" % tamper_kind)
+	var consumed_result := ROUTE.consume_ending_check(state)
+	var consumed: Dictionary = consumed_result.get("state", {})
+	var second := ROUTE.consume_ending_check(consumed)
+	_expect(bool(consumed_result.get("ok", false)) and not bool(consumed_result.get("idempotent", true)) \
+		and not ROUTE.holds_ending(consumed) \
+		and bool(second.get("ok", false)) and bool(second.get("idempotent", false)),
+		"general ready latch did not consume exactly once")
+
+
+func _check_general_game_state_contract() -> void:
+	_seed_general_sources()
+	GameState.turn = 237
+	_expect(GameState.prepare_chapter5_finale_route_entry() \
+		and GameState.chapter5_finale_next_event_for_turn() == GENERAL_EVENTS[0],
+		"GameState could not lock exact general W237 entry")
+	var locked_state := GameState.chapter5_finale_state.duplicate(true)
+	var original_flags := GameState.flags.duplicate(true)
+	var original_cast := GameState.cast.duplicate(true)
+	var original_player_route: Variant = GameState.player_route
+	var original_tendency := GameState.tendency_realized
+	GameState.player_route = "직장형"
+	GameState.tendency_realized = "career"
+	GameState.flags.erase("route_invest")
+	GameState.flags["route_career"] = true
+	GameState.flags["father_passed"] = false
+	GameState.flags["arc_father_passing_seen"] = "false"
+	GameState.flags["father_crisis_contact_present"] = "false"
+	GameState.flags["chapter5_general_minseo_arrival_0"] = true
+	GameState.cast["father"]["stage"] = "distant"
+	_expect(GameState.prepare_chapter5_finale_route_entry() \
+		and _same(GameState.chapter5_finale_state, locked_state) \
+		and _same(GameState.chapter5_finale_entry_snapshot(),
+			ROUTE.entry_snapshot(locked_state)),
+		"locked general entry was re-evaluated after route/father/source drift")
+	GameState.flags = original_flags
+	GameState.cast = original_cast
+	GameState.player_route = original_player_route
+	GameState.tendency_realized = original_tendency
+	for index in range(GENERAL_EVENTS.size()):
+		GameState.turn = GENERAL_TURNS[index]
+		var result := GameState.record_chapter5_finale_choice(
+			GENERAL_EVENTS[index], GENERAL_CHOICES[index])
+		_expect(bool(result.get("ok", false)),
+			"GameState could not commit general %s" % GENERAL_EVENTS[index])
+	_expect(GameState.chapter5_finale_ending_ready() \
+		and GameState.chapter5_finale_week_completed(240),
+		"GameState general outbound did not release ending")
+	var disk: Variant = JSON.parse_string(JSON.stringify(GameState.serialize()))
+	GameState.start_new_game()
+	GameState.load_from_dict(disk)
+	_expect(GameState.chapter5_finale_ending_ready() \
+		and str(GameState.chapter5_finale_entry_snapshot().get("profile_id", "")) \
+		== ROUTE.GENERAL_PROFILE_ID,
+		"GameState general ready save did not roundtrip")
+	var first := GameState.consume_chapter5_finale_ending()
+	var second := GameState.consume_chapter5_finale_ending()
+	_expect(bool(first.get("ok", false)) and not bool(first.get("idempotent", true)) \
+		and bool(second.get("ok", false)) and bool(second.get("idempotent", false)),
+		"GameState general ending did not consume exactly once")
+	_seed_general_sources(false)
+	GameState.turn = 237
+	_expect(not GameState.prepare_chapter5_finale_route_entry() \
+		and GameState.chapter5_finale_entry_snapshot().is_empty() \
+		and not GameState.chapter5_finale_holds_ending(),
+		"invalid general sources did not fall back without invented finale evidence")
+	_check_general_game_state_exclusions()
+
+
+func _check_general_game_state_exclusions() -> void:
+	for route_case in [
+		{"player_route": "직장형", "flag": "route_career"},
+		{"player_route": "창업형", "flag": "route_startup"},
+	]:
+		_seed_general_sources()
+		GameState.player_route = str(route_case["player_route"])
+		GameState.tendency_realized = (
+			"career" if str(route_case["flag"]) == "route_career" else "found")
+		GameState.flags.erase("route_invest")
+		GameState.flags[str(route_case["flag"])] = true
+		GameState.turn = 237
+		var before_w237 := GameState.chapter5_finale_state.duplicate(true)
+		_expect(not GameState.prepare_chapter5_finale_route_entry() \
+			and _same(GameState.chapter5_finale_state, before_w237) \
+			and GameState.chapter5_finale_entry_snapshot().is_empty(),
+			"%s profile entered the general W237 ledger" % route_case["flag"])
+
+		_seed_general_sources()
+		GameState.flags.erase("chapter5_general_last_page_instruction_0")
+		GameState.flags.erase("chapter5_general_summit_1")
+		GameState.event_log.resize(2)
+		GameState.player_route = str(route_case["player_route"])
+		GameState.tendency_realized = (
+			"career" if str(route_case["flag"]) == "route_career" else "found")
+		GameState.flags.erase("route_invest")
+		GameState.flags[str(route_case["flag"])] = true
+		GameState.turn = 229
+		_expect(not GameState.chapter5_general_finale_w229_available(),
+			"%s profile exposed the general W229 source" % route_case["flag"])
+
+	_seed_general_sources()
+	GameState.player_route = "none"
+	GameState.tendency_realized = ""
+	GameState.flags.erase("route_invest")
+	GameState.turn = 237
+	_expect(GameState.prepare_chapter5_finale_route_entry() \
+		and str(GameState.chapter5_finale_entry_snapshot().get("profile_id", "")) \
+			== ROUTE.GENERAL_PROFILE_ID,
+		"coherent neutral route could not enter the general W237 ledger")
+
+	_seed_general_sources()
+	GameState.flags.erase("route_invest")
+	GameState.turn = 237
+	_expect(not GameState.prepare_chapter5_finale_route_entry(),
+		"investment identity without route_invest entered the general ledger")
+
+	_seed_general_sources()
+	GameState.player_route = "none"
+	GameState.turn = 237
+	_expect(not GameState.prepare_chapter5_finale_route_entry(),
+		"neutral identity with sticky route_invest entered the general ledger")
+
+	_seed_general_sources()
+	GameState.flags["route_career"] = true
+	GameState.turn = 237
+	_expect(not GameState.prepare_chapter5_finale_route_entry(),
+		"hybrid investment/career identity entered the general ledger")
+
+	_seed_general_sources()
+	GameState.player_route = "none"
+	GameState.tendency_realized = "invest"
+	GameState.flags.erase("route_invest")
+	GameState.turn = 237
+	_expect(not GameState.prepare_chapter5_finale_route_entry(),
+		"neutral route with mismatched realized tendency entered the general ledger")
+
+	_seed_general_sources()
+	GameState.flags["father_passed"] = "false"
+	GameState.cast["father"]["stage"] = "distant"
+	GameState.turn = 237
+	var malformed_father_before := GameState.chapter5_finale_state.duplicate(true)
+	_expect(not GameState.prepare_chapter5_finale_route_entry() \
+		and _same(GameState.chapter5_finale_state, malformed_father_before),
+		"non-bool father_passed fabricated the general W237 father state")
+
+	_seed_general_sources()
+	GameState.flags["chapter5_general_minseo_arrival_0"] = true
+	GameState.turn = 237
+	var multiple_source_before := GameState.chapter5_finale_state.duplicate(true)
+	_expect(not GameState.prepare_chapter5_finale_route_entry() \
+		and _same(GameState.chapter5_finale_state, multiple_source_before) \
+		and GameState.chapter5_finale_entry_snapshot().is_empty(),
+		"multiple true source flags did not reject W237 byte-identically")
+
+	_seed_general_sources()
+	GameState.flags["chapter5_general_minseo_arrival_1"] = "true"
+	GameState.turn = 237
+	var non_bool_source_before := GameState.chapter5_finale_state.duplicate(true)
+	_expect(not GameState.prepare_chapter5_finale_route_entry() \
+		and _same(GameState.chapter5_finale_state, non_bool_source_before) \
+		and GameState.chapter5_finale_entry_snapshot().is_empty(),
+		"non-bool source flag did not reject W237 byte-identically")
+
+	_seed_general_sources()
+	GameState.flags["route_career"] = "false"
+	GameState.turn = 237
+	_expect(not GameState.prepare_chapter5_finale_route_entry() \
+		and GameState.chapter5_finale_entry_snapshot().is_empty(),
+		"malformed career route flag entered the general W237 ledger")
+
+	_seed_general_sources()
+	GameState.flags["father_crisis_contact_present"] = "false"
+	GameState.turn = 237
+	_expect(GameState.prepare_chapter5_finale_route_entry() \
+		and str(GameState.chapter5_finale_entry_snapshot().get(
+			"father", {}).get("contact_mode", "")) == "records_only",
+		"non-bool father contact receipt was coerced into a witnessed contact")
+
+
 func _complete_source_route_state() -> Dictionary:
 	var state := CAUSAL_ROUTE.default_state()
 	var locked := CAUSAL_ROUTE.lock_entry(
@@ -474,6 +778,51 @@ func _lock(life: String, contact_mode: String) -> Dictionary:
 	return ROUTE.lock_entry(
 		ROUTE.default_state(), 221, ROUTE.ROUTE_ID, ROUTE.PROFILE_ID,
 		_source_choices(), _father(life, contact_mode), _actors())
+
+
+func _general_lock() -> Dictionary:
+	return ROUTE.lock_entry(
+		ROUTE.default_state(), 237, ROUTE.ROUTE_ID, ROUTE.GENERAL_PROFILE_ID,
+		_general_source_choices(), _father("passed", "records_only"),
+		ROUTE.GENERAL_ACTORS)
+
+
+func _general_state_through(count: int) -> Dictionary:
+	var state := (_general_lock().get("state", {}) as Dictionary).duplicate(true)
+	for index in range(mini(count, GENERAL_EVENTS.size())):
+		var result := ROUTE.commit_choice(
+			state, GENERAL_EVENTS[index], GENERAL_CHOICES[index], GENERAL_TURNS[index])
+		if not bool(result.get("ok", false)):
+			_expect(false, "general fixture could not commit %s" % GENERAL_EVENTS[index])
+			break
+		state = (result.get("state", state) as Dictionary).duplicate(true)
+	return state
+
+
+func _general_source_choices() -> Dictionary:
+	return {
+		"m51_minseo_arrival": 1,
+		"m56_father_legacy": 2,
+		"w229_last_page_instruction": 0,
+		"m59_summit": 1,
+	}
+
+
+func _seed_general_sources(valid: bool = true) -> void:
+	GameState.start_new_game("김민준", "지방_상경", "투자형")
+	GameState.flags["father_passed"] = true
+	GameState.flags["chapter5_general_minseo_arrival_1"] = true
+	GameState.flags["chapter5_general_father_legacy_2"] = true
+	GameState.flags["chapter5_general_last_page_instruction_0"] = true
+	GameState.flags["chapter5_general_summit_1"] = true
+	GameState.event_log = [
+		{"event_id": "arc_minseo_03_arrival", "choice_index": 1, "turn": 203},
+		{"event_id": "arc_father_legacy", "choice_index": 2, "turn": 224},
+		{"event_id": "arc_y5_general_last_page_instruction", "choice_index": 0, "turn": 229},
+		{"event_id": "arc_pre_ending_summit", "choice_index": 1, "turn": 235},
+	]
+	if not valid:
+		GameState.event_log.pop_back()
 
 
 func _state_through(life: String, count: int) -> Dictionary:

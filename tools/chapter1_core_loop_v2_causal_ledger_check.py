@@ -3419,7 +3419,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "tools/StoryPlaybackCheck.gd":
         "c6210f9687573353da8d0b429edc85f3016d8084c2914226f54d12cd8c657edb",
     "autoloads/GameState.gd":
-        "328160d0a296b1cf0edc5638ee7e454eeccd42c42413e9d58c4d21348536aeff",
+        "8f8868bd5ccda972ac6db58db6674df97a4c4061daa0e5054aa89b3620729392",
     "autoloads/DataRegistry.gd":
         "d442e9af4e45a1011150b31985bcee935e472c0b62b0fdce399218079968473c",
     "autoloads/LocaleManager.gd":
@@ -3437,7 +3437,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "scenes/StoryMode.tscn":
         "b7688a883323a196e74271c1e76f1d88c91310b3fe1a287cb051b33dd2fb76ca",
     "scenes/MainGame.gd":
-        "f31879e9627ef644d2f6eb9c1f8441ab4ed7db3b0925b7f13295fa406797dd3e",
+        "9071f2396a35827f509a1942e93223cde65548ad8d296c9d940ed493e2f02216",
     "scenes/MainGame.tscn":
         "71a9590d43c755fa6b409ee0eb0f1950c6aba4517c64192b83038d22a45d9979",
     "scenes/SeoulCycleBoard.gd":
@@ -3453,9 +3453,9 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/meta/demo_localization_scope.json":
         "84b442ad5b71d67b850a8d93a3c907bf8309f88f226fff3bcebbcdf5d969d506",
     "content/meta/release_content_inventory.json":
-        "3b27c2340aef4c28077dc624043c60a760a5b323e4c73733dc5e176e78e3f528",
+        "944c49c74cb379e56fa6b7aae49ccba8391bb0879331c8e9ed87911cad9e2327",
     "content/meta/story_rules.json":
-        "efd50cd8029f602675e68efd1af66e8d3efe826476aa6cb76c02bafb522a3a54",
+        "cbaa163d72a5c3f4fa3330fd72a30c42ced164d213a99a9942d774e475d50879",
     "content/jobs.json":
         "d1a3ed8ba3f2839954d0b15266bff4f7a0d1317d78c503bd2422aa87b7210f84",
     "content/events/arc_events.json":
@@ -3475,7 +3475,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "docs/queue_archive/ORDER-101.md":
         "732f49ac40efb644a7321cd425160fae9a8123ead11eb2cc7ebc5b238952ee48",
     "docs/CHOICE_CONSEQUENCE_SYSTEM.md":
-        "07b87076011df8b4dfb9d34d28787bac4e2d050fe6e006e0a6a19255e88f24a0",
+        "4e9ad0f8c1c3d96dd9aad8dd11c8efcdc7f37fbbc15bb163993c3e9ee4f38631",
     "tools/core_loop_v2_balance_sim.py":
         "034475f5d392f016f94c731335a32b460229c7685b00e70bc65fb62efcc5ae3a",
     "tools/demo_core_loop_v2_audit.py":
@@ -3485,7 +3485,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "tools/release_content_inventory.py":
         "2563a8f4ecef128e6a6ecbb4377374fd4e40b0e1080a81ba12144913f0dba4d1",
     "tools/story_consistency_audit.py":
-        "631558d8349333496fa4d056e1c99117654e0ac9192f1922e36df03646e59659",
+        "ae6fa0c4497dfc858e11d23ea4aaa87d56940a334b8a45bea16f6b3eab0af393",
 }
 # Mutable evidence/status logs are not causal sources.  Keeping this guard in
 # production validation prevents an append-only work record from silently
@@ -20419,6 +20419,8 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
     expected_finale_selector_tools = {
         "tools/chapter5_finale_route_audit.py",
         "tools/chapter5_finale_route_audit.py --self-test",
+        "tools/chapter5_general_finale_route_audit.py",
+        "tools/chapter5_general_finale_route_audit.py --self-test",
     }
     finale_selectors = [
         check for check in audit_scope.get("checks", [])
@@ -20431,6 +20433,13 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
     required_finale_selector_paths = {
         "content/meta/chapter5_causal_ledger.json",
         "content/meta/chapter5_finale_ledger.json",
+        "content/meta/chapter5_general_finale_ledger.json",
+        "content/meta/event_director.json",
+        "content/meta/event_lifecycle.json",
+        "content/meta/narrative_spine.json",
+        "content/meta/story_map.json",
+        "content/meta/story_rules.json",
+        "content/meta/year5_reference_routes.json",
         "systems/Chapter5CausalRoute.gd",
         "systems/Chapter5FinaleRoute.gd",
         "autoloads/GameState.gd",
@@ -20440,6 +20449,10 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
         "systems/EndingSystem.gd",
         "tools/chapter5_causal_route_audit.py",
         "tools/chapter5_finale_route_audit.py",
+        "tools/chapter5_general_finale_route_audit.py",
+        "tools/event_director_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/arc_flow_sim.py",
         "tools/Chapter5FinaleRouteCheck.gd",
         "tools/ManualSaveCheck.gd",
         "tools/CoreChoiceSliceCheck.gd",

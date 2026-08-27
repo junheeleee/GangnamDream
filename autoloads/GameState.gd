@@ -382,14 +382,142 @@ func _chapter5_finale_source_choices() -> Dictionary:
 			"arc_sangchul_final_door"),
 	}
 
+func _chapter5_general_integral_value(raw_value: Variant) -> int:
+	if typeof(raw_value) == TYPE_INT:
+		return int(raw_value)
+	if typeof(raw_value) == TYPE_FLOAT:
+		var number := float(raw_value)
+		if is_finite(number) and number == floor(number):
+			return int(number)
+	return -1
+
+func _chapter5_general_exact_source_choice(
+		event_id: String, flag_prefix: String, choice_count: int,
+		min_turn: int, max_turn: int) -> int:
+	if event_id.is_empty() or flag_prefix.is_empty() or choice_count < 1:
+		return -1
+	var selected_flags: Array[int] = []
+	for choice_index in range(choice_count):
+		var flag_id := "%s%d" % [flag_prefix, choice_index]
+		if not flags.has(flag_id):
+			continue
+		var raw_flag: Variant = flags[flag_id]
+		if not raw_flag is bool:
+			return -1
+		if bool(raw_flag):
+			selected_flags.append(choice_index)
+	if selected_flags.size() != 1:
+		return -1
+	var selected_choice: int = selected_flags[0]
+	var matching_receipts := 0
+	for raw_entry in event_log:
+		if not raw_entry is Dictionary:
+			continue
+		var entry: Dictionary = raw_entry
+		if str(entry.get("event_id", "")) != event_id:
+			continue
+		matching_receipts += 1
+		var logged_choice := _chapter5_general_integral_value(
+			entry.get("choice_index", null))
+		var logged_turn := _chapter5_general_integral_value(
+			entry.get("turn", null))
+		if logged_choice != selected_choice \
+				or logged_turn < min_turn or logged_turn > max_turn:
+			return -1
+	return selected_choice if matching_receipts == 1 else -1
+
+func _chapter5_general_source_absent(
+		event_id: String, flag_prefix: String, choice_count: int) -> bool:
+	for choice_index in range(choice_count):
+		var flag_id := "%s%d" % [flag_prefix, choice_index]
+		if flags.has(flag_id):
+			var raw_flag: Variant = flags[flag_id]
+			if not raw_flag is bool or bool(raw_flag):
+				return false
+	for raw_entry in event_log:
+		if raw_entry is Dictionary \
+				and str((raw_entry as Dictionary).get("event_id", "")) == event_id:
+			return false
+	return true
+
+func _chapter5_general_finale_source_choices() -> Dictionary:
+	var sources := {
+		"m51_minseo_arrival": _chapter5_general_exact_source_choice(
+			"arc_minseo_03_arrival", "chapter5_general_minseo_arrival_", 2,
+			200, 236),
+		"m56_father_legacy": _chapter5_general_exact_source_choice(
+			"arc_father_legacy", "chapter5_general_father_legacy_", 3,
+			224, 236),
+		"w229_last_page_instruction": _chapter5_general_exact_source_choice(
+			"arc_y5_general_last_page_instruction",
+			"chapter5_general_last_page_instruction_", 2, 229, 229),
+		"m59_summit": _chapter5_general_exact_source_choice(
+			"arc_pre_ending_summit", "chapter5_general_summit_", 2,
+			234, 236),
+	}
+	for source_choice in sources.values():
+		if int(source_choice) < 0:
+			return {}
+	return sources
+
+
+func _chapter5_finale_exact_true_flag(flag_id: String) -> bool:
+	if not flags.has(flag_id):
+		return false
+	var raw_flag: Variant = flags[flag_id]
+	return raw_flag is bool and bool(raw_flag)
+
+
+func _chapter5_general_route_profile_allowed() -> bool:
+	# A general ledger may coexist with a coherent investment identity when the
+	# property vertical never locked. Career/startup, hybrid/unknown identities,
+	# and malformed route flags must fall back instead of borrowing its cast.
+	for flag_id in ["route_career", "route_invest", "route_startup"]:
+		if not flags.has(flag_id):
+			continue
+		var raw_flag: Variant = flags[flag_id]
+		if not raw_flag is bool:
+			return false
+		if flag_id != "route_invest" and bool(raw_flag):
+			return false
+	var invest_route := _chapter5_finale_exact_true_flag("route_invest")
+	if player_route == "none":
+		return tendency_realized.is_empty() and not invest_route
+	if player_route == "투자형":
+		return tendency_realized in ["", "invest"] and invest_route
+	return false
+
+
+func chapter5_general_finale_w229_available(at_turn: int = -1) -> bool:
+	var query_turn: int = int(turn) if at_turn < 0 else at_turn
+	if query_turn != 229 or not chapter5_causal_entry_snapshot().is_empty() \
+			or not _chapter5_general_route_profile_allowed():
+		return false
+	if str(_chapter5_finale_father_snapshot().get("life", "")) != "passed":
+		return false
+	if _chapter5_general_exact_source_choice(
+			"arc_minseo_03_arrival", "chapter5_general_minseo_arrival_", 2,
+			200, 228) < 0:
+		return false
+	if _chapter5_general_exact_source_choice(
+			"arc_father_legacy", "chapter5_general_father_legacy_", 3,
+			224, 228) < 0:
+		return false
+	return _chapter5_general_source_absent(
+		"arc_y5_general_last_page_instruction",
+		"chapter5_general_last_page_instruction_", 2)
+
 func _chapter5_finale_father_snapshot() -> Dictionary:
-	var father_passed := bool(flags.get("father_passed", false)) \
-		or bool(flags.get("arc_father_passing_seen", false)) \
+	var father_passed := _chapter5_finale_exact_true_flag("father_passed") \
+		or _chapter5_finale_exact_true_flag("arc_father_passing_seen") \
 		or get_cast_stage("father") == "passed"
 	var contact_receipts := {
-		"present": bool(flags.get("father_crisis_contact_present", false)),
-		"called": bool(flags.get("father_crisis_contact_called", false)),
-		"missed": bool(flags.get("father_crisis_contact_missed", false)),
+		"present": _chapter5_finale_exact_true_flag(
+			"father_crisis_contact_present"),
+		"called": _chapter5_finale_exact_true_flag(
+			"father_crisis_contact_called"),
+		"missed": _chapter5_finale_exact_true_flag(
+			"father_crisis_contact_missed"),
 	}
 	var contact_mode := "records_only"
 	var contact_matches: Array[String] = []
@@ -407,18 +535,46 @@ func chapter5_finale_is_owned_event(event_id: String) -> bool:
 	return CHAPTER5_FINALE_ROUTE.is_owned_event(event_id)
 
 func prepare_chapter5_finale_route_entry() -> bool:
-	# M56의 첫 장면은 M49-M55 전체가 실제로 끝난 같은 투자 문서 경로만
-	# 이어받는다. 누락된 선택을 달력이나 관계 플래그로 추정하지 않는다.
-	if not CHAPTER5_CAUSAL_ROUTE.route_complete(chapter5_causal_state):
+	# Once either profile is locked, later asset/relationship movement cannot
+	# rewrite its cast or source choices. The reducer verifies the identical
+	# candidate when a restored result page asks again.
+	if not chapter5_finale_entry_snapshot().is_empty():
+		return true
+	var profile_id := ""
+	var source_choices: Dictionary = {}
+	var father := _chapter5_finale_father_snapshot()
+	var actors: Dictionary = {}
+	if int(turn) == CHAPTER5_FINALE_ROUTE.ENTRY_TURN:
+		# M56 inherits only the completed M49-M55 investment paper trail.
+		if not CHAPTER5_CAUSAL_ROUTE.route_complete(chapter5_causal_state):
+			return false
+		profile_id = CHAPTER5_FINALE_ROUTE.PROFILE_ID
+		source_choices = _chapter5_finale_source_choices()
+		actors = CHAPTER5_FINALE_ROUTE.ACTORS.duplicate(true)
+	elif int(turn) == CHAPTER5_FINALE_ROUTE.GENERAL_ENTRY_TURN:
+		# The first general child is deliberately narrow: no property entry,
+		# no career/startup profile, Father's death, and four exact pre-finale
+		# choices. Missing or conflicting evidence leaves the generic W237/W240
+		# fallback untouched.
+		if not chapter5_causal_entry_snapshot().is_empty() \
+				or not _chapter5_general_route_profile_allowed() \
+				or str(father.get("life", "")) != "passed":
+			return false
+		source_choices = _chapter5_general_finale_source_choices()
+		if source_choices.is_empty():
+			return false
+		profile_id = CHAPTER5_FINALE_ROUTE.GENERAL_PROFILE_ID
+		actors = CHAPTER5_FINALE_ROUTE.GENERAL_ACTORS.duplicate(true)
+	else:
 		return false
 	var result := CHAPTER5_FINALE_ROUTE.lock_entry(
 		chapter5_finale_state,
 		int(turn),
 		CHAPTER5_FINALE_ROUTE.ROUTE_ID,
-		CHAPTER5_FINALE_ROUTE.PROFILE_ID,
-		_chapter5_finale_source_choices(),
-		_chapter5_finale_father_snapshot(),
-		CHAPTER5_FINALE_ROUTE.ACTORS.duplicate(true))
+		profile_id,
+		source_choices,
+		father,
+		actors)
 	if not bool(result.get("ok", false)):
 		return false
 	chapter5_finale_state = (
@@ -517,6 +673,27 @@ func _chapter5_finale_entry_value(path: String) -> Variant:
 		current = (current as Dictionary)[component]
 	return current
 
+func _chapter5_finale_entry_value_index(
+		values: Array, value: Variant) -> int:
+	# JSON numbers arrive as floats while reducer/save state deliberately keeps
+	# exact choice indices as ints. Preserve exact string domains, then compare
+	# only finite integral numeric values across that representation boundary.
+	var direct_index := values.find(value)
+	if direct_index >= 0:
+		return direct_index
+	var exact_value := _chapter5_general_integral_value(value)
+	if exact_value < 0:
+		return -1
+	var matched_index := -1
+	for index in range(values.size()):
+		var exact_candidate := _chapter5_general_integral_value(values[index])
+		if exact_candidate != exact_value:
+			continue
+		if matched_index >= 0:
+			return -1
+		matched_index = index
+	return matched_index
+
 func chapter5_finale_read_source_snapshot(source: Dictionary) -> Dictionary:
 	var kind := str(source.get("kind", ""))
 	var selected := -1
@@ -547,7 +724,7 @@ func chapter5_finale_read_source_snapshot(source: Dictionary) -> Dictionary:
 		var values: Array = source["values"]
 		var value: Variant = _chapter5_finale_entry_value(
 			str(source.get("path", "")))
-		selected = values.find(value)
+		selected = _chapter5_finale_entry_value_index(values, value)
 		count = values.size()
 		if count < 1 or selected < 0:
 			return {"ok": false}

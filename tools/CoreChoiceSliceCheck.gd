@@ -44,6 +44,7 @@ func _ready() -> void:
 	_check_chapter_four_boundary_handoff()
 	_check_chapter5_causal_direct_week_ownership()
 	await _check_chapter5_finale_direct_week_ownership()
+	_check_chapter5_general_finale_direct_week_ownership()
 	_check_chapter_four_father_death_recovery()
 	_check_father_terminal_final_week_repair()
 	_check_father_terminal_ending_descriptions()
@@ -52,7 +53,7 @@ func _ready() -> void:
 	_check_foreground_commitment_weeks()
 	if _failures.is_empty():
 		_stop_fixture_audio()
-		print("CORE_CHOICE_SLICE_CHECK_OK intent=1 interview=causal job_gate=ledger jiyeon_lunch=branch_gated racetrack=handoff authored=7 generic=2 ap_duplicate=0 delayed=t8 branches=2 axes=money/human missed_cost=targeted chapter5=w193_same_queue+causal19/47+finale11/30-active9/24+read-contract+direct-no-ap+w240-two-root+fatal-return-uncovered+normal-release-uncovered father_death=monotonic_repair father_active=guarded milestone_routing=dual late_routes=variant+closed save=roundtrip")
+		print("CORE_CHOICE_SLICE_CHECK_OK intent=1 interview=causal job_gate=ledger jiyeon_lunch=branch_gated racetrack=handoff authored=7 generic=2 ap_duplicate=0 delayed=t8 branches=2 axes=money/human missed_cost=targeted chapter5=w193_same_queue+causal19/47+finale11/30-active9/24+general3/8-w229-w237-w240-same-turn+read-contract+direct-no-ap+w240-two-root+fatal-return-uncovered+normal-release-uncovered father_death=monotonic_repair father_active=guarded milestone_routing=dual late_routes=variant+closed save=roundtrip")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -1141,6 +1142,100 @@ func _wait_for_transition_uncovered() -> void:
 			return
 		await get_tree().process_frame
 
+
+func _check_chapter5_general_finale_direct_week_ownership() -> void:
+	_seed_chapter5_general_direct_sources("투자형")
+	var game = _new_main_game()
+	game.set_meta("_screenshot_qa_static_surface", true)
+	GameState.turn = 237
+	GameState.pending_story_queue = []
+	_expect(game._route_chapter5_finale_week() \
+		and GameState.pending_story_queue == ["arc_y5_general_final_record_seal"] \
+		and int(GameState.flags.get("foreground_story_turn", -1)) == 237,
+		"general W237 did not enter as direct foreground story")
+	# Exercise the real localized read-prepend path before the reducer receipt is
+	# written. A route can own W237 correctly yet still fail closed in StoryMode
+	# if its authored source contract cannot be resolved.
+	var general_read_story = STORY_MODE_SCRIPT.new()
+	var raw_general_w237: Dictionary = DataRegistry.find_event(
+		"arc_y5_general_final_record_seal")
+	var localized_general_w237: Dictionary = general_read_story.call(
+		"_localized_story_event", "arc_y5_general_final_record_seal")
+	_expect(not localized_general_w237.is_empty() \
+		and str(localized_general_w237.get("id", "")) \
+			== "arc_y5_general_final_record_seal" \
+		and str(localized_general_w237.get("description", "")) \
+			!= str(raw_general_w237.get("description", "")),
+		"StoryMode actual loader did not prepend the general W237 read contract")
+	general_read_story.free()
+	_expect(bool(GameState.record_chapter5_finale_choice(
+		"arc_y5_general_final_record_seal", 1).get("ok", false)) \
+		and GameState.chapter5_finale_week_completed(237),
+		"general W237 receipt did not close its direct week")
+	GameState.turn = 240
+	GameState.pending_story_queue = []
+	GameState.flags.erase("foreground_story_turn")
+	_expect(game._route_chapter5_finale_week() \
+		and GameState.pending_story_queue == [
+			"arc_final_countdown_general_near_goal_passed"],
+		"general W240 signature did not own direct foreground")
+	_expect(bool(GameState.record_chapter5_finale_choice(
+		"arc_final_countdown_general_near_goal_passed", 2).get("ok", false)) \
+		and GameState.chapter5_finale_next_event_for_turn() \
+		== "arc_y5_final_week_general_people_outbound",
+		"general W240 signature did not expose same-turn outbound")
+	var story = STORY_MODE_SCRIPT.new()
+	story.set("_queue", [])
+	story.call("_queue_chapter5_finale_same_turn_ingress")
+	_expect(story.get("_queue") == ["arc_y5_final_week_general_people_outbound"],
+		"StoryMode did not queue general same-turn outbound")
+	story.free()
+	game.free()
+	GameState.start_new_game()
+	GameState.turn = 237
+	GameState.flags["father_passed"] = true
+	GameState.pending_story_queue = []
+	var fallback_game = _new_main_game()
+	_expect(not fallback_game._route_chapter5_finale_week() \
+		and GameState.pending_story_queue.is_empty() \
+		and GameState.chapter5_finale_entry_snapshot().is_empty() \
+		and not GameState.chapter5_finale_holds_ending(),
+		"invalid general sources did not return ownership to generic scheduling")
+	fallback_game.free()
+	for excluded_route in ["직장형", "창업형"]:
+		_seed_chapter5_general_direct_sources(excluded_route)
+		GameState.flags.erase("chapter5_general_last_page_instruction_0")
+		GameState.flags.erase("chapter5_general_summit_1")
+		GameState.event_log.resize(2)
+		GameState.turn = 229
+		_expect(not GameState.chapter5_general_finale_w229_available(),
+			"%s run exposed the general W229 foreground" % excluded_route)
+		_seed_chapter5_general_direct_sources(excluded_route)
+		GameState.turn = 237
+		GameState.pending_story_queue = []
+		var excluded_game = _new_main_game()
+		_expect(not excluded_game._route_chapter5_finale_week() \
+			and GameState.pending_story_queue.is_empty() \
+			and GameState.chapter5_finale_entry_snapshot().is_empty(),
+			"%s run was misrouted into the general W237 foreground" \
+			% excluded_route)
+		excluded_game.free()
+
+
+func _seed_chapter5_general_direct_sources(chosen_route: String) -> void:
+	GameState.start_new_game("김민준", "지방_상경", chosen_route)
+	GameState.flags["father_passed"] = true
+	GameState.flags["chapter5_general_minseo_arrival_1"] = true
+	GameState.flags["chapter5_general_father_legacy_2"] = true
+	GameState.flags["chapter5_general_last_page_instruction_0"] = true
+	GameState.flags["chapter5_general_summit_1"] = true
+	GameState.event_log = [
+		{"event_id": "arc_minseo_03_arrival", "choice_index": 1, "turn": 203},
+		{"event_id": "arc_father_legacy", "choice_index": 2, "turn": 224},
+		{"event_id": "arc_y5_general_last_page_instruction", "choice_index": 0, "turn": 229},
+		{"event_id": "arc_pre_ending_summit", "choice_index": 1, "turn": 235},
+	]
+
 func _check_foreground_commitment_weeks() -> void:
 	var representatives := {
 		10: "arc_ch1_career_first_spec",
@@ -1161,6 +1256,7 @@ func _check_foreground_commitment_weeks() -> void:
 		188: "arc_y4_father_crisis_stabilized",
 		190: "arc_y4_year_close_daeun",
 		192: "arc_year4_close",
+		229: "arc_y5_general_last_page_instruction",
 	}
 	for raw_week in representatives:
 		var week := int(raw_week)

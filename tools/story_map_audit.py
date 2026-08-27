@@ -159,12 +159,16 @@ EXPECTED_CHAPTER5_PRODUCT_MONTHS = {
     "arc_y5_father_trace_custody": 56,
     "arc_y5_name_on_line_daeun_routed": 57,
     "arc_y5_people_verdict_daeun_exact": 58,
+    "arc_y5_general_last_page_instruction": 58,
     "arc_y5_property_not_executed_notice": 59,
     "arc_y5_remaining_jaehyuk_or_self": 60,
     "arc_y5_final_father_answer_alive": 60,
     "arc_y5_final_father_answer_passed": 60,
     "arc_final_countdown_property_not_executed": 60,
     "arc_y5_final_week_daeun_outbound": 60,
+    "arc_y5_general_final_record_seal": 60,
+    "arc_final_countdown_general_near_goal_passed": 60,
+    "arc_y5_final_week_general_people_outbound": 60,
 }
 EXPECTED_DECISIONS = {
     "story.first_illegal_offer",

@@ -55,6 +55,8 @@ func _run() -> void:
 	GameState.start_new_game()
 	_check_chapter5_finale_disk_save_contract()
 	GameState.start_new_game()
+	_check_chapter5_general_finale_disk_save_contract()
+	GameState.start_new_game()
 	_check_slot_and_legacy_contract()
 	if not _failures.is_empty():
 		await _finish()
@@ -246,6 +248,106 @@ func _check_chapter5_finale_disk_save_contract() -> void:
 		and not GameState.chapter5_finale_holds_ending(),
 		"W221+ legacy save fabricated a missing finale entry")
 	SaveManager.clear_loaded_resume_context()
+
+
+func _check_chapter5_general_finale_disk_save_contract() -> void:
+	_seed_chapter5_general_sources()
+	GameState.turn = 237
+	_expect(GameState.prepare_chapter5_finale_route_entry(),
+		"general finale disk fixture could not lock W237")
+	var first_id := "arc_y5_general_final_record_seal"
+	_expect(bool(GameState.record_chapter5_finale_choice(first_id, 1).get("ok", false)),
+		"general finale disk fixture could not commit record seal")
+	_expect(SaveManager.save_game(TEST_SLOT, {}, {"qa_fixture": true}),
+		"general partial finale disk fixture could not be saved")
+	GameState.start_new_game()
+	_expect(SaveManager.load_game(TEST_SLOT),
+		"general partial finale disk fixture could not be loaded")
+	var entry := GameState.chapter5_finale_entry_snapshot()
+	var first_receipt := CHAPTER5_FINALE_ROUTE.receipt_snapshot_for_event(
+		GameState.chapter5_finale_state, first_id)
+	_expect(str(entry.get("profile_id", "")) == CHAPTER5_FINALE_ROUTE.GENERAL_PROFILE_ID \
+		and str(entry.get("source_route_id", "")) == CHAPTER5_FINALE_ROUTE.GENERAL_SOURCE_ROUTE_ID \
+		and entry.get("actor_bindings", {}) == CHAPTER5_FINALE_ROUTE.GENERAL_ACTORS \
+		and typeof(entry.get("turn")) == TYPE_INT \
+		and typeof((entry.get("source_choices", {}) as Dictionary).get("m51_minseo_arrival")) == TYPE_INT \
+		and typeof(first_receipt.get("turn")) == TYPE_INT \
+		and typeof(first_receipt.get("choice_index")) == TYPE_INT,
+		"general partial disk save lost exact entry/receipt integers")
+	_expect(bool(GameState.flags.get("chapter5_general_minseo_arrival_1", false)) \
+		and bool(GameState.flags.get("chapter5_general_father_legacy_2", false)) \
+		and bool(GameState.flags.get("chapter5_general_last_page_instruction_0", false)) \
+		and bool(GameState.flags.get("chapter5_general_summit_1", false)),
+		"general partial disk save lost source choice flags")
+	_expect(_general_source_log_is_exact(),
+		"general partial disk save lost exact source event-log receipts: %s" \
+		% JSON.stringify(GameState.event_log))
+	GameState.turn = 240
+	_expect(GameState.chapter5_finale_next_event_for_turn() \
+		== "arc_final_countdown_general_near_goal_passed" \
+		and bool(GameState.record_chapter5_finale_choice(
+			"arc_final_countdown_general_near_goal_passed", 2).get("ok", false)) \
+		and not GameState.chapter5_finale_ending_ready() \
+		and GameState.chapter5_finale_next_event_for_turn() \
+		== "arc_y5_final_week_general_people_outbound",
+		"general signature did not remain pending and expose same-turn outbound")
+	_expect(bool(GameState.record_chapter5_finale_choice(
+		"arc_y5_final_week_general_people_outbound", 0).get("ok", false)) \
+		and GameState.chapter5_finale_ending_ready(),
+		"general outbound did not reach ready before disk save")
+	_expect(SaveManager.save_game(TEST_SLOT, {}, {"qa_fixture": true}),
+		"general ready finale disk fixture could not be saved")
+	GameState.start_new_game()
+	_expect(SaveManager.load_game(TEST_SLOT) and GameState.chapter5_finale_ending_ready(),
+		"general ready finale did not survive disk save")
+	var consumed := GameState.consume_chapter5_finale_ending()
+	_expect(bool(consumed.get("ok", false)) and GameState.chapter5_finale_ending_consumed(),
+		"general ready finale did not consume before disk save")
+	_expect(SaveManager.save_game(TEST_SLOT, {}, {"qa_fixture": true}),
+		"general consumed finale disk fixture could not be saved")
+	GameState.start_new_game()
+	_expect(SaveManager.load_game(TEST_SLOT) \
+		and GameState.chapter5_finale_ending_consumed() \
+		and not GameState.chapter5_finale_holds_ending() \
+		and bool(GameState.consume_chapter5_finale_ending().get("idempotent", false)),
+		"general consumed finale did not survive disk save idempotently")
+	SaveManager.clear_loaded_resume_context()
+
+
+func _seed_chapter5_general_sources() -> void:
+	GameState.start_new_game("김민준", "지방_상경", "투자형")
+	GameState.flags["father_passed"] = true
+	GameState.flags["chapter5_general_minseo_arrival_1"] = true
+	GameState.flags["chapter5_general_father_legacy_2"] = true
+	GameState.flags["chapter5_general_last_page_instruction_0"] = true
+	GameState.flags["chapter5_general_summit_1"] = true
+	GameState.event_log = [
+		{"event_id": "arc_minseo_03_arrival", "choice_index": 1, "turn": 203},
+		{"event_id": "arc_father_legacy", "choice_index": 2, "turn": 224},
+		{"event_id": "arc_y5_general_last_page_instruction", "choice_index": 0, "turn": 229},
+		{"event_id": "arc_pre_ending_summit", "choice_index": 1, "turn": 235},
+	]
+
+
+func _general_source_log_is_exact() -> bool:
+	var expected := {
+		"arc_minseo_03_arrival": [1, 203],
+		"arc_father_legacy": [2, 224],
+		"arc_y5_general_last_page_instruction": [0, 229],
+		"arc_pre_ending_summit": [1, 235],
+	}
+	for raw in GameState.event_log:
+		if not raw is Dictionary:
+			continue
+		var row: Dictionary = raw
+		var event_id := str(row.get("event_id", ""))
+		if expected.has(event_id):
+			var values: Array = expected[event_id]
+			if int(row.get("choice_index", -1)) != int(values[0]) \
+					or int(row.get("turn", -1)) != int(values[1]):
+				return false
+			expected.erase(event_id)
+	return expected.is_empty()
 
 func _check_slot_and_legacy_contract() -> void:
 	_expect(SaveManager.SLOT_COUNT == 10, "manual slot count is not 10")

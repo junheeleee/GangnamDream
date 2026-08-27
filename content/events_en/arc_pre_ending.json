@@ -210,6 +210,100 @@
     ]
   },
   {
+    "id": "arc_y5_general_last_page_instruction",
+    "title": "The First Line of the Last Page",
+    "description": "Late in the final year, {name} opened the notebook to the week he met Minseo again and the week he placed an empty chair across from Father's photograph. Between those pages sat a blank index sheet for the notebook's final section.\n\nHe copied down only what he himself had actually said or done. He wrote no answer Minseo had not given, no answer Father could no longer give, and no home he did not own.\n\nThe index had room for one first line. Whichever sentence went there would become the cover line of the file he would seal before the final signature. The other would remain behind it as an attached record. {name} picked up his pen.",
+    "description_memory_if_known": {
+      "chapter5_general_minseo_arrival_0&chapter5_general_father_legacy_0": "He had told Minseo, ‘I think I'm starting to get it,’ and before the empty chair, ‘I'll get there, Father’ had left his mouth. Knowing the next question and promising arrival now waited for order on the same index.",
+      "chapter5_general_minseo_arrival_0&chapter5_general_father_legacy_1": "He had told Minseo, ‘I think I'm starting to get it,’ then silently explained to the empty chair how far he had come. A new question and an explanation that never reached its listener waited for order on the same index.",
+      "chapter5_general_minseo_arrival_0&chapter5_general_father_legacy_2": "He had told Minseo, ‘I think I'm starting to get it,’ but before the empty chair he turned on the monitor instead of speaking. Understanding spoken aloud and work begun without words waited for order on the same index.",
+      "chapter5_general_minseo_arrival_1&chapter5_general_father_legacy_0": "He had told Minseo, ‘I haven't arrived yet,’ and before the empty chair, ‘I'll get there, Father’ had left his mouth. A delayed arrival and a promised arrival waited for order on the same index.",
+      "chapter5_general_minseo_arrival_1&chapter5_general_father_legacy_1": "He had told Minseo, ‘I haven't arrived yet,’ then silently explained before the empty chair how far he had come. Two unfinished sentences, left before different people, met on the same index.",
+      "chapter5_general_minseo_arrival_1&chapter5_general_father_legacy_2": "He had told Minseo, ‘I haven't arrived yet,’ then turned on the monitor instead of speaking before the empty chair. Words saved for later and the act of someone still living waited for order on the same index."
+    },
+    "choices": [
+      {
+        "text": "Put the answer he gave Minseo on the first line",
+        "result_text": "{name} copied the answer he had given Minseo onto the first line of the index and marked the week beside it. The action before the empty chair moved to the second line and became ‘Attachment 1.’\n\nBoth records remained, but the first thing he would read before the final signature was the answer he had given Minseo. {name} slipped the index into the back of the notebook."
+      },
+      {
+        "text": "Put what he chose before the empty chair on the first line",
+        "result_text": "{name} copied what he had chosen before the empty chair onto the first line of the index and marked the week beside it. The answer he had given Minseo moved to the second line and became ‘Attachment 1.’\n\nBoth records remained, but the first thing he would read before the final signature was what he himself had actually done before a chair that could not answer. {name} slipped the index into the back of the notebook."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_general_final_record_seal",
+    "title": "The Seal Before the Signature",
+    "description": "On the night before the final signature, {name} emptied a clear file. He laid the index beside the three listings priced around 2.5 billion won and wrote today's date on a blank seal.\n\nThe listings had prices, but no buyer's name, signature, registration number, or key. The index held words and actions that had actually happened, but no new answer from Minseo or Father.\n\nBoth would go into the file. Only one, however, could face up when the sealed file reached the final signature. {name} had to choose the order before closing the seal.",
+    "chapter5_finale_reads": {
+      "texts": [
+        [
+          "When he met Minseo again, {name} said, ‘I think I'm starting to get it.’ Minseo answered that arrival would bring the next question.",
+          "When he met Minseo again, {name} said, ‘I haven't arrived yet.’ He left Minseo's words for after he arrived."
+        ],
+        [
+          "Before the empty chair, ‘I'll get there, Father’ actually left his mouth. No one heard it.",
+          "Before the empty chair, he silently explained how far he had come and how far remained.",
+          "Before the empty chair, he left no sentence. He turned on the monitor, and the photograph stayed where it was."
+        ],
+        [
+          "The first line of the index held the answer given to Minseo. The action before the empty chair remained as an attachment.",
+          "The first line of the index held the action chosen before the empty chair. The answer given to Minseo remained as an attachment."
+        ],
+        [
+          "At the real estate office, {name} opened Father's contact but did not press the call button. No outgoing time or answer appeared; only the listings remained in his hand.",
+          "He left the office and walked one block of Gangnam-daero carrying the listings. No contract, registration receipt, or key came into being."
+        ]
+      ]
+    },
+    "choices": [
+      {
+        "text": "Seal the index on top and attach the listings",
+        "result_text": "{name} placed the index on top and aligned the three listings behind it. On the contents label he wrote only ‘one index / three listings / today's date.’ The sentence he had chosen first remained visible through the clear cover.\n\nWhen he pressed the seal closed, the blank buyer fields did not disappear. They remained one sheet behind. He would not change the order before the final signature."
+      },
+      {
+        "text": "Seal the listing with the blank buyer line on top and attach the index",
+        "result_text": "{name} placed the listing with the blank buyer line on top, then aligned the other listings and the index behind it. On the contents label he wrote only ‘three listings / one index / today's date.’ The empty name field remained visible through the clear cover.\n\nWhen he pressed the seal closed, the index's first sentence did not disappear. It remained behind the listings. He would not change the order before the final signature."
+      }
+    ]
+  },
+  {
+    "id": "arc_final_countdown_general_near_goal_passed",
+    "title": "The Signature After the Seal",
+    "description": "On the final night of five years, the date on the seal sat beside the notebook's last date. Without breaking the seal, {name} read only the page facing up. There was a record of reaching the 2.5-billion-won threshold, but no document saying he had bought a home.\n\nHe drew three fields on the notebook's final page: ‘verified facts,’ ‘names and time,’ and ‘the first action I take today.’ None could be filled with another person's answer or forgiveness. The chair across from him was empty, and no new message waited on the phone.\n\nThis page was neither a contract nor a transfer instruction. {name} would complete it in one of three ways and write his own name once.",
+    "chapter5_finale_reads": {
+      "texts": [
+        [
+          "The final index began with the answer given to Minseo.",
+          "The final index began with the action chosen before the empty chair."
+        ],
+        [
+          "At the threshold, {name} opened Father's contact but did not call, then left carrying only the listings.",
+          "At the threshold, {name} walked one block carrying the listings, and no document of ownership came into being."
+        ],
+        [
+          "The sealed file placed the index on top and kept the listings as attachments.",
+          "The sealed file placed the listing with the blank buyer line on top and kept the index as an attachment."
+        ]
+      ]
+    },
+    "choices": [
+      {
+        "text": "Sign beneath only the verified document facts",
+        "result_text": "{name} copied the sealed file's contents into the first field: listings, index, seal date. Beneath them he wrote, ‘no buyer's name / no signature / no registration number / no key,’ then signed his own name.\n\nMinseo's words and the action before the empty chair remained under their attachment numbers. No new buyer's name or registration number appeared below the final line."
+      },
+      {
+        "text": "Put amounts and dates in one field, names and time in another, then sign the page",
+        "result_text": "In the left field, {name} wrote the asking prices and the seal date. In the right, he wrote the week he met Minseo and the action he chose before the empty chair. He drew no total line between the fields.\n\nHe added no new answer or forgiveness to the right side. After leaving only words and actions that had actually happened, he signed beneath both fields."
+      },
+      {
+        "text": "Write Minseo and Father first, then sign beside one open action field",
+        "result_text": "{name} wrote Minseo and Father on the first line. Beside them he added only ‘the week we met again’ and ‘the week of the empty chair.’ He did not write that any relationship had continued or that anyone gone had returned.\n\nBelow them he wrote, ‘one action I take first today: ______.’ He signed his own name beside the person responsible for that blank. When the ink dried, only the open action field remained."
+      }
+    ]
+  },
+  {
     "id": "arc_final_countdown",
     "title": "The Last Signature",
     "description": "In the final month of the five years, Gangnam's lights hung beyond the window. {name} sat alone at a desk with the notebook open before him.\n\nThe notebook's first page held his starting 500,000 won beside the 3-billion-won goal that had followed him for five years. The assets screen already showed whether the current figure sat above or below it, but neither arrival nor failure could explain the time behind the result.\n\n{name} reread only the amounts, dates, and names that were actually in the notebook. Meetings never held and answers never received stayed blank.\n\nMoney could be added and subtracted in one column. Time borrowed from people and nights never returned would not add up in the same units. The two ledgers still refused to reconcile.\n\nThe final page's blank line was only notebook paper. It was no contract or filed copy, and no stamp or filing number could appear there.\n\n{name} read three meanings over the line. \"I take responsibility.\" \"I price the names too.\" \"I put people first.\" One line; three different signatures.\n\nWriting one would push the other two off the line. Pretending to choose all three would take responsibility for none. No one was there to sign in his place or hold the pen with him.\n\n{name} held the black pen just above the blank line. The final decision of five years was smaller than one line, and its cost ran beyond it.",

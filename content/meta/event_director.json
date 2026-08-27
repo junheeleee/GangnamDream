@@ -338,11 +338,17 @@
       "227": [
         { "id": "arc_y5_name_on_line_daeun_routed", "axis": "money", "person_id": "daeun" }
       ],
+      "229": [
+        { "id": "arc_y5_general_last_page_instruction", "axis": "human" }
+      ],
       "230": [
         { "id": "arc_y5_people_verdict_daeun_exact", "axis": "human", "person_id": "daeun" }
       ],
       "235": [
         { "id": "arc_y5_property_not_executed_notice", "axis": "money", "person_id": "sangchul" }
+      ],
+      "237": [
+        { "id": "arc_y5_general_final_record_seal", "axis": "money" }
       ],
       "238": [
         { "id": "arc_y5_remaining_jaehyuk_or_self", "axis": "human", "person_id": "jaehyuk" }
@@ -353,7 +359,9 @@
       ],
       "240": [
         { "id": "arc_final_countdown_property_not_executed", "axis": "money" },
-        { "id": "arc_y5_final_week_daeun_outbound", "axis": "human", "person_id": "daeun" }
+        { "id": "arc_y5_final_week_daeun_outbound", "axis": "human", "person_id": "daeun" },
+        { "id": "arc_final_countdown_general_near_goal_passed", "axis": "money" },
+        { "id": "arc_y5_final_week_general_people_outbound", "axis": "human" }
       ]
     },
     "echo_weeks": [

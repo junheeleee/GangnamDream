@@ -26,6 +26,9 @@ CHAPTER5_CAUSAL_LEDGER_PATH = (
 CHAPTER5_FINALE_LEDGER_PATH = (
     ROOT / "content" / "meta" / "chapter5_finale_ledger.json"
 )
+CHAPTER5_GENERAL_FINALE_LEDGER_PATH = (
+    ROOT / "content" / "meta" / "chapter5_general_finale_ledger.json"
+)
 DEMO_CONTRACT_PATH = ROOT / "content" / "meta" / "demo_core_loop_v2.json"
 JOBS_PATH = ROOT / "content" / "jobs.json"
 VISUAL_CONTRACTS_PATH = ROOT / "assets" / "event_visual_contracts.json"
@@ -117,6 +120,10 @@ CHAPTER5_W240_FINALE_EDGE = (
     "arc_final_countdown_property_not_executed"
     "->arc_y5_final_week_daeun_outbound"
 )
+CHAPTER5_W240_GENERAL_FINALE_EDGE = (
+    "arc_final_countdown_general_near_goal_passed"
+    "->arc_y5_final_week_general_people_outbound"
+)
 
 
 def load_json(path: Path) -> Any:
@@ -127,7 +134,7 @@ def load_json(path: Path) -> Any:
 
 
 def chapter5_queue_only_edges() -> set[str]:
-    """Return non-demo queue edges proven by the two typed Chapter 5 ledgers."""
+    """Return non-demo queue edges proven by the typed Chapter 5 ledgers."""
     ledger = load_json(CHAPTER5_CAUSAL_LEDGER_PATH)
     if not isinstance(ledger, dict) \
             or ledger.get("schema_version") != 1 \
@@ -179,7 +186,38 @@ def chapter5_queue_only_edges() -> set[str]:
             or signature.get("active_when") is not None \
             or outbound.get("active_when") is not None:
         return {CHAPTER5_W210_QUEUE_EDGE}
-    return {CHAPTER5_W210_QUEUE_EDGE, CHAPTER5_W240_FINALE_EDGE}
+
+    established_edges = {CHAPTER5_W210_QUEUE_EDGE, CHAPTER5_W240_FINALE_EDGE}
+    general = load_json(CHAPTER5_GENERAL_FINALE_LEDGER_PATH)
+    if not isinstance(general, dict) \
+            or general.get("schema_version") != 1 \
+            or general.get("ledger_id") \
+                != "chapter5_general_near_goal_passed_finale_v1" \
+            or general.get("expected_root_count") != 3 \
+            or general.get("expected_active_root_count") != 3 \
+            or general.get("expected_choice_count") != 8 \
+            or general.get("expected_active_choice_count") != 8:
+        return established_edges
+    general_roots = general.get("roots", [])
+    if not isinstance(general_roots, list) or len(general_roots) != 3 \
+            or not all(isinstance(root, dict) for root in general_roots):
+        return established_edges
+    general_signature = general_roots[1]
+    general_outbound = general_roots[2]
+    if general_signature.get("stage_sequence") != 2 \
+            or general_outbound.get("stage_sequence") != 3 \
+            or general_signature.get("stage") != "signature" \
+            or general_outbound.get("stage") != "outbound" \
+            or general_signature.get("turn") != 240 \
+            or general_outbound.get("turn") != 240 \
+            or general_signature.get("event_id") \
+                != "arc_final_countdown_general_near_goal_passed" \
+            or general_outbound.get("event_id") \
+                != "arc_y5_final_week_general_people_outbound" \
+            or general_signature.get("active_when") is not None \
+            or general_outbound.get("active_when") is not None:
+        return established_edges
+    return established_edges | {CHAPTER5_W240_GENERAL_FINALE_EDGE}
 
 
 def load_events() -> tuple[dict[str, dict[str, Any]], list[str]]:

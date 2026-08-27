@@ -478,6 +478,47 @@
     }
   },
   {
+    "id": "arc_y5_final_week_general_people_outbound",
+    "title": "One Thing First",
+    "description": "A few minutes passed after the signature. {name} was alone in the room. The channel he had actually used with Minseo remained on the phone, while Father's record envelope lay separately on the desk. The two people were not together in this room.\n\nThere was no new reply, confirmed meeting, or forgiveness. The only thing he could settle was one action sent or written from his side. Whichever action he left first would place the other two outside the record of this night.\n\n{name} stopped between the empty input field and the blank line on the envelope.",
+    "chapter5_finale_reads": {
+      "texts": [
+        [
+          "The sealed file placed the index on top and kept the listings as attachments.",
+          "The sealed file placed the listing with the blank buyer line on top and kept the index as an attachment."
+        ],
+        [
+          "The final page closed with {name}'s name beneath the verified document facts.",
+          "The final page closed with amounts and dates beside names and time, without combining them.",
+          "The final page closed with Minseo, Father, and one blank marked ‘the first action I take today.’"
+        ],
+        [
+          "At their last meeting, {name} told Minseo, ‘I think I'm starting to get it.’",
+          "At their last meeting, {name} told Minseo, ‘I haven't arrived yet.’"
+        ],
+        [
+          "Before Father's photograph, ‘I'll get there, Father’ left his mouth.",
+          "Before Father's photograph, he silently explained how far he had come.",
+          "Before Father's photograph, he turned on the monitor instead of speaking."
+        ]
+      ]
+    },
+    "choices": [
+      {
+        "text": "Send Minseo today's verified fact after the answer he gave her",
+        "result_text": "In the channel they had actually used, {name} wrote:\n\n‘I reread the answer I gave you that day. I still didn't write that I had bought a home. There is no buyer's name or signature yet.’\n\nWhen he pressed send, only a sent time appeared beneath his bubble. No read receipt, reply, or next meeting appeared. He added no new line to Father's envelope and proposed no date to meet."
+      },
+      {
+        "text": "Leave the empty-chair record and one line from today on Father's envelope",
+        "result_text": "On the outside of Father's record envelope, {name} copied the empty-chair entry from the index. Beneath it he wrote:\n\n‘Today I closed a set of listings with no buyer's name together with a notebook signed in my own name.’\n\nHe added today's date and turned the envelope facedown. No answer appeared in the room. He sent Minseo no new sentence and proposed no date to meet."
+      },
+      {
+        "text": "Ask Minseo if she can meet at that cafe next Tuesday at seven thirty",
+        "result_text": "{name} opened the channel he had actually used with Minseo and wrote:\n\n‘Could we talk for thirty minutes at that cafe next Tuesday at seven thirty? I'll bring the answer I chose for the question after arrival.’\n\nOnly a sent time appeared beneath his bubble. No read receipt, reply, or confirmed meeting appeared. He did not explain today's document and left the outside of Father's envelope unchanged."
+      }
+    ]
+  },
+  {
     "id": "arc_final_week",
     "title": "The Last Week",
     "description": "A few minutes had passed since the last signature. {name} remained at the same desk, in the same room, on the same night. He closed the notebook after the ink dried. Beneath the cover, the line he had chosen closed beside the spaces left by the two he had not.\n\nThe phone held only messages actually exchanged and their sent times. {name} opened one conversation where real words had passed between them. Opening it did not prove that the relationship had continued or recovered.\n\nNo new bubble or question waited below the last message. No reply, meeting, or reconciliation had been settled anywhere on the screen.\n\nThree outgoing actions remained: suggest a meal next week, send the delayed apology, or state the distance needed tonight and the time he would contact them tomorrow.\n\nNo sentence could force an answer. The meal, forgiveness, and meeting again all remained choices for the person across the screen.\n\nThe cursor blinked in the empty box. A charging cable reached the edge of the desk, and the battery indicator was still lit. {name} lifted the phone in both hands. His final-week choice was not the other person's ending, but the action he would send first.",
