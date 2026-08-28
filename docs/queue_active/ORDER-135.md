@@ -4,8 +4,8 @@
 
 #### [~] ORDER-135 [P0·5장 일반 종막] 25억 문턱·아버지 별세 경로의 앞선 선택을 마지막 기록과 선발신에 잇는다
 
-**[~] L1/L2 GO · `chapter5_finale_rc` active · L3 OPEN · main HOLD:**
-active Git source 후보의 exact 제품 commit은
+**[~] 역사 L1/L2 GO · 인간 L3 REJECT · `chapter5_finale_rc` waiting_rebuild · main HOLD:**
+실플레이에 사용한 역사 Git source 후보의 exact 제품 commit은
 `b375af26f48668c68ec5bda05b25aedf064fe043` / tree
 `840016b61bceab6368ef79ea145b32a02730ba00` / source manifest SHA-256
 `9415428847c33b94536aa1a82be780cf4e88bcf2b8c9ebcf414a13625d066ad0`.
@@ -17,9 +17,10 @@ active Git source 후보의 exact 제품 commit은
 통과했다. 앞선 `771d0e7`은 M55 회의 뒤 편의점 근무복 다은 초상 결함으로
 폐기했다. 새 후보는 해당 영수증을 meeting·초상 없음으로 고정하고 변경 범위
 74개·전체 감사, KO/EN 1280×800 각 6장 화면을 다시 통과했다. 이 후보에서
-property·general 두 정상 속도 L3 판정을 시작할 수 있다.
-이는 게임 완성·재미 GO·main 승격이 아니다. 새 패키지와 버전 bump는 없으며 내부
-표시는 기존 `v0.1.0-dev · BUILD 2026.08.24.5`다.
+property·general 두 정상 속도 L3에서 property CONDITIONAL, general REJECT를
+받았다. 현 후보는 폐기하고 ORDER-137이 W207·W230·일반 W220→W240을
+재작업한다. 새 패키지와 버전 bump는 아직 없으며 내부 표시는 기존
+`v0.1.0-dev · BUILD 2026.08.24.5`다.
 
 **사용자 위임·착수 근거 (2026-08-27):** 사용자는 처음부터 끝까지 스토리와
 게임성이 빽빽하고, 엔딩으로 갈수록 더 치밀하고 격동적이어야 한다고 했다.
@@ -187,10 +188,11 @@ hold→`instant_legend`→일반 30억 순서를 그대로 보존한다.
   Python+Godot으로 입증한다. property·career/startup·instant legend 회귀 0.
 - **L2 자가:** 4행 전수표에 도달 주차, producer↔reader, before→after, 포기 비용,
   물성, 파일:행을 남긴다. KO/EN 실제 화면과 검은막 0을 확인한다.
-- **L3 사람:** 자동 GREEN은 재미 GO가 아니다. active Git source 후보에서 사용자가 정상
-  속도 M49~M60을 플레이해 M51·M56·W229·M59의 네 선택이 마지막 밤에
-  되돌아오는지 판정한다.
-  현재 L3 판정을 시작할 수 있지만, 이 단계 전에는 완성·main 병합을 선언하지 않는다.
+- **L3 사람:** exact `9909437`/제품 `b375af2`의 정상 속도 M49~M60 실플레이는
+  W203→W224 사람선 공백, W237 서류 정리, W240 반복으로 REJECT다.
+  자동 GREEN은 이 판정을 덮지 않는다. ORDER-137이 만든 새 exact 후보에서
+  property와 general을 둘 다 M49~M60 전체 재플레이하기 전에는 완성·main
+  병합을 선언하지 않는다.
 
 ## 다음 경계
 
