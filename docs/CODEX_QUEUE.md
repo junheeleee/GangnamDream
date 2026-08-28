@@ -59,8 +59,8 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-137 · 5장 실플레이 반려 4건을 표적 수리한다 | [137](queue_active/ORDER-137.md) | `9909437`/`b375af2` 실제 플레이 property CONDITIONAL·general REJECT · `chapter5_finale_rc` waiting_rebuild · M55 통과/사실 안전선 보존 · 새 exact 후보에서 두 full L3 필수 · main HOLD |
-| 2 | [~] | ORDER-135 · 25억 문턱·아버지 별세 일반 런의 선택을 W240에 잇는다 | [135](queue_active/ORDER-135.md) | 역사 후보 `b375af2` 자동·화면 GREEN · 인간 L3 REJECT · ORDER-137 재작업 중 · 사용자 최종 GO/main HOLD |
+| 1 | [~] | ORDER-137 · 5장 실플레이 반려 4건을 표적 수리한다 | [137](queue_active/ORDER-137.md) | 새 제품 `002a493` / tree `ce156f4` / manifest `7ada31a8` · 전체 감사·KO/EN 3해상도 134장 L1/L2 GREEN · `chapter5_finale_rc` active · property/general M49~M60 두 full L3 OPEN · main HOLD |
+| 2 | [~] | ORDER-135 · 25억 문턱·아버지 별세 일반 런의 선택을 W240에 잇는다 | [135](queue_active/ORDER-135.md) | 역사 후보 `b375af2` 인간 L3 REJECT · ORDER-137 새 후보 `002a493`가 대체 · 새 general M49~M60 L3 OPEN · 사용자 최종 GO/main HOLD |
 | 3 | [~] | ORDER-119 · 게임 전체 플레이어 표면에서 스탯·시스템 언어 제거 | [119](queue_active/ORDER-119.md) | 제품·QA 36파일+package metadata 2파일 · exact clean full audit·KO/EN 24주·KO 240주·BUILD `2026.08.22.1` 3플랫폼 package·macOS native smoke green · active `demo_rc` 등록 · 사용자 최종 GO OPEN |
 | 4 | [~] | ORDER-118 · startup 전면 재설계·코드 토큰 제거 | [118](queue_active/ORDER-118.md) | L1/L2 GO · 16편/27선택·코드 토큰 0 · fresh seed 9821 #11/#2/#3 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |
 | 5 | [~] | ORDER-117 · 107/109 국소 수리·career 15편 재판정 | [117](queue_active/ORDER-117.md) | L1/L2 GO · 18단위 전수·16 roots 재작성·after_goal/people_verdict exact 보존·코드 토큰 0 · 107/109 각 1/1+career 15/15 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |

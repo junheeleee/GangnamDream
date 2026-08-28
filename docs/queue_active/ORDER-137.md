@@ -4,7 +4,7 @@
 
 #### [~] ORDER-137 [P0·5장 실플레이 반려 수리] W207·W230 연출 불일치를 닫고, 일반 경로의 W220→W240을 사람·포기·책임으로 다시 올린다
 
-**[~] 인간 L3 반려를 수리 중 · `chapter5_finale_rc` waiting_rebuild · main HOLD:**
+**[~] L1/L2 수리 후보 발급 · `chapter5_finale_rc` active · 인간 L3 OPEN · main HOLD:**
 선언 기준선은 문서 래퍼 `9909437d538ef5ebd7389211e6364449b8561fe4`,
 제품 후보 `b375af26f48668c68ec5bda05b25aedf064fe043`, tree
 `840016b61bceab6368ef79ea145b32a02730ba00`다. 두 커밋 사이 런타임 diff는
@@ -13,6 +13,16 @@ M49~M60 전체 플레이에서 property는 `CONDITIONAL`,
 `general_near_goal_father_passed`는 `REJECT`를 받았다. 따라서 현 후보는
 승격하지 않고 재작업 상태로 내린다. 예전 `771d0e7…`는 사용하지
 않는다.
+
+새 제품 후보는 `002a493d7a85ac01e1f91049b3d8a5accc71bedc`, tree
+`ce156f4056da34435381a8644a76add392aaaa36`, source manifest SHA-256
+`7ada31a8377cbd1b921eb61ae45b9d30fe1d0f864c87bc5ae5682a7368622db4`다.
+전체 감사, W207 저장·재개·KO↔EN 결과 연출, W220 두 선택→W224 분기 회수→
+M59→W237 연속 실행이 GREEN이다. KO/EN·960×600/1280×800/1920×1080
+화면 증거는 총 134장이고 manifest digest는
+`9921f3b27971afce1eb9762d2bcb361590942693434cff8ed453ca25a8a9c993`다.
+이는 L1/L2 수리 증거일 뿐 사람 판정이 아니므로 오더는 `[~]`, 두 L3는 OPEN,
+`main`은 HOLD로 유지한다.
 
 ## 판정 증거와 보호선
 

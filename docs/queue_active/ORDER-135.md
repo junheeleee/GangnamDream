@@ -4,7 +4,7 @@
 
 #### [~] ORDER-135 [P0·5장 일반 종막] 25억 문턱·아버지 별세 경로의 앞선 선택을 마지막 기록과 선발신에 잇는다
 
-**[~] 역사 L1/L2 GO · 인간 L3 REJECT · `chapter5_finale_rc` waiting_rebuild · main HOLD:**
+**[~] 역사 L1/L2 GO · 인간 L3 REJECT · ORDER-137 새 후보에서 재판정 OPEN · main HOLD:**
 실플레이에 사용한 역사 Git source 후보의 exact 제품 commit은
 `b375af26f48668c68ec5bda05b25aedf064fe043` / tree
 `840016b61bceab6368ef79ea145b32a02730ba00` / source manifest SHA-256
@@ -18,8 +18,11 @@
 폐기했다. 새 후보는 해당 영수증을 meeting·초상 없음으로 고정하고 변경 범위
 74개·전체 감사, KO/EN 1280×800 각 6장 화면을 다시 통과했다. 이 후보에서
 property·general 두 정상 속도 L3에서 property CONDITIONAL, general REJECT를
-받았다. 현 후보는 폐기하고 ORDER-137이 W207·W230·일반 W220→W240을
-재작업한다. 새 패키지와 버전 bump는 아직 없으며 내부 표시는 기존
+받았다. 현 후보는 폐기했고 ORDER-137 새 제품
+`002a493d7a85ac01e1f91049b3d8a5accc71bedc`가 W207·W230·일반
+W220→W240을 재작업해 L1/L2를 통과했다. 새 exact 검토 HEAD에서
+`general_near_goal_father_passed` M49~M60 전체 L3를 다시 받아야 한다.
+새 패키지와 버전 bump는 아직 없으며 내부 표시는 기존
 `v0.1.0-dev · BUILD 2026.08.24.5`다.
 
 **사용자 위임·착수 근거 (2026-08-27):** 사용자는 처음부터 끝까지 스토리와

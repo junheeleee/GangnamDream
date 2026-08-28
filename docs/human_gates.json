@@ -31,11 +31,11 @@
       "note": "BUILD 2026.08.25.1 macOS 공개 M01~M06 story-first 후보가 active다. app tree SHA-256 4cdb86ab3d1c1de7811729283364cd45594363c3895ecb4ccc296ddae4c951b2, ZIP SHA-256 b38e0a042bea8022da947a8e29b140de1394fdc3832b8541f809289c9c83d82f다. KO·EN·JA·zh-CN·zh-TW 11사건·82 leaf·도달 UI 117과 JP/SC/TC 전용 primary font·OFL을 고정했다. 다섯 locale run이 전체적으로 M01·M04 양쪽 변형을 cover했고 package KO clean/zh-CN fallout는 각각 M01~M06·24주·정산 6·영수증 9·수동 저장 뒤 cold restart exact resume·overlay/input clear·AP 원장 0으로 통과했고, 5 locale×4표면×2해상도 40장에 검은 화면·잘림이 없다. 사용자 재미·시간감·선택감각과 JA·zh-CN·zh-TW 원어민 출시 claim은 OPEN이며, 로컬 플레이는 가능하다. 저장 호환 AP 데이터·엔진 삭제 GO는 아니다."
     },
     "chapter5_finale_rc": {
-      "status": "waiting_rebuild",
-      "commit": null,
-      "tree": null,
-      "manifest_sha256": null,
-      "note": "exact 문서 HEAD 9909437d538ef5ebd7389211e6364449b8561fe4 / 제품 b375af26f48668c68ec5bda05b25aedf064fe043를 Godot 4.6.2, 실제 Studio Display, 1280x800, KO, 정상 독해 속도로 property와 general_near_goal_father_passed M49~M60 전체 플레이했다. property는 W207 결과 presentation·W230 민서 미연출 동석으로 CONDITIONAL, general은 W203→W224 공백·W237 서류 정리·W240 설명 반복으로 REJECT다. M55 다은 블레이저·무초상, property 사람 압박·W240 상승, 검은 화면·잘림·허위 답장·이체·소유 0은 통과점으로 보존한다. ORDER-137이 표적 수리한 새 exact 후보와 문서 검토 HEAD를 발급하기 전까지 waiting_rebuild이다. 예전 771d0e7은 재사용하지 않으며 main은 HOLD다."
+      "status": "active",
+      "commit": "002a493d7a85ac01e1f91049b3d8a5accc71bedc",
+      "tree": "ce156f4056da34435381a8644a76add392aaaa36",
+      "manifest_sha256": "7ada31a8377cbd1b921eb61ae45b9d30fe1d0f864c87bc5ae5682a7368622db4",
+      "note": "ORDER-137이 이전 exact 문서 HEAD 9909437d538ef5ebd7389211e6364449b8561fe4 / 제품 b375af26f48668c68ec5bda05b25aedf064fe043의 실제 플레이 판정(property CONDITIONAL, general REJECT)에서 확인된 범위만 수리한 새 source 후보다. W207 결과는 cafe·Daeun·현지화 이름표·cafe ambience로 동기화되고, W230은 출입문→민서 입장→빈 의자 착석 뒤에만 현장 행동한다. general은 W220 상환·민서 기억 선택을 W224가 분기별 회수하고, W237 오늘의 30분 비용과 W240 주소/30억 삭제·선발신·엔딩으로 잇는다. 전체 감사와 KO/EN 960x600·1280x800·1920x1080 화면 134장은 GREEN이며 M55 블레이저·무초상과 무답장·무이체·미소유·아버지 불부활·민준 단독 경계를 보존했다. 자동·화면 증거는 L3를 대체하지 않는다. 새 exact 후보에서 property와 general_near_goal_father_passed M49~M60 정상 속도 전체 플레이를 둘 다 다시 받아야 하며 main은 HOLD다. 예전 771d0e7은 재사용하지 않는다."
     },
     "full_rc": {
       "status": "active",

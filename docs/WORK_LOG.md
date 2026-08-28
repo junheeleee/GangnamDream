@@ -15,6 +15,35 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-28 (Codex — ORDER-137 Chapter 5 인간 반려 표적 수리 후보)
+
+- 이전 exact `9909437`/제품 `b375af2`의 실제 플레이 판정만 입력으로 사용했다.
+  property W207 결과 presentation과 W230 민서 미연출 동석, general W203→W224
+  사람선 공백·W237 행정 반복·W240 상승 실패를 고쳤고, 이전 판정을 새 후보의
+  GO로 합산하지 않았다.
+- W207은 선택 전 meeting·상철을 보존하면서 선택 2 결과만 cafe·다은·현지화
+  이름표·cafe ambience로 바꿨다. live→disk save→reload→KO↔EN에서 exact
+  receipt 한 번과 같은 결과 화면을 확인했다. W230은 두 custody 모두 출입문→
+  민서 입장→빈 의자 착석 뒤에만 민서가 현장 행동한다.
+- general은 신규 W220 2선택을 W224의 서로 배타적인 음성메모/카페 30분
+  callback, M59, W237 오늘의 30분 포기, W240 주소/30억 삭제 2선택, outbound
+  3선택과 ending coda로 연결했다. 두 W220 분기를 실제 `apply_choice`로 W237까지
+  연속 재생했고 retired W229·generic sixmonths 중복·손상 저장은 fail-closed다.
+- M55 W217 다은 블레이저와 property W220 무초상, 민준 단독 W240, 별세한
+  아버지의 사진·약봉지·빈 의자·기록만 존재, 민서의 무답장·미성사, 미소유·
+  무이체·무경제 효과를 보존했다.
+- 전체 `tools/audit.sh`는 `CHAPTER1_CAUSAL_LEDGER_SELF_TEST_OK cases=478`,
+  `CHAPTER5_FINALE_ROUTE_CHECK_OK`, `MANUAL_SAVE_CHECK_OK`, 최종
+  `감사 통과`로 GREEN이다. KO/EN·960×600/1280×800/1920×1080 화면은
+  134장, PNG manifest digest
+  `9921f3b27971afce1eb9762d2bcb361590942693434cff8ed453ca25a8a9c993`이며
+  검은 화면·잘림·언어 누출·허위 동석 0이다.
+- 제품 commit은 `002a493d7a85ac01e1f91049b3d8a5accc71bedc`, tree
+  `ce156f4056da34435381a8644a76add392aaaa36`, source manifest SHA-256
+  `7ada31a8377cbd1b921eb61ae45b9d30fe1d0f864c87bc5ae5682a7368622db4`다.
+  내부 버전은 `v0.1.0-dev · BUILD 2026.08.24.5` 그대로다. 두 M49~M60 사람
+  L3와 사용자 최종 GO는 OPEN이며 `main`은 HOLD다.
+
 ## 2026-08-27 (Codex — ORDER-136 M55 다은 회의 초상 수리·후보 재발급)
 
 - Claude가 clean detached `611c635`에서 제품 source `771d0e7`과 후보 원장의
