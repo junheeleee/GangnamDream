@@ -195,26 +195,26 @@ def chapter5_queue_only_edges() -> set[str]:
                 != "chapter5_general_near_goal_passed_finale_v1" \
             or general.get("expected_root_count") != 3 \
             or general.get("expected_active_root_count") != 3 \
-            or general.get("expected_choice_count") != 8 \
-            or general.get("expected_active_choice_count") != 8:
+            or general.get("expected_choice_count") != 7 \
+            or general.get("expected_active_choice_count") != 7:
         return established_edges
     general_roots = general.get("roots", [])
     if not isinstance(general_roots, list) or len(general_roots) != 3 \
             or not all(isinstance(root, dict) for root in general_roots):
         return established_edges
-    general_signature = general_roots[1]
+    general_sacrifice = general_roots[1]
     general_outbound = general_roots[2]
-    if general_signature.get("stage_sequence") != 2 \
+    if general_sacrifice.get("stage_sequence") != 2 \
             or general_outbound.get("stage_sequence") != 3 \
-            or general_signature.get("stage") != "signature" \
+            or general_sacrifice.get("stage") != "sacrifice" \
             or general_outbound.get("stage") != "outbound" \
-            or general_signature.get("turn") != 240 \
+            or general_sacrifice.get("turn") != 240 \
             or general_outbound.get("turn") != 240 \
-            or general_signature.get("event_id") \
+            or general_sacrifice.get("event_id") \
                 != "arc_final_countdown_general_near_goal_passed" \
             or general_outbound.get("event_id") \
                 != "arc_y5_final_week_general_people_outbound" \
-            or general_signature.get("active_when") is not None \
+            or general_sacrifice.get("active_when") is not None \
             or general_outbound.get("active_when") is not None:
         return established_edges
     return established_edges | {CHAPTER5_W240_GENERAL_FINALE_EDGE}

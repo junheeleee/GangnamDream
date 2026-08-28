@@ -326,7 +326,8 @@
         { "id": "arc_y5_three_in_room_decision", "axis": "human" }
       ],
       "220": [
-        { "id": "arc_y5_room_consent_receipt", "axis": "human", "person_id": "daeun" }
+        { "id": "arc_y5_room_consent_receipt", "axis": "human", "person_id": "daeun" },
+        { "id": "arc_y5_general_debt_memory_reconnect", "axis": "human", "person_id": "minseo" }
       ],
       "221": [
         { "id": "arc_y5_father_trace_alive_exact", "axis": "human", "person_id": "father" },
@@ -337,9 +338,6 @@
       ],
       "227": [
         { "id": "arc_y5_name_on_line_daeun_routed", "axis": "money", "person_id": "daeun" }
-      ],
-      "229": [
-        { "id": "arc_y5_general_last_page_instruction", "axis": "human" }
       ],
       "230": [
         { "id": "arc_y5_people_verdict_daeun_exact", "axis": "human", "person_id": "daeun" }

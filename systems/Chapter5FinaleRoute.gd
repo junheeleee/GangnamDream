@@ -26,8 +26,8 @@ const GENERAL_SOURCE_ROUTE_ID := "general_story"
 const GENERAL_ENTRY_TURN := 237
 const GENERAL_EXPECTED_ROOT_COUNT := 3
 const GENERAL_EXPECTED_ACTIVE_ROOT_COUNT := 3
-const GENERAL_EXPECTED_CHOICE_COUNT := 8
-const GENERAL_EXPECTED_ACTIVE_CHOICE_COUNT := 8
+const GENERAL_EXPECTED_CHOICE_COUNT := 7
+const GENERAL_EXPECTED_ACTIVE_CHOICE_COUNT := 7
 
 const STAGES: Array[String] = [
 	"father_trace",
@@ -161,8 +161,8 @@ const READ_SOURCES := {
 	],
 }
 const GENERAL_STAGES: Array[String] = [
-	"record_seal",
-	"signature",
+	"record_disposition",
+	"sacrifice",
 	"outbound",
 ]
 const GENERAL_OWNED_EVENT_IDS: Array[String] = [
@@ -171,11 +171,11 @@ const GENERAL_OWNED_EVENT_IDS: Array[String] = [
 	"arc_y5_final_week_general_people_outbound",
 ]
 const GENERAL_OWNED_TURNS: Array[int] = [237, 240, 240]
-const GENERAL_ROOT_CHOICE_COUNTS: Array[int] = [2, 3, 3]
+const GENERAL_ROOT_CHOICE_COUNTS: Array[int] = [2, 2, 3]
 const GENERAL_SOURCE_CHOICE_KEYS: Array[String] = [
 	"m51_minseo_arrival",
+	"w220_debt_memory_reconnect",
 	"m56_father_legacy",
-	"w229_last_page_instruction",
 	"m59_summit",
 ]
 const GENERAL_ACTORS := {
@@ -198,7 +198,7 @@ const GENERAL_READ_SOURCES := {
 	"arc_y5_general_final_record_seal": [
 		{
 			"kind": "entry_value",
-			"path": "source_choices.m51_minseo_arrival",
+			"path": "source_choices.w220_debt_memory_reconnect",
 			"values": [0.0, 1.0],
 		},
 		{
@@ -208,31 +208,15 @@ const GENERAL_READ_SOURCES := {
 		},
 		{
 			"kind": "entry_value",
-			"path": "source_choices.w229_last_page_instruction",
-			"values": [0.0, 1.0],
-		},
-		{
-			"kind": "entry_value",
 			"path": "source_choices.m59_summit",
 			"values": [0.0, 1.0],
 		},
 	],
 	"arc_final_countdown_general_near_goal_passed": [
-		{
-			"kind": "entry_value",
-			"path": "source_choices.w229_last_page_instruction",
-			"values": [0.0, 1.0],
-		},
-		{
-			"kind": "entry_value",
-			"path": "source_choices.m59_summit",
-			"values": [0.0, 1.0],
-		},
-		{"kind": "finale_stage", "id": "record_seal"},
+		{"kind": "finale_stage", "id": "record_disposition"},
 	],
 	"arc_y5_final_week_general_people_outbound": [
-		{"kind": "finale_stage", "id": "record_seal"},
-		{"kind": "finale_stage", "id": "signature"},
+		{"kind": "finale_stage", "id": "sacrifice"},
 		{
 			"kind": "entry_value",
 			"path": "source_choices.m51_minseo_arrival",

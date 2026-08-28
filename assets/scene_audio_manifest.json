@@ -162,7 +162,7 @@
           "arc_y5_contract_cover_investment", "arc_y5_contract_reviewer_delivery_sangchul", "arc_y5_father_trace_alive_exact", "arc_y5_father_trace_custody",
           "arc_y5_father_trace_passed_exact", "arc_y5_final_father_answer_alive", "arc_y5_final_father_answer_passed", "arc_y5_final_offer",
           "arc_y5_final_offer_reference_delivery", "arc_y5_final_push_deadline_investment", "arc_y5_final_week_daeun_outbound", "arc_y5_final_week_general_people_outbound",
-          "arc_y5_general_final_record_seal", "arc_y5_general_last_page_instruction", "arc_y5_guarantee_protected_show_daeun", "arc_y5_jaehyuk_father_document_reference",
+          "arc_y5_general_debt_memory_reconnect", "arc_y5_general_final_record_seal", "arc_y5_guarantee_protected_show_daeun", "arc_y5_jaehyuk_father_document_reference",
           "arc_y5_jaehyuk_guarantee_decision_reference", "arc_y5_jaehyuk_guarantee_request_reference", "arc_y5_jaehyuk_return_call_reference", "arc_y5_minseo_goal_cost_reference",
           "arc_y5_name_on_line_daeun_routed", "arc_y5_people_verdict_daeun_exact", "arc_y5_property_not_executed_notice", "arc_y5_protection_boundary_daeun",
           "arc_y5_remaining_jaehyuk_or_self", "arc_y5_room_consent_receipt", "arc_y5_sangchul_review_receipt", "arc_y5_three_in_room",
@@ -779,7 +779,7 @@
       }
     },
     "arc_y5_people_verdict_daeun_exact": {
-      "ambience": "current_housing",
+      "ambience": "cafe",
       "music": {"key": "reckoning", "start_paragraph": 1},
       "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -7.0}]},
       "result_paragraph_cues": {
@@ -845,22 +845,22 @@
         "2": {"0": [{"sfx": "phone_notification", "volume_db": -7.0}]}
       }
     },
-    "arc_y5_general_last_page_instruction": {
+    "arc_y5_general_debt_memory_reconnect": {
       "ambience": "current_housing",
       "music": {"key": "grief", "start_paragraph": 1},
-      "paragraph_cues": {"0": [{"sfx": "page_turn", "volume_db": -8.0}]},
+      "paragraph_cues": {"0": [{"sfx": "phone_notification", "volume_db": -9.0}]},
       "result_paragraph_cues": {
-        "0": {"0": [{"sfx": "pen_write", "volume_db": -6.0}]},
-        "1": {"0": [{"sfx": "pen_write", "volume_db": -6.0}]}
+        "0": {"0": [{"sfx": "phone_notification", "volume_db": -8.0}]},
+        "1": {"0": [{"sfx": "cup_set", "volume_db": -8.0}]}
       }
     },
     "arc_y5_general_final_record_seal": {
       "ambience": "current_housing",
       "music": {"key": "reckoning", "start_paragraph": 1},
-      "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -7.0}]},
+      "paragraph_cues": {"0": [{"sfx": "phone_notification", "volume_db": -8.0}]},
       "result_paragraph_cues": {
-        "0": {"0": [{"sfx": "paper_handle", "volume_db": -6.0}]},
-        "1": {"0": [{"sfx": "paper_handle", "volume_db": -6.0}]}
+        "0": {"0": [{"sfx": "phone_notification", "volume_db": -7.0}]},
+        "1": {"0": [{"sfx": "phone_notification", "volume_db": -6.0}]}
       }
     },
     "arc_final_countdown_general_near_goal_passed": {
@@ -869,8 +869,7 @@
       "paragraph_cues": {"0": [{"sfx": "page_turn", "volume_db": -7.0}]},
       "result_paragraph_cues": {
         "0": {"0": [{"sfx": "pen_write", "volume_db": -5.0}]},
-        "1": {"0": [{"sfx": "pen_write", "volume_db": -6.0}]},
-        "2": {"0": [{"sfx": "pen_write", "volume_db": -6.0}]}
+        "1": {"0": [{"sfx": "pen_write", "volume_db": -6.0}]}
       }
     },
     "arc_y5_final_week_general_people_outbound": {

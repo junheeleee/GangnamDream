@@ -3419,9 +3419,9 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "tools/StoryPlaybackCheck.gd":
         "c6210f9687573353da8d0b429edc85f3016d8084c2914226f54d12cd8c657edb",
     "autoloads/GameState.gd":
-        "8f8868bd5ccda972ac6db58db6674df97a4c4061daa0e5054aa89b3620729392",
+        "0b176fdd1d9dadc1fe63b5e25bde641d71db9d16f938d650e3e2da89806c5968",
     "autoloads/DataRegistry.gd":
-        "d442e9af4e45a1011150b31985bcee935e472c0b62b0fdce399218079968473c",
+        "e8a30e452de6e734b0734cb5e72283379a44e53dbb7a4ec261b01db88991036b",
     "autoloads/LocaleManager.gd":
         "9417e6b9e241e1d2b9ec7a7668cf4d19fe337ce6719d87e032020fe421ceec9a",
     "autoloads/EventManager.gd":
@@ -3433,11 +3433,11 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "systems/BuildFlavor.gd":
         "6264de1c468d5553b73a37d3ea8c5ceb936f6852db7519701f37a2c8bf8aa633",
     "scenes/StoryMode.gd":
-        "0791a0155af732ffb7e3515758a9e998508ae7e20f9be2682688f1ab4d8e62c1",
+        "8bf86bc46bafdb93af21db493e2ed2656243079fad028c681983ba5d4a972530",
     "scenes/StoryMode.tscn":
         "b7688a883323a196e74271c1e76f1d88c91310b3fe1a287cb051b33dd2fb76ca",
     "scenes/MainGame.gd":
-        "9071f2396a35827f509a1942e93223cde65548ad8d296c9d940ed493e2f02216",
+        "adc75e79e457094488151dbf8125107e2119bf018a903551b6fa995a3b949aa6",
     "scenes/MainGame.tscn":
         "71a9590d43c755fa6b409ee0eb0f1950c6aba4517c64192b83038d22a45d9979",
     "scenes/SeoulCycleBoard.gd":
@@ -3453,9 +3453,9 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/meta/demo_localization_scope.json":
         "84b442ad5b71d67b850a8d93a3c907bf8309f88f226fff3bcebbcdf5d969d506",
     "content/meta/release_content_inventory.json":
-        "944c49c74cb379e56fa6b7aae49ccba8391bb0879331c8e9ed87911cad9e2327",
+        "054c5ccea30d916195987662b229861f8cdc3be8696799c4c5274926b9c9f4bd",
     "content/meta/story_rules.json":
-        "b3e77eb1f3803decc8101c6367e87e99252267a7d426eb863bf58fa94bc5e94e",
+        "42ff9a7a9219cf40b982720ea9e88a9cb072642ab3c26f1bbafe6aa03a850431",
     "content/jobs.json":
         "d1a3ed8ba3f2839954d0b15266bff4f7a0d1317d78c503bd2422aa87b7210f84",
     "content/events/arc_events.json":
@@ -3475,7 +3475,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "docs/queue_archive/ORDER-101.md":
         "732f49ac40efb644a7321cd425160fae9a8123ead11eb2cc7ebc5b238952ee48",
     "docs/CHOICE_CONSEQUENCE_SYSTEM.md":
-        "4e9ad0f8c1c3d96dd9aad8dd11c8efcdc7f37fbbc15bb163993c3e9ee4f38631",
+        "7cab62b6721dc37c041063147a01f9e8f3d253933108454369e04e63461022c7",
     "tools/core_loop_v2_balance_sim.py":
         "034475f5d392f016f94c731335a32b460229c7685b00e70bc65fb62efcc5ae3a",
     "tools/demo_core_loop_v2_audit.py":
@@ -3485,7 +3485,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "tools/release_content_inventory.py":
         "2563a8f4ecef128e6a6ecbb4377374fd4e40b0e1080a81ba12144913f0dba4d1",
     "tools/story_consistency_audit.py":
-        "ae6fa0c4497dfc858e11d23ea4aaa87d56940a334b8a45bea16f6b3eab0af393",
+        "30068243cf2de3ea2ca1a4740a53bc8874b8fe8bff5951895eef03c4418c4c95",
 }
 # Mutable evidence/status logs are not causal sources.  Keeping this guard in
 # production validation prevents an append-only work record from silently

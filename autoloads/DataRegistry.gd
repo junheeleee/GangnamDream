@@ -1,5 +1,7 @@
 extends Node
 
+const IMAGE_REGISTRY_SCRIPT := preload("res://autoloads/ImageRegistry.gd")
+
 const EVENT_PATHS = [
 	"res://content/events/core_loop_v2_events.json",
 	"res://content/events/story_events.json",
@@ -173,6 +175,7 @@ const MOD_EVENT_ROOT_KEYS := [
 const MOD_CHOICE_KEYS := [
 	"text", "text_if_moral", "effects", "flags", "follow_up_event", "result_text",
 	"result_cg", "result_cg_reveal_paragraph", "result_background", "result_ambience",
+	"result_portrait",
 	"opportunity", "cast_effects", "relationship_effects", "investment_effects",
 	"tendency", "route", "grant_job", "grant_job_display",
 	"first_paycheck_ratio", "replace_current_job", "conditions_note", "deferred_follow_up",
@@ -806,6 +809,16 @@ func _mod_choice_valid(
 			or str(choice.get("result_text", "")).strip_edges().is_empty():
 		push_warning("Skipping event mod with empty choice text/result: %s" % path)
 		return false
+	if choice.has("result_portrait"):
+		var raw_result_portrait: Variant = choice.get("result_portrait")
+		var result_portrait_id := str(raw_result_portrait).strip_edges() \
+			if raw_result_portrait is String else ""
+		if result_portrait_id.is_empty() \
+				or not IMAGE_REGISTRY_SCRIPT.PORTRAITS.has(result_portrait_id):
+			push_warning(
+				"Skipping event mod with invalid result_portrait '%s': %s"
+					% [str(raw_result_portrait), path])
+			return false
 	var fallback_marker: Variant = choice.get(
 		"opportunity_unavailable_fallback", false)
 	if choice.has("opportunity_unavailable_fallback") \

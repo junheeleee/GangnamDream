@@ -298,6 +298,7 @@ def check_events():
                 result_cg = ch.get("result_cg")
                 result_bg = ch.get("result_background")
                 result_ambience = ch.get("result_ambience")
+                result_portrait = ch.get("result_portrait")
                 result_reveal = ch.get("result_cg_reveal_paragraph")
                 if result_cg and VALID_CG and result_cg not in VALID_CG:
                     err('%s  [%s] 선택지%d 모르는 result_cg id → "%s"'
@@ -315,6 +316,13 @@ def check_events():
                     if not result_bg:
                         err('%s  [%s] 선택지%d result_ambience에는 result_background가 필요함'
                             % (rel(p), eid, ci))
+                if "result_portrait" in ch:
+                    if not isinstance(result_portrait, str) or not result_portrait.strip():
+                        err('%s  [%s] 선택지%d result_portrait는 비어 있지 않은 portrait id여야 함'
+                            % (rel(p), eid, ci))
+                    elif VALID_PORTRAITS and result_portrait not in VALID_PORTRAITS:
+                        err('%s  [%s] 선택지%d 모르는 result_portrait id → "%s"'
+                            % (rel(p), eid, ci, result_portrait))
                 if result_reveal is not None:
                     if not result_cg:
                         err('%s  [%s] 선택지%d result_cg_reveal_paragraph에는 result_cg가 필요함'
@@ -657,6 +665,7 @@ LIVING_SCENE_EFFECTS = {"none", "rain", "snow", "memory", "city_light", "firewor
 CHOICE_KEYS = {"text", "text_if_moral", "effects", "flags", "follow_up_event",
                "follow_up_requires_flags", "result_text",
                "result_cg", "result_cg_reveal_paragraph", "result_background", "result_ambience",
+               "result_portrait",
                "opportunity", "cast_effects", "relationship_effects",
                "investment_effects", "tendency", "route", "grant_job",
                "grant_job_display", "first_paycheck_ratio", "replace_current_job",
@@ -669,7 +678,7 @@ CHOICE_KINDS = {"expression", "memory", "decision"}
 EXPRESSION_CHOICE_KEYS = {
     "text", "choice_kind", "follow_up_event", "result_text",
     "result_cg", "result_cg_reveal_paragraph", "result_background",
-    "result_ambience",
+    "result_ambience", "result_portrait",
 }
 
 def _match_arm_keys(src, func_pattern):
@@ -1416,7 +1425,7 @@ def _gather_game_flags():
                     game_sets.add(m.group(1))
             # 코드 내 모든 문자열 리터럴을 '참조'로 간주 (보수적 — 오탐 방지)
             reads |= set(LIT.findall(text))
-    # ORDER-135 records four source choices through a prefix+index reducer.
+    # ORDER-137 records four source choices through a prefix+index reducer.
     # The concrete flags therefore do not appear as full literals in GDScript;
     # admit them as reads only when the exact ledger, product binding, and KO
     # source-choice placement all agree.
@@ -1607,7 +1616,7 @@ def _chapter5_finale_direct_receipt_owned_ids(
 
 def _chapter5_general_finale_direct_receipt_owned_ids(
         ledger=None, system_source=None, main_source=None, story_source=None):
-    """Recognize only the exact ORDER-135 general finale 3/8 inventory."""
+    """Recognize only the exact ORDER-137 general finale 3/7 inventory."""
     try:
         if ledger is None:
             ledger = json.load(open(os.path.join(
@@ -1631,8 +1640,8 @@ def _chapter5_general_finale_direct_receipt_owned_ids(
                 != "chapter5_general_near_goal_passed_finale_v1" \
             or ledger.get("expected_root_count") != 3 \
             or ledger.get("expected_active_root_count") != 3 \
-            or ledger.get("expected_choice_count") != 8 \
-            or ledger.get("expected_active_choice_count") != 8:
+            or ledger.get("expected_choice_count") != 7 \
+            or ledger.get("expected_active_choice_count") != 7:
         return set()
     roots = ledger.get("roots", [])
     if not isinstance(roots, list) or len(roots) != 3:
@@ -1655,7 +1664,7 @@ def _chapter5_general_finale_direct_receipt_owned_ids(
                 return set()
         ledger_ids.append(event_id)
         total_choices += len(choices)
-    if total_choices != 8:
+    if total_choices != 7:
         return set()
     owned_match = re.search(
         r'const\s+GENERAL_OWNED_EVENT_IDS[^=]*=\s*\[(.*?)\n\]',
@@ -1689,18 +1698,18 @@ def _chapter5_general_finale_direct_receipt_owned_ids(
 
 def _chapter5_general_finale_source_flag_reads(
         ledger=None, game_source=None):
-    """Recognize exact prefix-index source flags consumed by ORDER-135."""
+    """Recognize exact prefix-index source flags consumed by ORDER-137."""
     source_specs = (
         ("m51_minseo_arrival", "arc_minseo_03_arrival",
          "chapter5_general_minseo_arrival_", 2,
          "content/events/arc_new_characters.json"),
+        ("w220_debt_memory_reconnect",
+         "arc_y5_general_debt_memory_reconnect",
+         "chapter5_general_debt_memory_reconnect_", 2,
+         "content/events/arc_pre_ending.json"),
         ("m56_father_legacy", "arc_father_legacy",
          "chapter5_general_father_legacy_", 3,
          "content/events/arc_year3_drama.json"),
-        ("w229_last_page_instruction",
-         "arc_y5_general_last_page_instruction",
-         "chapter5_general_last_page_instruction_", 2,
-         "content/events/arc_pre_ending.json"),
         ("m59_summit", "arc_pre_ending_summit",
          "chapter5_general_summit_", 2,
          "content/events/arc_pre_ending.json"),

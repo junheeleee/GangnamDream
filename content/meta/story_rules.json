@@ -143,9 +143,9 @@
       "chapter5_general_father_legacy_1",
       "chapter5_general_father_legacy_2"
     ],
-    "chapter5_general_last_page_instruction": [
-      "chapter5_general_last_page_instruction_0",
-      "chapter5_general_last_page_instruction_1"
+    "chapter5_general_debt_memory_reconnect": [
+      "chapter5_general_debt_memory_reconnect_0",
+      "chapter5_general_debt_memory_reconnect_1"
     ],
     "chapter5_general_summit": [
       "chapter5_general_summit_0",
@@ -840,9 +840,10 @@
       "logic": {},
       "presentation": {
         "channel": "in_person",
-        "scene_location": "late_night",
+        "scene_location": "cafe",
         "participants": ["player", "daeun", "minseo"],
-        "portrait_role": "none"
+        "portrait_role": "none",
+        "expected_background": "cafe"
       }
     },
     "arc_y5_property_not_executed_notice": {
@@ -902,7 +903,7 @@
         "portrait_role": "local"
       }
     },
-    "arc_y5_general_last_page_instruction": {
+    "arc_y5_general_debt_memory_reconnect": {
       "logic": {},
       "presentation": {
         "channel": "internal",

@@ -37,6 +37,10 @@
     "id": "arc_father_legacy",
     "title": "An Empty Chair",
     "description": "Forty-eight weeks had passed since Father died. The calendar marked the same place with one small dot.\n\nThere was no memorial table. In whatever room {name} now called home in Seoul, he stood Father's photograph beside the folded medicine packet. The room had changed; the work clothes and braced shoulders in the photograph had not.\n\nHe knew the distance to three billion won without opening a calculator. Today the harder figure was how he would explain that distance to Father.\n\n\"Did you have to suffer this much?\" Father might have asked. Or perhaps, \"What did you get for it?\"\n\n{name} placed an empty chair across from the photograph and sat for a long time.",
+    "description_memory_if_known": {
+      "chapter5_general_debt_memory_reconnect_0": "Four weeks earlier, {name} put the final repayment-confirmation date from Year One and the answer he had actually given Minseo into the same thirty-one-second voice memo. He sent it to no one. Its timestamp now met the date on the medicine packet beside Father's photograph.",
+      "chapter5_general_debt_memory_reconnect_1": "Four weeks earlier, {name} carried a copy of the final repayment confirmation from Year One to that cafe and sat alone for thirty minutes. Minseo did not come, and no new message appeared. The empty place across from him then met the empty chair before Father's photograph now."
+    },
     "choices": [
       {
         "text": "\"I'll get there, Father.\" — said it inwardly",

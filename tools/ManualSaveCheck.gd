@@ -67,6 +67,7 @@ func _run() -> void:
 		return
 	await _check_prose_resume()
 	await _check_choice_and_result_resume()
+	await _check_w207_result_presentation_resume_and_locale()
 	await _check_result_choice_receipt_index_guard()
 	await _check_year_scene_result_resume()
 	await _check_father_passed_result_variant_resume()
@@ -257,7 +258,7 @@ func _check_chapter5_general_finale_disk_save_contract() -> void:
 		"general finale disk fixture could not lock W237")
 	var first_id := "arc_y5_general_final_record_seal"
 	_expect(bool(GameState.record_chapter5_finale_choice(first_id, 1).get("ok", false)),
-		"general finale disk fixture could not commit record seal")
+		"general finale disk fixture could not commit record disposition")
 	_expect(SaveManager.save_game(TEST_SLOT, {}, {"qa_fixture": true}),
 		"general partial finale disk fixture could not be saved")
 	GameState.start_new_game()
@@ -271,26 +272,32 @@ func _check_chapter5_general_finale_disk_save_contract() -> void:
 		and entry.get("actor_bindings", {}) == CHAPTER5_FINALE_ROUTE.GENERAL_ACTORS \
 		and typeof(entry.get("turn")) == TYPE_INT \
 		and typeof((entry.get("source_choices", {}) as Dictionary).get("m51_minseo_arrival")) == TYPE_INT \
+		and typeof((entry.get("source_choices", {}) as Dictionary).get("w220_debt_memory_reconnect")) == TYPE_INT \
 		and typeof(first_receipt.get("turn")) == TYPE_INT \
 		and typeof(first_receipt.get("choice_index")) == TYPE_INT,
 		"general partial disk save lost exact entry/receipt integers")
 	_expect(bool(GameState.flags.get("chapter5_general_minseo_arrival_1", false)) \
+		and bool(GameState.flags.get("chapter5_general_debt_memory_reconnect_0", false)) \
 		and bool(GameState.flags.get("chapter5_general_father_legacy_2", false)) \
-		and bool(GameState.flags.get("chapter5_general_last_page_instruction_0", false)) \
 		and bool(GameState.flags.get("chapter5_general_summit_1", false)),
 		"general partial disk save lost source choice flags")
 	_expect(_general_source_log_is_exact(),
 		"general partial disk save lost exact source event-log receipts: %s" \
 		% JSON.stringify(GameState.event_log))
+	var exact_source_log := GameState.event_log.duplicate(true)
+	GameState.event_log.append((exact_source_log[0] as Dictionary).duplicate(true))
+	_expect(not _general_source_log_is_exact(),
+		"general source event-log matcher accepted a duplicate exact receipt")
+	GameState.event_log = exact_source_log
 	GameState.turn = 240
 	_expect(GameState.chapter5_finale_next_event_for_turn() \
 		== "arc_final_countdown_general_near_goal_passed" \
 		and bool(GameState.record_chapter5_finale_choice(
-			"arc_final_countdown_general_near_goal_passed", 2).get("ok", false)) \
+			"arc_final_countdown_general_near_goal_passed", 1).get("ok", false)) \
 		and not GameState.chapter5_finale_ending_ready() \
 		and GameState.chapter5_finale_next_event_for_turn() \
 		== "arc_y5_final_week_general_people_outbound",
-		"general signature did not remain pending and expose same-turn outbound")
+		"general sacrifice did not remain pending and expose same-turn outbound")
 	_expect(bool(GameState.record_chapter5_finale_choice(
 		"arc_y5_final_week_general_people_outbound", 0).get("ok", false)) \
 		and GameState.chapter5_finale_ending_ready(),
@@ -318,13 +325,15 @@ func _seed_chapter5_general_sources() -> void:
 	GameState.start_new_game("김민준", "지방_상경", "투자형")
 	GameState.flags["father_passed"] = true
 	GameState.flags["chapter5_general_minseo_arrival_1"] = true
+	GameState.flags["arc_y5_general_debt_memory_reconnect_seen"] = true
+	GameState.flags["chapter5_general_debt_memory_reconnect_0"] = true
+	GameState.flags["arc_endgame_sixmonths_seen"] = true
 	GameState.flags["chapter5_general_father_legacy_2"] = true
-	GameState.flags["chapter5_general_last_page_instruction_0"] = true
 	GameState.flags["chapter5_general_summit_1"] = true
 	GameState.event_log = [
 		{"event_id": "arc_minseo_03_arrival", "choice_index": 1, "turn": 203},
+		{"event_id": "arc_y5_general_debt_memory_reconnect", "choice_index": 0, "turn": 220},
 		{"event_id": "arc_father_legacy", "choice_index": 2, "turn": 224},
-		{"event_id": "arc_y5_general_last_page_instruction", "choice_index": 0, "turn": 229},
 		{"event_id": "arc_pre_ending_summit", "choice_index": 1, "turn": 235},
 	]
 
@@ -332,21 +341,25 @@ func _seed_chapter5_general_sources() -> void:
 func _general_source_log_is_exact() -> bool:
 	var expected := {
 		"arc_minseo_03_arrival": [1, 203],
+		"arc_y5_general_debt_memory_reconnect": [0, 220],
 		"arc_father_legacy": [2, 224],
-		"arc_y5_general_last_page_instruction": [0, 229],
 		"arc_pre_ending_summit": [1, 235],
 	}
+	var watched: Array = expected.keys()
 	for raw in GameState.event_log:
 		if not raw is Dictionary:
 			continue
 		var row: Dictionary = raw
 		var event_id := str(row.get("event_id", ""))
-		if expected.has(event_id):
-			var values: Array = expected[event_id]
-			if int(row.get("choice_index", -1)) != int(values[0]) \
-					or int(row.get("turn", -1)) != int(values[1]):
-				return false
-			expected.erase(event_id)
+		if event_id not in watched:
+			continue
+		if not expected.has(event_id):
+			return false
+		var values: Array = expected[event_id]
+		if int(row.get("choice_index", -1)) != int(values[0]) \
+				or int(row.get("turn", -1)) != int(values[1]):
+			return false
+		expected.erase(event_id)
 	return expected.is_empty()
 
 func _check_slot_and_legacy_contract() -> void:
@@ -1073,6 +1086,179 @@ func _check_choice_and_result_resume() -> void:
 		"result resume lost the selected route flag")
 	_expect((_story.get("_dialogue_log_entries") as Array) == result_log_before,
 		"result resume changed or duplicated Dialogue History")
+
+
+func _check_w207_result_presentation_resume_and_locale() -> void:
+	# Choices 0/1 must retain the meeting and Sangchul.  Rebuild the exact
+	# predecessor route for each choice so the assertions exercise StoryMode's
+	# live transaction instead of calling the visual helper in isolation.
+	for retained_choice in [0, 1]:
+		await _free_story()
+		LocaleManager.set_language("ko")
+		if not _prepare_chapter5_causal_w207_route():
+			_fail("W207 retained-result fixture could not reach its exact root")
+			return
+		if not await _spawn_story("arc_y5_final_offer"):
+			return
+		_advance_story_fixture_to_choices()
+		_story.call("_on_choice", retained_choice)
+		await get_tree().process_frame
+		_story.call("_finish_story_scene_transition")
+		_assert_w207_result_presentation(
+			retained_choice, "ko", "live retained choice %d" % retained_choice)
+
+	await _free_story()
+	LocaleManager.set_language("ko")
+	if not _prepare_chapter5_causal_w207_route():
+		_fail("W207 cafe-result fixture could not reach its exact root")
+		return
+	if not await _spawn_story("arc_y5_final_offer"):
+		return
+	_advance_story_fixture_to_choices()
+	_story.call("_on_choice", 2)
+	await get_tree().process_frame
+	_story.call("_finish_story_scene_transition")
+	_assert_w207_result_presentation(2, "ko", "live cafe result")
+	var result_context: Dictionary = _story.call("build_save_resume_context")
+	_expect(str(result_context.get("phase", "")) == "result" \
+			and int(result_context.get("pending_result_choice_index", -1)) == 2 \
+			and str(result_context.get("story_locale", "")) == "ko",
+		"W207 cafe result did not build an exact Korean result resume context")
+	var receipt_after_choice: Dictionary = \
+		GameState.chapter5_causal_receipt_snapshot("arc_y5_final_offer")
+	var event_log_count_after_choice := _w207_exact_event_log_count(2)
+	_expect(SaveManager.save_game(TEST_SLOT, result_context),
+		"W207 cafe result save failed")
+	await _free_story()
+	_expect(SaveManager.load_game(TEST_SLOT),
+		"W207 cafe result save could not be reloaded")
+	if not await _spawn_loaded_story():
+		return
+	_expect(str((_story.get("_current") as Dictionary).get("id", "")) \
+			== "arc_y5_final_offer",
+		"W207 result reload opened the wrong event")
+	_assert_w207_result_presentation(2, "ko", "reloaded cafe result")
+	_expect(GameState.chapter5_causal_receipt_snapshot(
+			"arc_y5_final_offer") == receipt_after_choice \
+			and event_log_count_after_choice == 1 \
+			and _w207_exact_event_log_count(2) == event_log_count_after_choice,
+		"W207 result reload replayed or lost its exact choice transaction")
+
+	_story.call("_set_story_language", "en")
+	for _frame in range(3):
+		await get_tree().process_frame
+	_assert_w207_result_presentation(2, "en", "in-place English result")
+	_expect(GameState.chapter5_causal_receipt_snapshot(
+			"arc_y5_final_offer") == receipt_after_choice \
+			and _w207_exact_event_log_count(2) == event_log_count_after_choice,
+		"W207 English result switch replayed or rewrote its choice transaction")
+
+	_story.call("_set_story_language", "ko")
+	for _frame in range(3):
+		await get_tree().process_frame
+	_assert_w207_result_presentation(2, "ko", "in-place Korean result")
+	_expect(GameState.chapter5_causal_receipt_snapshot(
+			"arc_y5_final_offer") == receipt_after_choice \
+			and _w207_exact_event_log_count(2) == event_log_count_after_choice,
+		"W207 Korean result switch replayed or rewrote its choice transaction")
+
+
+func _prepare_chapter5_causal_w207_route() -> bool:
+	_prepare_chapter5_product_path()
+	if not GameState.prepare_chapter5_causal_route_entry():
+		return false
+	var predecessor_choices := {
+		"arc_y5_jaehyuk_guarantee_decision_reference": 1,
+		"arc_sangchul_final_door": 0,
+		"arc_y5_three_in_room_decision": 1,
+	}
+	for turn_value in range(195, 208):
+		GameState.turn = turn_value
+		for _same_turn_guard in range(4):
+			var event_id := GameState.chapter5_causal_next_event_for_turn()
+			if event_id == "arc_y5_final_offer":
+				return true
+			if event_id.is_empty():
+				break
+			var result := GameState.record_chapter5_causal_choice(
+				event_id, int(predecessor_choices.get(event_id, 0)))
+			if not bool(result.get("ok", false)):
+				return false
+	return false
+
+
+func _advance_story_fixture_to_choices() -> void:
+	_story.call("_finish_story_scene_transition")
+	_story.set("_para_index", (_story.get("_paragraphs") as Array).size() - 1)
+	_story.call("_complete_typing")
+	_story.call("_show_choices")
+
+
+func _w207_exact_event_log_count(choice_index: int) -> int:
+	var count := 0
+	for raw_entry in GameState.event_log:
+		if raw_entry is Dictionary \
+				and str((raw_entry as Dictionary).get("event_id", "")) \
+					== "arc_y5_final_offer" \
+				and int((raw_entry as Dictionary).get("choice_index", -1)) \
+					== choice_index:
+			count += 1
+	return count
+
+
+func _assert_w207_result_presentation(
+		choice_index: int, language: String, stage: String) -> void:
+	if not is_instance_valid(_story):
+		_fail("W207 %s has no live StoryMode" % stage)
+		return
+	var current: Dictionary = _story.get("_current")
+	var expected_background_id := ImageRegistry.resolve_contextual_background_id(
+		"cafe" if choice_index == 2 else "meeting")
+	var expected_background_path := ImageRegistry.get_background(
+		expected_background_id)
+	var background := _story.get("_bg_img") as TextureRect
+	var actual_background_path := (
+		background.texture.resource_path
+		if is_instance_valid(background) and background.texture != null else "")
+	var expected_portrait_id := (
+		"daeun_normal" if choice_index == 2 else "sangchul_serious")
+	var expected_portrait_path := ImageRegistry.get_portrait_for_turn(
+		expected_portrait_id, GameState.turn)
+	var portrait := _story.get("_portrait") as TextureRect
+	var portrait_frame := _story.get("_portrait_frame") as Control
+	var actual_portrait_path := (
+		portrait.texture.resource_path
+		if is_instance_valid(portrait) and portrait.texture != null else "")
+	var name_panel := _story.get("_name_panel") as Control
+	var name_tag := _story.get("_name_tag") as Label
+	var expected_name := (
+		("Kim Daeun" if language == "en" else "김다은")
+		if choice_index == 2 else
+		("Im Sangchul" if language == "en" else "임상철"))
+	_expect(str(current.get("id", "")) == "arc_y5_final_offer" \
+			and str(current.get("background", "")) == "meeting" \
+			and str(current.get("portrait", "")) == "sangchul_serious" \
+			and bool(_story.get("_pending_after_result")) \
+			and int(_story.get("_pending_result_choice_index")) == choice_index \
+			and GameState.chapter5_causal_receipt_matches(
+				"arc_y5_final_offer", choice_index) \
+			and str(_story.get("_event_background_id")) == expected_background_id \
+			and not expected_background_path.is_empty() \
+			and actual_background_path == expected_background_path \
+			and not expected_portrait_path.is_empty() \
+			and actual_portrait_path == expected_portrait_path \
+			and is_instance_valid(portrait_frame) and portrait_frame.visible \
+			and is_instance_valid(name_panel) and name_panel.visible \
+			and is_instance_valid(name_tag) and name_tag.text == expected_name \
+			and (choice_index != 2 \
+				or str(BGMPlayer.get("_current_ambience_key")) == "cafe"),
+		"W207 %s presentation drifted: %s" % [stage, str({
+			"background": _story.get("_event_background_id"),
+			"background_path": actual_background_path,
+			"portrait": actual_portrait_path,
+			"name": name_tag.text if is_instance_valid(name_tag) else "",
+			"ambience": BGMPlayer.get("_current_ambience_key"),
+		})])
 
 
 func _check_result_choice_receipt_index_guard() -> void:
@@ -3609,7 +3795,7 @@ func _finish() -> void:
 	_stop_test_audio()
 	await get_tree().create_timer(0.10).timeout
 	if _failures.is_empty():
-		print("MANUAL_SAVE_CHECK_OK slots=10 chapter5=causal-disk-json-exact-int/eligible-entry/durable-lock-ratchet+finale-disk-exact-int/tamper-closed/legacy-W220-open-W221-closed durability=temp-readback/verified-backup/primary-preserved/retry/recovery/compatible-backup-preserved/wrong-type/missing-key manual_feedback=failure-stays/success-close identity=current/partial/unknown/full-demo/v2-isolated/completion-turn25-exact/cutoff future=reject-before-state prose=source_progress locale_mismatch=rewind choices=1 result_once=1 result_variant=sangchul-father-passed/result-once/current-serial-history/event-action-logs/nonresult-prose+choices-restart stale_queue=alive-original/death-canonical+legacy+cast/passed-variants/living-only-skip/769-iterative-skip/769-curation-iterative-skip/read-only-history father_passing=blocked5/event-manager+story-queue/terminal-result2/once/cross-splice2-reject/latest-receipt2-reject timer=1 pages=2 dialogue_history=prose/choice/result/legacy_notice first_bill=expression/decision/ledger+preclamp_H3_H99+fatal_short_circuit+frozen_replay+local_ledger+hyunsu+legacy_atomic+old_dirty_generic_inert+nonstory_root_only/no_synthetic_archive archive=opening1/decision0 meta=restored")
+		print("MANUAL_SAVE_CHECK_OK slots=10 chapter5=causal-disk-json-exact-int/eligible-entry/durable-lock-ratchet+finale-disk-exact-int/tamper-closed/legacy-W220-open-W221-closed+w207-live-retained2/cafe-save-reload-ko-en durability=temp-readback/verified-backup/primary-preserved/retry/recovery/compatible-backup-preserved/wrong-type/missing-key manual_feedback=failure-stays/success-close identity=current/partial/unknown/full-demo/v2-isolated/completion-turn25-exact/cutoff future=reject-before-state prose=source_progress locale_mismatch=rewind choices=1 result_once=1 result_variant=sangchul-father-passed/result-once/current-serial-history/event-action-logs/nonresult-prose+choices-restart stale_queue=alive-original/death-canonical+legacy+cast/passed-variants/living-only-skip/769-iterative-skip/769-curation-iterative-skip/read-only-history father_passing=blocked5/event-manager+story-queue/terminal-result2/once/cross-splice2-reject/latest-receipt2-reject timer=1 pages=2 dialogue_history=prose/choice/result/legacy_notice first_bill=expression/decision/ledger+preclamp_H3_H99+fatal_short_circuit+frozen_replay+local_ledger+hyunsu+legacy_atomic+old_dirty_generic_inert+nonstory_root_only/no_synthetic_archive archive=opening1/decision0 meta=restored")
 		get_tree().quit(0)
 		return
 	for failure in _failures:

@@ -71,7 +71,7 @@
       },
       {
         "text": "Take the addendum to Daeun first.",
-        "result_text": "{name} packed the papers with the signature field blank. Behind him, Sangchul called out.\n\"The deadline is today.\"\n\n\"So is Daeun's time to read it.\"\n\nBeside the café's closing checklist, Daeun opened the page bearing her name before the page of figures. Her finger stopped on WEEKENDS AND NIGHTS.\n\"Tell me what I'm lending you first, Minjun. Is it my name or all the time after it? I decide after that.\""
+        "result_text": "Beside the cafe's closing checklist, {name} placed the papers before Daeun with the signature field still blank. He first told her that, as he left the meeting room, Sangchul had said the deadline was that day.\n\nDaeun opened the page bearing her name before the page of figures. Her finger stopped on WEEKENDS AND NIGHTS.\n\"Tell me what I'm lending you first, Minjun. Is it my name or all the time after it? I decide after that.\""
       }
     ]
   },
@@ -210,46 +210,38 @@
     ]
   },
   {
-    "id": "arc_y5_general_last_page_instruction",
-    "title": "The First Line of the Last Page",
-    "description": "Late in the final year, {name} opened the notebook to the week he met Minseo again and the week he placed an empty chair across from Father's photograph. Between those pages sat a blank index sheet for the notebook's final section.\n\nHe copied down only what he himself had actually said or done. He wrote no answer Minseo had not given, no answer Father could no longer give, and no home he did not own.\n\nThe index had room for one first line. Whichever sentence went there would become the cover line of the file he would seal before the final signature. The other would remain behind it as an attached record. {name} picked up his pen.",
+    "id": "arc_y5_general_debt_memory_reconnect",
+    "title": "After Repayment, Before Arrival",
+    "description": "With twenty weeks left in the final year, {name} set a copy of the final repayment confirmation from Year One beside the notebook page from the week he met Minseo again. Price alerts for three saved addresses waited on his phone.\n\nNo line yet joined the date the repayment ended to the answer he had actually given Minseo. He would invent no answer Minseo had not given, no answer Father was no longer there to give, and no home he did not own.\n\nOnly one thirty-minute stretch remained tonight. While he joined those two traces from his side, he could not watch the prices move. {name} stopped between the record button and the folded copy.",
     "description_memory_if_known": {
-      "chapter5_general_minseo_arrival_0&chapter5_general_father_legacy_0": "He had told Minseo, ‘I think I'm starting to get it,’ and before the empty chair, ‘I'll get there, Father’ had left his mouth. Knowing the next question and promising arrival now waited for order on the same index.",
-      "chapter5_general_minseo_arrival_0&chapter5_general_father_legacy_1": "He had told Minseo, ‘I think I'm starting to get it,’ then silently explained to the empty chair how far he had come. A new question and an explanation that never reached its listener waited for order on the same index.",
-      "chapter5_general_minseo_arrival_0&chapter5_general_father_legacy_2": "He had told Minseo, ‘I think I'm starting to get it,’ but before the empty chair he turned on the monitor instead of speaking. Understanding spoken aloud and work begun without words waited for order on the same index.",
-      "chapter5_general_minseo_arrival_1&chapter5_general_father_legacy_0": "He had told Minseo, ‘I haven't arrived yet,’ and before the empty chair, ‘I'll get there, Father’ had left his mouth. A delayed arrival and a promised arrival waited for order on the same index.",
-      "chapter5_general_minseo_arrival_1&chapter5_general_father_legacy_1": "He had told Minseo, ‘I haven't arrived yet,’ then silently explained before the empty chair how far he had come. Two unfinished sentences, left before different people, met on the same index.",
-      "chapter5_general_minseo_arrival_1&chapter5_general_father_legacy_2": "He had told Minseo, ‘I haven't arrived yet,’ then turned on the monitor instead of speaking before the empty chair. Words saved for later and the act of someone still living waited for order on the same index."
+      "chapter5_general_minseo_arrival_0": "The answer he had actually given Minseo was, ‘I think I'm starting to get it.’ She said arrival would bring the next question; she did not supply its answer.",
+      "chapter5_general_minseo_arrival_1": "The answer he had actually given Minseo was, ‘I haven't arrived yet.’ She neither corrected him nor declared arrival for him."
     },
     "choices": [
       {
-        "text": "Put the answer he gave Minseo on the first line",
-        "result_text": "{name} copied the answer he had given Minseo onto the first line of the index and marked the week beside it. The action before the empty chair moved to the second line and became ‘Attachment 1.’\n\nBoth records remained, but the first thing he would read before the final signature was the answer he had given Minseo. {name} slipped the index into the back of the notebook."
+        "text": "Put the repayment date and that day's answer into one private voice memo",
+        "result_text": "{name} started recording and read the final repayment-confirmation date from Year One. Then he spoke only the answer he had actually given Minseo when they met again. He stopped after thirty-one seconds and put both dates in the title.\n\nThe memo stayed on his phone. He sent it to no one, and no read receipt or reply appeared. While he recorded it, the price alerts for the three addresses stacked up unseen."
       },
       {
-        "text": "Put what he chose before the empty chair on the first line",
-        "result_text": "{name} copied what he had chosen before the empty chair onto the first line of the index and marked the week beside it. The answer he had given Minseo moved to the second line and became ‘Attachment 1.’\n\nBoth records remained, but the first thing he would read before the final signature was what he himself had actually done before a chair that could not answer. {name} slipped the index into the back of the notebook."
+        "text": "Carry the repayment-confirmation copy to that cafe and sit alone for thirty minutes",
+        "result_text": "{name} folded the repayment-confirmation copy and went to that cafe. Without calling or messaging Minseo, he spent thirty minutes at the table where they had once faced each other, reading the copy and the answer from that day in turn.\n\nThe seat across from him stayed empty. Minseo did not come, and no new message appeared. When he left, the price alerts for the three addresses were still stacked up unseen."
       }
     ]
   },
   {
     "id": "arc_y5_general_final_record_seal",
-    "title": "The Seal Before the Signature",
-    "description": "On the night before the final signature, {name} emptied a clear file. He laid the index beside the three listings priced around 2.5 billion won and wrote today's date on a blank seal.\n\nThe listings had prices, but no buyer's name, signature, registration number, or key. The index held words and actions that had actually happened, but no new answer from Minseo or Father.\n\nBoth would go into the file. Only one, however, could face up when the sealed file reached the final signature. {name} had to choose the order before closing the seal.",
+    "title": "The Screen to Close Tonight",
+    "description": "On the night the final three weeks began, price alerts for three saved addresses climbed across {name}'s phone. The trace of repayment he had kept seventeen weeks earlier lay on the desk; what he had actually done before Father's photograph remained with it.\n\nIf he turned the alerts off for the thirty minutes left tonight, he would miss the moment a price moved. If he watched to the end, he would lose the only part of the night left to return to the traces that had reached neither person. Neither choice bought a home or produced anyone's answer.\n\n{name} had to choose which screen to close tonight.",
     "chapter5_finale_reads": {
       "texts": [
         [
-          "When he met Minseo again, {name} said, ‘I think I'm starting to get it.’ Minseo answered that arrival would bring the next question.",
-          "When he met Minseo again, {name} said, ‘I haven't arrived yet.’ He left Minseo's words for after he arrived."
+          "Seventeen weeks earlier, {name} put the final repayment-confirmation date and the answer he had given Minseo into one thirty-one-second private voice memo. He sent it to no one.",
+          "Seventeen weeks earlier, {name} carried the final repayment-confirmation copy to that cafe and sat alone for thirty minutes. Minseo did not come, and no new message appeared."
         ],
         [
           "Before the empty chair, ‘I'll get there, Father’ actually left his mouth. No one heard it.",
           "Before the empty chair, he silently explained how far he had come and how far remained.",
           "Before the empty chair, he left no sentence. He turned on the monitor, and the photograph stayed where it was."
-        ],
-        [
-          "The first line of the index held the answer given to Minseo. The action before the empty chair remained as an attachment.",
-          "The first line of the index held the action chosen before the empty chair. The answer given to Minseo remained as an attachment."
         ],
         [
           "At the real estate office, {name} opened Father's contact but did not press the call button. No outgoing time or answer appeared; only the listings remained in his hand.",
@@ -259,47 +251,35 @@
     },
     "choices": [
       {
-        "text": "Seal the index on top and attach the listings",
-        "result_text": "{name} placed the index on top and aligned the three listings behind it. On the contents label he wrote only ‘one index / three listings / today's date.’ The sentence he had chosen first remained visible through the clear cover.\n\nWhen he pressed the seal closed, the blank buyer fields did not disappear. They remained one sheet behind. He would not change the order before the final signature."
+        "text": "Turn off the price alerts now and spend tonight's thirty minutes on the two human traces",
+        "result_text": "{name} turned off the alerts for all three addresses until morning. Once the screen went dark, he returned to the repayment trace, then named aloud the action he had taken before Father's photograph.\n\nHe missed whatever the prices did during those thirty minutes. He sent nothing to Minseo, and no new answer came from Father. This became the night he let the numbers go unseen."
       },
       {
-        "text": "Seal the listing with the blank buyer line on top and attach the index",
-        "result_text": "{name} placed the listing with the blank buyer line on top, then aligned the other listings and the index behind it. On the contents label he wrote only ‘three listings / one index / today's date.’ The empty name field remained visible through the clear cover.\n\nWhen he pressed the seal closed, the index's first sentence did not disappear. It remained behind the listings. He would not change the order before the final signature."
+        "text": "Watch the price alerts through all thirty minutes and set the two human traces aside tonight",
+        "result_text": "{name} left the alerts for all three addresses on. Every time a price moved, he opened the screen, but he pressed no buy button and opened no order page. After thirty minutes, only the movement log remained.\n\nThe repayment trace and Father's record stayed unread on the desk tonight. He sent Minseo no new sentence. The cost of watching the numbers was that the night for people ended first."
       }
     ]
   },
   {
     "id": "arc_final_countdown_general_near_goal_passed",
-    "title": "The Signature After the Seal",
-    "description": "On the final night of five years, the date on the seal sat beside the notebook's last date. Without breaking the seal, {name} read only the page facing up. There was a record of reaching the 2.5-billion-won threshold, but no document saying he had bought a home.\n\nHe drew three fields on the notebook's final page: ‘verified facts,’ ‘names and time,’ and ‘the first action I take today.’ None could be filled with another person's answer or forgiveness. The chair across from him was empty, and no new message waited on the phone.\n\nThis page was neither a contract nor a transfer instruction. {name} would complete it in one of three ways and write his own name once.",
+    "title": "What to Erase on the Final Night",
+    "description": "On the final night of five years, {name} sat alone in the room. Three saved addresses and their price alerts remained on his phone. The first page of the notebook still carried the three-billion-won goal that had followed him from the start. No address had a contract, filing receipt, or key naming him as owner.\n\nDelete the three addresses, and every door he had kept comparing would close at once. Cross out three billion won, and the goal he had placed before every choice for five years would end by his own hand. There was no choice to leave both intact and merely add his name.\n\nThe chair across from him was empty, and no new message waited on the phone. {name} would write his name beneath the time that confirmed what he had erased.",
     "chapter5_finale_reads": {
       "texts": [
         [
-          "The final index began with the answer given to Minseo.",
-          "The final index began with the action chosen before the empty chair."
-        ],
-        [
-          "At the threshold, {name} opened Father's contact but did not call, then left carrying only the listings.",
-          "At the threshold, {name} walked one block carrying the listings, and no document of ownership came into being."
-        ],
-        [
-          "The sealed file placed the index on top and kept the listings as attachments.",
-          "The sealed file placed the listing with the blank buyer line on top and kept the index as an attachment."
+          "Three weeks earlier, {name} turned off the price alerts and spent thirty minutes with the human traces. He missed the prices that moved during that time.",
+          "Three weeks earlier, {name} watched the price alerts to the end and left the human traces closed. Those thirty minutes did not return."
         ]
       ]
     },
     "choices": [
       {
-        "text": "Sign beneath only the verified document facts",
-        "result_text": "{name} copied the sealed file's contents into the first field: listings, index, seal date. Beneath them he wrote, ‘no buyer's name / no signature / no registration number / no key,’ then signed his own name.\n\nMinseo's words and the action before the empty chair remained under their attachment numbers. No new buyer's name or registration number appeared below the final line."
+        "text": "Delete all three saved addresses and their price alerts, then sign beneath the deletion time",
+      "result_text": "{name} opened the saved list and deleted the three addresses one by one. Then he deleted every price alert attached to them. He copied the time from the empty screen into the notebook and wrote his name beneath it.\n\nThe three-billion-won line remained on the first page. He bought and ordered nothing, and the erased addresses had never represented ownership. The three doors he had kept comparing closed by his own hand."
       },
       {
-        "text": "Put amounts and dates in one field, names and time in another, then sign the page",
-        "result_text": "In the left field, {name} wrote the asking prices and the seal date. In the right, he wrote the week he met Minseo and the action he chose before the empty chair. He drew no total line between the fields.\n\nHe added no new answer or forgiveness to the right side. After leaving only words and actions that had actually happened, he signed beneath both fields."
-      },
-      {
-        "text": "Write Minseo and Father first, then sign beside one open action field",
-        "result_text": "{name} wrote Minseo and Father on the first line. Beside them he added only ‘the week we met again’ and ‘the week of the empty chair.’ He did not write that any relationship had continued or that anyone gone had returned.\n\nBelow them he wrote, ‘one action I take first today: ______.’ He signed his own name beside the person responsible for that blank. When the ink dried, only the open action field remained."
+        "text": "Cross the three-billion-won line off the notebook's first page with two strokes, then sign beneath the time",
+        "result_text": "{name} opened the notebook's first page and drew two black lines through three billion won. He did not stop until the figure that had survived five years could no longer be read. He wrote the time and signed his name beneath it.\n\nThe three addresses remained on the phone. They were information he could compare, not contracts or ownership. No money moved and no home appeared; only the goal ended by his own hand."
       }
     ]
   },
@@ -461,12 +441,12 @@
   {
     "id": "arc_y5_people_verdict_daeun_exact",
     "title": "Daeun's Time, Minseo's Procedure",
-    "description": "Daeun and Minseo sat on opposite sides of the small table. Daeun counted the evenings she had spent on the papers; Minseo ran a fingertip from the label and number to the last state the document had reached.\n\n“Whatever state today's paper ended in, that doesn't give me back the nights I sat here,” Daeun said. Minseo stopped at the final notation. “This still shows how far the paper got.” {name} had to decide whose words would enter the notebook first.",
+    "description": "Once Minseo was seated, Daeun counted the evenings she had spent reading the papers; Minseo ran a fingertip from the label and number to the last state the document had reached.\n\n“Whatever state today's paper ended in, that doesn't erase the nights I gave up because of it,” Daeun said. Minseo stopped at the final notation. “This still shows how far the paper got.” {name} had to decide whose words would enter the notebook first.",
     "chapter5_finale_reads": {
       "texts": [
         [
-          "Daeun took out the comparison she had received that night and set it beside today's counter paper.",
-          "The comparison had remained in {name}'s file that night. Daeun marked every page she was seeing for the first time today."
+          "At a small table toward the back of the cafe, Daeun took out the comparison she had received that night and set it beside today's counter paper. The door opened, and Minseo came in and pulled out the empty chair across from Daeun.",
+          "The comparison that had remained in {name}'s file that night lay on a small table toward the back of the cafe. Daeun marked every page she was seeing for the first time today. The door opened, and Minseo came in and pulled out the empty chair across from Daeun."
         ],
         [
           "The paper from filing day held a red WITHDRAWN mark and the time the counter closed. The queue ticket and copy receipt remained beside it.",

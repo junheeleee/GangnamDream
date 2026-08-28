@@ -26,7 +26,7 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 - 활성 스토리 이미지: 250장 · source raster: 306장
 - 게임 pack 대상 raster: 298장 · ImageRegistry 외부 pack 대상: 48장
 - `.gdignore` source-only 상점 스크린샷: 8장 · 출처 원장 오디오: 139개
-- 사건 ID SHA-256: `995df0e266905a3bd77d07d2860f165936a013d7f03035303391dc23b3bc4407`
+- 사건 ID SHA-256: `f367818e23e6b7f8b565d1b5404ad291d7fbef3002b4cc702290a411f9d51649`
 - KO/EN 엔딩 본문 SHA-256: `81f1599053907f43b59021e2baccaff249a7bcc7b2c630dde389021b3d395eca`
 
 후보 fingerprint는 표현의 최종 등급이 아니라 검토 코퍼스가 조용히 바뀌는 것을

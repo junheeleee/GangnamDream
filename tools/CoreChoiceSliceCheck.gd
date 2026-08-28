@@ -45,6 +45,7 @@ func _ready() -> void:
 	_check_chapter5_causal_direct_week_ownership()
 	await _check_chapter5_finale_direct_week_ownership()
 	_check_chapter5_general_finale_direct_week_ownership()
+	_check_result_portrait_without_background()
 	_check_chapter_four_father_death_recovery()
 	_check_father_terminal_final_week_repair()
 	_check_father_terminal_ending_descriptions()
@@ -52,20 +53,41 @@ func _ready() -> void:
 	_check_father_terminal_legacy_routes()
 	_check_foreground_commitment_weeks()
 	if _failures.is_empty():
-		_stop_fixture_audio()
-		print("CORE_CHOICE_SLICE_CHECK_OK intent=1 interview=causal job_gate=ledger jiyeon_lunch=branch_gated racetrack=handoff authored=7 generic=2 ap_duplicate=0 delayed=t8 branches=2 axes=money/human missed_cost=targeted chapter5=w193_same_queue+causal19/47+finale11/30-active9/24+general3/8-w229-w237-w240-same-turn+read-contract+direct-no-ap+w240-two-root+fatal-return-uncovered+normal-release-uncovered father_death=monotonic_repair father_active=guarded milestone_routing=dual late_routes=variant+closed save=roundtrip")
+		await _stop_fixture_audio()
+		print("CORE_CHOICE_SLICE_CHECK_OK intent=1 interview=causal job_gate=ledger jiyeon_lunch=branch_gated racetrack=handoff authored=7 generic=2 ap_duplicate=0 delayed=t8 branches=2 axes=money/human missed_cost=targeted chapter5=w193_same_queue+causal19/47+finale11/30-active9/24+general-source-w220+general3/7-w237-w240-same-turn+read-contract+direct-no-ap+w240-two-root+fatal-return-uncovered+normal-release-uncovered father_death=monotonic_repair father_active=guarded milestone_routing=dual late_routes=variant+closed save=roundtrip")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
 		push_error("CORE_CHOICE_SLICE_CHECK_FAIL: %s" % failure)
-	_stop_fixture_audio()
+	await _stop_fixture_audio()
 	get_tree().quit(1)
 
 func _stop_fixture_audio() -> void:
-	for raw_player in AudioManager.get("_pool"):
+	BGMPlayer.stop()
+	var ambience_tween: Variant = BGMPlayer.get("_ambience_tween")
+	if ambience_tween is Tween and (ambience_tween as Tween).is_running():
+		(ambience_tween as Tween).kill()
+	for player_key in [
+		"_player_a", "_player_b", "_ambience_player", "_season_player",
+		"_human_ambience_player",
+	]:
+		var raw_bgm_player: Variant = BGMPlayer.get(player_key)
+		if is_instance_valid(raw_bgm_player):
+			(raw_bgm_player as AudioStreamPlayer).stop()
+			(raw_bgm_player as AudioStreamPlayer).stream = null
+	var fixture_pool: Array = (AudioManager.get("_pool") as Array).duplicate()
+	for raw_player in fixture_pool:
 		if is_instance_valid(raw_player):
 			(raw_player as AudioStreamPlayer).stop()
 			(raw_player as AudioStreamPlayer).stream = null
+			raw_player.free()
+	(AudioManager.get("_pool") as Array).clear()
+	# AudioServer releases active AudioStreamPlayback objects on its next mix.
+	# The fixture is about to exit, so release its temporary autoload pool as well;
+	# otherwise the ending-stinger playbacks outlive the assertion nodes.
+	await get_tree().create_timer(0.25).timeout
+	for _release_frame in range(4):
+		await get_tree().process_frame
 
 func _new_main_game():
 	return load("res://scenes/MainGame.gd").new()
@@ -1144,6 +1166,43 @@ func _wait_for_transition_uncovered() -> void:
 
 
 func _check_chapter5_general_finale_direct_week_ownership() -> void:
+	_seed_chapter5_general_direct_sources("투자형", false)
+	_saturate_seen_guards_for_w220_router_fixture()
+	GameState.turn = 220
+	var w220_game = _new_main_game()
+	var w220_available := GameState.chapter5_general_finale_w220_available(220)
+	_expect(w220_available,
+		"general W220 exact source was unavailable for the coherent profile")
+	var routed_w220 := str(w220_game._next_arc_id(220, true, false))
+	_expect(routed_w220 == "arc_y5_general_debt_memory_reconnect",
+		"general W220 exact source did not win the live MainGame router: %s" \
+		% routed_w220)
+	_expect(w220_game._chapter5_general_w220_reserves_generic(219) \
+		and not w220_game._chapter5_general_w220_reserves_generic(221),
+		"the W220 reservation did not release the generic fallback after its slot")
+	var w220_event: Dictionary = DataRegistry.find_event(
+		"arc_y5_general_debt_memory_reconnect")
+	GameState.apply_choice(w220_event, (w220_event.get("choices", []) as Array)[0])
+	_expect(bool(GameState.flags.get("arc_endgame_sixmonths_seen", false)) \
+		and w220_game._next_arc_id(221, true, false) != "arc_endgame_sixmonths",
+		"general W220 did not suppress the duplicate generic six-month stop")
+	w220_game.free()
+
+	# The duplicate guard is bidirectional. A run that already received the
+	# generic stop before its exact M51 receipt became available may not surface
+	# the W220 replacement later.
+	_seed_chapter5_general_direct_sources("투자형", false)
+	GameState.flags["arc_endgame_sixmonths_seen"] = true
+	GameState.event_log.push_front({
+		"event_id": "arc_endgame_sixmonths", "choice_index": 0, "turn": 216})
+	GameState.turn = 220
+	var generic_first_game = _new_main_game()
+	_expect(not GameState.chapter5_general_finale_w220_available(220) \
+		and generic_first_game._next_arc_id(220, true, false) \
+			!= "arc_y5_general_debt_memory_reconnect",
+		"generic six-month evidence did not suppress the later W220 replacement")
+	generic_first_game.free()
+
 	_seed_chapter5_general_direct_sources("투자형")
 	var game = _new_main_game()
 	game.set_meta("_screenshot_qa_static_surface", true)
@@ -1178,12 +1237,12 @@ func _check_chapter5_general_finale_direct_week_ownership() -> void:
 	_expect(game._route_chapter5_finale_week() \
 		and GameState.pending_story_queue == [
 			"arc_final_countdown_general_near_goal_passed"],
-		"general W240 signature did not own direct foreground")
+		"general W240 sacrifice did not own direct foreground")
 	_expect(bool(GameState.record_chapter5_finale_choice(
-		"arc_final_countdown_general_near_goal_passed", 2).get("ok", false)) \
+		"arc_final_countdown_general_near_goal_passed", 1).get("ok", false)) \
 		and GameState.chapter5_finale_next_event_for_turn() \
 		== "arc_y5_final_week_general_people_outbound",
-		"general W240 signature did not expose same-turn outbound")
+		"general W240 sacrifice did not expose same-turn outbound")
 	var story = STORY_MODE_SCRIPT.new()
 	story.set("_queue", [])
 	story.call("_queue_chapter5_finale_same_turn_ingress")
@@ -1203,13 +1262,10 @@ func _check_chapter5_general_finale_direct_week_ownership() -> void:
 		"invalid general sources did not return ownership to generic scheduling")
 	fallback_game.free()
 	for excluded_route in ["직장형", "창업형"]:
-		_seed_chapter5_general_direct_sources(excluded_route)
-		GameState.flags.erase("chapter5_general_last_page_instruction_0")
-		GameState.flags.erase("chapter5_general_summit_1")
-		GameState.event_log.resize(2)
-		GameState.turn = 229
-		_expect(not GameState.chapter5_general_finale_w229_available(),
-			"%s run exposed the general W229 foreground" % excluded_route)
+		_seed_chapter5_general_direct_sources(excluded_route, false)
+		GameState.turn = 220
+		_expect(not GameState.chapter5_general_finale_w220_available(),
+			"%s run exposed the general W220 foreground" % excluded_route)
 		_seed_chapter5_general_direct_sources(excluded_route)
 		GameState.turn = 237
 		GameState.pending_story_queue = []
@@ -1222,19 +1278,101 @@ func _check_chapter5_general_finale_direct_week_ownership() -> void:
 		excluded_game.free()
 
 
-func _seed_chapter5_general_direct_sources(chosen_route: String) -> void:
+func _check_result_portrait_without_background() -> void:
+	var story = STORY_MODE_SCRIPT.new()
+	var portrait := TextureRect.new()
+	var portrait_frame := PanelContainer.new()
+	var name_panel := PanelContainer.new()
+	var name_tag := Label.new()
+	story.add_child(portrait)
+	story.add_child(portrait_frame)
+	story.add_child(name_panel)
+	name_panel.add_child(name_tag)
+	story.set("_portrait", portrait)
+	story.set("_portrait_frame", portrait_frame)
+	story.set("_name_panel", name_panel)
+	story.set("_name_tag", name_tag)
+	story.set("_current_presentation", {
+		"channel": "in_person", "portrait_role": "present"})
+	var result_choice := {"result_portrait": "daeun_normal"}
+	story.set("_current", {
+		"id": "result_portrait_without_background_fixture",
+		"portrait": "sangchul_serious",
+		"bg_focus": true,
+		"choices": [result_choice],
+	})
+	story.call("_apply_choice_result_visual", result_choice)
+	var expected_name := str(
+		ImageRegistry.get_person_info("daeun_normal").get("name", ""))
+	_expect(not expected_name.is_empty() \
+		and name_tag.text == expected_name \
+		and name_panel.visible,
+		"result_portrait without result_background did not update the live speaker")
+	story.set("_pending_after_result", true)
+	story.set("_pending_result_choice_index", 0)
+	name_tag.text = ""
+	story.call("_refresh_story_speaker_language")
+	_expect(story.call("_resolved_story_surface_portrait_id") == "daeun_normal" \
+		and name_tag.text == expected_name,
+		"standalone result_portrait was not stable on result resume/language refresh")
+	story.free()
+
+
+func _seed_chapter5_general_direct_sources(
+		chosen_route: String, include_w220: bool = true) -> void:
 	GameState.start_new_game("김민준", "지방_상경", chosen_route)
 	GameState.flags["father_passed"] = true
 	GameState.flags["chapter5_general_minseo_arrival_1"] = true
-	GameState.flags["chapter5_general_father_legacy_2"] = true
-	GameState.flags["chapter5_general_last_page_instruction_0"] = true
-	GameState.flags["chapter5_general_summit_1"] = true
 	GameState.event_log = [
 		{"event_id": "arc_minseo_03_arrival", "choice_index": 1, "turn": 203},
-		{"event_id": "arc_father_legacy", "choice_index": 2, "turn": 224},
-		{"event_id": "arc_y5_general_last_page_instruction", "choice_index": 0, "turn": 229},
-		{"event_id": "arc_pre_ending_summit", "choice_index": 1, "turn": 235},
 	]
+	if not include_w220:
+		return
+	GameState.flags["arc_y5_general_debt_memory_reconnect_seen"] = true
+	GameState.flags["chapter5_general_debt_memory_reconnect_0"] = true
+	GameState.flags["arc_endgame_sixmonths_seen"] = true
+	GameState.flags["chapter5_general_father_legacy_2"] = true
+	GameState.flags["chapter5_general_summit_1"] = true
+	GameState.event_log.append_array([
+		{"event_id": "arc_y5_general_debt_memory_reconnect", "choice_index": 0, "turn": 220},
+		{"event_id": "arc_father_legacy", "choice_index": 2, "turn": 224},
+		{"event_id": "arc_pre_ending_summit", "choice_index": 1, "turn": 235},
+	])
+
+
+func _saturate_seen_guards_for_w220_router_fixture() -> void:
+	var reserved := [
+		"arc_y5_general_debt_memory_reconnect_seen",
+		"arc_y5_general_last_page_instruction_seen",
+		"arc_endgame_sixmonths_seen",
+		"chapter5_general_debt_memory_reconnect_0",
+		"chapter5_general_debt_memory_reconnect_1",
+		"chapter5_general_last_page_instruction_0",
+		"chapter5_general_last_page_instruction_1",
+		"chapter5_general_minseo_arrival_0",
+		"chapter5_general_minseo_arrival_1",
+		"route_career",
+		"route_startup",
+	]
+	for raw_event in DataRegistry.get_all_events():
+		if not raw_event is Dictionary:
+			continue
+		var event: Dictionary = raw_event
+		var event_seen := "%s_seen" % str(event.get("id", ""))
+		if event_seen not in reserved:
+			GameState.flags[event_seen] = true
+		for raw_choice in event.get("choices", []):
+			if not raw_choice is Dictionary:
+				continue
+			for raw_flag in (raw_choice as Dictionary).get("flags", []):
+				var flag_id := str(raw_flag)
+				if flag_id not in reserved:
+					GameState.flags[flag_id] = true
+	GameState.flags["route_invest"] = true
+	GameState.flags.erase("route_career")
+	GameState.flags.erase("route_startup")
+	GameState.flags["chapter5_general_minseo_arrival_1"] = true
+	GameState.flags["father_passed"] = true
 
 func _check_foreground_commitment_weeks() -> void:
 	var representatives := {
@@ -1256,7 +1394,7 @@ func _check_foreground_commitment_weeks() -> void:
 		188: "arc_y4_father_crisis_stabilized",
 		190: "arc_y4_year_close_daeun",
 		192: "arc_year4_close",
-		229: "arc_y5_general_last_page_instruction",
+		220: "arc_y5_general_debt_memory_reconnect",
 	}
 	for raw_week in representatives:
 		var week := int(raw_week)

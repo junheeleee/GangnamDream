@@ -46,7 +46,7 @@ CHAPTER5_TYPED_LEDGERS = (
         ROOT / "content" / "meta" / "chapter5_general_finale_ledger.json",
         "chapter5_general_near_goal_passed_finale_v1",
         3,
-        8,
+        7,
     ),
 )
 WEEKS_PER_CHAPTER = 48

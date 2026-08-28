@@ -81,19 +81,32 @@ const CHAPTER5_FINALE_OUTBOUND_CODA_BY_CHOICE := {
 
 const CHAPTER5_GENERAL_OUTBOUND_CODA_BY_CHOICE := {
 	0: {
-		"kind": "minseo_verified_fact",
-		"text": "마지막 행동 · 확인한 사실을 보내다\n그는 민서에게 그날의 대답을 다시 읽었고, 매수인 이름과 서명이 없어 오늘도 집을 샀다고 쓰지 않았다고 보냈다. 화면에는 자기 쪽 전송 시각만 남았고, 읽음·답장·다음 만남은 확정되지 않았다.",
-		"text_en": "THE LAST ACTION · SENDING THE VERIFIED FACT\nHe told Minseo he had reread the answer he gave her and still had not written that he had bought a home, because there was no buyer's name or signature. Only his sent time remained; no read receipt, reply, or next meeting was confirmed.",
+		"kind": "minseo_answer_forward",
+		"text": "마지막 행동 · 대답 다음의 문장\n그는 민서에게 그날 자신이 했던 대답을 기억한다고, 집을 핑계로 다음 질문을 더 미루지 않겠다고 먼저 보냈다. 화면에는 자기 쪽 전송 시각만 남았고, 읽음·답장·다음 만남은 확정되지 않았다.",
+		"text_en": "THE LAST ACTION · THE LINE AFTER HIS ANSWER\nHe told Minseo that he remembered the answer he had given that day and would no longer use getting a home as a reason to postpone the next question. Only his sent time remained; no read receipt, reply, or next meeting was confirmed.",
 	},
 	1: {
-		"kind": "father_record_line",
-		"text": "마지막 행동 · 아버지 봉투의 한 줄\n그는 아버지 기록 봉투에 빈 의자 앞의 행동과, 매수인 이름이 없는 매물표를 자기 서명 수첩과 함께 닫았다는 오늘의 문장을 적었다. 날짜는 남았지만 방 안에 답이나 사후의 화해는 생기지 않았다.",
-		"text_en": "THE LAST ACTION · A LINE ON FATHER'S ENVELOPE\nHe wrote the empty-chair action on Father's record envelope, then added that today he had closed listings with no buyer's name beside his signed notebook. The date remained, but no answer or reconciliation beyond death appeared in the room.",
+		"kind": "father_envelope_action",
+		"text": "마지막 행동 · 아버지 봉투의 한 줄\n그는 아버지 기록 봉투에 빈 의자 앞에서 했던 행동과 오늘 지운 것, 지우지 못한 것을 한 줄로 적었다. 날짜는 남았지만 방 안에 답이나 사후의 화해는 생기지 않았다.",
+		"text_en": "THE LAST ACTION · A LINE ON FATHER'S ENVELOPE\nHe wrote one line on Father's record envelope: what he had done before the empty chair, what he had erased today, and what he had not. The date remained, but no answer or reconciliation beyond death appeared in the room.",
 	},
 	2: {
 		"kind": "minseo_meeting_request",
 		"text": "마지막 행동 · 다음 화요일을 묻다\n그는 민서에게 다음 화요일 저녁 일곱 시 반, 그 카페에서 삼십 분 이야기할 수 있는지 먼저 물었다. 자기 쪽 전송 시각만 생겼고, 읽음·답장·약속된 만남은 여전히 민서의 선택으로 남았다.",
 		"text_en": "THE LAST ACTION · ASKING ABOUT NEXT TUESDAY\nHe asked Minseo if she could talk for thirty minutes at that cafe next Tuesday at seven thirty. Only his sent time appeared; the read receipt, reply, and any meeting remained Minseo's to decide.",
+	},
+}
+
+const CHAPTER5_GENERAL_SACRIFICE_CODA_BY_CHOICE := {
+	0: {
+		"kind": "addresses",
+		"text": "마지막 포기 · 세 주소\n그는 남겨 둔 세 주소와 가격 알림을 모두 지웠다. 수첩 첫 장의 30억은 남아 있었지만, 그 밤에는 매수도 소유도 이체도 생기지 않았다.",
+		"text_en": "THE LAST SACRIFICE · THREE ADDRESSES\nHe deleted all three saved addresses and their price alerts. The three-billion-won figure remained on the first page of his notebook, but that night brought no purchase, ownership, or transfer.",
+	},
+	1: {
+		"kind": "target",
+		"text": "마지막 포기 · 30억\n그는 수첩 첫 장의 30억을 두 줄로 그어 지웠다. 세 주소는 끝까지 그의 소유가 아니었다. 이제 누구에게 무엇을 먼저 할지와 그 책임만 자기 이름에 남았다.",
+		"text_en": "THE LAST SACRIFICE · THREE BILLION WON\nHe crossed out the three-billion-won target on the first page of his notebook with two strokes. The three addresses were never his. What he would do first for whom, and responsibility for it, remained beside his own name.",
 	},
 }
 
@@ -132,6 +145,33 @@ func final_signature_coda(ending_id: Variant, run_flags: Variant) -> Dictionary:
 	if selected_flags.size() != 1:
 		return {}
 	return (FINAL_SIGNATURE_CODA_BY_FLAG[selected_flags[0]] as Dictionary).duplicate(true)
+
+
+## The first general-finale aftermath card comes from the exact consumed W240
+## sacrifice receipt. This keeps the rejected administrative signature flags
+## from overwriting the action the player actually chose.
+func chapter5_general_sacrifice_coda(
+		ending_id: Variant, raw_finale_state: Variant) -> Dictionary:
+	var normalized_ending_id := str(ending_id).strip_edges()
+	if normalized_ending_id not in FINAL_SIGNATURE_CODA_ENDING_IDS \
+			or not raw_finale_state is Dictionary:
+		return {}
+	var canonical := CHAPTER5_FINALE_ROUTE.state_from_save(
+		raw_finale_state, true, CHAPTER5_FINALE_ROUTE.GENERAL_ENTRY_TURN)
+	if str(canonical.get("status", "")) != "open" \
+			or str(canonical.get("ending_check", "")) != "consumed" \
+			or not CHAPTER5_FINALE_ROUTE.route_complete(canonical):
+		return {}
+	var receipt := CHAPTER5_FINALE_ROUTE.receipt_snapshot_for_stage(
+		canonical, "sacrifice")
+	if str(receipt.get("event_id", "")) \
+			!= "arc_final_countdown_general_near_goal_passed":
+		return {}
+	var choice_index := int(receipt.get("choice_index", -1))
+	if not CHAPTER5_GENERAL_SACRIFICE_CODA_BY_CHOICE.has(choice_index):
+		return {}
+	return (CHAPTER5_GENERAL_SACRIFICE_CODA_BY_CHOICE[choice_index] \
+		as Dictionary).duplicate(true)
 
 
 ## The protected M56-M60 route records the final outgoing action in its exact

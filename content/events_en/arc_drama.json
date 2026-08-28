@@ -480,17 +480,12 @@
   {
     "id": "arc_y5_final_week_general_people_outbound",
     "title": "One Thing First",
-    "description": "A few minutes passed after the signature. {name} was alone in the room. The channel he had actually used with Minseo remained on the phone, while Father's record envelope lay separately on the desk. The two people were not together in this room.\n\nThere was no new reply, confirmed meeting, or forgiveness. The only thing he could settle was one action sent or written from his side. Whichever action he left first would place the other two outside the record of this night.\n\n{name} stopped between the empty input field and the blank line on the envelope.",
+    "description": "A few minutes passed after {name} wrote his name beneath the time of what he had erased. He was alone in the room. The channel he had actually used with Minseo remained on the phone, while Father's record envelope lay separately on the desk. The two people were not together in this room.\n\nThere was no new reply, confirmed meeting, or forgiveness. The only thing he could settle was one action sent or written from his side. Whichever action he left first would place the other two outside the record of this night.\n\n{name} stopped between the empty input field and the blank line on the envelope.",
     "chapter5_finale_reads": {
       "texts": [
         [
-          "The sealed file placed the index on top and kept the listings as attachments.",
-          "The sealed file placed the listing with the blank buyer line on top and kept the index as an attachment."
-        ],
-        [
-          "The final page closed with {name}'s name beneath the verified document facts.",
-          "The final page closed with amounts and dates beside names and time, without combining them.",
-          "The final page closed with Minseo, Father, and one blank marked ‘the first action I take today.’"
+          "{name} deleted all three saved addresses and their price alerts, then wrote his name under the deletion time. The three-billion-won line remained on the notebook's first page.",
+          "{name} crossed the three-billion-won line off the notebook's first page with two strokes, then wrote his name under the time. The three addresses remained information, not ownership."
         ],
         [
           "At their last meeting, {name} told Minseo, ‘I think I'm starting to get it.’",
@@ -505,12 +500,12 @@
     },
     "choices": [
       {
-        "text": "Send Minseo today's verified fact after the answer he gave her",
-        "result_text": "In the channel they had actually used, {name} wrote:\n\n‘I reread the answer I gave you that day. I still didn't write that I had bought a home. There is no buyer's name or signature yet.’\n\nWhen he pressed send, only a sent time appeared beneath his bubble. No read receipt, reply, or next meeting appeared. He added no new line to Father's envelope and proposed no date to meet."
+        "text": "Send Minseo that day's answer and say he will not use a home to postpone her next question",
+        "result_text": "In the channel they had actually used, {name} wrote:\n\n‘I still remember the answer I gave you that day. I won't keep saying I need a home before I can answer the question that comes next.’\n\nWhen he pressed send, only a sent time appeared beneath his bubble. No read receipt, reply, or next meeting appeared. He added no new line to Father's envelope and proposed no date to meet."
       },
       {
-        "text": "Leave the empty-chair record and one line from today on Father's envelope",
-        "result_text": "On the outside of Father's record envelope, {name} copied the empty-chair entry from the index. Beneath it he wrote:\n\n‘Today I closed a set of listings with no buyer's name together with a notebook signed in my own name.’\n\nHe added today's date and turned the envelope facedown. No answer appeared in the room. He sent Minseo no new sentence and proposed no date to meet."
+        "text": "Leave the empty-chair action and what he erased today on Father's envelope",
+        "result_text": "On the outside of Father's record envelope, {name} copied what he had actually done before the empty chair. Beneath it, he wrote the exact name of what he had erased today, then wrote NOT OWNERSHIP, NOT ARRIVAL beside what he had left intact.\n\n‘I will not write that a home appeared. I will not restore what I erased, or call what I kept something I had already achieved.’\n\nHe added today's date and turned the envelope facedown. No answer appeared in the room. He sent Minseo no new sentence and proposed no date to meet."
       },
       {
         "text": "Ask Minseo if she can meet at that cafe next Tuesday at seven thirty",

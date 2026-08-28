@@ -4,8 +4,8 @@
   "choice_index_base": 0,
   "expected_root_count": 3,
   "expected_active_root_count": 3,
-  "expected_choice_count": 8,
-  "expected_active_choice_count": 8,
+  "expected_choice_count": 7,
+  "expected_active_choice_count": 7,
   "entry_contract": {
     "route_id": "chapter5_safe_finale",
     "turn": 237,
@@ -13,8 +13,8 @@
     "source_route_id": "general_story",
     "source_choice_keys": {
       "m51_minseo_arrival": [0, 1],
+      "w220_debt_memory_reconnect": [0, 1],
       "m56_father_legacy": [0, 1, 2],
-      "w229_last_page_instruction": [0, 1],
       "m59_summit": [0, 1]
     },
     "father": {
@@ -28,8 +28,8 @@
     }
   },
   "stages": [
-    "record_seal",
-    "signature",
+    "record_disposition",
+    "sacrifice",
     "outbound"
   ],
   "roots": [
@@ -43,7 +43,7 @@
       "root_id": "arc_y5_general_final_record_seal",
       "choice_count": 2,
       "tier": "T1",
-      "stage": "record_seal",
+      "stage": "record_disposition",
       "active_when": null,
       "actors": {
         "chooser": "player",
@@ -53,18 +53,13 @@
       "read_sources": [
         {
           "kind": "entry_value",
-          "path": "source_choices.m51_minseo_arrival",
+          "path": "source_choices.w220_debt_memory_reconnect",
           "values": [0, 1]
         },
         {
           "kind": "entry_value",
           "path": "source_choices.m56_father_legacy",
           "values": [0, 1, 2]
-        },
-        {
-          "kind": "entry_value",
-          "path": "source_choices.w229_last_page_instruction",
-          "values": [0, 1]
         },
         {
           "kind": "entry_value",
@@ -76,14 +71,14 @@
       "choices": [
         {
           "index": 0,
-          "receipt_ids": ["m60_general_record_seal_people_first"],
-          "document_ids": ["Y5-GENERAL-FINAL-RECORD-PEOPLE-FIRST"],
+          "receipt_ids": ["m60_general_record_disposition_people_night"],
+          "document_ids": ["Y5-GENERAL-RECORD-DISPOSITION-PEOPLE-NIGHT"],
           "economic_outcome": {}
         },
         {
           "index": 1,
-          "receipt_ids": ["m60_general_record_seal_financial_first"],
-          "document_ids": ["Y5-GENERAL-FINAL-RECORD-FINANCIAL-FIRST"],
+          "receipt_ids": ["m60_general_record_disposition_price_night"],
+          "document_ids": ["Y5-GENERAL-RECORD-DISPOSITION-PRICE-NIGHT"],
           "economic_outcome": {}
         }
       ]
@@ -96,45 +91,29 @@
       "week": 240,
       "event_id": "arc_final_countdown_general_near_goal_passed",
       "root_id": "arc_final_countdown_general_near_goal_passed",
-      "choice_count": 3,
+      "choice_count": 2,
       "tier": "T1",
-      "stage": "signature",
+      "stage": "sacrifice",
       "active_when": null,
       "actors": {
         "chooser": "player",
         "father": "father"
       },
       "read_sources": [
-        {
-          "kind": "entry_value",
-          "path": "source_choices.w229_last_page_instruction",
-          "values": [0, 1]
-        },
-        {
-          "kind": "entry_value",
-          "path": "source_choices.m59_summit",
-          "values": [0, 1]
-        },
-        {"kind": "finale_stage", "id": "record_seal"}
+        {"kind": "finale_stage", "id": "record_disposition"}
       ],
       "read_mode": "prepend",
       "choices": [
         {
           "index": 0,
-          "receipt_ids": ["m60_general_signature_statement_line"],
-          "document_ids": ["Y5-GENERAL-FINAL-SIGNATURE-STATEMENT"],
+          "receipt_ids": ["m60_general_sacrifice_addresses"],
+          "document_ids": ["Y5-GENERAL-SACRIFICE-ADDRESSES"],
           "economic_outcome": {}
         },
         {
           "index": 1,
-          "receipt_ids": ["m60_general_signature_people_line"],
-          "document_ids": ["Y5-GENERAL-FINAL-SIGNATURE-PEOPLE"],
-          "economic_outcome": {}
-        },
-        {
-          "index": 2,
-          "receipt_ids": ["m60_general_signature_cross_reference"],
-          "document_ids": ["Y5-GENERAL-FINAL-SIGNATURE-CROSS-REFERENCE"],
+          "receipt_ids": ["m60_general_sacrifice_target"],
+          "document_ids": ["Y5-GENERAL-SACRIFICE-TARGET"],
           "economic_outcome": {}
         }
       ]
@@ -157,8 +136,7 @@
         "cost_witness": "minseo"
       },
       "read_sources": [
-        {"kind": "finale_stage", "id": "record_seal"},
-        {"kind": "finale_stage", "id": "signature"},
+        {"kind": "finale_stage", "id": "sacrifice"},
         {
           "kind": "entry_value",
           "path": "source_choices.m51_minseo_arrival",

@@ -6744,6 +6744,13 @@ func _next_arc_id(
 		t, f, father_is_passed)
 	if not chapter_four_causal_id.is_empty():
 		return chapter_four_causal_id
+	# ── 일반 경로 W220 사람·빚·기억 재접속 ──
+	# Exact year/source evidence gives this authored week priority over stale
+	# lower-year fallback arcs. Chapter cards and exact year closes remain above
+	# it so a damaged save cannot hide a missing temporal boundary.
+	if t == 220 and GameState.chapter5_general_finale_w220_available(t) \
+			and not f.get("arc_y5_general_debt_memory_reconnect_seen", false):
+		return "arc_y5_general_debt_memory_reconnect"
 	# 신규 런의 연말 장면 선택은 클로징과 같은 StoryMode 큐에서 이어진다.
 	# 아래는 선택 직전 중단·구세이브를 위한 복구 경로다. 후보는 현재 런에서
 	# 실제로 본 장면뿐이며 3개 미만이면 표면을 만들지 않는다.
@@ -7718,16 +7725,12 @@ func _next_arc_id(
 	if t >= 204 and t <= 214 and not f.get("arc_37_burn_or_light_seen", false):
 		return "arc_37_burn_or_light"
 	# ── 37세 마지막 평화 (t222-236) ──
-	# W229 is the one pre-entry source owned by the first general finale child.
-	# It gets the week before lower-priority peace/repetition arcs can consume it.
-	if t == 229 and GameState.chapter5_general_finale_w229_available(t) \
-			and not f.get("arc_y5_general_last_page_instruction_seen", false):
-		return "arc_y5_general_last_page_instruction"
 	if t >= 222 and t <= 236 and not chapter5_finale_locked \
 			and not f.get("arc_37_ending_peace_seen", false):
 		return "arc_37_ending_peace"
 	if t >= 216 and t <= 237 and not chapter5_finale_locked \
-			and not f.get("arc_endgame_sixmonths_seen", false):
+			and not f.get("arc_endgame_sixmonths_seen", false) \
+			and not _chapter5_general_w220_reserves_generic(t):
 		return "arc_endgame_sixmonths"
 
 	# ══ 9구간: Year 3-5 인물 재등장 ══════════════════════════════
@@ -7997,6 +8000,14 @@ func _next_arc_id(
 		return "arc_jiyeon_first_kiss"
 
 	return ""
+
+
+func _chapter5_general_w220_reserves_generic(at_turn: int) -> bool:
+	# Reserve the generic stop only until the exact W220 slot. If another
+	# higher-priority scene consumes W220, the generic fallback becomes eligible
+	# again from W221 instead of being suppressed for the rest of the route.
+	return at_turn <= 220 \
+		and GameState.chapter5_general_finale_w220_available(220)
 
 func _upcoming_arc_foreshadow_line() -> String:
 	# 미래 조회는 현재 달 안에서만 한다. 계절/월 조건을 가진 아크를 다음 달 상태로
@@ -20399,8 +20410,11 @@ func _ending_build_people_page() -> void:
 		_tr("그 사람들은", "As for Them"),
 		_tr("같은 결말도 곁에 누가 남았는지에 따라 다른 표정을 갖는다.",
 			"The same ending wears a different face depending on who remained."))
-	var signature_coda: Dictionary = EndingSystem.final_signature_coda(
-		_ending_id, GameState.flags)
+	var signature_coda: Dictionary = EndingSystem.chapter5_general_sacrifice_coda(
+		_ending_id, GameState.chapter5_finale_state)
+	if signature_coda.is_empty():
+		signature_coda = EndingSystem.final_signature_coda(
+			_ending_id, GameState.flags)
 	if not signature_coda.is_empty():
 		var signature_card := _ending_epilogue_card(_ending_plain_text(_tr(
 			str(signature_coda.get("text", "")),

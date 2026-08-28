@@ -3239,7 +3239,7 @@ func _refresh_story_speaker_language() -> void:
 		if is_instance_valid(_name_panel):
 			_name_panel.visible = false
 		return
-	var portrait_id := _resolved_event_portrait_id()
+	var portrait_id := _resolved_story_surface_portrait_id()
 	var info := ImageRegistry.get_person_info(portrait_id)
 	if _read_only_replay and portrait_id.begins_with("player"):
 		info = info.duplicate(true)
@@ -4112,6 +4112,20 @@ func _resolved_event_portrait_id() -> String:
 			if _known_flag_condition_matches(str(condition_key)):
 				return str(known_map[condition_key])
 	return portrait_id
+
+func _resolved_choice_result_portrait_id(choice: Dictionary) -> String:
+	var result_portrait_id := str(choice.get("result_portrait", "")).strip_edges()
+	return result_portrait_id if not result_portrait_id.is_empty() \
+		else _resolved_event_portrait_id()
+
+func _resolved_story_surface_portrait_id() -> String:
+	if _pending_after_result and _pending_result_choice_index >= 0:
+		var choices: Array = _current.get("choices", [])
+		if _pending_result_choice_index < choices.size() \
+				and choices[_pending_result_choice_index] is Dictionary:
+			return _resolved_choice_result_portrait_id(
+				choices[_pending_result_choice_index] as Dictionary)
+	return _resolved_event_portrait_id()
 
 func _resolved_event_cg_id() -> String:
 	var cg_id := str(_current.get("cg", ""))
@@ -5154,7 +5168,7 @@ func _maybe_reveal_event_cg(paragraph_index: int) -> void:
 	_apply_story_surface_palette(true)
 	_configure_living_scene()
 	BGMPlayer.update_event_ambience(_current, _event_cg_id)
-	_show_portrait(_resolved_event_portrait_id(), true)
+	_show_portrait(_resolved_story_surface_portrait_id(), true)
 	if _hud_panel != null and is_instance_valid(_hud_panel):
 		_hud_panel.visible = false
 
@@ -6132,7 +6146,7 @@ func _make_choice_button(text: String, idx: int, display_num: int = -1) -> Butto
 
 ## 선택 결과에만 속하는 CG/배경은 선택 전에 스포일러하지 않는다.
 ## 선택 키가 이벤트 공통 결과 키보다 우선한다. 지연 CG는 해당 결과 문단까지 현재 장면을 유지한다.
-## result_cg가 result_background보다 우선하며, 배경 결과는 현재 인물 초상을 복원한다.
+## result_cg가 result_background보다 우선하며, 결과 초상은 선택지 값 뒤 이벤트 값으로 복원한다.
 func _apply_choice_result_visual(choice: Dictionary) -> void:
 	var result_cg_id := str(choice.get("result_cg", _current.get("result_cg", "")))
 	if result_cg_id != "":
@@ -6161,7 +6175,7 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 			_apply_story_surface_palette(true)
 			_configure_living_scene()
 			BGMPlayer.update_event_ambience(_current, result_cg_id)
-			_show_portrait(_resolved_event_portrait_id(), true)
+			_show_portrait(_resolved_choice_result_portrait_id(choice), true)
 			if _hud_panel != null and is_instance_valid(_hud_panel):
 				_hud_panel.visible = false
 		return
@@ -6169,6 +6183,12 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 	var result_background_id := _resolve_story_background_id(
 		str(choice.get("result_background", _current.get("result_background", ""))))
 	if result_background_id == "":
+		# A result portrait is an independent presentation override. Do not require
+		# an otherwise unrelated background move before applying it.
+		if choice.has("result_portrait"):
+			_show_portrait(
+				_resolved_choice_result_portrait_id(choice),
+				bool(_current.get("bg_focus", false)))
 		return
 	var result_background_path := ImageRegistry.get_background(result_background_id)
 	if result_background_path == "" or not ImageRegistry.has_texture(result_background_path):
@@ -6181,7 +6201,9 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 	var result_event: Dictionary = _current.duplicate(true)
 	result_event["background"] = result_background_id
 	_configure_living_scene(result_event)
-	_show_portrait(_resolved_event_portrait_id(), bool(_current.get("bg_focus", false)))
+	_show_portrait(
+		_resolved_choice_result_portrait_id(choice),
+		bool(_current.get("bg_focus", false)))
 	var result_ambience := str(choice.get("result_ambience", "")).strip_edges()
 	if result_ambience == "current_housing":
 		BGMPlayer.update_idle_ambience()

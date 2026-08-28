@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Audit ORDER-135's first product-owned general Chapter 5 finale.
+"""Audit ORDER-137's repaired product-owned general Chapter 5 finale.
 
 The established investment/property finale remains owned by
 ``chapter5_finale_route_audit.py``.  This checker deliberately keeps the new
-general profile separate: four authored roots/ten choices in the bilingual
-catalog, of which three roots/eight choices belong to the typed finale ledger.
-It also pins the four exact source-choice domains and the W237/W240 handoff.
+general profile separate: four authored roots/nine choices in the bilingual
+catalog, of which three roots/seven choices belong to the typed finale ledger.
+It also pins the four exact source-choice domains and the W220/W237/W240 handoff.
 """
 
 from __future__ import annotations
@@ -79,11 +79,14 @@ class SourceSpec:
 
 
 ROOTS = (
-    RootSpec("arc_y5_general_last_page_instruction", 58, 229, 2),
-    RootSpec("arc_y5_general_final_record_seal", 60, 237, 2, "record_seal"),
+    RootSpec("arc_y5_general_debt_memory_reconnect", 55, 220, 2),
     RootSpec(
-        "arc_final_countdown_general_near_goal_passed", 60, 240, 3,
-        "signature",
+        "arc_y5_general_final_record_seal", 60, 237, 2,
+        "record_disposition",
+    ),
+    RootSpec(
+        "arc_final_countdown_general_near_goal_passed", 60, 240, 2,
+        "sacrifice",
     ),
     RootSpec(
         "arc_y5_final_week_general_people_outbound", 60, 240, 3,
@@ -96,18 +99,19 @@ FINALE_ROOT_IDS = tuple(spec.event_id for spec in FINALE_ROOTS)
 SOURCE_SPECS = (
     SourceSpec(
         "m51_minseo_arrival", "arc_minseo_03_arrival",
-        "chapter5_general_minseo_arrival_", 2, 200, 236,
+        "chapter5_general_minseo_arrival_", 2, 200, 219,
         "content/events/arc_new_characters.json",
+    ),
+    SourceSpec(
+        "w220_debt_memory_reconnect",
+        "arc_y5_general_debt_memory_reconnect",
+        "chapter5_general_debt_memory_reconnect_", 2, 220, 220,
+        "content/events/arc_pre_ending.json",
     ),
     SourceSpec(
         "m56_father_legacy", "arc_father_legacy",
         "chapter5_general_father_legacy_", 3, 224, 236,
         "content/events/arc_year3_drama.json",
-    ),
-    SourceSpec(
-        "w229_last_page_instruction", "arc_y5_general_last_page_instruction",
-        "chapter5_general_last_page_instruction_", 2, 229, 229,
-        "content/events/arc_pre_ending.json",
     ),
     SourceSpec(
         "m59_summit", "arc_pre_ending_summit",
@@ -116,7 +120,7 @@ SOURCE_SPECS = (
     ),
 )
 SOURCE_BY_KEY = {spec.key: spec for spec in SOURCE_SPECS}
-EXPECTED_STAGES = ["record_seal", "signature", "outbound"]
+EXPECTED_STAGES = ["record_disposition", "sacrifice", "outbound"]
 EXPECTED_ACTORS = {
     "chooser": "player", "father": "father", "cost_witness": "minseo",
 }
@@ -129,18 +133,16 @@ EXPECTED_ROOT_ACTORS = {
 }
 EXPECTED_LEDGER_CHOICE_BINDINGS = {
     "arc_y5_general_final_record_seal": (
-        ("m60_general_record_seal_people_first",
-         "Y5-GENERAL-FINAL-RECORD-PEOPLE-FIRST"),
-        ("m60_general_record_seal_financial_first",
-         "Y5-GENERAL-FINAL-RECORD-FINANCIAL-FIRST"),
+        ("m60_general_record_disposition_people_night",
+         "Y5-GENERAL-RECORD-DISPOSITION-PEOPLE-NIGHT"),
+        ("m60_general_record_disposition_price_night",
+         "Y5-GENERAL-RECORD-DISPOSITION-PRICE-NIGHT"),
     ),
     "arc_final_countdown_general_near_goal_passed": (
-        ("m60_general_signature_statement_line",
-         "Y5-GENERAL-FINAL-SIGNATURE-STATEMENT"),
-        ("m60_general_signature_people_line",
-         "Y5-GENERAL-FINAL-SIGNATURE-PEOPLE"),
-        ("m60_general_signature_cross_reference",
-         "Y5-GENERAL-FINAL-SIGNATURE-CROSS-REFERENCE"),
+        ("m60_general_sacrifice_addresses",
+         "Y5-GENERAL-SACRIFICE-ADDRESSES"),
+        ("m60_general_sacrifice_target",
+         "Y5-GENERAL-SACRIFICE-TARGET"),
     ),
     "arc_y5_final_week_general_people_outbound": (
         ("m60_general_outbound_minseo_answer_sent",
@@ -153,27 +155,22 @@ EXPECTED_LEDGER_CHOICE_BINDINGS = {
 }
 EXPECTED_READ_SOURCES = {
     "arc_y5_general_final_record_seal": [
-        {"kind": "entry_value", "path": "source_choices.m51_minseo_arrival", "values": [0, 1]},
+        {"kind": "entry_value", "path": "source_choices.w220_debt_memory_reconnect", "values": [0, 1]},
         {"kind": "entry_value", "path": "source_choices.m56_father_legacy", "values": [0, 1, 2]},
-        {"kind": "entry_value", "path": "source_choices.w229_last_page_instruction", "values": [0, 1]},
         {"kind": "entry_value", "path": "source_choices.m59_summit", "values": [0, 1]},
     ],
     "arc_final_countdown_general_near_goal_passed": [
-        {"kind": "entry_value", "path": "source_choices.w229_last_page_instruction", "values": [0, 1]},
-        {"kind": "entry_value", "path": "source_choices.m59_summit", "values": [0, 1]},
-        {"kind": "finale_stage", "id": "record_seal"},
+        {"kind": "finale_stage", "id": "record_disposition"},
     ],
     "arc_y5_final_week_general_people_outbound": [
-        {"kind": "finale_stage", "id": "record_seal"},
-        {"kind": "finale_stage", "id": "signature"},
+        {"kind": "finale_stage", "id": "sacrifice"},
         {"kind": "entry_value", "path": "source_choices.m51_minseo_arrival", "values": [0, 1]},
         {"kind": "entry_value", "path": "source_choices.m56_father_legacy", "values": [0, 1, 2]},
     ],
 }
-EXPECTED_SIGNATURE_FLAGS = (
-    ["arc_final_countdown_seen", "final_signature_owned"],
-    ["arc_final_countdown_seen", "final_signature_collateral"],
-    ["arc_final_countdown_seen", "final_signature_people"],
+EXPECTED_SACRIFICE_FLAGS = (
+    ["arc_final_countdown_seen"],
+    ["arc_final_countdown_seen"],
 )
 EXPECTED_OUTBOUND_FLAGS = (["arc_final_week_seen"],) * 3
 
@@ -242,13 +239,33 @@ def instant_legend_block(source: str) -> str:
 def validate_inventory(errors: list[str]) -> None:
     if len(ROOTS) != 4 or len(set(ROOT_IDS)) != 4:
         errors.append("general authored inventory must be exactly 4 unique roots")
-    if sum(spec.choice_count for spec in ROOTS) != 10:
-        errors.append("general authored inventory must be exactly 10 choices")
+    if sum(spec.choice_count for spec in ROOTS) != 9:
+        errors.append("general authored inventory must be exactly 9 choices")
     if len(FINALE_ROOTS) != 3 or sum(
-            spec.choice_count for spec in FINALE_ROOTS) != 8:
-        errors.append("general finale ledger inventory must be exactly 3 roots/8 choices")
-    if [spec.turn for spec in ROOTS] != [229, 237, 240, 240]:
+            spec.choice_count for spec in FINALE_ROOTS) != 7:
+        errors.append("general finale ledger inventory must be exactly 3 roots/7 choices")
+    if [spec.turn for spec in ROOTS] != [220, 237, 240, 240]:
         errors.append("general authored turn order drifted")
+
+
+def validate_retired_w229_absent(
+    events: dict[str, dict[str, Any]],
+    locale: str,
+    errors: list[str],
+) -> None:
+    if "arc_y5_general_last_page_instruction" in events:
+        errors.append(
+            f"removed W229 general source root remains in the {locale} catalog")
+    old_prefix = "chapter5_general_last_page_instruction_"
+    for event_id, event in events.items():
+        for index, choice in enumerate(choices(event)):
+            flags = choice.get("flags", [])
+            if isinstance(flags, list) and any(
+                    isinstance(flag, str) and flag.startswith(old_prefix)
+                    for flag in flags):
+                errors.append(
+                    f"{locale}:{event_id}.choices[{index}]: "
+                    "removed W229 source flag remains")
 
 
 def validate_source_producers(
@@ -256,6 +273,8 @@ def validate_source_producers(
     ko_paths: dict[str, str],
     errors: list[str],
 ) -> None:
+    validate_retired_w229_absent(ko, "KO", errors)
+
     occurrences: dict[str, list[tuple[str, int]]] = {}
     all_prefixes = tuple(spec.flag_prefix for spec in SOURCE_SPECS)
     for event_id, event in ko.items():
@@ -417,20 +436,20 @@ def validate_events(
                 errors.append(
                     f"{spec.event_id}.choices[{index}]: authored follow-up is forbidden")
 
-        if spec.stage == "signature" and len(ko_choices) == 3:
-            for index, expected in enumerate(EXPECTED_SIGNATURE_FLAGS):
+        if spec.stage == "sacrifice" and len(ko_choices) == 2:
+            for index, expected in enumerate(EXPECTED_SACRIFICE_FLAGS):
                 if ko_choices[index].get("effects", {}) != {} \
                         or ko_choices[index].get("flags", []) != expected:
                     errors.append(
-                        f"{spec.event_id}.choices[{index}]: signature semantics drifted")
+                        f"{spec.event_id}.choices[{index}]: sacrifice semantics drifted")
         if spec.stage == "outbound" and len(ko_choices) == 3:
             for index, expected in enumerate(EXPECTED_OUTBOUND_FLAGS):
                 if ko_choices[index].get("effects", {}) != {} \
                         or ko_choices[index].get("flags", []) != expected:
                     errors.append(
                         f"{spec.event_id}.choices[{index}]: outbound semantics drifted")
-    if total != 10:
-        errors.append(f"general authored choice total is {total}, expected 10")
+    if total != 9:
+        errors.append(f"general authored choice total is {total}, expected 9")
     validate_finale_reads(ko, en, errors)
 
 
@@ -452,8 +471,8 @@ def validate_ledger(ledger: Any, errors: list[str]) -> None:
         "choice_index_base": 0,
         "expected_root_count": 3,
         "expected_active_root_count": 3,
-        "expected_choice_count": 8,
-        "expected_active_choice_count": 8,
+        "expected_choice_count": 7,
+        "expected_active_choice_count": 7,
     }
     for key, expected in expected_scalars.items():
         if ledger.get(key) != expected:
@@ -545,8 +564,8 @@ def validate_ledger(ledger: Any, errors: list[str]) -> None:
             if choice.get("economic_outcome") != {}:
                 errors.append(
                     f"{label}.choices[{choice_index}]: economic outcome must be empty")
-    if len(all_receipts) != 8 or len(all_documents) != 8:
-        errors.append("general finale ledger must own 8 unique receipts/documents")
+    if len(all_receipts) != 7 or len(all_documents) != 7:
+        errors.append("general finale ledger must own 7 unique receipts/documents")
 
 
 def validate_lifecycle(lifecycle: Any, errors: list[str]) -> None:
@@ -581,7 +600,11 @@ def _director_rows(director: Any, turn: int) -> list[dict[str, Any]]:
 
 def validate_director(director: Any, errors: list[str]) -> None:
     expected = {
-        229: {"id": ROOTS[0].event_id, "axis": "human"},
+        220: {
+            "id": ROOTS[0].event_id,
+            "axis": "human",
+            "person_id": "minseo",
+        },
         237: {"id": ROOTS[1].event_id, "axis": "money"},
         240: {"id": ROOTS[2].event_id, "axis": "money"},
     }
@@ -676,12 +699,20 @@ def validate_general_identity_gates(
         errors.append(
             "GameState general route identity gate must reject unknown tuples")
 
-    w229 = function_block(game_state, "chapter5_general_finale_w229_available")
+    w220 = function_block(game_state, "chapter5_general_finale_w220_available")
     prepare = function_block(game_state, "prepare_chapter5_finale_route_entry")
-    if w229.count("_chapter5_general_route_profile_allowed()") != 1:
-        errors.append("GameState W229 must use the shared general route gate")
+    if w220.count("_chapter5_general_route_profile_allowed()") != 1:
+        errors.append("GameState W220 must use the shared general route gate")
     if prepare.count("_chapter5_general_route_profile_allowed()") != 1:
         errors.append("GameState W237 must use the shared general route gate")
+    for marker in (
+        "_chapter5_general_source_absent(",
+        '"arc_y5_general_last_page_instruction"',
+        '"chapter5_general_last_page_instruction_"',
+    ):
+        if marker not in prepare:
+            errors.append(
+                f"GameState W237 must reject retired W229 evidence: {marker}")
     existing_lock = (
         "if not chapter5_finale_entry_snapshot().is_empty():\n"
         "\t\treturn true"
@@ -773,8 +804,8 @@ def validate_runtime(
         "const GENERAL_ENTRY_TURN := 237",
         "const GENERAL_EXPECTED_ROOT_COUNT := 3",
         "const GENERAL_EXPECTED_ACTIVE_ROOT_COUNT := 3",
-        "const GENERAL_EXPECTED_CHOICE_COUNT := 8",
-        "const GENERAL_EXPECTED_ACTIVE_CHOICE_COUNT := 8",
+        "const GENERAL_EXPECTED_CHOICE_COUNT := 7",
+        "const GENERAL_EXPECTED_ACTIVE_CHOICE_COUNT := 7",
     ):
         if marker not in system:
             errors.append(f"Chapter5FinaleRoute general constant missing: {marker}")
@@ -818,13 +849,26 @@ def validate_runtime(
         ):
             if marker not in source_builder:
                 errors.append(f"GameState source builder missing: {marker}")
-    w229 = function_block(game_state, "chapter5_general_finale_w229_available")
+    source_absent = function_block(game_state, "_chapter5_general_source_absent")
     for marker in (
-        "query_turn != 229", "chapter5_causal_entry_snapshot().is_empty()",
-        'get("life", "")) != "passed"', "_chapter5_general_source_absent(",
+        'flags.has("%s_seen" % event_id)', "flags.has(flag_id)", "event_log",
     ):
-        if marker not in w229:
-            errors.append(f"GameState W229 gate missing: {marker}")
+        if marker not in source_absent:
+            errors.append(f"GameState exact source-absence matcher missing: {marker}")
+    w220 = function_block(game_state, "chapter5_general_finale_w220_available")
+    for marker in (
+        "query_turn != 220", "chapter5_causal_entry_snapshot().is_empty()",
+        "chapter5_finale_entry_snapshot().is_empty()",
+        "CHAPTER5_FINALE_ROUTE.state_from_save(",
+        "CHAPTER5_FINALE_ROUTE.default_state()",
+        'get("life", "")) != "passed"',
+        '"arc_minseo_03_arrival"', '"arc_y5_general_last_page_instruction"',
+        '"arc_endgame_sixmonths"',
+        '"arc_y5_general_debt_memory_reconnect"',
+        "_chapter5_general_source_absent(",
+    ):
+        if marker not in w220:
+            errors.append(f"GameState W220 gate missing: {marker}")
     prepare = function_block(game_state, "prepare_chapter5_finale_route_entry")
     for marker in (
         "GENERAL_ENTRY_TURN", "GENERAL_PROFILE_ID", "GENERAL_ACTORS",
@@ -834,6 +878,9 @@ def validate_runtime(
     ):
         if marker not in prepare:
             errors.append(f"GameState W237 entry binding missing: {marker}")
+    if '_chapter5_general_event_absent(\n\t\t\t\t\t"arc_endgame_sixmonths")' \
+            not in prepare:
+        errors.append("GameState W237 entry admits a prior generic six-month event")
     if re.search(r"(?:total_assets|assets|money|cash)\s*[<>]=?", prepare):
         errors.append("GameState W237 entry rechecks current asset value")
 
@@ -841,10 +888,13 @@ def validate_runtime(
     if "CHAPTER5_FINALE_ROUTE.is_entry_turn(GameState.turn)" not in main_router:
         errors.append("MainGame finale router does not select both entry turns")
     arc_router = function_block(main_game, "_next_arc_id")
-    w229_index = arc_router.find('return "arc_y5_general_last_page_instruction"')
+    w220_index = arc_router.find('return "arc_y5_general_debt_memory_reconnect"')
     peace_index = arc_router.find('return "arc_37_ending_peace"')
-    if w229_index < 0 or peace_index < 0 or w229_index > peace_index:
-        errors.append("MainGame W229 general source lost priority over generic peace")
+    if w220_index < 0 or peace_index < 0 or w220_index > peace_index:
+        errors.append("MainGame W220 general source lost priority over generic peace")
+    validate_w220_reservation_boundary(main_game, errors)
+    if 'return "arc_y5_general_last_page_instruction"' in arc_router:
+        errors.append("MainGame still routes the removed W229 general source")
     for marker in (
         "func _chapter5_finale_event_with_reads(",
         "func _chapter5_finale_live_ingress_allowed(",
@@ -856,8 +906,18 @@ def validate_runtime(
 
     if "CHAPTER5_GENERAL_OUTBOUND_CODA_BY_CHOICE" not in ending_system \
             or ending_system.count('"kind": "minseo_') < 2 \
-            or '"kind": "father_record_line"' not in ending_system:
+            or '"kind": "father_envelope_action"' not in ending_system:
         errors.append("EndingSystem general outbound coda inventory drifted")
+    sacrifice_coda = function_block(
+        ending_system, "chapter5_general_sacrifice_coda")
+    for marker in (
+        "GENERAL_ENTRY_TURN", 'get("ending_check", "")) != "consumed"',
+        'receipt_snapshot_for_stage(\n\t\tcanonical, "sacrifice")',
+        '"arc_final_countdown_general_near_goal_passed"',
+        "CHAPTER5_GENERAL_SACRIFICE_CODA_BY_CHOICE",
+    ):
+        if marker not in sacrifice_coda:
+            errors.append(f"EndingSystem sacrifice coda contract missing: {marker}")
     coda = function_block(ending_system, "chapter5_finale_outbound_coda")
     for marker in (
         'event_id == "arc_y5_final_week_daeun_outbound"',
@@ -889,6 +949,7 @@ def validate_model(
     errors: list[str] = []
     validate_inventory(errors)
     validate_source_producers(ko, ko_paths, errors)
+    validate_retired_w229_absent(en, "EN", errors)
     validate_events(ko, en, errors)
     validate_ledger(ledger, errors)
     validate_lifecycle(lifecycle, errors)
@@ -901,6 +962,19 @@ def validate_model(
     return errors
 
 
+def validate_w220_reservation_boundary(
+    main_game: str,
+    errors: list[str],
+) -> None:
+    reservation = function_block(
+        main_game, "_chapter5_general_w220_reserves_generic")
+    for marker in (
+        "at_turn <= 220", "chapter5_general_finale_w220_available(220)",
+    ):
+        if marker not in reservation:
+            errors.append(f"MainGame W220 reservation missing: {marker}")
+
+
 def _fixture_ledger() -> dict[str, Any]:
     return {
         "schema_version": 1,
@@ -908,8 +982,8 @@ def _fixture_ledger() -> dict[str, Any]:
         "choice_index_base": 0,
         "expected_root_count": 3,
         "expected_active_root_count": 3,
-        "expected_choice_count": 8,
-        "expected_active_choice_count": 8,
+        "expected_choice_count": 7,
+        "expected_active_choice_count": 7,
         "entry_contract": {
             "route_id": ROUTE_ID,
             "turn": 237,
@@ -990,8 +1064,8 @@ def _fixture_events() -> tuple[
             row: dict[str, Any] = {"text": f"선택 {index}", "result_text": "결과"}
             if source is not None:
                 row["flags"] = [f"{source.flag_prefix}{index}"]
-            elif spec.stage == "signature":
-                row["flags"] = copy.deepcopy(EXPECTED_SIGNATURE_FLAGS[index])
+            elif spec.stage == "sacrifice":
+                row["flags"] = copy.deepcopy(EXPECTED_SACRIFICE_FLAGS[index])
             elif spec.stage == "outbound":
                 row["flags"] = copy.deepcopy(EXPECTED_OUTBOUND_FLAGS[index])
             ko_choices.append(row)
@@ -1082,6 +1156,25 @@ def run_self_test() -> int:
     require(any("EN overlay owns gameplay" in error for error in errors),
             "EN gameplay mutation was accepted")
 
+    restored_w229_en = copy.deepcopy(en)
+    restored_w229_en["arc_y5_general_last_page_instruction"] = {
+        "id": "arc_y5_general_last_page_instruction",
+        "choices": [{"text": "Retired source"}],
+    }
+    errors = []
+    validate_retired_w229_absent(restored_w229_en, "EN", errors)
+    require(any("root remains in the EN catalog" in error for error in errors),
+            "retired EN W229 root was accepted")
+
+    leaked_w229_flag_en = copy.deepcopy(en)
+    leaked_w229_flag_en[ROOT_IDS[0]]["choices"][0]["flags"] = [
+        "chapter5_general_last_page_instruction_0"]
+    errors = []
+    validate_retired_w229_absent(leaked_w229_flag_en, "EN", errors)
+    require(any("removed W229 source flag remains" in error
+                for error in errors),
+            "retired EN W229 flag was accepted")
+
     wrong_reads = copy.deepcopy(ko)
     wrong_reads[FINALE_ROOT_IDS[0]]["chapter5_finale_reads"]["sources"].reverse()
     errors = []
@@ -1097,7 +1190,7 @@ def run_self_test() -> int:
             "economic mutation was accepted")
 
     wrong_ledger = copy.deepcopy(ledger)
-    wrong_ledger["expected_choice_count"] = 9
+    wrong_ledger["expected_choice_count"] = 8
     errors = []
     validate_ledger(wrong_ledger, errors)
     require(any("expected_choice_count" in error for error in errors),
@@ -1133,6 +1226,22 @@ def run_self_test() -> int:
     validate_general_identity_gates(game_state, identity_errors)
     require(not identity_errors, str(identity_errors[:1]))
 
+    main_game = MAIN_GAME_PATH.read_text(encoding="utf-8")
+    reservation_errors: list[str] = []
+    validate_w220_reservation_boundary(main_game, reservation_errors)
+    require(not reservation_errors, str(reservation_errors[:1]))
+    reservation_block = function_block(
+        main_game, "_chapter5_general_w220_reserves_generic")
+    widened_block = reservation_block.replace(
+        "at_turn <= 220", "at_turn <= 237", 1)
+    widened_main_game = main_game.replace(
+        reservation_block, widened_block, 1)
+    widened_errors: list[str] = []
+    validate_w220_reservation_boundary(widened_main_game, widened_errors)
+    require(reservation_block and widened_block != reservation_block
+            and any("at_turn <= 220" in error for error in widened_errors),
+            "W220 <=237 reservation widening was accepted")
+
     def mutate_block(
         source: str,
         function_name: str,
@@ -1156,13 +1265,13 @@ def run_self_test() -> int:
                 f"{label} mutation was accepted: {candidate_errors[:2]}")
 
     require_identity_rejection(
-        "W229 shared gate",
+        "W220 shared gate",
         mutate_block(
-            game_state, "chapter5_general_finale_w229_available",
+            game_state, "chapter5_general_finale_w220_available",
             lambda block: block.replace(
                 "or not _chapter5_general_route_profile_allowed():",
                 "or false:", 1)),
-        "W229 must use the shared general route gate",
+        "W220 must use the shared general route gate",
     )
     require_identity_rejection(
         "W237 shared gate",
@@ -1172,6 +1281,15 @@ def run_self_test() -> int:
                 "or not _chapter5_general_route_profile_allowed() \\",
                 "or false \\", 1)),
         "W237 must use the shared general route gate",
+    )
+    require_identity_rejection(
+        "W237 retired W229 evidence",
+        mutate_block(
+            game_state, "prepare_chapter5_finale_route_entry",
+            lambda block: block.replace(
+                '"arc_y5_general_last_page_instruction"',
+                '"arc_y5_general_retired_source"', 1)),
+        "W237 must reject retired W229 evidence",
     )
     require_identity_rejection(
         "neutral tuple mismatch",
@@ -1333,9 +1451,9 @@ def main(argv: Iterable[str] | None = None) -> int:
         return 1
     print(
         "CHAPTER5_GENERAL_FINALE_ROUTE_AUDIT_OK "
-        "authored_roots=4 authored_choices=10 ledger_roots=3 "
-        "ledger_choices=8 sources=4 exact_receipt=flag+event_log "
-        "profile=general_near_goal_father_passed entry=W237 "
+        "authored_roots=4 authored_choices=9 ledger_roots=3 "
+        "ledger_choices=7 sources=4 exact_receipt=flag+event_log "
+        "profile=general_near_goal_father_passed source=W220 entry=W237 "
         "ending=pending-ready-consumed instant_legend=preserved"
     )
     return 0

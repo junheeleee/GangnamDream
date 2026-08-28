@@ -428,12 +428,20 @@ func _chapter5_general_exact_source_choice(
 
 func _chapter5_general_source_absent(
 		event_id: String, flag_prefix: String, choice_count: int) -> bool:
+	if flags.has("%s_seen" % event_id):
+		return false
 	for choice_index in range(choice_count):
 		var flag_id := "%s%d" % [flag_prefix, choice_index]
 		if flags.has(flag_id):
-			var raw_flag: Variant = flags[flag_id]
-			if not raw_flag is bool or bool(raw_flag):
-				return false
+			return false
+	for raw_entry in event_log:
+		if raw_entry is Dictionary \
+				and str((raw_entry as Dictionary).get("event_id", "")) == event_id:
+			return false
+	return true
+
+
+func _chapter5_general_event_absent(event_id: String) -> bool:
 	for raw_entry in event_log:
 		if raw_entry is Dictionary \
 				and str((raw_entry as Dictionary).get("event_id", "")) == event_id:
@@ -444,13 +452,13 @@ func _chapter5_general_finale_source_choices() -> Dictionary:
 	var sources := {
 		"m51_minseo_arrival": _chapter5_general_exact_source_choice(
 			"arc_minseo_03_arrival", "chapter5_general_minseo_arrival_", 2,
-			200, 236),
+			200, 219),
+		"w220_debt_memory_reconnect": _chapter5_general_exact_source_choice(
+			"arc_y5_general_debt_memory_reconnect",
+			"chapter5_general_debt_memory_reconnect_", 2, 220, 220),
 		"m56_father_legacy": _chapter5_general_exact_source_choice(
 			"arc_father_legacy", "chapter5_general_father_legacy_", 3,
 			224, 236),
-		"w229_last_page_instruction": _chapter5_general_exact_source_choice(
-			"arc_y5_general_last_page_instruction",
-			"chapter5_general_last_page_instruction_", 2, 229, 229),
 		"m59_summit": _chapter5_general_exact_source_choice(
 			"arc_pre_ending_summit", "chapter5_general_summit_", 2,
 			234, 236),
@@ -488,24 +496,35 @@ func _chapter5_general_route_profile_allowed() -> bool:
 	return false
 
 
-func chapter5_general_finale_w229_available(at_turn: int = -1) -> bool:
+func chapter5_general_finale_w220_available(at_turn: int = -1) -> bool:
 	var query_turn: int = int(turn) if at_turn < 0 else at_turn
-	if query_turn != 229 or not chapter5_causal_entry_snapshot().is_empty() \
+	if query_turn != 220 or not chapter5_causal_entry_snapshot().is_empty() \
+			or not chapter5_finale_entry_snapshot().is_empty() \
 			or not _chapter5_general_route_profile_allowed():
+		return false
+	var canonical_finale_state := CHAPTER5_FINALE_ROUTE.state_from_save(
+		chapter5_finale_state, true, query_turn)
+	if canonical_finale_state != CHAPTER5_FINALE_ROUTE.default_state():
 		return false
 	if str(_chapter5_finale_father_snapshot().get("life", "")) != "passed":
 		return false
 	if _chapter5_general_exact_source_choice(
 			"arc_minseo_03_arrival", "chapter5_general_minseo_arrival_", 2,
-			200, 228) < 0:
+			200, 219) < 0:
 		return false
-	if _chapter5_general_exact_source_choice(
-			"arc_father_legacy", "chapter5_general_father_legacy_", 3,
-			224, 228) < 0:
+	if not _chapter5_general_source_absent(
+			"arc_y5_general_last_page_instruction",
+			"chapter5_general_last_page_instruction_", 2):
+		return false
+	# If the generic six-month stop already surfaced, the exact W220 replacement
+	# may not appear later in the same run. Check both its common seen flag and its
+	# event log through the fail-closed absence helper.
+	if not _chapter5_general_source_absent(
+			"arc_endgame_sixmonths", "", 0):
 		return false
 	return _chapter5_general_source_absent(
-		"arc_y5_general_last_page_instruction",
-		"chapter5_general_last_page_instruction_", 2)
+		"arc_y5_general_debt_memory_reconnect",
+		"chapter5_general_debt_memory_reconnect_", 2)
 
 func _chapter5_finale_father_snapshot() -> Dictionary:
 	var father_passed := _chapter5_finale_exact_true_flag("father_passed") \
@@ -558,7 +577,12 @@ func prepare_chapter5_finale_route_entry() -> bool:
 		# fallback untouched.
 		if not chapter5_causal_entry_snapshot().is_empty() \
 				or not _chapter5_general_route_profile_allowed() \
-				or str(father.get("life", "")) != "passed":
+				or str(father.get("life", "")) != "passed" \
+				or not _chapter5_general_event_absent(
+					"arc_endgame_sixmonths") \
+				or not _chapter5_general_source_absent(
+					"arc_y5_general_last_page_instruction",
+					"chapter5_general_last_page_instruction_", 2):
 			return false
 		source_choices = _chapter5_general_finale_source_choices()
 		if source_choices.is_empty():

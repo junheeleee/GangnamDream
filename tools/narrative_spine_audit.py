@@ -101,13 +101,13 @@ CHAPTER_PHASE_REQUIRED = {
             "arc_y5_three_in_room",
             "arc_y5_three_in_room_decision",
             "arc_y5_room_consent_receipt",
+            "arc_y5_general_debt_memory_reconnect",
             "arc_y5_father_trace_alive_exact",
             "arc_y5_father_trace_passed_exact",
             "arc_y5_father_trace_custody",
         },
         "reversal": {
             "arc_father_legacy",
-            "arc_y5_general_last_page_instruction",
             "arc_y5_name_on_line_daeun_routed",
             "arc_y5_people_verdict_daeun_exact",
             "arc_y5_property_not_executed_notice",
@@ -838,14 +838,13 @@ def main() -> int:
                 (5, "arc_y5_name_on_line_daeun_routed"),
                 (5, "arc_final_countdown"),
                 (5, "arc_final_countdown_property_not_executed"),
-                (5, "arc_y5_general_final_record_seal"),
                 (5, "arc_final_countdown_general_near_goal_passed"),
             }
             if not signature_finale_readers.issubset(signature_readers):
                 fail(
                     errors,
                     "signature motif must resolve through filing, legacy countdown, "
-                    "the property no-execution countdown, and the general record/signature",
+                    "the property no-execution countdown, and the general sacrifice",
                 )
     if chapter_five_readers < len(motifs):
         fail(errors, "every chapter-1 motif needs at least one chapter-5 reader")

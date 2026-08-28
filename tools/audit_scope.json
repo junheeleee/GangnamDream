@@ -826,7 +826,7 @@
     },
     {
       "tool": "tools/chapter5_general_finale_route_audit.py --self-test",
-      "why": "5장 일반 종막 source 4그룹·신규 4/10·ledger 3/8·한영/경제 mutation 자체 검사",
+      "why": "5장 일반 종막 source 4그룹·신규 4/9·ledger 3/7·한영/경제 mutation 자체 검사",
       "paths": [
         "autoloads/GameState.gd",
         "autoloads/SaveManager.gd",
@@ -861,7 +861,7 @@
     },
     {
       "tool": "tools/chapter5_general_finale_route_audit.py",
-      "why": "25억 문턱·아버지 별세 일반 profile의 W229 source→W237 entry→W240 signature/outbound exact 계약",
+      "why": "25억 문턱·아버지 별세 일반 profile의 W220 source→W237 entry→W240 sacrifice/outbound exact 계약",
       "paths": [
         "autoloads/GameState.gd",
         "autoloads/SaveManager.gd",

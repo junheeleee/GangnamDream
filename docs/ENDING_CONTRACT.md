@@ -131,12 +131,12 @@ M56~M60의 `investment_safe_no_execution` 경로에서는 마지막 서명 직�
 않는 즉시·특수 결말에서는 숨기며, 본 결말 ID·CG와 기존 `description_if_known`,
 첫 서명 카드의 순서를 바꾸지 않는다.
 
-### 25억원 문턱 일반 경로도 exact 서명·선발신을 읽는다
+### 25억원 문턱 일반 경로도 exact 포기·선발신을 읽는다
 
 `general_near_goal_father_passed`는 새 엔딩 ID가 아니라 기존 정규 본 결말 안의
 두 후일담 카드 입력이다. 투자·부동산 entry가 없고 아버지 별세와 M51 민서 재회,
-M56 빈 의자, W229 색인, M59 25억원 문턱 선택이 각각 정확히 하나일 때만 W237의
-별도 schema 1 원장을 잠근다. W237 봉인 뒤 W240 `signature` 3선택과 같은 턴
+W220 상환·기억 재연결, M56 빈 의자, M59 25억원 문턱 선택이 각각 정확히 하나일 때만 W237의
+별도 schema 1 원장을 잠근다. W237 오늘의 화면 뒤 W240 `sacrifice` 2선택과 같은 턴
 `outbound` 3선택의 receipt가 모두 있고 원장의 ending 상태가 `consumed`인 경우에만
 두 카드를 표시한다.
 
@@ -144,14 +144,14 @@ M56 빈 의자, W229 색인, M59 25억원 문턱 선택이 각각 정확히 하�
 정체성만 허용한다. career/startup 이력, 비-bool route flag, player route·자각·flag
 불일치가 있으면 현재 저장을 추론해 고치지 않고 generic 결말로 돌아간다.
 
-첫 카드는 `signature` receipt가 고른 확인된 문서 사실, 금액·날짜와 이름·시간의
-분리, 민서·아버지 이름과 다음 행동 빈칸 중 하나를 회수한다. 둘째 카드는
+첫 카드는 `sacrifice` receipt가 고른 세 주소·가격 알림 삭제 또는 수첩 첫 장의
+30억 삭제를 회수한다. 둘째 카드는
 `arc_y5_final_week_general_people_outbound` receipt의 choice index로 민서에게
-확인한 사실 전송, 아버지 기록 봉투에 오늘의 한 줄, 민서에게 구체적인 다음 주
+다음 질문을 미루지 않겠다는 말 전송, 아버지 기록 봉투에 오늘 지운 것, 민서에게 구체적인 다음 주
 시각 질문 중 실제 행동 하나만 회수한다. 현재 방에는 민준 혼자 있으며, 민서와
 아버지를 동석시키거나 읽음·답장·용서·약속 성립을 만들지 않는다.
 
-25억원대 매물표와 봉인은 매매·이체·등기·열쇠·소유권이 아니고 세 finale
+25억원대 매물표와 저장 주소는 매매·이체·등기·열쇠·소유권이 아니고 세 finale stage의
 receipt는 경제 효과가 없다. 따라서 본 결말 우선순위, 기존 35개 ID·CG,
 `investment_safe_no_execution`의 11루트·30선택, 즉시 실패 귀결,
 33세 Chapter 1의 30억원 `instant_legend`를 바꾸지 않는다. source 누락·충돌,

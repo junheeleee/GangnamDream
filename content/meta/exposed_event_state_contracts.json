@@ -3,8 +3,8 @@
   "scope": {
     "root_count": 371,
     "exposed_count": 515,
-    "root_ids_sha256": "30e36c84bb8b5394d9081cb2b9623daeb1ac35d83ea05f260437676591b9ed1e",
-    "exposed_ids_sha256": "4f531842d6225d25ee0d3f5ccbf78058106e589e760eaa9a0233f7bd6f99432a"
+    "root_ids_sha256": "67b443cb799000d04e30a9c90bd3100d96353379b1cca683c775dba9aa5de6dc",
+    "exposed_ids_sha256": "ccb2b8eab317811add1b168f9ba33f42d65069227ac1c7316af2346d5a013567"
   },
   "state_sensitive": {
     "amb_coin_00": [
@@ -525,7 +525,8 @@
     "arc_father_legacy": [
       "father_life",
       "housing",
-      "location"
+      "location",
+      "relationship"
     ],
     "arc_father_medication": [
       "father_life",
@@ -1464,14 +1465,14 @@
       "location",
       "relationship"
     ],
-    "arc_y5_general_final_record_seal": [
-      "employment",
+    "arc_y5_general_debt_memory_reconnect": [
       "father_life",
       "housing",
       "location",
       "relationship"
     ],
-    "arc_y5_general_last_page_instruction": [
+    "arc_y5_general_final_record_seal": [
+      "employment",
       "father_life",
       "housing",
       "location",

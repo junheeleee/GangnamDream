@@ -369,8 +369,10 @@ def validate_m56_payoff_order(
                if isinstance(beat, dict)]
     roots56 = [str(beat.get("root", "")) for beat in month56.get("beats", [])
                if isinstance(beat, dict)]
-    if roots55[-3:] != list(ROOT_IDS[16:19]):
-        errors.append(f"M55 causal payoff order drifted: {roots55[-3:]}")
+    causal_roots55 = [root_id for root_id in roots55
+                      if root_id in ROOT_IDS[16:19]]
+    if causal_roots55 != list(ROOT_IDS[16:19]):
+        errors.append(f"M55 causal payoff order drifted: {causal_roots55}")
     if not roots56 or roots56[0] != "arc_father_legacy" \
             or "M55" not in str(month56.get("contract", {}).get("pressure", "")):
         errors.append("M56 does not explicitly read the M55 decision next")

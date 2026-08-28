@@ -194,6 +194,39 @@ def main() -> int:
                             f"{event_id} choice {choice_index} expected "
                             f"result_background={expected_background!r}, got {actual_background!r}"
                         )
+        if "choice_result_portraits" in contract:
+            expected_results = contract["choice_result_portraits"]
+            if not isinstance(expected_results, dict) or not expected_results:
+                errors.append(
+                    f"{event_id} contract choice_result_portraits must be a nonempty object"
+                )
+            else:
+                choices = event.get("choices") or []
+                for raw_index, expected_portrait in expected_results.items():
+                    try:
+                        choice_index = int(raw_index)
+                    except (TypeError, ValueError):
+                        errors.append(
+                            f"{event_id} invalid choice_result_portraits index: {raw_index!r}"
+                        )
+                        continue
+                    if not isinstance(expected_portrait, str) or not expected_portrait.strip():
+                        errors.append(
+                            f"{event_id} choice {choice_index} expected result_portrait "
+                            "must be a nonempty id"
+                        )
+                        continue
+                    if choice_index < 0 or choice_index >= len(choices):
+                        errors.append(
+                            f"{event_id} result portrait choice index out of range: {choice_index}"
+                        )
+                        continue
+                    actual_portrait = choices[choice_index].get("result_portrait")
+                    if actual_portrait != expected_portrait:
+                        errors.append(
+                            f"{event_id} choice {choice_index} expected "
+                            f"result_portrait={expected_portrait!r}, got {actual_portrait!r}"
+                        )
         if "months" in contract:
             expected_months = normalized_months(contract["months"])
             actual_months = normalized_months((event.get("conditions") or {}).get("month"))

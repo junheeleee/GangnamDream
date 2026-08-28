@@ -313,6 +313,36 @@ class State:
     def chapter5_causal_product_path_available(s):
         return chapter5_product_path_available(s)
 
+    def chapter5_general_finale_w220_available(s, at_turn=-1):
+        """Approximate the exact W220 gate used by the runtime router."""
+        query_turn = s.t if int(at_turn) < 0 else int(at_turn)
+        if query_turn != 220 or s.chapter5_entry or s.chapter5_finale_entry:
+            return False
+        route_invest = s.flags.get("route_invest") is True
+        route_career = s.flags.get("route_career") is True
+        route_startup = s.flags.get("route_startup") is True
+        neutral = s.player_route == "none" \
+            and not route_invest and not route_career and not route_startup
+        investment_general = s.player_route == "투자형" \
+            and route_invest and not route_career and not route_startup
+        if not (neutral or investment_general) or not father_death_is_monotonic(s):
+            return False
+        minseo_sources = sum(bool(s.flags.get(
+            f"chapter5_general_minseo_arrival_{index}")) for index in range(2))
+        if minseo_sources != 1:
+            return False
+        if any(key in s.flags for key in (
+            "arc_endgame_sixmonths_seen",
+            "arc_y5_general_last_page_instruction_seen",
+            "chapter5_general_last_page_instruction_0",
+            "chapter5_general_last_page_instruction_1",
+            "arc_y5_general_debt_memory_reconnect_seen",
+            "chapter5_general_debt_memory_reconnect_0",
+            "chapter5_general_debt_memory_reconnect_1",
+        )):
+            return False
+        return True
+
 
 def chapter5_condition_active(root, receipts):
     condition = root.get("condition")
@@ -641,6 +671,10 @@ def evalconds(conds, S):
             if not bool(eval(c, {
                 "S": S,
                 "father_is_passed": father_death_is_monotonic(S),
+                "_chapter5_general_w220_reserves_generic": (
+                    lambda at_turn: int(at_turn) <= 220
+                    and S.chapter5_general_finale_w220_available(220)
+                ),
             })):
                 return False
         except Exception:

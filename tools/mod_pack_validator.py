@@ -18,6 +18,7 @@ from event_schedule import DeferredFollowUpError, deferred_follow_ups
 ROOT = Path(__file__).resolve().parents[1]
 EVENT_DIR = ROOT / "content" / "events"
 THEME_DIR = ROOT / "content" / "themes"
+IMAGE_REGISTRY = ROOT / "autoloads" / "ImageRegistry.gd"
 
 EVENT_ROOT_KEYS = {
     "id", "title", "description", "category", "rarity", "weight", "hidden",
@@ -33,6 +34,7 @@ EVENT_ROOT_KEYS = {
 CHOICE_KEYS = {
     "text", "text_if_moral", "effects", "flags", "follow_up_event", "result_text",
     "result_cg", "result_cg_reveal_paragraph", "result_background", "result_ambience",
+    "result_portrait",
     "opportunity", "cast_effects", "relationship_effects", "investment_effects",
     "tendency", "route", "grant_job", "grant_job_display",
     "first_paycheck_ratio", "replace_current_job", "conditions_note", "deferred_follow_up",
@@ -61,6 +63,28 @@ SCRIPT_EXTENSIONS = {".gd", ".gdshader", ".tscn", ".pck", ".so", ".dll", ".dylib
 SAFE_ID = re.compile(r"^[a-z0-9_]{1,96}$")
 SAFE_MOD_ID = re.compile(r"^[A-Za-z0-9_-]{1,64}$")
 HTML_COLOR = re.compile(r"^#[0-9a-fA-F]{6}(?:[0-9a-fA-F]{2})?$")
+
+
+def registry_dict_keys(path: Path, const_name: str) -> set[str]:
+    source = path.read_text(encoding="utf-8")
+    match = re.search(rf"const\s+{re.escape(const_name)}\s*=\s*\{{", source)
+    if match is None:
+        return set()
+    cursor = match.end()
+    body_start = cursor
+    depth = 1
+    while cursor < len(source) and depth > 0:
+        if source[cursor] == "{":
+            depth += 1
+        elif source[cursor] == "}":
+            depth -= 1
+        cursor += 1
+    if depth != 0:
+        return set()
+    return set(re.findall(r'"([^"]+)"\s*:', source[body_start:cursor - 1]))
+
+
+VALID_PORTRAITS = registry_dict_keys(IMAGE_REGISTRY, "PORTRAITS")
 
 
 class Report:
@@ -178,6 +202,16 @@ def validate_choice(
         report.error(f"{label}: choice text is empty")
     if not str(choice.get("result_text", "")).strip():
         report.error(f"{label}: result_text is empty")
+    if "result_portrait" in choice:
+        result_portrait = choice.get("result_portrait")
+        if not isinstance(result_portrait, str) or not result_portrait.strip():
+            report.error(
+                f"{label}: result_portrait must be a non-empty portrait id"
+            )
+        elif result_portrait not in VALID_PORTRAITS:
+            report.error(
+                f"{label}: unknown result_portrait id '{result_portrait}'"
+            )
     fallback_value = choice.get("opportunity_unavailable_fallback", False)
     if "opportunity_unavailable_fallback" in choice and fallback_value is not True:
         report.error(
@@ -471,12 +505,37 @@ def run_self_test(report: Report) -> None:
                 "effects": {"mental": 1},
                 "flags": ["mod_validator_seen"],
                 "result_text": "Done.",
+                "result_background": "cafe",
+                "result_ambience": "cafe",
+                "result_portrait": "daeun_normal",
             }],
         }]
         (root / "events" / "valid.json").write_text(json.dumps(valid_event), encoding="utf-8")
         valid_preset = {"id": "validator", "jobs": [{"id": "job_01", "base_salary": 1320001}]}
         (root / "presets" / "valid.json").write_text(json.dumps(valid_preset), encoding="utf-8")
         validate_target(root, report)
+
+        for invalid_value, expected_error in (
+            ("", "result_portrait must be a non-empty portrait id"),
+            ("mod_validator_unknown_portrait", "unknown result_portrait id"),
+        ):
+            invalid_portrait = json.loads(json.dumps(valid_event))
+            invalid_portrait[0]["id"] = (
+                "mod_validator_empty_result_portrait"
+                if not invalid_value else "mod_validator_unknown_result_portrait"
+            )
+            invalid_portrait[0]["choices"][0]["result_portrait"] = invalid_value
+            invalid_path = root / "events" / f"{invalid_portrait[0]['id']}.json"
+            invalid_path.write_text(
+                json.dumps(invalid_portrait), encoding="utf-8")
+            invalid_report = Report()
+            validate_event_file(
+                invalid_path, load_builtin_events(), invalid_report)
+            if not any(expected_error in error for error in invalid_report.errors):
+                report.error(
+                    "self-test: malformed result_portrait was accepted: "
+                    f"{invalid_value!r}"
+                )
 
         opportunity_only = [{
             **valid_event[0],

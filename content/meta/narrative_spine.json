@@ -77,7 +77,7 @@
         "arc_y5_father_trace_passed_exact",
         "arc_y5_final_father_answer_alive",
         "arc_y5_final_father_answer_passed",
-        "arc_y5_general_last_page_instruction",
+        "arc_y5_general_debt_memory_reconnect",
         "arc_y5_general_final_record_seal",
         "arc_final_countdown_general_near_goal_passed",
         "arc_y5_final_week_general_people_outbound"
@@ -208,7 +208,7 @@
         "arc_minseo_03_arrival",
         "arc_minseo_03b_not_arrived",
         "arc_y5_people_verdict_daeun_exact",
-        "arc_y5_general_last_page_instruction",
+        "arc_y5_general_debt_memory_reconnect",
         "arc_y5_general_final_record_seal",
         "arc_final_countdown_general_near_goal_passed",
         "arc_y5_final_week_general_people_outbound"
@@ -248,10 +248,6 @@
         {
           "chapter": 5,
           "event": "arc_final_countdown_property_not_executed"
-        },
-        {
-          "chapter": 5,
-          "event": "arc_y5_general_final_record_seal"
         },
         {
           "chapter": 5,
@@ -815,6 +811,7 @@
         "arc_y5_three_in_room",
         "arc_y5_three_in_room_decision",
         "arc_y5_room_consent_receipt",
+        "arc_y5_general_debt_memory_reconnect",
         "arc_y5_father_trace_alive_exact",
         "arc_y5_father_trace_passed_exact",
         "arc_y5_father_trace_custody"
@@ -822,7 +819,6 @@
       "reversal": [
         "arc_father_legacy",
         "arc_pre_ending_summit",
-        "arc_y5_general_last_page_instruction",
         "arc_y5_name_on_line_daeun_routed",
         "arc_y5_people_verdict_daeun_exact",
         "arc_y5_property_not_executed_notice"
