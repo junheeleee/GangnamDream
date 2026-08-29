@@ -2,15 +2,23 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-138 [P0·5장 일반 종막 밀도] W225~W233의 9주 공백을 닫고, 아버지 기일의 회수를 각주에서 장면으로 되돌린다
+#### [~] ORDER-138 [P0·5장 일반 종막 밀도] W225~W233의 9주 공백을 닫고, 아버지 기일의 회수를 각주에서 장면으로 되돌린다
 
-**[ ] 미착수 · 입력은 `002a493d` 두 경로 M49~M60 위임 L3:**
+**[~] 2026-08-29 Codex 착수 · 기준선 `66718fd54916acf43f0247902255ab464b3202b0` · main HOLD:**
 2026-08-29 재판정에서 property는 CONDITIONAL, `general_near_goal_father_passed`는
 REJECT였다. ORDER-137이 고친 W207 결과 연출, W230 민서 입장, W237 오늘의 30분,
 W240 실제 삭제·같은 턴 선발신은 모두 통과했으므로 **이 오더는 그것들을 다시
 쓰지 않는다.** 남은 두 결함만 소유한다. 판정 원문은
 [`docs/DEMO_FIXLOG.md`](../DEMO_FIXLOG.md) 2026-08-29 항목과
 [`docs/human_gates.json`](../human_gates.json)의 두 `delegated_reviews`가 소유한다.
+
+**착수 소유권:** `content/events{,_en}/arc_year3_drama.json`,
+`content/events{,_en}/arc_pre_ending.json`, `content/events{,_en}/arc_drama.json`,
+`systems/Chapter5FinaleRoute.gd`, `autoloads/GameState.gd`,
+`content/meta/chapter5_general_finale_ledger.json`, 이 사양의 연출·제품 계약 파일,
+`tools/{L3ReplayM49M60,Chapter5FinaleRouteCheck,chapter5_general_finale_route_audit,chapter5_finale_route_audit,full_run_pacing_audit,narrative_continuity_audit,ScreenshotQA,audit}.*`,
+그리고 선언·마감 문서다. `scenes/StoryMode.gd`는 읽기 제시 변경이 실제로 필요하다는
+증거가 생길 때만 범위 확장 선언 뒤 만진다. `project.godot`은 소유하지 않는다.
 
 ## 판정 증거와 보호선
 

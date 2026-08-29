@@ -59,7 +59,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [ ] | ORDER-138 · 5장 일반 종막의 9주 공백과 아버지 기일 회수를 고친다 | [138](queue_active/ORDER-138.md) | 입력은 `002a493` 두 경로 위임 L3 · general 최장 공백 9주·28/48주, property 4주·39/48주 실측 · 화면 증거 픽스처 2건은 선행 수리 완료 · 미착수 |
+| 1 | [~] | ORDER-138 · 5장 일반 종막의 9주 공백과 아버지 기일 회수를 고친다 | [138](queue_active/ORDER-138.md) | `66718fd` 기준 별도 clean worktree 착수 · general 신규 뿌리 2~3개·W224 장면 회수·property 제시 최소 수리·전용 실런타임 하네스 소유 · main HOLD |
 | 2 | [~] | ORDER-137 · 5장 실플레이 반려 4건을 표적 수리한다 | [137](queue_active/ORDER-137.md) | 새 제품 `002a493` / tree `ce156f4` / manifest `7ada31a8` · 2026-08-29 위임 L3 재플레이에서 property CONDITIONAL(반려 2건 닫힘)·general REJECT · 잔여 결함은 `ORDER-138`이 소유 · 두 L3와 사용자 최종 GO OPEN · main HOLD |
 | 3 | [~] | ORDER-135 · 25억 문턱·아버지 별세 일반 런의 선택을 W240에 잇는다 | [135](queue_active/ORDER-135.md) | `002a493`에서 W237·W240·W220→W224 회수는 통과 · 2026-08-29 위임 L3는 W225~W233 9주 공백과 W224 각주형 회수로 다시 REJECT · 수리는 `ORDER-138` · 사용자 최종 GO/main HOLD |
 | 4 | [~] | ORDER-119 · 게임 전체 플레이어 표면에서 스탯·시스템 언어 제거 | [119](queue_active/ORDER-119.md) | 제품·QA 36파일+package metadata 2파일 · exact clean full audit·KO/EN 24주·KO 240주·BUILD `2026.08.22.1` 3플랫폼 package·macOS native smoke green · active `demo_rc` 등록 · 사용자 최종 GO OPEN |
