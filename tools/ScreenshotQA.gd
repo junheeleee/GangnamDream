@@ -6490,13 +6490,13 @@ func _prepare_chapter5_causal_story_state(
 			target_id, target_turn])
 		return
 	GameState.chapter5_causal_state = state
-	GameState.turn = target_turn
-	GameState.year = 5
-	GameState.month = int((target_turn - 1) / 4) + 1
-	GameState.week_of_month = int((target_turn - 1) % 4) + 1
-	GameState.age = 37
+	# Share the finale calendar helper. Writing the 55th story-map month into the
+	# 1..12 calendar field clamped `months_left` to a false "남은 0개월" on every
+	# causal capture, including the protected W217/W220 pass points.
+	_set_chapter5_finale_calendar(target_turn)
 	# The reducer entry and the visible HUD must describe the same live run.
 	GameState.money = 2_100_000_000.0
+	_apply_chapter5_late_run_housing()
 
 func _assert_chapter5_causal_story_surface(
 		story: Node, event_id: String) -> void:
@@ -6749,6 +6749,7 @@ func _prepare_chapter5_general_source_state(
 	# This profile is near the goal, not over it. Keeping the fixture below 3B
 	# prevents the hidden/goal endings from replacing the W237/W240 ledger.
 	GameState.money = 2_600_000_000.0
+	_apply_chapter5_late_run_housing()
 	GameState.player_route = "투자형"
 	GameState.tendency_realized = "invest"
 	GameState.chapter5_causal_state = Chapter5CausalRouteScript.default_state()
@@ -7226,6 +7227,14 @@ func _set_chapter5_finale_calendar(at_turn: int) -> void:
 	GameState.week_of_month = int((at_turn - 1) % 4) + 1
 	GameState.age = 33 + int((at_turn - 1) / 48)
 
+## Chapter 5 fixtures raise `money` into the billions but inherited the fresh-run
+## `gosiwon`, so `current_housing` resolved to the starter room and the last night
+## of a 2.1B/2.6B run rendered in the opening goshiwon. These profiles never buy
+## the Gangnam apartment, so the honest state is the top rental tier
+## (`apartment` = 아파트 전세), which is quality of life, not ownership.
+func _apply_chapter5_late_run_housing() -> void:
+	GameState.housing = "apartment"
+
 func _prepare_chapter5_finale_story_state(
 		target_id: String, father_life: String = "alive",
 		choice_overrides: Dictionary = {}) -> void:
@@ -7237,6 +7246,7 @@ func _prepare_chapter5_finale_story_state(
 		return
 	_prepare_main_game_state()
 	GameState.money = 2_100_000_000.0
+	_apply_chapter5_late_run_housing()
 	GameState.chapter5_causal_state = _build_chapter5_causal_complete_state()
 	if _qa_failed:
 		return
