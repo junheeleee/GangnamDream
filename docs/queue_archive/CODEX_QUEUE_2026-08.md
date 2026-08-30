@@ -15,6 +15,14 @@
 
 ## 2026-08
 
+- `[x] ORDER-139` (2026-08-31): active `story_demo_rc` exact `16675f6`를
+  제품 변경 없이 재구성해 11 runtime variant·24 choice와 clean 360 + fallout
+  720 = 1,080개 합법 완주를 확인했다. 기존 selector는 17/24만 선택하며, M2 환수
+  callback 미소비·M3~M6 exact 선택 회수 부족·환수보다 보이는 세 수치가 모두
+  유리한 심화의 후속 세계 반응 부재 등 8개 구조 finding을 다음 최소 수리 입력으로
+  확정했다. exact 신원·8 blob·축·실행 consumer를 44개 변이로 잠갔고 독립 반례
+  검토 P0/P1/P2는 0이다. 정상 속도 밀도·재미 게이트는 OPEN이다.
+  [사양](ORDER-139.md)
 - `[x] ORDER-136` (2026-08-27): M55 계약 회의 뒤 영수증에서 5년차 편의점
   근무복 다은 초상을 제거하고 `meeting + no reusable portrait`를 사건·시각·
   표시 계약과 회의 정본에 잠갔다. 제품 `b375af2` / tree `840016b` / source

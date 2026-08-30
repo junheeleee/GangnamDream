@@ -2,7 +2,8 @@
 
 > 최신 작업만 역순으로 기록한다. 2026-07-24 이전 원문은
 > [`5/16~7/24`](history/WORK_LOG_2026-05-16_to_2026-07-24.md), 보관본은
-> [`8/24`](history/WORK_LOG_2026-08-24.md), [`8/18`](history/WORK_LOG_2026-08-18.md),
+> [`8/24`](history/WORK_LOG_2026-08-24.md), [`8/20`](history/WORK_LOG_2026-08-20.md),
+> [`8/18`](history/WORK_LOG_2026-08-18.md),
 > [`8/18 후속`](history/WORK_LOG_2026-08-18_late.md),
 > [`8/15`](history/WORK_LOG_2026-08-15.md),
 > [`8/14`](history/WORK_LOG_2026-08-14.md),
@@ -14,6 +15,24 @@
 > [`7/27`](history/WORK_LOG_2026-07-27.md), [`7/26`](history/WORK_LOG_2026-07-26.md),
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
+
+## 2026-08-31 (Codex — 공개 스토리 데모 선택 밀도 exact 실측)
+
+- active `story_demo_rc` exact `16675f6` / tree `aed6904f` / BUILD
+  `2026.08.25.1`을 제품 변경 없이 읽어 M01~M06의 11 runtime variant·24 choice와
+  실제 controller·StoryMode 소비자를 연결했다. clean 360 + fallout 720 = 1,080개
+  고유 완주 signature가 9개 영수증과 6회 정산을 가지며, 전부 생존한다.
+- 기존 selector 검사는 17/24만 고른다. M6는 M3~M5 exact 선택을 읽지 않고,
+  M2 환수 callback은 M6 전에 due가 되어도 데모 안에서 소비되지 않으며, M6 다섯
+  선택은 recap 뒤 이야기 독자가 없다. clean 재유혹 0, fallout 심화 후 세계 반응 0,
+  비-bridge 21개 중 명시적 포기 없음 6개, 보이는 수치 변화 18/24 대 exact 이야기
+  독자 6개를 다음 최소 수리의 입력으로 확정했다.
+- 측정기 구현 `a4d3271`은 exact commit/tree/BUILD와 8개 Git blob, 24개 ordered
+  축 분류, 실행 가능한 receipt/follow-up true branch와 selector caller를 고정한다.
+  Python self-test 44·JSON assertion·정적 감사·Godot 4.6.2 전체 감사와
+  68 스크립트 컴파일이 실패 플래그 0으로 GREEN이고, 독립 반례 검토
+  P0/P1/P2도 0이다. 자동화는 사람의 정상 속도 밀도·재미를 판정하지 않아
+  두 값은 `not_measured`, 사람 게이트는 OPEN이다.
 
 ## 2026-08-30 (Codex — ORDER-138 일반 5장 종막 보강 후보)
 
@@ -494,21 +513,3 @@
   사용자 L3 재플레이 전까지 ORDER-103은 `[~]`이고 기존 24주 이관은 시작하지 않는다.
   전체 UI 통일은 이 표면 승인 뒤 공용 토큰/장면 컴포넌트부터 단계 이관하며,
   승인된 월 마감·회고·엔딩은 마지막 별도 배치 전까지 동결한다.
-
-## 2026-08-20 (Codex — 마지막 해 R1a 비활성 계약 커널)
-
-- career·startup M49~M55의 18 roots·50 choices를 caller가 주입한 Dictionary만으로
-  재생하는 pure `Year5ReferenceRouteKernel`을 만들었다. exact partner/M48/founding/
-  route-lock ingress와 경제 경로, document role handle과 실제 scene actor, C0/C1·
-  h0/h1 custody, M53 synthetic handoff, 월간 margin, continuation/terminal을 분리했다.
-- 선택은 common+choice writes를 원자 적용하고 exact callback만 성공 no-op로 받는다.
-  history는 매번 다시 계산하며 extra/missing receipt, 이직·퇴사, 잘못된 M52 actor,
-  read-before-transfer, margin double-spend, terminal downstream, bool·float·string integer
-  위조, 중복·부분·변조 row를 fail-closed한다. file I/O·autoload·GameState·SaveManager·
-  EventManager·MainGame·StoryMode·돈·직업·flag·ending write는 0이다.
-- manifest direct 2 routes/32 roots/86 choices와 음성 100건, Godot R1a 18/50·241건,
-  story-map 차선 7/7, strict JSON·context·queue·scope·diff, 독립 L2가 모두 통과해
-  P0/P1 0이다. 보호 37파일은 byte-exact, lifecycle은 `reference_only`, product consumer·
-  dispatch 0, QA consumer 1이다. 메인 worktree의 기존 변경은 건드리지 않았고 전용
-  `codex/story-map-240w` worktree에서 작업했다. R1b가 실제 ingress·GameState·save,
-  R2가 M57~M60 transaction/finale를 별도 소유한다.

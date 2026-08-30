@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-08-30 14:59 UTC · 9b294d5a`
+> 생성 시각 · 커밋: `2026-08-30 17:12 UTC · a4d32710`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -103,8 +103,8 @@
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
 | `ORDER-138` | 5장 일반 종막의 끊긴 사람선을 잇고 마지막 행동의 반복을 걷는다 | 진행 | 제품 9b294d5 / tree ebaf799 / manifest 9927a875 · 일반 W211→W240·property inline read L1/L2 GREEN · 228장 · 두 사람 게이트 OPEN · main HOLD |
-| `ORDER-137` | 5장 실플레이 반려 4건을 표적 수리한다 | 진행 | 새 제품 002a493 / tree ce156f4 / manifest 7ada31a8 · 2026-08-29 위임 L3 재플레이에서 property CONDITIONAL(반려 2건 닫힘)·general REJECT · 잔여 결함은 ORDER-138이 소유 · 두 L3와 사용자 최종 GO OPEN · main HOLD |
-| `ORDER-135` | 25억 문턱·아버지 별세 일반 런의 선택을 W240에 잇는다 | 진행 | 002a493에서 W237·W240·W220→W224 회수는 통과 · 2026-08-29 위임 L3는 W225~W233 9주 공백과 W224 각주형 회수로 다시 REJECT · 수리는 ORDER-138 · 사용자 최종 GO/main HOLD |
+| `ORDER-137` | 5장 실플레이 반려 4건을 표적 수리한다 | 진행 | 역사 제품 002a493 · 잔여 결함은 ORDER-138 소유 · 두 L3와 사용자 GO OPEN · main HOLD |
+| `ORDER-135` | 25억 문턱·아버지 별세 일반 런의 선택을 W240에 잇는다 | 진행 | 역사 제품 002a493 · 잔여 수리는 ORDER-138 · 사용자 GO/main HOLD |
 | `ORDER-119` | 게임 전체 플레이어 표면에서 스탯·시스템 언어 제거 | 진행 | 제품·QA 36파일+package metadata 2파일 · exact clean full audit·KO/EN 24주·KO 240주·BUILD 2026.08.22.1 3플랫폼 package·macOS native smoke green · active demo_rc 등록 · 사용자 최종 GO OPEN |
 | `ORDER-118` | startup 전면 재설계·코드 토큰 제거 | 진행 | L1/L2 GO · 16편/27선택·코드 토큰 0 · fresh seed 9821 #11/#2/#3 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |
 | `ORDER-117` | 107/109 국소 수리·career 15편 재판정 | 진행 | L1/L2 GO · 18단위 전수·16 roots 재작성·after_goal/people_verdict exact 보존·코드 토큰 0 · 107/109 각 1/1+career 15/15 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |

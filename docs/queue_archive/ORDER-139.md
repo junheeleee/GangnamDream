@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-139
+# Archived Queue Spec: ORDER-139
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-139 [P1·판정] 현재 스토리 데모의 선택 밀도와 위험 대가를 실측한다
+#### [x] ORDER-139 [P1·판정] 현재 스토리 데모의 선택 밀도와 위험 대가를 실측한다
 
 **착수 선언 (2026-08-31 Codex):** 실행 기준은
 `98be0db200f33f993bda1562b78eafa27031febd`다. 측정 대상은 현재 소스 HEAD가
@@ -10,6 +10,25 @@
 `16675f6ce310adb477da9ab3431c2edfe15ab278` / tree
 `aed6904fc95345a867d2762f0bb8a62e65b32ce1`, BUILD `2026.08.25.1`이다.
 제품 사건·런타임·번역 파일은 모두 읽기 전용으로 잠근다.
+
+**완료 (2026-08-31 Codex):** active `story_demo_rc` exact source를 한 바이트도
+바꾸지 않고 11 runtime variant·24 choice option과 합법 경로를 전수 측정했다.
+clean 360 + fallout 720 = 1,080개 고유 signature가 모두 6회 정산을 통과했고,
+종료 최저치는 몸 61·마음 15·현금 632만원이다. 각 런은 선택 영수증 9개를 남긴다.
+
+기존 자동 선택기는 24개 중 17개만 실제 선택하며 7개가 비어 있다. M6 고정 산문은
+M3~M5의 exact 인물 선택을 읽지 않고, M2 환수 callback은 M6 진입 전에 due가 되지만
+데모 끝까지 소비되지 않는다. M6 다섯 선택도 recap 외 후속 이야기 독자가 없다.
+clean 경로의 위험 제안은 M1 한 번뿐이고, fallout 심화는 환수보다 현금·몸·마음
+수치가 모두 더 유리한데 이후 세계 반응이 없다. 비-bridge 21개 중 6개는 함께 할 수 없는
+사람·생계·몸·돈 대안을 명시하지 않으며, 보이는 세 수치를 바꾸는 선택은 18/24인데
+exact demo-reachable 이야기 독자를 가진 선택은 6개다.
+
+측정기 구현은 `a4d3271`이다. source commit/tree/BUILD와 8개 Git blob을 코드·fixture·
+실제 SHA/OID로 이중 고정하고, 24개 축 분류와 실제 영수증·follow-up true branch,
+selector caller reachability, working-tree fallback 거부를 44개 변이 검사로 잠갔다.
+독립 반례 검토 결과 P0/P1/P2는 0이다. 이 결과는 구조 결함의 수리 입력이며
+`human_route_density`와 `human_fun`은 계속 `not_measured`, 사람 게이트는 OPEN이다.
 
 **사용자 근거:** 사용자는 게임의 가장 중요한 점을 처음부터 끝까지 허술하지
 않은 밀도로 정했고, 토큰이 남는 동안 사람 판정과 독립적인 큐 작업을 계속하라고
@@ -66,7 +85,8 @@
 ## 정확한 파일 소유권
 
 **선언·마감:** `docs/CODEX_QUEUE.md`, 이 사양, `CLAUDE.md`,
-`docs/WORK_LOG.md`, 생성본 `docs/STATUS.md`.
+`docs/WORK_LOG.md`, `docs/history/WORK_LOG_2026-08-20.md`,
+`docs/queue_archive/CODEX_QUEUE_2026-08.md`, 생성본 `docs/STATUS.md`.
 
 **신규 측정기·계약:** `tools/story_demo_density_audit.py`,
 `tools/fixtures/story_demo_density_contract.json`.
@@ -93,6 +113,10 @@ git diff --check
 - current HEAD와 active 후보가 다르면 둘을 섞지 않고 drift를 별도 출력한다.
 - 결함이 없어도 제품 파일을 편의상 수정하지 않는다. 결함이 있으면 다음 자식의
   최소 수리 입력으로만 넘긴다.
+- Godot 4.6.2 전체 감사는 `✅ 감사 통과`로 종료했고 미설정·실패
+  플래그는 0이다. `STORY_DEMO_DENSITY_AUDIT_SELF_TEST_OK cases=44`,
+  `STORY_DEMO_DENSITY_AUDIT_OK ... signatures=1080 clean=360 fallout=720`,
+  `COMPILE_CHECK_OK total=68`을 같은 실행에서 확인했다.
 
 ## 규범 판정
 
