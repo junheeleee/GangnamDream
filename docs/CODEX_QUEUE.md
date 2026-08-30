@@ -59,16 +59,17 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-138 · 5장 일반 종막의 끊긴 사람선을 잇고 마지막 행동의 반복을 걷는다 | [138](queue_active/ORDER-138.md) | 제품 `9b294d5` / tree `ebaf799` / manifest `9927a875` · 일반 W211→W240·property inline read L1/L2 GREEN · 228장 · 두 사람 게이트 OPEN · main HOLD |
-| 2 | [~] | ORDER-137 · 5장 실플레이 반려 4건을 표적 수리한다 | [137](queue_active/ORDER-137.md) | 역사 제품 `002a493` · 잔여 결함은 `ORDER-138` 소유 · 두 L3와 사용자 GO OPEN · main HOLD |
-| 3 | [~] | ORDER-135 · 25억 문턱·아버지 별세 일반 런의 선택을 W240에 잇는다 | [135](queue_active/ORDER-135.md) | 역사 제품 `002a493` · 잔여 수리는 `ORDER-138` · 사용자 GO/main HOLD |
-| 4 | [~] | ORDER-119 · 게임 전체 플레이어 표면에서 스탯·시스템 언어 제거 | [119](queue_active/ORDER-119.md) | 제품·QA 36파일+package metadata 2파일 · exact clean full audit·KO/EN 24주·KO 240주·BUILD `2026.08.22.1` 3플랫폼 package·macOS native smoke green · active `demo_rc` 등록 · 사용자 최종 GO OPEN |
-| 5 | [~] | ORDER-118 · startup 전면 재설계·코드 토큰 제거 | [118](queue_active/ORDER-118.md) | L1/L2 GO · 16편/27선택·코드 토큰 0 · fresh seed 9821 #11/#2/#3 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |
-| 6 | [~] | ORDER-117 · 107/109 국소 수리·career 15편 재판정 | [117](queue_active/ORDER-117.md) | L1/L2 GO · 18단위 전수·16 roots 재작성·after_goal/people_verdict exact 보존·코드 토큰 0 · 107/109 각 1/1+career 15/15 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |
-| 7 | [~] | ORDER-124 · 월간 행동판 없이 스토리 선택만으로 M01~M06을 잇는다 | [124](queue_active/ORDER-124.md) | BUILD `2026.08.25.1` macOS `story_demo_rc` active (`16675f6`) · 5 locale·실제 두 M01 route·24주·정산 6·영수증 9·exact cold resume·AP 표면 0 L1/L2 GO · 사용자 L3 OPEN · 엔진 AP 삭제 비승인 |
-| 8 | [~] | ORDER-99 · SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | [99](queue_active/ORDER-99.md) | BUILD `.3` L1/L2 — 사용자 저장 확인 대기 |
-| 9 | [~] | ORDER-97 · LOC-0.5 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | L1/L2 — 최신 후보·A/B 각 3표면 L3 대기 |
-| 10 | [~] | ORDER-98 · PAD-1 포커스 레일을 의미 버튼으로 줄인다 | [98](queue_active/ORDER-98.md) | active `demo_rc` exact full/surface·입력·컨트롤러·오디오 L1/L2 PASS · 물리 패드 A/B 각 3표면 L3 OPEN |
+| 1 | [~] | ORDER-140 · M2 위험의 6월 청구와 M3~M6 exact 선택을 실제 장면에서 회수한다 | [140](queue_active/ORDER-140.md) | ORDER-139 실측 8 finding 표적 수리 · 새 exact 5언어 RC 전까지 기존 `story_demo_rc`/main HOLD · 실종 BUILD `.2` ZIP 보호 계약은 별도 자식 필요 |
+| 2 | [~] | ORDER-138 · 5장 일반 종막의 끊긴 사람선을 잇고 마지막 행동의 반복을 걷는다 | [138](queue_active/ORDER-138.md) | 제품 `9b294d5` / tree `ebaf799` / manifest `9927a875` · 일반 W211→W240·property inline read L1/L2 GREEN · 228장 · 두 사람 게이트 OPEN · main HOLD |
+| 3 | [~] | ORDER-137 · 5장 실플레이 반려 4건을 표적 수리한다 | [137](queue_active/ORDER-137.md) | 역사 제품 `002a493` · 잔여 결함은 `ORDER-138` 소유 · 두 L3와 사용자 GO OPEN · main HOLD |
+| 4 | [~] | ORDER-135 · 25억 문턱·아버지 별세 일반 런의 선택을 W240에 잇는다 | [135](queue_active/ORDER-135.md) | 역사 제품 `002a493` · 잔여 수리는 `ORDER-138` · 사용자 GO/main HOLD |
+| 5 | [~] | ORDER-119 · 게임 전체 플레이어 표면에서 스탯·시스템 언어 제거 | [119](queue_active/ORDER-119.md) | 제품·QA 36파일+package metadata 2파일 · exact clean full audit·KO/EN 24주·KO 240주·BUILD `2026.08.22.1` 3플랫폼 package·macOS native smoke green · active `demo_rc` 등록 · 사용자 최종 GO OPEN |
+| 6 | [~] | ORDER-118 · startup 전면 재설계·코드 토큰 제거 | [118](queue_active/ORDER-118.md) | L1/L2 GO · 16편/27선택·코드 토큰 0 · fresh seed 9821 #11/#2/#3 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |
+| 7 | [~] | ORDER-117 · 107/109 국소 수리·career 15편 재판정 | [117](queue_active/ORDER-117.md) | L1/L2 GO · 18단위 전수·16 roots 재작성·after_goal/people_verdict exact 보존·코드 토큰 0 · 107/109 각 1/1+career 15/15 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |
+| 8 | [~] | ORDER-124 · 월간 행동판 없이 스토리 선택만으로 M01~M06을 잇는다 | [124](queue_active/ORDER-124.md) | BUILD `2026.08.25.1` macOS `story_demo_rc` active (`16675f6`) · 5 locale·실제 두 M01 route·24주·정산 6·영수증 9·exact cold resume·AP 표면 0 L1/L2 GO · 사용자 L3 OPEN · 엔진 AP 삭제 비승인 |
+| 9 | [~] | ORDER-99 · SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | [99](queue_active/ORDER-99.md) | BUILD `.3` L1/L2 — 사용자 저장 확인 대기 |
+| 10 | [~] | ORDER-97 · LOC-0.5 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | L1/L2 — 최신 후보·A/B 각 3표면 L3 대기 |
+| 11 | [~] | ORDER-98 · PAD-1 포커스 레일을 의미 버튼으로 줄인다 | [98](queue_active/ORDER-98.md) | active `demo_rc` exact full/surface·입력·컨트롤러·오디오 L1/L2 PASS · 물리 패드 A/B 각 3표면 L3 OPEN |
 
 ### 남은 데모 출시선
 
