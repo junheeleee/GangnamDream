@@ -25,10 +25,10 @@
     },
     "story_demo_rc": {
       "status": "active",
-      "commit": "16675f6ce310adb477da9ab3431c2edfe15ab278",
-      "tree": "aed6904fc95345a867d2762f0bb8a62e65b32ce1",
-      "manifest_sha256": "90ca36437e93a31ad6724f7d53faf39f35c84239e4f1d898755df2e34ce64a43",
-      "note": "BUILD 2026.08.25.1 macOS 공개 M01~M06 story-first 후보가 active다. app tree SHA-256 4cdb86ab3d1c1de7811729283364cd45594363c3895ecb4ccc296ddae4c951b2, ZIP SHA-256 b38e0a042bea8022da947a8e29b140de1394fdc3832b8541f809289c9c83d82f다. KO·EN·JA·zh-CN·zh-TW 11사건·82 leaf·도달 UI 117과 JP/SC/TC 전용 primary font·OFL을 고정했다. 다섯 locale run이 전체적으로 M01·M04 양쪽 변형을 cover했고 package KO clean/zh-CN fallout는 각각 M01~M06·24주·정산 6·영수증 9·수동 저장 뒤 cold restart exact resume·overlay/input clear·AP 원장 0으로 통과했고, 5 locale×4표면×2해상도 40장에 검은 화면·잘림이 없다. 사용자 재미·시간감·선택감각과 JA·zh-CN·zh-TW 원어민 출시 claim은 OPEN이며, 로컬 플레이는 가능하다. 저장 호환 AP 데이터·엔진 삭제 GO는 아니다."
+      "commit": "362578d8f4c0781fe35f643a74cc3037e7a80b21",
+      "tree": "e7f50b065b3369afa1894df8292756a95f94fd11",
+      "manifest_sha256": "50eed10b18c2c2b056f875a8df55230dc07b5535c55e59ddb89fff1d64e91870",
+      "note": "BUILD 2026.08.31.1 macOS 공개 M01~M06 story-first 후보가 active다. package source는 362578d8f4c0781fe35f643a74cc3037e7a80b21 / tree e7f50b065b3369afa1894df8292756a95f94fd11, 제품은 4e80a63e89821094b8bab21b8d5c73ecfc9b6278 / tree 0fdddf11e2ef030cd172d23e691e3d7da4ea29ff, 별도 review wrapper는 d149ce65a0cb397fe4d18cc9932561f828405dce다. manifest SHA-256 50eed10b18c2c2b056f875a8df55230dc07b5535c55e59ddb89fff1d64e91870, app tree 56a4f2997256e68baa21c02807fcf1f0e995ce114f57f96f26d309b300b7ec14, ZIP 956ac93524df6030ef984521550cec7dddafea381387a3df52194e43f5e61289다. KO·EN·JA·zh-CN·zh-TW 14사건·100 leaf·도달 UI 121과 JP/SC/TC 전용 primary font·OFL을 고정했다. 실제 StoryMode clean/ko 9, restitution/en 10, escalation/zh-CN 10 영수증 경로가 각각 M01~M06·24주·정산 6·수동 저장·별도 프로세스 cold restart exact resume·overlay/input clear·AP 원장 0으로 통과했고, BUILD 2026.08.25.1의 M2 저장 복사본도 원본 변경 없이 이어졌다. 14 variant·29 visible option·28 receipt selector·1,800 합법 서명 자동 증거는 사용자 정상 속도 밀도·재미·화면 판정과 JA·zh-CN·zh-TW 원어민 출시 claim을 대신하지 않는다. 해당 게이트는 OPEN, main과 본편 이관은 HOLD이며 저장 호환 AP 데이터·엔진 삭제 GO가 아니다."
     },
     "chapter5_finale_rc": {
       "status": "active",
@@ -932,15 +932,15 @@
       "state": "open",
       "scope": {
         "blocks": ["claim:ja-story-demo"],
-        "content": "story_demo_rc의 M01~M06 실제 11사건·모든 선택·결과·도달 UI 117개 일본어 표면"
+        "content": "story_demo_rc의 M01~M06 실제 14사건·모든 선택·결과·도달 UI 121개 일본어 표면"
       },
       "revision": "story_demo_rc",
       "sample": {
         "cohort": "story_demo_ja_native_context_review",
         "requirements": [
           "한국어 정본과 게임 문맥을 함께 이해하는 일본어 원어민 검수자",
-          "exact story_demo_rc BUILD 2026.08.25.1과 story_demo_localization_audit.py PASS 11사건·82 leaf·UI 117을 사용",
-          "M01 두 선택, M02 두 경로, M03~M05, M06 다섯 선택과 결과를 한국어 정본에 직접 대조하고 960×600·1280×800 실제 화면을 확인"
+          "exact story_demo_rc BUILD 2026.08.31.1과 story_demo_localization_audit.py PASS 14사건·100 leaf·UI 121을 사용",
+          "M01 두 선택, M02 두 경로, M03~M05, M06 두 위험 root·다섯 공통 선택·대가 ledger를 한국어 정본에 직접 대조하고 960×600·1280×800 실제 화면을 확인"
         ]
       },
       "acceptance": [
@@ -958,15 +958,15 @@
       "state": "open",
       "scope": {
         "blocks": ["claim:zh-CN-story-demo"],
-        "content": "story_demo_rc의 M01~M06 실제 11사건·모든 선택·결과·도달 UI 117개 zh-CN 표면"
+        "content": "story_demo_rc의 M01~M06 실제 14사건·모든 선택·결과·도달 UI 121개 zh-CN 표면"
       },
       "revision": "story_demo_rc",
       "sample": {
         "cohort": "story_demo_zh_cn_native_context_review",
         "requirements": [
           "한국어 정본과 게임 문맥을 함께 이해하는 중국 본토 원어민 검수자",
-          "exact story_demo_rc BUILD 2026.08.25.1과 story_demo_localization_audit.py PASS 11사건·82 leaf·UI 117, Noto Sans SC primary를 사용",
-          "M01 두 선택, M02 두 경로, M03~M05, M06 다섯 선택과 결과를 한국어 정본에 직접 대조하고 960×600·1280×800 실제 화면을 확인"
+          "exact story_demo_rc BUILD 2026.08.31.1과 story_demo_localization_audit.py PASS 14사건·100 leaf·UI 121, Noto Sans SC primary를 사용",
+          "M01 두 선택, M02 두 경로, M03~M05, M06 두 위험 root·다섯 공통 선택·대가 ledger를 한국어 정본에 직접 대조하고 960×600·1280×800 실제 화면을 확인"
         ]
       },
       "acceptance": [
@@ -984,15 +984,15 @@
       "state": "open",
       "scope": {
         "blocks": ["claim:zh-TW-story-demo"],
-        "content": "story_demo_rc의 M01~M06 실제 11사건·모든 선택·결과·도달 UI 117개 zh-TW 표면"
+        "content": "story_demo_rc의 M01~M06 실제 14사건·모든 선택·결과·도달 UI 121개 zh-TW 표면"
       },
       "revision": "story_demo_rc",
       "sample": {
         "cohort": "story_demo_zh_tw_native_context_review",
         "requirements": [
           "한국어 정본과 게임 문맥을 함께 이해하는 대만 원어민 검수자",
-          "exact story_demo_rc BUILD 2026.08.25.1과 story_demo_localization_audit.py PASS 11사건·82 leaf·UI 117, Noto Sans TC primary를 사용",
-          "M01 두 선택, M02 두 경로, M03~M05, M06 다섯 선택과 결과를 한국어 정본에 직접 대조하고 960×600·1280×800 실제 화면을 확인"
+          "exact story_demo_rc BUILD 2026.08.31.1과 story_demo_localization_audit.py PASS 14사건·100 leaf·UI 121, Noto Sans TC primary를 사용",
+          "M01 두 선택, M02 두 경로, M03~M05, M06 두 위험 root·다섯 공통 선택·대가 ledger를 한국어 정본에 직접 대조하고 960×600·1280×800 실제 화면을 확인"
         ]
       },
       "acceptance": [
@@ -1085,25 +1085,25 @@
       "id": "story_demo_m1_m6_user_play",
       "domain": "gameplay",
       "gate": "M01~M06 story-first 공개 데모 사용자 판정",
-      "why": "BUILD 2026.08.25.1 자동 증거는 다섯 언어, 실제 두 M01 경로, 자동 24주·정산 6회, 수동 저장 뒤 exact cold resume, 검은 전환막과 입력 차단 해제, AP 표면 0을 증명한다. 월간 행동판 없이도 선택과 대가가 게임으로 읽히는 재미는 증명하지 못하므로 사용자가 직접 판정해야 한다.",
+      "why": "BUILD 2026.08.31.1 자동 증거는 다섯 언어와 실제 clean·restitution·escalation, 경로별 24주·정산 6회·영수증 9/10/10, 수동 저장 뒤 별도 프로세스 exact cold resume, 구 BUILD 저장 이어하기, 검은 전환막과 입력 차단 해제, AP 표면 0을 증명한다. 월간 행동판 없이도 선택의 회수와 대가가 게임으로 읽히는 밀도·재미·화면 체감은 증명하지 못하므로 사람이 직접 판정해야 한다.",
       "owner": "ORDER-124",
       "state": "open",
       "scope": {
         "blocks": ["order124-close", "story-only-product-migration"],
-        "content": "월간 행동판 없이 실제 StoryMode 선택과 자동 네 주·월세·생활 압박만으로 M01~M06을 완주하는 독립 체험판"
+        "content": "월간 행동판 없이 실제 StoryMode 선택과 자동 네 주·월세·생활 압박만으로 clean·restitution·escalation을 각각 M01~M06 완주하는 독립 체험판"
       },
       "revision": "story_demo_rc",
       "sample": {
         "cohort": "story_demo_m1_m6_story_choice_only",
         "requirements": [
-          "active story_demo_rc BUILD 2026.08.25.1 exact 16675f6ce310adb477da9ab3431c2edfe15ab278 / tree aed6904fc95345a867d2762f0bb8a62e65b32ce1의 앱 `GangnamDream-StoryDemo`에서 새로 시작. 반려 ORDER-103, BUILD .2, 이전 order124_rc와 기존 demo_rc는 사용하지 않음",
-          "마우스·키보드·실제 패드 중 하나로 M01~M06의 실제 StoryMode 문장과 선택을 정상 속도로 완주",
-          "장면 사이 시간감, M01→M02 대가, M06에서 포기한 일을 유도 문구 없이 말하고, 저장 뒤 앱을 완전히 닫아 이어하기 위치가 기대와 같은지 확인"
+          "active story_demo_rc BUILD 2026.08.31.1 exact package source 362578d8f4c0781fe35f643a74cc3037e7a80b21 / tree e7f50b065b3369afa1894df8292756a95f94fd11 / manifest 50eed10b18c2c2b056f875a8df55230dc07b5535c55e59ddb89fff1d64e91870의 앱 `GangnamDream-StoryDemo`를 사용. 예전 16675f6, 반려 ORDER-103·BUILD .2, 이전 order124_rc와 demo_rc는 사용하지 않음",
+          "마우스·키보드·실제 패드 중 하나로 새 저장의 clean·restitution·escalation을 각각 M01~M06 실제 StoryMode 문장과 선택으로 정상 속도 완주",
+          "장면 사이 시간감, M01→M02 대가, M02 위험이 M06에 청구되는 방식, M03~M05 선택의 회수, M06에서 실행한 한 가지와 포기한 네 가지를 유도 문구 없이 말하고, 저장 뒤 앱을 완전히 닫아 이어하기 위치가 기대와 같은지 확인"
         ]
       },
       "acceptance": [
-        "월간 행동판이 없어도 실제 장면 안에서 선택하고 있다는 감각이 있음",
-        "M01 선택의 M02 생활 대가와 M06에서 하나만 끝내는 포기가 자연스럽게 읽힘",
+        "세 경로 모두 월간 행동판이 없어도 실제 장면 안에서 선택하고 있다는 감각이 있음",
+        "M01 선택의 M02 생활 대가, restitution·escalation의 서로 다른 M06 청구, M03~M05 exact 선택 회수와 M06의 한 실행·네 포기가 자연스럽게 읽힘",
         "장면 사이 자동 시간·경제가 너무 빠르거나 별도 관리 화면처럼 느껴지지 않음",
         "사용자가 story_demo_rc에 최종 GO한 뒤에만 별도 제품 이관 오더에서 본편 플레이 표면의 반복 월간·주간 행동 진입 제거를 시작하며, 저장 호환 AP 데이터·엔진 코드 삭제는 별도 승인 없이는 하지 않음"
       ]

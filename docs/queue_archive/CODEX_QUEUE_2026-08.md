@@ -15,6 +15,15 @@
 
 ## 2026-08
 
+- `[x] ORDER-140` (2026-08-31): M2 위험을 M6의 restitution·escalation 장면으로
+  청구하고 M3~M5 exact 선택을 M6 도입이 읽으며, 다섯 M6 선택 뒤 고른 한 줄과
+  포기한 네 줄을 대가 ledger가 남기도록 연결했다. 제품 `4e80a63` / tree
+  `0fdddf1`, package source `362578d` / tree `e7f50b0`, BUILD `2026.08.31.1`,
+  manifest `50eed10b`에서 clean/restitution/escalation 24주 실제 StoryMode,
+  영수증 9/10/10, 수동 저장·cold/exact·구저장 resume를 통과했다. 14 variant·
+  29 선택·28 selector·1,800 서명과 JA·zh-CN·zh-TW 각 14/100/121을 고정했고,
+  실종 과거 ZIP은 `missing_with_loss_receipt`로 보존했다. 정상 속도 밀도·재미와
+  세 원어민 출시 판정은 OPEN, main·본편 이관은 HOLD다. [사양](ORDER-140.md)
 - `[x] ORDER-141` (2026-08-31): 실종된 ORDER-124 BUILD `2026.08.24.2` ZIP을
   복구했다고 위조하지 않고 exact manifest·checksum·역사 기대값·재빌드 불일치를
   tracked loss receipt로 고정했다. builder는 exact 실물 세 파일 또는 완전한

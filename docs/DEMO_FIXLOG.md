@@ -119,10 +119,20 @@ REJECT였다. 이 판정은 이전 후보에만 남기며 새 후보의 GO로 �
 `721c9021236c158432be0b3ae47ebcd785f4e4f461b4b05d709b0d71384ca148`다.
 `.2`는 `build/order124/archive/2026.08.24.2`의 반려 증거로만 보존한다.
 
-**현재 재판정 후보 (2026-08-25):** ORDER-126 BUILD `2026.08.25.1`
-`story_demo_rc`가 `.3`을 대체했다. `.3`은 기술 수리 계보만 보존하며 사용자는 새
-`GangnamDream-StoryDemo`로 정상 속도 M01~M06을 판정한다. 자동 GREEN은 재미
-GO가 아니고 본편 이관은 계속 OPEN/HOLD다.
+**현재 재판정 후보 (2026-08-31):** BUILD `2026.08.31.1` `story_demo_rc`가
+BUILD `2026.08.25.1`을 대체했다. package source `362578d8` / tree `e7f50b06`,
+제품 `4e80a63e` / tree `0fdddf11`, manifest `50eed10b`, ZIP `956ac935`다.
+M2 위험은 M6 restitution·escalation에서 서로 다르게 청구되고 M3~M5 exact 선택은
+M6 도입이 읽으며, 마지막 ledger는 고른 한 줄과 포기한 네 줄을 남긴다. 실제
+clean/restitution/escalation 24주·정산 6·영수증 9/10/10, 저장 재시작과 기존
+M2 저장 이어하기가 통과했다. 사용자는 이 exact 앱의 세 경로를 정상 속도로
+판정한다. 자동 GREEN은 재미·밀도·화면·원어민 GO가 아니고 본편 이관과 main은
+계속 HOLD다.
+
+**역사 재판정 후보 (2026-08-25):** ORDER-126 BUILD `2026.08.25.1`
+`story_demo_rc`가 `.3`을 대체했다. `.3`은 기술 수리 계보만 보존하며 사용자는 당시
+새 `GangnamDream-StoryDemo`로 정상 속도 M01~M06을 판정하도록 안내받았다.
+이 후보는 현재 사람 판정에 재사용하지 않는다.
 
 ### M01~M06 독립 체험판 3차 후속 — 스토리 선택 전용 후보 (2026-08-24 — 사용자 재판정 전)
 

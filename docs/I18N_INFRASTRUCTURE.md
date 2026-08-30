@@ -1,6 +1,6 @@
 # Multilingual Infrastructure
 
-Updated: 2026-08-26
+Updated: 2026-08-31
 
 ## Status
 
@@ -11,13 +11,13 @@ exception: the staged M01-M06 story-demo namespace
 Chinese, and Traditional Chinese in its own first-run selector and StoryMode
 language menu. It does not change the retail allowlist or Steam metadata.
 
-| Code | Retail/V2 surface | ORDER-126 story-demo surface | Story-demo font |
+| Code | Retail/V2 surface | Current story-demo surface | Story-demo font |
 |---|---|---|---|
 | `ko` | Shipping source | Source | Pretendard |
 | `en` | Shipping strict fallback | Source fallback | Pretendard |
-| `ja` | Prepared beta, hidden | 11/11 events · 82/82 leaves · 118/118 UI · 1/1 catalog | Noto Sans JP |
-| `zh-CN` | Prepared, hidden | 11/11 events · 82/82 leaves · 118/118 UI · 1/1 catalog | Noto Sans SC |
-| `zh-TW` | Prepared, hidden | 11/11 events · 82/82 leaves · 118/118 UI · 1/1 catalog | Noto Sans TC |
+| `ja` | Prepared beta, hidden | 14/14 events · 100/100 leaves · 121/121 UI · 1/1 catalog | Noto Sans JP |
+| `zh-CN` | Prepared, hidden | 14/14 events · 100/100 leaves · 121/121 UI · 1/1 catalog | Noto Sans SC |
+| `zh-TW` | Prepared, hidden | 14/14 events · 100/100 leaves · 121/121 UI · 1/1 catalog | Noto Sans TC |
 
 The three target overlays are direct Korean-to-target translations. The two
 Chinese bodies are independently authored rather than OpenCC-converted copies.
@@ -138,10 +138,10 @@ duplicates before using effective dictionary counts. Japanese and Chinese body
 work must build on this locked inventory rather than reopening either key
 migration.
 
-ORDER-126 does not claim the full retail UI denominator. Its separate
-`story_demo_localization_audit.py` collector locks 35 unique controller keys,
+The narrow story demo does not claim the full retail UI denominator. Its
+`story_demo_localization_audit.py` collector locks 38 unique controller keys,
 82 unique StoryMode keys, their merged set, and the localized default name as
-exactly 118 required UI keys. A story-demo translation can pass this narrow
+exactly 121 required UI keys. A story-demo translation can pass this narrow
 surface while the same locale remains incomplete and hidden in retail.
 
 ## Content Contract
@@ -164,21 +164,21 @@ Catalog text uses `locale/catalog_<code>.json` with these sections:
 Each section is an object keyed by the source row ID. Empty sections inherit the
 English catalog.
 
-## Public M01-M06 Story Demo Scope (ORDER-126)
+## Public M01-M06 Story Demo Scope
 
 The public story-demo translation unit follows only text reachable from
 `StoryChoiceM1M6Playtest` and `StoryMode`; it does not inherit the retired
 monthly action board's denominator.
 
-- 11 Korean event IDs, 27 choices, and 82 translatable leaves cover both M01
-  branches, both M04 entries and merge, M03-M05 character scenes, and the five
-  reachable M06 choices.
-- The shell owns 35 unique UI keys and StoryMode owns 82. After overlaps and the
-  default player name, each target locale must provide exactly 118 UI values.
+- 14 Korean event variants, 29 visible choices, and 100 translatable leaves
+  cover both M01 branches, both M04 entries and merge, M03-M05 character scenes,
+  the two M06 risk roots, five common M06 choices, and the consequence ledger.
+- The controller owns 38 unique UI keys and StoryMode owns 82. After overlaps and
+  the default player name, each target locale must provide exactly 121 UI values.
 - Only `jobs.job_01.name` is a required catalog row. This slice has no ending
   overlay.
 - Korean and English remain the source/fallback pair. Japanese, `zh-CN`, and
-  `zh-TW` each own an 11-row `story_demo_events.json`, the 118 required UI rows,
+  `zh-TW` each own a 14-row `story_demo_events.json`, the 121 required UI rows,
   and that one catalog name.
 - The localized surface contains StoryMode choices plus scene-local actions;
   `주력/함께/여력`, AP cards, and weekly/monthly planning copy are not part of
@@ -271,7 +271,7 @@ translation plan stale.
 
 The table below is the locked pre-ORDER-126 coverage snapshot for the legacy
 24-week V2 denominator. It remains deliberately incomplete and does not count
-the 118-key/11-event story-demo overlays above. Static UI is a separate claim
+the 121-key/14-event story-demo overlays above. Static UI is a separate claim
 surface for any future 24-week or retail language claim: that broader product
 cannot ship with its 2,816 required UI keys falling back to English even after
 its event body is complete.
@@ -401,7 +401,7 @@ godot --rendering-driver opengl3 --resolution 1280x800 \
 ```
 
 The story-demo runtime pass must end with
-`STORY_DEMO_FOUR_LANGUAGE_CHECK_OK locales=5 routes=4 months=30 weeks=120 settlements=30 ap_surface=0 save=5 story=5 build=2026.08.25.1`.
+`STORY_DEMO_FOUR_LANGUAGE_CHECK_OK locales=5 routes=5 months=30 weeks=120 settlements=30 ap_surface=0 save=5 story=10 build=2026.08.31.1`.
 The 30 months and 120 weeks are the five locale runs combined; one player run
 is still M01-M06, 24 weeks, and six settlements.
 
@@ -474,8 +474,8 @@ its source revision, input hashes, derivation rule, and Apache-2.0 copy under
 ## Legacy 24-Week Translation Wave Gate
 
 The 72-event/1,172-source Japanese wave for the older 24-week V2 denominator
-remains held. ORDER-126's much smaller M01-M06 body is already authored as a
-separate 11-event/82-leaf/117-UI candidate and must not be used to claim that
+remains held. The current M01-M06 body is already authored as a separate
+14-event/100-leaf/121-UI candidate and must not be used to claim that
 the legacy wave or full game is complete. The Japanese retail UI dictionary
 remains a hidden beta and is not a shipping-language promise.
 ORDER-97's L3 screen review is also still open: the user must select three actual
@@ -494,7 +494,8 @@ Once the approved 24-week source text is declared final, the remaining wave requ
    choices. Character voice, relationship distance, subtext, KRW weight,
    translationese, and causal meaning are human gates rather than key counts.
 
-The ORDER-126 story-demo candidate, the legacy 24-week Japanese claim, and the
+The current story-demo candidate, introduced by ORDER-126 and extended by
+ORDER-140, the legacy 24-week Japanese claim, and the
 eventual full-game Japanese release claim are separate. Passing the narrow
 candidate does not satisfy the legacy denominator or 1,603-event/35-ending
 full-game coverage. Passing its structure/font gates must never add `ja` to
@@ -504,8 +505,9 @@ still be played for evaluation after package L1/L2.
 
 ## Chinese Regional Wave Gate
 
-ORDER-126 opens only the M01-M06 Chinese story-demo wave. `zh-CN` and `zh-TW`
-now own separate 11-event/82-leaf/118-UI/1-catalog translations made directly
+The current M01-M06 Chinese story-demo wave was introduced by ORDER-126 and
+extended by ORDER-140. `zh-CN` and `zh-TW` now own separate
+14-event/100-leaf/121-UI/1-catalog translations made directly
 from Korean; OpenCC or another script conversion did not create the second
 region. The larger legacy 24-week body remains held. Official character Hanja
 must not be invented, so established romanized names remain locked until a

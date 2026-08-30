@@ -1,8 +1,9 @@
-# Active Queue Spec: ORDER-140
+# Archived Queue Spec: ORDER-140
 
-> Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
+> Completed 2026-08-31. Canonical completion history is indexed in
+> `docs/queue_archive/CODEX_QUEUE_2026-08.md`.
 
-#### [~] ORDER-140 [P0·스토리 데모] M2 위험의 6월 청구와 M3~M6 exact 선택을 실제 장면에서 회수한다
+#### [x] ORDER-140 [P0·스토리 데모] M2 위험의 6월 청구와 M3~M6 exact 선택을 실제 장면에서 회수한다
 
 **착수 선언 (2026-08-31, Codex):** ORDER-139가 active `story_demo_rc`를
 제품 변경 없이 전수 실측해 11 runtime variant·24 선택·1,080 합법 서명을
@@ -75,6 +76,12 @@ M3~M5 exact 선택 미회수, M6 다섯 선택의 후속 이야기 미도달, se
 `docs/WORK_LOG.md`, `docs/BUILD_PIPELINE.md`, `docs/DEMO_FIXLOG.md`,
 `docs/queue_active/ORDER-124.md`, `docs/human_gates.json`,
 `docs/queue_archive/CODEX_QUEUE_2026-08.md`, 생성본 `docs/STATUS.md`.
+
+**마감 정본 정렬 범위 확장:** `docs/HANDOFF.md`,
+`docs/I18N_INFRASTRUCTURE.md`, `docs/I18N_GLOSSARY_JA.md`,
+`docs/I18N_GLOSSARY_ZH.md`, `docs/history/WORK_LOG_2026-08-21.md`.
+패키지 신원·좁은 데모 번역 범위를 stale 정본에 동일하게 반영하고,
+`WORK_LOG` 예산을 넘기지 않도록 8월 21일 기록을 byte-exact로 이관한다.
 
 **controller:** `playtests/order124/StoryChoiceM1M6Playtest.gd`.
 
@@ -228,6 +235,12 @@ git diff --check
   JA·zh-CN·zh-TW 각 14/14사건·100/100 leaf·121/121 UI를 고정했다.
 - 자동·정적 증거는 정상 속도 밀도·재미와 세 원어민 출시 문체 판정을 대신하지
   않는다. 해당 게이트는 OPEN, main과 본편 이관은 HOLD다.
+- 마감 중 `docs/HANDOFF.md`, `docs/I18N_INFRASTRUCTURE.md`,
+  `docs/I18N_GLOSSARY_JA.md`, `docs/I18N_GLOSSARY_ZH.md`가 역사 BUILD의
+  11/82/118 분모를 현재 후보로 표시한 stale 정본을 확인해 14/100/121과 새
+  신원으로 정렬했다. `WORK_LOG`의 8월 21일 이력은 내용 변경 없이
+  `docs/history/WORK_LOG_2026-08-21.md`로 이동해 부팅 예산을 지켰다. 이는
+  후보 등록·문서 신선도 수리이며 제품 runtime이나 번역문 변경이 아니다.
 
 ## 사람 판정
 

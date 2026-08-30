@@ -2,7 +2,8 @@
 
 > 최신 작업만 역순으로 기록한다. 2026-07-24 이전 원문은
 > [`5/16~7/24`](history/WORK_LOG_2026-05-16_to_2026-07-24.md), 보관본은
-> [`8/24`](history/WORK_LOG_2026-08-24.md), [`8/20`](history/WORK_LOG_2026-08-20.md),
+> [`8/24`](history/WORK_LOG_2026-08-24.md),
+> [`8/21`](history/WORK_LOG_2026-08-21.md), [`8/20`](history/WORK_LOG_2026-08-20.md),
 > [`8/18`](history/WORK_LOG_2026-08-18.md),
 > [`8/18 후속`](history/WORK_LOG_2026-08-18_late.md),
 > [`8/15`](history/WORK_LOG_2026-08-15.md),
@@ -15,6 +16,28 @@
 > [`7/27`](history/WORK_LOG_2026-07-27.md), [`7/26`](history/WORK_LOG_2026-07-26.md),
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
+
+## 2026-08-31 (Codex — 공개 스토리 데모 consequence 후보 발급)
+
+- M2의 dirty 선택을 M6 restitution·escalation root에서 서로 다르게 청구하고,
+  M3~M5 exact 선택 문장을 M6 도입이 읽으며 M6 뒤 대가 ledger가 고른 한 줄과
+  포기한 네 줄을 남기게 했다. 14 variant·29 visible option·28 receipt selector,
+  clean 360 + restitution 720 + escalation 720 = 1,800 합법 서명을 고정했다.
+- BUILD `2026.08.31.1` 제품은 `4e80a63e89821094b8bab21b8d5c73ecfc9b6278`
+  / tree `0fdddf11e2ef030cd172d23e691e3d7da4ea29ff`, package source는
+  `362578d8f4c0781fe35f643a74cc3037e7a80b21` / tree
+  `e7f50b065b3369afa1894df8292756a95f94fd11`이며 보호 runtime diff는 0이다.
+- manifest SHA-256은 `50eed10b18c2c2b056f875a8df55230dc07b5535c55e59ddb89fff1d64e91870`,
+  ZIP은 `956ac93524df6030ef984521550cec7dddafea381387a3df52194e43f5e61289`,
+  app tree는 `56a4f2997256e68baa21c02807fcf1f0e995ce114f57f96f26d309b300b7ec14`다.
+- 실제 StoryMode clean/ko 9, restitution/en 10, escalation/zh-CN 10 영수증
+  경로가 각각 24주·정산 6·수동 저장·별도 프로세스 cold restart·exact resume를
+  통과했다. 기존 BUILD `.25.1` M2 저장은 새 Chapter-5 원장 두 키가 없다는 이유로
+  migration 앞에서 막히던 validator를 두 명시 키만 허용하도록 수리했고, 실제
+  저장 복사본이 byte-exact로 이어졌다.
+- JA·zh-CN·zh-TW는 각각 14/14사건·100/100 leaf·121/121 UI·catalog 1/1이다.
+  자동 증거는 정상 속도 밀도·재미·화면과 원어민 문체를 승인하지 않으므로 네
+  사람 게이트는 OPEN, main과 본편 이관은 HOLD다.
 
 ## 2026-08-31 (Codex — 실종 ORDER-124 BUILD `.2` 아카이브 보호)
 
@@ -455,68 +478,3 @@
   `arc_final_countdown_not_executed→arc_final_week`이다. STATUS는 이 closeout에서
   재생성해 해소했고, 현재 OPEN 7개는 별도 exact-scope 복구와 ORDER-119 마감 전까지
   넘긴다. leverage roundtrip 실패는 이번 전체 감사에서 재현되지 않았다.
-
-## 2026-08-21 (Codex — ORDER-117 국소 수리·career 전수 판정 L1/L2 후보)
-
-- 구현 후보 `e32c69b32acfbf6c5f1ced13cc88bf85ac5df563`(tree
-  `a6f0a4050862e717d7eb4b365b557bcc5a409e3f`)에서 107/109 지목 2편과 career
-  15편을 세 축으로 전수 판정했다. 지목 2편과 career 14편을 재작성해 KO/EN 각각
-  exact changed roots는 16개이며, 비대상 object·metadata·choice count는 기준
-  `921edf7e7eb04b5034bb3b788249875630619887`과 exact다.
-- `arc_y5_after_goal_hyunsu_career`는 KO
-  `0f813ff0292bb46f1e03cac8fbf66e79d807f88d7238a0c671a04782e32bc923`, EN
-  `875b9e909f882712bf380b265c593327208599834bf339fc7d3acbe97fed2982`로 보존했고,
-  `arc_y5_people_verdict_career_hyunsu`도 baseline exact다. description은 KO
-  394~525자·EN 691~799자, 한영 leaf·placeholder parity exact, generalized
-  code-token/backtick은 0이다.
-- year5 direct/self-test 34, EN coverage, story consistency, speech register,
-  random-pool hygiene와 diff 검사가 통과했고 독립 L2 후 최종 P0/P1은 0이다.
-  ORDER-117은 `[~]`로 두며 Claude의 지목 2편 직접·career 15편 전수 재판정과
-  사용자 최종 GO는 OPEN, R1b는 HOLD다.
-
-## 2026-08-21 (Codex — ORDER-118 startup 마지막 해 재설계 L1/L2 후보)
-
-- 구현 후보 `f425b812d72664c2baeeb746aa6ce0b5f6299c0f`(tree
-  `4c0a659e972140660ae6d75968fcffef0c081cee`)에서 startup 16편을 고객 장애부터
-  마지막 독립 저녁까지 사람·시간 중심 6결정+10다리로 다시 썼다. KO/EN은 각각
-  16 roots·27 choices이며 공동창업자·팀·현재 고객 수진이 비용을 자기 행동으로 낸다.
-- 마지막 해 인접 산문의 문서 코드·버전·해시 표기를 자연어로 내려 strict player
-  token은 0이다. 한영 구조·placeholder·말투·서사 정합, 34개 음성 감사와 Godot
-  historical kernel 266검사가 통과했고 product consumer·dispatch는 0이다.
-- 독립 L2는 P0/P1 0이다. ORDER-118은 `[~]`로 두고 seed 9821의 새 16편 중 3편을
-  `Claude(사용자 위임)`으로 다시 낭독한 뒤 사용자 최종 GO를 별도로 받는다. 새
-  replacement contract가 없으므로 R1b·save·dispatcher·transaction·ending은 HOLD다.
-
-## 2026-08-21 (Codex — ORDER-104~113 Claude 위임 L3 판정 기록)
-
-- 803a372 원문에서 오더별 seed 9821 무작위 3편, 총 30편을 인물 목소리·지금
-  잃는 것·다음을 기다리게 하는 여운으로 판정했다. 결과는 104/105/106/108/110/111
-  합격, 107/109 조건부, 112 부분 반려, 113 전량 반려다. 기록 권위는
-  `Claude(사용자 위임)`이며 사용자 최종 GO 10건은 모두 OPEN으로 남겼다.
-- 합격한 6개만 `[x]`로 닫고, 조건부·부분·전량 반려 4개는 `[!]` 실패 이력으로
-  보존했다. ORDER-118은 startup 16편·코드형 산문, ORDER-117은 107/109 지목 2편과
-  career 15편 복구를 소유한다. 강한 현수 장면은 KO/EN exact 보존한다.
-- dormant 9+9 계약은 `invalidated_by_delegated_l3`, `r1b_allowed=false`, replacement
-  null로 잠갔다. pure kernel·제품 runtime·save·story map·endings는 건드리지 않았고,
-  새 원고 L3와 별도 새 계약 전에는 R1b를 열지 않는다.
-
-## 2026-08-21 (Codex — M01~M06 선택 화면 게임 장면형 재작업)
-
-- 오래된 `BUILD 2026.08.10.1`의 빈 2×2 관리표를 제품 후보로 잘못 띄운 사실을
-  확인하고 중단했다. 현행 정본 `StoryMapM1M6Playtest`도 같은 대시보드 문법이어서,
-  제품·스토리·저장 경로는 건드리지 않고 선택 화면만 고시원 세계 위 어두운
-  `Gangnam Ink` 장면 카드와 명시적 `주력`·`함께` 자리로 다시 만들었다.
-- 19개 약속을 결과를 선취하지 않는 9개 신규 무인 이미지와 9개 안전한 기존 장소
-  이미지에 연결했다. 마우스 호버와 패드 포커스는 같은 잉크선·2px 이하 들림·
-  1.8% 장면 push-in·잉크막 걷힘을 쓰며, 확인은 55ms 동안 내용이 1px 눌린다.
-  밝은 포스트잇·카테고리색·호버 효과음/진동은 쓰지 않는다.
-- 카드 확인은 역할을 자동 배정하지 않고 해당 자리로 포커스만 옮긴다. 두 번째
-  확인이 배치를 확정하고, 선택/취소에는 종이 소리와 쪽지 이동, 월 확정에는 도장
-  소리가 한 번만 난다. 영문 960px 재시작 확인 문구는 좁은 버튼이 아니라 하단
-  안내줄에 표시한다.
-- 사용자 판정 “월 마감 지금 괜찮아”를 따라 결과·회고 레이아웃과 결과 계산은
-  보존했다. KO/EN 960×600·1280×800 실렌더, 마우스·키보드/패드 의미 입력,
-  여섯 달 전용 저장, 종료 자원 해제, 표적 5검사와 독립 L2는 P0/P1 0이다.
-  사용자 L3 재플레이 전까지 ORDER-103은 `[~]`이고 기존 24주 이관은 시작하지 않는다.
-  전체 UI 통일은 이 표면 승인 뒤 공용 토큰/장면 컴포넌트부터 단계 이관하며,
-  승인된 월 마감·회고·엔딩은 마지막 별도 배치 전까지 동결한다.

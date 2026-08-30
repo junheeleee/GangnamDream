@@ -375,20 +375,20 @@ ORDER-103 앱·저장·산출물, BUILD `.2` archive, ORDER-124 사용자 디렉
 이관은 OPEN/HOLD였다. 이 격리 후보에 기존 24주·240주·전체 감사를 실행하거나
 인용하지 않았고, 현재 사용자 판정에는 아래 `story_demo_rc`를 쓴다.
 
-## ORDER-126 공개 M01~M06 다섯 언어 스토리 데모
+## 공개 M01~M06 다섯 언어 스토리 데모
 
 ORDER-124의 스토리 선택형 흐름을 공개 데모 identity로 옮기고, 한국어·영어·
 일본어·간체·번체를 한 앱에서 고르게 한다. 플레이 표면은 StoryMode 선택과
 장면 현지 행동뿐이며 `주력/함께/여력`, AP 카드, 주간·월간 계획판은 노출하지
 않는다. 내부 AP/경제 데이터와 기존 retail/V2·ORDER-124 저장은 삭제하거나
-이전하지 않는다. BUILD `2026.08.25.1` `story_demo_rc`가 현재 사용자 L3의
-유일한 후보이며 ORDER-124 BUILD `.3`은 역사 수리 증거다.
+이전하지 않는다. BUILD `2026.08.31.1` `story_demo_rc`가 현재 사용자 L3의
+유일한 후보이며 BUILD `2026.08.25.1`과 ORDER-124 BUILD `.3`은 역사 증거다.
 
 고정 identity는 다음과 같다.
 
 | 항목 | 값 |
 |---|---|
-| BUILD | `2026.08.25.1` |
+| BUILD | `2026.08.31.1` |
 | profile / flavor | `story_demo_rc` |
 | 앱 | `GangnamDream-StoryDemo` |
 | bundle ID | `dev.junheelee.gangnamdream.storydemo` |
@@ -396,14 +396,17 @@ ORDER-124의 스토리 선택형 흐름을 공개 데모 identity로 옮기고, 
 | custom user dir | `GangnamDream_StoryDemo_v1` |
 | 저장 | `user://story_demo_save.json` |
 | 언어 | `ko`, `en`, `ja`, `zh-CN`, `zh-TW` |
+| 제품 commit / tree | `4e80a63e89821094b8bab21b8d5c73ecfc9b6278` / `0fdddf11e2ef030cd172d23e691e3d7da4ea29ff` |
+| package source / tree | `362578d8f4c0781fe35f643a74cc3037e7a80b21` / `e7f50b065b3369afa1894df8292756a95f94fd11` |
+| manifest / ZIP SHA-256 | `50eed10b18c2c2b056f875a8df55230dc07b5535c55e59ddb89fff1d64e91870` / `956ac93524df6030ef984521550cec7dddafea381387a3df52194e43f5e61289` |
 
 clean source commit에서 macOS 후보를 만든다.
 
 ```bash
 GODOT=/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot \
   ./tools/build_story_demo_macos.sh \
-  --source HEAD \
-  --build-id 2026.08.25.1
+  --source 362578d8f4c0781fe35f643a74cc3037e7a80b21 \
+  --build-id 2026.08.31.1
 ```
 
 생성기는 다음 산출물을 남긴다.
@@ -422,20 +425,26 @@ manifest는 clean revision/tree, Godot 버전, source-contract 파일 해시,
 
 L1/L2는 같은 clean source에서 순서대로 다음을 요구한다.
 
-1. `story_demo_localization_audit.py` normal/self-test: 세 대상 언어 각각 11사건,
-   본문 82, UI 117, catalog 1, 토큰·줄바꿈·지역 문자·원화·한글/영어 폴백 0.
+1. `story_demo_localization_audit.py` normal/self-test: 세 대상 언어 각각 14사건,
+   본문 100, UI 121, catalog 1, 토큰·줄바꿈·지역 문자·원화·한글/영어 폴백 0.
 2. `third_party_notice_audit.py` normal/self-test와 `FontRoutingCheck.tscn`:
    Noto Sans JP/SC/TC primary, 400/600/700, OFL 사본·해시·고지, emoji-last.
-3. `I18nInfrastructureCheck.tscn`과 `StoryDemoFourLanguageCheck.tscn`: 언어별
-   M01~M06 한 route, 다섯 run 전체에서 M01 두 분기·M04 두 진입을 합산 cover,
+3. `I18nInfrastructureCheck.tscn`과 `StoryDemoFourLanguageCheck.tscn`: 다섯
+   locale run이 clean·restitution·escalation과 M04 두 진입을 합산 cover하고,
    30개월·120주·정산 30회, save/resume 5회, AP 표면·원장 0. exact marker는
-   `STORY_DEMO_FOUR_LANGUAGE_CHECK_OK locales=5 routes=4 months=30 weeks=120 settlements=30 ap_surface=0 save=5 story=5 build=2026.08.25.1`이다.
-4. 무인자 native 실행의 첫 언어 선택, 다섯 locale package smoke, 실제
-   `SceneTransition` 복귀 뒤 검은 cover/input 해제, 기존 공개 데모 저장이 있을 때
-   복사본 resume, ad-hoc codesign과 최종 package audit.
-5. 루트 제품 설정, retail/V2와 ORDER-103/ORDER-124 사용자 저장, 반려 BUILD `.2`
-   archive와 기존 산출물이 전후 byte-exact인지 재검사한다. 후보 user dir도 빌드
-   전 snapshot으로 복원한다.
+   `STORY_DEMO_FOUR_LANGUAGE_CHECK_OK locales=5 routes=5 months=30 weeks=120 settlements=30 ap_surface=0 save=5 story=10 build=2026.08.31.1`이다.
+4. native 실제 StoryMode는 clean/ko/9, restitution/en/10,
+   escalation/zh-CN/10 영수증으로 각각 24주·정산 6·수동 저장·별도 프로세스
+   cold restart·exact resume를 통과한다. 무인자 native 실행, 다섯 locale package
+   smoke, `SceneTransition` 복귀 뒤 검은 cover/input 해제, 기존 공개 데모 저장
+   복사본 resume, ad-hoc codesign과 최종 package audit도 요구한다.
+5. 제품 commit은 package source의 조상이고 `project.godot`, preset, icon과
+   `assets`·`autoloads`·`content`·`locale`·`playtests`·`scenes`·`steam_input`·
+   `systems`·`ui_components`의 diff가 0이어야 한다. 루트 제품 설정, retail/V2와
+   ORDER-103/ORDER-124 사용자 저장은 전후 byte-exact이며 후보 user dir도 빌드 전
+   snapshot으로 복원한다. 실종 BUILD `.2` archive는 복구를 꾸미지 않고
+   `missing_with_loss_receipt`, `archive_restored=false`, `candidate_eligible=false`로
+   보존한다.
 
 이 차선은 기존 24주 AP/V2·240주 전체 감사를 실행하거나 그 결과를 재사용하지
 않는다. 다섯 언어 자동 PASS는 플레이 가능한 macOS 후보의 조건일 뿐 번역의

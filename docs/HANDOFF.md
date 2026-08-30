@@ -13,10 +13,13 @@
 - active 내부 `demo_rc`는 BUILD `2026.08.22.1`, exact `ebc58a839d64d8810b9da5548c20e58bc43c9e30`
   / tree `f978a22525b678ef83619dc50094a6dada75f190`다. BUILD `2026.08.11.2` / `573606`은
   역사 후보, BUILD `2026.08.11.3`은 ORDER-99 저장 복구 전용 고정 후보다.
-- 현재 StoryMode 선택형 사용자 L3 후보는 BUILD `2026.08.25.1`, active
-  `story_demo_rc` exact `16675f6ce310adb477da9ab3431c2edfe15ab278`다. ORDER-124
-  BUILD `2026.08.24.3` `order124_rc`는 역사 수리 증거다. 사용자 L3 전에는
-  story-first 본편 이관이 `HOLD`이며 저장 호환 AP 엔진 삭제 승인으로 해석하지 않는다.
+- 현재 StoryMode 선택형 사용자 L3 후보는 BUILD `2026.08.31.1`, active
+  `story_demo_rc` package source `362578d8f4c0781fe35f643a74cc3037e7a80b21`
+  / tree `e7f50b065b3369afa1894df8292756a95f94fd11`, 제품 `4e80a63e`다.
+  manifest는 `50eed10b18c2c2b056f875a8df55230dc07b5535c55e59ddb89fff1d64e91870`이다.
+  BUILD `2026.08.25.1`과 ORDER-124 BUILD `.3`은 역사 증거다. clean·restitution·
+  escalation 정상 속도 L3 전에는 story-first 본편 이관이 `HOLD`이며 저장 호환
+  AP 엔진 삭제 승인으로 해석하지 않는다.
 - active 240주 `full_rc`는 BUILD `2026.08.24.5`, exact
   `6c91e11c128c4535f5c5852845b0e7309947e162` / tree
   `da15e65977849ab8bf912f3612fa9fd511eee99d`, manifest

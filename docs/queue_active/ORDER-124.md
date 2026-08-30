@@ -172,14 +172,23 @@
   GO는 OPEN/HOLD였고 ORDER-124는 `[~]`를 유지했다. 기존 24주·240주·전체
   감사는 이 격리 후보에 실행하거나 인용하지 않았다.
 
-## BUILD 2026.08.25.1 · 현재 사용자 L3 후보로 승계
+## BUILD 2026.08.31.1 · 현재 사용자 L3 후보로 승계
 
 - ORDER-126이 같은 story-first M01~M06 구조를 5개 언어·복구 가능한 독립 저장·
   exact cold resume로 확장했다. 따라서 위 `order124_rc` BUILD `.3`은 검은 전환막
   수리 계보를 보존하는 역사 후보이며, 새 사용자 판정에는 사용하지 않는다.
-- 현재 ORDER-124 L3 대상은 `GangnamDream-StoryDemo`, BUILD `2026.08.25.1`,
-  active `story_demo_rc` exact `16675f6ce310adb477da9ab3431c2edfe15ab278` /
-  tree `aed6904fc95345a867d2762f0bb8a62e65b32ce1` 하나다.
+- ORDER-140이 M2 위험의 M6 청구, M3~M5 exact 선택 회수, M6 대가 ledger와
+  세 실제 consequence route를 추가해 BUILD `.25.1`을 역사 후보로 내렸다.
+- 현재 ORDER-124 L3 대상은 `GangnamDream-StoryDemo`, BUILD `2026.08.31.1`,
+  active `story_demo_rc` package source
+  `362578d8f4c0781fe35f643a74cc3037e7a80b21` / tree
+  `e7f50b065b3369afa1894df8292756a95f94fd11` / manifest
+  `50eed10b18c2c2b056f875a8df55230dc07b5535c55e59ddb89fff1d64e91870`
+  하나다. 제품은 `4e80a63e89821094b8bab21b8d5c73ecfc9b6278` / tree
+  `0fdddf11e2ef030cd172d23e691e3d7da4ea29ff`이며 package runtime diff는 0이다.
+- 자동 증거는 clean/restitution/escalation 24주·정산 6·영수증 9/10/10,
+  수동 저장 뒤 cold/exact resume, 기존 BUILD 저장 이어하기, AP 표면 0을
+  확인했다. 사용자 L3는 세 경로를 각각 정상 속도로 완주한다.
 - `story_demo_m1_m6_user_play` 게이트가 `order124-close`와
   `story-only-product-migration`을 함께 막는다. 이 앱의 정상 속도 M01~M06 사용자
   GO 전에는 ORDER-124를 닫거나 본편을 이관하지 않는다. 저장 호환 AP 데이터·
