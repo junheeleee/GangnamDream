@@ -30,9 +30,9 @@ FIXTURE_PATH = ROOT / "tools" / "fixtures" / "story_demo_density_contract.json"
 HUMAN_GATES_PATH = ROOT / "docs" / "human_gates.json"
 
 PROFILE = "story_demo_rc"
-EXPECTED_SOURCE_REF = "16675f6ce310adb477da9ab3431c2edfe15ab278"
-EXPECTED_SOURCE_TREE = "aed6904fc95345a867d2762f0bb8a62e65b32ce1"
-EXPECTED_BUILD_ID = "2026.08.25.1"
+EXPECTED_SOURCE_REF = "ce57751eb5555828dfb28af87ab6026e8ab93fb9"
+EXPECTED_SOURCE_TREE = "0e1ad9a26cdef953d94308015d527080a718eea2"
+EXPECTED_BUILD_ID = "2026.08.31.1"
 ENTRY_SCENE = "res://playtests/order124/StoryChoiceM1M6Playtest.tscn"
 CUSTOM_USER_DIR = "GangnamDream_StoryDemo_v1"
 SAVE_PATH = "user://story_demo_save.json"
@@ -56,26 +56,26 @@ REQUIRED_SOURCE_BLOBS = {
     FOUR_LANGUAGE_CHECK_PATH,
 }
 
-# ORDER-139 is an exact-candidate measurement, not a moving-HEAD audit.  Keep
+# ORDER-140 is an exact-candidate measurement, not a moving-HEAD audit.  Keep
 # the reviewed source identity in executable code as well as the data fixture,
 # so editing the fixture cannot silently retarget or rewrite the evidence.
 EXPECTED_BLOB_SHA256 = {
     CONTROLLER_PATH:
-        "af89a374ce030652433c3a9c61b5d66601f6fce7972d03052d85339b81489268",
+        "236dfbd96a943b2f3c2966eb54c71b4110aca4ae20b29c04e184bd43c8266631",
     ARC_EVENTS_PATH:
-        "c429b30dbe4ba3665e381c446c1945aedbfaf4ad27de7b7ab16e6b71ce3a7744",
+        "41febd1d1fd6b68f146171b02bf64a144699b39d1dd03c75444e72a518676d99",
     DAEUN_EVENTS_PATH:
         "29a1f84fa411d03660f6e2283f3302a5f1f7c9b264a923c916b4484e9699748d",
     CORE_EVENTS_PATH:
-        "a30227ba75430679caca5e6e9e1bac03c45519917d3d80d46e3904f4dee425db",
+        "30ce137faf06437e131d297efa7ab3fc82806534e77c53bea33af0b01a750b87",
     STORY_MODE_PATH:
-        "d083f53589d5b61ee5ede05a879ed5dd63e636853b665c890915b2142403848e",
+        "7ec09c661c708f6f096502f41161ae9b6373003a7df21a0194e2870c5ce9beee",
     GAME_STATE_PATH:
-        "54bb9af74c5a1405ff9a23c97b49e90a13950960f07f0cf4b330a27389c8a5f4",
+        "21c7547fe171e742a2fdda851a8b2cfdcf07132f6b5002e1df68ea3a97e22028",
     STORY_CHOICE_CHECK_PATH:
-        "06e0a453a3476beca0c1a99255bbe2e0c44d598da1f5390da456db44e31f6ff8",
+        "ec9779dfcb91c700aeabf9b5471fcffda7072082d259667c8f72740bc7cf427d",
     FOUR_LANGUAGE_CHECK_PATH:
-        "03c65d0894125061b3afaeabc5e9dc7ed0d1adecb38387cd03ed2f0bc8f6950b",
+        "df12e1dd57eb768c40ac5beec563b845a03bac9639a4b9506050e14278f1d7eb",
 }
 
 COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
@@ -91,11 +91,12 @@ RISK_ROLES = {
 }
 INGRESS_KINDS = {
     "month_root", "route", "ordered_after", "choice_follow_up",
-    "branch_join", "synthetic_month_root",
+    "branch_join", "synthetic_month_root", "deferred_claim",
+    "route_consequence", "route_join",
 }
 CONSUMER_KINDS = {
     "runtime_receipt", "recap", "route", "follow_up",
-    "deferred_follow_up",
+    "deferred_follow_up", "history_reader",
 }
 
 EXPECTED_RUNTIME_SOURCES: Dict[str, Tuple[int, str, str, int]] = {
@@ -109,7 +110,13 @@ EXPECTED_RUNTIME_SOURCES: Dict[str, Tuple[int, str, str, int]] = {
     "arc_sangchul_01_coffee": (4, ARC_EVENTS_PATH, "arc_sangchul_01_coffee", 1),
     "arc_sangchul_01_answer": (4, ARC_EVENTS_PATH, "arc_sangchul_01_answer", 3),
     "arc_jaehyuk_01_reunion": (5, ARC_EVENTS_PATH, "arc_jaehyuk_01_reunion", 2),
+    "v2_dirty_trace_initial_call": (
+        6, CORE_EVENTS_PATH, "v2_dirty_trace_initial_call", 2),
+    "v2_dirty_recruiter_week24": (
+        6, CORE_EVENTS_PATH, "v2_dirty_recruiter_week24", 2),
     "order124_m6_first_bill": (6, CORE_EVENTS_PATH, "v2_demo_first_bill", 5),
+    "v2_demo_first_bill_ledger": (
+        6, CORE_EVENTS_PATH, "v2_demo_first_bill_ledger", 1),
 }
 
 EXPECTED_INGRESS_BY_RUNTIME = {
@@ -123,7 +130,10 @@ EXPECTED_INGRESS_BY_RUNTIME = {
     "arc_sangchul_01_coffee": "choice_follow_up",
     "arc_sangchul_01_answer": "branch_join",
     "arc_jaehyuk_01_reunion": "month_root",
-    "order124_m6_first_bill": "synthetic_month_root",
+    "v2_dirty_trace_initial_call": "deferred_claim",
+    "v2_dirty_recruiter_week24": "route_consequence",
+    "order124_m6_first_bill": "route_join",
+    "v2_demo_first_bill_ledger": "choice_follow_up",
 }
 
 EXPECTED_INGRESS: Dict[str, Dict[str, Any]] = {
@@ -154,11 +164,40 @@ EXPECTED_INGRESS: Dict[str, Dict[str, Any]] = {
         ],
     },
     "arc_jaehyuk_01_reunion": {"kind": "month_root"},
-    "order124_m6_first_bill": {"kind": "synthetic_month_root"},
+    "v2_dirty_trace_initial_call": {
+        "kind": "deferred_claim",
+        "producer_choice": "arc_temptation_fallout#0",
+        "source_event_id": "callback_escaped_dirty_trace",
+        "trigger_turn": 21,
+    },
+    "v2_dirty_recruiter_week24": {
+        "kind": "route_consequence",
+        "producer_choice": "arc_temptation_fallout#1",
+        "source_flag": "fell_to_darkness",
+        "trigger_turn": 21,
+    },
+    "order124_m6_first_bill": {
+        "kind": "route_join",
+        "predecessor_event_ids": [
+            "v2_dirty_trace_initial_call", "v2_dirty_recruiter_week24",
+        ],
+        "clean_direct": True,
+    },
+    "v2_demo_first_bill_ledger": {
+        "kind": "choice_follow_up",
+        "producer_choices": [
+            "order124_m6_first_bill#0", "order124_m6_first_bill#1",
+            "order124_m6_first_bill#2", "order124_m6_first_bill#3",
+            "order124_m6_first_bill#4",
+        ],
+    },
 }
 
 M6_RUNTIME_ID = "order124_m6_first_bill"
 M6_SOURCE_ID = "v2_demo_first_bill"
+M6_LEDGER_ID = "v2_demo_first_bill_ledger"
+M6_RESTITUTION_ROOT_ID = "v2_dirty_trace_initial_call"
+M6_ESCALATION_ROOT_ID = "v2_dirty_recruiter_week24"
 M6_SOURCE_CHOICES = [3, 4, 5, 6, 7]
 M6_STRIP_EXACT = {"follow_up_event", "deferred_follow_up", "deferred_delay"}
 
@@ -182,11 +221,16 @@ EXPECTED_MODE_BY_CHOICE: Dict[str, str] = {
     "arc_sangchul_01_answer#2": "memory",
     "arc_jaehyuk_01_reunion#0": "memory",
     "arc_jaehyuk_01_reunion#1": "memory",
+    "v2_dirty_trace_initial_call#0": "decision",
+    "v2_dirty_trace_initial_call#1": "decision",
+    "v2_dirty_recruiter_week24#0": "decision",
+    "v2_dirty_recruiter_week24#1": "decision",
     "order124_m6_first_bill#0": "decision",
     "order124_m6_first_bill#1": "decision",
     "order124_m6_first_bill#2": "decision",
     "order124_m6_first_bill#3": "decision",
     "order124_m6_first_bill#4": "decision",
+    "v2_demo_first_bill_ledger#0": "expression",
 }
 
 EXPECTED_RISK_BY_CHOICE = {key: "none" for key in EXPECTED_MODE_BY_CHOICE}
@@ -196,7 +240,16 @@ EXPECTED_RISK_BY_CHOICE.update({
     "arc_temptation_clean#0": "refusal_cost",
     "arc_temptation_fallout#0": "restitution",
     "arc_temptation_fallout#1": "escalation",
+    "v2_dirty_trace_initial_call#0": "restitution",
+    "v2_dirty_trace_initial_call#1": "restitution",
+    "v2_dirty_recruiter_week24#0": "escalation",
+    "v2_dirty_recruiter_week24#1": "escalation",
 })
+
+LEDGER_EXPRESSION_CHOICE = "%s#0" % M6_LEDGER_ID
+EXPECTED_RECEIPT_CHOICES = set(EXPECTED_MODE_BY_CHOICE) - {
+    LEDGER_EXPRESSION_CHOICE,
+}
 
 # Human-reviewed semantic classification.  These are deliberately exact
 # ordered tuples: a fixture-only edit must not be able to invent a sacrifice
@@ -221,6 +274,10 @@ EXPECTED_AXES_BY_CHOICE: Dict[str, Tuple[Tuple[str, ...], Tuple[str, ...]]] = {
     "arc_sangchul_01_answer#2": (("livelihood",), ()),
     "arc_jaehyuk_01_reunion#0": (("people",), ()),
     "arc_jaehyuk_01_reunion#1": (("people",), ("people", "body")),
+    "v2_dirty_trace_initial_call#0": (("people",), ("body",)),
+    "v2_dirty_trace_initial_call#1": (("livelihood",), ("body",)),
+    "v2_dirty_recruiter_week24#0": (("people",), ("body",)),
+    "v2_dirty_recruiter_week24#1": (("livelihood",), ("body",)),
     "order124_m6_first_bill#0": (
         ("people",), ("people", "livelihood", "body", "money")),
     "order124_m6_first_bill#1": (
@@ -231,17 +288,18 @@ EXPECTED_AXES_BY_CHOICE: Dict[str, Tuple[Tuple[str, ...], Tuple[str, ...]]] = {
         ("livelihood", "money"), ("people", "body", "money")),
     "order124_m6_first_bill#4": (
         ("body",), ("people", "livelihood", "money")),
+    "v2_demo_first_bill_ledger#0": ((), ()),
 }
 
 EXPECTED_CONSUMERS: Dict[str, Dict[str, Any]] = {
     "controller_session_receipt": {
         "kind": "runtime_receipt",
-        "producers": set(EXPECTED_MODE_BY_CHOICE),
+        "producers": EXPECTED_RECEIPT_CHOICES,
         "demo_reachable": True,
     },
     "controller_recap_choice": {
         "kind": "recap",
-        "producers": set(EXPECTED_MODE_BY_CHOICE),
+        "producers": EXPECTED_RECEIPT_CHOICES,
         "demo_reachable": True,
     },
     "m02_route_split": {
@@ -267,10 +325,42 @@ EXPECTED_CONSUMERS: Dict[str, Dict[str, Any]] = {
         },
         "demo_reachable": True,
     },
-    "m02_restitution_deferred": {
+    "m02_restitution_claim": {
         "kind": "deferred_follow_up",
         "producers": {"arc_temptation_fallout#0"},
-        "demo_reachable": False,
+        "demo_reachable": True,
+    },
+    "m06_restitution_root": {
+        "kind": "route",
+        "producers": {"arc_temptation_fallout#0"},
+        "demo_reachable": True,
+    },
+    "m06_escalation_root": {
+        "kind": "route",
+        "producers": {"arc_temptation_fallout#1"},
+        "demo_reachable": True,
+    },
+    "m03_m05_exact_choice_history": {
+        "kind": "history_reader",
+        "producers": {
+            "arc_daeun_01_meet#0", "arc_daeun_01_meet#1",
+            "arc_jiyeon_01_crash#0", "arc_jiyeon_01_crash#1",
+            "arc_jiyeon_01_crash#2",
+            "arc_sangchul_01_meet#0", "arc_sangchul_01_meet#1",
+            "arc_sangchul_01_answer#0", "arc_sangchul_01_answer#1",
+            "arc_sangchul_01_answer#2",
+            "arc_jaehyuk_01_reunion#0", "arc_jaehyuk_01_reunion#1",
+        },
+        "demo_reachable": True,
+    },
+    "m06_choice_ledger": {
+        "kind": "follow_up",
+        "producers": {
+            "order124_m6_first_bill#0", "order124_m6_first_bill#1",
+            "order124_m6_first_bill#2", "order124_m6_first_bill#3",
+            "order124_m6_first_bill#4",
+        },
+        "demo_reachable": True,
     },
 }
 
@@ -310,33 +400,51 @@ EXPECTED_CONSUMER_READERS: Dict[str, Dict[str, Any]] = {
         "symbol": "_choice_follow_up_id / _after_result",
         "markers": {"follow_up_event", "_pending_follow_up", "_queue.push_front"},
     },
-    "m02_restitution_deferred": {
-        "path": GAME_STATE_PATH,
-        "symbol": "apply_choice",
-        "markers": {"DataRegistry.deferred_follow_ups(choice)", "add_deferred_event"},
+    "m02_restitution_claim": {
+        "path": CONTROLLER_PATH,
+        "symbol": "_prepare_m6_route_context_mutation",
+        "markers": {
+            "GameState.claim_deferred_event", "M6_RESTITUTION_SOURCE_ID",
+            "M6_ENTRY_TURN", 'context.get("source"',
+        },
+    },
+    "m06_restitution_root": {
+        "path": CONTROLLER_PATH,
+        "symbol": "_preview_m6_route_context",
+        "markers": {
+            "escaped_dirty_money", "M6_RESTITUTION_ROOT_ID",
+            "M6_RESTITUTION_SOURCE_ID", "missing_due_callback",
+        },
+    },
+    "m06_escalation_root": {
+        "path": CONTROLLER_PATH,
+        "symbol": "_preview_m6_route_context",
+        "markers": {
+            "fell_to_darkness", "M6_ESCALATION_ROOT_ID",
+            "M6_ESCALATION_SOURCE_ID",
+        },
+    },
+    "m03_m05_exact_choice_history": {
+        "path": CONTROLLER_PATH,
+        "symbol": "_selected_history_texts_from_session",
+        "markers": {
+            "_selected_choice_index_from_session", "arc_daeun_01_meet",
+            "arc_jiyeon_01_crash", "M4_ROOT_EVENT_ID",
+            "M4_ANSWER_EVENT_ID", "arc_jaehyuk_01_reunion", '"text"',
+        },
+    },
+    "m06_choice_ledger": {
+        "path": CONTROLLER_PATH,
+        "symbol": "_install_story_demo_ledger_event",
+        "markers": {
+            "M6_SOURCE_CHOICES", "_runtime_choice_receipt_flag",
+            "description_if_known", "selected_choice", "missed",
+        },
     },
 }
 
-EXPECTED_RUNTIME_COVERED = {
-    "arc_temptation_01#0", "arc_temptation_01#1",
-    "arc_temptation_clean#0", "arc_temptation_fallout#0",
-    "arc_daeun_01_meet#0", "arc_daeun_01_meet#1",
-    "arc_jiyeon_01_crash#0",
-    "arc_sangchul_01_meet#0", "arc_sangchul_01_meet#1",
-    "arc_sangchul_01_measure#0", "arc_sangchul_01_coffee#0",
-    "arc_sangchul_01_answer#0", "arc_sangchul_01_answer#1",
-    "arc_jaehyuk_01_reunion#0", "arc_jaehyuk_01_reunion#1",
-    "order124_m6_first_bill#0", "order124_m6_first_bill#3",
-}
-EXPECTED_RUNTIME_MISSING = [
-    "arc_temptation_fallout#1",
-    "arc_jiyeon_01_crash#1",
-    "arc_jiyeon_01_crash#2",
-    "arc_sangchul_01_answer#2",
-    "order124_m6_first_bill#1",
-    "order124_m6_first_bill#2",
-    "order124_m6_first_bill#4",
-]
+EXPECTED_RUNTIME_COVERED = EXPECTED_RECEIPT_CHOICES
+EXPECTED_RUNTIME_MISSING: List[str] = []
 
 EXPECTED_START_CONTRACT = {
     "difficulty": "드라마",
@@ -353,17 +461,23 @@ EXPECTED_START_CONTRACT = {
 EXPECTED_COUNTS = {
     "months": 6,
     "weeks": 24,
-    "runtime_event_variants": 11,
-    "unique_choice_options": 24,
-    "receipts_per_run": 9,
-    "legal_signatures": {"clean": 360, "fallout": 720, "total": 1080},
-    "meaningful_decisions": {"clean": 7, "fallout": 8},
-    "forced_continues": {"clean": 2, "fallout": 1},
+    "runtime_event_variants": 14,
+    "visible_choice_options": 29,
+    "receipt_bearing_selectors": 28,
+    "receipts_per_run": {"clean": 9, "restitution": 10, "escalation": 10},
+    "legal_signatures": {
+        "clean": 360, "restitution": 720, "escalation": 720,
+        "total": 1800,
+    },
+    "meaningful_decisions": {
+        "clean": 7, "restitution": 9, "escalation": 9,
+    },
+    "forced_continues": {"clean": 2, "restitution": 1, "escalation": 1},
     "route_survival": {
         "settlements_per_run": 6,
-        "surviving_signatures": 1080,
+        "surviving_signatures": 1800,
         "min_end_health": 61,
-        "min_end_mental": 15,
+        "min_end_mental": 10,
         "min_end_money": 6320000.0,
     },
 }
@@ -492,11 +606,11 @@ def prepare_sources(
     source_tree = subject_value(subject, "source_tree", "tree")
     build_id = subject_value(subject, "build_id", "build")
     if source_ref != EXPECTED_SOURCE_REF:
-        errors.append("fixture source_ref drifted from ORDER-139 exact candidate")
+        errors.append("fixture source_ref drifted from ORDER-140 exact candidate")
     if source_tree != EXPECTED_SOURCE_TREE:
-        errors.append("fixture source_tree drifted from ORDER-139 exact candidate")
+        errors.append("fixture source_tree drifted from ORDER-140 exact candidate")
     if build_id != EXPECTED_BUILD_ID:
-        errors.append("fixture build_id drifted from ORDER-139 exact candidate")
+        errors.append("fixture build_id drifted from ORDER-140 exact candidate")
     profile = subject_value(subject, "profile", "release_candidate", "candidate")
 
     if profile != PROFILE:
@@ -517,15 +631,13 @@ def prepare_sources(
         gate_commit = str(gate.get("commit", ""))
         gate_tree = str(gate.get("tree", ""))
         gate_build = active_gate_build_id(gate, errors)
-        if source_ref != gate_commit:
+        # This audit pins the new product commit before packaging/registration.
+        # The still-active prior RC must remain a distinct human-gate record;
+        # structural automation must not silently promote this candidate.
+        if source_ref == gate_commit and source_tree == gate_tree \
+                and gate_build and build_id == gate_build:
             errors.append(
-                "fixture source_ref is stale against active story_demo_rc")
-        if source_tree != gate_tree:
-            errors.append(
-                "fixture source_tree is stale against active story_demo_rc")
-        if gate_build and build_id != gate_build:
-            errors.append(
-                "fixture build_id is stale against active story_demo_rc")
+                "ORDER-140 product was prematurely registered as active story_demo_rc")
 
     if errors:
         return None, errors
@@ -800,6 +912,9 @@ def validate_controller_contract(
         "SELF_SCENE": ENTRY_SCENE,
         "M6_EVENT_ID": M6_RUNTIME_ID,
         "M6_SOURCE_EVENT_ID": M6_SOURCE_ID,
+        "M6_LEDGER_EVENT_ID": M6_LEDGER_ID,
+        "M6_RESTITUTION_ROOT_ID": M6_RESTITUTION_ROOT_ID,
+        "M6_ESCALATION_ROOT_ID": M6_ESCALATION_ROOT_ID,
     }
     for name, expected in expected_strings.items():
         actual = const_string(controller, name)
@@ -840,8 +955,23 @@ def validate_controller_contract(
             'event["id"] = M6_EVENT_ID', 'for source_index in M6_SOURCE_CHOICES',
             'key.begins_with("v2_")', '"follow_up_event"',
             '"deferred_follow_up"', '"deferred_delay"',
-            '_runtime_choice_receipt_flag(M6_EVENT_ID, choices.size())',
-            "다은", "재혁", "상철",
+            '_runtime_choice_receipt_flag(', 'M6_EVENT_ID, choices.size())',
+            "_selected_history_texts_from_session", "history_texts.size() == 5",
+            'choice["follow_up_event"] = M6_LEDGER_EVENT_ID',
+        ),
+        "_install_story_demo_ledger_event": (
+            "M6_SOURCE_CHOICES", "description_if_known",
+            "_runtime_choice_receipt_flag", "selected_choice", "missed",
+            'event.erase("description_memory_if_known")',
+        ),
+        "_prepare_m6_route_context_mutation": (
+            "GameState.claim_deferred_event", "M6_RESTITUTION_SOURCE_ID",
+            "M6_ENTRY_TURN", '_session["m6_route_context"]',
+        ),
+        "_selected_history_texts_from_session": (
+            "_selected_choice_index_from_session", "arc_daeun_01_meet",
+            "arc_jiyeon_01_crash", "M4_ROOT_EVENT_ID", "M4_ANSWER_EVENT_ID",
+            "arc_jaehyuk_01_reunion", '"text"',
         ),
         "_choice_record": ('"event_id"', '"choice_index"', '"month"'),
         "_collect_current_month_choices": (
@@ -879,14 +1009,35 @@ def validate_controller_contract(
         r"(?s)const\s+RUNTIME_RECEIPT_EVENT_IDS[^=]*=\s*\[(.*?)\]",
         controller)
     receipt_block = receipt_match.group(1) if receipt_match else ""
-    receipt_markers = [
-        '"arc_temptation_01"', '"arc_temptation_clean"',
-        '"arc_temptation_fallout"', '"arc_daeun_01_meet"',
-        '"arc_jiyeon_01_crash"', "M4_ROOT_EVENT_ID",
-        "M4_MEASURE_EVENT_ID", "M4_COFFEE_EVENT_ID",
-        "M4_ANSWER_EVENT_ID", '"arc_jaehyuk_01_reunion"',
+    receipt_constants = {
+        "M4_ROOT_EVENT_ID": "arc_sangchul_01_meet",
+        "M4_MEASURE_EVENT_ID": "arc_sangchul_01_measure",
+        "M4_COFFEE_EVENT_ID": "arc_sangchul_01_coffee",
+        "M4_ANSWER_EVENT_ID": "arc_sangchul_01_answer",
+        "M6_RESTITUTION_ROOT_ID": M6_RESTITUTION_ROOT_ID,
+        "M6_ESCALATION_ROOT_ID": M6_ESCALATION_ROOT_ID,
+    }
+    receipt_inventory: List[str] = []
+    unresolved_receipt_tokens: List[str] = []
+    for quoted, identifier in re.findall(
+            r'"([^"]+)"|\b([A-Z][A-Z0-9_]*)\b', receipt_block):
+        if quoted:
+            receipt_inventory.append(quoted)
+        elif identifier in receipt_constants:
+            receipt_inventory.append(receipt_constants[identifier])
+        else:
+            unresolved_receipt_tokens.append(identifier)
+    expected_receipt_inventory = [
+        "arc_temptation_01", "arc_temptation_clean",
+        "arc_temptation_fallout", "arc_daeun_01_meet",
+        "arc_jiyeon_01_crash", "arc_sangchul_01_meet",
+        "arc_sangchul_01_measure", "arc_sangchul_01_coffee",
+        "arc_sangchul_01_answer", "arc_jaehyuk_01_reunion",
+        M6_RESTITUTION_ROOT_ID, M6_ESCALATION_ROOT_ID,
     ]
-    if not receipt_block or any(marker not in receipt_block for marker in receipt_markers):
+    if not receipt_block or unresolved_receipt_tokens \
+            or receipt_inventory != expected_receipt_inventory \
+            or M6_LEDGER_ID in receipt_inventory:
         errors.append("controller runtime receipt event inventory drifted")
     schedule_match = re.search(
         r"(?s)const\s+MONTH_EVENTS\s*:=\s*\{(.*?)\n\}", controller)
@@ -900,7 +1051,7 @@ def validate_controller_contract(
     )
     if not schedule_block or any(marker not in schedule_block for marker in schedule_markers):
         errors.append("controller fixed month schedule drifted")
-    for forbidden_drain in ("pop_ready_deferred_events", "claim_deferred_event"):
+    for forbidden_drain in ("pop_ready_deferred_events",):
         if forbidden_drain in controller:
             errors.append(
                 "isolated controller unexpectedly drains deferred events via %s" %
@@ -999,8 +1150,8 @@ def validate_nodes(
     missing = sorted(set(EXPECTED_RUNTIME_SOURCES) - set(nodes))
     if missing:
         errors.append("nodes missing runtime variants: %s" % missing)
-    if len(nodes) != 11:
-        errors.append("runtime event variant count %d != 11" % len(nodes))
+    if len(nodes) != 14:
+        errors.append("runtime event variant count %d != 14" % len(nodes))
     return nodes
 
 
@@ -1035,6 +1186,21 @@ def validate_authored_topology(
     if restitution.get("deferred_follow_up") != "callback_escaped_dirty_trace" \
             or restitution.get("deferred_delay") != 16:
         errors.append("M02 restitution deferred callback contract drifted")
+    for root_id in (M6_RESTITUTION_ROOT_ID, M6_ESCALATION_ROOT_ID):
+        for index in range(2):
+            if not choice(root_id, index):
+                errors.append("M06 dirty consequence root choice missing: %s#%d" % (
+                    root_id, index))
+    for index in range(5):
+        if choice(M6_RUNTIME_ID, M6_SOURCE_CHOICES[index]).get(
+                "follow_up_event") != M6_LEDGER_ID:
+            errors.append("M06 authored choice lost ledger edge at source index %d" % (
+                M6_SOURCE_CHOICES[index]))
+    ledger_choice = choice(M6_LEDGER_ID, 0)
+    if ledger_choice.get("choice_kind") != "expression" \
+            or ledger_choice.get("effects") \
+            or ledger_choice.get("flags"):
+        errors.append("M06 ledger close is not an exact state-free expression")
     game_state = sources.text(GAME_STATE_PATH)
     drama_match = re.search(
         r'(?s)"드라마"\s*:\s*\{(.*?)\n\s*\},', game_state)
@@ -1182,6 +1348,9 @@ def validate_synthetic_event(
             if str(key).startswith("v2_") or key in M6_STRIP_EXACT)
         for key in removed:
             value.pop(key, None)
+        # ORDER-140 strips the full-product edge and then reinstalls the same
+        # ledger target only for a newly prepared M06 route context.
+        value["follow_up_event"] = M6_LEDGER_ID
         receipt = receipt_id(receipt_template, M6_RUNTIME_ID, runtime_index)
         flags = list(value.get("flags", [])) if isinstance(value.get("flags", []), list) else []
         flags.append(receipt)
@@ -1234,14 +1403,17 @@ def runtime_choice_catalog(
                 errors.append("runtime choice %s#%d is not an object" % (runtime_id, index))
                 continue
             key = choice_key(runtime_id, index)
-            receipt = receipt_id(receipt_template, runtime_id, index)
-            if not receipt:
+            receipt_bearing = key != LEDGER_EXPRESSION_CHOICE
+            receipt = receipt_id(receipt_template, runtime_id, index) \
+                if receipt_bearing else ""
+            if receipt_bearing and not receipt:
                 errors.append("runtime receipt formula failed for %s" % key)
             if key in result:
                 errors.append("duplicate runtime choice key %s" % key)
-            if receipt in receipt_seen:
+            if receipt and receipt in receipt_seen:
                 errors.append("duplicate runtime receipt %s" % receipt)
-            receipt_seen.add(receipt)
+            if receipt:
+                receipt_seen.add(receipt)
             result[key] = {
                 "choice_key": key,
                 "runtime_event_id": runtime_id,
@@ -1250,6 +1422,7 @@ def runtime_choice_catalog(
                 "source_event_id": source_id,
                 "source_choice_index": source_indices[index],
                 "receipt_id": receipt,
+                "receipt_bearing": receipt_bearing,
                 "effects": copy.deepcopy(raw.get("effects", {}))
                     if isinstance(raw.get("effects", {}), dict) else {},
                 "choice_kind": str(raw.get("choice_kind", "")),
@@ -1266,9 +1439,13 @@ def runtime_choice_catalog(
                 "deferred_follow_up": str(raw.get("deferred_follow_up", "")),
                 "deferred_delay": raw.get("deferred_delay"),
             }
-    if len(result) != 24:
-        errors.append("unique runtime choice option count %d != 24" % len(result))
-    if len(receipt_seen) != len(result):
+    if len(result) != 29:
+        errors.append("visible runtime choice option count %d != 29" % len(result))
+    receipt_count = sum(
+        bool(row.get("receipt_bearing")) for row in result.values())
+    if receipt_count != 28:
+        errors.append("receipt-bearing runtime selector count %d != 28" % receipt_count)
+    if len(receipt_seen) != 28:
         errors.append("runtime receipt IDs are not unique")
     return result
 
@@ -1310,7 +1487,8 @@ def validate_annotations(
             elif len(axes) != len(set(axes)) or not set(axes) <= AXES:
                 errors.append("annotation %s %s contains duplicate/invalid axes" % (
                     key, axis_field))
-            elif axis_field == "action_axes" and not axes:
+            elif axis_field == "action_axes" and not axes \
+                    and key != LEDGER_EXPRESSION_CHOICE:
                 errors.append("annotation %s action_axes must classify the choice" % key)
             expected_axes = EXPECTED_AXES_BY_CHOICE.get(key)
             expected_index = 0 if axis_field == "action_axes" else 1
@@ -1342,7 +1520,7 @@ def validate_annotations(
         if mode in mode_counts:
             mode_counts[mode] += 1
     expected_mode_counts = {
-        "decision": 9, "bridge": 3, "memory": 9, "expression": 3,
+        "decision": 13, "bridge": 3, "memory": 9, "expression": 4,
     }
     if mode_counts != expected_mode_counts:
         errors.append("choice mode distribution drifted: %s" % mode_counts)
@@ -1512,7 +1690,94 @@ def validate_consumers(
             if key not in row.get("producer_choices", []):
                 errors.append("annotation %s has dangling consumer %s" % (
                     key, consumer_id))
+    validate_live_consequence_readers(sources, errors)
     return consumers
+
+
+def validate_live_consequence_readers(
+        sources: SourceBundle, errors: List[str]) -> None:
+    """Reject marker-only, unreachable, or partial ORDER-140 consumers."""
+    controller = sources.text(CONTROLLER_PATH)
+    history = function_block(controller, "_selected_history_texts_from_session")
+    expected_history_order = [
+        "arc_daeun_01_meet", "arc_jiyeon_01_crash",
+        "M4_ROOT_EVENT_ID", "M4_ANSWER_EVENT_ID",
+        "arc_jaehyuk_01_reunion",
+    ]
+    history_list = re.search(r"(?s)for event_id in \[(.*?)\]:", history)
+    if history_list is None:
+        errors.append("M03-M05 exact selected-choice reader has no event loop")
+    else:
+        actual: List[str] = []
+        for quoted, identifier in re.findall(
+                r'"([^"]+)"|\b(M4_ROOT_EVENT_ID|M4_ANSWER_EVENT_ID)\b',
+                history_list.group(1)):
+            actual.append(quoted or identifier)
+        if actual != expected_history_order:
+            errors.append("M03-M05 exact selected-choice reader inventory drifted")
+    if has_top_level_return_before(history, "for event_id in [") \
+            or 'texts.append(str(((choices as Array)[choice_index] as Dictionary).get(' \
+                not in history:
+        errors.append("M03-M05 exact selected-choice reader is unreachable or not text-bound")
+
+    m6 = function_block(controller, "_install_story_demo_m6_event")
+    history_call = "_selected_history_texts_from_session(session)"
+    if history_call not in m6 \
+            or "if history_texts.size() == 5:" not in m6 \
+            or 'event["description"] = intro_template % history_texts' not in m6 \
+            or has_top_level_return_before(m6, history_call):
+        errors.append("M06 does not execute the exact M03-M05 history reader")
+    if 'if has_new_context:' not in m6 \
+            or 'choice["follow_up_event"] = M6_LEDGER_EVENT_ID' not in m6:
+        errors.append("M06 receipt choices do not execute the ledger edge")
+
+    claim = function_block(controller, "_prepare_m6_route_context_mutation")
+    claim_call = "GameState.claim_deferred_event("
+    claim_lines = gdscript_without_comments(claim).splitlines()
+    exact_restitution_condition = (
+        '\tif str(context.get("source", "")) == M6_RESTITUTION_SOURCE_ID:')
+    try:
+        condition_index = claim_lines.index(exact_restitution_condition)
+    except ValueError:
+        condition_index = -1
+    true_branch: List[str] = []
+    if condition_index >= 0:
+        for line in claim_lines[condition_index + 1:]:
+            if line and not line.startswith("\t\t"):
+                break
+            true_branch.append(line)
+    exact_claim_lines = [
+        "\t\tvar claimed := GameState.claim_deferred_event(",
+        "\t\t\tM6_RESTITUTION_SOURCE_ID, M6_ENTRY_TURN)",
+    ]
+    claim_owned = all(line in true_branch for line in exact_claim_lines) \
+        and claim.count(claim_call) == 1 \
+        and controller.count(claim_call) == 1
+    if condition_index < 0 or not claim_owned \
+            or 'claimed.is_empty()' not in "\n".join(true_branch) \
+            or '_session["m6_route_context"] = context' not in claim \
+            or has_top_level_return_before(claim, exact_restitution_condition):
+        errors.append("M02 restitution callback claim/drain is not live and atomic")
+    launch = function_block(controller, "_launch_story")
+    if "_prepare_m6_route_context_mutation()" not in launch \
+            or has_top_level_return_before(
+                launch, "_prepare_m6_route_context_mutation()"):
+        errors.append("live M06 launch does not consume the route-context mutation")
+
+    preview = function_block(controller, "_preview_m6_route_context")
+    for marker in (
+            "escaped_dirty_money", "fell_to_darkness",
+            "M6_RESTITUTION_ROOT_ID", "M6_ESCALATION_ROOT_ID"):
+        if marker not in preview:
+            errors.append("M06 dirty-root router lacks %r" % marker)
+    ledger = function_block(controller, "_install_story_demo_ledger_event")
+    for marker in (
+            "for selected_index in range((choices as Array).size())",
+            "for other_index in range((choices as Array).size())",
+            "_runtime_choice_receipt_flag(",
+            'event["description_if_known"] = ledger_variants'):
+        if marker not in ledger:
+            errors.append("M06 ledger exact selected/forgone reader lacks %r" % marker)
 
 
 def _gdscript_const_event_array(
@@ -1567,67 +1832,76 @@ def _story_choice_selector_coverage(
     run_block = function_block(source, "_run")
     if has_top_level_return(run_block):
         errors.append("StoryChoice actual route caller has a top-level early return")
-    for marker in (
-            '\tif controller != null and _start_and_check_m1_route(controller, 1, "fallout"):',
-            '\t\t\tcontroller = await _complete_hostile_route(controller)',
-            '\t\t_start_and_check_m1_route(controller, 0, "clean")'):
-        if marker not in gdscript_without_comments(run_block):
-            errors.append("StoryChoice actual route caller lacks %r" % marker)
-    calls = {
-        label: int(index) for index, label in re.findall(
-            r'(?s)_start_and_check_m1_route\s*\(\s*controller\s*,\s*'
-            r'([0-9]+)\s*,\s*"(clean|fallout)"\s*\)', source)
-    }
-    if set(calls) != {"clean", "fallout"}:
-        errors.append("StoryChoice actual M1 selector calls drifted")
+    if "_check_all_receipt_selectors(controller)" not in run_block \
+            or has_top_level_return_before(
+                run_block, "_check_all_receipt_selectors(controller)"):
+        errors.append("StoryChoice 28-selector sweep is not live from _run")
+    block = function_block(source, "_check_all_receipt_selectors")
+    if not block or has_top_level_return(block):
+        errors.append("StoryChoice 28-selector sweep is missing or exits early")
         return set()
-    block = function_block(source, "_complete_hostile_route")
-    if "var choice_index := int(low_mental_choices.get(event_id, 0))" not in block:
-        errors.append("StoryChoice hostile route no longer uses low_mental_choices")
-    choice_map = _gdscript_int_map(block, "low_mental_choices", errors)
-    m6_matches = re.findall(
-        r'controller\.call\s*\(\s*"qa_prepare_story_return"\s*,\s*'
-        r'([0-9]+)\s*\)', block)
-    if len(m6_matches) != 1:
-        errors.append("StoryChoice actual M6 selector is ambiguous")
-        m6_index = choice_map.get(M6_RUNTIME_ID, 0)
-    else:
-        m6_index = int(m6_matches[0])
-
-    fallout_m1 = calls["fallout"]
-    meet_index = choice_map.get("arc_sangchul_01_meet", 0)
-    meet_row = _choice_row(catalog, "arc_sangchul_01_meet", meet_index)
-    branch_id = str(meet_row.get("follow_up_event", "")) \
-        if meet_row is not None else ""
-    hostile_events = [
-        "arc_temptation_01", "arc_temptation_fallout",
-        "arc_daeun_01_meet", "arc_jiyeon_01_crash",
-        "arc_sangchul_01_meet", branch_id,
-        "arc_sangchul_01_answer", "arc_jaehyuk_01_reunion",
-        M6_RUNTIME_ID,
-    ]
-    hostile_indices = [
-        fallout_m1,
-        choice_map.get("arc_temptation_fallout", 0),
-        choice_map.get("arc_daeun_01_meet", 0),
-        choice_map.get("arc_jiyeon_01_crash", 0),
-        meet_index,
-        choice_map.get(branch_id, 0),
-        choice_map.get("arc_sangchul_01_answer", 0),
-        choice_map.get("arc_jaehyuk_01_reunion", 0),
-        m6_index,
-    ]
-    expected_events = _gdscript_const_event_array(
-        source, "EXPECTED_HOSTILE_CHOICE_RECORDS", errors)
-    expected_indices = const_int_array(source, "EXPECTED_HOSTILE_CHOICE_INDICES")
-    if hostile_events != expected_events or hostile_indices != expected_indices:
-        errors.append("StoryChoice actual hostile selector disagrees with assertions")
-    covered = {
-        choice_key(event_id, index)
-        for event_id, index in zip(hostile_events, hostile_indices)
-        if event_id
+    catalog_match = re.search(
+        r"(?s)var\s+catalogs[^=]*=\s*\[(.*?)\n\t\]", block)
+    if catalog_match is None:
+        errors.append("StoryChoice selector catalog could not be parsed")
+        return set()
+    constants = {
+        "M6_RESTITUTION_EVENT_ID": M6_RESTITUTION_ROOT_ID,
+        "M6_ESCALATION_EVENT_ID": M6_ESCALATION_ROOT_ID,
+        "M6_EVENT_ID": M6_RUNTIME_ID,
     }
-    covered.add(choice_key("arc_temptation_01", calls["clean"]))
+    event_ids: List[str] = []
+    for quoted, identifier in re.findall(
+            r'\{"event":\s*(?:"([^"]+)"|([A-Z][A-Z0-9_]*))\s*,',
+            catalog_match.group(1)):
+        event_id = quoted or constants.get(identifier, "")
+        if not event_id:
+            errors.append("StoryChoice selector catalog has unresolved %s" % identifier)
+        else:
+            event_ids.append(event_id)
+    expected_events = [
+        runtime_id for runtime_id in EXPECTED_RUNTIME_SOURCES
+        if runtime_id != M6_LEDGER_ID
+    ]
+    if event_ids != expected_events:
+        errors.append("StoryChoice receipt selector event inventory drifted")
+    code = gdscript_without_comments(block)
+    fresh_prefix_call = "_advance_fresh_prefix_to_event("
+    exact_prefix_gate = re.compile(
+        r'(?m)^\t\t\tif not _advance_fresh_prefix_to_event\($\n'
+        r'^\t\t\t\t\tcontroller, event_id, route\):$\n'
+        r'^\t\t\t\tcontinue$')
+    exact_loop_nesting = re.compile(
+        r'(?m)^\tfor catalog in catalogs:$[\s\S]*?'
+        r'^\t\tfor choice_index in range\(choices\.size\(\)\):$[\s\S]*?'
+        r'^\t\t\tattempts \+= 1$')
+    if code.count(fresh_prefix_call) != 1 \
+            or exact_prefix_gate.search(code) is None \
+            or exact_loop_nesting.search(code) is None:
+        errors.append(
+            "StoryChoice fresh-prefix selector loop/gate structure drifted")
+    executable_markers = (
+        "for catalog in catalogs:",
+        "for choice_index in range(choices.size()):",
+        fresh_prefix_call,
+        'controller.call(\n\t\t\t\t"qa_choose_event", event_id, choice_index)',
+        'bool(result.get("accepted", false))',
+        'bool(result.get("applied", false))',
+        'bool(result_flags.get(expected_receipt, false))',
+        "selectors.append(expected_receipt)",
+        "attempts == 28", "selectors.size() == 28",
+        "unique_selectors.size() == 28",
+    )
+    for marker in executable_markers:
+        if marker not in block:
+            errors.append("StoryChoice live selector sweep lacks %r" % marker)
+    covered = {
+        key for key, row in catalog.items()
+        if bool(row.get("receipt_bearing"))
+        and row.get("runtime_event_id") in event_ids
+    }
+    if covered != EXPECTED_RECEIPT_CHOICES:
+        errors.append("StoryChoice live selector sweep does not cover exact 28 receipts")
     return covered
 
 
@@ -1799,46 +2073,52 @@ def validate_runtime_coverage(
             errors.append("runtime coverage evidence path is not an exact blob: %s" % path)
 
     choice_check = sources.text(STORY_CHOICE_CHECK_PATH)
-    language_check = sources.text(FOUR_LANGUAGE_CHECK_PATH)
     evidence_markers = {
         STORY_CHOICE_CHECK_PATH: (
-            "EXPECTED_HOSTILE_CHOICE_RECORDS",
-            "EXPECTED_HOSTILE_CHOICE_INDICES",
-            "_complete_hostile_route",
-            '_start_and_check_m1_route(controller, 0, "clean")',
+            "_check_all_receipt_selectors(controller)",
+            "func _check_all_receipt_selectors(",
+            "attempts == 28", "unique_selectors.size() == 28",
         ),
         FOUR_LANGUAGE_CHECK_PATH: (
-            "func _choice_index(", "locale_index % 2 == 1",
-            '"arc_temptation_fallout": return 0',
-            'M6_EVENT_ID: return 3 if fallout else 0',
+            "LOCALE_ROUTES", '"route": "clean"',
+            '"route": "restitution"', '"route": "escalation"',
+            "M6_RESTITUTION_EVENT_ID", "M6_ESCALATION_EVENT_ID",
+            "_check_m6_ledger_surface",
         ),
     }
     for marker in evidence_markers[STORY_CHOICE_CHECK_PATH]:
         if marker not in choice_check:
             errors.append("StoryChoice selector evidence lacks %r" % marker)
+    language_check = sources.text(FOUR_LANGUAGE_CHECK_PATH)
     for marker in evidence_markers[FOUR_LANGUAGE_CHECK_PATH]:
         if marker not in language_check:
             errors.append("FourLanguage selector evidence lacks %r" % marker)
 
-    route_mapping = _m02_route_mapping(sources, errors)
     derived_set = _story_choice_selector_coverage(
         choice_check, catalog, errors)
-    derived_set.update(_four_language_selector_coverage(
-        language_check, catalog, route_mapping, errors))
-    unknown_covered = sorted(derived_set - set(catalog))
+    unknown_covered = sorted(derived_set - EXPECTED_RECEIPT_CHOICES)
     if unknown_covered:
         errors.append("runtime selector evidence chooses unknown options: %s" % unknown_covered)
-    derived_set &= set(catalog)
-    derived_covered = [key for key in catalog if key in derived_set]
-    derived_missing = [key for key in catalog if key not in derived_set]
+    derived_set &= EXPECTED_RECEIPT_CHOICES
+    derived_covered = [
+        key for key in catalog
+        if key in derived_set and bool(catalog[key].get("receipt_bearing"))
+    ]
+    derived_missing = [
+        key for key in catalog
+        if bool(catalog[key].get("receipt_bearing")) and key not in derived_set
+    ]
     covered = raw.get("covered")
     missing = raw.get("missing")
     if not isinstance(covered, list) or covered != derived_covered:
         errors.append("runtime selector covered-choice inventory drifted")
     if not isinstance(missing, list) or missing != derived_missing:
         errors.append("runtime selector missing-choice inventory drifted")
-    if raw.get("total") != len(catalog):
+    if raw.get("total") != len(EXPECTED_RECEIPT_CHOICES):
         errors.append("runtime selector coverage total drifted")
+    if raw.get("visible_total") != len(catalog) \
+            or raw.get("excluded_state_free") != [LEDGER_EXPRESSION_CHOICE]:
+        errors.append("runtime selector state-free exclusion drifted")
     if derived_set != EXPECTED_RUNTIME_COVERED:
         errors.append("runtime selector evidence outcomes drifted")
     if set(derived_missing) != set(EXPECTED_RUNTIME_MISSING):
@@ -1847,7 +2127,9 @@ def validate_runtime_coverage(
         "evidence_paths": expected_paths,
         "covered": derived_covered,
         "covered_count": len(derived_covered),
-        "total": len(catalog),
+        "total": len(EXPECTED_RECEIPT_CHOICES),
+        "visible_total": len(catalog),
+        "excluded_state_free": [LEDGER_EXPRESSION_CHOICE],
         "missing": derived_missing,
     }
 
@@ -2026,8 +2308,9 @@ def route_signatures(
         catalog: Mapping[str, Dict[str, Any]], sources: SourceBundle,
         errors: List[str]) -> Tuple[
             Dict[str, List[Tuple[str, ...]]], Dict[str, Any]]:
-    result: Dict[str, List[Tuple[str, ...]]] = {"clean": [], "fallout": []}
-    end_states: Dict[str, List[Dict[str, Any]]] = {"clean": [], "fallout": []}
+    routes = ("clean", "restitution", "escalation")
+    result: Dict[str, List[Tuple[str, ...]]] = {route: [] for route in routes}
+    end_states: Dict[str, List[Dict[str, Any]]] = {route: [] for route in routes}
     route_mapping = _m02_route_mapping(sources, errors)
     # Drama starts at KRW 2M and the part-time profile adds KRW 300K.  No item
     # is granted by the exact start contract.
@@ -2040,43 +2323,68 @@ def route_signatures(
                 m1_key, m1_row, initial_state, catalog):
             continue
         m1_state = _apply_choice_to_state(m1_row, initial_state)
-        route = route_mapping.get("lent_account" in m1_state["flags"], "")
-        if route not in result:
-            errors.append("controller M02 route resolved unknown label %r" % route)
+        m02_route = route_mapping.get("lent_account" in m1_state["flags"], "")
+        if m02_route not in {"clean", "fallout"}:
+            errors.append("controller M02 route resolved unknown label %r" % m02_route)
             continue
-        m2_event = "arc_temptation_%s" % route
+        m2_event = "arc_temptation_%s" % m02_route
         paths: List[Tuple[Tuple[str, ...], Dict[str, Any]]] = _settle_paths([
             ((m1_key,), m1_state),
         ])
         paths = _expand_runtime_event(paths, m2_event, catalog)
-        paths = _settle_paths(paths)
-        for runtime_id in ("arc_daeun_01_meet", "arc_jiyeon_01_crash"):
-            paths = _expand_runtime_event(paths, runtime_id, catalog)
-        paths = _settle_paths(paths)
-
-        branched: List[Tuple[Tuple[str, ...], Dict[str, Any]]] = []
+        routed_paths: Dict[str, List[Tuple[Tuple[str, ...], Dict[str, Any]]]] = {
+            route: [] for route in routes
+        }
         for signature, state in paths:
-            for meet_key, meet_row in _runtime_choices(
-                    catalog, "arc_sangchul_01_meet"):
-                if not _choice_available_for_state(
-                        meet_key, meet_row, state, catalog):
-                    continue
-                meet_state = _apply_choice_to_state(meet_row, state)
-                branch_id = str(meet_row.get("follow_up_event", ""))
-                branch_paths = _expand_runtime_event(
-                    [(signature + (meet_key,), meet_state)], branch_id, catalog)
-                branched.extend(branch_paths)
-        paths = _expand_runtime_event(
-            branched, "arc_sangchul_01_answer", catalog)
-        paths = _settle_paths(paths)
-        paths = _expand_runtime_event(
-            paths, "arc_jaehyuk_01_reunion", catalog)
-        paths = _settle_paths(paths)
-        paths = _expand_runtime_event(paths, M6_RUNTIME_ID, catalog)
-        paths = _settle_paths(paths)
-        result[route].extend(signature for signature, _state in paths)
-        end_states[route].extend(state for _signature, state in paths)
-    all_end_states = end_states["clean"] + end_states["fallout"]
+            if m02_route == "clean":
+                route = "clean"
+            else:
+                m2_choice = signature[-1] if signature else ""
+                route = "restitution" if m2_choice == "arc_temptation_fallout#0" \
+                    else "escalation" if m2_choice == "arc_temptation_fallout#1" \
+                    else ""
+            if route:
+                routed_paths[route].append((signature, state))
+            else:
+                errors.append("M02 fallout choice did not resolve an exact dirty route")
+        for route in routes:
+            if not routed_paths[route]:
+                continue
+            paths = routed_paths[route]
+            paths = _settle_paths(paths)
+            for runtime_id in ("arc_daeun_01_meet", "arc_jiyeon_01_crash"):
+                paths = _expand_runtime_event(paths, runtime_id, catalog)
+            paths = _settle_paths(paths)
+
+            branched: List[Tuple[Tuple[str, ...], Dict[str, Any]]] = []
+            for signature, state in paths:
+                for meet_key, meet_row in _runtime_choices(
+                        catalog, "arc_sangchul_01_meet"):
+                    if not _choice_available_for_state(
+                            meet_key, meet_row, state, catalog):
+                        continue
+                    meet_state = _apply_choice_to_state(meet_row, state)
+                    branch_id = str(meet_row.get("follow_up_event", ""))
+                    branch_paths = _expand_runtime_event(
+                        [(signature + (meet_key,), meet_state)], branch_id, catalog)
+                    branched.extend(branch_paths)
+            paths = _expand_runtime_event(
+                branched, "arc_sangchul_01_answer", catalog)
+            paths = _settle_paths(paths)
+            paths = _expand_runtime_event(
+                paths, "arc_jaehyuk_01_reunion", catalog)
+            paths = _settle_paths(paths)
+            if route == "restitution":
+                paths = _expand_runtime_event(
+                    paths, M6_RESTITUTION_ROOT_ID, catalog)
+            elif route == "escalation":
+                paths = _expand_runtime_event(
+                    paths, M6_ESCALATION_ROOT_ID, catalog)
+            paths = _expand_runtime_event(paths, M6_RUNTIME_ID, catalog)
+            paths = _settle_paths(paths)
+            result[route].extend(signature for signature, _state in paths)
+            end_states[route].extend(state for _signature, state in paths)
+    all_end_states = [state for route in routes for state in end_states[route]]
     survival_summary = {
         "settlements_per_run": 6,
         "surviving_signatures": sum(len(values) for values in result.values()),
@@ -2104,26 +2412,34 @@ def validate_expected_counts(
 
     actual_counts = {
         "clean": len(signatures.get("clean", [])),
-        "fallout": len(signatures.get("fallout", [])),
+        "restitution": len(signatures.get("restitution", [])),
+        "escalation": len(signatures.get("escalation", [])),
     }
-    if actual_counts != {"clean": 360, "fallout": 720}:
+    if actual_counts != {"clean": 360, "restitution": 720, "escalation": 720}:
         errors.append("legal signature enumeration drifted: %s" % actual_counts)
     route_origins = {
         route: sorted({signature[0] for signature in signatures.get(route, [])})
-        for route in ("clean", "fallout")
+        for route in ("clean", "restitution", "escalation")
     }
     if route_origins != {
             "clean": ["arc_temptation_01#0"],
-            "fallout": ["arc_temptation_01#1"]}:
+            "restitution": ["arc_temptation_01#1"],
+            "escalation": ["arc_temptation_01#1"]}:
         errors.append("legal signature route origins drifted: %s" % route_origins)
-    all_signatures = list(signatures.get("clean", [])) + list(signatures.get("fallout", []))
-    if len(set(all_signatures)) != 1080:
-        errors.append("legal signatures are not 1080 unique receipt tuples")
-    if any(len(signature) != 9 for signature in all_signatures):
-        errors.append("a legal signature does not contain nine receipts")
+    all_signatures = [
+        signature for route in ("clean", "restitution", "escalation")
+        for signature in signatures.get(route, [])
+    ]
+    if len(set(all_signatures)) != 1800:
+        errors.append("legal signatures are not 1800 unique receipt tuples")
+    expected_lengths = {"clean": 9, "restitution": 10, "escalation": 10}
+    for route, length in expected_lengths.items():
+        if any(len(signature) != length for signature in signatures.get(route, [])):
+            errors.append("%s legal signature does not contain %d receipts" % (
+                route, length))
 
     per_route_modes: Dict[str, Dict[str, List[int]]] = {}
-    for route in ("clean", "fallout"):
+    for route in ("clean", "restitution", "escalation"):
         meaningful: Set[int] = set()
         forced: Set[int] = set()
         for signature in signatures.get(route, []):
@@ -2139,18 +2455,18 @@ def validate_expected_counts(
         }
     if per_route_modes != {
         "clean": {"meaningful_decisions": [7], "forced_continues": [2]},
-        "fallout": {"meaningful_decisions": [8], "forced_continues": [1]},
+        "restitution": {"meaningful_decisions": [9], "forced_continues": [1]},
+        "escalation": {"meaningful_decisions": [9], "forced_continues": [1]},
     }:
         errors.append("per-run meaningful/forced counts drifted: %s" % per_route_modes)
     if dict(survival_summary) != EXPECTED_COUNTS["route_survival"]:
         errors.append("route survival enumeration drifted: %s" % survival_summary)
-    receipt_lengths = sorted({len(signature) for signature in all_signatures})
     return {
         "clean": actual_counts["clean"],
-        "fallout": actual_counts["fallout"],
+        "restitution": actual_counts["restitution"],
+        "escalation": actual_counts["escalation"],
         "total": len(all_signatures),
-        "receipts_per_run": receipt_lengths[0]
-            if len(receipt_lengths) == 1 else receipt_lengths,
+        "receipts_per_run": expected_lengths,
         "route_origins": route_origins,
         "per_run": {
             route: {
@@ -2252,7 +2568,7 @@ def consumer_graph_summary(
             outside_demo.append(consumer_id)
     downstream_choices: Set[str] = set()
     for consumer_id, row in consumers.items():
-        if row.get("kind") in {"route", "follow_up"} \
+        if row.get("kind") in {"route", "follow_up", "history_reader"} \
                 and row.get("demo_reachable") is True:
             downstream_choices.update(row.get("producer_choices", []))
     runtime_ids = {
@@ -2292,185 +2608,108 @@ def build_findings(
         consumer_summary: Mapping[str, Any], coverage: Mapping[str, Any],
         axis_summary: Mapping[str, Any], sources: SourceBundle) -> List[Dict[str, Any]]:
     downstream = set(consumer_summary.get("exact_downstream_story_choices", []))
-    thematic_choices = [
-        "arc_daeun_01_meet#0", "arc_daeun_01_meet#1",
-        "arc_jiyeon_01_crash#0", "arc_jiyeon_01_crash#1",
-        "arc_jiyeon_01_crash#2",
-        "arc_sangchul_01_answer#0", "arc_sangchul_01_answer#1",
-        "arc_sangchul_01_answer#2",
-        "arc_jaehyuk_01_reunion#0", "arc_jaehyuk_01_reunion#1",
-    ]
-    thematic_without_reader = [key for key in thematic_choices if key not in downstream]
-    m6_choices = [choice_key(M6_RUNTIME_ID, index) for index in range(5)]
-    m6_without_reader = [key for key in m6_choices if key not in downstream]
-    restitution = catalog.get("arc_temptation_fallout#0", {})
-    escalation = catalog.get("arc_temptation_fallout#1", {})
-    restitution_effects = restitution.get("effects", {})
-    escalation_effects = escalation.get("effects", {})
-    paired_visible_delta = {
-        field: float(escalation_effects.get(field, 0))
-        - float(restitution_effects.get(field, 0))
-        for field in sorted(VISIBLE_NUMERIC_FIELDS)
-    }
-    escalation_visible_dominates = all(
-        delta >= 0 for delta in paired_visible_delta.values()) \
-        and any(delta > 0 for delta in paired_visible_delta.values())
-    meaningful_choices = {
+    history_choices = set(EXPECTED_CONSUMERS[
+        "m03_m05_exact_choice_history"]["producers"])
+    m6_choices = set(EXPECTED_CONSUMERS["m06_choice_ledger"]["producers"])
+    meaningful = {
         key: row for key, row in annotations.items()
-        if row.get("mode") != "bridge"
+        if row.get("mode") != "bridge" and key != LEDGER_EXPRESSION_CHOICE
     }
-    choices_without_explicit_sacrifice = sorted(
-        key for key, row in meaningful_choices.items()
-        if not row.get("sacrificed_axes")
-    )
-    coverage_count = int(coverage.get("covered_count", 0))
-    coverage_total = int(coverage.get("total", 0))
-    visible_count = int(axis_summary.get("visible_numeric_effect_choices", 0))
-    story_reader_count = int(consumer_summary.get(
-        "exact_downstream_story_choice_count", 0))
-    escalation_comparison = (
-        "visibly dominates restitution in cash, body, and mind"
-        if escalation_visible_dominates else
-        "does not dominate restitution across cash, body, and mind"
-    )
-    escalation_reader_count = int("arc_temptation_fallout#1" in downstream)
-    escalation_reader_summary = (
-        "has no exact later story reader before the demo ends"
-        if escalation_reader_count == 0 else
-        "has %d exact later story reader(s) before the demo ends" %
-        escalation_reader_count
-    )
+    no_sacrifice = sorted(
+        key for key, row in meaningful.items()
+        if not row.get("sacrificed_axes"))
     return [
         {
-            "id": "runtime_choice_coverage_gap",
-            "severity": "finding",
+            "id": "runtime_receipt_selector_coverage",
+            "severity": "evidence",
             "blocking": False,
-            "evidence_paths": coverage.get("evidence_paths", []),
             "covered": coverage.get("covered_count", 0),
-            "covered_choices": coverage.get("covered", []),
             "total": coverage.get("total", 0),
+            "visible_total": coverage.get("visible_total", 0),
+            "excluded_state_free": coverage.get("excluded_state_free", []),
             "missing": coverage.get("missing", []),
-            "summary": "Existing selector runs apply %d of %d runtime choices." % (
-                coverage_count, coverage_total),
+            "summary": (
+                "The focused runtime sweep applies all %d receipt-bearing "
+                "selectors; the one ledger expression is visible and state-free."
+                % int(coverage.get("total", 0))),
         },
         {
-            "id": "m3_m5_fixed_thematic_return_without_exact_choice_reader",
-            "severity": "finding",
+            "id": "m03_m05_exact_choice_history_reader",
+            "severity": "evidence",
             "blocking": False,
-            "fixed_m6_character_return": ["daeun", "jaehyuk", "sangchul"],
-            "choices_without_exact_later_story_reader": thematic_without_reader,
-            "m6_source": "%s::_install_story_demo_m6_event" % CONTROLLER_PATH,
+            "producer_choices": sorted(history_choices),
+            "unread": sorted(history_choices - downstream),
+            "reader": "%s::_selected_history_texts_from_session" % CONTROLLER_PATH,
             "summary": (
-                "M6 names Daeun, Jaehyuk, and Sangchul in fixed prose, but "
-                "does not read the exact M3-M5 character-choice receipts."
+                "M06 reads the exact selected text for all 12 M03-M05 "
+                "character-choice variants."
             ),
         },
         {
-            "id": "m02_restitution_callback_overdue_and_undrained",
-            "severity": "finding",
+            "id": "m02_restitution_callback_claimed_at_m06",
+            "severity": "evidence",
             "blocking": False,
             "producer_choice": "arc_temptation_fallout#0",
             "deferred_event_id": "callback_escaped_dirty_trace",
-            "selected_turn": 5,
-            "delay_weeks": 16,
             "due_turn": 21,
-            "m6_entry_turn": 21,
-            "demo_end_turn": 25,
-            "controller_drain_calls": 0,
-            "consumer_contract": "m02_restitution_deferred",
-            "demo_reachable": False,
+            "consumer_contract": "m02_restitution_claim",
+            "root_event_id": M6_RESTITUTION_ROOT_ID,
+            "demo_reachable": True,
             "summary": (
-                "The M2 restitution callback becomes due at M6 entry and "
-                "remains in the saved deferred queue through the demo end."
+                "The due M02 restitution callback is atomically claimed at "
+                "M06 entry and becomes the initial-call consequence root."
             ),
         },
         {
-            "id": "m6_choices_have_no_downstream_story_reader",
-            "severity": "finding",
+            "id": "m06_choice_consequence_ledger_reader",
+            "severity": "evidence",
             "blocking": False,
-            "choices": m6_without_reader,
-            "removed_fields": ["v2_*", "follow_up_event", "deferred_follow_up", "deferred_delay"],
-            "remaining_consumers": ["controller_session_receipt", "controller_recap_choice"],
-            "summary": "All five M6 choices end at receipt/recap inside this demo.",
-        },
-        {
-            "id": "clean_route_contains_one_temptation",
-            "severity": "finding",
-            "blocking": False,
-            "route": "clean",
-            "initial_temptation_scenes": 1,
-            "m2_claim_scenes": 0,
-            "m2_retemptation_scenes": 0,
-            "escalation_options_reached": 0,
-            "post_escalation_world_reactions": 0,
-            "summary": "The clean route encounters the M1 temptation once and no later re-offer.",
-        },
-        {
-            "id": "fallout_escalation_has_no_later_story_reader"
-                if escalation_reader_count == 0
-                else "fallout_escalation_has_later_story_reader",
-            "severity": "finding",
-            "blocking": False,
-            "route": "fallout",
-            "initial_temptation_scenes": 1,
-            "m2_claim_scenes": 1,
-            "m2_retemptation_scenes": 1,
-            "escalation_options_reached": 1,
-            "post_escalation_world_reactions": escalation_reader_count,
-            "producer_choice": "arc_temptation_fallout#1",
-            "effects": escalation_effects,
-            "paired_against": "arc_temptation_fallout#0",
-            "paired_effects": restitution_effects,
-            "visible_numeric_delta_vs_restitution": paired_visible_delta,
-            "visible_numeric_dominates_restitution": escalation_visible_dominates,
-            "exact_later_story_readers": escalation_reader_count,
+            "producer_choices": sorted(m6_choices),
+            "unread": sorted(m6_choices - downstream),
+            "ledger_event_id": M6_LEDGER_ID,
             "summary": (
-                "The M2 escalation %s and %s." % (
-                    escalation_comparison, escalation_reader_summary)),
+                "Each of the five M06 decisions opens a ledger that names the "
+                "selected line and the four forgone lines."
+            ),
+        },
+        {
+            "id": "dirty_route_consequence_roots",
+            "severity": "evidence",
+            "blocking": False,
+            "restitution_root": M6_RESTITUTION_ROOT_ID,
+            "escalation_root": M6_ESCALATION_ROOT_ID,
+            "summary": (
+                "Restitution and escalation each reach their own two-choice "
+                "M06 consequence root before the common first bill."
+            ),
         },
         {
             "id": "meaningful_choices_without_explicit_sacrifice",
             "severity": "finding",
             "blocking": False,
-            "choices": choices_without_explicit_sacrifice,
-            "choice_modes": {
-                key: meaningful_choices[key].get("mode")
-                for key in choices_without_explicit_sacrifice
-            },
-            "count": len(choices_without_explicit_sacrifice),
-            "meaningful_choice_options": len(meaningful_choices),
-            "forced_bridges_excluded": len(catalog) - len(meaningful_choices),
+            "choices": no_sacrifice,
+            "count": len(no_sacrifice),
+            "meaningful_choice_options": len(meaningful),
             "summary": (
-                "%d of %d non-bridge choice options name no explicit "
-                "people, livelihood, body, or money sacrifice in their "
-                "choice/result or exact demo consequence."
-                % (len(choices_without_explicit_sacrifice),
-                   len(meaningful_choices))
-            ),
+                "%d of %d non-bridge, state-bearing choices name no explicit "
+                "people, livelihood, body, or money sacrifice."
+                % (len(no_sacrifice), len(meaningful))),
         },
         {
-            "id": "visible_numeric_echo_vs_exact_story_consumption",
+            "id": "visible_numeric_vs_exact_story_consumption",
             "severity": "finding",
             "blocking": False,
-            "visible_numeric_fields": axis_summary.get("visible_numeric_fields", []),
             "visible_numeric_effect_choices": axis_summary.get(
                 "visible_numeric_effect_choices", 0),
-            "total_choices": len(catalog),
+            "visible_choice_options": len(catalog),
             "exact_downstream_story_choice_count": consumer_summary.get(
                 "exact_downstream_story_choice_count", 0),
-            "hidden_or_non_numeric_state": [
-                "intelligence", "social_skill", "luck", "tint", "cast_effects", "flags",
-            ],
-            "surface_evidence": [
-                "%s::_show_transition" % CONTROLLER_PATH,
-                "%s::_show_recap" % CONTROLLER_PATH,
-            ],
-            "visible_numeric_outpaces_story_readers": (
-                visible_count > story_reader_count),
             "summary": (
-                "%d/%d choices alter the displayed cash/body/mind trio; "
-                "%d choices have an exact demo-reachable story-route/follow-up reader."
-                % (visible_count, len(catalog), story_reader_count)),
+                "%d/%d visible choices alter cash/body/mind; %d choices have "
+                "an exact demo-reachable story reader."
+                % (int(axis_summary.get("visible_numeric_effect_choices", 0)),
+                   len(catalog), int(consumer_summary.get(
+                       "exact_downstream_story_choice_count", 0)))),
         },
     ]
 
@@ -2523,16 +2762,13 @@ def audit_with_sources(
     active_gate_match = False
     if gate:
         gate_build = active_gate_build_id(gate, errors)
-        if source_ref != gate.get("commit"):
-            errors.append("fixture source_ref is stale against active story_demo_rc")
-        if source_tree != gate.get("tree"):
-            errors.append("fixture source_tree is stale against active story_demo_rc")
-        if build_id != gate_build:
-            errors.append("fixture build_id is stale against active story_demo_rc")
         active_gate_match = gate.get("status") == "active" \
             and source_ref == gate.get("commit") \
             and source_tree == gate.get("tree") \
             and bool(gate_build) and build_id == gate_build
+        if active_gate_match:
+            errors.append(
+                "ORDER-140 product was prematurely registered as active story_demo_rc")
 
     declarations = fixture.get("source_blobs", [])
     if isinstance(declarations, dict):
@@ -2561,13 +2797,13 @@ def audit_with_sources(
                 errors.append("source blob hash mismatch %s" % path)
             expected_digest = EXPECTED_BLOB_SHA256.get(path)
             if expected_digest is None:
-                errors.append("source blob %s is outside ORDER-139 exact baseline" % path)
+                errors.append("source blob %s is outside ORDER-140 exact baseline" % path)
             elif payload is not None and sha256_bytes(payload) != expected_digest:
-                errors.append("ORDER-139 exact source baseline drifted %s" % path)
+                errors.append("ORDER-140 exact source baseline drifted %s" % path)
             if declared_oid != sources.blob_oids.get(path):
                 errors.append("source blob OID mismatch %s" % path)
         if declared_paths != set(EXPECTED_BLOB_SHA256):
-            errors.append("ORDER-139 exact source path inventory drifted")
+            errors.append("ORDER-140 exact source path inventory drifted")
 
     receipt_template = validate_controller_contract(sources, build_id, errors)
     validate_start_contract(fixture, errors)
@@ -2620,9 +2856,13 @@ def audit_with_sources(
             "months": 6,
             "weeks": 24,
             "runtime_event_variants": len(nodes),
+            "visible_choice_options": len(catalog),
             "unique_choice_options": len(catalog),
+            "receipt_bearing_selectors": sum(
+                bool(row.get("receipt_bearing")) for row in catalog.values()),
             "unique_runtime_receipts": len({
                 row.get("receipt_id") for row in catalog.values()
+                if row.get("receipt_id")
             }),
             "legal_signatures": signature_summary,
             "runtime_events_by_month": {
@@ -2659,10 +2899,17 @@ def audit_with_sources(
                     "m2_retemptation": 0, "escalation_option": 0,
                     "post_escalation_world_reaction": 0,
                 },
-                "fallout": {
+                "restitution": {
+                    "initial_temptation": 1, "m2_claim": 1,
+                    "m2_retemptation": 0, "escalation_option": 0,
+                    "post_m2_world_reaction": int(
+                        "arc_temptation_fallout#0" in
+                        consumer_summary.get("exact_downstream_story_choices", [])),
+                },
+                "escalation": {
                     "initial_temptation": 1, "m2_claim": 1,
                     "m2_retemptation": 1, "escalation_option": 1,
-                    "post_escalation_world_reaction": int(
+                    "post_m2_world_reaction": int(
                         "arc_temptation_fallout#1" in
                         consumer_summary.get("exact_downstream_story_choices", [])),
                 },
@@ -2737,366 +2984,143 @@ def run_self_test() -> int:
         raise AssertionError("baseline audit failed: %s" % report.get("errors", [])[:5])
     cases = 0
 
-    def mutate_choice_source(
-            bundle: SourceBundle, path: str, event_id: str, choice_index: int,
-            mutate_choice: Any) -> None:
-        parsed = parse_json_bytes(bundle.blobs[path], path)
-
-        def find_event(value: Any) -> Optional[Dict[str, Any]]:
-            if isinstance(value, dict):
-                if value.get("id") == event_id:
-                    return value
-                for nested in value.values():
-                    found = find_event(nested)
-                    if found is not None:
-                        return found
-            elif isinstance(value, list):
-                for nested in value:
-                    found = find_event(nested)
-                    if found is not None:
-                        return found
-            return None
-
-        event = find_event(parsed)
-        if event is None:
-            raise AssertionError("self-test event not found: %s" % event_id)
-        choices = event.get("choices", [])
-        if not isinstance(choices, list) or choice_index >= len(choices) \
-                or not isinstance(choices[choice_index], dict):
-            raise AssertionError(
-                "self-test choice not found: %s#%d" % (event_id, choice_index))
-        mutate_choice(choices[choice_index])
-        bundle.blobs[path] = json.dumps(
-            parsed, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
-
     def case(label: str, mutate: Any, fragment: str) -> None:
         nonlocal cases
         require_mutation_failure(
             label, fixture, human_gates, sources, mutate, fragment)
         cases += 1
 
-    case(
-        "stale source ref",
-        lambda f, _g, _s: f["subject"].__setitem__("source_commit", "0" * 40),
-        "source_ref does not match loaded exact source")
-    case(
-        "ambiguous source identity alias",
-        lambda f, _g, _s: (
-            f["subject"].__setitem__("source_ref", EXPECTED_SOURCE_REF),
-            f["subject"].__setitem__("source_commit", "0" * 40)),
-        "subject exact field inventory drifted")
-    case(
-        "stale tree",
-        lambda f, _g, _s: f["subject"].__setitem__("source_tree", "0" * 40),
-        "source_tree does not match loaded exact source")
-    case(
-        "inactive human gate",
-        lambda _f, g, _s: g["release_candidates"][PROFILE].__setitem__(
-            "status", "historical"),
+    def replace_source(
+            bundle: SourceBundle, path: str, old: bytes, new: bytes) -> None:
+        if old not in bundle.blobs[path]:
+            raise AssertionError("self-test source marker missing: %r" % old)
+        bundle.blobs[path] = bundle.blobs[path].replace(old, new, 1)
+
+    def mutate_choice(
+            bundle: SourceBundle, path: str, event_id: str, index: int,
+            mutate: Any) -> None:
+        parsed = parse_json_bytes(bundle.blobs[path], path)
+        rows = parsed if isinstance(parsed, list) else parsed.get("events", [])
+        event = next(
+            (row for row in rows
+             if isinstance(row, dict) and row.get("id") == event_id), None)
+        if not isinstance(event, dict):
+            raise AssertionError("self-test event missing: %s" % event_id)
+        choices = event.get("choices", [])
+        if not isinstance(choices, list) or index >= len(choices) \
+                or not isinstance(choices[index], dict):
+            raise AssertionError("self-test choice missing: %s#%d" % (
+                event_id, index))
+        mutate(choices[index])
+        bundle.blobs[path] = json.dumps(
+            parsed, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+
+    case("stale source", lambda f, _g, _s: f["subject"].__setitem__(
+        "source_commit", "0" * 40), "source_ref does not match loaded exact source")
+    case("stale tree", lambda f, _g, _s: f["subject"].__setitem__(
+        "source_tree", "0" * 40), "source_tree does not match loaded exact source")
+    case("false human verdict", lambda f, _g, _s: f["subject"].__setitem__(
+        "human_route_density", "GO"), "human_route_density=not_measured")
+    case("inactive prior human gate", lambda _f, g, _s: g[
+        "release_candidates"][PROFILE].__setitem__("status", "historical"),
         "is not active")
-    case(
-        "ambiguous human gate build",
-        lambda _f, g, _s: g["release_candidates"][PROFILE].__setitem__(
-            "note", str(g["release_candidates"][PROFILE].get("note", ""))
-            + " BUILD 2099.12.31.9"),
-        "exactly one BUILD identity")
-    case(
-        "false human verdict",
-        lambda f, _g, _s: f["subject"].__setitem__("human_route_density", "GO"),
-        "human_route_density=not_measured")
-    case(
-        "blob digest",
-        lambda f, _g, _s: next(iter(f["source_blobs"].values())).__setitem__(
-            "sha256", "0" * 64),
+    case("premature product registration", lambda _f, g, _s: (
+        g["release_candidates"][PROFILE].__setitem__("commit", EXPECTED_SOURCE_REF),
+        g["release_candidates"][PROFILE].__setitem__("tree", EXPECTED_SOURCE_TREE),
+        g["release_candidates"][PROFILE].__setitem__(
+            "note", "BUILD %s" % EXPECTED_BUILD_ID)),
+        "prematurely registered")
+    case("blob digest", lambda f, _g, _s: next(iter(
+        f["source_blobs"].values())).__setitem__("sha256", "0" * 64),
         "source blob hash mismatch")
-    case(
-        "blob OID",
-        lambda f, _g, _s: next(iter(f["source_blobs"].values())).__setitem__(
-            "git_blob_oid", "0" * 40),
-        "source blob OID mismatch")
-    case(
-        "missing node",
-        lambda f, _g, _s: f["nodes"].pop(),
+    case("missing dirty node", lambda f, _g, _s: f["nodes"].__setitem__(
+        slice(None), [row for row in f["nodes"] if row.get(
+            "runtime_event_id") != M6_RESTITUTION_ROOT_ID]),
         "nodes missing runtime variants")
-    case(
-        "duplicate runtime node",
-        lambda f, _g, _s: f["nodes"][1].__setitem__(
-            "runtime_event_id", f["nodes"][0]["runtime_event_id"]),
-        "duplicate runtime event node")
-    case(
-        "ingress receipt",
-        lambda f, _g, _s: next(
-            row for row in f["nodes"]
-            if row["runtime_event_id"] == "arc_temptation_clean")["ingress"].__setitem__(
-                "producer_choice", "arc_temptation_01#1"),
+    case("ledger ingress fraud", lambda f, _g, _s: next(
+        row for row in f["nodes"] if row.get("runtime_event_id") == M6_LEDGER_ID
+        )["ingress"].__setitem__("producer_choices", []),
         "exact ingress binding drifted")
-    case(
-        "M6 projection",
-        lambda f, _g, _s: f["synthetic_events"][0]["choice_map"][0].__setitem__(
-            "source_choice_index", 2),
-        "source choice indices drifted")
-    case(
-        "missing annotation",
-        lambda f, _g, _s: f["reviewed_choice_annotations"].pop(
-            "arc_jiyeon_01_crash#1"),
-        "choice annotations missing")
-    case(
-        "invalid axis",
-        lambda f, _g, _s: f["reviewed_choice_annotations"][
-            "arc_temptation_01#0"]["action_axes"].append("morality"),
-        "duplicate/invalid axes")
-    case(
-        "consumer producer",
-        lambda f, _g, _s: next(
-            row for row in f["consumer_contracts"]
-            if row["consumer_id"] == "m02_route_split")["producer_choices"].pop(),
-        "producer choice set drifted")
-    case(
-        "consumer marker",
-        lambda f, _g, _s: next(
-            row for row in f["consumer_contracts"]
-            if row["consumer_id"] == "controller_recap_choice")["reader"][
-                "markers"].append("ORDER139_MISSING_MARKER"),
-        "reader marker missing")
-    case(
-        "signature baseline",
-        lambda f, _g, _s: f["expected"]["legal_signatures"].__setitem__(
-            "total", 1079),
+    case("ledger receipt fraud", lambda f, _g, _s: f[
+        "reviewed_choice_annotations"][LEDGER_EXPRESSION_CHOICE][
+            "consumer_expectations"].append("controller_session_receipt"),
+        "consumer expectations drifted")
+    case("history consumer producer", lambda f, _g, _s: next(
+        row for row in f["consumer_contracts"] if row.get(
+            "consumer_id") == "m03_m05_exact_choice_history"
+        )["producer_choices"].pop(), "producer choice set drifted")
+    case("selector exclusion fraud", lambda f, _g, _s: f[
+        "runtime_coverage"].__setitem__("excluded_state_free", []),
+        "state-free exclusion drifted")
+    case("signature fraud", lambda f, _g, _s: f["expected"][
+        "legal_signatures"].__setitem__("total", 1799),
         "expected.legal_signatures drifted")
-    case(
-        "runtime gap inventory",
-        lambda f, _g, _s: f["runtime_coverage"]["missing"].pop(),
-        "missing-choice inventory drifted")
-    case(
-        "controller M6 source choices",
-        lambda _f, _g, s: s.blobs.__setitem__(
-            CONTROLLER_PATH,
-            s.blobs[CONTROLLER_PATH].replace(
-                b"[3, 4, 5, 6, 7]", b"[2, 3, 4, 5, 6]", 1)),
-        "controller M6 source-choice projection drifted")
-    case(
-        "controller public build identity",
-        lambda _f, _g, s: s.blobs.__setitem__(
-            CONTROLLER_PATH,
-            s.blobs[CONTROLLER_PATH].replace(
-                b'PUBLIC_BUILD_ID := "2026.08.25.1"',
-                b'PUBLIC_BUILD_ID := "2099.12.31.9"', 1)),
-        "controller PUBLIC_BUILD_ID drifted")
-    case(
-        "controller receipt formula",
-        lambda _f, _g, s: s.blobs.__setitem__(
-            CONTROLLER_PATH,
-            s.blobs[CONTROLLER_PATH].replace(
-                b'return "order124_choice__%s__%d" % [event_id, choice_index]',
-                b'return "order139_changed__%s__%d" % [event_id, choice_index]',
-                1)),
-        "controller choice receipt formula drifted")
-    case(
-        "controller receipt early-return shadow",
-        lambda _f, _g, s: s.blobs.__setitem__(
-            CONTROLLER_PATH,
-            s.blobs[CONTROLLER_PATH].replace(
-                b'\treturn "order124_choice__%s__%d" % [event_id, choice_index]\n',
-                b'\tif not event_id.is_empty():\n'
-                b'\t\treturn "order124_choice__duplicate"\n'
-                b'\treturn "order124_choice__%s__%d" % [event_id, choice_index]\n',
-                1)),
-        "receipt helper is not a single-return formula")
-    case(
-        "controller inverted M02 route",
-        lambda _f, _g, s: s.blobs.__setitem__(
-            CONTROLLER_PATH,
-            s.blobs[CONTROLLER_PATH].replace(
-                b'return "fallout" if bool(GameState.flags.get("lent_account", false)) else "clean"',
-                b'return "clean" if bool(GameState.flags.get("lent_account", false)) else "fallout"',
-                1)),
-        "controller M02 route binding drifted")
-    case(
-        "choice availability gate",
-        lambda _f, _g, s: mutate_choice_source(
-            s, DAEUN_EVENTS_PATH, "arc_daeun_01_meet", 0,
-            lambda choice: choice.__setitem__("requires_item", "missing_order139_item")),
-        "legal signature enumeration drifted")
-    case(
-        "route survival gate",
-        lambda _f, _g, s: mutate_choice_source(
-            s, ARC_EVENTS_PATH, "arc_temptation_01", 0,
-            lambda choice: choice.setdefault("effects", {}).__setitem__(
-                "mental", -100)),
-        "legal signature enumeration drifted")
-    case(
-        "selector outcome mutation",
-        lambda _f, _g, s: s.blobs.__setitem__(
-            FOUR_LANGUAGE_CHECK_PATH,
-            s.blobs[FOUR_LANGUAGE_CHECK_PATH].replace(
-                b'"arc_jiyeon_01_crash": return 0',
-                b'"arc_jiyeon_01_crash": return 2', 1)),
-        "runtime selector evidence outcomes drifted")
-    case(
-        "actual hostile selector mutation",
-        lambda _f, _g, s: s.blobs.__setitem__(
-            STORY_CHOICE_CHECK_PATH,
-            s.blobs[STORY_CHOICE_CHECK_PATH].replace(
-                b'\t\t"arc_jiyeon_01_crash": 0,',
-                b'\t\t"arc_jiyeon_01_crash": 2,', 1)),
-        "actual hostile selector disagrees with assertions")
-    case(
-        "FourLanguage unreachable coffee branch",
-        lambda _f, _g, s: s.blobs.__setitem__(
-            FOUR_LANGUAGE_CHECK_PATH,
-            s.blobs[FOUR_LANGUAGE_CHECK_PATH].replace(
-                b'var coffee := locale_index % 2 == 1',
-                b'var coffee := locale_index % 2 == 1 and false', 1)),
-        "runtime selector evidence outcomes drifted")
-    case(
-        "consumer reader rebinding",
-        lambda f, _g, _s: next(
-            row for row in f["consumer_contracts"]
-            if row["consumer_id"] == "controller_session_receipt").__setitem__(
-                "reader", {
-                    "path": CONTROLLER_PATH,
-                    "symbol": "_show_recap",
-                    "markers": ["choice_index"],
-                }),
-        "exact reader contract drifted")
-    case(
-        "empty action axis classification",
-        lambda f, _g, _s: f["reviewed_choice_annotations"][
-            "arc_temptation_01#0"].__setitem__("action_axes", []),
-        "action_axes must classify the choice")
-    case(
-        "invented valid sacrifice axis",
-        lambda f, _g, _s: f["reviewed_choice_annotations"][
-            "arc_daeun_01_meet#0"]["sacrificed_axes"].append("money"),
-        "sacrificed_axes drifted")
-    case(
-        "invented valid action axis",
-        lambda f, _g, _s: f["reviewed_choice_annotations"][
-            "arc_sangchul_01_answer#0"]["action_axes"].append("body"),
-        "action_axes drifted")
-    case(
-        "dead controller receipt consumer",
-        lambda _f, _g, s: s.blobs.__setitem__(
-            CONTROLLER_PATH,
-            s.blobs[CONTROLLER_PATH].replace(
-                b'\t\t\tif bool(GameState.flags.get(receipt, false)):\n',
-                b'\t\t\tif false: # GameState.flags.get(receipt, false)\n', 1)),
-        "controller receipt consumer true branch drifted or is unreachable")
-    case(
-        "dead StoryMode follow-up consumer",
-        lambda _f, _g, s: s.blobs.__setitem__(
-            STORY_MODE_PATH,
-            s.blobs[STORY_MODE_PATH].replace(
-                b'\tif _pending_follow_up != "" and not DataRegistry.find_event(_pending_follow_up).is_empty():\n',
-                b'\tif false and _pending_follow_up != "" and not DataRegistry.find_event(_pending_follow_up).is_empty():\n',
-                1)),
-        "StoryMode follow-up true branch condition drifted")
-    case(
-        "StoryChoice top-level early return",
-        lambda _f, _g, s: s.blobs.__setitem__(
-            STORY_CHOICE_CHECK_PATH,
-            s.blobs[STORY_CHOICE_CHECK_PATH].replace(
-                b'func _run() -> void:\n', b'func _run() -> void:\n\treturn\n', 1)),
-        "StoryChoice actual route caller has a top-level early return")
-    case(
-        "FourLanguage top-level early return",
-        lambda _f, _g, s: s.blobs.__setitem__(
-            FOUR_LANGUAGE_CHECK_PATH,
-            s.blobs[FOUR_LANGUAGE_CHECK_PATH].replace(
-                b'func _run() -> void:\n', b'func _run() -> void:\n\treturn\n', 1)),
-        "FourLanguage actual locale caller has a top-level early return")
-    case(
-        "runtime receipt installer early return",
-        lambda _f, _g, s: s.blobs.__setitem__(
-            CONTROLLER_PATH,
-            s.blobs[CONTROLLER_PATH].replace(
-                b'static func _install_runtime_choice_receipts(event_id: String) -> Dictionary:\n',
-                b'static func _install_runtime_choice_receipts(event_id: String) -> Dictionary:\n\treturn {}\n',
-                1)),
-        "runtime receipt installer exits before its source lookup")
-    case(
-        "synthetic M6 installer early return",
-        lambda _f, _g, s: s.blobs.__setitem__(
-            CONTROLLER_PATH,
-            s.blobs[CONTROLLER_PATH].replace(
-                b'static func _install_story_demo_m6_event() -> Dictionary:\n',
-                b'static func _install_story_demo_m6_event() -> Dictionary:\n\treturn {}\n',
-                1)),
-        "synthetic M6 installer exits before its source lookup")
+    case("invented sacrifice", lambda f, _g, _s: f[
+        "reviewed_choice_annotations"]["arc_daeun_01_meet#0"][
+            "sacrificed_axes"].append("money"), "sacrificed_axes drifted")
 
-    mutated_fixture = copy.deepcopy(fixture)
-    mutated_gates = copy.deepcopy(human_gates)
-    mutated_sources = copy.deepcopy(sources)
-    mutate_choice_source(
-        mutated_sources, ARC_EVENTS_PATH, "arc_temptation_fallout", 1,
-        lambda choice: choice.setdefault("effects", {}).__setitem__("health", -10))
-    comparison_report = audit_with_sources(
-        mutated_fixture, mutated_gates, mutated_sources)
-    escalation_finding = next(
-        item for item in comparison_report.get("findings", [])
-        if item.get("id") == "fallout_escalation_has_no_later_story_reader")
-    if escalation_finding.get("visible_numeric_dominates_restitution") is not False \
-            or "visibly dominates" in str(escalation_finding.get("summary", "")):
-        raise AssertionError("escalation comparison finding retained stale dominance prose")
-    cases += 1
-
-    numeric_sources = copy.deepcopy(sources)
-    mutate_choice_source(
-        numeric_sources, DAEUN_EVENTS_PATH, "arc_daeun_01_meet", 0,
-        lambda choice: choice.setdefault("effects", {}).pop("mental", None))
-    numeric_report = audit_with_sources(
-        copy.deepcopy(fixture), copy.deepcopy(human_gates), numeric_sources)
-    numeric_finding = next(
-        item for item in numeric_report.get("findings", [])
-        if item.get("id") == "visible_numeric_echo_vs_exact_story_consumption")
-    if numeric_finding.get("visible_numeric_effect_choices") != 17 \
-            or not str(numeric_finding.get("summary", "")).startswith("17/24"):
-        raise AssertionError("visible numeric finding retained stale 18/24 prose")
-    cases += 1
-
-    follow_sources = copy.deepcopy(sources)
-    mutate_choice_source(
-        follow_sources, ARC_EVENTS_PATH, "arc_temptation_fallout", 1,
-        lambda choice: choice.__setitem__(
-            "follow_up_event", "arc_daeun_01_meet"))
-    follow_report = audit_with_sources(
-        copy.deepcopy(fixture), copy.deepcopy(human_gates), follow_sources)
-    if not any(
-            "authored follow-up edges and consumer contracts disagree" in str(error)
-            for error in follow_report.get("errors", [])):
-        raise AssertionError("new authored follow-up edge was not rejected")
-    follow_finding = next(
-        item for item in follow_report.get("findings", [])
-        if item.get("id") == "fallout_escalation_has_later_story_reader")
-    if follow_finding.get("exact_later_story_readers") != 1 \
-            or follow_report.get("consumer_graph", {}).get(
-                "exact_downstream_story_choice_count") != 7 \
-            or follow_report.get("metrics", {}).get("risk_reach", {}).get(
-                "fallout", {}).get("post_escalation_world_reaction") != 1:
-        raise AssertionError("authored follow-up edge retained stale no-reader findings")
-    cases += 1
-
-    historical_gates = copy.deepcopy(human_gates)
-    historical_gates["release_candidates"][PROFILE]["status"] = "historical"
-    historical_report = audit_with_sources(
-        copy.deepcopy(fixture), historical_gates, copy.deepcopy(sources))
-    if historical_report.get("subject", {}).get("active_human_gate_match") is not False:
-        raise AssertionError("historical human gate was reported as an active match")
-    cases += 1
-
-    fallback_fixture = copy.deepcopy(fixture)
-    fallback_fixture["source_blobs"]["working_tree_fallback_probe"] = {
-        "path": "tools/story_demo_density_audit.py",
-        "sha256": "0" * 64,
-        "git_blob_oid": "0" * 40,
-    }
-    fallback_sources, fallback_errors = prepare_sources(
-        fallback_fixture, copy.deepcopy(human_gates))
-    if fallback_sources is not None or not any(
-            "tools/story_demo_density_audit.py" in str(error)
-            and "git show" in str(error) for error in fallback_errors):
-        raise AssertionError("exact loader did not reject a working-tree-only blob")
-    cases += 1
+    case("dead focused selector caller", lambda _f, _g, s: replace_source(
+        s, STORY_CHOICE_CHECK_PATH,
+        b'\t_check_all_receipt_selectors(controller)\n',
+        b'\t# disabled selector sweep\n'), "28-selector sweep is not live")
+    case("partial focused selector total", lambda _f, _g, s: replace_source(
+        s, STORY_CHOICE_CHECK_PATH, b'attempts == 28,', b'attempts == 27,'),
+        "live selector sweep lacks")
+    case("focused selector skips dirty root", lambda _f, _g, s: replace_source(
+        s, STORY_CHOICE_CHECK_PATH,
+        b'\t\t{"event": M6_RESTITUTION_EVENT_ID, "route": "restitution"},\n',
+        b''), "selector event inventory drifted")
+    case("focused selector bypasses fresh prefix", lambda _f, _g, s: replace_source(
+        s, STORY_CHOICE_CHECK_PATH,
+        b'\t\t\tif not _advance_fresh_prefix_to_event(\n',
+        b'\t\t\tif true or not _advance_fresh_prefix_to_event(\n'),
+        "fresh-prefix selector loop/gate structure drifted")
+    case("history reader detached", lambda _f, _g, s: replace_source(
+        s, CONTROLLER_PATH, b'_selected_history_texts_from_session(session)',
+        b'_selected_history_texts_from_session({})'),
+        "does not execute the exact M03-M05 history reader")
+    case("history choice no longer exact", lambda _f, _g, s: replace_source(
+        s, CONTROLLER_PATH, b'_selected_choice_index_from_session(\n\t\t\tsession, event_id)',
+        b'0'), "reader marker missing")
+    case("deferred claim removed", lambda _f, _g, s: replace_source(
+        s, CONTROLLER_PATH, b'GameState.claim_deferred_event(',
+        b'GameState.peek_deferred_event('),
+        "callback claim/drain is not live and atomic")
+    case("deferred claim branch disabled", lambda _f, _g, s: replace_source(
+        s, CONTROLLER_PATH,
+        b'\tif str(context.get("source", "")) == M6_RESTITUTION_SOURCE_ID:\n',
+        b'\tif false and str(context.get("source", "")) == M6_RESTITUTION_SOURCE_ID:\n'),
+        "callback claim/drain is not live and atomic")
+    case("ledger inserted into runtime receipts", lambda _f, _g, s: replace_source(
+        s, CONTROLLER_PATH,
+        b'\tM6_ESCALATION_ROOT_ID,\n]\nconst ACTION_LEDGER_KEYS',
+        b'\tM6_ESCALATION_ROOT_ID,\n\tM6_LEDGER_EVENT_ID,\n]\nconst ACTION_LEDGER_KEYS'),
+        "runtime receipt event inventory drifted")
+    case("M6 launch skips route preparation", lambda _f, _g, s: replace_source(
+        s, CONTROLLER_PATH,
+        b'\t\tvar prepared := _prepare_m6_route_context_mutation()\n',
+        b'\t\tvar prepared := {"ok": true}\n'),
+        "live M06 launch does not consume")
+    case("M6 ledger edge removed", lambda _f, _g, s: replace_source(
+        s, CONTROLLER_PATH, b'choice["follow_up_event"] = M6_LEDGER_EVENT_ID',
+        b'choice.erase("follow_up_event")'),
+        "do not execute the ledger edge")
+    case("ledger selected reader removed", lambda _f, _g, s: replace_source(
+        s, CONTROLLER_PATH,
+        b'event["description_if_known"] = ledger_variants',
+        b'event.erase("description_if_known")'),
+        "ledger exact selected/forgone reader lacks")
+    case("dirty router collapsed", lambda _f, _g, s: replace_source(
+        s, CONTROLLER_PATH, b'M6_ESCALATION_ROOT_ID, true',
+        b'M6_RESTITUTION_ROOT_ID, true'), "dirty-root router lacks")
+    case("ledger expression gains effects", lambda _f, _g, s: mutate_choice(
+        s, CORE_EVENTS_PATH, M6_LEDGER_ID, 0,
+        lambda choice: choice.__setitem__("effects", {"mental": 1})),
+        "ledger close is not an exact state-free expression")
+    case("root destroys survival", lambda _f, _g, s: mutate_choice(
+        s, CORE_EVENTS_PATH, M6_RESTITUTION_ROOT_ID, 0,
+        lambda choice: choice.setdefault("effects", {}).__setitem__(
+            "mental", -100)), "legal signature enumeration drifted")
 
     try:
         parse_json_bytes(b'{"duplicate":1,"duplicate":2}', "duplicate probe")
@@ -3124,15 +3148,17 @@ def print_human(report: Mapping[str, Any]) -> None:
     print(
         "STORY_DEMO_DENSITY_AUDIT_OK "
         "source=%s tree=%s build=%s variants=%s choices=%s receipts_per_run=%s "
-        "signatures=%s clean=%s fallout=%s" % (
+        "signatures=%s clean=%s restitution=%s escalation=%s" % (
             subject.get("source_ref", ""), subject.get("source_tree", ""),
             subject.get("build_id", ""), topology.get("runtime_event_variants", 0),
-            topology.get("unique_choice_options", 0),
+            topology.get("visible_choice_options", 0),
             signatures.get("receipts_per_run", 0), signatures.get("total", 0),
-            signatures.get("clean", 0), signatures.get("fallout", 0)))
+            signatures.get("clean", 0), signatures.get("restitution", 0),
+            signatures.get("escalation", 0)))
     print(
         "  ROUTES clean=7-meaningful+2-forced "
-        "fallout=8-meaningful+1-forced months=6 weeks=24")
+        "restitution=9-meaningful+1-forced "
+        "escalation=9-meaningful+1-forced months=6 weeks=24")
     print(
         "  RUNTIME_COVERAGE %s/%s missing=%s" % (
             coverage.get("covered_count", 0), coverage.get("total", 0),

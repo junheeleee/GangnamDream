@@ -3,21 +3,21 @@
   "subject": {
     "profile": "story_demo_rc",
     "scope": "M01-M06",
-    "source_commit": "16675f6ce310adb477da9ab3431c2edfe15ab278",
-    "source_tree": "aed6904fc95345a867d2762f0bb8a62e65b32ce1",
-    "build_id": "2026.08.25.1",
+    "source_commit": "ce57751eb5555828dfb28af87ab6026e8ab93fb9",
+    "source_tree": "0e1ad9a26cdef953d94308015d527080a718eea2",
+    "build_id": "2026.08.31.1",
     "human_route_density": "not_measured"
   },
   "source_blobs": {
     "controller": {
       "path": "playtests/order124/StoryChoiceM1M6Playtest.gd",
-      "git_blob_oid": "39d34b8d21d57eb92a4df6c1e0fb80cd08ea06de",
-      "sha256": "af89a374ce030652433c3a9c61b5d66601f6fce7972d03052d85339b81489268"
+      "git_blob_oid": "64d57fc65560cb8ff901020c0002b9ddc966f38f",
+      "sha256": "236dfbd96a943b2f3c2966eb54c71b4110aca4ae20b29c04e184bd43c8266631"
     },
     "arc_events": {
       "path": "content/events/arc_events.json",
-      "git_blob_oid": "6a9d90b70f6af0454f258175e3634f898efa2657",
-      "sha256": "c429b30dbe4ba3665e381c446c1945aedbfaf4ad27de7b7ab16e6b71ce3a7744"
+      "git_blob_oid": "e20dc4b2f12feb6dba17e6acf76b279f99deb148",
+      "sha256": "41febd1d1fd6b68f146171b02bf64a144699b39d1dd03c75444e72a518676d99"
     },
     "arc_daeun": {
       "path": "content/events/arc_daeun.json",
@@ -26,28 +26,28 @@
     },
     "core_loop_v2_events": {
       "path": "content/events/core_loop_v2_events.json",
-      "git_blob_oid": "786aa5929b31c5ed244c0f2d471f48c18fb733a9",
-      "sha256": "a30227ba75430679caca5e6e9e1bac03c45519917d3d80d46e3904f4dee425db"
+      "git_blob_oid": "096378d3becdbdc3149fa3ce544d34816c6f9640",
+      "sha256": "30ce137faf06437e131d297efa7ab3fc82806534e77c53bea33af0b01a750b87"
     },
     "story_mode": {
       "path": "scenes/StoryMode.gd",
-      "git_blob_oid": "75f94082a9f4411d6e26e7478a720f41aa0a4351",
-      "sha256": "d083f53589d5b61ee5ede05a879ed5dd63e636853b665c890915b2142403848e"
+      "git_blob_oid": "e3bf77958d442606660008d6dde6efcc0abc2c11",
+      "sha256": "7ec09c661c708f6f096502f41161ae9b6373003a7df21a0194e2870c5ce9beee"
     },
     "game_state": {
       "path": "autoloads/GameState.gd",
-      "git_blob_oid": "94f8b50b18dfeaaa6db0c5a62737774f141fc792",
-      "sha256": "54bb9af74c5a1405ff9a23c97b49e90a13950960f07f0cf4b330a27389c8a5f4"
+      "git_blob_oid": "25974e107b96de45efc734365de24f5a9b4c73c1",
+      "sha256": "21c7547fe171e742a2fdda851a8b2cfdcf07132f6b5002e1df68ea3a97e22028"
     },
     "story_choice_check": {
       "path": "tools/StoryChoiceM1M6Check.gd",
-      "git_blob_oid": "412b7a59f649e66d21ef6f3e254fc40463eeb1b9",
-      "sha256": "06e0a453a3476beca0c1a99255bbe2e0c44d598da1f5390da456db44e31f6ff8"
+      "git_blob_oid": "d19a19f5d2ffcf2b979008d49c0a3029b12a256b",
+      "sha256": "ec9779dfcb91c700aeabf9b5471fcffda7072082d259667c8f72740bc7cf427d"
     },
     "four_language_check": {
       "path": "tools/StoryDemoFourLanguageCheck.gd",
-      "git_blob_oid": "f3c8e16173afa9539544efc5324a463fa38e3411",
-      "sha256": "03c65d0894125061b3afaeabc5e9dc7ed0d1adecb38387cd03ed2f0bc8f6950b"
+      "git_blob_oid": "ebd4dc437d55d78c159072ca3476a7285b030568",
+      "sha256": "df12e1dd57eb768c40ac5beec563b845a03bac9639a4b9506050e14278f1d7eb"
     }
   },
   "start_contract": {
@@ -192,6 +192,36 @@
       }
     },
     {
+      "node_id": "m06_restitution_root",
+      "month": 6,
+      "runtime_event_id": "v2_dirty_trace_initial_call",
+      "source": {
+        "path": "content/events/core_loop_v2_events.json",
+        "event_id": "v2_dirty_trace_initial_call"
+      },
+      "ingress": {
+        "kind": "deferred_claim",
+        "producer_choice": "arc_temptation_fallout#0",
+        "source_event_id": "callback_escaped_dirty_trace",
+        "trigger_turn": 21
+      }
+    },
+    {
+      "node_id": "m06_escalation_root",
+      "month": 6,
+      "runtime_event_id": "v2_dirty_recruiter_week24",
+      "source": {
+        "path": "content/events/core_loop_v2_events.json",
+        "event_id": "v2_dirty_recruiter_week24"
+      },
+      "ingress": {
+        "kind": "route_consequence",
+        "producer_choice": "arc_temptation_fallout#1",
+        "source_flag": "fell_to_darkness",
+        "trigger_turn": 21
+      }
+    },
+    {
       "node_id": "m06_first_bill",
       "month": 6,
       "runtime_event_id": "order124_m6_first_bill",
@@ -200,7 +230,31 @@
         "event_id": "v2_demo_first_bill"
       },
       "ingress": {
-        "kind": "synthetic_month_root"
+        "kind": "route_join",
+        "predecessor_event_ids": [
+          "v2_dirty_trace_initial_call",
+          "v2_dirty_recruiter_week24"
+        ],
+        "clean_direct": true
+      }
+    },
+    {
+      "node_id": "m06_first_bill_ledger",
+      "month": 6,
+      "runtime_event_id": "v2_demo_first_bill_ledger",
+      "source": {
+        "path": "content/events/core_loop_v2_events.json",
+        "event_id": "v2_demo_first_bill_ledger"
+      },
+      "ingress": {
+        "kind": "choice_follow_up",
+        "producer_choices": [
+          "order124_m6_first_bill#0",
+          "order124_m6_first_bill#1",
+          "order124_m6_first_bill#2",
+          "order124_m6_first_bill#3",
+          "order124_m6_first_bill#4"
+        ]
       }
     }
   ],
@@ -316,7 +370,8 @@
       "consumer_expectations": [
         "controller_session_receipt",
         "controller_recap_choice",
-        "m02_restitution_deferred"
+        "m02_restitution_claim",
+        "m06_restitution_root"
       ]
     },
     "arc_temptation_fallout#1": {
@@ -331,7 +386,8 @@
       "risk_role": "escalation",
       "consumer_expectations": [
         "controller_session_receipt",
-        "controller_recap_choice"
+        "controller_recap_choice",
+        "m06_escalation_root"
       ]
     },
     "arc_daeun_01_meet#0": {
@@ -343,7 +399,8 @@
       "risk_role": "none",
       "consumer_expectations": [
         "controller_session_receipt",
-        "controller_recap_choice"
+        "controller_recap_choice",
+        "m03_m05_exact_choice_history"
       ]
     },
     "arc_daeun_01_meet#1": {
@@ -357,7 +414,8 @@
       "risk_role": "none",
       "consumer_expectations": [
         "controller_session_receipt",
-        "controller_recap_choice"
+        "controller_recap_choice",
+        "m03_m05_exact_choice_history"
       ]
     },
     "arc_jiyeon_01_crash#0": {
@@ -373,7 +431,8 @@
       "risk_role": "none",
       "consumer_expectations": [
         "controller_session_receipt",
-        "controller_recap_choice"
+        "controller_recap_choice",
+        "m03_m05_exact_choice_history"
       ]
     },
     "arc_jiyeon_01_crash#1": {
@@ -387,7 +446,8 @@
       "risk_role": "none",
       "consumer_expectations": [
         "controller_session_receipt",
-        "controller_recap_choice"
+        "controller_recap_choice",
+        "m03_m05_exact_choice_history"
       ]
     },
     "arc_jiyeon_01_crash#2": {
@@ -403,7 +463,8 @@
       "risk_role": "none",
       "consumer_expectations": [
         "controller_session_receipt",
-        "controller_recap_choice"
+        "controller_recap_choice",
+        "m03_m05_exact_choice_history"
       ]
     },
     "arc_sangchul_01_meet#0": {
@@ -416,7 +477,8 @@
       "consumer_expectations": [
         "controller_session_receipt",
         "controller_recap_choice",
-        "m04_measure_follow_up"
+        "m04_measure_follow_up",
+        "m03_m05_exact_choice_history"
       ]
     },
     "arc_sangchul_01_meet#1": {
@@ -429,7 +491,8 @@
       "consumer_expectations": [
         "controller_session_receipt",
         "controller_recap_choice",
-        "m04_coffee_follow_up"
+        "m04_coffee_follow_up",
+        "m03_m05_exact_choice_history"
       ]
     },
     "arc_sangchul_01_measure#0": {
@@ -467,7 +530,8 @@
       "risk_role": "none",
       "consumer_expectations": [
         "controller_session_receipt",
-        "controller_recap_choice"
+        "controller_recap_choice",
+        "m03_m05_exact_choice_history"
       ]
     },
     "arc_sangchul_01_answer#1": {
@@ -482,7 +546,8 @@
       "risk_role": "none",
       "consumer_expectations": [
         "controller_session_receipt",
-        "controller_recap_choice"
+        "controller_recap_choice",
+        "m03_m05_exact_choice_history"
       ]
     },
     "arc_sangchul_01_answer#2": {
@@ -494,7 +559,8 @@
       "risk_role": "none",
       "consumer_expectations": [
         "controller_session_receipt",
-        "controller_recap_choice"
+        "controller_recap_choice",
+        "m03_m05_exact_choice_history"
       ]
     },
     "arc_jaehyuk_01_reunion#0": {
@@ -506,7 +572,8 @@
       "risk_role": "none",
       "consumer_expectations": [
         "controller_session_receipt",
-        "controller_recap_choice"
+        "controller_recap_choice",
+        "m03_m05_exact_choice_history"
       ]
     },
     "arc_jaehyuk_01_reunion#1": {
@@ -519,6 +586,47 @@
         "body"
       ],
       "risk_role": "none",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice",
+        "m03_m05_exact_choice_history"
+      ]
+    },
+    "v2_dirty_trace_initial_call#0": {
+      "mode": "decision",
+      "action_axes": ["people"],
+      "sacrificed_axes": ["body"],
+      "risk_role": "restitution",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice"
+      ]
+    },
+    "v2_dirty_trace_initial_call#1": {
+      "mode": "decision",
+      "action_axes": ["livelihood"],
+      "sacrificed_axes": ["body"],
+      "risk_role": "restitution",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice"
+      ]
+    },
+    "v2_dirty_recruiter_week24#0": {
+      "mode": "decision",
+      "action_axes": ["people"],
+      "sacrificed_axes": ["body"],
+      "risk_role": "escalation",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice"
+      ]
+    },
+    "v2_dirty_recruiter_week24#1": {
+      "mode": "decision",
+      "action_axes": ["livelihood"],
+      "sacrificed_axes": ["body"],
+      "risk_role": "escalation",
       "consumer_expectations": [
         "controller_session_receipt",
         "controller_recap_choice"
@@ -538,7 +646,8 @@
       "risk_role": "none",
       "consumer_expectations": [
         "controller_session_receipt",
-        "controller_recap_choice"
+        "controller_recap_choice",
+        "m06_choice_ledger"
       ]
     },
     "order124_m6_first_bill#1": {
@@ -555,7 +664,8 @@
       "risk_role": "none",
       "consumer_expectations": [
         "controller_session_receipt",
-        "controller_recap_choice"
+        "controller_recap_choice",
+        "m06_choice_ledger"
       ]
     },
     "order124_m6_first_bill#2": {
@@ -572,7 +682,8 @@
       "risk_role": "none",
       "consumer_expectations": [
         "controller_session_receipt",
-        "controller_recap_choice"
+        "controller_recap_choice",
+        "m06_choice_ledger"
       ]
     },
     "order124_m6_first_bill#3": {
@@ -589,7 +700,8 @@
       "risk_role": "none",
       "consumer_expectations": [
         "controller_session_receipt",
-        "controller_recap_choice"
+        "controller_recap_choice",
+        "m06_choice_ledger"
       ]
     },
     "order124_m6_first_bill#4": {
@@ -605,8 +717,16 @@
       "risk_role": "none",
       "consumer_expectations": [
         "controller_session_receipt",
-        "controller_recap_choice"
+        "controller_recap_choice",
+        "m06_choice_ledger"
       ]
+    },
+    "v2_demo_first_bill_ledger#0": {
+      "mode": "expression",
+      "action_axes": [],
+      "sacrificed_axes": [],
+      "risk_role": "none",
+      "consumer_expectations": []
     }
   },
   "consumer_contracts": [
@@ -633,6 +753,10 @@
         "arc_sangchul_01_answer#2",
         "arc_jaehyuk_01_reunion#0",
         "arc_jaehyuk_01_reunion#1",
+        "v2_dirty_trace_initial_call#0",
+        "v2_dirty_trace_initial_call#1",
+        "v2_dirty_recruiter_week24#0",
+        "v2_dirty_recruiter_week24#1",
         "order124_m6_first_bill#0",
         "order124_m6_first_bill#1",
         "order124_m6_first_bill#2",
@@ -674,6 +798,10 @@
         "arc_sangchul_01_answer#2",
         "arc_jaehyuk_01_reunion#0",
         "arc_jaehyuk_01_reunion#1",
+        "v2_dirty_trace_initial_call#0",
+        "v2_dirty_trace_initial_call#1",
+        "v2_dirty_recruiter_week24#0",
+        "v2_dirty_recruiter_week24#1",
         "order124_m6_first_bill#0",
         "order124_m6_first_bill#1",
         "order124_m6_first_bill#2",
@@ -762,20 +890,108 @@
       "demo_reachable": true
     },
     {
-      "consumer_id": "m02_restitution_deferred",
+      "consumer_id": "m02_restitution_claim",
       "kind": "deferred_follow_up",
       "producer_choices": [
         "arc_temptation_fallout#0"
       ],
       "reader": {
-        "path": "autoloads/GameState.gd",
-        "symbol": "apply_choice",
+        "path": "playtests/order124/StoryChoiceM1M6Playtest.gd",
+        "symbol": "_prepare_m6_route_context_mutation",
         "markers": [
-          "DataRegistry.deferred_follow_ups(choice)",
-          "add_deferred_event"
+          "GameState.claim_deferred_event",
+          "M6_RESTITUTION_SOURCE_ID",
+          "M6_ENTRY_TURN",
+          "context.get(\"source\""
         ]
       },
-      "demo_reachable": false
+      "demo_reachable": true
+    },
+    {
+      "consumer_id": "m06_restitution_root",
+      "kind": "route",
+      "producer_choices": ["arc_temptation_fallout#0"],
+      "reader": {
+        "path": "playtests/order124/StoryChoiceM1M6Playtest.gd",
+        "symbol": "_preview_m6_route_context",
+        "markers": [
+          "escaped_dirty_money",
+          "M6_RESTITUTION_ROOT_ID",
+          "M6_RESTITUTION_SOURCE_ID",
+          "missing_due_callback"
+        ]
+      },
+      "demo_reachable": true
+    },
+    {
+      "consumer_id": "m06_escalation_root",
+      "kind": "route",
+      "producer_choices": ["arc_temptation_fallout#1"],
+      "reader": {
+        "path": "playtests/order124/StoryChoiceM1M6Playtest.gd",
+        "symbol": "_preview_m6_route_context",
+        "markers": [
+          "fell_to_darkness",
+          "M6_ESCALATION_ROOT_ID",
+          "M6_ESCALATION_SOURCE_ID"
+        ]
+      },
+      "demo_reachable": true
+    },
+    {
+      "consumer_id": "m03_m05_exact_choice_history",
+      "kind": "history_reader",
+      "producer_choices": [
+        "arc_daeun_01_meet#0",
+        "arc_daeun_01_meet#1",
+        "arc_jiyeon_01_crash#0",
+        "arc_jiyeon_01_crash#1",
+        "arc_jiyeon_01_crash#2",
+        "arc_sangchul_01_meet#0",
+        "arc_sangchul_01_meet#1",
+        "arc_sangchul_01_answer#0",
+        "arc_sangchul_01_answer#1",
+        "arc_sangchul_01_answer#2",
+        "arc_jaehyuk_01_reunion#0",
+        "arc_jaehyuk_01_reunion#1"
+      ],
+      "reader": {
+        "path": "playtests/order124/StoryChoiceM1M6Playtest.gd",
+        "symbol": "_selected_history_texts_from_session",
+        "markers": [
+          "_selected_choice_index_from_session",
+          "arc_daeun_01_meet",
+          "arc_jiyeon_01_crash",
+          "M4_ROOT_EVENT_ID",
+          "M4_ANSWER_EVENT_ID",
+          "arc_jaehyuk_01_reunion",
+          "\"text\""
+        ]
+      },
+      "demo_reachable": true
+    },
+    {
+      "consumer_id": "m06_choice_ledger",
+      "kind": "follow_up",
+      "producer_choices": [
+        "order124_m6_first_bill#0",
+        "order124_m6_first_bill#1",
+        "order124_m6_first_bill#2",
+        "order124_m6_first_bill#3",
+        "order124_m6_first_bill#4"
+      ],
+      "reader": {
+        "path": "playtests/order124/StoryChoiceM1M6Playtest.gd",
+        "symbol": "_install_story_demo_ledger_event",
+        "markers": [
+          "M6_SOURCE_CHOICES",
+          "_runtime_choice_receipt_flag",
+          "description_if_known",
+          "selected_choice",
+          "missed"
+        ]
+      },
+      "demo_reachable": true
     }
   ],
   "runtime_coverage": {
@@ -788,56 +1004,69 @@
       "arc_temptation_01#1",
       "arc_temptation_clean#0",
       "arc_temptation_fallout#0",
+      "arc_temptation_fallout#1",
       "arc_daeun_01_meet#0",
       "arc_daeun_01_meet#1",
       "arc_jiyeon_01_crash#0",
+      "arc_jiyeon_01_crash#1",
+      "arc_jiyeon_01_crash#2",
       "arc_sangchul_01_meet#0",
       "arc_sangchul_01_meet#1",
       "arc_sangchul_01_measure#0",
       "arc_sangchul_01_coffee#0",
       "arc_sangchul_01_answer#0",
       "arc_sangchul_01_answer#1",
+      "arc_sangchul_01_answer#2",
       "arc_jaehyuk_01_reunion#0",
       "arc_jaehyuk_01_reunion#1",
+      "v2_dirty_trace_initial_call#0",
+      "v2_dirty_trace_initial_call#1",
+      "v2_dirty_recruiter_week24#0",
+      "v2_dirty_recruiter_week24#1",
       "order124_m6_first_bill#0",
-      "order124_m6_first_bill#3"
-    ],
-    "total": 24,
-    "missing": [
-      "arc_temptation_fallout#1",
-      "arc_jiyeon_01_crash#1",
-      "arc_jiyeon_01_crash#2",
-      "arc_sangchul_01_answer#2",
       "order124_m6_first_bill#1",
       "order124_m6_first_bill#2",
+      "order124_m6_first_bill#3",
       "order124_m6_first_bill#4"
     ],
-    "basis": "Reviewed union of authored selector outcomes in both exact source checks; structural choice iteration alone is not counted as a covered outcome."
+    "total": 28,
+    "visible_total": 29,
+    "missing": [],
+    "excluded_state_free": ["v2_demo_first_bill_ledger#0"],
+    "basis": "The focused Godot check starts a fresh legal prefix and applies each of 28 receipt-bearing selectors; the one ledger expression is visible but state-free and excluded."
   },
   "expected": {
     "months": 6,
     "weeks": 24,
-    "runtime_event_variants": 11,
-    "unique_choice_options": 24,
-    "receipts_per_run": 9,
+    "runtime_event_variants": 14,
+    "visible_choice_options": 29,
+    "receipt_bearing_selectors": 28,
+    "receipts_per_run": {
+      "clean": 9,
+      "restitution": 10,
+      "escalation": 10
+    },
     "legal_signatures": {
       "clean": 360,
-      "fallout": 720,
-      "total": 1080
+      "restitution": 720,
+      "escalation": 720,
+      "total": 1800
     },
     "meaningful_decisions": {
       "clean": 7,
-      "fallout": 8
+      "restitution": 9,
+      "escalation": 9
     },
     "forced_continues": {
       "clean": 2,
-      "fallout": 1
+      "restitution": 1,
+      "escalation": 1
     },
     "route_survival": {
       "settlements_per_run": 6,
-      "surviving_signatures": 1080,
+      "surviving_signatures": 1800,
       "min_end_health": 61,
-      "min_end_mental": 15,
+      "min_end_mental": 10,
       "min_end_money": 6320000.0
     }
   }
