@@ -10,6 +10,11 @@ ORDER-142 정적 감사가 찾은 cross-month overlap 8개를 원고·story map�
 제품 신원은 보호한다. 이 오더는 M08 이후 제품 그래프만 소유하며 AP/월간 행동판을
 되살리지 않는다.
 
+**2026-08-31 원고 소유권 확장 선언:** M34를 M33 선택의 재실행이 아닌 실제
+`cost_of_knowing` 후폭풍으로 고치려면 그 제품 원고 owner인
+`content/events{,_en}/arc_year3_drama.json`이 필요함을 대조 중 확인했다. 이 두
+파일을 아래 소유권에 추가한다. 다른 Year 3 root는 바꾸지 않는다.
+
 ## 깊이 3문
 
 1. **다른 달 root로 이어진다고 항상 끊어야 하는가?** 아니다. 퇴실→새 방,
@@ -71,7 +76,7 @@ ORDER-142 정적 감사가 찾은 cross-month overlap 8개를 원고·story map�
 신규 `content/meta/story_graph_contract.json`, 신규
 `tools/story_graph_contract_audit.py`; `content/meta/story_map.json`,
 `content/meta/story_rules.json`, `content/meta/event_lifecycle.json`,
-`content/events{,_en}/{arc_midgame,arc_chapter_themes,arc_daeun,arc_drama,arc_events}.json`,
+`content/events{,_en}/{arc_midgame,arc_chapter_themes,arc_daeun,arc_drama,arc_events,arc_year3_drama}.json`,
 `scenes/MainGame.gd`, `assets/scene_direction_manifest.json`,
 `tools/{peak_scene_chain_audit,arc_flow_sim,scene_direction_catalog}.py`,
 `tools/{HiddenFeatureCheck,CoreChoiceSliceCheck}.gd`,
