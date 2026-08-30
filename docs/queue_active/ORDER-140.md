@@ -96,9 +96,9 @@ StoryMode의 일반 입력·연출과 위 두 함수 밖 저장 동작은 바꾸
 `tools/story_demo_density_audit.py`, `tools/fixtures/story_demo_density_contract.json`,
 `tools/zh_translation_audit.py`, `tools/audit.sh`, `tools/audit_scope.json`.
 
-`tools/build_story_demo_macos.sh`와 `tools/story_demo_package_audit.py`는 현재 이 오더의
-수정 범위가 아니다. 아래 실종 아카이브 보호 계약을 별도 자식에서 닫은 뒤,
-새 product commit에 맞춰 소유권을 문서로 확장하고 패키지 배치를 실행한다.
+**패키지 발급 (2026-08-31 범위 확장):** `tools/build_story_demo_macos.sh`,
+`tools/story_demo_package_audit.py`. 닫힌 ORDER-141 보호를 보존하며 아래 이중
+신원과 세 경로 발급만 소유한다.
 
 위에 없는 사건 정본·런타임·표면·저장·엔딩·자산 파일은 수정하지 않는다.
 특히 `project.godot`, `export_presets.cfg`, `autoloads/GameState.gd`,
@@ -141,6 +141,45 @@ StoryMode의 일반 입력·연출과 위 두 함수 밖 저장 동작은 바꾸
 - ZIP 자체나 전체 아카이브를 복구했다고 위조하지 않는다. 실종 상태와
   역사 expected hash를 같이 고정하고, 없는 아카이브를 등록된 손상 증거로
   보호하는 최소 자식 오더를 패키지 배치 전에 별도로 연다.
+
+## ORDER-141 완료 뒤 패키지 범위 확장
+
+1. 제품 신원은 `ce57751eb5555828dfb28af87ab6026e8ab93fb9` / tree
+   `0e1ad9a26cdef953d94308015d527080a718eea2` / BUILD `2026.08.31.1`이다.
+2. package source는 ORDER-141·density·builder QA를 포함한 새 clean commit이며,
+   제품 commit이 그 조상이어야 한다.
+3. `project.godot`, `export_presets.cfg`, icon 6파일/경로와 `assets`, `autoloads`,
+   `content`, `locale`, `playtests`, `scenes`, `steam_input`, `systems`,
+   `ui_components`의 product→package source diff는 0이어야 한다.
+4. manifest는 package `source.revision/tree`와 별도 product 신원·scope·diff·
+   ancestor 판정을 기록한다.
+5. audit는 그 불리언을 믿지 않고 Git에서 tree·ancestor·diff를 다시 계산한다.
+6. FourLanguage marker는 `locales=5 routes=5 months=30 weeks=120 settlements=30
+   ap_surface=0 save=5 story=10 build=2026.08.31.1`로 고정한다.
+7. native real roundtrip은 clean/ko/9, restitution/en/10,
+   escalation/zh-CN/10 세 행을 이 순서로 실행한다.
+8. builder·manifest는 route arg만 쓰고 legacy choice arg를 금지한다.
+9. marker·manifest는 `route/m02/receipts`를 exact로 구분하고 `choice`를 금지한다.
+10. 세 경로는 별도 RuntimeQA namespace를 쓰고 모든 종료 경로에서 제거한다.
+11. `validation.real_story_roundtrips`는 세 행과 exact key/args/marker만 허용한다.
+12. density audit·fixture·`docs/human_gates.json`을 package source contract에
+    넣고 self-test 29·actual 14/29/28·1,800 서명을 같은 source에서 실행한다.
+13. staged audit는 원 저장소 Git object DB를 명시적으로 읽고 working-tree
+    fallback이나 fixture-only retarget을 허용하지 않는다.
+14. source contract 각 행의 path/hash/size와 순서·중복을 실제 Git blob으로
+    재검증한다.
+15. ORDER-141의 evidence 세 파일과 `archive_restored=false`,
+    `candidate_eligible=false`, `missing_with_loss_receipt` 보호를 byte-exact로 유지한다.
+16. self-test는 runtime 한 바이트 drift, non-ancestor/wrong tree, 세 경로 누락·중복·
+    순서, locale/m02/receipt/namespace/args, legacy choice, density marker, loss 행
+    변조를 각각 거부한다.
+17. package source commit/tree로 앱·ZIP·manifest/checksum을 만든 뒤 package audit를
+    같은 commit에서 다시 실행한다.
+18. `human_gates.json`의 최종 `commit/tree`는 제품 commit이 아니라 실제 package
+    source commit/tree를 기록하고, note에 제품 `ce57751/0e1ad9a`와 별도 review
+    wrapper HEAD를 명시한다.
+19. 세 경로 정상 속도와 JA·zh-CN·zh-TW 원어민 판정은 OPEN이다.
+20. 자동 marker는 사람 GO가 아니며 main·본편 이관은 HOLD다.
 
 ## 완료 증거
 
