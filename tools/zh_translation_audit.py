@@ -37,7 +37,7 @@ from ja_translation_pipeline import (  # noqa: E402
 
 
 LANGUAGES = ("zh-CN", "zh-TW")
-EXPECTED_STORY_DEMO_EXCLUSIVE_UI_KEYS = 34
+EXPECTED_STORY_DEMO_EXCLUSIVE_UI_KEYS = 37
 SCRIPT_VARIANT_DATA_PATH = (
     ROOT / "tools/data/opencc_script_variants_1_3_1.json"
 )
@@ -114,6 +114,9 @@ SOURCE_COMPACT_SINO_COUNTER = re.compile(
 SOURCE_COMPACT_NATIVE_COUNTER = re.compile(
     rf"(?<![가-힣])(?P<number>한)(?P<counter>번){SOURCE_COUNTER_SUFFIX}"
 )
+SOURCE_NATIVE_THREE_MONTH = re.compile(
+    rf"(?<![가-힣])(?P<number>석)\s+(?P<counter>달){SOURCE_COUNTER_SUFFIX}"
+)
 SOURCE_ORDINAL = re.compile(
     r"(?<![가-힣\d])(?P<number>첫|한|둘|두|셋|세|넷|네|다섯|여섯|일곱|여덟|아홉|열|\d+)\s*"
     r"(?:번째|번\s*째|째)"
@@ -169,7 +172,7 @@ TARGET_COUNTER_FORMS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("question", ("題", "题", "道", "個", "个")),
     ("set", ("套", "組", "组")),
     ("meal", ("頓", "顿", "餐")),
-    ("message", ("封", "條", "条", "通")),
+    ("message", ("封", "條", "条", "則", "则", "通")),
     ("sip", ("口",)),
     ("step", ("步",)),
     ("slot", ("個", "个", "席", "位", "名額", "名额")),
@@ -285,7 +288,7 @@ COUNTER_SCRIPT_VARIANTS: tuple[tuple[str, str], ...] = (
     ("条", "條"), ("双", "雙"), ("栏", "欄"), ("组", "組"),
     ("顿", "頓"), ("户", "戶"), ("级", "級"), ("阶", "階"),
     ("层", "層"), ("页", "頁"), ("点", "點"), ("钟", "鐘"),
-    ("处", "處"),
+    ("处", "處"), ("则", "則"),
 )
 SCRIPT_VARIANTS: tuple[tuple[str, str], ...] = (
     ("汉", "漢"), ("语", "語"), ("钱", "錢"), ("门", "門"),
@@ -831,6 +834,8 @@ def _korean_native_value(raw: str) -> Decimal | None:
 def _source_counter_value(raw: str) -> Decimal | None:
     if raw and raw[0].isdigit():
         return _decimal_value(raw)
+    if raw == "석":
+        return Decimal(3)
     native = _korean_native_value(raw)
     return native if native is not None else _korean_word_value(raw)
 
@@ -942,6 +947,7 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
     for pattern in (
         SOURCE_DIGIT_COUNTER, SOURCE_WORD_COUNTER,
         SOURCE_COMPACT_SINO_COUNTER, SOURCE_COMPACT_NATIVE_COUNTER,
+        SOURCE_NATIVE_THREE_MONTH,
     ):
         for match in pattern.finditer(source):
             if any(
@@ -2234,6 +2240,22 @@ def run_self_test(
             "六月", "counter quantity missing/changed",
         ),
         (
+            "native-three-month-two", "zh-CN", "석 달",
+            "两个月", "counter quantity missing/changed",
+        ),
+        (
+            "native-three-month-four", "zh-TW", "석 달",
+            "四個月", "counter quantity missing/changed",
+        ),
+        (
+            "message-counter-cn-value", "zh-CN", "문자 한 통",
+            "两则短信", "counter quantity missing/changed",
+        ),
+        (
+            "message-counter-tw-value", "zh-TW", "문자 한 통",
+            "兩則訊息", "counter quantity missing/changed",
+        ),
+        (
             "first-line-ordinal", "zh-CN", "첫 줄",
             "一行", "counter quantity missing/changed",
         ),
@@ -2537,6 +2559,10 @@ def run_self_test(
         ("zh-TW", "네 번째 집 앞", "第四戶人家門前"),
         ("zh-CN", "6월", "6月"),
         ("zh-CN", "여섯 달", "六个月"),
+        ("zh-CN", "석 달", "三个月"),
+        ("zh-TW", "석 달", "三個月"),
+        ("zh-CN", "문자 한 통", "一则短信"),
+        ("zh-TW", "문자 한 통", "一則訊息"),
         ("zh-CN", "첫 줄", "第一行"),
         ("zh-CN", "첫 장", "第一张"),
         ("zh-CN", "첫 통화", "第一次通话"),

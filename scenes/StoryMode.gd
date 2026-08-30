@@ -2361,7 +2361,6 @@ func build_save_resume_context() -> Dictionary:
 func _story_demo_controller_session_snapshot() -> Dictionary:
 	if not _is_public_story_demo():
 		return {}
-	var session := {}
 	for candidate_path in [
 		STORY_DEMO_SESSION_PATH,
 		"%s.tmp" % STORY_DEMO_SESSION_PATH,
@@ -2378,15 +2377,18 @@ func _story_demo_controller_session_snapshot() -> Dictionary:
 		if parse_error != OK:
 			continue
 		var parsed: Variant = parser.data
-		session = _validated_story_demo_controller_session(parsed)
+		var session := _validated_story_demo_controller_session(parsed)
+		if session.is_empty():
+			continue
+		# The live GameState owns any choice already made inside this scene. A
+		# structurally plausible primary can still violate the exact route prefix,
+		# so accept a candidate only after semantic reconciliation succeeds. This
+		# preserves the chance to recover from a valid .tmp or .bak checkpoint.
+		session = STORY_DEMO_CONTROLLER \
+			.reconcile_story_demo_session_with_live_receipts(session)
 		if not session.is_empty():
-			break
-	if session.is_empty():
-		return {}
-	# The live GameState owns any choice already made inside this scene. Bundle
-	# that same instant with the controller's month/receipt checkpoint.
-	return STORY_DEMO_CONTROLLER \
-		.reconcile_story_demo_session_with_live_receipts(session)
+			return session
+	return {}
 
 
 func _validated_story_demo_controller_session(raw_session: Variant) -> Dictionary:
@@ -6871,6 +6873,7 @@ func _story_demo_real_flow_choice_index(
 		event_id: String, route_choice: int) -> int:
 	match event_id:
 		"arc_temptation_01": return route_choice
+		"arc_temptation_fallout": return route_choice
 		"arc_daeun_01_meet": return route_choice
 		"arc_sangchul_01_meet": return route_choice
 		"arc_sangchul_01_answer": return route_choice

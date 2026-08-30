@@ -2,7 +2,7 @@
 """Strict localization gate for the public M01-M06 story demo.
 
 The old V2 demo audit owns a much larger and retired action-board surface.  This
-gate deliberately follows only the eleven authored source events, the public
+gate deliberately follows only the fourteen authored source events, the public
 demo shell, and the StoryMode UI that the new candidate can actually display.
 """
 
@@ -31,6 +31,8 @@ EVENT_IDS = (
     "arc_temptation_01",
     "arc_temptation_clean",
     "arc_temptation_fallout",
+    "v2_dirty_trace_initial_call",
+    "v2_dirty_recruiter_week24",
     "arc_daeun_01_meet",
     "arc_jiyeon_01_crash",
     "arc_sangchul_01_meet",
@@ -39,6 +41,7 @@ EVENT_IDS = (
     "arc_sangchul_01_answer",
     "arc_jaehyuk_01_reunion",
     "v2_demo_first_bill",
+    "v2_demo_first_bill_ledger",
 )
 LOCALIZED_FIELDS = frozenset((
     "title",
@@ -50,12 +53,15 @@ LOCALIZED_FIELDS = frozenset((
     "text",
     "result_text",
 ))
+LOCALIZED_DICTIONARY_FIELDS = frozenset((
+    "description_memory_if_known",
+))
 CONTROLLER_PATH = ROOT / "playtests/order124/StoryChoiceM1M6Playtest.gd"
 STORY_MODE_PATH = ROOT / "scenes/StoryMode.gd"
-EXPECTED_EVENT_LEAVES = 82
-EXPECTED_CONTROLLER_UI_KEYS = 35
+EXPECTED_EVENT_LEAVES = 100
+EXPECTED_CONTROLLER_UI_KEYS = 38
 EXPECTED_STORY_UI_KEYS = 82
-EXPECTED_TARGET_UI_KEYS = 118
+EXPECTED_TARGET_UI_KEYS = 121
 HANGUL = re.compile(r"[\u1100-\u11ff\u3130-\u318f\uac00-\ud7a3]")
 ASCII_WORD = re.compile(r"[A-Za-z]{3,}")
 CHINESE_EXACT_NAMES = {
@@ -122,6 +128,10 @@ def localized_leaves(value: Any, path: str = "") -> dict[str, str]:
             child_path = f"{path}.{key}" if path else str(key)
             if key in LOCALIZED_FIELDS and isinstance(child, str):
                 result[child_path] = child
+            elif key in LOCALIZED_DICTIONARY_FIELDS and isinstance(child, dict):
+                for variant_key, variant_text in child.items():
+                    if isinstance(variant_text, str):
+                        result[f"{child_path}.{variant_key}"] = variant_text
             elif isinstance(child, (dict, list)):
                 result.update(localized_leaves(child, child_path))
     elif isinstance(value, list):
@@ -369,6 +379,32 @@ def audit_language(
         source_leaves = localized_leaves(source_events[event_id])
         target_leaves = localized_leaves(rows[event_id])
         english_leaves = localized_leaves(english_events.get(event_id, {}))
+        for field in LOCALIZED_DICTIONARY_FIELDS:
+            source_variants = source_events[event_id].get(field)
+            target_variants = rows[event_id].get(field)
+            if source_variants is None and target_variants is None:
+                continue
+            if not isinstance(source_variants, dict) \
+                    or not isinstance(target_variants, dict):
+                errors.append(
+                    f"{language}:{event_id}: {field} must preserve a string map"
+                )
+                continue
+            if set(target_variants) != set(source_variants):
+                errors.append(
+                    f"{language}:{event_id}: {field} key mismatch "
+                    f"missing={sorted(set(source_variants)-set(target_variants))} "
+                    f"extra={sorted(set(target_variants)-set(source_variants))}"
+                )
+            malformed = sorted(
+                str(key) for key, text in target_variants.items()
+                if not isinstance(text, str)
+            )
+            if malformed:
+                errors.append(
+                    f"{language}:{event_id}: {field} non-string values "
+                    f"{malformed}"
+                )
         if set(target_leaves) != set(source_leaves):
             errors.append(
                 f"{language}:{event_id}: localized path mismatch "
@@ -485,6 +521,19 @@ def self_test() -> list[str]:
         failures.append("canonical Hanbit business form was rejected")
     if not target_text_errors("zh-CN", "fixture", "한빛유통", "韩光流通"):
         failures.append("invented Hanbit business name was not rejected")
+    memory_leaves = localized_leaves({
+        "description_memory_if_known": {
+            "named": "이유를 적었다",
+            "totals": "합계만 맞췄다",
+        },
+    })
+    if memory_leaves != {
+        "description_memory_if_known.named": "이유를 적었다",
+        "description_memory_if_known.totals": "합계만 맞췄다",
+    }:
+        failures.append(
+            "description_memory_if_known dictionary leaves were not collected"
+        )
     return failures
 
 
@@ -498,7 +547,7 @@ def main() -> int:
             for failure in failures:
                 print(f"STORY_DEMO_LOCALIZATION_SELF_TEST_FAIL {failure}", file=sys.stderr)
             return 1
-        print("STORY_DEMO_LOCALIZATION_SELF_TEST_OK mutations=4 fixtures=3")
+        print("STORY_DEMO_LOCALIZATION_SELF_TEST_OK mutations=4 fixtures=4")
         return 0
 
     source, english, pairs, errors, counts = source_contract()

@@ -6,11 +6,14 @@ const CONTROLLER_SCENE := preload(
 const STORY_SCENE := preload("res://scenes/StoryMode.tscn")
 const PUBLIC_SAVE_PATH := "user://story_demo_save.json"
 const PUBLIC_PROFILE := "story_demo_rc"
-const PUBLIC_BUILD_ID := "2026.08.25.1"
+const PUBLIC_BUILD_ID := "2026.08.31.1"
 const PUBLIC_LANGUAGES: Array[String] = ["ko", "en", "ja", "zh-CN", "zh-TW"]
 const RUNTIME_QA_ARG := "--story-demo-runtime-qa"
 const RUNTIME_QA_ARG_DIR := "GangnamDream_StoryDemo_RuntimeQA_audit"
 const M6_EVENT_ID := "order124_m6_first_bill"
+const M6_LEDGER_EVENT_ID := "v2_demo_first_bill_ledger"
+const M6_RESTITUTION_EVENT_ID := "v2_dirty_trace_initial_call"
+const M6_ESCALATION_EVENT_ID := "v2_dirty_recruiter_week24"
 const EVENT_IDS: Array[String] = [
 	"arc_temptation_01",
 	"arc_temptation_clean",
@@ -22,7 +25,32 @@ const EVENT_IDS: Array[String] = [
 	"arc_sangchul_01_coffee",
 	"arc_sangchul_01_answer",
 	"arc_jaehyuk_01_reunion",
+	M6_RESTITUTION_EVENT_ID,
+	M6_ESCALATION_EVENT_ID,
 	"v2_demo_first_bill",
+	M6_LEDGER_EVENT_ID,
+]
+const LOCALE_ROUTES: Array[Dictionary] = [
+	{
+		"route": "clean", "coffee": false, "daeun": 0, "jiyeon": 0,
+		"answer": 0, "jaehyuk": 0, "dirty_root": 0, "m6": 0,
+	},
+	{
+		"route": "restitution", "coffee": true, "daeun": 1, "jiyeon": 1,
+		"answer": 1, "jaehyuk": 1, "dirty_root": 0, "m6": 0,
+	},
+	{
+		"route": "escalation", "coffee": false, "daeun": 0, "jiyeon": 2,
+		"answer": 2, "jaehyuk": 0, "dirty_root": 1, "m6": 1,
+	},
+	{
+		"route": "restitution", "coffee": true, "daeun": 1, "jiyeon": 0,
+		"answer": 0, "jaehyuk": 1, "dirty_root": 1, "m6": 2,
+	},
+	{
+		"route": "escalation", "coffee": true, "daeun": 0, "jiyeon": 1,
+		"answer": 2, "jaehyuk": 0, "dirty_root": 0, "m6": 3,
+	},
 ]
 const FORBIDDEN_SURFACE: Array[String] = [
 	"주력", "함께", "여력", "행동판", "행동 카드", "월간 행동", "확인 제출",
@@ -60,9 +88,12 @@ var _weeks_checked := 0
 var _settlements_checked := 0
 var _save_roundtrips := 0
 var _story_surfaces_checked := 0
+var _storymode_semantic_backup_recoveries := 0
 var _observed_route_counts := {
 	"arc_temptation_clean": 0,
 	"arc_temptation_fallout": 0,
+	M6_RESTITUTION_EVENT_ID: 0,
+	M6_ESCALATION_EVENT_ID: 0,
 	"arc_sangchul_01_measure": 0,
 	"arc_sangchul_01_coffee": 0,
 }
@@ -119,9 +150,8 @@ func _run() -> void:
 
 	for locale_index in range(PUBLIC_LANGUAGES.size()):
 		var language := PUBLIC_LANGUAGES[locale_index]
-		var fallout := locale_index % 2 == 1
-		var coffee := locale_index % 2 == 1
-		if not await _run_locale(controller, language, fallout, coffee):
+		var route_config: Dictionary = LOCALE_ROUTES[locale_index]
+		if not await _run_locale(controller, language, route_config):
 			break
 		_check_controller_backup_recovery(controller, language)
 		_free_controller(controller)
@@ -145,13 +175,20 @@ func _run() -> void:
 		if controller == null:
 			break
 
+	if is_instance_valid(controller):
+		await controller.call("qa_cleanup_transient_story_runtime")
 	_free_controller(controller)
 	_expect(int(_observed_route_counts["arc_temptation_clean"]) > 0 \
 			and int(_observed_route_counts["arc_temptation_fallout"]) > 0,
 		"five-locale sweep did not cover both M02 routes")
+	_expect(int(_observed_route_counts[M6_RESTITUTION_EVENT_ID]) > 0 \
+			and int(_observed_route_counts[M6_ESCALATION_EVENT_ID]) > 0,
+		"five-locale sweep did not cover both dirty M6 consequence roots")
 	_expect(int(_observed_route_counts["arc_sangchul_01_measure"]) > 0 \
 			and int(_observed_route_counts["arc_sangchul_01_coffee"]) > 0,
 		"five-locale sweep did not cover both M04 routes")
+	_expect(_storymode_semantic_backup_recoveries == 1,
+		"five-locale sweep did not prove StoryMode semantic .bak recovery")
 	_finish()
 
 
@@ -214,8 +251,14 @@ func _check_controller_backup_recovery(
 
 
 func _run_locale(
-		controller: Node, language: String, fallout: bool, coffee: bool) -> bool:
+		controller: Node, language: String,
+		route_config: Dictionary) -> bool:
 	var before_failures := _failures.size()
+	var route := str(route_config.get("route", ""))
+	var fallout := route != "clean"
+	var coffee := bool(route_config.get("coffee", false))
+	_expect(route in ["clean", "restitution", "escalation"],
+		"%s has an invalid QA route: %s" % [language, route])
 	_expect(bool(controller.call("qa_set_language", language)),
 		"%s could not be selected" % language)
 	controller.call("_show_home")
@@ -247,6 +290,13 @@ func _run_locale(
 		_expect(int(controller.call("qa_current_month")) == month,
 			"%s reached wrong month before M%02d" % [language, month])
 		_check_visible_surface(controller, language, "M%02d transition" % month)
+		if month == 6:
+			var prepared: Dictionary = controller.call(
+				"qa_prepare_m6_route_context")
+			_expect(bool(prepared.get("ok", false)) \
+					and bool(prepared.get("saved", false)),
+				"%s M06 route context did not commit: %s" % [
+					language, prepared])
 		var observed_ids: Array[String] = []
 		var guard := 0
 		while guard < 8:
@@ -256,7 +306,9 @@ func _run_locale(
 				break
 			var event_id := str(remaining.front())
 			_check_localized_event(language, event_id)
-			var choice_index := _choice_index(event_id, fallout, coffee)
+			if event_id == M6_EVENT_ID:
+				_check_m6_history_surface(language, route_config)
+			var choice_index := _choice_index(event_id, route_config)
 			var choice: Dictionary = controller.call(
 				"qa_choose_event", event_id, choice_index)
 			_expect(bool(choice.get("accepted", false))
@@ -290,6 +342,33 @@ func _run_locale(
 			_expect(observed_ids == expected_m04,
 				"%s M04 observed %s instead of root -> %s -> answer" % [
 					language, observed_ids, expected_m04_branch])
+		elif month == 6:
+			var expected_m06: Array[String] = [M6_EVENT_ID]
+			if route == "restitution":
+				expected_m06.push_front(M6_RESTITUTION_EVENT_ID)
+			elif route == "escalation":
+				expected_m06.push_front(M6_ESCALATION_EVENT_ID)
+			_expect(observed_ids == expected_m06,
+				"%s M06 observed %s instead of %s" % [
+					language, observed_ids, expected_m06])
+			var context: Dictionary = controller.call("qa_m6_route_context")
+			var expected_root := ""
+			if route == "restitution":
+				expected_root = M6_RESTITUTION_EVENT_ID
+			elif route == "escalation":
+				expected_root = M6_ESCALATION_EVENT_ID
+			_expect(str(context.get("root", "")) == expected_root,
+				"%s M06 route context root drifted: %s" % [language, context])
+			if route == "restitution":
+				_expect(_deferred_event_count(
+						GameState.deferred_events,
+						"callback_escaped_dirty_trace") == 0,
+					"%s restitution route left the claimed callback queued" % language)
+			await _check_m6_ledger_surface(
+				controller, language, int(route_config.get("m6", 0)))
+			if route != "clean" and _storymode_semantic_backup_recoveries == 0:
+				_check_storymode_semantic_backup_recovery(
+					controller, language, expected_root)
 		var closed: Dictionary = controller.call("qa_close_month", month)
 		_expect(bool(closed.get("closed", false)),
 			"%s M%02d did not close: %s" % [language, month, closed])
@@ -309,8 +388,10 @@ func _run_locale(
 		"%s did not finish on recap" % language)
 	_expect((snapshot.get("settlements", []) as Array).size() == 6,
 		"%s recap lacks six settlement receipts" % language)
-	_expect((snapshot.get("choices", []) as Array).size() == 9,
-		"%s recap lacks the nine authored choice receipts" % language)
+	var expected_receipts := 9 if route == "clean" else 10
+	_expect((snapshot.get("choices", []) as Array).size() == expected_receipts,
+		"%s recap lacks the %d authored choice receipts" % [
+			language, expected_receipts])
 	var state: Dictionary = snapshot.get("game_state", {})
 	_expect((state.get("weekly_commitments", []) as Array).is_empty(),
 		"%s story demo wrote a weekly commitment" % language)
@@ -321,6 +402,101 @@ func _run_locale(
 	_expect(FileAccess.file_exists(PUBLIC_SAVE_PATH),
 		"%s did not write its isolated autosave" % language)
 	return _failures.size() == before_failures
+
+
+func _check_storymode_semantic_backup_recovery(
+		controller: Node, language: String, root_event_id: String) -> void:
+	var primary_bytes := FileAccess.get_file_as_bytes(PUBLIC_SAVE_PATH)
+	var backup_path := "%s.bak" % PUBLIC_SAVE_PATH
+	var backup_existed := FileAccess.file_exists(backup_path)
+	var backup_before := FileAccess.get_file_as_bytes(backup_path) \
+		if backup_existed else PackedByteArray()
+	var parser := JSON.new()
+	_expect(not primary_bytes.is_empty() \
+			and parser.parse(primary_bytes.get_string_from_utf8()) == OK \
+			and parser.data is Dictionary,
+		"%s semantic backup fixture lacks a valid M06 primary" % language)
+	if primary_bytes.is_empty() or not parser.data is Dictionary:
+		return
+	var valid_story: Dictionary = (parser.data as Dictionary).duplicate(true)
+	valid_story["phase"] = "story"
+	var valid_bytes := JSON.stringify(valid_story, "  ").to_utf8_buffer()
+	var backup := FileAccess.open(backup_path, FileAccess.WRITE)
+	_expect(backup != null,
+		"%s could not stage the semantic StoryMode backup" % language)
+	if backup == null:
+		return
+	backup.store_buffer(valid_bytes)
+	backup.close()
+
+	var corrupted := valid_story.duplicate(true)
+	var corrupted_records: Array = []
+	for raw_record in corrupted.get("choices", []):
+		if raw_record is Dictionary and str((raw_record as Dictionary).get(
+				"event_id", "")) == root_event_id:
+			continue
+		corrupted_records.append(
+			(raw_record as Dictionary).duplicate(true) \
+			if raw_record is Dictionary else raw_record)
+	corrupted["choices"] = corrupted_records
+	var corrupted_completed: Array = []
+	for raw_event_id in corrupted.get("completed_event_ids", []):
+		if str(raw_event_id) != root_event_id:
+			corrupted_completed.append(raw_event_id)
+	corrupted["completed_event_ids"] = corrupted_completed
+	var corrupted_state: Dictionary = corrupted.get("game_state", {}).duplicate(true)
+	var corrupted_flags: Dictionary = corrupted_state.get("flags", {}).duplicate(true)
+	for choice_index in range(2):
+		corrupted_flags.erase(
+			"order124_choice__%s__%d" % [root_event_id, choice_index])
+	corrupted_state["flags"] = corrupted_flags
+	corrupted["game_state"] = corrupted_state
+	_expect(not bool(controller.call(
+			"qa_session_candidate_is_valid", corrupted)),
+		"%s M06 receipt-before-root primary was not semantically corrupt" % language)
+	var primary := FileAccess.open(PUBLIC_SAVE_PATH, FileAccess.WRITE)
+	_expect(primary != null,
+		"%s could not stage the semantic StoryMode primary" % language)
+	if primary == null:
+		_restore_story_demo_candidate_bytes(
+			primary_bytes, backup_existed, backup_before)
+		return
+	primary.store_string(JSON.stringify(corrupted, "  "))
+	primary.close()
+
+	var story := STORY_SCENE.instantiate()
+	var recovered: Dictionary = story.call(
+		"_story_demo_controller_session_snapshot")
+	story.free()
+	var recovered_ids: Array = recovered.get("completed_event_ids", [])
+	var valid_ids: Array = valid_story.get("completed_event_ids", [])
+	_expect(not recovered.is_empty() \
+			and JSON.stringify(recovered_ids, "", true) \
+				== JSON.stringify(valid_ids, "", true) \
+			and bool(controller.call(
+				"qa_session_candidate_is_valid", recovered)),
+		"%s StoryMode did not skip semantic-invalid primary for valid .bak" % language)
+	if not recovered.is_empty():
+		_storymode_semantic_backup_recoveries += 1
+	_restore_story_demo_candidate_bytes(
+		primary_bytes, backup_existed, backup_before)
+
+
+func _restore_story_demo_candidate_bytes(
+		primary_bytes: PackedByteArray, backup_existed: bool,
+		backup_bytes: PackedByteArray) -> void:
+	var primary := FileAccess.open(PUBLIC_SAVE_PATH, FileAccess.WRITE)
+	if primary != null:
+		primary.store_buffer(primary_bytes)
+		primary.close()
+	var backup_path := "%s.bak" % PUBLIC_SAVE_PATH
+	if backup_existed:
+		var backup := FileAccess.open(backup_path, FileAccess.WRITE)
+		if backup != null:
+			backup.store_buffer(backup_bytes)
+			backup.close()
+	elif FileAccess.file_exists(backup_path):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(backup_path))
 
 
 func _check_restart_confirmation_scope(controller: Node, language: String) -> void:
@@ -412,6 +588,160 @@ func _check_story_surface(controller: Node, language: String) -> void:
 	GameState.story_replay_mode = replay_before
 
 
+func _check_m6_history_surface(
+		language: String, route_config: Dictionary) -> void:
+	var m6: Dictionary = DataRegistry.find_event(M6_EVENT_ID)
+	_expect(not m6.is_empty(), "%s M06 runtime event is missing" % language)
+	if m6.is_empty():
+		return
+	var description := str(m6.get("description", ""))
+	var m6_choices: Array = m6.get("choices", [])
+	_expect(m6_choices.size() == 5,
+		"%s M06 runtime event lost its five choices" % language)
+	for choice_index in range(m6_choices.size()):
+		_expect(str((m6_choices[choice_index] as Dictionary).get(
+			"follow_up_event", "")) == M6_LEDGER_EVENT_ID,
+			"%s M06 choice %d lost the ledger follow-up" % [
+				language, choice_index])
+	if not m6_choices.is_empty():
+		var daeun_copy := "%s\n%s" % [
+			str((m6_choices[0] as Dictionary).get("text", "")),
+			str((m6_choices[0] as Dictionary).get("result_text", "")),
+		]
+		if int(route_config.get("daeun", 0)) == 1:
+			var localized_name: String = str({
+				"ko": "다은", "en": "Daeun", "ja": "ダウン",
+				"zh-CN": "Daeun", "zh-TW": "Daeun",
+			}.get(language, "Daeun"))
+			_expect(localized_name not in daeun_copy,
+				"%s M06 unknown-clerk route invented Daeun's name" % language)
+		else:
+			var source: Dictionary = DataRegistry.find_event("v2_demo_first_bill")
+			var source_choices: Array = source.get("choices", [])
+			if source_choices.size() > 3:
+				var known_copy := "%s\n%s" % [
+					str((source_choices[3] as Dictionary).get("text", "")),
+					str((source_choices[3] as Dictionary).get("result_text", "")),
+				]
+				_expect(daeun_copy == known_copy,
+					"%s M06 known-Daeun route changed its exact copy" % language)
+	var expected_history: Array[Dictionary] = [
+		{"event_id": "arc_daeun_01_meet", "choice": int(
+			route_config.get("daeun", 0))},
+		{"event_id": "arc_jiyeon_01_crash", "choice": int(
+			route_config.get("jiyeon", 0))},
+		{"event_id": "arc_sangchul_01_meet", "choice": 1 if bool(
+			route_config.get("coffee", false)) else 0},
+		{"event_id": "arc_sangchul_01_answer", "choice": int(
+			route_config.get("answer", 0))},
+		{"event_id": "arc_jaehyuk_01_reunion", "choice": int(
+			route_config.get("jaehyuk", 0))},
+	]
+	for expected in expected_history:
+		var event_id := str(expected.get("event_id", ""))
+		var source: Dictionary = DataRegistry.find_event(event_id)
+		var choices: Array = source.get("choices", [])
+		var choice_index := int(expected.get("choice", -1))
+		_expect(choice_index >= 0 and choice_index < choices.size(),
+			"%s M06 history source is invalid: %s[%d]" % [
+				language, event_id, choice_index])
+		if choice_index < 0 or choice_index >= choices.size():
+			continue
+		var exact_text := str((choices[choice_index] as Dictionary).get(
+			"text", "")).strip_edges()
+		_expect(not exact_text.is_empty() and exact_text in description,
+			"%s M06 did not read the exact selected %s[%d] copy: %s" % [
+				language, event_id, choice_index, exact_text])
+
+
+func _check_m6_ledger_surface(
+		controller: Node, language: String, selected_index: int) -> void:
+	_check_localized_event(language, M6_LEDGER_EVENT_ID)
+	var m6: Dictionary = DataRegistry.find_event(M6_EVENT_ID)
+	var m6_choices: Array = m6.get("choices", [])
+	_expect(selected_index >= 0 and selected_index < m6_choices.size(),
+		"%s M06 ledger received an invalid selected index %d" % [
+			language, selected_index])
+	if selected_index < 0 or selected_index >= m6_choices.size():
+		return
+	var ledger: Dictionary = DataRegistry.find_event(M6_LEDGER_EVENT_ID)
+	var ledger_choices: Array = ledger.get("choices", [])
+	_expect(ledger_choices.size() == 1,
+		"%s M06 ledger must expose exactly one closing expression" % language)
+	if ledger_choices.size() != 1:
+		return
+	_expect(GameState.is_expression_choice(ledger_choices[0] as Dictionary),
+		"%s M06 ledger closing choice is not state-free expression" % language)
+
+	var pending_before := GameState.pending_story_queue.duplicate(true)
+	var return_before := GameState.story_return_scene
+	var replay_before := GameState.story_replay_mode
+	var returning_before := GameState.returning_from_story
+	var state_before: Dictionary = GameState.serialize().duplicate(true)
+	var controller_receipts_before := (
+		(controller.call("qa_session_snapshot") as Dictionary).get(
+			"choices", []) as Array).duplicate(true)
+	GameState.pending_story_queue = [M6_LEDGER_EVENT_ID]
+	GameState.story_return_scene = \
+		"res://playtests/order124/StoryChoiceM1M6Playtest.tscn"
+	GameState.story_replay_mode = false
+	GameState.returning_from_story = false
+	var story := STORY_SCENE.instantiate()
+	add_child(story)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var current: Dictionary = story.get("_current")
+	_expect(str(current.get("id", "")) == M6_LEDGER_EVENT_ID,
+		"%s StoryMode did not open the M06 consequence ledger" % language)
+	var resolved := str(story.call("_current_story_phase_text"))
+	for choice_index in range(m6_choices.size()):
+		var exact_text := str((m6_choices[choice_index] as Dictionary).get(
+			"text", "")).strip_edges()
+		_expect(not exact_text.is_empty() and exact_text in resolved,
+			"%s M06 ledger omitted %s choice %d: %s" % [
+				language,
+				"selected" if choice_index == selected_index else "forgone",
+				choice_index, exact_text])
+	if language != "ko":
+		_expect(not _contains_hangul(resolved),
+			"%s M06 ledger leaked Hangul: %s" % [
+				language, resolved.replace("\n", " | ")])
+	if language not in ["ko", "en"]:
+		_expect(_has_target_script(language, resolved),
+			"%s M06 ledger did not render target-script prose" % language)
+
+	story.call("_on_choice", 0)
+	var state_after: Dictionary = GameState.serialize().duplicate(true)
+	var controller_receipts_after := (
+		(controller.call("qa_session_snapshot") as Dictionary).get(
+			"choices", []) as Array).duplicate(true)
+	_expect(JSON.stringify(state_after, "", true) \
+			== JSON.stringify(state_before, "", true),
+		"%s M06 ledger expression mutated serialized GameState" % language)
+	_expect(controller_receipts_after == controller_receipts_before,
+		"%s M06 ledger expression created a controller receipt" % language)
+	_story_surfaces_checked += 1
+	if story.get_parent() != null:
+		story.get_parent().remove_child(story)
+	story.free()
+	GameState.load_from_dict(state_before)
+	GameState.pending_story_queue = pending_before
+	GameState.story_return_scene = return_before
+	GameState.story_replay_mode = replay_before
+	GameState.returning_from_story = returning_before
+
+
+static func _deferred_event_count(raw_events: Variant, event_id: String) -> int:
+	if not raw_events is Array:
+		return 0
+	var count := 0
+	for raw_event in raw_events as Array:
+		if raw_event is Dictionary \
+				and str((raw_event as Dictionary).get("event_id", "")) == event_id:
+			count += 1
+	return count
+
+
 func _check_runtime_overlay_after_story_language_change(
 		story: Node, language: String, context: String) -> void:
 	var current: Dictionary = story.get("_current")
@@ -465,19 +795,23 @@ func _collect_visible_text(node: Node, lines: PackedStringArray) -> void:
 		_collect_visible_text(child, lines)
 
 
-func _choice_index(event_id: String, fallout: bool, coffee: bool) -> int:
+func _choice_index(event_id: String, route_config: Dictionary) -> int:
+	var route := str(route_config.get("route", ""))
 	match event_id:
 		"arc_temptation_01":
-			return 1 if fallout else 0
-		"arc_temptation_fallout": return 0
+			return 0 if route == "clean" else 1
+		"arc_temptation_fallout":
+			return 0 if route == "restitution" else 1
 		"arc_temptation_clean": return 0
-		"arc_daeun_01_meet": return 1 if fallout else 0
-		"arc_jiyeon_01_crash": return 0
+		"arc_daeun_01_meet": return int(route_config.get("daeun", 0))
+		"arc_jiyeon_01_crash": return int(route_config.get("jiyeon", 0))
 		"arc_sangchul_01_meet":
-			return 1 if coffee else 0
-		"arc_sangchul_01_answer": return 1 if fallout else 0
-		"arc_jaehyuk_01_reunion": return 1 if fallout else 0
-		M6_EVENT_ID: return 3 if fallout else 0
+			return 1 if bool(route_config.get("coffee", false)) else 0
+		"arc_sangchul_01_answer": return int(route_config.get("answer", 0))
+		"arc_jaehyuk_01_reunion": return int(route_config.get("jaehyuk", 0))
+		M6_RESTITUTION_EVENT_ID, M6_ESCALATION_EVENT_ID:
+			return int(route_config.get("dirty_root", 0))
+		M6_EVENT_ID: return int(route_config.get("m6", 0))
 	return 0
 
 
@@ -593,6 +927,11 @@ func _check_localized_event(language: String, event_id: String) -> void:
 	var visible_parts: Array[String] = [
 		str(event.get("title", "")), str(event.get("description", "")),
 	]
+	for variant_key in ["description_if_known", "description_memory_if_known"]:
+		var raw_variants: Variant = event.get(variant_key, {})
+		if raw_variants is Dictionary:
+			for variant_text in (raw_variants as Dictionary).values():
+				visible_parts.append(str(variant_text))
 	for choice_variant in event.get("choices", []):
 		if choice_variant is Dictionary:
 			visible_parts.append(str((choice_variant as Dictionary).get("text", "")))
@@ -724,7 +1063,7 @@ func _finish() -> void:
 			push_error("STORY_DEMO_FOUR_LANGUAGE_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("STORY_DEMO_FOUR_LANGUAGE_CHECK_OK locales=5 routes=4 months=%d weeks=%d settlements=%d ap_surface=0 save=%d story=%d build=%s" % [
+	print("STORY_DEMO_FOUR_LANGUAGE_CHECK_OK locales=5 routes=5 months=%d weeks=%d settlements=%d ap_surface=0 save=%d story=%d build=%s" % [
 		_months_checked, _weeks_checked, _settlements_checked,
 		_save_roundtrips, _story_surfaces_checked, PUBLIC_BUILD_ID,
 	])

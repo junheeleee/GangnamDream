@@ -195,7 +195,7 @@
       "tools": [
         "tools/StoryChoiceM1M6Check.tscn"
       ],
-      "why": "ORDER-124 스토리 선택 전용 M01~M06만 검사하고 기존 월간 행동·24주·240주 경로는 실행하지 않는다"
+      "why": "공개 스토리 데모 M01~M06의 clean·restitution·escalation 3경로와 28개 영수증 selector·무상태 ledger를 검사하고 기존 월간 행동·24주·240주 경로는 실행하지 않는다"
     },
     {
       "id": "order124-macos-package",
@@ -625,7 +625,7 @@
     {
       "tool": "tools/StoryChoiceM1M6Check.tscn",
       "godot": true,
-      "why": "ORDER-124 스토리 선택 전용 M01~M06의 분기·정산·격리 저장·월간 행동 부재 계약",
+      "why": "공개 스토리 데모 M01~M06의 3경로·28 selector·M06 대가 ledger·격리 저장·월간 행동 부재 계약",
       "paths": [
         "playtests/order124/StoryChoiceM1M6Playtest.gd",
         "playtests/order124/StoryChoiceM1M6Playtest.gd.uid",
@@ -2248,7 +2248,7 @@
     },
     {
       "tool": "tools/story_demo_localization_audit.py",
-      "why": "공개 M01~M06의 11사건·82 leaf와 shell·StoryMode 도달 UI 5개 언어 exact 패리티",
+      "why": "공개 M01~M06의 14사건·100 leaf와 controller 38·StoryMode 82·전체 121 UI의 5개 언어 exact 패리티",
       "paths": [
         "content/events/arc_daeun.json",
         "content/events/arc_events.json",
@@ -2276,7 +2276,7 @@
       "args": [
         "--story-demo-runtime-qa"
       ],
-      "why": "공개 KO·EN·JA·zh-CN·zh-TW 실제 StoryMode 분기·24주 자동 정산·전용 저장·AP 표면 0",
+      "why": "공개 KO·EN·JA·zh-CN·zh-TW 실제 StoryMode의 clean·restitution·escalation·M06 대가 ledger·24주 자동 정산·전용 저장·AP 표면 0",
       "paths": [
         "playtests/order124/StoryChoiceM1M6Playtest.gd",
         "playtests/order124/StoryChoiceM1M6Playtest.gd.uid",

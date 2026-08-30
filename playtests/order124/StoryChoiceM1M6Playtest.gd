@@ -12,7 +12,7 @@ const STORY_SCENE := "res://scenes/StoryMode.tscn"
 const SELF_SCENE := "res://playtests/order124/StoryChoiceM1M6Playtest.tscn"
 const CUSTOM_USER_DIR := "GangnamDream_ORDER124_StoryChoice_v1"
 const PUBLIC_PROFILE := "story_demo_rc"
-const PUBLIC_BUILD_ID := "2026.08.25.1"
+const PUBLIC_BUILD_ID := "2026.08.31.1"
 const PUBLIC_SAVE_PATH := "user://story_demo_save.json"
 const PUBLIC_CUSTOM_USER_DIR := "GangnamDream_StoryDemo_v1"
 const PUBLIC_LANGUAGES: Array[String] = ["ko", "en", "ja", "zh-CN", "zh-TW"]
@@ -21,8 +21,15 @@ const PUBLIC_RUNTIME_QA_PREFIX := "GangnamDream_StoryDemo_RuntimeQA_"
 const PUBLIC_RUNTIME_QA_ARG := "--story-demo-runtime-qa"
 const PUBLIC_REAL_FLOW_ARG := "--story-demo-real-flow-smoke"
 const PUBLIC_REAL_FLOW_CHOICE_ARG := "--story-demo-real-flow-choice="
+const PUBLIC_REAL_FLOW_ROUTE_ARG := "--story-demo-real-flow-route="
 const M6_EVENT_ID := "order124_m6_first_bill"
 const M6_SOURCE_EVENT_ID := "v2_demo_first_bill"
+const M6_LEDGER_EVENT_ID := "v2_demo_first_bill_ledger"
+const M6_RESTITUTION_ROOT_ID := "v2_dirty_trace_initial_call"
+const M6_ESCALATION_ROOT_ID := "v2_dirty_recruiter_week24"
+const M6_RESTITUTION_SOURCE_ID := "callback_escaped_dirty_trace"
+const M6_ESCALATION_SOURCE_ID := "fell_to_darkness"
+const M6_ENTRY_TURN := 21
 const M6_SOURCE_CHOICES: Array[int] = [3, 4, 5, 6, 7]
 const M4_ROOT_EVENT_ID := "arc_sangchul_01_meet"
 const M4_MEASURE_EVENT_ID := "arc_sangchul_01_measure"
@@ -52,6 +59,8 @@ const RUNTIME_RECEIPT_EVENT_IDS: Array[String] = [
 	M4_COFFEE_EVENT_ID,
 	M4_ANSWER_EVENT_ID,
 	"arc_jaehyuk_01_reunion",
+	M6_RESTITUTION_ROOT_ID,
+	M6_ESCALATION_ROOT_ID,
 ]
 const ACTION_LEDGER_KEYS: Array[String] = [
 	"grind_streak_weeks",
@@ -97,9 +106,11 @@ var _screenshot_screen := "home"
 var _screenshot_exit := false
 var _auto_launch_enabled := true
 var _transition_serial := 0
+var _transition_auto_timer: Timer = null
 var _public_demo := false
 var _language_gate_required := false
 var _story_screenshot_instance: Node = null
+var _qa_m6_route_save_fault := false
 
 var _page: MarginContainer
 var _title: Label
@@ -221,6 +232,10 @@ func qa_session_snapshot() -> Dictionary:
 	return snapshot
 
 
+func qa_session_candidate_is_valid(candidate: Dictionary) -> bool:
+	return _session_dictionary_is_valid(candidate, _active_profile())
+
+
 func qa_schedule() -> Dictionary:
 	var months := {}
 	for month in range(1, 7):
@@ -243,6 +258,41 @@ func qa_m6_event() -> Dictionary:
 	return qa_inject_m6()
 
 
+func qa_m6_route_context() -> Dictionary:
+	var raw_context: Variant = _session.get("m6_route_context", {})
+	return (raw_context as Dictionary).duplicate(true) \
+		if raw_context is Dictionary else {}
+
+
+func qa_set_m6_route_save_fault(enabled: bool) -> bool:
+	_qa_m6_route_save_fault = enabled
+	return true
+
+
+func qa_prepare_m6_route_context() -> Dictionary:
+	var inject_save_fault := _qa_m6_route_save_fault
+	_qa_m6_route_save_fault = false
+	if qa_current_month() != 6 \
+			or str(_session.get("phase", "")) != "transition":
+		return {"ok": false, "error": "m6_transition_required"}
+	var state_before: Dictionary = GameState.serialize().duplicate(true)
+	var session_before := _session.duplicate(true)
+	var prepared := _prepare_m6_route_context_mutation()
+	if not bool(prepared.get("ok", false)):
+		_restore_m6_route_transaction(state_before, session_before)
+		return prepared
+	var qa_fault := "corrupt_temporary" if inject_save_fault else ""
+	if not _save_session(qa_fault):
+		_restore_m6_route_transaction(state_before, session_before)
+		return {
+			"ok": false,
+			"error": "save_failed",
+			"rolled_back": true,
+		}
+	prepared["saved"] = true
+	return prepared
+
+
 func qa_choose_current(choice_index: int) -> Dictionary:
 	var remaining := _remaining_event_ids(qa_current_month())
 	if remaining.is_empty():
@@ -255,11 +305,26 @@ func qa_choose_event(event_id: String, choice_index: int) -> Dictionary:
 	if month < 1 or month > 6:
 		return _choice_failure(event_id, choice_index, "no_active_month")
 	_install_runtime_events()
+	if month == 6 and _session.has("m6_route_context") \
+			and not _session_has_valid_m6_route_context(_session):
+		return _choice_failure(event_id, choice_index, "invalid_m6_route_context")
 	if event_id in _completed_event_ids():
 		return _choice_failure(event_id, choice_index, "already_applied")
 	var remaining := _remaining_event_ids(month)
 	if event_id not in remaining:
 		return _choice_failure(event_id, choice_index, "not_scheduled")
+	if month == 6 and event_id != str(remaining.front()):
+		return _choice_failure(event_id, choice_index, "not_next_in_route")
+	if month == 6 and str(_session.get("phase", "")) == "transition" \
+			and not _session.has("m6_route_context"):
+		var prepared := qa_prepare_m6_route_context()
+		if not bool(prepared.get("ok", false)):
+			return _choice_failure(
+				event_id, choice_index,
+				"m6_route_%s" % str(prepared.get("error", "invalid")))
+		remaining = _remaining_event_ids(month)
+		if remaining.is_empty() or event_id != str(remaining.front()):
+			return _choice_failure(event_id, choice_index, "not_next_in_route")
 	var event: Dictionary = DataRegistry.find_event(event_id)
 	var choices: Array = event.get("choices", [])
 	if choice_index < 0 or choice_index >= choices.size():
@@ -414,13 +479,21 @@ func qa_prepare_story_return(choice_index: int) -> bool:
 	# stays in phase=story while the applied choice lives in GameState memory.
 	if _session.is_empty() or str(_session.get("phase", "")) != "transition":
 		return false
+	if qa_current_month() == 6 and not _session.has("m6_route_context"):
+		var prepared := qa_prepare_m6_route_context()
+		if not bool(prepared.get("ok", false)):
+			return false
 	var story_checkpoint := _session.duplicate(true)
 	story_checkpoint["phase"] = "story"
 	var result := qa_choose_current(choice_index)
 	if not bool(result.get("applied", false)):
 		return false
 	_session = story_checkpoint
-	if not _save_session():
+	# Keep the controller checkpoint at the instant before the live StoryMode
+	# choice. The receipt deliberately lives only in GameState until return; using
+	# _save_session() here would copy that newer receipt into an older prefix.
+	if not _write_verified_session(
+			_active_save_path(), _session, _active_profile()):
 		return false
 	GameState.returning_from_story = true
 	return true
@@ -431,6 +504,13 @@ func qa_set_auto_launch(enabled: bool) -> bool:
 	if not enabled:
 		_cancel_transition_auto_launch()
 	return true
+
+
+func qa_cleanup_transient_story_runtime() -> void:
+	# Focused checks instantiate StoryMode inside this controller scene instead
+	# of leaving through SceneTransition. Release the autoload-owned streams and
+	# let their timers settle before that temporary tree is torn down.
+	await _stop_smoke_audio()
 
 
 func _start_new_run() -> bool:
@@ -569,6 +649,19 @@ func _launch_story() -> void:
 	if month < 1 or month > 6:
 		_show_recap()
 		return
+	var state_before: Dictionary = GameState.serialize().duplicate(true)
+	var session_before := _session.duplicate(true)
+	# Only a not-yet-started M06 transition may consume the due callback and
+	# gain the Week-24 root. A schema-1 save already inside M06 has no route
+	# context by design and must continue its legacy direct-M06 flow.
+	if month == 6 and str(_session.get("phase", "")) == "transition":
+		var prepared := _prepare_m6_route_context_mutation()
+		if not bool(prepared.get("ok", false)):
+			_restore_m6_route_transaction(state_before, session_before)
+			_show_home(_t(
+				"저장하지 못해 장면을 시작하지 않았습니다.",
+				"The scene was not started because the checkpoint could not be saved."))
+			return
 	_install_runtime_events()
 	var queue := _remaining_event_ids(month)
 	if queue.is_empty():
@@ -578,6 +671,7 @@ func _launch_story() -> void:
 	_session["phase"] = "story"
 	_session["game_state"] = GameState.serialize().duplicate(true)
 	if not _save_session():
+		_restore_m6_route_transaction(state_before, session_before)
 		_show_home(_t("저장하지 못해 장면을 시작하지 않았습니다.", "The scene was not started because the checkpoint could not be saved."))
 		return
 	GameState.pending_story_queue = queue.duplicate()
@@ -658,6 +752,8 @@ func _close_month(month: int) -> Dictionary:
 	_session["current_month"] = month + 1
 	_session["completed_event_ids"] = []
 	_session.erase("story_resume_slot")
+	if month == 6:
+		_session.erase("m6_route_context")
 	_session["phase"] = "recap" if month == 6 else "transition"
 	_session["game_state"] = GameState.serialize().duplicate(true)
 	if not _save_session():
@@ -734,7 +830,144 @@ func _collect_current_month_choices() -> void:
 func _event_ids_for_month(month: int) -> Array:
 	if month == 2:
 		return ["arc_temptation_fallout"] if _m02_route() == "fallout" else ["arc_temptation_clean"]
+	if month == 6:
+		return _m6_scheduled_event_ids()
 	return (MONTH_EVENTS.get(month, []) as Array).duplicate()
+
+
+func _m6_scheduled_event_ids() -> Array:
+	var raw_context: Variant = _session.get("m6_route_context", null)
+	if raw_context is Dictionary and not (raw_context as Dictionary).is_empty():
+		var context: Dictionary = raw_context
+		if _m6_route_context_matches_state(
+				context, GameState.serialize()):
+			var scheduled: Array = []
+			var root := str(context.get("root", ""))
+			if not root.is_empty():
+				scheduled.append(root)
+			scheduled.append(M6_EVENT_ID)
+			return scheduled
+		return [M6_EVENT_ID]
+	# Missing context in a story-phase schema-1 save means the old M06 scene
+	# already started. Never infer and prepend a Week-24 root after that point.
+	if str(_session.get("phase", "")) == "story":
+		return [M6_EVENT_ID]
+	var preview := _preview_m6_route_context()
+	if not bool(preview.get("ok", false)):
+		return [M6_EVENT_ID]
+	var context: Dictionary = preview.get("context", {})
+	var scheduled: Array = []
+	var root := str(context.get("root", ""))
+	if not root.is_empty():
+		scheduled.append(root)
+	scheduled.append(M6_EVENT_ID)
+	return scheduled
+
+
+func _preview_m6_route_context() -> Dictionary:
+	if qa_current_month() != 6 or int(GameState.turn) != M6_ENTRY_TURN:
+		return {"ok": false, "error": "turn_mismatch"}
+	var escaped := bool(GameState.flags.get("escaped_dirty_money", false))
+	var escalated := bool(GameState.flags.get("fell_to_darkness", false))
+	if escaped and escalated:
+		return {"ok": false, "error": "route_flags_conflict"}
+	var due_callbacks := _matching_deferred_events(
+		GameState.deferred_events, M6_RESTITUTION_SOURCE_ID)
+	if escaped:
+		if due_callbacks.size() != 1 \
+				or int((due_callbacks[0] as Dictionary).get(
+					"trigger_turn", -1)) != M6_ENTRY_TURN:
+			return {"ok": false, "error": "missing_due_callback"}
+		return {
+			"ok": true,
+			"context": _new_m6_route_context(
+				M6_RESTITUTION_SOURCE_ID,
+				M6_RESTITUTION_ROOT_ID, false),
+		}
+	if not due_callbacks.is_empty():
+		return {"ok": false, "error": "unexpected_due_callback"}
+	if escalated:
+		return {
+			"ok": true,
+			"context": _new_m6_route_context(
+				M6_ESCALATION_SOURCE_ID,
+				M6_ESCALATION_ROOT_ID, true),
+		}
+	return {
+		"ok": true,
+		"context": _new_m6_route_context("", "", false),
+	}
+
+
+func _prepare_m6_route_context_mutation() -> Dictionary:
+	var raw_existing: Variant = _session.get("m6_route_context", null)
+	if raw_existing is Dictionary and not (raw_existing as Dictionary).is_empty():
+		if not _m6_route_context_matches_state(
+				raw_existing as Dictionary, GameState.serialize()):
+			return {"ok": false, "error": "invalid_existing_context"}
+		_install_runtime_events()
+		return {
+			"ok": true,
+			"prepared": false,
+			"context": (raw_existing as Dictionary).duplicate(true),
+		}
+	var preview := _preview_m6_route_context()
+	if not bool(preview.get("ok", false)):
+		return preview
+	if _m6_selected_history_texts().size() != 5:
+		return {"ok": false, "error": "missing_exact_choice_history"}
+	var context: Dictionary = (preview.get("context", {}) as Dictionary).duplicate(true)
+	if str(context.get("source", "")) == M6_RESTITUTION_SOURCE_ID:
+		var claimed := GameState.claim_deferred_event(
+			M6_RESTITUTION_SOURCE_ID, M6_ENTRY_TURN)
+		if claimed.is_empty() \
+				or str(claimed.get("event_id", "")) \
+					!= M6_RESTITUTION_SOURCE_ID \
+				or int(claimed.get("trigger_turn", -1)) != M6_ENTRY_TURN \
+				or int(claimed.get("claimed_turn", -1)) != M6_ENTRY_TURN:
+			return {"ok": false, "error": "callback_claim_failed"}
+	_session["m6_route_context"] = context
+	_session["game_state"] = GameState.serialize().duplicate(true)
+	if not _m6_route_context_matches_state(
+			context, _session.get("game_state", {})):
+		return {"ok": false, "error": "prepared_context_mismatch"}
+	_install_runtime_events()
+	return {
+		"ok": true,
+		"prepared": true,
+		"context": context.duplicate(true),
+	}
+
+
+func _restore_m6_route_transaction(
+		state_before: Dictionary, session_before: Dictionary) -> void:
+	GameState.load_from_dict(state_before)
+	_session = session_before.duplicate(true)
+	_install_runtime_events()
+
+
+static func _new_m6_route_context(
+		source: String, root: String, synthetic: bool) -> Dictionary:
+	return {
+		"source": source,
+		"trigger_turn": M6_ENTRY_TURN,
+		"claimed_turn": M6_ENTRY_TURN,
+		"root": root,
+		"synthetic": synthetic,
+	}
+
+
+static func _matching_deferred_events(
+		raw_events: Variant, event_id: String) -> Array[Dictionary]:
+	var matches: Array[Dictionary] = []
+	if not raw_events is Array:
+		return matches
+	for raw_entry in raw_events as Array:
+		if raw_entry is Dictionary \
+				and str((raw_entry as Dictionary).get(
+					"event_id", "")).strip_edges() == event_id:
+			matches.append((raw_entry as Dictionary).duplicate(true))
+	return matches
 
 
 func _m02_route() -> String:
@@ -757,6 +990,10 @@ func _injectable_event_ids_for_month(month: int) -> Array:
 		event_ids.append(M4_MEASURE_EVENT_ID)
 		event_ids.append(M4_COFFEE_EVENT_ID)
 		event_ids.append(M4_ANSWER_EVENT_ID)
+	elif month == 6:
+		for event_id in [M6_RESTITUTION_ROOT_ID, M6_ESCALATION_ROOT_ID]:
+			if event_id not in event_ids:
+				event_ids.push_front(event_id)
 	return event_ids
 
 
@@ -800,16 +1037,43 @@ func _closed_months() -> Array:
 
 
 func _install_runtime_events() -> void:
-	install_story_demo_runtime_events()
+	install_story_demo_runtime_events(_session)
 
 
 ## LocaleManager reloads DataRegistry whenever a player changes language.
 ## Rebuild the exact receipt-bearing demo overlays after that reload so a
 ## mid-scene language change cannot erase completion facts or the synthetic M6.
-static func install_story_demo_runtime_events() -> void:
+static func install_story_demo_runtime_events(session: Dictionary = {}) -> void:
+	if session.is_empty():
+		session = _public_runtime_session_for_event_install()
 	for event_id in RUNTIME_RECEIPT_EVENT_IDS:
 		_install_runtime_choice_receipts(event_id)
-	_install_story_demo_m6_event()
+	var m6_event := _install_story_demo_m6_event(session)
+	_install_story_demo_ledger_event(m6_event)
+	_install_story_demo_transition_contracts()
+	DataRegistry.notify_content_override()
+
+
+static func _public_runtime_session_for_event_install() -> Dictionary:
+	for candidate_path in [
+		PUBLIC_SAVE_PATH,
+		"%s.tmp" % PUBLIC_SAVE_PATH,
+		"%s.bak" % PUBLIC_SAVE_PATH,
+	]:
+		if not FileAccess.file_exists(candidate_path):
+			continue
+		var file := FileAccess.open(candidate_path, FileAccess.READ)
+		if file == null:
+			continue
+		var parser := JSON.new()
+		var parse_error := parser.parse(file.get_as_text())
+		file.close()
+		if parse_error != OK or not parser.data is Dictionary:
+			continue
+		var candidate: Dictionary = parser.data
+		if _session_dictionary_is_valid(candidate, PUBLIC_PROFILE):
+			return candidate.duplicate(true)
+	return {}
 
 
 func _inject_choice_receipts(event_id: String) -> Dictionary:
@@ -836,10 +1100,10 @@ static func _install_runtime_choice_receipts(event_id: String) -> Dictionary:
 
 
 func _install_m6_event() -> Dictionary:
-	return _install_story_demo_m6_event()
+	return _install_story_demo_m6_event(_session)
 
 
-static func _install_story_demo_m6_event() -> Dictionary:
+static func _install_story_demo_m6_event(session: Dictionary = {}) -> Dictionary:
 	var source: Dictionary = DataRegistry.find_event(M6_SOURCE_EVENT_ID)
 	if source.is_empty():
 		return {}
@@ -848,9 +1112,14 @@ static func _install_story_demo_m6_event() -> Dictionary:
 	event["weight"] = 0
 	event["hidden"] = true
 	event["conditions"] = {"min_turn": 9999}
-	event["description"] = LocaleManager.ui(
-		"6월 마지막 금요일 저녁. 민준은 고시원 책상 위에 통장 잔액, 오늘 끝낼 수 있는 일, 쉬지 못한 몸의 신호를 한 장에 적었다. 편의점의 다은, 포장마차의 재혁, 부동산 사무실의 상철에게 먼저 건넬 말도 그 옆에 놓였다. 지금 한 가지를 끝내는 동안 나머지는 오늘 밤을 지나간다. 민준은 실제로 움직일 한 줄에만 동그라미를 친다.",
-		"On the final Friday evening of June, Minjun writes his balance, one piece of work he can finish tonight, and the warning from his unrested body on a single page. Beside them are the words he could initiate with Daeun from the convenience store, Jaehyuk from the pojangmacha, and Sangchul from the real-estate office. While he completes one thing, the others will pass beyond tonight. Minjun circles the one line he will actually act on.")
+	event["description"] = str(source.get("description", ""))
+	var has_new_context := _session_has_valid_m6_route_context(session)
+	var history_texts := _selected_history_texts_from_session(session)
+	if history_texts.size() == 5:
+		var intro_template := LocaleManager.ui(
+			"6월 마지막 금요일 저녁. 민준은 고시원 책상 위에 지난 석 달의 선택을 먼저 펼쳤다.\n\n3월, 편의점에서 — %s\n3월, 버스 정류장에서 — %s\n4월, 부동산에서 — %s / %s\n5월, 재혁 앞에서 — %s\n\n통장 잔액, 오늘 끝낼 수 있는 일, 쉬지 못한 몸의 신호를 그 아래 한 장에 적었다. 한 가지를 끝내는 동안 나머지는 오늘 밤을 지나간다. 민준은 실제로 움직일 한 줄에만 동그라미를 친다.",
+			"On the final Friday evening of June, Minjun first spreads the choices from the last three months across his goshiwon desk.\n\nMarch, at the convenience store — %s\nMarch, at the bus stop — %s\nApril, at the real-estate office — %s / %s\nMay, in front of Jaehyuk — %s\n\nBelow them, he writes his balance, one task he can finish tonight, and the warning from his unrested body on a single page. While he completes one thing, the others will pass beyond tonight. Minjun circles the one line he will actually act on.")
+		event["description"] = intro_template % history_texts
 	var source_choices: Array = source.get("choices", [])
 	var choices: Array = []
 	for source_index in M6_SOURCE_CHOICES:
@@ -861,14 +1130,282 @@ static func _install_story_demo_m6_event() -> Dictionary:
 			var key := str(key_variant)
 			if key.begins_with("v2_") or key in ["follow_up_event", "deferred_follow_up", "deferred_delay"]:
 				choice.erase(key_variant)
+		if has_new_context:
+			choice["follow_up_event"] = M6_LEDGER_EVENT_ID
 		var flags: Array = choice.get("flags", []).duplicate()
-		flags.append(_runtime_choice_receipt_flag(M6_EVENT_ID, choices.size()))
+		var receipt := _runtime_choice_receipt_flag(
+			M6_EVENT_ID, choices.size())
+		if receipt not in flags:
+			flags.append(receipt)
 		choice["flags"] = flags
 		choices.append(choice)
+	if _selected_choice_index_from_session(
+				session, "arc_daeun_01_meet") == 1 \
+			and not choices.is_empty():
+		var unknown_choice: Dictionary = choices[0]
+		unknown_choice["text"] = LocaleManager.ui(
+			"전에 갔던 편의점에 가서 야간 직원에게 식사를 묻는다",
+			"Go back to the convenience store and ask the night-shift clerk whether she ate")
+		unknown_choice["result_text"] = LocaleManager.ui(
+			"{name}은 곧바로 방을 나섰다. 지하철을 갈아타고, 전에 알게 된 야간 근무 시간에 맞춰 편의점 문을 열었다.\n\n{name}: “오늘은 제가 먼저 물을게요. 저녁 먹었어요?”\n야간 직원: “교대 전에 김밥 하나 먹었어요. 그쪽은요?”\n\n{name}이 아직이라고 답하려는데 손님이 들어왔다. 계산과 택배 접수가 끝난 뒤 그 직원이 삼각김밥 진열대를 턱으로 가리켰다.\n\n야간 직원: “남 챙기러 왔으면 본인 것도 하나는 챙겨요.”\n{name}: “그럼 먹었다는 말부터 믿을게요.”\n야간 직원: “반만 믿어요. 저도 반쯤 먹었으니까.”\n\n{name}은 삼각김밥 하나를 사서 카운터가 보이는 창가에서 먹었다. 다음 손님이 올 때마다 대화는 멈췄다가 다시 이어졌다. 막차 시간표를 확인하고 일어서자 그 직원이 계산대 너머에서 손을 흔들었다.\n\n이름을 묻지 않았던 지난번처럼, 오늘도 둘은 이름을 부르지 않았다. 하지만 이번에는 {name}이 먼저 돌아왔다.",
+			"{name} leaves his room at once. After changing subway lines, he reaches the store during the night shift he learned about before.\n\n{name}: “My turn to ask first. Did you eat?”\nNight-shift clerk: “I had a gimbap before the shift change. What about you?”\n\nBefore {name} can say not yet, a customer walks in. Once the sale and a parcel drop-off are done, the clerk nods toward the triangle-gimbap shelf.\n\nNight-shift clerk: “If you came to make sure someone else ate, get something for yourself too.”\n{name}: “Then I'll believe you ate.”\nNight-shift clerk: “Only halfway. I only ate half.”\n\n{name} buys one and eats at the window where he can still see the counter. Their conversation stops whenever another customer enters, then starts again. When he checks the last-train schedule and stands to leave, the clerk waves from behind the register.\n\nLike last time, when he did not ask her name, neither of them uses a name tonight. But this time, {name} came back first.")
+		choices[0] = unknown_choice
 	event["choices"] = choices
 	DataRegistry.events_by_id[M6_EVENT_ID] = event
-	DataRegistry.notify_content_override()
 	return event
+
+
+static func _install_story_demo_ledger_event(m6_event: Dictionary) -> Dictionary:
+	var source: Dictionary = DataRegistry.find_event(M6_LEDGER_EVENT_ID)
+	if source.is_empty():
+		return {}
+	var event := source.duplicate(true)
+	var choices: Variant = m6_event.get("choices", [])
+	if choices is Array and (choices as Array).size() == M6_SOURCE_CHOICES.size():
+		var ledger_variants := {}
+		var template := LocaleManager.ui(
+			"동그라미 친 일을 마친 뒤였다.\n\n오늘 끝낸 한 줄\n%s\n\n오늘 끝내지 못한 네 줄\n%s\n\n민준은 한 일과 놓친 일을 같은 페이지에서 확인했다.",
+			"It was after he finished the line he had circled.\n\nThe one line finished tonight\n%s\n\nThe four lines left unfinished tonight\n%s\n\nMinjun looks at what he did and what he let pass on the same page.")
+		event["description"] = template % ["—", "—"]
+		for selected_index in range((choices as Array).size()):
+			var selected_choice: Dictionary = (choices as Array)[selected_index]
+			var missed := PackedStringArray()
+			for other_index in range((choices as Array).size()):
+				if other_index == selected_index:
+					continue
+				var other_choice: Dictionary = (choices as Array)[other_index]
+				missed.append("· %s" % str(other_choice.get("text", "")))
+			ledger_variants[_runtime_choice_receipt_flag(
+				M6_EVENT_ID, selected_index)] = template % [
+				str(selected_choice.get("text", "")),
+				"\n".join(missed),
+			]
+		event["description_if_known"] = ledger_variants
+		event.erase("description_memory_if_known")
+	DataRegistry.events_by_id[M6_LEDGER_EVENT_ID] = event
+	return event
+
+
+static func _install_story_demo_transition_contracts() -> void:
+	var raw_edges: Variant = DataRegistry.scene_direction_manifest.get(
+		"transition_edges", {})
+	if not raw_edges is Dictionary:
+		return
+	var edges: Dictionary = raw_edges
+	for root_id in [M6_RESTITUTION_ROOT_ID, M6_ESCALATION_ROOT_ID]:
+		var contract := DataRegistry.get_story_transition(
+			root_id, "v2_demo_first_bill_opening")
+		if not bool(contract.get("unclassified", false)):
+			edges["%s->%s" % [root_id, M6_EVENT_ID]] = \
+				contract.duplicate(true)
+	var ledger_contract := DataRegistry.get_story_transition(
+		M6_SOURCE_EVENT_ID, M6_LEDGER_EVENT_ID)
+	if not bool(ledger_contract.get("unclassified", false)):
+		edges["%s->%s" % [M6_EVENT_ID, M6_LEDGER_EVENT_ID]] = \
+			ledger_contract.duplicate(true)
+	DataRegistry.scene_direction_manifest["transition_edges"] = edges
+
+
+func _m6_selected_history_texts() -> Array[String]:
+	return _selected_history_texts_from_session(_session)
+
+
+static func _selected_history_texts_from_session(
+		session: Dictionary) -> Array[String]:
+	var texts: Array[String] = []
+	for event_id in [
+		"arc_daeun_01_meet", "arc_jiyeon_01_crash",
+		M4_ROOT_EVENT_ID, M4_ANSWER_EVENT_ID,
+		"arc_jaehyuk_01_reunion",
+	]:
+		var choice_index := _selected_choice_index_from_session(
+			session, event_id)
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		var choices: Variant = event.get("choices", [])
+		if choice_index < 0 or not choices is Array \
+				or choice_index >= (choices as Array).size() \
+				or not (choices as Array)[choice_index] is Dictionary:
+			return []
+		texts.append(str(((choices as Array)[choice_index] as Dictionary).get(
+			"text", "")))
+	return texts
+
+
+static func _selected_choice_index_from_session(
+		session: Dictionary, event_id: String) -> int:
+	var raw_records: Variant = session.get("choices", [])
+	if not raw_records is Array:
+		return -1
+	var selected := -1
+	for raw_record in raw_records as Array:
+		if raw_record is Dictionary \
+				and str((raw_record as Dictionary).get(
+					"event_id", "")) == event_id:
+			if selected >= 0:
+				return -1
+			selected = int((raw_record as Dictionary).get(
+				"choice_index", -1))
+	return selected
+
+
+static func _session_has_valid_m6_route_context(session: Dictionary) -> bool:
+	var raw_context: Variant = session.get("m6_route_context", null)
+	var raw_state: Variant = session.get("game_state", null)
+	return raw_context is Dictionary and raw_state is Dictionary \
+		and _m6_route_context_matches_state(
+			raw_context as Dictionary, raw_state as Dictionary)
+
+
+static func _m6_route_context_matches_state(
+		context: Dictionary, state: Dictionary) -> bool:
+	var expected_keys: Array[String] = [
+		"claimed_turn", "root", "source", "synthetic", "trigger_turn",
+	]
+	var actual_keys: Array[String] = []
+	for key_variant in context.keys():
+		if not key_variant is String:
+			return false
+		actual_keys.append(str(key_variant))
+	actual_keys.sort()
+	var trigger_value: Variant = context.get("trigger_turn", null)
+	var claimed_value: Variant = context.get("claimed_turn", null)
+	if actual_keys != expected_keys \
+			or not context.get("source", null) is String \
+			or not context.get("root", null) is String \
+			or not context.get("synthetic", null) is bool \
+			or not (trigger_value is int or trigger_value is float) \
+			or not is_finite(float(trigger_value)) \
+			or float(trigger_value) != float(M6_ENTRY_TURN) \
+			or not (claimed_value is int or claimed_value is float) \
+			or not is_finite(float(claimed_value)) \
+			or float(claimed_value) != float(M6_ENTRY_TURN) \
+			or int(state.get("turn", -1)) != M6_ENTRY_TURN:
+		return false
+	var raw_flags: Variant = state.get("flags", null)
+	if not raw_flags is Dictionary:
+		return false
+	var flags: Dictionary = raw_flags
+	var escaped := bool(flags.get("escaped_dirty_money", false))
+	var escalated := bool(flags.get("fell_to_darkness", false))
+	if escaped and escalated:
+		return false
+	if not _matching_deferred_events(
+			state.get("deferred_events", []),
+			M6_RESTITUTION_SOURCE_ID).is_empty():
+		return false
+	var source := str(context.get("source", ""))
+	var root := str(context.get("root", ""))
+	var synthetic := bool(context.get("synthetic", false))
+	var root_receipt_count := 0
+	for root_id in [M6_RESTITUTION_ROOT_ID, M6_ESCALATION_ROOT_ID]:
+		for choice_index in range(2):
+			if bool(flags.get(_runtime_choice_receipt_flag(
+					root_id, choice_index), false)):
+				if root_id != root:
+					return false
+				root_receipt_count += 1
+	if root_receipt_count > 1:
+		return false
+	var m6_receipt_count := 0
+	for choice_index in range(M6_SOURCE_CHOICES.size()):
+		if bool(flags.get(_runtime_choice_receipt_flag(
+				M6_EVENT_ID, choice_index), false)):
+			m6_receipt_count += 1
+	if m6_receipt_count > 1:
+		return false
+	if escaped:
+		return source == M6_RESTITUTION_SOURCE_ID \
+			and root == M6_RESTITUTION_ROOT_ID and not synthetic
+	if escalated:
+		return source == M6_ESCALATION_SOURCE_ID \
+			and root == M6_ESCALATION_ROOT_ID and synthetic
+	return source.is_empty() and root.is_empty() and not synthetic
+
+
+## A month-six checkpoint may contain only the exact completed prefix of its
+## route. In particular, the common receipt can never precede a dirty-route
+## consequence root, even if all three loose collections otherwise agree.
+static func _m6_session_prefix_is_valid(data: Dictionary) -> bool:
+	if int(data.get("current_month", 0)) != 6:
+		return true
+	var raw_state: Variant = data.get("game_state", null)
+	if not raw_state is Dictionary:
+		return false
+	var state: Dictionary = raw_state
+	var raw_flags: Variant = state.get("flags", null)
+	if not raw_flags is Dictionary:
+		return false
+	var flags: Dictionary = raw_flags
+	var scheduled: Array[String] = []
+	if data.has("m6_route_context"):
+		var raw_context: Variant = data.get("m6_route_context", null)
+		if not raw_context is Dictionary \
+				or not _m6_route_context_matches_state(
+					raw_context as Dictionary, state):
+			return false
+		var root := str((raw_context as Dictionary).get("root", ""))
+		if not root.is_empty():
+			scheduled.append(root)
+	scheduled.append(M6_EVENT_ID)
+
+	var completed: Array[String] = []
+	var raw_completed: Variant = data.get("completed_event_ids", null)
+	if not raw_completed is Array:
+		return false
+	for raw_event_id in raw_completed as Array:
+		if not raw_event_id is String:
+			return false
+		completed.append(str(raw_event_id))
+	if completed.size() > scheduled.size():
+		return false
+
+	var record_ids: Array[String] = []
+	var record_choices: Array[int] = []
+	var raw_records: Variant = data.get("choices", null)
+	if not raw_records is Array:
+		return false
+	for raw_record in raw_records as Array:
+		if not raw_record is Dictionary:
+			return false
+		var record: Dictionary = raw_record
+		if int(record.get("month", 0)) != 6:
+			continue
+		record_ids.append(str(record.get("event_id", "")))
+		record_choices.append(int(record.get("choice_index", -1)))
+	if record_ids != completed:
+		return false
+
+	for index in range(scheduled.size()):
+		var event_id := scheduled[index]
+		var choice_count := M6_SOURCE_CHOICES.size() \
+			if event_id == M6_EVENT_ID else 2
+		var receipt_indices := _choice_receipt_indices_from_flags(
+			flags, event_id, choice_count)
+		if index < completed.size():
+			if completed[index] != event_id \
+					or receipt_indices.size() != 1 \
+					or record_choices[index] != int(receipt_indices[0]):
+				return false
+		elif not receipt_indices.is_empty():
+			return false
+
+	for alternative_root in [M6_RESTITUTION_ROOT_ID, M6_ESCALATION_ROOT_ID]:
+		if alternative_root in scheduled:
+			continue
+		if not _choice_receipt_indices_from_flags(
+				flags, alternative_root, 2).is_empty():
+			return false
+	return true
+
+
+static func _choice_receipt_indices_from_flags(
+		flags: Dictionary, event_id: String, choice_count: int) -> Array[int]:
+	var indices: Array[int] = []
+	for choice_index in range(choice_count):
+		if bool(flags.get(_runtime_choice_receipt_flag(
+				event_id, choice_index), false)):
+			indices.append(choice_index)
+	return indices
 
 
 static func _runtime_choice_receipt_flag(
@@ -900,7 +1437,8 @@ static func reconcile_story_demo_session_with_live_receipts(
 		if not session.get(key, null) is Array:
 			return {}
 
-	var contract := _live_story_receipt_contract(month)
+	var contract := _live_story_receipt_contract(
+		month, session.get("m6_route_context", null))
 	if not bool(contract.get("valid", false)):
 		return {}
 	var scheduled: Array[String] = contract.get("scheduled", [])
@@ -917,6 +1455,7 @@ static func reconcile_story_demo_session_with_live_receipts(
 		completed_seen.append(completed_id)
 	var records: Array = (session.get("choices", []) as Array).duplicate(true)
 	var current_records := {}
+	var current_record_order: Array[String] = []
 	for record_variant in records:
 		if not record_variant is Dictionary:
 			return {}
@@ -927,8 +1466,15 @@ static func reconcile_story_demo_session_with_live_receipts(
 		if record_event_id not in scheduled or current_records.has(record_event_id):
 			return {}
 		current_records[record_event_id] = int(record.get("choice_index", -1))
+		current_record_order.append(record_event_id)
+	if current_record_order != completed_seen \
+			or completed_seen.size() > scheduled.size():
+		return {}
+	for prefix_index in range(completed_seen.size()):
+		if completed_seen[prefix_index] != scheduled[prefix_index]:
+			return {}
 
-	var prefix_count := 0
+	var live_prefix_count := 0
 	var found_gap := false
 	for event_id in scheduled:
 		var raw_indices: Variant = receipt_indices.get(event_id, [])
@@ -942,28 +1488,29 @@ static func reconcile_story_demo_session_with_live_receipts(
 			return {}
 		if not has_receipt:
 			found_gap = true
-		var was_completed := event_id in completed_seen
-		var has_record := current_records.has(event_id)
-		if not has_receipt:
-			if was_completed or has_record:
-				return {}
-			continue
-		var choice_index := int(indices[0])
-		if was_completed != has_record:
-			return {}
-		if was_completed:
-			if int(current_records[event_id]) != choice_index:
-				return {}
 		else:
-			completed.append(event_id)
-			completed_seen.append(event_id)
-			records.append({
-				"month": month,
-				"event_id": event_id,
-				"choice_index": choice_index,
-			})
-			current_records[event_id] = choice_index
-		prefix_count += 1
+			live_prefix_count += 1
+	if completed_seen.size() > live_prefix_count:
+		return {}
+	for prefix_index in range(completed_seen.size()):
+		var completed_id := completed_seen[prefix_index]
+		var completed_indices: Array = receipt_indices.get(completed_id, [])
+		if completed_indices.size() != 1 \
+				or int(current_records.get(completed_id, -1)) \
+					!= int(completed_indices[0]):
+			return {}
+	for prefix_index in range(completed_seen.size(), live_prefix_count):
+		var event_id := scheduled[prefix_index]
+		var choice_index := int((receipt_indices.get(event_id, []) as Array)[0])
+		completed.append(event_id)
+		completed_seen.append(event_id)
+		records.append({
+			"month": month,
+			"event_id": event_id,
+			"choice_index": choice_index,
+		})
+		current_records[event_id] = choice_index
+	var prefix_count := live_prefix_count
 
 	# A receipt on an unselected M02/M04 alternative is always corruption.
 	for alternative_id in alternatives:
@@ -978,9 +1525,20 @@ static func reconcile_story_demo_session_with_live_receipts(
 		var resume_event_id := str(resume_context.get("event_id", ""))
 		var resume_phase := str(resume_context.get("phase", ""))
 		var resume_index := scheduled.find(resume_event_id)
-		if resume_index < 0:
+		var ledger_resume := month == 6 \
+			and resume_event_id == M6_LEDGER_EVENT_ID \
+			and session.has("m6_route_context") \
+			and prefix_count == scheduled.size()
+		if ledger_resume:
+			if resume_phase == "result":
+				if int(resume_context.get(
+						"pending_result_choice_index", -1)) != 0:
+					return {}
+			elif resume_phase not in ["chapter", "prose", "choices"]:
+				return {}
+		elif resume_index < 0:
 			return {}
-		if resume_phase == "result":
+		elif resume_phase == "result":
 			if resume_index != prefix_count - 1 \
 					or int(resume_context.get(
 						"pending_result_choice_index", -1)) \
@@ -1002,6 +1560,9 @@ static func reconcile_story_demo_session_with_live_receipts(
 		var expected_queue: Array[String] = []
 		if month == 3 and resume_event_id == "arc_daeun_01_meet":
 			expected_queue = ["arc_jiyeon_01_crash"]
+		elif month == 6 and not ledger_resume and resume_index >= 0:
+			for index in range(resume_index + 1, scheduled.size()):
+				expected_queue.append(scheduled[index])
 		if queue != expected_queue:
 			return {}
 		var expected_follow_up := ""
@@ -1010,6 +1571,9 @@ static func reconcile_story_demo_session_with_live_receipts(
 				expected_follow_up = scheduled[1]
 			elif resume_event_id in [M4_MEASURE_EVENT_ID, M4_COFFEE_EVENT_ID]:
 				expected_follow_up = M4_ANSWER_EVENT_ID
+			elif month == 6 and resume_event_id == M6_EVENT_ID \
+					and session.has("m6_route_context"):
+				expected_follow_up = M6_LEDGER_EVENT_ID
 		if str(resume_context.get("pending_follow_up", "")) \
 				!= expected_follow_up:
 			return {}
@@ -1017,10 +1581,13 @@ static func reconcile_story_demo_session_with_live_receipts(
 	session["choices"] = records
 	session["completed_event_ids"] = completed
 	session["game_state"] = GameState.serialize().duplicate(true)
+	if not _session_dictionary_is_valid(session, PUBLIC_PROFILE):
+		return {}
 	return session
 
 
-static func _live_story_receipt_contract(month: int) -> Dictionary:
+static func _live_story_receipt_contract(
+		month: int, raw_m6_context: Variant = null) -> Dictionary:
 	var scheduled: Array[String] = []
 	var alternatives: Array[String] = []
 	match month:
@@ -1051,7 +1618,22 @@ static func _live_story_receipt_contract(month: int) -> Dictionary:
 		5:
 			scheduled = ["arc_jaehyuk_01_reunion"]
 		6:
-			scheduled = [M6_EVENT_ID]
+			alternatives = [
+				M6_RESTITUTION_ROOT_ID,
+				M6_ESCALATION_ROOT_ID,
+				M6_EVENT_ID,
+			]
+			if raw_m6_context is Dictionary \
+					and not (raw_m6_context as Dictionary).is_empty():
+				if not _m6_route_context_matches_state(
+						raw_m6_context as Dictionary,
+						GameState.serialize()):
+					return {"valid": false}
+				var root := str((raw_m6_context as Dictionary).get(
+					"root", ""))
+				if not root.is_empty():
+					scheduled.append(root)
+			scheduled.append(M6_EVENT_ID)
 		_:
 			return {"valid": false}
 	if alternatives.is_empty():
@@ -1107,12 +1689,12 @@ func _choice_failure(event_id: String, choice_index: int, reason: String) -> Dic
 	}
 
 
-func _save_session() -> bool:
+func _save_session(qa_fault: String = "") -> bool:
 	if _session.is_empty():
 		return false
 	_session["game_state"] = GameState.serialize().duplicate(true)
 	return _write_verified_session(
-		_active_save_path(), _session, _active_profile())
+		_active_save_path(), _session, _active_profile(), qa_fault)
 
 
 static func write_verified_story_demo_session(session: Dictionary) -> bool:
@@ -1292,8 +1874,24 @@ static func _session_dictionary_is_valid(
 	if not _game_state_payload_shape_is_valid(game_state) \
 			or int(game_state.get("turn", -1)) != elapsed_weeks + 1:
 		return false
+	if data.has("m6_route_context"):
+		var raw_m6_context: Variant = data.get("m6_route_context", null)
+		if month != 6 or phase not in ["transition", "story"] \
+				or not raw_m6_context is Dictionary \
+				or not _m6_route_context_matches_state(
+					raw_m6_context as Dictionary, game_state):
+			return false
 	var state_flags: Dictionary = game_state.get("flags", {})
+	if month == 6 and not _m6_session_prefix_is_valid(data):
+		return false
+	if not data.has("m6_route_context") and month == 6:
+		for root_id in [M6_RESTITUTION_ROOT_ID, M6_ESCALATION_ROOT_ID]:
+			for root_choice_index in range(2):
+				if bool(state_flags.get(_runtime_choice_receipt_flag(
+						root_id, root_choice_index), false)):
+					return false
 	var receipt_records_seen: Array[String] = []
+	var current_month_records: Array[String] = []
 	for record_variant in data.get("choices", []):
 		var record: Dictionary = record_variant
 		var receipt_event_id := str(record.get("event_id", ""))
@@ -1303,6 +1901,14 @@ static func _session_dictionary_is_valid(
 					receipt_event_id, receipt_choice_index), false)):
 			return false
 		receipt_records_seen.append(receipt_event_id)
+		if int(record.get("month", 0)) == month:
+			current_month_records.append(receipt_event_id)
+	for completed_id in completed_seen:
+		if completed_id not in current_month_records:
+			return false
+	for current_record_id in current_month_records:
+		if current_record_id not in completed_seen:
+			return false
 	if data.has("story_resume_slot"):
 		if phase != "story" \
 				or not _story_resume_slot_value_is_valid(
@@ -1764,16 +2370,36 @@ func _refresh_screen() -> void:
 func _schedule_transition_auto_launch() -> void:
 	if not _auto_launch_enabled:
 		return
-	_transition_serial += 1
-	_auto_launch_after_delay(_transition_serial)
+	_cancel_transition_auto_launch()
+	var timer := Timer.new()
+	timer.one_shot = true
+	timer.wait_time = 3.0
+	add_child(timer)
+	_transition_auto_timer = timer
+	timer.timeout.connect(
+		_on_transition_auto_timeout.bind(_transition_serial, timer),
+		CONNECT_ONE_SHOT)
+	timer.start()
 
 
 func _cancel_transition_auto_launch() -> void:
 	_transition_serial += 1
+	if is_instance_valid(_transition_auto_timer):
+		_transition_auto_timer.stop()
+		if _transition_auto_timer.get_parent() != null:
+			_transition_auto_timer.get_parent().remove_child(
+				_transition_auto_timer)
+		_transition_auto_timer.free()
+	_transition_auto_timer = null
 
 
-func _auto_launch_after_delay(serial: int) -> void:
-	await get_tree().create_timer(3.0).timeout
+func _on_transition_auto_timeout(serial: int, timer: Timer) -> void:
+	if is_instance_valid(timer):
+		if _transition_auto_timer == timer:
+			_transition_auto_timer = null
+		if timer.get_parent() != null:
+			timer.get_parent().remove_child(timer)
+		timer.free()
 	if serial != _transition_serial or _screen != "transition" or not _auto_launch_enabled:
 		return
 	_launch_story()
@@ -1972,14 +2598,18 @@ func _run_real_flow_smoke() -> void:
 	AudioManager.sfx_enabled = false
 	var tree := get_tree()
 	var verify_key := "story_demo_real_flow_verify"
+	var requested_route := _argument_value(
+		OS.get_cmdline_user_args(), PUBLIC_REAL_FLOW_ROUTE_ARG)
 	var raw_choice := _argument_value(
 		OS.get_cmdline_user_args(), PUBLIC_REAL_FLOW_CHOICE_ARG)
-	if raw_choice not in ["0", "1"]:
+	if requested_route.is_empty() and raw_choice in ["0", "1"]:
+		requested_route = "clean" if raw_choice == "0" else "escalation"
+	if requested_route not in ["clean", "restitution", "escalation"]:
 		push_error("STORY_DEMO_REAL_FLOW_SMOKE: invalid setup")
 		get_tree().quit(1)
 		return
-	var expected_choice := int(raw_choice)
-	var expected_route := "fallout" if expected_choice == 1 else "clean"
+	var expected_m02_route := "clean" \
+		if requested_route == "clean" else "fallout"
 	if tree.has_meta(verify_key):
 		var raw_state: Variant = tree.get_meta(verify_key)
 		if not raw_state is Dictionary:
@@ -1988,7 +2618,7 @@ func _run_real_flow_smoke() -> void:
 			get_tree().quit(1)
 			return
 		var flow_state: Dictionary = (raw_state as Dictionary).duplicate(true)
-		if int(flow_state.get("choice", -1)) != expected_choice:
+		if str(flow_state.get("route", "")) != requested_route:
 			push_error("STORY_DEMO_REAL_FLOW_SMOKE: retained route drift")
 			tree.remove_meta(verify_key)
 			get_tree().quit(1)
@@ -2010,11 +2640,12 @@ func _run_real_flow_smoke() -> void:
 		var failures: Array[String] = []
 		var snapshot := qa_session_snapshot()
 		var choices: Array = snapshot.get("choices", [])
-		var expected_records := _real_flow_expected_records(expected_choice)
+		var expected_records := _real_flow_expected_records(requested_route)
 		if choices.is_empty() or choices.size() > expected_records.size() \
 				or not _real_flow_choice_prefix_matches(choices, expected_records):
 			failures.append("choice_receipt")
-		var progress := _real_flow_progress_after_receipts(choices.size())
+		var progress := _real_flow_progress_after_receipts(
+			choices.size(), requested_route)
 		if progress.is_empty():
 			failures.append("receipt_progress")
 		else:
@@ -2028,11 +2659,13 @@ func _run_real_flow_smoke() -> void:
 			if int(snapshot.get("monthly_pressure_count", -1)) \
 					!= expected_settlements:
 				failures.append("settlement")
-			var expected_screen := "recap" if choices.size() == 9 else "transition"
+			var expected_screen := "recap" \
+				if choices.size() == expected_records.size() else "transition"
 			if qa_screen() != expected_screen:
 				failures.append("screen")
 		if choices.size() >= 1 \
-				and str(qa_schedule().get("m02_route", "")) != expected_route:
+				and str(qa_schedule().get("m02_route", "")) \
+					!= expected_m02_route:
 			failures.append("m02_route")
 		if qa_monthly_action_receipt_count() != 0:
 			failures.append("ap_ledger")
@@ -2050,7 +2683,7 @@ func _run_real_flow_smoke() -> void:
 			await _stop_smoke_audio()
 			get_tree().quit(1)
 			return
-		if choices.size() == 9:
+		if choices.size() == expected_records.size():
 			if not bool(flow_state.get("manual_restart_resumed", false)):
 				push_error("STORY_DEMO_REAL_FLOW_SMOKE: cold restart was not resumed")
 				tree.remove_meta(verify_key)
@@ -2062,12 +2695,14 @@ func _run_real_flow_smoke() -> void:
 				get_tree().quit(1)
 				return
 			tree.remove_meta(verify_key)
-			print("STORY_DEMO_REAL_FLOW_SMOKE_OK build=%s language=%s choice=%d m02=%s months=6 weeks=24 settlements=6 receipts=9 story=real manual_save=1 cold_restart=1 exact_resume=1 overlay=clear input=clear ap_ledger=0" % [
-				_active_build_id(), LocaleManager.language, expected_choice,
-				expected_route])
+			print("STORY_DEMO_REAL_FLOW_SMOKE_OK build=%s language=%s route=%s m02=%s months=6 weeks=24 settlements=6 receipts=%d story=real manual_save=1 cold_restart=1 exact_resume=1 overlay=clear input=clear ap_ledger=0" % [
+				_active_build_id(), LocaleManager.language, requested_route,
+				expected_m02_route, expected_records.size()])
 			await _stop_smoke_audio()
 			get_tree().quit(0)
 			return
+		flow_state["choice"] = _real_flow_choice_for_month(
+			requested_route, qa_current_month())
 		tree.set_meta(verify_key, flow_state)
 		_launch_story()
 		return
@@ -2077,7 +2712,8 @@ func _run_real_flow_smoke() -> void:
 		get_tree().quit(1)
 		return
 	tree.set_meta(verify_key, {
-		"choice": expected_choice,
+		"route": requested_route,
+		"choice": _real_flow_choice_for_month(requested_route, 1),
 		"manual_save": false,
 		"manual_restart_pending": false,
 		"manual_restart_resumed": false,
@@ -2086,22 +2722,34 @@ func _run_real_flow_smoke() -> void:
 	_launch_story()
 
 
-func _real_flow_expected_records(route_choice: int) -> Array[Dictionary]:
+func _real_flow_expected_records(route: String) -> Array[Dictionary]:
+	var dirty := route != "clean"
+	var route_choice := 1 if route == "escalation" else 0
+	var m01_choice := 1 if dirty else 0
+	var m02_choice := 1 if route == "escalation" else 0
 	var m02_event := "arc_temptation_fallout" \
-		if route_choice == 1 else "arc_temptation_clean"
+		if dirty else "arc_temptation_clean"
 	var m04_branch := M4_COFFEE_EVENT_ID \
 		if route_choice == 1 else M4_MEASURE_EVENT_ID
 	var event_ids: Array[String] = [
 		"arc_temptation_01", m02_event,
 		"arc_daeun_01_meet", "arc_jiyeon_01_crash",
 		M4_ROOT_EVENT_ID, m04_branch, M4_ANSWER_EVENT_ID,
-		"arc_jaehyuk_01_reunion", M6_EVENT_ID,
+		"arc_jaehyuk_01_reunion",
 	]
 	var choice_indices: Array[int] = [
-		route_choice, 0, route_choice, 0,
+		m01_choice, m02_choice, route_choice, 0,
 		route_choice, 0, route_choice,
-		route_choice, 3 if route_choice == 1 else 0,
+		route_choice,
 	]
+	if route == "restitution":
+		event_ids.append(M6_RESTITUTION_ROOT_ID)
+		choice_indices.append(0)
+	elif route == "escalation":
+		event_ids.append(M6_ESCALATION_ROOT_ID)
+		choice_indices.append(0)
+	event_ids.append(M6_EVENT_ID)
+	choice_indices.append(3 if route == "escalation" else 0)
 	var records: Array[Dictionary] = []
 	for index in range(event_ids.size()):
 		records.append({
@@ -2109,6 +2757,14 @@ func _real_flow_expected_records(route_choice: int) -> Array[Dictionary]:
 			"choice_index": choice_indices[index],
 		})
 	return records
+
+
+func _real_flow_choice_for_month(route: String, month: int) -> int:
+	if month == 1:
+		return 0 if route == "clean" else 1
+	if month == 2:
+		return 1 if route == "escalation" else 0
+	return 1 if route == "escalation" else 0
 
 
 static func real_flow_resume_state_fingerprint() -> String:
@@ -2146,7 +2802,8 @@ func _real_flow_choice_prefix_matches(
 	return true
 
 
-func _real_flow_progress_after_receipts(receipt_count: int) -> Dictionary:
+func _real_flow_progress_after_receipts(
+		receipt_count: int, route: String = "clean") -> Dictionary:
 	match receipt_count:
 		1: return {"month": 2, "settlements": 1}
 		2: return {"month": 3, "settlements": 2}
@@ -2155,7 +2812,12 @@ func _real_flow_progress_after_receipts(receipt_count: int) -> Dictionary:
 		5, 6: return {"month": 4, "settlements": 3}
 		7: return {"month": 5, "settlements": 4}
 		8: return {"month": 6, "settlements": 5}
-		9: return {"month": 7, "settlements": 6}
+		9:
+			return {"month": 7, "settlements": 6} \
+				if route == "clean" else {"month": 6, "settlements": 5}
+		10:
+			return {"month": 7, "settlements": 6} \
+				if route != "clean" else {}
 	return {}
 
 
@@ -2337,7 +2999,13 @@ func _stop_smoke_audio() -> void:
 			BGMPlayer.set(player_key, null)
 	await get_tree().process_frame
 	await get_tree().process_frame
-	await get_tree().create_timer(0.35).timeout
+	var settle_timer := get_tree().create_timer(0.35)
+	await settle_timer.timeout
+	settle_timer = null
+	# SceneTreeTimer is released on the frames after its timeout signal. Let the
+	# focused headless runner drain that queue before it tears the tree down.
+	await get_tree().process_frame
+	await get_tree().process_frame
 
 
 func _capture_requested_screen() -> void:
