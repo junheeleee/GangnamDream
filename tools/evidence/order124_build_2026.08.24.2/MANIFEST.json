@@ -1,0 +1,271 @@
+{
+  "schema_version": 1,
+  "profile": "order124_m1m6_story_choice",
+  "game_version": "0.1.0-dev",
+  "build_id": "2026.08.24.2",
+  "build_flavor": "order124_story_choice_playtest",
+  "timestamps": {
+    "started_utc": "2026-08-24T07:06:23Z",
+    "generated_utc": "2026-08-24T07:07:31Z"
+  },
+  "source": {
+    "requested_ref": "HEAD",
+    "revision": "e9aff5f06c2e3ec3708426156074674a56a4c3f6",
+    "tree": "ad4d88a6aed68a79074f6f8e3204bf0474f6dbc4",
+    "status": "clean",
+    "staging": "full_git_archive_outside_repository",
+    "contract_files": [
+      {
+        "path": "project.godot",
+        "sha256": "78e98d7bdc1349570df6f2cc7ca6cbb11d4fc5451f5bbfdd338561653c7380c5",
+        "size_bytes": 4699
+      },
+      {
+        "path": "export_presets.cfg",
+        "sha256": "891a9be108137df120e0b91082b43a73e65c524c423465a88fe580050bc91f7f",
+        "size_bytes": 13201
+      },
+      {
+        "path": "playtests/order124/StoryChoiceM1M6Playtest.gd",
+        "sha256": "6b22d07e19082e49a94ebe06acdd740d24aae65a1e844a61225c52ef571f8790",
+        "size_bytes": 44125
+      },
+      {
+        "path": "playtests/order124/StoryChoiceM1M6Playtest.gd.uid",
+        "sha256": "8c33bfa3cb333d76c6f88e7ff7300785c9f04fe834badf83369fbe2da8c09606",
+        "size_bytes": 20
+      },
+      {
+        "path": "playtests/order124/StoryChoiceM1M6Playtest.tscn",
+        "sha256": "6a29a5f3254ccdf65d764ae88c196d3ef78fcf8e64e8a04a3ceb885844e44f10",
+        "size_bytes": 340
+      },
+      {
+        "path": "tools/StoryChoiceM1M6Check.gd",
+        "sha256": "d051e5cd1f2adbbf4267e7b9ac5b0ea016db7c2898b04eb2241e9f8a7b5e97fd",
+        "size_bytes": 30986
+      },
+      {
+        "path": "tools/StoryChoiceM1M6Check.gd.uid",
+        "sha256": "d8343d41a395fed0c509c40e93fd75e988cb753415a53226d19dffe7193ddd0d",
+        "size_bytes": 20
+      },
+      {
+        "path": "tools/StoryChoiceM1M6Check.tscn",
+        "sha256": "1f31d78c9d80d6073959742524f7fcc54c6c590590a81ae5cdfcc0538cab7514",
+        "size_bytes": 199
+      },
+      {
+        "path": "tools/audit_scope.json",
+        "sha256": "0993f0a92841a54728099cab05a1a2a7a5ba139b0320b82e6bcb568e60a27720",
+        "size_bytes": 62361
+      },
+      {
+        "path": "tools/build_order124_macos.sh",
+        "sha256": "f2df5d836f0adfdf43202b52454297b599edfac5413175c046b6a471229bdf73",
+        "size_bytes": 27617
+      },
+      {
+        "path": "tools/order124_package_audit.py",
+        "sha256": "4e7fdc2849a57176f96235d5689ca7fd9ab57c504ab3aec1169b65ac93978216",
+        "size_bytes": 24984
+      }
+    ],
+    "staged_project_sha256": "0e3050b6fee2e5651177e49ecea90efbe87c3f73947318202cbe925c88b22abb",
+    "staged_export_presets_sha256": "bff32f6ae77935b00aa622bb1cec8c2ab3b4251b45df00c912850c9eb19583da"
+  },
+  "engine": {
+    "version": "4.6.2.stable.official.71f334935"
+  },
+  "application": {
+    "name": "GangnamDream-ORDER124-M01M06-StoryChoicePlaytest",
+    "bundle_identifier": "dev.junheelee.gangnamdream.order124storychoice",
+    "entry_scene": "res://playtests/order124/StoryChoiceM1M6Playtest.tscn",
+    "custom_user_dir_name": "GangnamDream_ORDER124_StoryChoice_v1",
+    "splash_enabled": false
+  },
+  "package": {
+    "zip": {
+      "path": "build/order124/macos/GangnamDream-ORDER124-M01M06-StoryChoicePlaytest.zip",
+      "sha256": "626196d6a74f50373ddc3e6d0cb8b3a502f052d4436f308361d8b82d3ab45a75",
+      "size_bytes": 389505944
+    },
+    "app": {
+      "path": "build/order124/macos/GangnamDream-ORDER124-M01M06-StoryChoicePlaytest.app",
+      "name": "GangnamDream-ORDER124-M01M06-StoryChoicePlaytest.app",
+      "tree_sha256": "c21d5ba71c5516465849cc7596d48ed430a4fc903eeeb7033340d36e5afb6a85",
+      "file_count": 7
+    },
+    "launcher": {
+      "path": "GangnamDream-ORDER124-M01M06-StoryChoicePlaytest.app/Contents/MacOS/GangnamDream-ORDER124-M01M06-StoryChoicePlaytest",
+      "sha256": "291d39bfa8f6014b40745012e725eb1a398076d223ea89e1caa2d8804495c7c7",
+      "size_bytes": 184222320
+    },
+    "resource_pack": {
+      "path": "GangnamDream-ORDER124-M01M06-StoryChoicePlaytest.app/Contents/Resources/GangnamDream-ORDER124-M01M06-StoryChoicePlaytest.pck",
+      "sha256": "04e3e67e1591df5984f804f299edcba0c95eb6e8281362d253c134df0d64b7d8",
+      "size_bytes": 337642500
+    }
+  },
+  "protected": [
+    {
+      "label": "build_demo",
+      "path": "build/demo",
+      "before": {
+        "exists": false,
+        "sha256": "b7b3aede84b3cb0edbea85abfb62dab3e0d8e43975e68b80a5a411cf67c32ff4",
+        "file_count": 0
+      },
+      "after": {
+        "exists": false,
+        "sha256": "b7b3aede84b3cb0edbea85abfb62dab3e0d8e43975e68b80a5a411cf67c32ff4",
+        "file_count": 0
+      },
+      "passed": true
+    },
+    {
+      "label": "build_order103",
+      "path": "build/order103",
+      "before": {
+        "exists": true,
+        "sha256": "5b2ecee52483bab4a33c57f5ea1ab9dc91a8060f4a0190ca5651a48cccf62d97",
+        "file_count": 11
+      },
+      "after": {
+        "exists": true,
+        "sha256": "5b2ecee52483bab4a33c57f5ea1ab9dc91a8060f4a0190ca5651a48cccf62d97",
+        "file_count": 11
+      },
+      "passed": true
+    },
+    {
+      "label": "build_playtest",
+      "path": "build/playtest",
+      "before": {
+        "exists": true,
+        "sha256": "5e4d0eadd00e902e34dadb1c72860a3b7095a45369fead112b31aac715f13312",
+        "file_count": 13
+      },
+      "after": {
+        "exists": true,
+        "sha256": "5e4d0eadd00e902e34dadb1c72860a3b7095a45369fead112b31aac715f13312",
+        "file_count": 13
+      },
+      "passed": true
+    },
+    {
+      "label": "order103_candidate_user_dir",
+      "path": "~/Library/Application Support/GangnamDream_ORDER103_M01M06_v1",
+      "before": {
+        "exists": true,
+        "sha256": "520d7011094a410f86c083742df30fff050ff8b812de7bea2f43c56bdb5d1552",
+        "file_count": 6
+      },
+      "after": {
+        "exists": true,
+        "sha256": "520d7011094a410f86c083742df30fff050ff8b812de7bea2f43c56bdb5d1552",
+        "file_count": 6
+      },
+      "passed": true
+    },
+    {
+      "label": "order124_candidate_user_dir",
+      "path": "~/Library/Application Support/GangnamDream_ORDER124_StoryChoice_v1",
+      "before": {
+        "exists": false,
+        "sha256": "b7b3aede84b3cb0edbea85abfb62dab3e0d8e43975e68b80a5a411cf67c32ff4",
+        "file_count": 0
+      },
+      "after": {
+        "exists": false,
+        "sha256": "b7b3aede84b3cb0edbea85abfb62dab3e0d8e43975e68b80a5a411cf67c32ff4",
+        "file_count": 0
+      },
+      "passed": true
+    },
+    {
+      "label": "product_export_presets",
+      "path": "export_presets.cfg",
+      "before": {
+        "exists": true,
+        "sha256": "e3549421f9b4cad9e949c0ed6efc75cde0147db6ddbb64808fc6ffb00d38d17d",
+        "file_count": 1
+      },
+      "after": {
+        "exists": true,
+        "sha256": "e3549421f9b4cad9e949c0ed6efc75cde0147db6ddbb64808fc6ffb00d38d17d",
+        "file_count": 1
+      },
+      "passed": true
+    },
+    {
+      "label": "product_project_godot",
+      "path": "project.godot",
+      "before": {
+        "exists": true,
+        "sha256": "244da7a7b4dd22088123617f942bf7c5dbf228f279dd08b705618ab3636ca1d6",
+        "file_count": 1
+      },
+      "after": {
+        "exists": true,
+        "sha256": "244da7a7b4dd22088123617f942bf7c5dbf228f279dd08b705618ab3636ca1d6",
+        "file_count": 1
+      },
+      "passed": true
+    },
+    {
+      "label": "retail_v2_user_save_files",
+      "path": "~/Library/Application Support/Godot/app_userdata",
+      "before": {
+        "exists": true,
+        "sha256": "67bbc590d30003920867d648107c0210f7c63025f381c5e03b4092a00ea84191",
+        "file_count": 31
+      },
+      "after": {
+        "exists": true,
+        "sha256": "67bbc590d30003920867d648107c0210f7c63025f381c5e03b4092a00ea84191",
+        "file_count": 31
+      },
+      "passed": true
+    }
+  ],
+  "validation": {
+    "source_import": {
+      "passed": true
+    },
+    "targeted_story_choice": {
+      "passed": true,
+      "scene": "res://tools/StoryChoiceM1M6Check.tscn",
+      "marker": "STORY_CHOICE_M1M6_CHECK_OK months=6 weeks=24 settlements=6 commitments=0 routes=2 save=1 m6=1"
+    },
+    "native_export": {
+      "passed": true,
+      "platform": "macOS",
+      "preset": "ORDER-124 M01-M06 Story Choice Playtest"
+    },
+    "codesign": {
+      "passed": true,
+      "mode": "ad-hoc",
+      "verification": "--deep --strict"
+    },
+    "native_no_argument": {
+      "passed": true,
+      "args": [],
+      "marker": "ORDER124_NATIVE_ENTRY_OK profile=order124_m1m6_story_choice build=2026.08.24.2 scene=res://playtests/order124/StoryChoiceM1M6Playtest.tscn custom_user_dir=GangnamDream_ORDER124_StoryChoice_v1 language=ko path=/Users/junheelee/Library/Application Support/GangnamDream_ORDER124_StoryChoice_v1"
+    },
+    "package_smokes": [
+      {
+        "passed": true,
+        "language": "ko",
+        "size": "1280x800",
+        "marker": "ORDER124_WRAPPER_SMOKE_OK language=ko size=1280x800 start=1 save=1 continue=1 month=m02 weeks=4 settlement=1"
+      },
+      {
+        "passed": true,
+        "language": "en",
+        "size": "960x600",
+        "marker": "ORDER124_WRAPPER_SMOKE_OK language=en size=960x600 start=1 save=1 continue=1 month=m02 weeks=4 settlement=1"
+      }
+    ]
+  }
+}

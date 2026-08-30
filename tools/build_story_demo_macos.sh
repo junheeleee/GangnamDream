@@ -105,14 +105,11 @@ if [[ "$GODOT_VERSION" != "$EXPECTED_GODOT" ]]; then
   exit 1
 fi
 
-STORY_DEMO_BUILD2_ARCHIVE="$PROJECT_DIR/build/order124/archive/2026.08.24.2"
-if [[ ! -d "$STORY_DEMO_BUILD2_ARCHIVE" ]]; then
-  echo "STORY_DEMO_BUILD_FAIL: preserved BUILD 2026.08.24.2 archive is missing" >&2
-  exit 1
-fi
-STORY_DEMO_BUILD2_ARCHIVE_FILES="$(find "$STORY_DEMO_BUILD2_ARCHIVE" -type f | wc -l | tr -d ' ')"
-if [[ "$STORY_DEMO_BUILD2_ARCHIVE_FILES" -lt 3 ]]; then
-  echo "STORY_DEMO_BUILD_FAIL: preserved BUILD 2026.08.24.2 archive is incomplete" >&2
+archive_guard_preflight_status=0
+python3 "$SCRIPT_DIR/story_demo_package_audit.py" --archive-state \
+  --source-revision "$SOURCE_COMMIT" >/dev/null || archive_guard_preflight_status=$?
+if [[ $archive_guard_preflight_status -ne 0 ]]; then
+  echo "STORY_DEMO_BUILD_FAIL: BUILD 2026.08.24.2 is neither an exact physical archive nor canonical missing_with_loss_receipt evidence" >&2
   exit 1
 fi
 
@@ -1006,16 +1003,23 @@ fi
 capture_protected() {
   local output_path="$1"
   local capture_status=0
+  local archive_guard_json=""
+  if ! archive_guard_json="$(python3 "$SCRIPT_DIR/story_demo_package_audit.py" \
+    --archive-state --source-revision "$SOURCE_COMMIT")"; then
+    echo "STORY_DEMO_BUILD_FAIL: could not validate protected BUILD 2026.08.24.2 state" >&2
+    return 1
+  fi
   python3 - "$output_path" "$PROJECT_DIR" \
     "$HOME/Library/Application Support/Godot/app_userdata" \
     "$HOME/Library/Application Support/GangnamDream_ORDER103_M01M06_v1" \
     "$HOME/Library/Application Support/GangnamDream_ORDER124_StoryChoice_v1" \
-    "$STORY_DEMO_USER_DATA_DIR" "$STORY_DEMO_BUILD2_ARCHIVE" <<'PY' || capture_status=$?
+    "$STORY_DEMO_USER_DATA_DIR" "$archive_guard_json" <<'PY' || capture_status=$?
 from __future__ import annotations
 import hashlib, json, os, sys
 from pathlib import Path
 
-output, root, user_root, order103_user, order124_user, story_demo_user, story_demo_build2_archive = map(Path, sys.argv[1:])
+output, root, user_root, order103_user, order124_user, story_demo_user = map(Path, sys.argv[1:7])
+archive_guard_state = json.loads(sys.argv[7])
 
 def file_hash(path: Path) -> str:
     digest = hashlib.sha256()
@@ -1059,7 +1063,6 @@ specs = [
     ("order103_candidate_user_dir", order103_user, False, "", "~/Library/Application Support/GangnamDream_ORDER103_M01M06_v1"),
     ("order124_candidate_user_dir", order124_user, False, "", "~/Library/Application Support/GangnamDream_ORDER124_StoryChoice_v1"),
     ("story_demo_candidate_user_dir", story_demo_user, False, "", "~/Library/Application Support/GangnamDream_StoryDemo_v1"),
-    ("story_demo_build2_archive", story_demo_build2_archive, False, "", "build/order124/archive/2026.08.24.2"),
     ("build_order103", root / "build/order103", False, "", "build/order103"),
     ("build_demo", root / "build/demo", False, "", "build/demo"),
     ("build_playtest", root / "build/playtest", False, "", "build/playtest"),
@@ -1067,6 +1070,11 @@ specs = [
 payload = []
 for label, path, save_only, exclude_top, manifest_path in specs:
     payload.append({"label": label, "path": manifest_path, "state": state(path, save_only, exclude_top)})
+payload.append({
+    "label": "story_demo_build2_archive",
+    "path": "build/order124/archive/2026.08.24.2",
+    "state": archive_guard_state,
+})
 output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 PY
   if [[ $capture_status -ne 0 || ! -s "$output_path" ]]; then
@@ -1242,6 +1250,9 @@ for required in \
   tools/I18nInfrastructureCheck.tscn \
   tools/third_party_notice_audit.py \
   tools/story_demo_localization_audit.py \
+  tools/evidence/order124_build_2026.08.24.2/MANIFEST.json \
+  tools/evidence/order124_build_2026.08.24.2/MANIFEST.sha256 \
+  tools/evidence/order124_build_2026.08.24.2/LOSS_RECEIPT.json \
   tools/audit_scope.json \
   tools/build_story_demo_macos.sh \
   tools/story_demo_package_audit.py; do
@@ -1954,6 +1965,9 @@ contract_paths = [
     "tools/I18nInfrastructureCheck.tscn",
     "tools/third_party_notice_audit.py",
     "tools/story_demo_localization_audit.py",
+    "tools/evidence/order124_build_2026.08.24.2/MANIFEST.json",
+    "tools/evidence/order124_build_2026.08.24.2/MANIFEST.sha256",
+    "tools/evidence/order124_build_2026.08.24.2/LOSS_RECEIPT.json",
     "tools/audit_scope.json",
     "tools/build_story_demo_macos.sh",
     "tools/story_demo_package_audit.py",

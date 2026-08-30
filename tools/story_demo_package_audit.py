@@ -4,11 +4,14 @@
 from __future__ import annotations
 
 import argparse
+from dataclasses import dataclass
 import hashlib
 import json
 import os
 import plistlib
 import re
+import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -44,6 +47,13 @@ ZIP_REL = f"build/story_demo/macos/{APP_STEM}.zip"
 MANIFEST_REL = "build/story_demo/MANIFEST.json"
 CHECKSUM_REL = "build/story_demo/MANIFEST.sha256"
 AUDIT_SOURCE_ROOT_ENV = "STORY_DEMO_AUDIT_SOURCE_ROOT"
+HISTORIC_ARCHIVE_REL = "build/order124/archive/2026.08.24.2"
+HISTORIC_EVIDENCE_REL = "tools/evidence/order124_build_2026.08.24.2"
+HISTORIC_MANIFEST_NAME = "MANIFEST.json"
+HISTORIC_CHECKSUM_NAME = "MANIFEST.sha256"
+HISTORIC_LOSS_RECEIPT_NAME = "LOSS_RECEIPT.json"
+HISTORIC_ZIP_NAME = "macos/GangnamDream-ORDER124-M01M06-StoryChoicePlaytest.zip"
+MISSING_STATE_SHA256 = hashlib.sha256(b"missing\0").hexdigest()
 WRAPPER_REQUIRED_MARKER_TOKENS = {
     "start": "1",
     "save": "1",
@@ -100,6 +110,9 @@ SOURCE_CONTRACT = (
     "tools/I18nInfrastructureCheck.tscn",
     "tools/third_party_notice_audit.py",
     "tools/story_demo_localization_audit.py",
+    f"{HISTORIC_EVIDENCE_REL}/{HISTORIC_MANIFEST_NAME}",
+    f"{HISTORIC_EVIDENCE_REL}/{HISTORIC_CHECKSUM_NAME}",
+    f"{HISTORIC_EVIDENCE_REL}/{HISTORIC_LOSS_RECEIPT_NAME}",
     "tools/audit_scope.json",
     "tools/build_story_demo_macos.sh",
     "tools/story_demo_package_audit.py",
@@ -118,6 +131,69 @@ PROTECTED_LABELS = {
 }
 
 
+@dataclass(frozen=True)
+class HistoricArchiveContract:
+    build_id: str
+    source_revision: str
+    source_tree: str
+    engine_version: str
+    manifest_sha256: str
+    manifest_size: int
+    checksum_sha256: str
+    checksum_size: int
+    checksum_line: str
+    zip_sha256: str
+    zip_size: int
+    app_tree_sha256: str
+    app_file_count: int
+    launcher_sha256: str
+    launcher_size: int
+    pck_sha256: str
+    pck_size: int
+    archive_inventory_sha256: str
+    rebuild_zip_sha256: str
+    rebuild_zip_size: int
+    rebuild_app_tree_sha256: str
+    rebuild_app_file_count: int
+    rebuild_launcher_sha256: str
+    rebuild_launcher_size: int
+    rebuild_pck_sha256: str
+    rebuild_pck_size: int
+
+
+HISTORIC_ARCHIVE = HistoricArchiveContract(
+    build_id="2026.08.24.2",
+    source_revision="e9aff5f06c2e3ec3708426156074674a56a4c3f6",
+    source_tree="ad4d88a6aed68a79074f6f8e3204bf0474f6dbc4",
+    engine_version="4.6.2.stable.official.71f334935",
+    manifest_sha256="87f3491f7e526762203a83eb4ed25bbbba79981f7dc3ec812d49cdd955db1194",
+    manifest_size=9238,
+    checksum_sha256="38566c8aba5e395ee5e6ca964e4c41ece9770ccefaedc1f04c5670268c39e314",
+    checksum_size=95,
+    checksum_line=(
+        "87f3491f7e526762203a83eb4ed25bbbba79981f7dc3ec812d49cdd955db1194"
+        "  build/order124/MANIFEST.json\n"
+    ),
+    zip_sha256="626196d6a74f50373ddc3e6d0cb8b3a502f052d4436f308361d8b82d3ab45a75",
+    zip_size=389505944,
+    app_tree_sha256="c21d5ba71c5516465849cc7596d48ed430a4fc903eeeb7033340d36e5afb6a85",
+    app_file_count=7,
+    launcher_sha256="291d39bfa8f6014b40745012e725eb1a398076d223ea89e1caa2d8804495c7c7",
+    launcher_size=184222320,
+    pck_sha256="04e3e67e1591df5984f804f299edcba0c95eb6e8281362d253c134df0d64b7d8",
+    pck_size=337642500,
+    archive_inventory_sha256="84b5f16dac820fd946240bf72519dea155f1ff49e1724a72aed5d35664916d41",
+    rebuild_zip_sha256="e05fabe42dbf104537d41e177ff97c4ae0b4f111771db20862ad2320db9db7a3",
+    rebuild_zip_size=389505948,
+    rebuild_app_tree_sha256="ad3ed20f0fa3d3fac02d4c550ea58bd1ae4e569ba6f03465d12815a16311b345",
+    rebuild_app_file_count=7,
+    rebuild_launcher_sha256="4c0aa3aa5c762d5ae41a1d094d21d621e0ce60002a5a56292f23266118433ede",
+    rebuild_launcher_size=184222320,
+    rebuild_pck_sha256="5e66c19426831570328bc006ac83861cbde6028defad0f3901a9397bc3ef418c",
+    rebuild_pck_size=337642500,
+)
+
+
 def sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
@@ -128,6 +204,471 @@ def sha256_path(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def strict_json_loads(data: bytes | str) -> object:
+    text = data.decode("utf-8") if isinstance(data, bytes) else data
+
+    def reject_duplicates(pairs: list[tuple[str, object]]) -> dict[str, object]:
+        result: dict[str, object] = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError(f"duplicate JSON key: {key}")
+            result[key] = value
+        return result
+
+    return json.loads(text, object_pairs_hook=reject_duplicates)
+
+
+def strict_value_equal(actual: object, expected: object) -> bool:
+    if type(actual) is not type(expected):
+        return False
+    if isinstance(expected, dict):
+        if not isinstance(actual, dict) or actual.keys() != expected.keys():
+            return False
+        return all(strict_value_equal(actual[key], value) for key, value in expected.items())
+    if isinstance(expected, list):
+        return isinstance(actual, list) and len(actual) == len(expected) and all(
+            strict_value_equal(left, right) for left, right in zip(actual, expected)
+        )
+    return actual == expected
+
+
+def expected_loss_receipt(contract: HistoricArchiveContract) -> dict[str, object]:
+    return {
+        "schema_version": 1,
+        "record_type": "historic_build_archive_loss",
+        "status": "missing_with_loss_receipt",
+        "build_id": contract.build_id,
+        "archive_restored": False,
+        "candidate_eligible": False,
+        "archive": {
+            "path": HISTORIC_ARCHIVE_REL,
+            "expected_inventory_sha256": contract.archive_inventory_sha256,
+            "expected_file_count": 3,
+            "observed_state_at_recording": "missing",
+        },
+        "source": {
+            "revision": contract.source_revision,
+            "tree": contract.source_tree,
+        },
+        "expected_artifacts": {
+            "manifest": {
+                "path": HISTORIC_MANIFEST_NAME,
+                "sha256": contract.manifest_sha256,
+                "size_bytes": contract.manifest_size,
+            },
+            "checksum": {
+                "path": HISTORIC_CHECKSUM_NAME,
+                "sha256": contract.checksum_sha256,
+                "size_bytes": contract.checksum_size,
+                "exact_line": contract.checksum_line,
+            },
+            "zip": {
+                "path": HISTORIC_ZIP_NAME,
+                "sha256": contract.zip_sha256,
+                "size_bytes": contract.zip_size,
+            },
+            "app": {
+                "tree_sha256": contract.app_tree_sha256,
+                "file_count": contract.app_file_count,
+            },
+            "launcher": {
+                "sha256": contract.launcher_sha256,
+                "size_bytes": contract.launcher_size,
+            },
+            "resource_pack": {
+                "sha256": contract.pck_sha256,
+                "size_bytes": contract.pck_size,
+            },
+        },
+        "tracked_evidence": {
+            "root": HISTORIC_EVIDENCE_REL,
+            "manifest": f"{HISTORIC_EVIDENCE_REL}/{HISTORIC_MANIFEST_NAME}",
+            "checksum": f"{HISTORIC_EVIDENCE_REL}/{HISTORIC_CHECKSUM_NAME}",
+            "loss_receipt": f"{HISTORIC_EVIDENCE_REL}/{HISTORIC_LOSS_RECEIPT_NAME}",
+            "archive_payload_recovered": False,
+        },
+        "reconstruction_attempt": {
+            "method": "clean_one_shot_same_source_same_engine",
+            "source_revision": contract.source_revision,
+            "source_tree": contract.source_tree,
+            "engine_version": contract.engine_version,
+            "zip": {
+                "sha256": contract.rebuild_zip_sha256,
+                "size_bytes": contract.rebuild_zip_size,
+            },
+            "app": {
+                "tree_sha256": contract.rebuild_app_tree_sha256,
+                "file_count": contract.rebuild_app_file_count,
+            },
+            "launcher": {
+                "sha256": contract.rebuild_launcher_sha256,
+                "size_bytes": contract.rebuild_launcher_size,
+            },
+            "resource_pack": {
+                "sha256": contract.rebuild_pck_sha256,
+                "size_bytes": contract.rebuild_pck_size,
+            },
+            "matches_historical": False,
+        },
+    }
+
+
+def path_components_are_real_directories(root: Path, relative_parent: str) -> bool:
+    current = root
+    if current.is_symlink() or not current.is_dir():
+        return False
+    for part in PurePosixPath(relative_parent).parts:
+        current = current / part
+        if current.is_symlink() or not current.is_dir():
+            return False
+    return True
+
+
+def regular_file(path: Path) -> bool:
+    try:
+        return not path.is_symlink() and stat.S_ISREG(path.lstat().st_mode)
+    except OSError:
+        return False
+
+
+def inventory_sha256(root: Path, relative_files: tuple[str, ...]) -> str:
+    rows = [
+        f"file\0{relative}\0{sha256_path(root / relative)}\n".encode()
+        for relative in sorted(relative_files)
+    ]
+    return sha256_bytes(b"".join(rows))
+
+
+def validate_archive_contract_constants(
+    contract: HistoricArchiveContract,
+) -> list[str]:
+    errors: list[str] = []
+    checksum_bytes = contract.checksum_line.encode("utf-8")
+    if len(checksum_bytes) != contract.checksum_size:
+        errors.append("archive contract checksum size is internally inconsistent")
+    if sha256_bytes(checksum_bytes) != contract.checksum_sha256:
+        errors.append("archive contract checksum SHA-256 is internally inconsistent")
+    archive_rows = (
+        f"file\0{HISTORIC_MANIFEST_NAME}\0{contract.manifest_sha256}\n".encode(),
+        f"file\0{HISTORIC_CHECKSUM_NAME}\0{contract.checksum_sha256}\n".encode(),
+        f"file\0{HISTORIC_ZIP_NAME}\0{contract.zip_sha256}\n".encode(),
+    )
+    if sha256_bytes(b"".join(sorted(archive_rows))) != contract.archive_inventory_sha256:
+        errors.append("archive contract aggregate SHA-256 is internally inconsistent")
+    for label, value in (
+        ("manifest", contract.manifest_sha256),
+        ("checksum", contract.checksum_sha256),
+        ("ZIP", contract.zip_sha256),
+        ("app", contract.app_tree_sha256),
+        ("launcher", contract.launcher_sha256),
+        ("PCK", contract.pck_sha256),
+        ("archive", contract.archive_inventory_sha256),
+        ("rebuild ZIP", contract.rebuild_zip_sha256),
+        ("rebuild app", contract.rebuild_app_tree_sha256),
+        ("rebuild launcher", contract.rebuild_launcher_sha256),
+        ("rebuild PCK", contract.rebuild_pck_sha256),
+    ):
+        if not HASH_RE.fullmatch(value):
+            errors.append(f"archive contract {label} hash is malformed")
+    for label, historical, rebuilt in (
+        ("ZIP", contract.zip_sha256, contract.rebuild_zip_sha256),
+        ("app", contract.app_tree_sha256, contract.rebuild_app_tree_sha256),
+        ("launcher", contract.launcher_sha256, contract.rebuild_launcher_sha256),
+        ("PCK", contract.pck_sha256, contract.rebuild_pck_sha256),
+    ):
+        if historical == rebuilt:
+            errors.append(f"archive contract rebuild {label} falsely matches historical")
+    return errors
+
+
+def validate_historic_manifest_bytes(
+    data: bytes,
+    contract: HistoricArchiveContract,
+    errors: list[str],
+) -> None:
+    if len(data) != contract.manifest_size:
+        errors.append("historic manifest size drifted")
+    if sha256_bytes(data) != contract.manifest_sha256:
+        errors.append("historic manifest SHA-256 drifted")
+    try:
+        payload = strict_json_loads(data)
+    except (UnicodeDecodeError, json.JSONDecodeError, ValueError) as exc:
+        errors.append(f"historic manifest is not strict JSON: {exc}")
+        return
+    if not isinstance(payload, dict):
+        errors.append("historic manifest root must be an object")
+        return
+    source = payload.get("source", {})
+    engine = payload.get("engine", {})
+    package = payload.get("package", {})
+    zip_info = package.get("zip", {}) if isinstance(package, dict) else {}
+    app_info = package.get("app", {}) if isinstance(package, dict) else {}
+    launcher_info = package.get("launcher", {}) if isinstance(package, dict) else {}
+    pck_info = package.get("resource_pack", {}) if isinstance(package, dict) else {}
+    expected = (
+        (payload.get("schema_version"), 1, "schema_version"),
+        (payload.get("profile"), "order124_m1m6_story_choice", "profile"),
+        (payload.get("build_id"), contract.build_id, "build_id"),
+        (source.get("revision") if isinstance(source, dict) else None, contract.source_revision, "source revision"),
+        (source.get("tree") if isinstance(source, dict) else None, contract.source_tree, "source tree"),
+        (engine.get("version") if isinstance(engine, dict) else None, contract.engine_version, "engine version"),
+        (zip_info.get("path"), "build/order124/macos/GangnamDream-ORDER124-M01M06-StoryChoicePlaytest.zip", "ZIP path"),
+        (zip_info.get("sha256"), contract.zip_sha256, "ZIP SHA-256"),
+        (zip_info.get("size_bytes"), contract.zip_size, "ZIP size"),
+        (app_info.get("tree_sha256"), contract.app_tree_sha256, "app tree SHA-256"),
+        (app_info.get("file_count"), contract.app_file_count, "app file count"),
+        (launcher_info.get("sha256"), contract.launcher_sha256, "launcher SHA-256"),
+        (launcher_info.get("size_bytes"), contract.launcher_size, "launcher size"),
+        (pck_info.get("sha256"), contract.pck_sha256, "PCK SHA-256"),
+        (pck_info.get("size_bytes"), contract.pck_size, "PCK size"),
+    )
+    for actual, wanted, label in expected:
+        if type(actual) is not type(wanted) or actual != wanted:
+            errors.append(f"historic manifest {label} drifted")
+
+
+def validate_checksum_bytes(
+    data: bytes,
+    contract: HistoricArchiveContract,
+    errors: list[str],
+) -> None:
+    expected = contract.checksum_line.encode("utf-8")
+    if data != expected:
+        errors.append("historic checksum bytes drifted")
+    if len(data) != contract.checksum_size:
+        errors.append("historic checksum size drifted")
+    if sha256_bytes(data) != contract.checksum_sha256:
+        errors.append("historic checksum SHA-256 drifted")
+
+
+def validate_source_evidence_blobs(
+    root: Path,
+    revision: str,
+    evidence: dict[str, bytes],
+    errors: list[str],
+) -> None:
+    if not COMMIT_RE.fullmatch(revision):
+        errors.append("archive evidence source revision is not a full commit")
+        return
+    for name, data in evidence.items():
+        relative = f"{HISTORIC_EVIDENCE_REL}/{name}"
+        try:
+            tree_row = subprocess.check_output(
+                ["git", "-C", str(root), "ls-tree", revision, "--", relative],
+                text=True,
+                stderr=subprocess.STDOUT,
+            ).strip()
+            fields = tree_row.split(None, 3)
+            if len(fields) != 4 or fields[0] != "100644" or fields[1] != "blob":
+                errors.append(f"selected source lacks regular tracked loss evidence: {relative}")
+                continue
+            if git_bytes(root, revision, relative) != data:
+                errors.append(f"selected source loss evidence bytes drifted: {relative}")
+        except (OSError, subprocess.CalledProcessError) as exc:
+            errors.append(f"selected source loss evidence unavailable: {relative}: {exc}")
+
+
+def validate_loss_evidence(
+    root: Path,
+    contract: HistoricArchiveContract,
+    errors: list[str],
+    source_revision: str = "",
+) -> str:
+    evidence_root = root / HISTORIC_EVIDENCE_REL
+    parent_rel = str(PurePosixPath(HISTORIC_EVIDENCE_REL).parent)
+    if not path_components_are_real_directories(root, parent_rel):
+        errors.append("historic loss evidence ancestor must be a real directory")
+        return ""
+    if evidence_root.is_symlink() or not evidence_root.is_dir():
+        errors.append("historic loss evidence root must be a real directory")
+        return ""
+    expected_entries = {
+        HISTORIC_MANIFEST_NAME,
+        HISTORIC_CHECKSUM_NAME,
+        HISTORIC_LOSS_RECEIPT_NAME,
+    }
+    entries = {
+        item.relative_to(evidence_root).as_posix()
+        for item in evidence_root.rglob("*")
+    }
+    if entries != expected_entries:
+        errors.append(f"historic loss evidence inventory drifted: {sorted(entries)}")
+    evidence: dict[str, bytes] = {}
+    for name in sorted(expected_entries):
+        path = evidence_root / name
+        if not regular_file(path):
+            errors.append(f"historic loss evidence must be a regular file: {name}")
+            continue
+        try:
+            evidence[name] = path.read_bytes()
+        except OSError as exc:
+            errors.append(f"cannot read historic loss evidence {name}: {exc}")
+    if set(evidence) != expected_entries:
+        return ""
+    validate_historic_manifest_bytes(evidence[HISTORIC_MANIFEST_NAME], contract, errors)
+    validate_checksum_bytes(evidence[HISTORIC_CHECKSUM_NAME], contract, errors)
+    try:
+        receipt = strict_json_loads(evidence[HISTORIC_LOSS_RECEIPT_NAME])
+    except (UnicodeDecodeError, json.JSONDecodeError, ValueError) as exc:
+        errors.append(f"loss receipt is not strict JSON: {exc}")
+    else:
+        expected_receipt = expected_loss_receipt(contract)
+        if not isinstance(receipt, dict) or not strict_value_equal(receipt, expected_receipt):
+            errors.append("loss receipt facts or types drifted")
+        elif (
+            receipt.get("archive_restored") is not False
+            or receipt.get("candidate_eligible") is not False
+            or receipt.get("tracked_evidence", {}).get("archive_payload_recovered") is not False
+            or receipt.get("reconstruction_attempt", {}).get("matches_historical") is not False
+        ):
+            errors.append("loss receipt must keep every recovery/eligibility claim false")
+    if source_revision:
+        validate_source_evidence_blobs(root, source_revision, evidence, errors)
+    inventory_rows = [
+        f"file\0{name}\0{sha256_bytes(evidence[name])}\n".encode()
+        for name in sorted(evidence)
+    ]
+    return sha256_bytes(b"".join(inventory_rows))
+
+
+def validate_physical_archive(
+    archive_root: Path,
+    contract: HistoricArchiveContract,
+    errors: list[str],
+) -> None:
+    expected_entries = {
+        HISTORIC_MANIFEST_NAME,
+        HISTORIC_CHECKSUM_NAME,
+        "macos",
+        HISTORIC_ZIP_NAME,
+    }
+    if archive_root.is_symlink() or not archive_root.is_dir():
+        errors.append("historic physical archive root must be a real directory")
+        return
+    entries = {
+        item.relative_to(archive_root).as_posix()
+        for item in archive_root.rglob("*")
+    }
+    if entries != expected_entries:
+        errors.append(f"historic physical archive inventory drifted: {sorted(entries)}")
+    macos = archive_root / "macos"
+    if macos.is_symlink() or not macos.is_dir():
+        errors.append("historic physical archive macos entry must be a real directory")
+    manifest = archive_root / HISTORIC_MANIFEST_NAME
+    checksum = archive_root / HISTORIC_CHECKSUM_NAME
+    zip_path = archive_root / HISTORIC_ZIP_NAME
+    for label, path in (("manifest", manifest), ("checksum", checksum), ("ZIP", zip_path)):
+        if not regular_file(path):
+            errors.append(f"historic physical archive {label} must be a regular file")
+    if not all(regular_file(path) for path in (manifest, checksum, zip_path)):
+        return
+    validate_historic_manifest_bytes(manifest.read_bytes(), contract, errors)
+    validate_checksum_bytes(checksum.read_bytes(), contract, errors)
+    if zip_path.stat().st_size != contract.zip_size:
+        errors.append("historic physical ZIP size drifted")
+    if sha256_path(zip_path) != contract.zip_sha256:
+        errors.append("historic physical ZIP SHA-256 drifted")
+    actual_inventory = inventory_sha256(
+        archive_root,
+        (HISTORIC_MANIFEST_NAME, HISTORIC_CHECKSUM_NAME, HISTORIC_ZIP_NAME),
+    )
+    if actual_inventory != contract.archive_inventory_sha256:
+        errors.append("historic physical archive aggregate SHA-256 drifted")
+
+
+def archive_guard_state(
+    root: Path,
+    contract: HistoricArchiveContract = HISTORIC_ARCHIVE,
+    source_revision: str = "",
+) -> tuple[dict[str, object] | None, list[str]]:
+    errors: list[str] = []
+    archive_root = root / HISTORIC_ARCHIVE_REL
+    archive_parent = str(PurePosixPath(HISTORIC_ARCHIVE_REL).parent)
+    parent_is_real = path_components_are_real_directories(root, archive_parent)
+    if archive_root.is_symlink():
+        errors.append("historic archive root must not be a live or dangling symlink")
+        return None, errors
+    elif archive_root.exists():
+        if not parent_is_real:
+            errors.append("historic archive ancestor must be a real directory")
+        validate_physical_archive(archive_root, contract, errors)
+        if source_revision:
+            validate_loss_evidence(
+                root,
+                contract,
+                errors,
+                source_revision=source_revision,
+            )
+        if errors:
+            return None, errors
+        return {
+            "exists": True,
+            "kind": "directory",
+            "state": "physical_exact_archive",
+            "sha256": contract.archive_inventory_sha256,
+            "file_count": 3,
+            "evidence_sha256": contract.archive_inventory_sha256,
+        }, []
+    else:
+        if not parent_is_real:
+            # Missing parents are allowed, but no existing ancestor may be a symlink or file.
+            current = root
+            for part in PurePosixPath(archive_parent).parts:
+                current = current / part
+                if current.is_symlink() or (current.exists() and not current.is_dir()):
+                    errors.append("historic missing archive ancestor is not a real directory")
+                    break
+                if not current.exists():
+                    break
+        if errors:
+            return None, errors
+        evidence_sha = validate_loss_evidence(
+            root,
+            contract,
+            errors,
+            source_revision=source_revision,
+        )
+        if errors:
+            return None, errors
+        return {
+            "exists": False,
+            "kind": "missing",
+            "state": "missing_with_loss_receipt",
+            "sha256": MISSING_STATE_SHA256,
+            "file_count": 0,
+            "evidence_sha256": evidence_sha,
+        }, []
+
+
+def validate_archive_protected_row(
+    row: dict[str, object],
+    expected_state: dict[str, object] | None,
+) -> list[str]:
+    errors: list[str] = []
+    before = row.get("before")
+    after = row.get("after")
+    if not isinstance(before, dict) or not isinstance(after, dict):
+        return ["protected BUILD 2026.08.24.2 states must be objects"]
+    if row.get("passed") is not True or not strict_value_equal(before, after):
+        errors.append("protected BUILD 2026.08.24.2 before/after mismatch")
+    if expected_state is None:
+        errors.append("protected BUILD 2026.08.24.2 has no valid canonical state")
+        return errors
+    for side, state in (("before", before), ("after", after)):
+        if not strict_value_equal(state, expected_state):
+            errors.append(
+                f"protected BUILD 2026.08.24.2 {side} is not exact physical or missing evidence state"
+            )
+    if before.get("state") not in {
+        "physical_exact_archive",
+        "missing_with_loss_receipt",
+    }:
+        errors.append("protected BUILD 2026.08.24.2 state label drifted")
+    if not HASH_RE.fullmatch(str(before.get("evidence_sha256", ""))):
+        errors.append("protected BUILD 2026.08.24.2 lacks evidence SHA-256")
+    return errors
 
 
 def git_bytes(repository: Path, revision: str, relative: str) -> bytes:
@@ -201,6 +742,408 @@ def source_repository_for_audit(artifact_root: Path, errors: list[str]) -> Path:
     return repository
 
 
+def synthetic_archive_fixture() -> tuple[HistoricArchiveContract, bytes, bytes, bytes]:
+    zip_bytes = b"synthetic exact historic ZIP for guard self-test\n"
+    zip_hash = sha256_bytes(zip_bytes)
+    source_revision = "1" * 40
+    source_tree = "2" * 40
+    app_hash = sha256_bytes(b"synthetic historic app tree")
+    launcher_hash = sha256_bytes(b"synthetic historic launcher")
+    pck_hash = sha256_bytes(b"synthetic historic pck")
+    manifest_payload = {
+        "schema_version": 1,
+        "profile": "order124_m1m6_story_choice",
+        "build_id": "2099.01.01.1",
+        "source": {"revision": source_revision, "tree": source_tree},
+        "engine": {"version": EXPECTED_GODOT},
+        "package": {
+            "zip": {
+                "path": "build/order124/macos/GangnamDream-ORDER124-M01M06-StoryChoicePlaytest.zip",
+                "sha256": zip_hash,
+                "size_bytes": len(zip_bytes),
+            },
+            "app": {"tree_sha256": app_hash, "file_count": 7},
+            "launcher": {"sha256": launcher_hash, "size_bytes": 101},
+            "resource_pack": {"sha256": pck_hash, "size_bytes": 202},
+        },
+    }
+    manifest_bytes = (
+        json.dumps(manifest_payload, ensure_ascii=False, indent=2) + "\n"
+    ).encode("utf-8")
+    manifest_hash = sha256_bytes(manifest_bytes)
+    checksum_line = f"{manifest_hash}  build/order124/MANIFEST.json\n"
+    checksum_bytes = checksum_line.encode("utf-8")
+    checksum_hash = sha256_bytes(checksum_bytes)
+    rows = (
+        f"file\0{HISTORIC_MANIFEST_NAME}\0{manifest_hash}\n".encode(),
+        f"file\0{HISTORIC_CHECKSUM_NAME}\0{checksum_hash}\n".encode(),
+        f"file\0{HISTORIC_ZIP_NAME}\0{zip_hash}\n".encode(),
+    )
+    contract = HistoricArchiveContract(
+        build_id="2099.01.01.1",
+        source_revision=source_revision,
+        source_tree=source_tree,
+        engine_version=EXPECTED_GODOT,
+        manifest_sha256=manifest_hash,
+        manifest_size=len(manifest_bytes),
+        checksum_sha256=checksum_hash,
+        checksum_size=len(checksum_bytes),
+        checksum_line=checksum_line,
+        zip_sha256=zip_hash,
+        zip_size=len(zip_bytes),
+        app_tree_sha256=app_hash,
+        app_file_count=7,
+        launcher_sha256=launcher_hash,
+        launcher_size=101,
+        pck_sha256=pck_hash,
+        pck_size=202,
+        archive_inventory_sha256=sha256_bytes(b"".join(sorted(rows))),
+        rebuild_zip_sha256=sha256_bytes(b"different rebuilt zip"),
+        rebuild_zip_size=22,
+        rebuild_app_tree_sha256=sha256_bytes(b"different rebuilt app"),
+        rebuild_app_file_count=7,
+        rebuild_launcher_sha256=sha256_bytes(b"different rebuilt launcher"),
+        rebuild_launcher_size=101,
+        rebuild_pck_sha256=sha256_bytes(b"different rebuilt pck"),
+        rebuild_pck_size=202,
+    )
+    return contract, manifest_bytes, checksum_bytes, zip_bytes
+
+
+def materialize_loss_fixture(
+    root: Path,
+    contract: HistoricArchiveContract,
+    manifest_bytes: bytes,
+    checksum_bytes: bytes,
+) -> None:
+    evidence = root / HISTORIC_EVIDENCE_REL
+    evidence.mkdir(parents=True)
+    (evidence / HISTORIC_MANIFEST_NAME).write_bytes(manifest_bytes)
+    (evidence / HISTORIC_CHECKSUM_NAME).write_bytes(checksum_bytes)
+    (evidence / HISTORIC_LOSS_RECEIPT_NAME).write_text(
+        json.dumps(expected_loss_receipt(contract), ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
+def materialize_physical_fixture(
+    root: Path,
+    manifest_bytes: bytes,
+    checksum_bytes: bytes,
+    zip_bytes: bytes,
+) -> None:
+    archive = root / HISTORIC_ARCHIVE_REL
+    (archive / "macos").mkdir(parents=True)
+    (archive / HISTORIC_MANIFEST_NAME).write_bytes(manifest_bytes)
+    (archive / HISTORIC_CHECKSUM_NAME).write_bytes(checksum_bytes)
+    (archive / HISTORIC_ZIP_NAME).write_bytes(zip_bytes)
+
+
+def archive_guard_self_test(root: Path) -> tuple[list[str], int]:
+    errors: list[str] = []
+    checks = 0
+    errors.extend(validate_archive_contract_constants(HISTORIC_ARCHIVE))
+    checks += 15
+    actual_state, actual_errors = archive_guard_state(root)
+    checks += 1
+    if (
+        actual_errors
+        or actual_state is None
+        or actual_state.get("state")
+        not in {"physical_exact_archive", "missing_with_loss_receipt"}
+    ):
+        errors.append("current historic archive is neither exact physical nor canonical missing evidence")
+
+    contract, manifest_bytes, checksum_bytes, zip_bytes = synthetic_archive_fixture()
+
+    def expect_valid(case_root: Path, state_name: str, label: str) -> None:
+        nonlocal checks
+        state, case_errors = archive_guard_state(case_root, contract)
+        checks += 1
+        if case_errors or state is None or state.get("state") != state_name:
+            errors.append(f"archive guard rejected valid {label}: {case_errors}")
+
+    def expect_invalid(case_root: Path, label: str) -> None:
+        nonlocal checks
+        state, case_errors = archive_guard_state(case_root, contract)
+        checks += 1
+        if state is not None or not case_errors:
+            errors.append(f"archive guard accepted adversarial {label}")
+
+    with tempfile.TemporaryDirectory(prefix="story-demo-archive-guard-") as temporary:
+        base = Path(temporary)
+        physical = base / "valid-physical"
+        materialize_physical_fixture(physical, manifest_bytes, checksum_bytes, zip_bytes)
+        expect_valid(physical, "physical_exact_archive", "physical archive")
+
+        missing = base / "valid-missing"
+        materialize_loss_fixture(missing, contract, manifest_bytes, checksum_bytes)
+        expect_valid(missing, "missing_with_loss_receipt", "missing evidence")
+
+        empty = base / "empty-archive"
+        (empty / HISTORIC_ARCHIVE_REL).mkdir(parents=True)
+        expect_invalid(empty, "empty archive directory")
+
+        manifest_only = base / "manifest-only"
+        archive = manifest_only / HISTORIC_ARCHIVE_REL
+        archive.mkdir(parents=True)
+        (archive / HISTORIC_MANIFEST_NAME).write_bytes(manifest_bytes)
+        expect_invalid(manifest_only, "manifest-only archive")
+
+        zip_only = base / "zip-only"
+        archive = zip_only / HISTORIC_ARCHIVE_REL
+        (archive / "macos").mkdir(parents=True)
+        (archive / HISTORIC_ZIP_NAME).write_bytes(zip_bytes)
+        expect_invalid(zip_only, "ZIP-only archive")
+
+        fake_zip = base / "fake-zip"
+        materialize_physical_fixture(fake_zip, manifest_bytes, checksum_bytes, b"fake")
+        expect_invalid(fake_zip, "fake ZIP")
+
+        extra = base / "extra-entry"
+        materialize_physical_fixture(extra, manifest_bytes, checksum_bytes, zip_bytes)
+        (extra / HISTORIC_ARCHIVE_REL / "extra-empty").mkdir()
+        expect_invalid(extra, "extra empty archive directory")
+
+        target = base / "root-link-target"
+        materialize_physical_fixture(target, manifest_bytes, checksum_bytes, zip_bytes)
+        root_link = base / "root-link"
+        (root_link / PurePosixPath(HISTORIC_ARCHIVE_REL).parent).mkdir(parents=True)
+        (root_link / HISTORIC_ARCHIVE_REL).symlink_to(
+            target / HISTORIC_ARCHIVE_REL,
+            target_is_directory=True,
+        )
+        expect_invalid(root_link, "live root symlink")
+
+        dangling = base / "dangling-root-link"
+        (dangling / PurePosixPath(HISTORIC_ARCHIVE_REL).parent).mkdir(parents=True)
+        (dangling / HISTORIC_ARCHIVE_REL).symlink_to(
+            base / "does-not-exist",
+            target_is_directory=True,
+        )
+        expect_invalid(dangling, "dangling root symlink")
+
+        nested_link = base / "nested-link"
+        materialize_physical_fixture(nested_link, manifest_bytes, checksum_bytes, zip_bytes)
+        nested_archive = nested_link / HISTORIC_ARCHIVE_REL
+        external_macos = base / "external-macos"
+        shutil.move(str(nested_archive / "macos"), external_macos)
+        (nested_archive / "macos").symlink_to(external_macos, target_is_directory=True)
+        expect_invalid(nested_link, "nested directory symlink")
+
+        file_link = base / "file-link"
+        materialize_physical_fixture(file_link, manifest_bytes, checksum_bytes, zip_bytes)
+        linked_manifest = file_link / HISTORIC_ARCHIVE_REL / HISTORIC_MANIFEST_NAME
+        external_manifest = base / "external-manifest.json"
+        shutil.move(str(linked_manifest), external_manifest)
+        linked_manifest.symlink_to(external_manifest)
+        expect_invalid(file_link, "file symlink")
+
+        special_file = base / "special-file"
+        materialize_physical_fixture(special_file, manifest_bytes, checksum_bytes, zip_bytes)
+        special_zip = special_file / HISTORIC_ARCHIVE_REL / HISTORIC_ZIP_NAME
+        special_zip.unlink()
+        os.mkfifo(special_zip)
+        expect_invalid(special_file, "special-file ZIP")
+
+        def mutated_missing(label: str) -> tuple[Path, Path]:
+            case_root = base / label
+            materialize_loss_fixture(case_root, contract, manifest_bytes, checksum_bytes)
+            return case_root, case_root / HISTORIC_EVIDENCE_REL
+
+        case_root, evidence = mutated_missing("missing-manifest")
+        (evidence / HISTORIC_MANIFEST_NAME).unlink()
+        expect_invalid(case_root, "missing tracked manifest")
+
+        case_root, evidence = mutated_missing("missing-checksum")
+        (evidence / HISTORIC_CHECKSUM_NAME).unlink()
+        expect_invalid(case_root, "missing tracked checksum")
+
+        for label, replacement in (
+            ("checksum-one-space", checksum_bytes.replace(b"  build/", b" build/")),
+            ("checksum-crlf", checksum_bytes[:-1] + b"\r\n"),
+            ("checksum-no-lf", checksum_bytes[:-1]),
+            ("checksum-path-rewrite", checksum_bytes.replace(b"build/order124/", b"tools/evidence/")),
+        ):
+            case_root, evidence = mutated_missing(label)
+            (evidence / HISTORIC_CHECKSUM_NAME).write_bytes(replacement)
+            expect_invalid(case_root, label)
+
+        case_root, evidence = mutated_missing("nonexact-manifest")
+        (evidence / HISTORIC_MANIFEST_NAME).write_bytes(manifest_bytes + b" ")
+        expect_invalid(case_root, "nonexact manifest")
+
+        case_root, evidence = mutated_missing("evidence-file-link")
+        evidence_manifest = evidence / HISTORIC_MANIFEST_NAME
+        external_evidence_manifest = base / "external-evidence-manifest.json"
+        shutil.move(str(evidence_manifest), external_evidence_manifest)
+        evidence_manifest.symlink_to(external_evidence_manifest)
+        expect_invalid(case_root, "evidence file symlink")
+
+        case_root, evidence = mutated_missing("evidence-dangling-link")
+        evidence_checksum = evidence / HISTORIC_CHECKSUM_NAME
+        evidence_checksum.unlink()
+        evidence_checksum.symlink_to(base / "missing-checksum-target")
+        expect_invalid(case_root, "evidence dangling file symlink")
+
+        def mutate_receipt(label: str, mutation) -> None:
+            case_root, evidence = mutated_missing(label)
+            receipt_path = evidence / HISTORIC_LOSS_RECEIPT_NAME
+            payload = strict_json_loads(receipt_path.read_bytes())
+            assert isinstance(payload, dict)
+            mutation(payload)
+            receipt_path.write_text(
+                json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            expect_invalid(case_root, label)
+
+        mutate_receipt("archive-restored-true", lambda value: value.__setitem__("archive_restored", True))
+        mutate_receipt("candidate-eligible-true", lambda value: value.__setitem__("candidate_eligible", True))
+        mutate_receipt("false-as-zero", lambda value: value.__setitem__("archive_restored", 0))
+        mutate_receipt(
+            "altered-historic-hash",
+            lambda value: value["expected_artifacts"]["zip"].__setitem__("sha256", "0" * 64),
+        )
+        mutate_receipt(
+            "altered-historic-size",
+            lambda value: value["expected_artifacts"]["zip"].__setitem__("size_bytes", 1),
+        )
+        mutate_receipt(
+            "stale-source-receipt",
+            lambda value: value["source"].__setitem__("revision", "3" * 40),
+        )
+
+        case_root, evidence = mutated_missing("duplicate-receipt-key")
+        receipt_path = evidence / HISTORIC_LOSS_RECEIPT_NAME
+        receipt_bytes = receipt_path.read_bytes().replace(
+            b'  "archive_restored": false,\n',
+            b'  "archive_restored": false,\n  "archive_restored": false,\n',
+            1,
+        )
+        receipt_path.write_bytes(receipt_bytes)
+        expect_invalid(case_root, "duplicate receipt key")
+
+        root_symlink = base / "evidence-root-symlink"
+        external = base / "external-evidence-root"
+        materialize_loss_fixture(external, contract, manifest_bytes, checksum_bytes)
+        (root_symlink / PurePosixPath(HISTORIC_EVIDENCE_REL).parent).mkdir(parents=True)
+        (root_symlink / HISTORIC_EVIDENCE_REL).symlink_to(
+            external / HISTORIC_EVIDENCE_REL,
+            target_is_directory=True,
+        )
+        expect_invalid(root_symlink, "evidence root symlink")
+
+        ancestor_symlink = base / "evidence-ancestor-symlink"
+        external_tools = base / "external-tools"
+        (external_tools / "evidence/order124_build_2026.08.24.2").mkdir(parents=True)
+        source_evidence = missing / HISTORIC_EVIDENCE_REL
+        for name in (HISTORIC_MANIFEST_NAME, HISTORIC_CHECKSUM_NAME, HISTORIC_LOSS_RECEIPT_NAME):
+            shutil.copy2(source_evidence / name, external_tools / "evidence/order124_build_2026.08.24.2" / name)
+        ancestor_symlink.mkdir()
+        (ancestor_symlink / "tools").symlink_to(external_tools, target_is_directory=True)
+        expect_invalid(ancestor_symlink, "evidence ancestor symlink")
+
+        case_root, evidence = mutated_missing("evidence-extra-entry")
+        (evidence / "EXTRA").write_text("extra\n", encoding="utf-8")
+        expect_invalid(case_root, "extra evidence entry")
+
+        tracked = base / "tracked-source"
+        tracked.mkdir()
+        git_base = ["git", "-C", str(tracked), "-c", "user.name=Archive Guard", "-c", "user.email=guard@example.invalid"]
+        subprocess.run(["git", "-C", str(tracked), "init", "-q"], check=True)
+        subprocess.run(git_base + ["commit", "--allow-empty", "-q", "-m", "empty"], check=True)
+        empty_revision = subprocess.check_output(
+            ["git", "-C", str(tracked), "rev-parse", "HEAD"], text=True
+        ).strip()
+        materialize_loss_fixture(tracked, contract, manifest_bytes, checksum_bytes)
+        subprocess.run(["git", "-C", str(tracked), "add", HISTORIC_EVIDENCE_REL], check=True)
+        subprocess.run(git_base + ["commit", "-q", "-m", "evidence"], check=True)
+        evidence_revision = subprocess.check_output(
+            ["git", "-C", str(tracked), "rev-parse", "HEAD"], text=True
+        ).strip()
+        state, case_errors = archive_guard_state(
+            tracked,
+            contract,
+            source_revision=evidence_revision,
+        )
+        checks += 1
+        if case_errors or state is None:
+            errors.append(f"archive guard rejected evidence from selected source commit: {case_errors}")
+        state, case_errors = archive_guard_state(
+            tracked,
+            contract,
+            source_revision=empty_revision,
+        )
+        checks += 1
+        if state is not None or not case_errors:
+            errors.append("archive guard accepted selected source commit without loss evidence")
+        subprocess.run(
+            [
+                "git",
+                "-C",
+                str(tracked),
+                "update-index",
+                "--chmod=+x",
+                f"{HISTORIC_EVIDENCE_REL}/{HISTORIC_MANIFEST_NAME}",
+            ],
+            check=True,
+        )
+        subprocess.run(git_base + ["commit", "-q", "-m", "bad mode"], check=True)
+        executable_revision = subprocess.check_output(
+            ["git", "-C", str(tracked), "rev-parse", "HEAD"], text=True
+        ).strip()
+        state, case_errors = archive_guard_state(
+            tracked,
+            contract,
+            source_revision=executable_revision,
+        )
+        checks += 1
+        if state is not None or not case_errors:
+            errors.append("archive guard accepted non-100644 evidence blob")
+
+        valid_state, valid_state_errors = archive_guard_state(missing, contract)
+        if valid_state is None or valid_state_errors:
+            errors.append("could not prepare protected-row guard self-test")
+        else:
+            valid_row = {
+                "before": dict(valid_state),
+                "after": dict(valid_state),
+                "passed": True,
+            }
+            checks += 1
+            if validate_archive_protected_row(valid_row, valid_state):
+                errors.append("protected-row guard rejected canonical missing state")
+
+            partial_state = {
+                "exists": True,
+                "kind": "directory",
+                "state": "physical_exact_archive",
+                "sha256": contract.archive_inventory_sha256,
+                "file_count": 3,
+                "evidence_sha256": contract.archive_inventory_sha256,
+            }
+            stable_partial = {
+                "before": dict(partial_state),
+                "after": dict(partial_state),
+                "passed": True,
+            }
+            checks += 1
+            if not validate_archive_protected_row(stable_partial, valid_state):
+                errors.append("protected-row guard accepted stable fabricated physical state")
+
+            mixed_row = {
+                "before": dict(valid_state),
+                "after": dict(partial_state),
+                "passed": True,
+            }
+            checks += 1
+            if not validate_archive_protected_row(mixed_row, valid_state):
+                errors.append("protected-row guard accepted mixed before/after states")
+
+    return errors, checks
+
+
 def source_self_test(root: Path) -> tuple[list[str], int]:
     errors: list[str] = []
     build_path = root / "tools/build_story_demo_macos.sh"
@@ -255,7 +1198,11 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
         "story_demo_candidate_user_dir",
         "order124_candidate_user_dir",
         "story_demo_build2_archive",
-        "build/order124/archive/2026.08.24.2",
+        HISTORIC_ARCHIVE_REL,
+        HISTORIC_EVIDENCE_REL,
+        "--archive-state",
+        "--source-revision",
+        "missing_with_loss_receipt",
         "pre_build_candidate_snapshot",
         "fresh_package_smoke",
         "cold_restart_resume",
@@ -303,6 +1250,17 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
     for token in required_tokens:
         if token not in build_text:
             errors.append(f"build script missing required contract token: {token}")
+    audit_text = audit_path.read_text(encoding="utf-8")
+    audit_guard_tokens = (
+        "archive_restored",
+        "candidate_eligible",
+        "physical_exact_archive",
+        "missing_with_loss_receipt",
+        "strict_json_loads",
+    )
+    for token in audit_guard_tokens:
+        if token not in audit_text:
+            errors.append(f"archive guard audit missing required token: {token}")
     for forbidden in (
         'rm -rf "$STORY_DEMO_USER_DATA_DIR"',
         'rm -rf "$FINAL_APP_OUTPUT"',
@@ -494,7 +1452,7 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
         "--story-demo-real-flow-smoke",
         "--story-demo-real-flow-choice=",
         "STORY_DEMO_REAL_FLOW_SMOKE",
-        "months=6 weeks=24 settlements=6 receipts=9",
+        "months=6 weeks=24 settlements=6 receipts=%d",
         "cold_restart=1",
         "exact_resume=1",
     )
@@ -548,13 +1506,17 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
             for relative in pair:
                 if not (root / relative).is_file():
                     errors.append(f"incomplete story-demo source pair: {relative}")
+    archive_errors, archive_checks = archive_guard_self_test(root)
+    errors.extend(archive_errors)
     return (
         errors,
         len(required_tokens)
         + len(forbidden)
         + len(controller_tokens)
+        + len(audit_guard_tokens)
         + len(real_flow_commands)
         + wrapper_contract_checks
+        + archive_checks
         + 7,
     )
 
@@ -616,8 +1578,8 @@ def validate_manifest_shape(payload: dict, errors: list[str]) -> None:
 def audit_manifest(path: Path) -> list[str]:
     errors: list[str] = []
     try:
-        payload = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
+        payload = strict_json_loads(path.read_bytes())
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError, ValueError) as exc:
         return [f"cannot read manifest: {exc}"]
     if not isinstance(payload, dict):
         return ["manifest root must be an object"]
@@ -657,6 +1619,11 @@ def audit_manifest(path: Path) -> list[str]:
             except (OSError, subprocess.CalledProcessError):
                 errors.append(f"fixed-source file unavailable at revision: {relative}")
 
+    archive_expected_state, archive_state_errors = archive_guard_state(
+        repository,
+        source_revision=revision if COMMIT_RE.fullmatch(revision) else "",
+    )
+    errors.extend(f"historic archive guard: {error}" for error in archive_state_errors)
     protected = payload.get("protected", [])
     labels = {
         str(row.get("label", "")) for row in protected if isinstance(row, dict)
@@ -672,14 +1639,12 @@ def audit_manifest(path: Path) -> list[str]:
         if not isinstance(before, dict) or not isinstance(after, dict):
             errors.append(f"protected {row.get('label')} states must be objects")
             continue
-        if before != after or not row.get("passed"):
+        if not strict_value_equal(before, after) or row.get("passed") is not True:
             errors.append(f"protected before/after mismatch: {row.get('label')}")
         if not HASH_RE.fullmatch(str(before.get("sha256", ""))):
             errors.append(f"protected {row.get('label')} lacks SHA-256")
-        if row.get("label") == "story_demo_build2_archive" and (
-            not before.get("exists") or int(before.get("file_count", 0)) < 3
-        ):
-            errors.append("protected BUILD 2026.08.24.2 archive is incomplete")
+        if row.get("label") == "story_demo_build2_archive":
+            errors.extend(validate_archive_protected_row(row, archive_expected_state))
     expected_protected_paths = {
         "product_project_godot": "project.godot",
         "product_export_presets": "export_presets.cfg",
@@ -1127,17 +2092,38 @@ def audit_manifest(path: Path) -> list[str]:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    group = parser.add_mutually_exclusive_group(required=True)
+    group = parser.add_mutually_exclusive_group()
     group.add_argument("--self-test", action="store_true")
     group.add_argument("--manifest", type=Path)
+    group.add_argument("--archive-state", action="store_true")
+    parser.add_argument("--source-revision", default="")
     args = parser.parse_args()
 
+    if args.archive_state:
+        if not args.source_revision:
+            parser.error("--archive-state requires --source-revision")
+        state, errors = archive_guard_state(
+            ROOT,
+            source_revision=args.source_revision,
+        )
+        if errors or state is None:
+            for error in errors or ["archive state is unavailable"]:
+                print(f"STORY_DEMO_PACKAGE_AUDIT_FAIL: {error}", file=sys.stderr)
+            return 1
+        print(json.dumps(state, ensure_ascii=False, sort_keys=True))
+        return 0
+    if args.source_revision:
+        parser.error("--source-revision is only valid with --archive-state")
     if args.self_test:
         errors, checks = source_self_test(ROOT)
         marker = f"STORY_DEMO_PACKAGE_AUDIT_SELF_TEST_OK checks={checks}"
-    else:
+    elif args.manifest is not None:
         errors = audit_manifest(args.manifest.resolve())
         marker = f"STORY_DEMO_PACKAGE_AUDIT_OK manifest={MANIFEST_REL}"
+    else:
+        state, errors = archive_guard_state(ROOT)
+        state_name = str(state.get("state", "invalid")) if state is not None else "invalid"
+        marker = f"STORY_DEMO_ARCHIVE_GUARD_OK state={state_name}"
     if errors:
         for error in errors:
             print(f"STORY_DEMO_PACKAGE_AUDIT_FAIL: {error}", file=sys.stderr)

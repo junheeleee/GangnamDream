@@ -2335,6 +2335,9 @@
         "tools/I18nInfrastructureCheck.tscn",
         "tools/third_party_notice_audit.py",
         "tools/story_demo_localization_audit.py",
+        "tools/evidence/order124_build_2026.08.24.2/MANIFEST.json",
+        "tools/evidence/order124_build_2026.08.24.2/MANIFEST.sha256",
+        "tools/evidence/order124_build_2026.08.24.2/LOSS_RECEIPT.json",
         "tools/audit_scope.json",
         "tools/build_story_demo_macos.sh",
         "tools/story_demo_package_audit.py"

@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "record_type": "historic_build_archive_loss",
+  "status": "missing_with_loss_receipt",
+  "build_id": "2026.08.24.2",
+  "archive_restored": false,
+  "candidate_eligible": false,
+  "archive": {
+    "path": "build/order124/archive/2026.08.24.2",
+    "expected_inventory_sha256": "84b5f16dac820fd946240bf72519dea155f1ff49e1724a72aed5d35664916d41",
+    "expected_file_count": 3,
+    "observed_state_at_recording": "missing"
+  },
+  "source": {
+    "revision": "e9aff5f06c2e3ec3708426156074674a56a4c3f6",
+    "tree": "ad4d88a6aed68a79074f6f8e3204bf0474f6dbc4"
+  },
+  "expected_artifacts": {
+    "manifest": {
+      "path": "MANIFEST.json",
+      "sha256": "87f3491f7e526762203a83eb4ed25bbbba79981f7dc3ec812d49cdd955db1194",
+      "size_bytes": 9238
+    },
+    "checksum": {
+      "path": "MANIFEST.sha256",
+      "sha256": "38566c8aba5e395ee5e6ca964e4c41ece9770ccefaedc1f04c5670268c39e314",
+      "size_bytes": 95,
+      "exact_line": "87f3491f7e526762203a83eb4ed25bbbba79981f7dc3ec812d49cdd955db1194  build/order124/MANIFEST.json\n"
+    },
+    "zip": {
+      "path": "macos/GangnamDream-ORDER124-M01M06-StoryChoicePlaytest.zip",
+      "sha256": "626196d6a74f50373ddc3e6d0cb8b3a502f052d4436f308361d8b82d3ab45a75",
+      "size_bytes": 389505944
+    },
+    "app": {
+      "tree_sha256": "c21d5ba71c5516465849cc7596d48ed430a4fc903eeeb7033340d36e5afb6a85",
+      "file_count": 7
+    },
+    "launcher": {
+      "sha256": "291d39bfa8f6014b40745012e725eb1a398076d223ea89e1caa2d8804495c7c7",
+      "size_bytes": 184222320
+    },
+    "resource_pack": {
+      "sha256": "04e3e67e1591df5984f804f299edcba0c95eb6e8281362d253c134df0d64b7d8",
+      "size_bytes": 337642500
+    }
+  },
+  "tracked_evidence": {
+    "root": "tools/evidence/order124_build_2026.08.24.2",
+    "manifest": "tools/evidence/order124_build_2026.08.24.2/MANIFEST.json",
+    "checksum": "tools/evidence/order124_build_2026.08.24.2/MANIFEST.sha256",
+    "loss_receipt": "tools/evidence/order124_build_2026.08.24.2/LOSS_RECEIPT.json",
+    "archive_payload_recovered": false
+  },
+  "reconstruction_attempt": {
+    "method": "clean_one_shot_same_source_same_engine",
+    "source_revision": "e9aff5f06c2e3ec3708426156074674a56a4c3f6",
+    "source_tree": "ad4d88a6aed68a79074f6f8e3204bf0474f6dbc4",
+    "engine_version": "4.6.2.stable.official.71f334935",
+    "zip": {
+      "sha256": "e05fabe42dbf104537d41e177ff97c4ae0b4f111771db20862ad2320db9db7a3",
+      "size_bytes": 389505948
+    },
+    "app": {
+      "tree_sha256": "ad3ed20f0fa3d3fac02d4c550ea58bd1ae4e569ba6f03465d12815a16311b345",
+      "file_count": 7
+    },
+    "launcher": {
+      "sha256": "4c0aa3aa5c762d5ae41a1d094d21d621e0ce60002a5a56292f23266118433ede",
+      "size_bytes": 184222320
+    },
+    "resource_pack": {
+      "sha256": "5e66c19426831570328bc006ac83861cbde6028defad0f3901a9397bc3ef418c",
+      "size_bytes": 337642500
+    },
+    "matches_historical": false
+  }
+}
