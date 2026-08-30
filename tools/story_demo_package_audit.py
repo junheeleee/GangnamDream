@@ -49,8 +49,8 @@ ZIP_REL = f"build/story_demo/macos/{APP_STEM}.zip"
 MANIFEST_REL = "build/story_demo/MANIFEST.json"
 CHECKSUM_REL = "build/story_demo/MANIFEST.sha256"
 AUDIT_SOURCE_ROOT_ENV = "STORY_DEMO_AUDIT_SOURCE_ROOT"
-PRODUCT_REVISION = "ce57751eb5555828dfb28af87ab6026e8ab93fb9"
-PRODUCT_TREE = "0e1ad9a26cdef953d94308015d527080a718eea2"
+PRODUCT_REVISION = "4e80a63e89821094b8bab21b8d5c73ecfc9b6278"
+PRODUCT_TREE = "0fdddf11e2ef030cd172d23e691e3d7da4ea29ff"
 PRODUCT_RUNTIME_SCOPE = (
     "project.godot",
     "export_presets.cfg",

@@ -144,8 +144,8 @@ StoryMode의 일반 입력·연출과 위 두 함수 밖 저장 동작은 바꾸
 
 ## ORDER-141 완료 뒤 패키지 범위 확장
 
-1. 제품 신원은 `ce57751eb5555828dfb28af87ab6026e8ab93fb9` / tree
-   `0e1ad9a26cdef953d94308015d527080a718eea2` / BUILD `2026.08.31.1`이다.
+1. 제품 신원은 `4e80a63e89821094b8bab21b8d5c73ecfc9b6278` / tree
+   `0fdddf11e2ef030cd172d23e691e3d7da4ea29ff` / BUILD `2026.08.31.1`이다.
 2. package source는 ORDER-141·density·builder QA를 포함한 새 clean commit이며,
    제품 commit이 그 조상이어야 한다.
 3. `project.godot`, `export_presets.cfg`, icon 6파일/경로와 `assets`, `autoloads`,
@@ -176,7 +176,7 @@ StoryMode의 일반 입력·연출과 위 두 함수 밖 저장 동작은 바꾸
 17. package source commit/tree로 앱·ZIP·manifest/checksum을 만든 뒤 package audit를
     같은 commit에서 다시 실행한다.
 18. `human_gates.json`의 최종 `commit/tree`는 제품 commit이 아니라 실제 package
-    source commit/tree를 기록하고, note에 제품 `ce57751/0e1ad9a`와 별도 review
+    source commit/tree를 기록하고, note에 제품 `4e80a63/0fdddf1`과 별도 review
     wrapper HEAD를 명시한다.
 19. 세 경로 정상 속도와 JA·zh-CN·zh-TW 원어민 판정은 OPEN이다.
 20. 자동 marker는 사람 GO가 아니며 main·본편 이관은 HOLD다.

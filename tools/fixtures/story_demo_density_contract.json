@@ -3,16 +3,16 @@
   "subject": {
     "profile": "story_demo_rc",
     "scope": "M01-M06",
-    "source_commit": "ce57751eb5555828dfb28af87ab6026e8ab93fb9",
-    "source_tree": "0e1ad9a26cdef953d94308015d527080a718eea2",
+    "source_commit": "4e80a63e89821094b8bab21b8d5c73ecfc9b6278",
+    "source_tree": "0fdddf11e2ef030cd172d23e691e3d7da4ea29ff",
     "build_id": "2026.08.31.1",
     "human_route_density": "not_measured"
   },
   "source_blobs": {
     "controller": {
       "path": "playtests/order124/StoryChoiceM1M6Playtest.gd",
-      "git_blob_oid": "64d57fc65560cb8ff901020c0002b9ddc966f38f",
-      "sha256": "236dfbd96a943b2f3c2966eb54c71b4110aca4ae20b29c04e184bd43c8266631"
+      "git_blob_oid": "b7e9f49c058509d58f0d3d61f7529b793bdf919b",
+      "sha256": "0504304cfb92502894d2daa46d5459ab321ac5dd39f4dbb322dc39d2601080e1"
     },
     "arc_events": {
       "path": "content/events/arc_events.json",
@@ -41,8 +41,8 @@
     },
     "story_choice_check": {
       "path": "tools/StoryChoiceM1M6Check.gd",
-      "git_blob_oid": "d19a19f5d2ffcf2b979008d49c0a3029b12a256b",
-      "sha256": "ec9779dfcb91c700aeabf9b5471fcffda7072082d259667c8f72740bc7cf427d"
+      "git_blob_oid": "249d5b4247a90b25c1c8929245578411163e6180",
+      "sha256": "d9c8edb1e7317dcc506ef620d6da4f352511c25b8c87412dd6d837a362659471"
     },
     "four_language_check": {
       "path": "tools/StoryDemoFourLanguageCheck.gd",

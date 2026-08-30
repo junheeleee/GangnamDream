@@ -5,8 +5,8 @@ set -euo pipefail
 
 readonly EXPECTED_BUILD_ID="2026.08.31.1"
 readonly EXPECTED_GODOT="4.6.2.stable.official.71f334935"
-readonly PRODUCT_REVISION="ce57751eb5555828dfb28af87ab6026e8ab93fb9"
-readonly PRODUCT_TREE="0e1ad9a26cdef953d94308015d527080a718eea2"
+readonly PRODUCT_REVISION="4e80a63e89821094b8bab21b8d5c73ecfc9b6278"
+readonly PRODUCT_TREE="0fdddf11e2ef030cd172d23e691e3d7da4ea29ff"
 readonly -a PRODUCT_RUNTIME_SCOPE=(
   project.godot
   export_presets.cfg
@@ -38,7 +38,7 @@ readonly MANIFEST_REL="build/story_demo/MANIFEST.json"
 readonly CHECKSUM_REL="build/story_demo/MANIFEST.sha256"
 readonly TARGET_MARKER="STORY_DEMO_FOUR_LANGUAGE_CHECK_OK locales=5 routes=5 months=30 weeks=120 settlements=30 ap_surface=0 save=5 story=10 build=2026.08.31.1"
 readonly DENSITY_SELF_TEST_MARKER="STORY_DEMO_DENSITY_AUDIT_SELF_TEST_OK cases=29"
-readonly DENSITY_MARKER="STORY_DEMO_DENSITY_AUDIT_OK source=ce57751eb5555828dfb28af87ab6026e8ab93fb9 tree=0e1ad9a26cdef953d94308015d527080a718eea2 build=2026.08.31.1 variants=14 choices=29 receipts_per_run={'clean': 9, 'restitution': 10, 'escalation': 10} signatures=1800 clean=360 restitution=720 escalation=720"
+readonly DENSITY_MARKER="STORY_DEMO_DENSITY_AUDIT_OK source=4e80a63e89821094b8bab21b8d5c73ecfc9b6278 tree=0fdddf11e2ef030cd172d23e691e3d7da4ea29ff build=2026.08.31.1 variants=14 choices=29 receipts_per_run={'clean': 9, 'restitution': 10, 'escalation': 10} signatures=1800 clean=360 restitution=720 escalation=720"
 readonly DENSITY_HUMAN_GATE_MARKER="  HUMAN_GATE OPEN human_route_density=not_measured human_fun=not_measured automation_is_not_GO"
 readonly NATIVE_MARKER_PREFIX="STORY_DEMO_NATIVE_ENTRY_OK"
 readonly SMOKE_MARKER_PREFIX="STORY_DEMO_WRAPPER_SMOKE_OK"

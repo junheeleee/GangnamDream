@@ -30,8 +30,8 @@ FIXTURE_PATH = ROOT / "tools" / "fixtures" / "story_demo_density_contract.json"
 HUMAN_GATES_PATH = ROOT / "docs" / "human_gates.json"
 
 PROFILE = "story_demo_rc"
-EXPECTED_SOURCE_REF = "ce57751eb5555828dfb28af87ab6026e8ab93fb9"
-EXPECTED_SOURCE_TREE = "0e1ad9a26cdef953d94308015d527080a718eea2"
+EXPECTED_SOURCE_REF = "4e80a63e89821094b8bab21b8d5c73ecfc9b6278"
+EXPECTED_SOURCE_TREE = "0fdddf11e2ef030cd172d23e691e3d7da4ea29ff"
 EXPECTED_BUILD_ID = "2026.08.31.1"
 ENTRY_SCENE = "res://playtests/order124/StoryChoiceM1M6Playtest.tscn"
 CUSTOM_USER_DIR = "GangnamDream_StoryDemo_v1"
@@ -61,7 +61,7 @@ REQUIRED_SOURCE_BLOBS = {
 # so editing the fixture cannot silently retarget or rewrite the evidence.
 EXPECTED_BLOB_SHA256 = {
     CONTROLLER_PATH:
-        "236dfbd96a943b2f3c2966eb54c71b4110aca4ae20b29c04e184bd43c8266631",
+        "0504304cfb92502894d2daa46d5459ab321ac5dd39f4dbb322dc39d2601080e1",
     ARC_EVENTS_PATH:
         "41febd1d1fd6b68f146171b02bf64a144699b39d1dd03c75444e72a518676d99",
     DAEUN_EVENTS_PATH:
@@ -73,7 +73,7 @@ EXPECTED_BLOB_SHA256 = {
     GAME_STATE_PATH:
         "21c7547fe171e742a2fdda851a8b2cfdcf07132f6b5002e1df68ea3a97e22028",
     STORY_CHOICE_CHECK_PATH:
-        "ec9779dfcb91c700aeabf9b5471fcffda7072082d259667c8f72740bc7cf427d",
+        "d9c8edb1e7317dcc506ef620d6da4f352511c25b8c87412dd6d837a362659471",
     FOUR_LANGUAGE_CHECK_PATH:
         "df12e1dd57eb768c40ac5beec563b845a03bac9639a4b9506050e14278f1d7eb",
 }
