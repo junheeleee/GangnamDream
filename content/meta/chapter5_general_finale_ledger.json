@@ -1,21 +1,20 @@
 {
   "schema_version": 1,
-  "ledger_id": "chapter5_general_near_goal_passed_finale_v1",
+  "ledger_id": "chapter5_general_near_goal_passed_finale_v2",
   "choice_index_base": 0,
-  "expected_root_count": 3,
-  "expected_active_root_count": 3,
-  "expected_choice_count": 7,
-  "expected_active_choice_count": 7,
+  "expected_root_count": 8,
+  "expected_active_root_count": 6,
+  "expected_choice_count": 17,
+  "expected_active_choice_count": 13,
   "entry_contract": {
     "route_id": "chapter5_safe_finale",
-    "turn": 237,
+    "turn": 224,
     "profile_id": "general_near_goal_father_passed",
     "source_route_id": "general_story",
     "source_choice_keys": {
       "m51_minseo_arrival": [0, 1],
-      "w220_debt_memory_reconnect": [0, 1],
-      "m56_father_legacy": [0, 1, 2],
-      "m59_summit": [0, 1]
+      "w211_name_boundary": [0, 1],
+      "w220_debt_memory_reconnect": [0, 1]
     },
     "father": {
       "life": ["passed"],
@@ -28,6 +27,9 @@
     }
   },
   "stages": [
+    "father_legacy",
+    "debt_memory_consequence",
+    "summit",
     "record_disposition",
     "sacrifice",
     "outbound"
@@ -35,6 +37,195 @@
   "roots": [
     {
       "stage_sequence": 1,
+      "variant_sequence": 1,
+      "month": 56,
+      "turn": 224,
+      "week": 224,
+      "event_id": "arc_y5_general_father_legacy_voice_exact",
+      "root_id": "arc_y5_general_father_legacy_voice_exact",
+      "choice_count": 2,
+      "tier": "T2",
+      "stage": "father_legacy",
+      "active_when": {
+        "entry_path": "source_choices.w220_debt_memory_reconnect",
+        "equals": 0
+      },
+      "actors": {
+        "chooser": "player",
+        "father": "father"
+      },
+      "read_sources": [
+        {
+          "kind": "entry_value",
+          "path": "source_choices.w220_debt_memory_reconnect",
+          "values": [0, 1]
+        }
+      ],
+      "read_mode": "inline_slots",
+      "choices": [
+        {
+          "index": 0,
+          "receipt_ids": ["m56_general_father_legacy_voice_spoken"],
+          "document_ids": ["Y5-GENERAL-FATHER-LEGACY-VOICE-SPOKEN"],
+          "economic_outcome": {}
+        },
+        {
+          "index": 1,
+          "receipt_ids": ["m56_general_father_legacy_voice_silence_beside_chair"],
+          "document_ids": ["Y5-GENERAL-FATHER-LEGACY-VOICE-SILENCE-BESIDE-CHAIR"],
+          "economic_outcome": {}
+        }
+      ]
+    },
+    {
+      "stage_sequence": 1,
+      "variant_sequence": 2,
+      "month": 56,
+      "turn": 224,
+      "week": 224,
+      "event_id": "arc_y5_general_father_legacy_cafe_exact",
+      "root_id": "arc_y5_general_father_legacy_cafe_exact",
+      "choice_count": 2,
+      "tier": "T2",
+      "stage": "father_legacy",
+      "active_when": {
+        "entry_path": "source_choices.w220_debt_memory_reconnect",
+        "equals": 1
+      },
+      "actors": {
+        "chooser": "player",
+        "father": "father"
+      },
+      "read_sources": [
+        {
+          "kind": "entry_value",
+          "path": "source_choices.w220_debt_memory_reconnect",
+          "values": [0, 1]
+        }
+      ],
+      "read_mode": "inline_slots",
+      "choices": [
+        {
+          "index": 0,
+          "receipt_ids": ["m56_general_father_legacy_cafe_copy_read_aloud"],
+          "document_ids": ["Y5-GENERAL-FATHER-LEGACY-CAFE-COPY-READ-ALOUD"],
+          "economic_outcome": {}
+        },
+        {
+          "index": 1,
+          "receipt_ids": ["m56_general_father_legacy_cafe_copy_left_folded_in_silence"],
+          "document_ids": ["Y5-GENERAL-FATHER-LEGACY-CAFE-COPY-LEFT-FOLDED-IN-SILENCE"],
+          "economic_outcome": {}
+        }
+      ]
+    },
+    {
+      "stage_sequence": 2,
+      "variant_sequence": 1,
+      "month": 58,
+      "turn": 229,
+      "week": 229,
+      "event_id": "arc_y5_general_debt_memory_voice_exact",
+      "root_id": "arc_y5_general_debt_memory_voice_exact",
+      "choice_count": 2,
+      "tier": "T2",
+      "stage": "debt_memory_consequence",
+      "active_when": {
+        "entry_path": "source_choices.w220_debt_memory_reconnect",
+        "equals": 0
+      },
+      "actors": {"chooser": "player"},
+      "read_sources": [
+        {"kind": "finale_stage", "id": "father_legacy"}
+      ],
+      "read_mode": "inline_slots",
+      "choices": [
+        {
+          "index": 0,
+          "receipt_ids": ["m58_general_voice_memo_kept_private"],
+          "document_ids": ["Y5-GENERAL-VOICE-MEMO-KEPT-PRIVATE"],
+          "economic_outcome": {}
+        },
+        {
+          "index": 1,
+          "receipt_ids": ["m58_general_voice_memo_deleted_timestamp_kept"],
+          "document_ids": ["Y5-GENERAL-VOICE-MEMO-DELETED-TIMESTAMP-KEPT"],
+          "economic_outcome": {}
+        }
+      ]
+    },
+    {
+      "stage_sequence": 2,
+      "variant_sequence": 2,
+      "month": 58,
+      "turn": 229,
+      "week": 229,
+      "event_id": "arc_y5_general_debt_memory_cafe_exact",
+      "root_id": "arc_y5_general_debt_memory_cafe_exact",
+      "choice_count": 2,
+      "tier": "T2",
+      "stage": "debt_memory_consequence",
+      "active_when": {
+        "entry_path": "source_choices.w220_debt_memory_reconnect",
+        "equals": 1
+      },
+      "actors": {"chooser": "player"},
+      "read_sources": [
+        {"kind": "finale_stage", "id": "father_legacy"}
+      ],
+      "read_mode": "inline_slots",
+      "choices": [
+        {
+          "index": 0,
+          "receipt_ids": ["m58_general_cafe_copy_carried_forward"],
+          "document_ids": ["Y5-GENERAL-CAFE-COPY-CARRIED-FORWARD"],
+          "economic_outcome": {}
+        },
+        {
+          "index": 1,
+          "receipt_ids": ["m58_general_cafe_copy_left_with_father_record"],
+          "document_ids": ["Y5-GENERAL-CAFE-COPY-LEFT-WITH-FATHER-RECORD"],
+          "economic_outcome": {}
+        }
+      ]
+    },
+    {
+      "stage_sequence": 3,
+      "variant_sequence": 1,
+      "month": 59,
+      "turn": 234,
+      "week": 234,
+      "event_id": "arc_y5_general_pre_ending_summit_exact",
+      "root_id": "arc_y5_general_pre_ending_summit_exact",
+      "choice_count": 2,
+      "tier": "T2",
+      "stage": "summit",
+      "active_when": null,
+      "actors": {
+        "chooser": "player",
+        "father": "father"
+      },
+      "read_sources": [
+        {"kind": "finale_stage", "id": "debt_memory_consequence"}
+      ],
+      "read_mode": "inline_slots",
+      "choices": [
+        {
+          "index": 0,
+          "receipt_ids": ["m59_general_summit_father_contact_opened"],
+          "document_ids": ["Y5-GENERAL-SUMMIT-FATHER-CONTACT"],
+          "economic_outcome": {}
+        },
+        {
+          "index": 1,
+          "receipt_ids": ["m59_general_summit_one_block_walked"],
+          "document_ids": ["Y5-GENERAL-SUMMIT-ONE-BLOCK"],
+          "economic_outcome": {}
+        }
+      ]
+    },
+    {
+      "stage_sequence": 4,
       "variant_sequence": 1,
       "month": 60,
       "turn": 237,
@@ -51,23 +242,11 @@
         "cost_witness": "minseo"
       },
       "read_sources": [
-        {
-          "kind": "entry_value",
-          "path": "source_choices.w220_debt_memory_reconnect",
-          "values": [0, 1]
-        },
-        {
-          "kind": "entry_value",
-          "path": "source_choices.m56_father_legacy",
-          "values": [0, 1, 2]
-        },
-        {
-          "kind": "entry_value",
-          "path": "source_choices.m59_summit",
-          "values": [0, 1]
-        }
+        {"kind": "finale_stage", "id": "father_legacy"},
+        {"kind": "finale_stage", "id": "debt_memory_consequence"},
+        {"kind": "finale_stage", "id": "summit"}
       ],
-      "read_mode": "prepend",
+      "read_mode": "inline_slots",
       "choices": [
         {
           "index": 0,
@@ -84,7 +263,7 @@
       ]
     },
     {
-      "stage_sequence": 2,
+      "stage_sequence": 5,
       "variant_sequence": 1,
       "month": 60,
       "turn": 240,
@@ -119,7 +298,7 @@
       ]
     },
     {
-      "stage_sequence": 3,
+      "stage_sequence": 6,
       "variant_sequence": 1,
       "month": 60,
       "turn": 240,
@@ -142,11 +321,7 @@
           "path": "source_choices.m51_minseo_arrival",
           "values": [0, 1]
         },
-        {
-          "kind": "entry_value",
-          "path": "source_choices.m56_father_legacy",
-          "values": [0, 1, 2]
-        }
+        {"kind": "finale_stage", "id": "father_legacy"}
       ],
       "read_mode": "prepend",
       "choices": [

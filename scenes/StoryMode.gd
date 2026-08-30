@@ -3080,6 +3080,7 @@ func _set_story_language(raw_language: String) -> void:
 	var language := LocaleManager.normalize_language(raw_language)
 	if language not in _story_selectable_languages() or language == LocaleManager.language:
 		return
+	var previous_language := LocaleManager.language
 	var event_id := str(_current.get("id", ""))
 	var source_paragraph_index := _story_source_paragraph_index(_para_index)
 	var was_typing := _typing
@@ -3095,6 +3096,15 @@ func _set_story_language(raw_language: String) -> void:
 	if GameState.story_return_scene == STORY_DEMO_RETURN_SCENE:
 		STORY_DEMO_CONTROLLER.install_story_demo_runtime_events()
 	var localized := _localized_story_event(event_id)
+	if localized.is_empty():
+		if _fail_closed_chapter5_language_refresh(event_id):
+			return
+		# An unrelated missing localization must not leave old prose under a new
+		# locale. Restore the prior registry and keep the current page unchanged.
+		LocaleManager.set_language(previous_language)
+		if GameState.story_return_scene == STORY_DEMO_RETURN_SCENE:
+			STORY_DEMO_CONTROLLER.install_story_demo_runtime_events()
+		return
 	if not localized.is_empty():
 		_current = localized
 		EventManager.current_event = _current
@@ -3142,6 +3152,27 @@ func _set_story_language(raw_language: String) -> void:
 	_refresh_dialogue_log_button(true)
 	_settings_focus_key = "language:%s" % language
 	call_deferred("_rebuild_story_settings_popup", _settings_focus_key)
+
+
+func _fail_closed_chapter5_language_refresh(event_id: String) -> bool:
+	var owned := CHAPTER5_CAUSAL_ROUTE.is_owned_event(event_id) \
+		or CHAPTER5_FINALE_ROUTE.is_owned_event(event_id)
+	if not owned or _read_only_replay:
+		return false
+	_close_chapter5_causal_invalid_read_surface(event_id)
+	_close_chapter5_finale_invalid_read_surface(event_id)
+	_current = {}
+	EventManager.current_event = {}
+	_pending_follow_up = ""
+	_queue.clear()
+	_pending_restore_context.clear()
+	_next_transition_mode = ""
+	_next_transition_contract = {}
+	_showing_choices = false
+	_pending_after_result = false
+	if is_inside_tree():
+		call_deferred("_finish_all")
+	return true
 
 func _localized_story_event(event_id: String) -> Dictionary:
 	if event_id.is_empty():
@@ -3741,12 +3772,14 @@ func _chapter5_finale_event_with_reads(event: Dictionary) -> Dictionary:
 	var reads: Dictionary = event["chapter5_finale_reads"]
 	if not _chapter5_causal_exact_keys(
 			reads, ["sources", "texts", "mode"]) \
-			or str(reads.get("mode", "")) != "prepend" \
 			or not reads.get("sources") is Array \
 			or not reads.get("texts") is Array:
 		return {}
-	if not expected.get("sources") is Array \
-			or str(expected.get("mode", "")) != "prepend":
+	if not expected.get("sources") is Array:
+		return {}
+	var read_mode := str(reads.get("mode", ""))
+	if read_mode not in ["prepend", "inline_slots"] \
+			or read_mode != str(expected.get("mode", "")):
 		return {}
 	var sources: Array = reads["sources"]
 	var text_rows: Array = reads["texts"]
@@ -3773,6 +3806,7 @@ func _chapter5_finale_event_with_reads(event: Dictionary) -> Dictionary:
 		for raw_text in text_row:
 			if not raw_text is String \
 					or str(raw_text).strip_edges().is_empty() \
+					or "[[c5read:" in str(raw_text) \
 					or distinct_texts.has(str(raw_text)):
 				return {}
 			distinct_texts[str(raw_text)] = true
@@ -3781,8 +3815,25 @@ func _chapter5_finale_event_with_reads(event: Dictionary) -> Dictionary:
 		return {}
 	var resolved := event.duplicate(true)
 	var body := str(event.get("description", "")).strip_edges()
-	resolved["description"] = "\n\n".join(prefixes) \
-		+ ("\n\n" + body if not body.is_empty() else "")
+	if read_mode == "prepend":
+		resolved["description"] = "\n\n".join(prefixes) \
+			+ ("\n\n" + body if not body.is_empty() else "")
+		return resolved
+	if body.is_empty():
+		return {}
+	var previous_slot_position := -1
+	for source_index in range(prefixes.size()):
+		var slot := "[[c5read:%d]]" % source_index
+		if body.count(slot) != 1:
+			return {}
+		var slot_position := body.find(slot)
+		if slot_position <= previous_slot_position:
+			return {}
+		previous_slot_position = slot_position
+		body = body.replace(slot, prefixes[source_index])
+	if "[[c5read:" in body:
+		return {}
+	resolved["description"] = body
 	return resolved
 
 func _chapter5_causal_live_ingress_allowed(event_id: String) -> bool:

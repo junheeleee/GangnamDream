@@ -739,15 +739,31 @@ def _check_chapter5_causal_reads(value, label):
             err('%s.texts[%d]는 선택별 서로 다른 비어 있지 않은 문자열 배열이어야 함' \
                 % (label, row_index))
 
-def _check_chapter5_finale_reads(value, label):
+CHAPTER5_FINALE_INLINE_READ_IDS = {
+    "arc_final_countdown_property_not_executed",
+    "arc_y5_general_father_legacy_voice_exact",
+    "arc_y5_general_father_legacy_cafe_exact",
+    "arc_y5_general_debt_memory_voice_exact",
+    "arc_y5_general_debt_memory_cafe_exact",
+    "arc_y5_general_pre_ending_summit_exact",
+    "arc_y5_general_final_record_seal",
+}
+
+
+def _check_chapter5_finale_reads(value, label, event_id="", description=""):
     expected_keys = {"sources", "texts", "mode"}
     if not isinstance(value, dict) or set(value) != expected_keys:
         err('%s는 exact finale-read object여야 함' % label)
         return
     sources = value.get("sources")
     text_rows = value.get("texts")
-    if value.get("mode") != "prepend":
-        err('%s.mode는 prepend여야 함' % label)
+    mode = value.get("mode")
+    expected_mode = (
+        "inline_slots"
+        if event_id in CHAPTER5_FINALE_INLINE_READ_IDS else "prepend"
+    )
+    if mode != expected_mode:
+        err('%s.mode는 %s여야 함' % (label, expected_mode))
     if not isinstance(sources, list) or not sources:
         err('%s.sources는 비어 있지 않은 배열이어야 함' % label)
         return
@@ -783,6 +799,30 @@ def _check_chapter5_finale_reads(value, label):
                 or len(set(row)) != len(row):
             err('%s.texts[%d]는 선택별 서로 다른 비어 있지 않은 문자열 배열이어야 함' \
                 % (label, row_index))
+        elif any("[[c5read:" in text for text in row):
+            err('%s.texts[%d]는 inline slot 토큰을 포함할 수 없음' \
+                % (label, row_index))
+    if mode == "inline_slots":
+        if not isinstance(description, str) or not description.strip():
+            err('%s inline_slots는 비어 있지 않은 description이 필요함' % label)
+            return
+        positions = []
+        for source_index in range(len(sources)):
+            token = "[[c5read:%d]]" % source_index
+            if description.count(token) != 1:
+                err('%s description은 %s를 정확히 한 번 포함해야 함' \
+                    % (label, token))
+                return
+            positions.append(description.find(token))
+        if positions != sorted(positions) or len(set(positions)) != len(positions):
+            err('%s inline slot 토큰은 source 순서대로 나타나야 함' % label)
+        scrubbed = description
+        for source_index in range(len(sources)):
+            scrubbed = scrubbed.replace("[[c5read:%d]]" % source_index, "")
+        if "[[c5read:" in scrubbed:
+            err('%s description에 미지원 inline slot 토큰이 남음' % label)
+    elif isinstance(description, str) and "[[c5read:" in description:
+        err('%s prepend description에 inline slot 토큰이 있으면 안 됨' % label)
 
 def check_event_registry_coverage():
     """모든 이벤트 JSON이 런타임 DataRegistry에 실제로 연결됐는지 확인한다."""
@@ -831,7 +871,8 @@ def check_event_keys():
             if "chapter5_finale_reads" in e:
                 _check_chapter5_finale_reads(
                     e.get("chapter5_finale_reads"),
-                    '%s  [%s].chapter5_finale_reads' % (rel(p), eid))
+                    '%s  [%s].chapter5_finale_reads' % (rel(p), eid),
+                    str(eid), e.get("description", ""))
             if "year_scene_year" in e:
                 year_scene_year = e.get("year_scene_year")
                 if not isinstance(year_scene_year, int) or isinstance(year_scene_year, bool) \
@@ -1425,11 +1466,20 @@ def _gather_game_flags():
                     game_sets.add(m.group(1))
             # 코드 내 모든 문자열 리터럴을 '참조'로 간주 (보수적 — 오탐 방지)
             reads |= set(LIT.findall(text))
-    # ORDER-137 records four source choices through a prefix+index reducer.
+    # The general finale records six source choices through a prefix+index reducer.
     # The concrete flags therefore do not appear as full literals in GDScript;
     # admit them as reads only when the exact ledger, product binding, and KO
     # source-choice placement all agree.
     reads |= _chapter5_general_finale_source_flag_reads()
+    # The v2 entry gate also rejects stale runs that already consumed the old
+    # generic W224/W234 stops. Those flags are read through a prefix+index
+    # absence check, so admit the concrete literals only when the exact gate
+    # and the original choice writers still agree.
+    reads |= _chapter5_general_finale_stale_blocker_flag_reads()
+    # Direct-receipt finale roots also mirror a deliberately frozen set of
+    # compatibility flags for old saves/tools. Treat only that exact, audited
+    # flag shape as consumed by the receipt contract.
+    reads |= _chapter5_general_finale_compatibility_flag_reads()
     return game_sets, reads
 
 def _choice_is_inert(ch):
@@ -1616,7 +1666,7 @@ def _chapter5_finale_direct_receipt_owned_ids(
 
 def _chapter5_general_finale_direct_receipt_owned_ids(
         ledger=None, system_source=None, main_source=None, story_source=None):
-    """Recognize only the exact ORDER-137 general finale 3/7 inventory."""
+    """Recognize only the exact ORDER-138 general finale v2 inventory."""
     try:
         if ledger is None:
             ledger = json.load(open(os.path.join(
@@ -1637,14 +1687,14 @@ def _chapter5_general_finale_direct_receipt_owned_ids(
     if not isinstance(ledger, dict) \
             or ledger.get("schema_version") != 1 \
             or ledger.get("ledger_id") \
-                != "chapter5_general_near_goal_passed_finale_v1" \
-            or ledger.get("expected_root_count") != 3 \
-            or ledger.get("expected_active_root_count") != 3 \
-            or ledger.get("expected_choice_count") != 7 \
-            or ledger.get("expected_active_choice_count") != 7:
+                != "chapter5_general_near_goal_passed_finale_v2" \
+            or ledger.get("expected_root_count") != 8 \
+            or ledger.get("expected_active_root_count") != 6 \
+            or ledger.get("expected_choice_count") != 17 \
+            or ledger.get("expected_active_choice_count") != 13:
         return set()
     roots = ledger.get("roots", [])
-    if not isinstance(roots, list) or len(roots) != 3:
+    if not isinstance(roots, list) or len(roots) != 8:
         return set()
     ledger_ids = []
     total_choices = 0
@@ -1664,7 +1714,7 @@ def _chapter5_general_finale_direct_receipt_owned_ids(
                 return set()
         ledger_ids.append(event_id)
         total_choices += len(choices)
-    if total_choices != 7:
+    if total_choices != 17:
         return set()
     owned_match = re.search(
         r'const\s+GENERAL_OWNED_EVENT_IDS[^=]*=\s*\[(.*?)\n\]',
@@ -1698,20 +1748,18 @@ def _chapter5_general_finale_direct_receipt_owned_ids(
 
 def _chapter5_general_finale_source_flag_reads(
         ledger=None, game_source=None):
-    """Recognize exact prefix-index source flags consumed by ORDER-137."""
+    """Recognize exact prefix-index source flags consumed by ORDER-138 v2."""
     source_specs = (
         ("m51_minseo_arrival", "arc_minseo_03_arrival",
          "chapter5_general_minseo_arrival_", 2,
          "content/events/arc_new_characters.json"),
+        ("w211_name_boundary",
+         "arc_y5_general_name_boundary_exact",
+         "chapter5_general_name_boundary_", 2,
+         "content/events/arc_pre_ending.json"),
         ("w220_debt_memory_reconnect",
          "arc_y5_general_debt_memory_reconnect",
          "chapter5_general_debt_memory_reconnect_", 2,
-         "content/events/arc_pre_ending.json"),
-        ("m56_father_legacy", "arc_father_legacy",
-         "chapter5_general_father_legacy_", 3,
-         "content/events/arc_year3_drama.json"),
-        ("m59_summit", "arc_pre_ending_summit",
-         "chapter5_general_summit_", 2,
          "content/events/arc_pre_ending.json"),
     )
     try:
@@ -1769,6 +1817,159 @@ def _chapter5_general_finale_source_flag_reads(
                 return set()
             result.add(expected_flag)
     return result
+
+def _chapter5_general_finale_stale_blocker_flag_reads(
+        ledger=None, game_source=None):
+    """Recognize legacy choice flags consumed by the v2 stale-run guard."""
+    blocker_specs = (
+        ("arc_father_legacy", "chapter5_general_father_legacy_", 3,
+         "content/events/arc_year3_drama.json"),
+        ("arc_pre_ending_summit", "chapter5_general_summit_", 2,
+         "content/events/arc_pre_ending.json"),
+    )
+    try:
+        if ledger is None:
+            ledger = json.load(open(os.path.join(
+                ROOT, "content", "meta", "chapter5_general_finale_ledger.json"),
+                encoding="utf-8"))
+        if game_source is None:
+            game_source = open(os.path.join(
+                ROOT, "autoloads", "GameState.gd"),
+                encoding="utf-8").read()
+    except (OSError, ValueError, TypeError, json.JSONDecodeError):
+        return set()
+    if not _chapter5_general_finale_direct_receipt_owned_ids(ledger=ledger) \
+            or "func _chapter5_general_source_absent(" not in game_source:
+        return set()
+
+    result = set()
+    loaded = {}
+    for event_id, prefix, choice_count, relative in blocker_specs:
+        call_pattern = (
+            r'_chapter5_general_source_absent\s*\(\s*"'
+            + re.escape(event_id)
+            + r'"\s*,\s*"'
+            + re.escape(prefix)
+            + r'"\s*,\s*'
+            + str(choice_count)
+            + r'\s*\)'
+        )
+        if not re.search(call_pattern, game_source, re.S):
+            return set()
+        try:
+            if relative not in loaded:
+                loaded[relative] = {
+                    str(row.get("id", "")): row
+                    for row in load_events(os.path.join(ROOT, relative))
+                    if isinstance(row, dict)
+                }
+            event = loaded[relative].get(event_id)
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            return set()
+        choices = event.get("choices", []) if isinstance(event, dict) else []
+        if not isinstance(choices, list) or len(choices) != choice_count:
+            return set()
+        for index, choice in enumerate(choices):
+            expected_flag = f"{prefix}{index}"
+            flags = choice.get("flags", []) if isinstance(choice, dict) else []
+            if not isinstance(flags, list) \
+                    or flags.count(expected_flag) != 1 \
+                    or sum(isinstance(flag, str) and flag.startswith(prefix)
+                           for flag in flags) != 1:
+                return set()
+            result.add(expected_flag)
+    return result
+
+def _chapter5_general_finale_compatibility_flag_reads(ledger=None):
+    """Recognize the exact compatibility mirrors on ORDER-138 owned roots."""
+    expected = {
+        "arc_y5_general_father_legacy_voice_exact": (
+            "content/events/arc_year3_drama.json",
+            (
+                ("arc_y5_general_father_legacy_voice_exact_seen",
+                 "arc_father_legacy_seen", "chapter5_general_father_legacy_0"),
+                ("arc_y5_general_father_legacy_voice_exact_seen",
+                 "arc_father_legacy_seen", "chapter5_general_father_legacy_1"),
+            ),
+        ),
+        "arc_y5_general_father_legacy_cafe_exact": (
+            "content/events/arc_year3_drama.json",
+            (
+                ("arc_y5_general_father_legacy_cafe_exact_seen",
+                 "arc_father_legacy_seen", "chapter5_general_father_legacy_0"),
+                ("arc_y5_general_father_legacy_cafe_exact_seen",
+                 "arc_father_legacy_seen", "chapter5_general_father_legacy_1"),
+            ),
+        ),
+        "arc_y5_general_debt_memory_voice_exact": (
+            "content/events/arc_pre_ending.json",
+            (
+                ("arc_y5_general_debt_memory_voice_exact_seen",
+                 "chapter5_general_debt_memory_voice_0"),
+                ("arc_y5_general_debt_memory_voice_exact_seen",
+                 "chapter5_general_debt_memory_voice_1"),
+            ),
+        ),
+        "arc_y5_general_debt_memory_cafe_exact": (
+            "content/events/arc_pre_ending.json",
+            (
+                ("arc_y5_general_debt_memory_cafe_exact_seen",
+                 "chapter5_general_debt_memory_cafe_0"),
+                ("arc_y5_general_debt_memory_cafe_exact_seen",
+                 "chapter5_general_debt_memory_cafe_1"),
+            ),
+        ),
+        "arc_y5_general_pre_ending_summit_exact": (
+            "content/events/arc_pre_ending.json",
+            (
+                ("arc_y5_general_pre_ending_summit_exact_seen",
+                 "arc_pre_ending_summit_seen", "chapter5_general_summit_0"),
+                ("arc_y5_general_pre_ending_summit_exact_seen",
+                 "arc_pre_ending_summit_seen", "chapter5_general_summit_1"),
+            ),
+        ),
+    }
+    admitted = {
+        "arc_y5_general_father_legacy_voice_exact_seen",
+        "arc_y5_general_father_legacy_cafe_exact_seen",
+        "arc_y5_general_debt_memory_voice_exact_seen",
+        "chapter5_general_debt_memory_voice_0",
+        "chapter5_general_debt_memory_voice_1",
+        "arc_y5_general_debt_memory_cafe_exact_seen",
+        "chapter5_general_debt_memory_cafe_0",
+        "chapter5_general_debt_memory_cafe_1",
+        "arc_y5_general_pre_ending_summit_exact_seen",
+    }
+    try:
+        if ledger is None:
+            ledger = json.load(open(os.path.join(
+                ROOT, "content", "meta", "chapter5_general_finale_ledger.json"),
+                encoding="utf-8"))
+    except (OSError, ValueError, TypeError, json.JSONDecodeError):
+        return set()
+    owned = _chapter5_general_finale_direct_receipt_owned_ids(ledger=ledger)
+    if not owned or not set(expected).issubset(owned):
+        return set()
+    loaded = {}
+    try:
+        for event_id, (relative, expected_choices) in expected.items():
+            if relative not in loaded:
+                loaded[relative] = {
+                    str(row.get("id", "")): row
+                    for row in load_events(os.path.join(ROOT, relative))
+                    if isinstance(row, dict)
+                }
+            event = loaded[relative].get(event_id)
+            choices = event.get("choices", []) if isinstance(event, dict) else []
+            if len(choices) != len(expected_choices):
+                return set()
+            for choice, expected_flags in zip(choices, expected_choices):
+                flags = choice.get("flags", []) if isinstance(choice, dict) else []
+                if flags != list(expected_flags):
+                    return set()
+    except (OSError, ValueError, TypeError, json.JSONDecodeError):
+        return set()
+    return admitted
 
 def _chapter5_direct_receipt_owned_ids():
     return _chapter5_causal_direct_receipt_owned_ids() \
@@ -1831,14 +2032,14 @@ def check_structural_debt(author_only_exempt=frozenset()):
 
 def _self_test_chapter5_direct_wiring():
     wired = _chapter5_direct_receipt_owned_ids()
-    if len(wired) != 33:
+    if len(wired) != 38:
         raise AssertionError(
             "actual Chapter 5 receipt/direct wiring was not recognized")
     causal_wired = _chapter5_causal_direct_receipt_owned_ids()
     if len(causal_wired) != 19:
         raise AssertionError("causal receipt/direct wiring was not recognized")
     general_wired = _chapter5_general_finale_direct_receipt_owned_ids()
-    if len(general_wired) != 3:
+    if len(general_wired) != 8:
         raise AssertionError("general finale receipt/direct wiring was not recognized")
     event_id = sorted(causal_wired)[0]
     rows = [
@@ -1881,16 +2082,36 @@ def _self_test_chapter5_direct_wiring():
             general_rows, direct_receipt_owned=broken_general) != [general_event_id]:
         raise AssertionError("removed general owned-ID binding remained exempt")
     general_source_reads = _chapter5_general_finale_source_flag_reads()
-    if len(general_source_reads) != 9:
+    if len(general_source_reads) != 6:
         raise AssertionError("general prefix-index source reads were not recognized")
     game_source = open(os.path.join(
         ROOT, "autoloads", "GameState.gd"), encoding="utf-8").read()
     broken_game = game_source.replace(
-        '"chapter5_general_summit_"',
-        '"removed_chapter5_general_summit_"')
+        '"chapter5_general_debt_memory_reconnect_"',
+        '"removed_chapter5_general_debt_memory_reconnect_"')
     if _chapter5_general_finale_source_flag_reads(game_source=broken_game):
         raise AssertionError("missing general prefix reader remained exempt")
-    print("AUDIT_CHAPTER5_DIRECT_WIRING_SELF_TEST_OK cases=7")
+    stale_blocker_reads = _chapter5_general_finale_stale_blocker_flag_reads()
+    if len(stale_blocker_reads) != 5:
+        raise AssertionError("general stale-run blocker reads were not recognized")
+    broken_stale_game = game_source.replace(
+        '"chapter5_general_father_legacy_"',
+        '"removed_chapter5_general_father_legacy_"')
+    if _chapter5_general_finale_stale_blocker_flag_reads(
+            game_source=broken_stale_game):
+        raise AssertionError("missing general stale-run blocker remained exempt")
+    compatibility_reads = _chapter5_general_finale_compatibility_flag_reads()
+    if len(compatibility_reads) != 9:
+        raise AssertionError("general compatibility mirrors were not recognized")
+    compatibility_ledger = json.load(open(os.path.join(
+        ROOT, "content", "meta", "chapter5_general_finale_ledger.json"),
+        encoding="utf-8"))
+    broken_compatibility_ledger = dict(compatibility_ledger)
+    broken_compatibility_ledger["ledger_id"] = "removed_general_finale"
+    if _chapter5_general_finale_compatibility_flag_reads(
+            ledger=broken_compatibility_ledger):
+        raise AssertionError("invalid general ledger kept compatibility exemption")
+    print("AUDIT_CHAPTER5_DIRECT_WIRING_SELF_TEST_OK cases=11")
 
 # ══════════════════════════════════════════════════════════════
 # 8) EN/KR 조건 일치 검사 — events_en/ 파일의 conditions가

@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-"""Audit ORDER-137's repaired product-owned general Chapter 5 finale.
+"""Audit ORDER-138's dense product-owned general Chapter 5 finale.
 
 The established investment/property finale remains owned by
 ``chapter5_finale_route_audit.py``.  This checker deliberately keeps the new
-general profile separate: four authored roots/nine choices in the bilingual
-catalog, of which three roots/seven choices belong to the typed finale ledger.
-It also pins the four exact source-choice domains and the W220/W237/W240 handoff.
+general profile separate: ten authored roots/twenty-one choices in the bilingual
+catalog, of which eight roots/seventeen choices belong to the typed finale
+ledger and six roots/thirteen choices are active in either W220 branch.  It pins
+the three exact pre-lock sources and the W211/W220/W224/W229/W234/W237/W240
+authored selector spine; it does not claim to reproduce the full weekly play surface.
 """
 
 from __future__ import annotations
@@ -34,15 +36,15 @@ MAIN_GAME_PATH = ROOT / "scenes" / "MainGame.gd"
 STORY_MODE_PATH = ROOT / "scenes" / "StoryMode.gd"
 ENDING_SYSTEM_PATH = ROOT / "systems" / "EndingSystem.gd"
 
-LEDGER_ID = "chapter5_general_near_goal_passed_finale_v1"
+LEDGER_ID = "chapter5_general_near_goal_passed_finale_v2"
 ROUTE_ID = "chapter5_safe_finale"
 PROFILE_ID = "general_near_goal_father_passed"
 SOURCE_ROUTE_ID = "general_story"
 EXPECTED_INSTANT_LEGEND_SHA256 = (
     "70b9a867122a27f80830cf43a2e4626032ee76bf10cd16a828d4de18aa41ebc6"
 )
-EXPECTED_PACKAGED_EVENTS = 1800
-EXPECTED_SHIPPING_EVENTS = 1690
+EXPECTED_PACKAGED_EVENTS = 1806
+EXPECTED_SHIPPING_EVENTS = 1696
 
 EN_GAMEPLAY_FIELDS = {
     "effects", "cast_effects", "flags", "items_add", "items_remove",
@@ -56,6 +58,7 @@ ECONOMIC_EFFECT_KEYS = {
     "debt_delta_krw", "action_points", "ap", "gangnam_share",
 }
 PLACEHOLDER_RE = re.compile(r"\{[A-Za-z_][A-Za-z0-9_]*\}")
+INLINE_SLOT_RE = re.compile(r"\[\[c5read:(\d+)\]\]")
 
 
 @dataclass(frozen=True)
@@ -65,6 +68,9 @@ class RootSpec:
     turn: int
     choice_count: int
     stage: str = ""
+    stage_sequence: int = 0
+    variant_sequence: int = 1
+    branch_value: int | None = None
 
 
 @dataclass(frozen=True)
@@ -79,23 +85,52 @@ class SourceSpec:
 
 
 ROOTS = (
+    RootSpec("arc_y5_general_name_boundary_exact", 53, 211, 2),
     RootSpec("arc_y5_general_debt_memory_reconnect", 55, 220, 2),
     RootSpec(
+        "arc_y5_general_father_legacy_voice_exact", 56, 224, 2,
+        "father_legacy", 1, 1, 0,
+    ),
+    RootSpec(
+        "arc_y5_general_father_legacy_cafe_exact", 56, 224, 2,
+        "father_legacy", 1, 2, 1,
+    ),
+    RootSpec(
+        "arc_y5_general_debt_memory_voice_exact", 58, 229, 2,
+        "debt_memory_consequence", 2, 1, 0,
+    ),
+    RootSpec(
+        "arc_y5_general_debt_memory_cafe_exact", 58, 229, 2,
+        "debt_memory_consequence", 2, 2, 1,
+    ),
+    RootSpec(
+        "arc_y5_general_pre_ending_summit_exact", 59, 234, 2,
+        "summit", 3,
+    ),
+    RootSpec(
         "arc_y5_general_final_record_seal", 60, 237, 2,
-        "record_disposition",
+        "record_disposition", 4,
     ),
     RootSpec(
         "arc_final_countdown_general_near_goal_passed", 60, 240, 2,
-        "sacrifice",
+        "sacrifice", 5,
     ),
     RootSpec(
         "arc_y5_final_week_general_people_outbound", 60, 240, 3,
-        "outbound",
+        "outbound", 6,
     ),
 )
 ROOT_IDS = tuple(spec.event_id for spec in ROOTS)
-FINALE_ROOTS = ROOTS[1:]
+FINALE_ROOTS = ROOTS[2:]
 FINALE_ROOT_IDS = tuple(spec.event_id for spec in FINALE_ROOTS)
+EXPECTED_TIERS = {
+    spec.event_id: (
+        "T2" if spec.stage in {
+            "father_legacy", "debt_memory_consequence", "summit",
+        } else "T1"
+    )
+    for spec in FINALE_ROOTS
+}
 SOURCE_SPECS = (
     SourceSpec(
         "m51_minseo_arrival", "arc_minseo_03_arrival",
@@ -103,28 +138,48 @@ SOURCE_SPECS = (
         "content/events/arc_new_characters.json",
     ),
     SourceSpec(
+        "w211_name_boundary",
+        "arc_y5_general_name_boundary_exact",
+        "chapter5_general_name_boundary_", 2, 211, 211,
+        "content/events/arc_pre_ending.json",
+    ),
+    SourceSpec(
         "w220_debt_memory_reconnect",
         "arc_y5_general_debt_memory_reconnect",
         "chapter5_general_debt_memory_reconnect_", 2, 220, 220,
         "content/events/arc_pre_ending.json",
     ),
-    SourceSpec(
-        "m56_father_legacy", "arc_father_legacy",
-        "chapter5_general_father_legacy_", 3, 224, 236,
-        "content/events/arc_year3_drama.json",
-    ),
-    SourceSpec(
-        "m59_summit", "arc_pre_ending_summit",
-        "chapter5_general_summit_", 2, 234, 236,
-        "content/events/arc_pre_ending.json",
-    ),
 )
 SOURCE_BY_KEY = {spec.key: spec for spec in SOURCE_SPECS}
-EXPECTED_STAGES = ["record_disposition", "sacrifice", "outbound"]
+EXPECTED_SOURCE_READ_KEYS = {
+    "arc_y5_general_name_boundary_exact": (
+        "chapter5_general_minseo_arrival_0",
+        "chapter5_general_minseo_arrival_1",
+    ),
+    "arc_y5_general_debt_memory_reconnect": (
+        "chapter5_general_name_boundary_0",
+        "chapter5_general_name_boundary_1",
+    ),
+}
+EXPECTED_STAGES = [
+    "father_legacy", "debt_memory_consequence", "summit",
+    "record_disposition", "sacrifice", "outbound",
+]
 EXPECTED_ACTORS = {
     "chooser": "player", "father": "father", "cost_witness": "minseo",
 }
 EXPECTED_ROOT_ACTORS = {
+    "arc_y5_general_father_legacy_voice_exact": {
+        "chooser": "player", "father": "father",
+    },
+    "arc_y5_general_father_legacy_cafe_exact": {
+        "chooser": "player", "father": "father",
+    },
+    "arc_y5_general_debt_memory_voice_exact": {"chooser": "player"},
+    "arc_y5_general_debt_memory_cafe_exact": {"chooser": "player"},
+    "arc_y5_general_pre_ending_summit_exact": {
+        "chooser": "player", "father": "father",
+    },
     "arc_y5_general_final_record_seal": EXPECTED_ACTORS,
     "arc_final_countdown_general_near_goal_passed": {
         "chooser": "player", "father": "father",
@@ -132,6 +187,36 @@ EXPECTED_ROOT_ACTORS = {
     "arc_y5_final_week_general_people_outbound": EXPECTED_ACTORS,
 }
 EXPECTED_LEDGER_CHOICE_BINDINGS = {
+    "arc_y5_general_father_legacy_voice_exact": (
+        ("m56_general_father_legacy_voice_spoken",
+         "Y5-GENERAL-FATHER-LEGACY-VOICE-SPOKEN"),
+        ("m56_general_father_legacy_voice_silence_beside_chair",
+         "Y5-GENERAL-FATHER-LEGACY-VOICE-SILENCE-BESIDE-CHAIR"),
+    ),
+    "arc_y5_general_father_legacy_cafe_exact": (
+        ("m56_general_father_legacy_cafe_copy_read_aloud",
+         "Y5-GENERAL-FATHER-LEGACY-CAFE-COPY-READ-ALOUD"),
+        ("m56_general_father_legacy_cafe_copy_left_folded_in_silence",
+         "Y5-GENERAL-FATHER-LEGACY-CAFE-COPY-LEFT-FOLDED-IN-SILENCE"),
+    ),
+    "arc_y5_general_debt_memory_voice_exact": (
+        ("m58_general_voice_memo_kept_private",
+         "Y5-GENERAL-VOICE-MEMO-KEPT-PRIVATE"),
+        ("m58_general_voice_memo_deleted_timestamp_kept",
+         "Y5-GENERAL-VOICE-MEMO-DELETED-TIMESTAMP-KEPT"),
+    ),
+    "arc_y5_general_debt_memory_cafe_exact": (
+        ("m58_general_cafe_copy_carried_forward",
+         "Y5-GENERAL-CAFE-COPY-CARRIED-FORWARD"),
+        ("m58_general_cafe_copy_left_with_father_record",
+         "Y5-GENERAL-CAFE-COPY-LEFT-WITH-FATHER-RECORD"),
+    ),
+    "arc_y5_general_pre_ending_summit_exact": (
+        ("m59_general_summit_father_contact_opened",
+         "Y5-GENERAL-SUMMIT-FATHER-CONTACT"),
+        ("m59_general_summit_one_block_walked",
+         "Y5-GENERAL-SUMMIT-ONE-BLOCK"),
+    ),
     "arc_y5_general_final_record_seal": (
         ("m60_general_record_disposition_people_night",
          "Y5-GENERAL-RECORD-DISPOSITION-PEOPLE-NIGHT"),
@@ -154,10 +239,25 @@ EXPECTED_LEDGER_CHOICE_BINDINGS = {
     ),
 }
 EXPECTED_READ_SOURCES = {
-    "arc_y5_general_final_record_seal": [
+    "arc_y5_general_father_legacy_voice_exact": [
         {"kind": "entry_value", "path": "source_choices.w220_debt_memory_reconnect", "values": [0, 1]},
-        {"kind": "entry_value", "path": "source_choices.m56_father_legacy", "values": [0, 1, 2]},
-        {"kind": "entry_value", "path": "source_choices.m59_summit", "values": [0, 1]},
+    ],
+    "arc_y5_general_father_legacy_cafe_exact": [
+        {"kind": "entry_value", "path": "source_choices.w220_debt_memory_reconnect", "values": [0, 1]},
+    ],
+    "arc_y5_general_debt_memory_voice_exact": [
+        {"kind": "finale_stage", "id": "father_legacy"},
+    ],
+    "arc_y5_general_debt_memory_cafe_exact": [
+        {"kind": "finale_stage", "id": "father_legacy"},
+    ],
+    "arc_y5_general_pre_ending_summit_exact": [
+        {"kind": "finale_stage", "id": "debt_memory_consequence"},
+    ],
+    "arc_y5_general_final_record_seal": [
+        {"kind": "finale_stage", "id": "father_legacy"},
+        {"kind": "finale_stage", "id": "debt_memory_consequence"},
+        {"kind": "finale_stage", "id": "summit"},
     ],
     "arc_final_countdown_general_near_goal_passed": [
         {"kind": "finale_stage", "id": "record_disposition"},
@@ -165,8 +265,50 @@ EXPECTED_READ_SOURCES = {
     "arc_y5_final_week_general_people_outbound": [
         {"kind": "finale_stage", "id": "sacrifice"},
         {"kind": "entry_value", "path": "source_choices.m51_minseo_arrival", "values": [0, 1]},
-        {"kind": "entry_value", "path": "source_choices.m56_father_legacy", "values": [0, 1, 2]},
+        {"kind": "finale_stage", "id": "father_legacy"},
     ],
+}
+EXPECTED_READ_MODES = {
+    spec.event_id: (
+        "inline_slots" if spec.stage_sequence <= 4 else "prepend"
+    )
+    for spec in FINALE_ROOTS
+}
+EXPECTED_BRANCH_CONDITION = {
+    spec.event_id: (
+        {
+            "entry_path": "source_choices.w220_debt_memory_reconnect",
+            "equals": spec.branch_value,
+        }
+        if spec.branch_value is not None else None
+    )
+    for spec in FINALE_ROOTS
+}
+EXPECTED_EVENT_FLAGS = {
+    "arc_y5_general_name_boundary_exact": (
+        ["arc_y5_general_name_boundary_exact_seen", "chapter5_general_name_boundary_0"],
+        ["arc_y5_general_name_boundary_exact_seen", "chapter5_general_name_boundary_1"],
+    ),
+    "arc_y5_general_father_legacy_voice_exact": (
+        ["arc_y5_general_father_legacy_voice_exact_seen", "arc_father_legacy_seen", "chapter5_general_father_legacy_0"],
+        ["arc_y5_general_father_legacy_voice_exact_seen", "arc_father_legacy_seen", "chapter5_general_father_legacy_1"],
+    ),
+    "arc_y5_general_father_legacy_cafe_exact": (
+        ["arc_y5_general_father_legacy_cafe_exact_seen", "arc_father_legacy_seen", "chapter5_general_father_legacy_0"],
+        ["arc_y5_general_father_legacy_cafe_exact_seen", "arc_father_legacy_seen", "chapter5_general_father_legacy_1"],
+    ),
+    "arc_y5_general_debt_memory_voice_exact": (
+        ["arc_y5_general_debt_memory_voice_exact_seen", "chapter5_general_debt_memory_voice_0"],
+        ["arc_y5_general_debt_memory_voice_exact_seen", "chapter5_general_debt_memory_voice_1"],
+    ),
+    "arc_y5_general_debt_memory_cafe_exact": (
+        ["arc_y5_general_debt_memory_cafe_exact_seen", "chapter5_general_debt_memory_cafe_0"],
+        ["arc_y5_general_debt_memory_cafe_exact_seen", "chapter5_general_debt_memory_cafe_1"],
+    ),
+    "arc_y5_general_pre_ending_summit_exact": (
+        ["arc_y5_general_pre_ending_summit_exact_seen", "arc_pre_ending_summit_seen", "chapter5_general_summit_0"],
+        ["arc_y5_general_pre_ending_summit_exact_seen", "arc_pre_ending_summit_seen", "chapter5_general_summit_1"],
+    ),
 }
 EXPECTED_SACRIFICE_FLAGS = (
     ["arc_final_countdown_seen"],
@@ -237,14 +379,25 @@ def instant_legend_block(source: str) -> str:
 
 
 def validate_inventory(errors: list[str]) -> None:
-    if len(ROOTS) != 4 or len(set(ROOT_IDS)) != 4:
-        errors.append("general authored inventory must be exactly 4 unique roots")
-    if sum(spec.choice_count for spec in ROOTS) != 9:
-        errors.append("general authored inventory must be exactly 9 choices")
-    if len(FINALE_ROOTS) != 3 or sum(
-            spec.choice_count for spec in FINALE_ROOTS) != 7:
-        errors.append("general finale ledger inventory must be exactly 3 roots/7 choices")
-    if [spec.turn for spec in ROOTS] != [220, 237, 240, 240]:
+    if len(ROOTS) != 10 or len(set(ROOT_IDS)) != 10:
+        errors.append("general authored inventory must be exactly 10 unique roots")
+    if sum(spec.choice_count for spec in ROOTS) != 21:
+        errors.append("general authored inventory must be exactly 21 choices")
+    if len(FINALE_ROOTS) != 8 or sum(
+            spec.choice_count for spec in FINALE_ROOTS) != 17:
+        errors.append("general finale ledger inventory must be exactly 8 roots/17 choices")
+    active = [
+        spec for spec in FINALE_ROOTS
+        if spec.variant_sequence == 1 or spec.stage_sequence > 2
+    ]
+    if len(active) != 6 or sum(spec.choice_count for spec in active) != 13:
+        errors.append("general finale active inventory must be exactly 6 roots/13 choices")
+    active_surface = list(ROOTS[:2]) + active
+    if len(active_surface) != 8 or sum(
+            spec.choice_count for spec in active_surface) != 17:
+        errors.append("general active authored surface must be exactly 8 roots/17 choices")
+    if [spec.turn for spec in ROOTS] != [
+            211, 220, 224, 224, 229, 229, 234, 237, 240, 240]:
         errors.append("general authored turn order drifted")
 
 
@@ -319,6 +472,48 @@ def validate_source_producers(
                         f"{spec.event_id}.choices[{index}]")
 
 
+def validate_source_consumers(
+    ko: dict[str, dict[str, Any]],
+    en: dict[str, dict[str, Any]],
+    errors: list[str],
+) -> None:
+    """Pin the exact M51 -> W211 -> W220 prose-reader chain."""
+    for event_id, expected_key_tuple in EXPECTED_SOURCE_READ_KEYS.items():
+        expected_keys = set(expected_key_tuple)
+        for locale, catalog in (("KO", ko), ("EN", en)):
+            event = catalog.get(event_id, {})
+            reads = event.get("description_memory_if_known") \
+                if isinstance(event, dict) else None
+            if not isinstance(reads, dict) or set(reads) != expected_keys:
+                errors.append(
+                    f"{event_id}:{locale}: exact source prose-reader keys drifted")
+                continue
+            values = list(reads.values())
+            if any(not isinstance(value, str) or not value.strip()
+                   for value in values) or len(set(values)) != 2:
+                errors.append(
+                    f"{event_id}:{locale}: source prose branches must be "
+                    "two distinct nonempty strings")
+
+
+def validate_preserved_generic_roots(
+    ko: dict[str, dict[str, Any]],
+    en: dict[str, dict[str, Any]],
+    errors: list[str],
+) -> None:
+    for event_id, count in {
+        "arc_father_legacy": 3,
+        "arc_pre_ending_summit": 2,
+    }.items():
+        if len(choices(ko.get(event_id))) != count \
+                or len(choices(en.get(event_id))) != count:
+            errors.append(
+                f"preserved generic root {event_id} must remain bilingual "
+                f"with exactly {count} choices")
+        if event_id in FINALE_ROOT_IDS:
+            errors.append(f"preserved generic root became finale-owned: {event_id}")
+
+
 def _expected_source_choice_count(source: dict[str, Any]) -> int:
     if source.get("kind") == "entry_value":
         values = source.get("values")
@@ -348,8 +543,10 @@ def validate_finale_reads(
         if sources != EXPECTED_READ_SOURCES[root_id]:
             errors.append(f"{root_id}: exact finale read-source order/domain drifted")
             continue
-        if reads.get("mode") != "prepend":
-            errors.append(f"{root_id}: finale read mode must be prepend")
+        expected_mode = EXPECTED_READ_MODES[root_id]
+        if reads.get("mode") != expected_mode:
+            errors.append(
+                f"{root_id}: finale read mode must be {expected_mode}")
         text_rows = reads.get("texts")
         if not isinstance(text_rows, list) or len(text_rows) != len(sources):
             errors.append(f"{root_id}: KO read text/source row count drifted")
@@ -379,6 +576,18 @@ def validate_finale_reads(
                 errors.append(
                     f"{root_id}.EN.texts[{index}]: expected {count} distinct "
                     "nonempty choice prefixes")
+        ko_tokens = INLINE_SLOT_RE.findall(str(ko_event.get("description", "")))
+        en_tokens = INLINE_SLOT_RE.findall(str(en_event.get("description", "")))
+        expected_tokens = [str(index) for index in range(len(sources))] \
+            if expected_mode == "inline_slots" else []
+        if ko_tokens != expected_tokens:
+            errors.append(
+                f"{root_id}: KO inline token order/count drifted "
+                f"expected={expected_tokens} got={ko_tokens}")
+        if en_tokens != expected_tokens:
+            errors.append(
+                f"{root_id}: EN inline token order/count drifted "
+                f"expected={expected_tokens} got={en_tokens}")
 
 
 def validate_events(
@@ -436,6 +645,15 @@ def validate_events(
                 errors.append(
                     f"{spec.event_id}.choices[{index}]: authored follow-up is forbidden")
 
+        expected_flags = EXPECTED_EVENT_FLAGS.get(spec.event_id)
+        if expected_flags is not None:
+            for index, expected in enumerate(expected_flags):
+                if index < len(ko_choices) \
+                        and ko_choices[index].get("flags", []) != expected:
+                    errors.append(
+                        f"{spec.event_id}.choices[{index}]: exact compatibility "
+                        "flags drifted")
+
         if spec.stage == "sacrifice" and len(ko_choices) == 2:
             for index, expected in enumerate(EXPECTED_SACRIFICE_FLAGS):
                 if ko_choices[index].get("effects", {}) != {} \
@@ -448,8 +666,9 @@ def validate_events(
                         or ko_choices[index].get("flags", []) != expected:
                     errors.append(
                         f"{spec.event_id}.choices[{index}]: outbound semantics drifted")
-    if total != 9:
-        errors.append(f"general authored choice total is {total}, expected 9")
+    if total != 21:
+        errors.append(f"general authored choice total is {total}, expected 21")
+    validate_source_consumers(ko, en, errors)
     validate_finale_reads(ko, en, errors)
 
 
@@ -469,10 +688,10 @@ def validate_ledger(ledger: Any, errors: list[str]) -> None:
         "schema_version": 1,
         "ledger_id": LEDGER_ID,
         "choice_index_base": 0,
-        "expected_root_count": 3,
-        "expected_active_root_count": 3,
-        "expected_choice_count": 7,
-        "expected_active_choice_count": 7,
+        "expected_root_count": 8,
+        "expected_active_root_count": 6,
+        "expected_choice_count": 17,
+        "expected_active_choice_count": 13,
     }
     for key, expected in expected_scalars.items():
         if ledger.get(key) != expected:
@@ -482,7 +701,7 @@ def validate_ledger(ledger: Any, errors: list[str]) -> None:
     entry = ledger.get("entry_contract")
     expected_entry = {
         "route_id": ROUTE_ID,
-        "turn": 237,
+        "turn": 224,
         "profile_id": PROFILE_ID,
         "source_route_id": SOURCE_ROUTE_ID,
         "source_choice_keys": {
@@ -498,31 +717,31 @@ def validate_ledger(ledger: Any, errors: list[str]) -> None:
         errors.append("general finale entry contract drifted")
 
     rows = ledger.get("roots")
-    if not isinstance(rows, list) or len(rows) != 3:
-        errors.append("general finale ledger must contain exactly 3 roots")
+    if not isinstance(rows, list) or len(rows) != 8:
+        errors.append("general finale ledger must contain exactly 8 roots")
         return
     all_receipts: set[str] = set()
     all_documents: set[str] = set()
-    for index, (row, spec) in enumerate(zip(rows, FINALE_ROOTS), 1):
-        label = f"general finale ledger roots[{index - 1}]"
+    for index, (row, spec) in enumerate(zip(rows, FINALE_ROOTS)):
+        label = f"general finale ledger roots[{index}]"
         if not isinstance(row, dict):
             errors.append(f"{label}: must be an object")
             continue
         expected_shape = {
-            "stage_sequence": index,
-            "variant_sequence": 1,
+            "stage_sequence": spec.stage_sequence,
+            "variant_sequence": spec.variant_sequence,
             "month": spec.month,
             "turn": spec.turn,
             "week": spec.turn,
             "event_id": spec.event_id,
             "root_id": spec.event_id,
             "choice_count": spec.choice_count,
-            "tier": "T1",
+            "tier": EXPECTED_TIERS[spec.event_id],
             "stage": spec.stage,
-            "active_when": None,
+            "active_when": EXPECTED_BRANCH_CONDITION[spec.event_id],
             "actors": EXPECTED_ROOT_ACTORS[spec.event_id],
             "read_sources": EXPECTED_READ_SOURCES[spec.event_id],
-            "read_mode": "prepend",
+            "read_mode": EXPECTED_READ_MODES[spec.event_id],
         }
         for key, expected in expected_shape.items():
             if row.get(key) != expected:
@@ -564,8 +783,8 @@ def validate_ledger(ledger: Any, errors: list[str]) -> None:
             if choice.get("economic_outcome") != {}:
                 errors.append(
                     f"{label}.choices[{choice_index}]: economic outcome must be empty")
-    if len(all_receipts) != 7 or len(all_documents) != 7:
-        errors.append("general finale ledger must own 7 unique receipts/documents")
+    if len(all_receipts) != 17 or len(all_documents) != 17:
+        errors.append("general finale ledger must own 17 unique receipts/documents")
 
 
 def validate_lifecycle(lifecycle: Any, errors: list[str]) -> None:
@@ -577,7 +796,7 @@ def validate_lifecycle(lifecycle: Any, errors: list[str]) -> None:
             or counts.get("packaged_events") != EXPECTED_PACKAGED_EVENTS \
             or counts.get("shipping_events") != EXPECTED_SHIPPING_EVENTS:
         errors.append(
-            "event lifecycle must register packaged=1800 shipping=1690")
+            "event lifecycle must register packaged=1806 shipping=1696")
     author_only = lifecycle.get("author_only_event_ids", [])
     if not isinstance(author_only, list):
         errors.append("event lifecycle author_only_event_ids must be an array")
@@ -600,24 +819,39 @@ def _director_rows(director: Any, turn: int) -> list[dict[str, Any]]:
 
 def validate_director(director: Any, errors: list[str]) -> None:
     expected = {
-        220: {
-            "id": ROOTS[0].event_id,
-            "axis": "human",
-            "person_id": "minseo",
-        },
-        237: {"id": ROOTS[1].event_id, "axis": "money"},
-        240: {"id": ROOTS[2].event_id, "axis": "money"},
+        211: [
+            {"id": "arc_y5_general_name_boundary_exact", "axis": "human"},
+        ],
+        220: [
+            {"id": "arc_y5_general_debt_memory_reconnect", "axis": "human", "person_id": "minseo"},
+        ],
+        224: [
+            {"id": "arc_y5_general_father_legacy_voice_exact", "axis": "human", "person_id": "father"},
+            {"id": "arc_y5_general_father_legacy_cafe_exact", "axis": "human", "person_id": "father"},
+        ],
+        229: [
+            {"id": "arc_y5_general_debt_memory_voice_exact", "axis": "human", "person_id": "minseo"},
+            {"id": "arc_y5_general_debt_memory_cafe_exact", "axis": "human", "person_id": "minseo"},
+        ],
+        234: [
+            {"id": "arc_y5_general_pre_ending_summit_exact", "axis": "money"},
+        ],
+        237: [
+            {"id": "arc_y5_general_final_record_seal", "axis": "money"},
+        ],
+        240: [
+            {"id": "arc_final_countdown_general_near_goal_passed", "axis": "money"},
+            {"id": "arc_y5_final_week_general_people_outbound", "axis": "human"},
+        ],
     }
-    for turn, row in expected.items():
-        matches = [candidate for candidate in _director_rows(director, turn)
-                   if candidate.get("id") == row["id"]]
-        if matches != [row]:
-            errors.append(f"event director W{turn} exact owner missing: {row['id']}")
-    outbound = {"id": ROOTS[3].event_id, "axis": "human"}
-    matches = [candidate for candidate in _director_rows(director, 240)
-               if candidate.get("id") == outbound["id"]]
-    if matches != [outbound]:
-        errors.append("event director W240 general outbound owner missing")
+    for turn, rows in expected.items():
+        observed = _director_rows(director, turn)
+        for row in rows:
+            matches = [candidate for candidate in observed
+                       if candidate.get("id") == row["id"]]
+            if matches != [row]:
+                errors.append(
+                    f"event director W{turn} exact owner missing: {row['id']}")
 
 
 def _story_map_root_months(story_map: Any) -> dict[str, list[int]]:
@@ -699,12 +933,15 @@ def validate_general_identity_gates(
         errors.append(
             "GameState general route identity gate must reject unknown tuples")
 
+    w211 = function_block(game_state, "chapter5_general_finale_w211_available")
     w220 = function_block(game_state, "chapter5_general_finale_w220_available")
     prepare = function_block(game_state, "prepare_chapter5_finale_route_entry")
+    if w211.count("_chapter5_general_route_profile_allowed()") != 1:
+        errors.append("GameState W211 must use the shared general route gate")
     if w220.count("_chapter5_general_route_profile_allowed()") != 1:
         errors.append("GameState W220 must use the shared general route gate")
     if prepare.count("_chapter5_general_route_profile_allowed()") != 1:
-        errors.append("GameState W237 must use the shared general route gate")
+        errors.append("GameState W224 must use the shared general route gate")
     for marker in (
         "_chapter5_general_source_absent(",
         '"arc_y5_general_last_page_instruction"',
@@ -712,7 +949,7 @@ def validate_general_identity_gates(
     ):
         if marker not in prepare:
             errors.append(
-                f"GameState W237 must reject retired W229 evidence: {marker}")
+                f"GameState W224 must reject retired W229 evidence: {marker}")
     existing_lock = (
         "if not chapter5_finale_entry_snapshot().is_empty():\n"
         "\t\treturn true"
@@ -801,11 +1038,11 @@ def validate_runtime(
         f'const GENERAL_LEDGER_ID := "{LEDGER_ID}"',
         f'const GENERAL_PROFILE_ID := "{PROFILE_ID}"',
         f'const GENERAL_SOURCE_ROUTE_ID := "{SOURCE_ROUTE_ID}"',
-        "const GENERAL_ENTRY_TURN := 237",
-        "const GENERAL_EXPECTED_ROOT_COUNT := 3",
-        "const GENERAL_EXPECTED_ACTIVE_ROOT_COUNT := 3",
-        "const GENERAL_EXPECTED_CHOICE_COUNT := 7",
-        "const GENERAL_EXPECTED_ACTIVE_CHOICE_COUNT := 7",
+        "const GENERAL_ENTRY_TURN := 224",
+        "const GENERAL_EXPECTED_ROOT_COUNT := 8",
+        "const GENERAL_EXPECTED_ACTIVE_ROOT_COUNT := 6",
+        "const GENERAL_EXPECTED_CHOICE_COUNT := 17",
+        "const GENERAL_EXPECTED_ACTIVE_CHOICE_COUNT := 13",
     ):
         if marker not in system:
             errors.append(f"Chapter5FinaleRoute general constant missing: {marker}")
@@ -823,6 +1060,8 @@ def validate_runtime(
         "GENERAL_ROOT_CHOICE_COUNTS",
         "GENERAL_SOURCE_CHOICE_KEYS",
         "GENERAL_READ_SOURCES",
+        "GENERAL_BRANCH_VARIANTS",
+        "INLINE_SLOT_READ_EVENT_IDS",
     ):
         if marker not in system:
             errors.append(f"Chapter5FinaleRoute general selector missing: {marker}")
@@ -855,6 +1094,23 @@ def validate_runtime(
     ):
         if marker not in source_absent:
             errors.append(f"GameState exact source-absence matcher missing: {marker}")
+    w211 = function_block(game_state, "chapter5_general_finale_w211_available")
+    for marker in (
+        "query_turn != 211", "chapter5_causal_entry_snapshot().is_empty()",
+        "chapter5_finale_entry_snapshot().is_empty()",
+        "CHAPTER5_FINALE_ROUTE.state_from_save(",
+        "CHAPTER5_FINALE_ROUTE.default_state()",
+        'get("life", "")) != "passed"',
+        "var current_assets := float(get_total_asset_value())",
+        "not is_finite(current_assets)", "current_assets < 2_500_000_000.0",
+        '"arc_minseo_03_arrival"', '"chapter5_general_minseo_arrival_"',
+        '"arc_y5_general_name_boundary_exact"',
+        '"chapter5_general_name_boundary_"',
+        '"arc_y5_general_debt_memory_reconnect"',
+        "_chapter5_general_source_absent(",
+    ):
+        if marker not in w211:
+            errors.append(f"GameState W211 gate missing: {marker}")
     w220 = function_block(game_state, "chapter5_general_finale_w220_available")
     for marker in (
         "query_turn != 220", "chapter5_causal_entry_snapshot().is_empty()",
@@ -862,7 +1118,9 @@ def validate_runtime(
         "CHAPTER5_FINALE_ROUTE.state_from_save(",
         "CHAPTER5_FINALE_ROUTE.default_state()",
         'get("life", "")) != "passed"',
-        '"arc_minseo_03_arrival"', '"arc_y5_general_last_page_instruction"',
+        '"arc_minseo_03_arrival"', '"arc_y5_general_name_boundary_exact"',
+        '"chapter5_general_name_boundary_"',
+        '"arc_y5_general_last_page_instruction"',
         '"arc_endgame_sixmonths"',
         '"arc_y5_general_debt_memory_reconnect"',
         "_chapter5_general_source_absent(",
@@ -875,23 +1133,33 @@ def validate_runtime(
         "_chapter5_general_finale_source_choices()",
         "chapter5_causal_entry_snapshot().is_empty()",
         'get("life", "")) != "passed"',
+        "var current_assets := float(get_total_asset_value())",
+        "not is_finite(current_assets)",
+        "current_assets < 2_500_000_000.0",
+        '"arc_father_legacy"',
+        '"arc_pre_ending_summit"',
     ):
         if marker not in prepare:
-            errors.append(f"GameState W237 entry binding missing: {marker}")
-    if '_chapter5_general_event_absent(\n\t\t\t\t\t"arc_endgame_sixmonths")' \
-            not in prepare:
-        errors.append("GameState W237 entry admits a prior generic six-month event")
-    if re.search(r"(?:total_assets|assets|money|cash)\s*[<>]=?", prepare):
-        errors.append("GameState W237 entry rechecks current asset value")
+            errors.append(f"GameState W224 entry binding missing: {marker}")
+    if prepare.count("get_total_asset_value()") != 1 \
+            or prepare.count("2_500_000_000.0") != 1:
+        errors.append("GameState W224 must lock the exact 2.5B near-goal threshold once")
+    if not re.search(
+            r'_chapter5_general_event_absent\(\s*"arc_endgame_sixmonths"\s*\)',
+            prepare):
+        errors.append("GameState W224 entry admits a prior generic six-month event")
 
     main_router = function_block(main_game, "_route_chapter5_finale_week")
     if "CHAPTER5_FINALE_ROUTE.is_entry_turn(GameState.turn)" not in main_router:
         errors.append("MainGame finale router does not select both entry turns")
     arc_router = function_block(main_game, "_next_arc_id")
+    w211_index = arc_router.find('return "arc_y5_general_name_boundary_exact"')
     w220_index = arc_router.find('return "arc_y5_general_debt_memory_reconnect"')
     peace_index = arc_router.find('return "arc_37_ending_peace"')
-    if w220_index < 0 or peace_index < 0 or w220_index > peace_index:
-        errors.append("MainGame W220 general source lost priority over generic peace")
+    if w211_index < 0 or w220_index < 0 or peace_index < 0 \
+            or not w211_index < w220_index < peace_index:
+        errors.append(
+            "MainGame W211/W220 general sources lost authored priority/order")
     validate_w220_reservation_boundary(main_game, errors)
     if 'return "arc_y5_general_last_page_instruction"' in arc_router:
         errors.append("MainGame still routes the removed W229 general source")
@@ -903,6 +1171,17 @@ def validate_runtime(
     ):
         if marker not in story_mode:
             errors.append(f"StoryMode finale transaction missing: {marker}")
+    read_resolver = function_block(
+        story_mode, "_chapter5_finale_event_with_reads")
+    for marker in (
+        'read_mode not in ["prepend", "inline_slots"]',
+        'var slot := "[[c5read:%d]]" % source_index',
+        "body.count(slot) != 1",
+        "slot_position <= previous_slot_position",
+        'if "[[c5read:" in body:',
+    ):
+        if marker not in read_resolver:
+            errors.append(f"StoryMode ordered inline-read contract missing: {marker}")
 
     if "CHAPTER5_GENERAL_OUTBOUND_CODA_BY_CHOICE" not in ending_system \
             or ending_system.count('"kind": "minseo_') < 2 \
@@ -949,6 +1228,7 @@ def validate_model(
     errors: list[str] = []
     validate_inventory(errors)
     validate_source_producers(ko, ko_paths, errors)
+    validate_preserved_generic_roots(ko, en, errors)
     validate_retired_w229_absent(en, "EN", errors)
     validate_events(ko, en, errors)
     validate_ledger(ledger, errors)
@@ -980,13 +1260,13 @@ def _fixture_ledger() -> dict[str, Any]:
         "schema_version": 1,
         "ledger_id": LEDGER_ID,
         "choice_index_base": 0,
-        "expected_root_count": 3,
-        "expected_active_root_count": 3,
-        "expected_choice_count": 7,
-        "expected_active_choice_count": 7,
+        "expected_root_count": 8,
+        "expected_active_root_count": 6,
+        "expected_choice_count": 17,
+        "expected_active_choice_count": 13,
         "entry_contract": {
             "route_id": ROUTE_ID,
-            "turn": 237,
+            "turn": 224,
             "profile_id": PROFILE_ID,
             "source_route_id": SOURCE_ROUTE_ID,
             "source_choice_keys": {
@@ -1001,20 +1281,21 @@ def _fixture_ledger() -> dict[str, Any]:
         "stages": list(EXPECTED_STAGES),
         "roots": [
             {
-                "stage_sequence": index,
-                "variant_sequence": 1,
+                "stage_sequence": spec.stage_sequence,
+                "variant_sequence": spec.variant_sequence,
                 "month": spec.month,
                 "turn": spec.turn,
                 "week": spec.turn,
                 "event_id": spec.event_id,
                 "root_id": spec.event_id,
                 "choice_count": spec.choice_count,
-                "tier": "T1",
+                "tier": EXPECTED_TIERS[spec.event_id],
                 "stage": spec.stage,
-                "active_when": None,
+                "active_when": copy.deepcopy(
+                    EXPECTED_BRANCH_CONDITION[spec.event_id]),
                 "actors": copy.deepcopy(EXPECTED_ROOT_ACTORS[spec.event_id]),
                 "read_sources": copy.deepcopy(EXPECTED_READ_SOURCES[spec.event_id]),
-                "read_mode": "prepend",
+                "read_mode": EXPECTED_READ_MODES[spec.event_id],
                 "choices": [
                     {
                         "index": choice_index,
@@ -1031,7 +1312,7 @@ def _fixture_ledger() -> dict[str, Any]:
                     for choice_index in range(spec.choice_count)
                 ],
             }
-            for index, spec in enumerate(FINALE_ROOTS, 1)
+            for spec in FINALE_ROOTS
         ],
     }
 
@@ -1056,13 +1337,34 @@ def _fixture_events() -> tuple[
             ],
         }
         paths[source.event_id] = source.relative_path
+    for event_id, count in {
+        "arc_father_legacy": 3,
+        "arc_pre_ending_summit": 2,
+    }.items():
+        ko[event_id] = {
+            "id": event_id,
+            "choices": [
+                {"text": f"일반 선택 {index}", "result_text": "일반 결과"}
+                for index in range(count)
+            ],
+        }
+        en[event_id] = {
+            "id": event_id,
+            "choices": [
+                {"text": f"Generic choice {index}", "result_text": "Result"}
+                for index in range(count)
+            ],
+        }
     for spec in ROOTS:
         source = next(
             (row for row in SOURCE_SPECS if row.event_id == spec.event_id), None)
         ko_choices: list[dict[str, Any]] = []
         for index in range(spec.choice_count):
             row: dict[str, Any] = {"text": f"선택 {index}", "result_text": "결과"}
-            if source is not None:
+            if spec.event_id in EXPECTED_EVENT_FLAGS:
+                row["flags"] = copy.deepcopy(
+                    EXPECTED_EVENT_FLAGS[spec.event_id][index])
+            elif source is not None:
                 row["flags"] = [f"{source.flag_prefix}{index}"]
             elif spec.stage == "sacrifice":
                 row["flags"] = copy.deepcopy(EXPECTED_SACRIFICE_FLAGS[index])
@@ -1088,6 +1390,16 @@ def _fixture_events() -> tuple[
                 for index in range(spec.choice_count)
             ],
         }
+        read_keys = EXPECTED_SOURCE_READ_KEYS.get(spec.event_id)
+        if read_keys is not None:
+            ko[spec.event_id]["description_memory_if_known"] = {
+                key: f"회수 {index}"
+                for index, key in enumerate(read_keys)
+            }
+            en[spec.event_id]["description_memory_if_known"] = {
+                key: f"Recall {index}"
+                for index, key in enumerate(read_keys)
+            }
         if spec.stage:
             source_rows = EXPECTED_READ_SOURCES[spec.event_id]
             ko[spec.event_id]["chapter5_finale_reads"] = {
@@ -1097,7 +1409,7 @@ def _fixture_events() -> tuple[
                         _expected_source_choice_count(row))]
                     for row_index, row in enumerate(source_rows)
                 ],
-                "mode": "prepend",
+                "mode": EXPECTED_READ_MODES[spec.event_id],
             }
             en[spec.event_id]["chapter5_finale_reads"] = {
                 "texts": [
@@ -1106,6 +1418,12 @@ def _fixture_events() -> tuple[
                     for row_index, row in enumerate(source_rows)
                 ],
             }
+            if EXPECTED_READ_MODES[spec.event_id] == "inline_slots":
+                tokens = " ".join(
+                    f"[[c5read:{index}]]"
+                    for index in range(len(source_rows)))
+                ko[spec.event_id]["description"] += " " + tokens
+                en[spec.event_id]["description"] += " " + tokens
     return ko, paths, en
 
 
@@ -1130,6 +1448,7 @@ def run_self_test() -> int:
     ko, paths, en = _fixture_events()
     event_errors: list[str] = []
     validate_source_producers(ko, paths, event_errors)
+    validate_preserved_generic_roots(ko, en, event_errors)
     validate_events(ko, en, event_errors)
     require(not event_errors, str(event_errors[:1]))
 
@@ -1142,12 +1461,20 @@ def run_self_test() -> int:
             "wrong source flag was accepted")
 
     duplicate_flag = copy.deepcopy(ko)
-    duplicate_flag["arc_father_legacy"]["choices"][0]["flags"].append(
-        "chapter5_general_father_legacy_1")
+    duplicate_flag["arc_y5_general_debt_memory_reconnect"]["choices"][0][
+        "flags"].append("chapter5_general_debt_memory_reconnect_1")
     errors = []
     validate_source_producers(duplicate_flag, paths, errors)
     require(any("exact source flag mismatch" in error for error in errors),
             "multiple source flags were accepted")
+
+    wrong_consumer = copy.deepcopy(ko)
+    wrong_consumer["arc_y5_general_debt_memory_reconnect"][
+        "description_memory_if_known"].pop("chapter5_general_name_boundary_1")
+    errors = []
+    validate_source_consumers(wrong_consumer, en, errors)
+    require(any("source prose-reader keys drifted" in error for error in errors),
+            "missing W211 -> W220 source reader was accepted")
 
     leaked_en = copy.deepcopy(en)
     leaked_en[ROOT_IDS[0]]["choices"][0]["flags"] = ["illegal"]
@@ -1176,11 +1503,22 @@ def run_self_test() -> int:
             "retired EN W229 flag was accepted")
 
     wrong_reads = copy.deepcopy(ko)
-    wrong_reads[FINALE_ROOT_IDS[0]]["chapter5_finale_reads"]["sources"].reverse()
+    two_source_root = "arc_y5_general_final_record_seal"
+    wrong_reads[two_source_root]["chapter5_finale_reads"]["sources"].reverse()
     errors = []
     validate_events(wrong_reads, en, errors)
     require(any("read-source order" in error for error in errors),
             "read source reorder was accepted")
+
+    wrong_inline = copy.deepcopy(ko)
+    wrong_inline[two_source_root]["description"] = \
+        wrong_inline[two_source_root]["description"].replace(
+            "[[c5read:0]] [[c5read:1]]",
+            "[[c5read:1]] [[c5read:0]]", 1)
+    errors = []
+    validate_events(wrong_inline, en, errors)
+    require(any("inline token order/count" in error for error in errors),
+            "inline read-slot inversion was accepted")
 
     economic = copy.deepcopy(ko)
     economic[FINALE_ROOT_IDS[0]]["choices"][0]["effects"] = {"money": 1}
@@ -1190,11 +1528,18 @@ def run_self_test() -> int:
             "economic mutation was accepted")
 
     wrong_ledger = copy.deepcopy(ledger)
-    wrong_ledger["expected_choice_count"] = 8
+    wrong_ledger["expected_choice_count"] = 18
     errors = []
     validate_ledger(wrong_ledger, errors)
     require(any("expected_choice_count" in error for error in errors),
             "ledger count mutation was accepted")
+
+    inverted_branch = copy.deepcopy(ledger)
+    inverted_branch["roots"][0]["active_when"]["equals"] = 1
+    errors = []
+    validate_ledger(inverted_branch, errors)
+    require(any("active_when" in error for error in errors),
+            "W224 branch inversion was accepted")
 
     tampered_receipt = copy.deepcopy(ledger)
     tampered_receipt["roots"][1]["choices"][0]["receipt_ids"] = \
@@ -1205,15 +1550,18 @@ def run_self_test() -> int:
             "duplicate receipt was accepted")
 
     inverted_seal = copy.deepcopy(ledger)
-    inverted_seal["roots"][0]["choices"][0]["receipt_ids"], \
-        inverted_seal["roots"][0]["choices"][1]["receipt_ids"] = (
-            inverted_seal["roots"][0]["choices"][1]["receipt_ids"],
-            inverted_seal["roots"][0]["choices"][0]["receipt_ids"],
+    seal_index = next(
+        index for index, row in enumerate(inverted_seal["roots"])
+        if row["event_id"] == "arc_y5_general_final_record_seal")
+    inverted_seal["roots"][seal_index]["choices"][0]["receipt_ids"], \
+        inverted_seal["roots"][seal_index]["choices"][1]["receipt_ids"] = (
+            inverted_seal["roots"][seal_index]["choices"][1]["receipt_ids"],
+            inverted_seal["roots"][seal_index]["choices"][0]["receipt_ids"],
         )
-    inverted_seal["roots"][0]["choices"][0]["document_ids"], \
-        inverted_seal["roots"][0]["choices"][1]["document_ids"] = (
-            inverted_seal["roots"][0]["choices"][1]["document_ids"],
-            inverted_seal["roots"][0]["choices"][0]["document_ids"],
+    inverted_seal["roots"][seal_index]["choices"][0]["document_ids"], \
+        inverted_seal["roots"][seal_index]["choices"][1]["document_ids"] = (
+            inverted_seal["roots"][seal_index]["choices"][1]["document_ids"],
+            inverted_seal["roots"][seal_index]["choices"][0]["document_ids"],
         )
     errors = []
     validate_ledger(inverted_seal, errors)
@@ -1274,22 +1622,22 @@ def run_self_test() -> int:
         "W220 must use the shared general route gate",
     )
     require_identity_rejection(
-        "W237 shared gate",
+        "W224 shared gate",
         mutate_block(
             game_state, "prepare_chapter5_finale_route_entry",
             lambda block: block.replace(
                 "or not _chapter5_general_route_profile_allowed() \\",
                 "or false \\", 1)),
-        "W237 must use the shared general route gate",
+        "W224 must use the shared general route gate",
     )
     require_identity_rejection(
-        "W237 retired W229 evidence",
+        "W224 retired W229 evidence",
         mutate_block(
             game_state, "prepare_chapter5_finale_route_entry",
             lambda block: block.replace(
                 '"arc_y5_general_last_page_instruction"',
                 '"arc_y5_general_retired_source"', 1)),
-        "W237 must reject retired W229 evidence",
+        "W224 must reject retired W229 evidence",
     )
     require_identity_rejection(
         "neutral tuple mismatch",
@@ -1451,9 +1799,11 @@ def main(argv: Iterable[str] | None = None) -> int:
         return 1
     print(
         "CHAPTER5_GENERAL_FINALE_ROUTE_AUDIT_OK "
-        "authored_roots=4 authored_choices=9 ledger_roots=3 "
-        "ledger_choices=7 sources=4 exact_receipt=flag+event_log "
-        "profile=general_near_goal_father_passed source=W220 entry=W237 "
+        "authored_roots=10 authored_choices=21 ledger_roots=8 "
+        "active_roots=6 authored_active_roots=8 ledger_choices=17 "
+        "active_choices=13 authored_active_choices=17 sources=3 "
+        "exact_receipt=flag+event_log profile=general_near_goal_father_passed "
+        "source_chain=M51+W211+W220 entry=W224 branch_roots=W224+W229 summit=W234 "
         "ending=pending-ready-consumed instant_legend=preserved"
     )
     return 0

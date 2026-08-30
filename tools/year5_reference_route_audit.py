@@ -858,6 +858,183 @@ ORDER137_PROTECTED_FILE_TRANSITIONS = {
         "e262fdfcb03127aa23fe2bf8312cbea8f8c3f43f63cbbdb22933a3409ae416b9",
     ),
 }
+
+# ORDER-138 is the additive density repair above the exact ORDER-137 product.
+# The historical ORDER-118/134/135/136/137 receipts stay immutable: current
+# objects are pinned here, then the narrow inverse helpers below remove only
+# these exact additions and restore only these exact rewrites before an older
+# layer is evaluated.  A neighboring or mutated object is never projected.
+ORDER138_BASELINE = "b4b304e97cd406acdebb89f5dbb4035c56b5d0ea"
+ORDER138_ROOTS = (
+    RootSpec("arc_y5_general_father_legacy_voice_exact", 56, 2),
+    RootSpec("arc_y5_general_father_legacy_cafe_exact", 56, 2),
+    RootSpec("arc_y5_general_debt_memory_voice_exact", 58, 2),
+    RootSpec("arc_y5_general_debt_memory_cafe_exact", 58, 2),
+    RootSpec("arc_y5_general_pre_ending_summit_exact", 59, 2),
+    RootSpec("arc_y5_general_final_record_seal", 60, 2),
+    RootSpec("arc_final_countdown_general_near_goal_passed", 60, 2),
+    RootSpec("arc_y5_final_week_general_people_outbound", 60, 3),
+)
+ORDER138_ROOT_IDS = tuple(spec.event_id for spec in ORDER138_ROOTS)
+ORDER138_BRIDGE_ID = "arc_y5_general_name_boundary_exact"
+ORDER138_SOURCE_ID = ORDER137_NEW_GENERAL_SOURCE_ID
+ORDER138_PROPERTY_INLINE_ROOT_ID = "arc_final_countdown_property_not_executed"
+ORDER138_EVENT_FILES = {
+    "ko": {
+        "content/events/arc_year3_drama.json": {
+            "arc_y5_general_father_legacy_voice_exact",
+            "arc_y5_general_father_legacy_cafe_exact",
+        },
+        "content/events/arc_pre_ending.json": {
+            ORDER138_BRIDGE_ID,
+            ORDER138_SOURCE_ID,
+            "arc_y5_general_debt_memory_voice_exact",
+            "arc_y5_general_debt_memory_cafe_exact",
+            "arc_y5_general_pre_ending_summit_exact",
+            "arc_y5_general_final_record_seal",
+            "arc_final_countdown_general_near_goal_passed",
+            ORDER138_PROPERTY_INLINE_ROOT_ID,
+        },
+        "content/events/arc_drama.json": {
+            "arc_y5_final_week_general_people_outbound",
+        },
+    },
+    "en": {
+        "content/events_en/arc_year3_drama.json": {
+            "arc_y5_general_father_legacy_voice_exact",
+            "arc_y5_general_father_legacy_cafe_exact",
+        },
+        "content/events_en/arc_pre_ending.json": {
+            ORDER138_BRIDGE_ID,
+            ORDER138_SOURCE_ID,
+            "arc_y5_general_debt_memory_voice_exact",
+            "arc_y5_general_debt_memory_cafe_exact",
+            "arc_y5_general_pre_ending_summit_exact",
+            "arc_y5_general_final_record_seal",
+            "arc_final_countdown_general_near_goal_passed",
+            ORDER138_PROPERTY_INLINE_ROOT_ID,
+        },
+        "content/events_en/arc_drama.json": {
+            "arc_y5_final_week_general_people_outbound",
+        },
+    },
+}
+ORDER138_ADDED_IDS_BY_FILE = {
+    "content/events/arc_year3_drama.json": {
+        "arc_y5_general_father_legacy_voice_exact",
+        "arc_y5_general_father_legacy_cafe_exact",
+    },
+    "content/events_en/arc_year3_drama.json": {
+        "arc_y5_general_father_legacy_voice_exact",
+        "arc_y5_general_father_legacy_cafe_exact",
+    },
+    "content/events/arc_pre_ending.json": {
+        ORDER138_BRIDGE_ID,
+        "arc_y5_general_debt_memory_voice_exact",
+        "arc_y5_general_debt_memory_cafe_exact",
+        "arc_y5_general_pre_ending_summit_exact",
+    },
+    "content/events_en/arc_pre_ending.json": {
+        ORDER138_BRIDGE_ID,
+        "arc_y5_general_debt_memory_voice_exact",
+        "arc_y5_general_debt_memory_cafe_exact",
+        "arc_y5_general_pre_ending_summit_exact",
+    },
+}
+ORDER138_CHANGED_EXISTING_IDS_BY_FILE = {
+    "content/events/arc_year3_drama.json": {"arc_father_legacy"},
+    "content/events_en/arc_year3_drama.json": {"arc_father_legacy"},
+    "content/events/arc_pre_ending.json": {
+        ORDER138_SOURCE_ID,
+        "arc_y5_general_final_record_seal",
+        ORDER138_PROPERTY_INLINE_ROOT_ID,
+    },
+    "content/events_en/arc_pre_ending.json": {
+        ORDER138_SOURCE_ID,
+        "arc_y5_general_final_record_seal",
+        ORDER138_PROPERTY_INLINE_ROOT_ID,
+    },
+    "content/events/arc_drama.json": {
+        "arc_y5_final_week_general_people_outbound",
+    },
+    "content/events_en/arc_drama.json": {
+        "arc_y5_final_week_general_people_outbound",
+    },
+}
+ORDER138_OBJECT_SHA256 = {
+    "ko": {
+        ORDER138_BRIDGE_ID: "6e06817e6199e93744db1010cfb8248567b5b196b81a4dcdaa17c89da8b345ef",
+        ORDER138_SOURCE_ID: "8fe47a343763afacb815f986bebeaac532aa9a3d147762bbfd237e37c1a3bdfc",
+        "arc_y5_general_father_legacy_voice_exact": "62bf261e592913bd2f2733e84d504847176d75fe9cde7c36a98be4f3ab6ba879",
+        "arc_y5_general_father_legacy_cafe_exact": "bce0b9a95b1100e45116aeedbae97045c78c08555194708d1490608fdd307762",
+        "arc_y5_general_debt_memory_voice_exact": "a6d18389f44e5469acc01ed44b64ac32e5dbb432691a7e1cd2941c8e1cda2398",
+        "arc_y5_general_debt_memory_cafe_exact": "63f5fbec7d01cb5c09bb9b9691de66a8e49383cd69539233daf235c86ad70ce8",
+        "arc_y5_general_pre_ending_summit_exact": "ae6b3af01b01a98b44e31073e7a5c1da9fc6051190b42f4b9c3c3122d3a25376",
+        "arc_y5_general_final_record_seal": "730308877c85db17130154d37f19015f434fef937f6868e7b9de979d9d74450a",
+        "arc_final_countdown_general_near_goal_passed": "ef0be44367c192ae2efaccc899807082ec459e11d5403b7b4c9a723a6b130bf5",
+        "arc_y5_final_week_general_people_outbound": "430b64571880ea170fcf6fd57c5308d8646b86d27b71dada73930faf8cc587e7",
+        ORDER138_PROPERTY_INLINE_ROOT_ID: "b35d0437df7a383d29fc425a5faeb3fb764486c4db9c6324b36c854f90b858fe",
+    },
+    "en": {
+        ORDER138_BRIDGE_ID: "593f8dcdac4929478695b0bd7194876256745ddd9ed2fd9315686ae35e83aef2",
+        ORDER138_SOURCE_ID: "c07c5e3852581a426bca7e3a873161babcee471190e05435361706b15dcd4edb",
+        "arc_y5_general_father_legacy_voice_exact": "169fafbcd1609e7d3fd741416a2bc44143eefde62f40bdbfb3609a1d014d6dd9",
+        "arc_y5_general_father_legacy_cafe_exact": "1b3091084243c88a590c13e0e8b14a10cf369cdc5492e1bd034ce80d1558c49a",
+        "arc_y5_general_debt_memory_voice_exact": "8ecc724ab2254709489070f5ed1bc29b2f865af5a0eff088b37d25d9c8e2f00c",
+        "arc_y5_general_debt_memory_cafe_exact": "8769f01cc50de4f3beee557bbd548683566c1bbbceaa3a88e31156c5db21e3c8",
+        "arc_y5_general_pre_ending_summit_exact": "ecdd5c3df34032517daba74a86cd0e733f58e1ff240359fbaa2e20a582bd9da2",
+        "arc_y5_general_final_record_seal": "f02309d12ecffe46b7241760c2e562a70aee47d88f2452c76911ea6bb074ba2c",
+        "arc_final_countdown_general_near_goal_passed": "7bbccf5e2fac30f749fd2fe2fe41678c9b74ff12d5e8f05408aa28c96d0a45dc",
+        "arc_y5_final_week_general_people_outbound": "f5ec46a16e314e7a67bc67c4808e3bb2afcd2b88ea6cf060136053bd010c714c",
+        ORDER138_PROPERTY_INLINE_ROOT_ID: "ea16ac865bd6b4d02a445461c702911e61de7d5724756b70fd969b2219334e0f",
+    },
+}
+ORDER138_CHANGED_SUPPORT_SHA256 = {
+    "ko": {
+        "arc_father_legacy":
+            "8893fac28609f1b98147ca09095709c6dc99c2c9b74a03896c2ad69b60ef32af",
+    },
+    "en": {
+        "arc_father_legacy":
+            "a9c7516229eab9bddce878264043f1497c7f5cf43610525d8c6bd9b40f019068",
+    },
+}
+ORDER138_GENERAL_LEDGER_BYTE_SHA256 = (
+    "58b51b2352af044824a07dc3e7bcae3b05fbefeff1b2e6d78679199f7a14ab98"
+)
+ORDER138_GENERAL_LEDGER_OBJECT_SHA256 = (
+    "ce8189da57d010d64ad8c40f52cd2817c849c1258bf386ac98390514ea52c166"
+)
+ORDER138_PROTECTED_FILE_TRANSITIONS = {
+    "content/meta/story_map.json": (
+        "ad90dead97e16f7d162d9b5ac806de27972c629849a08efc05b03fb2b97a8542",
+        "fcda4fa2ec0b310ec99088c0825c006afd9413a482a9ee74583eae68286befce",
+    ),
+    "content/meta/story_rules.json": (
+        "42ff9a7a9219cf40b982720ea9e88a9cb072642ab3c26f1bbafe6aa03a850431",
+        "d4e3d9600c0bd31da7b80b67ceec3e1dae44b14748704ce5cf678ca3df72e6d4",
+    ),
+    "content/meta/narrative_spine.json": (
+        "df20d172c34307659675127bfe5c9081dabcf5237fc3184e0d8af9b2cbbc8ed1",
+        "abf92f3f512894e20a96edb2e992d34785b20d320f1cc900191cd2459626bba2",
+    ),
+    "autoloads/GameState.gd": (
+        "0b176fdd1d9dadc1fe63b5e25bde641d71db9d16f938d650e3e2da89806c5968",
+        "21c7547fe171e742a2fdda851a8b2cfdcf07132f6b5002e1df68ea3a97e22028",
+    ),
+    "scenes/MainGame.gd": (
+        "adc75e79e457094488151dbf8125107e2119bf018a903551b6fa995a3b949aa6",
+        "20faced92ee044fd2875ac90590eb95274c520621f6ddd6fa876c739f85a207e",
+    ),
+    "scenes/StoryMode.gd": (
+        "8bf86bc46bafdb93af21db493e2ed2656243079fad028c681983ba5d4a972530",
+        "a774fcb3c73b763beed0d2e03812205856b996be37ef323a5514f9e3893b749d",
+    ),
+    "systems/Chapter5FinaleRoute.gd": (
+        "006ade4888ca2f82a27ff79e6343949a225217154ad7d58de209d7fa0a77778a",
+        "60f7fdc5d34fc3c6c82ee4f8ef21b82ba12fbc2fd5c4c7d89efc5c237063e78a",
+    ),
+}
 ORDER131_ADDED_IDS_BY_FILE = {
     "content/events/arc_midgame.json": {
         "arc_first_real_win_father_passed",
@@ -3827,6 +4004,128 @@ def object_from_payload(payload: Any, event_id: str) -> list[dict[str, Any]]:
 
 
 @functools.lru_cache(maxsize=None)
+def order138_baseline_payload(relative: str) -> Any:
+    """Load the exact pre-ORDER-138 source used by the narrow inverse."""
+    return strict_loads(
+        git_blob(ORDER138_BASELINE, relative).decode("utf-8"),
+        f"{ORDER138_BASELINE}:{relative}",
+    )
+
+
+def order138_expected_object_hash(relative: str, event_id: str) -> str:
+    locale = "en" if relative.startswith("content/events_en/") else "ko"
+    return ORDER138_OBJECT_SHA256.get(locale, {}).get(event_id, "") \
+        or ORDER138_CHANGED_SUPPORT_SHA256.get(locale, {}).get(event_id, "")
+
+
+def order138_project_payload(payload: Any, relative: str) -> Any:
+    """Project only an exact ORDER-138 event delta to its reviewed baseline.
+
+    Added rows are removed and rewritten rows are restored only while their
+    canonical hashes equal the ORDER-138 registry.  Any mutation therefore
+    remains visible to both the current and historical validators.
+    """
+    added_ids = ORDER138_ADDED_IDS_BY_FILE.get(relative, set())
+    changed_ids = ORDER138_CHANGED_EXISTING_IDS_BY_FILE.get(relative, set())
+    if not added_ids and not changed_ids:
+        return copy.deepcopy(payload)
+    try:
+        baseline = order138_baseline_payload(relative)
+    except (UnicodeDecodeError, ValueError):
+        return copy.deepcopy(payload)
+    baseline_rows = (
+        baseline.get("items", []) if isinstance(baseline, dict) else baseline
+    )
+    current_rows = payload.get("items", []) if isinstance(payload, dict) else payload
+    if not isinstance(baseline_rows, list) or not isinstance(current_rows, list):
+        return copy.deepcopy(payload)
+    baseline_by_id = {
+        str(row.get("id", "")): row
+        for row in baseline_rows
+        if isinstance(row, dict)
+    }
+    projected_rows: list[Any] = []
+    for raw_row in current_rows:
+        if not isinstance(raw_row, dict):
+            projected_rows.append(copy.deepcopy(raw_row))
+            continue
+        event_id = str(raw_row.get("id", ""))
+        expected_hash = order138_expected_object_hash(relative, event_id)
+        exact_current = bool(expected_hash) \
+            and canonical_json_sha256(raw_row) == expected_hash
+        if event_id in added_ids and exact_current:
+            continue
+        if event_id in changed_ids and exact_current:
+            baseline_row = baseline_by_id.get(event_id)
+            projected_rows.append(
+                copy.deepcopy(baseline_row)
+                if isinstance(baseline_row, dict)
+                else copy.deepcopy(raw_row)
+            )
+            continue
+        projected_rows.append(copy.deepcopy(raw_row))
+    if isinstance(payload, dict):
+        projected = copy.deepcopy(payload)
+        projected["items"] = projected_rows
+        return projected
+    return projected_rows
+
+
+def order138_project_context(context: AuditContext) -> AuditContext:
+    """Return an event index shaped exactly like the pre-ORDER-138 product."""
+    projected = copy.deepcopy(context)
+    affected_files = set(ORDER138_ADDED_IDS_BY_FILE) \
+        | set(ORDER138_CHANGED_EXISTING_IDS_BY_FILE)
+    for locale in ("ko", "en"):
+        for relative in sorted(affected_files):
+            if (locale == "en") != relative.startswith("content/events_en/"):
+                continue
+            baseline = order138_baseline_payload(relative)
+            baseline_rows = (
+                baseline.get("items", [])
+                if isinstance(baseline, dict) else baseline
+            )
+            baseline_by_id = {
+                str(row.get("id", "")): row
+                for row in baseline_rows
+                if isinstance(row, dict)
+            } if isinstance(baseline_rows, list) else {}
+            for event_id in ORDER138_ADDED_IDS_BY_FILE.get(relative, set()):
+                records = projected.event_indexes[locale].get(event_id, [])
+                projected.event_indexes[locale][event_id] = [
+                    record for record in records
+                    if record.path != relative
+                    or canonical_json_sha256(record.row)
+                    != order138_expected_object_hash(relative, event_id)
+                ]
+                if not projected.event_indexes[locale][event_id]:
+                    projected.event_indexes[locale].pop(event_id, None)
+            for event_id in ORDER138_CHANGED_EXISTING_IDS_BY_FILE.get(
+                    relative, set()):
+                baseline_row = baseline_by_id.get(event_id)
+                if not isinstance(baseline_row, dict):
+                    continue
+                expected_hash = order138_expected_object_hash(
+                    relative, event_id)
+                for record in projected.event_indexes[locale].get(event_id, []):
+                    if record.path == relative \
+                            and canonical_json_sha256(record.row) == expected_hash:
+                        record.row = copy.deepcopy(baseline_row)
+    return projected
+
+
+def order138_project_general_ledger(ledger: Any) -> Any:
+    """Inverse the exact whole-ledger v2 rewrite without hiding mutations."""
+    candidate = copy.deepcopy(ledger)
+    if not isinstance(candidate, dict) \
+            or canonical_json_sha256(candidate) \
+            != ORDER138_GENERAL_LEDGER_OBJECT_SHA256:
+        return candidate
+    return copy.deepcopy(order138_baseline_payload(
+        CHAPTER5_GENERAL_FINALE_LEDGER_RELATIVE_PATH))
+
+
+@functools.lru_cache(maxsize=None)
 def order137_baseline_payload(relative: str) -> Any:
     """Load the exact human-reviewed product source for inverse projection."""
     return strict_loads(
@@ -3844,6 +4143,7 @@ def order137_project_payload(payload: Any, relative: str) -> Any:
     from the older ORDER-118/134/135 receipts.  The current ORDER-137 objects
     are independently pinned before this inverse is trusted.
     """
+    payload = order138_project_payload(payload, relative)
     changed_ids = ORDER137_CHANGED_EXISTING_IDS_BY_FILE.get(relative, set())
     replacements = ORDER137_SOURCE_REPLACEMENTS_BY_FILE.get(relative, {})
     if not changed_ids and not replacements:
@@ -3888,7 +4188,7 @@ def order137_project_payload(payload: Any, relative: str) -> Any:
 
 def order137_project_context(context: AuditContext) -> AuditContext:
     """Return an event index shaped exactly like the pre-ORDER-137 product."""
-    projected = copy.deepcopy(context)
+    projected = order138_project_context(context)
     for locale, files in ORDER137_EVENT_FILES.items():
         for relative in files:
             changed_ids = ORDER137_CHANGED_EXISTING_IDS_BY_FILE.get(
@@ -3934,7 +4234,7 @@ def order137_project_general_ledger(ledger: Any) -> Any:
     field projection to apply.  Fail closed on any neighboring mutation instead
     of hiding it by returning the historical baseline unconditionally.
     """
-    candidate = copy.deepcopy(ledger)
+    candidate = order138_project_general_ledger(ledger)
     if not isinstance(candidate, dict) \
             or canonical_json_sha256(candidate) \
             != ORDER137_GENERAL_LEDGER_OBJECT_SHA256:
@@ -4973,10 +5273,19 @@ def validate_order137_registration(
     except (OSError, ValueError) as exc:
         errors.append(f"ORDER-137: cannot load general finale ledger ({exc})")
     else:
-        if byte_sha256(ledger_path.read_bytes()) \
-                != ORDER137_GENERAL_LEDGER_BYTE_SHA256:
-            errors.append("ORDER-137: general ledger byte hash drifted")
-        validate_order137_general_ledger(ledger, errors)
+        try:
+            historical_bytes = git_blob(
+                ORDER138_BASELINE,
+                CHAPTER5_GENERAL_FINALE_LEDGER_RELATIVE_PATH,
+            )
+        except ValueError as exc:
+            errors.append(f"ORDER-137: cannot load ledger receipt ({exc})")
+        else:
+            if byte_sha256(historical_bytes) \
+                    != ORDER137_GENERAL_LEDGER_BYTE_SHA256:
+                errors.append("ORDER-137: general ledger byte receipt drifted")
+        validate_order137_general_ledger(
+            order138_project_general_ledger(ledger), errors)
 
     try:
         rules = load_json(ROOT / "content/meta/story_rules.json")
@@ -5057,6 +5366,246 @@ def validate_order137_registration(
         "order137_roots": 4,
         "order137_choices": 9,
         "order137_preserved_passes": 4,
+    }
+
+
+def validate_order138_general_ledger(
+    ledger: Any,
+    errors: list[str],
+    owner: str = "ORDER-138:general-ledger",
+) -> None:
+    """Validate the exact W224-entry, six-stage v2 finale ledger."""
+    if not isinstance(ledger, dict):
+        errors.append(f"{owner}: must be an object")
+        return
+    if canonical_json_sha256(ledger) != ORDER138_GENERAL_LEDGER_OBJECT_SHA256:
+        errors.append(f"{owner}: exact object hash drifted")
+    expected_shape = [
+        ("arc_y5_general_father_legacy_voice_exact", 56, 224, 2,
+         "father_legacy", 1, 1, 0),
+        ("arc_y5_general_father_legacy_cafe_exact", 56, 224, 2,
+         "father_legacy", 1, 2, 1),
+        ("arc_y5_general_debt_memory_voice_exact", 58, 229, 2,
+         "debt_memory_consequence", 2, 1, 0),
+        ("arc_y5_general_debt_memory_cafe_exact", 58, 229, 2,
+         "debt_memory_consequence", 2, 2, 1),
+        ("arc_y5_general_pre_ending_summit_exact", 59, 234, 2,
+         "summit", 3, 1, None),
+        ("arc_y5_general_final_record_seal", 60, 237, 2,
+         "record_disposition", 4, 1, None),
+        ("arc_final_countdown_general_near_goal_passed", 60, 240, 2,
+         "sacrifice", 5, 1, None),
+        ("arc_y5_final_week_general_people_outbound", 60, 240, 3,
+         "outbound", 6, 1, None),
+    ]
+    roots = ledger.get("roots", [])
+    actual_shape = []
+    if isinstance(roots, list):
+        for row in roots:
+            if not isinstance(row, dict):
+                continue
+            active = row.get("active_when")
+            branch_value = active.get("equals") \
+                if isinstance(active, dict) else None
+            actual_shape.append((
+                str(row.get("event_id", "")),
+                int(row.get("month", -1)),
+                int(row.get("turn", -1)),
+                int(row.get("choice_count", -1)),
+                str(row.get("stage", "")),
+                int(row.get("stage_sequence", -1)),
+                int(row.get("variant_sequence", -1)),
+                branch_value,
+            ))
+    entry = ledger.get("entry_contract", {})
+    if ledger.get("schema_version") != 1 \
+            or ledger.get("ledger_id") \
+            != "chapter5_general_near_goal_passed_finale_v2" \
+            or ledger.get("expected_root_count") != 8 \
+            or ledger.get("expected_active_root_count") != 6 \
+            or ledger.get("expected_choice_count") != 17 \
+            or ledger.get("expected_active_choice_count") != 13 \
+            or ledger.get("stages") != [
+                "father_legacy", "debt_memory_consequence", "summit",
+                "record_disposition", "sacrifice", "outbound",
+            ] \
+            or actual_shape != expected_shape \
+            or not isinstance(entry, dict) \
+            or entry.get("turn") != 224 \
+            or entry.get("profile_id") \
+            != "general_near_goal_father_passed" \
+            or entry.get("source_choice_keys") != {
+                "m51_minseo_arrival": [0, 1],
+                "w211_name_boundary": [0, 1],
+                "w220_debt_memory_reconnect": [0, 1],
+            }:
+        errors.append(
+            f"{owner}: exact 8/6-root 17/13-choice W224-entry shape drifted")
+
+
+def validate_order138_registration(
+    context: AuditContext,
+    errors: list[str],
+) -> dict[str, int]:
+    """Own the current density repair without widening historical receipts."""
+    root_choice_counts = {
+        spec.event_id: spec.choice_count for spec in ORDER138_ROOTS
+    }
+    expected_choices = {
+        **root_choice_counts,
+        ORDER138_BRIDGE_ID: 2,
+        ORDER138_SOURCE_ID: 2,
+        ORDER138_PROPERTY_INLINE_ROOT_ID: 3,
+    }
+    for locale, files in ORDER138_EVENT_FILES.items():
+        expected_path_by_id = {
+            event_id: relative
+            for relative, event_ids in files.items()
+            for event_id in event_ids
+        }
+        hashes = ORDER138_OBJECT_SHA256.get(locale, {})
+        if set(hashes) != set(expected_path_by_id):
+            errors.append(
+                f"ORDER-138:{locale}: exact object hash registry drifted")
+            continue
+        for event_id, relative in sorted(expected_path_by_id.items()):
+            owner = f"ORDER-138:{locale}:{event_id}"
+            records = context.event_indexes[locale].get(event_id, [])
+            if len(records) != 1:
+                errors.append(
+                    f"{owner}: expected one event object, got {len(records)}")
+                continue
+            record = records[0]
+            if record.path != relative:
+                errors.append(
+                    f"{owner}: exact source file drifted "
+                    f"expected={relative!r} actual={record.path!r}")
+            if canonical_json_sha256(record.row) != hashes[event_id]:
+                errors.append(f"{owner}: exact object hash drifted")
+            choices = record.row.get("choices", [])
+            choice_count = expected_choices[event_id]
+            if not isinstance(choices, list) or len(choices) != choice_count:
+                errors.append(
+                    f"{owner}: expected {choice_count} choices, "
+                    f"got {list_length(choices)}")
+
+    expected_source_read_keys = {
+        ORDER138_BRIDGE_ID: {
+            "chapter5_general_minseo_arrival_0",
+            "chapter5_general_minseo_arrival_1",
+        },
+        ORDER138_SOURCE_ID: {
+            "chapter5_general_name_boundary_0",
+            "chapter5_general_name_boundary_1",
+        },
+    }
+    for locale in ("ko", "en"):
+        for event_id, expected_keys in expected_source_read_keys.items():
+            records = context.event_indexes[locale].get(event_id, [])
+            if len(records) != 1:
+                continue
+            reads = records[0].row.get("description_memory_if_known")
+            if not isinstance(reads, dict) or set(reads) != expected_keys:
+                errors.append(
+                    f"ORDER-138:{locale}:{event_id}: exact source read keys drifted")
+    bridge_records = context.event_indexes["ko"].get(ORDER138_BRIDGE_ID, [])
+    if len(bridge_records) == 1:
+        bridge_choices = bridge_records[0].row.get("choices", [])
+        expected_bridge_flags = [
+            ["arc_y5_general_name_boundary_exact_seen",
+             "chapter5_general_name_boundary_0"],
+            ["arc_y5_general_name_boundary_exact_seen",
+             "chapter5_general_name_boundary_1"],
+        ]
+        if not isinstance(bridge_choices, list) \
+                or [choice.get("flags", [])
+                    for choice in bridge_choices if isinstance(choice, dict)] \
+                != expected_bridge_flags:
+            errors.append("ORDER-138:ko: W211 exact choice flags drifted")
+
+    try:
+        ledger_path = ROOT / CHAPTER5_GENERAL_FINALE_LEDGER_RELATIVE_PATH
+        ledger = load_json(ledger_path)
+    except (OSError, ValueError) as exc:
+        errors.append(f"ORDER-138: cannot load general finale ledger ({exc})")
+        ledger = None
+    if isinstance(ledger, dict):
+        if byte_sha256(ledger_path.read_bytes()) \
+                != ORDER138_GENERAL_LEDGER_BYTE_SHA256:
+            errors.append("ORDER-138: general ledger byte hash drifted")
+        validate_order138_general_ledger(ledger, errors)
+
+    expected_property_sources = [
+        {"kind": "finale_stage", "id": "filing"},
+        {"kind": "finale_stage", "id": "verdict"},
+        {"kind": "finale_stage", "id": "nontransaction"},
+        {"kind": "finale_stage", "id": "father_answer"},
+    ]
+    try:
+        property_ledger = load_json(
+            ROOT / CHAPTER5_FINALE_LEDGER_RELATIVE_PATH)
+    except (OSError, ValueError) as exc:
+        errors.append(f"ORDER-138: cannot load property finale ledger ({exc})")
+    else:
+        roots = property_ledger.get("roots", []) \
+            if isinstance(property_ledger, dict) else []
+        matches = [
+            row for row in roots
+            if isinstance(row, dict)
+            and row.get("event_id") == ORDER138_PROPERTY_INLINE_ROOT_ID
+        ] if isinstance(roots, list) else []
+        if len(matches) != 1 \
+                or matches[0].get("read_sources") != expected_property_sources \
+                or matches[0].get("read_mode") != "inline_slots":
+            errors.append(
+                "ORDER-138: property W240 exact four-source inline ledger drifted")
+
+    for locale in ("ko", "en"):
+        records = context.event_indexes[locale].get(
+            ORDER138_PROPERTY_INLINE_ROOT_ID, [])
+        if len(records) != 1:
+            continue
+        event = records[0].row
+        description = str(event.get("description", ""))
+        tokens = re.findall(r"\[\[c5read:(\d+)\]\]", description)
+        if tokens != ["0", "1", "2", "3"]:
+            errors.append(
+                f"ORDER-138:{locale}: property W240 inline slots must be "
+                "ordered 0,1,2,3 exactly once")
+        if locale == "ko":
+            reads = event.get("chapter5_finale_reads", {})
+            texts = reads.get("texts", []) if isinstance(reads, dict) else []
+            cardinalities = [len(row) for row in texts] \
+                if isinstance(texts, list) \
+                and all(isinstance(row, list) for row in texts) else []
+            if not isinstance(reads, dict) \
+                    or reads.get("sources") != expected_property_sources \
+                    or reads.get("mode") != "inline_slots" \
+                    or cardinalities != [4, 3, 1, 3]:
+                errors.append(
+                    "ORDER-138:ko: property W240 source facts/cardinality drifted")
+
+    affected_files = sorted(
+        set(ORDER138_ADDED_IDS_BY_FILE)
+        | set(ORDER138_CHANGED_EXISTING_IDS_BY_FILE)
+    )
+    for relative in affected_files:
+        owner = f"ORDER-138:{relative}"
+        try:
+            current_payload = load_json(ROOT / relative)
+            baseline_payload = order138_baseline_payload(relative)
+        except (OSError, UnicodeDecodeError, ValueError) as exc:
+            errors.append(f"{owner}: cannot load inverse fixture ({exc})")
+            continue
+        if order138_project_payload(current_payload, relative) != baseline_payload:
+            errors.append(f"{owner}: exact inverse does not restore baseline")
+
+    return {
+        "order138_roots": 8,
+        "order138_active_roots": 6,
+        "order138_choices": 17,
+        "order138_active_choices": 13,
+        "order138_property_inline_reads": 4,
     }
 
 
@@ -5183,6 +5732,7 @@ def validate_protected_hashes(
         order135_transition = ORDER135_PROTECTED_FILE_TRANSITIONS.get(relative)
         order136_transition = ORDER136_PROTECTED_FILE_TRANSITIONS.get(relative)
         order137_transition = ORDER137_PROTECTED_FILE_TRANSITIONS.get(relative)
+        order138_transition = ORDER138_PROTECTED_FILE_TRANSITIONS.get(relative)
         effective_expected_hash = (
             order135_transition[1]
             if order135_transition is not None
@@ -5196,6 +5746,10 @@ def validate_protected_hashes(
         if order137_transition is not None \
                 and effective_expected_hash == order137_transition[0]:
             effective_expected_hash = order137_transition[1]
+        pre_order138_expected_hash = effective_expected_hash
+        if order138_transition is not None \
+                and effective_expected_hash == order138_transition[0]:
+            effective_expected_hash = order138_transition[1]
         if actual_hash != effective_expected_hash:
             errors.append(f"{owner}: working-tree byte hash drifted")
         transition = ORDER134_PROTECTED_FILE_TRANSITIONS.get(relative)
@@ -5206,6 +5760,7 @@ def validate_protected_hashes(
                 errors.append(
                     f"{owner}: ORDER-135 additive source hash drifted")
             if order136_transition is None and order137_transition is None \
+                    and order138_transition is None \
                     and actual_hash != order135_transition[1]:
                 errors.append(
                     f"{owner}: ORDER-135 additive current hash drifted")
@@ -5217,7 +5772,7 @@ def validate_protected_hashes(
                     or order136_transition[0] != order135_transition[1]:
                 errors.append(
                     f"{owner}: ORDER-136 transition does not extend ORDER-135")
-            if order137_transition is None \
+            if order137_transition is None and order138_transition is None \
                     and actual_hash != order136_transition[1]:
                 errors.append(
                     f"{owner}: ORDER-136 visual current hash drifted")
@@ -5225,9 +5780,17 @@ def validate_protected_hashes(
             if order137_transition[0] != pre_order137_expected_hash:
                 errors.append(
                     f"{owner}: ORDER-137 transition does not extend latest layer")
-            if actual_hash != order137_transition[1]:
+            if order138_transition is None \
+                    and actual_hash != order137_transition[1]:
                 errors.append(
                     f"{owner}: ORDER-137 repair current hash drifted")
+        if order138_transition is not None:
+            if order138_transition[0] != pre_order138_expected_hash:
+                errors.append(
+                    f"{owner}: ORDER-138 transition does not extend ORDER-137")
+            if actual_hash != order138_transition[1]:
+                errors.append(
+                    f"{owner}: ORDER-138 density repair current hash drifted")
         try:
             baseline_hash = byte_sha256(git_blob(EXPECTED_BASELINE, relative))
         except ValueError as exc:
@@ -5269,6 +5832,16 @@ def validate_protected_hashes(
                 if order137_baseline_hash != order137_transition[0]:
                     errors.append(
                         f"{owner}: ORDER-137 repair baseline hash drifted")
+        if order138_transition is not None:
+            try:
+                order138_baseline_hash = byte_sha256(
+                    git_blob(ORDER138_BASELINE, relative))
+            except ValueError as exc:
+                errors.append(f"{owner}: {exc}")
+            else:
+                if order138_baseline_hash != order138_transition[0]:
+                    errors.append(
+                        f"{owner}: ORDER-138 density baseline hash drifted")
 
     objects = protected.get("objects")
     if not isinstance(objects, list) or not objects:
@@ -5411,6 +5984,7 @@ def validate_manifest(
     if not isinstance(manifest, dict):
         return errors, {"routes": 0, "roots": 0, "choices": 0, "consumers": 0}
 
+    order137_context = order138_project_context(context)
     historical_context = order137_project_context(context)
     outcome_ids: set[str] = set()
     root_total = 0
@@ -5428,6 +6002,13 @@ def validate_manifest(
         "order137_roots": 0,
         "order137_choices": 0,
         "order137_preserved_passes": 0,
+    }
+    order138_stats = {
+        "order138_roots": 0,
+        "order138_active_roots": 0,
+        "order138_choices": 0,
+        "order138_active_choices": 0,
+        "order138_property_inline_reads": 0,
     }
     validate_r1a_contract(manifest, routes, errors)
     invalidated = contract_is_invalidated(manifest)
@@ -5485,7 +6066,8 @@ def validate_manifest(
         historical_context, errors)
     order136_stats = validate_order136_registration(
         historical_context, errors)
-    order137_stats = validate_order137_registration(context, errors)
+    order137_stats = validate_order137_registration(order137_context, errors)
+    order138_stats = validate_order138_registration(context, errors)
     blocker_text = flattened(manifest.get("unresolved_blockers"))
     if "order112_113_l3_topology_rejected" not in blocker_text:
         errors.append("manifest.unresolved_blockers: rejected literary topology must block R1b")
@@ -5528,6 +6110,7 @@ def validate_manifest(
         **order135_stats,
         **order136_stats,
         **order137_stats,
+        **order138_stats,
     }
 
 
@@ -5880,6 +6463,24 @@ def run_invalidated_self_test(
                 ORDER137_OLD_GENERAL_SOURCE_ID, []).append(
                     EventRecord(relative, copy.deepcopy(baseline_rows[0])))
 
+    def order138_w224_changed(candidate: AuditContext) -> None:
+        event = candidate_record(
+            candidate, "ko", "arc_y5_general_father_legacy_voice_exact")
+        event["title"] = str(event.get("title", "")) + " 변조"
+
+    def order138_w211_flag_changed(candidate: AuditContext) -> None:
+        event = candidate_record(candidate, "ko", ORDER138_BRIDGE_ID)
+        event["choices"][0]["flags"][-1] = "chapter5_general_name_boundary_1"
+
+    def order138_property_slots_reordered(candidate: AuditContext) -> None:
+        event = candidate_record(
+            candidate, "en", ORDER138_PROPERTY_INLINE_ROOT_ID)
+        description = str(event.get("description", ""))
+        description = description.replace("[[c5read:0]]", "[[swap]]", 1)
+        description = description.replace("[[c5read:1]]", "[[c5read:0]]", 1)
+        event["description"] = description.replace(
+            "[[swap]]", "[[c5read:1]]", 1)
+
     for label, mutate, fragment in (
         ("order118_player_token", order118_token_injected, "internal document token remains"),
         ("order118_version_token", order118_version_token_injected, "internal document token remains"),
@@ -5910,6 +6511,9 @@ def run_invalidated_self_test(
         ("order137_father_callback", order137_father_callback_changed, "ORDER-137:en:arc_father_legacy: exact object hash drifted"),
         ("order137_m55_pass", order137_m55_pass_changed, "ORDER-137:ko:arc_y5_three_in_room: exact object hash drifted"),
         ("order137_old_source", order137_old_source_restored, "ORDER-137:ko: removed W229 source remains live"),
+        ("order138_w211_flag", order138_w211_flag_changed, "ORDER-138:ko:arc_y5_general_name_boundary_exact: exact object hash drifted"),
+        ("order138_w224", order138_w224_changed, "ORDER-138:ko:arc_y5_general_father_legacy_voice_exact: exact object hash drifted"),
+        ("order138_property_slots", order138_property_slots_reordered, "ORDER-138:en: property W240 inline slots must be ordered 0,1,2,3 exactly once"),
     ):
         case_count += 1
         expect_context_failure(label, manifest, context, mutate, fragment, failures)
@@ -6061,7 +6665,8 @@ def run_invalidated_self_test(
         try:
             actual_baseline = byte_sha256(
                 git_blob(ORDER137_PRODUCT_BASELINE, relative))
-            actual_current = byte_sha256((ROOT / relative).read_bytes())
+            actual_current = byte_sha256(
+                git_blob(ORDER138_BASELINE, relative))
         except (OSError, ValueError) as exc:
             transition_failures.append(f"{relative}:{exc}")
             continue
@@ -6070,6 +6675,99 @@ def run_invalidated_self_test(
     if transition_failures:
         failures.append(
             "order137_transition_inverse: exact product/current transition "
+            f"drifted {transition_failures}")
+
+    order138_projection_files = sorted(
+        set(ORDER138_ADDED_IDS_BY_FILE)
+        | set(ORDER138_CHANGED_EXISTING_IDS_BY_FILE)
+    )
+    for relative in order138_projection_files:
+        case_count += 1
+        try:
+            current_payload = load_json(ROOT / relative)
+            baseline_payload = order138_baseline_payload(relative)
+        except (OSError, UnicodeDecodeError, ValueError) as exc:
+            failures.append(
+                f"order138_inverse:{relative}: cannot load fixture ({exc})")
+            continue
+        if order138_project_payload(current_payload, relative) \
+                != baseline_payload:
+            failures.append(
+                f"order138_inverse:{relative}: projection did not restore "
+                f"{ORDER138_BASELINE}")
+
+    case_count += 1
+    try:
+        relative = "content/events/arc_pre_ending.json"
+        scope_payload = load_json(ROOT / relative)
+        scope_rows = scope_payload.get("items", []) \
+            if isinstance(scope_payload, dict) else scope_payload
+        excluded = (
+            ORDER138_ADDED_IDS_BY_FILE.get(relative, set())
+            | ORDER138_CHANGED_EXISTING_IDS_BY_FILE.get(relative, set())
+        )
+        scope_target = next(
+            row for row in scope_rows
+            if isinstance(row, dict)
+            and str(row.get("id", "")) not in excluded
+        )
+        scope_target["title"] = str(scope_target.get("title", "")) + " 변조"
+        if order138_project_payload(scope_payload, relative) \
+                == order138_baseline_payload(relative):
+            failures.append(
+                "order138_inverse_scope: neighboring mutation was hidden")
+    except (OSError, StopIteration, ValueError) as exc:
+        failures.append(
+            f"order138_inverse_scope: cannot build fixture ({exc})")
+
+    case_count += 1
+    try:
+        current_ledger = load_json(
+            ROOT / CHAPTER5_GENERAL_FINALE_LEDGER_RELATIVE_PATH)
+        order137_ledger = order138_baseline_payload(
+            CHAPTER5_GENERAL_FINALE_LEDGER_RELATIVE_PATH)
+        if order138_project_general_ledger(current_ledger) != order137_ledger:
+            failures.append(
+                "order138_ledger_inverse: projection did not restore ORDER-137")
+        ledger_neighbor_mutation = copy.deepcopy(current_ledger)
+        ledger_neighbor_mutation["expected_choice_count"] = 999
+        if order138_project_general_ledger(ledger_neighbor_mutation) \
+                == order137_ledger:
+            failures.append(
+                "order138_ledger_inverse: neighboring mutation was hidden")
+    except (OSError, UnicodeDecodeError, ValueError) as exc:
+        failures.append(f"order138_ledger_inverse: cannot load fixture ({exc})")
+        current_ledger = None
+
+    case_count += 1
+    if isinstance(current_ledger, dict):
+        ledger_candidate = copy.deepcopy(current_ledger)
+        ledger_candidate["expected_active_choice_count"] = 99
+        ledger_errors: list[str] = []
+        validate_order138_general_ledger(
+            ledger_candidate, ledger_errors, "self-test:ORDER-138:ledger")
+        if not any("exact object hash drifted" in error for error in ledger_errors) \
+                or not any("exact 8/6-root 17/13-choice" in error
+                           for error in ledger_errors):
+            failures.append(
+                "order138_ledger_mutation: changed active count was accepted")
+
+    case_count += 1
+    transition_failures = []
+    for relative, (baseline_hash, current_hash) \
+            in ORDER138_PROTECTED_FILE_TRANSITIONS.items():
+        try:
+            actual_baseline = byte_sha256(
+                git_blob(ORDER138_BASELINE, relative))
+            actual_current = byte_sha256((ROOT / relative).read_bytes())
+        except (OSError, ValueError) as exc:
+            transition_failures.append(f"{relative}:{exc}")
+            continue
+        if actual_baseline != baseline_hash or actual_current != current_hash:
+            transition_failures.append(relative)
+    if transition_failures:
+        failures.append(
+            "order138_transition_inverse: exact baseline/current transition "
             f"drifted {transition_failures}")
 
     case_count += 1
@@ -6826,6 +7524,9 @@ def main() -> int:
             f"order137_roots={stats['order137_roots']} "
             f"order137_choices={stats['order137_choices']} "
             f"order137_preserved_passes={stats['order137_preserved_passes']} "
+            f"order138_roots={stats['order138_roots']}/{stats['order138_active_roots']} "
+            f"order138_choices={stats['order138_choices']}/{stats['order138_active_choices']} "
+            f"order138_property_inline_reads={stats['order138_property_inline_reads']} "
             f"product_consumers={stats['consumers']} "
             "qa_consumers=1 topology=invalidated r1b_allowed=false"
         )
@@ -6846,6 +7547,9 @@ def main() -> int:
         f"order137_roots={stats['order137_roots']} "
         f"order137_choices={stats['order137_choices']} "
         f"order137_preserved_passes={stats['order137_preserved_passes']} "
+        f"order138_roots={stats['order138_roots']}/{stats['order138_active_roots']} "
+        f"order138_choices={stats['order138_choices']}/{stats['order138_active_choices']} "
+        f"order138_property_inline_reads={stats['order138_property_inline_reads']} "
         f"product_consumers={stats['consumers']} qa_consumers=1 activation=reference_only "
         "topology=invalidated r1b_allowed=false"
     )

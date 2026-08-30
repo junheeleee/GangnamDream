@@ -138,6 +138,10 @@
       "chapter5_general_minseo_arrival_0",
       "chapter5_general_minseo_arrival_1"
     ],
+    "chapter5_general_name_boundary": [
+      "chapter5_general_name_boundary_0",
+      "chapter5_general_name_boundary_1"
+    ],
     "chapter5_general_father_legacy": [
       "chapter5_general_father_legacy_0",
       "chapter5_general_father_legacy_1",
@@ -146,6 +150,12 @@
     "chapter5_general_debt_memory_reconnect": [
       "chapter5_general_debt_memory_reconnect_0",
       "chapter5_general_debt_memory_reconnect_1"
+    ],
+    "chapter5_general_debt_memory_consequence": [
+      "chapter5_general_debt_memory_voice_0",
+      "chapter5_general_debt_memory_voice_1",
+      "chapter5_general_debt_memory_cafe_0",
+      "chapter5_general_debt_memory_cafe_1"
     ],
     "chapter5_general_summit": [
       "chapter5_general_summit_0",
@@ -903,11 +913,66 @@
         "portrait_role": "local"
       }
     },
+    "arc_y5_general_name_boundary_exact": {
+      "logic": {},
+      "presentation": {
+        "channel": "phone",
+        "scene_location": "current_housing",
+        "remote_location": "housing_broker_office",
+        "remote_actor": "housing_broker",
+        "portrait_role": "local"
+      }
+    },
     "arc_y5_general_debt_memory_reconnect": {
       "logic": {},
       "presentation": {
         "channel": "internal",
         "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local"
+      }
+    },
+    "arc_y5_general_father_legacy_voice_exact": {
+      "logic": {},
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local"
+      }
+    },
+    "arc_y5_general_father_legacy_cafe_exact": {
+      "logic": {},
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local"
+      }
+    },
+    "arc_y5_general_debt_memory_voice_exact": {
+      "logic": {},
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local"
+      }
+    },
+    "arc_y5_general_debt_memory_cafe_exact": {
+      "logic": {},
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local"
+      }
+    },
+    "arc_y5_general_pre_ending_summit_exact": {
+      "logic": {},
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "realestate_office",
         "participants": ["player"],
         "portrait_role": "local"
       }

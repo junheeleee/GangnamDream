@@ -231,12 +231,23 @@ const CHAPTER5_FINALE_QA_ACTIVE_TURNS: Array[int] = [
 	221, 224, 227, 230, 235, 238, 239, 240, 240,
 ]
 const CHAPTER5_GENERAL_FINALE_QA_ROOTS: Array[String] = [
+	"arc_y5_general_name_boundary_exact",
 	"arc_y5_general_debt_memory_reconnect",
+	"arc_y5_general_father_legacy_voice_exact",
+	"arc_y5_general_father_legacy_cafe_exact",
+	"arc_y5_general_debt_memory_voice_exact",
+	"arc_y5_general_debt_memory_cafe_exact",
+	"arc_y5_general_pre_ending_summit_exact",
 	"arc_y5_general_final_record_seal",
 	"arc_final_countdown_general_near_goal_passed",
 	"arc_y5_final_week_general_people_outbound",
 ]
 const CHAPTER5_GENERAL_FINALE_REDUCER_ROOTS: Array[String] = [
+	"arc_y5_general_father_legacy_voice_exact",
+	"arc_y5_general_father_legacy_cafe_exact",
+	"arc_y5_general_debt_memory_voice_exact",
+	"arc_y5_general_debt_memory_cafe_exact",
+	"arc_y5_general_pre_ending_summit_exact",
 	"arc_y5_general_final_record_seal",
 	"arc_final_countdown_general_near_goal_passed",
 	"arc_y5_final_week_general_people_outbound",
@@ -479,6 +490,10 @@ func _record_route_injected_event(event: InputEvent) -> void:
 		_route_unknown_events += 1
 
 func _ready() -> void:
+	# Native macOS windows may be throttled heavily as soon as another app owns
+	# focus. Screenshot QA is a deterministic evidence harness, so keep its
+	# timers and render frames advancing at the normal cadence while unfocused.
+	OS.low_processor_usage_mode = false
 	DirAccess.make_dir_recursive_absolute(OUT_DIR)
 	_clear_output_dir()
 	var scope: String = _qa_scope()
@@ -645,8 +660,8 @@ func _ready() -> void:
 		if _qa_failed:
 			return
 		print(("SCREENSHOT_QA_DONE scope=chapter5-general-finale lang=%s " \
-			+ "shots=13 sources=exact receipts=live black=clear hud=correct " \
-			+ "language=clean overflow=clear focus=verified player=alone " \
+			+ "shots=26 sources=exact receipts=live black=clear hud=verified " \
+			+ "language=clean overflow=clear focus=verified copresence=verified " \
 			+ "same_turn=verified ending_receipt=verified dir=%s") % [
 			lang, OUT_DIR])
 		get_tree().quit(0)
@@ -6522,6 +6537,9 @@ func _assert_chapter5_causal_story_surface(
 	if str(current.get("id", "")) != event_id:
 		_fail("Chapter 5 causal screenshot current root drifted: %s." % event_id)
 		return
+	_assert_chapter5_story_hud_calendar(story, event_id)
+	if _qa_failed:
+		return
 	var authored: Dictionary = DataRegistry.find_event(event_id)
 	var raw_reads: Variant = authored.get("chapter5_causal_reads")
 	if raw_reads is Dictionary:
@@ -6734,7 +6752,13 @@ func _shot_chapter5_general_finale_surfaces(lang: String) -> void:
 	var resolution := _chapter5_finale_expected_capture_size
 	var prefix := "chapter5_general_finale_%s_%dx%d_" % [
 		lang, resolution.x, resolution.y]
+	await _shot_chapter5_general_w211(prefix)
+	if _qa_failed:
+		return
 	await _shot_chapter5_general_w220(prefix)
+	if _qa_failed:
+		return
+	await _shot_chapter5_general_v2_roots(prefix)
 	if _qa_failed:
 		return
 	await _shot_chapter5_general_w237(prefix)
@@ -6744,7 +6768,8 @@ func _shot_chapter5_general_finale_surfaces(lang: String) -> void:
 	await _dispose_chapter5_capture_viewport()
 
 func _prepare_chapter5_general_source_state(
-		include_w220: bool, include_m59: bool) -> void:
+		include_w211: bool, w211_choice: int = 0,
+		include_w220: bool = false, w220_choice: int = 1) -> void:
 	_prepare_main_game_state()
 	# This profile is near the goal, not over it. Keeping the fixture below 3B
 	# prevents the hidden/goal endings from replacing the W237/W240 ledger.
@@ -6761,6 +6786,12 @@ func _prepare_chapter5_general_source_state(
 		"arc_final_countdown_seen", "arc_final_week_seen",
 		"final_signature_owned", "final_signature_collateral",
 		"final_signature_people",
+		"arc_y5_general_name_boundary_exact_seen",
+		"chapter5_general_name_boundary_0",
+		"chapter5_general_name_boundary_1",
+		"arc_y5_general_debt_memory_reconnect_seen",
+		"chapter5_general_debt_memory_reconnect_0",
+		"chapter5_general_debt_memory_reconnect_1",
 	]:
 		GameState.flags.erase(flag_id)
 	GameState.flags["route_invest"] = true
@@ -6770,32 +6801,47 @@ func _prepare_chapter5_general_source_state(
 	GameState.event_log = [
 		{"event_id": "arc_minseo_03_arrival", "choice_index": 1, "turn": 203},
 	]
+	if include_w211:
+		if w211_choice not in [0, 1]:
+			_fail("General finale fixture received invalid W211 choice %d." % w211_choice)
+			return
+		GameState.flags["arc_y5_general_name_boundary_exact_seen"] = true
+		GameState.flags[
+			"chapter5_general_name_boundary_%d" % w211_choice] = true
+		GameState.event_log.append({
+			"event_id": "arc_y5_general_name_boundary_exact",
+			"choice_index": w211_choice,
+			"turn": 211,
+		})
 	if include_w220:
+		if not include_w211:
+			_fail("General finale fixture cannot add W220 without W211.")
+			return
+		if w220_choice not in [0, 1]:
+			_fail("General finale fixture received invalid W220 choice %d." % w220_choice)
+			return
 		GameState.flags["arc_y5_general_debt_memory_reconnect_seen"] = true
-		GameState.flags["chapter5_general_debt_memory_reconnect_1"] = true
+		GameState.flags[
+			"chapter5_general_debt_memory_reconnect_%d" % w220_choice] = true
 		GameState.flags["arc_endgame_sixmonths_seen"] = true
 		GameState.event_log.append({
 			"event_id": "arc_y5_general_debt_memory_reconnect",
-			"choice_index": 1,
+			"choice_index": w220_choice,
 			"turn": 220,
 		})
-	if include_w220:
-		GameState.flags["arc_father_legacy_seen"] = true
-		GameState.flags["chapter5_general_father_legacy_2"] = true
-		GameState.event_log.append({
-			"event_id": "arc_father_legacy", "choice_index": 2, "turn": 224,
-		})
-	if include_m59:
-		GameState.flags["arc_pre_ending_summit_seen"] = true
-		GameState.flags["chapter5_general_summit_1"] = true
-		GameState.event_log.append({
-			"event_id": "arc_pre_ending_summit",
-			"choice_index": 1,
-			"turn": 235,
-		})
+
+func _prepare_chapter5_general_w211_story_state() -> void:
+	_prepare_chapter5_general_source_state(false)
+	_set_chapter5_finale_calendar(211)
+	if not GameState.chapter5_causal_entry_snapshot().is_empty() \
+			or not GameState.chapter5_finale_entry_snapshot().is_empty():
+		_fail("General finale W211 fixture inherited a property/finale entry.")
+		return
+	if not GameState.chapter5_general_finale_w211_available(211):
+		_fail("General finale W211 fixture lacks the exact M51 source receipt.")
 
 func _prepare_chapter5_general_w220_story_state() -> void:
-	_prepare_chapter5_general_source_state(false, false)
+	_prepare_chapter5_general_source_state(true, 0, false)
 	_set_chapter5_finale_calendar(220)
 	if not GameState.chapter5_causal_entry_snapshot().is_empty() \
 			or not GameState.chapter5_finale_entry_snapshot().is_empty():
@@ -6855,27 +6901,31 @@ func _assert_chapter5_general_old_w229_rejected(
 			and not GameState.chapter5_general_finale_w220_available(220):
 		_fail("General finale W220 source did not recover after W229 mutation cleanup.")
 
-func _prepare_chapter5_general_finale_story_state(target_id: String) -> void:
+func _prepare_chapter5_general_finale_story_state(
+		target_id: String, w220_choice: int = 1,
+		w211_choice: int = 0) -> void:
 	if target_id not in CHAPTER5_GENERAL_FINALE_REDUCER_ROOTS:
 		_fail("General finale screenshot requested an unowned reducer root: %s." % target_id)
 		return
-	_prepare_chapter5_general_source_state(true, true)
+	_prepare_chapter5_general_source_state(
+		true, w211_choice, true, w220_choice)
+	if _qa_failed:
+		return
 	if not GameState.chapter5_causal_entry_snapshot().is_empty():
 		_fail("General finale fixture inherited the investment/property entry.")
 		return
-	_set_chapter5_finale_calendar(237)
+	_set_chapter5_finale_calendar(Chapter5FinaleRouteScript.GENERAL_ENTRY_TURN)
 	_assert_chapter5_general_old_w229_rejected(true)
 	if _qa_failed:
 		return
 	if not GameState.prepare_chapter5_finale_route_entry():
-		_fail("General finale screenshot could not lock the exact W237 entry.")
+		_fail("General finale screenshot could not lock the exact W224 entry.")
 		return
 	var entry := GameState.chapter5_finale_entry_snapshot()
 	var expected_sources := {
 		"m51_minseo_arrival": 1,
-		"w220_debt_memory_reconnect": 1,
-		"m56_father_legacy": 2,
-		"m59_summit": 1,
+		"w211_name_boundary": w211_choice,
+		"w220_debt_memory_reconnect": w220_choice,
 	}
 	if str(entry.get("profile_id", "")) \
 			!= Chapter5FinaleRouteScript.GENERAL_PROFILE_ID \
@@ -6891,29 +6941,38 @@ func _prepare_chapter5_general_finale_story_state(target_id: String) -> void:
 			} \
 			or entry.get("actor_bindings", {}) \
 				!= Chapter5FinaleRouteScript.GENERAL_ACTORS:
-		_fail("General finale screenshot locked the wrong W237 snapshot: %s." % [
+		_fail("General finale screenshot locked the wrong W224 snapshot: %s." % [
 			str(entry)])
 		return
-	var events: Array[String] = [
-		"arc_y5_general_final_record_seal",
-		"arc_final_countdown_general_near_goal_passed",
-		"arc_y5_final_week_general_people_outbound",
-	]
-	var turns: Array[int] = [237, 240, 240]
-	var choices: Array[int] = [1, 1, 2]
-	for index in range(events.size()):
-		_set_chapter5_finale_calendar(turns[index])
-		var event_id := events[index]
-		if event_id == target_id:
-			if GameState.chapter5_finale_next_event_for_turn() != target_id:
-				_fail("General finale screenshot could not reach %s." % target_id)
-			return
-		var result := GameState.record_chapter5_finale_choice(
-			event_id, choices[index])
-		if not bool(result.get("ok", false)):
-			_fail("General finale screenshot could not commit %s/%d: %s." % [
-				event_id, choices[index], str(result.get("error", "unknown"))])
-			return
+	var choices := {
+		"arc_y5_general_father_legacy_voice_exact": 1,
+		"arc_y5_general_father_legacy_cafe_exact": 1,
+		"arc_y5_general_debt_memory_voice_exact": 1,
+		"arc_y5_general_debt_memory_cafe_exact": 1,
+		"arc_y5_general_pre_ending_summit_exact": 1,
+		"arc_y5_general_final_record_seal": 1,
+		"arc_final_countdown_general_near_goal_passed": 1,
+		"arc_y5_final_week_general_people_outbound": 2,
+	}
+	for at_turn in [224, 229, 234, 237, 240]:
+		_set_chapter5_finale_calendar(at_turn)
+		for _same_turn_guard in range(3):
+			var event_id := GameState.chapter5_finale_next_event_for_turn()
+			if event_id.is_empty():
+				break
+			if event_id == target_id:
+				return
+			var selected_choice := int(choices.get(event_id, -1))
+			if selected_choice < 0:
+				_fail("General finale fixture has no choice for active root %s." % event_id)
+				return
+			var result := GameState.record_chapter5_finale_choice(
+				event_id, selected_choice)
+			if not bool(result.get("ok", false)):
+				_fail("General finale screenshot could not commit %s/%d at W%d: %s." % [
+					event_id, selected_choice, at_turn,
+					str(result.get("error", "unknown"))])
+				return
 	_fail("General finale screenshot target is outside the active route: %s." % target_id)
 
 func _open_chapter5_general_story(event_id: String) -> Node:
@@ -6953,9 +7012,16 @@ func _assert_chapter5_general_story_preflight(
 				or not GameState.chapter5_finale_ingress_available(event_id):
 			_fail("General finale preflight lacks exact ingress for %s." % event_id)
 			return
-	elif event_id != "arc_y5_general_debt_memory_reconnect" \
-			or not GameState.chapter5_general_finale_w220_available(220):
-		_fail("General finale preflight lacks exact W220 source ingress.")
+	elif event_id == "arc_y5_general_name_boundary_exact":
+		if not GameState.chapter5_general_finale_w211_available(211):
+			_fail("General finale preflight lacks exact W211 source ingress.")
+			return
+	elif event_id == "arc_y5_general_debt_memory_reconnect":
+		if not GameState.chapter5_general_finale_w220_available(220):
+			_fail("General finale preflight lacks exact W220 source ingress.")
+			return
+	else:
+		_fail("General finale preflight received unowned source root %s." % event_id)
 		return
 	if EventManager.live_event_variant_id(event_id) != event_id \
 			or not EventManager._event_passes_hard_state_contracts(authored):
@@ -6976,6 +7042,38 @@ func _close_chapter5_general_story() -> void:
 	_remove_nodes_by_script("res://scenes/StoryMode.gd")
 	GameState.pending_story_queue.clear()
 	await _settle(0.3)
+
+func _shot_chapter5_general_w211(prefix: String) -> void:
+	_chapter5_general_hud_reference = null
+	var event_id := "arc_y5_general_name_boundary_exact"
+	_prepare_chapter5_general_w211_story_state()
+	if _qa_failed:
+		return
+	var story := await _open_chapter5_general_story(event_id)
+	if _qa_failed or not is_instance_valid(story):
+		return
+	if not await _chapter5_general_advance_to_last_prose(story, event_id):
+		return
+	_assert_chapter5_finale_story_surface(story, event_id)
+	if _qa_failed:
+		return
+	await _save(prefix + "00a_w211_m51_memory")
+	if not await _chapter5_finale_advance_to_choices(story, event_id):
+		return
+	_assert_chapter5_finale_story_surface(story, event_id)
+	if _qa_failed:
+		return
+	await _save(prefix + "00b_w211_choices")
+	story.call("_on_choice", 1)
+	await _settle(0.35)
+	await _chapter5_finale_complete_current_typing(story)
+	if not await _chapter5_finale_wait_for_stable_story_surface(story, event_id):
+		return
+	_assert_chapter5_finale_story_surface(story, event_id)
+	if _qa_failed:
+		return
+	await _save(prefix + "00c_w211_stop_result")
+	await _close_chapter5_general_story()
 
 func _shot_chapter5_general_w220(prefix: String) -> void:
 	# The HUD strip is translucent over the scene background. Start a fresh
@@ -7014,6 +7112,73 @@ func _shot_chapter5_general_w220(prefix: String) -> void:
 	_chapter5_general_hud_reference = null
 	await _save(prefix + "03_w220_cafe_alone_result")
 	await _close_chapter5_general_story()
+
+func _shot_chapter5_general_v2_roots(prefix: String) -> void:
+	# Render both exact W220 branches through their W224 and W229 products. W234
+	# is shared, so one live branch is enough to lock its office/player exception.
+	var cases: Array[Dictionary] = [
+		{
+			"event": "arc_y5_general_father_legacy_voice_exact",
+			"w220_choice": 0,
+			"advance_to_receipt": 1,
+			"event_shot": "03a_w224_voice_receipt",
+			"choice_shot": "03b_w224_voice_choices",
+		},
+		{
+			"event": "arc_y5_general_father_legacy_cafe_exact",
+			"w220_choice": 1,
+			"advance_to_receipt": 1,
+			"event_shot": "03c_w224_cafe_receipt",
+			"choice_shot": "03d_w224_cafe_choices",
+		},
+		{
+			"event": "arc_y5_general_debt_memory_voice_exact",
+			"w220_choice": 0,
+			"advance_to_receipt": 1,
+			"event_shot": "03e_w229_voice_receipt",
+			"choice_shot": "03f_w229_voice_choices",
+		},
+		{
+			"event": "arc_y5_general_debt_memory_cafe_exact",
+			"w220_choice": 1,
+			"advance_to_receipt": 1,
+			"event_shot": "03g_w229_cafe_receipt",
+			"choice_shot": "03h_w229_cafe_choices",
+		},
+		{
+			"event": "arc_y5_general_pre_ending_summit_exact",
+			"w220_choice": 1,
+			"advance_to_receipt": 0,
+			"event_shot": "03i_w234_summit_receipt",
+			"choice_shot": "03j_w234_summit_choices",
+		},
+	]
+	for shot_case in cases:
+		_chapter5_general_hud_reference = null
+		var event_id := str(shot_case["event"])
+		_prepare_chapter5_general_finale_story_state(
+			event_id, int(shot_case["w220_choice"]))
+		if _qa_failed:
+			return
+		var story := await _open_chapter5_general_story(event_id)
+		if _qa_failed or not is_instance_valid(story):
+			return
+		await _chapter5_finale_complete_current_typing(story)
+		for _paragraph in range(int(shot_case["advance_to_receipt"])):
+			story.call("_on_advance")
+			await _settle(0.12)
+			await _chapter5_finale_complete_current_typing(story)
+		_assert_chapter5_finale_story_surface(story, event_id)
+		if _qa_failed:
+			return
+		await _save(prefix + str(shot_case["event_shot"]))
+		if not await _chapter5_finale_advance_to_choices(story, event_id):
+			return
+		_assert_chapter5_finale_story_surface(story, event_id)
+		if _qa_failed:
+			return
+		await _save(prefix + str(shot_case["choice_shot"]))
+		await _close_chapter5_general_story()
 
 func _shot_chapter5_general_w237(prefix: String) -> void:
 	_chapter5_general_hud_reference = null
@@ -7227,6 +7392,34 @@ func _set_chapter5_finale_calendar(at_turn: int) -> void:
 	GameState.week_of_month = int((at_turn - 1) % 4) + 1
 	GameState.age = 33 + int((at_turn - 1) / 48)
 
+func _assert_chapter5_story_hud_calendar(story: Node, event_id: String) -> void:
+	var at_turn := int(GameState.turn)
+	var expected_age := 33 + int((at_turn - 1) / 48)
+	var expected_month := int((at_turn - 1) / 4) % 12 + 1
+	var expected_week := int((at_turn - 1) % 4) + 1
+	if at_turn < 1 or GameState.age != expected_age \
+			or GameState.month != expected_month \
+			or GameState.week_of_month != expected_week:
+		_fail("%s fixture calendar disagrees with W%d: age=%d month=%d week=%d." % [
+			event_id, at_turn, GameState.age, GameState.month,
+			GameState.week_of_month])
+		return
+	var expected_months_left: int = maxi(0, (38 - expected_age) * 12 \
+		- expected_month + 1)
+	var hud_label := story.get("_hud_label") as Label
+	if not is_instance_valid(hud_label):
+		_fail("%s screenshot has no StoryMode HUD label." % event_id)
+		return
+	var month_pattern := RegEx.new()
+	month_pattern.compile(
+		"(?i)(\\d+)\\s+mo(?:\\s+left)?"
+		if LocaleManager.is_english() else "(?:남은\\s+)?(\\d+)개월")
+	var matches := month_pattern.search_all(hud_label.text)
+	if matches.size() != 1 \
+			or int((matches[0] as RegExMatch).get_string(1)) != expected_months_left:
+		_fail("%s HUD months-left disagrees with W%d calendar: expected=%d text=%s." % [
+			event_id, at_turn, expected_months_left, hud_label.text])
+
 ## Chapter 5 fixtures raise `money` into the billions but inherited the fresh-run
 ## `gosiwon`, so `current_housing` resolved to the starter room and the last night
 ## of a 2.1B/2.6B run rendered in the opening goshiwon. These profiles never buy
@@ -7298,7 +7491,10 @@ func _chapter5_finale_advance_to_choices(story: Node, event_id: String) -> bool:
 		if str((story.get("_current") as Dictionary).get("id", "")) != event_id:
 			break
 		if bool(story.get("_showing_choices")):
-			if _qa_scope() == QA_SCOPE_CHAPTER5_GENERAL_FINALE:
+			if _qa_scope() in [
+				QA_SCOPE_CHAPTER5_FINALE,
+				QA_SCOPE_CHAPTER5_GENERAL_FINALE,
+			]:
 				return await _chapter5_finale_wait_for_stable_story_surface(
 					story, event_id)
 			await _settle(0.35)
@@ -7309,7 +7505,15 @@ func _chapter5_finale_advance_to_choices(story: Node, event_id: String) -> bool:
 			story.call("_complete_typing")
 		elif story.has_method("_on_advance"):
 			story.call("_on_advance")
-		await _settle(0.12)
+		if _qa_scope() in [
+			QA_SCOPE_CHAPTER5_FINALE,
+			QA_SCOPE_CHAPTER5_GENERAL_FINALE,
+		]:
+			if not await _chapter5_finale_wait_for_stable_story_surface(
+					story, event_id):
+				return false
+		else:
+			await _settle(0.12)
 	_fail("Chapter 5 finale screenshot could not expose choices for %s." % event_id)
 	return false
 
@@ -7339,7 +7543,10 @@ func _chapter5_finale_advance_to_event(
 		var current: Variant = story.get("_current")
 		if current is Dictionary \
 				and str((current as Dictionary).get("id", "")) == expected_event_id:
-			if _qa_scope() == QA_SCOPE_CHAPTER5_GENERAL_FINALE:
+			if _qa_scope() in [
+				QA_SCOPE_CHAPTER5_FINALE,
+				QA_SCOPE_CHAPTER5_GENERAL_FINALE,
+			]:
 				return await _chapter5_finale_wait_for_stable_story_surface(
 					story, expected_event_id)
 			await _settle(0.35)
@@ -7348,7 +7555,17 @@ func _chapter5_finale_advance_to_event(
 			story.call("_complete_typing")
 		elif story.has_method("_on_advance"):
 			story.call("_on_advance")
-		await _settle(0.12)
+		if _qa_scope() in [
+			QA_SCOPE_CHAPTER5_FINALE,
+			QA_SCOPE_CHAPTER5_GENERAL_FINALE,
+		]:
+			var current_id := str(
+				(story.get("_current") as Dictionary).get("id", expected_event_id))
+			if not await _chapter5_finale_wait_for_stable_story_surface(
+					story, current_id):
+				return false
+		else:
+			await _settle(0.12)
 	_fail("Chapter 5 finale same-turn chain did not reach %s." % expected_event_id)
 	return false
 
@@ -7382,6 +7599,16 @@ func _chapter5_finale_wait_for_stable_story_surface(
 		if not transition_busy:
 			await _settle(0.2)
 			return true
+		# Screenshot evidence owns the fully settled frame, not wall-clock
+		# transition timing. Fast-forward live tweens so an unfocused macOS QA
+		# window cannot turn a sub-second ink transition into a multi-minute wait.
+		# The real transition cadence remains covered by normal-speed L3 play.
+		if raw_ink_tween is Tween \
+				and (raw_ink_tween as Tween).is_running():
+			(raw_ink_tween as Tween).custom_step(10.0)
+		if raw_text_tween is Tween \
+				and (raw_text_tween as Tween).is_running():
+			(raw_text_tween as Tween).custom_step(10.0)
 		await get_tree().process_frame
 	_fail("Chapter 5 finale screenshot never reached a stable surface for %s." % event_id)
 	return false
@@ -7676,7 +7903,7 @@ func _chapter5_general_has_exact_event_receipt(
 			return false
 	return matches == 1
 
-func _assert_chapter5_general_w220_source_surface(
+func _assert_chapter5_general_w211_source_surface(
 		story: Node, authored: Dictionary,
 		pending_choice: int) -> void:
 	var memory_key := "chapter5_general_minseo_arrival_1"
@@ -7685,21 +7912,62 @@ func _assert_chapter5_general_w220_source_surface(
 		str((memory_map as Dictionary).get(memory_key, "")).strip_edges()
 		if memory_map is Dictionary else "")
 	if expected_memory.is_empty():
-		_fail("General finale W220 has no exact M51 memory row.")
+		_fail("General finale W211 has no exact M51 memory row.")
 		return
 	if not _chapter5_general_has_exact_event_receipt(
 			"arc_minseo_03_arrival", 1, 203):
-		_fail("General finale W220 lost its exact M51 flag+event-log source.")
+		_fail("General finale W211 lost its exact M51 flag+event-log source.")
 		return
 	if pending_choice < 0:
 		if not bool(story.get("_showing_choices")):
 			var body := story.get("_body_lbl") as RichTextLabel
 			var visible_memory := str(body.text) if is_instance_valid(body) else ""
 			var formatted_memory := GameState.format_event_text(expected_memory)
-			var memory_probe := formatted_memory.left(
-				mini(64, formatted_memory.length()))
+			var memory_probe := formatted_memory.right(
+				mini(48, formatted_memory.length()))
 			if memory_probe.is_empty() or memory_probe not in visible_memory:
-				_fail("General finale W220 event page did not visibly render its M51 memory row.")
+				_fail("General finale W211 last prose page did not visibly render the end of its M51 memory row.")
+				return
+		if not GameState.chapter5_general_finale_w211_available(211) \
+				or bool(GameState.flags.get(
+					"arc_y5_general_name_boundary_exact_seen", false)):
+			_fail("General finale W211 choice surface is not live before its receipt.")
+		return
+	if pending_choice != 1 \
+			or not bool(GameState.flags.get(
+				"arc_y5_general_name_boundary_exact_seen", false)) \
+			or GameState.flags.has("chapter5_general_name_boundary_0") \
+			or not bool(GameState.flags.get(
+				"chapter5_general_name_boundary_1", false)) \
+			or not _chapter5_general_has_exact_event_receipt(
+				"arc_y5_general_name_boundary_exact", 1, 211) \
+			or GameState.chapter5_general_finale_w211_available(211):
+		_fail("General finale W211 result lost its exact flag+event-log receipt.")
+
+func _assert_chapter5_general_w220_source_surface(
+		story: Node, authored: Dictionary,
+		pending_choice: int) -> void:
+	var memory_key := "chapter5_general_name_boundary_0"
+	var memory_map: Variant = authored.get("description_memory_if_known", {})
+	var expected_memory := (
+		str((memory_map as Dictionary).get(memory_key, "")).strip_edges()
+		if memory_map is Dictionary else "")
+	if expected_memory.is_empty():
+		_fail("General finale W220 has no exact W211 memory row.")
+		return
+	if not _chapter5_general_has_exact_event_receipt(
+			"arc_y5_general_name_boundary_exact", 0, 211):
+		_fail("General finale W220 lost its exact W211 flag+event-log source.")
+		return
+	if pending_choice < 0:
+		if not bool(story.get("_showing_choices")):
+			var body := story.get("_body_lbl") as RichTextLabel
+			var visible_memory := str(body.text) if is_instance_valid(body) else ""
+			var formatted_memory := GameState.format_event_text(expected_memory)
+			var memory_probe := formatted_memory.right(
+				mini(48, formatted_memory.length()))
+			if memory_probe.is_empty() or memory_probe not in visible_memory:
+				_fail("General finale W220 last prose page did not visibly render the end of its W211 memory row.")
 				return
 		if not GameState.chapter5_general_finale_w220_available(220) \
 				or bool(GameState.flags.get(
@@ -7766,16 +8034,36 @@ func _assert_chapter5_finale_receipt_surface(
 				event_id, source_index, str(source)])
 			return
 		prefixes.append(str((raw_row as Array)[selected]).strip_edges())
-	var expected_prefix := "\n\n".join(prefixes)
-	if expected_prefix.is_empty() \
-			or not str(current.get("description", "")).begins_with(expected_prefix):
-		_fail(("%s screenshot did not render its exact localized receipt echo. " \
-			+ "expected=%s actual=%s entry=%s") % [
-			event_id, expected_prefix.left(700),
-			str(current.get("description", "")).left(700),
-			str(GameState.chapter5_finale_entry_snapshot())])
+	var read_mode := str(reads.get("mode", ""))
+	var resolved_body := str(current.get("description", ""))
+	if prefixes.is_empty():
+		_fail("%s screenshot resolved no finale receipt text." % event_id)
 		return
-	if pending_choice < 0 and not bool(story.get("_showing_choices")):
+	if read_mode == "inline_slots":
+		var authored_body := str(authored.get("description", ""))
+		for source_index in range(prefixes.size()):
+			var slot := "[[c5read:%d]]" % source_index
+			if authored_body.count(slot) != 1:
+				_fail("%s authored inline slot %s is not exact-once." % [
+					event_id, slot])
+				return
+			if resolved_body.count(prefixes[source_index]) != 1:
+				_fail("%s selected inline receipt %d is not exact-once in scene prose." % [
+					event_id, source_index])
+				return
+		if "[[c5read:" in resolved_body:
+			_fail("%s screenshot leaked an unresolved inline read token." % event_id)
+			return
+	else:
+		var expected_prefix := "\n\n".join(prefixes)
+		if not resolved_body.begins_with(expected_prefix):
+			_fail(("%s screenshot did not render its exact localized receipt echo. " \
+				+ "expected=%s actual=%s entry=%s") % [
+				event_id, expected_prefix.left(700), resolved_body.left(700),
+				str(GameState.chapter5_finale_entry_snapshot())])
+			return
+	if read_mode == "prepend" and pending_choice < 0 \
+			and not bool(story.get("_showing_choices")):
 		var body := story.get("_body_lbl") as RichTextLabel
 		var visible_receipt := str(body.text) if is_instance_valid(body) else ""
 		var formatted_first_receipt := GameState.format_event_text(prefixes[0])
@@ -7924,11 +8212,17 @@ func _assert_chapter5_finale_story_surface(
 	if str(current.get("id", "")) != event_id:
 		_fail("Chapter 5 finale screenshot current root drifted: %s." % event_id)
 		return
+	_assert_chapter5_story_hud_calendar(story, event_id)
+	if _qa_failed:
+		return
 	var pending_choice := int(story.get("_pending_result_choice_index"))
 	var authored: Dictionary = DataRegistry.find_event(event_id)
 	if event_id == "arc_y5_final_offer":
 		_assert_chapter5_w207_daeun_cafe_result(
 			story, current, authored, pending_choice)
+	elif event_id == "arc_y5_general_name_boundary_exact":
+		_assert_chapter5_general_w211_source_surface(
+			story, authored, pending_choice)
 	elif event_id == "arc_y5_general_debt_memory_reconnect":
 		_assert_chapter5_general_w220_source_surface(
 			story, authored, pending_choice)
@@ -7943,7 +8237,13 @@ func _assert_chapter5_finale_story_surface(
 			return
 	if event_id in CHAPTER5_GENERAL_FINALE_QA_ROOTS:
 		var expected_choice_counts := {
+			"arc_y5_general_name_boundary_exact": 2,
 			"arc_y5_general_debt_memory_reconnect": 2,
+			"arc_y5_general_father_legacy_voice_exact": 2,
+			"arc_y5_general_father_legacy_cafe_exact": 2,
+			"arc_y5_general_debt_memory_voice_exact": 2,
+			"arc_y5_general_debt_memory_cafe_exact": 2,
+			"arc_y5_general_pre_ending_summit_exact": 2,
 			"arc_y5_general_final_record_seal": 2,
 			"arc_final_countdown_general_near_goal_passed": 2,
 			"arc_y5_final_week_general_people_outbound": 3,
@@ -7973,47 +8273,104 @@ func _assert_chapter5_finale_story_surface(
 				if str(marker).to_lower() not in meeting_result_text.to_lower():
 					_fail("General outbound result 3 lost sent-only marker %s." % marker)
 					return
+		var surface_contracts := {
+			"arc_y5_general_name_boundary_exact": {
+				"background": "current_housing", "portrait": "player_tired",
+				"ambience": "apartment", "channel": "phone",
+				"participants": [], "remote_location": "housing_broker_office",
+				"remote_actor": "housing_broker",
+			},
+			"arc_y5_general_debt_memory_reconnect": {
+				"background": "current_housing", "portrait": "player_tired",
+				"ambience": "apartment",
+			},
+			"arc_y5_general_father_legacy_voice_exact": {
+				"background": "current_housing", "portrait": "player_sad",
+				"ambience": "apartment",
+			},
+			"arc_y5_general_father_legacy_cafe_exact": {
+				"background": "current_housing", "portrait": "player_sad",
+				"ambience": "apartment",
+			},
+			"arc_y5_general_debt_memory_voice_exact": {
+				"background": "current_housing", "portrait": "player_tired",
+				"ambience": "apartment",
+			},
+			"arc_y5_general_debt_memory_cafe_exact": {
+				"background": "current_housing", "portrait": "player_tired",
+				"ambience": "apartment",
+			},
+			"arc_y5_general_pre_ending_summit_exact": {
+				"background": "realestate_office", "portrait": "player_normal",
+				"ambience": "office",
+			},
+			"arc_y5_general_final_record_seal": {
+				"background": "current_housing", "portrait": "player_tired",
+				"ambience": "apartment",
+			},
+			"arc_final_countdown_general_near_goal_passed": {
+				"background": "current_housing", "portrait": "player_tired",
+				"ambience": "apartment",
+			},
+			"arc_y5_final_week_general_people_outbound": {
+				"background": "current_housing", "portrait": "player_tired",
+				"ambience": "apartment",
+			},
+		}
+		var surface_contract: Dictionary = surface_contracts[event_id]
+		var authored_background := str(surface_contract["background"])
+		var authored_portrait := str(surface_contract["portrait"])
+		var expected_ambience := str(surface_contract["ambience"])
+		var expected_channel := str(surface_contract.get("channel", "internal"))
+		var expected_participants: Array = surface_contract.get(
+			"participants", ["player"])
 		var raw_presentation: Variant = story.get("_current_presentation")
-		var visible_background_id := "current_housing"
+		var visible_background_id := authored_background
 		if pending_choice >= 0 and pending_choice < authored_choices.size():
-			visible_background_id = str(
-				(authored_choices[pending_choice] as Dictionary).get(
-					"result_background", visible_background_id))
+			var selected_choice: Dictionary = authored_choices[pending_choice]
+			visible_background_id = str(selected_choice.get(
+				"result_background", visible_background_id))
+			expected_ambience = str(selected_choice.get(
+				"result_ambience", expected_ambience))
 		var expected_background := ImageRegistry.resolve_contextual_background_id(
 			visible_background_id)
 		var portrait := story.get("_portrait") as TextureRect
 		var expected_portrait_path := ImageRegistry.get_portrait_for_turn(
-			"player_tired", GameState.turn)
+			authored_portrait, GameState.turn)
 		var actual_portrait_path := (
 			portrait.texture.resource_path
 			if is_instance_valid(portrait) and portrait.texture != null else "")
-		if str(current.get("background", "")) != "current_housing" \
-				or str(current.get("portrait", "")) != "player_tired" \
+		if str(current.get("background", "")) != authored_background \
+				or str(current.get("portrait", "")) != authored_portrait \
 				or current.has("cg") \
 				or not raw_presentation is Dictionary \
 				or str((raw_presentation as Dictionary).get("channel", "")) \
-					!= "internal" \
+					!= expected_channel \
 				or str((raw_presentation as Dictionary).get("scene_location", "")) \
-					!= "current_housing" \
+					!= authored_background \
 				or (raw_presentation as Dictionary).get("participants", []) \
-					!= ["player"] \
+					!= expected_participants \
+				or (expected_channel == "phone" \
+					and (str((raw_presentation as Dictionary).get(
+						"remote_location", "")) \
+						!= str(surface_contract.get("remote_location", "")) \
+					or str((raw_presentation as Dictionary).get(
+						"remote_actor", "")) \
+						!= str(surface_contract.get("remote_actor", "")))) \
 				or str((raw_presentation as Dictionary).get("portrait_role", "")) \
 					!= "local" \
 				or bool(story.get("_portrait_remote_inset")) \
 				or str(story.get("_event_background_id")) != expected_background \
 				or expected_portrait_path.is_empty() \
-				or actual_portrait_path != expected_portrait_path:
-			_fail("%s general finale surface is not player-alone at its authored place: %s." % [
-				event_id, str({
+				or actual_portrait_path != expected_portrait_path \
+				or str(BGMPlayer.get("_current_ambience_key")) != expected_ambience:
+			_fail("%s general finale surface drifted from its authored presentation: %s." % [
+					event_id, str({
 					"event": current, "presentation": raw_presentation,
 					"background": story.get("_event_background_id"),
 					"portrait": actual_portrait_path,
+					"ambience": BGMPlayer.get("_current_ambience_key"),
 				})])
-			return
-		if event_id == "arc_y5_general_debt_memory_reconnect" \
-				and pending_choice == 1 \
-				and str(BGMPlayer.get("_current_ambience_key")) != "cafe":
-			_fail("General W220 cafe-alone result lost its cafe ambience.")
 			return
 		if event_id == "arc_final_countdown_general_near_goal_passed" \
 				and pending_choice >= 0:

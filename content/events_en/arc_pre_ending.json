@@ -210,53 +210,140 @@
     ]
   },
   {
+    "id": "arc_y5_general_name_boundary_exact",
+    "title": "Someone Else's Name",
+    "description": "At 6:17 on Thursday evening, {name} called an agent to ask about one of three saved listings around 2.5 billion won.\n\n‘Should I treat this as a single buyer? No one will join as a co-owner? I also need to know whether you'll use a co-borrower or guarantor in the loan consultation. Without either, we'll have to redraw the feasible range.’\n\nA copy of the final repayment confirmation from Year One lay beneath the phone. It bore the date when {name} finished six years of payments after Father trusted someone else and signed his own name. No new co-owner or guarantor had been written into any document.",
+    "description_memory_if_known": {
+      "chapter5_general_minseo_arrival_0": "Earlier, {name} had told Minseo, ‘I think I'm starting to get it.’ She said arrival would bring the next question. The question returned not after he obtained a home, but in the blank name field before any contract.\n\nThe agent asked, ‘What rule should I use when I recalculate?’ Between narrowing the possible range and putting someone else's name in the blank, only {name}'s own rule could be settled now.",
+      "chapter5_general_minseo_arrival_1": "Earlier, {name} had told Minseo, ‘I haven't arrived yet.’ She did not declare arrival for him. The agent's question today was whose name he would pull in before arriving.\n\nThe agent asked, ‘What rule should I use when I recalculate?’ Between narrowing the possible range and putting someone else's name in the blank, only {name}'s own rule could be settled now."
+    },
+    "choices": [
+      {
+        "text": "Show me only the range possible with my name and my money",
+        "result_text": "{name} said first that he would add no co-owner or guarantor. A brief run of keystrokes came through the call as the agent rewrote the conditions.\n\nThe feasible range narrowed. This call produced no new listing sheet, loan approval, or viewing appointment. No deposit or money moved, and no home became {name}'s. The consultation rule now read SINGLE BUYER."
+      },
+      {
+        "text": "I won't add someone else's name. Stop today's consultation here",
+        "result_text": "{name} ended the call with the co-owner and guarantor fields blank. Only the call-end time remained on the screen; no viewing date or new listing sheet appeared.\n\nThe three saved addresses remained comparison information. He completed no application or contract, and no reservation payment, transfer, registration, key, or ownership came into being. What closed today was the next step of this consultation, not a home."
+      }
+    ]
+  },
+  {
     "id": "arc_y5_general_debt_memory_reconnect",
     "title": "After Repayment, Before Arrival",
-    "description": "With twenty weeks left in the final year, {name} set a copy of the final repayment confirmation from Year One beside the notebook page from the week he met Minseo again. Price alerts for three saved addresses waited on his phone.\n\nNo line yet joined the date the repayment ended to the answer he had actually given Minseo. He would invent no answer Minseo had not given, no answer Father was no longer there to give, and no home he did not own.\n\nOnly one thirty-minute stretch remained tonight. While he joined those two traces from his side, he could not watch the prices move. {name} stopped between the record button and the folded copy.",
+    "description": "With twenty weeks left in the final year, {name} set a copy of the final repayment confirmation from Year One beside the notebook page from the week he met Minseo again. Three saved addresses remained on his phone.\n\nNo line yet joined the date the repayment ended to the answer he had actually given Minseo. He would invent no answer Minseo had not given, no answer Father was no longer there to give, and no home he did not own.",
     "description_memory_if_known": {
-      "chapter5_general_minseo_arrival_0": "The answer he had actually given Minseo was, ‘I think I'm starting to get it.’ She said arrival would bring the next question; she did not supply its answer.",
-      "chapter5_general_minseo_arrival_1": "The answer he had actually given Minseo was, ‘I haven't arrived yet.’ She neither corrected him nor declared arrival for him."
+      "chapter5_general_name_boundary_0": "Nine weeks earlier, {name} asked to see only the range possible with his name and his money. The cost of using no other name was a narrower range.\n\nTonight he would carry that rule into a private record sent to no one. Between the record button and the folded copy, {name} had to choose one medium on his side.",
+      "chapter5_general_name_boundary_1": "Nine weeks earlier, {name} ended the consultation without adding another name. No new listing sheet or viewing time appeared.\n\nTonight he would carry that stop into a private record sent to no one. Between the record button and the folded copy, {name} had to choose one medium on his side."
     },
     "choices": [
       {
         "text": "Put the repayment date and that day's answer into one private voice memo",
-        "result_text": "{name} started recording and read the final repayment-confirmation date from Year One. Then he spoke only the answer he had actually given Minseo when they met again. He stopped after thirty-one seconds and put both dates in the title.\n\nThe memo stayed on his phone. He sent it to no one, and no read receipt or reply appeared. While he recorded it, the price alerts for the three addresses stacked up unseen."
+        "result_text": "{name} started recording and read the final repayment-confirmation date from Year One. Then he spoke only the answer he had actually given Minseo when they met again. He stopped after thirty-one seconds and put both dates in the title.\n\nThe memo stayed on his phone. He sent it to no one, and no read receipt or reply appeared. The three saved addresses remained comparison information."
       },
       {
-        "text": "Carry the repayment-confirmation copy to that cafe and sit alone for thirty minutes",
-        "result_text": "{name} folded the repayment-confirmation copy and went to that cafe. Without calling or messaging Minseo, he spent thirty minutes at the table where they had once faced each other, reading the copy and the answer from that day in turn.\n\nThe seat across from him stayed empty. Minseo did not come, and no new message appeared. When he left, the price alerts for the three addresses were still stacked up unseen."
+        "text": "Carry the repayment copy and a note bearing that day's answer to the cafe, and sit alone",
+        "result_text": "On a small note, {name} wrote only the answer he had actually given the day he met Minseo again. He tucked it into the repayment-confirmation copy and went to the cafe. Without calling or messaging her, he opened both sheets at the table where they had once faced each other.\n\nThe seat across from him stayed empty until the coffee cooled. Minseo did not come, and no new message appeared. The note remained separate inside the copy; it did not alter the repayment confirmation's text."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_general_debt_memory_voice_exact",
+    "title": "Where Thirty-One Seconds Stay",
+    "description": "With eleven weeks left in the final year, {name} opened the voice-memo list in his room. The file that joined the final repayment-confirmation date to the answer he had actually given Minseo was still exactly 00:31 long.\n\n[[c5read:0]]\n\nKeeping the original would not deliver it to Minseo; deleting it would not change the conversation that had already happened. Only the state of the trace he would carry toward the final threshold could change.\n\n{name} stopped between the filename and the delete button.",
+    "chapter5_finale_reads": {
+      "texts": [
+        [
+          "Five weeks earlier, {name} played the voice memo to the end before the empty chair, then left one sentence aloud. He did not record that sentence or add it to the file.",
+          "Five weeks earlier, {name} left the memo unplayed, powered off the phone, and moved the empty chair beside his own. The file stayed unplayed and unsent."
+        ]
+      ]
+    },
+    "choices": [
+      {
+        "text": "Keep the original thirty-one seconds and send it to no one",
+        "result_text": "{name} checked the filename and its 00:31 runtime, then closed the screen. The original remained on his phone, where he could verify its state himself at the final threshold.\n\nHe did not press share. No file reached Minseo, and no read receipt, reply, or meeting time appeared. The three saved addresses remained comparison data, not contracts or ownership."
+      },
+      {
+        "text": "Delete the original and keep only the deletion time",
+        "result_text": "{name} deleted the 00:31 original. In place of the file, he wrote down only the time when he confirmed the deletion. At the final threshold, he could carry that time, not the sound.\n\nHe had not sent a file or erased the conversation that had happened. No read receipt, reply, or new meeting appeared from Minseo, and he supplied no answer Father could no longer give. No money or assets moved."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_general_debt_memory_cafe_exact",
+    "title": "Two Sheets in the Bag",
+    "description": "With eleven weeks left in the final year, {name} set the twice-folded final repayment-confirmation copy on his desk. A small note bearing the answer he had actually given Minseo remained tucked separately inside it. These were the same two sheets he had carried to the cafe and later placed beside Father's photograph.\n\n[[c5read:0]]\n\nPutting the copy and note in his bag would not turn either into a contract; leaving them in the room would produce no answer from Minseo or Father. Only whether the two traces would sit on his side when he crossed the final threshold could change.\n\n{name} held both sheets between the clear inner pocket of his bag and Father's record envelope.",
+    "chapter5_finale_reads": {
+      "texts": [
+        [
+          "Five weeks earlier, {name} opened the copy and separate note before the empty chair, read the repayment date and his actual answer aloud, then folded both along the same creases.",
+          "Five weeks earlier, {name} left the copy and note folded and moved the empty chair beside his own. Both sheets stayed unread beside the photograph."
+        ]
+      ]
+    },
+    "choices": [
+      {
+        "text": "Put the folded copy and note in his bag and carry them when he goes to see the listings",
+        "result_text": "{name} folded the copy and separate note along the same creases and placed them in the clear inner pocket of his bag. When he next opened the listings, the repayment date and his own answer would remain on his side as two distinct sheets.\n\nHe did not call or message Minseo. He added no new words to Father's record envelope. Neither sheet was a purchase agreement or registration document, and no money or ownership moved."
+      },
+      {
+        "text": "Leave the copy and note beside Father's record envelope and go without either sheet",
+        "result_text": "{name} placed the folded copy and note beside Father's record envelope and zipped the bag shut. Neither sheet would be on the desk where he next opened the listings.\n\nThe envelope and two sheets remained in his room. Father did not return, and Minseo did not read the note. Neither sheet was ownership, and no money or assets moved."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_general_pre_ending_summit_exact",
+    "title": "Listings at the Threshold",
+    "description": "A real estate office in Gangnam. Evening clung to the glass door, and {name} sat alone at the consultation desk. [[c5read:0]]\n\nThe bold figures on all three listing sheets hovered around 2.5 billion won. {name}'s assets had reached that threshold, but the distance between the three-billion-won line on the notebook's first page and the current figure remained.\n\nHis lower back and calves tightened after the long sitting. Each change of the light outside stretched his reflection across the door handle. His phone lay facedown within reach.\n\nThere was no signed contract, registration receipt, or key; the three sheets were still comparison information. {name} placed one hand over the phone and the other near the door. The choice was not a home, but the first action his body would take at this threshold.",
+    "chapter5_finale_reads": {
+      "texts": [
+        [
+          "As decided five weeks earlier, the trace joining the repayment date to the answer he had actually given Minseo crossed the threshold and lay on {name}'s side.",
+          "As decided five weeks earlier, the trace joining the repayment date to the answer he had actually given Minseo remained outside the threshold, leaving its place empty on {name}'s side of the desk."
+        ]
+      ]
+    },
+    "choices": [
+      {
+        "text": "Open Father's name in his contacts",
+        "result_text": "{name} found Father in his contacts and opened the entry. Beneath the saved name were only a call button and old records.\n\nHe held a finger above the button but did not press it. His lips formed the words that he had not bought a home, that his assets had reached the 2.5-billion-won threshold, and that he was comparing the current figure with the first goal of 3 billion won.\n\nNo outgoing time, ring, or answer appeared on the screen. {name} gathered his own belongings and the listings and left the office. No signed contract, registration receipt, or key came into being."
+      },
+      {
+        "text": "Walk Gangnam-daero alone, slowly",
+        "result_text": "{name} pushed through the glass door and stepped onto Gangnam-daero in the same evening. What he held open was a listing, not a contract.\n\nTwo lights changed over the length of one block. His lower back and calves tightened after the long sitting, and {name} slowed at the second crossing.\n\nHe could now ask prices and do the sums, but neither gave him ownership. When the second light changed, he swallowed the urge to say ‘I've arrived’ as if the listing were a deed, then crossed."
       }
     ]
   },
   {
     "id": "arc_y5_general_final_record_seal",
     "title": "The Screen to Close Tonight",
-    "description": "On the night the final three weeks began, price alerts for three saved addresses climbed across {name}'s phone. The trace of repayment he had kept seventeen weeks earlier lay on the desk; what he had actually done before Father's photograph remained with it.\n\nIf he turned the alerts off for the thirty minutes left tonight, he would miss the moment a price moved. If he watched to the end, he would lose the only part of the night left to return to the traces that had reached neither person. Neither choice bought a home or produced anyone's answer.\n\n{name} had to choose which screen to close tonight.",
+    "description": "On the night the final three weeks began, price alerts for three saved addresses climbed across {name}'s phone. [[c5read:0]] [[c5read:1]]\n\n[[c5read:2]] Even after he returned to his room, the listings had not become a contract, and the three addresses remained comparison data, not ownership.\n\nTurning off the alerts for the thirty minutes left tonight meant giving up live price comparison for that interval. Watching them to the end meant losing the part of the night in which he could return to the repayment, his answer, and the action before the empty chair. Neither choice bought a home or produced an answer from Minseo or Father.\n\n{name} had to choose which screen to close tonight.",
     "chapter5_finale_reads": {
       "texts": [
         [
-          "Seventeen weeks earlier, {name} put the final repayment-confirmation date and the answer he had given Minseo into one thirty-one-second private voice memo. He sent it to no one.",
-          "Seventeen weeks earlier, {name} carried the final repayment-confirmation copy to that cafe and sat alone for thirty minutes. Minseo did not come, and no new message appeared."
+          "Before the empty chair, he left the trace of repayment and his answer aloud on his side.",
+          "Before the empty chair, he powered off the phone and moved the chair beside his own without playing or reading anything."
         ],
         [
-          "Before the empty chair, ‘I'll get there, Father’ actually left his mouth. No one heard it.",
-          "Before the empty chair, he silently explained how far he had come and how far remained.",
-          "Before the empty chair, he left no sentence. He turned on the monitor, and the photograph stayed where it was."
+          "Afterward, he carried the trace of repayment and his answer across the threshold and brought it back to his room tonight.",
+          "Afterward, he left the trace of repayment and his answer outside the threshold, and its place on the desk was empty tonight."
         ],
         [
-          "At the real estate office, {name} opened Father's contact but did not press the call button. No outgoing time or answer appeared; only the listings remained in his hand.",
-          "He left the office and walked one block of Gangnam-daero carrying the listings. No contract, registration receipt, or key came into being."
+          "Three weeks earlier at the real estate office, {name} opened Father's contact but did not press the call button. No outgoing time, ring, or answer appeared, and he returned with the listings.",
+          "Three weeks earlier, {name} left the office and walked one block of Gangnam-daero carrying the listings. No contract, registration receipt, or key came into being."
         ]
       ]
     },
     "choices": [
       {
         "text": "Turn off the price alerts now and spend tonight's thirty minutes on the two human traces",
-        "result_text": "{name} turned off the alerts for all three addresses until morning. Once the screen went dark, he returned to the repayment trace, then named aloud the action he had taken before Father's photograph.\n\nHe missed whatever the prices did during those thirty minutes. He sent nothing to Minseo, and no new answer came from Father. This became the night he let the numbers go unseen."
+        "result_text": "{name} turned off the alerts for all three addresses until morning. Once the screen went dark, he returned to the trace of repayment and his answer, then named aloud the action he had actually taken before the empty chair.\n\nThe thirty minutes with the alerts off ended, and he could not repeat the live comparison for that interval. He sent nothing to Minseo, and no read receipt or reply appeared. No new answer came from Father. This became the night he spent time not watching the numbers."
       },
       {
         "text": "Watch the price alerts through all thirty minutes and set the two human traces aside tonight",
-        "result_text": "{name} left the alerts for all three addresses on. Every time a price moved, he opened the screen, but he pressed no buy button and opened no order page. After thirty minutes, only the movement log remained.\n\nThe repayment trace and Father's record stayed unread on the desk tonight. He sent Minseo no new sentence. The cost of watching the numbers was that the night for people ended first."
+        "result_text": "{name} left the alerts for all three addresses on. Whenever the screen lit, he checked the price, but he pressed no buy button and opened no order page. After thirty minutes, only the check times remained.\n\nHe did not return tonight to the trace of repayment and his answer or to the action before the empty chair. He sent Minseo no new sentence, and no read receipt or reply appeared. The cost of watching the numbers was that the night for people ended first."
       }
     ]
   },
@@ -692,27 +779,27 @@
   {
     "id": "arc_final_countdown_property_not_executed",
     "title": "The Signature After Nothing Moved",
-    "description": "In the final week, seven days remained until {name}'s thirty-eighth birthday. Beside the notebook where he first wrote KRW 3 billion, he opened the papers from the final month. The label and number he had actually received, the sent time on his notice to Sangchul, and the last empty line came into view together.\n\nEarlier pages held records of the evenings Daeun and Minseo had spent, the sentence aimed at Jaehyuk or kept in {name}'s own ledger, and the action he had taken toward Father. The last line was not a contract. It was where he would place his own name among those lines.",
+    "description": "In the final week, seven days remained until {name}'s thirty-eighth birthday. Beneath the night lights of Gangnam-daero, he opened the notebook where he had first written KRW 3 billion. On its left he placed [[c5read:0]]. Beside [[c5read:1]], he set [[c5read:2]]. [[c5read:3]] held down the final page. Only the next line remained blank.\n\nNone of the papers contained a purchase amount, payment terms, or a completed original. There was no signed purchase agreement, registration receipt, or key handed over. What remained was the place where no money had moved and the time each person had spent. The blank line waited only for the sentence of responsibility that would end that record.",
     "chapter5_finale_reads": {
       "texts": [
         [
-          "The red withdrawal mark and counter time lay to the left of the notebook.",
-          "The limited filing with its lower amount and {name}'s signature lay to the left of the notebook.",
-          "The provisional number, CURRENT CONSENT VERIFICATION HOLD, and blank completion time lay to the left of the notebook.",
-          "The self-filed copy bearing number 227, the date, and {name}'s name lay to the left of the notebook."
+          "the red withdrawal cover and the time the counter closed",
+          "the limited filing bearing the lower amount and {name}'s signature",
+          "the provisional number, CURRENT CONSENT VERIFICATION HOLD, and the blank completion time",
+          "the self-filed copy bearing number 227, the date, and {name}'s name"
         ],
         [
-        "The dates Daeun named came first; the document's last state, as Minseo identified it, followed on the next line.",
-        "The document's last state, as Minseo identified it, came first; the dates Daeun wrote followed on the next line.",
-          "The two lines holding Daeun's time and Minseo's document state remained side by side."
+          "the two lines that placed the date of Daeun's evening before the final document state Minseo confirmed",
+          "the two lines that placed the final document state Minseo confirmed before the date of Daeun's evening",
+          "the two separate lines that held Daeun's time and Minseo's document state"
         ],
         [
-          "The non-transfer notice to Sangchul and its sent time lay beneath the filing paper."
+          "the non-transfer notice to Sangchul and its sent time"
         ],
         [
-          "The sentence of responsibility {name} had left toward Father the previous night lay before the last page.",
-        "The words {name} had directed toward Father and the place where he had stopped opened the notebook's next line.",
-        "The previous night, {name} had left today's paper and date beside Father's record."
+          "the sentence of responsibility {name} had left toward Father the day before",
+          "the words {name} had directed toward Father and the place where he had stopped the day before",
+          "today's date, left beside Father's record the day before"
         ]
       ]
     },

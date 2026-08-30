@@ -216,7 +216,7 @@
       181, 185, 188, 190, 192,
       193, 195, 196, 197, 200, 201, 203, 204,
       207, 208, 209, 210, 211, 212, 215, 216, 217, 219, 220,
-      221, 224, 225, 227, 229, 230, 235, 237, 238, 239, 240
+      221, 224, 225, 227, 229, 230, 234, 235, 237, 238, 239, 240
     ],
     "boss_weeks": [45, 92, 140, 192, 237, 240],
     "commitment_event_owners": {
@@ -308,7 +308,8 @@
         { "id": "arc_y5_jaehyuk_father_document_reference", "axis": "human" }
       ],
       "211": [
-        { "id": "arc_y5_guarantee_protected_show_daeun", "axis": "human", "person_id": "daeun" }
+        { "id": "arc_y5_guarantee_protected_show_daeun", "axis": "human", "person_id": "daeun" },
+        { "id": "arc_y5_general_name_boundary_exact", "axis": "human" }
       ],
       "212": [
         { "id": "arc_y5_jaehyuk_guarantee_decision_reference", "axis": "human", "person_id": "jaehyuk" }
@@ -334,13 +335,22 @@
         { "id": "arc_y5_father_trace_passed_exact", "axis": "human", "person_id": "father" }
       ],
       "224": [
-        { "id": "arc_y5_father_trace_custody", "axis": "human", "person_id": "daeun" }
+        { "id": "arc_y5_father_trace_custody", "axis": "human", "person_id": "daeun" },
+        { "id": "arc_y5_general_father_legacy_voice_exact", "axis": "human", "person_id": "father" },
+        { "id": "arc_y5_general_father_legacy_cafe_exact", "axis": "human", "person_id": "father" }
       ],
       "227": [
         { "id": "arc_y5_name_on_line_daeun_routed", "axis": "money", "person_id": "daeun" }
       ],
+      "229": [
+        { "id": "arc_y5_general_debt_memory_voice_exact", "axis": "human", "person_id": "minseo" },
+        { "id": "arc_y5_general_debt_memory_cafe_exact", "axis": "human", "person_id": "minseo" }
+      ],
       "230": [
         { "id": "arc_y5_people_verdict_daeun_exact", "axis": "human", "person_id": "daeun" }
+      ],
+      "234": [
+        { "id": "arc_y5_general_pre_ending_summit_exact", "axis": "money" }
       ],
       "235": [
         { "id": "arc_y5_property_not_executed_notice", "axis": "money", "person_id": "sangchul" }

@@ -54,6 +54,7 @@ KNOWN_ACTORS = {
     "player", "father", "sangchul", "daeun", "minseo", "jaehyuk",
 }
 PLACEHOLDER_RE = re.compile(r"\{[A-Za-z_][A-Za-z0-9_]*\}")
+INLINE_READ_TOKEN_RE = re.compile(r"\[\[c5read:(\d+)\]\]")
 
 
 @dataclass(frozen=True)
@@ -132,6 +133,13 @@ EXPECTED_OUTBOUND_OUTCOMES = (
         "effects": {},
         "flags": ["arc_final_week_seen"],
     },
+)
+PROPERTY_INLINE_ROOT_ID = "arc_final_countdown_property_not_executed"
+EXPECTED_PROPERTY_INLINE_SOURCES = (
+    {"kind": "finale_stage", "id": "filing"},
+    {"kind": "finale_stage", "id": "verdict"},
+    {"kind": "finale_stage", "id": "nontransaction"},
+    {"kind": "finale_stage", "id": "father_answer"},
 )
 
 
@@ -300,6 +308,17 @@ def _validate_read_rows(
     return valid
 
 
+def _validate_inline_read_slots(
+    event: dict[str, Any], source_count: int, label: str, errors: list[str],
+) -> None:
+    tokens = INLINE_READ_TOKEN_RE.findall(str(event.get("description", "")))
+    expected = [str(index) for index in range(source_count)]
+    if tokens != expected:
+        errors.append(
+            f"{label}: inline read slots must be ordered "
+            f"{','.join(expected)} exactly once")
+
+
 def validate_finale_reads(
     ko: dict[str, dict[str, Any]],
     en: dict[str, dict[str, Any]],
@@ -329,8 +348,12 @@ def validate_finale_reads(
             continue
         for source_index, source in enumerate(sources):
             _validate_source(source, root_id, source_index, errors)
-        if ko_reads.get("mode") != "prepend":
-            errors.append(f"{root_id}: KO finale read mode must be prepend")
+        expected_mode = (
+            "inline_slots" if root_id == PROPERTY_INLINE_ROOT_ID else "prepend"
+        )
+        if ko_reads.get("mode") != expected_mode:
+            errors.append(
+                f"{root_id}: KO finale read mode must be {expected_mode}")
         declared = expected_sources.get(root_id)
         if declared is None:
             errors.append(f"{root_id}: ledger has no exact read-source contract")
@@ -344,6 +367,11 @@ def validate_finale_reads(
             continue
         en_ok = _validate_read_rows(
             en_reads.get("texts"), sources, ko, f"{root_id}.EN", errors)
+        if expected_mode == "inline_slots":
+            _validate_inline_read_slots(
+                ko_event, len(sources), f"{root_id}.KO", errors)
+            _validate_inline_read_slots(
+                en_event, len(sources), f"{root_id}.EN", errors)
         if ko_ok and en_ok:
             ko_rows = ko_reads["texts"]
             en_rows = en_reads["texts"]
@@ -601,8 +629,21 @@ def validate_ledger(
                 sources.append(copy.deepcopy(source))
         if len(sources) == len(raw_sources):
             expected_sources[spec.root_id] = sources
-        if row.get("read_mode") != "prepend":
-            errors.append(f"{spec.root_id}: ledger read_mode must be prepend")
+        expected_mode = (
+            "inline_slots"
+            if spec.root_id == PROPERTY_INLINE_ROOT_ID else "prepend"
+        )
+        if row.get("read_mode") != expected_mode:
+            errors.append(
+                f"{spec.root_id}: ledger read_mode must be {expected_mode}")
+        if spec.root_id == PROPERTY_INLINE_ROOT_ID \
+                and [_source_key(source) for source in sources] != [
+                    _source_key(source)
+                    for source in EXPECTED_PROPERTY_INLINE_SOURCES
+                ]:
+            errors.append(
+                f"{spec.root_id}: exact filing/verdict/nontransaction/"
+                "father_answer source order drifted")
         choices = row.get("choices")
         if not isinstance(choices, list) or len(choices) != spec.choices:
             errors.append(f"{spec.root_id}: ledger choice population drifted")
@@ -868,6 +909,9 @@ def validate_model(
 def _fixture_sources(spec: RootSpec) -> list[dict[str, Any]]:
     if spec.stage == 1:
         return [{"kind": "causal_event", "id": "arc_y5_three_in_room_decision"}]
+    if spec.root_id == PROPERTY_INLINE_ROOT_ID:
+        return [copy.deepcopy(source)
+                for source in EXPECTED_PROPERTY_INLINE_SOURCES]
     sources: list[dict[str, Any]] = [
         {"kind": "finale_stage", "id": EXPECTED_STAGE_NAMES[spec.stage - 2]},
     ]
@@ -900,7 +944,10 @@ def _fixture_ledger() -> dict[str, Any]:
                 if spec.variant else None),
             "actors": {"chooser": "player"},
             "read_sources": _fixture_sources(spec),
-            "read_mode": "prepend",
+            "read_mode": (
+                "inline_slots"
+                if spec.root_id == PROPERTY_INLINE_ROOT_ID else "prepend"
+            ),
             "choices": [
                 {
                     "index": index,
@@ -988,10 +1035,17 @@ def _fixture_events(
             elif spec.stage == 9:
                 choice.update(copy.deepcopy(EXPECTED_OUTBOUND_OUTCOMES[index]))
             ko_choices.append(choice)
+        inline_description = " ".join(
+            f"[[c5read:{index}]]" for index in range(len(sources))
+        )
         ko[spec.root_id] = {
             "id": spec.root_id,
             "title": "장면",
-            "description": "{name}의 문서",
+            "description": (
+                f"{{name}}의 문서 {inline_description}"
+                if spec.root_id == PROPERTY_INLINE_ROOT_ID
+                else "{name}의 문서"
+            ),
             "weight": 0,
             "hidden": True,
             "conditions": {"min_turn": 9999},
@@ -1000,13 +1054,17 @@ def _fixture_events(
             "chapter5_finale_reads": {
                 "sources": copy.deepcopy(sources),
                 "texts": texts,
-                "mode": "prepend",
+                "mode": rows_by_id[spec.root_id]["read_mode"],
             },
         }
         en[spec.root_id] = {
             "id": spec.root_id,
             "title": "Scene",
-            "description": "{name}'s document",
+            "description": (
+                f"{{name}}'s document {inline_description}"
+                if spec.root_id == PROPERTY_INLINE_ROOT_ID
+                else "{name}'s document"
+            ),
             "choices": [
                 {"text": f"Choice {index}", "result_text": f"Result {index}"}
                 for index in range(spec.choices)
@@ -1053,6 +1111,40 @@ def run_self_test() -> int:
     validate_events(source_order, en, sources, errors)
     check(any("source order drifted" in error for error in errors),
           "read-source order mutation was accepted")
+
+    property_source_order = copy.deepcopy(ledger)
+    property_row = next(
+        row for row in property_source_order["roots"]
+        if row["event_id"] == PROPERTY_INLINE_ROOT_ID
+    )
+    property_row["read_sources"].reverse()
+    errors = []
+    validate_ledger(property_source_order, errors)
+    check(any("exact filing/verdict/nontransaction/father_answer" in error
+              for error in errors),
+          "property inline source-fact order mutation was accepted")
+
+    nonproperty_inline = copy.deepcopy(ledger)
+    nonproperty_inline["roots"][0]["read_mode"] = "inline_slots"
+    errors = []
+    validate_ledger(nonproperty_inline, errors)
+    check(any("ledger read_mode must be prepend" in error for error in errors),
+          "non-property inline read mode was accepted")
+
+    property_slot_order = copy.deepcopy(ko)
+    property_description = str(
+        property_slot_order[PROPERTY_INLINE_ROOT_ID]["description"])
+    property_description = property_description.replace(
+        "[[c5read:0]]", "[[swap]]", 1)
+    property_description = property_description.replace(
+        "[[c5read:1]]", "[[c5read:0]]", 1)
+    property_slot_order[PROPERTY_INLINE_ROOT_ID]["description"] = \
+        property_description.replace("[[swap]]", "[[c5read:1]]", 1)
+    errors = []
+    validate_events(property_slot_order, en, sources, errors)
+    check(any("inline read slots must be ordered 0,1,2,3 exactly once"
+              in error for error in errors),
+          "property inline slot order mutation was accepted")
 
     prose_row_order = copy.deepcopy(ko)
     prose_row_order[two_source_root]["chapter5_finale_reads"]["texts"].reverse()

@@ -209,16 +209,19 @@ last W48 capacity/node action
 ## Chapter 5 General Near-Goal / Father-Passed Finale Gate
 
 - **L1 source·원장:** `python3 tools/chapter5_general_finale_route_audit.py`와
-  `Chapter5FinaleRouteCheck.tscn`은 M51 `arc_minseo_03_arrival` 2선택, W220
-  `arc_y5_general_debt_memory_reconnect` 2선택, M56 `arc_father_legacy` 3선택,
-  M59 `arc_pre_ending_summit` 2선택의 exact flag 하나·event log 한 건·0-based
-  choice index 일치를 검사한다. 별도 schema 1
-  `chapter5_general_finale_ledger.json`은 W237 `record_disposition` 2선택, W240
-  `sacrifice` 2선택, 같은 W240 `outbound` 3선택의 3루트·7선택만 가져야 한다.
-  source와 finale를 합친 제품 수량은 4루트·9선택이며 비트 할당량이 아니다.
+  `Chapter5FinaleRouteCheck.tscn`은 M51 `arc_minseo_03_arrival` 2선택, W211
+  `arc_y5_general_name_boundary_exact` 2선택, W220
+  `arc_y5_general_debt_memory_reconnect` 2선택을 선행 증거로 보존하고, W224
+  voice/cafe exact 2선택씩, W229 voice/cafe exact 2선택씩, W234 exact 2선택,
+  W237 `record_disposition` 2선택, W240 `sacrifice` 2선택과 같은 턴 `outbound`
+  3선택의 exact flag 하나·event log 한 건·0-based choice index 일치를 검사한다.
+  v2 `chapter5_general_finale_ledger.json`은 총 8루트·17선택, 한 런
+  6루트·13선택이어야 한다. 원장 밖 W211·W220까지 포함한 작성 종막 표면은
+  10루트·21선택, 한 런 8루트·17선택이다. 이전 W220+v1의 4루트·9선택과 v1 원장
+  3루트·7선택은 역투영 회귀 증거로만 exact 보존한다.
 - **L1 진입·원자성:** `general_near_goal_father_passed`는 투자·부동산 entry 없음,
-  모순 없는 neutral/비-property 투자형 정체성, 아버지 별세, 위 네 source 완전성을
-  모두 만족한 W237에서만 잠긴다. career/startup·비-bool route/father flag·경로 tuple
+  모순 없는 neutral/비-property 투자형 정체성, 아버지 별세, M51→W211→W220
+  source 완전성을 모두 만족한 W224에서만 잠긴다. career/startup·비-bool route/father flag·경로 tuple
   불일치·wrong turn·생존 아버지, source 누락·복수 true·non-bool·event log 불일치,
   profile/ledger ID
   손상은 빈 상태를 byte-identical하게 유지하거나 기존 fail-closed 규칙으로 닫혀야
@@ -233,18 +236,22 @@ last W48 capacity/node action
   선택도 매매계약·이체·등기·열쇠·소유권이 아니다. 세 stage receipt의 능력치·
   Moral Tint·현금·자산·부채 effect는 모두 비어 있어야 한다. W240 현재 방에는
   민준 혼자 있고 민서는 실제 연락 채널, 아버지는 기록 봉투·기억으로만 보여야
-  한다. 읽음·답장·용서·만남 수락을 만들면 실패다.
+  한다. W224·W229도 현재 방의 민준과 사진·약봉지·빈 의자·자기 음성·접힌 사본만
+  보여야 하며 떠 있는 아버지 초상이나 민서 동석을 만들면 실패다. 읽음·답장·용서·
+  만남 수락을 만들면 실패다.
 - **회귀:** 기존 `investment_safe_no_execution` 11루트·30선택/한 런 9·24와
   M59 경제 변화 0을 그대로 재실행한다. 번아웃·정신 붕괴·채무·파산·중독의
   즉시 실패가 먼저 이기고, 33세 Chapter 1 현재 순자산 30억원은 기존 순서로
   `instant_legend`에 도달해야 한다.
-- **L2 전수:** source+finale 네 행 전수표에 root/주차, producer exact flag와
+- **L2 전수:** W211·W220 선행과 v2 한 런 6루트의 전수표에 root/주차, producer exact flag와
   event log, reader, before→after, 고르지 않은 행동, 물성, KO/EN 파일:행을 남긴다.
-  네 행은 W220 reconnect, W237 disposition, W240 sacrifice, W240 outbound이며 요약
-  개수만으로 L2를 통과시키지 않는다.
-- **L3 후보:** KO/EN W220·W224·W237·W240을 960×600, 1280×800, 1920×1080에서 캡처해
+  W224와 W229는 voice/cafe 두 런을 모두 실행하며 요약 개수만으로 L2를 통과시키지 않는다.
+  property W240은 filing·verdict·nontransaction·father_answer 네 사실이 각 inline
+  slot에서 한 번씩만 읽히고 기존 11루트·30선택이 줄지 않았음을 함께 대조한다.
+- **L3 후보:** KO/EN W211·W220·W224·W229·W234·W237·W240과 property W240을 960×600,
+  1280×800, 1920×1080에서 캡처해
   검은막·겹침·포커스·혼자 있는 방·same-turn handoff를 먼저 확인한다. 그 뒤 같은
-  후보 리비전으로 정상 속도 M49~M60을 사람이 플레이해 M51/W220/M56/M59 선택이
+  후보 리비전으로 정상 속도 M49~M60을 사람이 플레이해 M51/W211/W220/W224/W229/W234 선택이
   마지막 밤에 기억나는지, 오늘의 비용→실제 포기→선발신이 반복이 아니라 상승으로 느껴지는지
   판정한다. L1/L2 GREEN은 재미 GO가 아니며 이 L3 전에는 main 승격·게임 완성·
   플레이 준비 완료를 선언하지 않는다.
@@ -426,7 +433,7 @@ python3 tools/release_content_inventory.py \
 | Full 240-week controller black box: title, opening, five chapters, all scheduled week kinds, monthly summaries, authored roots, one pad-selected causal producer and its exact later bridge, AP, and the actual ending with zero keyboard/mouse input | `--qa=full-gamepad --lang=ko --pad=playstation`, then `--qa=full-gamepad --lang=en --pad=xbox` |
 | Chapter 5 M49~M55 product route: exact 19 roots/47 choices, direct-week ownership, W210 same-week order, W216/W220 conditional receipts, save/load and tamper fail-closed, KO/EN parity, M55 meeting CG crop and no black/HUD layer; automation is not the causal-reader or fun verdict | `python3 tools/chapter5_causal_route_audit.py`, `Chapter5CausalRouteCheck.tscn`, `ManualSaveCheck.tscn`, then targeted `--qa=full-gamepad --lang=ko/en` chapter-5 fixtures at 960×600, 1280×800, and 1920×1080 |
 | Chapter 5 M56~M60 safe finale: 11 authored roots/30 choices and one-run 9/24, exact father-life variants, four M57 filing materials, M59 economic zero, W240 signature→Daeun same-turn outbound, atomic save/tamper closure, immediate failures first, under-goal W240 close, and unchanged 33-year `instant_legend`; automation is not the density/fun verdict | `python3 tools/chapter5_finale_route_audit.py`, `Chapter5FinaleRouteCheck.tscn`, `ManualSaveCheck.tscn`, `EndingRouteIdentityCheck.tscn`, then targeted `--qa=full-gamepad --lang=ko/en` W221/W227/W230/W235/W240 fixtures at 960×600, 1280×800, and 1920×1080 |
-| Chapter 5 general near-goal/father-passed finale: four exact M51/W220/M56/M59 source receipts, authored W220/W237/W240×2 4 roots/9 choices, separate schema-1 finale ledger 3/7, W237 disposition→W240 sacrifice→same-turn outbound, player alone with remote/record-only people, economy/property/reply zero, atomic fallback/save/tamper and unchanged property 11/30 plus `instant_legend`; automation is not the memory/escalation verdict | `python3 tools/chapter5_general_finale_route_audit.py`, `Chapter5FinaleRouteCheck.tscn`, `ManualSaveCheck.tscn`, `EndingRouteIdentityCheck.tscn`, then targeted KO/EN W220/W224/W237/W240 fixtures at 960×600, 1280×800, and 1920×1080 followed by normal-speed human M49~M60 on the same candidate |
+| Chapter 5 general near-goal/father-passed finale: M51→W211 name boundary→W220 medium plus exact W224 voice/cafe→W229 voice/cafe→W234 threshold receipts, v2 ledger 8 roots/17 choices and one-run 6/13, authored finale surface 10/21 and one-run 8/17, historical 4/9 and v1 3/7 inverse-projection, W237 disposition→W240 sacrifice→same-turn outbound, player alone with remote/record-only people, economy/property/reply zero, atomic fallback/save/tamper and unchanged property 11/30 plus `instant_legend`; automation proves the authored selector spine, not full-play density or memory/escalation | `python3 tools/chapter5_general_finale_route_audit.py`, `Chapter5FinaleRouteCheck.tscn`, `ManualSaveCheck.tscn`, `EndingRouteIdentityCheck.tscn`, then targeted KO/EN W211/W220/W224/W229/W234/W237/W240 and property W240 fixtures at 960×600, 1280×800, and 1920×1080 followed by normal-speed human M49~M60 on the same candidate |
 | Demo month summary, demo ending CTA, 6-month Time Ledger card | `--qa=demo-end-en` |
 | P0 final-life endings: eight exact CG owners, 950x430 crop, Jiyeon reflection-only mirror with exactly two non-duplicated actors and coherent gaze, 1B Second Love across-river home, Jiyeon-mediated Gangnam framing, White/Deep Black readability, and KO/EN first viewport | `--qa=ending-p0 --lang=ko/en` |
 | P1 final-life endings: exact CG owner/crop, Late Call memory, Rich and Alone base/divorce/no-leak, One More Circle base/Father-memory calendar action, distinct Bankruptcy/Debt Spiral calculation states, Startup Exit base/first-user memory, 33-year-old first-year Myth arrival, Orthodox Pinnacle base/salary-memory company-dinner pause, Burnout first-person emergency-bed hand/IV/phone composition, Stable Success's modest Seoul-room relief CG, and Mental Collapse no-leak | `--qa=ending-p1 --lang=ko/en` |

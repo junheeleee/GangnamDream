@@ -284,7 +284,7 @@
         {"kind": "finale_stage", "id": "nontransaction"},
         {"kind": "finale_stage", "id": "father_answer"}
       ],
-      "read_mode": "prepend",
+      "read_mode": "inline_slots",
       "choices": [
         {"index": 0, "receipt_ids": ["m60_signature_name_without_transfer"], "document_ids": ["Y5-FINAL-SIGNATURE-NO-TRANSFER"], "economic_outcome": {}},
         {"index": 1, "receipt_ids": ["m60_signature_cost_kept_visible"], "document_ids": ["Y5-FINAL-SIGNATURE-NO-TRANSFER"], "economic_outcome": {}},

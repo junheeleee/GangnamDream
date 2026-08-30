@@ -144,7 +144,7 @@
     "description": "아버지가 떠난 지 마흔여덟 주가 됐다. 달력은 그날과 같은 자리에 작은 점 하나를 찍어 두고 있었다.\n\n제사상은 없었다. 서울의 지금 사는 방, 접어 둔 약봉지 옆에 아버지 사진 하나를 세웠다. 방은 달라졌어도 사진 속 작업복과 굳은 어깨는 그대로였다.\n\n30억과의 거리가 얼마인지는 계산기 없이도 알 수 있었다. 그런데 오늘만큼은 그 숫자를 아버지에게 어떻게 설명해야 하는지가 더 어려웠다.\n\n\"이렇게까지 고생했냐.\" 하셨을까. 아니면 \"그래서 네가 얻은 건 뭐냐.\" 물으셨을까.\n\n{name}은 빈 의자를 사진 맞은편에 두고 한참 앉아 있었다.",
     "description_memory_if_known": {
       "chapter5_general_debt_memory_reconnect_0": "네 주 전, {name}은 1장의 마지막 상환확인일과 민서에게 실제로 했던 대답을 서른한 초짜리 자기 음성메모에 함께 남겼다. 누구에게도 보내지 않은 그 녹음의 시각이 오늘 사진 옆 약봉지의 날짜와 이어졌다.",
-      "chapter5_general_debt_memory_reconnect_1": "네 주 전, {name}은 1장의 마지막 상환확인서 사본을 들고 그 카페에 혼자 삼십 분 앉았다. 민서는 오지 않았고 새 메시지도 없었다. 그때 비어 있던 맞은편 자리와 오늘 아버지 사진 앞의 빈 의자가 이어졌다."
+      "chapter5_general_debt_memory_reconnect_1": "네 주 전, {name}은 1장의 마지막 상환확인서 사본과 자기 대답을 적은 별도 메모를 들고 그 카페에 혼자 앉았다. 민서는 오지 않았고 새 메시지도 없었다. 그때 비어 있던 맞은편 자리와 오늘 아버지 사진 앞의 빈 의자가 이어졌다."
     },
     "choices": [
       {
@@ -183,6 +183,140 @@
         "chapter5_general_father_legacy_2"
         ],
         "result_text": "모니터가 켜졌다. 차트가 올라왔다.\n\n사진은 그대로 있었다. {name}도 그대로 있었다. 살아있는 사람이 할 일이 있다."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_general_father_legacy_voice_exact",
+    "title": "빈 의자, 서른한 초",
+    "background": "current_housing",
+    "portrait": "player_sad",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "year5",
+      "father",
+      "minseo",
+      "finale"
+    ],
+    "cooldown": 9999,
+    "description": "아버지가 떠난 뒤, 마지막 해의 여름이 깊어졌다. 서울의 지금 사는 방, {name}은 접어 둔 약봉지 옆에 아버지 사진을 세우고 맞은편에 빈 의자를 두었다.\n\n[[c5read:0]]\n\n사진 속 작업복과 굳은 어깨는 그대로였다. 휴대폰에는 이미 자기 목소리로 남긴 말이 있었지만, 재생한다고 아버지가 듣는 것도 아니고 그대로 둔다고 그 말이 사라지는 것도 아니었다.\n\n{name}은 휴대폰을 사진과 빈 의자 사이에 놓았다. 소리를 이 방에 남길지, 소리 없이 의자의 자리를 바꿀지 정해야 했다. 어느 쪽에도 아버지의 답이나 민서의 새 말은 생기지 않는다.",
+    "chapter5_finale_reads": {
+      "sources": [
+        {
+          "kind": "entry_value",
+          "path": "source_choices.w220_debt_memory_reconnect",
+          "values": [0, 1]
+        }
+      ],
+      "texts": [
+        [
+          "네 주 전, {name}은 마지막 상환확인일과 민서에게 실제로 했던 대답을 서른한 초짜리 자기 음성메모에 함께 남겼다. 메모는 자기 휴대폰에만 있었고 누구에게도 보내지 않았다.",
+          "네 주 전, {name}은 마지막 상환확인서 사본과 자기 대답을 적은 별도 메모를 들고 그 카페에 혼자 앉았다. 맞은편은 비어 있었고 민서의 새 메시지도 없었다."
+        ]
+      ],
+      "mode": "inline_slots"
+    },
+    "choices": [
+      {
+        "text": "서른한 초를 처음부터 끝까지 틀고, 끝난 뒤 한 문장을 소리 내어 남긴다",
+        "effects": {
+          "mental": 8,
+          "tint": 4
+        },
+        "flags": [
+          "arc_y5_general_father_legacy_voice_exact_seen",
+          "arc_father_legacy_seen",
+          "chapter5_general_father_legacy_0"
+        ],
+        "result_text": "상환확인일과 그날 {name}이 실제로 했던 대답이 차례로 재생됐다. 서른한 초가 끝나자 {name}은 아버지 사진을 보며 말했다.\n\n\"빚은 끝난 날짜가 있고, 제가 아직 못 끝낸 대답이 있어요.\"\n\n녹음 버튼은 누르지 않았다. 새 파일도 발송 시각도 듣는 사람도 생기지 않았다. 휴대폰 화면이 꺼진 뒤에도 맞은편 의자는 비어 있었다."
+      },
+      {
+        "text": "재생하지 않고 휴대폰을 끈 뒤, 빈 의자를 자기 옆으로 당긴다",
+        "effects": {
+          "mental": 5,
+          "tint": 2
+        },
+        "flags": [
+          "arc_y5_general_father_legacy_voice_exact_seen",
+          "arc_father_legacy_seen",
+          "chapter5_general_father_legacy_1"
+        ],
+        "result_text": "{name}은 재생 버튼에서 손을 떼고 휴대폰 전원을 껐다. 맞은편의 빈 의자를 들어 자기 의자 옆에 놓고, 두 의자의 등받이가 같은 벽을 보게 맞췄다.\n\n음성메모는 재생되지도 발송되지도 않았다. 읽음이나 답장도, 아버지의 목소리도 생기지 않았다. 사진 앞에서 비어 있던 자리는 그대로 비어 있었지만, 빈 의자는 이제 {name} 옆에 있었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_general_father_legacy_cafe_exact",
+    "title": "빈 의자, 두 장",
+    "background": "current_housing",
+    "portrait": "player_sad",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "year5",
+      "father",
+      "minseo",
+      "finale"
+    ],
+    "cooldown": 9999,
+    "description": "아버지가 떠난 뒤, 마지막 해의 여름이 깊어졌다. 서울의 지금 사는 방, {name}은 접어 둔 약봉지 옆에 아버지 사진을 세우고 맞은편에 빈 의자를 두었다.\n\n[[c5read:0]]\n\n그날 들고 갔던 상환확인서 사본에는 자기 대답을 적은 작은 메모가 따로 끼워져 있었다. 과거 카페의 빈 맞은편 자리와 지금의 빈 의자 사이에는 서로 다른 두 종이만 남아 있었다. 민서가 이 방에 온 것도, 아버지가 돌아온 것도 아니었다.\n\n{name}은 접힌 사본과 메모 위에 손을 올렸다. 두 종이를 펴서 자기 대답을 소리 내어 읽거나, 그대로 둔 채 의자의 자리만 바꿀 수 있었다.",
+    "chapter5_finale_reads": {
+      "sources": [
+        {
+          "kind": "entry_value",
+          "path": "source_choices.w220_debt_memory_reconnect",
+          "values": [0, 1]
+        }
+      ],
+      "texts": [
+        [
+          "네 주 전, {name}은 마지막 상환확인일과 민서에게 실제로 했던 대답을 서른한 초짜리 자기 음성메모에 함께 남겼다. 메모는 자기 휴대폰에만 있었고 누구에게도 보내지 않았다.",
+          "네 주 전, {name}은 마지막 상환확인서 사본과 자기 대답을 적은 별도 메모를 들고 그 카페에 혼자 앉았다. 맞은편은 비어 있었고 민서의 새 메시지도 없었다."
+        ]
+      ],
+      "mode": "inline_slots"
+    },
+    "choices": [
+      {
+        "text": "사본과 메모를 펴고, 상환일과 그날의 대답을 아버지 사진 앞에서 소리 내어 읽는다",
+        "effects": {
+          "mental": 8,
+          "tint": 4
+        },
+        "flags": [
+          "arc_y5_general_father_legacy_cafe_exact_seen",
+          "arc_father_legacy_seen",
+          "chapter5_general_father_legacy_0"
+        ],
+        "result_text": "{name}은 상환확인서 사본을 펴서 마지막 상환일을 먼저 읽었다. 이어 별도 메모에 적어 둔, 민서를 다시 만난 날의 실제 대답만 소리 내어 읽었다. 두 종이를 섞지 않고 같은 자국대로 다시 접었다.\n\n듣는 사람은 없었다. 민서에게 메시지를 보내지 않았고 읽음도 답장도 생기지 않았다. 아버지 사진도 대답하지 않았다. 접힌 두 종이와 빈 의자만 서로 마주 보았다."
+      },
+      {
+        "text": "사본과 메모를 접힌 채 두고, 빈 의자를 자기 옆으로 당긴다",
+        "effects": {
+          "mental": 5,
+          "tint": 2
+        },
+        "flags": [
+          "arc_y5_general_father_legacy_cafe_exact_seen",
+          "arc_father_legacy_seen",
+          "chapter5_general_father_legacy_1"
+        ],
+        "result_text": "{name}은 사본과 메모를 펴지 않았다. 맞은편의 빈 의자를 들어 자기 의자 옆에 놓고, 접힌 두 종이는 사진 곁에 그대로 두었다.\n\n민서에게 메시지를 보내지 않았고 읽음도 답장도 생기지 않았다. 아버지 사진도 대답하지 않았다. 사진 앞에서 비어 있던 자리는 그대로였지만, 빈 의자는 이제 {name} 옆에 있었다."
       }
     ]
   },

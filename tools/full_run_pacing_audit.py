@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-"""Audit the 240-week novel cadence after the five-chapter redistribution.
+"""Audit the 240-week *modeled union* after the five-chapter redistribution.
 
-The estimate is a structural comparison model, not a substitute for a human
-playtest. It combines authored text, deliberation, StoryMode choice weeks, random-event
-opportunities, summaries, and the real auto-beat durations. Keeping the model
-constant makes later edits comparable and locates the likely two-hour refund line.
+This is a structural comparison model, not a route replay or a substitute for a
+human playtest. ``decision_weeks`` is the union of mutually exclusive authored
+routes, so its count is never a claim about the number or spacing of scenes one
+player sees. Random-event slots use a synthetic median cost rather than the
+shipped scheduler/RNG. Keeping that deliberately limited model constant makes
+later edits comparable and locates the likely two-hour refund line; only a
+normal-speed human run can judge an exact route's density and escalation.
 """
 
 from __future__ import annotations
@@ -33,10 +36,10 @@ SUMMARY_SECONDS = 15.0
 QUIET_SECONDS = 0.90
 ECHO_SECONDS = 1.35
 PROLOGUE_MINUTES = 12.0
-# ORDER-133 gives the eligible investment path M49-M55's 18 exact foreground
-# weeks (19 roots). ORDER-134 then adds eight globally reserved decision weeks
-# for M56-M60: the eligible product path fills them with nine authored roots,
-# while a non-product path retains ordinary choice opportunities on those slots.
+# These are manifest-union weeks, not weeks on one playable profile. ORDER-138
+# adds the previously unreserved W229 to the union. Its new general W211 beat
+# shares a week already reserved by the mutually exclusive property route, so
+# the Chapter 5 modeled union remains 31 even though neither route sees all 31.
 LEGACY_RANDOM_OPPORTUNITIES = (36, 44)
 PRODUCT_RANDOM_OPPORTUNITIES = (16, 30)
 CHAPTER5_PRODUCT_ENTRY_ROOT = "arc_y5_contract_cover_investment"
@@ -250,24 +253,38 @@ def main() -> int:
         print(f"FULL_RUN_PACING_AUDIT_FAIL {exc}", file=sys.stderr)
         return 1
 
-    direct = lists(manifest, "decision_weeks")
+    # Naming this value a union at the read boundary prevents callers and output
+    # parsers from mistaking it for an exact-route density measurement.
+    modeled_decision_union = lists(manifest, "decision_weeks")
     bosses = lists(manifest, "boss_weeks")
     echoes = lists(manifest, "echo_weeks")
     summaries = lists(manifest, "full_summary_weeks")
-    chapter_direct = [
-        sum((chapter - 1) * 48 < turn <= chapter * 48 for turn in direct)
+    chapter_union = [
+        sum(
+            (chapter - 1) * 48 < turn <= chapter * 48
+            for turn in modeled_decision_union
+        )
         for chapter in range(1, 6)
     ]
     errors: list[str] = []
-    if chapter_direct != [13, 9, 10, 15, 30]:
-        errors.append(f"chapter decision cadence drifted: {chapter_direct}")
-    if not 72 <= len(direct) <= 80:
-        errors.append(f"direct weeks outside 72..80: {len(direct)}")
-    if len(bosses) != 8 or 240 not in bosses or not bosses.issubset(direct):
+    if chapter_union != [13, 9, 10, 15, 31]:
+        errors.append(f"chapter modeled-union cadence drifted: {chapter_union}")
+    if not 72 <= len(modeled_decision_union) <= 80:
+        errors.append(
+            "modeled-union weeks outside 72..80: "
+            f"{len(modeled_decision_union)}"
+        )
+    if (
+        len(bosses) != 8
+        or 240 not in bosses
+        or not bosses.issubset(modeled_decision_union)
+    ):
         errors.append(f"boss contract drifted: {sorted(bosses)}")
-    if direct & echoes:
-        errors.append("direct and echo weeks overlap")
-    refund_direct = sorted(turn for turn in direct if 25 <= turn <= 48)
+    if modeled_decision_union & echoes:
+        errors.append("modeled-union and echo weeks overlap")
+    refund_direct = sorted(
+        turn for turn in modeled_decision_union if 25 <= turn <= 48
+    )
     refund_echo = sorted(turn for turn in echoes if 25 <= turn <= 48)
     if refund_direct != EXPECTED_REFUND_DIRECT:
         errors.append(f"refund-line direct cadence drifted: {refund_direct}")
@@ -310,18 +327,18 @@ def main() -> int:
             components: list[tuple[str, str, float]] = []
             if turn in firelog:
                 root = firelog[turn]
-                if turn in direct:
+                if turn in modeled_decision_union:
                     authored_direct_by_chapter[min(4, (turn - 1) // 48)] += 1
                 components.append((
                     "scene",
                     root,
                     scene_minutes(expected_scene_cost(root, events, memo)),
                 ))
-            elif turn > 24 and turn in direct:
+            elif turn > 24 and turn in modeled_decision_union:
                 components.append(("scene", MODELED_RANDOM_ROOT, median_random_minutes))
                 opportunities += 1
                 opportunities_by_chapter[min(4, (turn - 1) // 48)] += 1
-            if turn in direct:
+            if turn in modeled_decision_union:
                 cadence_root = "direct_week_cadence"
                 cadence_minutes = DIRECT_WEEK_SECONDS / 60.0
             elif turn in echoes:
@@ -348,7 +365,7 @@ def main() -> int:
         )
         if not opportunity_min <= opportunities <= opportunity_max:
             errors.append(
-                f"{path_name}: random opportunities outside "
+                f"{path_name}: synthetic random slots outside "
                 f"{opportunity_min}..{opportunity_max}: {opportunities}"
             )
         unexplained_randomless_chapters = [
@@ -356,11 +373,12 @@ def main() -> int:
             for chapter, (count, authored) in enumerate(
                 zip(opportunities_by_chapter, authored_direct_by_chapter)
             )
-            if count == 0 and authored != chapter_direct[chapter]
+            if count == 0 and authored != chapter_union[chapter]
         ]
         if unexplained_randomless_chapters:
             errors.append(
-                f"{path_name}: randomless chapters still contain unauthored choice weeks: "
+                f"{path_name}: zero-slot chapters still contain modeled-union weeks "
+                "without a path root: "
                 f"{unexplained_randomless_chapters}"
             )
         if not two_hour_boundary_allowed(refund_week, refund_root, refund_source):
@@ -383,12 +401,15 @@ def main() -> int:
         authored_direct_chapter_windows.append(authored_direct_by_chapter)
         print(
             "FULL_RUN_PATH "
-            f"name={path_name.replace(' ', '_')} direct={len(direct)} "
-            f"chapters={','.join(str(value) for value in chapter_direct)} "
+            f"name={path_name.replace(' ', '_')} "
+            f"modeled_union_weeks={len(modeled_decision_union)} "
+            f"modeled_union_by_chapter={','.join(str(value) for value in chapter_union)} "
             f"boss={len(bosses)} echo={len(echoes)} summaries={len(summaries)} "
-            f"random_windows={opportunities}/{len(random_events)}({exposure * 100:.2f}%) "
-            f"random_by_chapter={','.join(str(value) for value in opportunities_by_chapter)} "
-            "authored_direct_by_chapter="
+            f"synthetic_random_slots={opportunities}/{len(random_events)}"
+            f"({exposure * 100:.2f}%) "
+            "synthetic_random_slots_by_chapter="
+            f"{','.join(str(value) for value in opportunities_by_chapter)} "
+            "path_roots_on_modeled_union_by_chapter="
             f"{','.join(str(value) for value in authored_direct_by_chapter)} "
             f"refund_week={refund_week} refund_root={refund_root or 'none'} "
             f"refund_source={refund_source or 'none'} "
@@ -403,15 +424,19 @@ def main() -> int:
             print(f"FULL_RUN_PACING_AUDIT_FAIL {error}", file=sys.stderr)
         return 1
     print(
-        "FULL_RUN_PACING_AUDIT_OK "
-        f"direct={len(direct)} chapter_decisions={chapter_direct} "
+        "FULL_RUN_PACING_AUDIT_OK model_only=true human_route_density=not_measured "
+        f"modeled_union_weeks={len(modeled_decision_union)} "
+        f"modeled_union_by_chapter={chapter_union} "
         f"refund_cadence=direct:{refund_direct}/echo:{refund_echo} "
-        f"random_windows={min(random_windows)}-{max(random_windows)} "
-        f"random_chapter_min={min(min(values) for values in random_chapter_windows)} "
-        "authored_direct_chapter_max="
+        "synthetic_random_slots="
+        f"{min(random_windows)}-{max(random_windows)} "
+        "synthetic_random_chapter_min="
+        f"{min(min(values) for values in random_chapter_windows)} "
+        "path_roots_on_modeled_union_chapter_max="
         f"{max(max(values) for values in authored_direct_chapter_windows)} "
         f"refund_week={min(checkpoints)}-{max(checkpoints)} "
-        f"estimated_minutes={min(totals):.1f}-{max(totals):.1f}"
+        f"estimated_minutes={min(totals):.1f}-{max(totals):.1f} "
+        "human_replay_required=normal-speed-exact-route"
     )
     return 0
 

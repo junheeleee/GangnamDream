@@ -27,7 +27,7 @@ EXPECTED_BRIDGE_RANDOM = 19
 # Core V2's authored hidden beats include the First Bill fragments plus the
 # fresh-only application Send and pre-plan calculation. They are reached by
 # runtime substitution or bundle/story links, never by the random director.
-EXPECTED_REGISTERED_EVENTS = 1690
+EXPECTED_REGISTERED_EVENTS = 1696
 EXPECTED_DIRECT_ONLY_EVENTS = {
     "v2_hyunsu_player_reachout",
     "v2_hyunsu_study_followup",
@@ -164,7 +164,7 @@ EXPECTED_FULL_DECISIONS = [
     181, 185, 188, 190, 192,
     193, 195, 196, 197, 200, 201, 203, 204, 207, 208, 209,
     210, 211, 212, 215, 216, 217, 219, 220,
-    221, 224, 225, 227, 229, 230, 235, 237, 238, 239, 240,
+    221, 224, 225, 227, 229, 230, 234, 235, 237, 238, 239, 240,
 ]
 EXPECTED_FULL_BOSSES = [45, 92, 140, 192, 237, 240]
 EXPECTED_FULL_ECHOES = [
@@ -308,7 +308,7 @@ def scheduled_arc_ids(events: list[dict[str, Any]]) -> set[str]:
     chapter5_finale_source = CHAPTER5_FINALE_ROUTE.read_text(encoding="utf-8")
     for const_name, expected_count in (
         ("OWNED_EVENT_IDS", 11),
-        ("GENERAL_OWNED_EVENT_IDS", 3),
+        ("GENERAL_OWNED_EVENT_IDS", 8),
     ):
         match = re.search(
             rf"const\s+{const_name}[^=]*=\s*\[(.*?)\n\]",
@@ -786,7 +786,7 @@ def validate_manifest(manifest: dict[str, Any], events: list[dict[str, Any]]) ->
             sum((chapter - 1) * 48 < turn <= chapter * 48 for turn in all_decisions)
             for chapter in range(1, 6)
         ]
-        if chapter_counts != [13, 9, 10, 15, 30]:
+        if chapter_counts != [13, 9, 10, 15, 31]:
             errors.append(f"chapter direct-decision counts drifted: {chapter_counts}")
         if not 72 <= len(all_decisions) <= 80:
             errors.append(f"full run must expose 72..80 direct weeks, got {len(all_decisions)}")

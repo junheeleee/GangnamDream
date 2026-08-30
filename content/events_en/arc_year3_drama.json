@@ -39,7 +39,7 @@
     "description": "Forty-eight weeks had passed since Father died. The calendar marked the same place with one small dot.\n\nThere was no memorial table. In whatever room {name} now called home in Seoul, he stood Father's photograph beside the folded medicine packet. The room had changed; the work clothes and braced shoulders in the photograph had not.\n\nHe knew the distance to three billion won without opening a calculator. Today the harder figure was how he would explain that distance to Father.\n\n\"Did you have to suffer this much?\" Father might have asked. Or perhaps, \"What did you get for it?\"\n\n{name} placed an empty chair across from the photograph and sat for a long time.",
     "description_memory_if_known": {
       "chapter5_general_debt_memory_reconnect_0": "Four weeks earlier, {name} put the final repayment-confirmation date from Year One and the answer he had actually given Minseo into the same thirty-one-second voice memo. He sent it to no one. Its timestamp now met the date on the medicine packet beside Father's photograph.",
-      "chapter5_general_debt_memory_reconnect_1": "Four weeks earlier, {name} carried a copy of the final repayment confirmation from Year One to that cafe and sat alone for thirty minutes. Minseo did not come, and no new message appeared. The empty place across from him then met the empty chair before Father's photograph now."
+      "chapter5_general_debt_memory_reconnect_1": "Four weeks earlier, {name} carried the final repayment-confirmation copy and a separate note bearing his own answer to that cafe and sat alone. Minseo did not come, and no new message appeared. The empty place across from him then met the empty chair before Father's photograph now."
     },
     "choices": [
       {
@@ -53,6 +53,52 @@
       {
         "text": "Turned on the monitor. Living people have things to do.",
         "result_text": "The monitor came on. The charts came up.\n\nThe photo was still there. {name} was still there. Living people have things to do."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_general_father_legacy_voice_exact",
+    "title": "The Empty Chair, Thirty-One Seconds",
+    "description": "Summer deepened in the final year after Father was gone. In the room {name} now called home in Seoul, he stood Father's photograph beside the folded medicine packet and placed an empty chair across from it.\n\n[[c5read:0]]\n\nThe work clothes and braced shoulders in the photograph had not changed. His own words were already on the phone, but playing them would not let Father hear, and leaving them untouched would not erase them.\n\n{name} set the phone between the photograph and the empty chair. He had to choose whether to leave sound in this room or move the chair without a word. Neither action could produce an answer from Father or a new word from Minseo.",
+    "chapter5_finale_reads": {
+      "texts": [
+        [
+          "Four weeks earlier, {name} put the final repayment-confirmation date and the answer he had actually given Minseo into the same thirty-one-second private voice memo. It remained on his phone, sent to no one.",
+          "Four weeks earlier, {name} carried the final repayment-confirmation copy and a separate note bearing his answer to that cafe and sat alone. The seat across from him stayed empty, and no new message came from Minseo."
+        ]
+      ]
+    },
+    "choices": [
+      {
+        "text": "Play all thirty-one seconds, then leave one sentence aloud when it ends",
+        "result_text": "The final repayment date played first, followed by the answer {name} had actually given that day. When the thirty-one seconds ended, he looked at Father's photograph and said:\n\n\"Debt has a date when it ends. I still have an answer I haven't finished.\"\n\nHe did not press record. No new file, sent time, listener, or answer appeared. The chair across from him was still empty after the screen went dark."
+      },
+      {
+        "text": "Leave it unplayed, turn off the phone, and pull the empty chair beside his own",
+        "result_text": "{name} drew his hand away from the play button and powered off the phone. He lifted the empty chair from across the photograph, set it beside his own, and aligned both backs toward the same wall.\n\nThe memo was neither played nor sent. No read receipt, reply, or Father's voice appeared. The space before the photograph stayed empty, but the empty chair now stood beside {name}."
+      }
+    ]
+  },
+  {
+    "id": "arc_y5_general_father_legacy_cafe_exact",
+    "title": "The Empty Chair, Two Sheets",
+    "description": "Summer deepened in the final year after Father was gone. In the room {name} now called home in Seoul, he stood Father's photograph beside the folded medicine packet and placed an empty chair across from it.\n\n[[c5read:0]]\n\nA small note bearing his own answer remained tucked separately into the repayment-confirmation copy he had carried that day. Only those two distinct sheets joined the empty seat across from him at the cafe to the empty chair here. Minseo had not entered this room, and Father had not returned.\n\n{name} rested a hand on the folded copy and note. He could open both and read his own answer aloud, or leave them closed and move only the chair.",
+    "chapter5_finale_reads": {
+      "texts": [
+        [
+          "Four weeks earlier, {name} put the final repayment-confirmation date and the answer he had actually given Minseo into the same thirty-one-second private voice memo. It remained on his phone, sent to no one.",
+          "Four weeks earlier, {name} carried the final repayment-confirmation copy and a separate note bearing his answer to that cafe and sat alone. The seat across from him stayed empty, and no new message came from Minseo."
+        ]
+      ]
+    },
+    "choices": [
+      {
+        "text": "Open the copy and note, then read the repayment date and that day's answer before Father's photograph",
+        "result_text": "{name} opened the repayment-confirmation copy and read the final repayment date first. Then he spoke only the actual answer written on the separate note from the day he met Minseo again. He kept the two sheets distinct and folded them back along the same creases.\n\nNo one was there to hear. He sent Minseo no message, and no read receipt or reply appeared. Father's photograph did not answer. The two folded sheets and the empty chair faced one another."
+      },
+      {
+        "text": "Leave the copy and note folded, and pull the empty chair beside his own",
+        "result_text": "{name} did not open the copy or note. He lifted the empty chair from across the photograph, set it beside his own, and left the two folded sheets by the photograph.\n\nHe sent Minseo no message, and no read receipt or reply appeared. Father's photograph did not answer. The space before the photograph stayed empty, but the empty chair now stood beside {name}."
       }
     ]
   },

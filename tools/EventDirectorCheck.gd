@@ -1080,7 +1080,7 @@ func _check_full_run_pacing() -> void:
 			echoes.append(turn_value)
 		if EventManager.narrative_should_show_full_summary(turn_value):
 			summaries.append(turn_value)
-	_expect(direct_by_chapter == [13, 9, 10, 15, 30],
+	_expect(direct_by_chapter == [13, 9, 10, 15, 31],
 		"full-run chapter decision cadence drifted: %s" % [direct_by_chapter])
 	_expect(bosses == [4, 24, 45, 92, 140, 192, 237, 240],
 		"full-run boss cadence drifted: %s" % [bosses])

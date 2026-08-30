@@ -253,12 +253,21 @@ func _check_chapter5_finale_disk_save_contract() -> void:
 
 func _check_chapter5_general_finale_disk_save_contract() -> void:
 	_seed_chapter5_general_sources()
-	GameState.turn = 237
+	GameState.turn = 224
 	_expect(GameState.prepare_chapter5_finale_route_entry(),
-		"general finale disk fixture could not lock W237")
-	var first_id := "arc_y5_general_final_record_seal"
-	_expect(bool(GameState.record_chapter5_finale_choice(first_id, 1).get("ok", false)),
-		"general finale disk fixture could not commit record disposition")
+		"general finale disk fixture could not lock W224")
+	var partial_events: Array[String] = [
+		"arc_y5_general_father_legacy_voice_exact",
+		"arc_y5_general_debt_memory_voice_exact",
+		"arc_y5_general_pre_ending_summit_exact",
+	]
+	var partial_turns: Array[int] = [224, 229, 234]
+	var partial_choices: Array[int] = [1, 0, 1]
+	for index in range(partial_events.size()):
+		GameState.turn = partial_turns[index]
+		_expect(bool(GameState.record_chapter5_finale_choice(
+			partial_events[index], partial_choices[index]).get("ok", false)),
+			"general disk fixture could not commit %s" % partial_events[index])
 	_expect(SaveManager.save_game(TEST_SLOT, {}, {"qa_fixture": true}),
 		"general partial finale disk fixture could not be saved")
 	GameState.start_new_game()
@@ -266,20 +275,25 @@ func _check_chapter5_general_finale_disk_save_contract() -> void:
 		"general partial finale disk fixture could not be loaded")
 	var entry := GameState.chapter5_finale_entry_snapshot()
 	var first_receipt := CHAPTER5_FINALE_ROUTE.receipt_snapshot_for_event(
-		GameState.chapter5_finale_state, first_id)
+		GameState.chapter5_finale_state, partial_events[0])
+	var summit_receipt := CHAPTER5_FINALE_ROUTE.receipt_snapshot_for_event(
+		GameState.chapter5_finale_state, partial_events[2])
 	_expect(str(entry.get("profile_id", "")) == CHAPTER5_FINALE_ROUTE.GENERAL_PROFILE_ID \
 		and str(entry.get("source_route_id", "")) == CHAPTER5_FINALE_ROUTE.GENERAL_SOURCE_ROUTE_ID \
 		and entry.get("actor_bindings", {}) == CHAPTER5_FINALE_ROUTE.GENERAL_ACTORS \
+		and int(entry.get("turn", -1)) == 224 \
 		and typeof(entry.get("turn")) == TYPE_INT \
 		and typeof((entry.get("source_choices", {}) as Dictionary).get("m51_minseo_arrival")) == TYPE_INT \
+		and typeof((entry.get("source_choices", {}) as Dictionary).get("w211_name_boundary")) == TYPE_INT \
 		and typeof((entry.get("source_choices", {}) as Dictionary).get("w220_debt_memory_reconnect")) == TYPE_INT \
 		and typeof(first_receipt.get("turn")) == TYPE_INT \
-		and typeof(first_receipt.get("choice_index")) == TYPE_INT,
+		and typeof(first_receipt.get("choice_index")) == TYPE_INT \
+		and typeof(summit_receipt.get("choice_index")) == TYPE_INT \
+		and (GameState.chapter5_finale_state.get("order", []) as Array).size() == 3,
 		"general partial disk save lost exact entry/receipt integers")
 	_expect(bool(GameState.flags.get("chapter5_general_minseo_arrival_1", false)) \
-		and bool(GameState.flags.get("chapter5_general_debt_memory_reconnect_0", false)) \
-		and bool(GameState.flags.get("chapter5_general_father_legacy_2", false)) \
-		and bool(GameState.flags.get("chapter5_general_summit_1", false)),
+		and bool(GameState.flags.get("chapter5_general_name_boundary_0", false)) \
+		and bool(GameState.flags.get("chapter5_general_debt_memory_reconnect_0", false)),
 		"general partial disk save lost source choice flags")
 	_expect(_general_source_log_is_exact(),
 		"general partial disk save lost exact source event-log receipts: %s" \
@@ -289,6 +303,13 @@ func _check_chapter5_general_finale_disk_save_contract() -> void:
 	_expect(not _general_source_log_is_exact(),
 		"general source event-log matcher accepted a duplicate exact receipt")
 	GameState.event_log = exact_source_log
+	GameState.turn = 237
+	_expect(GameState.chapter5_finale_next_event_for_turn() \
+		== "arc_y5_general_final_record_seal" \
+		and bool(GameState.record_chapter5_finale_choice(
+			"arc_y5_general_final_record_seal", 1).get("ok", false)) \
+		and GameState.chapter5_finale_week_completed(237),
+		"general record disposition did not resume after disk save")
 	GameState.turn = 240
 	_expect(GameState.chapter5_finale_next_event_for_turn() \
 		== "arc_final_countdown_general_near_goal_passed" \
@@ -323,27 +344,26 @@ func _check_chapter5_general_finale_disk_save_contract() -> void:
 
 func _seed_chapter5_general_sources() -> void:
 	GameState.start_new_game("김민준", "지방_상경", "투자형")
+	GameState.money = 2_500_000_000.0
 	GameState.flags["father_passed"] = true
 	GameState.flags["chapter5_general_minseo_arrival_1"] = true
+	GameState.flags["arc_y5_general_name_boundary_exact_seen"] = true
+	GameState.flags["chapter5_general_name_boundary_0"] = true
 	GameState.flags["arc_y5_general_debt_memory_reconnect_seen"] = true
 	GameState.flags["chapter5_general_debt_memory_reconnect_0"] = true
 	GameState.flags["arc_endgame_sixmonths_seen"] = true
-	GameState.flags["chapter5_general_father_legacy_2"] = true
-	GameState.flags["chapter5_general_summit_1"] = true
 	GameState.event_log = [
 		{"event_id": "arc_minseo_03_arrival", "choice_index": 1, "turn": 203},
+		{"event_id": "arc_y5_general_name_boundary_exact", "choice_index": 0, "turn": 211},
 		{"event_id": "arc_y5_general_debt_memory_reconnect", "choice_index": 0, "turn": 220},
-		{"event_id": "arc_father_legacy", "choice_index": 2, "turn": 224},
-		{"event_id": "arc_pre_ending_summit", "choice_index": 1, "turn": 235},
 	]
 
 
 func _general_source_log_is_exact() -> bool:
 	var expected := {
 		"arc_minseo_03_arrival": [1, 203],
+		"arc_y5_general_name_boundary_exact": [0, 211],
 		"arc_y5_general_debt_memory_reconnect": [0, 220],
-		"arc_father_legacy": [2, 224],
-		"arc_pre_ending_summit": [1, 235],
 	}
 	var watched: Array = expected.keys()
 	for raw in GameState.event_log:

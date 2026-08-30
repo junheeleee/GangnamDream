@@ -148,6 +148,7 @@ EXPECTED_CHAPTER5_PRODUCT_MONTHS = {
     "arc_y5_jaehyuk_return_call_reference": 53,
     "arc_y5_jaehyuk_father_document_reference": 53,
     "arc_y5_guarantee_protected_show_daeun": 53,
+    "arc_y5_general_name_boundary_exact": 53,
     "arc_y5_jaehyuk_guarantee_decision_reference": 53,
     "arc_sangchul_final_door": 54,
     "arc_y5_sangchul_review_receipt": 54,
@@ -1903,11 +1904,11 @@ def validate_story_map(
     }
     if exact_keys(targets, target_shape, "design_targets", errors):
         if (
-            targets.get("direct_stops") != [45, 51]
+            targets.get("direct_stops") != [45, 55]
             or targets.get("history_inputs_per_scene") != 2
             or targets.get("decision_inputs_per_scene") != 1
         ):
-            errors.append("design_targets: approved targets are stops 45..51, scene history 2, decision 1")
+            errors.append("design_targets: approved targets are stops 45..55, scene history 2, decision 1")
         for count_key in ("named_readers", "generic_commitments"):
             value = targets.get(count_key)
             if not isinstance(value, int) or isinstance(value, bool) or value < 0:
@@ -2726,8 +2727,8 @@ def validate_story_map(
     stats.stops = len(stop_scene_ids)
     if [month.get("month") for month in months] != list(range(1, 61)):
         errors.append("months: must be the exact continuous sequence M01..M60")
-    if not 45 <= stats.stops <= 51:
-        errors.append(f"direct stops: {stats.stops} is outside 45..51")
+    if not 45 <= stats.stops <= 55:
+        errors.append(f"direct stops: {stats.stops} is outside 45..55")
     for root_id, expected_month in EXPECTED_CHAPTER5_PRODUCT_MONTHS.items():
         if chapter5_product_months[root_id] != [expected_month]:
             errors.append(
@@ -3227,7 +3228,7 @@ def run_self_test(
     )
     case(
         "m59_execute_selection_gate",
-        lambda x: month(x, 59)["beats"][0]["coverage"]["fallbacks"][-1]
+        lambda x: beat(x, 59, "m59_contract_execution")["coverage"]["fallbacks"][-1]
         ["selector"].update({"selected_none": []}),
         "selector dispatch must resolve exactly one branch",
     )

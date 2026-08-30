@@ -44,11 +44,15 @@ CHAPTER5_TYPED_LEDGERS = (
     ),
     (
         ROOT / "content" / "meta" / "chapter5_general_finale_ledger.json",
-        "chapter5_general_near_goal_passed_finale_v1",
-        3,
-        7,
+        "chapter5_general_near_goal_passed_finale_v2",
+        8,
+        17,
     ),
 )
+CHAPTER5_GENERAL_SELECTOR_ROOTS = {
+    "arc_y5_general_name_boundary_exact",
+    "arc_y5_general_debt_memory_reconnect",
+}
 WEEKS_PER_CHAPTER = 48
 TOTAL_CHAPTERS = 5
 CHAPTER_RATCHETS = {
@@ -119,7 +123,7 @@ def load_events() -> dict[str, dict[str, Any]]:
 
 
 def typed_chapter5_chain_members(events: dict[str, dict[str, Any]]) -> set[str]:
-    """Return roots whose links are owned by the two typed product ledgers."""
+    """Return roots whose links are owned by the three typed product ledgers."""
     members: set[str] = set()
     for path, ledger_id, root_count, choice_count in CHAPTER5_TYPED_LEDGERS:
         payload = json.loads(path.read_text(encoding="utf-8"))
@@ -499,6 +503,12 @@ def build_report() -> dict[str, Any]:
     # routing. Count those roots as chained so a short cross-character climax
     # is not mislabeled as an isolated event card.
     chain_members.update(typed_chapter5_chain_members(events))
+    missing_general_selectors = CHAPTER5_GENERAL_SELECTOR_ROOTS - set(events)
+    if missing_general_selectors:
+        raise ValueError(
+            "missing Chapter 5 general selector roots: "
+            f"{sorted(missing_general_selectors)}")
+    chain_members.update(CHAPTER5_GENERAL_SELECTOR_ROOTS)
     temporal_sources = {
         event_id for event_id, event in events.items() if deferred_followups(event)
     }

@@ -6744,6 +6744,12 @@ func _next_arc_id(
 		t, f, father_is_passed)
 	if not chapter_four_causal_id.is_empty():
 		return chapter_four_causal_id
+	# ── 일반 경로 W211 이름 경계 ──
+	# M51의 사람 선을 중간에서 다시 붙잡고, 후속 W220이
+	# 추측이 아닌 정확한 선택 영수증을 읽게 한다.
+	if t == 211 and GameState.chapter5_general_finale_w211_available(t) \
+			and not f.get("arc_y5_general_name_boundary_exact_seen", false):
+		return "arc_y5_general_name_boundary_exact"
 	# ── 일반 경로 W220 사람·빚·기억 재접속 ──
 	# Exact year/source evidence gives this authored week priority over stale
 	# lower-year fallback arcs. Chapter cards and exact year closes remain above

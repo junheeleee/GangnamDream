@@ -4,15 +4,15 @@
   "baseline_commit": "3b275a913053412a3e2ff52fc9588d71d3a9bb37",
   "hash_semantics": "sha256(UTF-8 sorted unique IDs joined by LF with one trailing LF)",
   "counts": {
-    "packaged_events": 1800,
-    "shipping_events": 1690,
+    "packaged_events": 1806,
+    "shipping_events": 1696,
     "author_only_events": 110,
     "tagged_author_only_events": 99,
     "ledger_only_author_only_events": 11
   },
   "sha256": {
-    "packaged_event_ids": "666e7c8c13e4d073138376504731a0061062c232df4e2e3847e25fdfab67243e",
-    "shipping_event_ids": "9093ba15c49084efeab1c87fa0965d5fdd9d56ba8eb7a28454b6360ebb9ea5b2",
+    "packaged_event_ids": "327b61965bbe8b66eb2cfacfd5d58842e9bca0201979df0361a30a9c70fb44a2",
+    "shipping_event_ids": "d643c6b97b200f75ddf8297d68307fd7138d2a92d542b478dc6b8c225e613c50",
     "author_only_event_ids": "aef8d1b0a9f17a604a9ce2bf647101a3cbff710a487272e5012f1f9be171ce76",
     "tagged_author_only_event_ids": "45a04d6e0fe316ea67b3e95b007ce9d1d82a5fc185090570875a11a60d0b8188",
     "ledger_only_author_only_event_ids": "3dd49d60dbfa37febe1257fd08fbade4dfe102ece1b73acbda71e0ec95f34e49"

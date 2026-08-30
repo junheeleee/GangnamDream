@@ -20,14 +20,14 @@ const EXPECTED_ACTIVE_CHOICE_COUNT := 24
 
 const GENERAL_LEDGER_PATH := \
 	"res://content/meta/chapter5_general_finale_ledger.json"
-const GENERAL_LEDGER_ID := "chapter5_general_near_goal_passed_finale_v1"
+const GENERAL_LEDGER_ID := "chapter5_general_near_goal_passed_finale_v2"
 const GENERAL_PROFILE_ID := "general_near_goal_father_passed"
 const GENERAL_SOURCE_ROUTE_ID := "general_story"
-const GENERAL_ENTRY_TURN := 237
-const GENERAL_EXPECTED_ROOT_COUNT := 3
-const GENERAL_EXPECTED_ACTIVE_ROOT_COUNT := 3
-const GENERAL_EXPECTED_CHOICE_COUNT := 7
-const GENERAL_EXPECTED_ACTIVE_CHOICE_COUNT := 7
+const GENERAL_ENTRY_TURN := 224
+const GENERAL_EXPECTED_ROOT_COUNT := 8
+const GENERAL_EXPECTED_ACTIVE_ROOT_COUNT := 6
+const GENERAL_EXPECTED_CHOICE_COUNT := 17
+const GENERAL_EXPECTED_ACTIVE_CHOICE_COUNT := 13
 
 const STAGES: Array[String] = [
 	"father_trace",
@@ -161,22 +161,29 @@ const READ_SOURCES := {
 	],
 }
 const GENERAL_STAGES: Array[String] = [
+	"father_legacy",
+	"debt_memory_consequence",
+	"summit",
 	"record_disposition",
 	"sacrifice",
 	"outbound",
 ]
 const GENERAL_OWNED_EVENT_IDS: Array[String] = [
+	"arc_y5_general_father_legacy_voice_exact",
+	"arc_y5_general_father_legacy_cafe_exact",
+	"arc_y5_general_debt_memory_voice_exact",
+	"arc_y5_general_debt_memory_cafe_exact",
+	"arc_y5_general_pre_ending_summit_exact",
 	"arc_y5_general_final_record_seal",
 	"arc_final_countdown_general_near_goal_passed",
 	"arc_y5_final_week_general_people_outbound",
 ]
-const GENERAL_OWNED_TURNS: Array[int] = [237, 240, 240]
-const GENERAL_ROOT_CHOICE_COUNTS: Array[int] = [2, 2, 3]
+const GENERAL_OWNED_TURNS: Array[int] = [224, 224, 229, 229, 234, 237, 240, 240]
+const GENERAL_ROOT_CHOICE_COUNTS: Array[int] = [2, 2, 2, 2, 2, 2, 2, 3]
 const GENERAL_SOURCE_CHOICE_KEYS: Array[String] = [
 	"m51_minseo_arrival",
+	"w211_name_boundary",
 	"w220_debt_memory_reconnect",
-	"m56_father_legacy",
-	"m59_summit",
 ]
 const GENERAL_ACTORS := {
 	"chooser": "player",
@@ -184,6 +191,17 @@ const GENERAL_ACTORS := {
 	"cost_witness": "minseo",
 }
 const GENERAL_ROOT_ACTORS := {
+	"arc_y5_general_father_legacy_voice_exact": {
+		"chooser": "player", "father": "father",
+	},
+	"arc_y5_general_father_legacy_cafe_exact": {
+		"chooser": "player", "father": "father",
+	},
+	"arc_y5_general_debt_memory_voice_exact": {"chooser": "player"},
+	"arc_y5_general_debt_memory_cafe_exact": {"chooser": "player"},
+	"arc_y5_general_pre_ending_summit_exact": {
+		"chooser": "player", "father": "father",
+	},
 	"arc_y5_general_final_record_seal": {
 		"chooser": "player", "father": "father", "cost_witness": "minseo",
 	},
@@ -195,22 +213,33 @@ const GENERAL_ROOT_ACTORS := {
 	},
 }
 const GENERAL_READ_SOURCES := {
-	"arc_y5_general_final_record_seal": [
+	"arc_y5_general_father_legacy_voice_exact": [
 		{
 			"kind": "entry_value",
 			"path": "source_choices.w220_debt_memory_reconnect",
 			"values": [0.0, 1.0],
 		},
+	],
+	"arc_y5_general_father_legacy_cafe_exact": [
 		{
 			"kind": "entry_value",
-			"path": "source_choices.m56_father_legacy",
-			"values": [0.0, 1.0, 2.0],
-		},
-		{
-			"kind": "entry_value",
-			"path": "source_choices.m59_summit",
+			"path": "source_choices.w220_debt_memory_reconnect",
 			"values": [0.0, 1.0],
 		},
+	],
+	"arc_y5_general_debt_memory_voice_exact": [
+		{"kind": "finale_stage", "id": "father_legacy"},
+	],
+	"arc_y5_general_debt_memory_cafe_exact": [
+		{"kind": "finale_stage", "id": "father_legacy"},
+	],
+	"arc_y5_general_pre_ending_summit_exact": [
+		{"kind": "finale_stage", "id": "debt_memory_consequence"},
+	],
+	"arc_y5_general_final_record_seal": [
+		{"kind": "finale_stage", "id": "father_legacy"},
+		{"kind": "finale_stage", "id": "debt_memory_consequence"},
+		{"kind": "finale_stage", "id": "summit"},
 	],
 	"arc_final_countdown_general_near_goal_passed": [
 		{"kind": "finale_stage", "id": "record_disposition"},
@@ -222,13 +251,24 @@ const GENERAL_READ_SOURCES := {
 			"path": "source_choices.m51_minseo_arrival",
 			"values": [0.0, 1.0],
 		},
-		{
-			"kind": "entry_value",
-			"path": "source_choices.m56_father_legacy",
-			"values": [0.0, 1.0, 2.0],
-		},
+		{"kind": "finale_stage", "id": "father_legacy"},
 	],
 }
+const GENERAL_BRANCH_VARIANTS := {
+	"arc_y5_general_father_legacy_voice_exact": 0,
+	"arc_y5_general_father_legacy_cafe_exact": 1,
+	"arc_y5_general_debt_memory_voice_exact": 0,
+	"arc_y5_general_debt_memory_cafe_exact": 1,
+}
+const INLINE_SLOT_READ_EVENT_IDS: Array[String] = [
+	"arc_final_countdown_property_not_executed",
+	"arc_y5_general_father_legacy_voice_exact",
+	"arc_y5_general_father_legacy_cafe_exact",
+	"arc_y5_general_debt_memory_voice_exact",
+	"arc_y5_general_debt_memory_cafe_exact",
+	"arc_y5_general_pre_ending_summit_exact",
+	"arc_y5_general_final_record_seal",
+]
 const NO_EXECUTABLE_CONTRACT_OUTCOME := {
 	"kind": "none",
 	"reason": "no_executable_contract",
@@ -787,11 +827,8 @@ static func _source_choice_max_for_profile(
 		profile_id: String, key: String) -> int:
 	if profile_id == PROFILE_ID and key in SOURCE_CHOICE_KEYS:
 		return 2
-	if profile_id == GENERAL_PROFILE_ID:
-		if key == "m56_father_legacy":
-			return 2
-		if key in GENERAL_SOURCE_CHOICE_KEYS:
-			return 1
+	if profile_id == GENERAL_PROFILE_ID and key in GENERAL_SOURCE_CHOICE_KEYS:
+		return 1
 	return -1
 
 
@@ -1202,38 +1239,55 @@ static func _valid_ledger(
 	if choice_total != expected_choices:
 		return false
 	for stage in stages:
-		var expected_variants := 2 \
-			if profile_id == PROFILE_ID \
-				and stage in ["father_trace", "father_answer"] else 1
+		var expected_variants := 1
+		if profile_id == PROFILE_ID \
+				and stage in ["father_trace", "father_answer"]:
+			expected_variants = 2
+		elif profile_id == GENERAL_PROFILE_ID \
+				and stage in ["father_legacy", "debt_memory_consequence"]:
+			expected_variants = 2
 		if int(stage_variant_counts.get(stage, 0)) != expected_variants:
 			return false
 	var sample_lives: Array[String] = ["passed"]
 	if profile_id == PROFILE_ID:
 		sample_lives = FATHER_LIFE_VALUES.duplicate()
+	var source_samples: Array[Dictionary] = []
+	var base_source_choices: Dictionary = {}
+	for source_key in _source_choice_keys_for_profile(profile_id):
+		base_source_choices[source_key] = 0
+	if profile_id == GENERAL_PROFILE_ID:
+		for branch_choice in [0, 1]:
+			var branch_sources := base_source_choices.duplicate(true)
+			branch_sources["w220_debt_memory_reconnect"] = branch_choice
+			source_samples.append(branch_sources)
+	else:
+		source_samples.append(base_source_choices)
+	var sampled_active_roots: Dictionary = {}
 	for life in sample_lives:
-		var sample_source_choices: Dictionary = {}
-		for source_key in _source_choice_keys_for_profile(profile_id):
-			sample_source_choices[source_key] = 0
-		var entry := {
-			"route_id": ROUTE_ID,
-			"turn": entry_turn_for_profile(profile_id),
-			"profile_id": profile_id,
-			"source_route_id": _source_route_id_for_profile(profile_id),
-			"source_choices": sample_source_choices,
-			"father": {"life": life, "contact_mode": "records_only"},
-			"actor_bindings": _actors_for_profile(profile_id),
-		}
-		var active_choices := 0
-		var active_roots := 0
-		for stage in stages:
-			var active := _active_root_for_stage(ledger, entry, stage)
-			if active.is_empty():
+		for sample_source_choices in source_samples:
+			var entry := {
+				"route_id": ROUTE_ID,
+				"turn": entry_turn_for_profile(profile_id),
+				"profile_id": profile_id,
+				"source_route_id": _source_route_id_for_profile(profile_id),
+				"source_choices": sample_source_choices.duplicate(true),
+				"father": {"life": life, "contact_mode": "records_only"},
+				"actor_bindings": _actors_for_profile(profile_id),
+			}
+			var active_choices := 0
+			var active_roots := 0
+			for stage in stages:
+				var active := _active_root_for_stage(ledger, entry, stage)
+				if active.is_empty():
+					return false
+				active_roots += 1
+				active_choices += (active["choices"] as Array).size()
+				sampled_active_roots[str(active.get("event_id", ""))] = true
+			if active_roots != expected_active_roots \
+					or active_choices != expected_active_choices:
 				return false
-			active_roots += 1
-			active_choices += (active["choices"] as Array).size()
-		if active_roots != expected_active_roots \
-				or active_choices != expected_active_choices:
-			return false
+	if sampled_active_roots.size() != expected_roots:
+		return false
 	return true
 
 
@@ -1311,20 +1365,35 @@ static func _valid_ledger_root(
 			or not _same(root["actors"], root_actors[expected_event_id]) \
 			or not root.get("read_sources") is Array \
 			or not _same(root["read_sources"], read_sources[expected_event_id]) \
-			or str(root.get("read_mode", "")) != "prepend" \
+			or str(root.get("read_mode", "")) \
+				!= _expected_read_mode(expected_event_id) \
 			or not root.get("choices") is Array:
 		return false
-	var is_variant := profile_id == PROFILE_ID \
+	var is_father_variant := profile_id == PROFILE_ID \
 		and str(root["stage"]) in ["father_trace", "father_answer"]
+	var is_general_branch_variant := profile_id == GENERAL_PROFILE_ID \
+		and GENERAL_BRANCH_VARIANTS.has(expected_event_id)
 	var expected_variant := 1
 	var expected_life := ""
-	if is_variant:
+	if is_father_variant:
 		expected_life = "passed" if "passed" in str(root["event_id"]) else "alive"
 		expected_variant = 2 if expected_life == "passed" else 1
 		if not root.get("active_when") is Dictionary \
 				or not _same(root["active_when"], {
 					"entry_path": "father.life", "equals": expected_life,
 				}):
+			return false
+	elif is_general_branch_variant:
+		var branch_choice := int(GENERAL_BRANCH_VARIANTS[expected_event_id])
+		expected_variant = branch_choice + 1
+		if not root.get("active_when") is Dictionary:
+			return false
+		var active_when: Dictionary = root["active_when"]
+		if not _has_exact_keys(active_when, ["entry_path", "equals"]) \
+				or str(active_when.get("entry_path", "")) \
+					!= "source_choices.w220_debt_memory_reconnect" \
+				or not _json_int_equals(
+					active_when.get("equals"), branch_choice):
 			return false
 	elif root.get("active_when") != null:
 		return false
@@ -1358,6 +1427,10 @@ static func _valid_ledger_root(
 		elif not (choice["economic_outcome"] as Dictionary).is_empty():
 			return false
 	return true
+
+
+static func _expected_read_mode(event_id: String) -> String:
+	return "inline_slots" if event_id in INLINE_SLOT_READ_EVENT_IDS else "prepend"
 
 
 static func _valid_no_execution_outcome(outcome: Dictionary) -> bool:

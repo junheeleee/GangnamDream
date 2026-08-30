@@ -3,7 +3,7 @@
 > 이 문서는 `content/meta/release_content_inventory.json`과 현재 소스에서 자동 생성한다.
 > 최종 연령 등급·법률 의견·콘텐츠 삭제 결정이 아니며 수동 편집하지 않는다.
 
-갱신 기준: 2026-08-27
+갱신 기준: 2026-08-29
 
 ## 가장 중요한 범위 판정
 
@@ -20,13 +20,13 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 
 ## 현재 코퍼스
 
-- KO/EN 사건: 각각 127파일 · 1800건, ID 일치
-- 패키지 사건: 1800건 · 현재 shipping 사건: 1690건 · author-only reference 원고: 110건
+- KO/EN 사건: 각각 127파일 · 1806건, ID 일치
+- 패키지 사건: 1806건 · 현재 shipping 사건: 1696건 · author-only reference 원고: 110건
 - KO/EN 엔딩: 각각 35건
 - 활성 스토리 이미지: 250장 · source raster: 306장
 - 게임 pack 대상 raster: 298장 · ImageRegistry 외부 pack 대상: 48장
 - `.gdignore` source-only 상점 스크린샷: 8장 · 출처 원장 오디오: 139개
-- 사건 ID SHA-256: `f367818e23e6b7f8b565d1b5404ad291d7fbef3002b4cc702290a411f9d51649`
+- 사건 ID SHA-256: `4cfe41e9e2898bc4d21fbc44c39d6efac30b160152f38388cedb69efe4062f65`
 - KO/EN 엔딩 본문 SHA-256: `81f1599053907f43b59021e2baccaff249a7bcc7b2c630dde389021b3d395eca`
 
 후보 fingerprint는 표현의 최종 등급이 아니라 검토 코퍼스가 조용히 바뀌는 것을

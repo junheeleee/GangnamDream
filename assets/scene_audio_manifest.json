@@ -144,7 +144,7 @@
           "arc_jiyeon_wedding_gap_father_passed", "arc_jiyeon_wedding_guest_list", "arc_jiyeon_wedding_guest_list_father_passed", "arc_jiyeon_wedding_night",
           "arc_jiyeon_wedding_night_choice", "arc_jiyeon_wedding_night_glass", "arc_jiyeon_wedding_night_window", "arc_jiyeon_year3",
           "arc_job_first_rejection", "arc_job_vs_invest", "arc_late_game_push", "arc_midpoint_reckoning",
-          "arc_money_loneliness", "arc_money_loneliness_father_passed", "arc_pre_ending_winter", "arc_sangchul_01_answer",
+          "arc_money_loneliness", "arc_money_loneliness_father_passed", "arc_pre_ending_winter", "arc_y5_general_pre_ending_summit_exact", "arc_sangchul_01_answer",
           "arc_sangchul_01_coffee", "arc_sangchul_01_measure", "arc_sangchul_01_meet", "arc_sangchul_03_network",
           "arc_sangchul_buried_silence", "arc_sangchul_casino_arrival", "arc_sangchul_casino_cost", "arc_sangchul_casino_decision",
           "arc_sangchul_casino_invite", "arc_sangchul_casino_people", "arc_sangchul_confrontation", "arc_sangchul_deduction",
@@ -162,7 +162,9 @@
           "arc_y5_contract_cover_investment", "arc_y5_contract_reviewer_delivery_sangchul", "arc_y5_father_trace_alive_exact", "arc_y5_father_trace_custody",
           "arc_y5_father_trace_passed_exact", "arc_y5_final_father_answer_alive", "arc_y5_final_father_answer_passed", "arc_y5_final_offer",
           "arc_y5_final_offer_reference_delivery", "arc_y5_final_push_deadline_investment", "arc_y5_final_week_daeun_outbound", "arc_y5_final_week_general_people_outbound",
-          "arc_y5_general_debt_memory_reconnect", "arc_y5_general_final_record_seal", "arc_y5_guarantee_protected_show_daeun", "arc_y5_jaehyuk_father_document_reference",
+          "arc_y5_general_name_boundary_exact", "arc_y5_general_debt_memory_reconnect", "arc_y5_general_father_legacy_voice_exact", "arc_y5_general_father_legacy_cafe_exact",
+          "arc_y5_general_debt_memory_voice_exact", "arc_y5_general_debt_memory_cafe_exact", "arc_y5_general_final_record_seal",
+          "arc_y5_guarantee_protected_show_daeun", "arc_y5_jaehyuk_father_document_reference",
           "arc_y5_jaehyuk_guarantee_decision_reference", "arc_y5_jaehyuk_guarantee_request_reference", "arc_y5_jaehyuk_return_call_reference", "arc_y5_minseo_goal_cost_reference",
           "arc_y5_name_on_line_daeun_routed", "arc_y5_people_verdict_daeun_exact", "arc_y5_property_not_executed_notice", "arc_y5_protection_boundary_daeun",
           "arc_y5_remaining_jaehyuk_or_self", "arc_y5_room_consent_receipt", "arc_y5_sangchul_review_receipt", "arc_y5_three_in_room",
@@ -852,6 +854,49 @@
       "result_paragraph_cues": {
         "0": {"0": [{"sfx": "phone_notification", "volume_db": -8.0}]},
         "1": {"0": [{"sfx": "cup_set", "volume_db": -8.0}]}
+      }
+    },
+    "arc_y5_general_name_boundary_exact": {
+      "ambience": "current_housing",
+      "music": {"key": "reckoning", "start_paragraph": 1},
+      "paragraph_cues": {"0": [{"sfx": "phone_notification", "volume_db": -9.0}]},
+      "result_paragraph_cues": {
+        "0": {"0": [{"sfx": "phone_notification", "volume_db": -8.0}]},
+        "1": {"0": [{"sfx": "phone_notification", "volume_db": -8.0}]}
+      }
+    },
+    "arc_y5_general_father_legacy_voice_exact": {
+      "ambience": "current_housing",
+      "music": {"key": "grief", "start_paragraph": 1},
+      "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -8.0}]}
+    },
+    "arc_y5_general_father_legacy_cafe_exact": {
+      "ambience": "current_housing",
+      "music": {"key": "grief", "start_paragraph": 1},
+      "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -8.0}]},
+      "result_paragraph_cues": {
+        "0": {"0": [{"sfx": "paper_handle", "volume_db": -8.0}]}
+      }
+    },
+    "arc_y5_general_debt_memory_voice_exact": {
+      "ambience": "current_housing",
+      "music": {"key": "grief", "start_paragraph": 1}
+    },
+    "arc_y5_general_debt_memory_cafe_exact": {
+      "ambience": "current_housing",
+      "music": {"key": "grief", "start_paragraph": 1},
+      "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -8.0}]},
+      "result_paragraph_cues": {
+        "0": {"0": [{"sfx": "paper_handle", "volume_db": -8.0}]},
+        "1": {"0": [{"sfx": "paper_handle", "volume_db": -8.0}]}
+      }
+    },
+    "arc_y5_general_pre_ending_summit_exact": {
+      "ambience": "office",
+      "music": {"key": "reckoning", "start_paragraph": 1},
+      "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -8.0}]},
+      "result_paragraph_cues": {
+        "1": {"0": [{"sfx": "paper_handle", "volume_db": -8.0}]}
       }
     },
     "arc_y5_general_final_record_seal": {

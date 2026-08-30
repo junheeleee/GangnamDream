@@ -290,38 +290,52 @@ func _prepare_chapter5_general_finale_case(
 	GameState.player_route = "투자형"
 	GameState.tendency_realized = "invest"
 	GameState.flags["route_invest"] = true
-	GameState.money = total_assets
+	# Entry is intentionally exact at W224. Under-goal ending fixtures model a
+	# later loss by applying their terminal assets only after the durable route
+	# has been completed.
+	GameState.money = maxf(total_assets, 2_500_000_000.0)
 	GameState.flags["father_passed"] = true
 	GameState.flags["chapter5_general_minseo_arrival_1"] = true
+	GameState.flags["arc_y5_general_name_boundary_exact_seen"] = true
+	GameState.flags["chapter5_general_name_boundary_0"] = true
 	GameState.flags["arc_y5_general_debt_memory_reconnect_seen"] = true
 	GameState.flags["chapter5_general_debt_memory_reconnect_0"] = true
 	GameState.flags["arc_endgame_sixmonths_seen"] = true
-	GameState.flags["chapter5_general_father_legacy_2"] = true
-	GameState.flags["chapter5_general_summit_1"] = true
 	GameState.event_log = [
 		{"event_id": "arc_minseo_03_arrival", "choice_index": 1, "turn": 203},
+		{"event_id": "arc_y5_general_name_boundary_exact", "choice_index": 0, "turn": 211},
 		{"event_id": "arc_y5_general_debt_memory_reconnect", "choice_index": 0, "turn": 220},
-		{"event_id": "arc_father_legacy", "choice_index": 2, "turn": 224},
-		{"event_id": "arc_pre_ending_summit", "choice_index": 1, "turn": 235},
 	]
-	GameState.turn = 237
+	GameState.turn = 224
 	if not GameState.prepare_chapter5_finale_route_entry():
 		return false
-	var first := GameState.record_chapter5_finale_choice(
-		"arc_y5_general_final_record_seal", 1)
-	if not bool(first.get("ok", false)):
-		return false
+	var prefinal_events: Array[String] = [
+		"arc_y5_general_father_legacy_voice_exact",
+		"arc_y5_general_debt_memory_voice_exact",
+		"arc_y5_general_pre_ending_summit_exact",
+		"arc_y5_general_final_record_seal",
+	]
+	var prefinal_turns: Array[int] = [224, 229, 234, 237]
+	var prefinal_choices: Array[int] = [0, 0, 0, 1]
+	for index in range(prefinal_events.size()):
+		GameState.turn = prefinal_turns[index]
+		var result := GameState.record_chapter5_finale_choice(
+			prefinal_events[index], prefinal_choices[index])
+		if not bool(result.get("ok", false)):
+			return false
 	GameState.turn = 240
 	var sacrifice := GameState.record_chapter5_finale_choice(
 		"arc_final_countdown_general_near_goal_passed", sacrifice_choice)
 	if not bool(sacrifice.get("ok", false)):
 		return false
 	if not include_outbound:
+		GameState.money = total_assets
 		return true
 	var outbound := GameState.record_chapter5_finale_choice(
 		"arc_y5_final_week_general_people_outbound", outbound_choice)
 	if bool(outbound.get("ok", false)):
 		GameState.flags["arc_final_week_seen"] = true
+		GameState.money = total_assets
 	return bool(outbound.get("ok", false))
 
 

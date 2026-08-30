@@ -192,20 +192,46 @@ def chapter5_queue_only_edges() -> set[str]:
     if not isinstance(general, dict) \
             or general.get("schema_version") != 1 \
             or general.get("ledger_id") \
-                != "chapter5_general_near_goal_passed_finale_v1" \
-            or general.get("expected_root_count") != 3 \
-            or general.get("expected_active_root_count") != 3 \
-            or general.get("expected_choice_count") != 7 \
-            or general.get("expected_active_choice_count") != 7:
+                != "chapter5_general_near_goal_passed_finale_v2" \
+            or general.get("expected_root_count") != 8 \
+            or general.get("expected_active_root_count") != 6 \
+            or general.get("expected_choice_count") != 17 \
+            or general.get("expected_active_choice_count") != 13 \
+            or general.get("stages") != [
+                "father_legacy", "debt_memory_consequence", "summit",
+                "record_disposition", "sacrifice", "outbound",
+            ]:
+        return established_edges
+    entry = general.get("entry_contract", {})
+    if not isinstance(entry, dict) or entry.get("turn") != 224 \
+            or entry.get("source_choice_keys") != {
+                "m51_minseo_arrival": [0, 1],
+                "w211_name_boundary": [0, 1],
+                "w220_debt_memory_reconnect": [0, 1],
+            }:
         return established_edges
     general_roots = general.get("roots", [])
-    if not isinstance(general_roots, list) or len(general_roots) != 3 \
+    expected_general_ids = [
+        "arc_y5_general_father_legacy_voice_exact",
+        "arc_y5_general_father_legacy_cafe_exact",
+        "arc_y5_general_debt_memory_voice_exact",
+        "arc_y5_general_debt_memory_cafe_exact",
+        "arc_y5_general_pre_ending_summit_exact",
+        "arc_y5_general_final_record_seal",
+        "arc_final_countdown_general_near_goal_passed",
+        "arc_y5_final_week_general_people_outbound",
+    ]
+    if not isinstance(general_roots, list) or len(general_roots) != 8 \
             or not all(isinstance(root, dict) for root in general_roots):
         return established_edges
-    general_sacrifice = general_roots[1]
-    general_outbound = general_roots[2]
-    if general_sacrifice.get("stage_sequence") != 2 \
-            or general_outbound.get("stage_sequence") != 3 \
+    if [root.get("event_id") for root in general_roots] != expected_general_ids:
+        return established_edges
+    general_sacrifice = general_roots[6]
+    general_outbound = general_roots[7]
+    if general_sacrifice.get("stage_sequence") != 5 \
+            or general_outbound.get("stage_sequence") != 6 \
+            or general_sacrifice.get("variant_sequence") != 1 \
+            or general_outbound.get("variant_sequence") != 1 \
             or general_sacrifice.get("stage") != "sacrifice" \
             or general_outbound.get("stage") != "outbound" \
             or general_sacrifice.get("turn") != 240 \

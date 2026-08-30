@@ -453,15 +453,12 @@ func _chapter5_general_finale_source_choices() -> Dictionary:
 		"m51_minseo_arrival": _chapter5_general_exact_source_choice(
 			"arc_minseo_03_arrival", "chapter5_general_minseo_arrival_", 2,
 			200, 219),
+		"w211_name_boundary": _chapter5_general_exact_source_choice(
+			"arc_y5_general_name_boundary_exact",
+			"chapter5_general_name_boundary_", 2, 211, 211),
 		"w220_debt_memory_reconnect": _chapter5_general_exact_source_choice(
 			"arc_y5_general_debt_memory_reconnect",
 			"chapter5_general_debt_memory_reconnect_", 2, 220, 220),
-		"m56_father_legacy": _chapter5_general_exact_source_choice(
-			"arc_father_legacy", "chapter5_general_father_legacy_", 3,
-			224, 236),
-		"m59_summit": _chapter5_general_exact_source_choice(
-			"arc_pre_ending_summit", "chapter5_general_summit_", 2,
-			234, 236),
 	}
 	for source_choice in sources.values():
 		if int(source_choice) < 0:
@@ -496,6 +493,52 @@ func _chapter5_general_route_profile_allowed() -> bool:
 	return false
 
 
+func chapter5_general_finale_w211_available(at_turn: int = -1) -> bool:
+	var query_turn: int = int(turn) if at_turn < 0 else at_turn
+	if query_turn != 211 or not chapter5_causal_entry_snapshot().is_empty() \
+			or not chapter5_finale_entry_snapshot().is_empty() \
+			or not _chapter5_general_route_profile_allowed():
+		return false
+	var canonical_finale_state := CHAPTER5_FINALE_ROUTE.state_from_save(
+		chapter5_finale_state, true, query_turn)
+	if canonical_finale_state != CHAPTER5_FINALE_ROUTE.default_state():
+		return false
+	if str(_chapter5_finale_father_snapshot().get("life", "")) != "passed":
+		return false
+	var current_assets := float(get_total_asset_value())
+	if not is_finite(current_assets) or current_assets < 2_500_000_000.0:
+		return false
+	# The bridge is earned only by an exact M51 receipt already present by W211.
+	# A future-dated or conflicting source must not manufacture this slot.
+	if _chapter5_general_exact_source_choice(
+			"arc_minseo_03_arrival", "chapter5_general_minseo_arrival_", 2,
+			200, query_turn) < 0:
+		return false
+	# Old general-finale roots and either of the later replacement sources make
+	# this a stale save. Fail closed instead of replaying a new history over it.
+	for source_spec in [
+		[
+			"arc_y5_general_name_boundary_exact",
+			"chapter5_general_name_boundary_", 2,
+		],
+		[
+			"arc_y5_general_debt_memory_reconnect",
+			"chapter5_general_debt_memory_reconnect_", 2,
+		],
+		[
+			"arc_y5_general_last_page_instruction",
+			"chapter5_general_last_page_instruction_", 2,
+		],
+		["arc_father_legacy", "chapter5_general_father_legacy_", 3],
+		["arc_pre_ending_summit", "chapter5_general_summit_", 2],
+		["arc_endgame_sixmonths", "", 0],
+	]:
+		if not _chapter5_general_source_absent(
+				str(source_spec[0]), str(source_spec[1]), int(source_spec[2])):
+			return false
+	return true
+
+
 func chapter5_general_finale_w220_available(at_turn: int = -1) -> bool:
 	var query_turn: int = int(turn) if at_turn < 0 else at_turn
 	if query_turn != 220 or not chapter5_causal_entry_snapshot().is_empty() \
@@ -511,6 +554,10 @@ func chapter5_general_finale_w220_available(at_turn: int = -1) -> bool:
 	if _chapter5_general_exact_source_choice(
 			"arc_minseo_03_arrival", "chapter5_general_minseo_arrival_", 2,
 			200, 219) < 0:
+		return false
+	if _chapter5_general_exact_source_choice(
+			"arc_y5_general_name_boundary_exact",
+			"chapter5_general_name_boundary_", 2, 211, 211) < 0:
 		return false
 	if not _chapter5_general_source_absent(
 			"arc_y5_general_last_page_instruction",
@@ -571,18 +618,27 @@ func prepare_chapter5_finale_route_entry() -> bool:
 		source_choices = _chapter5_finale_source_choices()
 		actors = CHAPTER5_FINALE_ROUTE.ACTORS.duplicate(true)
 	elif int(turn) == CHAPTER5_FINALE_ROUTE.GENERAL_ENTRY_TURN:
-		# The first general child is deliberately narrow: no property entry,
-		# no career/startup profile, Father's death, and four exact pre-finale
-		# choices. Missing or conflicting evidence leaves the generic W237/W240
-		# fallback untouched.
+		# The general route locks before the W224 anniversary scene so its two
+		# W220 branches can own different, durable roots through W240. The tested
+		# near-goal profile must already be at the 2.5B threshold; M51 alone proves
+		# only 2B and cannot authorize the later summit prose.
+		var current_assets := float(get_total_asset_value())
 		if not chapter5_causal_entry_snapshot().is_empty() \
 				or not _chapter5_general_route_profile_allowed() \
 				or str(father.get("life", "")) != "passed" \
+				or not is_finite(current_assets) \
+				or current_assets < 2_500_000_000.0 \
 				or not _chapter5_general_event_absent(
 					"arc_endgame_sixmonths") \
 				or not _chapter5_general_source_absent(
 					"arc_y5_general_last_page_instruction",
-					"chapter5_general_last_page_instruction_", 2):
+					"chapter5_general_last_page_instruction_", 2) \
+				or not _chapter5_general_source_absent(
+					"arc_father_legacy",
+					"chapter5_general_father_legacy_", 3) \
+				or not _chapter5_general_source_absent(
+					"arc_pre_ending_summit",
+					"chapter5_general_summit_", 2):
 			return false
 		source_choices = _chapter5_general_finale_source_choices()
 		if source_choices.is_empty():

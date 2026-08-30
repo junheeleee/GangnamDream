@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "scope": {
-    "root_count": 371,
-    "exposed_count": 515,
-    "root_ids_sha256": "67b443cb799000d04e30a9c90bd3100d96353379b1cca683c775dba9aa5de6dc",
-    "exposed_ids_sha256": "ccb2b8eab317811add1b168f9ba33f42d65069227ac1c7316af2346d5a013567"
+    "root_count": 377,
+    "exposed_count": 521,
+    "root_ids_sha256": "4a8e06df8837cb216b50cf95e636fa13ed619c00d998cd7d678604a1cbcff368",
+    "exposed_ids_sha256": "9e77b08a4c750b404f9779f6f81b26bb6d43c0a498657e71e48b36c47c2f1b1f"
   },
   "state_sensitive": {
     "amb_coin_00": [
@@ -1465,7 +1465,31 @@
       "location",
       "relationship"
     ],
+    "arc_y5_general_debt_memory_cafe_exact": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
     "arc_y5_general_debt_memory_reconnect": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_y5_general_debt_memory_voice_exact": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_y5_general_father_legacy_cafe_exact": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_y5_general_father_legacy_voice_exact": [
       "father_life",
       "housing",
       "location",
@@ -1475,6 +1499,18 @@
       "employment",
       "father_life",
       "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_y5_general_name_boundary_exact": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_y5_general_pre_ending_summit_exact": [
+      "employment",
+      "father_life",
       "location",
       "relationship"
     ],
@@ -2289,6 +2325,46 @@
       "audio_ambience": "current_housing"
     },
     "arc_father_ng_call": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "arc_y5_general_father_legacy_voice_exact": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "arc_y5_general_father_legacy_cafe_exact": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "arc_y5_general_debt_memory_voice_exact": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "arc_y5_general_debt_memory_cafe_exact": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "arc_y5_general_pre_ending_summit_exact": {
+      "scene_location": "realestate_office",
+      "visual_background": "realestate_office",
+      "audio_ambience": "office"
+    },
+    "arc_y5_general_final_record_seal": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "arc_final_countdown_general_near_goal_passed": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "arc_y5_final_week_general_people_outbound": {
       "scene_location": "current_housing",
       "visual_background": "current_housing",
       "audio_ambience": "current_housing"

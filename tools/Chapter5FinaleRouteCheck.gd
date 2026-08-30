@@ -31,13 +31,24 @@ const PASSED_EVENTS: Array[String] = [
 ]
 const PATH_CHOICES: Array[int] = [2, 1, 3, 2, 0, 1, 1, 2, 0]
 const GENERAL_LEDGER_PATH := "res://content/meta/chapter5_general_finale_ledger.json"
-const GENERAL_TURNS: Array[int] = [237, 240, 240]
-const GENERAL_EVENTS: Array[String] = [
+const GENERAL_TURNS: Array[int] = [224, 229, 234, 237, 240, 240]
+const GENERAL_VOICE_EVENTS: Array[String] = [
+	"arc_y5_general_father_legacy_voice_exact",
+	"arc_y5_general_debt_memory_voice_exact",
+	"arc_y5_general_pre_ending_summit_exact",
 	"arc_y5_general_final_record_seal",
 	"arc_final_countdown_general_near_goal_passed",
 	"arc_y5_final_week_general_people_outbound",
 ]
-const GENERAL_CHOICES: Array[int] = [1, 1, 0]
+const GENERAL_CAFE_EVENTS: Array[String] = [
+	"arc_y5_general_father_legacy_cafe_exact",
+	"arc_y5_general_debt_memory_cafe_exact",
+	"arc_y5_general_pre_ending_summit_exact",
+	"arc_y5_general_final_record_seal",
+	"arc_final_countdown_general_near_goal_passed",
+	"arc_y5_final_week_general_people_outbound",
+]
+const GENERAL_CHOICES: Array[int] = [1, 0, 1, 1, 1, 0]
 
 var _failures: Array[String] = []
 
@@ -53,7 +64,8 @@ func _ready() -> void:
 	_check_game_state_wrapper_save_and_single_release()
 	_check_general_ledger_and_reducer_contract()
 	_check_general_game_state_contract()
-	_check_general_w220_callbacks_to_w237()
+	_check_general_w211_source_contract()
+	_check_general_w220_callbacks_to_v2_route()
 	if _failures.is_empty():
 		print(
 			"CHAPTER5_FINALE_ROUTE_CHECK_OK roots=11 active=9 "
@@ -63,9 +75,10 @@ func _ready() -> void:
 			+ "save=int-roundtrip legacy=turn220-fresh/221-closed "
 			+ "ending=pending-ready-consumed-exactly-once "
 			+ "wrapper=game-state-json-release canonical-check=once "
-			+ "general=source-w220/branches2-w224-callback-w237/"
-			+ "roots3/choices7-w237-w240-outbound-save-release "
-			+ "general-gate=tuple-exact/source-tamper/locked-durable")
+			+ "general=source-w211-w220/branches2-w224-w229-w234/"
+			+ "roots8-active6/choices17-active13-w237-w240-outbound-save-release "
+			+ "general-gate=assets2.5b-exact/stale-generic/source-tamper/"
+			+ "old-v1-closed/locked-durable")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -468,15 +481,16 @@ func _check_general_ledger_and_reducer_contract() -> void:
 	var ledger: Dictionary = parsed
 	_expect(int(ledger.get("schema_version", -1)) == 1 \
 		and str(ledger.get("ledger_id", "")) == ROUTE.GENERAL_LEDGER_ID \
-		and int(ledger.get("expected_root_count", -1)) == 3 \
-		and int(ledger.get("expected_active_root_count", -1)) == 3 \
-		and int(ledger.get("expected_choice_count", -1)) == 7 \
-		and int(ledger.get("expected_active_choice_count", -1)) == 7 \
+		and int(ledger.get("expected_root_count", -1)) == 8 \
+		and int(ledger.get("expected_active_root_count", -1)) == 6 \
+		and int(ledger.get("expected_choice_count", -1)) == 17 \
+		and int(ledger.get("expected_active_choice_count", -1)) == 13 \
 		and _same(ledger.get("stages", []), ROUTE.GENERAL_STAGES),
 		"general finale ledger inventory drifted")
 	var roots: Array = ledger.get("roots", [])
 	var events: Array[String] = []
 	var total_choices := 0
+	var receipt_ids: Dictionary = {}
 	for raw_root in roots:
 		if not raw_root is Dictionary:
 			_expect(false, "general finale root is not an object")
@@ -489,7 +503,17 @@ func _check_general_ledger_and_reducer_contract() -> void:
 			"sources": (root.get("read_sources", []) as Array).duplicate(true),
 			"mode": str(root.get("read_mode", "")),
 		}), "%s general read contract drifted" % event_id)
-	_expect(roots.size() == 3 and total_choices == 7 \
+		for raw_choice in root.get("choices", []) as Array:
+			if not raw_choice is Dictionary:
+				_expect(false, "%s general choice is not an object" % event_id)
+				continue
+			for raw_receipt_id in (raw_choice as Dictionary).get(
+					"receipt_ids", []) as Array:
+				var receipt_id := str(raw_receipt_id)
+				_expect(not receipt_ids.has(receipt_id),
+					"duplicate general receipt id %s" % receipt_id)
+				receipt_ids[receipt_id] = true
+	_expect(roots.size() == 8 and total_choices == 17 \
 		and _same(events, ROUTE.GENERAL_OWNED_EVENT_IDS) \
 		and _same(ROUTE.GENERAL_ACTORS, {
 			"chooser": "player", "father": "father", "cost_witness": "minseo"}),
@@ -497,98 +521,154 @@ func _check_general_ledger_and_reducer_contract() -> void:
 
 	var empty := ROUTE.default_state()
 	for invalid in [
-		ROUTE.lock_entry(empty, 236, ROUTE.ROUTE_ID, ROUTE.GENERAL_PROFILE_ID,
+		ROUTE.lock_entry(empty, 223, ROUTE.ROUTE_ID, ROUTE.GENERAL_PROFILE_ID,
 			_general_source_choices(), _father("passed", "records_only"), ROUTE.GENERAL_ACTORS),
-		ROUTE.lock_entry(empty, 237, ROUTE.ROUTE_ID, ROUTE.PROFILE_ID,
+		ROUTE.lock_entry(empty, 224, ROUTE.ROUTE_ID, ROUTE.PROFILE_ID,
 			_general_source_choices(), _father("passed", "records_only"), ROUTE.GENERAL_ACTORS),
-		ROUTE.lock_entry(empty, 237, ROUTE.ROUTE_ID, ROUTE.GENERAL_PROFILE_ID,
+		ROUTE.lock_entry(empty, 224, ROUTE.ROUTE_ID, ROUTE.GENERAL_PROFILE_ID,
 			_general_source_choices(), _father("alive", "records_only"), ROUTE.GENERAL_ACTORS),
 	]:
 		_expect(not bool((invalid as Dictionary).get("ok", false)) \
 			and _same((invalid as Dictionary).get("state", {}), empty),
 			"invalid general entry mutated reducer state")
 	var malformed := _general_source_choices()
-	malformed["m59_summit"] = 2
-	_expect(not bool(ROUTE.lock_entry(empty, 237, ROUTE.ROUTE_ID,
+	malformed["w220_debt_memory_reconnect"] = 2
+	_expect(not bool(ROUTE.lock_entry(empty, 224, ROUTE.ROUTE_ID,
 		ROUTE.GENERAL_PROFILE_ID, malformed, _father("passed", "records_only"),
 		ROUTE.GENERAL_ACTORS).get("ok", false)),
 		"out-of-range general source entered finale")
 	var extra_actors: Dictionary = ROUTE.GENERAL_ACTORS.duplicate(true)
 	extra_actors["partner"] = "daeun"
-	_expect(not bool(ROUTE.lock_entry(empty, 237, ROUTE.ROUTE_ID,
+	_expect(not bool(ROUTE.lock_entry(empty, 224, ROUTE.ROUTE_ID,
 		ROUTE.GENERAL_PROFILE_ID, _general_source_choices(),
 		_father("passed", "records_only"), extra_actors).get("ok", false)),
 		"extra general actor entered finale")
 
-	var state := _general_state_through(0)
-	var entry := ROUTE.entry_snapshot(state)
-	_expect(ROUTE.entry_locked(state) and ROUTE.holds_ending(state) \
-		and str(state.get("ledger_id", "")) == ROUTE.GENERAL_LEDGER_ID \
-		and _same(entry, {
-			"route_id": ROUTE.ROUTE_ID, "turn": 237,
-			"profile_id": ROUTE.GENERAL_PROFILE_ID,
-			"source_route_id": ROUTE.GENERAL_SOURCE_ROUTE_ID,
-			"source_choices": _general_source_choices(),
-			"father": _father("passed", "records_only"),
-			"actor_bindings": ROUTE.GENERAL_ACTORS,
-		}), "general W237 durable entry snapshot drifted")
-	var wrong_order := ROUTE.commit_choice(state, GENERAL_EVENTS[1], 0, 240)
-	var collision := ROUTE.commit_choice(state, ALIVE_EVENTS[0], 0, 237)
-	var bad_index := ROUTE.commit_choice(state, GENERAL_EVENTS[0], 2, 237)
-	_expect(not bool(wrong_order.get("ok", false)) and _same(wrong_order.get("state", {}), state) \
-		and not bool(collision.get("ok", false)) and _same(collision.get("state", {}), state) \
-		and not bool(bad_index.get("ok", false)) and _same(bad_index.get("state", {}), state),
-		"general order/collision/index rejection mutated state")
-	var first := ROUTE.commit_choice(state, GENERAL_EVENTS[0], GENERAL_CHOICES[0], 237)
-	state = (first.get("state", state) as Dictionary).duplicate(true)
-	var replay := ROUTE.commit_choice(state, GENERAL_EVENTS[0], GENERAL_CHOICES[0], 237)
-	var conflict := ROUTE.commit_choice(state, GENERAL_EVENTS[0], 0, 237)
-	_expect(bool(replay.get("ok", false)) and bool(replay.get("idempotent", false)) \
-		and _same(replay.get("state", {}), state) \
-		and not bool(conflict.get("ok", false)) and _same(conflict.get("state", {}), state),
-		"general write-once callback contract regressed")
-	var sacrifice := ROUTE.commit_choice(state, GENERAL_EVENTS[1], GENERAL_CHOICES[1], 240)
-	state = (sacrifice.get("state", state) as Dictionary).duplicate(true)
-	_expect(not ROUTE.week_completed(state, 240) and not ROUTE.ending_ready(state) \
-		and ROUTE.next_event_for_turn(state, 240) == GENERAL_EVENTS[2],
-		"general sacrifice did not expose same-turn outbound while pending")
-	var outbound := ROUTE.commit_choice(state, GENERAL_EVENTS[2], GENERAL_CHOICES[2], 240)
-	state = (outbound.get("state", state) as Dictionary).duplicate(true)
-	_expect(ROUTE.week_completed(state, 240) and ROUTE.route_complete(state) \
-		and ROUTE.ending_ready(state), "general outbound did not make ending ready")
-	var disk: Variant = JSON.parse_string(JSON.stringify(state))
+	var final_state: Dictionary = {}
+	for branch_choice in [0, 1]:
+		var branch_events := _general_events(branch_choice)
+		var state := _general_state_through(branch_choice, 0)
+		var entry := ROUTE.entry_snapshot(state)
+		_expect(ROUTE.entry_locked(state) and ROUTE.holds_ending(state) \
+			and str(state.get("ledger_id", "")) == ROUTE.GENERAL_LEDGER_ID \
+			and _same(entry, {
+				"route_id": ROUTE.ROUTE_ID, "turn": 224,
+				"profile_id": ROUTE.GENERAL_PROFILE_ID,
+				"source_route_id": ROUTE.GENERAL_SOURCE_ROUTE_ID,
+				"source_choices": _general_source_choices(branch_choice),
+				"father": _father("passed", "records_only"),
+				"actor_bindings": ROUTE.GENERAL_ACTORS,
+			}) and ROUTE.next_event_for_turn(state, 224) == branch_events[0],
+			"general branch %d W224 durable entry drifted" % branch_choice)
+		var inactive_events := _general_events(1 - branch_choice)
+		var wrong_order := ROUTE.commit_choice(state, branch_events[1], 0, 229)
+		var inactive := ROUTE.commit_choice(state, inactive_events[0], 0, 224)
+		var collision := ROUTE.commit_choice(state, ALIVE_EVENTS[0], 0, 224)
+		var bad_index := ROUTE.commit_choice(state, branch_events[0], 2, 224)
+		_expect(not bool(wrong_order.get("ok", false)) \
+			and _same(wrong_order.get("state", {}), state) \
+			and not bool(inactive.get("ok", false)) \
+			and _same(inactive.get("state", {}), state) \
+			and not bool(collision.get("ok", false)) \
+			and _same(collision.get("state", {}), state) \
+			and not bool(bad_index.get("ok", false)) \
+			and _same(bad_index.get("state", {}), state),
+			"general branch %d rejection mutated state" % branch_choice)
+		for index in range(branch_events.size()):
+			var event_id := branch_events[index]
+			var choice_index := GENERAL_CHOICES[index]
+			var committed := ROUTE.commit_choice(
+				state, event_id, choice_index, GENERAL_TURNS[index])
+			_expect(bool(committed.get("ok", false)),
+				"general branch %d could not commit %s" \
+				% [branch_choice, event_id])
+			if not bool(committed.get("ok", false)):
+				break
+			state = (committed.get("state", state) as Dictionary).duplicate(true)
+			var replay := ROUTE.commit_choice(
+				state, event_id, choice_index, GENERAL_TURNS[index])
+			var conflict := ROUTE.commit_choice(
+				state, event_id, 1 - choice_index, GENERAL_TURNS[index])
+			_expect(bool(replay.get("ok", false)) \
+				and bool(replay.get("idempotent", false)) \
+				and _same(replay.get("state", {}), state) \
+				and not bool(conflict.get("ok", false)) \
+				and _same(conflict.get("state", {}), state),
+				"general %s write-once replay regressed" % event_id)
+			if index <= 2:
+				var stage_disk: Variant = JSON.parse_string(JSON.stringify(state))
+				var stage_restored := ROUTE.state_from_save(
+					stage_disk, true, GENERAL_TURNS[index])
+				_expect(_same(stage_restored, state) \
+					and typeof(ROUTE.receipt_snapshot_for_event(
+						stage_restored, event_id).get("choice_index")) == TYPE_INT,
+					"general %s save/load lost exact receipt" % event_id)
+				state = stage_restored
+			if index == 4:
+				_expect(not ROUTE.week_completed(state, 240) \
+					and not ROUTE.ending_ready(state) \
+					and ROUTE.next_event_for_turn(state, 240) == branch_events[5],
+					"general sacrifice did not expose same-turn outbound")
+			elif index != 4:
+				_expect(ROUTE.week_completed(state, GENERAL_TURNS[index]),
+					"general %s did not complete its direct week" % event_id)
+		_expect((state.get("order", []) as Array).size() == 6 \
+			and ROUTE.week_completed(state, 240) \
+			and ROUTE.route_complete(state) and ROUTE.ending_ready(state),
+			"general branch %d did not finish six active roots" % branch_choice)
+		if branch_choice == 1:
+			final_state = state.duplicate(true)
+
+	var disk: Variant = JSON.parse_string(JSON.stringify(final_state))
 	var restored := ROUTE.state_from_save(disk, true, 240)
-	_expect(_same(restored, state) \
+	_expect(_same(restored, final_state) \
 		and typeof(restored.get("schema_version")) == TYPE_INT \
-		and typeof((ROUTE.entry_snapshot(restored).get("source_choices", {}) as Dictionary).get("m59_summit")) == TYPE_INT \
-		and typeof(ROUTE.receipt_snapshot_for_stage(restored, "outbound").get("choice_index")) == TYPE_INT,
+		and typeof((ROUTE.entry_snapshot(restored).get(
+			"source_choices", {}) as Dictionary).get(
+				"w211_name_boundary")) == TYPE_INT \
+		and typeof((ROUTE.entry_snapshot(restored).get(
+			"source_choices", {}) as Dictionary).get(
+				"w220_debt_memory_reconnect")) == TYPE_INT \
+		and typeof(ROUTE.receipt_snapshot_for_stage(
+			restored, "outbound").get("choice_index")) == TYPE_INT,
 		"general JSON save boundary lost exact integer evidence")
 	for tamper_kind in ["ledger", "source", "receipt"]:
-		var tampered := state.duplicate(true)
+		var tampered := final_state.duplicate(true)
 		if tamper_kind == "ledger":
 			tampered["ledger_id"] = ROUTE.LEDGER_ID
 		elif tamper_kind == "source":
 			((tampered["entry"] as Dictionary)["source_choices"] as Dictionary).erase(
 				"m51_minseo_arrival")
 		else:
-			((tampered["receipts"] as Dictionary)[GENERAL_EVENTS[0]] as Dictionary)["choice_index"] = 0
-		_expect(str(ROUTE.state_from_save(tampered, true, 240).get("status", "")) == "closed",
+			((tampered["receipts"] as Dictionary)[GENERAL_CAFE_EVENTS[0]] \
+				as Dictionary)["choice_index"] = 0
+		_expect(str(ROUTE.state_from_save(
+			tampered, true, 240).get("status", "")) == "closed",
 			"general %s tamper did not fail closed" % tamper_kind)
-	var consumed_result := ROUTE.consume_ending_check(state)
+	var old_v1 := _general_state_through(0, 1)
+	old_v1["ledger_id"] = "chapter5_general_near_goal_passed_finale_v1"
+	var old_v1_loaded := ROUTE.state_from_save(old_v1, true, 229)
+	_expect(str(old_v1_loaded.get("status", "")) == "closed" \
+		and (old_v1_loaded.get("entry", {}) as Dictionary).is_empty(),
+		"old v1 in-progress general save did not fail closed")
+	var consumed_result := ROUTE.consume_ending_check(final_state)
 	var consumed: Dictionary = consumed_result.get("state", {})
 	var second := ROUTE.consume_ending_check(consumed)
-	_expect(bool(consumed_result.get("ok", false)) and not bool(consumed_result.get("idempotent", true)) \
+	_expect(bool(consumed_result.get("ok", false)) \
+		and not bool(consumed_result.get("idempotent", true)) \
 		and not ROUTE.holds_ending(consumed) \
-		and bool(second.get("ok", false)) and bool(second.get("idempotent", false)),
+		and bool(second.get("ok", false)) \
+		and bool(second.get("idempotent", false)),
 		"general ready latch did not consume exactly once")
 
 
 func _check_general_game_state_contract() -> void:
-	_seed_general_sources()
-	GameState.turn = 237
+	_seed_general_sources(true, 1)
+	GameState.turn = 224
 	_expect(GameState.prepare_chapter5_finale_route_entry() \
-		and GameState.chapter5_finale_next_event_for_turn() == GENERAL_EVENTS[0],
-		"GameState could not lock exact general W237 entry")
+		and GameState.chapter5_finale_next_event_for_turn() \
+			== GENERAL_CAFE_EVENTS[0],
+		"GameState could not lock exact general W224 entry")
 	var locked_state := GameState.chapter5_finale_state.duplicate(true)
 	var original_flags := GameState.flags.duplicate(true)
 	var original_cast := GameState.cast.duplicate(true)
@@ -612,12 +692,12 @@ func _check_general_game_state_contract() -> void:
 	GameState.cast = original_cast
 	GameState.player_route = original_player_route
 	GameState.tendency_realized = original_tendency
-	for index in range(GENERAL_EVENTS.size()):
+	for index in range(GENERAL_CAFE_EVENTS.size()):
 		GameState.turn = GENERAL_TURNS[index]
 		var result := GameState.record_chapter5_finale_choice(
-			GENERAL_EVENTS[index], GENERAL_CHOICES[index])
+			GENERAL_CAFE_EVENTS[index], GENERAL_CHOICES[index])
 		_expect(bool(result.get("ok", false)),
-			"GameState could not commit general %s" % GENERAL_EVENTS[index])
+			"GameState could not commit general %s" % GENERAL_CAFE_EVENTS[index])
 	_expect(GameState.chapter5_finale_ending_ready() \
 		and GameState.chapter5_finale_week_completed(240),
 		"GameState general outbound did not release ending")
@@ -633,8 +713,8 @@ func _check_general_game_state_contract() -> void:
 	_expect(bool(first.get("ok", false)) and not bool(first.get("idempotent", true)) \
 		and bool(second.get("ok", false)) and bool(second.get("idempotent", false)),
 		"GameState general ending did not consume exactly once")
-	_seed_general_sources(false)
-	GameState.turn = 237
+	_seed_general_sources(false, 1)
+	GameState.turn = 224
 	_expect(not GameState.prepare_chapter5_finale_route_entry() \
 		and GameState.chapter5_finale_entry_snapshot().is_empty() \
 		and not GameState.chapter5_finale_holds_ending(),
@@ -642,25 +722,89 @@ func _check_general_game_state_contract() -> void:
 	_check_general_game_state_exclusions()
 
 
-func _check_general_w220_callbacks_to_w237() -> void:
-	var original_language: String = LocaleManager.language
-	LocaleManager.set_language("ko")
+func _check_general_w211_source_contract() -> void:
 	DataRegistry.reload()
-	var story: Node = STORY_MODE.new()
+	_seed_general_w211_prechoice()
+	GameState.turn = 211
+	_expect(GameState.chapter5_general_finale_w211_available() \
+		and not GameState.chapter5_general_finale_w211_available(210) \
+		and not GameState.chapter5_general_finale_w211_available(212),
+		"coherent near-goal profile did not expose exact W211")
+	var w211_event: Dictionary = DataRegistry.find_event(
+		"arc_y5_general_name_boundary_exact")
+	var w211_choices: Array = w211_event.get("choices", [])
+	_expect(str(w211_event.get("id", "")) \
+		== "arc_y5_general_name_boundary_exact" and w211_choices.size() == 2,
+		"W211 source event did not expose two authored choices")
+	if w211_choices.size() == 2:
+		_expect(GameState.apply_choice(w211_event, w211_choices[1] as Dictionary) \
+			and _exact_general_source_receipt(
+				"arc_y5_general_name_boundary_exact",
+				"chapter5_general_name_boundary_", 2, 1, 211) \
+			and not GameState.chapter5_general_finale_w211_available(),
+			"W211 choice did not write one exact, non-replayable receipt")
+		var disk: Variant = JSON.parse_string(JSON.stringify(GameState.serialize()))
+		GameState.start_new_game()
+		GameState.load_from_dict(disk)
+		GameState.turn = 220
+		_expect(GameState.chapter5_general_finale_w220_available() \
+			and bool(GameState.flags.get(
+				"chapter5_general_name_boundary_1", false)),
+			"saved W211 receipt did not survive JSON load or authorize W220")
+		var duplicate_log: Dictionary = {}
+		for raw_entry in GameState.event_log:
+			if raw_entry is Dictionary \
+					and str((raw_entry as Dictionary).get("event_id", "")) \
+						== "arc_y5_general_name_boundary_exact":
+				duplicate_log = (raw_entry as Dictionary).duplicate(true)
+				break
+		if not duplicate_log.is_empty():
+			GameState.event_log.append(duplicate_log)
+		_expect(not GameState.chapter5_general_finale_w220_available(),
+			"duplicate W211 receipt did not fail closed before W220")
+
+	_seed_general_w211_prechoice()
+	GameState.money = 2_499_999_999.0
+	_expect(not GameState.chapter5_general_finale_w211_available(211),
+		"below-threshold profile exposed W211")
+
+	_seed_general_w211_prechoice()
+	GameState.flags["father_passed"] = false
+	GameState.cast["father"]["stage"] = "distant"
+	_expect(not GameState.chapter5_general_finale_w211_available(211),
+		"father-alive profile exposed W211")
+
+	for route_case in [
+		{"player_route": "직장형", "tendency": "career", "flag": "route_career"},
+		{"player_route": "창업형", "tendency": "found", "flag": "route_startup"},
+	]:
+		_seed_general_w211_prechoice()
+		GameState.player_route = str(route_case["player_route"])
+		GameState.tendency_realized = str(route_case["tendency"])
+		GameState.flags.erase("route_invest")
+		GameState.flags[str(route_case["flag"])] = true
+		_expect(not GameState.chapter5_general_finale_w211_available(211),
+			"%s profile exposed W211" % route_case["flag"])
+
+	_seed_general_w211_prechoice()
+	GameState.flags["arc_y5_general_debt_memory_reconnect_seen"] = true
+	_expect(not GameState.chapter5_general_finale_w211_available(211),
+		"stale future source exposed W211")
+	DataRegistry.reload()
+
+
+func _check_general_w220_callbacks_to_v2_route() -> void:
+	DataRegistry.reload()
 	var cases: Array[Dictionary] = [
 		{
 			"w220_choice": 0,
-			"w224_choice": 0,
-			"m59_choice": 0,
-			"callback_marker": "서른한 초짜리 자기 음성메모",
-			"rejected_marker": "그 카페에 혼자 삼십 분",
+			"events": GENERAL_VOICE_EVENTS,
+			"choices": [0, 1, 0],
 		},
 		{
 			"w220_choice": 1,
-			"w224_choice": 2,
-			"m59_choice": 1,
-			"callback_marker": "그 카페에 혼자 삼십 분",
-			"rejected_marker": "서른한 초짜리 자기 음성메모",
+			"events": GENERAL_CAFE_EVENTS,
+			"choices": [1, 0, 1],
 		},
 	]
 	for route_case in cases:
@@ -690,64 +834,36 @@ func _check_general_w220_callbacks_to_w237() -> void:
 			% w220_choice)
 
 		GameState.turn = 224
-		var w224_event: Dictionary = DataRegistry.find_event("arc_father_legacy")
-		var localized_w224: Dictionary = story.call(
-			"_localized_story_event", "arc_father_legacy")
-		var callback_text := str(story.call(
-			"_resolved_story_description", localized_w224))
-		_expect(str(w224_event.get("id", "")) == "arc_father_legacy" \
-			and not localized_w224.is_empty() \
-			and callback_text.contains(str(route_case["callback_marker"])) \
-			and not callback_text.contains(str(route_case["rejected_marker"])),
-			"W220 branch %d did not select its exclusive W224 callback text" \
-			% w220_choice)
-		var w224_choice := int(route_case["w224_choice"])
-		var w224_choices: Array = w224_event.get("choices", [])
-		_expect(w224_choice >= 0 and w224_choice < w224_choices.size(),
-			"W224 branch fixture used an invalid choice index")
-		if w224_choice < 0 or w224_choice >= w224_choices.size():
-			continue
-		_expect(GameState.apply_choice(
-			w224_event, w224_choices[w224_choice] as Dictionary) \
-			and _exact_general_source_receipt(
-				"arc_father_legacy", "chapter5_general_father_legacy_", 3,
-				w224_choice, 224),
-			"W220 branch %d did not write its exact W224 receipt" \
-			% w220_choice)
-
-		GameState.turn = 235
-		var m59_choice := int(route_case["m59_choice"])
-		var m59_event: Dictionary = DataRegistry.find_event(
-			"arc_pre_ending_summit")
-		var m59_choices: Array = m59_event.get("choices", [])
-		_expect(m59_choice >= 0 and m59_choice < m59_choices.size(),
-			"M59 branch fixture used an invalid choice index")
-		if m59_choice < 0 or m59_choice >= m59_choices.size():
-			continue
-		_expect(GameState.apply_choice(
-			m59_event, m59_choices[m59_choice] as Dictionary) \
-			and _exact_general_source_receipt(
-				"arc_pre_ending_summit", "chapter5_general_summit_", 2,
-				m59_choice, 235),
-			"W220 branch %d did not write its exact M59 receipt" \
-			% w220_choice)
-
-		GameState.turn = 237
+		var branch_events: Array = route_case["events"]
+		var branch_choices: Array = route_case["choices"]
 		var expected_sources := {
 			"m51_minseo_arrival": 1,
+			"w211_name_boundary": 0,
 			"w220_debt_memory_reconnect": w220_choice,
-			"m56_father_legacy": w224_choice,
-			"m59_summit": m59_choice,
 		}
 		_expect(GameState.prepare_chapter5_finale_route_entry() \
-			and GameState.chapter5_finale_next_event_for_turn(237) \
-				== "arc_y5_general_final_record_seal" \
+			and GameState.chapter5_finale_next_event_for_turn(224) \
+				== str(branch_events[0]) \
 			and _same(GameState.chapter5_finale_entry_snapshot().get(
 				"source_choices", {}), expected_sources),
-			"W220 branch %d did not reach W237 with its exact source tuple" \
+			"W220 branch %d did not lock its exact W224 root" \
 			% w220_choice)
-	story.free()
-	LocaleManager.set_language(original_language)
+		for index in range(3):
+			GameState.turn = GENERAL_TURNS[index]
+			var event_id := str(branch_events[index])
+			var choice_index := int(branch_choices[index])
+			var result := GameState.record_chapter5_finale_choice(
+				event_id, choice_index)
+			_expect(bool(result.get("ok", false)) \
+				and int(ROUTE.receipt_snapshot_for_event(
+					GameState.chapter5_finale_state, event_id).get(
+						"choice_index", -1)) == choice_index,
+				"W220 branch %d did not write %s exact receipt" \
+				% [w220_choice, event_id])
+		_expect(GameState.chapter5_finale_next_event_for_turn(237) \
+			== "arc_y5_general_final_record_seal",
+			"W220 branch %d did not reach W237 through W224/W229/W234" \
+			% w220_choice)
 	DataRegistry.reload()
 
 
@@ -784,18 +900,18 @@ func _check_general_game_state_exclusions() -> void:
 		{"player_route": "직장형", "flag": "route_career"},
 		{"player_route": "창업형", "flag": "route_startup"},
 	]:
-		_seed_general_sources()
+		_seed_general_sources(true, 0)
 		GameState.player_route = str(route_case["player_route"])
 		GameState.tendency_realized = (
 			"career" if str(route_case["flag"]) == "route_career" else "found")
 		GameState.flags.erase("route_invest")
 		GameState.flags[str(route_case["flag"])] = true
-		GameState.turn = 237
-		var before_w237 := GameState.chapter5_finale_state.duplicate(true)
+		GameState.turn = 224
+		var before_entry := GameState.chapter5_finale_state.duplicate(true)
 		_expect(not GameState.prepare_chapter5_finale_route_entry() \
-			and _same(GameState.chapter5_finale_state, before_w237) \
+			and _same(GameState.chapter5_finale_state, before_entry) \
 			and GameState.chapter5_finale_entry_snapshot().is_empty(),
-			"%s profile entered the general W237 ledger" % route_case["flag"])
+			"%s profile entered the general W224 ledger" % route_case["flag"])
 
 		_seed_general_w220_prechoice()
 		GameState.player_route = str(route_case["player_route"])
@@ -845,6 +961,21 @@ func _check_general_game_state_exclusions() -> void:
 	_expect(not GameState.chapter5_general_finale_w220_available(220),
 		"non-bool M51 source flag exposed general W220")
 
+	_seed_general_w220_prechoice()
+	GameState.flags.erase("chapter5_general_name_boundary_0")
+	_expect(not GameState.chapter5_general_finale_w220_available(220),
+		"missing W211 source exposed general W220")
+
+	_seed_general_w220_prechoice()
+	GameState.flags["chapter5_general_name_boundary_1"] = true
+	_expect(not GameState.chapter5_general_finale_w220_available(220),
+		"multiple W211 source flags exposed general W220")
+
+	_seed_general_w220_prechoice()
+	GameState.flags["chapter5_general_name_boundary_0"] = "true"
+	_expect(not GameState.chapter5_general_finale_w220_available(220),
+		"non-bool W211 source flag exposed general W220")
+
 	for old_evidence in ["seen", "choice", "log"]:
 		_seed_general_w220_prechoice()
 		if old_evidence == "seen":
@@ -865,109 +996,153 @@ func _check_general_game_state_exclusions() -> void:
 	_expect(not GameState.chapter5_general_finale_w220_available(220),
 		"property entry exposed general W220")
 
-	for retired_evidence in ["seen", "choice", "log"]:
-		_seed_general_sources()
-		if retired_evidence == "seen":
-			GameState.flags["arc_y5_general_last_page_instruction_seen"] = true
-		elif retired_evidence == "choice":
-			GameState.flags["chapter5_general_last_page_instruction_1"] = false
-		else:
-			GameState.event_log.append({
-				"event_id": "arc_y5_general_last_page_instruction",
-				"choice_index": 1,
-				"turn": 229,
-			})
-		GameState.turn = 237
-		var retired_before := GameState.chapter5_finale_state.duplicate(true)
-		_expect(not GameState.prepare_chapter5_finale_route_entry() \
-			and _same(GameState.chapter5_finale_state, retired_before) \
-			and GameState.chapter5_finale_entry_snapshot().is_empty(),
-			"old W229 %s evidence entered the W237 general ledger" \
-			% retired_evidence)
+	var stale_cases: Array[Dictionary] = [
+		{
+			"event_id": "arc_y5_general_last_page_instruction",
+			"flag_prefix": "chapter5_general_last_page_instruction_",
+			"turn": 229,
+		},
+		{
+			"event_id": "arc_father_legacy",
+			"flag_prefix": "chapter5_general_father_legacy_",
+			"turn": 224,
+		},
+		{
+			"event_id": "arc_pre_ending_summit",
+			"flag_prefix": "chapter5_general_summit_",
+			"turn": 234,
+		},
+	]
+	for stale_case in stale_cases:
+		for stale_evidence in ["seen", "choice", "log"]:
+			_seed_general_sources(true, 0)
+			var stale_event_id := str(stale_case["event_id"])
+			if stale_evidence == "seen":
+				GameState.flags["%s_seen" % stale_event_id] = true
+			elif stale_evidence == "choice":
+				GameState.flags[
+					"%s0" % str(stale_case["flag_prefix"])] = false
+			else:
+				GameState.event_log.append({
+					"event_id": stale_event_id,
+					"choice_index": 0,
+					"turn": int(stale_case["turn"]),
+				})
+			GameState.turn = 224
+			var stale_before := GameState.chapter5_finale_state.duplicate(true)
+			_expect(not GameState.prepare_chapter5_finale_route_entry() \
+				and _same(GameState.chapter5_finale_state, stale_before) \
+				and GameState.chapter5_finale_entry_snapshot().is_empty(),
+				"stale %s %s evidence entered W224 general ledger" \
+				% [stale_event_id, stale_evidence])
 
-	_seed_general_sources()
+	_seed_general_sources(true, 0)
 	GameState.event_log.push_front({
 		"event_id": "arc_endgame_sixmonths", "choice_index": 0, "turn": 216})
-	GameState.turn = 237
+	GameState.turn = 224
 	var duplicate_stop_before := GameState.chapter5_finale_state.duplicate(true)
 	_expect(not GameState.prepare_chapter5_finale_route_entry() \
 		and _same(GameState.chapter5_finale_state, duplicate_stop_before) \
 		and GameState.chapter5_finale_entry_snapshot().is_empty(),
 		"generic six-month event plus W220 source entered the general ledger")
 
-	_seed_general_sources()
+	_seed_general_sources(true, 0)
+	GameState.chapter5_causal_state = _complete_source_route_state()
+	GameState.turn = 224
+	var property_before := GameState.chapter5_finale_state.duplicate(true)
+	_expect(not GameState.prepare_chapter5_finale_route_entry() \
+		and _same(GameState.chapter5_finale_state, property_before) \
+		and GameState.chapter5_finale_entry_snapshot().is_empty(),
+		"property route entered W224 general ledger")
+
+	_seed_general_sources(true, 0)
 	GameState.player_route = "none"
 	GameState.tendency_realized = ""
 	GameState.flags.erase("route_invest")
-	GameState.turn = 237
+	GameState.turn = 224
 	_expect(GameState.prepare_chapter5_finale_route_entry() \
 		and str(GameState.chapter5_finale_entry_snapshot().get("profile_id", "")) \
 			== ROUTE.GENERAL_PROFILE_ID,
-		"coherent neutral route could not enter the general W237 ledger")
+		"coherent neutral route could not enter the general W224 ledger")
 
-	_seed_general_sources()
+	_seed_general_sources(true, 0)
 	GameState.flags.erase("route_invest")
-	GameState.turn = 237
+	GameState.turn = 224
 	_expect(not GameState.prepare_chapter5_finale_route_entry(),
 		"investment identity without route_invest entered the general ledger")
 
-	_seed_general_sources()
+	_seed_general_sources(true, 0)
 	GameState.player_route = "none"
-	GameState.turn = 237
+	GameState.turn = 224
 	_expect(not GameState.prepare_chapter5_finale_route_entry(),
 		"neutral identity with sticky route_invest entered the general ledger")
 
-	_seed_general_sources()
+	_seed_general_sources(true, 0)
 	GameState.flags["route_career"] = true
-	GameState.turn = 237
+	GameState.turn = 224
 	_expect(not GameState.prepare_chapter5_finale_route_entry(),
 		"hybrid investment/career identity entered the general ledger")
 
-	_seed_general_sources()
+	_seed_general_sources(true, 0)
 	GameState.player_route = "none"
 	GameState.tendency_realized = "invest"
 	GameState.flags.erase("route_invest")
-	GameState.turn = 237
+	GameState.turn = 224
 	_expect(not GameState.prepare_chapter5_finale_route_entry(),
 		"neutral route with mismatched realized tendency entered the general ledger")
 
-	_seed_general_sources()
+	_seed_general_sources(true, 0, 2_499_999_999.0)
+	GameState.turn = 224
+	var below_before := GameState.chapter5_finale_state.duplicate(true)
+	_expect(not GameState.prepare_chapter5_finale_route_entry() \
+		and _same(GameState.chapter5_finale_state, below_before) \
+		and GameState.chapter5_finale_entry_snapshot().is_empty(),
+		"2,499,999,999 asset profile entered W224 general ledger")
+
+	_seed_general_sources(true, 0, 2_500_000_000.0)
+	GameState.turn = 224
+	_expect(GameState.prepare_chapter5_finale_route_entry() \
+		and str(GameState.chapter5_finale_entry_snapshot().get(
+			"profile_id", "")) == ROUTE.GENERAL_PROFILE_ID,
+		"exact 2.5B asset threshold did not enter W224 general ledger")
+
+	_seed_general_sources(true, 0)
 	GameState.flags["father_passed"] = "false"
 	GameState.cast["father"]["stage"] = "distant"
-	GameState.turn = 237
+	GameState.turn = 224
 	var malformed_father_before := GameState.chapter5_finale_state.duplicate(true)
 	_expect(not GameState.prepare_chapter5_finale_route_entry() \
 		and _same(GameState.chapter5_finale_state, malformed_father_before),
-		"non-bool father_passed fabricated the general W237 father state")
+		"non-bool father_passed fabricated the general W224 father state")
 
-	_seed_general_sources()
+	_seed_general_sources(true, 0)
 	GameState.flags["chapter5_general_minseo_arrival_0"] = true
-	GameState.turn = 237
+	GameState.turn = 224
 	var multiple_source_before := GameState.chapter5_finale_state.duplicate(true)
 	_expect(not GameState.prepare_chapter5_finale_route_entry() \
 		and _same(GameState.chapter5_finale_state, multiple_source_before) \
 		and GameState.chapter5_finale_entry_snapshot().is_empty(),
-		"multiple true source flags did not reject W237 byte-identically")
+		"multiple true source flags did not reject W224 byte-identically")
 
-	_seed_general_sources()
+	_seed_general_sources(true, 0)
 	GameState.flags["chapter5_general_minseo_arrival_1"] = "true"
-	GameState.turn = 237
+	GameState.turn = 224
 	var non_bool_source_before := GameState.chapter5_finale_state.duplicate(true)
 	_expect(not GameState.prepare_chapter5_finale_route_entry() \
 		and _same(GameState.chapter5_finale_state, non_bool_source_before) \
 		and GameState.chapter5_finale_entry_snapshot().is_empty(),
-		"non-bool source flag did not reject W237 byte-identically")
+		"non-bool source flag did not reject W224 byte-identically")
 
-	_seed_general_sources()
+	_seed_general_sources(true, 0)
 	GameState.flags["route_career"] = "false"
-	GameState.turn = 237
+	GameState.turn = 224
 	_expect(not GameState.prepare_chapter5_finale_route_entry() \
 		and GameState.chapter5_finale_entry_snapshot().is_empty(),
-		"malformed career route flag entered the general W237 ledger")
+		"malformed career route flag entered the general W224 ledger")
 
-	_seed_general_sources()
+	_seed_general_sources(true, 0)
 	GameState.flags["father_crisis_contact_present"] = "false"
-	GameState.turn = 237
+	GameState.turn = 224
 	_expect(GameState.prepare_chapter5_finale_route_entry() \
 		and str(GameState.chapter5_finale_entry_snapshot().get(
 			"father", {}).get("contact_mode", "")) == "records_only",
@@ -1005,48 +1180,65 @@ func _lock(life: String, contact_mode: String) -> Dictionary:
 		_source_choices(), _father(life, contact_mode), _actors())
 
 
-func _general_lock() -> Dictionary:
+func _general_lock(branch_choice: int = 1) -> Dictionary:
 	return ROUTE.lock_entry(
-		ROUTE.default_state(), 237, ROUTE.ROUTE_ID, ROUTE.GENERAL_PROFILE_ID,
-		_general_source_choices(), _father("passed", "records_only"),
+		ROUTE.default_state(), 224, ROUTE.ROUTE_ID, ROUTE.GENERAL_PROFILE_ID,
+		_general_source_choices(branch_choice), _father("passed", "records_only"),
 		ROUTE.GENERAL_ACTORS)
 
 
-func _general_state_through(count: int) -> Dictionary:
-	var state := (_general_lock().get("state", {}) as Dictionary).duplicate(true)
-	for index in range(mini(count, GENERAL_EVENTS.size())):
+func _general_state_through(branch_choice: int, count: int) -> Dictionary:
+	var events := _general_events(branch_choice)
+	var state := (_general_lock(branch_choice).get(
+		"state", {}) as Dictionary).duplicate(true)
+	for index in range(mini(count, events.size())):
 		var result := ROUTE.commit_choice(
-			state, GENERAL_EVENTS[index], GENERAL_CHOICES[index], GENERAL_TURNS[index])
+			state, events[index], GENERAL_CHOICES[index], GENERAL_TURNS[index])
 		if not bool(result.get("ok", false)):
-			_expect(false, "general fixture could not commit %s" % GENERAL_EVENTS[index])
+			_expect(false, "general fixture could not commit %s" % events[index])
 			break
 		state = (result.get("state", state) as Dictionary).duplicate(true)
 	return state
 
 
-func _general_source_choices() -> Dictionary:
+func _general_events(branch_choice: int) -> Array[String]:
+	return GENERAL_VOICE_EVENTS.duplicate() \
+		if branch_choice == 0 else GENERAL_CAFE_EVENTS.duplicate()
+
+
+func _general_source_choices(branch_choice: int = 1) -> Dictionary:
 	return {
 		"m51_minseo_arrival": 1,
-		"w220_debt_memory_reconnect": 1,
-		"m56_father_legacy": 2,
-		"m59_summit": 1,
+		"w211_name_boundary": 0,
+		"w220_debt_memory_reconnect": branch_choice,
 	}
 
 
-func _seed_general_sources(valid: bool = true) -> void:
+func _seed_general_sources(
+		valid: bool = true, branch_choice: int = 1,
+		assets: float = 2_500_000_000.0) -> void:
 	GameState.start_new_game("김민준", "지방_상경", "투자형")
+	GameState.money = assets
 	GameState.flags["father_passed"] = true
 	GameState.flags["chapter5_general_minseo_arrival_1"] = true
+	GameState.flags["arc_y5_general_name_boundary_exact_seen"] = true
+	GameState.flags["chapter5_general_name_boundary_0"] = true
 	GameState.flags["arc_y5_general_debt_memory_reconnect_seen"] = true
-	GameState.flags["chapter5_general_debt_memory_reconnect_1"] = true
+	GameState.flags[
+		"chapter5_general_debt_memory_reconnect_%d" % branch_choice] = true
 	GameState.flags["arc_endgame_sixmonths_seen"] = true
-	GameState.flags["chapter5_general_father_legacy_2"] = true
-	GameState.flags["chapter5_general_summit_1"] = true
 	GameState.event_log = [
 		{"event_id": "arc_minseo_03_arrival", "choice_index": 1, "turn": 203},
-		{"event_id": "arc_y5_general_debt_memory_reconnect", "choice_index": 1, "turn": 220},
-		{"event_id": "arc_father_legacy", "choice_index": 2, "turn": 224},
-		{"event_id": "arc_pre_ending_summit", "choice_index": 1, "turn": 235},
+		{
+			"event_id": "arc_y5_general_name_boundary_exact",
+			"choice_index": 0,
+			"turn": 211,
+		},
+		{
+			"event_id": "arc_y5_general_debt_memory_reconnect",
+			"choice_index": branch_choice,
+			"turn": 220,
+		},
 	]
 	if not valid:
 		GameState.event_log.pop_back()
@@ -1054,6 +1246,24 @@ func _seed_general_sources(valid: bool = true) -> void:
 
 func _seed_general_w220_prechoice() -> void:
 	GameState.start_new_game("김민준", "지방_상경", "투자형")
+	GameState.money = 2_500_000_000.0
+	GameState.flags["father_passed"] = true
+	GameState.flags["chapter5_general_minseo_arrival_1"] = true
+	GameState.flags["arc_y5_general_name_boundary_exact_seen"] = true
+	GameState.flags["chapter5_general_name_boundary_0"] = true
+	GameState.event_log = [
+		{"event_id": "arc_minseo_03_arrival", "choice_index": 1, "turn": 203},
+		{
+			"event_id": "arc_y5_general_name_boundary_exact",
+			"choice_index": 0,
+			"turn": 211,
+		},
+	]
+
+
+func _seed_general_w211_prechoice() -> void:
+	GameState.start_new_game("김민준", "지방_상경", "투자형")
+	GameState.money = 2_500_000_000.0
 	GameState.flags["father_passed"] = true
 	GameState.flags["chapter5_general_minseo_arrival_1"] = true
 	GameState.event_log = [
