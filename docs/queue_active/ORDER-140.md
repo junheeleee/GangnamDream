@@ -207,6 +207,28 @@ git diff --check
   native OS process에서 확인한다.
 - 사람 밀도·재미·일·중·원어민 문체는 자동 GO로 닫지 않는다.
 
+## 발급 증거 (2026-08-31)
+
+- 제품은 `4e80a63e89821094b8bab21b8d5c73ecfc9b6278` / tree
+  `0fdddf11e2ef030cd172d23e691e3d7da4ea29ff`, 패키지 source는
+  `362578d8f4c0781fe35f643a74cc3037e7a80b21` / tree
+  `e7f50b065b3369afa1894df8292756a95f94fd11`이다. 보호 runtime diff는 0이다.
+- BUILD `2026.08.31.1` manifest SHA-256은
+  `50eed10b18c2c2b056f875a8df55230dc07b5535c55e59ddb89fff1d64e91870`,
+  ZIP은 `956ac93524df6030ef984521550cec7dddafea381387a3df52194e43f5e61289`,
+  app tree는 `56a4f2997256e68baa21c02807fcf1f0e995ce114f57f96f26d309b300b7ec14`,
+  launcher는 `f1e2ce4faf3849e84843947db33405496393452ae68f1df1ca1279e4923aef5f`,
+  PCK는 `0e6066434bd6679292ae5f41ae506da90bf06d1bef3af05acf419f7bea8f4c89`다.
+- 실제 StoryMode는 clean/ko 9, restitution/en 10, escalation/zh-CN 10 영수증으로
+  각각 24주·정산 6회·수동 저장·별도 프로세스 cold restart·exact resume를
+  통과했다. 다섯 locale 합계는 30개월·120주·정산 30회, AP 표면 0이다.
+- BUILD `.25.1`의 기존 M2 저장 `88869407...ecc9c97` 복사본도 이어하기를
+  통과했고 원본 primary와 `.bak`은 빌드 전후 byte-exact다.
+- 14 variant·29 visible option·28 receipt selector·1,800 합법 서명과
+  JA·zh-CN·zh-TW 각 14/14사건·100/100 leaf·121/121 UI를 고정했다.
+- 자동·정적 증거는 정상 속도 밀도·재미와 세 원어민 출시 문체 판정을 대신하지
+  않는다. 해당 게이트는 OPEN, main과 본편 이관은 HOLD다.
+
 ## 사람 판정
 
 기존 `story_demo_rc` BUILD `2026.08.25.1`은 이 수리의 평가 대상이 아니다. 새 exact
