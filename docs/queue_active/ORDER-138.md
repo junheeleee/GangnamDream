@@ -45,6 +45,17 @@ general 원장 v2 자체는 총 8뿌리·17선택, 한 런 6뿌리·13선택을 
 `content/meta/exposed_event_state_contracts.json`, `docs/CONTENT_RATING_INVENTORY.md`와
 해당 lifecycle/inventory 검사도 착수 범위에 포함한다.
 
+**2026-08-30 제품 커밋 전 검사 범위 확장 선언:** 신규 W211과 v2 영수증을
+기존 핵심 선택·저장·엔딩 계약에서도 직접 회귀시키기 위해
+`tools/CoreChoiceSliceCheck.gd`, `tools/ManualSaveCheck.gd`,
+`tools/EndingRouteIdentityCheck.gd`를 소유한다. 실제 M49 기준 상태를 여러 프로브가
+서로 다르게 재구성하지 않도록 읽기 전용 기준 픽스처
+`tools/fixtures/chapter5_history_base_w193.json`도 함께 소유하고 제품 커밋에 넣는다.
+신규 root 등록과 보호 해시·개수 변경을 검사하는
+`tools/{event_director_audit,event_lifecycle,exposed_state_consistency_audit,story_consistency_audit,story_map_audit,year5_reference_route_audit}.py`도
+이 오더의 검사 범위다. 이 확장은 제품 기능을 넓히지 않고, 이미 선언한
+M51→W211→W220→W224→W240 계약을 서로 독립인 검사 표면에 고정한다.
+
 ## 판정 증거와 보호선
 
 - 실제 사람 플레이에서 M51 `arc_minseo_03_arrival` 뒤 W224
@@ -172,7 +183,13 @@ KO/EN을 같은 커밋에서 바꾼다.
 **검사:** `tools/ScreenshotQA.gd`,
 `tools/chapter5_general_finale_route_audit.py`,
 `tools/chapter5_finale_route_audit.py`, `tools/Chapter5FinaleRouteCheck.gd`,
+`tools/CoreChoiceSliceCheck.gd`, `tools/ManualSaveCheck.gd`,
+`tools/EndingRouteIdentityCheck.gd`, `tools/L3ReplayM49M60.gd`,
+`tools/fixtures/chapter5_history_base_w193.json`,
 `tools/full_run_pacing_audit.py`, `tools/narrative_continuity_audit.py`,
+`tools/event_director_audit.py`, `tools/event_lifecycle.py`,
+`tools/exposed_state_consistency_audit.py`, `tools/story_consistency_audit.py`,
+`tools/story_map_audit.py`, `tools/year5_reference_route_audit.py`,
 `tools/audit.py`, `tools/audit.sh`.
 
 **선언·마감:** `docs/CODEX_QUEUE.md`, 이 사양, `docs/human_gates.json`,
