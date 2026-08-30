@@ -1668,6 +1668,7 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
         "--story-demo-real-flow-route=restitution",
         "--story-demo-real-flow-route=escalation",
         "--audio-driver Dummy",
+        "--fixed-fps 60",
         "--qa=story-demo",
         TARGET_MARKER,
         RETURN_MARKER_PREFIX,
@@ -1788,10 +1789,12 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
             errors.append(f"build script lacks real StoryMode package command: {command}")
     if normalized_build.count(
         '"$LAUNCHER" --audio-driver Dummy --rendering-driver opengl3 '
-        '--resolution 1280x800 -- --story-demo-real-flow-smoke'
+        '--resolution 1280x800 --fixed-fps 60 '
+        '-- --story-demo-real-flow-smoke'
     ) != 3:
         errors.append(
-            "all three accelerated real StoryMode package runs must isolate CoreAudio"
+            "all three accelerated real StoryMode package runs must isolate "
+            "CoreAudio and use deterministic 60 FPS pacing"
         )
     if "--story-demo-real-flow-choice=" in normalized_build:
         errors.append("build script still uses a legacy real-flow choice argument")

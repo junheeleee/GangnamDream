@@ -1723,6 +1723,7 @@ run_godot_prefix_gate "$REAL_FLOW_CLEAN_LOG" "$REAL_FLOW_MARKER_PREFIX" \
   env STORY_DEMO_ALLOW_ISOLATED_QA=1 \
   STORY_DEMO_QA_BOOTSTRAP_NAME="$REAL_FLOW_CLEAN_QA_NAME" \
   "$LAUNCHER" --audio-driver Dummy --rendering-driver opengl3 --resolution 1280x800 \
+  --fixed-fps 60 \
   -- --story-demo-real-flow-smoke --story-demo-real-flow-route=clean \
   --story-demo-language=ko
 if [[ ! -d "$REAL_FLOW_CLEAN_QA_DIR" || -L "$REAL_FLOW_CLEAN_QA_DIR" ]]; then
@@ -1745,6 +1746,7 @@ run_godot_prefix_gate "$REAL_FLOW_RESTITUTION_LOG" "$REAL_FLOW_MARKER_PREFIX" \
   env STORY_DEMO_ALLOW_ISOLATED_QA=1 \
   STORY_DEMO_QA_BOOTSTRAP_NAME="$REAL_FLOW_RESTITUTION_QA_NAME" \
   "$LAUNCHER" --audio-driver Dummy --rendering-driver opengl3 --resolution 1280x800 \
+  --fixed-fps 60 \
   -- --story-demo-real-flow-smoke --story-demo-real-flow-route=restitution \
   --story-demo-language=en
 if [[ ! -d "$REAL_FLOW_RESTITUTION_QA_DIR" || -L "$REAL_FLOW_RESTITUTION_QA_DIR" ]]; then
@@ -1767,6 +1769,7 @@ run_godot_prefix_gate "$REAL_FLOW_ESCALATION_LOG" "$REAL_FLOW_MARKER_PREFIX" \
   env STORY_DEMO_ALLOW_ISOLATED_QA=1 \
   STORY_DEMO_QA_BOOTSTRAP_NAME="$REAL_FLOW_ESCALATION_QA_NAME" \
   "$LAUNCHER" --audio-driver Dummy --rendering-driver opengl3 --resolution 1280x800 \
+  --fixed-fps 60 \
   -- --story-demo-real-flow-smoke --story-demo-real-flow-route=escalation \
   --story-demo-language=zh-CN
 if [[ ! -d "$REAL_FLOW_ESCALATION_QA_DIR" || -L "$REAL_FLOW_ESCALATION_QA_DIR" ]]; then
