@@ -160,6 +160,7 @@ func _run() -> void:
 
 	_check_public_surface(controller)
 	_check_start_contract(controller)
+	_check_legacy_chapter5_ledger_migration_gate(controller)
 	_check_m6_localization_and_contract(controller)
 	_check_all_receipt_selectors(controller)
 	_check_m6_route_transaction_rollback(controller)
@@ -282,6 +283,36 @@ func _check_start_contract(controller: Node) -> void:
 	_expect(_canonical(schedule.get("start_contract", {}))
 			== _canonical(expected),
 		"schedule omitted the hostile-route survival contract")
+
+
+func _check_legacy_chapter5_ledger_migration_gate(controller: Node) -> void:
+	_expect(bool(controller.call("qa_start_new_run")),
+		"legacy migration fixture could not start a fresh run")
+	var current: Dictionary = controller.call("qa_session_snapshot")
+	var legacy := current.duplicate(true)
+	var legacy_state: Dictionary = legacy.get("game_state", {}).duplicate(true)
+	legacy_state.erase("chapter5_causal_state")
+	legacy_state.erase("chapter5_finale_state")
+	legacy["game_state"] = legacy_state
+	_expect(bool(controller.call("qa_session_candidate_is_valid", legacy)),
+		"pre-Chapter-5-ledger story-demo save could not reach its explicit migration")
+
+	var missing_unmigrated := legacy.duplicate(true)
+	var missing_unmigrated_state: Dictionary = legacy_state.duplicate(true)
+	missing_unmigrated_state.erase("flags")
+	missing_unmigrated["game_state"] = missing_unmigrated_state
+	_expect(not bool(controller.call(
+		"qa_session_candidate_is_valid", missing_unmigrated)),
+		"legacy migration exception accepted an unrelated missing GameState key")
+
+	var malformed_optional := current.duplicate(true)
+	var malformed_optional_state: Dictionary = current.get(
+		"game_state", {}).duplicate(true)
+	malformed_optional_state["chapter5_causal_state"] = "corrupt"
+	malformed_optional["game_state"] = malformed_optional_state
+	_expect(not bool(controller.call(
+		"qa_session_candidate_is_valid", malformed_optional)),
+		"legacy migration exception accepted a malformed present Chapter-5 ledger")
 
 
 func _check_all_receipt_selectors(controller: Node) -> void:

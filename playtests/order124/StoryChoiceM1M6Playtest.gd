@@ -85,6 +85,13 @@ const ACTION_LEDGER_KEYS: Array[String] = [
 	"weekly_commitments",
 	"forgone_path_debts",
 ]
+const LEGACY_OPTIONAL_GAME_STATE_KEYS: Array[String] = [
+	# These two Chapter-5 ledgers were added after the first public story-demo
+	# save. GameState.load_from_dict() has explicit fail-closed migrations for
+	# their absence, so the demo session gate must let that migration run.
+	"chapter5_causal_state",
+	"chapter5_finale_state",
+]
 
 const C_BG := Color("#090b10")
 const C_PANEL := Color("#121722")
@@ -1920,8 +1927,11 @@ static func _session_dictionary_is_valid(
 static func _game_state_payload_shape_is_valid(state: Dictionary) -> bool:
 	var baseline: Dictionary = GameState.serialize()
 	for key in baseline:
-		if not state.has(key) \
-				or not _json_value_matches_runtime_shape(state[key], baseline[key]):
+		if not state.has(key):
+			if str(key) in LEGACY_OPTIONAL_GAME_STATE_KEYS:
+				continue
+			return false
+		if not _json_value_matches_runtime_shape(state[key], baseline[key]):
 			return false
 	return true
 
