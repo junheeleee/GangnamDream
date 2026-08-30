@@ -2213,6 +2213,40 @@
       ]
     },
     {
+      "tool": "tools/story_demo_density_audit.py --self-test",
+      "why": "active story_demo_rc exact source의 11 root·24 선택·1080 서명과 분류·consumer 변이 거부",
+      "paths": [
+        "autoloads/GameState.gd",
+        "docs/human_gates.json",
+        "content/events/arc_daeun.json",
+        "content/events/arc_events.json",
+        "content/events/core_loop_v2_events.json",
+        "playtests/order124/StoryChoiceM1M6Playtest.gd",
+        "scenes/StoryMode.gd",
+        "tools/StoryChoiceM1M6Check.gd",
+        "tools/StoryDemoFourLanguageCheck.gd",
+        "tools/fixtures/story_demo_density_contract.json",
+        "tools/story_demo_density_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/story_demo_density_audit.py",
+      "why": "공개 M01~M06의 의미 결정·강제 bridge·축·비용·위험 청구·실제 후속 reader를 exact 후보에서 측정",
+      "paths": [
+        "autoloads/GameState.gd",
+        "docs/human_gates.json",
+        "content/events/arc_daeun.json",
+        "content/events/arc_events.json",
+        "content/events/core_loop_v2_events.json",
+        "playtests/order124/StoryChoiceM1M6Playtest.gd",
+        "scenes/StoryMode.gd",
+        "tools/StoryChoiceM1M6Check.gd",
+        "tools/StoryDemoFourLanguageCheck.gd",
+        "tools/fixtures/story_demo_density_contract.json",
+        "tools/story_demo_density_audit.py"
+      ]
+    },
+    {
       "tool": "tools/story_demo_localization_audit.py",
       "why": "공개 M01~M06의 11사건·82 leaf와 shell·StoryMode 도달 UI 5개 언어 exact 패리티",
       "paths": [

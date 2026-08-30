@@ -1,0 +1,844 @@
+{
+  "schema_version": 1,
+  "subject": {
+    "profile": "story_demo_rc",
+    "scope": "M01-M06",
+    "source_commit": "16675f6ce310adb477da9ab3431c2edfe15ab278",
+    "source_tree": "aed6904fc95345a867d2762f0bb8a62e65b32ce1",
+    "build_id": "2026.08.25.1",
+    "human_route_density": "not_measured"
+  },
+  "source_blobs": {
+    "controller": {
+      "path": "playtests/order124/StoryChoiceM1M6Playtest.gd",
+      "git_blob_oid": "39d34b8d21d57eb92a4df6c1e0fb80cd08ea06de",
+      "sha256": "af89a374ce030652433c3a9c61b5d66601f6fce7972d03052d85339b81489268"
+    },
+    "arc_events": {
+      "path": "content/events/arc_events.json",
+      "git_blob_oid": "6a9d90b70f6af0454f258175e3634f898efa2657",
+      "sha256": "c429b30dbe4ba3665e381c446c1945aedbfaf4ad27de7b7ab16e6b71ce3a7744"
+    },
+    "arc_daeun": {
+      "path": "content/events/arc_daeun.json",
+      "git_blob_oid": "c3ccb3f009696eea8d2fe128c5ab449812806fdb",
+      "sha256": "29a1f84fa411d03660f6e2283f3302a5f1f7c9b264a923c916b4484e9699748d"
+    },
+    "core_loop_v2_events": {
+      "path": "content/events/core_loop_v2_events.json",
+      "git_blob_oid": "786aa5929b31c5ed244c0f2d471f48c18fb733a9",
+      "sha256": "a30227ba75430679caca5e6e9e1bac03c45519917d3d80d46e3904f4dee425db"
+    },
+    "story_mode": {
+      "path": "scenes/StoryMode.gd",
+      "git_blob_oid": "75f94082a9f4411d6e26e7478a720f41aa0a4351",
+      "sha256": "d083f53589d5b61ee5ede05a879ed5dd63e636853b665c890915b2142403848e"
+    },
+    "game_state": {
+      "path": "autoloads/GameState.gd",
+      "git_blob_oid": "94f8b50b18dfeaaa6db0c5a62737774f141fc792",
+      "sha256": "54bb9af74c5a1405ff9a23c97b49e90a13950960f07f0cf4b330a27389c8a5f4"
+    },
+    "story_choice_check": {
+      "path": "tools/StoryChoiceM1M6Check.gd",
+      "git_blob_oid": "412b7a59f649e66d21ef6f3e254fc40463eeb1b9",
+      "sha256": "06e0a453a3476beca0c1a99255bbe2e0c44d598da1f5390da456db44e31f6ff8"
+    },
+    "four_language_check": {
+      "path": "tools/StoryDemoFourLanguageCheck.gd",
+      "git_blob_oid": "f3c8e16173afa9539544efc5324a463fa38e3411",
+      "sha256": "03c65d0894125061b3afaeabc5e9dc7ed0d1adecb38387cd03ed2f0bc8f6950b"
+    }
+  },
+  "start_contract": {
+    "difficulty": "드라마",
+    "profile": "알바",
+    "run_theme": "자유런",
+    "run_theme_categories": [],
+    "health_floor": 70,
+    "mental_floor": 72,
+    "monthly_recovery_health": 1,
+    "monthly_recovery_mental": 2,
+    "creates_monthly_action_receipts": false
+  },
+  "nodes": [
+    {
+      "node_id": "m01_temptation",
+      "month": 1,
+      "runtime_event_id": "arc_temptation_01",
+      "source": {
+        "path": "content/events/arc_events.json",
+        "event_id": "arc_temptation_01"
+      },
+      "ingress": {
+        "kind": "month_root"
+      }
+    },
+    {
+      "node_id": "m02_clean",
+      "month": 2,
+      "runtime_event_id": "arc_temptation_clean",
+      "source": {
+        "path": "content/events/arc_events.json",
+        "event_id": "arc_temptation_clean"
+      },
+      "ingress": {
+        "kind": "route",
+        "producer_choice": "arc_temptation_01#0"
+      }
+    },
+    {
+      "node_id": "m02_fallout",
+      "month": 2,
+      "runtime_event_id": "arc_temptation_fallout",
+      "source": {
+        "path": "content/events/arc_events.json",
+        "event_id": "arc_temptation_fallout"
+      },
+      "ingress": {
+        "kind": "route",
+        "producer_choice": "arc_temptation_01#1"
+      }
+    },
+    {
+      "node_id": "m03_daeun",
+      "month": 3,
+      "runtime_event_id": "arc_daeun_01_meet",
+      "source": {
+        "path": "content/events/arc_daeun.json",
+        "event_id": "arc_daeun_01_meet"
+      },
+      "ingress": {
+        "kind": "month_root"
+      }
+    },
+    {
+      "node_id": "m03_jiyeon",
+      "month": 3,
+      "runtime_event_id": "arc_jiyeon_01_crash",
+      "source": {
+        "path": "content/events/arc_events.json",
+        "event_id": "arc_jiyeon_01_crash"
+      },
+      "ingress": {
+        "kind": "ordered_after",
+        "predecessor_event_id": "arc_daeun_01_meet"
+      }
+    },
+    {
+      "node_id": "m04_sangchul_root",
+      "month": 4,
+      "runtime_event_id": "arc_sangchul_01_meet",
+      "source": {
+        "path": "content/events/arc_events.json",
+        "event_id": "arc_sangchul_01_meet"
+      },
+      "ingress": {
+        "kind": "month_root"
+      }
+    },
+    {
+      "node_id": "m04_sangchul_measure",
+      "month": 4,
+      "runtime_event_id": "arc_sangchul_01_measure",
+      "source": {
+        "path": "content/events/arc_events.json",
+        "event_id": "arc_sangchul_01_measure"
+      },
+      "ingress": {
+        "kind": "choice_follow_up",
+        "producer_choice": "arc_sangchul_01_meet#0"
+      }
+    },
+    {
+      "node_id": "m04_sangchul_coffee",
+      "month": 4,
+      "runtime_event_id": "arc_sangchul_01_coffee",
+      "source": {
+        "path": "content/events/arc_events.json",
+        "event_id": "arc_sangchul_01_coffee"
+      },
+      "ingress": {
+        "kind": "choice_follow_up",
+        "producer_choice": "arc_sangchul_01_meet#1"
+      }
+    },
+    {
+      "node_id": "m04_sangchul_answer",
+      "month": 4,
+      "runtime_event_id": "arc_sangchul_01_answer",
+      "source": {
+        "path": "content/events/arc_events.json",
+        "event_id": "arc_sangchul_01_answer"
+      },
+      "ingress": {
+        "kind": "branch_join",
+        "producer_choices": [
+          "arc_sangchul_01_measure#0",
+          "arc_sangchul_01_coffee#0"
+        ]
+      }
+    },
+    {
+      "node_id": "m05_jaehyuk",
+      "month": 5,
+      "runtime_event_id": "arc_jaehyuk_01_reunion",
+      "source": {
+        "path": "content/events/arc_events.json",
+        "event_id": "arc_jaehyuk_01_reunion"
+      },
+      "ingress": {
+        "kind": "month_root"
+      }
+    },
+    {
+      "node_id": "m06_first_bill",
+      "month": 6,
+      "runtime_event_id": "order124_m6_first_bill",
+      "source": {
+        "path": "content/events/core_loop_v2_events.json",
+        "event_id": "v2_demo_first_bill"
+      },
+      "ingress": {
+        "kind": "synthetic_month_root"
+      }
+    }
+  ],
+  "synthetic_events": [
+    {
+      "runtime_event_id": "order124_m6_first_bill",
+      "source": {
+        "path": "content/events/core_loop_v2_events.json",
+        "event_id": "v2_demo_first_bill"
+      },
+      "choice_map": [
+        {
+          "runtime_choice_index": 0,
+          "source_choice_index": 3
+        },
+        {
+          "runtime_choice_index": 1,
+          "source_choice_index": 4
+        },
+        {
+          "runtime_choice_index": 2,
+          "source_choice_index": 5
+        },
+        {
+          "runtime_choice_index": 3,
+          "source_choice_index": 6
+        },
+        {
+          "runtime_choice_index": 4,
+          "source_choice_index": 7
+        }
+      ],
+      "event_overrides": {
+        "weight": 0,
+        "hidden": true,
+        "conditions": {
+          "min_turn": 9999
+        },
+        "localized_description_owner": "controller"
+      },
+      "choice_transform": {
+        "drop_key_prefixes": [
+          "v2_"
+        ],
+        "drop_keys": [
+          "follow_up_event",
+          "deferred_follow_up",
+          "deferred_delay"
+        ],
+        "inject_runtime_receipt": true
+      }
+    }
+  ],
+  "reviewed_choice_annotations": {
+    "arc_temptation_01#0": {
+      "mode": "decision",
+      "action_axes": [
+        "livelihood"
+      ],
+      "sacrificed_axes": [
+        "money",
+        "body"
+      ],
+      "risk_role": "refusal",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice",
+        "m02_route_split"
+      ]
+    },
+    "arc_temptation_01#1": {
+      "mode": "decision",
+      "action_axes": [
+        "money"
+      ],
+      "sacrificed_axes": [
+        "people",
+        "body"
+      ],
+      "risk_role": "acceptance",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice",
+        "m02_route_split"
+      ]
+    },
+    "arc_temptation_clean#0": {
+      "mode": "bridge",
+      "action_axes": [
+        "livelihood",
+        "money"
+      ],
+      "sacrificed_axes": [
+        "body"
+      ],
+      "risk_role": "refusal_cost",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice"
+      ]
+    },
+    "arc_temptation_fallout#0": {
+      "mode": "decision",
+      "action_axes": [
+        "people",
+        "money"
+      ],
+      "sacrificed_axes": [
+        "money",
+        "body"
+      ],
+      "risk_role": "restitution",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice",
+        "m02_restitution_deferred"
+      ]
+    },
+    "arc_temptation_fallout#1": {
+      "mode": "decision",
+      "action_axes": [
+        "money"
+      ],
+      "sacrificed_axes": [
+        "people",
+        "body"
+      ],
+      "risk_role": "escalation",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice"
+      ]
+    },
+    "arc_daeun_01_meet#0": {
+      "mode": "memory",
+      "action_axes": [
+        "people"
+      ],
+      "sacrificed_axes": [],
+      "risk_role": "none",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice"
+      ]
+    },
+    "arc_daeun_01_meet#1": {
+      "mode": "memory",
+      "action_axes": [
+        "people"
+      ],
+      "sacrificed_axes": [
+        "people"
+      ],
+      "risk_role": "none",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice"
+      ]
+    },
+    "arc_jiyeon_01_crash#0": {
+      "mode": "memory",
+      "action_axes": [
+        "people"
+      ],
+      "sacrificed_axes": [
+        "people",
+        "money",
+        "body"
+      ],
+      "risk_role": "none",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice"
+      ]
+    },
+    "arc_jiyeon_01_crash#1": {
+      "mode": "memory",
+      "action_axes": [
+        "money"
+      ],
+      "sacrificed_axes": [
+        "people"
+      ],
+      "risk_role": "none",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice"
+      ]
+    },
+    "arc_jiyeon_01_crash#2": {
+      "mode": "memory",
+      "action_axes": [
+        "people",
+        "body"
+      ],
+      "sacrificed_axes": [
+        "money",
+        "body"
+      ],
+      "risk_role": "none",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice"
+      ]
+    },
+    "arc_sangchul_01_meet#0": {
+      "mode": "expression",
+      "action_axes": [
+        "people"
+      ],
+      "sacrificed_axes": [],
+      "risk_role": "none",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice",
+        "m04_measure_follow_up"
+      ]
+    },
+    "arc_sangchul_01_meet#1": {
+      "mode": "expression",
+      "action_axes": [
+        "people"
+      ],
+      "sacrificed_axes": [],
+      "risk_role": "none",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice",
+        "m04_coffee_follow_up"
+      ]
+    },
+    "arc_sangchul_01_measure#0": {
+      "mode": "bridge",
+      "action_axes": [
+        "people"
+      ],
+      "sacrificed_axes": [],
+      "risk_role": "none",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice",
+        "m04_answer_follow_up"
+      ]
+    },
+    "arc_sangchul_01_coffee#0": {
+      "mode": "bridge",
+      "action_axes": [
+        "people"
+      ],
+      "sacrificed_axes": [],
+      "risk_role": "none",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice",
+        "m04_answer_follow_up"
+      ]
+    },
+    "arc_sangchul_01_answer#0": {
+      "mode": "memory",
+      "action_axes": [
+        "people"
+      ],
+      "sacrificed_axes": [],
+      "risk_role": "none",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice"
+      ]
+    },
+    "arc_sangchul_01_answer#1": {
+      "mode": "expression",
+      "action_axes": [
+        "money"
+      ],
+      "sacrificed_axes": [
+        "people",
+        "body"
+      ],
+      "risk_role": "none",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice"
+      ]
+    },
+    "arc_sangchul_01_answer#2": {
+      "mode": "memory",
+      "action_axes": [
+        "livelihood"
+      ],
+      "sacrificed_axes": [],
+      "risk_role": "none",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice"
+      ]
+    },
+    "arc_jaehyuk_01_reunion#0": {
+      "mode": "memory",
+      "action_axes": [
+        "people"
+      ],
+      "sacrificed_axes": [],
+      "risk_role": "none",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice"
+      ]
+    },
+    "arc_jaehyuk_01_reunion#1": {
+      "mode": "memory",
+      "action_axes": [
+        "people"
+      ],
+      "sacrificed_axes": [
+        "people",
+        "body"
+      ],
+      "risk_role": "none",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice"
+      ]
+    },
+    "order124_m6_first_bill#0": {
+      "mode": "decision",
+      "action_axes": [
+        "people"
+      ],
+      "sacrificed_axes": [
+        "people",
+        "livelihood",
+        "body",
+        "money"
+      ],
+      "risk_role": "none",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice"
+      ]
+    },
+    "order124_m6_first_bill#1": {
+      "mode": "decision",
+      "action_axes": [
+        "people"
+      ],
+      "sacrificed_axes": [
+        "people",
+        "livelihood",
+        "body",
+        "money"
+      ],
+      "risk_role": "none",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice"
+      ]
+    },
+    "order124_m6_first_bill#2": {
+      "mode": "decision",
+      "action_axes": [
+        "money"
+      ],
+      "sacrificed_axes": [
+        "people",
+        "livelihood",
+        "body",
+        "money"
+      ],
+      "risk_role": "none",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice"
+      ]
+    },
+    "order124_m6_first_bill#3": {
+      "mode": "decision",
+      "action_axes": [
+        "livelihood",
+        "money"
+      ],
+      "sacrificed_axes": [
+        "people",
+        "body",
+        "money"
+      ],
+      "risk_role": "none",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice"
+      ]
+    },
+    "order124_m6_first_bill#4": {
+      "mode": "decision",
+      "action_axes": [
+        "body"
+      ],
+      "sacrificed_axes": [
+        "people",
+        "livelihood",
+        "money"
+      ],
+      "risk_role": "none",
+      "consumer_expectations": [
+        "controller_session_receipt",
+        "controller_recap_choice"
+      ]
+    }
+  },
+  "consumer_contracts": [
+    {
+      "consumer_id": "controller_session_receipt",
+      "kind": "runtime_receipt",
+      "producer_choices": [
+        "arc_temptation_01#0",
+        "arc_temptation_01#1",
+        "arc_temptation_clean#0",
+        "arc_temptation_fallout#0",
+        "arc_temptation_fallout#1",
+        "arc_daeun_01_meet#0",
+        "arc_daeun_01_meet#1",
+        "arc_jiyeon_01_crash#0",
+        "arc_jiyeon_01_crash#1",
+        "arc_jiyeon_01_crash#2",
+        "arc_sangchul_01_meet#0",
+        "arc_sangchul_01_meet#1",
+        "arc_sangchul_01_measure#0",
+        "arc_sangchul_01_coffee#0",
+        "arc_sangchul_01_answer#0",
+        "arc_sangchul_01_answer#1",
+        "arc_sangchul_01_answer#2",
+        "arc_jaehyuk_01_reunion#0",
+        "arc_jaehyuk_01_reunion#1",
+        "order124_m6_first_bill#0",
+        "order124_m6_first_bill#1",
+        "order124_m6_first_bill#2",
+        "order124_m6_first_bill#3",
+        "order124_m6_first_bill#4"
+      ],
+      "reader": {
+                "path": "playtests/order124/StoryChoiceM1M6Playtest.gd",
+                "symbol": "_collect_current_month_choices",
+                "markers": [
+                    "_choice_receipt_flag",
+                    "GameState.flags.get(receipt, false)",
+                    "_choice_record",
+                    "_session[\"choices\"]"
+                ]
+      },
+      "demo_reachable": true
+    },
+    {
+      "consumer_id": "controller_recap_choice",
+      "kind": "recap",
+      "producer_choices": [
+        "arc_temptation_01#0",
+        "arc_temptation_01#1",
+        "arc_temptation_clean#0",
+        "arc_temptation_fallout#0",
+        "arc_temptation_fallout#1",
+        "arc_daeun_01_meet#0",
+        "arc_daeun_01_meet#1",
+        "arc_jiyeon_01_crash#0",
+        "arc_jiyeon_01_crash#1",
+        "arc_jiyeon_01_crash#2",
+        "arc_sangchul_01_meet#0",
+        "arc_sangchul_01_meet#1",
+        "arc_sangchul_01_measure#0",
+        "arc_sangchul_01_coffee#0",
+        "arc_sangchul_01_answer#0",
+        "arc_sangchul_01_answer#1",
+        "arc_sangchul_01_answer#2",
+        "arc_jaehyuk_01_reunion#0",
+        "arc_jaehyuk_01_reunion#1",
+        "order124_m6_first_bill#0",
+        "order124_m6_first_bill#1",
+        "order124_m6_first_bill#2",
+        "order124_m6_first_bill#3",
+        "order124_m6_first_bill#4"
+      ],
+      "reader": {
+        "path": "playtests/order124/StoryChoiceM1M6Playtest.gd",
+        "symbol": "_show_recap",
+        "markers": [
+          "_session.get(\"choices\"",
+          "choice_index",
+          "DataRegistry.find_event"
+        ]
+      },
+      "demo_reachable": true
+    },
+    {
+      "consumer_id": "m02_route_split",
+      "kind": "route",
+      "producer_choices": [
+        "arc_temptation_01#0",
+        "arc_temptation_01#1"
+      ],
+      "reader": {
+        "path": "playtests/order124/StoryChoiceM1M6Playtest.gd",
+        "symbol": "_event_ids_for_month / _m02_route",
+        "markers": [
+          "lent_account",
+          "arc_temptation_clean",
+          "arc_temptation_fallout"
+        ]
+      },
+      "demo_reachable": true
+    },
+    {
+      "consumer_id": "m04_measure_follow_up",
+      "kind": "follow_up",
+      "producer_choices": [
+        "arc_sangchul_01_meet#0"
+      ],
+      "reader": {
+        "path": "scenes/StoryMode.gd",
+        "symbol": "_choice_follow_up_id / _after_result",
+        "markers": [
+          "follow_up_event",
+          "_pending_follow_up",
+          "_queue.push_front"
+        ]
+      },
+      "demo_reachable": true
+    },
+    {
+      "consumer_id": "m04_coffee_follow_up",
+      "kind": "follow_up",
+      "producer_choices": [
+        "arc_sangchul_01_meet#1"
+      ],
+      "reader": {
+        "path": "scenes/StoryMode.gd",
+        "symbol": "_choice_follow_up_id / _after_result",
+        "markers": [
+          "follow_up_event",
+          "_pending_follow_up",
+          "_queue.push_front"
+        ]
+      },
+      "demo_reachable": true
+    },
+    {
+      "consumer_id": "m04_answer_follow_up",
+      "kind": "follow_up",
+      "producer_choices": [
+        "arc_sangchul_01_measure#0",
+        "arc_sangchul_01_coffee#0"
+      ],
+      "reader": {
+        "path": "scenes/StoryMode.gd",
+        "symbol": "_choice_follow_up_id / _after_result",
+        "markers": [
+          "follow_up_event",
+          "_pending_follow_up",
+          "_queue.push_front"
+        ]
+      },
+      "demo_reachable": true
+    },
+    {
+      "consumer_id": "m02_restitution_deferred",
+      "kind": "deferred_follow_up",
+      "producer_choices": [
+        "arc_temptation_fallout#0"
+      ],
+      "reader": {
+        "path": "autoloads/GameState.gd",
+        "symbol": "apply_choice",
+        "markers": [
+          "DataRegistry.deferred_follow_ups(choice)",
+          "add_deferred_event"
+        ]
+      },
+      "demo_reachable": false
+    }
+  ],
+  "runtime_coverage": {
+    "evidence_paths": [
+      "tools/StoryChoiceM1M6Check.gd",
+      "tools/StoryDemoFourLanguageCheck.gd"
+    ],
+    "covered": [
+      "arc_temptation_01#0",
+      "arc_temptation_01#1",
+      "arc_temptation_clean#0",
+      "arc_temptation_fallout#0",
+      "arc_daeun_01_meet#0",
+      "arc_daeun_01_meet#1",
+      "arc_jiyeon_01_crash#0",
+      "arc_sangchul_01_meet#0",
+      "arc_sangchul_01_meet#1",
+      "arc_sangchul_01_measure#0",
+      "arc_sangchul_01_coffee#0",
+      "arc_sangchul_01_answer#0",
+      "arc_sangchul_01_answer#1",
+      "arc_jaehyuk_01_reunion#0",
+      "arc_jaehyuk_01_reunion#1",
+      "order124_m6_first_bill#0",
+      "order124_m6_first_bill#3"
+    ],
+    "total": 24,
+    "missing": [
+      "arc_temptation_fallout#1",
+      "arc_jiyeon_01_crash#1",
+      "arc_jiyeon_01_crash#2",
+      "arc_sangchul_01_answer#2",
+      "order124_m6_first_bill#1",
+      "order124_m6_first_bill#2",
+      "order124_m6_first_bill#4"
+    ],
+    "basis": "Reviewed union of authored selector outcomes in both exact source checks; structural choice iteration alone is not counted as a covered outcome."
+  },
+  "expected": {
+    "months": 6,
+    "weeks": 24,
+    "runtime_event_variants": 11,
+    "unique_choice_options": 24,
+    "receipts_per_run": 9,
+    "legal_signatures": {
+      "clean": 360,
+      "fallout": 720,
+      "total": 1080
+    },
+    "meaningful_decisions": {
+      "clean": 7,
+      "fallout": 8
+    },
+    "forced_continues": {
+      "clean": 2,
+      "fallout": 1
+    },
+    "route_survival": {
+      "settlements_per_run": 6,
+      "surviving_signatures": 1080,
+      "min_end_health": 61,
+      "min_end_mental": 15,
+      "min_end_money": 6320000.0
+    }
+  }
+}
