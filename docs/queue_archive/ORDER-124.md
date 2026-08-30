@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-124
+# Archived Queue Spec: ORDER-124
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-124 [P0·코어 표본] 월간 행동판 없이 스토리 선택만으로 M01~M06을 잇는다
+#### [x] ORDER-124 [P0·코어 표본] 월간 행동판 없이 스토리 선택만으로 M01~M06을 잇는다
 
 **사용자 승인 (2026-08-24):** ORDER-103을 직접 플레이한 뒤 “게임스토리상에서
 선택지로 충분해보여. 아예 매달 행동을 빼버릴까?”라고 판정했고, 제거 방향을
@@ -193,3 +193,14 @@
   `story-only-product-migration`을 함께 막는다. 이 앱의 정상 속도 M01~M06 사용자
   GO 전에는 ORDER-124를 닫거나 본편을 이관하지 않는다. 저장 호환 AP 데이터·
   엔진 삭제는 이 GO에도 포함되지 않는다.
+
+## 2026-08-31 · 사용자 최종 GO와 종료
+
+- 사용자는 “출시 데모자체는 m6이 맞아 이대로 go”라고 exact
+  `story_demo_rc` M01~M06의 출시 범위와 StoryMode 중심 구조를 최종 승인했다.
+- 제품·package·manifest 신원은 위 BUILD `2026.08.31.1`을 그대로 쓴다. 새
+  M07~M24를 출시 데모에 붙이지 않는다.
+- 일본어·간체·번체 원어민 출시 claim은 각각 별도 OPEN 게이트다. 이번 사용자
+  GO가 세 언어의 자연스러움을 자동 승인했다는 기록을 만들지 않는다.
+- 본편 작업은 ORDER-142에서 M01~M60 전체 볼륨을 함께 관리한다. 호환 AP 데이터와
+  엔진 삭제는 여전히 승인 범위가 아니다.

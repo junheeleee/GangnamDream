@@ -15,6 +15,11 @@
 
 ## 2026-08
 
+- `[x] ORDER-124` (2026-08-31): BUILD `2026.08.31.1` exact `story_demo_rc`
+  M01~M06의 StoryMode 선택·자동 시간·AP 표면 0 구조와 출시 데모 길이에 사용자가
+  최종 GO했다. JA·zh-CN·zh-TW 원어민 claim은 별도 OPEN이며, M07 이후는 출시
+  데모를 늘리지 않고 ORDER-142의 M01~M60 전체 볼륨 관리로 이관했다.
+  [사양](ORDER-124.md)
 - `[x] ORDER-140` (2026-08-31): M2 위험을 M6의 restitution·escalation 장면으로
   청구하고 M3~M5 exact 선택을 M6 도입이 읽으며, 다섯 M6 선택 뒤 고른 한 줄과
   포기한 네 줄을 대가 ledger가 남기도록 연결했다. 제품 `4e80a63` / tree
