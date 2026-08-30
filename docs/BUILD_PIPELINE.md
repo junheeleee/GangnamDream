@@ -334,10 +334,18 @@ KO 960×600·EN 1280×800 실제 StoryMode 키보드 선택은 선택 버튼·�
 0 저장까지 도달했다. 그러나 `StoryMode`가 후보 controller로 돌아올 때
 opaque `SceneTransition` cover를 걷지 않아 장면 사이가 검게 가려졌고 M06
 회고는 영구히 가려질 수 있었다. 이 BUILD는 기술 NO-GO로 superseded했다.
-기존 manifest/checksum/ZIP은 `build/order124/archive/2026.08.24.2`에 남겼고,
-archive 전체 SHA-256
-`84b5f16dac820fd946240bf72519dea155f1ff49e1724a72aed5d35664916d41`를 후속 빌드
-전후 동일하게 보존한다.
+2026-08-31 재검증에서 이 물리 archive와 ZIP 원문은 현재 저장소·연결 디스크에
+없음이 확인됐다. 같은 source와 Godot 4.6.2의 one-shot 재빌드도 ZIP
+`e05fabe4…`, app `ad3ed20f…`, launcher `4c0aa3aa…`, PCK `5e66c194…`로 역사
+값과 달라 복구본으로 취급하지 않는다. exact manifest 9,238 bytes / SHA-256
+`87f3491f…`와 checksum 95 bytes / SHA-256 `38566c8a…`는
+`tools/evidence/order124_build_2026.08.24.2/`에 보존하고,
+`LOSS_RECEIPT.json`이 `archive_restored=false`, `candidate_eligible=false`를
+고정한다. 후속 story-demo 빌드는 역사 세 파일이 모두 exact인 실물 archive이거나,
+경로가 완전히 없고 selected source commit의 tracked loss bundle이 exact인
+`missing_with_loss_receipt`만 허용한다. 빈·부분·가짜·symlink archive는 거부하고
+빌드 전후 같은 상태와 evidence hash를 보존한다. BUILD `.2`는 미래 후보로
+재등록하지 않는다.
 
 ### 역사 ORDER-124 BUILD 2026.08.24.3 (2026-08-24, 기술 수리 증거)
 

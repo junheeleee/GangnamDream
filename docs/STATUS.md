@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-08-30 17:12 UTC · a4d32710`
+> 생성 시각 · 커밋: `2026-08-30 19:04 UTC · cb06744c`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -102,6 +102,7 @@
 
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
+| `ORDER-140` | M2 위험의 6월 청구와 M3~M6 exact 선택을 실제 장면에서 회수한다 | 진행 | 제품 ce57751 / tree 0e1ad9a · 5언어·실제 3경로·1,800 서명 L1/L2 GREEN · 실종 아카이브 보호 완료 · 새 exact package/RC 마감 중 · 사람 게이트/main HOLD |
 | `ORDER-138` | 5장 일반 종막의 끊긴 사람선을 잇고 마지막 행동의 반복을 걷는다 | 진행 | 제품 9b294d5 / tree ebaf799 / manifest 9927a875 · 일반 W211→W240·property inline read L1/L2 GREEN · 228장 · 두 사람 게이트 OPEN · main HOLD |
 | `ORDER-137` | 5장 실플레이 반려 4건을 표적 수리한다 | 진행 | 역사 제품 002a493 · 잔여 결함은 ORDER-138 소유 · 두 L3와 사용자 GO OPEN · main HOLD |
 | `ORDER-135` | 25억 문턱·아버지 별세 일반 런의 선택을 W240에 잇는다 | 진행 | 역사 제품 002a493 · 잔여 수리는 ORDER-138 · 사용자 GO/main HOLD |

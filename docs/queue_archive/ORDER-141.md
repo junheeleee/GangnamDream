@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-141
+# Archived Queue Spec: ORDER-141
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-141 [P0·패키지 무결성] 실종된 과거 BUILD `.2`를 복구했다고 위조하지 못하게 보호한다
+#### [x] ORDER-141 [P0·패키지 무결성] 실종된 과거 BUILD `.2`를 복구했다고 위조하지 못하게 보호한다
 
 **착수 선언 (2026-08-31, Codex):** 현재 story demo builder는 반려된
 BUILD `2026.08.24.2` 아카이브의 ZIP·manifest·checksum 세 파일이 디스크에
@@ -10,6 +10,16 @@ BUILD `2026.08.24.2` 아카이브의 ZIP·manifest·checksum 세 파일이 디�
 없고, 동일 source와 Godot로 만든 one-shot ZIP도 역사 hash와 일치하지 않는다.
 이 오더는 복구를 가장하지 않고 실종 사실·역사 기대값·재빌드 불일치를 추적 가능한
 손실 영수증으로 고정해, 새 패키지가 그 부재 상태를 보호할 수 있게 한다.
+
+**완료 (2026-08-31, Codex):** 구현
+`cb06744c80d9575014868cd48d05b24b0814f022` / tree
+`51eb6afb6489b28740e8e913583f435a54fb8626`에서 exact 역사 manifest와 checksum,
+재빌드 불일치, `archive_restored=false`·`candidate_eligible=false`를 tracked
+bundle로 고정했다. 실제 상태는 `missing_with_loss_receipt`, evidence digest
+`4563dc38fd75f11ad6441df83d9698c960318d86430e33f3facb58f41040c691`다.
+실물·부재 정상 상태와 가짜·부분·symlink·strict type·selected-source·protected-row
+변조 204건이 통과했고 독립 post-review P0/P1/P2는 0이다. 자동 검사는 사람
+플레이를 닫지 않았고 main은 HOLD다.
 
 ## 깊이 3문
 

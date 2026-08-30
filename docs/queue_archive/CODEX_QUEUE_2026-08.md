@@ -15,6 +15,12 @@
 
 ## 2026-08
 
+- `[x] ORDER-141` (2026-08-31): 실종된 ORDER-124 BUILD `2026.08.24.2` ZIP을
+  복구했다고 위조하지 않고 exact manifest·checksum·역사 기대값·재빌드 불일치를
+  tracked loss receipt로 고정했다. builder는 exact 실물 세 파일 또는 완전한
+  부재와 selected source commit의 `missing_with_loss_receipt`만 허용한다.
+  204개 변조 검사와 독립 post-review P0/P1/P2 0을 통과했고, 과거 후보는
+  `candidate_eligible=false`로 영구 비적격이다. [사양](ORDER-141.md)
 - `[x] ORDER-139` (2026-08-31): active `story_demo_rc` exact `16675f6`를
   제품 변경 없이 재구성해 11 runtime variant·24 choice와 clean 360 + fallout
   720 = 1,080개 합법 완주를 확인했다. 기존 selector는 17/24만 선택하며, M2 환수

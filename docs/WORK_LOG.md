@@ -16,6 +16,13 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-31 (Codex — 실종 ORDER-124 BUILD `.2` 아카이브 보호)
+
+- BUILD `.2` ZIP은 실종됐고 재빌드 hash도 달라 복구로 표시하지 않았다. exact
+  manifest/checksum과 `archive_restored=false`, `candidate_eligible=false`를 고정했다.
+- `cb06744`는 exact 실물 또는 selected-source의 `missing_with_loss_receipt`만
+  허용한다. 204개 변조와 독립 검토를 통과했고 사람 게이트는 그대로다.
+
 ## 2026-08-31 (Codex — 공개 스토리 데모 선택 밀도 exact 실측)
 
 - active `story_demo_rc` exact `16675f6` / tree `aed6904f` / BUILD
