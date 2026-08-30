@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-08-29 05:22 UTC · 1784d224`
+> 생성 시각 · 커밋: `2026-08-30 15:43 UTC · 66718fd5`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -102,13 +102,15 @@
 
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
-| `ORDER-138` | 5장 일반 종막의 9주 공백과 아버지 기일 회수를 고친다 | 미착수 | 입력은 002a493 두 경로 위임 L3 · general 최장 공백 9주·28/48주, property 4주·39/48주 실측 · 화면 증거 픽스처 2건은 선행 수리 완료 · 미착수 |
-| `ORDER-137` | 5장 실플레이 반려 4건을 표적 수리한다 | 진행 | 새 제품 002a493 / tree ce156f4 / manifest 7ada31a8 · 2026-08-29 위임 L3 재플레이에서 property CONDITIONAL(반려 2건 닫힘)·general REJECT · 잔여 결함은 ORDER-138이 소유 · 두 L3와 사용자 최종 GO OPEN · main HOLD |
-| `ORDER-135` | 25억 문턱·아버지 별세 일반 런의 선택을 W240에 잇는다 | 진행 | 002a493에서 W237·W240·W220→W224 회수는 통과 · 2026-08-29 위임 L3는 W225~W233 9주 공백과 W224 각주형 회수로 다시 REJECT · 수리는 ORDER-138 · 사용자 최종 GO/main HOLD |
-| `ORDER-119` | 게임 전체 플레이어 표면에서 스탯·시스템 언어 제거 | 진행 | 제품·QA 36파일+package metadata 2파일 · exact clean full audit·KO/EN 24주·KO 240주·BUILD 2026.08.22.1 3플랫폼 package·macOS native smoke green · active demo_rc 등록 · 사용자 최종 GO OPEN |
-| `ORDER-118` | startup 전면 재설계·코드 토큰 제거 | 진행 | L1/L2 GO · 16편/27선택·코드 토큰 0 · fresh seed 9821 #11/#2/#3 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |
-| `ORDER-117` | 107/109 국소 수리·career 15편 재판정 | 진행 | L1/L2 GO · 18단위 전수·16 roots 재작성·after_goal/people_verdict exact 보존·코드 토큰 0 · 107/109 각 1/1+career 15/15 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |
-| `ORDER-124` | 월간 행동판 없이 스토리 선택만으로 M01~M06을 잇는다 | 진행 | BUILD 2026.08.25.1 macOS story_demo_rc active (16675f6) · 5 locale·실제 두 M01 route·24주·정산 6·영수증 9·exact cold resume·AP 표면 0 L1/L2 GO · 사용자 L3 OPEN · 엔진 AP 삭제 비승인 |
+| `ORDER-140` | 거절 불가 비트가 런을 끝내지 못하게 막는다 | 미착수 | W188 별세 마지막 비트가 선택지 1개에 mental -40 · mental≤40이면 종료 재현 · 클래스 2건 · 미착수 |
+| `ORDER-139` | 진입 자산보다 몇 배 큰 고정 차감을 막는다 | 미착수 | W3 잔고 50만 → 체납 350만 재현 · 버그 클래스 2건 · 외부 세션 선결 · 미착수 |
+| `ORDER-138` | 투자 기준 밖 5장의 연속 공백과 아버지 기일 회수를 고친다 | 미착수 | general 28/48 최장 9주, 직장형 27/48 최장 6주 · 화면 픽스처 2건 선행 수리 · 미착수 |
+| `ORDER-137` | 5장 실플레이 반려 4건을 표적 수리한다 | 진행 | 새 제품 002a493 / tree ce156f4 / manifest 7ada31a8 · 위임 L3에서 property CONDITIONAL(반려 2건 닫힘)·general REJECT · 잔여는 ORDER-138 · 두 L3와 사용자 최종 GO OPEN · main HOLD |
+| `ORDER-135` | 25억 문턱·아버지 별세 일반 런의 선택을 W240에 잇는다 | 진행 | 002a493에서 W237·W240·회수는 통과 · 위임 L3는 W225~W233 9주 공백과 W224 각주형 회수로 다시 REJECT · 수리는 ORDER-138 · 사용자 최종 GO/main HOLD |
+| `ORDER-119` | 게임 전체 플레이어 표면에서 스탯·시스템 언어 제거 | 진행 | 제품·QA 36파일+package 2 · exact clean full audit·KO/EN 24주·KO 240주·BUILD 2026.08.22.1 3플랫폼 · active demo_rc · 사용자 최종 GO OPEN |
+| `ORDER-118` | startup 전면 재설계·코드 토큰 제거 | 진행 | L1/L2 GO · 16편/27선택·코드 토큰 0 · seed 9821 위임 L3 GO · 사용자 최종 GO OPEN · R1b HOLD |
+| `ORDER-117` | 107/109 국소 수리·career 15편 재판정 | 진행 | L1/L2 GO · 18단위 전수·16 roots 재작성·코드 토큰 0 · 위임 L3 GO · 사용자 최종 GO OPEN · R1b HOLD |
+| `ORDER-124` | 월간 행동판 없이 스토리 선택만으로 M01~M06을 잇는다 | 진행 | BUILD 2026.08.25.1 macOS story_demo_rc active (16675f6) · 5 locale·24주·정산 6·영수증 9 L1/L2 GO · 사용자 L3 OPEN · 엔진 AP 삭제 비승인 |
 | `ORDER-99` | SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | 진행 | BUILD .3 L1/L2 — 사용자 저장 확인 대기 |
 | `ORDER-97` | LOC-0.5 전에 UI 템플릿을 번역 | 진행 | L1/L2 — 최신 후보·A/B 각 3표면 L3 대기 |
 | `ORDER-98` | PAD-1 포커스 레일을 의미 버튼으로 줄인다 | 진행 | active demo_rc exact full/surface·입력·컨트롤러·오디오 L1/L2 PASS · 물리 패드 A/B 각 3표면 L3 OPEN |

@@ -2,7 +2,7 @@
 
 > 최신 작업만 역순으로 기록한다. 2026-07-24 이전 원문은
 > [`5/16~7/24`](history/WORK_LOG_2026-05-16_to_2026-07-24.md), 보관본은
-> [`8/24`](history/WORK_LOG_2026-08-24.md), [`8/18`](history/WORK_LOG_2026-08-18.md),
+> [`8/24`](history/WORK_LOG_2026-08-24.md), [`8/20`](history/WORK_LOG_2026-08-20.md), [`8/18`](history/WORK_LOG_2026-08-18.md),
 > [`8/18 후속`](history/WORK_LOG_2026-08-18_late.md),
 > [`8/15`](history/WORK_LOG_2026-08-15.md),
 > [`8/14`](history/WORK_LOG_2026-08-14.md),
@@ -14,6 +14,71 @@
 > [`7/27`](history/WORK_LOG_2026-07-27.md), [`7/26`](history/WORK_LOG_2026-07-26.md),
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
+
+## 2026-08-31 (Claude — 개선점 탐색 1라운드·ORDER-140 발행)
+
+- 사용자 지시로 상시 개선점 탐색을 시작했다. 운영 규칙은 **재현되는 결함만
+  오더, 측정값은 `DEMO_FIXLOG`, 아이디어는 `POST_LAUNCH_NOTES`, 한 라운드에
+  활성 오더 최대 1~2개**다. 게이트 46개가 열려 있고 닫힌 것이 0인 상태에서
+  오더만 쌓으면 지목한 1순위 리스크를 키우기 때문이다.
+- **`ORDER-140` 발행.** 선택지가 하나뿐인 authored 비트가 런을 끝낼 수 있다.
+  W188 `arc_father_passing_hospital_room`이 유일 선택에 `mental -40`을 적용하며,
+  slot 9 기반 실행에서 시작 mental 40 이하는 0이 되어 `mental_break`으로
+  종료된다. 실제 경로(`_story_has_pending_fatal_state` → `_finish_all` →
+  `check_game_over`)로 확인했다. 클래스 전수 11건, 치명 2건이다. 아버지 별세의
+  감정 비용은 줄이지 않고, 거절 불가 비트가 마지막 1점을 가져가지 못하게 하는
+  계약과 신규 정적 검사를 요구한다.
+- **결함 아님으로 확정하고 기록만 남긴 것 둘.** ①도달 불가로 보이던 103건은
+  `foreground_event_ids` 허용목록에 의한 **의도된 콘텐츠 다이어트**다
+  (`queue_archive/ORDER-51.md`가 "도달 가능 24건(3.9%)"으로 선언). `weight`
+  결측 기본값은 `1.0`이라 배제 사유가 아니었다. 앰비언트 풀이 시점당 6~20개인
+  것도 같은 다이어트의 결과이므로 결함이 아니다. ②2지선다 이상에서 아무것도
+  바꾸지 않는 선택은 전수 0건이다.
+- 절차 하나를 확립했다. 첫 도달성 프로브가 신규 게임 상태를 써서 컨트롤까지
+  0/4000이 나왔고, 실제 세이브로 기준을 바꾼 뒤에야 컨트롤이 115/4000으로
+  뽑혔다. **컨트롤 없는 도달성 프로브는 채택하지 않는다.**
+- `docs/WORK_LOG.md`가 부팅 예산 40,000바이트를 넘어 2026-08-20 이전 항목을
+  `docs/history/WORK_LOG_2026-08-20.md`로 분리하고 머리말에 등록했다.
+  `docs/CODEX_QUEUE.md`도 상한에 닿아 오래된 인덱스 셀을 사양 포인터로 줄였다.
+  큐 인덱스가 예산에 닿았다는 것 자체가 백로그 신호다.
+- 프로브는 `tools/hunt_round1.py`, `tools/WeightlessCallbackProbe.gd`,
+  `tools/FatherDeathLethalProbe.gd`가 소유한다.
+
+## 2026-08-29 (Claude — 1~5장 전 구간 재생·ORDER-139 발행·ORDER-138 범위 확대)
+
+- 각 장 시작점의 실제 세이브(slot 6~10, 직장형 한 런의 연속 기록)에서 실제
+  `MainGame` 주간 우선순위 체인과 실제 `StoryMode`를 구동해 W1~W240을 재생했다.
+  자산은 장 시작·끝 실측값 사이 선형 보간이고, 5장만 property·general을 추가로
+  돌렸다. 장별 분할 실행이라 장 사이 플래그가 이어지지 않으므로 장 사이 사건
+  중복은 방법의 아티팩트로 처리하고 결함으로 보고하지 않았다. 장 안 중복은 0이다.
+- 전체 규모는 292장면·99,818자·정독 250분이며 `full_run_pacing_audit.py`의
+  180~300분 모델과 일치한다. 작성 뿌리 주차는 1장 31·2장 33·3장 41·4장 36·
+  5장 27(직장형)이다. **3장에서 정점을 찍고 마지막 해에 최저가 된다.**
+- `ORDER-139`를 발행해 큐 1순위로 올렸다. 신규 게임 W3에서 잔고 500,000원이
+  한 번의 앰비언트 선택으로 체납 3,500,000원이 된다. `drama_crypto_allin`의
+  진입 조건 `min_money: 500000`이 시작 잔고와 같고, 후속 결과가 잔고와 무관한
+  고정 -4,000,000(복구 시도 -5,500,000)을 적용한다. 마이너스 잔고는
+  `get_arrears()`로 모델된 체납 상태이므로 표시 결함이 아니며, 결함은 비례를
+  약속한 선택이 진입 자산의 8~11배를 고정 차감한다는 점이다. 같은 버그 클래스는
+  전수 조사에서 정확히 2건(`drama_crypto_allin`, `drama_friend_investment`)이다.
+  결과 산문 금액과 실제 차감액 대조에서 어긋나는 4건은 모두 항목 합계 표기로
+  설명되므로 범위에서 제외했다.
+- `ORDER-138`의 범위를 general 한 profile에서 **투자 기준 경로 밖 5장 전체**로
+  넓혔다. 직장형 5장도 27/48주·최장 연속 공백 6주(W207~W212, W217~W221)로 같은
+  결함이다. 배치 A에 1b, 배치 B에 세 경로 실측을 추가했다.
+- 미소유로 기록만 남긴 것 둘. ①앰비언트 편성 쏠림: 각 시점 추첨 가능한 서로
+  다른 사건이 6~20개뿐이고 W3은 `amb_wallet_00`이 62%, W110은 `class_reunion`이
+  48%다. 가중치 재조정은 정합 수리로 가능하나 사건 추가는 콘텐츠 동결 해제가
+  필요하다. ②주거 축: 레퍼런스 런이 240주 내내 `gosiwon`이며 아파트 전세 요건
+  1.3억을 3장 말에 넘기고도 올리지 않는다.
+- 산문 실측으로 앞선 인상 하나를 정정했다. 대사 밀도는 전 구간이 평평하다
+  (장면당 2.0~2.6). 실제로 다른 것은 부정 종결이 1장 29회에서 4·5장 96~106회로
+  세 배 넘게 느는 것과, property 종막 6장면(W235~W240)만 대사 1.2/장면·몸 0회·
+  서류어 22회로 차가워지는 것이다.
+- 측정 하네스 `tools/L3ReplayM49M60.gd`를 전 구간용으로 확장했다
+  (`--profile=chapter --base-slot=N`, 자산 보간, 앰비언트 낙하 기록,
+  opening chapter 라우팅). `tools/CryptoAllInProbe.gd`는 W3 재현과 추첨 풀
+  측정을 소유한다.
 
 ## 2026-08-29 (Claude — 두 경로 M49~M60 위임 L3 재판정·화면 픽스처 수리·ORDER-138)
 
@@ -451,42 +516,3 @@
 - dormant 9+9 계약은 `invalidated_by_delegated_l3`, `r1b_allowed=false`, replacement
   null로 잠갔다. pure kernel·제품 runtime·save·story map·endings는 건드리지 않았고,
   새 원고 L3와 별도 새 계약 전에는 R1b를 열지 않는다.
-
-## 2026-08-21 (Codex — M01~M06 선택 화면 게임 장면형 재작업)
-
-- 오래된 `BUILD 2026.08.10.1`의 빈 2×2 관리표를 제품 후보로 잘못 띄운 사실을
-  확인하고 중단했다. 현행 정본 `StoryMapM1M6Playtest`도 같은 대시보드 문법이어서,
-  제품·스토리·저장 경로는 건드리지 않고 선택 화면만 고시원 세계 위 어두운
-  `Gangnam Ink` 장면 카드와 명시적 `주력`·`함께` 자리로 다시 만들었다.
-- 19개 약속을 결과를 선취하지 않는 9개 신규 무인 이미지와 9개 안전한 기존 장소
-  이미지에 연결했다. 마우스 호버와 패드 포커스는 같은 잉크선·2px 이하 들림·
-  1.8% 장면 push-in·잉크막 걷힘을 쓰며, 확인은 55ms 동안 내용이 1px 눌린다.
-  밝은 포스트잇·카테고리색·호버 효과음/진동은 쓰지 않는다.
-- 카드 확인은 역할을 자동 배정하지 않고 해당 자리로 포커스만 옮긴다. 두 번째
-  확인이 배치를 확정하고, 선택/취소에는 종이 소리와 쪽지 이동, 월 확정에는 도장
-  소리가 한 번만 난다. 영문 960px 재시작 확인 문구는 좁은 버튼이 아니라 하단
-  안내줄에 표시한다.
-- 사용자 판정 “월 마감 지금 괜찮아”를 따라 결과·회고 레이아웃과 결과 계산은
-  보존했다. KO/EN 960×600·1280×800 실렌더, 마우스·키보드/패드 의미 입력,
-  여섯 달 전용 저장, 종료 자원 해제, 표적 5검사와 독립 L2는 P0/P1 0이다.
-  사용자 L3 재플레이 전까지 ORDER-103은 `[~]`이고 기존 24주 이관은 시작하지 않는다.
-  전체 UI 통일은 이 표면 승인 뒤 공용 토큰/장면 컴포넌트부터 단계 이관하며,
-  승인된 월 마감·회고·엔딩은 마지막 별도 배치 전까지 동결한다.
-
-## 2026-08-20 (Codex — 마지막 해 R1a 비활성 계약 커널)
-
-- career·startup M49~M55의 18 roots·50 choices를 caller가 주입한 Dictionary만으로
-  재생하는 pure `Year5ReferenceRouteKernel`을 만들었다. exact partner/M48/founding/
-  route-lock ingress와 경제 경로, document role handle과 실제 scene actor, C0/C1·
-  h0/h1 custody, M53 synthetic handoff, 월간 margin, continuation/terminal을 분리했다.
-- 선택은 common+choice writes를 원자 적용하고 exact callback만 성공 no-op로 받는다.
-  history는 매번 다시 계산하며 extra/missing receipt, 이직·퇴사, 잘못된 M52 actor,
-  read-before-transfer, margin double-spend, terminal downstream, bool·float·string integer
-  위조, 중복·부분·변조 row를 fail-closed한다. file I/O·autoload·GameState·SaveManager·
-  EventManager·MainGame·StoryMode·돈·직업·flag·ending write는 0이다.
-- manifest direct 2 routes/32 roots/86 choices와 음성 100건, Godot R1a 18/50·241건,
-  story-map 차선 7/7, strict JSON·context·queue·scope·diff, 독립 L2가 모두 통과해
-  P0/P1 0이다. 보호 37파일은 byte-exact, lifecycle은 `reference_only`, product consumer·
-  dispatch 0, QA consumer 1이다. 메인 worktree의 기존 변경은 건드리지 않았고 전용
-  `codex/story-map-240w` worktree에서 작업했다. R1b가 실제 ingress·GameState·save,
-  R2가 M57~M60 transaction/finale를 별도 소유한다.

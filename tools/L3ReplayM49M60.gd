@@ -37,6 +37,13 @@ const CHAPTER5_EXCLUDED_ENTRY_FLAGS: Array[String] = [
 ]
 
 var _profile := "property"
+var _base_slot := 10
+## The reference run's real cash at each chapter boundary. Interpolating between
+## two adjacent chapter saves keeps asset-gated arcs firing on the same curve the
+## actual 240-week route walked, without re-simulating crises and market rolls.
+var _money_from := -1.0
+var _money_to := -1.0
+var _ambient_weeks: Array[int] = []
 var _debug := false
 var _lang := "ko"
 var _from_turn := 193
@@ -70,6 +77,12 @@ func _parse_args() -> void:
 			_debug = true
 		elif arg.begins_with("--lang="):
 			_lang = arg.substr(7)
+		elif arg.begins_with("--base-slot="):
+			_base_slot = int(arg.substr(12))
+		elif arg.begins_with("--money-from="):
+			_money_from = float(arg.substr(13))
+		elif arg.begins_with("--money-to="):
+			_money_to = float(arg.substr(11))
 		elif arg.begins_with("--from="):
 			_from_turn = int(arg.substr(7))
 		elif arg.begins_with("--to="):
@@ -109,6 +122,8 @@ func _seed_profile() -> void:
 		_seed_property()
 	elif _profile == "general":
 		_seed_general()
+	elif _profile == "chapter":
+		_seed_chapter_walk()
 	else:
 		_errors.append("unknown profile %s" % _profile)
 
@@ -117,13 +132,29 @@ func _seed_profile() -> void:
 ## make the density read meaningless. Load the genuine chapter-5 save first, then
 ## overlay only what the target profile requires.
 func _load_history_base() -> bool:
-	if not SaveManager.load_game(10):
-		_errors.append("could not load the chapter-5 history base (slot 10)")
+	if not SaveManager.load_game(_base_slot):
+		_errors.append("could not load history base slot %d" % _base_slot)
 		return false
-	if GameState.turn != 193:
-		_errors.append("history base is at W%d, expected W193" % GameState.turn)
-		return false
+	print("[base] slot=%d turn=%d age=%d money=%.0f route=%s flags=%d" % [
+		_base_slot, GameState.turn, GameState.age, GameState.money,
+		str(GameState.player_route), GameState.flags.size()])
 	return true
+
+## Chapter profiles seed Chapter 5 explicitly. A plain chapter walk keeps the
+## loaded run exactly as it was and only moves the calendar.
+func _seed_chapter_walk() -> void:
+	if not _load_history_base():
+		return
+	GameState.pending_story_queue = []
+	GameState.flags.erase("foreground_story_turn")
+	_set_calendar(_from_turn)
+
+func _apply_money_curve(at_turn: int) -> void:
+	if _money_from < 0.0 or _money_to < 0.0:
+		return
+	var span := float(max(1, _to_turn - _from_turn))
+	var t := clampf(float(at_turn - _from_turn) / span, 0.0, 1.0)
+	GameState.money = _money_from + (_money_to - _money_from) * t
 
 func _seed_property() -> void:
 	if not _load_history_base():
@@ -226,6 +257,9 @@ func _roots_for_turn(at_turn: int) -> Array:
 		claimed = bool(game.call("_route_chapter5_causal_week"))
 	if not claimed and game.has_method("_route_chapter5_finale_week"):
 		claimed = bool(game.call("_route_chapter5_finale_week"))
+	if not claimed and game.has_method("_route_opening_chapter_if_pending"):
+		game.set_meta("_qa_suppress_opening_chapter_transition", true)
+		claimed = bool(game.call("_route_opening_chapter_if_pending"))
 	if claimed:
 		roots = GameState.pending_story_queue.duplicate()
 	else:
@@ -237,21 +271,41 @@ func _roots_for_turn(at_turn: int) -> Array:
 			if not ms_id.is_empty():
 				roots = [ms_id]
 	game.free()
+	# No authored root: MainGame falls through to the ambient month situation
+	# before the generic surface. Draw it the same way so the transcript shows
+	# what actually fills the week instead of reporting a blank.
+	if roots.is_empty() and at_turn > 1:
+		var sits: Array = EventManager.draw_situations(1)
+		if not sits.is_empty():
+			var sit: Dictionary = sits[0]
+			var sid := str(sit.get("id", ""))
+			if not sid.is_empty():
+				EventManager.event_cooldowns[sid] = \
+					EventManager.cooldown_for_event(sit)
+				_ambient_weeks.append(at_turn)
+				roots = [sid]
 	return roots
 
 func _walk_weeks() -> void:
 	for at_turn in range(_from_turn, _to_turn + 1):
 		_set_calendar(at_turn)
+		_apply_money_curve(at_turn)
 		var roots: Array = await _roots_for_turn(at_turn)
 		if roots.is_empty():
 			_weeks_without_root.append(at_turn)
-			print("\n--- W%d (M%d) · 전경 사건 없음 ---" % [
+			print("\n--- W%d (M%d) · 사건 없음 ---" % [
 				at_turn, int((at_turn - 1) / 4) + 1])
 			continue
-		_weeks_with_root.append(at_turn)
+		var is_ambient := _ambient_weeks.has(at_turn)
+		if is_ambient:
+			_weeks_without_root.append(at_turn)
+		else:
+			_weeks_with_root.append(at_turn)
 		print("\n=========================================================")
-		print("W%d (M%d) · roots=%s" % [
-			at_turn, int((at_turn - 1) / 4) + 1, str(roots)])
+		print("W%d (M%d) · %s roots=%s · 자산 %.0f" % [
+			at_turn, int((at_turn - 1) / 4) + 1,
+			"[앰비언트]" if is_ambient else "[작성]",
+			str(roots), GameState.money])
 		print("=========================================================")
 		await _play_queue(roots, at_turn)
 
@@ -472,8 +526,10 @@ func _print_summary() -> void:
 	print("scenes            : %d" % _scene_count)
 	print("weeks with a root : %d %s" % [
 		_weeks_with_root.size(), str(_weeks_with_root)])
-	print("weeks with none   : %d %s" % [
+	print("weeks w/o authored: %d %s" % [
 		_weeks_without_root.size(), str(_weeks_without_root)])
+	print("ambient-filled    : %d %s" % [
+		_ambient_weeks.size(), str(_ambient_weeks)])
 	print("longest empty run : %d" % _longest_empty_run())
 	if not _errors.is_empty():
 		for err in _errors:
