@@ -58,6 +58,9 @@ M51→W211→W220→W224→W240 계약을 서로 독립인 검사 표면에 고�
 전체 감사에서 공용 런타임·원장 파일의 byte 보호선도 함께 이동해야 함이 확인돼
 `tools/chapter1_core_loop_v2_causal_ledger_check.py`의 audited-source SHA 재고정도
 소유한다. 1장 인과 원장 본문이나 의미 digest는 바꾸지 않는다.
+또한 W211 작성 결정 1건이 5장 direct-decision 합집합을 30→31로 올리므로,
+같은 값을 런타임에서 독립 검증하는 `tools/EventDirectorCheck.gd`의 고정 기대값도
+소유한다. Python 두 감사와 런타임 검사의 값만 정렬하고 편성 로직은 바꾸지 않는다.
 
 ## 판정 증거와 보호선
 
@@ -194,6 +197,7 @@ KO/EN을 같은 커밋에서 바꾼다.
 `tools/exposed_state_consistency_audit.py`, `tools/story_consistency_audit.py`,
 `tools/story_map_audit.py`, `tools/year5_reference_route_audit.py`,
 `tools/chapter1_core_loop_v2_causal_ledger_check.py`,
+`tools/EventDirectorCheck.gd`,
 `tools/audit.py`, `tools/audit.sh`.
 
 **선언·마감:** `docs/CODEX_QUEUE.md`, 이 사양, `docs/human_gates.json`,
