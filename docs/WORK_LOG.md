@@ -17,6 +17,16 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-31 (Codex — 전체 볼륨 자식 배치 선언)
+
+- ORDER-142 배치 A를 제품 변경 없이 `06277c30e61ed54c99069e16fd591ec0ef26c388`로
+  푸시했다. 표적 감사 21개와 Chapter 1 반례 478건이 통과했다. Godot 부재로
+  본편은 `HOLD`, runtime trace는 `PENDING`이다.
+- ORDER-143은 월경계 A5/B2/C1과 `money→network`, Ch2 보스 raw chain의 guard
+  우회를 typed graph contract로 고친다. M01~M06와 5장 사실 안전선을 보호한다.
+- ORDER-144는 event-ID dedup 자동 완주를 제외하고 실제 새 게임의 occurrence·선택·
+  receipt·주차·ending을 JSONL로 남긴다. 주입 없는 세 profile의 실패도 기록한다.
+
 ## 2026-08-31 (Codex — M01~M60 전체 볼륨 정적 기준선)
 
 - 공개 데모는 M01~M06 `story_demo_rc` GO로 고정하고, 본편 작가용 편성 176 refs와
