@@ -1715,14 +1715,13 @@ ZH_TW_MARKER="$(grep -E "^${SMOKE_MARKER_PREFIX}([[:space:]]|$)" "$ZH_TW_LOG" | 
 remove_runtime_qa_dir "$REAL_FLOW_CLEAN_QA_DIR"
 remove_runtime_qa_dir "$REAL_FLOW_RESTITUTION_QA_DIR"
 remove_runtime_qa_dir "$REAL_FLOW_ESCALATION_QA_DIR"
-# These three accelerated real StoryMode runs compress six months and many BGM crossfades into
-# seconds. Use Godot's deterministic dummy mixer so CoreAudio cannot retain old
-# playback objects at the deliberately abrupt QA exit. The native entry and
-# ordinary wrapper/return/resume package probes above still exercise CoreAudio.
+# These three accelerated real StoryMode runs compress six months into seconds.
+# A fixed simulation delta keeps timed scene transitions inside the frame guard,
+# while the default CoreAudio driver keeps teardown and leaked-resource checks real.
 run_godot_prefix_gate "$REAL_FLOW_CLEAN_LOG" "$REAL_FLOW_MARKER_PREFIX" \
   env STORY_DEMO_ALLOW_ISOLATED_QA=1 \
   STORY_DEMO_QA_BOOTSTRAP_NAME="$REAL_FLOW_CLEAN_QA_NAME" \
-  "$LAUNCHER" --audio-driver Dummy --rendering-driver opengl3 --resolution 1280x800 \
+  "$LAUNCHER" --rendering-driver opengl3 --resolution 1280x800 \
   --fixed-fps 60 \
   -- --story-demo-real-flow-smoke --story-demo-real-flow-route=clean \
   --story-demo-language=ko
@@ -1745,7 +1744,7 @@ require_exact_marker_tokens "$REAL_FLOW_CLEAN_MARKER" "clean real StoryMode roun
 run_godot_prefix_gate "$REAL_FLOW_RESTITUTION_LOG" "$REAL_FLOW_MARKER_PREFIX" \
   env STORY_DEMO_ALLOW_ISOLATED_QA=1 \
   STORY_DEMO_QA_BOOTSTRAP_NAME="$REAL_FLOW_RESTITUTION_QA_NAME" \
-  "$LAUNCHER" --audio-driver Dummy --rendering-driver opengl3 --resolution 1280x800 \
+  "$LAUNCHER" --rendering-driver opengl3 --resolution 1280x800 \
   --fixed-fps 60 \
   -- --story-demo-real-flow-smoke --story-demo-real-flow-route=restitution \
   --story-demo-language=en
@@ -1768,7 +1767,7 @@ require_exact_marker_tokens "$REAL_FLOW_RESTITUTION_MARKER" "restitution real St
 run_godot_prefix_gate "$REAL_FLOW_ESCALATION_LOG" "$REAL_FLOW_MARKER_PREFIX" \
   env STORY_DEMO_ALLOW_ISOLATED_QA=1 \
   STORY_DEMO_QA_BOOTSTRAP_NAME="$REAL_FLOW_ESCALATION_QA_NAME" \
-  "$LAUNCHER" --audio-driver Dummy --rendering-driver opengl3 --resolution 1280x800 \
+  "$LAUNCHER" --rendering-driver opengl3 --resolution 1280x800 \
   --fixed-fps 60 \
   -- --story-demo-real-flow-smoke --story-demo-real-flow-route=escalation \
   --story-demo-language=zh-CN
