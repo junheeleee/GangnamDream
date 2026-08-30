@@ -2214,7 +2214,7 @@
     },
     {
       "tool": "tools/story_demo_density_audit.py --self-test",
-      "why": "active story_demo_rc exact source의 11 root·24 선택·1080 서명과 분류·consumer 변이 거부",
+      "why": "ORDER-140 exact source의 14 variant·29 선택·1,800 서명과 분류·consumer 변이 거부",
       "paths": [
         "autoloads/GameState.gd",
         "docs/human_gates.json",
@@ -2335,6 +2335,9 @@
         "tools/I18nInfrastructureCheck.tscn",
         "tools/third_party_notice_audit.py",
         "tools/story_demo_localization_audit.py",
+        "tools/story_demo_density_audit.py",
+        "tools/fixtures/story_demo_density_contract.json",
+        "docs/human_gates.json",
         "tools/evidence/order124_build_2026.08.24.2/MANIFEST.json",
         "tools/evidence/order124_build_2026.08.24.2/MANIFEST.sha256",
         "tools/evidence/order124_build_2026.08.24.2/LOSS_RECEIPT.json",

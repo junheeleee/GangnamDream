@@ -3,8 +3,27 @@
 
 set -euo pipefail
 
-readonly EXPECTED_BUILD_ID="2026.08.25.1"
+readonly EXPECTED_BUILD_ID="2026.08.31.1"
 readonly EXPECTED_GODOT="4.6.2.stable.official.71f334935"
+readonly PRODUCT_REVISION="ce57751eb5555828dfb28af87ab6026e8ab93fb9"
+readonly PRODUCT_TREE="0e1ad9a26cdef953d94308015d527080a718eea2"
+readonly -a PRODUCT_RUNTIME_SCOPE=(
+  project.godot
+  export_presets.cfg
+  icon.png
+  icon.png.import
+  icon.svg
+  icon.svg.import
+  assets
+  autoloads
+  content
+  locale
+  playtests
+  scenes
+  steam_input
+  systems
+  ui_components
+)
 readonly PROFILE="story_demo_rc"
 readonly PRESET_NAME="Story Demo macOS"
 readonly APP_STEM="GangnamDream-StoryDemo"
@@ -17,7 +36,10 @@ readonly APP_REL="build/story_demo/macos/GangnamDream-StoryDemo.app"
 readonly ZIP_REL="build/story_demo/macos/GangnamDream-StoryDemo.zip"
 readonly MANIFEST_REL="build/story_demo/MANIFEST.json"
 readonly CHECKSUM_REL="build/story_demo/MANIFEST.sha256"
-readonly TARGET_MARKER="STORY_DEMO_FOUR_LANGUAGE_CHECK_OK locales=5 routes=4 months=30 weeks=120 settlements=30 ap_surface=0 save=5 story=5 build=2026.08.25.1"
+readonly TARGET_MARKER="STORY_DEMO_FOUR_LANGUAGE_CHECK_OK locales=5 routes=5 months=30 weeks=120 settlements=30 ap_surface=0 save=5 story=10 build=2026.08.31.1"
+readonly DENSITY_SELF_TEST_MARKER="STORY_DEMO_DENSITY_AUDIT_SELF_TEST_OK cases=29"
+readonly DENSITY_MARKER="STORY_DEMO_DENSITY_AUDIT_OK source=ce57751eb5555828dfb28af87ab6026e8ab93fb9 tree=0e1ad9a26cdef953d94308015d527080a718eea2 build=2026.08.31.1 variants=14 choices=29 receipts_per_run={'clean': 9, 'restitution': 10, 'escalation': 10} signatures=1800 clean=360 restitution=720 escalation=720"
+readonly DENSITY_HUMAN_GATE_MARKER="  HUMAN_GATE OPEN human_route_density=not_measured human_fun=not_measured automation_is_not_GO"
 readonly NATIVE_MARKER_PREFIX="STORY_DEMO_NATIVE_ENTRY_OK"
 readonly SMOKE_MARKER_PREFIX="STORY_DEMO_WRAPPER_SMOKE_OK"
 readonly RETURN_MARKER_PREFIX="STORY_DEMO_RETURN_SMOKE_OK"
@@ -26,7 +48,7 @@ readonly REAL_FLOW_MARKER_PREFIX="STORY_DEMO_REAL_FLOW_SMOKE_OK"
 readonly SMOKE_TIMEOUT_TICKS=480
 
 usage() {
-  echo "usage: GODOT=/path/to/Godot $0 [--source <commit>] --build-id 2026.08.25.1" >&2
+  echo "usage: GODOT=/path/to/Godot $0 [--source <commit>] --build-id 2026.08.31.1" >&2
 }
 
 SOURCE_REF="HEAD"
@@ -99,6 +121,26 @@ if [[ ! "$SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ || ! "$SOURCE_TREE" =~ ^[0-9a-f]{40}$
   echo "STORY_DEMO_BUILD_FAIL: source did not resolve to a full commit and tree" >&2
   exit 1
 fi
+RESOLVED_PRODUCT_REVISION="$(git -C "$PROJECT_DIR" rev-parse --verify "$PRODUCT_REVISION^{commit}")"
+RESOLVED_PRODUCT_TREE="$(git -C "$PROJECT_DIR" rev-parse "$RESOLVED_PRODUCT_REVISION^{tree}")"
+if [[ "$RESOLVED_PRODUCT_REVISION" != "$PRODUCT_REVISION" \
+    || "$RESOLVED_PRODUCT_TREE" != "$PRODUCT_TREE" ]]; then
+  echo "STORY_DEMO_BUILD_FAIL: exact ORDER-140 product identity is unavailable" >&2
+  exit 1
+fi
+if ! git -C "$PROJECT_DIR" merge-base --is-ancestor \
+    "$PRODUCT_REVISION" "$SOURCE_COMMIT"; then
+  echo "STORY_DEMO_BUILD_FAIL: package source is not a descendant of the exact product commit" >&2
+  exit 1
+fi
+if ! git -C "$PROJECT_DIR" diff --quiet --no-ext-diff \
+    "$PRODUCT_REVISION" "$SOURCE_COMMIT" -- "${PRODUCT_RUNTIME_SCOPE[@]}"; then
+  echo "STORY_DEMO_BUILD_FAIL: package source changes the protected product/runtime scope" >&2
+  git -C "$PROJECT_DIR" diff --name-only --no-ext-diff \
+    "$PRODUCT_REVISION" "$SOURCE_COMMIT" -- "${PRODUCT_RUNTIME_SCOPE[@]}" \
+    | sed 's/^/  /' >&2
+  exit 1
+fi
 GODOT_VERSION="$($GODOT --version 2>&1 | head -n 1)"
 if [[ "$GODOT_VERSION" != "$EXPECTED_GODOT" ]]; then
   echo "STORY_DEMO_BUILD_FAIL: expected Godot $EXPECTED_GODOT, got $GODOT_VERSION" >&2
@@ -146,7 +188,10 @@ RETURN_LOG="$WORK_DIR/return-smoke.log"
 RESUME_LOG="$WORK_DIR/resume-smoke.log"
 COLD_RESTART_RESUME_LOG="$WORK_DIR/cold-restart-resume-smoke.log"
 REAL_FLOW_CLEAN_LOG="$WORK_DIR/real-flow-clean-ko.log"
-REAL_FLOW_FALLOUT_LOG="$WORK_DIR/real-flow-fallout-zh-cn.log"
+REAL_FLOW_RESTITUTION_LOG="$WORK_DIR/real-flow-restitution-en.log"
+REAL_FLOW_ESCALATION_LOG="$WORK_DIR/real-flow-escalation-zh-cn.log"
+DENSITY_SELF_TEST_LOG="$WORK_DIR/density-self-test.log"
+DENSITY_LOG="$WORK_DIR/density.log"
 RESUME_INPUT_STATE="$WORK_DIR/resume-input-state.json"
 PROTECTED_BEFORE="$WORK_DIR/protected-before.json"
 PROTECTED_AFTER="$WORK_DIR/protected-after.json"
@@ -156,9 +201,11 @@ STORY_DEMO_USER_DATA_DIR="$APPLICATION_SUPPORT_DIR/$CUSTOM_USER_DIR"
 STORY_DEMO_BUILD_LOCK_DIR="$APPLICATION_SUPPORT_DIR/.GangnamDream_StoryDemo_v1.build-lock"
 STORY_DEMO_QA_USER_DATA_DIR="$APPLICATION_SUPPORT_DIR/GangnamDream_StoryDemo_RuntimeQA_build"
 REAL_FLOW_CLEAN_QA_NAME="GangnamDream_StoryDemo_RuntimeQA_package_real_clean"
-REAL_FLOW_FALLOUT_QA_NAME="GangnamDream_StoryDemo_RuntimeQA_package_real_fallout"
+REAL_FLOW_RESTITUTION_QA_NAME="GangnamDream_StoryDemo_RuntimeQA_package_real_restitution"
+REAL_FLOW_ESCALATION_QA_NAME="GangnamDream_StoryDemo_RuntimeQA_package_real_escalation"
 REAL_FLOW_CLEAN_QA_DIR="$APPLICATION_SUPPORT_DIR/$REAL_FLOW_CLEAN_QA_NAME"
-REAL_FLOW_FALLOUT_QA_DIR="$APPLICATION_SUPPORT_DIR/$REAL_FLOW_FALLOUT_QA_NAME"
+REAL_FLOW_RESTITUTION_QA_DIR="$APPLICATION_SUPPORT_DIR/$REAL_FLOW_RESTITUTION_QA_NAME"
+REAL_FLOW_ESCALATION_QA_DIR="$APPLICATION_SUPPORT_DIR/$REAL_FLOW_ESCALATION_QA_NAME"
 if [[ -L "$APPLICATION_SUPPORT_DIR" ]]; then
   echo "STORY_DEMO_BUILD_FAIL: Application Support parent must not be a symlink" >&2
   exit 1
@@ -411,7 +458,7 @@ report_recovery_paths() {
 remove_runtime_qa_dir() {
   local qa_path="$1"
   case "$qa_path" in
-    "$STORY_DEMO_QA_USER_DATA_DIR"|"$REAL_FLOW_CLEAN_QA_DIR"|"$REAL_FLOW_FALLOUT_QA_DIR") ;;
+    "$STORY_DEMO_QA_USER_DATA_DIR"|"$REAL_FLOW_CLEAN_QA_DIR"|"$REAL_FLOW_RESTITUTION_QA_DIR"|"$REAL_FLOW_ESCALATION_QA_DIR") ;;
     *)
       echo "STORY_DEMO_BUILD_FAIL: refusing RuntimeQA cleanup outside an exact namespace: $qa_path" >&2
       return 1 ;;
@@ -914,7 +961,8 @@ cleanup() {
       for qa_cleanup_path in \
           "$STORY_DEMO_QA_USER_DATA_DIR" \
           "$REAL_FLOW_CLEAN_QA_DIR" \
-          "$REAL_FLOW_FALLOUT_QA_DIR"; do
+          "$REAL_FLOW_RESTITUTION_QA_DIR" \
+          "$REAL_FLOW_ESCALATION_QA_DIR"; do
         remove_runtime_qa_dir "$qa_cleanup_path"
         cleanup_status=$?
         if [[ $cleanup_status -ne 0 ]]; then
@@ -1250,6 +1298,9 @@ for required in \
   tools/I18nInfrastructureCheck.tscn \
   tools/third_party_notice_audit.py \
   tools/story_demo_localization_audit.py \
+  tools/story_demo_density_audit.py \
+  tools/fixtures/story_demo_density_contract.json \
+  docs/human_gates.json \
   tools/evidence/order124_build_2026.08.24.2/MANIFEST.json \
   tools/evidence/order124_build_2026.08.24.2/MANIFEST.sha256 \
   tools/evidence/order124_build_2026.08.24.2/LOSS_RECEIPT.json \
@@ -1266,6 +1317,32 @@ python3 "$STAGE_PROJECT/tools/story_demo_localization_audit.py" --self-test
 python3 "$STAGE_PROJECT/tools/story_demo_localization_audit.py"
 python3 "$STAGE_PROJECT/tools/third_party_notice_audit.py" --self-test
 python3 "$STAGE_PROJECT/tools/third_party_notice_audit.py"
+SOURCE_GIT_DIR="$(git -C "$PROJECT_DIR" rev-parse --absolute-git-dir)"
+density_status=0
+env GIT_DIR="$SOURCE_GIT_DIR" GIT_WORK_TREE="$STAGE_PROJECT" \
+  python3 "$STAGE_PROJECT/tools/story_demo_density_audit.py" --self-test \
+  >"$DENSITY_SELF_TEST_LOG" 2>&1 || density_status=$?
+if [[ $density_status -ne 0 \
+    || "$(grep -Fxc "$DENSITY_SELF_TEST_MARKER" "$DENSITY_SELF_TEST_LOG" || true)" != "1" \
+    || "$(wc -l < "$DENSITY_SELF_TEST_LOG" | tr -d ' ')" != "1" ]]; then
+  echo "STORY_DEMO_BUILD_FAIL: exact density self-test evidence drifted" >&2
+  sed -n '1,240p' "$DENSITY_SELF_TEST_LOG" >&2
+  exit 1
+fi
+DENSITY_SELF_TEST_ACTUAL_MARKER="$(grep -Fx "$DENSITY_SELF_TEST_MARKER" "$DENSITY_SELF_TEST_LOG")"
+density_status=0
+env GIT_DIR="$SOURCE_GIT_DIR" GIT_WORK_TREE="$STAGE_PROJECT" \
+  python3 "$STAGE_PROJECT/tools/story_demo_density_audit.py" \
+  >"$DENSITY_LOG" 2>&1 || density_status=$?
+if [[ $density_status -ne 0 \
+    || "$(grep -Fxc "$DENSITY_MARKER" "$DENSITY_LOG" || true)" != "1" \
+    || "$(grep -Fxc "$DENSITY_HUMAN_GATE_MARKER" "$DENSITY_LOG" || true)" != "1" ]]; then
+  echo "STORY_DEMO_BUILD_FAIL: exact density source evidence drifted" >&2
+  sed -n '1,320p' "$DENSITY_LOG" >&2
+  exit 1
+fi
+DENSITY_ACTUAL_MARKER="$(grep -Fx "$DENSITY_MARKER" "$DENSITY_LOG")"
+DENSITY_ACTUAL_HUMAN_GATE_MARKER="$(grep -Fx "$DENSITY_HUMAN_GATE_MARKER" "$DENSITY_LOG")"
 
 # Only the archived staging project is rewritten. The product settings remain
 # protected and are rehashed after native smoke.
@@ -1319,7 +1396,7 @@ for key, value in (
 for key, value in (
 	("application/bundle_identifier", '"dev.junheelee.gangnamdream.storydemo"'),
 	("application/short_version", '"0.1.0"'),
-	("application/version", '"2026.8.25"'),
+	("application/version", '"2026.8.31"'),
 ):
     presets = set_section_value(presets, f"preset.{mac_number}.options", key, value)
 presets_path.write_text(presets, encoding="utf-8")
@@ -1559,6 +1636,43 @@ require_marker_tokens() {
   return 0
 }
 
+require_exact_marker_tokens() {
+  local marker="$1"
+  local evidence_label="$2"
+  shift 2
+  local marker_status=0
+  python3 - "$marker" "$REAL_FLOW_MARKER_PREFIX" "$@" <<'PY' || marker_status=$?
+import sys
+
+marker, prefix, *expected_parts = sys.argv[1:]
+parts = marker.split()
+if not parts or parts[0] != prefix:
+    raise SystemExit(1)
+actual = {}
+for part in parts[1:]:
+    if "=" not in part:
+        raise SystemExit(1)
+    key, value = part.split("=", 1)
+    if not key or not value or key in actual:
+        raise SystemExit(1)
+    actual[key] = value
+expected = {}
+for part in expected_parts:
+    if "=" not in part:
+        raise SystemExit(1)
+    key, value = part.split("=", 1)
+    if not key or not value or key in expected:
+        raise SystemExit(1)
+    expected[key] = value
+raise SystemExit(0 if actual == expected else 1)
+PY
+  if [[ $marker_status -ne 0 ]]; then
+    echo "STORY_DEMO_BUILD_FAIL: $evidence_label marker token contract drifted" >&2
+    return 1
+  fi
+  return 0
+}
+
 run_godot_prefix_gate "$KO_LOG" "$SMOKE_MARKER_PREFIX" \
   "$LAUNCHER" --rendering-driver opengl3 --resolution 1280x800 \
   -- --qa=story-demo --story-demo-smoke --story-demo-language=ko
@@ -1599,8 +1713,9 @@ ZH_CN_MARKER="$(grep -E "^${SMOKE_MARKER_PREFIX}([[:space:]]|$)" "$ZH_CN_LOG" | 
 ZH_TW_MARKER="$(grep -E "^${SMOKE_MARKER_PREFIX}([[:space:]]|$)" "$ZH_TW_LOG" | tail -n 1)"
 
 remove_runtime_qa_dir "$REAL_FLOW_CLEAN_QA_DIR"
-remove_runtime_qa_dir "$REAL_FLOW_FALLOUT_QA_DIR"
-# These two synthetic runs compress six months and many BGM crossfades into
+remove_runtime_qa_dir "$REAL_FLOW_RESTITUTION_QA_DIR"
+remove_runtime_qa_dir "$REAL_FLOW_ESCALATION_QA_DIR"
+# These three accelerated real StoryMode runs compress six months and many BGM crossfades into
 # seconds. Use Godot's deterministic dummy mixer so CoreAudio cannot retain old
 # playback objects at the deliberately abrupt QA exit. The native entry and
 # ordinary wrapper/return/resume package probes above still exercise CoreAudio.
@@ -1608,7 +1723,7 @@ run_godot_prefix_gate "$REAL_FLOW_CLEAN_LOG" "$REAL_FLOW_MARKER_PREFIX" \
   env STORY_DEMO_ALLOW_ISOLATED_QA=1 \
   STORY_DEMO_QA_BOOTSTRAP_NAME="$REAL_FLOW_CLEAN_QA_NAME" \
   "$LAUNCHER" --audio-driver Dummy --rendering-driver opengl3 --resolution 1280x800 \
-  -- --story-demo-real-flow-smoke --story-demo-real-flow-choice=0 \
+  -- --story-demo-real-flow-smoke --story-demo-real-flow-route=clean \
   --story-demo-language=ko
 if [[ ! -d "$REAL_FLOW_CLEAN_QA_DIR" || -L "$REAL_FLOW_CLEAN_QA_DIR" ]]; then
   echo "STORY_DEMO_BUILD_FAIL: clean real-flow smoke did not create its exact RuntimeQA namespace" >&2
@@ -1616,31 +1731,62 @@ if [[ ! -d "$REAL_FLOW_CLEAN_QA_DIR" || -L "$REAL_FLOW_CLEAN_QA_DIR" ]]; then
 fi
 REAL_FLOW_CLEAN_MARKER="$(grep -E "^${REAL_FLOW_MARKER_PREFIX}([[:space:]]|$)" \
   "$REAL_FLOW_CLEAN_LOG" | tail -n 1)"
-require_marker_tokens "$REAL_FLOW_CLEAN_MARKER" "clean real StoryMode roundtrip" \
-  "build=$BUILD_ID" "language=ko" "choice=0" "m02=clean" \
-  "months=6" "weeks=24" "settlements=6" "receipts=9" \
-  "cold_restart=1" "exact_resume=1" "story=real" "manual_save=1" \
-  "overlay=clear" "input=clear" "ap_ledger=0"
-
-run_godot_prefix_gate "$REAL_FLOW_FALLOUT_LOG" "$REAL_FLOW_MARKER_PREFIX" \
-  env STORY_DEMO_ALLOW_ISOLATED_QA=1 \
-  STORY_DEMO_QA_BOOTSTRAP_NAME="$REAL_FLOW_FALLOUT_QA_NAME" \
-  "$LAUNCHER" --audio-driver Dummy --rendering-driver opengl3 --resolution 1280x800 \
-  -- --story-demo-real-flow-smoke --story-demo-real-flow-choice=1 \
-  --story-demo-language=zh-CN
-if [[ ! -d "$REAL_FLOW_FALLOUT_QA_DIR" || -L "$REAL_FLOW_FALLOUT_QA_DIR" ]]; then
-  echo "STORY_DEMO_BUILD_FAIL: fallout real-flow smoke did not create its exact RuntimeQA namespace" >&2
+if [[ "$(grep -Ec "^${REAL_FLOW_MARKER_PREFIX}([[:space:]]|$)" "$REAL_FLOW_CLEAN_LOG" || true)" != "1" ]]; then
+  echo "STORY_DEMO_BUILD_FAIL: clean real-flow smoke emitted a non-exact marker count" >&2
   exit 1
 fi
-REAL_FLOW_FALLOUT_MARKER="$(grep -E "^${REAL_FLOW_MARKER_PREFIX}([[:space:]]|$)" \
-  "$REAL_FLOW_FALLOUT_LOG" | tail -n 1)"
-require_marker_tokens "$REAL_FLOW_FALLOUT_MARKER" "fallout real StoryMode roundtrip" \
-  "build=$BUILD_ID" "language=zh-CN" "choice=1" "m02=fallout" \
+require_exact_marker_tokens "$REAL_FLOW_CLEAN_MARKER" "clean real StoryMode roundtrip" \
+  "build=$BUILD_ID" "language=ko" "route=clean" "m02=clean" \
   "months=6" "weeks=24" "settlements=6" "receipts=9" \
-  "cold_restart=1" "exact_resume=1" "story=real" "manual_save=1" \
+  "story=real" "manual_save=1" "cold_restart=1" "exact_resume=1" \
+  "overlay=clear" "input=clear" "ap_ledger=0"
+
+run_godot_prefix_gate "$REAL_FLOW_RESTITUTION_LOG" "$REAL_FLOW_MARKER_PREFIX" \
+  env STORY_DEMO_ALLOW_ISOLATED_QA=1 \
+  STORY_DEMO_QA_BOOTSTRAP_NAME="$REAL_FLOW_RESTITUTION_QA_NAME" \
+  "$LAUNCHER" --audio-driver Dummy --rendering-driver opengl3 --resolution 1280x800 \
+  -- --story-demo-real-flow-smoke --story-demo-real-flow-route=restitution \
+  --story-demo-language=en
+if [[ ! -d "$REAL_FLOW_RESTITUTION_QA_DIR" || -L "$REAL_FLOW_RESTITUTION_QA_DIR" ]]; then
+  echo "STORY_DEMO_BUILD_FAIL: restitution real-flow smoke did not create its exact RuntimeQA namespace" >&2
+  exit 1
+fi
+REAL_FLOW_RESTITUTION_MARKER="$(grep -E "^${REAL_FLOW_MARKER_PREFIX}([[:space:]]|$)" \
+  "$REAL_FLOW_RESTITUTION_LOG" | tail -n 1)"
+if [[ "$(grep -Ec "^${REAL_FLOW_MARKER_PREFIX}([[:space:]]|$)" "$REAL_FLOW_RESTITUTION_LOG" || true)" != "1" ]]; then
+  echo "STORY_DEMO_BUILD_FAIL: restitution real-flow smoke emitted a non-exact marker count" >&2
+  exit 1
+fi
+require_exact_marker_tokens "$REAL_FLOW_RESTITUTION_MARKER" "restitution real StoryMode roundtrip" \
+  "build=$BUILD_ID" "language=en" "route=restitution" "m02=fallout" \
+  "months=6" "weeks=24" "settlements=6" "receipts=10" \
+  "story=real" "manual_save=1" "cold_restart=1" "exact_resume=1" \
+  "overlay=clear" "input=clear" "ap_ledger=0"
+
+run_godot_prefix_gate "$REAL_FLOW_ESCALATION_LOG" "$REAL_FLOW_MARKER_PREFIX" \
+  env STORY_DEMO_ALLOW_ISOLATED_QA=1 \
+  STORY_DEMO_QA_BOOTSTRAP_NAME="$REAL_FLOW_ESCALATION_QA_NAME" \
+  "$LAUNCHER" --audio-driver Dummy --rendering-driver opengl3 --resolution 1280x800 \
+  -- --story-demo-real-flow-smoke --story-demo-real-flow-route=escalation \
+  --story-demo-language=zh-CN
+if [[ ! -d "$REAL_FLOW_ESCALATION_QA_DIR" || -L "$REAL_FLOW_ESCALATION_QA_DIR" ]]; then
+  echo "STORY_DEMO_BUILD_FAIL: escalation real-flow smoke did not create its exact RuntimeQA namespace" >&2
+  exit 1
+fi
+REAL_FLOW_ESCALATION_MARKER="$(grep -E "^${REAL_FLOW_MARKER_PREFIX}([[:space:]]|$)" \
+  "$REAL_FLOW_ESCALATION_LOG" | tail -n 1)"
+if [[ "$(grep -Ec "^${REAL_FLOW_MARKER_PREFIX}([[:space:]]|$)" "$REAL_FLOW_ESCALATION_LOG" || true)" != "1" ]]; then
+  echo "STORY_DEMO_BUILD_FAIL: escalation real-flow smoke emitted a non-exact marker count" >&2
+  exit 1
+fi
+require_exact_marker_tokens "$REAL_FLOW_ESCALATION_MARKER" "escalation real StoryMode roundtrip" \
+  "build=$BUILD_ID" "language=zh-CN" "route=escalation" "m02=fallout" \
+  "months=6" "weeks=24" "settlements=6" "receipts=10" \
+  "story=real" "manual_save=1" "cold_restart=1" "exact_resume=1" \
   "overlay=clear" "input=clear" "ap_ledger=0"
 remove_runtime_qa_dir "$REAL_FLOW_CLEAN_QA_DIR"
-remove_runtime_qa_dir "$REAL_FLOW_FALLOUT_QA_DIR"
+remove_runtime_qa_dir "$REAL_FLOW_RESTITUTION_QA_DIR"
+remove_runtime_qa_dir "$REAL_FLOW_ESCALATION_QA_DIR"
 
 run_godot_prefix_gate "$RETURN_LOG" "$RETURN_MARKER_PREFIX" \
   "$LAUNCHER" --rendering-driver opengl3 --resolution 1280x800 \
@@ -1878,6 +2024,8 @@ export STORY_DEMO_STAGE_PROJECT="$STAGE_PROJECT"
 export STORY_DEMO_SOURCE_REF="$SOURCE_REF"
 export STORY_DEMO_SOURCE_COMMIT="$SOURCE_COMMIT"
 export STORY_DEMO_SOURCE_TREE="$SOURCE_TREE"
+export STORY_DEMO_PRODUCT_REVISION="$PRODUCT_REVISION"
+export STORY_DEMO_PRODUCT_TREE="$PRODUCT_TREE"
 export STORY_DEMO_GODOT_VERSION="$GODOT_VERSION"
 export STORY_DEMO_BUILD_STARTED_UTC="$BUILD_STARTED_UTC"
 export STORY_DEMO_FINAL_ZIP="$PUBLISH_ZIP"
@@ -1891,7 +2039,11 @@ export STORY_DEMO_ZH_TW_MARKER="$ZH_TW_MARKER"
 export STORY_DEMO_RETURN_MARKER="$RETURN_MARKER"
 export STORY_DEMO_COLD_RESTART_RESUME_MARKER="$COLD_RESTART_RESUME_MARKER"
 export STORY_DEMO_REAL_FLOW_CLEAN_MARKER="$REAL_FLOW_CLEAN_MARKER"
-export STORY_DEMO_REAL_FLOW_FALLOUT_MARKER="$REAL_FLOW_FALLOUT_MARKER"
+export STORY_DEMO_REAL_FLOW_RESTITUTION_MARKER="$REAL_FLOW_RESTITUTION_MARKER"
+export STORY_DEMO_REAL_FLOW_ESCALATION_MARKER="$REAL_FLOW_ESCALATION_MARKER"
+export STORY_DEMO_DENSITY_SELF_TEST_MARKER="$DENSITY_SELF_TEST_ACTUAL_MARKER"
+export STORY_DEMO_DENSITY_MARKER="$DENSITY_ACTUAL_MARKER"
+export STORY_DEMO_DENSITY_HUMAN_GATE_MARKER="$DENSITY_ACTUAL_HUMAN_GATE_MARKER"
 export STORY_DEMO_RESUME_STATUS="$RESUME_STATUS"
 export STORY_DEMO_RESUME_MARKER="$RESUME_MARKER"
 export STORY_DEMO_RESUME_INPUT_STATE="$RESUME_INPUT_STATE"
@@ -1965,12 +2117,32 @@ contract_paths = [
     "tools/I18nInfrastructureCheck.tscn",
     "tools/third_party_notice_audit.py",
     "tools/story_demo_localization_audit.py",
+    "tools/story_demo_density_audit.py",
+    "tools/fixtures/story_demo_density_contract.json",
+    "docs/human_gates.json",
     "tools/evidence/order124_build_2026.08.24.2/MANIFEST.json",
     "tools/evidence/order124_build_2026.08.24.2/MANIFEST.sha256",
     "tools/evidence/order124_build_2026.08.24.2/LOSS_RECEIPT.json",
     "tools/audit_scope.json",
     "tools/build_story_demo_macos.sh",
     "tools/story_demo_package_audit.py",
+]
+product_runtime_scope = [
+    "project.godot",
+    "export_presets.cfg",
+    "icon.png",
+    "icon.png.import",
+    "icon.svg",
+    "icon.svg.import",
+    "assets",
+    "autoloads",
+    "content",
+    "locale",
+    "playtests",
+    "scenes",
+    "steam_input",
+    "systems",
+    "ui_components",
 ]
 contract_files = []
 for relative in contract_paths:
@@ -2000,7 +2172,7 @@ payload = {
     "schema_version": 1,
     "profile": "story_demo_rc",
     "game_version": "0.1.0-dev",
-    "build_id": "2026.08.25.1",
+    "build_id": "2026.08.31.1",
     "build_flavor": "story_demo_rc",
     "timestamps": {
         "started_utc": os.environ["STORY_DEMO_BUILD_STARTED_UTC"],
@@ -2010,6 +2182,11 @@ payload = {
         "requested_ref": os.environ["STORY_DEMO_SOURCE_REF"],
         "revision": os.environ["STORY_DEMO_SOURCE_COMMIT"],
         "tree": os.environ["STORY_DEMO_SOURCE_TREE"],
+        "product_revision": os.environ["STORY_DEMO_PRODUCT_REVISION"],
+        "product_tree": os.environ["STORY_DEMO_PRODUCT_TREE"],
+        "product_ancestor": True,
+        "product_runtime_scope": product_runtime_scope,
+        "product_runtime_diff": [],
         "status": "clean",
         "staging": "full_git_archive_outside_repository",
         "contract_files": contract_files,
@@ -2020,7 +2197,7 @@ payload = {
     "application": {
         "name": stem,
         "bundle_identifier": "dev.junheelee.gangnamdream.storydemo",
-        "version": "2026.8.25",
+        "version": "2026.8.31",
         "entry_scene": "res://playtests/order124/StoryChoiceM1M6Playtest.tscn",
         "custom_user_dir_name": "GangnamDream_StoryDemo_v1",
         "splash_enabled": False,
@@ -2034,7 +2211,23 @@ payload = {
     "protected": json.loads(Path(os.environ["STORY_DEMO_PROTECTED_RESULT"]).read_text(encoding="utf-8")),
     "validation": {
         "source_import": {"passed": True},
-		"targeted_story_choice": {"passed": True, "scene": "res://tools/StoryDemoFourLanguageCheck.tscn", "marker": "STORY_DEMO_FOUR_LANGUAGE_CHECK_OK locales=5 routes=4 months=30 weeks=120 settlements=30 ap_surface=0 save=5 story=5 build=2026.08.25.1"},
+		"targeted_story_choice": {"passed": True, "scene": "res://tools/StoryDemoFourLanguageCheck.tscn", "marker": "STORY_DEMO_FOUR_LANGUAGE_CHECK_OK locales=5 routes=5 months=30 weeks=120 settlements=30 ap_surface=0 save=5 story=10 build=2026.08.31.1"},
+        "story_density_contract": {
+            "passed": True,
+            "scope": "structural_automation_only",
+            "source_revision": os.environ["STORY_DEMO_PRODUCT_REVISION"],
+            "source_tree": os.environ["STORY_DEMO_PRODUCT_TREE"],
+            "build_id": "2026.08.31.1",
+            "audit_path": "tools/story_demo_density_audit.py",
+            "audit_sha256": digest(stage / "tools/story_demo_density_audit.py"),
+            "fixture_path": "tools/fixtures/story_demo_density_contract.json",
+            "fixture_sha256": digest(stage / "tools/fixtures/story_demo_density_contract.json"),
+            "human_gates_path": "docs/human_gates.json",
+            "human_gates_sha256": digest(stage / "docs/human_gates.json"),
+            "self_test_marker": os.environ["STORY_DEMO_DENSITY_SELF_TEST_MARKER"],
+            "marker": os.environ["STORY_DEMO_DENSITY_MARKER"],
+            "human_gate_marker": os.environ["STORY_DEMO_DENSITY_HUMAN_GATE_MARKER"],
+        },
         "native_export": {"passed": True, "platform": "macOS", "preset": "Story Demo macOS"},
         "codesign": {"passed": True, "mode": "ad-hoc", "verification": "--deep --strict"},
         "native_no_argument": {"passed": True, "args": [], "marker": os.environ["STORY_DEMO_NATIVE_MARKER"]},
@@ -2065,7 +2258,7 @@ payload = {
             {
                 "passed": True,
                 "language": "ko",
-                "choice": 0,
+                "route": "clean",
                 "m02": "clean",
                 "months": 6,
                 "weeks": 24,
@@ -2074,23 +2267,38 @@ payload = {
                 "cold_restart": True,
                 "exact_resume": True,
                 "runtime_qa_namespace": "GangnamDream_StoryDemo_RuntimeQA_package_real_clean",
-                "args": ["--story-demo-real-flow-smoke", "--story-demo-real-flow-choice=0", "--story-demo-language=ko"],
+                "args": ["--story-demo-real-flow-smoke", "--story-demo-real-flow-route=clean", "--story-demo-language=ko"],
                 "marker": os.environ["STORY_DEMO_REAL_FLOW_CLEAN_MARKER"],
             },
             {
                 "passed": True,
-                "language": "zh-CN",
-                "choice": 1,
+                "language": "en",
+                "route": "restitution",
                 "m02": "fallout",
                 "months": 6,
                 "weeks": 24,
                 "settlements": 6,
-                "receipts": 9,
+                "receipts": 10,
                 "cold_restart": True,
                 "exact_resume": True,
-                "runtime_qa_namespace": "GangnamDream_StoryDemo_RuntimeQA_package_real_fallout",
-                "args": ["--story-demo-real-flow-smoke", "--story-demo-real-flow-choice=1", "--story-demo-language=zh-CN"],
-                "marker": os.environ["STORY_DEMO_REAL_FLOW_FALLOUT_MARKER"],
+                "runtime_qa_namespace": "GangnamDream_StoryDemo_RuntimeQA_package_real_restitution",
+                "args": ["--story-demo-real-flow-smoke", "--story-demo-real-flow-route=restitution", "--story-demo-language=en"],
+                "marker": os.environ["STORY_DEMO_REAL_FLOW_RESTITUTION_MARKER"],
+            },
+            {
+                "passed": True,
+                "language": "zh-CN",
+                "route": "escalation",
+                "m02": "fallout",
+                "months": 6,
+                "weeks": 24,
+                "settlements": 6,
+                "receipts": 10,
+                "cold_restart": True,
+                "exact_resume": True,
+                "runtime_qa_namespace": "GangnamDream_StoryDemo_RuntimeQA_package_real_escalation",
+                "args": ["--story-demo-real-flow-smoke", "--story-demo-real-flow-route=escalation", "--story-demo-language=zh-CN"],
+                "marker": os.environ["STORY_DEMO_REAL_FLOW_ESCALATION_MARKER"],
             },
         ],
         "existing_save_resume": resume_validation,

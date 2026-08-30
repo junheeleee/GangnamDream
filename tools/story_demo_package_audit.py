@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import argparse
+import ast
+import copy
 from dataclasses import dataclass
 import hashlib
 import json
@@ -23,18 +25,18 @@ from pathlib import Path, PurePosixPath
 ROOT = Path(__file__).resolve().parents[1]
 PROFILE = "story_demo_rc"
 GAME_VERSION = "0.1.0-dev"
-BUILD_ID = "2026.08.25.1"
+BUILD_ID = "2026.08.31.1"
 BUILD_FLAVOR = "story_demo_rc"
 PRESET = "Story Demo macOS"
 APP_STEM = "GangnamDream-StoryDemo"
 BUNDLE_ID = "dev.junheelee.gangnamdream.storydemo"
-APP_VERSION = "2026.8.25"
+APP_VERSION = "2026.8.31"
 CUSTOM_USER_DIR = "GangnamDream_StoryDemo_v1"
 ENTRY_SCENE = "res://playtests/order124/StoryChoiceM1M6Playtest.tscn"
 CHECK_SCENE = "res://tools/StoryDemoFourLanguageCheck.tscn"
 TARGET_MARKER = (
-    "STORY_DEMO_FOUR_LANGUAGE_CHECK_OK locales=5 routes=4 months=30 "
-    "weeks=120 settlements=30 ap_surface=0 save=5 story=5 build=2026.08.25.1"
+    "STORY_DEMO_FOUR_LANGUAGE_CHECK_OK locales=5 routes=5 months=30 "
+    "weeks=120 settlements=30 ap_surface=0 save=5 story=10 build=2026.08.31.1"
 )
 NATIVE_MARKER_PREFIX = "STORY_DEMO_NATIVE_ENTRY_OK"
 SMOKE_MARKER_PREFIX = "STORY_DEMO_WRAPPER_SMOKE_OK"
@@ -47,6 +49,25 @@ ZIP_REL = f"build/story_demo/macos/{APP_STEM}.zip"
 MANIFEST_REL = "build/story_demo/MANIFEST.json"
 CHECKSUM_REL = "build/story_demo/MANIFEST.sha256"
 AUDIT_SOURCE_ROOT_ENV = "STORY_DEMO_AUDIT_SOURCE_ROOT"
+PRODUCT_REVISION = "ce57751eb5555828dfb28af87ab6026e8ab93fb9"
+PRODUCT_TREE = "0e1ad9a26cdef953d94308015d527080a718eea2"
+PRODUCT_RUNTIME_SCOPE = (
+    "project.godot",
+    "export_presets.cfg",
+    "icon.png",
+    "icon.png.import",
+    "icon.svg",
+    "icon.svg.import",
+    "assets",
+    "autoloads",
+    "content",
+    "locale",
+    "playtests",
+    "scenes",
+    "steam_input",
+    "systems",
+    "ui_components",
+)
 HISTORIC_ARCHIVE_REL = "build/order124/archive/2026.08.24.2"
 HISTORIC_EVIDENCE_REL = "tools/evidence/order124_build_2026.08.24.2"
 HISTORIC_MANIFEST_NAME = "MANIFEST.json"
@@ -62,13 +83,47 @@ WRAPPER_REQUIRED_MARKER_TOKENS = {
     "weeks": "4",
     "settlement": "1",
 }
-REAL_FLOW_RELEASE_MARKER_TOKENS = {
-    "months": "6",
-    "weeks": "24",
-    "settlements": "6",
-    "receipts": "9",
-    "cold_restart": "1",
-    "exact_resume": "1",
+DENSITY_SELF_TEST_MARKER = "STORY_DEMO_DENSITY_AUDIT_SELF_TEST_OK cases=29"
+DENSITY_MARKER = (
+    "STORY_DEMO_DENSITY_AUDIT_OK "
+    f"source={PRODUCT_REVISION} tree={PRODUCT_TREE} build={BUILD_ID} "
+    "variants=14 choices=29 receipts_per_run={'clean': 9, 'restitution': 10, "
+    "'escalation': 10} signatures=1800 clean=360 restitution=720 escalation=720"
+)
+DENSITY_HUMAN_GATE_MARKER = (
+    "  HUMAN_GATE OPEN human_route_density=not_measured "
+    "human_fun=not_measured automation_is_not_GO"
+)
+REAL_FLOW_ROUTES = (
+    {
+        "language": "ko",
+        "route": "clean",
+        "m02": "clean",
+        "receipts": 9,
+        "runtime_qa_namespace":
+            "GangnamDream_StoryDemo_RuntimeQA_package_real_clean",
+    },
+    {
+        "language": "en",
+        "route": "restitution",
+        "m02": "fallout",
+        "receipts": 10,
+        "runtime_qa_namespace":
+            "GangnamDream_StoryDemo_RuntimeQA_package_real_restitution",
+    },
+    {
+        "language": "zh-CN",
+        "route": "escalation",
+        "m02": "fallout",
+        "receipts": 10,
+        "runtime_qa_namespace":
+            "GangnamDream_StoryDemo_RuntimeQA_package_real_escalation",
+    },
+)
+REAL_FLOW_ROW_KEYS = {
+    "passed", "language", "route", "m02", "months", "weeks",
+    "settlements", "receipts", "cold_restart", "exact_resume",
+    "runtime_qa_namespace", "args", "marker",
 }
 
 HASH_RE = re.compile(r"^[0-9a-f]{64}$")
@@ -110,6 +165,9 @@ SOURCE_CONTRACT = (
     "tools/I18nInfrastructureCheck.tscn",
     "tools/third_party_notice_audit.py",
     "tools/story_demo_localization_audit.py",
+    "tools/story_demo_density_audit.py",
+    "tools/fixtures/story_demo_density_contract.json",
+    "docs/human_gates.json",
     f"{HISTORIC_EVIDENCE_REL}/{HISTORIC_MANIFEST_NAME}",
     f"{HISTORIC_EVIDENCE_REL}/{HISTORIC_CHECKSUM_NAME}",
     f"{HISTORIC_EVIDENCE_REL}/{HISTORIC_LOSS_RECEIPT_NAME}",
@@ -711,11 +769,12 @@ def marker_tokens(marker: str, prefix: str) -> dict[str, str] | None:
         return None
     values: dict[str, str] = {}
     for part in parts[1:]:
-        if "=" in part:
-            key, value = part.split("=", 1)
-            if key in values:
-                return None
-            values[key] = value
+        if "=" not in part:
+            return None
+        key, value = part.split("=", 1)
+        if not key or not value or key in values:
+            return None
+        values[key] = value
     return values
 
 
@@ -740,6 +799,213 @@ def source_repository_for_audit(artifact_root: Path, errors: list[str]) -> Path:
     if Path(top_level).resolve() != repository:
         errors.append(f"{AUDIT_SOURCE_ROOT_ENV} must name the Git worktree root")
     return repository
+
+
+def product_source_identity_errors(
+    repository: Path,
+    package_revision: str,
+    package_tree: str,
+    product_revision: str = PRODUCT_REVISION,
+    product_tree: str = PRODUCT_TREE,
+    runtime_scope: tuple[str, ...] = PRODUCT_RUNTIME_SCOPE,
+) -> list[str]:
+    errors: list[str] = []
+    if not COMMIT_RE.fullmatch(package_revision):
+        return ["package source revision is not a full Git hash"]
+    if not COMMIT_RE.fullmatch(package_tree):
+        errors.append("package source tree is not a full Git hash")
+    if not COMMIT_RE.fullmatch(product_revision):
+        errors.append("product revision is not a full Git hash")
+    if not COMMIT_RE.fullmatch(product_tree):
+        errors.append("product tree is not a full Git hash")
+    if errors:
+        return errors
+    try:
+        resolved_package = subprocess.check_output(
+            ["git", "-C", str(repository), "rev-parse", "--verify",
+             f"{package_revision}^{{commit}}"],
+            text=True,
+            stderr=subprocess.STDOUT,
+        ).strip()
+        resolved_package_tree = subprocess.check_output(
+            ["git", "-C", str(repository), "rev-parse",
+             f"{resolved_package}^{{tree}}"],
+            text=True,
+            stderr=subprocess.STDOUT,
+        ).strip()
+        resolved_product = subprocess.check_output(
+            ["git", "-C", str(repository), "rev-parse", "--verify",
+             f"{product_revision}^{{commit}}"],
+            text=True,
+            stderr=subprocess.STDOUT,
+        ).strip()
+        resolved_product_tree = subprocess.check_output(
+            ["git", "-C", str(repository), "rev-parse",
+             f"{resolved_product}^{{tree}}"],
+            text=True,
+            stderr=subprocess.STDOUT,
+        ).strip()
+    except (OSError, subprocess.CalledProcessError) as exc:
+        return [f"product/package Git identity is unavailable: {exc}"]
+    if resolved_package != package_revision:
+        errors.append("package source revision did not resolve exactly")
+    if resolved_package_tree != package_tree:
+        errors.append("package source tree does not match revision")
+    if resolved_product != product_revision:
+        errors.append("product revision did not resolve exactly")
+    if resolved_product_tree != product_tree:
+        errors.append("exact product tree drifted")
+    ancestor = subprocess.run(
+        ["git", "-C", str(repository), "merge-base", "--is-ancestor",
+         product_revision, package_revision],
+        capture_output=True,
+        text=True,
+    )
+    if ancestor.returncode != 0:
+        errors.append("exact product commit is not an ancestor of package source")
+    try:
+        changed = subprocess.check_output(
+            ["git", "-C", str(repository), "diff", "--name-only", "-z",
+             "--no-renames", product_revision, package_revision, "--",
+             *runtime_scope],
+            stderr=subprocess.STDOUT,
+        )
+    except (OSError, subprocess.CalledProcessError) as exc:
+        errors.append(f"product/runtime zero-diff check failed: {exc}")
+    else:
+        changed_paths = [
+            part.decode("utf-8", "replace")
+            for part in changed.split(b"\0") if part
+        ]
+        if changed_paths:
+            errors.append(
+                "package source changes protected product/runtime paths: "
+                + ", ".join(changed_paths)
+            )
+    return errors
+
+
+def expected_real_story_roundtrips() -> list[dict[str, object]]:
+    rows: list[dict[str, object]] = []
+    for route in REAL_FLOW_ROUTES:
+        route_name = str(route["route"])
+        language = str(route["language"])
+        receipts = int(route["receipts"])
+        marker_parts = {
+            "build": BUILD_ID,
+            "language": language,
+            "route": route_name,
+            "m02": str(route["m02"]),
+            "months": "6",
+            "weeks": "24",
+            "settlements": "6",
+            "receipts": str(receipts),
+            "story": "real",
+            "manual_save": "1",
+            "cold_restart": "1",
+            "exact_resume": "1",
+            "overlay": "clear",
+            "input": "clear",
+            "ap_ledger": "0",
+        }
+        marker = REAL_FLOW_MARKER_PREFIX + " " + " ".join(
+            f"{key}={value}" for key, value in marker_parts.items()
+        )
+        rows.append({
+            "passed": True,
+            "language": language,
+            "route": route_name,
+            "m02": route["m02"],
+            "months": 6,
+            "weeks": 24,
+            "settlements": 6,
+            "receipts": receipts,
+            "cold_restart": True,
+            "exact_resume": True,
+            "runtime_qa_namespace": route["runtime_qa_namespace"],
+            "args": [
+                "--story-demo-real-flow-smoke",
+                f"--story-demo-real-flow-route={route_name}",
+                f"--story-demo-language={language}",
+            ],
+            "marker": marker,
+        })
+    return rows
+
+
+def real_story_roundtrip_errors(value: object) -> list[str]:
+    errors: list[str] = []
+    expected_rows = expected_real_story_roundtrips()
+    if not isinstance(value, list) or len(value) != len(expected_rows):
+        return [
+            "real StoryMode roundtrip inventory must contain exact clean, "
+            "restitution, escalation rows"
+        ]
+    for index, (actual, expected) in enumerate(zip(value, expected_rows)):
+        if not isinstance(actual, dict):
+            errors.append(f"real StoryMode roundtrip {index} must be an object")
+            continue
+        if set(actual) != REAL_FLOW_ROW_KEYS:
+            errors.append(
+                f"real StoryMode roundtrip {index} field inventory drifted"
+            )
+        if not strict_value_equal(actual, expected):
+            errors.append(f"real StoryMode roundtrip {index} contract drifted")
+        marker_values = marker_tokens(
+            str(actual.get("marker", "")), REAL_FLOW_MARKER_PREFIX
+        )
+        expected_values = marker_tokens(
+            str(expected["marker"]), REAL_FLOW_MARKER_PREFIX
+        )
+        if marker_values is None or marker_values != expected_values:
+            errors.append(
+                f"real StoryMode roundtrip {index} marker token contract drifted"
+            )
+    return errors
+
+
+def expected_density_contract(
+    repository: Path, revision: str
+) -> dict[str, object]:
+    paths = {
+        "audit": "tools/story_demo_density_audit.py",
+        "fixture": "tools/fixtures/story_demo_density_contract.json",
+        "human_gates": "docs/human_gates.json",
+    }
+    blobs = {
+        key: git_bytes(repository, revision, relative)
+        for key, relative in paths.items()
+    }
+    return {
+        "passed": True,
+        "scope": "structural_automation_only",
+        "source_revision": PRODUCT_REVISION,
+        "source_tree": PRODUCT_TREE,
+        "build_id": BUILD_ID,
+        "audit_path": paths["audit"],
+        "audit_sha256": sha256_bytes(blobs["audit"]),
+        "fixture_path": paths["fixture"],
+        "fixture_sha256": sha256_bytes(blobs["fixture"]),
+        "human_gates_path": paths["human_gates"],
+        "human_gates_sha256": sha256_bytes(blobs["human_gates"]),
+        "self_test_marker": DENSITY_SELF_TEST_MARKER,
+        "marker": DENSITY_MARKER,
+        "human_gate_marker": DENSITY_HUMAN_GATE_MARKER,
+    }
+
+
+def density_contract_errors(
+    value: object, repository: Path, revision: str
+) -> list[str]:
+    if not isinstance(value, dict):
+        return ["story density evidence must be an object"]
+    try:
+        expected = expected_density_contract(repository, revision)
+    except (OSError, subprocess.CalledProcessError) as exc:
+        return [f"story density source evidence is unavailable: {exc}"]
+    if not strict_value_equal(value, expected):
+        return ["story density evidence contract drifted"]
+    return []
 
 
 def synthetic_archive_fixture() -> tuple[HistoricArchiveContract, bytes, bytes, bytes]:
@@ -1144,6 +1410,198 @@ def archive_guard_self_test(root: Path) -> tuple[list[str], int]:
     return errors, checks
 
 
+def package_contract_self_test(root: Path) -> tuple[list[str], int]:
+    errors: list[str] = []
+    checks = 0
+
+    valid_roundtrips = expected_real_story_roundtrips()
+    checks += 1
+    if real_story_roundtrip_errors(valid_roundtrips):
+        errors.append("real StoryMode route validator rejected its exact baseline")
+
+    def reject_roundtrip(label: str, mutate: object) -> None:
+        nonlocal checks
+        candidate = copy.deepcopy(valid_roundtrips)
+        mutate(candidate)  # type: ignore[operator]
+        checks += 1
+        if not real_story_roundtrip_errors(candidate):
+            errors.append(f"real StoryMode route validator accepted {label}")
+
+    reject_roundtrip("missing route", lambda rows: rows.pop())
+    reject_roundtrip(
+        "duplicate route", lambda rows: rows.__setitem__(1, copy.deepcopy(rows[0]))
+    )
+    reject_roundtrip(
+        "route order swap", lambda rows: rows.__setitem__(slice(0, 2), [rows[1], rows[0]])
+    )
+    reject_roundtrip(
+        "wrong locale", lambda rows: rows[1].__setitem__("language", "ko")
+    )
+    reject_roundtrip(
+        "wrong M02 identity", lambda rows: rows[1].__setitem__("m02", "clean")
+    )
+    reject_roundtrip(
+        "wrong receipt count", lambda rows: rows[1].__setitem__("receipts", 9)
+    )
+    reject_roundtrip(
+        "boolean receipt count", lambda rows: rows[0].__setitem__("receipts", True)
+    )
+    reject_roundtrip(
+        "shared namespace", lambda rows: rows[1].__setitem__(
+            "runtime_qa_namespace", rows[0]["runtime_qa_namespace"])
+    )
+    reject_roundtrip(
+        "wrong args", lambda rows: rows[1]["args"].__setitem__(
+            2, "--story-demo-language=ko")
+    )
+    reject_roundtrip(
+        "legacy choice field", lambda rows: rows[0].__setitem__("choice", 0)
+    )
+    reject_roundtrip(
+        "legacy choice argument", lambda rows: rows[0]["args"].__setitem__(
+            1, "--story-demo-real-flow-choice=0")
+    )
+    reject_roundtrip(
+        "marker missing route", lambda rows: rows[0].__setitem__(
+            "marker", rows[0]["marker"].replace(" route=clean", "", 1))
+    )
+    reject_roundtrip(
+        "marker duplicate route", lambda rows: rows[0].__setitem__(
+            "marker", rows[0]["marker"] + " route=clean")
+    )
+    reject_roundtrip(
+        "marker wrong route", lambda rows: rows[0].__setitem__(
+            "marker", rows[0]["marker"].replace(
+                "route=clean", "route=escalation", 1))
+    )
+    reject_roundtrip(
+        "marker wrong receipts", lambda rows: rows[1].__setitem__(
+            "marker", rows[1]["marker"].replace("receipts=10", "receipts=9", 1))
+    )
+    reject_roundtrip(
+        "marker extra legacy choice", lambda rows: rows[2].__setitem__(
+            "marker", rows[2]["marker"] + " choice=1")
+    )
+    reject_roundtrip(
+        "marker bare token", lambda rows: rows[2].__setitem__(
+            "marker", rows[2]["marker"] + " stray")
+    )
+
+    with tempfile.TemporaryDirectory(prefix="story-demo-density-contract-") as temporary:
+        density_repository = Path(temporary)
+        subprocess.check_call(["git", "init", "-q", str(density_repository)])
+        subprocess.check_call(
+            ["git", "-C", str(density_repository), "config", "user.name", "QA"])
+        subprocess.check_call(
+            ["git", "-C", str(density_repository), "config", "user.email",
+             "qa@example.invalid"])
+        for relative, content in (
+            ("tools/story_demo_density_audit.py", "audit\n"),
+            ("tools/fixtures/story_demo_density_contract.json", "{}\n"),
+            ("docs/human_gates.json", "{}\n"),
+        ):
+            destination = density_repository / relative
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_text(content, encoding="utf-8")
+        subprocess.check_call(["git", "-C", str(density_repository), "add", "."])
+        subprocess.check_call(
+            ["git", "-C", str(density_repository), "commit", "-q", "-m",
+             "density fixture"])
+        density_revision = subprocess.check_output(
+            ["git", "-C", str(density_repository), "rev-parse", "HEAD"],
+            text=True,
+        ).strip()
+        valid_density = expected_density_contract(
+            density_repository, density_revision)
+        checks += 1
+        if density_contract_errors(
+                valid_density, density_repository, density_revision):
+            errors.append("density validator rejected its exact baseline")
+
+        def reject_density(label: str, key: str, value: object) -> None:
+            nonlocal checks
+            candidate = copy.deepcopy(valid_density)
+            candidate[key] = value
+            checks += 1
+            if not density_contract_errors(
+                    candidate, density_repository, density_revision):
+                errors.append(f"density validator accepted {label}")
+
+        reject_density("self-test count drift", "self_test_marker",
+                       DENSITY_SELF_TEST_MARKER.replace("29", "28"))
+        reject_density("actual marker drift", "marker",
+                       DENSITY_MARKER.replace("variants=14", "variants=13"))
+        reject_density("human gate closure", "human_gate_marker",
+                       DENSITY_HUMAN_GATE_MARKER.replace("OPEN", "GO"))
+        reject_density("audit hash drift", "audit_sha256", "0" * 64)
+        reject_density("fixture hash drift", "fixture_sha256", "0" * 64)
+        reject_density("human gate hash drift", "human_gates_sha256", "0" * 64)
+        reject_density("scope drift", "scope", "human_GO")
+        reject_density("product revision drift", "source_revision", "0" * 40)
+        reject_density("product tree drift", "source_tree", "0" * 40)
+        reject_density("build drift", "build_id", "2026.08.25.1")
+
+    with tempfile.TemporaryDirectory(prefix="story-demo-product-identity-") as temporary:
+        repository = Path(temporary)
+        subprocess.check_call(["git", "init", "-q", str(repository)])
+        subprocess.check_call(
+            ["git", "-C", str(repository), "config", "user.name", "QA"])
+        subprocess.check_call(
+            ["git", "-C", str(repository), "config", "user.email", "qa@example.invalid"])
+        (repository / "project.godot").write_text("product\n", encoding="utf-8")
+        (repository / "tools").mkdir()
+        (repository / "tools" / "qa.txt").write_text("one\n", encoding="utf-8")
+        subprocess.check_call(["git", "-C", str(repository), "add", "."])
+        subprocess.check_call(
+            ["git", "-C", str(repository), "commit", "-q", "-m", "product"])
+        product_revision = subprocess.check_output(
+            ["git", "-C", str(repository), "rev-parse", "HEAD"], text=True
+        ).strip()
+        product_tree = subprocess.check_output(
+            ["git", "-C", str(repository), "rev-parse", "HEAD^{tree}"], text=True
+        ).strip()
+        (repository / "tools" / "qa.txt").write_text("two\n", encoding="utf-8")
+        subprocess.check_call(["git", "-C", str(repository), "commit", "-qam", "qa"])
+        qa_revision = subprocess.check_output(
+            ["git", "-C", str(repository), "rev-parse", "HEAD"], text=True
+        ).strip()
+        qa_tree = subprocess.check_output(
+            ["git", "-C", str(repository), "rev-parse", "HEAD^{tree}"], text=True
+        ).strip()
+        valid_identity_errors = product_source_identity_errors(
+            repository, qa_revision, qa_tree, product_revision, product_tree,
+            ("project.godot",))
+        checks += 1
+        if valid_identity_errors:
+            errors.append(
+                f"product identity rejected QA-only descendant: {valid_identity_errors}")
+        (repository / "project.godot").write_text("runtime drift\n", encoding="utf-8")
+        subprocess.check_call(["git", "-C", str(repository), "commit", "-qam", "runtime"])
+        runtime_revision = subprocess.check_output(
+            ["git", "-C", str(repository), "rev-parse", "HEAD"], text=True
+        ).strip()
+        runtime_tree = subprocess.check_output(
+            ["git", "-C", str(repository), "rev-parse", "HEAD^{tree}"], text=True
+        ).strip()
+        checks += 1
+        if not product_source_identity_errors(
+            repository, runtime_revision, runtime_tree, product_revision,
+            product_tree, ("project.godot",)):
+            errors.append("product identity accepted runtime drift")
+        checks += 1
+        if not product_source_identity_errors(
+            repository, product_revision, product_tree, qa_revision, qa_tree,
+            ("project.godot",)):
+            errors.append("product identity accepted a non-ancestor product")
+        checks += 1
+        if not product_source_identity_errors(
+            repository, qa_revision, qa_tree, product_revision, "0" * 40,
+            ("project.godot",)):
+            errors.append("product identity accepted a wrong product tree")
+
+    return errors, checks
+
+
 def source_self_test(root: Path) -> tuple[list[str], int]:
     errors: list[str] = []
     build_path = root / "tools/build_story_demo_macos.sh"
@@ -1161,6 +1619,31 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
     if result.returncode != 0:
         errors.append(f"build script syntax error: {result.stderr.strip()}")
     build_text = build_path.read_text(encoding="utf-8")
+    runtime_scope_match = re.search(
+        r"(?ms)^readonly -a PRODUCT_RUNTIME_SCOPE=\((.*?)^\)", build_text
+    )
+    if runtime_scope_match is None:
+        errors.append("build script lacks exact product runtime scope array")
+    else:
+        builder_runtime_scope = tuple(
+            line.strip() for line in runtime_scope_match.group(1).splitlines()
+            if line.strip()
+        )
+        if builder_runtime_scope != PRODUCT_RUNTIME_SCOPE:
+            errors.append("build script product runtime scope drifted")
+    contract_paths_match = re.search(
+        r"(?ms)^contract_paths = \[(.*?)^\]$", build_text
+    )
+    if contract_paths_match is None:
+        errors.append("build manifest lacks source contract path list")
+    else:
+        try:
+            builder_contract = tuple(ast.literal_eval(
+                "[" + contract_paths_match.group(1) + "]"))
+        except (SyntaxError, ValueError):
+            builder_contract = ()
+        if builder_contract != SOURCE_CONTRACT:
+            errors.append("build manifest source contract path/order drifted")
     required_tokens = (
         "archive --format=tar",
         "SOURCE_STATUS",
@@ -1181,8 +1664,9 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
         "--story-demo-return-smoke",
         "--story-demo-resume-smoke",
         "--story-demo-real-flow-smoke",
-        "--story-demo-real-flow-choice=0",
-        "--story-demo-real-flow-choice=1",
+        "--story-demo-real-flow-route=clean",
+        "--story-demo-real-flow-route=restitution",
+        "--story-demo-real-flow-route=escalation",
         "--audio-driver Dummy",
         "--qa=story-demo",
         TARGET_MARKER,
@@ -1208,9 +1692,10 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
         "cold_restart_resume",
         "real_story_roundtrips",
         "GangnamDream_StoryDemo_RuntimeQA_package_real_clean",
-        "GangnamDream_StoryDemo_RuntimeQA_package_real_fallout",
+        "GangnamDream_StoryDemo_RuntimeQA_package_real_restitution",
+        "GangnamDream_StoryDemo_RuntimeQA_package_real_escalation",
         "launcher_process",
-        '"version": "2026.8.25"',
+        '"version": "2026.8.31"',
         "no_existing_candidate_save",
         "tools/audit_scope.json",
         ".json.bak",
@@ -1243,8 +1728,21 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
         "trap '' INT TERM PIPE",
         'echo "STORY_DEMO_MACOS_BUILD_OK build=$BUILD_ID revision=$SOURCE_COMMIT tree=$SOURCE_TREE" || true',
         '"months=6" "weeks=24" "settlements=6" "receipts=9"',
+        '"months=6" "weeks=24" "settlements=6" "receipts=10"',
         '"cold_restart=1"',
         '"exact_resume=1"',
+        "PRODUCT_RUNTIME_SCOPE",
+        "merge-base --is-ancestor",
+        "diff --quiet --no-ext-diff",
+        PRODUCT_REVISION,
+        PRODUCT_TREE,
+        "tools/story_demo_density_audit.py",
+        "tools/fixtures/story_demo_density_contract.json",
+        "docs/human_gates.json",
+        DENSITY_SELF_TEST_MARKER,
+        DENSITY_MARKER,
+        DENSITY_HUMAN_GATE_MARKER,
+        "require_exact_marker_tokens",
         AUDIT_SOURCE_ROOT_ENV,
     )
     for token in required_tokens:
@@ -1281,8 +1779,9 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
         errors.append("cold-restart resume must run in a new launcher process immediately after the fresh KO smoke")
     normalized_build = " ".join(build_text.replace("\\\n", " ").split())
     real_flow_commands = (
-        "-- --story-demo-real-flow-smoke --story-demo-real-flow-choice=0 --story-demo-language=ko",
-        "-- --story-demo-real-flow-smoke --story-demo-real-flow-choice=1 --story-demo-language=zh-CN",
+        "-- --story-demo-real-flow-smoke --story-demo-real-flow-route=clean --story-demo-language=ko",
+        "-- --story-demo-real-flow-smoke --story-demo-real-flow-route=restitution --story-demo-language=en",
+        "-- --story-demo-real-flow-smoke --story-demo-real-flow-route=escalation --story-demo-language=zh-CN",
     )
     for command in real_flow_commands:
         if command not in normalized_build:
@@ -1290,10 +1789,14 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
     if normalized_build.count(
         '"$LAUNCHER" --audio-driver Dummy --rendering-driver opengl3 '
         '--resolution 1280x800 -- --story-demo-real-flow-smoke'
-    ) != 2:
+    ) != 3:
         errors.append(
-            "both accelerated real StoryMode package runs must isolate CoreAudio"
+            "all three accelerated real StoryMode package runs must isolate CoreAudio"
         )
+    if "--story-demo-real-flow-choice=" in normalized_build:
+        errors.append("build script still uses a legacy real-flow choice argument")
+    if build_text.count("emitted a non-exact marker count") != 3:
+        errors.append("each real StoryMode package run must require exactly one marker")
 
     lock_position = build_text.find(
         "acquire_story_demo_build_lock || lock_acquire_status=$?"
@@ -1302,6 +1805,9 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
         'EARLY_STORY_DEMO_BUILD_LOCK_DIR="$HOME/Library/Application Support/'
     )
     source_status_position = build_text.find('SOURCE_STATUS="$(git -C "$PROJECT_DIR" status')
+    product_identity_position = build_text.find("merge-base --is-ancestor")
+    archive_preflight_position = build_text.find("archive_guard_preflight_status=0")
+    staging_position = build_text.find('WORK_DIR="$(mktemp -d')
     snapshot_position = build_text.find(
         'capture_exact_state "$STORY_DEMO_USER_DATA_DIR" "$STORY_DEMO_ORIGINAL_STATE"'
     )
@@ -1311,6 +1817,14 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
         or early_lock_position >= source_status_position
     ):
         errors.append("concurrent-build lock preflight must precede source preflight")
+    if (
+        product_identity_position < source_status_position
+        or archive_preflight_position < product_identity_position
+        or staging_position < archive_preflight_position
+    ):
+        errors.append(
+            "product identity and archive guards must pass before staging or mutation"
+        )
     if lock_position < 0 or snapshot_position < 0 or lock_position >= snapshot_position:
         errors.append("exclusive build lock must be acquired before the candidate snapshot")
     lock_mask_position = build_text.rfind("trap '' INT TERM", 0, lock_position)
@@ -1334,6 +1848,15 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
     qa_cleanup = cleanup_body.find('remove_runtime_qa_dir "$qa_cleanup_path"')
     if lock_owner_guard < 0 or qa_cleanup < lock_owner_guard:
         errors.append("only the exclusive-lock owner may clean fixed RuntimeQA namespaces")
+    for namespace_variable in (
+        "$REAL_FLOW_CLEAN_QA_DIR",
+        "$REAL_FLOW_RESTITUTION_QA_DIR",
+        "$REAL_FLOW_ESCALATION_QA_DIR",
+    ):
+        if namespace_variable not in cleanup_body:
+            errors.append(
+                f"EXIT cleanup lacks exact RuntimeQA namespace: {namespace_variable}"
+            )
     cleanup_termination = cleanup_body.find(
         'terminate_native_process_bounded "$NATIVE_PID" "cleanup launcher"'
     )
@@ -1443,6 +1966,9 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
     if marker_tokens(wrapper_sample, "WRONG_PREFIX") is not None:
         errors.append("wrapper smoke marker accepted a wrong prefix")
     wrapper_contract_checks += 1
+    if marker_tokens(wrapper_sample + " empty=", SMOKE_MARKER_PREFIX) is not None:
+        errors.append("wrapper smoke marker accepted an empty token value")
+    wrapper_contract_checks += 1
 
     controller_tokens = (
         "--story-demo-return-smoke",
@@ -1450,8 +1976,11 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
         "STORY_DEMO_RETURN_SMOKE",
         "STORY_DEMO_RESUME_SMOKE",
         "--story-demo-real-flow-smoke",
+        "--story-demo-real-flow-route=",
+        # Compatibility only; package commands above must use exact route IDs.
         "--story-demo-real-flow-choice=",
         "STORY_DEMO_REAL_FLOW_SMOKE",
+        "language=%s route=%s m02=%s",
         "months=6 weeks=24 settlements=6 receipts=%d",
         "cold_restart=1",
         "exact_resume=1",
@@ -1508,6 +2037,8 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
                     errors.append(f"incomplete story-demo source pair: {relative}")
     archive_errors, archive_checks = archive_guard_self_test(root)
     errors.extend(archive_errors)
+    contract_errors, contract_checks = package_contract_self_test(root)
+    errors.extend(contract_errors)
     return (
         errors,
         len(required_tokens)
@@ -1517,7 +2048,8 @@ def source_self_test(root: Path) -> tuple[list[str], int]:
         + len(real_flow_commands)
         + wrapper_contract_checks
         + archive_checks
-        + 7,
+        + contract_checks
+        + 15,
     )
 
 
@@ -1548,9 +2080,29 @@ def validate_manifest_shape(payload: dict, errors: list[str]) -> None:
     if not isinstance(source, dict):
         errors.append("manifest source must be an object")
     else:
+        expected_source_keys = {
+            "requested_ref", "revision", "tree", "product_revision",
+            "product_tree", "product_ancestor", "product_runtime_scope",
+            "product_runtime_diff", "status", "staging", "contract_files",
+            "staged_project_sha256", "staged_export_presets_sha256",
+        }
+        if set(source) != expected_source_keys:
+            errors.append("manifest source field inventory drifted")
         for key in ("revision", "tree"):
             if not COMMIT_RE.fullmatch(str(source.get(key, ""))):
                 errors.append(f"manifest source.{key} is not a full Git hash")
+        if source.get("product_revision") != PRODUCT_REVISION:
+            errors.append("manifest source.product_revision drifted")
+        if source.get("product_tree") != PRODUCT_TREE:
+            errors.append("manifest source.product_tree drifted")
+        if source.get("product_ancestor") is not True:
+            errors.append("manifest source.product_ancestor must be true")
+        if not strict_value_equal(
+            source.get("product_runtime_scope"), list(PRODUCT_RUNTIME_SCOPE)
+        ):
+            errors.append("manifest product runtime scope drifted")
+        if not strict_value_equal(source.get("product_runtime_diff"), []):
+            errors.append("manifest product runtime diff must be empty")
         if source.get("status") != "clean":
             errors.append("manifest source.status must be clean")
         if source.get("staging") != "full_git_archive_outside_repository":
@@ -1593,29 +2145,35 @@ def audit_manifest(path: Path) -> list[str]:
     revision = str(source.get("revision", ""))
     tree = str(source.get("tree", ""))
     if COMMIT_RE.fullmatch(revision):
-        try:
-            actual_tree = subprocess.check_output(
-                ["git", "-C", str(repository), "rev-parse", f"{revision}^{{tree}}"],
-                text=True,
-            ).strip()
-            if actual_tree != tree:
-                errors.append("manifest source tree does not match revision")
-        except (OSError, subprocess.CalledProcessError) as exc:
-            errors.append(f"manifest revision is unavailable in repository: {exc}")
+        errors.extend(product_source_identity_errors(
+            repository,
+            revision,
+            tree,
+        ))
         source_files = source.get("contract_files", [])
-        actual_paths = {
-            str(row.get("path", "")) for row in source_files if isinstance(row, dict)
-        } if isinstance(source_files, list) else set()
-        if actual_paths != set(SOURCE_CONTRACT) or not isinstance(source_files, list) or len(source_files) != len(SOURCE_CONTRACT):
+        if not isinstance(source_files, list) \
+                or len(source_files) != len(SOURCE_CONTRACT):
             errors.append("manifest fixed-source contract inventory drifted")
-        for row in source_files if isinstance(source_files, list) else []:
+        for index, row in enumerate(
+            source_files if isinstance(source_files, list) else []
+        ):
             if not isinstance(row, dict):
+                errors.append(f"fixed-source contract row {index} must be an object")
                 continue
+            if set(row) != {"path", "sha256", "size_bytes"}:
+                errors.append(f"fixed-source contract row {index} fields drifted")
             relative = str(row.get("path", ""))
+            if index >= len(SOURCE_CONTRACT) or relative != SOURCE_CONTRACT[index]:
+                errors.append(f"fixed-source contract row {index} path/order drifted")
             try:
-                expected_hash = sha256_bytes(git_bytes(repository, revision, relative))
+                blob = git_bytes(repository, revision, relative)
+                expected_hash = sha256_bytes(blob)
                 if row.get("sha256") != expected_hash:
                     errors.append(f"fixed-source hash mismatch: {relative}")
+                size = row.get("size_bytes")
+                if isinstance(size, bool) or not isinstance(size, int) \
+                        or size != len(blob):
+                    errors.append(f"fixed-source size mismatch: {relative}")
             except (OSError, subprocess.CalledProcessError):
                 errors.append(f"fixed-source file unavailable at revision: {relative}")
 
@@ -1796,6 +2354,9 @@ def audit_manifest(path: Path) -> list[str]:
         targeted = validation.get("targeted_story_choice", {})
         if not isinstance(targeted, dict) or not targeted.get("passed") or targeted.get("marker") != TARGET_MARKER:
             errors.append("targeted StoryDemoFourLanguageCheck evidence drifted")
+        errors.extend(density_contract_errors(
+            validation.get("story_density_contract"), repository, revision
+        ))
         codesign = validation.get("codesign", {})
         if not isinstance(codesign, dict) or not codesign.get("passed") or codesign.get("mode") != "ad-hoc":
             errors.append("ad-hoc codesign evidence missing")
@@ -1935,80 +2496,9 @@ def audit_manifest(path: Path) -> list[str]:
                             f"cold-restart resume marker lacks {key}={value}"
                         )
 
-        real_roundtrips = validation.get("real_story_roundtrips", [])
-        expected_real_roundtrips = [
-            {
-                "language": "ko",
-                "choice": 0,
-                "m02": "clean",
-                "months": 6,
-                "weeks": 24,
-                "settlements": 6,
-                "receipts": 9,
-                "cold_restart": True,
-                "exact_resume": True,
-                "runtime_qa_namespace": "GangnamDream_StoryDemo_RuntimeQA_package_real_clean",
-                "args": [
-                    "--story-demo-real-flow-smoke",
-                    "--story-demo-real-flow-choice=0",
-                    "--story-demo-language=ko",
-                ],
-            },
-            {
-                "language": "zh-CN",
-                "choice": 1,
-                "m02": "fallout",
-                "months": 6,
-                "weeks": 24,
-                "settlements": 6,
-                "receipts": 9,
-                "cold_restart": True,
-                "exact_resume": True,
-                "runtime_qa_namespace": "GangnamDream_StoryDemo_RuntimeQA_package_real_fallout",
-                "args": [
-                    "--story-demo-real-flow-smoke",
-                    "--story-demo-real-flow-choice=1",
-                    "--story-demo-language=zh-CN",
-                ],
-            },
-        ]
-        if not isinstance(real_roundtrips, list) or len(real_roundtrips) != 2:
-            errors.append("real StoryMode roundtrip inventory must contain clean and fallout")
-        else:
-            for index, expected_roundtrip in enumerate(expected_real_roundtrips):
-                actual_roundtrip = real_roundtrips[index]
-                if not isinstance(actual_roundtrip, dict):
-                    errors.append(f"real StoryMode roundtrip {index} must be an object")
-                    continue
-                if actual_roundtrip.get("passed") is not True:
-                    errors.append(f"real StoryMode roundtrip {index} did not pass")
-                for key, value in expected_roundtrip.items():
-                    if actual_roundtrip.get(key) != value:
-                        errors.append(f"real StoryMode roundtrip {index} {key} contract drifted")
-                real_values = marker_tokens(
-                    str(actual_roundtrip.get("marker", "")),
-                    REAL_FLOW_MARKER_PREFIX,
-                )
-                expected_real_marker = {
-                    "build": BUILD_ID,
-                    "language": expected_roundtrip["language"],
-                    "choice": str(expected_roundtrip["choice"]),
-                    "m02": expected_roundtrip["m02"],
-                    **REAL_FLOW_RELEASE_MARKER_TOKENS,
-                    "story": "real",
-                    "manual_save": "1",
-                    "overlay": "clear",
-                    "input": "clear",
-                    "ap_ledger": "0",
-                }
-                if real_values is None:
-                    errors.append(f"real StoryMode roundtrip {index} marker prefix drifted")
-                else:
-                    for key, value in expected_real_marker.items():
-                        if real_values.get(key) != value:
-                            errors.append(
-                                f"real StoryMode roundtrip {index} marker lacks {key}={value}"
-                            )
+        errors.extend(real_story_roundtrip_errors(
+            validation.get("real_story_roundtrips")
+        ))
 
         resume = validation.get("existing_save_resume", {})
         if not isinstance(resume, dict):
