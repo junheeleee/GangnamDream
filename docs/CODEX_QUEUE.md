@@ -59,7 +59,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-142 · M01~M60 전체 장면·선택·회수·상승 볼륨을 실측 관리한다 | [142](queue_active/ORDER-142.md) | 배치 A 60개월 실측 기준선 착수 · 원고·런타임 읽기 전용 · 다음 exact 수리 표본 미발급 |
+| 1 | [~] | ORDER-142 · M01~M60 전체 장면·선택·회수·상승 볼륨을 실측 관리한다 | [142](queue_active/ORDER-142.md) | 정적 기준선 135 shipping-eligible refs / 구조 debt 49 · HOLD · 월경계 8건 A5·B2·C1 판정 · 다음 graph contract와 실제 런타임 trace |
 | 2 | [~] | ORDER-138 · 5장 일반 종막의 끊긴 사람선을 잇고 마지막 행동의 반복을 걷는다 | [138](queue_active/ORDER-138.md) | 제품 `9b294d5` / tree `ebaf799` / manifest `9927a875` · 일반 W211→W240·property inline read L1/L2 GREEN · 228장 · 두 사람 게이트 OPEN · main HOLD |
 | 3 | [~] | ORDER-137 · 5장 실플레이 반려 4건을 표적 수리한다 | [137](queue_active/ORDER-137.md) | 역사 제품 `002a493` · 잔여 결함은 `ORDER-138` 소유 · 두 L3와 사용자 GO OPEN · main HOLD |
 | 4 | [~] | ORDER-135 · 25억 문턱·아버지 별세 일반 런의 선택을 W240에 잇는다 | [135](queue_active/ORDER-135.md) | 역사 제품 `002a493` · 잔여 수리는 `ORDER-138` · 사용자 GO/main HOLD |

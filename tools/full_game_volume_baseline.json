@@ -1,0 +1,2595 @@
+{
+  "allowlisted_findings": [
+    {
+      "code": "branch_cross_month_root_overlap",
+      "month": 33,
+      "ref_id": "M33:m33_sangchul_truth:base:arc_sangchul_confrontation",
+      "root": "arc_sangchul_confrontation",
+      "target_month": 34,
+      "target_ref_id": "M34:m34_cost_of_knowing:fallback0:arc_sangchul_buried_silence",
+      "target_root": "arc_sangchul_buried_silence"
+    },
+    {
+      "code": "branch_cross_month_root_overlap",
+      "month": 33,
+      "ref_id": "M33:m33_sangchul_truth:base:arc_sangchul_confrontation",
+      "root": "arc_sangchul_confrontation",
+      "target_month": 34,
+      "target_ref_id": "M34:m34_cost_of_knowing:fallback1:arc_sangchul_reckoning",
+      "target_root": "arc_sangchul_reckoning"
+    },
+    {
+      "code": "conditional_cross_month_root_overlap",
+      "month": 15,
+      "ref_id": "M15:m15_father_medication:base:arc_father_medication",
+      "root": "arc_father_medication",
+      "target_month": 22,
+      "target_ref_id": "M22:m22_daeun_fork:fallback0:arc_jiyeon_03_offer",
+      "target_root": "arc_jiyeon_03_offer"
+    },
+    {
+      "code": "forced_cross_month_root_overlap",
+      "month": 13,
+      "ref_id": "M13:m13_year_ledger:base:arc_year_one_mark",
+      "root": "arc_year_one_mark",
+      "target_month": 14,
+      "target_ref_id": "M14:m14_money_structure:base:arc_34_money_attracts_money",
+      "target_root": "arc_34_money_attracts_money"
+    },
+    {
+      "code": "forced_cross_month_root_overlap",
+      "month": 20,
+      "ref_id": "M20:m20_people_open_doors:base:arc_34_doors_open",
+      "root": "arc_34_doors_open",
+      "target_month": 23,
+      "target_ref_id": "M23:m23_hospital_door:base:arc_34_parents_visit",
+      "target_root": "arc_34_parents_visit"
+    },
+    {
+      "code": "forced_cross_month_root_overlap",
+      "month": 49,
+      "ref_id": "M49:m49_final_contract_cover:base:arc_37_reckoning",
+      "root": "arc_37_reckoning",
+      "target_month": 50,
+      "target_ref_id": "M50:m50_final_year_start:base:arc_final_year_start",
+      "target_root": "arc_final_year_start"
+    },
+    {
+      "code": "forced_cross_month_root_overlap",
+      "month": 8,
+      "ref_id": "M08:m08_goshiwon_exit:base:arc_goshiwon_goodbye",
+      "root": "arc_goshiwon_goodbye",
+      "target_month": 10,
+      "target_ref_id": "M10:m10_new_room_night:base:arc_housing_new_life",
+      "target_root": "arc_housing_new_life"
+    },
+    {
+      "code": "missing_mapped_root",
+      "month": 39,
+      "ref_id": "M39:m39_three_promises:fallback1:arc_y4_three_promises_father_and_deal",
+      "root": "arc_y4_three_promises_father_and_deal",
+      "rule_status": "planned",
+      "work": "NEW"
+    },
+    {
+      "code": "missing_mapped_root",
+      "month": 39,
+      "ref_id": "M39:m39_three_promises:fallback2:arc_y4_three_promises_father_and_romance",
+      "root": "arc_y4_three_promises_father_and_romance",
+      "rule_status": "planned",
+      "work": "NEW"
+    },
+    {
+      "code": "missing_mapped_root",
+      "month": 39,
+      "ref_id": "M39:m39_three_promises:fallback4:arc_y4_three_promises_deal_only_partnered",
+      "root": "arc_y4_three_promises_deal_only_partnered",
+      "rule_status": "planned",
+      "work": "NEW"
+    },
+    {
+      "code": "missing_mapped_root",
+      "month": 39,
+      "ref_id": "M39:m39_three_promises:fallback5:arc_y4_three_promises_romance_only",
+      "root": "arc_y4_three_promises_romance_only",
+      "rule_status": "planned",
+      "work": "NEW"
+    },
+    {
+      "code": "missing_mapped_root",
+      "month": 39,
+      "ref_id": "M39:m39_three_promises:fallback6:arc_y4_three_promises_alternate_attendees",
+      "root": "arc_y4_three_promises_alternate_attendees",
+      "rule_status": "planned",
+      "work": "NEW"
+    },
+    {
+      "code": "missing_mapped_root",
+      "month": 52,
+      "ref_id": "M52:m52_final_offer:fallback0:arc_y5_final_offer_known_network_other",
+      "root": "arc_y5_final_offer_known_network_other",
+      "rule_status": "planned",
+      "work": "NEW"
+    },
+    {
+      "code": "missing_mapped_root",
+      "month": 52,
+      "ref_id": "M52:m52_final_offer:fallback1:arc_y5_final_offer_independent",
+      "root": "arc_y5_final_offer_independent",
+      "rule_status": "planned",
+      "work": "NEW"
+    },
+    {
+      "code": "missing_mapped_root",
+      "month": 52,
+      "ref_id": "M52:m52_final_offer:fallback2:arc_y5_final_offer_document",
+      "root": "arc_y5_final_offer_document",
+      "rule_status": "planned",
+      "work": "NEW"
+    },
+    {
+      "code": "missing_mapped_root",
+      "month": 54,
+      "ref_id": "M54:m54_sangchul_final_door:fallback0:arc_y5_sangchul_absent_door",
+      "root": "arc_y5_sangchul_absent_door",
+      "rule_status": "planned",
+      "work": "NEW"
+    },
+    {
+      "code": "missing_mapped_root",
+      "month": 55,
+      "ref_id": "M55:m55_three_in_room_decision:fallback2:arc_y5_three_in_room_decision_other_blocked",
+      "root": "arc_y5_three_in_room_decision_other_blocked",
+      "rule_status": "planned",
+      "work": "NEW"
+    },
+    {
+      "code": "missing_mapped_root",
+      "month": 55,
+      "ref_id": "M55:m55_three_in_room_opening:fallback2:arc_y5_three_in_room_other_blocked",
+      "root": "arc_y5_three_in_room_other_blocked",
+      "rule_status": "planned",
+      "work": "NEW"
+    },
+    {
+      "code": "missing_mapped_root",
+      "month": 56,
+      "ref_id": "M56:m56_general_father_legacy_v2_product:fallback1:arc_y5_general_father_legacy_other",
+      "root": "arc_y5_general_father_legacy_other",
+      "rule_status": "planned",
+      "work": "NEW"
+    },
+    {
+      "code": "missing_mapped_root",
+      "month": 58,
+      "ref_id": "M58:m58_general_debt_memory_consequence_v2_product:fallback1:arc_y5_general_debt_memory_other",
+      "root": "arc_y5_general_debt_memory_other",
+      "rule_status": "planned",
+      "work": "NEW"
+    },
+    {
+      "code": "missing_mapped_root",
+      "month": 58,
+      "ref_id": "M58:m58_people_verdict:fallback2:arc_y5_people_verdict_no_partner_other_name",
+      "root": "arc_y5_people_verdict_no_partner_other_name",
+      "rule_status": "planned",
+      "work": "NEW"
+    },
+    {
+      "code": "missing_mapped_root",
+      "month": 59,
+      "ref_id": "M59:m59_contract_execution:fallback0:arc_y5_contract_execution_other_path",
+      "root": "arc_y5_contract_execution_other_path",
+      "rule_status": "planned",
+      "work": "NEW"
+    },
+    {
+      "code": "missing_mapped_root",
+      "month": 60,
+      "ref_id": "M60:m60_final_signature:fallback4:arc_final_countdown_signature_document_other",
+      "root": "arc_final_countdown_signature_document_other",
+      "rule_status": "planned",
+      "work": "NEW"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 20,
+      "ref_id": "M20:m20_people_open_doors:fallback0:arc_y2_jiyeon_chosen_door",
+      "root": "arc_y2_jiyeon_chosen_door",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 20,
+      "ref_id": "M20:m20_people_open_doors:fallback1:arc_y2_casino_chosen_door",
+      "root": "arc_y2_casino_chosen_door",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 20,
+      "ref_id": "M20:m20_people_open_doors:fallback2:arc_y2_chosen_door_none",
+      "root": "arc_y2_chosen_door_none",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 22,
+      "ref_id": "M22:m22_daeun_fork:fallback1:arc_y2_relationship_fork_unattached",
+      "root": "arc_y2_relationship_fork_unattached",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 25,
+      "ref_id": "M25:m25_after_hospital:fallback1:arc_y3_father_avoidance_document",
+      "root": "arc_y3_father_avoidance_document",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 28,
+      "ref_id": "M28:m28_jiyeon_departure:fallback1:arc_y3_relationship_departure_unattached",
+      "root": "arc_y3_relationship_departure_unattached",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 30,
+      "ref_id": "M30:m30_jaehyuk_ghost:fallback1:arc_y3_jaehyuk_no_contact",
+      "root": "arc_y3_jaehyuk_no_contact",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 32,
+      "ref_id": "M32:m32_sangchul_deduction:fallback1:arc_y3_truth_unproven",
+      "root": "arc_y3_truth_unproven",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 35,
+      "ref_id": "M35:m35_choice_heard:fallback0:arc_y3_truth_heard_by_hyunsu",
+      "root": "arc_y3_truth_heard_by_hyunsu",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 35,
+      "ref_id": "M35:m35_choice_heard:fallback1:arc_y3_truth_heard_by_none",
+      "root": "arc_y3_truth_heard_by_none",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 55,
+      "ref_id": "M55:m55_three_in_room_decision:fallback0:arc_y5_three_in_room_decision_blocked_review",
+      "root": "arc_y5_three_in_room_decision_blocked_review",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 55,
+      "ref_id": "M55:m55_three_in_room_decision:fallback1:arc_y5_three_in_room_decision_other_actor",
+      "root": "arc_y5_three_in_room_decision_other_actor",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 55,
+      "ref_id": "M55:m55_three_in_room_opening:fallback0:arc_y5_three_in_room_blocked_review",
+      "root": "arc_y5_three_in_room_blocked_review",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 55,
+      "ref_id": "M55:m55_three_in_room_opening:fallback1:arc_y5_three_in_room_other_actor",
+      "root": "arc_y5_three_in_room_other_actor",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 57,
+      "ref_id": "M57:m57_name_on_line:base:arc_y5_name_on_line",
+      "root": "arc_y5_name_on_line",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 57,
+      "ref_id": "M57:m57_name_on_line:fallback0:arc_y5_name_on_line_jiyeon",
+      "root": "arc_y5_name_on_line_jiyeon",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 57,
+      "ref_id": "M57:m57_name_on_line:fallback1:arc_y5_name_on_line_self",
+      "root": "arc_y5_name_on_line_self",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 58,
+      "ref_id": "M58:m58_people_verdict:base:arc_y5_people_verdict",
+      "root": "arc_y5_people_verdict",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 59,
+      "ref_id": "M59:m59_contract_execution:fallback1:arc_y5_contract_not_executed_notice",
+      "root": "arc_y5_contract_not_executed_notice",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 60,
+      "ref_id": "M60:m60_final_signature:fallback0:arc_final_countdown_not_executed",
+      "root": "arc_final_countdown_not_executed",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 60,
+      "ref_id": "M60:m60_final_signature:fallback1:arc_final_countdown_other_filing_executed",
+      "root": "arc_final_countdown_other_filing_executed",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 60,
+      "ref_id": "M60:m60_final_signature:fallback2:arc_final_countdown_filed_not_executed",
+      "root": "arc_final_countdown_filed_not_executed",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 9,
+      "ref_id": "M09:m09_relationship_reentry:fallback0:arc_y1_jiyeon_relationship_reentry",
+      "root": "arc_y1_jiyeon_relationship_reentry",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 9,
+      "ref_id": "M09:m09_relationship_reentry:fallback1:arc_y1_hyunsu_relationship_reentry",
+      "root": "arc_y1_hyunsu_relationship_reentry",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "non_product_expand_root",
+      "month": 9,
+      "ref_id": "M09:m09_relationship_reentry:fallback2:arc_y1_relationship_reentry_none",
+      "root": "arc_y1_relationship_reentry_none",
+      "rule_status": "needs_rule",
+      "work": "EXPAND"
+    },
+    {
+      "code": "time_inversion_root_overlap",
+      "month": 22,
+      "ref_id": "M22:m22_daeun_fork:base:arc_daeun_03_fork",
+      "root": "arc_daeun_03_fork",
+      "target_month": 15,
+      "target_ref_id": "M15:m15_father_medication:base:arc_father_medication",
+      "target_root": "arc_father_medication"
+    }
+  ],
+  "observations": {
+    "chapters": [
+      {
+        "chapter": 1,
+        "deltas": {
+          "boss_minus_mid": {
+            "choices": 0,
+            "cost_signal_choices": 1,
+            "decision_readers": 0,
+            "dedup_choices": 0,
+            "dedup_ko_visible_chars": 1883,
+            "ko_paragraphs": 4,
+            "ko_visible_chars": 1883,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": -16,
+            "present_roots": 3,
+            "receipt_readers": 19,
+            "receipt_writes": 1,
+            "root_refs": 3,
+            "terminal_paths": -16,
+            "unique_reachable_events": 1
+          },
+          "boss_minus_start": {
+            "choices": 7,
+            "cost_signal_choices": 2,
+            "decision_readers": 0,
+            "dedup_choices": 7,
+            "dedup_ko_visible_chars": 3887,
+            "ko_paragraphs": 50,
+            "ko_visible_chars": 3887,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": -16,
+            "present_roots": 2,
+            "receipt_readers": 36,
+            "receipt_writes": -4,
+            "root_refs": 2,
+            "terminal_paths": 7,
+            "unique_reachable_events": 0
+          }
+        },
+        "interpretation": "Observation only: larger is not automatically better; inspect distant readers, actual sacrifice, and distinct scene functions together.",
+        "inventory": {
+          "planned_missing": 0,
+          "referenced_author_only": 3,
+          "root_refs": 16,
+          "shipping_eligible_static": 13,
+          "typed_reference_only": 0
+        },
+        "scheduled_all_deltas": {
+          "boss_minus_mid": {
+            "choices": 0,
+            "cost_signal_choices": 1,
+            "decision_readers": 0,
+            "dedup_choices": 0,
+            "dedup_ko_visible_chars": 1883,
+            "ko_paragraphs": 4,
+            "ko_visible_chars": 1883,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": -16,
+            "present_roots": 3,
+            "receipt_readers": 19,
+            "receipt_writes": 1,
+            "root_refs": 3,
+            "terminal_paths": -16,
+            "unique_reachable_events": 1
+          },
+          "boss_minus_start": {
+            "choices": 7,
+            "cost_signal_choices": 2,
+            "decision_readers": 0,
+            "dedup_choices": 7,
+            "dedup_ko_visible_chars": 3887,
+            "ko_paragraphs": 50,
+            "ko_visible_chars": 3887,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": -16,
+            "present_roots": 2,
+            "receipt_readers": 36,
+            "receipt_writes": -4,
+            "root_refs": 2,
+            "terminal_paths": 7,
+            "unique_reachable_events": 0
+          }
+        },
+        "scheduled_all_segments": {
+          "boss": {
+            "choices": 22,
+            "cost_signal_choices": 6,
+            "decision_readers": 1,
+            "dedup_choices": 22,
+            "dedup_ko_visible_chars": 7708,
+            "ko_paragraphs": 150,
+            "ko_visible_chars": 7708,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": 14,
+            "present_roots": 7,
+            "receipt_readers": 38,
+            "receipt_writes": 22,
+            "root_refs": 7,
+            "terminal_paths": 21,
+            "unique_reachable_events": 8
+          },
+          "mid": {
+            "choices": 22,
+            "cost_signal_choices": 5,
+            "decision_readers": 1,
+            "dedup_choices": 22,
+            "dedup_ko_visible_chars": 5825,
+            "ko_paragraphs": 146,
+            "ko_visible_chars": 5825,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": 30,
+            "present_roots": 4,
+            "receipt_readers": 19,
+            "receipt_writes": 21,
+            "root_refs": 4,
+            "terminal_paths": 37,
+            "unique_reachable_events": 7
+          },
+          "start": {
+            "choices": 15,
+            "cost_signal_choices": 4,
+            "decision_readers": 1,
+            "dedup_choices": 15,
+            "dedup_ko_visible_chars": 3821,
+            "ko_paragraphs": 100,
+            "ko_visible_chars": 3821,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": 30,
+            "present_roots": 5,
+            "receipt_readers": 2,
+            "receipt_writes": 26,
+            "root_refs": 5,
+            "terminal_paths": 14,
+            "unique_reachable_events": 8
+          }
+        },
+        "scope_default": "shipping_eligible_static",
+        "segments": {
+          "boss": {
+            "choices": 22,
+            "cost_signal_choices": 6,
+            "decision_readers": 1,
+            "dedup_choices": 22,
+            "dedup_ko_visible_chars": 7708,
+            "ko_paragraphs": 150,
+            "ko_visible_chars": 7708,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": 14,
+            "present_roots": 7,
+            "receipt_readers": 38,
+            "receipt_writes": 22,
+            "root_refs": 7,
+            "terminal_paths": 21,
+            "unique_reachable_events": 8
+          },
+          "mid": {
+            "choices": 22,
+            "cost_signal_choices": 5,
+            "decision_readers": 1,
+            "dedup_choices": 22,
+            "dedup_ko_visible_chars": 5825,
+            "ko_paragraphs": 146,
+            "ko_visible_chars": 5825,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": 30,
+            "present_roots": 4,
+            "receipt_readers": 19,
+            "receipt_writes": 21,
+            "root_refs": 4,
+            "terminal_paths": 37,
+            "unique_reachable_events": 7
+          },
+          "start": {
+            "choices": 15,
+            "cost_signal_choices": 4,
+            "decision_readers": 1,
+            "dedup_choices": 15,
+            "dedup_ko_visible_chars": 3821,
+            "ko_paragraphs": 100,
+            "ko_visible_chars": 3821,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": 30,
+            "present_roots": 5,
+            "receipt_readers": 2,
+            "receipt_writes": 26,
+            "root_refs": 5,
+            "terminal_paths": 14,
+            "unique_reachable_events": 8
+          }
+        },
+        "shipping_eligible_deltas": {
+          "boss_minus_mid": {
+            "choices": -9,
+            "cost_signal_choices": 1,
+            "decision_readers": 0,
+            "dedup_choices": -9,
+            "dedup_ko_visible_chars": -276,
+            "ko_paragraphs": -37,
+            "ko_visible_chars": -276,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": -16,
+            "present_roots": 0,
+            "receipt_readers": 16,
+            "receipt_writes": -2,
+            "root_refs": 0,
+            "terminal_paths": -25,
+            "unique_reachable_events": -2
+          },
+          "boss_minus_start": {
+            "choices": -2,
+            "cost_signal_choices": 2,
+            "decision_readers": 0,
+            "dedup_choices": -2,
+            "dedup_ko_visible_chars": 1728,
+            "ko_paragraphs": 9,
+            "ko_visible_chars": 1728,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": -16,
+            "present_roots": -1,
+            "receipt_readers": 33,
+            "receipt_writes": -7,
+            "root_refs": -1,
+            "terminal_paths": -2,
+            "unique_reachable_events": -3
+          }
+        },
+        "shipping_eligible_segments": {
+          "boss": {
+            "choices": 13,
+            "cost_signal_choices": 6,
+            "decision_readers": 1,
+            "dedup_choices": 13,
+            "dedup_ko_visible_chars": 5549,
+            "ko_paragraphs": 109,
+            "ko_visible_chars": 5549,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": 14,
+            "present_roots": 4,
+            "receipt_readers": 35,
+            "receipt_writes": 19,
+            "root_refs": 4,
+            "terminal_paths": 12,
+            "unique_reachable_events": 5
+          },
+          "mid": {
+            "choices": 22,
+            "cost_signal_choices": 5,
+            "decision_readers": 1,
+            "dedup_choices": 22,
+            "dedup_ko_visible_chars": 5825,
+            "ko_paragraphs": 146,
+            "ko_visible_chars": 5825,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": 30,
+            "present_roots": 4,
+            "receipt_readers": 19,
+            "receipt_writes": 21,
+            "root_refs": 4,
+            "terminal_paths": 37,
+            "unique_reachable_events": 7
+          },
+          "start": {
+            "choices": 15,
+            "cost_signal_choices": 4,
+            "decision_readers": 1,
+            "dedup_choices": 15,
+            "dedup_ko_visible_chars": 3821,
+            "ko_paragraphs": 100,
+            "ko_visible_chars": 3821,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": 30,
+            "present_roots": 5,
+            "receipt_readers": 2,
+            "receipt_writes": 26,
+            "root_refs": 5,
+            "terminal_paths": 14,
+            "unique_reachable_events": 8
+          }
+        }
+      },
+      {
+        "chapter": 2,
+        "deltas": {
+          "boss_minus_mid": {
+            "choices": -5,
+            "cost_signal_choices": 3,
+            "decision_readers": 1,
+            "dedup_choices": -8,
+            "dedup_ko_visible_chars": -407,
+            "ko_paragraphs": -1,
+            "ko_visible_chars": 331,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": 1,
+            "present_roots": -1,
+            "receipt_readers": 2,
+            "receipt_writes": 13,
+            "root_refs": -1,
+            "terminal_paths": -6,
+            "unique_reachable_events": -4
+          },
+          "boss_minus_start": {
+            "choices": 4,
+            "cost_signal_choices": -2,
+            "decision_readers": 1,
+            "dedup_choices": 1,
+            "dedup_ko_visible_chars": 127,
+            "ko_paragraphs": 16,
+            "ko_visible_chars": 865,
+            "long_range_readers": 2,
+            "max_surface_beat_depth": 3,
+            "present_roots": 2,
+            "receipt_readers": 0,
+            "receipt_writes": 10,
+            "root_refs": 2,
+            "terminal_paths": 2,
+            "unique_reachable_events": 0
+          }
+        },
+        "interpretation": "Observation only: larger is not automatically better; inspect distant readers, actual sacrifice, and distinct scene functions together.",
+        "inventory": {
+          "planned_missing": 0,
+          "referenced_author_only": 4,
+          "root_refs": 17,
+          "shipping_eligible_static": 13,
+          "typed_reference_only": 0
+        },
+        "scheduled_all_deltas": {
+          "boss_minus_mid": {
+            "choices": -5,
+            "cost_signal_choices": 3,
+            "decision_readers": 1,
+            "dedup_choices": -8,
+            "dedup_ko_visible_chars": -407,
+            "ko_paragraphs": -1,
+            "ko_visible_chars": 331,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": 1,
+            "present_roots": -1,
+            "receipt_readers": 2,
+            "receipt_writes": 13,
+            "root_refs": -1,
+            "terminal_paths": -6,
+            "unique_reachable_events": -4
+          },
+          "boss_minus_start": {
+            "choices": 4,
+            "cost_signal_choices": -2,
+            "decision_readers": 1,
+            "dedup_choices": 1,
+            "dedup_ko_visible_chars": 127,
+            "ko_paragraphs": 16,
+            "ko_visible_chars": 865,
+            "long_range_readers": 2,
+            "max_surface_beat_depth": 3,
+            "present_roots": 2,
+            "receipt_readers": 0,
+            "receipt_writes": 10,
+            "root_refs": 2,
+            "terminal_paths": 2,
+            "unique_reachable_events": 0
+          }
+        },
+        "scheduled_all_segments": {
+          "boss": {
+            "choices": 25,
+            "cost_signal_choices": 10,
+            "decision_readers": 1,
+            "dedup_choices": 22,
+            "dedup_ko_visible_chars": 6396,
+            "ko_paragraphs": 139,
+            "ko_visible_chars": 7134,
+            "long_range_readers": 2,
+            "max_surface_beat_depth": 23,
+            "present_roots": 6,
+            "receipt_readers": 16,
+            "receipt_writes": 33,
+            "root_refs": 6,
+            "terminal_paths": 37,
+            "unique_reachable_events": 8
+          },
+          "mid": {
+            "choices": 30,
+            "cost_signal_choices": 7,
+            "decision_readers": 0,
+            "dedup_choices": 30,
+            "dedup_ko_visible_chars": 6803,
+            "ko_paragraphs": 140,
+            "ko_visible_chars": 6803,
+            "long_range_readers": 2,
+            "max_surface_beat_depth": 22,
+            "present_roots": 7,
+            "receipt_readers": 14,
+            "receipt_writes": 20,
+            "root_refs": 7,
+            "terminal_paths": 43,
+            "unique_reachable_events": 12
+          },
+          "start": {
+            "choices": 21,
+            "cost_signal_choices": 12,
+            "decision_readers": 0,
+            "dedup_choices": 21,
+            "dedup_ko_visible_chars": 6269,
+            "ko_paragraphs": 123,
+            "ko_visible_chars": 6269,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": 20,
+            "present_roots": 4,
+            "receipt_readers": 16,
+            "receipt_writes": 23,
+            "root_refs": 4,
+            "terminal_paths": 35,
+            "unique_reachable_events": 8
+          }
+        },
+        "scope_default": "shipping_eligible_static",
+        "segments": {
+          "boss": {
+            "choices": 25,
+            "cost_signal_choices": 10,
+            "decision_readers": 1,
+            "dedup_choices": 22,
+            "dedup_ko_visible_chars": 6396,
+            "ko_paragraphs": 139,
+            "ko_visible_chars": 7134,
+            "long_range_readers": 2,
+            "max_surface_beat_depth": 23,
+            "present_roots": 6,
+            "receipt_readers": 16,
+            "receipt_writes": 33,
+            "root_refs": 6,
+            "terminal_paths": 37,
+            "unique_reachable_events": 8
+          },
+          "mid": {
+            "choices": 30,
+            "cost_signal_choices": 7,
+            "decision_readers": 0,
+            "dedup_choices": 30,
+            "dedup_ko_visible_chars": 6803,
+            "ko_paragraphs": 140,
+            "ko_visible_chars": 6803,
+            "long_range_readers": 2,
+            "max_surface_beat_depth": 22,
+            "present_roots": 7,
+            "receipt_readers": 14,
+            "receipt_writes": 20,
+            "root_refs": 7,
+            "terminal_paths": 43,
+            "unique_reachable_events": 12
+          },
+          "start": {
+            "choices": 21,
+            "cost_signal_choices": 12,
+            "decision_readers": 0,
+            "dedup_choices": 21,
+            "dedup_ko_visible_chars": 6269,
+            "ko_paragraphs": 123,
+            "ko_visible_chars": 6269,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": 20,
+            "present_roots": 4,
+            "receipt_readers": 16,
+            "receipt_writes": 23,
+            "root_refs": 4,
+            "terminal_paths": 35,
+            "unique_reachable_events": 8
+          }
+        },
+        "shipping_eligible_deltas": {
+          "boss_minus_mid": {
+            "choices": 1,
+            "cost_signal_choices": 3,
+            "decision_readers": 1,
+            "dedup_choices": -2,
+            "dedup_ko_visible_chars": 738,
+            "ko_paragraphs": 19,
+            "ko_visible_chars": 1476,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": 1,
+            "present_roots": 1,
+            "receipt_readers": 7,
+            "receipt_writes": 16,
+            "root_refs": 1,
+            "terminal_paths": 0,
+            "unique_reachable_events": -2
+          },
+          "boss_minus_start": {
+            "choices": 1,
+            "cost_signal_choices": -2,
+            "decision_readers": 1,
+            "dedup_choices": -2,
+            "dedup_ko_visible_chars": -562,
+            "ko_paragraphs": 3,
+            "ko_visible_chars": 176,
+            "long_range_readers": 2,
+            "max_surface_beat_depth": 3,
+            "present_roots": 1,
+            "receipt_readers": -1,
+            "receipt_writes": 10,
+            "root_refs": 1,
+            "terminal_paths": -1,
+            "unique_reachable_events": -1
+          }
+        },
+        "shipping_eligible_segments": {
+          "boss": {
+            "choices": 22,
+            "cost_signal_choices": 10,
+            "decision_readers": 1,
+            "dedup_choices": 19,
+            "dedup_ko_visible_chars": 5707,
+            "ko_paragraphs": 126,
+            "ko_visible_chars": 6445,
+            "long_range_readers": 2,
+            "max_surface_beat_depth": 23,
+            "present_roots": 5,
+            "receipt_readers": 15,
+            "receipt_writes": 33,
+            "root_refs": 5,
+            "terminal_paths": 34,
+            "unique_reachable_events": 7
+          },
+          "mid": {
+            "choices": 21,
+            "cost_signal_choices": 7,
+            "decision_readers": 0,
+            "dedup_choices": 21,
+            "dedup_ko_visible_chars": 4969,
+            "ko_paragraphs": 107,
+            "ko_visible_chars": 4969,
+            "long_range_readers": 2,
+            "max_surface_beat_depth": 22,
+            "present_roots": 4,
+            "receipt_readers": 8,
+            "receipt_writes": 17,
+            "root_refs": 4,
+            "terminal_paths": 34,
+            "unique_reachable_events": 9
+          },
+          "start": {
+            "choices": 21,
+            "cost_signal_choices": 12,
+            "decision_readers": 0,
+            "dedup_choices": 21,
+            "dedup_ko_visible_chars": 6269,
+            "ko_paragraphs": 123,
+            "ko_visible_chars": 6269,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": 20,
+            "present_roots": 4,
+            "receipt_readers": 16,
+            "receipt_writes": 23,
+            "root_refs": 4,
+            "terminal_paths": 35,
+            "unique_reachable_events": 8
+          }
+        }
+      },
+      {
+        "chapter": 3,
+        "deltas": {
+          "boss_minus_mid": {
+            "choices": 3,
+            "cost_signal_choices": -3,
+            "decision_readers": 5,
+            "dedup_choices": -1,
+            "dedup_ko_visible_chars": 3750,
+            "ko_paragraphs": 115,
+            "ko_visible_chars": 5620,
+            "long_range_readers": -2,
+            "max_surface_beat_depth": 3,
+            "present_roots": 0,
+            "receipt_readers": 26,
+            "receipt_writes": 18,
+            "root_refs": 0,
+            "terminal_paths": 8,
+            "unique_reachable_events": -4
+          },
+          "boss_minus_start": {
+            "choices": 13,
+            "cost_signal_choices": 6,
+            "decision_readers": 4,
+            "dedup_choices": 9,
+            "dedup_ko_visible_chars": 7527,
+            "ko_paragraphs": 212,
+            "ko_visible_chars": 9397,
+            "long_range_readers": -9,
+            "max_surface_beat_depth": 24,
+            "present_roots": 0,
+            "receipt_readers": 27,
+            "receipt_writes": 30,
+            "root_refs": 0,
+            "terminal_paths": 15,
+            "unique_reachable_events": 3
+          }
+        },
+        "interpretation": "Observation only: larger is not automatically better; inspect distant readers, actual sacrifice, and distinct scene functions together.",
+        "inventory": {
+          "planned_missing": 0,
+          "referenced_author_only": 6,
+          "root_refs": 24,
+          "shipping_eligible_static": 18,
+          "typed_reference_only": 0
+        },
+        "scheduled_all_deltas": {
+          "boss_minus_mid": {
+            "choices": 3,
+            "cost_signal_choices": -3,
+            "decision_readers": 5,
+            "dedup_choices": -1,
+            "dedup_ko_visible_chars": 3750,
+            "ko_paragraphs": 115,
+            "ko_visible_chars": 5620,
+            "long_range_readers": -2,
+            "max_surface_beat_depth": 3,
+            "present_roots": 0,
+            "receipt_readers": 26,
+            "receipt_writes": 18,
+            "root_refs": 0,
+            "terminal_paths": 8,
+            "unique_reachable_events": -4
+          },
+          "boss_minus_start": {
+            "choices": 13,
+            "cost_signal_choices": 6,
+            "decision_readers": 4,
+            "dedup_choices": 9,
+            "dedup_ko_visible_chars": 7527,
+            "ko_paragraphs": 212,
+            "ko_visible_chars": 9397,
+            "long_range_readers": -9,
+            "max_surface_beat_depth": 24,
+            "present_roots": 0,
+            "receipt_readers": 27,
+            "receipt_writes": 30,
+            "root_refs": 0,
+            "terminal_paths": 15,
+            "unique_reachable_events": 3
+          }
+        },
+        "scheduled_all_segments": {
+          "boss": {
+            "choices": 36,
+            "cost_signal_choices": 13,
+            "decision_readers": 8,
+            "dedup_choices": 32,
+            "dedup_ko_visible_chars": 12001,
+            "ko_paragraphs": 332,
+            "ko_visible_chars": 13871,
+            "long_range_readers": 4,
+            "max_surface_beat_depth": 33,
+            "present_roots": 8,
+            "receipt_readers": 48,
+            "receipt_writes": 53,
+            "root_refs": 8,
+            "terminal_paths": 38,
+            "unique_reachable_events": 11
+          },
+          "mid": {
+            "choices": 33,
+            "cost_signal_choices": 16,
+            "decision_readers": 3,
+            "dedup_choices": 33,
+            "dedup_ko_visible_chars": 8251,
+            "ko_paragraphs": 217,
+            "ko_visible_chars": 8251,
+            "long_range_readers": 6,
+            "max_surface_beat_depth": 30,
+            "present_roots": 8,
+            "receipt_readers": 22,
+            "receipt_writes": 35,
+            "root_refs": 8,
+            "terminal_paths": 30,
+            "unique_reachable_events": 15
+          },
+          "start": {
+            "choices": 23,
+            "cost_signal_choices": 7,
+            "decision_readers": 4,
+            "dedup_choices": 23,
+            "dedup_ko_visible_chars": 4474,
+            "ko_paragraphs": 120,
+            "ko_visible_chars": 4474,
+            "long_range_readers": 13,
+            "max_surface_beat_depth": 9,
+            "present_roots": 8,
+            "receipt_readers": 21,
+            "receipt_writes": 23,
+            "root_refs": 8,
+            "terminal_paths": 23,
+            "unique_reachable_events": 8
+          }
+        },
+        "scope_default": "shipping_eligible_static",
+        "segments": {
+          "boss": {
+            "choices": 36,
+            "cost_signal_choices": 13,
+            "decision_readers": 8,
+            "dedup_choices": 32,
+            "dedup_ko_visible_chars": 12001,
+            "ko_paragraphs": 332,
+            "ko_visible_chars": 13871,
+            "long_range_readers": 4,
+            "max_surface_beat_depth": 33,
+            "present_roots": 8,
+            "receipt_readers": 48,
+            "receipt_writes": 53,
+            "root_refs": 8,
+            "terminal_paths": 38,
+            "unique_reachable_events": 11
+          },
+          "mid": {
+            "choices": 33,
+            "cost_signal_choices": 16,
+            "decision_readers": 3,
+            "dedup_choices": 33,
+            "dedup_ko_visible_chars": 8251,
+            "ko_paragraphs": 217,
+            "ko_visible_chars": 8251,
+            "long_range_readers": 6,
+            "max_surface_beat_depth": 30,
+            "present_roots": 8,
+            "receipt_readers": 22,
+            "receipt_writes": 35,
+            "root_refs": 8,
+            "terminal_paths": 30,
+            "unique_reachable_events": 15
+          },
+          "start": {
+            "choices": 23,
+            "cost_signal_choices": 7,
+            "decision_readers": 4,
+            "dedup_choices": 23,
+            "dedup_ko_visible_chars": 4474,
+            "ko_paragraphs": 120,
+            "ko_visible_chars": 4474,
+            "long_range_readers": 13,
+            "max_surface_beat_depth": 9,
+            "present_roots": 8,
+            "receipt_readers": 21,
+            "receipt_writes": 23,
+            "root_refs": 8,
+            "terminal_paths": 23,
+            "unique_reachable_events": 8
+          }
+        },
+        "shipping_eligible_deltas": {
+          "boss_minus_mid": {
+            "choices": 3,
+            "cost_signal_choices": -3,
+            "decision_readers": 4,
+            "dedup_choices": -1,
+            "dedup_ko_visible_chars": 3915,
+            "ko_paragraphs": 119,
+            "ko_visible_chars": 5785,
+            "long_range_readers": -2,
+            "max_surface_beat_depth": 3,
+            "present_roots": 0,
+            "receipt_readers": 24,
+            "receipt_writes": 18,
+            "root_refs": 0,
+            "terminal_paths": 8,
+            "unique_reachable_events": -4
+          },
+          "boss_minus_start": {
+            "choices": 13,
+            "cost_signal_choices": 6,
+            "decision_readers": 3,
+            "dedup_choices": 9,
+            "dedup_ko_visible_chars": 7636,
+            "ko_paragraphs": 213,
+            "ko_visible_chars": 9506,
+            "long_range_readers": -8,
+            "max_surface_beat_depth": 24,
+            "present_roots": 0,
+            "receipt_readers": 25,
+            "receipt_writes": 29,
+            "root_refs": 0,
+            "terminal_paths": 15,
+            "unique_reachable_events": 3
+          }
+        },
+        "shipping_eligible_segments": {
+          "boss": {
+            "choices": 30,
+            "cost_signal_choices": 13,
+            "decision_readers": 6,
+            "dedup_choices": 26,
+            "dedup_ko_visible_chars": 10465,
+            "ko_paragraphs": 307,
+            "ko_visible_chars": 12335,
+            "long_range_readers": 2,
+            "max_surface_beat_depth": 33,
+            "present_roots": 6,
+            "receipt_readers": 42,
+            "receipt_writes": 51,
+            "root_refs": 6,
+            "terminal_paths": 32,
+            "unique_reachable_events": 9
+          },
+          "mid": {
+            "choices": 27,
+            "cost_signal_choices": 16,
+            "decision_readers": 2,
+            "dedup_choices": 27,
+            "dedup_ko_visible_chars": 6550,
+            "ko_paragraphs": 188,
+            "ko_visible_chars": 6550,
+            "long_range_readers": 4,
+            "max_surface_beat_depth": 30,
+            "present_roots": 6,
+            "receipt_readers": 18,
+            "receipt_writes": 33,
+            "root_refs": 6,
+            "terminal_paths": 24,
+            "unique_reachable_events": 13
+          },
+          "start": {
+            "choices": 17,
+            "cost_signal_choices": 7,
+            "decision_readers": 3,
+            "dedup_choices": 17,
+            "dedup_ko_visible_chars": 2829,
+            "ko_paragraphs": 94,
+            "ko_visible_chars": 2829,
+            "long_range_readers": 10,
+            "max_surface_beat_depth": 9,
+            "present_roots": 6,
+            "receipt_readers": 17,
+            "receipt_writes": 22,
+            "root_refs": 6,
+            "terminal_paths": 17,
+            "unique_reachable_events": 6
+          }
+        }
+      },
+      {
+        "chapter": 4,
+        "deltas": {
+          "boss_minus_mid": {
+            "choices": 3,
+            "cost_signal_choices": 1,
+            "decision_readers": 2,
+            "dedup_choices": 23,
+            "dedup_ko_visible_chars": 5832,
+            "ko_paragraphs": 27,
+            "ko_visible_chars": 1016,
+            "long_range_readers": -12,
+            "max_surface_beat_depth": -14,
+            "present_roots": 3,
+            "receipt_readers": 21,
+            "receipt_writes": 11,
+            "root_refs": 3,
+            "terminal_paths": 0,
+            "unique_reachable_events": 9
+          },
+          "boss_minus_start": {
+            "choices": 34,
+            "cost_signal_choices": 1,
+            "decision_readers": 4,
+            "dedup_choices": 31,
+            "dedup_ko_visible_chars": 11472,
+            "ko_paragraphs": 237,
+            "ko_visible_chars": 12172,
+            "long_range_readers": -14,
+            "max_surface_beat_depth": 9,
+            "present_roots": 6,
+            "receipt_readers": 44,
+            "receipt_writes": 19,
+            "root_refs": 1,
+            "terminal_paths": 27,
+            "unique_reachable_events": 12
+          }
+        },
+        "interpretation": "Observation only: larger is not automatically better; inspect distant readers, actual sacrifice, and distinct scene functions together.",
+        "inventory": {
+          "planned_missing": 5,
+          "referenced_author_only": 0,
+          "root_refs": 44,
+          "shipping_eligible_static": 39,
+          "typed_reference_only": 0
+        },
+        "scheduled_all_deltas": {
+          "boss_minus_mid": {
+            "choices": 3,
+            "cost_signal_choices": 1,
+            "decision_readers": 2,
+            "dedup_choices": 23,
+            "dedup_ko_visible_chars": 5832,
+            "ko_paragraphs": 27,
+            "ko_visible_chars": 1016,
+            "long_range_readers": -12,
+            "max_surface_beat_depth": -14,
+            "present_roots": 3,
+            "receipt_readers": 21,
+            "receipt_writes": 11,
+            "root_refs": 3,
+            "terminal_paths": 0,
+            "unique_reachable_events": 9
+          },
+          "boss_minus_start": {
+            "choices": 34,
+            "cost_signal_choices": 1,
+            "decision_readers": 4,
+            "dedup_choices": 31,
+            "dedup_ko_visible_chars": 11472,
+            "ko_paragraphs": 237,
+            "ko_visible_chars": 12172,
+            "long_range_readers": -14,
+            "max_surface_beat_depth": 9,
+            "present_roots": 6,
+            "receipt_readers": 44,
+            "receipt_writes": 19,
+            "root_refs": 1,
+            "terminal_paths": 27,
+            "unique_reachable_events": 12
+          }
+        },
+        "scheduled_all_segments": {
+          "boss": {
+            "choices": 59,
+            "cost_signal_choices": 7,
+            "decision_readers": 12,
+            "dedup_choices": 56,
+            "dedup_ko_visible_chars": 18439,
+            "ko_paragraphs": 380,
+            "ko_visible_chars": 19139,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": 17,
+            "present_roots": 16,
+            "receipt_readers": 92,
+            "receipt_writes": 78,
+            "root_refs": 16,
+            "terminal_paths": 52,
+            "unique_reachable_events": 22
+          },
+          "mid": {
+            "choices": 56,
+            "cost_signal_choices": 6,
+            "decision_readers": 10,
+            "dedup_choices": 33,
+            "dedup_ko_visible_chars": 12607,
+            "ko_paragraphs": 353,
+            "ko_visible_chars": 18123,
+            "long_range_readers": 12,
+            "max_surface_beat_depth": 31,
+            "present_roots": 13,
+            "receipt_readers": 71,
+            "receipt_writes": 67,
+            "root_refs": 13,
+            "terminal_paths": 52,
+            "unique_reachable_events": 13
+          },
+          "start": {
+            "choices": 25,
+            "cost_signal_choices": 6,
+            "decision_readers": 8,
+            "dedup_choices": 25,
+            "dedup_ko_visible_chars": 6967,
+            "ko_paragraphs": 143,
+            "ko_visible_chars": 6967,
+            "long_range_readers": 14,
+            "max_surface_beat_depth": 8,
+            "present_roots": 10,
+            "receipt_readers": 48,
+            "receipt_writes": 59,
+            "root_refs": 15,
+            "terminal_paths": 25,
+            "unique_reachable_events": 10
+          }
+        },
+        "scope_default": "shipping_eligible_static",
+        "segments": {
+          "boss": {
+            "choices": 59,
+            "cost_signal_choices": 7,
+            "decision_readers": 12,
+            "dedup_choices": 56,
+            "dedup_ko_visible_chars": 18439,
+            "ko_paragraphs": 380,
+            "ko_visible_chars": 19139,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": 17,
+            "present_roots": 16,
+            "receipt_readers": 92,
+            "receipt_writes": 78,
+            "root_refs": 16,
+            "terminal_paths": 52,
+            "unique_reachable_events": 22
+          },
+          "mid": {
+            "choices": 56,
+            "cost_signal_choices": 6,
+            "decision_readers": 10,
+            "dedup_choices": 33,
+            "dedup_ko_visible_chars": 12607,
+            "ko_paragraphs": 353,
+            "ko_visible_chars": 18123,
+            "long_range_readers": 12,
+            "max_surface_beat_depth": 31,
+            "present_roots": 13,
+            "receipt_readers": 71,
+            "receipt_writes": 67,
+            "root_refs": 13,
+            "terminal_paths": 52,
+            "unique_reachable_events": 13
+          },
+          "start": {
+            "choices": 25,
+            "cost_signal_choices": 6,
+            "decision_readers": 8,
+            "dedup_choices": 25,
+            "dedup_ko_visible_chars": 6967,
+            "ko_paragraphs": 143,
+            "ko_visible_chars": 6967,
+            "long_range_readers": 14,
+            "max_surface_beat_depth": 8,
+            "present_roots": 10,
+            "receipt_readers": 48,
+            "receipt_writes": 59,
+            "root_refs": 15,
+            "terminal_paths": 25,
+            "unique_reachable_events": 10
+          }
+        },
+        "shipping_eligible_deltas": {
+          "boss_minus_mid": {
+            "choices": 3,
+            "cost_signal_choices": 1,
+            "decision_readers": 2,
+            "dedup_choices": 23,
+            "dedup_ko_visible_chars": 5832,
+            "ko_paragraphs": 27,
+            "ko_visible_chars": 1016,
+            "long_range_readers": -12,
+            "max_surface_beat_depth": -14,
+            "present_roots": 3,
+            "receipt_readers": 21,
+            "receipt_writes": 11,
+            "root_refs": 3,
+            "terminal_paths": 0,
+            "unique_reachable_events": 9
+          },
+          "boss_minus_start": {
+            "choices": 34,
+            "cost_signal_choices": 1,
+            "decision_readers": 9,
+            "dedup_choices": 31,
+            "dedup_ko_visible_chars": 11472,
+            "ko_paragraphs": 237,
+            "ko_visible_chars": 12172,
+            "long_range_readers": -9,
+            "max_surface_beat_depth": 9,
+            "present_roots": 6,
+            "receipt_readers": 59,
+            "receipt_writes": 24,
+            "root_refs": 6,
+            "terminal_paths": 27,
+            "unique_reachable_events": 12
+          }
+        },
+        "shipping_eligible_segments": {
+          "boss": {
+            "choices": 59,
+            "cost_signal_choices": 7,
+            "decision_readers": 12,
+            "dedup_choices": 56,
+            "dedup_ko_visible_chars": 18439,
+            "ko_paragraphs": 380,
+            "ko_visible_chars": 19139,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": 17,
+            "present_roots": 16,
+            "receipt_readers": 92,
+            "receipt_writes": 78,
+            "root_refs": 16,
+            "terminal_paths": 52,
+            "unique_reachable_events": 22
+          },
+          "mid": {
+            "choices": 56,
+            "cost_signal_choices": 6,
+            "decision_readers": 10,
+            "dedup_choices": 33,
+            "dedup_ko_visible_chars": 12607,
+            "ko_paragraphs": 353,
+            "ko_visible_chars": 18123,
+            "long_range_readers": 12,
+            "max_surface_beat_depth": 31,
+            "present_roots": 13,
+            "receipt_readers": 71,
+            "receipt_writes": 67,
+            "root_refs": 13,
+            "terminal_paths": 52,
+            "unique_reachable_events": 13
+          },
+          "start": {
+            "choices": 25,
+            "cost_signal_choices": 6,
+            "decision_readers": 3,
+            "dedup_choices": 25,
+            "dedup_ko_visible_chars": 6967,
+            "ko_paragraphs": 143,
+            "ko_visible_chars": 6967,
+            "long_range_readers": 9,
+            "max_surface_beat_depth": 8,
+            "present_roots": 10,
+            "receipt_readers": 33,
+            "receipt_writes": 54,
+            "root_refs": 10,
+            "terminal_paths": 25,
+            "unique_reachable_events": 10
+          }
+        }
+      },
+      {
+        "chapter": 5,
+        "deltas": {
+          "boss_minus_mid": {
+            "choices": 26,
+            "cost_signal_choices": 2,
+            "decision_readers": 2,
+            "dedup_choices": 20,
+            "dedup_ko_visible_chars": 9411,
+            "ko_paragraphs": 520,
+            "ko_visible_chars": 19631,
+            "long_range_readers": -5,
+            "max_surface_beat_depth": 5,
+            "present_roots": 3,
+            "receipt_readers": 101,
+            "receipt_writes": 20,
+            "root_refs": 3,
+            "terminal_paths": 31,
+            "unique_reachable_events": 6
+          },
+          "boss_minus_start": {
+            "choices": 50,
+            "cost_signal_choices": 5,
+            "decision_readers": 10,
+            "dedup_choices": 44,
+            "dedup_ko_visible_chars": 15763,
+            "ko_paragraphs": 629,
+            "ko_visible_chars": 25983,
+            "long_range_readers": -4,
+            "max_surface_beat_depth": 10,
+            "present_roots": 14,
+            "receipt_readers": 144,
+            "receipt_writes": 37,
+            "root_refs": 15,
+            "terminal_paths": 51,
+            "unique_reachable_events": 19
+          }
+        },
+        "interpretation": "Observation only: larger is not automatically better; inspect distant readers, actual sacrifice, and distinct scene functions together.",
+        "inventory": {
+          "planned_missing": 11,
+          "referenced_author_only": 12,
+          "root_refs": 75,
+          "shipping_eligible_static": 52,
+          "typed_reference_only": 0
+        },
+        "scheduled_all_deltas": {
+          "boss_minus_mid": {
+            "choices": 26,
+            "cost_signal_choices": 2,
+            "decision_readers": 2,
+            "dedup_choices": 20,
+            "dedup_ko_visible_chars": 9411,
+            "ko_paragraphs": 520,
+            "ko_visible_chars": 19631,
+            "long_range_readers": -5,
+            "max_surface_beat_depth": 5,
+            "present_roots": 3,
+            "receipt_readers": 101,
+            "receipt_writes": 20,
+            "root_refs": 3,
+            "terminal_paths": 31,
+            "unique_reachable_events": 6
+          },
+          "boss_minus_start": {
+            "choices": 50,
+            "cost_signal_choices": 5,
+            "decision_readers": 10,
+            "dedup_choices": 44,
+            "dedup_ko_visible_chars": 15763,
+            "ko_paragraphs": 629,
+            "ko_visible_chars": 25983,
+            "long_range_readers": -4,
+            "max_surface_beat_depth": 10,
+            "present_roots": 14,
+            "receipt_readers": 144,
+            "receipt_writes": 37,
+            "root_refs": 15,
+            "terminal_paths": 51,
+            "unique_reachable_events": 19
+          }
+        },
+        "scheduled_all_segments": {
+          "boss": {
+            "choices": 88,
+            "cost_signal_choices": 9,
+            "decision_readers": 15,
+            "dedup_choices": 82,
+            "dedup_ko_visible_chars": 29019,
+            "ko_paragraphs": 892,
+            "ko_visible_chars": 39239,
+            "long_range_readers": 3,
+            "max_surface_beat_depth": 23,
+            "present_roots": 27,
+            "receipt_readers": 210,
+            "receipt_writes": 60,
+            "root_refs": 31,
+            "terminal_paths": 92,
+            "unique_reachable_events": 33
+          },
+          "mid": {
+            "choices": 62,
+            "cost_signal_choices": 7,
+            "decision_readers": 13,
+            "dedup_choices": 62,
+            "dedup_ko_visible_chars": 19608,
+            "ko_paragraphs": 372,
+            "ko_visible_chars": 19608,
+            "long_range_readers": 8,
+            "max_surface_beat_depth": 18,
+            "present_roots": 24,
+            "receipt_readers": 109,
+            "receipt_writes": 40,
+            "root_refs": 28,
+            "terminal_paths": 61,
+            "unique_reachable_events": 27
+          },
+          "start": {
+            "choices": 38,
+            "cost_signal_choices": 4,
+            "decision_readers": 5,
+            "dedup_choices": 38,
+            "dedup_ko_visible_chars": 13256,
+            "ko_paragraphs": 263,
+            "ko_visible_chars": 13256,
+            "long_range_readers": 7,
+            "max_surface_beat_depth": 13,
+            "present_roots": 13,
+            "receipt_readers": 66,
+            "receipt_writes": 23,
+            "root_refs": 16,
+            "terminal_paths": 41,
+            "unique_reachable_events": 14
+          }
+        },
+        "scope_default": "shipping_eligible_static",
+        "segments": {
+          "boss": {
+            "choices": 88,
+            "cost_signal_choices": 9,
+            "decision_readers": 15,
+            "dedup_choices": 82,
+            "dedup_ko_visible_chars": 29019,
+            "ko_paragraphs": 892,
+            "ko_visible_chars": 39239,
+            "long_range_readers": 3,
+            "max_surface_beat_depth": 23,
+            "present_roots": 27,
+            "receipt_readers": 210,
+            "receipt_writes": 60,
+            "root_refs": 31,
+            "terminal_paths": 92,
+            "unique_reachable_events": 33
+          },
+          "mid": {
+            "choices": 62,
+            "cost_signal_choices": 7,
+            "decision_readers": 13,
+            "dedup_choices": 62,
+            "dedup_ko_visible_chars": 19608,
+            "ko_paragraphs": 372,
+            "ko_visible_chars": 19608,
+            "long_range_readers": 8,
+            "max_surface_beat_depth": 18,
+            "present_roots": 24,
+            "receipt_readers": 109,
+            "receipt_writes": 40,
+            "root_refs": 28,
+            "terminal_paths": 61,
+            "unique_reachable_events": 27
+          },
+          "start": {
+            "choices": 38,
+            "cost_signal_choices": 4,
+            "decision_readers": 5,
+            "dedup_choices": 38,
+            "dedup_ko_visible_chars": 13256,
+            "ko_paragraphs": 263,
+            "ko_visible_chars": 13256,
+            "long_range_readers": 7,
+            "max_surface_beat_depth": 13,
+            "present_roots": 13,
+            "receipt_readers": 66,
+            "receipt_writes": 23,
+            "root_refs": 16,
+            "terminal_paths": 41,
+            "unique_reachable_events": 14
+          }
+        },
+        "shipping_eligible_deltas": {
+          "boss_minus_mid": {
+            "choices": 10,
+            "cost_signal_choices": 0,
+            "decision_readers": -2,
+            "dedup_choices": 7,
+            "dedup_ko_visible_chars": 5804,
+            "ko_paragraphs": 324,
+            "ko_visible_chars": 10914,
+            "long_range_readers": -6,
+            "max_surface_beat_depth": 5,
+            "present_roots": -1,
+            "receipt_readers": 67,
+            "receipt_writes": 7,
+            "root_refs": -1,
+            "terminal_paths": 12,
+            "unique_reachable_events": 2
+          },
+          "boss_minus_start": {
+            "choices": 22,
+            "cost_signal_choices": 3,
+            "decision_readers": 2,
+            "dedup_choices": 19,
+            "dedup_ko_visible_chars": 9033,
+            "ko_paragraphs": 381,
+            "ko_visible_chars": 14143,
+            "long_range_readers": -4,
+            "max_surface_beat_depth": 10,
+            "present_roots": 6,
+            "receipt_readers": 98,
+            "receipt_writes": 23,
+            "root_refs": 6,
+            "terminal_paths": 20,
+            "unique_reachable_events": 11
+          }
+        },
+        "shipping_eligible_segments": {
+          "boss": {
+            "choices": 60,
+            "cost_signal_choices": 7,
+            "decision_readers": 4,
+            "dedup_choices": 57,
+            "dedup_ko_visible_chars": 22289,
+            "ko_paragraphs": 644,
+            "ko_visible_chars": 27399,
+            "long_range_readers": 0,
+            "max_surface_beat_depth": 23,
+            "present_roots": 19,
+            "receipt_readers": 155,
+            "receipt_writes": 43,
+            "root_refs": 19,
+            "terminal_paths": 61,
+            "unique_reachable_events": 25
+          },
+          "mid": {
+            "choices": 50,
+            "cost_signal_choices": 7,
+            "decision_readers": 6,
+            "dedup_choices": 50,
+            "dedup_ko_visible_chars": 16485,
+            "ko_paragraphs": 320,
+            "ko_visible_chars": 16485,
+            "long_range_readers": 6,
+            "max_surface_beat_depth": 18,
+            "present_roots": 20,
+            "receipt_readers": 88,
+            "receipt_writes": 36,
+            "root_refs": 20,
+            "terminal_paths": 49,
+            "unique_reachable_events": 23
+          },
+          "start": {
+            "choices": 38,
+            "cost_signal_choices": 4,
+            "decision_readers": 2,
+            "dedup_choices": 38,
+            "dedup_ko_visible_chars": 13256,
+            "ko_paragraphs": 263,
+            "ko_visible_chars": 13256,
+            "long_range_readers": 4,
+            "max_surface_beat_depth": 13,
+            "present_roots": 13,
+            "receipt_readers": 57,
+            "receipt_writes": 20,
+            "root_refs": 13,
+            "terminal_paths": 41,
+            "unique_reachable_events": 14
+          }
+        }
+      }
+    ],
+    "longest_gaps": {
+      "cast": [
+        {
+          "appearances": 8,
+          "empty_months": 22,
+          "from_month": 30,
+          "id": "jaehyuk",
+          "to_month": 53
+        },
+        {
+          "appearances": 5,
+          "empty_months": 19,
+          "from_month": 19,
+          "id": "hyunsu",
+          "to_month": 39
+        },
+        {
+          "appearances": 6,
+          "empty_months": 18,
+          "from_month": 3,
+          "id": "jiyeon",
+          "to_month": 22
+        },
+        {
+          "appearances": 8,
+          "empty_months": 15,
+          "from_month": 33,
+          "id": "sangchul",
+          "to_month": 49
+        },
+        {
+          "appearances": 14,
+          "empty_months": 12,
+          "from_month": 28,
+          "id": "daeun",
+          "to_month": 41
+        },
+        {
+          "appearances": 4,
+          "empty_months": 10,
+          "from_month": 40,
+          "id": "minseo",
+          "to_month": 51
+        },
+        {
+          "appearances": 10,
+          "empty_months": 8,
+          "from_month": 47,
+          "id": "father",
+          "to_month": 56
+        },
+        {
+          "appearances": 2,
+          "empty_months": 5,
+          "from_month": 39,
+          "id": "@deal_owner",
+          "to_month": 45
+        },
+        {
+          "appearances": 2,
+          "empty_months": 2,
+          "from_month": 52,
+          "id": "@final_proposer",
+          "to_month": 55
+        },
+        {
+          "appearances": 3,
+          "empty_months": 2,
+          "from_month": 42,
+          "id": "@partner",
+          "to_month": 45
+        }
+      ],
+      "channel": [
+        {
+          "appearances": 10,
+          "empty_months": 19,
+          "from_month": 29,
+          "id": "message",
+          "to_month": 49
+        },
+        {
+          "appearances": 8,
+          "empty_months": 12,
+          "from_month": 26,
+          "id": "mixed",
+          "to_month": 39
+        },
+        {
+          "appearances": 3,
+          "empty_months": 11,
+          "from_month": 44,
+          "id": "memory",
+          "to_month": 56
+        },
+        {
+          "appearances": 8,
+          "empty_months": 9,
+          "from_month": 25,
+          "id": "phone",
+          "to_month": 35
+        },
+        {
+          "appearances": 30,
+          "empty_months": 5,
+          "from_month": 11,
+          "id": "in_person",
+          "to_month": 17
+        },
+        {
+          "appearances": 34,
+          "empty_months": 5,
+          "from_month": 24,
+          "id": "internal",
+          "to_month": 30
+        }
+      ],
+      "mapped_story": {
+        "empty_months": 0,
+        "longest_empty_run": 0
+      },
+      "scheduled_all": {
+        "cast": [
+          {
+            "appearances": 8,
+            "empty_months": 22,
+            "from_month": 30,
+            "id": "jaehyuk",
+            "to_month": 53
+          },
+          {
+            "appearances": 6,
+            "empty_months": 19,
+            "from_month": 19,
+            "id": "hyunsu",
+            "to_month": 39
+          },
+          {
+            "appearances": 8,
+            "empty_months": 15,
+            "from_month": 33,
+            "id": "sangchul",
+            "to_month": 49
+          },
+          {
+            "appearances": 14,
+            "empty_months": 12,
+            "from_month": 28,
+            "id": "daeun",
+            "to_month": 41
+          },
+          {
+            "appearances": 8,
+            "empty_months": 12,
+            "from_month": 28,
+            "id": "jiyeon",
+            "to_month": 41
+          },
+          {
+            "appearances": 4,
+            "empty_months": 10,
+            "from_month": 40,
+            "id": "minseo",
+            "to_month": 51
+          },
+          {
+            "appearances": 10,
+            "empty_months": 8,
+            "from_month": 47,
+            "id": "father",
+            "to_month": 56
+          },
+          {
+            "appearances": 2,
+            "empty_months": 5,
+            "from_month": 39,
+            "id": "@deal_owner",
+            "to_month": 45
+          },
+          {
+            "appearances": 2,
+            "empty_months": 2,
+            "from_month": 52,
+            "id": "@final_proposer",
+            "to_month": 55
+          },
+          {
+            "appearances": 3,
+            "empty_months": 2,
+            "from_month": 42,
+            "id": "@partner",
+            "to_month": 45
+          },
+          {
+            "appearances": 2,
+            "empty_months": 1,
+            "from_month": 55,
+            "id": "@protected_person",
+            "to_month": 57
+          }
+        ],
+        "channel": [
+          {
+            "appearances": 12,
+            "empty_months": 19,
+            "from_month": 29,
+            "id": "message",
+            "to_month": 49
+          },
+          {
+            "appearances": 9,
+            "empty_months": 12,
+            "from_month": 26,
+            "id": "mixed",
+            "to_month": 39
+          },
+          {
+            "appearances": 3,
+            "empty_months": 11,
+            "from_month": 44,
+            "id": "memory",
+            "to_month": 56
+          },
+          {
+            "appearances": 8,
+            "empty_months": 9,
+            "from_month": 25,
+            "id": "phone",
+            "to_month": 35
+          },
+          {
+            "appearances": 32,
+            "empty_months": 5,
+            "from_month": 11,
+            "id": "in_person",
+            "to_month": 17
+          },
+          {
+            "appearances": 40,
+            "empty_months": 3,
+            "from_month": 2,
+            "id": "internal",
+            "to_month": 6
+          }
+        ],
+        "mapped_story": {
+          "empty_months": 0,
+          "longest_empty_run": 0
+        },
+        "theme_tag": [
+          {
+            "appearances": 7,
+            "empty_months": 22,
+            "from_month": 30,
+            "id": "jaehyuk",
+            "to_month": 53
+          },
+          {
+            "appearances": 4,
+            "empty_months": 20,
+            "from_month": 10,
+            "id": "internal",
+            "to_month": 31
+          },
+          {
+            "appearances": 10,
+            "empty_months": 19,
+            "from_month": 35,
+            "id": "author_only",
+            "to_month": 55
+          },
+          {
+            "appearances": 11,
+            "empty_months": 19,
+            "from_month": 28,
+            "id": "daeun",
+            "to_month": 48
+          },
+          {
+            "appearances": 8,
+            "empty_months": 19,
+            "from_month": 28,
+            "id": "jiyeon",
+            "to_month": 48
+          },
+          {
+            "appearances": 4,
+            "empty_months": 16,
+            "from_month": 30,
+            "id": "crisis",
+            "to_month": 47
+          },
+          {
+            "appearances": 5,
+            "empty_months": 16,
+            "from_month": 34,
+            "id": "moral",
+            "to_month": 51
+          },
+          {
+            "appearances": 9,
+            "empty_months": 14,
+            "from_month": 34,
+            "id": "sangchul",
+            "to_month": 49
+          },
+          {
+            "appearances": 2,
+            "empty_months": 13,
+            "from_month": 30,
+            "id": "artifact",
+            "to_month": 44
+          },
+          {
+            "appearances": 3,
+            "empty_months": 11,
+            "from_month": 44,
+            "id": "memory",
+            "to_month": 56
+          },
+          {
+            "appearances": 8,
+            "empty_months": 10,
+            "from_month": 26,
+            "id": "milestone",
+            "to_month": 37
+          },
+          {
+            "appearances": 9,
+            "empty_months": 10,
+            "from_month": 40,
+            "id": "minseo",
+            "to_month": 51
+          },
+          {
+            "appearances": 15,
+            "empty_months": 9,
+            "from_month": 34,
+            "id": "father",
+            "to_month": 44
+          },
+          {
+            "appearances": 18,
+            "empty_months": 8,
+            "from_month": 47,
+            "id": "requires_living_father",
+            "to_month": 56
+          },
+          {
+            "appearances": 2,
+            "empty_months": 6,
+            "from_month": 6,
+            "id": "reflection",
+            "to_month": 13
+          },
+          {
+            "appearances": 3,
+            "empty_months": 5,
+            "from_month": 14,
+            "id": "expansion",
+            "to_month": 20
+          },
+          {
+            "appearances": 3,
+            "empty_months": 5,
+            "from_month": 47,
+            "id": "phone",
+            "to_month": 53
+          },
+          {
+            "appearances": 4,
+            "empty_months": 4,
+            "from_month": 15,
+            "id": "family",
+            "to_month": 20
+          },
+          {
+            "appearances": 2,
+            "empty_months": 2,
+            "from_month": 44,
+            "id": "transit",
+            "to_month": 47
+          },
+          {
+            "appearances": 5,
+            "empty_months": 1,
+            "from_month": 57,
+            "id": "decision",
+            "to_month": 59
+          }
+        ]
+      },
+      "scope_default": "shipping_eligible_static",
+      "theme_tag": [
+        {
+          "appearances": 7,
+          "empty_months": 22,
+          "from_month": 30,
+          "id": "jaehyuk",
+          "to_month": 53
+        },
+        {
+          "appearances": 4,
+          "empty_months": 20,
+          "from_month": 10,
+          "id": "internal",
+          "to_month": 31
+        },
+        {
+          "appearances": 11,
+          "empty_months": 19,
+          "from_month": 28,
+          "id": "daeun",
+          "to_month": 48
+        },
+        {
+          "appearances": 6,
+          "empty_months": 19,
+          "from_month": 28,
+          "id": "jiyeon",
+          "to_month": 48
+        },
+        {
+          "appearances": 4,
+          "empty_months": 16,
+          "from_month": 30,
+          "id": "crisis",
+          "to_month": 47
+        },
+        {
+          "appearances": 5,
+          "empty_months": 16,
+          "from_month": 34,
+          "id": "moral",
+          "to_month": 51
+        },
+        {
+          "appearances": 9,
+          "empty_months": 14,
+          "from_month": 34,
+          "id": "sangchul",
+          "to_month": 49
+        },
+        {
+          "appearances": 2,
+          "empty_months": 13,
+          "from_month": 30,
+          "id": "artifact",
+          "to_month": 44
+        },
+        {
+          "appearances": 3,
+          "empty_months": 11,
+          "from_month": 44,
+          "id": "memory",
+          "to_month": 56
+        },
+        {
+          "appearances": 8,
+          "empty_months": 10,
+          "from_month": 26,
+          "id": "milestone",
+          "to_month": 37
+        },
+        {
+          "appearances": 9,
+          "empty_months": 10,
+          "from_month": 40,
+          "id": "minseo",
+          "to_month": 51
+        },
+        {
+          "appearances": 14,
+          "empty_months": 9,
+          "from_month": 34,
+          "id": "father",
+          "to_month": 44
+        },
+        {
+          "appearances": 17,
+          "empty_months": 8,
+          "from_month": 47,
+          "id": "requires_living_father",
+          "to_month": 56
+        },
+        {
+          "appearances": 2,
+          "empty_months": 6,
+          "from_month": 6,
+          "id": "reflection",
+          "to_month": 13
+        },
+        {
+          "appearances": 3,
+          "empty_months": 5,
+          "from_month": 14,
+          "id": "expansion",
+          "to_month": 20
+        },
+        {
+          "appearances": 3,
+          "empty_months": 5,
+          "from_month": 47,
+          "id": "phone",
+          "to_month": 53
+        },
+        {
+          "appearances": 4,
+          "empty_months": 4,
+          "from_month": 15,
+          "id": "family",
+          "to_month": 20
+        },
+        {
+          "appearances": 2,
+          "empty_months": 2,
+          "from_month": 44,
+          "id": "transit",
+          "to_month": 47
+        },
+        {
+          "appearances": 5,
+          "empty_months": 1,
+          "from_month": 57,
+          "id": "decision",
+          "to_month": 59
+        },
+        {
+          "appearances": 3,
+          "empty_months": 1,
+          "from_month": 47,
+          "id": "investment",
+          "to_month": 49
+        }
+      ]
+    },
+    "overall": {
+      "chapters": 5,
+      "choices": 476,
+      "cost_signal_choices": 117,
+      "decision_readers": 52,
+      "dedup_choices": 440,
+      "dedup_ko_visible_chars": 142027,
+      "fallback_root_refs": 41,
+      "global_dedup_choices": 411,
+      "global_dedup_ko_visible_chars": 133752,
+      "global_unique_reachable_events": 169,
+      "ko_paragraphs": 3403,
+      "ko_visible_chars": 155961,
+      "long_range_readers": 51,
+      "mapped_rule_root_refs": 54,
+      "max_surface_beat_depth": 33,
+      "missing_roots": 0,
+      "months": 60,
+      "needs_rule_root_refs": 81,
+      "planned_root_refs": 16,
+      "present_roots": 135,
+      "receipt_readers": 668,
+      "receipt_writes": 543,
+      "referenced_author_only_root_refs": 25,
+      "root_refs": 135,
+      "rule_present_root_refs": 72,
+      "scheduled_all": {
+        "choices": 555,
+        "cost_signal_choices": 119,
+        "decision_readers": 82,
+        "dedup_choices": 516,
+        "dedup_ko_visible_chars": 161444,
+        "global_dedup_choices": 487,
+        "global_dedup_ko_visible_chars": 153169,
+        "global_unique_reachable_events": 194,
+        "ko_paragraphs": 3870,
+        "ko_visible_chars": 180488,
+        "long_range_readers": 71,
+        "max_surface_beat_depth": 33,
+        "missing_roots": 16,
+        "present_roots": 160,
+        "receipt_readers": 792,
+        "receipt_writes": 583,
+        "root_refs": 176,
+        "terminal_paths": 601,
+        "unique_reachable_events": 204,
+        "unique_roots": 173
+      },
+      "scheduled_all_fallback_root_refs": 80,
+      "scheduled_all_missing_roots": 16,
+      "scheduled_all_rule_present_root_refs": 72,
+      "scheduled_all_unique_roots": 173,
+      "scope_default": "shipping_eligible_static",
+      "shipping_eligible_static": {
+        "choices": 476,
+        "cost_signal_choices": 117,
+        "decision_readers": 52,
+        "dedup_choices": 440,
+        "dedup_ko_visible_chars": 142027,
+        "global_dedup_choices": 411,
+        "global_dedup_ko_visible_chars": 133752,
+        "global_unique_reachable_events": 169,
+        "ko_paragraphs": 3403,
+        "ko_visible_chars": 155961,
+        "long_range_readers": 51,
+        "max_surface_beat_depth": 33,
+        "missing_roots": 0,
+        "present_roots": 135,
+        "receipt_readers": 668,
+        "receipt_writes": 543,
+        "root_refs": 135,
+        "terminal_paths": 519,
+        "unique_reachable_events": 179,
+        "unique_roots": 132
+      },
+      "shipping_eligible_static_root_refs": 135,
+      "terminal_paths": 519,
+      "typed_reference_only_root_refs": 0,
+      "unique_reachable_events": 179,
+      "unique_roots": 132
+    },
+    "reference_inventory": {
+      "activation": "reference_only",
+      "choices": 86,
+      "included_in_shipping_eligible_static_totals": false,
+      "mapped_root_overlap": [],
+      "owner": "content/meta/year5_reference_routes.json",
+      "reachability_claim": false,
+      "roots": 32,
+      "routes": [
+        {
+          "choices": 43,
+          "roots": 16,
+          "route_id": "career_reference_v1"
+        },
+        {
+          "choices": 43,
+          "roots": 16,
+          "route_id": "startup_acquisition_reference_v1"
+        }
+      ],
+      "runtime_owner": null
+    },
+    "relative_outliers": [
+      {
+        "blocking": false,
+        "chapter": 1,
+        "code": "dense_relative_to_same_chapter_role",
+        "group_beat_median": 8,
+        "group_char_median": 545,
+        "kind": "scene",
+        "ko_visible_chars": 1696,
+        "max_surface_beat_depth": 30,
+        "month": 4,
+        "root": "arc_sangchul_01_meet"
+      },
+      {
+        "blocking": false,
+        "chapter": 2,
+        "code": "thin_relative_to_same_chapter_role",
+        "group_beat_median": 17,
+        "group_char_median": 1823,
+        "kind": "decision",
+        "ko_visible_chars": 738,
+        "max_surface_beat_depth": 9,
+        "month": 22,
+        "root": "arc_jiyeon_03_offer"
+      },
+      {
+        "blocking": false,
+        "chapter": 3,
+        "code": "dense_relative_to_same_chapter_role",
+        "group_beat_median": 8.5,
+        "group_char_median": 1280.0,
+        "kind": "decision",
+        "ko_visible_chars": 4513,
+        "max_surface_beat_depth": 33,
+        "month": 33,
+        "root": "arc_sangchul_confrontation"
+      },
+      {
+        "blocking": false,
+        "chapter": 4,
+        "code": "dense_relative_to_same_chapter_role",
+        "group_beat_median": 6,
+        "group_char_median": 967,
+        "kind": "consequence",
+        "ko_visible_chars": 4279,
+        "max_surface_beat_depth": 9,
+        "month": 43,
+        "root": "arc_year_three_half"
+      },
+      {
+        "blocking": false,
+        "chapter": 4,
+        "code": "dense_relative_to_same_chapter_role",
+        "group_beat_median": 6,
+        "group_char_median": 967,
+        "kind": "consequence",
+        "ko_visible_chars": 2819,
+        "max_surface_beat_depth": 31,
+        "month": 44,
+        "root": "arc_father_call_on_ktx"
+      },
+      {
+        "blocking": false,
+        "chapter": 4,
+        "code": "dense_relative_to_same_chapter_role",
+        "group_beat_median": 6,
+        "group_char_median": 967,
+        "kind": "consequence",
+        "ko_visible_chars": 2731,
+        "max_surface_beat_depth": 17,
+        "month": 47,
+        "root": "arc_father_passing"
+      },
+      {
+        "blocking": false,
+        "chapter": 4,
+        "code": "dense_relative_to_same_chapter_role",
+        "group_beat_median": 6,
+        "group_char_median": 799,
+        "kind": "decision",
+        "ko_visible_chars": 4014,
+        "max_surface_beat_depth": 14,
+        "month": 47,
+        "root": "arc_y4_father_crisis_contact"
+      },
+      {
+        "blocking": false,
+        "chapter": 4,
+        "code": "dense_relative_to_same_chapter_role",
+        "group_beat_median": 6,
+        "group_char_median": 799,
+        "kind": "decision",
+        "ko_visible_chars": 2185,
+        "max_surface_beat_depth": 6,
+        "month": 48,
+        "root": "arc_year4_close"
+      },
+      {
+        "blocking": false,
+        "chapter": 5,
+        "code": "dense_relative_to_same_chapter_role",
+        "group_beat_median": 6.0,
+        "group_char_median": 679.5,
+        "kind": "consequence",
+        "ko_visible_chars": 2285,
+        "max_surface_beat_depth": 20,
+        "month": 58,
+        "root": "arc_jiyeon_verdict"
+      },
+      {
+        "blocking": false,
+        "chapter": 5,
+        "code": "dense_relative_to_same_chapter_role",
+        "group_beat_median": 7.0,
+        "group_char_median": 911.0,
+        "kind": "decision",
+        "ko_visible_chars": 6388,
+        "max_surface_beat_depth": 22,
+        "month": 60,
+        "root": "arc_final_countdown"
+      },
+      {
+        "blocking": false,
+        "chapter": 5,
+        "code": "dense_relative_to_same_chapter_role",
+        "group_beat_median": 7.0,
+        "group_char_median": 911.0,
+        "kind": "decision",
+        "ko_visible_chars": 5110,
+        "max_surface_beat_depth": 10,
+        "month": 60,
+        "root": "arc_final_week"
+      }
+    ]
+  },
+  "policy": {
+    "character_paragraph_choice_and_beat_counts_are_informational": true,
+    "known_structural_debt_is_exact_allowlist": true,
+    "observations_are_not_quality_quotas": true,
+    "source_hashes_are_exact": true
+  },
+  "schema_version": 1,
+  "source_hashes": {
+    "content/meta/event_director.json": "116aa148e839f51b29bd7ee82c5c6277e35070b6077e7cabe1862d90071a5e8b",
+    "content/meta/event_lifecycle.json": "292910941c496645ba27acb46d91d444144b4913f10c78f5d3d8f1080684527f",
+    "content/meta/narrative_spine.json": "abf92f3f512894e20a96edb2e992d34785b20d320f1cc900191cd2459626bba2",
+    "content/meta/story_map.json": "fcda4fa2ec0b310ec99088c0825c006afd9413a482a9ee74583eae68286befce",
+    "content/meta/story_rules.json": "d4e3d9600c0bd31da7b80b67ceec3e1dae44b14748704ce5cf678ca3df72e6d4",
+    "content/meta/year5_reference_routes.json": "07c814ea5ea3b7c82157b1aaa3a5bdf15ef251cbb1b2ceda902d1ccc54b3442a",
+    "graph:en_mapped_immediate": "801001ce1c61640cdcfd67d1eb4104037f907cc40a6a9154ca47e237ff6faa1b",
+    "graph:ko_mapped_immediate": "6844eaeceed6060504c89169b42939484e8b08f0ed2b3827a161e7b202d26f2c",
+    "lifecycle:product_event_ids": "b86cb281ce0f7bfe4e9c7988d2ee83251c491b2d858fc6915a331301693b94df",
+    "story_map:root_refs": "10d09be670ca323c343716e9270b78d8ede3c47bf3dba00310690efccdda8514"
+  }
+}

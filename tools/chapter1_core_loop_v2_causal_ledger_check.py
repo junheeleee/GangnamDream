@@ -3433,7 +3433,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "systems/BuildFlavor.gd":
         "6264de1c468d5553b73a37d3ea8c5ceb936f6852db7519701f37a2c8bf8aa633",
     "scenes/StoryMode.gd":
-        "a774fcb3c73b763beed0d2e03812205856b996be37ef323a5514f9e3893b749d",
+        "7ec09c661c708f6f096502f41161ae9b6373003a7df21a0194e2870c5ce9beee",
     "scenes/StoryMode.tscn":
         "b7688a883323a196e74271c1e76f1d88c91310b3fe1a287cb051b33dd2fb76ca",
     "scenes/MainGame.gd":

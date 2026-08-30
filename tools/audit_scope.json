@@ -49,6 +49,8 @@
         "tools/narrative_spine_audit.py",
         "tools/story_map_audit.py",
         "tools/story_map_strategy_sim.py",
+        "tools/full_game_volume_audit.py",
+        "tools/full_game_volume_baseline.json",
         "tools/Year5ReferenceRouteR1Check.gd",
         "tools/Year5ReferenceRouteR1Check.gd.uid",
         "tools/Year5ReferenceRouteR1Check.tscn",
@@ -57,11 +59,13 @@
       "tools": [
         "tools/story_map_audit.py",
         "tools/narrative_spine_audit.py",
+        "tools/full_game_volume_audit.py",
+        "tools/full_game_volume_audit.py --self-test",
         "tools/story_map_strategy_sim.py --self-test",
         "tools/year5_reference_route_audit.py --self-test",
         "tools/Year5ReferenceRouteR1Check.tscn"
       ],
-      "why": "월 배치만 바뀌면 240주 런타임 대신 지도·5장 정합만 검사한다"
+      "why": "월 배치만 바뀌면 240주 런타임 대신 지도·5장 정합과 M01~M60 정적 볼륨 debt를 검사한다"
     },
     {
       "id": "story-map-m1m6-surface",
@@ -530,6 +534,45 @@
         "content/meta/story_rules.json",
         "content/meta/narrative_spine.json",
         "tools/story_map_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/full_game_volume_audit.py",
+      "why": "M01~M60 mapped root의 한영 사건 그래프·terminal·선택·receipt reader·월/장별 밀도와 cross-month 조기 소비를 기준선으로 실측한다; 길이와 10비트는 합격 할당량이 아니다",
+      "paths": [
+        "content/events/**",
+        "content/events_en/**",
+        "content/meta/story_map.json",
+        "content/meta/story_rules.json",
+        "content/meta/narrative_spine.json",
+        "content/meta/event_lifecycle.json",
+        "content/meta/event_director.json",
+        "content/meta/year5_reference_routes.json",
+        "content/meta/thoughts.json",
+        "content/meta/demo_core_loop_v2.json",
+        "content/meta/release_content_inventory.json",
+        "tools/event_lifecycle.py",
+        "tools/event_schedule.py",
+        "tools/full_game_volume_audit.py",
+        "tools/full_game_volume_baseline.json"
+      ]
+    },
+    {
+      "tool": "tools/full_game_volume_audit.py --self-test",
+      "why": "60개월 볼륨 감사기가 missing root·cycle/zero-terminal·KO/EN topology·write-only memory/decision/carryover·강제 closure·시간 역행·관측 기준선·장별 비교와 제품 GO 혼동 변이를 스스로 거부한다",
+      "paths": [
+        "content/events/**",
+        "content/events_en/**",
+        "content/meta/story_map.json",
+        "content/meta/story_rules.json",
+        "content/meta/narrative_spine.json",
+        "content/meta/event_lifecycle.json",
+        "content/meta/event_director.json",
+        "content/meta/year5_reference_routes.json",
+        "tools/event_lifecycle.py",
+        "tools/event_schedule.py",
+        "tools/full_game_volume_audit.py",
+        "tools/full_game_volume_baseline.json"
       ]
     },
     {

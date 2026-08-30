@@ -17,6 +17,37 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-31 (Codex — M01~M60 전체 볼륨 정적 기준선)
+
+- 공개 데모는 M01~M06 `story_demo_rc` GO로 고정하고, 본편 작가용 편성 176 refs와
+  생명주기상 제품 연결 가능 135 refs를 처음부터 끝까지 분리 집계했다. 제품 연결
+  가능 표면의 root-ref 합계는 519 terminal path·476 choice·한국어 155,961자다.
+  같은 immediate closure를 한 번만 세는 전역 합집합은 411 choice·133,752자다.
+  둘 다 실제 한 경로의 플레이 분량이나 재미 판정으로 사용하지 않는다.
+- 구조 debt는 exact 49개다. 파일이 없는 `NEW/planned` 16, 원고는 있으나 ingress가
+  없는 `EXPAND/needs_rule` 25, cross-month 즉시 후속 8(강제 4·시간 역전 1·조건부
+  1·분기 2)이다. Year 5 경력·창업 32 roots·86 choices는 `reference_only`로 별도
+  보존하고 본편 분량에서 제외했다.
+- `full_game_volume_audit.py`는 새 debt와 해결된 allowlist debt, 관측 집계 drift를
+  모두 baseline
+  재발급 없이 거부하고, memory/decision/carryover write-only, KO/EN topology,
+  cycle·zero terminal, 초록 audit/제품 GO 혼동 반례 14개를 거부한다. 출력은
+  정적 `HOLD`, 실제 런타임 trace `PENDING`, 사람 밀도 판정 `OPEN`을 고정한다.
+- spine phase root를 story-map의 직접·지연 closure와 별도 대조해, opening·chapter
+  card 8개를 제외한 gap 21개를 찾았다. 특히 Ch2 보스의 raw follow-up은 무직·미입원·
+  아버지 별세 상태의 가드를 우회할 수 있어 다음 graph-contract의 최우선이다.
+- 영향 감사에서 공개 데모 저장 복구 커밋 뒤 갱신되지 않은 Chapter 1 인과 원장의
+  `StoryMode.gd` 전체 파일 SHA-256을 발견했다. 제품 코드는 바꾸지 않고 현재 exact
+  바이트로 스냅샷만 갱신했으며 direct/self-test를 다시 실행한다.
+- 다음은 8개 edge를 같은 장면 chain·독립 월·조건부/deferred 중 하나로 귀속한 뒤,
+  실제 `MainGame`·`StoryMode` fresh-title W1~W240 occurrence trace를 만든다. 그
+  결과가 나오기 전 정상 경로 공백을 원고 수로 덮지 않는다.
+- 8개 edge의 원고와 런타임 우회를 직접 대조해 같은 장면 chain 5, 독립 월 2,
+  조건부 미래 월 1로 판정했다. 인접 조사에서 `money→network`가 상철 선행·자산
+  guard를, Ch2 `상철 거울→직업 천장→아버지 병실`이 직업·입원·생존 guard를
+  우회하는 것도 확인했다. 다음 graph contract는 이 P0를 함께 막되 M01~M06 제품
+  그래프와 이미 통과한 5장 사실 경계를 바꾸지 않는다.
+
 ## 2026-08-31 (Codex — 공개 스토리 데모 consequence 후보 발급)
 
 - M2의 dirty 선택을 M6 restitution·escalation root에서 서로 다르게 청구하고,
