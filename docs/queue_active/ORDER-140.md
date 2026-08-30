@@ -57,6 +57,7 @@ M3~M5 exact 선택 미회수, M6 다섯 선택의 후속 이야기 미도달, se
 9. 29 visible option 중 28 receipt-bearing 선택을 합법 fresh prefix에서 전수 실행한다.
 10. ledger expression은 별도로 serialize 전후 zero-state를 증명한다.
 11. clean·restitution·escalation과 M4 두 branch를 5 locale 실제 StoryMode로 커버한다.
+    escalation의 M2는 원고 1번 선택을 0번에 복제하는 QA overlay 없이 실제 index 1을 누른다.
 12. restitution due callback이 큐에 남지 않고 정확한 6월 24일 root로 보였음을 증명한다.
 13. escalation의 W24 문자가 실제 장면 독자이고 다음 M6와 연결됨을 증명한다.
 14. cold resume를 dirty root, M6 도입·결과, ledger 도입·결과, controller 복귀에서 검사한다.
@@ -77,6 +78,15 @@ M3~M5 exact 선택 미회수, M6 다섯 선택의 후속 이야기 미도달, se
 
 **controller:** `playtests/order124/StoryChoiceM1M6Playtest.gd`.
 
+**실제 StoryMode QA selector·데모 controller 저장 복구 (2026-08-31 범위 확장):**
+`scenes/StoryMode.gd`의 `_story_demo_real_flow_choice_index()`에 M2 fallout의 actual
+route index를 전달하는 최소 변경과 `_story_demo_controller_session_snapshot()`이
+각 primary/tmp/bak 후보를 semantic reconcile까지 통과시킨 뒤 선택하는 변경만
+소유한다. 정적 검토가 controller의 test-only index-0 원고 치환이 실제 authored
+index-1 플레이를 대체하고, shape-valid·semantic-invalid primary가 valid `.bak`를
+가리는 저장 경계를 각각 확인했으므로 제품 변경 전에 이 범위를 확장한다. 제품
+StoryMode의 일반 입력·연출과 위 두 함수 밖 저장 동작은 바꾸지 않는다.
+
 **대상 번역:** `content/events_ja/story_demo_events.json`,
 `content/events_zh-CN/story_demo_events.json`, `content/events_zh-TW/story_demo_events.json`,
 `locale/ui_ja.json`, `locale/ui_zh-CN.json`, `locale/ui_zh-TW.json`.
@@ -92,7 +102,32 @@ M3~M5 exact 선택 미회수, M6 다섯 선택의 후속 이야기 미도달, se
 
 위에 없는 사건 정본·런타임·표면·저장·엔딩·자산 파일은 수정하지 않는다.
 특히 `project.godot`, `export_presets.cfg`, `autoloads/GameState.gd`,
-`scenes/StoryMode.gd`, `systems/DemoCoreLoopV2.gd`, KO/EN event JSON은 읽기 전용이다.
+`systems/DemoCoreLoopV2.gd`, KO/EN event JSON은 읽기 전용이다. `scenes/StoryMode.gd`는
+위 실제 QA selector 한 분기와 controller session 후보 선택 외에는 읽기 전용이다.
+
+## 착수 중 확인된 실제 선택 우회와 범위 확장
+
+- 최초 구현은 `--story-demo-real-flow-smoke`의 escalation M2에서만 원고 choice 1을
+  choice 0 자리에 복제하고 receipt를 1번처럼 쓰는 controller overlay를 사용했다.
+- 이 방식은 화면 문장은 맞아도 실제 두 번째 버튼을 누르지 않으므로 `actual StoryMode`
+  증거가 아니다. 이 상태의 3경로 PASS는 승격 증거로 폐기한다.
+- overlay를 삭제하고 StoryMode의 전용 real-flow selector가
+  `arc_temptation_fallout`에서 route choice를 그대로 반환하게 한다. 그 뒤 clean,
+  restitution, escalation을 새 격리 저장에서 다시 완주해 actual index·receipt·재시작을
+  함께 검증한다.
+
+## 착수 중 확인된 M6 저장 순서·backup 복구 범위 확장
+
+- M6 restitution context에서 root receipt·record·completed만 지우고 공통 M6
+  receipt를 남긴 shape-valid 저장이 기존 validator를 통과했다. Continue하면 이미
+  끝난 M6 뒤에 경찰 전화 root가 재생되는 역순 복구가 된다.
+- persisted `completed_event_ids`와 current-month choice record가 scheduled route의
+  같은 prefix인지 검증하고, live receipt reconcile도 기존 prefix가 먼저 유효한
+  경우에만 뒤의 정상 live prefix를 덧붙인 뒤 strong validator를 다시 통과시킨다.
+- StoryMode는 primary의 얕은 shape가 맞으면 즉시 후보 탐색을 멈췄다. primary가 위
+  의미 손상이고 `.bak`가 정상이면 수동 저장이 비활성화되므로, 각 후보를 semantic
+  reconcile까지 통과시킨 뒤 선택한다. exact M6-before-root 변조 거부와 실제
+  primary/.bak 복구를 회귀 검사로 고정한다.
 
 ## 착수 중 확인된 별도 패키지 선행 결함
 
