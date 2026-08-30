@@ -3,6 +3,26 @@
 > 체제: 유저 실플레이 라운드 → 노트 원문 → Claude 진단 → 수리 오더 → 재플레이.
 > 유저 노트는 편집 없이 원문 보존(느낌 그대로가 데이터다).
 
+### Chapter 5 ORDER-138 사람 재판정 후보 (2026-08-30 — `9b294d5a`)
+
+**수리:** general은 M51의 대답을 W211 이름 경계에서 현재 행동으로 되돌리고,
+W220 매체→W224 사진·약봉지·빈 의자 행동→W229 물성→W234 몸의 문턱→W237
+삼십 분 비용→W240 실제 삭제·선발신으로 잇는다. property는 종막 영수증의 읽는
+사실을 유지하면서 첫 이미지에 융합했다. 무답장·무이체·미소유·아버지 불부활과
+민준 단독/원격 인물 경계는 유지했다.
+
+**후보:** 제품 `9b294d5ab9333cba217f396de96bbc52b5dfee7c`, tree
+`ebaf799e1bca32fe4f02d7c15501bda95d591e0e`, source manifest SHA-256
+`9927a87509bd66f804f40972fb83c84d77ab5b7ba0d8fd41b503f9cbe99a2565`다.
+KO/EN 3해상도 228장 digest는
+`3a5842d30750026b5eeaea50eaa6b0b1b82d453ee419cf74e965279f18ce1aab`이고 대상
+L1/L2가 GREEN이다.
+
+**재판정:** 이 후보는 GO가 아니다. 같은 exact 검토 HEAD에서 property와
+`general_near_goal_father_passed` M49~M60을 정상 속도로 각각 끝까지 플레이하고,
+사람 압박·후반 밀도·W240 상승과 검은 화면·허위 답장/동석/소유/이체를 다시
+판정하기 전까지 `main`은 HOLD다.
+
 ### Chapter 5 두 경로 M49~M60 재판정 (2026-08-29 — `002a493d`)
 
 **방법:** 실제 `MainGame` 주간 우선순위 체인(causal→finale→arc→milestone)과 실제

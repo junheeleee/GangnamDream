@@ -32,10 +32,10 @@
     },
     "chapter5_finale_rc": {
       "status": "active",
-      "commit": "002a493d7a85ac01e1f91049b3d8a5accc71bedc",
-      "tree": "ce156f4056da34435381a8644a76add392aaaa36",
-      "manifest_sha256": "7ada31a8377cbd1b921eb61ae45b9d30fe1d0f864c87bc5ae5682a7368622db4",
-      "note": "ORDER-137이 이전 exact 문서 HEAD 9909437d538ef5ebd7389211e6364449b8561fe4 / 제품 b375af26f48668c68ec5bda05b25aedf064fe043의 실제 플레이 판정(property CONDITIONAL, general REJECT)에서 확인된 범위만 수리한 새 source 후보다. W207 결과는 cafe·Daeun·현지화 이름표·cafe ambience로 동기화되고, W230은 출입문→민서 입장→빈 의자 착석 뒤에만 현장 행동한다. general은 W220 상환·민서 기억 선택을 W224가 분기별 회수하고, W237 오늘의 30분 비용과 W240 주소/30억 삭제·선발신·엔딩으로 잇는다. 전체 감사와 KO/EN 960x600·1280x800·1920x1080 화면 134장은 GREEN이며 M55 블레이저·무초상과 무답장·무이체·미소유·아버지 불부활·민준 단독 경계를 보존했다. 자동·화면 증거는 L3를 대체하지 않는다. 새 exact 후보에서 property와 general_near_goal_father_passed M49~M60 정상 속도 전체 플레이를 둘 다 다시 받아야 하며 main은 HOLD다. 예전 771d0e7은 재사용하지 않는다. 2026-08-29 Claude 위임 L3 재플레이 결과 property는 CONDITIONAL(반려 2건 닫힘, 종막 뿌리의 영수증 선두 문단이 조건), general_near_goal_father_passed는 REJECT(W225~W233 9주 연속 작성 전경 공백과 W224 각주형 회수)다. 같은 회차에서 chapter5_causal 픽스처의 달력 월 오기입과 세 챕터5 픽스처의 housing 미설정을 발견해 ORDER-138이 소유한다. main은 계속 HOLD다."
+      "commit": "9b294d5ab9333cba217f396de96bbc52b5dfee7c",
+      "tree": "ebaf799e1bca32fe4f02d7c15501bda95d591e0e",
+      "manifest_sha256": "9927a87509bd66f804f40972fb83c84d77ab5b7ba0d8fd41b503f9cbe99a2565",
+      "note": "ORDER-138이 2026-08-29 위임 L3의 잔여 반려 범위를 수리한 새 source 후보다. general은 M51의 실제 대답을 W211 이름 경계에서 현재 행동으로 되돌리고 W220 매체→W224 사진·약봉지·빈 의자 행동→W229 물성→W234 몸의 문턱→W237 삼십 분 비용→W240 실제 삭제·무응답 선발신으로 잇는다. property는 종막 영수증의 읽는 사실을 줄이지 않고 장면 첫 이미지에 융합했다. KO/EN 960x600·1280x800·1920x1080 일반 156장과 property 72장, 총 228장 digest 3a5842d30750026b5eeaea50eaa6b0b1b82d453ee419cf74e965279f18ce1aab에서 검은 화면·잘림·언어 누출·허위 동석 0이며 M55 블레이저·무초상, 무답장·무이체·미소유·아버지 불부활·민준 단독 경계를 보존했다. 저장·엔딩·작성 선택기·감독·연출 catalog와 대상 전체 감사가 GREEN이다. 자동·화면 증거는 정상 속도 L3를 대체하지 않는다. 같은 exact 문서 wrapper에서 property와 general_near_goal_father_passed M49~M60을 각각 다시 플레이해야 하며 두 사람 게이트와 사용자 최종 GO는 OPEN, main은 HOLD다. 예전 771d0e7과 002a493은 역사 후보로만 남기고 재사용하지 않는다."
     },
     "full_rc": {
       "status": "active",
@@ -111,7 +111,7 @@
       "id": "chapter5_general_finale_normal_speed",
       "domain": "gameplay",
       "gate": "5장 일반 문턱 경로 M49~M60 정상 속도 선택 회수",
-      "why": "자동 검사는 M51·W220·M56·M59의 정확한 선택이 W237의 오늘 포기와 W240의 실제 삭제·선발신에 도달함을 증명한다. 그 회수가 장부 정리가 아니라 기억과 사람의 압박으로 읽히고, 끝으로 갈수록 실제로 좁아지는지는 정상 속도 플레이어만 판정한다.",
+      "why": "자동 검사는 M51→W211 이름 경계→W220 매체→W224 기일 행동→W229 물성→W234 몸의 문턱→W237 오늘의 포기→W240 실제 삭제·선발신의 정확한 영수증과 순서만 증명한다. 그것이 장면 수 채우기가 아니라 기억과 사람의 압박으로 읽히고 끝으로 갈수록 실제로 좁아지는지는 정상 속도 플레이어만 판정한다.",
       "owner": "ORDER-135",
       "state": "open",
       "scope": {
@@ -126,7 +126,7 @@
         "cohort": "chapter5_general_near_goal_first_normal_reading",
         "requirements": [
           "정확히 active인 chapter5_finale_rc에서 W193 뒤 자동 진행 없이 M49~M60을 정상 독해 속도로 진행",
-          "앞일을 보지 않고 M51·W220·M56·M59를 선택한 뒤 W237의 오늘 비용과 W240 실제 포기·선발신에서 무엇이 되돌아오는지 기록",
+          "앞일을 보지 않고 M51·W211·W220·W224·W229·W234를 선택한 뒤 W237의 오늘 비용과 W240 실제 포기·선발신에서 무엇이 되돌아오는지 기록",
           "검은 화면·장면 중복·허위 답장·소유·이체와 민서·아버지의 허위 동석이 없는지 연속 확인"
         ]
       },

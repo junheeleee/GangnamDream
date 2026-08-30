@@ -12,6 +12,22 @@ W240 실제 삭제·같은 턴 선발신은 모두 통과했으므로 **이 오�
 [`docs/DEMO_FIXLOG.md`](../DEMO_FIXLOG.md) 2026-08-29 항목과
 [`docs/human_gates.json`](../human_gates.json)의 두 `delegated_reviews`가 소유한다.
 
+**[~] 2026-08-30 L1/L2 후보 발급 · 제품 `9b294d5ab9333cba217f396de96bbc52b5dfee7c` · main HOLD:**
+W211 이름 경계가 M51의 실제 대답을 공동명의·보증인 질문으로 되돌리고, W220은
+그 선택을 비공개 음성메모 또는 별도 메모·혼자 앉는 카페 행동으로 잇는다. W224는
+각주형 회수를 장면 안의 사진·약봉지·빈 의자 행동으로 바꾸고, W229 보관·폐기,
+W234 몸의 문턱, W237 삼십 분의 기회비용, W240 실제 삭제·선발신이 서로 다른
+동사를 소유한다. property의 선두 영수증은 장면 첫 이미지에 융합했다.
+
+제품 tree는 `ebaf799e1bca32fe4f02d7c15501bda95d591e0e`, source manifest SHA-256은
+`9927a87509bd66f804f40972fb83c84d77ab5b7ba0d8fd41b503f9cbe99a2565`다.
+KO/EN × 960×600·1280×800·1920×1080 일반 156장과 property 72장, 총 228장의
+PNG manifest digest는 `3a5842d30750026b5eeaea50eaa6b0b1b82d453ee419cf74e965279f18ce1aab`다.
+전체 감사에서 나온 공용 SHA·감독 기대값·연출 catalog stale을 재고정한 뒤 대상
+Godot/Python 게이트가 GREEN이다. 자동 작성 선택기 프로브는 네 general 조합과
+property 보호 경로를 통과했지만 매 실행 `HUMAN_REPLAY_REQUIRED`를 남긴다.
+두 정상 속도 사람 게이트와 사용자 최종 GO는 OPEN이고 `main`은 HOLD다.
+
 **착수 소유권:** `content/events{,_en}/arc_year3_drama.json`,
 `content/events{,_en}/arc_pre_ending.json`, `content/events{,_en}/arc_drama.json`,
 `systems/Chapter5FinaleRoute.gd`, `autoloads/GameState.gd`, `scenes/MainGame.gd`,
@@ -45,22 +61,10 @@ general 원장 v2 자체는 총 8뿌리·17선택, 한 런 6뿌리·13선택을 
 `content/meta/exposed_event_state_contracts.json`, `docs/CONTENT_RATING_INVENTORY.md`와
 해당 lifecycle/inventory 검사도 착수 범위에 포함한다.
 
-**2026-08-30 제품 커밋 전 검사 범위 확장 선언:** 신규 W211과 v2 영수증을
-기존 핵심 선택·저장·엔딩 계약에서도 직접 회귀시키기 위해
-`tools/CoreChoiceSliceCheck.gd`, `tools/ManualSaveCheck.gd`,
-`tools/EndingRouteIdentityCheck.gd`를 소유한다. 실제 M49 기준 상태를 여러 프로브가
-서로 다르게 재구성하지 않도록 읽기 전용 기준 픽스처
-`tools/fixtures/chapter5_history_base_w193.json`도 함께 소유하고 제품 커밋에 넣는다.
-신규 root 등록과 보호 해시·개수 변경을 검사하는
-`tools/{event_director_audit,event_lifecycle,exposed_state_consistency_audit,story_consistency_audit,story_map_audit,year5_reference_route_audit}.py`도
-이 오더의 검사 범위다. 이 확장은 제품 기능을 넓히지 않고, 이미 선언한
-M51→W211→W220→W224→W240 계약을 서로 독립인 검사 표면에 고정한다.
-전체 감사에서 공용 런타임·원장 파일의 byte 보호선도 함께 이동해야 함이 확인돼
-`tools/chapter1_core_loop_v2_causal_ledger_check.py`의 audited-source SHA 재고정도
-소유한다. 1장 인과 원장 본문이나 의미 digest는 바꾸지 않는다.
-또한 W211 작성 결정 1건이 5장 direct-decision 합집합을 30→31로 올리므로,
-같은 값을 런타임에서 독립 검증하는 `tools/EventDirectorCheck.gd`의 고정 기대값도
-소유한다. Python 두 감사와 런타임 검사의 값만 정렬하고 편성 로직은 바꾸지 않는다.
+**2026-08-30 검사 범위 확장 선언:** 핵심 선택·저장·엔딩 검사, 공용 W193 fixture,
+등록·보호 해시 감사, chapter1 audited-source SHA와 `EventDirectorCheck`의 5장
+direct-decision 30→31 기대값을 소유한다. 아래 정확한 검사 목록 밖 기능은 넓히지
+않으며 1장 원장 의미와 편성 로직은 바꾸지 않는다.
 
 ## 판정 증거와 보호선
 
@@ -145,26 +149,11 @@ M51→W211→W220→W224→W240 계약을 서로 독립인 검사 표면에 고�
    property W240을 렌더해 검은 화면·잘림·이름표·초상·언어 누출 0을 확인한다.
 8. 전체 `tools/audit.sh`와 `python3 tools/en_coverage_check.py`가 GREEN이다.
 
-## 선행 수리 — 화면 증거 픽스처 (2026-08-29 완료)
+## 선행 화면 픽스처 수리 (2026-08-29 완료)
 
-L3와 같은 회차에서 후보 자신의 L2 화면 증거 결함 2건을 발견해 수리했다.
-제품 런타임 결함은 아니지만, 고치기 전 134장 세트에는 실제 런에서 나올 수 없는
-화면이 섞여 있었고 `hud=correct` 마커가 이를 통과시켰다.
-
-1. `tools/ScreenshotQA.gd`의 chapter5 causal 픽스처가 스토리 맵 월 인덱스를
-   `GameState.month`(달력 1~12) 자리에 써서 `months_left`가 0으로 클램프됐다.
-   causal 화면 전부가 "남은 0개월"로 찍혔고 보호 통과점 W217·W220도 포함됐다.
-   같은 버그를 이미 고친 `_set_chapter5_finale_calendar()`를 공유하도록 바꿨다.
-   실런은 W220에서 6개월이며 수리 뒤 렌더가 이를 보인다.
-2. 세 chapter5 픽스처가 `GameState.money`만 덮고 `housing`을 두지 않아
-   `current_housing`이 시작 고시원으로 해석됐다. 21억·26억 런의 마지막 밤이
-   시작 방에서 렌더됐다. 두 profile 모두 강남 아파트를 사지 않으므로 최상위
-   임차 단계인 `apartment`(아파트 전세)를 `_apply_chapter5_late_run_housing()`로
-   준다. 주거는 삶의 질 단계이지 소유가 아니다(`GameState.HOUSING_DATA` 주석).
-
-**남은 일:** `hud=correct` 마커가 `months_left`를 실제로 검증하지 않는다.
-배치 B에서 픽스처 달력과 HUD 값의 일치를 self-test로 고정한다. 수리 전에 발급된
-134장 증거는 이 수리 뒤 재발급 전까지 L2 근거로 인용하지 않는다.
+달력 월·HUD와 후반 임차 주거 상태를 실제 런과 맞췄고 이번 228장 세트로
+재발급했다. 결함 원문과 이전 134장 폐기 근거는 `docs/WORK_LOG.md`와
+`docs/DEMO_FIXLOG.md` 2026-08-29 항목이 보존한다.
 
 ## 정확한 파일 소유권
 
