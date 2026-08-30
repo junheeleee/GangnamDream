@@ -59,7 +59,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-138 · 5장 일반 종막의 끊긴 사람선을 잇고 마지막 행동의 반복을 걷는다 | [138](queue_active/ORDER-138.md) | 선언 `02bb0e8` · 핵심 선택·저장·엔딩 검사와 W193 기준 fixture까지 범위 확장 선언 · 축약 픽스처의 거짓 밀도 수치 폐기 · W211 이름 경계→W220→W224→W229→W234→W237→W240 작성 척추 · 사람 재플레이 전 main HOLD |
+| 1 | [~] | ORDER-138 · 5장 일반 종막의 끊긴 사람선을 잇고 마지막 행동의 반복을 걷는다 | [138](queue_active/ORDER-138.md) | 선언 `02bb0e8` · 핵심 선택·저장·엔딩 검사, W193 fixture, 공용 audited-source 보호 해시까지 범위 확장 선언 · 축약 픽스처의 거짓 밀도 수치 폐기 · W211 이름 경계→W220→W224→W229→W234→W237→W240 작성 척추 · 사람 재플레이 전 main HOLD |
 | 2 | [~] | ORDER-137 · 5장 실플레이 반려 4건을 표적 수리한다 | [137](queue_active/ORDER-137.md) | 새 제품 `002a493` / tree `ce156f4` / manifest `7ada31a8` · 2026-08-29 위임 L3 재플레이에서 property CONDITIONAL(반려 2건 닫힘)·general REJECT · 잔여 결함은 `ORDER-138`이 소유 · 두 L3와 사용자 최종 GO OPEN · main HOLD |
 | 3 | [~] | ORDER-135 · 25억 문턱·아버지 별세 일반 런의 선택을 W240에 잇는다 | [135](queue_active/ORDER-135.md) | `002a493`에서 W237·W240·W220→W224 회수는 통과 · 2026-08-29 위임 L3는 W225~W233 9주 공백과 W224 각주형 회수로 다시 REJECT · 수리는 `ORDER-138` · 사용자 최종 GO/main HOLD |
 | 4 | [~] | ORDER-119 · 게임 전체 플레이어 표면에서 스탯·시스템 언어 제거 | [119](queue_active/ORDER-119.md) | 제품·QA 36파일+package metadata 2파일 · exact clean full audit·KO/EN 24주·KO 240주·BUILD `2026.08.22.1` 3플랫폼 package·macOS native smoke green · active `demo_rc` 등록 · 사용자 최종 GO OPEN |

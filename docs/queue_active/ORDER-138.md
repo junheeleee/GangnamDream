@@ -55,6 +55,9 @@ general 원장 v2 자체는 총 8뿌리·17선택, 한 런 6뿌리·13선택을 
 `tools/{event_director_audit,event_lifecycle,exposed_state_consistency_audit,story_consistency_audit,story_map_audit,year5_reference_route_audit}.py`도
 이 오더의 검사 범위다. 이 확장은 제품 기능을 넓히지 않고, 이미 선언한
 M51→W211→W220→W224→W240 계약을 서로 독립인 검사 표면에 고정한다.
+전체 감사에서 공용 런타임·원장 파일의 byte 보호선도 함께 이동해야 함이 확인돼
+`tools/chapter1_core_loop_v2_causal_ledger_check.py`의 audited-source SHA 재고정도
+소유한다. 1장 인과 원장 본문이나 의미 digest는 바꾸지 않는다.
 
 ## 판정 증거와 보호선
 
@@ -190,6 +193,7 @@ KO/EN을 같은 커밋에서 바꾼다.
 `tools/event_director_audit.py`, `tools/event_lifecycle.py`,
 `tools/exposed_state_consistency_audit.py`, `tools/story_consistency_audit.py`,
 `tools/story_map_audit.py`, `tools/year5_reference_route_audit.py`,
+`tools/chapter1_core_loop_v2_causal_ledger_check.py`,
 `tools/audit.py`, `tools/audit.sh`.
 
 **선언·마감:** `docs/CODEX_QUEUE.md`, 이 사양, `docs/human_gates.json`,
