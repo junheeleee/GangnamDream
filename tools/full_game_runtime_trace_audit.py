@@ -432,14 +432,7 @@ def _validate_runner_error_policy(runner: str) -> None:
         raise ContractError("runner must fail closed on ObjectDB teardown leaks")
 
 
-def validate_tool_sources() -> None:
-    required_paths = (TRACE_SCRIPT, TRACE_SCENE, TRACE_RUNNER)
-    for path in required_paths:
-        if not path.is_file():
-            raise ContractError(f"missing runtime trace tool: {path.relative_to(ROOT)}")
-    source = TRACE_SCRIPT.read_text(encoding="utf-8")
-    _validate_trace_script_source(source)
-    runner = TRACE_RUNNER.read_text(encoding="utf-8")
+def _validate_runner_isolation_contract(runner: str) -> None:
     for needle in (
         "mktemp -d",
         'HOME="${trace_home}"',
@@ -459,18 +452,24 @@ def validate_tool_sources() -> None:
         "--audio-driver Dummy",
         "reason=timeout",
         'config/name="강남드림"',
-        "Library/Application Support/Godot/app_userdata/강남드림/objectdb_snapshots",
-        'case "${objectdb_snapshot_dir}" in',
+        "Library/Application Support/Godot/app_userdata/강남드림/${project_root#/}",
+        'case "${objectdb_project_dir}" in',
         '"${trace_root}"/*)',
-        "reason=objectdb_snapshot_dir_outside_trace_root",
-        "reason=objectdb_snapshot_dir_precreate_failed",
+        "reason=objectdb_project_dir_outside_trace_root",
+        "reason=objectdb_project_dir_precreate_failed",
         "WARNING: ObjectDB instances leaked at exit",
         "reason=candidate_changed_during_import",
         "reason=candidate_changed_during_runtime",
         "reason=trace_contract_rejected",
     ):
         if needle not in runner:
-            raise ContractError(f"runner isolation/identity contract is missing {needle!r}")
+            raise ContractError(
+                f"runner isolation/identity contract is missing {needle!r}"
+            )
+    if "app_userdata/강남드림/objectdb_snapshots" in runner:
+        raise ContractError(
+            "runner pre-creates a generic ObjectDB directory instead of the exact project path"
+        )
     _validate_runner_error_policy(runner)
     if runner.count('post_commit="$(git rev-parse HEAD)"') < 2 \
             or runner.count('post_tree="$(git rev-parse \'HEAD^{tree}\')"') < 2 \
@@ -483,7 +482,20 @@ def validate_tool_sources() -> None:
     command_region = runner.split("trace_command=", 1)[-1]
     for forbidden in FORBIDDEN_USER_ARGS:
         if forbidden in command_region:
-            raise ContractError(f"runner invokes forbidden state flavor argument {forbidden}")
+            raise ContractError(
+                f"runner invokes forbidden state flavor argument {forbidden}"
+            )
+
+
+def validate_tool_sources() -> None:
+    required_paths = (TRACE_SCRIPT, TRACE_SCENE, TRACE_RUNNER)
+    for path in required_paths:
+        if not path.is_file():
+            raise ContractError(f"missing runtime trace tool: {path.relative_to(ROOT)}")
+    source = TRACE_SCRIPT.read_text(encoding="utf-8")
+    _validate_trace_script_source(source)
+    runner = TRACE_RUNNER.read_text(encoding="utf-8")
+    _validate_runner_isolation_contract(runner)
     scene = TRACE_SCENE.read_text(encoding="utf-8")
     if 'path="res://tools/FullGameRuntimeTrace.gd"' not in scene:
         raise ContractError("trace scene does not own FullGameRuntimeTrace.gd")
@@ -1161,6 +1173,17 @@ def self_test() -> None:
     _expect_failure(
         "runner-teardown-error-whitelist",
         lambda: _validate_runner_error_policy(teardown_whitelist_runner),
+    )
+    cases += 1
+
+    generic_objectdb_runner = TRACE_RUNNER.read_text(encoding="utf-8").replace(
+        "Library/Application Support/Godot/app_userdata/강남드림/${project_root#/}",
+        "Library/Application Support/Godot/app_userdata/강남드림/objectdb_snapshots",
+        1,
+    )
+    _expect_failure(
+        "runner-generic-objectdb-directory",
+        lambda: _validate_runner_isolation_contract(generic_objectdb_runner),
     )
     cases += 1
 
