@@ -744,12 +744,12 @@
   },
   {
     "id": "inv_redev_completion_sale",
-    "title": "Pre-Completion Redevelopment Buyout",
-    "description": "The redevelopment plan finally cleared its management approval. Before the apartment complex replaces the old villas, the developer offered to buy the members' stakes in one sweep.\n\nThe offer: 2.6 billion won.\n\nIt was a number you could not have imagined when you first stamped the contract. Sell now and the long wait ends here. Hold on and the occupancy right may be worth more, but more assessments and more years will follow.",
+    "title": "The Last Stake Before Completion",
+    "description": "The redevelopment plan finally cleared management approval. Part of the position had already been reflected in the account through the earlier deal; now the developer offered to buy the remaining member stake.\n\nNew net cash after taxes, assessments, and the carrying value already on the books: 2.6 billion won.\n\nIt was a number you could not have imagined when you first stamped the contract. Sell now and the long wait ends here. Hold on and the occupancy right may be worth more, but more assessments and more years will follow.",
     "choices": [
       {
-        "text": "Sell the stake — cash out 2.6 billion won",
-        "result_text": "You signed the sale agreement. The key to an old villa became 2.6 billion won. It was not one lucky hit. It was the distress sale, the association meetings, and the months of waiting whenever the project stalled."
+        "text": "Sell the remaining stake — receive 2.6 billion won net",
+        "result_text": "You signed away the remaining stake. After taxes, assessments, and the value already reflected on the books, 2.6 billion won in new net cash arrived. It was not one lucky hit. It was the distress sale, the meetings, and the months of waiting whenever the project stalled."
       },
       {
         "text": "Keep the occupancy right — it is not time to sell",

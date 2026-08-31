@@ -1,15 +1,16 @@
 [
   {
     "id": "callback_redev_bet_taken_result",
-    "title": "재개발 결과",
-    "description": "재개발 지역 투자를 결정했던 게 6개월 전이다.\n오늘 조합 총회 안내 문자가 왔다.\n사업 진행 현황을 설명하는 자리라고.",
+    "title": "재개발의 다음 문",
+    "description": "재개발 지역 투자를 결정한 지 여섯 달. 사업은 첫 심의를 통과했고 조합 총회 안내가 왔다. 아직 준공도 매각도 아니었다. 오늘 확인할 것은 승인 뒤 누가 어떤 비용과 기다림을 맡는지였다.",
     "category": "investment",
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
     "conditions": {
-      "flag": "redev_bet_taken",
-      "min_turn": 24
+      "flag": "redev_project_approved",
+      "min_turn": 24,
+      "no_flag": "redev_progress_result_seen"
     },
     "tags": [
       "investment",
@@ -25,18 +26,72 @@
           "investment_skill": 3,
           "mental": 5
         },
-        "flags": [],
+        "flags": [
+          "redev_progress_result_seen",
+          "redev_management_seen"
+        ],
         "follow_up_event": "",
-        "result_text": "조합원들이 가득했다.\n사업 기간이 2년 더 늘어난다는 게 핵심이었다.\n부동산은 숫자가 아니라 시간이었다.\n지금은 기다리는 것 외에 할 게 없었다."
+        "result_text": "총회장은 조합원들로 가득했다. 관리처분 일정, 추가 분담금, 시행사의 일괄 매입 가능성이 차례로 읽혔다. 부동산은 숫자만이 아니라 책임질 시간이었다. {name}은 자기 지분과 다음 판단 날짜를 수첩에 적었다."
       },
       {
         "text": "안 간다. 결과만 기다린다",
         "effects": {
           "intelligence": 1
         },
-        "flags": [],
+        "flags": [
+          "redev_progress_result_seen",
+          "redev_management_seen"
+        ],
         "follow_up_event": "",
-        "result_text": "안 갔다.\n나중에 사업 기간 연장 소식을 문자로 받았다.\n투자하면 가야 한다.\n오너십은 총회장에서도 나온다."
+        "result_text": "총회에는 가지 않았다. 대신 의결서와 분담금 표를 끝까지 읽고 보관했다. 자리에 없었다고 책임까지 사라지지는 않았다. 다음 매각 제안이 오면 이 표를 기준으로 결정하기로 했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_redev_bet_failed_result",
+    "title": "지정에서 빠진 주소",
+    "description": "투자를 결정한 지 여섯 달. 구청 고시가 올라왔지만 {name}이 산 주소는 최종 구역에서 빠졌다. 기다림이 수익으로 바뀌지 않는 경우도 있다는 사실이, 주소 한 줄로 확정됐다.",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "redev_project_failed",
+      "min_turn": 24,
+      "no_flag": "redev_progress_result_seen"
+    },
+    "tags": [
+      "investment",
+      "callback",
+      "redev"
+    ],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "손실을 확정하고 빠져나온다",
+        "effects": {
+          "intelligence": 3,
+          "investment_skill": 2,
+          "mental": -4
+        },
+        "flags": [
+          "redev_progress_result_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "계약서, 고시문, 반환액을 한 파일에 넣었다. 이름을 수업료로 바꿔도 손실은 줄지 않았다. 다만 끝난 거래를 끝났다고 쓰자 다음 줄은 남았다."
+      },
+      {
+        "text": "고시문과 계약 조건을 다시 대조한다",
+        "effects": {
+          "intelligence": 5,
+          "investment_skill": 3,
+          "mental": -7
+        },
+        "flags": [
+          "redev_progress_result_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "누가 확실하다고 했는지보다 계약서가 무엇을 보장하지 않았는지 표시했다. 되돌릴 돈은 없었지만 다음 계약에서 지워 둘 문장은 생겼다."
       }
     ]
   },

@@ -6638,6 +6638,57 @@ func _check_game_over_with_monotonic_story_state() -> void:
 	_normalize_monotonic_story_state()
 	GameState.check_game_over()
 
+func _property_ladder_event_id(t: int, f: Dictionary) -> String:
+	# This is an optional earned ladder, not a grant. Every door reads the cash,
+	# relationship, route, and prior choice receipts produced by visible play.
+	# Exact month scenes and already-reserved callbacks remain above this router.
+	var is_investor := GameState.player_route == "투자형" \
+			and bool(f.get("route_invest", false))
+	if not is_investor:
+		return ""
+
+	# New choices reserve their win/lose result for eight weeks. A legacy save
+	# without that queue may still recover its already-resolved result here.
+	if f.get("arc_opp_sangchul_seen", false) \
+			and not f.get("arc_opp_sangchul_result_seen", false) \
+			and (f.get("sangchul_deal_won", false) \
+				or f.get("sangchul_deal_lost", false)) \
+			and not GameState.has_deferred_event("arc_opp_sangchul_win") \
+			and not GameState.has_deferred_event("arc_opp_sangchul_lose"):
+		return "arc_opp_sangchul_win" \
+			if f.get("sangchul_deal_won", false) \
+			else "arc_opp_sangchul_lose"
+
+	if t >= 49 and t <= 72 \
+			and GameState.money >= 10_000_000.0 \
+			and not GameState.portfolio.is_empty() \
+			and not f.get("inv_ipo_hot_tip_seen", false):
+		return "inv_ipo_hot_tip"
+	var sangchul_stage := GameState.get_cast_stage("sangchul")
+	if t >= 73 and t <= 96 \
+			and f.get("inv_ipo_hot_tip_closed", false) \
+			and GameState.money >= 10_000_000.0 \
+			and sangchul_stage in ["mentoring", "trusted", "guardian"] \
+			and not f.get("sangchul_tip_seen", false) \
+			and not f.get("arc_opp_sangchul_seen", false):
+		return "sangchul_tip_redev"
+	if t >= 82 and t <= 111 \
+			and f.get("sangchul_tip_closed", false) \
+			and GameState.money >= 50_000_000.0 \
+			and sangchul_stage in ["mentoring", "trusted", "guardian"] \
+			and not f.get("arc_opp_sangchul_seen", false) \
+			and not f.get("sangchul_truth_known", false) \
+			and not f.get("sangchul_reported", false) \
+			and not f.get("sangchul_cut_ties", false) \
+			and not f.get("sangchul_quietly_distanced", false):
+		return "arc_opp_sangchul_realty"
+	if t >= 112 and t <= 143 \
+			and f.get("arc_opp_sangchul_result_seen", false) \
+			and GameState.money >= 80_000_000.0 \
+			and not f.get("redev_zone_tip_seen", false):
+		return "inv_redev_zone_tip"
+	return ""
+
 func _story_graph_contract_event_id(
 		t: int, f: Dictionary, father_is_passed: bool) -> String:
 	# Cross-month story ownership is explicit here. Same-scene closures remain
@@ -7094,6 +7145,10 @@ func _next_arc_id(
 		)
 		if not deferred_foreground_id.is_empty():
 			return deferred_foreground_id
+
+	var property_ladder_id := _property_ladder_event_id(t, f)
+	if not property_ladder_id.is_empty():
+		return property_ladder_id
 
 
 	# ══ 1구간: 주인공 몰입 (턴 1-8, 인물 없음) ══════════
@@ -7716,15 +7771,6 @@ func _next_arc_id(
 		return "arc_gangnam_real_estate"
 
 	# ══ 5구간: 인물 = 결정적 기회 (턴 40+, 30억 경로) ══════
-	if GameState.get_cast_stage("sangchul") == "interested" \
-			and not f.get("arc_opp_sangchul_seen", false) \
-			and t >= 40 and GameState.get_total_asset_value() >= 50_000_000:
-		return "arc_opp_sangchul_realty"
-	# ── 임상철 베팅 결과 ──
-	if f.get("arc_opp_sangchul_seen", false) \
-			and not f.get("arc_opp_sangchul_result_seen", false) \
-			and (f.get("sangchul_deal_won", false) or f.get("sangchul_deal_lost", false)):
-		return "arc_opp_sangchul_win" if f.get("sangchul_deal_won", false) else "arc_opp_sangchul_lose"
 	if GameState.get_cast_affinity("jiyeon") >= 25 \
 			and not f.get("arc_opp_jiyeon_seen", false) \
 			and t >= 45 and GameState.get_total_asset_value() >= 200_000_000:

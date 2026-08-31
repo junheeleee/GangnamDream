@@ -30,6 +30,36 @@
     ]
   },
   {
+    "id": "callback_inv_ipo_hot_tip_win_listing",
+    "title": "The Number on Listing Day",
+    "description": "Listing day finally arrived after the subscription. The allocation and sale proceeds appeared on one screen. The number had already reached the account; now it was time to write down where it had come from.",
+    "choices": [
+      {
+        "text": "Record the return and subscription ratio",
+        "result_text": "You wrote down both the luck and the exact amount tied up for the return. Keeping more than the result made it clearer what to repeat and what not to repeat next time."
+      },
+      {
+        "text": "Set the principal aside first, then close the screen",
+        "result_text": "You separated the principal and looked only at the profit left over. Once the risk was removed, the number returned to its proper size."
+      }
+    ]
+  },
+  {
+    "id": "callback_inv_ipo_hot_tip_lose_listing",
+    "title": "The Loss on Listing Day",
+    "description": "On listing morning, the chart broke downward. The shares had been allocated, but the price slid and the account showed the loss first. Neither the senior's confidence nor the institutional rumor would carry that number for you.",
+    "choices": [
+      {
+        "text": "Record the loss and the reason without editing either",
+        "result_text": "You wrote why you entered, not who recommended it. Borrowed conviction had become a loss; next time, you would need grounds of your own."
+      },
+      {
+        "text": "Check what remains and do not average down",
+        "result_text": "You opened the buy-more order, then closed it. Refusing to turn tuition already paid into a larger bill was also a decision."
+      }
+    ]
+  },
+  {
     "id": "callback_daeun_supportive_warmth",
     "title": "A Text from Daeun",
     "description": "A few months ago you were there for Daeun when things were hard.\nToday a text from Daeun.\n'Minjun. I was thinking about that time.\nHow have you been?'",

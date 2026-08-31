@@ -1,16 +1,31 @@
 [
   {
     "id": "callback_redev_bet_taken_result",
-    "title": "Redevelopment Results",
-    "description": "Six months since you decided to invest in the redevelopment zone.\nToday a text came in about a general assembly meeting.\nA briefing on the project's current status, apparently.",
+    "title": "The Next Door in Redevelopment",
+    "description": "Six months after the investment, the project cleared its first review and a general-meeting notice arrived. This was neither completion nor a sale. Today was about learning who would carry which cost and how much waiting after approval.",
     "choices": [
       {
         "text": "Attend the assembly",
-        "result_text": "The room was full of unit holders.\nThe key point: the project timeline was being extended by two more years.\nReal estate wasn't numbers — it was time.\nFor now, there was nothing to do but wait."
+        "result_text": "The hall was full of unit holders. Management approval, additional assessments, and a possible bulk purchase by the developer were read out in order. Real estate was not only numbers but time you agreed to carry. {name} recorded the stake and the date of the next decision."
       },
       {
         "text": "Skip it. Just wait for the outcome.",
-        "result_text": "You didn't go.\nThe timeline extension came later by text.\nIf you invest, you show up.\nOwnership shows up at the assembly too."
+        "result_text": "You skipped the meeting but read and kept the resolution and assessment table. Absence did not erase responsibility. If a sale offer came, this table would be the basis for the decision."
+      }
+    ]
+  },
+  {
+    "id": "callback_redev_bet_failed_result",
+    "title": "The Address Left Outside the Zone",
+    "description": "Six months after the investment, the district notice went up. The address {name} bought was outside the final boundary. One line of an official notice settled the fact that waiting does not always become profit.",
+    "choices": [
+      {
+        "text": "Recognize the loss and exit",
+        "result_text": "You put the contract, notice, and returned amount into one file. Renaming it tuition did not shrink the loss. Writing that the trade was over at least left room for the next line."
+      },
+      {
+        "text": "Compare the notice against every contract term",
+        "result_text": "You marked what the contract had never guaranteed instead of who had called it certain. There was no money to recover, but there were sentences to strike from the next agreement."
       }
     ]
   },

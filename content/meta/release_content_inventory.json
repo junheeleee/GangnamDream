@@ -102,12 +102,12 @@
   "corpus_contract": {
     "ko_event_files": 127,
     "en_event_files": 127,
-    "ko_events": 1809,
-    "en_events": 1809,
-    "event_ids_sha256": "fb76f925d15f942e28b5c7aa01cb8ceb48e1b0fc07ecc19484715fe508124db0",
-    "shipping_ko_events": 1702,
-    "shipping_en_events": 1702,
-    "shipping_event_ids_sha256": "049a5207e9444dec86e9a50cebfe30c7338384fb2abc68700d0ef792a20fcb60",
+    "ko_events": 1812,
+    "en_events": 1812,
+    "event_ids_sha256": "6adb21a41fc86790a6d0cc9833b7b3aa6f88a3fbf35fb0200690dc870c4f22de",
+    "shipping_ko_events": 1705,
+    "shipping_en_events": 1705,
+    "shipping_event_ids_sha256": "5c8f25acca5b7b0558eed43f3fcfd24a5b1f026a1387bc05e7f8855f2b9ad7ad",
     "author_only_events": 107,
     "author_only_event_ids_sha256": "67215cb4681a9ac36ab5af1fdf02cd9c292ca00807ed79a5408e3bde6b01e73d",
     "ko_endings": 35,
@@ -307,7 +307,7 @@
         "expected_event_count": 137,
         "expected_file_count": 43,
         "expected_ids_sha256": "e324a22a603bda179d3be12bee23fb8e8af3134e9cab56e953416e42d02bba7b",
-        "expected_content_sha256": "c6742aed2d813855eff4369aecc1a66f7c101ba214bff6fa90553bfe718200a9"
+        "expected_content_sha256": "d2d49bb9fac0b82a01c7b1eef98d32a9e7d5a113d2393e54025dc43f8181578a"
       },
       "facts": [
         {

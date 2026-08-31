@@ -1640,7 +1640,26 @@
     "weight": 0,
     "hidden": false,
     "conditions": {
-      "min_turn": 9999
+      "min_turn": 82,
+      "max_turn": 111,
+      "min_money": 50000000,
+      "route": "투자형",
+      "flag": "sangchul_tip_closed",
+      "cast_stage": {
+        "person": "sangchul",
+        "in": [
+          "mentoring",
+          "trusted",
+          "guardian"
+        ]
+      },
+      "no_flag": [
+        "arc_opp_sangchul_seen",
+        "sangchul_truth_known",
+        "sangchul_reported",
+        "sangchul_cut_ties",
+        "sangchul_quietly_distanced"
+      ]
     },
     "tags": [
       "story",
@@ -1675,6 +1694,16 @@
         "flags": [
           "arc_opp_sangchul_seen"
         ],
+        "deferred_follow_up": [
+          {
+            "id": "arc_opp_sangchul_win",
+            "delay": 8
+          },
+          {
+            "id": "arc_opp_sangchul_lose",
+            "delay": 8
+          }
+        ],
         "result_text": "임상철과 함께 계약서에 도장을 찍었다.\n그가 어깨를 두드린다. \"잘했어. 이제 기다리는 게 일이야.\"\n부동산은 주식과 다르다. 느리지만, 묵직하다.\n결과가 어떻든, {name}은 처음으로 '판'에 올라탔다."
       },
       {
@@ -1700,6 +1729,16 @@
         },
         "flags": [
           "arc_opp_sangchul_seen"
+        ],
+        "deferred_follow_up": [
+          {
+            "id": "arc_opp_sangchul_win",
+            "delay": 8
+          },
+          {
+            "id": "arc_opp_sangchul_lose",
+            "delay": 8
+          }
         ],
         "result_text": "\"무리는 안 하는 게 맞지.\" 임상철이 고개를 끄덕인다.\n절반의 확신, 절반의 베팅.\n{name}은 자기 그릇만큼만 걸기로 했다. 그게 오래 가는 법이니까."
       },
@@ -3057,7 +3096,8 @@
     "weight": 0,
     "hidden": false,
     "conditions": {
-      "min_turn": 9999
+      "flag": "sangchul_deal_won",
+      "no_flag": "arc_opp_sangchul_result_seen"
     },
     "tags": [
       "story",
@@ -3116,7 +3156,8 @@
     "weight": 0,
     "hidden": false,
     "conditions": {
-      "min_turn": 9999
+      "flag": "sangchul_deal_lost",
+      "no_flag": "arc_opp_sangchul_result_seen"
     },
     "tags": [
       "story",

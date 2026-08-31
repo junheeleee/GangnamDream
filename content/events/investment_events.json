@@ -1834,9 +1834,12 @@
     "hidden": false,
     "conditions": {
       "min_turn": 49,
-      "max_turn": 96,
+      "max_turn": 72,
       "min_money": 10000000,
-      "has_portfolio": true
+      "has_portfolio": true,
+      "route": "투자형",
+      "flag": "route_invest",
+      "no_flag": "inv_ipo_hot_tip_seen"
     },
     "tags": [
       "investment",
@@ -1857,8 +1860,23 @@
           "win_multiplier": 3.5,
           "loss_ratio": 0.6,
           "luck_factor": 0.002,
-          "skill_gain": 4
+          "skill_gain": 4,
+          "win_flag": "inv_ipo_hot_tip_win",
+          "lose_flag": "inv_ipo_hot_tip_lose"
         },
+        "flags": [
+          "inv_ipo_hot_tip_seen"
+        ],
+        "deferred_follow_up": [
+          {
+            "id": "callback_inv_ipo_hot_tip_win_listing",
+            "delay": 1
+          },
+          {
+            "id": "callback_inv_ipo_hot_tip_lose_listing",
+            "delay": 1
+          }
+        ],
         "result_text": "청약 접수를 했다. 자금이 묶이는 며칠이 길게 느껴진다.\n결과는 상장일에 알 수 있다.\n{name}은 숫자들이 춤추는 화면을 바라보며 기다렸다."
       },
       {
@@ -1873,8 +1891,23 @@
           "win_multiplier": 2.5,
           "loss_ratio": 0.45,
           "luck_factor": 0.002,
-          "skill_gain": 2
+          "skill_gain": 2,
+          "win_flag": "inv_ipo_hot_tip_win",
+          "lose_flag": "inv_ipo_hot_tip_lose"
         },
+        "flags": [
+          "inv_ipo_hot_tip_seen"
+        ],
+        "deferred_follow_up": [
+          {
+            "id": "callback_inv_ipo_hot_tip_win_listing",
+            "delay": 1
+          },
+          {
+            "id": "callback_inv_ipo_hot_tip_lose_listing",
+            "delay": 1
+          }
+        ],
         "result_text": "일부만 넣었다. 욕심은 버렸다.\n잃어도 감당할 수 있는 금액, 벌면 좋고 아니면 그냥 경험이다.\n이게 오래 가는 투자자의 마음가짐이라고 스스로를 설득했다."
       },
       {
@@ -1883,6 +1916,10 @@
           "mental": 5,
           "intelligence": 2
         },
+        "flags": [
+          "inv_ipo_hot_tip_seen",
+          "inv_ipo_hot_tip_closed"
+        ],
         "result_text": "공모주는 결국 타이밍 게임이다.\n확신이 없으면 안 하는 게 낫다.\n{name}은 화면을 껐다. 다음 기회를 기다린다."
       }
     ]
@@ -1897,7 +1934,11 @@
     "hidden": false,
     "conditions": {
       "min_turn": 112,
-      "min_money": 80000000
+      "max_turn": 143,
+      "min_money": 80000000,
+      "route": "투자형",
+      "flag": "arc_opp_sangchul_result_seen",
+      "no_flag": "redev_zone_tip_seen"
     },
     "tags": [
       "investment",
@@ -1920,10 +1961,25 @@
           "loss_ratio": 0.7,
           "luck_factor": 0.0015,
           "skill_gain": 6,
-          "win_flag": "redev_project_approved"
+          "win_flag": "redev_project_approved",
+          "lose_flag": "redev_project_failed"
         },
         "flags": [
-          "redev_bet_taken"
+          "redev_zone_tip_seen"
+        ],
+        "deferred_follow_up": [
+          {
+            "id": "callback_redev_bet_taken_result",
+            "delay": 24
+          },
+          {
+            "id": "callback_redev_bet_failed_result",
+            "delay": 24
+          },
+          {
+            "id": "inv_redev_completion_sale",
+            "delay": 48
+          }
         ],
         "result_text": "계약서에 도장을 찍었다.\n열쇠를 받아들고 낡은 빌라 앞에 섰을 때,\n{name}은 이게 꿈인지 현실인지 잠시 혼란스러웠다.\n기다림이 시작됐다. 재개발 확정 공문을 기다리는 시간."
       },
@@ -1940,10 +1996,25 @@
           "loss_ratio": 0.55,
           "luck_factor": 0.0015,
           "skill_gain": 3,
-          "win_flag": "redev_project_approved"
+          "win_flag": "redev_project_approved",
+          "lose_flag": "redev_project_failed"
         },
         "flags": [
-          "redev_bet_taken"
+          "redev_zone_tip_seen"
+        ],
+        "deferred_follow_up": [
+          {
+            "id": "callback_redev_bet_taken_result",
+            "delay": 24
+          },
+          {
+            "id": "callback_redev_bet_failed_result",
+            "delay": 24
+          },
+          {
+            "id": "inv_redev_completion_sale",
+            "delay": 48
+          }
         ],
         "result_text": "전부 거는 건 무리라고 판단했다.\n일부만 투자하고 나머지는 현금으로 유지했다.\n\"욕심 부리다 다 잃는 것보다 절반이 낫다.\"\n{name}은 스스로를 납득시켰다."
       },
@@ -1956,20 +2027,23 @@
           "tint": 3
         },
         "route": "orthodox",
+        "flags": [
+          "redev_zone_tip_seen"
+        ],
         "result_text": "내부 정보를 이용한 거래는 법적 위험이 있다.\n솔깃하지만 패스다.\n{name}은 전화를 끊고 창밖을 바라봤다.\n깨끗한 손이 낫다고, 그렇게 믿기로 했다."
       }
     ]
   },
   {
     "id": "inv_redev_completion_sale",
-    "title": "재개발 준공 전 매각 제안",
-    "description": "기다리던 관리처분인가가 났다. 낡은 빌라 자리에 아파트 단지가 올라가기 전, 시행사에서 조합원 지분을 한꺼번에 사들이겠다는 제안이 왔다.\n\n매각 대금 26억원.\n\n처음 계약서에 도장을 찍던 날에는 상상하지 못한 숫자였다. 지금 팔면 긴 기다림은 여기서 끝난다. 남기면 입주권과 더 큰 가능성이 남지만, 추가 분담금과 몇 년의 시간이 더 필요하다.",
+    "title": "재개발 준공 전 마지막 지분",
+    "description": "기다리던 관리처분인가가 났다. 앞선 거래에서 일부 지분의 손익은 이미 계좌에 반영됐고, 아직 남겨 둔 조합원 지분에 시행사의 일괄 매입 제안이 왔다.\n\n세금·분담금·기존 장부가를 제외하고 새로 들어올 순현금 26억원.\n\n처음 계약서에 도장을 찍던 날에는 상상하지 못한 숫자였다. 지금 팔면 긴 기다림은 여기서 끝난다. 남기면 입주권과 더 큰 가능성이 남지만, 추가 분담금과 몇 년의 시간이 더 필요하다.",
     "category": "investment",
     "rarity": "rare",
     "weight": 3.0,
     "hidden": false,
     "conditions": {
-      "flag": "redev_project_approved",
+      "flag": "redev_management_seen",
       "min_turn": 160,
       "no_flag": [
         "redev_ladder_exit",
@@ -1984,7 +2058,7 @@
     "cooldown": 9999,
     "choices": [
       {
-        "text": "지분을 판다 — 26억원을 현금화한다",
+        "text": "남은 지분을 판다 — 순현금 26억원을 받는다",
         "effects": {
           "money": 2600000000,
           "reputation": 12,
@@ -1994,7 +2068,7 @@
         "flags": [
           "redev_ladder_exit"
         ],
-        "result_text": "매매 계약서에 서명했다. 오래된 빌라 열쇠가 26억원으로 바뀌었다. 한 번의 대박이 아니었다. 급매를 지나고, 조합 총회를 견디고, 사업이 멈출 때마다 기다린 끝에 도착한 숫자였다."
+        "result_text": "남은 지분의 매매 계약서에 서명했다. 세금과 분담금, 장부에 이미 반영된 지분가치를 제외한 순현금 26억원이 들어왔다. 한 번의 대박이 아니었다. 급매를 지나고, 조합 총회를 견디고, 사업이 멈출 때마다 기다린 끝에 도착한 숫자였다."
       },
       {
         "text": "입주권을 지킨다 — 아직 팔 때가 아니다",
@@ -2027,7 +2101,15 @@
           "guardian"
         ]
       },
-      "min_money": 10000000
+      "min_turn": 73,
+      "max_turn": 96,
+      "min_money": 10000000,
+      "route": "투자형",
+      "flag": "inv_ipo_hot_tip_closed",
+      "no_flag": [
+        "sangchul_tip_seen",
+        "arc_opp_sangchul_seen"
+      ]
     },
     "tags": [
       "investment",
@@ -2051,6 +2133,19 @@
           "win_flag": "sangchul_tip_win",
           "lose_flag": "sangchul_tip_lose"
         },
+        "flags": [
+          "sangchul_tip_seen"
+        ],
+        "deferred_follow_up": [
+          {
+            "id": "callback_sangchul_tip_win_payoff",
+            "delay": 8
+          },
+          {
+            "id": "callback_sangchul_tip_lose_awkward",
+            "delay": 8
+          }
+        ],
         "result_text": "계약서에 도장을 찍었다.\n임상철이 어깨를 두드렸다. 「이제 기다리는 게 일이다.」"
       },
       {
@@ -2064,8 +2159,23 @@
           "win_multiplier": 1.8,
           "loss_ratio": 0.5,
           "luck_factor": 0.002,
-          "skill_gain": 2
+          "skill_gain": 2,
+          "win_flag": "sangchul_tip_win",
+          "lose_flag": "sangchul_tip_lose"
         },
+        "flags": [
+          "sangchul_tip_seen"
+        ],
+        "deferred_follow_up": [
+          {
+            "id": "callback_sangchul_tip_win_payoff",
+            "delay": 8
+          },
+          {
+            "id": "callback_sangchul_tip_lose_awkward",
+            "delay": 8
+          }
+        ],
         "result_text": "「적게 거는 것도 실력이다.」 임상철은 웃었다.\n잃어도 무너지지 않을 만큼만 걸었다."
       },
       {
@@ -2074,6 +2184,10 @@
           "investment_skill": 1,
           "mental": 1
         },
+        "flags": [
+          "sangchul_tip_seen",
+          "sangchul_tip_closed"
+        ],
         "result_text": "「그래, 안 하는 것도 판단이야.」\n임상철은 서운해하지 않았다. 그게 이 사람의 좋은 점이다."
       }
     ]

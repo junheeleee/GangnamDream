@@ -20,13 +20,13 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 
 ## 현재 코퍼스
 
-- KO/EN 사건: 각각 127파일 · 1809건, ID 일치
-- 패키지 사건: 1809건 · 현재 shipping 사건: 1702건 · author-only reference 원고: 107건
+- KO/EN 사건: 각각 127파일 · 1812건, ID 일치
+- 패키지 사건: 1812건 · 현재 shipping 사건: 1705건 · author-only reference 원고: 107건
 - KO/EN 엔딩: 각각 35건
 - 활성 스토리 이미지: 250장 · source raster: 306장
 - 게임 pack 대상 raster: 298장 · ImageRegistry 외부 pack 대상: 48장
 - `.gdignore` source-only 상점 스크린샷: 8장 · 출처 원장 오디오: 139개
-- 사건 ID SHA-256: `fb76f925d15f942e28b5c7aa01cb8ceb48e1b0fc07ecc19484715fe508124db0`
+- 사건 ID SHA-256: `6adb21a41fc86790a6d0cc9833b7b3aa6f88a3fbf35fb0200690dc870c4f22de`
 - KO/EN 엔딩 본문 SHA-256: `81f1599053907f43b59021e2baccaff249a7bcc7b2c630dde389021b3d395eca`
 
 후보 fingerprint는 표현의 최종 등급이 아니라 검토 코퍼스가 조용히 바뀌는 것을
@@ -35,7 +35,7 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 
 | 축 | 후보 사건/파일 | ID SHA-256 | KO/EN 본문 SHA-256 | 최고 사실 강도 |
 |---|---:|---|---|---|
-| 사행성·도박 | 137 / 43 | `e324a22a603bda179d3be12bee23fb8e8af3134e9cab56e953416e42d02bba7b` | `c6742aed2d813855eff4369aecc1a66f7c101ba214bff6fa90553bfe718200a9` | strong, moderate |
+| 사행성·도박 | 137 / 43 | `e324a22a603bda179d3be12bee23fb8e8af3134e9cab56e953416e42d02bba7b` | `d2d49bb9fac0b82a01c7b1eef98d32a9e7d5a113d2393e54025dc43f8181578a` | strong, moderate |
 | 선정성·성적 내용 | 123 / 25 | `f89bbbc2fe99a3b4f4ba265406dbb62623c251cdbcf3addc7c525c5764469e72` | `022fc76a4d581bfec0433017bf1b0e559cd3cc7bd720ce8d3672a0c2432db8c3` | moderate, mild |
 | 폭력성 | 18 / 15 | `1d403db1107800e1e7c4a8d9d78c08361a840c6901fd8e93de83e609bf585a70` | `25d4565dadf90b8029a7490a0771d4171bdcc4efb204636f30c29f959900a3aa` | mild |
 | 공포 | 146 / 51 | `2c0b31f28649c41920b109674331366623b3600076d16a694a647fae6f26a5cb` | `4eb108a64f06da605c7a48cd9e72c1c1ecf281b9796400fd7a419cd2b7b2c655` | moderate |

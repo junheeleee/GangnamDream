@@ -9,7 +9,8 @@
     "hidden": false,
     "conditions": {
       "flag": "sangchul_tip_win",
-      "min_turn": 8
+      "min_turn": 8,
+      "no_flag": "sangchul_tip_closed"
     },
     "tags": [
       "sangchul",
@@ -26,7 +27,8 @@
           "investment_skill": 2
         },
         "flags": [
-          "sangchul_trust_deepened"
+          "sangchul_trust_deepened",
+          "sangchul_tip_closed"
         ],
         "follow_up_event": "",
         "result_text": "상철이 \"이번엔 내가 한 턱 낼게\" 했다.\n고기 먹으면서 다음 투자 얘기가 나왔다.\n한 번의 팁이 신뢰로 바뀌고 있었다."
@@ -37,7 +39,9 @@
           "mental": 5,
           "investment_skill": 3
         },
-        "flags": [],
+        "flags": [
+          "sangchul_tip_closed"
+        ],
         "follow_up_event": "",
         "result_text": "상철이 잠깐 있다가 \"운도 실력이야\" 했다.\n맞는 말인지 아닌지는 — 다음 번이 판단해줄 것이다."
       }
@@ -53,7 +57,8 @@
     "hidden": false,
     "conditions": {
       "flag": "sangchul_tip_lose",
-      "min_turn": 6
+      "min_turn": 6,
+      "no_flag": "sangchul_tip_closed"
     },
     "tags": [
       "sangchul",
@@ -69,7 +74,9 @@
           "social_skill": 3,
           "investment_skill": 2
         },
-        "flags": [],
+        "flags": [
+          "sangchul_tip_closed"
+        ],
         "follow_up_event": "",
         "result_text": "상철이 \"미안하게 됐어\" 했다.\n\"아니에요. 제가 결정한 거예요.\"\n짧은 침묵 후 어른스럽게 끝났다.\n관계도 살아있었다."
       },
@@ -79,9 +86,103 @@
           "mental": -5,
           "social_skill": -1
         },
-        "flags": [],
+        "flags": [
+          "sangchul_tip_closed"
+        ],
         "follow_up_event": "",
         "result_text": "서로 못 본 척했다.\n나중에 그 어색함이 두고두고 생각났다.\n돈 잃은 것보다 관계가 어색해진 게 더 불편했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_inv_ipo_hot_tip_win_listing",
+    "title": "상장일의 숫자",
+    "description": "청약 뒤 기다리던 상장일이 왔다. 배정 수량과 매도 대금이 한 화면에 떴다. 숫자는 이미 계좌에 반영됐지만, 이제야 그 돈이 어디서 왔는지 한 문장으로 정리할 차례였다.",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "inv_ipo_hot_tip_win",
+      "no_flag": "inv_ipo_hot_tip_closed"
+    },
+    "tags": [
+      "investment",
+      "callback",
+      "stock"
+    ],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "수익과 청약 비율을 수첩에 적는다",
+        "effects": {
+          "intelligence": 2,
+          "investment_skill": 2,
+          "mental": 4
+        },
+        "flags": [
+          "inv_ipo_hot_tip_closed"
+        ],
+        "follow_up_event": "",
+        "result_text": "운이 좋았다는 한 줄과, 얼마를 묶고 얼마를 벌었는지 같은 줄에 적었다. 결과만 남기지 않으니 다음 판단에서 따라 할 것과 따라 하지 말 것이 보였다."
+      },
+      {
+        "text": "원금부터 떼어 두고 화면을 닫는다",
+        "effects": {
+          "mental": 6,
+          "investment_skill": 1
+        },
+        "flags": [
+          "inv_ipo_hot_tip_closed"
+        ],
+        "follow_up_event": "",
+        "result_text": "원금을 별도 계좌로 옮겨 두고 남은 수익만 바라봤다. 크게 보이던 숫자가 위험을 빼고 나자 제 크기로 돌아왔다."
+      }
+    ]
+  },
+  {
+    "id": "callback_inv_ipo_hot_tip_lose_listing",
+    "title": "상장일의 손실",
+    "description": "상장일 아침, 기대했던 그래프는 아래로 꺾였다. 배정은 받았지만 가격이 밀렸고 계좌에는 손실이 먼저 찍혔다. 선배의 확신도 기관의 소문도 그 숫자를 대신 책임져 주지 않았다.",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "inv_ipo_hot_tip_lose",
+      "no_flag": "inv_ipo_hot_tip_closed"
+    },
+    "tags": [
+      "investment",
+      "callback",
+      "stock"
+    ],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "손실과 근거를 그대로 기록한다",
+        "effects": {
+          "intelligence": 3,
+          "investment_skill": 2,
+          "mental": -2
+        },
+        "flags": [
+          "inv_ipo_hot_tip_closed"
+        ],
+        "follow_up_event": "",
+        "result_text": "누가 추천했는지가 아니라 왜 들어갔는지를 적었다. 확신을 빌려 쓴 대가는 손실이었고, 다음번에는 자기 근거가 필요했다."
+      },
+      {
+        "text": "남은 금액을 확인하고 더 사지 않는다",
+        "effects": {
+          "mental": 3,
+          "investment_skill": 1
+        },
+        "flags": [
+          "inv_ipo_hot_tip_closed"
+        ],
+        "follow_up_event": "",
+        "result_text": "물타기 주문창을 열었다가 닫았다. 이미 낸 수업료를 더 큰 수업료로 바꾸지 않는 것도 판단이었다."
       }
     ]
   },
