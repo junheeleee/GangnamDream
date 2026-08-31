@@ -162,9 +162,12 @@ PROPERTY_REQUIRED_CHOICE_OVERRIDE = {"index": 1, "selection_mode": "direct"}
 PROPERTY_CAST_GUARD_CHOICE_OVERRIDE_EVENT = "arc_sangchul_reckoning"
 PROPERTY_CAST_GUARD_CHOICE_OVERRIDE = {"index": 1, "selection_mode": "direct"}
 PROPERTY_REQUIRED_SEQUENCE_SLICE = (
+    "arc_opp_sangchul_realty",
+    "arc_sangchul_reckoning",
     "inv_redev_zone_tip",
     "arc_minseo_02_real",
     "inv_redev_completion_sale",
+    "arc_y5_contract_cover_investment",
 )
 FIRST_INVESTMENT_BUY_DEADLINE_WEEK = 48
 INVESTMENT_EVIDENCE = {"kind": "invest", "weight": 4, "version": 2}
@@ -448,7 +451,7 @@ def validate_profiles(path: Path = DEFAULT_PROFILES, *, check_events: bool = Tru
                     for start in range(len(sequence) - required_slice_size + 1)):
                 raise ContractError(
                     f"{label} must order the property ladder by actual runtime: "
-                    "redev attempt, Minseo, then deferred completion sale"
+                    "realty, reckoning, redev, Minseo, sale, then Chapter 5 cover"
                 )
         edges = profile["required_edges"]
         if not isinstance(edges, list) or not edges:
@@ -2728,6 +2731,25 @@ def self_test() -> None:
         )
         _expect_failure(
             "property-runtime-sequence-order",
+            lambda: validate_profiles(drifted_path, check_events=False),
+        )
+        cases += 1
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        missing_property_reckoning = _load_json(DEFAULT_PROFILES)
+        property_profile = next(
+            profile for profile in missing_property_reckoning["profiles"]
+            if profile["id"] == PROPERTY_PROFILE_ID
+        )
+        property_profile["required_event_sequence"].remove(
+            PROPERTY_CAST_GUARD_CHOICE_OVERRIDE_EVENT
+        )
+        drifted_path = Path(temp_dir) / "property-runtime-sequence-missing-reckoning.json"
+        drifted_path.write_text(
+            json.dumps(missing_property_reckoning), encoding="utf-8"
+        )
+        _expect_failure(
+            "property-runtime-sequence-missing-reckoning",
             lambda: validate_profiles(drifted_path, check_events=False),
         )
         cases += 1
