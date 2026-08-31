@@ -7825,7 +7825,7 @@ static func claim_legacy_preplan_opening_from_send(
 	GameState.flags["opening_interview_application_sent"] = true
 	GameState.flags["opening_preplan_application_sent"] = true
 	if not _claim_preplan_opening("story_choice"):
-		GameState.call("_restore_serialized_snapshot_exact", snapshot)
+		GameState.call("_restore_serialized_snapshot_exact", snapshot, false)
 		return false
 	state = _normalized_state(GameState.core_loop_v2_state)
 	var application_id := _preplan_opening_application_id()
@@ -7880,7 +7880,7 @@ static func claim_legacy_preplan_opening_from_send(
 		and not GameState.has_weekly_commitment_for_turn(int(GameState.turn)) \
 		and not state["action_receipts"].has(W1_ONBOARDING_BUNDLE_ID)
 	if not valid:
-		GameState.call("_restore_serialized_snapshot_exact", snapshot)
+		GameState.call("_restore_serialized_snapshot_exact", snapshot, false)
 		return false
 	return true
 
@@ -11031,6 +11031,8 @@ static func _fresh_w1_application_postcondition(
 	var transition_key := "%s:application:1" % W1_ONBOARDING_BUNDLE_ID
 	var raw_transition: Variant = state[
 		"application_transition_receipts"].get(transition_key, {})
+	var identity_evidence: Dictionary = record.get("identity_evidence", {}) \
+		if record.get("identity_evidence", {}) is Dictionary else {}
 	return str(onboarding.get("phase", "")) == "result_committed" \
 		and int(onboarding.get("quality", -1)) == quality \
 		and int(receipt.get("turn", -1)) == 1 \
@@ -11051,6 +11053,7 @@ static func _fresh_w1_application_postcondition(
 		and str((raw_transition as Dictionary).get("from", "")) \
 			== "not_submitted" \
 		and str((raw_transition as Dictionary).get("to", "")) == "submitted" \
+		and identity_evidence == {"kind": "career", "weight": 4, "version": 2} \
 		and not record.is_empty()
 
 ## The final Send is the single owner of effects, the cycle followup, the typed
@@ -11097,13 +11100,13 @@ static func finalize_fresh_w1_application(
 	}
 	var transaction := GameState.finalize_weekly_effect_action(
 		"resume", effects, "money", "youth_center", "", details,
-		flag_updates)
+		flag_updates, "career", true)
 	if not bool(transaction.get("ok", false)):
 		return transaction
 	var raw_record: Variant = transaction.get("record", {})
 	if not raw_record is Dictionary \
 			or not note_action_commitment(raw_record as Dictionary):
-		GameState.call("_restore_serialized_snapshot_exact", snapshot)
+		GameState.call("_restore_serialized_snapshot_exact", snapshot, false)
 		return {
 			"ok": false,
 			"error": "fresh_application_receipt_failed",
@@ -11118,10 +11121,17 @@ static func finalize_fresh_w1_application(
 	state = _normalized_state(GameState.core_loop_v2_state)
 	if not _fresh_w1_application_postcondition(
 			state, raw_record as Dictionary, quality):
-		GameState.call("_restore_serialized_snapshot_exact", snapshot)
+		GameState.call("_restore_serialized_snapshot_exact", snapshot, false)
 		return {
 			"ok": false,
 			"error": "fresh_application_postcondition_failed",
+			"rolled_back": true,
+		}
+	if not GameState.publish_deferred_weekly_effect_action(transaction):
+		GameState.call("_restore_serialized_snapshot_exact", snapshot, false)
+		return {
+			"ok": false,
+			"error": "fresh_application_signal_publish_failed",
 			"rolled_back": true,
 		}
 	return {
@@ -11210,7 +11220,7 @@ static func complete_fresh_w1_action_and_claim_interview() -> Dictionary:
 	var snapshot: Dictionary = GameState.serialize().duplicate(true)
 	var expected_roots := resolved_event_roots(OPENING_INTERVIEW_BUNDLE_ID)
 	if expected_roots.is_empty():
-		GameState.call("_restore_serialized_snapshot_exact", snapshot)
+		GameState.call("_restore_serialized_snapshot_exact", snapshot, false)
 		return {
 			"ok": false,
 			"error": "fresh_w1_interview_roots_missing",
@@ -11218,14 +11228,14 @@ static func complete_fresh_w1_action_and_claim_interview() -> Dictionary:
 		}
 	var completed_id := complete_active_bundle()
 	if completed_id != W1_ONBOARDING_BUNDLE_ID:
-		GameState.call("_restore_serialized_snapshot_exact", snapshot)
+		GameState.call("_restore_serialized_snapshot_exact", snapshot, false)
 		return {
 			"ok": false,
 			"error": "fresh_w1_action_completion_failed",
 			"rolled_back": true,
 		}
 	if not claim_fresh_w1_opening_interview():
-		GameState.call("_restore_serialized_snapshot_exact", snapshot)
+		GameState.call("_restore_serialized_snapshot_exact", snapshot, false)
 		return {
 			"ok": false,
 			"error": "fresh_w1_interview_claim_failed",
@@ -11248,7 +11258,7 @@ static func complete_fresh_w1_action_and_claim_interview() -> Dictionary:
 		and (state.get("completed_bundles", []) as Array).count(
 			W1_ONBOARDING_BUNDLE_ID) == 1
 	if not valid:
-		GameState.call("_restore_serialized_snapshot_exact", snapshot)
+		GameState.call("_restore_serialized_snapshot_exact", snapshot, false)
 		return {
 			"ok": false,
 			"error": "fresh_w1_interview_handoff_postcondition_failed",

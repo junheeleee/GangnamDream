@@ -38,10 +38,59 @@ EXPECTED_OVERLAP_IDS = {
 }
 EXPECTED_SCOPE = {
     "month_range": [8, 50],
-    "owned_months": [8, 10, 13, 14, 15, 20, 22, 23, 24, 33, 34, 49, 50],
+    "owned_months": [8, 10, 13, 14, 15, 20, 22, 23, 24, 25, 28, 33, 34, 49, 50],
     "public_demo_months": [1, 6],
     "weeks_per_month": 4,
     "scheduler": "scenes/MainGame.gd::_story_graph_contract_event_id",
+}
+EXPECTED_CHAPTER3_FATHER_BRIDGE = {
+    "m25_document": {
+        "owner_month": 25,
+        "weeks": [100, 100],
+        "root": "arc_y3_father_avoidance_document",
+        "requires_flags": ["father_visit_deferred"],
+        "forbids_flags": [
+            "father_passed", "visited_father",
+            "arc_y3_father_avoidance_document_seen",
+        ],
+        "produces_all": ["arc_y3_father_avoidance_document_seen"],
+        "produces_exactly_one": [
+            "y3_father_avoidance_voicemail",
+            "y3_father_avoidance_source_message",
+            "y3_father_avoidance_scheduled_call",
+        ],
+    },
+    "m28_unattached_call": {
+        "owner_month": 28,
+        "weeks": [112, 112],
+        "root": "arc_y3_father_deferred_call",
+        "requires_flags": [
+            "father_visit_deferred",
+            "arc_y3_father_avoidance_document_seen",
+            "arc_y2_relationship_fork_unattached_seen",
+        ],
+        "requires_exactly_one": [
+            "y3_father_avoidance_voicemail",
+            "y3_father_avoidance_source_message",
+            "y3_father_avoidance_scheduled_call",
+        ],
+        "forbids_flags": [
+            "father_passed", "visited_father", "daeun_romance_started",
+            "jiyeon_romance_started", "daeun_chose_her",
+            "arc_daeun_fork_seen", "daeun_close_bond",
+            "daeun_together_path", "arc_jiyeon_offer_seen",
+            "arc_jiyeon_epilogue_seen", "arc_jiyeon_real_reason_seen",
+            "arc_y3_father_deferred_call_seen",
+        ],
+        "forbids_deferred_event": "arc_y3_jiyeon_departure",
+        "produces_all": ["arc_y3_father_deferred_call_seen"],
+    },
+    "m30_no_contact": {
+        "owner_month": 30,
+        "root": "arc_y3_jaehyuk_no_contact",
+        "lifecycle": "author_only",
+        "product_ingress_forbidden": True,
+    },
 }
 EXPECTED_OVERLAP_ROWS = {
     "m08_goodbye_to_new_life": {
@@ -367,6 +416,9 @@ def validate(data: Inputs) -> list[str]:
     scope = contract.get("scope", {})
     if scope != EXPECTED_SCOPE:
         errors.append(f"story graph scope drifted: {scope}")
+    if contract.get("chapter3_father_bridge") \
+            != EXPECTED_CHAPTER3_FATHER_BRIDGE:
+        errors.append("Chapter 3 Father bridge contract drifted")
 
     overlaps = contract.get("overlap_edges", [])
     overlap_ids = {
@@ -627,6 +679,145 @@ def validate(data: Inputs) -> list[str]:
             or father_contract.get("default_surface") != "route_neutral" \
             or father_contract.get("same_week_closure") != "arc_year2_close":
         errors.append("W96 route-safe father-door ownership drifted")
+
+    # M25/M28 form one receipt-backed people line. The first scene may only
+    # surface for the exact deferred hospital door, and the later connected
+    # call must prove both the M22 unattached route and exactly one M25 choice.
+    m25_beat = month(data.story_map, 25).get("beats", [{}])[0]
+    m25_fallbacks = m25_beat.get("coverage", {}).get("fallbacks", [])
+    m25_deferred = next((row for row in m25_fallbacks
+        if row.get("values") == ["deferred"]), {})
+    if m25_beat.get("writes", {}).get("memories") != [
+            "memory.m25_father_contact"] \
+            or m25_deferred.get("root") != "arc_y3_father_avoidance_document" \
+            or m25_deferred.get("rule_status") != "mapped" \
+            or m25_deferred.get("channel") != "internal" \
+            or m25_deferred.get("cast") != ["player"]:
+        errors.append("M25 deferred-Father story-map ownership drifted")
+    m28_beat = month(data.story_map, 28).get("beats", [{}])[0]
+    m28_fallbacks = m28_beat.get("coverage", {}).get("fallbacks", [])
+    m28_unattached = next((row for row in m28_fallbacks
+        if row.get("values") == ["*"]), {})
+    if m28_unattached.get("root") != "arc_y3_father_deferred_call" \
+            or m28_unattached.get("rule_status") != "mapped" \
+            or m28_unattached.get("channel") != "phone" \
+            or m28_unattached.get("cast") != ["player", "father"] \
+            or m28_unattached.get("reads") != {
+                "memories": ["memory.m25_father_contact"],
+                "decision": "story.father_hospital_door",
+                "carryovers": [],
+            }:
+        errors.append("M28 unattached Father-call story-map ownership drifted")
+    if "arc_y3_jaehyuk_no_contact" not in roots_for_month(data.story_map, 30):
+        errors.append("M30 dormant no-contact draft left its canonical map slot")
+
+    active_father_bridge = {
+        "arc_y3_father_avoidance_document",
+        "arc_y3_father_deferred_call",
+    }
+    author_only_ids = set(data.lifecycle.get("author_only_event_ids", []))
+    if active_father_bridge & author_only_ids:
+        errors.append("activated M25/M28 Father bridge remains author-only")
+    if "arc_y3_jaehyuk_no_contact" not in author_only_ids:
+        errors.append("M30 no-contact draft lost its dormant lifecycle owner")
+
+    m25_receipt_flags = [
+        "y3_father_avoidance_voicemail",
+        "y3_father_avoidance_source_message",
+        "y3_father_avoidance_scheduled_call",
+    ]
+    m25_common = "arc_y3_father_avoidance_document_seen"
+    m25_event = data.events_ko.get("arc_y3_father_avoidance_document", {})
+    m25_choices = m25_event.get("choices", [])
+    if len(m25_choices) != 3 or any(
+            set(choice.get("flags", [])) != {
+                m25_common, m25_receipt_flags[index]
+            }
+            for index, choice in enumerate(m25_choices)
+            if isinstance(choice, dict)):
+        errors.append("M25 Father contact choices lost exact durable receipts")
+    m28_event = data.events_ko.get("arc_y3_father_deferred_call", {})
+    m28_choices = m28_event.get("choices", [])
+    if len(m28_choices) != 3 or any(
+            choice.get("flags") != ["arc_y3_father_deferred_call_seen"]
+            for choice in m28_choices if isinstance(choice, dict)):
+        errors.append("M28 Father call choices lost their one-shot receipt")
+    for event_set, label in (
+        (data.events_ko, "KO"), (data.events_en, "EN"),
+    ):
+        known = event_set.get("arc_y3_father_deferred_call", {}).get(
+            "description_if_known", {})
+        if set(known) != set(m25_receipt_flags):
+            errors.append(f"M28 {label} prose lost an exact M25 receipt reader")
+
+    m25_logic = rules.get("arc_y3_father_avoidance_document", {}).get(
+        "logic", {})
+    if m25_logic.get("requires") != [
+            {"fact": "story.father_hospital_door", "is": "deferred"}] \
+            or m25_logic.get("legacy", {}).get("produces_all") != [m25_common] \
+            or m25_logic.get("legacy", {}).get("produces_any") \
+                != m25_receipt_flags:
+        errors.append("M25 Father document typed rule/receipt contract drifted")
+    expected_m25_prereqs = {
+        tuple(sorted(row.items())) for row in (
+            {"path": "turn", "op": "eq", "value": 100},
+            {"path": "flags.father_visit_deferred", "op": "eq", "value": True},
+            {"path": "flags.father_passed", "op": "neq", "value": True},
+            {"path": "flags.visited_father", "op": "neq", "value": True},
+            {"path": f"flags.{m25_common}", "op": "neq", "value": True},
+        )
+    }
+    actual_m25_prereqs = {
+        tuple(sorted(row.items())) for row in m25_logic.get(
+            "prerequisites", {}).get("all", []) if isinstance(row, dict)
+    }
+    if actual_m25_prereqs != expected_m25_prereqs:
+        errors.append("M25 Father document exact W100 prerequisites drifted")
+
+    m28_logic = rules.get("arc_y3_father_deferred_call", {}).get("logic", {})
+    expected_m28_prereq_rows = (
+        {"path": "turn", "op": "eq", "value": 112},
+        {"path": "flags.father_visit_deferred", "op": "eq", "value": True},
+        {"path": f"flags.{m25_common}", "op": "eq", "value": True},
+        {"path": "flags.arc_y2_relationship_fork_unattached_seen", "op": "eq", "value": True},
+        {"path": "flags.father_passed", "op": "neq", "value": True},
+        {"path": "flags.visited_father", "op": "neq", "value": True},
+        {"path": "flags.daeun_romance_started", "op": "neq", "value": True},
+        {"path": "flags.jiyeon_romance_started", "op": "neq", "value": True},
+        {"path": "flags.daeun_chose_her", "op": "neq", "value": True},
+        {"path": "flags.arc_daeun_fork_seen", "op": "neq", "value": True},
+        {"path": "flags.daeun_close_bond", "op": "neq", "value": True},
+        {"path": "flags.daeun_together_path", "op": "neq", "value": True},
+        {"path": "flags.arc_jiyeon_offer_seen", "op": "neq", "value": True},
+        {"path": "flags.arc_jiyeon_epilogue_seen", "op": "neq", "value": True},
+        {"path": "flags.arc_jiyeon_real_reason_seen", "op": "neq", "value": True},
+        {"path": "flags.arc_y3_father_deferred_call_seen", "op": "neq", "value": True},
+    )
+    actual_m28_prereqs = {
+        tuple(sorted(row.items())) for row in m28_logic.get(
+            "prerequisites", {}).get("all", []) if isinstance(row, dict)
+    }
+    expected_m28_prereqs = {
+        tuple(sorted(row.items())) for row in expected_m28_prereq_rows
+    }
+    expected_m28_any = {
+        tuple(sorted({
+            "path": f"flags.{flag_id}", "op": "eq", "value": True,
+        }.items())) for flag_id in m25_receipt_flags
+    }
+    actual_m28_any = {
+        tuple(sorted(row.items())) for row in m28_logic.get(
+            "prerequisites", {}).get("any", []) if isinstance(row, dict)
+    }
+    if m28_logic.get("requires") != [
+            {"fact": "story.father_hospital_door", "is": "deferred"}] \
+            or m28_logic.get("reads_any_flags") != m25_receipt_flags \
+            or actual_m28_prereqs != expected_m28_prereqs \
+            or actual_m28_any != expected_m28_any \
+            or m28_logic.get("legacy", {}).get("produces_all") != [
+                "arc_y3_father_deferred_call_seen"]:
+        errors.append("M28 Father call typed unattached/receipt contract drifted")
+
     father_close_queue = data.main_source[data.main_source.find("func _go_story_mode("):data.main_source.find(
         "func ", data.main_source.find("func _go_story_mode(") + 5
     )]
@@ -725,6 +916,34 @@ def validate(data: Inputs) -> list[str]:
     for fragment in required_fragments:
         if fragment not in helper:
             errors.append(f"typed scheduler clause missing: {fragment}")
+    for fragment in (
+        "if t == 100",
+        'f.get("father_visit_deferred", false)',
+        'not f.get("visited_father", false)',
+        '"arc_y3_father_avoidance_document", t, f',
+        'return "arc_y3_father_avoidance_document"',
+        "if t == 112:",
+        "m25_father_contact_receipts == 1",
+        'f.get("arc_y2_relationship_fork_unattached_seen", false)',
+        'GameState.has_deferred_event("arc_y3_jiyeon_departure")',
+        '"arc_y3_father_deferred_call", t, f',
+        'return "arc_y3_father_deferred_call"',
+    ):
+        if fragment not in helper:
+            errors.append(f"M25/M28 exact Father bridge missing: {fragment}")
+    for blocker in (
+        "daeun_romance_started", "jiyeon_romance_started",
+        "daeun_chose_her", "arc_daeun_fork_seen", "daeun_close_bond",
+        "daeun_together_path", "arc_jiyeon_offer_seen",
+        "arc_jiyeon_epilogue_seen", "arc_jiyeon_real_reason_seen",
+    ):
+        if f'f.get("{blocker}", false)' not in helper:
+            errors.append(f"M28 relationship blocker missing: {blocker}")
+    if data.main_source.count('"arc_y3_father_avoidance_document"') != 2 \
+            or data.main_source.count('"arc_y3_father_deferred_call"') != 2:
+        errors.append("M25/M28 Father bridge has duplicate or missing product ingress")
+    if '"arc_y3_jaehyuk_no_contact"' in data.main_source:
+        errors.append("M30 dormant no-contact draft gained product ingress")
     for fragment in (
         "if t >= 25 and t <= 240",
         'f.get("arc_goshiwon_goodbye_seen", false)',
@@ -908,6 +1127,39 @@ def run_self_test(base: Inputs) -> tuple[list[str], int]:
         data.lifecycle.setdefault("author_only_event_ids", []).append(
             "arc_y2_bank_limit_review"
         )
+
+    @case("m25_father_bridge_author_only")
+    def _(data: Inputs) -> None:
+        data.lifecycle.setdefault("author_only_event_ids", []).append(
+            "arc_y3_father_avoidance_document"
+        )
+
+    @case("m28_unattached_receipt_lost")
+    def _(data: Inputs) -> None:
+        rows = data.rules["events"]["arc_y3_father_deferred_call"]["logic"][
+            "prerequisites"]["all"]
+        rows[:] = [row for row in rows if row.get("path") \
+            != "flags.arc_y2_relationship_fork_unattached_seen"]
+
+    @case("m28_choice_reader_lost")
+    def _(data: Inputs) -> None:
+        data.events_en["arc_y3_father_deferred_call"][
+            "description_if_known"].pop("y3_father_avoidance_voicemail")
+
+    @case("m30_no_contact_activated")
+    def _(data: Inputs) -> None:
+        data.lifecycle["author_only_event_ids"].remove(
+            "arc_y3_jaehyuk_no_contact")
+
+    @case("m25_exact_week_broadened")
+    def _(data: Inputs) -> None:
+        data.main_source = data.main_source.replace(
+            "if t == 100", "if t >= 100", 1)
+
+    @case("m28_contract_week_broadened")
+    def _(data: Inputs) -> None:
+        data.contract["chapter3_father_bridge"]["m28_unattached_call"][
+            "weeks"] = [111, 112]
 
     @case("edge_registry_drop")
     def _(data: Inputs) -> None:

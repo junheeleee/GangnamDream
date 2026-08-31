@@ -953,8 +953,10 @@ func _check_identity_retirement_boundaries() -> void:
 	GameState.flags["mindset_investor"] = true
 	GameState.flags["mindset_founder"] = true
 	GameState.flags["had_first_investment"] = true
-	GameState.tendency = {"career": 6, "invest": 7, "found": 8}
+	GameState.tendency = {"career": 6, "invest": 12, "found": 8}
 	GameState.tendency_realized = "invest"
+	GameState.player_route = "투자형"
+	GameState.flags["route_invest"] = true
 	var expected_flags: Dictionary = GameState.flags.duplicate(true)
 	var expected_tendency: Dictionary = GameState.tendency.duplicate(true)
 	_expect(CORE_LOOP.initialize_for_run(true),

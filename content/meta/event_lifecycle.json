@@ -5,17 +5,17 @@
   "hash_semantics": "sha256(UTF-8 sorted unique IDs joined by LF with one trailing LF)",
   "counts": {
     "packaged_events": 1812,
-    "shipping_events": 1705,
-    "author_only_events": 107,
-    "tagged_author_only_events": 98,
-    "ledger_only_author_only_events": 9
+    "shipping_events": 1707,
+    "author_only_events": 105,
+    "tagged_author_only_events": 97,
+    "ledger_only_author_only_events": 8
   },
   "sha256": {
     "packaged_event_ids": "8ee967df3822b5b4e46e3f4a8433a7f2640828018f6f68c3ac8d19709943107b",
-    "shipping_event_ids": "e5dce4da37fd7bcf5730efb2b5e038aa1463e2abbfcd56d1893c12464565e5a2",
-    "author_only_event_ids": "bb04a152d10c54ef593330bb294ab9baab4257db14246ec4ea76bc2a9ef2213d",
-    "tagged_author_only_event_ids": "4bbbdaee02b904376734246b11ae43b03adcb507cf26954094c1cb39670b5b0e",
-    "ledger_only_author_only_event_ids": "1df0f3d2a6657fa3f1887b2552d72157644ca4c5d390c69299d565866a3609cb"
+    "shipping_event_ids": "854c4be5198c459d51086f0db61c332394e1268ed72c9c9e42259b290d905210",
+    "author_only_event_ids": "875d518e73ed35fcbbe7af9378d9a06d2a86a8e290ec7cf4bdb3e78c74cd2b05",
+    "tagged_author_only_event_ids": "402702eea994c73bbae61a590e73e32f6cd0c5df3b843a4d28d897a54582148c",
+    "ledger_only_author_only_event_ids": "66a71ee46d7941f4d697c25544bd44c752b98cca88e8cf81308a3a432dee76ed"
   },
   "contract": {
     "weight": 0,
@@ -74,8 +74,6 @@
     "arc_y3_cost_after_reported",
     "arc_y3_daeun_hometown_departure",
     "arc_y3_father_after_visit_document",
-    "arc_y3_father_avoidance_document",
-    "arc_y3_father_deferred_call",
     "arc_y3_jaehyuk_no_contact",
     "arc_y3_jaehyuk_pitch_questions",
     "arc_y3_jaehyuk_waiting_screen",

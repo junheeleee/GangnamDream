@@ -515,7 +515,7 @@ func _save_state_field_diagnostic(state: Dictionary) -> String:
 		"month_money_weeks", "month_human_weeks",
 		"last_month_money_weeks", "last_month_human_weeks",
 		"route_orthodox", "route_unorthodox", "moral_band_last",
-		"events_seen", "health", "mental",
+		"events_seen", "health", "mental", "tendency_evidence_version",
 	]
 	for key in integer_fields:
 		if not state.has(key):

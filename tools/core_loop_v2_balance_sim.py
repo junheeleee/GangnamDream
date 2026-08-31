@@ -447,10 +447,48 @@ def paired_rain_delivery_effects(errors: list[str]) -> dict[str, int]:
         '"money": earned,',
         '"stress": stress_delta,',
         '"health": total_health_delta,',
-        "var transaction := GameState.finalize_weekly_effect_action(",
-        '"side_shift", effects, "money", "work", "", action_receipt)',
+        "var transaction := _finalize_weekly_side_shift_action(",
+        "effects, action_receipt)",
     )
     close_positions = tuple(close_block.find(token) for token in close_tokens)
+    side_shift_finalize_match = re.search(
+        r"func _finalize_weekly_side_shift_action\(.*?(?=\nfunc )",
+        main_source,
+        re.DOTALL,
+    )
+    side_shift_finalize_block = (
+        side_shift_finalize_match.group(0) if side_shift_finalize_match else ""
+    )
+    side_shift_finalize_tokens = (
+        'if bool(GameState.core_loop_v2_state.get("enabled", false)):',
+        "return GameState.finalize_weekly_effect_action(",
+        '"side_shift", effects, "money", "work", "", action_receipt)',
+        'legacy_receipt["legacy_tendency_delta"] = {"kind": "found", "weight": 1}',
+        "return GameState.finalize_weekly_mutation_action(",
+    )
+    side_shift_finalize_positions = tuple(
+        side_shift_finalize_block.find(token)
+        for token in side_shift_finalize_tokens
+    )
+    legacy_shift_mutation_match = re.search(
+        r"func _weekly_legacy_side_shift_mutation\(.*?(?=\nfunc )",
+        main_source,
+        re.DOTALL,
+    )
+    legacy_shift_mutation_block = (
+        legacy_shift_mutation_match.group(0)
+        if legacy_shift_mutation_match else ""
+    )
+    legacy_shift_mutation_tokens = (
+        "GameState.apply_effects(effects)",
+        'GameState.add_tendency("found", 1)',
+        '"success": true,',
+        '"details": action_receipt.duplicate(true),',
+    )
+    legacy_shift_mutation_positions = tuple(
+        legacy_shift_mutation_block.find(token)
+        for token in legacy_shift_mutation_tokens
+    )
     game_state_source = GAME_STATE_PATH.read_text(encoding="utf-8")
     finalize_match = re.search(
         r"func finalize_weekly_effect_action\(.*?(?=\nfunc )",
@@ -489,6 +527,12 @@ def paired_rain_delivery_effects(errors: list[str]) -> dict[str, int]:
             or "aruba_game.closed.connect(_on_aruba_closed)" not in main_source \
             or any(position < 0 for position in close_positions) \
             or tuple(sorted(close_positions)) != close_positions \
+            or any(position < 0 for position in side_shift_finalize_positions) \
+            or tuple(sorted(side_shift_finalize_positions)) \
+                != side_shift_finalize_positions \
+            or any(position < 0 for position in legacy_shift_mutation_positions) \
+            or tuple(sorted(legacy_shift_mutation_positions)) \
+                != legacy_shift_mutation_positions \
             or any(position < 0 for position in finalize_positions) \
             or tuple(sorted(finalize_positions)) != finalize_positions \
             or not re.search(
@@ -1283,7 +1327,7 @@ def validate_runtime_city_service_prelude(errors: list[str]) -> None:
         r'action_config\.get\("status", "submitted"\).*?'
         r'"execution": "application".*?'
         r'finalize_weekly_effect_action\(\s*'
-        r'"apply", \{\}, "money", "work", "", receipt\)',
+        r'"apply", \{\}, "money", "work", "", receipt, \{\}, "career"\)',
         submit_block,
         re.DOTALL,
     ):

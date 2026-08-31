@@ -39,6 +39,10 @@ PROFILE_IDS = (
     "investment_property_daeun",
     "general_near_goal_father_passed",
 )
+EARLY_INVESTMENT_IDENTITY_PROFILES = {
+    "investment_property_daeun",
+    "general_near_goal_father_passed",
+}
 FORBIDDEN_USER_ARGS = (
     "--demo-build",
     "--core-loop-v2",
@@ -672,6 +676,21 @@ def _validate_runner_isolation_contract(runner: str) -> None:
             )
 
 
+def _validate_identity_trace_source(source: str) -> None:
+    for marker in (
+        '"player_route": str(GameState.player_route)',
+        '"tendency": GameState.tendency.duplicate(true)',
+        '"tendency_realized": str(GameState.tendency_realized)',
+        '"week_routine": GameState.week_routine.duplicate(true)',
+        '"identity_before": _identity_snapshot_from_state(',
+        '"identity_after": _identity_snapshot_from_state(after)',
+    ):
+        if source.count(marker) < 1:
+            raise ContractError(
+                f"runtime trace does not seal identity marker {marker}"
+            )
+
+
 def validate_tool_sources() -> None:
     required_paths = (TRACE_SCRIPT, TRACE_SCENE, TRACE_RUNNER, AUDIO_MANAGER_SCRIPT)
     for path in required_paths:
@@ -679,6 +698,7 @@ def validate_tool_sources() -> None:
             raise ContractError(f"missing runtime trace tool: {path.relative_to(ROOT)}")
     source = TRACE_SCRIPT.read_text(encoding="utf-8")
     _validate_trace_script_source(source)
+    _validate_identity_trace_source(source)
     _validate_audio_manager_source(AUDIO_MANAGER_SCRIPT.read_text(encoding="utf-8"))
     runner = TRACE_RUNNER.read_text(encoding="utf-8")
     _validate_runner_isolation_contract(runner)
@@ -718,6 +738,150 @@ def _payload(row: dict[str, Any], label: str) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise ContractError(f"{label}.payload must be an object")
     return value
+
+
+def _validate_early_investment_identity(
+    rows: list[dict[str, Any]], profile_id: str
+) -> None:
+    """Prove survival pressure cannot steal an explicitly earned investor route."""
+    if profile_id not in EARLY_INVESTMENT_IDENTITY_PROFILES:
+        return
+    commits = [row for row in rows if row.get("record_type") == "main_action_commit"]
+    studies = [
+        row for row in commits
+        if _payload(row, "main_action_commit").get("actual_action_id")
+        == "study_invest"
+    ]
+    if len(studies) < 2:
+        raise ContractError(
+            f"{profile_id} must visibly commit investment study at least twice"
+        )
+    first_buy = next((
+        row for row in commits
+        if _payload(row, "main_action_commit").get("actual_action_id")
+        in {"invest_buy", "invest_leverage"}
+    ), None)
+    if first_buy is None:
+        raise ContractError(f"{profile_id} lacks its first visible investment buy")
+    second_study_week = int(studies[1].get("week", -1))
+    first_buy_week = int(first_buy.get("week", -1))
+    if second_study_week >= first_buy_week:
+        raise ContractError(
+            f"{profile_id} did not study twice before its first investment buy"
+        )
+    if first_buy_week > 24:
+        raise ContractError(
+            f"{profile_id} first investment buy arrived after the M06 boundary"
+        )
+    pressure_actions = {
+        str(_payload(row, "main_action_commit").get("actual_action_id", ""))
+        for row in commits if int(row.get("week", -1)) < first_buy_week
+    }
+    for required in ("side_shift", "save", "apply"):
+        if required not in pressure_actions:
+            raise ContractError(
+                f"{profile_id} identity proof lacks pre-buy {required} pressure"
+            )
+    buy_payload = _payload(first_buy, "first investment buy")
+    visible = buy_payload.get("visible_button")
+    actual_buy_action = buy_payload.get("actual_action_id")
+    expected_trade = {
+        "invest_buy": "buy",
+        "invest_leverage": "leverage_buy",
+    }.get(actual_buy_action)
+    commitment = buy_payload.get("commitment")
+    if (not isinstance(visible, dict)
+            or visible.get("action_id") != "invest"
+            or visible.get("function") != "_ap_invest"
+            or expected_trade is None
+            or not isinstance(buy_payload.get("details"), dict)
+            or buy_payload["details"].get("trade") != expected_trade
+            or not isinstance(commitment, dict)
+            or commitment.get("identity_evidence") != {
+                "kind": "invest", "weight": 4, "version": 2,
+            }):
+        raise ContractError(
+            f"{profile_id} first investment buy did not come from its visible product button"
+        )
+
+    expected_before = {
+        "player_route": "none",
+        "tendency": {"career": 8, "invest": 8, "found": 0},
+        "tendency_realized": "",
+        "route_flags": {
+            "route_career": False,
+            "route_invest": False,
+            "route_startup": False,
+        },
+        "pending_flags": {
+            "pending_spec_career": False,
+            "pending_spec_invest": False,
+            "pending_spec_found": False,
+        },
+    }
+    expected_after = copy.deepcopy(expected_before)
+    expected_after.update({
+        "player_route": "투자형",
+        "tendency": {"career": 8, "invest": 12, "found": 0},
+        "tendency_realized": "invest",
+        "route_flags": {
+            "route_career": False,
+            "route_invest": True,
+            "route_startup": False,
+        },
+        "pending_flags": {
+            "pending_spec_career": False,
+            "pending_spec_invest": True,
+            "pending_spec_found": False,
+        },
+    })
+    if buy_payload.get("identity_before") != expected_before \
+            or buy_payload.get("identity_after") != expected_after:
+        raise ContractError(
+            f"{profile_id} first buy did not atomically create the exact investor identity"
+        )
+
+    closes: dict[int, dict[str, Any]] = {}
+    for row in rows:
+        if row.get("record_type") != "week_close":
+            continue
+        state = _payload(row, "week_close").get("state_after")
+        if isinstance(state, dict):
+            closes[int(row.get("week", -1))] = state
+    for week in range(second_study_week, first_buy_week):
+        state = closes.get(week)
+        if not isinstance(state, dict):
+            raise ContractError(
+                f"{profile_id} W{week:03d} lacks its identity state snapshot"
+            )
+        flags = state.get("flags")
+        if not isinstance(flags, dict) or not isinstance(state.get("tendency"), dict):
+            raise ContractError(
+                f"{profile_id} W{week:03d} identity snapshot is incomplete"
+            )
+        if any(flags.get(flag) is True for flag in (
+            "route_career", "route_invest", "route_startup",
+            "pending_spec_career", "pending_spec_invest", "pending_spec_found",
+        )) or state.get("tendency_realized") not in {"", None} \
+                or state.get("player_route") != "none":
+            raise ContractError(
+                f"{profile_id} survival pressure stole the route before its first buy"
+            )
+    buy_state = closes.get(first_buy_week)
+    if not isinstance(buy_state, dict):
+        raise ContractError(
+            f"{profile_id} first-buy week lacks its identity state snapshot"
+        )
+    buy_flags = buy_state.get("flags")
+    if (not isinstance(buy_flags, dict)
+            or buy_state.get("player_route") != "투자형"
+            or buy_state.get("tendency_realized") != "invest"
+            or buy_flags.get("route_invest") is not True
+            or buy_flags.get("route_career") is True
+            or buy_flags.get("route_startup") is True):
+        raise ContractError(
+            f"{profile_id} first visible buy did not seal one exact investor identity"
+        )
 
 
 def validate_trace_rows(
@@ -1040,6 +1204,8 @@ def validate_trace_rows(
             "choice_offer/story_choice/story_result occurrence sets are not identical"
         )
 
+    _validate_early_investment_identity(rows, profile_id)
+
     event_sequence = [_payload(row, "story_enter")["event_id"] for row in story_enter_rows]
     if not _ordered_subsequence(event_sequence, profile["required_event_sequence"]):
         raise ContractError("required story event sequence is missing or out of order")
@@ -1082,6 +1248,17 @@ def validate_trace_rows(
     for flag in profile["target"]["required_flags_false"]:
         if flags.get(flag) is True:
             raise ContractError(f"required final flag is unexpectedly true: {flag}")
+    player_route = final_state.get("player_route")
+    tendency = final_state.get("tendency")
+    tendency_realized = final_state.get("tendency_realized")
+    if not isinstance(player_route, str) or not isinstance(tendency, dict) \
+            or not isinstance(tendency_realized, str):
+        raise ContractError("run_end final_state lacks sealed route identity")
+    if "route_invest" in profile["target"]["required_flags_true"] \
+            and (player_route != "투자형" or tendency_realized != "invest"):
+        raise ContractError(
+            "final investor flag disagrees with player_route/tendency identity"
+        )
     ending_id = final_state.get("ending_id")
     if not isinstance(ending_id, str) or not ending_id:
         raise ContractError("run_end final_state.ending_id must be non-empty")
@@ -1168,6 +1345,94 @@ def _fixture_profile() -> dict[str, Any]:
             "forbidden_ending_ids": ["instant_legend"],
         },
     }
+
+
+def _identity_fixture_rows() -> list[dict[str, Any]]:
+    identity_before = {
+        "player_route": "none",
+        "tendency": {"career": 8, "invest": 8, "found": 0},
+        "tendency_realized": "",
+        "route_flags": {
+            "route_career": False,
+            "route_invest": False,
+            "route_startup": False,
+        },
+        "pending_flags": {
+            "pending_spec_career": False,
+            "pending_spec_invest": False,
+            "pending_spec_found": False,
+        },
+    }
+    identity_after = copy.deepcopy(identity_before)
+    identity_after.update({
+        "player_route": "투자형",
+        "tendency": {"career": 8, "invest": 12, "found": 0},
+        "tendency_realized": "invest",
+        "route_flags": {
+            "route_career": False,
+            "route_invest": True,
+            "route_startup": False,
+        },
+        "pending_flags": {
+            "pending_spec_career": False,
+            "pending_spec_invest": True,
+            "pending_spec_found": False,
+        },
+    })
+
+    def commit(week: int, action: str, details: dict[str, Any],
+               button_action: str, function: str) -> dict[str, Any]:
+        payload: dict[str, Any] = {
+            "actual_action_id": action,
+            "details": details,
+            "visible_button": {
+                "action_id": button_action,
+                "function": function,
+            },
+        }
+        if action in {"invest_buy", "invest_leverage"}:
+            payload.update({
+                "commitment": {"identity_evidence": {
+                    "kind": "invest", "weight": 4, "version": 2,
+                }},
+                "identity_before": copy.deepcopy(identity_before),
+                "identity_after": copy.deepcopy(identity_after),
+            })
+        return {
+            "record_type": "main_action_commit",
+            "week": week,
+            "payload": payload,
+        }
+
+    rows = [
+        commit(1, "study_invest", {"study_type": 3}, "study", "_ap_study"),
+        commit(2, "study_invest", {"study_type": 3}, "study", "_ap_study"),
+        commit(3, "side_shift", {}, "side_shift", "_ap_side_job"),
+        commit(9, "save", {}, "save", "_ap_save_money"),
+        commit(10, "apply", {}, "apply", "_ap_job_hunt"),
+        commit(23, "invest_buy", {"trade": "buy"}, "invest", "_ap_invest"),
+    ]
+    for week in range(2, 24):
+        invested = week >= 23
+        career_score = 0 if week < 9 else (4 if week < 10 else 8)
+        rows.append({
+            "record_type": "week_close",
+            "week": week,
+            "payload": {"state_after": {
+                "player_route": "투자형" if invested else "none",
+                "tendency": {
+                    "career": career_score,
+                    "invest": 12 if invested else 8,
+                    "found": 0,
+                },
+                "tendency_realized": "invest" if invested else "",
+                "flags": (
+                    {"route_invest": True, "pending_spec_invest": True}
+                    if invested else {}
+                ),
+            }},
+        })
+    return rows
 
 
 def _fixture_rows(profile: dict[str, Any], profile_hash: str) -> list[dict[str, Any]]:
@@ -1284,6 +1549,9 @@ def _fixture_rows(profile: dict[str, Any], profile_hash: str) -> list[dict[str, 
         "final_state": {
             "week": 240,
             "total_assets": 100.0,
+            "player_route": "none",
+            "tendency": {"career": 0, "invest": 0, "found": 0},
+            "tendency_realized": "",
             "flags": {},
             "ending_id": "with_daeun",
         },
@@ -1360,6 +1628,92 @@ def self_test() -> None:
     valid_241 = copy.deepcopy(valid)
     valid_241[-1]["payload"]["final_state"]["week"] = 241
     validate_trace_rows(valid_241, profile, profile_hash)
+    cases += 1
+
+    identity_rows = _identity_fixture_rows()
+    _validate_early_investment_identity(
+        copy.deepcopy(identity_rows), "investment_property_daeun")
+    cases += 1
+
+    leverage_identity_rows = copy.deepcopy(identity_rows)
+    leverage_buy = next(
+        row for row in leverage_identity_rows
+        if row.get("record_type") == "main_action_commit"
+        and row["payload"].get("actual_action_id") == "invest_buy"
+    )
+    leverage_buy["payload"]["actual_action_id"] = "invest_leverage"
+    leverage_buy["payload"]["details"]["trade"] = "leverage_buy"
+    _validate_early_investment_identity(
+        leverage_identity_rows, "investment_property_daeun")
+    cases += 1
+
+    identity_mutations: list[tuple[str, Any]] = [
+        ("identity-missing-second-study", lambda rows: rows[1]["payload"].update(
+            {"actual_action_id": "study_read"})),
+        ("identity-missing-side-shift", lambda rows: rows.pop(2)),
+        ("identity-missing-save", lambda rows: rows.pop(3)),
+        ("identity-missing-application", lambda rows: rows.pop(4)),
+        ("identity-late-first-buy", lambda rows: rows[5].update({"week": 25})),
+        ("identity-hidden-first-buy", lambda rows: rows[5]["payload"]
+            ["visible_button"].update({"action_id": "save"})),
+        ("identity-missing-buy-receipt", lambda rows: rows[5]["payload"]
+            ["commitment"].pop("identity_evidence")),
+        ("identity-prebuy-already-investor", lambda rows: rows[5]["payload"]
+            ["identity_before"].update({
+                "player_route": "투자형", "tendency_realized": "invest",
+            })),
+        ("identity-prebuy-career-zero", lambda rows: rows[5]["payload"]
+            ["identity_before"]["tendency"].update({"career": 0})),
+        ("identity-buy-no-transition", lambda rows: rows[5]["payload"].update({
+            "identity_after": copy.deepcopy(
+                rows[5]["payload"]["identity_before"]),
+        })),
+        ("identity-career-stolen", lambda rows: next(
+            row for row in rows
+            if row["record_type"] == "week_close" and row["week"] == 19
+        )["payload"]["state_after"].update({
+            "player_route": "직장형", "tendency_realized": "career",
+            "flags": {"route_career": True, "pending_spec_career": True},
+        })),
+        ("identity-investor-realized-before-buy", lambda rows: next(
+            row for row in rows
+            if row["record_type"] == "week_close" and row["week"] == 19
+        )["payload"]["state_after"].update({
+            "player_route": "투자형", "tendency_realized": "invest",
+            "flags": {"route_invest": True, "pending_spec_invest": True},
+        })),
+        ("identity-missing-invest-route", lambda rows: next(
+            row for row in rows
+            if row["record_type"] == "week_close" and row["week"] == 23
+        )["payload"]["state_after"].update({"flags": {}})),
+        ("identity-wrong-player-route", lambda rows: next(
+            row for row in rows
+            if row["record_type"] == "week_close" and row["week"] == 23
+        )["payload"]["state_after"].update({"player_route": "직장형"})),
+        ("identity-dual-route", lambda rows: next(
+            row for row in rows
+            if row["record_type"] == "week_close" and row["week"] == 23
+        )["payload"]["state_after"]["flags"].update({"route_career": True})),
+    ]
+    for name, mutate in identity_mutations:
+        rows = copy.deepcopy(identity_rows)
+        mutate(rows)
+        _expect_failure(
+            name,
+            lambda rows=rows: _validate_early_investment_identity(
+                rows, "investment_property_daeun"),
+        )
+        cases += 1
+
+    missing_identity_source = TRACE_SCRIPT.read_text(encoding="utf-8").replace(
+        '\t\t"week_routine": GameState.week_routine.duplicate(true),\n',
+        "",
+        1,
+    )
+    _expect_failure(
+        "trace-source-missing-identity-seal",
+        lambda: _validate_identity_trace_source(missing_identity_source),
+    )
     cases += 1
 
     mutations: list[tuple[str, Any]] = []

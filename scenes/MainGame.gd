@@ -1903,7 +1903,7 @@ func _core_loop_v2_submit_application(
 	if not job_id.is_empty():
 		receipt["job_id"] = job_id
 	var transaction := GameState.finalize_weekly_effect_action(
-		"apply", {}, "money", "work", "", receipt)
+		"apply", {}, "money", "work", "", receipt, {}, "career")
 	if not bool(transaction.get("ok", false)):
 		_core_loop_v2_rollback_action_bundle()
 		push_error("Core Loop V2 application transaction failed: %s (%s)" % [
@@ -6642,8 +6642,7 @@ func _property_ladder_event_id(t: int, f: Dictionary) -> String:
 	# This is an optional earned ladder, not a grant. Every door reads the cash,
 	# relationship, route, and prior choice receipts produced by visible play.
 	# Exact month scenes and already-reserved callbacks remain above this router.
-	var is_investor := GameState.player_route == "투자형" \
-			and bool(f.get("route_invest", false))
+	var is_investor := GameState.has_investor_route_identity()
 	if not is_investor:
 		return ""
 
@@ -6857,6 +6856,47 @@ func _story_graph_contract_event_id(
 			return "arc_father_04_visit"
 		if not f.get("arc_year2_close_seen", false):
 			return "arc_year2_close"
+
+	# M25 owns the cost of the hospital door that was left unopened. It is not
+	# a broad living-Father fallback: only the exact W100 deferred receipt may
+	# expose this document/contact scene, and a later visit cannot reopen it.
+	if t == 100 \
+			and not father_is_passed \
+			and f.get("father_visit_deferred", false) \
+			and not f.get("visited_father", false) \
+			and _story_event_prerequisites_met(
+					"arc_y3_father_avoidance_document", t, f):
+		return "arc_y3_father_avoidance_document"
+
+	# M28 may turn that exact outgoing contact into a connected call only on an
+	# unattached path. Exactly one choice receipt must survive from M25; a bare
+	# common flag or contradictory receipts fail closed instead of fabricating
+	# what the player sent. Established Daeun/Jiyeon paths keep their own scene.
+	if t == 112:
+		var m25_father_contact_receipts := int(bool(
+				f.get("y3_father_avoidance_voicemail", false))) \
+				+ int(bool(f.get("y3_father_avoidance_source_message", false))) \
+				+ int(bool(f.get("y3_father_avoidance_scheduled_call", false)))
+		var has_m28_relationship_path := bool(
+				f.get("daeun_romance_started", false)) \
+				or bool(f.get("jiyeon_romance_started", false)) \
+				or bool(f.get("daeun_chose_her", false)) \
+				or bool(f.get("arc_daeun_fork_seen", false)) \
+				or bool(f.get("daeun_close_bond", false)) \
+				or bool(f.get("daeun_together_path", false)) \
+				or bool(f.get("arc_jiyeon_offer_seen", false)) \
+				or bool(f.get("arc_jiyeon_epilogue_seen", false)) \
+				or bool(f.get("arc_jiyeon_real_reason_seen", false)) \
+				or GameState.has_deferred_event("arc_y3_jiyeon_departure")
+		if not father_is_passed \
+				and f.get("father_visit_deferred", false) \
+				and not f.get("visited_father", false) \
+				and f.get("arc_y2_relationship_fork_unattached_seen", false) \
+				and not has_m28_relationship_path \
+				and m25_father_contact_receipts == 1 \
+				and _story_event_prerequisites_met(
+						"arc_y3_father_deferred_call", t, f):
+			return "arc_y3_father_deferred_call"
 
 	# M33 is a reserved table-chain. The optional card prelude follows directly
 	# into the confrontation, so it cannot push the truth decision into M34.
@@ -8501,8 +8541,9 @@ func _run_month_end_transition(
 	job_system.process_monthly_job()
 	relationship_system.process_monthly_relationships()
 	inventory_system.process_monthly_items()
-	if not GameState.current_job.is_empty():
-		GameState.add_tendency("career", 1)
+	# A paycheck is survival/economic state, not a fresh route choice. Career
+	# identity is earned by the visible applications, preparation, and network
+	# decisions that created the job; month-end compression must not vote again.
 	BGMPlayer.update_context()
 
 	# 1개월만 정착 지원금 — 2개월차부터 진짜 생존 압박
@@ -15666,6 +15707,14 @@ func _bump_study_count(study_type: int) -> int:
 		3: GameState.flags["study_count_invest"] = n
 	return n
 
+func _study_count_flag(study_type: int) -> String:
+	match study_type:
+		0: return "study_count_read"
+		1: return "study_count_exercise"
+		2: return "study_count_meditate"
+		3: return "study_count_invest"
+	return ""
+
 ## 누적 가시화 (AP_REDESIGN 루틴 심화 ②) — "독서 — 12권째" / "운동 — 6주차" 형식.
 func _study_progress_label(study_type: int, n: int) -> String:
 	match study_type:
@@ -15681,7 +15730,6 @@ func _study_threshold_special(study_type: int, n: int) -> Dictionary:
 	var f = GameState.flags
 	var pid := _romance_partner_id()
 	if study_type == 0 and n >= 10 and not f.get("study_read_10_seen", false):
-		GameState.flags["study_read_10_seen"] = true
 		var body := {
 			"t": "열 권째 책을 덮었다. 첫 권을 펼치던 날엔 몰랐던 단어들이, 이제 문장 사이에서 아는 얼굴을 한다.\n읽은 게 다 어디로 갔는지는 몰라도, 없어지지 않았다는 건 안다.",
 			"et": "Closed the tenth book. Words that meant nothing the day the first one opened now show familiar faces between the sentences.\nWhere it all went, who knows — but it didn't disappear. That much is certain.",
@@ -15700,9 +15748,9 @@ func _study_threshold_special(study_type: int, n: int) -> Dictionary:
 			}
 			body["t"] += "\n\n" + str(jiyeon_book_reaction["t"])
 			body["et"] += "\n\n" + str(jiyeon_book_reaction["et"])
+		body["_seen_flag"] = "study_read_10_seen"
 		return body
 	if study_type == 1 and n >= 12 and not f.get("study_exercise_12_seen", false):
-		GameState.flags["study_exercise_12_seen"] = true
 		var body := {
 			"t": "12주째. 이제는 안 가면 몸이 먼저 이상하다고 말한다.\n시간이 몸에 쌓이는 걸, 처음으로 눈으로 봤다.",
 			"et": "Week twelve. Now the body is the first to complain on the days he skips.\nFor the first time, time piling up inside a body was something he could see.",
@@ -15721,40 +15769,67 @@ func _study_threshold_special(study_type: int, n: int) -> Dictionary:
 			}
 			body["t"] += "\n\n" + str(jiyeon_exercise_reaction["t"])
 			body["et"] += "\n\n" + str(jiyeon_exercise_reaction["et"])
+		body["_seen_flag"] = "study_exercise_12_seen"
 		return body
 	return {}
 
+func _weekly_action_can_begin(action_id: String) -> bool:
+	if GameState.pending_weekly_commitment.is_empty():
+		return GameState.action_points > 0
+	return bool(GameState.weekly_commitment_action_preflight(
+		action_id).get("ok", false))
+
 ## 실제 실행 — 1 AP + 축 등록 1회 + 누적 카운트 + 비네트. (모달 선택 후 진입)
 func _ap_study_commit(study_type: int) -> void:
-	if not GameState.spend_ap():
+	if study_type not in range(4):
 		return
+	var has_pending_owner := not GameState.pending_weekly_commitment.is_empty()
 	var tag: String = [_tr("독서", "Reading"), _tr("운동", "Exercise"), _tr("명상", "Meditation"), _tr("투자공부", "Invest Study")][study_type]
 	var pool: Array = [STUDY_READ_VIGNETTES, STUDY_EXERCISE_VIGNETTES, STUDY_MEDITATE_VIGNETTES, STUDY_INVEST_VIGNETTES][study_type]
 	var study_axis := "human" if (study_type == 1 or study_type == 2) else "money"
 	var study_action_id: String = ["study_read", "study_exercise", "study_meditation", "study_invest"][study_type]
-	var n: int = _bump_study_count(study_type)
+	if not _weekly_action_can_begin(study_action_id):
+		return
+	var n: int = _study_count(study_type) + 1
 	var v: Dictionary = pool[randi() % pool.size()]
 	var eff: Dictionary = v.get("e", {}).duplicate()
 	if study_type == 1:
 		eff["appearance"] = eff.get("appearance", 0) + 1
-	for k in eff:
-		var val: int = int(eff[k])
-		if k == "money":
-			GameState.add_money(float(val))
-		elif k == "stress" or k == "reputation":
-			GameState.modify_hidden_stat(k, val)
-		else:
-			GameState.modify_stat(k, val)
 	# 투자공부(type 3)는 invest 성향, 그 외(독서/운동/명상)는 career 성향으로 집계.
 	# (기존엔 전부 career로 보내 invest 성향이 AP 행동에서 한 번도 안 쌓이던 버그)
-	GameState.add_tendency("invest" if study_type == 3 else "career", 1)
-	GameState.register_action_axis(
-		study_axis, "river" if study_type == 1 else "home", study_action_id)
+	var tendency_kind := "invest" if study_type == 3 else "career"
 	var special: Dictionary = _study_threshold_special(study_type, n)
+	var special_seen_flag := str(special.get("_seen_flag", ""))
+	if not special_seen_flag.is_empty():
+		special.erase("_seen_flag")
 	var receipt_vignette: Dictionary = special if not special.is_empty() else v
-	GameState.finalize_weekly_commitment(
-		study_action_id, "", _vignette_commitment_details(
-			receipt_vignette, {"study_type": study_type}))
+	var flag_updates := {_study_count_flag(study_type): n}
+	# Keep the atomic flag writers literal so the cross-file flag audit can prove
+	# that both one-shot threshold scenes have a live setter.
+	if special_seen_flag == "study_read_10_seen":
+		flag_updates["study_read_10_seen"] = true
+	elif special_seen_flag == "study_exercise_12_seen":
+		flag_updates["study_exercise_12_seen"] = true
+	var place_id := "river" if study_type == 1 else "home"
+	if has_pending_owner:
+		var transaction := GameState.finalize_weekly_effect_action(
+			study_action_id, eff, study_axis, place_id, "",
+			_vignette_commitment_details(
+				receipt_vignette, {"study_type": study_type}),
+			flag_updates, tendency_kind)
+		if not bool(transaction.get("ok", false)):
+			push_error("Weekly study transaction failed: %s" % str(
+				transaction.get("error", "unknown")))
+			return
+	else:
+		if not GameState.spend_ap():
+			return
+		GameState.apply_effects(eff)
+		for flag_id in flag_updates:
+			GameState.flags[str(flag_id)] = flag_updates[flag_id]
+		GameState.register_action_axis(
+			study_axis, place_id, study_action_id)
+		GameState.add_deliberate_tendency(tendency_kind)
 	var flavor: String = _localized_pair(receipt_vignette)
 	var title: String = _study_progress_label(study_type, n)
 	GameState.add_log(title + " — " + flavor, "event")
@@ -15815,19 +15890,20 @@ func _commit_opening_interview_application() -> bool:
 		}, {
 				"opening_interview_application_sent": true,
 				"opening_interview_application_turn": GameState.turn,
-		})
+		}, "career")
 	if not bool(transaction.get("ok", false)) and armed_here:
 		GameState.cancel_pending_weekly_commitment(GameState.turn)
 	return bool(transaction.get("ok", false))
 
 func _ap_side_job():
-	if GameState.action_points <= 0:
+	if not _weekly_action_can_begin("side_shift"):
 		return
 	_enter_minigame_overlay(aruba_game)
 	aruba_game.open()
 
 func _on_aruba_closed(earned: int, stress_delta: int, health_delta: int) -> void:
 	_exit_minigame_overlay()
+	var has_pending_owner := not GameState.pending_weekly_commitment.is_empty()
 	var side_shift_job_id := _core_loop_v2_side_shift_job_id
 	_core_loop_v2_side_shift_job_id = ""
 	var shift_receipt: Dictionary = aruba_game.get_last_shift_receipt()
@@ -15843,7 +15919,7 @@ func _on_aruba_closed(earned: int, stress_delta: int, health_delta: int) -> void
 		"health": total_health_delta,
 		"mental": -stress_delta,
 	}
-	if GameState.has_pending_weekly_commitment(GameState.turn):
+	if has_pending_owner:
 		var action_receipt := {
 			"execution": "side_shift",
 			"axis": "money",
@@ -15855,16 +15931,16 @@ func _on_aruba_closed(earned: int, stress_delta: int, health_delta: int) -> void
 		}
 		if not shift_receipt.is_empty():
 			action_receipt["shift"] = shift_receipt.duplicate(true)
-		var transaction := GameState.finalize_weekly_effect_action(
-			"side_shift", effects, "money", "work", "", action_receipt)
+		var transaction := _finalize_weekly_side_shift_action(
+			effects, action_receipt)
 		if not bool(transaction.get("ok", false)):
-			if DEMO_CORE_LOOP_V2.is_active() \
+			var transaction_error := str(transaction.get("error", "unknown"))
+			if transaction_error not in ["pending_turn_mismatch", "action_mismatch"] \
+					and DEMO_CORE_LOOP_V2.is_active() \
 					and not DEMO_CORE_LOOP_V2.active_bundle_id().is_empty():
 				_core_loop_v2_rollback_action_bundle()
-			else:
-				GameState.cancel_pending_weekly_commitment(GameState.turn)
 			push_error("Weekly side-shift transaction failed: %s" % str(
-				transaction.get("error", "unknown")))
+				transaction_error))
 			return
 	else:
 		if not GameState.spend_ap():
@@ -15874,7 +15950,8 @@ func _on_aruba_closed(earned: int, stress_delta: int, health_delta: int) -> void
 	# A survival shift is evidence of work, not a founder declaration. Preserve
 	# the legacy V1 tendency only for runs that never opted into V2; the V2 run
 	# keeps this meaning after its 24-week demo schedule ends as well.
-	if not bool(GameState.core_loop_v2_state.get("enabled", false)):
+	if not has_pending_owner \
+			and not bool(GameState.core_loop_v2_state.get("enabled", false)):
 		GameState.add_tendency("found", 1)
 	var shift_title := _side_shift_title(side_shift_job_id)
 	GameState.add_log(_tr(
@@ -15904,6 +15981,28 @@ func _on_aruba_closed(earned: int, stress_delta: int, health_delta: int) -> void
 	_show_vignette(shift_title, mood, display_effects, "#dc6a2a")
 	_refresh_all()
 
+func _finalize_weekly_side_shift_action(
+		effects: Dictionary, action_receipt: Dictionary) -> Dictionary:
+	if bool(GameState.core_loop_v2_state.get("enabled", false)):
+		return GameState.finalize_weekly_effect_action(
+			"side_shift", effects, "money", "work", "", action_receipt)
+	var legacy_receipt := action_receipt.duplicate(true)
+	legacy_receipt["legacy_tendency_delta"] = {"kind": "found", "weight": 1}
+	return GameState.finalize_weekly_mutation_action(
+		"side_shift", "money",
+		Callable(self, "_weekly_legacy_side_shift_mutation").bind(
+			effects, legacy_receipt),
+		"work")
+
+func _weekly_legacy_side_shift_mutation(
+		effects: Dictionary, action_receipt: Dictionary) -> Dictionary:
+	GameState.apply_effects(effects)
+	GameState.add_tendency("found", 1)
+	return {
+		"success": true,
+		"details": action_receipt.duplicate(true),
+	}
+
 const _SAVE_SCENES = [
 	{"t":"편의점 도시락 대신 집에서 밥을 했다. 재료비 이천 원으로 하루를 버텼다.", "et":"Cooked at home instead of a convenience store lunch box. Made it through the day on 2,000 won of ingredients."},
 	{"t":"구독 서비스를 정리했다. 쓰지도 않는 것들이 매달 빠져나가고 있었다.", "et":"Cleared out subscriptions. Things I didn't even use had been going out every month."},
@@ -15913,18 +16012,27 @@ const _SAVE_SCENES = [
 ]
 
 func _ap_save_money():
-	if not GameState.spend_ap():
+	var has_pending_owner := not GameState.pending_weekly_commitment.is_empty()
+	if not _weekly_action_can_begin("save"):
 		return
 	var saved: int = 30000 + randi() % 70000
-	GameState.add_money(float(saved))
-	GameState.modify_hidden_stat("stress", 2)
-	GameState.add_tendency("career", 1)
 	var _sv: Dictionary = _SAVE_SCENES[randi() % _SAVE_SCENES.size()]
 	var scene: String = _localized_pair(_sv)
+	if has_pending_owner:
+		var transaction := GameState.finalize_weekly_effect_action(
+			"save", {"money": saved, "stress": 2}, "money", "store", "",
+			_vignette_commitment_details(_sv, {"saved": saved}), {}, "career")
+		if not bool(transaction.get("ok", false)):
+			push_error("Weekly saving transaction failed: %s" % str(
+				transaction.get("error", "unknown")))
+			return
+	else:
+		if not GameState.spend_ap():
+			return
+		GameState.apply_effects({"money": saved, "stress": 2})
+		GameState.register_action_axis("money", "store", "save")
+		GameState.add_deliberate_tendency("career")
 	GameState.add_log(_tr("💰 절약 — %s", "💰 Saving — %s") % scene, "event")
-	GameState.register_action_axis("money", "store", "save")
-	GameState.finalize_weekly_commitment(
-		"save", "", _vignette_commitment_details(_sv, {"saved": saved}))
 	_show_vignette(LocaleManager.ui_context(
 		"ui.saving.activity_title", "절약", "Saving"), scene + (_tr("\n\n%s 절약했다.", "\n\nSaved %s.") % GameState.format_money(saved)),
 		{"money": saved, "stress": 2}, "#4a7a5a")
@@ -15937,7 +16045,7 @@ func _ap_network():
 		return
 	GameState.register_action_axis("money", "city", "network")   # 돈을 위한 연결
 	GameState.flags["network_count"] = int(GameState.flags.get("network_count", 0)) + 1
-	GameState.add_tendency("career", 1)
+	GameState.add_deliberate_tendency("career")
 	var v: Dictionary = NETWORK_VIGNETTES[randi() % NETWORK_VIGNETTES.size()]
 	var eff: Dictionary = v.get("e", {}).duplicate()
 	eff["reputation"] = eff.get("reputation", 0) + 1
@@ -16413,7 +16521,8 @@ func _montage_apply_effect_dict(eff: Dictionary) -> void:
 		else:
 			GameState.modify_stat(k, val)
 
-## 루틴 슬롯 1개를 조용히 적용 — spend_ap + 효과 + register_action_axis + tendency. 반환: 사용한 축.
+## 루틴 슬롯 1개를 조용히 적용 — spend_ap + 효과 + register_action_axis.
+## 시간 압축은 새 플레이어 선택이 아니므로 성향 증거를 만들지 않는다.
 func _montage_apply_slot(kind: String) -> String:
 	if not GameState.spend_ap():
 		return ""
@@ -16424,12 +16533,10 @@ func _montage_apply_slot(kind: String) -> String:
 		"study":
 			axis = "human"
 			eff = _avg_vignette_effects([STUDY_EXERCISE_VIGNETTES, STUDY_MEDITATE_VIGNETTES])
-			GameState.add_tendency("career", 1)
 		"study_invest":
 			axis = "money"
 			place_id = "home"
 			eff = _avg_vignette_effects([STUDY_INVEST_VIGNETTES])
-			GameState.add_tendency("invest", 1)
 		"rest":
 			axis = "human"
 			eff = _avg_vignette_effects([REST_VIGNETTES])
@@ -16437,12 +16544,10 @@ func _montage_apply_slot(kind: String) -> String:
 			axis = "money"
 			place_id = "store"
 			eff = {"money": 30000 + randi() % 70000, "stress": 2}
-			GameState.add_tendency("career", 1)
 		"network":
 			axis = "money"
 			place_id = "city"
 			eff = _avg_vignette_effects([NETWORK_VIGNETTES])
-			GameState.add_tendency("career", 1)
 		_:
 			axis = "human"
 			eff = _avg_vignette_effects([REST_VIGNETTES])
@@ -16900,17 +17005,28 @@ func _daeun_dawn_line() -> String:
 	return lines[(n - 1) % lines.size()]
 
 func _ap_contact_person(person_id: String):
-	if not GameState.spend_ap():
-		return
-	GameState.note_contact(person_id)          # 리캡 원장 — 누구에게 몇 번, 마지막이 언제였는지
+	var has_pending_owner := not GameState.pending_weekly_commitment.is_empty()
 	var info: Dictionary = ImageRegistry.PERSON_INFO.get(person_id, {})
 	var pname: String = str(ImageRegistry.get_person_info(person_id).get("name", info.get("name", _tr("인연", "Connection"))))
 	var accent: String = str(info.get("color", "#db2777"))
 	var affinity_before := GameState.get_cast_affinity(person_id)
 	var contact_channel := _contact_channel_id(person_id, affinity_before)
-	GameState.modify_stat("mental", 5)
-	GameState.modify_hidden_stat("stress", -3)
-	GameState.apply_cast_effect(person_id, {"affinity": 4})
+	var place_id := "store" if person_id == "daeun" else ("home" if person_id == "father" else "city")
+	if has_pending_owner:
+		var transaction := GameState.finalize_weekly_mutation_action(
+			"contact", "human",
+			Callable(self, "_weekly_contact_mutation").bind(person_id),
+			place_id, person_id, {"contact_channel": contact_channel})
+		if not bool(transaction.get("ok", false)):
+			push_error("Weekly contact transaction failed: %s" % str(
+				transaction.get("error", "unknown")))
+			return
+	else:
+		if not GameState.spend_ap():
+			return
+		_weekly_contact_mutation(person_id)
+		GameState.register_action_axis("human", place_id, "contact", person_id)
+		GameState.stats_changed.emit()
 	var aff: int = GameState.get_cast_affinity(person_id)
 
 	# 인물별 결과 텍스트 — 스토리 진행/관계 상태에 반응한다
@@ -16919,12 +17035,6 @@ func _ap_contact_person(person_id: String):
 	var msg := _contact_result_text(pname, contact_channel)
 	GameState.add_log(msg + (" " + flavor if not flavor.is_empty() else ""), "relationship")
 	turn_action_log.append(_contact_action_log_text(pname, contact_channel))
-	GameState.register_action_axis(
-		"human", "store" if person_id == "daeun" else ("home" if person_id == "father" else "city"),
-		"contact", person_id)
-	GameState.finalize_weekly_commitment(
-		"contact", person_id, {"contact_channel": contact_channel})
-	GameState.stats_changed.emit()
 	_refresh_all()
 	# A-1: 모달 닫고 스토리 영역에 인물 리액션 표시
 	if not flavor.is_empty():
@@ -16933,6 +17043,13 @@ func _ap_contact_person(person_id: String):
 	else:
 		_show_toast(msg, Color(accent))
 		_render_ap_actions()
+
+func _weekly_contact_mutation(person_id: String) -> Dictionary:
+	GameState.note_contact(person_id)          # 리캡 원장 — 누구에게 몇 번, 마지막이 언제였는지
+	GameState.modify_stat("mental", 5)
+	GameState.modify_hidden_stat("stress", -3)
+	GameState.apply_cast_effect(person_id, {"affinity": 4})
+	return {"success": true}
 
 ## 연락하기 대사 — 스토리 플래그·호감도·자산 상태에 따라 달라진다
 func _contact_flavor(person_id: String, aff: int) -> String:
@@ -17340,8 +17457,9 @@ func _pending_weekly_gamble() -> bool:
 func _can_open_gamble_session() -> bool:
 	if GameState.action_points <= 0:
 		return false
-	return not GameState.has_pending_weekly_commitment(GameState.turn) \
-		or _pending_weekly_gamble()
+	if not GameState.pending_weekly_commitment.is_empty():
+		return _pending_weekly_gamble()
+	return true
 
 func _gamble_session_details(game_id: String, game: Node) -> Dictionary:
 	var summary: Dictionary = {}
@@ -17363,22 +17481,32 @@ func _gamble_session_details(game_id: String, game: Node) -> Dictionary:
 func _settle_gamble_session(action_id: String, game_id: String, place_id: String,
 		game: Node) -> Dictionary:
 	var details := _gamble_session_details(game_id, game)
+	details["settled"] = false
 	if int(details.get("rounds", 0)) <= 0:
 		if _pending_weekly_gamble():
 			GameState.cancel_pending_weekly_commitment(GameState.turn)
 		return details
-	if not GameState.spend_ap():
-		if _pending_weekly_gamble():
-			GameState.cancel_pending_weekly_commitment(GameState.turn)
-		details["rounds"] = 0
-		return details
-	GameState.register_action_axis("money", place_id, action_id)
-	if _pending_weekly_gamble():
-		GameState.finalize_weekly_commitment(action_id, "", details)
+	if not GameState.pending_weekly_commitment.is_empty():
+		details["settled"] = true
+		var transaction := GameState.finalize_weekly_effect_action(
+			action_id, {}, "money", place_id, "", details)
+		if not bool(transaction.get("ok", false)):
+			details["settled"] = false
+			# The mini-game has already settled each completed round. Do not erase a
+			# real wager after the fact; fail the weekly receipt loudly instead.
+			push_error("Weekly gamble settlement failed: %s" % str(
+				transaction.get("error", "unknown")))
+			return details
+	else:
+		if not GameState.spend_ap():
+			return details
+		GameState.register_action_axis("money", place_id, action_id)
+	details["settled"] = true
 	return details
 
 func _record_gamble_session_result(details: Dictionary) -> bool:
-	if int(details.get("rounds", 0)) <= 0:
+	if int(details.get("rounds", 0)) <= 0 \
+			or not bool(details.get("settled", false)):
 		return false
 	var label := _weekly_commitment_settlement_label({"details": details})
 	if label.is_empty():
@@ -17510,33 +17638,41 @@ func _ap_selfdev():
 
 func _ap_free_time():
 	# 자유시간 누적 → 칭호 "자유로운 영혼" (MetaProgression free_spirit) 조건
-	GameState.flags["free_time_count"] = int(GameState.flags.get("free_time_count", 0)) + 1
-	_ap_vignette(_tr("휴식", "Rest"), REST_VIGNETTES, "#0891b2", "home", "rest")
+	var flag_updates: Dictionary = {}
+	flag_updates["free_time_count"] = int(
+		GameState.flags.get("free_time_count", 0)) + 1
+	_ap_vignette(
+		_tr("휴식", "Rest"), REST_VIGNETTES, "#0891b2", "home", "rest",
+		flag_updates)
 
 ## 루틴 행동을 '변주되는 미니 장면'으로 처리. 풀에서 무작위 결과를 뽑아 적용.
 func _ap_vignette(title: String, pool: Array, color: String, place_id: String = "home",
-		action_id: String = ""):
-	if not GameState.spend_ap():
+		action_id: String = "", flag_updates: Dictionary = {}):
+	if not _weekly_action_can_begin(action_id):
 		return
 	var v: Dictionary = pool[randi() % pool.size()]
 	var eff: Dictionary = v.get("e", {})
-	for k in eff:
-		var val: int = int(eff[k])
-		if k == "money":
-			GameState.add_money(float(val))
-			if val > 0:
-				AudioManager.play("money_gain")
-		elif k == "stress" or k == "reputation":
-			GameState.modify_hidden_stat(k, val)
-		else:
-			GameState.modify_stat(k, val)
+	var has_pending_owner := not GameState.pending_weekly_commitment.is_empty()
+	if has_pending_owner:
+		var transaction := GameState.finalize_weekly_effect_action(
+			action_id, eff, "human", place_id, "",
+			_vignette_commitment_details(v), flag_updates)
+		if not bool(transaction.get("ok", false)):
+			push_error("Weekly vignette transaction failed: %s" % str(
+				transaction.get("error", "unknown")))
+			return
+	else:
+		if not GameState.spend_ap():
+			return
+		GameState.apply_effects(eff)
+		for flag_id in flag_updates:
+			GameState.flags[str(flag_id)] = flag_updates[flag_id]
+		GameState.register_action_axis("human", place_id, action_id)
+	if int(eff.get("money", 0)) > 0:
+		AudioManager.play("money_gain")
 	var flavor: String = _localized_pair(v)
 	turn_action_log.append("✓ " + title + " — " + flavor.substr(0, 22))
 	GameState.add_log(title + " — " + flavor, "event")
-	GameState.register_action_axis("human", place_id, action_id)   # 자기계발·휴식 = 자기 돌봄
-	GameState.finalize_weekly_commitment(
-		action_id, "", _vignette_commitment_details(v))
-	GameState.stats_changed.emit()
 	_show_vignette(title, flavor, eff, color)
 
 func _show_vignette(title: String, body: String, eff: Dictionary, color: String):
@@ -17665,7 +17801,7 @@ func _ap_startup_work():
 			GameState.modify_hidden_stat(k, val)
 		else:
 			GameState.modify_stat(k, val)
-	GameState.add_tendency("found", 1)
+	GameState.add_deliberate_tendency("found")
 	var flavor: String = _localized_pair(v)
 	turn_action_log.append("✓ " + _tr("🚀 창업 업무", "🚀 Startup Work") + " — " + flavor.substr(0, 22))
 	GameState.add_log(_tr("🚀 창업 업무", "🚀 Startup Work") + " — " + flavor, "event")
@@ -17686,7 +17822,7 @@ func _ap_create_content():
 			GameState.modify_hidden_stat(k, val)
 		else:
 			GameState.modify_stat(k, val)
-	GameState.add_tendency("found", 1)
+	GameState.add_deliberate_tendency("found")
 	if GameState.flags.get("creator_monetized", false):
 		var content_income = float(randi_range(50_000, 200_000))
 		GameState.add_money(content_income)
@@ -17720,6 +17856,7 @@ func _ap_interview_prep(allow_committed_week: bool = false):
 
 func _on_job_hunt_closed(stress_delta: int, quality: int) -> void:
 	_exit_minigame_overlay()
+	var has_pending_owner := not GameState.pending_weekly_commitment.is_empty()
 	# quality: 0=재작성필요, 1=무난, 2=양호, 3=우수
 	var is_resume: bool = job_hunt_game.current_mode == 0  # Mode.RESUME
 	if is_resume and bool(job_hunt_game.application_submission_mode):
@@ -17768,21 +17905,21 @@ func _on_job_hunt_closed(stress_delta: int, quality: int) -> void:
 			" 마지막 답을 다시 말할 때는 숨이 조금 고르게 나왔다.",
 			" By the last answer, his breathing had steadied a little.")
 
-	if GameState.has_pending_weekly_commitment(GameState.turn):
+	if has_pending_owner:
 		var transaction := GameState.finalize_weekly_effect_action(
 			action_id, effects, "money", "work", "", {
 				"execution": "job_hunt_minigame",
 				"quality": quality,
 				"effects": effects.duplicate(true),
-			}, flag_updates)
+			}, flag_updates, "career")
 		if not bool(transaction.get("ok", false)):
-			if DEMO_CORE_LOOP_V2.is_active() \
+			var transaction_error := str(transaction.get("error", "unknown"))
+			if transaction_error not in ["pending_turn_mismatch", "action_mismatch"] \
+					and DEMO_CORE_LOOP_V2.is_active() \
 					and not DEMO_CORE_LOOP_V2.active_bundle_id().is_empty():
 				_core_loop_v2_rollback_action_bundle()
-			else:
-				GameState.cancel_pending_weekly_commitment(GameState.turn)
 			push_error("Weekly job-hunt transaction failed: %s" % str(
-				transaction.get("error", "unknown")))
+				transaction_error))
 			return
 	else:
 		if not GameState.spend_ap():
@@ -17791,7 +17928,7 @@ func _on_job_hunt_closed(stress_delta: int, quality: int) -> void:
 		for raw_flag in flag_updates:
 			GameState.flags[str(raw_flag)] = flag_updates[raw_flag]
 		GameState.register_action_axis("money", "work", action_id)
-	GameState.add_tendency("career", 1)
+		GameState.add_deliberate_tendency("career")
 	GameState.add_log(result_log, "event")
 	GameState.stats_changed.emit()
 	_refresh_all()
@@ -17833,11 +17970,9 @@ func _core_loop_v2_send_fresh_w1_application(send_button: Button) -> void:
 			transaction.get("error", "unknown")))
 		return
 	_fresh_w1_application_draft.clear()
-	GameState.add_tendency("career", 1)
 	GameState.add_log(_tr(
 		"미래산업기술 지원서가 전송됐다. 네 문항이 접수 화면에 남았다.",
 		"The Mirae Industrial Tech application was sent. All four answers remained on the receipt screen."), "event")
-	GameState.stats_changed.emit()
 	_refresh_all()
 	# The result transaction becomes durable before interview Story ownership.
 	# A failed save may only retry this exact write; Send never runs twice.
@@ -17877,6 +18012,7 @@ func _ap_deep_study():
 	if not GameState.spend_ap():
 		return
 	GameState.register_action_axis("money", "home", "study_read")
+	GameState.add_deliberate_tendency("career")
 	GameState.modify_stat("intelligence", 8)
 	AudioManager.play("stat_up")
 	turn_action_log.append(_tr(
@@ -17954,12 +18090,27 @@ func _open_leverage_investments():
 	modal_body.add_child(back_lev)
 
 func _on_leverage_buy(asset_id: String, amount: float):
-	if not GameState.spend_ap():
-		_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
-		_close_modal()
-		return
-	var was_weekly := GameState.has_pending_weekly_commitment(GameState.turn)
-	var result: Dictionary = investment_system.buy_asset_leveraged(asset_id, amount)
+	var has_pending_owner := not GameState.pending_weekly_commitment.is_empty()
+	var result: Dictionary = {}
+	if has_pending_owner:
+		var transaction := GameState.finalize_weekly_mutation_action(
+			"invest_leverage", "money",
+			Callable(self, "_weekly_investment_mutation").bind(
+				"leverage_buy", asset_id, amount),
+			"", "", {}, {}, "invest", [investment_system],
+			Callable(self, "_publish_weekly_investment_mutation"))
+		result = transaction.get("mutation_result", {}) \
+			if transaction.get("mutation_result", {}) is Dictionary else {}
+		if not bool(transaction.get("ok", false)):
+			_show_toast(str(result.get("message", transaction.get(
+				"error", _tr("오류", "Error")))), Color("#ff4444"))
+			return
+	else:
+		if not GameState.spend_ap():
+			_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
+			_close_modal()
+			return
+		result = investment_system.buy_asset_leveraged(asset_id, amount)
 	if result.get("success", false):
 		var cash_committed := float(result.get("cash_committed", 0.0))
 		var exposure := float(result.get("exposure", cash_committed * 2.0))
@@ -17970,22 +18121,15 @@ func _on_leverage_buy(asset_id: String, amount: float):
 				asset_name = data.get("name", asset_id)
 				break
 		turn_action_log.append(_tr("✓ 레버리지 → %s ×2배  %s", "✓ Leverage → %s ×2  %s") % [asset_name, GameState.format_money(cash_committed)])
-		GameState.register_action_axis("money", "", "invest_leverage")
-		GameState.finalize_weekly_commitment("invest_leverage", "", {
-			"asset_id": asset_id,
-			"trade": "leverage_buy",
-			"amount": cash_committed,
-			"price": float(result.get("price", 0.0)),
-			"quantity": float(result.get("quantity", 0.0)),
-			"fee": float(result.get("fee", 0.0)),
-			"exposure": exposure,
-		})
+		if not has_pending_owner:
+			GameState.register_action_axis("money", "", "invest_leverage")
+			GameState.add_deliberate_tendency("invest")
 		_close_modal()
-		if not was_weekly:
+		if not has_pending_owner:
 			_show_ap_action_commit(_tr("레버리지 매수", "Leverage Buy"), "leverage", "#ef4444", false, _action_thumb_texture("_ap_invest", "invest"))
 		_refresh_all()
 		_show_toast(_tr("레버리지 매수 — %s ×2배 포지션 확보", "Leverage buy — secured %s ×2 position") % GameState.format_money(exposure), Color("#ef4444"))
-	else:
+	elif not has_pending_owner:
 		GameState.action_points += 1
 		GameState.stats_changed.emit()
 		_show_toast(result.get("message", _tr("오류", "Error")), Color("#ff4444"))
@@ -17994,6 +18138,7 @@ func _ap_vip_network():
 	if not GameState.spend_ap():
 		return
 	GameState.register_action_axis("money", "city", "vip_network")
+	GameState.add_deliberate_tendency("career")
 	GameState.modify_stat("social_skill", 3)
 	GameState.modify_hidden_stat("reputation", 2)
 	var rel_names: Array = []
@@ -19415,16 +19560,33 @@ func _on_job_selected(job_id):
 	if selected_job.is_empty() or not _job_can_apply(selected_job):
 		_show_toast(_tr("지원 조건을 다시 확인하세요", "Check the application requirements"), Color("#ff7070"))
 		return
-	if not GameState.spend_ap():
-		_show_toast(_tr("행동력이 없습니다", "No Action Points"), Color("#ff7070"))
-		return
 	var had_resume = GameState.flags.get("resume_polished", false)
 	var had_interview = GameState.flags.get("interview_practiced", false)
 	var is_first_job = GameState.current_job.is_empty()
-	var apply_result: Dictionary = job_system.apply_for_job(job_id)
+	var has_pending_owner := not GameState.pending_weekly_commitment.is_empty()
+	var apply_result: Dictionary = {}
+	if has_pending_owner:
+		var transaction := GameState.finalize_weekly_mutation_action(
+			"apply", "money",
+			Callable(self, "_weekly_job_mutation").bind(str(job_id)),
+			"work", "", {"job_id": str(job_id)}, {}, "career",
+			[job_system], Callable(self, "_publish_weekly_job_mutation"))
+		apply_result = transaction.get("mutation_result", {}) \
+			if transaction.get("mutation_result", {}) is Dictionary else {}
+		if not bool(transaction.get("ok", false)):
+			_show_toast(str(apply_result.get("message", transaction.get(
+				"error", _tr("지원할 수 없습니다", "Cannot apply")))),
+				Color("#ff7070"))
+			return
+	else:
+		if not GameState.spend_ap():
+			_show_toast(_tr("행동력이 없습니다", "No Action Points"), Color("#ff7070"))
+			return
+		apply_result = job_system.apply_for_job(job_id)
 	if not bool(apply_result.get("success", false)):
-		GameState.action_points += 1
-		GameState.stats_changed.emit()
+		if not has_pending_owner:
+			GameState.action_points += 1
+			GameState.stats_changed.emit()
 		_show_toast(str(apply_result.get("message", _tr("지원할 수 없습니다", "Cannot apply"))), Color("#ff7070"))
 		return
 	var job_name = GameState.get_job_display_name()
@@ -19433,8 +19595,9 @@ func _on_job_selected(job_id):
 	var prep_note = (_tr("  (준비 보너스 +%d 업무능력)", "  (prep bonus +%d work skill)") % prep_bonus) if prep_bonus > 0 else ""
 	turn_action_log.append(
 		_tr("구직활동 → %s 취업%s", "Job Hunt → hired at %s%s") % [job_name, prep_note])
-	GameState.register_action_axis("money", "work", "apply")
-	GameState.finalize_weekly_commitment("apply", "", {"job_id": str(job_id)})
+	if not has_pending_owner:
+		GameState.register_action_axis("money", "work", "apply")
+		GameState.add_deliberate_tendency("career")
 	# Close only after the commitment is finalized. Closing first rebuilds the AP
 	# board against the still-pending choice and leaves stale, unusable cards.
 	_close_modal()
@@ -19446,19 +19609,35 @@ func _on_job_selected(job_id):
 		_show_toast(_tr("%s  월 %s%s", "%s  monthly %s%s") % [job_name, salary, prep_note], Color("#9aa4b8"))
 
 func _on_buy_asset(asset_id, amount):
-	if not GameState.spend_ap():
-		_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
-		_close_modal()
-		return
-	var was_weekly := GameState.has_pending_weekly_commitment(GameState.turn)
-	var result: Dictionary = investment_system.buy_asset(asset_id, float(amount))
+	var has_pending_owner := not GameState.pending_weekly_commitment.is_empty()
+	var result: Dictionary = {}
+	if has_pending_owner:
+		var transaction := GameState.finalize_weekly_mutation_action(
+			"invest_buy", "money",
+			Callable(self, "_weekly_investment_mutation").bind(
+				"buy", str(asset_id), float(amount)),
+			"", "", {}, {}, "invest", [investment_system],
+			Callable(self, "_publish_weekly_investment_mutation"))
+		result = transaction.get("mutation_result", {}) \
+			if transaction.get("mutation_result", {}) is Dictionary else {}
+		if not bool(transaction.get("ok", false)):
+			_show_toast(str(result.get("message", transaction.get(
+				"error", _tr("매수할 수 없습니다", "Cannot buy")))),
+				Color("#ff4444"))
+			return
+	else:
+		if not GameState.spend_ap():
+			_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
+			_close_modal()
+			return
+		result = investment_system.buy_asset(asset_id, float(amount))
 	if not bool(result.get("success", false)):
-		GameState.action_points += 1
-		GameState.stats_changed.emit()
+		if not has_pending_owner:
+			GameState.action_points += 1
+			GameState.stats_changed.emit()
 		_show_toast(str(result.get("message", _tr("매수할 수 없습니다", "Cannot buy"))), Color("#ff4444"))
 		return
 	AudioManager.play("money_gain")
-	GameState.add_tendency("invest", 1)   # 자산 매수 = 투자형
 	var cash_committed := float(result.get("cash_committed", 0.0))
 	var asset_name = asset_id
 	for data in DataRegistry.assets:
@@ -19466,32 +19645,42 @@ func _on_buy_asset(asset_id, amount):
 			asset_name = data.get("name", asset_id)
 			break
 	turn_action_log.append(_tr("✓ 투자 → %s 매수 %s", "✓ Invest → bought %s %s") % [asset_name, GameState.format_money(cash_committed)])
-	GameState.register_action_axis("money", "", "invest_buy")
-	GameState.finalize_weekly_commitment("invest_buy", "", {
-		"asset_id": str(asset_id),
-		"trade": "buy",
-		"amount": cash_committed,
-		"price": float(result.get("price", 0.0)),
-		"quantity": float(result.get("quantity", 0.0)),
-		"fee": float(result.get("fee", 0.0)),
-		"net_invested": float(result.get("net_invested", cash_committed)),
-	})
+	if not has_pending_owner:
+		GameState.register_action_axis("money", "", "invest_buy")
+		GameState.add_deliberate_tendency("invest")
 	_close_modal()
-	if not was_weekly:
+	if not has_pending_owner:
 		_show_ap_action_commit(_tr("투자 매수", "Buy Asset"), "invest", "#3a8a5a", false, _action_thumb_texture("_ap_invest", "invest"))
 	_refresh_all()
 	_show_toast(_tr("매수 완료 %s", "Bought %s") % GameState.format_money(cash_committed), Color("#00c896"))
 
 func _on_sell_asset(asset_id, ratio):
-	if not GameState.spend_ap():
-		_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
-		_close_modal()
-		return
-	var was_weekly := GameState.has_pending_weekly_commitment(GameState.turn)
-	var result: Dictionary = investment_system.sell_asset(asset_id, float(ratio))
+	var has_pending_owner := not GameState.pending_weekly_commitment.is_empty()
+	var result: Dictionary = {}
+	if has_pending_owner:
+		var transaction := GameState.finalize_weekly_mutation_action(
+			"invest_sell", "money",
+			Callable(self, "_weekly_investment_mutation").bind(
+				"sell", str(asset_id), float(ratio)),
+			"", "", {}, {}, "", [investment_system],
+			Callable(self, "_publish_weekly_investment_mutation"))
+		result = transaction.get("mutation_result", {}) \
+			if transaction.get("mutation_result", {}) is Dictionary else {}
+		if not bool(transaction.get("ok", false)):
+			_show_toast(str(result.get("message", transaction.get(
+				"error", _tr("매도할 수 없습니다", "Cannot sell")))),
+				Color("#ff4444"))
+			return
+	else:
+		if not GameState.spend_ap():
+			_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
+			_close_modal()
+			return
+		result = investment_system.sell_asset(asset_id, float(ratio))
 	if not bool(result.get("success", false)):
-		GameState.action_points += 1
-		GameState.stats_changed.emit()
+		if not has_pending_owner:
+			GameState.action_points += 1
+			GameState.stats_changed.emit()
 		_show_toast(str(result.get("message", _tr("매도할 수 없습니다", "Cannot sell"))), Color("#ff4444"))
 		return
 	AudioManager.play("money_loss")
@@ -19501,21 +19690,88 @@ func _on_sell_asset(asset_id, ratio):
 			asset_name = data.get("name", asset_id)
 			break
 	turn_action_log.append(_tr("✓ 투자 → %s 매도", "✓ Invest → sold %s") % asset_name)
-	GameState.register_action_axis("money", "", "invest_sell")
-	GameState.finalize_weekly_commitment("invest_sell", "", {
-		"asset_id": str(asset_id),
-		"trade": "sell",
-		"ratio": float(result.get("ratio", ratio)),
-		"price": float(result.get("price", 0.0)),
-		"quantity": float(result.get("quantity", 0.0)),
-		"proceeds": float(result.get("proceeds", 0.0)),
-		"profit": float(result.get("profit", 0.0)),
-	})
+	if not has_pending_owner:
+		GameState.register_action_axis("money", "", "invest_sell")
 	_close_modal()
-	if not was_weekly:
+	if not has_pending_owner:
 		_show_ap_action_commit(_tr("투자 매도", "Sell Asset"), "invest", "#d73a49", false, _action_thumb_texture("_ap_invest", "invest"))
 	_refresh_all()
 	_show_toast(_tr("매도 완료", "Sold"), Color("#ff4444"))
+
+func _weekly_investment_mutation(
+		trade: String, asset_id: String, amount_or_ratio: float) -> Dictionary:
+	var result: Dictionary = {}
+	match trade:
+		"buy":
+			result = investment_system.buy_asset(asset_id, amount_or_ratio)
+		"sell":
+			result = investment_system.sell_asset(asset_id, amount_or_ratio)
+		"leverage_buy":
+			result = investment_system.buy_asset_leveraged(
+				asset_id, amount_or_ratio)
+		_:
+			return {"success": false, "error": "invalid_investment_mutation"}
+	if not bool(result.get("success", false)):
+		return result
+	result["transaction_asset_id"] = asset_id
+	result["transaction_trade"] = trade
+	match trade:
+		"buy":
+			result["details"] = {
+				"asset_id": asset_id,
+				"trade": "buy",
+				"amount": float(result.get("cash_committed", 0.0)),
+				"price": float(result.get("price", 0.0)),
+				"quantity": float(result.get("quantity", 0.0)),
+				"fee": float(result.get("fee", 0.0)),
+				"net_invested": float(result.get("net_invested", 0.0)),
+			}
+		"sell":
+			result["details"] = {
+				"asset_id": asset_id,
+				"trade": "sell",
+				"ratio": float(result.get("ratio", amount_or_ratio)),
+				"price": float(result.get("price", 0.0)),
+				"quantity": float(result.get("quantity", 0.0)),
+				"proceeds": float(result.get("proceeds", 0.0)),
+				"profit": float(result.get("profit", 0.0)),
+			}
+		"leverage_buy":
+			result["details"] = {
+				"asset_id": asset_id,
+				"trade": "leverage_buy",
+				"amount": float(result.get("cash_committed", 0.0)),
+				"price": float(result.get("price", 0.0)),
+				"quantity": float(result.get("quantity", 0.0)),
+				"fee": float(result.get("fee", 0.0)),
+				"exposure": float(result.get("exposure", 0.0)),
+			}
+	return result
+
+func _publish_weekly_investment_mutation(result: Dictionary) -> void:
+	if not bool(result.get("success", false)):
+		return
+	investment_system.trade_executed.emit(
+		str(result.get("transaction_asset_id", "")),
+		str(result.get("transaction_trade", "")),
+		float(result.get("quantity", 0.0)),
+		float(result.get("price", 0.0)))
+	investment_system.portfolio_updated.emit()
+
+func _weekly_job_mutation(job_id: String) -> Dictionary:
+	var result: Dictionary = job_system.apply_for_job(job_id)
+	if bool(result.get("success", false)):
+		result["details"] = {"job_id": job_id}
+		# JobSystem's legacy success signal publishes the registry job definition,
+		# not current_job with runtime-only fields such as effective_salary.
+		result["job_signal_payload"] = DataRegistry.get_job(job_id).duplicate(true)
+	return result
+
+func _publish_weekly_job_mutation(result: Dictionary) -> void:
+	if bool(result.get("success", false)):
+		var payload: Dictionary = result.get("job_signal_payload", {}) \
+			if result.get("job_signal_payload", {}) is Dictionary else {}
+		job_system.job_changed.emit(payload.duplicate(true))
 
 func _on_use_item(item_id):
 	var result: Dictionary = inventory_system.use_item(item_id)

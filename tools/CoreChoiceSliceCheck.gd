@@ -54,6 +54,7 @@ func _ready() -> void:
 	_check_father_terminal_ending_descriptions()
 	_check_chapter_four_terminal_router_guards()
 	_check_order143_family_chain()
+	_check_m25_m28_father_bridge()
 	_check_father_terminal_legacy_routes()
 	_check_foreground_commitment_weeks()
 	if _failures.is_empty():
@@ -922,6 +923,184 @@ func _check_order143_family_chain() -> void:
 		_expect(game._story_graph_contract_event_id(
 				int(route_case["turn"]), route_flags, false).is_empty(),
 			"M34 typed aftermath replayed %s" % route_case["flag"])
+	game.free()
+
+func _prepare_m25_m28_father_bridge_state() -> void:
+	_prepare_chapter_four_router_state()
+	GameState.turn = 100
+	GameState.pending_story_queue = []
+	GameState.deferred_events = []
+	GameState.event_log = []
+	for flag_id in [
+		"visited_father",
+		"father_passed",
+		"arc_father_passing_seen",
+		"arc_y3_father_avoidance_document_seen",
+		"arc_y3_father_deferred_call_seen",
+		"y3_father_avoidance_voicemail",
+		"y3_father_avoidance_source_message",
+		"y3_father_avoidance_scheduled_call",
+		"daeun_romance_started",
+		"jiyeon_romance_started",
+		"daeun_chose_her",
+		"arc_daeun_fork_seen",
+		"daeun_close_bond",
+		"daeun_together_path",
+		"arc_jiyeon_offer_seen",
+		"arc_jiyeon_epilogue_seen",
+		"arc_jiyeon_real_reason_seen",
+	]:
+		GameState.flags.erase(flag_id)
+	GameState.flags["father_visit_deferred"] = true
+	GameState.flags["arc_father_03_seen"] = true
+	GameState.flags["arc_year2_close_seen"] = true
+	GameState.flags["arc_y2_relationship_fork_unattached_seen"] = true
+	GameState.apply_cast_effect("father", {"met": true, "stage": "health_crisis"})
+
+func _check_m25_m28_father_bridge() -> void:
+	var receipt_flags: Array[String] = [
+		"y3_father_avoidance_voicemail",
+		"y3_father_avoidance_source_message",
+		"y3_father_avoidance_scheduled_call",
+	]
+	_prepare_m25_m28_father_bridge_state()
+	var game = _new_main_game()
+	_expect(game._story_graph_contract_event_id(
+			99, GameState.flags, false).is_empty() \
+		and game._story_graph_contract_event_id(
+			100, GameState.flags, false) \
+				== "arc_y3_father_avoidance_document" \
+		and game._story_graph_contract_event_id(
+			101, GameState.flags, false).is_empty(),
+		"M25 deferred-Father document escaped exact W100 ownership")
+	_expect(game._next_arc_id(100, true, false) \
+			== "arc_y3_father_avoidance_document",
+		"W100 product router did not expose the deferred-Father document")
+	_expect(game._story_event_prerequisites_met(
+			"arc_y3_father_avoidance_document", 100, GameState.flags),
+		"W100 deferred-Father document rule rejected its product state")
+	GameState.flags["visited_father"] = true
+	_expect(game._story_graph_contract_event_id(
+			100, GameState.flags, false).is_empty(),
+		"a later Father visit reopened the W100 avoidance document")
+	GameState.flags.erase("visited_father")
+	_expect(game._story_graph_contract_event_id(
+			100, GameState.flags, true).is_empty(),
+		"terminal Father evidence reopened the W100 avoidance document")
+	game.free()
+
+	var m25_event: Dictionary = DataRegistry.find_event(
+		"arc_y3_father_avoidance_document")
+	var m25_choices: Array = m25_event.get("choices", [])
+	var m28_event: Dictionary = DataRegistry.find_event(
+		"arc_y3_father_deferred_call")
+	var m28_choices: Array = m28_event.get("choices", [])
+	_expect(m25_choices.size() == 3 and m28_choices.size() == 3,
+		"M25-M28 Father bridge lost its three authored decisions")
+	var m28_known: Dictionary = m28_event.get("description_if_known", {})
+	_expect(receipt_flags.all(func(flag_id: String) -> bool:
+		return m28_known.has(flag_id)),
+		"M28 does not read every exact M25 contact receipt")
+
+	for choice_index in range(m25_choices.size()):
+		_prepare_m25_m28_father_bridge_state()
+		GameState.turn = 100
+		_expect(GameState.apply_choice(
+				m25_event, m25_choices[choice_index] as Dictionary),
+			"M25 Father contact choice %d did not commit" % choice_index)
+		var receipt_count := 0
+		for flag_id in receipt_flags:
+			if GameState.flags.get(flag_id, false):
+				receipt_count += 1
+		_expect(GameState.flags.get(
+				"arc_y3_father_avoidance_document_seen", false) \
+			and receipt_count == 1 \
+			and GameState.flags.get(receipt_flags[choice_index], false),
+			"M25 Father contact choice %d lost its exact receipt" % choice_index)
+		_expect(GameState.event_log.size() == 1 \
+			and str(GameState.event_log[0].get("event_id", "")) \
+				== "arc_y3_father_avoidance_document" \
+			and int(GameState.event_log[0].get("turn", -1)) == 100 \
+			and int(GameState.event_log[0].get("choice_index", -1)) \
+				== choice_index,
+			"M25 Father contact choice %d lost its W100 ledger receipt" \
+				% choice_index)
+		GameState.turn = 112
+		game = _new_main_game()
+		_expect(game._story_graph_contract_event_id(
+				111, GameState.flags, false).is_empty() \
+			and game._story_graph_contract_event_id(
+				112, GameState.flags, false) \
+					== "arc_y3_father_deferred_call" \
+			and game._story_graph_contract_event_id(
+				113, GameState.flags, false).is_empty(),
+			"M28 Father call for M25 choice %d escaped exact W112 ownership" \
+				% choice_index)
+		_expect(game._next_arc_id(112, true, false) \
+				== "arc_y3_father_deferred_call",
+			"W112 product router lost M25 choice %d" % choice_index)
+		_expect(GameState.apply_choice(
+				m28_event, m28_choices[choice_index] as Dictionary) \
+			and GameState.flags.get(
+				"arc_y3_father_deferred_call_seen", false),
+			"M28 Father call choice %d did not commit" % choice_index)
+		_expect(game._story_graph_contract_event_id(
+				112, GameState.flags, false).is_empty(),
+			"M28 Father call choice %d replayed" % choice_index)
+		game.free()
+
+	# A common flag without its choice receipt, contradictory receipts, an
+	# attached route, or missing M22 unattached evidence must all fail closed.
+	_prepare_m25_m28_father_bridge_state()
+	GameState.flags["arc_y3_father_avoidance_document_seen"] = true
+	game = _new_main_game()
+	_expect(game._story_graph_contract_event_id(
+			112, GameState.flags, false).is_empty(),
+		"bare M25 common flag fabricated the W112 Father call")
+	GameState.flags[receipt_flags[0]] = true
+	GameState.flags[receipt_flags[1]] = true
+	_expect(game._story_graph_contract_event_id(
+			112, GameState.flags, false).is_empty(),
+		"contradictory M25 receipts fabricated the W112 Father call")
+	game.free()
+
+	var relationship_blockers: Array[String] = [
+		"daeun_romance_started",
+		"jiyeon_romance_started",
+		"daeun_chose_her",
+		"arc_daeun_fork_seen",
+		"daeun_close_bond",
+		"daeun_together_path",
+		"arc_jiyeon_offer_seen",
+		"arc_jiyeon_epilogue_seen",
+		"arc_jiyeon_real_reason_seen",
+	]
+	for blocker in relationship_blockers:
+		_prepare_m25_m28_father_bridge_state()
+		GameState.flags["arc_y3_father_avoidance_document_seen"] = true
+		GameState.flags[receipt_flags[0]] = true
+		GameState.flags[blocker] = true
+		game = _new_main_game()
+		_expect(game._story_graph_contract_event_id(
+				112, GameState.flags, false) \
+					!= "arc_y3_father_deferred_call",
+			"W112 Father call stole relationship path %s" % blocker)
+		game.free()
+
+	_prepare_m25_m28_father_bridge_state()
+	GameState.flags["arc_y3_father_avoidance_document_seen"] = true
+	GameState.flags[receipt_flags[0]] = true
+	GameState.flags.erase("arc_y2_relationship_fork_unattached_seen")
+	game = _new_main_game()
+	_expect(game._story_graph_contract_event_id(
+			112, GameState.flags, false).is_empty(),
+		"W112 Father call fabricated an unattached M22 path")
+	_expect(game._story_graph_contract_event_id(
+			112, GameState.flags, true).is_empty(),
+		"terminal Father evidence reopened the W112 call")
+	_expect(game._next_arc_id(120, true, false) \
+			!= "arc_y3_jaehyuk_no_contact",
+		"dormant M30 no-contact draft entered product routing")
 	game.free()
 
 func _check_chapter_four_missed_cost_routing() -> void:

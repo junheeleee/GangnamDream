@@ -2734,13 +2734,36 @@ def validate_story_map(
                         selector_partition = "selector" in beat and all(
                             isinstance(row, dict) and "selector" in row for row in fallbacks
                         )
-                        expected_wildcards = 0 if selector_partition else 1
-                        if wildcard_fallbacks != expected_wildcards:
-                            errors.append(
-                                f"{beat_owner}.coverage: route axis selector partition needs explicit values"
-                                if selector_partition else
-                                f"{beat_owner}.coverage: route axis needs exactly one wildcard fallback"
-                            )
+                        month_availability = month.get("availability")
+                        availability_axis = (
+                            month_availability.get("axis")
+                            if isinstance(month_availability, dict) else None
+                        )
+                        explicit_availability_values = {
+                            value for value in availability_values
+                            if isinstance(value, str)
+                        }
+                        selectorless_explicit_partition = (
+                            not selector_partition
+                            and wildcard_fallbacks == 0
+                            and axis == availability_axis
+                        )
+                        if selectorless_explicit_partition:
+                            if seen_values != explicit_availability_values:
+                                errors.append(
+                                    f"{beat_owner}.coverage: selectorless route coverage must "
+                                    "exactly partition availability values "
+                                    f"missing={sorted(explicit_availability_values - seen_values)} "
+                                    f"extra={sorted(seen_values - explicit_availability_values)}"
+                                )
+                        else:
+                            expected_wildcards = 0 if selector_partition else 1
+                            if wildcard_fallbacks != expected_wildcards:
+                                errors.append(
+                                    f"{beat_owner}.coverage: route axis selector partition needs explicit values"
+                                    if selector_partition else
+                                    f"{beat_owner}.coverage: route axis needs exactly one wildcard fallback"
+                                )
 
     for availability_owner, receipt_id, reader_month in availability_receipt_refs:
         writer_month = commitment_months.get(receipt_id)
@@ -3359,10 +3382,10 @@ def run_self_test(
     )
 
     case(
-        "m39_selected_set_exact_dispatch",
-        lambda x: month(x, 39)["beats"][0]["selector"]["selected_all"]
-        .remove("m39_investment_meeting"),
-        "selector dispatch must resolve exactly one branch",
+        "m39_selectorless_route_partition_exact",
+        lambda x: month(x, 39)["beats"][0]["coverage"]["fallbacks"][1]
+        .update({"values": ["detached"]}),
+        "selectorless route coverage must exactly partition availability values",
     )
     case(
         "actor_fallback_must_be_truthful",

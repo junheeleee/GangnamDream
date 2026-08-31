@@ -27,8 +27,10 @@ EXPECTED_BRIDGE_RANDOM = 19
 # Core V2's authored hidden beats include the First Bill fragments plus the
 # fresh-only application Send and pre-plan calculation. They are reached by
 # runtime substitution or bundle/story links, never by the random director.
-EXPECTED_REGISTERED_EVENTS = 1705
+EXPECTED_REGISTERED_EVENTS = 1707
 EXPECTED_DIRECT_ONLY_EVENTS = {
+    "arc_y3_father_avoidance_document",
+    "arc_y3_father_deferred_call",
     "v2_hyunsu_player_reachout",
     "v2_hyunsu_study_followup",
     "v2_opening_application_send",

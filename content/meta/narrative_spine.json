@@ -69,6 +69,8 @@
       "anchors": [
         "story_knee_witness",
         "arc_father_01_call",
+        "arc_y3_father_avoidance_document",
+        "arc_y3_father_deferred_call",
         "arc_father_06_confession",
         "arc_father_passing",
         "arc_father_legacy",
@@ -597,17 +599,19 @@
       "object": "사건번호가 적힌 보증 PDF, 편도표, 목표액이 적힌 계산기",
       "setup": [
         "arc_35_birthday",
-        "arc_jiyeon_year3",
-        "arc_jaehyuk_03_pitch",
-        "arc_father_05_after_visit",
-        "arc_35_orthodox_weight",
+      "arc_jiyeon_year3",
+      "arc_jaehyuk_03_pitch",
+      "arc_father_05_after_visit",
+      "arc_y3_father_avoidance_document",
+      "arc_35_orthodox_weight",
         "arc_35_unorthodox_weight"
       ],
       "escalation": [
         "arc_jaehyuk_wait",
-        "arc_jaehyuk_hyunsu_warning",
-        "arc_jaehyuk_04b_counter",
-        "arc_father_06_confession",
+      "arc_jaehyuk_hyunsu_warning",
+      "arc_jaehyuk_04b_counter",
+      "arc_y3_father_deferred_call",
+      "arc_father_06_confession",
         "arc_sangchul_known_offer",
         "arc_why_gangnam_real"
       ],
@@ -653,9 +657,11 @@
         },
         {
           "id": "father_and_sangchul_same_hands",
-          "events": [
-            "arc_father_05_after_visit",
-            "arc_father_06_confession",
+        "events": [
+          "arc_father_05_after_visit",
+          "arc_y3_father_avoidance_document",
+          "arc_y3_father_deferred_call",
+          "arc_father_06_confession",
             "arc_sangchul_known_offer",
             "arc_sangchul_known_reflex",
             "arc_jaehyuk_sangchul_echo",

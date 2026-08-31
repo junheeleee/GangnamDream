@@ -3369,6 +3369,20 @@ _ORDER134_PROOF_BINDING_OVERRIDES = {
 }
 _FROZEN_AUDITED_MAPS["proof_bindings"].update(
     _ORDER134_PROOF_BINDING_OVERRIDES)
+_ORDER144_PROOF_BINDING_OVERRIDES = {
+    'proof:runtime:load_core_loop_v2_state':
+        '5091bb02a714f88ac0fd5ff5985b359eb668648dfa7b6841d07db9eff1a466bd',
+    'proof:runtime:serialize_core_loop_v2_state':
+        '020491cf864bf2a1b612def7682ff4a97dcb99283ba77302a452441cd916e68c',
+    'proof:runtime:game_state_exact_snapshot_restore':
+        '41b4f7fc0daf28ce461dddb5ea96685cad8ff6975d63721dd9fb77386b671e58',
+    'proof:runtime:aruba_side_shift_result':
+        '24e340a725b1bc3071d5089ae79f15706685d01813f3c93ecf330eae726bcdaa',
+    'proof:runtime:resume_quality_outcome':
+        'de715b0e14ee50d7d08da7e5451726dc2c81ca8ec17739225c4b14de086bce14',
+}
+_FROZEN_AUDITED_MAPS["proof_bindings"].update(
+    _ORDER144_PROOF_BINDING_OVERRIDES)
 _ORDER101_INVOCATION_CONTRACT_OVERRIDES = {
     'reader:milestone:w24:completion_validation:fresh': 'f0226b81ca161f961526c82d1dd9d8a87d4de3411fdda75c0e1c271759f59d54',
     'reader:milestone:w24:completion_validation:loaded': '71a40c4050c89fecff25b0d4e22aad83affa4004bdb4cf9a988e736655bdf4d9',
@@ -3413,13 +3427,13 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/meta/chapter1_core_loop_v2_causal_ledger.json":
         "18edf907f78290b426049b9a9db4df922f03d5f7fb9121003ebbd46dd0b26855",
     "systems/DemoCoreLoopV2.gd":
-        "2468e1b41efca40b7f757d3e640df489aaa83deacdada3896f7fe923d85c3236",
+        "c9d06377f9bbd88bf2137806a4d6a460a432f78d936cac65f78930aaafa70eed",
     "tools/CoreLoopV2CycleCheck.gd":
-        "b375fbe1c5afa97dc0abe0d54a9ecf70d5041caf63675ba6d43a04d5aeb69520",
+        "e1322e8110dd4042380d5b7d38b0041abd77208dc56959429918890f8e862218",
     "tools/StoryPlaybackCheck.gd":
         "c6210f9687573353da8d0b429edc85f3016d8084c2914226f54d12cd8c657edb",
     "autoloads/GameState.gd":
-        "c1c49a25a1c7f3dbd082e8da8aa3f3737d3bbeda1b04eb3e16764ea10812a0bb",
+        "f7b7541e582288272943a42d5b544420659a0b06390f750627d77dc733a9d8a9",
     "autoloads/DataRegistry.gd":
         "9ee97b7003efb1d9b80673d1fce162b71ab0cb6f929a363e04ead29a98d9a1df",
     "autoloads/LocaleManager.gd":
@@ -3429,7 +3443,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "autoloads/MetaProgression.gd":
         "a36617f4979e08a37e89cecc0566a4e64d54bb5373469e2fa1e162d10dde34dc",
     "autoloads/SaveManager.gd":
-        "67f20478f4ede9cf3902f02eab06a945ddbf1a348e86b71a34108de0c1d87645",
+        "4ab9189029fde33df5addf4f9d2569c19d30f4575f1a534ad6a197c2429cd959",
     "systems/BuildFlavor.gd":
         "6264de1c468d5553b73a37d3ea8c5ceb936f6852db7519701f37a2c8bf8aa633",
     "scenes/StoryMode.gd":
@@ -3437,7 +3451,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "scenes/StoryMode.tscn":
         "b7688a883323a196e74271c1e76f1d88c91310b3fe1a287cb051b33dd2fb76ca",
     "scenes/MainGame.gd":
-        "8e5786d2e0ce2f1fcee21e74bff7e4e6699898702c725a9a369892aedca80e18",
+        "329e82d0fe5b427406898cf9f360b01542869ab8799c59543dcdb96b467f971b",
     "scenes/MainGame.tscn":
         "71a9590d43c755fa6b409ee0eb0f1950c6aba4517c64192b83038d22a45d9979",
     "scenes/SeoulCycleBoard.gd":
@@ -3451,33 +3465,33 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/meta/demo_core_loop_v2.json":
         "f336f8a60277effc1885e10911d21785add4ad5580135bb1ab3a4c4b509059c3",
     "content/meta/demo_localization_scope.json":
-        "e7aa612c9bfd4b6fc677c65d04515b640e5e040eac7425cf8da247ce2cf091da",
+        "3b12244d7e63915513cc537c956e2f72b35d45ca59a5fd927fa90f0a37cb4157",
     "content/meta/release_content_inventory.json":
-        "677c17570d47ef00c5f6beffaaa1ec7a9978f1c45e9b39c3657c6f0076be56b6",
+        "1b6f743113632e095abe8fb4048f10aa08b9eb7fe75269a2d52a0a18c3a2cecd",
     "content/meta/story_rules.json":
-        "d012c50ddcc7bcc82c1dfeaf4c939a70a788a2e856208973ede7bcd12727fe61",
+        "9c4d7ee013184577744da3779f6a505e2c20f0fc6dcca74c60b8edbf5c373e7c",
     "content/jobs.json":
         "d1a3ed8ba3f2839954d0b15266bff4f7a0d1317d78c503bd2422aa87b7210f84",
     "content/events/arc_events.json":
-        "bc93e84e3095abe1d3fe084233e4fc2ade64f14af386fe135b78c634720886d6",
+        "317cd11f8cf2cb29f15052fee16b17d5fef568fec1ed86dae26360ca5b5407ae",
     "content/events/core_loop_v2_events.json":
         "30ce137faf06437e131d297efa7ab3fc82806534e77c53bea33af0b01a750b87",
     "content/events/arc_daeun.json":
         "fd08c6df4566a3d8e5b1b40b9181addcfc7296d8f990bb4f54a2e1b419c01773",
     "content/events/arc_midgame.json":
-        "6603b9755265c83c64a94eaf0eb4a80570e85c6aac66e826bda06f6feab267bd",
+        "52836947c66c51a644704bb601394a92551a23bc33fe64b0c23b228c96b19658",
     "content/events/scenario_cafe.json":
         "748fa21586b928419a7e7cf336b7c737ba3f09ecfdddafdbb38bff1698ebbe85",
     "docs/CORE_LOOP_V2.md":
         "b9d1c5f6cb4d682afea00018f1949337150c0d909a428f0505bc4ae562717eb5",
     "docs/BALANCE.md":
-        "8994d997b37c83a580ab97e9ab46c2f4b783ebacdef90b44325c03fa071d7cac",
+        "a8745d448c71edbcbb32f78cb0d6a67585741f3a0af5c97c2100cfc8d6a7455e",
     "docs/queue_archive/ORDER-101.md":
         "732f49ac40efb644a7321cd425160fae9a8123ead11eb2cc7ebc5b238952ee48",
     "docs/CHOICE_CONSEQUENCE_SYSTEM.md":
         "7cab62b6721dc37c041063147a01f9e8f3d253933108454369e04e63461022c7",
     "tools/core_loop_v2_balance_sim.py":
-        "034475f5d392f016f94c731335a32b460229c7685b00e70bc65fb62efcc5ae3a",
+        "3399200b4b2df971c33a7c2e354736f5bfbad94614d5dd7357e90b3439020c74",
     "tools/demo_core_loop_v2_audit.py":
         "27fbdad9f141740f20370d0c94d80537abf671f2375b26b51f294083a7ad0d4a",
     "tools/first_session_pacing_audit.py":
@@ -6650,7 +6664,18 @@ def _execution_family_source_is_bound(
             ("scenes/MainGame.gd::_on_aruba_closed", (
                 '"money": earned', '"stress": stress_delta',
                 '"health": total_health_delta',
-                "finalize_weekly_effect_action(")),
+                "_finalize_weekly_side_shift_action(")),
+            ("scenes/MainGame.gd::_finalize_weekly_side_shift_action", (
+                'core_loop_v2_state.get("enabled", false)',
+                "GameState.finalize_weekly_effect_action(",
+                '"side_shift", effects, "money", "work"',
+                'legacy_receipt["legacy_tendency_delta"]',
+                "GameState.finalize_weekly_mutation_action(",
+                'Callable(self, "_weekly_legacy_side_shift_mutation")')),
+            ("scenes/MainGame.gd::_weekly_legacy_side_shift_mutation", (
+                "GameState.apply_effects(effects)",
+                'GameState.add_tendency("found", 1)',
+                '"details": action_receipt.duplicate(true)')),
             ("scenes/ArubaGame.gd::_on_finish", (
                 "closed.emit(", "BASE_SHIFT_HEALTH_DELTA + _health_delta")),
         ),

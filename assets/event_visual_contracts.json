@@ -337,6 +337,8 @@
     {"id": "callback_jaehyuk_exploited_retaliate", "background": "current_housing", "portrait": "jaehyuk_cornered"},
     {"id": "callback_jaehyuk_partnered_reckoning", "background": "meeting", "portrait": "jaehyuk_cornered"},
     {"id": "arc_father_05_after_visit", "background": "current_housing", "portrait": "player_normal"},
+    {"id": "arc_y3_father_avoidance_document", "background": "current_housing", "portrait": "player_tired"},
+    {"id": "arc_y3_father_deferred_call", "background": "current_housing", "portrait": "player_tired"},
     {"id": "arc_father_06_confession", "background": "current_housing", "portrait": "player_shocked"},
     {"id": "arc_sangchul_known_offer", "background": "realestate_office", "portrait": "sangchul_normal"},
     {"id": "arc_sangchul_known_reflex", "background": "cafe", "portrait": "player_normal"},

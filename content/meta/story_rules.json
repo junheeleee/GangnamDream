@@ -3139,6 +3139,113 @@
         "expected_portrait": "sangchul_serious"
       }
     },
+    "arc_y3_father_avoidance_document": {
+      "logic": {
+        "requires": [
+          {"fact": "story.father_hospital_door", "is": "deferred"}
+        ],
+        "prerequisites": {
+          "all": [
+            {"path": "turn", "op": "eq", "value": 100},
+            {"path": "flags.father_visit_deferred", "op": "eq", "value": true},
+            {"path": "flags.father_passed", "op": "neq", "value": true},
+            {"path": "flags.visited_father", "op": "neq", "value": true},
+            {"path": "flags.arc_y3_father_avoidance_document_seen", "op": "neq", "value": true}
+          ]
+        },
+        "legacy": {
+          "requires_flags": ["father_visit_deferred"],
+          "forbids_flags": [
+            "father_passed",
+            "visited_father",
+            "arc_y3_father_avoidance_document_seen"
+          ],
+          "produces_all": ["arc_y3_father_avoidance_document_seen"],
+          "produces_any": [
+            "y3_father_avoidance_voicemail",
+            "y3_father_avoidance_source_message",
+            "y3_father_avoidance_scheduled_call"
+          ]
+        }
+      },
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_tired"
+      }
+    },
+    "arc_y3_father_deferred_call": {
+      "logic": {
+        "requires": [
+          {"fact": "story.father_hospital_door", "is": "deferred"}
+        ],
+        "reads_any_flags": [
+          "y3_father_avoidance_voicemail",
+          "y3_father_avoidance_source_message",
+          "y3_father_avoidance_scheduled_call"
+        ],
+        "prerequisites": {
+          "all": [
+            {"path": "turn", "op": "eq", "value": 112},
+            {"path": "flags.father_visit_deferred", "op": "eq", "value": true},
+            {"path": "flags.arc_y3_father_avoidance_document_seen", "op": "eq", "value": true},
+            {"path": "flags.arc_y2_relationship_fork_unattached_seen", "op": "eq", "value": true},
+            {"path": "flags.father_passed", "op": "neq", "value": true},
+            {"path": "flags.visited_father", "op": "neq", "value": true},
+            {"path": "flags.daeun_romance_started", "op": "neq", "value": true},
+            {"path": "flags.jiyeon_romance_started", "op": "neq", "value": true},
+            {"path": "flags.daeun_chose_her", "op": "neq", "value": true},
+            {"path": "flags.arc_daeun_fork_seen", "op": "neq", "value": true},
+            {"path": "flags.daeun_close_bond", "op": "neq", "value": true},
+            {"path": "flags.daeun_together_path", "op": "neq", "value": true},
+            {"path": "flags.arc_jiyeon_offer_seen", "op": "neq", "value": true},
+            {"path": "flags.arc_jiyeon_epilogue_seen", "op": "neq", "value": true},
+            {"path": "flags.arc_jiyeon_real_reason_seen", "op": "neq", "value": true},
+            {"path": "flags.arc_y3_father_deferred_call_seen", "op": "neq", "value": true}
+          ],
+          "any": [
+            {"path": "flags.y3_father_avoidance_voicemail", "op": "eq", "value": true},
+            {"path": "flags.y3_father_avoidance_source_message", "op": "eq", "value": true},
+            {"path": "flags.y3_father_avoidance_scheduled_call", "op": "eq", "value": true}
+          ]
+        },
+        "legacy": {
+          "requires_flags": [
+            "father_visit_deferred",
+            "arc_y3_father_avoidance_document_seen",
+            "arc_y2_relationship_fork_unattached_seen"
+          ],
+          "forbids_flags": [
+            "father_passed",
+            "visited_father",
+            "daeun_romance_started",
+            "jiyeon_romance_started",
+            "daeun_chose_her",
+            "arc_daeun_fork_seen",
+            "daeun_close_bond",
+            "daeun_together_path",
+            "arc_jiyeon_offer_seen",
+            "arc_jiyeon_epilogue_seen",
+            "arc_jiyeon_real_reason_seen",
+            "arc_y3_father_deferred_call_seen"
+          ],
+          "produces_all": ["arc_y3_father_deferred_call_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "changwon_home",
+        "remote_actor": "father",
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_tired"
+      }
+    },
     "arc_y3_cost_of_knowing": {
       "logic": {
         "requires": [

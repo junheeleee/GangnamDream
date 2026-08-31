@@ -14,6 +14,9 @@ func _run() -> void:
 	_check_recent_action_echoes()
 	_check_action_consequence_echoes()
 	_check_market_transaction_contract()
+	_check_weekly_mutation_action_contract()
+	_check_weekly_job_signal_contract()
+	_check_weekly_random_preflight_contract()
 	_check_weekly_commitment_contract()
 	_check_forgone_path_contract()
 	_check_scene_first_week_contract()
@@ -50,7 +53,21 @@ func _release_audio_for_exit() -> void:
 			(raw_player as AudioStreamPlayer).stream = null
 	AudioManager._sounds.clear()
 	await AudioManager.drain_pending_timers_for_exit()
-	for _release_frame in range(4):
+	# Timer completions can instantiate their final WAV playback after the first
+	# detach pass. Sweep once more after the timer owner is drained so headless QA
+	# exits without retaining three short UI samples and their playback objects.
+	BGMPlayer.stop()
+	_detach_audio_streams(get_tree().root)
+	var fixture_pool: Array = AudioManager._pool.duplicate()
+	for raw_player in fixture_pool:
+		if raw_player is AudioStreamPlayer:
+			(raw_player as AudioStreamPlayer).stop()
+			(raw_player as AudioStreamPlayer).stream = null
+			raw_player.free()
+	AudioManager._pool.clear()
+	AudioManager._sounds.clear()
+	await get_tree().create_timer(0.25).timeout
+	for _release_frame in range(8):
 		await get_tree().process_frame
 
 func _detach_audio_streams(root: Node) -> void:
@@ -183,6 +200,317 @@ func _check_market_transaction_contract() -> void:
 		_fail("leverage transaction did not return its concrete exposure: %s" % leverage)
 	market.free()
 
+func _check_weekly_mutation_action_contract() -> void:
+	var market = load("res://systems/InvestmentSystem.gd").new()
+	GameState.start_new_game("김민준", "지방_상경", "none")
+	GameState.turn = 1
+	GameState.action_points = 2
+	GameState.money = 1_000_000.0
+	GameState.market_prices["samsung"] = 70_000.0
+	var payload := {
+		"turn": 1,
+		"pressure_id": "qa_external_buy",
+		"pressure_family": "market",
+		"choice_id": "invest",
+		"forgone_ids": ["study", "save"],
+	}
+	if not GameState.arm_weekly_commitment(payload):
+		_fail("external mutation fixture could not arm its investment commitment")
+		market.free()
+		return
+	var signal_order: Array[String] = []
+	var stats_probe := func() -> void:
+		signal_order.append("stats")
+	var log_probe := func(_entry: Dictionary) -> void:
+		signal_order.append("log")
+	var weekly_probe := func(_record: Dictionary) -> void:
+		signal_order.append("weekly")
+	var trade_probe := func(
+			_asset_id: String, _action: String,
+			_quantity: float, _price: float) -> void:
+		signal_order.append("trade")
+	var portfolio_probe := func() -> void:
+		signal_order.append("portfolio")
+	GameState.stats_changed.connect(stats_probe)
+	GameState.log_added.connect(log_probe)
+	GameState.weekly_commitment_finalized.connect(weekly_probe)
+	market.trade_executed.connect(trade_probe)
+	market.portfolio_updated.connect(portfolio_probe)
+	var publisher := func(result: Dictionary) -> void:
+		market.trade_executed.emit(
+			"samsung", "buy", float(result.get("quantity", 0.0)),
+			float(result.get("price", 0.0)))
+		market.portfolio_updated.emit()
+	var transaction := GameState.finalize_weekly_mutation_action(
+		"invest_buy", "money",
+		Callable(market, "buy_asset").bind("samsung", 100_000.0),
+		"", "", {"asset_id": "samsung", "trade": "buy"}, {}, "invest",
+		[market, market], publisher)
+	var receipt: Dictionary = GameState.get_weekly_commitment_for_turn(1)
+	if not bool(transaction.get("ok", false)) \
+			or GameState.action_points != 0 \
+			or not GameState.pending_weekly_commitment.is_empty() \
+			or receipt.get("identity_evidence", {}) \
+				!= {"kind": "invest", "weight": 4, "version": 2} \
+			or GameState.tendency != {"career": 0, "invest": 4, "found": 0} \
+			or not GameState.portfolio.has("samsung") \
+			or market.is_blocking_signals():
+		_fail("external mutation did not settle state, receipt, and owner together: %s" \
+			% transaction)
+	if signal_order != ["stats", "log", "weekly", "trade", "portfolio"]:
+		_fail("external mutation signals were partial, missing, or duplicated: %s" \
+			% signal_order)
+	GameState.stats_changed.disconnect(stats_probe)
+	GameState.log_added.disconnect(log_probe)
+	GameState.weekly_commitment_finalized.disconnect(weekly_probe)
+	market.trade_executed.disconnect(trade_probe)
+	market.portfolio_updated.disconnect(portfolio_probe)
+
+	# A mutation that succeeds locally but collides at receipt finalization must
+	# restore cash, portfolio, log, AP, pending, and every signal owner exactly.
+	GameState.start_new_game("김민준", "지방_상경", "none")
+	GameState.turn = 1
+	GameState.action_points = 2
+	GameState.money = 1_000_000.0
+	GameState.market_prices["samsung"] = 70_000.0
+	GameState.arm_weekly_commitment(payload)
+	var before_conflict: Dictionary = GameState.serialize().duplicate(true)
+	var failure_signals := {"stats": 0, "log": 0, "weekly": 0, "trade": 0,
+		"portfolio": 0}
+	var failure_stats_probe := func() -> void:
+		failure_signals["stats"] = int(failure_signals["stats"]) + 1
+	var failure_log_probe := func(_entry: Dictionary) -> void:
+		failure_signals["log"] = int(failure_signals["log"]) + 1
+	var failure_weekly_probe := func(_record: Dictionary) -> void:
+		failure_signals["weekly"] = int(failure_signals["weekly"]) + 1
+	var failure_trade_probe := func(
+			_asset_id: String, _action: String,
+			_quantity: float, _price: float) -> void:
+		failure_signals["trade"] = int(failure_signals["trade"]) + 1
+	var failure_portfolio_probe := func() -> void:
+		failure_signals["portfolio"] = int(failure_signals["portfolio"]) + 1
+	GameState.stats_changed.connect(failure_stats_probe)
+	GameState.log_added.connect(failure_log_probe)
+	GameState.weekly_commitment_finalized.connect(failure_weekly_probe)
+	market.trade_executed.connect(failure_trade_probe)
+	market.portfolio_updated.connect(failure_portfolio_probe)
+	var collide_after_buy := func() -> Dictionary:
+		var result: Dictionary = market.buy_asset("samsung", 100_000.0)
+		GameState.weekly_commitments.append({
+			"turn": GameState.turn,
+			"choice_id": "qa_conflict",
+			"actual_action_id": "qa_conflict",
+		})
+		return result
+	var failed_transaction := GameState.finalize_weekly_mutation_action(
+		"invest_buy", "money", collide_after_buy, "", "",
+		{"asset_id": "samsung", "trade": "buy"}, {}, "invest", [market, market],
+		publisher)
+	if bool(failed_transaction.get("ok", true)) \
+			or not bool(failed_transaction.get("rolled_back", false)) \
+			or GameState.serialize() != before_conflict \
+			or failure_signals != {
+				"stats": 0, "log": 0, "weekly": 0, "trade": 0,
+				"portfolio": 0,
+			} \
+			or market.is_blocking_signals():
+		_fail("late external mutation failure leaked state or signals: %s / %s" \
+			% [failed_transaction, failure_signals])
+	GameState.stats_changed.disconnect(failure_stats_probe)
+	GameState.log_added.disconnect(failure_log_probe)
+	GameState.weekly_commitment_finalized.disconnect(failure_weekly_probe)
+	market.trade_executed.disconnect(failure_trade_probe)
+	market.portfolio_updated.disconnect(failure_portfolio_probe)
+
+	# Direct recovery callers run after a weekly transaction has returned and
+	# therefore may be unblocked. Silent rollback must publish no loader signal,
+	# while an explicit public restore publishes exactly once after exact state.
+	var direct_restore_snapshot: Dictionary = GameState.serialize().duplicate(true)
+	var direct_restore_stats := {"count": 0, "exact": true}
+	var direct_restore_probe := func() -> void:
+		direct_restore_stats["count"] = int(direct_restore_stats["count"]) + 1
+		if GameState.serialize() != direct_restore_snapshot:
+			direct_restore_stats["exact"] = false
+	GameState.stats_changed.connect(direct_restore_probe)
+	GameState.money += 12_345.0
+	GameState._restore_serialized_snapshot_exact(direct_restore_snapshot, false)
+	var silent_restore_ok: bool = GameState.serialize() == direct_restore_snapshot \
+		and direct_restore_stats == {"count": 0, "exact": true}
+	GameState.money += 54_321.0
+	GameState._restore_serialized_snapshot_exact(direct_restore_snapshot, true)
+	if not silent_restore_ok \
+			or GameState.serialize() != direct_restore_snapshot \
+			or direct_restore_stats != {"count": 1, "exact": true}:
+		_fail("exact rollback leaked a loader signal or exposed partial state")
+	GameState.stats_changed.disconnect(direct_restore_probe)
+
+	# A nonempty stale owner must fail closed before calling the mutation. It may
+	# never fall through to the legacy no-pending action path.
+	GameState.pending_weekly_commitment = payload.duplicate(true)
+	GameState.pending_weekly_commitment["turn"] = 2
+	var stale_before: Dictionary = GameState.serialize().duplicate(true)
+	var mutation_calls := {"count": 0}
+	var stale_mutation := func() -> Dictionary:
+		mutation_calls["count"] = int(mutation_calls["count"]) + 1
+		return {"success": true}
+	var stale_result := GameState.finalize_weekly_mutation_action(
+		"invest_buy", "money", stale_mutation)
+	if str(stale_result.get("error", "")) != "pending_turn_mismatch" \
+			or int(mutation_calls["count"]) != 0 \
+			or GameState.serialize() != stale_before:
+		_fail("stale weekly owner reached or changed the external mutation")
+
+	# A caller may already be suppressing an external owner. The transaction must
+	# preserve that state even when the same owner is supplied more than once.
+	GameState.start_new_game("김민준", "지방_상경", "none")
+	GameState.turn = 1
+	GameState.action_points = 2
+	GameState.arm_weekly_commitment(payload)
+	market.set_block_signals(true)
+	var preblocked_result := GameState.finalize_weekly_mutation_action(
+		"invest_buy", "money", func() -> Dictionary:
+			return {"success": true},
+		"", "", {}, {}, "", [market, market])
+	if not bool(preblocked_result.get("ok", false)) \
+			or not market.is_blocking_signals():
+		_fail("duplicate/preblocked signal owner state was not restored exactly")
+	market.set_block_signals(false)
+	market.free()
+
+	# Retail/V1 keeps the historical +1 founder interpretation for a survival
+	# shift, but a scene-first weekly owner must settle that delta before its
+	# receipt and realization signals become observable.
+	GameState.start_new_game("김민준", "지방_상경", "none")
+	GameState.turn = 25
+	GameState.action_points = 2
+	GameState.tendency = {"career": 0, "invest": 0, "found": 11}
+	var shift_payload := {
+		"turn": 25,
+		"pressure_id": "qa_legacy_pending_shift",
+		"pressure_family": "career",
+		"choice_id": "side_shift",
+		"forgone_ids": ["rest", "contact"],
+	}
+	if not GameState.arm_weekly_commitment(shift_payload):
+		_fail("legacy pending side-shift fixture could not arm")
+		return
+	var shift_signal_order: Array[String] = []
+	var shift_signals_settled := {"value": true}
+	var shift_stats_probe := func() -> void:
+		shift_signal_order.append("stats")
+	var shift_weekly_probe := func(_record: Dictionary) -> void:
+		shift_signal_order.append("weekly")
+		if int(GameState.tendency.get("found", 0)) != 12 \
+				or GameState.tendency_realized != "found" \
+				or GameState.player_route != "창업형" \
+				or not bool(GameState.flags.get("route_startup", false)):
+			shift_signals_settled["value"] = false
+	var shift_tendency_probe := func(kind: String) -> void:
+		shift_signal_order.append("tendency")
+		if kind != "found":
+			shift_signals_settled["value"] = false
+	GameState.stats_changed.connect(shift_stats_probe)
+	GameState.weekly_commitment_finalized.connect(shift_weekly_probe)
+	GameState.tendency_awakened.connect(shift_tendency_probe)
+	var shift_game = MainGameScript.new()
+	var legacy_shift_transaction: Dictionary = shift_game.call(
+		"_finalize_weekly_side_shift_action",
+		{"money": 10_000, "stress": 1, "health": -1}, {
+			"execution": "side_shift",
+			"earned": 10_000,
+		})
+	var shift_record: Dictionary = GameState.get_weekly_commitment_for_turn(25)
+	var shift_details: Dictionary = shift_record.get("details", {}) \
+		if shift_record.get("details", {}) is Dictionary else {}
+	if not bool(legacy_shift_transaction.get("ok", false)) \
+			or shift_details.get("legacy_tendency_delta", {}) \
+				!= {"kind": "found", "weight": 1} \
+			or shift_signal_order != ["stats", "weekly", "tendency"] \
+			or not bool(shift_signals_settled["value"]):
+		_fail("legacy pending side shift settled identity outside its receipt: %s / %s" \
+			% [legacy_shift_transaction, shift_signal_order])
+	GameState.stats_changed.disconnect(shift_stats_probe)
+	GameState.weekly_commitment_finalized.disconnect(shift_weekly_probe)
+	GameState.tendency_awakened.disconnect(shift_tendency_probe)
+	shift_game.free()
+
+func _check_weekly_random_preflight_contract() -> void:
+	var game = MainGameScript.new()
+	GameState.start_new_game("김민준", "지방_상경", "none")
+	GameState.turn = 10
+	GameState.action_points = 2
+	GameState.pending_weekly_commitment = {
+		"turn": 9,
+		"choice_id": "rest",
+	}
+	var stale_before: Dictionary = GameState.serialize().duplicate(true)
+	seed(761_903)
+	var expected_roll := randi()
+	seed(761_903)
+	game.call("_ap_study_commit", 0)
+	game.call("_ap_save_money")
+	game.call(
+		"_ap_vignette", "QA", [{"t": "QA", "et": "QA", "e": {}}],
+		"#000000", "home", "rest")
+	var actual_roll := randi()
+	if GameState.serialize() != stale_before or actual_roll != expected_roll:
+		_fail("stale random weekly action changed state or consumed RNG")
+
+	GameState.pending_weekly_commitment = {
+		"turn": 10,
+		"choice_id": "contact",
+	}
+	var mismatch_before: Dictionary = GameState.serialize().duplicate(true)
+	seed(418_227)
+	expected_roll = randi()
+	seed(418_227)
+	game.call("_ap_save_money")
+	game.call(
+		"_ap_vignette", "QA", [{"t": "QA", "et": "QA", "e": {}}],
+		"#000000", "home", "rest")
+	actual_roll = randi()
+	if GameState.serialize() != mismatch_before or actual_roll != expected_roll:
+		_fail("mismatched random weekly action changed state or consumed RNG")
+	game.free()
+
+func _check_weekly_job_signal_contract() -> void:
+	var game = MainGameScript.new()
+	var jobs = load("res://systems/JobSystem.gd").new()
+	game.set("job_system", jobs)
+	GameState.start_new_game("김민준", "지방_상경", "none")
+	GameState.turn = 1
+	GameState.action_points = 2
+	var payload := {
+		"turn": 1,
+		"pressure_id": "qa_job_signal",
+		"pressure_family": "employment",
+		"choice_id": "apply",
+		"forgone_ids": ["save", "rest"],
+	}
+	if not GameState.arm_weekly_commitment(payload):
+		_fail("job signal fixture could not arm its weekly commitment")
+		jobs.free()
+		game.free()
+		return
+	var signal_payloads: Array[Dictionary] = []
+	var job_probe := func(job: Dictionary) -> void:
+		signal_payloads.append(job.duplicate(true))
+	jobs.job_changed.connect(job_probe)
+	var transaction := GameState.finalize_weekly_mutation_action(
+		"apply", "money", Callable(game, "_weekly_job_mutation").bind("job_01"),
+		"work", "", {"job_id": "job_01"}, {}, "career", [jobs, jobs],
+		Callable(game, "_publish_weekly_job_mutation"))
+	var expected_payload: Dictionary = DataRegistry.get_job("job_01").duplicate(true)
+	if not bool(transaction.get("ok", false)) \
+			or signal_payloads != [expected_payload] \
+			or signal_payloads[0].has("effective_salary") \
+			or jobs.is_blocking_signals():
+		_fail("weekly job signal payload diverged from legacy JobSystem: %s / %s" \
+			% [transaction, signal_payloads])
+	jobs.job_changed.disconnect(job_probe)
+	jobs.free()
+	game.free()
+
 func _check_random_narrative_bridge_flow() -> void:
 	var language_before := LocaleManager.language
 	for language in ["ko", "en"]:
@@ -297,6 +625,15 @@ func _check_weekly_commitment_contract() -> void:
 		_fail("opening/recording a sub-action finalized the commitment before its outcome")
 	GameState.add_money(-100_000.0)
 	GameState.modify_stat("investment_skill", 1)
+	var identity_signal_snapshots: Array[Dictionary] = []
+	var identity_signal_probe := func() -> void:
+		identity_signal_snapshots.append({
+			"ap": GameState.action_points,
+			"pending": GameState.pending_weekly_commitment.duplicate(true),
+			"commitment_count": GameState.weekly_commitments.size(),
+			"invest": int(GameState.tendency.get("invest", 0)),
+		})
+	GameState.stats_changed.connect(identity_signal_probe)
 	if not GameState.finalize_weekly_commitment("invest_buy", "", {
 		"asset_id": "samsung",
 		"trade": "buy",
@@ -305,16 +642,28 @@ func _check_weekly_commitment_contract() -> void:
 		"quantity": 1.42,
 		"fee": 300.0,
 		"net_invested": 99_700.0,
-	}):
+	}, "invest"):
 		_fail("actual trade could not finalize the armed commitment")
+	GameState.stats_changed.disconnect(identity_signal_probe)
 	if GameState.action_points != 0 or GameState.weekly_commitments.size() != 1:
 		_fail("actual trade did not close the week exactly once: AP=%d records=%d" % [
 			GameState.action_points, GameState.weekly_commitments.size()])
 	var record: Dictionary = GameState.weekly_commitments[0]
 	if str(record.get("choice_id", "")) != "invest" \
 			or str(record.get("actual_action_id", "")) != "invest_buy" \
-			or (record.get("forgone_ids", []) as Array).size() != 2:
+			or (record.get("forgone_ids", []) as Array).size() != 2 \
+			or record.get("identity_evidence", {}) != {
+				"kind": "invest", "weight": 4, "version": 2,
+			}:
 		_fail("weekly commitment lost its choice, actual action, or forgone paths: %s" % record)
+	if identity_signal_snapshots.is_empty():
+		_fail("identity commitment emitted no settled stats snapshot")
+	for signal_snapshot in identity_signal_snapshots:
+		if int(signal_snapshot.get("ap", -1)) != 0 \
+				or not (signal_snapshot.get("pending", {}) as Dictionary).is_empty() \
+				or int(signal_snapshot.get("commitment_count", 0)) != 1 \
+				or int(signal_snapshot.get("invest", 0)) != 4:
+			_fail("identity commitment exposed a partial transaction: %s" % signal_snapshot)
 	var outcome: Dictionary = record.get("outcome", {})
 	if not is_equal_approx(float(outcome.get("money", 0.0)), -100_000.0) \
 			or int(outcome.get("investment_skill", 0)) != 1:
@@ -436,8 +785,119 @@ func _check_weekly_commitment_contract() -> void:
 		],
 		"gambling Echo prose",
 		true)
+	_check_weekly_threshold_signal_contract(game)
 	scalping.free()
 	game.free()
+
+func _check_weekly_threshold_signal_contract(game: Node) -> void:
+	# A deferred foreground transaction publishes one settled threshold crossing,
+	# never the blocked intermediate emitted by modify_stat().
+	GameState.start_new_game("김민준", "지방_상경", "none")
+	GameState.turn = 1
+	GameState.action_points = 2
+	GameState.intelligence = 29
+	GameState.unlocked_stat_thresholds = {}
+	var study_pressure := {
+		"id": "qa_threshold_effect",
+		"family": "growth",
+		"person_id": "",
+		"action_ids": ["study", "save", "contact"],
+	}
+	var study_payload: Dictionary = game.call(
+		"_weekly_commitment_payload", study_pressure, "study")
+	if not GameState.arm_weekly_commitment(study_payload):
+		_fail("threshold effect fixture could not arm its weekly commitment")
+		return
+	var effect_signal_order: Array[String] = []
+	var effect_crossings: Array[String] = []
+	var effect_stats_probe := func() -> void:
+		effect_signal_order.append("stats")
+	var effect_weekly_probe := func(_record: Dictionary) -> void:
+		effect_signal_order.append("weekly")
+	var effect_threshold_probe := func(stat_name: String, threshold: int) -> void:
+		effect_signal_order.append("threshold")
+		effect_crossings.append("%s:%d" % [stat_name, threshold])
+	GameState.stats_changed.connect(effect_stats_probe)
+	GameState.weekly_commitment_finalized.connect(effect_weekly_probe)
+	GameState.stat_threshold_crossed.connect(effect_threshold_probe)
+	var effect_transaction := GameState.finalize_weekly_effect_action(
+		"study_read", {"intelligence": 1}, "money", "library", "", {}, {},
+		"career", true)
+	if not bool(effect_transaction.get("ok", false)) \
+			or not bool(effect_transaction.get("signals_deferred", false)) \
+			or effect_transaction.get("threshold_crossings", []) != [{
+				"stat_name": "intelligence", "threshold": 30,
+			}] \
+			or GameState.intelligence != 30 \
+			or int(GameState.tendency.get("career", 0)) != 4:
+		_fail("deferred threshold transaction lost its settled state: %s" \
+			% effect_transaction)
+	if not effect_signal_order.is_empty() or not effect_crossings.is_empty():
+		_fail("deferred threshold transaction leaked a pre-publish signal")
+	if not GameState.publish_deferred_weekly_effect_action(effect_transaction) \
+			or GameState.publish_deferred_weekly_effect_action(effect_transaction):
+		_fail("deferred threshold transaction did not publish exactly once")
+	if effect_signal_order != ["stats", "weekly", "threshold"] \
+			or effect_crossings != ["intelligence:30"]:
+		_fail("effect threshold signal was missing, duplicated, or out of order: %s / %s" \
+			% [effect_signal_order, effect_crossings])
+	GameState.stats_changed.disconnect(effect_stats_probe)
+	GameState.weekly_commitment_finalized.disconnect(effect_weekly_probe)
+	GameState.stat_threshold_crossed.disconnect(effect_threshold_probe)
+
+	# The route-realization passive is part of the same receipt. Its +6 investing
+	# skill crossing must wake only after AP, pending, receipt, route, and score agree.
+	GameState.start_new_game("김민준", "지방_상경", "none")
+	GameState.turn = 1
+	GameState.action_points = 2
+	GameState.investment_skill = 24
+	GameState.unlocked_stat_thresholds = {}
+	GameState.tendency = {"career": 0, "invest": 8, "found": 0}
+	var invest_pressure := {
+		"id": "qa_threshold_passive",
+		"family": "market",
+		"person_id": "",
+		"action_ids": ["invest", "study", "save"],
+	}
+	var invest_payload: Dictionary = game.call(
+		"_weekly_commitment_payload", invest_pressure, "invest")
+	if not GameState.arm_weekly_commitment(invest_payload):
+		_fail("threshold passive fixture could not arm its weekly commitment")
+		return
+	var passive_signal_order: Array[String] = []
+	var passive_crossings: Array[String] = []
+	var passive_stats_probe := func() -> void:
+		passive_signal_order.append("stats")
+	var passive_weekly_probe := func(_record: Dictionary) -> void:
+		passive_signal_order.append("weekly")
+	var passive_threshold_probe := func(stat_name: String, threshold: int) -> void:
+		passive_signal_order.append("threshold")
+		passive_crossings.append("%s:%d" % [stat_name, threshold])
+	var passive_tendency_probe := func(_kind: String) -> void:
+		passive_signal_order.append("tendency")
+	GameState.stats_changed.connect(passive_stats_probe)
+	GameState.weekly_commitment_finalized.connect(passive_weekly_probe)
+	GameState.stat_threshold_crossed.connect(passive_threshold_probe)
+	GameState.tendency_awakened.connect(passive_tendency_probe)
+	var passive_ok := GameState.finalize_weekly_commitment(
+		"invest_buy", "", {"asset_id": "samsung"}, "invest")
+	var passive_record: Dictionary = GameState.get_weekly_commitment_for_turn(1)
+	if not passive_ok or GameState.investment_skill != 30 \
+			or GameState.tendency_realized != "invest" \
+			or GameState.player_route != "투자형" \
+			or passive_record.get("identity_evidence", {}) != {
+				"kind": "invest", "weight": 4, "version": 2,
+			}:
+		_fail("realization passive did not settle as one exact receipt: %s" \
+			% passive_record)
+	if passive_signal_order != ["stats", "weekly", "threshold", "tendency"] \
+			or passive_crossings != ["investment_skill:30"]:
+		_fail("passive threshold signal was missing, duplicated, or out of order: %s / %s" \
+			% [passive_signal_order, passive_crossings])
+	GameState.stats_changed.disconnect(passive_stats_probe)
+	GameState.weekly_commitment_finalized.disconnect(passive_weekly_probe)
+	GameState.stat_threshold_crossed.disconnect(passive_threshold_probe)
+	GameState.tendency_awakened.disconnect(passive_tendency_probe)
 
 func _check_forgone_path_contract() -> void:
 	var language_before := LocaleManager.language
@@ -1187,11 +1647,224 @@ func _check_demo_pacing() -> void:
 	var investment_used: Dictionary = game.call("_montage_apply_routine")
 	if GameState.action_points != 0 or not bool(investment_used.get("money", false)):
 		_fail("investment-study quiet routine did not consume its two visible money slots")
-	if int(GameState.tendency.get("invest", 0)) != 2 \
+	if int(GameState.tendency.get("invest", 0)) != 0 \
 			or int(GameState.tendency.get("career", 0)) != 0:
-		_fail("investment-study quiet routine changed the wrong identity: %s" % GameState.tendency)
+		_fail("investment-study quiet routine invented identity evidence: %s" % GameState.tendency)
+	if not GameState.tendency_realized.is_empty():
+		_fail("investment-study quiet routine realized an unchosen identity")
 	if not is_equal_approx(float(GameState.money), investment_routine_money):
 		_fail("investment study invented a cash return during quiet-week repetition")
+
+	# Three visible, route-defining decisions are one 12-point identity arc. Two
+	# investment studies survive two career pressures; the real buy seals invest.
+	# This script-only fixture reads state directly; do not broadcast UI work.
+	var signals_were_blocked := GameState.is_blocking_signals()
+	GameState.set_block_signals(true)
+	GameState.player_route = "none"
+	for identity_flag in [
+		"route_career", "route_invest", "route_startup",
+		"pending_spec_career", "pending_spec_invest", "pending_spec_found",
+	]:
+		GameState.flags.erase(identity_flag)
+	GameState.add_deliberate_tendency("invest")
+	GameState.add_deliberate_tendency("invest")
+	GameState.add_deliberate_tendency("career")
+	GameState.add_deliberate_tendency("career")
+	if GameState.tendency != {"career": 8, "invest": 8, "found": 0} \
+			or not GameState.tendency_realized.is_empty():
+		_fail("deliberate identity evidence did not preserve the tied route: %s" % GameState.tendency)
+	# A damaged/legacy competing flag cannot survive the one-route realization.
+	GameState.player_route = "직장형"
+	GameState.flags["route_career"] = true
+	GameState.add_deliberate_tendency("invest")
+	if GameState.tendency_realized != "invest" \
+			or GameState.player_route != "투자형" \
+			or not bool(GameState.flags.get("route_invest", false)) \
+			or bool(GameState.flags.get("route_career", false)):
+		_fail("third deliberate investment action did not seal one investor route")
+
+	# Adding investment evidence may never awaken a different, previously leading
+	# route. This was the exact W23 failure before trigger-kind ownership existed.
+	GameState.tendency = {"career": 12, "invest": 2, "found": 0}
+	GameState.tendency_realized = ""
+	GameState.player_route = "none"
+	for identity_flag in [
+		"route_career", "route_invest", "route_startup",
+		"pending_spec_career", "pending_spec_invest", "pending_spec_found",
+	]:
+		GameState.flags.erase(identity_flag)
+	GameState.add_tendency("invest", 1)
+	if not GameState.tendency_realized.is_empty() \
+			or GameState.flags.get("route_career", false):
+		_fail("investment evidence awakened the leading career route")
+
+	# Missing/partial legacy identity keys must not inherit another loaded slot,
+	# and provenance-free automatic scores cannot mix with the new 4-point scale.
+	var identity_fixture_snapshot: Dictionary = GameState.serialize().duplicate(true)
+	var legacy_missing: Dictionary = identity_fixture_snapshot.duplicate(true)
+	legacy_missing.erase("tendency")
+	legacy_missing.erase("tendency_realized")
+	legacy_missing.erase("tendency_evidence_version")
+	legacy_missing.erase("player_route")
+	for identity_flag in [
+		"route_career", "route_invest", "route_startup",
+		"pending_spec_career", "pending_spec_invest", "pending_spec_found",
+	]:
+		(legacy_missing["flags"] as Dictionary).erase(identity_flag)
+	GameState.tendency = {"career": 0, "invest": 16, "found": 0}
+	GameState.tendency_realized = "invest"
+	GameState.player_route = "투자형"
+	GameState.flags["route_invest"] = true
+	GameState.load_from_dict(legacy_missing)
+	if GameState.tendency != {"career": 0, "invest": 0, "found": 0} \
+			or not GameState.tendency_realized.is_empty() \
+			or GameState.player_route != "none" \
+			or GameState.tendency_evidence_version \
+			!= GameState.TENDENCY_EVIDENCE_VERSION:
+		_fail("legacy identity omission inherited another slot")
+	var legacy_partial: Dictionary = GameState.serialize().duplicate(true)
+	legacy_partial.erase("tendency_evidence_version")
+	legacy_partial["tendency"] = {"career": 8}
+	legacy_partial["tendency_realized"] = ""
+	legacy_partial["player_route"] = "none"
+	GameState.load_from_dict(legacy_partial)
+	if GameState.tendency != {"career": 0, "invest": 0, "found": 0}:
+		_fail("legacy partial identity scores were not normalized fail-closed")
+	var legacy_committed: Dictionary = GameState.serialize().duplicate(true)
+	legacy_committed.erase("tendency_evidence_version")
+	legacy_committed["tendency"] = {"career": 4, "invest": 0, "found": 0}
+	legacy_committed["tendency_realized"] = ""
+	legacy_committed["player_route"] = "직장형"
+	legacy_committed["flags"]["route_career"] = true
+	GameState.load_from_dict(legacy_committed)
+	if GameState.tendency_realized != "career" \
+			or GameState.player_route != "직장형" \
+			or not bool(GameState.flags.get("route_career", false)) \
+			or bool(GameState.flags.get("route_invest", false)) \
+			or GameState.tendency \
+				!= {"career": 12, "invest": 0, "found": 0}:
+		_fail("committed legacy route did not migrate as one exact identity")
+	var migrated_committed: Dictionary = GameState.serialize().duplicate(true)
+	GameState.load_from_dict(migrated_committed)
+	if GameState.tendency_realized != "career" \
+			or GameState.player_route != "직장형" \
+			or not bool(GameState.flags.get("route_career", false)) \
+			or bool(GameState.flags.get("route_invest", false)) \
+			or GameState.tendency \
+				!= {"career": 12, "invest": 0, "found": 0}:
+		_fail("migrated legacy route disappeared on its second V2 load")
+	var legacy_claim_without_pair: Dictionary = legacy_committed.duplicate(true)
+	legacy_claim_without_pair["tendency_realized"] = "invest"
+	legacy_claim_without_pair["player_route"] = "none"
+	for identity_flag in ["route_career", "route_invest", "route_startup"]:
+		(legacy_claim_without_pair["flags"] as Dictionary).erase(identity_flag)
+	GameState.load_from_dict(legacy_claim_without_pair)
+	if not GameState.tendency_realized.is_empty() \
+			or GameState.player_route != "none" \
+			or bool(GameState.flags.get("route_invest", false)) \
+			or GameState.tendency \
+				!= {"career": 0, "invest": 0, "found": 0}:
+		_fail("legacy realization without an exact route pair was promoted")
+	var legacy_flag_only: Dictionary = legacy_committed.duplicate(true)
+	legacy_flag_only["tendency_realized"] = ""
+	legacy_flag_only["player_route"] = "none"
+	for identity_flag in ["route_career", "route_invest", "route_startup"]:
+		(legacy_flag_only["flags"] as Dictionary).erase(identity_flag)
+	(legacy_flag_only["flags"] as Dictionary)["route_invest"] = true
+	GameState.load_from_dict(legacy_flag_only)
+	if not GameState.tendency_realized.is_empty() \
+			or GameState.player_route != "none" \
+			or bool(GameState.flags.get("route_invest", false)) \
+			or GameState.tendency \
+				!= {"career": 0, "invest": 0, "found": 0}:
+		_fail("legacy flag-only identity was promoted without its exact route")
+	var legacy_claim_wrong_pair: Dictionary = legacy_committed.duplicate(true)
+	legacy_claim_wrong_pair["tendency_realized"] = "invest"
+	GameState.load_from_dict(legacy_claim_wrong_pair)
+	if not GameState.tendency_realized.is_empty() \
+			or GameState.player_route != "none" \
+			or bool(GameState.flags.get("route_career", false)) \
+			or bool(GameState.flags.get("route_invest", false)) \
+			or GameState.tendency \
+				!= {"career": 0, "invest": 0, "found": 0}:
+		_fail("legacy realization with a contradictory route pair was promoted")
+	var v2_preselected: Dictionary = GameState.serialize().duplicate(true)
+	v2_preselected["tendency"] = {"career": 0, "invest": 0, "found": 0}
+	v2_preselected["tendency_realized"] = ""
+	v2_preselected["tendency_evidence_version"] = GameState.TENDENCY_EVIDENCE_VERSION
+	v2_preselected["player_route"] = "직장형"
+	for identity_flag in ["route_career", "route_invest", "route_startup"]:
+		(v2_preselected["flags"] as Dictionary).erase(identity_flag)
+	(v2_preselected["flags"] as Dictionary)["route_career"] = true
+	GameState.load_from_dict(v2_preselected)
+	if GameState.player_route != "직장형" \
+			or not bool(GameState.flags.get("route_career", false)) \
+			or not GameState.tendency_realized.is_empty():
+		_fail("exact V2 preselected route did not survive save/load")
+	var v2_flag_only: Dictionary = v2_preselected.duplicate(true)
+	v2_flag_only["player_route"] = "none"
+	(v2_flag_only["flags"] as Dictionary).erase("route_career")
+	(v2_flag_only["flags"] as Dictionary)["route_invest"] = true
+	GameState.load_from_dict(v2_flag_only)
+	if GameState.player_route != "none" \
+			or bool(GameState.flags.get("route_invest", false)):
+		_fail("V2 flag-only identity was promoted without an exact route pair")
+	var v2_unearned_realization: Dictionary = v2_preselected.duplicate(true)
+	v2_unearned_realization["tendency"] = {
+		"career": 0, "invest": 0, "found": 0,
+	}
+	v2_unearned_realization["tendency_realized"] = "invest"
+	v2_unearned_realization["player_route"] = "투자형"
+	for identity_flag in ["route_career", "route_invest", "route_startup"]:
+		(v2_unearned_realization["flags"] as Dictionary).erase(identity_flag)
+	(v2_unearned_realization["flags"] as Dictionary)["route_invest"] = true
+	GameState.load_from_dict(v2_unearned_realization)
+	if GameState.tendency_realized != "" or GameState.player_route != "none" \
+			or bool(GameState.flags.get("route_invest", false)):
+		_fail("V2 zero-score realization was promoted into a permanent route")
+	var v2_contradictory_realization: Dictionary = (
+		v2_unearned_realization.duplicate(true))
+	v2_contradictory_realization["tendency"] = {
+		"career": 0, "invest": 12, "found": 0,
+	}
+	v2_contradictory_realization["player_route"] = "직장형"
+	(v2_contradictory_realization["flags"] as Dictionary).erase("route_invest")
+	(v2_contradictory_realization["flags"] as Dictionary)["route_career"] = true
+	GameState.load_from_dict(v2_contradictory_realization)
+	if GameState.tendency_realized != "" or GameState.player_route != "none" \
+			or bool(GameState.flags.get("route_career", false)):
+		_fail("V2 contradictory realization/route pair did not fail closed")
+	var legacy_competing: Dictionary = v2_preselected.duplicate(true)
+	legacy_competing.erase("tendency_evidence_version")
+	(legacy_competing["flags"] as Dictionary)["route_invest"] = true
+	GameState.load_from_dict(legacy_competing)
+	if GameState.player_route != "none" \
+			or not GameState.tendency_realized.is_empty() \
+			or bool(GameState.flags.get("route_career", false)) \
+			or bool(GameState.flags.get("route_invest", false)):
+		_fail("competing legacy route flags did not fail closed")
+	var malformed_identity: Dictionary = v2_preselected.duplicate(true)
+	malformed_identity["tendency"] = "not-a-score-map"
+	malformed_identity["tendency_realized"] = 7
+	malformed_identity["tendency_evidence_version"] = "newest"
+	malformed_identity["player_route"] = ["투자형"]
+	for identity_flag in ["route_career", "route_invest", "route_startup"]:
+		(malformed_identity["flags"] as Dictionary).erase(identity_flag)
+	GameState.load_from_dict(malformed_identity)
+	if GameState.tendency != {"career": 0, "invest": 0, "found": 0} \
+			or not GameState.tendency_realized.is_empty() \
+			or GameState.player_route != "none" \
+			or GameState.tendency_evidence_version \
+			!= GameState.TENDENCY_EVIDENCE_VERSION:
+		_fail("malformed identity fields did not migrate fail-closed")
+	GameState.new_game()
+	if GameState.player_route != "none" \
+			or bool(GameState.flags.get("route_career", false)) \
+			or bool(GameState.flags.get("route_invest", false)) \
+			or bool(GameState.flags.get("route_startup", false)):
+		_fail("restart did not use the neutral New Story identity boundary")
+	GameState.load_from_dict(identity_fixture_snapshot)
+	GameState.set_block_signals(signals_were_blocked)
 	GameState.action_axis_this_week = {"money": 1, "human": 1}
 	game.call("_demo_director_capture_routine")
 	if GameState.week_routine != ["study_invest", "rest"]:

@@ -2,46 +2,6 @@
   "allowlisted_findings": [
     {
       "code": "missing_mapped_root",
-      "month": 39,
-      "ref_id": "M39:m39_three_promises:fallback1:arc_y4_three_promises_father_and_deal",
-      "root": "arc_y4_three_promises_father_and_deal",
-      "rule_status": "planned",
-      "work": "NEW"
-    },
-    {
-      "code": "missing_mapped_root",
-      "month": 39,
-      "ref_id": "M39:m39_three_promises:fallback2:arc_y4_three_promises_father_and_romance",
-      "root": "arc_y4_three_promises_father_and_romance",
-      "rule_status": "planned",
-      "work": "NEW"
-    },
-    {
-      "code": "missing_mapped_root",
-      "month": 39,
-      "ref_id": "M39:m39_three_promises:fallback4:arc_y4_three_promises_deal_only_partnered",
-      "root": "arc_y4_three_promises_deal_only_partnered",
-      "rule_status": "planned",
-      "work": "NEW"
-    },
-    {
-      "code": "missing_mapped_root",
-      "month": 39,
-      "ref_id": "M39:m39_three_promises:fallback5:arc_y4_three_promises_romance_only",
-      "root": "arc_y4_three_promises_romance_only",
-      "rule_status": "planned",
-      "work": "NEW"
-    },
-    {
-      "code": "missing_mapped_root",
-      "month": 39,
-      "ref_id": "M39:m39_three_promises:fallback6:arc_y4_three_promises_alternate_attendees",
-      "root": "arc_y4_three_promises_alternate_attendees",
-      "rule_status": "planned",
-      "work": "NEW"
-    },
-    {
-      "code": "missing_mapped_root",
       "month": 52,
       "ref_id": "M52:m52_final_offer:fallback0:arc_y5_final_offer_known_network_other",
       "root": "arc_y5_final_offer_known_network_other",
@@ -127,22 +87,6 @@
       "root": "arc_final_countdown_signature_document_other",
       "rule_status": "planned",
       "work": "NEW"
-    },
-    {
-      "code": "non_product_expand_root",
-      "month": 25,
-      "ref_id": "M25:m25_after_hospital:fallback1:arc_y3_father_avoidance_document",
-      "root": "arc_y3_father_avoidance_document",
-      "rule_status": "needs_rule",
-      "work": "EXPAND"
-    },
-    {
-      "code": "non_product_expand_root",
-      "month": 28,
-      "ref_id": "M28:m28_jiyeon_departure:fallback1:arc_y3_relationship_departure_unattached",
-      "root": "arc_y3_relationship_departure_unattached",
-      "rule_status": "needs_rule",
-      "work": "EXPAND"
     },
     {
       "code": "non_product_expand_root",
@@ -880,16 +824,16 @@
           "boss_minus_start": {
             "choices": 3,
             "cost_signal_choices": 1,
-            "decision_readers": 1,
+            "decision_readers": 0,
             "dedup_choices": 3,
-            "dedup_ko_visible_chars": 5664,
-            "ko_paragraphs": 113,
-            "ko_visible_chars": 5664,
-            "long_range_readers": -12,
+            "dedup_ko_visible_chars": 4838,
+            "ko_paragraphs": 101,
+            "ko_visible_chars": 4838,
+            "long_range_readers": -11,
             "max_surface_beat_depth": 25,
             "present_roots": -2,
-            "receipt_readers": 14,
-            "receipt_writes": 9,
+            "receipt_readers": 10,
+            "receipt_writes": 1,
             "root_refs": -2,
             "terminal_paths": 6,
             "unique_reachable_events": 1
@@ -898,9 +842,9 @@
         "interpretation": "Observation only: larger is not automatically better; inspect distant readers, actual sacrifice, and distinct scene functions together.",
         "inventory": {
           "planned_missing": 0,
-          "referenced_author_only": 6,
+          "referenced_author_only": 4,
           "root_refs": 22,
-          "shipping_eligible_static": 16,
+          "shipping_eligible_static": 18,
           "typed_reference_only": 0
         },
         "scheduled_all_deltas": {
@@ -924,16 +868,16 @@
           "boss_minus_start": {
             "choices": 3,
             "cost_signal_choices": 1,
-            "decision_readers": 1,
+            "decision_readers": 0,
             "dedup_choices": 3,
-            "dedup_ko_visible_chars": 5664,
-            "ko_paragraphs": 113,
-            "ko_visible_chars": 5664,
-            "long_range_readers": -12,
+            "dedup_ko_visible_chars": 4838,
+            "ko_paragraphs": 101,
+            "ko_visible_chars": 4838,
+            "long_range_readers": -11,
             "max_surface_beat_depth": 25,
             "present_roots": -2,
-            "receipt_readers": 14,
-            "receipt_writes": 9,
+            "receipt_readers": 10,
+            "receipt_writes": 1,
             "root_refs": -2,
             "terminal_paths": 6,
             "unique_reachable_events": 1
@@ -977,16 +921,16 @@
           "start": {
             "choices": 23,
             "cost_signal_choices": 7,
-            "decision_readers": 4,
+            "decision_readers": 5,
             "dedup_choices": 23,
-            "dedup_ko_visible_chars": 4474,
-            "ko_paragraphs": 120,
-            "ko_visible_chars": 4474,
-            "long_range_readers": 13,
+            "dedup_ko_visible_chars": 5300,
+            "ko_paragraphs": 132,
+            "ko_visible_chars": 5300,
+            "long_range_readers": 12,
             "max_surface_beat_depth": 9,
             "present_roots": 8,
-            "receipt_readers": 21,
-            "receipt_writes": 23,
+            "receipt_readers": 25,
+            "receipt_writes": 31,
             "root_refs": 8,
             "terminal_paths": 23,
             "unique_reachable_events": 8
@@ -1031,16 +975,16 @@
           "start": {
             "choices": 23,
             "cost_signal_choices": 7,
-            "decision_readers": 4,
+            "decision_readers": 5,
             "dedup_choices": 23,
-            "dedup_ko_visible_chars": 4474,
-            "ko_paragraphs": 120,
-            "ko_visible_chars": 4474,
-            "long_range_readers": 13,
+            "dedup_ko_visible_chars": 5300,
+            "ko_paragraphs": 132,
+            "ko_visible_chars": 5300,
+            "long_range_readers": 12,
             "max_surface_beat_depth": 9,
             "present_roots": 8,
-            "receipt_readers": 21,
-            "receipt_writes": 23,
+            "receipt_readers": 25,
+            "receipt_writes": 31,
             "root_refs": 8,
             "terminal_paths": 23,
             "unique_reachable_events": 8
@@ -1065,21 +1009,21 @@
             "unique_reachable_events": -6
           },
           "boss_minus_start": {
-            "choices": 3,
+            "choices": -3,
             "cost_signal_choices": 1,
-            "decision_readers": 0,
-            "dedup_choices": 3,
-            "dedup_ko_visible_chars": 5773,
-            "ko_paragraphs": 114,
-            "ko_visible_chars": 5773,
-            "long_range_readers": -9,
+            "decision_readers": -2,
+            "dedup_choices": -3,
+            "dedup_ko_visible_chars": 3302,
+            "ko_paragraphs": 76,
+            "ko_visible_chars": 3302,
+            "long_range_readers": -11,
             "max_surface_beat_depth": 25,
-            "present_roots": -2,
-            "receipt_readers": 12,
-            "receipt_writes": 8,
-            "root_refs": -2,
-            "terminal_paths": 6,
-            "unique_reachable_events": 1
+            "present_roots": -4,
+            "receipt_readers": 4,
+            "receipt_writes": -1,
+            "root_refs": -4,
+            "terminal_paths": 0,
+            "unique_reachable_events": -1
           }
         },
         "shipping_eligible_segments": {
@@ -1118,21 +1062,21 @@
             "unique_reachable_events": 13
           },
           "start": {
-            "choices": 17,
+            "choices": 23,
             "cost_signal_choices": 7,
-            "decision_readers": 3,
-            "dedup_choices": 17,
-            "dedup_ko_visible_chars": 2829,
-            "ko_paragraphs": 94,
-            "ko_visible_chars": 2829,
-            "long_range_readers": 10,
+            "decision_readers": 5,
+            "dedup_choices": 23,
+            "dedup_ko_visible_chars": 5300,
+            "ko_paragraphs": 132,
+            "ko_visible_chars": 5300,
+            "long_range_readers": 12,
             "max_surface_beat_depth": 9,
-            "present_roots": 6,
-            "receipt_readers": 17,
-            "receipt_writes": 22,
-            "root_refs": 6,
-            "terminal_paths": 17,
-            "unique_reachable_events": 6
+            "present_roots": 8,
+            "receipt_readers": 25,
+            "receipt_writes": 31,
+            "root_refs": 8,
+            "terminal_paths": 23,
+            "unique_reachable_events": 8
           }
         }
       },
@@ -1159,26 +1103,26 @@
           "boss_minus_start": {
             "choices": 34,
             "cost_signal_choices": 1,
-            "decision_readers": 4,
+            "decision_readers": 9,
             "dedup_choices": 31,
             "dedup_ko_visible_chars": 11472,
             "ko_paragraphs": 237,
             "ko_visible_chars": 12172,
-            "long_range_readers": -14,
+            "long_range_readers": -9,
             "max_surface_beat_depth": 9,
             "present_roots": 6,
-            "receipt_readers": 44,
-            "receipt_writes": 19,
-            "root_refs": 1,
+            "receipt_readers": 59,
+            "receipt_writes": 24,
+            "root_refs": 6,
             "terminal_paths": 27,
             "unique_reachable_events": 12
           }
         },
         "interpretation": "Observation only: larger is not automatically better; inspect distant readers, actual sacrifice, and distinct scene functions together.",
         "inventory": {
-          "planned_missing": 5,
+          "planned_missing": 0,
           "referenced_author_only": 0,
-          "root_refs": 44,
+          "root_refs": 39,
           "shipping_eligible_static": 39,
           "typed_reference_only": 0
         },
@@ -1203,17 +1147,17 @@
           "boss_minus_start": {
             "choices": 34,
             "cost_signal_choices": 1,
-            "decision_readers": 4,
+            "decision_readers": 9,
             "dedup_choices": 31,
             "dedup_ko_visible_chars": 11472,
             "ko_paragraphs": 237,
             "ko_visible_chars": 12172,
-            "long_range_readers": -14,
+            "long_range_readers": -9,
             "max_surface_beat_depth": 9,
             "present_roots": 6,
-            "receipt_readers": 44,
-            "receipt_writes": 19,
-            "root_refs": 1,
+            "receipt_readers": 59,
+            "receipt_writes": 24,
+            "root_refs": 6,
             "terminal_paths": 27,
             "unique_reachable_events": 12
           }
@@ -1256,17 +1200,17 @@
           "start": {
             "choices": 25,
             "cost_signal_choices": 6,
-            "decision_readers": 8,
+            "decision_readers": 3,
             "dedup_choices": 25,
             "dedup_ko_visible_chars": 6967,
             "ko_paragraphs": 143,
             "ko_visible_chars": 6967,
-            "long_range_readers": 14,
+            "long_range_readers": 9,
             "max_surface_beat_depth": 8,
             "present_roots": 10,
-            "receipt_readers": 48,
-            "receipt_writes": 59,
-            "root_refs": 15,
+            "receipt_readers": 33,
+            "receipt_writes": 54,
+            "root_refs": 10,
             "terminal_paths": 25,
             "unique_reachable_events": 10
           }
@@ -1310,17 +1254,17 @@
           "start": {
             "choices": 25,
             "cost_signal_choices": 6,
-            "decision_readers": 8,
+            "decision_readers": 3,
             "dedup_choices": 25,
             "dedup_ko_visible_chars": 6967,
             "ko_paragraphs": 143,
             "ko_visible_chars": 6967,
-            "long_range_readers": 14,
+            "long_range_readers": 9,
             "max_surface_beat_depth": 8,
             "present_roots": 10,
-            "receipt_readers": 48,
-            "receipt_writes": 59,
-            "root_refs": 15,
+            "receipt_readers": 33,
+            "receipt_writes": 54,
+            "root_refs": 10,
             "terminal_paths": 25,
             "unique_reachable_events": 10
           }
@@ -1740,7 +1684,7 @@
           "to_month": 51
         },
         {
-          "appearances": 11,
+          "appearances": 12,
           "empty_months": 8,
           "from_month": 47,
           "id": "father",
@@ -1798,18 +1742,11 @@
           "to_month": 56
         },
         {
-          "appearances": 8,
-          "empty_months": 9,
-          "from_month": 25,
+          "appearances": 9,
+          "empty_months": 6,
+          "from_month": 28,
           "id": "phone",
           "to_month": 35
-        },
-        {
-          "appearances": 33,
-          "empty_months": 5,
-          "from_month": 24,
-          "id": "internal",
-          "to_month": 30
         },
         {
           "appearances": 32,
@@ -1817,6 +1754,13 @@
           "from_month": 45,
           "id": "in_person",
           "to_month": 50
+        },
+        {
+          "appearances": 34,
+          "empty_months": 4,
+          "from_month": 25,
+          "id": "internal",
+          "to_month": 30
         }
       ],
       "mapped_story": {
@@ -1868,7 +1812,7 @@
             "to_month": 51
           },
           {
-            "appearances": 11,
+            "appearances": 12,
             "empty_months": 8,
             "from_month": 47,
             "id": "father",
@@ -1933,9 +1877,9 @@
             "to_month": 56
           },
           {
-            "appearances": 8,
-            "empty_months": 9,
-            "from_month": 25,
+            "appearances": 9,
+            "empty_months": 6,
+            "from_month": 28,
             "id": "phone",
             "to_month": 35
           },
@@ -1947,11 +1891,11 @@
             "to_month": 50
           },
           {
-            "appearances": 37,
-            "empty_months": 3,
-            "from_month": 2,
+            "appearances": 36,
+            "empty_months": 4,
+            "from_month": 25,
             "id": "internal",
-            "to_month": 6
+            "to_month": 30
           }
         ],
         "mapped_story": {
@@ -1959,6 +1903,13 @@
           "longest_empty_run": 0
         },
         "theme_tag": [
+          {
+            "appearances": 8,
+            "empty_months": 22,
+            "from_month": 9,
+            "id": "author_only",
+            "to_month": 32
+          },
           {
             "appearances": 3,
             "empty_months": 22,
@@ -1972,13 +1923,6 @@
             "from_month": 30,
             "id": "jaehyuk",
             "to_month": 53
-          },
-          {
-            "appearances": 9,
-            "empty_months": 19,
-            "from_month": 35,
-            "id": "author_only",
-            "to_month": 55
           },
           {
             "appearances": 11,
@@ -2167,7 +2111,7 @@
           "to_month": 56
         },
         {
-          "appearances": 13,
+          "appearances": 14,
           "empty_months": 10,
           "from_month": 33,
           "id": "father",
@@ -2188,7 +2132,7 @@
           "to_month": 51
         },
         {
-          "appearances": 16,
+          "appearances": 17,
           "empty_months": 8,
           "from_month": 47,
           "id": "requires_living_father",
@@ -2247,84 +2191,84 @@
     },
     "overall": {
       "chapters": 5,
-      "choices": 465,
+      "choices": 471,
       "cost_signal_choices": 112,
-      "decision_readers": 48,
-      "dedup_choices": 436,
-      "dedup_ko_visible_chars": 141285,
-      "fallback_root_refs": 41,
-      "global_dedup_choices": 436,
-      "global_dedup_ko_visible_chars": 141285,
-      "global_unique_reachable_events": 178,
-      "ko_paragraphs": 3299,
-      "ko_visible_chars": 152611,
-      "long_range_readers": 49,
-      "mapped_rule_root_refs": 67,
+      "decision_readers": 50,
+      "dedup_choices": 442,
+      "dedup_ko_visible_chars": 143756,
+      "fallback_root_refs": 43,
+      "global_dedup_choices": 442,
+      "global_dedup_ko_visible_chars": 143756,
+      "global_unique_reachable_events": 180,
+      "ko_paragraphs": 3337,
+      "ko_visible_chars": 155082,
+      "long_range_readers": 51,
+      "mapped_rule_root_refs": 69,
       "max_surface_beat_depth": 34,
       "missing_roots": 0,
       "months": 60,
       "needs_rule_root_refs": 70,
-      "planned_root_refs": 16,
-      "present_roots": 137,
-      "receipt_readers": 653,
-      "receipt_writes": 512,
-      "referenced_author_only_root_refs": 21,
-      "root_refs": 137,
-      "rule_present_root_refs": 81,
+      "planned_root_refs": 11,
+      "present_roots": 139,
+      "receipt_readers": 661,
+      "receipt_writes": 521,
+      "referenced_author_only_root_refs": 19,
+      "root_refs": 139,
+      "rule_present_root_refs": 83,
       "scheduled_all": {
         "choices": 532,
         "cost_signal_choices": 114,
-        "decision_readers": 78,
+        "decision_readers": 74,
         "dedup_choices": 500,
-        "dedup_ko_visible_chars": 158179,
+        "dedup_ko_visible_chars": 159005,
         "global_dedup_choices": 500,
-        "global_dedup_ko_visible_chars": 158179,
+        "global_dedup_ko_visible_chars": 159005,
         "global_unique_reachable_events": 199,
-        "ko_paragraphs": 3720,
-        "ko_visible_chars": 174615,
-        "long_range_readers": 67,
+        "ko_paragraphs": 3732,
+        "ko_visible_chars": 175441,
+        "long_range_readers": 61,
         "max_surface_beat_depth": 34,
-        "missing_roots": 16,
+        "missing_roots": 11,
         "present_roots": 158,
-        "receipt_readers": 770,
-        "receipt_writes": 549,
-        "root_refs": 174,
+        "receipt_readers": 759,
+        "receipt_writes": 552,
+        "root_refs": 169,
         "terminal_paths": 542,
         "unique_reachable_events": 199,
-        "unique_roots": 171
+        "unique_roots": 166
       },
-      "scheduled_all_fallback_root_refs": 76,
-      "scheduled_all_missing_roots": 16,
-      "scheduled_all_rule_present_root_refs": 81,
-      "scheduled_all_unique_roots": 171,
+      "scheduled_all_fallback_root_refs": 71,
+      "scheduled_all_missing_roots": 11,
+      "scheduled_all_rule_present_root_refs": 83,
+      "scheduled_all_unique_roots": 166,
       "scope_default": "shipping_eligible_static",
       "shipping_eligible_static": {
-        "choices": 465,
+        "choices": 471,
         "cost_signal_choices": 112,
-        "decision_readers": 48,
-        "dedup_choices": 436,
-        "dedup_ko_visible_chars": 141285,
-        "global_dedup_choices": 436,
-        "global_dedup_ko_visible_chars": 141285,
-        "global_unique_reachable_events": 178,
-        "ko_paragraphs": 3299,
-        "ko_visible_chars": 152611,
-        "long_range_readers": 49,
+        "decision_readers": 50,
+        "dedup_choices": 442,
+        "dedup_ko_visible_chars": 143756,
+        "global_dedup_choices": 442,
+        "global_dedup_ko_visible_chars": 143756,
+        "global_unique_reachable_events": 180,
+        "ko_paragraphs": 3337,
+        "ko_visible_chars": 155082,
+        "long_range_readers": 51,
         "max_surface_beat_depth": 34,
         "missing_roots": 0,
-        "present_roots": 137,
-        "receipt_readers": 653,
-        "receipt_writes": 512,
-        "root_refs": 137,
-        "terminal_paths": 472,
-        "unique_reachable_events": 178,
-        "unique_roots": 134
+        "present_roots": 139,
+        "receipt_readers": 661,
+        "receipt_writes": 521,
+        "root_refs": 139,
+        "terminal_paths": 478,
+        "unique_reachable_events": 180,
+        "unique_roots": 136
       },
-      "shipping_eligible_static_root_refs": 137,
-      "terminal_paths": 472,
+      "shipping_eligible_static_root_refs": 139,
+      "terminal_paths": 478,
       "typed_reference_only_root_refs": 0,
-      "unique_reachable_events": 178,
-      "unique_roots": 134
+      "unique_reachable_events": 180,
+      "unique_roots": 136
     },
     "reference_inventory": {
       "activation": "reference_only",
@@ -2365,8 +2309,8 @@
         "blocking": false,
         "chapter": 3,
         "code": "dense_relative_to_same_chapter_role",
-        "group_beat_median": 8.0,
-        "group_char_median": 681.0,
+        "group_beat_median": 8,
+        "group_char_median": 690,
         "kind": "decision",
         "ko_visible_chars": 2365,
         "max_surface_beat_depth": 24,
@@ -2377,8 +2321,8 @@
         "blocking": false,
         "chapter": 3,
         "code": "dense_relative_to_same_chapter_role",
-        "group_beat_median": 8.0,
-        "group_char_median": 681.0,
+        "group_beat_median": 8,
+        "group_char_median": 690,
         "kind": "decision",
         "ko_visible_chars": 4681,
         "max_surface_beat_depth": 34,
@@ -2389,8 +2333,8 @@
         "blocking": false,
         "chapter": 3,
         "code": "dense_relative_to_same_chapter_role",
-        "group_beat_median": 8.0,
-        "group_char_median": 681.0,
+        "group_beat_median": 8,
+        "group_char_median": 690,
         "kind": "decision",
         "ko_visible_chars": 2801,
         "max_surface_beat_depth": 8,
@@ -2504,14 +2448,14 @@
   "schema_version": 1,
   "source_hashes": {
     "content/meta/event_director.json": "1603fd84db3f6f64535235e685b4ae3dcedda17a01ee8a6c059b1bde292b2891",
-    "content/meta/event_lifecycle.json": "2f8f5a32621d88deba4ad84ad32f38195d34e49409a3e60de1e79a82bf555958",
-    "content/meta/narrative_spine.json": "abf92f3f512894e20a96edb2e992d34785b20d320f1cc900191cd2459626bba2",
-    "content/meta/story_map.json": "15f34b8d520329567bb7430dca78854b13e485534d1c23c9d95de1b1ab380425",
-    "content/meta/story_rules.json": "d012c50ddcc7bcc82c1dfeaf4c939a70a788a2e856208973ede7bcd12727fe61",
+    "content/meta/event_lifecycle.json": "cdf2c73925ba0557fdfd74da8f9aa9a4672ea0c9bdb56ff23031ed3eda39b634",
+    "content/meta/narrative_spine.json": "6ca02bab7dc3c39ae3a44cd89aafefd1d2d45e2b6cda479fa811678bc1f76a84",
+    "content/meta/story_map.json": "46e459b5c0243b22f117290448c4622374df21c838e03ddfe96214d73dae043c",
+    "content/meta/story_rules.json": "9c4d7ee013184577744da3779f6a505e2c20f0fc6dcca74c60b8edbf5c373e7c",
     "content/meta/year5_reference_routes.json": "07c814ea5ea3b7c82157b1aaa3a5bdf15ef251cbb1b2ceda902d1ccc54b3442a",
-    "graph:en_mapped_immediate": "3f64ebfd1c84f8b85ae55ca5aaf8314848f86181cead17086cfe91e033cfcb32",
-    "graph:ko_mapped_immediate": "f603e7d3bde0580bba3267c74d51fff970a4e15e2e294429cb01fd52c9175599",
-    "lifecycle:product_event_ids": "fd70645a3f66a6db65bb5c4d5073ed98e0a4b5f10f121b459c58a01acd575697",
-    "story_map:root_refs": "8d54037356bdd288c72b42b14e4e595fb7e8c5e7a95c26ef589b248767d9abdc"
+    "graph:en_mapped_immediate": "d531eeb53c0e060fc2e79a4a2802781eddabc44c8f7000e072d6f4dc3de0e0a6",
+    "graph:ko_mapped_immediate": "a9f3f728a38d7bbf442f647de5f1a622be939bc407696f0c33d98f869c4c4ca7",
+    "lifecycle:product_event_ids": "fcbcba8e9c0f326a5e7f9feb896746204c34acaec72f0f146c8900dd669aeb0e",
+    "story_map:root_refs": "d2e544973d0f60451f2fe5b2ff54abbab6c71d946c0bea7915993e11e84db424"
   }
 }

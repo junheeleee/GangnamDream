@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "scope": {
-    "root_count": 384,
-    "exposed_count": 527,
-    "root_ids_sha256": "660430f85a17b9014ef70ab39b3c1242dba1eb10ce2fe23fc45123f18c60280f",
-    "exposed_ids_sha256": "b43913172aee17bf9715530ea0f8951888ff9d8bbea887ab9a31314fe11c8e87"
+    "root_count": 386,
+    "exposed_count": 536,
+    "root_ids_sha256": "a91998950487f82aebf800da4a39b9bc00380843b01cd8c05f2e035daee696d2",
+    "exposed_ids_sha256": "2ddc795b0b5eadb53bdb64aae7b3edfdf7471e0c8646243e4c5d4d1645e65f9e"
   },
   "state_sensitive": {
     "amb_coin_00": [
@@ -574,9 +574,6 @@
       "housing",
       "location"
     ],
-    "arc_final_countdown": [
-      "location"
-    ],
     "arc_final_countdown_general_near_goal_passed": [
       "father_life",
       "housing",
@@ -589,11 +586,6 @@
       "relationship"
     ],
     "arc_final_stretch": [
-      "location"
-    ],
-    "arc_final_week": [
-      "father_life",
-      "housing",
       "location"
     ],
     "arc_final_year_start": [
@@ -1012,6 +1004,10 @@
       "location",
       "relationship"
     ],
+    "arc_opp_sangchul_lose": [
+      "location",
+      "relationship"
+    ],
     "arc_opp_sangchul_realty": [
       "location",
       "relationship"
@@ -1283,6 +1279,16 @@
     "arc_y3_cost_of_knowing": [
       "location",
       "relationship"
+    ],
+    "arc_y3_father_avoidance_document": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_y3_father_deferred_call": [
+      "father_life",
+      "housing",
+      "location"
     ],
     "arc_y3_hyunsu_verdict": [
       "location",
@@ -1794,6 +1800,12 @@
     "callback_interview_lie_confessed_echo": [
       "employment"
     ],
+    "callback_inv_ipo_hot_tip_lose_listing": [
+      "location"
+    ],
+    "callback_inv_ipo_hot_tip_win_listing": [
+      "location"
+    ],
     "callback_investment_lesson_echo": [
       "housing",
       "location",
@@ -1884,6 +1896,12 @@
       "housing",
       "location"
     ],
+    "callback_redev_bet_failed_result": [
+      "location"
+    ],
+    "callback_redev_bet_taken_result": [
+      "location"
+    ],
     "callback_resume_lie_confessed_echo": [
       "employment"
     ],
@@ -1901,6 +1919,12 @@
     "callback_sangchul_leveraged_cost": [
       "father_life",
       "location",
+      "relationship"
+    ],
+    "callback_sangchul_tip_lose_awkward": [
+      "relationship"
+    ],
+    "callback_sangchul_tip_win_payoff": [
       "relationship"
     ],
     "callback_sangchul_truth_buried_echo": [
@@ -2158,11 +2182,14 @@
       "location",
       "relationship"
     ],
+    "inv_ipo_hot_tip": [
+      "employment"
+    ],
     "inv_redev_completion_sale": [
       "location"
     ],
     "inv_redev_zone_tip": [
-      "location"
+      "relationship"
     ],
     "leading_room_joined": [
       "location"
@@ -2243,6 +2270,9 @@
     ],
     "sangchul_becomes_primary": [
       "father_life",
+      "relationship"
+    ],
+    "sangchul_tip_redev": [
       "relationship"
     ],
     "sangchul_world_absorbed": [

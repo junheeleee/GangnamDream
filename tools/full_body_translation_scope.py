@@ -64,31 +64,31 @@ PROTECTED_REUSE_SOURCE_LEAVES_SHA256 = (
 # observed evidence and this table must be refreshed intentionally.
 EXPECTED = {
     "packaged_events": 1812,
-    "author_only_events": 107,
-    "shipping_events": 1705,
-    "shipping_standard_leaves": 11516,
+    "author_only_events": 105,
+    "shipping_events": 1707,
+    "shipping_standard_leaves": 11535,
     "shipping_chapter5_reader_leaves": 133,
-    "shipping_leaves": 11649,
+    "shipping_leaves": 11668,
     "shipping_event_ids_sha256": (
-        "e5dce4da37fd7bcf5730efb2b5e038aa1463e2abbfcd56d1893c12464565e5a2"
+        "854c4be5198c459d51086f0db61c332394e1268ed72c9c9e42259b290d905210"
     ),
     "shipping_source_leaves_sha256": (
-        "138ce7e11e74c9c228dc317c60f317d3e6a67c46ce0ddf00999f33fcb3b82373"
+        "4ad158d13e2d567e32afa334eb29d45f4edcdae325ccd1aebd2e48ee0de3a1a4"
     ),
-    "m07_m60_root_refs": 167,
-    "m07_m60_shipping_root_refs": 130,
-    "m07_m60_shipping_seed_events": 127,
-    "m07_m60_author_only_root_refs": 21,
-    "m07_m60_planned_missing_root_refs": 16,
-    "m07_m60_immediate_events": 166,
-    "m07_m60_immediate_leaves": 1565,
-    "m07_m60_events": 190,
-    "m07_m60_leaves": 1730,
+    "m07_m60_root_refs": 162,
+    "m07_m60_shipping_root_refs": 132,
+    "m07_m60_shipping_seed_events": 129,
+    "m07_m60_author_only_root_refs": 19,
+    "m07_m60_planned_missing_root_refs": 11,
+    "m07_m60_immediate_events": 168,
+    "m07_m60_immediate_leaves": 1584,
+    "m07_m60_events": 192,
+    "m07_m60_leaves": 1749,
     "m07_m60_event_ids_sha256": (
-        "350b49e7966e7095c58f342ada55a64a8528f6fd628cbe0b902f1ae71ebd345d"
+        "7fef47a76488b7b15276c289b8a6be7ef381d982c9c6c317fd768efed20b5600"
     ),
     "m07_m60_source_leaves_sha256": (
-        "f2ab73304c9637eec0ffd9a371781b4210a688c58755ab871a670b9bb40d7147"
+        "25ab1dfa60d8fed2f989762ff6108e37f63164d168b9284501413d685457a669"
     ),
     "deferred_added_events": 24,
     "deferred_added_leaves": 165,
@@ -1071,26 +1071,26 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
     require(
         "shipping exact event and leaf denominator",
         (shipping.get("event_count"), shipping.get("leaf_count"))
-        == (1705, 11649),
+        == (1707, 11668),
     )
     require(
         "Chapter 5 nested reader leaves included",
         shipping.get("chapter5_reader_leaf_count") == 133
-        and shipping.get("standard_leaf_count") == 11516,
+        and shipping.get("standard_leaf_count") == 11535,
     )
     require(
         "M07-M60 static exact event and leaf denominator",
-        (static.get("event_count"), static.get("leaf_count")) == (190, 1730),
+        (static.get("event_count"), static.get("leaf_count")) == (192, 1749),
     )
     require(
         "deferred follow-up expands static closure",
-        static.get("immediate_closure_event_count") == 166
+        static.get("immediate_closure_event_count") == 168
         and static.get("deferred_added_event_count") == 24
         and static.get("deferred_added_leaf_count") == 165,
     )
     require(
         "author-only excluded from both source scopes",
-        shipping.get("author_only_excluded_event_count") == 107
+        shipping.get("author_only_excluded_event_count") == 105
         and shipping.get("author_only_overlap_event_count") == 0
         and static.get("author_only_overlap_event_count") == 0,
     )

@@ -41,7 +41,7 @@ func has_reached_demo_limit() -> bool:
 
 var player_name = "김민준"
 var player_background = "지방_상경"  # legacy — 신규 런은 player_route 사용
-var player_route = "직장형"  # 직장형 | 투자형 | 창업형
+var player_route = "none"  # none | 직장형 | 투자형 | 창업형
 var age = 33
 var year = 2026
 var month = 1
@@ -966,8 +966,13 @@ const TENDENCY_DESC_EN := {
 }
 const TENDENCY_REALIZE_THRESHOLD := 12   # 1위가 이 점수 넘고
 const TENDENCY_REALIZE_GAP := 4          # 2위와 격차가 이 이상이면 자각
+## Decision/Boss에서 플레이어가 직접 확정한 행동 한 번의 정체성 증거.
+## Quiet/Echo 몽타주나 월급 정산은 시간을 압축할 뿐 새 선택을 만들지 않는다.
+const TENDENCY_DELIBERATE_ACTION_WEIGHT := 4
+const TENDENCY_EVIDENCE_VERSION := 2
 var tendency: Dictionary = {"career": 0, "invest": 0, "found": 0}
 var tendency_realized: String = ""       # "" = 아직, 아니면 career/invest/found
+var tendency_evidence_version: int = TENDENCY_EVIDENCE_VERSION
 
 var reputation = 10
 var gambling_tendency = 0
@@ -1033,9 +1038,11 @@ func _ready():
 	randomize()
 
 func new_game():
-	start_new_game()
+	# The modern title no longer asks for a route up front. Restarting from an
+	# ending must use the same neutral identity boundary as New Story.
+	start_new_game(player_name, player_background, "none")
 
-func start_new_game(chosen_name: String = "김민준", chosen_background: String = "지방_상경", chosen_route: String = "직장형", starting_profile: String = "백수", chosen_theme: String = "자유런", chosen_difficulty: String = "현실"):
+func start_new_game(chosen_name: String = "김민준", chosen_background: String = "지방_상경", chosen_route: String = "none", starting_profile: String = "백수", chosen_theme: String = "자유런", chosen_difficulty: String = "현실"):
 	var fallback_name := LocaleManager.ui("김민준", "Kim Minjun")
 	if LocaleManager.is_english() and chosen_name == "김민준":
 		chosen_name = fallback_name
@@ -1131,6 +1138,7 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	year_scenes = {}
 	tendency ={"career": 0, "invest": 0, "found": 0}
 	tendency_realized = ""
+	tendency_evidence_version = TENDENCY_EVIDENCE_VERSION
 	market_context = {
 		"fear_greed": 50,
 		"cycle": "neutral",
@@ -2566,6 +2574,42 @@ func weekly_commitment_action_matches(choice_id: String, action_id: String) -> b
 	var accepted: Array = WEEKLY_COMMITMENT_ACTION_MATCHES.get(choice_id, [choice_id])
 	return accepted.has(action_id)
 
+## Read-only owner/AP check for activities that must choose a random authored
+## result before their transaction begins. A rejected click must not consume the
+## global RNG and thereby change the next valid retry.
+func weekly_commitment_action_preflight(action_id: String) -> Dictionary:
+	var normalized_action := action_id.strip_edges().to_lower()
+	if normalized_action.is_empty():
+		return {"ok": false, "error": "missing_action"}
+	if pending_weekly_commitment.is_empty():
+		return {"ok": false, "error": "missing_pending_commitment"}
+	if int(pending_weekly_commitment.get("turn", -1)) != turn:
+		return {"ok": false, "error": "pending_turn_mismatch"}
+	var choice_id := str(
+		pending_weekly_commitment.get("choice_id", "")).strip_edges().to_lower()
+	if not weekly_commitment_action_matches(choice_id, normalized_action):
+		return {"ok": false, "error": "action_mismatch"}
+	var supplemental_to_cycle := bool(pending_weekly_commitment.get(
+		"supplemental_to_seoul_cycle", false))
+	var existing_cycle_record := get_weekly_commitment_for_turn(turn)
+	if supplemental_to_cycle:
+		var existing_details: Dictionary = existing_cycle_record.get(
+			"details", {}) if existing_cycle_record.get(
+				"details", {}) is Dictionary else {}
+		if str(existing_cycle_record.get("source", "")) != "seoul_cycle" \
+				or str(existing_details.get("execution", "")) != "seoul_cycle":
+			return {"ok": false, "error": "missing_seoul_cycle_owner"}
+	else:
+		if not existing_cycle_record.is_empty():
+			return {"ok": false, "error": "turn_already_finalized"}
+		if action_points <= 0:
+			return {"ok": false, "error": "insufficient_ap"}
+	return {
+		"ok": true,
+		"action_id": normalized_action,
+		"supplemental": supplemental_to_cycle,
+	}
+
 func has_pending_weekly_commitment(commitment_turn: int = -1) -> bool:
 	if pending_weekly_commitment.is_empty():
 		return false
@@ -2590,46 +2634,73 @@ func claim_initial_settlement_subsidy() -> bool:
 func finalize_weekly_effect_action(
 		action_id: String, effects: Dictionary, axis: String,
 		place_id: String = "", subject_id: String = "",
-		details: Dictionary = {}, flag_updates: Dictionary = {}) -> Dictionary:
+		details: Dictionary = {}, flag_updates: Dictionary = {},
+		deliberate_tendency_kind: String = "",
+		defer_public_signals: bool = false,
+		mutation: Callable = Callable(), signal_owners: Array = [],
+		success_publisher: Callable = Callable()) -> Dictionary:
 	var normalized_action := action_id.strip_edges().to_lower()
 	var normalized_axis := axis.strip_edges().to_lower()
+	var normalized_tendency_kind := deliberate_tendency_kind.strip_edges().to_lower()
 	if normalized_action.is_empty():
 		return {"ok": false, "error": "missing_action"}
 	if normalized_axis not in ["money", "human"]:
 		return {"ok": false, "error": "invalid_axis"}
-	if pending_weekly_commitment.is_empty():
-		return {"ok": false, "error": "missing_pending_commitment"}
-	if int(pending_weekly_commitment.get("turn", -1)) != turn:
-		return {"ok": false, "error": "pending_turn_mismatch"}
-	var choice_id := str(
-		pending_weekly_commitment.get("choice_id", "")).strip_edges().to_lower()
-	if not weekly_commitment_action_matches(choice_id, normalized_action):
-		return {"ok": false, "error": "action_mismatch"}
-	var supplemental_to_cycle := bool(pending_weekly_commitment.get(
-		"supplemental_to_seoul_cycle", false))
-	var existing_cycle_record := get_weekly_commitment_for_turn(turn)
-	if supplemental_to_cycle:
-		var existing_details: Dictionary = existing_cycle_record.get(
-			"details", {}) if existing_cycle_record.get(
-				"details", {}) is Dictionary else {}
-		if str(existing_cycle_record.get("source", "")) != "seoul_cycle" \
-				or str(existing_details.get("execution", "")) != "seoul_cycle":
-			return {"ok": false, "error": "missing_seoul_cycle_owner"}
-	else:
-		if not existing_cycle_record.is_empty():
-			return {"ok": false, "error": "turn_already_finalized"}
-		if action_points <= 0:
-			return {"ok": false, "error": "insufficient_ap"}
+	if not normalized_tendency_kind.is_empty() \
+			and not tendency.has(normalized_tendency_kind):
+		return {"ok": false, "error": "invalid_tendency_kind"}
+	var action_preflight := weekly_commitment_action_preflight(normalized_action)
+	if not bool(action_preflight.get("ok", false)):
+		return action_preflight
+	var supplemental_to_cycle := bool(action_preflight.get("supplemental", false))
 
 	var snapshot: Dictionary = serialize().duplicate(true)
+	var thresholds_before: Dictionary = unlocked_stat_thresholds.duplicate(true)
+	var action_log_before: Array = action_log.duplicate(true)
 	var transient_snapshot := {
 		"pending_tint_vignette": pending_tint_vignette.duplicate(true),
 		"pending_scar_vignette": pending_scar_vignette,
 	}
+	var signals_were_blocked := is_blocking_signals()
+	var realized_before := tendency_realized
+	if not signals_were_blocked:
+		set_block_signals(true)
+	var signal_owner_states := _block_weekly_transaction_signal_owners(
+		signal_owners)
 	if not supplemental_to_cycle and not spend_ap():
+		_restore_weekly_transaction_signal_owners(signal_owner_states)
+		if not signals_were_blocked:
+			set_block_signals(false)
 		return {"ok": false, "error": "insufficient_ap"}
-	if not effects.is_empty():
+	var mutation_result: Dictionary = {}
+	if mutation.is_valid():
+		var raw_mutation_result: Variant = mutation.call()
+		if raw_mutation_result is Dictionary:
+			mutation_result = (raw_mutation_result as Dictionary).duplicate(true)
+		if mutation_result.is_empty() or not bool(mutation_result.get(
+				"ok", mutation_result.get("success", false))):
+			_restore_serialized_snapshot_exact(snapshot, false)
+			pending_tint_vignette = (
+				transient_snapshot["pending_tint_vignette"] as Dictionary
+			).duplicate(true)
+			pending_scar_vignette = str(
+				transient_snapshot["pending_scar_vignette"])
+			_restore_weekly_transaction_signal_owners(signal_owner_states)
+			if not signals_were_blocked:
+				set_block_signals(false)
+			return {
+				"ok": false,
+				"error": str(mutation_result.get("error", "mutation_failed")),
+				"rolled_back": true,
+				"mutation_result": mutation_result,
+			}
+	elif not effects.is_empty():
 		apply_effects(effects)
+	var resolved_details: Dictionary = details.duplicate(true)
+	if mutation_result.get("details", {}) is Dictionary \
+			and not (mutation_result.get("details", {}) as Dictionary).is_empty():
+		resolved_details = (
+			mutation_result.get("details", {}) as Dictionary).duplicate(true)
 	for raw_flag in flag_updates:
 		var flag_id := str(raw_flag).strip_edges()
 		if flag_id.is_empty():
@@ -2652,18 +2723,25 @@ func finalize_weekly_effect_action(
 		synthetic_record["outcome"] = _weekly_commitment_outcome(
 			baseline, _weekly_commitment_public_snapshot(
 				str(synthetic_record.get("person_id", ""))))
-		if not details.is_empty():
-			synthetic_record["details"] = details.duplicate(true)
+		if not resolved_details.is_empty():
+			synthetic_record["details"] = resolved_details.duplicate(true)
+		if not normalized_tendency_kind.is_empty():
+			synthetic_record["identity_evidence"] = {
+				"kind": normalized_tendency_kind,
+				"weight": TENDENCY_DELIBERATE_ACTION_WEIGHT,
+				"version": TENDENCY_EVIDENCE_VERSION,
+			}
 		if not _append_seoul_cycle_action_followup(
-				turn, synthetic_record, details):
-			_restore_serialized_snapshot_exact(snapshot)
+				turn, synthetic_record, resolved_details):
+			_restore_serialized_snapshot_exact(snapshot, false)
 			pending_tint_vignette = (
 				transient_snapshot["pending_tint_vignette"] as Dictionary
 			).duplicate(true)
 			pending_scar_vignette = str(
 				transient_snapshot["pending_scar_vignette"])
-			money_changed.emit(money)
-			moral_tint_changed.emit(moral_tint_norm(), moral_stage())
+			_restore_weekly_transaction_signal_owners(signal_owner_states)
+			if not signals_were_blocked:
+				set_block_signals(false)
 			return {
 				"ok": false,
 				"error": "seoul_cycle_followup_failed",
@@ -2671,31 +2749,208 @@ func finalize_weekly_effect_action(
 			}
 		pending_weekly_commitment = {}
 		action_points = 0
-		stats_changed.emit()
-		weekly_commitment_finalized.emit(synthetic_record.duplicate(true))
-		return {
+		var realized_kind := ""
+		if not normalized_tendency_kind.is_empty():
+			realized_kind = _add_deliberate_tendency_without_signals(
+				normalized_tendency_kind)
+		var transaction := {
 			"ok": true,
 			"supplemental": true,
 			"record": synthetic_record.duplicate(true),
+			"realized_kind": realized_kind,
+			"threshold_crossings": _stat_threshold_crossings_since(
+				thresholds_before),
+			"log_entries": _action_log_entries_since(action_log_before),
+			"mutation_result": mutation_result,
 		}
+		if success_publisher.is_valid():
+			transaction["success_publisher"] = success_publisher
+		_restore_weekly_transaction_signal_owners(signal_owner_states)
+		if not signals_were_blocked:
+			set_block_signals(false)
+			if defer_public_signals:
+				transaction["signals_deferred"] = true
+			else:
+				_emit_weekly_effect_action_public_signals(
+					synthetic_record, realized_kind,
+					transaction["threshold_crossings"],
+					transaction["log_entries"])
+				_publish_weekly_transaction_success(transaction)
+		return transaction
 
 	register_action_axis(
 		normalized_axis, place_id, normalized_action, subject_id)
 	if not finalize_weekly_commitment(
-			normalized_action, subject_id, details):
-		_restore_serialized_snapshot_exact(snapshot)
+			normalized_action, subject_id, resolved_details,
+			normalized_tendency_kind):
+		_restore_serialized_snapshot_exact(snapshot, false)
 		pending_tint_vignette = (
 			transient_snapshot["pending_tint_vignette"] as Dictionary
 		).duplicate(true)
 		pending_scar_vignette = str(
 			transient_snapshot["pending_scar_vignette"])
-		money_changed.emit(money)
-		moral_tint_changed.emit(moral_tint_norm(), moral_stage())
+		_restore_weekly_transaction_signal_owners(signal_owner_states)
+		if not signals_were_blocked:
+			set_block_signals(false)
 		return {"ok": false, "error": "finalize_failed", "rolled_back": true}
-	return {
+	var record: Dictionary = get_weekly_commitment_for_turn(turn)
+	var realized_kind := (
+		tendency_realized
+		if realized_before.is_empty() and not tendency_realized.is_empty()
+		else "")
+	var transaction := {
 		"ok": true,
-		"record": get_weekly_commitment_for_turn(turn),
+		"record": record,
+		"realized_kind": realized_kind,
+		"threshold_crossings": _stat_threshold_crossings_since(
+			thresholds_before),
+		"log_entries": _action_log_entries_since(action_log_before),
+		"mutation_result": mutation_result,
 	}
+	if success_publisher.is_valid():
+		transaction["success_publisher"] = success_publisher
+	_restore_weekly_transaction_signal_owners(signal_owner_states)
+	if not signals_were_blocked:
+		set_block_signals(false)
+		if defer_public_signals:
+			transaction["signals_deferred"] = true
+		else:
+			_emit_weekly_effect_action_public_signals(
+				record, realized_kind, transaction["threshold_crossings"],
+				transaction["log_entries"])
+			_publish_weekly_transaction_success(transaction)
+	return transaction
+
+func finalize_weekly_mutation_action(
+		action_id: String, axis: String, mutation: Callable,
+		place_id: String = "", subject_id: String = "",
+		details: Dictionary = {}, flag_updates: Dictionary = {},
+		deliberate_tendency_kind: String = "", signal_owners: Array = [],
+		success_publisher: Callable = Callable()) -> Dictionary:
+	return finalize_weekly_effect_action(
+		action_id, {}, axis, place_id, subject_id, details, flag_updates,
+		deliberate_tendency_kind, false, mutation, signal_owners,
+		success_publisher)
+
+func _emit_weekly_effect_action_public_signals(
+		record: Dictionary, realized_kind: String,
+		threshold_crossings: Array, log_entries: Array) -> void:
+	money_changed.emit(money)
+	moral_tint_changed.emit(moral_tint_norm(), moral_stage())
+	stats_changed.emit()
+	for raw_entry in log_entries:
+		if raw_entry is Dictionary:
+			log_added.emit((raw_entry as Dictionary).duplicate(true))
+	weekly_commitment_finalized.emit(record.duplicate(true))
+	_emit_stat_threshold_crossings(threshold_crossings)
+	if not realized_kind.is_empty():
+		tendency_awakened.emit(realized_kind)
+
+func _block_weekly_transaction_signal_owners(owners: Array) -> Array:
+	var states: Array = []
+	var seen_instance_ids: Dictionary = {}
+	for raw_owner in owners:
+		if not is_instance_valid(raw_owner) or raw_owner == self:
+			continue
+		var owner: Object = raw_owner
+		var instance_id := owner.get_instance_id()
+		if seen_instance_ids.has(instance_id):
+			continue
+		seen_instance_ids[instance_id] = true
+		var was_blocked := owner.is_blocking_signals()
+		states.append({"owner": owner, "was_blocked": was_blocked})
+		if not was_blocked:
+			owner.set_block_signals(true)
+	return states
+
+func _restore_weekly_transaction_signal_owners(states: Array) -> void:
+	for raw_state in states:
+		if not raw_state is Dictionary:
+			continue
+		var state: Dictionary = raw_state
+		var owner: Variant = state.get("owner")
+		if is_instance_valid(owner):
+			(owner as Object).set_block_signals(bool(state.get(
+				"was_blocked", false)))
+
+func _action_log_entries_since(before: Array) -> Array:
+	var overlap_limit := mini(before.size(), action_log.size())
+	var overlap := 0
+	for candidate in range(overlap_limit, -1, -1):
+		var matches := true
+		for index in range(candidate):
+			if before[before.size() - candidate + index] != action_log[index]:
+				matches = false
+				break
+		if matches:
+			overlap = candidate
+			break
+	var entries: Array = []
+	for index in range(overlap, action_log.size()):
+		var entry: Variant = action_log[index]
+		entries.append(entry.duplicate(true) if entry is Dictionary else entry)
+	return entries
+
+func _publish_weekly_transaction_success(transaction: Dictionary) -> void:
+	var publisher: Variant = transaction.get("success_publisher", Callable())
+	if publisher is Callable and (publisher as Callable).is_valid():
+		(publisher as Callable).call(transaction.get("mutation_result", {}))
+
+func _stat_threshold_crossings_since(before: Dictionary) -> Array:
+	var crossings: Array = []
+	for stat_name in ["investment_skill", "intelligence", "social_skill"]:
+		for raw_threshold in STAT_THRESHOLDS:
+			var threshold := int(raw_threshold)
+			var key := "%s_%d" % [stat_name, threshold]
+			if bool(unlocked_stat_thresholds.get(key, false)) \
+					and not bool(before.get(key, false)):
+				crossings.append({
+					"stat_name": stat_name,
+					"threshold": threshold,
+				})
+	return crossings
+
+func _emit_stat_threshold_crossings(crossings: Array) -> void:
+	var emitted: Dictionary = {}
+	for raw_crossing in crossings:
+		if not raw_crossing is Dictionary:
+			continue
+		var crossing: Dictionary = raw_crossing
+		var stat_name := str(crossing.get("stat_name", ""))
+		var threshold := int(crossing.get("threshold", -1))
+		var key := "%s_%d" % [stat_name, threshold]
+		if stat_name not in ["investment_skill", "intelligence", "social_skill"] \
+				or threshold not in STAT_THRESHOLDS \
+				or not bool(unlocked_stat_thresholds.get(key, false)) \
+				or emitted.has(key):
+			continue
+		emitted[key] = true
+		stat_threshold_crossed.emit(stat_name, threshold)
+
+func publish_deferred_weekly_effect_action(transaction: Dictionary) -> bool:
+	if not bool(transaction.get("ok", false)) \
+			or not bool(transaction.get("signals_deferred", false)) \
+			or bool(transaction.get("signals_published", false)):
+		return false
+	var raw_record: Variant = transaction.get("record", {})
+	if not raw_record is Dictionary:
+		return false
+	var record: Dictionary = raw_record
+	if int(record.get("turn", -1)) != turn \
+			or str(record.get("actual_action_id", "")).is_empty():
+		return false
+	transaction["signals_published"] = true
+	transaction["signals_deferred"] = false
+	var raw_crossings: Variant = transaction.get("threshold_crossings", [])
+	var threshold_crossings: Array = (
+		raw_crossings if raw_crossings is Array else [])
+	var raw_log_entries: Variant = transaction.get("log_entries", [])
+	var log_entries: Array = raw_log_entries if raw_log_entries is Array else []
+	_emit_weekly_effect_action_public_signals(
+		record, str(transaction.get("realized_kind", "")), threshold_crossings,
+		log_entries)
+	_publish_weekly_transaction_success(transaction)
+	return true
 
 func _append_seoul_cycle_action_followup(
 		commitment_turn: int, action_record: Dictionary,
@@ -2737,6 +2992,11 @@ func _append_seoul_cycle_action_followup(
 			),
 			"details": action_details.duplicate(true),
 		})
+		if action_record.get("identity_evidence", {}) is Dictionary \
+				and not (action_record.get("identity_evidence", {}) as Dictionary).is_empty():
+			followups[-1]["identity_evidence"] = (
+				action_record.get("identity_evidence", {}) as Dictionary
+			).duplicate(true)
 		details["action_followups"] = followups
 		record["details"] = details
 		record["outcome"] = _weekly_commitment_outcome(
@@ -2746,29 +3006,41 @@ func _append_seoul_cycle_action_followup(
 		return true
 	return false
 
-func _restore_serialized_snapshot_exact(snapshot: Dictionary) -> void:
+func _restore_serialized_snapshot_exact(
+		snapshot: Dictionary, emit_public_stats: bool = true) -> void:
 	# The general save loader performs compatibility normalization. Transaction
 	# rollback must then restore every serialized value byte-for-byte so a
 	# migration or profile-dependent default cannot become part of a failed
-	# action.
+	# action. The loader normally publishes stats; suppress that intermediate
+	# normalized state and expose at most one signal after exact restoration.
+	var signals_were_blocked := is_blocking_signals()
+	if not signals_were_blocked:
+		set_block_signals(true)
 	load_from_dict(snapshot)
 	for raw_key in snapshot:
 		var value: Variant = snapshot[raw_key]
 		if value is Dictionary or value is Array:
 			value = value.duplicate(true)
 		set(str(raw_key), value)
-	stats_changed.emit()
+	if not signals_were_blocked:
+		set_block_signals(false)
+	if emit_public_stats:
+		stats_changed.emit()
 func finalize_weekly_commitment(action_id: String, subject_id: String = "",
-		details: Dictionary = {}) -> bool:
+		details: Dictionary = {}, deliberate_tendency_kind: String = "") -> bool:
 	if pending_weekly_commitment.is_empty():
 		return false
 	if int(pending_weekly_commitment.get("turn", -1)) != turn:
 		pending_weekly_commitment = {}
 		return false
 	var normalized_action := action_id.strip_edges().to_lower()
+	var normalized_tendency_kind := deliberate_tendency_kind.strip_edges().to_lower()
 	var choice_id := str(pending_weekly_commitment.get("choice_id", ""))
 	if normalized_action.is_empty() \
 			or not weekly_commitment_action_matches(choice_id, normalized_action):
+		return false
+	if not normalized_tendency_kind.is_empty() \
+			and not tendency.has(normalized_tendency_kind):
 		return false
 	if has_weekly_commitment_for_turn(turn):
 		pending_weekly_commitment = {}
@@ -2797,6 +3069,12 @@ func finalize_weekly_commitment(action_id: String, subject_id: String = "",
 		flags["chapter_intent_id"] = chapter_intent_id
 		flags["chapter_intent_turn"] = turn
 	record["echoed_turn"] = -1
+	if not normalized_tendency_kind.is_empty():
+		record["identity_evidence"] = {
+			"kind": normalized_tendency_kind,
+			"weight": TENDENCY_DELIBERATE_ACTION_WEIGHT,
+			"version": TENDENCY_EVIDENCE_VERSION,
+		}
 	weekly_commitments.append(record)
 	while weekly_commitments.size() > 16:
 		weekly_commitments.pop_front()
@@ -2804,8 +3082,18 @@ func finalize_weekly_commitment(action_id: String, subject_id: String = "",
 	# 직접 결정 주간의 대가는 다른 두 길을 이번 주에 실행하지 못하는 것이다.
 	# Quiet/Echo 루틴은 별도 경로라 이 닫힘의 영향을 받지 않는다.
 	action_points = 0
+	var realized_kind := ""
+	var thresholds_before_identity: Dictionary = (
+		unlocked_stat_thresholds.duplicate(true))
+	if not normalized_tendency_kind.is_empty():
+		realized_kind = _add_deliberate_tendency_without_signals(
+			normalized_tendency_kind)
 	stats_changed.emit()
 	weekly_commitment_finalized.emit(record.duplicate(true))
+	_emit_stat_threshold_crossings(
+		_stat_threshold_crossings_since(thresholds_before_identity))
+	if not realized_kind.is_empty():
+		tendency_awakened.emit(realized_kind)
 	return true
 
 ## Authored foreground choices can replace the generic AP decision for a direct
@@ -3385,7 +3673,142 @@ func add_tendency(kind: String, amount: int = 1):
 		return
 	tendency[kind] = int(tendency[kind]) + amount
 	stats_changed.emit()
-	check_tendency_realization()   # 임계점 넘으면 tendency_awakened 시그널 발생
+	# 한 행동은 방금 쌓은 성향만 자각시킬 수 있다. 투자 행동이 이미 앞선
+	# 직장 점수를 뒤늦게 확정하는 식의 반대 경로 자각을 금지한다.
+	check_tendency_realization(kind)
+
+## 플레이어가 화면에서 직접 확정한 행동만 한 칸의 정체성 증거로 기록한다.
+## 3회가 12점 문을 넘고, 한 행동(4점) 차이가 기존 격차 문과 정확히 맞는다.
+func add_deliberate_tendency(kind: String):
+	add_tendency(kind, TENDENCY_DELIBERATE_ACTION_WEIGHT)
+
+## A weekly transaction must become fully observable only after its receipt,
+## pending lock, AP close, score, and possible route realization all agree.
+## Suppress the intermediate stat/passive signals and replay the public wake-up
+## after the caller has completed the transaction boundary.
+func _add_deliberate_tendency_without_signals(kind: String) -> String:
+	if not tendency.has(kind):
+		return ""
+	var signals_were_blocked := is_blocking_signals()
+	if not signals_were_blocked:
+		set_block_signals(true)
+	tendency[kind] = int(tendency[kind]) + TENDENCY_DELIBERATE_ACTION_WEIGHT
+	var realized_kind := check_tendency_realization(kind)
+	if not signals_were_blocked:
+		set_block_signals(false)
+	return realized_kind
+
+func has_investor_route_identity() -> bool:
+	return player_route == CHAPTER5_CAUSAL_ROUTE.ENTRY_PLAYER_ROUTE \
+		and bool(flags.get("route_invest", false))
+
+func _normalized_tendency_scores(raw_scores: Variant) -> Dictionary:
+	var normalized := {"career": 0, "invest": 0, "found": 0}
+	if not raw_scores is Dictionary:
+		return normalized
+	for kind in normalized:
+		var raw_value: Variant = (raw_scores as Dictionary).get(kind, 0)
+		if (raw_value is int or raw_value is float) \
+				and is_finite(float(raw_value)):
+			normalized[kind] = maxi(0, int(raw_value))
+	return normalized
+
+func _tendency_kind_for_player_route(route: String) -> String:
+	match route:
+		"직장형":
+			return "career"
+		"투자형":
+			return "invest"
+		"창업형":
+			return "found"
+	return ""
+
+func _normalize_tendency_route_flags(kind: String) -> void:
+	for route_flag in ["route_career", "route_invest", "route_startup"]:
+		flags.erase(route_flag)
+	match kind:
+		"career":
+			player_route = "직장형"
+			flags["route_career"] = true
+		"invest":
+			player_route = "투자형"
+			flags["route_invest"] = true
+		"found":
+			player_route = "창업형"
+			flags["route_startup"] = true
+		_:
+			player_route = "none"
+
+func _saved_route_kind(data: Dictionary) -> String:
+	var raw_flags: Variant = data.get("flags", {})
+	var saved_flags: Dictionary = raw_flags if raw_flags is Dictionary else {}
+	var route_kind := _tendency_kind_for_player_route(
+		str(data.get("player_route", "none")))
+	var flagged_kinds: Array[String] = []
+	for kind in ["career", "invest", "found"]:
+		var flag_id: String = str({
+			"career": "route_career",
+			"invest": "route_invest",
+			"found": "route_startup",
+		}[kind])
+		if bool(saved_flags.get(flag_id, false)):
+			flagged_kinds.append(kind)
+	if flagged_kinds.size() != 1:
+		return ""
+	var flagged_kind: String = flagged_kinds[0]
+	if route_kind.is_empty():
+		return ""
+	return flagged_kind if route_kind == flagged_kind else ""
+
+func _normalize_loaded_tendency_identity(
+		data: Dictionary, saved_evidence_version: int) -> void:
+	tendency = _normalized_tendency_scores(tendency)
+	var realized_kind := str(tendency_realized).strip_edges().to_lower()
+	var claimed_realization := not realized_kind.is_empty()
+	if realized_kind not in ["career", "invest", "found"]:
+		realized_kind = ""
+	var saved_route_kind := _saved_route_kind(data)
+	if saved_evidence_version < TENDENCY_EVIDENCE_VERSION:
+		# Legacy realization always wrote one matching player_route/route flag
+		# pair. A claimed realization without that pair is damaged data; never
+		# manufacture a permanent route from the claim alone.
+		if not realized_kind.is_empty() \
+				and realized_kind != saved_route_kind:
+			realized_kind = ""
+			saved_route_kind = ""
+		elif realized_kind.is_empty():
+			realized_kind = saved_route_kind
+		# Old uncommitted scores mixed direct actions with Quiet/month-end votes.
+		# With no provenance, preserving them would fabricate progress under the
+		# new scale. An already committed legacy route becomes one canonical V2
+		# threshold receipt so the exact route also survives every later roundtrip.
+		if realized_kind.is_empty():
+			tendency = {"career": 0, "invest": 0, "found": 0}
+		else:
+			tendency = {"career": 0, "invest": 0, "found": 0}
+			tendency[realized_kind] = TENDENCY_REALIZE_THRESHOLD
+	elif claimed_realization and (
+			realized_kind.is_empty()
+			or saved_route_kind != realized_kind
+			or int(tendency.get(realized_kind, 0)) < TENDENCY_REALIZE_THRESHOLD):
+		# Version 2 owns an exact evidence schema. A claimed realization without
+		# its earned score and one matching route/flag pair is damaged data, not a
+		# repair source; fail closed instead of manufacturing a permanent route.
+		realized_kind = ""
+		saved_route_kind = ""
+	if realized_kind.is_empty():
+		tendency_realized = ""
+		# Evidence-version 2 can still represent an explicitly selected legacy
+		# start route. Preserve that exact one-flag pair across save/load without
+		# calling it a newly earned tendency realization. Missing, mismatched, or
+		# competing route flags fail closed to the modern neutral boundary.
+		_normalize_tendency_route_flags(
+			saved_route_kind
+			if saved_evidence_version >= TENDENCY_EVIDENCE_VERSION else "")
+	else:
+		tendency_realized = realized_kind
+		_normalize_tendency_route_flags(realized_kind)
+	tendency_evidence_version = TENDENCY_EVIDENCE_VERSION
 
 func get_dominant_tendency() -> String:
 	var best := ""
@@ -3412,7 +3835,7 @@ func get_tendency_label() -> String:
 	return tendency_name(dom) + LocaleManager.ui(" 기질", " Leaning")
 
 ## 자각 판정: 1위가 임계점 넘고 2위와 격차 충분 + 아직 미자각 → 자각한 kind 반환(없으면 "")
-func check_tendency_realization() -> String:
+func check_tendency_realization(trigger_kind: String = "") -> String:
 	if not tendency_realized.is_empty():
 		return ""
 	var ranked: Array = []
@@ -3421,6 +3844,8 @@ func check_tendency_realization() -> String:
 	ranked.sort_custom(func(a, b): return a[0] > b[0])
 	var top: Array = ranked[0]
 	var second: Array = ranked[1]
+	if not trigger_kind.is_empty() and str(top[1]) != trigger_kind:
+		return ""
 	if top[0] >= TENDENCY_REALIZE_THRESHOLD and (top[0] - second[0]) >= TENDENCY_REALIZE_GAP:
 		tendency_realized = top[1]
 		_apply_tendency_passive(top[1])
@@ -3432,22 +3857,21 @@ func check_tendency_realization() -> String:
 func _apply_tendency_passive(kind: String):
 	# 자각 = '성향(route) 정체성' 확정. player_route/route 플래그를 켜서
 	# 이후 route 전용 이벤트(EventManager의 player_route 조건)가 반응하게 한다.
+	for pending_flag in [
+		"pending_spec_career", "pending_spec_invest", "pending_spec_found",
+	]:
+		flags.erase(pending_flag)
+	_normalize_tendency_route_flags(kind)
 	match kind:
 		"career":
-			player_route = "직장형"
-			flags["route_career"] = true
 			work_performance = clampi(work_performance + 12, 0, 100)
 			modify_stat("social_skill", 3)
 			flags["pending_spec_career"] = true  # 전문화 분기 이벤트 큐
 		"invest":
-			player_route = "투자형"
-			flags["route_invest"] = true
 			modify_stat("investment_skill", 6)
 			modify_stat("intelligence", 2)
 			flags["pending_spec_invest"] = true
 		"found":
-			player_route = "창업형"
-			flags["route_startup"] = true
 			flags["founder_awakened"] = true
 			modify_stat("luck", 3)
 			modify_stat("intelligence", 2)
@@ -4070,6 +4494,7 @@ func serialize():
 		"year_scenes": year_scenes,
 		"tendency": tendency,
 		"tendency_realized": tendency_realized,
+		"tendency_evidence_version": tendency_evidence_version,
 		"month_focus": month_focus,
 		"housing_months": housing_months,
 		"gambling_tendency": gambling_tendency,
@@ -4106,6 +4531,28 @@ func serialize():
 	}
 
 func load_from_dict(data):
+	# Missing legacy identity keys must never inherit the previously loaded slot.
+	# Sanitize them before the generic allowlisted assignment, then migrate below.
+	# Present-but-malformed keys are the same as missing keys and cannot inherit
+	# values from the previously loaded slot or hit a typed-property assignment.
+	var raw_saved_tendency: Variant = data.get("tendency", {})
+	tendency = ((raw_saved_tendency as Dictionary).duplicate(true)
+		if raw_saved_tendency is Dictionary else {})
+	var raw_saved_realized: Variant = data.get("tendency_realized", "")
+	tendency_realized = str(raw_saved_realized) \
+		if raw_saved_realized is String else ""
+	var raw_saved_player_route: Variant = data.get("player_route", "none")
+	player_route = str(raw_saved_player_route) \
+		if raw_saved_player_route is String else "none"
+	var raw_saved_evidence_version: Variant = data.get(
+		"tendency_evidence_version", 0)
+	var saved_tendency_evidence_version := 0
+	if (raw_saved_evidence_version is int \
+			or raw_saved_evidence_version is float) \
+			and is_finite(float(raw_saved_evidence_version)):
+		saved_tendency_evidence_version = maxi(
+			0, int(raw_saved_evidence_version))
+	tendency_evidence_version = saved_tendency_evidence_version
 	var int_fields = [
 		"age", "year", "month", "week_of_month", "turn",
 		"health", "mental", "intelligence", "social_skill", "appearance",
@@ -4119,13 +4566,20 @@ func load_from_dict(data):
 		"month_money_weeks", "month_human_weeks",
 		"last_month_money_weeks", "last_month_human_weeks",
 		"route_orthodox", "route_unorthodox", "events_seen",
-		"moral_band_last",
+		"moral_band_last", "tendency_evidence_version",
 	]
 	var allowed = serialize().keys()
 	for key in data:
 		if not allowed.has(key):
 			continue
 		var value = data[key]
+		if key == "tendency_evidence_version":
+			# Keep malformed direct migration input away from the typed property;
+			# the normalized numeric value captured above owns this field.
+			tendency_evidence_version = saved_tendency_evidence_version
+			continue
+		if key in ["tendency", "tendency_realized", "player_route"]:
+			continue
 		if key == "phone_state":
 			# A typed Dictionary property cannot safely accept malformed legacy
 			# JSON through set(). Normalize from an empty dictionary instead of
@@ -4177,9 +4631,9 @@ func load_from_dict(data):
 	# 구버전 세이브 호환 — cast 없으면 기본값 채움
 	if cast == null or cast.is_empty():
 		cast = _default_cast()
-	# 구버전 세이브 호환 — tendency 없으면 기본값
-	if typeof(tendency) != TYPE_DICTIONARY or tendency.is_empty():
-		tendency = {"career": 0, "invest": 0, "found": 0}
+	# 구 저장은 자동 반복 점수와 직접 행동 점수를 구분할 수 없다. 확정된
+	# 레거시 경로만 보존하고, 미확정 점수는 새 증거 버전에서 fail-closed로 시작한다.
+	_normalize_loaded_tendency_identity(data, saved_tendency_evidence_version)
 	# 구버전 세이브 호환 — AP 행동 축
 	if typeof(action_axis_this_week) != TYPE_DICTIONARY or action_axis_this_week.is_empty():
 		action_axis_this_week = {"money": 0, "human": 0}

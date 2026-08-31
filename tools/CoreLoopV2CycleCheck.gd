@@ -4744,9 +4744,38 @@ func _check_order101_fresh_w1_application_contract() -> void:
 			CORE.initialize_for_run(true)
 
 		var invalid_pre_state: Dictionary = GameState.serialize().duplicate(true)
+		var identity_signal_counts := {"stats": 0, "weekly": 0, "tendency": 0}
+		var identity_signal_snapshots: Array[Dictionary] = []
+		var stats_probe := func() -> void:
+			identity_signal_counts["stats"] = int(
+				identity_signal_counts["stats"]) + 1
+			identity_signal_snapshots.append({
+				"kind": "stats",
+				"ap": GameState.action_points,
+				"pending": GameState.pending_weekly_commitment.duplicate(true),
+				"weekly_count": GameState.weekly_commitments.size(),
+				"career": int(GameState.tendency.get("career", 0)),
+			})
+		var weekly_probe := func(_record: Dictionary) -> void:
+			identity_signal_counts["weekly"] = int(
+				identity_signal_counts["weekly"]) + 1
+			identity_signal_snapshots.append({
+				"kind": "weekly",
+				"ap": GameState.action_points,
+				"pending": GameState.pending_weekly_commitment.duplicate(true),
+				"weekly_count": GameState.weekly_commitments.size(),
+				"career": int(GameState.tendency.get("career", 0)),
+			})
+		var tendency_probe := func(_kind: String) -> void:
+			identity_signal_counts["tendency"] = int(
+				identity_signal_counts["tendency"]) + 1
+		GameState.stats_changed.connect(stats_probe)
+		GameState.weekly_commitment_finalized.connect(weekly_probe)
+		GameState.tendency_awakened.connect(tendency_probe)
 		var invalid_quality := CORE.finalize_fresh_w1_application(1, 4)
 		_expect(not bool(invalid_quality.get("ok", true)) \
-			and GameState.serialize() == invalid_pre_state,
+			and GameState.serialize() == invalid_pre_state \
+			and identity_signal_counts == {"stats": 0, "weekly": 0, "tendency": 0},
 			"out-of-range quality changed part of the fresh application transaction")
 		var finalized := CORE.finalize_fresh_w1_application(quality + 1, quality)
 		var receipt := CORE.action_receipt(
@@ -4758,12 +4787,26 @@ func _check_order101_fresh_w1_application_contract() -> void:
 				"action_followups", [])
 			if commitment.get("details", {}) is Dictionary else [])
 		var matching_followups := 0
+		var matching_identity_evidence: Dictionary = {}
 		for raw_followup in followups:
 			if raw_followup is Dictionary \
 					and str((raw_followup as Dictionary).get(
 						"bundle_id", "")) \
 						== "m1_youth_center_resume_clinic":
 				matching_followups += 1
+				matching_identity_evidence = (
+					(raw_followup as Dictionary).get(
+						"identity_evidence", {}) as Dictionary).duplicate(true)
+		GameState.stats_changed.disconnect(stats_probe)
+		GameState.weekly_commitment_finalized.disconnect(weekly_probe)
+		GameState.tendency_awakened.disconnect(tendency_probe)
+		var settled_signal_state := true
+		for signal_snapshot in identity_signal_snapshots:
+			if int(signal_snapshot.get("ap", -1)) != 0 \
+					or not (signal_snapshot.get("pending", {}) as Dictionary).is_empty() \
+					or int(signal_snapshot.get("weekly_count", 0)) != 1 \
+					or int(signal_snapshot.get("career", 0)) != 4:
+				settled_signal_state = false
 		_expect(bool(finalized.get("ok", false)) \
 			and CORE.fresh_w1_onboarding_phase() == "result_committed" \
 			and str(receipt.get("application_id", "")) \
@@ -4774,7 +4817,15 @@ func _check_order101_fresh_w1_application_contract() -> void:
 			and str(details.get("capacity_id", "")) == capacity_id \
 			and int(details.get("capacity_value", 0)) == capacity_value \
 			and CORE.application_status("mirae_industrial_tech") == "submitted" \
-			and matching_followups == 1,
+			and matching_followups == 1 \
+			and matching_identity_evidence \
+				== {"kind": "career", "weight": 4, "version": 2} \
+			and GameState.tendency == {"career": 4, "invest": 0, "found": 0} \
+			and GameState.tendency_realized.is_empty() \
+			and GameState.player_route == "none" \
+			and identity_signal_counts \
+				== {"stats": 1, "weekly": 1, "tendency": 0} \
+			and settled_signal_state,
 			(
 				"quality %d did not fail-forward through one typed nested "
 				+ "job_hunt_application receipt"
@@ -4794,10 +4845,12 @@ func _check_order101_fresh_w1_application_contract() -> void:
 		var restored := CORE.recover_action_result()
 		_expect(str(restored.get("bundle_id", "")) \
 			== "m1_youth_center_resume_clinic" \
-			and int((restored.get("result_details", {}) as Dictionary).get(
-				"quality", -1)) == quality \
-			and CORE.application_status("mirae_industrial_tech") == "submitted" \
-			and CORE.fresh_w1_onboarding_phase() == "result_committed",
+				and int((restored.get("result_details", {}) as Dictionary).get(
+					"quality", -1)) == quality \
+				and CORE.application_status("mirae_industrial_tech") == "submitted" \
+				and CORE.fresh_w1_onboarding_phase() == "result_committed" \
+				and GameState.tendency == {"career": 4, "invest": 0, "found": 0} \
+				and GameState.player_route == "none",
 			"quality %d post-result reload reran or lost the durable Send" % quality)
 
 		var completed := CORE.complete_active_bundle()

@@ -743,8 +743,7 @@ def _audit_main_source(corpus: Corpus, errors: list[str]) -> None:
         return
     fragments = {
         "main.route": '''
-            var is_investor := GameState.player_route == "투자형"
-                and bool(f.get("route_invest", false))
+            var is_investor := GameState.has_investor_route_identity()
             if not is_investor:
                 return ""
         ''',
@@ -833,6 +832,12 @@ def _audit_opportunity_core(corpus: Corpus, errors: list[str]) -> None:
         errors,
         "autoloads/GameState.gd",
     )
+    route_identity = _extract_function(
+        corpus.game_state_source,
+        "has_investor_route_identity",
+        errors,
+        "autoloads/GameState.gd",
+    )
     checks = [
         (settle, "return floor(value + 0.5) if value >= 0.0 else ceil(value - 0.5)", "core.rounding"),
         (stake, 'raw_stake = available_cash * float(opp.get("stake_ratio", 0.0))', "core.stake"),
@@ -847,6 +852,16 @@ def _audit_opportunity_core(corpus: Corpus, errors: list[str]) -> None:
         (resolve, 'float(opp.get("loss_ratio", 1.0)), 0.0, 1.0', "core.loss"),
         (resolve, "add_settled_cash(win)", "core.win"),
         (resolve, "add_settled_cash(-loss)", "core.loss"),
+        (
+            route_identity,
+            "player_route == CHAPTER5_CAUSAL_ROUTE.ENTRY_PLAYER_ROUTE",
+            "core.route",
+        ),
+        (
+            route_identity,
+            'bool(flags.get("route_invest", false))',
+            "core.route",
+        ),
     ]
     for body, fragment, code in checks:
         if body:
@@ -1016,8 +1031,17 @@ def _run_self_test(corpus: Corpus) -> int:
 
     def mutate_main_route(c: Corpus) -> None:
         c.main_source = c.main_source.replace(
-            'GameState.player_route == "투자형"',
-            'GameState.player_route == "커리어형"',
+            "GameState.has_investor_route_identity()",
+            "true",
+            1,
+        )
+
+    def mutate_route_identity(c: Corpus) -> None:
+        c.game_state_source = c.game_state_source.replace(
+            "func has_investor_route_identity() -> bool:\n"
+            "\treturn player_route == CHAPTER5_CAUSAL_ROUTE.ENTRY_PLAYER_ROUTE",
+            "func has_investor_route_identity() -> bool:\n"
+            '\treturn player_route == "직장형"',
             1,
         )
 
@@ -1050,6 +1074,7 @@ def _run_self_test(corpus: Corpus) -> int:
         ("opportunity_constants", mutate_constants, "opportunity.constants"),
         ("sale_cash", mutate_sale, "sale.cash"),
         ("main_route", mutate_main_route, "main.route"),
+        ("route_identity", mutate_route_identity, "core.route"),
         ("main_priority", mutate_main_priority, "main.priority"),
         ("core_multiplier", mutate_core, "core.win"),
         ("instant_legend_age", mutate_ending, "ending.first_year"),

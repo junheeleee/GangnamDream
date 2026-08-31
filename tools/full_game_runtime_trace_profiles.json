@@ -183,6 +183,11 @@
         "arc_sangchul_01_meet",
         "arc_daeun_01_meet",
         "arc_jaehyuk_01_reunion",
+        "inv_ipo_hot_tip",
+        "sangchul_tip_redev",
+        "arc_opp_sangchul_realty",
+        "inv_redev_zone_tip",
+        "inv_redev_completion_sale",
         "arc_minseo_02_real",
         "arc_y5_contract_cover_investment",
         "arc_y5_final_offer",
@@ -214,7 +219,7 @@
           "arc_jaehyuk_reunion_seen",
           "arc_jaehyuk_aftermath_seen"
         ],
-        "required_flags_false": [],
+        "required_flags_false": ["route_career", "route_startup"],
         "required_ending_ids": [],
         "forbidden_ending_ids": ["instant_legend"]
       }
@@ -306,7 +311,7 @@
         "minimum_total_assets": 2500000000,
         "maximum_total_assets": 2999999999,
         "required_flags_true": ["route_invest", "father_passed"],
-        "required_flags_false": [],
+        "required_flags_false": ["route_career", "route_startup"],
         "required_ending_ids": [],
         "forbidden_ending_ids": ["instant_legend"]
       }

@@ -828,6 +828,32 @@ func _main_action_descriptor(card: Button) -> Dictionary:
 	}
 
 
+func _identity_snapshot_from_state(state: Dictionary) -> Dictionary:
+	var raw_flags: Variant = state.get("flags", {})
+	var state_flags: Dictionary = raw_flags if raw_flags is Dictionary else {}
+	return {
+		"player_route": str(state.get("player_route", "")),
+		"tendency": (
+			(state.get("tendency", {}) as Dictionary).duplicate(true)
+			if state.get("tendency", {}) is Dictionary else {}
+		),
+		"tendency_realized": str(state.get("tendency_realized", "")),
+		"route_flags": {
+			"route_career": bool(state_flags.get("route_career", false)),
+			"route_invest": bool(state_flags.get("route_invest", false)),
+			"route_startup": bool(state_flags.get("route_startup", false)),
+		},
+		"pending_flags": {
+			"pending_spec_career": bool(state_flags.get(
+				"pending_spec_career", false)),
+			"pending_spec_invest": bool(state_flags.get(
+				"pending_spec_invest", false)),
+			"pending_spec_found": bool(state_flags.get(
+				"pending_spec_found", false)),
+		},
+	}
+
+
 func _on_weekly_commitment_finalized(commitment: Dictionary) -> void:
 	if _trace_file == null or _pending_main_action.is_empty():
 		return
@@ -851,6 +877,9 @@ func _on_weekly_commitment_finalized(commitment: Dictionary) -> void:
 			"selection_policy", "profile")),
 		"visible_button": _pending_main_action.duplicate(true),
 		"commitment": commitment.duplicate(true),
+		"identity_before": _identity_snapshot_from_state(
+			_pending_main_action_state),
+		"identity_after": _identity_snapshot_from_state(after),
 		"state_delta": _state_delta(_pending_main_action_state, after),
 	}, MAIN_SCRIPT, expected_week)
 	_pending_main_action.clear()
@@ -971,6 +1000,9 @@ func _finish_run(success: bool) -> void:
 			"final_state": {
 				"week": int(GameState.turn),
 				"total_assets": float(GameState.get_total_asset_value()),
+				"player_route": str(GameState.player_route),
+				"tendency": GameState.tendency.duplicate(true),
+				"tendency_realized": str(GameState.tendency_realized),
 				"flags": GameState.flags.duplicate(true),
 				"ending_id": _ending_id,
 			},
@@ -1101,6 +1133,10 @@ func _state_snapshot() -> Dictionary:
 		"total_assets": float(GameState.get_total_asset_value()),
 		"health": int(GameState.health),
 		"mental": int(GameState.mental),
+		"player_route": str(GameState.player_route),
+		"tendency": GameState.tendency.duplicate(true),
+		"tendency_realized": str(GameState.tendency_realized),
+		"week_routine": GameState.week_routine.duplicate(true),
 		"flags": GameState.flags.duplicate(true),
 		"event_log": GameState.event_log.duplicate(true),
 		"deferred_events": GameState.deferred_events.duplicate(true),
@@ -1121,6 +1157,9 @@ func _state_delta(before: Dictionary, after: Dictionary) -> Dictionary:
 				"total_assets": before.get("total_assets"),
 				"health": before.get("health"),
 				"mental": before.get("mental"),
+				"player_route": before.get("player_route"),
+				"tendency": before.get("tendency"),
+				"tendency_realized": before.get("tendency_realized"),
 			},
 			{
 				"turn": after.get("turn"),
@@ -1128,6 +1167,9 @@ func _state_delta(before: Dictionary, after: Dictionary) -> Dictionary:
 				"total_assets": after.get("total_assets"),
 				"health": after.get("health"),
 				"mental": after.get("mental"),
+				"player_route": after.get("player_route"),
+				"tendency": after.get("tendency"),
+				"tendency_realized": after.get("tendency_realized"),
 			}),
 		"flags": _dictionary_delta(
 			before.get("flags", {}), after.get("flags", {})),

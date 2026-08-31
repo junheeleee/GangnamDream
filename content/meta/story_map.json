@@ -1239,28 +1239,28 @@
               "channel": "message",
               "cast": ["player", "father"],
               "reads": {"memories": [], "decision": "story.father_hospital_door", "carryovers": ["boss_choice", "protected_commitment"]},
-              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m25_father_contact"], "decision": null, "carryovers": []},
               "coverage": {
                 "axis": "story.father_hospital_door",
                 "base_values": ["visited"],
                 "fallbacks": [
                   {
                     "values": ["deferred"],
-                    "root": "arc_father_quiet_call",
+                    "root": "arc_y3_father_avoidance_document",
                     "work": "EXPAND",
-                    "rule_status": "needs_rule",
-                    "channel": "phone",
-                    "cast": ["player", "father"],
+                    "rule_status": "mapped",
+                    "channel": "internal",
+                    "cast": ["player"],
                     "reads": {"memories": [], "decision": "story.father_hospital_door", "carryovers": ["boss_choice", "protected_commitment"]},
                     "forgone": []
                   },
                   {
                     "values": ["avoided"],
-                    "root": "arc_y3_father_avoidance_document",
+                    "root": "arc_father_quiet_call",
                     "work": "EXPAND",
                     "rule_status": "needs_rule",
-                    "channel": "internal",
-                    "cast": ["player"],
+                    "channel": "phone",
+                    "cast": ["player", "father"],
                     "reads": {"memories": [], "decision": "story.father_hospital_door", "carryovers": ["boss_choice", "protected_commitment"]},
                     "forgone": []
                   }
@@ -1381,7 +1381,7 @@
                 "base_values": ["jiyeon_departure"],
                 "fallbacks": [
                   {"values": ["daeun_continues"], "root": "arc_daeun_year3_together", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "daeun"], "reads": {"memories": ["memory.m09_relationship_reentry"], "decision": null, "carryovers": []}, "forgone": ["지연과 나누지 못한 늦은 말"]},
-                  {"values": ["*"], "root": "arc_y3_relationship_departure_unattached", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m09_relationship_reentry"], "decision": null, "carryovers": []}, "forgone": ["이어진 관계의 작별 장면"]}
+                  {"values": ["*"], "root": "arc_y3_father_deferred_call", "work": "EXPAND", "rule_status": "mapped", "channel": "phone", "cast": ["player", "father"], "reads": {"memories": ["memory.m25_father_contact"], "decision": "story.father_hospital_door", "carryovers": []}, "forgone": ["이어진 관계의 작별 장면"]}
                 ]
               },
               "forgone": ["떠나기 전 마지막 대화"]
@@ -1816,7 +1816,6 @@
               "intent": "W153 shipping StoryMode가 관계 경로를 읽어 다은·지연·무연애 원고를 편성하고, 아버지·현재 사람·거래 중 보호한 하나와 놓친 둘을 exact receipt로 남긴다.",
               "channel": "mixed",
               "cast": ["player", "father", "@promise_person", "@deal_owner"],
-              "selector": {"selected_all": ["m39_investment_meeting", "m39_partner_weekend"], "selected_none": ["m39_father_weekend"], "availability_values": ["daeun"]},
               "role_bindings": {
                 "promise_person": {"kind": "literal", "actor_id": "daeun"},
                 "deal_owner": {"kind": "literal", "actor_id": "sangchul"}
@@ -1834,16 +1833,11 @@
                 }
               },
               "coverage": {
-                "axis": "route.m39.attendees",
-                "base_values": ["romance_and_deal"],
+                "axis": "route.m39.relationship_path",
+                "base_values": ["daeun"],
                 "fallbacks": [
-                  {"values": ["romance_and_deal_jiyeon"], "root": "arc_y4_three_promises_jiyeon_and_deal", "work": "EXPAND", "rule_status": "needs_rule", "channel": "mixed", "cast": ["player", "father", "@promise_person", "@deal_owner"], "selector": {"selected_all": ["m39_investment_meeting", "m39_partner_weekend"], "selected_none": ["m39_father_weekend"], "availability_values": ["jiyeon"]}, "role_bindings": {"promise_person": {"kind": "literal", "actor_id": "jiyeon"}, "deal_owner": {"kind": "literal", "actor_id": "sangchul"}}, "distinct_roles": ["@promise_person", "@deal_owner"], "reads": {"memories": ["memory.m35_truth_handling"], "decision": "story.sangchul_truth_resolution", "carryovers": ["protected_commitment"]}, "actor_outputs": {"memory.m39_three_promises": {"roles": {"surviving_witness": {"kind": "scene_role", "role": "deal_owner"}, "nearest_person": {"kind": "scene_role", "role": "promise_person"}}, "all_distinct": [["surviving_witness", "nearest_person"]]}}, "forgone": ["다은 기준 세 약속 장면"]},
-                  {"values": ["father_and_deal"], "root": "arc_y4_three_promises_father_and_deal", "work": "NEW", "rule_status": "planned", "channel": "mixed", "cast": ["player", "father", "@deal_owner"], "selector": {"selected_all": ["m39_father_weekend", "m39_investment_meeting"], "selected_none": ["m39_partner_weekend"], "availability_values": ["*"]}, "role_bindings": {"deal_owner": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m39_investment_meeting", "slot": ["protected", "optional_second"]}, "actor_role": "deal_owner"}}, "distinct_roles": ["@deal_owner"], "reads": {"memories": ["memory.m35_truth_handling"], "decision": "story.sangchul_truth_resolution", "carryovers": ["protected_commitment"]}, "actor_outputs": {"memory.m39_three_promises": {"roles": {"surviving_witness": {"kind": "scene_role", "role": "deal_owner"}, "nearest_person": {"kind": "literal", "actor_id": "father"}}, "all_distinct": [["surviving_witness", "nearest_person"]]}}, "forgone": ["연인과 잡은 같은 주말 약속"]},
-                  {"values": ["father_and_romance"], "root": "arc_y4_three_promises_father_and_romance", "work": "NEW", "rule_status": "planned", "channel": "mixed", "cast": ["player", "father", "@promise_person"], "selector": {"selected_all": ["m39_father_weekend", "m39_partner_weekend"], "selected_none": ["m39_investment_meeting"], "availability_values": ["daeun", "jiyeon"]}, "role_bindings": {"promise_person": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m39_partner_weekend", "slot": ["protected", "optional_second"]}, "actor_role": "promise_person"}}, "distinct_roles": ["@promise_person"], "reads": {"memories": ["memory.m35_truth_handling"], "decision": "story.sangchul_truth_resolution", "carryovers": ["protected_commitment"]}, "actor_outputs": {"memory.m39_three_promises": {"roles": {"surviving_witness": {"kind": "literal", "actor_id": "father"}, "nearest_person": {"kind": "scene_role", "role": "promise_person"}}, "all_distinct": [["surviving_witness", "nearest_person"]]}}, "forgone": ["투자 책임자와 잡은 같은 주말 검토"]},
-                  {"values": ["deal_only"], "root": "arc_y4_three_promises_deal_only", "work": "EXPAND", "rule_status": "needs_rule", "channel": "mixed", "cast": ["player", "hyunsu", "@deal_owner"], "selector": {"selected_all": ["m39_investment_meeting"], "selected_none": ["m39_father_weekend", "m39_partner_weekend"], "availability_values": ["unattached"]}, "role_bindings": {"deal_owner": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m39_investment_meeting", "slot": ["protected", "optional_second"]}, "actor_role": "deal_owner"}}, "distinct_roles": ["@deal_owner"], "reads": {"memories": ["memory.m35_truth_handling"], "decision": "story.sangchul_truth_resolution", "carryovers": ["protected_commitment"]}, "actor_outputs": {"memory.m39_three_promises": {"roles": {"surviving_witness": {"kind": "scene_role", "role": "deal_owner"}, "nearest_person": {"kind": "literal", "actor_id": "hyunsu"}}, "all_distinct": [["surviving_witness", "nearest_person"]]}}, "forgone": ["아버지에게 먼저 잡은 같은 주말"]},
-                  {"values": ["deal_only_partnered"], "root": "arc_y4_three_promises_deal_only_partnered", "work": "NEW", "rule_status": "planned", "channel": "mixed", "cast": ["player", "hyunsu", "@deal_owner"], "selector": {"selected_all": ["m39_investment_meeting"], "selected_none": ["m39_father_weekend", "m39_partner_weekend"], "availability_values": ["daeun", "jiyeon"]}, "role_bindings": {"deal_owner": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m39_investment_meeting", "slot": ["protected", "optional_second"]}, "actor_role": "deal_owner"}}, "distinct_roles": ["@deal_owner"], "reads": {"memories": ["memory.m35_truth_handling"], "decision": "story.sangchul_truth_resolution", "carryovers": ["protected_commitment"]}, "actor_outputs": {"memory.m39_three_promises": {"roles": {"surviving_witness": {"kind": "scene_role", "role": "deal_owner"}, "nearest_person": {"kind": "literal", "actor_id": "hyunsu"}}, "all_distinct": [["surviving_witness", "nearest_person"]]}}, "forgone": ["아버지와 이어진 연인에게 먼저 잡은 같은 주말"]},
-                  {"values": ["romance_only"], "root": "arc_y4_three_promises_romance_only", "work": "NEW", "rule_status": "planned", "channel": "mixed", "cast": ["player", "hyunsu", "@promise_person"], "selector": {"selected_all": ["m39_partner_weekend"], "selected_none": ["m39_father_weekend", "m39_investment_meeting"], "availability_values": ["daeun", "jiyeon"]}, "role_bindings": {"promise_person": {"kind": "commitment_actor", "source": {"kind": "selected_commitment", "commitment_id": "m39_partner_weekend", "slot": ["protected", "optional_second"]}, "actor_role": "promise_person"}}, "distinct_roles": ["@promise_person"], "reads": {"memories": ["memory.m35_truth_handling"], "decision": "story.sangchul_truth_resolution", "carryovers": ["protected_commitment"]}, "actor_outputs": {"memory.m39_three_promises": {"roles": {"surviving_witness": {"kind": "scene_role", "role": "promise_person"}, "nearest_person": {"kind": "literal", "actor_id": "hyunsu"}}, "all_distinct": [["surviving_witness", "nearest_person"]]}}, "forgone": ["아버지와 투자 책임자에게 먼저 잡은 같은 주말"]},
-                  {"values": ["father_only"], "root": "arc_y4_three_promises_alternate_attendees", "work": "NEW", "rule_status": "planned", "channel": "mixed", "cast": ["player", "father", "hyunsu"], "selector": {"selected_all": ["m39_father_weekend"], "selected_none": ["m39_investment_meeting", "m39_partner_weekend"], "availability_values": ["*"]}, "reads": {"memories": ["memory.m35_truth_handling"], "decision": "story.sangchul_truth_resolution", "carryovers": ["protected_commitment"]}, "actor_outputs": {"memory.m39_three_promises": {"roles": {"surviving_witness": {"kind": "literal", "actor_id": "father"}, "nearest_person": {"kind": "literal", "actor_id": "hyunsu"}}, "all_distinct": [["surviving_witness", "nearest_person"]]}}, "forgone": ["연인과 거래 상대가 모두 참석한 원래 일정"]}
+                  {"values": ["jiyeon"], "root": "arc_y4_three_promises_jiyeon_and_deal", "work": "EXPAND", "rule_status": "needs_rule", "channel": "mixed", "cast": ["player", "father", "@promise_person", "@deal_owner"], "role_bindings": {"promise_person": {"kind": "literal", "actor_id": "jiyeon"}, "deal_owner": {"kind": "literal", "actor_id": "sangchul"}}, "distinct_roles": ["@promise_person", "@deal_owner"], "reads": {"memories": ["memory.m35_truth_handling"], "decision": "story.sangchul_truth_resolution", "carryovers": ["protected_commitment"]}, "actor_outputs": {"memory.m39_three_promises": {"roles": {"surviving_witness": {"kind": "scene_role", "role": "deal_owner"}, "nearest_person": {"kind": "scene_role", "role": "promise_person"}}, "all_distinct": [["surviving_witness", "nearest_person"]]}}, "forgone": ["다은 기준 세 약속 장면"]},
+                  {"values": ["unattached"], "root": "arc_y4_three_promises_deal_only", "work": "EXPAND", "rule_status": "needs_rule", "channel": "mixed", "cast": ["player", "hyunsu", "@deal_owner"], "role_bindings": {"deal_owner": {"kind": "literal", "actor_id": "sangchul"}}, "distinct_roles": ["@deal_owner"], "reads": {"memories": ["memory.m35_truth_handling"], "decision": "story.sangchul_truth_resolution", "carryovers": ["protected_commitment"]}, "actor_outputs": {"memory.m39_three_promises": {"roles": {"surviving_witness": {"kind": "scene_role", "role": "deal_owner"}, "nearest_person": {"kind": "literal", "actor_id": "hyunsu"}}, "all_distinct": [["surviving_witness", "nearest_person"]]}}, "forgone": ["아버지에게 먼저 잡은 같은 주말"]}
                 ]
               },
               "forgone": ["아버지와 잡은 같은 주말 일정"]

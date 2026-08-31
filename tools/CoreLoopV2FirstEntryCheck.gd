@@ -1995,6 +1995,29 @@ func _play_fresh_w1_through_main_input(
 	await get_tree().process_frame
 
 	var pre_send: Dictionary = GameState.serialize().duplicate(true)
+	var send_signal_counts := {"stats": 0, "weekly": 0, "tendency": 0}
+	var send_signal_snapshots: Array[Dictionary] = []
+	var send_stats_probe := func() -> void:
+		send_signal_counts["stats"] = int(send_signal_counts["stats"]) + 1
+		send_signal_snapshots.append({
+			"ap": GameState.action_points,
+			"pending": GameState.pending_weekly_commitment.duplicate(true),
+			"weekly_count": GameState.weekly_commitments.size(),
+			"career": int(GameState.tendency.get("career", 0)),
+		})
+	var send_weekly_probe := func(_record: Dictionary) -> void:
+		send_signal_counts["weekly"] = int(send_signal_counts["weekly"]) + 1
+		send_signal_snapshots.append({
+			"ap": GameState.action_points,
+			"pending": GameState.pending_weekly_commitment.duplicate(true),
+			"weekly_count": GameState.weekly_commitments.size(),
+			"career": int(GameState.tendency.get("career", 0)),
+		})
+	var send_tendency_probe := func(_kind: String) -> void:
+		send_signal_counts["tendency"] = int(send_signal_counts["tendency"]) + 1
+	GameState.stats_changed.connect(send_stats_probe)
+	GameState.weekly_commitment_finalized.connect(send_weekly_probe)
+	GameState.tendency_awakened.connect(send_tendency_probe)
 	var pre_send_state: Dictionary = GameState.core_loop_v2_state
 	var pre_send_cycle := CORE_LOOP.seoul_cycle_snapshot(1)
 	var application_event: Dictionary = DataRegistry.find_event(
@@ -2044,6 +2067,9 @@ func _play_fresh_w1_through_main_input(
 	await get_tree().process_frame
 	await get_tree().process_frame
 	var after_duplicate_send: Dictionary = GameState.serialize().duplicate(true)
+	GameState.stats_changed.disconnect(send_stats_probe)
+	GameState.weekly_commitment_finalized.disconnect(send_weekly_probe)
+	GameState.tendency_awakened.disconnect(send_tendency_probe)
 
 	var state: Dictionary = GameState.core_loop_v2_state
 	var allocation_receipts: Dictionary = (
@@ -2083,6 +2109,16 @@ func _play_fresh_w1_through_main_input(
 
 	var followup_bundle := str((action_followups[0] as Dictionary).get(
 		"bundle_id", "")) if not action_followups.is_empty() else ""
+	var followup_identity: Dictionary = (
+		(action_followups[0] as Dictionary).get("identity_evidence", {}) \
+			as Dictionary).duplicate(true) if not action_followups.is_empty() else {}
+	var send_signals_settled := true
+	for signal_snapshot in send_signal_snapshots:
+		if int(signal_snapshot.get("ap", -1)) != 0 \
+				or not (signal_snapshot.get("pending", {}) as Dictionary).is_empty() \
+				or int(signal_snapshot.get("weekly_count", 0)) != 1 \
+				or int(signal_snapshot.get("career", 0)) != 4:
+			send_signals_settled = false
 	var allocation_receipt: Dictionary = allocation_receipts.get("1", {})
 	var receipt_checks := {
 		"duplicate_state": after_duplicate_send == after_first_send,
@@ -2098,6 +2134,16 @@ func _play_fresh_w1_through_main_input(
 		"weekly_followup_once": action_followups.size() == 1,
 		"weekly_followup_identity": followup_bundle \
 			== "m1_youth_center_resume_clinic",
+		"weekly_followup_identity_evidence": followup_identity \
+			== {"kind": "career", "weight": 4, "version": 2},
+		"identity_score_once": GameState.tendency \
+			== {"career": 4, "invest": 0, "found": 0},
+		"identity_not_preselected": GameState.tendency_realized.is_empty() \
+			and GameState.player_route == "none" \
+			and not bool(GameState.flags.get("route_career", false)),
+		"identity_signals_once": send_signal_counts \
+			== {"stats": 1, "weekly": 1, "tendency": 0} \
+			and send_signals_settled,
 		"allocation_once": allocation_receipts.size() == 1,
 		"allocation_capacity": str(allocation_receipt.get(
 			"capacity_id", "")) == capacity_id,

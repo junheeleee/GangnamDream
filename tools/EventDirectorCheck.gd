@@ -113,7 +113,7 @@ func _ready() -> void:
 	_check_rhythm_save_migration()
 	_check_father_life_contracts()
 	if _failures.is_empty():
-		print("EVENT_DIRECTOR_CHECK_OK directed=1003 foreground=65 bridge=19 bridge_roots=6 causal_roots=7 auto_multi=0 once=1000 repeatable=3 callbacks=37/32 chains=14/12 chapters=5 asset_bands=5 demo=9/2/4/3 authored=7 generic=2 full=77/6/19/21 save=legacy+demo+deferred")
+		print("EVENT_DIRECTOR_CHECK_OK directed=999 foreground=63 bridge=19 bridge_roots=6 causal_roots=7 auto_multi=0 once=996 repeatable=3 callbacks=37/32 chains=14/12 chapters=5 asset_bands=5 demo=9/2/4/3 authored=7 generic=2 full=77/6/19/21 save=legacy+demo+deferred")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -450,7 +450,7 @@ func _check_catalog_and_ranges() -> void:
 		var event: Dictionary = event_value
 		if EventManager.is_directed_random_event(event):
 			directed_count += 1
-	_expect(directed_count == 1003, "runtime directed pool is %d, expected 1003" % directed_count)
+	_expect(directed_count == 999, "runtime directed pool is %d, expected 999" % directed_count)
 	var chapter_ids: Array[String] = []
 	for turn_value in [1, 49, 97, 145, 193]:
 		chapter_ids.append(EventManager.director_chapter_id(turn_value))
@@ -474,8 +474,8 @@ func _check_content_diet() -> void:
 			_expect((event.get("choices", []) as Array).size() == 1,
 				"multi-choice event entered the automatic bridge pool: %s" \
 				% str(event.get("id", "")))
-	_expect(foreground_count == 65,
-		"curated foreground pool is %d, expected 65" % foreground_count)
+	_expect(foreground_count == 63,
+		"curated foreground pool is %d, expected 63" % foreground_count)
 	_expect(bridge_count == 19,
 		"safe one-choice bridge pool is %d, expected 19" % bridge_count)
 	for root_id in CAUSAL_PRODUCER_ROOT_IDS:

@@ -21,7 +21,7 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 ## 현재 코퍼스
 
 - KO/EN 사건: 각각 127파일 · 1812건, ID 일치
-- 패키지 사건: 1812건 · 현재 shipping 사건: 1705건 · author-only reference 원고: 107건
+- 패키지 사건: 1812건 · 현재 shipping 사건: 1707건 · author-only reference 원고: 105건
 - KO/EN 엔딩: 각각 35건
 - 활성 스토리 이미지: 250장 · source raster: 306장
 - 게임 pack 대상 raster: 298장 · ImageRegistry 외부 pack 대상: 48장

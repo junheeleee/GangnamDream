@@ -20,9 +20,6 @@ const FALLBACK_EVENT_IDS := [
 ]
 
 var _failures: Array[String] = []
-var _inject_late_commitment := false
-
-
 func _ready() -> void:
 	_check_rounding_boundaries()
 	_check_monthly_settlement()
@@ -626,32 +623,41 @@ func _check_atomic_rollback() -> void:
 		"pressure_family": "qa",
 		"choice_id": "rest",
 		"forgone_ids": [],
-	}), "money rollback fixture could not arm its commitment")
+		}), "money rollback fixture could not arm its commitment")
 	var before: Dictionary = GameState.serialize().duplicate(true)
-	var injection_callback: Callable = Callable(self, "_inject_commitment_after_spend")
-	GameState.stats_changed.connect(injection_callback)
-	_inject_late_commitment = true
-	var result: Dictionary = GameState.finalize_weekly_effect_action(
-		"rest", {"money": 123.5, "mental": 1}, "human", "home")
-	_inject_late_commitment = false
-	if GameState.stats_changed.is_connected(injection_callback):
-		GameState.stats_changed.disconnect(injection_callback)
+	var public_signals := {"stats": 0, "money": 0, "weekly": 0}
+	var stats_probe := func() -> void:
+		public_signals["stats"] = int(public_signals["stats"]) + 1
+	var money_probe := func(_amount: float) -> void:
+		public_signals["money"] = int(public_signals["money"]) + 1
+	var weekly_probe := func(_record: Dictionary) -> void:
+		public_signals["weekly"] = int(public_signals["weekly"]) + 1
+	GameState.stats_changed.connect(stats_probe)
+	GameState.money_changed.connect(money_probe)
+	GameState.weekly_commitment_finalized.connect(weekly_probe)
+	var result: Dictionary = GameState.finalize_weekly_mutation_action(
+		"rest", "human",
+		Callable(self, "_apply_money_effects_and_inject_conflict").bind(
+			{"money": 123.5, "mental": 1}), "home")
+	GameState.stats_changed.disconnect(stats_probe)
+	GameState.money_changed.disconnect(money_probe)
+	GameState.weekly_commitment_finalized.disconnect(weekly_probe)
 	_expect(not bool(result.get("ok", true)) \
 		and bool(result.get("rolled_back", false)) \
-		and GameState.serialize() == before,
+		and GameState.serialize() == before \
+		and public_signals == {"stats": 0, "money": 0, "weekly": 0},
 		"failed transaction did not roll whole-won cash back byte-for-byte")
 	_expect_whole_serialized("atomic rollback")
 
 
-func _inject_commitment_after_spend() -> void:
-	if not _inject_late_commitment:
-		return
-	_inject_late_commitment = false
+func _apply_money_effects_and_inject_conflict(effects: Dictionary) -> Dictionary:
+	GameState.apply_effects(effects)
 	GameState.weekly_commitments.append({
 		"turn": GameState.turn,
 		"choice_id": "qa_conflict",
 		"actual_action_id": "qa_conflict",
 	})
+	return {"success": true}
 
 
 func _minimum_cash_for_opportunity_choice(choice: Dictionary) -> float:

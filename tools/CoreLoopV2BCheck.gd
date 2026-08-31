@@ -57,7 +57,6 @@ const FATHER_MEMORY_READER_SPECS := [
 ]
 
 var _failures: Array[String] = []
-var _inject_late_commitment := false
 var _captured_boundary_saves: Array[Dictionary] = []
 
 func _ready() -> void:
@@ -95,6 +94,7 @@ func _ready() -> void:
 	await _check_action_result_system_overlay()
 	await _check_unfinalized_action_resume()
 	AudioManager.sfx_enabled = original_sfx_enabled
+	await _release_audio_for_exit()
 	if _failures.is_empty():
 		print(
 			"CORE_LOOP_V2_B_CHECK_OK schema=3 cap=24 migration=8_and_12_to_24 "
@@ -119,6 +119,42 @@ func _ready() -> void:
 	for failure in _failures:
 		push_error("CORE_LOOP_V2_B_CHECK_FAIL: %s" % failure)
 	get_tree().quit(1)
+
+func _release_audio_for_exit() -> void:
+	for raw_tween in get_tree().get_processed_tweens():
+		if raw_tween is Tween and (raw_tween as Tween).is_valid():
+			(raw_tween as Tween).kill()
+	BGMPlayer.stop()
+	_detach_audio_streams(get_tree().root)
+	for raw_player in AudioManager._pool:
+		if raw_player is AudioStreamPlayer:
+			(raw_player as AudioStreamPlayer).stop()
+			(raw_player as AudioStreamPlayer).stream = null
+	AudioManager._sounds.clear()
+	await AudioManager.drain_pending_timers_for_exit()
+	BGMPlayer.stop()
+	_detach_audio_streams(get_tree().root)
+	var fixture_pool: Array = AudioManager._pool.duplicate()
+	for raw_player in fixture_pool:
+		if raw_player is AudioStreamPlayer:
+			(raw_player as AudioStreamPlayer).stop()
+			(raw_player as AudioStreamPlayer).stream = null
+			raw_player.free()
+	AudioManager._pool.clear()
+	AudioManager._sounds.clear()
+	await get_tree().create_timer(0.25).timeout
+	for _release_frame in range(8):
+		await get_tree().process_frame
+
+func _detach_audio_streams(root: Node) -> void:
+	if root is AudioStreamPlayer:
+		(root as AudioStreamPlayer).stop()
+		(root as AudioStreamPlayer).stream = null
+	elif root is AudioStreamPlayer2D:
+		(root as AudioStreamPlayer2D).stop()
+		(root as AudioStreamPlayer2D).stream = null
+	for child in root.get_children():
+		_detach_audio_streams(child)
 
 func _check_contract_and_legacy_boundary() -> void:
 	_expect(int(CORE_LOOP.contract().get("schema_version", 0)) == 3,
@@ -1059,8 +1095,10 @@ func _check_legacy_callback_resolution() -> void:
 	GameState.flags["mindset_investor"] = true
 	GameState.flags["mindset_founder"] = true
 	GameState.flags["had_first_investment"] = true
-	GameState.tendency = {"career": 6, "invest": 7, "found": 8}
+	GameState.flags["route_invest"] = true
+	GameState.tendency = {"career": 6, "invest": 12, "found": 8}
 	GameState.tendency_realized = "invest"
+	GameState.player_route = "투자형"
 	GameState.core_loop_v2_state = {
 		"schema": 3,
 		"enabled": true,
@@ -2484,15 +2522,12 @@ func _check_atomic_action_rollback_case(
 				"pressure_family": "qa",
 				"choice_id": action_id,
 				"forgone_ids": [],
-			}), "%s rollback fixture could not arm" % bundle_id)
+				}), "%s rollback fixture could not arm" % bundle_id)
 	var before: Dictionary = GameState.serialize().duplicate(true)
-	var injection_callback := Callable(
-		self, "_inject_commitment_after_ap_spend")
-	if not GameState.stats_changed.is_connected(injection_callback):
-		GameState.stats_changed.connect(injection_callback)
-	_inject_late_commitment = true
-	var transaction := GameState.finalize_weekly_effect_action(
-		action_id, effects, "money", "work", "", {
+	var transaction := GameState.finalize_weekly_mutation_action(
+		action_id, "money",
+		Callable(self, "_apply_atomic_effects_and_inject_conflict").bind(
+			effects), "work", "", {
 			"execution": execution,
 			"application_id": "qa_rollback" if action_id == "apply" else "",
 			"status": "submitted" if action_id == "apply" else "",
@@ -2500,9 +2535,6 @@ func _check_atomic_action_rollback_case(
 		}, {
 			"qa_atomic_should_rollback": true,
 		})
-	_inject_late_commitment = false
-	if GameState.stats_changed.is_connected(injection_callback):
-		GameState.stats_changed.disconnect(injection_callback)
 	_expect(not bool(transaction.get("ok", true)) \
 			and bool(transaction.get("rolled_back", false)) \
 			and GameState.serialize() == before,
@@ -3007,17 +3039,16 @@ func _capture_v2_action_receipt(record: Dictionary) -> void:
 	if CORE_LOOP.is_active():
 		CORE_LOOP.note_action_commitment(record)
 
-func _inject_commitment_after_ap_spend() -> void:
-	if not _inject_late_commitment \
-			or GameState.action_points >= GameState.max_action_points:
-		return
-	_inject_late_commitment = false
+func _apply_atomic_effects_and_inject_conflict(
+		effects: Dictionary) -> Dictionary:
+	GameState.apply_effects(effects)
 	GameState.weekly_commitments.append({
 		"turn": GameState.turn,
 		"choice_id": "qa_late_conflict",
 		"actual_action_id": "qa_late_conflict",
 		"outcome": {},
 	})
+	return {"success": true}
 
 func _expect(condition: bool, message: String) -> void:
 	if not condition:
