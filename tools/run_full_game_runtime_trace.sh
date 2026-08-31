@@ -160,17 +160,43 @@ run_profile() {
     trace_base="/private/tmp"
   fi
   trace_base="${trace_base%/}"
-  if [[ ! -d "${trace_base}" || ! -w "${trace_base}" ]]; then
+  if [[ "${trace_base}" != /* || ! -d "${trace_base}" || ! -w "${trace_base}" ]]; then
     echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=trace_base_unavailable" >&2
     return 2
   fi
-  trace_root="$(mktemp -d "${trace_base}/gangnamdream-full-trace-${profile_id}.XXXXXX")"
+  if ! trace_root="$(mktemp -d "${trace_base}/gangnamdream-full-trace-${profile_id}.XXXXXX")"; then
+    echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=trace_root_create_failed" >&2
+    return 2
+  fi
+  case "${trace_root}" in
+    "${trace_base}"/gangnamdream-full-trace-*) ;;
+    *)
+      echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=trace_root_outside_trace_base" >&2
+      return 2
+      ;;
+  esac
+  if [[ -z "${trace_root}" || ! -d "${trace_root}" ]]; then
+    echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=trace_root_invalid" >&2
+    return 2
+  fi
+
+  cleanup_trace_root() {
+    case "${trace_root}" in
+      "${trace_base}"/gangnamdream-full-trace-*) rm -rf -- "${trace_root}" ;;
+      *) echo "refusing to clean unexpected trace root: ${trace_root}" >&2 ;;
+    esac
+  }
+  trap cleanup_trace_root RETURN
+
   trace_home="${trace_root}/home"
-  mkdir -p \
-    "${trace_home}" \
-    "${trace_root}/xdg-data" \
-    "${trace_root}/xdg-config" \
-    "${trace_root}/xdg-cache"
+  if ! mkdir -p \
+      "${trace_home}" \
+      "${trace_root}/xdg-data" \
+      "${trace_root}/xdg-config" \
+      "${trace_root}/xdg-cache"; then
+    echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=trace_isolation_dirs_failed" >&2
+    return 2
+  fi
 
   # Godot 4.6 constructs the editor ObjectDB Profiler before a fresh macOS
   # isolated HOME/XDG environment has created the app_userdata ancestors.
@@ -213,14 +239,6 @@ run_profile() {
   fi
   godot_log="${trace_root}/godot.log"
   import_godot_log="${trace_root}/import-godot.log"
-
-  cleanup_trace_root() {
-    case "${trace_root}" in
-      "${trace_base}"/gangnamdream-full-trace-*) rm -rf -- "${trace_root}" ;;
-      *) echo "refusing to clean unexpected trace root: ${trace_root}" >&2 ;;
-    esac
-  }
-  trap cleanup_trace_root RETURN
 
   local -a trace_command=(
     "${godot_bin}"

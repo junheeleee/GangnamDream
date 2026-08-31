@@ -437,7 +437,12 @@ def _validate_runner_isolation_contract(runner: str) -> None:
         "mktemp -d",
         'trace_base="/private/tmp"',
         'reason=trace_base_unavailable',
-        '"${trace_base}/gangnamdream-full-trace-${profile_id}.XXXXXX"',
+        'if ! trace_root="$(mktemp -d "${trace_base}/gangnamdream-full-trace-${profile_id}.XXXXXX")"',
+        'reason=trace_root_create_failed',
+        'reason=trace_root_outside_trace_base',
+        'reason=trace_root_invalid',
+        'reason=trace_isolation_dirs_failed',
+        'trap cleanup_trace_root RETURN',
         'HOME="${trace_home}"',
         'XDG_DATA_HOME="${trace_root}/xdg-data"',
         'XDG_CONFIG_HOME="${trace_root}/xdg-config"',
@@ -474,6 +479,13 @@ def _validate_runner_isolation_contract(runner: str) -> None:
     if "app_userdata/강남드림/objectdb_snapshots" in runner:
         raise ContractError(
             "runner pre-creates a generic ObjectDB directory instead of the exact project path"
+        )
+    mktemp_guard = runner.index('if ! trace_root="$(mktemp -d ')
+    trap_install = runner.index("trap cleanup_trace_root RETURN")
+    derived_paths = runner.index('trace_home="${trace_root}/home"')
+    if not mktemp_guard < trap_install < derived_paths:
+        raise ContractError(
+            "runner must validate trace_root and install cleanup before derived paths"
         )
     _validate_runner_error_policy(runner)
     if runner.count('post_commit="$(git rev-parse HEAD)"') < 2 \
@@ -1211,6 +1223,32 @@ def self_test() -> None:
     _expect_failure(
         "runner-darwin-long-tmpdir-regression",
         lambda: _validate_runner_isolation_contract(unsafe_darwin_tmp_runner),
+    )
+    cases += 1
+
+    unguarded_mktemp_runner = TRACE_RUNNER.read_text(encoding="utf-8").replace(
+        'if ! trace_root="$(mktemp -d ',
+        'trace_root="$(mktemp -d ',
+        1,
+    )
+    _expect_failure(
+        "runner-unguarded-mktemp",
+        lambda: _validate_runner_isolation_contract(unguarded_mktemp_runner),
+    )
+    cases += 1
+
+    late_cleanup_runner = TRACE_RUNNER.read_text(encoding="utf-8").replace(
+        "trap cleanup_trace_root RETURN\n\n  trace_home=",
+        "trace_home=",
+        1,
+    ).replace(
+        '  godot_log="${trace_root}/godot.log"',
+        '  trap cleanup_trace_root RETURN\n  godot_log="${trace_root}/godot.log"',
+        1,
+    )
+    _expect_failure(
+        "runner-late-cleanup-trap",
+        lambda: _validate_runner_isolation_contract(late_cleanup_runner),
     )
     cases += 1
 
