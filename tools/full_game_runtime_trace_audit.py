@@ -453,6 +453,8 @@ def _validate_runner_isolation_contract(runner: str) -> None:
         "reason=timeout",
         'config/name="강남드림"',
         "Library/Application Support/Godot/app_userdata/강남드림/${project_root#/}",
+        "xdg-data/godot/app_userdata/강남드림/${project_root#/}",
+        'for objectdb_project_dir in "${objectdb_project_dirs[@]}"',
         'case "${objectdb_project_dir}" in',
         '"${trace_root}"/*)',
         "reason=objectdb_project_dir_outside_trace_root",
@@ -1184,6 +1186,17 @@ def self_test() -> None:
     _expect_failure(
         "runner-generic-objectdb-directory",
         lambda: _validate_runner_isolation_contract(generic_objectdb_runner),
+    )
+    cases += 1
+
+    missing_xdg_objectdb_runner = TRACE_RUNNER.read_text(encoding="utf-8").replace(
+        "${trace_root}/xdg-data/godot/app_userdata/강남드림/${project_root#/}",
+        "${trace_root}/xdg-data/godot/app_userdata/강남드림/objectdb_snapshots",
+        1,
+    )
+    _expect_failure(
+        "runner-missing-exact-xdg-objectdb-directory",
+        lambda: _validate_runner_isolation_contract(missing_xdg_objectdb_runner),
     )
     cases += 1
 
