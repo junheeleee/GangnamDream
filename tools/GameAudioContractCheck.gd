@@ -42,6 +42,7 @@ func _ready() -> void:
 	await _check_activity_ambience()
 	await _check_casino_music()
 	_restore_haptic_settings()
+	await _release_audio_for_exit()
 	if _failures.is_empty():
 		print("GAME_AUDIO_RUNTIME_OK physical=32 ambience_roundtrip=3 varied_playback=1 casino_music=1 haptics=12 unused_profiles=0 direct_scene_raw=0 vibration_roundtrip=1 boundary_clamp=8 same_stack=3")
 		get_tree().quit(0)
@@ -49,6 +50,31 @@ func _ready() -> void:
 	for failure in _failures:
 		push_error("GAME_AUDIO_RUNTIME_FAIL: %s" % failure)
 	get_tree().quit(1)
+
+func _release_audio_for_exit() -> void:
+	for raw_tween in get_tree().get_processed_tweens():
+		if raw_tween is Tween and (raw_tween as Tween).is_valid():
+			(raw_tween as Tween).kill()
+	BGMPlayer.stop()
+	_detach_audio_streams(get_tree().root)
+	for raw_player in AudioManager._pool:
+		if raw_player is AudioStreamPlayer:
+			(raw_player as AudioStreamPlayer).stop()
+			(raw_player as AudioStreamPlayer).stream = null
+	AudioManager._sounds.clear()
+	await AudioManager.drain_pending_timers_for_exit()
+	for _release_frame in range(4):
+		await get_tree().process_frame
+
+func _detach_audio_streams(root: Node) -> void:
+	if root is AudioStreamPlayer:
+		(root as AudioStreamPlayer).stop()
+		(root as AudioStreamPlayer).stream = null
+	elif root is AudioStreamPlayer2D:
+		(root as AudioStreamPlayer2D).stop()
+		(root as AudioStreamPlayer2D).stream = null
+	for child in root.get_children():
+		_detach_audio_streams(child)
 
 func _check_manifest_assets() -> void:
 	var parsed: Variant = JSON.parse_string(

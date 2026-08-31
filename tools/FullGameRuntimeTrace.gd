@@ -620,8 +620,11 @@ func _drive_main(main: Node) -> bool:
 	var modal := main.get("modal_layer") as Control
 	if is_instance_valid(modal) and modal.visible:
 		var modal_body := main.get("modal_body") as Control
-		var modal_button := _focused_or_first_button(
+		var modal_surface: Node = (
 			modal_body if is_instance_valid(modal_body) else modal)
+		var modal_button := _select_visible_modal_button(modal_surface)
+		if not _errors.is_empty():
+			return false
 		if modal_button != null:
 			await _activate_button(modal_button)
 		return false
@@ -808,6 +811,8 @@ func _on_weekly_commitment_finalized(commitment: Dictionary) -> void:
 		"narrative_volume_counted": false,
 		"action_id": str(commitment.get(
 			"choice_id", _pending_main_action.get("action_id", ""))),
+		"actual_action_id": str(commitment.get("actual_action_id", "")),
+		"details": (commitment.get("details", {}) as Dictionary).duplicate(true),
 		"selection_policy": str(_pending_main_action.get(
 			"selection_policy", "profile")),
 		"visible_button": _pending_main_action.duplicate(true),
@@ -986,7 +991,7 @@ func _release_audio_for_exit() -> void:
 	var raw_sounds: Variant = AudioManager.get("_sounds")
 	if raw_sounds is Dictionary:
 		(raw_sounds as Dictionary).clear()
-	await get_tree().create_timer(0.25).timeout
+	await AudioManager.drain_pending_timers_for_exit()
 	await get_tree().process_frame
 	await get_tree().process_frame
 
@@ -1354,6 +1359,33 @@ func _focused_or_first_button(root: Node) -> Button:
 	if _button_is_usable(focused) and root.is_ancestor_of(focused):
 		return focused
 	return _find_first_enabled_button(root)
+
+
+func _select_visible_modal_button(root: Node) -> Button:
+	var study_buttons: Array[Button] = []
+	_collect_visible_meta_buttons(root, "ap_study_type", study_buttons)
+	if study_buttons.is_empty():
+		return _focused_or_first_button(root)
+	var modal_policy: Dictionary = _profile.get("modal_policy", {})
+	var expected_study_type := int(modal_policy.get("study_type", -1))
+	for button in study_buttons:
+		if int(button.get_meta("ap_study_type")) == expected_study_type:
+			return button
+	_fail("profile study_type %d is absent from the visible study modal" % expected_study_type)
+	return null
+
+
+func _collect_visible_meta_buttons(
+		root: Node, meta_key: String, output: Array[Button]) -> void:
+	if not is_instance_valid(root):
+		return
+	if root is Button and _button_is_usable(root as Button) \
+			and root.has_meta(meta_key):
+		output.append(root as Button)
+	if root is Control and not (root as Control).is_visible_in_tree():
+		return
+	for child in root.get_children():
+		_collect_visible_meta_buttons(child, meta_key, output)
 
 
 func _find_first_enabled_button(root: Node) -> Button:

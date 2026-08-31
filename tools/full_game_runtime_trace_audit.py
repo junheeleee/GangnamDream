@@ -30,6 +30,7 @@ TRACE_SCRIPT = ROOT / "tools" / "FullGameRuntimeTrace.gd"
 TRACE_SCENE = ROOT / "tools" / "FullGameRuntimeTrace.tscn"
 TRACE_RUNNER = ROOT / "tools" / "run_full_game_runtime_trace.sh"
 MAIN_GAME_SCRIPT = ROOT / "scenes" / "MainGame.gd"
+AUDIO_MANAGER_SCRIPT = ROOT / "autoloads" / "AudioManager.gd"
 
 SCHEMA_VERSION = 1
 TRACE_SCHEMA_VERSION = 1
@@ -87,6 +88,7 @@ PROFILE_KEYS = {
     "locale",
     "input_mode",
     "default_choice",
+    "modal_policy",
     "choice_overrides",
     "main_action_priority",
     "main_function_priority",
@@ -118,6 +120,12 @@ SURVIVAL_POLICY_KEYS = {
 }
 SURVIVAL_ACTION_PRIORITY = ["rest", "contact"]
 SURVIVAL_FUNCTION_PRIORITY = ["_ap_free_time", "_ap_contact_person"]
+MODAL_POLICY_KEYS = {"study_type"}
+PROFILE_STUDY_TYPES = {
+    "baseline_safe_people": 0,
+    "investment_property_daeun": 3,
+    "general_near_goal_father_passed": 3,
+}
 PROVENANCE_VALUES = {"main_ingress", "queued", "follow_up", "same_turn", "deferred"}
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
@@ -236,6 +244,13 @@ def validate_profiles(path: Path = DEFAULT_PROFILES, *, check_events: bool = Tru
         if profile["locale"] != "ko" or profile["input_mode"] != "keyboard":
             raise ContractError(f"{label} R1 must use Korean keyboard input")
         _validate_choice(profile["default_choice"], f"{label}.default_choice")
+        modal_policy = profile["modal_policy"]
+        if not isinstance(modal_policy, dict) or set(modal_policy) != MODAL_POLICY_KEYS:
+            raise ContractError(f"{label}.modal_policy schema drifted")
+        if modal_policy["study_type"] != PROFILE_STUDY_TYPES.get(profile_id):
+            raise ContractError(
+                f"{label}.modal_policy.study_type must preserve its route policy"
+            )
         overrides = profile["choice_overrides"]
         if not isinstance(overrides, dict):
             raise ContractError(f"{label}.choice_overrides must be an object")
@@ -378,6 +393,11 @@ def _validate_trace_script_source(source: str) -> None:
         "Input.parse_input_event",
         "func _select_visible_main_action(cards: Array[Button]) -> Button:",
         "var selected := _select_visible_main_action(cards)",
+        "func _select_visible_modal_button(root: Node) -> Button:",
+        "var modal_button := _select_visible_modal_button(modal_surface)",
+        'root, "ap_study_type", study_buttons',
+        'modal_policy.get("study_type", -1)',
+        "profile study_type %d is absent from the visible study modal",
         "func _survival_recovery_required() -> bool:",
         "if _survival_recovery_required():",
         "var recovery_selected := _select_visible_by_priority(",
@@ -393,7 +413,7 @@ def _validate_trace_script_source(source: str) -> None:
         "_detach_audio_streams(get_tree().root)",
         "player.stream = null",
         "(raw_sounds as Dictionary).clear()",
-        "await get_tree().create_timer(0.25).timeout",
+        "await AudioManager.drain_pending_timers_for_exit()",
     ):
         if needle not in source:
             raise ContractError(f"GDScript recorder contract is missing {needle!r}")
@@ -475,6 +495,25 @@ def _validate_trace_script_source(source: str) -> None:
             "GDScript recorder directly calls a product method: "
             + ", ".join(unexpected_calls)
         )
+
+
+def _validate_audio_manager_source(source: str) -> None:
+    for needle in (
+        "var _pending_audio_timers: Dictionary = {}",
+        "func _schedule_audio_timer(delay: float, callback: Callable) -> void:",
+        "func drain_pending_timers_for_exit() -> void:",
+        "_pending_audio_timer_generation += 1",
+        "(raw_timer as SceneTreeTimer).time_left = 0.0",
+        "assert(_pending_audio_timers.is_empty()",
+    ):
+        if needle not in source:
+            raise ContractError(f"AudioManager timer drain contract is missing {needle!r}")
+    if source.count("get_tree().create_timer(") != 1:
+        raise ContractError(
+            "AudioManager delayed audio must use the single tracked timer scheduler"
+        )
+    if source.count("_schedule_audio_timer(delay,") != 3:
+        raise ContractError("AudioManager delayed cue call sites escaped timer tracking")
 
 
 def _validate_runner_error_policy(runner: str) -> None:
@@ -559,12 +598,13 @@ def _validate_runner_isolation_contract(runner: str) -> None:
 
 
 def validate_tool_sources() -> None:
-    required_paths = (TRACE_SCRIPT, TRACE_SCENE, TRACE_RUNNER)
+    required_paths = (TRACE_SCRIPT, TRACE_SCENE, TRACE_RUNNER, AUDIO_MANAGER_SCRIPT)
     for path in required_paths:
         if not path.is_file():
             raise ContractError(f"missing runtime trace tool: {path.relative_to(ROOT)}")
     source = TRACE_SCRIPT.read_text(encoding="utf-8")
     _validate_trace_script_source(source)
+    _validate_audio_manager_source(AUDIO_MANAGER_SCRIPT.read_text(encoding="utf-8"))
     runner = TRACE_RUNNER.read_text(encoding="utf-8")
     _validate_runner_isolation_contract(runner)
     scene = TRACE_SCENE.read_text(encoding="utf-8")
@@ -826,6 +866,21 @@ def validate_trace_rows(
                 raise ContractError(f"{label} must exclude main/AP commits from narrative volume")
             if not isinstance(payload.get("state_delta"), dict):
                 raise ContractError(f"{label} lacks state_delta")
+            actual_action_id = payload.get("actual_action_id")
+            details = payload.get("details")
+            commitment = payload.get("commitment")
+            if not isinstance(actual_action_id, str) or not actual_action_id:
+                raise ContractError(f"{label} lacks actual_action_id")
+            if not isinstance(details, dict) or not isinstance(commitment, dict):
+                raise ContractError(f"{label} lacks actual commitment details")
+            if commitment.get("actual_action_id") != actual_action_id \
+                    or commitment.get("details") != details:
+                raise ContractError(f"{label} flattened commitment fields drifted")
+            study_types = {"study_read": 0, "study_exercise": 1,
+                           "study_meditation": 2, "study_invest": 3}
+            if actual_action_id in study_types \
+                    and details.get("study_type") != study_types[actual_action_id]:
+                raise ContractError(f"{label} study action/details disagree")
             selection_policy = payload.get("selection_policy")
             if selection_policy not in {"profile", "survival", "profile_fallback"}:
                 raise ContractError(f"{label} has an invalid selection_policy")
@@ -989,6 +1044,7 @@ def _fixture_profile() -> dict[str, Any]:
         "locale": "ko",
         "input_mode": "keyboard",
         "default_choice": {"index": 0, "selection_mode": "direct"},
+        "modal_policy": {"study_type": 0},
         "choice_overrides": {},
         "main_action_priority": ["rest"],
         "main_function_priority": ["_ap_rest"],
@@ -1109,6 +1165,9 @@ def _fixture_rows(profile: dict[str, Any], profile_hash: str) -> list[dict[str, 
                 "volume_class": "control",
                 "narrative_volume_counted": False,
                 "action_id": "rest",
+                "actual_action_id": "rest",
+                "details": {},
+                "commitment": {"actual_action_id": "rest", "details": {}},
                 "selection_policy": "profile",
                 "visible_button": {
                     "action_id": "rest",
@@ -1221,6 +1280,8 @@ def self_test() -> None:
     mutations.append(("duplicate-occurrence", lambda rows: [row.__setitem__("occurrence_id", "story:1") for row in rows if row["record_type"] == "story_enter" and row["payload"]["event_serial"] == 2]))
     mutations.append(("run-not-pass", lambda rows: rows[-1]["payload"].__setitem__("status", "fail")))
     mutations.append(("missing-state-delta", lambda rows: next(row for row in rows if row["record_type"] == "main_action_commit")["payload"].pop("state_delta")))
+    mutations.append(("missing-actual-action-id", lambda rows: next(row for row in rows if row["record_type"] == "main_action_commit")["payload"].pop("actual_action_id")))
+    mutations.append(("commitment-details-drift", lambda rows: next(row for row in rows if row["record_type"] == "main_action_commit")["payload"]["commitment"].__setitem__("details", {"study_type": 3})))
     mutations.append(("missing-story-result", lambda rows: rows.pop(next(i for i, row in enumerate(rows) if row["record_type"] == "story_result"))))
     mutations.append(("offer-event-mismatch", lambda rows: next(row for row in rows if row["record_type"] == "choice_offer")["payload"].__setitem__("event_id", "wrong_event")))
     mutations.append(("choice-event-mismatch", lambda rows: next(row for row in rows if row["record_type"] == "story_choice")["payload"].__setitem__("event_id", "wrong_event")))
@@ -1270,6 +1331,16 @@ def self_test() -> None:
     )
     cases += 1
 
+    disabled_modal_source = TRACE_SCRIPT.read_text(encoding="utf-8").replace(
+        "var modal_button := _select_visible_modal_button(modal_surface)",
+        "var modal_button := _focused_or_first_button(modal_surface)", 1
+    )
+    _expect_failure(
+        "disabled-semantic-study-modal-selection",
+        lambda: _validate_trace_script_source(disabled_modal_source),
+    )
+    cases += 1
+
     with tempfile.TemporaryDirectory() as temp_dir:
         inverted_policy = _load_json(DEFAULT_PROFILES)
         inverted_policy["profiles"][1]["survival_policy"][
@@ -1283,12 +1354,33 @@ def self_test() -> None:
         )
         cases += 1
 
+    with tempfile.TemporaryDirectory() as temp_dir:
+        wrong_study_policy = _load_json(DEFAULT_PROFILES)
+        wrong_study_policy["profiles"][1]["modal_policy"]["study_type"] = 0
+        wrong_path = Path(temp_dir) / "wrong-study-policy.json"
+        wrong_path.write_text(json.dumps(wrong_study_policy), encoding="utf-8")
+        _expect_failure(
+            "wrong-route-study-modal-policy",
+            lambda: validate_profiles(wrong_path, check_events=False),
+        )
+        cases += 1
+
     missing_audio_drain_source = TRACE_SCRIPT.read_text(encoding="utf-8").replace(
         "await _release_audio_for_exit()", "pass", 1
     )
     _expect_failure(
         "missing-audio-teardown-drain",
         lambda: _validate_trace_script_source(missing_audio_drain_source),
+    )
+    cases += 1
+
+
+    missing_timer_expiry_source = AUDIO_MANAGER_SCRIPT.read_text(
+        encoding="utf-8"
+    ).replace("(raw_timer as SceneTreeTimer).time_left = 0.0", "pass", 1)
+    _expect_failure(
+        "missing-real-audio-timer-expiry",
+        lambda: _validate_audio_manager_source(missing_timer_expiry_source),
     )
     cases += 1
 

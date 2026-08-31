@@ -16,6 +16,9 @@ var _last_direction_sting_token: String = ""
 var _last_direction_sting_ms: int = 0
 var _story_audio_generation: int = 0
 var _story_audio_seen: Dictionary = {}
+var _pending_audio_timers: Dictionary = {}
+var _pending_audio_timer_serial: int = 0
+var _pending_audio_timer_generation: int = 0
 var _pitch_rng := RandomNumberGenerator.new()
 var _vibration_stop_serial: int = 0
 
@@ -461,7 +464,7 @@ func _play_story_cue(sound_id: String, delay: float, volume_mod: float, generati
 	if delay <= 0.0:
 		play(sound_id, volume_mod)
 		return
-	get_tree().create_timer(delay).timeout.connect(func():
+	_schedule_audio_timer(delay, func():
 		if generation == _story_audio_generation:
 			play(sound_id, volume_mod))
 
@@ -494,7 +497,7 @@ func play_delayed(sound_id: String, delay: float, volume_mod: float = 0.0) -> vo
 	if delay <= 0.0:
 		play(sound_id, volume_mod)
 		return
-	get_tree().create_timer(delay).timeout.connect(func():
+	_schedule_audio_timer(delay, func():
 		play(sound_id, volume_mod))
 
 func play_delayed_varied(sound_id: String, delay: float, volume_mod: float = 0.0,
@@ -502,8 +505,34 @@ func play_delayed_varied(sound_id: String, delay: float, volume_mod: float = 0.0
 	if delay <= 0.0:
 		play_varied(sound_id, volume_mod, pitch_min, pitch_max)
 		return
-	get_tree().create_timer(delay).timeout.connect(func():
+	_schedule_audio_timer(delay, func():
 		play_varied(sound_id, volume_mod, pitch_min, pitch_max))
+
+
+func _schedule_audio_timer(delay: float, callback: Callable) -> void:
+	_pending_audio_timer_serial += 1
+	var serial := _pending_audio_timer_serial
+	var generation := _pending_audio_timer_generation
+	var timer := get_tree().create_timer(delay)
+	_pending_audio_timers[serial] = timer
+	timer.timeout.connect(func():
+		_pending_audio_timers.erase(serial)
+		if generation == _pending_audio_timer_generation:
+			callback.call())
+
+
+func drain_pending_timers_for_exit() -> void:
+	# SceneTreeTimer has no cancel method. Invalidate every delayed callback,
+	# expire the actual timers, then allow their timeout handlers to release the
+	# final references before the trace process exits.
+	_pending_audio_timer_generation += 1
+	_story_audio_generation += 1
+	for raw_timer in _pending_audio_timers.values():
+		if is_instance_valid(raw_timer) and raw_timer is SceneTreeTimer:
+			(raw_timer as SceneTreeTimer).time_left = 0.0
+	await get_tree().process_frame
+	await get_tree().process_frame
+	assert(_pending_audio_timers.is_empty(), "pending audio timers did not drain")
 
 func play_casino_result(net_amount: float, stake: float = 0.0, force_jackpot: bool = false) -> void:
 	var stake_abs: float = maxf(absf(stake), 1.0)

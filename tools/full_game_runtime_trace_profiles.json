@@ -46,6 +46,7 @@
         "index": 0,
         "selection_mode": "direct"
       },
+      "modal_policy": {"study_type": 0},
       "choice_overrides": {
         "story_prologue_goal": {"index": 0, "selection_mode": "direct"},
         "arc_temptation_01": {"index": 0, "selection_mode": "direct"},
@@ -122,6 +123,7 @@
         "index": 0,
         "selection_mode": "direct"
       },
+      "modal_policy": {"study_type": 3},
       "choice_overrides": {
         "story_prologue_goal": {"index": 1, "selection_mode": "direct"},
         "arc_temptation_01": {"index": 0, "selection_mode": "direct"},
@@ -133,7 +135,9 @@
         "arc_daeun_y5_feelings": {"index": 0, "selection_mode": "direct"},
         "arc_sangchul_final_door": {"index": 1, "selection_mode": "direct"},
         "arc_y5_three_in_room_decision": {"index": 1, "selection_mode": "direct"},
-        "arc_y5_father_trace_custody": {"index": 0, "selection_mode": "direct"}
+        "arc_y5_father_trace_custody": {"index": 0, "selection_mode": "direct"},
+        "arc_opp_sangchul_win": {"index": 1, "selection_mode": "direct"},
+        "arc_opp_jiyeon_win": {"index": 1, "selection_mode": "direct"}
       },
       "main_action_priority": [
         "invest",
@@ -166,8 +170,8 @@
       "required_event_sequence": [
         "story_flashforward",
         "story_arrival",
-        "arc_daeun_01_meet",
         "arc_sangchul_01_meet",
+        "arc_daeun_01_meet",
         "arc_jaehyuk_01_reunion",
         "arc_minseo_02_real",
         "arc_y5_contract_cover_investment",
@@ -215,6 +219,7 @@
         "index": 0,
         "selection_mode": "direct"
       },
+      "modal_policy": {"study_type": 3},
       "choice_overrides": {
         "story_prologue_goal": {"index": 0, "selection_mode": "direct"},
         "arc_temptation_01": {"index": 0, "selection_mode": "direct"},
@@ -225,7 +230,9 @@
         "arc_y5_general_debt_memory_reconnect": {"index": 1, "selection_mode": "direct"},
         "arc_y5_general_final_record_seal": {"index": 0, "selection_mode": "direct"},
         "arc_final_countdown_general_near_goal_passed": {"index": 0, "selection_mode": "direct"},
-        "arc_y5_final_week_general_people_outbound": {"index": 0, "selection_mode": "direct"}
+        "arc_y5_final_week_general_people_outbound": {"index": 0, "selection_mode": "direct"},
+        "arc_opp_sangchul_win": {"index": 1, "selection_mode": "direct"},
+        "arc_opp_jiyeon_win": {"index": 1, "selection_mode": "direct"}
       },
       "main_action_priority": [
         "invest",

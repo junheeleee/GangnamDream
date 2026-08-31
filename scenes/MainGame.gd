@@ -15582,6 +15582,10 @@ func _ap_study():
 		var btn := _make_essential_action_card(
 			str(entry[2]), sub, "study", "#5a6ea8", false, false, "", "",
 			_action_illustration_texture(illustration_key), "")
+		# The visible study cards keep a stable semantic receipt so keyboard/UI
+		# players and black-box runtime traces can select the intended discipline
+		# without depending on translated labels or child order.
+		btn.set_meta("ap_study_type", st)
 		btn.custom_minimum_size = Vector2(0, 72)
 		btn.pressed.connect(func():
 			_close_modal()

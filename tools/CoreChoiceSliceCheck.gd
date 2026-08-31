@@ -35,6 +35,7 @@ func _capture_ending(ending_id: String) -> void:
 
 func _ready() -> void:
 	_check_opening_intent()
+	_check_study_modal_semantic_receipts()
 	_check_opening_interview_causality()
 	_check_story_prerequisite_contract()
 	_check_racetrack_story_handoff()
@@ -94,6 +95,11 @@ func _stop_fixture_audio() -> void:
 
 func _new_main_game():
 	return load("res://scenes/MainGame.gd").new()
+
+func _check_study_modal_semantic_receipts() -> void:
+	var main_source := FileAccess.get_file_as_string("res://scenes/MainGame.gd")
+	_expect(main_source.count('btn.set_meta("ap_study_type", st)') == 1,
+		"visible self-development cards lost their stable study-type receipt")
 
 func _prepare_chapter5_product_path() -> void:
 	GameState.start_new_game("김민준", "지방_상경", "투자형")
