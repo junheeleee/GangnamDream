@@ -121,6 +121,7 @@ fi
 run_profile() {
   local profile_id="$1"
   local profile_hash
+  local trace_base="${TMPDIR:-/tmp}"
   local trace_root
   local trace_home
   local trace_output
@@ -151,7 +152,19 @@ run_profile() {
     return 2
   fi
 
-  trace_root="$(mktemp -d "${TMPDIR:-/tmp}/gangnamdream-full-trace-${profile_id}.XXXXXX")"
+  # Godot 4.6's macOS ObjectDB profiler emits a false bootstrap ERROR when
+  # the isolated user-data root lives under the long per-user TMPDIR path.
+  # A short private temporary root avoids that engine bug while preserving a
+  # disposable HOME/XDG sandbox for every profile.
+  if [[ "$(uname -s)" == "Darwin" ]]; then
+    trace_base="/private/tmp"
+  fi
+  trace_base="${trace_base%/}"
+  if [[ ! -d "${trace_base}" || ! -w "${trace_base}" ]]; then
+    echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=trace_base_unavailable" >&2
+    return 2
+  fi
+  trace_root="$(mktemp -d "${trace_base}/gangnamdream-full-trace-${profile_id}.XXXXXX")"
   trace_home="${trace_root}/home"
   mkdir -p \
     "${trace_home}" \
@@ -203,7 +216,7 @@ run_profile() {
 
   cleanup_trace_root() {
     case "${trace_root}" in
-      "${TMPDIR:-/tmp}"/gangnamdream-full-trace-*) rm -rf -- "${trace_root}" ;;
+      "${trace_base}"/gangnamdream-full-trace-*) rm -rf -- "${trace_root}" ;;
       *) echo "refusing to clean unexpected trace root: ${trace_root}" >&2 ;;
     esac
   }

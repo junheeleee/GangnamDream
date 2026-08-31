@@ -435,6 +435,9 @@ def _validate_runner_error_policy(runner: str) -> None:
 def _validate_runner_isolation_contract(runner: str) -> None:
     for needle in (
         "mktemp -d",
+        'trace_base="/private/tmp"',
+        'reason=trace_base_unavailable',
+        '"${trace_base}/gangnamdream-full-trace-${profile_id}.XXXXXX"',
         'HOME="${trace_home}"',
         'XDG_DATA_HOME="${trace_root}/xdg-data"',
         'XDG_CONFIG_HOME="${trace_root}/xdg-config"',
@@ -1197,6 +1200,17 @@ def self_test() -> None:
     _expect_failure(
         "runner-missing-exact-xdg-objectdb-directory",
         lambda: _validate_runner_isolation_contract(missing_xdg_objectdb_runner),
+    )
+    cases += 1
+
+    unsafe_darwin_tmp_runner = TRACE_RUNNER.read_text(encoding="utf-8").replace(
+        'trace_base="/private/tmp"',
+        'trace_base="${TMPDIR:-/tmp}"',
+        1,
+    )
+    _expect_failure(
+        "runner-darwin-long-tmpdir-regression",
+        lambda: _validate_runner_isolation_contract(unsafe_darwin_tmp_runner),
     )
     cases += 1
 
