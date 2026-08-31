@@ -993,6 +993,10 @@ func _release_audio_for_exit() -> void:
 	if raw_sounds is Dictionary:
 		(raw_sounds as Dictionary).clear()
 	await AudioManager.drain_pending_timers_for_exit()
+	# MainGame owns two short portrait-reset timers (1.2 s critical event and
+	# 2.0 s asset milestone). SceneTreeTimer cannot be canceled; let either real
+	# timer expire so failure exits are held to the same zero-leak policy.
+	await get_tree().create_timer(2.05).timeout
 	await get_tree().process_frame
 	await get_tree().process_frame
 

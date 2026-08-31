@@ -1242,6 +1242,22 @@ JOB_MODAL_SEMANTIC_RECEIPT_PROTECTED_FILE_TRANSITIONS = {
         "87ffe622910907fbd9d215fadc1091d6d84e3daa70efe1ef5f9f22e6084548c4",
     ),
 }
+
+# Quiet/echo weeks must repeat the semantic action the player actually chose.
+# This repair keeps investment study (and a visible market transaction) from
+# being rewritten as saving and awarding the irreversible career route.
+INVEST_ROUTINE_SEMANTIC_BASELINE = \
+    "2f0a74f27966cd9eb1bdeeb684ee871c115264aa"
+INVEST_ROUTINE_SEMANTIC_PROTECTED_FILE_TRANSITIONS = {
+    "autoloads/GameState.gd": (
+        "21c7547fe171e742a2fdda851a8b2cfdcf07132f6b5002e1df68ea3a97e22028",
+        "c1c49a25a1c7f3dbd082e8da8aa3f3737d3bbeda1b04eb3e16764ea10812a0bb",
+    ),
+    "scenes/MainGame.gd": (
+        "87ffe622910907fbd9d215fadc1091d6d84e3daa70efe1ef5f9f22e6084548c4",
+        "5a95b242dc71a5b4b902e5d38df71dd24ee62f0c9ab10117eca9626697bb8374",
+    ),
+}
 ORDER131_ADDED_IDS_BY_FILE = {
     "content/events/arc_midgame.json": {
         "arc_first_real_win_father_passed",
@@ -6180,6 +6196,8 @@ def validate_protected_hashes(
         job_modal_receipt_transition = \
             JOB_MODAL_SEMANTIC_RECEIPT_PROTECTED_FILE_TRANSITIONS.get(
                 relative)
+        invest_routine_semantic_transition = \
+            INVEST_ROUTINE_SEMANTIC_PROTECTED_FILE_TRANSITIONS.get(relative)
         effective_expected_hash = advance_exact_hash(
             expected_hash, order135_transition)
         effective_expected_hash = advance_exact_hash(
@@ -6208,6 +6226,9 @@ def validate_protected_hashes(
         pre_job_modal_receipt_expected_hash = effective_expected_hash
         effective_expected_hash = advance_exact_hash(
             effective_expected_hash, job_modal_receipt_transition)
+        pre_invest_routine_semantic_expected_hash = effective_expected_hash
+        effective_expected_hash = advance_exact_hash(
+            effective_expected_hash, invest_routine_semantic_transition)
         if actual_hash != effective_expected_hash:
             errors.append(f"{owner}: working-tree byte hash drifted")
         transition = ORDER134_PROTECTED_FILE_TRANSITIONS.get(relative)
@@ -6224,6 +6245,7 @@ def validate_protected_hashes(
                     and generic_finale_transition is None \
                     and generic_finale_autoclose_transition is None \
                     and study_modal_receipt_transition is None \
+                    and invest_routine_semantic_transition is None \
                     and actual_hash != order135_transition[1]:
                 errors.append(
                     f"{owner}: ORDER-135 additive current hash drifted")
@@ -6241,6 +6263,7 @@ def validate_protected_hashes(
                     and generic_finale_transition is None \
                     and generic_finale_autoclose_transition is None \
                     and study_modal_receipt_transition is None \
+                    and invest_routine_semantic_transition is None \
                     and actual_hash != order136_transition[1]:
                 errors.append(
                     f"{owner}: ORDER-136 visual current hash drifted")
@@ -6254,6 +6277,7 @@ def validate_protected_hashes(
                     and generic_finale_transition is None \
                     and generic_finale_autoclose_transition is None \
                     and study_modal_receipt_transition is None \
+                    and invest_routine_semantic_transition is None \
                     and actual_hash != order137_transition[1]:
                 errors.append(
                     f"{owner}: ORDER-137 repair current hash drifted")
@@ -6265,6 +6289,7 @@ def validate_protected_hashes(
                     and generic_finale_transition is None \
                     and generic_finale_autoclose_transition is None \
                     and study_modal_receipt_transition is None \
+                    and invest_routine_semantic_transition is None \
                     and actual_hash != order138_transition[1]:
                 errors.append(
                     f"{owner}: ORDER-138 density repair current hash drifted")
@@ -6276,6 +6301,7 @@ def validate_protected_hashes(
                     and generic_finale_transition is None \
                     and generic_finale_autoclose_transition is None \
                     and study_modal_receipt_transition is None \
+                    and invest_routine_semantic_transition is None \
                     and actual_hash != story_demo_transition[1]:
                 errors.append(
                     f"{owner}: story-demo receipt current hash drifted")
@@ -6296,6 +6322,7 @@ def validate_protected_hashes(
                     "ORDER-143")
             if generic_finale_autoclose_transition is None \
                     and study_modal_receipt_transition is None \
+                    and invest_routine_semantic_transition is None \
                     and actual_hash != generic_finale_transition[1]:
                 errors.append(
                     f"{owner}: generic W240 current hash drifted")
@@ -6306,6 +6333,7 @@ def validate_protected_hashes(
                     f"{owner}: generic W240 auto-close transition does not "
                     "extend the generic finale repair")
             if study_modal_receipt_transition is None \
+                    and invest_routine_semantic_transition is None \
                     and actual_hash != generic_finale_autoclose_transition[1]:
                 errors.append(
                     f"{owner}: generic W240 auto-close current hash drifted")
@@ -6316,6 +6344,7 @@ def validate_protected_hashes(
                     f"{owner}: study modal receipt transition does not "
                     "extend the W240 auto-close repair")
             if job_modal_receipt_transition is None \
+                    and invest_routine_semantic_transition is None \
                     and actual_hash != study_modal_receipt_transition[1]:
                 errors.append(
                     f"{owner}: study modal semantic receipt current hash "
@@ -6326,9 +6355,20 @@ def validate_protected_hashes(
                 errors.append(
                     f"{owner}: job modal receipt transition does not extend "
                     "the study modal receipt")
-            if actual_hash != job_modal_receipt_transition[1]:
+            if invest_routine_semantic_transition is None \
+                    and actual_hash != job_modal_receipt_transition[1]:
                 errors.append(
                     f"{owner}: job modal semantic receipt current hash "
+                    "drifted")
+        if invest_routine_semantic_transition is not None:
+            if invest_routine_semantic_transition[0] \
+                    != pre_invest_routine_semantic_expected_hash:
+                errors.append(
+                    f"{owner}: investment routine transition does not extend "
+                    "the latest exact product byte")
+            if actual_hash != invest_routine_semantic_transition[1]:
+                errors.append(
+                    f"{owner}: investment routine semantic current hash "
                     "drifted")
         try:
             baseline_hash = byte_sha256(git_blob(EXPECTED_BASELINE, relative))
@@ -6461,6 +6501,18 @@ def validate_protected_hashes(
                         != job_modal_receipt_transition[0]:
                     errors.append(
                         f"{owner}: job modal semantic receipt baseline hash "
+                        "drifted")
+        if invest_routine_semantic_transition is not None:
+            try:
+                invest_routine_semantic_baseline_hash = byte_sha256(
+                    git_blob(INVEST_ROUTINE_SEMANTIC_BASELINE, relative))
+            except ValueError as exc:
+                errors.append(f"{owner}: {exc}")
+            else:
+                if invest_routine_semantic_baseline_hash \
+                        != invest_routine_semantic_transition[0]:
+                    errors.append(
+                        f"{owner}: investment routine semantic baseline hash "
                         "drifted")
 
     objects = protected.get("objects")
@@ -7292,6 +7344,9 @@ def run_invalidated_self_test(
         ("job_modal_semantic_receipt_hash_transition",
          JOB_MODAL_SEMANTIC_RECEIPT_PROTECTED_FILE_TRANSITIONS[
              "scenes/MainGame.gd"]),
+        ("invest_routine_semantic_hash_transition",
+         INVEST_ROUTINE_SEMANTIC_PROTECTED_FILE_TRANSITIONS[
+             "scenes/MainGame.gd"]),
     ):
         case_count += 1
         tampered_predecessor = "0" * 64
@@ -7594,7 +7649,8 @@ def run_invalidated_self_test(
         try:
             actual_baseline = byte_sha256(
                 git_blob(JOB_MODAL_SEMANTIC_RECEIPT_BASELINE, relative))
-            actual_current = byte_sha256((ROOT / relative).read_bytes())
+            actual_current = byte_sha256(
+                git_blob(INVEST_ROUTINE_SEMANTIC_BASELINE, relative))
         except (OSError, ValueError) as exc:
             transition_failures.append(f"{relative}:{exc}")
             continue
@@ -7603,6 +7659,25 @@ def run_invalidated_self_test(
     if transition_failures:
         failures.append(
             "job_modal_semantic_receipt_transition_inverse: exact "
+            "baseline/current transition drifted "
+            f"{transition_failures}")
+
+    case_count += 1
+    transition_failures = []
+    for relative, (baseline_hash, current_hash) \
+            in INVEST_ROUTINE_SEMANTIC_PROTECTED_FILE_TRANSITIONS.items():
+        try:
+            actual_baseline = byte_sha256(
+                git_blob(INVEST_ROUTINE_SEMANTIC_BASELINE, relative))
+            actual_current = byte_sha256((ROOT / relative).read_bytes())
+        except (OSError, ValueError) as exc:
+            transition_failures.append(f"{relative}:{exc}")
+            continue
+        if actual_baseline != baseline_hash or actual_current != current_hash:
+            transition_failures.append(relative)
+    if transition_failures:
+        failures.append(
+            "invest_routine_semantic_transition_inverse: exact "
             "baseline/current transition drifted "
             f"{transition_failures}")
 

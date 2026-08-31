@@ -417,6 +417,7 @@ def _validate_trace_script_source(source: str) -> None:
         "player.stream = null",
         "(raw_sounds as Dictionary).clear()",
         "await AudioManager.drain_pending_timers_for_exit()",
+        "await get_tree().create_timer(2.05).timeout",
     ):
         if needle not in source:
             raise ContractError(f"GDScript recorder contract is missing {needle!r}")

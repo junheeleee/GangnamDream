@@ -1139,6 +1139,37 @@ func _check_demo_pacing() -> void:
 		_fail("quiet routine discarded bonus AP: %d remained" % GameState.action_points)
 	if not bool(used.get("money", false)) or not bool(used.get("human", false)):
 		_fail("quiet routine did not preserve the last mixed decision across bonus AP: %s" % used)
+
+	# An explicit investment-study decision must remain investment study when a
+	# quiet/echo week repeats it. It previously collapsed to saving and silently
+	# accumulated career identity instead.
+	GameState.tendency = {"career": 0, "invest": 0, "found": 0}
+	GameState.tendency_realized = ""
+	GameState.action_axis_this_week = {"money": 1, "human": 0}
+	GameState.action_places_this_week = {
+		"home": {"count": 1, "money": 1, "human": 0},
+	}
+	GameState.action_records_this_week = [{
+		"id": "study_invest", "axis": "money", "place": "home",
+		"subject": "", "families": ["investment", "finance"],
+	}]
+	game.call("_demo_director_capture_routine")
+	if GameState.week_routine != ["study_invest", "study_invest"]:
+		_fail("investment study collapsed into a different quiet routine: %s" % GameState.week_routine)
+	var investment_routine_money := float(GameState.money)
+	GameState.action_points = 2
+	var investment_used: Dictionary = game.call("_montage_apply_routine")
+	if GameState.action_points != 0 or not bool(investment_used.get("money", false)):
+		_fail("investment-study quiet routine did not consume its two visible money slots")
+	if int(GameState.tendency.get("invest", 0)) != 2 \
+			or int(GameState.tendency.get("career", 0)) != 0:
+		_fail("investment-study quiet routine changed the wrong identity: %s" % GameState.tendency)
+	if not is_equal_approx(float(GameState.money), investment_routine_money):
+		_fail("investment study invented a cash return during quiet-week repetition")
+	GameState.action_axis_this_week = {"money": 1, "human": 1}
+	game.call("_demo_director_capture_routine")
+	if GameState.week_routine != ["study_invest", "rest"]:
+		_fail("mixed investment/person decision lost either side: %s" % GameState.week_routine)
 	var counts := {"decision": 0, "boss": 0, "echo": 0, "quiet": 0}
 	for week in range(1, GameState.DEMO_TURN_LIMIT + 1):
 		var kind := EventManager.demo_week_kind(week)

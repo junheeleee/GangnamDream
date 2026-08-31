@@ -3419,7 +3419,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "tools/StoryPlaybackCheck.gd":
         "c6210f9687573353da8d0b429edc85f3016d8084c2914226f54d12cd8c657edb",
     "autoloads/GameState.gd":
-        "21c7547fe171e742a2fdda851a8b2cfdcf07132f6b5002e1df68ea3a97e22028",
+        "c1c49a25a1c7f3dbd082e8da8aa3f3737d3bbeda1b04eb3e16764ea10812a0bb",
     "autoloads/DataRegistry.gd":
         "9ee97b7003efb1d9b80673d1fce162b71ab0cb6f929a363e04ead29a98d9a1df",
     "autoloads/LocaleManager.gd":
@@ -3437,7 +3437,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "scenes/StoryMode.tscn":
         "b7688a883323a196e74271c1e76f1d88c91310b3fe1a287cb051b33dd2fb76ca",
     "scenes/MainGame.gd":
-        "87ffe622910907fbd9d215fadc1091d6d84e3daa70efe1ef5f9f22e6084548c4",
+        "5a95b242dc71a5b4b902e5d38df71dd24ee62f0c9ab10117eca9626697bb8374",
     "scenes/MainGame.tscn":
         "71a9590d43c755fa6b409ee0eb0f1950c6aba4517c64192b83038d22a45d9979",
     "scenes/SeoulCycleBoard.gd":

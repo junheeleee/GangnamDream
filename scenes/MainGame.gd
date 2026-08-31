@@ -11449,6 +11449,14 @@ func _demo_director_should_show_full_summary() -> bool:
 			or EventManager.narrative_should_show_full_summary(GameState.turn)
 
 func _demo_director_money_routine_kind() -> String:
+	# Preserve the meaning of the latest visible money action before falling
+	# back to its place. Investment study used to collapse into saving here,
+	# making quiet weeks award career tendency for an explicit investment path.
+	for index in range(GameState.action_records_this_week.size() - 1, -1, -1):
+		var record: Dictionary = GameState.action_records_this_week[index]
+		var action_id := str(record.get("id", ""))
+		if action_id in ["study_invest", "invest_buy", "invest_sell", "invest_leverage"]:
+			return "study_invest"
 	var city_visit: Dictionary = GameState.action_places_this_week.get("city", {})
 	if int(city_visit.get("money", 0)) > 0:
 		return "network"
@@ -16038,11 +16046,12 @@ func _season_date_id(pid: String) -> String:
 # 몽타주 시간 압축 (docs/AP_REDESIGN.md Phase B)
 # 무사건 저스테이크 주간을 루틴대로 흘려보낸다. 보장 스토리·임계값에서 멈춘다.
 # ─────────────────────────────────────────────────────────────
-const _ROUTINE_KINDS := ["study", "rest", "save", "network"]
+const _ROUTINE_KINDS := ["study", "study_invest", "rest", "save", "network"]
 
 func _routine_kind_label(kind: String) -> String:
 	match kind:
 		"study": return _tr("자기계발", "Self-Dev")
+		"study_invest": return _tr("투자공부", "Invest Study")
 		"rest": return _tr("휴식", "Rest")
 		"save": return _tr("절약", "Save")
 		"network": return _tr("인맥", "Network")
@@ -16051,6 +16060,7 @@ func _routine_kind_label(kind: String) -> String:
 func _routine_kind_desc(kind: String) -> String:
 	match kind:
 		"study": return _tr("몸과 머리를 만든다 — 사람 쪽 시간", "Build body and mind — time for the self")
+		"study_invest": return _tr("시장을 읽고 판단을 연습한다 — 돈 쪽 시간", "Read the market and practice judgment — time for money")
 		"rest": return _tr("숨을 고르고 정신력을 회복한다 — 사람 쪽 시간", "Catch your breath — time for the self")
 		"save": return _tr("허리띠를 졸라 돈을 남긴다 — 돈 쪽 시간", "Cut back to save — time for money")
 		"network": return _tr("돈이 되는 연결을 넓힌다 — 돈 쪽 시간", "Widen money-minded ties — time for money")
@@ -16059,6 +16069,7 @@ func _routine_kind_desc(kind: String) -> String:
 func _routine_kind_icon(kind: String) -> String:
 	match kind:
 		"study": return "study"
+		"study_invest": return "study"
 		"rest": return "rest"
 		"save": return "money"
 		"network": return "people"
@@ -16067,6 +16078,7 @@ func _routine_kind_icon(kind: String) -> String:
 func _routine_kind_accent(kind: String) -> String:
 	match kind:
 		"study": return "#5a6ea8"
+		"study_invest": return "#5a6ea8"
 		"rest": return "#3a8a9a"
 		"save": return "#3a8a5a"
 		"network": return "#8a5a9a"
@@ -16074,7 +16086,7 @@ func _routine_kind_accent(kind: String) -> String:
 
 func _routine_kind_axis(kind: String) -> String:
 	match kind:
-		"save", "network":
+		"study_invest", "save", "network":
 			return "money"
 		_:
 			return "human"
@@ -16367,6 +16379,11 @@ func _montage_apply_slot(kind: String) -> String:
 			axis = "human"
 			eff = _avg_vignette_effects([STUDY_EXERCISE_VIGNETTES, STUDY_MEDITATE_VIGNETTES])
 			GameState.add_tendency("career", 1)
+		"study_invest":
+			axis = "money"
+			place_id = "home"
+			eff = _avg_vignette_effects([STUDY_INVEST_VIGNETTES])
+			GameState.add_tendency("invest", 1)
 		"rest":
 			axis = "human"
 			eff = _avg_vignette_effects([REST_VIGNETTES])

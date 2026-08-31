@@ -154,7 +154,8 @@ var unmarked_weeks_total: int = 0
 var classified_weeks_total: int = 0
 var loop_tint_spent: float = 0.0  # 루프 드립으로 깎은 tint 누적 (상한 -20)
 # ── 몽타주 시간 압축 (docs/AP_REDESIGN.md Phase B) ──
-# week_routine: 루틴 슬롯 2개 — "study"/"rest"/"save"/"network". 몽타주가 이 배분대로 주를 흘려보낸다.
+# week_routine: 루틴 슬롯 2개 — "study"/"study_invest"/"rest"/"save"/"network".
+# 몽타주가 이 배분대로 주를 흘려보낸다.
 var week_routine: Array = []
 # 이 달의 축 배분 — 월말 몽타주 요약("돈에 N주, 사람에게 M주")용. 월말마다 last_*로 넘긴다.
 var month_money_weeks: int = 0
