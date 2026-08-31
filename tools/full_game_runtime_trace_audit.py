@@ -441,12 +441,20 @@ def validate_tool_sources() -> None:
         "global_script_class_cache.cfg",
         "--audio-driver Dummy",
         "reason=timeout",
+        'config/name="강남드림"',
+        "Library/Application Support/Godot/app_userdata/강남드림/objectdb_snapshots",
+        'case "${objectdb_snapshot_dir}" in',
+        '"${trace_root}"/*)',
+        "reason=objectdb_snapshot_dir_outside_trace_root",
+        "reason=objectdb_snapshot_dir_precreate_failed",
         "reason=candidate_changed_during_import",
         "reason=candidate_changed_during_runtime",
         "reason=trace_contract_rejected",
     ):
         if needle not in runner:
             raise ContractError(f"runner isolation/identity contract is missing {needle!r}")
+    if "Could not create ObjectDB Snapshots directory" in runner:
+        raise ContractError("runner must not whitelist the ObjectDB Profiler engine error")
     if runner.count('post_commit="$(git rev-parse HEAD)"') < 2 \
             or runner.count('post_tree="$(git rev-parse \'HEAD^{tree}\')"') < 2 \
             or runner.count("git diff --quiet --") < 3 \

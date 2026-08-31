@@ -130,6 +130,7 @@ run_profile() {
   local import_godot_log
   local import_status=0
   local runtime_status=0
+  local objectdb_snapshot_dir=""
   local post_commit
   local post_tree
   local post_untracked
@@ -155,6 +156,30 @@ run_profile() {
     "${trace_root}/xdg-data" \
     "${trace_root}/xdg-config" \
     "${trace_root}/xdg-cache"
+
+  # Godot 4.6 constructs the editor ObjectDB Profiler before a fresh macOS
+  # isolated HOME has created the app_userdata ancestors. Pre-create only the
+  # exact project user:// directory so a clean first import cannot emit the
+  # profiler bootstrap error. Never whitelist that engine ERROR: the expected
+  # directory must exist inside this run's disposable trace root instead.
+  if [[ "$(uname -s)" == "Darwin" ]]; then
+    if ! grep -Fx 'config/name="강남드림"' "${project_root}/project.godot" >/dev/null; then
+      echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=unexpected_project_name_for_user_data" >&2
+      return 2
+    fi
+    objectdb_snapshot_dir="${trace_home}/Library/Application Support/Godot/app_userdata/강남드림/objectdb_snapshots"
+    case "${objectdb_snapshot_dir}" in
+      "${trace_root}"/*) ;;
+      *)
+        echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=objectdb_snapshot_dir_outside_trace_root" >&2
+        return 2
+        ;;
+    esac
+    if ! mkdir -p -- "${objectdb_snapshot_dir}" || [[ ! -d "${objectdb_snapshot_dir}" ]]; then
+      echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=objectdb_snapshot_dir_precreate_failed" >&2
+      return 2
+    fi
+  fi
   godot_log="${trace_root}/godot.log"
   import_godot_log="${trace_root}/import-godot.log"
 
