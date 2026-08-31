@@ -907,7 +907,6 @@ def traj_A(S):
     if t >= 15: S.investment_skill = min(40, t - 10)
     if t >= 10:
         S.cast["sangchul"]["aff"] = min(70, (t - 10) * 2)
-        if S.cast["sangchul"]["aff"] >= 20: S.cast["sangchul"]["stage"] = "interested"
     if t >= 9: S.cast["daeun"]["aff"] = min(30, t - 9)
     if t >= 17: S.cast["jiyeon"]["aff"] = min(40, t - 17)
 
@@ -929,7 +928,6 @@ def traj_B(S):
     if t >= 15: S.investment_skill = min(60, t - 8)
     if t >= 10:
         S.cast["sangchul"]["aff"] = min(80, (t - 10) * 2)
-        if S.cast["sangchul"]["aff"] >= 20: S.cast["sangchul"]["stage"] = "interested"
     if t >= 9: S.cast["daeun"]["aff"] = min(70, t - 9)
     if t >= 17: S.cast["jiyeon"]["aff"] = min(40, t - 17)
     if t == 42: S.flags["jaehyuk_suspected"] = True
@@ -1619,7 +1617,6 @@ EXPECTED_CHAPTER1 = {
         36: "arc_jiyeon_02_store",
         37: "arc_y1_new_room_first_month",
         40: "arc_hyunsu_new_path",
-        41: "arc_opp_sangchul_realty",
         47: "callback_daeun_supportive_warmth",
         48: "arc_year1_close",
     },
@@ -1653,7 +1650,6 @@ EXPECTED_CHAPTER1 = {
         35: "arc_hyunsu_drift",
         36: "arc_jiyeon_02_store",
         37: "arc_y1_new_room_first_month",
-        40: "arc_opp_sangchul_realty",
         41: "arc_hyunsu_new_path",
         45: "arc_money_loneliness",
         46: "callback_daeun_supportive_warmth",

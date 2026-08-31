@@ -93,6 +93,7 @@ PROFILE_KEYS = {
     "main_action_priority",
     "main_function_priority",
     "survival_policy",
+    "asset_band_policy",
     "required_event_sequence",
     "required_edges",
     "required_event_occurrences",
@@ -120,6 +121,14 @@ SURVIVAL_POLICY_KEYS = {
 }
 SURVIVAL_ACTION_PRIORITY = ["rest", "contact"]
 SURVIVAL_FUNCTION_PRIORITY = ["_ap_free_time", "_ap_contact_person"]
+ASSET_BAND_POLICY_KEYS = {
+    "activate_at_total_assets",
+    "action_priority",
+    "function_priority",
+}
+ASSET_BAND_PROFILE_ID = "general_near_goal_father_passed"
+ASSET_BAND_ACTION_PRIORITY = ["rest"]
+ASSET_BAND_FUNCTION_PRIORITY = ["_ap_free_time"]
 MODAL_POLICY_KEYS = {"study_type"}
 PROFILE_STUDY_TYPES = {
     "baseline_safe_people": 0,
@@ -312,6 +321,47 @@ def validate_profiles(path: Path = DEFAULT_PROFILES, *, check_events: bool = Tru
                 f"{label}.survival_policy references unknown MainGame functions: "
                 f"{unknown_survival_functions}"
             )
+        asset_band_policy = profile["asset_band_policy"]
+        if profile_id != ASSET_BAND_PROFILE_ID:
+            if asset_band_policy is not None:
+                raise ContractError(
+                    f"{label}.asset_band_policy must stay null outside the general near-goal profile"
+                )
+        else:
+            if not isinstance(asset_band_policy, dict) \
+                    or set(asset_band_policy) != ASSET_BAND_POLICY_KEYS:
+                raise ContractError(f"{label}.asset_band_policy schema drifted")
+            activation_assets = asset_band_policy["activate_at_total_assets"]
+            if isinstance(activation_assets, bool) \
+                    or not isinstance(activation_assets, (int, float)) \
+                    or activation_assets <= 0:
+                raise ContractError(
+                    f"{label}.asset_band_policy.activate_at_total_assets must be positive"
+                )
+            band_actions = _string_list(
+                asset_band_policy["action_priority"],
+                f"{label}.asset_band_policy.action_priority",
+            )
+            band_functions = _string_list(
+                asset_band_policy["function_priority"],
+                f"{label}.asset_band_policy.function_priority",
+            )
+            if band_actions != ASSET_BAND_ACTION_PRIORITY \
+                    or band_functions != ASSET_BAND_FUNCTION_PRIORITY:
+                raise ContractError(
+                    f"{label}.asset_band_policy must use the safe visible Rest action only"
+                )
+            if not set(band_actions).issubset(profile["main_action_priority"]) \
+                    or not set(band_functions).issubset(functions):
+                raise ContractError(
+                    f"{label}.asset_band_policy escaped the profile's visible action vocabulary"
+                )
+            unknown_band_functions = sorted(set(band_functions) - main_ap_functions)
+            if unknown_band_functions:
+                raise ContractError(
+                    f"{label}.asset_band_policy references unknown MainGame functions: "
+                    f"{unknown_band_functions}"
+                )
         sequence = _string_list(profile["required_event_sequence"], f"{label}.required_event_sequence")
         if check_events:
             unknown = sorted(set(sequence) - event_ids)
@@ -355,6 +405,21 @@ def validate_profiles(path: Path = DEFAULT_PROFILES, *, check_events: bool = Tru
         if target["minimum_total_assets"] is not None and target["maximum_total_assets"] is not None \
                 and target["minimum_total_assets"] > target["maximum_total_assets"]:
             raise ContractError(f"{label} asset target is inverted")
+        if profile_id == ASSET_BAND_PROFILE_ID:
+            minimum_assets = target["minimum_total_assets"]
+            maximum_assets = target["maximum_total_assets"]
+            if minimum_assets is None or maximum_assets is None:
+                raise ContractError(
+                    f"{label}.asset_band_policy requires a bounded asset target"
+                )
+            if asset_band_policy["activate_at_total_assets"] != minimum_assets:
+                raise ContractError(
+                    f"{label}.asset_band_policy must activate at the target floor"
+                )
+            if asset_band_policy["activate_at_total_assets"] >= maximum_assets:
+                raise ContractError(
+                    f"{label}.asset_band_policy activation must stay below the target ceiling"
+                )
         for list_key in (
             "required_flags_true", "required_flags_false",
             "required_ending_ids", "forbidden_ending_ids",
@@ -406,6 +471,12 @@ def _validate_trace_script_source(source: str) -> None:
         "var recovery_selected := _select_visible_by_priority(",
         "var health := int(GameState.health)",
         "var mental := int(GameState.mental)",
+        "func _asset_band_hold_required() -> bool:",
+        "if _asset_band_hold_required():",
+        'policy.get("activate_at_total_assets", -1.0)',
+        "float(GameState.get_total_asset_value()) >= activation_assets",
+        '_main_selection_policy = "asset_band_hold"',
+        '"asset band policy has no visible safe action"',
         '_pending_main_action["selection_policy"] = _main_selection_policy',
         "await _activate_button(selected)",
         "if not GameState.pending_story_queue.is_empty():",
@@ -886,16 +957,32 @@ def validate_trace_rows(
                     and details.get("study_type") != study_types[actual_action_id]:
                 raise ContractError(f"{label} study action/details disagree")
             selection_policy = payload.get("selection_policy")
-            if selection_policy not in {"profile", "survival", "profile_fallback"}:
+            if selection_policy not in {
+                "profile", "survival", "profile_fallback", "asset_band_hold",
+            }:
                 raise ContractError(f"{label} has an invalid selection_policy")
-            if selection_policy == "survival":
+            if selection_policy in {"survival", "asset_band_hold"}:
                 visible_button = payload.get("visible_button")
                 if not isinstance(visible_button, dict):
-                    raise ContractError(f"{label} survival selection lacks its visible Button")
+                    raise ContractError(
+                        f"{label} policy selection lacks its visible Button"
+                    )
+            if selection_policy == "survival":
                 if visible_button.get("action_id") not in profile["survival_policy"]["action_priority"] \
                         and visible_button.get("function") not in profile["survival_policy"]["function_priority"]:
                     raise ContractError(
                         f"{label} survival policy selected a non-recovery visible Button"
+                    )
+            elif selection_policy == "asset_band_hold":
+                asset_band_policy = profile.get("asset_band_policy")
+                if not isinstance(asset_band_policy, dict):
+                    raise ContractError(
+                        f"{label} selected asset_band_hold without a profile policy"
+                    )
+                if visible_button.get("action_id") not in asset_band_policy["action_priority"] \
+                        and visible_button.get("function") not in asset_band_policy["function_priority"]:
+                    raise ContractError(
+                        f"{label} asset-band policy selected a non-safe visible Button"
                     )
         elif record_type == "ending_open":
             ending_open_count += 1
@@ -1060,6 +1147,11 @@ def _fixture_profile() -> dict[str, Any]:
             "action_priority": ["rest", "contact"],
             "function_priority": ["_ap_free_time", "_ap_contact_person"],
         },
+        "asset_band_policy": {
+            "activate_at_total_assets": 50,
+            "action_priority": ["rest"],
+            "function_priority": ["_ap_rest"],
+        },
         "required_event_sequence": ["fixture_root", "fixture_repeat", "fixture_end"],
         "required_edges": [
             {"from": "fixture_root", "to": "fixture_repeat", "provenance": "follow_up"}
@@ -1068,8 +1160,8 @@ def _fixture_profile() -> dict[str, Any]:
         "target": {
             "minimum_week": 240,
             "ending_page_count": 6,
-            "minimum_total_assets": None,
-            "maximum_total_assets": None,
+            "minimum_total_assets": 50,
+            "maximum_total_assets": 150,
             "required_flags_true": [],
             "required_flags_false": [],
             "required_ending_ids": [],
@@ -1172,7 +1264,7 @@ def _fixture_rows(profile: dict[str, Any], profile_hash: str) -> list[dict[str, 
                 "actual_action_id": "rest",
                 "details": {},
                 "commitment": {"actual_action_id": "rest", "details": {}},
-                "selection_policy": "profile",
+                "selection_policy": "asset_band_hold",
                 "visible_button": {
                     "action_id": "rest",
                     "function": "_ap_rest",
@@ -1286,6 +1378,7 @@ def self_test() -> None:
     mutations.append(("missing-state-delta", lambda rows: next(row for row in rows if row["record_type"] == "main_action_commit")["payload"].pop("state_delta")))
     mutations.append(("missing-actual-action-id", lambda rows: next(row for row in rows if row["record_type"] == "main_action_commit")["payload"].pop("actual_action_id")))
     mutations.append(("commitment-details-drift", lambda rows: next(row for row in rows if row["record_type"] == "main_action_commit")["payload"]["commitment"].__setitem__("details", {"study_type": 3})))
+    mutations.append(("asset-band-unsafe-button", lambda rows: next(row for row in rows if row["record_type"] == "main_action_commit")["payload"]["visible_button"].update({"action_id": "invest", "function": "_ap_invest"})))
     mutations.append(("missing-story-result", lambda rows: rows.pop(next(i for i, row in enumerate(rows) if row["record_type"] == "story_result"))))
     mutations.append(("offer-event-mismatch", lambda rows: next(row for row in rows if row["record_type"] == "choice_offer")["payload"].__setitem__("event_id", "wrong_event")))
     mutations.append(("choice-event-mismatch", lambda rows: next(row for row in rows if row["record_type"] == "story_choice")["payload"].__setitem__("event_id", "wrong_event")))
@@ -1308,6 +1401,16 @@ def self_test() -> None:
             _renumber(rows)
         _expect_failure(name, lambda rows=rows: validate_trace_rows(rows, profile, profile_hash))
         cases += 1
+
+    no_asset_band_profile = copy.deepcopy(profile)
+    no_asset_band_profile["asset_band_policy"] = None
+    _expect_failure(
+        "asset-band-selection-without-profile-policy",
+        lambda: validate_trace_rows(
+            copy.deepcopy(valid), no_asset_band_profile, profile_hash
+        ),
+    )
+    cases += 1
 
     direct_call_source = TRACE_SCRIPT.read_text(encoding="utf-8") + \
         '\nmain.call("_ap_side_job")\n'
@@ -1332,6 +1435,15 @@ def self_test() -> None:
     _expect_failure(
         "disabled-visible-survival-selection",
         lambda: _validate_trace_script_source(disabled_survival_source),
+    )
+    cases += 1
+
+    disabled_asset_band_source = TRACE_SCRIPT.read_text(encoding="utf-8").replace(
+        "if _asset_band_hold_required():", "if false:", 1
+    )
+    _expect_failure(
+        "disabled-visible-asset-band-selection",
+        lambda: _validate_trace_script_source(disabled_asset_band_source),
     )
     cases += 1
 
@@ -1366,6 +1478,54 @@ def self_test() -> None:
         _expect_failure(
             "wrong-route-study-modal-policy",
             lambda: validate_profiles(wrong_path, check_events=False),
+        )
+        cases += 1
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        missing_asset_band = _load_json(DEFAULT_PROFILES)
+        missing_asset_band["profiles"][2].pop("asset_band_policy")
+        missing_path = Path(temp_dir) / "missing-asset-band-policy.json"
+        missing_path.write_text(json.dumps(missing_asset_band), encoding="utf-8")
+        _expect_failure(
+            "missing-asset-band-policy",
+            lambda: validate_profiles(missing_path, check_events=False),
+        )
+        cases += 1
+
+        property_asset_band = _load_json(DEFAULT_PROFILES)
+        property_asset_band["profiles"][1]["asset_band_policy"] = copy.deepcopy(
+            property_asset_band["profiles"][2]["asset_band_policy"]
+        )
+        property_path = Path(temp_dir) / "property-asset-band-policy.json"
+        property_path.write_text(json.dumps(property_asset_band), encoding="utf-8")
+        _expect_failure(
+            "property-profile-asset-band-policy",
+            lambda: validate_profiles(property_path, check_events=False),
+        )
+        cases += 1
+
+        unsafe_asset_band = _load_json(DEFAULT_PROFILES)
+        unsafe_asset_band["profiles"][2]["asset_band_policy"].update({
+            "action_priority": ["invest"],
+            "function_priority": ["_ap_invest"],
+        })
+        unsafe_path = Path(temp_dir) / "unsafe-asset-band-policy.json"
+        unsafe_path.write_text(json.dumps(unsafe_asset_band), encoding="utf-8")
+        _expect_failure(
+            "unsafe-asset-band-policy",
+            lambda: validate_profiles(unsafe_path, check_events=False),
+        )
+        cases += 1
+
+        drifted_asset_band = _load_json(DEFAULT_PROFILES)
+        drifted_asset_band["profiles"][2]["asset_band_policy"][
+            "activate_at_total_assets"
+        ] += 1
+        drifted_path = Path(temp_dir) / "drifted-asset-band-policy.json"
+        drifted_path.write_text(json.dumps(drifted_asset_band), encoding="utf-8")
+        _expect_failure(
+            "drifted-asset-band-threshold",
+            lambda: validate_profiles(drifted_path, check_events=False),
         )
         cases += 1
 

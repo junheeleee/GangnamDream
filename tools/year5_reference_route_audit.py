@@ -1258,6 +1258,41 @@ INVEST_ROUTINE_SEMANTIC_PROTECTED_FILE_TRANSITIONS = {
         "5a95b242dc71a5b4b902e5d38df71dd24ee62f0c9ab10117eca9626697bb8374",
     ),
 }
+
+# The earned property ladder is a separate product layer on top of the exact
+# route-identity candidate.  MainGame is protected byte-for-byte; the KO arc
+# source is protected at object granularity so only the three Sangchul
+# opportunity/result objects can advance.  Do not fold these receipts into the
+# older ORDER-143 graph hashes: its inverse must still restore its own baseline.
+PROPERTY_LADDER_BASELINE = \
+    "3a43611bfbaeeec7841cf0e8f240ca0c903bb206"
+PROPERTY_LADDER_CHANGED_EXISTING_IDS_BY_FILE = {
+    "content/events/arc_events.json": {
+        "arc_opp_sangchul_realty",
+        "arc_opp_sangchul_win",
+        "arc_opp_sangchul_lose",
+    },
+}
+PROPERTY_LADDER_OBJECT_TRANSITIONS = {
+    "arc_opp_sangchul_realty": (
+        "597ff34d45463e9e8eb6c4b3807a895ced8a182fe91d8d07b89d728815abe966",
+        "b6b6175e4b1069462767b9e1550a7a7681827ecb76c5746c2363aa412065979c",
+    ),
+    "arc_opp_sangchul_win": (
+        "01267b197819465178aafe0f8e4309affa8c850f346c003e1294fe812534cf1b",
+        "ac2a35a0acc479f833068768cd27141a89acb415c79198a43760e6b688db59bd",
+    ),
+    "arc_opp_sangchul_lose": (
+        "f991448b55b8178c2ef2c0df25b661d1a5325cf1a3f3913872c22d57c08b3b3a",
+        "b7462d71d0f2d5d38f629d580d5fb79f09c1cd4dc8cc27058d0356be60244074",
+    ),
+}
+PROPERTY_LADDER_PROTECTED_FILE_TRANSITIONS = {
+    "scenes/MainGame.gd": (
+        "5a95b242dc71a5b4b902e5d38df71dd24ee62f0c9ab10117eca9626697bb8374",
+        "8e5786d2e0ce2f1fcee21e74bff7e4e6699898702c725a9a369892aedca80e18",
+    ),
+}
 ORDER131_ADDED_IDS_BY_FILE = {
     "content/events/arc_midgame.json": {
         "arc_first_real_win_father_passed",
@@ -4237,6 +4272,92 @@ def advance_exact_hash(
 
 
 @functools.lru_cache(maxsize=None)
+def property_ladder_baseline_payload(relative: str) -> Any:
+    """Load the exact route-identity/property-ladder predecessor."""
+    return strict_loads(
+        git_blob(PROPERTY_LADDER_BASELINE, relative).decode("utf-8"),
+        f"{PROPERTY_LADDER_BASELINE}:{relative}",
+    )
+
+
+def property_ladder_project_payload(payload: Any, relative: str) -> Any:
+    """Inverse only exact property-ladder object transitions.
+
+    A current object is restored only when its canonical hash equals the
+    registered successor.  A neighboring or one-byte mutation remains visible
+    to both this layer and every older historical comparison.
+    """
+    changed_ids = PROPERTY_LADDER_CHANGED_EXISTING_IDS_BY_FILE.get(
+        relative, set())
+    if not changed_ids:
+        return copy.deepcopy(payload)
+    try:
+        baseline = property_ladder_baseline_payload(relative)
+    except (UnicodeDecodeError, ValueError):
+        return copy.deepcopy(payload)
+    baseline_rows = (
+        baseline.get("items", []) if isinstance(baseline, dict) else baseline
+    )
+    current_rows = payload.get("items", []) \
+        if isinstance(payload, dict) else payload
+    if not isinstance(baseline_rows, list) or not isinstance(current_rows, list):
+        return copy.deepcopy(payload)
+    baseline_by_id = {
+        str(row.get("id", "")): row
+        for row in baseline_rows
+        if isinstance(row, dict)
+    }
+    projected_rows: list[Any] = []
+    for raw_row in current_rows:
+        if not isinstance(raw_row, dict):
+            projected_rows.append(copy.deepcopy(raw_row))
+            continue
+        event_id = str(raw_row.get("id", ""))
+        transition = PROPERTY_LADDER_OBJECT_TRANSITIONS.get(event_id)
+        if event_id in changed_ids and transition is not None \
+                and canonical_json_sha256(raw_row) == transition[1]:
+            baseline_row = baseline_by_id.get(event_id)
+            if isinstance(baseline_row, dict) \
+                    and canonical_json_sha256(baseline_row) == transition[0]:
+                projected_rows.append(copy.deepcopy(baseline_row))
+                continue
+        projected_rows.append(copy.deepcopy(raw_row))
+    if isinstance(payload, dict):
+        projected = copy.deepcopy(payload)
+        projected["items"] = projected_rows
+        return projected
+    return projected_rows
+
+
+def property_ladder_project_context(context: AuditContext) -> AuditContext:
+    """Return an event index shaped exactly like PROPERTY_LADDER_BASELINE."""
+    projected = copy.deepcopy(context)
+    for relative, event_ids in sorted(
+            PROPERTY_LADDER_CHANGED_EXISTING_IDS_BY_FILE.items()):
+        baseline = property_ladder_baseline_payload(relative)
+        baseline_rows = (
+            baseline.get("items", [])
+            if isinstance(baseline, dict) else baseline
+        )
+        baseline_by_id = {
+            str(row.get("id", "")): row
+            for row in baseline_rows
+            if isinstance(row, dict)
+        } if isinstance(baseline_rows, list) else {}
+        for event_id in event_ids:
+            transition = PROPERTY_LADDER_OBJECT_TRANSITIONS.get(event_id)
+            baseline_row = baseline_by_id.get(event_id)
+            if transition is None or not isinstance(baseline_row, dict) \
+                    or canonical_json_sha256(baseline_row) != transition[0]:
+                continue
+            for record in projected.event_indexes["ko"].get(event_id, []):
+                if record.path == relative \
+                        and canonical_json_sha256(record.row) == transition[1]:
+                    record.row = copy.deepcopy(baseline_row)
+    return projected
+
+
+@functools.lru_cache(maxsize=None)
 def order143_baseline_payload(relative: str) -> Any:
     """Load the exact post-demo/pre-ORDER-143 event source."""
     return strict_loads(
@@ -4258,6 +4379,7 @@ def order143_project_payload(payload: Any, relative: str) -> Any:
     ORDER-143 registry.  A mutated object therefore survives the projection
     and makes the historical whole-file comparison fail.
     """
+    payload = property_ladder_project_payload(payload, relative)
     added_ids = ORDER143_ADDED_IDS_BY_FILE.get(relative, set())
     changed_ids = ORDER143_CHANGED_EXISTING_IDS_BY_FILE.get(relative, set())
     if not added_ids and not changed_ids:
@@ -4306,7 +4428,7 @@ def order143_project_payload(payload: Any, relative: str) -> Any:
 
 def order143_project_context(context: AuditContext) -> AuditContext:
     """Return an event index shaped exactly like the ORDER-143 baseline."""
-    projected = copy.deepcopy(context)
+    projected = property_ladder_project_context(context)
     affected_files = set(ORDER143_ADDED_IDS_BY_FILE) \
         | set(ORDER143_CHANGED_EXISTING_IDS_BY_FILE)
     for locale in ("ko", "en"):
@@ -5954,6 +6076,93 @@ def validate_order138_registration(
     }
 
 
+def validate_property_ladder_registration(
+    context: AuditContext,
+    errors: list[str],
+) -> dict[str, int]:
+    """Pin the three exact KO object transitions and their narrow inverse."""
+    registered_ids = set().union(
+        *PROPERTY_LADDER_CHANGED_EXISTING_IDS_BY_FILE.values())
+    if set(PROPERTY_LADDER_OBJECT_TRANSITIONS) != registered_ids:
+        errors.append(
+            "PROPERTY-LADDER: exact object transition registry drifted")
+
+    for relative, event_ids in sorted(
+            PROPERTY_LADDER_CHANGED_EXISTING_IDS_BY_FILE.items()):
+        owner = f"PROPERTY-LADDER:{relative}"
+        try:
+            current_payload = load_json(ROOT / relative)
+            baseline_payload = property_ladder_baseline_payload(relative)
+        except (OSError, UnicodeDecodeError, ValueError) as exc:
+            errors.append(f"{owner}: cannot load exact inverse fixture ({exc})")
+            continue
+        fixture_errors: list[str] = []
+        current_rows = event_rows(
+            current_payload, f"{owner}:current", fixture_errors)
+        baseline_rows = event_rows(
+            baseline_payload, f"{owner}:baseline", fixture_errors)
+        errors.extend(fixture_errors)
+        current_ids = [str(row.get("id", "")) for row in current_rows]
+        baseline_ids = [str(row.get("id", "")) for row in baseline_rows]
+        if len(current_ids) != len(set(current_ids)):
+            errors.append(f"{owner}: current event IDs are not unique")
+        if len(baseline_ids) != len(set(baseline_ids)):
+            errors.append(f"{owner}: baseline event IDs are not unique")
+        current_by_id = {
+            str(row.get("id", "")): row for row in current_rows
+        }
+        baseline_by_id = {
+            str(row.get("id", "")): row for row in baseline_rows
+        }
+        actual_added = set(current_by_id) - set(baseline_by_id)
+        actual_removed = set(baseline_by_id) - set(current_by_id)
+        actual_changed = {
+            event_id
+            for event_id in set(current_by_id) & set(baseline_by_id)
+            if canonical_json_sha256(current_by_id[event_id])
+            != canonical_json_sha256(baseline_by_id[event_id])
+        }
+        if actual_added or actual_removed or actual_changed != event_ids:
+            errors.append(
+                f"{owner}: exact event-object delta drifted "
+                f"added={sorted(actual_added)} removed={sorted(actual_removed)} "
+                f"changed={sorted(actual_changed)}")
+
+        for event_id in sorted(event_ids):
+            event_owner = f"PROPERTY-LADDER:ko:{event_id}"
+            transition = PROPERTY_LADDER_OBJECT_TRANSITIONS.get(event_id)
+            if transition is None:
+                errors.append(f"{event_owner}: transition is missing")
+                continue
+            baseline_row = baseline_by_id.get(event_id)
+            current_row = current_by_id.get(event_id)
+            if not isinstance(baseline_row, dict) \
+                    or canonical_json_sha256(baseline_row) != transition[0]:
+                errors.append(
+                    f"{event_owner}: exact baseline object hash drifted")
+            if not isinstance(current_row, dict) \
+                    or canonical_json_sha256(current_row) != transition[1]:
+                errors.append(
+                    f"{event_owner}: exact object hash drifted")
+            records = context.event_indexes["ko"].get(event_id, [])
+            if len(records) != 1:
+                errors.append(
+                    f"{event_owner}: expected one event object, "
+                    f"got {len(records)}")
+            elif records[0].path != relative:
+                errors.append(
+                    f"{event_owner}: exact source file drifted "
+                    f"expected={relative!r} actual={records[0].path!r}")
+            elif canonical_json_sha256(records[0].row) != transition[1]:
+                errors.append(f"{event_owner}: exact object hash drifted")
+
+        if property_ladder_project_payload(current_payload, relative) \
+                != baseline_payload:
+            errors.append(f"{owner}: exact inverse does not restore baseline")
+
+    return {"property_ladder_changed_objects": len(registered_ids)}
+
+
 def validate_order143_registration(
     context: AuditContext,
     errors: list[str],
@@ -6001,7 +6210,8 @@ def validate_order143_registration(
     for relative in affected_files:
         owner = f"ORDER-143:{relative}"
         try:
-            current_payload = load_json(ROOT / relative)
+            current_payload = property_ladder_project_payload(
+                load_json(ROOT / relative), relative)
             baseline_payload = order143_baseline_payload(relative)
         except (OSError, UnicodeDecodeError, ValueError) as exc:
             errors.append(f"{owner}: cannot load exact inverse fixture ({exc})")
@@ -6198,6 +6408,8 @@ def validate_protected_hashes(
                 relative)
         invest_routine_semantic_transition = \
             INVEST_ROUTINE_SEMANTIC_PROTECTED_FILE_TRANSITIONS.get(relative)
+        property_ladder_transition = \
+            PROPERTY_LADDER_PROTECTED_FILE_TRANSITIONS.get(relative)
         effective_expected_hash = advance_exact_hash(
             expected_hash, order135_transition)
         effective_expected_hash = advance_exact_hash(
@@ -6229,6 +6441,9 @@ def validate_protected_hashes(
         pre_invest_routine_semantic_expected_hash = effective_expected_hash
         effective_expected_hash = advance_exact_hash(
             effective_expected_hash, invest_routine_semantic_transition)
+        pre_property_ladder_expected_hash = effective_expected_hash
+        effective_expected_hash = advance_exact_hash(
+            effective_expected_hash, property_ladder_transition)
         if actual_hash != effective_expected_hash:
             errors.append(f"{owner}: working-tree byte hash drifted")
         transition = ORDER134_PROTECTED_FILE_TRANSITIONS.get(relative)
@@ -6366,10 +6581,20 @@ def validate_protected_hashes(
                 errors.append(
                     f"{owner}: investment routine transition does not extend "
                     "the latest exact product byte")
-            if actual_hash != invest_routine_semantic_transition[1]:
+            if property_ladder_transition is None \
+                    and actual_hash != invest_routine_semantic_transition[1]:
                 errors.append(
                     f"{owner}: investment routine semantic current hash "
                     "drifted")
+        if property_ladder_transition is not None:
+            if property_ladder_transition[0] \
+                    != pre_property_ladder_expected_hash:
+                errors.append(
+                    f"{owner}: property ladder transition does not extend "
+                    "the investment routine product byte")
+            if actual_hash != property_ladder_transition[1]:
+                errors.append(
+                    f"{owner}: property ladder current hash drifted")
         try:
             baseline_hash = byte_sha256(git_blob(EXPECTED_BASELINE, relative))
         except ValueError as exc:
@@ -6514,6 +6739,17 @@ def validate_protected_hashes(
                     errors.append(
                         f"{owner}: investment routine semantic baseline hash "
                         "drifted")
+        if property_ladder_transition is not None:
+            try:
+                property_ladder_baseline_hash = byte_sha256(
+                    git_blob(PROPERTY_LADDER_BASELINE, relative))
+            except ValueError as exc:
+                errors.append(f"{owner}: {exc}")
+            else:
+                if property_ladder_baseline_hash \
+                        != property_ladder_transition[0]:
+                    errors.append(
+                        f"{owner}: property ladder baseline hash drifted")
 
     objects = protected.get("objects")
     if not isinstance(objects, list) or not objects:
@@ -6688,6 +6924,7 @@ def validate_manifest(
         "order143_added_objects": 0,
         "order143_changed_objects": 0,
     }
+    property_ladder_stats = {"property_ladder_changed_objects": 0}
     validate_r1a_contract(manifest, routes, errors)
     invalidated = contract_is_invalidated(manifest)
     if invalidated:
@@ -6746,6 +6983,8 @@ def validate_manifest(
         historical_context, errors)
     order137_stats = validate_order137_registration(order137_context, errors)
     order138_stats = validate_order138_registration(order138_context, errors)
+    property_ladder_stats = validate_property_ladder_registration(
+        context, errors)
     order143_stats = validate_order143_registration(context, errors)
     blocker_text = flattened(manifest.get("unresolved_blockers"))
     if "order112_113_l3_topology_rejected" not in blocker_text:
@@ -6791,6 +7030,7 @@ def validate_manifest(
         **order137_stats,
         **order138_stats,
         **order143_stats,
+        **property_ladder_stats,
     }
 
 
@@ -7176,6 +7416,11 @@ def run_invalidated_self_test(
             "arc_sangchul_mirror_receipt"][0]
         record.path = "content/events/arc_midgame.json"
 
+    def property_ladder_object_tampered(candidate: AuditContext) -> None:
+        event = candidate_record(
+            candidate, "ko", "arc_opp_sangchul_realty")
+        event["title"] = str(event.get("title", "")) + " 변조"
+
     for label, mutate, fragment in (
         ("order118_player_token", order118_token_injected, "internal document token remains"),
         ("order118_version_token", order118_version_token_injected, "internal document token remains"),
@@ -7212,6 +7457,7 @@ def run_invalidated_self_test(
         ("order143_changed_object", order143_changed_object_tampered, "ORDER-143:ko:arc_y2_bank_limit_review: exact object hash drifted"),
         ("order143_added_object", order143_added_object_tampered, "ORDER-143:en:arc_daeun_03_fork_hold_receipt: exact object hash drifted"),
         ("order143_source_file", order143_source_file_tampered, "ORDER-143:ko:arc_sangchul_mirror_receipt: exact source file drifted"),
+        ("property_ladder_object", property_ladder_object_tampered, "PROPERTY-LADDER:ko:arc_opp_sangchul_realty: exact object hash drifted"),
     ):
         case_count += 1
         expect_context_failure(label, manifest, context, mutate, fragment, failures)
@@ -7284,6 +7530,49 @@ def run_invalidated_self_test(
                 f"actual={sorted(scope_changed)}"
             )
 
+    property_ladder_projection_files = sorted(
+        PROPERTY_LADDER_CHANGED_EXISTING_IDS_BY_FILE)
+    for relative in property_ladder_projection_files:
+        case_count += 1
+        try:
+            current_payload = load_json(ROOT / relative)
+            baseline_payload = property_ladder_baseline_payload(relative)
+            projected_payload = property_ladder_project_payload(
+                current_payload, relative)
+        except (OSError, UnicodeDecodeError, ValueError) as exc:
+            failures.append(
+                f"property_ladder_inverse:{relative}: cannot load fixture "
+                f"({exc})")
+            continue
+        if projected_payload != baseline_payload:
+            failures.append(
+                f"property_ladder_inverse:{relative}: projection did not "
+                f"restore {PROPERTY_LADDER_BASELINE}")
+
+    case_count += 1
+    try:
+        relative = "content/events/arc_events.json"
+        tampered_payload = copy.deepcopy(load_json(ROOT / relative))
+        tampered_rows = tampered_payload.get("items", []) \
+            if isinstance(tampered_payload, dict) else tampered_payload
+        tampered_target = next(
+            row for row in tampered_rows
+            if isinstance(row, dict)
+            and row.get("id") == "arc_opp_sangchul_win")
+        tampered_target["title"] = str(
+            tampered_target.get("title", "")) + " 변조"
+        tampered_projection = property_ladder_project_payload(
+            tampered_payload, relative)
+        baseline_payload = property_ladder_baseline_payload(relative)
+    except (OSError, UnicodeDecodeError, ValueError, StopIteration) as exc:
+        failures.append(
+            f"property_ladder_projection_scope: cannot load fixture ({exc})")
+    else:
+        if tampered_projection == baseline_payload:
+            failures.append(
+                "property_ladder_projection_scope: mutated object was hidden "
+                "by the property-ladder inverse")
+
     order143_projection_files = sorted(
         set(ORDER143_ADDED_IDS_BY_FILE)
         | set(ORDER143_CHANGED_EXISTING_IDS_BY_FILE))
@@ -7346,6 +7635,9 @@ def run_invalidated_self_test(
              "scenes/MainGame.gd"]),
         ("invest_routine_semantic_hash_transition",
          INVEST_ROUTINE_SEMANTIC_PROTECTED_FILE_TRANSITIONS[
+             "scenes/MainGame.gd"]),
+        ("property_ladder_hash_transition",
+         PROPERTY_LADDER_PROTECTED_FILE_TRANSITIONS[
              "scenes/MainGame.gd"]),
     ):
         case_count += 1
@@ -7669,7 +7961,11 @@ def run_invalidated_self_test(
         try:
             actual_baseline = byte_sha256(
                 git_blob(INVEST_ROUTINE_SEMANTIC_BASELINE, relative))
-            actual_current = byte_sha256((ROOT / relative).read_bytes())
+            if relative in PROPERTY_LADDER_PROTECTED_FILE_TRANSITIONS:
+                actual_current = byte_sha256(
+                    git_blob(PROPERTY_LADDER_BASELINE, relative))
+            else:
+                actual_current = byte_sha256((ROOT / relative).read_bytes())
         except (OSError, ValueError) as exc:
             transition_failures.append(f"{relative}:{exc}")
             continue
@@ -7678,6 +7974,25 @@ def run_invalidated_self_test(
     if transition_failures:
         failures.append(
             "invest_routine_semantic_transition_inverse: exact "
+            "baseline/current transition drifted "
+            f"{transition_failures}")
+
+    case_count += 1
+    transition_failures = []
+    for relative, (baseline_hash, current_hash) \
+            in PROPERTY_LADDER_PROTECTED_FILE_TRANSITIONS.items():
+        try:
+            actual_baseline = byte_sha256(
+                git_blob(PROPERTY_LADDER_BASELINE, relative))
+            actual_current = byte_sha256((ROOT / relative).read_bytes())
+        except (OSError, ValueError) as exc:
+            transition_failures.append(f"{relative}:{exc}")
+            continue
+        if actual_baseline != baseline_hash or actual_current != current_hash:
+            transition_failures.append(relative)
+    if transition_failures:
+        failures.append(
+            "property_ladder_transition_inverse: exact "
             "baseline/current transition drifted "
             f"{transition_failures}")
 
@@ -8440,6 +8755,7 @@ def main() -> int:
             f"order138_property_inline_reads={stats['order138_property_inline_reads']} "
             f"order143_event_objects={stats['order143_event_objects']} "
             f"order143_delta={stats['order143_added_objects']}+{stats['order143_changed_objects']} "
+            f"property_ladder_delta={stats['property_ladder_changed_objects']} "
             f"product_consumers={stats['consumers']} "
             "qa_consumers=1 topology=invalidated r1b_allowed=false"
         )
@@ -8465,6 +8781,7 @@ def main() -> int:
         f"order138_property_inline_reads={stats['order138_property_inline_reads']} "
         f"order143_event_objects={stats['order143_event_objects']} "
         f"order143_delta={stats['order143_added_objects']}+{stats['order143_changed_objects']} "
+        f"property_ladder_delta={stats['property_ladder_changed_objects']} "
         f"product_consumers={stats['consumers']} qa_consumers=1 activation=reference_only "
         "topology=invalidated r1b_allowed=false"
     )

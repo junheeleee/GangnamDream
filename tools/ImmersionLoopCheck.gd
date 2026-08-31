@@ -29,6 +29,7 @@ func _run() -> void:
 	await _check_quiet_week_reading_contract()
 	LocaleManager.language = _original_language
 	DataRegistry.reload()
+	await _release_audio_for_exit()
 	if not _failures.is_empty():
 		for failure in _failures:
 			push_error("IMMERSION_LOOP_CHECK_FAIL " + failure)
@@ -36,6 +37,31 @@ func _run() -> void:
 		return
 	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 commitments=1x3 forgone=relationship/body/career/market scene_first=1 no_ap_surface=1 quiet_compressed=1 meaningful_confirm=1 month_manual=1 outcomes=2 completion_boundary=1 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 bridges=ko/en vignette=2 omen=1 preview=2 bills=1 rungs=4 reserve=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8")
 	get_tree().quit(0)
+
+func _release_audio_for_exit() -> void:
+	for raw_tween in get_tree().get_processed_tweens():
+		if raw_tween is Tween and (raw_tween as Tween).is_valid():
+			(raw_tween as Tween).kill()
+	BGMPlayer.stop()
+	_detach_audio_streams(get_tree().root)
+	for raw_player in AudioManager._pool:
+		if raw_player is AudioStreamPlayer:
+			(raw_player as AudioStreamPlayer).stop()
+			(raw_player as AudioStreamPlayer).stream = null
+	AudioManager._sounds.clear()
+	await AudioManager.drain_pending_timers_for_exit()
+	for _release_frame in range(4):
+		await get_tree().process_frame
+
+func _detach_audio_streams(root: Node) -> void:
+	if root is AudioStreamPlayer:
+		(root as AudioStreamPlayer).stop()
+		(root as AudioStreamPlayer).stream = null
+	elif root is AudioStreamPlayer2D:
+		(root as AudioStreamPlayer2D).stop()
+		(root as AudioStreamPlayer2D).stream = null
+	for child in root.get_children():
+		_detach_audio_streams(child)
 
 func _check_recent_action_echoes() -> void:
 	GameState.start_new_game()

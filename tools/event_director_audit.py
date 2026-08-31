@@ -20,24 +20,40 @@ MAIN_GAME = ROOT / "scenes" / "MainGame.gd"
 CHAPTER5_CAUSAL_ROUTE = ROOT / "systems" / "Chapter5CausalRoute.gd"
 CHAPTER5_FINALE_ROUTE = ROOT / "systems" / "Chapter5FinaleRoute.gd"
 EVENT_MANAGER = ROOT / "autoloads" / "EventManager.gd"
-EXPECTED_CATALOG_RANDOM = 1176
-EXPECTED_DIRECTED_RANDOM = 1003
-EXPECTED_FOREGROUND_RANDOM = 65
+EXPECTED_CATALOG_RANDOM = 1179
+EXPECTED_DIRECTED_RANDOM = 999
+EXPECTED_FOREGROUND_RANDOM = 63
 EXPECTED_BRIDGE_RANDOM = 19
 # Core V2's authored hidden beats include the First Bill fragments plus the
 # fresh-only application Send and pre-plan calculation. They are reached by
 # runtime substitution or bundle/story links, never by the random director.
-EXPECTED_REGISTERED_EVENTS = 1702
+EXPECTED_REGISTERED_EVENTS = 1705
 EXPECTED_DIRECT_ONLY_EVENTS = {
     "v2_hyunsu_player_reachout",
     "v2_hyunsu_study_followup",
     "v2_opening_application_send",
     "v2_opening_return_math",
 }
-EXPECTED_CALLBACK_TOTAL = 623
+EXPECTED_CALLBACK_TOTAL = 626
 EXPECTED_CHAIN_TOTAL = 12
-MAX_DORMANT_CALLBACKS = 564
+MAX_DORMANT_CALLBACKS = 561
 MAX_DORMANT_CHAINS = 0
+EXPECTED_PROPERTY_LADDER_INGRESS = {
+    "arc_opp_sangchul_lose",
+    "arc_opp_sangchul_realty",
+    "arc_opp_sangchul_win",
+    "inv_ipo_hot_tip",
+    "inv_redev_zone_tip",
+    "sangchul_tip_redev",
+}
+# These ordered roots are selected by MainGame's cash/route/receipt router.
+# They stay out of the broad foreground allowlist so random selection cannot
+# bypass the ladder's thresholds or repeat one of its earned entrances.
+EXPECTED_PROPERTY_LADDER_MANUAL_ROOTS = {
+    "inv_ipo_hot_tip",
+    "inv_redev_zone_tip",
+    "sangchul_tip_redev",
+}
 EXPECTED_REACHABLE_CALLBACKS = {
     "callback_amusement_child_reunion",
     "callback_amusement_photo_found",
@@ -64,6 +80,8 @@ EXPECTED_REACHABLE_CALLBACKS = {
     "callback_hyunsu_departure_meal_echo",
     "callback_interview_lie_confessed_echo",
     "callback_investment_lesson_echo",
+    "callback_inv_ipo_hot_tip_lose_listing",
+    "callback_inv_ipo_hot_tip_win_listing",
     "callback_jaehyuk_exploited_retaliate",
     "callback_jaehyuk_partnered_reckoning",
     "callback_jaehyuk_reported_witness",
@@ -83,10 +101,14 @@ EXPECTED_REACHABLE_CALLBACKS = {
     "callback_mystery_info_reported_outcome",
     "callback_pension_self_fund",
     "callback_recycling_neighbor",
+    "callback_redev_bet_failed_result",
+    "callback_redev_bet_taken_result",
     "callback_resume_lie_confessed_echo",
     "callback_resume_lie_confessed_outcome",
     "callback_rushed_to_father_echo",
     "callback_sangchul_leveraged_cost",
+    "callback_sangchul_tip_lose_awkward",
+    "callback_sangchul_tip_win_payoff",
     "callback_sangchul_truth_buried_echo",
     "callback_sent_money_instead_echo",
     "callback_shadow_investors_proposal",
@@ -244,6 +266,22 @@ def event_follow_up_targets(event: dict[str, Any]) -> set[str]:
     return targets
 
 
+def main_game_helper_event_ids(
+    source: str, helper_name: str, registered_ids: set[str]
+) -> set[str]:
+    try:
+        helper_block = source.split(f"func {helper_name}(", 1)[1].split(
+            "\nfunc ", 1
+        )[0]
+    except IndexError as exc:
+        raise RuntimeError(f"MainGame.{helper_name} could not be parsed") from exc
+    return {
+        event_id
+        for event_id in re.findall(r'"([a-z0-9_]+)"', helper_block)
+        if event_id in registered_ids
+    }
+
+
 def scheduled_arc_ids(events: list[dict[str, Any]]) -> set[str]:
     by_id = {str(event["id"]) for event in events}
     source = MAIN_GAME.read_text(encoding="utf-8")
@@ -261,20 +299,11 @@ def scheduled_arc_ids(events: list[dict[str, Any]]) -> set[str]:
     # even though _next_arc_id returns the helper result rather than a literal.
     for helper_name in (
         "_story_graph_contract_event_id",
+        "_property_ladder_event_id",
         "_chapter_four_causal_arc_id",
         "_chapter_four_father_outcome_id",
     ):
-        try:
-            helper_block = source.split(f"func {helper_name}(", 1)[1].split(
-                "\nfunc ", 1
-            )[0]
-        except IndexError as exc:
-            raise RuntimeError(f"MainGame.{helper_name} could not be parsed") from exc
-        scheduled.update(
-            event_id
-            for event_id in re.findall(r'"([a-z0-9_]+)"', helper_block)
-            if event_id in by_id
-        )
+        scheduled.update(main_game_helper_event_ids(source, helper_name, by_id))
     # A live scheduler root may be replaced by a monotonic-state variant in
     # EventManager. Treat those explicit target literals as product ingress so
     # state/visual/audio audits cannot silently omit the replacement scene.
@@ -640,6 +669,24 @@ def validate_manifest(manifest: dict[str, Any], events: list[dict[str, Any]]) ->
     errors: list[str] = []
     by_id = {str(event["id"]): event for event in events}
     direct_targets = follow_up_targets(events)
+    try:
+        property_ladder_ingress = main_game_helper_event_ids(
+            MAIN_GAME.read_text(encoding="utf-8"),
+            "_property_ladder_event_id",
+            set(by_id),
+        )
+    except (OSError, RuntimeError) as exc:
+        errors.append(str(exc))
+        property_ladder_ingress = set()
+    if property_ladder_ingress != EXPECTED_PROPERTY_LADDER_INGRESS:
+        errors.append(
+            "property ladder ingress drifted: "
+            f"expected {sorted(EXPECTED_PROPERTY_LADDER_INGRESS)}, "
+            f"got {sorted(property_ladder_ingress)}"
+        )
+    property_ladder_manual_roots = (
+        property_ladder_ingress & EXPECTED_PROPERTY_LADDER_MANUAL_ROOTS
+    )
 
     if manifest.get("schema") != 1:
         errors.append("schema must be 1")
@@ -684,6 +731,7 @@ def validate_manifest(manifest: dict[str, Any], events: list[dict[str, Any]]) ->
         expected_foreground_ids = sorted(
             str(event["id"])
             for event in events
+            if str(event["id"]) not in property_ladder_manual_roots
             if meets_foreground_source_contract(
                 event, manifest, direct_targets, bridge_trigger_flags
             )

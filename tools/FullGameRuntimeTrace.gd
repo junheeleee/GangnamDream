@@ -76,6 +76,7 @@ var _main_commit_counter := 0
 var _pending_main_action: Dictionary = {}
 var _pending_main_action_state: Dictionary = {}
 var _survival_recovery_active := false
+var _asset_band_hold_active := false
 var _main_selection_policy := "profile"
 var _shutdown_started := false
 
@@ -742,6 +743,19 @@ func _select_visible_main_action(cards: Array[Button]) -> Button:
 			_main_selection_policy = "survival"
 			return recovery_selected
 		_main_selection_policy = "profile_fallback"
+	if _asset_band_hold_required():
+		var asset_band_policy: Dictionary = _profile.get(
+			"asset_band_policy", {})
+		var hold_selected := _select_visible_by_priority(
+			cards,
+			asset_band_policy.get("action_priority", []),
+			asset_band_policy.get("function_priority", []),
+		)
+		if hold_selected == null:
+			_fail("asset band policy has no visible safe action")
+			return null
+		_main_selection_policy = "asset_band_hold"
+		return hold_selected
 	var primary: Array[Button] = []
 	for card in cards:
 		if bool(card.get_meta("demo_pressure_primary", false)):
@@ -782,6 +796,25 @@ func _survival_recovery_required() -> bool:
 			or mental <= int(policy.get("enter_mental_at_or_below", 40)):
 		_survival_recovery_active = true
 	return _survival_recovery_active
+
+
+func _asset_band_hold_required() -> bool:
+	var raw_policy: Variant = _profile.get("asset_band_policy")
+	if raw_policy == null:
+		return false
+	if not raw_policy is Dictionary:
+		_fail("asset band policy must be an object or null")
+		return false
+	var policy: Dictionary = raw_policy
+	var activation_assets := float(
+		policy.get("activate_at_total_assets", -1.0))
+	if activation_assets < 0.0:
+		_fail("asset band policy has an invalid activation threshold")
+		return false
+	if not _asset_band_hold_active \
+			and float(GameState.get_total_asset_value()) >= activation_assets:
+		_asset_band_hold_active = true
+	return _asset_band_hold_active
 
 
 func _main_action_descriptor(card: Button) -> Dictionary:

@@ -11,6 +11,7 @@ SimRun.gd(헤드리스 60턴 시뮬)와 동일한 정책 봇 구조를 따르되
 import json
 import math
 import random
+import re
 from collections import Counter
 from pathlib import Path
 
@@ -33,6 +34,16 @@ RARITY_WEIGHT = {"common": 1.0, "uncommon": 0.7, "rare": 0.28, "legendary": 0.08
 # weeks 40/100/160/200. The snapshots ranged from 327 to 356, so 340 is used
 # as a fixed conservative denominator for deterministic route comparisons.
 ROUTE_EVENT_POOL_WEIGHT = 340.0
+CHAPTER5_CAUSAL_ROUTE = ROOT / "systems" / "Chapter5CausalRoute.gd"
+PROPERTY_ENTRY_WEEK = 193
+PROPERTY_ENTRY_MIN_ASSETS = 2_000_000_000.0
+PROPERTY_LADDER_CHOICES = {
+    "inv_ipo_hot_tip": 0,
+    "sangchul_tip_redev": 0,
+    "arc_opp_sangchul_realty": 1,
+    "inv_redev_zone_tip": 1,
+    "inv_redev_completion_sale": 0,
+}
 
 
 def settle_cash(value):
@@ -49,7 +60,9 @@ def _load_route_events():
     wanted = {
         "startup_opportunity",
         "startup_acquisition_offer",
+        "inv_ipo_hot_tip",
         "sangchul_tip_redev",
+        "arc_opp_sangchul_realty",
         "inv_redev_zone_tip",
         "inv_redev_completion_sale",
     }
@@ -77,8 +90,12 @@ DIFFICULTY = {
 
 
 class Run:
-    def __init__(self, diff="현실"):
+    def __init__(self, diff="현실", defer_late_success=False):
         self.diff = DIFFICULTY[diff]
+        # Product success endings wait for the W240 finale after the first year.
+        # Legacy 64-turn comparisons keep their historical immediate behavior;
+        # the full property route opts into the current product rule explicitly.
+        self.defer_late_success = defer_late_success
         self.money = float(self.diff["start_money"])
         self.loans = {"bank": 0.0, "second": 0.0}
         self.tenure = 0
@@ -121,7 +138,7 @@ class Run:
         self.assert_whole_cash("after settled transaction")
         return settled_delta
 
-    def resolve_opportunity(self, opp):
+    def resolve_opportunity(self, opp, rng=None, sangchul_affinity=0):
         available = max(0.0, settle_cash(self.money))
         raw_stake = float(opp.get("cost", 0.0))
         if "stake_ratio" in opp:
@@ -129,9 +146,17 @@ class Run:
         stake = settle_cash(raw_stake)
         if stake < 1.0 or stake > available:
             return False
-        rate = opp["success_rate"] + self.luck * LUCK_FACTOR + self.diff["opp"]
+        luck_factor = float(opp.get("luck_factor", LUCK_FACTOR))
+        rate = opp["success_rate"] + self.luck * luck_factor + self.diff["opp"]
+        if sangchul_affinity >= 35:
+            rate += 0.15
+        elif sangchul_affinity >= 25:
+            rate += 0.10
+        elif sangchul_affinity >= 15:
+            rate += 0.05
         rate = max(0.02, min(0.98, rate))
-        if random.random() < rate:
+        roll = rng.random() if rng is not None else random.random()
+        if roll < rate:
             self.add_settled_cash(settle_cash(stake * opp["win_multiplier"]))
             self.stress -= 3
             won = True
@@ -238,7 +263,8 @@ class Run:
             self.over = "debt_spiral"; return
         if net < -100_000_000:
             self.over = "bankruptcy"; return
-        if net >= 3_000_000_000:
+        if net >= 3_000_000_000 \
+                and not (self.defer_late_success and self.age > 33):
             self.over = "gangnam_dream(30억)"; return
         if self.age >= 38:
             if net >= 1_000_000_000:
@@ -372,13 +398,202 @@ def _apply_fixed_money_choice(state, event_id, choice_index=0):
     return choice
 
 
+def _deferred_delay(event_id, choice_index, target_id):
+    for follow_up in _event_choice(event_id, choice_index).get(
+        "deferred_follow_up", []
+    ):
+        if isinstance(follow_up, str):
+            continue
+        event_target = str(follow_up.get("id", follow_up.get("event_id", "")))
+        if event_target == target_id:
+            return int(follow_up.get("delay", 0))
+    raise AssertionError("missing deferred route edge: %s -> %s" % (event_id, target_id))
+
+
+def _property_ladder_contract():
+    expected = {
+        "inv_ipo_hot_tip": (49, 72, 10_000_000.0),
+        "sangchul_tip_redev": (73, 96, 10_000_000.0),
+        "arc_opp_sangchul_realty": (82, 111, 50_000_000.0),
+        "inv_redev_zone_tip": (112, 143, 80_000_000.0),
+    }
+    for event_id, (min_week, max_week, min_money) in expected.items():
+        conditions = ROUTE_EVENTS[event_id].get("conditions", {})
+        actual = (
+            int(conditions.get("min_turn", 0)),
+            int(conditions.get("max_turn", 0)),
+            float(conditions.get("min_money", 0.0)),
+        )
+        assert actual == (min_week, max_week, min_money), (
+            "property ladder threshold/window drift: %s expected=%r got=%r"
+            % (event_id, (min_week, max_week, min_money), actual)
+        )
+
+    sale_min_week = int(
+        ROUTE_EVENTS["inv_redev_completion_sale"]
+        .get("conditions", {})
+        .get("min_turn", 0)
+    )
+    assert sale_min_week == 160, "property sale minimum week was lowered"
+    sale_money = float(
+        _event_choice("inv_redev_completion_sale", 0)
+        .get("effects", {})
+        .get("money", 0.0)
+    )
+    assert sale_money == 2_600_000_000.0, "property sale cash drifted"
+
+    delays = {
+        "ipo_close": _deferred_delay(
+            "inv_ipo_hot_tip", 0, "callback_inv_ipo_hot_tip_win_listing"
+        ),
+        "tip_close": _deferred_delay(
+            "sangchul_tip_redev", 0, "callback_sangchul_tip_win_payoff"
+        ),
+        "villa_result": _deferred_delay(
+            "arc_opp_sangchul_realty", 1, "arc_opp_sangchul_win"
+        ),
+        "management": _deferred_delay(
+            "inv_redev_zone_tip", 1, "callback_redev_bet_taken_result"
+        ),
+        "sale": _deferred_delay(
+            "inv_redev_zone_tip", 1, "inv_redev_completion_sale"
+        ),
+    }
+    assert delays == {
+        "ipo_close": 1,
+        "tip_close": 8,
+        "villa_result": 8,
+        "management": 24,
+        "sale": 48,
+    }, "property ladder deferred cadence drifted: %r" % delays
+
+    source = CHAPTER5_CAUSAL_ROUTE.read_text(encoding="utf-8")
+    match = re.search(
+        r"const\s+ENTRY_MIN_TOTAL_ASSETS\s*:=\s*([0-9_]+(?:\.[0-9]+)?)",
+        source,
+    )
+    assert match is not None, "Chapter5 property entry threshold is unreadable"
+    live_entry_min = float(match.group(1).replace("_", ""))
+    assert live_entry_min == PROPERTY_ENTRY_MIN_ASSETS, (
+        "Chapter5 property entry threshold drifted: %r" % live_entry_min
+    )
+    return {"sale_min_week": sale_min_week, "delays": delays}
+
+
+def _apply_authored_opportunity_result(state, event_id, choice_index, won):
+    choice = _event_choice(event_id, choice_index)
+    assert float(choice.get("effects", {}).get("money", 0.0)) == 0.0, (
+        "property opportunity acquired an injected fixed-money effect: %s" % event_id
+    )
+    opportunity = choice.get("opportunity", {})
+    assert isinstance(opportunity, dict) and opportunity, (
+        "property reference choice has no opportunity: %s" % event_id
+    )
+    available = max(0.0, settle_cash(state.money))
+    stake = settle_cash(
+        available * float(opportunity.get("stake_ratio", 0.0))
+        if "stake_ratio" in opportunity
+        else float(opportunity.get("cost", 0.0))
+    )
+    assert 1.0 <= stake <= available, "invalid property reference stake: %s" % event_id
+    before = state.money
+    if won:
+        state.add_settled_cash(
+            settle_cash(stake * float(opportunity.get("win_multiplier", 2.0)))
+        )
+    else:
+        state.add_settled_cash(
+            -settle_cash(stake * float(opportunity.get("loss_ratio", 1.0)))
+        )
+    return {"week": 0, "before": before, "stake": stake, "after": state.money}
+
+
+def property_ladder_reference_progression(diff="현실"):
+    """Prove one authored success path reaches the locked M49 property route.
+
+    The proof starts at W1 with the live difficulty seed and adds only net
+    salary/rent plus authored opportunity profits and the authored final sale.
+    It does not lower a door, repeat a tip, or grant bridge cash.
+    """
+    contract = _property_ladder_contract()
+    state = Run(diff, defer_late_success=True)
+    state.income = SALARY
+    event_weeks = {
+        "inv_ipo_hot_tip": 49,
+        "sangchul_tip_redev": 73,
+        "arc_opp_sangchul_realty": 82,
+        "inv_redev_zone_tip": 112,
+        "inv_redev_completion_sale": 160,
+    }
+    receipts = {
+        "ipo_close": 50,
+        "tip_close": 81,
+        "villa_result": 90,
+        "management": 136,
+        "sale": 160,
+    }
+    assert receipts["ipo_close"] == event_weeks["inv_ipo_hot_tip"] + contract["delays"]["ipo_close"]
+    assert receipts["tip_close"] == event_weeks["sangchul_tip_redev"] + contract["delays"]["tip_close"]
+    assert receipts["villa_result"] == event_weeks["arc_opp_sangchul_realty"] + contract["delays"]["villa_result"]
+    assert receipts["management"] == event_weeks["inv_redev_zone_tip"] + contract["delays"]["management"]
+    assert event_weeks["inv_redev_completion_sale"] == max(
+        contract["sale_min_week"],
+        event_weeks["inv_redev_zone_tip"] + contract["delays"]["sale"],
+    )
+
+    ledger = []
+    for week in range(1, PROPERTY_ENTRY_WEEK + 1):
+        for event_id, event_week in event_weeks.items():
+            if week != event_week:
+                continue
+            conditions = ROUTE_EVENTS[event_id].get("conditions", {})
+            min_money = float(conditions.get("min_money", 0.0))
+            assert state.money >= min_money, (
+                "reference cash missed live %s door at W%d: %.0f < %.0f"
+                % (event_id, week, state.money, min_money)
+            )
+            if event_id == "inv_redev_completion_sale":
+                before = state.money
+                _apply_fixed_money_choice(
+                    state, event_id, PROPERTY_LADDER_CHOICES[event_id]
+                )
+                row = {"week": week, "before": before, "stake": 0.0, "after": state.money}
+            else:
+                row = _apply_authored_opportunity_result(
+                    state, event_id, PROPERTY_LADDER_CHOICES[event_id], True
+                )
+                row["week"] = week
+            row["event_id"] = event_id
+            ledger.append(row)
+
+        # Cash proof intentionally omits the old simulator's W4 bonus. Only
+        # earned salary less the live representative rent grows the seed.
+        if week % 4 == 0:
+            state.add_cash(state.income - 650_000.0)
+
+    assert [row["event_id"] for row in ledger] == list(event_weeks), (
+        "property reference repeated or skipped a ladder root"
+    )
+    assert state.net_worth() >= PROPERTY_ENTRY_MIN_ASSETS, (
+        "reference ladder missed M49 property entry: %.0f < %.0f"
+        % (state.net_worth(), PROPERTY_ENTRY_MIN_ASSETS)
+    )
+    return {
+        "entry_week": PROPERTY_ENTRY_WEEK,
+        "entry_assets": state.net_worth(),
+        "entry_min": PROPERTY_ENTRY_MIN_ASSETS,
+        "ledger": ledger,
+        "receipts": receipts,
+    }
+
+
 def run_route_policy(name, route, runs=3000, diff="현실"):
     """Run a route-focused 240-week policy against live event parameters.
 
     Like the baseline simulator, generic event stat noise and portfolio ticks are
-    intentionally omitted. Unlike the old 64-month policy loop, route exposure
-    uses the real weekly cadence, one weighted situation draw per week, the live
-    rarity/weight values, and monthly salary/rent every four weeks.
+    intentionally omitted. The startup comparison retains its weighted weekly
+    exposure. The property comparison follows MainGame's ordered one-shot router
+    and its deferred receipts instead of pretending the tips are repeatable draws.
     """
     if route not in ("startup", "property"):
         raise ValueError("unknown route: %s" % route)
@@ -386,28 +601,47 @@ def run_route_policy(name, route, runs=3000, diff="현실"):
     assets = []
     reached30 = 0
     route_steps = Counter()
+    property_entry_runs = 0
+    property_reference = (
+        property_ladder_reference_progression(diff) if route == "property" else None
+    )
 
     startup_join = ROUTE_EVENTS["startup_opportunity"]
     startup_exit = ROUTE_EVENTS["startup_acquisition_offer"]
-    redev = ROUTE_EVENTS["inv_redev_zone_tip"]
-    redev_min = float(redev.get("conditions", {}).get("min_money", 0.0))
-    redev_min_week = int(redev.get("conditions", {}).get("min_turn", 0))
-    completion_min_week = int(
-        ROUTE_EVENTS["inv_redev_completion_sale"].get("conditions", {}).get("min_turn", 0)
-    )
 
     for run_index in range(runs):
         seed_salt = 31 if route == "startup" else 47
         rng = random.Random(run_index * 982_451_653 + seed_salt)
         random.seed(run_index * 982_451_653 + seed_salt)
-        state = Run(diff)
+        state = Run(diff, defer_late_success=(route == "property"))
         state.income = SALARY
         founded = False
         acquisition_seen = False
+        ipo_seen = False
+        ipo_closed = False
+        ipo_close_due = 0
+        tip_seen = False
+        tip_closed = False
+        tip_close_due = 0
+        villa_seen = False
+        villa_result_seen = False
+        villa_result_due = 0
         redev_seen = False
         redev_approved = False
+        management_seen = False
+        management_due = 0
+        sale_due = 0
+        sale_checked = False
         completion_seen = False
-        tip_lock_until = 0
+        property_goal_seen = False
+        run_route_steps = set()
+
+        def mark_route_step(step):
+            assert step not in run_route_steps, (
+                "property ladder step repeated in one run: %s" % step
+            )
+            run_route_steps.add(step)
+            route_steps[step] += 1
 
         for week in range(1, 241):
             if state.over:
@@ -435,38 +669,143 @@ def run_route_policy(name, route, runs=3000, diff="현실"):
                     route_steps["startup_exit"] += 1
 
             else:
-                eligible = []
-                trusted = week >= 40
-                if redev_approved and not completion_seen and week >= completion_min_week:
-                    eligible.append("inv_redev_completion_sale")
-                if not redev_seen and week >= redev_min_week and state.money >= redev_min:
-                    eligible.append("inv_redev_zone_tip")
-                if trusted and state.money >= 10_000_000.0 and week >= tip_lock_until:
-                    eligible.append("sangchul_tip_redev")
-                drawn = _draw_route_event(rng, eligible, focused=True, trusted_sangchul=trusted)
-                if drawn == "sangchul_tip_redev":
-                    opp = dict(_event_choice(drawn)["opportunity"])
-                    opp["success_rate"] = float(opp["success_rate"]) + 0.15
-                    state.resolve_opportunity(opp)
-                    tip_lock_until = week + 25  # recent-event window dominates cooldown 12
-                    route_steps["property_tip"] += 1
-                elif drawn == "inv_redev_zone_tip":
-                    opp = dict(_event_choice(drawn)["opportunity"])
-                    opp["success_rate"] = float(opp["success_rate"]) + 0.15
-                    redev_approved = state.resolve_opportunity(opp)
-                    redev_seen = True
-                    route_steps["redev_attempt"] += 1
+                # Deferred receipts own their due week, matching the product's
+                # priority above the property router. They close each door once.
+                if ipo_close_due == week:
+                    ipo_closed = True
+                    mark_route_step("ipo_closed")
+                elif tip_close_due == week:
+                    tip_closed = True
+                    mark_route_step("sangchul_tip_closed")
+                elif villa_result_due == week:
+                    villa_result_seen = True
+                    mark_route_step("villa_result")
+                elif management_due == week:
                     if redev_approved:
-                        route_steps["redev_approved"] += 1
-                elif drawn == "inv_redev_completion_sale":
-                    _apply_fixed_money_choice(state, drawn)
-                    completion_seen = True
-                    route_steps["redev_exit"] += 1
+                        management_seen = True
+                        mark_route_step("redev_management")
+                    else:
+                        mark_route_step("redev_failed_result")
+                elif sale_due == week:
+                    sale_checked = True
+                    if management_seen and week >= 160:
+                        _apply_fixed_money_choice(
+                            state,
+                            "inv_redev_completion_sale",
+                            PROPERTY_LADDER_CHOICES["inv_redev_completion_sale"],
+                        )
+                        completion_seen = True
+                        mark_route_step("redev_exit")
+                else:
+                    ipo_conditions = ROUTE_EVENTS["inv_ipo_hot_tip"]["conditions"]
+                    tip_conditions = ROUTE_EVENTS["sangchul_tip_redev"]["conditions"]
+                    villa_conditions = ROUTE_EVENTS["arc_opp_sangchul_realty"]["conditions"]
+                    redev_conditions = ROUTE_EVENTS["inv_redev_zone_tip"]["conditions"]
+                    portfolio_ready = week >= 23
+                    sangchul_ready = week >= 28
 
-            if state.net_worth() >= 3_000_000_000.0:
+                    if (
+                        not ipo_seen
+                        and int(ipo_conditions["min_turn"]) <= week <= int(ipo_conditions["max_turn"])
+                        and portfolio_ready
+                        and state.money >= float(ipo_conditions["min_money"])
+                    ):
+                        choice_index = PROPERTY_LADDER_CHOICES["inv_ipo_hot_tip"]
+                        ipo_won = state.resolve_opportunity(
+                            _event_choice("inv_ipo_hot_tip", choice_index)["opportunity"],
+                            rng=rng,
+                            sangchul_affinity=35,
+                        )
+                        ipo_seen = True
+                        ipo_close_due = week + _deferred_delay(
+                            "inv_ipo_hot_tip",
+                            choice_index,
+                            "callback_inv_ipo_hot_tip_win_listing"
+                            if ipo_won else "callback_inv_ipo_hot_tip_lose_listing",
+                        )
+                        mark_route_step("ipo_attempt")
+                        mark_route_step("ipo_won" if ipo_won else "ipo_lost")
+                    elif (
+                        not tip_seen
+                        and ipo_closed
+                        and int(tip_conditions["min_turn"]) <= week <= int(tip_conditions["max_turn"])
+                        and sangchul_ready
+                        and state.money >= float(tip_conditions["min_money"])
+                    ):
+                        choice_index = PROPERTY_LADDER_CHOICES["sangchul_tip_redev"]
+                        tip_won = state.resolve_opportunity(
+                            _event_choice("sangchul_tip_redev", choice_index)["opportunity"],
+                            rng=rng,
+                            sangchul_affinity=35,
+                        )
+                        tip_seen = True
+                        tip_close_due = week + _deferred_delay(
+                            "sangchul_tip_redev",
+                            choice_index,
+                            "callback_sangchul_tip_win_payoff"
+                            if tip_won else "callback_sangchul_tip_lose_awkward",
+                        )
+                        mark_route_step("sangchul_tip_attempt")
+                        mark_route_step("sangchul_tip_won" if tip_won else "sangchul_tip_lost")
+                    elif (
+                        not villa_seen
+                        and tip_closed
+                        and int(villa_conditions["min_turn"]) <= week <= int(villa_conditions["max_turn"])
+                        and sangchul_ready
+                        and state.money >= float(villa_conditions["min_money"])
+                    ):
+                        choice_index = PROPERTY_LADDER_CHOICES["arc_opp_sangchul_realty"]
+                        villa_won = state.resolve_opportunity(
+                            _event_choice("arc_opp_sangchul_realty", choice_index)["opportunity"],
+                            rng=rng,
+                            sangchul_affinity=35,
+                        )
+                        villa_seen = True
+                        villa_result_due = week + _deferred_delay(
+                            "arc_opp_sangchul_realty",
+                            choice_index,
+                            "arc_opp_sangchul_win" if villa_won else "arc_opp_sangchul_lose",
+                        )
+                        mark_route_step("villa_attempt")
+                        mark_route_step("villa_won" if villa_won else "villa_lost")
+                    elif (
+                        not redev_seen
+                        and villa_result_seen
+                        and int(redev_conditions["min_turn"]) <= week <= int(redev_conditions["max_turn"])
+                        and state.money >= float(redev_conditions["min_money"])
+                    ):
+                        choice_index = PROPERTY_LADDER_CHOICES["inv_redev_zone_tip"]
+                        redev_approved = state.resolve_opportunity(
+                            _event_choice("inv_redev_zone_tip", choice_index)["opportunity"],
+                            rng=rng,
+                            sangchul_affinity=35,
+                        )
+                        redev_seen = True
+                        management_due = week + _deferred_delay(
+                            "inv_redev_zone_tip",
+                            choice_index,
+                            "callback_redev_bet_taken_result"
+                            if redev_approved else "callback_redev_bet_failed_result",
+                        )
+                        sale_due = week + _deferred_delay(
+                            "inv_redev_zone_tip",
+                            choice_index,
+                            "inv_redev_completion_sale",
+                        )
+                        mark_route_step("redev_attempt")
+                        mark_route_step("redev_approved" if redev_approved else "redev_failed")
+
+            if route == "startup" and state.net_worth() >= 3_000_000_000.0:
                 reached30 += 1
                 endings["gangnam_dream(30억)"] += 1
                 break
+            if route == "property" and state.net_worth() >= 3_000_000_000.0:
+                property_goal_seen = True
+
+            if route == "property" and week == PROPERTY_ENTRY_WEEK:
+                if state.net_worth() >= PROPERTY_ENTRY_MIN_ASSETS:
+                    property_entry_runs += 1
+                    mark_route_step("m49_property_entry")
 
             if week % 4 == 0:
                 if state.mental <= 30 or state.stress >= 58:
@@ -478,11 +817,28 @@ def run_route_policy(name, route, runs=3000, diff="현실"):
                 if week == 4:
                     state.add_cash(300_000.0)
                 state.monthly_pressure()
+                if route == "property" and state.net_worth() >= 3_000_000_000.0:
+                    property_goal_seen = True
                 if not state.over:
                     state.advance()
             if week in (24, 48, 240):
                 state.assert_whole_cash("route week %d" % week)
-        if state.net_worth() < 3_000_000_000.0:
+        if route == "property":
+            assert not (completion_seen and not management_seen), (
+                "property sale occurred without the +24 management receipt"
+            )
+            assert not (completion_seen and not sale_checked), (
+                "property sale bypassed its +48 deferred due week"
+            )
+            if property_goal_seen:
+                reached30 += 1
+                endings["gangnam_dream(30억)"] += 1
+            else:
+                if not state.over:
+                    state.age = 38
+                    state.check_over()
+                endings[state.over or "(미종료)"] += 1
+        elif state.net_worth() < 3_000_000_000.0:
             if not state.over:
                 state.age = 38
                 state.check_over()
@@ -498,7 +854,39 @@ def run_route_policy(name, route, runs=3000, diff="현실"):
         % (won(med), reached30, 100 * reached30 / runs, 100 * fail / runs)
     )
     print("  경로 노출: " + "  ".join("%s %.2f/런" % (k, v / runs) for k, v in route_steps.items()))
-    return {"win_rate": reached30 / runs, "fail_rate": fail / runs, "median": med, "steps": route_steps}
+    if property_reference is not None:
+        reference_rows = property_reference["ledger"]
+        print(
+            "  기준 사다리: "
+            + " → ".join(
+                "W%d %s %s" % (row["week"], row["event_id"], won(row["after"]))
+                for row in reference_rows
+            )
+        )
+        print(
+            "  M49 진입 검증: 기준 W%d %s ≥ 문턱 %s (문턱 하향 0, 비저작 현금 주입 0)"
+            % (
+                property_reference["entry_week"],
+                won(property_reference["entry_assets"]),
+                won(property_reference["entry_min"]),
+            )
+        )
+        print(
+            "  지연 영수증: IPO W50(+1) · 상철 팁 W81(+8) · 빌라 W90(+8) "
+            "· 관리 W136(+24) · 매각 W160(+48, 최소 W160)"
+        )
+        print(
+            "  확률 런 M49 진입: %d/%d (%.1f%%)"
+            % (property_entry_runs, runs, 100 * property_entry_runs / runs)
+        )
+    return {
+        "win_rate": reached30 / runs,
+        "fail_rate": fail / runs,
+        "median": med,
+        "steps": route_steps,
+        "property_entry_rate": property_entry_runs / runs,
+        "property_reference": property_reference,
+    }
 
 
 def won(v):
@@ -521,7 +909,7 @@ if __name__ == "__main__":
     run_policy("④'' 공격 베팅 + 패시브 + 상철 팁", 3, cast_passives=True, sangchul_tips=True)
     print("\n--- 대출 레버리지 (2026-06-11 신규 시스템) ---")
     run_policy("③ᴸ 가끔 베팅 + 대출 풀레버리지", 2, use_loans=True)
-    print("\n--- 240주 경로 다양화 (실제 이벤트 가중치, 2026-07-13) ---")
+    print("\n--- 240주 경로 검증 (창업 가중치 · 부동산 결정적 사다리) ---")
     run_route_policy("⑤ 창업 공동창업→엑싯", "startup")
     run_route_policy("⑥ 임상철 급매→재개발 사다리", "property")
     run_policy("④ᴸ 공격 베팅 + 대출 풀레버리지", 3, use_loans=True)

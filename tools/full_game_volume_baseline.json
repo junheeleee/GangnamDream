@@ -2503,15 +2503,15 @@
   },
   "schema_version": 1,
   "source_hashes": {
-    "content/meta/event_director.json": "116aa148e839f51b29bd7ee82c5c6277e35070b6077e7cabe1862d90071a5e8b",
-    "content/meta/event_lifecycle.json": "866b8e83045389e8995a7cf63fe9cff81e8ad607ad0af74622bf145b2a18e8cb",
+    "content/meta/event_director.json": "1603fd84db3f6f64535235e685b4ae3dcedda17a01ee8a6c059b1bde292b2891",
+    "content/meta/event_lifecycle.json": "2f8f5a32621d88deba4ad84ad32f38195d34e49409a3e60de1e79a82bf555958",
     "content/meta/narrative_spine.json": "abf92f3f512894e20a96edb2e992d34785b20d320f1cc900191cd2459626bba2",
     "content/meta/story_map.json": "15f34b8d520329567bb7430dca78854b13e485534d1c23c9d95de1b1ab380425",
     "content/meta/story_rules.json": "d012c50ddcc7bcc82c1dfeaf4c939a70a788a2e856208973ede7bcd12727fe61",
     "content/meta/year5_reference_routes.json": "07c814ea5ea3b7c82157b1aaa3a5bdf15ef251cbb1b2ceda902d1ccc54b3442a",
     "graph:en_mapped_immediate": "3f64ebfd1c84f8b85ae55ca5aaf8314848f86181cead17086cfe91e033cfcb32",
     "graph:ko_mapped_immediate": "f603e7d3bde0580bba3267c74d51fff970a4e15e2e294429cb01fd52c9175599",
-    "lifecycle:product_event_ids": "ebfdd6ac0b94bfef40b82eab030e0d085417bff822fb98c3bd89a0d7e319515e",
+    "lifecycle:product_event_ids": "fd70645a3f66a6db65bb5c4d5073ed98e0a4b5f10f121b459c58a01acd575697",
     "story_map:root_refs": "8d54037356bdd288c72b42b14e4e595fb7e8c5e7a95c26ef589b248767d9abdc"
   }
 }

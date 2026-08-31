@@ -1115,6 +1115,25 @@
       ]
     },
     {
+      "tool": "tools/property_ladder_audit.py",
+      "why": "투자형의 IPO→상철 팁→빌라→재개발→매각 사다리 창·현금·지연결과·실패폐쇄·30억 이스터에그 경계를 검사",
+      "paths": [
+        "autoloads/GameState.gd",
+        "content/endings.json",
+        "content/events/**",
+        "content/meta/event_director.json",
+        "scenes/MainGame.gd",
+        "tools/property_ladder_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/property_ladder_audit.py --self-test",
+      "why": "투자·부동산 사다리의 문턱·정산·지연·실패폐쇄 변이를 감사기가 실제로 거부하는지 자체 검사",
+      "paths": [
+        "tools/property_ladder_audit.py"
+      ]
+    },
+    {
       "tool": "tools/ending_distinctness_audit.py",
       "why": "엔딩 35종 구분성·마지막 서명 24/11 독립 후일담 경계",
       "paths": [

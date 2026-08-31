@@ -3437,7 +3437,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "scenes/StoryMode.tscn":
         "b7688a883323a196e74271c1e76f1d88c91310b3fe1a287cb051b33dd2fb76ca",
     "scenes/MainGame.gd":
-        "5a95b242dc71a5b4b902e5d38df71dd24ee62f0c9ab10117eca9626697bb8374",
+        "8e5786d2e0ce2f1fcee21e74bff7e4e6699898702c725a9a369892aedca80e18",
     "scenes/MainGame.tscn":
         "71a9590d43c755fa6b409ee0eb0f1950c6aba4517c64192b83038d22a45d9979",
     "scenes/SeoulCycleBoard.gd":
@@ -3451,15 +3451,15 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/meta/demo_core_loop_v2.json":
         "f336f8a60277effc1885e10911d21785add4ad5580135bb1ab3a4c4b509059c3",
     "content/meta/demo_localization_scope.json":
-        "84b442ad5b71d67b850a8d93a3c907bf8309f88f226fff3bcebbcdf5d969d506",
+        "e7aa612c9bfd4b6fc677c65d04515b640e5e040eac7425cf8da247ce2cf091da",
     "content/meta/release_content_inventory.json":
-        "fa5ac85d5ec8e5da282e477f73f39d2f264a14d2fc4d4f18a1df385c6c780d80",
+        "677c17570d47ef00c5f6beffaaa1ec7a9978f1c45e9b39c3657c6f0076be56b6",
     "content/meta/story_rules.json":
         "d012c50ddcc7bcc82c1dfeaf4c939a70a788a2e856208973ede7bcd12727fe61",
     "content/jobs.json":
         "d1a3ed8ba3f2839954d0b15266bff4f7a0d1317d78c503bd2422aa87b7210f84",
     "content/events/arc_events.json":
-        "215f77e15f6f2c754cefdd7ad8d98d50db989074c4263fdb373bc256d08d8aed",
+        "bc93e84e3095abe1d3fe084233e4fc2ade64f14af386fe135b78c634720886d6",
     "content/events/core_loop_v2_events.json":
         "30ce137faf06437e131d297efa7ab3fc82806534e77c53bea33af0b01a750b87",
     "content/events/arc_daeun.json":

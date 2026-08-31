@@ -63,17 +63,17 @@ PROTECTED_REUSE_SOURCE_LEAVES_SHA256 = (
 # quotas.  If authored source evolves, the failure prints both expected and
 # observed evidence and this table must be refreshed intentionally.
 EXPECTED = {
-    "packaged_events": 1809,
+    "packaged_events": 1812,
     "author_only_events": 107,
-    "shipping_events": 1702,
-    "shipping_standard_leaves": 11498,
+    "shipping_events": 1705,
+    "shipping_standard_leaves": 11516,
     "shipping_chapter5_reader_leaves": 133,
-    "shipping_leaves": 11631,
+    "shipping_leaves": 11649,
     "shipping_event_ids_sha256": (
-        "8d947cd96bdb4213ca83423ca39d5e391569a0b2df03c313ae1ed541835cafdb"
+        "e5dce4da37fd7bcf5730efb2b5e038aa1463e2abbfcd56d1893c12464565e5a2"
     ),
     "shipping_source_leaves_sha256": (
-        "bff2fe68502c0c924b6b590de3ecac3e69bb9dc6cd416d7712b4876b9f950246"
+        "138ce7e11e74c9c228dc317c60f317d3e6a67c46ce0ddf00999f33fcb3b82373"
     ),
     "m07_m60_root_refs": 167,
     "m07_m60_shipping_root_refs": 130,
@@ -1071,12 +1071,12 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
     require(
         "shipping exact event and leaf denominator",
         (shipping.get("event_count"), shipping.get("leaf_count"))
-        == (1702, 11631),
+        == (1705, 11649),
     )
     require(
         "Chapter 5 nested reader leaves included",
         shipping.get("chapter5_reader_leaf_count") == 133
-        and shipping.get("standard_leaf_count") == 11498,
+        and shipping.get("standard_leaf_count") == 11516,
     )
     require(
         "M07-M60 static exact event and leaf denominator",

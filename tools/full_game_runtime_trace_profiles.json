@@ -50,6 +50,8 @@
       "choice_overrides": {
         "story_prologue_goal": {"index": 0, "selection_mode": "direct"},
         "arc_temptation_01": {"index": 0, "selection_mode": "direct"},
+        "amb_coin_00": {"index": 1, "selection_mode": "direct"},
+        "drama_crypto_allin": {"index": 2, "selection_mode": "direct"},
         "arc_daeun_01_meet": {"index": 0, "selection_mode": "direct"},
         "arc_minseo_02_real": {"index": 1, "selection_mode": "direct"},
         "arc_jaehyuk_01_reunion": {"index": 0, "selection_mode": "direct"}
@@ -82,6 +84,7 @@
         "action_priority": ["rest", "contact"],
         "function_priority": ["_ap_free_time", "_ap_contact_person"]
       },
+      "asset_band_policy": null,
       "required_event_sequence": [
         "story_flashforward",
         "story_arrival",
@@ -127,6 +130,12 @@
       "choice_overrides": {
         "story_prologue_goal": {"index": 1, "selection_mode": "direct"},
         "arc_temptation_01": {"index": 0, "selection_mode": "direct"},
+        "amb_coin_00": {"index": 1, "selection_mode": "direct"},
+        "drama_crypto_allin": {"index": 2, "selection_mode": "direct"},
+        "inv_ipo_hot_tip": {"index": 0, "selection_mode": "direct"},
+        "sangchul_tip_redev": {"index": 0, "selection_mode": "direct"},
+        "inv_redev_zone_tip": {"index": 1, "selection_mode": "direct"},
+        "inv_redev_completion_sale": {"index": 0, "selection_mode": "direct"},
         "arc_daeun_01_meet": {"index": 0, "selection_mode": "direct"},
         "arc_sangchul_01_meet": {"index": 0, "selection_mode": "direct"},
         "arc_jaehyuk_01_reunion": {"index": 0, "selection_mode": "direct"},
@@ -167,6 +176,7 @@
         "action_priority": ["rest", "contact"],
         "function_priority": ["_ap_free_time", "_ap_contact_person"]
       },
+      "asset_band_policy": null,
       "required_event_sequence": [
         "story_flashforward",
         "story_arrival",
@@ -223,6 +233,12 @@
       "choice_overrides": {
         "story_prologue_goal": {"index": 0, "selection_mode": "direct"},
         "arc_temptation_01": {"index": 0, "selection_mode": "direct"},
+        "amb_coin_00": {"index": 1, "selection_mode": "direct"},
+        "drama_crypto_allin": {"index": 2, "selection_mode": "direct"},
+        "inv_ipo_hot_tip": {"index": 0, "selection_mode": "direct"},
+        "sangchul_tip_redev": {"index": 0, "selection_mode": "direct"},
+        "inv_redev_zone_tip": {"index": 1, "selection_mode": "direct"},
+        "inv_redev_completion_sale": {"index": 0, "selection_mode": "direct"},
         "arc_daeun_01_meet": {"index": 1, "selection_mode": "direct"},
         "arc_minseo_02_real": {"index": 1, "selection_mode": "direct"},
         "arc_minseo_03_arrival": {"index": 1, "selection_mode": "direct"},
@@ -261,6 +277,11 @@
         "resume_mental_at_or_above": 50,
         "action_priority": ["rest", "contact"],
         "function_priority": ["_ap_free_time", "_ap_contact_person"]
+      },
+      "asset_band_policy": {
+        "activate_at_total_assets": 2500000000,
+        "action_priority": ["rest"],
+        "function_priority": ["_ap_free_time"]
       },
       "required_event_sequence": [
         "story_flashforward",
