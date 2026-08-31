@@ -393,8 +393,11 @@ def _validate_trace_script_source(source: str) -> None:
         "Input.parse_input_event",
         "func _select_visible_main_action(cards: Array[Button]) -> Button:",
         "var selected := _select_visible_main_action(cards)",
-        "func _select_visible_modal_button(root: Node) -> Button:",
-        "var modal_button := _select_visible_modal_button(modal_surface)",
+        "func _select_visible_modal_button(root: Node, modal_kind: String) -> Button:",
+        "var modal_button := _select_visible_modal_button(",
+        'root, "ap_job_id", job_buttons',
+        'modal_kind == "jobs"',
+        "visible job modal has no enabled keyboard-focusable application",
         'root, "ap_study_type", study_buttons',
         'modal_policy.get("study_type", -1)',
         "profile study_type %d is absent from the visible study modal",
@@ -1332,7 +1335,7 @@ def self_test() -> None:
     cases += 1
 
     disabled_modal_source = TRACE_SCRIPT.read_text(encoding="utf-8").replace(
-        "var modal_button := _select_visible_modal_button(modal_surface)",
+        "var modal_button := _select_visible_modal_button(",
         "var modal_button := _focused_or_first_button(modal_surface)", 1
     )
     _expect_failure(

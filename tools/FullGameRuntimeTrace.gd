@@ -622,7 +622,8 @@ func _drive_main(main: Node) -> bool:
 		var modal_body := main.get("modal_body") as Control
 		var modal_surface: Node = (
 			modal_body if is_instance_valid(modal_body) else modal)
-		var modal_button := _select_visible_modal_button(modal_surface)
+		var modal_button := _select_visible_modal_button(
+			modal_surface, str(main.get("_modal_kind")))
 		if not _errors.is_empty():
 			return false
 		if modal_button != null:
@@ -1361,7 +1362,14 @@ func _focused_or_first_button(root: Node) -> Button:
 	return _find_first_enabled_button(root)
 
 
-func _select_visible_modal_button(root: Node) -> Button:
+func _select_visible_modal_button(root: Node, modal_kind: String) -> Button:
+	var job_buttons: Array[Button] = []
+	_collect_visible_meta_buttons(root, "ap_job_id", job_buttons)
+	if modal_kind == "jobs":
+		if not job_buttons.is_empty():
+			return job_buttons[0]
+		_fail("visible job modal has no enabled keyboard-focusable application")
+		return null
 	var study_buttons: Array[Button] = []
 	_collect_visible_meta_buttons(root, "ap_study_type", study_buttons)
 	if study_buttons.is_empty():

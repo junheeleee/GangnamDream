@@ -18356,7 +18356,11 @@ func _build_job_card(job: Dictionary) -> Control:
 	if not can_apply:
 		btn_text = disabled_reason.to_upper()
 	var apply_btn := _small_button(btn_text, "#1c242c" if can_apply else "#26303c")
-	apply_btn.focus_mode = Control.FOCUS_NONE
+	# Every visible application control remains keyboard-focusable and carries
+	# its role identity. This keeps the custom cursor UI and ordinary focus
+	# navigation on the same real button instead of forcing label/order guesses.
+	apply_btn.focus_mode = Control.FOCUS_ALL
+	apply_btn.set_meta("ap_job_id", job_id)
 	apply_btn.custom_minimum_size = Vector2(0, 38)
 	apply_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	apply_btn.disabled = not can_apply

@@ -1230,6 +1230,18 @@ STUDY_MODAL_SEMANTIC_RECEIPT_PROTECTED_FILE_TRANSITIONS = {
         "81682ecbc2a702202b8797c4a594fc2713570bd946c17ab553a68843ede9fe63",
     ),
 }
+
+# Job cards use a custom compact cursor, but their visible application buttons
+# must still be ordinary keyboard targets with stable role identities.  Keep
+# this repair additive to the exact study-modal candidate above.
+JOB_MODAL_SEMANTIC_RECEIPT_BASELINE = \
+    "c606c058f1c654f6c5b8f3ee3db48960da5785dc"
+JOB_MODAL_SEMANTIC_RECEIPT_PROTECTED_FILE_TRANSITIONS = {
+    "scenes/MainGame.gd": (
+        "81682ecbc2a702202b8797c4a594fc2713570bd946c17ab553a68843ede9fe63",
+        "87ffe622910907fbd9d215fadc1091d6d84e3daa70efe1ef5f9f22e6084548c4",
+    ),
+}
 ORDER131_ADDED_IDS_BY_FILE = {
     "content/events/arc_midgame.json": {
         "arc_first_real_win_father_passed",
@@ -6165,6 +6177,9 @@ def validate_protected_hashes(
         study_modal_receipt_transition = \
             STUDY_MODAL_SEMANTIC_RECEIPT_PROTECTED_FILE_TRANSITIONS.get(
                 relative)
+        job_modal_receipt_transition = \
+            JOB_MODAL_SEMANTIC_RECEIPT_PROTECTED_FILE_TRANSITIONS.get(
+                relative)
         effective_expected_hash = advance_exact_hash(
             expected_hash, order135_transition)
         effective_expected_hash = advance_exact_hash(
@@ -6190,6 +6205,9 @@ def validate_protected_hashes(
         pre_study_modal_receipt_expected_hash = effective_expected_hash
         effective_expected_hash = advance_exact_hash(
             effective_expected_hash, study_modal_receipt_transition)
+        pre_job_modal_receipt_expected_hash = effective_expected_hash
+        effective_expected_hash = advance_exact_hash(
+            effective_expected_hash, job_modal_receipt_transition)
         if actual_hash != effective_expected_hash:
             errors.append(f"{owner}: working-tree byte hash drifted")
         transition = ORDER134_PROTECTED_FILE_TRANSITIONS.get(relative)
@@ -6297,9 +6315,20 @@ def validate_protected_hashes(
                 errors.append(
                     f"{owner}: study modal receipt transition does not "
                     "extend the W240 auto-close repair")
-            if actual_hash != study_modal_receipt_transition[1]:
+            if job_modal_receipt_transition is None \
+                    and actual_hash != study_modal_receipt_transition[1]:
                 errors.append(
                     f"{owner}: study modal semantic receipt current hash "
+                    "drifted")
+        if job_modal_receipt_transition is not None:
+            if job_modal_receipt_transition[0] \
+                    != pre_job_modal_receipt_expected_hash:
+                errors.append(
+                    f"{owner}: job modal receipt transition does not extend "
+                    "the study modal receipt")
+            if actual_hash != job_modal_receipt_transition[1]:
+                errors.append(
+                    f"{owner}: job modal semantic receipt current hash "
                     "drifted")
         try:
             baseline_hash = byte_sha256(git_blob(EXPECTED_BASELINE, relative))
@@ -6421,6 +6450,18 @@ def validate_protected_hashes(
                     errors.append(
                         f"{owner}: study modal semantic receipt baseline "
                         "hash drifted")
+        if job_modal_receipt_transition is not None:
+            try:
+                job_modal_receipt_baseline_hash = byte_sha256(
+                    git_blob(JOB_MODAL_SEMANTIC_RECEIPT_BASELINE, relative))
+            except ValueError as exc:
+                errors.append(f"{owner}: {exc}")
+            else:
+                if job_modal_receipt_baseline_hash \
+                        != job_modal_receipt_transition[0]:
+                    errors.append(
+                        f"{owner}: job modal semantic receipt baseline hash "
+                        "drifted")
 
     objects = protected.get("objects")
     if not isinstance(objects, list) or not objects:
@@ -7248,6 +7289,9 @@ def run_invalidated_self_test(
         ("study_modal_semantic_receipt_hash_transition",
          STUDY_MODAL_SEMANTIC_RECEIPT_PROTECTED_FILE_TRANSITIONS[
              "scenes/MainGame.gd"]),
+        ("job_modal_semantic_receipt_hash_transition",
+         JOB_MODAL_SEMANTIC_RECEIPT_PROTECTED_FILE_TRANSITIONS[
+             "scenes/MainGame.gd"]),
     ):
         case_count += 1
         tampered_predecessor = "0" * 64
@@ -7530,7 +7574,8 @@ def run_invalidated_self_test(
         try:
             actual_baseline = byte_sha256(
                 git_blob(STUDY_MODAL_SEMANTIC_RECEIPT_BASELINE, relative))
-            actual_current = byte_sha256((ROOT / relative).read_bytes())
+            actual_current = byte_sha256(
+                git_blob(JOB_MODAL_SEMANTIC_RECEIPT_BASELINE, relative))
         except (OSError, ValueError) as exc:
             transition_failures.append(f"{relative}:{exc}")
             continue
@@ -7539,6 +7584,25 @@ def run_invalidated_self_test(
     if transition_failures:
         failures.append(
             "study_modal_semantic_receipt_transition_inverse: exact "
+            "baseline/current transition drifted "
+            f"{transition_failures}")
+
+    case_count += 1
+    transition_failures = []
+    for relative, (baseline_hash, current_hash) \
+            in JOB_MODAL_SEMANTIC_RECEIPT_PROTECTED_FILE_TRANSITIONS.items():
+        try:
+            actual_baseline = byte_sha256(
+                git_blob(JOB_MODAL_SEMANTIC_RECEIPT_BASELINE, relative))
+            actual_current = byte_sha256((ROOT / relative).read_bytes())
+        except (OSError, ValueError) as exc:
+            transition_failures.append(f"{relative}:{exc}")
+            continue
+        if actual_baseline != baseline_hash or actual_current != current_hash:
+            transition_failures.append(relative)
+    if transition_failures:
+        failures.append(
+            "job_modal_semantic_receipt_transition_inverse: exact "
             "baseline/current transition drifted "
             f"{transition_failures}")
 

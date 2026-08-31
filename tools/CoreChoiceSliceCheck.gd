@@ -100,6 +100,10 @@ func _check_study_modal_semantic_receipts() -> void:
 	var main_source := FileAccess.get_file_as_string("res://scenes/MainGame.gd")
 	_expect(main_source.count('btn.set_meta("ap_study_type", st)') == 1,
 		"visible self-development cards lost their stable study-type receipt")
+	_expect(main_source.count('apply_btn.set_meta("ap_job_id", job_id)') == 1,
+		"visible job applications lost their stable role receipt")
+	_expect(main_source.count('apply_btn.focus_mode = Control.FOCUS_ALL') == 1,
+		"visible job applications are no longer keyboard-focusable")
 
 func _prepare_chapter5_product_path() -> void:
 	GameState.start_new_game("김민준", "지방_상경", "투자형")
