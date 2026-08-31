@@ -45,6 +45,7 @@ func _ready() -> void:
 	_check_chapter5_causal_direct_week_ownership()
 	await _check_chapter5_finale_direct_week_ownership()
 	_check_chapter5_general_finale_direct_week_ownership()
+	_check_generic_finale_exact_week()
 	_check_result_portrait_without_background()
 	_check_chapter_four_father_death_recovery()
 	_check_father_terminal_final_week_repair()
@@ -55,7 +56,7 @@ func _ready() -> void:
 	_check_foreground_commitment_weeks()
 	if _failures.is_empty():
 		await _stop_fixture_audio()
-		print("CORE_CHOICE_SLICE_CHECK_OK intent=1 interview=causal job_gate=ledger jiyeon_lunch=branch_gated racetrack=handoff authored=7 generic=2 ap_duplicate=0 delayed=t8 branches=2 axes=money/human missed_cost=targeted story_graph=m23_visit+hospital+door_one_shot chapter5=w193_same_queue+causal19/47+finale11/30-active9/24+general-source-w211-w220+general8/17-active6/13-w224-w229-w234-w237-w240-same-turn+read-contract+direct-no-ap+w240-two-root+fatal-return-uncovered+normal-release-uncovered father_death=monotonic_repair father_active=guarded milestone_routing=dual late_routes=variant+closed save=roundtrip")
+		print("CORE_CHOICE_SLICE_CHECK_OK intent=1 interview=causal job_gate=ledger jiyeon_lunch=branch_gated racetrack=handoff authored=7 generic=2 ap_duplicate=0 delayed=t8 branches=2 axes=money/human missed_cost=targeted story_graph=m23_visit+hospital+door_one_shot chapter5=w193_same_queue+causal19/47+finale11/30-active9/24+general-source-w211-w220+general8/17-active6/13-w224-w229-w234-w237-w240-same-turn+read-contract+direct-no-ap+w240-two-root+generic-finale-exact-w240+fatal-return-uncovered+normal-release-uncovered father_death=monotonic_repair father_active=guarded milestone_routing=dual late_routes=variant+closed save=roundtrip")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -1628,6 +1629,40 @@ func _check_chapter5_general_finale_direct_week_ownership() -> void:
 			"%s run was misrouted into the general W224 foreground" \
 			% excluded_route)
 		excluded_game.free()
+
+
+func _check_generic_finale_exact_week() -> void:
+	GameState.start_new_game()
+	GameState.turn = 240
+	GameState.money = 2_600_000_000.0
+	GameState.flags["prologue_done"] = true
+	GameState.flags.erase("chapter_37_seen")
+	var game = _new_main_game()
+	var finale_flags := {}
+	for blocked_turn in [237, 238, 239, 241]:
+		_expect(game._generic_finale_arc_id(
+			blocked_turn, finale_flags, false).is_empty(),
+			"generic finale escaped exact W240 at W%d" % blocked_turn)
+	_expect(game._generic_finale_arc_id(240, finale_flags, false) \
+		== "arc_final_countdown",
+		"generic W240 did not open the final signature")
+	finale_flags["arc_final_countdown_seen"] = true
+	_expect(game._generic_finale_arc_id(240, finale_flags, false) \
+		== "arc_final_week",
+		"generic W240 signature did not expose its same-night outbound")
+	finale_flags["arc_final_week_seen"] = true
+	_expect(game._generic_finale_arc_id(240, finale_flags, false).is_empty(),
+		"completed generic W240 finale replayed")
+	finale_flags.erase("arc_final_countdown_seen")
+	finale_flags.erase("arc_final_week_seen")
+	_expect(game._generic_finale_arc_id(240, finale_flags, true).is_empty(),
+		"generic W240 finale overrode a locked typed finale")
+	_expect(game._next_arc_id(240, true, false) == "arc_final_countdown",
+		"stale chapter/pre-ending recovery stole the generic W240 signature")
+	GameState.flags["arc_final_countdown_seen"] = true
+	_expect(game._next_arc_id(240, true, false) == "arc_final_week",
+		"stale chapter/pre-ending recovery stole the same-night W240 outbound")
+	game.free()
 
 
 func _check_result_portrait_without_background() -> void:

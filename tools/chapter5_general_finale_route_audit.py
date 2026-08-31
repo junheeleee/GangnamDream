@@ -43,8 +43,8 @@ SOURCE_ROUTE_ID = "general_story"
 EXPECTED_INSTANT_LEGEND_SHA256 = (
     "70b9a867122a27f80830cf43a2e4626032ee76bf10cd16a828d4de18aa41ebc6"
 )
-EXPECTED_PACKAGED_EVENTS = 1806
-EXPECTED_SHIPPING_EVENTS = 1696
+EXPECTED_PACKAGED_EVENTS = 1809
+EXPECTED_SHIPPING_EVENTS = 1702
 
 EN_GAMEPLAY_FIELDS = {
     "effects", "cast_effects", "flags", "items_add", "items_remove",
@@ -796,7 +796,9 @@ def validate_lifecycle(lifecycle: Any, errors: list[str]) -> None:
             or counts.get("packaged_events") != EXPECTED_PACKAGED_EVENTS \
             or counts.get("shipping_events") != EXPECTED_SHIPPING_EVENTS:
         errors.append(
-            "event lifecycle must register packaged=1806 shipping=1696")
+            "event lifecycle must register "
+            f"packaged={EXPECTED_PACKAGED_EVENTS} "
+            f"shipping={EXPECTED_SHIPPING_EVENTS}")
     author_only = lifecycle.get("author_only_event_ids", [])
     if not isinstance(author_only, list):
         errors.append("event lifecycle author_only_event_ids must be an array")

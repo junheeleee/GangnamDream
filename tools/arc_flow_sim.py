@@ -167,6 +167,55 @@ CHAPTER5_FINALE_DIRECT_SOURCE_OK = all((
         "_complete_chapter5_finale_week_after_story()")
     < continue_after_story_source.find("_render_ap_actions"),
 ))
+next_arc_source = source_function_block("_next_arc_id")
+generic_finale_source = source_function_block("_generic_finale_arc_id")
+generic_router_index = next_arc_source.find("var generic_finale_id")
+chapter_card_index = next_arc_source.find(
+    'if f.get("prologue_done", false)')
+generic_countdown_index = generic_finale_source.find(
+    'return "arc_final_countdown"')
+generic_final_week_index = generic_finale_source.find(
+    'return "arc_final_week"')
+GENERIC_FINALE_SOURCE_OK = all((
+    re.search(
+        r"if\s+at_turn\s*!=\s*240\s+or\s+chapter5_finale_locked\s*:",
+        generic_finale_source,
+    ),
+    re.search(
+        r'not\s+f\.get\("arc_final_countdown_seen",\s*false\)',
+        generic_finale_source,
+    ),
+    re.search(
+        r'not\s+f\.get\("arc_final_week_seen",\s*false\)',
+        generic_finale_source,
+    ),
+    re.search(
+        r"_generic_finale_arc_id\(\s*t,\s*f,\s*chapter5_finale_locked\s*\)",
+        next_arc_source,
+    ),
+    re.search(
+        r"if\s+not\s+generic_finale_id\.is_empty\(\)\s*:\s*"
+        r"return\s+generic_finale_id",
+        next_arc_source,
+    ),
+    0 <= generic_countdown_index < generic_final_week_index,
+    0 <= generic_router_index < chapter_card_index,
+))
+generic_countdown_choices = events.get(
+    "arc_final_countdown", {}).get("choices", [])
+generic_final_week_choices = events.get(
+    "arc_final_week", {}).get("choices", [])
+GENERIC_FINALE_FOLLOW_UP_OK = bool(generic_countdown_choices) \
+    and bool(generic_final_week_choices) \
+    and all(
+        choice.get("follow_up_event") == "arc_final_week"
+        and "arc_final_countdown_seen" in choice.get("flags", [])
+        for choice in generic_countdown_choices
+    ) \
+    and all(
+        "arc_final_week_seen" in choice.get("flags", [])
+        for choice in generic_final_week_choices
+    )
 
 next_arc_decl = re.search(
     r"^func _next_arc_id\([^)]*\)(?:\s*->\s*[^:]+)?\s*:", src, re.MULTILINE)
@@ -598,6 +647,17 @@ def chapter5_finale_event(S):
 def chapter5_finale_holds_ending(S):
     return bool(S.chapter5_finale_entry) \
         and S.chapter5_finale_ending_check in ("pending", "ready")
+
+
+def generic_finale_event(S):
+    """Mirror MainGame's exact W240 fallback outside the typed finale."""
+    if S.t != 240 or chapter5_finale_holds_ending(S):
+        return ""
+    if not S.flags.get("arc_final_countdown_seen"):
+        return "arc_final_countdown"
+    if not S.flags.get("arc_final_week_seen"):
+        return "arc_final_week"
+    return ""
 
 
 def chapter5_finale_receipt(root, choice_index):
@@ -1243,6 +1303,10 @@ def run(spine, traj, cast_flag_hook, choice_indices):
                 chosen = chapter5_finale_event(S)
                 protected_chapter_five_finale_action = bool(chosen)
             if not chosen:
+                # _next_arc_id() gives this exact fallback top priority, but
+                # typed Chapter 5 owns W240 before the generic router is asked.
+                chosen = generic_finale_event(S)
+            if not chosen:
                 chosen = story_graph_contract_event(S)
                 protected_story_graph_action = bool(chosen)
             if not chosen:
@@ -1696,6 +1760,55 @@ HYUNSU_TEMPORAL_GATES = {
 }
 
 fail = 0
+
+
+if not GENERIC_FINALE_SOURCE_OK or not GENERIC_FINALE_FOLLOW_UP_OK:
+    fail += 1
+    print(
+        "  ✗ generic finale source/data contract="
+        "exact W240·typed lock·countdown→final-week"
+    )
+else:
+    print(
+        "  ✓ generic finale source/data contract="
+        "exact W240·typed lock·countdown→final-week"
+    )
+
+generic_finale_cases = []
+for label, turn, flags, expected in (
+        ("W239 blocked", 239, {}, ""),
+        ("W240 fresh countdown", 240, {}, "arc_final_countdown"),
+        ("W240 interrupted follow-up", 240,
+         {"arc_final_countdown_seen": True}, "arc_final_week"),
+        ("W240 complete", 240, {
+            "arc_final_countdown_seen": True,
+            "arc_final_week_seen": True,
+        }, ""),
+        ("W241 blocked", 241, {}, "")):
+    fixture = State()
+    fixture.t = turn
+    fixture.flags.update(flags)
+    generic_finale_cases.append(
+        (label, generic_finale_event(fixture), expected))
+typed_lock_fixture = State()
+typed_lock_fixture.t = 240
+typed_lock_fixture.chapter5_finale_entry = {"route_id": "typed_fixture"}
+generic_finale_cases.append((
+    "W240 typed lock",
+    generic_finale_event(typed_lock_fixture),
+    "",
+))
+generic_finale_failures = [
+    f"{label}:{actual!r}!={expected!r}"
+    for label, actual, expected in generic_finale_cases
+    if actual != expected
+]
+if generic_finale_failures:
+    fail += 1
+    print("  ✗ generic finale boundary matrix:",
+          ", ".join(generic_finale_failures))
+else:
+    print("  ✓ generic finale boundary matrix=6 cases W239/W240/W241+typed lock")
 
 
 def graph_contract_fixture(turn, flags=None, *, nav=2_000_000,
@@ -2489,6 +2602,8 @@ for name, spine, traj, hook, choice_indices in PATHS:
             S.chapter5_finale_ending_check == "consumed",
             S.chapter5_finale_release_count == 1,
             not chapter5_finale_holds_ending(S),
+            "arc_final_countdown" not in fired,
+            "arc_final_week" not in fired,
         ))
         if not finale_state_ok:
             fail += 1
@@ -2504,6 +2619,27 @@ for name, spine, traj, hook, choice_indices in PATHS:
             print(
                 "  ✓ Path B=M56~M60 active 9루트/24선택·W240 서명→outbound"
                 "·no-exec·canonical ending exactly once"
+            )
+    if not expected_finale:
+        generic_finale_trace_ok = all((
+            fired.get("arc_final_countdown") == 240,
+            firelog.get(240) == "arc_final_countdown",
+            story_queue_log.get(240) == ["arc_final_countdown"],
+            S.flags.get("arc_final_countdown_seen") is True,
+            S.flags.get("arc_final_week_seen") is True,
+        ))
+        if not generic_finale_trace_ok:
+            fail += 1
+            print(
+                "  ✗ generic W240 countdown→same-turn final-week 회귀:",
+                fired.get("arc_final_countdown"),
+                story_queue_log.get(240, []),
+                bool(S.flags.get("arc_final_week_seen")),
+            )
+        else:
+            print(
+                "  ✓ generic W240=countdown→same-turn final-week"
+                "·W237 조기 종막 0"
             )
     late_temporal_mismatch = [
         f"t{turn}:{firelog.get(turn, 'missing')}!={event_id}"

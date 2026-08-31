@@ -6941,6 +6941,16 @@ func _next_arc_id(
 	var father_is_passed := _father_death_is_monotonic(f, not preview_only)
 	var chapter5_finale_locked := GameState.chapter5_finale_holds_ending()
 
+	# ── 마지막 서명 — W240 궤적 무관 보편 정점 ──
+	# 선택 결과가 follow-up으로 선발신을 즉시 열어 마지막 두 결정을 같은
+	# 밤에 묶는다. 낡은 세이브의 미회수 장면이나 선택적 pre-ending이 W240을
+	# 먼저 차지하면 정점과 결산이 영구히 사라지므로, typed Chapter 5 finale를
+	# 제외한 일반 경로에서는 이 exact slot이 다른 복구 장면보다 우선한다.
+	var generic_finale_id := _generic_finale_arc_id(
+		t, f, chapter5_finale_locked)
+	if not generic_finale_id.is_empty():
+		return generic_finale_id
+
 	# 랜덤 sangchul_meet이 arc보다 먼저 발동한 경우 arc 플래그 동기화
 	if not preview_only and f.get("sangchul_met", false) and not f.get("arc_sangchul_met_seen", false):
 		GameState.flags["arc_sangchul_met_seen"] = true
@@ -8061,15 +8071,6 @@ func _next_arc_id(
 				and not f.get("arc_pre_ending_father_call_seen", false):
 			return "arc_pre_ending_father_call"
 
-	# ── 마지막 서명 — 38세 7일 전, 궤적 무관 보편 정점 (t237-240) ──
-	# 선택 결과가 follow-up으로 마지막 주를 즉시 열어 다섯 해의 마지막 두 결정을 한 장면으로 묶는다.
-	if t >= 237 and not chapter5_finale_locked \
-			and not f.get("arc_final_countdown_seen", false):
-		return "arc_final_countdown"
-	if t >= 237 and not chapter5_finale_locked \
-			and not f.get("arc_final_week_seen", false):
-		return "arc_final_week"
-
 	# ── H2 데드존 채움 비트 (경로 반응형, 최저 우선순위 — 기존 아크를 굶기지 않음) ──
 	# 계단식 턴 게이트 (2026-07-07 재측정): 존 전체를 창으로 열면 입구(t75~78/t169~171)에서
 	# 조기 소진돼 스파인 구멍(t78-88, t177-187 각 11주)이 그대로 남는다.
@@ -8143,6 +8144,17 @@ func _next_arc_id(
 			and not f.get("arc_jiyeon_wedding_gap_seen", false):
 		return "arc_jiyeon_first_kiss"
 
+	return ""
+
+
+func _generic_finale_arc_id(
+		at_turn: int, f: Dictionary, chapter5_finale_locked: bool) -> String:
+	if at_turn != 240 or chapter5_finale_locked:
+		return ""
+	if not f.get("arc_final_countdown_seen", false):
+		return "arc_final_countdown"
+	if not f.get("arc_final_week_seen", false):
+		return "arc_final_week"
 	return ""
 
 
